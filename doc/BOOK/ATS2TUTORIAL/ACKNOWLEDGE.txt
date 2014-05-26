@@ -4,4 +4,6 @@
 #
 ######
 
+Philipp Gesang <phg@phi-gamma.net> 
+
 ###### end of [ACKNOWLEDGMENTS.txt] ######

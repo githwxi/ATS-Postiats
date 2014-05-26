@@ -28,7 +28,7 @@ through garbage collection (GC).\
 
 Given a viewtype VT, the type for persistent arrays containing N values of
 viewtype VT is #stacode("arrayref(VT, N)").  Note that arrays in ATS are
-the same as those in C: There is no size information attached them. The
+the same as those in C: There is no size information attached to them. The
 interfaces for various functions on persistent arrays can be found in
 the SATS file
 #myatscodelink("prelude/SATS/arrayref.sats", "prelude/SATS/arrayref.sats"),
@@ -183,7 +183,7 @@ arrayref_interchange{n:int}
 
 Note that #dyncode("arrayref_interchange") can not be implemented in terms
 of #dyncode("arrayref_get_at") and #dyncode("arrayref_set_at") (unless some
-form of type-unsafe code is empolyed).\
+form of type-unsafe code is employed).\
 
 ')
 

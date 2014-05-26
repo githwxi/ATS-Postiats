@@ -664,12 +664,27 @@ then deallocated after it is no longer needed.
 
 #para('\
 
-The entire implementation of merge-sort on arrays plus some testing code is
-available #mycodelink("CHAP_ABSVTYPE/mergeSort.dats", "on-line").
+The entire implementation of merge-sort on arrays plus some testing code
+is available #mycodelink("CHAP_ABSVTYPE/mergeSort.dats", "on-line").
 
 ')
 
-</sect1><!--id="memory-allocation-deallocation-->
+</sect1><!--id="memory-allocation-deallocation"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="resource-acquisition-and-release">
+#title("Acquisition and Release of Resources")
+
+#para("\
+
+In concurrent programming, the issue of safely acquiring and releasing
+resources is both essential and challenging.
+
+")
+
+</sect1><!--id="resource-acquisition-and-release"-->
 
 <!-- ****** ****** -->
 

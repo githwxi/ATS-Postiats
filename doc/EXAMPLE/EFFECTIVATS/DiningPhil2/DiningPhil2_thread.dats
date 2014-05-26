@@ -12,10 +12,6 @@
 //
 (* ****** ****** *)
 
-staload "{$LIBATSHWXI}/teaching/mythread/SATS/mythread.sats"
-
-(* ****** ****** *)
-
 local
 //
 #include "{$LIBATSHWXI}/teaching/mythread/DATS/mythread.dats"

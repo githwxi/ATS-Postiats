@@ -17,7 +17,7 @@ Time of Generation: #timestamp()\
 
 #para("\
 
-I use the name #emphasis("matrix-with-size") to refer to a persistant
+I use the name #emphasis("matrix-with-size") to refer to a persistent
 matrix with attached dimension information (that is, number of rows and
 number of columns).  Given a viewtype VT, the type for a matrix-with-size
 that contains M rows and N columns of elements of viewtype VT is
@@ -70,7 +70,7 @@ of out-of-bounds matrix access is detected.
 
 #para('\
 
-As a simple example, the following code implements a functiont that
+As a simple example, the following code implements a function that
 transpose the content of the matrix inside a given matrix-with-size:
 
 #atscode('\

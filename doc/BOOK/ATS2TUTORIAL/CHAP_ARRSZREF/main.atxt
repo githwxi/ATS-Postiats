@@ -17,7 +17,7 @@ Time of Generation: #timestamp()\
 
 #para('\
 
-I use the name #emphasis("array-with-size") to refer to a persistant
+I use the name #emphasis("array-with-size") to refer to a persistent
 array with attached size information.  Given a viewtype VT, the type for an
 array-with-size that contains N values of viewtype VT is
 #stacode("arrszref(VT, N)"). Essentially, such a value is a boxed pair of
@@ -81,7 +81,7 @@ of out-of-bounds array access is detected.
 
 #para('\
 
-As a simple example, the following code implements a functiont that
+As a simple example, the following code implements a function that
 reverses the content of the array inside a given array-with-size:
 
 #atscode('\

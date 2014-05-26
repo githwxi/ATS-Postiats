@@ -18,7 +18,7 @@ Time of Generation: #timestamp()\
 
 The syntax of ATS is highly involved, which can be a daunting obstacle for
 beginners trying to read and write ATS code. In order to alleviate this
-problem, I may employ colors to differentiate various syntatical entities
+problem, I may employ colors to differentiate various syntactical entities
 in ATS code.  The convention I adopt for coloring ATS syntax is given as
 follows:\
 
