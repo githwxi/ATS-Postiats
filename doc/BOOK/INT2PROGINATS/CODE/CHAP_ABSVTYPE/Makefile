@@ -18,28 +18,28 @@ LDFLAGS += -latslib
 
 all:: mergeSort
 mergeSort: mergeSort.dats ; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS) && ./$@
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS)
 regress:: mergeSort ; ./mergeSort
 
 ######
 
 all:: timer
 timer: timer.dats ; \
-  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< -lrt $(LDFLAGS) && ./$@
+  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< -lrt $(LDFLAGS)
 regress:: timer ; ./timer
 
 ######
 
 all:: circbuf
 circbuf: circbuf.dats ; \
-  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS) && ./$@
+  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS)
 regress:: circbuf ; ./circbuf
 
 ######
 
 all:: circbuf2
 circbuf2: circbuf2.dats ; \
-  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS) && ./$@
+  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS)
 regress:: circbuf2 ; ./circbuf2
 
 ######

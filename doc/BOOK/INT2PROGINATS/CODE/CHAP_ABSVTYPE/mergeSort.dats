@@ -180,14 +180,48 @@ mergeSort {n:nat}
   (A: &(@[a][n]), n: size_t n, cmp: cmp(a)): void
 // end of [mergeSort]
 
-implement{a}
+(* ****** ****** *)
+//
+#define _ALLOCA 1
+//
+(* ****** ****** *)
+
+#if (_ALLOCA == 0)
+//
+implement
+{a}(*tmp*)
 mergeSort (A, n, cmp) = let
-  val (pfgc, pfat | p) = array_ptr_alloc<a> (n)
+  val (pfat, pfgc | p) = array_ptr_alloc<a> (n)
   val ((*void*)) = msort1<a> (A, n, !p, cmp)
-  val ((*void*)) = array_ptr_free (pfgc, pfat | p)
+  val ((*void*)) = array_ptr_free (pfat, pfgc | p)
 in
   // nothing
 end // end of [mergeSort]
+//
+#endif // end of [#ifdef]
+
+(* ****** ****** *)
+
+#if (_ALLOCA != 0)
+//
+staload "libc/SATS/alloca.sats"
+//
+implement
+{a}(*tmp*)
+mergeSort (A, n, cmp) = let
+  val tsz = sizeof<a>
+  var dummy: void = ()
+  prval pf = view@dummy
+  val (
+    pfat, fpfat | p
+  ) = array_ptr_alloca_tsz{a}(pf | n, tsz)
+  val ((*void*)) = msort1<a> (A, n, !p, cmp)
+  prval ((*void*)) = view@dummy := fpfat (pfat)
+in
+  // nothing
+end // end of [mergeSort]
+//
+#endif // end of [#ifdef]
 
 (* ****** ****** *)
 

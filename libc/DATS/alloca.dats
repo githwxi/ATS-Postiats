@@ -27,72 +27,65 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi
-// Authoremail: gmhwxiATgmailDOTcom
-// Start Time: February, 2014
+// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Start Time: May, 2014
 //
 (* ****** ****** *)
 
-%{#
-#include "libc/CATS/alloca.cats"
-%} // end of [%{#]
-
-(* ****** ****** *)
-
 #define ATS_PACKNAME "ATSLIB.libc"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
+#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
 #define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 
-#define NSH(x) x // for commenting: no sharing
-#define SHR(x) x // for commenting: it is shared
+staload "libc/SATS/alloca.sats"
 
 (* ****** ****** *)
 
-fun alloca
-  {dummy:addr}{n:int}
-(
-  pf: void@dummy | n: size_t (n)
-) : [l:addr]
-(
-  bytes(n) @ l, bytes(n) @ l -> void@dummy | ptr(l)
-) = "mac#%" // end of [alloca]
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
 (*
-fun{
-a:vt0p
-} ptr_alloca
-  {dummy:addr} (
-  pf: void@dummy | (*void*)
-) : [l:addr] (a? @ l, a? @ l -> void@dummy | ptr(l))
-*)
-fun
+implement
 ptr_alloca_tsz
-  {a:vt0p}{dummy:addr}
-  (pf: void@dummy | tsz: sizeof_t(a))
-: [l:addr] (a? @ l, a? @ l -> void@dummy | ptr(l)) = "mac#%"
+  {a}{dummy}
+  (pf | tsz) = let
+//
+val [l:addr]
+  (pfat, fpfat | p) = alloca (pf | tsz)
+//
+prval pfat =
+  $UN.castview0{(a?)@l}(pfat)
+prval fpfat =
+  $UN.castview0{(a?)@l->void@dummy}(fpfat)
+//
+in
+  (pfat, fpfat | p)
+end // end of [ptr_alloca_tsz]
+*)
 
 (* ****** ****** *)
 
 (*
-fun{
-a:vt0p
-} array_ptr_alloca
-  {dummy:addr}{n:int}
-(
-  pf: void@dummy | asz: size_t(n)
-) : [l:addr] (array(a?,n)@l, array(a?,n)@l -> void@dummy | ptr(l))
-*)
-fun
+implement
 array_ptr_alloca_tsz
-  {a:vt0p}{dummy:addr}{n:int}
-(
-  pf: void@dummy | asz: size_t(n), tsz: sizeof_t(a)
-) : [l:addr] (array(a?,n)@l, array(a?,n)@l -> void@dummy | ptr(l)) = "mac#%"
+  {a}{dummy}{n}
+  (pf | asz, tsz) = let
+//
+val [l:addr]
+  (pfat, fpfat | p) = alloca (pf | asz*tsz)
+//
+prval pfat =
+  $UN.castview0{array(a?,n)@l}(pfat)
+prval fpfat =
+  $UN.castview0{array(a?,n)@l->void@dummy}(fpfat)
+//
+in
+  (pfat, fpfat | p)
+end // end of [array_ptr_alloca_tsz]
+*)
 
 (* ****** ****** *)
 
-(* end of [alloca.sats] *)
+(* end of [alloca.dats] *)
