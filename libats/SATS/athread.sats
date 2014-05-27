@@ -33,11 +33,11 @@
 //
 (* ****** ****** *)
 //
-// HX: general locking mechanism
+// HX: abstract thread interface
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.locking"
+#define ATS_PACKNAME "ATSLIB.libats.athread"
 #define ATS_STALOADFLAG 0 // no need for staloading at run-time
 
 (* ****** ****** *)
@@ -151,4 +151,4 @@ condvar_wait
 //
 (* ****** ****** *)
 
-(* end of [locking.sats] *)
+(* end of [athread.sats] *)
