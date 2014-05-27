@@ -669,6 +669,9 @@ by calling a special function #dyncode("alloca"), which is given the
 following type in ATS:
 
 #atscode('\
+(*
+staload "libc/SATS/alloa.sats"
+*)
 fun alloca
   {dummy:addr}{n:int} (
   pf: void@dummy | n: size_t (n)
