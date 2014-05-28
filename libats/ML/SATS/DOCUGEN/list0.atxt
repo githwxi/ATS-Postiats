@@ -904,6 +904,17 @@ The implementation of this function in ATSLIB is tail-recursive.\
 
 (* ****** ****** *)
 
+#declnamesynop("list0_mapcons")
+#decldescrpt("\
+
+Give an element x0 and a list xss of lists, this function returns another
+list of lists that can also be obtained by applying #dyncode("list0_map")
+to xss and the function #dyncode("lam(xs) => list0_cons(x0, xs)").\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_imap")
 #decldescrpt("\
 
