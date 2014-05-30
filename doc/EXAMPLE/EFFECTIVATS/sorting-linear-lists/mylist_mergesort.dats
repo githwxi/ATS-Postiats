@@ -29,25 +29,25 @@ mylist_split
 in
 //
 if
-k > 0
-then let
+k = 0
+then (mylist_nil (), xs)
+else let
   val (x, xs) = mylist_uncons2 (xs)
   val (xs1, xs2) = mylist_split (xs, k-1)
 in
   (mylist_cons (x, xs1), xs2)
-end // end of [then]
-else (mylist_nil (), xs) // end of [else]
+end // end of [else]
 //
 end // end of [mylist_split]
 
 (* ****** ****** *)
-
+//
 extern
 fun{}
 mylist_merge
   {n1,n2:int}
   (xs1: mylist(n1), xs2: mylist(n2)): mylist(n1+n2)
-
+//
 (* ****** ****** *)
 
 implement
@@ -68,8 +68,9 @@ isneqz(xs2)
 then let
   val (x1, xs1) = mylist_uncons2 (xs1)
   val (x2, xs2) = mylist_uncons2 (xs2)
+  val sgn = compare_mynode_mynode (x1, x2)
 in
-  if x1 <= x2
+  if sgn <= 0
     then let
       val xs2 = _mylist_cons2(x2, xs2)
     in
@@ -117,6 +118,7 @@ if n >= 2
   end // end of [then]
   else xs // end of [else]
 // end of [if]
+//
 end // end of [mylist_msort]
 
 (* ****** ****** *)

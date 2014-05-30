@@ -15,9 +15,9 @@ absvtype mynode(l:addr) = ptr(l)
 
 extern
 fun{}
-lte_mynode_mynode
-  {l1,l2:addr} (!mynode(l1), !mynode(l2)): bool
-overload <= with lte_mynode_mynode
+compare_mynode_mynode
+  {l1,l2:addr} (!mynode(l1), !mynode(l2)): int
+overload compare with compare_mynode_mynode
 
 (* ****** ****** *)
 
@@ -63,7 +63,8 @@ overload isneqz with mylist_isnot_nil
 //
 extern
 fun
-mylist_nil (): mylist(null, 0) = "mac#atspre_ptr_null"
+mylist_nil ()
+  : mylist(null, 0) = "mac#atspre_ptr_null"
 extern
 fun{}
 mylist_cons
@@ -103,9 +104,8 @@ fun{}
 mylist_uncons
   {l:addr}
   {n:int | n > 0}
-(
-  xs: !mylist(l, n) >> mynode(l)
-) : mylist(n-1) // end-of-fun
+  (!mylist(l, n) >> mynode(l)): mylist(n-1)
+//
 extern
 fun{}
 mylist_uncons2
@@ -121,7 +121,7 @@ mylist_uncons2
   (xs) = let
   val xs2 = mylist_uncons (xs) in (xs, xs2)
 end // end of [mylist_uncons2]
-  
+ 
 (* ****** ****** *)
 //
 extern

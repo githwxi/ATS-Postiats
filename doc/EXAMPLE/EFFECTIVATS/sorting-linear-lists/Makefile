@@ -22,6 +22,15 @@ include $(PATSHOME)/share/atsmake-post.mk
 ######
 
 all:: \
+mergesort_sllist
+mergesort_sllist: \
+  mergesort_sllist.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $^
+regress:: mergesort_sllist ; ./$<
+cleanall:: ; $(RMF) mergesort_sllist
+
+######
+
+all:: \
 mergesort_list_vt
 mergesort_list_vt: \
   mergesort_list_vt.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $^

@@ -32,7 +32,7 @@ mergesort_list_vt
 {
 //
 implement
-lte_mynode_mynode<>
+compare_mynode_mynode<>
   (x, y) = ans where
 {
 //
@@ -40,13 +40,13 @@ lte_mynode_mynode<>
   $UN.castvwtp1{list_vt_cons_pstruct(a,ptr)}(x)
   val y =
   $UN.castvwtp1{list_vt_cons_pstruct(a,ptr)}(y)
-  val list_vt_cons (x_1, x_2) = x
-  val list_vt_cons (y_1, y_2) = y
-  val ans = glte_ref<a> (x_1, y_1)
+  val+list_vt_cons (x_1, x_2) = x
+  val+list_vt_cons (y_1, y_2) = y
+  val ans = gcompare_ref<a> (x_1, y_1)
   prval () = $UN.cast2void ((view@x_1, view@x_2 | x))
   prval () = $UN.cast2void ((view@y_1, view@y_2 | y))
 //
-} // end of [lte_mynode_mynode]
+} // end of [compare_mynode_mynode]
 //
 implement
 mylist_cons<>
@@ -55,7 +55,7 @@ mylist_cons<>
 //
   val x =
   $UN.castvwtp0{list_vt_cons_pstruct(a,ptr)}(x)
-  val list_vt_cons (x_1, x_2) = x
+  val+list_vt_cons (x_1, x_2) = x
   val () = x_2 := $UN.castvwtp0{list_vt(a,n)}(xs)
   prval () = fold@ (x)
 //
