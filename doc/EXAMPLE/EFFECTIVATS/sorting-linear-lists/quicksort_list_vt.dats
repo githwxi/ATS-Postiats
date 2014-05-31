@@ -1,5 +1,5 @@
 (*
-** Merge-sort on linear lists
+** Quick-sort on linear lists
 *)
 
 (* ****** ****** *)

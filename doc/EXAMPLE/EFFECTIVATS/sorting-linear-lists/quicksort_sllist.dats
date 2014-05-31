@@ -1,5 +1,5 @@
 (*
-** Merge-sort on singly-linked lists
+** Quick-sort on singly-linked lists
 *)
 
 (* ****** ****** *)
