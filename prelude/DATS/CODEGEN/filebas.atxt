@@ -40,7 +40,6 @@ staload _(*anon*) = "prelude/DATS/integer.dats"
 
 staload STDIO = "libc/SATS/stdio.sats"
 vtypedef FILEptr1 = $STDIO.FILEptr1 (*linear/nonnull*)
-staload STRING = "libc/SATS/string.sats"
 
 #atscode_separator()
 
