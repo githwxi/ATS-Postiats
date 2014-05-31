@@ -179,6 +179,9 @@ upload_sorting-linear-lists:: ; \
   sorting-linear-lists/mylist_mergesort.dats \
   sorting-linear-lists/mergesort_sllist.dats \
   sorting-linear-lists/mergesort_list_vt.dats \
+  sorting-linear-lists/mylist_quicksort.dats \
+  sorting-linear-lists/quicksort_sllist.dats \
+  sorting-linear-lists/quicksort_list_vt.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/sorting-linear-lists
 
 ######

@@ -32,10 +32,12 @@ if
 k = 0
 then (mylist_nil (), xs)
 else let
-  val (x, xs) = mylist_uncons2 (xs)
-  val (xs1, xs2) = mylist_split (xs, k-1)
+  val xs_tl =
+    mylist_uncons (xs)
+  val (xs1, xs2) =
+    mylist_split (xs_tl, k-1)
 in
-  (mylist_cons (x, xs1), xs2)
+  (mylist_cons2 (xs, xs1), xs2)
 end // end of [else]
 //
 end // end of [mylist_split]
@@ -66,20 +68,20 @@ then (
 if
 isneqz(xs2)
 then let
-  val (x1, xs1) = mylist_uncons2 (xs1)
-  val (x2, xs2) = mylist_uncons2 (xs2)
-  val sgn = compare_mynode_mynode (x1, x2)
+  val xs1_tl = mylist_uncons (xs1)
+  val xs2_tl = mylist_uncons (xs2)
+  val sgn = compare_mynode_mynode (xs1, xs2)
 in
   if sgn <= 0
     then let
-      val xs2 = _mylist_cons2(x2, xs2)
+      prval () = _mylist_cons (xs2, xs2_tl)
     in
-      mylist_cons (x1, mylist_merge (xs1, xs2))
+      mylist_cons2 (xs1, mylist_merge (xs1_tl, xs2))
     end // end of [then]
     else let
-      val xs1 = _mylist_cons2(x1, xs1)
+      prval () = _mylist_cons (xs1, xs1_tl)
     in
-      mylist_cons (x2, mylist_merge (xs1, xs2))
+      mylist_cons2 (xs2, mylist_merge (xs1, xs2_tl))
     end // end of [else]
 end // end of [then]
 else let

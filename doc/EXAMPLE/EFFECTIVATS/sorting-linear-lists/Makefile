@@ -38,6 +38,24 @@ regress:: mergesort_list_vt ; ./$<
 cleanall:: ; $(RMF) mergesort_list_vt
 
 ######
+
+all:: \
+quicksort_sllist
+quicksort_sllist: \
+  quicksort_sllist.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $^
+regress:: quicksort_sllist ; ./$<
+cleanall:: ; $(RMF) quicksort_sllist
+
+######
+
+all:: \
+quicksort_list_vt
+quicksort_list_vt: \
+  quicksort_list_vt.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $^
+regress:: quicksort_list_vt ; ./$<
+cleanall:: ; $(RMF) quicksort_list_vt
+
+######
 #
 PATS2XHTML=$(PATSHOMEQ)/bin/pats2xhtml
 %_sats.html: %.sats ; $(PATS2XHTML) -o $@ -s $<

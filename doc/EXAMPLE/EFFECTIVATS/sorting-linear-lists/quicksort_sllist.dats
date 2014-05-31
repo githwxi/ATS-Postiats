@@ -22,20 +22,20 @@ staload _ = "libats/DATS/sllist.dats"
 (* ****** ****** *)
 
 staload "./mylist.dats"
-staload "./mylist_mergesort.dats"
+staload "./mylist_quicksort.dats"
 
 (* ****** ****** *)
 //
 extern
 fun{a:vt0p}
-mergesort_sllist
+quicksort_sllist
   {n:int} (xs: sllist (a, n)): sllist (a, n)
 //
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-mergesort_sllist
+quicksort_sllist
   {n}(xs) = xs where
 {
 //
@@ -83,10 +83,10 @@ in
 end // end of [mylist_uncons]
 //
 val xs = $UN.castvwtp0{mylist(n)}(xs)
-val xs = mylist_mergesort (xs)
+val xs = mylist_quicksort (xs)
 val xs = $UN.castvwtp0{sllist(a,n)}(xs)
 //
-} (* end of [mergesort_sllist] *)
+} (* end of [quicksort_sllist] *)
 
 (* ****** ****** *)
 
@@ -101,7 +101,7 @@ $list_vt{int}(0,9,2,4,3,8,5,1,7,6)
 val xs = sllist_make_list_vt (xs)
 val () = fprintln! (out, "xs(bef) = ", xs)
 //
-val xs = mergesort_sllist<int> (xs)
+val xs = quicksort_sllist<int> (xs)
 val () = fprintln! (out, "xs(aft) = ", xs)
 //
 val ((*void*)) = sllist_free (xs)
@@ -110,4 +110,4 @@ val ((*void*)) = sllist_free (xs)
 
 (* ****** ****** *)
 
-(* end of [mergesort_sllist.dats] *)
+(* end of [quicksort_sllist.dats] *)

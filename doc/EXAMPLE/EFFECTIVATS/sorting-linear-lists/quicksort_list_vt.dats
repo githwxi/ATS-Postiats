@@ -14,20 +14,20 @@ staload UN = $UNSAFE
 (* ****** ****** *)
 
 staload "./mylist.dats"
-staload "./mylist_mergesort.dats"
+staload "./mylist_quicksort.dats"
 
 (* ****** ****** *)
 //
 extern
 fun{a:vt0p}
-mergesort_list_vt
+quicksort_list_vt
   {n:int} (xs: list_vt (a, n)): list_vt (a, n)
 //
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-mergesort_list_vt
+quicksort_list_vt
   {n}(xs) = xs where
 {
 //
@@ -79,10 +79,10 @@ mylist_uncons
 } // end of [mylist_uncons]
 //
 val xs = $UN.castvwtp0{mylist(n)}(xs)
-val xs = mylist_mergesort (xs)
+val xs = mylist_quicksort (xs)
 val xs = $UN.castvwtp0{list_vt(a,n)}(xs)
 //
-} (* end of [mergesort_list_vt] *)
+} (* end of [quicksort_list_vt] *)
 
 (* ****** ****** *)
 
@@ -94,7 +94,7 @@ val xs =
 $list_vt{int}(0,9,2,4,3,8,5,1,7,6)
 val () = println! ("xs(bef) = ", xs)
 //
-val xs = mergesort_list_vt<int> (xs)
+val xs = quicksort_list_vt<int> (xs)
 val () = println! ("xs(aft) = ", xs)
 //
 val ((*void*)) = list_vt_free (xs)
@@ -103,5 +103,5 @@ val ((*void*)) = list_vt_free (xs)
 
 (* ****** ****** *)
 
-(* end of [mergesort_list_vt.dats] *)
+(* end of [quicksort_list_vt.dats] *)
 

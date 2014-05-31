@@ -69,29 +69,31 @@ extern
 fun{}
 mylist_cons
   {l1,l2:addr}{n:nat}
-  (mynode(l1), mylist(l2, n)): mylist(l1,n+1)
+(
+  !mynode(l1) >> mylist(l1,n+1), mylist(l2, n)
+) :<!wrt> void // end of [mylist_cons]
 extern
 prfun
 _mylist_cons
   {l1,l2:addr}{n:nat}
 (
   !mynode(l1) >> mylist(l1, n+1), mylist(l2, n)
-) : void // end of [_mylist_cons]
+) :<prf> void // end of [_mylist_cons]
+//
 extern
 fun{}
-_mylist_cons2
+mylist_cons2
   {l1,l2:addr}{n:nat}
-  (x: mynode(l1), xs: mylist(l2, n)): mylist(l1, n+1)
+  (x_hd: mynode(l1), xs_tl: mylist(l2, n)):<!wrt> mylist(l1, n+1)
 //
 (* ****** ****** *)
-
+//
 implement
 {}(*tmp*)
-_mylist_cons2
-  {l1,l2}{n} (x, xs) = let
-  prval () = $UN.castview0 (xs) in $UN.castvwtp0{mylist(l1,n+1)}(x)
-end // end of [_mylist_cons2]
-
+mylist_cons2
+  (x, xs) =
+  let val () = mylist_cons (x, xs) in x end
+//
 (* ****** ****** *)
 //
 extern
