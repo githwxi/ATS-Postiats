@@ -34,9 +34,9 @@ An abstract interface for linear lists
 
 In ATS, [list_vt] is declared as a dataviewtype (that is, linear datatype)
 for singly-linked lists.  However, I do not want to make direct use of
-[list_vt] as I intend to give an implementation of merge-sort for sorting
-abstract linear lists. So I first introduce an abstract interface for
-linear lists to be used in this implementation.
+[list_vt] here as I intend to give an implementation of merge-sort for
+sorting abstract linear lists. So I first introduce an abstract interface
+for linear lists to be used in this implementation.
 
 <p>
 
