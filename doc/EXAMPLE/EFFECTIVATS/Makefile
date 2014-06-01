@@ -134,7 +134,7 @@ upload_DiningPhil2:: ; \
   DiningPhil2/DiningPhil2.sats \
   DiningPhil2/DiningPhil2.dats \
   DiningPhil2/DiningPhil2_fork.dats \
-  DiningPhil2/DiningPhil2_thread.dats \
+  DiningPhil2/DiningPhil2_mylib.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DiningPhil2/
 
 ######

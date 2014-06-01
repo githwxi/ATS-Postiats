@@ -80,7 +80,7 @@ fprintln!
 ) (* end of [val] *)
 val ((*void*)) = assertloc (false)
 //
-}
+} (* end of [if] *) // end of [val]
 //
 in
   $UN.cast{mutex1}(mtx)
@@ -129,6 +129,28 @@ val err = athread_create_funenv (app, fwork)
 val () = if (err != 0) then cloptr_free($UN.castvwtp0{cloptr0}(f))
 //
 } (* end of [athread_create_cloptr] *)
+
+(* ****** ****** *)
+
+implement
+athread_create_cloptr_exn
+  (fwork) = let
+//
+val err =athread_create_cloptr (fwork)
+//
+in
+//
+if (err != 0) then
+{
+//
+val () =
+fprintln! (
+  stderr_ref, "libats/athread: [athread_create_cloptr_exn]: failed."
+) (* end of [val] *)
+//
+} (* end of [if] *)
+//
+end // end of [athread_create_cloptr_exn]
 
 (* ****** ****** *)
 

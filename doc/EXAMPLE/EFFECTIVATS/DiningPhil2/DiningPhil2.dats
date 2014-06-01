@@ -141,24 +141,22 @@ end // end of [cleaner_loop]
 
 dynload "DiningPhil2.sats"
 dynload "DiningPhil2_fork.dats"
-dynload "DiningPhil2_thread.dats"
 
 (* ****** ****** *)
 
 local
 //
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/mythread.sats"
+staload "libats/SATS/athread.sats"
 //
 in (* in of [local] *)
 //
-val () = mythread_create_cloptr (llam () => phil_loop (0))
-val () = mythread_create_cloptr (llam () => phil_loop (1))
-val () = mythread_create_cloptr (llam () => phil_loop (2))
-val () = mythread_create_cloptr (llam () => phil_loop (3))
-val () = mythread_create_cloptr (llam () => phil_loop (4))
+val () = athread_create_cloptr_exn (llam () => phil_loop (0))
+val () = athread_create_cloptr_exn (llam () => phil_loop (1))
+val () = athread_create_cloptr_exn (llam () => phil_loop (2))
+val () = athread_create_cloptr_exn (llam () => phil_loop (3))
+val () = athread_create_cloptr_exn (llam () => phil_loop (4))
 //
-val () = mythread_create_cloptr (llam () => cleaner_loop ())
+val () = athread_create_cloptr_exn (llam () => cleaner_loop ())
 //
 end // end of [local]
 

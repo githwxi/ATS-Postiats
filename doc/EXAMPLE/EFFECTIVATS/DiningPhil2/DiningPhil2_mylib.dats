@@ -11,10 +11,15 @@
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
+  
+#define ATS_DYNLOADFLAG 0
+  
+(* ****** ****** *)
 
 local
 //
-#include "{$LIBATSHWXI}/teaching/mythread/DATS/mythread.dats"
+#include "libats/DATS/athread.dats"
+#include "libats/DATS/athread_posix.dats"
 //
 in (* in of [local] *)
 //
@@ -24,16 +29,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-local
-//
-#include "{$LIBATSHWXI}/teaching/mythread/DATS/mythread_posix.dats"
-//
-in (* in of [local] *)
-//
-// HX: it is intentionally left to be empty
-//
-end // end of [local]
-
-(* ****** ****** *)
-
-(* end of [DiningPhil2_thread.dats] *)
+(* end of [DiningPhil2_mylib.dats] *)

@@ -204,7 +204,8 @@ fun
 athread_create_funenv
   {env:vtype} (fwork: (env) -> void, env: env): int(*err*)
 //
-fun athread_create_cloptr (fwork: () -<lincloptr1> void): int(*err*)
+fun athread_create_cloptr (fwork: () -<lincloptr1> void): int
+fun athread_create_cloptr_exn (fwork: () -<lincloptr1> void): void
 //
 (* ****** ****** *)
 
