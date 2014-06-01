@@ -114,7 +114,7 @@ end // end of [condvar_create_exn]
 
 implement
 athread_create_cloptr
-  (fwork) = err where
+  (tid, fwork) = err where
 {
 //
 fun app
@@ -125,7 +125,7 @@ fun app
 end // end of [app]
 //
 val f = $UN.castvwtp1{ptr}(fwork)
-val err = athread_create_funenv (app, fwork)
+val err = athread_create_funenv (tid, app, fwork)
 val () = if (err != 0) then cloptr_free($UN.castvwtp0{cloptr0}(f))
 //
 } (* end of [athread_create_cloptr] *)
@@ -134,12 +134,14 @@ val () = if (err != 0) then cloptr_free($UN.castvwtp0{cloptr0}(f))
 
 implement
 athread_create_cloptr_exn
-  (fwork) = let
+  (fwork) = tid where
+{
 //
-val err =athread_create_cloptr (fwork)
+var tid: lint
+val err =
+athread_create_cloptr (tid, fwork)
 //
-in
-//
+val () =
 if (err != 0) then
 {
 //
@@ -150,7 +152,7 @@ fprintln! (
 //
 } (* end of [if] *)
 //
-end // end of [athread_create_cloptr_exn]
+} (* end of [athread_create_cloptr_exn] *)
 
 (* ****** ****** *)
 

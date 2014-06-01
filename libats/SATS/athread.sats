@@ -41,13 +41,6 @@
 #define ATS_STALOADFLAG 0 // no need for staloading at run-time
 
 (* ****** ****** *)
-//
-abst@ype
-thread_type = lint
-//
-typedef thread = thread_type
-//
-(* ****** ****** *)
 
 absview locked_v (l:addr)
 
@@ -202,10 +195,18 @@ fun condvar_wait{l:addr}
 //
 fun
 athread_create_funenv
-  {env:vtype} (fwork: (env) -> void, env: env): int(*err*)
+  {env:vtype}
+(
+  tid: &lint? >> _
+, fwork: (env) -> void, env: env
+) : int(*err*)
 //
-fun athread_create_cloptr (fwork: () -<lincloptr1> void): int
-fun athread_create_cloptr_exn (fwork: () -<lincloptr1> void): void
+fun athread_create_cloptr
+(
+  tid: &lint? >> _, fwork: () -<lincloptr1> void
+) : int(*err*)
+fun athread_create_cloptr_exn
+  (fwork: ((*void*)) -<lincloptr1> void): lint(*tid*)
 //
 (* ****** ****** *)
 

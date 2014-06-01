@@ -91,7 +91,7 @@ fun test_file_exists (path: NSH(string)): bool = "mac\#%"
 //
 fun{
 } test_file_mode (path: NSH(string)): int
-fun test_file_mode$pred (mode: uint): bool
+fun{} test_file_mode$pred (mode: uint): bool
 //
 fun test_file_mode_fun
   (path: NSH(string), f: uint -> bool): int = "mac\#%"

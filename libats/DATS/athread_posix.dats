@@ -317,9 +317,9 @@ abst@ype pthread_attr_t = $extype"pthread_attr_t"
 
 implement
 athread_create_funenv
-  (fwork, env) = let
+  (tid, fwork, env) = let
 //
-var tid: pthread_t
+var tid2: pthread_t
 var attr: pthread_attr_t
 val
 _(*err*) =
@@ -336,8 +336,9 @@ $extfcall (
 val err =
 $extfcall (
   int, "pthread_create"
-, addr@tid, addr@attr, fwork, $UN.castvwtp0{ptr}(env)
+, addr@tid2, addr@attr, fwork, $UN.castvwtp0{ptr}(env)
 ) (* end of [val] *)
+val () = tid := $UN.cast2lint(tid2)
 //
 val _(*err*) = $extfcall (int, "pthread_attr_destroy", addr@attr)
 //

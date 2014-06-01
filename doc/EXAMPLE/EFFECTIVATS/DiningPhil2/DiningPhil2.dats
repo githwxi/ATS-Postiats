@@ -150,13 +150,13 @@ staload "libats/SATS/athread.sats"
 //
 in (* in of [local] *)
 //
-val () = athread_create_cloptr_exn (llam () => phil_loop (0))
-val () = athread_create_cloptr_exn (llam () => phil_loop (1))
-val () = athread_create_cloptr_exn (llam () => phil_loop (2))
-val () = athread_create_cloptr_exn (llam () => phil_loop (3))
-val () = athread_create_cloptr_exn (llam () => phil_loop (4))
+val tid0 = athread_create_cloptr_exn (llam () => phil_loop (0))
+val tid1 = athread_create_cloptr_exn (llam () => phil_loop (1))
+val tid2 = athread_create_cloptr_exn (llam () => phil_loop (2))
+val tid3 = athread_create_cloptr_exn (llam () => phil_loop (3))
+val tid4 = athread_create_cloptr_exn (llam () => phil_loop (4))
 //
-val () = athread_create_cloptr_exn (llam () => cleaner_loop ())
+val tid5 = athread_create_cloptr_exn (llam () => cleaner_loop ())
 //
 end // end of [local]
 

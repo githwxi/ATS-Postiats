@@ -22,7 +22,7 @@ test_file_ixusr
   (path: string): int = let
   macdef S_IXUSR = $UN.cast{uint}(S_IXUSR)
 in
-  test_file_mode (path, lam (mode) => (mode land S_IXUSR) != 0u)
+  test_file_mode_fun (path, lam (mode) => (mode land S_IXUSR) != 0u)
 end // end of [test_file_ixusr]
 //
 (* ****** ****** *)

@@ -203,7 +203,7 @@ if err >= 0
 then let
   prval () = opt_unsome{stat}(st)
   val test =
-  test_file_mode$pred($UN.cast{uint}(st.st_mode))
+  test_file_mode$pred<> ($UN.cast{uint}(st.st_mode))
 in
   if test then 1(*true*) else 0(*false*)
 end // end of [then]
