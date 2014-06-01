@@ -208,6 +208,12 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linralist_nested.dats
 
 ######
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/athread.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/athread.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/athread_posix.dats
+
+######
+
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/basis.sats
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/list0.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/list0.dats

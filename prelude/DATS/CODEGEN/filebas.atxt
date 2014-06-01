@@ -43,6 +43,10 @@ vtypedef FILEptr1 = $STDIO.FILEptr1 (*linear/nonnull*)
 
 #atscode_separator()
 
+staload STAT = "libc/sys/SATS/stat.sats"
+
+#atscode_separator()
+
 \#define c2i char2int0
 \#define i2c int2char0
 
@@ -181,6 +185,33 @@ end // end of [local]
 extern
 castfn
 __cast_filp (r: FILEref): FILEptr1
+
+#atscode_separator()
+
+implement{}
+test_file_mode
+  (path) = let
+//
+typedef stat = $STAT.stat
+//
+var st: stat?
+val err = $STAT.stat (path, st)
+//
+in
+//
+if err >= 0
+then let
+  prval () = opt_unsome{stat}(st)
+  val test =
+  test_file_mode$pred($UN.cast{uint}(st.st_mode))
+in
+  if test then 1(*true*) else 0(*false*)
+end // end of [then]
+else let
+  prval () = opt_unnone{stat}(st) in ~1(*failure*)
+end // end of [else]
+//
+end // end of [test_file_mode]
 
 #atscode_separator()
 

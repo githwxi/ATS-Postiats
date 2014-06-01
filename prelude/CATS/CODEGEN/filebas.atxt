@@ -69,16 +69,16 @@ atspre_test_file_exists
 
 ATSinline()
 atstype_int
-atspre_test_file_mode
+atspre_test_file_mode_fun
 (
-  atstype_string path, atstype_funptr f
+  atstype_string path, atstype_funptr pred
 )
 {
   int err;
   struct stat st ;
   err = stat ((const char*)path, &st) ;
   if (err < 0) return -1 ;
-  return ((atstype_bool(*)(atstype_uint))f)(st.st_mode) ? 1 : 0 ;
+  return ((atstype_bool(*)(atstype_uint))(pred))(st.st_mode) ? 1 : 0 ;
 }
 
 #atscode_separator_for_C()
