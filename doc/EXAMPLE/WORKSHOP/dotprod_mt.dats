@@ -69,7 +69,7 @@ end (* end of [dotprod] *)
 
 (* ****** ****** *)
 
-#define CUTOFF 1024*1024
+#define CUTOFF 1000000
 
 (* ****** ****** *)
 
@@ -209,6 +209,33 @@ staload _ =
 "{$LIBATSHWXI}/teaching/mythread/DATS/workshop.dats"
 //
 (* ****** ****** *)
+//
+extern
+fun{
+a:t@ype
+} test_dotprod_mt{n:nat}
+(
+  times: int
+, A: &array(a, n), B: &array(a, n), n: int(n)
+) : (a) // end of [test_dotprod_mt]
+//
+implement
+{a}(*tmp*)
+test_dotprod_mt
+  (times, A, B, n) =
+(
+  if times > 0
+    then let
+      val res1 = dotprod_mt<a> (A, B, n)
+      val res2 = test_dotprod_mt<a> (times-1, A, B, n)
+    in
+      gadd_val (res1, res2)
+    end // end of [then]
+    else gnumber_int<a> (0)
+  // end of [if]
+)
+//
+(* ****** ****** *)
 
 implement
 main0 () = () where
@@ -229,23 +256,33 @@ val ((*void*)) = println! ("nworker = ", nworker)
 //
 implement
 dotprod_mt$submit<> (fwork) =
-workshop_insert_job<lincloptr> (ws0, $UN.castvwtp0{lincloptr}(fwork))
+(
+  workshop_insert_job<lincloptr> (ws0, $UN.castvwtp0{lincloptr}(fwork))
+) (* end of [dotprod_mt$submit] *)
 //
 typedef T = double
 //
+#define N 10000000
+//
+local
 implement
 randgen_val<T> () = drand48 ()
-//
-#define N 100000000
+in(*in-of-local*)
 val A = randgen_arrayptr<T> (i2sz(N))
 val pA = ptrcast (A)
 val (pf1, fpf1 | p1) = $UN.ptr0_vtake{array(T,N)}(pA)
 val (pf2, fpf2 | p2) = $UN.ptr0_vtake{array(T,N)}(pA)
+end // end of [local]
 //
-val res = dotprod_mt<T> (!p1, !p2, N)
+#define TIMES 200
+//
+val res =
+  test_dotprod_mt<T> (TIMES, !p1, !p2, N) / TIMES
+//
 val ((*void*)) = fprintln! (stdout_ref, "res = ", res)
 //
-prval () = fpf1 (pf1) and () = fpf2 (pf2)
+prval () = fpf1 (pf1)
+prval () = fpf2 (pf2)
 //
 val ((*freed*)) = arrayptr_free (A)
 //
