@@ -501,7 +501,8 @@ auxres
 ) : d3exp = let
 //
 val loc0 = d3e0.d3exp_loc
-val s2fun = d3exp_get_type (d3e0)
+val s2e0 = d3exp_get_type (d3e0)
+val s2fun = s2exp_hnfize (s2e0)
 //
 val-S2Efun
 (

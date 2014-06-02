@@ -87,12 +87,12 @@ fun spin_vt_destroy{l:addr}(spin_vt(l)): void
 (* ****** ****** *)
 //
 fun
-spin_lock{l:agz} (x: spin(l)): (locked_v(l) | void)
+spin_lock{l:agz} (x: spin(l)):<!wrt> (locked_v(l) | void)
 fun
 spin_trylock{l:agz}
   (x: spin(l)): [b:bool] (option_v(locked_v(l), b) | bool(b))
 fun
-spin_unlock{l:addr} (pf: locked_v(l) | x: spin(l)): void
+spin_unlock{l:addr} (pf: locked_v(l) | x: spin(l)):<!wrt> void
 //
 (* ****** ****** *)
 
@@ -137,12 +137,12 @@ fun mutex_vt_destroy{l:addr}(mutex_vt(l)): void
 (* ****** ****** *)
 //
 fun
-mutex_lock{l:agz} (m: mutex(l)): (locked_v(l) | void)
+mutex_lock{l:agz} (m: mutex(l)):<!wrt> (locked_v(l) | void)
 fun
 mutex_trylock{l:agz}
   (m: mutex(l)): [b:bool] (option_v(locked_v(l), b) | bool(b))
 fun
-mutex_unlock{l:addr} (pf: locked_v(l) | m: mutex(l)): void
+mutex_unlock{l:addr} (pf: locked_v(l) | m: mutex(l)):<!wrt> void
 //
 (* ****** ****** *)
 //
@@ -192,18 +192,22 @@ fun condvar_wait{l:addr}
   (pf: !locked_v(l) | cvr: condvar1, p: mutex (l)): void
 //
 (* ****** ****** *)
+  
+typedef tid = lint
+  
+(* ****** ****** *)
 //
 fun
 athread_create_funenv
   {env:vtype}
 (
-  tid: &lint? >> _
+  tid: &tid? >> _
 , fwork: (env) -> void, env: env
 ) : int(*err*)
 //
 fun athread_create_cloptr
 (
-  tid: &lint? >> _, fwork: () -<lincloptr1> void
+  tid: &tid? >> _, fwork: () -<lincloptr1> void
 ) : int(*err*)
 fun athread_create_cloptr_exn
   (fwork: ((*void*)) -<lincloptr1> void): lint(*tid*)
