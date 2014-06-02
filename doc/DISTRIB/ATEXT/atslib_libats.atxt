@@ -349,6 +349,15 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+(*
+** Abstract thread interface
+*)
+#packfilename("SATS/athread.sats")
+#packfilename("DATS/athread.dats")
+#packfilename("DATS/athread_posix.dats")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)
