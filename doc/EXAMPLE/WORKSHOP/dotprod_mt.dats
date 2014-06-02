@@ -191,14 +191,15 @@ staload
 //
 (* ****** ****** *)
 //
-staload "prelude/DATS/gnumber.dats"
+staload _ = "prelude/DATS/gnumber.dats"
+//  
 staload _ =
 "{$LIBATSHWXI}/testing/DATS/randgen.dats"
 //
 staload _ = "libats/DATS/deqarray.dats"
-//  
 staload _ =
 "{$LIBATSHWXI}/teaching/mythread/DATS/channel.dats"
+//
 staload _(*anon*) =
 "{$LIBATSHWXI}/teaching/mythread/DATS/spinvar.dats"
 staload _(*anon*) =
