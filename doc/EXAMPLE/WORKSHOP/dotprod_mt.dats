@@ -213,21 +213,21 @@ staload _ =
 extern
 fun{
 a:t@ype
-} test_dotprod_mt{n:nat}
+} mytest{n:nat}
 (
   times: int
 , A: &array(a, n), B: &array(a, n), n: int(n)
-) : (a) // end of [test_dotprod_mt]
+) : (a) // end of [mytest]
 //
 implement
 {a}(*tmp*)
-test_dotprod_mt
+mytest
   (times, A, B, n) =
 (
   if times > 0
     then let
       val res1 = dotprod_mt<a> (A, B, n)
-      val res2 = test_dotprod_mt<a> (times-1, A, B, n)
+      val res2 = mytest<a> (times-1, A, B, n)
     in
       gadd_val (res1, res2)
     end // end of [then]
@@ -246,10 +246,8 @@ workshop_create_cap<lincloptr> (i2sz(100))
 //
 val err = workshop_add_worker<lincloptr> (ws0)
 val err = workshop_add_worker<lincloptr> (ws0)
-(*
 val err = workshop_add_worker<lincloptr> (ws0)
 val err = workshop_add_worker<lincloptr> (ws0)
-*)
 //
 val nworker = workshop_get_nworker (ws0)
 val ((*void*)) = println! ("nworker = ", nworker)
@@ -276,8 +274,7 @@ end // end of [local]
 //
 #define TIMES 200
 //
-val res =
-  test_dotprod_mt<T> (TIMES, !p1, !p2, N) / TIMES
+val res = mytest<T> (TIMES, !p1, !p2, N) / TIMES
 //
 val ((*void*)) = fprintln! (stdout_ref, "res = ", res)
 //
