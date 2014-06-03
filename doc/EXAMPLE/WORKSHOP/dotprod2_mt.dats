@@ -178,22 +178,26 @@ staload _ =
 extern
 fun{
 a:t@ype
-} mytest{n:nat}
+} test_dotprod{n:nat}
 (
   times: int
 , A: &array(a, n), B: &array(a, n), n: int(n)
 , cutoff: intGte(1)
-) : (a) // end of [mytest]
+) : (a) // end of [test_dotprod]
 //
 implement
 {a}(*tmp*)
-mytest
+test_dotprod
   (times, A, B, n, cutoff) =
 (
   if times > 0
     then let
-      val res1 = dotprod_mt<a> (A, B, n, cutoff)
-      val res2 = mytest<a> (times-1, A, B, n, cutoff)
+      val res1 =
+        dotprod_mt<a> (A, B, n, cutoff)
+      // end of [val]
+      val res2 =
+        test_dotprod<a> (times-1, A, B, n, cutoff)
+      // end of [val]
     in
       gadd_val (res1, res2)
     end // end of [then]
@@ -241,7 +245,7 @@ end // end of [local]
 #define TIMES 200
 #define CUTOFF 1000000
 //
-val res = mytest<T> (TIMES, !p1, !p2, N, CUTOFF) / TIMES
+val res = test_dotprod<T> (TIMES, !p1, !p2, N, CUTOFF) / TIMES
 //
 val ((*void*)) = fprintln! (stdout_ref, "res = ", res)
 //
