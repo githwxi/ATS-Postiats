@@ -212,7 +212,7 @@ staload _(*anon*) =
 "{$LIBATSHWXI}/teaching/mythread/DATS/spinref.dats"
 staload _(*anon*) =
 "{$LIBATSHWXI}/teaching/mythread/DATS/nwaiter.dats"
-staload _ =
+staload _(*anon*) =
 "{$LIBATSHWXI}/teaching/mythread/DATS/workshop.dats"
 //
 staload _ = "libats/DATS/athread.dats"
