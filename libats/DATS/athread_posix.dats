@@ -316,6 +316,7 @@ abst@ype pthread_attr_t = $extype"pthread_attr_t"
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 athread_create_funenv
   (tid, fwork, env) = let
 //

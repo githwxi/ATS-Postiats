@@ -113,6 +113,7 @@ end // end of [condvar_create_exn]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 athread_create_cloptr
   (tid, fwork) = err where
 {
@@ -133,6 +134,7 @@ val () = if (err != 0) then cloptr_free($UN.castvwtp0{cloptr0}(f))
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 athread_create_cloptr_exn
   (fwork) = tid where
 {

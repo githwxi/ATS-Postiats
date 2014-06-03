@@ -197,7 +197,7 @@ typedef tid = lint
   
 (* ****** ****** *)
 //
-fun
+fun{}
 athread_create_funenv
   {env:vtype}
 (
@@ -205,11 +205,13 @@ athread_create_funenv
 , fwork: (env) -> void, env: env
 ) : int(*err*)
 //
-fun athread_create_cloptr
+fun{}
+athread_create_cloptr
 (
   tid: &tid? >> _, fwork: () -<lincloptr1> void
 ) : int(*err*)
-fun athread_create_cloptr_exn
+fun{}
+athread_create_cloptr_exn
   (fwork: ((*void*)) -<lincloptr1> void): lint(*tid*)
 //
 (* ****** ****** *)

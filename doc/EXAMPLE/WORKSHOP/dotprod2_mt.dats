@@ -12,6 +12,12 @@
 //
 (* ****** ****** *)
 
+%{^
+#include <pthread.h>
+%} // end of [%{^]
+
+(* ****** ****** *)
+
 staload UN = $UNSAFE
 
 (* ****** ****** *)
@@ -173,6 +179,9 @@ staload _ =
 staload _ =
 "{$LIBATSHWXI}/teaching/mythread/DATS/parallelize.dats"
 //
+staload _ = "libats/DATS/athread.dats"
+staload _ = "libats/DATS/athread_posix.dats"
+//
 (* ****** ****** *)
 
 extern
@@ -214,10 +223,8 @@ main0 () = () where
 val ws0 =
 workshop_create_cap<lincloptr> (i2sz(2))
 //
-val err = workshop_add_worker<lincloptr> (ws0)
-val err = workshop_add_worker<lincloptr> (ws0)
-val err = workshop_add_worker<lincloptr> (ws0)
-val err = workshop_add_worker<lincloptr> (ws0)
+val nworker =
+  workshop_add_nworker<lincloptr> (ws0, 4)
 //
 val nworker = workshop_get_nworker (ws0)
 val ((*void*)) = println! ("nworker = ", nworker)

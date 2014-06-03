@@ -12,6 +12,12 @@
 //
 (* ****** ****** *)
 
+%{^
+#include <pthread.h>
+%} // end of [%{^]
+
+(* ****** ****** *)
+
 staload UN = $UNSAFE
 
 (* ****** ****** *)
@@ -208,6 +214,9 @@ staload _(*anon*) =
 "{$LIBATSHWXI}/teaching/mythread/DATS/nwaiter.dats"
 staload _ =
 "{$LIBATSHWXI}/teaching/mythread/DATS/workshop.dats"
+//
+staload _ = "libats/DATS/athread.dats"
+staload _ = "libats/DATS/athread_posix.dats"
 //
 (* ****** ****** *)
 //
