@@ -21,13 +21,13 @@ all:: dotprod2_mt
 
 dotprod_mt: \
 dotprod_mt.dats ; \
-$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2 -o $@ $< test_mylib.dats -lpthread
+$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2 -o $@ $< -lpthread
 
 ######
 
 dotprod2_mt: \
 dotprod2_mt.dats ; \
-$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2 -o $@ $< test_mylib.dats -lpthread
+$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2 -o $@ $< -lpthread
 
 ######
 

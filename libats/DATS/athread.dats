@@ -42,6 +42,7 @@ staload "libats/SATS/athread.sats"
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 spin_create_exn () = let
 //
 val spn = spin_create ()
@@ -65,6 +66,7 @@ end // end of [spin_create_exn]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 mutex_create_exn () = let
 //
 val mtx = mutex_create ()
@@ -89,6 +91,7 @@ end // end of [mutex_create_exn]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 condvar_create_exn () = let
 //
 val cvr = condvar_create ()

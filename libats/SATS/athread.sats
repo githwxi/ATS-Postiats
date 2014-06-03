@@ -77,21 +77,21 @@ unsafe_spin_vt2t{l:addr}(!spin_vt(l)): spin(l)
 
 (* ****** ****** *)
 //
-fun spin_create ((*void*)): spin0
-fun spin_create_exn ((*void*)): spin1
+fun{} spin_create ((*void*)): spin0
+fun{} spin_create_exn ((*void*)): spin1
 //
 (* ****** ****** *)
 
-fun spin_vt_destroy{l:addr}(spin_vt(l)): void
+fun{} spin_vt_destroy{l:addr}(spin_vt(l)): void
 
 (* ****** ****** *)
 //
-fun
+fun{}
 spin_lock{l:agz} (x: spin(l)):<!wrt> (locked_v(l) | void)
-fun
+fun{}
 spin_trylock{l:agz}
   (x: spin(l)): [b:bool] (option_v(locked_v(l), b) | bool(b))
-fun
+fun{}
 spin_unlock{l:addr} (pf: locked_v(l) | x: spin(l)):<!wrt> void
 //
 (* ****** ****** *)
@@ -127,21 +127,21 @@ unsafe_mutex_vt2t{l:addr}(!mutex_vt(l)): mutex(l)
 
 (* ****** ****** *)
 //
-fun mutex_create ((*void*)): mutex0
-fun mutex_create_exn ((*void*)): mutex1
+fun{} mutex_create ((*void*)): mutex0
+fun{} mutex_create_exn ((*void*)): mutex1
 //
 (* ****** ****** *)
 
-fun mutex_vt_destroy{l:addr}(mutex_vt(l)): void
+fun{} mutex_vt_destroy{l:addr}(mutex_vt(l)): void
 
 (* ****** ****** *)
 //
-fun
+fun{}
 mutex_lock{l:agz} (m: mutex(l)):<!wrt> (locked_v(l) | void)
-fun
+fun{}
 mutex_trylock{l:agz}
   (m: mutex(l)): [b:bool] (option_v(locked_v(l), b) | bool(b))
-fun
+fun{}
 mutex_unlock{l:addr} (pf: locked_v(l) | m: mutex(l)):<!wrt> void
 //
 (* ****** ****** *)
@@ -176,19 +176,19 @@ unsafe_condvar_vt2t{l:addr}(!condvar_vt(l)): condvar(l)
 
 (* ****** ****** *)
 //
-fun condvar_create (): condvar0
-fun condvar_create_exn (): condvar1
+fun{} condvar_create (): condvar0
+fun{} condvar_create_exn (): condvar1
 //
 (* ****** ****** *)
 
-fun condvar_vt_destroy{l:addr}(condvar_vt(l)): void
+fun{} condvar_vt_destroy{l:addr}(condvar_vt(l)): void
 
 (* ****** ****** *)
 //
-fun condvar_signal (cvr: condvar1): void
-fun condvar_broadcast (cvr: condvar1): void
+fun{} condvar_signal (cvr: condvar1): void
+fun{} condvar_broadcast (cvr: condvar1): void
 //
-fun condvar_wait{l:addr}
+fun{} condvar_wait{l:addr}
   (pf: !locked_v(l) | cvr: condvar1, p: mutex (l)): void
 //
 (* ****** ****** *)

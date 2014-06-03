@@ -56,6 +56,7 @@ locked_v (l:addr) = unit_v
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 spin_create () = let
 //
 typedef
@@ -78,6 +79,7 @@ end // end of [spin_create]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 spin_vt_destroy (spn) = let
 //
 val p_spn = spin2ptr_vt (spn)
@@ -100,6 +102,7 @@ end // end of [spin_vt_destroy]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 spin_lock (spn) = let
 //
 val err = $extfcall
@@ -116,6 +119,7 @@ end // end of [spin_lock]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 spin_unlock
   (pf | spn) = let
 //
@@ -135,6 +139,7 @@ end // end of [spin_unlock]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 mutex_create () = let
 //
 typedef
@@ -157,6 +162,7 @@ end // end of [mutex_create]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 mutex_vt_destroy (mtx) = let
 //
 val p_mtx = mutex2ptr_vt (mtx)
@@ -179,6 +185,7 @@ end // end of [mutex_vt_destroy]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 mutex_lock (mtx) = let
 //
 val err = $extfcall
@@ -195,6 +202,7 @@ end // end of [mutex_lock]
 (* ****** ****** *)
   
 implement
+{}(*tmp*)
 mutex_unlock
   (pf | mtx) = let
 //
@@ -214,6 +222,7 @@ end // end of [mutex_unlock]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 condvar_create () = let
 //
 typedef
@@ -236,6 +245,7 @@ end // end of [condvar_create]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 condvar_vt_destroy (cvr) = let
 //
 val p_cvr = condvar2ptr_vt (cvr)
@@ -258,6 +268,7 @@ end // end of [condvar_vt_destroy]
 (* ****** ****** *)
   
 implement
+{}(*tmp*)
 condvar_signal
   (cvr) = let
 //
@@ -276,6 +287,7 @@ end // end of [condvar_signal]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 condvar_broadcast
   (cvr) = let
 //
@@ -294,6 +306,7 @@ end // end of [condvar_broadcast]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 condvar_wait
   (pf | cvr, mtx) = let
 //
