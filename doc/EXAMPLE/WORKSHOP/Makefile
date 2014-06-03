@@ -15,11 +15,18 @@ PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 
 all::
 all:: dotprod_mt
+all:: dotprod2_mt
 
 ######
 
 dotprod_mt: \
 dotprod_mt.dats ; \
+$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2 -o $@ $< test_mylib.dats -lpthread
+
+######
+
+dotprod2_mt: \
+dotprod2_mt.dats ; \
 $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2 -o $@ $< test_mylib.dats -lpthread
 
 ######
@@ -36,5 +43,6 @@ clean:: ; $(RMF) *_?ats.o
 
 cleanall:: clean
 cleanall:: ; $(RMF) dotprod_mt
+cleanall:: ; $(RMF) dotprod2_mt
 
 ###### end of [Makefile] ######
