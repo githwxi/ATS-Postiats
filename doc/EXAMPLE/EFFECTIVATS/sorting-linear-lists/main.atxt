@@ -23,7 +23,7 @@ linear lists. While quick-sort is often preferred over merge-sort for
 sorting arrays, the latter is likely to be the chosen one for sorting
 lists. When employed to sort an array, a serious weakness of merge-sort
 lies in its need for additional memory (proportional to the size of the
-array) in order to perform merging operation. This weakness does not exist
+array) in order to perform merging operations. This weakness does not exist
 when merge-sort is called to sort lists. Some strengths of merge-sort
 include its being a stable sorting algorithm and its (worst-case)
 time-complexity being O(n(log(n)).
@@ -122,7 +122,7 @@ mylist_cons2
 //
 ')</pre>
 
-The un-constructors for [mylist], which do the opposite of what the
+The deconstructors for [mylist], which do the opposite of what the
 constructors do, are declared as follows:
 
 <pre
@@ -159,9 +159,9 @@ mylist_uncons2
 //
 ')</pre>
 
-To see how the constructors and un-constructors for [mylist] can be used,
-let us implement a function template [mylist_length] for computing the length of a
-given list:
+To see how the constructors and deconstructors for [mylist] can be used,
+let us implement a function template [mylist_length] for computing the
+length of a given list:
 
 <pre
 class="patsyntax">
