@@ -42,7 +42,6 @@
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats.gflist"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
 
 (* ****** ****** *)
 

@@ -42,7 +42,6 @@
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats.gflist_vt"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
