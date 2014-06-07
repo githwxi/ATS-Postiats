@@ -271,7 +271,7 @@ case+ d2cs of
       in
         if issta then auxsta (out, d2cs) else ()
       end // end of [D2Cstaload]
-    | _ => ()
+    | _ (*skipped*) => ((*void*))
     ) : void // end of [val]
   in
     auxsta (out, d2cs)

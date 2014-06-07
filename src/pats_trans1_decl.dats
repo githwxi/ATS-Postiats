@@ -65,7 +65,9 @@ macdef SUB = $SYM.symbol_SUB
 //
 macdef ATS_PACKNAME = $SYM.symbol_ATS_PACKNAME
 //
+(*
 macdef ATS_STALOADFLAG = $SYM.symbol_ATS_STALOADFLAG
+*)
 macdef ATS_DYNLOADFLAG = $SYM.symbol_ATS_DYNLOADFLAG
 macdef ATS_MAINATSFLAG = $SYM.symbol_ATS_MAINATSFLAG
 //
@@ -740,8 +742,12 @@ val pack = ats_packname_get ()
 val d1c_pack = d1ecl_packname (pack)
 val d1cs = list_cons{d1ecl}(d1c_pack, d1cs)
 //
-val ans = the_e1xpenv_find (ATS_STALOADFLAG)
+(*
 //
+// HX-2014-06-06:
+// ATS_STALOADFLAG is no longer in use
+//
+val ans = the_e1xpenv_find (ATS_STALOADFLAG)
 val () = (
   case+ ans of
   | ~Some_vt e1xp => let
@@ -749,6 +755,7 @@ val () = (
     end // end of [Some_vt]
   | ~None_vt () => () // the default value
 ) : void // end of [val]
+*)
 //
 val () = the_trans1_env_restore (pfsave | (*none*))
 //
@@ -768,7 +775,9 @@ s0taload_tr
 //
 val loc0 = d0c0.d0ecl_loc
 //
-val () = ldflag := 1 // HX: for ATS_STALOADFLAG
+// HX-2014-06-06: no longer in use
+//
+val () = ldflag := 0 // HX: for ATS_STALOADFLAG
 //
 val () = the_PKGRELOC_set_decl_if (d0c0)
 val opt = $FIL.filenameopt_make_relative (given)
@@ -815,15 +824,16 @@ val opt = staload_file_search (fil)
 in
 //
 case+ opt of
-| ~Some_vt
-    (flagd1cs) => flagd1cs.1 where
+| ~Some_vt (
+    flagd1cs
+  ) => flagd1cs.1 where
   {
     val () = ldflag := flagd1cs.0
 (*
     val () = println! ("The file [", fil, " is already loaded.")
 *)
-  } // end of [Some_vt]
-| ~None_vt ((*void*)) => auxload (fil, ldflag)
+  } (* end of [Some_vt] *)
+| ~None_vt () => auxload (fil, ldflag)
 //
 end // end of [s0taload_tr]
 

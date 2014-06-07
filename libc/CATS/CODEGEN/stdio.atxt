@@ -129,6 +129,12 @@ atslib_ferror(p) ferror(((FILE*)p))
 
 #atscode_separator_for_C()
 
+\#define atslib_putchar putchar
+\#define atslib_putchar0 atslib_putchar
+\#define atslib_putchar1 atslib_putchar
+
+#atscode_separator_for_C()
+
 \#define atslib_fgets fgets
 \#define atslib_fgets0 atslib_fgets
 \#define atslib_fgets1 atslib_fgets

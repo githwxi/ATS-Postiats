@@ -657,8 +657,10 @@ function:
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
-implement{a}
-list0_reverse (xs) = $effmask_all (
+implement
+{a}(*tmp*)
+list0_reverse
+  (xs) = $effmask_all (
   list0_foldleft<a><list0(a)> (xs, list0_nil, lam (res, x) => list0_cons (x, res))
 ) // end of [list0_reverse]
 ')
