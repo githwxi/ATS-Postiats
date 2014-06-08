@@ -19,15 +19,23 @@ all:: dotprod2_mt
 
 ######
 
+regress::
+
+######
+
 dotprod_mt: \
 dotprod_mt.dats ; \
 $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2 -o $@ $< -lpthread
+regress:: dotprod_mt ; ./$<
+cleanall:: ; $(RMF) dotprod_mt
 
 ######
 
 dotprod2_mt: \
 dotprod2_mt.dats ; \
 $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2 -o $@ $< -lpthread
+regress:: dotprod2_mt ; ./$<
+cleanall:: ; $(RMF) dotprod2_mt
 
 ######
 
@@ -42,7 +50,5 @@ clean:: ; $(RMF) *_?ats.o
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) dotprod_mt
-cleanall:: ; $(RMF) dotprod2_mt
 
 ###### end of [Makefile] ######

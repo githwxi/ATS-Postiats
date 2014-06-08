@@ -111,13 +111,14 @@ jsonize_s2cst
 //
 val sym =
   jsonize_symbol (s2cst_get_sym (s2c))
+val s2rt = jsonize_s2rt (s2cst_get_srt (s2c))
 val stamp =
   jsonize_stamp (s2cst_get_stamp (s2c))
 //
 in
 //
-jsonval_labval2
-  ("s2cst_name", sym, "s2cst_stamp", stamp)
+jsonval_labval3
+  ("s2cst_name", sym, "s2cst_srt", s2rt, "s2cst_stamp", stamp)
 //
 end // end of [jsonize_s2cst]
 
@@ -129,13 +130,14 @@ jsonize_s2var
 //
 val sym =
   jsonize_symbol (s2var_get_sym (s2v))
+val s2rt = jsonize_s2rt (s2var_get_srt (s2v))
 val stamp =
   jsonize_stamp (s2var_get_stamp (s2v))
 //
 in
 //
-jsonval_labval2
-  ("s2var_name", sym, "s2var_stamp", stamp)
+jsonval_labval3
+  ("s2var_name", sym, "s2var_srt", s2rt, "s2var_stamp", stamp)
 //
 end // end of [jsonize_s2var]
 
