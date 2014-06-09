@@ -86,21 +86,17 @@ fun char2u2uint0 (c: char):<> uint = "mac\#%"
 
 fun add_char0_int0
   (c1: char, i2: int):<> char = "mac\#%"
-overload + with add_char0_int0
 fun sub_char0_int0
   (c1: char, i2: int):<> char = "mac\#%"
-overload - with sub_char0_int0
 fun sub_char0_char0
   (c1: char, c2: char):<> int = "mac\#%"
-overload - with sub_char0_char0
 
 #atscode_separator()
 
 %{
 fun
-fun_char_cmp0_decl (
-  opr: string
-) : atext = let
+fun_char_cmp0_decl
+  (opr: string): atext = let
 //
 val fopr_d = (
   case+ opr of
@@ -138,6 +134,14 @@ fun compare_char0_char0
   (c1: char, c2: char):<> int = "mac\#%"
 overload compare with compare_char0_char0 of 0
 
+#atscode_separator()
+//
+fun char0_iseqz (c: char):<> bool = "mac\#%"
+fun char0_isneqz (c: char):<> bool = "mac\#%"
+//
+overload iseqz with char0_iseqz of 0
+overload isneqz with char0_isneqz of 0
+//
 #atscode_separator()
 #atscode_decl_strcst('\
 //
@@ -225,6 +229,16 @@ overload compare with compare_char1_char1 of 20
 
 #atscode_separator()
 //
+fun char1_iseqz
+  {c:int}(c: char(c)):<> bool(c == 0) = "mac\#%"
+fun char1_isneqz
+  {c:int}(c: char(c)):<> bool(c != 0) = "mac\#%"
+//
+overload iseqz with char1_iseqz of 10
+overload isneqz with char1_isneqz of 10
+//
+#atscode_separator()
+//
 fun eq_char0_int0 : (char, int) -<fun0> bool = "mac\#%"
 fun eq_int0_char0 : (int, char) -<fun0> bool = "mac\#%"
 overload = with eq_char0_int0 of 0
@@ -287,9 +301,8 @@ overload compare with compare_uchar0_uchar0 of 0
 
 %{
 fun
-fun_uchar_cmp1_decl (
-  opr: string
-) : atext = let
+fun_uchar_cmp1_decl
+  (opr: string): atext = let
 //
 val fopr_s = (
   case+ opr of
