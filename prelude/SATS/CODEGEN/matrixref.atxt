@@ -351,14 +351,14 @@ overload .ncol with mtrxszref_get_ncol
 
 #atscode_separator()
 
-overload ptrcast with matrixref2ptr
-
-#atscode_separator()
-
 overload fprint with fprint_matrixref
 overload fprint with fprint_matrixref_sep
 overload fprint with fprint_mtrxszref
 overload fprint with fprint_mtrxszref_sep
+
+#atscode_separator()
+
+overload ptrcast with matrixref2ptr
 
 #atscode_separator()
 

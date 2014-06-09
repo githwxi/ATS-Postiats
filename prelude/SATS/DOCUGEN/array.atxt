@@ -66,11 +66,11 @@ Given a type T, an address L and an integer N, the view
 definition of #stacode("array_v") can be given as follows:
 
 #pats2xhtmls("\
-dataview
-array_v (a:viewt@ype+, l: addr, int) =
+dataview array_v
+  (a:vt@ype+, l:addr, int) =
+  | array_v_nil (a, l, 0) of ((*none*))
   | {n:nat}
     array_v_cons (a, l, n+1) of (a @ l, array_v (a, l+sizeof(a), n))
-  | array_v_nil (a, l, 0)
 // end of [array_v]
 ")
 
@@ -574,13 +574,19 @@ a:t0p}{res:t0p
 var env: res = snk
 //
 implement
-array_rforeach$fwork<a><res> (x, env) = env := f (x, env)
-val _(*asz*) = array_rforeach_env (A, asz, env)
+array_rforeach$fwork<a><res>
+  (x, env) = env := f (x, env)
+//
+val _(*asz*) = array_rforeach_env<a><env> (A, asz, env)
 //
 in
   env
 end // end of [array_foldright]
 ')
+
+Please note that #dyncode("array_rforeach_env") is given a
+tail-recursive implementation in ATSLIB.\
+
 ')
 
 (* ****** ****** *)
@@ -665,8 +671,8 @@ in stdlib.h of libc.\
 
 (* ****** ****** *)
 
-#declnamesynop("array_mapto2")
-#declnamesynop("array_mapto2$fwork")
+#declnamesynop("array_map2to")
+#declnamesynop("array_map2to$fwork")
 
 (* ****** ****** *)
 

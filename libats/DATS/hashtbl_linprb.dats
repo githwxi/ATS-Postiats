@@ -425,7 +425,7 @@ in
     val () =
     if hashtbl$recapacitize() > 0
       then ignoret(hashtbl_adjust_capacity<key,itm> (tbl))
-    // end of [if]
+    // end of [if] // end of [val]
   in
     false
   end else let
@@ -649,6 +649,18 @@ end // end of [hashtbl_foreach_env]
 (* ****** ****** *)
 
 implement
+{key,itm}
+hashtbl_free (tbl) = let
+//
+typedef ki = @(key, itm)
+//
+val+~HASHTBL (A, cap, ntot) = tbl in arrayptr_free{ki}(A)
+//
+end // end of [hashtbl_free]
+
+(* ****** ****** *)
+
+implement
 {key,itm}{ki2}
 hashtbl_flistize
   (tbl) = let
@@ -670,16 +682,15 @@ in
 if
 p > p0
 then let
-  val (pf, fpf | p) =
-    $UN.ptr0_vtake{ki}(p)
-  val isnul =
-    hashtbl_linprb_keyitm_is_null<key,itm> (!p)
+  val p = ptr_pred<ki> (p)
+  val (pf, fpf | p) = $UN.ptr0_vtake{ki}(p)
+  val isnul = hashtbl_linprb_keyitm_is_null<key,itm> (!p)
 in
   if isnul
     then let
-      prval () = fpf (pf)
+      prval ((*void*)) = fpf (pf)
     in
-      loop (ptr_pred<ki> (p), res)
+      loop (p, res)
     end // end of [then]
     else let
       val kx2 =
@@ -688,7 +699,7 @@ in
       val ((*void*)) = hashtbl_linprb_keyitm_nullize<key,itm> (!p)
       prval ((*void*)) = $UN.castview0 ((pf, fpf))
     in
-      loop (ptr_pred<ki> (p), res)
+      loop (p, res)
     end // end of [else]
   // end of [if]
 end // end of [then]

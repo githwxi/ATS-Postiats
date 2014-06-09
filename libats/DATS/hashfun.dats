@@ -52,7 +52,7 @@ inthash_jenkins (uint32): uint32
 *)
 /*
 uint32_t
-atscntrb_inthash_jenkins
+atslib_inthash_jenkins
   (uint32_t a)
 {
   a = (a+0x7ed55d16) + (a<<12);
@@ -66,7 +66,7 @@ atscntrb_inthash_jenkins
 */
 implement{}
 inthash_jenkins (a) =
-  $extfcall (uint32, "atscntrb_inthash_jenkins", a)
+  $extfcall (uint32, "atslib_inthash_jenkins", a)
 //
 (* ****** ****** *)
 

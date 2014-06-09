@@ -39,7 +39,7 @@
 (* ****** ****** *)
 
 fun{}
-inthash_jenkins (uint32): uint32
+inthash_jenkins (uint32):<> uint32
 
 (* ****** ****** *)
 

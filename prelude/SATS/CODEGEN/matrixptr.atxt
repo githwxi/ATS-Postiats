@@ -279,13 +279,13 @@ overload [] with matrixptr_set_at_size
 
 #atscode_separator()
 
-overload ptrcast with matrixptr2ptr
-overload ptrcast with matrixptrout2ptr
+overload fprint with fprint_matrixptr
+overload fprint with fprint_matrixptr_sep
 
 #atscode_separator()
 
-overload fprint with fprint_matrixptr
-overload fprint with fprint_matrixptr_sep
+overload ptrcast with matrixptr2ptr
+overload ptrcast with matrixptrout2ptr
 
 #atscode_separator()
 
