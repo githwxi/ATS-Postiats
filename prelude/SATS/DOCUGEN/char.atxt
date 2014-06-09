@@ -391,7 +391,15 @@ character representing it.\
 #declnamesynop(">=")
 #declnamesynop("=")
 #declnamesynop("!=")
+
+(* ****** ****** *)
+
 #declnamesynop("compare")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
 
 (* ****** ****** *)
 

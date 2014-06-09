@@ -789,6 +789,15 @@ string or null pointer.")
 
 (* ****** ****** *)
 
+#declnamesynop("g0ofg1")
+#declnamesynop("g1ofg0")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
 #declnamesynop("<")
 #declnamesynop("<=")
 #declnamesynop(">")
@@ -798,26 +807,17 @@ string or null pointer.")
 
 (* ****** ****** *)
 
-#declnamesynop("[]")
-
-(* ****** ****** *)
-
-#declnamesynop("g0ofg1")
-#declnamesynop("g1ofg0")
-
-(* ****** ****** *)
-
-#declnamesynop("iseqz")
-#declnamesynop("isneqz")
-
-(* ****** ****** *)
-
 #declnamesynop("compare")
 
 (* ****** ****** *)
 
 #declnamesynop(".head")
 #declnamesynop(".tail")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
 
 (* ****** ****** *)
 
