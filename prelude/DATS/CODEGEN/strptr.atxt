@@ -379,18 +379,6 @@ implement
 strnptr_rforeach_env
   {n} (str, env) = let
 //
-fun
-aux2end
-(
-  p: ptr
-) : ptr = let
-  val isnot =
-    isneqz ($UN.ptr0_get<Char> (p))
-  // end of [val]
-in
-  if isnot then aux2end (ptr_succ<char> (p)) else p
-end // end of [aux2end]
-//
 fun loop
 (
   p0: ptr, p1: ptr, env: &env >> _
@@ -423,8 +411,8 @@ else (p1) // end of [else]
 //
 end // end of [loop]
 //
-val p0 = ptrcast str
-val p1 = aux2end (p0)
+val p0 = ptrcast(str)
+val p1 = ptr_add<char> (p0, length(str))
 //
 in
   $UN.cast{sizeLte(n)}(p1 - loop (p0, p1, env))
