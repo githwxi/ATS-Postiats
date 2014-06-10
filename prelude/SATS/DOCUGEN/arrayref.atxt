@@ -138,7 +138,6 @@ arrszref-value. ")
 
 (* ****** ****** *)
 
-#declnamesynop(".ref")
 #declnamesynop("arrszref_get_ref")
 #decldescrpt("\
 
