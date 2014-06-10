@@ -51,29 +51,34 @@ fun memcpy
 
 (* ****** ****** *)
 //
-implement{}
+implement
+{}(*tmp*)
 array0_of_arrszref{a}(A) = $UN.cast{array0(a)}(A)
 //
-implement{}
+implement
+{}(*tmp*)
 arrszref_of_array0{a}(A) = $UN.cast{arrszref(a)}(A)
 //
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 array0_get_ref (A0) = let
   val ASZ =
     arrszref_of_array0 (A0) in arrszref_get_ref (ASZ)
   // end of [val]
 end // end of [array0_get_ref]
 
-implement{}
+implement
+{}(*tmp*)
 array0_get_size (A0) = let
   val ASZ =
     arrszref_of_array0 (A0) in arrszref_get_size (ASZ)
   // end of [val]
 end // end of [array0_get_size]
 
-implement{}
+implement
+{}(*tmp*)
 array0_get_refsize (A0) = let
   var asz: size_t
   val ASZ = arrszref_of_array0 (A0)
@@ -84,14 +89,16 @@ end // end of [array0_get_refsize]
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 array0_make_arrpsz (psz) = let
   val ASZ =
     arrszref_make_arrpsz (psz) in array0_of_arrszref (ASZ)
   // end of [val]
 end // end of [array0_make_arrpsz]
 
-implement{}
+implement
+{}(*tmp*)
 array0_make_arrayref (A, n) = let
   val ASZ =
     arrszref_make_arrayref (A, n) in array0_of_arrszref (ASZ)
@@ -100,7 +107,8 @@ end // end of [array0_make_arrpsz]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_make_elt (asz, x) = let
   val ASZ =
     arrszref_make_elt<a> (asz, x) in array0_of_arrszref (ASZ)
@@ -109,7 +117,8 @@ end // end of [array0_make_elt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_make_list
   (xs) = let
   val xs = g1ofg0(xs)
@@ -118,7 +127,8 @@ end // end of [array0_make_list]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_make_rlist
   (xs) = let
   val xs = g1ofg0(xs)
@@ -127,7 +137,30 @@ end // end of [array0_make_rlist]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{}(*tmp*)
+array0_make_argv
+  {n}(argv, argc) = let
+//
+prval () =
+  lemma_argv_param (argv)
+//
+val n = g1int2uint_int_size(argc)
+//
+val A =
+$effmask_all (
+arrayref_copy<string>
+  ($UN.castvwtp1{arrayref(string,n)}(argv), n)
+) (* end of [val] *)
+//
+in
+  array0_make_arrayref (arrayptr_refize (A), n)
+end // end of [array0_make_argv]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 array0_make_subarray
   (A0, st, ln) = let
 //
@@ -150,12 +183,14 @@ end // end of [array0_make_subarray]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_array0 (out, A) =
   fprint_arrszref (out, arrszref_of_array0 (A))
 // end of [fprint_array0]
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_array0_sep (out, A, sep) =
   fprint_arrszref_sep (out, arrszref_of_array0 (A), sep)
 // end of [fprint_array0_sep]
@@ -175,14 +210,16 @@ else
 //
 end // end of [array0_get_at_gint]
 
-implement{a}{tk}
+implement
+{a}{tk}
 array0_get_at_guint
   (A0, i) = let
 in
   array0_get_at_size (A0, g0u2u(i))
 end // end of [array0_get_at_guint]
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_get_at_size
   (A0, i) = let
   val ASZ =
@@ -192,7 +229,8 @@ end // end of [array0_get_at_size]
 
 (* ****** ****** *)
 
-implement{a}{tk}
+implement
+{a}{tk}
 array0_set_at_gint
   (A0, i, x) = let
 in
@@ -204,14 +242,16 @@ else
 //
 end // end of [array0_set_at_gint]
 
-implement{a}{tk}
+implement
+{a}{tk}
 array0_set_at_guint
   (A0, i, x) =
 (
   array0_set_at_size (A0, g0u2u(i), x)
 ) // end of [array0_set_at_guint]
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_set_at_size
   (A0, i, x) = let
   val ASZ =
@@ -221,7 +261,8 @@ end // end of [array0_set_at_size]
 
 (* ****** ****** *)
 
-implement{a}{tk}
+implement
+{a}{tk}
 array0_exch_at_gint
   (A0, i, x) = let
 in
@@ -233,14 +274,16 @@ else
 //
 end // end of [array0_exch_at_gint]
 
-implement{a}{tk}
+implement
+{a}{tk}
 array0_exch_at_guint
   (A0, i, x) =
 (
   array0_exch_at_size (A0, g0u2u(i), x)
 ) // end of [array0_exch_at_guint]
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_exch_at_size
   (A0, i, x) = let
   val ASZ =
@@ -276,7 +319,8 @@ end // end of [array0_copy]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_append
   (A01, A02) = let
 //
@@ -334,7 +378,8 @@ end // end of [array0_map]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_tabulate
   (asz, f) = let
 //
@@ -350,7 +395,8 @@ end // end of [array0_tabulate]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_find_exn (A0, p) = let
 //
 val ASZ = arrszref_of_array0 (A0)
@@ -371,7 +417,8 @@ end // end of [array0_find_exn]
 
 (*
 /*
-implement{a}
+implement
+{a}(*tmp*)
 array0_find_opt (A0, p) =
   try Some0 (array0_find_exn<a> (A0, p)) with ~NotFoundExn() => None0 ()
 // end of [array0_find_opt]
@@ -380,7 +427,8 @@ array0_find_opt (A0, p) =
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_foreach
   (A0, f) = let
 //
@@ -402,7 +450,8 @@ end // end of [array0_foreach]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_iforeach
   (A0, f) = let
 //
@@ -424,7 +473,8 @@ end // end of [array0_iforeach]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 array0_rforeach
   (A0, f) = let
 //
