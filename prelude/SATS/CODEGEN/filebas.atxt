@@ -250,6 +250,14 @@ fun{
 //
 #atscode_separator()
 //
+fun{}
+fileref_get_word$isalpha (c: char): bool
+//
+fun{
+} fileref_get_word (inp: FILEref): Strptr0
+//
+#atscode_separator()
+//
 fun{
 } fileref_foreach$bufsize (): sizeGte(1)
 //
