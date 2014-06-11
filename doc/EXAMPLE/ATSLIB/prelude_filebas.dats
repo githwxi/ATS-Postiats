@@ -78,9 +78,31 @@ val inp =
 fileref_open_exn
   ("./prelude_filebas.dats", file_mode_r)
 //
+val () =
+while (true)
+{
+  val word = fileref_get_word<> (inp)
+  val isnot = ptrcast (word) > the_null_ptr
+  val () =
+  if isnot then fprintln! (stdout_ref, word)
+  val () = strptr_free (word)
+  val () = if isnot then $continue else $break
+}
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val inp =
+fileref_open_exn
+  ("./prelude_filebas.dats", file_mode_r)
+//
 implement
 {env}(*tmp*)
-fileref_foreach$fwork (c, env) = fprint_char (stdout_ref, c)
+fileref_foreach$fwork (c, env) = fprint_char (stdout_ref, toupper(c))
 //
 val () = fileref_foreach (inp)
 //
