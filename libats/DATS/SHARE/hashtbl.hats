@@ -34,6 +34,7 @@
 (* ****** ****** *)
 //
 // HX: shared by hashtbl_chain
+// HX: shared by hashtbl_linprb
 //
 (* ****** ****** *)
 //
