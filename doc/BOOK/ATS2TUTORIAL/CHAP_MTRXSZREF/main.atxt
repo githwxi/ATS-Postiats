@@ -64,7 +64,7 @@ j, v)") can be written as #dyncode("M[i,j]") and #dyncode("M[i,j] := v"),
 respectively. Notice that matrix-bounds checking is performed at run-time
 whenever #dyncode("mtrxszref_get_at") or #dyncode("mtrxszref_set_at") is
 called, and the exception #dyncode("MatrixSubscriptExn") is raised in case
-of out-of-bounds matrix access is detected.
+of out-of-bounds matrix access being detected.
 
 ')
 

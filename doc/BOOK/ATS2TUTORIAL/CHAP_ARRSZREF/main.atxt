@@ -75,7 +75,7 @@ can be written as #dyncode("A[i]") and #dyncode("A[i] := v"),
 respectively. Notice that array-bounds checking is performed at run-time
 whenever #dyncode("arrszref_get_at") or #dyncode("arrszref_set_at") is
 called, and the exception #dyncode("ArraySubscriptExn") is raised in case
-of out-of-bounds array access is detected.
+of out-of-bounds array access being detected.
 
 ')
 
