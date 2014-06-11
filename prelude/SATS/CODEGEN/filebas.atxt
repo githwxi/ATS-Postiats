@@ -251,7 +251,7 @@ fun{
 #atscode_separator()
 //
 fun{}
-fileref_get_word$isalpha (c: char): bool
+fileref_get_word$isalpha (charNZ): bool
 //
 fun{
 } fileref_get_word (inp: FILEref): Strptr0
