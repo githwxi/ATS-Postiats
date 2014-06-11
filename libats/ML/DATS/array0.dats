@@ -138,28 +138,6 @@ end // end of [array0_make_rlist]
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
-array0_make_argv
-  {n}(argv, argc) = let
-//
-prval () =
-  lemma_argv_param (argv)
-//
-val n = g1int2uint_int_size(argc)
-//
-val A =
-$effmask_all (
-arrayref_copy<string>
-  ($UN.castvwtp1{arrayref(string,n)}(argv), n)
-) (* end of [val] *)
-//
-in
-  array0_make_arrayref (arrayptr_refize (A), n)
-end // end of [array0_make_argv]
-
-(* ****** ****** *)
-
-implement
 {a}(*tmp*)
 array0_make_subarray
   (A0, st, ln) = let

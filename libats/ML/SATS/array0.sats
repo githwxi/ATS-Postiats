@@ -124,12 +124,6 @@ fun{a:t0p}
 array0_make_rlist (xs: list0 (INV(a))):<!wrt> array0 (a)
 //
 (* ****** ****** *)
-//
-fun{}
-array0_make_argv{n:int}
-  (argv: !argv(n), argc: int(n)):<!wrt> array0 (string)
-//
-(* ****** ****** *)
 
 fun{a:t0p}
 array0_make_subarray
