@@ -891,13 +891,12 @@ end // end of [list_vt_mapfree]
 
 #atscode_separator()
 
-implement
-{x}{env}
-list_vt_foreach$cont (x, env) = true
-
 implement{x}
-list_vt_foreach (xs) = let
-  var env: void = () in list_vt_foreach_env<x><void> (xs, env)
+list_vt_foreach
+  (xs) = let
+  var env: void = ()
+in
+  list_vt_foreach_env<x><void> (xs, env)
 end // end of [list_vt_foreach]
 
 implement
@@ -933,6 +932,12 @@ end // end of [loop]
 in
   loop (xs, env)
 end // end of [list_vt_foreach_env]
+
+#atscode_separator()
+
+implement
+{x}{env}
+list_vt_foreach$cont (x, env) = true
 
 #atscode_separator()
 
@@ -991,13 +996,12 @@ end // end of [list_vt_foreach_funenv]
 
 #atscode_separator()
 
-implement
-{x}{env}
-list_vt_iforeach$cont (i, x, env) = true
-
 implement{x}
-list_vt_iforeach (xs) = let
-  var env: void = () in list_vt_iforeach_env<x><void> (xs, env)
+list_vt_iforeach
+  (xs) = let
+  var env: void = ()
+in
+  list_vt_iforeach_env<x><void> (xs, env)
 end // end of [list_vt_iforeach]
 
 implement
@@ -1038,6 +1042,12 @@ end // end of [loop]
 in
   loop (0, xs, env)
 end // end of [list_vt_iforeach_env]
+
+#atscode_separator()
+
+implement
+{x}{env}
+list_vt_iforeach$cont (i, x, env) = true
 
 #atscode_separator()
 
