@@ -787,8 +787,11 @@ fileref_get_word$isalpha (charNZ) = isalpha (charNZ)
 #atscode_separator()
 
 implement{}
-fileref_foreach (inp) = let
-   var env: void = () in fileref_foreach_env (inp, env)
+fileref_foreach
+  (inp) = let
+  var env: void = ()
+in
+  fileref_foreach_env (inp, env)
 end // end of [fileref_foreach]
 
 #atscode_separator()

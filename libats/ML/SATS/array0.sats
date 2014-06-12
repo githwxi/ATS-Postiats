@@ -179,6 +179,13 @@ overload array0_exch_at with array0_exch_at_gint
 overload array0_exch_at with array0_exch_at_guint
 //
 (* ****** ****** *)
+
+fun{a:vt0p}
+array0_interchange
+  (A: array0 (a), i: size_t, j: size_t):<!exnrefwrt> void
+// end of [array0_interchange]
+
+(* ****** ****** *)
 //
 (*
 fun{}

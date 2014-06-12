@@ -183,7 +183,8 @@ case+ xs of
 end // end of [loop]
 //
 var res: ptr
-val () = loop (xs, res)
+val () =
+  $effmask_all(loop (xs, res))
 //
 in
   res
