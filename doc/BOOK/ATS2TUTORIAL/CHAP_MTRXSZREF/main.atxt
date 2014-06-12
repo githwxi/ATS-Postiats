@@ -91,8 +91,8 @@ fun loop
 ) : void =
   if j < n then let
     val x = M[i,j]
-    val () = M[j,i] := M[i,j]
-    val () = M[i,j] := x
+    val () = M[i,j] := M[j,i]
+    val () = M[j,i] := x
   in
     loop (i, succ(j))
   end else let
