@@ -311,14 +311,8 @@ This function is a slight variant of #dyncode("isupper_int").
 (* ****** ****** *)
 
 #declnamesynop("toascii")
-
-#declnamesynop("toascii_int")
 #decldescrpt("
 This function directly corresponds to the libc-function toascii.
-")
-#declnamesynop("toascii_char")
-#decldescrpt("
-This function is a slight variant of #dyncode("toascii_int").
 ")
 
 (* ****** ****** *)
