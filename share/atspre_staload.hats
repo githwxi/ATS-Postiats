@@ -57,6 +57,7 @@ staload _ = "prelude/DATS/intrange.dats"
 (* ****** ****** *)
 
 staload _ = "prelude/DATS/gorder.dats"
+staload _ = "prelude/DATS/gnumber.dats"
 
 (* ****** ****** *)
 //
