@@ -144,6 +144,11 @@ fprint_matrix0_sep
 //
 (* ****** ****** *)
 
+fun{a:t0p}
+matrix0_copy (M: matrix0 (a)): matrix0 (a)
+
+(* ****** ****** *)
+
 fun{a:vt0p}
 matrix0_tabulate
 (
