@@ -268,8 +268,8 @@
     pt))
 
 (defvar ats-word-keywords
-  '("abstype" "abst0ype" "abst@ype" "absprop" "absview" "absvtype" "absviewtype" "absvt0ype" 
-    "absvt@ype""absviewt0ype" "and" "as" "assume" "begin" "break" "continue" "classdec" "datasort"
+  '("abstype" "abst0ype" "absprop" "absview" "absvtype" "absviewtype" "absvt0ype" "absviewt0ype"
+    "and" "as" "assume" "begin" "break" "continue" "classdec" "datasort"
     "datatype" "dataprop" "dataview" "datavtype" "dataviewtype" "do" "dynload" "else"
     "end" "exception" "extern" "extype" "extval" "fn" "fnx" "fun"
     "prfn" "prfun" "praxi" "castfn" "if" "in" "infix" "infixl"
