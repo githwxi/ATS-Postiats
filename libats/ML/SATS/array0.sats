@@ -109,7 +109,8 @@ array0_get_size{a:vt0p} (A: array0 a):<> size_t
 //
 fun{}
 array0_get_refsize
-  {a:vt0p} (array0 (a)):<> [n:nat] (arrayref (a, n), size_t (n))
+  {a:vt0p}
+  (array0 (a)):<> [n:nat] (arrayref (a, n), size_t (n))
 //
 (* ****** ****** *)
 //
@@ -184,6 +185,13 @@ fun{a:vt0p}
 array0_interchange
   (A: array0 (a), i: size_t, j: size_t):<!exnrefwrt> void
 // end of [array0_interchange]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+array0_subcirculate
+  (A: array0 (a), i: size_t, j: size_t):<!exnrefwrt> void
+// end of [array0_subcirculate]
 
 (* ****** ****** *)
 //

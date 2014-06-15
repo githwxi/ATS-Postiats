@@ -90,10 +90,14 @@ fprint_matrixref
 (
   out, M, nrow, ncol
 ) = {
-  val M =
-  $UN.castvwtp1{matrixptr(a, m, n)}(M)
-  val () = fprint_matrixptr<a> (out, M, nrow, ncol)
-  prval () = $UN.cast2void (M)
+//
+val M =
+$UN.castvwtp1{matrixptr(a, m, n)}(M)
+//
+val () = fprint_matrixptr<a> (out, M, nrow, ncol)
+//
+prval ((*void*)) = $UN.cast2void (M)
+//
 } (* end of [fprint_matrixref] *)
 
 implement{a}
@@ -102,10 +106,15 @@ fprint_matrixref_sep
 (
   out, M, nrow, ncol, sep1, sep2
 ) = {
-  val M =
-  $UN.castvwtp1{matrixptr(a, m, n)}(M)
-  val () = fprint_matrixptr_sep<a> (out, M, nrow, ncol, sep1, sep2)
-  prval () = $UN.cast2void (M)
+//
+val M =
+$UN.castvwtp1{matrixptr(a, m, n)}(M)
+//
+val () =
+fprint_matrixptr_sep<a> (out, M, nrow, ncol, sep1, sep2)
+//
+prval ((*void*)) = $UN.cast2void (M)
+//
 } (* end of [fprint_matrixref_sep] *)
 
 #atscode_separator()

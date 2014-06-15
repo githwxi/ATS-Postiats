@@ -208,6 +208,13 @@ arrayref_interchange
 
 #atscode_separator()
 
+fun{a:vt0p}
+arrayref_subcirculate
+  {n:int} (A: arrayref (a, n), i: sizeLt n, j: sizeLt n):<!refwrt> void
+// end of [arrayref_subcirculate]
+
+#atscode_separator()
+
 (*
 fun{}
 fprint_array$sep (out: FILEref): void
@@ -453,6 +460,13 @@ fun{a:vt0p}
 arrszref_interchange
   (A: arrszref (a), i: size_t, j: size_t):<!exnrefwrt> void
 // end of [arrszref_interchange]
+
+#atscode_separator()
+
+fun{a:vt0p}
+arrszref_subcirculate
+  (A: arrszref (a), i: size_t, j: size_t):<!exnrefwrt> void
+// end of [arrszref_subcirculate]
 
 #atscode_separator()
 //

@@ -284,6 +284,17 @@ end // end of [array0_interchange]
 
 implement
 {a}(*tmp*)
+array0_subcirculate
+  (A0, i, j) = let
+  val ASZ =
+    arrszref_of_array0 (A0) in arrszref_subcirculate (ASZ, i, j)
+  // end of [val]
+end // end of [array0_subcirculate]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 array0_copy
   (A0) = let
 //
