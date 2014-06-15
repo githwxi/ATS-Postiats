@@ -24,13 +24,13 @@ main0 () = {
   if th_id = 0 
   then 
     (nthreads := omp_get_num_threads(); 
-     println! ("There are ", nthreads))
+     println! ("There are ", nthreads, " threads."))
   else
     ();
   omp_barrier_end();
   )
+  val () = omp_parallel_private_end()  
   val () = println! ("Hello world!") 
-  val () = omp_parallel_private_end()
 } // end of [main0]
 
 (* ****** ****** *)
