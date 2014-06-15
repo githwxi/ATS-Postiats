@@ -34,7 +34,7 @@ MALLOCFLAG=-DATS_MEMALLOC_LIBC
 
 all:: hello
 hello: hello.dats ; $(PATSCC2) $(CFLAGS) -o $@ $< $(LDFLAGS) 
-cleanall:: ; $(RMF) hello
+cleanall:: ; $(RMF) hello *.exe
 
 ######
 

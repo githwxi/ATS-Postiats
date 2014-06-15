@@ -17,14 +17,14 @@ main0 () = {
   var nthreads: int?
   val () = omp_parallel_private_beg(th_id)
   val () = th_id := omp_get_thread_num()
-  val () = println!(th_id)
+  val () = println!("Hello from thread", th_id, "!")
   val () = 
   ( 
   omp_barrier_beg(); 
   if th_id = 0 
   then 
     (nthreads := omp_get_num_threads(); 
-     println! (nthreads))
+     println! ("There are ", nthreads))
   else
     ();
   omp_barrier_end();
