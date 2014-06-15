@@ -129,7 +129,6 @@ implement
 timer_free (timer) =
   let val ~TIMER _ = timer in (*nothing*) end
 // end of [timer_free]
-
 ')
 
 ')
@@ -194,7 +193,6 @@ The following code implements the functions for pausing and resuming a
 timer:
 
 #atscode('\
-
 implement
 timer_pause
   (timer) = let
@@ -666,12 +664,97 @@ then deallocated after it is no longer needed.
 
 #para('\
 
-The entire implementation of merge-sort on arrays plus some testing code is
-available #mycodelink("CHAP_ABSVTYPE/mergeSort.dats", "on-line").
+It is also allowed for a function to allocate memory on its call-stack
+by calling a special function #dyncode("alloca"), which is given the
+following type in ATS:
+
+#atscode('\
+(*
+staload "libc/SATS/alloa.sats"
+*)
+fun alloca
+  {dummy:addr}{n:int} (
+  pf: void@dummy | n: size_t (n)
+) : [l:addr] (bytes(n) @ l, bytes(n) @ l -> void@dummy | ptr(l))
+')
+
+The type assigned to
+#dyncode("alloca") makes it extremely unlikely for someone to
+unintentionally write well-typed code in ATS that may erroneourly attempt
+to access memory obtained from calling #dyncode("alloca") after the calling
+function has returned.
 
 ')
 
-</sect1><!--id="memory-allocation-deallocation-->
+#para('\
+
+The following function #dyncode("array_ptr_alloca_tsz") is the
+same as #dyncode("alloca") dynamically but it is given a type that
+is often more convenient to use:
+
+#atscode('\
+fun
+array_ptr_alloca_tsz
+  {a:vt0p}{dummy:addr}{n:int}
+(
+  pf: void@dummy | asz: size_t(n), tsz: sizeof_t(a)
+) : [l:addr] (array(a?,n)@l, array(a?,n)@l -> void@dummy | ptr(l))
+')
+
+As an example, the function template #dyncode("mergeSort") implemented
+above can also be implemented as follows:
+
+#atscode('\
+implement
+{a}(*tmp*)
+mergeSort (A, n, cmp) = let
+  val tsz = sizeof<a>
+  var dummy: void = ()
+  prval pf = view@dummy
+  val (
+    pfat, fpfat | p
+  ) = array_ptr_alloca_tsz{a}(pf | n, tsz)
+  val ((*void*)) = msort1<a> (A, n, !p, cmp)
+  prval ((*void*)) = view@dummy := fpfat (pfat)
+in
+  // nothing
+end // end of [mergeSort]
+')
+
+where the array used as a scratch area during merge-sort is allocated on
+the call-stack of #dyncode("mergeSort"). While this implementation of
+#dyncode("mergeSort") may seem interesting, it is actually inferior to the
+previous implementation as calling #dyncode("alloca") to allocate a large
+chunk of memory can readily lead to a crash for which the cause is often
+very difficult to determine. In general, choosing #dyncode("alloca") over
+#dyncode("malloc") is difficult to justify, and any call to the former
+should be scrutinized.
+
+')
+
+#para('\
+
+The entire implementation of merge-sort on arrays plus some testing code
+is available #mycodelink("CHAP_ABSVTYPE/mergeSort.dats", "on-line").
+
+')
+
+</sect1><!--id="memory-allocation-deallocation"-->
+
+<!-- ****** ****** -->
+
+<sect1
+id="locking-and-unlocking-shared-resources">
+#title("Locking and Unlocking Shared Resources")
+
+#para("\
+
+In concurrent programming, the issue of safely locking and unlocking shared
+resources is both essential and challenging.
+
+")
+
+</sect1><!--id="locking-and-unlocking-shared-resources"-->
 
 <!-- ****** ****** -->
 

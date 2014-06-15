@@ -331,8 +331,11 @@ symbol_ATSPKGRELOCROOT = symbol_make_string "ATSPKGRELOCROOT"
 implement
 symbol_ATS_PACKNAME = symbol_make_string "ATS_PACKNAME"
 
+(*
+// HX-2014-06-06: this one is no longer in use:
 implement
 symbol_ATS_STALOADFLAG = symbol_make_string "ATS_STALOADFLAG"
+*)
 implement
 symbol_ATS_DYNLOADFLAG = symbol_make_string "ATS_DYNLOADFLAG"
 

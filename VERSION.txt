@@ -1,3 +1,34 @@
+0.1.1
+<pre>
+
+This is the tenth release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. 
+
+</pre>
+
+######
+
 0.1.0
 <pre>
 
@@ -23,14 +54,17 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Moving ATS-Postiats/contrib to ATS-Postiats-contrib
-2. Fixing a bug causing embedded template instantiation to fail.
-   Please see doc/BUGS/bug-2014-05-05.dats for some details on this bug.
-3. Fixing a bug that may cause fnx-compilation in a template to
-   fail.
-4. Making atspkgreloc_curl and atspkgreloc_wget are available for
-   package relocation
+1. Moving ATS-Postiats/contrib out to ATS-Postiats-contrib
+2. Fixing a bug causing embedded template instantiation to fail;
+   please see doc/BUGS/bug-2014-05-05.dats for some details on this bug
+3. Fixing a bug that may cause fnx-compilation in a template to fail
+4. Making atspkgreloc_curl and atspkgreloc_wget available for package
+   relocation
 5. Fixing the minor bug recorded in doc/BUGS/bug-2014-05-17.dats
+6. Implementing libats/hashtbl_linprb (hashtable via linear-probing)
+7. Adding some rudimentary support for multi-threaded programming:
+   ATS-Positiats-contrib/contrib/libats-hwxi/teaching/mythread/*
+   Please see ATS-Positiats-contrib/projects/MEDIUM/SHOOTOUT/ATS2/*
 
 </pre>
 

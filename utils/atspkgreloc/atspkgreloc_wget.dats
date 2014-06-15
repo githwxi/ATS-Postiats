@@ -245,7 +245,7 @@ fprint! (out,
 //
 val () = fprint! (out, "#\n")
 val () = fprint! (out, "WGET=wget\n")
-val () = fprint! (out, "WGETFLAGS=-r --timestamping -nH\n")
+val () = fprint! (out, "WGETFLAGS=-r -nH --timestamping --no-parent --execute robots=off\n")
 val () = fprint! (out, "#\n")
 //
 } (* end of [if] *)

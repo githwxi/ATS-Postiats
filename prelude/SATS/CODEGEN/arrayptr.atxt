@@ -473,17 +473,17 @@ overload [] with arrayptr_set_at_guint of 0
 
 #atscode_separator()
 
-overload ptrcast with arrayptr2ptr
-overload ptrcast with arrayptrout2ptr
-
-#atscode_separator()
-
 overload free with arrayptr_free
 
 #atscode_separator()
 
 overload fprint with fprint_arrayptr
 overload fprint with fprint_arrayptr_sep
+
+#atscode_separator()
+
+overload ptrcast with arrayptr2ptr
+overload ptrcast with arrayptrout2ptr
 
 #atscode_separator()
 

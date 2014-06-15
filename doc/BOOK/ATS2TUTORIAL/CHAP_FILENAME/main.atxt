@@ -28,7 +28,7 @@ arbitrarily.\
 
 A static file may contain sort definitions, datasort declarations, static
 definitions, abstract type declarations, exception declarations, datatype
-declarations, macro definition, interfaces for dynamic values and
+declarations, macro definitions, interfaces for dynamic values and
 functions, etc.  In terms of functionality, a static file in ATS is
 somewhat similar to a header file (with the extension #emphasis(".h")) in C
 or an interface file (with the extension #emphasis(".mli")) in OCaml.\
@@ -38,7 +38,7 @@ or an interface file (with the extension #emphasis(".mli")) in OCaml.\
 #para("\
 
 A dynamic file may contain everything in a static file. In addition, it may
-also contain defintions for dynamic values and functions. However,
+also contain definitions for dynamic values and functions. However,
 interfaces for functions and values in a dynamic file should follow the
 keyword #dyncode("extern"), which on the other hand should not be present when
 such interfaces are declared in a static file. For instance, the following
@@ -51,7 +51,7 @@ fun area_of_circle (radius: double): double
 ")
 
 When the same interfaces are declared in a #emphasis("dynamic") file, the
-following slighly different syntax should be used:
+following slightly different syntax should be used:
 
 #atscode("\
 extern val pi : double

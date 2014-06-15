@@ -51,7 +51,8 @@ do { \\
 
 #atscode_separator_for_C()
 
-\#define atslib_clearerr clearerr
+\#define \\
+atslib_clearerr(p) clearerr(((FILE*)p))
 
 #atscode_separator_for_C()
 
@@ -91,13 +92,15 @@ do { \\
 
 #atscode_separator_for_C()
 
-\#define atslib_feof feof
+\#define \\
+atslib_feof(p) feof(((FILE*)p))
 \#define atslib_feof0 atslib_feof
 \#define atslib_feof1 atslib_feof
 
 #atscode_separator_for_C()
 
-\#define atslib_ferror ferror
+\#define \\
+atslib_ferror(p) ferror(((FILE*)p))
 \#define atslib_ferror0 atslib_ferror
 \#define atslib_ferror1 atslib_ferror
 
@@ -123,6 +126,12 @@ do { \\
 
 \#define atslib_fputc0_exn_int atslib_fputc_exn
 \#define atslib_fputc0_exn_char atslib_fputc_exn
+
+#atscode_separator_for_C()
+
+\#define atslib_putchar putchar
+\#define atslib_putchar0 atslib_putchar
+\#define atslib_putchar1 atslib_putchar
 
 #atscode_separator_for_C()
 

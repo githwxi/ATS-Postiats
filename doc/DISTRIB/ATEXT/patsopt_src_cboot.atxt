@@ -436,8 +436,7 @@ The ATS/Postiats C-Boostrapping\
 #packfilename("pats_lintprgm_dats.c")
 #packfilename("pats_lintprgm_print_dats.c")
 #packfilename("pats_lintprgm_myint.cats")
-#packfilename("pats_lintprgm_myint_int_dats.c")
-#packfilename("pats_lintprgm_myint_intinf_dats.c")
+#packfilename("pats_lintprgm_myint_dats.c")
 #packfilename("pats_lintprgm_solve_dats.c")
 
 (* ****** ****** *)
@@ -652,7 +651,7 @@ The ATS/Postiats C-Boostrapping\
 
 (* ****** ****** *)
 
-#packfilename("gcats1_all.cats")
+#packfilename("gcats1_all_cats.c")
 #packfilename("ccomp/runtime/GCATS/gcats1.cats")
 #packfilename("ccomp/runtime/GCATS/gcats1_master.hats")
 

@@ -60,40 +60,25 @@ val () = list_vt_free<T> (xs123)
 val () =
 {
 //
-val N = 10
+typedef T = int
+//
 val out = stdout_ref
 //
-typedef T = int
 val xs =
   $list_vt{T}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
-val () = fprint_list_vt_sep<T> (out, xs, "; ")
-val () = fprint_newline (out)
+val ys =
+  $list_vt{T}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
+//
+val xys = list_vt_append (xs, ys)
 //
 implement
-list_vt_mergesort$cmp<T> (x1, x2) = compare (x1, x2)
+list_vt_mergesort$cmp<T> (x, y) = compare (x, y)
 //
-val ys =
-  list_vt_mergesort<T> (xs)
-val () = fprint_list_vt<T> (out, ys)
+val xys =
+  list_vt_mergesort<T> (xys)
+val () = fprint_list_vt<T> (out, xys)
 val () = fprint_newline (out)
-val () = list_vt_free<T> (ys)
-//
-} (* end of [val] *)
-
-(* ****** ****** *)
-
-val () =
-{
-//
-val out = stdout_ref
-//
-val xs1 = list_make_intrange (0, 5)
-val xs2 = list_make_intrange (5, 10)
-val xs12 = list_vt_append<int> (xs1, xs2)
-//
-val () = fprintln! (out, "xs12 = ", xs12)
-//
-val () = list_vt_free (xs12)
+val () = list_vt_free<T> (xys)
 //
 } (* end of [val] *)
 

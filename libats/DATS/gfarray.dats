@@ -39,13 +39,13 @@
 // HX-2012-11-30: ported to ATS/Postiats from ATS/Anairiats
 //
 (* ****** ****** *)
-
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
-
-(* ****** ****** *)
-
-staload "libats/SATS/ilist_prf.sats" // for handling integer sequences
-
+//
+// HX:
+// for integer sequences
+//
+staload
+"libats/SATS/ilist_prf.sats"
+//
 (* ****** ****** *)
 
 staload "libats/SATS/gfarray.sats"

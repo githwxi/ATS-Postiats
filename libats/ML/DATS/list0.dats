@@ -838,6 +838,23 @@ val res = list0_of_list_vt (res)
 (* ****** ****** *)
 
 implement
+{a}(*tmp*)
+list0_mapcons
+  (x0, xss) = let
+//
+implement
+list_map$fopr<list0(a)><list0(a)> (xs) = list0_cons(x0, xs)
+//
+val xss = g1ofg0 (xss)
+val res = list_map<list0(a)><list0(a)> (xss)
+//
+in
+  list0_of_list_vt (res)
+end // end of [list0_mapcons]
+
+(* ****** ****** *)
+
+implement
 {a}{b}
 list0_imap (xs, f) = let
 //

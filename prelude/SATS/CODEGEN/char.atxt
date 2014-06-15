@@ -58,13 +58,13 @@ castfn char2uchar0 (c: char):<> uchar
 castfn uchar2char0 (c: uchar):<> char
 //
 #atscode_separator()
-
+//
 fun int2char0 (i: int):<> char = "mac\#%"
 fun int2schar0 (i: int):<> schar = "mac\#%"
 fun int2uchar0 (i: int):<> uchar = "mac\#%"
-
+//
 fun uint2uchar0 (u: uint):<> uchar = "mac\#%"
-
+//
 #atscode_separator()
 
 fun char2int0 (c: char):<> int = "mac\#%"
@@ -83,24 +83,32 @@ fun char2u2int0 (c: char):<> int = "mac\#%"
 fun char2u2uint0 (c: char):<> uint = "mac\#%"
 
 #atscode_separator()
-
+//
+fun char0_iseqz (c: char):<> bool = "mac\#%"
+fun char0_isneqz (c: char):<> bool = "mac\#%"
+//
+overload iseqz with char0_iseqz of 0
+overload isneqz with char0_isneqz of 0
+//
+#atscode_separator()
+//
 fun add_char0_int0
-  (c1: char, i2: int):<> char = "mac\#%"
-overload + with add_char0_int0
+  (c: char, i: int):<> char = "mac\#%"
 fun sub_char0_int0
-  (c1: char, i2: int):<> char = "mac\#%"
-overload - with sub_char0_int0
+  (c: char, i: int):<> char = "mac\#%"
 fun sub_char0_char0
   (c1: char, c2: char):<> int = "mac\#%"
-overload - with sub_char0_char0
-
+//
+overload + with add_char0_int0 of 0
+overload - with sub_char0_int0 of 0
+overload - with sub_char0_char0 of 0
+//
 #atscode_separator()
 
 %{
 fun
-fun_char_cmp0_decl (
-  opr: string
-) : atext = let
+fun_char_cmp0_decl
+  (opr: string): atext = let
 //
 val fopr_d = (
   case+ opr of
@@ -167,6 +175,16 @@ castfn
 char2uchar1 {c:int} (c: char (c)):<> uchar (i2u8(c))
 castfn
 uchar2char1 {c:int} (c: uchar (c)):<> char (u2i8(c))
+//
+#atscode_separator()
+//
+fun char1_iseqz
+  {c:int}(c: char(c)):<> bool(c == 0) = "mac\#%"
+fun char1_isneqz
+  {c:int}(c: char(c)):<> bool(c != 0) = "mac\#%"
+//
+overload iseqz with char1_iseqz of 10
+overload isneqz with char1_isneqz of 10
 //
 #atscode_separator()
 
@@ -287,9 +305,8 @@ overload compare with compare_uchar0_uchar0 of 0
 
 %{
 fun
-fun_uchar_cmp1_decl (
-  opr: string
-) : atext = let
+fun_uchar_cmp1_decl
+  (opr: string): atext = let
 //
 val fopr_s = (
   case+ opr of

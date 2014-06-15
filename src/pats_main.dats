@@ -138,6 +138,7 @@ staload CCOMP = "./pats_ccomp.sats"
 dynload "pats_error.dats"
 //
 dynload "pats_intinf.dats"
+//
 dynload "pats_counter.dats"
 //
 dynload "pats_utils.dats"
@@ -316,7 +317,7 @@ dynload "pats_lintprgm_print.dats"
 // HX: ATS_DYNLOADFLAG set to 0
 //
 dynload pats_lintprgm_myint_int.dats
-dynload pats_lintprgm_myint_intinf.dats
+dynload pats_lintprgm_myint_gmp.dats
 *)
 dynload "pats_lintprgm_solve.dats"
 //
@@ -439,6 +440,7 @@ end // end of [patsopt_usage]
 (* ****** ****** *)
 //
 (*
+//
 HX: VERSION-0.0.1 released on September 2, 2013
 HX: VERSION-0.0.2 released on September 19, 2013
 HX: VERSION-0.0.3 released in the October of 2013
@@ -447,10 +449,13 @@ HX: VERSION-0.0.5 released on January 15, 2014
 HX: VERSION-0.0.6 released on February 16, 2014
 HX: VERSION-0.0.7 released on March 30, 2014
 HX: VERSION-0.0.8 released on Sunday, May 4, 2014
+//
+HX: VERSION-0.1.0 released on Monday, June 9, 2014
+//
 *)
 #define PATS_MAJOR_VERSION 0
 #define PATS_MINOR_VERSION 1
-#define PATS_MICRO_VERSION 0
+#define PATS_MICRO_VERSION 1
 (*
 //
 // HX-2011-04-27: this is supported in Postiats:

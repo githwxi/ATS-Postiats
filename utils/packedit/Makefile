@@ -31,7 +31,8 @@ SOURCES_DATS += main_unpack.dats
 
 ######
 
-all:: main_pack
+all:: \
+main_pack
 main_pack: \
   packing_sats.o \
   packing_dats.o \
@@ -40,7 +41,8 @@ cleanall:: ; $(RMF) main_pack
 
 ######
 
-all:: main_unpack
+all:: \
+main_unpack
 main_unpack: \
   unpacking_sats.o \
   unpacking_dats.o \

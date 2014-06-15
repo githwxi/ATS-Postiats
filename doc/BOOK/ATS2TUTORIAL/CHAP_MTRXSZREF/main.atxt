@@ -17,7 +17,7 @@ Time of Generation: #timestamp()\
 
 #para("\
 
-I use the name #emphasis("matrix-with-size") to refer to a persistant
+I use the name #emphasis("matrix-with-size") to refer to a persistent
 matrix with attached dimension information (that is, number of rows and
 number of columns).  Given a viewtype VT, the type for a matrix-with-size
 that contains M rows and N columns of elements of viewtype VT is
@@ -64,13 +64,13 @@ j, v)") can be written as #dyncode("M[i,j]") and #dyncode("M[i,j] := v"),
 respectively. Notice that matrix-bounds checking is performed at run-time
 whenever #dyncode("mtrxszref_get_at") or #dyncode("mtrxszref_set_at") is
 called, and the exception #dyncode("MatrixSubscriptExn") is raised in case
-of out-of-bounds matrix access is detected.
+of out-of-bounds matrix access being detected.
 
 ')
 
 #para('\
 
-As a simple example, the following code implements a functiont that
+As a simple example, the following code implements a function that
 transpose the content of the matrix inside a given matrix-with-size:
 
 #atscode('\
@@ -91,8 +91,8 @@ fun loop
 ) : void =
   if j < n then let
     val x = M[i,j]
-    val () = M[j,i] := M[i,j]
-    val () = M[i,j] := x
+    val () = M[i,j] := M[j,i]
+    val () = M[j,i] := x
   in
     loop (i, succ(j))
   end else let

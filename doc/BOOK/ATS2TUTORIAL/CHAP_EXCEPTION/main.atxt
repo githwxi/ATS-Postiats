@@ -45,7 +45,7 @@ be raised and then captured.
 #para('\
 
 Let us now take a look at the following code that implements a function
-for finding the rightmost element in a list that satisifes a given predicate:
+for finding the rightmost element in a list that satisfies a given predicate:
 
 #atscode('\
 extern

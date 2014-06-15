@@ -159,7 +159,13 @@ val symbol_ATSPKGRELOCROOT : symbol
 //
 val symbol_ATS_PACKNAME : symbol
 //
+(*
+//
+// HX-2014-06-06:
+// this one is no longer in use
+//
 val symbol_ATS_STALOADFLAG : symbol
+*)
 val symbol_ATS_DYNLOADFLAG : symbol
 //
 val symbol_ATS_EXTERN_PREFIX : symbol

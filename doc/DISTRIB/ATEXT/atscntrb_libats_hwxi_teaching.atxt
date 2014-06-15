@@ -120,11 +120,18 @@ ATSCNTRB/libats-/hwxi/teaching\
 (* ****** ****** *)
 
 #packfilename("mythread/SATS/channel.sats")
-#packfilename("mythread/SATS/mythread.sats")
+#packfilename("mythread/SATS/spinref.sats")
+#packfilename("mythread/SATS/spinvar.sats")
+#packfilename("mythread/SATS/nwaiter.sats")
+#packfilename("mythread/SATS/workshop.sats")
+#packfilename("mythread/SATS/parallelize.sats")
 
 #packfilename("mythread/DATS/channel.dats")
-#packfilename("mythread/DATS/mythread.dats")
-#packfilename("mythread/DATS/mythread_posix.dats")
+#packfilename("mythread/DATS/spinref.dats")
+#packfilename("mythread/DATS/spinvar.dats")
+#packfilename("mythread/DATS/nwaiter.dats")
+#packfilename("mythread/DATS/workshop.dats")
+#packfilename("mythread/DATS/parallelize.dats")
 
 (* ****** ****** *)
 

@@ -256,10 +256,11 @@ case+ xs of
     in
       // nothing
     end else let
-      val () = strptr_free_null (x)
+      prval () =
+        strptr_free_null (x)
       val xs1 = xs1
       val () = free@ {..}{0} (xs)
-      val () = xs := xs1
+      val ((*void*)) = (xs := xs1)
     in
       loop (xs)
     end // end of [if]
@@ -293,6 +294,129 @@ case+ xs of
   end // end of [_]
 //
 end // end of [strptrlst_concat]
+
+#atscode_separator()
+
+implement
+{env}(*tmp*)
+strnptr_foreach$cont (c, env) = true
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+strnptr_foreach (str) = let
+  var env: void = () in strnptr_foreach_env<void> (str, env)
+end // end of [strnptr_foreach]
+
+#atscode_separator()
+
+implement
+{env}(*tmp*)
+strnptr_foreach_env
+  {n} (str, env) = let
+//
+fun loop
+(
+  p: ptr, env: &env >> _
+) : ptr = let
+//
+\#define NUL '\000'
+//
+val c = $UN.ptr0_get<Char> (p)
+//
+in
+//
+if
+(c != NUL)
+then let
+  val (pf, fpf | p) =
+    $UN.ptr0_vtake{charNZ}(p)
+  val cont =
+    strnptr_foreach$cont<env> (!p, env)
+  // end of [val]
+in
+  if cont
+    then let
+      val () =
+      strnptr_foreach$fwork<env> (!p, env)
+      prval ((*void*)) = fpf (pf)
+    in
+      loop (ptr_succ<char> (p), env)
+    end // end of [then]
+    else let
+      prval ((*void*)) = fpf (pf) in (p)
+    end // end of [else]    
+end // end of [then]
+else (p) // end of [else]
+//
+end // end of [loop]
+//
+val p0 = ptrcast(str)
+//
+in
+  $UN.cast{sizeLte(n)}(loop (p0, env) - p0)
+end // end of [strnptr_foreach_env]
+
+#atscode_separator()
+
+implement
+{env}(*tmp*)
+strnptr_rforeach$cont (c, env) = true
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+strnptr_rforeach (str) = let
+  var env: void = () in strnptr_rforeach_env<void> (str, env)
+end // end of [strnptr_rforeach]
+
+#atscode_separator()
+
+implement
+{env}(*tmp*)
+strnptr_rforeach_env
+  {n} (str, env) = let
+//
+fun loop
+(
+  p0: ptr, p1: ptr, env: &env >> _
+) : ptr = let
+in
+//
+if
+(p1 > p0)
+then let
+  val p2 = ptr_pred<char> (p1)
+  val (pf, fpf | p2) =
+    $UN.ptr0_vtake{charNZ}(p2)
+  val cont =
+    strnptr_rforeach$cont<env> (!p2, env)
+  // end of [val]
+in
+  if cont
+    then let
+      val () =
+      strnptr_rforeach$fwork<env> (!p2, env)
+      prval ((*void*)) = fpf (pf)
+    in
+      loop (p0, p2, env)
+    end // end of [then]
+    else let
+      prval ((*void*)) = fpf (pf) in (p1)
+    end // end of [else]    
+end // end of [then]
+else (p1) // end of [else]
+//
+end // end of [loop]
+//
+val p0 = ptrcast(str)
+val p1 = ptr_add<char> (p0, length(str))
+//
+in
+  $UN.cast{sizeLte(n)}(p1 - loop (p0, p1, env))
+end // end of [strnptr_rforeach_env]
 
 #atscode_separator()
 

@@ -67,7 +67,6 @@ val () = print_newline ()
 
 (* ****** ****** *)
 
-#declnamesynop(".ref")
 #declnamesynop("array0_get_ref")
 #decldescrpt('\
 

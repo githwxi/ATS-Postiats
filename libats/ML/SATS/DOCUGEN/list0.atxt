@@ -657,8 +657,10 @@ function:
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
-implement{a}
-list0_reverse (xs) = $effmask_all (
+implement
+{a}(*tmp*)
+list0_reverse
+  (xs) = $effmask_all (
   list0_foldleft<a><list0(a)> (xs, list0_nil, lam (res, x) => list0_cons (x, res))
 ) // end of [list0_reverse]
 ')
@@ -904,6 +906,17 @@ The implementation of this function in ATSLIB is tail-recursive.\
 
 (* ****** ****** *)
 
+#declnamesynop("list0_mapcons")
+#decldescrpt("\
+
+Give an element x0 and a list xss of lists, this function returns another
+list of lists that can also be obtained by applying #dyncode("list0_map")
+to xss and the function #dyncode("lam(xs) => list0_cons(x0, xs)").\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_imap")
 #decldescrpt("\
 
@@ -957,8 +970,10 @@ Following is a standard implementation of this function:
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
-implement{a1,a2}{b}
-list0_map2 (xs1, xs2, f) = let
+implement
+{a1,a2}{b}
+list0_map2
+  (xs1, xs2, f) = let
 in
 //
 case+ xs1 of
@@ -992,7 +1007,7 @@ staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 //
 implement
-{x,y}
+{x,y}(*tmp*)
 list0_zip (xs, ys) = let
 in
 //

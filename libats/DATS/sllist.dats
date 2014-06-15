@@ -88,10 +88,12 @@ sllist1_decode
 //
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 sllist_nil () = sllist0_encode (gnode_null ())
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_sing (x) = sllist_cons<a> (x, sllist_nil ())
 
 (* ****** ****** *)
@@ -134,8 +136,10 @@ end // end of [sllist_unsnoc]
 
 (* ****** ****** *)
 
-implement{a}
-sllist_make_list (xs) = let
+implement
+{a}(*tmp*)
+sllist_make_list
+  {n}(xs) = let
 //
 fun loop (
   nx0: g2node1 (a), xs: List (a)
@@ -173,8 +177,16 @@ case+ xs of
 end // end of [sllist_make_list]
 
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+sllist_make_list_vt
+  {n}(xs) = $UN.castvwtp0{sllist(a,n)}(xs)
+//
+(* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 sllist_is_nil
   {a}{n} (xs) = let
   val nxs = $UN.castvwtp1{g2node0(a)}(xs)
@@ -182,7 +194,8 @@ in
   $UN.cast{bool(n==0)}(gnodelst_is_nil (nxs))
 end // end of [sllist_is_nil]
 
-implement{}
+implement
+{}(*tmp*)
 sllist_is_cons
   {a}{n} (xs) = let
   val nxs = $UN.castvwtp1{g2node0(a)}(xs)
@@ -197,7 +210,8 @@ fun{a:vt0p}
 sllist_length
   {n:int} (xs: !sllist (INV(a), n)):<> int (n)
 *)
-implement{a}
+implement
+{a}(*tmp*)
 sllist_length
   {n} (xs) = let
 //
@@ -209,7 +223,8 @@ end // end of [sllist_length]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_get_elt
   (xs) = let
   val p_elt =
@@ -217,7 +232,8 @@ sllist_get_elt
   // end of [val]
 end // end of [sllist_get_elt]
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_set_elt
   (xs, x0) = let
   val p_elt = 
@@ -225,7 +241,8 @@ sllist_set_elt
   // end of [val]
 end // end of [sllist_set_elt]
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_getref_elt (xs) = let
   val nxs =
     $UN.castvwtp1{g2node1(a)}(xs) in gnode_getref_elt (nxs)
@@ -234,7 +251,8 @@ end // end of [sllist_getref_elt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_getref_next (xs) = let
   val nxs =
     $UN.castvwtp1{g2node1(a)}(xs) in cptr2ptr (gnode_getref_next (nxs))
@@ -243,7 +261,8 @@ end // end of [sllist_getref_next]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_get_elt_at
   (xs, i) = let
   val p_elt =
@@ -251,7 +270,8 @@ sllist_get_elt_at
   // end of [val]
 end // end of [sllist_get_elt_at]
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_set_elt_at
   (xs, i, x0) = let
   val p_elt = 
@@ -259,7 +279,8 @@ sllist_set_elt_at
   // end of [val]
 end // end of [sllist_set_elt_at]
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_getref_elt_at
   (xs, i) = let
 //
@@ -282,7 +303,8 @@ end // end of [sllist_getref_elt_at]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_getref_at (xs, i) = let
 //
 fun loop (
@@ -307,7 +329,8 @@ end // end of [sllist_getref_at]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_insert_at
   {n} (xs, i, x0) = let
   var xs = xs
@@ -322,7 +345,8 @@ end // end of [sllist_insert_at]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_takeout_at
   {n} (xs, i) = let
   val p_i = sllist_getref_at (xs, i)
@@ -340,7 +364,8 @@ end // end of [sllist_takeout_at]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_append
   {n1,n2} (xs1, xs2) = let
 //
@@ -374,7 +399,8 @@ end // end of [sllist_append]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_reverse (xs) = let
 in
   sllist_reverse_append (xs, sllist_nil ())
@@ -382,7 +408,8 @@ end // end of [sllist_reverse]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_reverse_append
   (xs1, xs2) = let
 //
@@ -427,7 +454,8 @@ end // end of [sllist_reverse_append]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_free (xs) = let
 //
 fun loop (
@@ -541,10 +569,12 @@ end // end of [sllist_foreach_env]
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 fprint_sllist$sep
   (out) = fprint_string (out, "->")
-implement{a}
+implement
+{a}(*tmp*)
 fprint_sllist (out, xs) = let
 //
 fun loop (
@@ -599,7 +629,8 @@ g2node_encode {a:vt0p} (nx: slnode (INV(a))):<> g2node1 (a)
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 g2node_make_elt
   (x) = let
 in
@@ -608,20 +639,23 @@ end // end of [g2node_make_elt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 g2node_free (nx) = let
   val nx = g2node_decode (nx)
   val~SLNODE (_, _) = (nx) in (*nothing*)
 end // end of [g2node_free]
 
-implement{a}
+implement
+{a}(*tmp*)
 g2node_free_elt
   (nx, res) = let
   val nx = g2node_decode (nx)
   val~SLNODE (x, _) = (nx); val () = res := x in (*nothing*)
 end // end of [g2node_free_elt]
 
-implement{a}
+implement
+{a}(*tmp*)
 g2node_getfree_elt
   (nx) = let
   val nx = g2node_decode (nx)
@@ -676,7 +710,8 @@ gnode_link11<mytkind><a>
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_cons_ngc
   (nx0, xs) = let
 //
@@ -687,7 +722,8 @@ in
   sllist0_encode (nx0)
 end // end of [sllist_cons_ngc]
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_uncons_ngc
   (xs) = let
 //
@@ -701,7 +737,8 @@ end // end of [sllist_uncons_ngc]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_snoc_ngc
   {n} (xs, nx0) = let
 //
@@ -729,7 +766,8 @@ end // end of [sllist_snoc_ngc]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 sllist_unsnoc_ngc
   {n} (xs) = let
 //

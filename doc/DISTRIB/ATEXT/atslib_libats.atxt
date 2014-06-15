@@ -155,6 +155,7 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("SATS/hashtbl_chain.sats")
+#packfilename("SATS/hashtbl_linprb.sats")
 
 (* ****** ****** *)
 
@@ -277,6 +278,7 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("DATS/hashtbl_chain.dats")
+#packfilename("DATS/hashtbl_linprb.dats")
 
 (* ****** ****** *)
 
@@ -344,6 +346,15 @@ The ATSLIB/libats library\
 #packfilename("DATS/SHARE/linmap.hats")
 #packfilename("DATS/SHARE/linmap_node.hats")
 #packfilename("DATS/SHARE/linheap.hats")
+
+(* ****** ****** *)
+
+(*
+** Abstract thread interface
+*)
+#packfilename("SATS/athread.sats")
+#packfilename("DATS/athread.dats")
+#packfilename("DATS/athread_posix.dats")
 
 (* ****** ****** *)
 

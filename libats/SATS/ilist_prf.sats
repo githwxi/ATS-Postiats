@@ -41,10 +41,6 @@
 //
 (* ****** ****** *)
 
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
-
-(* ****** ****** *)
-
 datasort ilist =
   | ilist_nil of () | ilist_cons of (int, ilist)
 // end of [ilist]

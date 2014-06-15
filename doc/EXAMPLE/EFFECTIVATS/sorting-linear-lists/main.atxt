@@ -1,0 +1,463 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-sorting-linear-lists</title>
+#patscode_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS: Sorting Linear Lists
+</h1>
+
+In this article, I present an implementation of merge-sort for sorting
+linear lists. While quick-sort is often preferred over merge-sort for
+sorting arrays, the latter is likely to be the chosen one for sorting
+lists. When employed to sort an array, a serious weakness of merge-sort
+lies in its need for additional memory (proportional to the size of the
+array) in order to perform merging operations. This weakness does not exist
+when merge-sort is called to sort lists. Some strengths of merge-sort
+include its being a stable sorting algorithm and its (worst-case)
+time-complexity being O(n(log(n)).
+
+<h2>
+An abstract interface for linear lists
+</h2>
+
+In ATS, [list_vt] is declared as a dataviewtype (that is, linear datatype)
+for singly-linked lists.  However, I do not want to make direct use of
+[list_vt] here as I intend to give an implementation of merge-sort for
+sorting abstract linear lists. So I first introduce an abstract interface
+for linear lists to be used in this implementation.
+
+<p>
+
+Two abstract types are introduced as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+absvtype mynode(l:addr) = ptr(l)
+absvtype mylist(l:addr, n:int) = ptr(l)
+')</pre>
+
+Given a non-null address L , the type [mynode(L)] is for a list-node
+located L. Given a non-null address L and an integer N, the type
+[mylist(L, N)] is for a list of length N whose first node is located at L.
+Some properties on the parameters of [mylist] are captured by the following
+two proof functions:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+praxi
+lemma_mylist_param
+  {l:addr}{n:int}
+  (xs: !mylist(l, n)): [l >= null; n >= 0] void
+//
+praxi
+lemma_mylist_param2
+  {l:addr}{n:int}
+(
+  xs: !mylist(l, n)
+) : [(l==null && n==0) || (l > null && n > 0)] void
+')</pre>
+
+The two standard list-constructors are assigned the following types:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+mylist_nil ()
+  : mylist(null, 0) = "mac\#atspre_ptr_null"
+//
+fun{}
+mylist_cons
+  {l1,l2:addr}{n:nat}
+(
+  !mynode(l1) >> mylist(l1,n+1), mylist(l2, n)
+) :<!wrt> void // end of [mylist_cons]
+//
+')</pre>
+
+It is clear that [mylist_cons] needs to perform some assignments so as to
+connect a given node (its first argument) to a given list (its second
+argument). Sometimes, a given node and a given list are already connected,
+requiring no assignments to be performed.  The following proof funtion
+[_mylist_cons] is introduced precisely for handling such a case:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+prfun
+_mylist_cons
+  {l1,l2:addr}{n:nat}
+(
+  !mynode(l1) >> mylist(l1, n+1), mylist(l2, n)
+) :<prf> void // end of [_mylist_cons]
+//
+')</pre>
+
+Also, [mylist_cons2] is introduced as a variant of [mylist_cons]:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun{}
+mylist_cons2
+  {l1,l2:addr}{n:nat}
+  (x_hd: mynode(l1), xs_tl: mylist(l2, n)):<!wrt> mylist(l1, n+1)
+//
+')</pre>
+
+The deconstructors for [mylist], which do the opposite of what the
+constructors do, are declared as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+prfun
+mylist_unnil
+  {l:addr} (mylist(l,0)): void
+//
+fun{}
+mylist_uncons
+  {l:addr}
+  {n:int | n > 0}
+(
+  xs: !mylist(l, n) >> mynode(l)
+) : mylist(n-1) // end-of-fun
+//
+')</pre>
+
+The meaning of [mylist_unnil] and [mylist_uncons] can be readily
+inferred from the types assigned to them. As a variant of [mylist_uncons],
+[mylist_uncons2] is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun{}
+mylist_uncons2
+  {l:addr}
+  {n:int | n > 0}
+  (xs: mylist(l, n)): (mynode(l), mylist(n-1))
+//
+')</pre>
+
+To see how the constructors and deconstructors for [mylist] can be used,
+let us implement a function template [mylist_length] for computing the
+length of a given list:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun{}
+mylist_length{n:int} (xs: !mylist(n)): int(n)
+//
+')</pre>
+
+As the implementation for [mylist_cons] and [mylist_uncons] can be made
+available only after a concrete representation of [mylist] is chosen,
+functions that call either [mylist_cons] or [mylist_uncons] may not be
+properly compiled. Therefore, it is important to declare [mylist_length] as
+a function template (so that only its instances need to be compiled). An
+implementation of [mylist_length] is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+{}(*tmp*)
+mylist_length (xs) = let
+//
+fun loop
+  {i,j:nat} .<i>.
+(
+  xs: !mylist(i), j: int(j)
+) : int(i+j) =
+if
+isneqz (xs)
+then let
+  val xs2 = mylist_uncons (xs)
+  val res = loop (xs2, j + 1)
+  prval () = _mylist_cons (xs, xs2)
+in
+  res
+end // end of [then]
+else (j) // end of [else]
+//
+prval () = lemma_mylist_param (xs)
+//
+in
+  loop (xs, 0)
+end // end of [mylist_length]
+')</pre>
+
+Note that the symbol [isneqz] is overloaded with the following function:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+fun
+mylist_isnot_nil
+  {l:addr}{n:int}
+  (xs: !mylist(l,n)): bool(n > 0) = "mac\#atspre_ptr_isnot_null"
+')</pre>
+
+Please find in mylist.dats the entirety of the presented abstract interface
+for linear lists.
+
+<h2>
+Merge-sort for sorting abstract linear lists
+</h2>
+
+The following
+function template [mylist_mergesort] performs
+merge-sort on mylist-values (representing linear lists):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+fun{}
+mylist_mergesort{n:int} (xs: mylist(n)): mylist(n)
+')</pre>
+
+And an implementation of [mylist_mergesort] is given below:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+{}(*tmp*)
+mylist_mergesort
+  (xs) = let
+//
+val n = mylist_length (xs)
+//
+in
+  mylist_msort (xs, n)
+end // end of [mylist_mergesort]
+')</pre>
+
+where [mylist_msort] is declared to be of the following type:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+fun{}
+mylist_msort{n:int}
+  (xs: mylist(n), n: int(n)): mylist(n)
+')</pre>
+
+The code implements [mylist_msort] is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+{}(*tmp*)
+mylist_msort
+  (xs, n) = let
+in
+//
+if n >= 2
+  then let
+//
+    val n1 = half (n)
+//
+    val (xs1, xs2) = mylist_split (xs, n1)
+//
+    val xs1 = mylist_msort (xs1, n1)
+    and xs2 = mylist_msort (xs2, n-n1)
+//
+  in
+    mylist_merge (xs1, xs2)
+  end // end of [then]
+  else xs // end of [else]
+// end of [if]
+end // end of [mylist_msort]
+')</pre>
+
+where [mylist_split] splits a list into two and
+[mylist_merge] merges two sorted lists into one.
+
+<p>
+
+The function template [mylist_split] is declared
+as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun{}
+mylist_split
+  {n:int}{k:nat | k <= n}
+  (xs: mylist(n), k: int(k)): (mylist(k), mylist(n-k))
+//
+')</pre>
+
+And the following code implements [mylist_split]:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+{}(*tmp*)
+mylist_split
+  (xs, k) = let
+in
+//
+if
+k = 0
+then (mylist_nil (), xs)
+else let
+  val xs_tl =
+    mylist_uncons (xs)
+  val (xs1, xs2) =
+    mylist_split (xs_tl, k-1)
+in
+  (mylist_cons2 (xs, xs1), xs2)
+end // end of [else]
+//
+end // end of [mylist_split]
+')</pre>
+
+<p>
+
+The function template [mylist_merge] is declared
+as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun{}
+mylist_merge
+  {n1,n2:int}
+  (xs1: mylist(n1), xs2: mylist(n2)): mylist(n1+n2)
+//
+')</pre>
+
+And the following code implements [mylist_merge]:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+{}(*tmp*)
+mylist_merge
+  (xs1, xs2) = let
+//
+prval () = lemma_mylist_param (xs1)
+prval () = lemma_mylist_param (xs2)
+//
+in
+//
+if
+isneqz(xs1)
+then (
+if
+isneqz(xs2)
+then let
+  val xs1_tl = mylist_uncons (xs1)
+  val xs2_tl = mylist_uncons (xs2)
+  val sgn = compare_mynode_mynode (xs1, xs2)
+in
+  if sgn <= 0
+    then let
+      prval () = _mylist_cons (xs2, xs2_tl)
+    in
+      mylist_cons2 (xs1, mylist_merge (xs1_tl, xs2))
+    end // end of [then]
+    else let
+      prval () = _mylist_cons (xs1, xs1_tl)
+    in
+      mylist_cons2 (xs2, mylist_merge (xs1, xs2_tl))
+    end // end of [else]
+end // end of [then]
+else let
+  prval () = mylist_unnil (xs2) in xs1
+end // end of [else]
+) (* end of [then] *)
+else let
+  prval () = mylist_unnil (xs1) in xs2
+end // end of [else]
+//
+end // end of [mylist_merge]
+')</pre>
+
+Note that [compare_mynode_mynode] is a function template
+for comparing values stored in two given list-nodes.
+
+<p>
+
+I want to point out that neither [merge_split] nor [mylist_merge] is
+currently implemented as a tail-recursive function. This is primarily for
+the sake of giving a more accessible presentation.  However, it should be
+an interesting and rewarding exercise to re-implement both [merge_split]
+and [mylist_merge] as tail-recursive functions.
+
+<p>
+
+Please find in mylist_mergesort.dats the entirety of the presented
+implementation of merge-sort for sorting abstract linear lists.
+
+<h2>
+Merge-sort for sorting singly-linked lists
+</h2>
+
+In order to merge-sort lists of a concrete representation, we need to
+implement [mylist_cons] and [mylist_uncons] based on that representation.
+Also, we need to implement [compare_mynode_mynode] base on the
+corresponding representaton for list-nodes.
+
+<p>
+
+Please see mergesort_list_vt.dats for a case where [mylist] is interpreted
+as [list_vt].  Also, please see mergesort_sllist.dats where [mylist] is
+interpreted as [sllist].
+
+<h2>
+A side note for quick-sort on singly-linked lists
+</h2>
+
+For those interested in quick-sort on linear lists, please study the code
+in the following files:
+
+<pre>
+mylist_quicklist.dats
+quicksort_list_vt.dats
+quicksort_sllist.dats
+</pre>
+
+which is largly parallel to the presented implementation of merge-sort.
+
+<p>
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}

@@ -34,7 +34,6 @@
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats.linset_listord"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 

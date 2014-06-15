@@ -30,12 +30,108 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 list_vt_mergesort$cmp
   (x1, x2) = gcompare_ref<a> (x1, x2)
 // end of [list_vt_mergesort$cmp]
 
-implement{a}
+#atscode_separator()
+//
+extern
+fun{
+a:vt0p
+} list_vt_insort
+  {n:int}(xs: list_vt (a, n)):<!wrt> list_vt (a, n)
+//
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+list_vt_insort
+  (xs) = let
+//
+fun
+insord
+{l0,l1,l2:addr}{n:nat} .<n>.
+(
+  pf1: a @ l1
+, pf2: list_vt (a, 0)? @ l2
+| xs0: &list_vt (a, n) >> list_vt (a, n+1)
+, nx0: list_vt_cons_unfold (l0, l1, l2), p1: ptr (l1), p2: ptr (l2)
+) :<!wrt> void = let
+in
+//
+case+ xs0 of
+| @list_vt_cons
+    (x0, xs1) => let
+    val sgn = list_vt_mergesort$cmp<a> (x0, !p1)
+  in
+    if sgn <= 0
+      then let
+        val () = insord (pf1, pf2 | xs1, nx0, p1, p2)
+        prval () = fold@ (xs0)
+      in
+        // nothing
+      end // end of [then]
+      else let
+        prval () = fold@ (xs0)
+        val () = (!p2 := xs0; xs0 := nx0)
+        prval () = fold@ (xs0)
+      in
+        // nothing
+      end // end of [else]
+    // end of [if]
+  end // end of [list_vt_cons]
+| ~list_vt_nil () =>
+  {
+    val () = xs0 := nx0
+    val () = !p2 := list_vt_nil ()
+    prval () = fold@ (xs0)
+  }
+//
+end (* end of [insord] *)
+//
+fun
+loop{m,n:nat} .<m>.
+(
+  xs: list_vt (a, m)
+, ys: &list_vt (a, n) >> list_vt (a, m+n)
+) :<!wrt> void = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val xs1_ = xs1
+    val ((*void*)) =
+      insord (view@x, view@xs1 | ys, xs, addr@x, addr@xs1)
+    // end of [val]
+  in
+    loop (xs1_, ys)
+  end // end of [list_vt_cons]
+| ~list_vt_nil ((*void*)) => ()
+//
+end // end of [loop]
+//
+prval () =
+lemma_list_vt_param (xs)
+//
+var ys = list_vt_nil{a}()
+val ((*void*)) = loop (xs, ys)
+//
+in
+  ys
+end // end of [list_vt_insort]
+
+#atscode_separator()
+
+\#define CUTOFF 12
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 list_vt_mergesort
   {n} (xs) = let
 //
@@ -103,7 +199,9 @@ val n = list_vt_length<a> (xs)
 //
 in
 //
-if n >= 2 then let
+if
+n >= CUTOFF
+then let
   val+@list_vt_cons (_, xs1) = xs
   var res: List_vt a? // uninitialized
   val () = split (xs1, half(n-1), res)
@@ -113,13 +211,15 @@ if n >= 2 then let
   val () = merge (xs1, xs2, res)
 in
   res
-end else xs // end of [if]
+end // end of [then]
+else list_vt_insort<a> (xs)
 //
 end // end of [list_vt_mergesort]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 list_vt_mergesort_fun
   (xs, cmp) = let
 //

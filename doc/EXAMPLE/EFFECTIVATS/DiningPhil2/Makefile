@@ -23,7 +23,7 @@ SOURCES_SATS += \
 SOURCES_DATS += \
   DiningPhil2.dats \
   DiningPhil2_fork.dats \
-  DiningPhil2_thread.dats \
+  DiningPhil2_mylib.dats \
 
 ######
 

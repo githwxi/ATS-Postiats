@@ -89,7 +89,13 @@ fun test_file_exists (path: NSH(string)): bool = "mac\#%"
 // [stat] is called to obtain the mode of a given file
 // for [f] to be applied to it.
 //
-fun test_file_mode (path: NSH(string), f: uint -> bool): int
+fun{}
+test_file_mode (path: NSH(string)): int
+//
+fun{} test_file_mode$pred (mode: uint): bool
+//
+fun test_file_mode_fun
+  (path: NSH(string), f: uint -> bool): int = "mac\#%"
 //
 // HX: [stat] is called // ~1/0/1: error/false/true
 //
@@ -222,10 +228,6 @@ fun fileref_put_charlst (inp: FILEref, cs: NSH(List(char))): void
 
 #atscode_separator()
 //
-fun{
-} fileref_get_line_string$bufsize (): intGte(1)
-fun{
-} fileref_get_file_string$bufsize (): intGte(1)
 //
 // HX-2013-05:
 // these functions are based on [fgets];
@@ -234,20 +236,40 @@ fun{
 //
 fun{
 } fileref_get_line_string (inp: FILEref): Strptr1
+//
 fun{
 } fileref_get_line_string_main
   (inp: FILEref, n: &int? >> int n): #[n:nat] strnptr (n)
-fun{
-} fileref_get_lines_stringlst (inp: FILEref): List0_vt (Strptr1)
+fun{}
+fileref_get_line_string$bufsize ((*void*)): intGte(1)
 //
 fun{
-} fileref_get_file_string (inp: FILEref): Strptr1
+} fileref_get_lines_stringlst (inp: FILEref): List0_vt (Strptr1)
 //
 #atscode_separator()
 //
 fun{
-} fileref_foreach$bufsize (): sizeGte(1)
+} fileref_get_file_string (inp: FILEref): Strptr1
+fun{}
+fileref_get_file_string$bufsize ((*void*)): intGte(1)
 //
+#atscode_separator()
+//
+fun{}
+fileref_get_word (inp: FILEref): Strptr0
+fun{}
+fileref_get_word$isalpha (c: charNZ): bool
+//
+#atscode_separator()
+//
+fun{}
+fileref_foreach (inp: FILEref): void
+fun{
+env:vt0p
+} fileref_foreach_env (inp: FILEref, env: &(env) >> _): void
+//
+fun{}
+fileref_foreach$bufsize (): sizeGte(1)
 fun{
 env:vt0p
 } fileref_foreach$fwork (c: char, env: &(env) >> _): void
@@ -255,12 +277,6 @@ fun{
 env:vt0p
 } fileref_foreach$fworkv
   {n:int} (arrayref(char, n), size_t(n), &(env) >> _): void
-//
-fun{
-} fileref_foreach (inp: FILEref): void
-fun{
-env:vt0p
-} fileref_foreach_env (inp: FILEref, env: &(env) >> _): void
 //
 #atscode_separator()
 

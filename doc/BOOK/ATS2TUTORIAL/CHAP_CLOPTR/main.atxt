@@ -117,7 +117,7 @@ Suppose that we apply #dyncode("acker2") to two integers 3 and 4:
 #dyncode("acker2(3)(4)"); the application #dyncode("acker2(3)") evaluates
 to a (non-linear) closure-function; the application of this
 closure-function to 4 evaluates #dyncode("acker(3,4)"), which further
-evaluates to the integer 125. Note that the closure-funtion generated from
+evaluates to the integer 125. Note that the closure-function generated from
 evaluating #dyncode("acker2(3)") becomes a heap-allocated value that is no
 longer accessible after the evaluation of #dyncode("acker2(3)(4)")
 finishes, and the memory for such a value needs to be reclaimed through
@@ -143,7 +143,7 @@ that automatically frees the linear closure-function generated from evaluating
 
 #para("\
 
-In ATS1, linear closure-functions play a pivtal role in supporting
+In ATS1, linear closure-functions play a pivotal role in supporting
 programming with higher-order functions in the absence of GC. Due to
 advanced support for templates in ATS2, the role played by linear
 closure-functions in ATS1 is greatly diminished. However, if

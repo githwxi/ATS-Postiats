@@ -131,6 +131,14 @@ ATSCNTRB/libats-/hwxi\
 #packfilename("cstream/DATS/cstream_fileref.dats")
 #packfilename("cstream/DATS/cstream_fileptr.dats")
 
+#packfilename("cstream/SATS/cstream_tokener.sats")
+#packfilename("cstream/DATS/cstream_tokener.dats")
+
+(* ****** ****** *)
+
+#packfilename("SIMD/SATS/v2df.sats")
+#packfilename("SIMD/CATS/v2df.cats")
+
 (* ****** ****** *)
 
 #packpostamble()

@@ -130,6 +130,24 @@ val () = assertloc (toupper 'a' = 'A')
 
 (* ****** ****** *)
 
+val () = {
+//
+val () = assertloc ('0' + 1 = '1')
+val () = assertloc ('0' + 5 = '5')
+val () = assertloc ('0' + 9 = '9')
+//
+val () = assertloc ('1' - 1 = '0')
+val () = assertloc ('5' - 5 = '0')
+val () = assertloc ('9' - 9 = '0')
+//
+val () = assertloc ('1' - '0' = 1)
+val () = assertloc ('5' - '0' = 5)
+val () = assertloc ('9' - '0' = 9)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

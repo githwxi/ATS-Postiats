@@ -47,8 +47,14 @@ fun the_PKGRELOC_set_decl (d0c: ptr): void
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2014-06-06:
+// [STALOADFLAG] is no longer in use
+//
 fun the_STALOADFLAG_get (): int
 fun the_STALOADFLAG_set (flag: int): void
+*)
 
 fun the_DYNLOADFLAG_get (): int
 fun the_DYNLOADFLAG_set (flag: int): void

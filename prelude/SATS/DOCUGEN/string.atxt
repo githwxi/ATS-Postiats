@@ -311,21 +311,26 @@ signed characters. ')
 #declnamesynop("neq_string_string")
 #decldescrpt('\
 
-This function returns true if and only if its first argument is unequal to
-its second argument according to the lexicographic ordering on
-signed characters. ')
+This function returns true if and only if its first argument is unequal
+to its second argument according to the lexicographic ordering on signed
+characters.\
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("compare_string_string")
 #decldescrpt('\
 
-This function returns ~1, 0 and 1 if and only if its first argument is less
-than, equal to and greater than its second argument according to the
-lexicographic ordering on signed characters. ')
+This function returns ~1, 0 and 1 if and only if its first argument is
+less than, equal to and greater than its second argument according to the
+lexicographic ordering on signed characters.\
 
 ')
-#declfunretval("An integer between ~1 (negative 1) and 1 is returned.")
+
+#declfunretval("\
+An integer between ~1 (negative 1) and 1, inclusive, is returned.\
+")
 
 (* ****** ****** *)
 
@@ -439,9 +444,22 @@ same as #dyncode("string0_length") but is assigned a more informative type.
 
 (* ****** ****** *)
 
+%{
+(*
 #declnamesynop("string_copy")
+*)
+%}
+
 #declnamesynop("string0_copy")
+#decldescrpt('\
+This function returns a linear string that is the copy of its argument.
+')
+
 #declnamesynop("string1_copy")
+#decldescrpt('\
+This function does the same as #dyncode("string0_copy") but is assigned
+a more accurate type.
+')
 
 (* ****** ****** *)
 
@@ -460,6 +478,17 @@ arguments. ')
 This function, which overloads the symbol #dyncode("string_append"), does
 the same as #dyncode("string0_append") but is assigned a more informative
 type.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("string_append3")
+
+#declnamesynop("string0_append3")
+#decldescrpt('\
+
+This function, which overloads the symbol #dyncode("string_append"),
+returns a linear string equal to the concatenation of its three string
+arguments. ')
 
 (* ****** ****** *)
 
@@ -760,6 +789,15 @@ string or null pointer.")
 
 (* ****** ****** *)
 
+#declnamesynop("g0ofg1")
+#declnamesynop("g1ofg0")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
 #declnamesynop("<")
 #declnamesynop("<=")
 #declnamesynop(">")
@@ -769,26 +807,17 @@ string or null pointer.")
 
 (* ****** ****** *)
 
-#declnamesynop("[]")
-
-(* ****** ****** *)
-
-#declnamesynop("g0ofg1")
-#declnamesynop("g1ofg0")
-
-(* ****** ****** *)
-
-#declnamesynop("iseqz")
-#declnamesynop("isneqz")
-
-(* ****** ****** *)
-
 #declnamesynop("compare")
 
 (* ****** ****** *)
 
 #declnamesynop(".head")
 #declnamesynop(".tail")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
 
 (* ****** ****** *)
 

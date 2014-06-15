@@ -81,8 +81,7 @@ staload "./pats_constraint3.sats"
 
 local
 //
-#include "./pats_lintprgm_myint_int.dats"
-#include "./pats_lintprgm_myint_intinf.dats"
+#include "./pats_lintprgm_myint.dats"
 //
 in (*nothing*) end
 
@@ -251,12 +250,12 @@ end // end of [val]
 //
 val (vim, n) = s2varindmap_make (s2vs)
 //
-// HX: [C3NSTRINTKIND] defined in [pats_params.hats]
+// HX: [C3NSTRINTKND] defined in [pats_params.hats]
 //
-#if C3NSTRINTKIND="intknd" #then
+#if C3NSTRINTKND="intknd" #then
 val ans = auxsolve<intknd> (loc0, vim, n, s3ps_asmp, s3p_conc)
-#elif C3NSTRINTKIND="intinfknd" #then
-val ans = auxsolve<intinfknd> (loc0, vim, n, s3ps_asmp, s3p_conc)
+#elif C3NSTRINTKND="gmpknd" #then
+val ans = auxsolve<gmpknd> (loc0, vim, n, s3ps_asmp, s3p_conc)
 #else
 val () = assertloc (false)
 val ans = 0 // HX: it is never executed at run-time

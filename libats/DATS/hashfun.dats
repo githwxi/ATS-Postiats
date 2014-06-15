@@ -52,7 +52,7 @@ inthash_jenkins (uint32): uint32
 *)
 /*
 uint32_t
-atscntrb_inthash_jenkins
+atslib_inthash_jenkins
   (uint32_t a)
 {
   a = (a+0x7ed55d16) + (a<<12);
@@ -64,9 +64,10 @@ atscntrb_inthash_jenkins
   return a;
 }
 */
-implement{}
+implement
+{}(*tmp*)
 inthash_jenkins (a) =
-  $extfcall (uint32, "atscntrb_inthash_jenkins", a)
+  $extfcall (uint32, "atslib_inthash_jenkins", a)
 //
 (* ****** ****** *)
 
@@ -77,10 +78,10 @@ string_hash_multiplier
   K: ulint, H0: ulint, str: string
 ) :<> ulint // endfun
 *)
-implement{}
-string_hash_multiplier (K, H0, str) = let
-//
-#define CNUL '\000'
+implement
+{}(*tmp*)
+string_hash_multiplier
+  (K, H0, str) = let
 //
 fun loop
 (
@@ -89,10 +90,9 @@ fun loop
   val c = $UN.ptr0_get<char> (p)
 in
 //
-if c > CNUL then
-(
-  loop (ptr_succ<char> (p), K*res + $UN.cast{ulint}(c))
-) else res // end of [if]
+if isneqz(c)
+  then loop (ptr_succ<char> (p), K*res + $UN.cast{ulint}(c))
+  else (res)
 //
 end // end of [loop]
 //

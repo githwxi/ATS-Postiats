@@ -162,6 +162,8 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gmatrix_row.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/hashtbl_chain.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/hashtbl_chain.dats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/hashtbl_linprb.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/hashtbl_linprb.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_avltree.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funset_avltree.dats
@@ -203,6 +205,12 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/lindeque_dllist.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linralist_nested.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linralist_nested.dats
+
+######
+
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/athread.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/athread.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/athread_posix.dats
 
 ######
 
