@@ -111,6 +111,23 @@ jsonval_labval4
   l1, x1, l2, x2, l3, x3, l4, x4
 ) = JSONlablist ((l1, x1) :: (l2, x2) :: (l3, x3) :: (l4, x4) :: list_nil)
 //
+implement
+jsonval_labval5
+(
+  l1, x1, l2, x2, l3, x3, l4, x4, l5, x5
+) = JSONlablist
+(
+  (l1, x1) :: (l2, x2) :: (l3, x3) :: (l4, x4) :: (l5, x5) :: list_nil
+)
+implement
+jsonval_labval6
+(
+  l1, x1, l2, x2, l3, x3, l4, x4, l5, x5, l6, x6
+) = JSONlablist
+(
+  (l1, x1) :: (l2, x2) :: (l3, x3) :: (l4, x4) :: (l5, x5) :: (l6, x6) :: list_nil
+)
+//
 (* ****** ****** *)
 //
 implement

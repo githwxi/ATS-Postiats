@@ -124,6 +124,27 @@ jsonval_labval4
 , l4: string, x4: jsonval
 ) : jsonval // end of [jsonval_labval4]
 //
+fun
+jsonval_labval5
+(
+  l1: string, x1: jsonval
+, l2: string, x2: jsonval
+, l3: string, x3: jsonval
+, l4: string, x4: jsonval
+, l5: string, x5: jsonval
+) : jsonval // end of [jsonval_labval5]
+//
+fun
+jsonval_labval6
+(
+  l1: string, x1: jsonval
+, l2: string, x2: jsonval
+, l3: string, x3: jsonval
+, l4: string, x4: jsonval
+, l5: string, x5: jsonval
+, l6: string, x6: jsonval
+) : jsonval // end of [jsonval_labval6]
+//
 (* ****** ****** *)
 
 fun
