@@ -1,7 +1,0 @@
---- Mini Projects ---
-
-linset_union: change underlying return type from List0_vt to 
-  listBtwe_vt (a, min(n1,n1), n1+n2)
-  where [n_min,n_sum:nat | n_min == min(n1, n2); n_sum == n1+n2]
-  But since we are working with sets, we'd need to implement set n.
-  Probably wills save this until it is needed.
