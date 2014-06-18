@@ -14,7 +14,7 @@ prfun SMI {P:int->prop}
 (* ****** ****** *)
 
 primplmnt
-SMI {P} (fpf) {n} = let
+SMI{P}(fpf){n} = let
 //
 propdef Q
   (n:int) = {k:nat | k <= n} P (k)

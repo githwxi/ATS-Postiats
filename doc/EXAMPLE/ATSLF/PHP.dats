@@ -33,16 +33,21 @@ sortdef int2rel = (int, int) -> prop
 (* ****** ****** *)
 
 prfun
-pigeonhole {
+pigeonhole
+{
   P:int2rel
 } {
   m,n:nat
 | m > n; n >= 1
-} .<m>. (
+} .<m>.
+(
   fpf: {i:nat | i < m} () -> [j:nat | j < n] P (i, j)
 ) : [
-  i1,i2,j:nat | i1 < i2; i2 < m
-] (P (i1, j), P (i2, j)) = let
+  i1,i2,j:nat
+| i1 < i2; i2 < m
+] (
+  P (i1, j), P (i2, j)
+) = let
 in
 //
 sif n >= 2 then let
