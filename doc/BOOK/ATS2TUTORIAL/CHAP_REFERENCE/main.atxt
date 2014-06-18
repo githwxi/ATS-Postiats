@@ -17,10 +17,10 @@ id="reference"
 
 #para("\
 
-A reference is essentially a heap-allocated array of size 1. It is
-persistent in the sense that the memory allocated for storing the content
-of a reference cannot be freed manually. Instead, it can only be (safely)
-reclaimed through garbage collection (GC).
+A reference is a singleton array, that is, an array of size 1.  It is
+persistent in the sense that the (heap-allocated) memory for storing the
+content of a reference cannot be freed manually in a type-safe
+manner. Instead, it can only be reclaimed through garbage collection (GC).
 
 ")
 

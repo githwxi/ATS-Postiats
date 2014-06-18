@@ -258,7 +258,7 @@ s3exp_ipred (s3e) = s3exp_iadd (s3e, s3exp_neg_1)
 (* ****** ****** *)
 
 implement
-s3exp_gte (x1, x2) = let
+s3exp_isgte (x1, x2) = let
 (*
 // HX: for supporting S3Eisum
 *)
@@ -299,7 +299,7 @@ case+ x1 of
 //
 | _(*unrecognized*) => false
 //
-end // end of [s3exp_gte]
+end // end of [s3exp_isgte]
 
 (* ****** ****** *)
 
@@ -329,11 +329,11 @@ s3exp_isum_pair (
 ) : s3exp = let
   val y1 = uns3exp_icff (x1)
   and y2 = uns3exp_icff (x2)
-  val gte12 = s3exp_gte (y1, y2)
+  val gte12 = s3exp_isgte (y1, y2)
 in
 //
 if gte12 then let
-  val gte21 = s3exp_gte (y2, y1)
+  val gte21 = s3exp_isgte (y2, y1)
 in
   if gte21 then
     s3exp_icff_add (x1, x2) else S3Eisum (list_pair (x1, x2))
@@ -358,10 +358,10 @@ fun aux (
     | list_cons (x2, xs21) => let
         val y1 = uns3exp_icff (x1)
         val y2 = uns3exp_icff (x2)
-        val gte12 = s3exp_gte (y1, y2)
+        val gte12 = s3exp_isgte (y1, y2)
       in
         if gte12 then let
-          val gte21 = s3exp_gte (y2, y1)
+          val gte21 = s3exp_isgte (y2, y1)
         in
           if gte21 then let
             val x12 = s3exp_icff_add (x1, x2)

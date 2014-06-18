@@ -126,14 +126,23 @@ fun s3explst_syneq (xs1: s3explst, xs2: s3explst): bool
 ** HX-2012-02-20:
 ** this one is used to implement S3Eisum
 *)
-fun s3exp_gte (x1: s3exp, x2: s3exp): bool
+fun s3exp_isgte (x1: s3exp, x2: s3exp): bool
 
 (* ****** ****** *)
 
 fun s3exp_err (s2t: s2rt): s3exp
 
+(* ****** ****** *)
+
 fun s3exp_var (s2v: s2var): s3exp
+fun s3exp_bvar (s2v: s2var): s3exp
+
+(* ****** ****** *)
+
 fun s3exp_cst (s2c: s2cst): s3exp
+
+(* ****** ****** *)
+
 fun s3exp_app (_fun: s3exp, _arg: s3explst): s3exp
 
 (* ****** ****** *)
@@ -155,7 +164,6 @@ and s3exp_neg_1 : s3exp
 (* ****** ****** *)
 
 fun s3exp_bool (b: bool): s3exp
-fun s3exp_bvar (s2v: s2var): s3exp
 fun s3exp_bneg (s3e: s3exp): s3exp
 fun s3exp_beq (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_bneq (s3e1: s3exp, s3e2: s3exp): s3exp

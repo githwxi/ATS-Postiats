@@ -89,6 +89,10 @@ end // end of [s3exp_var]
 
 (* ****** ****** *)
 
+implement s3exp_bvar (s2v) = S3Ebvar (s2v)
+
+(* ****** ****** *)
+
 implement
 s3exp_cst (s2c) = S3Ecst (s2c)
 
@@ -121,10 +125,6 @@ implement
 s3exp_bool (b) =
   if b then s3exp_true else s3exp_false
 // end of [s3exp_bool]
-
-(* ****** ****** *)
-
-implement s3exp_bvar (s2v) = S3Ebvar (s2v)
 
 (* ****** ****** *)
 
