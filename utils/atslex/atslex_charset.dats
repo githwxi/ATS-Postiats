@@ -3,6 +3,11 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"  
+//
+(* ****** ****** *)
 
 staload "./atslex.sats"
 
