@@ -104,14 +104,16 @@ ATSdynexn_dec(d2c) atstype_exncon d2c = { 0, "ats-exncon-name" }
 #define ATSmainats_argc_argv_envp_int(argc, argv, envp, err) err = mainats_argc_argv_envp_int(argc, argv, envp)
 
 /* ****** ****** */
-
+//
 extern
 void atsruntime_raise (void *exn) ;
 extern
 void atsruntime_handle_uncaughtexn (void *exn0) ;
 extern
 void atsruntime_handle_unmatchedval (char *msg0) ;
-
+extern
+void atsruntime_handle_unmatchedarg (char *msg0) ;
+//
 /* ****** ****** */
 
 #endif /* PATS_CCOMP_BASICS_H */
