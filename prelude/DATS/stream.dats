@@ -341,7 +341,7 @@ case+ !xs of
 ) : stream_con (b) // end of [$delay]
 //
 in
-  aux (xs, 0)
+  aux (0, xs)
 end // end of [stream_imap]
 
 implement
