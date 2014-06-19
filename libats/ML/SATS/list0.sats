@@ -379,10 +379,21 @@ list0_equal
 
 fun{a:t0p}
 list0_find_exn
-  (xs: list0 (INV(a)), p: cfun (a, bool)): a
+  (xs: list0 (INV(a)), p: cfun (a, bool)): (a)
 fun{a:t0p}
 list0_find_opt
   (xs: list0 (INV(a)), p: cfun (a, bool)): Option_vt (a)
+
+(* ****** ****** *)
+
+fun{
+a,b:t0p
+} list0_assoc_exn
+  (xys: list0 @(INV(a), b), x0: a, eq: cfun (a, a, bool)): (b)
+fun{
+a,b:t0p
+} list0_assoc_opt
+  (xys: list0 @(INV(a), b), x0: a, eq: cfun (a, a, bool)): Option_vt (b)
 
 (* ****** ****** *)
 

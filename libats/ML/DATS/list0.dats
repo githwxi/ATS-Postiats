@@ -46,7 +46,8 @@ staload "libats/ML/SATS/list0.sats"
 
 (* ****** ****** *)
 //
-implement{a}
+implement
+{a}(*tmp*)
 list0_make_sing (x) =
   list0_cons{a}(x, list0_nil)
 implement{a}
@@ -55,7 +56,8 @@ list0_make_pair (x1, x2) =
 //
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 list0_make_elt
   (n, x) = let
 //
@@ -63,15 +65,19 @@ val n = g1ofg0(n)
 //
 in
 //
-if n >= 0 then let
+if
+n >= 0
+then let
   val xs =
     $effmask_wrt (list_make_elt (n, x))
   // end of [val]
 in
   list0_of_list_vt (xs)
-end else // HX: n < 0
+end // end of [then]
+else let
+in
   $raise (IllegalArgExn"list0_make_elt:n")
-// end of [if]
+end // end of [else]
 //
 end // end of [list0_make_elt]
 
@@ -155,22 +161,27 @@ end // end of [list0_make_intrange_lrd]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 list0_make_arrpsz
   (psz) = list0_of_list_vt (list_make_arrpsz (psz))
 // end of [list0_make_arrpsz]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 print_list0 (xs) = fprint_list0<a> (stdout_ref, xs)
-implement{a}
+implement
+{a}(*tmp*)
 prerr_list0 (xs) = fprint_list0<a> (stderr_ref, xs)
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_list0 (out, xs) = fprint_list<a> (out, g1ofg0(xs))
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_list0_sep (out, xs, sep) = let
   val xs = g1ofg0(xs) in fprint_list_sep<a> (out, xs, sep)
 end // end of [fprint_list0_sep]
@@ -181,21 +192,25 @@ end // end of [fprint_list0_sep]
 //
 // HX: they have been declared as macros:
 //
-implement{a}
+implement
+{a}(*tmp*)
 list0_sing (x) = list0_cons{a}(x, list0_nil)
-implement{a}
+implement
+{a}(*tmp*)
 list0_pair (x1, x2) = list0_cons{a}(x1, list0_cons{a}(x2, list0_nil))
 *)
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 list0_is_nil (xs) = (
   case+ xs of
   | list0_cons _ => false | list0_nil () => true
 ) // end of [list0_is_nil]
 
-implement{a}
+implement
+{a}(*tmp*)
 list0_is_cons (xs) = (
   case+ xs of
   | list0_cons _ => true | list0_nil () => false
@@ -203,15 +218,18 @@ list0_is_cons (xs) = (
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 list0_is_empty (xs) = list0_is_nil<a> (xs)
 
-implement{a}
+implement
+{a}(*tmp*)
 list0_isnot_empty (xs) = list0_is_cons<a> (xs)
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 list0_head_exn
   (xs) = let
 in
@@ -220,16 +238,15 @@ in
   | list0_nil _ => $raise ListSubscriptExn()
 end // end of [list0_head_exn]
 
-implement{a}
+implement
+{a}(*tmp*)
 list0_head_opt
   (xs) = let
 in
 //
 case+ xs of
-| list0_cons
-    (x, _) => Some_vt{a}(x)
-  // end of [list0_cons]
-| list0_nil ((*void*)) => None_vt()
+| list0_nil () => None_vt()
+| list0_cons (x, _) => Some_vt{a}(x)
 //
 end // end of [list0_head_opt]
 
@@ -250,11 +267,8 @@ list0_tail_opt
 in
 //
 case+ xs of
-| list0_cons
-    (_, xs) =>
-    Some_vt{list0(a)}(xs)
-  // end of [list_cons]
-| list0_nil ((*void*)) => None_vt()
+| list0_nil () => None_vt()
+| list0_cons (_, xs) => Some_vt{list0(a)}(xs)
 //
 end // end of [list0_tail_opt]
 
@@ -283,10 +297,8 @@ val xs = g1ofg0_list(xs)
 in
 //
 case+ xs of
-| list_cons _ =>
-    Some_vt{a}(list_last(xs))
-  // end of [list_cons]
-| list_nil ((*void*)) => None_vt()
+| list_nil () => None_vt()
+| list_cons _ => Some_vt{a}(list_last(xs))
 //
 end // end of [list0_last_opt]
 
@@ -734,26 +746,69 @@ list0_equal
 
 (* ****** ****** *)
 
-implement{a}
-list0_find_exn (xs, p) = let
-in
-  case+ xs of
-  | list0_cons (x, xs) =>
-      if p (x) then x else list0_find_exn (xs, p)
-  | list0_nil () => $raise NotFoundExn()
-end // end of [list0_find_exn]
-
-implement{a}
-list0_find_opt (xs, p) = let
+implement
+{a}(*tmp*)
+list0_find_exn
+  (xs, p) = let
 in
 //
 case+ xs of
-| list0_cons (x, xs) => (
+| list0_cons
+    (x, xs) =>
+    if p (x) then x else list0_find_exn (xs, p)
+| list0_nil ((*void*)) => $raise NotFoundExn()
+//
+end // end of [list0_find_exn]
+
+implement
+{a}(*tmp*)
+list0_find_opt
+  (xs, p) = let
+in
+//
+case+ xs of
+| list0_cons (x, xs) =>
+  (
     if p (x) then Some_vt{a}(x) else list0_find_opt (xs, p)
   ) (* end of [list_cons] *)
-| list0_nil () => None_vt{a}((*void*))
+| list0_nil ((*void*)) => None_vt ()
 //
 end // end of [list0_find_opt]
+
+(* ****** ****** *)
+
+implement
+{a,b}(*tmp*)
+list0_assoc_exn
+  (xys, x0, eq) = let
+in
+//
+case+ xys of
+| list0_cons
+    (xy, xys) =>
+    if eq (x0, xy.0)
+      then xy.1 else list0_assoc_exn<a,b> (xys, x0, eq)
+    // end of [if]
+| list0_nil ((*void*)) => $raise NotFoundExn()
+//
+end // end of [list0_assoc_exn]
+
+implement
+{a,b}(*tmp*)
+list0_assoc_opt
+  (xys, x0, eq) = let
+in
+//
+case+ xys of
+| list0_cons (xy, xys) =>
+  (
+    if eq (x0, xy.0)
+      then Some_vt{b}(xy.1) else list0_assoc_opt<a,b> (xys, x0, eq)
+    // end of [if]
+  ) (* end of [list_cons] *)
+| list0_nil ((*void*)) => None_vt ()
+//
+end // end of [list0_assoc_opt]
 
 (* ****** ****** *)
 
