@@ -49,7 +49,8 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream2list (xs) = let
 //
 fun loop
@@ -78,7 +79,8 @@ end // end of [stream2list]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_nth_exn
   (xs, n) = let
 in
@@ -93,7 +95,8 @@ in
   | stream_nil () => $raise StreamSubscriptExn()
 end // end of [stream_nth_exn]
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_nth_opt
   (xs, n) = let
 in
@@ -102,7 +105,8 @@ end // end of [stream_nth_opt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_take_exn
   (xs, n) = let
 //
@@ -144,7 +148,8 @@ end // end of [stream_take_exn]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_drop_exn
   (xs, n) = let
 in
@@ -231,13 +236,16 @@ end // end of [stream_filter_con]
 
 in (* in of [local] *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_filter (xs) =
   $delay (stream_filter_con<a> (xs))
 // end of [stream_filter]
 
-implement{a}
-stream_filter_fun (xs, p) = let
+implement
+{a}(*tmp*)
+stream_filter_fun
+  (xs, p) = let
 //
 implement{a2}
 stream_filter$pred (x) = p($UN.cast{a}(x))
@@ -246,7 +254,8 @@ in
   stream_filter (xs)
 end // end of [stream_filter_fun]
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_filter_cloref (xs, p) = let
 //
 implement{a2}
@@ -365,18 +374,14 @@ end // end of [stream_map2_cloref]
 
 (* ****** ****** *)
 
-implement{a}
-stream_merge$cmp (x1, x2) = gcompare_val<a> (x1, x2)
-
-(* ****** ****** *)
-
 local
 
 #define :: stream_cons
 
 in (* in of [local] *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_merge
   (xs10, xs20) = $delay
 (
@@ -403,7 +408,8 @@ case+ !xs10 of
 
 end // end of [local]
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_merge_fun
   (xs1, xs2, cmp) = let
 //
@@ -415,7 +421,8 @@ in
   stream_merge (xs1, xs2)
 end // end of [stream_merge_fun]
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_merge_cloref
   (xs1, xs2, cmp) = let
 //
@@ -429,8 +436,9 @@ end // end of [stream_merge_cloref]
 
 (* ****** ****** *)
 
-implement{a}
-stream_mergeq$cmp (x1, x2) = gcompare_val<a> (x1, x2)
+implement
+{a}(*tmp*)
+stream_merge$cmp (x1, x2) = gcompare_val<a> (x1, x2)
 
 (* ****** ****** *)
 
@@ -440,7 +448,8 @@ local
 
 in (* in of [local] *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_mergeq
   (xs10, xs20) = $delay
 (
@@ -469,7 +478,8 @@ case+ !xs10 of
 
 end // end of [local]
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_mergeq_fun
   (xs1, xs2, cmp) = let
 //
@@ -481,7 +491,8 @@ in
   stream_mergeq (xs1, xs2)
 end // end of [stream_mergeq_fun]
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_mergeq_cloref
   (xs1, xs2, cmp) = let
 //
@@ -496,10 +507,62 @@ end // end of [stream_mergeq_cloref]
 (* ****** ****** *)
 
 implement
+{a}(*tmp*)
+stream_mergeq$cmp (x1, x2) = gcompare_val<a> (x1, x2)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+stream_tabulate () = let
+//
+fun
+aux{n:nat}
+(
+  n: int(n)
+) : stream(a) = $delay
+(
+  stream_cons{a}(stream_tabulate$fopr<a> (n), aux (n+1))
+)
+//
+in
+  aux (0)
+end // end of [stream_tabulate]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+stream_tabulate_fun (f) = let
+//
+implement
+{a2}(*tmp*)
+stream_tabulate$fopr (n) = $UN.cast{a2}(f(n))
+//
+in
+  stream_tabulate ()
+end // end of [stream_tabulate_fun]
+
+implement
+{a}(*tmp*)
+stream_tabulate_cloref (f) = let
+//
+implement
+{a2}(*tmp*)
+stream_tabulate$fopr (n) = $UN.cast{a2}(f(n))
+//
+in
+  stream_tabulate ()
+end // end of [stream_tabulate_cloref]
+
+(* ****** ****** *)
+
+implement
 {a}{env}
 stream_foreach$cont (x, env) = true
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_foreach (xs) = let
   var env: void = () in stream_foreach_env<a><void> (xs, env)
 end // end of [stream_foreach]
@@ -522,11 +585,16 @@ case+ !xs of
       stream_foreach$cont<a><env> (x, env)
     // end of [val]
   in
-    if test then let
-      val () = stream_foreach$fwork<a><env> (x, env)
-    in
-      loop (xs, env)
-    end else () // end of [if]
+    if test
+      then let
+        val () =
+          stream_foreach$fwork<a><env> (x, env)
+        // end of [val]
+      in
+        loop (xs, env)
+      end // end of [then]
+      else () // end of [else]
+    // end of [if]
   end // end of [stream_cons]
 //
 ) (* end of [loop] *)

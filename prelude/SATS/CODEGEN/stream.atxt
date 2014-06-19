@@ -179,6 +179,22 @@ stream_mergeq_cloref
 ) :<!laz> stream (a) // end of [stream_mergeq_cloref]
 
 #atscode_separator()
+
+fun{
+a:t0p
+} stream_tabulate (): stream(a)
+fun{
+a:t0p
+} stream_tabulate$fopr (n: intGte(0)): (a)
+
+fun{
+a:t0p
+} stream_tabulate_fun (f: intGte(0) -> a): stream(a)
+fun{
+a:t0p
+} stream_tabulate_cloref (f: intGte(0) -> a): stream(a)
+
+#atscode_separator()
 //
 fun{
 a:t0p}{env:vt0p
