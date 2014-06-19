@@ -272,18 +272,23 @@ end // end of [local]
 implement
 {a}{b}
 stream_map
-  (xs) = $delay (
+  (xs) = let
+//
+fun aux
+(
+  xs: stream (a)
+) :<!laz> stream (b) = $delay
 (
 case+ !xs of
-| stream_cons
-    (x, xs) => let
-    val y = stream_map$fopr<a><b> (x)
-  in
-    stream_cons{b}(y, stream_map<a><b> (xs))
-  end // end of [stream_cons]
 | stream_nil () => stream_nil ()
-) : stream_con (b)
-) // end of [stream_map]
+| stream_cons (x, xs) =>
+    stream_cons{b}(stream_map$fopr<a><b> (x), aux (xs))
+  // end of [stream_cons]
+) : stream_con (b) // end of [$delay]
+//
+in
+  aux (xs)
+end // end of [stream_map]
 
 implement
 {a}{b}
@@ -310,6 +315,62 @@ stream_map$fopr (x) = $UN.cast{b2}(f($UN.cast{a}(x)))
 in
   stream_map<a><b> (xs)
 end // end of [stream_map_cloref]
+
+(* ****** ****** *)
+
+implement
+{a}{b}
+stream_imap
+  (xs) = let
+//
+fun aux
+(
+  i: intGte(0), xs: stream (a)
+) :<!laz> stream (b) = $delay
+(
+case+ !xs of
+| stream_nil () => stream_nil ()
+| stream_cons
+    (x, xs) => let
+    val y =
+      stream_imap$fopr<a><b> (i, x)
+    // end of [val]
+  in
+    stream_cons{b}(y, aux (succ (i), xs))
+  end // end of [stream_cons]
+) : stream_con (b) // end of [$delay]
+//
+in
+  aux (xs, 0)
+end // end of [stream_imap]
+
+implement
+{a}{b}
+stream_imap_fun
+  (xs, f) = let
+//
+implement
+{a2}{b2}
+stream_imap$fopr
+  (i, x) = $UN.cast{b2}(f(i, $UN.cast{a}(x)))
+//
+in
+  stream_imap<a><b> (xs)
+end // end of [stream_imap_fun]
+
+implement
+{a}{b}
+stream_imap_cloref
+  (xs, f) = let
+//
+implement
+{a2}{b2}
+stream_imap$fopr
+  (i, x) = $UN.cast{b2}(f(i, $UN.cast{a}(x)))
+//
+in
+  stream_imap<a><b> (xs)
+end // end of [stream_imap_cloref]
 
 (* ****** ****** *)
 
