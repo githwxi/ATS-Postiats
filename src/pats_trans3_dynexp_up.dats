@@ -1566,11 +1566,14 @@ end // end of [d2exp_trup_arg_body]
 (* ****** ****** *)
 
 implement
-d2exp_trup_lam_dyn (d2e0) = let
+d2exp_trup_lam_dyn
+  (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val-D2Elam_dyn (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
+  val-D2Elam_dyn
+    (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
   val fc0 = FUNCLOfun () // default
-  val s2ep3tsd3e = d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
+  val s2ep3tsd3e =
+    d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
   val s2e_fun = s2ep3tsd3e.0
   val p3ts_arg = s2ep3tsd3e.1
   val d3e_body = s2ep3tsd3e.2
@@ -1578,12 +1581,17 @@ in
   d3exp_lam_dyn (loc0, s2e_fun, lin, npf, p3ts_arg, d3e_body)
 end // end of [d2exp_trup_lam_dyn]
 
+(* ****** ****** *)
+
 implement
-d2exp_trup_laminit_dyn (d2e0) = let
+d2exp_trup_laminit_dyn
+  (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val-D2Elaminit_dyn (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
+  val-D2Elaminit_dyn
+    (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
   val fc0 = FUNCLOclo (0) // default
-  val s2ep3tsd3e = d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
+  val s2ep3tsd3e =
+    d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
   val s2e_fun = s2ep3tsd3e.0
   val p3ts_arg = s2ep3tsd3e.1
   val d3e_body = s2ep3tsd3e.2
@@ -1609,7 +1617,8 @@ end // end of [d2exp_trup_laminit_dyn]
 (* ****** ****** *)
 
 implement
-d2exp_trup_lam_sta (d2e0) = let
+d2exp_trup_lam_sta
+  (d2e0) = let
   val loc0 = d2e0.d2exp_loc
   val-D2Elam_sta (s2vs, s2ps, d2e_body) = d2e0.d2exp_node
 //

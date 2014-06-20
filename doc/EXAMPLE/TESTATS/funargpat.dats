@@ -1,7 +1,6 @@
 //
 // Testing funarg-pattern
 //
-
 (* ****** ****** *)
 //
 #include
@@ -9,9 +8,9 @@
 //
 (* ****** ****** *)
 
-fun{
+fn{
 a:t@ype
-} head (cons (x, _): List(a)): a = x
+} head (list_cons (x, _): List0(a)): a = x
 
 (* ****** ****** *)
 
