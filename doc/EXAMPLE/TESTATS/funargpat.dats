@@ -10,7 +10,7 @@
 
 fn{
 a:t@ype
-} head (list_cons (x, _): List0(a)): a = x
+} head (list_cons (x, _): List1(a)): a = x
 
 (* ****** ****** *)
 

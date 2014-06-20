@@ -287,7 +287,8 @@ fun labp2at2cstlst_vt
   | list_cons
       (lp2t, lp2ts) => (
     case+ lp2t of
-    | LABP2ATnorm (l0, p2t) => let
+    | LABP2ATnorm
+        (l0, p2t) => let
         val l = l0.l0ab_lab and p2tc = p2at2cst (p2t)
       in
         list_vt_cons (LABP2ATCST (l, p2tc), labp2at2cstlst_vt lp2ts)

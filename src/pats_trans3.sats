@@ -213,6 +213,7 @@ fun p2atlst_syn_type (p2ts: p2atlst): s2explst
 fun p2at_trup_arg (p2t: p2at): p3at
 fun p2atlst_trup_arg
   (npf: int, p2ts: p2atlst): p3atlst
+//
 fun p2at_trdn_arg (p2t: p2at, s2e: s2exp): p3at
 fun p2atlst_trdn_arg {n:nat} (
   loc: loc_t, npf: int
@@ -230,9 +231,19 @@ fun guard_trdn
   (loc: loc_t, gval: bool, gtyp: s2exp): void
 // end of [guard_trdn]
 
+(* ****** ****** *)
+
 (*
 fun p3at_mutablize (p3t0: p3at): void // HX: var [pat] = ...
 *)
+
+(* ****** ****** *)
+
+fun
+funarg_patck_exhaust
+(
+  loc0: location, p2ts_arg: p2atlst, s2es_arg: s2explst
+) : void // end of [funarg_patck_exhaust]
 
 (* ****** ****** *)
 

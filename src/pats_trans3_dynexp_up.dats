@@ -80,6 +80,10 @@ staload "./pats_stacst2.sats"
   
 (* ****** ****** *)
 
+staload "./pats_patcst2.sats"
+
+(* ****** ****** *)
+
 staload "./pats_dynexp2.sats"
 staload "./pats_dynexp3.sats"
 
@@ -1497,7 +1501,33 @@ end // end of [d2exp_trup_vcopyenv]
 (* ****** ****** *)
 
 implement
-d2exp_trup_arg_body (
+funarg_patck_exhaust
+  (loc0, p2ts_arg, s2es_arg) =
+{
+//
+val p2tcs =
+  list_map_fun (p2ts_arg, p2at2cst)
+val cp2tcss =
+  p2atcstlst_comp ($UN.castvwtp1{p2atcstlst}(p2tcs))
+val ((*freed*)) = list_vt_free (p2tcs)
+val isexhaust =
+(
+  if list_vt_is_nil (cp2tcss) then true else false
+) : bool // end of [val]
+val () =
+if ~isexhaust then let
+  val cp2tcss = p2atcstlstlst_vt_copy (cp2tcss) in
+  trans3_env_add_patcstlstlst_false (loc0, CK_case_pos, cp2tcss, s2es_arg)
+end // end of [if] // end of [val]
+val ((*freed*)) = p2atcstlstlst_vt_free (cp2tcss)
+//
+} (* end of [funarg_patck_exhaust] *)
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_arg_body
+(
   loc0
 , fc0, lin, npf
 , p2ts_arg, d2e_body
@@ -1528,6 +1558,9 @@ val d2e_body = d2exp_s2eff_of_d2exp (d2e_body, s2fe)
 val (pfeff | ()) = the_effenv_push_lam (s2fe)
 //
 val s2es_arg = p2atlst_syn_type (p2ts_arg)
+//
+val () = funarg_patck_exhaust (loc0, p2ts_arg, s2es_arg)
+//
 val p3ts_arg = p2atlst_trup_arg (npf, p2ts_arg)
 //
 val (pfd2v | ()) = the_d2varenv_push_lam (lin)
