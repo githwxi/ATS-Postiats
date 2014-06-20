@@ -137,7 +137,7 @@ atsruntime_handle_unmatchedarg
   , "exit(ATS): unmatched funarg at run-time:\n%s\n", msg0
   ) ; exit(1) ;
   return ; // deadcode
-} // end of [atsruntime_handle_unmatchedarg]
+} /* end of [atsruntime_handle_unmatchedarg] */
 
 /* ****** ****** */
 
