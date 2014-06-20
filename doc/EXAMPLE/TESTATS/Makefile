@@ -74,6 +74,14 @@ cleanall:: ; $(RMF) fixedpoint
 
 ######
 
+all:: funargpat
+funargpat: funargpat.dats ; \
+  $(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+regress:: funargpat ; ./$<
+cleanall:: ; $(RMF) funargpat
+
+######
+
 all:: lazytest
 lazytest: lazytest_dats.c ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<

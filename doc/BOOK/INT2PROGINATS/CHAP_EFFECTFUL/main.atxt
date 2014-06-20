@@ -552,11 +552,11 @@ in OOP.\
 
 #para("\
 
-I myself think that the above counter implementation is of a rather poor
-style.  It is also possible to protect the integrity of a state by simply
-making it abstract.  I will present elsewhere another counter
+I myself think that the above counter implementation is of rather
+a poor style.  It is also possible to protect the integrity of a state by
+simply making it abstract.  I will present elsewhere another counter
 implementation based on a linear abstract type (that is, abstract viewtype
-in ATS), where counters can be created and then safely freed.
+in ATS), where counters can be created and then safely freed.\
 
 ")
 
