@@ -226,6 +226,33 @@ val kxs = list0_of_list_vt{(key,itm)}(kxs)
 
 implement
 {key,itm}
+fprint_hashtbl
+  (out, tbl) = let
+//
+implement
+$HT.fprint_hashtbl$sep<> = fprint_hashtbl$sep<>
+implement
+$HT.fprint_hashtbl$mapto<> = fprint_hashtbl$mapto<>
+//
+val tbl = htdecode (tbl)
+val () = $HT.fprint_hashtbl (out, tbl)
+prval () = $UN.cast2void (tbl)
+//
+in
+  // nothing
+end // end of [fprint_hashtbl]
+
+(* ****** ****** *)
+
+implement{}
+fprint_hashtbl$sep (out) = fprint (out, "; ")
+implement{}
+fprint_hashtbl$mapto (out) = fprint (out, "->")
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 hashtbl_listize1
   (tbl) = kxs where
 {

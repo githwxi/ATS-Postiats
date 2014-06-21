@@ -120,6 +120,20 @@ key,itm:t0p
 // end of [hashtbl_takeout_all]
 
 (* ****** ****** *)
+//
+fun{
+key,itm:t@ype
+} fprint_hashtbl
+  (out: FILEref, tbl: hashtbl (key, itm)): void
+//
+overload fprint with fprint_hashtbl
+//
+fun{}
+fprint_hashtbl$sep (out: FILEref): void // default: fprint("; ")
+fun{}
+fprint_hashtbl$mapto (out: FILEref): void // default: fprint("->")
+//
+(* ****** ****** *)
 
 fun{
 key,itm:t0p

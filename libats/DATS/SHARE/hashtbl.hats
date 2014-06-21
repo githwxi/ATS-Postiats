@@ -168,11 +168,6 @@ end // end of [hashtbl_remove]
 
 (* ****** ****** *)
 
-implement{}
-fprint_hashtbl$sep (out) = fprint (out, "; ")
-implement{}
-fprint_hashtbl$mapto (out) = fprint (out, "->")
-
 implement
 {key,itm}
 fprint_hashtbl
@@ -193,6 +188,13 @@ var env: int = 0
 in
   hashtbl_foreach_env<key,itm><int> (tbl, env)
 end // end of [fprint_hashtbl]
+
+(* ****** ****** *)
+
+implement{}
+fprint_hashtbl$sep (out) = fprint (out, "; ")
+implement{}
+fprint_hashtbl$mapto (out) = fprint (out, "->")
 
 (* ****** ****** *)
 

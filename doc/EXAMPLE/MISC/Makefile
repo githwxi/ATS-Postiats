@@ -118,6 +118,13 @@ clean:: ; $(RMF) monad_state_dats.o
 clean:: ; $(RMF) monad_state_dats.c
 cleanall:: ; $(RMF) monad_state monad_state.exe
 
+all:: morse_enum
+morse_enum: morse_enum.exe
+morse_enum.exe: morse_enum_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+morse_enum_dats.c: morse_enum.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output morse_enum_dats.c --dynamic morse_enum.dats
+clean:: ; $(RMF) morse_enum_dats.o
+clean:: ; $(RMF) morse_enum_dats.c
+cleanall:: ; $(RMF) morse_enum morse_enum.exe
 
 all:: passwdgen
 passwdgen: passwdgen.exe
@@ -190,6 +197,14 @@ wclines_dats.c: wclines.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output w
 clean:: ; $(RMF) wclines_dats.o
 clean:: ; $(RMF) wclines_dats.c
 cleanall:: ; $(RMF) wclines wclines.exe
+
+all:: word-chain
+word-chain: word-chain.exe
+word-chain.exe: word-chain_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+word-chain_dats.c: word-chain.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output word-chain_dats.c --dynamic word-chain.dats
+clean:: ; $(RMF) word-chain_dats.o
+clean:: ; $(RMF) word-chain_dats.c
+cleanall:: ; $(RMF) word-chain word-chain.exe
 
 
 ######
