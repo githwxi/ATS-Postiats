@@ -343,11 +343,7 @@ then let
 in
   loop (ws, pred(i))
 end // end of [then]
-else let
-  val () = list_vt_free (ws)
-in
-  // nothing
-end // end of [else]
+else list_vt_free (ws)
 )
 //
 in

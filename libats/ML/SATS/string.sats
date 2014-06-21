@@ -89,10 +89,10 @@ fun{
 } string_implode (cs: list0 (char)):<> string
 
 (* ****** ****** *)
-
+//
 fun string_tabulate
   (n: size_t, f: (size_t) -<cloref1> charNZ): string
-
+//
 (* ****** ****** *)
 
 fun string_foreach (x: string, f: cfun (char, void)): void

@@ -59,10 +59,14 @@ typedef NSH(a:type) = a // for commenting purpose
 #define cons0 list0_cons
 
 (* ****** ****** *)
-
-#define list0_sing(x) list0_cons(x, list0_nil())
-#define list0_pair(x1, x2) list0_cons(x1, list0_cons (x2, list0_nil()))
-
+//
+#define
+list0_sing(x) list0_cons(x, list0_nil())
+//
+#define
+list0_pair(x1, x2)
+list0_cons(x1, list0_cons (x2, list0_nil()))
+//
 (* ****** ****** *)
 //
 castfn
@@ -104,6 +108,15 @@ list0_make_elt (n: int, x: a):<!exn> list0 (a)
 
 (* ****** ****** *)
 //
+symintr list0
+//
+fun{a:t0p}
+list0_make_arrpsz{n:int}
+  (psz: arrpsz (INV(a), n)):<!wrt> list0 (a)
+overload list0 with list0_make_arrpsz
+//
+(* ****** ****** *)
+//
 symintr list0_make_intrange
 //
 fun{}
@@ -112,14 +125,6 @@ fun{}
 list0_make_intrange_lrd (l: int, r: int, d: int):<!exn> list0 (int)
 overload list0_make_intrange with list0_make_intrange_lr
 overload list0_make_intrange with list0_make_intrange_lrd
-//
-(* ****** ****** *)
-//
-symintr list0
-//
-fun{a:t0p}
-list0_make_arrpsz{n:int} (psz: arrpsz (INV(a), n)):<!wrt> list0 (a)
-overload list0 with list0_make_arrpsz
 //
 (* ****** ****** *)
 
@@ -156,7 +161,6 @@ list0_tail_opt
 //
 (* ****** ****** *)
 //
-symintr .head .tail
 overload .head with list0_head_exn
 overload .tail with list0_tail_exn
 //
@@ -168,18 +172,22 @@ fun{a:t0p}
 list0_last_opt (xs: list0 (INV(a))):<> Option_vt(a)
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-list0_nth_exn (xs: list0 (INV(a)), i: int):<!exn> (a)
+list0_nth_exn
+  (xs: list0 (INV(a)), i: int):<!exn> (a)
 fun{a:t0p}
-list0_nth_opt (xs: list0 (INV(a)), i: int):<> Option_vt(a)
-
+list0_nth_opt
+  (xs: list0 (INV(a)), i: int):<> Option_vt(a)
+//
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-list0_get_at_exn (xs: list0 (INV(a)), i: int):<!exn> (a)
+list0_get_at_exn
+  (xs: list0 (INV(a)), index: int):<!exn> (a)
+//
 overload [] with list0_get_at_exn
-
+//
 (* ****** ****** *)
 //
 fun{a:t0p}
@@ -189,6 +197,8 @@ prerr_list0 (xs: list0 (INV(a))): void
 //
 overload print with print_list0
 overload prerr with prerr_list0
+//
+(* ****** ****** *)
 //
 fun{a:t0p}
 fprint_list0
@@ -207,7 +217,8 @@ overload fprint with fprint_list0_sep
 (* ****** ****** *)
 
 fun{a:t0p}
-list0_insert_at_exn (
+list0_insert_at_exn
+(
   xs: SHR(list0 (INV(a))), i: int, x: a
 ) :<!exn> list0 (a) // endfun
 
