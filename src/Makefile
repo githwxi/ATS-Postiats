@@ -245,6 +245,8 @@ SOURCES := \
   pats_lintprgm_print.dats \
   pats_lintprgm_myint.cats \
   pats_lintprgm_myint.dats \
+  pats_lintprgm_myint_int.dats \
+  pats_lintprgm_myint_gmp.dats \
   pats_lintprgm_solve.dats \
   pats_constraint3.sats \
   pats_constraint3.dats \
