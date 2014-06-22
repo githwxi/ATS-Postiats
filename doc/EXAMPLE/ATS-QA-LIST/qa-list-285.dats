@@ -9,7 +9,7 @@
 "share/atspre_staload.hats"
 //
 // How to compile:
-// patscc -DATS_MEMALLOC_LIBC -o rand rand.dats
+// patscc -DATS_MEMALLOC_LIBC -o $@ $<
 //
 (* ****** ****** *)
 
@@ -18,7 +18,7 @@ make_rand
 (
 // argumentless
 ) : () -<cloref1> ulint = let
-  val state = ref<ulint> (22222UL)
+  val state = ref<ulint> (31415926536UL)
 in
 //
 lam

@@ -150,6 +150,14 @@ clean:: ; $(RMF) queens_loop_dats.o
 clean:: ; $(RMF) queens_loop_dats.c
 cleanall:: ; $(RMF) queens_loop queens_loop.exe
 
+all:: randerlin
+randerlin: randerlin.exe
+randerlin.exe: randerlin_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+randerlin_dats.c: randerlin.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output randerlin_dats.c --dynamic randerlin.dats
+clean:: ; $(RMF) randerlin_dats.o
+clean:: ; $(RMF) randerlin_dats.c
+cleanall:: ; $(RMF) randerlin randerlin.exe
+
 all:: readdirall
 readdirall: readdirall.exe
 readdirall.exe: readdirall_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
