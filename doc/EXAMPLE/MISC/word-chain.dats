@@ -1,8 +1,7 @@
 //
-// chaining words based on
+// For chaining words based on
 // their occurrences in a given file
 //
-
 (* ****** ****** *)
 //
 // HX-2014-06
