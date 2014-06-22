@@ -618,7 +618,7 @@ fun{
 a:vt0p
 } list_tabulate{n:nat} (int n): list_vt (a, n)
 //
-fun{a:vt0p} list_tabulate$fopr (index: int): (a)
+fun{a:vt0p} list_tabulate$fopr (index: intGte(0)): (a)
 //
 #atscode_separator()
 
