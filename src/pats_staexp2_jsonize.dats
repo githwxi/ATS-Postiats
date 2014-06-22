@@ -291,8 +291,19 @@ case+ s2e0.s2exp_node of
 | S2EVar (s2V) =>
     jsonval_conarg1 ("S2EVar", jsonize_s2Var (s2V))
 //
-| S2Esizeof (s2e) =>
-    jsonval_conarg1 ("S2Esizeof", jsonize_s2exp (flag, s2e))
+| S2Esizeof (s2e) => let
+    val s2e1 = (
+      if flag = 0 then s2e else s2exp_hnfize (s2e)
+    ) : s2exp // end of [val]
+    (** Unwrap the argument if necessary. *)
+    val s2e1 = (
+        case+ s2e1.s2exp_node of
+           | S2Etop (_, s2e2) => s2e2
+           | _ =>> s2e1
+    ) : s2exp // end of [val]
+in
+    jsonval_conarg1 ("S2Esizeof", jsonize_s2exp (flag, s2e1))
+end
 //
 | S2Eeqeq
     (s2e1, s2e2) => let
@@ -329,6 +340,9 @@ case+ s2e0.s2exp_node of
     jsonval_conarg1 ("S2Emetdec", s2es(*met*))
   end // end of [S2Emetdec]
 //
+| S2Etop
+    (_, s2es1) => jsonize_s2exp (flag, s2es1)
+//
 | S2Eexi
   (
     s2vs, s2ps, s2e_body
@@ -355,7 +369,11 @@ case+ s2e0.s2exp_node of
 //
 | S2Eerr ((*void*)) => jsonval_conarg0 ("S2Eerr")
 //
-| _(*yet-to-be-processed*) => jsonval_conarg0 ("S2Eignored")
+| _(*yet-to-be-processed*) => let
+  val () = prerrln! s2e0
+in
+  jsonval_conarg0 ("S2Eignored")
+end
 //
 end // end of [auxmain]
 //
