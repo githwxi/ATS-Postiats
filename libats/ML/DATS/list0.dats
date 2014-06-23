@@ -1080,7 +1080,8 @@ end // end of [list0_mergesort]
 
 (* ****** ****** *)
 
-implement(a) fprint_val<list0(a)> = fprint_list0
+implement(a)
+fprint_val<list0(a)> = fprint_list0
 
 (* ****** ****** *)
 

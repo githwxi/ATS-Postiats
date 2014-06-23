@@ -4,6 +4,11 @@
 
 (* ****** ****** *)
 //
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
+//
 staload UN =
 "prelude/SATS/unsafe.sats"
 //
@@ -17,6 +22,11 @@ staload
 (* ****** ****** *)
 
 staload "./doublet.sats"
+
+(* ****** ****** *)
+
+staload _ = "libats/ML/DATS/array0.dats"
+staload _ = "libats/ML/DATS/strarr.dats"
 
 (* ****** ****** *)
 //

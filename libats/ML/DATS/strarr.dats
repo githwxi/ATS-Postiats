@@ -282,17 +282,14 @@ end // end of [strarr_compare]
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
 strarr_length (str) = strarr_get_size (str)
 
 (* ****** ****** *)
 //
 implement
-print_strarr
-  (str) = fprint_strarr (stdout_ref, str)
+print_strarr (x) = fprint_strarr (stdout_ref, x)
 implement
-prerr_strarr
-  (str) = fprint_strarr (stderr_ref, str)
+prerr_strarr (x) = fprint_strarr (stderr_ref, x)
 //
 (* ****** ****** *)
 
@@ -455,6 +452,12 @@ in
   loop (ptr0_add_guint<char> (p0, n0), n0, f)
 end // end of [strarr_rforeach]
 
+(* ****** ****** *)
+//
+implement
+fprint_val<strarr>
+  (out, str) = fprint_strarr (out, str)
+//
 (* ****** ****** *)
 
 (* end of [strarr.dats] *)

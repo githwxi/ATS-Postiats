@@ -61,7 +61,7 @@ staload "libats/ML/SATS/hashtblref.sats"
 //
 implement
 hash_key<string> (str) =
-  string_hash_multiplier (31UL, 61803398875UL, str)
+  string_hash_multiplier (31UL, 31415926536UL, str)
 //
 (* ****** ****** *)
 
