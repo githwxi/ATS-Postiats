@@ -29,6 +29,13 @@ staload _ = "libats/ML/DATS/array0.dats"
 staload _ = "libats/ML/DATS/strarr.dats"
 //
 (* ****** ****** *)
+//
+staload "libats/ML/SATS/funset.sats"
+//
+staload _ = "libats/ML/DATS/funset.dats"
+staload _ = "libats/DATS/funset_avltree.dats"
+//
+(* ****** ****** *)
 
 staload "./doublet.sats"
 
@@ -62,23 +69,32 @@ node_test
 ) (* end of [node_test] *)
 
 (* ****** ****** *)
+
+typedef wordset = set (word)
+
+(* ****** ****** *)
+
+implement
+gcompare_val<strarr> = strarr_compare
+
+(* ****** ****** *)
 //
 extern
 fun{}
 search_qlist
-  (qlist(node)): Option_vt(node)
+  (qlist(node), wordset): Option_vt(node)
 //
 extern
 fun{}
 search_qlist_add
-  (qlist(node), node): qlist(node)
+  (!qlist(node) >> _, wordset, node): wordset
 //
 (* ****** ****** *)
 
 implement
 {}(*tmp*)
 search_qlist
-  (nxs) = let
+  (nxs, visited) = let
 //
 val isnot = qlist_isnot_nil (nxs)
 //
@@ -113,11 +129,11 @@ in
 end // end of [then]
 else let
 //
-val nxs =
-search_qlist_add (nxs, nx)
+val visited =
+search_qlist_add (nxs, visited, nx)
 //
 in
-  search_qlist (nxs)
+  search_qlist (nxs, visited)
 end // end of [else]
 //
 end // end of [then]
@@ -136,34 +152,35 @@ end // end of [search_qlist]
 implement
 {}(*tmp*)
 search_qlist_add
-  (nxs, nx0) = let
+  (nxs, visited, nx0) = let
 //
 fun loop
 (
-  nxs: !qlist(node) >> _, ws: List_vt(word)
+  nxs: !qlist(node) >> _
+, visited: &wordset >> _, ws: List_vt(word)
 ) : void =
 (
 case+ ws of
 | ~list_vt_nil () => ()
 | ~list_vt_cons (w, ws) => let
-    val f = lam (ww: word) =<cloref1> w = ww
-    val ans = list0_exists<word> (nx0, f)
-    val () = cloptr_free ($UN.castvwtp0{cloptr(void)}(f))
+    val ans = funset_is_member (visited, w)
   in
     if ans
-      then loop (nxs, ws)
+      then loop (nxs, visited, ws)
       else let
+        val _ = funset_insert (visited, w)
         val () = qlist_insert (nxs, cons0 (w, nx0))
       in
-        loop (nxs, ws)
+        loop (nxs, visited, ws)
       end // end of [else]
   end // end of [list_vt_cons]
 )
 //
-val () = loop (nxs, word_get_friends (nx0.head))
+var visited: wordset = visited
+val ((*void*)) = loop (nxs, visited, word_get_friends (nx0.head))
 //
 in
-  nxs
+  visited
 end // end of [search_qlist_add]
 
 (* ****** ****** *)
@@ -182,8 +199,10 @@ val nx0 = list0_sing (src)
 val nxs = qlist_make_nil ()
 val ((*void*)) = qlist_insert (nxs, nx0)
 //
+val visited = funset_make_nil ()
+//
 in
-  search_qlist (nxs)
+  search_qlist (nxs, visited)
 end // end of [doublet_search]
 
 (* ****** ****** *)
