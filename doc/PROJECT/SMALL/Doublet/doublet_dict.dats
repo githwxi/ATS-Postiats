@@ -44,7 +44,13 @@ typedef itm = int(*0/1*)
 //
 #define CAPACITY 131072
 //
-implement hashtbl$recapacitize<> () = 0
+(*
+//
+// resizing is not allowed!
+//
+implement
+hashtbl$recapacitize<> () = 0
+*)
 //
 implement
 hash_key<strarr>
