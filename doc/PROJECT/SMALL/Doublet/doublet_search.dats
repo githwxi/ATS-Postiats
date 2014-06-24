@@ -112,7 +112,8 @@ qlist_takeout (nxs)
 val test = node_test (nx)
 //
 (*
-val () = println! ("search_qlist: nx = ", nx)
+val () =
+println! ("search_qlist: nx = ", nx)
 *)
 //
 in
@@ -120,7 +121,8 @@ in
 if
 test
 then let
-  val () = free (
+  val () =
+  free (
     qlist_takeout_list (nxs)
   ) (* end of [val] *)
   val () = qlist_free_nil (nxs)

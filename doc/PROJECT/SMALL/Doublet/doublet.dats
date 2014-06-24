@@ -38,6 +38,16 @@ main0 (argc, argv) =
 {
 //
 val () =
+if (argc < 3) then
+{
+//
+val () =
+  println! ("Usage: ", argv[0], " <word1>", " <word2>")
+//
+} (* end of [if] *)
+val () = if (argc < 3) then exit (1) // HX: abnormal exit
+//
+val () =
 println!
   ("Starting the doublet game:")
 //
