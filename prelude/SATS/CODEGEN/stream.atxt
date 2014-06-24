@@ -210,7 +210,7 @@ a:t0p
 } stream_tabulate (): stream(a)
 fun{
 a:t0p
-} stream_tabulate$fopr (n: intGte(0)): (a)
+} stream_tabulate$fopr (i: intGte(0)): (a)
 
 fun{
 a:t0p
@@ -236,15 +236,15 @@ a:t0p}{env:vt0p
 //
 #atscode_separator()
 //
-// overloading for certain symbols
-//
-#atscode_separator()
-//
 fun{}
 fprint_stream$sep (out: FILEref): void
 fun{a:t0p}
 fprint_stream
   (out: FILEref, xs: stream(INV(a)), n: int): void
+//
+#atscode_separator()
+//
+// overloading for certain symbols
 //
 #atscode_separator()
 

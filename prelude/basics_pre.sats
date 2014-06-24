@@ -381,6 +381,7 @@ symintr .size
 symintr .nrow .ncol
 symintr .head .tail
 symintr .next .prev
+symintr .eval
 //
 (* ****** ****** *)
 //
