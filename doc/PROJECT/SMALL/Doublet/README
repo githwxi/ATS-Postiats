@@ -1,0 +1,17 @@
+#
+# Implementing the doublet game
+#
+
+######
+
+For more information on the game:
+
+http://thinks.com/words/doublets.htm
+
+######
+
+It is straightforward implementation based on breadth-first search.
+
+######
+
+###### end of [README] ######
