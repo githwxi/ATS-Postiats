@@ -186,14 +186,14 @@ streamer_vt (a:vt0p) = streamer_vtype (a)
 //
 fun{}
 streamer_vt_make
-  {a:vt0p} (stream_vt(a)): streamer_vt(a)
+  {a:vt0p} (stream_vt(INV(a))): streamer_vt(a)
 //
 fun{}
-streamer_vt_free{a:vt0p} (xser: streamer_vt(a)): void
+streamer_vt_free{a:vt0p} (streamer_vt(INV(a))): void
 //
 fun{
 a:vt@ype
-} streamer_vt_eval_exn (xser: !streamer_vt(a)): (a)
+} streamer_vt_eval_exn (xser: !streamer_vt(INV(a))): (a)
 //
 #atscode_separator()
 //
@@ -201,16 +201,18 @@ a:vt@ype
 //
 #atscode_separator()
 
-overload ~ with streamer_free
+#atscode_separator()
+
+overload ~ with streamer_vt_free
 
 #atscode_separator()
+
+overload [] with streamer_vt_eval_exn
+
+(* ****** ****** *)
 
 overload .head with stream_vt_head
 overload .tail with stream_vt_tail
-
-#atscode_separator()
-
-overload .eval with stream_vt_eval_exn
 
 #atscode_separator()
 

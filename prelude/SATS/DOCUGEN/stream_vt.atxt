@@ -101,12 +101,12 @@ stream_vt (a:vt0p) = lazy_vt (stream_vt_con(a))
 
 (* ****** ****** *)
 
-#declnamesynop(".head")
-#declnamesynop(".tail")
+#declnamesynop("[]")
 
 (* ****** ****** *)
 
-#declnamesynop(".eval")
+#declnamesynop(".head")
+#declnamesynop(".tail")
 
 (* ****** ****** *)
 
