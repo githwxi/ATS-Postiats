@@ -93,12 +93,12 @@ end // end of [isqrt]
 (* ****** ****** *)
 
 implement
-main (
-) = 0 where {
+main0 ((*void*)) =
+{
   val () = assertloc ( (isqrt(1023)).1 = 31 )
   val () = assertloc ( (isqrt(1024)).1 = 32 )
   val () = assertloc ( (isqrt(1025)).1 = 32 )
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

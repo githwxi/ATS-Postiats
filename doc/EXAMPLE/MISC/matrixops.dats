@@ -31,4 +31,8 @@ end // end of [mul_scalar_matrix]
 
 (* ****** ****** *)
 
+implement main () = 0
+
+(* ****** ****** *)
+
 (* end of [matrixops.dats] *)

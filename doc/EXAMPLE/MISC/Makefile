@@ -102,6 +102,14 @@ clean:: ; $(RMF) isqrt_dats.o
 clean:: ; $(RMF) isqrt_dats.c
 cleanall:: ; $(RMF) isqrt isqrt.exe
 
+all:: matrixops
+matrixops: matrixops.exe
+matrixops.exe: matrixops_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+matrixops_dats.c: matrixops.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output matrixops_dats.c --dynamic matrixops.dats
+clean:: ; $(RMF) matrixops_dats.o
+clean:: ; $(RMF) matrixops_dats.c
+cleanall:: ; $(RMF) matrixops matrixops.exe
+
 all:: monad_maybe
 monad_maybe: monad_maybe.exe
 monad_maybe.exe: monad_maybe_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
