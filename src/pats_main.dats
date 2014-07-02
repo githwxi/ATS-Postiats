@@ -745,11 +745,18 @@ val () = pervasive_load (PATSHOME, "prelude/macrodef.sats")
 val () = stacst2_initialize () // internalizing some static consts
 val () = $CNSTR3.constraint3_initialize () // internalizing some maps
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/arith_prf.sats")
+(*
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/pointer.sats")
+// HX: Primary
+//
+*)
+//
+val () =
+  pervasive_load (PATSHOME, "prelude/SATS/arith_prf.sats")
 //
 val () = pervasive_load (PATSHOME, "prelude/SATS/integer.sats")
+val () = pervasive_load (PATSHOME, "prelude/SATS/pointer.sats")
+//
 val () = pervasive_load (PATSHOME, "prelude/SATS/integer_ptr.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/integer_fixed.sats")
 //
@@ -773,10 +780,19 @@ val () = pervasive_load (PATSHOME, "prelude/SATS/gorder.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/gnumber.sats")
 //
 (*
-val () = pervasive_load (PATSHOME, "prelude/SATS/unsafe.sats") // manual loading
+//
+// manual loading
+//
+val () = pervasive_load (PATSHOME, "prelude/SATS/unsafe.sats")
 *)
 //
 val () = pervasive_load (PATSHOME, "prelude/SATS/checkast.sats")
+//
+(*
+//
+// HX: Secondary
+//
+*)
 //
 val () = pervasive_load (PATSHOME, "prelude/SATS/list.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/list_vt.sats")
