@@ -107,35 +107,6 @@ fun{}
 string_sing (c: charNZ):<!wrt> strnptr (1)
 
 #atscode_separator()
-
-fun{}
-string_make_list
-  {n:int} (cs: list(charNZ, n)):<!wrt> strnptr (n)
-fun{}
-string_make_listlen
-  {n:int} (cs: list(charNZ, n), n: int n):<!wrt> strnptr (n)
-
-#atscode_separator()
-
-fun{
-} string_make_rlist
-  {n:int} (cs: list(charNZ, n)):<!wrt> strnptr (n)
-// end of [string_make_rlist]
-
-fun{
-} string_make_rlistlen
-  {n:int} (cs: list(charNZ, n), n: int n):<!wrt> strnptr (n)
-// end of [string_make_rlistlen]
-
-#atscode_separator()
-
-fun{
-} string_make_substring
-  {n:int}{st,ln:nat | st+ln <= n}
-  (str: string (n), st: size_t st, ln: size_t ln):<!wrt> strnptr (ln)
-// end of [string_make_substring]
-
-#atscode_separator()
 //
 fun{
 } string_is_empty{n:int} (str: string(n)):<> bool(n==0)
@@ -278,6 +249,35 @@ fun{
   {n1,n2:int}
   (x1: string n1, x2: string n2):<> int(sgn(n1-n2))
 // end of [strlencmp]
+
+#atscode_separator()
+
+fun{}
+string_make_list
+  {n:int} (cs: list(charNZ, n)):<!wrt> strnptr (n)
+fun{}
+string_make_listlen
+  {n:int} (cs: list(charNZ, n), n: int n):<!wrt> strnptr (n)
+
+#atscode_separator()
+
+fun{
+} string_make_rlist
+  {n:int} (cs: list(charNZ, n)):<!wrt> strnptr (n)
+// end of [string_make_rlist]
+
+fun{
+} string_make_rlistlen
+  {n:int} (cs: list(charNZ, n), n: int n):<!wrt> strnptr (n)
+// end of [string_make_rlistlen]
+
+#atscode_separator()
+
+fun{
+} string_make_substring
+  {n:int}{st,ln:nat | st+ln <= n}
+  (str: string (n), st: size_t st, ln: size_t ln):<!wrt> strnptr (ln)
+// end of [string_make_substring]
 
 #atscode_separator()
 
@@ -479,9 +479,9 @@ fun{
 
 #atscode_separator()
 
-fun print_stropt (x: Stropt0): void = "mac\#%"
-fun prerr_stropt (x: Stropt0): void = "mac\#%"
-fun fprint_stropt (out: FILEref, x: Stropt0): void = "mac\#%"
+fun print_stropt (opt: Stropt0): void = "mac\#%"
+fun prerr_stropt (opt: Stropt0): void = "mac\#%"
+fun fprint_stropt (out: FILEref, opt: Stropt0): void = "mac\#%"
 
 #atscode_separator()
 //
