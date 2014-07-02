@@ -46,6 +46,14 @@ cleanall:: ; $(RMF) autodiff autodiff.exe
 
 ######
 
+all:: arith_overflow
+arith_overflow: arith_overflow.exe
+arith_overflow.exe: arith_overflow_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+arith_overflow_dats.c: arith_overflow.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output arith_overflow_dats.c --dynamic arith_overflow.dats
+clean:: ; $(RMF) arith_overflow_dats.o
+clean:: ; $(RMF) arith_overflow_dats.c
+cleanall:: ; $(RMF) arith_overflow arith_overflow.exe
+
 all:: coinflip
 coinflip: coinflip.exe
 coinflip.exe: coinflip_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<

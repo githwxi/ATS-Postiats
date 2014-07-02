@@ -37,6 +37,16 @@ This function is for turning integers into their string representations.\
 
 (* ****** ****** *)
 
+#declnamesynop("string_sing")
+#decldescrpt("\
+
+Given a non-null character, this function returns a singleton string
+consisting of the character.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("string_copy")
 #decldescrpt("Given a string, this function returns a copy of it.")
 #declexample("\

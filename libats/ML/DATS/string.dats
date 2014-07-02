@@ -48,6 +48,9 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 //
 macdef
+prelude_string_sing = string_sing
+//
+macdef
 prelude_string0_copy = string0_copy
 //
 macdef
@@ -97,13 +100,17 @@ implement{
 // end of [iota]
 
 (* ****** ****** *)
+//
+implement{
+} string_sing (c) =
+  strnptr2string ($effmask_wrt(prelude_string_sing (c)))
+//
+(* ****** ****** *)
 
 implement{
-} string_copy (str) = let
-  val res = $effmask_wrt(prelude_string0_copy (str))
-in
-  strptr2string (res)
-end // end of [string_copy]
+} string_copy (str) =
+  strptr2string ($effmask_wrt(prelude_string0_copy (str)))
+// end of [string_copy]
 
 (* ****** ****** *)
 //

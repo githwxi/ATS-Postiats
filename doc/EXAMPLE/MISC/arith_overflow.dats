@@ -11,7 +11,7 @@ stadef isintb (i:int): bool = (INTMIN <= i && i <= INTMAX)
 
 (* ****** ****** *)
 
-abst@ype intb (i: int) // bounded integers
+abst@ype intb (i: int) = int // bounded integers
 
 (* ****** ****** *)
   
@@ -97,6 +97,10 @@ end // end of [loop]
 in
   loop (A, x0, i2b(0), n)
 end // end of [bsearch]
+
+(* ****** ****** *)
+
+implement main () = 0
 
 (* ****** ****** *)
 

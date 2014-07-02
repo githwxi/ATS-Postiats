@@ -102,6 +102,7 @@ RMF=rm -f
 
 ######
 
+#make_entry("arith_overflow")
 #make_entry("coinflip")
 #make_entry("ferryman")
 #make_entry("fibver_loop")

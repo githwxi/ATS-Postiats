@@ -53,6 +53,11 @@ fun{
 (* ****** ****** *)
 
 fun{
+} string_sing (c: charNZ):<> string
+
+(* ****** ****** *)
+
+fun{
 } string_copy (x: NSH(string)):<> string
 
 (* ****** ****** *)
