@@ -11,35 +11,21 @@
 #include
 "share/atspre_staload.hats"
 //
-(* ****** ****** *)
-//
-staload
-UN = "prelude/SATS/unsafe.sats"
+#include
+"share/HATS/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
-
+//
+staload UN = $UNSAFE
+//
+(* ****** ****** *)
+//
 staload "libats/SATS/qlist.sats"
 staload _ = "libats/DATS/qlist.dats"
-
+//
 (* ****** ****** *)
-
+//
 staload "libats/SATS/hashfun.sats"
-staload _ = "libats/DATS/hashfun.dats"
-
-(* ****** ****** *)
-//
-staload "libats/ML/SATS/basis.sats"
-staload "libats/ML/SATS/list0.sats"
-//
-staload _ = "libats/ML/DATS/list0.dats"
-//
-(* ****** ****** *)
-//
-staload "libats/ML/SATS/hashtblref.sats"
-//
-staload _ = "libats/DATS/linmap_list.dats"
-staload _ = "libats/DATS/hashtbl_chain.dats"
-staload _ = "libats/ML/DATS/hashtblref.dats"
 //
 (* ****** ****** *)
 //
