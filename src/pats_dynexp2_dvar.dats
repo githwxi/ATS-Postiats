@@ -108,11 +108,13 @@ assume d2var_type = ref (d2var_struct)
 in (* in of [local] *)
 
 implement
-d2var_make (loc, id) = let
+d2var_make
+  (loc, id) = let
 //
 val stamp = $STMP.d2var_stamp_make ()
+//
 val (pfgc, pfat | p) = ptr_alloc<d2var_struct> ()
-prval () = free_gc_elim {d2var_struct?} (pfgc)
+prval ((*freed*)) = free_gc_elim {d2var_struct?} (pfgc)
 //
 val () = p->d2var_sym := id
 val () = p->d2var_loc := loc
@@ -135,6 +137,8 @@ in
 ref_make_view_ptr (pfat | p)
 //
 end // end of [d2var_make]
+
+(* ****** ****** *)
 
 implement
 d2var_make_any

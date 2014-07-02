@@ -632,6 +632,19 @@ val () = println! ("Including [", fil, "] finishes.")
 (* ****** ****** *)
 
 fun
+ats_filename_get
+  ((*void*)): string = let
+//
+val fil = $FIL.filename_get_current ()
+val fname = $FIL.filename_get_fullname (fil)
+//
+in
+  $SYM.symbol_get_name (fname)
+end // end of [ats_filename_get]
+
+(* ****** ****** *)
+
+fun
 ats_packname_get
   ((*void*)): Stropt = let
 //
@@ -640,17 +653,17 @@ val opt = the_e1xpenv_find (ATS_PACKNAME)
 in
 //
 case+ opt of
-| ~Some_vt (e) => (
-  case+ e.e1xp_node of
+| ~Some_vt (exp) => (
+  case+ exp.e1xp_node of
   | E1XPstring (ns) => stropt_some (ns)
   | _ => let
-      val () = prerr_warning1_loc (e.e1xp_loc)
+      val () = prerr_warning1_loc (exp.e1xp_loc)
       val () = prerrln! ": a string definition is required for [ATS_PACKNAME]."
     in
       stropt_none (*void*)
     end // end of [_]
   ) // end of [Some_vt]
-| ~None_vt () => stropt_none (*void*)
+| ~None_vt ((*void*)) => stropt_none (*void*)
 //
 end // end of [ats_packname_get]
 
@@ -658,7 +671,9 @@ end // end of [ats_packname_get]
 
 fun
 ats_packname_get2
-  (opt: Stropt, nspace: symbol): Stropt = let
+(
+  opt: Stropt, nspace: symbol
+) : Stropt = let
 //
 val opt2 = ats_packname_get ()
 val issome = stropt_is_some (opt2)
@@ -679,8 +694,15 @@ if issome
       in
         stropt_some (name)
       end // end of [then]
-      else stropt_none (*void*)
-    // end of [issome]
+      else let
+        val name = ats_filename_get ()
+        val nspace = $SYM.symbol_get_name (nspace)
+        val name = sprintf ("%s%s", @(name, nspace))
+        val name = string_of_strptr (name)
+      in
+        stropt_some (name)
+      end // end of [else]
+    // end of [if]
   end // end of [else]
 //
 end // end of [ats_packname_get2]
@@ -1176,9 +1198,9 @@ case+ d0c0.d0ecl_node of
 //
     val d1cs = d0eclist_tr (d0cs) // HX: it is done in [pfil]
 //
-    val pack2 = ats_packname_get2 (opt, nspace)
-    val d1c_pack2 = d1ecl_packname (pack2) // HX: special decl
-    val d1cs = list_cons{d1ecl}(d1c_pack2, d1cs)
+    val pack = ats_packname_get2 (opt, nspace)
+    val d1c_pack = d1ecl_packname (pack) // HX: special decl
+    val d1cs = list_cons{d1ecl}(d1c_pack, d1cs)
 //
     val () = the_trans1_env_restore (pfsave | (*none*))
   in
@@ -1256,11 +1278,16 @@ val d1cs =
 // HX-2013-06:
 // for [PACKNAME] to be set externally
 //
-if isnone then d1cs else let
-  val d1c_packname = d1ecl_packname (opt)
-in
-  list_cons (d1c_packname, d1cs)
-end // end of [if]
+if isnone
+  then d1cs
+  else let
+    val d1c_pack =
+      d1ecl_packname (opt)
+    // end of [val]
+  in
+    list_cons (d1c_pack, d1cs)
+  end // end of [else]
+// end of [if]
 ) : d1eclist // end of [val]
 //
 val () = the_trans1errlst_finalize ()
