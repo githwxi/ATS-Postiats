@@ -567,16 +567,22 @@ in (* in of [local] *)
 //
 implement
 tnode_search (x) = let
+//
   val (fptbl | ptbl) = HASHTBLref_takeout_ptr (rtbl)
   var res: itm?
   val b = hashtbl_search<key,itm> (ptbl, encode(x), res)
   prval () = fptbl (ptbl)
+//
 in
-  if b then let
-    prval () = opt_unsome {itm} (res) in decode (res)
-  end else let
-    prval () = opt_unnone {itm} (res) in T_NONE ()
-  end // end of [if]
+//
+if (b)
+  then let
+    prval () = opt_unsome{itm}(res) in decode(res)
+  end // end of [then]
+  else let
+    prval () = opt_unnone{itm}(res) in T_NONE(*void*)
+  end // end of [else]
+//
 end // end of [tnode_search]
 //
 end // end of [local]

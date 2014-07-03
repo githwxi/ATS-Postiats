@@ -92,71 +92,83 @@ macdef posincbyc
 (* ****** ****** *)
 
 fun
-char_for_escaped
-  (c: char): char = begin
-  case+ c of
-  | 'n' => '\012' (* newline *)
-  | 't' => '\011' (* horizontal tab *)
-  | 'v' => '\013' (* vertical tab *)
-  | 'b' => '\010' (* backspace *)
-  | 'r' => '\015' (* carriage return *)
-  | 'f' => '\014' (* line feed *)
-  | 'a' => '\007' (* alert *)
-  |  _  => c
-end // end of [char_for_escaped]
-
-fun xdigit_get_val
+xdigit_get_val
   (c: char): int =
+(
   case+ 0 of
   | _ when c <= '9' => c - '0'
   | _ when c <= 'F' => 10 + (c - 'A') // HX: A = 10
   | _ => 10 + (c - 'a')
-// end of [xdigit_get_val]    
+) (* end of [xdigit_get_val] *)
 
 (* ****** ****** *)
 
+fun
+char_for_escaped
+  (c: char): char =
+(
+  case+ c of
+  | 'n' => '\012' (* newline *)
+  | 't' => '\011' (* horizontal tab *)
+  | 'a' => '\007' (* alert *)
+  | 'b' => '\010' (* backspace *)
+  | 'v' => '\013' (* vertical tab *)
+  | 'f' => '\014' (* line feed *)
+  | 'r' => '\015' (* carriage return *)
+  |  _ (*rest-of-char*) => c
+) (* end of [char_for_escaped] *)
+
+(* ****** ****** *)
+
+(*
 //
-// HX: there are various "irregular" tokens in ATS
-// (e.g., type+, type-, t@ype, fold@, free@, while*),
+// HX-2011:
+// There are various "irregular" tokens in ATS,
 // which complicate lexing considerably; [lexsym] is
 // primarily introduced for handling such tokens.
 //
+*)
 
-datatype
-lexsym =
+datatype lexsym =
 //
-  | LS_NONE of () // this is a dymmy
+  | LS_NONE of () // dummy
 //
-  | LS_ABST // for abst@ype
-  | LS_ABSVT // for absvt@ype
-  | LS_ABSVIEWT // for absviewt@ype
-  | LS_ADDR // for addr@
-  | LS_CASE // for case+ and case-
-  | LS_FIX // for fix@
-  | LS_FOR // for for*
-  | LS_FOLD // for fold@
-  | LS_FREE // for free@
-  | LS_LAM // for lam@
-  | LS_LLAM // for llam@
-  | LS_PROP // for prop+ and prop-
-  | LS_REF // for ref@
+  | LS_ABST of () // for abst@ype
+  | LS_ABSVT of () // for absvt@ype
+  | LS_ABSVIEWT of () // for absviewt@ype
 //
-  | LS_T // for t@ype
-  | LS_TYPE // for type+ and type-
-  | LS_T0YPE // for t0ype+ and t0ype-
+  | LS_ADDR of () // for addr@
 //
-  | LS_VAL // for val+ and val-
+  | LS_CASE of () // for case+ and case-
 //
-  | LS_VIEW // for view+ and view-
-  | LS_VIEWT // for viewt@ype
-  | LS_VIEWTYPE // for viewtype+ and viewtype-
-  | LS_VIEWT0YPE // for viewt0ype+ and viewt0ype-
+  | LS_FOLD of () // for fold@
+  | LS_FREE of () // for free@
 //
-  | LS_VT // for vt@ype
-  | LS_VTYPE // for vtype+ and vtype-
-  | LS_VT0YPE // for vt0ype+ and vt0ype-
+  | LS_FIX of () // for fix@
+  | LS_LAM of () // for lam@
+  | LS_LLAM of () // for llam@
 //
-  | LS_WHILE // for while*
+  | LS_REF of () // for ref@
+//
+  | LS_PROP of () // for prop+ and prop-
+  | LS_TYPE of () // for type+ and type-
+  | LS_VIEW of () // for view+ and view- and view@
+  | LS_VIEWTYPE of () // for viewtype+ and viewtype-
+//
+  | LS_T of () // for t@ype
+  | LS_T0YPE of () // for t0ype+ and t0ype-
+//
+  | LS_VT of () // for vt@ype
+  | LS_VTYPE of () // for vtype+ and vtype-
+  | LS_VT0YPE of () // for vt0ype+ and vt0ype-
+//
+  | LS_VIEWT of () // for viewt@ype
+  | LS_VIEWT0YPE of () // for viewt0ype+ and viewt0ype-
+//
+  | LS_VAL of () // for val+ and val-
+//
+  | LS_FOR of () // for for*
+  | LS_WHILE of () // for while*
 //
 (*
   | LS_LTBANG of () // "<!" // not a symbol
@@ -168,6 +180,7 @@ lexsym =
   | LS_SLASH2 of () // "//" line comment
   | LS_SLASHSTAR of () // "/*" block comment
   | LS_SLASH4 of () // "////" // rest-of-file comment
+//
 // end of [lexsym]
 
 (* ****** ****** *)
