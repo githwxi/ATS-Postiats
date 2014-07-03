@@ -46,25 +46,35 @@ staload "./pats_location.sats"
 assume
 position_t0ype =
 $extype_struct
-"pats_position_struct" of {
+"pats_position_struct" of
+{
   ntot= lint, nrow= int, ncol= int
 } // end of [position_t0ype]
 
 (* ****** ****** *)
+//
+implement
+print_position
+  (pos) = fprint_position (stdout_ref, pos)
+//
+(* ****** ****** *)
 
 implement
 fprint_position
-  (out, pos) = () where {
-  val ntot = pos.ntot
-  val nrow = pos.nrow
-  val ncol = pos.ncol
-  val () = fprintf (
-    out, "%li(line=%i, offs=%i)", @(ntot+1L, nrow+1, ncol+1)
-  ) (* end of [val] *)
-} // end of [fprint_position]
-
-implement
-print_position (pos) = fprint_position (stdout_ref, pos)
+  (out, pos) = let
+//
+val ntot = pos.ntot
+val nrow = pos.nrow
+val ncol = pos.ncol
+//
+in
+//
+fprintf
+(
+  out, "%li(line=%i, offs=%i)", @(ntot+1L, nrow+1, ncol+1)
+) (* end of [val] *)
+//
+end // end of [fprint_position]
 
 (* ****** ****** *)
 
@@ -75,22 +85,24 @@ implement position_get_ncol (pos) = pos.ncol
 (* ****** ****** *)
 
 implement
-position_init (
+position_init
+(
   pos0, ntot, nrow, ncol
 ) = () where {
   val () = pos0.ntot := ntot
   val () = pos0.nrow := nrow
   val () = pos0.ncol := ncol
-} // end of [position_init]
+} (* end of [position_init] *)
 
 implement
-position_copy (
+position_copy
+(
   pos0, pos1
 ) = () where {
   val () = pos0.ntot := pos1.ntot
   val () = pos0.nrow := pos1.nrow
   val () = pos0.ncol := pos1.ncol  
-} // end of [position_copy]
+} (* end of [position_copy] *)
 
 (* ****** ****** *)
 
@@ -145,7 +157,8 @@ position_incby_count
 (* ****** ****** *)
 
 assume
-location_type = '{
+location_type =
+'{
   filename= filename // file name
 , beg_ntot= lint // beginning char position
 , beg_nrow= int
@@ -153,7 +166,7 @@ location_type = '{
 , end_ntot= lint // finishing char position
 , end_nrow= int
 , end_ncol= int
-} // end of [location]
+} (* end of [location_type] *)
 
 (* ****** ****** *)
 
@@ -178,11 +191,28 @@ implement
 location_get_filename (loc) = loc.filename
 
 (* ****** ****** *)
+//
+implement
+print_location (loc) = fprint_location (stdout_ref, loc)
+implement
+prerr_location (loc) = fprint_location (stderr_ref, loc)
+//
+(* ****** ****** *)
+
+implement
+fprint_location
+  (out, loc) = let
+  val fname = loc.filename
+in
+  $FIL.fprint_filename_full (out, fname);
+  fprint_string (out, ": "); fprint_locrange (out, loc)
+end (* end of [fprint_location] *)
+
+(* ****** ****** *)
 
 implement
 fprint_locrange
-  (out, loc) = () where
-{
+  (out, loc) = () where {
 //
 val () =
   fprint_lint (out, loc.beg_ntot+1L)
@@ -207,22 +237,6 @@ val () = fprint_string (out, ")")
 (* ****** ****** *)
 
 implement
-fprint_location
-  (out, loc) = let
-  val fname = loc.filename
-in
-  $FIL.fprint_filename_full (out, fname);
-  fprint_string (out, ": "); fprint_locrange (out, loc)
-end (* end of [fprint_location] *)
-
-implement
-print_location (loc) = fprint_location (stdout_ref, loc)
-implement
-prerr_location (loc) = fprint_location (stderr_ref, loc)
-
-(* ****** ****** *)
-
-implement
 fprint2_location
   (out, loc) = let
   val fname = loc.filename
@@ -234,7 +248,8 @@ end (* end of [fprint2_location] *)
 (* ****** ****** *)
 
 implement
-location_dummy = '{
+location_dummy =
+'{
   filename= $FIL.filename_dummy
 , beg_ntot= ~1L
 , beg_nrow= ~1
@@ -242,7 +257,7 @@ location_dummy = '{
 , end_ntot= ~1L
 , end_nrow= ~1
 , end_ncol= ~1
-} // end of [location_dummy]
+} (* end of [location_dummy] *)
 
 (* ****** ****** *)
 

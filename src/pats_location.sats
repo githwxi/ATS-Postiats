@@ -109,10 +109,6 @@ fun location_end_ntot (loc: location): lint // end char count
 fun location_get_filename (loc: location): filename
 
 (* ****** ****** *)
-
-fun fprint_locrange (out: FILEref, loc: location): void
-
-(* ****** ****** *)
 //
 fun print_location (loc: location): void
 fun prerr_location (loc: location): void
@@ -122,6 +118,10 @@ overload print with print_location
 overload prerr with prerr_location
 overload fprint with fprint_location
 //
+(* ****** ****** *)
+
+fun fprint_locrange (out: FILEref, loc: location): void
+
 (* ****** ****** *)
 
 fun fprint2_location (out: FILEref, loc: location): void
