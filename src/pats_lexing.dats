@@ -396,27 +396,32 @@ fun BLANK_test
 (* ****** ****** *)
 
 fun IDENTFST_test
-  (c: char): bool = case+ 0 of
+  (c: char): bool =
+(
+  case+ 0 of
   | _ when ('a' <= c andalso c <= 'z') => true
   | _ when ('A' <= c andalso c <= 'Z') => true
   | _ when c = '_' => true
-  | _ => false
-// end of [IDENTFST_test]
+  | _ (*rest-of-char*) => false
+) (* end of [IDENTFST_test] *)
 
 fun IDENTRST_test
-  (c: char): bool = case+ 0 of
+  (c: char): bool =
+(
+  case+ 0 of
   | _ when ('a' <= c andalso c <= 'z') => true
   | _ when ('A' <= c andalso c <= 'Z') => true
   | _ when ('0' <= c andalso c <= '9') => true
   | _ when c = '_' => true
   | _ when c = '\'' => true
   | _ when c = '$' => true
-  | _ => false
-// end of [IDENTRST_test]
+  | _ (*rest-of-char*) => false
+) (* end of [IDENTRST_test] *)
 
 (* ****** ****** *)
 
-fun SYMBOLIC_test
+fun
+SYMBOLIC_test
   (c: char): bool = let
   val symbolic = "%&+-./:=@~`^|*!$#?<>"
 in
@@ -424,57 +429,61 @@ in
 end // end of [SYMBOLIC_test]
 
 (* ****** ****** *)
-
+//
 fun xX_test
   (c: char): bool =
   if c = 'x' then true else c = 'X'
-// end of [xX_test]
-
+//
 fun DIGIT_test
   (c: char): bool = char_isdigit (c)
 fun XDIGIT_test
   (c: char): bool = char_isxdigit (c)
-
+//
 (* ****** ****** *)
-
+//
 fun INTSP_test
   (c: char): bool = string_contains ("LlUu", c)
 fun FLOATSP_test
   (c: char): bool = string_contains ("fFlL", c)
-
+//
 (* ****** ****** *)
-
+//
 fun eE_test
-  (c: char): bool =
-  if c = 'e' then true else c = 'E'
-// end of [eE_test]
-
+  (c: char): bool = if c = 'e' then true else c = 'E'
+//
 fun pP_test
-  (c: char): bool =
-  if c = 'p' then true else c = 'P'
-// end of [pP_test]
-
+  (c: char): bool = if c = 'p' then true else c = 'P'
+//
+(* ****** ****** *)
+//
 fun SIGN_test
-  (c: char): bool =
-  if c = '+' then true else c = '-'
-// end of [SIGN_test]
-
+  (c: char): bool = if c = '+' then true else c = '-'
+//
 (* ****** ****** *)
 
+local
+//
+#define ESCAPED "ntvbrfa\\\?\'\"\(\[\{"
+//
+in(*in-of-local*)
+//
 fun ESCHAR_test
-  (c: char): bool = let
-  val escaped = "ntvbrfa\\\?\'\"\(\[\{"
-in
-  string_contains (escaped, c)
-end // end of [ESCHAR_test]
+  (c: char): bool = string_contains (ESCAPED, c)
+//
+end // end of [local]
 
 (* ****** ****** *)
+(*
 //
 // HX: f('\n') must be false!
 //
+*)
 extern
-fun ftesting_opt (
-  buf: &lexbuf, pos: &position, f: char -> bool
+fun
+ftesting_opt
+(
+  buf: &lexbuf
+, pos: &position, f: char -> bool
 ) : uint // end of [ftesting_opt]
 implement
 ftesting_opt
@@ -493,8 +502,11 @@ end // end of [ftesting_opt]
 // HX: f('\n') must be false!
 //
 extern
-fun ftesting_seq0 (
-  buf: &lexbuf, pos: &position, f: char -> bool
+fun
+ftesting_seq0
+(
+  buf: &lexbuf
+, pos: &position, f: char -> bool
 ) : uint // end of [ftesting_seq0]
 implement
 ftesting_seq0
@@ -523,22 +535,34 @@ ftesting_seq0
 // HX: f('\n') must be false!
 //
 extern
-fun ftesting_seq1 (
-  buf: &lexbuf, pos: &position, f: char -> bool
+fun
+ftesting_seq1
+(
+  buf: &lexbuf
+, pos: &position, f: char -> bool
 ) : int // end of [ftesting_seq1]
 implement
 ftesting_seq1
   (buf, pos, f) = let
-  val i = lexbufpos_get_char (buf, pos)
+//
+val i = lexbufpos_get_char (buf, pos)
+//
 in
-  if i >= 0 then (
-    if f ((i2c)i) then let
+//
+if (
+i >= 0
+) then (
+  if f((i2c)i)
+    then let
       val () = posincby1 (pos)
       val nchr = ftesting_seq0 (buf, pos, f)
     in
       (u2i)nchr + 1
-    end else ~1 // end of [if]
-  ) else ~1 // end of [if]
+    end // end of [then]
+    else (~1) // end of [else]
+  // end of [if]
+) else (~1) // end of [if]
+//
 end // end of [ftesting_seq1]
 
 (* ****** ****** *)
@@ -548,7 +572,8 @@ end // end of [ftesting_seq1]
 // as '\n' is considered a blank character
 //
 fun
-testing_blankseq0 (
+testing_blankseq0
+(
   buf: &lexbuf, pos: &position
 ) : uint = diff where {
   fun loop (
@@ -565,16 +590,21 @@ testing_blankseq0 (
   val nchr0 = lexbufpos_diff (buf, pos)
   val nchr1 = loop (buf, pos, nchr0)
   val diff = nchr1 - nchr0
-} // end of testing_blankseq0]
+} (* end of testing_blankseq0] *)
 
 (* ****** ****** *)
 
 extern
-fun testing_char (
+fun
+testing_char
+(
   buf: &lexbuf, pos: &position, lit: char
 ) : int // end of [testing_char]
-implement testing_char
-  (buf, pos, lit) = res where {
+implement
+testing_char
+(
+  buf, pos, lit
+) = res where {
   val i = lexbufpos_get_char (buf, pos)
   val res = (
     if i >= 0 then
@@ -589,11 +619,15 @@ implement testing_char
 // HX: [lit] contains no '\n'!
 //
 extern
-fun testing_literal (
+fun
+testing_literal
+(
   buf: &lexbuf, pos: &position, lit: string
 ) : int // end of [testing_literal]
-implement testing_literal
-  (buf, pos, lit) = res where {
+implement
+testing_literal
+  (buf, pos, lit) = res where
+{
 //
 val [n:int] lit = string1_of_string (lit)
 //
