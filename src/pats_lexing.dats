@@ -28,7 +28,7 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: gmhwxi AT gmail DOT com
+// Authoremail: gmhwxiATgmailDOTcom
 // Start Time: March, 2011
 //
 (* ****** ****** *)
@@ -313,59 +313,79 @@ end // end of [local]
 
 (* ****** ****** *)
 
-fun IDENT_sym_get_lexsym
+local
+
+staload
+STRING = "libc/SATS/string.sats" // for [string.cats]
+extern
+fun substrncmp
+  (x1: string, i1: int, x2: string, i2: int): int = "mac#atslib_substrcmp"
+// end of [substrncmp]
+
+macdef
+slash2_test (x, i) = (substrncmp (,(x), ,(i), "//", 0) = 0)
+
+in (*in-of-local*)
+
+fun
+IDENT_sym_get_lexsym
   (x: string): lexsym = let
 //
-  fun slash2_test
-    {n:int} {i:nat | i <= n} 
-    (x: string n, i: int i): bool = let
-//
-    staload STRING = "libc/SATS/string.sats" // for [string.cats]
-    extern fun substrncmp
-      (x1: string, i1: int, x2: string, i2: int): int = "mac#atslib_substrcmp"
-    // end of [substrncmp]
-  in
-    substrncmp (x, i, "//", 0) = 0
-  end // end of [slash2_test]
-//
-  val x = string1_of_string (x)
+val x = string1_of_string (x)
 //
 in
-  if string_isnot_atend (x, 0) then let
-    val x0 = x[0]
-  in
-    case+ x0 of
+//
+if
+string_isnot_atend (x, 0)
+then let
+  val x0 = x[0]
+in
+//
+case+ x0 of
 (*
-    | '<' =>
-        if string_isnot_atend (x, 1) then let
-          val x1 = x[1]
-        in
-          case+ x1 of
-          | '!' => LS_LTBANG ()
-          | '$' => LS_LTDOLLAR ()
-          | _ => LS_NONE ()
-        end else LS_NONE ()
+| '<' =>
+  if
+  string_isnot_atend (x, 1)
+  then let
+    val x1 = x[1]
+  in
+    case+ x1 of
+    | '!' => LS_LTBANG ()
+    | '$' => LS_LTDOLLAR ()
+    | _ (*rest*) => LS_NONE ()
+  end // end of [then]
+  else LS_NONE () // end of [else]
 *)
-    | '?' =>
-        if string_isnot_atend (x, 1) then let
-          val x1 = x[1]
-        in
-          case+ x1 of
-          | '>' => LS_QMARKGT ()
-          | _ => LS_NONE ()
-        end else LS_NONE ()
-    | '/' =>
-        if string_isnot_atend (x, 1) then let
-          val x1 = x[1]
-        in
-          case+ x1 of
-          | '*' => LS_SLASHSTAR ()
-          | '/' => if slash2_test (x, 2) then LS_SLASH4 () else LS_SLASH2 ()
-          | _ => LS_NONE ()
-        end else LS_NONE ()
-    | _ => LS_NONE ()
-  end else LS_NONE () // end of [if]
+| '?' =>
+  if
+  string_isnot_atend (x, 1)
+  then let
+    val x1 = x[1]
+  in
+    case+ x1 of
+    | '>' => LS_QMARKGT () | _ => LS_NONE ()
+  end // end of [then]
+  else LS_NONE () // end of [else]
+| '/' =>
+  if
+  string_isnot_atend (x, 1)
+  then let
+    val x1 = x[1]
+  in
+    case+ x1 of
+    | '*' => LS_SLASHSTAR ()
+    | '/' => if slash2_test (x, 2) then LS_SLASH4 () else LS_SLASH2 ()
+    | _ (*rest*) => LS_NONE ()
+  end // end of [then]
+  else LS_NONE () // end of [else]
+| _ (*rest-of-char*) => LS_NONE ()
+//
+end // end of [then]
+else LS_NONE () // end of [else]
+//
 end // end of [IDENT_sym_get_lexsym]
+
+end // end of [local]
 
 (* ****** ****** *)
 
