@@ -81,15 +81,15 @@ fun{a:t0p} gnumber_double (x: double):<> a
 fun{a:t0p} gneg_val (x: a):<> a
 fun{a:t0p} gsucc_val (x: a):<> a
 fun{a:t0p} gpred_val (x: a):<> a
-fun{a:t0p} grecip_val (x: a):<> a
+fun{a:t0p} grecip_val (x: a):<!exn> a
 
 #atscode_separator()
 
 fun{a:t0p} gadd_val (x: a, y: a):<> a
 fun{a:t0p} gsub_val (x: a, y: a):<> a
 fun{a:t0p} gmul_val (x: a, y: a):<> a
-fun{a:t0p} gdiv_val (x: a, y: a):<> a
-fun{a:t0p} gmod_val (x: a, y: a):<> a
+fun{a:t0p} gdiv_val (x: a, y: a):<!exn> a
+fun{a:t0p} gmod_val (x: a, y: a):<!exn> a
 
 #atscode_separator()
 

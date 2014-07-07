@@ -2331,9 +2331,10 @@ lexing_next_token
 //
 var pos: position
 val () = lexbuf_get_position (buf, pos)
-val k = testing_blankseq0 (buf, pos)
-val () = lexbuf_set_nspace (buf, (u2i)k)
+val k0 = testing_blankseq0 (buf, pos)
+val () = lexbuf_set_nspace (buf, (u2i)k0)
 val () = lexbuf_reset_position (buf, pos)
+//
 val i0 = lexbuf_get_char (buf, 0u)
 //
 in
