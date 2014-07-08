@@ -293,7 +293,9 @@ case+ s2e0.s2exp_node of
 | S2EVar (s2V) => let
     (**
       normalizing the expression does not take care of
-      the s2zexp tied to this s2Var. 
+      the s2zexp tied to this sVar. If a static variable
+      is linked to this sVar through a szexp, replace the
+      sVar with it.
     *)
     val szexp = s2Var_get_szexp (s2V)
 in
@@ -302,7 +304,7 @@ in
       val srt = s2var_get_srt (s2v)
       val s2e = s2exp_var_srt (srt, s2v)
     in
-      jsonize_s2exp (flag, s2e)
+      auxmain (flag, s2e)
     end
     | _ => jsonval_conarg1 ("S2EVar", jsonize_s2Var (s2V))
 end
