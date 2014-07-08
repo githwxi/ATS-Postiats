@@ -255,6 +255,8 @@ jsonize1_s2explst
 // 
 (* ****** ****** *)
 
+(* ****** ****** *)
+
 implement
 jsonize_s2exp
   (flag, s2e0) = let
@@ -288,8 +290,22 @@ case+ s2e0.s2exp_node of
 //
 | S2Evar (s2v) =>
     jsonval_conarg1 ("S2Evar", jsonize_s2var (s2v))
-| S2EVar (s2V) =>
-    jsonval_conarg1 ("S2EVar", jsonize_s2Var (s2V))
+| S2EVar (s2V) => let
+    (**
+      normalizing the expression does not take care of
+      the s2zexp tied to this s2Var. 
+    *)
+    val szexp = s2Var_get_szexp (s2V)
+in
+  case+ szexp of
+    | S2ZEvar (s2v) => let
+      val srt = s2var_get_srt (s2v)
+      val s2e = s2exp_var_srt (srt, s2v)
+    in
+      jsonize_s2exp (flag, s2e)
+    end
+    | _ => jsonval_conarg1 ("S2EVar", jsonize_s2Var (s2V))
+end
 //
 | S2Esizeof (s2e) => let
     val s2e1 = (
