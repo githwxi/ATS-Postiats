@@ -47,31 +47,43 @@ implement
 stamp_get_int (x) = $CNTR.count_get_int (x)
 
 (* ****** ****** *)
-
+//
 implement
-lt_stamp_stamp (x1, x2) = $CNTR.lt_count_count (x1, x2)
+lt_stamp_stamp
+  (x1, x2) = $CNTR.lt_count_count (x1, x2)
 implement
-lte_stamp_stamp (x1, x2) = $CNTR.lte_count_count (x1, x2)
-
+lte_stamp_stamp
+  (x1, x2) = $CNTR.lte_count_count (x1, x2)
+//
 implement
-eq_stamp_stamp (x1, x2) = $CNTR.eq_count_count (x1, x2)
+eq_stamp_stamp
+  (x1, x2) = $CNTR.eq_count_count (x1, x2)
 implement
-neq_stamp_stamp (x1, x2) = $CNTR.neq_count_count (x1, x2)
-
+neq_stamp_stamp
+  (x1, x2) = $CNTR.neq_count_count (x1, x2)
+//
 implement
-compare_stamp_stamp (x1, x2) = $CNTR.compare_count_count (x1, x2)
-
+compare_stamp_stamp
+  (x1, x2) = $CNTR.compare_count_count (x1, x2)
+//
 (* ****** ****** *)
-
+//
 implement
 tostring_stamp (x) = $CNTR.tostring_count (x)
 implement
-tostring_prefix_stamp (pre, x) = $CNTR.tostring_prefix_count (pre, x)
-
+tostring_prefix_stamp
+  (pre, x) = $CNTR.tostring_prefix_count (pre, x)
+//
 (* ****** ****** *)
 
-implement fprint_stamp (out, x) = $CNTR.fprint_count (out, x)
+implement
+fprint_stamp (out, x) = $CNTR.fprint_count (out, x)
 
+(* ****** ****** *)
+//
+// HX:
+// Various stamp-gen functions
+//
 (* ****** ****** *)
 
 local
@@ -80,37 +92,8 @@ val cntr = $CNTR.counter_make ()
 //
 in
 //
-implement s2rtdat_stamp_make () = $CNTR.counter_getinc (cntr)
-//
-end // end of [local]
-
-local
-//
-val cntr = $CNTR.counter_make ()
-//
-in
-//
-implement s2cst_stamp_make () = $CNTR.counter_getinc (cntr)
-//
-end // end of [local]
-
-local
-//
-val cntr = $CNTR.counter_make ()
-//
-in
-//
-implement s2var_stamp_make () = $CNTR.counter_getinc (cntr)
-//
-end // end of [local]
-
-local
-//
-val cntr = $CNTR.counter_make ()
-//
-in
-//
-implement s2Var_stamp_make () = $CNTR.counter_getinc (cntr)
+implement
+s2rtdat_stamp_make () = $CNTR.counter_getinc (cntr)
 //
 end // end of [local]
 
@@ -122,7 +105,8 @@ val cntr = $CNTR.counter_make ()
 //
 in
 //
-implement s2hole_stamp_make () = $CNTR.counter_getinc (cntr)
+implement
+s2cst_stamp_make () = $CNTR.counter_getinc (cntr)
 //
 end // end of [local]
 
@@ -134,37 +118,8 @@ val cntr = $CNTR.counter_make ()
 //
 in
 //
-implement d2con_stamp_make () = $CNTR.counter_getinc (cntr)
-//
-end // end of [local]
-
-local
-//
-val cntr = $CNTR.counter_make ()
-//
-in
-//
-implement d2cst_stamp_make () = $CNTR.counter_getinc (cntr)
-//
-end // end of [local]
-
-local
-//
-val cntr = $CNTR.counter_make ()
-//
-in
-//
-implement d2mac_stamp_make () = $CNTR.counter_getinc (cntr)
-//
-end // end of [local]
-
-local
-//
-val cntr = $CNTR.counter_make ()
-//
-in
-//
-implement d2var_stamp_make () = $CNTR.counter_getinc (cntr)
+implement
+s2var_stamp_make () = $CNTR.counter_getinc (cntr)
 //
 end // end of [local]
 
@@ -176,30 +131,8 @@ val cntr = $CNTR.counter_make ()
 //
 in
 //
-implement hitype_stamp_make () = $CNTR.counter_getinc (cntr)
-//
-end // end of [local]
-
-
-(* ****** ****** *)
-
-local
-//
-val cntr = $CNTR.counter_make ()
-//
-in
-//
-implement tmplab_stamp_make () = $CNTR.counter_getinc (cntr)
-//
-end // end of [local]
-
-local
-//
-val cntr = $CNTR.counter_make ()
-//
-in
-//
-implement tmpvar_stamp_make () = $CNTR.counter_getinc (cntr)
+implement
+s2Var_stamp_make () = $CNTR.counter_getinc (cntr)
 //
 end // end of [local]
 
@@ -211,26 +144,132 @@ val cntr = $CNTR.counter_make ()
 //
 in
 //
-implement funlab_stamp_make () = $CNTR.counter_getinc (cntr)
+implement
+s2hole_stamp_make () = $CNTR.counter_getinc (cntr)
 //
 end // end of [local]
 
 (* ****** ****** *)
 
 local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement
+d2con_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
 
+(* ****** ****** *)
+
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement
+d2cst_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement
+d2mac_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement
+d2var_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement
+hitype_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement
+tmplab_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement
+tmpvar_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement
+funlab_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
 staload
 LS = "libats/SATS/linset_avltree.sats"
 staload _ = "libats/DATS/linset_avltree.dats"
-
-val cmp = lam (
+//
+val
+cmp = lam
+(
   x1: stamp, x2: stamp
 ) : int =<cloref> compare_stamp_stamp (x1, x2)
-// end of [val]
-
+//
 assume stampset_viewtype = $LS.set (stamp)
-
-in // in of [local]
+//
+in (* in-of-local *)
 
 implement
 stampset_vt_nil () = $LS.linset_make_nil ()
@@ -241,7 +280,8 @@ implement
 stampset_vt_isnot_nil (xs) = $LS.linset_isnot_empty (xs)
 
 implement
-stampset_vt_is_member (xs, x) = $LS.linset_is_member (xs, x, cmp)
+stampset_vt_is_member
+  (xs, x) = $LS.linset_is_member (xs, x, cmp)
 
 implement
 stampset_vt_add

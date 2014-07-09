@@ -817,7 +817,8 @@ token_make
 (* ****** ****** *)
 
 fun
-lexbufpos_token_reset (
+lexbufpos_token_reset
+(
   buf: &lexbuf
 , pos: &position
 , node: token_node
@@ -830,8 +831,11 @@ in
   token_make (loc, node)
 end // end of [lexbufpos_token_reset]
 
+(* ****** ****** *)
+
 fun
-lexbufpos_lexerr_reset (
+lexbufpos_lexerr_reset
+(
   buf: &lexbuf
 , pos: &position
 , node: lexerr_node
@@ -844,14 +848,14 @@ in
 end // end of [lexbufpos_lexerr_reset]
 
 (* ****** ****** *)
-
+//
 extern
 fun lexing_FLOAT_deciexp
   (buf: &lexbuf, pos: &position): token
 extern
 fun lexing_FLOAT_hexiexp
   (buf: &lexbuf, pos: &position): token
-
+//
 extern
 fun lexing_INTEGER_dec
   (buf: &lexbuf, pos: &position, k1: uint): token
@@ -861,27 +865,29 @@ fun lexing_INTEGER_oct
 extern
 fun lexing_INTEGER_hex
   (buf: &lexbuf, pos: &position, k1: uint): token
-
+//
+(* ****** ****** *)
+//
 extern
 fun lexing_IDENT_alp
   (buf: &lexbuf, pos: &position, k1: uint): token
 extern
 fun lexing_IDENT2_alp {l:agz}
   (buf: &lexbuf, pos: &position, str: strptr l): token
-
+//
 extern
 fun lexing_IDENT_sym
   (buf: &lexbuf, pos: &position, k1: uint): token
-
+//
 extern
 fun lexing_IDENT_dlr
   (buf: &lexbuf, pos: &position, k1: uint): token
 extern
 fun lexing_IDENT_srp
   (buf: &lexbuf, pos: &position, k1: uint): token
-
+//
 (* ****** ****** *)
-
+//
 extern
 fun lexing_COMMENT_line
   (buf: &lexbuf, pos: &position): token
@@ -894,16 +900,16 @@ fun lexing_COMMENT_block_ml {l:pos}
 extern
 fun lexing_COMMENT_rest
   (buf: &lexbuf, pos: &position): token
-
+//
 (* ****** ****** *)
-
+//
 extern
 fun lexing_EXTCODE
   (buf: &lexbuf, pos: &position): token
 extern
 fun lexing_EXTCODE_knd
   (buf: &lexbuf, pos: &position, knd: int): token
-
+//
 (* ****** ****** *)
 
 implement
@@ -980,7 +986,9 @@ lexing_COMMENT_block_ml
 //
 in
 //
-if i >= 0 then (
+if (
+i >= 0
+) then (
   case+ (i2c)i of
   | '\(' => let
       var x: position
@@ -1034,9 +1042,13 @@ end // end of [lexing_COMMENT_rest]
 
 (* ****** ****** *)
 
+local
+//
 #define DYNBEG 1
 #define DYNMID 10
 #define DYNEND 99
+//
+in (* in-of-local *)
 
 fun extcode_nskip
   (knd: int): uint = let
@@ -1061,7 +1073,9 @@ val i = lexbufpos_get_char (buf, pos)
 //
 in
 //
-if i >= 0 then let
+if
+i >= 0
+then let
   val c = (i2c)i
   val knd = (
     case+ c of
@@ -1093,9 +1107,9 @@ if i >= 0 then let
 //
 in
   lexing_EXTCODE_knd (buf, pos, knd)
-end else
-  lexing_EXTCODE_knd (buf, pos, DYNMID)
-// end of [if]
+end // end of [then]
+else lexing_EXTCODE_knd (buf, pos, DYNMID)
+//
 end // end of [lexing_EXTCODE]
 
 (* ****** ****** *)
@@ -1137,6 +1151,8 @@ end else
 // end of [if]
 end // end of [lexing_EXTCODE_knd]
 
+end // end of [local]
+
 (* ****** ****** *)
 
 extern
@@ -1150,7 +1166,8 @@ in
   case+ (i2c)i of
   | '*' => let
       val () = posincby1 (pos)
-      val poslst = list_vt_cons {position} (?, list_vt_nil)
+      val poslst =
+        list_vt_cons{position}(?, list_vt_nil)
       val list_vt_cons (!p_x, _) = poslst
       val () = lexbuf_get_position (buf, !p_x)
       prval () = fold@ (poslst)

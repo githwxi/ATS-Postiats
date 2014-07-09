@@ -546,7 +546,7 @@ d2e0.d2exp_node of
     val jsv2 = jsonval_int (npf)
     val jsv3 = jsonize_labd2explst (ld2es)
   in
-    jsonval_conarg3 ("D2Etup", jsv1, jsv2, jsv3)
+    jsonval_conarg3 ("D2Erec", jsv1, jsv2, jsv3)
   end // end of [D2Erec]
 //
 | D2Eseq (d2es) =>
