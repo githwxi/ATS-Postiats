@@ -296,7 +296,7 @@ val () = insert (ptbl, "while", LS_WHILE)
 //
 val rtbl = HASHTBLref_make_ptr {key,itm} (ptbl)
 //
-in // in of [local]
+in (* in of [local] *)
 
 fun IDENT_alp_get_lexsym
   (x: string): lexsym = let
@@ -700,7 +700,9 @@ fun testing_floatspseq0
 
 (* ****** ****** *)
 
-fun testing_fexponent (
+fun
+testing_fexponent
+(
   buf: &lexbuf, pos: &position
 ) : int = let
   val i = lexbufpos_get_char (buf, pos)
@@ -727,7 +729,11 @@ end else ~1 // end of [if]
 //
 end // end of [testing_fexponent]
 
-fun testing_deciexp (
+(* ****** ****** *)
+
+fun
+testing_deciexp
+(
   buf: &lexbuf, pos: &position
 ) : int = let  
   val i = lexbufpos_get_char (buf, pos)
@@ -760,7 +766,9 @@ end // end of [testing_deciexp]
 
 (* ****** ****** *)
 
-fun testing_fexponent_bin (
+fun
+testing_fexponent_bin
+(
   buf: &lexbuf, pos: &position
 ) : int = let
   val i = lexbufpos_get_char (buf, pos)
@@ -787,7 +795,11 @@ end else ~1 // end of [if]
 //
 end // end of [testing_fexponent]
 
-fun testing_hexiexp (
+(* ****** ****** *)
+
+fun
+testing_hexiexp
+(
   buf: &lexbuf, pos: &position
 ) : int = let  
   val i = lexbufpos_get_char (buf, pos)
@@ -966,7 +978,8 @@ implement
 lexing_COMMENT_block_ml
   (buf, pos, xs) = let
 //
-  fun feof {l:pos} (
+  fun feof
+    {l:pos} (
     buf: &lexbuf
   , pos: &position
   , xs: list_vt (position, l)
@@ -2443,16 +2456,22 @@ end // end of [lexing_next_token]
 implement
 lexing_next_token_ncmnt
   (buf) = let
-  val tok = lexing_next_token (buf)
+//
+val tok = lexing_next_token (buf)
+//
 in
-  case+ tok.token_node of
-  | T_COMMENT_line _ => lexing_next_token_ncmnt (buf) // HX: skip
-  | T_COMMENT_block _ => lexing_next_token_ncmnt (buf) // HX: skip
+//
+case+ tok.token_node of
+| T_COMMENT_line _ =>
+    lexing_next_token_ncmnt (buf) // HX: skip
+| T_COMMENT_block _ =>
+    lexing_next_token_ncmnt (buf) // HX: skip
 //
 // HX: A rest-of-file comment is considered as EOF
 //
-  | T_COMMENT_rest _ => token_make (tok.token_loc, T_EOF)
-  | _ => tok
+| T_COMMENT_rest _ => token_make (tok.token_loc, T_EOF)
+| _ (*non-COMMENT*) => tok
+//
 end // end of [lexing_next_token_ncmnt]
 
 (* ****** ****** *)

@@ -23,7 +23,7 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Adding checking for funarg-pattern exhaustiveness
+1. Adding support for checking funarg-pattern exhaustiveness
 2. Adding run-time support for handling funarg-pattern matching failure
 3. Default namespace is assumed for staloadloc if none is given explicitly.
 
