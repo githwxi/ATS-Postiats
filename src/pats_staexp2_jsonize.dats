@@ -332,6 +332,13 @@ case+ s2e0.s2exp_node of
     jsonval_conarg2 ("S2Emetdec", s2es1(*met*), s2es2(*bound*))
   end // end of [S2Emetdec]
 //
+| S2Etyarr
+    (_elt, _dim) => let
+    val _elt = jsonize_s2exp (flag, _elt)
+    val _dim = jsonize_s2explst (flag, _dim)
+  in
+    jsonval_conarg2 ("S2Etyarr", _elt, _dim)
+  end // end of [S2Etyarr]
 | S2Etyrec
     (knd, npf, ls2es) => let
     val knd =
@@ -341,6 +348,9 @@ case+ s2e0.s2exp_node of
   in
     jsonval_conarg3 ("S2Etyrec", knd, npf, ls2es)
   end // end of [S2Etyrec]
+//
+| S2Einvar (s2e) =>
+    jsonval_conarg1 ("S2Einvar", jsonize_s2exp (flag, s2e))
 //
 | S2Eexi
   (
@@ -362,9 +372,6 @@ case+ s2e0.s2exp_node of
   in
     jsonval_conarg3 ("S2Euni", s2vs, s2ps, s2e_body)
   end // end of [S2Euni]
-//
-| S2Einvar (s2e) =>
-    jsonval_conarg1 ("S2Einvar", jsonize_s2exp (flag, s2e))
 //
 | S2Eerr ((*void*)) => jsonval_conarg0 ("S2Eerr")
 //
