@@ -664,7 +664,7 @@ jsonize_labd2exp
   val lab = jsonize_label (l0.l0ab_lab)
   val d2e = jsonize_d2exp (d2e)
 in
-  jsonval_labval1 ("DL0ABELED", jsonval_pair(lab, d2e))
+  jsonval_conarg2 ("DL0ABELED", lab, d2e)
 end // end of [jsonize_labd2exp]
 
 (* ****** ****** *)

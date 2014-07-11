@@ -82,9 +82,12 @@ implement
 jsonval_loc (loc) = JSONloc (loc)
 
 (* ****** ****** *)
-
+//
+#define nil list_nil
+//
 #define :: list_cons
-
+#define cons list_cons
+//
 (* ****** ****** *)
 
 implement

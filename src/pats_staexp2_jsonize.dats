@@ -210,6 +210,26 @@ jsonval_labval3
 end // end of [jsonize_d2con_long]
 
 (* ****** ****** *)
+
+implement
+jsonize_tyreckind
+  (knd) = let
+in
+//
+case+ knd of
+//
+| TYRECKINDbox () => jsonval_conarg0 ("TYRECKINDbox")
+| TYRECKINDbox_lin () => jsonval_conarg0 ("TYRECKINDbox_lin")
+//
+| TYRECKINDflt0 () => jsonval_conarg0 ("TYRECKINDflt0")
+| TYRECKINDflt1 (x) => 
+    jsonval_conarg1 ("TYRECKINDflt1", jsonize_stamp (x))
+| TYRECKINDflt_ext (name) =>
+    jsonval_conarg1 ("TYRECKINDflt_ext", jsonval_string (name))
+//
+end // end of [jsonize_tyreckind]
+
+(* ****** ****** *)
 // 
 implement
 jsonize0_s2exp
@@ -312,6 +332,16 @@ case+ s2e0.s2exp_node of
     jsonval_conarg2 ("S2Emetdec", s2es1(*met*), s2es2(*bound*))
   end // end of [S2Emetdec]
 //
+| S2Etyrec
+    (knd, npf, ls2es) => let
+    val knd =
+      jsonize_tyreckind (knd)
+    val npf = jsonval_int (npf)
+    val ls2es = jsonize_labs2explst (flag, ls2es)
+  in
+    jsonval_conarg3 ("S2Etyrec", knd, npf, ls2es)
+  end // end of [S2Etyrec]
+//
 | S2Eexi
   (
     s2vs, s2ps, s2e_body
@@ -389,6 +419,40 @@ case+ opt of
 | Some (s2e) => JSONoption (Some (jsonize_s2exp (flag, s2e)))
 //
 end // end of [jsonize_s2expopt]
+
+(* ****** ****** *)
+
+implement
+jsonize_labs2explst
+  (flag, ls2es) = let
+//
+fun auxlst
+(
+  flag: int, ls2es: labs2explst
+) : jsonvalist =
+//
+case+ ls2es of
+| list_cons
+    (ls2e, ls2es) => let
+    val+SLABELED
+      (lab, name, s2e) = ls2e
+    val lab = jsonize_label (lab)
+    val name =
+    (
+      case+ name of
+      | None () => jsonval_none ()
+      | Some (x) => jsonval_some (jsonval_string(x))
+    ) : jsonval
+    val s2e = jsonize_s2exp (flag, s2e)
+    val ls2e = jsonval_conarg3 ("SL0ABELED", lab, name, s2e)
+  in
+    list_cons (ls2e, auxlst (flag, ls2es))
+  end // end of [list_cons]
+| list_nil ((*void*)) => list_nil ()
+//
+in
+  JSONlist (auxlst (flag, ls2es))
+end // end of [jsonize_labs2explst]
 
 (* ****** ****** *)
 
