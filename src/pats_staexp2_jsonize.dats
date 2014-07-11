@@ -131,7 +131,7 @@ end // end of [jsonize_s2rtbas]
 
 implement
 jsonize_s2cst
-  (s2c) = let
+  (flag, s2c) = let
 //
 val sym =
   jsonize_symbol (s2cst_get_sym (s2c))
@@ -139,11 +139,13 @@ val stamp =
   jsonize_stamp (s2cst_get_stamp (s2c))
 val srt = 
   jsonize_s2rt (s2cst_get_srt (s2c))
+val supcls = 
+  jsonize1_s2explst (s2cst_get_supcls (s2c))
 //
 in
 //
-jsonval_labval3
-  ("s2cst_name", sym, "s2cst_stamp", stamp, "s2cst_srt", srt)
+jsonval_labval4
+  ("s2cst_name", sym, "s2cst_stamp", stamp, "s2cst_srt", srt, "s2cst_supcls", supcls)
 //
 end // end of [jsonize_s2cst]
 
@@ -281,7 +283,7 @@ case+ s2e0.s2exp_node of
     jsonval_conarg1 ("S2Eintinf", jsonval_intinf (i))
 //
 | S2Ecst (s2c) =>
-    jsonval_conarg1 ("S2Ecst", jsonize_s2cst (s2c))
+    jsonval_conarg1 ("S2Ecst", jsonize_s2cst (flag, s2c))
 //
 | S2Eextype (name, arg) =>
     jsonval_conarg1 ("S2Eextype", jsonval_string (name))

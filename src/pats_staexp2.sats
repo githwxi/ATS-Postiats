@@ -1423,7 +1423,7 @@ fun s2aspdec_make (
 //
 fun jsonize_s2rt (s2t: s2rt): jsonval
 //
-fun jsonize_s2cst (s2c: s2cst): jsonval
+fun jsonize_s2cst (flag: int, s2c: s2cst): jsonval
 fun jsonize_s2var (s2v: s2var): jsonval
 fun jsonize_s2Var (s2V: s2Var): jsonval
 //
