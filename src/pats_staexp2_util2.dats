@@ -339,10 +339,10 @@ case+ s2e0.s2exp_node of
   val exporting = $GLOB.the_EXPORT_constraints_get ()
   val normalize_svar = ~exporting
 in
-  if normalize_svar then
+//  if normalize_svar then
     s2exp_hnfize_flag_svar (s2e0, s2v, flag)
-  else
-    s2e0
+//  else
+//    s2e0
 end
 | S2EVar _ => s2e0
 | S2Ehole _ => s2e0
