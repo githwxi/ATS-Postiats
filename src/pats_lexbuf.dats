@@ -199,6 +199,8 @@ end // end of [lexbufpos_diff]
 implement
 lexbuf_get_base (buf) = buf.base
 
+(* ****** ****** *)
+
 implement
 lexbuf_get_position
   (buf, pos) = let
@@ -208,6 +210,43 @@ lexbuf_get_position
 in
   $LOC.position_init (pos, ntot, nrow, ncol)
 end // end of [lexbuf_get_position]
+
+(* ****** ****** *)
+
+implement
+lexbuf_set_position
+  (buf, pos) = let
+//
+prval () =
+  $Q.lemma_queue_param (buf.cbuf)
+//
+val ntot = $LOC.position_get_ntot (pos)
+//
+val () = buf.base := ntot
+val () = buf.base_nrow := $LOC.position_get_nrow (pos)  
+val () = buf.base_ncol := $LOC.position_get_ncol (pos)  
+//
+val nchr = ntot-buf.base
+val nchr = size1(l2sz(nchr))
+val nbuf = $Q.queue_size (buf.cbuf)
+//
+in
+//
+if
+nchr < nbuf
+then let
+  val () =
+    $Q.queue_clear<uchar> (buf.cbuf, nchr)
+in
+  // nothing
+end // end of [then]
+else let
+  val () = $Q.queue_clear_all{uchar}(buf.cbuf)
+in
+  // nothing
+end // end of [else]
+//
+end // end of [lexbuf_set_position]
 
 (* ****** ****** *)
 
@@ -305,42 +344,6 @@ in
     // nothing
   end (* end of [if] *)
 end // end of [lexbuf_incby_count]
-
-(* ****** ****** *)
-
-implement
-lexbuf_set_position
-  (buf, pos) = let
-//
-prval () =
-  $Q.lemma_queue_param (buf.cbuf)
-//
-val ntot = $LOC.position_get_ntot (pos)
-val nchr = ntot-buf.base
-val () = buf.base := ntot
-val () = buf.base_nrow := $LOC.position_get_nrow (pos)  
-val () = buf.base_ncol := $LOC.position_get_ncol (pos)  
-val nchr = (l2sz)nchr
-val nchr = (size1)nchr
-val nbuf = $Q.queue_size (buf.cbuf)
-//
-in
-//
-if
-nchr < nbuf
-then let
-  val () =
-    $Q.queue_clear<uchar> (buf.cbuf, nchr)
-in
-  // nothing
-end // end of [then]
-else let
-  val () = $Q.queue_clear_all{uchar}(buf.cbuf)
-in
-  // nothing
-end // end of [else]
-//
-end // end of [lexbuf_set_position]
 
 (* ****** ****** *)
 

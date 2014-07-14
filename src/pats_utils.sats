@@ -114,12 +114,13 @@ fun lstord2list {a:type} (xs: lstord a): List (a)
 (* ****** ****** *)
 
 local
-
+//
 staload
 QUEUE = "libats/SATS/linqueue_arr.sats"
-viewtypedef
+//
+vtypedef
 QUEUE (m:int, n:int) = $QUEUE.QUEUE (uchar, m, n)
-
+//
 in (* in of [local] *)
 
 fun queue_get_strptr1
