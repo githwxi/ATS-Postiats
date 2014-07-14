@@ -387,10 +387,6 @@ overload != with eq_tyreckind_tyreckind
 
 (* ****** ****** *)
 
-fun jsonize_tyreckind : tyreckind -> jsonval
-
-(* ****** ****** *)
-
 (*
 ** HX: s2hnf for s2exp in head normal form (HNF)
 *)
@@ -1436,6 +1432,8 @@ fun jsonize_s2varlst (s2vs: s2varlst): jsonval
 //
 fun jsonize_d2con (d2c: d2con): jsonval
 fun jsonize_d2con_long (d2c: d2con): jsonval
+//
+fun jsonize_tyreckind : tyreckind -> jsonval
 //
 fun jsonize_s2exp (flag: int, s2e: s2exp): jsonval
 fun jsonize_s2explst (flag: int, s2es: s2explst): jsonval

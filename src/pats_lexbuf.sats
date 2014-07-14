@@ -116,7 +116,10 @@ fun lexbufpos_get_char (buf: &lexbuf, position: &position): int
 (* ****** ****** *)
 
 fun lexbuf_incby_count (buf: &lexbuf, cnt: uint): void
-fun lexbuf_reset_position (buf: &lexbuf, pos: &position): void
+
+(* ****** ****** *)
+
+fun lexbuf_set_position (buf: &lexbuf, pos: &position): void
 
 (* ****** ****** *)
 

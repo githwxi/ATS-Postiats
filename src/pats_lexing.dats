@@ -835,10 +835,12 @@ lexbufpos_token_reset
 , pos: &position
 , node: token_node
 ) : token = let
-  val loc =
-    lexbufpos_get_location (buf, pos)
-  // end of [val]
-  val () = lexbuf_reset_position (buf, pos)
+//
+val loc =
+  lexbufpos_get_location (buf, pos)
+//
+val () = lexbuf_set_position (buf, pos)
+//
 in
   token_make (loc, node)
 end // end of [lexbufpos_token_reset]
@@ -852,9 +854,11 @@ lexbufpos_lexerr_reset
 , pos: &position
 , node: lexerr_node
 ) : token = let
-  val loc = lexbufpos_get_location (buf, pos)
-  val () = the_lexerrlst_add (lexerr_make (loc, node))
-  val () = lexbuf_reset_position (buf, pos)
+//
+val loc = lexbufpos_get_location (buf, pos)
+val ((*void*)) = the_lexerrlst_add (lexerr_make (loc, node))
+val ((*void*)) = lexbuf_set_position (buf, pos)
+//
 in
   token_make (loc, T_ERR)
 end // end of [lexbufpos_lexerr_reset]
@@ -990,7 +994,7 @@ lexing_COMMENT_block_ml
     val () = list_vt_free (xs)
     val err = lexerr_make (loc, LE_COMMENT_block_unclose)
     val () = the_lexerrlst_add (err)
-    val () = lexbuf_reset_position (buf, pos)
+    val () = lexbuf_set_position (buf, pos)
   in
     token_make (loc, T_ERR)
   end // end of [feof]
@@ -1149,7 +1153,7 @@ if i >= 0 then let
         val str = lexbuf_get_substrptr1 (buf, nchr, len)
         val str = string_of_strptr (str)
 //
-        val () = lexbuf_reset_position (buf, pos)
+        val () = lexbuf_set_position (buf, pos)
       in
         token_make (loc, T_EXTCODE (knd, str))
       end else let
@@ -2363,7 +2367,7 @@ var pos: position
 val () = lexbuf_get_position (buf, pos)
 val k0 = testing_blankseq0 (buf, pos)
 val () = lexbuf_set_nspace (buf, (u2i)k0)
-val () = lexbuf_reset_position (buf, pos)
+val () = lexbuf_set_position (buf, pos)
 //
 val i0 = lexbuf_get_char (buf, 0u)
 //
@@ -2439,9 +2443,9 @@ case+ 0 of
     val loc =
       lexbufpos_get_location (buf, pos)
     val err =
-      lexerr_make (loc, LE_UNSUPPORTED (c0))
+      lexerr_make (loc, LE_UNSUPPORTED(c0))
     val () = the_lexerrlst_add (err)
-    val () = lexbuf_reset_position (buf, pos)
+    val () = lexbuf_set_position (buf, pos)
   in
     lexing_next_token (buf)
   end // end of [rest-of-char]

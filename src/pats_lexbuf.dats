@@ -77,8 +77,8 @@ staload "./pats_lexbuf.sats"
 #define size1 size1_of_size
 //
 (* ****** ****** *)
-
-viewtypedef
+//
+vtypedef
 lexbuf_int_int
   (m: int, n:int) =
 $extype_struct
@@ -88,9 +88,10 @@ $extype_struct
 , base_nrow=int, base_ncol= int
 , nspace= int
 , reader= reader
-} // end of [lexbuf]
+} (* end of [lexbuf] *)
+//
 typedef lexbuf0 = lexbuf_int_int(0, 0)?
-
+//
 (* ****** ****** *)
 
 assume
@@ -308,30 +309,38 @@ end // end of [lexbuf_incby_count]
 (* ****** ****** *)
 
 implement
-lexbuf_reset_position
+lexbuf_set_position
   (buf, pos) = let
 //
-  prval () = $Q.lemma_queue_param (buf.cbuf)
+prval () =
+  $Q.lemma_queue_param (buf.cbuf)
 //
-  val ntot = $LOC.position_get_ntot (pos)
-  val nchr = ntot - buf.base
-  val () = buf.base := ntot
-  val () = buf.base_nrow := $LOC.position_get_nrow (pos)  
-  val () = buf.base_ncol := $LOC.position_get_ncol (pos)  
-  val nchr = (l2sz)nchr
-  val nchr = (size1)nchr
-  val n = $Q.queue_size (buf.cbuf)
+val ntot = $LOC.position_get_ntot (pos)
+val nchr = ntot-buf.base
+val () = buf.base := ntot
+val () = buf.base_nrow := $LOC.position_get_nrow (pos)  
+val () = buf.base_ncol := $LOC.position_get_ncol (pos)  
+val nchr = (l2sz)nchr
+val nchr = (size1)nchr
+val nbuf = $Q.queue_size (buf.cbuf)
+//
 in
-  if nchr < n then let
-    val () = $Q.queue_clear<uchar> (buf.cbuf, nchr)
-  in
-    // nothing
-  end else let
-    val () = $Q.queue_clear_all {uchar} (buf.cbuf)
-  in
-    // nothing
-  end (* end of [if] *)
-end // end of [lexbuf_reset_position]
+//
+if
+nchr < nbuf
+then let
+  val () =
+    $Q.queue_clear<uchar> (buf.cbuf, nchr)
+in
+  // nothing
+end // end of [then]
+else let
+  val () = $Q.queue_clear_all{uchar}(buf.cbuf)
+in
+  // nothing
+end // end of [else]
+//
+end // end of [lexbuf_set_position]
 
 (* ****** ****** *)
 
