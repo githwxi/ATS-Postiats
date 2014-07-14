@@ -220,13 +220,14 @@ lexbuf_set_position
 prval () =
   $Q.lemma_queue_param (buf.cbuf)
 //
+val base = buf.base
 val ntot = $LOC.position_get_ntot (pos)
 //
 val () = buf.base := ntot
 val () = buf.base_nrow := $LOC.position_get_nrow (pos)  
 val () = buf.base_ncol := $LOC.position_get_ncol (pos)  
 //
-val nchr = ntot-buf.base
+val nchr = ntot - base
 val nchr = size1(l2sz(nchr))
 val nbuf = $Q.queue_size (buf.cbuf)
 //
@@ -237,6 +238,7 @@ nchr < nbuf
 then let
   val () =
     $Q.queue_clear<uchar> (buf.cbuf, nchr)
+  // end of [val]
 in
   // nothing
 end // end of [then]
