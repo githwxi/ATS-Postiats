@@ -317,17 +317,17 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
+//
 staload
 STRING = "libc/SATS/string.sats" // for [string.cats]
+//
 extern
 fun substrncmp
   (x1: string, i1: int, x2: string, i2: int): int = "mac#atslib_substrcmp"
-// end of [substrncmp]
-
+//
 macdef
 slash2_test (x, i) = (substrncmp (,(x), ,(i), "//", 0) = 0)
-
+//
 in (*in-of-local*)
 
 fun
