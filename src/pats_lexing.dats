@@ -610,12 +610,10 @@ testing_char
 ) = res where {
   val i = lexbufpos_get_char (buf, pos)
   val res = (
-    if i >= 0 then
-      if (i2c)i = lit then 1 else ~1
-    else ~1
+    if i >= 0 then (if (i2c)i = lit then 1 else ~1) else ~1
   ) : int // end of [val]
   val () = if res >= 0 then posincbyc (pos, i)
-} // end of [testing_char]
+} (* end of [testing_char] *)
 
 (* ****** ****** *)
 //
@@ -662,12 +660,14 @@ val () = if res >= 0
 
 (* ****** ****** *)
 
-fun testing_identrstseq0
+fun
+testing_identrstseq0
   (buf: &lexbuf, pos: &position): uint
   = ftesting_seq0 (buf, pos, IDENTRST_test)
 // end of [testing_identrstseq0]
 
-fun testing_symbolicseq0
+fun
+testing_symbolicseq0
   (buf: &lexbuf, pos: &position): uint
   = ftesting_seq0 (buf, pos, SYMBOLIC_test)
 // end of [testing_symbolicseq0]
@@ -708,7 +708,9 @@ testing_fexponent
   val i = lexbufpos_get_char (buf, pos)
 in
 //
-if i >= 0 then let
+if
+i >= 0
+then let
   val c = (i2c)i
 in
   if eE_test (c) then let
@@ -716,7 +718,8 @@ in
     val k1 = ftesting_opt (buf, pos, SIGN_test)
     val k2 = testing_digitseq0 (buf, pos) // err: k2 = 0
 //
-    val () = if k2 = 0u then {
+    val () =
+    if k2 = 0u then {
       val loc = lexbufpos_get_location (buf, pos)
       val err = lexerr_make (loc, LE_FEXPONENT_empty)
       val () = the_lexerrlst_add (err)
@@ -725,7 +728,8 @@ in
   in
     u2i (k1+k2+1u)
   end else ~1 // end [if]
-end else ~1 // end of [if]
+end // end of [then]
+else (~1) // end of [else]
 //
 end // end of [testing_fexponent]
 
@@ -1990,7 +1994,7 @@ case+ (i2c)i of
     lexbufpos_token_reset (buf, pos, T_IDENT_ext (str))
   end
 //
-| _ => let
+| _ (*rest*) => let
     val mystr =
       lexbuf_get_strptr1 (buf, k)
     // end of [val]
@@ -2010,6 +2014,7 @@ viewtypedef mystr = strptr(l)
 val sym = IDENT_alp_get_lexsym ($UN.castvwtp1{string}{mystr}(mystr))
 //
 in
+//
 case+ sym of
 | LS_ABST () when
     testing_literal (buf, pos, "@ype") >= 0 => let
@@ -2106,7 +2111,7 @@ case+ sym of
     val () = strptr_free (mystr) in lexing_REF (buf, pos)
   end // end of [LS_REF]
 //
-| _ => let
+| _ (*rest*) => let
     val tnode =
       tnode_search ($UN.castvwtp1{string}{mystr}(mystr))
     // end of [val]
@@ -2117,7 +2122,7 @@ case+ sym of
       in
         lexbufpos_token_reset (buf, pos, T_IDENT_alp (mystr))
       end
-    | _ => let
+    | _ (*not-NONE*) => let
         val () = strptr_free (mystr) in lexbufpos_token_reset (buf, pos, tnode)
       end // end of [_]
   end // end of [_]
