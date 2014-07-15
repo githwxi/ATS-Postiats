@@ -1125,7 +1125,8 @@ datatype i0mparg =
 
 fun i0mparg_sarglst_none (): i0mparg
 
-fun i0mparg_sarglst_some (
+fun i0mparg_sarglst_some
+(
   t_beg: token, arg: s0arglst, t_end: token
 ) : i0mparg // end of [i0mparg_sarglst_some]
 

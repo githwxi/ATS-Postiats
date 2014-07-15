@@ -327,6 +327,11 @@ end // end of [local]
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2014-07:
+// these function are no longer in use
+//
 local
 
 var the_level: int = 0
@@ -363,6 +368,7 @@ the_trans1_level_dec
 } // end of [the_trans1_level_dec]
 
 end // end of [local]
+*)
 
 (* ****** ****** *)
 

@@ -93,6 +93,9 @@ datatype trans2err =
   | T2E_prv1ardec_tr of (v1ardec)
 //
   | T2E_d1ecl_tr_impdec of (d1ecl)
+  | T2E_d1ecl_tr_impdec_nontop of (d1ecl)
+  | T2E_d1ecl_tr_impdec_tmparg of (d1ecl)
+//
   | T2E_d1ecl_tr_overload of (d1ecl)
   | T2E_d1ecl_tr_overload_def of (location)
   | T2E_d1ecl_tr_staloadnm of (d1ecl)

@@ -85,7 +85,9 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
-fn i1mpdec_select_d2cst (
+fun
+i1mpdec_select_d2cst
+(
   d1c0: d1ecl, impdec: i1mpdec
 ) : Option_vt (d2cst) = let
 //
@@ -151,6 +153,7 @@ fun aux1 (
     end // end of [list_cons]
   | list_nil () => list_vt_nil ()
 (* end of [aux1] *)
+//
 fun aux2 (
   d2cs: List_vt (d2cst)
 ) :<cloref1> Option_vt (d2cst) =
@@ -183,6 +186,8 @@ case+ ans of
   end (* end of [None_vt] *)
 //
 end // end of [i1mpdec_select_d2cst]
+
+(* ****** ****** *)
 
 fun
 d1exp_tr_ann (
@@ -472,9 +477,12 @@ end // end of [d2exp_tr_arg_body_ann]
 (* ****** ****** *)
 
 fun
-stasub_add_tmparg (
+stasub_add_tmparg
+(
   sub: &stasub, s2qs: s2qualst, s2fss: s2explstlst
-) : void = (
+) : void = let
+in
+//
   case+ s2qs of
   | list_cons (s2q, s2qs) => (
     case+ s2fss of
@@ -486,9 +494,14 @@ stasub_add_tmparg (
     | list_nil () => ()
     )
   | list_nil () => ()
-) // end of [stasub_add_tmparg]
+//
+end // end of [stasub_add_tmparg]
 
-fun i1mpdec_tr_main (
+(* ****** ****** *)
+
+fun
+i1mpdec_tr_main
+(
   d1c0: d1ecl
 , d2c: d2cst, imparg: i1mparg, impdec: i1mpdec
 ) : i2mpdec = let
@@ -733,44 +746,66 @@ fun auxerr_tmparg
   val () = prerr_error2_loc (d1c0.d1ecl_loc)
   val () = filprerr_ifdebug "i1mpdec_tr_main"
   val () = prerr ": the redundantly provided template arguments are ignored."
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 in
-  the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_impdec_tmparg (d1c0))
 end // end of [auxerr_tmparg]
+//
+fun auxerr_nontop
+  (d1c0: d1ecl): void = let
+  val () = prerr_error2_loc (d1c0.d1ecl_loc)
+  val () = filprerr_ifdebug "i1mpdec_tr_main"
+  val () = prerr ": the implementation should be at the top-level but it is not."
+  val () = prerr_newline ((*void*))
+in
+  the_trans2errlst_add (T2E_d1ecl_tr_impdec_nontop (d1c0))
+end // end of [auxerr_nontop]
 //
 val s2qs = d2cst_get_decarg (d2c)
 val isdecarg = list_is_cons (s2qs)
 val tmparg = impdec.i1mpdec_tmparg
-val istmparg = list_is_cons (tmparg)
-var istmpargerr: bool = false // HX: redundancy
+var tmpargerr: int = 0 // HX: redundancy
 val (pfenv | ()) = the_s2expenv_push_nil ()
 val () = if isdecarg then the_tmplev_inc ()
 val (imparg, opt) = aux_imparg (d1c0, s2qs, imparg)
-val sfess = (case+ opt of
+val sfess = (
+  case+ opt of
   | ~Some_vt (s2vss) => let
       fn f (
         s2vs: s2varlst
       ) : s2explst =
          l2l (list_map_fun (s2vs, s2exp_var))
       // end of [f]
-      val () = if istmparg then istmpargerr := true
+      val () = (
+        case+ tmparg of
+          | list_cons _ => tmpargerr := 1 | _ => ()
+      ) : void // end of [val]
     in
       l2l (list_map_fun (s2vss, f))
     end // end of [Some]
-  | ~None_vt () => aux_tmparg (d1c0, s2qs, tmparg)
+  | ~None_vt ((*void*)) => aux_tmparg (d1c0, s2qs, tmparg)
 ) : s2explstlst // end of [val]
 //
-val () = if istmpargerr then auxerr_tmparg (d1c0)
+val () =
+  if tmpargerr > 0 then auxerr_tmparg (d1c0)
 //
 val tmparg = sfess
 val tmpgua = list_nil () // HX: temp guards not supported
+//
+val () =
+(
+case+ sfess of
+| list_nil () =>
+    if the_d2varlev_get () > 0 then auxerr_nontop (d1c0)
+| list_cons _ => ()
+) (* end of [val] *)
 //
 val d2e = let
   var sub = stasub_make_nil ()
   val () = stasub_add_tmparg (sub, s2qs, tmparg)
   val s2e = d2cst_get_type (d2c)
   val s2e = s2exp_subst (sub, s2e) // proper instantiation
-  val () = stasub_free (sub)
+  val ((*freed*)) = stasub_free (sub)
 in
   d1exp_tr_ann (impdec.i1mpdec_def, s2e)
 end // end of [val]
@@ -804,7 +839,7 @@ in
     in
       Some_vt (impdec)
     end // end of [Some_vt]
-  | ~None_vt () => None_vt ()
+  | ~None_vt ((*void*)) => None_vt ()
 end // end of [i1mpdec_tr]
 
 (* ****** ****** *)

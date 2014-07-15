@@ -817,15 +817,16 @@ fun d1exp_tr_arg_body
   } // end of [val]
 //
   val (pfinc | ()) = the_d2varlev_inc ()
+//
   val d2e_body = let
     val isnone = wths1explst_is_none (w1ts)
   in
-    if isnone then
-      d1exp_tr (d1e_body) // HX: regular
-    else
-      d1exp_tr_wths1explst (d1e_body, w1ts)
+    if isnone
+      then d1exp_tr (d1e_body) // HX: regular
+      else d1exp_tr_wths1explst (d1e_body, w1ts)
     // end of [if]
   end : d2exp // end of [val]
+//
   val () = the_d2varlev_dec (pfinc | (*none*))
 //
   val () = the_trans2_env_pop (pfenv | (*none*))
