@@ -181,7 +181,7 @@ case+ x.lexerr_node of
     val () = fprintf (out, ": the floating exponent is empty.", @())
     val () = fprint_newline (out)
   }
-| LE_UNSUPPORTED (c) => () where {
+| LE_UNSUPPORTED_char (c) => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": unsupported char: %c", @(c))
     val () = fprint_newline (out)

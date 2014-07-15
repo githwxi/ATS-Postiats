@@ -263,7 +263,7 @@ implement
 lexbufpos_get_location
   (buf, pos) = let
   var bpos: position
-  val () =
+  val ((*void*)) =
     lexbuf_get_position (buf, bpos)
   // end of [val]
 in

@@ -185,7 +185,7 @@ fun{a:vt0p} ptr1_list_next (p: Ptr1): Ptr0 // HX: &(p->next)
 // HX: only if you know what you are doing ...
 //
 castfn
-ptr2cptr{a:vt0p}{l:addr} (p: ptr l):<> cptr (a, l)
+ptr2cptr{a:vt0p}{l:addr} (p: ptr(l)):<> cptr (a, l)
 //
 #atscode_separator()
 //

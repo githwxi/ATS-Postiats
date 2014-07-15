@@ -476,13 +476,18 @@ lexerr_node =
 //
   | LE_FEXPONENT_empty of ()
 //
-  | LE_UNSUPPORTED of char
+  | LE_UNSUPPORTED_char of (char)
 // end of [lexerr_node]
+//
 typedef lexerr = '{
   lexerr_loc= location, lexerr_node= lexerr_node
-} // end of [lexerr]
+} (* end of [lexerr] *)
+//
+(* ****** ****** *)
 
-fun lexerr_make (
+fun
+lexerr_make
+(
   loc: location, node: lexerr_node
 ) : lexerr // end of [lexerr_make]
 
