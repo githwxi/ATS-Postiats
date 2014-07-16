@@ -542,7 +542,7 @@ val i = min(i, n)
 val str = string_make_substring ($UN.cast{string(n)}(p0), i2sz(0), i)
 //
 val ni = (n - i)
-val p0 = memmove (p0, p1, ni)
+val p0 = memmove (p0, ptr_add<char> (p0, i), ni)
 val () = p1 := ptr_add<char> (p0, ni)
 //
 prval () = fold@ (sbf)
@@ -574,6 +574,42 @@ prval () = lemma_strnptr_param (str)
 in
   strnptr2strptr(str)
 end // end of [stringbuf_takeout_all]
+
+(* ****** ****** *)
+  
+implement{
+} stringbuf_remove
+  (sbf, i) = () where
+{
+//
+val+@STRINGBUF(A, p1, _) = sbf
+//
+val p0 = ptrcast (A)
+val n = $UN.cast{size_t}(p1 - p0)
+val [n:int] n = g1ofg0_uint (n)
+val [i:int] i = g1ofg0_uint (i)
+//
+val i = min(i, n)
+val ni = n - min(i, n)
+val p0 = memmove (p0, ptr_add<char> (p0, i), ni)
+val () = p1 := ptr_add<char> (p0, ni)
+//
+prval () = fold@ (sbf)
+//
+} (* end of [stringbuf_remove] *)
+  
+(* ****** ****** *)
+
+implement{
+} stringbuf_remove_all
+  (sbf) = () where
+{
+//
+val+@STRINGBUF(A, p1, _) = sbf
+val ((*void*)) = p1 := ptrcast(A)
+prval ((*void*)) = fold@ (sbf)
+//
+} (* end of [stringbuf_remove_all] *)
 
 (* ****** ****** *)
 

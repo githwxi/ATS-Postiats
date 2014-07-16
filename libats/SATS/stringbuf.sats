@@ -198,6 +198,15 @@ fun{}
 stringbuf_takeout_all (sbf: !stringbuf):<!wrt> Strptr1
 //
 (* ****** ****** *)
+//
+fun{}
+stringbuf_remove
+  (sbf: !stringbuf, i: size_t):<!wrt> void
+//
+fun{}
+stringbuf_remove_all (sbf: !stringbuf):<!wrt> void
+//
+(* ****** ****** *)
 
 fun{}
 stringbuf_truncate

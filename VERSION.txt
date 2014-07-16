@@ -26,6 +26,9 @@ Here is a list of major additions and changes since the last release:
 1. Adding support for checking funarg-pattern exhaustiveness
 2. Adding run-time support for handling funarg-pattern matching failure
 3. Default namespace is assumed for staloadloc if none is given explicitly.
+4. Stopping non-template constants from being implemented in the body of a
+   function (during type-checking)
+5. Improving/fixing libats/stringbuf
 
 </pre>
 

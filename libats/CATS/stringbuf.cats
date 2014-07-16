@@ -46,7 +46,7 @@
 /* ****** ****** */
 
 #define atslib_stringbuf_memcpy memcpy
-#define atslib_stringbuf_memove memmove
+#define atslib_stringbuf_memmove memmove
 
 /* ****** ****** */
 
