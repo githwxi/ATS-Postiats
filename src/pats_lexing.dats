@@ -398,7 +398,8 @@ fun BLANK_test
 
 (* ****** ****** *)
 
-fun IDENTFST_test
+fun
+IDENTFST_test
   (c: char): bool =
 (
   case+ 0 of
@@ -408,7 +409,8 @@ fun IDENTFST_test
   | _ (*rest-of-char*) => false
 ) (* end of [IDENTFST_test] *)
 
-fun IDENTRST_test
+fun
+IDENTRST_test
   (c: char): bool =
 (
   case+ 0 of
@@ -584,27 +586,30 @@ testing_blankseq0
   ) : uint = let
     val i = lexbuf_get_char (buf, nchr)
   in
-    if i >= 0 then (
-      if BLANK_test ((i2c)i) then let
+    if (
+    i >= 0
+    ) then (
+      if
+      BLANK_test ((i2c)i)
+      then let
         val () = posincbyc (pos, i) in loop (buf, pos, succ(nchr))
       end else nchr // end of [if]
     ) else nchr // end of [if]
   end // end of [loop]
-  val nchr0 = lexbufpos_diff (buf, pos)
-  val nchr1 = loop (buf, pos, nchr0)
-  val diff = nchr1 - nchr0
+  val nchr = lexbufpos_diff (buf, pos)
+  val diff = loop (buf, pos, nchr) - nchr
 } (* end of testing_blankseq0] *)
 
 (* ****** ****** *)
 
 extern
 fun
-testing_char
+testing_litchar
 (
   buf: &lexbuf, pos: &position, lit: char
-) : int // end of [testing_char]
+) : int // end of [testing_litchar]
 implement
-testing_char
+testing_litchar
 (
   buf, pos, lit
 ) = res where {
@@ -613,7 +618,7 @@ testing_char
     if i >= 0 then (if (i2c)i = lit then 1 else ~1) else ~1
   ) : int // end of [val]
   val () = if res >= 0 then posincbyc (pos, i)
-} (* end of [testing_char] *)
+} (* end of [testing_litchar] *)
 
 (* ****** ****** *)
 //
@@ -1504,6 +1509,8 @@ in
   lexing_char_closing (buf, pos, c)
 end // end of [lexing_char_oct]
 
+(* ****** ****** *)
+
 implement
 lexing_char_hex
   (buf, pos, k) = let
@@ -1522,6 +1529,8 @@ lexing_char_hex
 in
   lexing_char_closing (buf, pos, c)
 end // end of [lexing_char_hex]
+
+(* ****** ****** *)
 
 implement
 lexing_char_special
@@ -1558,17 +1567,20 @@ in
   // end of [case]
 end // end of [lexing_char_special]
 
+(* ****** ****** *)
+
 implement
 lexing_char_closing
   (buf, pos, c) = let
-  val res = testing_char (buf, pos, '\'')
+  val res = testing_litchar (buf, pos, '\'')
 in
-  if res >= 0 then
-    lexbufpos_token_reset (buf, pos, T_CHAR (c))
-  else
-    lexbufpos_lexerr_reset (buf, pos, LE_CHAR_unclose)
+  if res >= 0
+    then lexbufpos_token_reset (buf, pos, T_CHAR (c))
+    else lexbufpos_lexerr_reset (buf, pos, LE_CHAR_unclose)
   // end of [if]
 end // end of [lexing_char_closing]
+
+(* ****** ****** *)
 
 implement
 lexing_QUOTE
@@ -1654,6 +1666,8 @@ in
   i // char code
 end // end of [lexing_string_char_oct]
 
+(* ****** ****** *)
+
 fun
 lexing_string_char_hex
 (
@@ -1691,6 +1705,8 @@ lexing_string_char_hex
 in
   i // char code
 end // end of [lexing_string_char_hex]
+
+(* ****** ****** *)
 
 fun
 lexing_string_char_special
@@ -1825,6 +1841,8 @@ in
   | _ => lexbufpos_token_reset (buf, pos, tn)
 end // end of [lexing_postfix]
 
+(* ****** ****** *)
+
 fun
 lexing_polarity
 (
@@ -1956,7 +1974,8 @@ fun lexing_FIX
 //
 (* ****** ****** *)
 
-fun lexing_REF (
+fun lexing_REF
+(
   buf: &lexbuf, pos: &position
 ) : token = lexing_postfix (buf, pos, REF, REFAT, '@')
 
@@ -1966,7 +1985,7 @@ fun lexing_ADDR
 (
   buf: &lexbuf, pos: &position
 ) : token = lexing_postfix (buf, pos, ADDR, ADDRAT, '@')
-
+//
 fun lexing_FOLD
 (
   buf: &lexbuf, pos: &position
@@ -2023,6 +2042,8 @@ case+ (i2c)i of
 // end of [case]
 //
 end // end of [lexing_IDENT_alp]
+
+(* ****** ****** *)
 
 implement
 lexing_IDENT2_alp
@@ -2271,6 +2292,8 @@ lexing_FLOAT_deciexp
 in
   lexbufpos_token_reset (buf, pos, T_FLOAT (10(*base*), str, k))
 end // end of [lexing_FLOAT_deciexp]
+
+(* ****** ****** *)
 
 implement
 lexing_FLOAT_hexiexp
