@@ -506,14 +506,18 @@ i1mpdec_tr_main
 , d2c: d2cst, imparg: i1mparg, impdec: i1mpdec
 ) : i2mpdec = let
 //
-fun aux_imparg_sarglst (
+fun
+aux_imparg_sarglst
+(
   d1c0: d1ecl, s1as: s1arglst
 ) : s2varlst = s2vs where {
   val s2vs = s1arglst_trup (s1as)
   val () = the_s2expenv_add_svarlst (s2vs)
 } (* end of [aux_imparg_sarglst] *)
 //
-fun aux_imparg_svararg (
+fun
+aux_imparg_svararg
+(
   d1c0: d1ecl
 , s1v: s1vararg, s2qs: s2qualst, out: &s2varlstlst
 ) : s2qualst = let
@@ -565,8 +569,10 @@ in
   case+ s1v of
   | S1VARARGone (loc) => (
     case+ s2qs of
-    | list_cons (s2q, s2qs) => let
-        val s2vs = list_map_fun (s2q.s2qua_svs, s2var_dup)
+    | list_cons
+        (s2q, s2qs) => let
+        val s2vs =
+          list_map_fun (s2q.s2qua_svs, s2var_dup)
         val s2vs = (l2l)s2vs
         val () = the_s2expenv_add_svarlst (s2vs)
         val () = out := list_cons (s2vs, out)
@@ -576,11 +582,13 @@ in
     | list_nil () => let
         val () = auxerr1 () in list_nil ()
       end // end of [list_nil]
-    ) // end of [S1VARARGone]
+    ) (* end of [S1VARARGone] *)
   | S1VARARGall (loc) => (
     case+ s2qs of
-    | list_cons (s2q, s2qs) => let
-        val s2vs = list_map_fun (s2q.s2qua_svs, s2var_dup)
+    | list_cons
+        (s2q, s2qs) => let
+        val s2vs =
+          list_map_fun (s2q.s2qua_svs, s2var_dup)
         val s2vs = (l2l)s2vs
         val () = the_s2expenv_add_svarlst (s2vs)
         val () = out := list_cons (s2vs, out)
@@ -588,13 +596,14 @@ in
         aux_imparg_svararg (d1c0, s1v, s2qs, out)
       end
     | list_nil () => list_nil ()
-    ) // end of [S1VARARGall]
+    ) (* end of [S1VARARGall] *)
   | S1VARARGseq
       (loc, s1as) => (
     case+ s2qs of
     | list_cons (s2q, s2qs) => let
         var serr: int = 0
-        val s2vs = auxseq (s1as, s2q.s2qua_svs, serr)
+        val s2vs =
+          auxseq (s1as, s2q.s2qua_svs, serr)
         val () = the_s2expenv_add_svarlst (s2vs)
         val () = if serr != 0 then auxerr2 (loc, serr)
         val () = out := list_cons (s2vs, out)
@@ -604,10 +613,12 @@ in
     | list_nil () => let
         val () = auxerr1 () in list_nil ()
       end // end of [list_nil]
-    ) // end of [S1VARARGseq]
+    ) (* end of [S1VARARGseq] *)
 end // end of [aux_imparg_svararg]
 //
-fun aux_imparg_svararglst (
+fun
+aux_imparg_svararglst
+(
   d1c0: d1ecl
 , s2qs: s2qualst, s1vs: s1vararglst, out: &s2varlstlst
 ) : void = let
@@ -628,7 +639,10 @@ in
     in
       aux_imparg_svararglst (d1c0, s2qs, s1vs, out)
     end // end of [::]
-  | list_nil () =>  ( // HX: make sure the implementation is fully applied
+  | list_nil () => (
+//
+// HX: make sure the implementation is fully applied
+//
     case+ s2qs of
     | list_cons _ => let 
         val () = auxerr () in ()
@@ -637,26 +651,37 @@ in
     ) (* end of [list_nil] *)
 end // end of [aux_imparg_svararglst]
 //
-fun aux_imparg (
-  d1c0: d1ecl, s2qs: s2qualst, imparg: i1mparg
-) : (s2varlst, Option_vt (s2varlstlst)) =
-  case+ imparg of
-  | I1MPARG_sarglst (s1as) => let
-      val s2vs = aux_imparg_sarglst (d1c0, s1as)
-    in
-      (s2vs, None_vt ())
-    end // end of [I1MPARG_sarglst]
-  | I1MPARG_svararglst (s1vs) => let
-      var out: s2varlstlst = list_nil ()
-      val () = aux_imparg_svararglst (d1c0, s2qs, s1vs, out)
-      val out = l2l (list_reverse (out))
-      val s2vs = l2l (list_concat (out))
-    in
-      (s2vs, Some_vt (out))
-    end // end of [I1MPARG_svararglst]
-(* end of [aux_imparg] *)
+fun
+aux_imparg
+(
+  d1c0: d1ecl
+, s2qs: s2qualst, imparg: i1mparg
+) :
+(
+  s2varlst, Option_vt (s2varlstlst)
+) = let
+in
 //
-fun aux_tmparg_s1explst (
+case+ imparg of
+| I1MPARG_sarglst (s1as) => let
+    val s2vs = aux_imparg_sarglst (d1c0, s1as)
+  in
+    (s2vs, None_vt ())
+  end // end of [I1MPARG_sarglst]
+| I1MPARG_svararglst (s1vs) => let
+    var out: s2varlstlst = list_nil ()
+    val () = aux_imparg_svararglst (d1c0, s2qs, s1vs, out)
+    val out = l2l (list_reverse (out))
+    val s2vs = l2l (list_concat (out))
+  in
+    (s2vs, Some_vt (out))
+  end // end of [I1MPARG_svararglst]
+//
+end // end of [aux_imparg]
+//
+fun
+aux_tmparg_s1explst
+(
   d1c0: d1ecl
 , s2vs: s2varlst, s1es: s1explst, serr: &int
 ) : s2explst = let
@@ -684,10 +709,15 @@ in
     end
 end // end of [aux_tmparg_s1explst]
 //
-fun aux_tmparg_marglst (
+fun
+aux_tmparg_marglst
+(
   d1c0: d1ecl, s2qs: s2qualst, xs: t1mpmarglst
 ) : s2explstlst = let
-  fn auxerr1 (x: t1mpmarg, serr: int):<cloref1> void = let
+//
+  fn auxerr1 (
+    x: t1mpmarg, serr: int
+  ) :<cloref1> void = let
     val () = prerr_error2_loc (x.t1mpmarg_loc)
     val () = filprerr_ifdebug "i1mpdec_tr_main: aux_tmparg_marglst"
     val () = prerr ": the template argument group is expected to be contain "
@@ -697,6 +727,7 @@ fun aux_tmparg_marglst (
   in
     the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
   end // end of [auxerr1]
+//
   fn auxerr2 ():<cloref1> void = let
     val () = prerr_error2_loc (d1c0.d1ecl_loc)
     val () = filprerr_ifdebug "i1mpdec_tr_main: aux_tmparg_marglst"
@@ -705,6 +736,7 @@ fun aux_tmparg_marglst (
   in
     the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
   end // end of [auxerr2]
+//
   fn auxerr3 ():<cloref1> void = let
     val () = prerr_error2_loc (d1c0.d1ecl_loc)
     val () = filprerr_ifdebug "i1mpdec_tr_main: aux_tmparg_marglst"
@@ -733,7 +765,9 @@ in
     end
 end // end of [aux_tmparg_s1explstlst]
 //
-fun aux_tmparg (
+fun
+aux_tmparg
+(
   d1c0: d1ecl
 , s2qs: s2qualst, tmparg: t1mpmarglst
 ) : s2explstlst = let
@@ -741,7 +775,8 @@ in
   aux_tmparg_marglst (d1c0, s2qs, tmparg)
 end // end of [aux_tmparg]
 //
-fun auxerr_tmparg
+fun
+auxerr_tmparg
   (d1c0: d1ecl): void = let
   val () = prerr_error2_loc (d1c0.d1ecl_loc)
   val () = filprerr_ifdebug "i1mpdec_tr_main"
@@ -751,7 +786,8 @@ in
   the_trans2errlst_add (T2E_d1ecl_tr_impdec_tmparg (d1c0))
 end // end of [auxerr_tmparg]
 //
-fun auxerr_nontop
+fun
+auxerr_nontop
   (d1c0: d1ecl): void = let
   val () = prerr_error2_loc (d1c0.d1ecl_loc)
   val () = filprerr_ifdebug "i1mpdec_tr_main"

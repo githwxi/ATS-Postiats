@@ -1271,7 +1271,7 @@ in
   | '<' => let
       val () = posincby1 (pos) in
       lexbufpos_token_reset (buf, pos, T_COLONLT)
-    end // end of ['(']
+    end // end of ['<']
   | _ => let
       val k = testing_symbolicseq0 (buf, pos) in
       lexing_IDENT_sym (buf, pos, succ(k))
@@ -1340,7 +1340,7 @@ case+ 0 of
     val () = posincby1 (pos)
     val k = testing_digitseq0 (buf, pos)
     val str = lexbuf_get_substrptr1 (buf, 1u, k+1u)
-    val int = string2int ($UN.castvwtp1 {string} (str))
+    val int = string2int ($UN.castvwtp1{string}(str))
     val () = strptr_free (str)
   in
     lexbufpos_token_reset (buf, pos, T_DOTINT (int))
@@ -1425,7 +1425,8 @@ in
       lexing_IDENT_srp (buf, pos, k+2u)
     end // end of [_ when ...]
   | _ => let
-      val k = testing_symbolicseq0 (buf, pos) in
+      val k = testing_symbolicseq0 (buf, pos)
+    in
       lexing_IDENT_sym (buf, pos, succ(k))
     end // end of [_]
 end // end of [lexing_SHARP]
