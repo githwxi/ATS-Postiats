@@ -1498,11 +1498,19 @@ case+
     instr_trywith (loc0, tmpexn, inss_try, ibrs_with)
   end // end of [INStrywith]
 //
-| INSmove_list_nil (tmp) =>
-    instr_move_list_nil (loc0, ftmp(tmp))
+| INSmove_list_nil
+    (tmp) => let
+    val tmp = ftmp(tmp)
+  in
+    instr_move_list_nil (loc0, tmp)
+  end // end of [INSmove_list_nil]
 //
-| INSpmove_list_nil (tmp) =>
-    instr_pmove_list_nil (loc0, ftmp(tmp))
+| INSpmove_list_nil
+    (tmp) => let
+    val tmp = ftmp (tmp)
+  in
+    instr_pmove_list_nil (loc0, tmp)
+  end // end of [INSpmove_list_nil]
 | INSpmove_list_cons
     (tmp, hse) => let
     val tmp = ftmp (tmp)
