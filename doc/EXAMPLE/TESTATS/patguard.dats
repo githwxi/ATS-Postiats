@@ -14,7 +14,7 @@ fact (n: int): int =
 (
 case+ 0 of
 | _ when n = 0 => 1
-| _ (* n > 1 *) => n * fact (n-1)
+| _ (* n >= 1 *) => n * fact (n-1)
 ) (* end of [fact] *)
 
 (* ****** ****** *)
