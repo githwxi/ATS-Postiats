@@ -41,9 +41,11 @@ ATSPRE = "./pats_atspre.dats"
 staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
-
+//
 staload SYM = "./pats_symbol.sats"
-
+//
+overload prerr with $SYM.prerr_symbol
+//
 (* ****** ****** *)
 
 staload "./pats_errmsg.sats"
@@ -92,12 +94,14 @@ symd2cst_struct = @{
 
 assume d2cstref_type = ref (symd2cst_struct)
 
-in // in of [local]
+in (* in of [local] *)
 
 fun d2cstref_get_sym
   (r: d2cstref): symbol = let
   val (vbox pf | p) = ref_get_view_ptr (r) in p->sym
 end // end of [d2cstref_get_sym]
+
+(* ****** ****** *)
 
 fun d2cstref_get_cstnul
   (r: d2cstref): d2cstnul = let
@@ -107,6 +111,8 @@ fun d2cstref_set_cstnul
   (r: d2cstref, d2c: d2cstnul): void = let
   val (vbox pf | p) = ref_get_view_ptr (r) in p->cst := d2c
 end // end of [d2cstref_set_cstnul]
+
+(* ****** ****** *)
 
 implement
 d2cstref_make (name) = let
@@ -128,11 +134,8 @@ d2cstref_get_cst (r) = let
 fn auxerr
   (id: symbol): d2cst = let
   val () = prerr_interror ()
-  val () = prerr ": d2cstref_get_cst: "
-  val () = prerr "the pervasive dynamic constant ["
-  val () = $SYM.prerr_symbol (id)
-  val () = prerr "] is not available."
-  val () = prerr_newline ();
+  val () = prerr ": d2cstref_get_cst"
+  val () = prerrln! (": the pervasive dynamic constant [", id, "] is not available.")
 in
   $ERR.abort {d2cst} ()
 end (* end of [auxerr] *)
@@ -142,7 +145,9 @@ end (* end of [auxerr] *)
 //
 in
 //
-if isnul then let
+if
+isnul
+then let
   val id = d2cstref_get_sym (r)
   val ans = the_d2expenv_pervasive_find (id)
 in
@@ -157,11 +162,11 @@ case+ ans of
     end // end of [D2ITMcst]
   | _ => auxerr (id)
   ) // end of [Some_vt]
-| ~None_vt () => auxerr (id)
+| ~None_vt ((*void*)) => auxerr (id)
 //
-end else
-  d2cstnul_unsome (d2c)
-// end of [if]
+end // end of [then]
+else d2cstnul_unsome (d2c)
+//
 end // end of [d2cstref_get_cst]
 
 (* ****** ****** *)

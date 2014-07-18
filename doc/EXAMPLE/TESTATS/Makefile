@@ -100,6 +100,14 @@ cleanall:: ; $(RMF) llazytest_dats.c
 
 ######
 
+all:: listbuild
+listbuild: listbuild.dats ; \
+   $(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+regress:: listbuild ; ./$<
+cleanall:: ; $(RMF) listbuild
+
+######
+
 all:: mutailrec
 mutailrec: mutailrec.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: mutailrec ; ./$<

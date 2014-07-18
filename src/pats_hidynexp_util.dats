@@ -303,16 +303,22 @@ case+
   case+ hipn2 of HIPempty () => true | _ => false
   )
 //
+(*
+//
+// HX-2014-07: [HIPlst] is no longer in use
+//
 | (HIPlst (_, xs1), _) => (
   case+ hipn2 of
   | HIPlst (_, xs2) => hipatlst_subtest (xs1, xs2) | _ => false
   )
+*)
+//
 | (HIPrec (_, lxs1, _), _) => (
   case+ hipn2 of
   | HIPrec (_, lxs2, _) => labhipatlst_subtest (lxs1, lxs2) | _ => false
   )
 //
-| (_, _) => false
+| (_, _) (*rest-of-hipat-hipat*) => false
 //
 end // end of [hipat_subtest]
 

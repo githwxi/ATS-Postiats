@@ -1314,17 +1314,26 @@ in '{
 
 implement
 p0at_lst
-  (lin, t_beg, p0ts, t_end) = let
+(
+  lin, t_beg, p0ts, t_end
+) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
   p0at_loc= loc, p0at_node= P0Tlst (lin, p0ts)
 } end // end of [p0at_lst]
 
+(*
+//
+// HX-2014-07:
+// a list-pattern
+// like '[x1, x2] is no longer supported
+//
 implement
 p0at_lst_quote
-  (t_beg, p0ts, t_end) =
-  p0at_lst (0(*lin*), t_beg, p0ts, t_end)
-// end of [p0at_lst_quote]
+(
+  t_beg, p0ts, t_end
+) = p0at_lst (0(*lin*), t_beg, p0ts, t_end)
+*)
 
 (* ****** ****** *)
 

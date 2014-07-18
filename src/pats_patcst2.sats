@@ -94,6 +94,12 @@ p2atcstlst
 and p2atcstlst = List (p2atcst)
 and labp2atcstlst = List (labp2atcst)
 
+(* ****** ****** *)
+
+fun p2atcst_lst (lin: int, xs: p2atcstlst): p2atcst
+
+(* ****** ****** *)
+
 viewtypedef
 p2atcstlst_vt = List_vt (p2atcst)
 viewtypedef

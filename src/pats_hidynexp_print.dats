@@ -130,9 +130,21 @@ case+ x.hipat_node of
     val () = prstr "HIPf0loat("
     val () = $SYN.fprint_f0loat (out, tok)
     val () = prstr ")"
-  }
+  } // end of [HIPf0lat]
 //
 | HIPempty () => prstr "HIPempty()"
+//
+(*
+| HIPlst (
+    hse_elt, hips_elt
+  ) => {
+    val () = prstr "HIPlst("
+    val () = fprint_hisexp (out, hse_elt)
+    val () = prstr "; "
+    val () = fprint_hipatlst (out, hips_elt)
+    val () = prstr ")"
+  } // end of [HIPlst]
+*)
 //
 | HIPrec (
     knd, lhips, hse_rec
@@ -150,7 +162,7 @@ case+ x.hipat_node of
     val () = prstr " : "
     val () = fprint_hisexp (out, ann)
     val () = prstr ")"
-  }
+  } (* end of [HIPann] *)
 //
 | _ => {
     val () = fprint_string (out, "HIP...(...)")

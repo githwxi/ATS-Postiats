@@ -557,8 +557,8 @@ p2at_node =
 //
   | P2Tempty of ()
 //
-  | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
   | P2Tlst of (int(*lin*), p2atlst) // pattern list
+  | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
 //
   | P2Trefas of (d2var, p2at)
 //

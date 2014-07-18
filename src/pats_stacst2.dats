@@ -1001,6 +1001,7 @@ end // end of [s2exp_list_vt0ype_int_vtype]
 
 (* ****** ****** *)
 
+(*
 implement
 the_list0_t0ype_type =
   s2cstref_make "list0_t0ype_type"
@@ -1010,6 +1011,9 @@ s2exp_list0_t0ype_type (s2e) = let
 in
   s2exp_cstapp (s2c, list_sing (s2e))
 end // end of [s2exp_list0_t0ype_type]
+*)
+
+(* ****** ****** *)
 
 implement
 the_list_t0ype_int_type =

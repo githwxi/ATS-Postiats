@@ -90,9 +90,11 @@ hipat_node =
       (pckind, d2con, hisexp(*tysum*), labhipatlst)
   | HIPcon_any of (pckind, d2con) // HX: unused arg
 //
+(*
+  | HIPlst of (hisexp(*element*), hipatlst)
+*)
   | HIPrec of (* record pattern *)
       (int(*knd*), labhipatlst, hisexp(*tyrec*))
-  | HIPlst of (hisexp(*element*), hipatlst)
 //
   | HIPrefas of (d2var, hipat) // referenced pattern
 //
@@ -149,31 +151,56 @@ fun labhipatlst_is_unused (lhips: labhipatlst): bool
 fun hipat_make_node
   (loc: location, hse: hisexp, node: hipat_node): hipat
 
+(* ****** ****** *)
+
 fun hipat_any (loc: location, hse: hisexp, d2v: d2var): hipat
 fun hipat_var (loc: location, hse: hisexp, d2v: d2var): hipat
 
-fun hipat_con
+(* ****** ****** *)
+
+fun
+hipat_con
 (
   loc: location
 , hse: hisexp, pck: pckind
 , d2c: d2con, hse_sum: hisexp, lhips: labhipatlst
 ) : hipat // end of [hipat_con]
-fun hipat_con_any (
-  loc: location, hse:hisexp, pck: pckind, d2c: d2con
+fun
+hipat_con_any
+(
+  loc: location, hse: hisexp, pck: pckind, d2c: d2con
 ) : hipat // end of [hipat_con_any]
+
+(* ****** ****** *)
 
 fun hipat_int (loc: location, hse: hisexp, i: int): hipat
 fun hipat_intrep (loc: location, hse: hisexp, rep: string): hipat
+
+(* ****** ****** *)
 
 fun hipat_bool (loc: location, hse: hisexp, b: bool): hipat
 fun hipat_char (loc: location, hse: hisexp, c: char): hipat
 fun hipat_float (loc: location, hse: hisexp, rep: string): hipat
 fun hipat_string (loc: location, hse: hisexp, str: string): hipat
 
+(* ****** ****** *)
+
 fun hipat_i0nt (loc: location, hse: hisexp, tok: i0nt): hipat
 fun hipat_f0loat (loc: location, hse: hisexp, tok: f0loat): hipat
 
+(* ****** ****** *)
+
 fun hipat_empty (loc: location, hse: hisexp): hipat
+
+(* ****** ****** *)
+
+fun hipat_lst
+(
+  loc: location
+, lin: int, hse_lst: hisexp, hse_elt: hisexp, hips: hipatlst
+) : hipat // end of [hipat_lst]
+
+(* ****** ****** *)
 
 fun hipat_rec (
   loc: location
@@ -184,13 +211,13 @@ fun hipat_rec2 (
 , hse: hisexp, knd: int, lhips: labhipatlst, hse_rec: hisexp
 ) : hipat // end of [hipat_rec2]
 
-fun hipat_lst (
-  loc: location, hse: hisexp, hse_elt: hisexp, hips: hipatlst
-) : hipat // end of [hipat_lst]
+(* ****** ****** *)
 
 fun hipat_refas (
   loc: location, hse: hisexp, d2v: d2var, hip: hipat
 ) : hipat // end of [hipat_refas]
+
+(* ****** ****** *)
 
 fun hipat_ann
   (loc: location, hse: hisexp, hip: hipat, ann: hisexp): hipat

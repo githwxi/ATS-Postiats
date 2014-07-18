@@ -328,18 +328,6 @@ case+ tok.token_node of
     end // end of [if]
   end
 //
-| T_QUOTELBRACKET () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {p0at} (buf, bt, p_p0at)
-    val ent3 = p_RBRACKET (buf, bt, err)
-  in
-    if err = err0 then
-      p0at_lst_quote (tok, (l2l)ent2, ent3)
-    else let
-      val () = list_vt_free (ent2) in synent_null ()
-    end (* end of [if] *)
-  end
 | T_DLRLST (lin) => let
     val bt = 0
     val () = incby1 ()
@@ -357,6 +345,26 @@ case+ tok.token_node of
       val () = list_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
   end
+(*
+//
+// HX-2014-07:
+// a list-pattern
+// like '[x1, x2] is no longer supported
+//
+| T_QUOTELBRACKET () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {p0at} (buf, bt, p_p0at)
+    val ent3 = p_RBRACKET (buf, bt, err)
+  in
+    if err = err0 then
+      p0at_lst_quote (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in synent_null ()
+    end (* end of [if] *)
+  end
+*)
+//
 | _ => let
     val () = err := err + 1 in synent_null ()
   end

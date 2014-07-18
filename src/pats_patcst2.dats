@@ -77,6 +77,7 @@ staload LAB = "./pats_label.sats"
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+staload "./pats_stacst2.sats"
 staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -118,6 +119,39 @@ if sfx > 0u
 // end of [if]
 //
 end // end of [intinf_of_i0nt]
+
+(* ****** ****** *)
+
+implement
+p2atcst_lst
+  (lin, xs) = let
+//
+val s2c =
+(
+if lin = 0
+  then s2cstref_get_cst (the_list_t0ype_int_type)
+  else s2cstref_get_cst (the_list_vt0ype_int_vtype)
+) : s2cst
+//
+val-Some xx = s2cst_get_islst (s2c)
+val d2c_nil = xx.0 and d2c_cons = xx.1
+//
+fun
+auxlst
+(
+  xs: p2atcstlst
+) :<cloref1> p2atcst =
+(
+case+ xs of
+| list_nil () =>
+     P2TCcon (d2c_nil, list_nil())
+| list_cons (x, xs) =>
+    P2TCcon(d2c_cons, list_pair(x, auxlst(xs)))
+) (* end of [auxlst] *)
+//
+in
+  auxlst (xs)
+end // end of [p2atcst_lst]
 
 (* ****** ****** *)
 
@@ -301,8 +335,8 @@ fun labp2at2cstlst_vt
 (* ****** ****** *)
 
 implement
-p2at2cst
-  (p2t0) = let
+p2at2cst (p2t0) = let
+//
 in
 //
 case+ p2t0.p2at_node of
@@ -317,16 +351,17 @@ case+ p2t0.p2at_node of
 //
 | P2Tempty () => P2TCempty ()
 //
-| P2Tint i => let
+| P2Tint (i) => let
     val i = intinf_make_int (i) in P2TCint (i)
   end // end of [P2Tint]
 | P2Tintrep (rep) => let
     val i = intinf_make_string (rep) in P2TCint (i)
   end // end of [P2Tint]
-| P2Tbool b => P2TCbool (b)
-| P2Tchar c => P2TCchar (c)
-| P2Tfloat f(*string*) => P2TCfloat f
-| P2Tstring s => P2TCstring s
+//
+| P2Tbool (b) => P2TCbool (b)
+| P2Tchar (c) => P2TCchar (c)
+| P2Tfloat (rep) => P2TCfloat (rep)
+| P2Tstring (str) => P2TCstring (str)
 //
 | P2Ti0nt (tok) => let
     val i0 = intinf_of_i0nt (tok) in P2TCint (i0)
@@ -335,11 +370,17 @@ case+ p2t0.p2at_node of
     val-T_FLOAT (base, rep, sfx) = tok.token_node in P2TCfloat (rep)
   end // end of [P2Tf0loat]
 //
-| P2Trec
-    (recknd, _(*npf*), lp2ts) => let
-    var !p_clo =
-      @lam (
-      lx1: &labp2atcst, lx2: &labp2atcst
+| P2Tlst (lin, p2ts) =>
+    p2atcst_lst (lin, p2at2cstlst (p2ts))
+//
+| P2Trec (
+    recknd, npf, lp2ts
+  ) => let
+    var
+    !p_clo =
+    @lam (
+      lx1: &labp2atcst
+    , lx2: &labp2atcst
     ) : int =<0> let
       val LABP2ATCST (l1, _) = lx1
       and LABP2ATCST (l2, _) = lx2

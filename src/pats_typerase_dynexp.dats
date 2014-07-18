@@ -226,6 +226,17 @@ case+ p3t0.p3at_node of
 //
 | P3Tempty () => hipat_empty (loc0, hse0)
 //
+| P3Tlst
+  (
+    lin, s2e_elt, p3ts
+  ) => let
+    val hse_elt =
+      s2exp_tyer_shallow (loc0, s2e_elt)
+    val hips = p3atlst_tyer (p3ts)
+  in
+    hipat_lst (loc0, lin, hse0, hse_elt, hips)
+  end // end of [P3Tlst]
+//
 | P3Trec
   (
     knd, npf, lp3ts
@@ -240,16 +251,6 @@ case+ p3t0.p3at_node of
   in
     hipat_rec2 (loc0, hse0, knd, lhips, hse_rec)
   end // end of [P3Trec]
-| P3Tlst
-  (
-    lin, s2e_elt, p3ts
-  ) => let
-    val hse_elt =
-      s2exp_tyer_shallow (loc0, s2e_elt)
-    val hips = p3atlst_tyer (p3ts)
-  in
-    hipat_lst (loc0, hse0, hse_elt, hips)
-  end // end of [P3Tlst]
 //
 | P3Trefas
     (d2v, p3t_as) => let
