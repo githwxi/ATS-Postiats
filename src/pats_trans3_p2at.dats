@@ -1424,11 +1424,10 @@ val opt = un_s2exp_vbox_view_prop (s2f0)
 in
 //
 case+ opt of
-| ~Some_vt (s2e) => let
 //
+| ~Some_vt (s2e) => let
     val s2f = s2exp2hnf (s2e)
     val s2e = s2hnf2exp (s2f)
-//
     val islin = s2exp_is_lin (s2e)
     val () = d2var_set_mastype (d2v, Some s2e)
     val () = if islin then {
@@ -1440,7 +1439,8 @@ case+ opt of
   in
     p3at_vbox (loc0, s2e0, d2v)
   end // end of [Some_vt]
-| ~None_vt () => let
+//
+| ~None_vt ((*void*)) => let
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the pattern is given the type ["
     val () = prerr_s2exp (s2e0)
@@ -1458,11 +1458,14 @@ end // end of [p2at_trdn_vbox]
 implement
 p2at_trdn_ann
   (p2t0, s2f0) = let
-  val loc0 = p2t0.p2at_loc
-  val-P2Tann (p2t, s2e_ann) = p2t0.p2at_node
-  val s2e0 = s2hnf_opnexi_and_add (loc0, s2f0)
-  val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e0, s2e_ann)
-  val () = if (nerr > 0) then let
+//
+val loc0 = p2t0.p2at_loc
+val-P2Tann (p2t, s2e_ann) = p2t0.p2at_node
+val s2e0 = s2hnf_opnexi_and_add (loc0, s2f0)
+val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e0, s2e_ann)
+//
+val () =
+  if (nerr > 0) then let
     val () = prerr_error3_loc (loc0)
     val () = filprerr_ifdebug "p2at_trdn_ann"
     val () = prerr ": the pattern cannot be given the ascribed type."
@@ -1470,8 +1473,10 @@ p2at_trdn_ann
     val () = prerr_the_staerrlst ()
   in
     the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
-  end // end of [val]
-  val p3t = p2at_trdn (p2t, s2e0)
+  end // end of [if] // end of [val]
+//
+val p3t = p2at_trdn (p2t, s2e0)
+//
 in
   p3at_ann (loc0, s2e0, p3t, s2e_ann)
 end // end of [p2at_trdn_ann]
@@ -1489,9 +1494,15 @@ val s2e_gval = s2exp_bool_index_t0ype (s2e_ind)
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 in
 //
-case+ s2e.s2exp_node of
-| S2Eapp (s2e_fun, s2es_arg)
-    when s2cstref_equ_exp (
+case+
+s2e.s2exp_node of
+//
+| S2Eapp
+  (
+    s2e_fun, s2es_arg
+  ) when
+    s2cstref_equ_exp
+  (
     the_bool_bool_t0ype, s2e_fun
   ) => let
     val-list_cons
@@ -1501,19 +1512,23 @@ case+ s2e.s2exp_node of
   in
     trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
   end // end of [S2Eapp]
-| _ => let
-    val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e_gval, s2e)
-    val () = if (nerr > 0) then {
+//
+| _ (*non-app*) => let
+    val nerr =
+      $SOL.s2exp_tyleq_solve (loc0, s2e_gval, s2e)
+    val () =
+    if (nerr > 0) then {
       val () = prerr_error3_loc (loc0)
       val () = prerr ": the guard is ill-typed."
       val () = prerr_newline ()
       val () = prerr_the_staerrlst ()
       val s2e0 = s2hnf2exp (s2f0)
       val () = the_trans3errlst_add (T3E_guard_trdn (loc0, gval, s2e0))
-    } // end of [val]
+    } (* end of [if] *) // end of [val]
   in
     (* nothing *)
   end // end of [_]
+//
 end // end of [guard_trdn]
 
 (* ****** ****** *)
