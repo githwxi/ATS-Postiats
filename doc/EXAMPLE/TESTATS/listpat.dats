@@ -1,5 +1,5 @@
 //
-// Test code for building lists
+// Test list-patterns
 //
 (* ****** ****** *)
 //
@@ -20,7 +20,7 @@ val () = assertloc (x1 = 1 && x2 = 2 && x3 = 3)
 (* ****** ****** *)
 
 val xs = 1 :: 2 :: 3 :: nil()
-val+$list(x1,x2,x3) = xs: list(int,3)
+val+$list_t(x1,x2,x3) = xs: list(int, 3)
 val () = assertloc (length (xs) = 3)
 val () = assertloc (x1 = 1 && x2 = 2 && x3 = 3)
 
@@ -35,4 +35,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [listcon.dats] *)
+(* end of [listpat.dats] *)

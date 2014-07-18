@@ -100,11 +100,11 @@ cleanall:: ; $(RMF) llazytest_dats.c
 
 ######
 
-all:: listbuild
-listbuild: listbuild.dats ; \
+all:: listpat
+listpat: listpat.dats ; \
    $(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
-regress:: listbuild ; ./$<
-cleanall:: ; $(RMF) listbuild
+regress:: listpat ; ./$<
+cleanall:: ; $(RMF) listpat
 
 ######
 
