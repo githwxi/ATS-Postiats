@@ -126,12 +126,21 @@ implement
 p2atcst_lst
   (lin, xs) = let
 //
+(*
+val () = println! ("p2atcst_lst: lin = ", lin)
+*)
+//
+val isnonlin =
+(
+  if lin >= 0 then not(test_linkind(lin)) else true
+) : bool // end of [val]
+//
 val s2c =
 (
-if lin = 0
+if isnonlin
   then s2cstref_get_cst (the_list_t0ype_int_type)
   else s2cstref_get_cst (the_list_vt0ype_int_vtype)
-) : s2cst
+) : s2cst // end of [val]
 //
 val-Some xx = s2cst_get_islst (s2c)
 val d2c_nil = xx.0 and d2c_cons = xx.1
@@ -144,7 +153,7 @@ auxlst
 (
 case+ xs of
 | list_nil () =>
-     P2TCcon (d2c_nil, list_nil())
+    P2TCcon (d2c_nil, list_nil())
 | list_cons (x, xs) =>
     P2TCcon(d2c_cons, list_pair(x, auxlst(xs)))
 ) (* end of [auxlst] *)

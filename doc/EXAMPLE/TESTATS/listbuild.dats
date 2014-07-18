@@ -26,7 +26,7 @@ val () = assertloc (x1 = 1 && x2 = 2 && x3 = 3)
 
 (* ****** ****** *)
 
-val+$list(x1,x2,x3) = $list_vt{int}(1,2,3)
+val+$list_vt(x1,x2,x3) = $list_vt{int}(1,2,3)
 val () = assertloc (x1 = 1 && x2 = 2 && x3 = 3)
 
 (* ****** ****** *)

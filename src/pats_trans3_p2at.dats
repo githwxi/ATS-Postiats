@@ -132,8 +132,10 @@ case+ p2t0.p2at_node of
   // end of [P2Tvar]
 //
 | P2Tint _ => s2exp_int_t0ype () // int0
-| P2Tintrep rep =>
+| P2Tintrep (rep) =>
     intrep_syn_type (p2t0.p2at_loc, rep) // intrep
+  (* end of [P2Tintrep] *)
+//
 | P2Tbool _ => s2exp_bool_t0ype () // bool0
 | P2Tchar _ => s2exp_char_t0ype () // char0
 | P2Tstring _ => s2exp_string_type () // string0
@@ -148,27 +150,7 @@ case+ p2t0.p2at_node of
     s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
   (* end of [P2Tcon] *)
 //
-| P2Tlst (lin, p2ts) => let
-    val n = list_length (p2ts)
-    val s2e_elt =
-      s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
-    // end of [val]
-  in
-    if lin >= 0
-      then let
-        val isnonlin =
-        (
-          if test_linkind (lin) then false else true
-        ) : bool // end of [val]
-      in
-        if isnonlin
-          then s2exp_list_t0ype_int_type (s2e_elt, n)
-          else s2exp_list_vt0ype_int_vtype (s2e_elt, n)
-        // end of [if]
-      end // end of [then]
-      else s2exp_t0ype_err ()
-    // end of [if]
-  end // end of [P2Tlst]
+| P2Tlst (lin, p2ts) => s2exp_t0ype_err ()
 //
 (*
 | P2Ttup : tuples have been turned into records
@@ -1162,6 +1144,28 @@ end // end of [p2at_trdn_rec]
 
 (* ****** ****** *)
 
+local
+//
+fun
+auxerr_lin
+  (p2t0: p2at): void = let
+  val () = prerr_error3_loc (p2t0.p2at_loc)
+  val () = prerrln! (": the list-pattern should be non-linear.")
+in
+  the_trans3errlst_add (T3E_p2at_trdn_lst (0, p2t0))
+end // end of [auxerr_lin]
+//
+fun
+auxerr_nonlin
+  (p2t0: p2at): void = let
+  val () = prerr_error3_loc (p2t0.p2at_loc)
+  val () = prerrln! (": the list-pattern should be linear but it is not.")
+in
+  the_trans3errlst_add (T3E_p2at_trdn_lst (1, p2t0))
+end // end of [auxerr_nonlin]
+//
+in (* in-of-local *)
+
 implement
 p2at_trdn_lst
   (p2t0, s2f0) = let
@@ -1170,12 +1174,10 @@ val loc0 = p2t0.p2at_loc
 val-P2Tlst (lin, p2ts) = p2t0.p2at_node
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 //
-val () =
-if (lin >= 0) then
-{
-  val () = prerr_warning3_loc (loc0)
-  val () = prerrln! (": $list_t/$list_vt should be replaced with $list.")
-} (* end of [if] *)
+val islin =
+(
+  if lin >= 0 then test_linkind(lin) else false
+) : bool // end of [val]
 //
 in
 //
@@ -1201,6 +1203,9 @@ s2e.s2exp_node of
     // end of [val]
     val s2f2_arg = s2exp2hnf (s2e2_arg)
     val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f2_arg)
+//
+    val () = if islin then auxerr_lin (p2t0)
+//
   in
     p3at_lst (loc0, s2e, 0(*lin*), s2e1_arg, p3ts)
   end // list_t0ype_int_type
@@ -1224,6 +1229,9 @@ s2e.s2exp_node of
     // end of [val]
     val s2f2_arg = s2exp2hnf (s2e2_arg)
     val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f2_arg)
+//
+    val () = if not(islin) then auxerr_nonlin (p2t0)
+//
   in
     p3at_lst (loc0, s2e, 1(*lin*), s2e1_arg, p3ts)
   end // list_vt0ype_int_vtype
@@ -1239,6 +1247,8 @@ s2e.s2exp_node of
   end // end of [_]
 //
 end // end of [p2at_trdn_lst]
+
+end // end of [local]
 
 (* ****** ****** *)
 

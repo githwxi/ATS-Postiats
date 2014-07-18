@@ -78,6 +78,8 @@ datatype trans3err =
   | T3E_p2at_trdn of (p2at, s2exp)
   | T3E_p2at_trdn_vbox_ref of (p2at) // resulting in disallowed ref-effect
 //
+  | T3E_p2at_trdn_lst of (int(*lin*), p2at)
+//
   | T3E_p2at_trup_con of p2at // pfarity // ill-typed
   | T3E_p2at_trdn_con_arity of (p2at, int(*serr*))
   | T3E_p2at_free_update of (p3at) // linear constructor freeing

@@ -300,7 +300,7 @@ in
 end // end of [c2laulst1_trdn]
 
 (* ****** ****** *)
-
+//
 extern
 fun
 c2laulst2_trdn
@@ -313,8 +313,8 @@ c2laulst2_trdn
 , d3es: list (d3exp, n)
 , s2es_pat: list (s2exp, n)
 , s2e_res: s2exp
-) : c3laulst n
-
+) : c3laulst (n)
+//
 and
 c2laulst2_trdn_rest
   {n:nat} (
@@ -329,14 +329,18 @@ c2laulst2_trdn_rest
 , s2es_pat: list (s2exp, n)
 , s2e_res: s2exp
 , cp2tcss: &p2atcstlstlst_vt
-) : c3laulst n
-
+) : c3laulst (n)
+//
 (* ****** ****** *)
 
 implement
-c2laulst2_trdn {n} (
-  loc0, casknd, invres, c2l_fst, c2ls_rest, d3es, s2es_pat, s2e_res
-) : c3laulst n = let
+c2laulst2_trdn{n}
+(
+  loc0
+, casknd, invres
+, c2l_fst, c2ls_rest
+, d3es, s2es_pat, s2e_res
+) = let
 (*
 val () = begin
   print "c2laulst2_trdn: s2es_pat = "; print s2es_pat; print_newline ();
