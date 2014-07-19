@@ -92,12 +92,14 @@ macdef posincbyc
 
 fun
 xdigit_get_val
-  (c: char): int =
-(
-  case+ 0 of
-  | _ when c <= '9' => c - '0'
-  | _ when c <= 'F' => 10 + (c - 'A') // HX: A = 10
-  | _ => 10 + (c - 'a')
+  (c: char): int = (
+//
+case+ 0 of
+| _ when c <= '9' => c - '0'
+| _ when c <= 'F' => 10 + (c - 'A') // HX: 'A' = 10
+| _ when c >= 'f' => 10 + (c - 'a') // HX: 'a' = 10
+| _ (* illegal *) => (0) // HX: default for illegals
+//
 ) (* end of [xdigit_get_val] *)
 
 (* ****** ****** *)
@@ -721,61 +723,34 @@ i >= 0
 then let
   val c = (i2c)i
 in
-  if eE_test (c) then let
-    val () = posincby1 (pos)
-    val k1 = ftesting_opt (buf, pos, SIGN_test)
-    val k2 = testing_digitseq0 (buf, pos) // err: k2 = 0
 //
-    val () =
-    if k2 = 0u then {
-      val loc = lexbufpos_get_location (buf, pos)
-      val err = lexerr_make (loc, LE_FEXPONENT_empty)
-      val () = the_lexerrlst_add (err)
-    } // end of [if] // end of [val]
+if
+eE_test(c)
+then let
+  val () = posincby1 (pos)
 //
-  in
-    u2i (k1+k2+1u)
-  end else ~1 // end [if]
+  val k1 = ftesting_opt (buf, pos, SIGN_test)
+  val k2 = testing_digitseq0 (buf, pos) // err: k2 = 0
+//
+  val () =
+  if k2 = 0u then
+  {
+    val loc =
+      lexbufpos_get_location (buf, pos)
+    val err =
+      lexerr_make (loc, LE_FEXPONENT_empty)
+    val ((*void*)) = the_lexerrlst_add (err)
+  } (* end of [if] *) // end of [val]
+//
+in
+  u2i (k1+k2+1u)
+end // end of [then]
+else (~1) // end of [else]
+//
 end // end of [then]
 else (~1) // end of [else]
 //
 end // end of [testing_fexponent]
-
-(* ****** ****** *)
-
-fun
-testing_deciexp
-(
-  buf: &lexbuf, pos: &position
-) : int = let  
-  val i = lexbufpos_get_char (buf, pos)
-in
-//
-if i >= 0 then let
-  val c = (i2c)i in
-  if c = '.' then let
-    val () = posincby1 (pos)
-    val k1 = testing_digitseq0 (buf, pos)
-    val k2 = testing_fexponent (buf, pos)
-    val k12 = (
-      if k2 >= 0 then (u2i)k1 + k2 else (u2i)k1
-    ) : int // end of [val]
-//
-(*
-    val () =
-    if (k12 = 0) then {
-      val loc = lexbufpos_get_location (buf, pos)
-      val err = lexerr_make (loc, LE_FEXPONENT_empty)
-      val () = the_lexerrlst_add (err)
-    } // end of [if] // end of [val]
-*)
-//
-  in
-    k12 + 1
-  end else ~1 // end of [if]
-end else ~1 // end of [if]
-//
-end // end of [testing_deciexp]
 
 (* ****** ****** *)
 
@@ -787,27 +762,88 @@ testing_fexponent_bin
   val i = lexbufpos_get_char (buf, pos)
 in
 //
-if i >= 0 then let
+if
+i >= 0
+then let
   val c = (i2c)i
 in
-  if pP_test (c) then let
-    val () = posincby1 (pos)
-    val k1 = ftesting_opt (buf, pos, SIGN_test)
-    val k2 = testing_digitseq0 (buf, pos) // err: k2 = 0
 //
-    val () =
-    if k2 = 0u then {
-      val loc = lexbufpos_get_location (buf, pos)
-      val err = lexerr_make (loc, LE_FEXPONENT_empty)
-      val () = the_lexerrlst_add (err)
-    } // end of [if] // end of [val]
+if
+pP_test(c)
+then let
+  val () = posincby1 (pos)
 //
-  in
-    u2i (k1+k2+1u)
-  end else ~1 // end [if]
-end else ~1 // end of [if]
+  val k1 = ftesting_opt (buf, pos, SIGN_test)
+  val k2 = testing_digitseq0 (buf, pos) // err: k2 = 0
 //
-end // end of [testing_fexponent]
+  val () =
+  if k2 = 0u then
+  {
+    val loc =
+      lexbufpos_get_location (buf, pos)
+    val err =
+      lexerr_make (loc, LE_FEXPONENT_empty)
+    val ((*void*)) = the_lexerrlst_add (err)
+  } (* end of [if] *) // end of [val]
+//
+in
+  u2i (k1+k2+1u)
+end // end of [then]
+else (~1) // end of [else]
+//
+end // end of [then]
+else (~1) // end of [else]
+//
+end // end of [testing_fexponent_bin]
+
+(* ****** ****** *)
+
+fun
+testing_deciexp
+(
+  buf: &lexbuf, pos: &position
+) : int = let  
+  val i = lexbufpos_get_char (buf, pos)
+in
+//
+if
+i >= 0
+then let
+  val c = (i2c)i
+in
+//
+if
+c = '.'
+then let
+  val () = posincby1 (pos)
+  val k1 = testing_digitseq0 (buf, pos)
+  val k2 = testing_fexponent (buf, pos)
+  val k12 =
+  (
+    if k2 >= 0 then (u2i)k1 + k2 else (u2i)k1
+  ) : int // end of [val]
+//
+(*
+  val () =
+  if (k12 = 0) then
+  {
+    val loc =
+      lexbufpos_get_location (buf, pos)
+    val err =
+      lexerr_make (loc, LE_FEXPONENT_empty)
+    val ((*void*)) = the_lexerrlst_add (err)
+  } (* end of [if] *) // end of [val]
+*)
+//
+in
+  k12 + 1
+end // end of [then]
+else ~1 // end of [else]
+//
+end // end of [then]
+else ~1 // end of [else]
+//
+end // end of [testing_deciexp]
 
 (* ****** ****** *)
 
@@ -819,16 +855,25 @@ testing_hexiexp
   val i = lexbufpos_get_char (buf, pos)
 in
 //
-if i >= 0 then let
-  val c = (i2c)i in
-  if c = '.' then let
-    val () = posincby1 (pos)
-    val k1 = testing_xdigitseq0 (buf, pos)
-    val k2 = testing_fexponent_bin (buf, pos)
-  in
-    if k2 >= 0 then (u2i)k1 + k2 + 1 else (u2i)k1 + 1
-  end else ~1 // end of [if]
-end else ~1 // end of [if]
+if
+i >= 0
+then let
+  val c = (i2c)i
+in
+//
+if
+c = '.'
+then let
+  val () = posincby1 (pos)
+  val k1 = testing_xdigitseq0 (buf, pos)
+  val k2 = testing_fexponent_bin (buf, pos)
+in
+  if k2 >= 0 then (u2i)k1 + k2 + 1 else (u2i)k1 + 1
+end // end of [then]
+else (~1) // end of [else]
+//
+end // end of [then]
+else (~1) // end of [else]
 //
 end // end of [testing_hexiexp]
 
@@ -2309,7 +2354,8 @@ end // end of [lexing_FLOAT_hexiexp]
 
 implement
 lexing_INTEGER_dec
-  (buf, pos, k1) =
+  (buf, pos, k1) = let
+in
   case+ 0 of
   | _ when
       testing_deciexp (buf, pos) >= 0 => let
@@ -2328,7 +2374,7 @@ lexing_INTEGER_dec
     in
       lexbufpos_token_reset (buf, pos, T_INTEGER_dec (str, k2))
     end // end of [_]
-// end of [lexing_INTEGER_dec]
+end // end of [lexing_INTEGER_dec]
 
 (* ****** ****** *)
 
