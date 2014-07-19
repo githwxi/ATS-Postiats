@@ -664,30 +664,41 @@ testing_literal
 val [n:int] lit = string1_of_string (lit)
 //
 fun loop
-  {k:nat | k <= n} (
+  {k:nat | k <= n} .<n-k>.
+(
   buf: &lexbuf
 , nchr: uint, lit: string n, k: size_t k
 ) : int = let
-  val notatend = string_isnot_atend (lit, k)
+  val isnot = string_isnot_atend (lit, k)
 in 
-  if notatend then let
-    val i = lexbuf_get_char (buf, nchr)
-  in
-    if i >= 0 then
-      if ((i2c)i = lit[k])
-        then loop (buf, succ(nchr), lit, k+1) else ~1
-      // end of [if]
-    else ~1 // end of [if]
-  end else (sz2i)k // end of [if]
+//
+if
+isnot
+then let
+  val i = lexbuf_get_char (buf, nchr)
+in
+//
+if (
+i >= 0
+) then (
+  if ((i2c)i = lit[k])
+   then loop (buf, succ(nchr), lit, k+1) else ~1
+  // end of [if]
+) else (~1) // end of [if]
+//
+end // end of [then]
+else (sz2i)k // end of [else]
+//
 end // end of [loop]
 //
-val nchr0 = lexbufpos_diff (buf, pos)
+val nchr0 =
+  lexbufpos_diff (buf, pos)
 val res = loop (buf, nchr0, lit, 0)
-val () =
-(
+val () = (
+//
 if res >= 0
   then $LOC.position_incby_count (pos, (i2u)res) else ()
-// end of [if]
+//
 ) (* end of [val] *)
 //
 } // end of [testing_literal]
@@ -728,19 +739,21 @@ case+ 0 of
 | _ when
   (
     '8' <= c && c <= '9'
-  ) => let
+  ) => true where
+  {
+//
+// HX: continue-with-error
+//
     var pos1: position
     val () = lexbuf_get_position (buf, pos1)
     val () = $LOC.position_incby_count (pos1, nchr)
     var pos2: position
     val () = lexbuf_get_position (buf, pos2)
-    val () = $LOC.position_incby_count (pos1, succ(nchr))
+    val () = $LOC.position_incby_count (pos2, succ(nchr))
     val loc = $LOC.location_make_pos_pos (pos1, pos2)
     val err = lexerr_make (loc, LE_DIGIT_oct_89 (c))
     val ((*void*)) = the_lexerrlst_add (err)
-  in
-    true
-  end // end of [8--9]
+  } (* end of [8--9] *)
 | _ (*non-DIGIT*) => false
 )
 //
