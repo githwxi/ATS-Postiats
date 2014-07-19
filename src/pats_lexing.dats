@@ -441,6 +441,20 @@ fun xX_test
   (c: char): bool =
   if c = 'x' then true else c = 'X'
 //
+(* ****** ****** *)
+//
+(*
+fun OCTAL_test
+  (c: char): bool =
+(
+if ('0' <= c)
+  then (c <= '7') else false
+// end of [if]
+)
+*)
+//
+(* ****** ****** *)
+//
 fun DIGIT_test
   (c: char): bool = char_isdigit (c)
 fun XDIGIT_test
@@ -497,11 +511,17 @@ ftesting_opt
   (buf, pos, f) = let
   val i = lexbufpos_get_char (buf, pos)
 in
-  if i >= 0 then (
-    if f ((i2c)i) then let
-      val () = posincby1 (pos) in 1u
-    end else 0u // end of [if]
-  ) else 0u // end of [if]
+//
+if (
+i >= 0
+) then (
+  if f ((i2c)i)
+    then
+      let val () = posincby1 (pos) in 1u end
+    else 0u
+  // end of [if]
+) else 0u // end of [if]
+//
 end // end of [ftesting_opt]
 
 (* ****** ****** *)
@@ -517,7 +537,10 @@ ftesting_seq0
 ) : uint // end of [ftesting_seq0]
 implement
 ftesting_seq0
-  (buf, pos, f) = diff where {
+(
+  buf, pos, f
+) = diff where
+{
   fun loop (
     buf: &lexbuf, nchr: uint, f: char -> bool
   ) : uint = let
@@ -529,13 +552,14 @@ ftesting_seq0
       // end of [if]
     else nchr // end of [if]
   end // end of [loop]
-  val nchr0 = lexbufpos_diff (buf, pos)
+  val nchr0 =
+    lexbufpos_diff (buf, pos)
   val nchr1 = loop (buf, nchr0, f)
   val diff = nchr1 - nchr0
   val () = if diff > 0u 
     then $LOC.position_incby_count (pos, diff) else ()
   // end of [val]
-} // end of [ftesting_seq0]
+} (* end of [ftesting_seq0] *)
 
 (* ****** ****** *)
 //
@@ -683,31 +707,97 @@ testing_symbolicseq0
 // end of [testing_symbolicseq0]
 
 (* ****** ****** *)
-
-fun testing_digitseq0
-  (buf: &lexbuf, pos: &position): uint
-  = ftesting_seq0 (buf, pos, DIGIT_test)
-// end of [testing_digitseq0]
-
-fun testing_xdigitseq0
-  (buf: &lexbuf, pos: &position): uint
-  = ftesting_seq0 (buf, pos, XDIGIT_test)
-// end of [testing_xdigitseq0]
-
+//
+fun
+testing_octalseq0
+(
+  buf: &lexbuf, pos: &position
+) : uint = diff where
+{
+//
+fun f3
+(
+  buf: &lexbuf, nchr: uint, c: char
+) : bool =
+(
+case+ 0 of
+| _ when
+  (
+    '0' <= c && c <= '7'
+  ) => true
+| _ when
+  (
+    '8' <= c && c <= '9'
+  ) => let
+    var pos1: position
+    val () = lexbuf_get_position (buf, pos1)
+    val () = $LOC.position_incby_count (pos1, nchr)
+    var pos2: position
+    val () = lexbuf_get_position (buf, pos2)
+    val () = $LOC.position_incby_count (pos1, succ(nchr))
+    val loc = $LOC.location_make_pos_pos (pos1, pos2)
+    val err = lexerr_make (loc, LE_DIGIT_oct_89 (c))
+    val ((*void*)) = the_lexerrlst_add (err)
+  in
+    true
+  end // end of [8--9]
+| _ (*non-DIGIT*) => false
+)
+//
+fun
+loop
+(
+  buf: &lexbuf, nchr: uint
+) : uint = let
+  val i = lexbuf_get_char (buf, nchr)
+in
+  if i >= 0 then
+    if f3 (buf, nchr, (i2c)i)
+      then loop (buf, succ(nchr)) else nchr
+    // end of [if]
+  else nchr // end of [if]
+end // end of [loop]
+//
+val nchr0 =
+  lexbufpos_diff (buf, pos)
+val nchr1 = loop (buf, nchr0)
+val diff = nchr1 - nchr0
+val () =
+if diff > 0u 
+  then $LOC.position_incby_count (pos, diff) else ()
+// end of [val]
+} (* end of [testing_octalseq0] *)
+//
 (* ****** ****** *)
-
-fun testing_intspseq0
-  (buf: &lexbuf, pos: &position): uint
-  = ftesting_seq0 (buf, pos, INTSP_test)
-// end of [testing_intspseq0]
-
+//
+fun
+testing_digitseq0
+(
+  buf: &lexbuf, pos: &position
+) : uint = ftesting_seq0 (buf, pos, DIGIT_test)
+//
+fun
+testing_xdigitseq0
+(
+  buf: &lexbuf, pos: &position
+) : uint = ftesting_seq0 (buf, pos, XDIGIT_test)
+//
 (* ****** ****** *)
-
-fun testing_floatspseq0
-  (buf: &lexbuf, pos: &position): uint
-  = ftesting_seq0 (buf, pos, FLOATSP_test)
-// end of [testing_floatspseq0]
-
+//
+fun
+testing_intspseq0
+(
+  buf: &lexbuf, pos: &position
+) : uint = ftesting_seq0 (buf, pos, INTSP_test)
+//
+(* ****** ****** *)
+//
+fun
+testing_floatspseq0
+(
+  buf: &lexbuf, pos: &position
+) : uint = ftesting_seq0 (buf, pos, FLOATSP_test)
+//
 (* ****** ****** *)
 
 fun
@@ -2423,31 +2513,40 @@ lexing_INTEGER_hex
 (* ****** ****** *)
 
 extern
-fun lexing_ZERO
+fun
+lexing_ZERO
   (buf: &lexbuf, pos: &position): token
 implement
 lexing_ZERO
   (buf, pos) = let
-  val i = lexbufpos_get_char (buf, pos)
+//
+val i = lexbufpos_get_char (buf, pos)
+//
 in
-  if i >= 0 then let
-    val c = (i2c)i in
-    case+ 0 of
-    | _ when xX_test (c) => let
-        val () = posincby1 (pos)
-        val k1 = testing_xdigitseq0 (buf, pos)
-      in
-        lexing_INTEGER_hex (buf, pos, k1)
-      end // end of [_ when ...]
-    | _ => let
-        val k1 = testing_digitseq0 (buf, pos)
-      in
-        lexing_INTEGER_oct (buf, pos, k1)
-      end // end of [_]
-    // end of [case]
-  end else
-    lexbufpos_token_reset (buf, pos, ZERO)
-  // end of [if]
+//
+if
+i >= 0
+then let
+  val c = (i2c)i
+in
+  case+ 0 of
+  | _ when xX_test (c) => let
+      val () = posincby1 (pos)
+      val k1 =
+        testing_xdigitseq0 (buf, pos)
+      // end of [val]
+    in
+      lexing_INTEGER_hex (buf, pos, k1)
+    end // end of [_ when ...]
+  | _ => let
+      val k1 = testing_octalseq0 (buf, pos)
+    in
+      lexing_INTEGER_oct (buf, pos, k1)
+    end // end of [_]
+  // end of [case]
+end // end of [then]
+else lexbufpos_token_reset (buf, pos, ZERO)
+//
 end // end of [lexing_ZERO]
 
 (* ****** ****** *)

@@ -474,12 +474,15 @@ lexerr_node =
 //
   | LE_EXTCODE_unclose of ()
 //
+  | LE_DIGIT_oct_89 of (char)
+//
   | LE_FEXPONENT_empty of ()
 //
   | LE_UNSUPPORTED_char of (char)
 // end of [lexerr_node]
 //
-typedef lexerr = '{
+typedef
+lexerr = '{
   lexerr_loc= location, lexerr_node= lexerr_node
 } (* end of [lexerr] *)
 //
