@@ -1249,30 +1249,41 @@ val-D2Elst (lin, opt, d2es) = d2e0.d2exp_node
 (*
 val () = println! ("d2exp_trup_lst: lin = ", lin)
 *)
-val islin = (
+val islin =
+(
   if lin >= 0 then test_linkind (lin) else false
 ) : bool // end of [val]
-val isnonlin = ~(islin)
+val isnonlin = not(islin)
 val s2e_elt = (
-  case+ opt of
-  | Some s2e => s2e | None () => let
-      val s2t = (
-        if isnonlin then s2rt_t0ype else s2rt_vt0ype
-      ) : s2rt // end of [val]
-    in
-      s2exp_Var_make_srt (loc0, s2t)
-    end // end of [None]
+//
+case+ opt of
+| Some s2e => s2e
+| None ((*void*)) => let
+    val s2t =
+    (
+      if isnonlin then s2rt_t0ype else s2rt_vt0ype
+    ) : s2rt // end of [val]
+  in
+    s2exp_Var_make_srt (loc0, s2t)
+  end // end of [None]
+//
 ) : s2exp // end of [val]
 val n = list_length (d2es)
 val d3es = d2explst_trdn_elt (d2es, s2e_elt)
-val isnonlin = (
+val isnonlin =
+(
   if lin >= 0 then isnonlin else s2exp_is_nonlin (s2e_elt)
 ) : bool // end of [val]
-val s2e_lst = (
-  if isnonlin then
-    s2exp_list_t0ype_int_type (s2e_elt, n)
-  else
-    s2exp_list_vt0ype_int_vtype (s2e_elt, n)
+val s2e_lst =
+(
+//
+if
+isnonlin
+then
+  s2exp_list_t0ype_int_type (s2e_elt, n)
+else
+  s2exp_list_vt0ype_int_vtype (s2e_elt, n)
+//
 ) : s2exp // end of [val]
 //
 in
@@ -1280,10 +1291,12 @@ in
 end // end of [d2exp_trup_lst]
 
 (* ****** ****** *)
-
+//
 extern
-fun d3explst_get_type (d3es: d3explst): labs2explst
-
+fun
+d3explst_get_type
+  (d3es: d3explst): labs2explst
+//
 implement
 d3explst_get_type (d3es) = let
   fun aux (
@@ -1302,6 +1315,8 @@ d3explst_get_type (d3es) = let
 in
   aux (d3es, 0)
 end // end of [d3explst_get_type]
+//
+(* ****** ****** *)
 
 implement
 d2exp_trup_tup
@@ -1333,10 +1348,12 @@ in
 end // end of [d2exp_trup_tup]
 
 (* ****** ****** *)
-
+//
 extern
-fun labd3explst_get_type (ld3es: labd3explst): labs2explst
-
+fun
+labd3explst_get_type
+  (ld3es: labd3explst): labs2explst
+//
 implement
 labd3explst_get_type (ld3es) = let
   fn f (
@@ -1348,6 +1365,8 @@ labd3explst_get_type (ld3es) = let
 in
   l2l (list_map_fun (ld3es, f))
 end // end of [labd3explst_get_type]
+//
+(* ****** ****** *)
 
 implement
 d2exp_trup_rec
@@ -1386,7 +1405,8 @@ end // end of [d2exp_trup_rec]
 (* ****** ****** *)
 
 implement
-d2exp_trup_seq (d2e0) = let
+d2exp_trup_seq
+  (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
 val-D2Eseq (d2es) = d2e0.d2exp_node
@@ -1502,7 +1522,9 @@ end // end of [d2exp_trup_vcopyenv]
 
 implement
 funarg_patck_exhaust
-  (loc0, p2ts_arg, s2es_arg) =
+(
+  loc0, p2ts_arg, s2es_arg
+) = () where
 {
 //
 val p2tcs =
