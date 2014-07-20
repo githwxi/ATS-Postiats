@@ -1034,6 +1034,8 @@ extern
 fun lexing_FLOAT_hexiexp
   (buf: &lexbuf, pos: &position): token
 //
+(* ****** ****** *)
+//
 extern
 fun lexing_INTEGER_dec
   (buf: &lexbuf, pos: &position, k1: uint): token
@@ -1339,7 +1341,8 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun lexing_LPAREN
+fun
+lexing_LPAREN
   (buf: &lexbuf, pos: &position): token
 implement
 lexing_LPAREN
@@ -1363,7 +1366,8 @@ end // en dof [lexing_LPAREN]
 (* ****** ****** *)
 
 extern
-fun lexing_COMMA
+fun
+lexing_COMMA
   (buf: &lexbuf, pos: &position): token
 implement
 lexing_COMMA (buf, pos) = let
@@ -1380,7 +1384,8 @@ end // end of [lexing_COMMA]
 (* ****** ****** *)
 
 extern
-fun lexing_AT
+fun
+lexing_AT
   (buf: &lexbuf, pos: &position): token
 implement
 lexing_AT (buf, pos) = let
@@ -1414,10 +1419,12 @@ end // end of [lexing_AT]
 (* ****** ****** *)
 
 extern
-fun lexing_COLON
+fun
+lexing_COLON
   (buf: &lexbuf, pos: &position): token
 implement
-lexing_COLON (buf, pos) = let
+lexing_COLON
+  (buf, pos) = let
   val i = lexbufpos_get_char (buf, pos)
 in
   case+ (i2c)i of
@@ -1433,10 +1440,13 @@ end // end of [lexing_COLON]
 
 (* ****** ****** *)
 
-fun FLOATDOT_test
+fun
+FLOATDOT_test
   (buf: &lexbuf, c: char): bool =
   if lexbuf_get_nspace (buf) > 0 then DIGIT_test (c) else false
 // end of [testing_float_dot]
+
+(* ****** ****** *)
 
 fun
 string2int (x: string) = let
@@ -1459,8 +1469,11 @@ in
   loop (x, 0, 0)
 end // end of [string2int]
 
+(* ****** ****** *)
+
 extern
-fun lexing_DOT
+fun
+lexing_DOT
   (buf: &lexbuf, pos: &position): token
 implement
 lexing_DOT
@@ -1471,33 +1484,39 @@ lexing_DOT
 in
 //
 case+ 0 of
+//
 | _ when
     SYMBOLIC_test (c) => let
     val () = posincby1 (pos)
-    val k = testing_symbolicseq0 (buf, pos) in
-    lexing_IDENT_sym (buf, pos, k+2u)
-  end // HX: a symbolic token
-| _ when
-    FLOATDOT_test
-      (buf, c) => let
-    val () = posdecby1 (pos)
+    val k0 =
+      testing_symbolicseq0 (buf, pos)
+    // end of [val]
   in
-    if testing_deciexp (buf, pos) >= 0 then
-      lexing_FLOAT_deciexp (buf, pos)
-    else (* HX: it cannot be taken *)
-      lexbufpos_token_reset (buf, pos, T_ERR)
+    lexing_IDENT_sym (buf, pos, k0+2u)
+  end // HX: a symbolic token
+//
+| _ when
+    FLOATDOT_test (buf, c) => let
+    val () = posdecby1 (pos)
+    val k0 = testing_deciexp (buf, pos)
+  in
+    if k0 >= 0
+      then lexing_FLOAT_deciexp (buf, pos)
+      else lexbufpos_token_reset (buf, pos, T_ERR)
     // end of [if]
   end // end of [nspace > 0]
+//
 | _ when
     DIGIT_test (c) => let
     val () = posincby1 (pos)
-    val k = testing_digitseq0 (buf, pos)
-    val str = lexbuf_get_substrptr1 (buf, 1u, k+1u)
+    val k0 = testing_digitseq0 (buf, pos)
+    val str = lexbuf_get_substrptr1 (buf, 1u, k0+1u)
     val int = string2int ($UN.castvwtp1{string}(str))
     val () = strptr_free (str)
   in
     lexbufpos_token_reset (buf, pos, T_DOTINT (int))
   end // end of [DOTINT]
+//
 | _ => lexbufpos_token_reset (buf, pos, DOT)
 //
 end // end of [lexing_DOT]

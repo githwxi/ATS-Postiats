@@ -91,6 +91,14 @@ cleanall:: ; $(RMF) funargpat
 ######
 
 all:: \
+intbase
+intbase: intbase.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: intbase ; ./$<
+cleanall:: ; $(RMF) intbase
+
+######
+
+all:: \
 lazytest
 lazytest: lazytest_dats.c ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
