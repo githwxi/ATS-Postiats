@@ -243,6 +243,10 @@ implement{
 } add_size1_int1
   {i,j}(i, j) = $UN.cast{size_t(i+j)}(i+g0i2u(j))
 implement{
+} add_int1_size1
+  {i,j}(i, j) = $UN.cast{size_t(i+j)}(g0i2u(i)+j)
+//
+implement{
 } sub_size1_int1
   {i,j}(i, j) = $UN.cast{size_t(i-j)}(i-g0i2u(j))
 //
