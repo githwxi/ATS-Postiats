@@ -94,10 +94,10 @@ val () = deqarray_insert_atend (deq, 1)
 val () = deqarray_insert_atend (deq, 2)
 //
 val-(0) = deqarray_takeout_atbeg (deq)
-val-(1) = deqarray_takeout_atbeg (deq)
 //
 val () = deqarray_insert_atend (deq, 3)
 //
+val-(1) = deqarray_takeout_atbeg (deq)
 val-(2) = deqarray_takeout_atbeg (deq)
 val-(3) = deqarray_takeout_atbeg (deq)
 //

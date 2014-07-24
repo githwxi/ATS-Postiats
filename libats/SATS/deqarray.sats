@@ -149,6 +149,25 @@ overload fprint with fprint_deqarray_sep
 
 (* ****** ****** *)
 
+fun{a:t0p}
+deqarray_get_at
+  {m,n:int}
+  (deq: !deqarray (INV(a), m, n), i: sizeLt(n)):<> (a)
+// end of [deqarray_get_at]
+fun{a:t0p}
+deqarray_set_at
+  {m,n:int}
+  (deq: !deqarray (INV(a), m, n), i: sizeLt(n), x: a):<!wrt> void
+// end of [deqarray_get_at]
+
+fun{a:vt0p}
+deqarray_getref_at
+  {m,n:int}
+  (deq: !deqarray (INV(a), m, n), i: sizeLt(n)):<> cPtr1(a)
+// end of [deqarray_getref_at]
+
+(* ****** ****** *)
+
 fun{a:vt0p}
 deqarray_insert_atbeg
   {m,n:int | m > n}
@@ -242,11 +261,11 @@ a:vt0p}{env:vt0p
 fun{
 a:vt0p
 } deqarray_foreach{m,n:int}
-  (deq: !deqarray (INV(a), m, n)): sizeLte(n)
+  (deq: !deqarray (INV(a), m, n)): void
 fun{
 a:vt0p}{env:vt0p
 } deqarray_foreach_env{m,n:int}
-  (deq: !deqarray (INV(a), m, n), env: &(env) >> _): sizeLte(n)
+  (deq: !deqarray (INV(a), m, n), env: &(env) >> _): void
 
 (* ****** ****** *)
 

@@ -199,9 +199,6 @@ end // end of [array_ptr_tabulate]
 
 #atscode_separator()
 
-implement{}
-fprint_array$sep (out) = fprint (out, ", ")
-
 implement{a}
 fprint_array_int
   (out, A, asz) = let
@@ -233,6 +230,13 @@ val _(*n*) = array_foreach_env<a><tenv> (A, asz, env)
 in
   // nothing
 end // end of [fprint_array_size]
+
+#atscode_separator()
+
+implement{}
+fprint_array$sep (out) = fprint (out, ", ")
+
+#atscode_separator()
 
 implement{a}
 fprint_array_sep
