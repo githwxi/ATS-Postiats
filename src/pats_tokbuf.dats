@@ -220,14 +220,17 @@ implement
 tokbuf_get_token
   (buf) = let
 //
-  prval () = $DQ.lemma_deque_param (buf.tbuf)
+prval () =
+$DQ.lemma_deque_param (buf.tbuf)
 //
-  val ntok = (u2sz1)buf.ntok
-  val n = $DQ.deque_size (buf.tbuf)
+val ntok = (u2sz1)buf.ntok
+val nqsz = $DQ.deque_size (buf.tbuf)
 //
 in
 //
-if ntok < n then
+if
+ntok < nqsz
+then
   $DQ.deque_get_elt_at<token> (buf.tbuf, ntok)
 else let
   val tok =
@@ -235,7 +238,7 @@ else let
   val m = $DQ.deque_cap {token} (buf.tbuf)
   val () =
   if (
-    m > n
+    m > nqsz
   ) then {
     val () = $DQ.deque_insert_end<token> (buf.tbuf, tok)
   } else {
@@ -251,7 +254,7 @@ else let
   } (* end of [if] *)
 in
   tok
-end (* end of [if] *)
+end // end of [else]
 //
 end // end of [tokbuf_get_token]
 
