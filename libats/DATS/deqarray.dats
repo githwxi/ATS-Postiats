@@ -188,45 +188,6 @@ end // end of [local]
 
 implement
 {a}(*tmp*)
-deqarray_get_at
-  (deq, i) =
-(
-  $UN.cptr_get (deqarray_getref_at<a> (deq, i))
-) (* end of [deqarray_get_at] *)
-
-implement
-{a}(*tmp*)
-deqarray_set_at
-  (deq, i, x) =
-(
-  $UN.cptr_set (deqarray_getref_at<a> (deq, i), x)
-) (* end of [deqarray_set_at] *)
-
-(* ****** ****** *)
-
-local
-//
-extern
-fun
-deqarray_getref_at__tsz
-  {a:vt0p}{m,n:int}
-(
-  deq: !deqarray (a, m, n), i: sizeLt(n), tsz: sizeof_t(a)
-) :<> cPtr1(a) = "mac#%"
-//
-in (* in of [local] *)
-//
-implement
-{a}(*tmp*)
-deqarray_getref_at
-  (deq, i) = deqarray_getref_at__tsz{a}(deq, i, sizeof<a>)
-//
-end // end of [local]
-
-(* ****** ****** *)
-
-implement
-{a}(*tmp*)
 deqarray_insert_atbeg
   {m,n} (deq, x0) = let
 //
@@ -383,6 +344,45 @@ if isnot then let
 end else None_vt((*void*))
 //
 end // end of [deqarray_takeout_atend_opt]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+deqarray_get_at
+  (deq, i) =
+(
+  $UN.cptr_get (deqarray_getref_at<a> (deq, i))
+) (* end of [deqarray_get_at] *)
+
+implement
+{a}(*tmp*)
+deqarray_set_at
+  (deq, i, x) =
+(
+  $UN.cptr_set (deqarray_getref_at<a> (deq, i), x)
+) (* end of [deqarray_set_at] *)
+
+(* ****** ****** *)
+
+local
+//
+extern
+fun
+deqarray_getref_at__tsz
+  {a:vt0p}{m,n:int}
+(
+  deq: !deqarray (a, m, n), i: sizeLt(n), tsz: sizeof_t(a)
+) :<> cPtr1(a) = "mac#%"
+//
+in (* in of [local] *)
+//
+implement
+{a}(*tmp*)
+deqarray_getref_at
+  (deq, i) = deqarray_getref_at__tsz{a}(deq, i, sizeof<a>)
+//
+end // end of [local]
 
 (* ****** ****** *)
 
