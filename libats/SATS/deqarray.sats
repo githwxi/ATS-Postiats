@@ -148,24 +148,22 @@ overload fprint with fprint_deqarray
 overload fprint with fprint_deqarray_sep
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
 deqarray_get_at
   {m,n:int}
   (deq: !deqarray (INV(a), m, n), i: sizeLt(n)):<> (a)
-// end of [deqarray_get_at]
+//
 fun{a:t0p}
 deqarray_set_at
   {m,n:int}
   (deq: !deqarray (INV(a), m, n), i: sizeLt(n), x: a):<!wrt> void
-// end of [deqarray_get_at]
-
+//
 fun{a:vt0p}
 deqarray_getref_at
   {m,n:int}
   (deq: !deqarray (INV(a), m, n), i: sizeLt(n)):<> cPtr1(a)
-// end of [deqarray_getref_at]
-
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
