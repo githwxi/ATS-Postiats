@@ -156,14 +156,15 @@ p_atms0rt_tok (
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | _ when
     ptest_fun (buf, p_s0rtid, ent) =>
     s0rt_i0de (synent_decode {i0de} (ent))
 //
 | T_TYPE _ => let
     val () = incby1 () in s0rt_type (tok)
-  end
+  end (* end of [T_TYPE] *)
 //
 | _ when
     ptest_fun (buf, p_s0rtq, ent) => let
@@ -182,12 +183,14 @@ case+ tok.token_node of
     val ent2 = p_s0rtseq_vt (buf, bt, err)
     val ent3 = p_RPAREN (buf, bt, err) // err = err0
   in
-    if err = err0 then
-      s0rt_list (tok, l2l (ent2), ent3)
-    else let
+    if (
+      err = err0
+    ) then (
+      s0rt_list (tok, l2l(ent2), ent3)
+    ) else let
       val () = list_vt_free (ent2) in synent_null ()
     end // end of [if]
-  end
+  end (* end of [T_LPAREN] *)
 //
 | _ => let
     val () = err := err + 1 in synent_null ()
@@ -259,18 +262,21 @@ val ent1 = p_si0de (buf, bt, err)
 //
 in
 //
-if err = err0 then let
+if
+err = err0
+then let
   val bt = 0
-  val ent2 = p_colons0rtopt (buf, bt, err)
-in
-  s0arg_make (ent1, ent2)
-end else let
+  val ent2 =
+    p_colons0rtopt (buf, bt, err) in s0arg_make (ent1, ent2)
+  // end of [val]
+end // end of [then]
+else let
 (*
   val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_s0arg)
 *)
 in
   tokbuf_set_ntok_null (buf, n0)
-end (* end of [if] *)
+end // end of [else]
 //
 end // end of [p_s0arg]
 
@@ -304,7 +310,8 @@ case+ tok.token_node of
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
+    val ent2 =
+      pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
     val ent3 = p_RPAREN (buf, bt, err) // err = err0
   in
     if err = err0 then
@@ -351,7 +358,9 @@ case+ tok2.token_node of
       a0srt_make_some (ent1, ent3)
     else let
 (*
-      val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_a0srt)
+      val () =
+        the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_a0srt)
+      // end of [val]
 *)
     in
       tokbuf_set_ntok_null (buf, n0)
@@ -360,11 +369,15 @@ case+ tok2.token_node of
 | _ => let
     val ent1 = p_s0rt (buf, bt, err)
   in
-    if err = err0 then
+    if (
+      err = err0
+    ) then (
       a0srt_make_none (ent1)
-    else let
+    ) else let
 (*
-      val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_a0srt)
+      val () =
+        the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_a0srt)
+      // end of [val]
 *)
     in
       tokbuf_set_ntok_null (buf, n0)
@@ -372,6 +385,8 @@ case+ tok2.token_node of
   end
 //
 end // end of [p_a0srt]
+
+(* ****** ****** *)
 
 implement
 p_a0msrt
@@ -386,7 +401,8 @@ case+ tok.token_node of
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {a0srt} (buf, bt, p_a0srt)
+    val ent2 =
+      pstar_fun0_COMMA {a0srt} (buf, bt, p_a0srt)
     val ent3 = p_RPAREN (buf, bt, err) // err = err0
   in
     if err = err0 then
@@ -417,20 +433,28 @@ p_d0atsrtcon (
   val ent1 = p_si0de (buf, bt, err)
 in
 //
-if err = err0 then let
+if
+err = err0
+then let
   val bt = 0
   val ent2 = p_ofs0rtopt (buf, bt, err)
 in
   d0atsrtcon_make (ent1, ent2)
-end else let
+end // end of [then]
+else let
 (*
-  val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_d0atsrtcon)
+//
+val () =
+  the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_d0atsrtcon)
+//
 *)
 in
   tokbuf_set_ntok_null (buf, n0)
-end (* end of [if] *)
+end // end of [else]
 //
 end // end of [p_d0atsrtcon]
+
+(* ****** ****** *)
 
 implement
 p_d0atsrtconseq
@@ -439,13 +463,14 @@ p_d0atsrtconseq
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_BAR () => let
     val () = incby1 ()
-    val xs = pstar_fun0_BAR (buf, bt, p_d0atsrtcon) in l2l (xs)
+    val xs = pstar_fun0_BAR (buf, bt, p_d0atsrtcon) in l2l(xs)
   end // end of [T_BAR]
 | _ => let
-    val xs = pstar_fun0_BAR (buf, bt, p_d0atsrtcon) in l2l (xs)
+    val xs = pstar_fun0_BAR (buf, bt, p_d0atsrtcon) in l2l(xs)
   end // end of [_]
 //
 end // end of [p_d0atsrtconseq]
