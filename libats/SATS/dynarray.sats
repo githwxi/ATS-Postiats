@@ -134,19 +134,19 @@ dynarray_insert_at_exn
   (DA: !dynarray (INV(a)), i: size_t, x: a): void
 fun{a:vt0p}
 dynarray_insert_at_opt
-  (DA: !dynarray (INV(a)), i: size_t, x: a): Option_vt (a)
+  (DA: !dynarray (INV(a)), i: size_t, x: a): Option_vt(a)
 //
 (* ****** ****** *)
 
 fun{a:vt0p}
 dynarray_insert_atbeg_exn (DA: !dynarray (INV(a)), x: a): void
 fun{a:vt0p}
-dynarray_insert_atbeg_opt (DA: !dynarray (INV(a)), x: a): Option_vt (a)
+dynarray_insert_atbeg_opt (DA: !dynarray (INV(a)), x: a): Option_vt(a)
 
 fun{a:vt0p}
 dynarray_insert_atend_exn (DA: !dynarray (INV(a)), x: a): void
 fun{a:vt0p}
-dynarray_insert_atend_opt (DA: !dynarray (INV(a)), x: a): Option_vt (a)
+dynarray_insert_atend_opt (DA: !dynarray (INV(a)), x: a): Option_vt(a)
 
 (* ****** ****** *)
 
@@ -172,21 +172,21 @@ dynarray_takeout_at_exn
   (DA: !dynarray (INV(a)), i: size_t): (a)
 fun{a:vt0p}
 dynarray_takeout_at_opt
-  (DA: !dynarray (INV(a)), i: size_t): Option_vt (a)
+  (DA: !dynarray (INV(a)), i: size_t): Option_vt(a)
 //
 (* ****** ****** *)
 
 fun{a:vt0p}
 dynarray_takeout_atbeg_exn (DA: !dynarray (INV(a))): (a)
 fun{a:vt0p}
-dynarray_takeout_atbeg_opt (DA: !dynarray (INV(a))): Option_vt (a)
+dynarray_takeout_atbeg_opt (DA: !dynarray (INV(a))): Option_vt(a)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 dynarray_takeout_atend_exn (DA: !dynarray (INV(a))): (a)
 fun{a:vt0p}
-dynarray_takeout_atend_opt (DA: !dynarray (INV(a))): Option_vt (a)
+dynarray_takeout_atend_opt (DA: !dynarray (INV(a))): Option_vt(a)
 
 (* ****** ****** *)
 //

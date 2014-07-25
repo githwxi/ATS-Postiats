@@ -226,9 +226,10 @@ where the index i equals the current size of DA minus 1.\
 #declnamesynop("dynarray_removeseq_at")
 #decldescrpt('\
 
-Given a dynamic array DA and two sizes st and ln, this function removes
-the segment in DA of length ln that is located at index st.  The return value
-of the function indicates the actual number of elements removed.
+Given a dynamic array DA and two sizes st and ln,
+this function removes the segment in DA of length ln that starts at index
+st.  The return value of the function indicates the actual number of
+elements removed.
 
 ')
 
