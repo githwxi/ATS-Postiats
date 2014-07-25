@@ -113,12 +113,6 @@ fun tokbuf_get_token (buf: &tokbuf): token
 fun tokbuf_getinc_token (buf: &tokbuf): token
 
 (* ****** ****** *)
-//
-// HX-2012-06: for pushing back a given token
-//
-fun tokbuf_unget_token (buf: &tokbuf, tok: token): void
-
-(* ****** ****** *)
 
 fun tokbuf_discard_all (buf: &tokbuf): void
 
