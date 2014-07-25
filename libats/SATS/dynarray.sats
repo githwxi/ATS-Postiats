@@ -103,19 +103,21 @@ dynarray_get_capacity
 //
 (* ****** ****** *)
 //
-fun{a:vt0p}
-dynarray_getref_at
-  (DA: !RD(dynarray(INV(a))), i: size_t):<> cPtr0 (a)
-//
 fun{a:t0p}
 dynarray_get_at_exn
-  (DA: !RD(dynarray(INV(a))), i: size_t):<!exn> a
+  (DA: !dynarray(INV(a)), i: size_t):<!exn> a
 fun{a:t0p}
 dynarray_set_at_exn
-  (DA: !RD(dynarray(INV(a))), i: size_t, x: a):<!exnwrt> void
+  (DA: !dynarray(INV(a)), i: size_t, x: a):<!exnwrt> void
 //
 overload [] with dynarray_get_at_exn
 overload [] with dynarray_set_at_exn
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+dynarray_getref_at
+  (DA: !RD(dynarray(INV(a))), i: size_t):<> cPtr0 (a)
 //
 (* ****** ****** *)
 
@@ -187,21 +189,11 @@ fun{a:vt0p}
 dynarray_takeout_atend_opt (DA: !dynarray (INV(a))): Option_vt (a)
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-dynarray_filter$pred (x: &a): bool
-fun{a:t0p}
-dynarray_filter (DA: !dynarray (INV(a))): void
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-dynarray_filterlin$pred (x: &a): bool
-fun{a:vt0p}
-dynarray_filterlin$clear (x: &a >> a?): void
-fun{a:vt0p}
-dynarray_filterlin (DA: !dynarray (INV(a))): void
-
+dynarray_removeseq_at
+  (DA: !dynarray (INV(a)), st: size_t, ln: size_t): size_t
+//
 (* ****** ****** *)
 
 fun{a:vt0p}

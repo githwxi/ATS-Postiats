@@ -373,7 +373,7 @@ deqarray_getref_at__tsz
   {a:vt0p}{m,n:int}
 (
   deq: !deqarray (a, m, n), i: sizeLt(n), tsz: sizeof_t(a)
-) :<> cPtr1(a) = "mac#%"
+) :<> cPtr1(a) = "mac#%" // end-of-fun
 //
 in (* in of [local] *)
 //

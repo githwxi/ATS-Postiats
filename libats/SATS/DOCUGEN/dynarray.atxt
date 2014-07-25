@@ -216,21 +216,21 @@ the index i equals 0.\
 #declnamesynop("dynarray_takeout_atend_opt")
 #decldescrpt('\
 
-This function is a special case of #dyncode("dynarray_takeout_at_opt") where
-the index i equals the current size of DA minus 1.\
+This function is a special case of #dyncode("dynarray_takeout_at_opt")
+where the index i equals the current size of DA minus 1.\
 
 ')
 
 (* ****** ****** *)
 
-#declnamesynop("dynarray_filter")
-#declnamesynop("dynarray_filter$pred")
+#declnamesynop("dynarray_removeseq_at")
+#decldescrpt('\
 
-(* ****** ****** *)
+Given a dynamic array DA and two sizes st and ln, this function removes
+the segment in DA of length ln that is located at index st.  The return value
+of the function indicates the actual number of elements removed.
 
-#declnamesynop("dynarray_filterlin")
-#declnamesynop("dynarray_filterlin$pred")
-#declnamesynop("dynarray_filterlin$clear")
+')
 
 (* ****** ****** *)
 
