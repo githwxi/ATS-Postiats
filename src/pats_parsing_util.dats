@@ -58,14 +58,16 @@ staload "./pats_parsing.sats"
 (* ****** ****** *)
 
 implement
-tokbuf_set_ntok_null (buf, n0) = let
+tokbuf_set_ntok_null
+  (buf, n0) = let
   val () = tokbuf_set_ntok (buf, n0) in synent_null ()
 end // end of [tokbuf_set_ntok_null]
 
 (* ****** ****** *)
 
 implement
-ptoken_fun (
+ptoken_fun
+(
   buf, bt, err, f, enode
 ) = let
   val tok = tokbuf_get_token (buf)
@@ -77,10 +79,12 @@ in
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt (bt, loc, enode)
   in
-    $UN.cast{token} (null)
+    $UN.cast{token}(null)
   end // end of [_]
 //
 end // end of [ptoken_fun]
+
+(* ****** ****** *)
 
 implement
 ptoken_test_fun
@@ -91,6 +95,8 @@ in
     val () = tokbuf_incby1 (buf) in true
   end else false
 end // end of [ptoken_test_fun]
+
+(* ****** ****** *)
 
 implement
 ptokentopt_fun
@@ -118,7 +124,7 @@ implement
 pstar_fun{a}
   (buf, bt, f) = let
 //
-  viewtypedef res_vt = List_vt (a)
+  vtypedef res_vt = List_vt (a)
 //
   fun loop (
     buf: &tokbuf
@@ -157,7 +163,7 @@ implement
 pstar_sep_fun{a}
   (buf, bt, sep, f) = let
 //
-  viewtypedef res_vt = List_vt (a)
+  vtypedef res_vt = List_vt (a)
 //
   fun loop (
     buf: &tokbuf

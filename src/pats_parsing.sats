@@ -171,16 +171,18 @@ fun parerr_make (
 
 fun the_parerrlst_clear (): void
 
+(* ****** ****** *)
+//
 fun the_parerrlst_add (x: parerr): void
-
-fun the_parerrlst_add_ifnbt
+//
+fun
+the_parerrlst_add_ifnbt
   (bt: int, loc: location, node: parerr_node): void
-// end of ...
-
-fun the_parerrlst_add_ifunclosed
-  (loc: location, name: string): void
-// end of [...]
-
+// end of [the_parerrlst_add_ifnbt]
+//
+fun
+the_parerrlst_add_ifunclosed (loc: location, name: string): void
+//
 (* ****** ****** *)
 
 fun fprint_parerr (out: FILEref, x: parerr): void
@@ -348,34 +350,46 @@ fun is_LBRACE_deco (x: tnode): bool
 
 (* ****** ****** *)
 
-fun ptoken_fun (
+fun
+ptoken_fun
+(
   buf: &tokbuf, bt: int, err: &int
 , f: (tnode) -> bool, enode: parerr_node
 ) : token // end of [ptoken_fun]
 
-fun ptoken_test_fun (
+fun
+ptoken_test_fun
+(
   buf: &tokbuf, f: (tnode) -> bool
 ) : bool // end of [ptoken_test_fun]
 
-fun ptokentopt_fun {a:type} (
+fun
+ptokentopt_fun
+  {a:type}
+(
   buf: &tokbuf, f1: (tnode) -> bool, f2: parser (a)
-) : Option_vt (a)
+) : Option_vt(a) // end of [ptokentopt_fun]
 
 (* ****** ****** *)
 
-fun pstar_fun
-  {a:type} (
-  buf: &tokbuf, bt: int, f: parser (a)
-) : List_vt (a) // end of [pstar_fun]
+fun
+pstar_fun{a:type}
+  (buf: &tokbuf, bt: int, f: parser (a)): List_vt (a)
+// end of [pstar_fun]
 
 (* ****** ****** *)
 
-fun pstar_sep_fun
-  {a:type} (
+fun
+pstar_sep_fun
+  {a:type}
+(
   buf: &tokbuf, bt: int, sep: (&tokbuf) -> bool, f: parser (a)
 ) : List_vt (a) // end of [pstar_sep_fun]
 
-fun pstar_COMMA_fun
+(* ****** ****** *)
+
+fun
+pstar_COMMA_fun
   {a:type} (buf: &tokbuf, bt: int, f: parser (a)): List_vt (a)
 // end of [pstar_COMMA_fun]
 
