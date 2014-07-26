@@ -64,21 +64,6 @@ size 0.
 
 (* ****** ****** *)
 
-#declnamesynop("dynarray_getfree_arrayptr")
-
-#decldescrpt('\
-
-Given a dynamic array DA, this function returns the arrayptr-value inside
-DA and then frees DA.\
-
-')
-
-(* ****** ****** *)
-
-#declnamesynop("dynarray_get_array")
-
-(* ****** ****** *)
-
 #declnamesynop("dynarray_get_size")
 #decldescrpt('\
 
@@ -93,6 +78,21 @@ This function returns the current size of a given dynamic array.\
 #decldescrpt('\
 
 This function returns the current capacity of a given dynamic array.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_get_array")
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_getfree_arrayptr")
+
+#decldescrpt('\
+
+Given a dynamic array DA, this function returns the arrayptr-value inside
+DA and then frees DA.\
 
 ')
 

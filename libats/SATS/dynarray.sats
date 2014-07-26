@@ -74,25 +74,6 @@ fprint_dynarray
 // end of [fprint_dynarray]
 
 (* ****** ****** *)
-
-fun{}
-dynarray_getfree_arrayptr{a:vt0p}
-(
-  DA: dynarray (INV(a)), n: &size_t? >> size_t(n)
-) :<!wrt> #[n:nat] arrayptr (a, n)
-
-(* ****** ****** *)
-
-fun{}
-dynarray_get_array{a:vt0p}
-(
-  DA: !RD(dynarray (INV(a))), n: &size_t? >> size_t(n)
-) :<!wrt> #[l:addr;n:int]
-(
-  array_v (a, l, n), array_v (a, l, n) -<lin,prf> void | ptr l
-) // end of [dynarray_get_array]
-
-(* ****** ****** *)
 //
 fun{}
 dynarray_get_size
@@ -101,6 +82,26 @@ fun{}
 dynarray_get_capacity
   {a:vt0p} (DA: !RD(dynarray (INV(a)))): size_t
 //
+(* ****** ****** *)
+
+fun{}
+dynarray_get_array{a:vt0p}
+(
+  DA: !dynarray (INV(a)), n: &size_t? >> size_t(n)
+) :<!wrt> #[l:addr;n:int]
+(
+  array_v (a, l, n), array_v (a, l, n) -<lin,prf> void | ptr l
+) // end of [dynarray_get_array]
+
+(* ****** ****** *)
+
+fun{}
+dynarray_getfree_arrayptr
+  {a:vt0p}
+(
+  DA: dynarray (INV(a)), n: &size_t? >> size_t(n)
+) :<!wrt> #[n:nat] arrayptr (a, n)
+
 (* ****** ****** *)
 //
 fun{a:t0p}

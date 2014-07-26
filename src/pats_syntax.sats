@@ -150,13 +150,13 @@ fun int_of_i0nt (x: i0nt): int
 typedef
 i0de = '{
   i0de_loc= location, i0de_sym= symbol
-} // end of [i0de]
+} (* end of [i0de] *)
 
 typedef i0delst = List (i0de)
 typedef i0deopt = Option (i0de)
 
-fun i0de_make_sym (loc: location, sym: symbol) : i0de
-fun i0de_make_string (loc: location, name: string) : i0de
+fun i0de_make_sym (loc: location, sym: symbol): i0de
+fun i0de_make_string (loc: location, name: string): i0de
 fun i0de_make_lrbrackets (t_beg: token, t_end: token): i0de
 
 fun print_i0de (x: i0de): void
