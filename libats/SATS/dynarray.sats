@@ -151,11 +151,12 @@ dynarray_insert_atend_opt (DA: !dynarray (INV(a)), x: a): Option_vt(a)
 (* ****** ****** *)
 
 fun{a:vt0p}
-dynarray_inserts_at{n2:int}
+dynarray_insertseq_at
+  {n2:int}
 (
   DA: !dynarray (INV(a)), i: size_t
 , xs: &array(a, n2) >> arrayopt(a, n2, b), n2: size_t (n2)
-) : #[b:bool] bool(b) // end of [dynarray_inserts_at]
+) : #[b:bool] bool(b) // end-of-fun
 
 (* ****** ****** *)
 
@@ -189,10 +190,20 @@ fun{a:vt0p}
 dynarray_takeout_atend_opt (DA: !dynarray (INV(a))): Option_vt(a)
 
 (* ****** ****** *)
+
+fun{a:vt0p}
+dynarray_takeoutseq_at
+  {n2:int}
+(
+  DA: !dynarray (INV(a)), i: size_t
+, xs: &array(a?, n2) >> arrayopt(a, n2, b), n2: size_t (n2)
+) : #[b:bool] bool(b) // end-of-fun
+
+(* ****** ****** *)
 //
 fun{a:t0p}
 dynarray_removeseq_at
-  (DA: !dynarray (INV(a)), st: size_t, ln: size_t): size_t
+  (DA: !dynarray (INV(a)), st: size_t, ln: size_t):<!wrt> size_t
 //
 (* ****** ****** *)
 

@@ -195,12 +195,12 @@ fun tokbuf_set_ntok_null
 (* ****** ****** *)
 
 typedef
-parser (a: viewtype) =
+parser (a:type) =
   (&tokbuf, int(*bt*), &int(*err*)) -> a
 // end of [parser]
 
 typedef
-parser_tok (a: viewtype) =
+parser_tok (a:type) =
   (&tokbuf, int(*bt*), &int(*err*), token) -> a
 // end of [parser_tok]
 

@@ -71,51 +71,61 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 (* ****** ****** *)
 
 implement
-lamkind_isbox (knd) =
-  if knd >= 0 then
-    (if test_boxkind (knd) then 1 else 0)
-  else 1 // HX: (-1) is boxed
-// end of [lamkind_isbox]
-
-implement
-lamkind_islin (knd) = (
-  if knd >= 0 then
-    if test_linkind (knd) then 1 else 0 // HX: (-1) is not linear
-  else 0 // end of [if]
-) // end of [lamkind_islin]
+lamkind_isbox
+  (knd) = (
+  if knd >= 0
+    then (if test_boxkind (knd) then 1 else 0) else 1(*boxed*)
+  // end of [if]
+) (* end of [lamkind_isbox] *)
 
 (* ****** ****** *)
 
 implement
+lamkind_islin
+  (knd) = (
+  if knd >= 0
+    then (if test_linkind (knd) then 1 else 0) else 0(*nonlin*)
+  // end of [if]
+) (* end of [lamkind_islin] *)
+
+(* ****** ****** *)
+//
+implement
 synent_null {a} () = $UN.cast{a} (null)
+//
 implement
 synent_is_null (x) = ptr_is_null ($UN.cast{ptr} (x))
 implement
 synent_isnot_null (x) = ptr_isnot_null ($UN.cast{ptr} (x))
-
+//
 (* ****** ****** *)
 
 implement
-int_of_i0nt (tok) = let
-  val-T_INTEGER
-    (_, rep, _) = tok.token_node in int_of_string (rep)
+int_of_i0nt
+  (tok) = let
+//
+val-T_INTEGER
+  (_, rep, _) = tok.token_node in int_of_string (rep)
+//
 end // end of [int_of_i0nt]
 
 (* ****** ****** *)
-
+//
 implement
-i0de_make_sym
-  (loc, sym) = '{
-  i0de_loc= loc, i0de_sym= sym
-} // end of [i0de_make_sym]
+i0de_make_sym (loc, sym) = '{ i0de_loc= loc, i0de_sym= sym }
+//
+(* ****** ****** *)
 
 implement
 i0de_make_string
   (loc, name) = let
-  val sym = $SYM.symbol_make_string (name)
-in '{
-  i0de_loc= loc, i0de_sym= sym
-} end // end of [i0de_make_string]
+//
+val sym =
+  $SYM.symbol_make_string (name) in i0de_make_sym (loc, sym)
+//
+end // end of [i0de_make_string]
+
+(* ****** ****** *)
 
 implement
 i0de_make_lrbrackets

@@ -245,7 +245,7 @@ end // end of [dynarray_insert_atend_opt]
 (* ****** ****** *)
 
 implement{a}
-dynarray_inserts_at
+dynarray_insertseq_at
   (DA, i, xs, n2) = let
 //
 fun pow2min
@@ -293,7 +293,7 @@ if recap > 0 then let
   val m2 = pow2min (m+m, n+n2)
   val _(*true*) = dynarray_reset_capacity (DA, m2)
 in
-  dynarray_inserts_at (DA, i, xs, n2)
+  dynarray_insertseq_at (DA, i, xs, n2)
 end else let
   prval () = arrayopt_some (xs) in true
 end (* end of [if] *)
@@ -305,7 +305,7 @@ end else let
   prval () = arrayopt_some (xs) in true
 end // end of [if]
 //
-end // end of [dynarray_inserts_at]
+end // end of [dynarray_insertseq_at]
 
 (* ****** ****** *)
 

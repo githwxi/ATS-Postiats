@@ -69,7 +69,8 @@ p_i0nt (buf, bt, err) = let
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_INTEGER _ => let
     val () = incby1 () in tok
   end
@@ -92,7 +93,8 @@ p_s0tring
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_STRING _ => let
     val () = incby1 () in tok
   end
@@ -125,14 +127,14 @@ i0de
 *)
 
 implement
-p_i0de
-  (buf, bt, err) = let
+p_i0de (buf, bt, err) = let
   val tok = tokbuf_get_token (buf)
   val loc = tok.token_loc
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_IDENT_alp (x) => let
     val () = incby1 () in i0de_make_string (loc, x)
   end
@@ -206,7 +208,8 @@ p_i0dext
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_IDENT_ext (x) => let
     val () = incby1 () in i0de_make_string (loc, x)
   end
@@ -229,7 +232,8 @@ p_i0de_dlr
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_IDENT_dlr (x) => let
     val () = incby1 () in i0de_make_string (loc, x)
   end
@@ -261,7 +265,8 @@ p_l0ab
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | _ when
     ptest_fun (
       buf, p_i0de, ent
@@ -298,10 +303,13 @@ p_p0rec_tok (
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
+//
 | T_INTEGER _ => let
     val () = incby1 () in p0rec_i0nt (tok)
   end
+//
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
@@ -330,7 +338,8 @@ case+ tok.token_node of
       synent_null ()
     // end of [if]
   end (* T_LPAREN *)
-| _ => p0rec_emp ()
+//
+| _ (*rest-of-token*) => p0rec_emp ()
 //
 end // end of [p_p0rec_tok]
 
@@ -351,11 +360,12 @@ p_effi0de (
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_IDENT_alp name => let
     val () = incby1 () in i0de_make_string (loc, name)
   end
-| _ => let
+| _ (*non-IDENT-alp*) => let
     val () = err := err + 1 in synent_null ()
   end
 //
@@ -379,7 +389,8 @@ p_e0fftag
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_FUN _ => let
     val () = incby1 () in e0fftag_var_fun (tok)
   end
@@ -408,7 +419,7 @@ case+ tok.token_node of
     ptest_fun (
     buf, p_effi0de, ent
   ) => e0fftag_i0de (synent_decode {i0de} (ent))
-| _ => let
+| _ (*rest-of-token*) => let
     val () = err := err + 1 in synent_null ()
   end
 //
@@ -444,7 +455,8 @@ p_colonwith
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_COLON () => let
     val () = incby1 () in None ()
   end
@@ -458,7 +470,7 @@ case+ tok.token_node of
       Some (ent2) else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
-| _ => let
+| _ (*rest-of-token*) => let
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt (bt, loc, PE_colonwith)
   in
@@ -476,14 +488,15 @@ p_dcstkind
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_FUN _ => let
     val () = incby1 () in tok
   end
 | T_VAL _ => let
     val () = incby1 () in tok
   end
-| _ => let
+| _ (*rest-of-token*) => let
     val () = err := err + 1 in synent_null ()
   end
 //
@@ -493,6 +506,8 @@ end // end of [p_dcstkind]
 
 #define s2s string1_of_string
 
+(* ****** ****** *)
+
 implement
 p_extnamopt
   (buf, bt, err) = let
@@ -500,7 +515,8 @@ p_extnamopt
   val tok = tokbuf_get_token (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_EQ () => let
     val bt = 0
     val () = tokbuf_incby1 (buf)

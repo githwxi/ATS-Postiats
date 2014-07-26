@@ -58,12 +58,14 @@ staload "./pats_parsing.sats"
 
 (* ****** ****** *)
 
-viewtypedef s0explst12 = list12 (s0exp)
-viewtypedef labs0explst12 = list12 (labs0exp)
+vtypedef s0explst12 = list12 (s0exp)
+vtypedef labs0explst12 = list12 (labs0exp)
 
 (* ****** ****** *)
 
-fun s0exp_list12 (
+fun
+s0exp_list12
+(
   t_beg: token, ent2: s0explst12, t_end: token
 ) : s0exp =
   case+ ent2 of
@@ -71,7 +73,11 @@ fun s0exp_list12 (
   | ~LIST12two (xs1, xs2) => s0exp_list2 (t_beg, (l2l)xs1, (l2l)xs2, t_end)
 // end of [s0exp_list12]
 
-fun s0exp_tytup12 (
+(* ****** ****** *)
+
+fun
+s0exp_tytup12
+(
   knd: int
 , t_beg: token, ent2: s0explst12, t_end: token
 ) : s0exp =
@@ -88,7 +94,9 @@ fun s0exp_tytup12 (
 
 (* ****** ****** *)
 
-fun s0exp_tyrec12 (
+fun
+s0exp_tyrec12
+(
   knd: int
 , t_beg: token, ent2: labs0explst12, t_end: token
 ) : s0exp =
@@ -103,7 +111,11 @@ fun s0exp_tyrec12 (
     end
 // end of [s0exp_tyrec12]
 
-fun s0exp_tyrec12_ext (
+(* ****** ****** *)
+
+fun
+s0exp_tyrec12_ext
+(
   name: string
 , t_beg: token, ent2: labs0explst12, t_end: token
 ) : s0exp =
@@ -121,7 +133,8 @@ fun s0exp_tyrec12_ext (
 (* ****** ****** *)
 
 fun
-p_s0expseq_BAR_s0expseq (
+p_s0expseq_BAR_s0expseq
+(
   buf: &tokbuf, bt: int, err: &int
 ) : s0explst12 =
   plist12_fun (buf, bt, p_s0exp)
