@@ -153,6 +153,22 @@ end // end of [the_parerrlst_add_ifunclosed]
 (* ****** ****** *)
 
 fun
+synent_needed
+(
+  out: FILEref
+, x: parerr, name: string
+) : void = () where {
+//
+val () = fprint (out, x.parerr_loc)
+val () =
+  fprintf (out, ": error(parsing): the syntactic entity [%s] is needed.", @(name))
+val () = fprint_newline (out)
+//
+} (* end of [synent_needed] *)
+
+(* ****** ****** *)
+
+fun
 keyword_needed
 (
   out: FILEref
@@ -162,19 +178,6 @@ keyword_needed
   val () = fprintf (out, ": error(parsing): the keyword [%s] is needed.", @(name))
   val () = fprint_newline (out)
 } (* end of [keyword_needed] *)
-
-(* ****** ****** *)
-
-fun
-synent_needed
-(
-  out: FILEref
-, x: parerr, name: string
-) : void = () where {
-  val () = fprint (out, x.parerr_loc)
-  val () = fprintf (out, ": error(parsing): the syntactic entity [%s] is needed.", @(name))
-  val () = fprint_newline (out)
-} (* end of [synent_needed] *)
 
 (* ****** ****** *)
 
@@ -221,8 +224,8 @@ fprint_parerr
 //
 val loc = x.parerr_loc and node = x.parerr_node
 //
-macdef KN (x, name) = keyword_needed (out, ,(x), ,(name))
 macdef SN (x, name) = synent_needed (out, ,(x), ,(name))
+macdef KN (x, name) = keyword_needed (out, ,(x), ,(name))
 macdef PN (x, name) = parenth_needed (out, ,(x), ,(name))
 //
 in

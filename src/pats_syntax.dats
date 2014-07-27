@@ -795,7 +795,9 @@ end // end of [local]
 implement
 s0exp_i0de (id) = '{
   s0exp_loc= id.i0de_loc, s0exp_node= S0Eide (id.i0de_sym)
-} // end of [s0exp_i0de]
+} (* end of [s0exp_i0de] *)
+
+(* ****** ****** *)
 
 implement
 s0exp_opid (x1, x2) = let

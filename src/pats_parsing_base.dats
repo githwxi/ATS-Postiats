@@ -74,7 +74,7 @@ tok.token_node of
 | T_INTEGER _ => let
     val () = incby1 () in tok
   end
-| _ => let
+| _ (*non-INTEGER*) => let
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt (bt, loc, PE_i0nt)
   in
@@ -98,7 +98,7 @@ tok.token_node of
 | T_STRING _ => let
     val () = incby1 () in tok
   end
-| _ => let
+| _ (*non-STRING*) => let
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt (bt, loc, PE_s0tring)
   in
@@ -135,6 +135,7 @@ in
 //
 case+
 tok.token_node of
+//
 | T_IDENT_alp (x) => let
     val () = incby1 () in i0de_make_string (loc, x)
   end

@@ -85,6 +85,13 @@ This function returns the current capacity of a given dynamic array.\
 
 #declnamesynop("dynarray_get_array")
 
+#decldescrpt('\
+
+Given a dynamic array DA, this function returns a pointer plus some
+proofs of views for accessing the array contained in DA.
+
+')
+
 (* ****** ****** *)
 
 #declnamesynop("dynarray_getfree_arrayptr")
