@@ -345,7 +345,9 @@ implement
 fprint_d2exp
   (out, d2e0) = let
 //
-macdef prstr (s) = fprint_string (out, ,(s))
+macdef
+prstr (str) =
+fprint_string (out, ,(str))
 //
 in
 //
