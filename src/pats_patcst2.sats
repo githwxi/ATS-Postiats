@@ -68,7 +68,7 @@ typedef c2lau = $DYNEXP2.c2lau
 
 (* ****** ****** *)
 
-fun intinf_of_i0nt (x: $SYN.i0nt): intinf
+fun i0nt2intinf (x: $SYN.i0nt): intinf
 
 (* ****** ****** *)
 

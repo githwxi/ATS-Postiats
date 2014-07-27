@@ -231,11 +231,11 @@ token_node =
   | T_IDENT_srp of string
   | T_IDENT_ext of string
 //
-  | T_CHAR of char (* character *)
-//
-  | T_INTEGER of (
+  | T_INT of (
       int(*base*), string(*rep*), uint(*suffix*)
-    ) (* end of [T_INTEGER] *)
+    ) (* end of [T_INT] *)
+//
+  | T_CHAR of char (* character *)
 //
   | T_FLOAT of (int(*base*), string(*rep*), uint(*suffix*))
 //
@@ -427,7 +427,9 @@ val DOT : tnode // = T_DOT
 val PERCENT : tnode // = IDENT_sym ("%")
 val QMARK : tnode // = IDENT_sym ("?")
 
-val ZERO : tnode // = T_INTEGER_dec ("0")
+(* ****** ****** *)
+
+val INTZERO : tnode // = T_INT_dec ("0")
 
 (* ****** ****** *)
 //

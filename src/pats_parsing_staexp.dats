@@ -455,14 +455,16 @@ tok.token_node of
 //
 | _ when
     ptest_fun (buf, p_si0de, ent) =>
-    s0exp_i0de (synent_decode {i0de} (ent))
-| T_INTEGER _ => let
+    s0exp_i0de (synent_decode{i0de}(ent))
+//
+| T_INT _ => let
     val () = incby1 () in s0exp_i0nt (tok)
   end
-| T_CHAR _ => let
-    val () = incby1 () in s0exp_c0har (tok)
-  end
-| T_OP _ => let
+//
+| T_CHAR (c) =>
+  let val () = incby1 () in s0exp_c0har (tok) end
+//
+| T_OP ((*void*)) => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_si0de (buf, bt, err)

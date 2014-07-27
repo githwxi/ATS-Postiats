@@ -628,7 +628,7 @@ case+ d2e0.d2exp_node of
 | D2Efloat (rep) => M2Vfloat (rep)
 //
 | D2Ei0nt (x) => let
-    val-$LEX.T_INTEGER
+    val-$LEX.T_INT
       (base, rep, sfx) = x.token_node
     // end of [val]
   in

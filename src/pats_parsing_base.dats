@@ -71,10 +71,10 @@ in
 //
 case+
 tok.token_node of
-| T_INTEGER _ => let
+| T_INT _ => let
     val () = incby1 () in tok
   end
-| _ (*non-INTEGER*) => let
+| _ (*non-INT*) => let
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt (bt, loc, PE_i0nt)
   in
@@ -272,9 +272,9 @@ tok.token_node of
     ptest_fun (
       buf, p_i0de, ent
     ) => l0ab_make_i0de (synent_decode {i0de} (ent))
-| T_INTEGER _ => let
+| T_INT _ => let
     val () = incby1 () in l0ab_make_i0nt (tok)
-  end // end of [T_INTEGER]
+  end // end of [T_INT]
 //
 | _ => let
     val () = err := err + 1
@@ -307,7 +307,7 @@ in
 case+
 tok.token_node of
 //
-| T_INTEGER _ => let
+| T_INT _ => let
     val () = incby1 () in p0rec_i0nt (tok)
   end
 //
@@ -392,9 +392,11 @@ in
 //
 case+
 tok.token_node of
+//
 | T_FUN _ => let
     val () = incby1 () in e0fftag_var_fun (tok)
   end
+//
 | T_BANG () => let
     val bt = 0
     val () = incby1 ()
@@ -404,6 +406,7 @@ tok.token_node of
       e0fftag_cst (0, ent2) else tokbuf_set_ntok_null (buf, n0)
     // end of [if]
   end
+//
 | T_TILDE () => let
     val bt = 0
     val () = incby1 ()
@@ -413,9 +416,11 @@ tok.token_node of
       e0fftag_cst (0, ent2) else tokbuf_set_ntok_null (buf, n0)
     // end of [if]
   end
-| T_INTEGER _ => let
+//
+| T_INT _ => let
     val () = incby1 () in e0fftag_i0nt (tok)
   end
+//
 | _ when
     ptest_fun (
     buf, p_effi0de, ent

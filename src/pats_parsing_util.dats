@@ -260,7 +260,8 @@ pstar_fun0_BARSEMI
 (* ****** ****** *)
 
 implement
-pstar_fun1_sep (
+pstar_fun1_sep
+(
   buf, bt, err, f, sep
 ) = let
   val x0 = f (buf, bt, err)
@@ -279,6 +280,8 @@ case+ 0 of
 //
 end // end of [pstar_fun1_sep]
 
+(* ****** ****** *)
+
 implement
 pstar_fun1_AND
   (buf, bt, err, f) =
@@ -288,7 +291,8 @@ pstar_fun1_AND
 (* ****** ****** *)
 
 implement
-pstar1_fun (
+pstar1_fun
+(
   buf, bt, err, f
 ) = let
   val x0 = f (buf, bt, err)
@@ -310,7 +314,7 @@ end // end of [pplus_fun]
 (* ****** ****** *)
 
 implement
-popt_fun {a}
+popt_fun{a}
   (buf, bt, f) = let
   var err: int = 0
   val x = f (buf, 1(*bt*), err)
@@ -321,7 +325,8 @@ end // end of [popt_fun]
 (* ****** ****** *)
 
 implement
-pseq2_fun {a1,a2} (
+pseq2_fun{a1,a2}
+(
   buf, bt, err, f1, f2
 ) = let
   val err0 = err
@@ -337,7 +342,8 @@ in
 end // end of [pseq2_fun]
 
 implement
-pseq3_fun {a1,a2,a3} (
+pseq3_fun{a1,a2,a3}
+(
   buf, bt, err, f1, f2, f3
 ) = let
   val err0 = err
@@ -358,7 +364,7 @@ end // end of [pseq3_fun]
 (* ****** ****** *)
 
 implement
-ptest_fun {a}
+ptest_fun{a}
   (buf, f, ent) = let
   var err: int = 0
   val () = ent := synent_encode (f (buf, 1(*bt*), err))
@@ -369,21 +375,30 @@ end // end of [ptest_fun]
 (* ****** ****** *)
 
 implement
-list12_free (ent) =
+list12_free
+  (ent) = (
   case+ ent of
   | ~LIST12one xs => list_vt_free (xs)
   | ~LIST12two (xs1, xs2) => (list_vt_free (xs1); list_vt_free (xs2))
-// end of [list12_free]
+) (* end of [list12_free] *)
+
+(* ****** ****** *)
 
 implement
 plist12_fun {a}
   (buf, bt, f) = let
-  val xs1 = pstar_fun0_COMMA {a} (buf, bt, f)
-  val tok = tokbuf_get_token (buf)
-  macdef incby1 () = tokbuf_incby1 (buf)
+//
+val xs1 =
+  pstar_fun0_COMMA {a} (buf, bt, f)
+//
+val tok = tokbuf_get_token (buf)
+//
+macdef incby1 () = tokbuf_incby1 (buf)
+//
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_BAR () => let
     val () = incby1 ()
     val xs2 = pstar_fun0_COMMA {a} (buf, bt, f)
@@ -394,16 +409,24 @@ case+ tok.token_node of
 //
 end // end of [plist12_fun]
 
+(* ****** ****** *)
+
 implement
 p1list12_fun {a}
   (x, buf, bt, f) = let
-  val xs1 = pstar_sep_fun {a} (buf, bt, p_COMMA_test, f)
-  val xs1 = list_vt_cons {a} (x, xs1)
-  val tok = tokbuf_get_token (buf)
-  macdef incby1 () = tokbuf_incby1 (buf)
+//
+val xs1 =
+  pstar_sep_fun {a} (buf, bt, p_COMMA_test, f)
+val xs1 = list_vt_cons {a} (x, xs1)
+//
+val tok = tokbuf_get_token (buf)
+//
+macdef incby1 () = tokbuf_incby1 (buf)
+//
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_BAR () => let
     val () = incby1 ()
     val xs2 = pstar_fun0_COMMA {a} (buf, bt, f)
@@ -419,27 +442,35 @@ end // end of [p1list12_fun]
 implement
 pif_fun (
   buf, bt, err, f, err0
-) = if err <= err0 then f (buf, bt, err) else synent_null ()
+) = (
+//
+if err <= err0
+  then f (buf, bt, err) else synent_null ()
+//
+) (* end of [pif_fun] *)
 
 (* ****** ****** *)
 
 implement
-ptokwrap_fun (
+ptokwrap_fun
+(
   buf, bt, err, f, enode
 ) = x where {
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
   val err0 = err
   val () = err := 0
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
   val x = f (buf, bt, err, tok)
-  val () = if
-    err > 0 then let
-    val () = tokbuf_set_ntok (buf, n0)
-  in
-    the_parerrlst_add_ifnbt (bt, tok.token_loc, enode)
-  end // end of [val]
+  val () =
+  if err > 0
+    then let
+      val () = tokbuf_set_ntok (buf, n0)
+    in
+      the_parerrlst_add_ifnbt (bt, tok.token_loc, enode)
+    end // end of [then]
+  // end of [val]
   val () = err := err + err0
-} // end of [ptokwrap_fun]
+} (* end of [ptokwrap_fun] *)
 
 (* ****** ****** *)
 

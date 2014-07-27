@@ -91,9 +91,9 @@ staload "./pats_patcst2.sats"
 (* ****** ****** *)
 
 implement
-intinf_of_i0nt (tok) = let
+i0nt2intinf (tok) = let
 //
-val-T_INTEGER (_, rep, sfx) = tok.token_node
+val-T_INT (_, rep, sfx) = tok.token_node
 //
 in
 //
@@ -118,7 +118,7 @@ if sfx > 0u
   else $INTINF.intinf_make_string (rep)
 // end of [if]
 //
-end // end of [intinf_of_i0nt]
+end // end of [i0nt2intinf]
 
 (* ****** ****** *)
 
@@ -373,7 +373,7 @@ case+ p2t0.p2at_node of
 | P2Tstring (str) => P2TCstring (str)
 //
 | P2Ti0nt (tok) => let
-    val i0 = intinf_of_i0nt (tok) in P2TCint (i0)
+    val i0 = i0nt2intinf (tok) in P2TCint (i0)
   end // end of [P2Ti0nt]
 | P2Tf0loat (tok) => let
     val-T_FLOAT (base, rep, sfx) = tok.token_node in P2TCfloat (rep)

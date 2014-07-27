@@ -95,7 +95,7 @@ case+ tok.token_node of
     ptest_fun (buf, p_i0de, ent) =>
     e0xp_i0de (synent_decode (ent))
 //
-| T_INTEGER _ => let
+| T_INT _ => let
     val () = incby1 () in e0xp_i0nt (tok)
   end
 | T_CHAR _ => let
@@ -234,11 +234,14 @@ p_datsval (
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
+//
 | T_IDENT_alp (id) => let
     val () = incby1 () in e0xp_make_stringid (loc, id)
   end // end of [T_IDENT_alp]
-| T_INTEGER _ => let
+//
+| T_INT _ => let
     val () = incby1 () in e0xp_i0nt (tok)
   end
 | T_CHAR _ => let

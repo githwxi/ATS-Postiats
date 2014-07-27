@@ -202,9 +202,11 @@ fprint_token
   | T_IDENT_srp (x) => fprintf (out, "IDENT_srp(%s)", @(x))
   | T_IDENT_ext (x) => fprintf (out, "IDENT_ext(%s)", @(x))
 //
+  | T_INT (base, rep, sfx) =>
+      fprintf (out, "INT(%i; %s)", @(base, rep))
   | T_CHAR (x) => fprintf (out, "CHAR(%c)", @(x))
-  | T_INTEGER (_base, x, _sp) => fprintf (out, "INTEGER_dec(%s)", @(x))
-  | T_FLOAT (_base, x, _sp) => fprintf (out, "FLOAT(%s)", @(x))
+  | T_FLOAT (base, rep, sfx) =>
+      fprintf (out, "FLOAT(%i; %s)", @(base, rep))
 //
   | T_CDATA _ => fprintf (out, "CDATA(...)", @())
   | T_STRING (x) => fprintf (out, "STRING(%s)", @(x))

@@ -1202,12 +1202,16 @@ fun s2eff_var (s2v: s2var): s2eff
 fun s2eff_exp (s2e: s2exp): s2eff
 fun s2eff_add (s2fe1: s2eff, s2fe2: s2eff): s2eff
 
+(* ****** ****** *)
+//
 fun print_s2eff (s2fe: s2eff): void
-overload print with print_s2eff
 fun prerr_s2eff (s2fe: s2eff): void
-overload prerr with prerr_s2eff
 fun fprint_s2eff : fprint_type (s2eff)
-
+//
+overload print with print_s2eff
+overload prerr with prerr_s2eff
+overload fprint with fprint_s2eff
+//
 (* ****** ****** *)
 
 fun fprint_s2rtext : fprint_type (s2rtext)

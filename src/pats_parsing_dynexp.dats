@@ -680,7 +680,7 @@ case+ tok.token_node of
     ptest_fun (buf, p_i0dext, ent) =>
     d0exp_idext (synent_decode {i0de} (ent))
 //
-| T_INTEGER _ => let
+| T_INT _ => let
     val () = incby1 () in d0exp_i0nt (tok)
   end
 | T_CHAR _ => let
@@ -692,6 +692,7 @@ case+ tok.token_node of
 | T_STRING _ => let
     val () = incby1 () in d0exp_s0tring (tok)
   end
+//
 | T_OP _ => let
     val bt = 0
     val () = incby1 ()

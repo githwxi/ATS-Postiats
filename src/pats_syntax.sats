@@ -136,14 +136,14 @@ typedef s0tringopt = Option (s0tring)
 
 (* ****** ****** *)
 
+fun i0nt2int (x: i0nt): int
+
+(* ****** ****** *)
+
 fun fprint_i0nt : fprint_type (i0nt)
 fun fprint_c0har : fprint_type (c0har)
 fun fprint_f0loat : fprint_type (f0loat)
 fun fprint_s0tring : fprint_type (s0tring)
-
-(* ****** ****** *)
-
-fun int_of_i0nt (x: i0nt): int
 
 (* ****** ****** *)
 

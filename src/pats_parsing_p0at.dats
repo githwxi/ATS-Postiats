@@ -242,11 +242,11 @@ case+ tok.token_node of
       p0at_opid (tok, ent2) else synent_null ()
     // end of [if]
   end
+| T_INT _ => let
+    val () = incby1 () in p0at_i0nt (tok)
+  end
 | T_CHAR _ => let
     val () = incby1 () in p0at_c0har (tok)
-  end
-| T_INTEGER _ => let
-    val () = incby1 () in p0at_i0nt (tok)
   end
 | T_FLOAT _ => let
     val () = incby1 () in p0at_f0loat (tok)

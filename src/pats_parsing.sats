@@ -161,7 +161,8 @@ parerr_node =
   | PE_DISCARD of ()
 // end of [parerr_node]
 
-typedef parerr = '{
+typedef
+parerr = '{
   parerr_loc= location, parerr_node= parerr_node
 } // end of [parerr]
 
@@ -186,6 +187,9 @@ the_parerrlst_add_ifunclosed (loc: location, name: string): void
 (* ****** ****** *)
 
 fun fprint_parerr (out: FILEref, x: parerr): void
+
+(* ****** ****** *)
+
 fun fprint_the_parerrlst (out: FILEref): int(*err*) // 0/1
 
 (* ****** ****** *)

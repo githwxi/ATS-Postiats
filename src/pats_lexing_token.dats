@@ -229,7 +229,7 @@ DLRVCOPYENV_VT = T_DLRVCOPYENV (VIEWTYPE_int)
 (* ****** ****** *)
 
 implement
-ZERO = T_INTEGER (10(*base*), "0", 0u(*sfx*))
+INTZERO = T_INT (10(*base*), "0", 0u(*sfx*))
 
 (* ****** ****** *)
 

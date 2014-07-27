@@ -101,13 +101,12 @@ synent_isnot_null (x) = ptr_isnot_null ($UN.cast{ptr} (x))
 (* ****** ****** *)
 
 implement
-int_of_i0nt
-  (tok) = let
+i0nt2int (tok) = let
 //
-val-T_INTEGER
+val-T_INT
   (_, rep, _) = tok.token_node in int_of_string (rep)
 //
-end // end of [int_of_i0nt]
+end // end of [i0nt2int]
 
 (* ****** ****** *)
 //
@@ -235,7 +234,7 @@ e0fftag_var_fun (t) = '{
 
 implement
 e0fftag_i0nt (tok) = let
-  val int = int_of_i0nt (tok)
+  val int = i0nt2int (tok)
 in '{
   e0fftag_loc= tok.token_loc, e0fftag_node= E0FFTAGint (int)
 } end // end of [e0fftag_int]
@@ -246,21 +245,21 @@ in '{
 //
 implement
 p0rec_emp () = P0RECint (0)
-
+//
 implement
-p0rec_i0nt (i0nt) = let
-  val pval = int_of_i0nt (i0nt) in P0RECint (pval)
+p0rec_i0nt (tok) = let
+  val pval = i0nt2int (tok) in P0RECint (pval)
 end // end of [p0rec_i0nt]
-
+//
 implement
 p0rec_i0de (id) = P0RECi0de (id)
-
+//
 implement
 p0rec_i0de_adj
-  (id, opr, int) = let
-  val adj = int_of_i0nt (int) in P0RECi0de_adj (id, opr, adj)
+  (id, opr, i0nt) = let
+  val adj = i0nt2int (i0nt) in P0RECi0de_adj (id, opr, adj)
 end // end of [p0rec_i0de_adj]
-
+//
 (* ****** ****** *)
 
 implement
@@ -412,7 +411,7 @@ end // end of [l0ab_make_i0de]
 
 implement
 l0ab_make_i0nt (x) = let
-  val i = int_of_i0nt (x)
+  val i = i0nt2int (x)
   val lab = $LAB.label_make_int (i)
 in
   l0ab_make_label (x.token_loc, lab)
@@ -2540,14 +2539,18 @@ end // end of [local]
 implement
 d0ecl_overload
   (tok, id, dqid, opt) = let
+//
   val loc1 = tok.token_loc
-  val loc2 = (case+ opt of
+  val loc2 = (
+    case+ opt of
     | Some x => x.token_loc | None () => dqid.dqi0de_loc
   ) : location // end of [val]
   val loc = loc1 + loc2
-  val pval = (case+ opt of
-    | Some x => int_of_i0nt (x) | None () => 0
+  val pval = (
+    case+ opt of
+    | Some x => i0nt2int (x) | None () => 0
   ) : int // end of [val]
+//
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Coverload (id, dqid, pval)
 } end // end of [d0ecl_overload]

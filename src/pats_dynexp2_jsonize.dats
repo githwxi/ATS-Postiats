@@ -157,7 +157,7 @@ implement
 jsonize_i0nt
   (tok) = let
 //
-val-$LEX.T_INTEGER
+val-$LEX.T_INT
   (base, rep, sfx) = tok.token_node
 //
 in
