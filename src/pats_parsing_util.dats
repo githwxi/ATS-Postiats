@@ -139,14 +139,15 @@ pstar_fun{a}
       in
         // nothing
       end
-    | _ => () where {
+    | _ => let
         val () =
-          res := list_vt_cons {a} {0} (x, ?)
-        // end of [val]
+        res := list_vt_cons{a}{0}(x, ?)
         val+list_vt_cons (_, !p_res1) = res
-        val () = loop (buf, !p_res1, err)
-        prval () = fold@ (res)
-      } // end of [_]
+        val ((*void*)) = loop (buf, !p_res1, err)
+        prval ((*void*)) = fold@ (res)
+      in
+        // nothing
+      end (* end of [_] *)
   end // end of [loop]
   var res: res_vt
   var err: int = 0
@@ -184,7 +185,7 @@ pstar_sep_fun{a}
         end
       | _ => let
           val () =
-            res := list_vt_cons {a} {0} (x, ?)
+            res := list_vt_cons{a}{0}(x, ?)
           // end of [val]
           val+list_vt_cons (_, !p_res1) = res
           val () = loop (buf, !p_res1, err)
@@ -445,7 +446,7 @@ pif_fun (
 ) = (
 //
 if err <= err0
-  then f (buf, bt, err) else synent_null ()
+  then f (buf, bt, err) else synent_null ((*void*))
 //
 ) (* end of [pif_fun] *)
 

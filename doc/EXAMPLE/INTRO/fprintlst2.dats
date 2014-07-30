@@ -20,7 +20,7 @@ prval () = lemma_list_param (xs)
 //
 fun loop
   {n:nat}
-  {i:int} .<n>. (
+  {i:nat} .<n>. (
   i: int i, xs: list (x, n), env: &env
 ) : intBtwe(i,n+i) =
   case+ xs of

@@ -69,11 +69,17 @@
 #define ATSifnot(x) if (!(x))
 #define ATSthen()
 #define ATSelse() else
+
+/* ****** ****** */
+
 #define ATSdo() do
 #define ATSwhile(x) while (x)
 #define ATSbreak() break
 #define ATScontinue() continue
 #define ATSgoto(lab) goto lab
+
+/* ****** ****** */
+
 #define ATSreturn(x) return (x)
 #define ATSreturn_void(x) return
 
@@ -219,6 +225,10 @@
 #define ATSPATCKexn0(pmv, d2c) ((pmv)==(void*)(&(d2c)))
 #define ATSPATCKexn1(pmv, d2c) (((ATStyexn()*)(pmv))->exntag==(&(d2c))->exntag)
 //
+/* ****** ****** */
+
+#define ATSINSlab(lab) lab
+
 /* ****** ****** */
 
 #define ATSINSfreeclo(cloptr) ATS_MFREE(cloptr)

@@ -407,13 +407,14 @@ p_tmpqi0de (buf, bt, err) =
 labd0exp ::= l0ab EQ d0exp
 *)
 implement
-p_labd0exp (
+p_labd0exp
+(
   buf, bt, err
 ) = let
   val err0 = err
   val tok = tokbuf_get_token (buf)
   val+~SYNENT3 (ent1, ent2, ent3) =
-    pseq3_fun {l0ab,token,d0exp} (buf, bt, err, p_l0ab, p_EQ, p_d0exp)
+    pseq3_fun{l0ab,token,d0exp}(buf, bt, err, p_l0ab, p_EQ, p_d0exp)
   (* end of [val] *)
 in
 //
@@ -441,7 +442,9 @@ p_eqd0expopt
 (* ****** ****** *)
 
 (*
-d0expsemiseq = /*empty*/ | d0exp {SEMICOLON d0exp}* {SEMICOLON}*
+d0expsemiseq =
+  | d0exp {SEMICOLON d0exp}* {SEMICOLON}*
+  | /*empty*/
 *)
 implement
 p_d0expsemiseq
@@ -451,31 +454,40 @@ p_d0expsemiseq
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-if err = err0 then let
+if
+err = err0
+then let
   val tok = tokbuf_get_token (buf)
 in
-  case+ tok.token_node of
-  | T_SEMICOLON () => let
-      val () = incby1 ()
-      val xs = p_d0expsemiseq (buf, 1(*bt*), err)
-    in
-      list_cons (x, xs)
-    end
-  | _ => list_sing (x)
-end else let
+//
+case+
+tok.token_node of
+| T_SEMICOLON () => let
+    val () = incby1 ()
+    val xs = p_d0expsemiseq (buf, 1(*bt*), err)
+  in
+    list_cons (x, xs)
+  end
+| _ (*non-SEMICOLON*) => list_sing (x)
+//
+end // end of [then]
+else let
   val () = err := err0
   val semilst = pstar_fun (buf, bt, p_SEMICOLON)
   val () = list_vt_free (semilst)
 in
   list_nil ()
-end // end of [if]
+end // end of [else]
 //
 end // end of [p_d0expsemiseq]
 
 (* ****** ****** *)
 
 (*
-s0expelt ::= LBRACE s0exp RBRACE | LBRACKET s0exp RBRACKET | /* empty*/
+s0expelt ::=
+| LBRACE s0exp RBRACE
+| LBRACKET s0exp RBRACKET
+| /* empty*/
 *)
 fun
 p_s0expelt

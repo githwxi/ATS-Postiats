@@ -313,13 +313,15 @@ location_rightmost
 
 local
 
-fun
-location_is_none .<>.
-  (loc: location):<> bool = (loc.beg_ntot < 0L)
-// end of [location_is_none]
+fn
+location_is_none
+(
+  loc: location
+) :<> bool = (loc.beg_ntot < 0L)
 
-fun
-location_combine_main .<>. (
+fn
+location_combine_main
+(
   loc1: location, loc2: location
 ) :<> location = let
 //
@@ -329,37 +331,37 @@ location_combine_main .<>. (
   var end_nrow: int and end_ncol: int
 //
   val () =
-    if loc1.beg_ntot <= loc2.beg_ntot then begin
+  if loc1.beg_ntot <= loc2.beg_ntot
+    then begin
       beg_nrow := loc1.beg_nrow;
       beg_ncol := loc1.beg_ncol;
       beg_ntot := loc1.beg_ntot;
-    end else begin
+    end // end of [then]
+    else begin
       beg_nrow := loc2.beg_nrow;
       beg_ncol := loc2.beg_ncol;
       beg_ntot := loc2.beg_ntot;
-    end // end of [if]
-  (* end of [val] *)
+    end // end of [else]
+  // end of [if] // end of [val]
 //
   val () =
-    if loc1.end_ntot >= loc2.end_ntot then begin
+  if loc1.end_ntot >= loc2.end_ntot
+    then begin
       end_nrow := loc1.end_nrow;
       end_ncol := loc1.end_ncol;
       end_ntot := loc1.end_ntot; 
-    end else begin
+    end // end of [then]
+    else begin
       end_nrow := loc2.end_nrow;
       end_ncol := loc2.end_ncol;
       end_ntot := loc2.end_ntot; 
-    end // end of [if]
-  (* end of [val] *)
+    end // end of [else]
+  // end of [if] // end of [val]
 //
 in '{
-  filename = loc1.filename
-, beg_ntot= beg_ntot
-, beg_nrow= beg_nrow
-, beg_ncol= beg_ncol
-, end_ntot= end_ntot
-, end_nrow= end_nrow
-, end_ncol= end_ncol
+  filename= loc1.filename
+, beg_ntot= beg_ntot, beg_nrow= beg_nrow, beg_ncol= beg_ncol
+, end_ntot= end_ntot, end_nrow= end_nrow, end_ncol= end_ncol
 } end // end of [location_combine_main]
 
 in // in of [local]

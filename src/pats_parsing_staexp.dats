@@ -257,7 +257,9 @@ case+ 0 of
       buf, p_i0de_dlr, ent
     ) => let
     val bt = 0
-    val ent1 = synent_decode {i0de} (ent)
+    val ent1 =
+      synent_decode{i0de}(ent)
+    // end of [val]
     val tok2 = tokbuf_get_token (buf)
   in
     case+ tok2.token_node of
@@ -302,16 +304,17 @@ case+ 0 of
     ptest_fun (
     buf, p_si0de, ent
   ) =>
-    sqi0de_make_none (synent_decode {i0de} (ent))
+    sqi0de_make_none (synent_decode{i0de}(ent))
   // end of [_ when ...]
 | _ => let
-  val ent1 = p_s0taq (buf, bt, err)
-  val ent2 = pif_fun (buf, bt, err, p_si0de, err0)
-in
-  if err = err0 then
-    sqi0de_make_some (ent1, ent2) else tokbuf_set_ntok_null (buf, n0)
-  // end of [if]
-end // end of [_]
+    val ent1 = p_s0taq (buf, bt, err)
+    val ent2 = pif_fun (buf, bt, err, p_si0de, err0)
+  in
+    if err = err0 then
+      sqi0de_make_some (ent1, ent2) else tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
+  end // end of [_]
+//
 end // end of [p_sqi0de]
 
 (* ****** ****** *)
@@ -710,11 +713,14 @@ fun
 p_exts0exp (
   buf: &tokbuf, bt: int, err: &int
 ) : s0exp = let
-  val err0 = err
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  val loc = tok.token_loc
-  macdef incby1 () = tokbuf_incby1 (buf)
+//
+val err0 = err
+val n0 = tokbuf_get_ntok (buf)
+val tok = tokbuf_get_token (buf)
+val loc = tok.token_loc
+//
+macdef incby1 () = tokbuf_incby1 (buf)
+//
 in
 //
 case+

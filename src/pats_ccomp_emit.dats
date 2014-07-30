@@ -1638,19 +1638,19 @@ case+ ins.instr_node of
 //
 | INSfunlab (flab) =>
   {
-    val (
-    ) = emit_text (out, "__patsflab_")
     val () =
-    (
-      emit2_funlab (out, flab); emit_text (out, ":")
-    )
+      emit_text (out, "ATSINSlab(")
+    val () =
+      emit_text (out, "__patsflab_")
+    val () = (
+      emit2_funlab (out, flab); emit_text (out, "):")
+    ) (* end of [val] *)
   } // end of [INSfunlab]
 | INStmplab (tlab) =>
   {
-    val () =
-    (
+    val () = (
       emit_tmplab (out, tlab); emit_text (out, ":")
-    )
+    ) (* end of [val] *)
   } // end of [INStmplab]
 //
 | INScomment (string) =>

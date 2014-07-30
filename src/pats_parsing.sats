@@ -185,19 +185,17 @@ fun
 the_parerrlst_add_ifunclosed (loc: location, name: string): void
 //
 (* ****** ****** *)
-
-fun fprint_parerr (out: FILEref, x: parerr): void
-
+//
+fun
+fprint_parerr (out: FILEref, x: parerr): void
+fun
+fprint_the_parerrlst (out: FILEref): int(*err*) // 0/1
+//
 (* ****** ****** *)
-
-fun fprint_the_parerrlst (out: FILEref): int(*err*) // 0/1
-
-(* ****** ****** *)
-
-fun tokbuf_set_ntok_null
-  {a:type} (buf: &tokbuf, n: uint): a
-// end of [tokbuf_set_ntok_null]
-
+//
+fun
+tokbuf_set_ntok_null{a:type}(buf: &tokbuf, n0: uint): (a)
+//
 (* ****** ****** *)
 
 typedef
@@ -357,7 +355,8 @@ fun is_LBRACE_deco (x: tnode): bool
 fun
 ptoken_fun
 (
-  buf: &tokbuf, bt: int, err: &int
+  buf: &tokbuf
+, bt: int, err: &int
 , f: (tnode) -> bool, enode: parerr_node
 ) : token // end of [ptoken_fun]
 
@@ -371,14 +370,15 @@ fun
 ptokentopt_fun
   {a:type}
 (
-  buf: &tokbuf, f1: (tnode) -> bool, f2: parser (a)
+  buf: &tokbuf
+, f1: (tnode) -> bool, f2: parser(a)
 ) : Option_vt(a) // end of [ptokentopt_fun]
 
 (* ****** ****** *)
 
 fun
 pstar_fun{a:type}
-  (buf: &tokbuf, bt: int, f: parser (a)): List_vt (a)
+  (buf: &tokbuf, bt: int, f: parser(a)): List_vt(a)
 // end of [pstar_fun]
 
 (* ****** ****** *)
@@ -387,14 +387,16 @@ fun
 pstar_sep_fun
   {a:type}
 (
-  buf: &tokbuf, bt: int, sep: (&tokbuf) -> bool, f: parser (a)
+  buf: &tokbuf
+, bt: int, sep: (&tokbuf) -> bool, f: parser(a)
 ) : List_vt (a) // end of [pstar_sep_fun]
 
 (* ****** ****** *)
 
 fun
 pstar_COMMA_fun
-  {a:type} (buf: &tokbuf, bt: int, f: parser (a)): List_vt (a)
+  {a:type}
+  (buf: &tokbuf, bt: int, f: parser(a)): List_vt(a)
 // end of [pstar_COMMA_fun]
 
 (* ****** ****** *)
@@ -509,17 +511,19 @@ fun p1list12_fun {a:type}
 
 (* ****** ****** *)
 
-fun pif_fun
+fun
+pif_fun
   {a:type} (
   buf: &tokbuf
 , bt: int, err: &int, f: parser (a), err0: int
-) : a // end of [pif_fun]
+) : (a) // end of [pif_fun]
 
-fun ptokwrap_fun
+fun
+ptokwrap_fun
   {a:type} (
   buf: &tokbuf
 , bt: int, err: &int, f: parser_tok (a), enode: parerr_node
-) : a // end of [ptokwrap_fun]
+) : (a) // end of [ptokwrap_fun]
 
 (* ****** ****** *)
 
