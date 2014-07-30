@@ -556,7 +556,7 @@ srcget_atscntrb_kernelats:: SCRIPT/atscntrb_kernelats.bash ; bash $<
 
 ######
 
-PACKNAME=ATS2-Postiats-0.1.0
+PACKNAME=ATS2-Postiats-0.1.1
 atspacktarzvcf:: ; rm -rf $(PACKNAME)
 atspacktarzvcf:: ; cp -rf ATS-Postiats $(PACKNAME)
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/Makefile_conf
@@ -567,7 +567,7 @@ atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 
 ######
 
-CNTRBNAME=ATS2-Postiats-contrib-0.1.0
+CNTRBNAME=ATS2-Postiats-contrib-0.1.1
 atscntrbtarzvcf:: ; rm -rf $(CNTRBNAME)
 atscntrbtarzvcf:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtarzvcf:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/
