@@ -56,7 +56,8 @@
 //
 // HX: for supporting lazy-evaluation
 //
-#define ATStylazy(tyval) \
+#define \
+ATStylazy(tyval) \
   struct{ int flag; union{ void* thunk; tyval saved; } lazy; }
 //
 /* ****** ****** */
@@ -78,6 +79,20 @@
 #define ATScontinue() continue
 #define ATSgoto(lab) goto lab
 
+/* ****** ****** */
+//
+// HX: handling for/while loops
+//
+#define \
+ATSloop_open(init, fini, cont) \
+  do { init:
+#define \
+ATSloop_close(init, fini, cont) \
+  goto init ; fini: break ; } while(0)
+//
+#define ATSbreak2(fini) goto fini
+#define ATScontinue2(cont) goto cont
+//
 /* ****** ****** */
 
 #define ATSreturn(x) return (x)
@@ -196,34 +211,23 @@
 //
 /* ****** ****** */
 //
-// HX: handling for/while loops
-//
-#define ATSbreak2(fini) goto fini
-#define ATScontinue2(cont) goto cont
-#define ATSLOOPopen(init, fini, cont) \
-  do { init:
-#define ATSLOOPclose(init, fini, cont) \
-  goto init ; fini: break ; } while(0)
-//
-/* ****** ****** */
-//
-#define ATSPATCKint(pmv, pat) ((pmv)==pat)
-#define ATSPATCKbool(pmv, pat) ((pmv)==pat)
-#define ATSPATCKchar(pmv, pat) ((pmv)==pat)
-#define ATSPATCKfloat(pmv, pat) ((pmv)==pat)
-#define ATSPATCKstring(pmv, pat) (atspre_string_equal(pmv, pat))
+#define ATSCKpat_int(pmv, pat) ((pmv)==pat)
+#define ATSCKpat_bool(pmv, pat) ((pmv)==pat)
+#define ATSCKpat_char(pmv, pat) ((pmv)==pat)
+#define ATSCKpat_float(pmv, pat) ((pmv)==pat)
+#define ATSCKpat_string(pmv, pat) (atspre_string_equal(pmv, pat))
 //
 /*
 ** a datatype should not contain more than 1024 constructors!
 */
 #define ATS_DATACONMAX 1024
 //
-#define ATSPATCKcon0(pmv, tag) ((pmv)==(void*)tag)
-#define ATSPATCKcon1(pmv, tag) \
+#define ATSCKpat_con0(pmv, tag) ((pmv)==(void*)tag)
+#define ATSCKpat_con1(pmv, tag) \
   ((pmv)>=(void*)ATS_DATACONMAX && ((ATStysum()*)(pmv))->contag==tag)
 //
-#define ATSPATCKexn0(pmv, d2c) ((pmv)==(void*)(&(d2c)))
-#define ATSPATCKexn1(pmv, d2c) (((ATStyexn()*)(pmv))->exntag==(&(d2c))->exntag)
+#define ATSCKpat_exn0(pmv, d2c) ((pmv)==(void*)(&(d2c)))
+#define ATSCKpat_exn1(pmv, d2c) (((ATStyexn()*)(pmv))->exntag==(&(d2c))->exntag)
 //
 /* ****** ****** */
 
@@ -349,9 +353,9 @@ ATSINSmove_ldelay(tmpret, tyval, pmv_thk) ATSINSmove(tmpret, pmv_thk)
 #define \
 ATSINSmove_llazyeval(tmpret, tyval, __thunk) \
 do { \
- tmpret = \
- ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), tyval), (__thunk, atsbool_true)) ; \
- ATS_MFREE(__thunk) ; \
+  tmpret = \
+  ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), tyval), (__thunk, atsbool_true)) ; \
+  ATS_MFREE(__thunk) ; \
 } while (0) /* end of [do ... while ...] */
 
 #define \

@@ -50,6 +50,13 @@
 #define ATSextval(name) name
 //
 /* ****** ****** */
+//
+#define ATSstruct struct
+/*
+#define ATStypedef typedef
+*/
+//
+/* ****** ****** */
 
 #define ATSinline() static inline
 

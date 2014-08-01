@@ -1710,7 +1710,7 @@ case+ ins.instr_node of
     val () = emit_text (out, "** loop-init(end)\n")
     val () = emit_text (out, "*/\n")
     val () = (
-      emit_text (out, "ATSLOOPopen(");
+      emit_text (out, "ATSloop_open(");
       emit_tmplab (out, tlab_init); emit_text (out, ", ");
       emit_tmplab (out, tlab_fini); emit_text (out, ", ");
       emit_tmplab (out, tlab_cont); emit_text (out, ")\n")
@@ -1746,7 +1746,7 @@ case+ ins.instr_node of
     } // end of [if] // end of [val]
 //
     val () = (
-      emit_text (out, "ATSLOOPclose(");
+      emit_text (out, "ATSloop_close(");
       emit_tmplab (out, tlab_init); emit_text (out, ", ");
       emit_tmplab (out, tlab_fini); emit_text (out, ", ");
       emit_tmplab (out, tlab_cont); emit_text (out, ") ;")
