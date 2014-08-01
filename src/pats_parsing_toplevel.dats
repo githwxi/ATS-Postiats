@@ -57,7 +57,8 @@ staload "./pats_parsing.sats"
 
 (* ****** ****** *)
 
-fun pskip_tokbuf
+fun
+pskip_tokbuf
   (buf: &tokbuf): token = let
   val tok = tokbuf_get_token (buf)
 (*
@@ -111,7 +112,8 @@ case+ tok.token_node of
 //
 end // end of [pskip_tokbuf]
 
-fun pskip1_tokbuf_reset
+fun
+pskip1_tokbuf_reset
   (buf: &tokbuf): token = let
 //
 val tok = tokbuf_get_token (buf)
@@ -119,7 +121,7 @@ val tok = tokbuf_get_token (buf)
 val () =
 (
 case+
-  tok.token_node of
+tok.token_node of
 | T_EOF ((*void*)) => ()
 | tnode
   when tnode_is_comment (tnode) => ()
@@ -148,7 +150,6 @@ p_toplevel_fun
   buf: &tokbuf
 , nerr: &int? >> int, f: parser (d0ecl)
 ) : d0eclist = let
-  typedef a = d0ecl
   fun loop (
     buf: &tokbuf
   , res: &d0eclist_vt? >> d0eclist_vt
@@ -184,7 +185,9 @@ p_toplevel_fun
         end // end of [val]
 //
         val () =
-        res := list_vt_cons{a}{0}(d0ecl, ?)
+        res :=
+          list_vt_cons{d0ecl}{0}(d0ecl, ?)
+        // end of [val]
         val+list_vt_cons (_, !p_res1) = res
         val () = loop (buf, !p_res1, nerr, f)
         prval ((*void*)) = fold@ (res) // HX: no-op
@@ -197,7 +200,7 @@ p_toplevel_fun
   var res: d0eclist_vt
   val () = loop (buf, res, nerr, f)
 //
-  val _(*EOF*) = p_EOF (buf, 0, nerr) // HX: no more tokens 
+  val _(*EOF*) = p_EOF (buf, 0(*bt*), nerr) // HX: no more tokens 
 //
 in
   list_of_list_vt(res)

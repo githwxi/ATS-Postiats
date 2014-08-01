@@ -105,6 +105,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("arith_overflow.dats")
+
+(* ****** ****** *)
+
 #packfilename("autodiff.dats")
 
 (* ****** ****** *)
@@ -134,6 +138,14 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("matrixops.dats")
+
+(* ****** ****** *)
+
+#packfilename("morse_enum.dats")
+
+(* ****** ****** *)
+
 #packfilename("monad_maybe.dats")
 #packfilename("monad_state.dats")
 
@@ -145,6 +157,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 #packfilename("queens_lazy.dats")
 #packfilename("queens_loop.dats")
+
+(* ****** ****** *)
+
+#packfilename("randerlin.dats")
 
 (* ****** ****** *)
 
@@ -169,6 +185,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 (* ****** ****** *)
 
 #packfilename("wclines.dats")
+
+(* ****** ****** *)
+
+#packfilename("word-chain.dats")
 
 (* ****** ****** *)
 

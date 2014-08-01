@@ -56,7 +56,7 @@ assumelst-declaration(beg)
 assumelst-declaration(end)
 */
 #if(0)
-ATSglobaldec()
+ATSextern()
 atsvoid_t0ype
 atsruntime_handle_uncaughtexn(atstype_exnconptr) ;
 #endif // end of [QUALIFIED]
@@ -70,7 +70,7 @@ global: atsruntime_handle_uncaughtexn$0$0(level=0)
 local: 
 global: 
 */
-ATSglobaldec()
+ATSextern()
 atsvoid_t0ype
 atsruntime_handle_uncaughtexn(void *arg0)
 {

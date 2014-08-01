@@ -63,7 +63,9 @@ viewtypedef labp0atlst12 = list12 (labp0at)
 
 (* ****** ****** *)
 
-fun p0at_list12 (
+fun
+p0at_list12
+(
   t_beg: token
 , ent2: p0atlst12
 , t_end: token
@@ -81,7 +83,9 @@ fun p0at_list12 (
 
 (* ****** ****** *)
 
-fun p0at_tup12 (
+fun
+p0at_tup12
+(
   knd: int
 , t_beg: token
 , ent2: p0atlst12
@@ -100,7 +104,9 @@ fun p0at_tup12 (
 
 (* ****** ****** *)
 
-fun p0at_rec12 (
+fun
+p0at_rec12
+(
   knd: int
 , t_beg: token, ent2: labp0atlst12, t_end: token
 ) : p0at =
@@ -118,16 +124,16 @@ fun p0at_rec12 (
 (* ****** ****** *)
 
 fun
-p_p0atseq_BAR_p0atseq (
-  buf: &tokbuf
-, bt: int
-, err: &int
+p_p0atseq_BAR_p0atseq
+(
+  buf: &tokbuf, bt: int, err: &int
 ) : p0atlst12 =
   plist12_fun (buf, bt, p_p0at)
 // end of [p_p0atseq_BAR_p0atseq]
 
 fun
-p_labp0atseq_BAR_labp0atseq (
+p_labp0atseq_BAR_labp0atseq
+(
   buf: &tokbuf, bt: int, err: &int
 ) : labp0atlst12 = let
   val _ = p_COMMA_test (buf) in

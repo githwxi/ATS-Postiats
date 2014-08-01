@@ -33,7 +33,7 @@
 //
 (* ****** ****** *)
 
-exception FatalErrorException
+exception FatalErrorExn of ()
 
 (* ****** ****** *)
 

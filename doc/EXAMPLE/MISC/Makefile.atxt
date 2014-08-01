@@ -98,11 +98,8 @@ RMF=rm -f
 
 ######
 
-#make2_entry("autodiff", "-DATS_MEMALLOC_GCBDW -O2", "-lm -lgc")
-
-######
-
 #make_entry("arith_overflow")
+#make2_entry("autodiff", "-DATS_MEMALLOC_GCBDW -O2", "-lm -lgc")
 #make_entry("coinflip")
 #make_entry("ferryman")
 #make_entry("fibver_loop")

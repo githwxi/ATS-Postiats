@@ -790,8 +790,8 @@ val issta = not (isext)
 val () = if istmp then emit_text (out, "#if(0)\n")
 val () = if isqua then emit_text (out, "#if(0)\n")
 //
-val () = if isext then emit_text (out, "ATSglobaldec()\n")
-val () = if issta then emit_text (out, "ATSstaticdec()\n")
+val () = if isext then emit_text (out, "ATSextern()\n")
+val () = if issta then emit_text (out, "ATSstatic()\n")
 //
 val hse_res = funlab_get_type_res (flab)
 val hses_arg = funlab_get_type_fullarg (flab)
@@ -1020,7 +1020,7 @@ val hses_arg = funlab_get_type_arg (flab)
 //
 val isvoid = hisexp_is_void (hse_res)
 //
-val () = emit_text (out, "ATSstaticdec()\n")
+val () = emit_text (out, "ATSstatic()\n")
 val () = emit_hisexp (out, hse_res)
 val () = emit_text (out, "\n")
 val () = emit_funlab (out, flab)
@@ -1049,7 +1049,7 @@ fun auxclo_init
   out: FILEref, flab: funlab, d2es: d2envlst
 ) : void = let
 //
-val () = emit_text (out, "ATSstaticdec()\n")
+val () = emit_text (out, "ATSstatic()\n")
 val () = emit_text (out, "atstype_cloptr\n")
 //
 val () = emit_funlab (out, flab)
@@ -1077,7 +1077,7 @@ fun auxclo_create
   out: FILEref, flab: funlab, d2es: d2envlst
 ) : void = let
 //
-val () = emit_text (out, "ATSstaticdec()\n")
+val () = emit_text (out, "ATSstatic()\n")
 val () = emit_text (out, "atstype_cloptr\n")
 //
 val () = emit_funlab (out, flab)
@@ -1490,9 +1490,9 @@ val isext =
 val issta = not (isext)
 //
 val () =
-  if isext then emit_text (out, "ATSglobaldec()\n")
+  if isext then emit_text (out, "ATSextern()\n")
 val () =
-  if issta then emit_text (out, "ATSstaticdec()\n")
+  if issta then emit_text (out, "ATSstatic()\n")
 //
 val istmp = funent_is_tmplt (fent)
 val () = if istmp then auxtmp (out, fent)
