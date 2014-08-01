@@ -70,8 +70,9 @@
 #ifndef _ATS_CCOMP_EXCEPTION_NONE
 //
 #define \
-ATSdynexn_dec(d2c) atstype_exncon d2c = { 0, "ats-exncon-name" }
-#define ATSdynexn_initize(d2c, exnmsg) the_atsexncon_initize(&(d2c), exnmsg)
+ATSdynexn_dec(d2c) atstype_exncon d2c = { 0, "#ATSEXNCON" }
+#define \
+ATSdynexn_initize(d2c, exnmsg) the_atsexncon_initize(&(d2c), exnmsg)
 #define ATSdynexn_extdec(d2c) ATSextern() atstype_exncon d2c
 //
 #endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
