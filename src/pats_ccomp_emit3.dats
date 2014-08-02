@@ -395,10 +395,12 @@ in
 end (* end of [emit_tmpmovlst] *)
 
 (* ****** ****** *)
-
+//
 extern
-fun emit_patckont (out: FILEref, fail: patckont): void
-
+fun
+emit_patckont
+  (out: FILEref, fail: patckont): void
+//
 implement
 emit_patckont
   (out, fail) = let
@@ -408,48 +410,50 @@ case+ fail of
 //
 | PTCKNTtmplab (tlab) =>
   {
-    val () = emit_text (out, "ATSgoto(")
+    val () = emit_text (out, "ATSINSgoto(")
     val () = emit_tmplab (out, tlab)
-    val () = emit_text (out, ")")
+    val ((*closing*)) = emit_text (out, ")")
   }
 //
 | PTCKNTtmplabint (tlab, int) =>
   {
-    val () = emit_text (out, "ATSgoto(")
+    val () = emit_text (out, "ATSINSgoto(")
     val () = emit_tmplabint (out, tlab, int)
-    val () = emit_text (out, ")")
+    val ((*closing*)) = emit_text (out, ")")
   }
 //
 | PTCKNTtmplabmov (tlab, tmvlst) =>
   {
-    val (
-    ) = emit_tmpmovlst (out, tmvlst)
-    val () = emit_text (out, "ATSgoto(")
+    val () = emit_tmpmovlst (out, tmvlst)
+    val () = emit_text (out, "ATSINSgoto(")
     val () = emit_tmplab (out, tlab)
-    val () = emit_text (out, ")")
-  }
-//
-| PTCKNTcaseof_fail (loc) =>
-  {
-    val () = emit_text (out, "ATSINScaseof_fail(\"")
-    val () = $LOC.fprint_location (out, loc)
-    val () = emit_text (out, "\")")
-  }
-//
-| PTCKNTfunarg_fail (loc, fl) =>
-  {
-    val () = emit_text (out, "ATSINSfunarg_fail(\"")
-    val () = $LOC.fprint_location (out, loc)
-    val () = emit_text (out, "\")")
+    val ((*closing*)) = emit_text (out, ")")
   }
 //
 | PTCKNTraise (tmp, pmv_exn) =>
   {
-    val () = emit_text (out, "ATSINSraise_exn(")
-    val () = emit_tmpvar (out, tmp)
-    val () = emit_text (out, ", ")
-    val () = emit_primval (out, pmv_exn)
-    val () = emit_text (out, ")")
+    val () =
+    emit_text (out, "ATSINSraise_exn(")
+    val () = (
+      emit_tmpvar (out, tmp); emit_text (out, ", "); emit_primval (out, pmv_exn)
+    ) (* end of [val] *)
+    val ((*closing*)) = emit_text (out, ")")
+  }
+//
+| PTCKNTcaseof_fail (loc) =>
+  {
+    val () =
+    emit_text (out, "ATSINScaseof_fail(\"")
+    val () = $LOC.fprint_location (out, loc)
+    val ((*closing*)) = emit_text (out, "\")")
+  }
+//
+| PTCKNTfunarg_fail (loc, flab) =>
+  {
+    val () =
+    emit_text (out, "ATSINSfunarg_fail(\"")
+    val () = $LOC.fprint_location (out, loc)
+    val ((*closing*)) = emit_text (out, "\")")
   }
 //
 | PTCKNTnone ((*void*)) =>
@@ -458,7 +462,7 @@ case+ fail of
   }
 //
 end // (* end of [emit_patckont] *)
-
+//
 (* ****** ****** *)
 //
 // HX-2013-01:

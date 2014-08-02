@@ -66,7 +66,9 @@ pskip_tokbuf
 *)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
+//
 | T_EOF () => tok
 //
 | T_SORTDEF () => tok
@@ -122,9 +124,12 @@ val () =
 (
 case+
 tok.token_node of
+//
 | T_EOF ((*void*)) => ()
+//
 | tnode
   when tnode_is_comment (tnode) => ()
+//
 | _ => {
     val loc = tok.token_loc
     val err = parerr_make (loc, PE_DISCARD)

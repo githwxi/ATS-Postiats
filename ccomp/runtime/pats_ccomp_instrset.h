@@ -77,7 +77,6 @@ ATStylazy(tyval) \
 #define ATSwhile(x) while (x)
 #define ATSbreak() break
 #define ATScontinue() continue
-#define ATSgoto(lab) goto lab
 
 /* ****** ****** */
 //
@@ -232,6 +231,7 @@ ATSloop_close(init, fini, cont) \
 /* ****** ****** */
 
 #define ATSINSlab(lab) lab
+#define ATSINSgoto(lab) goto lab
 
 /* ****** ****** */
 
@@ -315,8 +315,9 @@ ATSloop_close(init, fini, cont) \
 //
 #define ATSINSraise_exn(tmp, pmv) atsruntime_raise(pmv)
 //
-#define ATSINScaseof_fail(msg) atsruntime_handle_unmatchedval(msg)
+/* ****** ****** */
 //
+#define ATSINScaseof_fail(msg) atsruntime_handle_unmatchedval(msg)
 #define ATSINSfunarg_fail(msg) atsruntime_handle_unmatchedarg(msg)
 //
 /* ****** ****** */

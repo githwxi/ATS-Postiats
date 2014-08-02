@@ -1020,22 +1020,34 @@ case+ xs of
 //
 end // end of [loop]
 //
-val () = emit_text (out, "/*\n")
-val () = emit_text (out, "exnconlst-declaration(beg)\n")
-val () = emit_text (out, "*/\n")
+val () = (
+emit_text (out, "/*\n");
+emit_text (out, "exnconlst-declaration(beg)\n");
+emit_text (out, "*/\n");
+) (* end of [val] *)
 //
-val () = emit_text (out, "#ifndef _ATS_CCOMP_EXCEPTION_NONE\n")
-val () = emit_text (out, "\
-extern void the_atsexncon_initize (atstype_exncon *d2c, char *exnmsg) ;\n\
+val () =
+emit_text (out, "#ifndef _ATS_CCOMP_EXCEPTION_NONE\n")
+val () =
+emit_text (out, "\
+ATSextern()\n\
+atsvoid_t0ype\n\
+the_atsexncon_initize\n\
+(\n\
+  atstype_exnconptr d2c, atstype_string exnmsg\n\
+) ;\n\
 ") // end of [val]
-val () = emit_text (out, "#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]\n")
+val () =
+emit_text (out, "#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]\n")
 //
 val hids = the_exndeclst_get ()
 val ((*void*)) = loop (out, hids)
 //
-val () = emit_text (out, "/*\n")
-val () = emit_text (out, "exnconlst-declaration(end)\n")
-val () = emit_text (out, "*/\n")
+val () = (
+emit_text (out, "/*\n");
+emit_text (out, "exnconlst-declaration(end)\n");
+emit_text (out, "*/\n");
+) (* end of [val] *)
 //
 in
   (* nothing *)

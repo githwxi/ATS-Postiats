@@ -454,10 +454,8 @@ fun auxgoto
   out: FILEref, flab: funlab
 ) : void = let
 //
-val (
-) = emit_text (out, "ATSgoto(")
-val (
-) = emit_text (out, "__patsflab_")
+val () = emit_text (out, "ATSINSgoto(")
+val () = emit_text (out, "__patsflab_")
 val () = emit2_funlab (out, flab)
 val () = emit_text (out, ") ;\n")
 //
