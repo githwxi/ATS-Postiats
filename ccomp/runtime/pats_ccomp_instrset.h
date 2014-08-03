@@ -66,15 +66,19 @@ ATStylazy(tyval) \
 
 /* ****** ****** */
 
-#define ATSif(x) if (x)
-#define ATSifnot(x) if (!(x))
+#define ATSif(x) if(x)
 #define ATSthen()
 #define ATSelse() else
 
 /* ****** ****** */
 
+#define ATSifthen(x) if(x)
+#define ATSifnthen(x) if(!(x))
+
+/* ****** ****** */
+
 #define ATSdo() do
-#define ATSwhile(x) while (x)
+#define ATSwhile(x) while(x)
 #define ATSbreak() break
 #define ATScontinue() continue
 
@@ -94,39 +98,39 @@ ATSloop_close(init, fini, cont) \
 //
 /* ****** ****** */
 
-#define ATSreturn(x) return (x)
+#define ATSreturn(x) return(x)
 #define ATSreturn_void(x) return
 
 /* ****** ****** */
 
-#define ATSFCreturn(x) return (x)
+#define ATSFCreturn(x) return(x)
 #define ATSFCreturn_void(x) (x); return
 
 /* ****** ****** */
 
 #define ATScaseofbeg() do {
-#define ATScaseofend() } while (0) ;
+#define ATScaseofend() } while(0) ;
 #define ATSbranchbeg()
 #define ATSbranchend() break ;
 
 /* ****** ****** */
 
 #define ATStailcalbeg() do {
-#define ATStailcalend() } while (0) ;
+#define ATStailcalend() } while(0) ;
 
 /* ****** ****** */
 
 #define ATSPMVint(i) i
-#define ATSPMVintrep(str) str
+#define ATSPMVintrep(rep) (rep)
 
 #define ATSPMVbool_true() atsbool_true
 #define ATSPMVbool_false() atsbool_false
-#define ATSPMVchar(c) c
-#define ATSPMVfloat(rep) rep
-#define ATSPMVstring(str) str
+#define ATSPMVchar(c) (c)
+#define ATSPMVfloat(rep) (rep)
+#define ATSPMVstring(str) (str)
 
-#define ATSPMVi0nt(x) x
-#define ATSPMVf0loat(x) x
+#define ATSPMVi0nt(x) (x)
+#define ATSPMVf0loat(x) (x)
 
 /* ****** ****** */
 
@@ -329,7 +333,7 @@ do { \
     ATS_MALLOC(sizeof(ATStylazy(tyval))) ; \
   (*(ATStylazy(tyval)*)tmpret).flag = 0 ; \
   (*(ATStylazy(tyval)*)tmpret).lazy.thunk = pmv_thk ; \
-} while (0) ; /* end of [do ... while ...] */
+} while(0) ; /* end of [do ... while ...] */
 
 #define \
 ATSINSmove_lazyeval(tmpret, tyval, pmv_lazy) \
@@ -344,7 +348,7 @@ do { \
   } else { \
     tmpret = (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved ; \
   } /* end of [if] */ \
-} while (0) /* end of [do ... while ...] */
+} while(0) /* end of [do ... while ...] */
 
 /* ****** ****** */
 
@@ -357,14 +361,14 @@ do { \
   tmpret = \
   ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), tyval), (__thunk, atsbool_true)) ; \
   ATS_MFREE(__thunk) ; \
-} while (0) /* end of [do ... while ...] */
+} while(0) /* end of [do ... while ...] */
 
 #define \
 atspre_lazy_vt_free(__thunk) \
 do { \
   ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), void), (__thunk, atsbool_false)) ; \
   ATS_MFREE(__thunk) ; \
-} while (0) /* atspre_lazy_vt_free */
+} while(0) /* atspre_lazy_vt_free */
 
 /* ****** ****** */
 

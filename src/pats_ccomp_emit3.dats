@@ -112,20 +112,21 @@ val () = emit_text (out, "\n*/\n")
 //
 fun auxlst
 (
-  out: FILEref, xs: d2conlst
+  out: FILEref, d2cs: d2conlst
 ) : void = let
 in
 //
-case+ xs of
+case+ d2cs of
+| list_nil () => ()
 | list_cons
-    (x, xs) => let
-    val () = emit_text (out, "ATSdynexn_dec(")
-    val () = emit_d2con (out, x)
+    (d2c, d2cs) => let
+    val () =
+    emit_text (out, "ATSdynexn_dec(")
+    val () = emit_d2con (out, d2c)
     val () = emit_text (out, ") ;\n")
   in
-    auxlst (out, xs)
+    auxlst (out, d2cs)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end (* end of [auxlst] *)
 //
@@ -382,7 +383,7 @@ case+ xs of
     val () = emit_tmpvar (out, x.1)
     val () = emit_text (out, ", ")
     val () = emit_tmprimval (out, x.0)
-    val () = emit_text (out, ") ; ")
+    val () = emit_text (out, ") ;")
   in
     auxlst (out, i+1, xs)
   end // end of [list_cons]
@@ -497,10 +498,9 @@ case+ 0 of
           $S2E.eq_d2con_d2con (d2c, xx.0)
       | None () => false (* deadcode *)
     ) : bool // end of [val]
-    val () = emit_text (out, "if (")
-    val () =
-    (
-      if (isnil)
+    val () = emit_text (out, "ATSifthen(")
+    val () = (
+      if isnil
         then emit_text (out, "ATSCKptriscons(")
         else emit_text (out, "ATSCKptrisnull(")
       // end of [if]
@@ -508,7 +508,7 @@ case+ 0 of
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   in
     // nothing
   end // end of [islistlike]
@@ -516,7 +516,8 @@ case+ 0 of
     val isnul =
       $S2E.d2con_is_nullary (d2c)
     // end of [val]
-    val () = emit_text (out, "ATSifnot(")
+    val () =
+      emit_text (out, "ATSifnthen(")
     val () =
     (
       if isnul
@@ -529,7 +530,7 @@ case+ 0 of
     val () = emit_int (out, $S2E.d2con_get_tag (d2c))
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   in
     // nothing
   end // end of [PATCKcon]
@@ -546,20 +547,21 @@ fun auxexn
 val narg =
   $S2E.d2con_get_arity_real (d2c)
 //
-val () = emit_text (out, "ATSifnot(")
+val () =
+  emit_text (out, "ATSifnthen(")
 val () =
 (
-if narg = 0
-  then emit_text (out, "ATSCKpat_exn0(")
-  else emit_text (out, "ATSCKpat_exn1(")
-// end of [if]
+  if narg = 0
+    then emit_text (out, "ATSCKpat_exn0(")
+    else emit_text (out, "ATSCKpat_exn1(")
+  // end of [if]
 ) : void // end of [val]
 val () = emit_primval (out, pmv)
 val () = emit_text (out, ", ")
 val () = emit_d2con (out, d2c);
 val () = emit_text (out, ")) { ")
 val () = emit_patckont (out, fail)
-val () = emit_text (out, " ; }")
+val () = emit_text (out, " ; } ;")
 //
 in
   // nothing
@@ -582,82 +584,82 @@ case+ patck of
   end // end of [PATCKcon]
 //
 | PATCKint (i) => {
-    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSifnthen(")
     val () = emit_text (out, "ATSCKpat_int(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVint (out, i)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   } (* end of [PATCKint] *)
 //
 | PATCKbool (b) => {
-    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSifnthen(")
     val () = emit_text (out, "ATSCKpat_bool(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVbool (out, b)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   } (* end of [PATCKbool] *)
 //
 | PATCKchar (c) => {
-    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSifnthen(")
     val () = emit_text (out, "ATSCKpat_char(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVchar (out, c)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   } (* end of [PATCKchar] *)
 //
 | PATCKfloat (float) =>
   {
-    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSifnthen(")
     val () = emit_text (out, "ATSCKpat_float(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVfloat (out, float)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   } (* end of [PATCKfloat] *)
 //
 | PATCKstring (string) =>
   {
-    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSifnthen(")
     val () = emit_text (out, "ATSCKpat_string(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVstring (out, string)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   } (* end of [PATCKstring] *)
 //
 | PATCKi0nt (tok) => {
-    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSifnthen(")
     val () = emit_text (out, "ATSCKpat_int(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVi0nt (out, tok)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   } (* end of [PATCKi0nt] *)
 //
 | PATCKf0loat (tok) => {
-    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSifnthen(")
     val () = emit_text (out, "ATSCKpat_float(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVf0loat (out, tok)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   } (* end of [PATCKf0loat] *)
 //
 (*
@@ -666,8 +668,8 @@ case+ patck of
     val () = prerrln! (": emit_instr_patck: patck = ", patck)
     val () = assertloc (false)
   in
-    $ERR.abort ()
-  end // end of [_]
+    $ERR.abort ((*void*))
+  end // end of [let] // end of [_]
 *)
 //
 end (* end of [auxmain] *)
