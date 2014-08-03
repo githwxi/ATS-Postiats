@@ -557,7 +557,7 @@ The following two functions are for accessing and updating characters
 stored in strings:
 
 #atscode("\
-typedef charNZ = [c:char | c <> '\\\\000'] char (c)
+typedef charNZ = [c:int | c != '\\\\000'] char (c)
 
 fun
 string_get_at{n:int}
