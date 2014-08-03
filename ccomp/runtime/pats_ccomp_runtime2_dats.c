@@ -113,7 +113,7 @@ __atstmplab0:
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1540(line=43, offs=4) -- 1543(line=43, offs=7)
 */
-ATSifnot(ATSCKpat_exn0(arg0, ATSLIB_056_prelude__AssertExn)) { ATSINSgoto(__atstmplab2) ; }
+ATSifnthen(ATSCKpat_exn0(arg0, ATSLIB_056_prelude__AssertExn)) { ATSINSgoto(__atstmplab2) ; }
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1667(line=52, offs=16) -- 1667(line=52, offs=16)
 */
@@ -170,7 +170,7 @@ __atstmplab2:
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1540(line=43, offs=4) -- 1543(line=43, offs=7)
 */
-ATSifnot(ATSCKpat_exn0(arg0, ATSLIB_056_prelude__NotFoundExn)) { ATSINSgoto(__atstmplab4) ; }
+ATSifnthen(ATSCKpat_exn0(arg0, ATSLIB_056_prelude__NotFoundExn)) { ATSINSgoto(__atstmplab4) ; }
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1798(line=56, offs=18) -- 1798(line=56, offs=18)
 */
@@ -227,7 +227,7 @@ __atstmplab4:
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1540(line=43, offs=4) -- 1543(line=43, offs=7)
 */
-ATSifnot(ATSCKpat_exn1(arg0, ATSLIB_056_prelude__GenerallyExn)) { ATSINSgoto(__atstmplab6) ; }
+ATSifnthen(ATSCKpat_exn1(arg0, ATSLIB_056_prelude__GenerallyExn)) { ATSINSgoto(__atstmplab6) ; }
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1935(line=60, offs=22) -- 1935(line=60, offs=22)
 */
@@ -299,7 +299,7 @@ __atstmplab6:
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1540(line=43, offs=4) -- 1543(line=43, offs=7)
 */
-ATSifnot(ATSCKpat_exn1(arg0, ATSLIB_056_prelude__IllegalArgExn)) { ATSINSgoto(__atstmplab8) ; }
+ATSifnthen(ATSCKpat_exn1(arg0, ATSLIB_056_prelude__IllegalArgExn)) { ATSINSgoto(__atstmplab8) ; }
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 2081(line=64, offs=23) -- 2081(line=64, offs=23)
 */
