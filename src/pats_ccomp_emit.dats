@@ -1634,7 +1634,8 @@ val () = (
 //
 in
 //
-case+ ins.instr_node of
+case+
+ins.instr_node of
 //
 | INSfunlab (flab) =>
   {
@@ -1646,10 +1647,13 @@ case+ ins.instr_node of
       emit2_funlab (out, flab); emit_text (out, "):")
     ) (* end of [val] *)
   } // end of [INSfunlab]
-| INStmplab (tlab) =>
+//
+| INStmplab (tmplab) =>
   {
+    val () =
+      emit_text (out, "ATSINSlab(")
     val () = (
-      emit_tmplab (out, tlab); emit_text (out, ":")
+      emit_tmplab (out, tmplab); emit_text (out, "):")
     ) (* end of [val] *)
   } // end of [INStmplab]
 //

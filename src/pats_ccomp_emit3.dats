@@ -701,15 +701,18 @@ fun aux
 (
   out: FILEref, ibr: ibranch
 ) : void =  let
-  val inss = ibr.ibranch_inslst
-  val () = emit_text (out, "ATSbranchbeg() ;\n")
-  val () = emit_instrlst_ln (out, inss)
-  val () = emit_text (out, "ATSbranchend() ;\n")
+//
+val inss = ibr.ibranch_inslst
+//
+val () = emit_text (out, "ATSbranchbeg()\n")
+val () = emit_instrlst_ln (out, inss)
+val () = emit_text (out, "ATSbranchend()\n")
+//
 in
   // nothing
 end // end of [emit_branch]
 
-in (* in of [local] *)
+in (*in-of-local*)
 
 implement
 emit_ibranchlst

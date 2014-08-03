@@ -107,7 +107,7 @@ ATSloop_close(init, fini, cont) \
 #define ATScaseofbeg() do {
 #define ATScaseofend() } while (0) ;
 #define ATSbranchbeg()
-#define ATSbranchend() break
+#define ATSbranchend() break ;
 
 /* ****** ****** */
 
