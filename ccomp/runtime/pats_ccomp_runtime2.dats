@@ -67,7 +67,7 @@ case+ exn of
     val () = prerrln! (": IllegalArgExn: ", msg) in exit(1)
   end // end of [IllegalArgExn]
 //
-| _ => atsruntime_handle_uncaughtexn_rest (exn)
+| _ (*non-specials*) => atsruntime_handle_uncaughtexn_rest (exn)
 //
 end // end of [atsruntime_handle_uncaughtexn]
 
