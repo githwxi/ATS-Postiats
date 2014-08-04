@@ -237,6 +237,9 @@ ATSloop_close(init, fini, cont) \
 #define ATSINSlab(lab) lab
 #define ATSINSgoto(lab) goto lab
 
+#define ATSINSflab(lab) lab
+#define ATSINSfgoto(lab) goto lab
+
 /* ****** ****** */
 
 #define ATSINSfreeclo(cloptr) ATS_MFREE(cloptr)

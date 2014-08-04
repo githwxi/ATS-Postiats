@@ -411,22 +411,26 @@ case+ fail of
 //
 | PTCKNTtmplab (tlab) =>
   {
-    val () = emit_text (out, "ATSINSgoto(")
+    val () =
+    emit_text (out, "ATSINSgoto(")
     val () = emit_tmplab (out, tlab)
     val ((*closing*)) = emit_text (out, ")")
   }
 //
 | PTCKNTtmplabint (tlab, int) =>
   {
-    val () = emit_text (out, "ATSINSgoto(")
+    val () =
+    emit_text (out, "ATSINSgoto(")
     val () = emit_tmplabint (out, tlab, int)
     val ((*closing*)) = emit_text (out, ")")
   }
 //
 | PTCKNTtmplabmov (tlab, tmvlst) =>
   {
-    val () = emit_tmpmovlst (out, tmvlst)
-    val () = emit_text (out, "ATSINSgoto(")
+    val () =
+    emit_tmpmovlst (out, tmvlst)
+    val () =
+    emit_text (out, "ATSINSgoto(")
     val () = emit_tmplab (out, tlab)
     val ((*closing*)) = emit_text (out, ")")
   }

@@ -1640,29 +1640,27 @@ ins.instr_node of
 | INSfunlab (flab) =>
   {
     val () =
-      emit_text (out, "ATSINSlab(")
-    val () =
-      emit_text (out, "__patsflab_")
+    emit_text (out, "ATSINSflab(")
+    val () = emit_text (out, "__patsflab_")
     val () = (
       emit2_funlab (out, flab); emit_text (out, "):")
     ) (* end of [val] *)
-  } // end of [INSfunlab]
+  } (* end of [INSfunlab] *)
 //
 | INStmplab (tmplab) =>
   {
-    val () =
-      emit_text (out, "ATSINSlab(")
+    val () = emit_text (out, "ATSINSlab(")
     val () = (
       emit_tmplab (out, tmplab); emit_text (out, "):")
     ) (* end of [val] *)
-  } // end of [INStmplab]
+  } (* end of [INStmplab] *)
 //
 | INScomment (string) =>
   {
     val () = emit_text (out, "/*\n")
     val () = emit_text (out, string)
     val () = emit_text (out, "\n*/")
-  }
+  } (* end of [INScomment] *)
 //
 | INSmove_val
     (tmp, pmv) => emit_move_val (out, tmp, pmv)
@@ -1786,15 +1784,13 @@ ins.instr_node of
     tmp_exn, inss_try, ibrs_with
   ) => let
 //
-    val () =
-    emit_text (out, "ATStrywith_try(")
+    val () = emit_text (out, "ATStrywith_try(")
     val () = emit_tmpvar (out, tmp_exn)
     val () = emit_text (out, ")\n")
 //
     val () = emit_instrlst_ln (out, inss_try)
 //
-    val () =
-    emit_text (out, "ATStrywith_with(")
+    val () = emit_text (out, "ATStrywith_with(")
     val () = emit_tmpvar (out, tmp_exn)
     val () = emit_text (out, ")\n")
 //
