@@ -75,23 +75,23 @@ atsvoid_t0ype
 atsruntime_handle_uncaughtexn(void *arg0)
 {
 /* tmpvardeclst(beg) */
-ATStmpdec_void(tmpret0, atsvoid_t0ype) ;
+ATStmpdec_void(tmpret0) ;
 ATStmpdec(tmp1, atstkind_type(atstype_ptrk)) ;
 ATStmpdec(tmp2, atstkind_type(atstype_ptrk)) ;
-ATStmpdec_void(tmp3, atsvoid_t0ype) ;
-ATStmpdec_void(tmp4, atsvoid_t0ype) ;
-ATStmpdec_void(tmp5, atsvoid_t0ype) ;
-ATStmpdec_void(tmp6, atsvoid_t0ype) ;
-ATStmpdec_void(tmp7, atsvoid_t0ype) ;
-ATStmpdec_void(tmp8, atsvoid_t0ype) ;
-ATStmpdec_void(tmp9, atsvoid_t0ype) ;
-ATStmpdec_void(tmp10, atsvoid_t0ype) ;
-ATStmpdec_void(tmp11, atsvoid_t0ype) ;
-ATStmpdec_void(tmp12, atsvoid_t0ype) ;
-ATStmpdec_void(tmp13, atsvoid_t0ype) ;
-ATStmpdec_void(tmp14, atsvoid_t0ype) ;
-ATStmpdec_void(tmp15, atsvoid_t0ype) ;
-ATStmpdec_void(tmp16, atsvoid_t0ype) ;
+ATStmpdec_void(tmp3) ;
+ATStmpdec_void(tmp4) ;
+ATStmpdec_void(tmp5) ;
+ATStmpdec_void(tmp6) ;
+ATStmpdec_void(tmp7) ;
+ATStmpdec_void(tmp8) ;
+ATStmpdec_void(tmp9) ;
+ATStmpdec_void(tmp10) ;
+ATStmpdec_void(tmp11) ;
+ATStmpdec_void(tmp12) ;
+ATStmpdec_void(tmp13) ;
+ATStmpdec_void(tmp14) ;
+ATStmpdec_void(tmp15) ;
+ATStmpdec_void(tmp16) ;
 /* tmpvardeclst(end) */
 /* funbodyinstrlst(beg) */
 /*

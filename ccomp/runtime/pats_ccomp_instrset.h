@@ -183,10 +183,10 @@ ATSloop_close(init, fini, cont) \
 /* ****** ****** */
 //
 #define ATStmpdec(tmp, hit) hit tmp
-#define ATStmpdec_void(tmp, hit)
+#define ATStmpdec_void(tmp)
 //
 #define ATSstatmpdec(tmp, hit) static hit tmp
-#define ATSstatmpdec_void(tmp, hit)
+#define ATSstatmpdec_void(tmp)
 //
 /* ****** ****** */
 
@@ -233,13 +233,13 @@ ATSloop_close(init, fini, cont) \
 #define ATSCKpat_exn1(pmv, d2c) (((ATStyexn()*)(pmv))->exntag==(&(d2c))->exntag)
 //
 /* ****** ****** */
-
+//
 #define ATSINSlab(lab) lab
 #define ATSINSgoto(lab) goto lab
-
-#define ATSINSflab(lab) lab
-#define ATSINSfgoto(lab) goto lab
-
+//
+#define ATSINSflab(flab) flab
+#define ATSINSfgoto(flab) goto flab
+//
 /* ****** ****** */
 
 #define ATSINSfreeclo(cloptr) ATS_MFREE(cloptr)

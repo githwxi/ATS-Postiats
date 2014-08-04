@@ -915,7 +915,8 @@ if knd = 0
 // end of [if]
 ) : void // end of [val]
 //
-val () = if isvoid then emit_text (out, "_void")
+val () =
+if isvoid then emit_text (out, "_void")
 //
 val () = emit_text (out, "(")
 //
@@ -927,19 +928,27 @@ case+ hse.hisexp_node of
 | _ (*non-tyarr*) => ((*nothing*))
 ) (* end of [val] *)
 //
-val () = emit_text (out, ", ")
-//
-val () = (
+val () =
+if
+not(isvoid)
+then {
+val () =
+emit_text (out, ", ")
+val () =
+(
 case+ hse.hisexp_node of
 | HSEtyarr (hse_elt, _(*dim*)) => emit_hisexp (out, hse_elt)
 | _ (*non-tyarr*) => emit_hisexp (out, hse)
 ) (* end of [val] *)
+} (* end of [then] *)
 //
 val () = emit_text (out, ") ;\n")
 //
 in
   // nothing
 end // end of [emit_tmpdec]
+
+(* ****** ****** *)
 
 implement
 emit_tmpdeclst
