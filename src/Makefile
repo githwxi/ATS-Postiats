@@ -59,6 +59,8 @@ SOURCES := \
   pats_error.dats \
   pats_intinf.sats \
   pats_intinf.dats \
+  pats_intinf_int.hats \
+  pats_intinf_gmp.hats \
   pats_counter.sats \
   pats_counter.dats \
   pats_utils.sats \
@@ -245,8 +247,6 @@ SOURCES := \
   pats_lintprgm_print.dats \
   pats_lintprgm_myint.cats \
   pats_lintprgm_myint.dats \
-  pats_lintprgm_myint_int.dats \
-  pats_lintprgm_myint_gmp.dats \
   pats_lintprgm_solve.dats \
   pats_constraint3.sats \
   pats_constraint3.dats \
