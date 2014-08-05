@@ -11,7 +11,7 @@
 val () =
 {
 var x: int = 0
-prval () = showlvaltype (x)
+prval () = showviewtype (x)
 } (* end of [val] *)
 
 (* ****** ****** *)
@@ -19,7 +19,7 @@ prval () = showlvaltype (x)
 val () =
 {
 var !p_x: int = 0
-prval () = showlvaltype (!p_x)
+prval () = showviewtype (!p_x)
 } (* end of [val] *)
 
 (* ****** ****** *)
@@ -28,7 +28,7 @@ val () =
 {
 //
 var A = @[int][3]()
-prval () = showlvaltype (A)
+prval () = showviewtype (A)
 //
 } (* end of [val] *)
 
@@ -38,7 +38,7 @@ val () =
 {
 //
 var A = @[int][3](1)
-prval () = showlvaltype (A)
+prval () = showviewtype (A)
 //
 val out = stdout_ref
 //
@@ -76,7 +76,7 @@ val out = stdout_ref
 var square =
 lam@ (x: int): int => x * x
 //
-prval () = showlvaltype (square)
+prval () = showviewtype (square)
 //
 val ((*void*)) = fprintln! (out, "square(", 10, ") = ", square(10))
 //
@@ -92,7 +92,7 @@ val out = stdout_ref
 var factorial =
 fix@ f (x: int): int => if x > 0 then x * f(x-1) else 1
 //
-prval () = showlvaltype (factorial)
+prval () = showviewtype (factorial)
 //
 val ((*void*)) = fprintln! (out, "factorial(", 10, ") = ", factorial(10))
 //

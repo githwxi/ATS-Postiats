@@ -647,7 +647,7 @@ slightly as follows to pass typechecking:
 
 The use of the symbol #keycode("=>>") (in place of #keycode("=>"))
 indicates to the typechecker that this clause needs to be typechecked under
-the sequentiality assumption that the given value that matches it does not
+the sequentiality assumption that the given value matching it does not
 match the pattern guards associated with any previous clauses. Therefore,
 when the modified second clause is typechecked, it can be assumed that the
 pair #dyncode("(xs1, xs2)") matching the pattern #dyncode("(_, _)") must

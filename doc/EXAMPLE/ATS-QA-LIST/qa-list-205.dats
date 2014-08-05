@@ -4,7 +4,7 @@
 //
 (* ****** ****** *)
 //
-// showtype and showlvaltype
+// showtype and showview
 //
 (* ****** ****** *)
 //
@@ -13,23 +13,17 @@
 //
 (* ****** ****** *)
 //
-// #define NDEBUG // uncomment to stop showtype-messages
+// #define NDEBUG
 //
 (* ****** ****** *)
 
-(*
+#ifdef
+NDEBUG
 //
-// Following is declared in [prelude/macrodef.sats]
-//
-macdef showtype (x) = $showtype ,(x)
-macdef showlvaltype (x) = pridentity ($showtype ,(x))
-*)
-
-(* ****** ****** *)
-
-#ifdef NDEBUG
 macdef showtype (x) = ,(x)
-macdef showlvaltype (x) = ()
+macdef showview (x) = ()
+macdef showviewtype (x) = ()
+//
 #endif // end of [#ifdef]
 
 (* ****** ****** *)
@@ -43,9 +37,9 @@ val y: int = 2
 val z = showtype (x+y)
 //
 var u: int = 0
-prval _ = showlvaltype (view@u)
+prval () = showview (view@u)
 val () = u := z + 1
-prval _ = showlvaltype (view@u)
+prval () = showview (view@u)
 //
 val () = println! ("z = ", z)
 val () = println! ("u = ", u)

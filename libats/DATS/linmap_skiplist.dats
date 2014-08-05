@@ -744,7 +744,7 @@ case+ map of
     ) : void // end of [val]
     val () = sknodelst_insert (nxa, k0, lgN0, nx_new)
     prval () =
-      pridentity (lgN) // for opening the type of [lgN]
+      pridentity_vt (lgN) // for opening the type of [lgN]
     prval () = fold@ (map)
   in
     // nothing

@@ -116,7 +116,8 @@ prfun prop_verify_and_add{b:bool | b} ():<prf> [b] void
 
 (* ****** ****** *)
 
-prfun pridentity{v:view} (pf: !INV(v)): void
+prfun pridentity_v{v:view} (x: !INV(v)): void
+prfun pridentity_vt{vt:viewt@ype} (x: !INV(vt)): void
 
 (* ****** ****** *)
 

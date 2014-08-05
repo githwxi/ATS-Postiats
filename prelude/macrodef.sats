@@ -78,7 +78,8 @@ macdef foldret (x) = let val x = ,(x) in fold@ (x); x end
 (* ****** ****** *)
 
 macdef showtype (x) = $showtype ,(x)
-macdef showlvaltype (x) = pridentity ($showtype ,(x))
+macdef showview (x) = pridentity_v ($showtype ,(x))
+macdef showviewtype (x) = pridentity_vt ($showtype ,(x))
 
 (* ****** ****** *)
 
