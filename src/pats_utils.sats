@@ -157,7 +157,8 @@ stadef fildes_v = $FCNTL.fildes_v
 // HX: the function returns [strptr_null] as error indication
 //
 *)
-fun file2strptr
+fun
+file2strptr
   {fd:int} (
   pf: !fildes_v fd  | fd: int fd
 ) : strptr0 = "patsopt_file2strptr" // end of [file2strptr]
