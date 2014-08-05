@@ -421,4 +421,4 @@ patsopt_intinf_initialize
 
 (* ****** ****** *)
 
-(* end of [pats_intinf.dats] *)
+(* end of [pats_intinf_gmp.hats] *)

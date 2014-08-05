@@ -32,20 +32,22 @@
 // Start Time: May, 2014
 //
 (* ****** ****** *)
-
+//
 #include "./pats_params.hats"
-
+//
 (* ****** ****** *)
 
 #if
-C3NSTRINTKND="intknd" #then
+C3NSTRINTKND="intknd"
+#then
 //
-#include "./pats_intinf_int.dats"
+#include "./pats_intinf_int.hats"
 //
 #elif
-C3NSTRINTKND="gmpknd" #then
+C3NSTRINTKND="gmpknd"
+#then
 //
-#include "./pats_intinf_gmp.dats"
+#include "./pats_intinf_gmp.hats"
 //
 #else
 //

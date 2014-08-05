@@ -253,4 +253,4 @@ fprint_intinfset
 
 (* ****** ****** *)
 
-(* end of [pats_intinf_int.dats] *)
+(* end of [pats_intinf_int.hats] *)
