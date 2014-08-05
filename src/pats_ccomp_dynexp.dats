@@ -553,6 +553,9 @@ case+ hde0.hidexp_node of
     hidexp_ccomp_ret_con (env, res, tmpret, hde0)
   (* end of [HDEcon] *)
 //
+| HDEtmpcst _ => auxval (env, res, tmpret, hde0)
+| HDEtmpvar _ => auxval (env, res, tmpret, hde0)
+//
 | HDEfoldat _ => auxval (env, res, tmpret, hde0)
 | HDEfreeat _ => auxval (env, res, tmpret, hde0)
 //
