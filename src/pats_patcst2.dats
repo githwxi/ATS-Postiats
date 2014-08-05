@@ -42,22 +42,37 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 staload UT = "./pats_utils.sats"
 staload _(*anon*) = "./pats_utils.dats"
-
+//
+vtypedef charlst_vt = $UT.charlst_vt
+//
+macdef charset_add = $UT.charset_add
+macdef charset_sing = $UT.charset_sing
+macdef charset_is_member = $UT.charset_is_member
+macdef charset_listize = $UT.charset_listize
+//
+macdef fprint_charset = $UT.fprint_charset
+//
 (* ****** ****** *)
 //
 staload INTINF = "./pats_intinf.sats"
+//
 vtypedef intinflst_vt = $INTINF.intinflst_vt
+//
 overload = with $INTINF.eq_intinf_intinf
+//
 macdef intinf_make_int = $INTINF.intinf_make_int
 macdef intinf_make_string = $INTINF.intinf_make_string
 //
+macdef intinfset_add = $INTINF.intinfset_add
 macdef intinfset_sing = $INTINF.intinfset_sing
 macdef intinfset_is_member = $INTINF.intinfset_is_member
-macdef intinfset_add = $INTINF.intinfset_add
 macdef intinfset_listize = $INTINF.intinfset_listize
+//
+macdef fprint_intinf = $INTINF.fprint_intinf
+macdef fprint_intinfset = $INTINF.fprint_intinfset
 //
 (* ****** ****** *)
 
@@ -220,6 +235,11 @@ case+ p2tc of
   }
 | P2TCchar (c) => {
     val () = fprint_char (out, c)
+  }
+| P2TCcharc (cs) => {
+    val () = prstr "[^"
+    val () = fprint_charset (out, cs)
+    val () = prstr "]"
   }
 | P2TCfloat (rep) => {
     val () = fprint_string (out, rep)
@@ -516,7 +536,6 @@ case+ p2tc0 of
 //
 | P2TCbool (b) => list_vt_sing (P2TCbool (~b))
 //
-(*
 | P2TCchar (c) => let
     val cs = charset_sing (c) in list_vt_sing (P2TCcharc (cs))
   end // end of [P2TCchar]
@@ -533,9 +552,10 @@ case+ p2tc0 of
   in
     aux (charset_listize (cs))
   end // end of [P2TCcharc]
-*)
 //
+(*
 | P2TCchar _ => list_vt_sing (P2TCany ()) // conservative estimate
+*)
 //
 | P2TCfloat _ => list_vt_sing (P2TCany ()) // conservative estimate
 | P2TCstring _ => list_vt_sing (P2TCany ()) // conservative estimate
@@ -745,13 +765,21 @@ case+ (
     // end of [if]
   ) // end of [P2TCcon, P2TCcon]
 | (P2TCempty (), P2TCempty ()) => true
+//
 | (P2TCint i1, P2TCint i2) => (i1 = i2)
 | (P2TCint x, P2TCintc xs) =>
     if intinfset_is_member (xs, x) then false else true
 | (P2TCintc xs, P2TCint x) =>
     if intinfset_is_member (xs, x) then false else true
+//
 | (P2TCbool b1, P2TCbool b2) => (b1 = b2)
+//
 | (P2TCchar c1, P2TCchar c2) => (c1 = c2)
+| (P2TCchar x, P2TCcharc xs) =>
+    if charset_is_member (xs, x) then false else true
+| (P2TCcharc xs, P2TCchar x) =>
+    if charset_is_member (xs, x) then false else true
+//
 | (P2TCrec (_, lp2atcs1),
    P2TCrec (_, lp2atcs2)) =>
     labp2atcstlst_inter_test (lp2atcs1, lp2atcs2)
@@ -819,6 +847,7 @@ in
 case+ (p2tc1, p2tc2) of
 | (_, P2TCany ()) => list_vt_nil ()
 | (P2TCany (), _) => p2atcst_comp (p2tc2)
+//
 | (P2TCint i1, P2TCint i2) =>
     if i1 = i2 then list_vt_nil else list_vt_sing (p2tc1)
   // end of [P2TCint, P2TCint]
@@ -830,15 +859,27 @@ case+ (p2tc1, p2tc2) of
   ) // end of [P2TCintc, P2TCint]
 | (P2TCint x, P2TCintc xs) =>
     if intinfset_is_member (xs, x) then list_vt_sing (p2tc1) else list_vt_nil
+//
 | (P2TCbool b1, P2TCbool b2) =>
     if b1 = b2 then list_vt_nil else list_vt_sing (p2tc1)
   // end of [P2TCbool, P2TCbool]
+//
 | (P2TCchar c1, P2TCchar c2) => begin
     if c1 = c2 then list_vt_nil else list_vt_sing (p2tc1)
     end // end of [P2TCchar, P2TCchar]
+| (P2TCcharc xs, P2TCchar x) => (
+    if charset_is_member (xs, x)
+      then list_vt_sing (p2tc1) else let
+      val xs = charset_add (xs, x) in list_vt_sing (P2TCcharc (xs))
+    end // end of [if]
+  ) // end of [P2TCcharc, P2TCchar]
+| (P2TCchar x, P2TCcharc xs) =>
+    if charset_is_member (xs, x) then list_vt_sing (p2tc1) else list_vt_nil
+//
 | (P2TCstring s1, P2TCstring s2) =>
     if s1 = s2 then list_vt_nil else list_vt_sing (p2tc1)
   // end of [P2TCstring, P2TCstring]
+//
 | (P2TCcon (d2c1, p2tcs1),
    P2TCcon (d2c2, p2tcs2)) => (
     if d2c1 = d2c2 then let

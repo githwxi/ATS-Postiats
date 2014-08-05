@@ -32,18 +32,25 @@
 // Start Time: February, 2012
 //
 (* ****** ****** *)
-
-staload "./pats_basics.sats"
-
+//
+staload
+"./pats_basics.sats"
+//
 (* ****** ****** *)
-
+//
+staload
+UT = "./pats_utils.sats"
+//
+typedef charset = $UT.charset
+//
+(* ****** ****** *)
+//
 staload
 INTINF = "./pats_intinf.sats"
+//
 typedef intinf = $INTINF.intinf
 typedef intinfset = $INTINF.intinfset
-macdef fprint_intinf = $INTINF.fprint_intinf
-macdef fprint_intinfset = $INTINF.fprint_intinfset
-
+//
 (* ****** ****** *)
 
 staload
@@ -85,9 +92,7 @@ p2atcst =
   | P2TCbool of bool
 //
   | P2TCchar of char
-(*
   | P2TCcharc of charset
-*)
 //
   | P2TCfloat of string(*rep*)
   | P2TCstring of string
@@ -132,10 +137,16 @@ fun p2atcstlstlst_vt_free (xss: p2atcstlstlst_vt): void
 fun p2atcstlstlst_vt_copy (xss: !p2atcstlstlst_vt): p2atcstlstlst_vt
 
 (* ****** ****** *)
-
+//
 fun print_p2atcst (x: p2atcst): void
 and prerr_p2atcst (x: p2atcst): void
 fun fprint_p2atcst : fprint_type (p2atcst)
+//
+overload print with print_p2atcst
+overload prerr with prerr_p2atcst
+overload fprint with fprint_p2atcst
+//
+(* ****** ****** *)
 
 fun print_p2atcstlst (xs: p2atcstlst): void
 and prerr_p2atcstlst (xs: p2atcstlst): void

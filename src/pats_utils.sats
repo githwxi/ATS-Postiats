@@ -120,25 +120,39 @@ fun lstord_get_dups
 fun lstord2list {a:type} (xs: lstord a): List (a)
 
 (* ****** ****** *)
+//
+abstype charset_type
+typedef charset = charset_type
+//
+typedef charlst = List (char)
+vtypedef charlst_vt = List_vt (char)
+//
+fun charset_sing (x: char): charset
+fun charset_is_member (xs: charset, x: char): bool
+fun charset_add (xs: charset, x: char): charset
+//
+fun charset_listize (xs: charset): charlst_vt
+//
+fun fprint_charset (out: FILEref, xs: charset): void
+//
+(* ****** ****** *)
 
 local
 //
-staload
-QUEUE = "libats/SATS/linqueue_arr.sats"
+staload Q = "libats/SATS/linqueue_arr.sats"
 //
-vtypedef
-QUEUE (m:int, n:int) = $QUEUE.QUEUE (uchar, m, n)
+vtypedef QUEUE (m:int, n:int) = $Q.QUEUE (uchar, m, n)
 //
 in (* in of [local] *)
-
+//
 fun
 queue_get_strptr1
   {m,n:int}
   {st,ln:nat | st+ln <= n}
 (
   q: &QUEUE (m, n), st: size_t st, ln: size_t ln
-) : strptr1 // end of [queue_get_strptr1]
-
+) : strptr1 // end-of-function
+//
 end // end of [local]
 
 (* ****** ****** *)

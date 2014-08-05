@@ -43,8 +43,18 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
-staload INTINF = "./pats_intinf.sats"
-vtypedef intinflst_vt = $INTINF.intinflst_vt
+staload
+UT = "./pats_utils.sats"
+vtypedef
+charlst_vt = $UT.charlst_vt
+macdef charset_listize = $UT.charset_listize
+
+(* ****** ****** *)
+
+staload
+INTINF = "./pats_intinf.sats"
+vtypedef
+intinflst_vt = $INTINF.intinflst_vt
 macdef intinfset_listize = $INTINF.intinfset_listize
 
 (* ****** ****** *)
@@ -1147,6 +1157,10 @@ val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 val s2f = s2exp2hnf (s2e)
 val s2e = s2hnf2exp (s2f)
 //
+(*
+val () = println! ("trans3_env_hypadd_patcst: p2tc = ", p2tc)
+*)
+//
 in
 //
 case+ p2tc of
@@ -1253,6 +1267,32 @@ case+ p2tc of
         $SOL.s2exp_hypequal_solve (loc0, s2e_arg, s2exp_int_char (c))
       // end of [Some_vt]
   end // end of [P2TCchar]
+//
+| P2TCcharc (xs) => let
+    val opt = un_s2exp_char_index_t0ype (s2f)
+  in
+    case+ opt of
+    | ~None_vt () => ()
+    | ~Some_vt (s2e_arg) => let
+        fun aux
+        (
+          xs: charlst_vt
+        ) :<cloref1> void = (
+          case+ xs of
+          | ~list_vt_nil () => ()
+          | ~list_vt_cons (x, xs) => let
+              val s2p =
+                s2exp_intneq (s2e_arg, s2exp_int_char x)
+              // end of [val]
+              val () = trans3_env_hypadd_prop (loc0, s2p)
+            in
+              aux (xs)
+            end // end of [list_vt_cons]
+        ) (* end of [aux] *)
+      in
+        let val xs = charset_listize (xs) in aux (xs) end
+      end // end of [Some_vt]
+  end // end of [P2Tcharc]
 //
 | P2TCfloat (rep) => ()
 | P2TCstring (str) => ()

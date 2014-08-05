@@ -498,7 +498,8 @@ end // end of [fprintlst]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 fprintopt (
   out, opt, fprint
 ) = case+ opt of
@@ -511,6 +512,72 @@ fprintopt (
     end // end of [Some]
   | None () => fprint_string (out, "None()")
 // end of [fprintopt]
+
+(* ****** ****** *)
+
+local
+//
+staload
+"libats/SATS/funset_listord.sats"
+staload _(*anon*) =
+"libats/DATS/funset_listord.dats"
+//
+fn cmp (
+  x1: char, x2: char
+) :<cloref> int =
+  compare_char_char (x1, x2)
+//
+assume charset_type = set (char)
+//
+in (*in-of-local*)
+
+implement
+charset_sing (x) = funset_make_sing (x)
+
+implement
+charset_is_member
+  (xs, x) = funset_is_member (xs, x, cmp)
+// end of [val]
+
+implement
+charset_add
+  (xs, x) = xs where
+{
+  var xs = xs
+  val _(*exist*) = funset_insert (xs, x, cmp)
+} (* end of [val] *)
+
+implement
+charset_listize (xs) = funset_listize (xs)
+
+end // end of [local]
+
+implement
+fprint_charset
+  (out, xs) = let
+//
+val xs = charset_listize (xs)
+//
+fun loop
+(
+  out: FILEref, xs: charlst_vt, i: int
+) : void = (
+//
+case+ xs of
+| ~list_vt_nil () => ()
+| ~list_vt_cons (x, xs) => let
+    val () =
+      if i > 0 then fprint (out, ", ")
+    // end of [val]
+  in
+    fprint_char (out, x); loop (out, xs, i+1)
+  end // end of [list_vt_cons]
+//
+) (* end of [loop] *)
+//
+in
+  loop (out, xs, 0)
+end // end of [fprint_charset]
 
 (* ****** ****** *)
 
