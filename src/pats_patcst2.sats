@@ -74,16 +74,25 @@ fun i0nt2intinf (x: $SYN.i0nt): intinf
 
 datatype
 p2atcst =
+//
   | P2TCany of ()
   | P2TCcon of (d2con, p2atcstlst)
   | P2TCempty of ()
+//
   | P2TCint of intinf
-  | P2TCbool of bool
-  | P2TCchar of char
-  | P2TCstring of string
-  | P2TCfloat of string(*rep*)
-  | P2TCrec of (int(*reckind*), labp2atcstlst)
   | P2TCintc of intinfset
+//
+  | P2TCbool of bool
+//
+  | P2TCchar of char
+(*
+  | P2TCcharc of charset
+*)
+//
+  | P2TCfloat of string(*rep*)
+  | P2TCstring of string
+//
+  | P2TCrec of (int(*reckind*), labp2atcstlst)
 // end of [p2atcst]
 
 and labp2atcst = LABP2ATCST of (label, p2atcst)

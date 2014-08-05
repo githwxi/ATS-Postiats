@@ -193,6 +193,7 @@ prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ p2tc of
+//
 | P2TCany () => fprint_char (out, '_')
 //
 | P2TCcon
@@ -208,17 +209,23 @@ case+ p2tc of
 | P2TCint (int) => {
     val () = fprint_intinf (out, int)
   }
+| P2TCintc (ints) => {
+    val () = prstr "[^"
+    val () = fprint_intinfset (out, ints)
+    val () = prstr "]"
+  } // end of [P2TCintc]
+//
 | P2TCbool (b) => {
     val () = fprint_bool (out, b)
   }
 | P2TCchar (c) => {
     val () = fprint_char (out, c)
   }
-| P2TCstring (x) => {
-    val () = fprintf (out, "\"%s\"", @(x))
-  }
 | P2TCfloat (rep) => {
     val () = fprint_string (out, rep)
+  }
+| P2TCstring (x) => {
+    val () = fprintf (out, "\"%s\"", @(x))
   }
 //
 | P2TCrec
@@ -229,12 +236,6 @@ case+ p2tc of
     val () = fprint_labp2atcstlst (out, lp2tcs)
     val () = prstr "}"
   } // end of [P2TCrec]
-//
-| P2TCintc (ints) => {
-    val () = prstr "[^"
-    val () = fprint_intinfset (out, ints)
-    val () = prstr "]"
-  } // end of [P2TCintc]
 //
 end // end of [fprint_p2atcst]
 //
@@ -496,42 +497,70 @@ case+ p2tc0 of
 //
 | P2TCempty () => list_vt_nil ()
 //
-| P2TCint x => let
-   val xs = intinfset_sing (x) in list_vt_sing (P2TCintc (xs))
+| P2TCint (x) => let
+    val xs = intinfset_sing (x) in list_vt_sing (P2TCintc (xs))
   end // end of [P2TCint]
-| P2TCbool b => list_vt_sing (P2TCbool (~b))
-| P2TCchar _ => list_vt_sing (P2TCany ()) // conservative estimate
-| P2TCstring _ => list_vt_sing (P2TCany ()) // conservative estimate
-| P2TCfloat _ => list_vt_sing (P2TCany ()) // conservative estimate
-//
-| P2TCrec
-    (knd, arg) => res where {
-    val carglst = labp2atcstlst_comp (arg)
-    val carglst = __cast (carglst) where {
-      extern castfn __cast (xss: labp2atcstlstlst_vt): List_vt (labp2atcstlst)
-    } // end of [val] // HX: this is a safe cast
-    val res = list_map_cloptr (
-      $UN.castvwtp1{labp2atcstlstlst}(carglst), lam x =<0> P2TCrec (knd, x)
-    ) // end of [val]
-    val () = list_vt_free (carglst)
-  } // end of [P2TCrec]
-//
 | P2TCintc (xs) => let
-    fun aux (
+    fun aux
+    (
       xs: intinflst_vt
     ) : p2atcstlst_vt =
+    (
       case+ xs of
-      | ~list_vt_cons (x, xs) =>
-          list_vt_cons (P2TCint x, aux (xs))
       | ~list_vt_nil () => list_vt_nil ()
-    // end of [aux]
+      | ~list_vt_cons (x, xs) => list_vt_cons (P2TCint (x), aux (xs))
+    ) (* end of [aux] *)
   in
     aux (intinfset_listize (xs))
   end // end of [P2TCintc]
+//
+| P2TCbool (b) => list_vt_sing (P2TCbool (~b))
+//
 (*
-| _ => let
-    val () = assertloc (false) in exit (1)
-  end // end of [_]
+| P2TCchar (c) => let
+    val cs = charset_sing (c) in list_vt_sing (P2TCcharc (cs))
+  end // end of [P2TCchar]
+| P2TCcharc (cs) => let
+    fun aux
+    (
+      cs: charlst_vt
+    ) : p2atcstlst_vt =
+    (
+      case+ cs of
+      | ~list_vt_nil () => list_vt_nil ()
+      | ~list_vt_cons (x, cs) => list_vt_cons (P2TCchar (x), aux (cs))
+    ) (* end of [aux] *)
+  in
+    aux (charset_listize (cs))
+  end // end of [P2TCcharc]
+*)
+//
+| P2TCchar _ => list_vt_sing (P2TCany ()) // conservative estimate
+//
+| P2TCfloat _ => list_vt_sing (P2TCany ()) // conservative estimate
+| P2TCstring _ => list_vt_sing (P2TCany ()) // conservative estimate
+//
+| P2TCrec
+    (knd, arg) => res where
+  {
+    val carglst =
+      labp2atcstlst_comp (arg)
+    val carglst = __cast (carglst) where
+    {
+      extern
+      castfn __cast (xss: labp2atcstlstlst_vt): List_vt (labp2atcstlst)
+    } // end of [val] // HX: this is a safe cast
+    val res =
+    list_map_cloptr (
+      $UN.castvwtp1{labp2atcstlstlst}(carglst), lam x =<0> P2TCrec (knd, x)
+    ) (* end of [val] *)
+    val () = list_vt_free (carglst)
+  } (* end of [P2TCrec] *)
+//
+(*
+| _ (*exhausted*) =>
+    let val () = assertloc (false) in exit (1) end
+  // end of [_]
 *)
 end // end of [p2atcst_comp]
 
@@ -552,29 +581,41 @@ fun auxanys (
 in
 //
 case+ p2tcs0 of
-| list_cons (
-    p2tc1, p2tcs1
-  ) => let
+//
+| list_nil () => list_vt_nil ()
+//
+| list_cons (p2tc1, p2tcs1) => let
+//
     val res1 = let
       fun aux (
         xss: p2atcstlstlst_vt
       ) :<cloref1> p2atcstlstlst_vt =
+      (
         case+ xss of
-        | ~list_vt_cons (xs, xss) => let
-            val ys = list_vt_cons (p2tc1, xs) in list_vt_cons (ys, aux xss)
+        | ~list_vt_cons
+            (xs, xss) => let
+            val ys =
+              list_vt_cons (p2tc1, xs)
+            // end of [val]
+          in
+            list_vt_cons (ys, aux (xss))
           end // end of [list_vt_cons]
         | ~list_vt_nil () => list_vt_nil ()
-      // end of [aux]
+      ) (* end of [aux] *)
     in
       aux (p2atcstlst_comp (p2tcs1))
     end // end of [val]
+//
     val res2 = let
       fun aux (
         xs: p2atcstlst_vt
       ) :<cloref1> p2atcstlstlst_vt =
         case+ xs of
-        | ~list_vt_cons (x, xs) => let
-            val ys = list_vt_cons (x, auxanys (p2tcs1, list_vt_nil))
+        | ~list_vt_cons
+            (x, xs) => let
+            val ys =
+              list_vt_cons (x, auxanys (p2tcs1, list_vt_nil))
+            // end of [val]
           in
             list_vt_cons (ys, aux (xs))
           end // end of [list_vt_cons]
@@ -583,17 +624,18 @@ case+ p2tcs0 of
     in
       aux (p2atcst_comp (p2tc1))
     end // end of [val]
+//
   in
     list_vt_append (res1, res2)
   end // end of [list_cons]
-| list_nil () => list_vt_nil ()
 //
 end // end of [p2atcstlst_comp]
 
 (* ****** ****** *)
 
 fun
-labp2atcst_comp (
+labp2atcst_comp
+(
   lp2tc: labp2atcst
 ) : labp2atcstlst_vt = let
   val LABP2ATCST (l, p2tc) = lp2tc
@@ -605,12 +647,17 @@ in
   res
 end // end of [labp2atcst_comp]
 
+(* ****** ****** *)
+
 implement
 labp2atcstlst_comp 
   (lp2tcs0) = let
 in
 //
 case+ lp2tcs0 of
+//
+| list_nil () => list_vt_nil ()
+//
 | list_cons (lp2tc1, lp2tcs1) => let
     val res1 = let
       fun aux (
@@ -641,7 +688,6 @@ case+ lp2tcs0 of
   in
     list_vt_append (res1, res2)
   end // end of [list_cons]
-| list_nil () => list_vt_nil ()
 //
 end // end of [labp2atcst_comp]
 

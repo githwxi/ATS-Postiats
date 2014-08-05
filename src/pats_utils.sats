@@ -91,14 +91,22 @@ a:t@ype
 
 (* ****** ****** *)
 //
-abstype lstord (a:type) // HX: for ordered lists
+// HX-2011:
+// for ordered lists
+//
+abstype lstord (a:type)
 //
 fun lstord_nil {a:type} (): lstord (a)
 fun lstord_sing {a:type} (x: a): lstord (a)
-fun lstord_insert {a:type} (
+//
+fun
+lstord_insert{a:type}
+(
   xs: lstord a, x: a, cmp: (a, a) -<fun> int
 ) : lstord (a) // end of [lstord_insert]
-fun lstord_union {a:type} (
+fun
+lstord_union{a:type}
+(
   xs: lstord a, ys: lstord a, cmp: (a, a) -<fun> int
 ) : lstord (a) // end of [lstord_union]
 
@@ -123,7 +131,8 @@ QUEUE (m:int, n:int) = $QUEUE.QUEUE (uchar, m, n)
 //
 in (* in of [local] *)
 
-fun queue_get_strptr1
+fun
+queue_get_strptr1
   {m,n:int}
   {st,ln:nat | st+ln <= n}
 (
@@ -138,7 +147,7 @@ local
 
 staload FCNTL = "libc/SATS/fcntl.sats"
 
-in (* in of [local] *)
+in (*in-of-local]*)
 
 stadef fildes_v = $FCNTL.fildes_v
 
