@@ -421,7 +421,7 @@ s2exp_node =
   | S2Eextype of (string(*name*), s2explstlst) // external type
   | S2Eextkind of (string(*name*), s2explstlst) // external tkind
 //
-  | S2Evar of s2var // variable
+  | S2Evar of s2var // universal variable
   | S2EVar of s2Var // existential variable
   | S2Ehole of s2hole // it used to form contexts
 //

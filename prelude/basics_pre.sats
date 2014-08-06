@@ -335,7 +335,9 @@ stadef - = add_eff_eff // difference of effsets
 // HX: some overloaded symbols
 //
 symintr ~ not
-symintr && || << >>
+(*
+symintr && || // macros
+*)
 symintr lnot lor lxor land
 symintr + - * / mod ndiv nmod
 symintr < <= > >= = == != <> compare
@@ -345,6 +347,7 @@ symintr succ pred half double
 symintr square sqrt cube cbrt pow
 //
 symintr [] // for subscripting
+symintr << >> // for L/R-shifting
 //
 symintr inc dec
 symintr ++ -- // inc and dec
