@@ -384,20 +384,28 @@ case+
   tok.token_node of
 | T_FUN (fk) => (
   case+ fk of
+//
   | FK_fn () => DCKfun ()
-  | FK_fnx () => DCKfun ()
   | FK_fun () => DCKfun ()
+  | FK_fnx () => DCKfun ()
+//
   | FK_prfn () => DCKprfun ()
   | FK_prfun () => DCKprfun ()
   | FK_praxi () => DCKpraxi ()
+//
   | FK_castfn () => DCKcastfn ()
+//
   ) // end of [T_FUN]
 | T_VAL (vk) => (
   case+ vk of
+//
   | VK_val () => DCKval ()
+//
+  | VK_prval () => DCKprval ()
+//
   | VK_val_pos () => DCKval ()
   | VK_val_neg () => DCKval ()
-  | VK_prval () => DCKprval ()
+//
   ) // end of [T_VAL]
 | _ => let
     val () = assertloc (false) in DCKfun ()
