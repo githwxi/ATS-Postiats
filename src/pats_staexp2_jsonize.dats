@@ -80,10 +80,28 @@ jsonize_s2rt
 in
 //
 case+ s2t0 of
-| S2RTbas (s2tb) => jsonize_s2rtbas (s2tb)
-| S2RTfun (_, _) => jsonval_string ("s2rt_fun")
-| S2RTtup (s2ts) => jsonval_string ("s2rt_tup")
-| _(*unspecified*) => jsonval_string ("s2rt_anon")
+| S2RTbas (s2tb) => let
+  val srt = jsonize_s2rtbas (s2tb)
+in
+  jsonval_conarg1 ("S2RTbas", srt)
+end
+| S2RTfun (args, res) => let
+  val args = JSONlist (list_of_list_vt (
+    list_map_fun<s2rt><jsonval> (args, jsonize_s2rt)
+  ))
+  val res = jsonize_s2rt (res)
+in
+  jsonval_conarg2 ("S2RTfun", args, res)
+end
+| S2RTtup (s2ts) => let
+  val args = JSONlist (list_of_list_vt (
+    list_map_fun<s2rt><jsonval> (s2ts, jsonize_s2rt)
+  ))
+in
+  jsonval_conarg1 ("S2RTtup", args)
+end
+| _(*unspecified*) =>
+  jsonval_conarg0 ("S2RTanon")
 //
 end // end of [jsonize_s2rt]
   
@@ -114,11 +132,13 @@ val sym =
 val s2rt = jsonize_s2rt (s2cst_get_srt (s2c))
 val stamp =
   jsonize_stamp (s2cst_get_stamp (s2c))
+val supcls = 
+  jsonize1_s2explst (s2cst_get_supcls (s2c))
 //
 in
 //
-jsonval_labval3
-  ("s2cst_name", sym, "s2cst_srt", s2rt, "s2cst_stamp", stamp)
+jsonval_labval4
+  ("s2cst_name", sym, "s2cst_srt", s2rt, "s2cst_stamp", stamp, "s2cst_supcls", supcls)
 //
 end // end of [jsonize_s2cst]
 
@@ -149,10 +169,12 @@ jsonize_s2Var
 //
 val stamp =
   jsonize_stamp (s2Var_get_stamp (s2V))
+val szexp =
+  jsonize_s2zexp (s2Var_get_szexp (s2V))
 //
 in
 //
-  jsonval_labval1 ("s2Var_stamp", stamp)
+  jsonval_labval2 ("s2Var_stamp", stamp, "s2Var_szexp", szexp)
 //
 end // end of [jsonize_s2Var]
 
@@ -373,6 +395,12 @@ case+ s2e0.s2exp_node of
     jsonval_conarg3 ("S2Euni", s2vs, s2ps, s2e_body)
   end // end of [S2Euni]
 //
+| S2Etop (knd, s2e) =>  let
+    val s2e = jsonize_s2exp (flag, s2e)
+  in
+    jsonval_conarg2("S2Etop", jsonval_int(knd), s2e)
+  end // end of [S2Etop]
+//
 | S2Eerr ((*void*)) => jsonval_conarg0 ("S2Eerr")
 //
 | _(*yet-to-be-processed*) => jsonval_conarg0 ("S2Eignored")
@@ -466,6 +494,18 @@ end // end of [jsonize_labs2explst]
 implement
 jsonize_s2eff (s2fe) = jsonize_ignored (s2fe)
 
+(* ****** ****** *)
+
+implement
+jsonize_s2zexp (s2zexp) =
+  case+ s2zexp of
+    | S2ZEvar (s2v) => let
+    in
+       jsonval_conarg1 ("S2ZEvar", jsonize_s2var(s2v))
+    end // end of [S2ZEvar]
+    | S2ZEbot () => jsonval_conarg0 ("S2ZEbot")
+    | _ => jsonval_conarg0 ("S2ZEbot")
+    
 (* ****** ****** *)
 
 (* end of [pats_staexp2_jsonize.dats] *)
