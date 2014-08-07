@@ -32,7 +32,13 @@ Bohem-GC) can be readily employed.
 ## Installing ATS2
 
 Please see
-[http://www.ats-lang.org/DOWNLOAD/](http://www.ats-lang.org/DOWNLOAD/) for instructions.
+[http://www.ats-lang.org/DOWNLOAD/](http://www.ats-lang.org/DOWNLOAD/) for
+instructions.
+
+Note that the code in this github directory is primarily meant for people
+who would like to help develop ATS2. For someone who just want to program
+in ATS2, please use the current release of ATS2 available at
+[https://sourceforge.net/projects/ats2-lang/](https://sourceforge.net/projects/ats2-lang/).
 
 ## Developing ATS2
 
