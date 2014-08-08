@@ -45,6 +45,14 @@ in ATS2, please install the current release of ATS2 available at
 The compiler of ATS2 is nearly all implemented in ATS1, which is available
 at [http://sourceforge.net/projects/ats-lang/](http://sourceforge.net/projects/ats-lang/).
 
+## Documenting ATS2
+
+Users are encouraged to share what they have learned on the ATS2 wiki on github, which
+currently has over 35 articles with content:
+[https://github.com/githwxi/ATS-Postiats/wiki](https://github.com/githwxi/ATS-Postiats/wiki).
+A list of article stubs is maintained on the [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
+
+
 ## License
 
 * The Compiler (ATS/Postiats):
