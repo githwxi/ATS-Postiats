@@ -33,6 +33,12 @@
 //
 (* ****** ****** *)
 //
+// Author: William Blair
+// Authoremail: william.douglass.blairATgmailDOTcom
+// Contribing Time: August 7, 2014
+//
+(* ****** ****** *)
+//
 staload
 ATSPRE = "./pats_atspre.dats"
 //
@@ -97,16 +103,19 @@ in
 //
 case+ s2t0 of
 | S2RTbas (s2tb) => let
-    val s2t = jsonize_s2rtbas (s2tb)
+    val s2tb = jsonize_s2rtbas (s2tb)
   in
-    jsonval_conarg1 ("S2RTbas", s2t)
+    jsonval_conarg1 ("S2RTbas", s2tb)
   end // end of [S2RTbas]
 //
 | S2RTfun
     (s2ts_arg, s2t_res) => let
+//
     val arg =
       jsonize_s2rtlst (s2ts_arg)
+    // end of [val]
     val res = jsonize_s2rt (s2t_res)
+//
   in
     jsonval_conarg2 ("S2RTfun", arg, res)
   end // end of [S2RTfun]
@@ -419,7 +428,7 @@ case+ s2e0.s2exp_node of
 //
 | S2Eerr ((*void*)) => jsonval_conarg0 ("S2Eerr")
 //
-| _(*yet-to-be-processed*) => jsonval_conarg0 ("S2Eignored")
+| _(*ignored*) => jsonval_conarg0 ("S2Eignored")
 //
 end // end of [auxmain]
 //
@@ -528,7 +537,7 @@ case+ s2ze of
     jsonval_conarg1 ("S2ZEvar", s2v)
   end // end of [S2ZEvar]
 //
-| _ (*ignored*) => jsonval_conarg0 ("S2ZEignored")
+| _(*ignored*) => jsonval_conarg0 ("S2ZEignored")
 //
 ) (* end of [jsonize_s2zexp] *)
 
