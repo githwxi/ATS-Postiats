@@ -47,10 +47,10 @@ at [http://sourceforge.net/projects/ats-lang/](http://sourceforge.net/projects/a
 
 ## Documenting ATS2
 
-Users are encouraged to share what they have learned on the ATS2 wiki on github, which
-currently has over 35 articles with content:
-[https://github.com/githwxi/ATS-Postiats/wiki](https://github.com/githwxi/ATS-Postiats/wiki).
-A list of article stubs is maintained on the [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
+Users are encouraged to share what they have learned on the [ATS2
+wiki](https://github.com/githwxi/ATS-Postiats/wiki), which currently
+contains over 35 articles with content.  A list of article stubs is
+maintained at [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
 
 
 ## License
