@@ -898,7 +898,7 @@ end // end of [val]
 //
 val () = emit_text (out, fbody)
 val () = emit_text (out, "} /* ATSendif */\n")
-val () = emit_text (out, "ATSreturn_void() ;\n")
+val () = emit_text (out, "ATSreturn_void(tmpret_void) ;\n")
 val () = emit_text (out, "} /* end of [*_dynload] */\n")
 //
 val () = if flag = 0 then emit_text (out, "#endif // end of [#if(0)]\n")
