@@ -181,6 +181,10 @@ extern fun d2exp_trup_macsyn (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
+extern fun d2exp_trup_sym (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 fun d2exp_is_sym
   (d2e: d2exp): bool = let
 in
@@ -194,7 +198,9 @@ end // end of [d2exp_is_sym]
 implement
 d2exp_trup
   (d2e0) = let
+//
 val loc0 = d2e0.d2exp_loc
+//
 (*
 val () =
 (
@@ -202,6 +208,7 @@ val () =
   println! ("d2exp_trup: d2e0 = ", d2e0);
 ) (* end of [val] *)
 *)
+//
 val d3e0 = (
 case+ d2e0.d2exp_node of
 //
@@ -470,13 +477,7 @@ case+ d2e0.d2exp_node of
     d2exp_trup (d2e) // HX: [d2e] should be a value
   end // end of [D2Eann_seff]
 //
-| D2Esym _ => let
-    val () =
-      the_trans3errlst_add (T3E_d2exp_trup_sym (d2e0))
-    // end of [val]
-  in
-    d3exp_errexp (loc0) // : [s2exp_t0ype_err]
-  end // end of [D2Esym]
+| D2Esym _ => d2exp_trup_sym (d2e0)
 //
 | D2Eerrexp () => d3exp_errexp (loc0) // : [s2exp_t0ype_err]
 //
@@ -651,16 +652,22 @@ end // end of [aux]
 //
 var serr: int = 0
 val d3es = aux (d23es, s2es, serr)
-val () = if (serr != 0) then let
-  val () = prerr_error3_loc (locarg)
-  val () = filprerr_ifdebug "d23explst_trdn"
+val () =
+if
+(serr != 0)
+then let
+  val () =
+    prerr_error3_loc (locarg)
+  val () =
+    filprerr_ifdebug "d23explst_trdn"
   val () = prerr ": arity mismatch"
   val () = if serr < 0 then prerr ": more arguments are expected."
   val () = if serr > 0 then prerr ": fewer arguments are expected."
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 in
   the_trans3errlst_add (T3E_d23explst_trdn_arity (locarg, serr))
-end // end of [val]
+end // end of [then]
+//
 in
 //
 d3es (* return value *)
@@ -1901,7 +1908,8 @@ end // end of [d2exp_trup_trywith]
 (* ****** ****** *)
 
 implement
-d2exp_trup_mac (d2e0) = let
+d2exp_trup_mac
+  (d2e0) = let
   val-D2Emac (d2m) = d2e0.d2exp_node
 (*
   val () = println! ("d2exp_trup: D2Emac: loc0 = ", d2e0.d2exp_loc)
@@ -1946,6 +1954,27 @@ val () = println! ("d2exp_trup: D2Emacsyn: d2e_mac = ", d2e_mac)
 in
   d2exp_trup (d2e_mac)
 end // end of [d2exp_trup_macsyn]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_sym
+  (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val-D2Esym(d2s) = d2e0.d2exp_node
+//
+val () = prerr_error3_loc (loc0)
+val () = filprerr_ifdebug "d2exp_trup_sym"
+val () =
+  prerrln! (": the symbol [", d2s, "] cannot be resolved.")
+//
+val () =
+  the_trans3errlst_add (T3E_d2exp_trup_sym (d2e0))
+//
+in
+  d3exp_errexp (loc0) // : [s2exp_t0ype_err]
+end // end of [d2exp_trup_sym]
 
 (* ****** ****** *)
 

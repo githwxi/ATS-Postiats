@@ -506,9 +506,14 @@ d2sym_make
 , dq: $SYN.d0ynq, id: symbol, d2pis: d2pitmlst
 ) : d2sym // end of [d2sym_make]
 //
-fun
-fprint_d2sym : fprint_type(d2sym)
+(* ****** ****** *)
 //
+fun print_d2sym (d2s: d2sym): void
+fun prerr_d2sym (d2s: d2sym): void
+fun fprint_d2sym : fprint_type (d2sym)
+//
+overload print with print_d2sym
+overload prerr with prerr_d2sym
 overload fprint with fprint_d2sym
 //
 (* ****** ****** *)
@@ -523,12 +528,17 @@ datatype pckind =
 typedef pckindopt = Option (pckind)
 
 (* ****** ****** *)
-
+//
 fun print_pckind (x: pckind): void
-overload print with print_pckind
 fun prerr_pckind (x: pckind): void
-overload prerr with prerr_pckind
 fun fprint_pckind : fprint_type (pckind)
+//
+overload print with print_pckind
+overload prerr with prerr_pckind
+overload fprint with fprint_pckind
+//
+(* ****** ****** *)
+
 fun fprint_pckindopt : fprint_type (pckindopt)
 
 (* ****** ****** *)

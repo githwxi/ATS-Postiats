@@ -131,31 +131,47 @@ fprint_d2pitmlst
 // end of [fprint_d2pitmlst]
 
 (* ****** ****** *)
-
+//
 implement
-fprint_d2sym (out, d2s) = {
+print_d2sym
+  (d2s) = fprint (stdout_ref, d2s)
+implement
+prerr_d2sym
+  (d2s) = fprint (stderr_ref, d2s)
+//
+implement
+fprint_d2sym
+  (out, d2s) = {
   val () = fprint_d0ynq (out, d2s.d2sym_qua)
   val () = fprint_symbol (out, d2s.d2sym_sym)
-} // end of [d2sym]
-
+} (* end of [d2sym] *)
+//
 (* ****** ****** *)
-
+//
 implement
-fprint_pckind (out, pck) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+print_pckind
+  (pck) = fprint (stdout_ref, pck)
+implement
+prerr_pckind
+  (pck) = fprint (stderr_ref, pck)
+//
+implement
+fprint_pckind
+  (out, pck) = let
+//
+macdef
+prstr (s) = fprint_string (out, ,(s))
+//
 in
+//
   case+ pck of
   | PCKcon () => prstr "PCKcon"
   | PCKlincon () => prstr "PCKlincon"
   | PCKfree () => prstr "PCKfree"
   | PCKunfold () => prstr "PCKunfold"
+//
 end // end of [fprint_pckind]
-
-implement
-print_pckind (x) = fprint_pckind (stdout_ref, x)
-implement
-prerr_pckind (x) = fprint_pckind (stderr_ref, x)
-
+//
 (* ****** ****** *)
 
 implement
