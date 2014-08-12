@@ -129,8 +129,8 @@ ATSloop_close(init, fini, cont) \
 #define ATSPMVfloat(rep) (rep)
 #define ATSPMVstring(str) (str)
 
-#define ATSPMVi0nt(x) (x)
-#define ATSPMVf0loat(x) (x)
+#define ATSPMVi0nt(tok) (tok)
+#define ATSPMVf0loat(tok) (tok)
 
 /* ****** ****** */
 
