@@ -848,11 +848,10 @@ case+ hit0 of
   }
 //
 | HITtyvar (s2v) => {
-    val () = emit_text (out, "atstyvar_type")
-    val (
-    ) = (
-      emit_lparen (out); emit_s2var (out, s2v); emit_rparen (out)
-    ) (* end of [val] *)
+    val () =
+      emit_text (out, "atstyvar_type(")
+    val () = emit_s2var (out, s2v)
+    val ((*closing*)) = emit_RPAREN (out)
   } (* end of [HITtyvar] *)
 //
 | HITrefarg (knd, hit) => let
@@ -863,7 +862,7 @@ case+ hit0 of
       // end of [if]
     ) : void // end of [val]
     val () = emit_hitype (out, hit)
-    val () = emit_rparen (out)
+    val ((*closing*)) = emit_RPAREN (out)
   in
     // nothing
   end // end of [HITrefarg]

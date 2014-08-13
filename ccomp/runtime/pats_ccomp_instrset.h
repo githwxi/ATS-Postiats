@@ -263,19 +263,26 @@ ATSloop_close(init, fini, cont) \
 #define ATSINSmove_ptralloc(tmp, hit) (tmp = ATS_MALLOC(sizeof(hit)))
 
 /* ****** ****** */
-
-#define ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))
-#define ATSINSmove_con1(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
-#define ATSINSstore_con_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
-#define ATSINSstore_con_ofs(tmp, tysum, lab, val) (((tysum*)(tmp))->lab = val)
-
+//
+#define \
+ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))
+//
+#define ATSINSmove_con1_beg()
+#define ATSINSmove_con1_end()
+#define ATSINSmove_con1_new(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
+#define ATSINSstore_con1_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
+#define ATSINSstore_con1_ofs(tmp, tysum, lab, val) (((tysum*)(tmp))->lab = val)
+//
 /* ****** ****** */
-
+//
 #define ATSINSmove_exn0(tmp, d2c) (tmp = &(d2c))
-#define ATSINSmove_exn1(tmp, tyexn) (tmp = ATS_MALLOC(sizeof(tyexn)))
-#define ATSINSstore_exntag(tmp, d2c) (((ATStyexn()*)tmp)->exntag = (&(d2c))->exntag)
-#define ATSINSstore_exnmsg(tmp, d2c) (((ATStyexn()*)tmp)->exnmsg = (&(d2c))->exnmsg)
-
+//
+#define ATSINSmove_exn1_beg()
+#define ATSINSmove_exn1_end()
+#define ATSINSmove_exn1_new(tmp, tyexn) (tmp = ATS_MALLOC(sizeof(tyexn)))
+#define ATSINSstore_exn1_tag(tmp, d2c) (((ATStyexn()*)tmp)->exntag = (&(d2c))->exntag)
+#define ATSINSstore_exn1_msg(tmp, d2c) (((ATStyexn()*)tmp)->exnmsg = (&(d2c))->exnmsg)
+//
 /* ****** ****** */
 
 #define ATSINSmove_tlcal(argx, tmp) (argx = tmp)

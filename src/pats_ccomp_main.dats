@@ -953,9 +953,9 @@ end : int // end of [val]
 //
 val () = emit_text (out, "ATS")
 val () = emit_d2cst (out, d2cmain)
-val () = emit_lparen (out)
+val () = emit_LPAREN (out)
 val () = emit_main_arglst_err (out, arty)
-val () = emit_rparen (out)
+val () = emit_RPAREN (out)
 val () = emit_text (out, " ;\n")
 //
 val () = emit_text (out, "return (err) ;\n")

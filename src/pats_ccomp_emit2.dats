@@ -157,10 +157,10 @@ if isclo
 // end of [if]
 ) : void // end of [val]
 //
-val () = emit_lparen (out)
+val () = emit_LPAREN (out)
 val () = emit_primval (out, pmv_fun)
 val () = emit_text (out, ", ")
-val () = emit_lparen (out)
+val () = emit_LPAREN (out)
 //
 val hses_arg = (
 if isclo
@@ -169,10 +169,10 @@ if isclo
 ) : hisexplst // end of [val]
 val () = emit_hisexplst_sep (out, hses_arg, ", ")
 //
-val () = emit_rparen (out)
+val () = emit_RPAREN (out)
 val () = emit_text (out, ", ")
 val () = emit_hisexp (out, hse_res)
-val () = emit_rparen (out)
+val () = emit_RPAREN (out)
 //
 in
   // nothing
@@ -340,10 +340,10 @@ if isclo
   then list_cons (pmv_fun, pmvs_arg) else (pmvs_arg)
 ) : primvalist // end of [val]
 //
-val () = emit_lparen (out)
+val () = emit_LPAREN (out)
 val ln = aux_funenv (out, pmv_fun)
 val () = emit_fparamlst (out, ln, pmvs_arg)
-val () = emit_rparen (out)
+val () = emit_RPAREN (out)
 //
 val () = emit_text (out, ") ;\n")
 //
