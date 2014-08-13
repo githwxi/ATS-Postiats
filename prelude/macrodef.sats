@@ -37,7 +37,9 @@
 
 (* ****** ****** *)
 
-(* macros in short form *)
+(*
+** HX: short form
+*)
 //
 // [orelse] and [andalso] are declared as infix ops
 //

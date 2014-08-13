@@ -123,18 +123,29 @@ chain_flistize (kxs: chain (key, itm)): List_vt (ki2)
 
 (* ****** ****** *)
 
-local
-
 staload
 LM = "libats/SATS/linmap_list.sats"
 
+(* ****** ****** *)
+
+implement
+{key}(*tmp*)
+$LM.equal_key_key (x, y) = equal_key_key<key> (x, y)
+
+(* ****** ****** *)
+
+local
+//
 assume
 chain_vtype (key:t0p, itm:vt0p) = $LM.map (key, itm)
-
+//
 in (* in of [local] *)
 
-implement{
-} chain_nil () = $LM.linmap_nil ()
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+chain_nil () = $LM.linmap_nil ()
 
 (* ****** ****** *)
 
@@ -232,6 +243,8 @@ prval () = arrayptr_addback (pf0 | A)
 in
   // nothing
 end // end of [chainarr_insert_any]
+
+(* ****** ****** *)
 
 implement
 {key,itm}
@@ -474,19 +487,22 @@ vtypedef tenv2 = List0_vt (ki)
 val+@HASHTBL (A, cap, n) = tbl
 //
 local
-implement{a}{env}
+implement
+{a}{env}
 array_rforeach$cont (x, env) = true
 implement
-array_rforeach$fwork<chain><tenv>
+(a:viewtype)
+array_rforeach$fwork<a><tenv>
   (kxs, env) = let
-  val kxs = $UN.castvwtp1{chain}(kxs)
-  val kxs = chain_listize<key,itm> (kxs)
-  val kxs = list_vt_append (kxs, $UN.castvwtp0{tenv2}(env))
-  val () = env := $UN.castvwtp0{ptr}(kxs)
+  val kxs2 = $UN.castvwtp0{chain}(kxs)
+  val () = kxs := $UN.castvwtp0{a}(chain_nil())
+  val kxs2 = chain_listize<key,itm> (kxs2)
+  val kxs2 = list_vt_append (kxs2, $UN.castvwtp0{tenv2}(env))
+  val () = env := $UN.castvwtp0{ptr}(kxs2)
 in
   // nothing
 end // end of [array_rforeach$fwork]
-in(* in of [local] *)
+in (* in of [local] *)
 var env: ptr
 val () = env := $UN.castvwtp0{ptr}(list_vt_nil)
 val _(*cap*) = $effmask_all

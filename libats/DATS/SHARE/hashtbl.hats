@@ -37,6 +37,20 @@
 // HX: shared by hashtbl_linprb
 //
 (* ****** ****** *)
+
+(*
+implement
+{key}(*tmp*)
+hash_key = ghash_val<key>
+*)
+
+(* ****** ****** *)
+
+implement
+{key}(*tmp*)
+equal_key_key = gequal_val<key>
+
+(* ****** ****** *)
 //
 // HX: 31 and 37 are top choices
 //
@@ -44,10 +58,6 @@ implement
 hash_key<string> (str) =
   string_hash_multiplier (31UL, 61803398875UL, str)
 //
-(* ****** ****** *)
-
-implement{key} equal_key_key = gequal_val<key>
-
 (* ****** ****** *)
 
 implement{}

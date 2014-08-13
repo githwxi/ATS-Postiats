@@ -96,9 +96,11 @@ eqint_make_guint
 dataprop
 EQADDR (addr, addr) = {x:addr} EQADDR (x, x)
 //
-prfun eqaddr_make {x,y:addr | x == y} (): EQADDR (x, y)
+prfun
+eqaddr_make {x,y:addr | x == y} (): EQADDR (x, y)
 //
-prfun eqaddr_make_ptr {x:addr} (x: ptr (x)): [y:addr] EQADDR (x, y)
+prfun
+eqaddr_make_ptr {x:addr} (x: ptr (x)): [y:addr] EQADDR (x, y)
 //
 (* ****** ****** *)
 
