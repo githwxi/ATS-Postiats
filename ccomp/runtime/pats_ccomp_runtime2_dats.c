@@ -12,7 +12,7 @@ ATSstruct {
 int exntag ;
 char *exnmsg ;
 atstkind_type(atstype_ptrk) atslab__0; 
-} postiats_tyexn_0 ;
+} pats_ccomp_runtime2_tyexn ;
 /*
 typedefs-for-tyrecs-and-tysums(end)
 */
@@ -244,7 +244,7 @@ ATSINSlab(__atstmplab5):
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1936(line=61, offs=18) -- 1939(line=61, offs=21)
 */
-ATSINSmove(tmp1, ATSSELcon(arg0, postiats_tyexn_0, atslab__0)) ;
+ATSINSmove(tmp1, ATSSELcon(arg0, pats_ccomp_runtime2_tyexn, atslab__0)) ;
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1921(line=61, offs=3) -- 2039(line=64, offs=6)
 */
@@ -316,7 +316,7 @@ ATSINSlab(__atstmplab7):
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 2082(line=65, offs=19) -- 2085(line=65, offs=22)
 */
-ATSINSmove(tmp2, ATSSELcon(arg0, postiats_tyexn_0, atslab__0)) ;
+ATSINSmove(tmp2, ATSSELcon(arg0, pats_ccomp_runtime2_tyexn, atslab__0)) ;
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 2066(line=65, offs=3) -- 2186(line=68, offs=6)
 */

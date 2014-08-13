@@ -283,11 +283,15 @@ ATSloop_close(init, fini, cont) \
 
 /* ****** ****** */
 
+#define ATSINSmove_fltrec_beg()
+#define ATSINSmove_fltrec_end()
 #define ATSINSstore_fltrec_ofs(tmp, tyrec, lab, val) ((tmp).lab = val)
 
 /* ****** ****** */
 
-#define ATSINSmove_boxrec(tmp, tyrec) (tmp = ATS_MALLOC(sizeof(tyrec)))
+#define ATSINSmove_boxrec_beg()
+#define ATSINSmove_boxrec_end()
+#define ATSINSmove_boxrec_new(tmp, tyrec) (tmp = ATS_MALLOC(sizeof(tyrec)))
 #define ATSINSstore_boxrec_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
 
 /* ****** ****** */

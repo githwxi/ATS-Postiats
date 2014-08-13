@@ -2255,6 +2255,7 @@ fun loop
 in
 //
 case+ lxs of
+//
 | list_cons
     (lx, lxs) => let
     val LABPRIMVAL (l, x) = lx
@@ -2275,6 +2276,7 @@ case+ lxs of
   in
     loop (boxknd, extknd, tmp, hit_rec, lxs, i+1)
   end // end of [list_cons]
+//
 | list_nil () => ()
 //
 end // end of [loop]
@@ -2286,26 +2288,38 @@ case- ins.instr_node of
   (
     tmp, lpmvs, hse_rec
   ) => let
-    val hit_rec = hisexp_typize (1, hse_rec)
+//
+    val () = emit_text (out, "ATSINSmove_fltrec_beg()\n")
+//
+    val hit = hisexp_typize (1, hse_rec)
     val extknd = hisexp_get_extknd (hse_rec)
+    val () = loop (0(*boxknd*), extknd, tmp, hit, lpmvs, 0)
+//
+    val () = emit_text (out, "\nATSINSmove_fltrec_end()")
   in
-    loop (0(*boxknd*), extknd, tmp, hit_rec, lpmvs, 0)
+    // nothing
   end // end of [INSmove_fltrec]
 | INSmove_boxrec
   (
     tmp, lpmvs, hse_rec
   ) => let
-    val hit_rec = hisexp_typize (0, hse_rec)
 //
-    val () = emit_text (out, "ATSINSmove_boxrec(")
+    val () = emit_text (out, "ATSINSmove_boxrec_beg()\n")
+//
+    val hit = hisexp_typize (0, hse_rec)
+    val extknd = hisexp_get_extknd (hse_rec)
+//
+    val () = emit_text (out, "ATSINSmove_boxrec_new(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
-    val () = emit_hitype (out, hit_rec)
+    val () = emit_hitype (out, hit)
     val () = emit_text (out, ") ;\n")
+    val () = loop (1(*boxknd*), extknd, tmp, hit, lpmvs, 0)
 //
-    val extknd = hisexp_get_extknd (hse_rec)
+    val () = emit_text (out, "\nATSINSmove_boxrec_end()")
+//
   in
-    loop (1(*boxknd*), extknd, tmp, hit_rec, lpmvs, 0)
+    // nothing
   end // end of [INSmove_boxrec]
 //
 end // end of [emit_instr_move_rec]
