@@ -79,15 +79,16 @@ strptr2stropt (fileref_get_word (stdin_ref))
 end // end of [word_get]
 
 (* ****** ****** *)
-
+//
 extern
-fun stringlst_hash (xs: List0(string)): ulint
-
+fun
+stringlst_hash
+  (xs: List0(string)): ulint
+//
 (* ****** ****** *)
 
 implement
-stringlst_hash
-  (xs) = let
+stringlst_hash (xs) = let
 //
 fun loop
 (
@@ -95,12 +96,12 @@ fun loop
 ) : ulint =
 (
 case+ xs of
-| nil () => H
-| cons (x, xs) => let
+| list_nil () => H
+| list_cons (x, xs) => let
     val H = string_hash_multiplier (K, H, x)
   in
     loop (K, H, xs)
-  end // end of [cons]
+  end // end of [list_cons]
 )
 //
 in
@@ -163,7 +164,7 @@ hash_key<key> (k) =
   $effmask_all (stringlst_hash (g1ofg0(k)))
 //
 implement
-gequal_val<key>
+equal_key_key<key>
   (k1, k2) = list_equal<string> (g1ofg0(k1), g1ofg0(k2))
 //
 in (* in-of-local *)

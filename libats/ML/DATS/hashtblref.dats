@@ -42,10 +42,10 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload
-HT = "libats/SATS/hashtbl_chain.sats"
-
+//
+staload HT =
+"libats/SATS/hashtbl_chain.sats"
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/list0.sats"
@@ -56,6 +56,20 @@ staload "libats/SATS/hashfun.sats"
 staload "libats/ML/SATS/hashtblref.sats"
 
 (* ****** ****** *)
+
+(*
+implement
+{key}(*tmp*)
+hash_key = ghash_val<key>
+*)
+
+(* ****** ****** *)
+
+implement
+{key}(*tmp*)
+equal_key_key = gequal_val<key>
+
+(* ****** ****** *)
 //
 // HX: 31 and 37 are top choices
 //
@@ -64,14 +78,15 @@ hash_key<string> (str) =
   string_hash_multiplier (31UL, 31415926536UL, str)
 //
 (* ****** ****** *)
-
+//
 implement
 {key}(*tmp*)
 $HT.hash_key = hash_key<key>
+//
 implement
 {key}(*tmp*)
 $HT.equal_key_key = equal_key_key<key>
-
+//
 (* ****** ****** *)
 //
 extern

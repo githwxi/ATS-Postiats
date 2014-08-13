@@ -61,7 +61,7 @@ hash_key<string> (str) =
 (* ****** ****** *)
 
 implement{}
-hashtbl$recapacitize () = 1 // default policy
+hashtbl$recapacitize () = 1 // HX: default: resizable
 
 (* ****** ****** *)
 
