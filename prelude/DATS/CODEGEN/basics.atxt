@@ -52,6 +52,11 @@ primplmnt prop_verify_and_add () = ()
 
 #atscode_separator()
 
+primplmnt pridentity_v (x) = ()
+primplmnt pridentity_vt (x) = ()
+
+#atscode_separator()
+
 implement
 {a}(*tmp*)
 lazy_force (lazyval) = !lazyval
@@ -67,12 +72,15 @@ unit_v_elim (pf) = let
 end // end of [unit_v_elim]
 
 #atscode_separator()
-
-implement{a}
+//
+// HX:
+// See prelude/basics_dyn.sats
+//
+implement
+{a}(*tmp*)
 opt_unsome_get (x) =
   let prval () = opt_unsome (x) in x end
-// end of [opt_unsome_get]
-
+//
 #atscode_separator()
 
 (*
@@ -98,25 +106,33 @@ assertexn_bool1 (b) = if not(b) then $raise AssertExn()
 
 #atscode_separator()
 
-implement(a:t0p)
-gequal_ref<a> (x, y) = gequal_val<a> (x, y)
+implement{a} gidentity (x) = x
+implement{a} gidentity_vt (x) = x
 
+#atscode_separator()
+//
+implement
+(a:t@ype)
+gequal_ref<a> (x, y) = gequal_val<a> (x, y)
+//
 implement gequal_val<int> (x, y) = (x = y)
 implement gequal_val<bool> (x, y) = (x = y)
 implement gequal_val<char> (x, y) = (x = y)
 implement gequal_val<double> (x, y) = (x = y)
 implement gequal_val<string> (x, y) = (x = y)
-
+//
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 tostring_val (x) =
   strptr2string (tostrptr_val<a> (x))
 // end of [tostring_val]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_val (out, x) = let
   val str = tostrptr_val<a> (x)
   val ((*void*)) = fprint_strptr (out, str)
@@ -127,7 +143,8 @@ end // end of [fprint_val]
 
 #atscode_separator()
 
-implement(a:t0p)
+implement
+(a:t@ype)
 fprint_ref<a> (out, x) = fprint_val<a> (out, x)
 
 #atscode_separator()
