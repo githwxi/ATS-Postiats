@@ -1172,12 +1172,14 @@ in
 end // end of [emit_funlab_funarg]
 
 (* ****** ****** *)
-
+//
 extern fun
-emit_funlab_funargx
+emit_funlab_funapy
   (out: FILEref, flab: funlab): void
+//
 implement
-emit_funlab_funargx (out, flab) = let
+emit_funlab_funapy
+  (out, flab) = let
 //
 fun auxlst
 (
@@ -1191,7 +1193,7 @@ case+ hses of
     val (
     ) = emit_text (out, "ATStmpdec(")
     val () = (
-      emit_funargx (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
+      emit_funapy (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
     ) (* end of [val] *)
     val () = emit_text (out, ") ;\n")
   in
@@ -1205,7 +1207,7 @@ val hses = funlab_get_type_arg (flab)
 //
 in
   auxlst (out, hses, 0(*i*))
-end // end of [emit_funlab_funargx]
+end // end of [emit_funlab_funapy]
 
 (* ****** ****** *)
 
@@ -1222,8 +1224,12 @@ val tmpret = funent_get_tmpret (fent)
 val ntlcal = tmpvar_get_tailcal (tmpret)
 //
 val () = emit_text (out, "/* tmpvardeclst(beg) */\n")
-val () = if ntlcal >= 2 then emit_funlab_funargx (out, flab)
+//
+val () =
+  if ntlcal >= 2 then emit_funlab_funapy (out, flab)
+//
 val () = emit_tmpdeclst (out, funent_get_tmpvarlst (fent))
+//
 val () = emit_text (out, "/* tmpvardeclst(end) */\n")
 //
 in

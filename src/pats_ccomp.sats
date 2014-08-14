@@ -2004,11 +2004,12 @@ fun emit_tmplab (out: FILEref, tlab: tmplab): void
 fun emit_tmplabint (out: FILEref, tlab: tmplab, i: int): void
 
 (* ****** ****** *)
-
+//
 fun emit_set_nfnx (n: int): void
+//
 fun emit_funarg (out: FILEref, n: int): void
-fun emit_funargx (out: FILEref, n: int): void
-
+fun emit_funapy (out: FILEref, n: int): void
+//
 (* ****** ****** *)
 
 fun emit_tmpvar (out: FILEref, tmp: tmpvar): void

@@ -369,13 +369,15 @@ fun aux1
 //
 val () =
 emit_text (out, "ATSINSmove_tlcal(")
+//
 val () =
 (
 if ntl <= 1
-  then fprintf (out, "argx%i", @(i))
-  else fprintf (out, "a%irgx%i", @(ntl, i))
+  then fprintf (out, "apy%i", @(i))
+  else fprintf (out, "a%ipy%i", @(ntl, i))
 // end of [if]
 ) : void // end of [val]
+//
 val () = emit_text (out, ", ")
 val () = emit_primval (out, pmv)
 val () = emit_text (out, ") ;\n")
@@ -420,10 +422,11 @@ if ntl <= 1
 val () =
 (
 if ntl <= 1
-  then fprintf (out, ", argx%i", @(i))
-  else fprintf (out, ", a%irgx%i", @(ntl, i))
+  then fprintf (out, ", apy%i", @(i))
+  else fprintf (out, ", a%ipy%i", @(ntl, i))
 // end of [if]
 ) : void // end of [val]
+//
 val () = emit_text (out, ") ;\n")
 //
 in

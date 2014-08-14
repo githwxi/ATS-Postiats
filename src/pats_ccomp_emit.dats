@@ -712,15 +712,18 @@ in
 end // end of [emit_funarg]
 
 implement
-emit_funargx
+emit_funapy
   (out, narg) = let
-  val nfnx = !the_nfnx
+//
+val nfnx = !the_nfnx
+//
 in
-  if nfnx <= 1
-    then fprintf (out, "argx%i", @(narg))
-    else fprintf (out, "a%irgx%i", @(nfnx, narg))
-  // end of [val]
-end // end of [emit_funargx]
+//
+if nfnx <= 1
+  then fprintf (out, "apy%i", @(narg))
+  else fprintf (out, "a%ipy%i", @(nfnx, narg))
+//
+end // end of [emit_funapy]
 
 end // end of [local]
 

@@ -812,7 +812,7 @@ This function is the optional version of #dyncode("list_find_exn").
 
 Given a list xs, this function returns a linear list consisting elements in
 xs that satisfy the predicate implemented by #dyncode("list_filter$pred").
-The implementation of this function in ATSLIB is tail-recursive.
+The implementation of this function in ATSLIB is tail-recursive.\
 
 ')
 
@@ -823,10 +823,10 @@ The implementation of this function in ATSLIB is tail-recursive.
 #declnamesynop("list_labelize")
 #decldescrpt('\
 
-Given a list xs of length n-1, this function returns a linear list
-consisting pairs (i, xs[i]), where i ranges from 0 until n-1 and xs[i]
-refers to element i in xs. The implementation of this function in ATSLIB is
-tail-recursive.
+Given a list xs of length n, this function returns a linear list consisting
+pairs (i, xs[i]), where i ranges from 0 until n-1, inclusive, and xs[i]
+refers to element i in xs.  The implementation of this function in ATSLIB
+is tail-recursive.\
 
 ')
 
@@ -836,7 +836,41 @@ tail-recursive.
 #decldescrpt('\
 
 This function traverses a given list, applying to each encountered element
-the function implemented by #dyncode("list_app$fwork").  ')
+the function implemented by #dyncode("list_app$fwork").\
+
+')
+#declexample("\
+
+The following code tallies all the integers in a given list:
+
+#pats2xhtmld_tryit('\
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+implement
+main () = 0 where {
+//
+var sum: int = 0
+val p_sum = addr@sum
+//
+local
+//
+implement
+list_app$fwork<int> (x) =
+  $UN.ptr0_addby<int> (p_sum, x)
+//
+in (*in-of-local*)
+//
+val () = list_app<int> ($list{int}(1, 2, 3, 4, 5))
+//
+end // end of [local]
+//
+val () = assertloc (sum = 1+2+3+4+5)
+//
+} // end of [main]
+')
+")
 
 #declnamesynop("list_app$fwork")
 
@@ -846,9 +880,9 @@ the function implemented by #dyncode("list_app$fwork").  ')
 #decldescrpt('\
 
 Given a list xs of length n, this function returns a linear list consisting
-f(xs[i]), where i ranges from 0 until n-1, xs[i] refers to element i in
-xs and f is the function implemented by #dyncode("list_map$fopr").  The
-implementation of this function in ATSLIB is tail-recursive.
+f(xs[i]), where i ranges from 0 until n-1, xs[i] refers to element i in xs
+and f is the function implemented by #dyncode("list_map$fopr").  The
+implementation of this function in ATSLIB is tail-recursive.\
 
 ')
 

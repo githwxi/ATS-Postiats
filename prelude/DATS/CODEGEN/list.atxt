@@ -1114,6 +1114,25 @@ var res: ptr ; val () = loop (xs, 0, res)
 #atscode_separator()
 
 implement
+{x}(*tmp*)
+list_app (xs) = let
+//
+prval () = lemma_list_param (xs)
+//
+fun loop{n:nat} .<n>. (xs: list (x, n)): void =
+(
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) => (list_app$fwork(x); loop (xs))
+)
+//
+in
+  loop (xs)
+end // end of [list_app]
+
+#atscode_separator()
+
+implement
 {x}{y}(*tmp*)
 list_map{n}(xs) = let
 //
