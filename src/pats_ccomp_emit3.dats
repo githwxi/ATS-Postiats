@@ -710,9 +710,9 @@ fun aux
 //
 val inss = ibr.ibranch_inslst
 //
-val () = emit_text (out, "ATSbranchbeg()\n")
+val () = emit_text (out, "ATSbranch_beg()\n")
 val () = emit_instrlst_ln (out, inss)
-val () = emit_text (out, "ATSbranchend()\n")
+val () = emit_text (out, "ATSbranch_end()\n")
 //
 in
   // nothing
@@ -1237,18 +1237,22 @@ in
 end // end of [emit_funent_fundec]
 
 (* ****** ****** *)
-
-extern
-fun emit_funent_funbody
-  (out: FILEref, fent: funent): void
-implement
-emit_funent_funbody (out, fent) = let
 //
-val () = emit_text (out, "/* funbodyinstrlst(beg) */\n")
+extern
+fun
+emit_funent_funbody
+  (out: FILEref, fent: funent): void
+//
+implement
+emit_funent_funbody
+  (out, fent) = let
+//
+val () = emit_text (out, "ATSfunbody_beg()\n")
 val () = emit_instrlst_ln (out, funent_get_instrlst (fent))
-val () = emit_text (out, "/* funbodyinstrlst(end) */\n")
+val () = emit_text (out, "ATSfunbody_end()\n")
 //
 val tmpret = funent_get_tmpret (fent)
+//
 val () = let
   val isvoid = tmpvar_is_void (tmpret)
 in
@@ -1257,9 +1261,9 @@ in
   // end of [if]
 end : void // end of [let] // end of [val]
 //
-val (
-) = emit_tmpvar (out, tmpret)
-val () = emit_text (out, ") ;\n")
+val () = emit_tmpvar (out, tmpret)
+//
+val ((*closing*)) = emit_text (out, ") ;\n")
 //
 in
   // nothing

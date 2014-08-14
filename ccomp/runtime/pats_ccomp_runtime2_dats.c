@@ -110,11 +110,11 @@ ATSINSflab(__patsflab_atsruntime_handle_uncaughtexn):
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1641(line=51, offs=1) -- 2280(line=70, offs=65)
 */
-ATScaseofbeg()
+ATScaseof_beg()
 /*
 ** ibranchlst-beg
 */
-ATSbranchbeg()
+ATSbranch_beg()
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1659(line=53, offs=3) -- 1672(line=53, offs=16)
 */
@@ -169,9 +169,9 @@ emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_run
 /*
 INSletpop()
 */
-ATSbranchend()
+ATSbranch_end()
 
-ATSbranchbeg()
+ATSbranch_beg()
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1788(line=57, offs=3) -- 1803(line=57, offs=18)
 */
@@ -226,9 +226,9 @@ emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_run
 /*
 INSletpop()
 */
-ATSbranchend()
+ATSbranch_end()
 
-ATSbranchbeg()
+ATSbranch_beg()
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1921(line=61, offs=3) -- 1940(line=61, offs=22)
 */
@@ -298,9 +298,9 @@ emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_run
 /*
 INSletpop()
 */
-ATSbranchend()
+ATSbranch_end()
 
-ATSbranchbeg()
+ATSbranch_beg()
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 2066(line=65, offs=3) -- 2086(line=65, offs=23)
 */
@@ -370,9 +370,9 @@ emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_run
 /*
 INSletpop()
 */
-ATSbranchend()
+ATSbranch_end()
 
-ATSbranchbeg()
+ATSbranch_beg()
 /*
 emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 2219(line=70, offs=4) -- 2219(line=70, offs=4)
 */
@@ -388,12 +388,12 @@ emit_instr: loc0 = /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_run
 */
 ATSINSmove_void(tmpret0, atsruntime_handle_uncaughtexn_rest(arg0)) ;
 
-ATSbranchend()
+ATSbranch_end()
 
 /*
 ** ibranchlst-end
 */
-ATScaseofend()
+ATScaseof_end()
 
 /* funbodyinstrlst(end) */
 ATSreturn_void(tmpret0) ;

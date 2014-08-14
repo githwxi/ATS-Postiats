@@ -473,13 +473,17 @@ emit_instr_fcall2
   (out, ins) = let
 //
 val-INSfcall2
-  (tmp, flab, ntl, hse_fun, pmvs_arg) = ins.instr_node
+(
+  tmp, flab, ntl, hse_fun, pmvs_arg
+) = ins.instr_node
 //
-val () = emit_text (out, "ATStailcalbeg()\n")
+val () = emit_text (out, "ATStailcal_beg()\n")
+//
 val () = aux1lst (out, ntl, pmvs_arg, 0(*i*))
 val () = aux2lst (out, ntl, pmvs_arg, 0(*i*))
 val () = auxgoto (out, flab) // HX: loop again
-val () = emit_text (out, "ATStailcalend()\n")
+//
+val () = emit_text (out, "ATStailcal_end()\n")
 //
 in
   // nothing

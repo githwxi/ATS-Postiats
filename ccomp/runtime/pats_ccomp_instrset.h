@@ -107,16 +107,17 @@ ATSloop_close(init, fini, cont) \
 #define ATSFCreturn_void(x) (x); return
 
 /* ****** ****** */
-
-#define ATScaseofbeg() do {
-#define ATScaseofend() } while(0) ;
-#define ATSbranchbeg()
-#define ATSbranchend() break ;
-
+//
+#define ATSbranch_beg()
+#define ATSbranch_end() break ;
+//
+#define ATScaseof_beg() do {
+#define ATScaseof_end() } while(0) ;
+//
 /* ****** ****** */
 
-#define ATStailcalbeg() do {
-#define ATStailcalend() } while(0) ;
+#define ATSfunbody_beg()
+#define ATSfunbody_end()
 
 /* ****** ****** */
 
@@ -284,10 +285,13 @@ ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))
 #define ATSINSstore_exn1_msg(tmp, d2c) (((ATStyexn()*)tmp)->exnmsg = (&(d2c))->exnmsg)
 //
 /* ****** ****** */
-
-#define ATSINSmove_tlcal(argx, tmp) (argx = tmp)
-#define ATSINSargmove_tlcal(arg, argx) (arg = argx)
-
+//
+#define ATStailcal_beg() do {
+#define ATStailcal_end() } while(0) ;
+//
+#define ATSINSmove_tlcal(apy, tmp) (apy = tmp)
+#define ATSINSargmove_tlcal(arg, apy) (arg = apy)
+//
 /* ****** ****** */
 
 #define ATSINSmove_fltrec_beg()

@@ -1806,9 +1806,9 @@ ins.instr_node of
   end // end of [INSloopexn]
 //
 | INScaseof (ibrs) => let
-    val () = emit_text (out, "ATScaseofbeg()\n")
+    val () = emit_text (out, "ATScaseof_beg()\n")
     val () = emit_ibranchlst (out, ibrs)
-    val () = emit_text (out, "ATScaseofend()\n")
+    val () = emit_text (out, "ATScaseof_end()\n")
   in
     // nothing
   end // end of [INScaseof]
@@ -1818,19 +1818,21 @@ ins.instr_node of
     tmp_exn, inss_try, ibrs_with
   ) => let
 //
-    val () = emit_text (out, "ATStrywith_try(")
+    val () =
+      emit_text (out, "ATStrywith_try(")
     val () = emit_tmpvar (out, tmp_exn)
-    val () = emit_text (out, ")\n")
+    val ((*closing*)) = emit_text (out, ")\n")
 //
     val () = emit_instrlst_ln (out, inss_try)
 //
-    val () = emit_text (out, "ATStrywith_with(")
+    val () =
+      emit_text (out, "ATStrywith_with(")
     val () = emit_tmpvar (out, tmp_exn)
-    val () = emit_text (out, ")\n")
+    val ((*closing*)) = emit_text (out, ")\n")
 //
-    val () = emit_text (out, "ATScaseofbeg()\n")
+    val () = emit_text (out, "ATScaseof_beg()\n")
     val () = emit_ibranchlst (out, ibrs_with)
-    val () = emit_text (out, "ATScaseofend()\n")
+    val () = emit_text (out, "ATScaseof_end()\n")
 //
     val () = emit_text (out, "ATStrywith_end()")
   in
