@@ -46,21 +46,23 @@ UN = "prelude/SATS/unsafe.sats"
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_up"
-
+//
+implement
+prerr_FILENAME<> () = prerr "pats_trans3_dynexp_up"
+//
 (* ****** ****** *)
-
+//
 staload LAB = "./pats_label.sats"
 staload LOC = "./pats_location.sats"
 overload + with $LOC.location_combine
 overload print with $LOC.print_location
-
+//
 staload SYN = "./pats_syntax.sats"
 overload print with $SYN.print_macsynkind
-
+//
 (* ****** ****** *)
 
 (*
@@ -685,8 +687,9 @@ fun auxerr
   loc0: loc_t, d2v: d2var
 ) : void = let
 //
-  val () = prerr_error3_loc (loc0)
   val islin = d2var_is_linear (d2v)
+//
+  val () = prerr_error3_loc (loc0)
 //
   val () =
   if islin then
@@ -695,7 +698,7 @@ fun auxerr
 //
   val () =
   if not(islin) then
-    prerrln! (": the dynamic variable [", d2v, "] is not available for external use.")
+    prerrln! (": the (non-linear) dynamic variable [", d2v, "] is not available for external use.")
   // end of [if]
 //
 in
@@ -735,12 +738,8 @@ d2exp_trup_var_nonmut
 val lin = d2var_get_linval (d2v)
 (*
 val () = (
-  print "d2exp_trup_var_nonmut: d2v = ";
-  print_d2var (d2v);
-  print_newline ();
-  print ("d2exp_trup_var_nonmut: lin = ");
-  print (lin);
-  print_newline ();
+  println! ("d2exp_trup_var_nonmut: d2v = ", d2v);
+  println! ("d2exp_trup_var_nonmut: lin = ", lin);
 ) (* end of [val] *)
 *)
 val s2qs = d2var_get_decarg (d2v)
@@ -753,11 +752,14 @@ if lin >= 0 then let
   // end of [val]
 in
 //
-if isllamlocal then let
+if
+isllamlocal
+then let
   val () = d2var_inc_linval (d2v)
 in
   d2var_set_type (d2v, None) // HX: [d2v] is consumed
-end else let
+end // end of [then]
+else let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the linear dynamic variable ["
   val () = prerr_d2var (d2v)
@@ -765,7 +767,7 @@ end else let
   val () = prerr_newline ((*void*))
 in
   the_trans3errlst_add (T3E_d2var_trup_llamlocal (d2v))
-end // end of [if]
+end // end of [else]
 //
 end // end of [if] // end of [val]
 //
@@ -774,11 +776,11 @@ in
 case+ s2qs of
 | list_nil () => d3exp_var (loc0, s2e0, d2v)
 | list_cons _ => let
-    val locsarg = $LOC.location_rightmost (loc0)
     var err: int = 0
-    val (
-      s2e_tmp, s2ess
-    ) = s2exp_tmp_instantiate_rest (s2e0, locsarg, s2qs, err)
+    val locsarg =
+      $LOC.location_rightmost (loc0)
+    val (s2e_tmp, s2ess) =
+      s2exp_tmp_instantiate_rest (s2e0, locsarg, s2qs, err)
   in
     d3exp_tmpvar (loc0, s2e_tmp, d2v, s2ess)
   end // end of [list_cons]
@@ -806,16 +808,16 @@ d2exp_trup_cst
 in
 //
 case+ s2qs of
+| list_nil () => d3exp_cst (loc0, s2e, d2c)
 | list_cons _ => let
-    val locsarg = $LOC.location_rightmost (loc0)
     var err: int = 0
-    val (
-      s2e_tmp, s2ess
-    ) = s2exp_tmp_instantiate_rest (s2e, locsarg, s2qs, err)
+    val locsarg =
+      $LOC.location_rightmost (loc0)
+    val (s2e_tmp, s2ess) =
+      s2exp_tmp_instantiate_rest (s2e, locsarg, s2qs, err)
   in
     d3exp_tmpcst (loc0, s2e_tmp, d2c, s2ess)
   end // end of [list_cons]
-| list_nil () => d3exp_cst (loc0, s2e, d2c)
 //
 end // end of [d2cst_trup_cst]
 
@@ -1000,10 +1002,11 @@ case+
 //
     val () = prerr_error3_loc (loc0)
     val () = filprerr_ifdebug "d2exp_trup_tmpid"
-    val (
-    ) = prerrln!
-      (": a non-template is treated as a template: ", d2e0)
-    (* end of [val] *)
+//
+    val () =
+    prerrln! (
+      ": a non-template is treated as a template: ", d2e0
+    ) (* end of [val] *)
 //
     val () = the_trans3errlst_add (T3E_d2exp_trup_tmpid (d2e0))
 //
@@ -1027,50 +1030,55 @@ end // end of [d2exp_trup_applst]
 (* ****** ****** *)
 
 fun
-d23exp_trup_applst_sta (
+d23exp_trup_applst_sta
+(
   d2e0: d2exp
-, d3e_fun: d3exp, s2as: s2exparglst, d2as: d2exparglst
+, d3e_fun: d3exp
+, s2as: s2exparglst, d2as: d2exparglst
 ) : d3exp = let
 (*
   val () = (
-    print "d23exp_trup_applst_sta: d2e0 = "; print_d2exp d2e0; print_newline ()
-  ) // end of [val]
+    println! ("d23exp_trup_applst_sta: d2e0 = ", d2e0)
+  ) (* end of [val] *)
 *)
   val loc_fun = d3e_fun.d3exp_loc
   val s2e_fun = d3e_fun.d3exp_type
-  val loc_app =
-    aux (loc_fun, s2as) where {
+  val loc_app = let
     fun aux
     (
-      loc: loc_t
-    , s2as: s2exparglst
-    ) : loc_t =
-    (
+      loc: loc_t, s2as: s2exparglst
+    ) : loc_t = (
       case+ s2as of
+      | list_nil () => loc
       | list_cons _ => let
           val s2a = list_last<s2exparg> (s2as)
         in
           $LOC.location_combine (loc, s2a.s2exparg_loc)
         end // end of [list_cons]
-      | list_nil () => loc
     ) (* end of [aux] *)
-  } // end of [where] // end of [val]
+  in
+    aux (loc_fun, s2as)
+  end // end of [let] // end of [val]
 //
   var err: int = 0
   val (s2e_fun, s2ps) =
     s2exp_uni_instantiate_sexparglst (s2e_fun, s2as, err)
-  // end of [val]
-  val () = trans3_env_add_proplst_vt (loc_app, s2ps)
-  val () = if (err > 0) then let
+  val ((*void*)) = trans3_env_add_proplst_vt (loc_app, s2ps)
+//
+  val ((*void*)) =
+  if (err > 0) then let
     val () = prerr_error3_loc (loc_app)
-    val () = filprerr_ifdebug "d2exp_trup_applst_sta"
-    val () = prerr ": static application cannot be properly typechecked."
-    val () = prerr_newline ()    
+    val () =
+      filprerr_ifdebug "d2exp_trup_applst_sta"
+    val (
+    ) = prerrln!
+      (": static application cannot be properly typechecked.")
+    // end of [val]
   in
     the_trans3errlst_add (
       T3E_s2exp_uni_instantiate_sexparglst (loc_app, s2e_fun, s2as)
     ) // end of [the_trans3errlst_add]
-  end // end of [val]
+  end // end of [let] // end of [val]
 //
   val d3e_fun = d3exp_app_sta (loc_app, s2e_fun, d3e_fun)
 in
@@ -1126,8 +1134,10 @@ case+ s2e_fun.s2exp_node of
 //
     val err =
       $SOL.pfarity_equal_solve (loc_fun, npf_fun, npf)
-    // end of [val]
-    val () = if (err > 0) then let
+    (* end of [val] *)
+//
+    val () =
+    if (err > 0) then let
       val () = prerr_error3_loc (loc_fun)
       val () = filprerr_ifdebug "d23exp_trup_app23"
       val () = prerr ": proof arity mismatch"
@@ -1136,7 +1146,7 @@ case+ s2e_fun.s2exp_node of
       val () = prerr_the_staerrlst ()
     in
       the_trans3errlst_add (T3E_d23exp_trup_app23_npf (loc_fun, npf))
-    end // end of [val]
+    end // end of [let] // end of [val]
 //
     val loc_app = $LOC.location_combine (loc_fun, locarg)
     val s2es_fun_arg = 

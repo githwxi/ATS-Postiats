@@ -876,6 +876,9 @@ val () = emit_text (out, "atsvoid_t0ype\n")
 //
 val () = emit_dynload (out, infil)
 val () = emit_text (out, "()\n{\n")
+//
+val () = emit_text (out, "ATSfunbody_beg()\n")
+//
 val () = if flag <= 0 then emit_text (out, "ATSdynload0(\n")
 val () = if flag >= 1 then emit_text (out, "ATSdynload1(\n")
 val () = emit_dynloadflag (out, infil)
@@ -903,6 +906,9 @@ end // end of [val]
 //
 val () = emit_text (out, fbody)
 val () = emit_text (out, "} /* ATSendif */\n")
+//
+val () = emit_text (out, "ATSfunbody_end()\n")
+//
 val () = emit_text (out, "ATSreturn_void(tmpret_void) ;\n")
 val () = emit_text (out, "} /* end of [*_dynload] */\n")
 //
