@@ -196,7 +196,7 @@ The entire code of this implementation is stored in the following files:
 DiningPhil2.sats
 DiningPhil2.dats
 DiningPhil2_fork.dats
-DiningPhil2_thread.dats
+DiningPhil2_mylib.dats
 </pre>
 
 There is also a Makefile available for compiling the ATS source code into

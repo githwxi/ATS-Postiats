@@ -194,6 +194,13 @@ hashtbl_foreach_env
   (tbl: !hashtbl (key, INV(itm)), env: &env >> _): void
 //
 (* ****** ****** *)
+
+fun
+{key:t0p
+;itm:t0p}
+hashtbl_free (tbl: hashtbl (key, INV(itm))): void
+
+(* ****** ****** *)
 //
 fun
 {key:t0p

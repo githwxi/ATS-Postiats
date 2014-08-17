@@ -34,7 +34,6 @@
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats.sllist"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
@@ -90,24 +89,24 @@ sllist_sing (x: a):<!wrt> sllist (a, 1)
 (* ****** ****** *)
 
 fun{a:vt0p}
-sllist_cons {n:int}
+sllist_cons{n:int}
   (x: a, xs: sllist (INV(a), n)):<!wrt> sllist (a, n+1)
 // end of [sllist_cons]
 
 fun{a:vt0p}
-sllist_uncons {n:int | n > 0}
+sllist_uncons{n:int | n > 0}
   (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> (a)
 // end of [sllist_uncons]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-sllist_snoc {n:int}
+sllist_snoc{n:int}
   (xs: sllist (INV(a), n), x: a):<!wrt> sllist (a, n+1)
 // end of [sllist_snoc]
 
 fun{a:vt0p}
-sllist_unsnoc {n:int | n > 0}
+sllist_unsnoc{n:int | n > 0}
   (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> (a)
 // end of [sllist_unsnoc]
 
@@ -117,6 +116,13 @@ fun{a:t0p}
 sllist_make_list
   {n:int} (xs: list (INV(a), n)):<!wrt> sllist (a, n)
 // end of [sllist_make_list]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+sllist_make_list_vt
+  {n:int} (xs: list_vt (INV(a), n)):<!wrt> sllist (a, n)
+// end of [sllist_make_list_vt]
 
 (* ****** ****** *)
 
@@ -277,11 +283,17 @@ typedef g2node1 (a:vt0p) = gnode1 (mytkind, a)
 
 (* ****** ****** *)
 
+(*
+** HX: this is O(1)-time
+*)
 fun{a:vt0p}
 sllist_cons_ngc{n:int}
   (nx: g2node1(a), xs: sllist(INV(a), n)):<!wrt> sllist (a, n+1)
 // end of [sllist_cons_ngc]
 
+(*
+** HX: this is O(1)-time
+*)
 fun{a:vt0p}
 sllist_uncons_ngc{n:pos}
   (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> g2node1 (a)
@@ -289,11 +301,17 @@ sllist_uncons_ngc{n:pos}
 
 (* ****** ****** *)
 
+(*
+** HX: this is O(n)-time
+*)
 fun{a:vt0p}
 sllist_snoc_ngc{n:int}
   (xs: sllist(INV(a), n), nx: g2node1(a)):<!wrt> sllist (a, n+1)
 // end of [sllist_snoc_ngc]
 
+(*
+** HX: this is O(n)-time
+*)
 fun{a:vt0p}
 sllist_unsnoc_ngc{n:pos}
   (xs: &sllist (INV(a), n) >> sllist (a, n-1)):<!wrt> g2node1 (a)

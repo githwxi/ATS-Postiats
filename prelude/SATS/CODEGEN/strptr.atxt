@@ -367,8 +367,10 @@ overload iseqz with strnptr_is_null
 overload isneqz with strptr_isnot_null
 overload isneqz with strnptr_isnot_null
 //
-overload compare with compare_strptr_strptr
-overload compare with compare_strptr_string
+overload
+compare with compare_strptr_strptr
+overload
+compare with compare_strptr_string
 //
 overload length with strptr_length
 overload length with strnptr_length
@@ -386,6 +388,9 @@ overload fprint with fprint_strptr
 overload print with print_strbuf
 overload prerr with prerr_strbuf
 overload fprint with fprint_strbuf
+//
+overload ptrcast with strptr2ptr
+overload ptrcast with strnptr2ptr
 //
 #atscode_separator()
 

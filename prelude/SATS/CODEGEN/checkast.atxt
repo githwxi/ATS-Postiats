@@ -28,8 +28,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 \#define
 ATS_PACKNAME "ATSLIB.prelude.checkast"
-\#define
-ATS_STALOADFLAG 0 // no static loading at run-time
 
 #atscode_separator()
 

@@ -36,9 +36,15 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 \#include <alloca.h>
 
 #atscode_separator_for_C()
-
+//
 \#define atslib_alloca(bsz) alloca(bsz)
-
+//
+#atscode_separator_for_C()
+//
+\#define atslib_ptr_alloca_tsz(tsz) alloca(tsz)
+//
+\#define atslib_array_ptr_alloca_tsz(asz, tsz) alloca((asz)*(tsz))
+//
 #atscode_separator_for_C()
 
 \#endif // ifndef ATSLIB_LIBC_ALLOCA_CATS

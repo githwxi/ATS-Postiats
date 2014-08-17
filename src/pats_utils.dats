@@ -189,7 +189,10 @@ end // end of [string_test_sffx]
 
 local
 
-staload STDLIB = "libc/SATS/stdlib.sats"
+staload
+STDLIB = "libc/SATS/stdlib.sats"
+
+(* ****** ****** *)
 
 fun
 llint_make_string_sgn

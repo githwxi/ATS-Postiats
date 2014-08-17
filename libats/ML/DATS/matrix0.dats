@@ -87,7 +87,8 @@ matrix0_make_elt
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 matrix0_get_at_int
   (M0, i, j) = let
   val i = g1ofg0_int(i)
@@ -109,7 +110,8 @@ end // end of [matrix0_get_at_int]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 matrix0_get_at_size
   (M0, i, j) = let
   val MSZ =
@@ -119,7 +121,8 @@ end // end of [matrix0_get_at_size]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 matrix0_set_at_int
   (M0, i, j, x) = let
   val i = g1ofg0_int(i)
@@ -141,7 +144,8 @@ end // end of [matrix0_set_at_int]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 matrix0_set_at_size
   (M0, i, j, x) = let
   val MSZ =
@@ -151,13 +155,34 @@ end // end of [matrix0_set_at_size]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_matrix0 (out, M) =
 fprint_mtrxszref (out, mtrxszref_of_matrix0 (M))
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
+matrix0_copy (M0) = let
+//
+val M = matrix0_get_ref (M0)
+val [m:int] m = g1ofg0 (M0.nrow)
+val [n:int] n = g1ofg0 (M0.ncol)
+val M =
+  matrixref_copy<a> ($UN.cast{matrixref(a,m,n)}(M), m, n)
+// end of [val]
+in
+//
+matrix0_of_mtrxszref
+  (mtrxszref_make_matrixref (matrixptr_refize{a}(M), m, n))
+//
+end // end of [matrix0_copy]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 matrix0_tabulate
   (nrow, ncol, f) = let
 //
@@ -173,7 +198,8 @@ end // end of [matrix0_tabulate]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 matrix0_foreach
   (M0, f) = let
 //
@@ -198,7 +224,8 @@ end // end of [matrix0_foreach]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 matrix0_iforeach
   (M0, f) = let
 //

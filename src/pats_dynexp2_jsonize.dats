@@ -97,6 +97,8 @@ extern
 fun jsonize_p2at : jsonize_ftype (p2at)
 extern
 fun jsonize_p2atlst : jsonize_ftype (p2atlst)
+extern
+fun jsonize_p2atopt : jsonize_ftype (p2atopt)
 
 (* ****** ****** *)
 
@@ -134,6 +136,20 @@ extern
 fun jsonize_d2lab : jsonize_ftype (d2lab)
 extern
 fun jsonize_d2lablst : jsonize_ftype (d2lablst)
+
+(* ****** ****** *)
+
+extern
+fun jsonize_c2lau : jsonize_ftype (c2lau)
+extern
+fun jsonize_c2laulst : jsonize_ftype (c2laulst)
+
+(* ****** ****** *)
+
+extern
+fun jsonize_gm2at : jsonize_ftype (gm2at)
+extern
+fun jsonize_gm2atlst : jsonize_ftype (gm2atlst)
 
 (* ****** ****** *)
 
@@ -379,6 +395,12 @@ jsonize_p2atlst (p2ts) =
   jsonize_list_fun (p2ts, jsonize_p2at)
 // end of [jsonize_p2atlst]
 
+
+implement
+jsonize_p2atopt (p2topt) =
+  jsonize_option_fun (p2topt, jsonize_p2at)
+// end of [jsonize_p2atopt]
+
 (* ****** ****** *)
 
 implement
@@ -486,6 +508,20 @@ d2e0.d2exp_node of
   in
     jsonval_conarg4 ("D2Eifhead", jsv1, jsv2, jsv3, jsv4)
   end // end of [D2Eifhead]
+//
+| D2Ecasehead
+  (
+    casknd, inv, d2es, c2ls
+  ) => let
+    val jsv1 =
+      jsonize_caskind (casknd)
+    // end of [val]
+    val jsv2 = jsonize_ignored (inv)
+    val jsv3 = jsonize_d2explst (d2es)
+    val jsv4 = jsonize_c2laulst (c2ls)
+  in
+    jsonval_conarg4 ("D2Ecasehead", jsv1, jsv2, jsv3, jsv4)
+  end // end of [D2Ecasehead]
 //
 | D2Elist
     (npf, d2es) => let
@@ -712,6 +748,64 @@ implement
 jsonize_d2lablst
   (d2ls) = jsonize_list_fun (d2ls, jsonize_d2lab)
 // end of [jsonize_d2lablst]
+
+(* ****** ****** *)
+
+implement
+jsonize_gm2at
+  (gm2t) = let
+//
+val loc = jsonize_loc (gm2t.gm2at_loc)
+val exp = jsonize_d2exp (gm2t.gm2at_exp)
+val pat = jsonize_p2atopt (gm2t.gm2at_pat)
+//
+in
+//
+jsonval_labval3
+(
+  "gm2at_loc", loc, "gm2at_exp", exp, "gm2at_pat", pat
+)
+//
+end // end of [jsonize_gm2at]
+
+implement
+jsonize_gm2atlst
+  (c2ls) = jsonize_list_fun (c2ls, jsonize_gm2at)
+// end of [jsonize_gm2atlst]
+
+(* ****** ****** *)
+
+implement
+jsonize_c2lau
+  (c2l0) = let
+//
+val loc = jsonize_loc (c2l0.c2lau_loc)
+val pat = jsonize_p2atlst (c2l0.c2lau_pat)
+val gua = jsonize_gm2atlst (c2l0.c2lau_gua)
+val seq = jsonval_int (c2l0.c2lau_seq)
+val neg = jsonval_int (c2l0.c2lau_neg)
+val body = jsonize_d2exp (c2l0.c2lau_body)
+//
+in
+//
+jsonval_labval6
+(
+  "c2lau_loc", loc
+, "c2lau_pat", pat
+, "c2lau_gua", gua
+, "c2lau_seq", seq
+, "c2lau_neg", neg
+, "c2lau_body", body
+) (* end of [jsonize_labval6] *)
+//
+end // end of [jsonize_c2lau]
+
+(* ****** ****** *)
+
+implement
+jsonize_c2laulst
+  (c2ls) = jsonize_list_fun (c2ls, jsonize_c2lau)
+// end of [jsonize_c2laulst]
 
 (* ****** ****** *)
 

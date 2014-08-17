@@ -29,7 +29,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 implement
 fprint_tup$beg<> (out) = fprint_string (out, "(")
 implement
-fprint_tup$end<> (out) = fprint_string (out, "(")
+fprint_tup$end<> (out) = fprint_string (out, ")")
 implement
 fprint_tup$sep<> (out) = fprint_string (out, ", ")
 

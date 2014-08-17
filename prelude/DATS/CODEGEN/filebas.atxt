@@ -40,7 +40,10 @@ staload _(*anon*) = "prelude/DATS/integer.dats"
 
 staload STDIO = "libc/SATS/stdio.sats"
 vtypedef FILEptr1 = $STDIO.FILEptr1 (*linear/nonnull*)
-staload STRING = "libc/SATS/string.sats"
+
+#atscode_separator()
+
+staload STAT = "libc/sys/SATS/stat.sats"
 
 #atscode_separator()
 
@@ -182,6 +185,33 @@ end // end of [local]
 extern
 castfn
 __cast_filp (r: FILEref): FILEptr1
+
+#atscode_separator()
+
+implement{}
+test_file_mode
+  (path) = let
+//
+typedef stat = $STAT.stat
+//
+var st: stat?
+val err = $STAT.stat (path, st)
+//
+in
+//
+if err >= 0
+then let
+  prval () = opt_unsome{stat}(st)
+  val test =
+  test_file_mode$pred<> ($UN.cast{uint}(st.st_mode))
+in
+  if test then 1(*true*) else 0(*false*)
+end // end of [then]
+else let
+  prval () = opt_unnone{stat}(st) in ~1(*failure*)
+end // end of [else]
+//
+end // end of [test_file_mode]
 
 #atscode_separator()
 
@@ -687,32 +717,81 @@ atspre_fileref_get_line_string_main2
 
 #atscode_separator()
 
-implement{}
-fileref_foreach$bufsize () = i2sz(4096)
-
-#atscode_separator()
-
 implement
-{env}(*tmp*)
-fileref_foreach$fworkv
-  (A, n, env) = let
+{}(*tmp*)
+fileref_get_word (inp) = let
 //
-implement
-{a}{env}
-array_foreach$cont (x, env) = true
-implement
-array_foreach$fwork<char><env>
-  (x, env) = fileref_foreach$fwork<env> (x, env)
+vtypedef
+res = List0_vt(charNZ)
+//
+fun
+loop1 (): res = let
+//
+val c = $STDIO.fgetc0 (inp)
 //
 in
-  ignoret (arrayref_foreach_env<char><env> (A, n, env))
-end // end of [fileref_foreach$fworkv]
+//
+if
+(c > 0)
+then let
+  val c = $UN.cast{charNZ}(c)
+  val test = fileref_get_word$isalpha<> (c)
+in
+  if test then loop2 (c, list_vt_nil()) else loop1 ()
+end // end of [then]
+else list_vt_nil ((*void*))
+//
+end // end of [loop1]
+
+and loop2
+(
+  c: charNZ, cs: res
+) : res = let
+//
+val c2 = $STDIO.fgetc0 (inp)
+//
+in
+//
+if
+(c2 > 0)
+then let
+  val c2 = $UN.cast{charNZ}(c2)
+  val test = fileref_get_word$isalpha<> (c2)
+in
+  if test then loop2 (c2, list_vt_cons(c, cs)) else list_vt_cons(c, cs)
+end // end of [then]
+else list_vt_cons(c, cs)
+//
+end // end of [loop2]
+//
+val cs = loop1 ()
+//
+in
+  case+ cs of
+  | list_vt_cons _ => let
+      val str =
+        string_make_rlist ($UN.list_vt2t(cs))
+      val () = list_vt_free (cs)
+    in
+      strnptr2strptr (str)
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => strptr_null ()
+end // end of [fileref_get_word]
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+fileref_get_word$isalpha (charNZ) = isalpha (charNZ)
 
 #atscode_separator()
 
 implement{}
-fileref_foreach (inp) = let
-   var env: void = () in fileref_foreach_env (inp, env)
+fileref_foreach
+  (inp) = let
+  var env: void = ()
+in
+  fileref_foreach_env (inp, env)
 end // end of [fileref_foreach]
 
 #atscode_separator()
@@ -763,6 +842,29 @@ in
 end // end of [fileref_foreach_env]
 
 end // end of [local]
+
+#atscode_separator()
+
+implement{}
+fileref_foreach$bufsize () = i2sz(4 * 1024)
+
+#atscode_separator()
+
+implement
+{env}(*tmp*)
+fileref_foreach$fworkv
+  (A, n, env) = let
+//
+implement
+{a}{env}
+array_foreach$cont (x, env) = true
+implement
+array_foreach$fwork<char><env>
+  (x, env) = fileref_foreach$fwork<env> (x, env)
+//
+in
+  ignoret (arrayref_foreach_env<char><env> (A, n, env))
+end // end of [fileref_foreach$fworkv]
 
 #atscode_separator()
 

@@ -38,7 +38,6 @@
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats.linheap_binomial"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 

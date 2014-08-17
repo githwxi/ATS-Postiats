@@ -14,13 +14,25 @@ all:: fcopy3
 
 ######
 
-fcopy1: fcopy1.dats ; $(PATSCC) -o $@ $<
+fcopy1: \
+fcopy1.dats ; $(PATSCC) -o $@ $<
+regress:: fcopy1 ; ./$< < fcopy1.dats > /dev/null
 cleanall:: ; $(RMF) fcopy1
 
-fcopy2: fcopy2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+######
+
+fcopy2: \
+fcopy2.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: fcopy2 ; ./$< < fcopy2.dats > /dev/null
 cleanall:: ; $(RMF) fcopy2
 
-fcopy3: fcopy3.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+######
+
+fcopy3: \
+fcopy3.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: fcopy3 ; ./$< < fcopy3.dats > /dev/null
 cleanall:: ; $(RMF) fcopy3
 
 ######

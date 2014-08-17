@@ -183,6 +183,10 @@ end // end of [strnptr_upperize]
 
 (* ****** ****** *)
 
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
 #declnamesynop("<")
 #declnamesynop("<=")
 #declnamesynop(">")
@@ -192,16 +196,12 @@ end // end of [strnptr_upperize]
 
 (* ****** ****** *)
 
-#declnamesynop("[]")
+#declnamesynop("compare")
 
 (* ****** ****** *)
 
 #declnamesynop("iseqz")
 #declnamesynop("isneqz")
-
-(* ****** ****** *)
-
-#declnamesynop("compare")
 
 (* ****** ****** *)
 

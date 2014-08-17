@@ -22,28 +22,28 @@ regress:: list_vt; ./list_vt
 
 all:: rbtree
 rbtree: rbtree.dats; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<
 regress:: rbtree; ./rbtree
 
 ######
 
 all:: mergeSort
 mergeSort: mergeSort.dats; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<
 regress:: mergeSort; ./mergeSort
 
 ######
 
 all:: insertionSort
 insertionSort: insertionSort.dats; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<
 regress:: insertionSort; ./insertionSort
 
 ######
 
 all:: quickSort
 quickSort: quickSort.dats; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< && ./$@
+  $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<
 regress:: quickSort; ./quickSort
 
 ######

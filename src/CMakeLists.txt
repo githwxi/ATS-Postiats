@@ -15,7 +15,8 @@ CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
 PROJECT (POSTIATS C)
 
 SET (
-CMAKE_MODULE_PATH $ENV{ATSHOME}/share/CMake
+CMAKE_MODULE_PATH
+$ENV{ATSHOME}/share/CMake
 ) # end of [SET]
 
 FIND_PACKAGE (ATS REQUIRED)
@@ -214,7 +215,7 @@ pats_lintprgm.dats
 pats_lintprgm_print.dats
 pats_lintprgm_myint.cats
 pats_lintprgm_myint_int.dats
-pats_lintprgm_myint_intinf.dats
+pats_lintprgm_myint_gmp.dats
 pats_lintprgm_solve.dats
 pats_constraint3.sats
 pats_constraint3.dats

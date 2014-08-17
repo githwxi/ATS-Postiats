@@ -40,7 +40,6 @@
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
 #define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 
 (* ****** ****** *)
@@ -393,16 +392,23 @@ list0_filter
 // end of [list0_filter]
 
 (* ****** ****** *)
-
+//
 fun{
 a:t0p}{b:t0p
 } list0_map
   (xs: list0 (INV(a)), f: cfun (a, b)): list0 (b)
+//
 fun{
 a:t0p}{b:t0p
 } list0_mapopt
   (xs: list0 (INV(a)), f: cfun (a, Option_vt (b))): list0 (b)
-
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+list0_mapcons
+  (x0: a, xss: list0 (list0 (INV(a)))): list0 (list0 (a))
+//
 (* ****** ****** *)
 
 fun{

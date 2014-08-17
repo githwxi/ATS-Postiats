@@ -33,6 +33,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#include <stdio.h>
+\#include <string.h>
+\#include <sys/stat.h>
+
+#atscode_separator_for_C()
+
 \#define atspre_FILE_stdin stdin
 \#define atspre_FILE_stdout stdout
 \#define atspre_FILE_stderr stderr
@@ -45,6 +51,105 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 \#define atspre_file_mode_ww "w+"
 \#define atspre_file_mode_a "a"
 \#define atspre_file_mode_aa "a+"
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_bool
+atspre_test_file_exists
+  (atstype_string path)
+{
+  int err;
+  struct stat st ;
+  err = stat ((const char*)path, &st) ;
+  return (err==0) ? atsbool_true : atsbool_false ;
+} // end of [atspre_test_file_exists]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
+atspre_test_file_mode_fun
+(
+  atstype_string path, atstype_funptr pred
+)
+{
+  int err;
+  struct stat st ;
+  err = stat ((const char*)path, &st) ;
+  if (err < 0) return -1 ;
+  return ((atstype_bool(*)(atstype_uint))(pred))(st.st_mode) ? 1 : 0 ;
+}
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_bool
+atspre_test_file_isreg
+  (atstype_string path)
+{
+  int err;
+  struct stat st ;
+  err = stat ((const char*)path, &st) ;
+  if (err < 0) return -1 ;
+  return (S_ISREG(st.st_mode)) ? 1 : 0 ;
+} // end of [atspre_test_file_isreg]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
+atspre_test_file_isdir
+  (atstype_string path)
+{
+  int err;
+  struct stat st ;
+  err = stat ((const char*)path, &st) ;
+  if (err < 0) return -1 ;
+  return (S_ISDIR(st.st_mode)) ? 1 : 0 ;
+} // end of [atspre_test_file_isdir]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
+atspre_test_file_isblk
+  (atstype_string path)
+{
+  int err;
+  struct stat st ;
+  err = stat ((const char*)path, &st) ;
+  if (err < 0) return -1 ;
+  return (S_ISBLK(st.st_mode)) ? 1 : 0 ;
+} // end of [atspre_test_file_isblk]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
+atspre_test_file_ischr
+  (atstype_string path)
+{
+  int err;
+  struct stat st ;
+  err = stat ((const char*)path, &st) ;
+  if (err < 0) return -1 ;
+  return (S_ISCHR(st.st_mode)) ? 1 : 0 ;
+} // end of [atspre_test_file_ischr]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
+atspre_test_file_isfifo
+  (atstype_string path)
+{
+  int err;
+  struct stat st ;
+  err = stat ((const char*)path, &st) ;
+  if (err < 0) return -1 ;
+  return (S_ISFIFO(st.st_mode)) ? 1 : 0 ;
+} // end of [atspre_test_file_isfifo]
 
 #atscode_separator_for_C()
 

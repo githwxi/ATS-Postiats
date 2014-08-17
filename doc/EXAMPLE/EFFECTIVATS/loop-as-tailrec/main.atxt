@@ -28,7 +28,7 @@ in ATS, thus facilitating program verification involving loops.
 <p>
 
 Please see tailrec.dats for the entirety of the code given in the
-followng presentation.
+following presentation.
 
 <h2>
 What is tail-recursion?

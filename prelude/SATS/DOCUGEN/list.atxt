@@ -380,6 +380,29 @@ returns xs[i], that is, element i in xs.\
 
 (* ****** ****** *)
 
+#declnamesynop("list_set_at")
+#decldescrpt("
+
+Given a list xs of length n, a natural number i less than n, and an element
+x, this function returns another list obtained from replacing element i in
+xs with x. \
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list_exch_at")
+#decldescrpt("
+
+Given a list xs of length n, a natural number i less than n, and an element
+x, this function returns another list and another element such that the
+list is obtained from replacing element i in xs with x and the element is
+xs[i]. \
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list_insert_at")
 #decldescrpt("\
 

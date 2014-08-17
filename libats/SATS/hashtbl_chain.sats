@@ -46,8 +46,6 @@
 
 #define
 ATS_PACKNAME "ATSLIB.libats.hashtbl_chain"
-#define
-ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 

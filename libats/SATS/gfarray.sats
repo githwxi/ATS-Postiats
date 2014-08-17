@@ -41,7 +41,6 @@
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats.gfarray"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
 
 (* ****** ****** *)
 

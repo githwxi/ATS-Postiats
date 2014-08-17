@@ -40,12 +40,9 @@
 
 (* ****** ****** *)
 //
-// HX-2014-01-17: Porting to ATS2
+// HX-2014-01-17:
+// Porting to ATS2 from ATS1
 //
-(* ****** ****** *)
-
-#define ATS_STALOADFLAG 0 // no staloading
-
 (* ****** ****** *)
 
 absvtype

@@ -183,7 +183,8 @@ case+ xs of
 end // end of [loop]
 //
 var res: ptr
-val () = loop (xs, res)
+val () =
+  $effmask_all(loop (xs, res))
 //
 in
   res
@@ -891,13 +892,12 @@ end // end of [list_vt_mapfree]
 
 #atscode_separator()
 
-implement
-{x}{env}
-list_vt_foreach$cont (x, env) = true
-
 implement{x}
-list_vt_foreach (xs) = let
-  var env: void = () in list_vt_foreach_env<x><void> (xs, env)
+list_vt_foreach
+  (xs) = let
+  var env: void = ()
+in
+  list_vt_foreach_env<x><void> (xs, env)
 end // end of [list_vt_foreach]
 
 implement
@@ -908,31 +908,43 @@ list_vt_foreach_env
 prval () = lemma_list_vt_param (xs)
 //
 fun loop
-  {n:nat} .<n>. (
+  {n:nat} .<n>.
+(
   xs: !list_vt (x, n), env: &env
 ) : void = let
 in
-  case+ xs of
-  | @list_vt_cons
-      (x, xs1) => let
-      val test = list_vt_foreach$cont (x, env)
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val test =
+      list_vt_foreach$cont (x, env)
+    // end of [val]
+  in
+    if test then let
+      val () =
+        list_vt_foreach$fwork<x><env> (x, env)
+      val () = loop (xs1, env)
+      prval ((*void*)) = fold@ (xs)
     in
-      if test then let
-        val () = list_vt_foreach$fwork<x><env> (x, env)
-        val () = loop (xs1, env)
-        prval () = fold@ (xs)
-      in
-        // nothing
-      end else let
-        prval () = fold@ (xs) in (*nothing*)
-      end // end of [if]
-    end // end of [list_vt_cons]
-  | list_vt_nil () => ()
+      // nothing
+    end else let
+      prval ((*void*)) = fold@ (xs) in (*nothing*)
+    end // end of [if]
+  end // end of [list_vt_cons]
+| list_vt_nil () => ((*void*))
+//
 end // end of [loop]
 //
 in
   loop (xs, env)
 end // end of [list_vt_foreach_env]
+
+#atscode_separator()
+
+implement
+{x}{env}
+list_vt_foreach$cont (x, env) = true
 
 #atscode_separator()
 
@@ -991,13 +1003,12 @@ end // end of [list_vt_foreach_funenv]
 
 #atscode_separator()
 
-implement
-{x}{env}
-list_vt_iforeach$cont (i, x, env) = true
-
 implement{x}
-list_vt_iforeach (xs) = let
-  var env: void = () in list_vt_iforeach_env<x><void> (xs, env)
+list_vt_iforeach
+  (xs) = let
+  var env: void = ()
+in
+  list_vt_iforeach_env<x><void> (xs, env)
 end // end of [list_vt_iforeach]
 
 implement
@@ -1038,6 +1049,12 @@ end // end of [loop]
 in
   loop (0, xs, env)
 end // end of [list_vt_iforeach_env]
+
+#atscode_separator()
+
+implement
+{x}{env}
+list_vt_iforeach$cont (i, x, env) = true
 
 #atscode_separator()
 

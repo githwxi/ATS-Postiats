@@ -446,6 +446,21 @@ end // end of [string1_append]
 #atscode_separator()
 
 implement{}
+string0_append3
+  (x1, x2, x3) = let
+//
+var xs = @[string](x1, x2, x3)
+//
+in
+//
+stringarr_concat<>
+  ($UN.cast{arrayref(string,3)}(addr@xs), i2sz(3))
+//
+end // end of [string0_append3]
+
+#atscode_separator()
+
+implement{}
 stringarr_concat (xs, asz) = let
 //
 fun loop
@@ -639,27 +654,44 @@ string_rforeach (str) = let
   var env: void = () in string_rforeach_env (str, env)
 end // end of [string_rforeach]
 
-implement{env}
+implement
+{env}(*tmp*)
 string_rforeach_env
   {n} (str, env) = let
 //
-val n = string1_length (str)
-typedef chararr = array (char, n)
-val p = string2ptr (str)
-val (pf, fpf | p) = $UN.ptr_vtake {chararr} (p)
+fun loop
+(
+  p0: ptr, p1: ptr, env: &env >> _
+) : ptr = let
+in
 //
-implement
-array_rforeach$cont<char><env>
-  (c, env) = string_rforeach$cont<env> (c, env)
-implement
-array_rforeach$fwork<char><env>
-  (c, env) = string_rforeach$fwork<env> (c, env)
-val res = array_rforeach_env<char><env> (!p, n, env)
+if
+(p1 > p0)
+then let
+  val p2 = ptr_pred<char> (p1)
+  val c2 = $UN.ptr0_get<charNZ> (p2)
+  val cont =
+    string_rforeach$cont<env> (c2, env)
+  // end of [val]
+in
+  if cont
+    then let
+      val () =
+      string_rforeach$fwork<env> (c2, env)
+    in
+      loop (p0, p2, env)
+    end // end of [then]
+    else (p1) // end of [else]    
+end // end of [then]
+else (p1) // end of [else]
 //
-prval () = fpf (pf)
+end // end of [loop]
+//
+val p0 = ptrcast(str)
+val p1 = ptr_add<char> (p0, length(str))
 //
 in
-  res
+  $UN.cast{sizeLte(n)}(p1 - loop (p0, p1, env))
 end // end of [string_rforeach_env]
 
 #atscode_separator()

@@ -57,7 +57,7 @@ T#sub("0"), T#sub("1"), ... T#sub("n") are simple types.
 
 #para("\
 
-Let #emphasis("order") be a function from simply types to natural numbers
+Let #emphasis("order") be a function from simple types to natural numbers
 defined as follows:
 
 ")

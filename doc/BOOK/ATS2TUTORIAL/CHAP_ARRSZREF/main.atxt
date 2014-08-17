@@ -17,7 +17,7 @@ Time of Generation: #timestamp()\
 
 #para('\
 
-I use the name #emphasis("array-with-size") to refer to a persistant
+I use the name #emphasis("array-with-size") to refer to a persistent
 array with attached size information.  Given a viewtype VT, the type for an
 array-with-size that contains N values of viewtype VT is
 #stacode("arrszref(VT, N)"). Essentially, such a value is a boxed pair of
@@ -75,13 +75,13 @@ can be written as #dyncode("A[i]") and #dyncode("A[i] := v"),
 respectively. Notice that array-bounds checking is performed at run-time
 whenever #dyncode("arrszref_get_at") or #dyncode("arrszref_set_at") is
 called, and the exception #dyncode("ArraySubscriptExn") is raised in case
-of out-of-bounds array access is detected.
+of out-of-bounds array access being detected.
 
 ')
 
 #para('\
 
-As a simple example, the following code implements a functiont that
+As a simple example, the following code implements a function that
 reverses the content of the array inside a given array-with-size:
 
 #atscode('\

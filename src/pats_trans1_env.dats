@@ -474,16 +474,20 @@ end // end of [staload_file_search]
 
 (* ****** ****** *)
 
+(*
+** HX-2014-06-06:
+** [ldflag] is no longer in use
+*)
 implement
 staload_file_insert
-  (fil, flag, d1cs) = {
+  (fil, ldflag, d1cs) = {
 //
 val fname =
   $FIL.filename_get_fullname (fil)
 //
 val k0 = $SYM.symbol_get_stamp (fname)
 //
-var x0: itm = (flag, d1cs) // HX: local var
+var x0: itm = (ldflag, d1cs) // HX: local var
 //
 val (vbox(pf) | p) = ref_get_view_ptr{map}(theStaloadMap)
 //

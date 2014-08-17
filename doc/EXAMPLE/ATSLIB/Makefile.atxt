@@ -197,6 +197,7 @@ RMF=rm -f
 ######
 
 #make2_entry("libats_hashtbl_chain", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_hashtbl_linprb", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 

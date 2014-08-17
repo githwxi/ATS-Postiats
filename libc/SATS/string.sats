@@ -39,7 +39,6 @@
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libc"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
 #define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
@@ -155,12 +154,23 @@ fun memcpy_unsafe{l:addr}
   (dst: ptr (l), src: ptr, n: size_t):<!wrt> ptr (l) = "mac#%"
 //
 (* ****** ****** *)
+/*
+void *memset(void *s, int c, size_t n);
+*/
+fun memset_unsafe{l:addr}
+  (dst: ptr (l), c: int, n: size_t): ptr (l) = "mac#%"
 //
+(* ****** ****** *)
+/*
+void *memmove(void *dest, const void *src, size_t n);
+*/
 fun memmove_unsafe{l:addr}
   (dst: ptr (l), src: ptr, n: size_t):<!wrt> ptr (l) = "mac#%"
 //
 (* ****** ****** *)
-//
+/*
+void *memccpy(void *dest, const void *src, int c, size_t n);
+*/
 fun memccpy_unsafe{l:addr}
   (dst: ptr (l), src: ptr, c: int, n: size_t):<!wrt> Ptr0 = "mac#%"
 //

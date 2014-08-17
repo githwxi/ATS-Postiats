@@ -42,9 +42,9 @@ HIREDIS_targetloc "$PATSHOMERELOC/contrib/hiredis"
 (* ****** ****** *)
 //
 #define
-OPENSSL_sourceloc "$PATSLIB_URL/contrib/openssl"
+OPENSSL_sourceloc "$PATSLIB_URL/contrib/OpenSSL"
 #define
-OPENSSL_targetloc "$PATSHOMERELOC/contrib/openssl"
+OPENSSL_targetloc "$PATSHOMERELOC/contrib/OpenSSL"
 //
 (* ****** ****** *)
 //

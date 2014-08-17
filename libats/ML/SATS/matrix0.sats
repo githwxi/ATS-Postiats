@@ -34,7 +34,6 @@
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_STALOADFLAG 0 // no need for staloading at run-time
 #define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 
 (* ****** ****** *)
@@ -143,6 +142,11 @@ fun{a:vt0p}
 fprint_matrix0_sep
   (out: FILEref, M: matrix0 (a), sep1: string, sep2: string): void
 //
+(* ****** ****** *)
+
+fun{a:t0p}
+matrix0_copy (M: matrix0 (a)): matrix0 (a)
+
 (* ****** ****** *)
 
 fun{a:vt0p}
