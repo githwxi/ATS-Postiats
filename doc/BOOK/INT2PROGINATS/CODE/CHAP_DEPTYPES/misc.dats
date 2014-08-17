@@ -91,19 +91,18 @@ val (
 ) // end of [val]
 
 (* ****** ****** *)
-
-(*
-typedef charNZ = [c:char | c != '\000'] char (c)
-
+//
+typedef charNZ = [c:int | c != '\000'] char (c)
+//
 extern
 fun string_get_at
-  {n:int} {i:nat | i < n} (str: string n, i: size_t i): c1har
+  {n:int} {i:nat | i < n} (str: string n, i: size_t i): charNZ
 overload [] with string_get_at
-*)
-
+//
 (* ****** ****** *)
 
-fun string_find{n:nat}
+fun
+string_find{n:nat}
 (
   str: string n, c0: char
 ) : Option (sizeLt n) = let
@@ -124,7 +123,8 @@ end // end of [string_find]
 (* ****** ****** *)
 
 extern
-fun string_test_at {n:int}
+fun
+string_test_at{n:int}
   {i:nat | i <= n} (str: string n, i: size_t i)
   : [c:int | (c != 0 && i < n) || (c == 0 && i >= n)] char c
 // end of [string_test_at]
@@ -156,21 +156,23 @@ end // end of [string_find2]
 
 (* ****** ****** *)
 
-fun fact {n:nat} .<n>.
+fun
+fact{n:nat} .<n>.
   (x: int n): int = if x > 0 then x * fact (x-1) else 1
 // end of [fact]
 
 (* ****** ****** *)
 
-fun f91 {i:int} .<max(101-i,0)>. (x: int i)
+fun
+f91{i:int} .<max(101-i,0)>. (x: int i)
   : [j:int | (i < 101 && j==91) || (i >= 101 && j==i-10)] int (j) =
   if x >= 101 then x-10 else f91 (f91 (x+11))
 // end of [f91]
 
 (* ****** ****** *)
 
-fun acker
-  {m,n:nat} .<m,n>.
+fun
+acker{m,n:nat} .<m,n>.
   (x: int m, y: int n): Nat =
   if x > 0 then
     if y > 0 then acker (x-1, acker (x, y-1)) else acker (x-1, 1)
@@ -179,9 +181,9 @@ fun acker
 
 (* ****** ****** *)
 
-fun isevn {n:nat} .<2*n>.
+fun isevn{n:nat} .<2*n>.
   (n: int n): bool = if n = 0 then true else isodd (n-1)
-and isodd {n:nat} .<2*n+1>.
+and isodd{n:nat} .<2*n+1>.
   (n: int n): bool = not (isevn n)
 
 (* ****** ****** *)

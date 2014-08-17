@@ -75,15 +75,21 @@ end // end of [parser_from_string]
 implement
 parse_from_tokbuf_toplevel
   (stadyn, buf) = let
-  var nerr: int = 0
-  val () = the_lexerrlst_clear ()
-  val () = the_parerrlst_clear ()
-  val d0cs = (if stadyn = 0 then
+//
+var nerr: int = 0
+val ((*void*)) = the_lexerrlst_clear ()
+val ((*void*)) = the_parerrlst_clear ()
+//
+val d0cs =
+(
+  if stadyn = 0 then
     p_toplevel_sta (buf, nerr) else p_toplevel_dyn (buf, nerr)
-  ) : d0eclist // end of [val]
-  val err1 = fprint_the_lexerrlst (stderr_ref)
-  val err2 = fprint_the_parerrlst (stderr_ref)
-  val () = if (err1 + err2) > 0 then $ERR.abort {void} ()
+  // end of [if]
+) : d0eclist // end of [val]
+//
+val nerr1 = fprint_the_lexerrlst (stderr_ref)
+val nerr2 = fprint_the_parerrlst (stderr_ref)
+val () = if (nerr1 + nerr2) > 0 then $ERR.abort {void} ()
 in
   d0cs
 end // end of [parse_from_tokbuf]
@@ -94,7 +100,8 @@ implement
 parse_from_fileref_toplevel
   (stadyn, inp) = d0cs where {
   var buf: tokbuf
-  val () = tokbuf_initialize_getc
+  val () =
+  tokbuf_initialize_getc
     (buf, lam () =<cloptr1> $STDIO.fgetc0_err (inp))
   val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
   val () = tokbuf_uninitialize (buf)

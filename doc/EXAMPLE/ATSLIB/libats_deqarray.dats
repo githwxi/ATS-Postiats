@@ -91,13 +91,15 @@ val deq = deqarray_make_cap<int> (M)
 //
 val () = deqarray_insert_atend (deq, 0)
 val () = deqarray_insert_atend (deq, 1)
-val () = deqarray_insert_atend (deq, 2)
 //
 val-(0) = deqarray_takeout_atbeg (deq)
-val-(1) = deqarray_takeout_atbeg (deq)
 //
+val () = deqarray_insert_atend (deq, 2)
 val () = deqarray_insert_atend (deq, 3)
 //
+val-(3) = deqarray_get_at (deq, i2sz(2))
+//
+val-(1) = deqarray_takeout_atbeg (deq)
 val-(2) = deqarray_takeout_atbeg (deq)
 val-(3) = deqarray_takeout_atbeg (deq)
 //

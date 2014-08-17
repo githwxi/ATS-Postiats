@@ -88,23 +88,25 @@ fprint_cstsp
 implement
 fprint_i0nt
   (out, x) = let
-  val-T_INTEGER (_, rep, _) = x.token_node
-in
-  fprint_string (out, rep)
+//
+val-T_INT
+  (_, rep, _) = x.token_node in fprint_string (out, rep)
+//
 end // end of [fprint_i0nt]
 
 implement
 fprint_c0har
   (out, x) = let
-  val-T_CHAR (c) = x.token_node in fprint_char (out, c)
+  val-T_CHAR (chr) = x.token_node in fprint_char (out, chr)
 end // end of [fprint_c0har]
 
 implement
 fprint_f0loat
   (out, x) = let
-  val-T_FLOAT (_, rep, _) = x.token_node
-in
-  fprint_string (out, rep)
+//
+val-T_FLOAT
+  (base, rep, sfx) = x.token_node in fprint_string (out, rep)
+//
 end // end of [fprint_f0loat]
 
 implement

@@ -57,14 +57,14 @@ tkindef bool_kind = "atstype_bool"
 *)
 (* ****** ****** *)
 //
-tkindef
-bool_kind = "atstype_bool"
+tkindef bool_kind = "atstype_bool"
+//
 abst@ype
 bool_t0ype = tkind_t0ype (bool_kind)
-stadef bool = bool_t0ype
+stadef bool = bool_t0ype // shorthand
 abst@ype
 bool_bool_t0ype (b: bool) = bool_t0ype
-stadef bool = bool_bool_t0ype
+stadef bool = bool_bool_t0ype // shorthand
 //
 typedef Bool = [b:bool] bool (b)
 typedef boolLte
@@ -94,9 +94,12 @@ sortdef uint8 =
 // end of [uint8]
 //
 tkindef char_kind = "atstype_char"
-abst@ype char_t0ype = tkind_t0ype (char_kind)
+//
+abst@ype
+char_t0ype = tkind_t0ype (char_kind)
 stadef char = char_t0ype // shorthand
-abst@ype char_int_t0ype (c:int) = char_t0ype
+abst@ype
+char_int_t0ype (c:int) = char_t0ype
 stadef char = char_int_t0ype // shorthand
 typedef Char = [c:int8] char (c)
 typedef charNZ = [c:int8 | c != 0] char (c)
@@ -104,18 +107,24 @@ typedef charNZ = [c:int8 | c != 0] char (c)
 // signed characters
 //
 tkindef schar_kind = "atstype_schar"
-abst@ype schar_t0ype = tkind_t0ype (schar_kind)
+//
+abst@ype
+schar_t0ype = tkind_t0ype (schar_kind)
 stadef schar = schar_t0ype // shorthand
-abst@ype schar_int_t0ype (c:int) = schar_t0ype
+abst@ype
+schar_int_t0ype (c:int) = schar_t0ype
 stadef schar = schar_int_t0ype // shorthand
 typedef sChar = [c:int8] schar (c)
 //
 // unsigned characters
 //
 tkindef uchar_kind = "atstype_uchar"
-abst@ype uchar_t0ype = tkind_t0ype (uchar_kind)
+//
+abst@ype
+uchar_t0ype = tkind_t0ype (uchar_kind)
 stadef uchar = uchar_t0ype // shorthand
-abst@ype uchar_int_t0ype (c:int) = uchar_t0ype
+abst@ype
+uchar_int_t0ype (c:int) = uchar_t0ype
 stadef uchar = uchar_int_t0ype // shorthand
 typedef uChar = [c:uint8] uchar (c)
 //
@@ -130,7 +139,7 @@ g0int_t0ype (tk:tk) = tkind_t0ype (tk)
 stadef g0int = g0int_t0ype // shorthand
 abst@ype
 g1int_int_t0ype (tk:tkind, int) = g0int (tk)
-stadef g1int = g1int_int_t0ype
+stadef g1int = g1int_int_t0ype // shorthand
 //
 typedef g1int (tk:tkind) = [i:int] g1int (tk, i)
 typedef g1int0 (tk:tkind) = [i:int | i >= 0] g1int (tk, i)
@@ -158,7 +167,8 @@ g0uint_t0ype (tk:tkind) = tkind_t0ype (tk)
 stadef g0uint = g0uint_t0ype // shorthand
 abst@ype
 g1uint_int_t0ype (tk:tkind, int) = g0uint (tk)
-stadef g1uint = g1uint_int_t0ype
+stadef g1uint = g1uint_int_t0ype // shorthand
+//
 typedef g1uint (tk:tk) = [i:int] g1uint (tk, i)
 typedef g1uint0 (tk:tk) = [i:int | i >= 0] g1uint (tk, i)
 typedef g1uint1 (tk:tk) = [i:int | i >= 1] g1uint (tk, i)

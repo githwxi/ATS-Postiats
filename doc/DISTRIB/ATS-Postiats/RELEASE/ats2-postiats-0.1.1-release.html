@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>ATS2-0.0.8</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.1.1:
+</H2>
+
+<pre>
+
+This is the tenth release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Adding support for checking funarg-pattern exhaustiveness
+2. Adding run-time support for handling funarg-pattern matching failure
+3. Default namespace is assumed for staloadloc if none is given explicitly.
+4. Stopping non-template constants from being implemented in the body of a
+   function (during type-checking)
+5. Improving/fixing libats/stringbuf
+6. Supporting the compilation of list-patterns:
+   val+ $list(x1, x2, x3) = $list_t{int}(1, 2, 3)
+   val () = assertloc (x1 = 1 && x2 = 2 && x3 = 3)
+   val+ $list(x1, x2, x3) = $list_vt{int}(1, 2, 3) // freed
+   val () = assertloc (x1 = 1 && x2 = 2 && x3 = 3)
+7. Improving/fixing libats/deqarray and libats/dynarray
+
+</pre>
+
+</body><!--body-->
+</html><!--html-->

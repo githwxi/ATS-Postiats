@@ -157,7 +157,7 @@ implement
 jsonize_i0nt
   (tok) = let
 //
-val-$LEX.T_INTEGER
+val-$LEX.T_INT
   (base, rep, sfx) = tok.token_node
 //
 in
@@ -546,7 +546,7 @@ d2e0.d2exp_node of
     val jsv2 = jsonval_int (npf)
     val jsv3 = jsonize_labd2explst (ld2es)
   in
-    jsonval_conarg3 ("D2Etup", jsv1, jsv2, jsv3)
+    jsonval_conarg3 ("D2Erec", jsv1, jsv2, jsv3)
   end // end of [D2Erec]
 //
 | D2Eseq (d2es) =>
@@ -664,7 +664,7 @@ jsonize_labd2exp
   val lab = jsonize_label (l0.l0ab_lab)
   val d2e = jsonize_d2exp (d2e)
 in
-  jsonval_labval1 ("DL0ABELED", jsonval_pair(lab, d2e))
+  jsonval_conarg2 ("DL0ABELED", lab, d2e)
 end // end of [jsonize_labd2exp]
 
 (* ****** ****** *)

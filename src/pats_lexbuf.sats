@@ -89,10 +89,17 @@ fun lexbuf_uninitialize
 
 fun lexbuf_get_base (buf: &lexbuf): lint
 
-fun lexbuf_get_position
-  (buf: &lexbuf, res: &position? >> position): void
-// end of [lexbuf_get_position]
-
+(* ****** ****** *)
+//
+fun
+lexbuf_get_position
+(
+  buf: &lexbuf, pos: &position? >> position
+) : void // end-of-fun
+//
+fun lexbuf_set_position
+  (buf: &lexbuf >> lexbuf, pos: &position): void
+//
 (* ****** ****** *)
 
 fun lexbuf_get_nspace (buf: &lexbuf): int
@@ -116,7 +123,6 @@ fun lexbufpos_get_char (buf: &lexbuf, position: &position): int
 (* ****** ****** *)
 
 fun lexbuf_incby_count (buf: &lexbuf, cnt: uint): void
-fun lexbuf_reset_position (buf: &lexbuf, pos: &position): void
 
 (* ****** ****** *)
 

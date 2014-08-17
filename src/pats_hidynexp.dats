@@ -43,11 +43,22 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 
 staload
+LAB = "./pats_label.sats"
+typedef label = $LAB.label
+
+(* ****** ****** *)
+//
+staload
 S2E = "./pats_staexp2.sats"
+typedef s2cst = $S2E.s2cst
+//
+staload
+S2C = "./pats_stacst2.sats"
+//
 staload
 D2E = "./pats_dynexp2.sats"
 typedef d2cst = $D2E.d2cst
-
+//
 (* ****** ****** *)
 
 staload "./pats_histaexp.sats"
@@ -175,6 +186,66 @@ hipat_empty
 (* ****** ****** *)
 
 implement
+hipat_lst
+(
+  loc
+, lin, hse_lst, hse_elt, hips
+) = let
+//
+val s2c =
+(
+if lin = 0
+  then $S2C.s2cstref_get_cst ($S2C.the_list_t0ype_int_type)
+  else $S2C.s2cstref_get_cst ($S2C.the_list_vt0ype_int_vtype)
+) : s2cst
+//
+val-Some(xx) =
+  $S2E.s2cst_get_islst (s2c)
+//
+val d2c_nil = xx.0 and d2c_cons = xx.1
+//
+val pck =
+(
+  if lin = 0 then $D2E.PCKcon else $D2E.PCKfree
+) : $D2E.pckind
+//
+val l0 = $LAB.label_make_int (0)
+val l1 = $LAB.label_make_int (1)
+//
+val lhse0 = HSLABELED (l0, None, hse_elt)
+val lhse1 = HSLABELED (l1, None, hse_lst)
+val lhses_arg = list_pair (lhse0, lhse1)
+val hse_sum = hisexp_tysum (d2c_cons, lhses_arg)
+//
+fun auxlst
+(
+  hips: hipatlst
+) :<cloref1> hipat = let
+in
+//
+case+ hips of
+//
+| list_cons
+    (hip0, hips) => let
+    val hip1 = auxlst (hips)
+    val lhip0 = LABHIPAT (l0, hip0)
+    val lhip1 = LABHIPAT (l1, hip1)
+    val lhips_arg = list_pair (lhip0, lhip1)
+  in
+    hipat_con (loc, hse_lst, pck, d2c_cons, hse_sum, lhips_arg)
+  end // end of [list_cons]
+//
+| list_nil () => hipat_con_any (loc, hse_lst, pck, d2c_nil)
+//
+end // end of [auxlst]
+//
+in
+  auxlst (hips)
+end // end of [hipat_lst]
+
+(* ****** ****** *)
+
+implement
 hipat_rec (
   loc, hse, knd, lhips, hse_rec
 ) =
@@ -207,14 +278,6 @@ case lhips of
 ) (* end of [if] *)
 //
 end // end of [hipat_rec2]
-
-(* ****** ****** *)
-
-implement
-hipat_lst
-  (loc, hse, hse_elt, hips) =
-  hipat_make_node (loc, hse, HIPlst (hse_elt, hips))
-// end of [hipat_lst]
 
 (* ****** ****** *)
 

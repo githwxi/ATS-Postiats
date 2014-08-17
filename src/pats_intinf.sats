@@ -102,42 +102,44 @@ fun compare_intinf_int (x1: intinf, x2: int):<> int
 fun compare_intinf_intinf (x1: intinf, x2: intinf):<> int
 
 (* ****** ****** *)
-
+//
 fun neg_intinf (x: intinf):<> intinf
-overload ~ with neg_intinf
-
+//
 fun add_intinf_int (x1: intinf, x2: int):<> intinf
 fun add_int_intinf (x1: int, x2: intinf):<> intinf
 fun add_intinf_intinf (x1: intinf, x2: intinf):<> intinf
-overload + with add_intinf_int
-overload + with add_int_intinf
-overload + with add_intinf_intinf
-
+//
 fun sub_intinf_intinf (x1: intinf, x2: intinf):<> intinf
-overload - with sub_intinf_intinf
-
+//
 fun mul_intinf_int (x1: intinf, x2: int):<> intinf
 fun mul_int_intinf (x1: int, x2: intinf):<> intinf
 fun mul_intinf_intinf (x1: intinf, x2: intinf):<> intinf
+//
+overload ~ with neg_intinf
+overload + with add_intinf_int
+overload + with add_int_intinf
+overload + with add_intinf_intinf
+overload - with sub_intinf_intinf
 overload * with mul_intinf_int
 overload * with mul_int_intinf
 overload * with mul_intinf_intinf
-
+//
 (* ****** ****** *)
-
+//
 abstype intinfset_type
 typedef intinfset = intinfset_type
-
-fun fprint_intinfset (out: FILEref, xs: intinfset): void
-
+//
+typedef intinflst = List (intinf)
+vtypedef intinflst_vt = List_vt (intinf)
+//
 fun intinfset_sing (x: intinf): intinfset
 fun intinfset_is_member (xs: intinfset, x: intinf): bool
 fun intinfset_add (xs: intinfset, x: intinf): intinfset
-
-typedef intinflst = List (intinf)
-viewtypedef intinflst_vt = List_vt (intinf)
+//
 fun intinfset_listize (xs: intinfset): intinflst_vt
-
+//
+fun fprint_intinfset (out: FILEref, xs: intinfset): void
+//
 (* ****** ****** *)
 
 (* end of [pats_intinf.sats] *)

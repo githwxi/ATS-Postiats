@@ -56,42 +56,6 @@ staload "./pats_constraint3.sats"
 
 (* ****** ****** *)
 
-implement s3exp_err (s2t) = S3Eerr (s2t)
-implement s3exp_var (s2v) = S3Evar (s2v)
-implement s3exp_cst (s2c) = S3Ecst (s2c)
-implement s3exp_app (_fun, _arg) = S3Eapp (_fun, _arg)
-
-(* ****** ****** *)
-//
-implement s3exp_null = S3Enull ()
-implement s3exp_unit = S3Enull ()
-//
-implement s3exp_true = S3Ebool (true)
-implement s3exp_false = S3Ebool (false)
-//
-implement intinf_0 = intinf_make_int (0)
-implement intinf_1 = intinf_make_int (1)
-implement intinf_2 = intinf_make_int (2)
-implement intinf_neg_1 = intinf_make_int (~1)
-//
-implement s3exp_0 = S3Enull ()
-implement s3exp_1 = S3Eunit ()
-implement s3exp_2 = s3exp_intinf (intinf_2)
-implement s3exp_neg_1 = s3exp_intinf (intinf_neg_1)
-//
-(* ****** ****** *)
-
-implement
-s3exp_bool (b) =
-  if b then s3exp_true else s3exp_false
-// end of [s3exp_bool]
-
-(* ****** ****** *)
-
-implement s3exp_bvar (s2v) = S3Ebvar (s2v)
-
-(* ****** ****** *)
-
 implement
 s3exp_bneg (s3e0) = (
   case+ s3e0 of
@@ -294,7 +258,7 @@ s3exp_ipred (s3e) = s3exp_iadd (s3e, s3exp_neg_1)
 (* ****** ****** *)
 
 implement
-s3exp_gte (x1, x2) = let
+s3exp_isgte (x1, x2) = let
 (*
 // HX: for supporting S3Eisum
 *)
@@ -335,7 +299,7 @@ case+ x1 of
 //
 | _(*unrecognized*) => false
 //
-end // end of [s3exp_gte]
+end // end of [s3exp_isgte]
 
 (* ****** ****** *)
 
@@ -365,11 +329,11 @@ s3exp_isum_pair (
 ) : s3exp = let
   val y1 = uns3exp_icff (x1)
   and y2 = uns3exp_icff (x2)
-  val gte12 = s3exp_gte (y1, y2)
+  val gte12 = s3exp_isgte (y1, y2)
 in
 //
 if gte12 then let
-  val gte21 = s3exp_gte (y2, y1)
+  val gte21 = s3exp_isgte (y2, y1)
 in
   if gte21 then
     s3exp_icff_add (x1, x2) else S3Eisum (list_pair (x1, x2))
@@ -394,10 +358,10 @@ fun aux (
     | list_cons (x2, xs21) => let
         val y1 = uns3exp_icff (x1)
         val y2 = uns3exp_icff (x2)
-        val gte12 = s3exp_gte (y1, y2)
+        val gte12 = s3exp_isgte (y1, y2)
       in
         if gte12 then let
-          val gte21 = s3exp_gte (y2, y1)
+          val gte21 = s3exp_isgte (y2, y1)
         in
           if gte21 then let
             val x12 = s3exp_icff_add (x1, x2)
@@ -606,7 +570,7 @@ case+ s3e0 of
     val () = flag := flag + 1
     val s2v = s2vbcfenv_replace_nonlin (env, s3e0)
   in
-    S3Evar (s2v)
+    s3exp_var (s2v)
   end // end of [val]
 | S3Enull _ => s3e0
 | S3Eunit _ => s3e0
@@ -656,9 +620,10 @@ case+ s3e0 of
     val () = flag := flag + 1
     val s2v = s2vbcfenv_replace_nonlin (env, s3e0)
   in
-    S3Evar (s2v)
+    s3exp_var (s2v)
   end // end of [val]
-| S3Eicff (cff, s3e) => let
+| S3Eicff
+    (cff, s3e) => let
     val s3e = s3exp_lintize_flag (env, s3e, flag)
   in
     if flag > flag0 then S3Eicff (cff, s3e) else s3e0
@@ -671,7 +636,8 @@ case+ s3e0 of
   in
     if flag > flag0 then S3Eisum (s3es) else s3e0
   end // end of [S3Eisum]
-| S3Eimul (s3e1, s3e2) => let
+| S3Eimul
+    (s3e1, s3e2) => let
     val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
     val s3e2 = s3exp_lintize_flag (env, s3e2, flag)
     val s3e0 = (
@@ -680,17 +646,18 @@ case+ s3e0 of
     val () = flag := flag + 1
     val s2v = s2vbcfenv_replace_nonlin (env, s3e0)
   in
-    S3Evar (s2v)
+    s3exp_var (s2v)
   end // end of [S3Eimul]
 //
 | S3Esizeof _ => let
     val () = flag := flag + 1
     val s2v = s2vbcfenv_replace_nonlin (env, s3e0)
   in
-    S3Evar (s2v)
+    s3exp_var (s2v)
   end // end of [val]
 //
-| S3Eapp (s3e1, s3es2) => let
+| S3Eapp
+    (s3e1, s3es2) => let
     val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
     val s3es2 = s3explst_lintize_flag (env, s3es2, flag)
     val s3e0 = (
@@ -699,12 +666,14 @@ case+ s3e0 of
     val () = flag := flag + 1
     val s2v = s2vbcfenv_replace_nonlin (env, s3e0)
   in
-    S3Evar (s2v)
-  end // end of [_]
+    s3exp_var (s2v)
+  end // end of [S3Eapp]
 //
-| S3Eerr _ => s3e0
+| S3Eerr _(*ERROR*) => s3e0
 //
 end // end of [s3exp_lintize]
+
+(* ****** ****** *)
 
 implement
 s3explst_lintize_flag

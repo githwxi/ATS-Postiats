@@ -1218,7 +1218,7 @@ case+
 | HIPi0nt (tok) => let
     val tl = tmplab_make (loc0)
     val kntr = patckontref_make ()
-    val i0 = $P2TC.intinf_of_i0nt (tok)
+    val i0 = $P2TC.i0nt2intinf (tok)
     val i0 = $INTINF.intinf_get_int (i0)
     val ptcmp0 =
       PTCMPpatlparen (PATCKint(i0), tpmv, tl, None(*void*), kntr)

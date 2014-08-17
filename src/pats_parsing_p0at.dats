@@ -63,7 +63,9 @@ viewtypedef labp0atlst12 = list12 (labp0at)
 
 (* ****** ****** *)
 
-fun p0at_list12 (
+fun
+p0at_list12
+(
   t_beg: token
 , ent2: p0atlst12
 , t_end: token
@@ -81,7 +83,9 @@ fun p0at_list12 (
 
 (* ****** ****** *)
 
-fun p0at_tup12 (
+fun
+p0at_tup12
+(
   knd: int
 , t_beg: token
 , ent2: p0atlst12
@@ -100,7 +104,9 @@ fun p0at_tup12 (
 
 (* ****** ****** *)
 
-fun p0at_rec12 (
+fun
+p0at_rec12
+(
   knd: int
 , t_beg: token, ent2: labp0atlst12, t_end: token
 ) : p0at =
@@ -118,16 +124,16 @@ fun p0at_rec12 (
 (* ****** ****** *)
 
 fun
-p_p0atseq_BAR_p0atseq (
-  buf: &tokbuf
-, bt: int
-, err: &int
+p_p0atseq_BAR_p0atseq
+(
+  buf: &tokbuf, bt: int, err: &int
 ) : p0atlst12 =
   plist12_fun (buf, bt, p_p0at)
 // end of [p_p0atseq_BAR_p0atseq]
 
 fun
-p_labp0atseq_BAR_labp0atseq (
+p_labp0atseq_BAR_labp0atseq
+(
   buf: &tokbuf, bt: int, err: &int
 ) : labp0atlst12 = let
   val _ = p_COMMA_test (buf) in
@@ -242,11 +248,11 @@ case+ tok.token_node of
       p0at_opid (tok, ent2) else synent_null ()
     // end of [if]
   end
+| T_INT _ => let
+    val () = incby1 () in p0at_i0nt (tok)
+  end
 | T_CHAR _ => let
     val () = incby1 () in p0at_c0har (tok)
-  end
-| T_INTEGER _ => let
-    val () = incby1 () in p0at_i0nt (tok)
   end
 | T_FLOAT _ => let
     val () = incby1 () in p0at_f0loat (tok)
@@ -328,18 +334,6 @@ case+ tok.token_node of
     end // end of [if]
   end
 //
-| T_QUOTELBRACKET () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {p0at} (buf, bt, p_p0at)
-    val ent3 = p_RBRACKET (buf, bt, err)
-  in
-    if err = err0 then
-      p0at_lst_quote (tok, (l2l)ent2, ent3)
-    else let
-      val () = list_vt_free (ent2) in synent_null ()
-    end (* end of [if] *)
-  end
 | T_DLRLST (lin) => let
     val bt = 0
     val () = incby1 ()
@@ -357,6 +351,26 @@ case+ tok.token_node of
       val () = list_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
   end
+(*
+//
+// HX-2014-07:
+// a list-pattern
+// like '[x1, x2] is no longer supported
+//
+| T_QUOTELBRACKET () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {p0at} (buf, bt, p_p0at)
+    val ent3 = p_RBRACKET (buf, bt, err)
+  in
+    if err = err0 then
+      p0at_lst_quote (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in synent_null ()
+    end (* end of [if] *)
+  end
+*)
+//
 | _ => let
     val () = err := err + 1 in synent_null ()
   end

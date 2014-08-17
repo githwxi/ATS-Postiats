@@ -247,8 +247,9 @@ fun aux_item (e0: e0xp): e1xpitm = let
     end // E0XPide(non-backslash)
 //
   | E0XPint (x) => let
-      val-T_INTEGER
+      val-T_INT
         (base, rep, sfx) = x.token_node
+      // end of [val]
     in
       FXITMatm (e1xp_intrep (loc0, rep))
     end // end of [E0XPint]

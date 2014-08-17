@@ -104,6 +104,15 @@ stringbuf_reset_capacity
 // end of [stringbuf_reset_capacity]
 
 (* ****** ****** *)
+//
+// HX: (-1) indicates error of bounds-checking
+//
+fun{}
+stringbuf_get_at (sbf: !stringbuf, i: size_t): int
+fun{}
+stringbuf_rget_at (sbf: !stringbuf, i: sizeGte(1)): int
+
+(* ****** ****** *)
 
 symintr stringbuf_insert
 
@@ -176,6 +185,28 @@ fun{a:t0p}
 stringbuf_insert_list (sbf: !stringbuf, x: List(a)): int
 
 (* ****** ****** *)
+//
+// HX-2014-07:
+// taking out the first [i] chars, and
+// moving the rest of chars to the front
+//
+fun{}
+stringbuf_takeout
+  (sbf: !stringbuf, i: size_t):<!wrt> Strptr1
+//
+fun{}
+stringbuf_takeout_all (sbf: !stringbuf):<!wrt> Strptr1
+//
+(* ****** ****** *)
+//
+fun{}
+stringbuf_remove
+  (sbf: !stringbuf, i: size_t):<!wrt> void
+//
+fun{}
+stringbuf_remove_all (sbf: !stringbuf):<!wrt> void
+//
+(* ****** ****** *)
 
 fun{}
 stringbuf_truncate
@@ -184,9 +215,15 @@ stringbuf_truncate
 
 (* ****** ****** *)
 //
+// HX-2014:
+// taking out the truncated porting
+//
 fun{}
 stringbuf_truncout
   (sbf: !stringbuf, n2: size_t):<!wrt> Strptr0
+//
+// HX-2014:
+// it does the same as [stringbuf_takeout_all]
 //
 fun{}
 stringbuf_truncout_all (sbf: !stringbuf):<!wrt> Strptr1

@@ -111,6 +111,8 @@ fun aux_p2at (p2t0: p2at): s2exp
 extern
 fun aux_labp2atlst (lp2ts: labp2atlst): labs2explst
 
+in (* in of [local] *)
+
 implement
 aux_p2at (p2t0) = let
 (*
@@ -130,8 +132,10 @@ case+ p2t0.p2at_node of
   // end of [P2Tvar]
 //
 | P2Tint _ => s2exp_int_t0ype () // int0
-| P2Tintrep rep =>
+| P2Tintrep (rep) =>
     intrep_syn_type (p2t0.p2at_loc, rep) // intrep
+  (* end of [P2Tintrep] *)
+//
 | P2Tbool _ => s2exp_bool_t0ype () // bool0
 | P2Tchar _ => s2exp_char_t0ype () // char0
 | P2Tstring _ => s2exp_string_type () // string0
@@ -141,21 +145,19 @@ case+ p2t0.p2at_node of
 | P2Tf0loat (x) => f0loat_syn_type (x)
 //
 | P2Tempty () => s2exp_void_t0ype ()
+//
 | P2Tcon _ =>
     s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
-  // end of [P2Tcon]
+  (* end of [P2Tcon] *)
 //
-| P2Tlst _ => let
-    val s2e_elt =
-      s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
-    // end of [val]
-  in
-    s2exp_list0_t0ype_type (s2e_elt)
-  end // end of [P2Tlst]
+| P2Tlst (lin, p2ts) => s2exp_t0ype_err ()
+//
+(*
+| P2Ttup : tuples have been turned into records
+*)
 //
 | P2Trec (knd, npf, lp2ts) =>
-   s2exp_tyrec (knd, npf, aux_labp2atlst (lp2ts))
-  // end of [P2Trec]
+    s2exp_tyrec (knd, npf, aux_labp2atlst (lp2ts))
 //
 | P2Trefas (d2v, p2t) => p2at_syn_type (p2t)
 //
@@ -171,7 +173,7 @@ case+ p2t0.p2at_node of
 //
 | P2Tlist (npf, p2ts) => s2exp_t0ype_err ()
 //
-| P2Terrpat () => s2exp_t0ype_err ()
+| P2Terrpat ((*void*)) => s2exp_t0ype_err ()
 (*
 | _(*yet-to-be-processed*) => exitloc (1)
 *)
@@ -179,23 +181,28 @@ case+ p2t0.p2at_node of
 end // end of [aux_p2at]
   
 implement
-aux_labp2atlst (lp2ts) =
-  case+ lp2ts of
-  | list_cons (lp2t, lp2ts) => (
-    case+ lp2t of
-    | LABP2ATnorm (l0, p2t) => let
-        val l = l0.l0ab_lab
-        val s2e = p2at_syn_type (p2t)
-        val ls2e = SLABELED (l, None(*name*), s2e)
-      in
-        list_cons (ls2e, aux_labp2atlst (lp2ts))
-      end // end of [LABP2ATnorm]
-    | LABP2ATomit (loc) => list_nil () // HX: should an error be reported?
-    ) // end of [list_cons]
-  | list_nil () => list_nil ()
-// end of [aux_labp2atlst]
+aux_labp2atlst
+  (lp2ts) = let
+in
+//
+case+ lp2ts of
+| list_cons
+    (lp2t, lp2ts) => (
+  case+ lp2t of
+  | LABP2ATnorm (l0, p2t) => let
+      val l = l0.l0ab_lab
+      val s2e = p2at_syn_type (p2t)
+      val ls2e = SLABELED (l, None(*name*), s2e)
+    in
+      list_cons (ls2e, aux_labp2atlst (lp2ts))
+    end // end of [LABP2ATnorm]
+  | LABP2ATomit (loc) => list_nil () // HX: should an error be reported?
+  ) // end of [list_cons]
+| list_nil ((*void*)) => list_nil ()
+//
+end // end of [aux_labp2atlst]
 
-in // in of [local]
+(* ****** ****** *)
 
 implement
 p2at_syn_type
@@ -205,6 +212,8 @@ p2at_syn_type
 } // end of [p2at_syn_type]
 
 end // end of [local]
+
+(* ****** ****** *)
 
 implement
 p2atlst_syn_type (p2ts) =
@@ -248,7 +257,7 @@ in
     (dvs, lam d2v =<1> d2var_set_isprf (d2v, true))
 end (* end of [p2at_proofize] *)
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 p2atlst_trup_arg
@@ -344,7 +353,7 @@ in
   p3at_errpat (loc0, s2e0)
 end // end of [p2at_trdn_arg_refarg_err]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 p2at_trdn_arg
@@ -857,7 +866,7 @@ case+ s2e.s2exp_node of
 //
 end // end of [auxcheck]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 p2at_trdn_intrep
@@ -1120,11 +1129,13 @@ case+ s2e.s2exp_node of
     p3at_rec (loc0, s2e, knd, npf, lp3ts)
   end // end of [S2Etyrec]
 | _ => let
+//
     val () = prerr_error3_loc (loc0)
-    val () = prerr ": the tuple/record pattern is ill-typed.";
-    val () = prerr_newline ()
+    val () = prerrln! (": the tuple/record pattern is ill-typed.")
+//
     val s2e0 = s2hnf2exp (s2f0)
-    val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+    val ((*void*)) = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+//
   in
     p3at_errpat (loc0, s2e)
   end // end of [_]
@@ -1132,6 +1143,28 @@ case+ s2e.s2exp_node of
 end // end of [p2at_trdn_rec]
 
 (* ****** ****** *)
+
+local
+//
+fun
+auxerr_lin
+  (p2t0: p2at): void = let
+  val () = prerr_error3_loc (p2t0.p2at_loc)
+  val () = prerrln! (": the list-pattern should be non-linear.")
+in
+  the_trans3errlst_add (T3E_p2at_trdn_lst (0, p2t0))
+end // end of [auxerr_lin]
+//
+fun
+auxerr_nonlin
+  (p2t0: p2at): void = let
+  val () = prerr_error3_loc (p2t0.p2at_loc)
+  val () = prerrln! (": the list-pattern should be linear but it is not.")
+in
+  the_trans3errlst_add (T3E_p2at_trdn_lst (1, p2t0))
+end // end of [auxerr_nonlin]
+//
+in (* in-of-local *)
 
 implement
 p2at_trdn_lst
@@ -1141,24 +1174,27 @@ val loc0 = p2t0.p2at_loc
 val-P2Tlst (lin, p2ts) = p2t0.p2at_node
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 //
+val islin =
+(
+  if lin >= 0 then test_linkind(lin) else false
+) : bool // end of [val]
+//
 in
 //
-case+ s2e.s2exp_node of
-| S2Eapp (s2e_fun, s2es_arg)
-    when s2cstref_equ_exp (
-    the_list0_t0ype_type, s2e_fun
-  ) => let
-    val-list_cons (s2e_arg, _) = s2es_arg
-    val p3ts = p2atlst_trdn_elt (p2ts, s2e_arg)
-  in
-    p3at_lst (loc0, s2e, lin, s2e_arg, p3ts)
-  end // list0
-| S2Eapp (s2e_fun, s2es_arg)
+case+
+s2e.s2exp_node of
+//
+| S2Eapp
+  (
+    s2e_fun, s2es_arg
+  )
     when s2cstref_equ_exp (
     the_list_t0ype_int_type, s2e_fun
   ) => let
-    val-list_cons (s2e1_arg, s2es_arg) = s2es_arg
-    val-list_cons (s2e2_arg, s2es_arg) = s2es_arg
+    val-list_cons
+      (s2e1_arg, s2es_arg) = s2es_arg
+    val-list_cons
+      (s2e2_arg, s2es_arg) = s2es_arg
     val p3ts = p2atlst_trdn_elt (p2ts, s2e1_arg)
     val n = list_length (p3ts)
     val s2e_ind = s2exp_int (n)
@@ -1167,9 +1203,39 @@ case+ s2e.s2exp_node of
     // end of [val]
     val s2f2_arg = s2exp2hnf (s2e2_arg)
     val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f2_arg)
+//
+    val () = if islin then auxerr_lin (p2t0)
+//
   in
-    p3at_lst (loc0, s2e, lin, s2e1_arg, p3ts)
-  end // list1
+    p3at_lst (loc0, s2e, 0(*lin*), s2e1_arg, p3ts)
+  end // list_t0ype_int_type
+//
+| S2Eapp
+  (
+    s2e_fun, s2es_arg
+  )
+    when s2cstref_equ_exp (
+    the_list_vt0ype_int_vtype, s2e_fun
+  ) => let
+    val-list_cons
+      (s2e1_arg, s2es_arg) = s2es_arg
+    val-list_cons
+      (s2e2_arg, s2es_arg) = s2es_arg
+    val p3ts = p2atlst_trdn_elt (p2ts, s2e1_arg)
+    val n = list_length (p3ts)
+    val s2e_ind = s2exp_int (n)
+    val s2f_ind =
+      s2exp2hnf_cast (s2e_ind)
+    // end of [val]
+    val s2f2_arg = s2exp2hnf (s2e2_arg)
+    val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f2_arg)
+//
+    val () = if not(islin) then auxerr_nonlin (p2t0)
+//
+  in
+    p3at_lst (loc0, s2e, 1(*lin*), s2e1_arg, p3ts)
+  end // list_vt0ype_int_vtype
+//
 | _ => let
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the list pattern is ill-typed.";
@@ -1181,6 +1247,8 @@ case+ s2e.s2exp_node of
   end // end of [_]
 //
 end // end of [p2at_trdn_lst]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -1299,7 +1367,7 @@ case+ s2vs1 of
 //
 end // end of [auxbind]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 p2at_trdn_exist
@@ -1356,11 +1424,10 @@ val opt = un_s2exp_vbox_view_prop (s2f0)
 in
 //
 case+ opt of
-| ~Some_vt (s2e) => let
 //
+| ~Some_vt (s2e) => let
     val s2f = s2exp2hnf (s2e)
     val s2e = s2hnf2exp (s2f)
-//
     val islin = s2exp_is_lin (s2e)
     val () = d2var_set_mastype (d2v, Some s2e)
     val () = if islin then {
@@ -1372,7 +1439,8 @@ case+ opt of
   in
     p3at_vbox (loc0, s2e0, d2v)
   end // end of [Some_vt]
-| ~None_vt () => let
+//
+| ~None_vt ((*void*)) => let
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the pattern is given the type ["
     val () = prerr_s2exp (s2e0)
@@ -1390,11 +1458,14 @@ end // end of [p2at_trdn_vbox]
 implement
 p2at_trdn_ann
   (p2t0, s2f0) = let
-  val loc0 = p2t0.p2at_loc
-  val-P2Tann (p2t, s2e_ann) = p2t0.p2at_node
-  val s2e0 = s2hnf_opnexi_and_add (loc0, s2f0)
-  val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e0, s2e_ann)
-  val () = if (nerr > 0) then let
+//
+val loc0 = p2t0.p2at_loc
+val-P2Tann (p2t, s2e_ann) = p2t0.p2at_node
+val s2e0 = s2hnf_opnexi_and_add (loc0, s2f0)
+val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e0, s2e_ann)
+//
+val () =
+  if (nerr > 0) then let
     val () = prerr_error3_loc (loc0)
     val () = filprerr_ifdebug "p2at_trdn_ann"
     val () = prerr ": the pattern cannot be given the ascribed type."
@@ -1402,8 +1473,10 @@ p2at_trdn_ann
     val () = prerr_the_staerrlst ()
   in
     the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
-  end // end of [val]
-  val p3t = p2at_trdn (p2t, s2e0)
+  end // end of [if] // end of [val]
+//
+val p3t = p2at_trdn (p2t, s2e0)
+//
 in
   p3at_ann (loc0, s2e0, p3t, s2e_ann)
 end // end of [p2at_trdn_ann]
@@ -1421,9 +1494,15 @@ val s2e_gval = s2exp_bool_index_t0ype (s2e_ind)
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 in
 //
-case+ s2e.s2exp_node of
-| S2Eapp (s2e_fun, s2es_arg)
-    when s2cstref_equ_exp (
+case+
+s2e.s2exp_node of
+//
+| S2Eapp
+  (
+    s2e_fun, s2es_arg
+  ) when
+    s2cstref_equ_exp
+  (
     the_bool_bool_t0ype, s2e_fun
   ) => let
     val-list_cons
@@ -1433,19 +1512,23 @@ case+ s2e.s2exp_node of
   in
     trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
   end // end of [S2Eapp]
-| _ => let
-    val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e_gval, s2e)
-    val () = if (nerr > 0) then {
+//
+| _ (*non-app*) => let
+    val nerr =
+      $SOL.s2exp_tyleq_solve (loc0, s2e_gval, s2e)
+    val () =
+    if (nerr > 0) then {
       val () = prerr_error3_loc (loc0)
       val () = prerr ": the guard is ill-typed."
       val () = prerr_newline ()
       val () = prerr_the_staerrlst ()
       val s2e0 = s2hnf2exp (s2f0)
       val () = the_trans3errlst_add (T3E_guard_trdn (loc0, gval, s2e0))
-    } // end of [val]
+    } (* end of [if] *) // end of [val]
   in
     (* nothing *)
   end // end of [_]
+//
 end // end of [guard_trdn]
 
 (* ****** ****** *)

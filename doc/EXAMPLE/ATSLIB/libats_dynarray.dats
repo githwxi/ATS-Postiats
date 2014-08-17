@@ -23,8 +23,7 @@ staload _(*anon*) = "libats/DATS/dynarray.dats"
 
 (* ****** ****** *)
 
-postfix sz
-macdef sz (x) = g1int2uint_int_size (,(x))
+postfix sz; macdef sz(x) = g1int2uint_int_size (,(x))
 
 (* ****** ****** *)
 
@@ -79,9 +78,11 @@ val x = dynarray_takeout_atbeg_exn (DA)
 val () = println! ("takeout(beg) = ", x)
 val-~Some_vt(x) = dynarray_takeout_atend_opt (DA)
 val () = println! ("takeout(end) = ", x)
+//
+val _ = dynarray_removeseq_at (DA, 0sz, 2sz)
 val () = println! ("DA->sz = ", dynarray_get_size (DA))
 //
-val () = dynarray_free (DA)
+val ((*freed*)) = dynarray_free (DA)
 //
 } (* end of [val] *)
 

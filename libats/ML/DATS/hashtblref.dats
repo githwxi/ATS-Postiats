@@ -42,10 +42,10 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload
-HT = "libats/SATS/hashtbl_chain.sats"
-
+//
+staload HT =
+"libats/SATS/hashtbl_chain.sats"
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/list0.sats"
@@ -56,22 +56,37 @@ staload "libats/SATS/hashfun.sats"
 staload "libats/ML/SATS/hashtblref.sats"
 
 (* ****** ****** *)
+
+(*
+implement
+{key}(*tmp*)
+hash_key = ghash_val<key>
+*)
+
+(* ****** ****** *)
+
+implement
+{key}(*tmp*)
+equal_key_key = gequal_val<key>
+
+(* ****** ****** *)
 //
 // HX: 31 and 37 are top choices
 //
 implement
 hash_key<string> (str) =
-  string_hash_multiplier (31UL, 61803398875UL, str)
+  string_hash_multiplier (31UL, 31415926536UL, str)
 //
 (* ****** ****** *)
-
+//
 implement
 {key}(*tmp*)
 $HT.hash_key = hash_key<key>
+//
 implement
 {key}(*tmp*)
 $HT.equal_key_key = equal_key_key<key>
-
+//
 (* ****** ****** *)
 //
 extern
@@ -221,6 +236,33 @@ prval () = $UN.cast2void (tbl)
 val kxs = list0_of_list_vt{(key,itm)}(kxs)
 //
 } (* end of [hashtbl_takeout_all] *)
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+fprint_hashtbl
+  (out, tbl) = let
+//
+implement
+$HT.fprint_hashtbl$sep<> = fprint_hashtbl$sep<>
+implement
+$HT.fprint_hashtbl$mapto<> = fprint_hashtbl$mapto<>
+//
+val tbl = htdecode (tbl)
+val () = $HT.fprint_hashtbl (out, tbl)
+prval () = $UN.cast2void (tbl)
+//
+in
+  // nothing
+end // end of [fprint_hashtbl]
+
+(* ****** ****** *)
+
+implement{}
+fprint_hashtbl$sep (out) = fprint (out, "; ")
+implement{}
+fprint_hashtbl$mapto (out) = fprint (out, "->")
 
 (* ****** ****** *)
 

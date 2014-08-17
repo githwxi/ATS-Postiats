@@ -57,7 +57,8 @@ staload "./pats_parsing.sats"
 
 (* ****** ****** *)
 
-fun pskip_tokbuf
+fun
+pskip_tokbuf
   (buf: &tokbuf): token = let
   val tok = tokbuf_get_token (buf)
 (*
@@ -65,7 +66,9 @@ fun pskip_tokbuf
 *)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
+//
 | T_EOF () => tok
 //
 | T_SORTDEF () => tok
@@ -111,7 +114,8 @@ case+ tok.token_node of
 //
 end // end of [pskip_tokbuf]
 
-fun pskip1_tokbuf_reset
+fun
+pskip1_tokbuf_reset
   (buf: &tokbuf): token = let
 //
 val tok = tokbuf_get_token (buf)
@@ -119,10 +123,13 @@ val tok = tokbuf_get_token (buf)
 val () =
 (
 case+
-  tok.token_node of
+tok.token_node of
+//
 | T_EOF ((*void*)) => ()
+//
 | tnode
   when tnode_is_comment (tnode) => ()
+//
 | _ => {
     val loc = tok.token_loc
     val err = parerr_make (loc, PE_DISCARD)
@@ -146,18 +153,15 @@ fun
 p_toplevel_fun
 (
   buf: &tokbuf
-, nerr: &int? >> int
-, f: parser (d0ecl)
+, nerr: &int? >> int, f: parser (d0ecl)
 ) : d0eclist = let
-  typedef a = d0ecl
   fun loop (
     buf: &tokbuf
   , res: &d0eclist_vt? >> d0eclist_vt
-  , nerr: &int
-  , f: parser (d0ecl)
+  , nerr: &int >> int, f: parser (d0ecl)
   ) : void = let
     val nerr0 = nerr
-    val x = f (buf, 1(*bt*), nerr)
+    val d0ecl = f (buf, 1(*bt*), nerr)
   in
     case+ 0 of
     | _ when
@@ -166,29 +170,33 @@ p_toplevel_fun
 //
         val () = (
           case+ tok0.token_node of
-          | T_EOF () => (nerr := nerr0) // HX: there is no error
-          | _ => ()
+          | T_EOF () => (nerr := nerr0) | _ (*non-EOF*) => ()
         ) : void // end of [val]
 //
-        val tok = pskip1_tokbuf_reset (buf)
+        val tok1 = pskip1_tokbuf_reset (buf)
 //
       in
-        case+ tok.token_node of
-        | T_EOF () => res := list_vt_nil () | _ => loop (buf, res, nerr, f)
+        case+ tok1.token_node of
+        | T_EOF () => (res := list_vt_nil()) | _ => loop (buf, res, nerr, f)
       end // end of [_ when ...]
     | _ (*noerror*) => let
 //
         val () = tokbuf_reset (buf)
 //
-        val semilst = pstar_fun {token} (buf, 1(*bt*), p_SEMICOLON)
-        val () = list_vt_free (semilst)
+        val () = let
+          val xs = // HX: for skipping semicolons
+            pstar_fun{token}(buf, 1(*bt*), p_SEMICOLON) in list_vt_free (xs)
+          // end of [val]
+        end // end of [val]
 //
         val () =
-          res := list_vt_cons{a}{0}(x, ?)
+        res :=
+          list_vt_cons{d0ecl}{0}(d0ecl, ?)
         // end of [val]
         val+list_vt_cons (_, !p_res1) = res
         val () = loop (buf, !p_res1, nerr, f)
-        prval () = fold@ (res)
+        prval ((*void*)) = fold@ (res) // HX: no-op
+//
       in
         // nothing
       end // end of [_]
@@ -197,7 +205,7 @@ p_toplevel_fun
   var res: d0eclist_vt
   val () = loop (buf, res, nerr, f)
 //
-  val _(*EOF*) = p_EOF (buf, 0, nerr) // HX: no more tokens 
+  val _(*EOF*) = p_EOF (buf, 0(*bt*), nerr) // HX: no more tokens 
 //
 in
   list_of_list_vt(res)

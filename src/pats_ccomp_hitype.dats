@@ -848,11 +848,10 @@ case+ hit0 of
   }
 //
 | HITtyvar (s2v) => {
-    val () = emit_text (out, "atstyvar_type")
-    val (
-    ) = (
-      emit_lparen (out); emit_s2var (out, s2v); emit_rparen (out)
-    ) (* end of [val] *)
+    val () =
+      emit_text (out, "atstyvar_type(")
+    val () = emit_s2var (out, s2v)
+    val ((*closing*)) = emit_RPAREN (out)
   } (* end of [HITtyvar] *)
 //
 | HITrefarg (knd, hit) => let
@@ -863,7 +862,7 @@ case+ hit0 of
       // end of [if]
     ) : void // end of [val]
     val () = emit_hitype (out, hit)
-    val () = emit_rparen (out)
+    val ((*closing*)) = emit_RPAREN (out)
   in
     // nothing
   end // end of [HITrefarg]
@@ -1324,7 +1323,9 @@ end // end of [local]
 
 local
 
-fun auxfld (
+fun
+auxfld
+(
   out: FILEref
 , lhit: labhitype
 ) : void = let
@@ -1371,7 +1372,9 @@ in
   // nothing
 end // end of [auxfld]
 
-fun auxfldlst (
+fun
+auxfldlst
+(
   out: FILEref
 , lhits: labhitypelst, i: int
 ) : void = let
@@ -1393,19 +1396,21 @@ case+ lhits of
 //
 end // end of [auxfldlst]
 
-fun auxkey (
+fun
+auxkey
+(
   out: FILEref, hit: hitype
 ) : void = let
 in
 //
 case+ hit of
 | HITtyrec (lhits) => {
-    val () = emit_text (out, "struct {")
+    val () = emit_text (out, "ATSstruct {")
     val () = auxfldlst (out, lhits, 1)
     val () = emit_text (out, "\n}")
   } // end of [HITtyrec]
 | HITtysum (tgd, lhits) => {
-    val () = emit_text (out, "struct {\n")
+    val () = emit_text (out, "ATSstruct {\n")
     val () = fprintf (out, "#if(%i)\n", @(tgd))
     val () = emit_text (out, "int contag ;\n")
     val () = emit_text (out, "#endif")
@@ -1413,32 +1418,37 @@ case+ hit of
     val () = emit_text (out, "\n}")
   } // end of [HITtysum]
 | HITtyexn (lhits) => {
-    val () = emit_text (out, "struct {\n")
+    val () = emit_text (out, "ATSstruct {\n")
     val () = emit_text (out, "int exntag ;\n")
     val () = emit_text (out, "char *exnmsg ;")
     val () = auxfldlst (out, lhits, 1)
     val () = emit_text (out, "\n}")
   } // end of [HITtyexn]
-| _ => emit_text (out, "(**ERROR**)")
+| _ (*non-struct*) => emit_text (out, "(**ERROR**)")
 //
 end // end of [auxkey]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
-emit_the_typedeflst (out) = let
+emit_the_typedeflst
+  (out) = let
 //
-typedef keyitm = @(hitype, hitype)
-fun auxlst (
-  out: FILEref, kis: List_vt (keyitm)
+typedef
+keyitm = @(hitype, hitype)
+//
+fun
+auxlst
+(
+  out: FILEref
+, kis: List_vt (keyitm)
 ) : void = let
 in
 //
 case+ kis of
 | ~list_vt_cons
     (ki, kis) => let
-    val () =
-      emit_text (out, "typedef\n")
+    val () = emit_text (out, "typedef\n")
     val () = auxkey (out, ki.0)
     val () = emit_text (out, " ")
     val () = emit_hitype (out, ki.1)

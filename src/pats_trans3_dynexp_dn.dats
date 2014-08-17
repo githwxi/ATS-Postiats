@@ -72,6 +72,10 @@ staload "./pats_stacst2.sats"
 
 (* ****** ****** *)
 
+staload "./pats_patcst2.sats"
+
+(* ****** ****** *)
+
 staload "./pats_dynexp2.sats"
 staload "./pats_dynexp3.sats"
 
@@ -412,6 +416,8 @@ case+ s2e0.s2exp_node of
     end // end of [if] // end of [val]
 //
     val (pfeff | ()) = the_effenv_push_lam (s2fe)
+//
+    val () = funarg_patck_exhaust (loc0, p2ts_arg, s2es_arg)
 //
     var serr: int = 0
     val p3ts_arg =

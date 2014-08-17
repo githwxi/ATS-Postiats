@@ -37,8 +37,10 @@
 
 (*
 **
-** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: July, 2010 // based on a version done in October, 2008
+** Author: Hongwei Xi
+** Authoremail: hwxiATcsDOTbuDOTedu
+** Time: July, 2010
+** It is based on an earlier version done in October, 2008
 **
 *)
 
@@ -48,13 +50,13 @@
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.qlist"
-
-(* ****** ****** *)
-
 %{#
 #include "libats/CATS/qlist.cats"
 %} // end of [%{#]
+
+(* ****** ****** *)
+
+#define ATS_PACKNAME "ATSLIB.libats.qlist"
 
 (* ****** ****** *)
 //
@@ -132,6 +134,9 @@ qlist_takeout_opt (q: !qlist (INV(a)) >> _):<!wrt> Option_vt(a)
 
 (* ****** ****** *)
 
+(*
+** HX: this operation is O(1)
+*)
 fun{
 } qlist_takeout_list
   {a:vt0p}{n:int}
@@ -139,20 +144,21 @@ fun{
 // end of [qlist_takeout_list]
 
 (* ****** ****** *)
-
-fun{
-a:vt0p}{env:vt0p
-} qlist_foreach$cont (x: &a, env: &env): bool
-fun{
-a:vt0p}{env:vt0p
-} qlist_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+//
 fun{
 a:vt0p
 } qlist_foreach (q: !qlist (INV(a))): void
 fun{
 a:vt0p}{env:vt0p
 } qlist_foreach_env (q: !qlist (INV(a)), env: &(env) >> _): void
-
+//
+fun{
+a:vt0p}{env:vt0p
+} qlist_foreach$cont (x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
+} qlist_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+//
 (* ****** ****** *)
 //
 abst@ype
@@ -204,11 +210,11 @@ qstruct_insert{n:int}
 // end of [qstruct_insert]
 
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
 qstruct_takeout{n:pos}
   (q: &qstruct (INV(a), n) >> qstruct (a, n-1)):<!wrt> (a)
-
+//
 (* ****** ****** *)
 
 fun{}

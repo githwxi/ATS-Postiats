@@ -66,6 +66,9 @@ staload "libats/SATS/stringbuf.sats"
 extern
 fun
 memcpy (ptr, ptr, size_t):<!wrt> ptr = "mac#atslib_stringbuf_memcpy"
+extern
+fun
+memmove (ptr, ptr, size_t):<!wrt> ptr = "mac#atslib_stringbuf_memmove"
 
 (* ****** ****** *)
 //
@@ -179,11 +182,12 @@ implement{
 } stringbuf_takeout_strbuf
   (sbf, n0) = let
 //
-val+STRINGBUF(A, p, _) = sbf
-val n = $UN.cast{size_t}(p - ptrcast(A))
-val [n:int] n = g1ofg0_uint (n)
-val () = n0 := n
+val+STRINGBUF(A, p1, _) = sbf
+//
 val p0 = ptrcast (A)
+val n = $UN.cast{size_t}(p1 - p0)
+val [n:int] n = g1ofg0_uint (n)
+val ((*void*)) = n0 := n
 //
 prval (pf, fpf) = __assert (p0) where
 {
@@ -229,6 +233,40 @@ end else
 // end of [if]
 //
 end // end of [stringbuf_reset_capacity]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_get_at
+  (sbf, i) = let
+//
+var n: size_t
+val (pf, fpf | p) = stringbuf_takeout_strbuf (sbf, n)
+//
+val i = g1ofg0(i)
+val res = (if i < n then $UN.cast2int(p->[i]) else ~1): int
+prval () = fpf (pf)
+//
+in
+  res
+end // end of [strigbuf_get_at]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_rget_at
+  (sbf, i) = let
+//
+var n: size_t
+val (pf, fpf | p) = stringbuf_takeout_strbuf (sbf, n)
+//
+val res = (if i <= n then $UN.cast2int(p->[n-i]) else ~1): int
+//
+prval () = fpf (pf)
+//
+in
+  res
+end // end of [strigbuf_rget_at]
 
 (* ****** ****** *)
 
@@ -486,6 +524,92 @@ end // end of [loop]
 in
   loop (sbf, xs, 0)
 end // end of [stringbuf_insert_list]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_takeout
+  (sbf, i) = let
+//
+val+@STRINGBUF(A, p1, _) = sbf
+//
+val p0 = ptrcast (A)
+val n = $UN.cast{size_t}(p1 - p0)
+val [n:int] n = g1ofg0_uint (n)
+val [i:int] i = g1ofg0_uint (i)
+//
+val i = min(i, n)
+val str = string_make_substring ($UN.cast{string(n)}(p0), i2sz(0), i)
+//
+val ni = (n - i)
+val p0 = memmove (p0, ptr_add<char> (p0, i), ni)
+val () = p1 := ptr_add<char> (p0, ni)
+//
+prval () = fold@ (sbf)
+prval () = lemma_strnptr_param (str)
+//
+in
+  strnptr2strptr(str)
+end // end of [stringbuf_takeout]
+
+(* ****** ****** *)
+
+implement{
+} stringbuf_takeout_all
+  (sbf) = let
+//
+val+@STRINGBUF(A, p1, _) = sbf
+//
+val p0 = ptrcast (A)
+val n = $UN.cast{size_t}(p1 - p0)
+val [n:int] n = g1ofg0_uint (n)
+//
+val str = string_make_substring ($UN.cast{string(n)}(p0), i2sz(0), n)
+//
+val () = p1 := p0
+//
+prval () = fold@ (sbf)
+prval () = lemma_strnptr_param (str)
+//
+in
+  strnptr2strptr(str)
+end // end of [stringbuf_takeout_all]
+
+(* ****** ****** *)
+  
+implement{
+} stringbuf_remove
+  (sbf, i) = () where
+{
+//
+val+@STRINGBUF(A, p1, _) = sbf
+//
+val p0 = ptrcast (A)
+val n = $UN.cast{size_t}(p1 - p0)
+val [n:int] n = g1ofg0_uint (n)
+val [i:int] i = g1ofg0_uint (i)
+//
+val i = min(i, n)
+val ni = n - min(i, n)
+val p0 = memmove (p0, ptr_add<char> (p0, i), ni)
+val () = p1 := ptr_add<char> (p0, ni)
+//
+prval () = fold@ (sbf)
+//
+} (* end of [stringbuf_remove] *)
+  
+(* ****** ****** *)
+
+implement{
+} stringbuf_remove_all
+  (sbf) = () where
+{
+//
+val+@STRINGBUF(A, p1, _) = sbf
+val ((*void*)) = p1 := ptrcast(A)
+prval ((*void*)) = fold@ (sbf)
+//
+} (* end of [stringbuf_remove_all] *)
 
 (* ****** ****** *)
 

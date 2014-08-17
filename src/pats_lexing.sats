@@ -28,7 +28,7 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: gmhwxi AT gmail DOT com
+// Authoremail: gmhwxiATgmailDOTcom
 // Start Time: March, 2011
 //
 (* ****** ****** *)
@@ -231,11 +231,11 @@ token_node =
   | T_IDENT_srp of string
   | T_IDENT_ext of string
 //
-  | T_CHAR of char (* character *)
-//
-  | T_INTEGER of (
+  | T_INT of (
       int(*base*), string(*rep*), uint(*suffix*)
-    ) (* end of [T_INTEGER] *)
+    ) (* end of [T_INT] *)
+//
+  | T_CHAR of char (* character *)
 //
   | T_FLOAT of (int(*base*), string(*rep*), uint(*suffix*))
 //
@@ -247,15 +247,15 @@ token_node =
   | T_LABEL of (int(*knd*), string) // HX-2013-01: should it be supported?
 *)
 //
+  | T_COMMA of () // ,
+  | T_SEMICOLON of () // ;
+//
   | T_LPAREN of () // (
   | T_RPAREN of () // )
   | T_LBRACKET of () // [
   | T_RBRACKET of () // ]
   | T_LBRACE of () // {
   | T_RBRACE of () // }
-//
-  | T_COMMA of () // ,
-  | T_SEMICOLON of () // ;
 //
   | T_ATLPAREN of ()  // @(
   | T_QUOTELPAREN of () // '(
@@ -282,7 +282,7 @@ token_node =
 
 typedef token = '{
   token_loc= location, token_node= token_node
-} // end of [token]
+} (* end of [token] *)
 
 typedef tokenopt = Option (token)
 
@@ -427,16 +427,20 @@ val DOT : tnode // = T_DOT
 val PERCENT : tnode // = IDENT_sym ("%")
 val QMARK : tnode // = IDENT_sym ("?")
 
-val ZERO : tnode // = T_INTEGER_dec ("0")
-
 (* ****** ****** *)
 
-fun print_token (tok: token): void
-overload print with print_token
-fun prerr_token (tok: token): void
-overload prerr with prerr_token
-fun fprint_token : fprint_type (token)
+val INTZERO : tnode // = T_INT_dec ("0")
 
+(* ****** ****** *)
+//
+fun print_token : token -> void
+fun prerr_token : token -> void
+fun fprint_token : fprint_type (token)
+//
+overload print with print_token
+overload prerr with prerr_token
+overload fprint with fprint_token
+//
 (* ****** ****** *)
 
 fun token_make
@@ -472,15 +476,23 @@ lexerr_node =
 //
   | LE_EXTCODE_unclose of ()
 //
+  | LE_DIGIT_oct_89 of (char)
+//
   | LE_FEXPONENT_empty of ()
 //
-  | LE_UNSUPPORTED of char
+  | LE_UNSUPPORTED_char of (char)
 // end of [lexerr_node]
-typedef lexerr = '{
+//
+typedef
+lexerr = '{
   lexerr_loc= location, lexerr_node= lexerr_node
-} // end of [lexerr]
+} (* end of [lexerr] *)
+//
+(* ****** ****** *)
 
-fun lexerr_make (
+fun
+lexerr_make
+(
   loc: location, node: lexerr_node
 ) : lexerr // end of [lexerr_make]
 
@@ -494,18 +506,19 @@ fun fprint_lexerr : fprint_type (lexerr)
 fun fprint_the_lexerrlst (out: FILEref): int(*err*) // 0/1
 
 (* ****** ****** *)
-
+//
 (*
 ** HX-2011:
 ** obtaining the next token
 *)
+//
 fun lexing_next_token (buf: &lexbuf): token
 (*
 ** HX-2011:
 ** obtaining the next token that is not a comment
 *)
 fun lexing_next_token_ncmnt (buf: &lexbuf): token
-
+//
 (* ****** ****** *)
 
 (* end of [pats_lexing.sats] *)

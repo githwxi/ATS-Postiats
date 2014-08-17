@@ -123,6 +123,21 @@ atsruntime_handle_unmatchedval
   ) ; exit(1) ;
   return ; // deadcode
 } /* end of [atsruntime_handle_unmatchedval] */
+//
+// HX-2014-06:
+// for reporting funarg-pattern matching failure
+//
+extern
+void
+atsruntime_handle_unmatchedarg
+  (char *msg0)
+{
+  fprintf(
+    stderr
+  , "exit(ATS): unmatched funarg at run-time:\n%s\n", msg0
+  ) ; exit(1) ;
+  return ; // deadcode
+} /* end of [atsruntime_handle_unmatchedarg] */
 
 /* ****** ****** */
 

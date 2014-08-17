@@ -91,14 +91,22 @@ a:t@ype
 
 (* ****** ****** *)
 //
-abstype lstord (a:type) // HX: for ordered lists
+// HX-2011:
+// for ordered lists
+//
+abstype lstord (a:type)
 //
 fun lstord_nil {a:type} (): lstord (a)
 fun lstord_sing {a:type} (x: a): lstord (a)
-fun lstord_insert {a:type} (
+//
+fun
+lstord_insert{a:type}
+(
   xs: lstord a, x: a, cmp: (a, a) -<fun> int
 ) : lstord (a) // end of [lstord_insert]
-fun lstord_union {a:type} (
+fun
+lstord_union{a:type}
+(
   xs: lstord a, ys: lstord a, cmp: (a, a) -<fun> int
 ) : lstord (a) // end of [lstord_union]
 
@@ -112,23 +120,39 @@ fun lstord_get_dups
 fun lstord2list {a:type} (xs: lstord a): List (a)
 
 (* ****** ****** *)
+//
+abstype charset_type
+typedef charset = charset_type
+//
+typedef charlst = List (char)
+vtypedef charlst_vt = List_vt (char)
+//
+fun charset_sing (x: char): charset
+fun charset_is_member (xs: charset, x: char): bool
+fun charset_add (xs: charset, x: char): charset
+//
+fun charset_listize (xs: charset): charlst_vt
+//
+fun fprint_charset (out: FILEref, xs: charset): void
+//
+(* ****** ****** *)
 
 local
-
-staload
-QUEUE = "libats/SATS/linqueue_arr.sats"
-viewtypedef
-QUEUE (m:int, n:int) = $QUEUE.QUEUE (uchar, m, n)
-
+//
+staload Q = "libats/SATS/linqueue_arr.sats"
+//
+vtypedef QUEUE (m:int, n:int) = $Q.QUEUE (uchar, m, n)
+//
 in (* in of [local] *)
-
-fun queue_get_strptr1
+//
+fun
+queue_get_strptr1
   {m,n:int}
   {st,ln:nat | st+ln <= n}
 (
   q: &QUEUE (m, n), st: size_t st, ln: size_t ln
-) : strptr1 // end of [queue_get_strptr1]
-
+) : strptr1 // end-of-function
+//
 end // end of [local]
 
 (* ****** ****** *)
@@ -137,7 +161,7 @@ local
 
 staload FCNTL = "libc/SATS/fcntl.sats"
 
-in (* in of [local] *)
+in (*in-of-local]*)
 
 stadef fildes_v = $FCNTL.fildes_v
 
@@ -147,7 +171,8 @@ stadef fildes_v = $FCNTL.fildes_v
 // HX: the function returns [strptr_null] as error indication
 //
 *)
-fun file2strptr
+fun
+file2strptr
   {fd:int} (
   pf: !fildes_v fd  | fd: int fd
 ) : strptr0 = "patsopt_file2strptr" // end of [file2strptr]

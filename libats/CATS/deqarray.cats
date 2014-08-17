@@ -209,6 +209,8 @@ atslib_deqarray_ptr_succ__tsz
   return (p1_elt < (char*)p_deq->deqarray_end) ? p1_elt : p_deq->deqarray_beg ;
 } // end of [atslib_deqarray_ptr_succ__tsz]
 
+/* ****** ****** */
+
 ATSinline()
 atstype_ptr
 atslib_deqarray_ptr_pred__tsz
@@ -250,6 +252,28 @@ atslib_deqarray_isnot_full__tsz
   return (atslib_deqarray_is_full__tsz(p, tsz)) ? atsbool_false : atsbool_true ;
 } // end of [atslib_deqarray_isnot_full__tsz]
 #endif
+
+/* ****** ****** */
+
+ATSinline()
+atstype_ptr
+atslib_deqarray_getref_at__tsz
+(
+  atstype_ptr p
+, atstype_size i, atstype_size tsz
+)
+{
+  atslib_deqarray_struct *p_deq ;
+  p_deq = (atslib_deqarray_struct*)p ;
+//
+  void *p_rear_i = (char*)p_deq->deqarray_rear + i * tsz ;
+//
+  if (p_rear_i >= p_deq->deqarray_end)
+    p_rear_i = (char*)p_deq->deqarray_beg + (p_rear_i - p_deq->deqarray_end) ;
+//
+  return p_rear_i ;
+//
+} // end of [atslib_deqarray_getref_at__tsz]
 
 /* ****** ****** */
 

@@ -15,9 +15,11 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 staload "libats/ML/SATS/string.sats"
-
+//
+staload _ = "libats/ML/DATS/string.dats"
+//
 (* ****** ****** *)
 
 #define nil stream_nil

@@ -79,7 +79,7 @@ end // end of [hashtbl_linprb_keyitm_nullize]
 (* ****** ****** *)
 
 implement(itm)
-hashtbl_linprb_keyitm_is_null<string, itm> (kx) = (string2ptr(kx.0) = 0)
+hashtbl_linprb_keyitm_is_null<string,itm> (kx) = (string2ptr(kx.0) = 0)
 
 (* ****** ****** *)
 

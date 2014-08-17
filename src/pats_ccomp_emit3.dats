@@ -112,20 +112,21 @@ val () = emit_text (out, "\n*/\n")
 //
 fun auxlst
 (
-  out: FILEref, xs: d2conlst
+  out: FILEref, d2cs: d2conlst
 ) : void = let
 in
 //
-case+ xs of
+case+ d2cs of
+| list_nil () => ()
 | list_cons
-    (x, xs) => let
-    val () = emit_text (out, "ATSdynexn_dec(")
-    val () = emit_d2con (out, x)
+    (d2c, d2cs) => let
+    val () =
+    emit_text (out, "ATSdynexn_dec(")
+    val () = emit_d2con (out, d2c)
     val () = emit_text (out, ") ;\n")
   in
-    auxlst (out, xs)
+    auxlst (out, d2cs)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end (* end of [auxlst] *)
 //
@@ -382,7 +383,7 @@ case+ xs of
     val () = emit_tmpvar (out, x.1)
     val () = emit_text (out, ", ")
     val () = emit_tmprimval (out, x.0)
-    val () = emit_text (out, ") ; ")
+    val () = emit_text (out, ") ;")
   in
     auxlst (out, i+1, xs)
   end // end of [list_cons]
@@ -395,10 +396,12 @@ in
 end (* end of [emit_tmpmovlst] *)
 
 (* ****** ****** *)
-
+//
 extern
-fun emit_patckont (out: FILEref, fail: patckont): void
-
+fun
+emit_patckont
+  (out: FILEref, fail: patckont): void
+//
 implement
 emit_patckont
   (out, fail) = let
@@ -408,48 +411,54 @@ case+ fail of
 //
 | PTCKNTtmplab (tlab) =>
   {
-    val () = emit_text (out, "ATSgoto(")
+    val () =
+    emit_text (out, "ATSINSgoto(")
     val () = emit_tmplab (out, tlab)
-    val () = emit_text (out, ")")
+    val ((*closing*)) = emit_text (out, ")")
   }
 //
 | PTCKNTtmplabint (tlab, int) =>
   {
-    val () = emit_text (out, "ATSgoto(")
+    val () =
+    emit_text (out, "ATSINSgoto(")
     val () = emit_tmplabint (out, tlab, int)
-    val () = emit_text (out, ")")
+    val ((*closing*)) = emit_text (out, ")")
   }
 //
 | PTCKNTtmplabmov (tlab, tmvlst) =>
   {
-    val (
-    ) = emit_tmpmovlst (out, tmvlst)
-    val () = emit_text (out, "ATSgoto(")
+    val () =
+    emit_tmpmovlst (out, tmvlst)
+    val () =
+    emit_text (out, "ATSINSgoto(")
     val () = emit_tmplab (out, tlab)
-    val () = emit_text (out, ")")
-  }
-//
-| PTCKNTcaseof_fail (loc) =>
-  {
-    val () = emit_text (out, "ATSINScaseof_fail(\"")
-    val () = $LOC.fprint_location (out, loc)
-    val () = emit_text (out, "\")")
-  }
-//
-| PTCKNTfunarg_fail (loc, fl) =>
-  {
-    val () = emit_text (out, "ATSINSfunarg_fail(\"")
-    val () = $LOC.fprint_location (out, loc)
-    val () = emit_text (out, "\")")
+    val ((*closing*)) = emit_text (out, ")")
   }
 //
 | PTCKNTraise (tmp, pmv_exn) =>
   {
-    val () = emit_text (out, "ATSINSraise_exn(")
-    val () = emit_tmpvar (out, tmp)
-    val () = emit_text (out, ", ")
-    val () = emit_primval (out, pmv_exn)
-    val () = emit_text (out, ")")
+    val () =
+    emit_text (out, "ATSINSraise_exn(")
+    val () = (
+      emit_tmpvar (out, tmp); emit_text (out, ", "); emit_primval (out, pmv_exn)
+    ) (* end of [val] *)
+    val ((*closing*)) = emit_text (out, ")")
+  }
+//
+| PTCKNTcaseof_fail (loc) =>
+  {
+    val () =
+    emit_text (out, "ATSINScaseof_fail(\"")
+    val () = $LOC.fprint_location (out, loc)
+    val ((*closing*)) = emit_text (out, "\")")
+  }
+//
+| PTCKNTfunarg_fail (loc, flab) =>
+  {
+    val () =
+    emit_text (out, "ATSINSfunarg_fail(\"")
+    val () = $LOC.fprint_location (out, loc)
+    val ((*closing*)) = emit_text (out, "\")")
   }
 //
 | PTCKNTnone ((*void*)) =>
@@ -458,7 +467,7 @@ case+ fail of
   }
 //
 end // (* end of [emit_patckont] *)
-
+//
 (* ****** ****** *)
 //
 // HX-2013-01:
@@ -493,10 +502,9 @@ case+ 0 of
           $S2E.eq_d2con_d2con (d2c, xx.0)
       | None () => false (* deadcode *)
     ) : bool // end of [val]
-    val () = emit_text (out, "if (")
-    val () =
-    (
-      if (isnil)
+    val () = emit_text (out, "ATSifthen(")
+    val () = (
+      if isnil
         then emit_text (out, "ATSCKptriscons(")
         else emit_text (out, "ATSCKptrisnull(")
       // end of [if]
@@ -504,7 +512,7 @@ case+ 0 of
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   in
     // nothing
   end // end of [islistlike]
@@ -512,19 +520,21 @@ case+ 0 of
     val isnul =
       $S2E.d2con_is_nullary (d2c)
     // end of [val]
-    val () = emit_text (out, "ATSifnot(")
+    val () =
+      emit_text (out, "ATSifnthen(")
     val () =
     (
       if isnul
-        then emit_text (out, "ATSPATCKcon0(")
-        else emit_text (out, "ATSPATCKcon1(")
+        then emit_text (out, "ATSCKpat_con0(")
+        else emit_text (out, "ATSCKpat_con1(")
+      // end of [if]
     ) : void // end of [val]
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_int (out, $S2E.d2con_get_tag (d2c))
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
+    val () = emit_text (out, " ; } ;")
   in
     // nothing
   end // end of [PATCKcon]
@@ -541,20 +551,21 @@ fun auxexn
 val narg =
   $S2E.d2con_get_arity_real (d2c)
 //
-val () = emit_text (out, "ATSifnot(")
+val () =
+  emit_text (out, "ATSifnthen(")
 val () =
 (
-if narg = 0
-  then emit_text (out, "ATSPATCKexn0(")
-  else emit_text (out, "ATSPATCKexn1(")
-// end of [if]
+  if narg = 0
+    then emit_text (out, "ATSCKpat_exn0(")
+    else emit_text (out, "ATSCKpat_exn1(")
+  // end of [if]
 ) : void // end of [val]
 val () = emit_primval (out, pmv)
 val () = emit_text (out, ", ")
 val () = emit_d2con (out, d2c);
 val () = emit_text (out, ")) { ")
 val () = emit_patckont (out, fail)
-val () = emit_text (out, " ; }")
+val () = emit_text (out, " ; } ;")
 //
 in
   // nothing
@@ -576,100 +587,93 @@ case+ patck of
     // end of [if]
   end // end of [PATCKcon]
 //
-| PATCKint (i) =>
-  {
-    val (
-    ) = emit_text (out, "ATSifnot(")
-    val (
-    ) = emit_text (out, "ATSPATCKint(")
+| PATCKint (i) => {
+    val () = emit_text (out, "ATSifnthen(")
+    val () = emit_text (out, "ATSCKpat_int(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVint (out, i)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
-  } // end of [PATCKint]
-| PATCKbool (b) =>
-  {
-    val (
-    ) = emit_text (out, "ATSifnot(")
-    val (
-    ) = emit_text (out, "ATSPATCKbool(")
+    val () = emit_text (out, " ; } ;")
+  } (* end of [PATCKint] *)
+//
+| PATCKbool (b) => {
+    val () = emit_text (out, "ATSifnthen(")
+    val () = emit_text (out, "ATSCKpat_bool(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVbool (out, b)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
-  } // end of [PATCKbool]
-| PATCKchar (c) =>
-  {
-    val (
-    ) = emit_text (out, "ATSifnot(")
-    val (
-    ) = emit_text (out, "ATSPATCKchar(")
+    val () = emit_text (out, " ; } ;")
+  } (* end of [PATCKbool] *)
+//
+| PATCKchar (c) => {
+    val () = emit_text (out, "ATSifnthen(")
+    val () = emit_text (out, "ATSCKpat_char(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVchar (out, c)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
-  } // end of [PATCKchar]
-| PATCKstring (str) =>
+    val () = emit_text (out, " ; } ;")
+  } (* end of [PATCKchar] *)
+//
+| PATCKfloat (float) =>
   {
-    val (
-    ) = emit_text (out, "ATSifnot(")
-    val (
-    ) = emit_text (out, "ATSPATCKstring(")
+    val () = emit_text (out, "ATSifnthen(")
+    val () = emit_text (out, "ATSCKpat_float(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
-    val () = emit_ATSPMVstring (out, str)
+    val () = emit_ATSPMVfloat (out, float)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
-  } // end of [PATCKstring]
-| PATCKfloat (dbl) => {
-    val (
-    ) = emit_text (out, "ATSifnot(")
-    val (
-    ) = emit_text (out, "ATSPATCKfloat(")
+    val () = emit_text (out, " ; } ;")
+  } (* end of [PATCKfloat] *)
+//
+| PATCKstring (string) =>
+  {
+    val () = emit_text (out, "ATSifnthen(")
+    val () = emit_text (out, "ATSCKpat_string(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
-    val () = emit_ATSPMVfloat (out, dbl)
+    val () = emit_ATSPMVstring (out, string)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
-  } // end of [PATCKfloat]
+    val () = emit_text (out, " ; } ;")
+  } (* end of [PATCKstring] *)
 //
 | PATCKi0nt (tok) => {
-    val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPATCKint(")
+    val () = emit_text (out, "ATSifnthen(")
+    val () = emit_text (out, "ATSCKpat_int(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVi0nt (out, tok)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
-  } // end of [PATCKi0nt]
+    val () = emit_text (out, " ; } ;")
+  } (* end of [PATCKi0nt] *)
+//
 | PATCKf0loat (tok) => {
-    val () = emit_text (out, "ATSifnot(")
-    val () = emit_text (out, "ATSPATCKfloat(")
+    val () = emit_text (out, "ATSifnthen(")
+    val () = emit_text (out, "ATSCKpat_float(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_ATSPMVf0loat (out, tok)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
-    val () = emit_text (out, " ; }")
-  } // end of [PATCKf0loat]
+    val () = emit_text (out, " ; } ;")
+  } (* end of [PATCKf0loat] *)
 //
 (*
-| _ => let
+| _ (*unrecognized*) => let
     val () = prerr_interror ()
     val () = prerrln! (": emit_instr_patck: patck = ", patck)
     val () = assertloc (false)
   in
-    $ERR.abort ()
-  end // end of [_]
+    $ERR.abort ((*void*))
+  end // end of [let] // end of [_]
 *)
 //
 end (* end of [auxmain] *)
@@ -703,15 +707,18 @@ fun aux
 (
   out: FILEref, ibr: ibranch
 ) : void =  let
-  val inss = ibr.ibranch_inslst
-  val () = emit_text (out, "ATSbranchbeg() ;\n")
-  val () = emit_instrlst_ln (out, inss)
-  val () = emit_text (out, "ATSbranchend() ;\n")
+//
+val inss = ibr.ibranch_inslst
+//
+val () = emit_text (out, "ATSbranch_beg()\n")
+val () = emit_instrlst_ln (out, inss)
+val () = emit_text (out, "ATSbranch_end()\n")
+//
 in
   // nothing
 end // end of [emit_branch]
 
-in (* in of [local] *)
+in (*in-of-local*)
 
 implement
 emit_ibranchlst
@@ -790,8 +797,8 @@ val issta = not (isext)
 val () = if istmp then emit_text (out, "#if(0)\n")
 val () = if isqua then emit_text (out, "#if(0)\n")
 //
-val () = if isext then emit_text (out, "ATSglobaldec()\n")
-val () = if issta then emit_text (out, "ATSstaticdec()\n")
+val () = if isext then emit_text (out, "ATSextern()\n")
+val () = if issta then emit_text (out, "ATSstatic()\n")
 //
 val hse_res = funlab_get_type_res (flab)
 val hses_arg = funlab_get_type_fullarg (flab)
@@ -998,8 +1005,8 @@ fun auxclo_type
   out: FILEref, flab: funlab, d2es: d2envlst
 ) : void = let
 //
-val () = emit_text (out, "typedef struct")
-val () = emit_text (out, "\n{\n")
+val () = emit_text (out, "typedef\n")
+val () = emit_text (out, "ATSstruct {\n")
 val () = emit_text (out, "atstype_funptr cfun ;\n")
 val () = aux1_envlst (out, d2es, 0)
 val () = emit_text (out, "} ")
@@ -1020,7 +1027,7 @@ val hses_arg = funlab_get_type_arg (flab)
 //
 val isvoid = hisexp_is_void (hse_res)
 //
-val () = emit_text (out, "ATSstaticdec()\n")
+val () = emit_text (out, "ATSstatic()\n")
 val () = emit_hisexp (out, hse_res)
 val () = emit_text (out, "\n")
 val () = emit_funlab (out, flab)
@@ -1049,7 +1056,7 @@ fun auxclo_init
   out: FILEref, flab: funlab, d2es: d2envlst
 ) : void = let
 //
-val () = emit_text (out, "ATSstaticdec()\n")
+val () = emit_text (out, "ATSstatic()\n")
 val () = emit_text (out, "atstype_cloptr\n")
 //
 val () = emit_funlab (out, flab)
@@ -1077,7 +1084,7 @@ fun auxclo_create
   out: FILEref, flab: funlab, d2es: d2envlst
 ) : void = let
 //
-val () = emit_text (out, "ATSstaticdec()\n")
+val () = emit_text (out, "ATSstatic()\n")
 val () = emit_text (out, "atstype_cloptr\n")
 //
 val () = emit_funlab (out, flab)
@@ -1165,12 +1172,14 @@ in
 end // end of [emit_funlab_funarg]
 
 (* ****** ****** *)
-
+//
 extern fun
-emit_funlab_funargx
+emit_funlab_funapy
   (out: FILEref, flab: funlab): void
+//
 implement
-emit_funlab_funargx (out, flab) = let
+emit_funlab_funapy
+  (out, flab) = let
 //
 fun auxlst
 (
@@ -1184,7 +1193,7 @@ case+ hses of
     val (
     ) = emit_text (out, "ATStmpdec(")
     val () = (
-      emit_funargx (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
+      emit_funapy (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
     ) (* end of [val] *)
     val () = emit_text (out, ") ;\n")
   in
@@ -1198,7 +1207,7 @@ val hses = funlab_get_type_arg (flab)
 //
 in
   auxlst (out, hses, 0(*i*))
-end // end of [emit_funlab_funargx]
+end // end of [emit_funlab_funapy]
 
 (* ****** ****** *)
 
@@ -1215,8 +1224,12 @@ val tmpret = funent_get_tmpret (fent)
 val ntlcal = tmpvar_get_tailcal (tmpret)
 //
 val () = emit_text (out, "/* tmpvardeclst(beg) */\n")
-val () = if ntlcal >= 2 then emit_funlab_funargx (out, flab)
+//
+val () =
+  if ntlcal >= 2 then emit_funlab_funapy (out, flab)
+//
 val () = emit_tmpdeclst (out, funent_get_tmpvarlst (fent))
+//
 val () = emit_text (out, "/* tmpvardeclst(end) */\n")
 //
 in
@@ -1224,18 +1237,22 @@ in
 end // end of [emit_funent_fundec]
 
 (* ****** ****** *)
-
-extern
-fun emit_funent_funbody
-  (out: FILEref, fent: funent): void
-implement
-emit_funent_funbody (out, fent) = let
 //
-val () = emit_text (out, "/* funbodyinstrlst(beg) */\n")
+extern
+fun
+emit_funent_funbody
+  (out: FILEref, fent: funent): void
+//
+implement
+emit_funent_funbody
+  (out, fent) = let
+//
+val () = emit_text (out, "ATSfunbody_beg()\n")
 val () = emit_instrlst_ln (out, funent_get_instrlst (fent))
-val () = emit_text (out, "/* funbodyinstrlst(end) */\n")
+val () = emit_text (out, "ATSfunbody_end()\n")
 //
 val tmpret = funent_get_tmpret (fent)
+//
 val () = let
   val isvoid = tmpvar_is_void (tmpret)
 in
@@ -1244,9 +1261,9 @@ in
   // end of [if]
 end : void // end of [let] // end of [val]
 //
-val (
-) = emit_tmpvar (out, tmpret)
-val () = emit_text (out, ") ;\n")
+val () = emit_tmpvar (out, tmpret)
+//
+val ((*closing*)) = emit_text (out, ") ;\n")
 //
 in
   // nothing
@@ -1490,9 +1507,9 @@ val isext =
 val issta = not (isext)
 //
 val () =
-  if isext then emit_text (out, "ATSglobaldec()\n")
+  if isext then emit_text (out, "ATSextern()\n")
 val () =
-  if issta then emit_text (out, "ATSstaticdec()\n")
+  if issta then emit_text (out, "ATSstatic()\n")
 //
 val istmp = funent_is_tmplt (fent)
 val () = if istmp then auxtmp (out, fent)

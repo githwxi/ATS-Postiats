@@ -94,11 +94,15 @@ This function is the optional version of #dyncode("stream_nth_exn").
 
 #declnamesynop("stream_map")
 #declnamesynop("stream_map$fopr")
+#declnamesynop("stream_map_fun")
+#declnamesynop("stream_map_cloref")
 
 (* ****** ****** *)
 
-#declnamesynop("stream_map_fun")
-#declnamesynop("stream_map_cloref")
+#declnamesynop("stream_imap")
+#declnamesynop("stream_imap$fopr")
+#declnamesynop("stream_imap_fun")
+#declnamesynop("stream_imap_cloref")
 
 (* ****** ****** *)
 

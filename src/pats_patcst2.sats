@@ -32,18 +32,25 @@
 // Start Time: February, 2012
 //
 (* ****** ****** *)
-
-staload "./pats_basics.sats"
-
+//
+staload
+"./pats_basics.sats"
+//
 (* ****** ****** *)
-
+//
+staload
+UT = "./pats_utils.sats"
+//
+typedef charset = $UT.charset
+//
+(* ****** ****** *)
+//
 staload
 INTINF = "./pats_intinf.sats"
+//
 typedef intinf = $INTINF.intinf
 typedef intinfset = $INTINF.intinfset
-macdef fprint_intinf = $INTINF.fprint_intinf
-macdef fprint_intinfset = $INTINF.fprint_intinfset
-
+//
 (* ****** ****** *)
 
 staload
@@ -68,22 +75,29 @@ typedef c2lau = $DYNEXP2.c2lau
 
 (* ****** ****** *)
 
-fun intinf_of_i0nt (x: $SYN.i0nt): intinf
+fun i0nt2intinf (x: $SYN.i0nt): intinf
 
 (* ****** ****** *)
 
 datatype
 p2atcst =
+//
   | P2TCany of ()
   | P2TCcon of (d2con, p2atcstlst)
   | P2TCempty of ()
+//
   | P2TCint of intinf
-  | P2TCbool of bool
-  | P2TCchar of char
-  | P2TCstring of string
-  | P2TCfloat of string(*rep*)
-  | P2TCrec of (int(*reckind*), labp2atcstlst)
   | P2TCintc of intinfset
+//
+  | P2TCbool of bool
+//
+  | P2TCchar of char
+  | P2TCcharc of charset
+//
+  | P2TCfloat of string(*rep*)
+  | P2TCstring of string
+//
+  | P2TCrec of (int(*reckind*), labp2atcstlst)
 // end of [p2atcst]
 
 and labp2atcst = LABP2ATCST of (label, p2atcst)
@@ -93,6 +107,12 @@ p2atcstlst
   (n:int) = list (p2atcst, n)
 and p2atcstlst = List (p2atcst)
 and labp2atcstlst = List (labp2atcst)
+
+(* ****** ****** *)
+
+fun p2atcst_lst (lin: int, xs: p2atcstlst): p2atcst
+
+(* ****** ****** *)
 
 viewtypedef
 p2atcstlst_vt = List_vt (p2atcst)
@@ -117,10 +137,16 @@ fun p2atcstlstlst_vt_free (xss: p2atcstlstlst_vt): void
 fun p2atcstlstlst_vt_copy (xss: !p2atcstlstlst_vt): p2atcstlstlst_vt
 
 (* ****** ****** *)
-
+//
 fun print_p2atcst (x: p2atcst): void
 and prerr_p2atcst (x: p2atcst): void
 fun fprint_p2atcst : fprint_type (p2atcst)
+//
+overload print with print_p2atcst
+overload prerr with prerr_p2atcst
+overload fprint with fprint_p2atcst
+//
+(* ****** ****** *)
 
 fun print_p2atcstlst (xs: p2atcstlst): void
 and prerr_p2atcstlst (xs: p2atcstlst): void

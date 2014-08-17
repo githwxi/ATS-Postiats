@@ -425,11 +425,11 @@ x:vt0p}{env:vt0p
 fun{
 x:vt0p}{env:vt0p
 } list_vt_iforeach$cont
-  (i: int, x: &x, env: &env): bool
+  (i: intGte(0), x: &x, env: &env): bool
 fun{
 x:vt0p}{env:vt0p
 } list_vt_iforeach$fwork
-  (i: int, x: &x >> _, env: &(env) >> _): void
+  (i: intGte(0), x: &x >> _, env: &(env) >> _): void
 //
 #atscode_separator()
 //

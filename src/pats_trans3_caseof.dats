@@ -152,13 +152,17 @@ val (pfpush | ()) = trans3_env_push ()
 val seq = c2l.c2lau_seq
 and neg = c2l.c2lau_neg
 //
-val () = if seq > 0 then let
-  val cp2tcss = p2atcstlstlst_vt_copy (cp2tcss) in
+val () =
+if seq > 0 then let
+  val cp2tcss = p2atcstlstlst_vt_copy (cp2tcss)
+in
   trans3_env_hypadd_patcstlstlst (loc0, cp2tcss, s2es_pat)
 end // end of [val]
 var serr: int = 0
 val p3ts = p2atlst_trdn (loc0, p2ts, s2es_pat, serr)
-val () = if (serr != 0) then {
+val () =
+if (serr != 0) then
+{
   val () = the_trans3errlst_add (T3E_c2lau_trdn_arity (c2l, s2es_pat))
 } // end of [val]
 (*
@@ -248,7 +252,8 @@ val () = begin
 end // end of [val]
 *)
 //
-val cp2tcss = (
+val cp2tcss =
+(
   case+ casknd of
   | CK_case () => c2lau_pat_comp (c2l)
   | CK_case_pos () => c2lau_pat_comp (c2l)
@@ -268,13 +273,18 @@ in
 end // end of [val]
 val () = lstaftc3nstr_update (lsaft, ctr)
 //
-val isexhaust = ( // HX: always true for [case-]
+val
+isexhaust = (
+//
+// HX: true for [case-]
+//
   if list_vt_is_nil (cp2tcss) then true else false
 ) : bool // end of [val]
-val () = if ~isexhaust then let
+val () =
+if ~isexhaust then let
   val cp2tcss = p2atcstlstlst_vt_copy (cp2tcss) in
   trans3_env_add_patcstlstlst_false (loc0, casknd, cp2tcss, s2es_pat)
-end // end of [val]
+end // end of [if] // end of [val]
 //
 val () = p2atcstlstlst_vt_free (cp2tcss)
 //
@@ -290,7 +300,7 @@ in
 end // end of [c2laulst1_trdn]
 
 (* ****** ****** *)
-
+//
 extern
 fun
 c2laulst2_trdn
@@ -303,8 +313,8 @@ c2laulst2_trdn
 , d3es: list (d3exp, n)
 , s2es_pat: list (s2exp, n)
 , s2e_res: s2exp
-) : c3laulst n
-
+) : c3laulst (n)
+//
 and
 c2laulst2_trdn_rest
   {n:nat} (
@@ -319,14 +329,18 @@ c2laulst2_trdn_rest
 , s2es_pat: list (s2exp, n)
 , s2e_res: s2exp
 , cp2tcss: &p2atcstlstlst_vt
-) : c3laulst n
-
+) : c3laulst (n)
+//
 (* ****** ****** *)
 
 implement
-c2laulst2_trdn {n} (
-  loc0, casknd, invres, c2l_fst, c2ls_rest, d3es, s2es_pat, s2e_res
-) : c3laulst n = let
+c2laulst2_trdn{n}
+(
+  loc0
+, casknd, invres
+, c2l_fst, c2ls_rest
+, d3es, s2es_pat, s2e_res
+) = let
 (*
 val () = begin
   print "c2laulst2_trdn: s2es_pat = "; print s2es_pat; print_newline ();
@@ -535,7 +549,8 @@ end // end of [c2laulst2_trdn_rest]
 (* ****** ****** *)
 
 implement
-c2laulst_trdn {n} (
+c2laulst_trdn{n}
+(
   loc0, casknd, invres, c2ls, d3es, s2es_pat, s2e_res
 ) = let
 in

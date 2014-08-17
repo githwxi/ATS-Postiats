@@ -163,22 +163,37 @@ absprop DIVMOD (
 propdef DIV (x:int, y:int, q:int) = [r:int] DIVMOD (x, y, q, r)
 propdef MOD (x:int, y:int, r:int) = [q:int] DIVMOD (x, y, q, r)
 
-praxi div_istot {x,y:int | x >= 0; y > 0} (): DIV (x, y, x/y)
+#atscode_separator()
 
-praxi divmod_istot
+praxi
+div_istot {x,y:int | x >= 0; y > 0} (): DIV (x, y, x/y)
+
+praxi
+divmod_istot
   {x,y:int | x >= 0; y > 0} (): [q,r:nat | r < y] DIVMOD (x, y, q, r)
 
-praxi divmod_isfun
+praxi
+divmod_isfun
   {x,y:int | x >= 0; y > 0}
   {q1,q2:int} {r1,r2:int} (
   pf1: DIVMOD (x, y, q1, r1)
 , pf2: DIVMOD (x, y, q2, r2)
 ) : [q1==q2;r1==r2] void // end of [divmod_isfun]
 
-praxi divmod_elim
-  {x,y:int | x >= 0; y > 0} {q,r:int}
-  (pf: DIVMOD (x, y, q, r)): [qy:int | 0 <= r; r < y; x==qy+r] MUL (q, y, qy)
-// end of [divmod_elim]
+praxi
+divmod_elim
+  {x,y:int | x >= 0; y > 0}
+  {q,r:int}
+(
+  pf: DIVMOD (x, y, q, r)
+) : [qy:int | 0 <= r; r < y; x==qy+r] MUL (q, y, qy)
+
+praxi
+divmod_mul_elim
+  {x,y:int | x >= 0; y > 0}
+  {q,r:int}
+  (pf: DIVMOD (x, y, q, r)): [0 <= r; r < y; x==q*y+r] void
+// end of [divmod_mul_elim]
 
 #atscode_separator()
 //

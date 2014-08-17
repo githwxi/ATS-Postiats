@@ -17,7 +17,8 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 ######
 
-all:: clofuns
+all:: \
+clofuns
 clofuns: clofuns.dats ; \
   $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: clofuns ; ./$<
@@ -25,7 +26,8 @@ cleanall:: ; $(RMF) clofuns
 
 ######
 
-all:: conjdisj
+all:: \
+conjdisj
 conjdisj: conjdisj.dats ; \
   $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: conjdisj ; ./$<
@@ -33,7 +35,8 @@ cleanall:: ; $(RMF) conjdisj
 
 ######
 
-all:: dotoverld
+all:: \
+dotoverld
 dotoverld: dotoverld.dats ; \
   $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: dotoverld ; ./$<
@@ -41,14 +44,16 @@ cleanall:: ; $(RMF) dotoverld
 
 ######
 
-all:: extfcall
+all:: \
+extfcall
 extfcall: extfcall.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: extfcall ; ./$<
 cleanall:: ; $(RMF) extfcall
 
 ######
 
-all:: fieldarr
+all:: \
+fieldarr
 fieldarr: fieldarr.dats ; \
   $(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
 regress:: fieldarr ; ./$<
@@ -56,7 +61,8 @@ cleanall:: ; $(RMF) fieldarr
 
 ######
 
-all:: findexn
+all:: \
+findexn
 findexn: findexn_dats.c ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 findexn_dats.c: findexn.dats ; $(PATSCC2) -ccats $<
@@ -66,7 +72,8 @@ cleanall:: ; $(RMF) findexn_dats.c
 
 ######
 
-all:: fixedpoint
+all:: \
+fixedpoint
 fixedpoint: fixedpoint.dats ; \
   $(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
 regress:: fixedpoint ; ./$<
@@ -74,7 +81,25 @@ cleanall:: ; $(RMF) fixedpoint
 
 ######
 
-all:: lazytest
+all:: \
+funargpat
+funargpat: funargpat.dats ; \
+  $(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+regress:: funargpat ; ./$<
+cleanall:: ; $(RMF) funargpat
+
+######
+
+all:: \
+intbase
+intbase: intbase.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: intbase ; ./$<
+cleanall:: ; $(RMF) intbase
+
+######
+
+all:: \
+lazytest
 lazytest: lazytest_dats.c ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 lazytest_dats.c: lazytest.dats ; $(PATSCC2) -ccats $<
@@ -82,7 +107,8 @@ regress:: lazytest ; ./$<
 cleanall:: ; $(RMF) lazytest
 cleanall:: ; $(RMF) lazytest_dats.c
 
-all:: llazytest
+all:: \
+llazytest
 llazytest: llazytest_dats.c ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 llazytest_dats.c: llazytest.dats ; $(PATSCC2) -ccats $<
@@ -92,21 +118,35 @@ cleanall:: ; $(RMF) llazytest_dats.c
 
 ######
 
-all:: mutailrec
-mutailrec: mutailrec.dats ; $(PATSCC2) -cleanaft -o $@ $<
+all:: \
+listpat
+listpat: listpat.dats ; \
+   $(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+regress:: listpat ; ./$<
+cleanall:: ; $(RMF) listpat
+
+######
+
+all:: \
+mutailrec
+mutailrec: \
+mutailrec.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: mutailrec ; ./$<
 cleanall:: ; $(RMF) mutailrec
 
 ######
 
-all:: partmplt
-partmplt: partmplt.dats ; $(PATSCC2) -cleanaft -o $@ $<
+all:: \
+partmplt
+partmplt: \
+partmplt.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: partmplt ; ./$<
 cleanall:: ; $(RMF) partmplt
 
 ######
 
-all:: patguard
+all:: \
+patguard
 patguard: patguard.dats ; \
   $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: patguard ; ./$<
@@ -114,7 +154,8 @@ cleanall:: ; $(RMF) patguard
 
 ######
 
-all:: patlinrec
+all:: \
+patlinrec
 patlinrec: patlinrec.dats ; \
   $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: patlinrec ; ./$<
@@ -122,7 +163,8 @@ cleanall:: ; $(RMF) patlinrec
 
 ######
 
-all:: patrefas
+all:: \
+patrefas
 patrefas: patrefas.dats ; \
   $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: patrefas ; ./$<
@@ -130,21 +172,32 @@ cleanall:: ; $(RMF) patrefas
 
 ######
 
-all:: stkalloc
+all:: \
+pfsearch
+pfsearch: pfsearch.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: pfsearch ; ./$<
+cleanall:: ; $(RMF) pfsearch
+
+######
+
+all:: \
+stkalloc
 stkalloc: stkalloc.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: stkalloc ; ./$<
 cleanall:: ; $(RMF) stkalloc
 
 ######
 
-all:: sumodd
+all:: \
+sumodd
 sumodd: sumodd.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: sumodd ; ./$<
 cleanall:: ; $(RMF) sumodd
 
 ######
 
-all:: trywith
+all:: \
+trywith
 trywith: trywith.dats ; \
   $(PATSCC2) -D_GNU_SOURCE -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 #
@@ -155,14 +208,16 @@ cleanall:: ; $(RMF) trywith
 
 ######
 
-all:: union
+all:: \
+union
 union: union.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: union ; ./$<
 cleanall:: ; $(RMF) union
 
 ######
 
-all:: weekday
+all:: \
+weekday
 weekday: weekday.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: weekday ; ./$<
 cleanall:: ; $(RMF) weekday

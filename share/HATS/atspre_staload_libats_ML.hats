@@ -29,8 +29,6 @@ staload "libats/ML/SATS/filebas.sats"
 //
 staload "libats/ML/SATS/stdlib.sats"
 //
-(* ****** ****** *)
-
 staload _(*anon*) = "libats/ML/DATS/list0.dats"
 staload _(*anon*) = "libats/ML/DATS/option0.dats"
 staload _(*anon*) = "libats/ML/DATS/array0.dats"
@@ -39,7 +37,25 @@ staload _(*anon*) = "libats/ML/DATS/string.dats"
 staload _(*anon*) = "libats/ML/DATS/strarr.dats"
 staload _(*anon*) = "libats/ML/DATS/filebas.dats"
 staload _(*anon*) = "libats/ML/DATS/stdlib.dats"
-
+//
+(* ****** ****** *)
+//
+staload "libats/ML/SATS/funmap.sats"
+//
+staload "libats/ML/SATS/funset.sats"
+//
+staload _(*anon*) = "libats/ML/DATS/funmap.dats"
+staload _(*anon*) = "libats/ML/DATS/funset.dats"
+//
+(* ****** ****** *)
+//
+staload "libats/ML/SATS/hashtblref.sats"
+//
+staload _ = "libats/DATS/hashfun.dats"
+staload _ = "libats/DATS/linmap_list.dats"
+staload _ = "libats/DATS/hashtbl_chain.dats"
+staload _ = "libats/ML/DATS/hashtblref.dats"
+//
 (* ****** ****** *)
 
 (* end of [atslib_staload_libats_ML.hats] *)

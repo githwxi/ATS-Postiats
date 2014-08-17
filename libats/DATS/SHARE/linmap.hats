@@ -39,12 +39,15 @@
 // HX: shared by linmap_skiplist
 //
 (* ****** ****** *)
-
-implement{key}
+//
+implement
+{key}(*tmp*)
 equal_key_key = gequal_val<key>
-implement{key}
+//
+implement
+{key}(*tmp*)
 compare_key_key = gcompare_val<key>
-
+//
 (* ****** ****** *)
 
 implement

@@ -166,14 +166,41 @@ cleanall:: ; $(RMF) qa-list-262
 
 ######
 
-all:: list_last
+all:: \
+qa-list-285
+qa-list-285: \
+qa-list-285.dats ; \
+  $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) qa-list-285
+
+######
+
+all:: \
+qa-list-303
+qa-list-303: \
+qa-list-303.dats ; $(PATSCC) -cleanaft -o $@ $<
+cleanall:: ; $(RMF) qa-list-303
+
+######
+
+all:: \
+qa-list-312
+qa-list-312: \
+qa-list-312.dats ; $(PATSCC) -cleanaft -o $@ $<
+cleanall:: ; $(RMF) qa-list-312
+
+######
+
+all:: \
+list_last
 list_last: list_last.dats ; \
   $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 cleanall:: ; $(RMF) list_last
 
 ######
 
-all:: list_copy
+all:: \
+list_copy
 list_copy: list_copy.dats ; \
   $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 cleanall:: ; $(RMF) list_copy

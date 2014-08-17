@@ -74,25 +74,6 @@ fprint_dynarray
 // end of [fprint_dynarray]
 
 (* ****** ****** *)
-
-fun{}
-dynarray_getfree_arrayptr{a:vt0p}
-(
-  DA: dynarray (INV(a)), n: &size_t? >> size_t(n)
-) :<!wrt> #[n:nat] arrayptr (a, n)
-
-(* ****** ****** *)
-
-fun{}
-dynarray_get_array{a:vt0p}
-(
-  DA: !RD(dynarray (INV(a))), n: &size_t? >> size_t(n)
-) :<!wrt> #[l:addr;n:int]
-(
-  array_v (a, l, n), array_v (a, l, n) -<lin,prf> void | ptr l
-) // end of [dynarray_get_array]
-
-(* ****** ****** *)
 //
 fun{}
 dynarray_get_size
@@ -102,20 +83,42 @@ dynarray_get_capacity
   {a:vt0p} (DA: !RD(dynarray (INV(a)))): size_t
 //
 (* ****** ****** *)
+
+fun{}
+dynarray_get_array{a:vt0p}
+(
+  DA: !dynarray (INV(a)), n: &size_t? >> size_t(n)
+) :<!wrt> #[l:addr;n:int]
+(
+  array_v (a, l, n), array_v (a, l, n) -<lin,prf> void | ptr l
+) // end of [dynarray_get_array]
+
+(* ****** ****** *)
+
+fun{}
+dynarray_getfree_arrayptr
+  {a:vt0p}
+(
+  DA: dynarray (INV(a)), n: &size_t? >> size_t(n)
+) :<!wrt> #[n:nat] arrayptr (a, n)
+
+(* ****** ****** *)
+//
+fun{a:t0p}
+dynarray_get_at_exn
+  (DA: !dynarray(INV(a)), i: size_t):<!exn> a
+fun{a:t0p}
+dynarray_set_at_exn
+  (DA: !dynarray(INV(a)), i: size_t, x: a):<!exnwrt> void
+//
+overload [] with dynarray_get_at_exn
+overload [] with dynarray_set_at_exn
+//
+(* ****** ****** *)
 //
 fun{a:vt0p}
 dynarray_getref_at
   (DA: !RD(dynarray(INV(a))), i: size_t):<> cPtr0 (a)
-//
-fun{a:t0p}
-dynarray_get_at_exn
-  (DA: !RD(dynarray(INV(a))), i: size_t):<!exn> a
-fun{a:t0p}
-dynarray_set_at_exn
-  (DA: !RD(dynarray(INV(a))), i: size_t, x: a):<!exnwrt> void
-//
-overload [] with dynarray_get_at_exn
-overload [] with dynarray_set_at_exn
 //
 (* ****** ****** *)
 
@@ -132,28 +135,29 @@ dynarray_insert_at_exn
   (DA: !dynarray (INV(a)), i: size_t, x: a): void
 fun{a:vt0p}
 dynarray_insert_at_opt
-  (DA: !dynarray (INV(a)), i: size_t, x: a): Option_vt (a)
+  (DA: !dynarray (INV(a)), i: size_t, x: a): Option_vt(a)
 //
 (* ****** ****** *)
 
 fun{a:vt0p}
 dynarray_insert_atbeg_exn (DA: !dynarray (INV(a)), x: a): void
 fun{a:vt0p}
-dynarray_insert_atbeg_opt (DA: !dynarray (INV(a)), x: a): Option_vt (a)
+dynarray_insert_atbeg_opt (DA: !dynarray (INV(a)), x: a): Option_vt(a)
 
 fun{a:vt0p}
 dynarray_insert_atend_exn (DA: !dynarray (INV(a)), x: a): void
 fun{a:vt0p}
-dynarray_insert_atend_opt (DA: !dynarray (INV(a)), x: a): Option_vt (a)
+dynarray_insert_atend_opt (DA: !dynarray (INV(a)), x: a): Option_vt(a)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-dynarray_inserts_at{n2:int}
+dynarray_insertseq_at
+  {n2:int}
 (
   DA: !dynarray (INV(a)), i: size_t
 , xs: &array(a, n2) >> arrayopt(a, n2, b), n2: size_t (n2)
-) : #[b:bool] bool(b) // end of [dynarray_inserts_at]
+) : #[b:bool] bool(b) // end-of-fun
 
 (* ****** ****** *)
 
@@ -170,38 +174,38 @@ dynarray_takeout_at_exn
   (DA: !dynarray (INV(a)), i: size_t): (a)
 fun{a:vt0p}
 dynarray_takeout_at_opt
-  (DA: !dynarray (INV(a)), i: size_t): Option_vt (a)
+  (DA: !dynarray (INV(a)), i: size_t): Option_vt(a)
 //
 (* ****** ****** *)
 
 fun{a:vt0p}
 dynarray_takeout_atbeg_exn (DA: !dynarray (INV(a))): (a)
 fun{a:vt0p}
-dynarray_takeout_atbeg_opt (DA: !dynarray (INV(a))): Option_vt (a)
+dynarray_takeout_atbeg_opt (DA: !dynarray (INV(a))): Option_vt(a)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 dynarray_takeout_atend_exn (DA: !dynarray (INV(a))): (a)
 fun{a:vt0p}
-dynarray_takeout_atend_opt (DA: !dynarray (INV(a))): Option_vt (a)
-
-(* ****** ****** *)
-
-fun{a:t0p}
-dynarray_filter$pred (x: &a): bool
-fun{a:t0p}
-dynarray_filter (DA: !dynarray (INV(a))): void
+dynarray_takeout_atend_opt (DA: !dynarray (INV(a))): Option_vt(a)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-dynarray_filterlin$pred (x: &a): bool
-fun{a:vt0p}
-dynarray_filterlin$clear (x: &a >> a?): void
-fun{a:vt0p}
-dynarray_filterlin (DA: !dynarray (INV(a))): void
+dynarray_takeoutseq_at
+  {n2:int}
+(
+  DA: !dynarray (INV(a)), i: size_t
+, xs: &array(a?, n2) >> arrayopt(a, n2, b), n2: size_t (n2)
+) : #[b:bool] bool(b) // end-of-fun
 
+(* ****** ****** *)
+//
+fun{a:t0p}
+dynarray_removeseq_at
+  (DA: !dynarray (INV(a)), st: size_t, ln: size_t):<!wrt> size_t
+//
 (* ****** ****** *)
 
 fun{a:vt0p}

@@ -62,31 +62,37 @@ viewtypedef tokbuf = tokbuf_vt0ype
 //
 (* ****** ****** *)
 
-fun tokbuf_initialize_filp
+fun
+tokbuf_initialize_filp
   {m:file_mode} {l:addr} (
   pfmod: file_mode_lte (m, r)
 , pffil: FILE m @ l
 | r: &tokbuf? >> tokbuf, p: ptr l
 ) : void // end of [tokbuf_initialize_filp]
 
-fun tokbuf_initialize_getc (
+fun
+tokbuf_initialize_getc
+(
   buf: &tokbuf? >> tokbuf, getc: () -<cloptr1> int
 ) : void // end of [tokbuf_initialize_getc]
 
-fun tokbuf_initialize_string (
+fun
+tokbuf_initialize_string
+(
   buf: &tokbuf? >> tokbuf, inp: string
 ) : void // end of [tokbuf_initialize_string]
 
-fun tokbuf_initialize_lexbuf (
+fun
+tokbuf_initialize_lexbuf
+(
   buf: &tokbuf? >> tokbuf, lbf: &lexbuf >> lexbuf?
 ) : void // end of [tokbuf_initialize_lexbuf]
 
 (* ****** ****** *)
-
-fun tokbuf_uninitialize (
-  buf: &tokbuf >> tokbuf?
-) : void // end of [tokbuf_uninitialize]
-
+//
+fun
+tokbuf_uninitialize (buf: &tokbuf >> tokbuf?) : void
+//
 (* ****** ****** *)
 
 fun tokbuf_get_ntok (buf: &tokbuf): uint
@@ -105,12 +111,6 @@ fun tokbuf_reset (buf: &tokbuf): void
 
 fun tokbuf_get_token (buf: &tokbuf): token
 fun tokbuf_getinc_token (buf: &tokbuf): token
-
-(* ****** ****** *)
-//
-// HX-2012-06: for pushing back a given token
-//
-fun tokbuf_unget_token (buf: &tokbuf, tok: token): void
 
 (* ****** ****** *)
 

@@ -185,9 +185,10 @@ staload _ = "libats/DATS/athread_posix.dats"
 (* ****** ****** *)
 
 extern
-fun{
-a:t@ype
-} test_dotprod{n:nat}
+fun
+{a:t@ype}
+test_dotprod
+  {n:nat}
 (
   times: int
 , A: &array(a, n), B: &array(a, n), n: int(n)

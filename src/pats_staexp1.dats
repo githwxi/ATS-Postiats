@@ -84,7 +84,7 @@ e1xp_float (loc, rep) = e1xp_make (loc, E1XPfloat rep)
 implement
 e1xp_i0nt
   (loc, x) = let
-  val-$LEX.T_INTEGER
+  val-$LEX.T_INT
     (base, rep, _(*sfx*)) = x.token_node
   // end of [val]
 in
@@ -328,7 +328,7 @@ s1exp_intrep
 implement
 s1exp_i0nt
   (loc, x) = let
-  val-$LEX.T_INTEGER
+  val-$LEX.T_INT
     (base, rep, _(*sfx*)) = x.token_node
   // end of [val]
 in

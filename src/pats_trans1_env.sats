@@ -88,11 +88,17 @@ fun fprint_the_fxtyenv (out: FILEref): void // mostly for debugging
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2014-07:
+// these function are no longer in use
+//
 absview
 trans1_level_v // for avoiding negative levels
 fun the_trans1_level_get (): int
 fun the_trans1_level_dec (pf: trans1_level_v | (*none*)): void
 fun the_trans1_level_inc (): (trans1_level_v | void)
+*)
 
 (* ****** ****** *)
 

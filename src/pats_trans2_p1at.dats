@@ -618,6 +618,7 @@ val p2t = p1at_tr (p1t)
 in
 //
 case+ p2t.p2at_node of
+//
 | P2Tcon (
     PCKcon (), d2c, s2qs, s2e, npf, darg
   ) => let
@@ -625,11 +626,12 @@ case+ p2t.p2at_node of
   in
     p2at_con (loc0, pck, d2c, s2qs, s2e, npf, darg)
   end // end of [P2Tcon]
+//
 | _ => let
     val loc0 = p1t0.p1at_loc
     val () = prerr_error2_loc (loc0)
     val () = filprerr_ifdebug ("p1at_tr_free_unfold")
-    val () = prerr ": the pattern is expected to formed with a constructor (of datavtype)."
+    val () = prerr ": the pattern is expected to be formed with a constructor (of datavtype)."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
   in

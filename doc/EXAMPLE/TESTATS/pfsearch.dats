@@ -21,7 +21,23 @@ tptr_set {l:addr}
 
 (* ****** ****** *)
 
-implement main0 () = ()
+implement
+main0 () = () where
+{
+//
+var x: int = 0
+//
+val tp = (view@x | addr@x)
+//
+val () = println! ("tptr_get(tp) = ", tptr_get<int> (tp))
+//
+val () = tptr_set (tp, 1)
+//
+val () = println! ("tptr_get(tp) = ", tptr_get<int> (tp))
+//
+prval () = view@x := tp.0
+//
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

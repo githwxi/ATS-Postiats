@@ -40,12 +40,14 @@ staload "./pats_error.sats"
 implement
 abort () = let
 (*
-  val _ = segfault () where {
-    extern fun segfault (): int = "pats_error_segfault"
-  } // end of [val]
+val _ =
+segfault () where
+{
+  extern fun segfault (): int = "pats_error_segfault"
+} (* end of [val] *)
 *)
 in
-  $raise FatalErrorException()
+  $raise FatalErrorExn((*void*))
 end // end of [abort]
 
 (* ****** ****** *)

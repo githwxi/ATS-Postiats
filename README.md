@@ -10,7 +10,7 @@ ATS2, the successor of ATS (or ATS1).
 The actual implementation of ATS/Postiats started in the March of 2011, and
 it took about two and one-half years to reach the first release of ATS2 at
 the beginning of September, 2013. As of now, the code base for the compiler
-of ATS2 consists of 140,000+ lines of code (LOC), which are nearly all
+of ATS2 consists of 150,000+ lines of code (LOC), which are nearly all
 written in ATS1.
 
 When compared to ATS1, the single most important new feature is the
@@ -32,12 +32,26 @@ Bohem-GC) can be readily employed.
 ## Installing ATS2
 
 Please see
-[http://www.ats-lang.org/DOWNLOAD/](http://www.ats-lang.org/DOWNLOAD/) for instructions.
+[http://www.ats-lang.org/DOWNLOAD/](http://www.ats-lang.org/DOWNLOAD/) for
+instructions.
+
+Note that the code in this github directory is primarily meant for people
+who would like to help develop ATS2. For someone who just wants to program
+in ATS2, please install the current release of ATS2 available at
+[https://sourceforge.net/projects/ats2-lang/](https://sourceforge.net/projects/ats2-lang/).
 
 ## Developing ATS2
 
 The compiler of ATS2 is nearly all implemented in ATS1, which is available
 at [http://sourceforge.net/projects/ats-lang/](http://sourceforge.net/projects/ats-lang/).
+
+## Documenting ATS2
+
+ATS-users are encouraged to share what they have learned on the
+[ATS2 wiki](https://github.com/githwxi/ATS-Postiats/wiki), which currently
+contains over 35 articles with content.  A list of article stubs is
+maintained at [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
+
 
 ## License
 

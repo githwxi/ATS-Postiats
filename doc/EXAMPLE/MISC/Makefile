@@ -46,6 +46,14 @@ cleanall:: ; $(RMF) autodiff autodiff.exe
 
 ######
 
+all:: arith_overflow
+arith_overflow: arith_overflow.exe
+arith_overflow.exe: arith_overflow_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+arith_overflow_dats.c: arith_overflow.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output arith_overflow_dats.c --dynamic arith_overflow.dats
+clean:: ; $(RMF) arith_overflow_dats.o
+clean:: ; $(RMF) arith_overflow_dats.c
+cleanall:: ; $(RMF) arith_overflow arith_overflow.exe
+
 all:: coinflip
 coinflip: coinflip.exe
 coinflip.exe: coinflip_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -102,6 +110,14 @@ clean:: ; $(RMF) isqrt_dats.o
 clean:: ; $(RMF) isqrt_dats.c
 cleanall:: ; $(RMF) isqrt isqrt.exe
 
+all:: matrixops
+matrixops: matrixops.exe
+matrixops.exe: matrixops_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+matrixops_dats.c: matrixops.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output matrixops_dats.c --dynamic matrixops.dats
+clean:: ; $(RMF) matrixops_dats.o
+clean:: ; $(RMF) matrixops_dats.c
+cleanall:: ; $(RMF) matrixops matrixops.exe
+
 all:: monad_maybe
 monad_maybe: monad_maybe.exe
 monad_maybe.exe: monad_maybe_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -118,6 +134,13 @@ clean:: ; $(RMF) monad_state_dats.o
 clean:: ; $(RMF) monad_state_dats.c
 cleanall:: ; $(RMF) monad_state monad_state.exe
 
+all:: morse_enum
+morse_enum: morse_enum.exe
+morse_enum.exe: morse_enum_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+morse_enum_dats.c: morse_enum.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output morse_enum_dats.c --dynamic morse_enum.dats
+clean:: ; $(RMF) morse_enum_dats.o
+clean:: ; $(RMF) morse_enum_dats.c
+cleanall:: ; $(RMF) morse_enum morse_enum.exe
 
 all:: passwdgen
 passwdgen: passwdgen.exe
@@ -142,6 +165,14 @@ queens_loop_dats.c: queens_loop.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --
 clean:: ; $(RMF) queens_loop_dats.o
 clean:: ; $(RMF) queens_loop_dats.c
 cleanall:: ; $(RMF) queens_loop queens_loop.exe
+
+all:: randerlin
+randerlin: randerlin.exe
+randerlin.exe: randerlin_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+randerlin_dats.c: randerlin.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output randerlin_dats.c --dynamic randerlin.dats
+clean:: ; $(RMF) randerlin_dats.o
+clean:: ; $(RMF) randerlin_dats.c
+cleanall:: ; $(RMF) randerlin randerlin.exe
 
 all:: readdirall
 readdirall: readdirall.exe
@@ -190,6 +221,14 @@ wclines_dats.c: wclines.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output w
 clean:: ; $(RMF) wclines_dats.o
 clean:: ; $(RMF) wclines_dats.c
 cleanall:: ; $(RMF) wclines wclines.exe
+
+all:: word-chain
+word-chain: word-chain.exe
+word-chain.exe: word-chain_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+word-chain_dats.c: word-chain.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output word-chain_dats.c --dynamic word-chain.dats
+clean:: ; $(RMF) word-chain_dats.o
+clean:: ; $(RMF) word-chain_dats.c
+cleanall:: ; $(RMF) word-chain word-chain.exe
 
 
 ######

@@ -163,25 +163,19 @@ key:t0p;itm:vt0p
 (* ****** ****** *)
 //
 fun{
-} fprint_hashtbl$sep (out: FILEref): void // "; "
-fun{
-} fprint_hashtbl$mapto (out: FILEref): void // "->"
-//
-fun{
 key,itm:t@ype
 } fprint_hashtbl
   (out: FILEref, tbl: !hashtbl (key, INV(itm))): void
 //
 overload fprint with fprint_hashtbl
 //
+fun{}
+fprint_hashtbl$sep (out: FILEref): void // default: fprint("; ")
+fun{}
+fprint_hashtbl$mapto (out: FILEref): void // default: fprint("->")
+//
 (* ****** ****** *)
 //
-fun
-{key:t0p
-;itm:vt0p}
-{env:vt0p}
-hashtbl_foreach$fwork
-  (k: key, x: &itm >> _, &env >> _): void
 fun
 {key:t0p
 ;itm:vt0p}
@@ -192,6 +186,12 @@ fun
 {env:vt0p}
 hashtbl_foreach_env
   (tbl: !hashtbl (key, INV(itm)), env: &env >> _): void
+//
+fun
+{key:t0p
+;itm:vt0p}
+{env:vt0p}
+hashtbl_foreach$fwork (k: key, x: &itm >> _, &env >> _): void
 //
 (* ****** ****** *)
 

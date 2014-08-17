@@ -58,17 +58,20 @@ staload "libats/ML/SATS/strarr.sats"
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 strarr_get_ref (str) =
   array0_get_ref (strarr2array (str))
 // end of [strarr_get_ref]
 
-implement{}
+implement
+{}(*tmp*)
 strarr_get_size (str) =
   array0_get_size (strarr2array (str))
 // end of [strarr_get_size]
 
-implement{}
+implement
+{}(*tmp*)
 strarr_get_refsize (str) =
   array0_get_refsize (strarr2array (str))
 // end of [strarr_get_refsize]
@@ -127,21 +130,25 @@ end // end of [strarr_imake_string]
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 strarr_is_empty (str) = strarr_get_size (str) = 0
-implement{}
+implement
+{}(*tmp*)
 strarr_isnot_empty (str) = strarr_get_size (str) > 0
 
 (* ****** ****** *)
 
-implement{tk}
+implement
+{tk}(*tmp*)
 strarr_get_at_gint
   (str, i) = let
   val str = strarr2array (str) in
   $effmask_ref (array0_get_at_gint<char> (str, i))
 end // end of [strarr_get_at_gint]
 
-implement{tk}
+implement
+{tk}(*tmp*)
 strarr_get_at_guint
   (str, i) = let
   val str = strarr2array (str) in
@@ -274,17 +281,15 @@ end // end of [strarr_compare]
 
 (* ****** ****** *)
 
-implement{}
+implement
 strarr_length (str) = strarr_get_size (str)
 
 (* ****** ****** *)
 //
 implement
-print_strarr
-  (str) = fprint_strarr (stdout_ref, str)
+print_strarr (x) = fprint_strarr (stdout_ref, x)
 implement
-prerr_strarr
-  (str) = fprint_strarr (stderr_ref, str)
+prerr_strarr (x) = fprint_strarr (stderr_ref, x)
 //
 (* ****** ****** *)
 
@@ -447,6 +452,12 @@ in
   loop (ptr0_add_guint<char> (p0, n0), n0, f)
 end // end of [strarr_rforeach]
 
+(* ****** ****** *)
+//
+implement
+fprint_val<strarr>
+  (out, str) = fprint_strarr (out, str)
+//
 (* ****** ****** *)
 
 (* end of [strarr.dats] *)

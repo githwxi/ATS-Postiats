@@ -1587,7 +1587,9 @@ d0ec_dyn
   | srpifkind guad0ec_dyn
 *)
 
-fun p_d0ecl_dyn_tok (
+fun
+p_d0ecl_dyn_tok
+(
   buf: &tokbuf, bt: int, err: &int, tok: token
 ) : d0ecl = let
   val err0 = err

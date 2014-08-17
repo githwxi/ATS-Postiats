@@ -1825,6 +1825,7 @@ case+ s1e0.s1exp_node of
     (name, s1ess) => let
     val s2ess =
       list_map_fun (s1ess, s1explst_trdn_vt0ype)
+    // end of [val]
   in
     s2exp_extkind_srt (s2rt_tkind, name, (l2l)s2ess)
   end // end of [S1Eextkind]

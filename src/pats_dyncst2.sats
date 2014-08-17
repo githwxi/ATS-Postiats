@@ -37,7 +37,7 @@ staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-abstype d2cstref_type // boxed type
+abstype d2cstref_type = ptr
 typedef d2cstref = d2cstref_type
 
 (* ****** ****** *)

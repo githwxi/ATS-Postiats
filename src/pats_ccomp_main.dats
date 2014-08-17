@@ -166,15 +166,17 @@ in
 end // end of [emit_ats_ccomp_prelude]
 
 (* ****** ****** *)
-
-extern fun the_dynconlst_get2 (): d2conlst
-extern fun the_dynconlst_set2 (xs: d2conlst): void
-
+//
+extern
+fun the_dynconlst_get2 (): d2conlst
+extern
+fun the_dynconlst_set2 (xs: d2conlst): void
+//
 local
 
 val the_d2conlst = ref<Option(d2conlst)> (None)
 
-in (* in of [local] *)
+in (*in-of-local*)
 
 implement
 the_dynconlst_get2
@@ -185,13 +187,12 @@ val opt = !the_d2conlst
 in
 //
 case+ opt of
-| Some (xs) => xs
-| None (  ) => let
+| Some xs => xs
+| None () => xs where
+  {
     val xs = the_dynconlst_get ()
     val () = !the_d2conlst := Some (xs)
-  in
-    xs
-  end // end of [None]
+  } (* end of [None] *)
 //
 end // end of [the_dynconlst_get2]
 
@@ -199,11 +200,12 @@ implement
 the_dynconlst_set2 (xs) = !the_d2conlst := Some (xs)
 
 end // end of [local]
-
+//
 (* ****** ****** *)
 //
 extern
-fun emit_funlablst_ptype
+fun
+emit_funlablst_ptype
   (out: FILEref, fls: funlablst): void
 //
 implement
@@ -236,7 +238,8 @@ end // end of [emit_funlablst_ptype]
 (* ****** ****** *)
 //
 extern
-fun emit_funlablst_closure
+fun
+emit_funlablst_closure
   (out: FILEref, fls: funlablst): void
 //
 implement
@@ -270,7 +273,7 @@ case+ fls of
   in
     loop (out, fls, i+1)
   end // end of [list_cons]
-| list_nil () => ()
+| list_nil ((*void*)) => ()
 //
 end // end of [loop]
 //
@@ -281,7 +284,8 @@ end // end of [emit_funlablst_closure]
 (* ****** ****** *)
 //
 extern
-fun emit_funlablst_implmnt
+fun
+emit_funlablst_implmnt
   (out: FILEref, fls: funlablst): void
 //
 implement
@@ -295,6 +299,7 @@ fun loop
 in
 //
 case+ fls of
+//
 | list_cons
     (fl, fls) => let
     val tmpknd = funlab_get_tmpknd (fl)
@@ -310,7 +315,8 @@ case+ fls of
   in
     loop (out, fls, i+1)
   end // end of [list_cons]
-| list_nil () => ()
+//
+| list_nil ((*void*)) => ()
 //
 end // end of [loop]
 //
@@ -340,19 +346,21 @@ case+ xs of
   in
     auxlst_staticize (xs)
   end // end of [list_cons]
-| list_nil () => ()
+| list_nil ((*void*)) => ()
 //
 end // end of [auxlst]
 
-in (* in of [local] *)
+in (*in-of-local*)
 
 implement
 emit_the_tmpdeclst
   (out) = let
-  val p =
-    the_toplevel_getref_tmpvarlst ()
-  val tmplst = $UN.ptrget<tmpvarlst> (p)
-  val () = auxlst_staticize (tmplst)
+//
+val p =
+  the_toplevel_getref_tmpvarlst ()
+val tmplst = $UN.ptrget<tmpvarlst> (p)
+val () = auxlst_staticize (tmplst)
+//
 in
   emit_tmpdeclst (out, tmplst)
 end // end of [emit_the_tmpdeclst]
@@ -380,15 +388,17 @@ in
 end // end of [emit_the_dynconlst_extdec]
 
 (* ****** ****** *)
-
-extern fun the_dyncstlst_get2 (): d2cstlst
-extern fun the_dyncstlst_set2 (xs: d2cstlst): void
-
+//
+extern
+fun the_dyncstlst_get2 (): d2cstlst
+extern
+fun the_dyncstlst_set2 (xs: d2cstlst): void
+//
 local
 
 val the_d2cstlst = ref<Option(d2cstlst)> (None)
 
-in (* in of [local] *)
+in (*in-of-local*)
 
 implement
 the_dyncstlst_get2
@@ -413,7 +423,7 @@ implement
 the_dyncstlst_set2 (xs) = !the_d2cstlst := Some (xs)
 
 end // end of [local]
-
+//
 (* ****** ****** *)
 
 implement
@@ -435,15 +445,17 @@ in
 end // end of [emit_the_dyncstlst_extdec]
 
 (* ****** ****** *)
-
-extern fun the_extcodelst_get2 (): hideclist
-extern fun the_extcodelst_set2 (xs: hideclist): void
-
+//
+extern
+fun the_extcodelst_get2 (): hideclist
+extern
+fun the_extcodelst_set2 (xs: hideclist): void
+//
 local
 
 val the_extlst = ref<Option(hideclist)> (None)
 
-in (* in of [local] *)
+in (*in-of-local*)
 
 implement
 the_extcodelst_get2
@@ -468,15 +480,18 @@ implement
 the_extcodelst_set2 (xs) = !the_extlst := Some (xs)
 
 end // end of [local]
-
+//
 (* ****** ****** *)
-
-extern fun the_funlablst_get2 (): funlablst
-
+//
+extern
+fun the_funlablst_get2 (): funlablst
+//
 local
-
-val the_flablst = ref<Option(funlablst)> (None)
-
+//
+val
+the_flablst =
+  ref<Option(funlablst)> (None)
+//
 in (* in of [local] *)
 
 implement
@@ -499,16 +514,19 @@ case+ opt of
 end // end of [the_fublablst_get2]
 
 end // end of [local]
-
+//
 (* ****** ****** *)
 
 implement
 emit_the_funlablst
   (out) = let
-  val fls0 = the_funlablst_get2 ()
-  val () = emit_funlablst_ptype (out, fls0)
-  val () = emit_funlablst_closure (out, fls0)
-  val () = emit_funlablst_implmnt (out, fls0)
+//
+val fls0 = the_funlablst_get2 ()
+//
+val () = emit_funlablst_ptype (out, fls0)
+val () = emit_funlablst_closure (out, fls0)
+val () = emit_funlablst_implmnt (out, fls0)
+//
 in
   // nothing
 end // end of [emit_the_funlablst]
@@ -521,7 +539,7 @@ emit_the_primdeclst
 //
 val p =
   the_toplevel_getref_primdeclst ()
-// end of [val]
+//
 val pmdlst = $UN.ptrget<primdeclst> (p)
 //
 in
@@ -539,7 +557,8 @@ fun aux
 in
 //
 case+
-  x.primdec_node of
+x.primdec_node of
+//
 | PMDimpdec (imp) => let
     val opt = hiimpdec_get_instrlstopt (imp)
   in
@@ -560,7 +579,7 @@ case+
 //
 | PMDlocal (xs_head, xs_body) => auxlst (out, xs_body)
 //
-| _ => ()
+| _ (*rest*) => ()
 //
 end // end of [aux]
 
@@ -852,10 +871,14 @@ val () = emit_text (out, "/*\n")
 val () = emit_text (out, "** for initialization(dynloading)")
 val () = emit_text (out, "\n*/\n")
 //
-val () =
-emit_text (out, "atsvoid_t0ype\n")
+val () = emit_text (out, "ATSextern()\n")
+val () = emit_text (out, "atsvoid_t0ype\n")
+//
 val () = emit_dynload (out, infil)
 val () = emit_text (out, "()\n{\n")
+//
+val () = emit_text (out, "ATSfunbody_beg()\n")
+//
 val () = if flag <= 0 then emit_text (out, "ATSdynload0(\n")
 val () = if flag >= 1 then emit_text (out, "ATSdynload1(\n")
 val () = emit_dynloadflag (out, infil)
@@ -883,7 +906,10 @@ end // end of [val]
 //
 val () = emit_text (out, fbody)
 val () = emit_text (out, "} /* ATSendif */\n")
-val () = emit_text (out, "ATSreturn_void() ;\n")
+//
+val () = emit_text (out, "ATSfunbody_end()\n")
+//
+val () = emit_text (out, "ATSreturn_void(tmpret_void) ;\n")
 val () = emit_text (out, "} /* end of [*_dynload] */\n")
 //
 val () = if flag = 0 then emit_text (out, "#endif // end of [#if(0)]\n")
@@ -938,9 +964,9 @@ end : int // end of [val]
 //
 val () = emit_text (out, "ATS")
 val () = emit_d2cst (out, d2cmain)
-val () = emit_lparen (out)
+val () = emit_LPAREN (out)
 val () = emit_main_arglst_err (out, arty)
-val () = emit_rparen (out)
+val () = emit_RPAREN (out)
 val () = emit_text (out, " ;\n")
 //
 val () = emit_text (out, "return (err) ;\n")
@@ -1020,22 +1046,34 @@ case+ xs of
 //
 end // end of [loop]
 //
-val () = emit_text (out, "/*\n")
-val () = emit_text (out, "exnconlst-declaration(beg)\n")
-val () = emit_text (out, "*/\n")
+val () = (
+emit_text (out, "/*\n");
+emit_text (out, "exnconlst-declaration(beg)\n");
+emit_text (out, "*/\n");
+) (* end of [val] *)
 //
-val () = emit_text (out, "#ifndef _ATS_CCOMP_EXCEPTION_NONE\n")
-val () = emit_text (out, "\
-extern void the_atsexncon_initize (atstype_exncon *d2c, char *exnmsg) ;\n\
+val () =
+emit_text (out, "#ifndef _ATS_CCOMP_EXCEPTION_NONE\n")
+val () =
+emit_text (out, "\
+ATSextern()\n\
+atsvoid_t0ype\n\
+the_atsexncon_initize\n\
+(\n\
+  atstype_exnconptr d2c, atstype_string exnmsg\n\
+) ;\n\
 ") // end of [val]
-val () = emit_text (out, "#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]\n")
+val () =
+emit_text (out, "#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]\n")
 //
 val hids = the_exndeclst_get ()
 val ((*void*)) = loop (out, hids)
 //
-val () = emit_text (out, "/*\n")
-val () = emit_text (out, "exnconlst-declaration(end)\n")
-val () = emit_text (out, "*/\n")
+val () = (
+emit_text (out, "/*\n");
+emit_text (out, "exnconlst-declaration(end)\n");
+emit_text (out, "*/\n");
+) (* end of [val] *)
 //
 in
   (* nothing *)

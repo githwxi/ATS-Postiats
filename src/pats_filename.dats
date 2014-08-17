@@ -459,7 +459,8 @@ viewtypedef filenamelst = List_vt filename
 val the_filename = ref_make_elt<filename> (filename_dummy)
 val the_filenamelst = ref_make_elt<filenamelst> (list_vt_nil ())
 
-fun filename_occurs
+fun
+filename_occurs
   (f0: filename): bool = let
   fun loop {n:nat} .<n>. (
     fs: !list_vt (filename, n), f0: filename
@@ -481,7 +482,8 @@ end // end of [filename_occurs]
 
 in (* in of [local] *)
 
-implement filename_get_current () = !the_filename
+implement
+filename_get_current () = !the_filename
 
 implement
 the_filenamelst_pop

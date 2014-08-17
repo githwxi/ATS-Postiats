@@ -475,7 +475,7 @@ the standard arithmetic of infinite precision.  For the sake of efficiency,
 one may also choose to use machine-level arithmetic for solving integer
 constraints. Due to potential arithmetic overflow, results returned by the
 constraint-solver that uses machine-level arithmetic can be incorrect (but
-we have so far never knowingly encountered such a situation in practice).\
+I have so far not knowingly encountered such a situation in practice).\
 
 ")#comment("para")
 
@@ -501,9 +501,9 @@ can fully support safe processing of C-style strings. In ATS,
 type").
 
 Given a static integer n, #stacode("string(n)") is the type for strings of
-the length n. Note that #stacode("string") also refers to a non-dependent
-type for strings of unspecified length, which is basically equivalent to
-the type #stacode("String") defined as follows:
+length n. Note that #stacode("string") also refers to a non-dependent type
+for strings of unspecified length, which is basically equivalent to the
+type #stacode("String") defined as follows:
 
 #atscode("\
 typedef String = [n:nat] string (n)
@@ -557,7 +557,7 @@ The following two functions are for accessing and updating characters
 stored in strings:
 
 #atscode("\
-typedef charNZ = [c:char | c <> '\\\\000'] char (c)
+typedef charNZ = [c:int | c != '\\\\000'] char (c)
 
 fun
 string_get_at{n:int}
@@ -575,7 +575,7 @@ The type constructor #stacode("char") is of the sort
 character c to form a singleton type #stacode("char(c)") for the only
 character equal to c. Thus, the type #stacode("charNZ") is for all non-null
 characters. The following defined function #dyncode("string_find")
-traverses a string from left to right to see whether a given character
+traverses a string from left to right to check whether a given character
 occurs in the string:
 
 #atscode("\
@@ -583,7 +583,8 @@ occurs in the string:
 typedef
 sizeLt (n:int) = [i:nat | i < n] size_t (i)
 //
-fun string_find{n:nat}
+fun
+string_find{n:nat}
 (
   str: string n, c0: char
 ) : Option (sizeLt n) = let
@@ -591,12 +592,13 @@ fun string_find{n:nat}
   fun loop{i:nat | i <= n}
   (
     str: string n, c0: char, i: size_t i
-  ) : Option (res) =
-  (
-    if string_isnot_atend (str, i) then
+  ) : Option (res) = let
+    val isnot = string_isnot_atend (str, i)
+  in
+    if isnot then
       if (c0 = str[i]) then Some{res}(i) else loop (str, c0, succ(i))
     else None () // end of [if]
-  ) (* end of [loop] *)
+  end (* end of [loop] *)
 in
   loop (str, c0, i2sz(0))
 end // end of [string_find]

@@ -134,57 +134,64 @@ case+ x.lexerr_node of
 | LE_CHAR_oct () => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the char format (oct) is incorrect.", @())
-    val () = fprint_newline (out)
+    val ((*void*)) = fprint_newline (out)
   }
 | LE_CHAR_hex () => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the char format (hex) is incorrect.", @())
-    val () = fprint_newline (out)
+    val ((*void*)) = fprint_newline (out)
   }
 | LE_CHAR_unclose () => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the char consant is unclosed.", @())
-    val () = fprint_newline (out)
+    val ((*void*)) = fprint_newline (out)
   }
 | LE_STRING_char_oct () => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the string-char format (oct) is incorrect.", @())
-    val () = fprint_newline (out)
+    val ((*void*)) = fprint_newline (out)
   }
 | LE_STRING_char_hex () => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the string-char format (hex) is incorrect.", @())
-    val () = fprint_newline (out)
+    val ((*void*)) = fprint_newline (out)
   }
 | LE_STRING_unclose () => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the string constant is unclosed.", @())
-    val () = fprint_newline (out)
+    val ((*void*)) = fprint_newline (out)
   }
-| LE_COMMENT_block_unclose () => () where {
+| LE_COMMENT_block_unclose
+  (
+  ) => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the comment block is unclosed.", @())
-    val () = fprint_newline (out)
+    val ((*void*)) = fprint_newline (out)
   }
 | LE_EXTCODE_unclose () => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the external code block is unclosed.", @())
-    val () = fprint_newline (out)
+    val ((*void*)) = fprint_newline (out)
   }
-| LE_QUOTE_dangling () => () where {
+| LE_DIGIT_oct_89 (c) => () where {
     val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the quote symbol (') is dangling.", @())
-    val () = fprint_newline (out)
+    val () = fprintf (out, ": illegal digit (oct): %c", @(c))
+    val ((*void*)) = fprint_newline (out)
   }
 | LE_FEXPONENT_empty () => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the floating exponent is empty.", @())
-    val () = fprint_newline (out)
+    val ((*void*)) = fprint_newline (out)
   }
-| LE_UNSUPPORTED (c) => () where {
+| LE_QUOTE_dangling () => () where {
+    val () = fprintf (out, ": error(lexing)", @())
+    val () = fprintf (out, ": the quote symbol (') is dangling.", @())
+    val ((*void*)) = fprint_newline (out)
+  }
+| LE_UNSUPPORTED_char (c) => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": unsupported char: %c", @(c))
-    val () = fprint_newline (out)
+    val ((*void*)) = fprint_newline (out)
   }
 (*
 | _ => () where {

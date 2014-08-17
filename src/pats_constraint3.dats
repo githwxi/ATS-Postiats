@@ -76,6 +76,59 @@ staload "./pats_constraint3.sats"
 (* ****** ****** *)
 
 implement
+s3exp_err (s2t) = S3Eerr (s2t)
+
+(* ****** ****** *)
+
+implement
+s3exp_var (s2v) = let
+  val isb = s2var_is_bool (s2v)
+in
+  if isb then S3Ebvar (s2v) else S3Evar (s2v)
+end // end of [s3exp_var]
+
+(* ****** ****** *)
+
+implement s3exp_bvar (s2v) = S3Ebvar (s2v)
+
+(* ****** ****** *)
+
+implement
+s3exp_cst (s2c) = S3Ecst (s2c)
+
+(* ****** ****** *)
+
+implement
+s3exp_app (_fun, _arg) = S3Eapp (_fun, _arg)
+
+(* ****** ****** *)
+//
+implement s3exp_null = S3Enull ()
+implement s3exp_unit = S3Enull ()
+//
+implement s3exp_true = S3Ebool (true)
+implement s3exp_false = S3Ebool (false)
+//
+implement intinf_0 = intinf_make_int (0)
+implement intinf_1 = intinf_make_int (1)
+implement intinf_2 = intinf_make_int (2)
+implement intinf_neg_1 = intinf_make_int (~1)
+//
+implement s3exp_0 = S3Enull ()
+implement s3exp_1 = S3Eunit ()
+implement s3exp_2 = s3exp_intinf (intinf_2)
+implement s3exp_neg_1 = s3exp_intinf (intinf_neg_1)
+//
+(* ****** ****** *)
+
+implement
+s3exp_bool (b) =
+  if b then s3exp_true else s3exp_false
+// end of [s3exp_bool]
+
+(* ****** ****** *)
+
+implement
 s3exp_get_srt (s3e) = let
 in
 //
@@ -215,32 +268,41 @@ case+ x1 of
 | S3Ebvar (s2v1) => (
   case+ x2 of S3Ebvar (s2v2) => s2v1 = s2v2 | _ => false
   ) // end of [S3Ebvar]
+//
 | S3Ebneg (x1) => (
   case+ x2 of S3Ebneg (x2) => s3exp_syneq (x1, x2) | _ => false
   ) // end of [S3Ebneg]
-| S3Ebadd (x11, x12) => (case+ x2 of
+//
+| S3Ebadd (x11, x12) => (
+  case+ x2 of
   | S3Ebadd (x21, x22) =>
-      if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
+    if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
   | _ => false // end of [_]
-  ) // end of [S3Ebadd]
-| S3Ebmul (x11, x12) => (case+ x2 of
+  ) (* end of [S3Ebadd] *)
+| S3Ebmul (x11, x12) => (
+  case+ x2 of
   | S3Ebmul (x21, x22) =>
-      if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
+    if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
   | _ => false // end of [_]
-  ) // end of [S3Ebmul]
-| S3Ebeq (x11, x12) => (case+ x2 of
+  ) (* end of [S3Ebmul] *)
+//
+| S3Ebeq (x11, x12) => (
+  case+ x2 of
   | S3Ebeq (x21, x22) =>
-      if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
+    if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
   | _ => false // end of [_]
-  ) // end of [S3Ebeq]
-| S3Ebneq (x11, x12) => (case+ x2 of
+  ) (* end of [S3Ebeq] *)
+| S3Ebneq (x11, x12) => (
+  case+ x2 of
   | S3Ebneq (x21, x22) =>
-      if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
+    if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
   | _ => false // end of [_]
-  ) // end of [S3Ebneq]
-| S3Ebineq (knd1, x1) => (case+ x2 of
+  ) (* end of [S3Ebneq] *)
+//
+| S3Ebineq (knd1, x1) =>
+  (case+ x2 of
   | S3Ebineq (knd2, x2) =>
-      if knd1 = knd2 then s3exp_syneq (x1, x2) else false
+    if knd1 = knd2 then s3exp_syneq (x1, x2) else false
   | _ => false // end of [_]
   ) // end of [S3Ebineq]
 //
@@ -248,52 +310,60 @@ case+ x1 of
   case+ x2 of S3Ebdom (s2v2) => s2v1 = s2v2 | _ => false
   ) // end of [S3Ebdom]
 //
-| S3Eiatm (s2vs1) => (case+ x2 of
+| S3Eiatm (s2vs1) => (
+  case+ x2 of
   | S3Eiatm (s2vs2) => s2varmset_is_equal (s2vs1, s2vs2) | _ => false
-  ) // end of [S3Eiatm]
-| S3Eicff (c1, x1) => (case+ x2 of
+  ) (* end of [S3Eiatm] *)
+| S3Eicff (c1, x1) => (
+  case+ x2 of
   | S3Eicff (c2, x2) =>
-      if c1 = c2 then s3exp_syneq (x1, x2) else false
+    if c1 = c2 then s3exp_syneq (x1, x2) else false
   | _ => false // end of [_]
-  ) // end of [S3Eicff]
-| S3Eisum (xs1) => (case+ x2 of
+  ) (* end of [S3Eicff] *)
+| S3Eisum (xs1) => (
+  case+ x2 of
   | S3Eisum (xs2) => s3explst_syneq (xs1, xs2) | _ => false
-  ) // end of [S3Eiadd]
-| S3Eimul (x11, x12) => (case+ x2 of
+  ) (* end of [S3Eiadd] *)
+| S3Eimul (x11, x12) => (
+  case+ x2 of
   | S3Eimul (x21, x22) =>
-      if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
+    if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
   | _ => false // end of [_]
-  ) // end of [S3Eimul]
+  ) (* end of [S3Eimul] *)
 //
-| S3Esizeof (s2ze1) => (case+ x2 of
+| S3Esizeof (s2ze1) => (
+  case+ x2 of
   | S3Esizeof (s2ze2) => s2zexp_syneq (s2ze1, s2ze2) | _ => false
-  ) // end of [S3Esizeof]
+  ) (* end of [S3Esizeof] *)
 //
-| S3Eapp (x1, xs1) => (case+ x2 of
+| S3Eapp (x1, xs1) => (
+  case+ x2 of
   | S3Eapp (x2, xs2) =>
-      if s3exp_syneq (x1, x2) then s3explst_syneq (xs1, xs2) else false
+    if s3exp_syneq (x1, x2) then s3explst_syneq (xs1, xs2) else false
   | _ => false // end of [_]
-  ) // end of [S3Eapp]
+  ) (* end of [S3Eapp] *)
 //
 | S3Eerr (s2t) => false
 //
 end // end of [s3exp_syneq]
 
+(* ****** ****** *)
+
 implement
 s3explst_syneq
   (xs1, xs2) = (
   case+ xs1 of
-  | list_cons (x1, xs1) => (
+  | list_cons
+      (x1, xs1) => (
     case+ xs2 of
     | list_cons (x2, xs2) =>
-        if s3exp_syneq (x1, x2) then s3explst_syneq (xs1, xs2) else false
+      if s3exp_syneq (x1, x2) then s3explst_syneq (xs1, xs2) else false
     | list_nil () => false
     ) // end of [list_cons]
   | list_nil () => (
-    case+ xs2 of
-    | list_cons _ => false | list_nil () => true
-    ) // end of [list_nil]
-) // end of [s3explst_syneq]
+    case+ xs2 of list_cons _ => false | list_nil () => true
+    ) (* end of [list_nil] *)
+) (* end of [s3explst_syneq] *)
 
 (* ****** ****** *)
 
@@ -523,11 +593,7 @@ in
 //
 case+ s2e0.s2exp_node of
 //
-| S2Evar s2v => let
-    val isb = s2var_is_bool (s2v)
-  in
-    if isb then s3exp_bvar (s2v) else s3exp_var (s2v)
-  end // end of [S2Evar]
+| S2Evar s2v => s3exp_var (s2v)
 //
 | S2Eint i => s3exp_int (i)
 | S2Eintinf (int) => s3exp_intinf (int)
@@ -800,7 +866,8 @@ case+ env of
     (s2v, !p_env) => let
     val () = s2vs := list_vt_cons (s2v, s2vs)
     val isb = s2var_is_bool (s2v)
-    val () = if isb then
+    val () =
+    if isb then
       s3bes := list_vt_cons (S3Ebdom (s2v), s3bes)
     // end of [val]
     val () = loop (!p_env, s2vs, s3bes) in fold@ (env)
@@ -944,11 +1011,12 @@ in
 //
 case+ ans of
 | ~Some_vt (s2v) => s2v
-| ~None_vt ((*void*)) => s2v where
+| ~None_vt
+    ((*void*)) => s2v where
   {
     val s2v = s2var_make_srt (s2t)
     val () = s2vbcfenv_add2_cstapp (env, s2c, s2es_arg, s3es_arg, s2v)
-  } // end of [None_vt]
+  } (* end of [None_vt] *)
 //
 end // end of [s2vbcfenv_replace_cstapp]
 
@@ -964,11 +1032,13 @@ in
 //
 case+ ans of
 | ~Some_vt (s2v) => s2v
-| ~None_vt () => s2v where {
+| ~None_vt
+    ((*void*)) => s2v where
+  {
     val s2t = s3exp_get_srt (s3e)
     val s2v = s2var_make_srt (s2t)
     val () = s2vbcfenv_add_nonlin (env, s2v, s3e)
-  } // end of [None_vt]
+  } (* end of [None_vt] *)
 //
 end // end of [s2vbcfenv_replace_nonlin]
 

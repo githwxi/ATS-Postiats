@@ -71,51 +71,60 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 (* ****** ****** *)
 
 implement
-lamkind_isbox (knd) =
-  if knd >= 0 then
-    (if test_boxkind (knd) then 1 else 0)
-  else 1 // HX: (-1) is boxed
-// end of [lamkind_isbox]
-
-implement
-lamkind_islin (knd) = (
-  if knd >= 0 then
-    if test_linkind (knd) then 1 else 0 // HX: (-1) is not linear
-  else 0 // end of [if]
-) // end of [lamkind_islin]
+lamkind_isbox
+  (knd) = (
+  if knd >= 0
+    then (if test_boxkind (knd) then 1 else 0) else 1(*boxed*)
+  // end of [if]
+) (* end of [lamkind_isbox] *)
 
 (* ****** ****** *)
 
 implement
+lamkind_islin
+  (knd) = (
+  if knd >= 0
+    then (if test_linkind (knd) then 1 else 0) else 0(*nonlin*)
+  // end of [if]
+) (* end of [lamkind_islin] *)
+
+(* ****** ****** *)
+//
+implement
 synent_null {a} () = $UN.cast{a} (null)
+//
 implement
 synent_is_null (x) = ptr_is_null ($UN.cast{ptr} (x))
 implement
 synent_isnot_null (x) = ptr_isnot_null ($UN.cast{ptr} (x))
-
+//
 (* ****** ****** *)
 
 implement
-int_of_i0nt (tok) = let
-  val-T_INTEGER
-    (_, rep, _) = tok.token_node in int_of_string (rep)
-end // end of [int_of_i0nt]
+i0nt2int (tok) = let
+//
+val-T_INT
+  (_, rep, _) = tok.token_node in int_of_string (rep)
+//
+end // end of [i0nt2int]
 
 (* ****** ****** *)
-
+//
 implement
-i0de_make_sym
-  (loc, sym) = '{
-  i0de_loc= loc, i0de_sym= sym
-} // end of [i0de_make_sym]
+i0de_make_sym (loc, sym) = '{ i0de_loc= loc, i0de_sym= sym }
+//
+(* ****** ****** *)
 
 implement
 i0de_make_string
   (loc, name) = let
-  val sym = $SYM.symbol_make_string (name)
-in '{
-  i0de_loc= loc, i0de_sym= sym
-} end // end of [i0de_make_string]
+//
+val sym =
+  $SYM.symbol_make_string (name) in i0de_make_sym (loc, sym)
+//
+end // end of [i0de_make_string]
+
+(* ****** ****** *)
 
 implement
 i0de_make_lrbrackets
@@ -225,7 +234,7 @@ e0fftag_var_fun (t) = '{
 
 implement
 e0fftag_i0nt (tok) = let
-  val int = int_of_i0nt (tok)
+  val int = i0nt2int (tok)
 in '{
   e0fftag_loc= tok.token_loc, e0fftag_node= E0FFTAGint (int)
 } end // end of [e0fftag_int]
@@ -236,21 +245,21 @@ in '{
 //
 implement
 p0rec_emp () = P0RECint (0)
-
+//
 implement
-p0rec_i0nt (i0nt) = let
-  val pval = int_of_i0nt (i0nt) in P0RECint (pval)
+p0rec_i0nt (tok) = let
+  val pval = i0nt2int (tok) in P0RECint (pval)
 end // end of [p0rec_i0nt]
-
+//
 implement
 p0rec_i0de (id) = P0RECi0de (id)
-
+//
 implement
 p0rec_i0de_adj
-  (id, opr, int) = let
-  val adj = int_of_i0nt (int) in P0RECi0de_adj (id, opr, adj)
+  (id, opr, i0nt) = let
+  val adj = i0nt2int (i0nt) in P0RECi0de_adj (id, opr, adj)
 end // end of [p0rec_i0de_adj]
-
+//
 (* ****** ****** *)
 
 implement
@@ -402,7 +411,7 @@ end // end of [l0ab_make_i0de]
 
 implement
 l0ab_make_i0nt (x) = let
-  val i = int_of_i0nt (x)
+  val i = i0nt2int (x)
   val lab = $LAB.label_make_int (i)
 in
   l0ab_make_label (x.token_loc, lab)
@@ -785,7 +794,9 @@ end // end of [local]
 implement
 s0exp_i0de (id) = '{
   s0exp_loc= id.i0de_loc, s0exp_node= S0Eide (id.i0de_sym)
-} // end of [s0exp_i0de]
+} (* end of [s0exp_i0de] *)
+
+(* ****** ****** *)
 
 implement
 s0exp_opid (x1, x2) = let
@@ -1314,17 +1325,26 @@ in '{
 
 implement
 p0at_lst
-  (lin, t_beg, p0ts, t_end) = let
+(
+  lin, t_beg, p0ts, t_end
+) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
   p0at_loc= loc, p0at_node= P0Tlst (lin, p0ts)
 } end // end of [p0at_lst]
 
+(*
+//
+// HX-2014-07:
+// a list-pattern
+// like '[x1, x2] is no longer supported
+//
 implement
 p0at_lst_quote
-  (t_beg, p0ts, t_end) =
-  p0at_lst (0(*lin*), t_beg, p0ts, t_end)
-// end of [p0at_lst_quote]
+(
+  t_beg, p0ts, t_end
+) = p0at_lst (0(*lin*), t_beg, p0ts, t_end)
+*)
 
 (* ****** ****** *)
 
@@ -2519,14 +2539,18 @@ end // end of [local]
 implement
 d0ecl_overload
   (tok, id, dqid, opt) = let
+//
   val loc1 = tok.token_loc
-  val loc2 = (case+ opt of
+  val loc2 = (
+    case+ opt of
     | Some x => x.token_loc | None () => dqid.dqi0de_loc
   ) : location // end of [val]
   val loc = loc1 + loc2
-  val pval = (case+ opt of
-    | Some x => int_of_i0nt (x) | None () => 0
+  val pval = (
+    case+ opt of
+    | Some x => i0nt2int (x) | None () => 0
   ) : int // end of [val]
+//
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Coverload (id, dqid, pval)
 } end // end of [d0ecl_overload]

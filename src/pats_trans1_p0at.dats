@@ -214,9 +214,7 @@ case+ p0t0.p0at_node of
     val p1ts = p0atlst_tr p0ts in FXITMatm (p1at_tup (loc0, knd, npf, p1ts))
   end // end of [P1Ttup]
 | P0Trec (knd, npf, lp0ts) => let
-    val lp1ts = l2l (list_map_fun (lp0ts, labp0at_tr))
-  in
-    FXITMatm (p1at_rec (loc0, knd, npf, lp1ts))
+    val lp1ts = labp0atlst_tr lp0ts in FXITMatm (p1at_rec (loc0, knd, npf, lp1ts))
   end // end of [P0Trec]
 //
 | P0Tfree (p0t) => FXITMatm (p1at_free (loc0, p0at_tr p0t))
@@ -289,17 +287,29 @@ end // end of [p0at_tr]
 
 end // end of [local]
 
-implement p0atlst_tr (xs) = l2l (list_map_fun (xs, p0at_tr))
-
 implement
-labp0at_tr (lp0t) = let
-  val loc0 = lp0t.labp0at_loc
+labp0at_tr
+  (lp0t) = let
+//
+val loc0 = lp0t.labp0at_loc
+//
 in
-  case+ lp0t.labp0at_node of
-  | LABP0ATnorm (l, p0t) => labp1at_norm (loc0, l, p0at_tr (p0t))
-  | LABP0ATomit () => labp1at_omit (loc0)
+//
+case+ lp0t.labp0at_node of
+| LABP0ATnorm (l, p0t) =>
+    labp1at_norm (loc0, l, p0at_tr (p0t))
+  | LABP0ATomit ((*void*)) => labp1at_omit (loc0)
+//
 end // end of [labp0at_tr]
 
+(* ****** ****** *)
+//
+implement
+p0atlst_tr (xs) = l2l (list_map_fun (xs, p0at_tr))
+//
+implement
+labp0atlst_tr (lxs) = l2l (list_map_fun (lxs, labp0at_tr))
+//
 (* ****** ****** *)
 
 (* end of [pats_trans1_p0at.dats] *)

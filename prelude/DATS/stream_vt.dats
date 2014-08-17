@@ -102,7 +102,8 @@ stream2list_vt_cons
 
 in (* in-of-local *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream2list_vt (xs) = let
 //
 fun loop (
@@ -130,12 +131,14 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_free (xs) = ~(xs)
 
 (* ****** ****** *)
 //
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_drop_exn
   (xs, n) = let
 in
@@ -151,7 +154,8 @@ if n > 0
 //
 end // end of [stream_vt_drop_exn]
 //
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_drop_opt
   (xs, n) = let
 in
@@ -169,7 +173,8 @@ end // end of [stream_vt_drop_opt]
 //
 (* ****** ****** *)
 //
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_head (xs) =
 (
 case+ !xs of
@@ -178,7 +183,8 @@ case+ !xs of
 | ~stream_vt_nil ((*void*)) => $raise StreamSubscriptExn()
 ) (* end of [stream_vt_head] *)
 //
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_tail (xs) =
 (
 case+ !xs of
@@ -188,7 +194,8 @@ case+ !xs of
 //
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_uncons (xs0) =
 (
 case+ !xs0 of
@@ -205,7 +212,8 @@ case+ !xs0 of
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_foreach
   (xs) = let
   var env: void = ()
@@ -213,7 +221,8 @@ in
   stream_vt_foreach_env<a><void> (xs, env)
 end // end of [stream_vt_foreach]
 
-implement{a}{env}
+implement
+{a}(*tmp*){env}
 stream_vt_foreach_env
   (xs, env) = let
   val xs_con = !xs
@@ -269,12 +278,14 @@ end (* end of [stream_vt_filter_con] *)
 
 in (* in of [local] *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_filter (xs) =
   $ldelay (stream_vt_filter_con<a> (xs), ~xs)
 // end of [stream_vt_filter]
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_filter_fun
   (xs, pred) = let
 //
@@ -337,7 +348,8 @@ end (* end of [stream_vt_filter_cloptr_con] *)
 
 in (* in of [local] *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_filter_cloptr
   (xs, pred) = $ldelay
 (
@@ -486,7 +498,8 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stream_vt_tabulate
 (
 // argumentless
@@ -497,6 +510,59 @@ fun aux (i: intGte(0)): stream_vt (a) =
   $ldelay (stream_vt_cons{a}(stream_vt_tabulate$fopr<a> (i), aux (i+1)))
 //
 } (* end of [stream_vt_tabulate] *)
+
+(* ****** ****** *)
+
+local
+//
+datavtype streamer
+  (a:vt@ype+) = STREAMER of (stream_vt(a))
+//
+assume streamer_vtype (a:vt0p) = streamer (a)
+//
+in (* in-of-local *)
+
+implement
+{}(*tmp*)
+streamer_vt_make (xs) = STREAMER (xs)
+
+implement
+{}(*tmp*)
+streamer_vt_free
+  (xser) = let val+~STREAMER(xs) = xser in ~xs end
+// end of [streamer_free]
+
+implement
+{a}(*tmp*)
+streamer_vt_eval_exn
+  (xser) = let
+//
+val+@STREAMER(xs) = xser
+//
+in
+//
+case+ !xs of
+| ~stream_vt_cons
+    (x, xs2) =>
+  (
+    xs := xs2; fold@(xser); x
+  ) (* end of [stream_vt_cons] *)
+| ~stream_vt_nil
+    ((*void*)) => let
+    prval () =
+     __assert (view@xs) where
+    {
+      extern
+      praxi __assert{l:addr}(!ptr@l >> stream_vt(a)@l): void
+    } (* end of [prval] *)
+    prval () = fold@(xser)
+  in
+    $raise StreamSubscriptExn()
+  end (* end of [stream_vt_nil] *)
+//
+end // end of [stream_eval_exn]
+
+end // end of [local]
 
 (* ****** ****** *)
 

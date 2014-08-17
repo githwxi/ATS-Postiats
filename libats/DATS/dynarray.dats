@@ -245,7 +245,7 @@ end // end of [dynarray_insert_atend_opt]
 (* ****** ****** *)
 
 implement{a}
-dynarray_inserts_at
+dynarray_insertseq_at
   (DA, i, xs, n2) = let
 //
 fun pow2min
@@ -293,7 +293,7 @@ if recap > 0 then let
   val m2 = pow2min (m+m, n+n2)
   val _(*true*) = dynarray_reset_capacity (DA, m2)
 in
-  dynarray_inserts_at (DA, i, xs, n2)
+  dynarray_insertseq_at (DA, i, xs, n2)
 end else let
   prval () = arrayopt_some (xs) in true
 end (* end of [if] *)
@@ -305,7 +305,7 @@ end else let
   prval () = arrayopt_some (xs) in true
 end // end of [if]
 //
-end // end of [dynarray_inserts_at]
+end // end of [dynarray_insertseq_at]
 
 (* ****** ****** *)
 
@@ -382,6 +382,42 @@ dynarray_takeout_atend_opt
 in
   if n > 0 then dynarray_takeout_at_opt (DA, pred(n)) else None_vt{a}()
 end // end of [dynarray_takeout_atend_opt]
+
+(* ****** ****** *)
+
+implement{a}
+dynarray_removeseq_at
+  (DA, st, ln) = let
+//
+val+DYNARRAY (A, m, n) = DA
+//
+in
+//
+if
+st < n
+then let
+//
+val ln1 = n - st
+val ln2 = min (ln, ln1)
+val p0 = ptrcast(A)
+val p1 = ptr_add<a> (p0, st)
+val p2 = ptr_add<a> (p1, ln2)
+//
+val p1 =
+memmove (p1, p2, (ln1-ln2)*sizeof<a>)
+//
+val+@DYNARRAY (A, m, n) = DA
+val ((*void*)) = n := n - ln2
+//
+prval () = $UN.castview0{void}(view@A)
+prval () = $UN.castview0{void}(view@m)
+prval () = $UN.castview0{void}(view@n)
+prval () = $UN.castview2void{dynarray(a)}(DA) in ln2
+//
+end // end of [then]
+else i2sz(0) // end of [else]
+//
+end // end of [dynarray_removeseq_at]
 
 (* ****** ****** *)
 
@@ -610,18 +646,4 @@ end // end of [dynarray_takeout_at_opt]
 
 (* ****** ****** *)
   
-implement{a}
-dynarray_filter (DA) = let
-//
-implement
-dynarray_filterlin$pred<a> (x) = dynarray_filter$pred<a> (x)
-implement
-dynarray_filterlin$clear<a> (x) = ()
-//
-in
-  dynarray_filterlin (DA)
-end // end of [dynarray_filter]
-  
-(* ****** ****** *)
-
 (* end of [dynarray.dats] *)

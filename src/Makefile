@@ -59,6 +59,8 @@ SOURCES := \
   pats_error.dats \
   pats_intinf.sats \
   pats_intinf.dats \
+  pats_intinf_int.hats \
+  pats_intinf_gmp.hats \
   pats_counter.sats \
   pats_counter.dats \
   pats_utils.sats \

@@ -80,9 +80,10 @@ local
 //
 #define MAXLEN 100
 #assert (MAXLEN > 0)
+//
 val the_length = ref<int> (0)
 val the_parerrlst = ref<parerrlst_vt> (list_vt_nil)
-
+//
 in (* in-of-local *)
 
 implement
@@ -94,7 +95,7 @@ the_parerrlst_clear
     val () = list_vt_free (!p)
     val () = !p := list_vt_nil ()
   } // end of [val]
-} // end of [the_parerrlst_clear]
+} (* end of [the_parerrlst_clear] *)
 
 implement
 the_parerrlst_add
@@ -109,7 +110,7 @@ the_parerrlst_add
   in
     !p := list_vt_cons (err, !p)
   end // end of [val]
-} // end of [the_parerrlst_add]
+} (* end of [the_parerrlst_add] *)
 
 implement
 the_parerrlst_get
@@ -120,7 +121,7 @@ the_parerrlst_get
   val xs = !p
   val xs = list_vt_reverse (xs)
   val () = !p := list_vt_nil ()
-} // end of [the_parerrlst_get]
+} (* end of [the_parerrlst_get] *)
 
 end // end of [local]
 
@@ -151,43 +152,62 @@ end // end of [the_parerrlst_add_ifunclosed]
 
 (* ****** ****** *)
 
-fun keyword_needed
+fun
+synent_needed
 (
-  out: FILEref, x: parerr, name: string
+  out: FILEref
+, x: parerr, name: string
+) : void = () where {
+//
+val () = fprint (out, x.parerr_loc)
+val () =
+  fprintf (out, ": error(parsing): the syntactic entity [%s] is needed.", @(name))
+val () = fprint_newline (out)
+//
+} (* end of [synent_needed] *)
+
+(* ****** ****** *)
+
+fun
+keyword_needed
+(
+  out: FILEref
+, x: parerr, name: string
 ) : void = () where {
   val () = fprint (out, x.parerr_loc)
   val () = fprintf (out, ": error(parsing): the keyword [%s] is needed.", @(name))
   val () = fprint_newline (out)
-} // end of [keyword_needed]
+} (* end of [keyword_needed] *)
 
-fun synent_needed
-(
-  out: FILEref, x: parerr, name: string
-) : void = () where {
-  val () = fprint (out, x.parerr_loc)
-  val () = fprintf (out, ": error(parsing): the syntactic entity [%s] is needed.", @(name))
-  val () = fprint_newline (out)
-} // end of [synent_needed]
+(* ****** ****** *)
 
-fun parenth_needed
+fun
+parenth_needed
 (
-  out: FILEref, x: parerr, name: string
+  out: FILEref
+, x: parerr, name: string
 ) : void = () where {
   val () = fprint (out, x.parerr_loc)
   val () = fprintf (out, ": error(parsing): the keyword '%s' is needed.", @(name))
   val () = fprint_newline (out)
-} // end of [parenth_needed]
+} (* end of [parenth_needed] *)
 
-fun filename_unclosed
+(* ****** ****** *)
+
+fun
+filename_unclosed
 (
   out: FILEref, x: parerr
 ) : void = () where {
   val () = fprint (out, x.parerr_loc)
   val () = fprintf (out, ": error(parsing): the filename is unclosed.", @())
   val () = fprint_newline (out)
-} // end of [filename_unclosed]
+} (* end of [filename_unclosed] *)
 
-fun token_discarded
+(* ****** ****** *)
+
+fun
+token_discarded
 (
   out: FILEref, x: parerr
 ) : void = () where {
@@ -204,8 +224,8 @@ fprint_parerr
 //
 val loc = x.parerr_loc and node = x.parerr_node
 //
-macdef KN (x, name) = keyword_needed (out, ,(x), ,(name))
 macdef SN (x, name) = synent_needed (out, ,(x), ,(name))
+macdef KN (x, name) = keyword_needed (out, ,(x), ,(name))
 macdef PN (x, name) = parenth_needed (out, ,(x), ,(name))
 //
 in

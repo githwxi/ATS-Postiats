@@ -37,6 +37,20 @@
 // HX: shared by hashtbl_linprb
 //
 (* ****** ****** *)
+
+(*
+implement
+{key}(*tmp*)
+hash_key = ghash_val<key>
+*)
+
+(* ****** ****** *)
+
+implement
+{key}(*tmp*)
+equal_key_key = gequal_val<key>
+
+(* ****** ****** *)
 //
 // HX: 31 and 37 are top choices
 //
@@ -46,12 +60,8 @@ hash_key<string> (str) =
 //
 (* ****** ****** *)
 
-implement{key} equal_key_key = gequal_val<key>
-
-(* ****** ****** *)
-
 implement{}
-hashtbl$recapacitize () = 1 // default policy
+hashtbl$recapacitize () = 1 // HX: default: resizable
 
 (* ****** ****** *)
 
@@ -168,11 +178,6 @@ end // end of [hashtbl_remove]
 
 (* ****** ****** *)
 
-implement{}
-fprint_hashtbl$sep (out) = fprint (out, "; ")
-implement{}
-fprint_hashtbl$mapto (out) = fprint (out, "->")
-
 implement
 {key,itm}
 fprint_hashtbl
@@ -193,6 +198,13 @@ var env: int = 0
 in
   hashtbl_foreach_env<key,itm><int> (tbl, env)
 end // end of [fprint_hashtbl]
+
+(* ****** ****** *)
+
+implement{}
+fprint_hashtbl$sep (out) = fprint (out, "; ")
+implement{}
+fprint_hashtbl$mapto (out) = fprint (out, "->")
 
 (* ****** ****** *)
 

@@ -205,8 +205,10 @@ mul_intinf_intinf (x1, x2) = INTINF (un(x1) * un(x2))
 
 local
 //
-staload "libats/SATS/funset_listord.sats"
-staload _(*anon*) = "libats/DATS/funset_listord.dats"
+staload
+"libats/SATS/funset_listord.sats"
+staload _(*anon*) =
+"libats/DATS/funset_listord.dats"
 //
 fn cmp (
   x1: intinf, x2: intinf
@@ -215,7 +217,7 @@ fn cmp (
 //
 assume intinfset_type = set (intinf)
 //
-in
+in (*in-of-local*)
 
 implement
 intinfset_sing (x) = funset_make_sing (x)
@@ -227,10 +229,11 @@ intinfset_is_member
 
 implement
 intinfset_add
-  (xs, x) = xs where {
+  (xs, x) = xs where
+{
   var xs = xs
   val _(*exist*) = funset_insert (xs, x, cmp)
-} // end of [val]
+} (* end of [val] *)
 
 implement
 intinfset_listize (xs) = funset_listize (xs)
@@ -246,8 +249,8 @@ fprint_intinfset
   val () = $UT.fprintlst
     (out, $UN.castvwtp1{intinflst}(xs), ", ", fprint_intinf)
   val () = list_vt_free (xs)
-} // end of [fprint_intinfset]
+} (* end of [fprint_intinfset] *)
 
 (* ****** ****** *)
 
-(* end of [pats_intinf_int.dats] *)
+(* end of [pats_intinf_int.hats] *)

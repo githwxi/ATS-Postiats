@@ -136,9 +136,9 @@ emit_text
 (* ****** ****** *)
 
 implement
-emit_lparen (out) = emit_text (out, "(")
+emit_LPAREN (out) = emit_text (out, "(")
 implement
-emit_rparen (out) = emit_text (out, ")")
+emit_RPAREN (out) = emit_text (out, ")")
 
 (* ****** ****** *)
 
@@ -160,11 +160,11 @@ implement
 emit_intinf (out, x) = $INTINF.fprint_intinf (out, x)
 implement
 emit_ATSPMVint (out, x) = (
-  emit_text (out, "ATSPMVint("); emit_int (out, x); emit_rparen (out)
+  emit_text (out, "ATSPMVint("); emit_int (out, x); emit_RPAREN (out)
 ) // end of [emit_ATSPMVint]
 implement
 emit_ATSPMVintrep (out, x) = (
-  emit_text (out, "ATSPMVintrep("); emit_text (out, x); emit_rparen (out)
+  emit_text (out, "ATSPMVintrep("); emit_text (out, x); emit_RPAREN (out)
 ) // end of [emit_ATSPMVintrep]
 
 (* ****** ****** *)
@@ -290,19 +290,27 @@ emit_ATSPMVstring (out, str) = {
 implement
 emit_ATSPMVi0nt
   (out, tok) = {
-  val () =
-    emit_text (out, "ATSPMVi0nt(")
-  val () = $SYN.fprint_i0nt (out, tok)
-  val () = emit_rparen (out)
+//
+val () =
+  emit_text (out, "ATSPMVi0nt(")
+//
+val () = $SYN.fprint_i0nt (out, tok)
+//
+val ((*closing*)) = emit_RPAREN (out)
+//
 } // end of [emit_ATSPMVi0nt]
 
 implement
 emit_ATSPMVf0loat
   (out, tok) = {
-  val () =
-    emit_text (out, "ATSPMVf0loat(")
-  val () = $SYN.fprint_f0loat (out, tok)
-  val () = emit_rparen (out)
+//
+val () =
+  emit_text (out, "ATSPMVf0loat(")
+//
+val () = $SYN.fprint_f0loat (out, tok)
+//
+val ((*closing*)) = emit_RPAREN (out)
+//
 } // end of [emit_ATSPMVf0loat]
 
 (* ****** ****** *)
@@ -499,9 +507,11 @@ emit_sizeof
   (out, hselt) = let
 //
 val () =
-emit_text (out, "ATSPMVsizeof(")
+  emit_text (out, "ATSPMVsizeof(")
+//
 val () = emit_hisexp (out, hselt)
-val () = emit_rparen (out)
+//
+val ((*closing*)) = emit_RPAREN (out)
 //
 in
 end // end of [emit_sizeof]
@@ -702,15 +712,18 @@ in
 end // end of [emit_funarg]
 
 implement
-emit_funargx
+emit_funapy
   (out, narg) = let
-  val nfnx = !the_nfnx
+//
+val nfnx = !the_nfnx
+//
 in
-  if nfnx <= 1
-    then fprintf (out, "argx%i", @(narg))
-    else fprintf (out, "a%irgx%i", @(nfnx, narg))
-  // end of [val]
-end // end of [emit_funargx]
+//
+if nfnx <= 1
+  then fprintf (out, "apy%i", @(narg))
+  else fprintf (out, "a%ipy%i", @(nfnx, narg))
+//
+end // end of [emit_funapy]
 
 end // end of [local]
 
@@ -915,7 +928,8 @@ if knd = 0
 // end of [if]
 ) : void // end of [val]
 //
-val () = if isvoid then emit_text (out, "_void")
+val () =
+if isvoid then emit_text (out, "_void")
 //
 val () = emit_text (out, "(")
 //
@@ -927,19 +941,27 @@ case+ hse.hisexp_node of
 | _ (*non-tyarr*) => ((*nothing*))
 ) (* end of [val] *)
 //
-val () = emit_text (out, ", ")
-//
-val () = (
+val () =
+if
+not(isvoid)
+then {
+val () =
+emit_text (out, ", ")
+val () =
+(
 case+ hse.hisexp_node of
 | HSEtyarr (hse_elt, _(*dim*)) => emit_hisexp (out, hse_elt)
 | _ (*non-tyarr*) => emit_hisexp (out, hse)
 ) (* end of [val] *)
+} (* end of [then] *)
 //
 val () = emit_text (out, ") ;\n")
 //
 in
   // nothing
 end // end of [emit_tmpdec]
+
+(* ****** ****** *)
 
 implement
 emit_tmpdeclst
@@ -1181,10 +1203,9 @@ case+ opt of
 | ~Some_vt (pmv) =>
     emit_primval (out, pmv)
 | ~None_vt () => let
-    val () = emit_text (out, "ATSPMVenv")
-    val () = emit_lparen (out)
+    val () = emit_text (out, "ATSPMVenv(")
     val () = emit_symbol (out, $D2E.d2var_get_sym (d2v))
-    val () = emit_rparen (out)
+    val ((*closing*)) = emit_RPAREN (out)
   in
     // nothing
   end (* end of [None_vt] *)
@@ -1265,7 +1286,8 @@ val () = emit_text (out, ", ")
 val () = emit_hisexp (out, hse0)
 val () = emit_text (out, ", ")
 val () = emit_primval (out, arg)
-val () = emit_rparen (out)
+//
+val ((*closing*)) = emit_RPAREN (out)
 //
 in
   // nothing
@@ -1311,10 +1333,10 @@ val istyarr = hisexp_is_tyarr(pmv.primval_type)
 //
 val () = emit_text (out, "ATSPMVptrof")
 val () = if isvoid then emit_text (out, "_void")
-val () = emit_lparen (out)
+val () = emit_LPAREN (out)
 val () = emit_primval (out, pmv(*lvalue*))
 val () = if istyarr then emit_text (out, "[0]")
-val () = emit_rparen (out)
+val () = emit_RPAREN (out)
 //
 in
   // nothing
@@ -1332,16 +1354,19 @@ val-PMVrefarg
   (knd, freeknd, pmv) = pmv0.primval_node
 //
 val () =
-  if (knd = 0) then emit_text (out, "ATSPMVrefarg0(")
+if (knd = 0)
+  then emit_text (out, "ATSPMVrefarg0(")
+//
 val () =
-  if (knd > 0) then emit_text (out, "ATSPMVrefarg1(")
+if (knd > 0)
+  then emit_text (out, "ATSPMVrefarg1(")
 //
 val () =
   if (knd = 0) then emit_primval (out, pmv)
 val () =
   if (knd > 0) then emit_primval_ptrof2 (out, pmv)
 //
-val () = emit_rparen (out)
+val ((*closing*)) = emit_RPAREN (out)
 //
 in
   // nothing
@@ -1378,12 +1403,14 @@ if isenv then
   emit_text (out, "ATSERRORnotenvless(")
 ) (* end of [val] *)
 //
-val (
-) = emit_text (out, "ATSPMVfunlab(")
-val ((*void*)) = emit_funlab (out, flab)
-val ((*void*)) = emit_rparen (out)
+val () =
+  emit_text (out, "ATSPMVfunlab(")
 //
-val () = if isenv then emit_rparen (out)
+val ((*void*)) = emit_funlab (out, flab)
+//
+val ((*closing*)) = emit_RPAREN (out)
+//
+val ((*closing*)) = if isenv then emit_RPAREN (out)
 //
 in
   // nothing
@@ -1429,13 +1456,16 @@ fun auxmain
   out: FILEref
 , pmv: primval, hse: hisexp
 ) : void = let
-  val () =
-    emit_text (out, "ATSderef(")
-  // end of [val]
-  val () = emit_primval (out, pmv)
-  val () = emit_text (out, ", ")
-  val () = emit_hisexp (out, hse)
-  val () = emit_rparen (out)
+//
+val () =
+  emit_text (out, "ATSderef(")
+//
+val () = emit_primval (out, pmv)
+val () = emit_text (out, ", ")
+val () = emit_hisexp (out, hse)
+//
+val ((*closing*)) = emit_RPAREN (out)
+//
 in
   // nothing
 end // end of [auxmain]
@@ -1476,10 +1506,14 @@ emit_funtype_arg_res
 (
   out, hses_arg, hse_res
 ) = let
-  val () = emit_hisexp (out, hse_res)
-  val () = emit_text (out, "(*)(")
-  val () = emit_hisexplst_sep (out, hses_arg, ", ")
-  val () = emit_rparen (out)
+//
+val () = emit_hisexp (out, hse_res)
+//
+val () = emit_text (out, "(*)(")
+val () = emit_hisexplst_sep (out, hses_arg, ", ")
+//
+val ((*closing*)) = emit_RPAREN (out)
+//
 in
   // nothing
 end // end of [emit_funtype_arg_res]
@@ -1634,31 +1668,33 @@ val () = (
 //
 in
 //
-case+ ins.instr_node of
+case+
+ins.instr_node of
 //
 | INSfunlab (flab) =>
   {
-    val (
-    ) = emit_text (out, "__patsflab_")
     val () =
-    (
-      emit2_funlab (out, flab); emit_text (out, ":")
-    )
-  } // end of [INSfunlab]
-| INStmplab (tlab) =>
+    emit_text (out, "ATSINSflab(")
+    val () = emit_text (out, "__patsflab_")
+    val () = (
+      emit2_funlab (out, flab); emit_text (out, "):")
+    ) (* end of [val] *)
+  } (* end of [INSfunlab] *)
+//
+| INStmplab (tmplab) =>
   {
-    val () =
-    (
-      emit_tmplab (out, tlab); emit_text (out, ":")
-    )
-  } // end of [INStmplab]
+    val () = emit_text (out, "ATSINSlab(")
+    val () = (
+      emit_tmplab (out, tmplab); emit_text (out, "):")
+    ) (* end of [val] *)
+  } (* end of [INStmplab] *)
 //
 | INScomment (string) =>
   {
     val () = emit_text (out, "/*\n")
     val () = emit_text (out, string)
     val () = emit_text (out, "\n*/")
-  }
+  } (* end of [INScomment] *)
 //
 | INSmove_val
     (tmp, pmv) => emit_move_val (out, tmp, pmv)
@@ -1710,7 +1746,7 @@ case+ ins.instr_node of
     val () = emit_text (out, "** loop-init(end)\n")
     val () = emit_text (out, "*/\n")
     val () = (
-      emit_text (out, "ATSLOOPopen(");
+      emit_text (out, "ATSloop_open(");
       emit_tmplab (out, tlab_init); emit_text (out, ", ");
       emit_tmplab (out, tlab_fini); emit_text (out, ", ");
       emit_tmplab (out, tlab_cont); emit_text (out, ")\n")
@@ -1746,7 +1782,7 @@ case+ ins.instr_node of
     } // end of [if] // end of [val]
 //
     val () = (
-      emit_text (out, "ATSLOOPclose(");
+      emit_text (out, "ATSloop_close(");
       emit_tmplab (out, tlab_init); emit_text (out, ", ");
       emit_tmplab (out, tlab_fini); emit_text (out, ", ");
       emit_tmplab (out, tlab_cont); emit_text (out, ") ;")
@@ -1770,9 +1806,9 @@ case+ ins.instr_node of
   end // end of [INSloopexn]
 //
 | INScaseof (ibrs) => let
-    val () = emit_text (out, "ATScaseofbeg()\n")
+    val () = emit_text (out, "ATScaseof_beg()\n")
     val () = emit_ibranchlst (out, ibrs)
-    val () = emit_text (out, "ATScaseofend()\n")
+    val () = emit_text (out, "ATScaseof_end()\n")
   in
     // nothing
   end // end of [INScaseof]
@@ -1783,20 +1819,20 @@ case+ ins.instr_node of
   ) => let
 //
     val () =
-    emit_text (out, "ATStrywith_try(")
+      emit_text (out, "ATStrywith_try(")
     val () = emit_tmpvar (out, tmp_exn)
-    val () = emit_text (out, ")\n")
+    val ((*closing*)) = emit_text (out, ")\n")
 //
     val () = emit_instrlst_ln (out, inss_try)
 //
     val () =
-    emit_text (out, "ATStrywith_with(")
+      emit_text (out, "ATStrywith_with(")
     val () = emit_tmpvar (out, tmp_exn)
-    val () = emit_text (out, ")\n")
+    val ((*closing*)) = emit_text (out, ")\n")
 //
-    val () = emit_text (out, "ATScaseofbeg()\n")
+    val () = emit_text (out, "ATScaseof_beg()\n")
     val () = emit_ibranchlst (out, ibrs_with)
-    val () = emit_text (out, "ATScaseofend()\n")
+    val () = emit_text (out, "ATScaseof_end()\n")
 //
     val () = emit_text (out, "ATStrywith_end()")
   in
@@ -2041,7 +2077,7 @@ val () =
 (
   emit_tmpvar (out, tmp); emit_text (out, ", "); emit_int (out, tag)
 )
-val () = emit_text (out, ") ;\n")
+val ((*closing*)) = emit_text (out, ") ;\n")
 //
 in
   // nothing
@@ -2067,7 +2103,7 @@ case+ 0 of
 //
 val tag = $S2E.d2con_get_tag (d2c)
 val () = fprintf (out, "#if(%i)\n", @(flag))
-val () = emit_text (out, "ATSINSstore_con_tag(")
+val () = emit_text (out, "ATSINSstore_con1_tag(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_int (out, tag)
@@ -2087,14 +2123,15 @@ in
 //
 case+ lxs of
 //
-| list_cons
-    (lx, lxs) => let
+| list_nil () => ()
+//
+| list_cons (lx, lxs) => let
     val+LABPRIMVAL (l, x) = lx
     val istop = primval_is_top (x)
     val () =
       if istop then emit_text (out, "#if(0)\n")
     // end of [val]
-    val () = emit_text (out, "ATSINSstore_con_ofs(")
+    val () = emit_text (out, "ATSINSstore_con1_ofs(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hitype (out, hit_con)
@@ -2110,8 +2147,6 @@ case+ lxs of
     auxarg (out, tmp, hit_con, lxs)
   end // end of [list_cons]
 //
-| list_nil () => ()
-//
 end // end of [auxarg]
 
 fun auxcon1
@@ -2121,17 +2156,21 @@ fun auxcon1
 , hit_con: hitype, arg: labprimvalist
 ) : void = let
 //
-val (
-) = emit_text (out, "ATSINSmove_con1(")
-val (
-) = (
+val () =
+  emit_text (out, "ATSINSmove_con1_beg()\n")
+//
+val () =
+  emit_text (out, "ATSINSmove_con1_new(")
+val () = (
   emit_tmpvar (out, tmp);
   emit_text (out, ", "); emit_hitype (out, hit_con)
-)
-val () = emit_text (out, ") ;\n")
+) (* end of [val] *)
+val ((*closing*)) = emit_text (out, ") ;\n")
 //
 val () = auxtag (out, tmp, d2c)
 val () = auxarg (out, tmp, hit_con, arg)
+//
+val () = emit_text (out, "ATSINSmove_con1_end()")
 //
 in
   // nothing
@@ -2161,32 +2200,37 @@ fun auxexn1
 , hit_con: hitype, arg: labprimvalist
 ) : void = let
 //
-val (
-) = emit_text (out, "ATSINSmove_exn1(")
+val () =
+  emit_text (out, "ATSINSmove_exn1_beg()\n")
+//
+val () =
+  emit_text (out, "ATSINSmove_exn1_new(")
 val (
 ) = (
   emit_tmpvar (out, tmp);
   emit_text (out, ", "); emit_hitype (out, hit_con)
-)
-val () = emit_text (out, ") ;\n")
+) (* end of [val] *)
 //
-val (
-) = emit_text (out, "ATSINSstore_exntag(")
+val ((*closing*)) = emit_text (out, ") ;\n")
+//
+val () =
+  emit_text (out, "ATSINSstore_exn1_tag(")
 val (
 ) = (
   emit_tmpvar (out, tmp); emit_text (out, ", "); emit_d2con (out, d2c)
 ) (* end of [val] *)
-val () = emit_text (out, ") ;\n")
+val ((*closing*)) = emit_text (out, ") ;\n")
 //
-val (
-) = emit_text (out, "ATSINSstore_exnmsg(")
-val (
-) = (
-  emit_tmpvar (out, tmp); emit_text (out, ", "); emit_d2con (out, d2c)
+val () =
+emit_text (out, "ATSINSstore_exn1_msg(")
+val () = (
+emit_tmpvar (out, tmp); emit_text (out, ", "); emit_d2con (out, d2c)
 ) (* end of [val] *)
-val () = emit_text (out, ") ;\n")
+val ((*closing*)) = emit_text (out, ") ;\n")
 //
 val () = auxarg (out, tmp, hit_con, arg)
+//
+val () = emit_text (out, "ATSINSmove_exn1_end()")
 //
 in
   // nothing
@@ -2195,7 +2239,8 @@ end // end of [auxexn1]
 in (* in of [local] *)
 
 implement
-emit_instr_move_con (out, ins) = let
+emit_instr_move_con
+  (out, ins) = let
 //
 val- INSmove_con
   (tmp, d2c, hse_sum, arg) = ins.instr_node
@@ -2232,7 +2277,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-emit_instr_move_rec (out, ins) = let
+emit_instr_move_rec
+  (out, ins) = let
 //
 fun loop
 (
@@ -2246,6 +2292,7 @@ fun loop
 in
 //
 case+ lxs of
+//
 | list_cons
     (lx, lxs) => let
     val LABPRIMVAL (l, x) = lx
@@ -2266,6 +2313,7 @@ case+ lxs of
   in
     loop (boxknd, extknd, tmp, hit_rec, lxs, i+1)
   end // end of [list_cons]
+//
 | list_nil () => ()
 //
 end // end of [loop]
@@ -2277,26 +2325,38 @@ case- ins.instr_node of
   (
     tmp, lpmvs, hse_rec
   ) => let
-    val hit_rec = hisexp_typize (1, hse_rec)
+//
+    val () = emit_text (out, "ATSINSmove_fltrec_beg()\n")
+//
+    val hit = hisexp_typize (1, hse_rec)
     val extknd = hisexp_get_extknd (hse_rec)
+    val () = loop (0(*boxknd*), extknd, tmp, hit, lpmvs, 0)
+//
+    val () = emit_text (out, "\nATSINSmove_fltrec_end()")
   in
-    loop (0(*boxknd*), extknd, tmp, hit_rec, lpmvs, 0)
+    // nothing
   end // end of [INSmove_fltrec]
 | INSmove_boxrec
   (
     tmp, lpmvs, hse_rec
   ) => let
-    val hit_rec = hisexp_typize (0, hse_rec)
 //
-    val () = emit_text (out, "ATSINSmove_boxrec(")
+    val () = emit_text (out, "ATSINSmove_boxrec_beg()\n")
+//
+    val hit = hisexp_typize (0, hse_rec)
+    val extknd = hisexp_get_extknd (hse_rec)
+//
+    val () = emit_text (out, "ATSINSmove_boxrec_new(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
-    val () = emit_hitype (out, hit_rec)
+    val () = emit_hitype (out, hit)
     val () = emit_text (out, ") ;\n")
+    val () = loop (1(*boxknd*), extknd, tmp, hit, lpmvs, 0)
 //
-    val extknd = hisexp_get_extknd (hse_rec)
+    val () = emit_text (out, "\nATSINSmove_boxrec_end()")
+//
   in
-    loop (1(*boxknd*), extknd, tmp, hit_rec, lpmvs, 0)
+    // nothing
   end // end of [INSmove_boxrec]
 //
 end // end of [emit_instr_move_rec]
@@ -2313,13 +2373,16 @@ fun auxsel
 , lab: label
 ) : void = let
 //
-val () = emit_text (out, "ATSSELcon(")
+val () =
+emit_text (out, "ATSSELcon(")
+//
 val () = emit_primval (out, pmv)
 val () = emit_text (out, ", ")
 val () = emit_hisexp_sel (out, hse_sum)
 val () = emit_text (out, ", ")
 val () = emit_labelext (out, 0(*ext*), lab)
-val () = emit_rparen (out)
+//
+val ((*closing*)) = emit_RPAREN (out)
 //
 in
   // nothing
@@ -2479,7 +2542,7 @@ case+ xys of
               then emit_text (out, "ATSSELfltrec(")
               else emit_text (out, "ATSSELarrptrind(")
             // end of [if]
-          ) // end of [if]
+          ) (* end of [else] *)
         // end of [if]
       end else
         emit_text (out, "ATSSELboxrec(")
@@ -2493,7 +2556,7 @@ case+ xys of
     val () = emit_text (out, ", ")
     val extknd = hisexp_get_extknd (hse)
     val () = emit_primlab (out, extknd, pml)
-    val () = emit_rparen (out)
+    val ((*closing*)) = emit_RPAREN (out)
   in
     // nothing
   end // end of [list_vt_cons]
@@ -2572,7 +2635,8 @@ emit_primval_ptrofsel
 val-PMVptrofsel
   (pmv, hse_rt, pmls) = pmv0.primval_node
 //
-val () = emit_text (out, "ATSPMVptrof(")
+val () =
+  emit_text (out, "ATSPMVptrof(")
 //
 val () = let
   val xys = auxselist (hse_rt, pmls)
@@ -2580,7 +2644,7 @@ in
   auxmain (out, 1(*ptr*), pmv, hse_rt, xys, 0)
 end // end of [val]
 //
-val () = emit_rparen (out)
+val ((*closing*)) = emit_RPAREN (out)
 //
 in
   // nothing

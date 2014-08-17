@@ -136,6 +136,10 @@ typedef s0tringopt = Option (s0tring)
 
 (* ****** ****** *)
 
+fun i0nt2int (x: i0nt): int
+
+(* ****** ****** *)
+
 fun fprint_i0nt : fprint_type (i0nt)
 fun fprint_c0har : fprint_type (c0har)
 fun fprint_f0loat : fprint_type (f0loat)
@@ -143,20 +147,16 @@ fun fprint_s0tring : fprint_type (s0tring)
 
 (* ****** ****** *)
 
-fun int_of_i0nt (x: i0nt): int
-
-(* ****** ****** *)
-
 typedef
 i0de = '{
   i0de_loc= location, i0de_sym= symbol
-} // end of [i0de]
+} (* end of [i0de] *)
 
 typedef i0delst = List (i0de)
 typedef i0deopt = Option (i0de)
 
-fun i0de_make_sym (loc: location, sym: symbol) : i0de
-fun i0de_make_string (loc: location, name: string) : i0de
+fun i0de_make_sym (loc: location, sym: symbol): i0de
+fun i0de_make_string (loc: location, name: string): i0de
 fun i0de_make_lrbrackets (t_beg: token, t_end: token): i0de
 
 fun print_i0de (x: i0de): void
@@ -590,7 +590,7 @@ and s0qua_node =
 where
 s0exp = '{
   s0exp_loc= location, s0exp_node= s0exp_node
-} // end of [s0exp]
+} (* end of [s0exp] *)
 and s0explst = List (s0exp)
 and s0explst_vt = List_vt (s0exp)
 and s0expopt = Option (s0exp)
@@ -1081,13 +1081,25 @@ fun p0at_rec (
 
 (* ****** ****** *)
 
-fun p0at_lst (
+fun
+p0at_lst
+(
   lin: int
 , t_beg: token, p0ts: p0atlst, t_end: token
 ) : p0at // end of [p0at_lst]
-fun p0at_lst_quote (
+
+(*
+//
+// HX-2014-07:
+// a list-pattern
+// like '[x1, x2] is no longer supported
+//
+fun
+p0at_lst_quote
+(
   t_beg: token, p0ts: p0atlst, t_end: token
 ) : p0at // end of [p0at_lst_quote]
+*)
 
 (* ****** ****** *)
 
@@ -1125,7 +1137,8 @@ datatype i0mparg =
 
 fun i0mparg_sarglst_none (): i0mparg
 
-fun i0mparg_sarglst_some (
+fun i0mparg_sarglst_some
+(
   t_beg: token, arg: s0arglst, t_end: token
 ) : i0mparg // end of [i0mparg_sarglst_some]
 

@@ -414,10 +414,10 @@ id="references">
 
 #para("\
 
-A reference is just an array containing one element.  Given a type T, a
-reference for storing a value of the type T is given the type ref(T).  The
-following program makes use of all the essential functionalities on
-references:
+A reference is just a singleton array, that is, an array containing one
+element.  Given a type T, a reference for storing a value of the type T is
+given the type ref(T).  The following simple program makes use of all the
+essential functionalities on references:
 
 #atscode("\
 val intr = ref<int> (0) // create a ref and init. it with 0
@@ -552,11 +552,11 @@ in OOP.\
 
 #para("\
 
-I myself think that the above counter implementation is of a rather poor
-style.  It is also possible to protect the integrity of a state by simply
-making it abstract.  I will present elsewhere another counter
+I myself think that the above counter implementation is of rather
+a poor style.  It is also possible to protect the integrity of a state by
+simply making it abstract.  I will present elsewhere another counter
 implementation based on a linear abstract type (that is, abstract viewtype
-in ATS), where counters can be created and then safely freed.
+in ATS), where counters can be created and then safely freed.\
 
 ")
 

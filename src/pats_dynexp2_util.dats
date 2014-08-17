@@ -58,22 +58,34 @@ staload "./pats_dynexp2.sats"
 
 implement
 d2exp_is_varlamcst
-  (d2e0) = begin
-  case+ d2e0.d2exp_node of
-  | D2Evar d2v => (
-      if d2var_is_mutabl d2v then false else true
-    ) // end of [D2Evar]
-  | D2Elam_dyn _ => true
-  | D2Elam_sta _ => true
-  | D2Eint _ => true
-  | D2Ebool _ => true
-  | D2Echar _ => true
-  | D2Estring _ => true
-  | D2Ei0nt _ => true
-  | D2Ec0har _ => true
-  | D2Es0tring _ => true
-  | D2Etop _ => true
-  | _ => false
+  (d2e0) = let
+in
+//
+case+
+d2e0.d2exp_node of
+//
+| D2Evar d2v =>
+  (
+    if d2var_is_mutabl d2v then false else true
+  ) // end of [D2Evar]
+//
+| D2Elam_dyn _ => true
+| D2Elam_sta _ => true
+//
+| D2Eint _ => true
+| D2Ebool _ => true
+| D2Echar _ => true
+| D2Estring _ => true
+| D2Ei0nt _ => true
+| D2Ec0har _ => true
+| D2Es0tring _ => true
+//
+| D2Etop _ => true
+//
+| D2Eexist (s2as, d2e) => d2exp_is_varlamcst (d2e)
+//
+| _ (*rest-of-d2exp*) => false
+//
 end // end of [d2exp_is_varlamcst]
 
 (* ****** ****** *)

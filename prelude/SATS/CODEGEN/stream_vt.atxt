@@ -170,15 +170,46 @@ a1,a2:t0p}{b:vt0p
 #atscode_separator()
 
 fun{a:vt0p}
-stream_vt_tabulate$fopr (i: int): (a)
+stream_vt_tabulate (): stream_vt (a)
 fun{a:vt0p}
-stream_vt_tabulate ((*void*)): stream_vt (a)
+stream_vt_tabulate$fopr (i: intGte(0)): (a)
 
+#atscode_separator()
+//
+absvtype
+streamer_vtype (a:vt@ype+) = ptr
+//
+vtypedef
+streamer_vt (a:vt0p) = streamer_vtype (a)
+//
+#atscode_separator()
+//
+fun{}
+streamer_vt_make
+  {a:vt0p} (stream_vt(INV(a))): streamer_vt(a)
+//
+fun{}
+streamer_vt_free{a:vt0p} (streamer_vt(INV(a))): void
+//
+fun{
+a:vt@ype
+} streamer_vt_eval_exn (xser: !streamer_vt(INV(a))): (a)
+//
 #atscode_separator()
 //
 // overloading for certain symbols
 //
 #atscode_separator()
+
+#atscode_separator()
+
+overload ~ with streamer_vt_free
+
+#atscode_separator()
+
+overload [] with streamer_vt_eval_exn
+
+(* ****** ****** *)
 
 overload .head with stream_vt_head
 overload .tail with stream_vt_tail

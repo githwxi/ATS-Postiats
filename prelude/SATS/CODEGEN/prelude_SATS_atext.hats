@@ -54,7 +54,7 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun{tk:tk}
-g0int_%s : g0int_aop_type (tk)
+g0int_%s : g0int_aop_type(tk)
 overload %s with g0int_%s of 0\
 ", @(
  opr, fopr_d, opr
@@ -82,7 +82,7 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun{tk:tk}
-g0int_%s : g0int_cmp_type (tk)
+g0int_%s : g0int_cmp_type(tk)
 overload %s with g0int_%s of 0\
 ", @(
  opr, fopr_d, opr
@@ -591,7 +591,7 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun{tk:tk}
-g0float_%s : g0float_aop_type (tk)
+g0float_%s : g0float_aop_type(tk)
 overload %s with g0float_%s of 0\
 ", @(
  opr, fopr_d, opr
@@ -619,7 +619,7 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun{tk:tk}
-g0float_%s : g0float_cmp_type (tk)
+g0float_%s : g0float_cmp_type(tk)
 overload %s with g0float_%s of 0\
 ", @(
  opr, fopr_d, opr

@@ -116,14 +116,14 @@ overload isneqz with strarr_isnot_empty
 
 (* ****** ****** *)
 //
-symintr strarr_get_at
-//
 fun{tk:tk}
 strarr_get_at_gint
   (str: strarr, i: g0int(tk)):<!exn> char
 fun{tk:tk}
 strarr_get_at_guint
   (str: strarr, i: g0uint(tk)):<!exn> char
+//
+symintr strarr_get_at
 //
 overload [] with strarr_get_at_gint of 0
 overload strarr_get_at with strarr_get_at_gint of 0
@@ -162,24 +162,29 @@ overload <> with neq_strarr_strarr
 
 (* ****** ****** *)
 
-fun strarr_compare
+fun
+strarr_compare
   (str1: strarr, str2: strarr):<> int
 overload compare with strarr_compare
 
 (* ****** ****** *)
-
-fun{}
-strarr_length (str: strarr):<> size_t
+//
+fun
+strarr_length (strarr):<> size_t
+//
 overload length with strarr_length
-
+//
 (* ****** ****** *)
 //
 fun print_strarr (str: strarr): void
 fun prerr_strarr (str: strarr): void
-fun fprint_strarr (out: FILEref, str: strarr): void
 //
 overload print with print_strarr
 overload prerr with prerr_strarr
+//
+fun
+fprint_strarr (out: FILEref, str: strarr): void
+//
 overload fprint with fprint_strarr
 //
 (* ****** ****** *)

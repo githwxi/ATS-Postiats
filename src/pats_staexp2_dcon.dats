@@ -82,7 +82,7 @@ d2con_struct = @{
 , d2con_tag= int // tag for dynamic constructor
 , d2con_pack= Stropt // for ATS_PACKNAME
 , d2con_stamp= stamp // uniqueness
-} // end of [d2con_struct]
+} (* end of [d2con_struct] *)
 
 (* ****** ****** *)
 
@@ -90,14 +90,15 @@ local
 
 assume d2con_type = ref (d2con_struct)
 
-in // in of [local]
+in (* in of [local] *)
 
 (* ****** ****** *)
 
 implement
 d2con_make
 (
-  loc, fil, id, s2c, vwtp, qua, npf, arg, ind
+  loc, fil
+, id, s2c, vwtp, qua, npf, arg, ind
 ) = let
 (*
 val out = stdout_ref
@@ -156,10 +157,11 @@ in
 end : s2exp // end of [val]
 //
 val pack = $GLOB.the_PACKNAME_get ()
+//
 val stamp = $STMP.d2con_stamp_make ()
 //
 val (pfgc, pfat | p) = ptr_alloc<d2con_struct> ()
-prval () = free_gc_elim {d2con_struct?} (pfgc)
+prval ((*freed*)) = free_gc_elim {d2con_struct?} (pfgc)
 //
 val () = p->d2con_sym := id
 val () = p->d2con_loc := loc
@@ -271,6 +273,8 @@ d2con_get_stamp
   (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_stamp
 end // end of [d2con_get_stamp]
+
+(* ****** ****** *)
 
 end // end of [local]
 

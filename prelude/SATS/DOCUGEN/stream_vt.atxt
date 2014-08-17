@@ -76,4 +76,38 @@ stream_vt (a:vt0p) = lazy_vt (stream_vt_con(a))
 
 (* ****** ****** *)
 
+#declnamesynop("stream_vt_tabulate")
+#declnamesynop("stream_vt_tabulate$fopr")
+
+(* ****** ****** *)
+
+#declnamesynop("streamer_vt")
+#declnamesynop("streamer_vtype")
+#declnamesynop("streamer_vt_make")
+#declnamesynop("streamer_vt_free")
+#declnamesynop("streamer_vt_eval_exn")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("~")
+
+(* ****** ****** *)
+
+#declnamesynop("[]")
+
+(* ****** ****** *)
+
+#declnamesynop(".head")
+#declnamesynop(".tail")
+
+(* ****** ****** *)
+
 (* end of [stream_vt.atxt] *)

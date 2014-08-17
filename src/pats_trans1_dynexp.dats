@@ -550,6 +550,7 @@ case+ d0e0.d0exp_node of
   in
     FXITMopr (loc0, FXOPRpre (foldat_prec_dyn, f))
   end // end of [D0Efoldat]
+//
 | D0Efreeat (d0es) => let
     val s1as = s0expdarglst_tr (d0es)
     fn f (
@@ -571,36 +572,32 @@ case+ d0e0.d0exp_node of
     FXITMatm (d1exp_tmpid (loc0, qid, tmparg))
   end // end of [D0Etmpid]
 //
-| D0Elet (d0cs, body) => let
+| D0Elet (d0cs, d0e_body) => let
     val (pfenv | ()) = the_trans1_env_push ()
-    val (pflev | ()) = the_trans1_level_inc ()
-    val d1cs = d0eclist_tr d0cs
-    val body = d0exp_tr (body)
-    val () = the_trans1_level_dec (pflev | (*none*))
+    val d1cs = d0eclist_tr (d0cs)
+    val d1e_body = d0exp_tr (d0e_body)
     val () = the_trans1_env_pop (pfenv | (*none*))
   in
-    FXITMatm (d1exp_let (loc0, d1cs, body))
+    FXITMatm (d1exp_let (loc0, d1cs, d1e_body))
   end // end of [D0Elet]
-| D0Ewhere (body, d0cs) => let
+//
+| D0Ewhere (d0e_body, d0cs) => let
     val (pfenv | ()) = the_trans1_env_push ()
-    val (pflev | ()) = the_trans1_level_inc ()
-    val d1cs = d0eclist_tr d0cs
-    val body = d0exp_tr (body)
-    val () = the_trans1_level_dec (pflev | (*none*))
+    val d1cs = d0eclist_tr (d0cs)
+    val d1e_body = d0exp_tr (d0e_body)
     val () = the_trans1_env_pop (pfenv | (*none*))
   in
-    FXITMatm (d1exp_where (loc0, body, d1cs))
-  end // end of [D0Elet]
+    FXITMatm (d1exp_where (loc0, d1e_body, d1cs))
+  end // end of [D0Ewhere]
+//
 | D0Edeclseq d0cs => let
     val (pfenv | ()) = the_trans1_env_push ()
-    val (pflev | ()) = the_trans1_level_inc ()
-    val d1cs = d0eclist_tr d0cs
+    val d1cs = d0eclist_tr (d0cs)
     val body = d1exp_empty (loc0)
-    val () = the_trans1_level_dec (pflev | (*none*))
     val () = the_trans1_env_pop (pfenv | (*none*))
   in
     FXITMatm (d1exp_let (loc0, d1cs, body))
-  end // end of [D0Elet]
+  end // end of [D0Edeclseq]
 //
 | D0Eapp _ => let 
     val d1eis = aux_itemlst (d0e0)
@@ -770,7 +767,10 @@ case+ d0e0.d0exp_node of
     knd, args, res, effopt, body
   ) => let
     val lin0 = lamkind_islin (knd)
-    val (fcopt, lin, efcopt) = (case+ effopt of
+    val (
+      fcopt, lin, efcopt
+    ) = (
+      case+ effopt of
       | Some eff => let
           val (
             fcopt, lin, prf, efc
@@ -790,7 +790,10 @@ case+ d0e0.d0exp_node of
 | D0Efix (
     knd, id, args, res, effopt, d0e_def
   ) => let
-    val (fcopt, lin, efcopt) = (case+ effopt of
+    val (
+      fcopt, lin, efcopt
+    ) = (
+      case+ effopt of
       | Some eff => let
           val (fcopt, lin, prf, efc) = e0fftaglst_tr (eff)
         in

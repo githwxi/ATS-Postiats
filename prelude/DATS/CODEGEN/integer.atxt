@@ -243,6 +243,10 @@ implement{
 } add_size1_int1
   {i,j}(i, j) = $UN.cast{size_t(i+j)}(i+g0i2u(j))
 implement{
+} add_int1_size1
+  {i,j}(i, j) = $UN.cast{size_t(i+j)}(g0i2u(i)+j)
+//
+implement{
 } sub_size1_int1
   {i,j}(i, j) = $UN.cast{size_t(i-j)}(i-g0i2u(j))
 //
@@ -608,6 +612,36 @@ end // end of [g1uint_implist]
 //
 #g1uint_implist("sizeknd", "size")\
 //
+#atscode_separator()
+
+implement
+{tk}(*tmp*)
+g1uint_div2 {i,j} (x, y) = let
+//
+  prval () = lemma_g1uint_param (x)
+//
+  val [q:int] q = g1uint_div (x, y)
+  prval [q2:int,r:int] pf = divmod_istot{i,j}()
+  prval EQINT() = $UN.castview0{EQINT(q,q2)}(0)
+in
+  (pf | q)
+end // end of [let] // end of [g1uint_div2]
+
+#atscode_separator()
+
+implement
+{tk}(*tmp*)
+g1uint_mod2 {i,j} (x, y) = let
+//
+  prval () = lemma_g1uint_param (x)
+//
+  val [r:int] r = g1uint_mod (x, y)
+  prval [q:int,r2:int] pf = divmod_istot{i,j}()
+  prval EQINT() = $UN.castview0{EQINT(r,r2)}(0)
+in
+  (pf | r)
+end // end of [let] // end of [g1uint_mod2]
+
 #atscode_separator()
 //
 implement g0int2string<intknd> = g0int2string_int

@@ -8,20 +8,31 @@
 
 Author: Hongwei Xi
 Authoremail: gmhwxi AT gmail DOT com
-
-######
-
 Start time: 2013-09-02
 
 ######
+#
+# Attention:
+#
+# Please note that this file is kept for
+# use only if the following link is unavailable:
+#
+# http://www.ats-lang.org/DOWNLOAD/#ATS_packages
+#
+# Otherwise please visit the link for up-to-date
+# instructions on installing the ATS programming
+# language system.
+#
+######
 
-Last recorded update: 2013-09-02
+Last recorded update: 2014-08-07
 
 ######
 
 Step 1: Get the package 
-Step 2: Build the package
-Step 3: Install the built package (optional)
+Step 2: Get pre-requisites
+Step 3: Build the package
+Step 4: Install the built package (optional)
 
 ######
 
@@ -49,13 +60,25 @@ which creates a directory named ATS-Postiats
 
 ######
 
-Step 2: Build the package
+Step 2: Get pre-requisites
+
+libgmp is required for successful building of ATS2.
+
+On e.g. Ubuntu Linus: sudo apt-get install libgmp-dev
+
+######
+
+Step 3: Build the package
 
 First enter the directory containing the package:
 
 cd ATS-Postiats
 
 Then issue the next command-line:
+
+./configure
+
+When that completes, please issue the next command-line:
 
 make all
 
@@ -68,7 +91,7 @@ export PATSHOME=`pwd`
 
 ######
 
-Step 3. Install the built package (optional)
+Step 4. Install the built package (optional)
 
 Assume that you want to install the package in a directory
 named /path/to/MYATS/.

@@ -64,21 +64,6 @@ size 0.
 
 (* ****** ****** *)
 
-#declnamesynop("dynarray_getfree_arrayptr")
-
-#decldescrpt('\
-
-Given a dynamic array DA, this function returns the arrayptr-value inside
-DA and then frees DA.\
-
-')
-
-(* ****** ****** *)
-
-#declnamesynop("dynarray_get_array")
-
-(* ****** ****** *)
-
 #declnamesynop("dynarray_get_size")
 #decldescrpt('\
 
@@ -93,6 +78,28 @@ This function returns the current size of a given dynamic array.\
 #decldescrpt('\
 
 This function returns the current capacity of a given dynamic array.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_get_array")
+
+#decldescrpt('\
+
+Given a dynamic array DA, this function returns a pointer plus some
+proofs of views for accessing the array contained in DA.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("dynarray_getfree_arrayptr")
+
+#decldescrpt('\
+
+Given a dynamic array DA, this function returns the arrayptr-value inside
+DA and then frees DA.\
 
 ')
 
@@ -173,11 +180,11 @@ the index i equals the current size of the dynamic array.\
 
 (* ****** ****** *)
 
-#declnamesynop("dynarray_inserts_at")
+#declnamesynop("dynarray_insertseq_at")
 #decldescrpt('\
 
 This function is for inserting an array of elements into a given dynamic
-array. If insertion is actually performed, then #dyncode("false") is
+array. If the operation is actually performed, then #dyncode("false") is
 returned.  Otherwise, #dyncode("true") is returned.\
 
 ')
@@ -216,21 +223,33 @@ the index i equals 0.\
 #declnamesynop("dynarray_takeout_atend_opt")
 #decldescrpt('\
 
-This function is a special case of #dyncode("dynarray_takeout_at_opt") where
-the index i equals the current size of DA minus 1.\
+This function is a special case of #dyncode("dynarray_takeout_at_opt")
+where the index i equals the current size of DA minus 1.\
 
 ')
 
 (* ****** ****** *)
 
-#declnamesynop("dynarray_filter")
-#declnamesynop("dynarray_filter$pred")
+#declnamesynop("dynarray_takeoutseq_at")
+#decldescrpt('\
+
+This function is for taking out an array of elements from a given dynamic
+array. If the operation is actually performed, then #dyncode("true") is
+returned.  Otherwise, #dyncode("false") is returned.\
+
+')
 
 (* ****** ****** *)
 
-#declnamesynop("dynarray_filterlin")
-#declnamesynop("dynarray_filterlin$pred")
-#declnamesynop("dynarray_filterlin$clear")
+#declnamesynop("dynarray_removeseq_at")
+#decldescrpt('\
+
+Given a dynamic array DA and two sizes st and ln,
+this function removes the segment in DA of length ln that starts at index
+st.  The return value of the function indicates the actual number of
+elements removed.
+
+')
 
 (* ****** ****** *)
 

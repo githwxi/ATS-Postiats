@@ -32,14 +32,14 @@
 // Start Time: March, 2011
 //
 (* ****** ****** *)
-
+//
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/unsafe.dats"
-
+//
 (* ****** ****** *)
-
+//
 staload "./pats_utils.sats"
-
+//
 (* ****** ****** *)
 
 %{^
@@ -90,7 +90,7 @@ patsopt_ATSPKGRELOCROOT_set () {
   patsopt_ATSPKGRELOCROOT = getenv ("ATSPKGRELOCROOT") ; return ;
 } // end of [patsopt_ATSPKGRELOCROOT_set]
 //
-%} // end of [%{^]
+%} (* end of [%{^] *)
 
 (* ****** ****** *)
 
@@ -112,6 +112,7 @@ fun strcasecmp (
   x1: string, x2: string
 ) :<> int
   = "ext#patsopt_strcasecmp"
+//
 implement
 strcasecmp (x1, x2) = let
   fun loop (p1: Ptr1, p2: Ptr1): int = let
@@ -126,15 +127,16 @@ strcasecmp (x1, x2) = let
 in
   $effmask_all (loop ($UN.cast2Ptr1(x1), $UN.cast2Ptr1(x2)))
 end // end of [strcasecmp]
-
+//
 (* ****** ****** *)
-
+//
 extern
 fun string_test_prefix
 (
   str: string, prfx: string
 ) :<> bool
   = "ext#patsopt_string_test_prefix"
+//
 implement
 string_test_prefix
   (str, prfx) = let
@@ -158,15 +160,16 @@ end // end of [loop]
 in
   $effmask_all (loop ($UN.cast2Ptr1(prfx), $UN.cast2Ptr1(str)))
 end // end of [patsopt_string_test_prefix]
-
+//
 (* ****** ****** *)
-
+//
 extern
 fun string_test_sffx
 (
   str: string, sffx: string
 ) :<> bool
   = "ext#patsopt_string_test_suffix"
+//
 implement
 string_test_sffx
   (str, sffx) = let
@@ -176,15 +179,18 @@ val n2 = string_length (sffx)
 //
 in
 //
-if n1 >= n2 then let
+if
+n1 >= n2
+then let
   val p1 = $UN.cast2Ptr1(str)
   val str2 = $UN.cast{string}(p1 + (n1 - n2))
 in
   str2 = sffx
-end else false // end of [if]
+end // end of [then]
+else false // end of [else]
 //
 end // end of [string_test_sffx]
-
+//
 (* ****** ****** *)
 
 local
@@ -201,24 +207,30 @@ llint_make_string_sgn
   sgn: int, rep: string (n), i: size_t i
 ) : llint = let
 in
-  if string_isnot_atend (rep, i) then let
-    val c0 = rep[i]
-  in
-    case+ c0 of
-    | '0' => (
-        if string_isnot_atend (rep, i+1) then let
-          val i = i+1
-          val c0 = rep[i]
-        in
-          if (c0 != 'x' && c0 != 'X') then
-            llint_make_string_sgn_base (sgn, 8(*base*), rep, i)
-          else
-            llint_make_string_sgn_base (sgn, 16(*base*), rep, i+1)
-          // end of [if]
-        end else 0ll (* end of [if] *)
-      ) // end of ['0']
-    | _ => llint_make_string_sgn_base (sgn, 10(*base*), rep, i)
-  end else 0ll (* end of [if] *)
+//
+if
+string_isnot_atend (rep, i)
+then let
+  val c0 = rep[i]
+in
+  case+ c0 of
+  | '0' => (
+      if string_isnot_atend (rep, i+1) then let
+        val i = i+1
+        val c0 = rep[i]
+      in
+        if (c0 != 'x' && c0 != 'X') then
+          llint_make_string_sgn_base (sgn, 8(*base*), rep, i)
+        else
+          llint_make_string_sgn_base (sgn, 16(*base*), rep, i+1)
+        // end of [if]
+      end else 0ll (* end of [if] *)
+    ) // end of ['0']
+  | _ (*non-0*) =>
+      llint_make_string_sgn_base (sgn, 10(*base*), rep, i)
+end // end of [then]
+else 0ll // end of [else]
+//
 end // end of [llint_make_string_sgn]
 
 and
@@ -255,7 +267,7 @@ case+ c0 of
 | '+' => llint_make_string_sgn ( 1(*sgn*), rep, 1)
 | '-' => llint_make_string_sgn (~1(*sgn*), rep, 1)
 | '~' => llint_make_string_sgn (~1(*sgn*), rep, 1) // HX: should it be supported?
-| _ => llint_make_string_sgn (1(*sgn*), rep, 0)
+| _ (*rest*) => llint_make_string_sgn (1(*sgn*), rep, 0)
 //
 end else 0ll // end of [if]
 //
@@ -303,8 +315,8 @@ end // end of [intrep_get_base]
 implement
 intrep_get_nsfx (rep) = let
 //
-macdef test (c) =
-  string_contains ("ulUL", ,(c))
+macdef
+test (c) = string_contains ("ulUL", ,(c))
 //
 val [n:int] rep = string1_of_string (rep)
 //
@@ -332,13 +344,14 @@ end // end of [intrep_get_nsfx]
 implement
 float_get_nsfx (rep) = let
 //
-macdef test (c) =
-  string_contains ("fFlL", ,(c))
+macdef
+test (c) = string_contains ("fFlL", ,(c))
 //
 val [n:int] rep = string1_of_string (rep)
 //
 fun loop
-  {i:nat | i <= n} .<i>. (
+  {i:nat | i <= n} .<i>.
+(
   rep: string n, i: size_t i, k: uint
 ) : uint = let
 in
@@ -359,9 +372,10 @@ end // end of [float_get_nsfx]
 (* ****** ****** *)
 
 local
-
-assume lstord (a:type) = List (a)
-
+//
+assume
+lstord (a:type) = List (a)
+//
 in (* in of [local] *)
 
 implement
@@ -389,22 +403,27 @@ end // end of [lstord_insert]
 implement
 lstord_union{a}
   (xs1, xs2, cmp) = let
-  fun aux {n1,n2:nat} .<n1+n2>. (
-    xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref> list (a, n1+n2) =
-    case+ xs1 of
-    | list_cons (x1, xs11) => (
-      case+ xs2 of
-      | list_cons (x2, xs21) =>
-          if cmp (x1, x2) <= 0 then
-            list_cons (x1, aux (xs11, xs2))
-          else
-            list_cons (x2, aux (xs1, xs21))
-          // end of [if]
-      | list_nil () => xs1
-      ) // end of [list_cons]
-    | list_nil () => xs2
-  // end of [aux]
+//
+fun
+aux{n1,n2:nat} .<n1+n2>.
+(
+  xs1: list (a, n1), xs2: list (a, n2)
+) :<cloref> list (a, n1+n2) =
+(
+  case+ xs1 of
+  | list_nil () => xs2
+  | list_cons (x1, xs11) => (
+    case+ xs2 of
+    | list_nil () => xs1
+    | list_cons (x2, xs21) =>
+        if cmp (x1, x2) <= 0 then
+          list_cons (x1, aux (xs11, xs2))
+        else
+          list_cons (x2, aux (xs1, xs21))
+        // end of [if]
+    ) // end of [list_cons]
+) (* end of [aux] *)
+//
 in
   aux (xs1, xs2)
 end // end of [lstord_union]
@@ -433,9 +452,8 @@ fun aux {n:nat} .<n>. (
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => aux (x, xs, 0)
 | list_nil () => list_nil ()
+| list_cons (x, xs) => aux (x, xs, 0)
 //
 end // end of [lstord_get_dups]
 
@@ -476,41 +494,119 @@ end (* end of [fprint_stropt] *)
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 fprintlst (
   out, xs, sep, fprint
 ) = let
-  fun aux (
-    xs: List a, i: int
-  ) :<cloref1> void =
-    case+ xs of
-    | list_cons (x, xs) => let
-        val () = if i > 0 then fprint_string (out, sep)
-        val () = fprint (out, x)
-      in
-         aux (xs, i+1)
-      end // end of [list_cons]
-    | list_nil () => () // end of [list_nil]
-  // end of [aux]
+//
+fun
+aux (
+  xs: List a, i: int
+) :<cloref1> void =
+(
+  case+ xs of
+  | list_nil () => ()
+  | list_cons (x, xs) => let
+      val () =
+      if i > 0 then
+        fprint_string (out, sep)
+      // end of [val]
+    in
+       fprint (out, x); aux (xs, i+1)
+    end // end of [list_cons]
+) (* end of [aux] *)
+//
 in
   aux (xs, 0)
 end // end of [fprintlst]
 
 (* ****** ****** *)
 
-implement{a}
-fprintopt (
+implement
+{a}(*tmp*)
+fprintopt
+(
   out, opt, fprint
-) = case+ opt of
-  | Some x => let
-      val () = fprint_string (out, "Some(")
+) = (
+  case+ opt of
+  | None () =>
+      fprint_string (out, "None()")
+  | Some (x) => let
+      val () =
+        fprint_string (out, "Some(")
       val () = fprint (out, x)
       val () = fprint_string (out, ")")
     in
       // nothing
     end // end of [Some]
-  | None () => fprint_string (out, "None()")
-// end of [fprintopt]
+) (* end of [fprintopt] *)
+
+(* ****** ****** *)
+
+local
+//
+staload
+"libats/SATS/funset_listord.sats"
+staload _(*anon*) =
+"libats/DATS/funset_listord.dats"
+//
+fn cmp (
+  x1: char, x2: char
+) :<cloref> int =
+  compare_char_char (x1, x2)
+//
+assume charset_type = set (char)
+//
+in (*in-of-local*)
+
+implement
+charset_sing (x) = funset_make_sing (x)
+
+implement
+charset_is_member
+  (xs, x) = funset_is_member (xs, x, cmp)
+// end of [val]
+
+implement
+charset_add
+  (xs, x) = xs where
+{
+  var xs = xs
+  val _(*exist*) = funset_insert (xs, x, cmp)
+} (* end of [val] *)
+
+implement
+charset_listize (xs) = funset_listize (xs)
+
+end // end of [local]
+
+implement
+fprint_charset
+  (out, xs) = let
+//
+val xs = charset_listize (xs)
+//
+fun loop
+(
+  out: FILEref, xs: charlst_vt, i: int
+) : void = (
+//
+case+ xs of
+| ~list_vt_nil () => ()
+| ~list_vt_cons (x, xs) => let
+    val () =
+      if i > 0 then fprint (out, ", ")
+    // end of [val]
+  in
+    fprint_char (out, x); loop (out, xs, i+1)
+  end // end of [list_vt_cons]
+//
+) (* end of [loop] *)
+//
+in
+  loop (out, xs, 0)
+end // end of [fprint_charset]
 
 (* ****** ****** *)
 
