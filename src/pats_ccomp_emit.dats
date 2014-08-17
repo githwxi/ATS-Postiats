@@ -2123,8 +2123,9 @@ in
 //
 case+ lxs of
 //
-| list_cons
-    (lx, lxs) => let
+| list_nil () => ()
+//
+| list_cons (lx, lxs) => let
     val+LABPRIMVAL (l, x) = lx
     val istop = primval_is_top (x)
     val () =
@@ -2146,8 +2147,6 @@ case+ lxs of
     auxarg (out, tmp, hit_con, lxs)
   end // end of [list_cons]
 //
-| list_nil () => ()
-//
 end // end of [auxarg]
 
 fun auxcon1
@@ -2158,20 +2157,20 @@ fun auxcon1
 ) : void = let
 //
 val () =
-emit_text (out, "ATSINSmove_con1_beg()")
+  emit_text (out, "ATSINSmove_con1_beg()\n")
 //
 val () =
   emit_text (out, "ATSINSmove_con1_new(")
 val () = (
-  emit_tmpvar (out, tmp); emit_text (out, ", "); emit_hitype (out, hit_con)
-)
+  emit_tmpvar (out, tmp);
+  emit_text (out, ", "); emit_hitype (out, hit_con)
+) (* end of [val] *)
 val ((*closing*)) = emit_text (out, ") ;\n")
 //
 val () = auxtag (out, tmp, d2c)
 val () = auxarg (out, tmp, hit_con, arg)
 //
-val () =
-emit_text (out, "ATSINSmove_con1_end()")
+val () = emit_text (out, "ATSINSmove_con1_end()")
 //
 in
   // nothing
@@ -2202,7 +2201,7 @@ fun auxexn1
 ) : void = let
 //
 val () =
-emit_text (out, "ATSINSmove_exn1_beg()")
+  emit_text (out, "ATSINSmove_exn1_beg()\n")
 //
 val () =
   emit_text (out, "ATSINSmove_exn1_new(")
@@ -2210,7 +2209,8 @@ val (
 ) = (
   emit_tmpvar (out, tmp);
   emit_text (out, ", "); emit_hitype (out, hit_con)
-)
+) (* end of [val] *)
+//
 val ((*closing*)) = emit_text (out, ") ;\n")
 //
 val () =
@@ -2222,17 +2222,15 @@ val (
 val ((*closing*)) = emit_text (out, ") ;\n")
 //
 val () =
-  emit_text (out, "ATSINSstore_exn1_msg(")
-val (
-) = (
-  emit_tmpvar (out, tmp); emit_text (out, ", "); emit_d2con (out, d2c)
+emit_text (out, "ATSINSstore_exn1_msg(")
+val () = (
+emit_tmpvar (out, tmp); emit_text (out, ", "); emit_d2con (out, d2c)
 ) (* end of [val] *)
 val ((*closing*)) = emit_text (out, ") ;\n")
 //
 val () = auxarg (out, tmp, hit_con, arg)
 //
-val () =
-emit_text (out, "ATSINSmove_exn1_end()")
+val () = emit_text (out, "ATSINSmove_exn1_end()")
 //
 in
   // nothing
