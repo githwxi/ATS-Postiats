@@ -116,6 +116,11 @@ ATSloop_close(init, fini, cont) \
 //
 /* ****** ****** */
 
+#define ATSextcode_beg()
+#define ATSextcode_end()
+
+/* ****** ****** */
+
 #define ATSfunbody_beg()
 #define ATSfunbody_end()
 
@@ -264,6 +269,9 @@ ATSloop_close(init, fini, cont) \
 #define ATSINSmove_ptralloc(tmp, hit) (tmp = ATS_MALLOC(sizeof(hit)))
 
 /* ****** ****** */
+//
+#define \
+ATSINSmove_nil(tmp) (tmp = ((void*)0))
 //
 #define \
 ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))

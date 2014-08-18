@@ -218,7 +218,9 @@ val-HIDextcode (knd, pos, code) = hid.hidecl_node
 val () = emit_text (out, "/*\n")
 val () = emit_location (out, loc0)
 val () = emit_text (out, "\n*/")
-val () = emit_text (out, code)  
+val () = emit_text (out, "\nATSextcode_beg()")
+val () = emit_text (out, code)
+val () = emit_text (out, "ATSextcode_end()\n")
 //
 in
   // nothing

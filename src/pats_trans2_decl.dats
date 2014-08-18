@@ -313,19 +313,24 @@ end (* end of [overload_tr_def] *)
 
 (* ****** ****** *)
 
-fn d1atsrtdec_tr
+fun
+d1atsrtdec_tr
 (
   res: s2rt, d1c: d1atsrtdec
 ) : s2cstlst = let
 //
-fn aux (
+fun aux .<>.
+(
   i: int, res: s2rt, d1c: d1atsrtcon
 ) : s2cst = let
+//
   val id = d1c.d1atsrtcon_sym
   val loc = d1c.d1atsrtcon_loc
   val arg = s1rtlst_tr (d1c.d1atsrtcon_arg)
   val s2t = s2rt_fun (arg, res)
-  val s2c = s2cst_make (
+//
+  val s2c =
+  s2cst_make (
     id // sym
   , loc // location
   , s2t // srt
@@ -336,14 +341,18 @@ fn aux (
   , None () // islst
   , list_nil () // argvarlst
   , None () // def
-  ) // end of [s2cst_make]
+  ) (* end of [s2cst_make] *)
+//
   val () = s2cst_set_tag (s2c, i)
+//
   val () = the_s2expenv_add_scst (s2c)
+//
 in
   s2c
 end // end of [aux]
 //
-fun auxlst (
+fun auxlst
+(
   i: int, res: s2rt, d1cs: d1atsrtconlst
 ) : s2cstlst = let
 in

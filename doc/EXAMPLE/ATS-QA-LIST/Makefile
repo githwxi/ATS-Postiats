@@ -191,6 +191,11 @@ cleanall:: ; $(RMF) qa-list-312
 
 ######
 
+all:: qa-list-334
+qa-list-334: qa-list-334.dats ; $(PATSCC) -tcats $<
+
+######
+
 all:: \
 list_last
 list_last: list_last.dats ; \

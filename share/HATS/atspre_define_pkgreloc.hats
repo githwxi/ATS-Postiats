@@ -1,10 +1,16 @@
 (*
-** Some ATS2-package relocation information
+** For ATS2-package relocation
 *)
 (* ****** ****** *)
 //
 #define
-PATSLIB_URL "http://www.ats-lang.org/LIBRARY"
+PATSLIB_URL
+  "http://www.ats-lang.org/LIBRARY"
+//
+(* ****** ****** *)
+//
+#define
+PATSHOMERELOC_targetloc "$PATSHOMERELOC"
 //
 (* ****** ****** *)
 //

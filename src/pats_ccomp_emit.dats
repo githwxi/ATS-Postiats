@@ -2067,20 +2067,30 @@ fun auxcon0
 //
 val islst = $S2E.d2con_is_listlike (d2c)
 //
-val tag =
-(
-  if islst then 0 else $S2E.d2con_get_tag (d2c)
-) : int // end of [val]
+in
 //
-val () = emit_text (out, "ATSINSmove_con0(")
-val () =
-(
-  emit_tmpvar (out, tmp); emit_text (out, ", "); emit_int (out, tag)
-)
-val ((*closing*)) = emit_text (out, ") ;\n")
-//
+if
+islst
+then let
+  val () =
+    emit_text (out, "ATSINSmove_nil(")  
+  val () = emit_tmpvar (out, tmp)
+  val ((*closing*)) = emit_text (out, ") ;\n")
 in
   // nothing
+end // end of [then]
+else let
+  val tag = $S2E.d2con_get_tag (d2c)
+  val () =
+    emit_text (out, "ATSINSmove_con0(")
+  val () = (
+    emit_tmpvar (out, tmp); emit_text (out, ", "); emit_int (out, tag)
+  ) (* end of [val] *)
+  val ((*closing*)) = emit_text (out, ") ;\n")
+in
+  // nothing
+end // end of [else]
+//
 end // end of [auxcon0]
 
 (* ****** ****** *)
@@ -2102,13 +2112,20 @@ case+ 0 of
 ) : int // end of [val]
 //
 val tag = $S2E.d2con_get_tag (d2c)
+//
+val () =
+if flag > 0 then emit_text (out, "// ")
 val () = fprintf (out, "#if(%i)\n", @(flag))
+//
 val () = emit_text (out, "ATSINSstore_con1_tag(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_int (out, tag)
 val () = emit_text (out, ") ;\n")
-val () = emit_text (out, "#endif\n")
+//
+val () =
+if flag > 0 then emit_text (out, "// ")
+val ((*closing*)) = emit_text (out, "#endif\n")
 //
 in
   // nothing

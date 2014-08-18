@@ -1405,25 +1405,38 @@ in
 //
 case+ hit of
 | HITtyrec (lhits) => {
-    val () = emit_text (out, "ATSstruct {")
+    val () =
+    emit_text (out, "ATSstruct {")
     val () = auxfldlst (out, lhits, 1)
-    val () = emit_text (out, "\n}")
-  } // end of [HITtyrec]
+    val ((*closing*)) = emit_text (out, "\n}")
+  } (* end of [HITtyrec] *)
+//
 | HITtysum (tgd, lhits) => {
-    val () = emit_text (out, "ATSstruct {\n")
-    val () = fprintf (out, "#if(%i)\n", @(tgd))
+    val () =
+    emit_text (out, "ATSstruct {\n")
+    val () =
+    if tgd > 0 then emit_text (out, "// ")
+    val () =
+    fprintf (out, "#if(%i)\n", @(tgd))
     val () = emit_text (out, "int contag ;\n")
+    val () =
+    if tgd > 0 then emit_text (out, "// ")
     val () = emit_text (out, "#endif")
     val () = auxfldlst (out, lhits, 1)
-    val () = emit_text (out, "\n}")
-  } // end of [HITtysum]
+    val ((*closing*)) = emit_text (out, "\n}")
+  } (* end of [HITtysum] *)
+//
 | HITtyexn (lhits) => {
-    val () = emit_text (out, "ATSstruct {\n")
-    val () = emit_text (out, "int exntag ;\n")
-    val () = emit_text (out, "char *exnmsg ;")
+    val () =
+    emit_text (out, "ATSstruct {\n")
+    val () =
+    emit_text (out, "int exntag ;\n")
+    val () =
+    emit_text (out, "char *exnmsg ;")
     val () = auxfldlst (out, lhits, 1)
-    val () = emit_text (out, "\n}")
-  } // end of [HITtyexn]
+    val ((*closing*)) = emit_text (out, "\n}")
+  } (* end of [HITtyexn] *)
+//
 | _ (*non-struct*) => emit_text (out, "(**ERROR**)")
 //
 end // end of [auxkey]
