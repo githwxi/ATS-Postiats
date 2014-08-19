@@ -25,6 +25,8 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Adding support for complements of char patterns (P2TCcharc)
+2. Adding support for a packaging value (#[...|...]) to be used as a funarg
+3. Modifying the target language of ATS/Postiats to support ATS-parse-emit
 
 </pre>
 
