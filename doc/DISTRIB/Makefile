@@ -315,15 +315,15 @@ cleanall:: ; $(RMF) HTML/atscntrb_hiredis.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_hiredis.bash
 
 #
-all_html:: HTML/atscntrb_openssl.html
-HTML/atscntrb_openssl.html: atscntrb_openssl_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_openssl.bash
-SCRIPT/atscntrb_openssl.bash: atscntrb_openssl_atxt.exe ; ./$< > $@
-atscntrb_openssl_atxt.dats: ATEXT/atscntrb_openssl.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_openssl_atxt.exe: atscntrb_openssl_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_openssl_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_openssl.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_openssl.bash
+all_html:: HTML/atscntrb_OpenSSL.html
+HTML/atscntrb_OpenSSL.html: atscntrb_OpenSSL_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_OpenSSL.bash
+SCRIPT/atscntrb_OpenSSL.bash: atscntrb_OpenSSL_atxt.exe ; ./$< > $@
+atscntrb_OpenSSL_atxt.dats: ATEXT/atscntrb_OpenSSL.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_OpenSSL_atxt.exe: atscntrb_OpenSSL_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_OpenSSL_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_OpenSSL.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_OpenSSL.bash
 
 #
 all_html:: HTML/atscntrb_JNI.html
@@ -527,8 +527,8 @@ srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_openssl
-srcget_atscntrb_openssl:: SCRIPT/atscntrb_openssl.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_OpenSSL
+srcget_atscntrb_OpenSSL:: SCRIPT/atscntrb_OpenSSL.bash ; bash $<
 
 ######
 
@@ -556,7 +556,7 @@ srcget_atscntrb_kernelats:: SCRIPT/atscntrb_kernelats.bash ; bash $<
 
 ######
 
-PACKNAME=ATS2-Postiats-0.1.1
+PACKNAME=ATS2-Postiats-0.1.2
 atspacktarzvcf:: ; rm -rf $(PACKNAME)
 atspacktarzvcf:: ; cp -rf ATS-Postiats $(PACKNAME)
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/Makefile_conf
@@ -567,7 +567,7 @@ atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 
 ######
 
-CNTRBNAME=ATS2-Postiats-contrib-0.1.1
+CNTRBNAME=ATS2-Postiats-contrib-0.1.2
 atscntrbtarzvcf:: ; rm -rf $(CNTRBNAME)
 atscntrbtarzvcf:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtarzvcf:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/

@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/openssl/\n\
-TARGET=ATS-Postiats-contrib/contrib/openssl/\n\
+SOURCE=./../../contrib/OpenSSL/\n\
+TARGET=ATS-Postiats-contrib/contrib/OpenSSL/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-openssl files have been copied.\"\n\
+echo \"The ATSCNTRB-OpenSSL files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -96,7 +96,7 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-ATSCNTRB/openssl\
+ATSCNTRB/OpenSSL\
 ")
 
 (* ****** ****** *)
