@@ -24,19 +24,21 @@ PATSLIBATS_targetloc "$PATSHOME/libats"
 (* ****** ****** *)
 //
 #define
-PATSWEBLIB "http://www.ats-lang.org/LIBRARY"
+ATSLANGWEB "http://www.ats-lang.org"
+#define
+ATSLANGWEBLIB "http://www.ats-lang.org/LIBRARY"
 //
 (* ****** ****** *)
 //
 #define
-PCRE_sourceloc "$PATSWEBLIB/contrib/pcre"
+PCRE_sourceloc "$ATSLANGWEBLIB/contrib/pcre"
 #define
 PCRE_targetloc "$PATSHOMERELOC/contrib/pcre"
 //
 (* ****** ****** *)
 //
 #define
-LIBGMP_sourceloc "$PATSWEBLIB/contrib/libgmp"
+LIBGMP_sourceloc "$ATSLANGWEBLIB/contrib/libgmp"
 #define
 LIBGMP_targetloc "$PATSHOMERELOC/contrib/libgmp"
 //
@@ -48,49 +50,49 @@ ZLOG_targetloc "$PATSHOMERELOC/contrib/zlog"
 (* ****** ****** *)
 //
 #define
-JSONC_sourceloc "$PATSWEBLIB/contrib/json-c"
+JSONC_sourceloc "$ATSLANGWEBLIB/contrib/json-c"
 #define
 JSONC_targetloc "$PATSHOMERELOC/contrib/json-c"
 //
 (* ****** ****** *)
 //
 #define
-HIREDIS_sourceloc "$PATSWEBLIB/contrib/hiredis"
+HIREDIS_sourceloc "$ATSLANGWEBLIB/contrib/hiredis"
 #define
 HIREDIS_targetloc "$PATSHOMERELOC/contrib/hiredis"
 //
 (* ****** ****** *)
 //
 #define
-OPENSSL_sourceloc "$PATSWEBLIB/contrib/OpenSSL"
+OPENSSL_sourceloc "$ATSLANGWEBLIB/contrib/OpenSSL"
 #define
 OPENSSL_targetloc "$PATSHOMERELOC/contrib/OpenSSL"
 //
 (* ****** ****** *)
 //
 #define
-LIBCURL_sourceloc "$PATSWEBLIB/contrib/libcurl"
+LIBCURL_sourceloc "$ATSLANGWEBLIB/contrib/libcurl"
 #define
 LIBCURL_targetloc "$PATSHOMERELOC/contrib/libcurl"
 //
 (* ****** ****** *)
 //
 #define
-GLIB_sourceloc "$PATSWEBLIB/contrib/glib"
+GLIB_sourceloc "$ATSLANGWEBLIB/contrib/glib"
 #define
 GLIB_targetloc "$PATSHOMERELOC/contrib/glib"
 //
 (* ****** ****** *)
 //
 #define
-GTK_sourceloc "$PATSWEBLIB/contrib/GTK"
+GTK_sourceloc "$ATSLANGWEBLIB/contrib/GTK"
 #define
 GTK_targetloc "$PATSHOMERELOC/contrib/GTK"
 //
 (* ****** ****** *)
 //
 #define
-CAIRO_sourceloc "$PATSWEBLIB/contrib/cairo"
+CAIRO_sourceloc "$ATSLANGWEBLIB/contrib/cairo"
 #define
 CAIRO_targetloc "$PATSHOMERELOC/contrib/cairo"
 //
@@ -118,12 +120,12 @@ HTML5canvas2d_targetloc "$PATSHOMERELOC/contrib/HTML/canvas-2d"
 // This is for backward compatibility
 //
 #define
-LIBATSHWXI_sourceloc "$PATSWEBLIB/contrib/libats-/hwxi"
+LIBATSHWXI_sourceloc "$ATSLANGWEBLIB/contrib/libats-/hwxi"
 #define
 LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 //
 #define
-LIBATS_HWXI_sourceloc "$PATSWEBLIB/contrib/libats-/hwxi"
+LIBATS_HWXI_sourceloc "$ATSLANGWEBLIB/contrib/libats-/hwxi"
 #define
 LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 //
