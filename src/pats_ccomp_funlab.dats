@@ -111,7 +111,7 @@ funlab_struct =
 , funlab_funent= funentopt // function entry
 //
 , funlab_stamp= stamp (* stamp for unicity *)
-} // end of [funlab_struct]
+} (* end of [funlab_struct] *)
 
 (* ****** ****** *)
 

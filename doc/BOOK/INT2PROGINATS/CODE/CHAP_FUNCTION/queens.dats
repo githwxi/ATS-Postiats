@@ -112,7 +112,9 @@ end // end of [board_set]
 
 (* ****** ****** *)
 
-fun safety_test1 (
+fun
+safety_test1
+(
   i0: int, j0: int, i1: int, j1: int
 ) : bool =
 (*
@@ -121,7 +123,9 @@ fun safety_test1 (
   j0 <> j1 andalso abs (i0 - i1) <> abs (j0 - j1)
 // end of [safety_test1]
 
-fun safety_test2 (
+fun
+safety_test2
+(
   i0: int, j0: int, bd: int8, i: int
 ) : bool =
   if i >= 0 then

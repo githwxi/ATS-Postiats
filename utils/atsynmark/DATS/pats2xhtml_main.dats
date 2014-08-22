@@ -108,7 +108,7 @@ fn waitkind_get_stadyn
   case+ knd of
   | WTKinput_sta () => 0
   | WTKinput_dyn () => 1
-  | _ => ~1 // this is not a valid input kind
+  | _ (*erroneous*) => ~1 // this is not a valid input kind
 // end of [cmdkind_get_stadyn]
 
 (* ****** ****** *)
@@ -136,20 +136,30 @@ cmdstate = @{
 , nerror= int // number of accumulated errors
 } // end of [cmdstate]
 
-fun cmdstate_set_outchan (
-  state: &cmdstate, _new: OUTCHAN
+(* ****** ****** *)
+
+fun
+cmdstate_set_outchan
+(
+  state: &cmdstate, chan_new: OUTCHAN
 ) : void = let
-  val _old = state.outchan
-  val () = state.outchan := _new
+//
+val chan_old = state.outchan
+val ((*void*)) = state.outchan := chan_new
+//
 in
-  case+ _old of
-  | OUTCHANref _ => ()
+  case+ chan_old of
+  | OUTCHANref (filr) => ()
   | OUTCHANptr (filp) => let
-      val _err = $STDIO.fclose0_err (filp) in (*nothing*)
+      val err = $STDIO.fclose0_err (filp) in (*nothing*)
     end // end of [OUTCHANptr]
 end // end of [cmdstate_set_outchan]
 
-fun cmdstate_set_outchan_basename (
+(* ****** ****** *)
+
+fun
+cmdstate_set_outchan_basename
+(
   state: &cmdstate, basename: string
 ) : void = let
 //
@@ -205,27 +215,36 @@ fn isiatswait
 (* ****** ****** *)
 
 fun
-pats2xhtml_level1_state_fileref (
+pats2xhtml_level1_state_fileref
+(
   state: &cmdstate, inp: FILEref
 ) : void = let
-  val stadyn =
-    waitkind_get_stadyn (state.waitkind)
-  val out = outchan_get_fileref (state.outchan)
-  val putc =
-    lam (c: char)
-      : int =<cloref1> $STDIO.fputc0_err (c, out)
-    // end of [lam]
-  val () = if state.standalone then pats2xhtml_file_beg (out)
-  val () = pats2xhtml_pre_beg (out)
-  val () = pats2xhtml_level1_fileref (stadyn, inp, putc)
-  val () = pats2xhtml_pre_end (out)
-  val () = if state.standalone then pats2xhtml_file_end (out)
+//
+val stadyn =
+  waitkind_get_stadyn (state.waitkind)
+val out = outchan_get_fileref (state.outchan)
+val putc =
+  lam (c: char)
+    : int =<cloref1> $STDIO.fputc0_err (c, out)
+  // end of [lam]
+//
+val () =
+  if state.standalone then pats2xhtml_file_beg (out)
+//
+val () = pats2xhtml_pre_beg (out)
+val () = pats2xhtml_level1_fileref (stadyn, inp, putc)
+val () = pats2xhtml_pre_end (out)
+//
+val () =
+  if state.standalone then pats2xhtml_file_end (out)
+//
 in
   // nothing
 end // end of [pats2xhtml_level1_state_fileref]
 
 fun
-pats2xhtml_level1_state_basename (
+pats2xhtml_level1_state_basename
+(
   state: &cmdstate, basename: string
 ) : void = let
 //
@@ -297,24 +316,27 @@ process_cmdline
 in
 //
 case+ arglst of
-| ~list_vt_cons
-    (arg, arglst) => (
-    process_cmdline2 (state, arg, arglst)
-  ) // endof [list_vt_cons]
 | ~list_vt_nil ()
     when state.ninputfile = 0 => let
-    val stadyn = waitkind_get_stadyn (state.waitkind)
+    val stadyn =
+      waitkind_get_stadyn (state.waitkind)
+    // end of [val]
   in
     case+ 0 of
     | _ when
         stadyn >= 0 => {
         val inp = stdin_ref
-        val out = outchan_get_fileref (state.outchan)
-        val () = pats2xhtml_level1_state_fileref (state, inp)
+        val ((*void*)) =
+          pats2xhtml_level1_state_fileref (state, inp)
+        // end of [val]
       } // end of [_ when ...]
-    | _ => ()
+    | _ (*ignored*) => ()
   end // end of [list_vt_nil when ...]
 | ~list_vt_nil () => ()
+| ~list_vt_cons (arg, arglst) =>
+  (
+    process_cmdline2 (state, arg, arglst)
+  ) (* endof [list_vt_cons] *)
 //
 end // end of [process_cmdline]
 
@@ -341,8 +363,7 @@ case+ arg of
     | COMARGkey (2, key) when nif > 0 =>
         process_cmdline2_COMARGkey2 (state, arglst, key)
     | COMARGkey (_, basename) => let
-        val stadyn = waitkind_get_stadyn (state.waitkind)
-        val () = state.ninputfile := state.ninputfile + 1
+        val () = state.ninputfile := nif + 1
         val () = pats2xhtml_level1_state_basename (state, basename)
       in
         process_cmdline (state, arglst)
@@ -393,55 +414,65 @@ process_cmdline2_COMARGkey1
 , arglst: comarglst (i)
 , key: string // the string following [-]
 ) :<fun1> void = let
-  val () = state.waitkind := WTKnone ()
-  val () = (case+ key of
-    | "-s" => {
-        val () = state.ninputfile := 0
-        val () = state.waitkind := WTKinput_sta
-      }
-    | "-d" => {
-        val () = state.ninputfile := 0
-        val () = state.waitkind := WTKinput_dyn
-      }
-    | "-o" => {
-        val () = state.waitkind := WTKoutput ()
-      }
-    | "-h" => {
-        val () = state.waitkind := WTKnone ()
-        val () = pats2xhtml_usage ("pats2xhtml")
-      }
-    | _ when
-        is_DATS_flag (key) => let
-        val def = DATS_extract (key)
-        val issome = stropt_is_some (def)
-      in
-        if issome then let
-          val def = stropt_unsome (def)
-        in
-          process_DATS_def (def)
-        end else let
-          val () = state.waitkind := WTKdefine ()
-        in
-          // nothing
-        end // end of [if]
-      end
-    | _ when
-        is_IATS_flag (key) => let
-        val dir = IATS_extract (key)
-        val issome = stropt_is_some (dir)
-      in
-        if issome then let
-          val dir = stropt_unsome (dir)
-        in
-          process_IATS_dir (dir)
-        end else let
-          val () = state.waitkind := WTKinclude ()
-        in
-          // nothing
-        end // end of [if]
-      end
-    | _ => comarg_warning (key) // unrecognized
-  ) : void // end of [val]
+//
+val () = state.waitkind := WTKnone ()
+//
+val () = (
+//
+case+ key of
+//
+| "-s" => {
+    val () = state.ninputfile := 0
+    val () = state.waitkind := WTKinput_sta
+  }
+| "-d" => {
+    val () = state.ninputfile := 0
+    val () = state.waitkind := WTKinput_dyn
+  }
+//
+| "-o" => {
+    val () = state.waitkind := WTKoutput ()
+  }
+//
+| "-h" => {
+    val () = state.waitkind := WTKnone ()
+    val () = pats2xhtml_usage ("pats2xhtml")
+  }
+//
+| _ when
+    is_DATS_flag (key) => let
+    val def = DATS_extract (key)
+    val issome = stropt_is_some (def)
+  in
+    if issome then let
+      val def = stropt_unsome (def)
+    in
+      process_DATS_def (def)
+    end else let
+      val () = state.waitkind := WTKdefine ()
+    in
+      // nothing
+    end // end of [if]
+  end
+| _ when
+    is_IATS_flag (key) => let
+    val dir = IATS_extract (key)
+    val issome = stropt_is_some (dir)
+  in
+    if issome then let
+      val dir = stropt_unsome (dir)
+    in
+      process_IATS_dir (dir)
+    end else let
+      val () = state.waitkind := WTKinclude ()
+    in
+      // nothing
+    end // end of [if]
+  end
+| _ (*unrecognized*) => comarg_warning (key)
+//
+) : void // end of [val]
+//
 in
   process_cmdline (state, arglst)
 end // end of [process_cmdline2_COMARGkey1]
@@ -504,7 +535,7 @@ implement
 main (argc, argv) = let
 //
 val arglst = comarglst_parse (argc, argv)
-val ~list_vt_cons (arg0, arglst) = arglst
+val+~list_vt_cons (arg0, arglst) = arglst
 //
 var
 state = @{

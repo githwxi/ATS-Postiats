@@ -89,6 +89,11 @@ ATSdynexn_initize(d2c, exnmsg) the_atsexncon_initize(&(d2c), exnmsg)
 #define ATSassume(flag) void *flag = (void*)0
 
 /* ****** ****** */
+//
+#define ATSclosurerize_end(flab)
+#define ATSclosurerize_beg(flab, tenvs, targs, tres)
+//
+/* ****** ****** */
 
 #define ATSdyncst_mac(d2c)
 #define ATSdyncst_castfn(d2c)
