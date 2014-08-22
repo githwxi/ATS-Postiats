@@ -128,6 +128,7 @@ fun outchan_get_fileref
 typedef
 cmdstate = @{
   comarg0= comarg
+, ncomarg= int // number of arguments
 , waitkind= waitkind
 // number of processed input files;
 , ninputfile= int // waiting for STDIN if it is 0
@@ -316,27 +317,41 @@ process_cmdline
 in
 //
 case+ arglst of
-| ~list_vt_nil ()
-    when state.ninputfile = 0 => let
-    val stadyn =
-      waitkind_get_stadyn (state.waitkind)
+//
+| ~list_vt_cons
+    (arg, arglst) => let
+    val () =
+      state.ncomarg := state.ncomarg + 1
     // end of [val]
   in
-    case+ 0 of
-    | _ when
-        stadyn >= 0 => {
-        val inp = stdin_ref
-        val ((*void*)) =
-          pats2xhtml_level1_state_fileref (state, inp)
-        // end of [val]
-      } // end of [_ when ...]
-    | _ (*ignored*) => ()
-  end // end of [list_vt_nil when ...]
-| ~list_vt_nil () => ()
-| ~list_vt_cons (arg, arglst) =>
-  (
     process_cmdline2 (state, arg, arglst)
-  ) (* endof [list_vt_cons] *)
+  end (* end of [list_vt_cons] *)
+//
+| ~list_vt_nil () => let
+    val nif = state.ninputfile
+  in
+    if nif = 0
+      then let
+        val stadyn =
+          waitkind_get_stadyn (state.waitkind)
+        // end of [val]
+      in
+        case+ 0 of
+        | _ when
+            stadyn >= 0 => {
+            val inp = stdin_ref
+            val ((*void*)) =
+              pats2xhtml_level1_state_fileref (state, inp)
+            // end of [val]
+          } // end of [_ when ...]
+        | _ (*non-wait*) =>
+          (
+            if state.ncomarg = 0 then pats2xhtml_usage ("pats2xhtml")
+          )
+      end // end of [then]
+      else () // end of [else]
+    // end of [if]
+  end // end of [list_vt_nil]
 //
 end // end of [process_cmdline]
 
@@ -540,6 +555,7 @@ val+~list_vt_cons (arg0, arglst) = arglst
 var
 state = @{
   comarg0= arg0
+, ncomarg= 0 // counting from 0
 , waitkind= WTKnone ()
 // number of prcessed
 , ninputfile= 0 // input files
