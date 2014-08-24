@@ -132,12 +132,20 @@ LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 (* ****** ****** *)
 //
 #define
-GUROBI_targetloc "PATSHOMERELOC/contrib/gurobi_targetloc"
+GUROBI_targetloc "$PATSHOMERELOC/contrib/gurobi"
 //
 (* ****** ****** *)
 //
 #define
-KERNELATS_targetloc "PATSHOMERELOC/contrib/kernelats_targetloc"
+KERNELATS_targetloc "$PATSHOMERELOC/contrib/kernelats"
+//
+(* ****** ****** *)
+//
+#define
+LIBATSCC2PY_targetloc "$PATSHOMERELOC/contrib/libatscc2py"
+//
+#define
+LIBATSCC2JS_targetloc "$PATSHOMERELOC/contrib/libatscc2js"
 //
 (* ****** ****** *)
 

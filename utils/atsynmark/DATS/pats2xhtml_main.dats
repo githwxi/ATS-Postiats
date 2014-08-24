@@ -430,8 +430,6 @@ process_cmdline2_COMARGkey1
 , key: string // the string following [-]
 ) :<fun1> void = let
 //
-val () = state.waitkind := WTKnone ()
-//
 val () = (
 //
 case+ key of
@@ -461,6 +459,7 @@ case+ key of
   in
     if issome then let
       val def = stropt_unsome (def)
+      val () = state.waitkind := WTKnone ()
     in
       process_DATS_def (def)
     end else let
@@ -476,6 +475,7 @@ case+ key of
   in
     if issome then let
       val dir = stropt_unsome (dir)
+      val () = state.waitkind := WTKnone ()
     in
       process_IATS_dir (dir)
     end else let
@@ -499,26 +499,32 @@ process_cmdline2_COMARGkey2
 , arglst: comarglst (i)
 , key: string // the string following [--]
 ) :<fun1> void = let
-  val () =
-    state.waitkind := WTKnone ()
-  val () = (case+ key of
-    | "--static" =>
-        state.waitkind := WTKinput_sta
-    | "--dynamic" =>
-        state.waitkind := WTKinput_dyn
-    | "--output" =>
-        state.waitkind := WTKoutput ()
-    | "--embedded" =>
-        state.standalone := false
-    | "--help" => let
-        val () =
-          state.waitkind := WTKnone ()
-        // end of [val]
-      in
-        pats2xhtml_usage ("pats2xhtml")
-      end // end of ["--help"]
-    | _ => comarg_warning (key) // unrecognized
-  ) : void // end of [val]
+//
+val () = (
+//
+case+ key of
+//
+| "--static" =>
+    state.waitkind := WTKinput_sta
+| "--dynamic" =>
+    state.waitkind := WTKinput_dyn
+//
+| "--output" =>
+    state.waitkind := WTKoutput ()
+//
+| "--embedded" => state.standalone := false
+| "--help" => let
+    val () =
+      state.waitkind := WTKnone ()
+    // end of [val]
+  in
+    pats2xhtml_usage ("pats2xhtml")
+  end // end of ["--help"]
+//
+| _ (*unrecognized*) => comarg_warning (key)
+//
+) : void // end of [val]
+//
 in
   process_cmdline (state, arglst)
 end // end of [process_cmdline2_COMARGkey2]
