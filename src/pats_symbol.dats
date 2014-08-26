@@ -340,6 +340,9 @@ implement
 symbol_ATS_DYNLOADFLAG = symbol_make_string "ATS_DYNLOADFLAG"
 
 implement
+symbol_ATS_DYNLOADNAME = symbol_make_string "ATS_DYNLOADNAME"
+
+implement
 symbol_ATS_EXTERN_PREFIX = symbol_make_string "ATS_EXTERN_PREFIX"
 
 implement

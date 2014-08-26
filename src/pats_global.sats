@@ -56,8 +56,15 @@ fun the_STALOADFLAG_get (): int
 fun the_STALOADFLAG_set (flag: int): void
 *)
 
+(* ****** ****** *)
+
 fun the_DYNLOADFLAG_get (): int
 fun the_DYNLOADFLAG_set (flag: int): void
+
+(* ****** ****** *)
+
+fun the_DYNLOADNAME_get (): stropt
+fun the_DYNLOADNAME_set (name: string): void
 
 (* ****** ****** *)
 

@@ -120,6 +120,23 @@ end // end of [local]
 (* ****** ****** *)
 
 local
+//
+val
+the_DYNLOADNAME =
+ref<stropt>(stropt_none)
+//
+in (* in-of-local *)
+
+implement
+the_DYNLOADNAME_get () = !the_DYNLOADNAME
+implement
+the_DYNLOADNAME_set (name) = !the_DYNLOADNAME := stropt_some(name)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
 
 val the_MAINATSFLAG = ref<int> (0)
 

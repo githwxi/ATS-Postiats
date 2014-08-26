@@ -650,13 +650,17 @@ val the_mainats_d2copt = ref<d2cstopt> (None)
 in (* in of [local] *)
 
 implement
-the_mainats_initize () = let
+the_mainats_initize
+  ((*void*)) = let
 //
 fun loop (fls: funlablst): void = let
 //
 in
 //
 case+ fls of
+//
+| list_nil () => ()
+//
 | list_cons
     (fl, fls) => let
     val opt = funlab_get_d2copt (fl)
@@ -669,7 +673,6 @@ case+ fls of
   in
     loop (fls)        
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [loop]
 //
@@ -685,7 +688,8 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun the_dynloadflag_get (): int
+fun
+the_dynloadflag_get (): int
 
 implement
 the_dynloadflag_get () = let
@@ -711,7 +715,8 @@ end // end of [the_dynloadflag_get]
 (* ****** ****** *)
 
 extern
-fun emit_main_arglst_err
+fun
+emit_main_arglst_err
   (out: FILEref, arty: int): void
 implement
 emit_main_arglst_err
@@ -836,6 +841,9 @@ fun loop
 in
 //
 case+ xs of
+//
+| list_nil () => ()
+//
 | list_cons
     (x, xs) => let
     val-HIDdynload (fil) = x.hidecl_node
@@ -848,13 +856,59 @@ case+ xs of
   in
     loop (out, xs)
   end (* end of [list_cons] *)
-| list_nil () => ()
 //
 end // end of [loop]
 //
 in
   loop (out, the_dynloadlst_get ())
 end // end of [aux_dynload_ext]
+
+fun
+aux_dynload_ias
+(
+  out: FILEref
+, infil: $FIL.filename
+) : void = let
+//
+val opt = $GLOB.the_DYNLOADNAME_get ()
+//
+in
+//
+if
+stropt_is_some (opt)
+then let
+//
+val name = stropt_unsome (opt)
+//
+val () = emit_text (out, "ATSextern()\n")
+val () = emit_text (out, "atsvoid_t0ype\n")
+//
+val () =
+(
+  emit_text (out, name); emit_text (out, "()\n{\n")
+)
+//
+val () = emit_text (out, "ATSfunbody_beg()\n")
+//
+val () =
+  emit_text (out, "ATSINSmove_void(tmpret_void, ")
+val () =
+(
+  emit_dynload (out, infil); emit_text (out, "()) ;\n")
+)
+//
+val () = emit_text (out, "ATSfunbody_end()\n")
+//
+val () = emit_text (out, "ATSreturn_void(tmpret_void) ;\n")
+//
+val () = emit_text (out, "} // end-of-dynload-alias\n")
+//
+in
+  // nothing
+end // end of [then]
+else () // end of [else]
+//
+end // end of [aux_dynload_ias]
 
 fun
 aux_dynload_def
@@ -865,11 +919,14 @@ aux_dynload_def
 //
 val flag = the_dynloadflag_get ()
 //
-val () = if flag = 0 then emit_text (out, "#if(0)\n")
+val () =
+if flag = 0 then emit_text (out, "#if(0)\n")
 //
 val () = emit_text (out, "/*\n")
 val () = emit_text (out, "** for initialization(dynloading)")
 val () = emit_text (out, "\n*/\n")
+//
+val () = aux_dynload_ias (out, infil)
 //
 val () = emit_text (out, "ATSextern()\n")
 val () = emit_text (out, "atsvoid_t0ype\n")
@@ -879,8 +936,11 @@ val () = emit_text (out, "()\n{\n")
 //
 val () = emit_text (out, "ATSfunbody_beg()\n")
 //
-val () = if flag <= 0 then emit_text (out, "ATSdynload0(\n")
-val () = if flag >= 1 then emit_text (out, "ATSdynload1(\n")
+val () =
+if flag <= 0 then emit_text (out, "ATSdynload0(\n")
+val () =
+if flag >= 1 then emit_text (out, "ATSdynload1(\n")
+//
 val () = emit_dynloadflag (out, infil)
 val () = emit_text (out, "\n) ;\n")
 val () = emit_text (out, "ATSif(\n")
@@ -889,7 +949,7 @@ val () = emit_dynloadflag (out, infil)
 val () = emit_text (out, "\n)\n) ATSthen() {\n")
 val () = emit_text (out, "ATSdynloadset(")
 val () = emit_dynloadflag (out, infil)
-val () = emit_text (out, ") ;\n")
+val ((*closing*)) = emit_text (out, ") ;\n")
 //
 val () = let
   val d2cs = the_dynconlst_get2 ()
@@ -912,7 +972,8 @@ val () = emit_text (out, "ATSfunbody_end()\n")
 val () = emit_text (out, "ATSreturn_void(tmpret_void) ;\n")
 val () = emit_text (out, "} /* end of [*_dynload] */\n")
 //
-val () = if flag = 0 then emit_text (out, "#endif // end of [#if(0)]\n")
+val () =
+if flag = 0 then emit_text (out, "#endif // end of [#if(0)]\n")
 //
 in
   // nothing
@@ -978,7 +1039,8 @@ in
 end // end of [aux_main]
 
 fun
-aux_main_ifopt (
+aux_main_ifopt
+(
   out: FILEref, infil: $FIL.filename
 ) : void = let
 //
