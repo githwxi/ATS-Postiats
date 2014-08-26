@@ -49,7 +49,7 @@ cleanall:: ; make -C DiningPhil cleanall
 cleanall:: ; make -C DiningPhil2 cleanall
 cleanall:: ; make -C Producer-Consumer cleanall
 cleanall:: ; make -C IPC-redis cleanall
-cleanall:: ; make -C sorting-linear-lists
+cleanall:: ; make -C sorting-linear-lists cleanall
 
 ######
 
