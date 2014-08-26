@@ -67,6 +67,7 @@
 
 /* ****** ****** */
 
+#define ATSdynload()
 #define ATSdynload0(flag) int flag = 0
 #define ATSdynload1(flag) ATSextern() int flag
 #define ATSdynloadset(flag) flag = 1

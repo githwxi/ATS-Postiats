@@ -936,6 +936,8 @@ val () = emit_text (out, "()\n{\n")
 //
 val () = emit_text (out, "ATSfunbody_beg()\n")
 //
+val () = emit_text (out, "ATSdynload(/*void*/)\n")
+//
 val () =
 if flag <= 0 then emit_text (out, "ATSdynload0(\n")
 val () =
