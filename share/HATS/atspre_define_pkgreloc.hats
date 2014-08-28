@@ -147,6 +147,9 @@ LIBATSCC2PY_targetloc "$PATSHOMERELOC/contrib/libatscc2py"
 #define
 LIBATSCC2JS_targetloc "$PATSHOMERELOC/contrib/libatscc2js"
 //
+#define
+LIBATSCC2PHP_targetloc "$PATSHOMERELOC/contrib/libatscc2php"
+//
 (* ****** ****** *)
 
 (* end of [atspre_define_pkgreloc.hats] *)

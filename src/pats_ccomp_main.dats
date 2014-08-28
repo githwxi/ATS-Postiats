@@ -1293,22 +1293,31 @@ val () = strptr_free (the_funlablst_rep)
 val ( // HX: the call must be made before
 ) = the_mainats_initize () // aux_dynload is called
 //
-val (
-) = aux_dynload_ext (out)
-val (
-) = aux_dynload_def
-  (out, infil, fbody) where {
+val () =
+aux_dynload_ext (out)
+val () =
+aux_dynload_def
+  (out, infil, fbody) where
+{
   val fbody = $UN.castvwtp1{string}(the_primdeclst_rep)
 } // end of [where] // end of [val]
 val () = strptr_free (the_primdeclst_rep)
 //
-val () = aux_main_ifopt (out, infil)
+val () =
+aux_main_ifopt (out, infil)
 //
-val (
-) = aux_extcodelst_if (out, lam (pos) => pos <= DYNEND)
+val () =
+aux_extcodelst_if (out, lam (pos) => pos <= DYNEND)
+//
+val () =
+emit_text (out, "\n/* ****** ****** */\n")
+val () =
+emit_text (out, "\n/* end-of-compilation-unit */\n")
+//
 (*
-val () = println! ("ccomp_main: leave")
+val ((*debugging*)) = println! ("ccomp_main: leave")
 *)
+//
 in
   // nothing
 end // end of [ccomp_main]

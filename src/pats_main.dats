@@ -1453,11 +1453,15 @@ val PATSHOME = let
   val issome = stropt_is_some (opt)
 in
   if issome
-    then stropt_unsome (opt) else let
-    val () = prerrln! ("The environment variable PATSHOME is undefined!")
-  in
-    $ERR.abort ()
-  end // end of [if]
+    then
+      stropt_unsome opt
+    // end of [then]
+    else let
+      val () = prerrln! ("The environment variable PATSHOME is undefined!")
+    in
+      $ERR.abort ()
+    end // end of [else]
+  // end of [if]
 end : string // end of [PATSHOME]
 //
 // for the run-time and atslib
