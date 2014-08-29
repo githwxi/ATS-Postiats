@@ -1357,7 +1357,8 @@ end // end of [emit_funlab_funapy]
 (* ****** ****** *)
 
 extern
-fun emit_funent_fundec
+fun
+emit_funent_fundec
   (out: FILEref, fent: funent): void
 implement
 emit_funent_fundec

@@ -70,6 +70,9 @@ macdef ATS_STALOADFLAG = $SYM.symbol_ATS_STALOADFLAG
 *)
 macdef ATS_DYNLOADFLAG = $SYM.symbol_ATS_DYNLOADFLAG
 macdef ATS_DYNLOADNAME = $SYM.symbol_ATS_DYNLOADNAME
+//
+macdef ATS_STATIC_PREFIX = $SYM.symbol_ATS_STATIC_PREFIX
+//
 macdef ATS_MAINATSFLAG = $SYM.symbol_ATS_MAINATSFLAG
 //
 (* ****** ****** *)
@@ -1389,6 +1392,31 @@ case+ opt of
 //
 end // end of [aux_mainatsflag]
 
+fun aux_static_prefix (): void = let
+  val opt = the_e1xpenv_find (ATS_STATIC_PREFIX)
+in
+//
+case+ opt of
+| ~Some_vt (e) => (
+  case+ e.e1xp_node of
+  | E1XPstring (x) =>
+      $GLOB.the_STATIC_PREFIX_set (x)
+  | _ => let
+      val () =
+        prerr_error1_loc (e.e1xp_loc)
+      val () = prerr ": non-string definition for [ATS_STATIC_PREFIX]."
+      val () = prerr_newline ((*void*))
+    in
+       $ERR.abort {void} ()
+    end // end of [_]
+  ) (* end of [Some_vt] *)
+//
+// HX: the [ATS_STATIC_PREFIX] is set to stropt_none
+//
+| ~None_vt ((*void*)) => ()
+//
+end // end of [aux_static_prefix]
+
 in (* in of [local] *)
 
 implement
@@ -1398,6 +1426,7 @@ trans1_finalize () =
   val () = aux_dynloadflag ()
   val () = aux_dynloadname ()
   val () = aux_mainatsflag ()
+  val () = aux_static_prefix ()
 //
 } (* end of [trans1_finalize] *)
 

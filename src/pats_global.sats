@@ -73,6 +73,11 @@ fun the_MAINATSFLAG_set (flag: int): void
 
 (* ****** ****** *)
 
+fun the_STATIC_PREFIX_get (): stropt
+fun the_STATIC_PREFIX_set (name: string): void
+
+(* ****** ****** *)
+
 fun the_IATS_dirlst_get (): List (string)
 fun the_IATS_dirlst_ppush (dir: string):<!ref> void // permanent push
 

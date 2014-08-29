@@ -52,14 +52,24 @@ INTINF = "./pats_intinf.sats"
 
 (* ****** ****** *)
 
-staload ERR = "./pats_error.sats"
+staload
+ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
+staload
+STMP = "./pats_stamp.sats"
+staload
+GLOB = "./pats_global.sats"
+
+(* ****** ****** *)
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_ccomp_emit"
-
+//
+implement
+prerr_FILENAME<> () = prerr "pats_ccomp_emit"
+//
 (* ****** ****** *)
 
 staload
@@ -68,30 +78,16 @@ overload = with $LAB.eq_label_label
 
 (* ****** ****** *)
 
-staload
-STMP = "./pats_stamp.sats"
+staload FIL = "./pats_filename.sats"
 
 (* ****** ****** *)
 
-staload
-FIL = "./pats_filename.sats"
+staload LOC = "./pats_location.sats"
 
 (* ****** ****** *)
 
-staload
-LOC = "./pats_location.sats"
-
-(* ****** ****** *)
-
-staload
-SYM = "./pats_symbol.sats"
-staload
-SYN = "./pats_syntax.sats"
-
-(* ****** ****** *)
-
-staload
-GLOB = "./pats_global.sats"
+staload SYM = "./pats_symbol.sats"
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -728,10 +724,36 @@ end // end of [emit_funapy]
 end // end of [local]
 
 (* ****** ****** *)
+//
+fun
+emit_tmp
+(
+  out: FILEref
+) : void = emit_text (out, "tmp")
+//
+fun
+emit_statmp
+(
+  out: FILEref
+) : void = let
+//
+val opt = $GLOB.the_STATIC_PREFIX_get()
+//
+val ((*void*)) =
+if stropt_is_some(opt)
+  then emit_text (out, stropt_unsome(opt))
+// end of [if]
+//
+in
+  emit_text (out, "statmp")
+end (* end of [emit_statmp] *)
+//
+(* ****** ****** *)
 
 local
 
-fun auxtmp (
+fun auxtmp
+(
   out: FILEref, tmp: tmpvar
 ) : void = let
 //
@@ -740,14 +762,8 @@ val knd = tmpvar_get_topknd (tmp)
 val () =
 (
   case+ 0 of
-  | _ when knd = 0 => let
-    in
-      emit_text (out, "tmp") // local temporary variable
-    end // end of [_]
-  | _ (*(static)top*) => let
-    in
-      emit_text (out, "statmp") // static toplevel temporary
-    end // end of [knd = 1]
+  | _ when knd = 0 => emit_tmp (out) // local
+  | _ (*(static)top*) => emit_statmp (out) // toplevel
 ) : void // end of [val]
 //
 val isref = tmpvar_isref (tmp)
@@ -760,6 +776,7 @@ val opt = tmpvar_get_origin (tmp)
 in
 //
 case+ opt of
+//
 | Some (tmpp) => let
     val sfx = tmpvar_get_suffix (tmp)
     val stmp = tmpvar_get_stamp (tmpp)
@@ -768,6 +785,7 @@ case+ opt of
   in
     // nothing
   end // end of [Some]
+//
 | None () => let
     val stmp = tmpvar_get_stamp (tmp)
     val () = $STMP.fprint_stamp (out, stmp)
@@ -780,9 +798,7 @@ end // end of [auxtmp]
 in (* in of [local] *)
 
 implement
-emit_tmpvar
-  (out, tmp) = auxtmp (out, tmp)
-// end of [emit_tmpvar]
+emit_tmpvar (out, tmp) = auxtmp (out, tmp)
 
 end // end of [local]
 

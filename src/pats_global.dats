@@ -150,16 +150,34 @@ end // end of [local]
 (* ****** ****** *)
 
 local
+//
+val
+the_STATIC_PREFIX = ref<stropt> (stropt_none)
+//
+in (* in-of-local *)
+//
+implement
+the_STATIC_PREFIX_get () = !the_STATIC_PREFIX
+implement
+the_STATIC_PREFIX_set (x) = !the_STATIC_PREFIX := stropt_some(x)
+//
+end // end of [local]  
+  
+(* ****** ****** *)
 
-typedef dirlst = List (string)
-
-val the_IATS_dirlst = ref<dirlst> (list_nil ())
-
-in // in of [local]
-
+local
+//
+typedef
+dirlst = List (string)
+//
+val
+the_IATS_dirlst = ref<dirlst> (list_nil)
+//
+in (*in-of-local*)
+//
 implement
 the_IATS_dirlst_get () = !the_IATS_dirlst
-
+//
 implement
 the_IATS_dirlst_ppush
   (dir) = let
@@ -167,52 +185,53 @@ the_IATS_dirlst_ppush
 in
   !the_IATS_dirlst := list_cons (dir, dirs)
 end // end of [the_IATS_dirlst_ppush]
-
+//
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-
+//
 val rdbgflag = ref<int> (0)
-
-in // in of [local]
-
+//
+in (*in-of-local*)
+//
 implement
 the_DEBUGATS_dbgflag_get () = !rdbgflag
 implement
 the_DEBUGATS_dbgflag_set (flag) = !rdbgflag := flag
-
+//
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-
+//
 val rdbgline = ref<int> (0)
-
-in // in of [local]
-
+//
+in (*in-of-local*)
+//
 implement
 the_DEBUGATS_dbgline_get () = !rdbgline
 implement
 the_DEBUGATS_dbgline_set (flag) = !rdbgline := flag
-
+//
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-
-val rmaxtmprecdepth = ref<int> (CCOMPENV_MAXTMPRECDEPTH)
-
-in // in of [local]
-
+//
+val
+rmaxtmprecdepth = ref<int> (CCOMPENV_MAXTMPRECDEPTH)
+//
+in (*in-of-local*)
+//
 implement
 the_CCOMPENV_maxtmprecdepth_get () = !rmaxtmprecdepth
 implement
 the_CCOMPENV_maxtmprecdepth_set (mtd) = !rmaxtmprecdepth := mtd
-
+//
 end // end of [local]
 
 (* ****** ****** *)

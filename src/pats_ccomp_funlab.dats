@@ -64,6 +64,10 @@ typedef stamp = $STMP.stamp
 
 (* ****** ****** *)
 
+staload GLOB = "./pats_global.sats"
+
+(* ****** ****** *)
+
 staload SYM = "./pats_symbol.sats"
 staload SYN = "./pats_syntax.sats"
 
@@ -346,7 +350,8 @@ end // end of [funlab_make_type]
 
 local
 
-fun d2cst_get_gname
+fun
+d2cst_get_gname
   (d2c: d2cst): string = let
   val extdef = d2cst_get_extdef (d2c)
 in
@@ -416,16 +421,31 @@ end // end of [local]
 
 local
 
-fun flname_make
+fun
+flname_make
 (
   d2v: d2var, stamp: stamp
 ) : string = let
+//
+  val opt =
+    $GLOB.the_STATIC_PREFIX_get ()
+  val isnone = stropt_is_none (opt)
+//
   val d2v2 =
     $SYM.symbol_get_name (d2var_get_sym (d2v))
+  // end of [val]
   val stamp2 = $STMP.tostring_stamp (stamp)
-  val flname = sprintf ("%s_%s", @(d2v2, stamp2))
 in
-  string_of_strptr (flname)
+//
+if
+isnone
+then
+  string_of_strptr (sprintf ("%s_%s", @(d2v2, stamp2)))
+else let
+  val prfx = stropt_unsome(opt) in
+  string_of_strptr (sprintf ("%s%s_%s", @(prfx, d2v2, stamp2)))
+end // end of [else]
+//
 end // end of [flname_make]
 
 in (* in of [local] *)

@@ -339,14 +339,22 @@ symbol_ATS_STALOADFLAG = symbol_make_string "ATS_STALOADFLAG"
 implement
 symbol_ATS_DYNLOADFLAG = symbol_make_string "ATS_DYNLOADFLAG"
 
+(* ****** ****** *)
+
 implement
 symbol_ATS_DYNLOADNAME = symbol_make_string "ATS_DYNLOADNAME"
 
-implement
-symbol_ATS_EXTERN_PREFIX = symbol_make_string "ATS_EXTERN_PREFIX"
+(* ****** ****** *)
 
 implement
 symbol_ATS_MAINATSFLAG = symbol_make_string "ATS_MAINATSFLAG"
+
+(* ****** ****** *)
+
+implement
+symbol_ATS_EXTERN_PREFIX = symbol_make_string "ATS_EXTERN_PREFIX"
+implement
+symbol_ATS_STATIC_PREFIX = symbol_make_string "ATS_STATIC_PREFIX"
 
 (* ****** ****** *)
 
