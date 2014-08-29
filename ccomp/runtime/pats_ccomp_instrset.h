@@ -186,8 +186,10 @@ ATSloop_close(init, fini, cont) \
 
 /* ****** ****** */
 //
-#define ATSfunclo_fun(pmv, targs, tres) ((tres(*)targs)(pmv))
-#define ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->cfun))
+#define \
+ATSfunclo_fun(pmv, targs, tres) ((tres(*)targs)(pmv))
+#define \
+ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->cfun))
 //
 /* ****** ****** */
 //
