@@ -181,6 +181,10 @@ ATSloop_close(init, fini, cont) \
 #define ATSPMVcastfn(d2c, hit, arg) ((hit)arg)
 //
 /* ****** ****** */
+
+#define ATSfuncall(fun_id, fun_arg) (fun_id)fun_arg
+
+/* ****** ****** */
 //
 #define ATSfunclo_fun(pmv, targs, tres) ((tres(*)targs)(pmv))
 #define ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->cfun))
@@ -337,10 +341,6 @@ ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))
 #define ATSINSupdate_ptrdec(tmp, tyelt) (tmp = (tyelt*)(tmp) - 1)
 //
 /* ****** ****** */
-/*
-#define ATSINSfcall(fun, args) (fun)args
-*/
-/* ****** ****** */
 
 #define ATSINSclosure_initize(flab, tmpenv) (flab##__closureinit)tmpenv
 
@@ -372,7 +372,7 @@ do { \
   ) { \
     (*(ATStylazy(tyval)*)pmv_lazy).flag += 1 ; \
     atstype_cloptr __thunk = (*(ATStylazy(tyval)*)pmv_lazy).lazy.thunk ; \
-    tmpret = ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr), tyval), (__thunk)) ; \
+    tmpret = ATSfuncall(ATSfunclo_clo(__thunk, (atstype_cloptr), tyval), (__thunk)) ; \
     (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved = tmpret ; \
   } else { \
     tmpret = (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved ; \
@@ -388,14 +388,14 @@ ATSINSmove_ldelay(tmpret, tyval, pmv_thk) ATSINSmove(tmpret, pmv_thk)
 ATSINSmove_llazyeval(tmpret, tyval, __thunk) \
 do { \
   tmpret = \
-  ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), tyval), (__thunk, atsbool_true)) ; \
+  ATSfuncall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), tyval), (__thunk, atsbool_true)) ; \
   ATS_MFREE(__thunk) ; \
 } while(0) /* end of [do ... while ...] */
 
 #define \
 atspre_lazy_vt_free(__thunk) \
 do { \
-  ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), void), (__thunk, atsbool_false)) ; \
+  ATSfuncall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), void), (__thunk, atsbool_false)) ; \
   ATS_MFREE(__thunk) ; \
 } while(0) /* atspre_lazy_vt_free */
 

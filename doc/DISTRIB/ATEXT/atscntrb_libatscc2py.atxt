@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/kernelats/\n\
-TARGET=ATS-Postiats-contrib/contrib/kernelats/\n\
+SOURCE=./../../contrib/libatscc2py/\n\
+TARGET=ATS-Postiats-contrib/contrib/libatscc2py/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-kernelats files have been copied.\"\n\
+echo \"The ATSCNTRB-libatscc2py files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -96,19 +96,33 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-ATSCNTRB/kernelats\
+ATSCNTRB/libatscc2py\
 ")
 
 (* ****** ****** *)
 
-#packfilename("prelude/CATS/integer.cats")
-#packfilename("prelude/CATS/pointer.cats")
+#packfilename("CATS/basics_cats.py")
+#packfilename("CATS/integer_cats.py")
+#packfilename("CATS/bool_cats.py")
+#packfilename("CATS/char_cats.py")
+#packfilename("CATS/string_cats.py")
+#packfilename("CATS/filebas_cats.py")
+#packfilename("CATS/PYlist_cats.py")
 
 (* ****** ****** *)
 
-#packfilename("prelude/CATS/bool.cats")
-#packfilename("prelude/CATS/char.cats")
-#packfilename("prelude/CATS/string.cats")
+#packfilename("basics_py.sats")
+#packfilename("SATS/integer.sats")
+#packfilename("SATS/bool.sats")
+#packfilename("SATS/char.sats")
+#packfilename("SATS/string.sats")
+#packfilename("SATS/filebas.sats")
+#packfilename("SATS/list.sats")
+#packfilename("SATS/PYlist.sats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/list.dats")
 
 (* ****** ****** *)
 
@@ -124,4 +138,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_kernelats.atxt] *)
+(* end of [atscntrb_libatscc2py.atxt] *)

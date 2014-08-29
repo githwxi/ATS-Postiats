@@ -1,5 +1,11 @@
 ######
 
+0.1.2
+
+releaseing libatscc2py
+
+######
+
 0.1.0
 
 releasing

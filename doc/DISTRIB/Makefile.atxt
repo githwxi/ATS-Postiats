@@ -141,6 +141,8 @@ all_script::
 #
 #make_entry("atscntrb_kernelats")
 #
+#make_entry("atscntrb_libatscc2py")
+#
 ######
 
 atspackaging:: srcget_home
@@ -304,6 +306,11 @@ srcget_atscntrb_libats_hwxi_teaching:: SCRIPT/atscntrb_libats_hwxi_teaching.bash
 
 srcget_atscntrb:: srcget_atscntrb_kernelats
 srcget_atscntrb_kernelats:: SCRIPT/atscntrb_kernelats.bash ; bash $<
+
+######
+
+srcget_atscntrb:: srcget_atscntrb_libatscc2py
+srcget_atscntrb_libatscc2py:: SCRIPT/atscntrb_libatscc2py.bash ; bash $<
 
 ######
 
