@@ -333,15 +333,20 @@ implement
 funlab_make_type
   (hse) = let
   val lvl0 = the_d2varlev_get ()
-  val fcopt = None_vt() // HX: determined by [hse]
+  val fcopt = None_vt() // HX: by [hse]
   val stamp = $STMP.funlab_stamp_make ()
-  val flname = $STMP.tostring_prefix_stamp ("__patsfun_", stamp)
-  val t2mas = list_nil ()
+  val flname = let
+    val opt = $GLOB.the_STATIC_PREFIX_get ()
+  in
+    if stropt_is_none(opt) then "__patsfun_"
+      else $UN.castvwtp0{string}(stropt_unsome(opt)+"patsfun_")
+  end // end of [val]
+  val flname2 = $STMP.tostring_prefix_stamp (flname, stamp)
 in
 //
 funlab_make
 (
-  flname, lvl0, hse, fcopt, None(*qopt*), None(*sopt*), t2mas, stamp
+  flname2, lvl0, hse, fcopt, None(*qopt*), None(*sopt*), list_nil(*t2mas*), stamp
 )
 //
 end // end of [funlab_make_type]
