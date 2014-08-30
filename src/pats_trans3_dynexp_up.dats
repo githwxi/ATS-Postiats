@@ -145,18 +145,23 @@ d2exp_trup_arg_body
 ) : (s2exp, p3atlst, d3exp)
 
 (* ****** ****** *)
-
+//
 extern
-fun d2exp_trup_letwhere
+fun
+d2exp_trup_letwhere
   (d2e0: d2exp, d2cs: d2eclist, d2e: d2exp): d3exp
 // end of [d2exp_trup_letwhere]
-
+//
 (* ****** ****** *)
 
-extern fun d2exp_trup_lam_dyn (d2e0: d2exp): d3exp
-extern fun d2exp_trup_laminit_dyn (d2e0: d2exp): d3exp
-extern fun d2exp_trup_lam_sta (d2e0: d2exp): d3exp
-extern fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_lam_dyn (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_laminit_dyn (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_lam_sta (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
