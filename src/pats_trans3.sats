@@ -356,7 +356,10 @@ fun d23exp_trup_applst
 
 (* ****** ****** *)
 
+fun d2lab_trup (d2l: d2lab) : d3lab
 fun d2lablst_trup (d2ls: d2lablst) : d3lablst
+
+(* ****** ****** *)
 
 fun d3explst_get_ind (d3es: d3explst): s2explst
 
@@ -366,7 +369,7 @@ fun s2exp_get_dlablst_linrest_sharing
 ) : (s2exp, s2explst_vt) // end of [fun]
 
 fun d2exp_trup_selab
-  (d2e0: d2exp, tup: d2exp, labs: d2lablst): d3exp
+  (loc0: loc_t, tup: d2exp, labs: d2lablst): d3exp
 // end of [d2exp_trup_selab]
 
 (* ****** ****** *)

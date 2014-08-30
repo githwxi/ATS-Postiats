@@ -1343,39 +1343,46 @@ fun d2exp_arrinit
 ) : d2exp // end of [d2exp_arrinit]
 
 (* ****** ****** *)
-
-fun d2exp_raise (loc: location, d2e: d2exp): d2exp
-
-fun d2exp_effmask (loc: location, s2fe: s2eff, d2e: d2exp): d2exp
-
+//
+fun
+d2exp_raise (loc: location, d2e: d2exp): d2exp
+//
+(* ****** ****** *)
+//
+fun d2exp_effmask
+  (loc: location, s2fe: s2eff, d2e: d2exp): d2exp
+//
 (* ****** ****** *)
 
-fun d2exp_showtype (loc: location, d2e: d2exp): d2exp
+fun
+d2exp_showtype (loc: location, d2e: d2exp): d2exp
 
 (* ****** ****** *)
-
-fun d2exp_vcopyenv (loc: location, knd: int, d2e: d2exp): d2exp
-
+//
+fun
+d2exp_vcopyenv
+  (loc: location, knd(*v/vt*): int, d2e: d2exp): d2exp
+//
 (* ****** ****** *)
 
 fun d2exp_ptrof (loc: location, d2e: d2exp): d2exp
 fun d2exp_viewat (loc: location, d2e: d2exp): d2exp
 
 (* ****** ****** *)
-
+//
 fun d2exp_selab
 (
   loc: location, _rec: d2exp, d2ls: d2lablst
 ) : d2exp // end of [d2exp_selab]
-
+//
 fun d2exp_sel_dot // = d2exp_selab
 (
   loc: location, _rec: d2exp, d2ls: d2lablst
 ) : d2exp // end of [d2exp_sel_dot]
+//
 fun d2exp_sel_ptr
   (loc: location, _rec: d2exp, d2l: d2lab): d2exp
-// end of [d2exp_sel_ptr]
-
+//
 (* ****** ****** *)
 
 fun d2exp_exist
@@ -1384,41 +1391,55 @@ fun d2exp_exist
 
 (* ****** ****** *)
 
-fun d2exp_lam_dyn
+fun
+d2exp_lam_dyn
 (
   loc: location
 , lin: int, npf: int, arg: p2atlst, body: d2exp
 ) : d2exp // end of [d2exp_lam_dyn]
-fun d2exp_laminit_dyn
+fun
+d2exp_laminit_dyn
 (
   loc: location, knd: int, npf: int, arg: p2atlst, body: d2exp
 ) : d2exp // end of [d2exp_laminit_dyn]
 
-fun d2exp_lam_met
+(* ****** ****** *)
+
+fun
+d2exp_lam_met
 (
   loc: location
 , r: ref(d2varlst), met: s2explst, body: d2exp
 ) : d2exp // end of [d2exp_lam_met]
 
-fun d2exp_lam_met_new
+fun
+d2exp_lam_met_new
   (loc: location, met: s2explst, body: d2exp): d2exp
 // end of [d2exp_lam_met_new]
 
-fun d2exp_lam_sta
+(* ****** ****** *)
+
+fun
+d2exp_lam_sta
 (
-  loc: location, s2vs: s2varlst, s2ps: s2explst, body: d2exp
+  loc: location
+, s2vs: s2varlst, s2ps: s2explst, body: d2exp
 ) : d2exp // end of [d2exp_lam_sta]
 
 (* ****** ****** *)
-
-fun d2exp_fix (loc: location, knd: int, f: d2var, body: d2exp): d2exp
-
+//
+fun d2exp_fix
+  (loc: location, knd: int, f: d2var, body: d2exp): d2exp
+//
 (* ****** ****** *)
-
+//
 fun d2exp_delay (loc: location, _eval: d2exp): d2exp
-fun d2exp_ldelay (loc: location, _eval: d2exp, _free: d2expopt): d2exp
+//
+fun d2exp_ldelay
+  (loc: location, _eval: d2exp, _free: d2expopt): d2exp
+//
 fun d2exp_ldelay_none (loc: location, _eval: d2exp): d2exp
-
+//
 (* ****** ****** *)
 
 fun
@@ -1438,7 +1459,8 @@ fun d2exp_for (
 
 fun d2exp_trywith
 (
-  loc: location, r2es: i2nvresstate, d2e: d2exp, c2ls: c2laulst
+  loc: location
+, r2es: i2nvresstate, d2e: d2exp, c2ls: c2laulst
 ) : d2exp // end of [d2exp_trywith]
 
 (* ****** ****** *)
@@ -1454,11 +1476,19 @@ fun d2exp_macfun
 // end of [d2exp_macfun]
 
 (* ****** ****** *)
-
-fun d2exp_ann_type (loc: location, d2e: d2exp, ann: s2exp): d2exp
-fun d2exp_ann_seff (loc: location, d2e: d2exp, s2fe: s2eff): d2exp
-fun d2exp_ann_funclo (loc: location, d2e: d2exp, fc: funclo): d2exp
-
+//
+fun
+d2exp_ann_type
+  (loc: location, d2e: d2exp, ann: s2exp): d2exp
+//
+fun
+d2exp_ann_seff
+  (loc: location, d2e: d2exp, s2fe: s2eff): d2exp
+//
+fun
+d2exp_ann_funclo
+  (loc: location, d2e: d2exp, funclo: funclo): d2exp
+//
 (* ****** ****** *)
 
 fun d2exp_errexp (loc: location): d2exp
@@ -1468,16 +1498,17 @@ fun d2exp_errexp (loc: location): d2exp
 fun labd2exp_make (l: l0ab, d2e: d2exp): labd2exp
 
 (* ****** ****** *)
-
+//
 fun d2lab_lab
   (loc: location, lab: label, opt: d2symopt): d2lab
 fun d2lab_ind (loc: location, ind: d2explst): d2lab
-
+//
 fun fprint_d2lab : fprint_type (d2lab)
-
+//
 (* ****** ****** *)
-
-fun i2nvarg_make
+//
+fun
+i2nvarg_make
   (d2v: d2var, s2f: s2expopt): i2nvarg
 //
 // HX-2012-06:
@@ -1487,18 +1518,22 @@ fun i2nvarg_make
 //
 fun i2nvarg_get_var (arg: i2nvarg): d2var
 fun i2nvarg_get_type (arg: i2nvarg): s2expopt
-
+//
 val i2nvresstate_nil : i2nvresstate
-
-fun i2nvresstate_make
+//
+fun
+i2nvresstate_make
 (
   s2vs: s2varlst, s2ps: s2explst, arg: i2nvarglst
 ) : i2nvresstate // end of [i2nvresstate_make]
-fun i2nvresstate_make_met
+//
+fun
+i2nvresstate_make_met
 (
-  s2vs: s2varlst, s2ps: s2explst, arg: i2nvarglst, met: s2explstopt
+  s2vs: s2varlst
+, s2ps: s2explst, arg: i2nvarglst, met: s2explstopt
 ) : i2nvresstate // end of [i2nvresstate_make_met]
-
+//
 (* ****** ****** *)
 
 fun

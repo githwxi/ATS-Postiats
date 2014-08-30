@@ -342,7 +342,7 @@ case+ d2e0.d2exp_node of
 | D2Erec _ => d2exp_trup_rec (d2e0)
 | D2Eseq _ => d2exp_trup_seq (d2e0)
 //
-| D2Eselab (d2e, d2ls) => d2exp_trup_selab (d2e0, d2e, d2ls)
+| D2Eselab (d2e, d2ls) => d2exp_trup_selab (loc0, d2e, d2ls)
 //
 | D2Eptrof _ => d2exp_trup_ptrof (d2e0)
 | D2Eviewat _ => d2exp_trup_viewat (d2e0)

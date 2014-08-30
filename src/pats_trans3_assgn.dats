@@ -71,6 +71,10 @@ staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
+#define l2l list_of_list_vt
+
+(* ****** ****** *)
+
 local
 
 fun
@@ -489,10 +493,95 @@ end // end of [d2exp_trup_assgn_deref]
 end // end of [local]
 
 (* ****** ****** *)
+//
+extern
+fun
+d2exp_get_seloverld (d2e0: d2exp): d2symopt
+extern
+fun
+d2exp_get_seloverld_root (d2e0: d2exp): d2exp
+//
+(* ****** ****** *)
+
+implement
+d2exp_get_seloverld
+  (d2e0) = let
+//
+fun aux
+  (d2ls: d2lablst) : d2symopt =
+(
+  case+ d2ls of
+  | list_nil () => None((*void*))
+  | list_cons (d2l, d2ls) => aux2 (d2l, d2ls)
+) (* end of [aux] *)
+//
+and aux2
+(
+  d2l: d2lab, d2ls: d2lablst
+) : d2symopt =
+(
+case+ d2ls of
+| list_nil () => d2l.d2lab_overld
+| list_cons (d2l, d2ls) => aux2 (d2l, d2ls)
+) (* end of [aux2] *)
+//
+in
+//
+case+ d2e0.d2exp_node of
+  D2Eselab (d2e, d2ls) => aux (d2ls) | _ => None()
+//
+end // end of [d2exp_get_seloverld]
+
+implement
+d2exp_get_seloverld_root
+  (d2e0) = let
+//
+val-D2Eselab
+  (d2e, d2ls) = d2e0.d2exp_node
+//
+val-list_cons (d2l1, d2ls) = d2ls
+//
+fun aux
+(
+  d2e: d2exp
+, d2l1: d2lab
+, d2l2: d2lab
+, d2ls: d2lablst
+, res: List_vt(d2lab)
+) : d2exp =
+(
+case+ d2ls of
+| list_nil () => let
+    val loc =
+      d2e.d2exp_loc + d2l1.d2lab_loc
+    // end of [val]
+    val res = list_vt_cons (d2l1, res)
+  in
+    d2exp_selab (loc, d2e, l2l(list_vt_reverse(res)))
+  end // end of [list_nil]
+| list_cons (d2l3, d2ls) =>
+  (
+    aux (d2e, d2l2, d2l3, d2ls, list_vt_cons (d2l1, res))
+  ) (* end of [list_cons] *)
+)
+//
+in
+//
+case+ d2ls of
+| list_nil () => d2e
+| list_cons (d2l2, d2ls) =>
+  (
+    aux (d2e, d2l1, d2l2, d2ls, list_vt_nil())
+  ) (* end of [list_cons] *)
+//
+end // end of [d2exp_get_seloverld_root]
+
+(* ****** ****** *)
 
 local
 
-fn auxerr_wrt_if
+fun
+auxerr_wrt_if
   (loc0: loc_t): void = let
   val err = the_effenv_check_wrt (loc0)
 in
@@ -512,13 +601,14 @@ val-D2Eassgn (d2e_l, d2e_r) = d2e0.d2exp_node
 val d2lv = d2exp_lvalize (d2e_l)
 (*
 val () = (
-println! ("d2exp_trup_assgn: d2lv = ", d2lv)
+  println! ("d2exp_trup_assgn: d2lv = ", d2lv)
 ) (* end of [val] *)
 *)
 //
 in
 //
 case+ d2lv of
+//
 | D2LVALvar_mut
     (d2v, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
@@ -533,6 +623,7 @@ case+ d2lv of
   in
     d3exp_assgn_var (loc0, d2v, s2rt, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]
+//
 | D2LVALvar_lin
     (d2v, d2ls) => let
     val loc_l = d2e_l.d2exp_loc
@@ -550,38 +641,59 @@ case+ d2lv of
   in
     d3exp_assgn_var (loc0, d2v, s2rt, d3ls, d3e_r)
   end // end of [D2LVALvar_lin]
+//
 | D2LVALderef
     (d2e_l, d2ls) => let
     val () = auxerr_wrt_if (loc0)
   in
     d2exp_trup_assgn_deref (loc0, d2e_l, d2ls, d2e_r)
   end // end of [D2LVALd2ref]
+//
 | D2LVALviewat _ => d2exp_trup_viewat_assgn (d2e0)
 //
 | D2LVALarrsub
   (
     d2s, arr, loc_ind, ind // d2s: lrbrackets
   ) => let
-    val ind = list_copy (ind)
-    val d2es_arg = list_vt_extend (ind, d2e_r)
-    val d2es_arg = list_vt_cons (arr, d2es_arg)
-    val d2es_arg = list_of_list_vt (d2es_arg)
-    val loc_arg = arr.d2exp_loc + d2e_r.d2exp_loc
-    val d2a = D2EXPARGdyn (~1(*npf*), loc_arg, d2es_arg)
-    val d2as = list_sing (d2a)
+//
+    val d2es =
+      list_vt_cons (arr, list_extend (ind, d2e_r))
+    // end of [val]
+//
+    val d2a0 = D2EXPARGdyn (~1(*npf*), loc0, (l2l)d2es)
+    val d3e_sub =
+      d2exp_trup_applst_sym (d2e0, d2s, list_sing (d2a0))
+    // end of [val]
+//
   in
-    d2exp_trup_applst_sym (d2e0, d2s, d2as)
+    d3exp_trdn (d3e_sub, s2exp_void_t0ype ())
   end // [D2LVALarrsub]
 //
-| _ => let
-    val loc_l = d2e_l.d2exp_loc
-    val () = prerr_error3_loc (loc_l)
-    val () = prerr ": a left-value is required but a non-left-value is given."
-    val () = prerr_newline ((*void*))
-    val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e_l))
+| _ (*rest-of-d2lv*) => let
+    val opt = d2exp_get_seloverld (d2e_l)
   in
-    d3exp_errexp_void (loc0)
-  end // end of [_]
+    case+ opt of
+    | Some (d2s) => let
+        val _fun = d2exp_top (loc0)
+        val d2e0 = d2exp_get_seloverld_root (d2e_l)
+        val d2es = list_pair (d2e0, d2e_r)
+        val d2a0 = D2EXPARGdyn (~1(*npf*), loc0, d2es)
+        val d3e_sel =
+          d2exp_trup_applst_sym (_fun, d2s, list_sing (d2a0))
+        // end of [val]
+      in
+        d3exp_trdn (d3e_sel, s2exp_void_t0ype ())
+      end // end of [Some]
+    | None ((*void*)) => let
+        val loc_l = d2e_l.d2exp_loc
+        val () = prerr_error3_loc (loc_l)
+        val () = prerr ": a left-value is required but a non-left-value is given."
+        val () = prerr_newline ((*void*))
+        val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e_l))
+      in
+        d3exp_errexp_void (loc0)
+      end // end of [None]
+  end // end of [rest-of-d2lv]
 //
 end // end of [d2exp_trup_assgn]
 
