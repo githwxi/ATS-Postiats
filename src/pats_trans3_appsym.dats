@@ -553,6 +553,7 @@ val d3pis = auxselmax (d3pis)
 in
 //
 case+ d3pis of
+//
 | list_cons (
     d3pi, list_nil ()
   ) => let
@@ -579,6 +580,7 @@ case+ d3pis of
   in
     d3exp_errexp (loc0)
   end // end of [list_cons2]
+//
 | list_nil () => let
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the symbol [";

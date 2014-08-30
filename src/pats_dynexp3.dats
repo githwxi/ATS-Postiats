@@ -985,6 +985,14 @@ d3lab_ind
 (* ****** ****** *)
 
 implement
+d3lab_is_overld (d3l) =
+(
+  case+ d3l.d3lab_overld of Some _ => true | None _ => false
+) // end of [d3lab_is_overld]
+
+(* ****** ****** *)
+
+implement
 gm3at_make
   (loc, d3e, op3t) = '{
   gm3at_loc= loc, gm3at_exp= d3e, gm3at_pat= op3t

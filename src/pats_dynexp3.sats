@@ -880,6 +880,10 @@ fun d3lab_ind (loc: location, ind: d3explst): d3lab
 
 (* ****** ****** *)
 
+fun d3lab_is_overld (d3l: d3lab): bool
+
+(* ****** ****** *)
+
 fun d3lab_set_overld_app
   (d3l: d3lab, opt: d3expopt): void = "patsopt_d3lab_set_overld_app"
 // end of [d3lab_set_overld_app]

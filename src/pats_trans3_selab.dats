@@ -213,12 +213,6 @@ end // end of [local]
 
 local
 
-fun d3lab_is_overld
-  (d3l: d3lab): bool =
-(
-  case+ d3l.d3lab_overld of Some _ => true | None _ => false
-) // end of [d3lab_is_overld]
-
 fun lincheck
 (
   ls2es: labs2explst, linrest: &int
@@ -329,7 +323,9 @@ case+
     val-Some (d2s) = d3l.d3lab_overld
     val _fun = d2exp_top (loc0)
     val d2e1 = d2exp_top2 (loc0, s2e)
-    val d2a1 = D2EXPARGdyn (~1(*npf*), loc0, list_sing (d2e1))
+    val d2a1 =
+      D2EXPARGdyn (~1(*npf*), loc0, list_sing (d2e1))
+    // end of [val]
     val _arg = list_sing (d2a1)
     val d3e_sel = d2exp_trup_applst_sym (_fun, d2s, _arg)
     val () = d3lab_set_overld_app (d3l, Some(d3e_sel))
