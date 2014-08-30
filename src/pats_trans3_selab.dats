@@ -42,11 +42,11 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans3_selab"
-
+//
 (* ****** ****** *)
 
 staload
@@ -726,18 +726,21 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun d2var_trup_selab
+fun
+d2var_trup_selab
 (
   loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab]
 
 extern
-fun d2var_trup_selab_lin
+fun
+d2var_trup_selab_lin
 (
   loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab_lin]
 extern
-fun d2var_trup_selab_mut
+fun
+d2var_trup_selab_mut
 (
   loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab_mut]
@@ -919,6 +922,7 @@ case+ d3ls of
   in
     auxfinize (loc0, s2e_sel, d3e, d3ls, d3ls, 0)
   end // end of [list_cons]
+//
 | list_nil ((*void*)) => d3e // HX: there is no need to open the type
 //
 end (* end of [d3exp_trup_selab] *)

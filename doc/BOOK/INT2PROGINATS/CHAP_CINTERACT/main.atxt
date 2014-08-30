@@ -220,12 +220,12 @@ definitions are introduced in the following code for some external values
 in C:
 
 #atscode('\
-macdef NULL = $extype(ptr, "0")
+macdef NULL = $extval(ptr, "0")
 macdef stdin_ref = $extval(FILEref, "stdin")
 macdef stdout_ref = $extval(FILEref, "stdout")
 ')
 
-External value can also be formed to refer to functions in C as done
+External values can also be formed to refer to functions in C as done
 in the following code:
 
 #atscode('\

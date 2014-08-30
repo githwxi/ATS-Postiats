@@ -1522,10 +1522,12 @@ case+ d1e0.d1exp_node of
   in
     if knd = 0 then ( // [.]
       case+ d2e.d2exp_node of
-      | D2Eselab (d2e_root, d2ls) =>
+      | D2Eselab
+          (d2e_root, d2ls) =>
+        (
           d2exp_sel_dot (loc0, d2e_root, l2l (list_extend (d2ls, d2l)))
-        // end of [D2Eselab]
-      | _ => d2exp_sel_dot (loc0, d2e, list_sing (d2l))
+        ) (* end of [D2Eselab] *)
+      | _ (*non-D2Eselab*) => d2exp_sel_dot (loc0, d2e, list_sing (d2l))
     ) else (
       d2exp_sel_ptr (loc0, d2e, d2l) // [->]
     ) // end of [if]
