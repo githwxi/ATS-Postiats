@@ -74,8 +74,11 @@ end // end of [local]
 //
 extern
 fun print_point (point): void
+extern
+fun fprint_point (FILEref, point): void
 //
 overload print with print_point
+overload fprint with fprint_point
 //
 (* ****** ****** *)
 
@@ -88,8 +91,12 @@ overload .y with point_set_y
 (* ****** ****** *)
 //
 implement
-print_point (p) =
-  print! ("(x=", p.x, ", y=", p.y, ")")
+print_point
+  (p) = fprint_point (stdout_ref, p)
+//
+implement
+fprint_point (out, p) =
+  fprint! (out, "(x=", p.x, ", y=", p.y, ")")
 //
 (* ****** ****** *)
 //

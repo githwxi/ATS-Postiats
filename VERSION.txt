@@ -26,6 +26,7 @@ Here is a list of major additions and changes since the last release:
 
 1. Adding support for dot-notation overloading in assignments.
    This feature is mostly for interacting ATS with other languages.
+   See ATS2TUTORIAL/CHAP_DOTOVERLD for a short article of explanation.
 
 </pre>
 
