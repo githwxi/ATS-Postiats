@@ -100,15 +100,15 @@ fprint_point (out, p) =
 //
 (* ****** ****** *)
 //
-val p0 = point_make (1.0, 2.0)
+val p0 = point_make (1.0, ~1.0)
 //
 val x0 = p0.x // point_get_x (p0)
 and y0 = p0.y // point_get_y (p0)
-val () = println! ("p0 = ", p0) // x=1 / y=2
+val () = println! ("p0 = ", p0) // x=1 / y=~1
 //
 val () = p0.x := y0 // point_set_x (p0, y0)
 and () = p0.y := x0 // point_set_x (p0, x0)
-val () = println! ("p0 = ", p0) // x=2 / y=1
+val () = println! ("p0 = ", p0) // x=~1 / y=1
 //
 (* ****** ****** *)
 
