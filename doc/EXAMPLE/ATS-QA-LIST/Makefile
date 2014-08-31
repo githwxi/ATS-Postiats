@@ -196,6 +196,11 @@ qa-list-334: qa-list-334.dats ; $(PATSCC) -tcats $<
 
 ######
 
+all:: qa-list-358
+qa-list-358: qa-list-358.dats ; $(PATSCC) -tcats $<
+
+######
+
 all:: \
 list_last
 list_last: list_last.dats ; \
