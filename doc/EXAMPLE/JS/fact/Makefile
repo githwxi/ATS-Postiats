@@ -21,7 +21,7 @@ fact.js: fact_dats.c ; \
     -I${PATSHOME} -I${PATSHOME}/ccomp/runtime \
     --pre-js fact_pre.js \
     --post-js fact_post.js \
-    --js-library ${PATSHOME}/contrib/HTML/JS/HTMLdocument.js \
+    --js-library ${PATSHOME}/contrib/HTML-emscripten/JS/HTMLdocument.js \
     -o $@ $<
 fact_dats.c: fact.dats ; \
   $(PATSOPT) -DATS_MEMALLOC_LIBC -I${PATSHOME}/contrib --output $@ --dynamic $<

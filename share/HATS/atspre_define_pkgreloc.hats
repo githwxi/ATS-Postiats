@@ -108,14 +108,6 @@ JNI_targetloc "$PATSHOMERELOC/contrib/JNI"
 //
 (* ****** ****** *)
 //
-#define
-HTML_targetloc "$PATSHOMERELOC/contrib/HTML"
-//
-#define
-HTML5canvas2d_targetloc "$PATSHOMERELOC/contrib/HTML/canvas-2d"
-//
-(* ****** ****** *)
-//
 // HX-2014-05-12:
 // This is for backward compatibility
 //

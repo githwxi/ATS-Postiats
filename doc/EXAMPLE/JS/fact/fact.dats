@@ -13,6 +13,12 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
+//
+#define
+HTML_targetloc
+"$PATSHOMERELOC/contrib/HTML-emscripten"
+//
+(* ****** ****** *)
 
 #define
 ATS_EXTERN_PREFIX "ATSJS_"
@@ -33,7 +39,8 @@ fun fact (n: int): int =
 (* ****** ****** *)
 
 extern
-fun fact_handle_keypress_fun
+fun
+fact_handle_keypress_fun
   (event: event1): void = "ext#%"
 implement
 fact_handle_keypress_fun
@@ -61,7 +68,8 @@ end // end of [fact_handle_keypress_fun]
 // this one works, but may not be of a good style ...
 //
 extern
-fun document_element_addEventListener_fun
+fun
+document_element_addEventListener_fun
 (
   !element1, type: string, func: (event1) -> void
 ) : void
