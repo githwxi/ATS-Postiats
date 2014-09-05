@@ -48,12 +48,13 @@ fun_g0int_aop_decl (
 val fopr_d = (
   case+ opr of
   | "add" => "+" | "sub" => "-"
-  | "mul" => "*" | "div" => "/" | "mod" => "mod"
+  | "mul" => "*" | "div" => "/" | "mod" => "%"
   | _ => opr
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun{tk:tk}
+fun
+{tk:tk}
 g0int_%s : g0int_aop_type(tk)
 overload %s with g0int_%s of 0\
 ", @(
@@ -81,7 +82,8 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun{tk:tk}
+fun
+{tk:tk}
 g0int_%s : g0int_cmp_type(tk)
 overload %s with g0int_%s of 0\
 ", @(
@@ -103,7 +105,7 @@ fun_g0uint_aop_decl (
 val fopr_d = (
   case+ opr of
   | "add" => "+" | "sub" => "-"
-  | "mul" => "*" | "div" => "/" | "mod" => "mod"
+  | "mul" => "*" | "div" => "/" | "mod" => "%"
   | _ => opr
 ) : string // end of [val]
 //
@@ -585,12 +587,13 @@ fun_g0float_aop_decl (
 val fopr_d = (
   case+ opr of
   | "add" => "+" | "sub" => "-"
-  | "mul" => "*" | "div" => "/" | "mod" => "mod"
+  | "mul" => "*" | "div" => "/" | "mod" => "%"
   | _ => opr
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun{tk:tk}
+fun
+{tk:tk}
 g0float_%s : g0float_aop_type(tk)
 overload %s with g0float_%s of 0\
 ", @(
@@ -618,7 +621,8 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun{tk:tk}
+fun
+{tk:tk}
 g0float_%s : g0float_cmp_type(tk)
 overload %s with g0float_%s of 0\
 ", @(

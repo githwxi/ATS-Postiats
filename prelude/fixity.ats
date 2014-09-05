@@ -63,7 +63,7 @@ infixl 70 app
 
 prefix  61 ~
 
-infixl 60 * / mod
+infixl 60 * / % mod
 (*
 infixl 60 nmul ndiv nmod
 *)

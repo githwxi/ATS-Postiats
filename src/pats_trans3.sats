@@ -342,18 +342,26 @@ fun d2exp_trup_applst
   (d2e0: d2exp, _fun: d2exp, _arg: d2exparglst): d3exp
 // end of [d2exp_trup_applst]
 
-fun d2exp_trup_applst_sym
-  (d2e0: d2exp, _fun: d2sym, _arg: d2exparglst): d3exp
-// end of [d2exp_trup_applst_sym]
-
-fun d2exp_trup_applst_tmpsym (
-  d2e0: d2exp, _fun: d2sym, t2mas: t2mpmarglst, _arg: d2exparglst
-) : d3exp // end of [d2exp_trup_applst_tmpsym]
-
 fun d23exp_trup_applst
   (d2e0: d2exp, _fun: d3exp, _arg: d2exparglst): d3exp
 // end of [d23exp_trup_applst]
 
+(* ****** ****** *)
+//
+fun
+d2exp_trup_applst_sym
+  (d2e0: d2exp, d2s: d2sym, _arg: d2exparglst): d3exp
+//
+fun
+d2exp_trup_applst_tmpsym
+(
+  d2e0: d2exp, d2s: d2sym, t2mas: t2mpmarglst, _arg: d2exparglst
+) : d3exp // end of [d2exp_trup_applst_tmpsym]
+//
+fun
+d2exp_trup_applst_seloverld
+  (d2e0: d2exp, _fun: d2exp, d2s: d2sym, _arg: d2exparglst): d3exp
+//
 (* ****** ****** *)
 
 fun d2lab_trup (d2l: d2lab) : d3lab

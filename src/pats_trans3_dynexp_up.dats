@@ -306,7 +306,13 @@ case+ d2e0.d2exp_node of
         d2exp_trup (d2e0)
       end // end of [D2Emac]
 //
-    | _(*rest*) => d2exp_trup_applst (d2e0, _fun, _arg)
+    | _ (*rest-of-d0exp*) => let
+        val opt = d2exp_get_seloverld (_fun)
+      in
+        case+ opt of
+        | None () => d2exp_trup_applst (d2e0, _fun, _arg)
+        | Some (d2s) => d2exp_trup_applst_seloverld (d2e0, _fun, d2s, _arg)
+      end // end of [rest-of-d0exp]
   end // end of [D2Eapplst]
 //
 | D2Eifhead

@@ -908,14 +908,13 @@ and d2lab_node =
 where
 d2ecl = '{
   d2ecl_loc= location, d2ecl_node= d2ecl_node
-}
+} // end of [d2ecl]
+
 and d2eclist = List (d2ecl)
 
 and
 d2exp = '{
-  d2exp_loc= location
-, d2exp_node= d2exp_node
-, d2exp_type= s2expopt
+  d2exp_loc= location, d2exp_node= d2exp_node, d2exp_type= s2expopt
 } // end of [d2exp]
 
 and d2explst = List (d2exp)
@@ -1752,20 +1751,25 @@ dynexp2_tmpvardecmap_type // placeholer for [tmpvardecmap]
 //
 (* ****** ****** *)
 (*
-** HX-2013-13:
-** these are implemented in [pats_dynexp2_util.dats]
+** HX-2013-12:
+** HX-2014-09:
+** these functions are
+** implemented in [pats_dynexp2_util.dats]
 *)
-
-fun d2exp_is_varlamcst (d2e: d2exp): bool
-
-fun d2con_select_arity (d2cs: d2conlst, n: int): d2conlst
-
+//
+fun
+d2exp_is_varlamcst (d2e: d2exp): bool
+//
+fun
+d2con_select_arity (d2cs: d2conlst, n: int): d2conlst
+//
+fun d2exp_lvalize (d2e: d2exp): d2lval
+//
 fun d2cst_match_def (d2c: d2cst, def: d1exp): bool
-
-fun d2exp_lvalize
-  (d2e: d2exp): d2lval // HX: translating [d2e] into a left-value
-// end of [d2exp_lvalize]
-
+//
+fun d2exp_get_seloverld (d2e0: d2exp): d2symopt
+fun d2exp_get_seloverld_root (d2e0: d2exp): d2exp
+//
 (* ****** ****** *)
 
 fun jsonize_d2cst (d2c: d2cst): jsonval

@@ -339,7 +339,7 @@ symintr ~ not
 symintr && || // macros
 *)
 symintr lnot lor lxor land
-symintr + - * / mod ndiv nmod
+symintr + - * / % mod ndiv nmod
 symintr < <= > >= = == != <> compare
 symintr isltz isltez isgtz isgtez iseqz isneqz
 symintr neg abs max min

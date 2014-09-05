@@ -54,6 +54,9 @@ overload + with $LOC.location_combine
 
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_util.sats"
+
+(* ****** ****** *)
+
 staload "./pats_stacst2.sats"
 
 (* ****** ****** *)
@@ -491,90 +494,6 @@ in
 end // end of [d2exp_trup_assgn_deref]
 
 end // end of [local]
-
-(* ****** ****** *)
-//
-extern
-fun
-d2exp_get_seloverld (d2e0: d2exp): d2symopt
-extern
-fun
-d2exp_get_seloverld_root (d2e0: d2exp): d2exp
-//
-(* ****** ****** *)
-
-implement
-d2exp_get_seloverld
-  (d2e0) = let
-//
-fun aux
-  (d2ls: d2lablst) : d2symopt =
-(
-  case+ d2ls of
-  | list_nil () => None((*void*))
-  | list_cons (d2l, d2ls) => aux2 (d2l, d2ls)
-) (* end of [aux] *)
-//
-and aux2
-(
-  d2l: d2lab, d2ls: d2lablst
-) : d2symopt =
-(
-case+ d2ls of
-| list_nil () => d2l.d2lab_overld
-| list_cons (d2l, d2ls) => aux2 (d2l, d2ls)
-) (* end of [aux2] *)
-//
-in
-//
-case+ d2e0.d2exp_node of
-  D2Eselab (d2e, d2ls) => aux (d2ls) | _ => None()
-//
-end // end of [d2exp_get_seloverld]
-
-implement
-d2exp_get_seloverld_root
-  (d2e0) = let
-//
-val-D2Eselab
-  (d2e, d2ls) = d2e0.d2exp_node
-//
-val-list_cons (d2l1, d2ls) = d2ls
-//
-fun aux
-(
-  d2e: d2exp
-, d2l1: d2lab
-, d2l2: d2lab
-, d2ls: d2lablst
-, res: List_vt(d2lab)
-) : d2exp =
-(
-case+ d2ls of
-| list_nil () => let
-    val loc =
-      d2e.d2exp_loc + d2l1.d2lab_loc
-    // end of [val]
-    val res = list_vt_cons (d2l1, res)
-  in
-    d2exp_selab (loc, d2e, l2l(list_vt_reverse(res)))
-  end // end of [list_nil]
-| list_cons (d2l3, d2ls) =>
-  (
-    aux (d2e, d2l2, d2l3, d2ls, list_vt_cons (d2l1, res))
-  ) (* end of [list_cons] *)
-)
-//
-in
-//
-case+ d2ls of
-| list_nil () => d2e
-| list_cons (d2l2, d2ls) =>
-  (
-    aux (d2e, d2l1, d2l2, d2ls, list_vt_nil())
-  ) (* end of [list_cons] *)
-//
-end // end of [d2exp_get_seloverld_root]
 
 (* ****** ****** *)
 
