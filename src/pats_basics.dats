@@ -345,12 +345,12 @@ implement prerr_funclo (fc) = fprint_funclo (stderr_ref, fc)
 
 local
 //
-var the_flag: int = 1 // 0
+var the_flag: int = 0 // 1
 val p_the_flag = &the_flag
 //
 val (
   pf_the_flag | ((*void*))
-) = vbox_make_view_ptr {int} (view@ the_flag | p_the_flag)
+) = vbox_make_view_ptr{int}(view@ the_flag | p_the_flag)
 //
 in (* in-of-local *)
 

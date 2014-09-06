@@ -57,7 +57,8 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 //
 macdef
-isdebug () = (debug_flag_get () > 0)
+isdebug() =
+  (debug_flag_get () > 0)
 //
 (* ****** ****** *)
 //
@@ -429,6 +430,8 @@ fprintln! (out, "  --depgen (for generating information on file dependencices)")
 fprintln! (out, "  -tag (for generating tagging information on syntactic entities)");
 fprintln! (out, "  --taggen (for generating tagging information on syntactic entities)");
 fprintln! (out, "  --gline (for generating line pragma information in target code)");
+fprintln! (out, "  --debug (for enabling the generation of more informative error messages)");
+fprintln! (out, "  --debug2 (for enabling the generation of debugging information in target code)");
 fprintln! (out, "  --pkgreloc (for generating a script to help relocate packages in need)");
 fprintln! (out, "  --jsonize-2 (for output level-2 syntax in JSON format)");
 fprintln! (out, "  --constraint-export (for exporting constraints in JSON format)");
@@ -470,7 +473,8 @@ HX: VERSION-0.1.2 released on Friday, Auguest 29, 2014
 *)
 //
 extern
-fun patsopt_version (out: FILEref): void
+fun
+patsopt_version (out: FILEref): void
 //
 implement
 patsopt_version (out) =
@@ -1009,8 +1013,8 @@ val d1cs =
 // end of [val]
 val () = $TRANS1.trans1_finalize ()
 //
-val (
-) = if isdebug() then
+val () =
+if isdebug() then
 {
   val () = prerrln! (
     "The 1st translation (fixity) of [", given, "] is successfully completed!"
@@ -1033,8 +1037,8 @@ val d1cs = do_trans1 (state, given, d0cs)
 //
 val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
 //
-val (
-) = if isdebug() then
+val () =
+if isdebug() then
 {
   val () = prerrln! (
     "The 2nd translation (binding) of [", given, "] is successfully completed!"
@@ -1109,8 +1113,8 @@ val hids = $TYER.d3eclist_tyer_errck (d3cs)
 val () = fprint_hideclist (stdout_ref, hids)
 *)
 //
-val (
-) = if isdebug() then
+val () =
+if isdebug() then
 {
   val () = prerrln! (
     "The 4th translation (type/proof-erasing) of [", given, "] is successfully completed!"
@@ -1425,6 +1429,13 @@ case+ key of
     val () = $GLOB.the_DEBUGATS_dbgline_set (1)
   } // end of [--gline] // mostly for debugging
 //
+| "--debug" => {
+    val () = debug_flag_set (1) // in pats_basics
+  } // end of [--debug] // more informative error messages
+| "--debug2" => {
+    val () = $GLOB.the_DEBUGATS_dbgflag_set (1)
+  } // end of [--debug2] // debugging info in generated code
+//
 | "--depgen" => (state.depgen := 1)
 | "--taggen" => (state.taggen := 1)
 //
@@ -1468,12 +1479,6 @@ patsopt_main
 implement
 patsopt_main
   (argc, argv) = {
-//
-val () =
-prerrln! ("Hello from ATS2(ATS/Postiats)!")
-(*
-val ((*void*)) = patsopt_version (stdout_ref)
-*)
 //
 val () =
 set () where
@@ -1566,7 +1571,15 @@ val ((*void*)) = process_cmdline (state, arglst)
 //
 (* ****** ****** *)
 //
-implement main (argc, argv) = patsopt_main (argc, argv)
+implement
+main (argc, argv) =
+(
+//
+if argc >= 2
+  then patsopt_main (argc, argv)
+  else prerrln! ("Hello from ATS2(ATS/Postiats)!")
+// end of [if]
+)
 //
 (* ****** ****** *)
 

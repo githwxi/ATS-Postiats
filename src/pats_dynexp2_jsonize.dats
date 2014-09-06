@@ -919,7 +919,20 @@ d2c0.d2ecl_node of
     jsonval_conarg2 ("D2Cinclude", knd, d2cs)
   end // end of [D2Cinclude]
 //
-| D2Clocal (head, body) => let
+| D2Cstaload
+  (
+    idopt, fname, loadflag, fenv, loaded
+  ) => let
+    val idopt =
+      jsonize_symbolopt (idopt)
+    // end of [val]
+    val fname = jsonize_filename (fname)
+  in
+    jsonval_conarg2 ("D2Cstaload", idopt, fname)
+  end // end of [D2Cstaload]
+//
+| D2Clocal
+    (head, body) => let
     val head = jsonize_d2eclist (head)
     val body = jsonize_d2eclist (body)
   in

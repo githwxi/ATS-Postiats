@@ -27,6 +27,9 @@ Here is a list of major additions and changes since the last release:
 1. Adding support for dot-notation overloading in assignments.
    This feature is mostly for interacting ATS with other languages.
    See ATS2TUTORIAL/CHAP_DOTOVERLD for a short article of explanation.
+2. Adding support for functional style o dot-notation overloading.
+   This feature makes it very convenient for ATS to interact with OOP.
+3. Generally improving level-2 jsonization (pats_dynexp2_jsonize)
 
 </pre>
 

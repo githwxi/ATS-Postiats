@@ -65,7 +65,10 @@ jsonval =
   | JSONbool of (bool)
   | JSONfloat of (double)
   | JSONstring of (string)
-  | JSONloc of (location)
+//
+  | JSONlocation of (location)
+  | JSONfilename of (filename)
+//
   | JSONlist of (jsonvalist)
   | JSONlablist of labjsonvalist
   | JSONoption of (jsonvalopt)
@@ -89,7 +92,10 @@ fun jsonval_bool (x: bool): jsonval
 fun jsonval_double (x: double): jsonval
 fun jsonval_string (x: string): jsonval
 //
-fun jsonval_loc (loc: location): jsonval
+(* ****** ****** *)
+//
+fun jsonval_location (loc: location): jsonval
+fun jsonval_filename (fil: filename): jsonval
 //
 (* ****** ****** *)
 //
@@ -216,7 +222,12 @@ fun jsonize_dcstkind : jsonize_ftype (dcstkind)
 
 fun jsonize_stamp : jsonize_ftype (stamp)
 fun jsonize_symbol : jsonize_ftype (symbol)
+fun jsonize_symbolopt : jsonize_ftype (symbolopt)
+
+(* ****** ****** *)
+
 fun jsonize_location : jsonize_ftype (location)
+fun jsonize_filename : jsonize_ftype (filename)
 
 (* ****** ****** *)
 
@@ -224,8 +235,7 @@ fun jsonize_label : jsonize_ftype (label)
 
 (* ****** ****** *)
 
-fun
-jsonize_ignored{a:type} (x: a): jsonval
+fun jsonize_ignored{a:type} (x: a): jsonval
 
 (* ****** ****** *)
 

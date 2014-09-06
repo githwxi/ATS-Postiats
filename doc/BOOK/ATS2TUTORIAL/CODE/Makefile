@@ -20,6 +20,13 @@ include $(PATSHOME)/share/atsmake-pre.mk
 ######
 #
 all:: \
+chap_brktoverld
+chap_brktoverld: \
+  chap_brktoverld.dats ; $(PATSCC2) -tcats $<
+#
+######
+#
+all:: \
 chap_dotoverld
 chap_dotoverld: \
   chap_dotoverld.dats ; \

@@ -50,6 +50,7 @@ INTINF = "./pats_intinf.sats"
 staload "./pats_stamp.sats"
 staload "./pats_symbol.sats"
 staload "./pats_location.sats"
+staload "./pats_filename.sats"
 
 (* ****** ****** *)
 
@@ -79,7 +80,9 @@ jsonval_string (str) = JSONstring (str)
 (* ****** ****** *)
 
 implement
-jsonval_loc (loc) = JSONloc (loc)
+jsonval_location (loc) = JSONlocation (loc)
+implement
+jsonval_filename (fil) = JSONfilename (fil)
 
 (* ****** ****** *)
 //
@@ -189,12 +192,18 @@ case+ x0 of
 | JSONfloat (d) => fprint_double (out, d)
 | JSONstring (str) => fprintf (out, "\"%s\"", @(str))
 //
-| JSONloc (loc) =>
+| JSONlocation (loc) =>
   {
     val () = prstr "\""
     val () = fprint_location (out, loc)
     val () = prstr "\""
-  } (* end of [JSONloc] *)
+  } (* end of [JSONlocation] *)
+| JSONfilename (fil) =>
+  {
+    val () = prstr "\""
+    val () = fprint_filename_full (out, fil)
+    val () = prstr "\""
+  } (* end of [JSONfilename] *)
 //
 | JSONlist (xs) =>
   {
@@ -389,12 +398,21 @@ implement
 jsonize_stamp (x0) =
   jsonval_int (stamp_get_int (x0))
 //
+(* ****** ****** *)
+//
 implement
 jsonize_symbol (sym) =
   jsonval_string (symbol_get_name (sym))
+implement
+jsonize_symbolopt (opt) =
+  jsonize_option_fun (opt, jsonize_symbol)
+//
+(* ****** ****** *)
 //
 implement
-jsonize_location (loc) = jsonval_loc (loc)
+jsonize_location (loc) = jsonval_location (loc)
+implement
+jsonize_filename (fil) = jsonval_filename (fil)
 //
 (* ****** ****** *)
 

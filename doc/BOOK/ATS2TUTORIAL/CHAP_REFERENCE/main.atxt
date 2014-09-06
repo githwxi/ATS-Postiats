@@ -70,7 +70,9 @@ ref-effect may occur when #dyncode("ref_get_elt") is evaluated. Similarly,
 #stacode("!refwrt") means both ref-effect and wrt-effect may occur when
 #dyncode("ref_set_elt").  Given a reference #dyncode("r") and a value
 #dyncode("v"), #dyncode("ref_get_elt(r)") and #dyncode("ref_set_elt(r, v)")
-can be written as #dyncode("!r") and #dyncode("!r := v"), respectively.\
+can be written as #dyncode("!r") and #dyncode("!r := v"), respectively, and
+can also be written as #dyncode("r[]") and #dyncode("r[] := v"),
+respectively, in terms of bracket-notation.\
 
 ")#comment("para")
 
