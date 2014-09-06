@@ -111,6 +111,77 @@ and () = p0.y := x0 // point_set_x (p0, x0)
 val () = println! ("p0 = ", p0) // x=~1 / y=1
 //
 (* ****** ****** *)
+//
+// HX: a variant of the above code
+//
+val p0 = point_make (1.0, ~1.0)
+val x0 = p0.x() // point_get_x (p0)
+and y0 = p0.y() // point_get_y (p0)
+val () = println! ("p0 = ", p0) // x=1 / y=~1
+//
+val () = p0.x(y0) // point_set_x (p0, y0)
+and () = p0.y(x0) // point_set_y (p0, x0)  
+val () = println! ("p0 = ", p0) // x=~1 / y=1
+//  
+(* ****** ****** *)
+//
+absvtype counter = ptr
+//
+extern
+fun counter_make (): counter
+extern
+fun counter_free (counter): void
+//
+extern
+fun counter_get (cntr: !counter): int
+extern
+fun counter_incby (cntr: !counter, n: int): void
+//
+overload .get with counter_get
+overload .incby with counter_incby
+//
+(* ****** ****** *)
+
+local
+
+(* ****** ****** *)
+
+datavtype
+counter2 = COUNTER of int
+
+(* ****** ****** *)
+
+assume counter = counter2
+
+in (* in-of-local *)
+//
+implement
+counter_make () = COUNTER (0)
+//
+implement
+counter_free (cntr) =
+  let val~COUNTER _ = cntr in (*none*) end
+//
+implement
+counter_get (cntr) =
+  let val+COUNTER (count) = cntr in count end
+//
+implement
+counter_incby (cntr, n) =
+  let val+@COUNTER (count) = cntr in count := count + n; fold@(cntr) end
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+val c0 = counter_make()
+val n0 = c0.get()
+val () = c0.incby(1)
+val n1 = c0.get()
+val () = assertloc (n0 + 1 = n1)
+val () = counter_free (c0)
+
+(* ****** ****** *)
 
 implement main0 () = {}
 

@@ -43,6 +43,9 @@ bin/patsopt
 bin/pats2xhtml
 bin/atspkgreloc_curl
 bin/atspkgreloc_wget
+bin/atscc2py
+bin/atscc2js
+bin/atscc2php
 
 #
 # boostrapping
