@@ -847,12 +847,16 @@ case+ xs of
 | list_cons
     (x, xs) => let
     val-HIDdynload (fil) = x.hidecl_node
-    val () = emit_text (out, "/*\nextern\n*/ int\n")
-    val () = emit_filename (out, fil)
-    val () = emit_text (out, "__dynloadflag = 0 ;\n")
-    val () = emit_text (out, "extern atsvoid_t0ype\n")
-    val () = emit_filename (out, fil)
-    val () = emit_text (out, "__dynload(/*void*/) ;\n")
+    val () = (
+      emit_text (out, "ATSdynloadflag_init(");
+      emit_filename (out, fil); emit_text (out, "__dynloadflag) ;\n")
+    ) (* end of [val] *)
+    val () =
+      emit_text (out, "extern atsvoid_t0ype\n")
+    val () = (
+      emit_filename (out, fil);
+      emit_text (out, "__dynload(/*void*/) ;\n")
+    ) (* end of [val] *)
   in
     loop (out, xs)
   end (* end of [list_cons] *)
@@ -920,13 +924,21 @@ aux_dynload_def
 val flag = the_dynloadflag_get ()
 //
 val () =
-if flag = 0 then emit_text (out, "#if(0)\n")
+if flag = 0
+  then emit_text (out, "#if(0)\n")
 //
 val () = emit_text (out, "/*\n")
-val () = emit_text (out, "** for initialization(dynloading)")
+val () =
+  emit_text (out, "** for initialization(dynloading)")
 val () = emit_text (out, "\n*/\n")
 //
 val () = aux_dynload_ias (out, infil)
+//
+val () =
+if flag <= 0 then (
+  emit_text (out, "ATSdynloadflag_init(");
+  emit_dynloadflag (out, infil); emit_text (out, ") ;\n")
+) (* end of [if] *)
 //
 val () = emit_text (out, "ATSextern()\n")
 val () = emit_text (out, "atsvoid_t0ype\n")
@@ -939,9 +951,11 @@ val () = emit_text (out, "ATSfunbody_beg()\n")
 val () = emit_text (out, "ATSdynload(/*void*/)\n")
 //
 val () =
-if flag <= 0 then emit_text (out, "ATSdynload0(\n")
+if flag <= 0
+  then emit_text (out, "ATSdynloadflag_sta(\n")
 val () =
-if flag >= 1 then emit_text (out, "ATSdynload1(\n")
+if flag >= 1
+  then emit_text (out, "ATSdynloadflag_ext(\n")
 //
 val () = emit_dynloadflag (out, infil)
 val () = emit_text (out, "\n) ;\n")
