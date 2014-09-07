@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/HTML/canvas-2d/\n\
-TARGET=ATS-Postiats-contrib/contrib/HTML/canvas-2d/\n\
+SOURCE=./../../contrib/HTML-emscripten/canvas-2d/\n\
+TARGET=ATS-Postiats-contrib/contrib/HTML-emscripten/canvas-2d/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -124,4 +124,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_HTML_canvas2d.atxt] *)
+(* end of [atscntrb_HTML-emscripten_canvas2d.atxt] *)

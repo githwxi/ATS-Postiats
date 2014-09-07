@@ -315,15 +315,15 @@ cleanall:: ; $(RMF) HTML/atscntrb_hiredis.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_hiredis.bash
 
 #
-all_html:: HTML/atscntrb_openssl.html
-HTML/atscntrb_openssl.html: atscntrb_openssl_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_openssl.bash
-SCRIPT/atscntrb_openssl.bash: atscntrb_openssl_atxt.exe ; ./$< > $@
-atscntrb_openssl_atxt.dats: ATEXT/atscntrb_openssl.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_openssl_atxt.exe: atscntrb_openssl_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_openssl_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_openssl.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_openssl.bash
+all_html:: HTML/atscntrb_OpenSSL.html
+HTML/atscntrb_OpenSSL.html: atscntrb_OpenSSL_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_OpenSSL.bash
+SCRIPT/atscntrb_OpenSSL.bash: atscntrb_OpenSSL_atxt.exe ; ./$< > $@
+atscntrb_OpenSSL_atxt.dats: ATEXT/atscntrb_OpenSSL.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_OpenSSL_atxt.exe: atscntrb_OpenSSL_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_OpenSSL_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_OpenSSL.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_OpenSSL.bash
 
 #
 all_html:: HTML/atscntrb_JNI.html
@@ -337,25 +337,25 @@ cleanall:: ; $(RMF) HTML/atscntrb_JNI.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_JNI.bash
 
 #
-all_html:: HTML/atscntrb_HTML.html
-HTML/atscntrb_HTML.html: atscntrb_HTML_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_HTML.bash
-SCRIPT/atscntrb_HTML.bash: atscntrb_HTML_atxt.exe ; ./$< > $@
-atscntrb_HTML_atxt.dats: ATEXT/atscntrb_HTML.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_HTML_atxt.exe: atscntrb_HTML_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_HTML_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_HTML.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_HTML.bash
+all_html:: HTML/atscntrb_HTML-emscripten.html
+HTML/atscntrb_HTML-emscripten.html: atscntrb_HTML-emscripten_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_HTML-emscripten.bash
+SCRIPT/atscntrb_HTML-emscripten.bash: atscntrb_HTML-emscripten_atxt.exe ; ./$< > $@
+atscntrb_HTML-emscripten_atxt.dats: ATEXT/atscntrb_HTML-emscripten.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_HTML-emscripten_atxt.exe: atscntrb_HTML-emscripten_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_HTML-emscripten_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_HTML-emscripten.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_HTML-emscripten.bash
 
-all_html:: HTML/atscntrb_HTML_canvas-2d.html
-HTML/atscntrb_HTML_canvas-2d.html: atscntrb_HTML_canvas-2d_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_HTML_canvas-2d.bash
-SCRIPT/atscntrb_HTML_canvas-2d.bash: atscntrb_HTML_canvas-2d_atxt.exe ; ./$< > $@
-atscntrb_HTML_canvas-2d_atxt.dats: ATEXT/atscntrb_HTML_canvas-2d.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_HTML_canvas-2d_atxt.exe: atscntrb_HTML_canvas-2d_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_HTML_canvas-2d_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_HTML_canvas-2d.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_HTML_canvas-2d.bash
+all_html:: HTML/atscntrb_HTML-emscripten_canvas-2d.html
+HTML/atscntrb_HTML-emscripten_canvas-2d.html: atscntrb_HTML-emscripten_canvas-2d_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_HTML-emscripten_canvas-2d.bash
+SCRIPT/atscntrb_HTML-emscripten_canvas-2d.bash: atscntrb_HTML-emscripten_canvas-2d_atxt.exe ; ./$< > $@
+atscntrb_HTML-emscripten_canvas-2d_atxt.dats: ATEXT/atscntrb_HTML-emscripten_canvas-2d.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_HTML-emscripten_canvas-2d_atxt.exe: atscntrb_HTML-emscripten_canvas-2d_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_HTML-emscripten_canvas-2d_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_HTML-emscripten_canvas-2d.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_HTML-emscripten_canvas-2d.bash
 
 #
 all_html:: HTML/atscntrb_libats_hwxi.html
@@ -388,6 +388,17 @@ atscntrb_kernelats_atxt.exe: atscntrb_kernelats_atxt.dats ; $(ATSCC) $(INCLATS) 
 clean:: ; $(RMF) atscntrb_kernelats_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_kernelats.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_kernelats.bash
+
+#
+all_html:: HTML/atscntrb_libatscc2py.html
+HTML/atscntrb_libatscc2py.html: atscntrb_libatscc2py_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_libatscc2py.bash
+SCRIPT/atscntrb_libatscc2py.bash: atscntrb_libatscc2py_atxt.exe ; ./$< > $@
+atscntrb_libatscc2py_atxt.dats: ATEXT/atscntrb_libatscc2py.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_libatscc2py_atxt.exe: atscntrb_libatscc2py_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_libatscc2py_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_libatscc2py.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_libatscc2py.bash
 
 #
 ######
@@ -527,8 +538,8 @@ srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_openssl
-srcget_atscntrb_openssl:: SCRIPT/atscntrb_openssl.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_OpenSSL
+srcget_atscntrb_OpenSSL:: SCRIPT/atscntrb_OpenSSL.bash ; bash $<
 
 ######
 
@@ -536,12 +547,12 @@ srcget_atscntrb:: srcget_atscntrb_JNI
 srcget_atscntrb_JNI:: SCRIPT/atscntrb_JNI.bash ; bash $<
 
 ######
-
-srcget_atscntrb:: srcget_atscntrb_HTML
-srcget_atscntrb_HTML:: SCRIPT/atscntrb_HTML.bash ; bash $<
-srcget_atscntrb:: srcget_atscntrb_HTML_canvas-2d
-srcget_atscntrb_HTML_canvas-2d:: SCRIPT/atscntrb_HTML_canvas-2d.bash ; bash $<
-
+#
+# srcget_atscntrb:: srcget_atscntrb_HTML-emscripten
+# srcget_atscntrb_HTML-emscripten:: SCRIPT/atscntrb_HTML-emscripten.bash ; bash $<
+# srcget_atscntrb:: srcget_atscntrb_HTML-emscripten_canvas-2d
+# srcget_atscntrb_HTML-emscripten_canvas-2d:: SCRIPT/atscntrb_HTML-emscripten_canvas-2d.bash ; bash $<
+#
 ######
 
 srcget_atscntrb:: srcget_atscntrb_libats_hwxi
@@ -556,7 +567,12 @@ srcget_atscntrb_kernelats:: SCRIPT/atscntrb_kernelats.bash ; bash $<
 
 ######
 
-PACKNAME=ATS2-Postiats-0.1.1
+srcget_atscntrb:: srcget_atscntrb_libatscc2py
+srcget_atscntrb_libatscc2py:: SCRIPT/atscntrb_libatscc2py.bash ; bash $<
+
+######
+
+PACKNAME=ATS2-Postiats-0.1.3
 atspacktarzvcf:: ; rm -rf $(PACKNAME)
 atspacktarzvcf:: ; cp -rf ATS-Postiats $(PACKNAME)
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/Makefile_conf
@@ -567,7 +583,7 @@ atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 
 ######
 
-CNTRBNAME=ATS2-Postiats-contrib-0.1.1
+CNTRBNAME=ATS2-Postiats-contrib-0.1.3
 atscntrbtarzvcf:: ; rm -rf $(CNTRBNAME)
 atscntrbtarzvcf:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtarzvcf:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/

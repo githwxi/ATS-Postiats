@@ -145,18 +145,23 @@ d2exp_trup_arg_body
 ) : (s2exp, p3atlst, d3exp)
 
 (* ****** ****** *)
-
+//
 extern
-fun d2exp_trup_letwhere
+fun
+d2exp_trup_letwhere
   (d2e0: d2exp, d2cs: d2eclist, d2e: d2exp): d3exp
 // end of [d2exp_trup_letwhere]
-
+//
 (* ****** ****** *)
 
-extern fun d2exp_trup_lam_dyn (d2e0: d2exp): d3exp
-extern fun d2exp_trup_laminit_dyn (d2e0: d2exp): d3exp
-extern fun d2exp_trup_lam_sta (d2e0: d2exp): d3exp
-extern fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_lam_dyn (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_laminit_dyn (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_lam_sta (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
@@ -301,7 +306,13 @@ case+ d2e0.d2exp_node of
         d2exp_trup (d2e0)
       end // end of [D2Emac]
 //
-    | _(*rest*) => d2exp_trup_applst (d2e0, _fun, _arg)
+    | _ (*rest-of-d0exp*) => let
+        val opt = d2exp_get_seloverld (_fun)
+      in
+        case+ opt of
+        | None () => d2exp_trup_applst (d2e0, _fun, _arg)
+        | Some (d2s) => d2exp_trup_applst_seloverld (d2e0, _fun, d2s, _arg)
+      end // end of [rest-of-d0exp]
   end // end of [D2Eapplst]
 //
 | D2Eifhead
@@ -342,7 +353,7 @@ case+ d2e0.d2exp_node of
 | D2Erec _ => d2exp_trup_rec (d2e0)
 | D2Eseq _ => d2exp_trup_seq (d2e0)
 //
-| D2Eselab (d2e, d2ls) => d2exp_trup_selab (d2e0, d2e, d2ls)
+| D2Eselab (d2e, d2ls) => d2exp_trup_selab (loc0, d2e, d2ls)
 //
 | D2Eptrof _ => d2exp_trup_ptrof (d2e0)
 | D2Eviewat _ => d2exp_trup_viewat (d2e0)

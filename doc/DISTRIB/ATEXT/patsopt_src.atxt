@@ -112,8 +112,8 @@ The ATS/Postiats (ATS2) Compiler\
 
 #packfilename("pats_intinf.sats")
 #packfilename("pats_intinf.dats")
-#packfilename("pats_intinf_int.dats")
-#packfilename("pats_intinf_gmp.dats")
+#packfilename("pats_intinf_int.hats")
+#packfilename("pats_intinf_gmp.hats")
 
 (* ****** ****** *)
 

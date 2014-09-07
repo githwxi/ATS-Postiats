@@ -339,7 +339,7 @@ symintr ~ not
 symintr && || // macros
 *)
 symintr lnot lor lxor land
-symintr + - * / mod ndiv nmod
+symintr + - * / % mod ndiv nmod
 symintr < <= > >= = == != <> compare
 symintr isltz isltez isgtz isgtez iseqz isneqz
 symintr neg abs max min
@@ -381,9 +381,12 @@ symintr tostring tostrptr
 // for dot-notation overloading
 //
 symintr .size
+symintr .length
+symintr .get .set .exch
 symintr .nrow .ncol
 symintr .head .tail
 symintr .next .prev
+symintr .init .last
 symintr .eval
 //
 (* ****** ****** *)

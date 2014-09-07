@@ -553,6 +553,7 @@ val d3pis = auxselmax (d3pis)
 in
 //
 case+ d3pis of
+//
 | list_cons (
     d3pi, list_nil ()
   ) => let
@@ -579,6 +580,7 @@ case+ d3pis of
   in
     d3exp_errexp (loc0)
   end // end of [list_cons2]
+//
 | list_nil () => let
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the symbol [";
@@ -590,8 +592,77 @@ case+ d3pis of
     d3exp_errexp (loc0)
   end // end of [list_nil]
 //
-end // end of [d2exp_trup_applst_sym]
+end // end of [d2exp_trup_applst_tmpsym]
 //
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun
+auxins
+(
+  npf: int
+, d2e_rt: d2exp, d2es: d2explst
+) : d2explst =
+(
+if npf > 0
+  then let
+    val-list_cons (d2e, d2es) = d2es
+  in
+    list_cons (d2e, auxins (npf-1, d2e_rt, d2es))
+  end // end of [then]
+  else list_cons (d2e_rt, d2es)
+// end of [if]
+)
+
+fun auxins2
+(
+  d2e0: d2exp
+, d2e_rt: d2exp, d2as: d2exparglst
+) : d2exparglst =
+(
+case+ d2as of
+//
+| list_nil () => let
+    val d2a =
+      D2EXPARGdyn (~1(*npf*), d2e0.d2exp_loc, list_sing(d2e_rt))
+    // end of [val]
+  in
+    list_sing (d2a)
+  end // end of [list_nil]
+//
+| list_cons (d2a, d2as) =>
+  (
+    case+ d2a of
+    | D2EXPARGsta _ =>
+        list_cons (d2a, auxins2 (d2e0, d2e_rt, d2as))
+    | D2EXPARGdyn (npf, loc_arg, d2es) => let
+        val d2a =
+          D2EXPARGdyn (npf, loc_arg, auxins (npf, d2e_rt, d2es))
+        // end of [val]
+      in
+        list_cons (d2a, d2as)
+      end // end of [D2EXPARGdyn]
+  ) (* end of [list_cons] *)  
+//
+) (* end of [auxins2] *)
+
+in (* in-of-local *)
+
+implement
+d2exp_trup_applst_seloverld
+  (d2e0, _fun, d2s, _arg) = let
+//
+val d2e_rt =
+  d2exp_get_seloverld_root (_fun)
+val d2as_arg = auxins2 (d2e0, d2e_rt, _arg)
+//
+in
+  d2exp_trup_applst_sym (d2e0, d2s, d2as_arg)
+end // end of [d2exp_trup_applst_seloverld]
+
 end // end of [local]
 
 (* ****** ****** *)

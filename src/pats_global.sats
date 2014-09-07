@@ -56,8 +56,15 @@ fun the_STALOADFLAG_get (): int
 fun the_STALOADFLAG_set (flag: int): void
 *)
 
+(* ****** ****** *)
+
 fun the_DYNLOADFLAG_get (): int
 fun the_DYNLOADFLAG_set (flag: int): void
+
+(* ****** ****** *)
+
+fun the_DYNLOADNAME_get (): stropt
+fun the_DYNLOADNAME_set (name: string): void
 
 (* ****** ****** *)
 
@@ -66,17 +73,22 @@ fun the_MAINATSFLAG_set (flag: int): void
 
 (* ****** ****** *)
 
+fun the_STATIC_PREFIX_get (): stropt
+fun the_STATIC_PREFIX_set (name: string): void
+
+(* ****** ****** *)
+
 fun the_IATS_dirlst_get (): List (string)
 fun the_IATS_dirlst_ppush (dir: string):<!ref> void // permanent push
 
 (* ****** ****** *)
-
+//
 fun the_DEBUGATS_dbgflag_get (): int
 fun the_DEBUGATS_dbgflag_set (flag: int): void
-
+//
 fun the_DEBUGATS_dbgline_get (): int
 fun the_DEBUGATS_dbgline_set (flag: int): void
-
+//
 (* ****** ****** *)
 
 fun the_CCOMPENV_maxtmprecdepth_get (): int

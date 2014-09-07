@@ -873,11 +873,12 @@ fun d3exp_errexp (loc: location): d3exp
 fun d3exp_errexp_void (loc: location): d3exp
 
 (* ****** ****** *)
-
+//
 fun d3lab_lab
   (loc: location, lab: label, opt: d2symopt): d3lab
+//
 fun d3lab_ind (loc: location, ind: d3explst): d3lab
-
+//
 (* ****** ****** *)
 
 fun d3lab_set_overld_app

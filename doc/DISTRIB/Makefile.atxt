@@ -129,17 +129,19 @@ all_script::
 #make_entry("atscntrb_jansson")
 #make_entry("atscntrb_hiredis")
 #
-#make_entry("atscntrb_openssl")
+#make_entry("atscntrb_OpenSSL")
 #
 #make_entry("atscntrb_JNI")
 #
-#make_entry("atscntrb_HTML")
-#make_entry("atscntrb_HTML_canvas-2d")
+#make_entry("atscntrb_HTML-emscripten")
+#make_entry("atscntrb_HTML-emscripten_canvas-2d")
 #
 #make_entry("atscntrb_libats_hwxi")
 #make_entry("atscntrb_libats_hwxi_teaching")
 #
 #make_entry("atscntrb_kernelats")
+#
+#make_entry("atscntrb_libatscc2py")
 #
 ######
 
@@ -278,8 +280,8 @@ srcget_atscntrb_hiredis:: SCRIPT/atscntrb_hiredis.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_openssl
-srcget_atscntrb_openssl:: SCRIPT/atscntrb_openssl.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_OpenSSL
+srcget_atscntrb_OpenSSL:: SCRIPT/atscntrb_OpenSSL.bash ; bash $<
 
 ######
 
@@ -287,12 +289,12 @@ srcget_atscntrb:: srcget_atscntrb_JNI
 srcget_atscntrb_JNI:: SCRIPT/atscntrb_JNI.bash ; bash $<
 
 ######
-
-srcget_atscntrb:: srcget_atscntrb_HTML
-srcget_atscntrb_HTML:: SCRIPT/atscntrb_HTML.bash ; bash $<
-srcget_atscntrb:: srcget_atscntrb_HTML_canvas-2d
-srcget_atscntrb_HTML_canvas-2d:: SCRIPT/atscntrb_HTML_canvas-2d.bash ; bash $<
-
+#
+# srcget_atscntrb:: srcget_atscntrb_HTML-emscripten
+# srcget_atscntrb_HTML-emscripten:: SCRIPT/atscntrb_HTML-emscripten.bash ; bash $<
+# srcget_atscntrb:: srcget_atscntrb_HTML-emscripten_canvas-2d
+# srcget_atscntrb_HTML-emscripten_canvas-2d:: SCRIPT/atscntrb_HTML-emscripten_canvas-2d.bash ; bash $<
+#
 ######
 
 srcget_atscntrb:: srcget_atscntrb_libats_hwxi
@@ -307,7 +309,12 @@ srcget_atscntrb_kernelats:: SCRIPT/atscntrb_kernelats.bash ; bash $<
 
 ######
 
-PACKNAME=ATS2-Postiats-0.1.0
+srcget_atscntrb:: srcget_atscntrb_libatscc2py
+srcget_atscntrb_libatscc2py:: SCRIPT/atscntrb_libatscc2py.bash ; bash $<
+
+######
+
+PACKNAME=ATS2-Postiats-0.1.3
 atspacktarzvcf:: ; rm -rf $(PACKNAME)
 atspacktarzvcf:: ; cp -rf ATS-Postiats $(PACKNAME)
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/Makefile_conf
@@ -318,7 +325,7 @@ atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 
 ######
 
-CNTRBNAME=ATS2-Postiats-contrib-0.1.0
+CNTRBNAME=ATS2-Postiats-contrib-0.1.3
 atscntrbtarzvcf:: ; rm -rf $(CNTRBNAME)
 atscntrbtarzvcf:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtarzvcf:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/

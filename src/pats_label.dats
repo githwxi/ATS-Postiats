@@ -93,6 +93,7 @@ label_dotize
   (l) = let
 //
 val dotname = (
+//
 case+ l of
 | LABint (int) =>
     string_of_strptr (sprintf (".%i", @(int)))
@@ -100,6 +101,7 @@ case+ l of
 | LABsym (sym) =>
     string_of_strptr (sprintf (".%s", @($SYM.symbol_get_name (sym))))
   // end of [LABsym]
+//
 ) : string // end of [val]
 //
 in

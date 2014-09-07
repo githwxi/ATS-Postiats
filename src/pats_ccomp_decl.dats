@@ -498,8 +498,7 @@ case+ hfds of
     val-HDElam (knd, hips_arg, hde_body) = hde_def.hidexp_node
     val+list_cons (flab, flabs) = flabs
 //
-    val (
-    ) = (
+    val () = (
       if i = 0
         then ccompenv_inc_tailcalenv (env, flab)
       // end of [if]

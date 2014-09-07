@@ -562,13 +562,14 @@ overload assertexn with assertexn_bool0 of 0
 overload assertexn with assertexn_bool1 of 10
 //
 (* ****** ****** *)
-
+//
+symintr assert_errmsg
+//
 fun assert_errmsg_bool0
   (x: bool, msg: string):<!exn> void = "mac#%"
 fun assert_errmsg_bool1
   {b:bool} (x: bool b, msg: string):<!exn> [b] void = "mac#%"
 //
-symintr assert_errmsg
 overload assert_errmsg with assert_errmsg_bool0 of 0
 overload assert_errmsg with assert_errmsg_bool1 of 10
 //

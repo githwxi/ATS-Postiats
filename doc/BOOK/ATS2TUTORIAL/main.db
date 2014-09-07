@@ -15,6 +15,8 @@
 <!ENTITY chap_filename SYSTEM "CHAP_FILENAME/main.db">
 <!ENTITY chap_fileincl SYSTEM "CHAP_FILEINCL/main.db">
 <!ENTITY chap_fixity SYSTEM "CHAP_FIXITY/main.db">
+<!ENTITY chap_brktoverld SYSTEM "CHAP_BRKTOVERLD/main.db">
+<!ENTITY chap_dotoverld SYSTEM "CHAP_DOTOVERLD/main.db">
 <!ENTITY chap_exception SYSTEM "CHAP_EXCEPTION/main.db">
 <!ENTITY chap_reference SYSTEM "CHAP_REFERENCE/main.db">
 <!ENTITY chap_arrayref SYSTEM "CHAP_ARRAYREF/main.db">
@@ -23,8 +25,8 @@
 <!ENTITY chap_mtrxszref SYSTEM "CHAP_MTRXSZREF/main.db">
 <!ENTITY chap_tailrec SYSTEM "CHAP_TAILREC/main.db">
 <!ENTITY chap_hordfun SYSTEM "CHAP_HORDFUN/main.db">
-<!ENTITY chap_cloptr SYSTEM "CHAP_CLOPTR/main.db">
 <!ENTITY chap_stream SYSTEM "CHAP_STREAM/main.db">
+<!ENTITY chap_cloptr SYSTEM "CHAP_CLOPTR/main.db">
 <!ENTITY chap_stream_vt SYSTEM "CHAP_STREAM_VT/main.db">
 ]>
 <book id="ATS2TUTORIAL" lang="en">
@@ -48,6 +50,8 @@ To Jinning, Zoe, and Chloe
 &chap_filename;
 &chap_fileincl;
 &chap_fixity;
+&chap_brktoverld;
+&chap_dotoverld;
 &chap_exception;
 &chap_reference;
 &chap_arrayref;

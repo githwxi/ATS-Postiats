@@ -88,11 +88,11 @@ fn prime_get (n: Nat): Nat = stream_vt_nth<N2> (primes (), n)
 implement
 main0 () = begin
 //
-(*
 println! ("prime(1000) = ", prime_get (1000)) ; // = 7927
+(*
 println! ("prime(5000) = ", prime_get (5000)) ; // = 48619
-*)
 println! ("prime(10000) = ", prime_get (10000)) ; // = 104743
+*)
 //
 end // end of [main0]
 

@@ -159,8 +159,8 @@ matching generates no bindings.\
 <listitem>
 #para("\
 
-The void value () only matches the pattern (), and this matching generates
-no bindings.\
+The void-value () only matches the void-pattern (), and this matching
+generates no bindings.\
 
 ")
 </listitem>
@@ -183,12 +183,12 @@ binding between the variable and the value.\
 <listitem>
 #para("\
 
-A tuple value matches a tuple pattern if they are of the same length and
+A tuple-value matches a tuple-pattern if they are of the same length and
 each value component in the former matches the corresponding pattern
 component in the latter, and this matching generates a collection of
 bindings that is the union of the bindings generated from matching the
-value components in the tuple value against the pattern components in the
-tuple pattern.\
+value components in the tuple-value against the pattern components in the
+tuple-pattern.\
 
 ")
 </listitem>
@@ -196,12 +196,12 @@ tuple pattern.\
 <listitem>
 #para("\
 
-A record value matches a record pattern if they have the same field names
+A record-value matches a record-pattern if they have the same field names
 and each value component in the former matches the corresponding pattern
 component in the latter, and this matching generates a collection of
 bindings that is the union of the bindings generated from matching the
-value components in the record value against the pattern components in the
-record pattern.\
+value components in the record-value against the pattern components in the
+record-pattern.\
 
 ")
 </listitem>
@@ -231,7 +231,7 @@ against pat with a binding from x to the value.\
 
 </itemizedlist>
 
-Suppose we have a tuple value (0, 1, 2, 3) and a tuple pattern (0, _, x,
+Suppose we have a tuple-value (0, 1, 2, 3) and a tuple-pattern (0, _, x,
 y). Then the value matches the pattern and this matching yields bindings
 from x and y to 2 and 3, respectively.\
 

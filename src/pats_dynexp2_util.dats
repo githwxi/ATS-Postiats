@@ -37,6 +37,12 @@ staload
 ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
+//
+staload
+LOC = "./pats_location.sats"
+overload + with $LOC.location_combine
+//
+(* ****** ****** *)
 
 staload "./pats_staexp1.sats"
 staload "./pats_dynexp1.sats"
@@ -112,42 +118,9 @@ end // end of [d2con_select_arity]
 
 local
 
-typedef intlst = List (int)
-
-fn p1at_arity (p1t: p1at): int =
-  case+ p1t.p1at_node of
-  | P1Tlist (npf, p1ts) => list_length (p1ts) | _ => 1
-// end of [p1at_arity]
-
-fn aritest
-  (d1e: d1exp, ns: intlst): bool = let
-  fn* loop1 (d1e: d1exp, ns: intlst): bool =
-    case+ ns of
-    | list_cons (n, ns) => loop2 (d1e, n, ns) | list_nil () => true
-  and loop2 (d1e: d1exp, n: int, ns: intlst): bool =
-    case+ d1e.d1exp_node of
-    | D1Elam_dyn (_(*lin*), p1t, d1e) =>
-        if n = p1at_arity (p1t) then loop1 (d1e, ns) else false
-    | D1Elam_met (_, _, d1e) => loop2 (d1e, n, ns)
-    | D1Elam_sta_ana (_, _, d1e) => loop2 (d1e, n, ns)
-    | D1Elam_sta_syn (_, _, d1e) => loop2 (d1e, n, ns)
-    | _ => false
-in
-  loop1 (d1e, ns)
-end // end of [aritest]
-
-in // in of [local]
-
-implement
-d2cst_match_def (d2c, def) = let
-  val ns = d2cst_get_artylst (d2c) in aritest (def, ns)
-end // end of [d2cst_match_def]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-fun d2exp_d2var_lvalize (
+fun
+d2exp_d2var_lvalize
+(
   d2e0: d2exp, d2v: d2var, d2ls: d2lablst
 ) : d2lval =
   case+ 0 of
@@ -155,6 +128,8 @@ fun d2exp_d2var_lvalize (
   | _ when d2var_is_mutabl (d2v) => D2LVALvar_mut (d2v, d2ls)
   | _ => D2LVALnone (d2e0) // end of [_]
 // end of [d2var_lvalize]
+
+in (* in-of-local *)
 
 implement
 d2exp_lvalize
@@ -187,6 +162,136 @@ case+ d2e0.d2exp_node of
 | _ => D2LVALnone (d2e0)
 //
 end // end of [d2exp_lvalize]
+
+end // end of [val]
+
+(* ****** ****** *)
+
+local
+
+typedef intlst = List (int)
+
+fn p1at_arity
+  (p1t: p1at): int =
+(
+  case+ p1t.p1at_node of
+  | P1Tlist (npf, p1ts) => list_length (p1ts) | _ => 1
+) (* end of [p1at_arity] *)
+
+fn aritest
+  (d1e: d1exp, ns: intlst): bool = let
+  fn* loop1
+  (
+    d1e: d1exp, ns: intlst
+  ) : bool =
+    case+ ns of
+    | list_nil () => true
+    | list_cons (n, ns) => loop2 (d1e, n, ns)
+  // end of [loop1]
+  and loop2
+  (
+    d1e: d1exp, n: int, ns: intlst
+  ) : bool =
+    case+ d1e.d1exp_node of
+    | D1Elam_dyn
+        (_(*lin*), p1t, d1e) =>
+      (
+        if n = p1at_arity (p1t) then loop1 (d1e, ns) else false
+      )
+    | D1Elam_met (_, _, d1e) => loop2 (d1e, n, ns)
+    | D1Elam_sta_ana (_, _, d1e) => loop2 (d1e, n, ns)
+    | D1Elam_sta_syn (_, _, d1e) => loop2 (d1e, n, ns)
+    | _ (*non-D1Elam*) => false
+  // end of [loop2]
+in
+  loop1 (d1e, ns)
+end // end of [aritest]
+
+in (* in-of-local *)
+
+implement
+d2cst_match_def (d2c, def) = let
+  val ns = d2cst_get_artylst (d2c) in aritest (def, ns)
+end // end of [d2cst_match_def]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+d2exp_get_seloverld
+  (d2e0) = let
+//
+fun aux
+  (d2ls: d2lablst) : d2symopt =
+(
+  case+ d2ls of
+  | list_nil () => None((*void*))
+  | list_cons (d2l, d2ls) => aux2 (d2l, d2ls)
+) (* end of [aux] *)
+//
+and aux2
+(
+  d2l: d2lab, d2ls: d2lablst
+) : d2symopt =
+(
+case+ d2ls of
+| list_nil () => d2l.d2lab_overld
+| list_cons (d2l, d2ls) => aux2 (d2l, d2ls)
+) (* end of [aux2] *)
+//
+in
+//
+case+ d2e0.d2exp_node of
+  D2Eselab (d2e, d2ls) => aux (d2ls) | _ => None()
+//
+end // end of [d2exp_get_seloverld]
+
+(* ****** ****** *)
+
+implement
+d2exp_get_seloverld_root
+  (d2e0) = let
+//
+val-D2Eselab
+  (d2e, d2ls) = d2e0.d2exp_node
+//
+val-list_cons (d2l1, d2ls) = d2ls
+//
+fun aux
+(
+  d2e: d2exp
+, d2l1: d2lab
+, d2l2: d2lab
+, d2ls: d2lablst
+, res: List_vt(d2lab)
+) : d2exp =
+(
+case+ d2ls of
+| list_nil () => let
+    val loc =
+      d2e.d2exp_loc + d2l1.d2lab_loc
+    // end of [val]
+    val res = list_vt_cons (d2l1, res)
+  in
+    d2exp_selab (loc, d2e, l2l(list_vt_reverse(res)))
+  end // end of [list_nil]
+| list_cons (d2l3, d2ls) =>
+  (
+    aux (d2e, d2l2, d2l3, d2ls, list_vt_cons (d2l1, res))
+  ) (* end of [list_cons] *)
+)
+//
+in
+//
+case+ d2ls of
+| list_nil () => d2e
+| list_cons (d2l2, d2ls) =>
+  (
+    aux (d2e, d2l1, d2l2, d2ls, list_vt_nil())
+  ) (* end of [list_cons] *)
+//
+end // end of [d2exp_get_seloverld_root]
 
 (* ****** ****** *)
 

@@ -36,9 +36,7 @@ fn atoi_usage
 (* ****** ****** *)
 
 implement
-main0 (
-  argc, argv
-) = {
+main0 (argc, argv) = {
 //
 (*
 val () =
@@ -48,7 +46,7 @@ val rep =
   (if argc >= 2 then argv[1] else "123456789"): string
 val () = println! ("atoi(\"", rep, "\") = ", atoi(rep))
 //
-} // end of [main0]
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

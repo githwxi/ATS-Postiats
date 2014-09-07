@@ -116,6 +116,11 @@ ATSloop_close(init, fini, cont) \
 //
 /* ****** ****** */
 
+#define ATSextcode_beg()
+#define ATSextcode_end()
+
+/* ****** ****** */
+
 #define ATSfunbody_beg()
 #define ATSfunbody_end()
 
@@ -177,10 +182,15 @@ ATSloop_close(init, fini, cont) \
 //
 /* ****** ****** */
 
-#define ATSfcall(fun, args) (fun)args
-#define ATSfunclo_fun(pmv, targs, tres) ((tres(*)targs)(pmv))
-#define ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->cfun))
+#define ATSfuncall(fun_id, fun_arg) (fun_id)fun_arg
 
+/* ****** ****** */
+//
+#define \
+ATSfunclo_fun(pmv, targs, tres) ((tres(*)targs)(pmv))
+#define \
+ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->cfun))
+//
 /* ****** ****** */
 //
 #define ATStmpdec(tmp, hit) hit tmp
@@ -264,6 +274,9 @@ ATSloop_close(init, fini, cont) \
 #define ATSINSmove_ptralloc(tmp, hit) (tmp = ATS_MALLOC(sizeof(hit)))
 
 /* ****** ****** */
+//
+#define \
+ATSINSmove_nil(tmp) (tmp = ((void*)0))
 //
 #define \
 ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))
@@ -361,7 +374,7 @@ do { \
   ) { \
     (*(ATStylazy(tyval)*)pmv_lazy).flag += 1 ; \
     atstype_cloptr __thunk = (*(ATStylazy(tyval)*)pmv_lazy).lazy.thunk ; \
-    tmpret = ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr), tyval), (__thunk)) ; \
+    tmpret = ATSfuncall(ATSfunclo_clo(__thunk, (atstype_cloptr), tyval), (__thunk)) ; \
     (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved = tmpret ; \
   } else { \
     tmpret = (*(ATStylazy(tyval)*)pmv_lazy).lazy.saved ; \
@@ -377,14 +390,14 @@ ATSINSmove_ldelay(tmpret, tyval, pmv_thk) ATSINSmove(tmpret, pmv_thk)
 ATSINSmove_llazyeval(tmpret, tyval, __thunk) \
 do { \
   tmpret = \
-  ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), tyval), (__thunk, atsbool_true)) ; \
+  ATSfuncall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), tyval), (__thunk, atsbool_true)) ; \
   ATS_MFREE(__thunk) ; \
 } while(0) /* end of [do ... while ...] */
 
 #define \
 atspre_lazy_vt_free(__thunk) \
 do { \
-  ATSfcall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), void), (__thunk, atsbool_false)) ; \
+  ATSfuncall(ATSfunclo_clo(__thunk, (atstype_cloptr, atstype_bool), void), (__thunk, atsbool_false)) ; \
   ATS_MFREE(__thunk) ; \
 } while(0) /* atspre_lazy_vt_free */
 

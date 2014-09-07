@@ -3,12 +3,13 @@
 # A simple Makefile
 #
 ######
-
+#
 ATSHOMEQ="$(ATSHOME)"
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+#
 #LIBATSDOC=$(ATSHOMEQ)/libatsdoc
-
+#
 ######
 
 all:: main.db clean

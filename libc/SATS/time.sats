@@ -136,6 +136,31 @@ $extype_struct"atslib_tm_struct_type" of
 } // end of [tm_struct]
 
 (* ****** ****** *)
+//
+(*
+** HX (2010-01-15):
+** These functions are now kept for backward compatibility
+*)
+fun tm_get_sec
+  (tm: &READ(tm_struct)):<> int = "mac#%"
+fun tm_get_min
+  (tm: &READ(tm_struct)):<> int = "mac#%"
+fun tm_get_hour
+  (tm: &READ(tm_struct)):<> int = "mac#%"
+fun tm_get_mday
+  (tm: &READ(tm_struct)):<> int = "mac#%"
+fun tm_get_mon
+  (tm: &READ(tm_struct)):<> int = "mac#%"
+fun tm_get_year
+  (tm: &READ(tm_struct)):<> int = "mac#%"
+fun tm_get_wday
+  (tm: &READ(tm_struct)):<> int = "mac#%"
+fun tm_get_yday
+  (tm: &READ(tm_struct)):<> int = "mac#%"
+fun tm_get_isdst
+  (tm: &READ(tm_struct)):<> int = "mac#%"
+//
+(* ****** ****** *)
 
 fun mktime (tm: &RD(tm_struct)):<> time_t = "mac#%"
 

@@ -189,6 +189,9 @@ case+ 0 of
     // end of [val]
     val () = strptr_free (key)
     val key2 = string_of_strptr (key2)
+(*
+    val () = println! ("key2 = ", key2)
+*)
     val key2 = $SYM.symbol_make_string (key2)
     val opt2 = $TRENV1.the_e1xpenv_find (key2)
   in

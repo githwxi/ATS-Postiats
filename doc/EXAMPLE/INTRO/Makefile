@@ -68,6 +68,43 @@ all:: tally
 
 ######
 
+regress:: acker1 ; ./acker1
+regress:: acker2 ; ./acker2
+regress:: acker3 ; ./acker3
+regress:: acker4 ; ./acker4
+regress:: areverse ; ./areverse
+regress:: atof ; ./atof
+regress:: atoi ; ./atoi
+regress:: bintree ; ./bintree
+regress:: f91 ; ./f91
+regress:: fact1 ; ./fact1 10
+regress:: fact2 ; ./fact2
+regress:: fact3 ; ./fact3
+#regress:: fcopy ; ./fcopy
+#regress:: fcopy2 ; ./fcopy2
+regress:: fib1 ; ./fib1
+regress:: fib2 ; ./fib2
+regress:: fibmem ; ./fibmem
+regress:: fib_lazy ; ./fib_lazy
+regress:: fib_llazy ; ./fib_llazy
+regress:: fprintlst2 ; ./fprintlst2
+regress:: fprtuple ; ./fprtuple
+regress:: gfact ; ./gfact
+regress:: hello ; ./hello
+#regress:: intecho ; ./intecho
+regress:: intrange ; ./intrange
+#regress:: linenmbr ; ./linenmbr
+regress:: listfuns ; ./listfuns
+regress:: listpermute ; ./listpermute
+regress:: ordset ; ./ordset
+regress:: sieve_lazy ; ./sieve_lazy
+regress:: sieve_llazy ; ./sieve_llazy
+regress:: staref ; ./staref
+regress:: strprefix ; ./strprefix
+regress:: tally ; ./tally
+
+######
+
 cleanall:: ; $(RMF) acker1
 cleanall:: ; $(RMF) acker2
 cleanall:: ; $(RMF) acker3

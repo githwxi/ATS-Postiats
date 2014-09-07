@@ -31,8 +31,9 @@ val () = assertloc (abs(x) = max(x, 0) - min(x, 0))
 val x = ~10
 val () = assertloc (abs(x) = max(x, 0) - min(x, 0))
 //
-val () = assertloc (10 mod 2 = 0)
-val () = assertloc (10 mod 3 = 1)
+val () = assertloc (10 % 2 = 0)
+val () = assertloc (10 % 3 = 1)
+val () = assertloc (10 mod 4 = 2)
 val () = assertloc ((10 \nmod 5) = 0)
 val () = assertloc ((10 \nmod 7) = 3)
 //

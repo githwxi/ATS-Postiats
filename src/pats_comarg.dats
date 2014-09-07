@@ -76,19 +76,32 @@ extern char* patsopt_ATSPKGRELOCROOT_get () ;
 (* ****** ****** *)
 
 implement
-comarg_parse (s) = let
-  fun loop {n,i:nat | i <= n} .<n-i>.
-    (s: string n, n: int n, i: int i):<> comarg = 
-    if i < n then begin
-      if (s[i] <> '-') then COMARGkey (i, s) else loop (s, n, i+1)
-    end else begin
-      COMARGkey (n, s) (* loop exists *)
-    end // end of [if]
-  // end of [loop]
-  val s = string1_of_string s
-  val n = string_length s; val n = int1_of_size1 n
+comarg_parse
+  (str) = let
+//
+fun
+loop
+  {n,i:nat | i <= n} .<n-i>.
+(
+  str: string n, n: int n, i: int i
+) :<> comarg = 
+(
+  if i < n
+    then (
+    if (str[i] <> '-')
+      then COMARGkey (i, str) else loop (str, n, i+1)
+    ) else COMARGkey (n, str)
+) (* end of [if] *)  
+// end of [loop]
+//
+val str =
+  string1_of_string str
+//
+val len = string_length (str)
+val len = int1_of_size1 (len)
+//
 in
-  loop (s, n, 0)
+  loop (str, len, 0)
 end // end of [comarg_parse]
 
 (* ****** ****** *)
@@ -125,7 +138,7 @@ comarg_warning (str) = {
   val () = prerr (str)
   val () = prerr ("] is ignored.")
   val () = prerr_newline ()
-} // end of [comarg_warning]
+} (* end of [comarg_warning] *)
 
 (* ****** ****** *)
 
@@ -143,7 +156,9 @@ is_IATS_flag (flg) =
 
 local
 
-fn string_extract (
+fun
+string_extract
+(
   s: string, k: size_t
 ) : Stropt = let
   val s = string1_of_string (s)
@@ -161,13 +176,15 @@ in
   // end of [if]
 end // [string_extract]
 
-in // in of [local]
-
+in (* in-of-local *)
+//
 implement
-DATS_extract (s: string) = string_extract (s, 5)
+DATS_extract
+  (str: string) = string_extract (str, 5)
 implement
-IATS_extract (s: string) = string_extract (s, 5)
-
+IATS_extract
+  (str: string) = string_extract (str, 5)
+//
 end // end of [local]
 
 (* ****** ****** *)

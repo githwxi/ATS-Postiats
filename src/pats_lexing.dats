@@ -2483,24 +2483,26 @@ implement
 lexing_INT_dec
   (buf, pos, k1) = let
 in
-  case+ 0 of
-  | _ when
-      testing_deciexp (buf, pos) >= 0 => let
-    in
-      lexing_FLOAT_deciexp (buf, pos)
-    end // end of [_ when ...]
-  | _ when
-      testing_fexponent (buf, pos) >= 0 => let
-    in
-      lexing_FLOAT_deciexp (buf, pos)
-    end // end of [_ when ...]
-  | _ => let
-      val k2 = testing_intspseq0 (buf, pos)
-      val str = lexbufpos_get_strptr1 (buf, pos)
-      val str = string_of_strptr (str)
-    in
-      lexbufpos_token_reset (buf, pos, T_INT_dec (str, k2))
-    end // end of [_]
+//
+case+ 0 of
+| _ when
+    testing_deciexp (buf, pos) >= 0 => let
+  in
+    lexing_FLOAT_deciexp (buf, pos)
+  end // end of [_ when ...]
+| _ when
+    testing_fexponent (buf, pos) >= 0 => let
+  in
+    lexing_FLOAT_deciexp (buf, pos)
+  end // end of [_ when ...]
+| _ (*integer*) => let
+    val k2 = testing_intspseq0 (buf, pos)
+    val str = lexbufpos_get_strptr1 (buf, pos)
+    val str = string_of_strptr (str)
+  in
+    lexbufpos_token_reset (buf, pos, T_INT_dec (str, k2))
+  end // end of [_]
+//
 end // end of [lexing_INT_dec]
 
 (* ****** ****** *)
@@ -2510,15 +2512,18 @@ lexing_INT_oct
   (buf, pos, k1) = let
 in
 //
-if k1 >= 2u then let
-  val k2 = testing_intspseq0 (buf, pos)
-  val str = lexbuf_get_strptr1 (buf, k1+k2+1u) // 0: 1u
-  val str = string_of_strptr (str)
+if
+k1 <= 1u
+then lexing_INT_dec (buf, pos, k1)
+else let
+//
+val k2 = testing_intspseq0 (buf, pos)
+val str = lexbuf_get_strptr1 (buf, k1+k2+1u) // 0: 1u
+val str = string_of_strptr (str)
+//
 in
   lexbufpos_token_reset (buf, pos, T_INT_oct (str, k2))
-end else
-  lexing_INT_dec (buf, pos, k1)
-// end of [lexing_INT_oct]
+end // end of [else]
 //
 end // end of [lexing_INT_oct]
 
@@ -2526,26 +2531,29 @@ end // end of [lexing_INT_oct]
 
 implement
 lexing_INT_hex
-  (buf, pos, k1) = (
-  case+ 0 of
-  | _ when
-      testing_hexiexp (buf, pos) >= 0 => let
-    in
-      lexing_FLOAT_hexiexp (buf, pos)
-    end // end of [_ when ...]
-  | _ when
-      testing_fexponent_bin (buf, pos) >= 0 => let
-    in
-      lexing_FLOAT_hexiexp (buf, pos)
-    end // end of [_ when ...]
-  | _ => let
-      val k2 = testing_intspseq0 (buf, pos)
-      val str = lexbufpos_get_strptr1 (buf, pos)
-      val str = string_of_strptr (str)
-    in
-      lexbufpos_token_reset (buf, pos, T_INT_hex (str, k2))
-    end // end of [_]
-) // end of [lexing_INT_hex]
+  (buf, pos, k1) = let
+in
+//
+case+ 0 of
+| _ when
+    testing_hexiexp (buf, pos) >= 0 => let
+  in
+    lexing_FLOAT_hexiexp (buf, pos)
+  end // end of [_ when ...]
+| _ when
+    testing_fexponent_bin (buf, pos) >= 0 => let
+  in
+    lexing_FLOAT_hexiexp (buf, pos)
+  end // end of [_ when ...]
+| _ (*integer*) => let
+    val k2 = testing_intspseq0 (buf, pos)
+    val str = lexbufpos_get_strptr1 (buf, pos)
+    val str = string_of_strptr (str)
+  in
+    lexbufpos_token_reset (buf, pos, T_INT_hex (str, k2))
+  end // end of [_]
+//
+end // end of [lexing_INT_hex]
 
 (* ****** ****** *)
 

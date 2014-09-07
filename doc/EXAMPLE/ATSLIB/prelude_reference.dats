@@ -58,14 +58,14 @@ val () = assertloc (!r.1 = 2.0)
 val () =
 {
 //
-val r = ref<int> (1)
-val () = assert (ref_get_elt (r) = 1)
-val () = ref_set_elt (r, 2)
-val () = assert (ref_get_elt (r) = 2)
 var x: int = 3
+val r = ref<int> (1)
+val () = assert (r[] = 1)
+val () = r[] := r[] + 1
+val () = assert (r[] = 2)
 val () = ref_exch_elt (r, x)
 val () = assert (x = 2)
-val () = assert (ref_get_elt (r) = 3)
+val () = assert (r[] = 3)
 //
 } // end of [val]
 

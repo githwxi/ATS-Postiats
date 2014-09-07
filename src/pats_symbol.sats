@@ -168,9 +168,12 @@ val symbol_ATS_STALOADFLAG : symbol
 *)
 val symbol_ATS_DYNLOADFLAG : symbol
 //
-val symbol_ATS_EXTERN_PREFIX : symbol
+val symbol_ATS_DYNLOADNAME : symbol
 //
 val symbol_ATS_MAINATSFLAG : symbol
+//
+val symbol_ATS_EXTERN_PREFIX : symbol
+val symbol_ATS_STATIC_PREFIX : symbol
 //
 (* ****** ****** *)
 

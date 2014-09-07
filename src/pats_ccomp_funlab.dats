@@ -64,6 +64,10 @@ typedef stamp = $STMP.stamp
 
 (* ****** ****** *)
 
+staload GLOB = "./pats_global.sats"
+
+(* ****** ****** *)
+
 staload SYM = "./pats_symbol.sats"
 staload SYN = "./pats_syntax.sats"
 
@@ -111,7 +115,7 @@ funlab_struct =
 , funlab_funent= funentopt // function entry
 //
 , funlab_stamp= stamp (* stamp for unicity *)
-} // end of [funlab_struct]
+} (* end of [funlab_struct] *)
 
 (* ****** ****** *)
 
@@ -329,15 +333,20 @@ implement
 funlab_make_type
   (hse) = let
   val lvl0 = the_d2varlev_get ()
-  val fcopt = None_vt() // HX: determined by [hse]
+  val fcopt = None_vt() // HX: by [hse]
   val stamp = $STMP.funlab_stamp_make ()
-  val flname = $STMP.tostring_prefix_stamp ("__patsfun_", stamp)
-  val t2mas = list_nil ()
+  val flname = let
+    val opt = $GLOB.the_STATIC_PREFIX_get ()
+  in
+    if stropt_is_none(opt) then "__patsfun_"
+      else $UN.castvwtp0{string}(stropt_unsome(opt)+"patsfun_")
+  end // end of [val]
+  val flname2 = $STMP.tostring_prefix_stamp (flname, stamp)
 in
 //
 funlab_make
 (
-  flname, lvl0, hse, fcopt, None(*qopt*), None(*sopt*), t2mas, stamp
+  flname2, lvl0, hse, fcopt, None(*qopt*), None(*sopt*), list_nil(*t2mas*), stamp
 )
 //
 end // end of [funlab_make_type]
@@ -346,7 +355,8 @@ end // end of [funlab_make_type]
 
 local
 
-fun d2cst_get_gname
+fun
+d2cst_get_gname
   (d2c: d2cst): string = let
   val extdef = d2cst_get_extdef (d2c)
 in
@@ -416,16 +426,31 @@ end // end of [local]
 
 local
 
-fun flname_make
+fun
+flname_make
 (
   d2v: d2var, stamp: stamp
 ) : string = let
+//
+  val opt =
+    $GLOB.the_STATIC_PREFIX_get ()
+  val isnone = stropt_is_none (opt)
+//
   val d2v2 =
     $SYM.symbol_get_name (d2var_get_sym (d2v))
+  // end of [val]
   val stamp2 = $STMP.tostring_stamp (stamp)
-  val flname = sprintf ("%s_%s", @(d2v2, stamp2))
 in
-  string_of_strptr (flname)
+//
+if
+isnone
+then
+  string_of_strptr (sprintf ("%s_%s", @(d2v2, stamp2)))
+else let
+  val prfx = stropt_unsome(opt) in
+  string_of_strptr (sprintf ("%s%s_%s", @(prfx, d2v2, stamp2)))
+end // end of [else]
+//
 end // end of [flname_make]
 
 in (* in of [local] *)

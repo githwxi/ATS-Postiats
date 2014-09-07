@@ -37,12 +37,12 @@ a:t@ype}{b:t@ype
 
 #para("\
 
-Closure-functions can be linear and non-linear, and linear ones can be
-explicitly freed in a safe manner. The keyword #keycode("-&lt;cloref&gt;")
-is used to form a type for non-linear closure-functions. As a variant of
-#dyncode("list_map_cloref"), the following higher-order function
-#dyncode("list_map_cloptr") takes a linear closure-function as its second
-argument:
+Closure-functions can be either linear or non-linear, and linear ones can
+be explicitly freed in a safe manner. The keyword
+#keycode("-&lt;cloref&gt;") is used to form a type for non-linear
+closure-functions. As a variant of #dyncode("list_map_cloref"), the
+following higher-order function #dyncode("list_map_cloptr") takes a linear
+closure-function as its second argument:
 
 #atscode('\
 fun{
@@ -54,7 +54,7 @@ a:t@ype}{b:t@ype
 As can be easily guessed, the keyword #keycode("-&lt;cloptr&gt;") is used
 to form a type for linear closure-functions.  Note that the symbol
 #keycode("!") indicates that the second argument is still available after
-#dyncode("list_map_cloptr") returns.
+a call to #dyncode("list_map_cloptr") returns.
 
 ")
 
@@ -120,8 +120,8 @@ closure-function to 4 evaluates #dyncode("acker(3,4)"), which further
 evaluates to the integer 125. Note that the closure-function generated from
 evaluating #dyncode("acker2(3)") becomes a heap-allocated value that is no
 longer accessible after the evaluation of #dyncode("acker2(3)(4)")
-finishes, and the memory for such a value needs to be reclaimed through
-garbage collection (GC).
+finishes, and the memory for such a value can only to be safely reclaimed
+through garbage collection (GC).
 
 ')
 

@@ -20,6 +20,23 @@ include $(PATSHOME)/share/atsmake-pre.mk
 ######
 #
 all:: \
+chap_brktoverld
+chap_brktoverld: \
+  chap_brktoverld.dats ; $(PATSCC2) -tcats $<
+#
+######
+#
+all:: \
+chap_dotoverld
+chap_dotoverld: \
+  chap_dotoverld.dats ; \
+  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: chap_dotoverld; ./$<
+cleanall:: ; $(RMF) chap_dotoverld
+#
+######
+#
+all:: \
 chap_exception
 chap_exception: \
   chap_exception.dats ; \

@@ -31,12 +31,27 @@ various finite precision.
 (* ****** ****** *)
 
 #declnamesynop("g0int2int")
-#declnamesynop("g1ofg0_int")
 #declnamesynop("g1int2int")
 
 (* ****** ****** *)
 
-#declnamesynop("g0int_of_string")
+#declnamesynop("g1ofg0_int")
+#decldescrpt('\
+
+This cast function is called to assign a dependent (or indexed) type to
+an integer of a non-dependent (or un-indexed) type. It is for signed integers.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("g0string2int")
+#decldescrpt('\
+
+Given a string representation of an integer, this function, which is based
+on the function #dyncode("atoi") in libc, returns the value of the integer.\
+
+')
 
 (* ****** ****** *)
 
@@ -55,19 +70,34 @@ various finite precision.
 
 #declnamesynop("g0int_add")
 #declnamesynop("g1int_add")
+
+(* ****** ****** *)
+
 #declnamesynop("g0int_sub")
 #declnamesynop("g1int_sub")
+
+(* ****** ****** *)
+
 #declnamesynop("g0int_mul")
 #declnamesynop("g1int_mul")
 #declnamesynop("g1int_mul2")
+
+(* ****** ****** *)
+
 #declnamesynop("g0int_div")
 #declnamesynop("g1int_div")
 #declnamesynop("g1int_ndiv")
 #declnamesynop("g1int_ndiv2")
+
+(* ****** ****** *)
+
 #declnamesynop("g0int_mod")
 #declnamesynop("g1int_mod")
 #declnamesynop("g1int_nmod")
 #declnamesynop("g1int_nmod2")
+
+(* ****** ****** *)
+
 #declnamesynop("g0int_gcd")
 #declnamesynop("g1int_gcd")
 #declnamesynop("g1int_ngcd")
@@ -81,6 +111,10 @@ This function returns true if and only if its first argument is
 less than its second argument. It is for signed integers.
 ')
 #declnamesynop("g1int_lt")
+#decldescrpt('\
+This function does the same as #dyncode("g0int_lt") but is assigned
+a more informative dependent type.
+')
 
 (* ****** ****** *)
 
@@ -90,6 +124,10 @@ This function returns true if and only if its first argument is
 less than or equal to its second argument. It is for signed integers.
 ')
 #declnamesynop("g1int_lte")
+#decldescrpt('\
+This function does the same as #dyncode("g0int_lte") but is assigned
+a more informative dependent type.
+')
 
 (* ****** ****** *)
 
@@ -99,6 +137,10 @@ This function returns true if and only if its first argument is
 greater than its second argument. It is for signed integers.
 ')
 #declnamesynop("g1int_gt")
+#decldescrpt('\
+This function does the same as #dyncode("g0int_gt") but is assigned
+a more informative dependent type.
+')
 
 (* ****** ****** *)
 
@@ -108,6 +150,10 @@ This function returns true if and only if its first argument is
 greater than or equal to its second argument. It is for signed integers.
 ')
 #declnamesynop("g1int_gte")
+#decldescrpt('\
+This function does the same as #dyncode("g0int_gte") but is assigned
+a more informative dependent type.
+')
 
 (* ****** ****** *)
 
@@ -117,6 +163,10 @@ This function returns true if and only if its first argument is
 equal to its second argument. It is for signed integers.
 ')
 #declnamesynop("g1int_eq")
+#decldescrpt('\
+This function does the same as #dyncode("g0int_eq") but is assigned
+a more informative dependent type.
+')
 
 (* ****** ****** *)
 
@@ -126,18 +176,50 @@ This function returns true if and only if its first argument is
 unequal to its second argument. It is for signed integers.
 ')
 #declnamesynop("g1int_neq")
+#decldescrpt('\
+This function does the same as #dyncode("g0int_neq") but is assigned
+a more informative dependent type.
+')
 
 (* ****** ****** *)
 
 #declnamesynop("g0int_compare")
+#decldescrpt('\
+This function returns -1, 0, and 1 if its first argument is
+less than, equal to, and greater than its second argument, respectively.
+It is for signed integers.
+')
 #declnamesynop("g1int_compare")
+#decldescrpt('\
+This function does the same as #dyncode("g0int_compare") but is assigned
+a more informative dependent type.
+')
 
 (* ****** ****** *)
 
 #declnamesynop("g0int_max")
+#decldescrpt('\
+This function returns the maximum of its two arguments.
+It is for signed integers.
+')
 #declnamesynop("g1int_max")
+#decldescrpt('\
+This function does the same as #dyncode("g0int_max") but is assigned
+a more informative dependent type.
+')
+
+(* ****** ****** *)
+
 #declnamesynop("g0int_min")
+#decldescrpt('\
+This function returns the minimum of its two arguments.
+It is for signed integers.
+')
 #declnamesynop("g1int_min")
+#decldescrpt('\
+This function does the same as #dyncode("g0int_min") but is assigned
+a more informative dependent type.
+')
 
 (* ****** ****** *)
 
@@ -151,14 +233,20 @@ unequal to its second argument. It is for signed integers.
 #declnamesynop("g0int2uint")
 #declnamesynop("g0uint2int")
 #declnamesynop("g0uint2uint")
-#declnamesynop("g1ofg0_uint")
+
+(* ****** ****** *)
+
 #declnamesynop("g1int2uint")
 #declnamesynop("g1uint2int")
 #declnamesynop("g1uint2uint")
 
 (* ****** ****** *)
 
-#declnamesynop("g0uint_of_string")
+#declnamesynop("g1ofg0_uint")
+
+(* ****** ****** *)
+
+#declnamesynop("g0string2uint")
 
 (* ****** ****** *)
 

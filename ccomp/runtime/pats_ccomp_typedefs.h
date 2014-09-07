@@ -126,7 +126,9 @@ struct
 {
   int exntag ; char *exnmsg ;
 } atstype_exncon ;
-typedef atstype_exncon *atstype_exnconptr ;
+//
+typedef
+atstype_exncon *atstype_exnconptr ;
 //
 #endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
 

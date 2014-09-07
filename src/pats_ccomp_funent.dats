@@ -57,8 +57,8 @@ staload "./pats_ccomp.sats"
 local
 
 typedef
-funent =
-'{
+funent = '{
+//
   funent_loc= location
 //
 , funent_lab= funlab // attached function label
@@ -93,7 +93,7 @@ funent =
 //
 , funent_fnxlablst= funlablst // mutually tail-recursive funs
 //
-} // end of [funent]
+} (* end of [funent] *)
 
 assume funent_type = funent
 extern typedef "funent_t" = funent

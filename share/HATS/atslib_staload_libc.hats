@@ -10,53 +10,67 @@
 //
 (* ****** ****** *)
 
-staload ERRNO = "libc/SATS/errno.sats"
-staload _(*ERRNO*) = "libc/DATS/errno.dats"
+#ifndef SHARE_ATSLIB_STALOAD_LIBC
+#define SHARE_ATSLIB_STALOAD_LIBC 1
 
 (* ****** ****** *)
 
-staload DIRENT = "libc/SATS/dirent.sats"
-staload _(*DIRENT*) = "libc/DATS/dirent.dats"
+#define
+PATSLIBC_targetloc "$PATSHOME/libc"
 
 (* ****** ****** *)
 
-staload MATH = "libc/SATS/math.sats"
-staload _(*MATH*) = "libc/DATS/math.dats"
+staload ERRNO = "{$PATSLIBC}/SATS/errno.sats"
+staload _(*ERRNO*) = "{$PATSLIBC}/DATS/errno.dats"
 
 (* ****** ****** *)
 
-staload SIGNAL = "libc/SATS/signal.sats"
+staload DIRENT = "{$PATSLIBC}/SATS/dirent.sats"
+staload _(*DIRENT*) = "{$PATSLIBC}/DATS/dirent.dats"
 
 (* ****** ****** *)
 
-staload STDDEF = "libc/SATS/stddef.sats"
+staload MATH = "{$PATSLIBC}/SATS/math.sats"
+staload _(*MATH*) = "{$PATSLIBC}/DATS/math.dats"
 
 (* ****** ****** *)
 
-staload STDIO = "libc/SATS/stdio.sats"
-staload _(*STDIO*) = "libc/DATS/stdio.dats"
+staload SIGNAL = "{$PATSLIBC}/SATS/signal.sats"
 
 (* ****** ****** *)
 
-staload STDLIB = "libc/SATS/stdlib.sats"
-staload _(*STDLIB*) = "libc/DATS/stdlib.dats"
+staload STDDEF = "{$PATSLIBC}/SATS/stddef.sats"
 
 (* ****** ****** *)
 
-staload STRING = "libc/SATS/string.sats"
-staload _(*STRING*) = "libc/DATS/string.dats"
-staload STRINGS = "libc/SATS/strings.sats"
-staload _(*STRINGS*) = "libc/DATS/strings.dats"
+staload STDIO = "{$PATSLIBC}/SATS/stdio.sats"
+staload _(*STDIO*) = "{$PATSLIBC}/DATS/stdio.dats"
 
 (* ****** ****** *)
 
-staload TIME = "libc/SATS/time.sats"
-staload _(*TIME*) = "libc/DATS/time.dats"
+staload STDLIB = "{$PATSLIBC}/SATS/stdlib.sats"
+staload _(*STDLIB*) = "{$PATSLIBC}/DATS/stdlib.dats"
 
 (* ****** ****** *)
 
-staload UNISTD = "libc/SATS/unistd.sats"
-staload _(*UNISTD*) = "libc/DATS/unistd.dats"
+staload STRING = "{$PATSLIBC}/SATS/string.sats"
+staload _(*STRING*) = "{$PATSLIBC}/DATS/string.dats"
+staload STRINGS = "{$PATSLIBC}/SATS/strings.sats"
+staload _(*STRINGS*) = "{$PATSLIBC}/DATS/strings.dats"
+
+(* ****** ****** *)
+
+staload TIME = "{$PATSLIBC}/SATS/time.sats"
+staload _(*TIME*) = "{$PATSLIBC}/DATS/time.dats"
+
+(* ****** ****** *)
+
+staload UNISTD = "{$PATSLIBC}/SATS/unistd.sats"
+staload _(*UNISTD*) = "{$PATSLIBC}/DATS/unistd.dats"
+
+(* ****** ****** *)
+
+#endif // SHARE_ATSLIB_STALOAD_LIBC
 
 (* ****** ****** *)
 

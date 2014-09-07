@@ -14,97 +14,102 @@
 #define SHARE_ATSPRE_STALOAD 1
 
 (* ****** ****** *)
-
-staload _ = "prelude/DATS/basics.dats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/pointer.dats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/integer.dats"
-staload _ = "prelude/DATS/integer_fixed.dats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/char.dats"
-staload _ = "prelude/DATS/bool.dats"
-staload _ = "prelude/DATS/float.dats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/tuple.dats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/memory.dats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/string.dats"
-staload _ = "prelude/DATS/strptr.dats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/reference.dats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/filebas.dats"
-staload _ = "prelude/DATS/intrange.dats"
-
-(* ****** ****** *)
-
-staload _ = "prelude/DATS/gorder.dats"
-staload _ = "prelude/DATS/gnumber.dats"
-
-(* ****** ****** *)
 //
-staload _ = "prelude/DATS/list.dats"
-//
-staload _ = "prelude/DATS/list_vt.dats"
-staload _ = "prelude/DATS/list_vt_mergesort.dats"
-staload _ = "prelude/DATS/list_vt_quicksort.dats"
+#define
+PATSPRE_targetloc "$PATSHOME/prelude"
 //
 (* ****** ****** *)
 //
-staload _ = "prelude/DATS/option.dats"
-staload _ = "prelude/DATS/option_vt.dats"
+staload _ = "{$PATSPRE}/DATS/basics.dats"
 //
 (* ****** ****** *)
 //
-staload _ = "prelude/DATS/array.dats"
-staload _ = "prelude/DATS/array_bsearch.dats"
-staload _ = "prelude/DATS/array_quicksort.dats"
-//
-staload _ = "prelude/DATS/arrayptr.dats"
-staload _ = "prelude/DATS/arrayref.dats"
+staload _ = "{$PATSPRE}/DATS/pointer.dats"
 //
 (* ****** ****** *)
 //
-staload _ = "prelude/DATS/matrix.dats"
-staload _ = "prelude/DATS/matrixptr.dats"
-staload _ = "prelude/DATS/matrixref.dats"
+staload _ = "{$PATSPRE}/DATS/integer.dats"
+staload _ = "{$PATSPRE}/DATS/integer_fixed.dats"
 //
 (* ****** ****** *)
 //
-staload _ = "prelude/DATS/stream.dats"
-staload _ = "prelude/DATS/stream_vt.dats"
+staload _ = "{$PATSPRE}/DATS/char.dats"
+staload _ = "{$PATSPRE}/DATS/bool.dats"
+staload _ = "{$PATSPRE}/DATS/float.dats"
 //
 (* ****** ****** *)
 
-staload _ = "prelude/DATS/gprint.dats"
+staload _ = "{$PATSPRE}/DATS/tuple.dats"
+
+(* ****** ****** *)
+
+staload _ = "{$PATSPRE}/DATS/memory.dats"
+
+(* ****** ****** *)
+
+staload _ = "{$PATSPRE}/DATS/string.dats"
+staload _ = "{$PATSPRE}/DATS/strptr.dats"
+
+(* ****** ****** *)
+
+staload _ = "{$PATSPRE}/DATS/reference.dats"
+
+(* ****** ****** *)
+
+staload _ = "{$PATSPRE}/DATS/filebas.dats"
+staload _ = "{$PATSPRE}/DATS/intrange.dats"
+
+(* ****** ****** *)
+
+staload _ = "{$PATSPRE}/DATS/gorder.dats"
+staload _ = "{$PATSPRE}/DATS/gnumber.dats"
 
 (* ****** ****** *)
 //
-staload UNSAFE = "prelude/SATS/unsafe.sats"
+staload _ = "{$PATSPRE}/DATS/list.dats"
 //
-staload _(*UNSAFE*) = "prelude/DATS/unsafe.dats"
+staload _ = "{$PATSPRE}/DATS/list_vt.dats"
+staload _ = "{$PATSPRE}/DATS/list_vt_mergesort.dats"
+staload _ = "{$PATSPRE}/DATS/list_vt_quicksort.dats"
+//
+(* ****** ****** *)
+//
+staload _ = "{$PATSPRE}/DATS/option.dats"
+staload _ = "{$PATSPRE}/DATS/option_vt.dats"
+//
+(* ****** ****** *)
+//
+staload _ = "{$PATSPRE}/DATS/array.dats"
+staload _ = "{$PATSPRE}/DATS/array_bsearch.dats"
+staload _ = "{$PATSPRE}/DATS/array_quicksort.dats"
+//
+staload _ = "{$PATSPRE}/DATS/arrayptr.dats"
+staload _ = "{$PATSPRE}/DATS/arrayref.dats"
+//
+(* ****** ****** *)
+//
+staload _ = "{$PATSPRE}/DATS/matrix.dats"
+staload _ = "{$PATSPRE}/DATS/matrixptr.dats"
+staload _ = "{$PATSPRE}/DATS/matrixref.dats"
+//
+(* ****** ****** *)
+//
+staload _ = "{$PATSPRE}/DATS/stream.dats"
+staload _ = "{$PATSPRE}/DATS/stream_vt.dats"
 //
 (* ****** ****** *)
 
-staload _(*CHECKAST*) = "prelude/DATS/checkast.dats"
+staload _ = "{$PATSPRE}/DATS/gprint.dats"
+
+(* ****** ****** *)
+//
+staload UNSAFE = "{$PATSPRE}/SATS/unsafe.sats"
+//
+staload _(*UNSAFE*) = "{$PATSPRE}/DATS/unsafe.dats"
+//
+(* ****** ****** *)
+
+staload _(*CHECKAST*) = "{$PATSPRE}/DATS/checkast.dats"
 
 (* ****** ****** *)
 

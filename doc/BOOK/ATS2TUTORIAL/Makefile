@@ -112,6 +112,20 @@ clean:: ; make -C CHAP_MTRXSZREF -f ../Makefile_chap clean
 
 ######
 
+allchap:: CHAP_DOTOVERLD
+CHAP_DOTOVERLD:: ; \
+  make -C CHAP_DOTOVERLD -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_DOTOVERLD -f ../Makefile_chap clean
+
+######
+
+allchap:: CHAP_BRKTOVERLD
+CHAP_BRKTOVERLD:: ; \
+  make -C CHAP_BRKTOVERLD -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_BRKTOVERLD -f ../Makefile_chap clean
+
+######
+
 allchap:: CHAP_TAILREC
 CHAP_TAILREC:: ; \
   make -C CHAP_TAILREC -f ../Makefile_chap main.db

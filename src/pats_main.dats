@@ -57,7 +57,8 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 //
 macdef
-isdebug () = (debug_flag_get () > 0)
+isdebug() =
+  (debug_flag_get () > 0)
 //
 (* ****** ****** *)
 //
@@ -429,6 +430,8 @@ fprintln! (out, "  --depgen (for generating information on file dependencices)")
 fprintln! (out, "  -tag (for generating tagging information on syntactic entities)");
 fprintln! (out, "  --taggen (for generating tagging information on syntactic entities)");
 fprintln! (out, "  --gline (for generating line pragma information in target code)");
+fprintln! (out, "  --debug (for enabling the generation of more informative error messages)");
+fprintln! (out, "  --debug2 (for enabling the generation of debugging information in target code)");
 fprintln! (out, "  --pkgreloc (for generating a script to help relocate packages in need)");
 fprintln! (out, "  --jsonize-2 (for output level-2 syntax in JSON format)");
 fprintln! (out, "  --constraint-export (for exporting constraints in JSON format)");
@@ -452,11 +455,12 @@ HX: VERSION-0.0.8 released on Sunday, May 4, 2014
 //
 HX: VERSION-0.1.0 released on Monday, June 9, 2014
 HX: VERSION-0.1.1 released on Wednesday, July 30, 2014
+HX: VERSION-0.1.2 released on Friday, Auguest 29, 2014
 //
 *)
 #define PATS_MAJOR_VERSION 0
 #define PATS_MINOR_VERSION 1
-#define PATS_MICRO_VERSION 2
+#define PATS_MICRO_VERSION 3
 (*
 //
 // HX-2011-04-27: this is supported in Postiats:
@@ -469,7 +473,8 @@ HX: VERSION-0.1.1 released on Wednesday, July 30, 2014
 *)
 //
 extern
-fun patsopt_version (out: FILEref): void
+fun
+patsopt_version (out: FILEref): void
 //
 implement
 patsopt_version (out) =
@@ -582,17 +587,24 @@ end // end of [outchan_make_path]
 
 (* ****** ****** *)
 
-fun cmdstate_set_outchan (
-  state: &cmdstate, _new: outchan
+fun
+cmdstate_set_outchan
+(
+  state: &cmdstate, out_new: outchan
 ) : void = let
-  val _old = state.outchan
-  val () = state.outchan := _new
+  val out_old = state.outchan
+  val ((*void*)) = state.outchan := out_new
 in
-  case+ _old of
-  | OUTCHANref _ => ()
-  | OUTCHANptr (filp) => let
-      val _err = $STDIO.fclose0_err (filp) in (*nothing*)
-    end // end of [OUTCHANptr]
+//
+case+
+out_old of
+//
+| OUTCHANref _ => ()
+//
+| OUTCHANptr (filp) => let
+    val _err = $STDIO.fclose0_err (filp) in (*nothing*)
+  end // end of [OUTCHANptr]
+//
 end // end of [cmdstate_set_outchan]
 
 (* ****** ****** *)
@@ -602,7 +614,7 @@ fn isinpwait
   case+ state.waitkind of
   | WTKinput_sta () => true
   | WTKinput_dyn () => true
-  | _ => false
+  | _ (*non-input*) => false
 // end of [isinpwait]
 
 fn isoutwait
@@ -627,8 +639,10 @@ fn isiatswait
 
 local
 
-var theOutFilename
+var
+theOutFilename
   : Stropt = stropt_none
+//
 val (pf0 | ()) =
   vbox_make_view_ptr{Stropt}(view@ (theOutFilename) | &theOutFilename)
 // end of [val]
@@ -729,7 +743,8 @@ val () = $TRENV1.the_EXTERN_PREFIX_set_none ()
 
 (* ****** ****** *)
 
-fun prelude_load
+fun
+prelude_load
 (
   PATSHOME: string
 ) : void = {
@@ -828,7 +843,8 @@ val () = pervasive_load (PATSHOME, "prelude/SATS/fcontainer.sats")
 
 (* ****** ****** *)
 
-fun prelude_load_if
+fun
+prelude_load_if
 (
   PATSHOME: string, flag: &int
 ) : void =
@@ -867,8 +883,12 @@ end // end of [do_taggen]
 (* ****** ****** *)
 //
 extern
-fun do_pkgreloc
-  (state: &cmdstate, given: string, d1cs: d1eclist): void
+fun
+do_pkgreloc
+(
+  state: &cmdstate
+, given: string, d1cs: d1eclist
+) : void // end of [do_pkgreloc]
 //
 implement
 do_pkgreloc
@@ -886,8 +906,12 @@ end // end of [do_pkgreloc]
 (* ****** ****** *)
 //
 extern
-fun do_jsonize_2
-  (state: &cmdstate, given: string, d2cs: d2eclist): void
+fun
+do_jsonize_2
+(
+  state: &cmdstate
+, given: string, d2cs: d2eclist
+) : void // end-of-fun
 //
 (* ****** ****** *)
 
@@ -928,8 +952,9 @@ in (* in of [local] *)
 
 implement
 do_jsonize_2
-  (state, given, d2cs) =
-{
+(
+  state, given, d2cs
+) = () where {
 //
 val jsv = jsonize_d2eclist (d2cs)
 val-JSONlist(d2cs) = jsv
@@ -946,17 +971,32 @@ end // end of [local]
 (* ****** ****** *)
 //
 extern
-fun do_trans1
-  (state: &cmdstate, given: string, d0cs: d0eclist): d1eclist
+fun
+do_trans1
+(
+  state: &cmdstate, given: string, d0cs: d0eclist
+) : d1eclist // end-of-function
+//
 extern
-fun do_trans12
-  (state: &cmdstate, given: string, d0cs: d0eclist): d2eclist
+fun
+do_trans12
+(
+  state: &cmdstate, given: string, d0cs: d0eclist
+) : d2eclist // end-of-function
+//
 extern
-fun do_trans123
-  (state: &cmdstate, given: string, d0cs: d0eclist): d3eclist
+fun
+do_trans123
+(
+  state: &cmdstate, given: string, d0cs: d0eclist
+) : d3eclist // end-of-function
+//
 extern
-fun do_trans1234
-  (state: &cmdstate, given: string, d0cs: d0eclist): hideclist
+fun
+do_trans1234
+(
+  state: &cmdstate, given: string, d0cs: d0eclist
+) : hideclist // end-of-function
 //
 extern
 fun do_transfinal
@@ -973,8 +1013,8 @@ val d1cs =
 // end of [val]
 val () = $TRANS1.trans1_finalize ()
 //
-val (
-) = if isdebug() then
+val () =
+if isdebug() then
 {
   val () = prerrln! (
     "The 1st translation (fixity) of [", given, "] is successfully completed!"
@@ -989,29 +1029,31 @@ end // end of [do_trans1]
 
 implement
 do_trans12
-  (state, given, d0cs) = let
+(
+  state, given, d0cs
+) = d2cs where {
 //
 val d1cs = do_trans1 (state, given, d0cs)
 //
 val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
 //
-val (
-) = if isdebug() then
+val () =
+if isdebug() then
 {
   val () = prerrln! (
     "The 2nd translation (binding) of [", given, "] is successfully completed!"
   ) (* end of [val] *)
 } // end of [if] // end of [val]
 //
-in
-  d2cs
-end // end of [do_trans12]
+} (* end of [do_trans12] *)
 
 (* ****** ****** *)
 
 implement
 do_trans123
-  (state, given, d0cs) = let
+(
+  state, given, d0cs
+) = d3cs where {
 //
 val d2cs = do_trans12 (state, given, d0cs)
 //
@@ -1044,23 +1086,23 @@ val () =
 //
 } (* end of [val] *)
 //
-val (
-) = if isdebug() then
+val () =
+if isdebug() then
 {
   val () = prerrln! (
     "The 3rd translation (type-checking) of [", given, "] is successfully completed!"
   ) (* end of [val] *)
-} // end of [if] // end of [val]
+} // end of [then] // end of [if] // end of [val]
 //
-in
-  d3cs
-end // end of [do_trans123]
+} (* end of [do_trans123] *)
 
 (* ****** ****** *)
 
 implement
 do_trans1234
-  (state, given, d0cs) = let
+(
+  state, given, d0cs
+) = hids where {
 //
 val d3cs =
   do_trans123 (state, given, d0cs)
@@ -1071,24 +1113,21 @@ val hids = $TYER.d3eclist_tyer_errck (d3cs)
 val () = fprint_hideclist (stdout_ref, hids)
 *)
 //
-val (
-) = if isdebug() then
+val () =
+if isdebug() then
 {
   val () = prerrln! (
     "The 4th translation (type/proof-erasing) of [", given, "] is successfully completed!"
   ) (* end of [val] *)
 } // end of [if] // end of [val]
 //
-in
-  hids
-end // end of [do_trans1234]
+} (* end of [do_trans1234] *)
 
 (* ****** ****** *)
 
 implement
 do_transfinal
-  (state, given, d0cs) = let
-in
+  (state, given, d0cs) = (
 //
 case+ 0 of
 | _ when
@@ -1120,13 +1159,14 @@ case+ 0 of
     // nothing
   end // end of [_]
 //
-end // end of [do_transfinal]
+) (* end of [do_transfinal] *)
 
 (* ****** ****** *)
 
 fn*
 process_cmdline
-  {i:nat} .<i,0>. (
+  {i:nat} .<i,0>.
+(
   state: &cmdstate, arglst: comarglst (i)
 ) :<fun1> void = let
 in
@@ -1172,6 +1212,8 @@ case+ arglst of
 | ~list_vt_nil () => ()
 //
 end // end of [process_cmdline]
+
+(* ****** ****** *)
 
 and
 process_cmdline2
@@ -1269,6 +1311,8 @@ case+ arg of
 //
 end // end of [process_cmdline2]
 
+(* ****** ****** *)
+
 and
 process_cmdline2_COMARGkey1
   {i:nat} .<i,1>.
@@ -1345,6 +1389,8 @@ in
   process_cmdline (state, arglst)
 end // end of [process_cmdline2_COMARGkey1]
 
+(* ****** ****** *)
+
 and
 process_cmdline2_COMARGkey2
   {i:nat} .<i,1>.
@@ -1383,6 +1429,13 @@ case+ key of
     val () = $GLOB.the_DEBUGATS_dbgline_set (1)
   } // end of [--gline] // mostly for debugging
 //
+| "--debug" => {
+    val () = debug_flag_set (1) // in pats_basics
+  } // end of [--debug] // more informative error messages
+| "--debug2" => {
+    val () = $GLOB.the_DEBUGATS_dbgflag_set (1)
+  } // end of [--debug2] // debugging info in generated code
+//
 | "--depgen" => (state.depgen := 1)
 | "--taggen" => (state.taggen := 1)
 //
@@ -1416,36 +1469,39 @@ in
 end // end of [process_cmdline2_COMARGkey2]
 
 (* ****** ****** *)
-
+//
+extern
+fun
+patsopt_main
+  {n:int | n > 0}
+  (argc: int(n), argc: &(@[string][n])): void
+//
 implement
-main (
-  argc, argv
-) = () where {
+patsopt_main
+  (argc, argv) = {
 //
 val () =
-prerrln! ("Hello from ATS2(ATS/Postiats)!")
-(*
-val ((*void*)) = patsopt_version (stdout_ref)
-*)
-//
-val (
-) = set () where
+set () where
 { 
-  extern fun set (): void = "mac#patsopt_PATSHOME_set"
+  extern
+  fun set (): void = "mac#patsopt_PATSHOME_set"
 } // end of [where] // end of [val]
-val (
-) = set () where
+val () =
+set () where
 {
-  extern fun set (): void = "mac#patsopt_PATSHOMERELOC_set"
+  extern
+  fun set (): void = "mac#patsopt_PATSHOMERELOC_set"
 } // end of [where] // end of [val]
 //
-val (
-) = set () where
+val () =
+set () where
 { 
-  extern fun set (): void = "mac#patsopt_ATSPKGRELOCROOT_set"
+  extern
+  fun set (): void = "mac#patsopt_ATSPKGRELOCROOT_set"
 } // end of [where] // end of [val]
 //
-val PATSHOME = let
+val
+PATSHOME = let
   val opt = get () where
   {
     extern fun get (): Stropt = "mac#patsopt_PATSHOME_get"
@@ -1453,12 +1509,16 @@ val PATSHOME = let
   val issome = stropt_is_some (opt)
 in
   if issome
-    then stropt_unsome (opt) else let
-    val () = prerrln! ("The environment variable PATSHOME is undefined!")
-  in
-    $ERR.abort ()
-  end // end of [if]
-end : string // end of [PATSHOME]
+    then
+      stropt_unsome opt
+    // end of [then]
+    else let
+      val () = prerrln! ("The environment variable PATSHOME is undefined!")
+    in
+      $ERR.abort ()
+    end // end of [else]
+  // end of [if]
+end : string // end of [val]
 //
 // for the run-time and atslib
 //
@@ -1487,7 +1547,7 @@ state = @{
 , infil= $FIL.filename_dummy
 //
 , outmode= file_mode_w
-, outchan= OUTCHANref (stdout_ref)
+, outchan= OUTCHANref(stdout_ref)
 //
 , depgen= 0 // dep info generation
 , taggen= 0 // tagging info generation
@@ -1507,8 +1567,20 @@ val () = process_ATSPKGRELOCROOT ()
 //
 val ((*void*)) = process_cmdline (state, arglst)
 //
-} // end of [main]
-
+} (* end of [patsopt_main] *)
+//
+(* ****** ****** *)
+//
+implement
+main (argc, argv) =
+(
+//
+if argc >= 2
+  then patsopt_main (argc, argv)
+  else prerrln! ("Hello from ATS2(ATS/Postiats)!")
+// end of [if]
+)
+//
 (* ****** ****** *)
 
 (* end of [pats_main.dats] *)
