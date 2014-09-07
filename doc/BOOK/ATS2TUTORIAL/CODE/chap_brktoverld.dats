@@ -31,7 +31,7 @@ val () = mylock[] := x0
 //
 (* ****** ****** *)
 
-implement main0 () = {}
+implement main0 () = ()
 
 (* ****** ****** *)
 
