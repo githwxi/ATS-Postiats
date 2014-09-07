@@ -66,13 +66,17 @@
 #define ATSstatic() static
 
 /* ****** ****** */
-
+//
 #define ATSdynload()
-#define ATSdynload0(flag) int flag = 0
-#define ATSdynload1(flag) ATSextern() int flag
+//
+#define ATSdynloadflag_sta(flag)
+#define ATSdynloadflag_ext(flag) ATSextern() int flag
+//
+#define ATSdynloadflag_init(flag) int flag = 0
+//
 #define ATSdynloadset(flag) flag = 1
 #define ATSdynloadfcall(dynloadfun) dynloadfun()
-
+//
 /* ****** ****** */
 
 #ifndef _ATS_CCOMP_EXCEPTION_NONE

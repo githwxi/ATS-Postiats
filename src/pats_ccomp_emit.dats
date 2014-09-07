@@ -1659,27 +1659,30 @@ val (
   (out, "/*\n", "emit_instr: ins = ", ins, "\n*/")
 *)
 //
-// generating #line progma for debugging
+// generating #line progmas
 //
 val gline =
   $GLOB.the_DEBUGATS_dbgline_get ()
-val () = (
-  if gline > 0 then $LOC.fprint_line_pragma (out, loc0)
+val ((*void*)) =
+(
+//
+if gline > 0
+  then $LOC.fprint_line_pragma (out, loc0)
+// end of [if]
+//
 ) : void // end of [val]
 //
 val gflag =
   $GLOB.the_DEBUGATS_dbgflag_get ()
-val () = (
+val ((*void*)) =
+(
 //
-// HX: generating debug information
+// HX: generating debugging information
 //
-  if gflag > 0 then let
-    val () = emit_text (out, "/* ")
-    val () = fprint_instr (out, ins)
-    val () = emit_text (out, " */\n")
-  in
-    // empty
-  end // end of [if]
+if gflag > 0 then (
+  emit_text (out, "/* "); fprint_instr (out, ins); emit_text (out, " */\n")
+) (* end of [then] *) // end of [if]
+//
 ) : void // end of [val]
 //
 in
