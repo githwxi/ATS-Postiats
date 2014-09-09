@@ -880,10 +880,10 @@ hidecl_extype
 // end of [hidecl_extype]
 
 implement
-hidecl_extval
+hidecl_extvar
   (loc, name, hde_def) =
-  hidecl_make_node (loc, HIDextval (name, hde_def))
-// end of [hidecl_extval]
+  hidecl_make_node (loc, HIDextvar (name, hde_def))
+// end of [hidecl_extvar]
 
 implement
 hidecl_extcode

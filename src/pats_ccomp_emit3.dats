@@ -1729,7 +1729,7 @@ case+ pmd.primdec_node of
 //
 | PMDsaspdec _ => ()
 //
-| PMDextval
+| PMDextvar
     (name, inss) =>
     emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
 //

@@ -107,10 +107,10 @@ primdec_saspdec (loc, d2c) =
 (* ****** ****** *)
 
 implement
-primdec_extval
+primdec_extvar
   (loc, name, inss) =
-  primdec_make_node (loc, PMDextval (name, inss))
-// end of [primdec_extval]
+  primdec_make_node (loc, PMDextvar (name, inss))
+// end of [primdec_extvar]
 
 (* ****** ****** *)
 
@@ -918,9 +918,9 @@ instr_tmpdec
 (* ****** ****** *)
 
 implement
-instr_extval
-  (loc, xnm, pmv) = instr_make_node (loc, INSextval (xnm, pmv))
-// end of [instr_dcstdef]
+instr_extvar
+  (loc, xnm, pmv) = instr_make_node (loc, INSextvar (xnm, pmv))
+// end of [instr_extvar]
 
 (* ****** ****** *)
 

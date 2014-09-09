@@ -858,13 +858,13 @@ d2c0.d2ecl_node of
   in
     jsonval_conarg2 ("D2Cextype", name, s2e_def)
   end // end of [D2Cextype]
-| D2Cextval
+| D2Cextvar
     (name, d2e_def) => let
     val name = jsonval_string (name)
     val d2e_def = jsonize_d2exp (d2e_def)
   in
-    jsonval_conarg2 ("D2Cextval", name, d2e_def)
-  end // end of [D2Cextval]
+    jsonval_conarg2 ("D2Cextvar", name, d2e_def)
+  end // end of [D2Cextvar]
 | D2Cextcode
     (knd, pos, code) => let
     val knd = jsonval_int (knd)

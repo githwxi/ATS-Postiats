@@ -119,7 +119,7 @@ token_node =
 //
   | T_EXTERN of () // extern
   | T_EXTYPE of () // externally named type
-  | T_EXTVAL of () // externally named value
+  | T_EXTVAR of () // externally named variable
 //
   | T_FIX of int // fix and fix@
   | T_FIXITY of

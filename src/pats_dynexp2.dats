@@ -1115,8 +1115,8 @@ implement
 d2ecl_extype (loc, name, def) =
   d2ecl_make_node (loc, D2Cextype (name, def))
 implement
-d2ecl_extval (loc, name, def) =
-  d2ecl_make_node (loc, D2Cextval (name, def))
+d2ecl_extvar (loc, name, def) =
+  d2ecl_make_node (loc, D2Cextvar (name, def))
 implement
 d2ecl_extcode (loc, knd, pos, code) =
   d2ecl_make_node (loc, D2Cextcode (knd, pos, code))

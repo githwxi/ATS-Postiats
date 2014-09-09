@@ -383,7 +383,7 @@ val () = ins ("end", T_END)
 val () = ins ("exception", T_EXCEPTION)
 val () = ins ("extern", T_EXTERN)
 val () = ins ("extype", T_EXTYPE)
-val () = ins ("extval", T_EXTVAL)
+val () = ins ("extvar", T_EXTVAR)
 //
 val () = ins ("fn", FN) // non-recursive
 val () = ins ("fnx", FNX) // mutual tail-rec.

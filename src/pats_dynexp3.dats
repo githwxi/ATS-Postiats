@@ -1111,10 +1111,12 @@ d3ecl_extype
 // end of [d3ecl_extype]
 
 implement
-d3ecl_extval
+d3ecl_extvar
   (loc, name, d3e_def) =
-  d3ecl_make_node (loc, D3Cextval (name, d3e_def))
-// end of [d3ecl_extval]
+  d3ecl_make_node (loc, D3Cextvar (name, d3e_def))
+// end of [d3ecl_extvar]
+
+(* ****** ****** *)
 
 implement
 d3ecl_extcode

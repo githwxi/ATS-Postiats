@@ -440,15 +440,14 @@ d2e0.d2exp_node of
   } // end of [D2Eempty]
 //
 | D2Eextval
-    (s2e, name) =>
-  {
+    (s2e, name) => {
     val () = prstr "D2Eextval("
     val () = fprint_s2exp (out, s2e)
     val () = prstr "; "
     val () = prstr "\""
     val () = fprint_string (out, name)
     val () = prstr "\""
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
   } // end of [D2Eextval]
 | D2Eextfcall
     (s2e, _fun, _arg) =>
@@ -461,7 +460,7 @@ d2e0.d2exp_node of
     val () = prstr "\""
     val () = prstr "; "
     val () = fprint_d2explst (out, _arg)
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
   } // end of [D2Eextfcall]
 //
 | D2Eloopexn (knd) => {
@@ -1019,10 +1018,11 @@ case+ x.d2ecl_node of
     (name, s2e) => {
     val () = fprint! (out, "D2Cextype(", name, " = ", s2e, ")")
   } (* end of [D2Cextype] *)
-| D2Cextval 
+| D2Cextvar 
     (name, d2e) => {
-    val () = fprint! (out, "D2Cextval(", name, " = ", d2e, ")")
-  } (* end of [D2Cextval] *)
+    val () = fprint! (out, "D2Cextvar(", name, " = ", d2e, ")")
+  } (* end of [D2Cextvar] *)
+//
 | D2Cextcode _ => prstr "D2Cextcode(...)"
 //
 | D2Cdatdecs

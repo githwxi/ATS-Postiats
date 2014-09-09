@@ -91,9 +91,9 @@ fun hisaspdec_ccomp
 // end of [hidsaspdec_ccomp]
 
 extern
-fun hiextval_ccomp
+fun hiextvar_ccomp
   (env: !ccompenv, hid0: hidecl): primdec
-// end of [hidextval_ccomp]
+// end of [hidextvar_ccomp]
 
 extern
 fun hiextype_ccomp
@@ -161,7 +161,7 @@ case+ hid0.hidecl_node of
 | HIDsaspdec _ => hisaspdec_ccomp (env, hid0)
 //
 | HIDextype _ => hiextype_ccomp (env, hid0)
-| HIDextval _ => hiextval_ccomp (env, hid0)
+| HIDextvar _ => hiextvar_ccomp (env, hid0)
 | HIDextcode _ => hiextcode_ccomp (env, hid0)
 //
 | HIDdatdecs _ => hidatdecs_ccomp (env, hid0)
@@ -364,15 +364,15 @@ end // end of [hiextype_ccomp]
 (* ****** ****** *)
 
 implement
-hiextval_ccomp
+hiextvar_ccomp
   (env, hid0) = let
 //
 val loc0 = hid0.hidecl_loc
-val-HIDextval (name, hde_def) = hid0.hidecl_node
+val-HIDextvar (name, hde_def) = hid0.hidecl_node
 var res
   : instrseq = instrseq_make_nil()
 val pmv_def = hidexp_ccomp (env, res, hde_def)
-val () = instrseq_add_extval (res, loc0, name, pmv_def)
+val () = instrseq_add_extvar (res, loc0, name, pmv_def)
 val inss = instrseq_get_free (res)
 //
 (*
@@ -380,12 +380,12 @@ val inss = instrseq_get_free (res)
 // [name] is assumed to
 // have been declared externally
 //
-val () = the_extvalist_add (hid0)
+val () = the_extvarlst_add (hid0)
 *)
 //
 in
-  primdec_extval (loc0, name, inss)
-end // end of [hiextval_ccomp]
+  primdec_extvar (loc0, name, inss)
+end // end of [hiextvar_ccomp]
 
 (* ****** ****** *)
 

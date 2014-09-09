@@ -727,7 +727,7 @@ d2ecl_node =
   | D2Csaspdec of s2aspdec (* for static assumption *)
 //
   | D2Cextype of (string(*name*), s2exp(*def*))
-  | D2Cextval of (string(*name*), d2exp(*def*))
+  | D2Cextvar of (string(*name*), d2exp(*def*))
   | D2Cextcode of (int(*knd*), int(*pos*), string(*code*))
 //
   | D2Cdatdecs of (int(*knd*), s2cstlst) // datatype declarations
@@ -1655,7 +1655,7 @@ fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
 
 fun d2ecl_extype
   (loc: location, name: string, def: s2exp): d2ecl
-fun d2ecl_extval
+fun d2ecl_extvar
   (loc: location, name: string, def: d2exp): d2ecl
 fun d2ecl_extcode
   (loc: location, knd: int, pos: int, code: string): d2ecl

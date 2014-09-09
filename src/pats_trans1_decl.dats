@@ -1117,9 +1117,9 @@ case+ d0c0.d0ecl_node of
 | D0Cextype (knd, name, def) => let
     val def = s0exp_tr (def) in d1ecl_extype2 (loc0, knd, name, def)
   end // end of [D0Cextype]
-| D0Cextval (name, def) => let
-    val def = d0exp_tr (def) in d1ecl_extval (loc0, name, def)
-  end // end of [D0Cextval]
+| D0Cextvar (name, def) => let
+    val def = d0exp_tr (def) in d1ecl_extvar (loc0, name, def)
+  end // end of [D0Cextvar]
 | D0Cextcode (knd, pos, code) => d1ecl_extcode (loc0, knd, pos, code)
 //
 | D0Cdcstdecs

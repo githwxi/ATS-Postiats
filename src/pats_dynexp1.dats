@@ -1076,15 +1076,15 @@ d1ecl_extype2 (loc, knd, name, def) =
   d1ecl_make_node (loc, D1Cextype (knd, name, def))
 
 (* ****** ****** *)
-
+//
 implement
-d1ecl_extval (loc, name, def) =
-  d1ecl_make_node (loc, D1Cextval (name, def))
-
+d1ecl_extvar (loc, name, def) =
+  d1ecl_make_node (loc, D1Cextvar (name, def))
+//
 implement
 d1ecl_extcode (loc, knd, pos, code) =
   d1ecl_make_node (loc, D1Cextcode (knd, pos, code))
-
+//
 (* ****** ****** *)
 
 implement

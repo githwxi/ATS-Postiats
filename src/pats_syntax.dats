@@ -2860,14 +2860,14 @@ in '{
 (* ****** ****** *)
 
 implement
-d0ecl_extval
+d0ecl_extvar
   (tok, name, d0e) = let
-  val-T_EXTVAL () = tok.token_node
+  val-T_EXTVAR () = tok.token_node
   val-T_STRING (name) = name.token_node
   val loc = tok.token_loc + d0e.d0exp_loc
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cextval (name, d0e)
-} end // end of [d0ecl_extval]
+  d0ecl_loc= loc, d0ecl_node= D0Cextvar (name, d0e)
+} end // end of [d0ecl_extvar]
 
 (* ****** ****** *)
 

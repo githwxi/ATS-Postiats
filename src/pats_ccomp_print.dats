@@ -138,12 +138,12 @@ case+ x.primdec_node of
     val ((*closing*)) = prstr ")"
   }
 //
-| PMDextval
+| PMDextvar
     (name, inss) => {
-    val () = prstr "PMDextval("
+    val () = prstr "PMDextvar("
     val () = fprint (out, name)
     val ((*closing*)) = prstr ")"
-  } // end of [PMVextval]
+  } // end of [PMVextvar]
 //
 | PMDdatdecs (s2cs) =>
   {
@@ -420,7 +420,7 @@ case+ x.primval_node of
 | PMVextval (name) => {
     val () = prstr "PMVextval("
     val () = fprint_string (out, name)
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
   }
 //
 | PMVcastfn (d2c, arg) => {
@@ -1206,14 +1206,14 @@ case+ x.instr_node of
     val ((*closing*)) = prstr ")"
   } (* end of [INStmpdec] *)
 //
-| INSextval (name, pmv) =>
+| INSextvar (name, pmv) =>
   {
-    val () = prstr "INSextdef("
+    val () = prstr "INSextvar("
     val () = fprint (out, name)
     val () = prstr " = "
     val () = fprint_primval (out, pmv)
     val ((*closing*)) = prstr ")"
-  } (* end of [INSextdef] *)
+  } (* end of [INSextvar] *)
 //
 | INSdcstdef (d2c, pmv) =>
   {
@@ -1224,7 +1224,7 @@ case+ x.instr_node of
     val ((*closing*)) = prstr ")"
   } (* end of [INSdcstdef] *)
 //
-| _ => prstr "INS...(...)"
+| _ (*rest-of-instr*) => prstr "INS...(...)"
 //
 end // end of [fprint_instr]
 

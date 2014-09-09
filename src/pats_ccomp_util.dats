@@ -340,7 +340,7 @@ case+ x.instr_node of
 //
 | INStmpdec (tmp) => tmpadd (tmp)
 //
-| INSextval (d2c, pmv) => ((*void*))
+| INSextvar (d2c, pmv) => ((*void*))
 | INSdcstdef (d2c, pmv) => ((*void*))
 //
 end // end of [aux]
@@ -396,10 +396,10 @@ case+ pmd.primdec_node of
 //
 | PMDsaspdec _ => ()
 //
-| PMDextval
+| PMDextvar
     (name, inss) => let
     val inss = $UN.cast{instrlst}(inss) in auxlst (res, inss)
-  end // end of [PMDextval]
+  end // end of [PMDextvar]
 //
 | PMDdatdecs _ => ((*void*))
 | PMDexndecs _ => ((*void*))

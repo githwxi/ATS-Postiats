@@ -228,7 +228,7 @@ d3ecl_node =
   | D3Csaspdec of (s2aspdec)
 //
   | D3Cextype of (string(*name*), s2exp(*def*))
-  | D3Cextval of (string(*name*), d3exp(*def*))
+  | D3Cextvar of (string(*name*), d3exp(*def*))
   | D3Cextcode of (int(*knd*), int(*pos*), string(*code*))  
 //
   | D3Cexndecs of (d2conlst) // HX: exception decls
@@ -969,9 +969,9 @@ fun d3ecl_extype
   (loc: location, name: string, s2e_def: s2exp): d3ecl
 // end of [d3ecl_extype]
 
-fun d3ecl_extval
+fun d3ecl_extvar
   (loc: location, name: string, d3e_def: d3exp): d3ecl
-// end of [d3ecl_extval]
+// end of [d3ecl_extvar]
 
 fun d3ecl_extcode
   (loc: location, knd: int, pos: int, code: string): d3ecl

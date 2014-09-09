@@ -544,9 +544,9 @@ primdec_node =
 //
   | PMDsaspdec of (s2aspdec)
 //
-  | PMDextval of
+  | PMDextvar of
       (string(*name*), instrlst)
-    // end of [PMDextval]
+    // end of [PMDextvar]
 //
   | PMDdatdecs of (s2cstlst)
   | PMDexndecs of (d2conlst)
@@ -706,9 +706,9 @@ primdec_saspdec
 (* ****** ****** *)
 
 fun
-primdec_extval
+primdec_extvar
   (loc: location, name: string, inss: instrlst): primdec
-// end of [primdec_extval]
+// end of [primdec_extvar]
 
 (* ****** ****** *)
 
@@ -1215,7 +1215,7 @@ instr_node =
 //
   | INStmpdec of (tmpvar) // HX-2013-01: this is a no-op
 //
-  | INSextval of (string, primval) // HX-2013-05: extval def
+  | INSextvar of (string, primval) // HX-2013-05: extvar def
   | INSdcstdef of (d2cst, primval) // HX-2013-05: global const def
 //
 // end of [instr_node]
@@ -1497,7 +1497,7 @@ fun instr_tmpdec (loc: location, tmp: tmpvar): instr
 
 (* ****** ****** *)
 
-fun instr_extval (loc: location, xnm: string, pmv: primval): instr
+fun instr_extvar (loc: location, xnm: string, pmv: primval): instr
 fun instr_dcstdef (loc: location, d2c: d2cst, pmv: primval): instr
 
 (* ****** ****** *)
@@ -1540,7 +1540,7 @@ fun instrseq_add_tmpdec
 (* ****** ****** *)
 //
 fun
-instrseq_add_extval
+instrseq_add_extvar
 (
   res: !instrseq, loc: location, xnm: string, pmv: primval
 ) : void // end-of-fun

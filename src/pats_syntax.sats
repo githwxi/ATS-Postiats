@@ -1290,7 +1290,7 @@ d0ecl_node =
 //
   | D0Cextype of (string, s0exp) // externally named types
   | D0Cextype of (int(*knd*), string, s0exp) // externally named structs
-  | D0Cextval of (string, d0exp) // externally named values
+  | D0Cextvar of (string, d0exp) // externally named left-values
 //
   | D0Cextcode of
       (int(*knd*), int(*pos*), string(*code*)) // external code
@@ -1359,7 +1359,8 @@ and d0exp_node =
 //
   | D0Ecstsp of cstsp // special constants
 //
-  | D0Eextval of (s0exp(*type*), string(*name*)) // external values
+  | D0Eextval of
+      (s0exp(*type*), string(*name*)) // external values
   | D0Eextfcall of
       (s0exp(*res*), string(*fun*), d0explst(*arg*)) // external fcalls
     // end of [D0Eextfcall]
@@ -2019,7 +2020,7 @@ fun d0ecl_extype
   (tok: token, name: s0tring, s0e: s0exp): d0ecl
 fun d0ecl_extype2
   (tok: token, name: s0tring, s0e: s0exp): d0ecl
-fun d0ecl_extval
+fun d0ecl_extvar
   (tok: token, name: s0tring, d0e: d0exp): d0ecl
 fun d0ecl_extcode (knd: int, tok: token): d0ecl
 //
