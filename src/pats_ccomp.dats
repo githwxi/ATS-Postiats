@@ -107,6 +107,14 @@ primdec_saspdec (loc, d2c) =
 (* ****** ****** *)
 
 implement
+primdec_extval
+  (loc, name, inss) =
+  primdec_make_node (loc, PMDextval (name, inss))
+// end of [primdec_extval]
+
+(* ****** ****** *)
+
+implement
 primdec_datdecs (loc, s2cs) =
   primdec_make_node (loc, PMDdatdecs (s2cs))
 implement
@@ -906,6 +914,13 @@ implement
 instr_tmpdec
   (loc, tmp) = instr_make_node (loc, INStmpdec (tmp))
 // end of [instr_tmpdec]
+
+(* ****** ****** *)
+
+implement
+instr_extval
+  (loc, xnm, pmv) = instr_make_node (loc, INSextval (xnm, pmv))
+// end of [instr_dcstdef]
 
 (* ****** ****** *)
 

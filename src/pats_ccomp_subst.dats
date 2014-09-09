@@ -1080,6 +1080,13 @@ case+
 //
 | PMDsaspdec _ => pmd0
 //
+| PMDextval
+    (name, inss) => let
+    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+  in
+    primdec_extval (loc0, name, inss)
+  end // end of [PMDextval]
+//
 | PMDdatdecs _ => pmd0
 | PMDexndecs _ => pmd0
 //

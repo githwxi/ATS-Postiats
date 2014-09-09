@@ -181,23 +181,23 @@ fun tmpvar_make_ret
 fun tmpvar_copy_err (tmp: tmpvar): tmpvar
 
 (* ****** ****** *)
-
+//
 fun tmpvar_get_loc (tmp: tmpvar): location
-
+//
 fun tmpvar_get_type (tmp: tmpvar): hisexp
-
+//
 fun tmpvar_isref (tmp: tmpvar): bool // tmpref?
 fun tmpvar_isret (tmp: tmpvar): bool // tmpret?
 fun tmpvar_iserr (tmp: tmpvar): bool // tmperr?
-
+//
 fun tmpvar_get_topknd
   (tmp: tmpvar): int // knd=0/1: local/(static)top
-
+//
 fun tmpvar_get_origin (tmp: tmpvar): tmpvaropt
 fun tmpvar_get_suffix (tmp: tmpvar): int
-
+//
 fun tmpvar_get_stamp (tmp: tmpvar): stamp // unicity
-
+//
 (* ****** ****** *)
 
 fun tmpvar_get_tailcal (tmp: tmpvar): int // if >= 2
@@ -544,6 +544,10 @@ primdec_node =
 //
   | PMDsaspdec of (s2aspdec)
 //
+  | PMDextval of
+      (string(*name*), instrlst)
+    // end of [PMDextval]
+//
   | PMDdatdecs of (s2cstlst)
   | PMDexndecs of (d2conlst)
 //
@@ -688,14 +692,23 @@ fun fprint_primdeclst : fprint_type (primdeclst)
 fun primdec_none (loc: location): primdec
 
 (* ****** ****** *)
+//
+fun primdec_list
+  (loc: location, pmds: primdeclst): primdec
+//
+(* ****** ****** *)
 
-fun primdec_list (loc: location, pmds: primdeclst): primdec
+fun
+primdec_saspdec
+  (loc: location, d2c: s2aspdec): primdec
+// end of [primdec_saspdec]
 
 (* ****** ****** *)
 
-fun primdec_saspdec
-  (loc: location, d2c: s2aspdec): primdec
-// end of [primdec_saspdec]
+fun
+primdec_extval
+  (loc: location, name: string, inss: instrlst): primdec
+// end of [primdec_extval]
 
 (* ****** ****** *)
 
@@ -709,16 +722,23 @@ fun primdec_exndecs
 
 (* ****** ****** *)
 
-fun primdec_fundecs (
-  loc: location, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+fun
+primdec_fundecs
+(
+  loc: location
+, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : primdec // end of [primdec_fundecs]
 
 (* ****** ****** *)
 
-fun primdec_valdecs (
+fun
+primdec_valdecs
+(
   loc: location, knd: valkind, hvds: hivaldeclst, inss: instrlst
 ) : primdec // end of [primdec_valdecs]
-fun primdec_valdecs_rec (
+fun
+primdec_valdecs_rec
+(
   loc: location, knd: valkind, hvds: hivaldeclst, inss: instrlst
 ) : primdec // end of [primdec_valdecs_rec]
 
@@ -1195,6 +1215,7 @@ instr_node =
 //
   | INStmpdec of (tmpvar) // HX-2013-01: this is a no-op
 //
+  | INSextval of (string, primval) // HX-2013-05: extval def
   | INSdcstdef of (d2cst, primval) // HX-2013-05: global const def
 //
 // end of [instr_node]
@@ -1476,6 +1497,7 @@ fun instr_tmpdec (loc: location, tmp: tmpvar): instr
 
 (* ****** ****** *)
 
+fun instr_extval (loc: location, xnm: string, pmv: primval): instr
 fun instr_dcstdef (loc: location, d2c: d2cst, pmv: primval): instr
 
 (* ****** ****** *)
@@ -1514,6 +1536,15 @@ fun instrseq_add_comment (res: !instrseq, comment: string): void
 //
 fun instrseq_add_tmpdec
   (res: !instrseq, loc: location, tmp: tmpvar): void
+//
+(* ****** ****** *)
+//
+fun
+instrseq_add_extval
+(
+  res: !instrseq, loc: location, xnm: string, pmv: primval
+) : void // end-of-fun
+//
 fun instrseq_add_dcstdef
   (res: !instrseq, loc: location, d2c: d2cst, pmv: primval): void
 //

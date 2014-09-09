@@ -2010,6 +2010,15 @@ ins.instr_node of
     // nothing
   end // end of [INStmpdec]
 //
+| INSextval (name, pmv) => let
+    val () = emit_text (out, "ATSdyncst_valbind(")
+    val () = emit_text (out, name)
+    val () = emit_text (out, ", ")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ") ;")
+  in
+    // nothing
+  end // end of [INSdcstdef]
 | INSdcstdef (d2c, pmv) => let
     val () = emit_text (out, "ATSdyncst_valbind(")
     val () = emit_d2cst (out, d2c)

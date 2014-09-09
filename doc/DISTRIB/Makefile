@@ -390,6 +390,16 @@ cleanall:: ; $(RMF) HTML/atscntrb_kernelats.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_kernelats.bash
 
 #
+all_html:: HTML/atscntrb_libatscc2js.html
+HTML/atscntrb_libatscc2js.html: atscntrb_libatscc2js_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_libatscc2js.bash
+SCRIPT/atscntrb_libatscc2js.bash: atscntrb_libatscc2js_atxt.exe ; ./$< > $@
+atscntrb_libatscc2js_atxt.dats: ATEXT/atscntrb_libatscc2js.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_libatscc2js_atxt.exe: atscntrb_libatscc2js_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_libatscc2js_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_libatscc2js.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_libatscc2js.bash
+
 all_html:: HTML/atscntrb_libatscc2py.html
 HTML/atscntrb_libatscc2py.html: atscntrb_libatscc2py_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_libatscc2py.bash
@@ -567,6 +577,8 @@ srcget_atscntrb_kernelats:: SCRIPT/atscntrb_kernelats.bash ; bash $<
 
 ######
 
+srcget_atscntrb:: srcget_atscntrb_libatscc2js
+srcget_atscntrb_libatscc2js:: SCRIPT/atscntrb_libatscc2js.bash ; bash $<
 srcget_atscntrb:: srcget_atscntrb_libatscc2py
 srcget_atscntrb_libatscc2py:: SCRIPT/atscntrb_libatscc2py.bash ; bash $<
 

@@ -99,6 +99,14 @@ instrseq_add_tmpdec
 (* ****** ****** *)
 
 implement
+instrseq_add_extval
+  (res, loc, xnm, pmv) =
+  instrseq_add (res, instr_extval (loc, xnm, pmv))
+// end of [instrseq_add_extval]
+
+(* ****** ****** *)
+
+implement
 instrseq_add_dcstdef
   (res, loc, d2c, pmv) =
   instrseq_add (res, instr_dcstdef (loc, d2c, pmv))

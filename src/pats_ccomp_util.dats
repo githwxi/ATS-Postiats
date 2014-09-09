@@ -340,7 +340,8 @@ case+ x.instr_node of
 //
 | INStmpdec (tmp) => tmpadd (tmp)
 //
-| INSdcstdef (d2c, pmv) => ()
+| INSextval (d2c, pmv) => ((*void*))
+| INSdcstdef (d2c, pmv) => ((*void*))
 //
 end // end of [aux]
 
@@ -395,8 +396,13 @@ case+ pmd.primdec_node of
 //
 | PMDsaspdec _ => ()
 //
-| PMDdatdecs _ => ()
-| PMDexndecs _ => ()
+| PMDextval
+    (name, inss) => let
+    val inss = $UN.cast{instrlst}(inss) in auxlst (res, inss)
+  end // end of [PMDextval]
+//
+| PMDdatdecs _ => ((*void*))
+| PMDexndecs _ => ((*void*))
 //
 | PMDimpdec (impdec) => let
     val opt = hiimpdec_get_instrlstopt (impdec)
@@ -405,19 +411,19 @@ case+ pmd.primdec_node of
     | None () => () | Some (inss) => auxlst (res, inss)
   end // end of [PMDimpdec]
 //
-| PMDfundecs _ => ()
+| PMDfundecs _ => ((*void*))
 //
 | PMDvaldecs
     (_, _, inss) => let
-    val inss = $UN.cast{instrlst} (inss) in auxlst (res, inss)
+    val inss = $UN.cast{instrlst}(inss) in auxlst (res, inss)
   end // end of [PMDvaldecs]
 | PMDvaldecs_rec
     (_, _, inss) => let
-    val inss = $UN.cast{instrlst} (inss) in auxlst (res, inss)
+    val inss = $UN.cast{instrlst}(inss) in auxlst (res, inss)
   end // end of [PMDvaldecs_rec]
 //
 | PMDvardecs (_, inss) => let
-    val inss = $UN.cast{instrlst} (inss) in auxlst (res, inss)
+    val inss = $UN.cast{instrlst}(inss) in auxlst (res, inss)
   end // end of [PMDvardecs]
 //
 | PMDinclude (knd, pmds) => auxpmdlst (res, pmds)

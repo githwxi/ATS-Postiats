@@ -43,8 +43,8 @@ val () = fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/libatscc2py/\n\
-TARGET=ATS-Postiats-contrib/contrib/libatscc2py/\n\
+SOURCE=./../../contrib/libatscc2js/\n\
+TARGET=ATS-Postiats-contrib/contrib/libatscc2js/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -62,7 +62,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-libatscc2py files have been copied.\"\n\
+echo \"The ATSCNTRB-libatscc2js files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -96,33 +96,37 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-ATSCNTRB/libatscc2py\
+ATSCNTRB/libatscc2js\
 ")
 
 (* ****** ****** *)
 
-#packfilename("basics_py.sats")
-#packfilename("SATS/integer.sats")
-#packfilename("SATS/bool.sats")
-#packfilename("SATS/char.sats")
-#packfilename("SATS/string.sats")
-#packfilename("SATS/filebas.sats")
-#packfilename("SATS/list.sats")
-#packfilename("SATS/PYlist.sats")
+#packfilename("staloadall.hats")
 
 (* ****** ****** *)
 
-#packfilename("CATS/basics_cats.py")
-#packfilename("CATS/integer_cats.py")
-#packfilename("CATS/bool_cats.py")
-#packfilename("CATS/char_cats.py")
-#packfilename("CATS/string_cats.py")
-#packfilename("CATS/filebas_cats.py")
-#packfilename("CATS/PYlist_cats.py")
+#packfilename("basics_js.sats")
+#packfilename("SATS/integer.sats")
+#packfilename("SATS/float.sats")
+#packfilename("SATS/string.sats")
+#packfilename("SATS/list.sats")
+#packfilename("SATS/reference.sats")
+#packfilename("SATS/JSmath.sats")
+#packfilename("SATS/JSarray.sats")
+
+(* ****** ****** *)
+
+#packfilename("CATS/basics_cats.js")
+#packfilename("CATS/integer_cats.js")
+#packfilename("CATS/float_cats.js")
+#packfilename("CATS/string_cats.js")
+#packfilename("CATS/JSmath_cats.js")
+#packfilename("CATS/JSarray_cats.js")
 
 (* ****** ****** *)
 
 #packfilename("DATS/list.dats")
+#packfilename("DATS/reference.dats")
 
 (* ****** ****** *)
 
@@ -138,4 +142,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_libatscc2py.atxt] *)
+(* end of [atscntrb_libatscc2js.atxt] *)
