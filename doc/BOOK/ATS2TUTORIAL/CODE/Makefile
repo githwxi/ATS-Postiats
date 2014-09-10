@@ -19,6 +19,10 @@ include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 #
+# Basic Topics
+#
+######
+#
 all:: \
 chap_brktoverld
 chap_brktoverld: \
@@ -101,6 +105,28 @@ cleanall:: ; $(RMF) chap_hordfun
 ######
 #
 all:: \
+chap_stream
+chap_stream: \
+  chap_stream.dats ; $(PATSCC2) -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
+regress:: chap_stream; ./$<
+cleanall:: ; $(RMF) chap_stream
+#
+######
+#
+# Advanced Topics
+#
+######
+#
+all:: \
+chap_extvar
+chap_extvar: \
+  chap_extvar.dats ; $(PATSCC2) -o $@ $<
+regress:: chap_extvar; ./$<
+cleanall:: ; $(RMF) chap_extvar
+#
+######
+#
+all:: \
 chap_cloptr
 chap_cloptr: \
   chap_cloptr.dats ; $(PATSCC2) -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
@@ -108,13 +134,6 @@ regress:: chap_cloptr; ./$<
 cleanall:: ; $(RMF) chap_cloptr
 #
 ######
-#
-all:: \
-chap_stream
-chap_stream: \
-  chap_stream.dats ; $(PATSCC2) -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
-regress:: chap_stream; ./$<
-cleanall:: ; $(RMF) chap_stream
 #
 all:: \
 chap_stream_vt

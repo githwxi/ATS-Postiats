@@ -47,6 +47,10 @@ preface.db:: preface.exe ; ./$< > $@
 preface.db:: ; $(RMF) preface.exe preface_atxt_dats.c preface_atxt.dats preface_atxt.txt
 
 ######
+#
+# Basic Topics
+#
+######
 
 allchap:: CHAP_SYNCLR
 CHAP_SYNCLR:: ; \
@@ -71,13 +75,6 @@ allchap:: CHAP_FIXITY
 CHAP_FIXITY:: ; \
   make -C CHAP_FIXITY -f ../Makefile_chap main.db
 clean:: ; make -C CHAP_FIXITY -f ../Makefile_chap clean
-
-######
-
-allchap:: CHAP_EXTVAR
-CHAP_EXTVAR:: ; \
-  make -C CHAP_EXTVAR -f ../Makefile_chap main.db
-clean:: ; make -C CHAP_EXTVAR -f ../Makefile_chap clean
 
 ######
 
@@ -151,6 +148,17 @@ clean:: ; make -C CHAP_HORDFUN -f ../Makefile_chap clean
 
 ######
 
+allchap:: CHAP_STREAM
+CHAP_STREAM:: ; \
+  make -C CHAP_STREAM -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_STREAM -f ../Makefile_chap clean
+
+######
+#
+# Advanced Topics
+#
+######
+
 allchap:: CHAP_CLOPTR
 CHAP_CLOPTR:: ; \
   make -C CHAP_CLOPTR -f ../Makefile_chap main.db
@@ -158,10 +166,10 @@ clean:: ; make -C CHAP_CLOPTR -f ../Makefile_chap clean
 
 ######
 
-allchap:: CHAP_STREAM
-CHAP_STREAM:: ; \
-  make -C CHAP_STREAM -f ../Makefile_chap main.db
-clean:: ; make -C CHAP_STREAM -f ../Makefile_chap clean
+allchap:: CHAP_EXTVAR
+CHAP_EXTVAR:: ; \
+  make -C CHAP_EXTVAR -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_EXTVAR -f ../Makefile_chap clean
 
 ######
 

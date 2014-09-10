@@ -1070,6 +1070,7 @@ case+ pmv0.primval_node of
 //
 | PMVextval (name) =>
     fprintf (out, "ATSextval(%s)", @(name))
+  // end of [PMVextval]
 //
 | PMVcastfn _ => emit_primval_castfn (out, pmv0)
 //
@@ -1824,13 +1825,12 @@ ins.instr_node of
     // nothing
   end // end of [INSloopexn]
 //
-| INScaseof (ibrs) => let
+| INScaseof (ibrs) =>
+  {
     val () = emit_text (out, "ATScaseof_beg()\n")
     val () = emit_ibranchlst (out, ibrs)
     val () = emit_text (out, "ATScaseof_end()\n")
-  in
-    // nothing
-  end // end of [INScaseof]
+  } (* end of [INScaseof] *)
 //
 | INStrywith
   (
@@ -2000,44 +2000,39 @@ ins.instr_node of
     val () = emit_text (out, ") ;")
   } (* end of [INSclosure_initize] *)
 //
-| INStmpdec (tmp) => let
+| INStmpdec (tmp) =>
+  {
     val () = emit_text (out, "/*\n")
     val () = emit_text (out, "ATSINStmpdec(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ") ;")
     val () = emit_text (out, "\n*/")
-  in
-    // nothing
-  end // end of [INStmpdec]
+  } (* end of [INStmpdec] *)
 //
-| INSextvar (name, pmv) => let
+| INSextvar (name, pmv) =>
+  {
     val () = emit_text (out, "ATSINSextvar_assign(")
-    val () = emit_text (out, name)
+    val () = fprintf (out, "ATSextval(%s)", @(name))
     val () = emit_text (out, ", ")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ") ;")
-  in
-    // nothing
-  end // end of [INSextvar]
-| INSdcstdef (d2c, pmv) => let
+  } (* end of [INSextvar] *)
+//
+| INSdcstdef (d2c, pmv) =>
+  {
     val () = emit_text (out, "ATSINSdyncst_valbind(")
     val () = emit_d2cst (out, d2c)
     val () = emit_text (out, ", ")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ") ;")
-  in
-    // nothing
-  end // end of [INSdcstdef]
+  } (* end of [INSdcstdef] *)
 //
-| _ => let
+| _ (*unsupported-instr*) =>
+  {
     val () = prerr_interror_loc (loc0)
-    val () = (
-      prerr ": emit_instr: ins = "; prerr_instr (ins); prerr_newline ()
-    ) // end of [val]
-    val () = assertloc (false)
-  in
-    // nothing
-  end // end of [_]
+    val () = prerrln! (": pats_ccomp_emit: emit_instr: ins = ", ins)
+    val ((*exit*)) = assertloc (false)
+  }
 end // end of [emit_instr]
 
 (* ****** ****** *)
