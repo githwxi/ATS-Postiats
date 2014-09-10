@@ -344,6 +344,11 @@ ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))
 //
 /* ****** ****** */
 
+#define ATSINSextvar_assign(var, pmv) var = (pmv)
+#define ATSINSdyncst_valbind(d2c, pmv) d2c = (pmv)
+
+/* ****** ****** */
+
 #define ATSINSclosure_initize(flab, tmpenv) (flab##__closureinit)tmpenv
 
 /* ****** ****** */

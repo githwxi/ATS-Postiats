@@ -2869,6 +2869,16 @@ in '{
   d0ecl_loc= loc, d0ecl_node= D0Cextvar (name, d0e)
 } end // end of [d0ecl_extvar]
 
+implement
+d0ecl_extvar2
+  (tok, name, d0e) = let
+  val-T_VAR _ = tok.token_node
+  val-T_STRING (name) = name.token_node
+  val loc = tok.token_loc + d0e.d0exp_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cextvar (name, d0e)
+} end // end of [d0ecl_extvar2]
+
 (* ****** ****** *)
 
 implement

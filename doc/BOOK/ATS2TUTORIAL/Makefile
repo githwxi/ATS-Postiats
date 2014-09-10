@@ -53,6 +53,8 @@ CHAP_SYNCLR:: ; \
   make -C CHAP_SYNCLR -f ../Makefile_chap main.db
 clean:: ; make -C CHAP_SYNCLR -f ../Makefile_chap clean
 
+######
+
 allchap:: CHAP_FILENAME
 CHAP_FILENAME:: ; \
   make -C CHAP_FILENAME -f ../Makefile_chap main.db
@@ -63,10 +65,19 @@ CHAP_FILEINCL:: ; \
   make -C CHAP_FILEINCL -f ../Makefile_chap main.db
 clean:: ; make -C CHAP_FILEINCL -f ../Makefile_chap clean
 
+######
+
 allchap:: CHAP_FIXITY
 CHAP_FIXITY:: ; \
   make -C CHAP_FIXITY -f ../Makefile_chap main.db
 clean:: ; make -C CHAP_FIXITY -f ../Makefile_chap clean
+
+######
+
+allchap:: CHAP_EXTVAR
+CHAP_EXTVAR:: ; \
+  make -C CHAP_EXTVAR -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_EXTVAR -f ../Makefile_chap clean
 
 ######
 
