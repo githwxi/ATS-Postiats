@@ -24,52 +24,53 @@ languages.
 
 #para('\
 
-Suppose that I have an integer variable of the name
-#dyncode("foo") in my C code and I want to increase in my ATS code the
-value of #dyncode("foo") by 1. It can be done as follows:
+Suppose that I have in some C code a (global) integer variable of the name
+#dyncode("foo") and I want to increase in some ATS code the value stored in
+#dyncode("foo") by 1. This can be done as follows:
 
 #atscode('\
-
 val x0 = $extval(int, "foo") // get the value of foo
 val p_foo = $extval(ptr, "&foo") // get the address of foo
-val () = $UNSAFE.ptr_set<int> (p_foo, x0 + 1) // update foo\
-
+val () = $UNSAFE.ptr_set<int> (p_foo, x0 + 1) // update foo
 ')
 
-Clearly, this approach relies on the availability of the address-of
-operator (&amp;) in C for taking the address of a left-value. If I
-want to have my ATS code interact with a language that does not support
-the address-of operator (e.g., JavaScript and Python), then I can do
-it as follows by making use of the feature of extvar-declaration:
+where the address-of operator (&amp;) in C is needed for taking the address
+of #dyncode("foo"). If I want to interact in ATS with a language that does
+not support the address-of operator (e.g., JavaScript and Python), then I
+can do it as follows:
 
 #atscode('\
 extvar "foo" = x0 + 1
 ')
 
-which can also be written as:
+where the keyword #dyncode("extvar") indicates that the string following it
+refers to an external variable (or left-value) that should be updated with
+the value of the expression on the right-hand side of the equality symbol
+following the string. This so-called-extvar declaration can also be written
+as follow:
 
 #atscode('\
 extern var "foo" = x0 + 1
 ')
 
+where #dyncode("extvar") expands into #dyncode("extern var").
+
 ')#comment("para")
 
 #para('\
 
-For another example, let us suppose that #dyncode("foo2") is a record
+As for another example, let us suppose that #dyncode("foo2") is a record
 variable that contains two integer fields named #dyncode("first") and
 #dyncode("second"). Then the following code assigns integers 1 and 2 to
-these fields of #dyncode("foo2"):
+these two fields of #dyncode("foo2"):
 
 #atscode('\
-//
 extvar "foo2.first" = 1
 extvar "foo2.second" = 2
-//
 ')
 
-By its own nature, the feature of extvar-declaration is inherently unsafe,
-and it should only be used with caution.
+By its very own nature, the feature of extvar-declaration is inherently
+unsafe, and it should only be used with caution.
 
 ')#comment("para")
 

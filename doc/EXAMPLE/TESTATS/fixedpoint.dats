@@ -4,7 +4,6 @@
 // Author: Hongwei Xi (2013-09)
 // Authoremail: gmhwxiATgmailDOTcom
 //
-
 (* ****** ****** *)
 
 staload "prelude/DATS/integer.dats"
@@ -22,16 +21,18 @@ val fib10 =
 val () = println! ("fib(10) = ", fib10)
 
 (* ****** ****** *)
-
-fun power (m: int, n: int): int = let
+//
+fun
+power (m: int, n: int): int = let
 //
 val f = fix f (n: int): int =<cloref1> if n > 0 then m*f(n-1) else 1
 //
 in
   f (n)
 end // end of [foo]
+//
 val () = println! ("power(2, 10) = ", power(2, 10))
-
+//
 (* ****** ****** *)
 
 implement main0 () = ()

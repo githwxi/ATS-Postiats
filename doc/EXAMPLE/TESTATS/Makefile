@@ -45,6 +45,14 @@ cleanall:: ; $(RMF) dotoverld
 ######
 
 all:: \
+extvar
+extvar: extvar.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: extvar ; ./$<
+cleanall:: ; $(RMF) extvar
+
+######
+
+all:: \
 extfcall
 extfcall: extfcall.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: extfcall ; ./$<
