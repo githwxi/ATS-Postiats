@@ -293,7 +293,7 @@ For example, #stacode("tptr") is defined as follows that takes a type and an
 address to form a viewtype (of the sort #stacode("viewtype")):
 
 #atscode('\
-viewtypedef tptr (a:t@ype, l:addr) = (a @ l | ptr l)
+vtypedef tptr (a:t@ype, l:addr) = (a @ l | ptr l)
 ')
 
 Given a type T and an address L, the viewtype #stacode("tptr(T, L)") is for
@@ -322,7 +322,7 @@ fn getinc
 A particularly interesting example of a viewtype is the following one:
 
 #atscode('\
-viewtypedef cloptr
+vtypedef cloptr
   (a:t@ype, b:t@ype, l:addr) =
   [env:t@ype] (((&env, a) -> b, env) @ l | ptr l)
 // end of [cloptr_app]

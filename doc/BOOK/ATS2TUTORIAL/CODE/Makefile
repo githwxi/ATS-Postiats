@@ -24,6 +24,17 @@ include $(PATSHOME)/share/atsmake-pre.mk
 ######
 #
 all:: \
+chap_dynload
+chap_dynload: \
+CHAP_DYNLOAD/foo.dats \
+CHAP_DYNLOAD/foo2.dats ; \
+$(PATSCC2) -o $@ $^
+regress:: chap_dynload; ./$<
+cleanall:: ; $(RMF) chap_dynload
+#
+######
+#
+all:: \
 chap_brktoverld
 chap_brktoverld: \
   chap_brktoverld.dats ; $(PATSCC2) -tcats $<

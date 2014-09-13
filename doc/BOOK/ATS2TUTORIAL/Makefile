@@ -78,6 +78,20 @@ clean:: ; make -C CHAP_FIXITY -f ../Makefile_chap clean
 
 ######
 
+allchap:: CHAP_STALOAD
+CHAP_STALOAD:: ; \
+  make -C CHAP_STALOAD -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_STALOAD -f ../Makefile_chap clean
+
+######
+
+allchap:: CHAP_DYNLOAD
+CHAP_DYNLOAD:: ; \
+  make -C CHAP_DYNLOAD -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_DYNLOAD -f ../Makefile_chap clean
+
+######
+
 allchap:: CHAP_EXCEPTION
 CHAP_EXCEPTION:: ; \
   make -C CHAP_EXCEPTION -f ../Makefile_chap main.db

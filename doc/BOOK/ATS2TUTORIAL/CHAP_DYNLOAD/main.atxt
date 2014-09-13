@@ -1,0 +1,160 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_DYNLOAD/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter
+id="dynload">
+#title("Dynamic Load")
+
+#para("\
+
+In ATS, dynamic load (or dynload for short) refers to some form of
+initialization of a loaded package.\
+
+")#comment("para")
+
+#para("\
+
+Suppose that a file named #filename('foo.dats') contains the following
+code:
+
+#atscode('\
+//
+val x = 1000
+val y = x + x // = 2000
+val z = y * y // = 4000000
+//
+extern
+fun sum_x_y_z (): int
+//
+implement sum_x_y_z () = x + y + z
+//
+')
+
+Clearly, the names x, y, and z must be bound to some values before a call
+to the function #dyncode("sum_x_y_z") can be evaluated.  In order to create
+such bindings, some form of initialization is required.  Let us further
+suppose that a file named #filename('foo2.dats') contains the following
+code:
+
+#atscode('\
+
+staload "./foo.dats"
+dynload "./foo.dats" // for initialization
+
+implement
+main0 () =
+{
+val () = assertloc (4003000 = sum_x_y_z())
+} (* end of [main0] *)\
+
+')
+
+We can now generate an executable file #filename('mytest') by issuing
+the following command-line:
+
+<informalexample><programlisting>
+<command>atscc</command> -o mytest foo.dats foo2.dats
+</programlisting></informalexample>
+
+Note that <command>atscc</command> may need to be changed to
+<command>patscc</command>.
+
+")#comment("para")
+
+#para('\
+
+The line starting with the keyword #dyncode("dynload") is referred to as a
+dynload-declaration. If it is deleted from the file #filename("foo2.dats"),
+then executing the above command-line leads to link-time reporting of
+undefined reference to a variable of certain name ending with the string
+#emphasis("__dynloadflag"). The dynload-declaration for
+#filename("foo.dats") introduces this special variable and then makes a
+call to a special function associated with #filename("foo.dats") for the
+purpose of performing some form of initialization. This special function
+is referred as a dynload-function (for #filename("foo.dats")), which is
+always idempotent.
+
+')#comment("para")
+
+#para("\
+
+There is also a dynload-function generated for #filename("foo2.dats").
+As the funtion #dyncode("main0"), a variant of the special function
+#dyncode("main"), is implemented in #filename("foo2.dats"), the
+dynload-function for #filename("foo2.dats") is automatically called inside
+the body of the #dyncode("main") function.
+
+")#comment("para")
+
+#para("\
+
+If there is a reason to suppress the generation of a dynload-function, one
+can set the value of the flag #dyncode("ATS_DYNLOADFLAG") to 0. For
+instance, no dynload-function for #filename("foo.dats") is generated if the
+following line is added into #filename("foo.dats"):
+
+#atscode('\
+\#define ATS_DYNLOADFLAG 0
+')
+
+Of course, skipping proper initialization for #filename("foo.dats") means
+that an erroneous result is expected if the function #dyncode("sum_x_y_z")
+is ever called.
+
+")#comment("para")
+
+#para("\
+
+If there is a reason to call the dynload-function for
+#filename("foo2.dats") explicitly, one can introduce an alias for it and then
+call the alias. For instance, if the following line is added to
+#filename("foo2.dats"):
+
+#atscode('\
+\#define ATS_DYNLOADNAME "foo2_dynload"
+')
+
+then the dynload-function for #filename("foo2.dats") is given an alias
+#dyncode("foo2_dynload").
+
+")#comment("para")
+
+#para("\
+
+Please find #mycodelink("CHAP_DYNLOAD/.", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
+</chapter><!--"dynload"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_dynload.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}

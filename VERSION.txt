@@ -32,6 +32,8 @@ Here is a list of major additions and changes since the last release:
 3. Generally improving level-2 jsonization (pats_dynexp2_jsonize)
 4. Adding support for extvar decl. (which is different from $extval):
    extval "external_name" = internal_value
+5. ATS_DYNLOADFLAG is set to 1 by default only for DATS-files. So
+   dynloading SATS-files is no longer necessary (but it is still harmless).
 
 </pre>
 

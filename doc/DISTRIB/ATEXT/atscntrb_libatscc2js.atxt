@@ -112,7 +112,9 @@ ATSCNTRB/libatscc2js\
 #packfilename("SATS/list.sats")
 #packfilename("SATS/reference.sats")
 #packfilename("SATS/JSmath.sats")
+#packfilename("SATS/JSdate.sats")
 #packfilename("SATS/JSarray.sats")
+#packfilename("SATS/JSglobal.sats")
 
 (* ****** ****** *)
 
@@ -121,7 +123,9 @@ ATSCNTRB/libatscc2js\
 #packfilename("CATS/float_cats.js")
 #packfilename("CATS/string_cats.js")
 #packfilename("CATS/JSmath_cats.js")
+#packfilename("CATS/JSdate_cats.js")
 #packfilename("CATS/JSarray_cats.js")
+#packfilename("CATS/JSglobal_cats.js")
 
 (* ****** ****** *)
 

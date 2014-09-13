@@ -133,7 +133,7 @@ implement main0 () = () // a dummy implementation for [main]
 The line starting with the keyword #dyncode("\#include") enables the ATS
 compiler #command("atsopt") to gain access to certain external library
 packages and the definitions of various library functions. I will cover
-elsewhere in the book the topic on making use of library in ATS.\
+elsewhere in the book the topic on making use of library code in ATS.\
 
 ")#comment("para")
 
