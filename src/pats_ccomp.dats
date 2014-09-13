@@ -597,11 +597,19 @@ instr_fcall2
   (loc, INSfcall2 (tmpret, flab, ntl, hse_fun, hdes_arg))
 // end of [instr_fcall2]
 
+(* ****** ****** *)
+
 implement
 instr_extfcall
-  (loc, tmpret, _fun, hdes_arg) =
-  instr_make_node(loc, INSextfcall (tmpret, _fun, hdes_arg))
+  (loc, tmpret, _fun, _arg) =
+  instr_make_node(loc, INSextfcall (tmpret, _fun, _arg))
 // end of [instr_extfcall]
+
+implement
+instr_extmcall
+  (loc, tmpret, _obj, _mtd, _arg) =
+  instr_make_node(loc, INSextmcall (tmpret, _obj, _mtd, _arg))
+// end of [instr_extmcall]
 
 (* ****** ****** *)
 

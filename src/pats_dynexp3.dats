@@ -343,6 +343,14 @@ d3exp_extfcall
 , d3exp_node= D3Eextfcall (_fun, _arg)
 } // end of [d3exp_extfcall]
 
+implement
+d3exp_extmcall
+  (loc, s2f, _obj, _mtd, _arg) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eextmcall (_obj, _mtd, _arg)
+} // end of [d3exp_extmcall]
+
 (* ****** ****** *)
 
 (*

@@ -120,6 +120,7 @@ datatype trans3err =
   | T3E_d3exp_freeat of (loc_t, d3exp)
 //
   | T3E_d3exp_extfcall_arg of (loc_t, d3exp)
+  | T3E_d3exp_extmcall_arg of (loc_t, d3exp)
 //
   | T3E_s2exp_selab_tyrec of (loc_t, s2exp)
   | T3E_s2exp_selab_labnot of (loc_t, s2exp, label) // label is not found

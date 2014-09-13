@@ -484,6 +484,10 @@ implement
 d1exp_extfcall (loc, _type, _fun, _arg) =
   d1exp_make (loc, D1Eextfcall (_type, _fun, _arg))
 //
+implement
+d1exp_extmcall (loc, _type, _obj, _mtd, _arg) =
+  d1exp_make (loc, D1Eextmcall (_type, _obj, _mtd, _arg))
+//
 (* ****** ****** *)
 
 implement

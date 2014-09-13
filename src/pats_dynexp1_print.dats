@@ -364,7 +364,21 @@ case+ d1e0.d1exp_node of
     val () = prstr "; "
     val () = fprint_d1explst (out, _arg)
     val ((*closing*)) = prstr ")"
-  } // end of [D1Eextfcall]
+  } (* end of [D1Eextfcall] *)
+| D1Eextmcall
+    (s1e, _obj, _mtd, _arg) => {
+    val () = prstr "D1Eextmcall("
+    val () = fprint_s1exp (out, s1e)
+    val () = prstr "; "
+    val () = fprint_d1exp (out, _obj)
+    val () = prstr "; "
+    val () = prstr "\""
+    val () = fprint_string (out, _mtd)
+    val () = prstr "\""
+    val () = prstr "; "
+    val () = fprint_d1explst (out, _arg)
+    val ((*closing*)) = prstr ")"
+  } (* end of [D1Eextmcall] *)
 //
 | D1Eloopexn (knd) => {
     val () = fprintf (out, "D1Eloopexn(%i)", @(knd))

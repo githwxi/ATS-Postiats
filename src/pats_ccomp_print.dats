@@ -893,18 +893,34 @@ case+ x.instr_node of
     val () = fprint_primvalist (out, hdes_arg)
     val ((*closing*)) = prstr "))"
   } // end of [INSfcall2]
+//
 | INSextfcall
   (
-    tmpret, _fun, hdes_arg
+    tmpret, _fun, _arg
   ) => {
-    val () = prstr "INSfcall("
+    val () = prstr "INSextfcall("
     val () = fprint_tmpvar (out, tmpret)
     val () = prstr " <- "
     val () = fprint_string (out, _fun)
     val () = prstr "("
-    val () = fprint_primvalist (out, hdes_arg)
+    val () = fprint_primvalist (out, _arg)
     val ((*closing*)) = prstr "))"
   } // end of [INSextfcall]
+| INSextmcall
+  (
+    tmpret, _obj, _mtd, _arg
+  ) => {
+    val () = prstr "INSextmcall("
+    val () = fprint_tmpvar (out, tmpret)
+    val () = prstr " <- "
+    val () = (
+      fprint_primval (out, _obj);
+      prstr "."; fprint_string (out, _mtd)
+    ) (* end of [val] *)
+    val () = prstr "("
+    val () = fprint_primvalist (out, _arg)
+    val ((*closing*)) = prstr "))"
+  } // end of [INSextmcall]
 //
 | INScond
   (

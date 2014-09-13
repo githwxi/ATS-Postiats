@@ -792,6 +792,10 @@ and d2exp_node =
     (
       s2exp(*res*), string(*fun*), d2explst(*arg*)
     ) (* end of [D2Eextfcall] *)
+  | D2Eextmcall of
+    (
+      s2exp(*res*), d2exp(*obj*), string(*method*), d2explst(*arg*)
+    ) (* end of [D2Eextmcall] *)
 //
 // HX: data-constructor
 //
@@ -1173,16 +1177,27 @@ fun d2exp_cstsp
   (loc: location, cst: $SYN.cstsp): d2exp
 
 (* ****** ****** *)
-
-fun d2exp_extval
-  (loc: location, s2e: s2exp, name: string): d2exp
-
-(* ****** ****** *)
-
-fun d2exp_extfcall (
-  loc: location, s2e: s2exp, _fun: string, _arg: d2explst
+//
+fun
+d2exp_extval
+(
+  loc: location, s2e: s2exp, name: string
+) : d2exp // end of [d2exp_extval]
+//
+fun
+d2exp_extfcall
+(
+  loc: location
+, s2e: s2exp, _fun: string, _arg: d2explst
 ) : d2exp // end of [d2exp_extfcall]
-
+//
+fun
+d2exp_extmcall
+(
+  loc: location
+, s2e: s2exp, _obj: d2exp, _mtd: string, _arg: d2explst
+) : d2exp // end of [d2exp_extmcall]
+//
 (* ****** ****** *)
 
 fun d2exp_cst (loc: location, d2c: d2cst): d2exp

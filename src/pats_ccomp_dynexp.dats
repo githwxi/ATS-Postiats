@@ -46,6 +46,14 @@ UN = "prelude/SATS/unsafe.sats"
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
+//
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+//
+implement
+prerr_FILENAME<> () = prerr "pats_ccomp_dynexp"
+//
+(* ****** ****** *)
 
 staload
 LOC = "./pats_location.sats"
@@ -206,6 +214,8 @@ extern
 fun hidexp_ccomp_ret_app : hidexp_ccomp_ret_funtype
 extern
 fun hidexp_ccomp_ret_extfcall : hidexp_ccomp_ret_funtype
+extern
+fun hidexp_ccomp_ret_extmcall : hidexp_ccomp_ret_funtype
 
 extern
 fun hidexp_ccomp_ret_if : hidexp_ccomp_ret_funtype
@@ -299,6 +309,7 @@ case+ hde0.hidexp_node of
   end // end of [HDEcastfn]
 //
 | HDEextfcall _ => auxret (env, res, hde0)
+| HDEextmcall _ => auxret (env, res, hde0)
 //
 | HDEcon _ => auxret (env, res, hde0)
 //
@@ -381,14 +392,14 @@ case+ hde0.hidexp_node of
 //
 | HDEtrywith _ => auxret (env, res, hde0)
 //
-| _ => let
-    val () = println! ("hidexp_ccomp: loc0 = ", loc0)
-    val () = println! ("hidexp_ccomp: hde0 = ", hde0)
+| _(*unspported*) => let
+    val () = prerr_interror_loc(loc0)
+    val () = prerrln! (": hidexp_ccomp: hde0 = ", hde0)
   in
     exitloc (1)
-  end // end of [_]
+  end // end of [_(*unsupported*)]
 //
-end // end of [hidexp_ccomp]
+end // end of [let] // end of [hidexp_ccomp]
 
 implement
 hidexp_ccompv
@@ -543,11 +554,15 @@ case+ hde0.hidexp_node of
     val _ = hidexp_ccomp (env, res, hde) in (*nothing*)
   end (* end of [HDEignore] *)
 //
-| HDEextval _ => auxval (env, res, tmpret, hde0)
 | HDEcastfn _ => auxval (env, res, tmpret, hde0)
+//
+| HDEextval _ => auxval (env, res, tmpret, hde0)
 | HDEextfcall _ =>
     hidexp_ccomp_ret_extfcall (env, res, tmpret, hde0)
   (* end of [HDEextfcall] *)
+| HDEextmcall _ =>
+    hidexp_ccomp_ret_extmcall (env, res, tmpret, hde0)
+  (* end of [HDEextmcall] *)
 //
 | HDEcon _ => 
     hidexp_ccomp_ret_con (env, res, tmpret, hde0)
@@ -1234,15 +1249,34 @@ hidexp_ccomp_ret_extfcall
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val-HDEextfcall (_fun, hdes_arg) = hde0.hidexp_node
+val-HDEextfcall (_fun, _arg) = hde0.hidexp_node
 //
-val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
+val _arg = hidexplst_ccomp (env, res, _arg)
 //
-val ins = instr_extfcall (loc0, tmpret, _fun, pmvs_arg)
+val ins = instr_extfcall (loc0, tmpret, _fun, _arg)
 //
 in
   instrseq_add (res, ins)
 end // end of [hidexp_ccomp_ret_extfcall]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_ret_extmcall
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val-HDEextmcall (_obj, _mtd, _arg) = hde0.hidexp_node
+//
+val _obj = hidexp_ccomp (env, res, _obj)
+val _arg = hidexplst_ccomp (env, res, _arg)
+//
+val ins = instr_extmcall (loc0, tmpret, _obj, _mtd, _arg)
+//
+in
+  instrseq_add (res, ins)
+end // end of [hidexp_ccomp_ret_extmcall]
 
 (* ****** ****** *)
 

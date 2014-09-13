@@ -159,8 +159,10 @@ fprint_token
   | T_DLREXTKIND () => fprintf (out, "DLREXTKIND()", @())
   | T_DLREXTYPE () => fprintf (out, "DLREXTYPE()", @())
   | T_DLREXTYPE_STRUCT () => fprintf (out, "DLREXTYPE_STRUCT()", @())
+//
   | T_DLREXTVAL () => fprintf (out, "DLREXTVAL()", @())
   | T_DLREXTFCALL () => fprintf (out, "DLREXTFCALL()", @())
+  | T_DLREXTMCALL () => fprintf (out, "DLREXTMCALL()", @())
 //
   | T_DLRBREAK () => fprintf (out, "DLRBREAK()", @())
   | T_DLRCONTINUE () => fprintf (out, "DLRCONTINUE()", @())

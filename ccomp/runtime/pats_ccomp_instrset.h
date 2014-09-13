@@ -182,8 +182,14 @@ ATSloop_close(init, fini, cont) \
 //
 /* ****** ****** */
 
-#define ATSfuncall(fun_id, fun_arg) (fun_id)fun_arg
+#define ATSfuncall(fun, funarg) (fun)funarg
 
+/* ****** ****** */
+//
+#define ATSextfcall(fun, funarg) (fun)funarg
+/*
+#define ATSextmcall(obj, mtd, funarg) (obj.mtd)funarg
+*/
 /* ****** ****** */
 //
 #define \

@@ -408,6 +408,12 @@ d2exp_extfcall
   d2exp_make_node (loc, D2Eextfcall (s2e, _fun, _arg))
 // end of [d2exp_extfcall]
 
+implement
+d2exp_extmcall
+  (loc, s2e, _obj, _mtd, _arg) =
+  d2exp_make_node (loc, D2Eextmcall (s2e, _obj, _mtd, _arg))
+// end of [d2exp_extmcall]
+
 (* ****** ****** *)
 
 implement

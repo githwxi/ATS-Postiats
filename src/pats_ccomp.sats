@@ -1128,7 +1128,9 @@ instr_node =
       (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
   | INSfcall2 of // tail-recursive funcall // ntl: 0/1+ : fun/fnx
       (tmpvar, funlab, int(*ntl*), hisexp, primvalist(*arg*))
+//
   | INSextfcall of (tmpvar, string(*fun*), primvalist(*arg*))
+  | INSextmcall of (tmpvar, primval(*obj*), string(*mtd*), primvalist(*arg*))
 //    
   | INScond of ( // conditinal instruction
       primval(*test*), instrlst(*then*), instrlst(*else*)
@@ -1291,12 +1293,22 @@ fun instr_fcall2
 , pmvs_arg: primvalist
 ) : instr // end of [instr_fcall2]
 
-fun instr_extfcall
+(* ****** ****** *)
+//
+fun
+instr_extfcall
 (
   loc: location
 , tmpret: tmpvar, _fun: string, _arg: primvalist
 ) : instr // end of [instr_extfcall]
-
+//
+fun
+instr_extmcall
+(
+  loc: location
+, tmpret: tmpvar, _obj: primval, _mtd: string, _arg: primvalist
+) : instr // end of [instr_extmcall]
+//
 (* ****** ****** *)
 
 fun instr_cond
@@ -2122,7 +2134,9 @@ fun emit_instr : emit_instr_type
 //
 fun emit_instr_fcall : emit_instr_type
 fun emit_instr_fcall2 : emit_instr_type
+//
 fun emit_instr_extfcall : emit_instr_type
+fun emit_instr_extmcall : emit_instr_type
 //
 fun emit_instr_patck : emit_instr_type
 //

@@ -188,8 +188,10 @@ token_node =
   | T_DLREXTKIND of () // $extkind
   | T_DLREXTYPE of () // externally named type
   | T_DLREXTYPE_STRUCT of () // externally named struct
+//
   | T_DLREXTVAL of () // externally named value
-  | T_DLREXTFCALL of () // externally named fcall
+  | T_DLREXTFCALL of () // externally named fun-call
+  | T_DLREXTMCALL of () // externally named method-call
 //
   | T_DLRBREAK of () // $break
   | T_DLRCONTINUE of () // $continue

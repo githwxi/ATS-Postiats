@@ -1725,7 +1725,9 @@ ins.instr_node of
 //
 | INSfcall _ => emit_instr_fcall (out, ins)
 | INSfcall2 _ => emit_instr_fcall2 (out, ins)
+//
 | INSextfcall _ => emit_instr_extfcall (out, ins)
+| INSextmcall _ => emit_instr_extmcall (out, ins)
 //
 | INScond
   (

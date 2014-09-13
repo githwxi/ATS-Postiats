@@ -312,11 +312,16 @@ and hidexp_node =
   | HDEempty of () // for the void value
   | HDEignore of (hidexp) // ignoring the value of hidexp
 //
-  | HDEextval of (string(*name*)) // externally named values
   | HDEcastfn of (d2cst, hidexp(*arg*)) // castfn application
+//
+  | HDEextval of (string(*name*)) // externally named values
+//
   | HDEextfcall of
-      (string(*fun*), hidexplst(*arg*)) // externally named fcalls
+      (string(*fun*), hidexplst(*arg*)) // for fun-calls
     // end of [HDEextfcall]
+  | HDEextmcall of
+      (hidexp(*obj*), string(*mtd*), hidexplst) // for method-calls
+    // end of [HDEextmcall]
 //
   | HDEcon of (d2con, hisexp, labhidexplst(*arg*)) // constructors
 //
@@ -604,17 +609,31 @@ fun hidexp_ignore
 
 (* ****** ****** *)
 
-fun hidexp_extval
-  (loc: location, hse: hisexp, name: string): hidexp
-// end of [hidexp_extval]
-
 fun hidexp_castfn (
   loc: location, hse: hisexp, d2c: d2cst, arg: hidexp
 ) : hidexp // end of [hidexp_castfn]
 
-fun hidexp_extfcall (
-  loc: location, hse: hisexp, _fun: string, _arg: hidexplst
+(* ****** ****** *)
+
+fun
+hidexp_extval
+(
+  loc: location, hse: hisexp, name: string
+) : hidexp // end of [hidexp_extval]
+
+fun
+hidexp_extfcall
+(
+  loc: location
+, hse: hisexp, _fun: string, _arg: hidexplst
 ) : hidexp // end of [hidexp_extfcall]
+
+fun
+hidexp_extmcall
+(
+  loc: location
+, hse: hisexp, _obj: hidexp, _mtd: string, _arg: hidexplst
+) : hidexp // end of [hidexp_extmcall]
 
 (* ****** ****** *)
 

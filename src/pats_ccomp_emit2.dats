@@ -503,26 +503,69 @@ val-INSextfcall
 //
 val noret = tmpvar_is_void (tmp)
 //
-val () =
-(
-  if ~noret
-    then emit_text (out, "ATSINSmove(")
-    else emit_text (out, "ATSINSmove_void(")
-  // end of [if]
+val (
+) = (
+if ~noret
+  then emit_text (out, "ATSINSmove(")
+  else emit_text (out, "ATSINSmove_void(")
+// end of [if]
 ) : void // end of [val]
 //
 val () =
 (
   emit_tmpvar (out, tmp); emit_text (out, ", ")
 ) (* end of [val] *)
+//
+val () =
+emit_text(out, "ATSextfcall(")
 val () = emit_text (out, _fun)
+val () = emit_text (out, ", ")
 val () = emit_text (out, "(")
 val () = emit_primvalist (out, pmvs_arg)
-val () = emit_text (out, ")) ;")
+val () = emit_text (out, "))) ;")
 //
 in
   // nothing
 end // end of [emit_instr_extfcall]
+
+(* ****** ****** *)
+
+implement
+emit_instr_extmcall
+  (out, ins) = let
+//
+val loc0 = ins.instr_loc
+val-INSextmcall
+  (tmp, pmv_obj, _mtd, pmvs_arg) = ins.instr_node
+//
+val noret = tmpvar_is_void (tmp)
+//
+val (
+) = (
+if ~noret
+  then emit_text (out, "ATSINSmove(")
+  else emit_text (out, "ATSINSmove_void(")
+// end of [if]
+) : void // end of [val]
+//
+val () =
+(
+  emit_tmpvar (out, tmp); emit_text (out, ", ")
+) (* end of [val] *)
+//
+val () =
+emit_text(out, "ATSextmcall(")
+val () = emit_primval (out, pmv_obj)
+val () = emit_text (out, ", ")
+val () = emit_text (out, _mtd)
+val () = emit_text (out, ", ")
+val () = emit_text (out, "(")
+val () = emit_primvalist (out, pmvs_arg)
+val () = emit_text (out, "))) ;")
+//
+in
+  // nothing
+end // end of [emit_instr_extmcall]
 
 end // end of [local]
 

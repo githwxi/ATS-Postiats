@@ -1295,6 +1295,7 @@ case+ d1e0.d1exp_node of
   in
     d2exp_extval (loc0, s2e, name)
   end (* end of [D1Eextval] *)
+//
 | D1Eextfcall
     (s1e, _fun, _arg) => let
     val s2e = s1exp_trdn_vt0ype (s1e)
@@ -1302,6 +1303,18 @@ case+ d1e0.d1exp_node of
   in
     d2exp_extfcall (loc0, s2e, _fun, _arg)
   end (* end of [D1Eextfcall] *)
+| D1Eextmcall
+  (
+    s1e, _obj, _mtd, _arg
+  ) => let
+    val s2e =
+      s1exp_trdn_vt0ype (s1e)
+    // end of [val]
+    val _obj = d1exp_tr (_obj)
+    val _arg = d1explst_tr (_arg)
+  in
+    d2exp_extmcall (loc0, s2e, _obj, _mtd, _arg)
+  end (* end of [D1Eextmcall] *)
 //
 | D1Eloopexn (knd) => d2exp_loopexn (loc0, knd)
 //
@@ -1685,7 +1698,7 @@ case+ d1e0.d1exp_node of
   end // end of [D1Esexparg]
 //
 // (*
-| _ => let
+| _ (*unsupported*) => let
     val () = prerr_interror_loc (loc0)
     val () = filprerr_ifdebug "d1exp_tr"
     val () = prerr ": not yet implemented: d1e0 = "
@@ -1693,10 +1706,10 @@ case+ d1e0.d1exp_node of
     val () = prerr_newline ((*void*))
   in
     $ERR.abort {d2exp} ()
-  end // end of [_]
+  end // end of [_(*unsupported*)]
 // *)
 //
-end // end of [d1exp_tr]
+end // end of [let] // end of [d1exp_tr]
 
 (* ****** ****** *)
 

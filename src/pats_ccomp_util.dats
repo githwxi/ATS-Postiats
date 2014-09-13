@@ -271,7 +271,9 @@ case+ x.instr_node of
 //
 | INSfcall (tmp, _, _, _) => tmpadd (tmp)
 | INSfcall2 (tmp, _, _, _, _) => tmpadd (tmp)
+//
 | INSextfcall (tmp, _fun, _arg) => tmpadd (tmp)
+| INSextmcall (tmp, _obj, _mtd, _arg) => tmpadd (tmp)
 //    
 | INScond
   (

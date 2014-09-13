@@ -1364,6 +1364,9 @@ and d0exp_node =
   | D0Eextfcall of
       (s0exp(*res*), string(*fun*), d0explst(*arg*)) // external fcalls
     // end of [D0Eextfcall]
+  | D0Eextmcall of
+      (s0exp(*res*), d0exp, string(*method*), d0explst(*arg*)) // external mcalls
+    // end of [D0Eextmcall]
 //
   | D0Efoldat of d0explst (* folding at a given address *)
   | D0Efreeat of d0explst (* freeing at a given address *)
@@ -1632,17 +1635,27 @@ fun d0exp_MYLOC (tok: token): d0exp
 fun d0exp_MYFUN (tok: token): d0exp
 
 (* ****** ****** *)
-
+//
 fun d0exp_extval
 (
-  t_beg: token, _type: s0exp, name: token, t_end: token
+  t_beg: token
+, _type: s0exp, name: token
+, t_end: token
 ) : d0exp // end of [d0exp_extval]
-
+//
 fun d0exp_extfcall
 (
-  t_beg: token, _type: s0exp, _fun: token, _arg: d0explst, t_end: token
+  t_beg: token
+, _type: s0exp, _fun: token, _arg: d0explst
+, t_end: token
 ) : d0exp // end of [d0exp_extfcall]
-
+fun d0exp_extmcall
+(
+  t_beg: token
+, _type: s0exp, _obj: d0exp, _mtd: token, _arg: d0explst
+, t_end: token
+) : d0exp // end of [d0exp_extmcall]
+//
 (* ****** ****** *)
 
 fun d0exp_label_int (t_dot: token, lab: token): d0exp

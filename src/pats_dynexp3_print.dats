@@ -260,6 +260,16 @@ case+ d3e0.d3exp_node of
     val () = fprint_d3explst (out, _arg)
     val ((*closing*)) = prstr ")"
   }
+| D3Eextmcall
+    (_obj, _mtd, _arg) => {
+    val () = prstr "D3Eextmcall("
+    val () = fprint_d3exp (out, _obj)
+    val () = prstr "; "
+    val () = fprint_string (out, _mtd)
+    val () = prstr "; "
+    val () = fprint_d3explst (out, _arg)
+    val ((*closing*)) = prstr ")"
+  }
 //
 | D3Econ (
     d2c, npf, d3es

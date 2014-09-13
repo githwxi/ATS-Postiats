@@ -288,6 +288,7 @@ and d3exp_node =
 //
   | D3Eextval of (string(*name*))
   | D3Eextfcall of (string(*fun*), d3explst(*arg*))
+  | D3Eextmcall of (d3exp(*obj*), string(*mtd*), d3explst(*arg*))
 //
   | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
 //
@@ -594,15 +595,23 @@ fun d3exp_cstsp
 // end of [d3exp_cstsp]
 
 (* ****** ****** *)
-
-fun d3exp_extval
+//
+fun
+d3exp_extval
   (loc: location, s2f: s2exp, name: string): d3exp
-// end of [d3exp_extval]
-
-fun d3exp_extfcall
-  (loc: location, s2f: s2exp, _fun: string, _arg: d3explst): d3exp
-// end of [d3exp_extfcall]
-
+//
+fun
+d3exp_extfcall
+(
+  loc: location, s2f: s2exp, _fun: string, _arg: d3explst
+) : d3exp // end of [d3exp_extfcall]
+//
+fun
+d3exp_extmcall
+(
+  loc: location, s2f: s2exp, _obj: d3exp, _mtd: string, _arg: d3explst
+) : d3exp // end of [d3exp_extmcall]
+//
 (* ****** ****** *)
 
 fun d3exp_cst

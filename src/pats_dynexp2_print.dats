@@ -449,6 +449,7 @@ d2e0.d2exp_node of
     val () = prstr "\""
     val ((*closing*)) = prstr ")"
   } // end of [D2Eextval]
+//
 | D2Eextfcall
     (s2e, _fun, _arg) =>
   {
@@ -461,7 +462,21 @@ d2e0.d2exp_node of
     val () = prstr "; "
     val () = fprint_d2explst (out, _arg)
     val ((*closing*)) = prstr ")"
-  } // end of [D2Eextfcall]
+  } (* end of [D2Eextfcall] *)
+| D2Eextmcall
+    (s2e, _obj, _mtd, _arg) => {
+    val () = prstr "D2Eextmcall("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, _obj)
+    val () = prstr "; "
+    val () = prstr "\""
+    val () = fprint_string (out, _mtd)
+    val () = prstr "\""
+    val () = prstr "; "
+    val () = fprint_d2explst (out, _arg)
+    val ((*closing*)) = prstr ")"
+  } (* end of [D2Eextmcall] *)
 //
 | D2Eloopexn (knd) => {
     val () = prstr "D2Eloopexn("
