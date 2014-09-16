@@ -160,8 +160,8 @@ typedef void* atstype_cloptr ;
 #ifdef _ATS_ARRAY_FIELD
 #define atstyarr_field(fname) fname[]
 #else
-#define atstyarr_field(fname) ATSTYARR_FIELD_ERROR(fname[])
-#endif // end of [_ATS_ARRAY_FILED]
+#define atstyarr_field(fname) atstyarr_field_error(fname[])
+#endif // end of [_ATS_ARRAY_FIELD]
 
 /* ****** ****** */
 //
