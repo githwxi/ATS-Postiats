@@ -139,7 +139,7 @@ hse.hisexp_node of
     if tyreckind_is_boxed (knd) then 1 else 0
   )
 | HSEtysum (d2c, _) => 0 // HX: it is not [1]!
-| _ => ~1 // HX: meaningless
+| _ (*non-rec-sum*) => (~1) // HX: meaningless
 //
 end // end of [hisexp_get_boxknd]
 
@@ -148,7 +148,8 @@ hisexp_get_extknd
   (hse) = let
 in
 //
-case+ hse.hisexp_node of
+case+
+hse.hisexp_node of
 | HSEtyrec (knd, _) =>
     if tyreckind_is_fltext (knd) then 1 else 0
 | _ => ~1 // HX: meaningless
@@ -169,7 +170,8 @@ hisexp_is_void
   (hse0) = let
 in
 //
-case+ hse0.hisexp_node of
+case+
+hse0.hisexp_node of
 | HSEcst (s2c) =>
     $S2C.s2cstref_equ_cst ($S2C.the_atsvoid_t0ype, s2c)
   // end of [HSEcst]
@@ -177,7 +179,7 @@ case+ hse0.hisexp_node of
     val HSLABELED (_, _, hse) = lhse in hisexp_is_void (hse)
   end // end of [HSEtyrecsin]
 //
-| _ => false
+| _ (*non-void*) => false
 //
 end // end of [hisexp_is_void]
 
@@ -186,11 +188,12 @@ hisexp_fun_is_void
   (hse_fun) = let
 in
 //
-case+ hse_fun.hisexp_node of
+case+
+hse_fun.hisexp_node of
 | HSEfun (
     fc, hses_arg, hse_res
   ) => hisexp_is_void (hse_res)
-| _ => false
+| _ (*non-HSEfun*) => false
 //
 end // end of [hisexp_fun_is_void]
 
@@ -254,7 +257,7 @@ labhisexp_get_elt (lhse) =
 implement
 hisexp_tybox = '{
   hisexp_name= HITNAM_BOXED, hisexp_node= HSEtybox ()
-}
+} (* end of [hisexp_tybox] *)
 
 implement
 hisexp_typtr = let
@@ -273,7 +276,8 @@ in (* in-of-local *)
 
 implement
 hisexp_clotyp = '{
-  hisexp_name= HITNAM_TYCLO, hisexp_node= HSEtyabs (ATSTYCLO_TOP)
+  hisexp_name= HITNAM_TYCLO
+, hisexp_node= HSEtyabs (ATSTYCLO_TOP)
 } (* [hisexp_clotyp] *)
 
 end (* end of [local] *)
@@ -392,7 +396,7 @@ hisexp_make_node
   hit: hitnam, node: hisexp_node
 ) : hisexp = '{
   hisexp_name= hit, hisexp_node= node
-} // end of [hisexp_make_node]
+} (* end of [hisexp_make_node] *)
 
 (* ****** ****** *)
 
@@ -413,27 +417,35 @@ hisexp_make_srtsym
   (s2t, sym) = let
   val isbox = s2rt_is_boxed_fun (s2t)
 in
-  if isbox then hisexp_tybox else hisexp_tyabs (sym)
+  if isbox
+    then hisexp_tybox else hisexp_tyabs (sym)
+  // end of [if]
 end // end of [hisexp_make_srtsym]
 
 (* ****** ****** *)
 
 implement
-hisexp_fun
-  (fc, arg, res) =
-  hisexp_make_node (HITNAM_FUNPTR, HSEfun (fc, arg, res))
-// end of [hisexp_fun]
+hisexp_cst (s2c) =
+  hisexp_make_node (HITNAM_TYABS, HSEcst (s2c))
 
 (* ****** ****** *)
 
 implement
-hisexp_cst (s2c) = hisexp_make_node (HITNAM_TYABS, HSEcst (s2c))
+hisexp_fun
+(
+  funclo, arg, res
+) = let
+  val node = HSEfun (funclo, arg, res)
+in
+  hisexp_make_node(HITNAM_FUNPTR, node)
+end // end of [hisexp_fun]
 
 (* ****** ****** *)
 
 implement
 hisexp_app
-  (_fun, _arg) = hisexp_make_node (HITNAM_TYAPP, HSEapp (_fun, _arg))
+  (_fun, _arg) =
+  hisexp_make_node (HITNAM_TYAPP, HSEapp (_fun, _arg))
 // end of [hisexp_app]
 
 (* ****** ****** *)
@@ -551,7 +563,8 @@ hisexp_s2zexp (s2ze) =
 
 local
 
-fun aux (
+fun
+aux (
   sub: !stasub, hse0: hisexp, flag: &int
 ) : hisexp = let
 in

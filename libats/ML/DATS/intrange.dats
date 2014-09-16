@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2010-2014 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2010-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -24,52 +24,82 @@
 ** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
 ** 02110-1301, USA.
 *)
+
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom*)
+(* Authoremail: gmhwxiATgmailDOTcom *)
 (* Start time: September, 2014 *)
-
-(* ****** ****** *)
-//
-// HX-2013-04:
-// intrange (l, r) is for integers i satisfying l <= i < r
-//
-(* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
+
+staload "libats/ML/SATS/intrange.sats"
+
+(* ****** ****** *)
 //
-fun{}
+implement
+{}(*tmp*)
 int_repeat_lazy
-  (n: int, f: lazy(void)): void
-fun{}
-int_repeat_cloref
-  (n: int, f: cfun0 (void)): void
-//
-overload .repeat with int_repeat_lazy
-overload .repeat with int_repeat_cloref
-//
-(* ****** ****** *)
-//
-fun{}
-int_foreach_cloref
-  (n: int, f: cfun1 (int, void)): void
-//
-overload .foreach with int_foreach_cloref
-//
-(* ****** ****** *)
-//
-fun{}
-intrange_foreach_cloref
-  (l: int, r: int, f: cfun(int, void)): void
+  (n, f) =
+  int_repeat_cloref<> (n, lazy2cloref(f))
 //
 (* ****** ****** *)
 
-(* end of [intrange.sats] *)
+implement
+{}(*tmp*)
+int_repeat_cloref
+  (n, f) = let
+//
+fun
+loop
+(
+  n: int, f: cfun0(void)
+) : void = (
+//
+if n > 0
+  then let val () = f () in loop (n-1, f) end
+  else ()
+//
+) (* end of [loop] *)
+//
+in
+  loop (n, f)
+end // end of [int_repeat_cloref]
+
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+int_foreach_cloref
+  (n, f) = intrange_foreach_cloref<> (0, n, f)
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+intrange_foreach_cloref
+  (l, r, f) = let
+//
+fun
+loop
+(
+  l: int, r: int, f: cfun1(int, void)
+) : void = (
+//
+if l < r
+  then let val () = f (l) in loop (l+1, r, f) end
+  else ()
+//
+) (* end of [loop] *)
+//
+in
+  loop (l, r, f)
+end // end of [intrange_foreach_cloref]
+
+(* ****** ****** *)
+
+(* end of [intrange.dats] *)

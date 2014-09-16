@@ -2772,10 +2772,18 @@ emit_instr_move_delay
 val-INSmove_delay
   (tmp, lin, hse, thunk) = ins.instr_node
 //
-val (
-) = if (lin = 0) then emit_text (out, "ATSINSmove_delay(")
-val (
-) = if (lin > 0) then emit_text (out, "ATSINSmove_ldelay(")
+val () =
+if (lin = 0)
+  then emit_text (out, "ATSINSmove_delay(")
+//
+val () =
+if (lin > 0)
+  then emit_text (out, "ATSINSmove_ldelay(")
+//
+val hse =
+(
+  if hisexp_is_void(hse) then hisexp_int_t0ype() else hse
+) : hisexp // end of [val]
 //
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")

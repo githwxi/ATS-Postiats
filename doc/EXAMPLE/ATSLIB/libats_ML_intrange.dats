@@ -17,10 +17,11 @@ staload "libats/ML/SATS/intrange.sats"
 staload _ = "libats/ML/DATS/intrange.dats"
 
 (* ****** ****** *)
-
-val () = (5).repeat(lam () =<cloref1> println! ("Hello!"))
+//
+val () = (5).repeat($delay(println! ("Hello!")))
+//
 val () = (5).foreach(lam (i:int) =<cloref1> println! (i, ": Hello!"))
-
+//
 (* ****** ****** *)
 
 implement main0 () = ()
