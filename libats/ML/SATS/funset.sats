@@ -42,7 +42,8 @@ staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 //
-// HX: for sets of elements of type a
+// HX-2013-08:
+// for sets of elements of type a
 //
 abstype set_type (a:t@ype+) = ptr
 typedef set (a:t0p) = set_type (a)

@@ -246,6 +246,7 @@ RMF=rm -f
 ######
 
 #make2_entry("libats_ML_filebas", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_ML_intrange", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######
 

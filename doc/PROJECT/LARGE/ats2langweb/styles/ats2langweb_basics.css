@@ -1,0 +1,19 @@
+/*
+** styles for used in ats2langweb
+*/
+
+/* ****** ****** */
+
+.center {
+  margin: auto
+} /* .center */
+.center80 {
+  width: 80%; margin: auto;
+} /* .center80 */
+.center90 {
+  width: 90%; margin: auto;
+} /* .center90 */
+
+/* ****** ****** */
+
+/* end of [ats2langweb_basics.css] */

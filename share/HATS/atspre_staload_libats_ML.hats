@@ -36,16 +36,23 @@ staload "{$PATSLIBATS}/ML/SATS/string.sats"
 staload "{$PATSLIBATS}/ML/SATS/strarr.sats"
 //
 staload "{$PATSLIBATS}/ML/SATS/filebas.sats"
+staload "{$PATSLIBATS}/ML/SATS/intrange.sats"
 //
 staload "{$PATSLIBATS}/ML/SATS/stdlib.sats"
 //
 staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/list0.dats"
+//
 staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/option0.dats"
+//
 staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/array0.dats"
 staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/matrix0.dats"
+//
 staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/string.dats"
 staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/strarr.dats"
+//
 staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/filebas.dats"
+staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/intrange.dats"
+//
 staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/stdlib.dats"
 //
 (* ****** ****** *)
