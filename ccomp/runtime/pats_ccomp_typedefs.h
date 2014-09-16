@@ -156,13 +156,23 @@ typedef void* atstype_cloptr ;
 #define atstkind_t0ype(tk) tk
 
 /* ****** ****** */
+
+#ifdef _ATS_ARRAY_FIELD
+#define atstyarr_field(fname) fname[]
+#else
+#define atstyarr_field(fname) ATSTYARR_FIELD_ERROR(fname[])
+#endif // end of [_ATS_ARRAY_FILED]
+
+/* ****** ****** */
 //
 // HX-2014-05:
 // making it not usable!!!
 //
-#ifndef _ATSTYPE_VAR_SIZE
+#ifdef _ATSTYPE_VAR_SIZE
+// HX: it is set by the user
+#else
 #define _ATSTYPE_VAR_SIZE 0X10000
-#endif // end of [#ifndef]
+#endif // end of [#ifdef]
 //
 // HX-2014-05:
 // for 8-bit or 16-bit march,
