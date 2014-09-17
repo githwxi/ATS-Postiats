@@ -156,13 +156,17 @@ typedef void* atstype_cloptr ;
 #define atstkind_t0ype(tk) tk
 
 /* ****** ****** */
-
+//
+// HX-2014-09-16:
+// making it unusable unless
+// _ATS_ARRAY_FIELD is defined
+//
 #ifdef _ATS_ARRAY_FIELD
 #define atstyarr_field(fname) fname[]
 #else
-#define atstyarr_field(fname) atstyarr_field_error(fname[])
+#define atstyarr_field(fname) atstyarr_field_undef(fname)
 #endif // end of [_ATS_ARRAY_FIELD]
-
+//
 /* ****** ****** */
 //
 // HX-2014-05:
