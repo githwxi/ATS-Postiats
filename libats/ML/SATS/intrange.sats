@@ -53,8 +53,8 @@ fun{}
 int_repeat_cloref
   (n: int, f: cfun0 (void)): void
 //
-overload .repeat with int_repeat_lazy
-overload .repeat with int_repeat_cloref
+overload repeat with int_repeat_lazy
+overload repeat with int_repeat_cloref
 //
 (* ****** ****** *)
 //
@@ -62,7 +62,7 @@ fun{}
 int_foreach_cloref
   (n: int, f: cfun1 (int, void)): void
 //
-overload .foreach with int_foreach_cloref
+overload foreach with int_foreach_cloref
 //
 (* ****** ****** *)
 //

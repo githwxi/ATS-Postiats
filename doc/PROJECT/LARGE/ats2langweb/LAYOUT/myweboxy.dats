@@ -1,12 +1,11 @@
 (*
-** layout_mylib
+** for testing weboxy
 *)
 
 (* ****** ****** *)
 //
 #include
 "share/atspre_define.hats"
-//
 #include
 "share/atspre_staload.hats"
 #include
@@ -31,4 +30,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [layout_mylib.dats] *)
+(* end of [myweboxy.dats] *)

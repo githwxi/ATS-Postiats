@@ -18,9 +18,12 @@ staload _ = "libats/ML/DATS/intrange.dats"
 
 (* ****** ****** *)
 //
-val () = (5).repeat($delay(println! ("Hello!")))
-//
-val () = (5).foreach(lam (i:int) =<cloref1> println! (i, ": Hello!"))
+val ((*void*)) =
+  repeat(5, $delay(print"Hello!\n"))
+val ((*void*)) =
+  repeat(5, lam () =<cloref1> print"Hello!\n")
+val ((*void*)) =
+  foreach (5, lam(i:int) =<cloref1> print!(i, ": Hello!\n"))
 //
 (* ****** ****** *)
 
