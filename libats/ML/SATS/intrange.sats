@@ -68,7 +68,7 @@ overload foreach with int_foreach_cloref
 //
 fun{}
 intrange_foreach_cloref
-  (l: int, r: int, f: cfun(int, void)): void
+  (l: int, r: int, f: cfun1 (int, void)): void
 //
 (* ****** ****** *)
 
