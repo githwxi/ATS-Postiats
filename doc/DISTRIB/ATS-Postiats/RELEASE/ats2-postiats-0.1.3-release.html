@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>ATS2-0.0.8</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.1.3:
+</H2>
+
+<pre>
+
+This is the 12th release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Adding support for dot-notation overloading in assignments.
+   This feature is mostly for interacting ATS with other languages.
+   See ATS2TUTORIAL/CHAP_DOTOVERLD for a short article of explanation.
+2. Adding support for functional style o dot-notation overloading.
+   This feature makes it very convenient for ATS to interact with OOP.
+3. Generally improving level-2 jsonization (pats_dynexp2_jsonize)
+4. Adding support for extvar decl. (which is different from $extval):
+   extval "external_name" = internal_value
+5. ATS_DYNLOADFLAG is set to 1 by default only for DATS-files. So
+   dynloading SATS-files is no longer necessary (but it is still harmless).
+6. Adding support for $extmcall(ret_type, obj, "method", arglst),
+   which translates into the method invocation: obj.method(arglst)
+7. Adding -D_ATS_ARRAY_FIELD to safe-guard using array fields in records.
+
+</pre>
+
+</body><!--body-->
+</html><!--html-->

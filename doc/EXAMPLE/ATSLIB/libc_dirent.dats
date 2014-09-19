@@ -16,6 +16,15 @@ staload _ = "libc/DATS/dirent.dats"
 
 (* ****** ****** *)
 
+%{^
+//
+#undef ATSextfcall
+#define ATSextfcall(fun, funarg) fun funarg
+//
+%} // end of [%{^]
+
+(* ****** ****** *)
+
 val () =
 {
 //

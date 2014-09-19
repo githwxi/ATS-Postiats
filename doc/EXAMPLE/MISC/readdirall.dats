@@ -34,6 +34,15 @@ staload _ = "libats/DATS/dynarray.dats"
 
 (* ****** ****** *)
 
+%{^
+//
+#undef ATSextfcall
+#define ATSextfcall(fun, funarg) fun funarg
+//
+%} // end of [%{^]
+
+(* ****** ****** *)
+
 extern
 fun{}
 readdirall$pred (x: !Direntp1): bool
