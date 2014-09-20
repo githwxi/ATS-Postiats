@@ -1,18 +1,13 @@
 (*
 //
-// For invoking [patsopt]
+// For server-side actions
 //
 *)
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-//
-(* ****** ****** *)
-//
-#define
-ATS_EXTERN_PREFIX "atslangweb_"
+#define ATS_PACKNAME "atslangweb"
+#define ATS_EXTERN_PREFIX "atslangweb__"
 //
 (* ****** ****** *)
 //
@@ -25,6 +20,17 @@ fun fname_dats_php (fname: string): string = "mac#%"
 (* ****** ****** *)
 //
 fun exec_retval (command: string): int(*ret*) = "mac#%"
+//
+(* ****** ****** *)
+//
+absvtype tmpfile
+//
+fun tmpfile_unlink (tmpfile): bool
+//
+fun tmpfile2string (fname: !tmpfile): string
+//
+fun tmpfile_make_nil (pfx: string): tmpfile
+fun tmpfile_make_string (pfx: string, content: string): tmpfile
 //
 (* ****** ****** *)
 //
@@ -44,32 +50,32 @@ patsopt_command (): string
 //
 fun{}
 patsopt_tcats_command
-  (string(*inp*), string(*stderr*)): string
+  (!tmpfile(*inp*), !tmpfile(*log*)): string
 fun{}
 patsopt_ccats_command
-  (string(*inp*), string(*out*), string(*stderr*)): string
+  (!tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*log*)): string
 //
 (* ****** ****** *)
 //
-fun{}
-patsopt_tcats_file (fname: string): compres
 fun{}
 patsopt_tcats_code (ptext: string): compres
+fun{}
+patsopt_tcats_file (fname: !tmpfile): compres
 //
 fun{}
-patsopt_ccats_code (fname: string): compres
-fun{}
 patsopt_ccats_code (ptext: string): compres
+fun{}
+patsopt_ccats_code (fname: !tmpfile): compres
 //
 (* ****** ****** *)
 //
 fun{}
-patsopt_ccats_continue (fname: string): compres
-fun{}
-patsopt_ccats_continue_file (fname: string): compres
+patsopt_ccats_continue (fname: !tmpfile): compres
 fun{}
 patsopt_ccats_continue_code (ptext: string): compres
+fun{}
+patsopt_ccats_continue_file (fname: !tmpfile): compres
 //
 (* ****** ****** *)
 
-(* end of [atslangweb_utils.sats] *)
+(* end of [atslangweb.sats] *)
