@@ -18,4 +18,11 @@ patsopt_tcats_rpc$reply (reply: string): void = "mac#%"
 
 (* ****** ****** *)
 
+fun{}
+patsopt_atscc2js_rpc (code: string): void = "mac#%"
+fun{}
+patsopt_atscc2js_rpc$reply (reply: string): void = "mac#%"
+
+(* ****** ****** *)
+
 (* end of [atslangweb.sats] *)

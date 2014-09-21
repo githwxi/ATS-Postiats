@@ -691,6 +691,318 @@ ats2jspre_decodeURIComponent(uri) { return decodeURIComponent(uri); }
 
 /* end of [JSglobal_cats.js] */
 /*
+******
+*
+* HX-2014-08:
+* for JavaScript code
+* translated from ATS
+*
+******
+*/
+
+/*
+******
+* beg of [Ajax_cats.js]
+******
+*/
+
+/* ****** ****** */
+
+function
+ats2js_Ajax_XMLHttpRequest_new
+(
+  // argumentless
+)
+{ 
+  var res = new XMLHttpRequest(); return res;
+}
+
+/* ****** ****** */
+//
+function
+ats2js_Ajax_XMLHttpRequest_open
+  (xmlhttp, method, URL, async)
+  { xmlhttp.open(method, URL, async); return; }
+//
+/* ****** ****** */
+//
+function
+ats2js_Ajax_XMLHttpRequest_send_0
+  (xmlhttp) { xmlhttp.send(); return; }
+function
+ats2js_Ajax_XMLHttpRequest_send_1
+  (xmlhttp, msg) { xmlhttp.send(msg); return; }
+//
+/* ****** ****** */
+//
+function
+ats2js_Ajax_XMLHttpRequest_setRequestHeader
+  (xmlhttp, header, value)
+  { xmlhttp.setRequestHeader(header, value); return; }
+//
+/* ****** ****** */
+//
+function
+ats2js_Ajax_XMLHttpRequest_get_responseXML
+  (xmlhttp) { return xmlhttp.responseXML; }
+function
+ats2js_Ajax_XMLHttpRequest_get_responseText
+  (xmlhttp) { return xmlhttp.responseText; }
+//
+/* ****** ****** */
+//
+function
+ats2js_Ajax_XMLHttpRequest_get_status
+  (xmlhttp) { return xmlhttp.status; }
+//
+function
+ats2js_Ajax_XMLHttpRequest_get_readyState
+  (xmlhttp) { return xmlhttp.readyState; }
+//
+function
+ats2js_Ajax_XMLHttpRequest_set_onreadystatechange
+  (xmlhttp, f_action)
+{
+  xmlhttp.onreadystatechange = function() { f_action[0](f_action); };
+}
+//
+/* ****** ****** */
+//
+// HX-2014-09: Convenience functions
+//
+/* ****** ****** */
+//
+function
+ats2js_Ajax_XMLHttpRequest_is_ready_okay
+  (xmlhttp) { return xmlhttp.readyState===4 && xmlhttp.status===200; }
+//
+/* ****** ****** */
+
+/* end of [Ajax_cats.js] */
+/*
+******
+*
+* HX-2014-08:
+* for JavaScript code
+* translated from ATS
+*
+******
+*/
+
+/*
+******
+* beg of [canvas2d_cats.js]
+******
+*/
+
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_make
+  (id)
+{
+  var canvas =
+    document.getElementById(id);
+  // end of [var]
+  if(!canvas) return canvas;
+  if(!canvas.getContext) throw "ats2js_HTML5_canvas2d_make: 2D-canvas is not supported";
+  return canvas.getContext("2d")
+}
+
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_beginPath
+  (ctx) { ctx.beginPath(); return; }
+function
+ats2js_HTML5_canvas2d_closePath
+  (ctx) { ctx.closePath(); return; }
+
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_moveTo
+  (ctx, x, y) { ctx.moveTo(x, y); return; }
+function
+ats2js_HTML5_canvas2d_lineTo
+  (ctx, x, y) { ctx.lineTo(x, y); return; }
+
+/* ****** ****** */
+//
+function
+ats2js_HTML5_canvas2d_translate
+  (ctx, x, y) { ctx.translate(x, y); return; }
+//
+function
+ats2js_HTML5_canvas2d_scale
+  (ctx, sx, sy) { ctx.scale(sx, sy); return; }
+//
+function
+ats2js_HTML5_canvas2d_rotate
+  (ctx, rangle) { ctx.rotate(rangle); return; }
+//
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_rect
+  (ctx, xul, yul, width, height)
+{
+  ctx.rect(xul, yul, width, height); return;
+} /* end of [ats2js_HTML5_canvas2d_rect] */
+
+function
+ats2js_HTML5_canvas2d_arc
+  (ctx, xc, yc, rad, angle_beg, angle_end, CCW)
+{
+  ctx.arc(xc, yc, rad, angle_beg, angle_end, CCW); return;
+} /* end of [ats2js_HTML5_canvas2d_arc] */
+
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_clearRect
+  (ctx, xul, yul, width, height)
+{
+  ctx.clearRect(xul, yul, width, height); return;
+} /* end of [ats2js_HTML5_canvas2d_clearRect] */
+
+/* ****** ****** */
+//
+function
+ats2js_HTML5_canvas2d_fill(ctx) { ctx.fill(); return; }
+function
+ats2js_HTML5_canvas2d_stroke(ctx) { ctx.stroke(); return; }
+//
+/* ****** ****** */
+//
+function
+ats2js_HTML5_canvas2d_fillRect
+  (ctx, xul, yul, width, height)
+{
+  ctx.fillRect(xul, yul, width, height); return;
+} /* end of [ats2js_HTML5_canvas2d_fillRect] */
+//
+function
+ats2js_HTML5_canvas2d_strokeRect
+  (ctx, xul, yul, width, height)
+{
+  ctx.strokeRect(xul, yul, width, height); return;
+} /* end of [ats2js_HTML5_canvas2d_strokeRect] */
+//
+/* ****** ****** */
+//
+function
+ats2js_HTML5_canvas2d_fillText
+  (ctx, text, xstart, ystart)
+{
+  ctx.fillText(text, xstart, ystart); return;
+}
+function
+ats2js_HTML5_canvas2d_fillText2
+  (ctx, text, xstart, ystart, maxWidth)
+{ 
+  ctx.fillText2(text, xstart, ystart, maxWidth); return;
+}
+//
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_save(ctx) { ctx.save(); return; }
+function
+ats2js_HTML5_canvas2d_restore(ctx) { ctx.restore(); return; }
+
+/* ****** ****** */
+//
+function
+ats2js_HTML5_canvas2d_get_lineWidth
+  (ctx) { return ctx.lineWidth; }
+function
+ats2js_HTML5_canvas2d_set_lineWidth_int
+  (ctx, lineWidth) { ctx.lineWidth = lineWidth; return; }
+function
+ats2js_HTML5_canvas2d_set_lineWidth_double
+  (ctx, lineWidth) { ctx.lineWidth = lineWidth; return; }
+//
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_set_font_string
+  (ctx, font) { ctx.font = font; return; }
+function
+ats2js_HTML5_canvas2d_set_textAlign_string
+  (ctx, textAlign) { ctx.textAlign = textAlign; return; }
+function
+ats2js_HTML5_canvas2d_set_textBaseline_string
+  (ctx, textBaseline) { ctx.textBaseline = textBaseline; return; }
+
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_set_fillStyle_string
+  (ctx, fillStyle) { ctx.fillStyle = fillStyle; return; }
+function
+ats2js_HTML5_canvas2d_set_strokeStyle_string
+  (ctx, strokeStyle) { ctx.strokeStyle = strokeStyle; return; }
+
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_set_shadowColor_string
+  (ctx, shadowColor) { ctx.shadowColor = shadowColor; return; }
+
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_set_shadowBlur_int
+  (ctx, shadowBlur) { ctx.shadowBlur = shadowBlur; return; }
+function
+ats2js_HTML5_canvas2d_set_shadowBlur_string
+  (ctx, shadowBlur) { ctx.shadowBlur = shadowBlur; return; }
+
+/* ****** ****** */
+//
+function
+ats2js_HTML5_canvas2d_set_shadowOffsetX_int
+  (ctx, X) { ctx.shadowOffsetX = X; return; }
+function
+ats2js_HTML5_canvas2d_set_shadowOffsetX_double
+  (ctx, X) { ctx.shadowOffsetX = X; return; }
+//
+function
+ats2js_HTML5_canvas2d_set_shadowOffsetY_int
+  (ctx, Y) { ctx.shadowOffsetY = Y; return; }
+function
+ats2js_HTML5_canvas2d_set_shadowOffsetY_double
+  (ctx, Y) { ctx.shadowOffsetY = Y; return; }
+//
+/* ****** ****** */
+
+function
+ats2js_HTML5_canvas2d_createLinearGradient
+  (ctx, x0, y0, x1, y1)
+{
+  return ctx.createLinearGradient(x0, y0, x1, y1);
+}
+
+/* ****** ****** */
+//
+function
+ats2js_HTML5_canvas2d_gradient_addColorStop
+  (grad, stop, color) { grad.addColorStop(stop, color); return; }
+//
+/* ****** ****** */
+//
+function
+ats2js_HTML5_canvas2d_set_fillStyle_gradient
+  (ctx, gradient) { ctx.fillStyle = gradient; return; }
+function
+ats2js_HTML5_canvas2d_set_strokeStyle_gradient
+  (ctx, gradient) { ctx.strokeStyle = gradient; return; }
+//
+/* ****** ****** */
+
+/* end of [canvas2d_cats.js] */
+/*
 **
 ** The JavaScript code is generated by atscc2js
 ** The starting compilation time is: 2014-9-19:  0h:53m

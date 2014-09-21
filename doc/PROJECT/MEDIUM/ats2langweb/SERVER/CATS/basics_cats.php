@@ -36,27 +36,50 @@ atslangweb__exec_retval
 
 /* ****** ****** */
 //
-$atslangweb__patsopt_code_preamble = "
+$atslangweb__patsopt_tcats_preamble = "
 #include
 \"share/atspre_define.hats\"
-staload\"{\$LIBATSCC2JS}/staloadall.hats\"
-#define ATS_MAINATSFLAG 1
-#define ATS_DYNFLAGNAME \"my_dynload\"
-" ; // end of [$atslangweb__patsopt_code_preamble]
+#include
+\"share/HATS/atspre_staload_libats_ML.hats\"
+" ; // end of [$atslangweb__patsopt_tcats_preamble]
 //
-$atslangweb__patsopt_code_postamble = "
+$atslangweb__patsopt_tcats_postamble = "" ;
+//
+/* ****** ****** */
+//
+$atslangweb__patsopt_ccats_preamble = "
+#include
+\"share/atspre_define.hats\"
+#include
+\"share/HATS/atspre_staload_libats_ML.hats\"
+" ; // end of [$atslangweb__patsopt_ccats_preamble]
+//
+$atslangweb__patsopt_ccats_postamble = "" ;
+//
+/* ****** ****** */
+//
+$atslangweb__patsopt_atscc2js_preamble = "
+#include
+\"share/atspre_define.hats\"
+#include
+\"{\$LIBATSCC2JS}/staloadall.hats\"
+//
+staload \"{\$LIBATSCC2JS}/SATS/print.sats\"
+//
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME \"my_dynload\"
+//
+" ; // end of [$atslangweb__patsopt_atscc2js_preamble]
+//
+$atslangweb__patsopt_atscc2js_postamble = "
 %{\$
 //
-function
-my_main()
-{
 ats2jspre_the_print_store_clear();
-my_dyload();
+my_dynload();
 alert(ats2jspre_the_print_store_join());
-}
 //
-%} // end of [%{\001]
-" ; // end of [$atslangweb__patsopt_code_postamble]
+%} // end of [%{\$}
+" ; // end of [$atslangweb__patsopt_atscc2js_postamble]
 //
 /* ****** ****** */
 

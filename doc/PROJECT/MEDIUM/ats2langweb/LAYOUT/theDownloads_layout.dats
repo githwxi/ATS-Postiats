@@ -129,7 +129,7 @@ val () =
 thePageRBodyLHeader.content
 ("\
 <?php\n\
-include './thePageRBodyLHeader/Home.php';\n\
+include './thePageRBodyLHeader/Downloads.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -137,7 +137,7 @@ val () =
 thePageRBodyLContent.content
 ("\
 <?php\n\
-include './thePageRBodyLContent/Home.php';\n\
+include './thePageRBodyLContent/Downloads.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -147,7 +147,7 @@ val () =
 thePageRBodyRight.content
 ("\
 <?php\n\
-include './thePageRBodyRight/Home.php';\n\
+include './thePageRBodyRight/Downloads.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -278,4 +278,4 @@ val () =
 
 (* ****** ****** *)
 
-(* end of [theHome.dats] *)
+(* end of [theDownloads.dats] *)

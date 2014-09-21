@@ -62,19 +62,33 @@ patsopt_tcats_code (ptext: string): compres
 fun{}
 patsopt_tcats_file (fname: !tmpfile): compres
 //
+(* ****** ****** *)
+//
+// HX-2014-09-20:
+// this one may be re-implemented to process
+// the output from [patsopt-ccats]
+//
+fun{}
+patsopt_ccats_cont (fname: !tmpfile): compres
+//
 fun{}
 patsopt_ccats_code (ptext: string): compres
 fun{}
-patsopt_ccats_code (fname: !tmpfile): compres
+patsopt_ccats_file (fname: !tmpfile): compres
 //
 (* ****** ****** *)
 //
 fun{}
-patsopt_ccats_continue (fname: !tmpfile): compres
+atscc2js_command (): string
+//
 fun{}
-patsopt_ccats_continue_code (ptext: string): compres
+atscc2js_comp_command
+  (!tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*log*)): string
+//
+(* ****** ****** *)
+//
 fun{}
-patsopt_ccats_continue_file (fname: !tmpfile): compres
+atscc2js_comp_file (fname: !tmpfile): compres
 //
 (* ****** ****** *)
 

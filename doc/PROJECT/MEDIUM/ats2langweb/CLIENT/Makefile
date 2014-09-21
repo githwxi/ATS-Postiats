@@ -13,8 +13,30 @@ ATSCC2JS=${PATSHOME}/bin/atscc2js
 
 ######
 
-all:: ; \
-$(PATSOPT) -d DATS/atslangweb_utils.dats | \
-$(ATSCC2JS) -o mycode/atslangweb_utils_dats.js -i
+CPF=cp -f
+RMF=rm -f
+
+######
+#
+# all:: ; $(CPF) CATS/*.js mycode/.
+#
+######
+#
+all:: \
+mycode/atslangweb_utils_dats.js
+#
+DATS/atslangweb_utils_dats.c: \
+DATS/atslangweb_utils.dats; $(PATSOPT) -o $@ -d $<
+mycode/atslangweb_utils_dats.js: \
+DATS/atslangweb_utils_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+######
+
+clean:: ; $(RMF) DATS/*_?ats.c
+
+######
+
+cleanall:: clean
+cleanall:: ; $(RMF) mycode/atslangweb_utils_dats.js
 
 ###### end of [Makefile] ######

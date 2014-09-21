@@ -32,11 +32,34 @@ staload "./../SATS/atslangweb.sats"
 (* ****** ****** *)
 //
 staload _(*anon*) = "./patsopt_tcats.dats"
+staload _(*anon*) = "./patsopt_ccats.dats"
+//
+staload _(*anon*) = "./atscc2js_comp.dats"
 //
 (* ****** ****** *)
 //
 implement
-patsopt_command<> () = "patsopt"
+{}(*tmp*)
+patsopt_command () = "patsopt"
+//
+(*
+implement
+patsopt_command<> () = let
+  val PATSHOME =
+    getenv("PATSHOME") where
+  {
+    extern fun getenv : string -> string = "mac#"
+  } (* end of [val] *)
+in
+  if $UN.cast{bool}(PATSHOME) then PATSHOME . "/bin/patsopt" else "patsopt"
+end // end of [patsopt_command]
+*)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+atscc2js_command () = "atscc2js"
 //
 (* ****** ****** *)
 //
@@ -60,9 +83,9 @@ patsopt_tcats_code_1_
   (code) = let
 //
 val preamble =
-  $extval(string, "$GLOBALS['atslangweb__patsopt_code_preamble']")
+  $extval(string, "$GLOBALS['atslangweb__patsopt_tcats_preamble']")
 val postamble =
-  $extval(string, "$GLOBALS['atslangweb__patsopt_code_postamble']")
+  $extval(string, "$GLOBALS['atslangweb__patsopt_tcats_postamble']")
 //
 val code2 =
   $extfcall(string, "sprintf", "%s\n%s\n%s\n", preamble, code, postamble)
@@ -74,6 +97,87 @@ val () = println! ("code2 = ", code2)
 in
   patsopt_tcats_code_0_(code2)
 end // end of [patsopt_tcats_code_1_]
+
+(* ****** ****** *)
+//
+extern
+fun
+patsopt_ccats_code_0_
+  (code: string): compres = "mac#%"
+//
+implement
+patsopt_ccats_code_0_ (code) = patsopt_ccats_code<> (code)
+//
+(* ****** ****** *)
+//
+extern
+fun
+patsopt_ccats_code_1_
+  (code: string): compres = "mac#%"
+//
+implement
+patsopt_ccats_code_1_
+  (code) = let
+//
+val preamble =
+  $extval(string, "$GLOBALS['atslangweb__patsopt_ccats_preamble']")
+val postamble =
+  $extval(string, "$GLOBALS['atslangweb__patsopt_ccats_postamble']")
+//
+val code2 =
+  $extfcall(string, "sprintf", "%s\n%s\n%s\n", preamble, code, postamble)
+//
+(*
+val () = println! ("code2 = ", code2)
+*)
+//
+in
+  patsopt_ccats_code_0_(code2)
+end // end of [patsopt_ccats_code_1_]
+
+(* ****** ****** *)
+//
+extern
+fun
+patsopt_atscc2js_code_0_
+  (code: string): compres = "mac#%"
+//
+implement
+patsopt_atscc2js_code_0_ (code) = let
+//
+implement
+patsopt_ccats_cont<> (fname) = atscc2js_comp_file<> (fname)
+//
+in
+  patsopt_ccats_code<> (code)
+end // end of [patsopt_atscc2js_code_0_]
+//
+(* ****** ****** *)
+//
+extern
+fun
+patsopt_atscc2js_code_1_
+  (code: string): compres = "mac#%"
+//
+implement
+patsopt_atscc2js_code_1_
+  (code) = let
+//
+val preamble =
+  $extval(string, "$GLOBALS['atslangweb__patsopt_atscc2js_preamble']")
+val postamble =
+  $extval(string, "$GLOBALS['atslangweb__patsopt_atscc2js_postamble']")
+//
+val code2 =
+  $extfcall(string, "sprintf", "%s\n%s\n%s\n", preamble, code, postamble)
+//
+(*
+val () = println! ("code2 = ", code2)
+*)
+//
+in
+  patsopt_atscc2js_code_0_(code2)
+end // end of [patsopt_ccats_code_1_]
 
 (* ****** ****** *)
 

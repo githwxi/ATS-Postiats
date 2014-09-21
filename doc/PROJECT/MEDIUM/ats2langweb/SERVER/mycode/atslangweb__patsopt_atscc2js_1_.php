@@ -24,7 +24,7 @@ putenv("PATH=$PATH:$PATSHOME/bin");
 //
 $mycode =
 rawurldecode($_REQUEST["mycode"]);
-$mycode_res = atslangweb__patsopt_tcats_code_1_($mycode);
+$mycode_res = atslangweb__patsopt_atscc2js_code_1_($mycode);
 echo rawurldecode(json_encode($mycode_res));
 //
 ?>
