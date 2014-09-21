@@ -73,14 +73,18 @@ val cont =
 (
   if cont then atsccomp_cont (cas) else false
 ) : bool // end of [val]
-val () = if cont then
+val () =
+if cont then
 {
 //
 val cmd = atsccomp_get2 (cas)
 val arglst = atsccompline_make (cas)
-val () = status := atsccompline_exec (1(*flag*), cmd, arglst)
+val () =
+(
+  status := atsccompline_exec (1(*flag*), cmd, arglst)
+) (* end of [val] *)
 //
-} (* end of [if] *)
+} (* end of [if] *) // end of [val]
 //
 val cont =
 (
@@ -90,10 +94,17 @@ val cont =
 (
   if cont then atscc_cleanaft_cont (cas) else false
 ) : bool // end of [val]
-val () = if cont then atscc_cleanaft_exec (1(*flag*), cas)
 //
-val (
-) = exit_void (if status = 0 then 0(*success*) else 1(*failure*))
+val () =
+if cont
+  then atscc_cleanaft_exec (1(*flag*), cas) else ()
+// end of [if]
+//
+val () =
+exit_void
+(
+  if status = 0 then 0(*success*) else 1(*failure*)
+) (* end of [val] *)
 //
 } (* end of [main0] *)
 

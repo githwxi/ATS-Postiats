@@ -137,5 +137,55 @@ in
 end (* end of [HOME_listsub_onclick] *)
 //
 (* ****** ****** *)
+//
+extern
+fun
+Home_repeat_f0f1_getval
+  ((*void*)): string = "mac#"
+extern
+fun
+Home_repeat_f0f1_reply
+  (reply: string): void = "mac#"
+//
+extern
+fun
+Home_repeat_f0f1_onclick (): void = "mac#"
+//
+%{^
+//
+function
+Home_repeat_f0f1_getval()
+{
+  return document.getElementById("repeat_f0f1_dats").value;
+}
+//
+function
+Home_repeat_f0f1_reply(reply)
+{
+  var comparr =
+    JSON.parse(decodeURIComponent(reply));
+  // end of [var]
+  if (comparr[0]===0) eval(comparr[1]);
+  if (comparr[0] > 0) alert("Compilation failed!");
+  return;
+}
+//
+%} // end of [%{^]
+//
+implement
+Home_repeat_f0f1_onclick () = let
+//
+implement
+patsopt_atscc2js_rpc$reply<>
+  (reply) = Home_repeat_f0f1_reply (reply)
+//
+val mycode = Home_repeat_f0f1_getval ()
+val ((*void*)) = patsopt_atscc2js_rpc (mycode)
+//
+in
+  // nothing
+end (* end of [HOME_repeat_f0f1_onclick] *)
+//
+(* ****** ****** *)
 
 (* end of [atslangweb_utils.dats] *)
