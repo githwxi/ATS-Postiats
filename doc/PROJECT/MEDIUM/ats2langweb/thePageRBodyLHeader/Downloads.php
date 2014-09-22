@@ -1,4 +1,4 @@
-<h1>Download</h1>
+<h1>Downloads</h1>
 <ul>
 <li>ATS packages for download</li>
 <li>Requirements for installation</li>

@@ -1,6 +1,6 @@
 (*
 ** For
-** atslangweb_Downloads
+** atslangweb_Documents
 *)
 
 (* ****** ****** *)
@@ -41,7 +41,7 @@ val () =
 thePageRBodyLHeader.content
 ("\
 <?php\n\
-include './thePageRBodyLHeader/Downloads.php';\n\
+include './thePageRBodyLHeader/Documents.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -49,7 +49,7 @@ val () =
 thePageRBodyLContent.content
 ("\
 <?php\n\
-include './thePageRBodyLContent/Downloads.php';\n\
+include './thePageRBodyLContent/Documents.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -78,4 +78,4 @@ val () =
 
 (* ****** ****** *)
 
-(* end of [theDownloads_layout.dats] *)
+(* end of [theDocuments_layout.dats] *)

@@ -2,38 +2,53 @@
 #hello_dats {
   font-size: 9pt;
   font-family: monospace;
-  background-color: #c0c0c0;
+  color: #7f0c2c;
+  background-color: #eaeaea;
 }
 #listsub_dats {
   font-size: 9pt;
   font-family: monospace;
-  background-color: #c0c0c0;
+  color: #7f0c2c;
+  background-color: #eaeaea;
 }
 #repeat_f0f1_dats {
   font-size: 9pt;
   font-family: monospace;
-  background-color: #c0c0c0;
+  color: #7f0c2c;
+  background-color: #eaeaea;
 }
 #thePageRBodyRight
 {
   font-size: 11pt;
+  background: #d1d360;
+  border-top-left-radius:12px;
+  border-bottom-left-radius:12px;
 }
 </style>
 
-ATS is versatile in its support for programming syntax.
-For example, a tiny program in ATS of functional style is given as
-follows:<br>
+<div
+style="margin-top:8px;padding-top:10px;padding-left:6px"
+>
+
+<h2 style="display:inline;">Yes, ATS can!</h2>
+
+<hr></hr>
+
+<p>
+ATS is versatile in its support for programming syntax. For instance, the
+following tiny ATS program is written in a style of functional programming:
+</p>
 
 <TEXTAREA
- ID="hello_dats"
- ROWS="14" COLS="38">
+ ID="hello_dats" ROWS="14" COLS="38"
+>
 //
-// Say Hello! once
+// Yes, you can edit
 //
+(* Say Hello! once *)
 val () = print"Hello!\n"
 //
-// Say Hello! 3 times
-//
+(* Say Hello! 3 times *)
 val () =
 repeat(3, a) where
 {
@@ -43,21 +58,27 @@ val () = print_newline((*void*))
 //
 </TEXTAREA>
 
-<button type="button" onclick="Home_hello_onclick()">Try-it-yourself</button>
+<button
+ ID="hello_button"
+ type="button" onclick="Home_hello_onclick()"
+>Try-it-yourself</button>
+
+<hr></hr>
 
 <p>
-
-ATS can support (static) typechecking with great precision.
-The following code demonstrates the ability of ATS in detecting
-out-of-bounds subscripting at compile-time:<br>
+ATS is both accurate and expressive in its support for (static)
+typechecking.  The following code demonstrates the ability of ATS in
+detecting out-of-bounds subscripting at compile-time:
+</p>
 
 <TEXTAREA
- ID="listsub_dats"
- ROWS="10" COLS="38">
+ ID="listsub_dats" ROWS="11" COLS="38"
+>
 //
-// Build a list of 3
+// Yes, you can edit
 //
-val xs = $list(0,1,2)
+(* Build a list of 3 *)
+val xs = $list(0, 1, 2)
 //
 val x0 = xs[0] // legal
 val x1 = xs[1] // legal
@@ -66,26 +87,32 @@ val x3 = xs[3] // illegal
 //
 </TEXTAREA>
 
-<button type="button" onclick="Home_listsub_onclick()">Try-it-yourself</button>
+<button
+ ID="listsub_button"
+ type="button" onclick="Home_listsub_onclick()"
+>Try-it-yourself</button>
+
+<hr></hr>
 
 <p>
-
-The template system of ATS provides a highly flexible approach to code
-sharing. The following example should probably reminds someone of
-higher-order functions but it is actually every bit of a first-order
-implementation:
+ATS is highly effective and flexible in its support for a template-based
+approach to code reuse. As an example, the following code is likely to
+remind someone of higher-order functions but it is actually every bit of a
+first-order implementation in ATS:
+</p>
 
 <TEXTAREA
- ID="repeat_f0f1_dats"
- ROWS="16" COLS="38">
+ ID="repeat_f0f1_dats" ROWS="16" COLS="38"
+>
+//
+// Yes, you can edit
 //
 extern
 fun{} f0 (): int
 extern
-fun{} f1 (x: int): int
+fun{} f1 (int): int
 extern
-fun{}
-repeat_f0f1 (n: int): int
+fun{} repeat_f0f1 (int): int
 //
 implement
 {}(*tmp*)
@@ -124,6 +151,10 @@ println! ("2^5 = ", power(2,5))
 //
 </TEXTAREA>
 
-<button type="button" onclick="Home_repeat_f0f1_onclick()">Try-it-yourself</button>
+<button
+ ID="repeat_f0f1_button"
+ type="button" onclick="Home_repeat_f0f1_onclick()"
+>Try-it-yourself</button>
 
+</div>
 <?php /* end of [Home.php] */ ?>

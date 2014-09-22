@@ -49,6 +49,22 @@ theDownloads_layout.html: theDownloads_layout; ./$< > $@
 cleanall:: ; $(RMF) theDownloads_layout
 #
 ######
+#
+all:: \
+theDocuments_layout
+theDocuments_layout: \
+theDocuments_layout.dats; \
+$(PATSCC2) \
+  -D_GNU_SOURCE \
+  -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
+#
+regress:: \
+theDocuments_layout.html
+theDocuments_layout.html: theDocuments_layout; ./$< > $@
+#
+cleanall:: ; $(RMF) theDocuments_layout
+#
+######
 
 include $(PATSHOME)/share/atsmake-post.mk
 
@@ -61,6 +77,7 @@ cleanats:: ; $(RMF) *_?ats.c
 cleanall:: cleanats
 cleanall:: ; $(RMF) theHome_layout.html
 cleanall:: ; $(RMF) theDownloads_layout.html
+cleanall:: ; $(RMF) theDocuments_layout.html
 
 ######
 

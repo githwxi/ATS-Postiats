@@ -43,6 +43,10 @@ Home_hello_getval
   ((*void*)): string = "mac#"
 extern
 fun
+Home_hello_button_set
+  (name: string): void = "mac#"
+extern
+fun
 Home_hello_reply
   (reply: string): void = "mac#"
 //
@@ -57,6 +61,11 @@ Home_hello_getval()
 {
   return document.getElementById("hello_dats").value;
 }
+function
+Home_hello_button_set(name)
+{
+  document.getElementById("hello_button").innerHTML = name; return;
+}
 //
 function
 Home_hello_reply(reply)
@@ -66,6 +75,7 @@ Home_hello_reply(reply)
   // end of [var]
   if (comparr[0]===0) eval(comparr[1]);
   if (comparr[0] > 0) alert("Compilation failed!");
+  Home_hello_button_set("Try-it-yourself"); // HX: change it back!
   return;
 }
 //
@@ -79,11 +89,12 @@ patsopt_atscc2js_rpc$reply<>
   (reply) = Home_hello_reply (reply)
 //
 val mycode = Home_hello_getval ()
+val ((*void*)) = Home_hello_button_set ("Wait...")
 val ((*void*)) = patsopt_atscc2js_rpc (mycode)
 //
 in
   // nothing
-end (* end of [HOME_hello_onclick] *)
+end (* end of [Home_hello_onclick] *)
 //
 (* ****** ****** *)
 //
@@ -91,6 +102,10 @@ extern
 fun
 Home_listsub_getval
   ((*void*)): string = "mac#"
+extern
+fun
+Home_listsub_button_set
+  (name: string): void = "mac#"
 //
 extern
 fun
@@ -110,6 +125,12 @@ Home_listsub_getval()
 }
 //
 function
+Home_listsub_button_set(name)
+{
+  document.getElementById("listsub_button").innerHTML = name; return;
+}
+//
+function
 Home_listsub_reply(reply)
 {
   var comparr =
@@ -117,6 +138,7 @@ Home_listsub_reply(reply)
   // end of [var]
   if (comparr[0]===0) alert ("Typechecking passed!");
   if (comparr[0] > 0) alert ("Typechecking failed!");
+  Home_listsub_button_set("Try-it-yourself"); // HX: change it back!
   return;
 }
 //
@@ -130,11 +152,12 @@ patsopt_tcats_rpc$reply<>
   (reply) = Home_listsub_reply (reply)
 //
 val mycode = Home_listsub_getval ()
+val ((*void*)) = Home_listsub_button_set ("Wait...")
 val ((*void*)) = patsopt_tcats_rpc (mycode)
 //
 in
   // nothing
-end (* end of [HOME_listsub_onclick] *)
+end (* end of [Home_listsub_onclick] *)
 //
 (* ****** ****** *)
 //
@@ -142,6 +165,11 @@ extern
 fun
 Home_repeat_f0f1_getval
   ((*void*)): string = "mac#"
+extern
+fun
+Home_repeat_f0f1_button_set
+  (name: string): void = "mac#"
+//
 extern
 fun
 Home_repeat_f0f1_reply
@@ -160,6 +188,12 @@ Home_repeat_f0f1_getval()
 }
 //
 function
+Home_repeat_f0f1_button_set(name)
+{
+  document.getElementById("repeat_f0f1_button").innerHTML = name; return;
+}
+//
+function
 Home_repeat_f0f1_reply(reply)
 {
   var comparr =
@@ -167,6 +201,7 @@ Home_repeat_f0f1_reply(reply)
   // end of [var]
   if (comparr[0]===0) eval(comparr[1]);
   if (comparr[0] > 0) alert("Compilation failed!");
+  Home_repeat_f0f1_button_set("Try-it-yourself"); // HX: change it back!
   return;
 }
 //
@@ -180,11 +215,12 @@ patsopt_atscc2js_rpc$reply<>
   (reply) = Home_repeat_f0f1_reply (reply)
 //
 val mycode = Home_repeat_f0f1_getval ()
+val ((*void*)) = Home_repeat_f0f1_button_set ("Wait...")
 val ((*void*)) = patsopt_atscc2js_rpc (mycode)
 //
 in
   // nothing
-end (* end of [HOME_repeat_f0f1_onclick] *)
+end (* end of [Home_repeat_f0f1_onclick] *)
 //
 (* ****** ****** *)
 
