@@ -21,7 +21,7 @@ LDFLAGS += -lgc
 all:: \
 theHome_layout
 theHome_layout: \
-theHome_layout.dats; \
+theHome_layout.dats mylayout.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
@@ -37,7 +37,7 @@ cleanall:: ; $(RMF) theHome_layout
 all:: \
 theDownloads_layout
 theDownloads_layout: \
-theDownloads_layout.dats; \
+theDownloads_layout.dats mylayout.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
@@ -53,7 +53,7 @@ cleanall:: ; $(RMF) theDownloads_layout
 all:: \
 theDocuments_layout
 theDocuments_layout: \
-theDocuments_layout.dats; \
+theDocuments_layout.dats mylayout.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats

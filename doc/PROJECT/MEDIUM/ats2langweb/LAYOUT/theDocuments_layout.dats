@@ -31,7 +31,7 @@ val () =
 thePageRHeaderSep.content
 ("\
 <?php\n\
-include './thePageRHeaderSep/Home.php';\n\
+include './thePageRHeaderSep/Documents.php';\n\
 ?>\n\
 ") (* end of [val] *)
 

@@ -172,9 +172,9 @@ fprint_css_postamble<>
 //
 val () =
 fprint (out, "\
-body {
-font-family: sans-serif;
-background-color: #213449; /* dark blue */
+body {\n\
+  font-family: Helvetica, Arial, sans-serif;\n\
+  background-color: #213449; /* dark blue */\n\
 }\n\
 ") (* end of [fprint] *)
 // 
@@ -209,6 +209,16 @@ fprint (out, "\
 }\n\
 ") (* end of [fprint] *)
 //
+val () =
+fprint (out, "\
+.thePageRBodyLContent\n\
+{\n\
+  margin-left: 8px;\n\
+  margin-right: 8px;\n\
+  padding-top: 12px;\n\
+}\n\
+") (* end of [fprint] *)
+//
 in
   // nothing
 end // end of [fprint_css_postamble]
@@ -230,6 +240,19 @@ fprint (out
 val () =
 fprint (out
 , "<script src=\"./CLIENT/mycode/atslangweb_utils_dats.js\"></script>\n"
+) (* end of [val] *)
+//
+val () =
+fprint (out
+, "<?php include './thePage/share.php'; ?>"
+) (* end of [val] *)
+val () =
+fprint (out
+, "<?php include './thePageRHeaderSep/share.php'; ?>"
+) (* end of [val] *)
+val () =
+fprint (out
+, "<?php include './thePageRBodyLHeader/share.php'; ?>"
 ) (* end of [val] *)
 //
 in

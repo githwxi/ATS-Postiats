@@ -1,10 +1,10 @@
 <div
-style="margin-left:8px;padding-top:12px;"
->
+class="thePageRBodyLContent"
+><!--div-->
 
 <hr></hr>
 
-<h2>What is ATS?</h2>
+<h2><a id="What_is_ATS">What is ATS?</a></h2>
 <!--
 <h2 style="display:inline;">What is ATS?</h2>
 -->
@@ -84,7 +84,7 @@ encoding deduction systems and their (meta-)properties.
 
 <hr></hr>
 
-<h2>What is ATS good for?</h2>
+<h2><a id="What_is_ATS_good_for">What is ATS good for?</a></h2>
 
 <ul>
 
@@ -126,7 +126,7 @@ software.
 
 <hr></hr>
 
-<h2>Acknowledgments</h2>
+<h2><a id="Acknowledgments">Acknowledgments</a></h2>
 
 <p>
 The development of ATS has been funded in part by <a

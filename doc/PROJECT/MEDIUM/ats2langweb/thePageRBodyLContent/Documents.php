@@ -1,6 +1,6 @@
 <div
-style="margin-left:8px;padding-top:12px;"
->
+class="thePageRBodyLContent"
+><!--div-->
 
 <hr></hr>
 
