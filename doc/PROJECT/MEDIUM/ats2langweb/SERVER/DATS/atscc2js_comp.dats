@@ -37,14 +37,14 @@ implement
 {}(*tmp*)
 atscc2js_comp_command
 (
-  fname_dats_c, fname_dats_js, fname_dats_c_log
+  fname_dats_c, fname_dats_js, fname_dats_stderr
 ) = let
 //
 val atscc2js = atscc2js_command<> ()
 //
 val fname_dats_c = $UN.castvwtp1{string}(fname_dats_c)
 val fname_dats_js = $UN.castvwtp1{string}(fname_dats_js)
-val fname_dats_c_log = $UN.castvwtp1{string}(fname_dats_c_log)
+val fname_dats_stderr = $UN.castvwtp1{string}(fname_dats_stderr)
 //
 in
 //
@@ -52,7 +52,7 @@ $extfcall
 (
   string, "sprintf"
 , "%s 2>%s --output %s --input %s"
-, atscc2js, fname_dats_c_log, fname_dats_js, fname_dats_c
+, atscc2js, fname_dats_stderr, fname_dats_js, fname_dats_c
 ) (* end of [$extfcall] *)
 //
 end // end of [atscc2js_comp_command]
@@ -68,13 +68,13 @@ atscc2js_comp_file
 //
 val fname_dats_js =
   tmpfile_make_nil ("atscc2js_comp_")
-val fname_dats_c_log =
+val fname_dats_stderr =
   tmpfile_make_nil ("atscc2js_comp_")
 //
 val
 command =
 atscc2js_comp_command
-  (fname_dats_c, fname_dats_js, fname_dats_c_log)
+  (fname_dats_c, fname_dats_js, fname_dats_stderr)
 //
 val
 exec_ret = exec_retval (command)
@@ -90,7 +90,7 @@ if exec_ret = 0
     COMPRES0_succ (code)
   end // end of [then]
   else let
-    val errmsg = tmpfile2string (fname_dats_c_log)
+    val errmsg = tmpfile2string (fname_dats_stderr)
     val unlink_ret = tmpfile_unlink (fname_dats_js)
   in
     COMPRES1_fail (errmsg)
@@ -98,7 +98,7 @@ if exec_ret = 0
 // end of [if]
 ) : compres // end of [val]
 //
-val unlink_ret = tmpfile_unlink (fname_dats_c_log)
+val unlink_ret = tmpfile_unlink (fname_dats_stderr)
 //
 } (* end of [atscc2js_comp_file] *)
 
