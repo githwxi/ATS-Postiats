@@ -714,14 +714,18 @@ tree of an integer expression and returns an integer that is the value of
 the expression:
 
 #atscode("\
-fun eval_iexp (e0: IEXP): int = case+ e0 of
-  | IEXPcst (n) => n
-  | IEXPneg (e) => ~eval_iexp (e)
-  | IEXPadd (e1, e2) => eval_iexp (e1) + eval_iexp (e2)
-  | IEXPsub (e1, e2) => eval_iexp (e1) - eval_iexp (e2)
-  | IEXPmul (e1, e2) => eval_iexp (e1) * eval_iexp (e2)
-  | IEXPdiv (e1, e2) => eval_iexp (e1) / eval_iexp (e1)
-// end of [eval_iexp]
+fun
+eval_iexp
+  (e0: IEXP): int =
+(
+case+ e0 of
+| IEXPcst (n) => n
+| IEXPneg (e) => ~eval_iexp (e)
+| IEXPadd (e1, e2) => eval_iexp (e1) + eval_iexp (e2)
+| IEXPsub (e1, e2) => eval_iexp (e1) - eval_iexp (e2)
+| IEXPmul (e1, e2) => eval_iexp (e1) * eval_iexp (e2)
+| IEXPdiv (e1, e2) => eval_iexp (e1) / eval_iexp (e1)
+) (* end of [eval_iexp] *)
 ")
 ")#comment("para")
 
@@ -766,7 +770,8 @@ integer expressions. The following two functions #dyncode("eval_iexp") and
 respectively, are defined mutually recursively as can be expected:
 
 #atscode("\
-fun eval_iexp
+fun
+eval_iexp
   (e0: IEXP): int =
 (
 case+ e0 of
@@ -785,7 +790,8 @@ case+ e0 of
   ) // end of [IEXPif]
 ) (* end of [eval_iexp] *)
 
-and eval_bexp
+and
+eval_bexp
   (e0: BEXP): bool =
 (
 case+ e0 of

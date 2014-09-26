@@ -41,15 +41,24 @@
 }
 #thePageRHeaderSepL a:visited
 {
-  color: #7F7F7F;
+  color: #80C0C0;
 }
 #thePageRHeaderSepL a:hover
 {
-  color: #C8C8C8;
+  color: #C0E0E0;
 }
 #thePageRHeaderSepL a:active
 {
-  color: #A0A0A0;
+  color: #C0C0C0;
+}
+
+.thePageRHeaderSepL_submenu
+{
+  display: none;
+  position: absolute;
+  padding: 6px;
+  border-radius: 12px;
+  background-color: rgba(143,2,34,0.825)
 }
 
 #thePageRHeaderSepR
@@ -64,6 +73,63 @@
   background: #FFFFF0 url(//www.google.com/coop/intl/en/images/google_custom_search_watermark.gif) left no-repeat;
 }
 </style>
+
+<script>
+//
+var
+theSubmenuTable = 0;
+theSubmenuTimeout = 0;
+//
+function
+theSubmenuTable_hide()
+{
+  if(theSubmenuTable)
+  {
+    theSubmenuTable.css({display:'none'});
+  }
+}
+function
+theSubmenuTimeout_clear()
+{
+  if(theSubmenuTimeout)
+  {
+    clearTimeout(theSubmenuTimeout); theSubmenuTimeout = 0;
+  }
+}
+//
+function
+submenu_mouseout()
+{
+  theSubmenuTimeout =
+  setTimeout (
+    function(){theSubmenuTimeout=0;theSubmenuTable_hide();}, 500
+  ) ; // end of [setTimeout]
+  return;
+}
+//
+function
+submenu_mouseover(name)
+{
+  var jqi;
+  theSubmenuTable_hide();
+  theSubmenuTimeout_clear();
+  jqi =
+  $('#thePageRHeaderSepL>ul>li[name="'+name+'"]');
+  theSubmenuTable = jqi.next('table');
+  theSubmenuTable.css({display:'table'});
+  theSubmenuTable.css (
+    {top:jqi.position().top+jqi.outerHeight(true)+8}
+  ) ; // end of [theSubmenuTable.css]
+  theSubmenuTable.css({left:jqi.position().left});
+  return;
+}
+//
+function
+submenu_table_mouseout() { submenu_mouseout(); }
+function
+submenu_table_mouseover() { theSubmenuTimeout_clear(); }
+//
+</script>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>

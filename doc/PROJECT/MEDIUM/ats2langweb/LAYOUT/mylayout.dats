@@ -75,7 +75,7 @@ val thePageRHeaderTop =
   webox_make_name ("thePageRHeaderTop")
 val thePageRHeaderSep =
   webox_make_name ("thePageRHeaderSep")
-val () = thePageRHeaderSep.bgcolor("#8f0222")
+val () = thePageRHeaderSep.bgcolor("rgb(143,2,34)")
 //
 val () =
   thePageRHeader.children (thePageRHeaderTop, thePageRHeaderSep)
@@ -96,7 +96,7 @@ val () = thePageRBodyRight.pheight(100)
 val () =
   thePageRBody.tabstyle (TShbox)
 val () =
-  thePageRBody.percentlst ($list(72, 28))
+  thePageRBody.percentlst ($list(68, 32))
 val () =
   thePageRBody.children (thePageRBodyLeft, thePageRBodyRight)
 //
@@ -160,6 +160,18 @@ fprint (out, "\
 }\n\
 ") (* end of [fprint] *)
 //
+val () =
+fprint (out, "\
+.command_line {\n\
+  width:96%;\n\
+  margin:auto;\n\
+  padding:10px;\n\
+  color: #000000;\n\
+  background-color: #FFFFFF;\n\
+  border-radius:6px\n\
+}\n\
+") (* end of [fprint] *)
+//
 in
   // nothing
 end // end of [fprint_css_preamble]
@@ -172,6 +184,7 @@ fprint_css_postamble<>
 //
 val () =
 fprint (out, "\
+\n\
 body {\n\
   font-family: Helvetica, Arial, sans-serif;\n\
   background-color: #213449; /* dark blue */\n\
@@ -180,8 +193,9 @@ body {\n\
 // 
 val () =
 fprint (out, "\
+\n\
 #thePage {\n\
-  width: 85%;\n\
+  width: 90%;\n\
   margin-left: auto;\n\
   margin-right: auto;\n\
 }\n\
@@ -189,6 +203,7 @@ fprint (out, "\
 //
 val () =
 fprint (out, "\
+\n\
 #thePageRHeader {\n\
   text-align: center;
 }\n\
@@ -196,6 +211,7 @@ fprint (out, "\
 //
 val () =
 fprint (out, "\
+\n\
 #thePageRFooter {\n\
   text-align: center;\n\
 }\n\
@@ -203,6 +219,7 @@ fprint (out, "\
 //
 val () =
 fprint (out, "\
+\n\
 #thePageLeft {\n\
   background-color: #1e5799;\n\
   background-image: linear-gradient(to right, #1e5799, #7db9e8);\n\
@@ -211,6 +228,19 @@ fprint (out, "\
 //
 val () =
 fprint (out, "\
+\n\
+#thePageRBodyRight\n\
+{\n\
+  font-size: 88%;\n\
+  background: #d1d360;\n\
+  border-top-left-radius:12px;\n\
+  border-bottom-left-radius:12px;\n\
+}\n\
+") (* end of [fprint] *)
+//
+val () =
+fprint (out, "\
+\n\
 .thePageRBodyLContent\n\
 {\n\
   margin-left: 8px;\n\
@@ -230,21 +260,47 @@ fprint_webox_head_end<>
   (out) = let
 //
 val () =
-fprint (out
-, "<script src=\"./CLIENT/mycode/libatscc2js_all.js\"></script>\n"
+fprint (out, "\
+<script\n\
+ src=\"./SCRIPT/jquery-2.1.1.min.js\">\n\
+</script>\n"
+) (* end of [val] *)
+//
+(*
+val () =
+fprint (out, "\
+<script\n\
+ src=\"//cdn.jsdelivr.net/jquery/2.1.1/jquery.min.js\">\n\
+</script>\n"
+) (* end of [val] *)
+*)
+//
+val () =
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/mycode/libatscc2js_all.js\">\n\
+</script>\n"
 ) (* end of [val] *)
 val () =
-fprint (out
-, "<script src=\"./CLIENT/mycode/libatscc2js_print_store.js\"></script>\n"
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/mycode/libatscc2js_print_store.js\">\n\
+</script>\n"
 ) (* end of [val] *)
 val () =
-fprint (out
-, "<script src=\"./CLIENT/mycode/atslangweb_utils_dats.js\"></script>\n"
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/mycode/atslangweb_utils_dats.js\">\n\
+</script>\n"
 ) (* end of [val] *)
 //
 val () =
 fprint (out
 , "<?php include './thePage/share.php'; ?>"
+) (* end of [val] *)
+val () =
+fprint (out
+, "<?php include './thePageLeft/share.php'; ?>"
 ) (* end of [val] *)
 val () =
 fprint (out

@@ -13,7 +13,7 @@ val () =
 thePageLeft.content(
 "\
 <?php\n\
-include './thePageLeft/Home.php';\n\
+include './thePageLeft/Downloads.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -58,9 +58,7 @@ include './thePageRBodyLContent/Downloads.php';\n\
 val () =
 thePageRBodyRight.content
 ("\
-<?php\n\
-include './thePageRBodyRight/Home.php';\n\
-?>\n\
+<?php include './thePageRBodyRight/Downloads.php'; ?>\n\
 ") (* end of [val] *)
 
 (* ****** ****** *)

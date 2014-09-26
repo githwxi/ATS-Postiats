@@ -17,30 +17,32 @@
   color: #8B0000;
   background-color: #FFFAF0;
 }
-#thePageRBodyRight
-{
-  font-size: 11pt;
-  background: #d1d360;
-  border-top-left-radius:12px;
-  border-bottom-left-radius:12px;
-}
 </style>
 
 <div
-style="margin-top:8px;padding-top:10px;padding-left:6px"
->
+style="margin-top:8px;padding:8px;"
+><!--div-->
 
 <h2 style="display:inline;">Yes, ATS can!</h2>
 
 <hr></hr>
 
 <p>
-ATS is versatile in its support for programming syntax. For instance, the
+The core of ATS is a typed call-by-value functional
+programming language that is largely based on ML. For instance, the
 following tiny ATS program is written in a style of functional programming:
 </p>
 
-<TEXTAREA
- ID="hello_dats" ROWS="14" COLS="38"
+<div
+width=98% margin=auto
+><!--div-->
+
+<table>
+<tr>
+<td width="10%"></td>
+<td width>
+<textarea
+ id="hello_dats" rows="14" cols="36"
 >
 //
 // Yes, you can edit
@@ -56,12 +58,18 @@ repeat(3, a) where
 } (* end of [where] *)
 val () = print_newline((*void*))
 //
-</TEXTAREA>
+</textarea>
 
 <button
  ID="hello_button"
  type="button" onclick="Home_hello_onclick()"
 >Try-it-yourself</button>
+</td>
+<td width="10%"></td>
+</tr>
+</table>
+
+</div>
 
 <hr></hr>
 
@@ -71,8 +79,16 @@ typechecking.  The following code demonstrates the ability of ATS in
 detecting out-of-bounds subscripting at compile-time:
 </p>
 
-<TEXTAREA
- ID="listsub_dats" ROWS="11" COLS="38"
+<div
+width=98% margin=auto
+><!--div-->
+
+<table>
+<tr>
+<td width="10%"></td>
+<td width>
+<textarea
+ id="listsub_dats" rows="11" cols="36"
 >
 //
 // Yes, you can edit
@@ -85,12 +101,17 @@ val x1 = xs[1] // legal
 val x2 = xs[2] // legal
 val x3 = xs[3] // illegal
 //
-</TEXTAREA>
-
+</textarea>
 <button
  ID="listsub_button"
  type="button" onclick="Home_listsub_onclick()"
 >Try-it-yourself</button>
+</td>
+<td width="10%"></td>
+</tr>
+</table>
+
+</div>
 
 <hr></hr>
 
@@ -101,8 +122,16 @@ remind someone of higher-order functions but it is actually every bit of a
 first-order implementation in ATS:
 </p>
 
-<TEXTAREA
- ID="repeat_f0f1_dats" ROWS="16" COLS="38"
+<div
+width=98% margin=auto
+><!--div-->
+
+<table>
+<tr>
+<td width="10%"></td>
+<td width>
+<textarea
+ id="repeat_f0f1_dats" rows="16" cols="36"
 >
 //
 // Yes, you can edit
@@ -147,14 +176,21 @@ println! ("5*5 = ", times(5,5))
 val () =
 println! ("5^2 = ", power(5,2))
 val () =
-println! ("2^5 = ", power(2,5))
+println! ("2^10 = ", power(2,10))
+val () =
+println! ("3^10 = ", power(3,10))
 //
-</TEXTAREA>
-
+</textarea>
 <button
  ID="repeat_f0f1_button"
  type="button" onclick="Home_repeat_f0f1_onclick()"
 >Try-it-yourself</button>
+</td>
+<td width="10%"></td>
+</tr>
+</table>
+
+</div>
 
 </div>
 <?php /* end of [Home.php] */ ?>
