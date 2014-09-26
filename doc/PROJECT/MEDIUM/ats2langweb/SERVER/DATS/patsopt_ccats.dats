@@ -1,6 +1,7 @@
 (*
 //
-// [patsopt] for typechecking
+// [patsopt]:
+// *.dats -> *_dats.c
 //
 *)
 

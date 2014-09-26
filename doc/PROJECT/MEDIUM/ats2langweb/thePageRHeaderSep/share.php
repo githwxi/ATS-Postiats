@@ -35,7 +35,7 @@ thePageRHeaderSep_menuitem($name)
   {
     echo "<li name=\"$name\" class=\"self\" $onmouseover $onmouseout>$name</li>\n";
   } else {
-    echo "<li name=\"$name\" class=\"other\" $onmouseover $onmouseout><a href=\"$name.php\">$name</a></li>\n";
+    echo "<li name=\"$name\" class=\"other\" $onmouseover $onmouseout><a href=\"$name.html\">$name</a></li>\n";
   }
 //
   return;
@@ -48,7 +48,7 @@ function
 thePageRHeaderSep_submenu_for_Home($name)
 {
   $page = "";
-  if(atslangweb__get_pgname()!=$name) $page = "$name.php";
+  if(atslangweb__get_pgname()!=$name) $page = "$name.html";
   $onmouseout = "onmouseout=\"submenu_table_mouseout()\"";
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
   echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseover $onmouseout>\n";
@@ -63,7 +63,7 @@ function
 thePageRHeaderSep_submenu_for_Downloads($name)
 {
   $page = "";
-  if(atslangweb__get_pgname()!=$name) $page = "$name.php";
+  if(atslangweb__get_pgname()!=$name) $page = "$name.html";
   $onmouseout = "onmouseout=\"submenu_table_mouseout()\"";
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
   echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseover $onmouseout>\n";
@@ -72,6 +72,7 @@ thePageRHeaderSep_submenu_for_Downloads($name)
   echo "<tr><td><a href=\"$page#Precompiledpack_install\">Precompiled packages for installation</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Install_source_compile\">Installation through source compilation</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Install_of_ATS2_contrib\">Installation of ATS2-contrib</a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#Install_of_ATS2_include\">Installation of ATS2-include</a></td></tr>\n";
   echo "</table>\n";
   return;
 } /* end of [thePageRBodyLHeader_Downloads] */
@@ -80,7 +81,7 @@ function
 thePageRHeaderSep_submenu_for_Documents($name)
 {
   $page = "";
-  if(atslangweb__get_pgname()!=$name) $page = "$name.php";
+  if(atslangweb__get_pgname()!=$name) $page = "$name.html";
   $onmouseout = "onmouseout=\"submenu_table_mouseout()\"";
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
   echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseover $onmouseout>\n";

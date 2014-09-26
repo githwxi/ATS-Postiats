@@ -29,7 +29,7 @@ style="margin-top:8px;padding:8px;"
 
 <p>
 The core of ATS is a typed call-by-value functional
-programming language that is largely based on ML. For instance, the
+programming language that is largely inspired by ML. For instance, the
 following tiny ATS program is written in a style of functional programming:
 </p>
 

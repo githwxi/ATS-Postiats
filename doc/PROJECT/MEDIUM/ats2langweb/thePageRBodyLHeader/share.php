@@ -20,6 +20,7 @@ thePageRBodyLHeader_Downloads()
   echo "<li><a href=\"#Precompiledpack_install\">Precompiled packages for installation</a></li>\n";
   echo "<li><a href=\"#Install_source_compile\">Installation through source compilation</a></li>\n";
   echo "<li><a href=\"#Install_of_ATS2_contrib\">Installation of ATS2-contrib</a></li>\n";
+  echo "<li><a href=\"#Install_of_ATS2_include\">Installation of ATS2-include</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Downloads] */
@@ -33,6 +34,23 @@ thePageRBodyLHeader_Documents()
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Documents] */
+
+function
+thePageRBodyLHeader_Papers()
+{
+  echo "<ul name=\"Papers\">\n";
+  echo "</ul>\n";
+  return;
+} /* end of [thePageRBodyLHeader_Papers] */
+
+function
+thePageRBodyLHeader_Examples()
+{
+  echo "<ul name=\"Examples\">\n";
+  echo "<li><a href=\"#Hello_world\">Hello, world!</a></li>\n";
+  echo "</ul>\n";
+  return;
+} /* end of [thePageRBodyLHeader_Examples] */
 
 ?>
 

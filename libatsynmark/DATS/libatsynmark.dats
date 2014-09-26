@@ -331,7 +331,7 @@ case+
 | T_IDENT_ext (_) => false
 //
 | T_CHAR (_) => false
-| T_INTEGER _ => false
+| T_INT _ => false
 | T_FLOAT _ => false
 | T_STRING (_) => false
 //
@@ -352,6 +352,11 @@ end // end of [token_is_keyword]
 (* ****** ****** *)
 
 implement
+token_is_int (x) =
+  case+ x.token_node of
+  | T_INT _ => true | _ => false
+// end of [token_is_int]
+implement
 token_is_char (x) =
   case+ x.token_node of
   | T_CHAR (_) => true | _ => false
@@ -361,11 +366,6 @@ token_is_float (x) =
   case+ x.token_node of
   | T_FLOAT _ => true | _ => false
 // end of [token_is_float]
-implement
-token_is_integer (x) =
-  case+ x.token_node of
-  | T_INTEGER _ => true | _ => false
-// end of [token_is_integer]
 implement
 token_is_string (x) =
   case+ x.token_node of

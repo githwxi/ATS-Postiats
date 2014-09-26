@@ -78,8 +78,10 @@ fun token_is_comment (x: token): bool
 fun token_is_extcode (x: token): bool
 fun token_is_keyword (x: token): bool
 
+(* ****** ****** *)
+
+fun token_is_int (x: token): bool
 fun token_is_char (x: token): bool
-fun token_is_integer (x: token): bool
 fun token_is_float (x: token): bool
 fun token_is_string (x: token): bool
 
@@ -223,41 +225,48 @@ typedef
 putc_type = (char) -<cloref1> int
 
 (* ****** ****** *)
-
-fun{} // a specific template
+//
+// HX: a specific template
+//
+fun{}
 psynmark_process
   (psm: psynmark, putc: putc_type): void
-// end of [psynmark_process]
-
+//
+(* ****** ****** *)
+//
 fun
 psynmark_process_xhtml_bground
   (psm: psynmark, putc: putc_type): void
-// end of [psynmark_process_xhtml_bground]
-
+//
 fun
 psynmark_process_xhtml_embedded
   (psm: psynmark, putc: putc_type): void
-// end of [psynmark_process_xhtml_embedded]
-
+//
 (* ****** ****** *)
-
-fun{} // this one is a generic
+//
+// HX: this one is a generic
+//
+fun{}
 psynmarklst_process
 (
   pos0: lint, psms: &psynmarklst_vt, putc: putc_type
-) : void // end of [psynmarklst_process]
-
+) : void // end-of-fun
+//
 (* ****** ****** *)
 
-viewtypedef
+vtypedef
 psynmarklstlst_vt = List_vt (psynmarklst_vt)
 
-fun{} // this one is a generic
+(* ****** ****** *)
+//
+// HX: this one is a generic
+//
+fun{}
 psynmarklstlst_process
 (
   pos0: lint, psmss: &psynmarklstlst_vt, putc: putc_type
-) : void // end of [psynmarklstlst_process]
-
+) : void // end-of-fun
+//
 (* ****** ****** *)
 
 fun fhtml_putc (c: char, putc: putc_type): int(*nerr*)
@@ -284,41 +293,38 @@ charlst_psynmarklstlst_process
 ) : void // end of [charlst_psynmarklstlst_process]
 
 (* ****** ****** *)
-
+//
 fun
-lexbufobj_level1_psynmarkize
-  (stadyn: int, lbf: lexbufobj): psynmarklstlst_vt
-// end of [lexbufobj_level1_psynmarkize]
-
+lexbufobj_level1_psynmarkize(stadyn: int, lbf: lexbufobj): psynmarklstlst_vt
+//
 (* ****** ****** *)
-
+//
 fun{}
 string_pats2xhtmlize (stadyn: int, code: string): strptr1
-// end of [string_pats2xhtmlize]
 fun{}
 charlst_pats2xhtmlize (stadyn: int, code: charlst): strptr1
-// end of [charlst_pats2xhtmlize]
-
-(* ****** ****** *)
-
-fun string_pats2xhtmlize_bground
-  (stadyn: int, code: string): strptr1
-fun charlst_pats2xhtmlize_bground
-  (stadyn: int, code: charlst): strptr1
-
-(* ****** ****** *)
-
-fun string_pats2xhtmlize_embedded
-  (stadyn: int, code: string): strptr1
-fun charlst_pats2xhtmlize_embedded
-  (stadyn: int, code: charlst): strptr1
-
+//
 (* ****** ****** *)
 //
-// HX: it is for building ATSLIB documentation
+fun
+string_pats2xhtmlize_bground (stadyn: int, code: string): strptr1
+fun
+charlst_pats2xhtmlize_bground (stadyn: int, code: charlst): strptr1
 //
-fun d0eclreplst_find_synop
-  (xs: d0eclreplst, sym: symbol): List_vt (charlst)
+(* ****** ****** *)
+//
+fun
+string_pats2xhtmlize_embedded (stadyn: int, code: string): strptr1
+fun
+charlst_pats2xhtmlize_embedded (stadyn: int, code: charlst): strptr1
+// 
+(* ****** ****** *)
+//
+// HX:
+// This one is for building ATSLIB documentation
+//
+fun
+d0eclreplst_find_synop(xs: d0eclreplst, sym: symbol): List_vt(charlst)
 //
 (* ****** ****** *)
 

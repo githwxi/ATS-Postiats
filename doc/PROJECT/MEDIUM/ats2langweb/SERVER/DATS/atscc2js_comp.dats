@@ -1,6 +1,7 @@
 (*
 //
-// [patsopt] for typechecking
+// [atscc2js]:
+// *_dats.c -> *_dats.js
 //
 *)
 
@@ -19,7 +20,7 @@ UN = "prelude/SATS/unsafe.sats"
 #define
 ATS_EXTERN_PREFIX "atslangweb_"
 #define
-ATS_STATIC_PREFIX "_atslangweb_patsopt_ccats_"
+ATS_STATIC_PREFIX "_atslangweb_atscc2js_comp_"
 //
 (* ****** ****** *)
 //

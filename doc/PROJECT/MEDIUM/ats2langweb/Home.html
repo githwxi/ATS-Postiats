@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<style>
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+.command_line {
+  width:96%;
+  margin:auto;
+  padding:10px;
+  color: #000000;
+  background-color: #FFFFFF;
+  border-radius:6px
+}
+#thePageLeft {
+/*
+parent: thePage
+children: 
+*/
+height: 100% ;
+} /* thePageLeft */
+
+#thePageRHeaderTop {
+/*
+parent: thePageRHeader
+children: 
+*/
+} /* thePageRHeaderTop */
+
+#thePageRHeaderSep {
+/*
+parent: thePageRHeader
+children: 
+*/
+background-color: rgb(143,2,34);
+} /* thePageRHeaderSep */
+
+#thePageRHeader {
+/*
+parent: thePageRight
+children: thePageRHeaderTop, thePageRHeaderSep
+*/
+} /* thePageRHeader */
+
+#thePageRBodyLHeader {
+/*
+parent: thePageRBodyLeft
+children: 
+*/
+} /* thePageRBodyLHeader */
+
+#thePageRBodyLContent {
+/*
+parent: thePageRBodyLeft
+children: 
+*/
+} /* thePageRBodyLContent */
+
+#thePageRBodyLeft {
+/*
+parent: thePageRBody
+children: thePageRBodyLHeader, thePageRBodyLContent
+*/
+height: 100% ;
+} /* thePageRBodyLeft */
+
+#thePageRBodyRight {
+/*
+parent: thePageRBody
+children: 
+*/
+height: 100% ;
+} /* thePageRBodyRight */
+
+#thePageRBody {
+/*
+parent: thePageRight
+children: thePageRBodyLeft, thePageRBodyRight
+*/
+} /* thePageRBody */
+
+#thePageRFooterSep {
+/*
+parent: thePageRFooter
+children: 
+*/
+background-color: #8f0222;
+} /* thePageRFooterSep */
+
+#thePageRFooterRest {
+/*
+parent: thePageRFooter
+children: 
+*/
+} /* thePageRFooterRest */
+
+#thePageRFooter {
+/*
+parent: thePageRight
+children: thePageRFooterSep, thePageRFooterRest
+*/
+} /* thePageRFooter */
+
+#thePageRight {
+/*
+parent: thePage
+children: thePageRHeader, thePageRBody, thePageRFooter
+*/
+height: 100% ;
+} /* thePageRight */
+
+#thePage {
+/*
+parent: theBodyProp
+children: thePageLeft, thePageRight
+*/
+background-color: #d6f0fd;
+} /* thePage */
+
+#theBodyProp {
+/*
+parent: 
+children: thePage
+*/
+} /* theBodyProp */
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #213449; /* dark blue */
+}
+
+#thePage {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#thePageRHeader {
+  text-align: center;
+}
+
+#thePageRFooter {
+  text-align: center;
+}
+
+#thePageLeft {
+  background-color: #1e5799;
+  background-image: linear-gradient(to right, #1e5799, #7db9e8);
+}
+
+#thePageRBodyRight
+{
+  font-size: 88%;
+  background: #d1d360;
+  border-top-left-radius:12px;
+  border-bottom-left-radius:12px;
+}
+
+.thePageRBodyLContent
+{
+  margin-left: 8px;
+  margin-right: 8px;
+  padding-top: 12px;
+}
+</style>
+<script
+ src="./SCRIPT/jquery-2.1.1.min.js">
+</script>
+<script
+ src="./CLIENT/mycode/libatscc2js_all.js">
+</script>
+<script
+ src="./CLIENT/mycode/libatscc2js_print_store.js">
+</script>
+<script
+ src="./CLIENT/mycode/atslangweb_utils_dats.js">
+</script>
+
+
+
+
+
+</head>
+<body>
+<div id="theBodyProp">
+<div id="thePage">
+<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+<tr height="100%">
+<td style="vertical-align:top;width:15%;">
+<div id="thePageLeft">
+<style>
+#thePageLeft
+{
+  color: #483D8B;
+}
+
+#thePageLeft td.self
+{
+  font-weight: bold;
+}
+#thePageLeft td.other
+{
+  font-weight: normal;
+}
+
+.thePageLeft_menu
+{
+  width: 88%;
+  margin: auto;
+  padding: 12px;
+  border-radius: 12px;
+  background-color: rgba(255,255,240,0.375);
+}
+
+</style>
+
+<table
+ width="100%"
+>
+<tr>
+<td height="144px"></td>
+</tr>
+<tr>
+<td>
+<table
+ class="thePageLeft_menu"
+>
+<tr><td name="Home" class="self">Home</td></tr>
+<tr><td name="Downloads" class="other"><a href="Downloads.html">Downloads</a></td></tr>
+<tr><td name="Documents" class="other"><a href="Documents.html">Documents</a></td></tr>
+<tr><td name="Libraries" class="other"><a href="Libraries.html">Libraries</a></td></tr>
+<tr><td name="Communities" class="other"><a href="Communities.html">Communities</a></td></tr>
+<tr><td name="Papers" class="other"><a href="Papers.html">Papers</a></td></tr>
+<tr><td name="Examples" class="other"><a href="Examples.html">Examples</a></td></tr>
+<tr><td name="Resources" class="other"><a href="Resources.html">Resources</a></td></tr>
+<tr><td name="Implementations" class="other"><a href="Implementations.html">Implementations</a></td></tr>
+<tr><td><a href="https://lists.sourceforge.net/lists/listinfo/ats-lang-users">Mailing-list</a></td></tr>
+<tr><td>IRC-channel</td></tr>
+<tr><td>Google-groups</td></tr>
+</table>
+</td>
+</tr>
+</table>
+
+<!--php-->
+
+</div><!--thePageLeft-->
+</td>
+
+<td style="vertical-align:top;">
+<div id="thePageRight">
+<div id="thePageRHeader">
+<div id="thePageRHeaderTop">
+<style>
+#theHeaderLine1 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 48px;
+  padding-bottom: 2px;
+  font-size: 250%;
+  font-weight: bold;
+}
+#theHeaderLine2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 2px;
+  padding-bottom: 32px;
+  font-size: 160%;
+  font-weight: bold;
+}
+</style>
+<div id="theHeaderLine1">The ATS Programming Language</div>
+<div id="theHeaderLine2">Unleashing the Potential of Types and Templates!</div>
+</div><!--thePageRHeaderTop-->
+
+<div id="thePageRHeaderSep">
+<style>
+#thePageRHeaderSep
+{
+  color: #FFFFF0;
+}
+
+#thePageRHeaderSepL
+{
+  text-align: left;
+  padding-left: 6px;
+}
+
+#thePageRHeaderSepL ul
+{
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+}
+#thePageRHeaderSepL ul li
+{
+  display: inline;
+  border-width: 1px;
+  border-color: #ffffff;
+  border-right-style: double;
+  padding-left: 2px;
+  padding-right: 6px;
+}
+
+#thePageRHeaderSepL li.self
+{
+  font-weight: bold;
+}
+#thePageRHeaderSepL li.other
+{
+  font-weight: normal;
+}
+
+#thePageRHeaderSepL a:link
+{
+  color: #FFFFFF;
+}
+#thePageRHeaderSepL a:visited
+{
+  color: #80C0C0;
+}
+#thePageRHeaderSepL a:hover
+{
+  color: #C0E0E0;
+}
+#thePageRHeaderSepL a:active
+{
+  color: #C0C0C0;
+}
+
+.thePageRHeaderSepL_submenu
+{
+  display: none;
+  position: absolute;
+  padding: 6px;
+  border-radius: 12px;
+  background-color: rgba(143,2,34,0.825)
+}
+
+#thePageRHeaderSepR
+{
+  float: right;
+}
+#thePageRHeaderSepR_input
+{
+  height: 100%;
+  font-size: 12pt;
+  border-radius: 6px;
+  background: #FFFFF0 url(//www.google.com/coop/intl/en/images/google_custom_search_watermark.gif) left no-repeat;
+}
+</style>
+
+<script>
+//
+var
+theSubmenuTable = 0;
+theSubmenuTimeout = 0;
+//
+function
+theSubmenuTable_hide()
+{
+  if(theSubmenuTable)
+  {
+    theSubmenuTable.css({display:'none'});
+  }
+}
+function
+theSubmenuTimeout_clear()
+{
+  if(theSubmenuTimeout)
+  {
+    clearTimeout(theSubmenuTimeout); theSubmenuTimeout = 0;
+  }
+}
+//
+function
+submenu_mouseout()
+{
+  theSubmenuTimeout =
+  setTimeout (
+    function(){theSubmenuTimeout=0;theSubmenuTable_hide();}, 500
+  ) ; // end of [setTimeout]
+  return;
+}
+//
+function
+submenu_mouseover(name)
+{
+  var jqi;
+  theSubmenuTable_hide();
+  theSubmenuTimeout_clear();
+  jqi =
+  $('#thePageRHeaderSepL>ul>li[name="'+name+'"]');
+  theSubmenuTable = jqi.next('table');
+  theSubmenuTable.css({display:'table'});
+  theSubmenuTable.css (
+    {top:jqi.position().top+jqi.outerHeight(true)+8}
+  ) ; // end of [theSubmenuTable.css]
+  theSubmenuTable.css({left:jqi.position().left});
+  return;
+}
+//
+function
+submenu_table_mouseout() { submenu_mouseout(); }
+function
+submenu_table_mouseover() { theSubmenuTimeout_clear(); }
+//
+</script>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+<td width="75%">
+<div
+id="thePageRHeaderSepL"
+>
+<ul>
+<li name="Home" class="self" onmouseover="submenu_mouseover('Home')" onmouseout="submenu_mouseout()">Home</li>
+<table class="thePageRHeaderSepL_submenu" onmouseover="submenu_table_mouseover()" onmouseout="submenu_table_mouseout()">
+<tr><td><a href="#What_is_ATS">What is ATS?<a></td></tr>
+<tr><td><a href="#What_is_ATS_good_for">What is ATS good for?<a></td></tr>
+<tr><td><a href="#Acknowledgments">Acknowledgments</a></td></tr>
+</table>
+<li name="Downloads" class="other" onmouseover="submenu_mouseover('Downloads')" onmouseout="submenu_mouseout()"><a href="Downloads.html">Downloads</a></li>
+<table class="thePageRHeaderSepL_submenu" onmouseover="submenu_table_mouseover()" onmouseout="submenu_table_mouseout()">
+<tr><td><a href="Downloads.html#ATS_packages">ATS packages for download</a></td></tr>
+<tr><td><a href="Downloads.html#Requirements_install">Requirements for installation</a></td></tr>
+<tr><td><a href="Downloads.html#Precompiledpack_install">Precompiled packages for installation</a></td></tr>
+<tr><td><a href="Downloads.html#Install_source_compile">Installation through source compilation</a></td></tr>
+<tr><td><a href="Downloads.html#Install_of_ATS2_contrib">Installation of ATS2-contrib</a></td></tr>
+<tr><td><a href="Downloads.html#Install_of_ATS2_include">Installation of ATS2-include</a></td></tr>
+</table>
+<li name="Documents" class="other" onmouseover="submenu_mouseover('Documents')" onmouseout="submenu_mouseout()"><a href="Documents.html">Documents</a></li>
+<table class="thePageRHeaderSepL_submenu" onmouseover="submenu_table_mouseover()" onmouseout="submenu_table_mouseout()">
+<tr><td><a href="Documents.html#INT2PROGINATS">Introduction to Programming in ATS</a></td></tr>
+<tr><td><a href="Documents.html#TUT2PROGINATS">A Tutorial on Programming Features in ATS</a></td></tr>
+</table>
+<li name="Libraries" class="other" onmouseover="submenu_mouseover('Libraries')" onmouseout="submenu_mouseout()"><a href="Libraries.html">Libraries</a></li>
+<li name="Communities" class="other" onmouseover="submenu_mouseover('Communities')" onmouseout="submenu_mouseout()"><a href="Communities.html">Communities</a></li>
+</ul>
+</div>
+</td>
+
+<td width="25%">
+<div
+id="thePageRHeaderSepR"
+style="margin-top:6px;margin-bottom:6px;"
+>
+<form
+id="search-form"
+action="https://www.google.com/cse"
+>
+<table>
+<tr>
+<td>
+<input
+id="thePageRHeaderSepR_input"
+type="text" name="q" size="22"
+onblur="if (/^\s*$/.test(this.value)) this.style.background='#FFFFF0 url(//www.google.com/coop/intl/en/images/google_custom_search_watermark.gif) left no-repeat'"
+onfocus="this.style.background='#FFFFF0'"
+/>
+</td>
+<td>
+<input type="hidden" name="ie" value="UTF-8" />
+<input type="hidden" name="cx" value="007881927213964201908:gqahxj364ly" />
+<!--
+<input class="button" type="submit" name="sa" value="Search" />
+-->
+</td>
+</tr>
+</table>
+</form>
+</div>
+</td>
+
+</tr>
+</table>
+
+
+</div><!--thePageRHeaderSep-->
+</div><!--thePageRHeader-->
+
+<div id="thePageRBody">
+<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+<tr height="100%">
+<td style="vertical-align:top;width:68%;">
+<div id="thePageRBodyLeft">
+<div id="thePageRBodyLHeader">
+<div
+style="margin-left:8px;"
+>
+
+<h1>About ATS</h1>
+
+<ul name="Home">
+<li><a href="#What_is_ATS">What is ATS?<a></li>
+<li><a href="#What_is_ATS_good_for">What is ATS good for?<a></li>
+<li><a href="#Acknowledgments">Acknowledgments</a></li>
+</ul>
+
+</div>
+
+</div><!--thePageRBodyLHeader-->
+
+<div id="thePageRBodyLContent">
+<div
+class="thePageRBodyLContent"
+><!--div-->
+
+<hr></hr>
+
+<h2><a id="What_is_ATS">What is ATS?</a></h2>
+<!--
+<h2 style="display:inline;">What is ATS?</h2>
+-->
+
+<p>
+ATS is a statically typed programming language that unifies
+implementation with formal specification. It is equipped with a highly
+expressive type system rooted in the framework <em>Applied Type
+System</em>, which gives the language its name.  In particular, both
+dependent types and linear types are available in ATS.
+</p>
+
+<p>
+The current implementation of ATS2 (ATS/Postiats) is written in ATS1
+(ATS/Anairiats), consisting of more than 150K lines of code. ATS can be as
+efficient as C/C++ both time-wise and memory-wise and supports a variety of
+programming paradigms that include:
+</p>
+
+<ul
+style="list-style-position:outside;"
+>
+<li
+style="margin-top:10px;margin-bottom:10px;"
+>
+<strong>Functional programming</strong>.
+The core of ATS is a call-by-value functional language inspired by ML.
+The availability of linear types in ATS often makes functional programs
+written in it run not only with surprisingly high efficiency (when compared
+to C) but also with surprisingly small (memory) footprint (when compared to
+C as well).
+</li>
+
+<li
+style="margin-top:10px;margin-bottom:10px;"
+>
+<strong>Imperative programming</strong>.
+The novel approach to imperative programming in ATS is firmly rooted in the
+paradigm of <em>programming with theorem-proving</em>. The type system of
+ATS allows many features considered dangerous in other languages (such as
+explicit pointer arithmetic and explicit memory allocation/deallocation) to
+be safely supported in ATS, making ATS well-suited for implementing
+high-quality low-level systems.
+</li>
+
+<li
+style="margin-top:10px;margin-bottom:10px;"
+>
+<strong>Concurrent programming</strong>.
+ATS can support multithreaded programming through safe use of pthreads. The
+availability of linear types for tracking and safely manipulating resources
+provides an effective approach to constructing reliable programs that can take
+great advantage of multicore architectures.
+</li>
+
+<li
+style="margin-top:10px;margin-bottom:10px;"
+>
+<strong>Modular programming</strong>.
+The module system of ATS is largely infuenced by that of Modula-3, which is
+both simple and general as well as effective in supporting large scale
+programming.
+</li>
+
+</ul>
+
+<p>
+In addition, ATS contains a subsystem ATS/LF that supports a form of
+(interactive) theorem-proving, where proofs are constructed as total
+functions.  With this subsystem, ATS is able to advocate a
+<em>programmer-centric</em> approach to program verification that combines
+programming with theorem-proving in a syntactically intertwined
+manner. Furthermore, ATS/LF can also serve as a logical framework (LF)
+for encoding various formal systems (such as logic systems and type systems)
+together with proofs of their (meta-)properties.
+</p>
+
+<hr></hr>
+
+<h2><a id="What_is_ATS_good_for">What is ATS good for?</a></h2>
+
+<ul>
+
+<li>
+ATS can greatly enforce precision in practical programming.
+</li>
+
+<li>
+ATS can greatly facilitate refinement-based software development.
+</li>
+
+<li>
+ATS allows the programmer to write efficient functional programs that
+directly manipulate native unboxed data representation.
+</li>
+
+<li>
+ATS allows the programmer to reduce the memory footprint of a program
+by making use of linear types.
+</li>
+
+<li>
+ATS allows the programmer to enhance the safety (and efficiency) of a
+program by making use of theorem-proving.
+</li>
+
+<li>
+ATS allows the programmer to write safe low-level code that runs in OS
+kernels.
+</li>
+
+<li>
+ATS can help teach type theory, demonstrating both convincingly and
+concretely the power and potential of types in constructing high-quality
+software.
+</li>
+
+</ul>
+
+<hr></hr>
+
+<h2><a id="Acknowledgments">Acknowledgments</a></h2>
+
+<p>
+The development of ATS has been funded in part by <a
+href="http://www.nsf.gov">National Science Foundation</a> (NSF) under the
+grants no. CCR-0081316/CCR-0224244, no. CCR-0092703/0229480,
+no. CNS-0202067, no. CCF-0702665 and no CCF-1018601.
+As always, <em>any opinions, findings, and conclusions or recommendations
+expressed here are those of the author(s) and do not necessarily reflect
+the views of the NSF.</em>
+</p>
+
+<hr></hr>
+
+</div>
+
+</div><!--thePageRBodyLContent-->
+</div><!--thePageRBodyLeft-->
+</td>
+
+<td style="vertical-align:top;width:32%;">
+<div id="thePageRBodyRight">
+<style>
+#hello_dats {
+  font-size: 9pt;
+  font-family: Lucida Console, Courier New, monospace;
+  color: #8B0000;
+  background-color: #FFFAF0;
+}
+#listsub_dats {
+  font-size: 9pt;
+  font-family: Lucida Console, Courier New, monospace;
+  color: #8B0000;
+  background-color: #FFFAF0;
+}
+#repeat_f0f1_dats {
+  font-size: 9pt;
+  font-family: Lucida Console, Courier New, monospace;
+  color: #8B0000;
+  background-color: #FFFAF0;
+}
+</style>
+
+<div
+style="margin-top:8px;padding:8px;"
+><!--div-->
+
+<h2 style="display:inline;">Yes, ATS can!</h2>
+
+<hr></hr>
+
+<p>
+The core of ATS is a typed call-by-value functional
+programming language that is largely inspired by ML. For instance, the
+following tiny ATS program is written in a style of functional programming:
+</p>
+
+<div
+width=98% margin=auto
+><!--div-->
+
+<table>
+<tr>
+<td width="10%"></td>
+<td width>
+<textarea
+ id="hello_dats" rows="14" cols="36"
+>
+//
+// Yes, you can edit
+//
+(* Say Hello! once *)
+val () = print"Hello!\n"
+//
+(* Say Hello! 3 times *)
+val () =
+repeat(3, a) where
+{
+  val a = $delay(print"Hello!")
+} (* end of [where] *)
+val () = print_newline((*void*))
+//
+</textarea>
+
+<button
+ ID="hello_button"
+ type="button" onclick="Home_hello_onclick()"
+>Try-it-yourself</button>
+</td>
+<td width="10%"></td>
+</tr>
+</table>
+
+</div>
+
+<hr></hr>
+
+<p>
+ATS is both accurate and expressive in its support for (static)
+typechecking.  The following code demonstrates the ability of ATS in
+detecting out-of-bounds subscripting at compile-time:
+</p>
+
+<div
+width=98% margin=auto
+><!--div-->
+
+<table>
+<tr>
+<td width="10%"></td>
+<td width>
+<textarea
+ id="listsub_dats" rows="11" cols="36"
+>
+//
+// Yes, you can edit
+//
+(* Build a list of 3 *)
+val xs = $list(0, 1, 2)
+//
+val x0 = xs[0] // legal
+val x1 = xs[1] // legal
+val x2 = xs[2] // legal
+val x3 = xs[3] // illegal
+//
+</textarea>
+<button
+ ID="listsub_button"
+ type="button" onclick="Home_listsub_onclick()"
+>Try-it-yourself</button>
+</td>
+<td width="10%"></td>
+</tr>
+</table>
+
+</div>
+
+<hr></hr>
+
+<p>
+ATS is highly effective and flexible in its support for a template-based
+approach to code reuse. As an example, the following code is likely to
+remind someone of higher-order functions but it is actually every bit of a
+first-order implementation in ATS:
+</p>
+
+<div
+width=98% margin=auto
+><!--div-->
+
+<table>
+<tr>
+<td width="10%"></td>
+<td width>
+<textarea
+ id="repeat_f0f1_dats" rows="16" cols="36"
+>
+//
+// Yes, you can edit
+//
+extern
+fun{} f0 (): int
+extern
+fun{} f1 (int): int
+extern
+fun{} repeat_f0f1 (int): int
+//
+implement
+{}(*tmp*)
+repeat_f0f1(n) =
+  if n = 0
+    then f0()
+    else f1(repeat_f0f1(n-1))
+  // end of [if]
+//
+fun
+times (
+  m:int, n:int
+) : int = // m*n
+  repeat_f0f1 (m) where
+{
+  implement f0<> () = 0
+  implement f1<> (x) = x + n
+}
+//
+fun
+power (
+  m:int, n:int
+) : int = // m^n
+  repeat_f0f1 (n) where
+{
+  implement f0<> () = 1
+  implement f1<> (x) = m * x
+}
+//
+val () =
+println! ("5*5 = ", times(5,5))
+val () =
+println! ("5^2 = ", power(5,2))
+val () =
+println! ("2^10 = ", power(2,10))
+val () =
+println! ("3^10 = ", power(3,10))
+//
+</textarea>
+<button
+ ID="repeat_f0f1_button"
+ type="button" onclick="Home_repeat_f0f1_onclick()"
+>Try-it-yourself</button>
+</td>
+<td width="10%"></td>
+</tr>
+</table>
+
+</div>
+
+</div>
+</div><!--thePageRBodyRight-->
+</td>
+</tr>
+</table>
+</div><!--thePageRBody-->
+
+<div id="thePageRFooter">
+<div id="thePageRFooterSep">
+[thePageRFooterSep]
+</div><!--thePageRFooterSep-->
+
+<div id="thePageRFooterRest">
+This page is created with help from ATS/weboxy</div><!--thePageRFooterRest-->
+</div><!--thePageRFooter-->
+</div><!--thePageRight-->
+</td>
+</tr>
+</table>
+</div><!--thePage-->
+</div><!--theBodyProp-->
+</body>
+</html>

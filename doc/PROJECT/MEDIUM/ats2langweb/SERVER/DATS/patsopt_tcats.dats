@@ -1,6 +1,7 @@
 (*
 //
-// [patsopt] for typechecking
+// [patsopt]
+// for typechecking only
 //
 *)
 

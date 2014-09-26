@@ -31,24 +31,23 @@ style="list-style-position:outside;"
 style="margin-top:10px;margin-bottom:10px;"
 >
 <strong>Functional programming</strong>.
-The core of ATS is a functional language based on eager
-(aka. call-by-value) evaluation, which can also accommodate lazy
-(aka. call-by-need) evaluation. The availability of linear types in ATS
-often makes functional programs written in it run not only with
-surprisingly high efficiency (when compared to C) but also with
-surprisingly small (memory) footprint (when compared to C as well).
+The core of ATS is a call-by-value functional language inspired by ML.
+The availability of linear types in ATS often makes functional programs
+written in it run not only with surprisingly high efficiency (when compared
+to C) but also with surprisingly small (memory) footprint (when compared to
+C as well).
 </li>
 
 <li
 style="margin-top:10px;margin-bottom:10px;"
 >
 <strong>Imperative programming</strong>.
-The novel and unique approach to imperative programming in ATS is firmly
-rooted in the paradigm of <em>programming with theorem-proving</em>. The
-type system of ATS allows many features considered dangerous in other
-languages (such as explicit pointer arithmetic and explicit memory
-allocation/deallocation) to be safely supported in ATS, making ATS well-suited
-for implementing high-quality low-level systems.
+The novel approach to imperative programming in ATS is firmly rooted in the
+paradigm of <em>programming with theorem-proving</em>. The type system of
+ATS allows many features considered dangerous in other languages (such as
+explicit pointer arithmetic and explicit memory allocation/deallocation) to
+be safely supported in ATS, making ATS well-suited for implementing
+high-quality low-level systems.
 </li>
 
 <li
@@ -75,11 +74,12 @@ programming.
 <p>
 In addition, ATS contains a subsystem ATS/LF that supports a form of
 (interactive) theorem-proving, where proofs are constructed as total
-functions.  With this component, ATS advocates a
+functions.  With this subsystem, ATS is able to advocate a
 <em>programmer-centric</em> approach to program verification that combines
 programming with theorem-proving in a syntactically intertwined
-manner. Furthermore, this component can serve as a logical framework for
-encoding deduction systems and their (meta-)properties.
+manner. Furthermore, ATS/LF can also serve as a logical framework (LF)
+for encoding various formal systems (such as logic systems and type systems)
+together with proofs of their (meta-)properties.
 </p>
 
 <hr></hr>
@@ -137,6 +137,8 @@ As always, <em>any opinions, findings, and conclusions or recommendations
 expressed here are those of the author(s) and do not necessarily reflect
 the views of the NSF.</em>
 </p>
+
+<hr></hr>
 
 </div>
 

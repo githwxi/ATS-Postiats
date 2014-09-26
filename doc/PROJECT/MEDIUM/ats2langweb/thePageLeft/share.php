@@ -29,7 +29,7 @@ thePageLeft_menuitem($name)
   {
     echo "<tr><td name=\"$name\" class=\"self\">$name</td></tr>\n";
   } else {
-    echo "<tr><td name=\"$name\" class=\"other\"><a href=\"$name.php\">$name</a></td></tr>\n";
+    echo "<tr><td name=\"$name\" class=\"other\"><a href=\"$name.html\">$name</a></td></tr>\n";
   }
 //
   return;

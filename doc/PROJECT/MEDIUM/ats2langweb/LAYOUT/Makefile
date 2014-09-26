@@ -65,6 +65,38 @@ theDocuments_layout.html: theDocuments_layout; ./$< > $@
 cleanall:: ; $(RMF) theDocuments_layout
 #
 ######
+#
+all:: \
+thePapers_layout
+thePapers_layout: \
+thePapers_layout.dats mylayout.dats; \
+$(PATSCC2) \
+  -D_GNU_SOURCE \
+  -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
+#
+regress:: \
+thePapers_layout.html
+thePapers_layout.html: thePapers_layout; ./$< > $@
+#
+cleanall:: ; $(RMF) thePapers_layout
+#
+######
+#
+all:: \
+theExamples_layout
+theExamples_layout: \
+theExamples_layout.dats mylayout.dats; \
+$(PATSCC2) \
+  -D_GNU_SOURCE \
+  -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
+#
+regress:: \
+theExamples_layout.html
+theExamples_layout.html: theExamples_layout; ./$< > $@
+#
+cleanall:: ; $(RMF) theExamples_layout
+#
+######
 
 include $(PATSHOME)/share/atsmake-post.mk
 
@@ -78,6 +110,8 @@ cleanall:: cleanats
 cleanall:: ; $(RMF) theHome_layout.html
 cleanall:: ; $(RMF) theDownloads_layout.html
 cleanall:: ; $(RMF) theDocuments_layout.html
+cleanall:: ; $(RMF) thePapers_layout.html
+cleanall:: ; $(RMF) theExamples_layout.html
 
 ######
 

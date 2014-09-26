@@ -91,5 +91,15 @@ fun{}
 atscc2js_comp_file (fname: !tmpfile): compres
 //
 (* ****** ****** *)
+//
+fun{}
+pats2xhtml_command (): string
+fun{}
+pats2xhtml_comp_command (): string
+//
+fun{}
+pats2xhtml_comp_code (stadyn: int, code: string): string
+//
+(* ****** ****** *)
 
 (* end of [atslangweb.sats] *)
