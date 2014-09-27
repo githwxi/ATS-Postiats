@@ -39,8 +39,9 @@ width=98% margin=auto
 
 <table>
 <tr>
-<td width="10%"></td>
-<td width>
+<td width="10%">
+</td>
+<td align="right">
 <textarea
  id="hello_dats" rows="14" cols="36"
 >
@@ -59,7 +60,6 @@ repeat(3, a) where
 val () = print_newline((*void*))
 //
 </textarea>
-
 <button
  ID="hello_button"
  type="button" onclick="Home_hello_onclick()"
@@ -85,8 +85,9 @@ width=98% margin=auto
 
 <table>
 <tr>
-<td width="10%"></td>
-<td width>
+<td width="10%">
+</td>
+<td align="right">
 <textarea
  id="listsub_dats" rows="11" cols="36"
 >
@@ -128,8 +129,9 @@ width=98% margin=auto
 
 <table>
 <tr>
-<td width="10%"></td>
-<td width>
+<td width="10%">
+</td>
+<td align="right">
 <textarea
  id="repeat_f0f1_dats" rows="16" cols="36"
 >

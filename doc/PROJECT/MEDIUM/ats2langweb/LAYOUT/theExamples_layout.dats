@@ -10,6 +10,16 @@
 (* ****** ****** *)
 
 val () =
+thePage.content(
+"\
+<?php\n\
+include './thePage/Examples.php';\n\
+?>\n\
+") (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
 thePageLeft.content(
 "\
 <?php\n\

@@ -138,10 +138,12 @@ in
 end // end of [cleaner_loop]
 
 (* ****** ****** *)
-
+//
+(*
 dynload "DiningPhil2.sats"
+*)
 dynload "DiningPhil2_fork.dats"
-
+//
 (* ****** ****** *)
 
 local

@@ -16,7 +16,7 @@ world!" plus a newline: </p>
 
 <?php
 $mycode = <<<EOT
-implement main0 () = print ("Hello, world!\\n")
+implement main0 () = print("Hello, world!\\n")
 EOT;
 atslangweb__pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
@@ -36,8 +36,46 @@ If executed, <u>hello</u> does what is mentioned above. The command
 into some C code and then invokes a C compiler (gcc in this case) to
 translate the generated C code into some binary object code.  </p>
 
+<!--
 <p>
-Please try this example online if you like: <button>Try-it-yourself</button>
+Here is a button for trying this example on-line:
+<button
+ ID="hello_button"
+ type="button" onclick="Examples_hello_open_onclick()"
+>Try-it-yourself</button>
+</p>
+-->
+
+<hr></hr>
+
+<h2><a id="Copying_files">Copying files</a></h2>
+
+<p>
+Given an input channel and an output channel, the following function fcopy
+writes to the latter the characters read from the former:
+</p>
+
+<?php
+$mycode = <<<EOT
+fun
+fcopy (
+  inp: FILEref, out: FILEref
+) : void = let
+  val c = fileref_getc (inp)
+in
+  if c >= 0 then let
+    val () = fileref_putc (out, c) in fcopy (inp, out)
+  end // end of [if]
+end (* end of [fcopy] *)
+EOT;
+atslangweb__pats2xhtmlize_dynamic($mycode);
+?><!--php-->
+
+<p>
+Note that loops in imperative languages such as C and Java are often
+implemented as tail-recursive functions in ATS, which are then compiled
+back into loops in C. For instance, fcopy as is implemented above is such
+a tail-recursive function.
 </p>
 
 <hr></hr>
@@ -57,7 +95,10 @@ as is supported in ATS.
 A function fib can be specified as follows for computing Fibonacci numbers:
 </p>
 
-<pre>
+<pre
+class="patsyntax"
+style="color:#000000;"
+>
 fib(0)   = 0
 fib(1)   = 1
 fib(n+2) = fib(n) + fib(n+1) for n >= 0
@@ -85,7 +126,10 @@ time-complexity. An implementation of fib in C is given as follows that is
 of linear time-complexity:
 </p>
 
-<pre>
+<pre
+class="patsyntax"
+style="color:#000000;"
+>
 int
 fibc (int n) {
   int tmp, f0 = 0, f1 = 1 ;
@@ -141,14 +185,42 @@ FIB0, FIB1 and FIB2 associated with FIB, which are given the following
 types corresponding to the three equations in the definition of fib:
 </p>
 
-<?php
-$mycode = <<<EOT
-fun FIB0 : () -> FIB (0, 0)
-fun FIB1 : () -> FIB (1, 1)
-fun FIB2 : {n:nat}{r0,r1:int} (FIB (n, r0), FIB (n, r1)) -> FIB (n+2, r0+r1)
-EOT;
-atslangweb__pats2xhtmlize_static($mycode);
-?><!--php-->
+<pre class="patsyntax">
+<span class="dynexp">FIB0 <span
+class="keyword">:</span> <span class="keyword">(</span><span
+class="keyword">)</span> <span class="staexp"><span
+class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span
+class="keyword">(</span><span class="staexp">0</span><span
+class="keyword">,</span> <span class="staexp">0</span><span
+class="keyword">)</span></span>
+<span class="dynexp">FIB1 <span
+class="keyword">:</span> <span class="keyword">(</span><span
+class="keyword">)</span> <span class="staexp"><span
+class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span
+class="keyword">(</span><span class="staexp">1</span><span
+class="keyword">,</span> <span class="staexp">1</span><span
+class="keyword">)</span></span>
+<span class="dynexp">FIB2 <span
+class="keyword">:</span> <span class="staexp"><span
+class="keyword">{</span>n<span class="keyword">:</span>nat<span
+class="keyword">}</span></span><span class="staexp"><span
+class="keyword">{</span>r0<span class="keyword">,</span>r1<span
+class="keyword">:</span>int<span class="keyword">}</span></span> <span
+class="keyword">(</span><span class="staexp">FIB</span> <span
+class="keyword">(</span><span class="staexp">n</span><span
+class="keyword">,</span> <span class="staexp">r0</span><span
+class="keyword">)</span><span class="keyword">,</span> <span
+class="staexp">FIB</span> <span class="keyword">(</span><span
+class="staexp">n</span><span class="keyword">,</span> <span
+class="staexp">r1</span><span class="keyword">)</span><span
+class="keyword">)</span> <span class="staexp"><span
+class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span
+class="keyword">(</span><span class="staexp">n</span><span
+class="staexp">+</span><span class="staexp">2</span><span
+class="keyword">,</span> <span class="staexp">r0</span><span
+class="staexp">+</span><span class="staexp">r1</span><span
+class="keyword">)</span></span></pre>
+<!--php-->
 
 <p>
 Note that {...} is the concrete syntax in ATS for universal
@@ -186,7 +258,7 @@ atslangweb__pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
-Note that fibats is assigned the following type:
+Note that fibats is given the following declaration:
 </p>
 
 <?php
@@ -212,6 +284,16 @@ the while-loop in the body of the function fibc (written in C).
 Lastly, it should be emphasized that proofs are completely erased after
 typechecking. In particular, there is no proof construction at run-time.
 </p>
+
+<!--
+<p>
+Here is a button for trying this example on-line:
+<button
+ ID="hello_button"
+ type="button" onclick="Examples_fibats_open_onclick()"
+>Try-it-yourself</button>
+</p>
+-->
 
 <hr></hr>
 

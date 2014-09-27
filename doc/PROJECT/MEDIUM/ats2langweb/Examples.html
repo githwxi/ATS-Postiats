@@ -16,23 +16,6 @@
   background-color: #FFFFFF;
   border-radius:6px
 }
-.patsyntax {color:#808080;background-color:#E0E0E0;}
-.patsyntax span.keyword {color:#000000;font-weight:bold;}
-.patsyntax span.comment {color:#787878;font-style:italic;}
-.patsyntax span.extcode {color:#A52A2A;}
-.patsyntax span.neuexp  {color:#800080;}
-.patsyntax span.staexp  {color:#0000F0;}
-.patsyntax span.prfexp  {color:#603030;}
-.patsyntax span.dynexp  {color:#F00000;}
-.patsyntax span.stalab  {color:#0000F0;font-style:italic}
-.patsyntax span.dynlab  {color:#F00000;font-style:italic}
-.patsyntax span.dynstr  {color:#008000;font-style:normal}
-.patsyntax span.stacstdec  {text-decoration:none;}
-.patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
-.patsyntax span.dyncstdec  {text-decoration:none;}
-.patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
-.patsyntax span.dyncst_implement
-{color:#B80000;text-decoration:underline;}
 #thePageLeft {
 /*
 parent: thePage
@@ -205,6 +188,25 @@ body {
 <body>
 <div id="theBodyProp">
 <div id="thePage">
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
 <tr height="100%">
 <td style="vertical-align:top;width:15%;">
@@ -515,6 +517,7 @@ style="margin-left:8px;"
 
 <ul name="Examples">
 <li><a href="#Hello_world">Hello, world!</a></li>
+<li><a href="#Copying_files">Copying files</a></li>
 <li><a href="#Fibonacci_numbers">Computing Fibonacci numbers</a></li>
 </ul>
 
@@ -538,7 +541,7 @@ Following is a tiny program in ATS for printing out the string "Hello,
 world!" plus a newline: </p>
 
 <pre class="patsyntax">
-<span class="dynexp"><span class="keyword">implement</span> main0 <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> print <span class="keyword">(</span><span class="dynstr">"Hello, world!\n"</span><span class="keyword">)</span></span></pre>
+<span class="dynexp"><span class="keyword">implement</span> main0 <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> print<span class="keyword">(</span><span class="dynstr">"Hello, world!\n"</span><span class="keyword">)</span></span></pre>
 <!--php-->
 
 <p>
@@ -556,8 +559,43 @@ If executed, <u>hello</u> does what is mentioned above. The command
 into some C code and then invokes a C compiler (gcc in this case) to
 translate the generated C code into some binary object code.  </p>
 
+<!--
 <p>
-Please try this example online if you like: <button>Try-it-yourself</button>
+Here is a button for trying this example on-line:
+<button
+ ID="hello_button"
+ type="button" onclick="Examples_hello_open_onclick()"
+>Try-it-yourself</button>
+</p>
+-->
+
+<hr></hr>
+
+<h2><a id="Copying_files">Copying files</a></h2>
+
+<p>
+Given an input channel and an output channel, the following function fcopy
+writes to the latter the characters read from the former:
+</p>
+
+<pre class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+fcopy <span class="keyword">(</span>
+  inp<span class="keyword">:</span> <span class="staexp">FILEref</span><span class="keyword">,</span> out<span class="keyword">:</span> <span class="staexp">FILEref</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> c <span class="keyword">=</span> fileref_getc <span class="keyword">(</span>inp<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> c &gt;= <span class="dynexp">0</span> <span class="keyword">then</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> fileref_putc <span class="keyword">(</span>out<span class="keyword">,</span> c<span class="keyword">)</span></span> <span class="keyword">in</span> fcopy <span class="keyword">(</span>inp<span class="keyword">,</span> out<span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="comment">// end of [if]</span>
+<span class="keyword">end</span></span> <span class="comment">(* end of [fcopy] *)</span></pre>
+<!--php-->
+
+<p>
+Note that loops in imperative languages such as C and Java are often
+implemented as tail-recursive functions in ATS, which are then compiled
+back into loops in C. For instance, fcopy as is implemented above is such
+a tail-recursive function.
 </p>
 
 <hr></hr>
@@ -577,7 +615,10 @@ as is supported in ATS.
 A function fib can be specified as follows for computing Fibonacci numbers:
 </p>
 
-<pre>
+<pre
+class="patsyntax"
+style="color:#000000;"
+>
 fib(0)   = 0
 fib(1)   = 1
 fib(n+2) = fib(n) + fib(n+1) for n >= 0
@@ -602,7 +643,10 @@ time-complexity. An implementation of fib in C is given as follows that is
 of linear time-complexity:
 </p>
 
-<pre>
+<pre
+class="patsyntax"
+style="color:#000000;"
+>
 int
 fibc (int n) {
   int tmp, f0 = 0, f1 = 1 ;
@@ -653,9 +697,40 @@ types corresponding to the three equations in the definition of fib:
 </p>
 
 <pre class="patsyntax">
-<span class="dynexp"><span class="keyword">fun</span> FIB0 <span class="keyword">:</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">0</span><span class="keyword">,</span> <span class="staexp">0</span><span class="keyword">)</span></span>
-<span class="dynexp"><span class="keyword">fun</span> FIB1 <span class="keyword">:</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">1</span><span class="keyword">,</span> <span class="staexp">1</span><span class="keyword">)</span></span>
-<span class="dynexp"><span class="keyword">fun</span> FIB2 <span class="keyword">:</span> <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>r0<span class="keyword">,</span>r1<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span><span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span> <span class="staexp">r0</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span> <span class="staexp">r1</span><span class="keyword">)</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">n</span><span class="staexp">+</span><span class="staexp">2</span><span class="keyword">,</span> <span class="staexp">r0</span><span class="staexp">+</span><span class="staexp">r1</span><span class="keyword">)</span></span></pre>
+<span class="dynexp">FIB0 <span
+class="keyword">:</span> <span class="keyword">(</span><span
+class="keyword">)</span> <span class="staexp"><span
+class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span
+class="keyword">(</span><span class="staexp">0</span><span
+class="keyword">,</span> <span class="staexp">0</span><span
+class="keyword">)</span></span>
+<span class="dynexp">FIB1 <span
+class="keyword">:</span> <span class="keyword">(</span><span
+class="keyword">)</span> <span class="staexp"><span
+class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span
+class="keyword">(</span><span class="staexp">1</span><span
+class="keyword">,</span> <span class="staexp">1</span><span
+class="keyword">)</span></span>
+<span class="dynexp">FIB2 <span
+class="keyword">:</span> <span class="staexp"><span
+class="keyword">{</span>n<span class="keyword">:</span>nat<span
+class="keyword">}</span></span><span class="staexp"><span
+class="keyword">{</span>r0<span class="keyword">,</span>r1<span
+class="keyword">:</span>int<span class="keyword">}</span></span> <span
+class="keyword">(</span><span class="staexp">FIB</span> <span
+class="keyword">(</span><span class="staexp">n</span><span
+class="keyword">,</span> <span class="staexp">r0</span><span
+class="keyword">)</span><span class="keyword">,</span> <span
+class="staexp">FIB</span> <span class="keyword">(</span><span
+class="staexp">n</span><span class="keyword">,</span> <span
+class="staexp">r1</span><span class="keyword">)</span><span
+class="keyword">)</span> <span class="staexp"><span
+class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span
+class="keyword">(</span><span class="staexp">n</span><span
+class="staexp">+</span><span class="staexp">2</span><span
+class="keyword">,</span> <span class="staexp">r0</span><span
+class="staexp">+</span><span class="staexp">r1</span><span
+class="keyword">)</span></span></pre>
 <!--php-->
 
 <p>
@@ -691,7 +766,7 @@ fibats<span class="staexp"><span class="keyword">{</span>n<span class="keyword">
 <!--php-->
 
 <p>
-Note that fibats is assigned the following type:
+Note that fibats is given the following declaration:
 </p>
 
 <pre class="patsyntax">
@@ -715,6 +790,16 @@ Lastly, it should be emphasized that proofs are completely erased after
 typechecking. In particular, there is no proof construction at run-time.
 </p>
 
+<!--
+<p>
+Here is a button for trying this example on-line:
+<button
+ ID="hello_button"
+ type="button" onclick="Examples_fibats_open_onclick()"
+>Try-it-yourself</button>
+</p>
+-->
+
 <hr></hr>
 
 </div>
@@ -728,6 +813,10 @@ typechecking. In particular, there is no proof construction at run-time.
 <div
 style="margin-top:8px;padding:8px;"
 ><!--div-->
+
+<h2 style="display:inline;">Try examples on-line</h2>
+
+<hr></hr>
 
 <h2 style="display:inline;">More examples in ATS</h2>
 
