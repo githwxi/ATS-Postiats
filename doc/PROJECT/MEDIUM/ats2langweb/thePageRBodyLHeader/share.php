@@ -48,6 +48,7 @@ thePageRBodyLHeader_Examples()
 {
   echo "<ul name=\"Examples\">\n";
   echo "<li><a href=\"#Hello_world\">Hello, world!</a></li>\n";
+  echo "<li><a href=\"#Fibonacci_numbers\">Computing Fibonacci numbers</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Examples] */

@@ -57,7 +57,7 @@ in
 $extfcall
 (
   string, "sprintf"
-, "%s 2>%s --output %s %s %s"
+, "%s 2>%s --embedded --output %s %s %s"
 , pats2xhtml, fname_xats_stderr, fname_xats_html, stadyn, fname_xats
 ) (* end of [$extfcall] *)
 //
@@ -107,6 +107,10 @@ pats2xhtml_comp_command
   stadyn, fname_xats
 , fname_xats_html, fname_xats_stderr
 ) (* end of [val] *)
+//
+(*
+val () = prerrln! ("command = ", command)
+*)
 //
 val
 exec_ret = exec_retval (command)

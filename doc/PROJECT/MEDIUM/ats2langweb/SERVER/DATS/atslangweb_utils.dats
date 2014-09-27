@@ -31,10 +31,19 @@ staload "./../SATS/atslangweb.sats"
 //
 (* ****** ****** *)
 //
+staload _(*anon*) = "./pats2xhtml.dats"
+//
 staload _(*anon*) = "./patsopt_tcats.dats"
 staload _(*anon*) = "./patsopt_ccats.dats"
 //
 staload _(*anon*) = "./atscc2js_comp.dats"
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+pats2xhtml_command
+  ((*void*)) = "pats2xhtml"
 //
 (* ****** ****** *)
 //
@@ -63,9 +72,28 @@ atscc2js_command () = "atscc2js"
 //
 (* ****** ****** *)
 //
+extern
+fun
+pats2xhtml_static_code_0_
+  (code: string): compres = "mac#%"
+extern
+fun
+pats2xhtml_dynamic_code_0_
+  (code: string): compres = "mac#%"
+//
+(* ****** ****** *)
+//
 implement
-{}(*tmp*)
-pats2xhtml_command () = "pats2xhtml"
+pats2xhtml_static_code_0_ (code) =
+(
+  pats2xhtml_comp_code<> (0(*stadyn*), code)
+) (* end of [pats2xhtml_static_code_0_] *)
+//
+implement
+pats2xhtml_dynamic_code_0_ (code) =
+(
+  pats2xhtml_comp_code<> (1(*stadyn*), code)
+) (* end of [pats2xhtml_dynamic_code_0_] *)
 //
 (* ****** ****** *)
 //
@@ -185,31 +213,6 @@ in
   patsopt_atscc2js_code_0_(code2)
 end // end of [patsopt_ccats_code_1_]
 
-(* ****** ****** *)
-//
-extern
-fun
-pats2xhtml_static_code_0_
-  (code: string): compres = "mac#%"
-extern
-fun
-pats2xhtml_dynamic_code_0_
-  (code: string): compres = "mac#%"
-//
-(* ****** ****** *)
-//
-implement
-pats2xhtml_static_code_0_ (code) =
-(
-  pats2xhtml_comp_code<> (0(*stadyn*), code)
-) (* end of [pats2xhtml_static_code_0_] *)
-//
-implement
-pats2xhtml_dynamic_code_0_ (code) =
-(
-  pats2xhtml_comp_code<> (1(*stadyn*), code)
-) (* end of [pats2xhtml_dynamic_code_0_] *)
-//
 (* ****** ****** *)
 
 (* end of [atslangweb_utils.dats] *)

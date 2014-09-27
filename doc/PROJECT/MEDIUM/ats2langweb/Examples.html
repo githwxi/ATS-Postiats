@@ -16,6 +16,23 @@
   background-color: #FFFFFF;
   border-radius:6px
 }
+.patsyntax {color:#808080;background-color:#E0E0E0;}
+.patsyntax span.keyword {color:#000000;font-weight:bold;}
+.patsyntax span.comment {color:#787878;font-style:italic;}
+.patsyntax span.extcode {color:#A52A2A;}
+.patsyntax span.neuexp  {color:#800080;}
+.patsyntax span.staexp  {color:#0000F0;}
+.patsyntax span.prfexp  {color:#603030;}
+.patsyntax span.dynexp  {color:#F00000;}
+.patsyntax span.stalab  {color:#0000F0;font-style:italic}
+.patsyntax span.dynlab  {color:#F00000;font-style:italic}
+.patsyntax span.dynstr  {color:#008000;font-style:normal}
+.patsyntax span.stacstdec  {text-decoration:none;}
+.patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+.patsyntax span.dyncstdec  {text-decoration:none;}
+.patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+.patsyntax span.dyncst_implement
+{color:#B80000;text-decoration:underline;}
 #thePageLeft {
 /*
 parent: thePage
@@ -498,6 +515,7 @@ style="margin-left:8px;"
 
 <ul name="Examples">
 <li><a href="#Hello_world">Hello, world!</a></li>
+<li><a href="#Fibonacci_numbers">Computing Fibonacci numbers</a></li>
 </ul>
 
 </div>
@@ -509,6 +527,8 @@ style="margin-left:8px;"
 class="thePageRBodyLContent"
 ><!--div-->
 
+<!--php-->
+
 <hr></hr>
 
 <h2><a id="Hello_world">Hello, world!</a></h2>
@@ -517,7 +537,9 @@ class="thePageRBodyLContent"
 Following is a tiny program in ATS for printing out the string "Hello,
 world!" plus a newline: </p>
 
-implement main0 () = print ("Hello, world!\n")
+<pre class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span> main0 <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> print <span class="keyword">(</span><span class="dynstr">"Hello, world!\n"</span><span class="keyword">)</span></span></pre>
+<!--php-->
 
 <p>
 Assume that the program is stored in a file named <u>hello.dats</u>.  We
@@ -535,9 +557,165 @@ into some C code and then invokes a C compiler (gcc in this case) to
 translate the generated C code into some binary object code.  </p>
 
 <p>
-Would you like to try this example online?
-<button>Try-it-yourself</button>
+Please try this example online if you like: <button>Try-it-yourself</button>
 </p>
+
+<hr></hr>
+
+<h2><a id="Fibonacci_numbers">Computing Fibonacci numbers</a></h2>
+
+<p>
+ATS advocates a programming paradigm in which programs and proofs can be
+constructed in a syntactically intertwined manner. This paradigm is often
+referred to as <em>programming with theorem-proving</em> (PwTP), and it
+plays a central indispensible role in the development of ATS.
+Let us now see a simple and concrete example that clearly illustrates PwTP
+as is supported in ATS.
+</p>
+
+<p>
+A function fib can be specified as follows for computing Fibonacci numbers:
+</p>
+
+<pre>
+fib(0)   = 0
+fib(1)   = 1
+fib(n+2) = fib(n) + fib(n+1) for n >= 0
+</pre>
+
+<p>
+Following is a direct implementation of this specified function in ATS: 
+</p>
+
+<pre class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+fib <span class="keyword">(</span>
+  n<span class="keyword">:</span> <span class="staexp">int</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> n &gt;= <span class="dynexp">2</span> <span class="keyword">then</span> fib <span class="keyword">(</span>n-<span class="dynexp">2</span><span class="keyword">)</span> + fib <span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span> <span class="keyword">else</span> n</span>
+<span class="comment">// end of [fib]</span></pre>
+<!--php-->
+
+<p>
+Clearly, this is a terribly inefficient implementation of exponential
+time-complexity. An implementation of fib in C is given as follows that is
+of linear time-complexity:
+</p>
+
+<pre>
+int
+fibc (int n) {
+  int tmp, f0 = 0, f1 = 1 ;
+  while (n-- > 0) { tmp = f1 ; f1 = f0 + f1 ; f0 = tmp ; } ; return f0 ;
+} // end of [fibc]
+</pre>
+
+<p>
+If translated into ATS, the function fibc can essentially be implemented as
+follows:
+</p>
+
+<pre class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+fibc <span class="keyword">(</span>
+  n<span class="keyword">:</span> <span class="staexp">int</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">fun</span> loop <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">,</span> f0<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">,</span> f1<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span> <span class="keyword">=</span>
+    <span class="keyword">if</span> n <span class="keyword">&gt;</span> <span class="dynexp">0</span> <span class="keyword">then</span> loop <span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">,</span> f1<span class="keyword">,</span> f0+f1<span class="keyword">)</span> <span class="keyword">else</span> f0</span>
+  <span class="comment">// end of [loop]</span>
+<span class="keyword">in</span>
+  loop <span class="keyword">(</span>n<span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">1</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [fibc]</span></pre>
+<!--php-->
+
+<p>
+There is obviously a logic gap between the defintion of fib and its
+implementation as is embodied in fibc. In ATS, an implementation of fib can
+be given that completely bridges this gap. First, the specification of fib
+needs to be encoded into ATS, which is fulfilled by the declaration of the
+following dataprop:
+</p>
+
+<pre class="patsyntax">
+<span class="prfexp"><span class="keyword">dataprop</span> FIB <span class="staexp"><span class="keyword">(</span>int<span class="keyword">,</span> int<span class="keyword">)</span></span> <span class="keyword">=</span>
+  <span class="keyword">|</span> FIB0 <span class="keyword">(</span><span class="staexp">0</span><span class="keyword">,</span> <span class="staexp">0</span><span class="keyword">)</span> <span class="keyword">|</span> FIB1 <span class="keyword">(</span><span class="staexp">1</span><span class="keyword">,</span> <span class="staexp">1</span><span class="keyword">)</span>
+  <span class="keyword">|</span> <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="staexp"><span class="keyword">{</span>r0<span class="keyword">,</span>r1<span class="keyword">:</span>int<span class="keyword">}</span></span> FIB2 <span class="keyword">(</span>n+2<span class="keyword">,</span> r0+r1<span class="keyword">)</span> <span class="keyword">of</span> <span class="keyword">(</span><span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span> <span class="staexp">r0</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">n</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">,</span> <span class="staexp"><span class="staexp"><span class="staexp"><span class="staexp"><span class="staexp"><span class="staexp"><span class="staexp">r1</span></span></span></span></span></span></span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">// end of [FIB] // end of [dataprop]</span></pre>
+<!--php-->
+
+<p>
+This declaration introduces a type FIB for proofs, and such a type is
+referred to as a prop in ATS. Intuitively, if a proof can be assgined the
+type FIB(n,r) for some integers n and r, then fib(n) equals r. In other
+words, FIB(n,r) encodes the relation fib(n)=r. There are three constructors
+FIB0, FIB1 and FIB2 associated with FIB, which are given the following
+types corresponding to the three equations in the definition of fib:
+</p>
+
+<pre class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> FIB0 <span class="keyword">:</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">0</span><span class="keyword">,</span> <span class="staexp">0</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span> FIB1 <span class="keyword">:</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">1</span><span class="keyword">,</span> <span class="staexp">1</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span> FIB2 <span class="keyword">:</span> <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>r0<span class="keyword">,</span>r1<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span><span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span> <span class="staexp">r0</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span> <span class="staexp">r1</span><span class="keyword">)</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">n</span><span class="staexp">+</span><span class="staexp">2</span><span class="keyword">,</span> <span class="staexp">r0</span><span class="staexp">+</span><span class="staexp">r1</span><span class="keyword">)</span></span></pre>
+<!--php-->
+
+<p>
+Note that {...} is the concrete syntax in ATS for universal
+quantification. For instance, FIB2(FIB0(), FIB1()) is a term of the type
+FIB(2,1), attesting to fib(2)=1.
+</p>
+
+<p>
+A fully verified implementaion of the fib function in ATS can now be given
+as follows:
+</p>
+
+<pre class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+fibats<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+  <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>r<span class="keyword">:</span>int<span class="keyword">]</span></span> <span class="keyword">(</span><span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span> <span class="staexp">r</span><span class="keyword">)</span> <span class="keyword">|</span> <span class="staexp">int</span> <span class="staexp">r</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">fun</span> loop
+    <span class="staexp"><span class="keyword">{</span>i<span class="keyword">:</span>nat <span class="keyword">|</span> i &lt;= n<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>r0<span class="keyword">,</span>r1<span class="keyword">:</span>int<span class="keyword">}</span></span>
+  <span class="keyword">(</span>
+    <span class="prfexp">pf0<span class="keyword">:</span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">i</span><span class="keyword">,</span> <span class="staexp">r0</span><span class="keyword">)</span></span><span class="keyword">,</span> <span class="prfexp">pf1<span class="keyword">:</span> <span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">i</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">,</span> <span class="staexp">r1</span><span class="keyword">)</span></span>
+  <span class="keyword">|</span> ni<span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">(</span><span class="staexp">n</span><span class="staexp">-</span><span class="staexp">i</span><span class="keyword">)</span><span class="keyword">,</span> r0<span class="keyword">:</span> <span class="staexp">int</span> <span class="staexp">r0</span><span class="keyword">,</span> r1<span class="keyword">:</span> <span class="staexp">int</span> <span class="staexp">r1</span>
+  <span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>r<span class="keyword">:</span>int<span class="keyword">]</span></span> <span class="keyword">(</span><span class="staexp">FIB</span> <span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span> <span class="staexp">r</span><span class="keyword">)</span> <span class="keyword">|</span> <span class="staexp">int</span> <span class="staexp">r</span><span class="keyword">)</span> <span class="keyword">=</span>
+    <span class="keyword">if</span> <span class="keyword">(</span>ni <span class="keyword">&gt;</span> <span class="dynexp">0</span><span class="keyword">)</span>
+      <span class="keyword">then</span> loop<span class="staexp"><span class="keyword">{</span>i+1<span class="keyword">}</span></span><span class="keyword">(</span><span class="prfexp">pf1</span><span class="keyword">,</span> <span class="prfexp">FIB2 <span class="keyword">(</span>pf0<span class="keyword">,</span> pf1<span class="keyword">)</span></span> <span class="keyword">|</span> ni - <span class="dynexp">1</span><span class="keyword">,</span> r1<span class="keyword">,</span> r0 + r1<span class="keyword">)</span>
+      <span class="keyword">else</span> <span class="keyword">(</span><span class="prfexp">pf0</span> <span class="keyword">|</span> r0<span class="keyword">)</span></span>
+    <span class="comment">// end of [if]</span>
+  <span class="comment">// end of [loop]</span>
+<span class="keyword">in</span>
+  loop <span class="staexp"><span class="keyword">{</span>0<span class="keyword">}</span></span> <span class="keyword">(</span><span class="prfexp">FIB0 <span class="keyword">(</span><span class="keyword">)</span></span><span class="keyword">,</span> <span class="prfexp">FIB1 <span class="keyword">(</span><span class="keyword">)</span></span> <span class="keyword">|</span> n<span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">1</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [fibats]</span></pre>
+<!--php-->
+
+<p>
+Note that fibats is assigned the following type:
+</p>
+
+<pre class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> fibats <span class="keyword">:</span> <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp"><span class="keyword">[</span>r<span class="keyword">:</span>int<span class="keyword">]</span></span> <span class="keyword">(</span><span class="staexp">FIB</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span><span class="staexp">r</span><span class="keyword">)</span> <span class="keyword">|</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">r</span><span class="keyword">)</span><span class="keyword">)</span></span></pre>
+<!--php-->
+
+<p>
+where [...] is the concrete syntax in ATS for existential quantification
+and the bar symbol (|) is just a separator (like a comma) for separating
+proofs from values. For each integer I, int(I) is a singleton type for the
+only integer whose value equals I. When fibats is applied to an integer of
+value n, it returns a pair consisting of a proof and an integer value r
+such that the proof, which is of the type FIB(n,r), asserts
+fib(n)=r. Therefore, fibats is a verified implementation of fib as is
+encoded by FIB. Note that the inner function loop directly corresponds to
+the while-loop in the body of the function fibc (written in C).
+</p>
+
+<p>
+Lastly, it should be emphasized that proofs are completely erased after
+typechecking. In particular, there is no proof construction at run-time.
+</p>
+
+<hr></hr>
 
 </div>
 

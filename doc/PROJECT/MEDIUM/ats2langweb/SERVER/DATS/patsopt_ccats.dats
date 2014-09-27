@@ -106,6 +106,10 @@ command =
 patsopt_ccats_command
   (fname_dats, fname_dats_c, fname_dats_log)
 //
+(*
+val () = prerrln! ("command = ", command)
+*)
+//
 val
 exec_ret = exec_retval (command)
 //

@@ -46,6 +46,22 @@ datatype compres =
 (* ****** ****** *)
 //
 fun{}
+pats2xhtml_command (): string
+fun{}
+pats2xhtml_comp_command
+(
+  stadyn: int
+, !tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*stderr*)
+) : string // end of [pats2xhtml_comp_command]
+//
+fun{}
+pats2xhtml_comp_code (stadyn: int, code: string): compres
+fun{}
+pats2xhtml_comp_file (stadyn: int, fname: !tmpfile): compres
+//
+(* ****** ****** *)
+//
+fun{}
 patsopt_command (): string
 //
 fun{}
@@ -91,22 +107,6 @@ atscc2js_comp_command
 //
 fun{}
 atscc2js_comp_file (fname: !tmpfile): compres
-//
-(* ****** ****** *)
-//
-fun{}
-pats2xhtml_command (): string
-fun{}
-pats2xhtml_comp_command
-(
-  stadyn: int
-, !tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*stderr*)
-) : string // end of [pats2xhtml_comp_command]
-//
-fun{}
-pats2xhtml_comp_code (stadyn: int, code: string): compres
-fun{}
-pats2xhtml_comp_file (stadyn: int, fname: !tmpfile): compres
 //
 (* ****** ****** *)
 

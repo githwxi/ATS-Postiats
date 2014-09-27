@@ -172,6 +172,27 @@ fprint (out, "\
 }\n\
 ") (* end of [fprint] *)
 //
+val () =
+fprint (out, "\
+.patsyntax {color:#808080;background-color:#E0E0E0;}\n\
+.patsyntax span.keyword {color:#000000;font-weight:bold;}\n\
+.patsyntax span.comment {color:#787878;font-style:italic;}\n\
+.patsyntax span.extcode {color:#A52A2A;}\n\
+.patsyntax span.neuexp  {color:#800080;}\n\
+.patsyntax span.staexp  {color:#0000F0;}\n\
+.patsyntax span.prfexp  {color:#603030;}\n\
+.patsyntax span.dynexp  {color:#F00000;}\n\
+.patsyntax span.stalab  {color:#0000F0;font-style:italic}\n\
+.patsyntax span.dynlab  {color:#F00000;font-style:italic}\n\
+.patsyntax span.dynstr  {color:#008000;font-style:normal}\n\
+.patsyntax span.stacstdec  {text-decoration:none;}\n\
+.patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}\n\
+.patsyntax span.dyncstdec  {text-decoration:none;}\n\
+.patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}\n\
+.patsyntax span.dyncst_implement\n\
+{color:#B80000;text-decoration:underline;}\n\
+") (* end of [fprint] *)
+//
 in
   // nothing
 end // end of [fprint_css_preamble]

@@ -76,6 +76,10 @@ command =
 atscc2js_comp_command
   (fname_dats_c, fname_dats_js, fname_dats_stderr)
 //
+(*
+val () = prerrln! ("command = ", command)
+*)
+//
 val
 exec_ret = exec_retval (command)
 //
