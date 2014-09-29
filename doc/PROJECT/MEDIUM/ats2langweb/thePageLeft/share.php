@@ -8,7 +8,7 @@ thePageLeft_menu()
   thePageLeft_menuitem('Downloads');
   thePageLeft_menuitem('Documents');
   thePageLeft_menuitem('Libraries');
-  thePageLeft_menuitem('Communities');
+  thePageLeft_menuitem('Community');
   thePageLeft_menuitem('Papers');
   thePageLeft_menuitem('Examples');
   thePageLeft_menuitem('Resources');

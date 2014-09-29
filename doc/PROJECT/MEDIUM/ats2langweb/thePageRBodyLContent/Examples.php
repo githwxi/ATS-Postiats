@@ -59,7 +59,8 @@ writes to the latter the characters read from the former:
 $mycode = <<<EOT
 fun
 fcopy (
-  inp: FILEref, out: FILEref
+  inp: FILEref
+, out: FILEref
 ) : void = let
   val c = fileref_getc (inp)
 in

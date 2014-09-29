@@ -1,1 +1,0 @@
-LAYOUT/thePapers_layout.html

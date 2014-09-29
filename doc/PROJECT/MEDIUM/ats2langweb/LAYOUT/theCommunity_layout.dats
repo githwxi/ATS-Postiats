@@ -1,5 +1,6 @@
 (*
-** For atslangweb_Home
+** For
+** atslangweb_Community
 *)
 
 (* ****** ****** *)
@@ -12,7 +13,7 @@ val () =
 thePageLeft.content(
 "\
 <?php\n\
-include './thePageLeft/Home.php';\n\
+include './thePageLeft/Community.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -30,7 +31,7 @@ val () =
 thePageRHeaderSep.content
 ("\
 <?php\n\
-include './thePageRHeaderSep/Home.php';\n\
+include './thePageRHeaderSep/Community.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -40,7 +41,7 @@ val () =
 thePageRBodyLHeader.content
 ("\
 <?php\n\
-include './thePageRBodyLHeader/Home.php';\n\
+include './thePageRBodyLHeader/Community.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -48,7 +49,7 @@ val () =
 thePageRBodyLContent.content
 ("\
 <?php\n\
-include './thePageRBodyLContent/Home.php';\n\
+include './thePageRBodyLContent/Community.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -58,7 +59,7 @@ val () =
 thePageRBodyRight.content
 ("\
 <?php\n\
-include './thePageRBodyRight/Home.php';\n\
+include './thePageRBodyRight/Community.php';\n\
 ?>\n\
 ") (* end of [val] *)
 
@@ -67,9 +68,7 @@ include './thePageRBodyRight/Home.php';\n\
 val () =
 thePageRFooterRest.content
 ("\
-<?php\n\
-include './thePageRFooterRest/Home.php';\n\
-?>\n\
+<?php include './thePageRFooterRest/Home.php'; ?>\n\
 ") (* end of [val] *)
 
 (* ****** ****** *)
@@ -87,4 +86,4 @@ val () =
 
 (* ****** ****** *)
 
-(* end of [theHome_layout.dats] *)
+(* end of [theCommunity_layout.dats] *)

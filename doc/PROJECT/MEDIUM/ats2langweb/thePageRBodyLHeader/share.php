@@ -11,6 +11,8 @@ thePageRBodyLHeader_Home()
   return;
 } /* end of [thePageRBodyLHeader_Home] */
 
+/* ****** ****** */
+
 function
 thePageRBodyLHeader_Downloads()
 {
@@ -25,6 +27,8 @@ thePageRBodyLHeader_Downloads()
   return;
 } /* end of [thePageRBodyLHeader_Downloads] */
 
+/* ****** ****** */
+
 function
 thePageRBodyLHeader_Documents()
 {
@@ -35,13 +39,30 @@ thePageRBodyLHeader_Documents()
   return;
 } /* end of [thePageRBodyLHeader_Documents] */
 
+/* ****** ****** */
+
+function
+thePageRBodyLHeader_Community()
+{
+  echo "<ul name=\"Community\">\n";
+  echo "</ul>\n";
+  return;
+} /* end of [thePageRBodyLHeader_Community] */
+
+/* ****** ****** */
+
 function
 thePageRBodyLHeader_Papers()
 {
   echo "<ul name=\"Papers\">\n";
+  echo "<li><a href=\"#Dependent_ML\">Dependent ML</a></li>\n";
+  echo "<li><a href=\"#Applied_Type_System\">Applied Type System</a></li>\n";
+  echo "<li><a href=\"#Combining_PwTP\">Combining Programming with Theorem-Proving</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Papers] */
+
+/* ****** ****** */
 
 function
 thePageRBodyLHeader_Examples()
@@ -53,6 +74,8 @@ thePageRBodyLHeader_Examples()
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Examples] */
+
+/* ****** ****** */
 
 ?>
 

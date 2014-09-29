@@ -58,7 +58,17 @@ include './thePageRBodyLContent/Papers.php';\n\
 val () =
 thePageRBodyRight.content
 ("\
-<?php include './thePageRBodyRight/Papers.php'; ?>\n\
+<?php\n\
+include './thePageRBodyRight/Papers.php';\n\
+?>\n\
+") (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+thePageRFooterRest.content
+("\
+<?php include './thePageRFooterRest/Home.php'; ?>\n\
 ") (* end of [val] *)
 
 (* ****** ****** *)

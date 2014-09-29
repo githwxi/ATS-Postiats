@@ -102,10 +102,12 @@ val () =
 //
 (* ****** ****** *)
 //
-val thePageRBodyLHeader =
- webox_make_name ("thePageRBodyLHeader")
-val thePageRBodyLContent =
- webox_make_name ("thePageRBodyLContent")
+val
+thePageRBodyLHeader =
+  webox_make_name ("thePageRBodyLHeader")
+val
+thePageRBodyLContent =
+  webox_make_name ("thePageRBodyLContent")
 (*
 val () =
   thePageRBodyLeft.tabstyle (TSvbox)
@@ -115,19 +117,18 @@ val () =
 //
 (* ****** ****** *)
 //
-val thePageRFooter =
+val
+thePageRFooter =
   webox_make_name ("thePageRFooter")
 //
-val thePageRFooterSep =
+val
+thePageRFooterSep =
   webox_make_name ("thePageRFooterSep")
 val () = thePageRFooterSep.bgcolor("#8f0222")
 //
-val thePageRFooterRest =
+val
+thePageRFooterRest =
   webox_make_name ("thePageRFooterRest")
-//
-val () =
-thePageRFooterRest.content
-  ("This page is created with help from ATS/weboxy")
 //
 val () =
   thePageRFooter.children (thePageRFooterSep, thePageRFooterRest)

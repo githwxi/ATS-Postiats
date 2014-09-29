@@ -229,11 +229,11 @@ body {
 <table
  class="thePageLeft_menu"
 >
-<tr><td name="Home" class="self">Home</td></tr>
+<tr><td name="Home" class="other"><a href="Home.html">Home</a></td></tr>
 <tr><td name="Downloads" class="other"><a href="Downloads.html">Downloads</a></td></tr>
 <tr><td name="Documents" class="other"><a href="Documents.html">Documents</a></td></tr>
 <tr><td name="Libraries" class="other"><a href="Libraries.html">Libraries</a></td></tr>
-<tr><td name="Community" class="other"><a href="Community.html">Community</a></td></tr>
+<tr><td name="Community" class="self">Community</td></tr>
 <tr><td name="Papers" class="other"><a href="Papers.html">Papers</a></td></tr>
 <tr><td name="Examples" class="other"><a href="Examples.html">Examples</a></td></tr>
 <tr><td name="Resources" class="other"><a href="Resources.html">Resources</a></td></tr>
@@ -419,11 +419,11 @@ submenu_table_mouseover() { theSubmenuTimeout_clear(); }
 id="thePageRHeaderSepL"
 >
 <ul>
-<li name="Home" class="self" onmouseover="submenu_mouseover('Home')" onmouseout="submenu_mouseout()">Home</li>
+<li name="Home" class="other" onmouseover="submenu_mouseover('Home')" onmouseout="submenu_mouseout()"><a href="Home.html">Home</a></li>
 <table class="thePageRHeaderSepL_submenu" onmouseover="submenu_table_mouseover()" onmouseout="submenu_table_mouseout()">
-<tr><td><a href="#What_is_ATS">What is ATS?<a></td></tr>
-<tr><td><a href="#What_is_ATS_good_for">What is ATS good for?<a></td></tr>
-<tr><td><a href="#Acknowledgments">Acknowledgments</a></td></tr>
+<tr><td><a href="Home.html#What_is_ATS">What is ATS?<a></td></tr>
+<tr><td><a href="Home.html#What_is_ATS_good_for">What is ATS good for?<a></td></tr>
+<tr><td><a href="Home.html#Acknowledgments">Acknowledgments</a></td></tr>
 </table>
 <li name="Downloads" class="other" onmouseover="submenu_mouseover('Downloads')" onmouseout="submenu_mouseout()"><a href="Downloads.html">Downloads</a></li>
 <table class="thePageRHeaderSepL_submenu" onmouseover="submenu_table_mouseover()" onmouseout="submenu_table_mouseout()">
@@ -440,7 +440,7 @@ id="thePageRHeaderSepL"
 <tr><td><a href="Documents.html#TUT2PROGINATS">A Tutorial on Programming Features in ATS</a></td></tr>
 </table>
 <li name="Libraries" class="other" onmouseover="submenu_mouseover('Libraries')" onmouseout="submenu_mouseout()"><a href="Libraries.html">Libraries</a></li>
-<li name="Community" class="other" onmouseover="submenu_mouseover('Community')" onmouseout="submenu_mouseout()"><a href="Community.html">Community</a></li>
+<li name="Community" class="self" onmouseover="submenu_mouseover('Community')" onmouseout="submenu_mouseout()">Community</li>
 </ul>
 </div>
 </td>
@@ -494,12 +494,9 @@ onfocus="this.style.background='#FFFFF0'"
 style="margin-left:8px;"
 >
 
-<h1>About ATS</h1>
+<h1>Community</h1>
 
-<ul name="Home">
-<li><a href="#What_is_ATS">What is ATS?<a></li>
-<li><a href="#What_is_ATS_good_for">What is ATS good for?<a></li>
-<li><a href="#Acknowledgments">Acknowledgments</a></li>
+<ul name="Community">
 </ul>
 
 </div>
@@ -513,142 +510,6 @@ class="thePageRBodyLContent"
 
 <hr></hr>
 
-<h2><a id="What_is_ATS">What is ATS?</a></h2>
-<!--
-<h2 style="display:inline;">What is ATS?</h2>
--->
-
-<p>
-ATS is a statically typed programming language that unifies
-implementation with formal specification. It is equipped with a highly
-expressive type system rooted in the framework <em>Applied Type
-System</em>, which gives the language its name.  In particular, both
-dependent types and linear types are available in ATS.
-</p>
-
-<p>
-The current implementation of ATS2 (ATS/Postiats) is written in ATS1
-(ATS/Anairiats), consisting of more than 150K lines of code. ATS can be as
-efficient as C/C++ both time-wise and memory-wise and supports a variety of
-programming paradigms that include:
-</p>
-
-<ul
-style="list-style-position:outside;"
->
-<li
-style="margin-top:10px;margin-bottom:10px;"
->
-<strong>Functional programming</strong>.
-The core of ATS is a call-by-value functional language inspired by ML.
-The availability of linear types in ATS often makes functional programs
-written in it run not only with surprisingly high efficiency (when compared
-to C) but also with surprisingly small (memory) footprint (when compared to
-C as well).
-</li>
-
-<li
-style="margin-top:10px;margin-bottom:10px;"
->
-<strong>Imperative programming</strong>.
-The novel approach to imperative programming in ATS is firmly rooted in the
-paradigm of <em>programming with theorem-proving</em>. The type system of
-ATS allows many features considered dangerous in other languages (such as
-explicit pointer arithmetic and explicit memory allocation/deallocation) to
-be safely supported in ATS, making ATS well-suited for implementing
-high-quality low-level systems.
-</li>
-
-<li
-style="margin-top:10px;margin-bottom:10px;"
->
-<strong>Concurrent programming</strong>.
-ATS can support multithreaded programming through safe use of pthreads. The
-availability of linear types for tracking and safely manipulating resources
-provides an effective approach to constructing reliable programs that can take
-great advantage of multicore architectures.
-</li>
-
-<li
-style="margin-top:10px;margin-bottom:10px;"
->
-<strong>Modular programming</strong>.
-The module system of ATS is largely infuenced by that of Modula-3, which is
-both simple and general as well as effective in supporting large scale
-programming.
-</li>
-
-</ul>
-
-<p>
-In addition, ATS contains a subsystem ATS/LF that supports a form of
-(interactive) theorem-proving, where proofs are constructed as total
-functions.  With this subsystem, ATS is able to advocate a
-<em>programmer-centric</em> approach to program verification that combines
-programming with theorem-proving in a syntactically intertwined
-manner. Furthermore, ATS/LF can also serve as a logical framework (LF)
-for encoding various formal systems (such as logic systems and type systems)
-together with proofs of their (meta-)properties.
-</p>
-
-<hr></hr>
-
-<h2><a id="What_is_ATS_good_for">What is ATS good for?</a></h2>
-
-<ul>
-
-<li>
-ATS can greatly enforce precision in practical programming.
-</li>
-
-<li>
-ATS can greatly facilitate refinement-based software development.
-</li>
-
-<li>
-ATS allows the programmer to write efficient functional programs that
-directly manipulate native unboxed data representation.
-</li>
-
-<li>
-ATS allows the programmer to reduce the memory footprint of a program
-by making use of linear types.
-</li>
-
-<li>
-ATS allows the programmer to enhance the safety (and efficiency) of a
-program by making use of theorem-proving.
-</li>
-
-<li>
-ATS allows the programmer to write safe low-level code that runs in OS
-kernels.
-</li>
-
-<li>
-ATS can help teach type theory, demonstrating both convincingly and
-concretely the power and potential of types in constructing high-quality
-software.
-</li>
-
-</ul>
-
-<hr></hr>
-
-<h2><a id="Acknowledgments">Acknowledgments</a></h2>
-
-<p>
-The development of ATS has been funded in part by <a
-href="http://www.nsf.gov">National Science Foundation</a> (NSF) under the
-grants no. CCR-0081316/CCR-0224244, no. CCR-0092703/0229480,
-no. CNS-0202067, no. CCF-0702665 and no CCF-1018601.
-As always, <em>any opinions, findings, and conclusions or recommendations
-expressed here are those of the author(s) and do not necessarily reflect
-the views of the NSF.</em>
-</p>
-
-<hr></hr>
-
 </div>
 
 </div><!--thePageRBodyLContent-->
@@ -657,201 +518,13 @@ the views of the NSF.</em>
 
 <td style="vertical-align:top;width:32%;">
 <div id="thePageRBodyRight">
-<style>
-#hello_dats {
-  font-size: 9pt;
-  font-family: Lucida Console, Courier New, monospace;
-  color: #8B0000;
-  background-color: #FFFAF0;
-}
-#listsub_dats {
-  font-size: 9pt;
-  font-family: Lucida Console, Courier New, monospace;
-  color: #8B0000;
-  background-color: #FFFAF0;
-}
-#repeat_f0f1_dats {
-  font-size: 9pt;
-  font-family: Lucida Console, Courier New, monospace;
-  color: #8B0000;
-  background-color: #FFFAF0;
-}
-</style>
-
 <div
 style="margin-top:8px;padding:8px;"
 ><!--div-->
 
-<h2 style="display:inline;">Yes, ATS can!</h2>
+<h2 style="display:inline;">What is new?</h2>
 
 <hr></hr>
-
-<p>
-The core of ATS is a typed call-by-value functional
-programming language that is largely inspired by ML. For instance, the
-following tiny ATS program is written in a style of functional programming:
-</p>
-
-<div
-width=98% margin=auto
-><!--div-->
-
-<table>
-<tr>
-<td width="10%">
-</td>
-<td align="right">
-<textarea
- id="hello_dats" rows="14" cols="36"
->
-//
-// Yes, you can edit
-//
-(* Say Hello! once *)
-val () = print"Hello!\n"
-//
-(* Say Hello! 3 times *)
-val () =
-repeat(3, a) where
-{
-  val a = $delay(print"Hello!")
-} (* end of [where] *)
-val () = print_newline((*void*))
-//
-</textarea>
-<button
- ID="hello_button"
- type="button" onclick="Home_hello_onclick()"
->Try-it-yourself</button>
-</td>
-<td width="10%"></td>
-</tr>
-</table>
-
-</div>
-
-<hr></hr>
-
-<p>
-ATS is both accurate and expressive in its support for (static)
-typechecking.  The following code demonstrates the ability of ATS in
-detecting out-of-bounds subscripting at compile-time:
-</p>
-
-<div
-width=98% margin=auto
-><!--div-->
-
-<table>
-<tr>
-<td width="10%">
-</td>
-<td align="right">
-<textarea
- id="listsub_dats" rows="11" cols="36"
->
-//
-// Yes, you can edit
-//
-(* Build a list of 3 *)
-val xs = $list(0, 1, 2)
-//
-val x0 = xs[0] // legal
-val x1 = xs[1] // legal
-val x2 = xs[2] // legal
-val x3 = xs[3] // illegal
-//
-</textarea>
-<button
- ID="listsub_button"
- type="button" onclick="Home_listsub_onclick()"
->Try-it-yourself</button>
-</td>
-<td width="10%"></td>
-</tr>
-</table>
-
-</div>
-
-<hr></hr>
-
-<p>
-ATS is highly effective and flexible in its support for a template-based
-approach to code reuse. As an example, the following code is likely to
-remind someone of higher-order functions but it is actually every bit of a
-first-order implementation in ATS:
-</p>
-
-<div
-width=98% margin=auto
-><!--div-->
-
-<table>
-<tr>
-<td width="10%">
-</td>
-<td align="right">
-<textarea
- id="repeat_f0f1_dats" rows="16" cols="36"
->
-//
-// Yes, you can edit
-//
-extern
-fun{} f0 (): int
-extern
-fun{} f1 (int): int
-extern
-fun{} repeat_f0f1 (int): int
-//
-implement
-{}(*tmp*)
-repeat_f0f1(n) =
-  if n = 0
-    then f0()
-    else f1(repeat_f0f1(n-1))
-  // end of [if]
-//
-fun
-times (
-  m:int, n:int
-) : int = // m*n
-  repeat_f0f1 (m) where
-{
-  implement f0<> () = 0
-  implement f1<> (x) = x + n
-}
-//
-fun
-power (
-  m:int, n:int
-) : int = // m^n
-  repeat_f0f1 (n) where
-{
-  implement f0<> () = 1
-  implement f1<> (x) = m * x
-}
-//
-val () =
-println! ("5*5 = ", times(5,5))
-val () =
-println! ("5^2 = ", power(5,2))
-val () =
-println! ("2^10 = ", power(2,10))
-val () =
-println! ("3^10 = ", power(3,10))
-//
-</textarea>
-<button
- ID="repeat_f0f1_button"
- type="button" onclick="Home_repeat_f0f1_onclick()"
->Try-it-yourself</button>
-</td>
-<td width="10%"></td>
-</tr>
-</table>
-
-</div>
 
 </div>
 </div><!--thePageRBodyRight-->

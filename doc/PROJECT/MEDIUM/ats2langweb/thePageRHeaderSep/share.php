@@ -16,7 +16,7 @@ thePageRHeaderSep_menu()
   thePageRHeaderSep_submenu_for_Documents('Documents');
 //
   thePageRHeaderSep_menuitem('Libraries');
-  thePageRHeaderSep_menuitem('Communities');
+  thePageRHeaderSep_menuitem('Community');
 //
   echo "</ul>\n";
 //
