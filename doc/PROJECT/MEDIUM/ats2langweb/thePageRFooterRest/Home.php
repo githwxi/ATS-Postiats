@@ -11,7 +11,7 @@ This page is created by
 href="http://www.cs.bu.edu/~hwxi/"
 >Hongwei Xi</a>
 <br>
-with help from ATS/weboxy, atscc2js and atscc2php.
+with tools like ATS/weboxy, atscc2js and atscc2php.
 
 <!--
 <ul>

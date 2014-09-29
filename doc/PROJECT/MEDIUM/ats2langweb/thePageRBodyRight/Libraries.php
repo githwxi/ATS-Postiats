@@ -7,4 +7,4 @@ style="margin-top:8px;padding:8px;"
 <hr></hr>
 
 </div>
-<?php /* end of [Community.php] */ ?>
+<?php /* end of [Libraries.php] */ ?>

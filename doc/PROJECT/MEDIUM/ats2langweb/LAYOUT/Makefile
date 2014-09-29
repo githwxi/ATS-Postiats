@@ -67,6 +67,22 @@ cleanall:: ; $(RMF) theDocuments_layout
 ######
 #
 all:: \
+theLibraries_layout
+theLibraries_layout: \
+theLibraries_layout.dats mylayout.dats; \
+$(PATSCC2) \
+  -D_GNU_SOURCE \
+  -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
+#
+regress:: \
+theLibraries_layout.html
+theLibraries_layout.html: theLibraries_layout; ./$< > $@
+#
+cleanall:: ; $(RMF) theLibraries_layout
+#
+######
+#
+all:: \
 theCommunity_layout
 theCommunity_layout: \
 theCommunity_layout.dats mylayout.dats; \
@@ -126,6 +142,7 @@ cleanall:: cleanats
 cleanall:: ; $(RMF) theHome_layout.html
 cleanall:: ; $(RMF) theDownloads_layout.html
 cleanall:: ; $(RMF) theDocuments_layout.html
+cleanall:: ; $(RMF) theLibraries_layout.html
 cleanall:: ; $(RMF) theCommunity_layout.html
 cleanall:: ; $(RMF) thePapers_layout.html
 cleanall:: ; $(RMF) theExamples_layout.html
