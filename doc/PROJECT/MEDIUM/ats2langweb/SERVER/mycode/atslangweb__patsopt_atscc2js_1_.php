@@ -27,4 +27,7 @@ $mycode_res = atslangweb__patsopt_atscc2js_code_1_($mycode);
 //
 echo rawurldecode(json_encode($mycode_res));
 //
+/* end of [atslangweb__patsopt_atscc2js_1_.php] */
+//
 ?>
+

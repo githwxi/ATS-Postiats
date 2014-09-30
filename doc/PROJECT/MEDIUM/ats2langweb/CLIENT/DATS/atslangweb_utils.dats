@@ -136,8 +136,8 @@ Home_listsub_reply(reply)
   var comparr =
     JSON.parse(decodeURIComponent(reply));
   // end of [var]
-  if (comparr[0]===0) alert ("Typechecking passed!");
-  if (comparr[0] > 0) alert ("Typechecking failed!");
+  if (comparr[0]===0) alert("Typechecking passed!");
+  if (comparr[0] > 0) alert("Typechecking failed!");
   Home_listsub_button_set("Try-it-yourself"); // HX: change it back!
   return;
 }

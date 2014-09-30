@@ -1,6 +1,9 @@
 <?php
 //
-$MYPHPDIR = "SERVER/mycode"; // for testing
+// HX-2014-09:
+// for local use
+//
+$MYPHPDIR = "SERVER/mycode";
 //
 include
 "./$MYPHPDIR/libatscc2php_all.php";
@@ -18,8 +21,10 @@ atslangweb__pats2xhtmlize_static
 {
 //
   $mycode_res =
-    atslangweb__pats2xhtml_static_code_0_($mycode);
-  $status = $mycode_res[0];
+  atslangweb__pats2xhtml_static_code_0_($mycode);
+//
+  $status =
+  $mycode_res[0];
   if($status===0)
   {
     echo $mycode_res[1];
@@ -36,8 +41,10 @@ atslangweb__pats2xhtmlize_dynamic
 {
 //
   $mycode_res =
-    atslangweb__pats2xhtml_dynamic_code_0_($mycode);
-  $status = $mycode_res[0];
+  atslangweb__pats2xhtml_dynamic_code_0_($mycode);
+//
+  $status =
+  $mycode_res[0];
   if($status===0)
   {
     echo $mycode_res[1];

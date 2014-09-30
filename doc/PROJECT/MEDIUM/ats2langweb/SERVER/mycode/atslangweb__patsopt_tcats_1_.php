@@ -27,4 +27,7 @@ rawurldecode($_REQUEST["mycode"]);
 $mycode_res = atslangweb__patsopt_tcats_code_1_($mycode);
 echo rawurldecode(json_encode($mycode_res));
 //
+/* end of [atslangweb__patsopt_tcats_1_.php] */
+//
 ?>
+
