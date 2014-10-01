@@ -2,11 +2,11 @@
 style="margin-left:8px;"
 >
 
-<h1>Papers</h1>
+<h1>Papers about ATS</h1>
 
 <?php
 thePageRBodyLHeader_Papers();
-?>
+?><!--php>
 
 </div>
 

@@ -45,7 +45,42 @@ Links:
 <table>
 <tr>
 <td>
-<h2><a id="Applied_Type_System">Applied Type System</a>:</h2>
+<h2><a id="GRDT-popl2003">Guarded Recursive Datatype Constructors</a></h2>
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td>
+<em>Abstract</em>:
+The paper introduces a notion of guarded recursive (g.r.)
+datatype constructors, generalizing the notion of recursive datatypes in
+functional programming languages such as ML and Haskell. Both theoretical
+and practical issues resulted from this generalization are addressed. On
+one hand, a type system is designed to formalize the notion of
+g.r. datatype constructors and its soundness is proven. On the other hand,
+some significant applications (e.g., implementing objects, implementing
+staged computation, etc.) of g.r. datatype constructors are given,
+indicating that g.r. datatype constructors can have far-reaching
+consequences in programming. The main contribution of the paper lies in the
+recognition and then the formalization of a programming notion that is of
+both theoretical interest and practical use.
+</td>
+</tr>
+<tr><td>
+Links:
+<a href="MYDATA/GRDT-popl03.pdf">pdf</a>
+</td></tr>
+<tr height="8px"><td></td></tr>
+</table>
+
+<hr></hr>
+
+<table>
+<tr>
+<td>
+<h2><a id="Applied_Type_System">Applied Type System</a></h2>
 </td>
 </tr>
 </table>
@@ -85,7 +120,7 @@ Links:
 <table>
 <tr>
 <td>
-<h2><a id="Combining_PwTP">Combining Programming with Theorem-Proving</a>:</h2>
+<h2><a id="Combining_PwTP">Combining Programming with Theorem-Proving</a></h2>
 </td>
 </tr>
 </table>
@@ -114,6 +149,42 @@ support of the practicality of this design.
 <tr><td>
 Links:
 <a href="MYDATA/CPwTP-icfp05.pdf">pdf</a>
+</td></tr>
+<tr height="8px"><td></td></tr>
+</table>
+
+<hr></hr>
+
+<table>
+<tr>
+<td>
+<h2><a id="SPPSV-padl05">Safe Programming with Pointers through Stateful Views</a></h2>
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td>
+<em>Abstract</em>:
+The need for direct memory manipulation through pointers is
+essential in many applications. However, it is also commonly understood
+that the use (or probably misuse) of pointers is often a rich source of
+program errors. Therefore, approaches that can effectively enforce safe use
+of pointers in programming are highly sought after. ATS is a programming
+language with a type system rooted in a recently developed framework
+Applied Type System, and a novel and desirable feature in ATS lies in its
+support for safe programming with pointers through a novel notion of
+stateful views. In particular, even pointer arithmetic is allowed in ATS
+and guaranteed to be safe by the type system of ATS. In this paper, we give
+an overview of this feature in ATS, presenting some interesting examples
+based on a prototype implementation of ATS to demonstrate the practicality
+of safe programming with pointer through stateful views.
+</td>
+</tr>
+<tr><td>
+Links:
+<a href="MYDATA/SPPSV-padl05.pdf">pdf</a>
 </td></tr>
 <tr height="8px"><td></td></tr>
 </table>

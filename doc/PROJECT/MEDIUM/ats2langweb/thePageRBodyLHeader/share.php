@@ -66,8 +66,10 @@ thePageRBodyLHeader_Papers()
 {
   echo "<ul name=\"Papers\">\n";
   echo "<li><a href=\"#Dependent_ML\">Dependent ML</a></li>\n";
+  echo "<li><a href=\"#GRDT-popl2003\">Guarded Recursive Datatype Constructors</a></li>\n";
   echo "<li><a href=\"#Applied_Type_System\">Applied Type System</a></li>\n";
   echo "<li><a href=\"#Combining_PwTP\">Combining Programming with Theorem-Proving</a></li>\n";
+  echo "<li><a href=\"#SPPSV-padl05\">Safe Programming with Pointers through Stateful Views</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Papers] */

@@ -2,7 +2,7 @@
 style="margin-left:8px;"
 >
 
-<h1>Documents</h1>
+<h1>Documentation</h1>
 
 <?php
 thePageRBodyLHeader_Documents();
