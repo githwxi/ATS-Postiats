@@ -81,7 +81,7 @@ val () = cairo_curve_to (ctx, B2.0, B2.1, C0.0, C0.1, D0.0, D0.1)
 val () = cairo_curve_to (ctx, D1.0, D1.1, E0.0, E0.1, E1.0, E1.1)
 val () = cairo_curve_to (ctx, E1.0, E1.1, F0.0, F0.1, H0.0, H0.1)
 val () = cairo_move_to (ctx, C0.0-0.10, C0.1+0.20)
-val () = cairo_line_to (ctx, 0.00, 2.00)
+val () = cairo_line_to (ctx, 0.00+1.0/18, 2.00+1.0/12.5)
 //
 } (* end of [draw_lambda] *)
 

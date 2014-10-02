@@ -257,6 +257,24 @@ implement
 fprint_webox_head_end<>
   (out) = let
 //
+(*
+val () =
+fprint (out, "\
+<link\n\
+ rel=\"shortcut icon\"\n\
+ href=\"./MYDATA/favicon.ico\">\n\
+</link>\n"
+) (* end of [val] *)
+*)
+//
+val () =
+fprint (out, "\
+<link\n\
+ rel=\"icon\" type=\"image/gif\"\n\
+ href=\"./MYDATA/favicon_animated.gif\">\n\
+</link>\n"
+) (* end of [val] *)
+//
 val () =
 fprint (out, "\
 <script\n\
