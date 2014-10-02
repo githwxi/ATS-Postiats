@@ -54,7 +54,7 @@ staload "libats/SATS/linmap_skiplist.sats"
 stadef mytkind = $extkind"atslib_linmap_skiplist"
 
 (* ****** ****** *)
-
+//
 %{^
 //
 #include <time.h>
@@ -65,11 +65,12 @@ extern void srand48 (time_t);
 //
 %}
 typedef time_t = $extype"time_t"
-
+//
 (* ****** ****** *)
 
 implement
-linmap_skiplist_initize () = let
+linmap_skiplist_initize
+  ((*void*)) = let
 //
 val seed = $extfcall (time_t, "time", 0)
 //
@@ -84,8 +85,9 @@ end // end of [linmap_skiplist_initize]
 (* ****** ****** *)
 
 extern
-fun linmap_random_lgN
-  {n:int | n >= 1} (lgMAX: int (n)): intBtwe (1, n)
+fun
+linmap_random_lgN
+  {n:int | n >= 1} (lgMAX: int(n)): intBtwe(1, n)
 // end of [linmap_random_lgN]
 
 (* ****** ****** *)
@@ -115,6 +117,8 @@ sknode0
   key:t0p
 , itm:vt0p
 ) = [l:addr;n:nat] sknode (key, itm, l, n)
+
+(* ****** ****** *)
 
 typedef
 sknode1
