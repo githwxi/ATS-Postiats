@@ -59,7 +59,7 @@ stadef mytkind = $extkind"atslib_linmap_skiplist"
 //
 #include <time.h>
 //
-// HX: in stdlib.h
+// HX: it is in stdlib.h
 //
 extern void srand48 (time_t);
 //
