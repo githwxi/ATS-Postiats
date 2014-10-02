@@ -46,8 +46,9 @@ extvar "foo" = x0 + 1
 where the keyword #dyncode("extvar") indicates that the string following it
 refers to an external variable (or left-value) that should be updated with
 the value of the expression on the right-hand side of the equality symbol
-following the string. This so-called-extvar declaration can also be written
-as follow:
+following the string. Of course, this works for languages like C that
+do support the address-of operator as well. This so-called-extvar 
+declaration can also be written as follows:
 
 #atscode('\
 extern var "foo" = x0 + 1
