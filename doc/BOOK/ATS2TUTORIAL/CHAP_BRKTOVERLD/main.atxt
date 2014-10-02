@@ -69,8 +69,8 @@ With these declarations, the following code typechecks:
 val
 mylock = $extval(lock(int), "mylock")
 //
-val x0 = mylock[] // = lock_acquire (myclok)
-val () = mylock[] := x0 // = lock_release (myclok, x0)
+val x0 = mylock[] // = lock_acquire (mylock)
+val () = mylock[] := x0 // = lock_release (mylock, x0)
 //
 ')#comment("atscode")
 
