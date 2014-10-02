@@ -100,7 +100,7 @@ val () =
 cairo_arc
  (ctx, 200.0, 200.0, 200.0, 0.0, 2*PI)
 val () =
-cairo_set_source_rgba (ctx, 1.0, 1.0, 1.0/4, 7.0/8)
+cairo_set_source_rgba (ctx, 1.0, 1.0, 1.0/4, 5.0/6)
 val ((*void*)) = cairo_fill (ctx)
 //
 val () =

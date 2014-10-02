@@ -129,6 +129,22 @@ theExamples_layout.html: theExamples_layout; ./$< > $@
 cleanall:: ; $(RMF) theExamples_layout
 #
 ######
+#
+all:: \
+thePatsopt_layout
+thePatsopt_layout: \
+thePatsopt_layout.dats mylayout2.dats; \
+$(PATSCC2) \
+  -D_GNU_SOURCE \
+  -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
+#
+regress:: \
+thePatsopt_layout.html
+thePatsopt_layout.html: thePatsopt_layout; ./$< > $@
+#
+cleanall:: ; $(RMF) thePatsopt_layout
+#
+######
 
 include $(PATSHOME)/share/atsmake-post.mk
 
@@ -146,6 +162,7 @@ cleanall:: ; $(RMF) theLibraries_layout.html
 cleanall:: ; $(RMF) theCommunity_layout.html
 cleanall:: ; $(RMF) thePapers_layout.html
 cleanall:: ; $(RMF) theExamples_layout.html
+cleanall:: ; $(RMF) thePatsopt_layout.html
 
 ######
 

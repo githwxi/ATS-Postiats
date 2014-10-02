@@ -20,11 +20,13 @@ staload _ = "{$LIBATSHWXI}/weboxy/DATS/weboxy.dats"
 
 (*
 local
-
+//
+val () = randcolor_initize ()
+//
 val webox_make_ = webox_make<>
-
+//
 in (* in-of-local *)
-
+//
 implement
 {}(*tmp*)
 webox_make
@@ -33,15 +35,10 @@ webox_make
   val wbx = webox_make_ ()
   val () = wbx.bgcolor(randcolor())
 } (* end of [webox_make] *)
-
+//
 end // end of [local]
 *)
 
-(* ****** ****** *)
-//
-val () =
-  randcolor_initize ()
-//
 (* ****** ****** *)
 //
 val thePage =
@@ -62,7 +59,7 @@ val () = thePageRight.pheight(100)
 val () =
   thePage.tabstyle(TShbox)
 val () =
-  thePage.percentlst ($list(15, ~1))
+  thePage.percentlst ($list(15, 85))
 val () =
   thePage.children (thePageLeft, thePageRight)
 //
