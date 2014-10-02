@@ -109,6 +109,19 @@ Let us introduce a linear abstract type #stacode("counter") for counter
 objects and a few functions associated with it:
 
 #atscode('\
+//
+absvtype counter = ptr
+//
+extern
+fun counter_make (): counter
+extern
+fun counter_free (counter): void
+//
+extern
+fun counter_get (cntr: !counter): int
+extern
+fun counter_incby (cntr: !counter, n: int): void
+//
 ')
 
 As can be expected, the
