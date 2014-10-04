@@ -16,12 +16,12 @@ include "./$MYPHPDIR/atslangweb_utils_dats.php";
 /* ****** ****** */
 //
 function
-atslangweb__pats2xhtmlize_static
+atslangweb_pats2xhtmlize_static
   ($mycode)
 {
 //
   $mycode_res =
-  atslangweb__pats2xhtml_static_code_0_($mycode);
+  atslangweb_pats2xhtml_static_code_0_($mycode);
 //
   $status =
   $mycode_res[0];
@@ -33,15 +33,15 @@ atslangweb__pats2xhtmlize_static
   } // end of [if]
   return $status;
 //
-} /* end of [atslangweb__pats2xhtmlize_static] */
+} /* end of [atslangweb_pats2xhtmlize_static] */
 //
 function
-atslangweb__pats2xhtmlize_dynamic
+atslangweb_pats2xhtmlize_dynamic
   ($mycode)
 {
 //
   $mycode_res =
-  atslangweb__pats2xhtml_dynamic_code_0_($mycode);
+  atslangweb_pats2xhtml_dynamic_code_0_($mycode);
 //
   $status =
   $mycode_res[0];
@@ -53,6 +53,6 @@ atslangweb__pats2xhtmlize_dynamic
   } // end of [if]
   return $status;
 //
-} /* end of [atslangweb__pats2xhtmlize_dynamic] */
+} /* end of [atslangweb_pats2xhtmlize_dynamic] */
 //
 ?>

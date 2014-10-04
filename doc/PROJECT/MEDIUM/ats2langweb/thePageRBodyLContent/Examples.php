@@ -3,7 +3,8 @@ class="thePageRBodyLContent"
 ><!--div-->
 
 <?php
-include "./SERVER/mycode/atslangweb__pats2xhtmlize.php";
+include
+"./SERVER/mycode/atslangweb_pats2xhtmlize.php";
 ?><!--php-->
 
 <hr></hr>
@@ -18,7 +19,7 @@ world!" plus a newline: </p>
 $mycode = <<<EOT
 implement main0 () = print("Hello, world!\\n")
 EOT;
-atslangweb__pats2xhtmlize_dynamic($mycode);
+atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
@@ -69,7 +70,7 @@ in
   end // end of [if]
 end (* end of [fcopy] *)
 EOT;
-atslangweb__pats2xhtmlize_dynamic($mycode);
+atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
@@ -118,7 +119,7 @@ fib (
   if n >= 2 then fib (n-2) + fib (n-1) else n
 // end of [fib]
 EOT;
-atslangweb__pats2xhtmlize_dynamic($mycode);
+atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
@@ -156,7 +157,7 @@ in
   loop (n, 0, 1)
 end // end of [fibc]
 EOT;
-atslangweb__pats2xhtmlize_dynamic($mycode);
+atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
@@ -174,7 +175,7 @@ dataprop FIB (int, int) =
   | {n:nat} {r0,r1:int} FIB2 (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))
 // end of [FIB] // end of [dataprop]
 EOT;
-atslangweb__pats2xhtmlize_static($mycode);
+atslangweb_pats2xhtmlize_static($mycode);
 ?><!--php-->
 
 <p>
@@ -255,7 +256,7 @@ in
   loop {0} (FIB0 (), FIB1 () | n, 0, 1)
 end // end of [fibats]
 EOT;
-atslangweb__pats2xhtmlize_dynamic($mycode);
+atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
@@ -266,7 +267,7 @@ Note that fibats is given the following declaration:
 $mycode = <<<EOT
 fun fibats : {n:nat} int(n) -> [r:int] (FIB(n,r) | int(r))
 EOT;
-atslangweb__pats2xhtmlize_static($mycode);
+atslangweb_pats2xhtmlize_static($mycode);
 ?><!--php-->
 
 <p>

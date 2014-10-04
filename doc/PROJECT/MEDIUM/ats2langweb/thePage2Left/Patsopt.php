@@ -34,10 +34,14 @@
 <table
  class="thePageLeft_menu"
 >
-<?php thePageLeft_menu(/*void*/); ?>
+<tr><td>Editor</td></tr>
+<tr><td>Stderr</td></tr>
+<tr><td>Patsopt</td></tr>
+<tr><td>Patsopt2js</td></tr>
+<tr><td>Evaluation</td></tr>
 </table>
 </td>
 </tr>
 </table>
 
-<?php /* end of [share2.php] */ ?>
+<?php /* end of [Patsopt.php] */ ?>

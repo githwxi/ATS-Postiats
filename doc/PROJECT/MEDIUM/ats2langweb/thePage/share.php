@@ -1,13 +1,13 @@
 <?php
 
 function
-atslangweb__get_pgname()
+atslangweb_get_pgname()
 {
   return $GLOBALS['the_atslangweb_pgname'];
 }
 
 function
-atslangweb__set_pgname($name)
+atslangweb_set_pgname($name)
 {
   $GLOBALS['the_atslangweb_pgname'] = $name; return;
 }

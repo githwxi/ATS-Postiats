@@ -18,7 +18,7 @@ UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
-#define ATS_EXTERN_PREFIX "atslangweb__"
+#define ATS_EXTERN_PREFIX "atslangweb_"
 
 (* ****** ****** *)
 //
@@ -117,9 +117,9 @@ patsopt_tcats_code_1_
   (code) = let
 //
 val preamble =
-  $extval(string, "$GLOBALS['atslangweb__patsopt_tcats_preamble']")
+  $extval(string, "$GLOBALS['atslangweb_patsopt_tcats_preamble']")
 val postamble =
-  $extval(string, "$GLOBALS['atslangweb__patsopt_tcats_postamble']")
+  $extval(string, "$GLOBALS['atslangweb_patsopt_tcats_postamble']")
 //
 val code2 =
   $extfcall(string, "sprintf", "%s\n%s\n%s\n", preamble, code, postamble)
@@ -154,9 +154,9 @@ patsopt_ccats_code_1_
   (code) = let
 //
 val preamble =
-  $extval(string, "$GLOBALS['atslangweb__patsopt_ccats_preamble']")
+  $extval(string, "$GLOBALS['atslangweb_patsopt_ccats_preamble']")
 val postamble =
-  $extval(string, "$GLOBALS['atslangweb__patsopt_ccats_postamble']")
+  $extval(string, "$GLOBALS['atslangweb_patsopt_ccats_postamble']")
 //
 val code2 =
   $extfcall(string, "sprintf", "%s\n%s\n%s\n", preamble, code, postamble)
@@ -198,9 +198,9 @@ patsopt_atscc2js_code_1_
   (code) = let
 //
 val preamble =
-  $extval(string, "$GLOBALS['atslangweb__patsopt_atscc2js_preamble']")
+  $extval(string, "$GLOBALS['atslangweb_patsopt_atscc2js_preamble']")
 val postamble =
-  $extval(string, "$GLOBALS['atslangweb__patsopt_atscc2js_postamble']")
+  $extval(string, "$GLOBALS['atslangweb_patsopt_atscc2js_postamble']")
 //
 val code2 =
   $extfcall(string, "sprintf", "%s\n%s\n%s\n", preamble, code, postamble)

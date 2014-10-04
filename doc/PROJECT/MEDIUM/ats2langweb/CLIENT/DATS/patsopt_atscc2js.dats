@@ -41,7 +41,8 @@ patsopt_atscc2js_rpc
   (code) = let
 //
 val xmlhttp =
-  XMLHttpRequest_new()
+XMLHttpRequest_new()
+//
 val ((*void*)) =
 xmlhttp.onreadystatechange
 (
@@ -49,7 +50,7 @@ xmlhttp.onreadystatechange
     if xmlhttp.is_ready_okay()
       then patsopt_atscc2js_rpc$reply<> (xmlhttp.responseText)
   // end of [lam]
-)
+) (* end of [val] *)
 //
 val command =
   "SERVER/mycode/atslangweb__patsopt_atscc2js_1_.php"

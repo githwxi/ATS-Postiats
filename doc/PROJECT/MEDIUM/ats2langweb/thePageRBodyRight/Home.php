@@ -28,6 +28,17 @@ style="margin-top:8px;padding:8px;"
 <hr></hr>
 
 <p>
+Would you like to try ATS on-line?
+<button
+ ID="tryatsnow_button"
+ type="button" onclick="Home_tryatsnow_onclick()"
+>OK</button>
+
+</p>
+
+<hr></hr>
+
+<p>
 The core of ATS is a typed call-by-value functional
 programming language that is largely inspired by ML. For instance, the
 following tiny ATS program is written in a style of functional programming:

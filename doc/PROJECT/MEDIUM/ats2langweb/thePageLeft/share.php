@@ -16,6 +16,7 @@ thePageLeft_menu()
   echo "<tr><td><a href=\"https://lists.sourceforge.net/lists/listinfo/ats-lang-users\">Mailing-list</a></td></tr>\n";
   echo "<tr><td>IRC-channel</td></tr>\n";
   echo "<tr><td>Google-groups</td></tr>\n";
+  echo "<tr><td><a href=\"./Patsoptaas.html\">Try ATS on-line</a></td></tr>\n";
 //
   return;
 //
@@ -25,7 +26,7 @@ function
 thePageLeft_menuitem($name)
 {
 //
-  if(atslangweb__get_pgname()===$name)
+  if(atslangweb_get_pgname()===$name)
   {
     echo "<tr><td name=\"$name\" class=\"self\">$name</td></tr>\n";
   } else {

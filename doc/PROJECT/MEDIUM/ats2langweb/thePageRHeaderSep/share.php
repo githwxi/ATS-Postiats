@@ -31,7 +31,7 @@ thePageRHeaderSep_menuitem($name)
   $onmouseout = "onmouseout=\"submenu_mouseout()\"";
   $onmouseover = "onmouseover=\"submenu_mouseover('$name')\"";
 //
-  if(atslangweb__get_pgname()===$name)
+  if(atslangweb_get_pgname()===$name)
   {
     echo "<li name=\"$name\" class=\"self\" $onmouseover $onmouseout>$name</li>\n";
   } else {
@@ -48,7 +48,7 @@ function
 thePageRHeaderSep_submenu_for_Home($name)
 {
   $page = "";
-  if(atslangweb__get_pgname()!=$name) $page = "$name.html";
+  if(atslangweb_get_pgname()!=$name) $page = "$name.html";
   $onmouseout = "onmouseout=\"submenu_table_mouseout()\"";
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
   echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseover $onmouseout>\n";
@@ -63,7 +63,7 @@ function
 thePageRHeaderSep_submenu_for_Downloads($name)
 {
   $page = "";
-  if(atslangweb__get_pgname()!=$name) $page = "$name.html";
+  if(atslangweb_get_pgname()!=$name) $page = "$name.html";
   $onmouseout = "onmouseout=\"submenu_table_mouseout()\"";
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
   echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseover $onmouseout>\n";
@@ -81,7 +81,7 @@ function
 thePageRHeaderSep_submenu_for_Documents($name)
 {
   $page = "";
-  if(atslangweb__get_pgname()!=$name) $page = "$name.html";
+  if(atslangweb_get_pgname()!=$name) $page = "$name.html";
   $onmouseout = "onmouseout=\"submenu_table_mouseout()\"";
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
   echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseover $onmouseout>\n";

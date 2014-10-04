@@ -17,6 +17,7 @@ all:: Libraries.html
 all:: Community.html
 all:: Papers.html
 all:: Examples.html
+all:: Patsoptaas.html
 
 ######
 #
@@ -28,6 +29,8 @@ Community.html:: ; $(PHP) -f LAYOUT/theCommunity_layout.html > $@
 Papers.html:: ; $(PHP) -f LAYOUT/thePapers_layout.html > $@
 Examples.html:: ; $(PHP) -f LAYOUT/theExamples_layout.html > $@
 #
+Patsoptaas.html:: ; $(PHP) -f LAYOUT/thePatsopt_layout.html > $@
+#
 ######
 
 cleanall:: ; $(RMF) Home.html
@@ -36,6 +39,6 @@ cleanall:: ; $(RMF) Documents.html
 cleanall:: ; $(RMF) Libraries.html
 cleanall:: ; $(RMF) Community.html
 cleanall:: ; $(RMF) Papers.html
-cleanall:: ; $(RMF) Examples.html
+cleanall:: ; $(RMF) Patsoptaas.html
 
 ###### end of [Makefile] ######
