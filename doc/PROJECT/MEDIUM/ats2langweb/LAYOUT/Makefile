@@ -131,18 +131,18 @@ cleanall:: ; $(RMF) theExamples_layout
 ######
 #
 all:: \
-thePatsopt_layout
-thePatsopt_layout: \
-thePatsopt_layout.dats mylayout2.dats; \
+thePatsoptaas_layout
+thePatsoptaas_layout: \
+thePatsoptaas_layout.dats mylayout2.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
 #
 regress:: \
-thePatsopt_layout.html
-thePatsopt_layout.html: thePatsopt_layout; ./$< > $@
+thePatsoptaas_layout.html
+thePatsoptaas_layout.html: thePatsoptaas_layout; ./$< > $@
 #
-cleanall:: ; $(RMF) thePatsopt_layout
+cleanall:: ; $(RMF) thePatsoptaas_layout
 #
 ######
 
@@ -162,7 +162,7 @@ cleanall:: ; $(RMF) theLibraries_layout.html
 cleanall:: ; $(RMF) theCommunity_layout.html
 cleanall:: ; $(RMF) thePapers_layout.html
 cleanall:: ; $(RMF) theExamples_layout.html
-cleanall:: ; $(RMF) thePatsopt_layout.html
+cleanall:: ; $(RMF) thePatsoptaas_layout.html
 
 ######
 

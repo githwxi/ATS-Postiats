@@ -33,9 +33,9 @@ thePageRHeaderSep_menuitem($name)
 //
   if(atslangweb_get_pgname()===$name)
   {
-    echo "<li name=\"$name\" class=\"self\" $onmouseover $onmouseout>$name</li>\n";
+    echo "<li name=\"$name\" class=\"self\" $onmouseout $onmouseover>$name</li>\n";
   } else {
-    echo "<li name=\"$name\" class=\"other\" $onmouseover $onmouseout><a href=\"$name.html\">$name</a></li>\n";
+    echo "<li name=\"$name\" class=\"other\" $onmouseout $onmouseover><a href=\"$name.html\">$name</a></li>\n";
   }
 //
   return;
@@ -51,7 +51,7 @@ thePageRHeaderSep_submenu_for_Home($name)
   if(atslangweb_get_pgname()!=$name) $page = "$name.html";
   $onmouseout = "onmouseout=\"submenu_table_mouseout()\"";
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
-  echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseover $onmouseout>\n";
+  echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseout $onmouseover>\n";
   echo "<tr><td><a href=\"$page#What_is_ATS\">What is ATS?<a></td></tr>\n";
   echo "<tr><td><a href=\"$page#What_is_ATS_good_for\">What is ATS good for?<a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Acknowledgments\">Acknowledgments</a></td></tr>\n";
@@ -66,7 +66,7 @@ thePageRHeaderSep_submenu_for_Downloads($name)
   if(atslangweb_get_pgname()!=$name) $page = "$name.html";
   $onmouseout = "onmouseout=\"submenu_table_mouseout()\"";
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
-  echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseover $onmouseout>\n";
+  echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseout $onmouseover>\n";
   echo "<tr><td><a href=\"$page#ATS_packages\">ATS packages for download</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Requirements_install\">Requirements for installation</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Precompiledpack_install\">Precompiled packages for installation</a></td></tr>\n";
@@ -84,7 +84,7 @@ thePageRHeaderSep_submenu_for_Documents($name)
   if(atslangweb_get_pgname()!=$name) $page = "$name.html";
   $onmouseout = "onmouseout=\"submenu_table_mouseout()\"";
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
-  echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseover $onmouseout>\n";
+  echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseout $onmouseover>\n";
   echo "<tr><td><a href=\"$page#INT2PROGINATS\">Introduction to Programming in ATS</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#TUT2PROGINATS\">A Tutorial on Programming Features in ATS</a></td></tr>\n";
   echo "</table>\n";

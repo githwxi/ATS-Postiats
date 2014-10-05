@@ -10,19 +10,27 @@
 #define ATS_EXTERN_PREFIX "atslangweb__"
 //
 (* ****** ****** *)
-
+//
 fun{}
-patsopt_tcats_rpc (code: string): void = "mac#%"
+patsopt_tcats_rpc
+  (code: string): void = "mac#%"
+//
+fun{}
+patsopt_tcats_rpc$cname (): string = "mac#%"
 fun{}
 patsopt_tcats_rpc$reply (reply: string): void = "mac#%"
-
+//
 (* ****** ****** *)
-
+//
 fun{}
-patsopt_atscc2js_rpc (code: string): void = "mac#%"
+patsopt_atscc2js_rpc
+  (code: string): void = "mac#%"
+//
+fun{}
+patsopt_atscc2js_rpc$cname (): string = "mac#%"
 fun{}
 patsopt_atscc2js_rpc$reply (reply: string): void = "mac#%"
-
+//
 (* ****** ****** *)
 
 (* end of [atslangweb.sats] *)

@@ -50,10 +50,9 @@ xmlhttp.onreadystatechange
     if xmlhttp.is_ready_okay()
       then patsopt_atscc2js_rpc$reply<> (xmlhttp.responseText)
   // end of [lam]
-) (* end of [val] *)
+) (* end of [onreadystatechange] *)
 //
-val command =
-  "SERVER/mycode/atslangweb__patsopt_atscc2js_1_.php"
+val command = patsopt_atscc2js_rpc$cname()
 //
 val ((*void*)) = xmlhttp.open("POST", command, true)
 //

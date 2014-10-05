@@ -19,6 +19,7 @@ staload _ = "{$LIBATSHWXI}/weboxy/DATS/weboxy.dats"
 //
 (* ****** ****** *)
 
+(*
 local
 //
 val () = randcolor_initize ()
@@ -37,6 +38,7 @@ webox_make
 } (* end of [webox_make] *)
 //
 end // end of [local]
+*)
 
 (* ****** ****** *)
 //
@@ -63,16 +65,19 @@ val () = thePage2.children(thePage2Left, thePage2Right)
 //
 val thePage2RTop =
   webox_make_name ("thePage2RTop")
+//
+val () = thePage2RTop.bgcolor("rgb(143,2,34)")
+//
 val thePage2RBody =
   webox_make_name ("thePage2RBody")
-val thePage2RFoot =
-  webox_make_name ("thePage2RFoot")
+val thePage2RFooter =
+  webox_make_name ("thePage2RFooter")
 //
 val () = thePage2RBody.pheight(100)
 //
 val () = thePage2Right.tabstyle(TSvbox)
 val () = thePage2Right.percentlst ($list(6, 88, 6))
-val () = thePage2Right.children(thePage2RTop, thePage2RBody, thePage2RFoot)
+val () = thePage2Right.children(thePage2RTop, thePage2RBody, thePage2RFooter)
 //
 (* ****** ****** *)
 //
@@ -109,9 +114,34 @@ fprint (out,
 val () =
 fprint (out, "\
 <script\n\
- src=\"http://cdn.jsdelivr.net/ace/1.1.6/min/ace.js\">\n\
+ src=\"//cdn.jsdelivr.net/ace/1.1.6/min/ace.js\">\n\
 </script>\n\
 ") (* end of [val] *)
+//
+val () =
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/mycode/libatscc2js_all.js\">\n\
+</script>\n"
+) (* end of [val] *)
+val () =
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/mycode/libatscc2js_print_store.js\">\n\
+</script>\n"
+) (* end of [val] *)
+val () =
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/mycode/atslangweb_utils_dats.js\">\n\
+</script>\n"
+) (* end of [val] *)
+val () =
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/mycode/patsoptaas_utils_dats.js\">\n\
+</script>\n"
+) (* end of [val] *)
 //
 in
   // nothing
@@ -137,6 +167,48 @@ body {\n\
 in
   // nothing
 end // end of [fprint_css_preamble]
+
+(* ****** ****** *)
+
+implement
+fprint_css_postamble<>
+  (out) = let
+//
+val () =
+fprint (out, "\
+\n\
+body {\n\
+  font-family: Helvetica, Arial, sans-serif;\n\
+  background-color: #213449; /* dark blue */\n\
+}\n\
+") (* end of [fprint] *)
+// 
+(*
+val () =
+fprint (out, "\
+\n\
+#thePage2\n\
+{\n\
+  width: 90%;\n\
+  margin-left: auto;\n\
+  margin-right: auto;\n\
+}\n\
+") (* end of [fprint] *)
+*)
+//
+val () =
+fprint (out, "\
+\n\
+#thePage2Left\n\
+{\n\
+  background-color: #1e5799;\n\
+  background-image: linear-gradient(to right, #1e5799, #7db9e8);\n\
+}\n\
+") (* end of [fprint] *)
+//
+in
+  // nothing
+end // end of [fprint_css_postamble]
 
 (* ****** ****** *)
 

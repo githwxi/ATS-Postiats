@@ -51,8 +51,7 @@ xmlhttp.onreadystatechange
   // end of [lam]
 )
 //
-val command =
-  "SERVER/mycode/atslangweb__patsopt_tcats_1_.php"
+val command = patsopt_tcats_rpc$cname()
 //
 val ((*void*)) = xmlhttp.open("POST", command, true)
 //

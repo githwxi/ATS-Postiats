@@ -31,6 +31,16 @@ mycode/atslangweb_utils_dats.js: \
 DATS/atslangweb_utils_dats.c; $(ATSCC2JS) -o $@ -i $<
 #
 ######
+#
+all:: \
+mycode/patsoptaas_utils_dats.js
+#
+DATS/patsoptaas_utils_dats.c: \
+DATS/patsoptaas_utils.dats; $(PATSOPT) -o $@ -d $<
+mycode/patsoptaas_utils_dats.js: \
+DATS/patsoptaas_utils_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+######
 
 clean:: ; $(RMF) DATS/*_?ats.c
 
@@ -38,5 +48,6 @@ clean:: ; $(RMF) DATS/*_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) mycode/atslangweb_utils_dats.js
+cleanall:: ; $(RMF) mycode/patsoptaas_utils_dats.js
 
 ###### end of [Makefile] ######

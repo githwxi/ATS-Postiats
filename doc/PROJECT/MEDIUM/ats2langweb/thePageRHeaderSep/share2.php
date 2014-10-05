@@ -7,7 +7,7 @@
 #thePageRHeaderSepL
 {
   text-align: left;
-  padding-left: 6px;
+  padding-left: 2px;
 }
 
 #thePageRHeaderSepL ul
@@ -18,12 +18,15 @@
 }
 #thePageRHeaderSepL ul li
 {
+  float: left;
+/*
   display: inline;
+*/
   border-width: 1px;
   border-color: #ffffff;
   border-right-style: double;
-  padding-left: 2px;
-  padding-right: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 #thePageRHeaderSepL li.self
@@ -58,7 +61,7 @@
   position: absolute;
   padding: 6px;
   border-radius: 12px;
-  background-color: rgba(143,2,34,0.825)
+  background-color: rgba(143,2,34,0.875)
 }
 
 #thePageRHeaderSepR
@@ -118,7 +121,7 @@ submenu_mouseover(name)
   theSubmenuTable = jqi.next('table');
   theSubmenuTable.css({display:'table'});
   theSubmenuTable.css (
-    {top:jqi.position().top+jqi.outerHeight(true)+8}
+    {top:jqi.position().top+jqi.outerHeight(true)+10}
   ) ; // end of [theSubmenuTable.css]
   theSubmenuTable.css({left:jqi.position().left});
   return;
@@ -136,7 +139,7 @@ submenu_table_mouseover() { theSubmenuTimeout_clear(); }
 
 <td width="75%">
 <div
-id="thePageRHeaderSepL"
+ id="thePageRHeaderSepL"
 >
 <?php thePageRHeaderSep_menu() ; ?>
 </div>
@@ -144,21 +147,21 @@ id="thePageRHeaderSepL"
 
 <td width="25%">
 <div
-id="thePageRHeaderSepR"
-style="margin-top:6px;margin-bottom:6px;"
+ id="thePageRHeaderSepR"
+ style="margin-top:6px;margin-bottom:6px;"
 >
 <form
-id="search-form"
-action="https://www.google.com/cse"
+ id="search-form"
+ action="https://www.google.com/cse"
 >
 <table>
 <tr>
 <td>
 <input
-id="thePageRHeaderSepR_input"
-type="text" name="q" size="22"
-onblur="if (/^\s*$/.test(this.value)) this.style.background='#FFFFF0 url(//www.google.com/coop/intl/en/images/google_custom_search_watermark.gif) left no-repeat'"
-onfocus="this.style.background='#FFFFF0'"
+ id="thePageRHeaderSepR_input"
+ type="text" name="q" size="22"
+ onblur="if (/^\s*$/.test(this.value)) this.style.background='#FFFFF0 url(//www.google.com/coop/intl/en/images/google_custom_search_watermark.gif) left no-repeat'"
+ onfocus="this.style.background='#FFFFF0'"
 />
 </td>
 <td>
