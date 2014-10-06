@@ -395,25 +395,28 @@ in hnf '{
 implement
 s2exp_top
   (knd, s2e) = let
-  val s2t = s2e.s2exp_srt
-  val s2t_new = (
-    if s2rt_is_prf s2t then s2rt_prop else
-      (if s2rt_is_boxed s2t then s2rt_type else s2rt_t0ype)
-    // end of [if]
-  ) : s2rt // end of [val]
+//
+val s2t = s2e.s2exp_srt
+//
+val s2t_new = (
+  if s2rt_is_prf s2t then s2rt_prop else
+    (if s2rt_is_boxed s2t then s2rt_type else s2rt_t0ype)
+  // end of [if]
+) : s2rt // end of [val]
 in
   s2exp_top_srt (s2t_new, knd, s2e)
 end // end of [s2exp_top]
 
 implement
-s2exp_top_srt (s2t, knd, s2e) = '{
+s2exp_top_srt
+  (s2t, knd, s2e) = '{
   s2exp_srt= s2t, s2exp_node= S2Etop (knd, s2e)
-} // end of [s2exp_top_srt]
+} (* end of [s2exp_top_srt] *)
 
 implement
 s2exp_without (s2e) = '{
   s2exp_srt= s2rt_t0ype, s2exp_node= S2Ewithout (s2e)
-}
+} (* end of [s2exp_without] *)
 
 (* ****** ****** *)
 
