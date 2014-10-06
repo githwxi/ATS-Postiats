@@ -41,5 +41,6 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) theLogo.png
 
 ###### end of [Makefile] ######

@@ -39,6 +39,7 @@ cleanall:: ; $(RMF) Documents.html
 cleanall:: ; $(RMF) Libraries.html
 cleanall:: ; $(RMF) Community.html
 cleanall:: ; $(RMF) Papers.html
+cleanall:: ; $(RMF) Examples.html
 cleanall:: ; $(RMF) Patsoptaas.html
 
 ###### end of [Makefile] ######
