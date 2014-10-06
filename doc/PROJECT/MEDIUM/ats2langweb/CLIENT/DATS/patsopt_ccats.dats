@@ -1,6 +1,7 @@
 (*
 //
-// [patsopt] for typechecking
+// [patsopt] for
+// typechecking and codegen(C)
 //
 *)
 
@@ -19,7 +20,7 @@ UN = "prelude/SATS/unsafe.sats"
 #define
 ATS_EXTERN_PREFIX "atslangweb_"
 #define
-ATS_STATIC_PREFIX "_atslangweb_patsopt_tcats_"
+ATS_STATIC_PREFIX "_atslangweb_patsopt_ccats_"
 //
 (* ****** ****** *)
 //
@@ -37,7 +38,7 @@ staload "./../SATS/atslangweb.sats"
 
 implement
 {}(*tmp*)
-patsopt_tcats_rpc
+patsopt_ccats_rpc
   (mycode) = let
 //
 val xmlhttp =
@@ -48,12 +49,12 @@ xmlhttp.onreadystatechange
 lam((*void*)) =>
 (
   if xmlhttp.is_ready_okay()
-    then patsopt_tcats_rpc$reply<> (xmlhttp.responseText)
+    then patsopt_ccats_rpc$reply<> (xmlhttp.responseText)
   // end of [if]
 ) (* end of [lam] *)
 )
 //
-val command = patsopt_tcats_rpc$cname()
+val command = patsopt_ccats_rpc$cname()
 //
 val ((*void*)) =
   xmlhttp.open("POST", command, true(*async*))
@@ -64,8 +65,8 @@ val ((*void*)) =
 //
 in
   // nothing
-end // end of [patsopt_tcats_rpc]
+end // end of [patsopt_ccats_rpc]
 
 (* ****** ****** *)
 
-(* end of [patsopt_tcats.dats] *)
+(* end of [patsopt_ccats.dats] *)

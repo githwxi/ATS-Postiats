@@ -1,41 +1,37 @@
-<div>
-#include<br>
-"share/atspre_define.hats"<br>
-#include<br>
-"share/atspre_staload.hats"<br>
-//<br>
-#include<br>
-"{$LIBATSCC2JS}/staloadall.hats"<br>
-//<br>
-staload "{$LIBATSCC2JS}/SATS/print.sats"</br>
-//<br>
-#define ATS_MAINATSFLAG 1<br>
-#define ATS_DYNLOADNAME "my_dynload"<br>
-//<br>
-/* ****** ****** */<br>
-//<br>
-%{$<br>
-//<br>
-ats2jspre_the_print_store_clear();<br>
-my_dynload();<br>
-alert(ats2jspre_the_print_store_join());<br>
-//<br>
-%} // end of [%{$]<br>
-//<br>
-/* ****** ****** */<br>
-<br>
-extern<br>
-fun fact : int -> int<br>
-<br>
-implement<br>
-fact (n) = if n > 0 then n * fact(n-1) else 1<br>
-<br>
-val N = 10<br>
-val () = println! ("fact(", N, ") = ", fact(N))<br>
-<br>
-/* ****** ****** */<br>
-<br>
-/* end of [fact.dats] */<br>
-</div>
+<style>
+#thePage2RBody1
+{
+  width: 100%;
+  height: 100%;
+}
+#thePage2RBody2
+{
+  width: 98%;
+  height: 100%;
+  background: #FFFFF0;
+}
+</style>
+
+<table
+ width="100%" height="100%">
+
+<tr height="80%">
+<td>
+<div id="thePage2RBody1"></div>
+</td>
+</tr>
+
+<tr height="20%">
+<td align="center">
+<!--
+<div
+ id="thePage2RBody2"></div>
+-->
+<textarea
+ id=thePage2RBody2></textarea>
+</td>
+</tr>
+
+</table>
 
 <?php /* end of [Patsoptaas.php] */ ?>

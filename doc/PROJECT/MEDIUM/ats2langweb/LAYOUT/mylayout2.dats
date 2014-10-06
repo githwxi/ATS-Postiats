@@ -66,18 +66,21 @@ val () = thePage2.children(thePage2Left, thePage2Right)
 val thePage2RTop =
   webox_make_name ("thePage2RTop")
 //
+val () = thePage2RTop.pheight(100)
 val () = thePage2RTop.bgcolor("rgb(143,2,34)")
 //
 val thePage2RBody =
   webox_make_name ("thePage2RBody")
+(*
 val thePage2RFooter =
   webox_make_name ("thePage2RFooter")
+*)
 //
 val () = thePage2RBody.pheight(100)
 //
 val () = thePage2Right.tabstyle(TSvbox)
-val () = thePage2Right.percentlst ($list(6, 88, 6))
-val () = thePage2Right.children(thePage2RTop, thePage2RBody, thePage2RFooter)
+val () = thePage2Right.percentlst ($list(6, 94))
+val () = thePage2Right.children(thePage2RTop, thePage2RBody)
 //
 (* ****** ****** *)
 //
@@ -242,10 +245,11 @@ fprint (out, "\
 (\n\
 function()\n\
 {\n\
-  var id = 'thePage2RBody';\n\
+  var id = 'thePage2RBody1';\n\
   var editor = ace.edit(id);\n\
   editor.setFontSize('16px');\n\
   editor.setTheme('ace/theme/monokai');\n\
+  editor.getSession().setValue(Patsoptaas_getWelcomeMessage());\n\
 }\n\
 )(/*void*/);\n\
 </script>\n\

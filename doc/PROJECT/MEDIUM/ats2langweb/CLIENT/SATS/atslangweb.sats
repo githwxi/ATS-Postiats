@@ -13,7 +13,7 @@
 //
 fun{}
 patsopt_tcats_rpc
-  (code: string): void = "mac#%"
+  (mycode: string): void = "mac#%"
 //
 fun{}
 patsopt_tcats_rpc$cname (): string = "mac#%"
@@ -23,8 +23,21 @@ patsopt_tcats_rpc$reply (reply: string): void = "mac#%"
 (* ****** ****** *)
 //
 fun{}
+patsopt_ccats_rpc
+  (mycode: string): void = "mac#%"
+//
+fun{}
+patsopt_ccats_rpc$cname (): string = "mac#%"
+fun{}
+patsopt_ccats_rpc$flags (): string = "mac#%"
+fun{}
+patsopt_ccats_rpc$reply (reply: string): void = "mac#%"
+//
+(* ****** ****** *)
+//
+fun{}
 patsopt_atscc2js_rpc
-  (code: string): void = "mac#%"
+  (mycode: string): void = "mac#%"
 //
 fun{}
 patsopt_atscc2js_rpc$cname (): string = "mac#%"

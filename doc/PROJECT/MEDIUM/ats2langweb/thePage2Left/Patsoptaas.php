@@ -12,16 +12,25 @@ Patsoptaas_Patsopt_tcats_flag()
 {
   return document.getElementById("Patsopt-tcats-flag").checked;
 }
+//
+/*
 function
 Patsoptaas_Patsopt_gline_flag()
 {
   return document.getElementById("Patsopt-gline-flag").checked;
 }
+*/
 //
 function
 Patsoptaas_Patsopt2js_eval_flag()
 {
   return document.getElementById("Patsopt2js-eval-flag").checked;
+}
+//
+function
+Patsoptaas_Compile_stderr_flag()
+{
+  return document.getElementById("Compile-stderr-flag").checked;
 }
 //
 </script>
@@ -48,18 +57,6 @@ Patsoptaas_Patsopt2js_eval_flag()
 
 <tr>
 <td>
-<label>Compile-stderr</label>
-</td>
-<td>
-<input
- type="checkbox"
- id="Compile-stderr-flag" checked
-></input>
-</td>
-</tr>
-
-<tr>
-<td>
 <label>Patsopt-tcats</label>
 </td>
 <td>
@@ -69,6 +66,8 @@ Patsoptaas_Patsopt2js_eval_flag()
 ></input>
 </td>
 </tr>
+
+<!--
 <tr>
 <td>
 <label>Patsopt-gline</label>
@@ -80,6 +79,7 @@ Patsoptaas_Patsopt2js_eval_flag()
 ></input>
 </td>
 </tr>
+-->
 
 <tr>
 <td>
@@ -89,6 +89,18 @@ Patsoptaas_Patsopt2js_eval_flag()
 <input
  type="checkbox"
  id="Patsopt2js-eval-flag" checked
+></input>
+</td>
+</tr>
+
+<tr>
+<td>
+<label>Compile-stderr</label>
+</td>
+<td>
+<input
+ type="checkbox"
+ id="Compile-stderr-flag" checked
 ></input>
 </td>
 </tr>

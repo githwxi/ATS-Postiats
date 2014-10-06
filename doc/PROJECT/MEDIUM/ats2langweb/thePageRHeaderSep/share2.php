@@ -61,7 +61,7 @@
   position: absolute;
   padding: 6px;
   border-radius: 12px;
-  background-color: rgba(143,2,34,0.875)
+  background-color: rgba(160,20,50,0.875);
 }
 
 #thePageRHeaderSepR
@@ -80,57 +80,61 @@
 <script>
 //
 var
-theSubmenuTable = 0;
-theSubmenuTimeout = 0;
+theTopmenuTable = 0;
+var
+theTopmenuTimeout = 0;
 //
 function
-theSubmenuTable_hide()
+theTopmenuTable_hide()
 {
-  if(theSubmenuTable)
+  if(theTopmenuTable)
   {
-    theSubmenuTable.css({display:'none'});
+    theTopmenuTable.css({display:'none'});
   }
 }
 function
-theSubmenuTimeout_clear()
+theTopmenuTimeout_clear()
 {
-  if(theSubmenuTimeout)
+  if(theTopmenuTimeout)
   {
-    clearTimeout(theSubmenuTimeout); theSubmenuTimeout = 0;
+    clearTimeout(theTopmenuTimeout); theTopmenuTimeout = 0;
   }
 }
 //
 function
-submenu_mouseout()
+topmenu_mouseout()
 {
-  theSubmenuTimeout =
-  setTimeout (
-    function(){theSubmenuTimeout=0;theSubmenuTable_hide();}, 500
-  ) ; // end of [setTimeout]
-  return;
+  topmenu_mouseout2(500); return;
+}
+function
+topmenu_mouseout2(msec)
+{
+//
+  if(theTopmenuTimeout) clearTimeout(theTopmenuTimeout); 
+  theTopmenuTimeout =
+  setTimeout (function(){theTopmenuTimeout=0;theTopmenuTable_hide();}, msec);
+//
 }
 //
 function
-submenu_mouseover(name)
+topmenu_mouseover(x0)
 {
-  var jqi;
-  theSubmenuTable_hide();
-  theSubmenuTimeout_clear();
-  jqi =
-  $('#thePageRHeaderSepL>ul>li[name="'+name+'"]');
-  theSubmenuTable = jqi.next('table');
-  theSubmenuTable.css({display:'table'});
-  theSubmenuTable.css (
+  var jqi = jQuery(x0);
+  theTopmenuTable_hide();
+  theTopmenuTimeout_clear();
+  theTopmenuTable = jqi.next('table');
+  theTopmenuTable.css({display:'table'});
+  theTopmenuTable.css (
     {top:jqi.position().top+jqi.outerHeight(true)+10}
-  ) ; // end of [theSubmenuTable.css]
-  theSubmenuTable.css({left:jqi.position().left});
+  ) ; // end of [theTopmenuTable.css]
+  theTopmenuTable.css({left:jqi.position().left});
   return;
 }
 //
 function
-submenu_table_mouseout() { submenu_mouseout(); }
+submenu_table_mouseout() { topmenu_mouseout(); }
 function
-submenu_table_mouseover() { theSubmenuTimeout_clear(); }
+submenu_table_mouseover() { theTopmenuTimeout_clear(); }
 //
 </script>
 

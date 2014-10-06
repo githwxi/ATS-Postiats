@@ -28,8 +28,8 @@ function
 thePageRHeaderSep_menuitem($name)
 {
 //
-  $onmouseout = "onmouseout=\"submenu_mouseout()\"";
-  $onmouseover = "onmouseover=\"submenu_mouseover('$name')\"";
+  $onmouseout = "onmouseout=\"topmenu_mouseout()\"";
+  $onmouseover = "onmouseover=\"topmenu_mouseover(this)\"";
 //
   if(atslangweb_get_pgname()===$name)
   {
