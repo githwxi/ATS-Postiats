@@ -181,10 +181,45 @@ Patsoptaas_submenu_table_mouseover(i0)
   theTopmenuTimeout_clear(/*void*/); return;
 }
 //
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
+function
+Patsoptaas_File_patsopt_source_onclick2
+  ()
+{
+  theTopmenuTables_hide2(0);
+  Patsoptaas_thePatsopt_editor_set(Patsoptaas_thePatsopt_source_get());
+}
+function
+Patsoptaas_File_patsopt_output_onclick2
+  ()
+{
+  theTopmenuTables_hide2(0);
+  Patsoptaas_thePatsopt_editor_set(Patsoptaas_thePatsopt_output_get());
+}
+function
+Patsoptaas_File_patsopt2js_output_onclick2
+  ()
+{
+  theTopmenuTables_hide2(0);
+  Patsoptaas_thePatsopt_editor_set(Patsoptaas_thePatsopt2js_output_get());
+}
+//
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
 function
 Patsoptaas_Compile_patsopt_onclick2()
 {
   theTopmenuTables_hide2(0);
+  Patsoptaas_thePatsopt_stderr_set("Waiting...");
   if(Patsoptaas_Patsopt_tcats_flag())
   {
     Patsoptaas_Compile_patsopttc_onclick();
@@ -192,11 +227,21 @@ Patsoptaas_Compile_patsopt_onclick2()
     Patsoptaas_Compile_patsoptcc_onclick();
   } // end of [if]
 }
+//
 function
 Patsoptaas_Compile_patsopt2js_onclick2()
 {
-  theTopmenuTables_hide2(0); Patsoptaas_Compile_patsopt2js_onclick();
+  theTopmenuTables_hide2(0);
+  Patsoptaas_thePatsopt_stderr_set("Waiting...");
+  Patsoptaas_Compile_patsopt2js_onclick();
 }
+//
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
 function
 Patsoptaas_Evaluate_JS_onclick2()
 {
@@ -271,7 +316,7 @@ Patsoptaas_Evaluate_JS_onclick2()
  onmouseover="Patsoptaas_submenu_mouseover(this,1)"
 >Load Special File</li>
 <table
- width="144px"
+ width="default"
  class="thePage2RTopL_submenu"
  onmouseout="Patsoptaas_submenu_table_mouseout()"
  onmouseover="Patsoptaas_submenu_table_mouseover(1)"

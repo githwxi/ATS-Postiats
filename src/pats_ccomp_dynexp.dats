@@ -1406,8 +1406,12 @@ end // end of [local]
 
 local
  
-fun auxlst (
-  env: !ccompenv, res: !instrseq, lxs: labhidexplst
+fun
+auxlst
+(
+  env: !ccompenv
+, res: !instrseq
+, lxs: labhidexplst
 ) : labprimvalist = let
 in
 //
@@ -1510,12 +1514,12 @@ auxlst
 ) : void = (
 //
 case+ hdes_elt of
-| list_nil () => ()
 | list_cons _ => let
-    val n = asz and xs = hdes_elt
+    val pmvs_elt = hidexplst_ccomp (env, res, hdes_elt)
   in
-    auxlst2 (env, res, arrp, hse_elt, hdes_elt, n, xs)
+    auxlst2 (env, res, arrp, hse_elt, pmvs_elt, asz, pmvs_elt)
   end // end of [list_cons]
+| list_nil ((*void*)) => () // HX: uninitialized array
 //
 ) (* end of [auxlst] *)
 
@@ -1525,40 +1529,45 @@ and auxlst2
 , res: !instrseq
 , arrp: tmpvar
 , hse_elt: hisexp
-, hdes_elt: hidexplst
-, n: int, xs: hidexplst
+, pmvs_elt: primvalist
+, n: int, xs: primvalist
 ) : void = (
 //
-if
-n > 0
-then (
+if n > 0 then
+(
 //
 case+ xs of
 //
-| list_nil () => let
-    val xs = hdes_elt
-  in
-    auxlst2 (env, res, arrp, hse_elt, hdes_elt, n, xs)
-  end // end of [list_nil]
-//
 | list_cons
     (x, xs) => let
-    val loc = x.hidexp_loc
 //
-    val pmv = hidexp_ccomp (env, res, x)
-    val ins = instr_pmove_val (loc, arrp, pmv)
+    val n = n - 1
+    val loc = x.primval_loc
+//
+    val ins =
+      instr_pmove_val (loc, arrp, x)
     val () = instrseq_add (res, ins)
 //
     val () = (
-      if n >= 2 then let
-        val ins = instr_update_ptrinc (loc, arrp, hse_elt)
+      if n >= 1 then let
+        val ins =
+          instr_update_ptrinc (loc, arrp, hse_elt)
+        // end of [val]
       in
         instrseq_add (res, ins)
       end // end of [then] // end of [if]
     ) : void // end of [val]
+//
   in
-    auxlst2 (env, res, arrp, hse_elt, hdes_elt, n-1, xs)
+    auxlst2 (env, res, arrp, hse_elt, pmvs_elt, n, xs)
   end // end of [list_cons]
+//
+| list_nil () => let
+    val xs = pmvs_elt
+  in
+    auxlst2 (env, res, arrp, hse_elt, pmvs_elt, n, xs)
+  end // end of [list_nil]
+//
 ) (* end of [then] *)
 //
 ) (* end of [auxlst2] *)

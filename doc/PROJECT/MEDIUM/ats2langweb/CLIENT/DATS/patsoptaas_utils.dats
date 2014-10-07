@@ -75,16 +75,17 @@ staload _(*anon*) = "./patsopt_atscc2js.dats"
 //
 extern
 fun
-thePatsopt_source_get
+thePatsopt_editor_get
   ((*void*)): string = "mac#%"
 extern
 fun
-thePatsopt_source_set
+thePatsopt_editor_set
   (code: string): void= "mac#%"
 //
 %{^
+//
 function
-Patsoptaas_thePatsopt_source_get()
+Patsoptaas_thePatsopt_editor_get()
 {
 //
 var
@@ -92,7 +93,18 @@ editor = ace.edit("thePage2RBody1");
 //
 return editor.getSession().getValue();
 //
-} // end of [Patsoptaas_thePatsopt_source_get]
+} // end of [Patsoptaas_thePatsopt_editor_get]
+//
+function
+Patsoptaas_thePatsopt_editor_set(code)
+{
+//
+var
+editor = ace.edit("thePage2RBody1");
+//
+return editor.getSession().setValue(code);
+//
+} // end of [Patsoptaas_thePatsopt_editor_set]
 //
 %} // end o [%{^]
 //
@@ -111,6 +123,34 @@ Patsoptaas_thePatsopt_stderr_set(msg)
 document.getElementById("thePage2RBody2").value = msg;
 //
 } // end of [Patsoptaas_thePatsopt_stderr_set]
+//
+%} // end o [%{^]
+//
+(* ****** ****** *)
+//
+extern
+fun
+thePatsopt_source_get(): string = "mac#%"
+extern
+fun
+thePatsopt_source_set(string): void= "mac#%"
+//
+%{^
+//
+var
+Patsoptaas_thePatsopt_source = "";
+//
+function
+Patsoptaas_thePatsopt_source_get()
+{
+  return Patsoptaas_thePatsopt_source;
+} // end of [Patsoptaas_thePatsopt_source_get]
+//
+function
+Patsoptaas_thePatsopt_source_set(str)
+{
+  Patsoptaas_thePatsopt_source = str; return;
+} // end of [Patsoptaas_thePatsopt_source_set]
 //
 %} // end o [%{^]
 //
@@ -235,7 +275,7 @@ patsopt_tcats_rpc$cname<> () =
 implement
 patsopt_tcats_rpc$reply<> (reply) = Compile_patsopttc_reply (reply)
 //
-val mycode = thePatsopt_source_get ()
+val mycode = thePatsopt_editor_get ()
 val ((*void*)) = patsopt_tcats_rpc (mycode)
 //
 in
@@ -290,7 +330,7 @@ patsopt_ccats_rpc$cname<> () =
 implement
 patsopt_ccats_rpc$reply<> (reply) = Compile_patsoptcc_reply (reply)
 //
-val mycode = thePatsopt_source_get ()
+val mycode = thePatsopt_editor_get ()
 val ((*void*)) = patsopt_ccats_rpc (mycode)
 //
 in
@@ -347,7 +387,7 @@ patsopt_atscc2js_rpc$cname<> () =
 implement
 patsopt_atscc2js_rpc$reply<> (reply) = Compile_patsopt2js_reply (reply)
 //
-val mycode = thePatsopt_source_get ()
+val mycode = thePatsopt_editor_get ()
 val ((*void*)) = patsopt_atscc2js_rpc (mycode)
 //
 in
