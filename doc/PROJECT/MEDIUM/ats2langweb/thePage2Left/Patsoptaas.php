@@ -8,39 +8,7 @@
 <script>
 //
 function
-Patsoptaas_Patsopt_tcats_flag()
-{
-  return document.getElementById("Patsopt-tcats-flag").checked;
-}
-//
-/*
-function
-Patsoptaas_Patsopt_gline_flag()
-{
-  return document.getElementById("Patsopt-gline-flag").checked;
-}
-*/
-//
-function
-Patsoptaas_Patsopt2js_eval_flag()
-{
-  return document.getElementById("Patsopt2js-eval-flag").checked;
-}
-//
-function
-Patsoptaas_Compile_stderr_flag()
-{
-  return document.getElementById("Compile-stderr-flag").checked;
-}
-//
-</script>
-
-<!-- ****** ****** -->
-
-<script>
-//
-function
-Patsoptaas_Compile_stderr_flag_onclick()
+Compile_stderr_flag_onclick()
 {
 //
 if(Patsoptaas_Compile_stderr_flag())
@@ -54,7 +22,7 @@ if(Patsoptaas_Compile_stderr_flag())
   ace.edit('thePage2RBody1_prop').resize(true);
 } // end of [if]
 //
-} // end of [Patsoptaas_Compile_stderr_flag_onclick()]
+} // end of [Compile_stderr_flag_onclick()]
 //
 </script>
 
@@ -63,13 +31,10 @@ if(Patsoptaas_Compile_stderr_flag())
 <script>
 //
 function
-Patsoptaas_File_examples_load
+File_examples_load
   (code)
 {
-  var
-  select =
-  document.getElementById('File_special_select');
-  select.selectedIndex = 0;
+  File_special_select_reset();
   Patsoptaas_thePatsopt_source_set("");
   Patsoptaas_thePatsopt_output_set("");
   Patsoptaas_thePatsopt2js_output_set("");
@@ -88,11 +53,11 @@ File_examples_onchange(x0)
   {
     case 1: break;
     case 2:
-    Patsoptaas_File_examples_load(Patsoptaas_File_examples_hello); break;
+    File_examples_load(Patsoptaas_File_examples_hello); break;
     case 3:
-    Patsoptaas_File_examples_load(Patsoptaas_File_examples_factrec); break;
+    File_examples_load(Patsoptaas_File_examples_factrec); break;
     case 4:
-    Patsoptaas_File_examples_load(Patsoptaas_File_examples_factiter); break;
+    File_examples_load(Patsoptaas_File_examples_factiter); break;
     default: break;
   }
 //
@@ -105,20 +70,34 @@ File_examples_onchange(x0)
 <script>
 //
 var
-File_special_select_index = 0;
+theFile_special_select_index = 0;
+//
+function
+File_special_select_reset()
+{
+  theFile_special_select_index = 0;
+  document.getElementById('File_special_select').selectedIndex = 0;
+}
+//
 function
 File_special_select_onchange(x0)
 {
 //
-  var i = File_special_select_index;
-  File_special_select_index = x0.selectedIndex;
+  var i = theFile_special_select_index;
+  theFile_special_select_index = x0.selectedIndex;
 //
-  if(i===0)
+  switch(i)
   {
-    Patsoptaas_thePatsopt_source_set(Patsoptaas_thePatsopt_editor_get());
+    case 0:
+    Patsoptaas_thePatsopt_source_set(Patsoptaas_thePatsopt_editor_get()); break;
+    case 1:
+    Patsoptaas_thePatsopt_output_set(Patsoptaas_thePatsopt_editor_get()); break;
+    case 2:
+    Patsoptaas_thePatsopt2js_output_set(Patsoptaas_thePatsopt_editor_get()); break;
+    default: break;
   } // end of [if]
 //
-  switch(File_special_select_index)
+  switch(theFile_special_select_index)
   {
     case 0:
     Patsoptaas_thePatsopt_editor_set(Patsoptaas_thePatsopt_source_get()); break;
@@ -129,6 +108,65 @@ File_special_select_onchange(x0)
     default: break;
   } // end of [switch]
 //
+}
+//
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
+function
+Patsoptaas_thePatsopt_source_get2()
+{
+  if(theFile_special_select_index===0)
+  {
+    return Patsoptaas_thePatsopt_editor_get();
+  } else {
+    return Patsoptaas_thePatsopt_source_get();
+  }
+}
+//
+function
+Patsoptaas_thePatsopt_output_get2()
+{
+  if(theFile_special_select_index===1)
+  {
+    return Patsoptaas_thePatsopt_editor_get();
+  } else {
+    return Patsoptaas_thePatsopt_output_get();
+  }
+}
+function
+Patsoptaas_thePatsopt_output_set2(str)
+{
+  if(theFile_special_select_index===1)
+  {
+    Patsoptaas_thePatsopt_editor_set(str); return;
+  } else {
+    Patsoptaas_thePatsopt_output_set(str); return;
+  }
+}
+//
+function
+Patsoptaas_thePatsopt2js_output_get2()
+{
+  if(theFile_special_select_index===2)
+  {
+    return Patsoptaas_thePatsopt_editor_get();
+  } else {
+    return Patsoptaas_thePatsopt2js_output_get();
+  }
+}
+function
+Patsoptaas_thePatsopt2js_output_set2(str)
+{
+  if(theFile_special_select_index===2)
+  {
+    Patsoptaas_thePatsopt_editor_set(str); return;
+  } else {
+    Patsoptaas_thePatsopt2js_output_set(str); return;
+  }
 }
 //
 </script>
@@ -217,7 +255,7 @@ File_special_select_onchange(x0)
 <input
  type="checkbox"
  id="Compile-stderr-flag"
- onclick="Patsoptaas_Compile_stderr_flag_onclick()"
+ onclick="Compile_stderr_flag_onclick()"
  checked
 ></input>
 </td>

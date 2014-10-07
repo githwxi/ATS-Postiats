@@ -188,9 +188,10 @@ Patsoptaas_submenu_table_mouseover(i0)
 <script>
 //
 function
-Patsoptaas_File_newfile_load
+File_newfile_load
   (code)
 {
+  File_special_select_reset();
   Patsoptaas_thePatsopt_source_set("");
   Patsoptaas_thePatsopt_output_set("");
   Patsoptaas_thePatsopt2js_output_set("");
@@ -198,27 +199,27 @@ Patsoptaas_File_newfile_load
 }
 //
 function
-Patsoptaas_File_newfile_blank_onclick
+File_newfile_blank_onclick
   ()
 { 
   theTopmenuTables_hide2(0);
-  Patsoptaas_File_newfile_load(Patsoptaas_File_newfile_blank);
+  File_newfile_load(Patsoptaas_File_newfile_blank);
 }
 //
 function
-Patsoptaas_File_newfile_template1_onclick
+File_newfile_template1_onclick
   ()
 {
   theTopmenuTables_hide2(0);
-  Patsoptaas_File_newfile_load(Patsoptaas_File_newfile_template1);
+  File_newfile_load(Patsoptaas_File_newfile_template1);
 }
 /*
 function
-Patsoptaas_File_newfile_template2_onclick
+File_newfile_template2_onclick
   ()
 {
   theTopmenuTables_hide2(0);
-  Patsoptaas_File_newfile_load(Patsoptaas_File_newfile_template2);
+  File_newfile_load(Patsoptaas_File_newfile_template2);
 }
 */
 //
@@ -229,7 +230,7 @@ Patsoptaas_File_newfile_template2_onclick
 <script>
 //
 function
-Patsoptaas_Compile_patsopt_onclick2()
+Compile_patsopt_onclick()
 {
   theTopmenuTables_hide2(0);
   Patsoptaas_thePatsopt_stderr_set("Waiting...");
@@ -242,7 +243,7 @@ Patsoptaas_Compile_patsopt_onclick2()
 }
 //
 function
-Patsoptaas_Compile_patsopt2js_onclick2()
+Compile_patsopt2js_onclick()
 {
   theTopmenuTables_hide2(0);
   Patsoptaas_thePatsopt_stderr_set("Waiting...");
@@ -256,7 +257,7 @@ Patsoptaas_Compile_patsopt2js_onclick2()
 <script>
 //
 function
-Patsoptaas_Evaluate_JS_onclick2()
+Evaluate_JS_onclick()
 {
   theTopmenuTables_hide2(0); Patsoptaas_Evaluate_JS_onclick();
 }
@@ -297,19 +298,19 @@ Patsoptaas_Evaluate_JS_onclick2()
 <tr><td>
 <button
  type="button"
- onclick="Patsoptaas_File_newfile_blank_onclick()"
+ onclick="File_newfile_blank_onclick()"
 >Blank</button>
 </td></tr>
 <tr><td>
 <button
  type="button"
- onclick="Patsoptaas_File_newfile_template1_onclick()"
+ onclick="File_newfile_template1_onclick()"
 >Template-1</button>
 </td></tr>
 <tr><td>
 <button
  type="button"
- onclick="Patsoptaas_File_newfile_template2_onclick()"
+ onclick="File_newfile_template2_onclick()"
 >Template-2</button>
 </td></tr>
 </table>
@@ -345,13 +346,13 @@ Patsoptaas_Evaluate_JS_onclick2()
 <tr><td>
 <button
  type="button"
- onclick="Patsoptaas_Compile_patsopt_onclick2()"
+ onclick="Compile_patsopt_onclick()"
 >Patsopt</button>
 </td></tr>
 <tr><td>
 <button
  type="button"
- onclick="Patsoptaas_Compile_patsopt2js_onclick2()"
+ onclick="Compile_patsopt2js_onclick()"
 >Patsopt2js</button>
 </td></tr>
 </table><!--Compile-->
@@ -368,7 +369,8 @@ Patsoptaas_Evaluate_JS_onclick2()
 >
 <tr><td>
 <button
- type="button" onclick="Patsoptaas_Evaluate_JS_onclick2()"
+ type="button"
+ onclick="Evaluate_JS_onclick()"
 >EvalJS</button>
 </td></tr>
 </table><!--Evaluate-->
@@ -385,7 +387,7 @@ Patsoptaas_Evaluate_JS_onclick2()
 >
 <tr><td>
 <button
- type="button" onclick="Patsoptaas_Help_About_onclick2()"
+ type="button" onclick="Help_about_onclick()"
 >About</button>
 </td></tr>
 </table><!--Help-->

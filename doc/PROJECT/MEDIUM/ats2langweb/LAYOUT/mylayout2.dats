@@ -275,6 +275,8 @@ document.getElementById('Patsopt-tcats-flag').checked = true;\n\
 document.getElementById('Patsopt2js-eval-flag').checked = true;\n\
 document.getElementById('Compile-stderr-flag').checked = true;\n\
 //\n\
+document.getElementById('File_special_select').selectedIndex = 0;\n\
+//\n\
 }\n\
 )(/*void*/);\n\
 </script>\n\

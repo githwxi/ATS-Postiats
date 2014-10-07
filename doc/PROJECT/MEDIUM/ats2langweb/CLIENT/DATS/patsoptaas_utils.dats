@@ -81,7 +81,7 @@ thePatsopt_editor_get
 extern
 fun
 thePatsopt_editor_set
-  (code: string): void= "mac#%"
+  (code: string): void = "mac#%"
 //
 %{^
 //
@@ -134,7 +134,7 @@ fun
 thePatsopt_source_get(): string = "mac#%"
 extern
 fun
-thePatsopt_source_set(string): void= "mac#%"
+thePatsopt_source_set(string): void = "mac#%"
 //
 %{^
 //
@@ -153,7 +153,7 @@ Patsoptaas_thePatsopt_source_set(str)
   Patsoptaas_thePatsopt_source = str; return;
 } // end of [Patsoptaas_thePatsopt_source_set]
 //
-%} // end o [%{^]
+%} // end of [%{^]
 //
 (* ****** ****** *)
 //
@@ -162,7 +162,7 @@ fun
 thePatsopt_output_get(): string = "mac#%"
 extern
 fun
-thePatsopt_output_set(string): void= "mac#%"
+thePatsopt_output_set(string): void = "mac#%"
 //
 %{^
 //
@@ -190,7 +190,7 @@ Patsoptaas_thePatsopt_output = str; return;
 //
 } // end of [Patsoptaas_thePatsopt_output_set]
 //
-%} // end o [%{^]
+%} // end of [%{^]
 //
 (* ****** ****** *)
 //
@@ -199,7 +199,7 @@ fun
 thePatsopt2js_output_get(): string = "mac#%"
 extern
 fun
-thePatsopt2js_output_set(string): void= "mac#%"
+thePatsopt2js_output_set(string): void = "mac#%"
 //
 %{^
 //
@@ -228,6 +228,51 @@ Patsoptaas_thePatsopt2js_output = str; return;
 } // end of [Patsoptaas_thePatsopt2js_output_set]
 //
 %} // end o [%{^]
+//
+(* ****** ****** *)
+//
+// HX-2014-10:
+// see: thePage2Left/Patsoptaas.php
+//
+extern
+fun
+thePatsopt_source_get2(): string = "mac#%"
+extern
+fun
+thePatsopt_output_get2(): string = "mac#%"
+extern
+fun
+thePatsopt2js_output_get2(): string = "mac#%"
+//
+(* ****** ****** *)
+//
+extern
+fun Patsopt_tcats_flag(): bool = "mac#%"
+extern
+fun Patsopt2js_eval_flag(): bool = "mac#%"
+extern
+fun Compile_stderr_flag(): bool = "mac#%"
+%{^
+//
+function
+Patsoptaas_Patsopt_tcats_flag()
+{
+  return document.getElementById("Patsopt-tcats-flag").checked;
+}
+//
+function
+Patsoptaas_Patsopt2js_eval_flag()
+{
+  return document.getElementById("Patsopt2js-eval-flag").checked;
+}
+//
+function
+Patsoptaas_Compile_stderr_flag()
+{
+  return document.getElementById("Compile-stderr-flag").checked;
+}
+//
+%} // end of [%{^]
 //
 (* ****** ****** *)
 //
@@ -276,7 +321,7 @@ patsopt_tcats_rpc$cname<> () =
 implement
 patsopt_tcats_rpc$reply<> (reply) = Compile_patsopttc_reply (reply)
 //
-val mycode = thePatsopt_editor_get ()
+val mycode = thePatsopt_source_get2 ()
 val ((*void*)) = patsopt_tcats_rpc (mycode)
 //
 in
@@ -308,7 +353,7 @@ Patsoptaas_Compile_patsoptcc_reply
   if(comparr[0]===0)
   {
     Patsoptaas_thePatsopt_stderr_set(msg0);
-    Patsoptaas_thePatsopt_output_set(comparr[1]);
+    Patsoptaas_thePatsopt_output_set2(comparr[1]);
     if(!Patsoptaas_Compile_stderr_flag()) alert(msg0);
   }
   if(comparr[0] > 0)
@@ -331,7 +376,7 @@ patsopt_ccats_rpc$cname<> () =
 implement
 patsopt_ccats_rpc$reply<> (reply) = Compile_patsoptcc_reply (reply)
 //
-val mycode = thePatsopt_editor_get ()
+val mycode = thePatsopt_source_get2 ()
 val ((*void*)) = patsopt_ccats_rpc (mycode)
 //
 in
@@ -364,7 +409,7 @@ Patsoptaas_Compile_patsopt2js_reply
   if(comparr[0]===0)
   {
     Patsoptaas_thePatsopt_stderr_set(msg0);
-    Patsoptaas_thePatsopt2js_output_set(comparr[1]);
+    Patsoptaas_thePatsopt2js_output_set2(comparr[1]);
     if(!Patsoptaas_Compile_stderr_flag()) alert(msg0);
     if(Patsoptaas_Patsopt2js_eval_flag()) eval(comparr[1]);
   }
@@ -388,7 +433,7 @@ patsopt_atscc2js_rpc$cname<> () =
 implement
 patsopt_atscc2js_rpc$reply<> (reply) = Compile_patsopt2js_reply (reply)
 //
-val mycode = thePatsopt_editor_get ()
+val mycode = thePatsopt_source_get2 ()
 val ((*void*)) = patsopt_atscc2js_rpc (mycode)
 //
 in
@@ -409,7 +454,7 @@ Patsoptaas_Evaluate_JS_onclick()
 //
   var
   mycode =
-  Patsoptaas_thePatsopt2js_output_get();
+  Patsoptaas_thePatsopt2js_output_get2();
 //
   if(mycode)
   {
