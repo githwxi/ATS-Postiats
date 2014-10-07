@@ -1500,58 +1500,6 @@ end // end of [hidexp_ccomp_ret_seq]
 
 local
 
-fun auxelt
-(
-  env: !ccompenv
-, res: !instrseq
-, arrp: tmpvar
-, asz: int, hse_elt: hisexp, hde0: hidexp
-) : void = let
-(*
-val () = 
-(
-println! ("hidexp_ccomp_ret_arrinit: auxelt: asz = ", asz)
-)
-*)
-in
-//
-if asz >= 0 then let
-//
-val pmv = hidexp_ccomp (env, res, hde0)
-//
-in
-  auxelt2 (env, res, arrp, hse_elt, pmv, asz)
-end else () // end of [if]
-//
-end // end of [auxelt]
-
-and auxelt2
-(
-  env: !ccompenv
-, res: !instrseq
-, arrp: tmpvar
-, hse_elt: hisexp, pmv: primval, asz: int
-) : void = let
-in
-//
-if asz >= 1 then let
-  val loc = pmv.primval_loc
-  val ins =
-    instr_pmove_val (loc, arrp, pmv)
-  val () = instrseq_add (res, ins)
-  val asz = asz - 1
-  val () =
-  if asz >= 1 then {
-    val ins =
-      instr_update_ptrinc (loc, arrp, hse_elt)
-    val () = instrseq_add (res, ins)
-  } // end of [if] // end of [val]
-in
-  auxelt2 (env, res, arrp, hse_elt, pmv, asz)
-end else () // end of [if]
-//
-end // end of [auxelt2]
-
 fun
 auxlst
 (
@@ -1661,19 +1609,7 @@ val ins = instr_move_val (loc0, arrp, primval_make_tmp (loc, tmpret))
 val ((*void*)) = instrseq_add (res, ins)
 //
 in
-//
-case+ hdes of
-| list_nil () => ()
-| list_cons
-    (hde0, hdes2) =>
-  (
-    case+ hdes2 of
-    | list_cons _ =>
-        auxlst (env, res, arrp, asz, hse_elt, hdes)
-    | list_nil ((*void*)) =>
-        auxelt (env, res, arrp, asz, hse_elt, hde0)
-  ) (* end of [list_cons] *)
-//
+  auxlst (env, res, arrp, asz, hse_elt, hdes)
 end // end of [hidexp_ccomp_ret_arrinit]
 
 end // end of [local]
