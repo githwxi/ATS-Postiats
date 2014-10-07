@@ -1505,7 +1505,7 @@ fun auxelt
   env: !ccompenv
 , res: !instrseq
 , arrp: tmpvar
-, hse_elt: hisexp, hde: hidexp, asz: int
+, asz: int, hse_elt: hisexp, hde0: hidexp
 ) : void = let
 (*
 val () = 
@@ -1517,7 +1517,7 @@ in
 //
 if asz >= 0 then let
 //
-val pmv = hidexp_ccomp (env, res, hde)
+val pmv = hidexp_ccomp (env, res, hde0)
 //
 in
   auxelt2 (env, res, arrp, hse_elt, pmv, asz)
@@ -1552,30 +1552,57 @@ end else () // end of [if]
 //
 end // end of [auxelt2]
 
-fun auxlst
+fun
+auxlst
 (
   env: !ccompenv
 , res: !instrseq
 , arrp: tmpvar
-, hse_elt: hisexp, hdes: hidexplst
-) : void = let
-in
+, asz: int, hse_elt: hisexp, hdes_elt: hidexplst
+) : void = (
 //
-case+ hdes of
+case+ hdes_elt of
+| list_nil () => ()
+| list_cons _ => let
+    val n = asz and xs = hdes_elt
+  in
+    auxlst2 (env, res, arrp, hse_elt, hdes_elt, n, xs)
+  end // end of [list_cons]
 //
-| list_nil ((*void*)) => ()
+) (* end of [auxlst] *)
+
+and auxlst2
+(
+  env: !ccompenv
+, res: !instrseq
+, arrp: tmpvar
+, hse_elt: hisexp
+, hdes_elt: hidexplst
+, n: int, xs: hidexplst
+) : void = (
+//
+if
+n > 0
+then (
+//
+case+ xs of
+//
+| list_nil () => let
+    val xs = hdes_elt
+  in
+    auxlst2 (env, res, arrp, hse_elt, hdes_elt, n, xs)
+  end // end of [list_nil]
 //
 | list_cons
-    (hde, hdes) => let
-    val loc = hde.hidexp_loc
+    (x, xs) => let
+    val loc = x.hidexp_loc
 //
-    val pmv =
-      hidexp_ccomp (env, res, hde)
+    val pmv = hidexp_ccomp (env, res, x)
     val ins = instr_pmove_val (loc, arrp, pmv)
     val () = instrseq_add (res, ins)
 //
     val () = (
-      case+ hdes of
+      case+ xs of
       | list_nil () => ()
       | list_cons _ => let
           val ins = instr_update_ptrinc (loc, arrp, hse_elt)
@@ -1584,10 +1611,11 @@ case+ hdes of
         end // end of [list_cons]
     ) : void // end of [val]
   in
-    auxlst (env, res, arrp, hse_elt, hdes)
+    auxlst2 (env, res, arrp, hse_elt, hdes_elt, n-1, xs)
   end // end of [list_cons]
+) (* end of [then] *)
 //
-end // end of [auxlst]
+) (* end of [auxlst2] *)
 
 in (* in of [local] *)
 
@@ -1616,7 +1644,7 @@ val ins = instr_move_arrpsz_ptr (loc0, arrp, tmpret)
 val ((*void*)) = instrseq_add (res, ins)
 //
 in
-  auxlst (env, res, arrp, hse_elt, hdes)
+  auxlst (env, res, arrp, asz, hse_elt, hdes)
 end // end of [hidexp_ccomp_ret_arrpsz]
 
 (* ****** ****** *)
@@ -1639,13 +1667,13 @@ in
 case+ hdes of
 | list_nil () => ()
 | list_cons
-    (hde, hdes2) =>
+    (hde0, hdes2) =>
   (
     case+ hdes2 of
     | list_cons _ =>
-        auxlst (env, res, arrp, hse_elt, hdes)
+        auxlst (env, res, arrp, asz, hse_elt, hdes)
     | list_nil ((*void*)) =>
-        auxelt (env, res, arrp, hse_elt, hde, asz)
+        auxelt (env, res, arrp, asz, hse_elt, hde0)
   ) (* end of [list_cons] *)
 //
 end // end of [hidexp_ccomp_ret_arrinit]
