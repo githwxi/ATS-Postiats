@@ -145,6 +145,18 @@ fprint (out, "\
  src=\"./CLIENT/mycode/patsoptaas_utils_dats.js\">\n\
 </script>\n"
 ) (* end of [val] *)
+val () =
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/mycode/patsoptaas_examples_dats.js\">\n\
+</script>\n"
+) (* end of [val] *)
+val () =
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/mycode/patsoptaas_templates_dats.js\">\n\
+</script>\n"
+) (* end of [val] *)
 //
 in
   // nothing
@@ -245,11 +257,24 @@ fprint (out, "\
 (\n\
 function()\n\
 {\n\
-  var id = 'thePage2RBody1';\n\
-  var editor = ace.edit(id);\n\
-  editor.setFontSize('16px');\n\
-  editor.setTheme('ace/theme/monokai');\n\
-  editor.getSession().setValue(Patsoptaas_getWelcomeMessage());\n\
+//\n\
+var editor =
+  ace.edit('thePage2RBody1_prop');\n\
+//\n\
+editor.setFontSize('16px');\n\
+editor.setTheme('ace/theme/monokai');\n\
+editor.getSession().setValue(Patsoptaas_getWelcomeMessage());\n\
+//\n\
+}\n\
+)(/*void*/);\n\
+(\n\
+function()\n\
+{\n\
+//\n\
+document.getElementById('Patsopt-tcats-flag').checked = true;\n\
+document.getElementById('Patsopt2js-eval-flag').checked = true;\n\
+document.getElementById('Compile-stderr-flag').checked = true;\n\
+//\n\
 }\n\
 )(/*void*/);\n\
 </script>\n\

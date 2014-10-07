@@ -56,7 +56,8 @@ Patsoptaas_getWelcomeMessage()
 var
 msg = "\
 (*\n\
-** Welcome to Patsopt-as-a-Service (PATSOPTAAS)\n\
+** Welcome to\n\
+** Patsopt-as-a-Service(PATSOPTAAS)\n\
 *)\n\
 " // end of [msg]
 //
@@ -89,8 +90,8 @@ Patsoptaas_thePatsopt_editor_get()
 {
 //
 var
-editor = ace.edit("thePage2RBody1");
-//
+editor =
+ace.edit("thePage2RBody1_prop");
 return editor.getSession().getValue();
 //
 } // end of [Patsoptaas_thePatsopt_editor_get]
@@ -100,8 +101,8 @@ Patsoptaas_thePatsopt_editor_set(code)
 {
 //
 var
-editor = ace.edit("thePage2RBody1");
-//
+editor =
+ace.edit("thePage2RBody1_prop");
 return editor.getSession().setValue(code);
 //
 } // end of [Patsoptaas_thePatsopt_editor_set]
@@ -120,7 +121,7 @@ function
 Patsoptaas_thePatsopt_stderr_set(msg)
 {
 //
-document.getElementById("thePage2RBody2").value = msg;
+document.getElementById("thePage2RBody2_prop").value = msg;
 //
 } // end of [Patsoptaas_thePatsopt_stderr_set]
 //

@@ -188,26 +188,39 @@ Patsoptaas_submenu_table_mouseover(i0)
 <script>
 //
 function
-Patsoptaas_File_patsopt_source_onclick2
-  ()
+Patsoptaas_File_newfile_load
+  (code)
 {
-  theTopmenuTables_hide2(0);
-  Patsoptaas_thePatsopt_editor_set(Patsoptaas_thePatsopt_source_get());
+  Patsoptaas_thePatsopt_source_set("");
+  Patsoptaas_thePatsopt_output_set("");
+  Patsoptaas_thePatsopt2js_output_set("");
+  Patsoptaas_thePatsopt_editor_set(code);
 }
+//
 function
-Patsoptaas_File_patsopt_output_onclick2
+Patsoptaas_File_newfile_blank_onclick
   ()
-{
+{ 
   theTopmenuTables_hide2(0);
-  Patsoptaas_thePatsopt_editor_set(Patsoptaas_thePatsopt_output_get());
+  Patsoptaas_File_newfile_load(Patsoptaas_File_newfile_blank);
 }
+//
 function
-Patsoptaas_File_patsopt2js_output_onclick2
+Patsoptaas_File_newfile_template1_onclick
   ()
 {
   theTopmenuTables_hide2(0);
-  Patsoptaas_thePatsopt_editor_set(Patsoptaas_thePatsopt2js_output_get());
+  Patsoptaas_File_newfile_load(Patsoptaas_File_newfile_template1);
 }
+/*
+function
+Patsoptaas_File_newfile_template2_onclick
+  ()
+{
+  theTopmenuTables_hide2(0);
+  Patsoptaas_File_newfile_load(Patsoptaas_File_newfile_template2);
+}
+*/
 //
 </script>
 
@@ -276,13 +289,29 @@ Patsoptaas_Evaluate_JS_onclick2()
  onmouseover="Patsoptaas_submenu_mouseover(this,1)"
 >New File</li>
 <table
+ width="120px"
  class="thePage2RTopL_submenu"
  onmouseout="Patsoptaas_submenu_table_mouseout()"
  onmouseover="Patsoptaas_submenu_table_mouseover(1)"
 >
-<tr><td>Blank</td></tr>
-<tr><td>Template-1</td></tr>
-<tr><td>Template-2</td></tr>
+<tr><td>
+<button
+ type="button"
+ onclick="Patsoptaas_File_newfile_blank_onclick()"
+>Blank</button>
+</td></tr>
+<tr><td>
+<button
+ type="button"
+ onclick="Patsoptaas_File_newfile_template1_onclick()"
+>Template-1</button>
+</td></tr>
+<tr><td>
+<button
+ type="button"
+ onclick="Patsoptaas_File_newfile_template2_onclick()"
+>Template-2</button>
+</td></tr>
 </table>
 </td></tr>
 
@@ -291,58 +320,6 @@ Patsoptaas_Evaluate_JS_onclick2()
  onmouseout="Patsoptaas_submenu_mouseout()"
  onmouseover="Patsoptaas_submenu_mouseover(this,1)"
 >Load File</li>
-</td></tr>
-
-<tr><td>
-<li
- onmouseout="Patsoptaas_submenu_mouseout()"
- onmouseover="Patsoptaas_submenu_mouseover(this,1)"
->Load Example</li>
-<table
- class="thePage2RTopL_submenu"
- onmouseout="Patsoptaas_submenu_table_mouseout()"
- onmouseover="Patsoptaas_submenu_table_mouseover(1)"
->
-<tr><td>Hello</td></tr>
-<tr><td>Factorial</td></tr>
-<tr><td>Fibonacci</td></tr>
-<tr><td>Ackermann</td></tr>
-</table>
-</td></tr>
-
-<tr><td>
-<li
- onmouseout="Patsoptaas_submenu_mouseout()"
- onmouseover="Patsoptaas_submenu_mouseover(this,1)"
->Load Special File</li>
-<table
- width="default"
- class="thePage2RTopL_submenu"
- onmouseout="Patsoptaas_submenu_table_mouseout()"
- onmouseover="Patsoptaas_submenu_table_mouseover(1)"
->
-<tr><td>
-<button
- type="button"
- onclick="Patsoptaas_File_patsopt_source_onclick2()"
->Patsopt-source</button>
-</td></tr>
-
-<tr><td>
-<button
- type="button"
- onclick="Patsoptaas_File_patsopt_output_onclick2()"
->Patsopt-output</button>
-</td></tr>
-
-<tr><td>
-<button
- type="button"
- onclick="Patsoptaas_File_patsopt2js_output_onclick2()"
->Patsopt2js-output</button>
-</td></tr>
-
-</table>
 </td></tr>
 
 <tr><td>
@@ -367,12 +344,14 @@ Patsoptaas_Evaluate_JS_onclick2()
 >
 <tr><td>
 <button
- type="button" onclick="Patsoptaas_Compile_patsopt_onclick2()"
+ type="button"
+ onclick="Patsoptaas_Compile_patsopt_onclick2()"
 >Patsopt</button>
 </td></tr>
 <tr><td>
 <button
- type="button" onclick="Patsoptaas_Compile_patsopt2js_onclick2()"
+ type="button"
+ onclick="Patsoptaas_Compile_patsopt2js_onclick2()"
 >Patsopt2js</button>
 </td></tr>
 </table><!--Compile-->

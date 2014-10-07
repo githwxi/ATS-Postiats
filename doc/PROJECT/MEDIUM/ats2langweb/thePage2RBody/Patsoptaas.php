@@ -1,10 +1,10 @@
 <style>
-#thePage2RBody1
+#thePage2RBody1_prop
 {
   width: 100%;
   height: 100%;
 }
-#thePage2RBody2
+#thePage2RBody2_prop
 {
   width: 98%;
   height: 100%;
@@ -15,20 +15,21 @@
 <table
  width="100%" height="100%">
 
-<tr height="80%">
-<td>
-<div id="thePage2RBody1"></div>
+<tr
+ id="thePage2RBody1_tr"
+ height="80%">
+<td align="left">
+<div
+ id="thePage2RBody1_prop"></div>
 </td>
 </tr>
 
-<tr height="20%">
+<tr
+ id="thePage2RBody2_tr"
+ height="20%">
 <td align="center">
-<!--
-<div
- id="thePage2RBody2"></div>
--->
 <textarea
- id=thePage2RBody2></textarea>
+ id="thePage2RBody2_prop"></textarea>
 </td>
 </tr>
 
