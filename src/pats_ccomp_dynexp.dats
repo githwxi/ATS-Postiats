@@ -1602,13 +1602,11 @@ case+ xs of
     val () = instrseq_add (res, ins)
 //
     val () = (
-      case+ xs of
-      | list_nil () => ()
-      | list_cons _ => let
-          val ins = instr_update_ptrinc (loc, arrp, hse_elt)
-        in
-          instrseq_add (res, ins)
-        end // end of [list_cons]
+      if n >= 2 then let
+        val ins = instr_update_ptrinc (loc, arrp, hse_elt)
+      in
+        instrseq_add (res, ins)
+      end // end of [then] // end of [if]
     ) : void // end of [val]
   in
     auxlst2 (env, res, arrp, hse_elt, hdes_elt, n-1, xs)
