@@ -1858,11 +1858,15 @@ fun hidexp_ccomp_ret_lazyeval : hidexp_ccomp_ret_funtype
 fun hidexp_ccomp_ret_trywith : hidexp_ccomp_ret_funtype
 //
 (* ****** ****** *)
-
+//
 fun hidexplst_ccomp
   (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
 // end of [hidexplst_ccomp]
-
+//
+fun hidexplst_ccompv
+  (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
+// end of [hidexplst_ccompv]
+//
 (* ****** ****** *)
 
 fun hidexp_ccomp_funlab_arg_body

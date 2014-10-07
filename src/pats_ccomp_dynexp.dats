@@ -456,6 +456,47 @@ end // end of [hidexplst_ccomp]
 
 (* ****** ****** *)
 
+implement
+hidexplst_ccompv
+  (env, res, hdes) = let
+//
+fun loop (
+  env: !ccompenv
+, res: !instrseq
+, hdes: hidexplst
+, pmvs: &primvalist_vt? >> primvalist_vt
+) : void = let
+in
+//
+case+ hdes of
+| list_cons
+    (hde, hdes) => let
+    val pmv =
+      hidexp_ccompv (env, res, hde)
+    val () = pmvs := list_vt_cons {..}{0} (pmv, ?)
+    val list_vt_cons (_, !p_pmvs) = pmvs
+    val () = loop (env, res, hdes, !p_pmvs)
+    val () = fold@ (pmvs)
+  in
+    // nothing
+  end // end of [list_cons]
+| list_nil () => let
+    val () = pmvs := list_vt_nil () in (*nothing*)
+  end // end of [list_nil]
+//
+end // end of [loop]
+//
+var pmvs: primvalist_vt
+val () = loop (env, res, hdes, pmvs)
+//
+in
+//
+list_of_list_vt (pmvs)
+//
+end // end of [hidexplst_ccompv]
+
+(* ****** ****** *)
+
 extern
 fun labhidexplst_ccomp
   (env: !ccompenv, res: !instrseq, lhdes: labhidexplst): labprimvalist
@@ -716,9 +757,10 @@ val pmv = d2var_ccomp (env, loc0, hse0, d2v)
 in
 //
 case+
-  d2var_get_view (d2v) of
+d2var_get_view (d2v) of
+//
+| None _(*val*) => pmv
 | Some _(*ref*) => primval_selptr (loc0, hse0, pmv, hse0, list_nil)
-| None _(*val*) => (pmv)
 //
 end // end of [hidexp_ccomp_var]
 
@@ -1515,7 +1557,7 @@ auxlst
 //
 case+ hdes_elt of
 | list_cons _ => let
-    val pmvs_elt = hidexplst_ccomp (env, res, hdes_elt)
+    val pmvs_elt = hidexplst_ccompv (env, res, hdes_elt)
   in
     auxlst2 (env, res, arrp, hse_elt, pmvs_elt, asz, pmvs_elt)
   end // end of [list_cons]

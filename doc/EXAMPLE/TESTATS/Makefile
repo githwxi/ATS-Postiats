@@ -18,6 +18,15 @@ include $(PATSHOME)/share/atsmake-post.mk
 ######
 
 all:: \
+arrinit
+arrinit: arrinit.dats ; \
+  $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: arrinit ; ./$<
+cleanall:: ; $(RMF) arrinit
+
+######
+
+all:: \
 clofuns
 clofuns: clofuns.dats ; \
   $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
