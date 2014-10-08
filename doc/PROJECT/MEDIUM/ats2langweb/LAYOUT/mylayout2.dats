@@ -258,11 +258,17 @@ fprint (out, "\
 function()\n\
 {\n\
 //\n\
-var editor =
-  ace.edit('thePage2RBody1_prop');\n\
+var\n\
+editor =\n\
+ace.edit('thePage2RBody1_prop');\n\
 //\n\
 editor.setFontSize('16px');\n\
+//\n\
 editor.setTheme('ace/theme/monokai');\n\
+//\n\
+Editor_KB_select_onchange\n\
+  (document.getElementById('Editor_KB_select'));\n\
+//\n\
 editor.getSession().setValue(Patsoptaas_getWelcomeMessage());\n\
 //\n\
 }\n\
@@ -270,6 +276,9 @@ editor.getSession().setValue(Patsoptaas_getWelcomeMessage());\n\
 (\n\
 function()\n\
 {\n\
+//\n\
+document.getElementById('Editor-read-only').checked = false;\n\
+document.getElementById('Editor-show-gutter').checked = true;\n\
 //\n\
 document.getElementById('Patsopt-tcats-flag').checked = true;\n\
 document.getElementById('Patsopt2js-eval-flag').checked = true;\n\

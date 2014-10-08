@@ -123,6 +123,20 @@ ats2jspre_abs_int0(x) { return Math.abs(x); }
 /* ****** ****** */
 
 function
+ats2jspre_succ_int0(x) { return (x + 1); }
+function
+ats2jspre_pred_int0(x) { return (x - 1); }
+
+/* ****** ****** */
+
+function
+ats2jspre_succ_int1(x) { return (x + 1); }
+function
+ats2jspre_pred_int1(x) { return (x - 1); }
+
+/* ****** ****** */
+
+function
 ats2jspre_add_int0_int0(x, y) { return (x + y); }
 function
 ats2jspre_sub_int0_int0(x, y) { return (x - y); }
@@ -131,7 +145,7 @@ ats2jspre_mul_int0_int0(x, y) { return (x * y); }
 function
 ats2jspre_div_int0_int0(x, y)
 { 
-  q = x / y; return (q >= 0 ? Math.floor(q) : Math.ceil(q));
+  var q = x / y; return (q >= 0 ? Math.floor(q) : Math.ceil(q));
 }
 function
 ats2jspre_mod_int0_int0(x, y) { return (x % y); }

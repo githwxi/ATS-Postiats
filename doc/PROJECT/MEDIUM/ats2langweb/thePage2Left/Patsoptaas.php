@@ -45,11 +45,11 @@ function
 File_examples_onchange(x0)
 {
 //
-  var i;
+  var i0;
 //
-  i = x0.selectedIndex; x0.selectedIndex = 0;
+  i0 = x0.selectedIndex; x0.selectedIndex = 0;
 //
-  switch(i)
+  switch(i0)
   {
     case 1: break;
     case 2:
@@ -58,6 +58,8 @@ File_examples_onchange(x0)
     File_examples_load(Patsoptaas_File_examples_factrec); break;
     case 4:
     File_examples_load(Patsoptaas_File_examples_factiter); break;
+    case 5:
+    File_examples_load(Patsoptaas_File_examples_factverify); break;
     default: break;
   }
 //
@@ -83,10 +85,10 @@ function
 File_special_select_onchange(x0)
 {
 //
-  var i = theFile_special_select_index;
+  var i0 = theFile_special_select_index;
   theFile_special_select_index = x0.selectedIndex;
 //
-  switch(i)
+  switch(i0)
   {
     case 0:
     Patsoptaas_thePatsopt_source_set(Patsoptaas_thePatsopt_editor_get()); break;
@@ -173,23 +175,177 @@ Patsoptaas_thePatsopt2js_output_set2(str)
 
 <!-- ****** ****** -->
 
+<script>
+//
+function
+Editor_table_head_onclick()
+{
+  var jqt;
+  jqt =
+  $('#Editor_table_body');
+  if(jqt.css('display')!=='none')
+  {
+    jqt.css('display', 'none');
+  } else {
+    jqt.css('display', 'table');
+  }
+}
+//
+function
+Editor_KB_select_onchange
+  (x0)
+{
+//
+  var
+  editor =
+  ace.edit('thePage2RBody1_prop');
+//
+  switch(x0.selectedIndex)
+  {
+    case 0:
+    editor.setKeyboardHandler(null); break
+    case 1:
+    editor.setKeyboardHandler('ace/keyboard/vim'); break;
+    case 2:
+    editor.setKeyboardHandler('ace/keyboard/emacs'); break;
+    default: break;
+  }
+//
+} // end of [Editor_KB_select_onchange]
+//
+function
+Editor_read_only_onclick
+  (x0)
+{
+  var
+  editor =
+  ace.edit('thePage2RBody1_prop');
+  editor.setReadOnly( x0.checked );
+} // end of [Editor_read_only_onclick]
+//
+function
+Editor_show_gutter_onclick
+  (x0)
+{
+  var
+  editor =
+  ace.edit('thePage2RBody1_prop');
+  editor.renderer.setShowGutter(x0.checked);
+} // end of [Editor_show_gutter_onclick]
+//
+</script>
+
+<!-- ****** ****** -->
+
 <table
- width=100%
->
+ width="100%"
+><!--table-->
 <tr>
 <td
  height="156px"
  align="center"
->
+><!--td-->
+<a
+ href="Home.html">
 <img src="./MYDATA/theLogo.png" alt="ATSlogo" style="height:72%"></img>
+</a>
 </td>
 </tr>
 <tr>
 <td
  align="center">
-<table>
 
-<tr><td>Editor</td></tr>
+<table>
+<tr>
+<td
+ colspan="2">
+<table
+ width="100%"
+ border="0px"
+ cellspacing="0"
+ cellpadding="0"
+><!--table-->
+<tr>
+<th
+ align="left">
+<button
+ type="button"
+ style="padding-left:3px"
+ onclick="Editor_table_head_onclick()"
+>Editor</button>
+</th>
+</tr>
+
+<tr
+ width="100%"
+>
+<td
+ style="border-radius:6px;background-color:rgba(64,64,144,0.5)"
+>
+<table
+ width="100%"
+ cellpadding="0px"
+ id="Editor_table_body"
+><!--table-->
+
+<tr>
+<td
+ colspan="2">
+<select
+ id="Editor_KB_select"
+ onchange="Editor_KB_select_onchange(this)"
+><!--select-->
+<option>KB-ace</option>
+<option>KB-vim</option>
+<option>KB-emacs</option>
+</select> 
+</td>
+</tr>
+
+<!--
+<tr>
+<td>
+Code-folding
+</td>
+</tr>
+-->
+
+<tr>
+<td>
+<label style="padding-left:2px">Read-only</label>
+</td>
+<td
+ align="right">
+<input
+ type="checkbox"
+ id="Editor-read-only"
+ onclick="Editor_read_only_onclick(this)"
+></input>
+</td>
+</tr>
+
+<tr>
+<td>
+<label style="padding-left:2px">Show-gutter</label>
+</td>
+<td
+ align="right">
+<input
+ type="checkbox"
+ id="Editor-show-gutter"
+ onclick="Editor_show_gutter_onclick(this)"
+ checked
+></input>
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
 
 <tr>
 <td
@@ -203,13 +359,14 @@ Patsoptaas_thePatsopt2js_output_set2(str)
 <option>Hello, world</option>
 <option>Factorial(rec)</option>
 <option>Factorial(iter)</option>
+<option>Factorial(verify)</option>
 </select> 
 </td>
 </tr>
 
 <tr>
 <td>
-<label>Patsopt-tcats</label>
+<label style="padding-left:2px">Patsopt-tcats</label>
 </td>
 <td>
 <input
@@ -220,23 +377,9 @@ Patsoptaas_thePatsopt2js_output_set2(str)
 </td>
 </tr>
 
-<!--
 <tr>
 <td>
-<label>Patsopt-gline</label>
-</td>
-<td>
-<input
- type="checkbox"
- id="Patsopt-gline-flag"
-></input>
-</td>
-</tr>
--->
-
-<tr>
-<td>
-<label>Patsopt2js-eval</label>
+<label style="padding-left:2px">Patsopt2js-eval</label>
 </td>
 <td>
 <input
@@ -249,7 +392,7 @@ Patsoptaas_thePatsopt2js_output_set2(str)
 
 <tr>
 <td>
-<label>Compile-stderr</label>
+<label style="padding-left:2px">Compile-stderr</label>
 </td>
 <td>
 <input

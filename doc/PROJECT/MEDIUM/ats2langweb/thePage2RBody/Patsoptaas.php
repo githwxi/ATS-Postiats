@@ -8,6 +8,7 @@
 {
   width: 98%;
   height: 100%;
+  font-size: 12px;
   background: #FFFFF0;
 }
 </style>
