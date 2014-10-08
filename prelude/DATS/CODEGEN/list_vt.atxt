@@ -746,7 +746,7 @@ in
       end else let
         val xs1 = xs1
         val () =
-          list_vt_freelin$clear<a> (x)
+          list_vt_filterlin$clear<a> (x)
         val () = free@{a}{0}(xs)
         val () = xs := xs1
       in
