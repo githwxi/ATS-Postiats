@@ -75,6 +75,11 @@ var
 theFile_special_select_index = 0;
 //
 function
+File_special_select_get()
+{
+  return theFile_special_select_index;
+}
+function
 File_special_select_reset()
 {
   theFile_special_select_index = 0;
@@ -126,6 +131,16 @@ Patsoptaas_thePatsopt_source_get2()
     return Patsoptaas_thePatsopt_editor_get();
   } else {
     return Patsoptaas_thePatsopt_source_get();
+  }
+}
+function
+Patsoptaas_thePatsopt_source_set2(str)
+{
+  if(theFile_special_select_index===0)
+  {
+    Patsoptaas_thePatsopt_editor_set(str); return;
+  } else {
+    Patsoptaas_thePatsopt_source_set(str); return;
   }
 }
 //

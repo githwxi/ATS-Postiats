@@ -124,6 +124,13 @@ fprint (out, "\
 val () =
 fprint (out, "\
 <script\n\
+  src=\"//cdn.jsdelivr.net/filesaver.js/0.2/FileSaver.min.js\">\n\
+</script>\n\
+") (* end of [val] *)
+//
+val () =
+fprint (out, "\
+<script\n\
  src=\"./CLIENT/mycode/libatscc2js_all.js\">\n\
 </script>\n"
 ) (* end of [val] *)
@@ -254,40 +261,7 @@ jQuery('#thePage2RBody').css({height:height});\n\
 val () =
 fprint (out, "\
 <script>\n\
-(\n\
-function()\n\
-{\n\
-//\n\
-var\n\
-editor =\n\
-ace.edit('thePage2RBody1_prop');\n\
-//\n\
-editor.setFontSize('16px');\n\
-//\n\
-editor.setTheme('ace/theme/monokai');\n\
-//\n\
-Editor_KB_select_onchange\n\
-  (document.getElementById('Editor_KB_select'));\n\
-//\n\
-editor.getSession().setValue(Patsoptaas_getWelcomeMessage());\n\
-//\n\
-}\n\
-)(/*void*/);\n\
-(\n\
-function()\n\
-{\n\
-//\n\
-document.getElementById('Editor-read-only').checked = false;\n\
-document.getElementById('Editor-show-gutter').checked = true;\n\
-//\n\
-document.getElementById('Patsopt-tcats-flag').checked = true;\n\
-document.getElementById('Patsopt2js-eval-flag').checked = true;\n\
-document.getElementById('Compile-stderr-flag').checked = true;\n\
-//\n\
-document.getElementById('File_special_select').selectedIndex = 0;\n\
-//\n\
-}\n\
-)(/*void*/);\n\
+$(document).ready(Patsoptaas_thePage2_initize);
 </script>\n\
 ")
 //

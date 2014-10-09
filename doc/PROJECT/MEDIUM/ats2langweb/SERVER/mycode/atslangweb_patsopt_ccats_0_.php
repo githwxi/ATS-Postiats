@@ -30,4 +30,3 @@ echo rawurldecode(json_encode($mycode_res));
 /* end of [atslangweb_patsopt_ccats_0_.php] */
 //
 ?>
-

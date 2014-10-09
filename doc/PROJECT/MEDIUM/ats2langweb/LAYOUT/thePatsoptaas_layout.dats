@@ -10,6 +10,17 @@
 (* ****** ****** *)
   
 val () =
+thePage2.content
+(
+"\
+<?php\n\
+include './thePage2/Patsoptaas.php';\n\
+?><!--php-->\n\
+") (* end of [thePage2.content] *)
+
+(* ****** ****** *)
+
+val () =
 thePage2Left.content
 (
 "\

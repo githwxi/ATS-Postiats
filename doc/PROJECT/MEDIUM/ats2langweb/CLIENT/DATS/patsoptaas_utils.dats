@@ -291,8 +291,9 @@ function
 Patsoptaas_Compile_patsopttc_reply
   (reply)
 {
+  var reply2 = reply.replace('%', '%25');
   var comparr =
-    JSON.parse(decodeURIComponent(reply));
+    JSON.parse(decodeURIComponent(reply2));
   // end of [var]
   var msg0 = "Patsoptaas: [patsopt-tcats] passed!"
   var msg1 = "Patsoptaas: [patsopt-tcats] failed!"
@@ -345,8 +346,9 @@ function
 Patsoptaas_Compile_patsoptcc_reply
   (reply)
 {
+  var reply2 = reply.replace('%', '%25');
   var comparr =
-    JSON.parse(decodeURIComponent(reply));
+    JSON.parse(decodeURIComponent(reply2));
   // end of [var]
   var msg0 = "Patsoptaas: [patsopt-ccats] passed!"
   var msg1 = "Patsoptaas: [patsopt-ccats] failed!"
@@ -401,8 +403,9 @@ function
 Patsoptaas_Compile_patsopt2js_reply
   (reply)
 {
+  var reply2 = reply.replace('%', '%25');
   var comparr =
-    JSON.parse(decodeURIComponent(reply));
+    JSON.parse(decodeURIComponent(reply2));
   // end of [var]
   var msg0 = "Patsoptaas: [patsopt-atscc2js] passed!"
   var msg1 = "Patsoptaas: [patsopt-atscc2js] failed!"

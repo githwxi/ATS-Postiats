@@ -230,6 +230,144 @@ File_newfile_template2_onclick
 <script>
 //
 function
+File_loadfile_onclick(x0)
+{
+  jQuery(x0).next('input').trigger('click');
+}
+//
+function
+File_loadfile_mouseout(x0)
+{
+  Patsoptaas_submenu_mouseout(x0);
+} // end of [File_loadfile_mouseout]
+//
+function
+File_loadfile_mouseover(x0)
+{
+  Patsoptaas_submenu_mouseover(x0,1);
+} // end of [File_loadfile_mouseover]
+//
+function
+File_loadfile_input_onchange(x0)
+{
+//
+var files, freader
+//
+theTopmenuTables_hide2(0);
+//
+files = x0.files;
+freader = new FileReader();
+freader.onloadend = function(evt)
+{
+//
+if(evt.target.readyState==FileReader.DONE)
+{
+  File_special_select_reset();
+  Patsoptaas_thePatsopt_source_set("");
+  Patsoptaas_thePatsopt_output_set("");
+  Patsoptaas_thePatsopt2js_output_set("");
+  Patsoptaas_thePatsopt_editor_set(evt.target.result);
+} ;
+//
+}
+//
+if (files.length > 0)
+{
+  freader.readAsText(files[0]);
+} else {
+alert("File_loadfile_input_onchange:2");
+  Patsoptaas_thePatsopt_source_set2
+  (
+    "ERROR(File_loadfile): no file is choosen!!!"
+  ) ; // end of [Patsoptaas_thePatsopt_source_set2]
+} // end of [if]
+//
+} // end of [File_loadfile_input_onchange]
+//
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
+function
+File_loadurl_input_doWork(url)
+{
+//
+var
+doWork_after = function(mycode)
+{
+//
+  File_special_select_reset();
+  Patsoptaas_thePatsopt_source_set("");
+  Patsoptaas_thePatsopt_output_set("");
+  Patsoptaas_thePatsopt2js_output_set("");
+  Patsoptaas_thePatsopt_editor_set(mycode);
+//
+}
+//
+$('#File_loadurl_input_content').load(url, doWork_after);
+//
+} // end of [File_loadurl_input_doWork]
+//
+function
+File_loadurl_input_onkeyup(x0,evt)
+{
+  var url, length;
+  length = x0.value.length;
+  if(evt.keyCode == 13)
+  {
+    url = x0.value;
+    x0.value = ""; x0.size = 24;
+    theTopmenuTables_hide2(0);
+    File_loadurl_input_doWork(url);
+  } else {
+    if(length >= 1.20 * x0.size) x0.size = length + 1;
+  } // end of [if]
+}
+//
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
+function
+File_saveAs_onclick(x0)
+{
+//
+var i, code, blob, fname;
+//
+theTopmenuTables_hide2(0);
+//
+i = File_special_select_get();
+switch(i)
+{
+  case 0:
+  fname = "Patsoptaas_source.dats"; break;
+  case 1:
+  fname = "Patsoptaas_output_dats.c"; break;
+  case 2:
+  fname = "Patsoptaas_output_dats.js"; break;
+  default:
+  fname = "Patsoptaas_compile_stderr.log"; break; 
+}
+//
+code =
+Patsoptaas_thePatsopt_editor_get();
+blob =
+new Blob([code], {type: 'text/plain'});
+//
+saveAs(blob, fname);
+//
+} // end of [File_saveAs_onclick]
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
+function
 Compile_patsopt_onclick()
 {
   theTopmenuTables_hide2(0);
@@ -267,6 +405,7 @@ Evaluate_JS_onclick()
 <table
  width="100%" height="100%"
  cellspacing="0" cellpadding="0">
+
 <tr>
 <td width="75%">
 <div
@@ -278,7 +417,6 @@ Evaluate_JS_onclick()
  onmouseout="Patsoptaas_topmenu_mouseout()"
  onmouseover="Patsoptaas_topmenu_mouseover(this)"
 >File</li>
-
 <table
  class="thePage2RTopL_submenu"
  onmouseout="Patsoptaas_submenu_table_mouseout()"
@@ -317,18 +455,47 @@ Evaluate_JS_onclick()
 </td></tr>
 
 <tr><td>
-<li
- onmouseout="Patsoptaas_submenu_mouseout()"
- onmouseover="Patsoptaas_submenu_mouseover(this,1)"
->Load File</li>
+<button
+ onclick="File_loadfile_onclick(this)"
+ onmouseout="File_loadfile_mouseout(this)"
+ onmouseover="File_loadfile_mouseover(this)"
+>Load File</button>
+<input
+ type="file"
+ style="display:none"
+ onchange="File_loadfile_input_onchange(this)"
+></input>
 </td></tr>
 
 <tr><td>
 <li
  onmouseout="Patsoptaas_submenu_mouseout()"
  onmouseover="Patsoptaas_submenu_mouseover(this,1)"
->Save As...
-</li>
+>Load URL</li>
+<table
+ width="120px"
+ class="thePage2RTopL_submenu"
+ onmouseout="Patsoptaas_submenu_table_mouseout()"
+ onmouseover="Patsoptaas_submenu_table_mouseover(1)"
+>
+<tr><td>
+<input
+ type="text" size="24" maxlength="1024"
+ onkeyup="File_loadurl_input_onkeyup(this,event)"
+></input>
+<input
+ id="File_loadurl_input_content" type="hidden"></input>
+</td></tr>
+</table>
+</td></tr>
+
+<tr><td>
+<button
+ type="button"
+ onclick="File_saveAs_onclick(this)"
+ onmouseout="Patsoptaas_submenu_mouseout()"
+ onmouseover="Patsoptaas_submenu_mouseover(this,1)"
+>Save As...</button>
 </td></tr>
 
 </table><!--File-->

@@ -15,11 +15,11 @@
 //
 (* ****** ****** *)
 //
-// HX-2012-06-21: compiled to run with ATS/Postiats
+// HX-2013-06-21: compiled to run with ATS/Postiats
 //
 (* ****** ****** *)
 //
-// HX-2012-06-21:
+// HX-2013-06-21:
 // By the current standard, the following code looks
 // a bit ugly. However, it does shed some light on coding
 // in ATS during its early development.
