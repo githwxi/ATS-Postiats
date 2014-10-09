@@ -291,10 +291,9 @@ function
 Patsoptaas_Compile_patsopttc_reply
   (reply)
 {
-  var reply2 = reply.replace('%', '%25');
-  var comparr =
-    JSON.parse(decodeURIComponent(reply2));
-  // end of [var]
+//
+  var comparr = JSON.parse(reply);
+//
   var msg0 = "Patsoptaas: [patsopt-tcats] passed!"
   var msg1 = "Patsoptaas: [patsopt-tcats] failed!"
   if(comparr[0]===0)
@@ -346,12 +345,12 @@ function
 Patsoptaas_Compile_patsoptcc_reply
   (reply)
 {
-  var reply2 = reply.replace('%', '%25');
-  var comparr =
-    JSON.parse(decodeURIComponent(reply2));
-  // end of [var]
+//
+  var comparr = JSON.parse(reply);
+//
   var msg0 = "Patsoptaas: [patsopt-ccats] passed!"
   var msg1 = "Patsoptaas: [patsopt-ccats] failed!"
+//
   if(comparr[0]===0)
   {
     Patsoptaas_thePatsopt_stderr_set(msg0);
@@ -363,8 +362,10 @@ Patsoptaas_Compile_patsoptcc_reply
     Patsoptaas_thePatsopt_stderr_set(comparr[1]);
     if(!Patsoptaas_Compile_stderr_flag()) alert(msg1);
   }
+//
   return;
-}
+//
+} // end of [Patsoptaas_Compile_patsoptcc_reply]
 //
 %} // end of [%{^]
 //
@@ -403,12 +404,12 @@ function
 Patsoptaas_Compile_patsopt2js_reply
   (reply)
 {
-  var reply2 = reply.replace('%', '%25');
-  var comparr =
-    JSON.parse(decodeURIComponent(reply2));
-  // end of [var]
+//
+  var comparr = JSON.parse(reply);
+//
   var msg0 = "Patsoptaas: [patsopt-atscc2js] passed!"
   var msg1 = "Patsoptaas: [patsopt-atscc2js] failed!"
+//
   if(comparr[0]===0)
   {
     Patsoptaas_thePatsopt_stderr_set(msg0);
@@ -421,8 +422,9 @@ Patsoptaas_Compile_patsopt2js_reply
     Patsoptaas_thePatsopt_stderr_set(comparr[1]);
     if(!Patsoptaas_Compile_stderr_flag()) alert(msg1);
   }
+//
   return;
-}
+} // end of [Patsoptaas_Compile_patsopt2js_reply]
 //
 %} // end of [%{^]
 //
