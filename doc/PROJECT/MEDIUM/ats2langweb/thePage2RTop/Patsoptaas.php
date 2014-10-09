@@ -195,6 +195,7 @@ File_newfile_load
   Patsoptaas_thePatsopt_source_set("");
   Patsoptaas_thePatsopt_output_set("");
   Patsoptaas_thePatsopt2js_output_set("");
+  Patsoptaas_thePatsopt_stderr_set("");
   Patsoptaas_thePatsopt_editor_set(code);
 }
 //
@@ -266,6 +267,7 @@ if(evt.target.readyState==FileReader.DONE)
   Patsoptaas_thePatsopt_source_set("");
   Patsoptaas_thePatsopt_output_set("");
   Patsoptaas_thePatsopt2js_output_set("");
+  Patsoptaas_thePatsopt_stderr_set("");
   Patsoptaas_thePatsopt_editor_set(evt.target.result);
 } ;
 //
@@ -302,6 +304,7 @@ doWork_after = function(mycode)
   Patsoptaas_thePatsopt_source_set("");
   Patsoptaas_thePatsopt_output_set("");
   Patsoptaas_thePatsopt2js_output_set("");
+  Patsoptaas_thePatsopt_stderr_set("");
   Patsoptaas_thePatsopt_editor_set(mycode);
 //
 }

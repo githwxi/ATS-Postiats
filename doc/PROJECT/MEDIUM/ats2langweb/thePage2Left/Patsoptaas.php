@@ -32,13 +32,14 @@ if(Patsoptaas_Compile_stderr_flag())
 //
 function
 File_examples_load
-  (code)
+  (mycode)
 {
   File_special_select_reset();
   Patsoptaas_thePatsopt_source_set("");
   Patsoptaas_thePatsopt_output_set("");
   Patsoptaas_thePatsopt2js_output_set("");
-  Patsoptaas_thePatsopt_editor_set(code);
+  Patsoptaas_thePatsopt_stderr_set("");
+  Patsoptaas_thePatsopt_editor_set(mycode);
 }
 //
 function
