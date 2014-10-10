@@ -263,7 +263,25 @@ fprint (out, "\
 <script>\n\
 $(document).ready(Patsoptaas_thePage2_initize);
 </script>\n\
-")
+") (* end of [val] *)
+//
+val () =
+fprint (out, "\
+\n\
+<?php\n\
+if($theScriptKind >= 1)\n\
+{\n\
+echo <<<EOT\n\
+<?php\n\
+  echo \"<script>\\\\n\";\n\
+  echo \"\\\\$(document).ready(function(){Patsoptaas_thePage2_initize2('\".\\$mycode.\"','\".\\$mycode_url.\"');});\\\\n\";\n\
+  echo \"</script>\\\\n\";\n\
+?>\n\
+EOT;\n\
+}\n\
+?><!--php-->\n\
+\n\
+") (* end of [val] *)
 //
 in
   // nothing

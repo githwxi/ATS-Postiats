@@ -17,7 +17,11 @@ all:: Libraries.html
 all:: Community.html
 all:: Papers.html
 all:: Examples.html
+
+######
+
 all:: Patsoptaas.html
+all:: Patsoptaas_serve.php
 
 ######
 #
@@ -29,7 +33,10 @@ Community.html:: ; $(PHP) -f LAYOUT/theCommunity_layout.html > $@
 Papers.html:: ; $(PHP) -f LAYOUT/thePapers_layout.html > $@
 Examples.html:: ; $(PHP) -f LAYOUT/theExamples_layout.html > $@
 #
-Patsoptaas.html:: ; $(PHP) -f LAYOUT/thePatsoptaas_layout.html > MYDATA/$@
+Patsoptaas.html:: ; \
+$(PHP) -f LAYOUT/thePatsoptaas_layout.html > MYDATA/$@
+Patsoptaas_serve.php:: ; \
+$(PHP) -f LAYOUT/thePatsoptaas_layout.html 1 > SERVER/MYCODE/$@
 #
 ######
 

@@ -47,6 +47,26 @@ staload _(*anon*) = "./patsopt_atscc2js.dats"
 //
 extern
 fun
+Home_tryatsnow_onclick (): void = "mac#"
+//
+%{^
+//
+function
+Home_tryatsnow_onclick
+  ()
+{
+window.open
+(
+  "./SERVER/MYCODE/Patsoptaas_serve.php?mycode=hello", "_blank"
+) // end of [window.open]
+} // end of [Home_tryatsnow_onclick]
+//
+%} // end of [%{^]
+//
+(* ****** ****** *)
+//
+extern
+fun
 Home_hello_getval
   ((*void*)): string = "mac#"
 extern

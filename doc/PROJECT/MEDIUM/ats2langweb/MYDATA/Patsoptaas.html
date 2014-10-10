@@ -106,14 +106,7 @@ body {
 <body>
 <div id="theBodyProp">
 <div id="thePage2">
-<script>
-/*
-alert("window.innerWidth = " + window.innerWidth);
-alert("window.innerHeight = " + window.innerHeight);
-alert("document.body.offsetWidth = " + document.body.offsetWidth);
-alert("document.body.offsetHeight = " + document.body.offsetHeight);
-*/
-</script>
+<!--php-->
 
 <!-- ****** ****** -->
 
@@ -145,6 +138,30 @@ document.getElementById('Compile-stderr-flag').checked = true;
 document.getElementById('File_special_select').selectedIndex = 0;
 //
 } // end of [Patsoptaas_thePage2_initize]
+//
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
+function
+Patsoptaas_thePage2_initize2
+  (fname, fname_url)
+{
+//
+if(fname==='hello')
+{
+//
+File_examples_load
+  (Patsoptaas_File_examples_hello);
+//
+return;
+}
+//
+File_loadurl_input_doWork(fname_url);
+//
+} // end of [Patsoptaas_thePage2_initize2]
 //
 </script>
 
@@ -1232,4 +1249,7 @@ Evaluate_JS_onclick()
 <script>
 $(document).ready(Patsoptaas_thePage2_initize);
 </script>
+
+<!--php-->
+
 </html>

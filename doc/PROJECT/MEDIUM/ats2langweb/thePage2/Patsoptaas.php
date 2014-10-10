@@ -1,11 +1,15 @@
-<script>
-/*
-alert("window.innerWidth = " + window.innerWidth);
-alert("window.innerHeight = " + window.innerHeight);
-alert("document.body.offsetWidth = " + document.body.offsetWidth);
-alert("document.body.offsetHeight = " + document.body.offsetHeight);
-*/
-</script>
+<?php
+$theScriptKind = 0;
+if(sizeof($argv) >= 2) $theScriptKind = $argv[1];
+if($theScriptKind >= 1)
+{
+  echo "\n";
+  echo '<?php $mycode = $_REQUEST["mycode"]; ?>';
+  echo "\n";
+  echo '<?php $mycode_url = $_REQUEST["mycode_url"]; ?>';
+  echo "\n";
+}
+?><!--php-->
 
 <!-- ****** ****** -->
 
@@ -37,6 +41,30 @@ document.getElementById('Compile-stderr-flag').checked = true;
 document.getElementById('File_special_select').selectedIndex = 0;
 //
 } // end of [Patsoptaas_thePage2_initize]
+//
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
+function
+Patsoptaas_thePage2_initize2
+  (fname, fname_url)
+{
+//
+if(fname==='hello')
+{
+//
+File_examples_load
+  (Patsoptaas_File_examples_hello);
+//
+return;
+}
+//
+File_loadurl_input_doWork(fname_url);
+//
+} // end of [Patsoptaas_thePage2_initize2]
 //
 </script>
 
