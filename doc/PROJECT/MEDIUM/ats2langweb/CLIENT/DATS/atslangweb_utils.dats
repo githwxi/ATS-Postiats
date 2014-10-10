@@ -94,7 +94,7 @@ Home_hello_onclick () = let
 //
 implement
 patsopt_atscc2js_rpc$cname<> () =
-  "SERVER/mycode/atslangweb_patsopt_atscc2js_1_.php"
+  "SERVER/MYCODE/atslangweb_patsopt_atscc2js_1_.php"
 //
 implement
 patsopt_atscc2js_rpc$reply<> (reply) = Home_hello_reply (reply)
@@ -160,7 +160,7 @@ Home_listsub_onclick () = let
 //
 implement
 patsopt_tcats_rpc$cname<> () =
-  "SERVER/mycode/atslangweb_patsopt_tcats_1_.php"
+  "SERVER/MYCODE/atslangweb_patsopt_tcats_1_.php"
 //
 implement
 patsopt_tcats_rpc$reply<> (reply) = Home_listsub_reply (reply)
@@ -226,7 +226,7 @@ Home_repeat_f0f1_onclick () = let
 //
 implement
 patsopt_atscc2js_rpc$cname<> () =
-  "SERVER/mycode/atslangweb_patsopt_atscc2js_1_.php"
+  "SERVER/MYCODE/atslangweb_patsopt_atscc2js_1_.php"
 //
 implement
 patsopt_atscc2js_rpc$reply<> (reply) = Home_repeat_f0f1_reply (reply)

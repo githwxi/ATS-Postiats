@@ -29,7 +29,7 @@ Community.html:: ; $(PHP) -f LAYOUT/theCommunity_layout.html > $@
 Papers.html:: ; $(PHP) -f LAYOUT/thePapers_layout.html > $@
 Examples.html:: ; $(PHP) -f LAYOUT/theExamples_layout.html > $@
 #
-Patsoptaas.html:: ; $(PHP) -f LAYOUT/thePatsoptaas_layout.html > $@
+Patsoptaas.html:: ; $(PHP) -f LAYOUT/thePatsoptaas_layout.html > MYDATA/$@
 #
 ######
 

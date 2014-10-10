@@ -294,19 +294,19 @@ fprint (out, "\
 val () =
 fprint (out, "\
 <script\n\
- src=\"./CLIENT/mycode/libatscc2js_all.js\">\n\
+ src=\"./CLIENT/MYCODE/libatscc2js_all.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =
 fprint (out, "\
 <script\n\
- src=\"./CLIENT/mycode/libatscc2js_print_store.js\">\n\
+ src=\"./CLIENT/MYCODE/libatscc2js_print_store.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =
 fprint (out, "\
 <script\n\
- src=\"./CLIENT/mycode/atslangweb_utils_dats.js\">\n\
+ src=\"./CLIENT/MYCODE/atslangweb_utils_dats.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 //

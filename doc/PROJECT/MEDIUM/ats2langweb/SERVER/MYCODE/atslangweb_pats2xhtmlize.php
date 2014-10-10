@@ -1,9 +1,9 @@
 <?php
 //
 // HX-2014-09:
-// for local use
+// It is for local use
 //
-$MYPHPDIR = "SERVER/mycode";
+$MYPHPDIR = "SERVER/MYCODE";
 //
 include
 "./$MYPHPDIR/libatscc2php_all.php";

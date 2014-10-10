@@ -4,7 +4,7 @@ class="thePageRBodyLContent"
 
 <?php
 include
-"./SERVER/mycode/atslangweb_pats2xhtmlize.php";
+"./SERVER/MYCODE/atslangweb_pats2xhtmlize.php";
 ?><!--php-->
 
 <hr></hr>

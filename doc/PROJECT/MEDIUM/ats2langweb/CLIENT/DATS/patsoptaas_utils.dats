@@ -318,7 +318,7 @@ Compile_patsopttc_onclick() = let
 //
 implement
 patsopt_tcats_rpc$cname<> () =
-  "SERVER/mycode/atslangweb_patsopt_tcats_0_.php"
+  "SERVER/MYCODE/atslangweb_patsopt_tcats_0_.php"
 //
 implement
 patsopt_tcats_rpc$reply<> (reply) = Compile_patsopttc_reply (reply)
@@ -376,7 +376,7 @@ Compile_patsoptcc_onclick() = let
 //
 implement
 patsopt_ccats_rpc$cname<> () =
-  "SERVER/mycode/atslangweb_patsopt_ccats_0_.php"
+  "SERVER/MYCODE/atslangweb_patsopt_ccats_0_.php"
 //
 implement
 patsopt_ccats_rpc$reply<> (reply) = Compile_patsoptcc_reply (reply)
@@ -435,7 +435,7 @@ Compile_patsopt2js_onclick() = let
 //
 implement
 patsopt_atscc2js_rpc$cname<> () =
-  "SERVER/mycode/atslangweb_patsopt_atscc2js_0_.php"
+  "SERVER/MYCODE/atslangweb_patsopt_atscc2js_0_.php"
 //
 implement
 patsopt_atscc2js_rpc$reply<> (reply) = Compile_patsopt2js_reply (reply)
@@ -486,7 +486,7 @@ File_loadurl_input_doWork(url) = let
 //
 implement
 file_get_contents_rpc$cname<> () =
-  "SERVER/mycode/atslangweb_file_get_contents.php"
+  "SERVER/MYCODE/atslangweb_file_get_contents.php"
 //
 implement
 file_get_contents_rpc$reply<> (reply) = thePatsopt_editor_set(reply)

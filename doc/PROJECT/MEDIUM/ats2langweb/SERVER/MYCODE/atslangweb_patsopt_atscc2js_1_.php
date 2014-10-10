@@ -2,7 +2,7 @@
 //
 $MYPHPDIR = "";
 /*
-$MYPHPDIR = "SERVER/mycode"; // for testing
+$MYPHPDIR = "SERVER/MYCODE"; // for testing
 */
 //
 include

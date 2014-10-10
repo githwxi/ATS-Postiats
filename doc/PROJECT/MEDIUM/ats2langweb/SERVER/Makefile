@@ -19,23 +19,23 @@ RMF=rm -f
 ######
 #
 all:: ; \
-$(CPF) CATS/basics_cats.php mycode/.
+$(CPF) CATS/basics_cats.php MYCODE/.
 #
 ######
 
 all:: \
-mycode/basics_dats.php
+MYCODE/basics_dats.php
 all:: \
-mycode/atslangweb_utils_dats.php
+MYCODE/atslangweb_utils_dats.php
 #
 DATS/basics_dats.c: \
 DATS/basics.dats; $(PATSOPT) -o $@ -d $<
-mycode/basics_dats.php: \
+MYCODE/basics_dats.php: \
 DATS/basics_dats.c; $(ATSCC2PHP) -o $@ -i $<
 #
 DATS/atslangweb_utils_dats.c: \
 DATS/atslangweb_utils.dats; $(PATSOPT) -o $@ -d $<
-mycode/atslangweb_utils_dats.php: \
+MYCODE/atslangweb_utils_dats.php: \
 DATS/atslangweb_utils_dats.c; $(ATSCC2PHP) -o $@ -i $<
 #
 ######
@@ -45,8 +45,8 @@ clean:: ; $(RMF) DATS/*_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) mycode/basics_cats.php
-cleanall:: ; $(RMF) mycode/basics_dats.php
-cleanall:: ; $(RMF) mycode/atslangweb_utils_dats.php
+cleanall:: ; $(RMF) MYCODE/basics_cats.php
+cleanall:: ; $(RMF) MYCODE/basics_dats.php
+cleanall:: ; $(RMF) MYCODE/atslangweb_utils_dats.php
 
 ###### end of [Makefile] ######
