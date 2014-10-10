@@ -72,6 +72,8 @@ staload _(*anon*) = "./patsopt_tcats.dats"
 staload _(*anon*) = "./patsopt_ccats.dats"
 staload _(*anon*) = "./patsopt_atscc2js.dats"
 //
+staload _(*anon*) = "./file_get_contents.dats"
+//
 (* ****** ****** *)
 //
 extern
@@ -471,6 +473,27 @@ Patsoptaas_Evaluate_JS_onclick()
 } // end of [Patsoptaas_Evaluate_JS_onclick]
 //
 %} // end of [%{^]
+//
+(* ****** ****** *)
+//
+extern
+fun
+File_loadurl_input_doWork
+  (url: string): void = "mac#%"
+//
+implement
+File_loadurl_input_doWork(url) = let
+//
+implement
+file_get_contents_rpc$cname<> () =
+  "SERVER/mycode/atslangweb_file_get_contents.php"
+//
+implement
+file_get_contents_rpc$reply<> (reply) = thePatsopt_editor_set(reply)
+//
+in
+  file_get_contents_rpc<> (url)
+end (* end of [File_loadurl_input_doWork] *)
 //
 (* ****** ****** *)
 

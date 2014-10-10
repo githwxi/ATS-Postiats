@@ -296,20 +296,12 @@ function
 File_loadurl_input_doWork(url)
 {
 //
-var
-doWork_after = function(mycode)
-{
-//
   File_special_select_reset();
   Patsoptaas_thePatsopt_source_set("");
   Patsoptaas_thePatsopt_output_set("");
   Patsoptaas_thePatsopt2js_output_set("");
   Patsoptaas_thePatsopt_stderr_set("");
-  Patsoptaas_thePatsopt_editor_set(mycode);
-//
-}
-//
-$('#File_loadurl_input_content').load(url, doWork_after);
+  Patsoptaas_File_loadurl_input_doWork(url);
 //
 } // end of [File_loadurl_input_doWork]
 //

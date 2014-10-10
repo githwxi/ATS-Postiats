@@ -7,7 +7,7 @@
 (* ****** ****** *)
 //
 #define ATS_PACKNAME "atslangweb"
-#define ATS_EXTERN_PREFIX "atslangweb__"
+#define ATS_EXTERN_PREFIX "atslangweb_"
 //
 (* ****** ****** *)
 //
@@ -43,6 +43,16 @@ fun{}
 patsopt_atscc2js_rpc$cname (): string = "mac#%"
 fun{}
 patsopt_atscc2js_rpc$reply (reply: string): void = "mac#%"
+//
+(* ****** ****** *)
+
+fun{}
+file_get_contents_rpc (fname: string): void = "mac#%"
+//
+fun{}
+file_get_contents_rpc$cname (): string = "mac#%"
+fun{}
+file_get_contents_rpc$reply (reply: string): void = "mac#%"
 //
 (* ****** ****** *)
 
