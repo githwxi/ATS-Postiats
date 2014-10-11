@@ -90,7 +90,7 @@ fun print_dots
 
 fun print_row
   (i: int): void = begin
-  print_dots (i); print "Q "; print_dots (N-i-1); print '\n';
+  print_dots (i); print "Q "; print_dots (N-i-1); print "\n";
 end // end of [print_row]
 
 fun print_board
