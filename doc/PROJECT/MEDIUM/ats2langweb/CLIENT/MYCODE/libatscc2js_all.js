@@ -164,6 +164,13 @@ ats2jspre_div_int1_int1(x, y) { return ats2jspre_div_int0_int0(x, y); }
 /* ****** ****** */
 
 function
+ats2jspre_asl_int0_int1(x, y) { return (x << y); }
+function
+ats2jspre_asr_int0_int1(x, y) { return (x >> y); }
+
+/* ****** ****** */
+
+function
 ats2jspre_lt_int0_int0(x, y) { return (x < y); }
 function
 ats2jspre_lte_int0_int0(x, y) { return (x <= y); }
