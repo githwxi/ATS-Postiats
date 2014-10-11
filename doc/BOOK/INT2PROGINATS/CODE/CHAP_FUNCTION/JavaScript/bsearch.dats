@@ -77,8 +77,8 @@ alert(ats2jspre_the_print_store_join());
 
 fun bsearch_fun
 (
-  f: int -<cloref1> uint
-, x0: uint, lb: int, ub: int
+  f: int -<cloref1> int
+, x0: int, lb: int, ub: int
 ) : int =
   if lb <= ub then let
     val mid = lb + (ub - lb) / 2
@@ -106,16 +106,16 @@ val ISQRT_MAX = (1 << 16) - 1
 (* ****** ****** *)
 
 fun isqrt
-  (x: uint): int =
+  (x: int): int =
 (
-  bsearch_fun (lam i => square ((g0i2u)i), x, 0, ISQRT_MAX)
+  bsearch_fun (lam i => square (i), x, 0, ISQRT_MAX)
 ) // end of [isqrt]
 
 (* ****** ****** *)
 
-val () = println!("isqrt(100U) = ", isqrt(100U))
-val () = println!("isqrt(1000U) = ", isqrt(1000U))
-val () = println!("isqrt(1024U) = ", isqrt(1024U))
+val () = println!("isqrt(100) = ", isqrt(100))
+val () = println!("isqrt(1000) = ", isqrt(1000))
+val () = println!("isqrt(1024) = ", isqrt(1024))
 
 (* ****** ****** *)
 
