@@ -26,11 +26,13 @@
 (* ****** ****** *)
 
 (*
-** Example: Coin Changes
+** Example: Binary Search
 **
 ** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 ** Time: January, 2011
 *)
+
+(* ****** ****** *)
 
 (*
 ** Ported to ATS2 by Hongwei Xi (gmhwxiATgmailDOTcom)
@@ -38,49 +40,83 @@
 *)
 
 (* ****** ****** *)
+
+(*
+** Ported to ATSCC2JS by Hongwei Xi (gmhwxiATgmailDOTcom)
+** Time: October 10, 2014
+*)
+
+(* ****** ****** *)
 //
 #include
-"share/atspre_staload.hats"
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
 //
 (* ****** ****** *)
 
-typedef int4 = (int, int, int, int)
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
 
 (* ****** ****** *)
 
-val theCoins = (1, 5, 10, 25): int4
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
 
 (* ****** ****** *)
 
-fun coin_get
-  (n: int): int =
-  if n = 0 then theCoins.0
-  else if n = 1 then theCoins.1
-  else if n = 2 then theCoins.2
-  else if n = 3 then theCoins.3
-  else ~1 (* erroneous value *)
-// end of [coin_get]
-
-fun coin_change
-  (sum: int): int = let
-  fun aux (sum: int, n: int): int =
-    if sum > 0 then
-     (if n >= 0 then aux (sum, n-1) + aux (sum-coin_get(n), n) else 0)
-    else (if sum < 0 then 0 else 1)
-  // end of [aux]
-in
-  aux (sum, 3)
-end // end of [coin_change]
+%{$
+//
+ats2jspre_the_print_store_clear();
+my_dynload();
+alert(ats2jspre_the_print_store_join());
+//
+%} // end of [%{$]
 
 (* ****** ****** *)
 
-implement
-main0 () = {
-  val () = println! ("coin_change (25) = ", coin_change (25))
-  val () = println! ("coin_change (100) = ", coin_change (100))
-  val () = println! ("coin_change (1000) = ", coin_change (1000))
-} (* end of [main] *)
+fun bsearch_fun
+(
+  f: int -<cloref1> uint
+, x0: uint, lb: int, ub: int
+) : int =
+  if lb <= ub then let
+    val mid = lb + (ub - lb) / 2
+    val x = f (mid)
+  in
+    if x0 < x then
+      bsearch_fun (f, x0, lb, mid-1)
+    else
+      bsearch_fun (f, x0, mid+1, ub)
+    // end of [if]
+  end else ub // end of [if]
+// end of [bsearch_fun]
 
 (* ****** ****** *)
 
-(* end of [coinchange.dats] *)
+macdef
+square (x) = let val x = ,(x) in x * x end
+
+(* ****** ****** *)
+//
+// Assume 32-bit ints
+//
+val ISQRT_MAX = (1 << 16) - 1
+//
+(* ****** ****** *)
+
+fun isqrt
+  (x: uint): int =
+(
+  bsearch_fun (lam i => square ((g0i2u)i), x, 0, ISQRT_MAX)
+) // end of [isqrt]
+
+(* ****** ****** *)
+
+val () = println!("isqrt(100U) = ", isqrt(100U))
+val () = println!("isqrt(1000U) = ", isqrt(1000U))
+val () = println!("isqrt(1024U) = ", isqrt(1024U))
+
+(* ****** ****** *)
+
+(* end of [bsearch.dats] *)

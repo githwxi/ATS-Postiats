@@ -38,17 +38,46 @@
 *)
 
 (* ****** ****** *)
+
+(*
+** Ported to ATSCC2JS by Hongwei Xi (gmhwxiATgmailDOTcom)
+** Time: October 10, 2014
+*)
+
+(* ****** ****** *)
 //
 #include
-"share/atspre_staload.hats"
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
 //
 (* ****** ****** *)
 
-typedef int4 = (int, int, int, int)
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
 
 (* ****** ****** *)
 
-val theCoins = (1, 5, 10, 25): int4
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
+
+(* ****** ****** *)
+
+%{$
+//
+ats2jspre_the_print_store_clear();
+my_dynload();
+alert(ats2jspre_the_print_store_join());
+//
+%} // end of [%{$]
+
+(* ****** ****** *)
+
+typedef int4 = '(int, int, int, int)
+
+(* ****** ****** *)
+
+val theCoins = '(1, 5, 10, 25): int4
 
 (* ****** ****** *)
 
@@ -74,12 +103,12 @@ end // end of [coin_change]
 
 (* ****** ****** *)
 
-implement
-main0 () = {
+val () =
+{
   val () = println! ("coin_change (25) = ", coin_change (25))
   val () = println! ("coin_change (100) = ", coin_change (100))
   val () = println! ("coin_change (1000) = ", coin_change (1000))
-} (* end of [main] *)
+} (* end of [val] *)
 
 (* ****** ****** *)
 
