@@ -17,6 +17,15 @@ listitem_gen($CHAP, $fname)
   echo "<li><a href=\"$Patsoptaas_serve_php?mycode_url=$mydir_url/$CHAP/$fname\">$fname</a></li>";
   echo "\n";
 }
+function
+listitem_gen2($CHAP, $fname)
+{
+  global $mydir_url;
+  global $Patsoptaas_serve_php;
+  echo "\n";
+  echo "<li><a href=\"$Patsoptaas_serve_php?mycode_url=$mydir_url/$CHAP/JavaScript/$fname\">$fname(js)</a></li>";
+  echo "\n";
+}
 //
 ?>
 

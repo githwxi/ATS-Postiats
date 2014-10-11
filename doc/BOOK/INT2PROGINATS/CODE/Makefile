@@ -10,6 +10,15 @@ MAKE=make
 
 ######
 
+all:: \
+INT2PROGINATS-CODE.html
+
+######
+#
+INT2PROGINATS-CODE.html: INT2PROGINATS-CODE.php ; php -f $< > $@
+#
+######
+
 cleanall::
 cleanall:: ; $(MAKE) -C CHAP_START cleanall
 cleanall:: ; $(MAKE) -C CHAP_PROGELEM cleanall
