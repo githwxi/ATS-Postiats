@@ -3,6 +3,10 @@
 {
   color: #FFFFF0;
 }
+#Editor_table_body
+{
+  display: none;
+}
 </style>
 
 <script>

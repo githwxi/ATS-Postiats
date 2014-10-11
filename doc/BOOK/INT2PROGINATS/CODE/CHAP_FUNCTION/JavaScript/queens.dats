@@ -40,20 +40,48 @@
 *)
 
 (* ****** ****** *)
+
+(*
+** Ported to ATSCC2JS by Hongwei Xi (gmhwxiATgmailDOTcom)
+** Time: October 10, 2014
+*)
+
+(* ****** ****** *)
 //
 #include
-"share/atspre_staload.hats"
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
 //
+(* ****** ****** *)
+
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
+
+(* ****** ****** *)
+
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
+
+(* ****** ****** *)
+
+%{$
+//
+ats2jspre_the_print_store_clear();
+my_dynload();
+alert(ats2jspre_the_print_store_join());
+//
+%} // end of [%{$]
+
 (* ****** ****** *)
 
 #define N 8 // HX: this should not be changed!
 
 (* ****** ****** *)
 
-typedef int8 =
-(
+typedef int8 = '(
   int, int, int, int, int, int, int, int
-) // end of [int8]
+) (* end of [int8] *)
 
 fun print_dots
   (i: int): void =
@@ -88,27 +116,33 @@ fun board_get
 // end of [board_get]
 
 fun board_set
-  (bd: int8, i: int, j:int): int8 = let
-  val (x0, x1, x2, x3, x4, x5, x6, x7) = bd
+(
+  bd: int8, i: int, j:int
+) : int8 = let
+//
+val '(x0, x1, x2, x3, x4, x5, x6, x7) = bd
+//
 in
-  if i = 0 then let
-    val x0 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
-  end else if i = 1 then let
-    val x1 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
-  end else if i = 2 then let
-    val x2 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
-  end else if i = 3 then let
-    val x3 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
-  end else if i = 4 then let
-    val x4 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
-  end else if i = 5 then let
-    val x5 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
-  end else if i = 6 then let
-    val x6 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
-  end else if i = 7 then let
-    val x7 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
-  end else bd // end of [if]
-end // end of [board_set]
+//
+if i = 0 then let
+  val x0 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
+end else if i = 1 then let
+  val x1 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
+end else if i = 2 then let
+  val x2 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
+end else if i = 3 then let
+  val x3 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
+end else if i = 4 then let
+  val x4 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
+end else if i = 5 then let
+  val x5 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
+end else if i = 6 then let
+  val x6 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
+end else if i = 7 then let
+  val x7 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
+end else bd // end of [if]
+//
+end (* end of [board_set] *)
 
 (* ****** ****** *)
 
@@ -167,17 +201,16 @@ fun search
 
 (* ****** ****** *)
 
-implement
-main0 () = {
-//
 val () =
-print_board @(0, 1, 2, 3, 4, 5, 6, 7)
+{
+val () =
+print_board '(0, 1, 2, 3, 4, 5, 6, 7)
 //
-val nsol = search ((0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0)
+val nsol = search ( '(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0 )
 //
-val ((*void*)) = assertloc (nsol = 92)
+  val ((*void*)) = assertloc (nsol = 92)
 //
-} (* end of [main0] *)
+} (* end of [val] *)
 
 (* ****** ****** *)
 
