@@ -4,8 +4,31 @@
 *)
 
 (* ****** ****** *)
+//
+#include
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
+//
+(* ****** ****** *)
 
-#include "share/atspre_staload.hats"
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
+
+(* ****** ****** *)
+
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
+
+(* ****** ****** *)
+
+%{$
+//
+ats2jspre_the_print_store_clear();
+my_dynload();
+alert(ats2jspre_the_print_store_join());
+//
+%} // end of [%{$]
 
 (* ****** ****** *)
 
@@ -97,11 +120,11 @@ iexp2 = IEXPif
 
 (* ****** ****** *)
 
-implement
-main0 () =
-{
-val () = assertloc (eval_iexp (iexp1) = ~1 + (2-3)*4)
-val () = assertloc (eval_iexp (iexp2) = (if 1 <= 0 then 0 else 3+(5*7)))
+val () = {
+//
+val () = println! ("eval_iexp(iexp1) = ", eval_iexp(iexp1))
+val () = println! ("eval_iexp(iexp2) = ", eval_iexp(iexp2))
+//
 } (* end of [val] *)
 
 (* ****** ****** *)

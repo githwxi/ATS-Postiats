@@ -37,13 +37,17 @@ listitem_gen2($CHAP, $fname)
 
 <h1>INT2PROGINATS-CODE</h1>
 
+<hr></hr>
+
 <h2>Chapter: Start</h2>
 <ul>
-<?php listitem_gen('CHAP_START, 'hello.dats'); ?>
-<?php listitem_gen('CHAP_START, 'queens.dats'); ?>
+<?php listitem_gen('CHAP_START', 'hello.dats'); ?>
+<?php listitem_gen2('CHAP_START', 'hello.dats'); ?>
+<?php listitem_gen('CHAP_START', 'queens.dats'); ?>
+<?php listitem_gen2('CHAP_START', 'queens.dats'); ?>
 </ul>
 
-<hr><hr>
+<hr></hr>
 
 <h2>Chapter: Functions</h2>
 <ul>
@@ -59,7 +63,15 @@ listitem_gen2($CHAP, $fname)
 <?php listitem_gen2('CHAP_FUNCTION', 'twice.dats'); ?>
 </ul>
 
-<hr><hr>
+<hr></hr>
+
+<h2>Chapter: Datatype</h2>
+<ul>
+<?php listitem_gen('CHAP_DATATYPE', 'intexp.dats'); ?>
+<?php listitem_gen2('CHAP_DATATYPE', 'intexp.dats'); ?>
+</ul>
+
+<hr></hr>
 
 </body>
 </html>
