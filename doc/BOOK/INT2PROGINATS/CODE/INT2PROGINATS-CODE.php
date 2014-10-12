@@ -23,7 +23,7 @@ listitem_gen2($CHAP, $fname)
   global $mydir_url;
   global $Patsoptaas_serve_php;
   echo "\n";
-  echo "<li><a href=\"$Patsoptaas_serve_php?mycode_url=$mydir_url/$CHAP/JavaScript/$fname\">$fname(js)</a></li>";
+  echo "<li><a href=\"$Patsoptaas_serve_php?mycode_url=$mydir_url/$CHAP/JS/$fname\">$fname(js)</a></li>";
   echo "\n";
 }
 //
@@ -65,10 +65,18 @@ listitem_gen2($CHAP, $fname)
 
 <hr></hr>
 
-<h2>Chapter: Datatype</h2>
+<h2>Chapter: Datatypes</h2>
 <ul>
 <?php listitem_gen('CHAP_DATATYPE', 'intexp.dats'); ?>
 <?php listitem_gen2('CHAP_DATATYPE', 'intexp.dats'); ?>
+</ul>
+
+<hr></hr>
+
+<h2>Chapter: Parametric Polymorphism</h2>
+<ul>
+<?php listitem_gen('CHAP_POLYMORPH', 'mergesort.dats'); ?>
+<?php listitem_gen2('CHAP_POLYMORPH', 'mergesort.dats'); ?>
 </ul>
 
 <hr></hr>

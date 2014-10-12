@@ -122,7 +122,10 @@ iexp2 = IEXPif
 
 val () = {
 //
+val () = println! ("iexp1 = ~1 + (2-3)*4")
 val () = println! ("eval_iexp(iexp1) = ", eval_iexp(iexp1))
+//
+val () = println! ("iexp2 = (if 1 <= 0 then 0 else 3+(5*7))")
 val () = println! ("eval_iexp(iexp2) = ", eval_iexp(iexp2))
 //
 } (* end of [val] *)

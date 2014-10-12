@@ -47,18 +47,57 @@
 
 (* ****** ****** *)
 
-#include "share/atspre_define.hats"
-#include "share/atspre_staload.hats"
+(*
+** Ported to ATSCC2JS by HX-2014-10-12
+*)
+
+(* ****** ****** *)
+//
+#include
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
+//
+(* ****** ****** *)
+//
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
+staload _(*anon*) =
+"{$LIBATSCC2JS}/DATS/print.dats"
+//
+(* ****** ****** *)
+
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
 
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
-staload "libats/ML/SATS/list0.sats"
-staload _(*anon*) = "libats/ML/DATS/list0.dats"
+%{$
+//
+ats2jspre_the_print_store_clear();
+my_dynload();
+alert(ats2jspre_the_print_store_join());
+//
+%} // end of [%{$]
+
+(* ****** ****** *)
+//
+#define nil0 list_nil
+#define cons0 list_cons
+//
+typedef
+list0 (a:t@ype) = List0 (a)
+//
+(* ****** ****** *)
+
+#define list0_length list_length
+#define list0_reverse list_reverse
 
 (* ****** ****** *)
 
 typedef lte (a:t@ype) = (a, a) -> bool
+
+(* ****** ****** *)
 
 fun{
 a:t@ype
@@ -80,6 +119,8 @@ a:t@ype
   | nil0 () => ys
 ) (* end of [merge] *)
 
+(* ****** ****** *)
+
 fun{
 a:t@ype
 } mergesort
@@ -87,7 +128,7 @@ a:t@ype
   xs: list0 a, lte: lte a
 ) : list0 a = let
 //
-val n = list0_length<a> (xs)
+val n = list0_length (xs)
 //
 fun msort
 (
@@ -108,7 +149,7 @@ in
   split (xs, n, lte, i-1, cons0{a}(x, xsf))
 end // end of [then]
 else let
-  val xsf = list0_reverse<a> (xsf) // make sorting stable!
+  val xsf = list0_reverse (xsf) // make sorting stable!
   val xsf = msort (xsf, n/2, lte) and xs = msort (xs, n-n/2, lte)
 in
   merge<a> (xsf, xs, lte)
@@ -121,75 +162,15 @@ in
 end // end of [mergesort]
 
 (* ****** ****** *)
-
-staload
-UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload "libc/SATS/time.sats"
-staload "libc/SATS/stdlib.sats"
-
-(* ****** ****** *)
 //
-#define
-ATSCNTRB_sourceloc
-"http://www.ats-lang.org/LIBRARY/contrib"
-#define
-ATSCNTRB_targetloc "../.INT2PROGINATS-atscntrb"
+val xs =
+(
+  cons0 (5, cons0 (3, cons0 (4, cons0 (6, cons0 (8, cons0 (0, cons0 (7, cons0 (1, cons0 (9, cons0 (2, nil0))))))))))
+) : list0 (int)
 //
-staload RG =
-"{$ATSCNTRB}/libats-hwxi/testing/SATS/randgen.sats"
-staload _(*RG*) =
-"{$ATSCNTRB}/libats-hwxi/testing/DATS/randgen.dats"
+val () = println! ("xs = ", xs)
+val () = println! ("mergesort(xs) = ", mergesort<int> (xs, lam (x, y) => x <= y))
 //
-(* ****** ****** *)
-
-typedef T1 = int
-
-(* ****** ****** *)
-
-macdef INTMAX = 1000L
-
-implement
-$RG.randgen_val<T1> () = let
-  val x = lrand48 () mod INTMAX in $UN.cast2int(x)
-end // end of [randgen]
-
-(* ****** ****** *)
-
-typedef T2 = double
-implement $RG.randgen_val<T2> () = drand48 ()
-
-(* ****** ****** *)
-
-implement
-main0 () =
-{
-//
-#define N 10
-//
-val out = stdout_ref
-//
-val () =
-  srand48 ($UN.cast2lint(time_get()))
-//
-val xs1 = $RG.randgen_list<T1> (N)
-val () = fprintln! (out, "input:\t", xs1)
-val xs1 = g0ofg1 (xs1)
-val ys1 = mergesort<T1> (xs1, lam (x, y) => (x <= y))
-val ys1 = g1ofg0 (ys1)
-val () = fprintln! (out, "output:\t", ys1)
-//
-val xs2 = $RG.randgen_list<T2> (N)
-val () = fprintln! (out, "input:\t", xs2)
-val xs2 = g0ofg1 (xs2)
-val ys2 = mergesort<T2> (xs2, lam (x, y) => (x <= y))
-val ys2 = g1ofg0 (ys2)
-val () = fprintln! (out, "output:\t", ys2)
-//
-} // end of [main]
-
 (* ****** ****** *)
 
 (* end of [mergesort.dats] *)
