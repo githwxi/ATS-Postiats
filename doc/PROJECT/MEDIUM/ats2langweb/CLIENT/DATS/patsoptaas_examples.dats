@@ -203,10 +203,13 @@ var
 Patsoptaas_File_examples_factverify =
 "\
 (*\n\
+**\n\
 ** Factorial(verify)\n\
+**\n\
 ** The given implementation is of a particular\n\
 ** programming style in ATS, combining programming with\n\
 ** theorem-proving in a syntactically intertwined manner\n\
+**\n\
 *)\n\
 \n\
 (* ****** ****** *)\n\
@@ -283,6 +286,168 @@ alert(ats2jspre_the_print_store_join());\n\
 //\n\
 \045} // end of [%{$]\n\
 " // end of [Patsoptaas_File_examples_factverify]
+//
+%} // end of [%{^]
+
+(* ****** ****** *)
+
+%{^
+//
+var
+Patsoptaas_File_examples_list_append =
+"\
+//\n\
+(* ****** ****** *)\n\
+\n\
+#include\n\
+\"share/atspre_define.hats\"\n\
+#include\n\
+\"{$LIBATSCC2JS}/staloadall.hats\"\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+staload\n\
+\"{$LIBATSCC2JS}/SATS/print.sats\"\n\
+staload _(*anon*) =\n\
+\"{$LIBATSCC2JS}/DATS/print.dats\"\n\
+//\n\
+(* ****** ****** *)\n\
+\n\
+#define ATS_MAINATSFLAG 1\n\
+#define ATS_DYNLOADNAME \"my_dynload\"\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+extern\n\
+fun\n\
+{a:t@ype}\n\
+list_append{m,n:nat}\n\
+  (xs: list(a, m), ys: list(a, n)): list(a, m+n)\n\
+//\n\
+(* ****** ****** *)\n\
+\n\
+implement\n\
+{a}(*tmp*)\n\
+list_append\n\
+  (xs, ys) =\n\
+(\n\
+  case+ xs of\n\
+  | list_nil() => ys\n\
+  | list_cons(x, xs) => list_cons(x, list_append(xs, ys))\n\
+) (* end of [list_append] *)\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+#define :: list_cons\n\
+//\n\
+(* ****** ****** *)\n\
+//\n\
+val xs =\n\
+(\n\
+  0 :: 1 :: 2 :: 3 :: 4 :: list_nil()\n\
+) : List0(int)\n\
+val ys =\n\
+(\n\
+  5 :: 6 :: 7 :: 8 :: 9 :: list_nil()\n\
+) : List0(int)\n\
+//\n\
+val () = println! (\"xs = \", xs)\n\
+val () = println! (\"ys = \", ys)\n\
+val () = println! (\"append(xs, ys) = \", list_append<int>(xs, ys))\n\
+//\n\
+(* ****** ****** *)\n\
+\n\
+\045{$\n\
+//\n\
+ats2jspre_the_print_store_clear();\n\
+my_dynload();\n\
+alert(ats2jspre_the_print_store_join());\n\
+//\n\
+\045} // end of [%{$]\n\
+" // end of [Patsoptaas_File_examples_list_append]
+//
+%} // end of [%{^]
+
+(* ****** ****** *)
+
+%{^
+//
+var
+Patsoptaas_File_examples_list_reverse =
+"\
+//\n\
+(* ****** ****** *)\n\
+\n\
+#include\n\
+\"share/atspre_define.hats\"\n\
+#include\n\
+\"{$LIBATSCC2JS}/staloadall.hats\"\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+staload\n\
+\"{$LIBATSCC2JS}/SATS/print.sats\"\n\
+staload _(*anon*) =\n\
+\"{$LIBATSCC2JS}/DATS/print.dats\"\n\
+//\n\
+(* ****** ****** *)\n\
+\n\
+#define ATS_MAINATSFLAG 1\n\
+#define ATS_DYNLOADNAME \"my_dynload\"\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+extern\n\
+fun\n\
+{a:t@ype}\n\
+list_reverse{n:nat}(list(a, n)): list(a, n)\n\
+//\n\
+(* ****** ****** *)\n\
+//\n\
+implement\n\
+{a}(*tmp*)\n\
+list_reverse\n\
+  (xs) = let\n\
+//\n\
+fun\n\
+loop{m,n:nat}\n\
+(\n\
+  xs: list(a, m), ys: list(a, n)\n\
+) : list(a, m+n) =\n\
+(\n\
+  case+ xs of\n\
+  | list_nil() => ys\n\
+  | list_cons(x, xs) => loop(xs, list_cons(x, ys))\n\
+) (* end of [list_reverse] *)\n\
+//\n\
+in\n\
+  loop (xs, list_nil)\n\
+end // end of [list_reverse]\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+#define :: list_cons\n\
+//\n\
+(* ****** ****** *)\n\
+//\n\
+val xs =\n\
+(\n\
+  0 :: 1 :: 2 :: 3 :: 4 :: list_nil()\n\
+) : List0(int)\n\
+//\n\
+val () = println! (\"xs = \", xs)\n\
+val () = println! (\"reverse(xs) = \", list_reverse<int>(xs))\n\
+//\n\
+(* ****** ****** *)\n\
+\n\
+\045{$\n\
+//\n\
+ats2jspre_the_print_store_clear();\n\
+my_dynload();\n\
+alert(ats2jspre_the_print_store_join());\n\
+//\n\
+\045} // end of [%{$]\n\
+" // end of [Patsoptaas_File_examples_list_reverse]
 //
 %} // end of [%{^]
 

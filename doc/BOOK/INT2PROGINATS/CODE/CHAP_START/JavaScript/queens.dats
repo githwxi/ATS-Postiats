@@ -4,21 +4,42 @@
 ** a single-file ATS program
 **
 *)
-
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
 //
+(* ****** ****** *)
+
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
+
+(* ****** ****** *)
+
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
+
+(* ****** ****** *)
+
+%{$
+//
+ats2jspre_the_print_store_clear();
+my_dynload();
+alert(ats2jspre_the_print_store_join());
+//
+%} // end of [%{$]
+
 (* ****** ****** *)
 
 #define N 8 // HX: it should not change!
 
 (* ****** ****** *)
 
-typedef int8 =
-(
+typedef int8 = '(
   int, int, int, int, int, int, int, int
-) (* end of [int8] *)
+) // end of [int8]
 
 (* ****** ****** *)
 
@@ -27,7 +48,7 @@ fun print_dots (i: int): void =
 // end of [print_dots]
 
 fun print_row (i: int): void = begin
-  print_dots (i); print "Q "; print_dots (N-i-1); print '\n';
+  print_dots (i); print "Q "; print_dots (N-i-1); print "\n";
 end // end of [print_row]
 
 fun print_board (bd: int8): void = begin
@@ -38,11 +59,8 @@ end // end of [print_board]
 
 (* ****** ****** *)
 
-fun
-board_get
-(
-  bd: int8, i: int
-) : int =
+fun board_get
+  (bd: int8, i: int): int =
   if i = 0 then bd.0
   else if i = 1 then bd.1
   else if i = 2 then bd.2
@@ -54,29 +72,26 @@ board_get
   else 0 // end of [if]
 // end of [board_get]
 
-fun
-board_set
-(
-  bd: int8, i: int, j:int
-) : int8 = let
-  val (x0, x1, x2, x3, x4, x5, x6, x7) = bd
+fun board_set
+  (bd: int8, i: int, j:int): int8 = let
+  val '(x0, x1, x2, x3, x4, x5, x6, x7) = bd
 in
   if i = 0 then let
-    val x0 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
+    val x0 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
   end else if i = 1 then let
-    val x1 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
+    val x1 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
   end else if i = 2 then let
-    val x2 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
+    val x2 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
   end else if i = 3 then let
-    val x3 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
+    val x3 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
   end else if i = 4 then let
-    val x4 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
+    val x4 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
   end else if i = 5 then let
-    val x5 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
+    val x5 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
   end else if i = 6 then let
-    val x6 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
+    val x6 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
   end else if i = 7 then let
-    val x7 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
+    val x7 = j in '(x0, x1, x2, x3, x4, x5, x6, x7)
   end else bd // end of [if]
 end // end of [board_set]
 
@@ -134,12 +149,8 @@ j < N
 
 (* ****** ****** *)
 
-val () = print_board @(0, 1, 2, 3, 4, 5, 6, 7)
-val nsol = search ((0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0)
-
-(* ****** ****** *)
-
-implement main0 () = () // a dummy implementation for [main]
+val () = print_board '(0, 1, 2, 3, 4, 5, 6, 7)
+val nsol = search ( '(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0 )
 
 (* ****** ****** *)
 
