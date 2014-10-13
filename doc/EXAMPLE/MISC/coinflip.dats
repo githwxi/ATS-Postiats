@@ -1,14 +1,17 @@
 //
+// One of the early examples
+// It was first done in ATS/Geizella
 //
-// One of the early examples first done in ATS/Geizella
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Time: circa May 2007
+// Author: Hongwei Xi
+// Authoremail: hwxiATcsDOTbuDOTedu
+// Start Time: circa May, 2007
 //
 (* ****** ****** *)
 //
 // HX:
-// The *awkward* style should be not be changed so as to preserve
-// a bit history about the development of ATS
+// The *awkward* style should be not be changed
+// so as to preserve a bit history about the development
+// of ATS
 //
 (* ****** ****** *)
 //
