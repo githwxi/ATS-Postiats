@@ -60,6 +60,8 @@ staload _(*anon*) = "libats/ML/DATS/list0.dats"
 
 typedef lte (a:t@ype) = (a, a) -> bool
 
+(* ****** ****** *)
+
 fun{
 a:t@ype
 } merge (
@@ -79,6 +81,8 @@ a:t@ype
     ) // end of [cons0]
   | nil0 () => ys
 ) (* end of [merge] *)
+
+(* ****** ****** *)
 
 fun{
 a:t@ype
@@ -172,7 +176,10 @@ main0 () =
 val out = stdout_ref
 //
 val () =
-  srand48 ($UN.cast2lint(time_get()))
+srand48
+(
+  $UN.cast2lint(time_get())
+) (* end of [val] *)
 //
 val xs1 = $RG.randgen_list<T1> (N)
 val () = fprintln! (out, "input:\t", xs1)

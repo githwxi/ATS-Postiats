@@ -14,7 +14,7 @@ listitem_gen($CHAP, $fname)
   global $mydir_url;
   global $Patsoptaas_serve_php;
   echo "\n";
-  echo "<li><a href=\"$Patsoptaas_serve_php?mycode_url=$mydir_url/$CHAP/$fname\">$fname</a></li>";
+  echo "<li><a href=\"$Patsoptaas_serve_php?mycode_url=$mydir_url/$CHAP/$fname\">$fname(c)</a></li>";
   echo "\n";
 }
 function
@@ -75,7 +75,6 @@ listitem_gen2($CHAP, $fname)
 
 <h2>Chapter: Parametric Polymorphism</h2>
 <ul>
-<?php listitem_gen('CHAP_POLYMORPH', 'mergesort.dats'); ?>
 <?php listitem_gen2('CHAP_POLYMORPH', 'mergesort.dats'); ?>
 </ul>
 
