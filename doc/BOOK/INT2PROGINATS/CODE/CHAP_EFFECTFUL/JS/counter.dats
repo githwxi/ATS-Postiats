@@ -5,9 +5,31 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_define.hats"
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
 //
+(* ****** ****** *)
+
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
+
+(* ****** ****** *)
+
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
+
+(* ****** ****** *)
+
+%{$
+//
+ats2jspre_the_print_store_clear();
+my_dynload();
+alert(ats2jspre_the_print_store_join());
+//
+%} // end of [%{$]
+
 (* ****** ****** *)
 
 typedef
@@ -23,11 +45,11 @@ fun newCounter
 (
 // argumentless
 ) : counter = let
-  val count = ref<int> (0)
+  val count = ref{int}(0)
 in '{
-  get= lam () => !count
-, inc= lam () => !count := !count + 1
-, reset= lam () => !count := 0
+  get= lam () => count[]
+, inc= lam () => count[] := count[] + 1
+, reset= lam () => count[] := 0
 } end // end of [newCounter]
 
 (* ****** ****** *)
@@ -36,8 +58,7 @@ symelim .get // HX: avoid potential overloading
 
 (* ****** ****** *)
 
-implement
-main0 () =
+val () =
 {
 //
 val
@@ -53,7 +74,7 @@ val () = mycntr.inc()
 //
 val () = println! ("mycntr.count = ", mycntr.get())
 //
-} (* end of [main0] *)
+} (* end of [val] *)
 
 (* ****** ****** *)
 

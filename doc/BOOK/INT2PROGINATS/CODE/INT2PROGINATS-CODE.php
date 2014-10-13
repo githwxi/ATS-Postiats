@@ -75,10 +75,52 @@ listitem_gen2($CHAP, $fname)
 
 <h2>Chapter: Parametric Polymorphism</h2>
 <ul>
+<?php listitem_gen('CHAP_POLYMORPH', 'listfuns.dats'); ?>
 <?php listitem_gen2('CHAP_POLYMORPH', 'mergesort.dats'); ?>
 </ul>
 
 <hr></hr>
+
+<h2>Chapter: Effectful Programming Features</h2>
+<ul>
+<?php listitem_gen('CHAP_EFFECTFUL', 'counter.dats'); ?>
+<?php listitem_gen2('CHAP_EFFECTFUL', 'counter.dats'); ?>
+<?php listitem_gen('CHAP_EFFECTFUL', 'hello.dats'); ?>
+<?php listitem_gen('CHAP_EFFECTFUL', 'echoline.dats'); ?>
+<!--
+<?php listitem_gen('CHAP_EFFECTFUL', 'insort.dats'); ?>
+-->
+<?php listitem_gen('CHAP_EFFECTFUL', 'permord.dats'); ?>
+<?php listitem_gen('CHAP_EFFECTFUL', 'montecarlo.dats'); ?>
+<!--
+<?php listitem_gen('CHAP_EFFECTFUL', 'brauntest.dats'); ?>
+-->
+</ul>
+
+<hr></hr>
+
+<table>
+<tr>
+<td style="width: 100%;">
+This page is created with
+<a href="http://www.ats-lang.org">ATS</a>
+by
+<a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>
+and also maintained by
+<a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</td>
+<td style="width: 0%;"><!--pushed to the right-->
+<a href="http://sourceforge.net">
+<img
+src="http://sflogo.sourceforge.net/sflogo.php?group_id=205722&amp;type=2"
+width="120"
+height="36"
+alt="SourceForge.net Logo"
+/>
+</a>
+</td>
+</tr>
+</table>
 
 </body>
 </html>
