@@ -244,6 +244,10 @@ File_examples_onchange(x0)
     File_examples_load(Patsoptaas_File_examples_list_append); break;
     case 7:
     File_examples_load(Patsoptaas_File_examples_list_reverse); break;
+    case 8:
+    File_examples_load(Patsoptaas_File_examples_list_sort_insert); break;
+    case 9:
+    File_examples_load(Patsoptaas_File_examples_list_sort_quick); break;
     default: break;
   }
 //
@@ -561,6 +565,8 @@ Code-folding
 <option>Factorial(verify)</option>
 <option>List-append</option>
 <option>List-reverse</option>
+<option>List-sort-insert</option>
+<option>List-sort-quick</option>
 </select> 
 </td>
 </tr>

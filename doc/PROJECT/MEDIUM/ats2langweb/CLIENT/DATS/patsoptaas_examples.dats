@@ -296,7 +296,12 @@ alert(ats2jspre_the_print_store_join());\n\
 var
 Patsoptaas_File_examples_list_append =
 "\
-//\n\
+(* ****** ****** *)\n\
+\n\
+(*\n\
+** Concatenating two lists\n\
+*)\n\
+\n\
 (* ****** ****** *)\n\
 \n\
 #include\n\
@@ -375,7 +380,12 @@ alert(ats2jspre_the_print_store_join());\n\
 var
 Patsoptaas_File_examples_list_reverse =
 "\
-//\n\
+(* ****** ****** *)\n\
+\n\
+(*\n\
+** Reversing a list\n\
+*)\n\
+\n\
 (* ****** ****** *)\n\
 \n\
 #include\n\
@@ -450,6 +460,275 @@ alert(ats2jspre_the_print_store_join());\n\
 " // end of [Patsoptaas_File_examples_list_reverse]
 //
 %} // end of [%{^]
+
+(* ****** ****** *)
+
+%{^
+//
+var
+Patsoptaas_File_examples_list_sort_insert =
+"\
+(* ****** ****** *)\n\
+\n\
+(*\n\
+** Insertion-sort for lists\n\
+*)\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+#include\n\
+\"share/atspre_define.hats\"\n\
+#include\n\
+\"{$LIBATSCC2JS}/staloadall.hats\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+staload\n\
+\"{$LIBATSCC2JS}/SATS/print.sats\"\n\
+staload _(*anon*) =\n\
+\"{$LIBATSCC2JS}/DATS/print.dats\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+#define ATS_MAINATSFLAG 1\n\
+#define ATS_DYNLOADNAME \"my_dynload\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+typedef lte (a:t@ype) = (a, a) -> bool\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+extern\n\
+fun{\n\
+a:t0p\n\
+} sort{n:nat}\n\
+(\n\
+  xs: list(a, n), lte: lte(a)\n\
+) : list(a, n)\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+implement\n\
+{a}(*tmp*)\n\
+sort (xs0, lte) = let\n\
+//\n\
+fun\n\
+insord\n\
+{n:nat}\n\
+(\n\
+  xs: list(a, n), x0: a\n\
+) : list(a, n+1) =\n\
+//\n\
+case+ xs of\n\
+| list_nil () =>\n\
+  list_cons (x0, list_nil)\n\
+| list_cons (x, xs2) =>\n\
+  if lte(x0, x)\n\
+    then list_cons (x0, xs)\n\
+    else list_cons (x, insord(xs2, x0))\n\
+  // end of [if]\n\
+//\n\
+in\n\
+//\n\
+case+ xs0 of\n\
+| list_nil () => list_nil ()\n\
+| list_cons (x0, xs) => insord (sort(xs, lte), x0)\n\
+//\n\
+end // end of [sort]\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+val xs =\n\
+(\n\
+cons (5,\n\
+cons (3,\n\
+cons (4,\n\
+cons (6,\n\
+cons (8,\n\
+cons (0,\n\
+cons (7,\n\
+cons (1,\n\
+cons (9,\n\
+cons (2,\n\
+nil()))))))))))\n\
+) : list (int, 10)\n\
+//\n\
+val () = println! (\"xs = \", xs)\n\
+val () = println! (\"sort(xs) = \", sort<int> (xs, lam (x, y) => x <= y))\n\
+//\n\
+(* ****** ****** *)\n\
+//\n\
+val xs =\n\
+(\n\
+cons (\"5\",\n\
+cons (\"3\",\n\
+cons (\"4\",\n\
+cons (\"6\",\n\
+cons (\"8\",\n\
+cons (\"0\",\n\
+cons (\"7\",\n\
+cons (\"1\",\n\
+cons (\"9\",\n\
+cons (\"2\",\n\
+nil()))))))))))\n\
+) : list (string, 10)\n\
+//\n\
+implement\n\
+print_val<string> (x) = print! (\"\\\"\", x, \"\\\"\")\n\
+//\n\
+val () = println! (\"xs = \", xs)\n\
+val () = println! (\"sort(xs) = \", sort<string> (xs, lam (x, y) => x <= y))\n\
+//\n\
+(* ****** ****** *)\n\
+\n\
+\045{$\n\
+//\n\
+ats2jspre_the_print_store_clear();\n\
+my_dynload();\n\
+alert(ats2jspre_the_print_store_join());\n\
+//\n\
+\045} // end of [%{$]\n\
+" // end of [Patsoptaas_File_examples_list_sort_insert]
+//
+%} // end of [%{^]
+
+(* ****** ****** *)
+
+%{^
+//
+var
+Patsoptaas_File_examples_list_sort_quick =
+"\
+(* ****** ****** *)\n\
+\n\
+(*\n\
+** Quick-sort for lists\n\
+*)\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+#include\n\
+\"share/atspre_define.hats\"\n\
+#include\n\
+\"{$LIBATSCC2JS}/staloadall.hats\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+staload\n\
+\"{$LIBATSCC2JS}/SATS/print.sats\"\n\
+staload _(*anon*) =\n\
+\"{$LIBATSCC2JS}/DATS/print.dats\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+#define ATS_MAINATSFLAG 1\n\
+#define ATS_DYNLOADNAME \"my_dynload\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+typedef lte (a:t@ype) = (a, a) -> bool\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+extern\n\
+fun{\n\
+a:t0p\n\
+} sort{n:nat}\n\
+(\n\
+  xs: list(a, n), lte: lte(a)\n\
+) : list(a, n)\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+implement\n\
+{a}(*tmp*)\n\
+sort (xs0, lte) = let\n\
+//\n\
+fun\n\
+part\n\
+{n:nat}{p,q:nat}\n\
+(\n\
+  xs: list(a, n), x0: a\n\
+, ys: list(a, p), zs: list(a, q)\n\
+) : list(a, n+1+p+q) =\n\
+//\n\
+case+ xs of\n\
+| list_nil () =>\n\
+  list_append\n\
+  (\n\
+    sort(ys, lte)\n\
+  , list_cons (x0, sort(zs, lte))\n\
+  )\n\
+| list_cons (x, xs) =>\n\
+  if lte(x, x0)\n\
+    then part (xs, x0, list_cons(x, ys), zs)\n\
+    else part (xs, x0, ys, list_cons(x, zs))\n\
+  // end of [if]\n\
+//\n\
+in\n\
+//\n\
+case+ xs0 of\n\
+| list_nil () => list_nil ()\n\
+| list_cons (x0, xs) => part (xs, x0, list_nil, list_nil)\n\
+//\n\
+end // end of [sort]\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+val xs =\n\
+(\n\
+cons (5,\n\
+cons (3,\n\
+cons (4,\n\
+cons (6,\n\
+cons (8,\n\
+cons (0,\n\
+cons (7,\n\
+cons (1,\n\
+cons (9,\n\
+cons (2,\n\
+nil()))))))))))\n\
+) : list (int, 10)\n\
+//\n\
+val () = println! (\"xs = \", xs)\n\
+val () = println! (\"sort(xs) = \", sort<int> (xs, lam (x, y) => x <= y))\n\
+//\n\
+(* ****** ****** *)\n\
+//\n\
+val xs =\n\
+(\n\
+cons (\"5\",\n\
+cons (\"3\",\n\
+cons (\"4\",\n\
+cons (\"6\",\n\
+cons (\"8\",\n\
+cons (\"0\",\n\
+cons (\"7\",\n\
+cons (\"1\",\n\
+cons (\"9\",\n\
+cons (\"2\",\n\
+nil()))))))))))\n\
+) : list (string, 10)\n\
+//\n\
+implement\n\
+print_val<string> (x) = print! (\"\\\"\", x, \"\\\"\")\n\
+//\n\
+val () = println! (\"xs = \", xs)\n\
+val () = println! (\"sort(xs) = \", sort<string> (xs, lam (x, y) => x <= y))\n\
+//\n\
+(* ****** ****** *)\n\
+\n\
+\045{$\n\
+//\n\
+ats2jspre_the_print_store_clear();\n\
+my_dynload();\n\
+alert(ats2jspre_the_print_store_join());\n\
+//\n\
+\045} // end of [%{$]\n\
+" // end of [Patsoptaas_File_examples_list_sort_quick]\n\
+//\n\
+%} // end of [%{^]\n\
 
 (* ****** ****** *)
 
