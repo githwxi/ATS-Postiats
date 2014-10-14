@@ -64,14 +64,16 @@ File_examples_onchange(x0)
     case 4:
     File_examples_load(Patsoptaas_File_examples_factiter); break;
     case 5:
-    File_examples_load(Patsoptaas_File_examples_factverify); break;
+    File_examples_load(Patsoptaas_File_examples_fact_verify); break;
     case 6:
-    File_examples_load(Patsoptaas_File_examples_list_append); break;
+    File_examples_load(Patsoptaas_File_examples_fibats_verify); break;
     case 7:
-    File_examples_load(Patsoptaas_File_examples_list_reverse); break;
+    File_examples_load(Patsoptaas_File_examples_list_append); break;
     case 8:
-    File_examples_load(Patsoptaas_File_examples_list_sort_insert); break;
+    File_examples_load(Patsoptaas_File_examples_list_reverse); break;
     case 9:
+    File_examples_load(Patsoptaas_File_examples_list_sort_insert); break;
+    case 10:
     File_examples_load(Patsoptaas_File_examples_list_sort_quick); break;
     default: break;
   }
@@ -388,6 +390,7 @@ Code-folding
 <option>Factorial(rec)</option>
 <option>Factorial(iter)</option>
 <option>Factorial(verify)</option>
+<option>Fibonacci(verify)</option>
 <option>List-append</option>
 <option>List-reverse</option>
 <option>List-sort-insert</option>

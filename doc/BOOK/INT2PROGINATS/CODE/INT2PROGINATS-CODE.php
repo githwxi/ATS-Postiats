@@ -75,7 +75,7 @@ listitem_gen2($CHAP, $fname)
 
 <h2>Chapter: Parametric Polymorphism</h2>
 <ul>
-<?php listitem_gen('CHAP_POLYMORPH', 'listfuns.dats'); ?>
+<?php listitem_gen2('CHAP_POLYMORPH', 'listfuns.dats'); ?>
 <?php listitem_gen2('CHAP_POLYMORPH', 'mergesort.dats'); ?>
 </ul>
 
@@ -95,6 +95,33 @@ listitem_gen2($CHAP, $fname)
 <!--
 <?php listitem_gen('CHAP_EFFECTFUL', 'brauntest.dats'); ?>
 -->
+</ul>
+
+<hr></hr>
+
+<h2>Chapter: Datatype Refinement</h2>
+<ul>
+<?php listitem_gen('CHAP_DEPDTREF', 'listfuns.dats'); ?>
+<?php listitem_gen('CHAP_DEPDTREF', 'mergesort.dats'); ?>
+<?php listitem_gen('CHAP_DEPDTREF', 'rbtree.dats'); ?>
+</ul>
+
+<hr></hr>
+
+<h2>Chapter: Theorem-Proving in ATS/LF</h2>
+<ul>
+<?php listitem_gen('CHAP_THMPRVING', 'tree.dats'); ?>
+<?php listitem_gen('CHAP_THMPRVING', 'brauntree.dats'); ?>
+</ul>
+
+<hr></hr>
+
+<h2>Chapter: Programming with Theorem-Proving</h2>
+<ul>
+<?php listitem_gen('CHAP_PRGTHMPRV', 'ifact.dats'); ?>
+<?php listitem_gen2('CHAP_PRGTHMPRV', 'ifact.dats'); ?>
+<?php listitem_gen('CHAP_PRGTHMPRV', 'ifact23.dats'); ?>
+<?php listitem_gen2('CHAP_PRGTHMPRV', 'ifact23.dats'); ?>
 </ul>
 
 <hr></hr>

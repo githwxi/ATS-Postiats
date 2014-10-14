@@ -117,7 +117,14 @@ fprint (out,
 val () =
 fprint (out, "\
 <script\n\
- src=\"//cdn.jsdelivr.net/ace/1.1.6/min/ace.js\">\n\
+ src=\"//cdn.jsdelivr.net/ace/1.1.7/min/ace.js\">\n\
+</script>\n\
+") (* end of [val] *)
+//
+val () =
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/MYCODE/ace-mode-ats2-by-hwwu.js\">\n\
 </script>\n\
 ") (* end of [val] *)
 //

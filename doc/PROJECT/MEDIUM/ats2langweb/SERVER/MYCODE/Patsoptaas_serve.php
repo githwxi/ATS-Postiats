@@ -79,7 +79,10 @@ body {
  src="./SCRIPT/jquery-2.1.1.min.js">
 </script>
 <script
- src="//cdn.jsdelivr.net/ace/1.1.6/min/ace.js">
+ src="//cdn.jsdelivr.net/ace/1.1.7/min/ace.js">
+</script>
+<script
+ src="./CLIENT/MYCODE/ace-mode-ats2-by-hwwu.js">
 </script>
 <script
   src="//cdn.jsdelivr.net/filesaver.js/0.2/FileSaver.min.js">
@@ -125,6 +128,7 @@ ace.edit('thePage2RBody1_prop');
 //
 editor.setFontSize('16px');
 editor.setTheme('ace/theme/monokai');
+editor.getSession().setMode('ace/mode/ats2');
 editor.getSession().setValue(Patsoptaas_getWelcomeMessage());
 //
 Patsoptaas_thePatsopt_stderr_set("");
@@ -158,6 +162,15 @@ if(fname==='hello')
 //
 File_examples_load
   (Patsoptaas_File_examples_hello);
+//
+return;
+}
+//
+if(fname==='fibats')
+{
+//
+File_examples_load
+  (Patsoptaas_File_examples_fibats_verify);
 //
 return;
 }
@@ -239,14 +252,16 @@ File_examples_onchange(x0)
     case 4:
     File_examples_load(Patsoptaas_File_examples_factiter); break;
     case 5:
-    File_examples_load(Patsoptaas_File_examples_factverify); break;
+    File_examples_load(Patsoptaas_File_examples_fact_verify); break;
     case 6:
-    File_examples_load(Patsoptaas_File_examples_list_append); break;
+    File_examples_load(Patsoptaas_File_examples_fibats_verify); break;
     case 7:
-    File_examples_load(Patsoptaas_File_examples_list_reverse); break;
+    File_examples_load(Patsoptaas_File_examples_list_append); break;
     case 8:
-    File_examples_load(Patsoptaas_File_examples_list_sort_insert); break;
+    File_examples_load(Patsoptaas_File_examples_list_reverse); break;
     case 9:
+    File_examples_load(Patsoptaas_File_examples_list_sort_insert); break;
+    case 10:
     File_examples_load(Patsoptaas_File_examples_list_sort_quick); break;
     default: break;
   }
@@ -563,6 +578,7 @@ Code-folding
 <option>Factorial(rec)</option>
 <option>Factorial(iter)</option>
 <option>Factorial(verify)</option>
+<option>Fibonacci(verify)</option>
 <option>List-append</option>
 <option>List-reverse</option>
 <option>List-sort-insert</option>

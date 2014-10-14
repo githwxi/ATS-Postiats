@@ -200,7 +200,7 @@ alert(ats2jspre_the_print_store_join());\n\
 %{^
 //
 var
-Patsoptaas_File_examples_factverify =
+Patsoptaas_File_examples_fact_verify =
 "\
 (*\n\
 **\n\
@@ -285,7 +285,92 @@ my_dynload();\n\
 alert(ats2jspre_the_print_store_join());\n\
 //\n\
 \045} // end of [%{$]\n\
-" // end of [Patsoptaas_File_examples_factverify]
+" // end of [Patsoptaas_File_examples_fact_verify]
+//
+%} // end of [%{^]
+
+(* ****** ****** *)
+
+%{^
+//
+var
+Patsoptaas_File_examples_fibats_verify =
+"\
+(*\n\
+**\n\
+** Fibonacci(verify)\n\
+**\n\
+** The given implementation is of a particular\n\
+** programming style in ATS, combining programming with\n\
+** theorem-proving in a syntactically intertwined manner\n\
+**\n\
+*)\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+#include\n\
+\"share/atspre_define.hats\"\n\
+#include\n\
+\"{$LIBATSCC2JS}/staloadall.hats\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+staload\n\
+\"{$LIBATSCC2JS}/SATS/print.sats\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+#define ATS_MAINATSFLAG 1\n\
+#define ATS_DYNLOADNAME \"my_dynload\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+dataprop\n\
+FIB (int, int) =\n\
+  | FIB0 (0, 0)\n\
+  | FIB1 (1, 1)\n\
+  | {n:nat}\n\
+    {r0,r1:int}\n\
+    FIB2 (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))\n\
+// end of [FIB] // end of [dataprop]\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+fun\n\
+fibats{n:nat}\n\
+  (n: int (n))\n\
+: [r:int] (FIB (n, r) | int r) = let\n\
+  fun loop\n\
+    {i:nat | i <= n}{r0,r1:int}\n\
+  (\n\
+    pf0: FIB (i, r0), pf1: FIB (i+1, r1)\n\
+  | ni: int (n-i), r0: int r0, r1: int r1\n\
+  ) : [r:int] (FIB (n, r) | int r) =\n\
+    if (ni > 0)\n\
+      then loop{i+1}(pf1, FIB2 (pf0, pf1) | ni - 1, r1, r0 + r1)\n\
+      else (pf0 | r0)\n\
+    // end of [if]\n\
+  // end of [loop]\n\
+in\n\
+  loop {0} (FIB0 (), FIB1 () | n, 0, 1)\n\
+end // end of [fibats]\n\
+//\n\
+(* ****** ****** *)\n\
+//\n\
+val N = 10\n\
+val (pf | res) = fibats(N)\n\
+val () = println! (\"fibats(\", N, \") = \", res)\n\
+//\n\
+(* ****** ****** *)\n\
+\n\
+\045{$\n\
+//\n\
+ats2jspre_the_print_store_clear();\n\
+my_dynload();\n\
+alert(ats2jspre_the_print_store_join());\n\
+//\n\
+\045} // end of [%{$]\n\
+" // end of [Patsoptaas_File_examples_fibats_verify]
 //
 %} // end of [%{^]
 
