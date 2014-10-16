@@ -171,47 +171,91 @@ safety_test2
 
 (* ****** ****** *)
 
+local
+
+val theSolutions = ref{List0(int8)}(list_nil)
+
+in (* in-of-local *)
+//
+fun
+solution_save (x: int8): void =
+  theSolutions[] := list_cons (x, theSolutions[])
+//
+fun
+solution_getall (): List0(int8) = list_reverse (theSolutions[])
+//
+end // end of [local]
+
+(* ****** ****** *)
+
 fun search
 (
   bd: int8, i: int, j: int, nsol: int
 ) : int =
-  if j < N then let
-    val test = safety_test2 (i, j, bd, i-1)
-  in
-    if test then let
+//
+if (
+j < N
+) then (
+  if safety_test2 (i, j, bd, i-1)
+    then let
       val bd1 = board_set (bd, i, j)
     in
-      if i+1 = N then let
-        val () = print! ("Solution #", nsol+1, ":\n")
-        val () = print_board (bd1)
-      in
-        search (bd, i, j+1, nsol+1)
-      end else
-        search (bd1, i+1, 0(*j*), nsol) // positioning next piece
-      // end of [if]
-    end else
-      search (bd, i, j+1, nsol)
-  end else
-  (
-    if i > 0 then
-      search (bd, i-1, board_get (bd, i-1) + 1, nsol)
-    else nsol // end of [if]
-  )
+      if i+1 = N
+        then let
+          val () =
+            solution_save (bd1)
+          // end of [val]
+        in
+          search (bd, i, j+1, nsol+1)
+        end // end of [then]
+        else search (bd1, i+1, 0, nsol)
+    end // end of [then]
+    else search (bd, i, j+1, nsol)
+) else (
+  if i > 0
+    then search (bd, i-1, board_get (bd, i-1) + 1, nsol) else nsol
+  // end of [if]
+) (* end of [if] *)
+//
 // end of [search]
 
 (* ****** ****** *)
 
-val () =
-{
-val () =
-print_board '(0, 1, 2, 3, 4, 5, 6, 7)
+fun
+print_solutions
+  (n: int): void = let
 //
-val nsol = search ( '(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0 )
+fun
+loop
+(
+  xs: List0(int8), i: int
+) : void =
+(
+if i < n then let
+  val-list_cons(x, xs) = xs
+  val () = print! ("Solution#", i+1, ":\n\n")
+  val () = print_board (x)
+in
+  loop (xs, i+1)
+end else () // end of [if]
+)
 //
-  val ((*void*)) = assertloc (nsol = 92)
-//
-} (* end of [val] *)
+in
+  loop (solution_getall(), 0)
+end // end of [print_solutions]
 
+(* ****** ****** *)
+//
+val nsol =
+  search ( '(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0 )
+//
+val ((*void*)) =
+  print! (nsol, " solutions are found.\n")
+val ((*void*)) =
+  print! ("Here are the first 12 ones:\n\n")
+//
+val ((*void*)) = print_solutions (12)
+//
 (* ****** ****** *)
 
 (* end of [queens.dats] *)
