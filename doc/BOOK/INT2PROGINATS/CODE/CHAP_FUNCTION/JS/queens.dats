@@ -54,10 +54,10 @@
 "{$LIBATSCC2JS}/staloadall.hats"
 //
 (* ****** ****** *)
-
+//
 staload
 "{$LIBATSCC2JS}/SATS/print.sats"
-
+//
 (* ****** ****** *)
 
 #define ATS_MAINATSFLAG 1
@@ -150,24 +150,49 @@ fun
 safety_test1
 (
   i0: int, j0: int, i1: int, j1: int
-) : bool =
-(*
-** [abs]: the absolute value function
-*)
-  j0 <> j1 andalso abs (i0 - i1) <> abs (j0 - j1)
-// end of [safety_test1]
+) : bool = (
+//
+// [abs]: the absolute value function
+//
+if j0 != j1
+  then abs(i0 - i1) != abs(j0 - j1) else false
+// end of [if]
+) (* end of [safety_test1] *)
+
+(* ****** ****** *)
 
 fun
 safety_test2
 (
   i0: int, j0: int, bd: int8, i: int
-) : bool =
-  if i >= 0 then
-    if safety_test1 (i0, j0, i, board_get (bd, i))
-      then safety_test2 (i0, j0, bd, i-1) else false
-    // end of [if]
-  else true // end of [if]
-// end of [safety_test2]
+) : bool = (
+//
+if
+i >= 0
+then (
+  if safety_test1(i0, j0, i, board_get(bd, i))
+    then safety_test2(i0, j0, bd, i-1) else false
+  // end of [if]
+) else true // end of [if]
+//
+) (* end of [safety_test2] *)
+
+(* ****** ****** *)
+
+local
+
+val theSolutions = ref{List0(int8)}(list_nil)
+
+in (* in-of-local *)
+//
+fun
+solution_save (x: int8): void =
+  theSolutions[] := list_cons (x, theSolutions[])
+//
+fun
+solution_getall (): List0(int8) = list_reverse (theSolutions[])
+//
+end // end of [local]
 
 (* ****** ****** *)
 

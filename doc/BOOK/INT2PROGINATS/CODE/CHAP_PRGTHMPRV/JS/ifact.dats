@@ -1,13 +1,35 @@
 (*
 ** Some code used
-** in the book INTPROGINATS
+** in the book INT2PROGINATS
 *)
 
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload.hats"
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
 //
+(* ****** ****** *)
+
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
+
+(* ****** ****** *)
+
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
+
+(* ****** ****** *)
+
+%{$
+//
+ats2jspre_the_print_store_clear();
+my_dynload();
+alert(ats2jspre_the_print_store_join());
+//
+%} // end of [%{$]
+
 (* ****** ****** *)
 
 dataprop
@@ -20,7 +42,7 @@ FACT (int, int) =
 (* ****** ****** *)
 
 %{^
-#define imul2(x, y) ((x)*(y))
+function imul2(x, y) { return (x*y) ; }
 %}
 extern
 fun
@@ -33,7 +55,7 @@ imul2{i,j:int}
 
 fun ifact
   {n:nat} .<n>.
-  (n: int (n)):<> [r:int] (FACT (n, r) | int r) =
+  (n: int (n)): [r:int] (FACT (n, r) | int r) =
 (
   if n > 0 then let
     val (pf1 | r1) = ifact (n-1) // pf1: FACT (n-1, r1)
@@ -47,11 +69,10 @@ fun ifact
 
 (* ****** ****** *)
 
-implement
-main0 () = {
+val () = {
   val (pf | res) = ifact (10)
-  val () = assertloc (res = 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1 * 1)
-} // end of [main0]
+  val () = println! ("ifact(10) = ", res)
+} (* end of [val] *)
 
 (* ****** ****** *)
 

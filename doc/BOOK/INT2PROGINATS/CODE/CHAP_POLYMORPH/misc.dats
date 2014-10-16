@@ -5,22 +5,37 @@
 
 (* ****** ****** *)
 
-#include "share/atspre_define.hats"
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_define.hats"
+#include
+"share/atspre_staload.hats"
 
 (* ****** ****** *)
 
-typedef charint = (char, int)
-typedef intchar = (int, char)
+typedef
+charint = (char, int)
+typedef
+intchar = (int, char)
+
+(* ****** ****** *)
+
 fun swap_char_int (xy: charint): intchar = (xy.1, xy.0)
 fun swap_int_char (xy: intchar): charint = (xy.1, xy.0)
 
-fun{a,b:t@ype}
-swap (xy: (a, b)): (b, a) = (xy.1, xy.0)
+(* ****** ****** *)
+//
+fun{
+a,b:t@ype
+} swap (xy: (a, b)): (b, a) = (xy.1, xy.0)
+//
 fun swap_char_int (xy: charint): intchar = swap<char,int> (xy)
 fun swap_int_char (xy: intchar): charint = swap<int,char> (xy)
+//
+(* ****** ****** *)
 
-fun{a:t@ype}{b:t@ype}
+fun
+{a:t@ype}
+{b:t@ype}
 swap2 (xy: (a, b)): (b, a) = (xy.1, xy.0)
 fun swap_char_int (xy: charint): intchar = swap2<char><int> (xy)
 fun swap_int_char (xy: intchar): charint = swap2<int><char> (xy)
@@ -29,6 +44,8 @@ fun swap_int_char (xy: intchar): charint = swap2<int><char> (xy)
 
 typedef
 cfun (t1:t@ype, t2:t@ype) = t1 -<cloref1> t2
+
+(* ****** ****** *)
 
 fun{
 a,b,c:t@ype

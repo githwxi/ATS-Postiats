@@ -25,11 +25,14 @@
 
 (* ****** ******)
 //
-// Author: Hongwei Xi (2013-11)
+// Author: Hongwei Xi
+// Authoremail:
+// gmhwxiATgmailDOTcom
+// Start time: 2013-11
 //
 (* ****** ****** *)
 
-staload "./basics.sats"
+absprop GCD (int, int, int)
 
 (* ****** ****** *)
 //
@@ -44,19 +47,19 @@ EGCD (int(*m*), int(*n*), int(*g*)) =
 // end of [EGCD]
 
 (* ****** ****** *)
-
+//
 extern
 praxi
 GCD2EGCD
   {m,n:nat}{g:int} (pf: GCD (m, n, g)): EGCD (m, n, g)
 // end of [GCD2EGCD]
-  
+//
 extern
 praxi
 EGCD2GCD
   {m,n:nat}{g:int} (pf: EGCD (m, n, g)): GCD (m, n, g)
-// end of [GCD2EGCD]
-  
+// end of [EGCD2GCD]
+//
 (* ****** ****** *)
 //
 // HX-2013-11-20:
@@ -65,6 +68,7 @@ EGCD2GCD
 //
 //
 (* ****** ****** *)
+//
 extern
 prfun
 lemma_bezout
@@ -104,4 +108,4 @@ end // end of [lemma_bezout]
 
 (* ****** ****** *)
 
-(* end of [gcd.dats] *)
+(* end of [Bezout_identity.dats] *)

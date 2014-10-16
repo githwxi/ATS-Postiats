@@ -45,6 +45,41 @@ Links:
 <table>
 <tr>
 <td>
+<h2>
+<a id="Xanadu-lics2000">Imperative Programming with Dependent Types</a>
+</h2>
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td>
+<em>Abstract</em>:
+This paper enriches imperative programming with a form of dependent
+types. It starts with some motivations for the enrichment as well as some
+major obstacles that need to be overcome. The design of a source-level
+dependently typed imperative programming language of the name
+<em>Xanadu</em> is presented, together with a formalization of both static and
+dynamic semantics for Xanadu.  In addition, the type soundness for Xanadu is
+established and various realistic programming examples in support of the
+practicality of Xanadu are given. It is claimed that the language design of
+Xanadu is novel and it can serve as an informative example to demonstrate a
+means for combining imperative programming with dependent types.
+</td>
+</tr>
+<tr><td>
+Links:
+<a href="MYDATA/Xanadu-lics00.pdf">pdf</a>
+</td></tr>
+<tr height="8px"><td></td></tr>
+</table>
+
+<hr></hr>
+
+<table>
+<tr>
+<td>
 <h2><a id="GRDT-popl2003">Guarded Recursive Datatype Constructors</a></h2>
 </td>
 </tr>

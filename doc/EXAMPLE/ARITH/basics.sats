@@ -39,8 +39,4 @@ SGN (int, int) =
 
 (* ****** ****** *)
 
-absprop GCD (int, int, int)
-
-(* ****** ****** *)
-
 (* end of [basics.sats] *)

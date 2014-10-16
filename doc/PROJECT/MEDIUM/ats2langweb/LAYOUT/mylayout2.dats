@@ -95,6 +95,23 @@ val () = theBodyProp.children(thePage2)
 (* ****** ****** *)
 
 implement
+fprint_webox_head_beg<>
+  (out) = let
+//
+val () =
+fprint (out, "\
+<base\n\
+ href=\"http://atslangweb-postiats.rhcloud.com\">\n\
+</base>\n\
+") (* end of [val] *)
+//
+in
+  // nothing
+end // end of [fprint_webox_head_beg]
+
+(* ****** ****** *)
+
+implement
 fprint_webox_head_end<>
   (out) = let
 //
@@ -117,7 +134,14 @@ fprint (out,
 val () =
 fprint (out, "\
 <script\n\
- src=\"//cdn.jsdelivr.net/ace/1.1.6/min/ace.js\">\n\
+ src=\"//cdn.jsdelivr.net/ace/1.1.7/min/ace.js\">\n\
+</script>\n\
+") (* end of [val] *)
+//
+val () =
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/MYCODE/ace-mode-ats2-by-hwwu.js\">\n\
 </script>\n\
 ") (* end of [val] *)
 //
@@ -132,6 +156,12 @@ val () =
 fprint (out, "\
 <script\n\
  src=\"./CLIENT/MYCODE/libatscc2js_all.js\">\n\
+</script>\n"
+) (* end of [val] *)
+val () =
+fprint (out, "\
+<script\n\
+ src=\"./CLIENT/MYCODE/libatscc2js_canvas2d_all.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =

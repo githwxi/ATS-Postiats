@@ -25,6 +25,7 @@ ace.edit('thePage2RBody1_prop');
 //
 editor.setFontSize('16px');
 editor.setTheme('ace/theme/monokai');
+editor.getSession().setMode('ace/mode/ats2');
 editor.getSession().setValue(Patsoptaas_getWelcomeMessage());
 //
 Patsoptaas_thePatsopt_stderr_set("");
@@ -37,6 +38,7 @@ document.getElementById('Editor-show-gutter').checked = true;
 document.getElementById('Patsopt-tcats-flag').checked = true;
 document.getElementById('Patsopt2js-eval-flag').checked = true;
 document.getElementById('Compile-stderr-flag').checked = true;
+document.getElementById('Evaluate-canvas-flag').checked = false;
 //
 document.getElementById('File_special_select').selectedIndex = 0;
 //
@@ -58,6 +60,15 @@ if(fname==='hello')
 //
 File_examples_load
   (Patsoptaas_File_examples_hello);
+//
+return;
+}
+//
+if(fname==='fibats')
+{
+//
+File_examples_load
+  (Patsoptaas_File_examples_fibats_verify);
 //
 return;
 }

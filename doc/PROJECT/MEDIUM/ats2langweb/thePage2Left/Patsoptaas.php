@@ -9,6 +9,8 @@
 }
 </style>
 
+<!-- ****** ****** -->
+
 <script>
 //
 function
@@ -27,6 +29,42 @@ if(Patsoptaas_Compile_stderr_flag())
 } // end of [if]
 //
 } // end of [Compile_stderr_flag_onclick()]
+//
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
+function
+Evaluate_canvas_flag_onclick()
+{
+//
+var
+w, h, div, table, canvas;
+//
+div = $('#thePage2RBody3_canvas');
+//
+if(Patsoptaas_Evaluate_canvas_flag())
+{
+//
+  table =
+  $('#thePage2RBody_table')
+  w = table.outerWidth(true);
+  h = table.outerHeight(true);
+//
+  div.css({display:'block'});
+//
+  canvas =
+  document.getElementById('Patsoptaas-Evaluate-canvas');
+  if (canvas.width != w) canvas.width = w;
+  if (canvas.height != h) canvas.height = h;
+//
+} else {
+  div.css({display: 'none' });
+} // end of [if]
+//
+} // end of [Evaluate_canvas_flag_onclick()]
 //
 </script>
 
@@ -64,14 +102,16 @@ File_examples_onchange(x0)
     case 4:
     File_examples_load(Patsoptaas_File_examples_factiter); break;
     case 5:
-    File_examples_load(Patsoptaas_File_examples_factverify); break;
+    File_examples_load(Patsoptaas_File_examples_fact_verify); break;
     case 6:
-    File_examples_load(Patsoptaas_File_examples_list_append); break;
+    File_examples_load(Patsoptaas_File_examples_fibats_verify); break;
     case 7:
-    File_examples_load(Patsoptaas_File_examples_list_reverse); break;
+    File_examples_load(Patsoptaas_File_examples_list_append); break;
     case 8:
-    File_examples_load(Patsoptaas_File_examples_list_sort_insert); break;
+    File_examples_load(Patsoptaas_File_examples_list_reverse); break;
     case 9:
+    File_examples_load(Patsoptaas_File_examples_list_sort_insert); break;
+    case 10:
     File_examples_load(Patsoptaas_File_examples_list_sort_quick); break;
     default: break;
   }
@@ -274,7 +314,7 @@ Editor_show_gutter_onclick
  align="center"
 ><!--td-->
 <a
- href="Home.html">
+ href="./Home.html">
 <img src="./MYDATA/theLogo.png" alt="ATSlogo" style="height:72%"></img>
 </a>
 </td>
@@ -388,6 +428,7 @@ Code-folding
 <option>Factorial(rec)</option>
 <option>Factorial(iter)</option>
 <option>Factorial(verify)</option>
+<option>Fibonacci(verify)</option>
 <option>List-append</option>
 <option>List-reverse</option>
 <option>List-sort-insert</option>
@@ -432,6 +473,19 @@ Code-folding
  id="Compile-stderr-flag"
  onclick="Compile_stderr_flag_onclick()"
  checked
+></input>
+</td>
+</tr>
+
+<tr>
+<td>
+<label style="padding-left:2px">Evaluate-canvas</label>
+</td>
+<td>
+<input
+ type="checkbox"
+ id="Evaluate-canvas-flag"
+ onclick="Evaluate_canvas_flag_onclick()"
 ></input>
 </td>
 </tr>
