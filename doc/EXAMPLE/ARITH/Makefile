@@ -23,8 +23,8 @@ fibonacci:: ; $(PATSCC) -tcats fibonacci.dats
 
 ######
 
-all:: BezoutLemma
-BezoutLemma:: ; $(PATSCC) -tcats BezoutLemma.dats
+all:: Bezout_identity
+Bezout_identity:: ; $(PATSCC) -tcats Bezout_identity.dats
 
 ######
 

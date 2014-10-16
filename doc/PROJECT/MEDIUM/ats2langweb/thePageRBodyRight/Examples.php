@@ -21,13 +21,8 @@ href="http://atslangweb-postiats.rhcloud.com/SERVER/MYCODE/Patsoptaas_serve.php?
 </li>
 
 <li>
-A
 <a
-href="http://atslangweb-postiats.rhcloud.com/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ARITH/gcd.dats">proof</a>
-of
-<a
-href="http://en.wikipedia.org/wiki/B%C3%A9zout%27s_identity">Bézout's identity</a>
-in ATS
+href="http://atslangweb-postiats.rhcloud.com/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ARITH/BezoutIdentity.dats">A proof of Bézout's identity in ATS</a>
 </li>
 
 </ul>
