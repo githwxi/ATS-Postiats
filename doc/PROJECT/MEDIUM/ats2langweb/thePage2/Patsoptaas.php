@@ -38,6 +38,7 @@ document.getElementById('Editor-show-gutter').checked = true;
 document.getElementById('Patsopt-tcats-flag').checked = true;
 document.getElementById('Patsopt2js-eval-flag').checked = true;
 document.getElementById('Compile-stderr-flag').checked = true;
+document.getElementById('Evaluate-canvas-flag').checked = false;
 //
 document.getElementById('File_special_select').selectedIndex = 0;
 //

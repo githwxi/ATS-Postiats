@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 
+<base
+ href="http://atslangweb-postiats.rhcloud.com">
+</base>
 <style>
 html {
   height: 100%;
@@ -91,6 +94,9 @@ body {
  src="./CLIENT/MYCODE/libatscc2js_all.js">
 </script>
 <script
+ src="./CLIENT/MYCODE/libatscc2js_canvas2d_all.js">
+</script>
+<script
  src="./CLIENT/MYCODE/libatscc2js_print_store.js">
 </script>
 <script
@@ -141,6 +147,7 @@ document.getElementById('Editor-show-gutter').checked = true;
 document.getElementById('Patsopt-tcats-flag').checked = true;
 document.getElementById('Patsopt2js-eval-flag').checked = true;
 document.getElementById('Compile-stderr-flag').checked = true;
+document.getElementById('Evaluate-canvas-flag').checked = false;
 //
 document.getElementById('File_special_select').selectedIndex = 0;
 //
@@ -197,6 +204,8 @@ File_loadurl_input_doWork(fname_url);
 }
 </style>
 
+<!-- ****** ****** -->
+
 <script>
 //
 function
@@ -215,6 +224,42 @@ if(Patsoptaas_Compile_stderr_flag())
 } // end of [if]
 //
 } // end of [Compile_stderr_flag_onclick()]
+//
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
+function
+Evaluate_canvas_flag_onclick()
+{
+//
+var
+w, h, div, table, canvas;
+//
+div = $('#thePage2RBody3_canvas');
+//
+if(Patsoptaas_Evaluate_canvas_flag())
+{
+//
+  table =
+  $('#thePage2RBody_table')
+  w = table.outerWidth(true);
+  h = table.outerHeight(true);
+//
+  div.css({display:'block'});
+//
+  canvas =
+  document.getElementById('Patsoptaas-Evaluate-canvas');
+  if (canvas.width != w) canvas.width = w;
+  if (canvas.height != h) canvas.height = h;
+//
+} else {
+  div.css({display: 'none' });
+} // end of [if]
+//
+} // end of [Evaluate_canvas_flag_onclick()]
 //
 </script>
 
@@ -464,7 +509,7 @@ Editor_show_gutter_onclick
  align="center"
 ><!--td-->
 <a
- href="Home.html">
+ href="./Home.html">
 <img src="./MYDATA/theLogo.png" alt="ATSlogo" style="height:72%"></img>
 </a>
 </td>
@@ -628,6 +673,19 @@ Code-folding
 </tr>
 
 <tr>
+<td>
+<label style="padding-left:2px">Evaluate-canvas</label>
+</td>
+<td>
+<input
+ type="checkbox"
+ id="Evaluate-canvas-flag"
+ onclick="Evaluate_canvas_flag_onclick()"
+></input>
+</td>
+</tr>
+
+<tr>
 <td
  colspan="2">
 <select
@@ -700,7 +758,7 @@ Code-folding
 
 .thePage2RTopL_submenu
 {
-  z-index: 8;
+  z-index: 9;
   display: none;
   position: absolute;
   border-radius: 6px;
@@ -1062,8 +1120,7 @@ Evaluate_JS_onclick()
 <tr>
 <td width="75%">
 <div
- id="thePage2RTopL"
->
+ id="thePage2RTopL">
 <ul>
 <li
  name="File"
@@ -1244,9 +1301,17 @@ Evaluate_JS_onclick()
   font-size: 12px;
   background: #FFFFF0;
 }
+#thePage2RBody3_canvas
+{
+  z-index: 8;
+  position: absolute;
+  font-size: 12px;
+  background: #FFFFF0;
+}
 </style>
 
 <table
+ id="thePage2RBody_table"
  width="100%" height="100%">
 
 <tr
@@ -1266,6 +1331,17 @@ Evaluate_JS_onclick()
  id="thePage2RBody2_prop"></textarea>
 </td>
 </tr>
+
+<div
+ id="thePage2RBody3_canvas"
+ style="display:none">
+<canvas
+ id="Patsoptaas-Evaluate-canvas"
+ oncontextmenu="event.preventDefault()">
+It seems that &lt;canvas&gt; is not supported by the browser!
+</canvas>
+
+</div>
 
 </table>
 

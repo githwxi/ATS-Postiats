@@ -9,6 +9,8 @@
 }
 </style>
 
+<!-- ****** ****** -->
+
 <script>
 //
 function
@@ -27,6 +29,42 @@ if(Patsoptaas_Compile_stderr_flag())
 } // end of [if]
 //
 } // end of [Compile_stderr_flag_onclick()]
+//
+</script>
+
+<!-- ****** ****** -->
+
+<script>
+//
+function
+Evaluate_canvas_flag_onclick()
+{
+//
+var
+w, h, div, table, canvas;
+//
+div = $('#thePage2RBody3_canvas');
+//
+if(Patsoptaas_Evaluate_canvas_flag())
+{
+//
+  table =
+  $('#thePage2RBody_table')
+  w = table.outerWidth(true);
+  h = table.outerHeight(true);
+//
+  div.css({display:'block'});
+//
+  canvas =
+  document.getElementById('Patsoptaas-Evaluate-canvas');
+  if (canvas.width != w) canvas.width = w;
+  if (canvas.height != h) canvas.height = h;
+//
+} else {
+  div.css({display: 'none' });
+} // end of [if]
+//
+} // end of [Evaluate_canvas_flag_onclick()]
 //
 </script>
 
@@ -276,7 +314,7 @@ Editor_show_gutter_onclick
  align="center"
 ><!--td-->
 <a
- href="Home.html">
+ href="./Home.html">
 <img src="./MYDATA/theLogo.png" alt="ATSlogo" style="height:72%"></img>
 </a>
 </td>
@@ -435,6 +473,19 @@ Code-folding
  id="Compile-stderr-flag"
  onclick="Compile_stderr_flag_onclick()"
  checked
+></input>
+</td>
+</tr>
+
+<tr>
+<td>
+<label style="padding-left:2px">Evaluate-canvas</label>
+</td>
+<td>
+<input
+ type="checkbox"
+ id="Evaluate-canvas-flag"
+ onclick="Evaluate_canvas_flag_onclick()"
 ></input>
 </td>
 </tr>

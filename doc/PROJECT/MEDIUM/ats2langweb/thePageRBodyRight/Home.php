@@ -33,7 +33,6 @@ Would you like to try ATS on-line?
  ID="tryatsnow_button"
  type="button" onclick="Home_tryatsnow_onclick()"
 >OK</button>
-
 </p>
 
 <hr></hr>

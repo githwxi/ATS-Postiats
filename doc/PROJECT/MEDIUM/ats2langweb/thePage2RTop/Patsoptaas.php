@@ -42,7 +42,7 @@
 
 .thePage2RTopL_submenu
 {
-  z-index: 8;
+  z-index: 9;
   display: none;
   position: absolute;
   border-radius: 6px;
@@ -404,8 +404,7 @@ Evaluate_JS_onclick()
 <tr>
 <td width="75%">
 <div
- id="thePage2RTopL"
->
+ id="thePage2RTopL">
 <ul>
 <li
  name="File"

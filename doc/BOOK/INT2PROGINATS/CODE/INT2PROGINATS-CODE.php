@@ -49,8 +49,16 @@ listitem_gen2($CHAP, $fname)
 
 <hr></hr>
 
+<h2>Chapter: Elements of Programming</h2>
+<ul>
+<?php listitem_gen('CHAP_PROGELEM', 'misc.dats'); ?>
+</ul>
+
+<hr></hr>
+
 <h2>Chapter: Functions</h2>
 <ul>
+<?php listitem_gen('CHAP_FUNCTION', 'misc.dats'); ?>
 <?php listitem_gen('CHAP_FUNCTION', 'acker.dats'); ?>
 <?php listitem_gen2('CHAP_FUNCTION', 'acker.dats'); ?>
 <?php listitem_gen('CHAP_FUNCTION', 'bsearch.dats'); ?>
@@ -67,6 +75,7 @@ listitem_gen2($CHAP, $fname)
 
 <h2>Chapter: Datatypes</h2>
 <ul>
+<?php listitem_gen('CHAP_DATATYPE', 'misc.dats'); ?>
 <?php listitem_gen('CHAP_DATATYPE', 'intexp.dats'); ?>
 <?php listitem_gen2('CHAP_DATATYPE', 'intexp.dats'); ?>
 </ul>
@@ -75,6 +84,7 @@ listitem_gen2($CHAP, $fname)
 
 <h2>Chapter: Parametric Polymorphism</h2>
 <ul>
+<?php listitem_gen2('CHAP_POLYMORPH', 'misc.dats'); ?>
 <?php listitem_gen2('CHAP_POLYMORPH', 'listfuns.dats'); ?>
 <?php listitem_gen2('CHAP_POLYMORPH', 'mergesort.dats'); ?>
 </ul>
@@ -83,6 +93,7 @@ listitem_gen2($CHAP, $fname)
 
 <h2>Chapter: Effectful Programming Features</h2>
 <ul>
+<?php listitem_gen('CHAP_EFFECTFUL', 'misc.dats'); ?>
 <?php listitem_gen('CHAP_EFFECTFUL', 'counter.dats'); ?>
 <?php listitem_gen2('CHAP_EFFECTFUL', 'counter.dats'); ?>
 <?php listitem_gen('CHAP_EFFECTFUL', 'hello.dats'); ?>
@@ -99,8 +110,19 @@ listitem_gen2($CHAP, $fname)
 
 <hr></hr>
 
+<h2>Chapter: Introduction to Dependent Types</h2>
+<ul>
+<?php listitem_gen('CHAP_DEPTYPES', 'misc.dats'); ?>
+<!--
+<?php listitem_gen('CHAP_DEPTYPES', 'bsearch_arr.dats'); ?>
+-->
+</ul>
+
+<hr></hr>
+
 <h2>Chapter: Datatype Refinement</h2>
 <ul>
+<?php listitem_gen('CHAP_DEPDTREF', 'misc.dats'); ?>
 <?php listitem_gen('CHAP_DEPDTREF', 'listfuns.dats'); ?>
 <?php listitem_gen('CHAP_DEPDTREF', 'mergesort.dats'); ?>
 <?php listitem_gen('CHAP_DEPDTREF', 'rbtree.dats'); ?>
@@ -110,6 +132,7 @@ listitem_gen2($CHAP, $fname)
 
 <h2>Chapter: Theorem-Proving in ATS/LF</h2>
 <ul>
+<?php listitem_gen('CHAP_THMPRVING', 'misc.dats'); ?>
 <?php listitem_gen('CHAP_THMPRVING', 'tree.dats'); ?>
 <?php listitem_gen('CHAP_THMPRVING', 'brauntree.dats'); ?>
 </ul>
@@ -118,6 +141,7 @@ listitem_gen2($CHAP, $fname)
 
 <h2>Chapter: Programming with Theorem-Proving</h2>
 <ul>
+<?php listitem_gen('CHAP_PRGTHMPRV', 'misc.dats'); ?>
 <?php listitem_gen('CHAP_PRGTHMPRV', 'ifact.dats'); ?>
 <?php listitem_gen2('CHAP_PRGTHMPRV', 'ifact.dats'); ?>
 <?php listitem_gen('CHAP_PRGTHMPRV', 'ifact23.dats'); ?>

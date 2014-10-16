@@ -47,6 +47,7 @@ cleanall:: ; $(RMF) Libraries.html
 cleanall:: ; $(RMF) Community.html
 cleanall:: ; $(RMF) Papers.html
 cleanall:: ; $(RMF) Examples.html
-cleanall:: ; $(RMF) Patsoptaas.html
+cleanall:: ; $(RMF) MYDATA/Patsoptaas.html
+cleanall:: ; $(RMF) SERVER/MYCODE/Patsoptaas_serve.php
 
 ###### end of [Makefile] ######

@@ -54,10 +54,10 @@
 "{$LIBATSCC2JS}/staloadall.hats"
 //
 (* ****** ****** *)
-
+//
 staload
 "{$LIBATSCC2JS}/SATS/print.sats"
-
+//
 (* ****** ****** *)
 
 #define ATS_MAINATSFLAG 1
@@ -150,24 +150,32 @@ fun
 safety_test1
 (
   i0: int, j0: int, i1: int, j1: int
-) : bool =
-(*
-** [abs]: the absolute value function
-*)
-  j0 <> j1 andalso abs (i0 - i1) <> abs (j0 - j1)
-// end of [safety_test1]
+) : bool = (
+//
+// [abs]: the absolute value function
+//
+if j0 != j1
+  then abs(i0 - i1) != abs(j0 - j1) else false
+// end of [if]
+) (* end of [safety_test1] *)
+
+(* ****** ****** *)
 
 fun
 safety_test2
 (
   i0: int, j0: int, bd: int8, i: int
-) : bool =
-  if i >= 0 then
-    if safety_test1 (i0, j0, i, board_get (bd, i))
-      then safety_test2 (i0, j0, bd, i-1) else false
-    // end of [if]
-  else true // end of [if]
-// end of [safety_test2]
+) : bool = (
+//
+if
+i >= 0
+then (
+  if safety_test1(i0, j0, i, board_get(bd, i))
+    then safety_test2(i0, j0, bd, i-1) else false
+  // end of [if]
+) else true // end of [if]
+//
+) (* end of [safety_test2] *)
 
 (* ****** ****** *)
 
@@ -191,12 +199,11 @@ fun search
       // end of [if]
     end else
       search (bd, i, j+1, nsol)
-  end else
-  (
+  end else (
     if i > 0 then
       search (bd, i-1, board_get (bd, i-1) + 1, nsol)
     else nsol // end of [if]
-  )
+  ) (* end of [if] *)
 // end of [search]
 
 (* ****** ****** *)
@@ -208,7 +215,7 @@ print_board '(0, 1, 2, 3, 4, 5, 6, 7)
 //
 val nsol = search ( '(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0 )
 //
-  val ((*void*)) = assertloc (nsol = 92)
+val ((*void*)) = assertloc (nsol = 92)
 //
 } (* end of [val] *)
 

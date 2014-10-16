@@ -253,6 +253,29 @@ added to ATS2-contrib later.
 
 <hr></hr>
 
+<h2>
+<a id="Install_of_ATS2_include">Installation of ATS2-include</a>
+</h2>
+
+<p>
+ATS2-include consists of the header files needed to compile the C code
+generated from ATS source.  Its primary purpose is to support the
+distribution of C code generated from a software package written in ATS.
+Note that the header files in ATS2-include are given a BSD-like license so
+that they can essentially be used anywhere without concerns of license
+violations.
+</p>
+<p>
+Strickly speaking, ATS2-include can be downloaded and then
+stored at any directory one likes. If ATS2-include is to be installed,
+then a directory like <u>/usr/lib/ats2-postiats-x.x.x</u> or
+<u>/usr/local/lib/ats2-postiats-x.x.x</u> should be proper for storing
+the header files contained in it, where x.x.x refers to the verison number of
+ATS2-include.
+</p>
+
+<hr></hr>
+
 </div>
 
 <?php /* end of [Downloads.php] */ ?>

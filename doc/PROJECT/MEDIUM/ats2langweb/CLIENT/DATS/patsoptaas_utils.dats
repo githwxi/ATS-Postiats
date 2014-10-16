@@ -254,6 +254,8 @@ extern
 fun Patsopt2js_eval_flag(): bool = "mac#%"
 extern
 fun Compile_stderr_flag(): bool = "mac#%"
+extern
+fun Evaluate_canvas_flag(): bool = "mac#%"
 %{^
 //
 function
@@ -272,6 +274,12 @@ function
 Patsoptaas_Compile_stderr_flag()
 {
   return document.getElementById("Compile-stderr-flag").checked;
+}
+//
+function
+Patsoptaas_Evaluate_canvas_flag()
+{
+  return document.getElementById("Evaluate-canvas-flag").checked;
 }
 //
 %} // end of [%{^]
