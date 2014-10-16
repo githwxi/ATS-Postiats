@@ -274,6 +274,8 @@ end // end of [print_solutions]
 val nsol =
   search ( '(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0 )
 //
+val ((*void*) = assertloc (nsol = 92)
+//
 val ((*void*)) =
   print! (nsol, " solutions are found.\n")
 val ((*void*)) =
