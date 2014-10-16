@@ -108,4 +108,4 @@ end // end of [lemma_bezout]
 
 (* ****** ****** *)
 
-(* end of [gcd.dats] *)
+(* end of [BezoutLemma.dats] *)
