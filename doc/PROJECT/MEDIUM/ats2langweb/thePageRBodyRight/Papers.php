@@ -80,9 +80,9 @@ breakthrough came before Summer 2004, when it was finally realized that a
 form of theorem-proving based on linear logic can be incorporated into ATS
 as the basis for supporting imperative programming. The moment of this
 realization is probably the single most crucial moment in the development
-of ATS. By the middle of July, the implementation for ATS (extended with
-linear types) reached a point where the typechecker and the interpreter
-were able to handle a variety of imperative programs.
+of ATS. By the middle of July 2004, the implementation for ATS (extended
+with linear types) reached a point where the typechecker and the
+interpreter were able to handle a variety of imperative programs.
 
 </p>
 
