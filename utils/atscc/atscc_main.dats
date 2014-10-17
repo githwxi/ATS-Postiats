@@ -70,6 +70,8 @@ macdef
 isfilsats (name) = filename_test_ext (,(name), "sats")
 macdef
 isfildats (name) = filename_test_ext (,(name), "dats")
+macdef
+isfilhats (name) = filename_test_ext (,(name), "hats")
 
 (* ****** ****** *)
 
@@ -280,6 +282,9 @@ case+ 0 of
     aux1_fsats (n, argv, i+0, res)
 | _ when isfildats(str0) =>
     aux1_fdats (n, argv, i+0, res)
+//
+| _ when isfilhats(str0) => // HX-2014-10-17:
+    aux1_fdats (n, argv, i+0, res) // hats -> dats
 //
 | _ when (str0="-CSignore") => let
     val res = list_vt_cons{ca}(CA_CSignore(), res)
