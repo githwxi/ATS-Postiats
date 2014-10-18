@@ -90,7 +90,7 @@ always idempotent.
 #para("\
 
 There is also a dynload-function generated for #filename("foo2.dats").
-As the funtion #dyncode("main0"), a variant of the special function
+As the function #dyncode("main0"), a variant of the special function
 #dyncode("main"), is implemented in #filename("foo2.dats"), the
 dynload-function for #filename("foo2.dats") is automatically called inside
 the body of the #dyncode("main") function.

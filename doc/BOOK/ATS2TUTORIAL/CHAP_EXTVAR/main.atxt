@@ -70,7 +70,7 @@ extvar "foo2.first" = 1
 extvar "foo2.second" = 2
 ')
 
-By its very own nature, the feature of extvar-declaration is inherently
+By its very nature, the feature of extvar-declaration is inherently
 unsafe, and it should only be used with caution.
 
 ')#comment("para")
