@@ -101,7 +101,7 @@ fprint_webox_head_beg<>
 val () =
 fprint (out, "\
 <base\n\
- href=\"http://atslangweb-postiats.rhcloud.com\">\n\
+ href=\"http://www.ats-lang.org\">\n\
 </base>\n\
 ") (* end of [val] *)
 //

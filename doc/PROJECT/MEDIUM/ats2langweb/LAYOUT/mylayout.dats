@@ -44,7 +44,11 @@ end // end of [local]
 val thePage =
   webox_make_name ("thePage")
 //
+(*
 val () = thePage.bgcolor("#d6f0fd")
+val () = thePage.bgcolor("#fffff0")
+*)
+val () = thePage.bgcolor("#ffffff")
 //
 (* ****** ****** *)
 //

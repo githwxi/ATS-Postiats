@@ -55,6 +55,11 @@ function
 thePageRBodyLHeader_Community()
 {
   echo "<ul name=\"Community\">\n";
+  echo "<li><a href=\"#ATS_wikipage\">Wiki for ATS users</a></li>\n";
+  echo "<li><a href=\"#ATS_QandA_forum\">Q&amp;A forum for ATS users</a></li>\n";
+  echo "<li><a href=\"#ATS_devel_forum\">Discussion forum for ATS developers</a></li>\n";
+  echo "<li><a href=\"#ATS_mailing_list\">Mailing-list for ATS users</a></li>\n";
+  echo "<li><a href=\"#JATS_user_group\">JATS-UG: Japan ATS User Group</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Community] */

@@ -26,11 +26,19 @@ function
 thePageLeft_menuitem($name)
 {
 //
+  $name2 = $name;
+//
+  if($name==='Home')
+  {
+    $name2 =
+    $name2 . '(<a href="http://ats-lang.sourceforge.net">old</a>)';
+  }
+//
   if(atslangweb_get_pgname()===$name)
   {
-    echo "<tr><td name=\"$name\" class=\"self\">$name</td></tr>\n";
+    echo "<tr><td name=\"$name\" class=\"self\">$name2</td></tr>\n";
   } else {
-    echo "<tr><td name=\"$name\" class=\"other\"><a href=\"$name.html\">$name</a></td></tr>\n";
+    echo "<tr><td name=\"$name\" class=\"other\"><a href=\"$name.html\">$name2</a></td></tr>\n";
   }
 //
   return;

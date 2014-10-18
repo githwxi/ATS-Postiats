@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 
 <base
- href="http://atslangweb-postiats.rhcloud.com">
+ href="http://www.ats-lang.org">
 </base>
 <style>
 html {

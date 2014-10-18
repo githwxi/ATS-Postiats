@@ -3,10 +3,10 @@
 <?php
 //
 $mydir_url=
-'http://www.ats-lang.org/DOCUMENT/INT2PROGINATS/CODE';
+'https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/BOOK/INT2PROGINATS/CODE';
 //
 $Patsoptaas_serve_php=
-'http://atslangweb-postiats.rhcloud.com/SERVER/MYCODE/Patsoptaas_serve.php';
+'http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php';
 //
 function
 listitem_gen($CHAP, $fname)
@@ -160,7 +160,7 @@ by
 and also maintained by
 <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 </td>
-<td style="width: 0%;"><!--pushed to the right-->
+<td style="width: 0%;">
 <a href="http://sourceforge.net">
 <img
 src="http://sflogo.sourceforge.net/sflogo.php?group_id=205722&amp;type=2"

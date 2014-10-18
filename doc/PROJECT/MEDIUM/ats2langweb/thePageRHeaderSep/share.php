@@ -16,7 +16,9 @@ thePageRHeaderSep_menu()
   thePageRHeaderSep_submenu_for_Documents('Documents');
 //
   thePageRHeaderSep_menuitem('Libraries');
+//
   thePageRHeaderSep_menuitem('Community');
+  thePageRHeaderSep_submenu_for_Community('Community');
 //
   echo "</ul>\n";
 //
@@ -90,6 +92,23 @@ thePageRHeaderSep_submenu_for_Documents($name)
   echo "</table>\n";
   return;
 } /* end of [thePageRBodyLHeader_Documents] */
+
+function
+thePageRHeaderSep_submenu_for_Community($name)
+{
+  $page = "";
+  if(atslangweb_get_pgname()!=$name) $page = "$name.html";
+  $onmouseout = "onmouseout=\"submenu_table_mouseout()\"";
+  $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
+  echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseout $onmouseover>\n";
+  echo "<tr><td><a href=\"$page#ATS_wikipage\">Wiki for ATS users</a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#ATS_QandA_forum\">Q&amp;A forum for ATS users</a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#ATS_devel_forum\">Discussion forum for ATS developers</a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#ATS_mailing_list\">Mailing-list for ATS users</a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#JATS_user_group\">JATS-UG: Japan ATS User Group</a></td></tr>\n";
+  echo "</table>\n";
+  return;
+} /* end of [thePageRBodyLHeader_Community] */
 
 ?>
 

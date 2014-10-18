@@ -4,7 +4,7 @@ class="thePageRBodyLContent"
 
 <hr></hr>
 
-<h2><a id="#INT2PROGINATS">Introduction to Programming in ATS</a></h2>
+<h2><a id="INT2PROGINATS">Introduction to Programming in ATS</a></h2>
 
 <table>
 <tr>
@@ -19,14 +19,14 @@ basic understanding of programming and possibly some programming skills.
 </tr>
 <tr><td>
 Links:
-<a href="http://www.ats-lang.org/DOCUMENT/INT2PROGINATS/HTML/book1.html">html</a>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/book1.html">html</a>
 </td></tr>
 <tr height="8px"><td></td></tr>
 </table>
 
 <hr></hr>
 
-<h2><a id="#TUT2PROGINATS">A Tutorial on Programming Features in ATS</a></h2>
+<h2><a id="TUT2PROGINATS">A Tutorial on Programming Features in ATS</a></h2>
 
 <table>
 <tr><td>
@@ -41,7 +41,7 @@ gained from the tutorial alone.
 <tr>
 <td>
 Links:
-<a href="http://www.ats-lang.org/DOCUMENT/ATS2TUTORIAL/HTML/book1.html">html</a>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/book1.html">html</a>
 </td>
 </tr>
 <tr height="8px"><td></td></tr>
