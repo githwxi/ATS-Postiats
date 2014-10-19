@@ -20,7 +20,25 @@ is a major source for ATS users to acquire information on and related to ATS.
 </tr>
 </table>
 
-<hr>
+<hr></hr>
+
+<table>
+<tr>
+<td>
+<h2
+style="margin-bottom:0px">
+<a id="ATS_IRC_channel">IRC channel for ATS users: ##ats</a>:</h2>
+<ul>
+<li>
+Would you like to chat about ATS? Please get onto this IRC channel
+<a href="http://webchat.freenode.net">##ats</a> to find people who have a similar interest.
+</li>
+</ul>
+</td>
+</tr>
+</table>
+
+<hr></hr>
 
 <table>
 <tr>
@@ -77,8 +95,9 @@ of questions involving specifics or details, the google group
 should be a more appropriate place.
 </li>
 <li>
-The archive of messages sent to the ATS users mailing-list is
-available <a href="http://news.gmane.org/gmane.comp.lang.ats.user">on-line</a>.
+The archive of messages sent to the ATS users mailing-list can
+be accessed <a href="http://news.gmane.org/gmane.comp.lang.ats.user">on-line</a>.
+In particular, using keywords to search the archive is supported.
 </li>
 </ul>
 </td>

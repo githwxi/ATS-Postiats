@@ -14,8 +14,8 @@ thePageLeft_menu()
   thePageLeft_menuitem('Resources');
   thePageLeft_menuitem('Implementations');
   echo "<tr><td><a href=\"https://lists.sourceforge.net/lists/listinfo/ats-lang-users\">Mailing-list</a></td></tr>\n";
-  echo "<tr><td>IRC-channel</td></tr>\n";
-  echo "<tr><td>Google-groups</td></tr>\n";
+  echo "<tr><td><a href=\"https://groups.google.com/forum/#!forum/ats-lang-users\">ats-lang-users</a></td></tr>\n";
+  echo "<tr><td><a href=\"https://groups.google.com/forum/#!forum/ats-lang-devel\">ats-lang-devel</a></td></tr>\n";
   echo "<tr><td><a href=\"#\" onclick=\"Home_tryatsnow_onclick()\">Try ATS on-line</input></td></tr>\n";
 //
   return;

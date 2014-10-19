@@ -37,6 +37,16 @@ listitem_gen2($CHAP, $fname)
 
 <h1>INT2PROGINATS-CODE</h1>
 
+The following links are listed to allow for access to some code used in
+the on-line book
+<a
+ href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/book1.html"
+>Introduction to Programming in ATS</a>.
+If the name of a file mentioned in a link is followed by the symbol (c),
+then the code contained in the file can be typechecked on-line. If the name
+is followed by (js), then the code can be first typechecked and then
+compiled to Javascript for execution in the browser.
+
 <hr></hr>
 
 <h2>Chapter: Start</h2>

@@ -19,7 +19,10 @@ staload "intset.sats"
 
 (* ****** ****** *)
 
+(*
+// HX: not any more
 dynload "intset.sats"
+*)
 dynload "intset.dats"
 
 (* ****** ****** *)
