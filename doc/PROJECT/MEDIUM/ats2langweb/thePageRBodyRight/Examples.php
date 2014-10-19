@@ -6,7 +6,18 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
-<h2 style="display:inline;">More examples in ATS</h2>
+In ATS, a single-file program refers to one fully contained in a
+single file that does not make use of any other files except those
+provided by ATS in its standard compilation environment.
+
+<hr></hr>
+
+<a href="http://www.ats-lang.org/Patsoptaas.html">Patsoptaas</a>
+(patsopt-as-a-service) is a free on-line service provided for compiling
+single-file programs in ATS. In the case where Patsoptaas can successfully
+compile a single-file program into JS code, then the JS code may be
+evaluated inside the browser. Some interesting single-file programs in ATS
+are listed as follows that can be serviced by Patsoptaas:
 
 <table
  width="100%"

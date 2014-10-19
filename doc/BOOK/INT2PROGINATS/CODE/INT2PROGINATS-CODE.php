@@ -37,6 +37,7 @@ listitem_gen2($CHAP, $fname)
 
 <h1>INT2PROGINATS-CODE</h1>
 
+<p>
 The following links are listed to allow for access to some code used in
 the on-line book
 <a
@@ -46,6 +47,7 @@ If the name of a file mentioned in a link is followed by the symbol (c),
 then the code contained in the file can be typechecked on-line. If the name
 is followed by (js), then the code can be first typechecked and then
 compiled to Javascript for execution in the browser.
+</p>
 
 <hr></hr>
 
