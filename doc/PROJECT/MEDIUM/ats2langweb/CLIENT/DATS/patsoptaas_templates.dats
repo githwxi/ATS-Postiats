@@ -45,6 +45,8 @@ Patsoptaas_File_newfile_template1 =
 \n\
 staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
+staload _(*anon*) =\n\
+\"{$LIBATSCC2JS}/DATS/print.dats\"\n\
 \n\
 (* ****** ****** *)\n\
 \n\

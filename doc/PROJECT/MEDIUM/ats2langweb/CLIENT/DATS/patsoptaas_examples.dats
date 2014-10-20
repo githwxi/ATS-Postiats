@@ -847,9 +847,7 @@ staload\n\
 \n\
 (* ****** ****** *)\n\
 \n\
-#define :: stream_cons\n\
 #define cons stream_cons\n\
-#define nil stream_nil\n\
 \n\
 (* ****** ****** *)\n\
 //\n\
@@ -883,7 +881,7 @@ nth{a:t@ype}\n\
   xs: stream(INV(a)), n: int\n\
 ) : a = let\n\
 //\n\
-val-stream_cons (x, xs) = !xs\n\
+val-cons (x, xs) = !xs\n\
 //\n\
 in\n\
   if n > 0 then nth (xs, n-1) else x\n\
