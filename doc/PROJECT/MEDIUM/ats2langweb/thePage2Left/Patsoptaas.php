@@ -113,6 +113,8 @@ File_examples_onchange(x0)
     File_examples_load(Patsoptaas_File_examples_list_sort_insert); break;
     case 10:
     File_examples_load(Patsoptaas_File_examples_list_sort_quick); break;
+    case 11:
+    File_examples_load(Patsoptaas_File_examples_stream_sieve); break;
     default: break;
   }
 //
@@ -433,6 +435,7 @@ Code-folding
 <option>List-reverse</option>
 <option>List-sort-insert</option>
 <option>List-sort-quick</option>
+<option>Stream-sieve</option>
 </select> 
 </td>
 </tr>

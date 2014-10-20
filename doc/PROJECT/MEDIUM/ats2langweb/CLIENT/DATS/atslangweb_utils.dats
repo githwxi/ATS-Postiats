@@ -47,6 +47,26 @@ staload _(*anon*) = "./patsopt_atscc2js.dats"
 //
 extern
 fun
+Home_whatisnew_onclick (): void = "mac#"
+//
+%{^
+//
+function
+Home_whatisnew_onclick
+  ()
+{
+window.open
+(
+  "./Community.html", "_blank"
+) // end of [window.open]
+} // end of [Home_whatisnew_onclick]
+//
+%} // end of [%{^]
+//
+(* ****** ****** *)
+//
+extern
+fun
 Home_tryatsnow_onclick (): void = "mac#"
 //
 %{^

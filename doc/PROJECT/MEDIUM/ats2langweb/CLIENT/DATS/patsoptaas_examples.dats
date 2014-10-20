@@ -817,4 +817,109 @@ alert(ats2jspre_the_print_store_join());\n\
 
 (* ****** ****** *)
 
+%{^
+//
+var
+Patsoptaas_File_examples_stream_sieve =
+"\
+(* ****** ****** *)\n\
+\n\
+(*\n\
+** Eratosthenes Sieve\n\
+*)\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+#include\n\
+\"share/atspre_define.hats\"\n\
+#include\n\
+\"{$LIBATSCC2JS}/staloadall.hats\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+staload\n\
+\"{$LIBATSCC2JS}/SATS/print.sats\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+#define ATS_MAINATSFLAG 1\n\
+#define ATS_DYNLOADNAME \"my_dynload\"\n\
+\n\
+(* ****** ****** *)\n\
+\n\
+#define :: stream_cons\n\
+#define cons stream_cons\n\
+#define nil stream_nil\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+fun\n\
+from\n\
+{n:int}\n\
+(\n\
+  n: int n\n\
+) : stream (int) = $delay(cons(n, from(n+1)))\n\
+//\n\
+(* ****** ****** *)\n\
+\n\
+fun sieve\n\
+(\n\
+  ns: stream int\n\
+) :<!laz>\n\
+  stream (int) = $delay\n\
+(\n\
+let\n\
+  val-cons(n, ns) = !ns\n\
+in\n\
+  cons(n, sieve (stream_filter_cloref(ns, lam x => x % n > 0)))\n\
+end : stream_con (int)\n\
+) (* end of [sieve] *)\n\
+\n\
+(* ****** ****** *)\n\
+//\n\
+fun\n\
+nth{a:t@ype}\n\
+(\n\
+  xs: stream(INV(a)), n: int\n\
+) : a = let\n\
+//\n\
+val-stream_cons (x, xs) = !xs\n\
+//\n\
+in\n\
+  if n > 0 then nth (xs, n-1) else x\n\
+end // end of [nth]\n\
+//\n\
+(* ****** ****** *)\n\
+//\n\
+val primes = sieve(from(2))\n\
+//\n\
+val () = println! (\"primes[0] = \", nth(primes, 0))\n\
+val () = println! (\"primes[1] = \", nth(primes, 1))\n\
+val () = println! (\"primes[2] = \", nth(primes, 2))\n\
+val () = println! (\"primes[3] = \", nth(primes, 3))\n\
+val () = println! (\"primes[4] = \", nth(primes, 4))\n\
+val () = println! (\"primes[5] = \", nth(primes, 5))\n\
+val () = println! (\"primes[6] = \", nth(primes, 6))\n\
+val () = println! (\"primes[7] = \", nth(primes, 7))\n\
+val () = println! (\"primes[8] = \", nth(primes, 8))\n\
+val () = println! (\"primes[9] = \", nth(primes, 9))\n\
+//\n\
+val () = println! (\"primes[100] = \", nth(primes, 100))\n\
+val () = println! (\"primes[1000] = \", nth(primes, 1000))\n\
+//\n\
+(* ****** ****** *)\n\
+\n\
+\045{$\n\
+//\n\
+ats2jspre_the_print_store_clear();\n\
+my_dynload();\n\
+alert(ats2jspre_the_print_store_join());\n\
+//\n\
+\045} // end of [%{$]\n\
+" // end of [Patsoptaas_File_examples_sieve]\n\
+//\n\
+%} // end of [%{^]\n\
+
+(* ****** ****** *)
+
 (* end of [patsoptaas_examples.dats] *)
