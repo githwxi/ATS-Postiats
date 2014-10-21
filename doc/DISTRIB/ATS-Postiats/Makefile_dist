@@ -140,6 +140,15 @@ RMF=rm -f
 RMRF=rm -rf
 
 ######
+#
+uninstall:: uninstall_bin
+uninstall:: uninstall_home
+#
+uninstall_bin:: ; $(RMF) $(bindir2)/patscc
+uninstall_bin:: ; $(RMF) $(bindir2)/patsopt
+uninstall_home:: ; $(RMRF) $(PATSLIBHOME2)
+#
+######
 
 clean::
 
