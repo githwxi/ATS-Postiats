@@ -17,9 +17,99 @@ id="staload">
 #title("Static Load")
 
 #para("\
+
 In ATS, static load (or staload for short) refers to the creation
-of a namespace populated with the declared names in a loaded package.
-")
+of a namespace populated with the declared names in a loaded package.\
+
+")#comment("para")
+
+#para("\
+
+Suppose that a file named #filename('foo.sats') contains the
+following code:
+
+#atscode('\
+//
+datatype
+aDatatype =
+| A | B of (int, int)
+//
+val aValue: int
+fun aFunction: int -> int
+//
+')
+
+The following staload-declaration introduces a namespace
+#dyncode("FOO") for the names declared in #filename('foo.sats'):
+
+#atscode('\
+staload FOO = "foo.sats"
+')
+
+The prefix #dyncode("$FOO.") needs to be attached to a name in the
+namespace #dyncode('FOO') in order for it to be referenced. For instance,
+the names available in the namespace #dyncode("FOO") are all referenced in
+the following code:
+
+#atscode('\
+val a: $FOO.aDatatype = $FOO.A()
+val b: $FOO.aDatatype = $FOO.B(0, $FOO.aFunction($FOO.aValue))
+')
+
+")#comment("para")
+
+#para("\
+
+If the file #filename('foo.sats') is staloaded as follows for the second
+time:
+
+#atscode('\
+staload FOO2 = "foo.sats"
+')
+
+then #filename('foo.sats') is not actually loaded by the compiler. Instead,
+#dyncode('FOO2') is simply made to be an alias of #dyncode('FOO').
+
+")#comment("para")
+
+#para("\
+
+It is also allowed for #filename('foo.sats') to be staloaded as follows:
+
+#atscode('\
+staload "foo.sats"
+')
+
+In this case, the namespace for the names declared in #filename('foo.sats')
+is opened. For instance, the following code shows that these names can now
+be referenced directly:
+
+#atscode('\
+val a: aDatatype = A()
+val b: aDatatype = B(0, aFunction(aValue))
+')
+
+")#comment("para")
+
+
+#para("\
+
+Let us suppose that we have the following sequence of declarations:
+
+#atscode('\
+val aValue = 0
+staload "foo.sats"
+val anotheValue = aValue + 1
+')
+
+Does the second occurrence of #dyncode('aValue') refer to the one
+introduced in the first declaration, or it refers to the one declared
+inside #filename('foo.sats')? The answer may be a bit surprising: It refers
+to the one introduced in the first declaration as a binding for the
+occurrence of a name is resolved in ATS by searching first through the
+available names delcared in the same file.
+
+")#comment("para")
 
 </chapter><!--"staload"-->
 
