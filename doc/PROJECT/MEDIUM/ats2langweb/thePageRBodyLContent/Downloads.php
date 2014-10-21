@@ -35,6 +35,37 @@ The previous stable releases of ATS2 are also available
 
 <hr></hr>
 
+<h2><a id="Uninstall_for_ATS">Uninstallation for ATS</a></h2>
+
+<p>
+Before installing ATS, you are probably concerned with removing an
+installation of ATS if it is no longer needed. This can be done by simply issuing the
+following command-line:
+</p>
+
+<div
+class="command_line"
+>make uninstall</div>
+
+<p>
+Essentially, the following steps are involved in completely removing
+a properly installed package of ATS:
+<ul>
+<li>
+Removing the directory ${PATSHOME};
+</li>
+<li>
+Removing the binaries <u>patscc</u> and <u>patsopt</u>, which are
+usually stored in a directory like <u>/usr/bin</u> or <u>/usr/local/bin</u>;
+</li>
+<li>
+Removing the directory ${PATSHOMERELOC} if ATS2-Postiats-contrib is installed.
+</li>
+</ul>
+</p>
+
+<hr></hr>
+
 <h2><a id="Requirements_install">Requirements for installation</a></h2>
 
 <p>

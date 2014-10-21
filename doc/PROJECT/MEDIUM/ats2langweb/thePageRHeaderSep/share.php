@@ -70,6 +70,7 @@ thePageRHeaderSep_submenu_for_Downloads($name)
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
   echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseout $onmouseover>\n";
   echo "<tr><td><a href=\"$page#ATS_packages\">ATS packages for download</a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#Uninstall_for_ATS\">Uninstallation for ATS</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Requirements_install\">Requirements for installation</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Precompiledpack_install\">Precompiled packages for installation</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Install_source_compile\">Installation through source compilation</a></td></tr>\n";

@@ -65,7 +65,7 @@ AC_CONFIG_FILES([config.mk])
 AC_CONFIG_FILES([bin/patscc_env.sh])
 AC_CONFIG_FILES([bin/patsopt_env.sh])
 
-AM_INIT_AUTOMAKE
+dnl = AM_INIT_AUTOMAKE
 
 AC_PROG_CC
 AC_PROG_INSTALL
