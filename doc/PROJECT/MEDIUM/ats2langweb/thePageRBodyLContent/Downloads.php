@@ -59,7 +59,7 @@ Removing the binaries <u>patscc</u> and <u>patsopt</u>, which are
 usually stored in a directory like <u>/usr/bin</u> or <u>/usr/local/bin</u>;
 </li>
 <li>
-Removing the directory ${PATSHOMERELOC} if ATS2-Postiats-contrib is installed.
+Removing the directory ${PATSHOMERELOC} if ATS2-contrib is installed.
 </li>
 </ul>
 </p>
