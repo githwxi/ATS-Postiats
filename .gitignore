@@ -68,18 +68,15 @@ ccomp/atslib/lib
 ccomp/atslib/lib64
 ccomp/atslib/output
 
-
 #
 # ATSHOME/utils
 #
 
 utils/atscc/patscc
 
-
 #
 # ATSLIB/prelude
 #
-
 
 prelude/SATS/CODEGEN/*.sats
 prelude/SATS/CODEGEN/*_atxt.txt
