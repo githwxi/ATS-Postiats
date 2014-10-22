@@ -427,21 +427,23 @@ gcats1_all_cats.o: \
 RMF=rm -f
 
 ######
-
+#
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_sats.o
 clean:: ; $(RMF) *_dats.o
+#
 clean:: ; $(RMF) gcats1.hats
 clean:: ; $(RMF) gcats1_all_cats.o
-
+#
+clean:: ; $(RMF) gcats.o
+clean:: ; $(RMF) patsopt
+clean:: ; $(RMF) prelude_libats.o
+clean:: ; $(RMF) libc_libats.o
+clean:: ; $(RMF) libats_libats.o
+#
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) prelude_libats.o
-cleanall:: ; $(RMF) libc_libats.o
-cleanall:: ; $(RMF) libats_libats.o
-cleanall:: ; $(RMF) gcats.o
-cleanall:: ; $(RMF) patsopt
 
 ######
 
