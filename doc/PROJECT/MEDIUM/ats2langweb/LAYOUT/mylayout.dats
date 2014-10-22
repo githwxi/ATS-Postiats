@@ -169,7 +169,7 @@ fprint (out, "\
   margin:auto;\n\
   padding:10px;\n\
   color: #000000;\n\
-  background-color: #C0C0C0;\n\
+  background-color: #D0D0D0;\n\
   border-radius:6px\n\
 }\n\
 ") (* end of [fprint] *)

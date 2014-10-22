@@ -254,6 +254,12 @@ case+ 0 of
     aux0 (n, argv, i+1, res)
   end // end of [_ when ...]  
 //
+| _ when (str0="-verbose") => let
+    val res = list_vt_cons{ca}(CAverbose(), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]
+//
 | _ when (str0="-cleanaft") => let
     val res = list_vt_cons{ca}(CAcleanaft(), res)
   in
@@ -668,8 +674,6 @@ end // end of [atsoptline_make_all]
 
 end // end of [local]
 
-
-
 (* ****** ****** *)
 
 local
@@ -691,6 +695,7 @@ case+ ca of
 //
 | CAgline () => ()
 //
+| CAverbose () => ()
 | CAcleanaft () => ()
 //
 | CAatsccomp (opt) => ()
@@ -992,11 +997,31 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-atscc_cleanaft_cont (cas) = let
+atscc_verbose
+  (cas) = let
 in
 //
 case+ cas of
-| list_cons (ca, cas) =>
+| list_cons
+    (ca, cas) =>
+  (
+    case+ ca of
+    | CAverbose () => true | _ => atscc_verbose (cas)
+  )
+| list_nil ((*void*)) => false
+//
+end // end of [atscc_verbose]
+
+(* ****** ****** *)
+
+implement
+atscc_cleanaft_cont
+  (cas) = let
+in
+//
+case+ cas of
+| list_cons
+    (ca, cas) =>
   (
     case+ ca of
     | CAcleanaft () => true | _ => atscc_cleanaft_cont (cas)
