@@ -937,6 +937,9 @@ val hse = tmpvar_get_type (tmp)
 val knd = tmpvar_get_topknd (tmp)
 val isvoid = hisexp_is_void (hse)
 //
+val () =
+if isvoid then emit_text (out, "// ")
+//
 val () = (
 if knd = 0
   then emit_text (out, "ATStmpdec") // local
