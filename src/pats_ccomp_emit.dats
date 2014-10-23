@@ -2034,7 +2034,7 @@ ins.instr_node of
     val () = prerr_interror_loc (loc0)
     val () = prerrln! (": pats_ccomp_emit: emit_instr: ins = ", ins)
     val ((*exit*)) = assertloc (false)
-  } (* unsupported-instr *)
+  } (* end of [unsupported-instr] *)
 end // end of [emit_instr]
 
 (* ****** ****** *)
