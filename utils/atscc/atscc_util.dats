@@ -83,6 +83,7 @@ gcc -std=c99 -D_XOPEN_SOURCE \
 (* ****** ****** *)
 
 (*
+(*
 ** HX: this one is suggested by Barry Schwartz, MN, USA
 *)
 #define
@@ -93,6 +94,7 @@ gcc -std=c99 \
 -L${PATSHOME}/ccomp/atslib/lib -L${PATSHOME}/ccomp/atslib/lib64 \
 -Wl,--warn-common \
 "
+*)
 
 (* ****** ****** *)
 
@@ -109,7 +111,7 @@ if
 strptr2ptr (def) > 0
 then strptr2string (def)
 else let
-  prval () = strptr_free_null(def) in ATSCCOMP_DEFAULT2
+  prval () = strptr_free_null(def) in ATSCCOMP_DEFAULT
 end // end of [else]
 //
 end // end of [atsccomp_get]
