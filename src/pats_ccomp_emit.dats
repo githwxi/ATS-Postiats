@@ -1068,12 +1068,9 @@ case+ pmv0.primval_node of
 //
 | PMVcstsp (pmc) => emit_primcstsp (out, pmc)
 //
-| PMVtop () => fprintf (out, "ATStop()", @())
-| PMVempty () => fprintf (out, "ATSempty()", @())
-//
-| PMVextval (name) =>
-    fprintf (out, "ATSextval(%s)", @(name))
-  // end of [PMVextval]
+| PMVtop () => fprintf (out, "ATSPMVtop()", @())
+| PMVempty () => fprintf (out, "ATSPMVempty()", @())
+| PMVextval (x) => fprintf (out, "ATSPMVextval(%s)", @(x))
 //
 | PMVcastfn _ => emit_primval_castfn (out, pmv0)
 //

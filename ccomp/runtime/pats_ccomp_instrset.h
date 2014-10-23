@@ -62,10 +62,6 @@ ATStylazy(tyval) \
 //
 /* ****** ****** */
 
-#define ATSempty()
-
-/* ****** ****** */
-
 #define ATSif(x) if(x)
 #define ATSthen()
 #define ATSelse() else
@@ -144,14 +140,12 @@ ATSloop_close(init, fini, cont) \
 #define ATSCSTSPmyloc(info) info
 
 /* ****** ****** */
-
+//
 #define ATSPMVtop() atserror_top
-#define ATSPMVempty() atserror_empty
-
-/* ****** ****** */
-
-#define ATSPMVextval(id) (id)
-
+//
+#define ATSPMVempty() /*empty*/
+#define ATSPMVextval(name) (name)
+//
 /* ****** ****** */
 
 #define ATSPMVfunlab(flab) (flab)

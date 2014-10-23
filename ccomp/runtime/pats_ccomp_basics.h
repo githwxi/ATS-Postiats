@@ -47,8 +47,6 @@
 //
 #define atsptr_null ((void*)0)
 //
-#define ATSextval(name) name
-//
 /* ****** ****** */
 //
 #define ATSstruct struct
