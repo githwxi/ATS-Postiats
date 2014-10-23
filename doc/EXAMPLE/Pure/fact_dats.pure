@@ -1,0 +1,45 @@
+%< -*- ATS -*-
+
+#include
+"share/atspre_staload.hats"
+//
+// A recursive definition of the factorial relation.
+// FACT (n, r) means that the factorial of n equals r
+//
+dataprop
+FACT (int, int) =
+| FACTbas (0, 1)
+| {n:nat}{r1:int} FACTind (n, n*r1) of FACT (n-1, r1)
+//
+// Declare fact_ats as an ATS function that is referred to in C by the
+// the same name. When applied to a given integer n, this function returns
+// an integer r such that r is guaranteed to satisfy the relation FACT(n, r).
+//
+extern
+fun
+fact_ats
+{n:nat}
+(
+  n: int n
+) : [r : int] (FACT (n, r) | int r) = "ext#fact_ats"
+//
+implement
+fact_ats{n}(n) = let
+//
+fun
+loop
+{i:nat | i <= n}{r:int}
+(
+  pf: FACT (i, r) | i: int(i), r: int(r)
+) : [r:int] (FACT(n, r) | int(r)) =
+  if i < n then loop (FACTind(pf) | i+1, (i+1) * r) else (pf | r)
+//
+in
+  loop (FACTbas() | 0, 1)
+end // end of [fact_ats]
+
+%>
+
+extern int puts(char*);
+fact n::int = fact_ats n if 0 <= n;
+puts (str(map fact (0..9)));

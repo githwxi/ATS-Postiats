@@ -36,6 +36,7 @@ Here is a list of major additions and changes since the last release:
 3. Support for lazy-evaluation is added to atscc2js 
 4. ATStmpdec_void(...) is commented out in the generated C code
 5. [patscc] is given a flag '-verbose' for controlling verbosity
+6. [patscc] now passes the flag -Wl,warn-common to [gcc] by default
 
 </pre>
 
