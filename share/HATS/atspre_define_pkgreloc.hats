@@ -150,5 +150,12 @@ LIBATS_HWXI_sourceloc "$ATSLANGWEBLIB/contrib/libats-/hwxi"
 LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 //
 (* ****** ****** *)
+//
+// For applying ATS to Linux kernel programming
+//
+#define LINUX_sourceloc "$ATSLANGWEBLIB/contrib/linux"
+#define LINUX_targetloc "$PATSHOMERELOC/contrib/linux"
+//
+(* ****** ****** *)
 
 (* end of [atspre_define_pkgreloc.hats] *)

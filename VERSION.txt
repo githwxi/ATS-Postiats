@@ -31,8 +31,11 @@ Here is a list of major additions and changes since the last release:
    var A3 = @[int][4](1,2,3) // A3 = 1,2,3,1
    var A4 = @[int][4](1,2,3,4) // A4 = 1,2,3,4
    var A5 = @[int][4](1,2,3,4,5) // A5 = 1,2,3,4
-2. Fixing hidexp_is_lvalue: handling sequencing-expressions is added
-3. [patscc] is given a flag -verbose to control verbosity
+2. Fixing hidexp_is_lvalue:
+   handling sequencing-expressions is supported
+3. Support for lazy-evaluation is added to atscc2js 
+4. ATStmpdec_void(...) is commented out in the generated C code
+5. [patscc] is given a flag '-verbose' for controlling verbosity
 
 </pre>
 
