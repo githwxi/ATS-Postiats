@@ -76,19 +76,21 @@ a functioning typechecker for ATS could be tested on a variety of simple
 examples. By the beginning of 2004, an interpreter for programs in ATS
 started to be functioning. However, it was still unclear by then how common
 imperative programming features can or should be supported in ATS. The
-breakthrough came before Summer 2004, when it was finally realized that a
-form of theorem-proving based on linear logic can be incorporated into ATS
-as the basis for supporting imperative programming. The moment of this
-realization is probably the single most crucial moment in the development
-of ATS. By the middle of July 2004, the implementation for ATS (extended
-with linear types) reached a point where the typechecker and the
-interpreter were able to handle a variety of imperative programs.
+breakthrough came at the beginning of Summer 2004, when it was finally
+realized that a form of theorem-proving based on linear logic can be
+incorporated into ATS as the basis for supporting imperative
+programming. The moment of this realization can probably be claimed as the
+single most crucial moment in the development of ATS. By the middle of July
+2004, the implementation for ATS (extended with linear types) reached a
+point where the typechecker and the interpreter were able to handle a
+variety of imperative programs.
 
 </p>
 
 <hr></hr>
 
 <p>
+
 The following list consists of the major implementations of ATS
 that were publicly released in the past:
 <ul>
@@ -102,8 +104,11 @@ ATS1/Geizella (written in OCaml)
 ATS1/Anairiats (written in ATS1)
 </li>
 </ul>
-The current release of ATS is ATS2/Postiats, which consists of
-more than 150K lines of code written in ATS1.
+The current release of ATS is ATS2/Postiats. The compiler in
+ATS2/Postiats consists of more than 150K lines of code written in ATS1,
+which can be compiled into C code (conforming to the C99 standard) by either
+ATS1/Geizella or ATS1/Anairiats.
+
 </p>
 
 <hr></hr>
