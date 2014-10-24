@@ -2011,10 +2011,10 @@ ins.instr_node of
     val () = emit_text (out, "\n*/")
   } (* end of [INStmpdec] *)
 //
-| INSextvar (name, pmv) =>
+| INSextvar (id, pmv) =>
   {
     val () = emit_text (out, "ATSINSextvar_assign(")
-    val () = fprintf (out, "ATSextval(%s)", @(name))
+    val () = fprintf (out, "ATSPMVextval(%s)", @(id))
     val () = emit_text (out, ", ")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ") ;")
@@ -2034,7 +2034,7 @@ ins.instr_node of
     val () = prerr_interror_loc (loc0)
     val () = prerrln! (": pats_ccomp_emit: emit_instr: ins = ", ins)
     val ((*exit*)) = assertloc (false)
-  }
+  } (* end of [unsupported-instr] *)
 end // end of [emit_instr]
 
 (* ****** ****** *)
