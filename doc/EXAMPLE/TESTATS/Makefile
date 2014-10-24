@@ -241,4 +241,12 @@ cleanall:: ; $(RMF) weekday
 
 ######
 
+all:: \
+withtype
+withtype: withtype.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: withtype ; ./$<
+cleanall:: ; $(RMF) withtype
+
+######
+
 ###### end of [Makefile] ######
