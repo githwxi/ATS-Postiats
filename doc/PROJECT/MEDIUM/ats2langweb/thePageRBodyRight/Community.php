@@ -6,6 +6,15 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2014-10-22:<br>
+
+<a
+ href="https://groups.google.com/forum/#!topic/pure-lang/grNVDlp49rY"
+>Pure 0.63 supports external code in ATS</a>
+by <a href="https://plus.google.com/+AlbertGraef/posts">Albert Graef</a>
+
+<hr></hr>
+
 ATS-2014-10-21:<br>
 
 <a
