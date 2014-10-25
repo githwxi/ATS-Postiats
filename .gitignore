@@ -215,7 +215,7 @@ doc/DISTRIB/ATS-Postiats/src/.depend
 doc/DISTRIB/ATS-Postiats/src/Makefile
 doc/DISTRIB/ATS-Postiats/src/pats_*.?ats
 doc/DISTRIB/ATS-Postiats/src/patsopt
-doc/DISTRIB/ATS-Postiats/src/CBOOT
+doc/DISTRIB/ATS-Postiats/src/CBOOT/*
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib64
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/output
