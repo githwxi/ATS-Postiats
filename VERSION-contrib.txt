@@ -1,4 +1,18 @@
+0.1.5
+
+######
+
+0.1.4
+
+improving atscc2js
+improving atscc2php
+
+######
+
 0.1.3
+
+releaseing libatscc2js
+releaseing libatscc2php
 
 ######
 
