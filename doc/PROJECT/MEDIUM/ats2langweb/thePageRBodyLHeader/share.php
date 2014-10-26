@@ -43,16 +43,6 @@ thePageRBodyLHeader_Documents()
 /* ****** ****** */
 
 function
-thePageRBodyLHeader_Libraries()
-{
-  echo "<ul name=\"Libraries\">\n";
-  echo "</ul>\n";
-  return;
-} /* end of [thePageRBodyLHeader_Libraries] */
-
-/* ****** ****** */
-
-function
 thePageRBodyLHeader_Community()
 {
   echo "<ul name=\"Community\">\n";
