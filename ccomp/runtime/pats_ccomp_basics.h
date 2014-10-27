@@ -56,12 +56,12 @@
 //
 /* ****** ****** */
 
-#define ATSinline() static inline
+#define ATSextern() extern
+#define ATSstatic() static
 
 /* ****** ****** */
 
-#define ATSextern() extern
-#define ATSstatic() static
+#define ATSinline() static inline
 
 /* ****** ****** */
 //
