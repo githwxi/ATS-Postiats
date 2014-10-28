@@ -320,6 +320,37 @@ string1_length
 } // end of [where] // end of [string1_length]
 
 #atscode_separator()
+//
+implement{}
+string1_nlength
+  (str1, n2) = let
+//
+fun
+loop{n1,n2,r:nat} .<n1>.
+(
+  str1: string(n1), n2: size_t(n2), r: size_t(r)
+) :<> size_t(min(n1,n2)+r) =
+(
+if
+(n2 > 0)
+then let
+in
+//
+if
+isneqz(str1)
+  then loop (str1.tail, pred(n2), succ(r)) else (r)
+//
+end // end of [then]
+else (r) // end of [else]
+)
+//
+prval () = lemma_string_param(str1) and () = lemma_g1uint_param(n2)
+//
+in
+  loop (str1, n2, i2sz(0))
+end // end of [string1_nlength]
+//
+#atscode_separator()
 
 implement{}
 string0_copy
