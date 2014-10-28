@@ -309,7 +309,7 @@ string_tail{n}
 
 implement{}
 string0_length
-  (str) = string1_length ($UN.cast{String}(str))
+  (str) = string1_length<> (g1ofg0(str))
 // end of [string0_length]
 
 implement{}
@@ -320,6 +320,12 @@ string1_length
 } // end of [where] // end of [string1_length]
 
 #atscode_separator()
+//
+implement{}
+string0_nlength
+  (str1, n2) =
+  string1_nlength<> (g1ofg0(str1), g1ofg0(n2))
+// end of [string0_nlength]
 //
 implement{}
 string1_nlength
