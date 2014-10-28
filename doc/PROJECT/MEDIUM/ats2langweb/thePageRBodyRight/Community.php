@@ -6,11 +6,20 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2014-10-28:<br>
+
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/4bxGSeORbeo"
+>A simple char driver in ATS</a>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2014-10-24:<br>
 
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/prfDLf2_LKM"
->ATS2-0.1.4 is released</a>
+>ATS2-0.1.4 has been released</a>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
