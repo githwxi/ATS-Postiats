@@ -28,8 +28,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#ifndef ATSLIB_LIBC_ERRNO_CATS
-\#define ATSLIB_LIBC_ERRNO_CATS
+\#ifndef ATSLIB_LIBC_CATS_ERRNO
+\#define ATSLIB_LIBC_CATS_ERRNO
 
 #atscode_separator_for_C()
 
@@ -58,7 +58,7 @@ atslib_the_errno_test(errno_t eno)
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSLIB_LIBC_ERRNO_CATS
+\#endif // ifndef ATSLIB_LIBC_CATS_ERRNO
 
 #atscode_separator_for_C()
 

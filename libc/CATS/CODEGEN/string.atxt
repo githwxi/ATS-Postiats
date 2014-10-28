@@ -28,8 +28,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#ifndef ATSLIB_LIBC_STRING_CATS
-\#define ATSLIB_LIBC_STRING_CATS
+\#ifndef ATSLIB_LIBC_CATS_STRING
+\#define ATSLIB_LIBC_CATS_STRING
 
 #atscode_separator_for_C()
 
@@ -125,7 +125,7 @@ atslib_strdup_gc
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSLIB_LIBC_STRING_CATS
+\#endif // ifndef ATSLIB_LIBC_CATS_STRING
 
 #atscode_separator_for_C()
 
