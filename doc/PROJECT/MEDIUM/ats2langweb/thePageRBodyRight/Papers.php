@@ -5,7 +5,7 @@ style="margin-top:8px;padding:8px;"
 <h2
  style="display:inline;"
 >A little history of ATS</h2><br>
-(following the paper trail)
+(following the trail of research papers)
 
 <hr></hr>
 
