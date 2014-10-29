@@ -16,6 +16,7 @@
 
 (* ****** ****** *)
 
+staload "libc/SATS/math.sats"
 staload "libc/SATS/float.sats"
 
 (* ****** ****** *)
@@ -54,6 +55,13 @@ fun
 {a:t@ype} gmag_val (x: a):<> double
 //
 (* ****** ****** *)
+//
+implement
+gmag_val<float> (x) = g0f2f(abs(x))
+implement
+gmag_val<double> (x) = g0f2f(abs(x))
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
@@ -69,14 +77,13 @@ val gsub = gsub_val<a>
 val gmul = gmul_val<a>
 val gdiv = gdiv_val<a>
 val gmag = gmag_val<a>
+val grecip = grecip_val<a>
 //
-(*
-// if you like:
+overload ~ with gneg
 overload + with gadd
 overload - with gsub
 overload * with gmul
 overload / with gdiv
-*)
 //
 typedef row = natLt(m)
 typedef col = natLt(n)
@@ -109,6 +116,24 @@ in
 end // end of [row_swap]
 //
 fun
+row_scal
+(
+  a: a, i: row, j: col
+) : void = let
+//
+implement(env)
+intrange_foreach$fwork<env>
+  (j, env) = let
+  val j = $UN.cast{col}(j)
+in
+  A[i, j] := a * A[i, j]
+end // end of [intrange_foreach]
+//
+in
+  ignoret (intrange_foreach (j, n))
+end // end of [row_scal]
+//
+fun
 row_axpy
 (
   a: a, i0: row, i1: row, j: col
@@ -119,7 +144,7 @@ intrange_foreach$fwork<env>
   (j, env) = let
   val j = $UN.cast{col}(j)
 in
-  A[i1, j] := ((a \gmul A[i0, j]) \gadd A[i1, j])
+  A[i1, j] := a * A[i0, j] + A[i1, j]
 end // end of [intrange_foreach]
 //
 in
@@ -162,8 +187,8 @@ do_one
 //
 val j = i
 val i_max = rowcol_max (i)
-val ((*void*)) = row_swap (i, i_max, j)
-val Aii = A[i, j]
+val () = row_swap (i, i_max, j)
+val () = row_scal (grecip(A[i, j]), i, i)
 //
 fun
 loop
@@ -174,7 +199,7 @@ loop
 if
 (i1 < m)
 then let
-  val a = gneg(A[i1, j] \gdiv Aii)
+  val a = ~A[i1, j]
 in
   row_axpy (a, i, i1, j)
 end // end of [then]
