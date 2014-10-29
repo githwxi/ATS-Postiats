@@ -1,9 +1,16 @@
 #! /usr/bin/env pure
 //
-// It is based on a version by Barry Schwartz
+// See the version by Barry Schwartz:
+// https://bitbucket.org/chemoelectric/odds_and_ends/src/fc3d388d71de6fe7adf75203ac45e7aafc8de8b6/ats/gauss_jordan.pure?at=default
 //
 %< -*- ATS -*-
 
 #include "./gauss_jordan.dats"
 
+%{
+void *atsruntime_malloc_undef(size_t bsz) { return malloc(bsz); }
+%}
+
 %> // end of ATS code.
+
+mytest_ats();

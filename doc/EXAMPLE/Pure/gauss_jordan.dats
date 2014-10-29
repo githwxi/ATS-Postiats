@@ -243,6 +243,16 @@ end // end of [gauss_jordan]
 
 extern
 fun
+gauss_jordan_float
+  {m,n:int | 1 <= m; m <= n}
+(
+  A: matrixref (float, m, n), m: int m, n: int n
+) : void = "ext#" // end of [gauss_jordan_float]
+
+(* ****** ****** *)
+
+extern
+fun
 gauss_jordan_double
   {m,n:int | 1 <= m; m <= n}
 (
@@ -252,17 +262,26 @@ gauss_jordan_double
 (* ****** ****** *)
 //
 implement
+gauss_jordan_float
+  (A, m, n) = gauss_jordan<float> (A, m, n)
+//
+implement
 gauss_jordan_double
   (A, m, n) = gauss_jordan<double> (A, m, n)
 //
 (* ****** ****** *)
-
-(*
+//
+extern
+fun
+mytest_ats
+(
+) : void = "ext#"
+//
 implement
-main0 () =
+mytest_ats () =
 {
 //
-val m = 3 and n = 3
+val m = 4 and n = 4
 val M = i2sz(m) and N = i2sz(n)
 //
 val A =
@@ -271,19 +290,18 @@ matrixref_tabulate_cloref<double>
   (M, N, lam (i, j) => g0i2f(max(sz2i(i),sz2i(j))))
 ) (* end of [val] *)
 //
-val () = fprint (stdout_ref, "A =\n")
+val () = fprint (stdout_ref, "A(bef) =\n")
 val () = fprint_matrixref_sep (stdout_ref, A, M, N, ", ", "\n")
 val () = fprint_newline (stdout_ref)
 //
 val () = gauss_jordan_double (A, m, n)
 //
-val () = fprint (stdout_ref, "A =\n")
+val () = fprint (stdout_ref, "A(aft) =\n")
 val () = fprint_matrixref_sep (stdout_ref, A, M, N, ", ", "\n")
 val () = fprint_newline (stdout_ref)
 //
-} (* end of [main0] *)
-*)
-
+} (* end of [mytest_ats] *)
+//
 (* ****** ****** *)
 
 (* end of [gauss_jordan.dats] *)
