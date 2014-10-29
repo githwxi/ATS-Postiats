@@ -87,6 +87,30 @@ thePageRBodyLHeader_Examples()
 
 /* ****** ****** */
 
+function
+thePageRBodyLHeader_Resources()
+{
+  echo "<ul name=\"Resources\">\n";
+  echo "</ul>\n";
+  return;
+} /* end of [thePageRBodyLHeader_Resources] */
+
+/* ****** ****** */
+
+function
+thePageRBodyLHeader_Implements()
+{
+  echo "<ul name=\"Implements\">\n";
+  echo "<li><a href=\"#ATSproto\">ATS/Proto</a></li>\n";
+  echo "<li><a href=\"#ATSgeizella\">ATS/Geizella</a></li>\n";
+  echo "<li><a href=\"#ATSanairiats\">ATS/Anairiats</a></li>\n";
+  echo "<li><a href=\"#ATSpostiats\">ATS/Postiats</a></li>\n";
+  echo "</ul>\n";
+  return;
+} /* end of [thePageRBodyLHeader_Implements] */
+
+/* ****** ****** */
+
 ?>
 
 <?php /* end of [share.php] */ ?>

@@ -6,7 +6,7 @@ style="margin-left:8px;"
 
 <?php
 thePageRBodyLHeader_Papers();
-?><!--php>
+?><!--php-->
 
 </div>
 

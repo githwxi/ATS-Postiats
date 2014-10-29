@@ -2,7 +2,10 @@
 style="margin-top:8px;padding:8px;"
 ><!--div-->
 
-<h2 style="display:inline;">A little history of ATS</h2>
+<h2
+ style="display:inline;"
+>A little history of ATS</h2><br>
+(following the paper trail)
 
 <hr></hr>
 
@@ -103,11 +106,15 @@ ATS1/Geizella (written in OCaml)
 <li>
 ATS1/Anairiats (written in ATS1)
 </li>
+<li>
+ATS2/Postiats (written in ATS1)
+</li>
 </ul>
-The current release of ATS is ATS2/Postiats. The compiler in
-ATS2/Postiats consists of more than 150K lines of code written in ATS1,
-which can be compiled into C code (conforming to the C99 standard) by either
-ATS1/Geizella or ATS1/Anairiats.
+The current release of ATS is ATS2/Postiats. The compiler inside
+ATS2/Postiats alone consists of more than 150K lines of code written in
+ATS1, which can be compiled into C code (conforming to the C99 standard) by
+either ATS1/Geizella or ATS1/Anairiats. A little bit of history on the
+released implementations of ATS can be found <a href="./Implements.html">on-line</a>.
 
 </p>
 
