@@ -5,12 +5,14 @@
 
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0
-
 #include
 "share/atspre_define.hats"
 #include
 "share/atspre_staload.hats"
+
+(* ****** ****** *)
+
+#define ATS_DYNLOADFLAG 0
 
 (* ****** ****** *)
 
@@ -72,10 +74,10 @@ overload / with gdiv
 //
 typedef row = natLt(m)
 typedef col = natLt(n)
-typedef mat = matrixref (a, m, n)
+typedef mat = matrixref(a, m, n)
 //
-fun get (A: mat, i : row, j : col): a = matrixref_get_at (A, i, n, j)
-fun set (A: mat, i : row, j : col, x: a): void = matrixref_set_at (A, i, n, j, x)
+fun get (A: mat, i: row, j: col): a = matrixref_get_at (A, i, n, j)
+fun set (A: mat, i: row, j: col, x: a): void = matrixref_set_at (A, i, n, j, x)
 //
 overload [] with get
 overload [] with set
