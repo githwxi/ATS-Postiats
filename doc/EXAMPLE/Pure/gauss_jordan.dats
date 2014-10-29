@@ -1,6 +1,13 @@
 (*
-** HX-2104-10-28:
-** It is based on a version by Barry Schwartz
+**
+** HX-2104-10-29:
+** Gaussian elimination
+** on a matrix of the dimension (m, n)
+** where 1 <= m <= n holds
+**
+** See the version by Barry Schwartz:
+** https://bitbucket.org/chemoelectric/odds_and_ends/src/fc3d388d71de6fe7adf75203ac45e7aafc8de8b6/ats/gauss_jordan.pure?at=default
+**
 *)
 
 (* ****** ****** *)
@@ -31,18 +38,19 @@ a:t@ype
 } gauss_jordan
   {m,n:int | 1 <= m; m <= n}
 (
-  A: matrixref (a, m, n), m: int m, n: int n, reduced : bool
+  A: matrixref (a, m, n), m: int m, n: int n
 ) : void // end of [gauss_jordan]
 
+(* ****** ****** *)
+
 extern
-fun
-{a:t@ype}
-gauss_jordan$epsilon (): (a)
+fun{}
+gauss_jordan$epsilon (): double
 
 (* ****** ****** *)
 
 implement
-{a}(*tmp*)
+{}(*tmp*)
 gauss_jordan$epsilon
 (
 // argumentless
@@ -68,7 +76,7 @@ implement
 gauss_jordan
   {m,n}
 (
-  A, m, n, reduced
+  A, mrow, ncol
 ) = let
 //
 val gneg = gneg_val<a>
@@ -89,8 +97,10 @@ typedef row = natLt(m)
 typedef col = natLt(n)
 typedef mat = matrixref(a, m, n)
 //
-fun get (A: mat, i: row, j: col): a = matrixref_get_at (A, i, n, j)
-fun set (A: mat, i: row, j: col, x: a): void = matrixref_set_at (A, i, n, j, x)
+fun
+get (A: mat, i: row, j: col): a = matrixref_get_at (A, i, ncol, j)
+fun
+set (A: mat, i: row, j: col, x: a): void = matrixref_set_at (A, i, ncol, j, x)
 //
 overload [] with get
 overload [] with set
@@ -104,6 +114,9 @@ row_swap
 implement(env)
 intrange_foreach$fwork<env>
   (j, env) = let
+//
+  val _ = ignoret(ncol)
+//
   val j =
   $UN.cast{col}(j)
   val x = A[i0, j]
@@ -112,7 +125,7 @@ in
 end // end of [intrange_foreach]
 //
 in
-  ignoret (intrange_foreach (j, n))
+  ignoret (intrange_foreach (j, ncol))
 end // end of [row_swap]
 //
 fun
@@ -124,13 +137,14 @@ row_scal
 implement(env)
 intrange_foreach$fwork<env>
   (j, env) = let
+  val _ = ignoret(ncol)
   val j = $UN.cast{col}(j)
 in
   A[i, j] := a * A[i, j]
 end // end of [intrange_foreach]
 //
 in
-  ignoret (intrange_foreach (j, n))
+  ignoret (intrange_foreach (j, ncol))
 end // end of [row_scal]
 //
 fun
@@ -142,13 +156,14 @@ row_axpy
 implement(env)
 intrange_foreach$fwork<env>
   (j, env) = let
+  val _ = ignoret(ncol)
   val j = $UN.cast{col}(j)
 in
   A[i1, j] := a * A[i0, j] + A[i1, j]
 end // end of [intrange_foreach]
 //
 in
-  ignoret (intrange_foreach (j, n))
+  ignoret (intrange_foreach (j, ncol))
 end // end of [row_axpy]
 //
 fun
@@ -164,7 +179,7 @@ loop
 ) : row =
 (
 if
-i1 < m
+(i1 < mrow)
 then let
   val x1 = gmag(A[i1, j])
 in
@@ -188,7 +203,9 @@ do_one
 val j = i
 val i_max = rowcol_max (i)
 val () = row_swap (i, i_max, j)
+(*
 val () = row_scal (grecip(A[i, j]), i, i)
+*)
 //
 fun
 loop
@@ -197,11 +214,12 @@ loop
 ) : void =
 (
 if
-(i1 < m)
+(i1 < mrow)
 then let
-  val a = ~A[i1, j]
+  val a = ~A[i1, j] / A[i, j]
+  val () = row_axpy (a, i, i1, j)
 in
-  row_axpy (a, i, i1, j)
+  loop (i1 + 1)
 end // end of [then]
 else () // end of [else]
 )
@@ -215,11 +233,56 @@ do_all
 (
   i: natLte(m)
 ) : void =
-  if i < m then (do_one(i); do_all(i+1)) else ()
+  if i < mrow then (do_one(i); do_all(i+1)) else ()
 //
 in
   do_all(0)
 end // end of [gauss_jordan]
+
+(* ****** ****** *)
+
+extern
+fun
+gauss_jordan_double
+  {m,n:int | 1 <= m; m <= n}
+(
+  A: matrixref (double, m, n), m: int m, n: int n
+) : void = "ext#" // end of [gauss_jordan_double]
+
+(* ****** ****** *)
+//
+implement
+gauss_jordan_double
+  (A, m, n) = gauss_jordan<double> (A, m, n)
+//
+(* ****** ****** *)
+
+(*
+implement
+main0 () =
+{
+//
+val m = 3 and n = 3
+val M = i2sz(m) and N = i2sz(n)
+//
+val A =
+(
+matrixref_tabulate_cloref<double>
+  (M, N, lam (i, j) => g0i2f(max(sz2i(i),sz2i(j))))
+) (* end of [val] *)
+//
+val () = fprint (stdout_ref, "A =\n")
+val () = fprint_matrixref_sep (stdout_ref, A, M, N, ", ", "\n")
+val () = fprint_newline (stdout_ref)
+//
+val () = gauss_jordan_double (A, m, n)
+//
+val () = fprint (stdout_ref, "A =\n")
+val () = fprint_matrixref_sep (stdout_ref, A, M, N, ", ", "\n")
+val () = fprint_newline (stdout_ref)
+//
+} (* end of [main0] *)
+*)
 
 (* ****** ****** *)
 
