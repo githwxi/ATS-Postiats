@@ -1,12 +1,13 @@
 #
 # A simple Makefile
 #
-# HX: Assuming that Pure is properly installed
+# HX-2012-10-24:
+# Assuming that Pure is properly installed
 #
 
 ######
 
-.PHONY: fact_dats.pure
+.PHONY:: fact_dats.pure
 
 ######
 

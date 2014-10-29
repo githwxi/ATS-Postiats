@@ -1,0 +1,9 @@
+#! /usr/bin/env pure
+//
+// It is based on a version by Barry Schwartz
+//
+%< -*- ATS -*-
+
+#include "./gauss_jordan.dats"
+
+%> // end of ATS code.

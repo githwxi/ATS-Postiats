@@ -83,11 +83,12 @@ essentially consists of the API for calling libc-functions in ATS.
 
 <p>
 
-<u>ATSLIB/libats</u> consists of various data structures implemented in
-ATS. The implementation code is largely template-based and it is mostly
-being used by the compiler (ATS/Postiats) to generate C code (rather than
-itself being directly compiled into object code).  Often a data structure
-is given a functional implementation as well as a linear implementation in
+<u>ATSLIB/libats</u>
+consists of various data structures implemented in ATS (or, more precisely,
+ATS2). The implementation code is primarily template-based (so that it can
+be used by the compiler (ATS/Postiats) to generate C code rather than
+itself be directly compiled into object code).  Often a data structure is
+given a functional implementation as well as a linear implementation in
 ATSLIB/libats, where the former requires the availability of garbage
 collection (GC) for automatic memory management while the latter relies on
 linear types to ensure the safety of manual memory management.
