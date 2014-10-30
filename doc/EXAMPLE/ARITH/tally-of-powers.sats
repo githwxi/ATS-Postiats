@@ -237,4 +237,4 @@ prfun sum10
 
 (* ****** ****** *)
 
-(* end of [tally.sats] *)
+(* end of [tally-of-powers.sats] *)

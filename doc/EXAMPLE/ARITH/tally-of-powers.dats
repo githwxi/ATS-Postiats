@@ -33,9 +33,9 @@
 // handling multiplication terms in the constraint-solver of ATS2
 //
 (* ****** ****** *)
-
-staload "./tally.sats"
-
+//
+staload "./tally-of-powers.sats"
+//
 (* ****** ****** *)
 
 primplmnt
@@ -258,4 +258,4 @@ end // end of [sum10]
 
 (* ****** ****** *)
 
-(* end of [tally.dats] *)
+(* end of [tally-of-powers.dats] *)
