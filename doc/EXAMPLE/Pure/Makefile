@@ -7,6 +7,10 @@
 
 ######
 
+PATSCC=$(PATSHOME)/bin/patscc
+
+######
+
 .PHONY:: fact_dats.pure
 .PHONY:: gauss_jordan_dats.pure
 
@@ -14,9 +18,21 @@
 
 #
 export \
-PURE_ATSCC=patscc -DATS_MEMALLOC_LIBC
+dragonegg_disable_version_check=1
+#
 export \
-PATSCCOMP=clang -emit-llvm -std=c99 -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
+PURE_ATSCC= \
+$(PATSCC) \
+-atsccomp "${PURE_ATSCCOMP}" \
+-fplugin=dragonegg -DATS_MEMALLOC_LIBC
+#
+export \
+PURE_ATSCCOMP=\
+gcc -std=c99 -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
+#
+# export \
+# PURE_ATSCCOMP=\
+# clang -std=c99 -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -emit-llvm
 #
 
 ######
