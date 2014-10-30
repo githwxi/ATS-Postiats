@@ -7,9 +7,11 @@
 
 #include "./gauss_jordan.dats"
 
+(*
 %{
 void *atsruntime_malloc_undef(size_t bsz) { return malloc(bsz); }
 %}
+*)
 
 %> // end of ATS code.
 

@@ -34,12 +34,17 @@ href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=http
 
 <tr><td>
 <a
-href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ARITH/Bezout_identity.dats">A proof of Bézout's identity</a>
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ATSLF/PHP.dats">Proving the pigenhole principle</a>
 </td></tr>
 
 <tr><td>
 <a
-href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ATSLF/PHP.dats">A proof of the pigenhole principle</a>
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ARITH/Bezout_identity.dats">Proving Bézout's identity</a>
+</td></tr>
+
+<tr><td>
+<a
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ARITH/tally-of-powers.dats">Proving Identities for tally-of-powers</a>
 </td></tr>
 
 <tr><td>
