@@ -247,7 +247,7 @@ gauss_jordan_float
   {m,n:int | 1 <= m; m <= n}
 (
   A: matrixref (float, m, n), m: int m, n: int n
-) : void = "ext#" // end of [gauss_jordan_float]
+) : void = "ext#ATS_gauss_jordan_float" // endfun
 
 (* ****** ****** *)
 
@@ -257,7 +257,7 @@ gauss_jordan_double
   {m,n:int | 1 <= m; m <= n}
 (
   A: matrixref (double, m, n), m: int m, n: int n
-) : void = "ext#" // end of [gauss_jordan_double]
+) : void = "ext#ATS_gauss_jordan_double" // endfun
 
 (* ****** ****** *)
 //
@@ -278,10 +278,13 @@ mytest_ats
 ) : void = "ext#"
 //
 implement
+fprint_val<double> (out, x) = $extfcall (void, "fprintf", out, "%2.1f", x)
+//
+implement
 mytest_ats () =
 {
 //
-val m = 4 and n = 4
+val m = 10 and n = 10
 val M = i2sz(m) and N = i2sz(n)
 //
 val A =

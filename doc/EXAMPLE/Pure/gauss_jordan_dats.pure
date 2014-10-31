@@ -14,5 +14,28 @@ void *atsruntime_malloc_undef(size_t bsz) { return malloc(bsz); }
 *)
 
 %> // end of ATS code.
+//
+using system; // for puts
+//
+let matrixref_ptr = pointer_tag "char*";
+//
+gauss_jordan A::dmatrix = () when
+  (m, n) = dim(A);
+  A_ptr = (pointer_cast matrixref_ptr $ pointer A);
+  _ = ATS_gauss_jordan_double A_ptr m n;
+end ; // end of [when] // end of [gauss_jordan]
+//
+mat2str A =
+join "\n" (map (join ", " . list.map str) (rows A));
+//
+let n = 10;
+let A = dmatrix{ max(i)(j) | i = 0 .. n-1; j = 0 .. n-1 };
+puts(str(dim(A)));
+puts("A(bef)="); puts( mat2str(A) );
+let _ = gauss_jordan(A);
+puts("A(aft)="); puts( mat2str(A) );
+//
+// mytest_ats(); // this test can also be done inside ATS
+//
+/* end of [gauss_jordan_dats.pure] */
 
-mytest_ats();
