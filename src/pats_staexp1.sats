@@ -116,10 +116,10 @@ e1xp_node =
   | E1XPapp of (e1xp, location(*arg*), e1xplst)
   | E1XPfun of (symbolist, e1xp)
 //
+  | E1XPif of (e1xp, e1xp, e1xp)
+//
   | E1XPeval of e1xp
   | E1XPlist of e1xplst
-//
-  | E1XPif of (e1xp, e1xp, e1xp)
 //
   | E1XPerr of () // HX: placeholder for error indication
 //
@@ -167,21 +167,25 @@ fun e1xp_v1al (loc: location, v: v1al): e1xp
 fun e1xp_none (loc: location): e1xp
 fun e1xp_undef (loc: location): e1xp
 //
-fun e1xp_app (
+fun
+e1xp_app
+(
   loc: location
 , _fun: e1xp, loc_arg: location, _arg: e1xplst
 ) : e1xp // end of [e1xp_app]
 //
-fun e1xp_fun
+fun
+e1xp_fun
   (loc: location, arg: symbolist, body: e1xp): e1xp
 // end of [e1xp_fun]
 //
-fun e1xp_eval (loc: location, e: e1xp): e1xp
-fun e1xp_list (loc: location, es: e1xplst): e1xp
-//
-fun e1xp_if (
+fun e1xp_if
+(
   loc: location, _cond: e1xp, _then: e1xp, _else: e1xp
 ) : e1xp // end of [e1xp_if]
+//
+fun e1xp_eval (loc: location, e: e1xp): e1xp
+fun e1xp_list (loc: location, es: e1xplst): e1xp
 //
 fun e1xp_err (loc: location): e1xp
 //

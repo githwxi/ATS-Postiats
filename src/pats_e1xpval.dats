@@ -463,39 +463,49 @@ case+ e0.e1xp_node of
 //
 | E1XPnone () => V1ALint (0)
 //
-| E1XPundef () => V1ALerr () where {
-    val () = the_valerrlst_add (VE_E1XPundef (e0))
-  }
+| E1XPundef () => let
+    val () =
+      the_valerrlst_add (VE_E1XPundef (e0)) in V1ALerr()
+    // end of [val]
+  end // end of [E1XPundef]
 //
 | E1XPapp
   (
     e_fun, _(*loc_arg*), es_arg
   ) => (
-  case+ e_fun.e1xp_node of
-  | E1XPide id =>
-      e1xplevenv_valize_appid (lev, env, e0, id, es_arg)
-   // end of [E1XPide]
-  | _ => V1ALerr () where {
-      val () = the_valerrlst_add (VE_E1XPapp_fun (e0))
-    } (* end of [_] *)
-  ) // end of [E1XPapp]
-//
-| E1XPlist (es) => e1xplevenv_valize_list (lev, env, e0, es)
-| E1XPeval (e1) => e1xplevenv_valize (lev, env, e1) // HX: is this right?
+    case+
+    e_fun.e1xp_node of
+    | E1XPide id => (
+        e1xplevenv_valize_appid (lev, env, e0, id, es_arg)
+     ) // end of [E1XPide]
+    | _ (*non-ide*) => let
+        val () =
+          the_valerrlst_add (VE_E1XPapp_fun(e0)) in V1ALerr()
+        // end of [val]
+      end (* end of [_] *)
+  ) (* end of [E1XPapp] *)
 //
 | E1XPif (_cond, _then, _else) => let
-    val _cond = e1xplevenv_valize (lev, env, _cond)
+    val _cond =
+      e1xplevenv_valize (lev, env, _cond)
+    // end of [val]
   in
     case+ _cond of
-    | V1ALerr () => V1ALerr ()
-    | _ => let
+    | V1ALerr() => V1ALerr()
+    | _ (*non-V1ALerr*) => let
         val _taken = (
           if v1al_is_true (_cond) then _then else _else
         ) : e1xp // end of [val]
       in
         e1xplevenv_valize (lev, env, _taken)
-      end (* end of [_] *)
+      end (* end of [non-V1ALerr] *)
   end
+//
+| E1XPlist (es) =>
+    e1xplevenv_valize_list (lev, env, e0, es)
+  // end of [E1XPlist]
+//
+| E1XPeval (e1) => e1xplevenv_valize (lev, env, e1) // HX: right?
 //
 | E1XPfun _ => V1ALerr () where {
     val () = the_valerrlst_add (VE_E1XPfun (e0))
