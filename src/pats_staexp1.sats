@@ -32,18 +32,18 @@
 // Start Time: April, 2011
 //
 (* ****** ****** *)
-
+//
 staload
 INTINF = "./pats_intinf.sats"
 typedef intinf = $INTINF.intinf
-
+//
 staload
 FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 staload
 LOC = "./pats_location.sats"
 typedef location = $LOC.location
-
+//
 (* ****** ****** *)
 
 staload
@@ -111,10 +111,13 @@ e1xp_node =
   | E1XPv1al of v1al
 //
   | E1XPnone of () // defintion is not given
-  | E1XPundef of () // a special value for marking un-definition
+  | E1XPundef of () // for marking un-definition
 //
-  | E1XPapp of (e1xp, location(*arg*), e1xplst)
-  | E1XPfun of (symbolist, e1xp)
+  | E1XPapp of
+    (
+      e1xp(*fun*), location(*arg*), e1xplst
+    ) (* end of [E1XPapp] *)
+  | E1XPfun of (symbolist(*arg*), e1xp(*body*))
 //
   | E1XPif of (e1xp, e1xp, e1xp)
 //
@@ -126,28 +129,34 @@ e1xp_node =
 // end of [e1xp_node]
 
 where
-e1xp: type = '{
-  e1xp_loc= location, e1xp_node= e1xp_node
-}
+e1xp :
+type = '{
+  e1xp_loc= location
+, e1xp_node= e1xp_node
+} // end of [e1xp]
 and e1xplst: type = List (e1xp)
 
+(* ****** ****** *)
+//
 fun print_e1xp (_: e1xp): void
 overload print with print_e1xp
 fun prerr_e1xp (_: e1xp): void
 overload prerr with prerr_e1xp
 fun fprint_e1xp : fprint_type (e1xp)
-
+//
 fun print_e1xplst (_: e1xplst): void
 overload print with print_e1xplst
 fun prerr_e1xplst (_: e1xplst): void
 overload prerr with prerr_e1xplst
 fun fprint_e1xplst : fprint_type (e1xplst)
-
+//
 (* ****** ****** *)
 //
 fun e1xp_make
   (loc: location, node: e1xp_node): e1xp
 // end of [e1xp_make]
+//
+(* ****** ****** *)
 //
 fun e1xp_ide (loc: location, sym: symbol): e1xp
 //
