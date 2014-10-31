@@ -134,6 +134,10 @@ LIBATSCC2JS_targetloc
 LIBATSCC2PHP_targetloc
 "$PATSHOMERELOC/contrib/libatscc/libatscc2php"
 //
+#define
+LIBATSCC2CIL_targetloc
+"$PATSHOMERELOC/contrib/libatscc/libatscc2cil"
+//
 (* ****** ****** *)
 //
 // HX-2014-05-12:

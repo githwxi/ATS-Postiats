@@ -571,7 +571,7 @@ srcget_atscntrb:: srcget_atscntrb_libatscc
 srcget_atscntrb_libatscc:: SCRIPT/atscntrb_libatscc.bash ; bash $<
 
 ######
-
+#
 PACKNAME=ATS2-Postiats-0.1.5
 atspacktarzvcf:: ; rm -rf $(PACKNAME)
 atspacktarzvcf:: ; cp -rf ATS-Postiats $(PACKNAME)
@@ -580,7 +580,9 @@ atspacktarzvcf:: ; $(RMF) $(PACKNAME)/missing ; $(CPF) ATS-Postiats/missing $(PA
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAME)/
 atspacktarzvcf:: ; make -C $(PACKNAME) cleanall
 atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
-
+#
+atspacktarzvcf_up:: ; scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/.
+#
 ######
 
 CNTRBNAME=ATS2-Postiats-contrib-0.1.5
