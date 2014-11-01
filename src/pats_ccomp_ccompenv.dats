@@ -503,7 +503,9 @@ fun loop (
 in
 //
 case+ xs of
-| MARKENVLSTnil () => fold@ (xs)
+//
+| MARKENVLSTnil() => fold@ (xs)
+//
 | MARKENVLSTmark (!p_xs) => let
     val () =
     (
@@ -1616,9 +1618,10 @@ fun auxpop
 in
 //
 case+ xs of
-| MARKENVLSTnil () => let
-    prval () = fold@ (xs) in xs
-  end // end of [MENVLSTnil]
+//
+| MARKENVLSTnil () =>
+  let prval () = fold@ (xs) in xs end
+//
 | ~MARKENVLSTmark (xs) => xs
 | ~MARKENVLSTcons_var (d2v, xs) => let
     val _(*removed*) = d2varmaplst_vt_remove (map, d2v)
@@ -1643,9 +1646,11 @@ fun auxjoin
 in
 //
 case+ xs of
+//
 | MARKENVLSTnil () => let
     prval () = fold@ (xs) in (*nothing*)
   end // end of [MENVLSTnil]
+//
 | ~MARKENVLSTmark (xs1) => let
     val () = xs := auxpop (map, xs1) in (*nothing*)
   end // end of [MARKENVLSTmark]
@@ -1875,10 +1880,13 @@ in
   // nothing
 end // end of [ccompenv_add_tmpsub]
 
+(* ****** ****** *)
+//
 extern
 fun
 ccompenv_find_tmpsub
   (env: !ccompenv): tmpsubopt_vt
+//
 implement
 ccompenv_find_tmpsub (env) = let
 //
@@ -1889,6 +1897,10 @@ fun loop
 in
 //
 case+ xs of
+//
+| MARKENVLSTnil () => let
+    prval () = fold@ (xs) in None_vt()
+  end // end of [MARKENVLSTnil]
 //
 | MARKENVLSTcons_tmpsub
     (tsub, !p_xs) => let
@@ -1944,10 +1956,6 @@ case+ xs of
     val res = loop (!p_xs); prval () = fold@ (xs) in res
   end // end of [MARKENVLSTcons_mark]
 //
-| MARKENVLSTnil () =>
-    let prval () = fold@ (xs) in None_vt((*void*)) end
-  // end of [MARKENVLSTnil]
-//
 end // end of [loop]
 //
 val CCOMPENV (!p) = env
@@ -1957,7 +1965,7 @@ prval ((*void*)) = fold@ (env)
 in
   res
 end // end of [ccompenv_find_tmpsub]
-
+//
 (* ****** ****** *)
 
 implement
@@ -1984,7 +1992,8 @@ end // end of [ccompenv_add_impdecloc]
 
 local
 
-fun auxlst
+fun
+auxlst
 (
   env: !ccompenv, tsub: tmpsub, hfds: hifundeclst
 ) : void = let
