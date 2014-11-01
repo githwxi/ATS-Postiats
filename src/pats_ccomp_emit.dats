@@ -883,48 +883,68 @@ end // end of [emit2_funlab]
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 extern
-fun emit_arrdim
-  (out: FILEref, s2es: s2explst): void
+fun
+emit_arrdim
+(
+  out: FILEref
+, tmp: tmpvar, s2es: s2explst
+) : void // end-of-function
+//
 implement
 emit_arrdim
-  (out, s2es) = let
+  (out, tmp, s2es) = let
 //
 fun aux
 (
-  out: FILEref, s2e: s2exp
+  out: FILEref
+, tmp: tmpvar, s2e: s2exp
 ) : void = let
 in
 //
-case+ s2e.s2exp_node of
+case+
+s2e.s2exp_node of
+//
 | $S2E.S2Eint (n) => emit_int (out, n)
+//
 | $S2E.S2Eintinf (n) => emit_intinf (out, n)
-| _(*nonint*) => emit_text (out, "ATSERRORarrdim()")
+//
+| _(*non-fixed-int*) => let
+    val () =
+      prerr_errccomp_loc(tmpvar_get_loc(tmp))
+    val () =
+      prerrln! (": the size of a stack-allocated array cannot be determined. ")
+    // end of [val]
+  in
+    emit_text (out, "ATSERRORarrdim_unknown()")
+  end // end of [non-fixed-int]
 //
 end // end of [aux]
 //
 fun auxlst
 (
-  out: FILEref, s2es: s2explst, i: int
+  out: FILEref
+, tmp: tmpvar, s2es: s2explst, i: int
 ) : void = let
 in
 //
 case+ s2es of
-| list_cons
-    (s2e, s2es) => let
+| list_nil () => ()
+| list_cons (s2e, s2es) =>
+  {
     val () =
-      if i > 0 then emit_text (out, "][")
-    val () = aux (out, s2e)
-  in
-    auxlst (out, s2es, i+1)
-  end // end of [list_cons]
-| list_nil ((*void*)) => ()
+    if i > 0
+      then emit_text (out, "][")
+    // end of [if]
+    val () = aux (out, tmp, s2e)
+    val () = auxlst (out, tmp, s2es, i+1)
+  } (* end of [list_cons] *)
 //
 end (* end of [auxlst] *)
 //
 in
-  emit_text (out, "["); auxlst (out, s2es, 0); emit_text (out, "]")
+  emit_text (out, "["); auxlst (out, tmp, s2es, 0); emit_text (out, "]")
 end // end of [emit_arrdim]
 
 (* ****** ****** *)
@@ -955,9 +975,14 @@ val () = emit_text (out, "(")
 val () = emit_tmpvar (out, tmp)
 //
 val () = (
-case+ hse.hisexp_node of
-| HSEtyarr (_(*elt*), s2es) => emit_arrdim (out, s2es)
-| _ (*non-tyarr*) => ((*nothing*))
+case+
+hse.hisexp_node of
+//
+| HSEtyarr
+  (
+    _(*elt*), s2es
+  ) => emit_arrdim (out, tmp, s2es)
+| _ (* non-tyarr *) => ((*nothing*))
 ) (* end of [val] *)
 //
 val () =
@@ -1092,19 +1117,17 @@ case+ pmv0.primval_node of
 //
 | PMVlamfix (knd, pmv) => emit_primval (out, pmv)
 //
-| PMVerr () => emit_primval_err (out, pmv0)
+| PMVerr ((*void*)) => emit_primval_err (out, pmv0)
 //
-| _ => let
+| _ (*rest*) => let
 (*
     val () = prerr_interror_loc (loc0)
-    val () = (
-      prerr ": emit_primval: pmv0 = "; prerr pmv0; prerr_newline ()
-    ) // end of [val]
-    val () = assertloc (false)
+    val () = prerrln! (": emit_primval: pmv0 = ", pmv0)
+    val ((*exit*)) = assertloc (false)
 *)
   in
     fprint_primval (out, pmv0)
-  end // end of [_]
+  end (* end of [rest] *)
 //
 end // end of [emit_primval]
 
@@ -1404,14 +1427,13 @@ val () =
 (
 if isenv then
 {
-  val loc0 = pmv0.primval_loc
-  val () = prerr_errccomp_loc (loc0)
-  val () =
-  (
-    prerr ": the function is expected to be envless but it is not."
-  ) // end of [val]
-  val () = prerr_newline ()
-} // end of [if]
+  val loc0 =
+    pmv0.primval_loc
+  val ((*void*)) =
+    prerr_errccomp_loc (loc0)
+  val ((*void*)) =
+    prerrln! ": the function is expected to be envless but it is not."
+} (* end of [then] *) // end of [if]
 )
 //
 val () =
