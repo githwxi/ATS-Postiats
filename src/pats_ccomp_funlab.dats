@@ -416,7 +416,7 @@ in
 funlab_make
 (
   flname, lvl0, hse, fcopt, qopt, None (*sopt*), t2mas, stamp
-)
+) (* end of [funlab_make] *)
 //
 end // end of [funlab_make_tmpcst_type]
 
@@ -468,10 +468,15 @@ in
 funlab_make
 (
   flname, lvl0, hse, fcopt, None(*qopt*), sopt, t2mas, stamp
-)
+) (* end of [funlab] *)
 //
 end // end of [funlab_make_dvar_type]
 
+(*
+//
+// HX-2014-11-01:
+// where is this needed?
+//
 implement
 funlab_make_tmpvar_type
 (
@@ -486,9 +491,10 @@ in
 funlab_make
 (
   flname, lvl0, hse, fcopt, None(*qopt*), sopt, t2mas, stamp
-)
+) (* end of [funlab_make] *)
 //
 end // end of [funlab_make_tmpvar_type]
+*)
 
 end // end of [local]
 

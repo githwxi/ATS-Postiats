@@ -954,12 +954,12 @@ case+
 | HDElam _ =>
   (
     auxlam (env, loc0, d2c, imparg, tmparg, hde_def)
-  ) // end of [HDElam]
+  ) (* end of [HDElam] *)
 //
 | HDEfix _ =>
   (
     auxfix (env, loc0, d2c, imparg, tmparg, hde_def)
-  ) // end of [HDEfix]
+  ) (* end of [HDEfix] *)
 //
 | _ => let
     val (

@@ -17,7 +17,7 @@ function
 thePageRBodyLHeader_Downloads()
 {
   echo "<ul name=\"Downloads\">\n";
-  echo "<li><a href=\"#ATS_packages\">ATS packages for download</a></li>\n";
+  echo "<li><a href=\"#ATS_packages\">ATS packages</a></li>\n";
   echo "<li><a href=\"#Uninstall_for_ATS\">Uninstallation for ATS</a></li>\n";
   echo "<li><a href=\"#Requirements_install\">Requirements for installation</a></li>\n";
   echo "<li><a href=\"#Precompiledpack_install\">Precompiled packages for installation</a></li>\n";

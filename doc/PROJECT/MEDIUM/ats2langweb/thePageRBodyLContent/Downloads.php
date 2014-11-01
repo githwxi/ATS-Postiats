@@ -4,7 +4,7 @@ class="thePageRBodyLContent"
 
 <hr></hr>
 
-<h2><a id="ATS_packages">ATS packages for download</a></h2>
+<h2><a id="ATS_packages">ATS packages</a></h2>
 
 <p>
 ATS is Open Source and Free Software, and it is freely available under

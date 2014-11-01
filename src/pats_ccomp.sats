@@ -335,14 +335,22 @@ fun funlab_make_dcst_type
 fun funlab_make_dvar_type
   (d2v: d2var, hse: hisexp, opt: fcopt_vt): funlab
 //
-fun funlab_make_tmpcst_type
+fun
+funlab_make_tmpcst_type
 (
   d2c: d2cst, t2ms: t2mpmarglst, hse: hisexp, opt: fcopt_vt
 ) : funlab // endfun
-fun funlab_make_tmpvar_type
+(*
+//
+// HX-2014-11-01:
+// Where is this needed?
+//
+fun
+funlab_make_tmpvar_type
 (
    d2v: d2var, t2ms: t2mpmarglst, hse: hisexp, opt: fcopt_vt
 ) : funlab // endfun
+*)
 //
 (* ****** ****** *)
 //
