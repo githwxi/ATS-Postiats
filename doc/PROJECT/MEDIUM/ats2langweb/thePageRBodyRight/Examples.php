@@ -29,7 +29,12 @@ are listed as follows that can be serviced by Patsoptaas:
 
 <tr><td>
 <a
-href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/BOOK/INT2PROGINATS/CODE/CHAP_FUNCTION/JS/queens.dats">Solving the 8-queen puzzle</a>
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ARITH/Bezout_identity.dats">Proving Bézout's identity</a>
+</td></tr>
+
+<tr><td>
+<a
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ARITH/tally-of-powers.dats">Proving Identities for tally-of-powers</a>
 </td></tr>
 
 <tr><td>
@@ -39,12 +44,12 @@ href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=http
 
 <tr><td>
 <a
-href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ARITH/Bezout_identity.dats">Proving Bézout's identity</a>
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ATSLF/infprime.dats">Proving that primes are unbounded</a>
 </td></tr>
 
 <tr><td>
 <a
-href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ARITH/tally-of-powers.dats">Proving Identities for tally-of-powers</a>
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/BOOK/INT2PROGINATS/CODE/CHAP_FUNCTION/JS/queens.dats">Solving the 8-queen puzzle</a>
 </td></tr>
 
 <tr><td>
