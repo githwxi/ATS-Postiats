@@ -17,12 +17,9 @@ void *atsruntime_malloc_undef(size_t bsz) { return malloc(bsz); }
 //
 using system; // for puts
 //
-let matrixref_ptr = pointer_tag "char*";
-//
 gauss_jordan A::dmatrix = () when
   (m, n) = dim(A);
-  A_ptr = (pointer_cast matrixref_ptr $ pointer A);
-  _ = ATS_gauss_jordan_double A_ptr m n;
+  _ = ATS_gauss_jordan_double A m n;
 end ; // end of [when] // end of [gauss_jordan]
 //
 mat2str A =

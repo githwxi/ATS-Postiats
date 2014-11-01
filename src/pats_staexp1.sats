@@ -105,8 +105,8 @@ e1xp_node =
   | E1XPintrep of string(*rep*)
 //
   | E1XPchar of char
-  | E1XPstring of string
   | E1XPfloat of string(*rep*)
+  | E1XPstring of string
 //
   | E1XPv1al of v1al
 //
@@ -162,9 +162,10 @@ fun e1xp_ide (loc: location, sym: symbol): e1xp
 //
 fun e1xp_int (loc: location, i: int): e1xp
 fun e1xp_intrep (loc: location, rep: string): e1xp
+//
 fun e1xp_char (loc: location, c: char): e1xp
-fun e1xp_string (loc: location, str: string): e1xp
 fun e1xp_float (loc: location, rep: string): e1xp
+fun e1xp_string (loc: location, str: string): e1xp
 //
 fun e1xp_i0nt (loc: location, x: i0nt): e1xp
 fun e1xp_c0har (loc: location, x: c0har): e1xp

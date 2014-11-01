@@ -41,11 +41,14 @@ staload "./pats_syntax.sats"
 staload "./pats_staexp1.sats"
 
 (* ****** ****** *)
-
-fun v1al_is_true (v: v1al): bool
-fun v1al_is_false (v: v1al): bool
+//
+fun
+v1al_is_true (v: v1al): bool
+fun
+v1al_is_false (v: v1al): bool
+//
 fun v1al_is_err (v: v1al): bool // HX: V1ALerr or not
-
+//
 (* ****** ****** *)
 
 datatype valerr =
@@ -65,10 +68,14 @@ datatype valerr =
   | VE_E1XPerr of (e1xp)
 // end of [valerr]
 
+(* ****** ****** *)
+//
 fun fprint_valerr : fprint_type (valerr)
-
+//
 fun the_valerrlst_add (x: valerr): void
 fun fprint_the_valerrlst (out: FILEref): void
+//
+(* ****** ****** *)
 
 fun e1xp_valize (e: e1xp): v1al
 fun e1xp_valize_if (knd: srpifkind, e: e1xp): v1al

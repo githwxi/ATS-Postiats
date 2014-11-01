@@ -79,6 +79,10 @@ staload "./pats_trans1_env.sats"
 
 (* ****** ****** *)
 
+staload "./pats_e1xpval.sats"
+
+(* ****** ****** *)
+
 #define l2l list_of_list_vt
 macdef list_sing (x) = list_cons (,(x), list_nil)
 
@@ -302,7 +306,12 @@ fun aux_item (e0: e0xp): e1xpitm = let
       FXITMatm (e1xp_if (loc0, e1_cond, e1_then, e1_else))
     end // end of [E0Xpif]
 //
-  | E0XPeval (e) => FXITMatm (e1xp_eval (loc0, e0xp_tr e))
+  | E0XPeval (e0) => let
+      val e1 = e0xp_tr (e0)
+      val v1 = e1xp_valize (e1)
+    in
+      FXITMatm (e1xp_v1al (loc0, v1))
+    end // end of [E0XPeval]
 //
 end // end of [aux_item]
 //
