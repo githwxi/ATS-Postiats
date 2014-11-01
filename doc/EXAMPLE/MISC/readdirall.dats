@@ -38,6 +38,8 @@ staload _ = "libats/DATS/dynarray.dats"
 //
 #undef ATSextfcall
 #define ATSextfcall(fun, funarg) fun funarg
+#undef ATSPMVextval
+#define ATSPMVextval(name) name
 //
 %} // end of [%{^]
 

@@ -181,12 +181,6 @@ lazy_vt_force (lazyval: lazy_vt (a)): (a)
 //
 (* ****** ****** *)
 //
-fun
-lazy2cloref
-  {a:t0p}(lazy(a)): ((*void*)) -<cloref1> (a) = "mac#%"
-//
-(* ****** ****** *)
-//
 // HX-2013:
 // macro implemented in [pats_ccomp_instrset]
 //
@@ -194,6 +188,15 @@ fun
 lazy_vt_free
   {a:vt0p} (lazyval: lazy_vt (a)):<!wrt> void = "mac#%"
 overload ~ with lazy_vt_free
+//
+(* ****** ****** *)
+//
+// HX-2014:
+// macro implemented in [pats_ccomp_instrset]
+//
+fun
+lazy2cloref
+  {a:t0p}(lazy(a)): ((*void*)) -<cloref1> (a) = "mac#%"
 //
 (* ****** ****** *)
 

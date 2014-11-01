@@ -1830,7 +1830,8 @@ in
 end // end of [ccompenv_add_tmpsub]
 
 extern
-fun ccompenv_find_tmpsub
+fun
+ccompenv_find_tmpsub
   (env: !ccompenv): tmpsubopt_vt
 implement
 ccompenv_find_tmpsub (env) = let
@@ -1895,7 +1896,8 @@ end // end of [ccompenv_find_tmpsub]
 (* ****** ****** *)
 
 implement
-ccompenv_add_impdec2 (env, imp2) = let
+ccompenv_add_impdec2
+  (env, imp2) = let
 //
 val CCOMPENV (!p) = env
 val xs = p->ccompenv_markenvlst
@@ -1909,14 +1911,22 @@ end // end of [ccompenv_add_impdec2]
 
 implement
 ccompenv_add_impdecloc
-  (env, imp) = let
-  val-~Some_vt (tsub) = ccompenv_find_tmpsub (env)
-  val sub = tmpsub2stasub (tsub)
-  val tmparg = s2explstlst_subst (sub, imp.hiimpdec_tmparg)
-  val () = stasub_free (sub)
-  val imp2 = HIIMPDEC2 (imp, tsub, tmparg)
+  (env, sub, imp) = let
+//
+val opt = ccompenv_find_tmpsub (env)
+//
 in
-  ccompenv_add_impdec2 (env, imp2)
+//
+case+ opt of
+| ~Some_vt(tsub) => let
+    val tmparg =
+      s2explstlst_subst (sub, imp.hiimpdec_tmparg)
+    // end of [val]
+  in
+    ccompenv_add_impdec2 (env, HIIMPDEC2(imp, tsub, tmparg))
+  end // end of [Some_vt]
+| ~None_vt((*void*)) => () // HX: this should never be reached!
+//
 end // end of [ccompenv_add_impdecloc]
 
 (* ****** ****** *)

@@ -309,27 +309,31 @@ tmpmovlst_subst
 ) : tmpmovlst // end of [tmpmovlst_subst]
 //
 extern
-fun patckont_subst
+fun
+patckont_subst
 (
   env: !ccompenv
 , map: !tmpmap, sub: !stasub, kont: patckont, sfx: int
 ) : patckont // end of [patckont_subst]
 //
 extern
-fun primdec_subst
+fun
+primdec_subst
 (
   env: !ccompenv
 , map: !tmpmap, sub: !stasub, pmd: primdec, sfx: int
 ) : primdec // end of [primdec_subst]
 extern
-fun primdeclst_subst
+fun
+primdeclst_subst
 (
   env: !ccompenv
 , map: !tmpmap, sub: !stasub, pmds: primdeclst, sfx: int
 ) : primdeclst // end of [primdeclst_subst]
 //
 extern
-fun vbindmap_subst
+fun
+vbindmap_subst
 (
   env: !ccompenv
 , map: !tmpmap, sub: !stasub, vbmap: vbindmap, sfx: int
@@ -531,7 +535,8 @@ end // end of [tmpvarlst_reset_alias]
 (* ****** ****** *)
 
 extern
-fun funent_funlablst_update
+fun
+funent_funlablst_update
 (
   env: !ccompenv, fls: funlablst
 ) : funlablst_vt // end-of-fun
@@ -1070,7 +1075,8 @@ case+
 //
 | PMDnone () => pmd0
 //
-| PMDlist (pmds) => let
+| PMDlist
+    (pmds) => let
     val pmds =
       primdeclst_subst (env, map, sub, pmds, sfx)
     // end of [val]
@@ -1091,7 +1097,7 @@ case+
 | PMDexndecs _ => pmd0
 //
 | PMDimpdec (imp) => let
-    val () = ccompenv_add_impdecloc (env, imp) in pmd0
+    val () = ccompenv_add_impdecloc (env, sub, imp) in pmd0
   end // end of [PMDimpdec]
 //
 | PMDfundecs

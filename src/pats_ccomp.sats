@@ -1789,7 +1789,8 @@ fun ccompenv_add_staload (env: !ccompenv, fenv: filenv): void
 //
 fun ccompenv_add_tmpsub (env: !ccompenv, tsub: tmpsub): void
 //
-fun ccompenv_add_impdecloc (env: !ccompenv, imp: hiimpdec): void
+fun ccompenv_add_impdecloc
+  (env: !ccompenv, sub: !stasub, imp: hiimpdec): void
 //
 fun ccompenv_add_fundecsloc
 (
