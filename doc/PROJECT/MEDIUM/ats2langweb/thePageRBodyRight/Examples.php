@@ -39,6 +39,11 @@ href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=http
 
 <tr><td>
 <a
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ATSLF/SMI.dats">Proving the principle of SMI</a>
+</td></tr>
+
+<tr><td>
+<a
 href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/ATSLF/PHP.dats">Proving the pigenhole principle</a>
 </td></tr>
 
