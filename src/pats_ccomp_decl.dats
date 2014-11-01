@@ -438,7 +438,8 @@ end // end of [hiexndecs_ccomp]
 
 local
 
-fun auxinit
+fun
+auxinit
   {n:nat} .<n>. (
   env: !ccompenv, lvl0: int
 , decarg: s2qualst, hfds: list (hifundec, n), i: int
@@ -446,6 +447,8 @@ fun auxinit
 in
 //
 case+ hfds of
+| list_nil
+    ((*void*)) => list_nil ()
 | list_cons
     (hfd, hfds) => let
     val loc = hfd.hifundec_loc
@@ -494,11 +497,13 @@ case+ hfds of
   in
     list_cons (flab, flabs)
   end // end of [list_cons]
-| list_nil ((*void*)) => list_nil ()
 //
 end // end of [auxinit]
 
-fun auxmain
+(* ****** ****** *)
+
+fun
+auxmain
   {n:nat} .<n>.
 (
   env: !ccompenv
@@ -508,6 +513,10 @@ fun auxmain
 in
 //
 case+ hfds of
+| list_nil
+    ((*void*)) =>
+    let val+list_nil () = flabs in (*nothing*) end
+  // end of [list_nil]
 | list_cons
     (hfd, hfds) => let
     val loc = hfd.hifundec_loc
@@ -548,9 +557,6 @@ case+ hfds of
   in
     auxmain (env, decarg, hfds, flabs, i2)
   end // end of [let] // end of [list_cons]
-| list_nil ((*void*)) =>
-    let val+list_nil () = flabs in (*nothing*) end
-  // end of [list_nil]
 //
 end // end of [auxmain]
 

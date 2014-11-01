@@ -27,7 +27,7 @@ val (
   pfat, pfgc | p
 ) = ptr_alloc<x_ptr> ()
 //
-prval() = showlvaltype (pfat)
+prval() = showview (pfat)
 //
 val ((*void*)) = p->x := the_null_ptr
 //

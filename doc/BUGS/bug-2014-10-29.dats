@@ -53,11 +53,12 @@ foo2 (x) =
 let
 //
 extern
-fun{a:t0p} bar2 (): a
-implement bar2<a> () = x
+fun{}
+bar2 (): a = "mac#"
+implement bar2<> () = x
 //
 in
-  bar2<a> ()
+  bar2 ()
 end // end of [foo2]
 *)
 //
