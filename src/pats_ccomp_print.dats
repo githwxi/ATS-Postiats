@@ -1319,11 +1319,36 @@ end // end of [fprint_tmpsubopt]
 (* ****** ****** *)
 
 implement
+fprint_hifundec2
+  (out, hfd2) = let
+//
+val
+HIFUNDEC2
+  (hfd, tsub) = hfd2
+//
+val () =
+fprint_string (out, "HIFUNDEC2(")
+val () = fprint_hifundec (out, hfd)
+val () = fprint_string (out, "; ")
+val () = fprint_tmpsub (out, tsub)
+val () = fprint_string (out, ")")
+//
+in
+  // nothing
+end // end of [fprint_hifundec2]
+
+(* ****** ****** *)
+
+implement
 fprint_hiimpdec2
   (out, imp2) = let
 //
-val HIIMPDEC2 (imp, tsub, s2ess) = imp2
-val () = fprint_string (out, "HIIMPDEC2(")
+val
+HIIMPDEC2
+  (imp, tsub, s2ess) = imp2
+//
+val () =
+fprint_string (out, "HIIMPDEC2(")
 val () = fprint_hiimpdec (out, imp)
 val () = fprint_string (out, "; ")
 val () = fprint_tmpsub (out, tsub)

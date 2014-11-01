@@ -1102,12 +1102,8 @@ case+
 //
 | PMDfundecs
     (knd, decarg, hfds) => let
-    val () =
-      ccompenv_add_fundecsloc (env, knd, decarg, hfds)
-    // end of [val]
-    val () =
-      ccompenv_add_fundecsloc_subst (env, sub, knd, decarg, hfds)
-    // end of [val]
+    val () = ccompenv_add_fundecsloc (env, sub, knd, decarg, hfds)
+    val () = ccompenv_add_fundecsloc_subst (env, sub, knd, decarg, hfds)
   in
     pmd0
   end // end of [PMDfundecs]
