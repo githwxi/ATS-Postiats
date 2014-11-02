@@ -7,6 +7,7 @@
 PHP=php
 CPF=cp -f
 RMF=rm -f
+MAKE=make
 
 ######
 
@@ -55,5 +56,8 @@ cleanall:: ; $(RMF) Resources.html
 cleanall:: ; $(RMF) Implements.html
 cleanall:: ; $(RMF) MYDATA/Patsoptaas.html
 cleanall:: ; $(RMF) SERVER/MYCODE/Patsoptaas_serve.php
-
+#
+cleanall:: ; $(MAKE) -C LAYOUT cleanall
+cleanall:: ; $(MAKE) -C CLIENT cleanall
+#
 ###### end of [Makefile] ######

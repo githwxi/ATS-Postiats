@@ -74,7 +74,7 @@ is also referred to as <u>ATSLIB/prelude</u>.
 
 <p>
 <u>ATSLIB/libc</u>
-essentially consists of the API for calling libc-functions in ATS.
+essentially consists of an API for calling libc-functions in ATS.
 </p>
 
 <hr></hr>
@@ -92,6 +92,18 @@ given a functional implementation as well as a linear implementation in
 ATSLIB/libats, where the former requires the availability of garbage
 collection (GC) for automatic memory management while the latter relies on
 linear types to ensure the safety of manual memory management.
+
+</p>
+
+<hr></hr>
+
+<h2><a id="ATSLIB_libats_ML">ATSLIB/libats/ML</a></h2>
+
+<p>
+
+<u>ATSLIB/libats/ML</u>
+essentially consists of an API of ML-style for making use of various
+functional data structures implmemented in <u>ATSLIB/libats</u>.
 
 </p>
 
