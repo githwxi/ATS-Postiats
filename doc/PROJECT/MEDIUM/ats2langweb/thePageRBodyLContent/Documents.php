@@ -42,7 +42,8 @@ gained from the tutorial alone.
 <tr>
 <td>
 Links:
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/book1.html">html</a>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-BOOK.html">html</a>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/CODE/ATS2TUTORIAL-CODE.html">code</a>
 </td>
 </tr>
 <tr height="8px"><td></td></tr>

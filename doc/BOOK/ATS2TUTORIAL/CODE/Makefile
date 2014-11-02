@@ -18,6 +18,17 @@
 include $(PATSHOME)/share/atsmake-pre.mk
 
 ######
+
+all:: \
+ATS2TUTORIAL-CODE.html
+
+######
+#
+ATS2TUTORIAL-CODE.html: ATS2TUTORIAL-CODE.php ; php -f $< > $@
+#
+######
+
+######
 #
 # Basic Topics
 #
