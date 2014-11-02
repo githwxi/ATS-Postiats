@@ -159,7 +159,11 @@ in
 end // end of [solvePuzzle]
 
 (* ****** ****** *)
-
+//
+extern
+fun
+main0 (): void
+//
 implement
 main0 () = let
 //
@@ -190,6 +194,41 @@ prval () = fpf (pf)
 in
   // nothing  
 end // end of [main0]
+//
+(* ****** ****** *)
+//
+// HX: for compiling into JS
+//
+(* ****** ****** *)
+
+#include
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
+
+(* ****** ****** *)
+
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
+
+(* ****** ****** *)
+
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
+
+(* ****** ****** *)
+//
+val () = main0()
+//
+(* ****** ****** *)
+
+%{$
+//
+ats2jspre_the_print_store_clear();
+my_dynload();
+alert(ats2jspre_the_print_store_join());
+//
+%} // end of [%{$]
 
 (* ****** ****** *)
 
