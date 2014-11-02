@@ -63,11 +63,6 @@ absvtype W (w:bool) = ptr
 
 (* ****** ****** *)
 
-fun F (): F (false) = $extval (F (false), "0")
-fun C (): C (false) = $extval (C (false), "0")
-fun G (): G (false) = $extval (G (false), "0")
-fun W (): W (false) = $extval (W (false), "0")
-
 extern praxi nF (f: F (true)): void
 extern praxi nC (f: C (true)): void
 extern praxi nG (f: G (true)): void
@@ -75,39 +70,25 @@ extern praxi nW (f: W (true)): void
 
 (* ****** ****** *)
 
-%{^
+fun F (): F (false) = $extval (F (false), "0")
+fun C (): C (false) = $extval (C (false), "0")
+fun G (): G (false) = $extval (G (false), "0")
+fun W (): W (false) = $extval (W (false), "0")
+
+(* ****** ****** *)
 
 extern
-atstype_int
-printf (const char *fmt, ...) ;
-
-atsvoid_t0ype
-move_f (atstype_ptr f)
-{
-  printf ("move_f: ferryman alone\n") ; return ;
-}
-atsvoid_t0ype
-move_fc (
-  atstype_ptr f, atstype_ptr c
-)
-{
-  printf ("move_fc: ferryman with cabbage\n") ; return ;
-}
-atsvoid_t0ype
-move_fg (
-  atstype_ptr f, atstype_ptr g
-)
-{
-  printf ("move_fg: ferryman with goat\n") ; return ;
-}
-atsvoid_t0ype
-move_fw (
-  atstype_ptr f, atstype_ptr w
-)
-{
-  printf ("move_fw: ferryman with wolf\n") ; return ;
-}
-%}
+fun move_f_ (ptr): void = "mac#move_f"
+implement move_f_ (_) = println! ("move_f: ferryman alone")
+extern
+fun move_fc_ (ptr, ptr): void = "mac#move_fc"
+implement move_fc_ (_, _) = println! ("move_fc: ferryman with cabbage")
+extern
+fun move_fg_ (ptr, ptr): void = "mac#move_fg"
+implement move_fg_ (_, _) = println! ("move_fg: ferryman with goat")
+extern
+fun move_fw_ (ptr, ptr): void = "mac#move_fw"
+implement move_fw_ (_, _) = println! ("move_fw: ferryman with wolf")
 
 (* ****** ****** *)
 
@@ -116,7 +97,7 @@ fun move_f
   {f,c,g,w:bool} (
   pf: !STATE1 (f, c, g, w) >> STATE0 (~f, c, g, w)
 | f: !F(f) >> F(~f)
-) : void = "mac#" // end of [move_f]
+) : void = "mac#move_f" // end of [move_f]
 
 extern
 fun move_fc
@@ -124,7 +105,7 @@ fun move_fc
   pf: !STATE1 (f, c, g, w) >> STATE0 (~f, ~c, g, w)
 | f: !F(f) >> F(~f)
 , c: !C(c) >> C(~c)
-) : void = "mac#" // end of [move_fc]
+) : void = "mac#move_fc" // end of [move_fc]
 
 extern
 fun move_fg
@@ -132,7 +113,7 @@ fun move_fg
   pf: !STATE1 (f, c, g, w) >> STATE0 (~f, c, ~g, w)
 | f: !F(f) >> F(~f)
 , g: !G(g) >> G(~g)
-) : void = "mac#" // end of [move_fg]
+) : void = "mac#move_fg" // end of [move_fg]
 
 extern
 fun move_fw
@@ -140,7 +121,7 @@ fun move_fw
   pf: !STATE1 (f, c, g, w) >> STATE0 (~f, c, g, ~w)
 | f: !F(f) >> F(~f)
 , w: !W(w) >> W(~w)
-) : void = "mac#" // end of [move_fw]
+) : void = "mac#move_fw" // end of [move_fw]
 
 (* ****** ****** *)
 

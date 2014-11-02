@@ -97,9 +97,9 @@ typedef row = natLt(m)
 typedef col = natLt(n)
 typedef mat = matrixref(a, m, n)
 //
-fun
+fun{}
 get (A: mat, i: row, j: col): a = matrixref_get_at (A, i, ncol, j)
-fun
+fun{}
 set (A: mat, i: row, j: col, x: a): void = matrixref_set_at (A, i, ncol, j, x)
 //
 overload [] with get
@@ -114,8 +114,6 @@ row_swap
 implement(env)
 intrange_foreach$fwork<env>
   (j, env) = let
-//
-  val _ = ignoret(ncol)
 //
   val j =
   $UN.cast{col}(j)
@@ -137,7 +135,6 @@ row_scal
 implement(env)
 intrange_foreach$fwork<env>
   (j, env) = let
-  val _ = ignoret(ncol)
   val j = $UN.cast{col}(j)
 in
   A[i, j] := a * A[i, j]
@@ -156,7 +153,6 @@ row_axpy
 implement(env)
 intrange_foreach$fwork<env>
   (j, env) = let
-  val _ = ignoret(ncol)
   val j = $UN.cast{col}(j)
 in
   A[i1, j] := a * A[i0, j] + A[i1, j]
