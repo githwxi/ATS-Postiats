@@ -17,6 +17,27 @@
 // Author: Hongwei Xi (2012-05-05) // Cinco de Mayo :)
 //
 (* ****** ****** *)
+//
+// HX: for compiling into JS
+//
+(* ****** ****** *)
+
+#include
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
+
+(* ****** ****** *)
+
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
+
+(* ****** ****** *)
+
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
+
+(* ****** ****** *)
 
 absview
 STATE0 ( // for all states
@@ -197,28 +218,7 @@ end // end of [main0]
 //
 (* ****** ****** *)
 //
-// HX: for compiling into JS
-//
-(* ****** ****** *)
-
-#include
-"share/atspre_define.hats"
-#include
-"{$LIBATSCC2JS}/staloadall.hats"
-
-(* ****** ****** *)
-
-staload
-"{$LIBATSCC2JS}/SATS/print.sats"
-
-(* ****** ****** *)
-
-#define ATS_MAINATSFLAG 1
-#define ATS_DYNLOADNAME "my_dynload"
-
-(* ****** ****** *)
-//
-val () = main0()
+val () = main0 ((*void*))
 //
 (* ****** ****** *)
 
