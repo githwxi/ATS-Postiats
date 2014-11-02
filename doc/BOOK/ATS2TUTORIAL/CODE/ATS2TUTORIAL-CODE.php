@@ -52,10 +52,20 @@ into Javascript for execution in the browser.
 <hr></hr>
 
 <ul>
+<?php listitem_gen('chap_dotoverld.dats'); ?>
+<?php listitem_gen('chap_brktoverld.dats'); ?>
+<?php listitem_gen('chap_exception.dats'); ?>
+<?php listitem_gen('chap_reference.dats'); ?>
 <?php listitem_gen('chap_arrayref.dats'); ?>
 <?php listitem_gen('chap_arrszref.dats'); ?>
 <?php listitem_gen('chap_matrixref.dats'); ?>
 <?php listitem_gen('chap_mtrxszref.dats'); ?>
+<?php listitem_gen('chap_tailrec.dats'); ?>
+<?php listitem_gen('chap_hordfun.dats'); ?>
+<?php listitem_gen('chap_stream.dats'); ?>
+<?php listitem_gen('chap_extvar.dats'); ?>
+<?php listitem_gen('chap_cloptr.dats'); ?>
+<?php listitem_gen('chap_stream_vt.dats'); ?>
 </ul>
 
 <hr></hr>
