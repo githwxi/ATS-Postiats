@@ -14,11 +14,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (2012-05-05) // Cinco de Mayo :)
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+// Start time: 2012-05-05 // Cinco de Mayo :)
 //
 (* ****** ****** *)
 //
-// HX: for compiling into JS
+// HX-2014-11-02:
+// for compiling into JavaScript
 //
 (* ****** ****** *)
 

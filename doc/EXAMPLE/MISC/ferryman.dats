@@ -14,7 +14,9 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (2012-05-05) // Cinco de Mayo :)
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+// Start time: 2012-05-05 // Cinco de Mayo :)
 //
 (* ****** ****** *)
 
