@@ -51,20 +51,83 @@ into Javascript for execution in the browser.
 
 <hr></hr>
 
+<h1>Basics Tutorial Topics</h1>
+
+<hr></hr>
+
+<h2>Bracket Overloading</h2>
 <ul>
 <?php listitem_gen('chap_dotoverld.dats'); ?>
+</ul>
+
+<h2>Dot-Symbol Overloading</h2>
+<ul>
 <?php listitem_gen('chap_brktoverld.dats'); ?>
+</ul>
+
+<h2>Exceptions</h2>
+<ul>
 <?php listitem_gen('chap_exception.dats'); ?>
+</ul>
+
+<h2>References</h2>
+<ul>
 <?php listitem_gen('chap_reference.dats'); ?>
+</ul>
+
+<h2>Persistent Arrays</h2>
+<ul>
 <?php listitem_gen('chap_arrayref.dats'); ?>
+</ul>
+
+<h2>Persistent Arrays-with-size</h2>
+<ul>
 <?php listitem_gen('chap_arrszref.dats'); ?>
+</ul>
+
+<h2>Persistent Matrices</h2>
+<ul>
 <?php listitem_gen('chap_matrixref.dats'); ?>
+</ul>
+
+<h2>Persistent Matrices-with-size</h2>
+<ul>
 <?php listitem_gen('chap_mtrxszref.dats'); ?>
+</ul>
+
+<h2>Tail-Recursion</h2>
+<ul>
 <?php listitem_gen('chap_tailrec.dats'); ?>
+</ul>
+
+<h2>Higher-Order Functions</h2>
+<ul>
 <?php listitem_gen('chap_hordfun.dats'); ?>
+</ul>
+
+<h2>Stream-Based Lazy Evaluation</h2>
+<ul>
 <?php listitem_gen('chap_stream.dats'); ?>
+</ul>
+
+<hr></hr>
+
+<h1>Advanced Tutorial Topics</h1>
+
+<hr></hr>
+
+<h2>Extvar-Declaration</h2>
+<ul>
 <?php listitem_gen('chap_extvar.dats'); ?>
+</ul>
+
+<h2>Linear Closure-Functions</h2>
+<ul>
 <?php listitem_gen('chap_cloptr.dats'); ?>
+</ul>
+
+<h2>Linear Stream-Based Lazy Evaluation</h2>
+<ul>
 <?php listitem_gen('chap_stream_vt.dats'); ?>
 </ul>
 
