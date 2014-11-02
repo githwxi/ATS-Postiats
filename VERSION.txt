@@ -28,6 +28,8 @@ Here is a list of major additions and changes since the last release:
    #define N2 N * N1 // it is the same as: #define N2 110
 2. Issuing an error message if the size of a stack-allocated array
    cannot be determined at compile-time.
+3. Fixing bug-2014-10-29 (see doc/BUGS), which caused an error in
+   compiling embedded function templates.
 
 ######
 
