@@ -1,6 +1,7 @@
 (* ****** ****** *)
 //
-// Fourslot algorithm for fully asynchrous read/write by Simpson
+// Fourslot algorithm by Simpson
+// for fully asynchrous read/write
 //
 (* ****** ****** *)
 //
