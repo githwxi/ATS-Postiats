@@ -64,7 +64,12 @@ href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=http
 
 <tr><td>
 <a
-href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/projects/SMALL/JSclock/myclock1-2.dats">Drawing a clock on canvas-2d</a>
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/projects/SMALL/JSmydraw/Sierpinski_3angle/Sierpinski_3angle_php.dats">Drawing a Sierpinski triangle</a>
+</td></tr>
+
+<tr><td>
+<a
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/projects/SMALL/JSclock/myclock1-2.dats">Drawing an analog clock on canvas-2d</a>
 </td></tr>
 
 <tr><td>

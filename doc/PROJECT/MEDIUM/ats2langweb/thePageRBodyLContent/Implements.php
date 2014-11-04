@@ -12,7 +12,8 @@ style="margin-bottom:0px">
 <a id="ATSproto">ATS/Proto</a></h2>
 
 <p>
-ATS/Proto, written in OCaml, is the first released implementation of ATS.
+ATS/Proto, written in OCaml, is the first released implementation of ATS,
+consisting of a typechecker, an interpreter and a compiler (to C).
 In this implementation, the standard boxed data representation is chosen to
 implement parametric polymorphism. There is direct support in ATS/Proto for
 object-oriented programming (OOP), which is no longer available in later
@@ -87,7 +88,9 @@ ATS/Postiats is the currently released implementation of ATS.  It is often
 referred to as ATS2, the second generation of ATS.  ATS/Postiats is nearly
 entirely implmented in ATS1, consisting of 150K+ lines of source code. Its
 major improvement over ATS1 lies in a highly versatile template system that
-aims at maximally facilitating code reuse.
+aims at maximally facilitating code reuse. While ATS1 and ATS2 share most
+of their syntax with only few exceptions, ATS2 is not backward compatible with
+ATS1.
 </p>
 </td>
 </tr>
