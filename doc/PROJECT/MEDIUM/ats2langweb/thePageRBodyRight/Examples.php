@@ -59,6 +59,11 @@ href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=http
 
 <tr><td>
 <a
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/projects/SMALL/JSmydraw/Queen_puzzle/Queen_puzzle_php.dats">Solving the 8-queen puzzle (anim)</a>
+</td></tr>
+
+<tr><td>
+<a
 href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/MISC/JS/ferryman.dats">Solving the ferryman puzzle</a>
 </td></tr>
 

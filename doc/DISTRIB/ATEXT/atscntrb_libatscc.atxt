@@ -109,6 +109,8 @@ ATSCNTRB/libatscc\
 #packfilename("SATS/list.sats")
 #packfilename("SATS/stream.sats")
 #packfilename("SATS/intrange.sats")
+#packfilename("SATS/arrayref.sats")
+#packfilename("SATS/matrixref.sats")
 
 (* ****** ****** *)
 
@@ -143,6 +145,8 @@ ATSCNTRB/libatscc\
 #packfilename("libatscc2js/SATS/list.sats")
 #packfilename("libatscc2js/SATS/stream.sats")
 #packfilename("libatscc2js/SATS/intrange.sats")
+#packfilename("libatscc2js/SATS/arrayref.sats")
+#packfilename("libatscc2js/SATS/matrixref.sats")
 #packfilename("libatscc2js/SATS/reference.sats")
 
 (* ****** ****** *)
