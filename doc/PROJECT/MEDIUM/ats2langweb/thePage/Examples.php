@@ -1,4 +1,5 @@
 <style type="text/css">
+  .patsyntax {width:99%;margin:auto;}
   .patsyntax {color:#808080;background-color:#E0E0E0;}
   .patsyntax span.keyword {color:#000000;font-weight:bold;}
   .patsyntax span.comment {color:#787878;font-style:italic;}

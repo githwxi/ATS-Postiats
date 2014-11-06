@@ -271,7 +271,7 @@ atslangweb_pats2xhtmlize_static($mycode);
 ?><!--php-->
 
 <p>
-where [...] is the concrete syntax in ATS for existential quantification
+where the concrete syntax [...] is for existential quantification
 and the bar symbol (|) is just a separator (like a comma) for separating
 proofs from values. For each integer I, int(I) is a singleton type for the
 only integer whose value equals I. When fibats is applied to an integer of
@@ -283,14 +283,14 @@ the body of the function fibc (written in C).
 </p>
 
 <p>
-Lastly, it should be emphasized that proofs are completely erased after
-typechecking. In particular, there is no proof construction at run-time.
+Lastly, it should be emphasized that proofs are completely erased after they
+pass typechecking. In particular, there is no proof construction at run-time.
 </p>
 
 <p>
 Please click
-<a href="./SERVER/MYCODE/Patsoptaas_serve.php?mycode=fibats">here</a>
-if you are interested in compiling and running this example on-line.
+<a href="./SERVER/MYCODE/Patsoptaas_serve.php?mycode=fibats">here</a> if you
+are interested in compiling and running this example on-line.
 </p>
 
 <!--
