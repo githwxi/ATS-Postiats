@@ -153,7 +153,7 @@ case+ ans of
       val s2t_err = s2rt_err ()
       val () = prerr_error2_loc (loc)
       val () = filprerr_ifdebug "effvar_tr"
-      val () = prerr ": the static identifer ["
+      val () = prerr ": the static identifier ["
       val () = $SYM.prerr_symbol (sym)
       val () = prerr "] should refer to a variable or constant."
       val () = prerr_newline ()
@@ -166,7 +166,7 @@ case+ ans of
     val s2t_err = s2rt_err ()
     val () = prerr_error2_loc (loc)
     val () = filprerr_ifdebug ("effvar_tr")
-    val () = prerr ": unrecognized static identifer ["
+    val () = prerr ": unrecognized static identifier ["
     val () = $SYM.prerr_symbol (sym)
     val () = prerr "]."
     val () = prerr_newline ()

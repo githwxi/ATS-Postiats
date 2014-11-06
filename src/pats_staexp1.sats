@@ -419,8 +419,8 @@ fun sp1at_cstr
 
 datatype s1exp_node =
 //
-  | S1Eide of (symbol) // static identifer
-  | S1Esqid of (s0taq, symbol) // qualified static identifer
+  | S1Eide of (symbol) // static identifier
+  | S1Esqid of (s0taq, symbol) // qualified static identifier
 //
   | S1Eint of int
   | S1Eintrep of string(*rep*)

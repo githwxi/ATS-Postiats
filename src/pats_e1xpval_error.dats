@@ -100,7 +100,7 @@ case+ x of
   }
 | VE_E1XPapp_fun (e0) => {
     val () = $LOC.fprint_location (out, e0.e1xp_loc)
-    val () = prstr ": error(1): the applied expression is required to be an identifer."
+    val () = prstr ": error(1): the applied expression is required to be an identifier."
     val () = fprint_newline (out)
   }
 | VE_E1XPappid_fun (e0, id) => {
