@@ -2029,7 +2029,7 @@ fun auxcheck_impdec
     val () = if knd > 0 then
       prerr ": the implemented dynamic constant is required to be proof."
     val () = if knd = 0 then
-      prerr ": the implemented dynamic constant is required to be nonproof."
+      prerr ": the implemented dynamic constant is required to be non-proof."
     val () = prerr_newline ()
   in
     the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
