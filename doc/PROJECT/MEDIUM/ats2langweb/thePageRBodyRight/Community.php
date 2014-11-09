@@ -6,6 +6,16 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2014-11-07:<br>
+
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/PqtPZKGKrFw"
+>Animating sorting in ATS</a>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+
+<hr></hr>
+
 ATS-2014-10-28:<br>
 
 <a

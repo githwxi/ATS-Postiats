@@ -169,6 +169,8 @@ ATSCNTRB/libatscc\
 #packfilename("libatscc2js/DATS/list.dats")
 #packfilename("libatscc2js/DATS/stream.dats")
 #packfilename("libatscc2js/DATS/intrange.dats")
+#packfilename("libatscc2js/DATS/arrayref.dats")
+#packfilename("libatscc2js/DATS/matrixref.dats")
 #packfilename("libatscc2js/DATS/reference.dats")
 
 (* ****** ****** *)
