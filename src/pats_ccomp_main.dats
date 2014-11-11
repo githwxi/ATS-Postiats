@@ -161,6 +161,15 @@ val () = emit_text (out, "#include _ATS_CCOMP_PRELUDE_USER\n")
 val () = emit_text (out, "//\n")
 val () = emit_text (out, "#endif /* _ATS_CCOMP_PRELUDE_USER */\n")
 //
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "** for user2-supplied prelude\n")
+val () = emit_text (out, "*/\n")
+val () = emit_text (out, "#ifdef _ATS_CCOMP_PRELUDE_USER2\n")
+val () = emit_text (out, "//\n")
+val () = emit_text (out, "#include _ATS_CCOMP_PRELUDE_USER2\n")
+val () = emit_text (out, "//\n")
+val () = emit_text (out, "#endif /* _ATS_CCOMP_PRELUDE_USER2 */\n")
+//
 in
   emit_newline (out)
 end // end of [emit_ats_ccomp_prelude]

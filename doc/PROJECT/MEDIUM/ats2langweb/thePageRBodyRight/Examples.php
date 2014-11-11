@@ -86,6 +86,10 @@ href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=http
 <a
 href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/projects/SMALL/JSmydraw/Sorting_quick/Sorting_quick_php.dats">Animating array-quick-sort (1)</a>
 </td></tr>
+<tr><td>
+<a
+href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/projects/SMALL/JSmydraw/Sorting_quick2/Sorting_quick2_php.dats">Animating array-quick-sort (2)</a>
+</td></tr>
 
 <tr><td>
 <a
