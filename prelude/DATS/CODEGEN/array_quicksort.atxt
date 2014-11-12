@@ -39,7 +39,18 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 *)
 
-implement{a}
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+array_quicksort$cmp
+  (x1, x2) = gcompare_ref<a> (x1, x2)
+// end of [array_quicksort$cmp]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 array_quicksort
   (A, asz) = let
 //
