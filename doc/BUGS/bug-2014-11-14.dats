@@ -12,7 +12,7 @@
 (* ****** ****** *)
 
 (*
-** Status: NOT FIXED YET
+** Status: It is fixed by HX-2014-11-14
 *)
 
 (* ****** ****** *)
@@ -20,12 +20,27 @@
 extern
 fun nop (): void
 
+(* ****** ****** *)
+
 fnx
 foo (x: int): int =
 (
   nop(); foo2 (x, x)
 )
-and foo2 (x: int, y: int): int = x + y
+and foo2 (x: int, y: int): int = y
+
+(* ****** ****** *)
+
+fnx{}
+foobar (x: int): int =
+(
+  nop(); foobar2 (x, x)
+)
+and foobar2 (x: int, y: int): int = y
+
+(* ****** ****** *)
+
+val x = foobar (0)
 
 (* ****** ****** *)
 

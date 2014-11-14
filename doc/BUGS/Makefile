@@ -138,6 +138,13 @@ cleanall:: ; $(RMF) bug-2014-10-31_dats.c
 
 ######
 
+all:: \
+bug-2014-11-14
+bug-2014-11-14: ; $(PATSCC) -c bug-2014-11-14.dats
+cleanall:: ; $(RMF) bug-2014-11-14_dats.c
+
+######
+
 RMF=rm -f
 
 ######

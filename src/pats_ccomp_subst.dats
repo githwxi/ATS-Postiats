@@ -180,7 +180,9 @@ fun tmpvar_set_ret
   (tmp: tmpvar, ret: int): void  = "patsopt_tmpvar_set_ret"
 extern
 fun tmpvar_set_origin
-  (tmp: tmpvar, opt: tmpvaropt): void  = "patsopt_tmpvar_set_origin"
+(
+  tmp: tmpvar, opt: tmpvaropt
+) : void  = "patsopt_tmpvar_set_origin"
 extern
 fun tmpvar_set_suffix
   (tmp: tmpvar, sfx: int): void = "patsopt_tmpvar_set_suffix"
@@ -196,10 +198,10 @@ tmpvar_subst
   val hse = hisexp_subst (sub, hse)
   val tmp2 = tmpvar_make (loc, hse)
   val () =
-    if tmpvar_isref (tmp) then tmpvar_set_ref (tmp2, 1)
+    if tmpvar_isref(tmp) then tmpvar_set_ref (tmp2, 1)
   // end of [val]
   val () =
-    if tmpvar_isret (tmp) then tmpvar_set_ret (tmp2, 1)
+    if tmpvar_isret(tmp) then tmpvar_set_ret (tmp2, 1)
   // end of [val]
   val () =
     tmpvar_set_origin (tmp2, Some(tmp))

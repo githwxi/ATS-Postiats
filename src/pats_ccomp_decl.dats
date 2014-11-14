@@ -543,10 +543,16 @@ case+ hfds of
       env, flab, imparg, tmparg, prolog, loc, hips_arg, hde_body
     ) // end of [fcall] // end of [val]
 //
-    val (
-    ) = if istmp then ccompenv_dec_tmplevel (env)
-    val (
-    ) = if i = 0 then ccompenv_dec_tailcalenv (env)
+    val () =
+      if istmp then ccompenv_dec_tmplevel (env)
+    val () =
+      if i = 0 then ccompenv_dec_tailcalenv (env)
+//
+    val () =
+      if i > 0 then
+        tmpvar_inc_tailcal(funent_get_tmpret(fent))
+      // end of [if]
+    // end of [val]
 //
     val () =
       hifundec_set_funlabopt (hfd, Some (flab))
