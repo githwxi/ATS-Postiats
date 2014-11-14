@@ -88,16 +88,19 @@ datatype avltree
 
 (* ****** ****** *)
 
-typedef avltree
+typedef
+avltree
   (key:t0p, itm:t0p) = [h:nat] avltree (key, itm, h)
 // end of [avltree]
 
-typedef avltree_inc
+typedef
+avltree_inc
   (key:t0p, itm:t0p, h:int) =
   [h1:nat | h <= h1; h1 <= h+1] avltree (key, itm, h1)
 // end of [avltree_inc]
 
-typedef avltree_dec
+typedef
+avltree_dec
   (key:t0p, itm:t0p, h:int) =
   [h1:nat | h1 <= h; h <= h1+1] avltree (key, itm, h1)
 // end of [avltree_dec]
