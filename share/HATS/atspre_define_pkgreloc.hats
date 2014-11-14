@@ -155,6 +155,16 @@ LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 //
 (* ****** ****** *)
 //
+// For applying ATS to AVR programming
+//
+#define AVR_sourceloc "$ATSLANGWEBLIB/contrib/AVR"
+#define AVR_targetloc "$PATSHOMERELOC/contrib/AVR"
+//
+#define ARDUINO_sourceloc "$ATSLANGWEBLIB/contrib/arduino"
+#define ARDUINO_targetloc "$PATSHOMERELOC/contrib/arduino"
+//
+(* ****** ****** *)
+//
 // For applying ATS to Linux kernel programming
 //
 #define LINUX_sourceloc "$ATSLANGWEBLIB/contrib/linux"

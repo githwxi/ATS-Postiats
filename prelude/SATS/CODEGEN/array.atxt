@@ -193,6 +193,17 @@ overload array_exch_at with array_exch_at_guint of 0
 #atscode_separator()
 
 fun{a:vt0p}
+array_subreverse
+ {n:int}
+ {i,j:int |
+  0 <= i; i <= j; j <= n}
+(
+  A: &(@[INV(a)][n]), i: size_t (i), j: size_t (j)
+) :<!wrt> void // end of [array_subreverse]
+
+#atscode_separator()
+
+fun{a:vt0p}
 array_interchange{n:int}
 (
   A: &(@[INV(a)][n]), i: sizeLt (n), j: sizeLt (n)
