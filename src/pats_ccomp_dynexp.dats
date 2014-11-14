@@ -1177,7 +1177,7 @@ hidexp_ccomp_ret_app
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val-HDEapp (hde_fun, hse_fun, hdes_arg) = hde0.hidexp_node
+val-HDEapp(hde_fun, hse_fun, hdes_arg) = hde0.hidexp_node
 //
 val pmv_fun = hidexp_ccomp (env, res, hde_fun)
 val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
@@ -1186,7 +1186,10 @@ var added: int = 0
 val isret = tmpvar_isret (tmpret)
 //
 (*
-val () = println! ("hidexp_ccomp_ret_app: pmv_fun = ", pmv_fun)
+val () =
+println! ("hidexp_ccomp_ret_app: loc0 = ", loc0)
+val () =
+println! ("hidexp_ccomp_ret_app: pmv_fun = ", pmv_fun)
 *)
 //
 val () =
@@ -1267,7 +1270,13 @@ pmv_fun.primval_node of
   end // end of [PMVtmpltcst]
 //
 | _ (*non-tail-recursive*) => () // HX: [INSfcall] is to be added
-) // end of [if]
+) (* end of [if] *)
+//
+(*
+val () =
+println!
+  ("hidexp_ccomp_ret_app: added = ", added)
+*)
 //
 val () =
 if added > 0 then tmpvar_inc_tailcal (tmpret)
