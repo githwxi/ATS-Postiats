@@ -429,7 +429,8 @@ funent_varbindmap_initize
   (fent) = let
 //
 
-fun auxmap
+fun
+auxmap
 (
   map: &vbindmap_vt, vbs: vbindlst_vt
 ) : void = let
@@ -438,7 +439,10 @@ in
 case+ vbs of
 | ~list_vt_cons
     (vb, vbs) => let
-    val _(*replaced*) = $D2E.d2varmap_vt_insert (map, vb.0, vb.1)
+    val _ =
+    ( // replaced
+      $D2E.d2varmap_vt_insert (map, vb.0, vb.1)
+    ) (* end of [val] *)
   in
     auxmap (map, vbs)
   end (* end of [list_cons] *)
@@ -446,13 +450,16 @@ case+ vbs of
 //
 end // end of [auxmap]
 //
-fun auxenv
+fun
+auxenv
 (
   map: &vbindmap_vt, loc0: location, i: int, d2es: d2envlst
 ) : void = let
 in
 //
 case+ d2es of
+| list_nil
+    ((*void*)) => ()
 | list_cons
     (d2e, d2es) => let
     val d2v = d2env_get_var (d2e)
@@ -462,7 +469,6 @@ case+ d2es of
   in
     auxenv (map, loc0, i+1, d2es)
   end (* end of [list_cons] *)
-| list_nil () => ()
 //
 end // end of [auxenv]
 //
@@ -482,6 +488,8 @@ in
   (*nothing*)
 end // end of [funent_varbindmap_initize]
 
+(* ****** ****** *)
+
 implement
 funent_varbindmap_uninitize
   (fent) = let
@@ -496,6 +504,8 @@ val () = !p := $D2E.d2varmap_vt_nil ()
 in
   // nothing
 end // end of [the_funent_varbindmap_uninitize]
+
+(* ****** ****** *)
 
 implement
 the_funent_varbindmap_find
