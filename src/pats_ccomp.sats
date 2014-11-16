@@ -1956,6 +1956,7 @@ fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
 // HX-2013-04: for handling environvals
 //
 fun funent_varbindmap_initize (fent: funent): void
+fun funent_varbindmap_initize2 (fent: funent): void
 fun funent_varbindmap_uninitize (fent: funent): void
 fun the_funent_varbindmap_find (d2v: d2var): Option_vt (primval)
 //

@@ -1671,6 +1671,7 @@ val () = emit_text (out, ")\n")
 // tmpvardec and funbody
 //
 val () = funent_varbindmap_initize (fent)
+val () = funent_varbindmap_initize2 (fent)
 //
 val () = emit_text (out, "{\n")
 //
