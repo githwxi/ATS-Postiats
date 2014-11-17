@@ -31,6 +31,12 @@ Here is a list of major additions and changes since the last release:
 3. Fixing bug-2014-10-29 (see doc/BUGS), which caused an error in
    compiling embedded function templates.
 4. Improving ats2langweb/Implements.html
+5. Fixing bug-2014-11-14 (see doc/BUGS), which caused an error in
+   compiling mutually tail-recursive functions
+6. Fixing bug-2014-11-14-2 (see doc/BUGS), which caused an error in
+   compiling inner functions defined inside mutually tail-recursive
+   functions
+7. Improving the implementation of ATSLIB/prelude/list_vt_mergesort
 
 ######
 
