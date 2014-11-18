@@ -132,6 +132,7 @@ ATSCNTRB/libatscc\
 (* ****** ****** *)
 
 #packfilename("libatscc2js/SATS/print.sats")
+#packfilename("libatscc2js/SATS/filebas.sats")
 
 (* ****** ****** *)
 
@@ -185,8 +186,10 @@ ATSCNTRB/libatscc\
 (* ****** ****** *)
 
 #packfilename("libatscc2php/SATS/integer.sats")
+#packfilename("libatscc2php/SATS/bool.sats")
 #packfilename("libatscc2php/SATS/float.sats")
 #packfilename("libatscc2php/SATS/string.sats")
+#packfilename("libatscc2php/SATS/print.sats")
 #packfilename("libatscc2php/SATS/filebas.sats")
 
 (* ****** ****** *)
@@ -205,9 +208,14 @@ ATSCNTRB/libatscc\
 
 #packfilename("libatscc2php/CATS/basics_cats.php")
 #packfilename("libatscc2php/CATS/integer_cats.php")
+#packfilename("libatscc2php/CATS/bool_cats.php")
 #packfilename("libatscc2php/CATS/float_cats.php")
 #packfilename("libatscc2php/CATS/string_cats.php")
+#packfilename("libatscc2php/CATS/print_cats.php")
 #packfilename("libatscc2php/CATS/filebas_cats.php")
+
+(* ****** ****** *)
+
 #packfilename("libatscc2php/CATS/PHPref_cats.php")
 #packfilename("libatscc2php/CATS/PHParray_cats.php")
 #packfilename("libatscc2php/CATS/PHParref_cats.php")
@@ -217,6 +225,40 @@ ATSCNTRB/libatscc\
 #packfilename("libatscc2php/DATS/list.dats")
 #packfilename("libatscc2php/DATS/intrange.dats")
 #packfilename("libatscc2php/DATS/reference.dats")
+
+(* ****** ****** *)
+//
+// Perl
+//
+(* ****** ****** *)
+
+#packfilename("libatscc2pl/basics_pl.sats")
+#packfilename("libatscc2pl/staloadall.hats")
+
+(* ****** ****** *)
+
+#packfilename("libatscc2pl/SATS/integer.sats")
+#packfilename("libatscc2pl/SATS/bool.sats")
+#packfilename("libatscc2pl/SATS/string.sats")
+#packfilename("libatscc2pl/SATS/print.sats")
+#packfilename("libatscc2pl/SATS/filebas.sats")
+
+(* ****** ****** *)
+
+#packfilename("libatscc2pl/SATS/PLarray.sats")
+
+(* ****** ****** *)
+
+#packfilename("libatscc2pl/SATS/list.sats")
+
+(* ****** ****** *)
+
+#packfilename("libatscc2pl/CATS/basics_cats.pl")
+#packfilename("libatscc2pl/CATS/integer_cats.pl")
+#packfilename("libatscc2pl/CATS/bool_cats.pl")
+#packfilename("libatscc2pl/CATS/float_cats.pl")
+#packfilename("libatscc2pl/CATS/string_cats.pl")
+#packfilename("libatscc2pl/CATS/print_cats.pl")
 
 (* ****** ****** *)
 //
@@ -233,6 +275,7 @@ ATSCNTRB/libatscc\
 #packfilename("libatscc2py/SATS/bool.sats")
 #packfilename("libatscc2py/SATS/char.sats")
 #packfilename("libatscc2py/SATS/string.sats")
+#packfilename("libatscc2py/SATS/print.sats")
 #packfilename("libatscc2py/SATS/filebas.sats")
 #packfilename("libatscc2py/SATS/PYlist.sats")
 
