@@ -2220,6 +2220,18 @@ fun auxcon1
 , hit_con: hitype, arg: labprimvalist
 ) : void = let
 //
+val
+lincon =
+(
+if $S2E.d2con_is_linear(d2c) then 0 else 1
+) : int // end of [val]
+//
+val () =
+fprintf
+(
+  out, "/*\n#LINCONSTATUS==%i\n*/\n", @(lincon)
+) (* end of [val] *)
+//
 val () =
   emit_text (out, "ATSINSmove_con1_beg()\n")
 //
@@ -2384,19 +2396,25 @@ end // end of [loop]
 //
 in
 //
-case- ins.instr_node of
+case-
+ins.instr_node of
 | INSmove_fltrec
   (
     tmp, lpmvs, hse_rec
   ) => let
 //
-    val () = emit_text (out, "ATSINSmove_fltrec_beg()\n")
-//
     val hit = hisexp_typize (1, hse_rec)
     val extknd = hisexp_get_extknd (hse_rec)
+//
+    val () =
+      emit_text (out, "ATSINSmove_fltrec_beg()\n")
+    // end of [val]
+//
     val () = loop (0(*boxknd*), extknd, tmp, hit, lpmvs, 0)
 //
-    val () = emit_text (out, "\nATSINSmove_fltrec_end()")
+    val () =
+      emit_text (out, "\nATSINSmove_fltrec_end()")
+    // end of [val]
   in
     // nothing
   end // end of [INSmove_fltrec]
@@ -2405,10 +2423,14 @@ case- ins.instr_node of
     tmp, lpmvs, hse_rec
   ) => let
 //
-    val () = emit_text (out, "ATSINSmove_boxrec_beg()\n")
-//
     val hit = hisexp_typize (0, hse_rec)
     val extknd = hisexp_get_extknd (hse_rec)
+//
+    val () =
+      fprint (out, "/*\n#LINCONSTATUS==2\n*/\n")
+    val () =
+      emit_text (out, "ATSINSmove_boxrec_beg()\n")
+    // end of [val]
 //
     val () = emit_text (out, "ATSINSmove_boxrec_new(")
     val () = emit_tmpvar (out, tmp)
@@ -2417,7 +2439,9 @@ case- ins.instr_node of
     val () = emit_text (out, ") ;\n")
     val () = loop (1(*boxknd*), extknd, tmp, hit, lpmvs, 0)
 //
-    val () = emit_text (out, "\nATSINSmove_boxrec_end()")
+    val () =
+      emit_text (out, "\nATSINSmove_boxrec_end()")
+    // end of [val]
 //
   in
     // nothing

@@ -439,6 +439,11 @@ fun s2rt_test_fun
 in // in of [local]
 
 implement
+s2rt_is_lin_fun
+  (s2t) = s2rt_test_fun (s2t, s2rt_is_lin)
+// end of [s2rt_is_lin_fun]
+
+implement
 s2rt_is_boxed_fun
   (s2t) = s2rt_test_fun (s2t, s2rt_is_boxed)
 // end of [s2rt_is_boxed_fun]

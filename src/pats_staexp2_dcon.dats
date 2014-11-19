@@ -345,6 +345,15 @@ d2con_is_binarian (d2c) =
 // end of [d2con_is_binarian]
 
 (* ****** ****** *)
+//
+implement
+d2con_is_linear
+  (d2c) = s2cst_is_linear(d2con_get_scst(d2c))
+implement
+d2con_is_nonlinear
+  (d2c) = s2cst_is_nonlinear(d2con_get_scst(d2c))
+//
+(* ****** ****** *)
 
 implement
 eq_d2con_d2con

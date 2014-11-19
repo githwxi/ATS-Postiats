@@ -303,6 +303,7 @@ fun s2rt_is_prgm (x: s2rt): bool // is program?
 fun s2rt_is_impred (x: s2rt): bool // is impredicative?
 fun s2rt_is_tkind (x: s2rt): bool // is tkind?
 //
+fun s2rt_is_lin_fun (x: s2rt): bool // is (... ->) linear?
 fun s2rt_is_boxed_fun (x: s2rt): bool // is (... ->) boxed?
 fun s2rt_is_tkind_fun (x: s2rt): bool // is (... ->) tkind?
 //
@@ -642,17 +643,20 @@ fun compare_s2cst_s2cst (x1: s2cst, x2: s2cst):<> Sgn
 overload compare with compare_s2cst_s2cst
 
 (* ****** ****** *)
-
+//
 fun s2cst_is_abstr (x: s2cst): bool
 fun s2cst_is_tkind (x: s2cst): bool
-
+//
 fun s2cst_is_datype (s2c: s2cst): bool
-
+//
 fun s2cst_is_tagless (x: s2cst): bool
 fun s2cst_is_listlike (x: s2cst): bool
 fun s2cst_is_singular (x: s2cst): bool
 fun s2cst_is_binarian (x: s2cst): bool
-
+//
+fun s2cst_is_linear (x: s2cst): bool
+fun s2cst_is_nonlinear (x: s2cst): bool
+//
 (* ****** ****** *)
 
 fun s2cst_subeq (s2c1: s2cst, s2c2: s2cst): bool
@@ -967,10 +971,10 @@ fun compare_d2con_d2con (x1: d2con, x2: d2con):<> Sgn
 overload compare with compare_d2con_d2con
 
 (* ****** ****** *)
-
+//
 fun d2con_is_con (d2c: d2con): bool // data constructor
 fun d2con_is_exn (d2c: d2con): bool // exceptn constructor
-
+//
 fun d2con_is_nullary (d2c: d2con): bool // nullary constructor
 fun d2con_is_tagless (d2c: d2con): bool // tagless constructor
 //
@@ -980,7 +984,10 @@ fun d2con_is_listlike (d2c: d2con): bool // like listnil/listcons
 //
 fun d2con_is_singular (d2c: d2con): bool // singular constructor
 fun d2con_is_binarian (d2c: d2con): bool // binarian constructor
-
+//
+fun d2con_is_linear (d2c: d2con): bool // linear constructor
+fun d2con_is_nonlinear (d2c: d2con): bool // nonlinear constructor
+//
 (* ****** ****** *)
 
 fun d2conset_nil ():<> d2conset
