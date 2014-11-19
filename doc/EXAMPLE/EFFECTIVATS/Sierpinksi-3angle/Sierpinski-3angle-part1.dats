@@ -59,9 +59,9 @@ function
 drawFrame()
 {
   var w = canvas.width;
-  var h = canvas.heigh;
-  if (theToggle) ctx2d.fillStyle = "#ff0000";
-  if (!theToggle) ctx2d.fillStyle = "#ff0000";
+  var h = canvas.height;
+  if (theToggle) ctx2d.fillStyle = "#ffff00";
+  if (!theToggle) ctx2d.fillStyle = "#0000ff";
   theToggle = 1 - theToggle;
   ctx2d.rect(0, 0, w, h);
   ctx2d.fill();
