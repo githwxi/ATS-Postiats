@@ -14,7 +14,13 @@ fun
 drawAnim (): void = "mac#"
 extern
 fun
-drawAnim_cont (): void = "mac#"
+drawAnim_init (): void = "mac#"
+extern
+fun
+drawAnim_loop (): void = "mac#"
+extern
+fun
+drawAnim_loop_cont (): void = "mac#"
 //
 extern
 fun drawFrame (): void = "mac#"
@@ -22,27 +28,35 @@ fun drawFrame (): void = "mac#"
 (* ****** ****** *)
 
 implement
-drawAnim () =
+drawAnim() =
+{
+  val () = drawAnim_init ()
+  val () = drawAnim_loop ()
+}
+implement
+drawAnim_init () = ()
+implement
+drawAnim_loop () =
 {
 //
 val () = drawFrame ()
-val () = drawAnim_cont ()
+val () = drawAnim_loop_cont ()
 //
 } (* end of [drawAnim] *)
 
 (* ****** ****** *)
 
 implement
-drawAnim_cont () =
+drawAnim_loop_cont () =
 {
 //
 val () =
 $extfcall
 (
-  void, "setTimeout", drawAnim, 1000(*ms*)
+  void, "setTimeout", drawAnim_loop, 1000(*ms*)
 ) (* end of [val] *)
 //
-} (* end of [drawAnim_cont] *)
+} (* end of [drawAnim_loop_cont] *)
 
 (* ****** ****** *)
 
