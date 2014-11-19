@@ -60,12 +60,14 @@ drawFrame()
 {
   var w = canvas.width;
   var h = canvas.heigh;
-  if (theToggle) ctx2d.fillStyle("#ff0000");
-  if (!theToggle) ctx2d.fillStyle("#ff0000");
+  if (theToggle) ctx2d.fillStyle = "#ff0000";
+  if (!theToggle) ctx2d.fillStyle = "#ff0000";
   theToggle = 1 - theToggle;
   ctx2d.rect(0, 0, w, h);
   ctx2d.fill();
 }
+//
+jQuery(document).ready(function(){drawAnim();});
 //
 %} // end of [%{$]
 
