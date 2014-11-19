@@ -37,6 +37,12 @@ Here is a list of major additions and changes since the last release:
    compiling inner functions defined inside mutually tail-recursive
    functions
 7. Improving the implementation of ATSLIB/prelude/list_vt_mergesort
+8. Supporting compilation from ATS to Perl: atscc2pl
+9. Issuing the special comment #LINCONSTATUS==i to show the kind of
+   an allocated constructor:
+   i=0 => linear data constructor
+   i=1 => nonlinear data constructor
+   i=2 => nonlinear tuple constructor
 
 ######
 

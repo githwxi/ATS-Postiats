@@ -81,6 +81,7 @@ thePageRBodyLHeader_Examples()
   echo "<li><a href=\"#Hello_world\">Hello, world!</a></li>\n";
   echo "<li><a href=\"#Copying_files\">Copying files</a></li>\n";
   echo "<li><a href=\"#Fibonacci_numbers\">Computing Fibonacci numbers</a></li>\n";
+  echo "<li><a href=\"#EffectiveATS\">Effective ATS</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Examples] */

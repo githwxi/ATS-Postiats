@@ -305,6 +305,17 @@ Here is a button for trying this example on-line:
 
 <hr></hr>
 
+<h2><a id="EffectiveATS">Effective ATS</a></h2>
+
+<p>
+Please find <a
+href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/">on-line</a>
+various (short) programs in ATS plus detailed explanation that are written
+for the purpose of advocating effective programming in ATS.
+</p>
+
+<hr></hr>
+
 </div>
 
 <?php /* end of [Examples.php] */ ?>

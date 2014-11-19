@@ -125,7 +125,7 @@ Encoding the Policy for Database Access
 </h2>
 
 The policy for database access is formally encoded in the types
-of the following declared function:
+of the following declared functions:
 
 <pre
 class="patsyntax">
@@ -383,9 +383,11 @@ DB_read_write.sats
 DB_read_write.dats
 </pre>
 
+<!--
 Instead of being coded in C directly, the rest of my implementation is also
 written in ATS but it makes pervasive use of some unsafe programming
 features.
+-->
 
 <hr size="2">
 
