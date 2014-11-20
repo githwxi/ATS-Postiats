@@ -15,7 +15,8 @@
 <body>
 
 <h1>
-Effective ATS: An Array-Based Stack Implementation
+Effective ATS:<br>
+An Array-Based Stack Implementation
 </h1>
 
 ATS advocates a programming paradigm referred to as <em>Programming with
