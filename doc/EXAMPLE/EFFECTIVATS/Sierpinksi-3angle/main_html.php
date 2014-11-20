@@ -158,9 +158,8 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 I do not plan to go over the JS code in detail.  Essentially, it locates a
 canvas identified by the string "Patsoptaas-Evaluate-canvas". The
 implementation of [drawFrame] paints the entire canvas with blue and
-yellow, alternately. The entirety of the code presented so far (with few
-minor modifications) is stored in Sierpinski-3angle-part1.dats, which can
-be readily tested
+yellow, alternately. The entirety of the code presented so far is stored in
+<u>Sierpinski-3angle-part1.dats</u>, which can be readily tested
 <a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinksi-3angle/Sierpinski-3angle-part1.dats">on-line</a>.
 </p>
 
@@ -182,30 +181,40 @@ triangle at level n-1, where P, Q, and R are the midpoints of the three
 sides AB, BC and CA, respectively.
 </p>
 
+<p>
+Let us introduce an abstract type [color] for colors
+and use [BLUE] and [YELLOW] to refer to two colors defined in JS
+of the same names:
+</p>
+
 <?php
 $mycode = <<<EOT
 //
 abstype color
+//
+macdef BLUE = \$extval(color, "BLUE")
+macdef YELLOW = \$extval(color, "YELLOW")
+//
+EOT;
+atslangweb_pats2xhtmlize_dynamic($mycode);
+?><!--php-->
+
+<p>
+Let us introduce a function [drawTriangle]
+for drawing a triangle ABC filled with a given color:
+</p>
+
+<?php
+$mycode = <<<EOT
 //
 extern
 fun
 drawTriangle
 (
   c: color
-, Ax: double, Ay: double
-, Bx: double, By: double
-, Cx: double, Cy: double
-) : void = "mac#"
-//
-extern
-fun
-drawSTriangle
-(
-  c: color
-, Ax: double, Ay: double
-, Bx: double, By: double
-, Cx: double, Cy: double
-, level: int
+, Ax: double, Ay: double // x-y-coordinates for A
+, Bx: double, By: double // x-y-coordinates for B
+, Cx: double, Cy: double // x-y-coordinates for C
 ) : void = "mac#"
 //
 EOT;
@@ -213,11 +222,24 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
-The function [drawSTriangle] can be implemented on top of [drawTriangle] as follows:
+Let us introduce another function [drawSTriangle]
+for drawing a Sierpinski triangle filled with a given color
+and then implement it based on the function [drawTriangle]:
 </p>
 
 <?php
 $mycode = <<<EOT
+//
+extern
+fun
+drawSTriangle
+(
+  c: color
+, Ax: double, Ay: double // x-y-coordinates for A
+, Bx: double, By: double // x-y-coordinates for B
+, Cx: double, Cy: double // x-y-coordinates for C
+, level: int
+) : void = "mac#"
 //
 implement
 drawSTriangle
@@ -253,6 +275,117 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
+The function [drawFrame] can be implemented as follows:
+</p>
+
+<?php
+$mycode = <<<EOT
+//
+local
+//
+extern
+fun
+theLevel_getinc(): int = "mac#"
+//
+in
+//
+implement
+drawFrame () =
+{
+//
+  val Ax = theAx_get() // x-coordinate of A
+  val Ay = theAy_get() // y-coordinate of A
+  val Bx = theBx_get() // x-coordinate of B
+  val By = theBy_get() // y-coordinate of B
+  val Cx = theCx_get() // x-coordinate of C
+  val Cy = theCy_get() // y-coordinate of C
+//
+  val level = theLevel_getinc ()
+  val ((*void*)) = drawTriangle (BLUE, Ax, Ay, Bx, By, Cx, Cy)
+  val ((*void*)) = drawSTriangle (YELLOW, Ax, Ay, Bx, By, Cx, Cy, level)
+//
+} (* end of [drawFram] *)
+//
+end // end of [local]
+//
+EOT;
+atslangweb_pats2xhtmlize_dynamic($mycode);
+?><!--php-->
+
+<p>
+After the canvas for drawing is located, three points A, B and C are
+choosen on the canvas to be the vertices of a Sierpinski triangle. The
+x-y-coordinates of A can be obtained by calling [theAx_get] and
+[theAy_get], which are implemented in JS.  The x-y-coordinates of B and C
+can be obtained similarly. The function [theLevel_getinc] is called to
+yield the level of the Sierpinski triangle to be drawn. Please find all
+the details in the following JS code, which also includes an implementation
+of [drawTriangle]:
+</p>
+
+<?php
+$mycode = <<<EOT
+//
+%{\$
+//
+var
+canvas =
+document.getElementById
+  ("Patsoptaas-Evaluate-canvas");
+var
+ctx2d = canvas.getContext( '2d' );
+//
+function
+theAx_get() { return 0; }
+function
+theAy_get() { return canvas.height; }
+function
+theBx_get() { return canvas.width/2; }
+function
+theBy_get() { return 0; }
+function
+theCx_get() { return canvas.width; }
+function
+theCy_get() { return canvas.height; }
+//
+var
+theLevel = 0;
+function
+theLevel_getinc()
+{
+  var
+  level = theLevel;
+  theLevel = (level+1)%7;
+  return level;
+}
+//
+function
+drawTriangle
+(
+  color, Ax, Ay, Bx, By, Cx, Cy
+)
+{
+  ctx2d.beginPath();
+  ctx2d.moveTo(Ax, Ay);
+  ctx2d.lineTo(Bx, By);
+  ctx2d.lineTo(Cx, Cy);
+  ctx2d.closePath();
+  ctx2d.fillStyle = color; ctx2d.fill();
+  return;
+}
+//
+jQuery(document).ready(function(){drawAnim();});
+//
+%} // end of [%{\$]
+//
+EOT;
+atslangweb_pats2xhtmlize_dynamic($mycode);
+?><!--php-->
+
+<p>
+The entirety of the code for this implementation
+an animated drawing of Sierpinski triangles is stored in
+<u>Sierpinski-3angle.dats</u>, which can be readily tested
 <a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinksi-3angle/Sierpinski-3angle.dats">on-line</a>.
 </p>
 

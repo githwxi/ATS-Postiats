@@ -26,9 +26,6 @@ drawAnim_init (): void = "mac#"
 extern
 fun
 drawAnim_loop (): void = "mac#"
-extern
-fun
-drawAnim_loop_cont (): void = "mac#"
 //
 extern
 fun drawFrame (): void = "mac#"
@@ -38,35 +35,25 @@ fun drawFrame (): void = "mac#"
 implement
 drawAnim() =
 {
-  val () = drawAnim_init ()
-  val () = drawAnim_loop ()
+//
+val () = drawAnim_init ()
+val () = drawAnim_loop ()
+//
 }
-(*
 implement
 drawAnim_init () = ()
-*)
 implement
-drawAnim_loop () =
+drawAnim_loop () = () where
 {
 //
 val () = drawFrame ()
-val () = drawAnim_loop_cont ()
-//
-} (* end of [drawAnim] *)
-
-(* ****** ****** *)
-
-implement
-drawAnim_loop_cont () =
-{
-//
 val () =
 $extfcall
 (
   void, "setTimeout", drawAnim_loop, 1000(*ms*)
 ) (* end of [val] *)
 //
-} (* end of [drawAnim_loop_cont] *)
+} (* end of [drawAnim_loop] *)
 
 (* ****** ****** *)
 //
@@ -142,20 +129,6 @@ and theCy_get(): double = "mac#"
 //
 (* ****** ****** *)
   
-implement
-drawAnim_init () =
-{
-  val Ax = theAx_get()
-  val Ay = theAy_get()
-  val Bx = theBx_get()
-  val By = theBy_get()
-  val Cx = theCx_get()
-  val Cy = theCy_get()
-  val () = drawTriangle (BLUE, Ax, Ay, Bx, By, Cx, Cy)
-} (* end of [drawAnim_init] *)
-  
-(* ****** ****** *)
-
 local
 //
 extern
@@ -167,16 +140,19 @@ in
 implement
 drawFrame () =
 {
-  val Ax = theAx_get()
-  val Ay = theAy_get()
-  val Bx = theBx_get()
-  val By = theBy_get()
-  val Cx = theCx_get()
-  val Cy = theCy_get()
+//
+  val Ax = theAx_get() // x-coordinate of A
+  val Ay = theAy_get() // y-coordinate of A
+  val Bx = theBx_get() // x-coordinate of B
+  val By = theBy_get() // y-coordinate of B
+  val Cx = theCx_get() // x-coordinate of C
+  val Cy = theCy_get() // y-coordinate of C
+//
   val level = theLevel_getinc ()
   val ((*void*)) = drawTriangle (BLUE, Ax, Ay, Bx, By, Cx, Cy)
   val ((*void*)) = drawSTriangle (YELLOW, Ax, Ay, Bx, By, Cx, Cy, level)
-}
+//
+} (* end of [drawFram] *)
 //
 end // end of [local]
 
@@ -220,7 +196,7 @@ theLevel_getinc()
 {
   var
   level = theLevel;
-  theLevel = (level+1)%6;
+  theLevel = (level+1)%7;
   return level;
 }
 //
