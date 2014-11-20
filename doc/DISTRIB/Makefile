@@ -572,7 +572,7 @@ srcget_atscntrb_libatscc:: SCRIPT/atscntrb_libatscc.bash ; bash $<
 
 ######
 #
-PACKNAME=ATS2-Postiats-0.1.5
+PACKNAME=ATS2-Postiats-0.1.6
 atspacktarzvcf:: ; rm -rf $(PACKNAME)
 atspacktarzvcf:: ; cp -rf ATS-Postiats $(PACKNAME)
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/Makefile_conf
@@ -585,7 +585,7 @@ atspacktarzvcf_up:: ; scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:
 #
 ######
 
-CNTRBNAME=ATS2-Postiats-contrib-0.1.5
+CNTRBNAME=ATS2-Postiats-contrib-0.1.6
 atscntrbtarzvcf:: ; rm -rf $(CNTRBNAME)
 atscntrbtarzvcf:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtarzvcf:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/

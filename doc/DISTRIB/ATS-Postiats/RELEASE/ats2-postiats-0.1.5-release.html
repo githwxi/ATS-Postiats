@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.1.4</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.1.5:
+</H2>
+
+<pre>
+
+This is the 14th release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Supporting %(...) in macro definitions
+   #define N 10
+   #define N2 N + 1 // it is the same as: #define N1 11
+   #define N2 N * N1 // it is the same as: #define N2 110
+2. Issuing an error message if the size of a stack-allocated array
+   cannot be determined at compile-time.
+3. Fixing bug-2014-10-29 (see doc/BUGS), which caused an error in
+   compiling embedded function templates.
+4. Improving ats2langweb/Implements.html
+5. Fixing bug-2014-11-14 (see doc/BUGS), which caused an error in
+   compiling mutually tail-recursive functions
+6. Fixing bug-2014-11-14-2 (see doc/BUGS), which caused an error in
+   compiling inner functions defined inside mutually tail-recursive
+   functions
+7. Improving the implementation of ATSLIB/prelude/list_vt_mergesort
+8. Supporting compilation from ATS to Perl: atscc2pl
+9. Issuing the special comment #LINCONSTATUS==i to show the kind of
+   an allocated constructor:
+   i=0 => linear data constructor
+   i=1 => nonlinear data constructor
+   i=2 => nonlinear tuple constructor
+
+</pre>
+
+</body><!--body-->
+</html><!--html-->
