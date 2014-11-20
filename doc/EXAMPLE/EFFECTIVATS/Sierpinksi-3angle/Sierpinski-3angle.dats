@@ -190,7 +190,8 @@ theLevel_getinc()
 {
   var
   level = theLevel;
-  theLevel = (level+1)%6; return level;
+  theLevel = (level+1)%6;
+  return level;
 }
 //
 function
@@ -205,6 +206,7 @@ drawTriangle
   ctx2d.lineTo(Cx, Cy);
   ctx2d.closePath();
   ctx2d.fillStyle = color; ctx2d.fill();
+  return;
 }
 //
 jQuery(document).ready(function(){drawAnim();});
