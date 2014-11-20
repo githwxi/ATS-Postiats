@@ -158,18 +158,12 @@ drawAnim_init () =
 
 local
 //
-val theLevel = ref{int}(0)
+extern
+fun
+theLevel_getinc(): int = "mac#"
 //
 in
 //
-fun
-theLevel_getinc(): int =
-  let val n = theLevel[] in theLevel[] := (n+1)%6; n end
-//
-end // end of [local]
-
-(* ****** ****** *)
-
 implement
 drawFrame () =
 {
@@ -183,6 +177,8 @@ drawFrame () =
   val ((*void*)) = drawTriangle (BLUE, Ax, Ay, Bx, By, Cx, Cy)
   val ((*void*)) = drawSTriangle (YELLOW, Ax, Ay, Bx, By, Cx, Cy, level)
 }
+//
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -216,6 +212,17 @@ function
 theCx_get() { return canvas.width; }
 function
 theCy_get() { return canvas.height; }
+//
+var
+theLevel = 0;
+function
+theLevel_getinc()
+{
+  var
+  level = theLevel;
+  theLevel = (level+1)%6;
+  return level;
+}
 //
 function
 drawTriangle
