@@ -388,6 +388,11 @@ The entirety of the code for this implementation of
 an animated drawing of Sierpinski triangles is stored in
 <u>Sierpinski-3angle-final.dats</u>, which can be readily tested
 <a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinski-3angle/Sierpinski-3angle-final.dats">on-line</a>.
+Of course, it is also possible to use <u>patsopt</u> to compile
+<u>Sierpinski-3angle-final.dats</u> into some C code and then use
+<u>atscc2js</u> to compile the C code into some JS code. Please
+find the related details in the provided Makefile. There is a file
+<u>Sierpinski-3angle.html</u> available for testing the generated JS code.
 </p>
 
 <hr size="2">

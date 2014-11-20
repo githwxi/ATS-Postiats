@@ -8,22 +8,22 @@ PHP=php
 
 ######
 
-include $(PATSHOME)/share/atsmake-pre.mk
-
-######
-
-MYTARGET=MYTARGET
-MYCCRULE=MYCCRULE
-
-######
-
-include $(PATSHOME)/share/atsmake-post.mk
+PATSCC=$(PATSHOME)/bin/patscc
+PATSOPT=$(PATSHOME)/bin/patsopt
+ATSCC2JS=$(PATSHOME)/bin/atscc2js
 
 ######
 
 all:: \
 main.html
 main.html: main_html.php; $(PHP) -f $< > $@
+
+######
+
+Sierpinski-3angle.js: \
+Sierpinski-3angle_dats.c; $(ATSCC2JS) -o $@ -i $<
+Sierpinski-3angle_dats.c: \
+Sierpinski-3angle-final.dats; $(PATSOPT) -o $@ -d $<
 
 ######
 
@@ -34,11 +34,17 @@ upload_main: \
 
 ######
 
-cleanats:: ; $(RMF) *_?ats.c
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.c
 
 ######
 
 cleanall:: ; $(RMF) main.html
+cleanall:: ; $(RMF) Sierpinski-3angle.js
 
 ######
 
