@@ -198,15 +198,15 @@ ctx2d = canvas.getContext( '2d' );
 function
 theAx_get() { return 0; }
 function
-theAy_get() { return ctx2d.height; }
+theAy_get() { return canvas.height; }
 function
-theBx_get() { return ctx2d.width/2; }
+theBx_get() { return canvas.width/2; }
 function
 theBy_get() { return 0; }
 function
-theCx_get() { return ctx2d.width; }
+theCx_get() { return canvas.width; }
 function
-theCy_get() { return ctx2d.height; }
+theCy_get() { return canvas.height; }
 //
 var
 theLevel = 0;
