@@ -10,8 +10,11 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_staload.hats"
-//  
+"share/atspre_define.hats"
+//
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
+//
 (* ****** ****** *)
 //
 extern
