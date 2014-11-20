@@ -64,10 +64,13 @@ $extfcall
 //
 var
 canvas =
-document.getElementById("Patsoptaas-Evaluate-canvas");
-var ctx2d = canvas.getContext( '2d' );
+document.getElementById
+  ("Patsoptaas-Evaluate-canvas");
+var
+ctx2d = canvas.getContext( '2d' );
 //
-var theToggle = 0
+var
+theToggle = 0;
 //
 function
 drawFrame()
