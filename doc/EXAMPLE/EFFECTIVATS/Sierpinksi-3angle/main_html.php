@@ -252,6 +252,10 @@ EOT;
 atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
+<p>
+<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinksi-3angle/Sierpinski-3angle.dats">on-line</a>.
+</p>
+
 <hr size="2">
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.

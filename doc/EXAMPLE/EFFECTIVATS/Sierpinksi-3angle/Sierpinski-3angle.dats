@@ -9,6 +9,11 @@
 //
 (* ****** ****** *)
 //
+#include
+"share/atspre_staload.hats"
+//  
+(* ****** ****** *)
+//
 extern
 fun
 drawAnim (): void = "mac#"
