@@ -189,6 +189,7 @@ upload_sorting-linear-lists:: ; \
 upload_Sierpinski-3angle:: ; \
   scp \
   Sierpinski-3angle/Makefile \
+  Sierpinski-3angle/Sierpinski-3angle.html \
   Sierpinski-3angle/Sierpinski-3angle-part.dats \
   Sierpinski-3angle/Sierpinski-3angle-final.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Sierpinski-3angle

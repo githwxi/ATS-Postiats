@@ -34,6 +34,13 @@ upload_main: \
 
 ######
 
+upload_Sierpinski-3angle_js: \
+  main.html ; \
+  scp Sierpinski-3angle.js \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Sierpinski-3angle/
+
+######
+
 RMF=rm -f
 
 ######
@@ -43,6 +50,7 @@ clean:: ; $(RMF) *_?ats.c
 
 ######
 
+cleanall:: clean
 cleanall:: ; $(RMF) main.html
 cleanall:: ; $(RMF) Sierpinski-3angle.js
 

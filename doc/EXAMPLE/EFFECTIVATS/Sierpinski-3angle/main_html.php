@@ -112,7 +112,7 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 <p>
 Essentially, the call to the external function [setTimeout] in
 JS requests that the browser schedule a call to [drawAnim_loop]
-1000 milliseconds (that is, 1 second) after the time the call is made.
+1000 milliseconds (that is, 1 second) after the time when the call is made.
 </p>
 
 <p>
