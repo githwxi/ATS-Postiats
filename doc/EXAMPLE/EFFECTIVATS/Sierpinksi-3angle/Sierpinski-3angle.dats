@@ -128,14 +128,14 @@ else () // end of [else]
 (* ****** ****** *)
 //
 extern
-fun theAx_get(): double
-and theAy_get(): double
+fun theAx_get(): double = "mac#"
+and theAy_get(): double = "mac#"
 extern
-fun theBx_get(): double
-and theBy_get(): double
+fun theBx_get(): double = "mac#"
+and theBy_get(): double = "mac#"
 extern
-fun theCx_get(): double
-and theCy_get(): double
+fun theCx_get(): double = "mac#"
+and theCy_get(): double = "mac#"
 //
 (* ****** ****** *)
   
@@ -182,6 +182,19 @@ document.getElementById
   ("Patsoptaas-Evaluate-canvas");
 var
 ctx2d = canvas.getContext( '2d' );
+//
+function
+theAx_get() { return 0; }
+function
+theAy_get() { return ctx2d.height; }
+function
+theBx_get() { return ctx2d.width/2; }
+function
+theBy_get() { return 0; }
+function
+theCx_get() { return ctx2d.width; }
+function
+theCy_get() { return ctx2d.height; }
 //
 var
 theLevel = 0;
