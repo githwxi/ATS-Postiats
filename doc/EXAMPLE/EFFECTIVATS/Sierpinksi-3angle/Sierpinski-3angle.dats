@@ -222,7 +222,7 @@ theLevel_getinc()
 function
 drawTriangle
 (
-  Ax, Ay, Bx, By, Cx, Cy, color
+  color, Ax, Ay, Bx, By, Cx, Cy
 )
 {
   ctx2d.beginPath();
