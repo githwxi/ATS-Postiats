@@ -159,8 +159,8 @@ I do not plan to go over the JS code in detail.  Essentially, it locates a
 canvas identified by the string "Patsoptaas-Evaluate-canvas". The
 implementation of [drawFrame] paints the entire canvas with blue and
 yellow, alternately. The entirety of the code presented so far is stored in
-<u>Sierpinski-3angle-part1.dats</u>, which can be readily tested
-<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinksi-3angle/Sierpinski-3angle-part1.dats">on-line</a>.
+<u>Sierpinski-3angle-part.dats</u>, which can be readily tested
+<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinksi-3angle/Sierpinski-3angle-part.dats">on-line</a>.
 </p>
 
 <h2>
@@ -385,8 +385,8 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 <p>
 The entirety of the code for this implementation
 an animated drawing of Sierpinski triangles is stored in
-<u>Sierpinski-3angle.dats</u>, which can be readily tested
-<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinksi-3angle/Sierpinski-3angle.dats">on-line</a>.
+<u>Sierpinski-3angle-final.dats</u>, which can be readily tested
+<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinksi-3angle/Sierpinski-3angle-final.dats">on-line</a>.
 </p>
 
 <hr size="2">

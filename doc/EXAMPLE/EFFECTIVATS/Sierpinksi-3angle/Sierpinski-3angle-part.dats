@@ -80,4 +80,4 @@ jQuery(document).ready(function(){drawAnim();});
 
 (* ****** ****** *)
 
-(* end of [Sierpinski-3angle-part1.dats] *)
+(* end of [Sierpinski-3angle-part.dats] *)

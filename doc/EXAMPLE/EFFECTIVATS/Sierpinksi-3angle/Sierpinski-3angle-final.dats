@@ -221,4 +221,4 @@ jQuery(document).ready(function(){drawAnim();});
 
 (* ****** ****** *)
 
-(* end of [Sierpinski-3angle.dats] *)
+(* end of [Sierpinski-3angle-final.dats] *)
