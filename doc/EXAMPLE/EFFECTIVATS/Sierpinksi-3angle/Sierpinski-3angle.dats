@@ -69,8 +69,8 @@ $extfcall
 //
 abstype color
 //
-val BLUE = $extval(color, "#0000ff")
-val YELLOW = $extval(color, "#ffff00")
+val BLUE = $extval(color, "BLUE")
+val YELLOW = $extval(color, "YELLOW")
 //
 (* ****** ****** *)
 
@@ -174,6 +174,15 @@ drawFrame () =
 
 (* ****** ****** *)
 
+%{^
+//
+var BLUE = "#0000ff"
+var YELLOW = "#ffff00"
+//
+%} // end of [%{^]
+
+(* ****** ****** *)
+
 %{$
 //
 var
@@ -228,4 +237,4 @@ jQuery(document).ready(function(){drawAnim();});
 
 (* ****** ****** *)
 
-(* end of [Sierpinski-3angle-part1.dats] *)
+(* end of [Sierpinski-3angle.dats] *)
