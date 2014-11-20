@@ -83,7 +83,7 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 <p>
 The code is self-explanatory: [drawAnim] is the main function to be
 called for doing animation; it calls [drawAnim_init] to do some form of
-initialization and then [dramAnim_loop] to start a loop that repeatedly
+initialization and then [drawAnim_loop] to start a loop that repeatedly
 draws a frame (by calling [drawFrame]) and sleeps (by calling [sleep]).
 </p>
 
@@ -110,9 +110,9 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
-Essentially, the call to the external function [setTimeout] in JS requests
-the browser that a call to [drawAnim_loop] be scheduled 1000 milliseconds
-(that is, 1 second) after the current time.
+Essentially, the call to the external function [setTimeout] in
+JS requests that the browser schedule a call to [drawAnim_loop]
+1000 milliseconds (that is, 1 second) after the time the call is made.
 </p>
 
 <p>
@@ -177,7 +177,7 @@ Given a natural number, a Sierpinski triangle at level n can be defined
 inductively on n. A regular triangle is regarded as a Sierpinski triangle
 at level 0. For a positive number n, a triangle ABC is a Sierpinski
 triangle at level n if the three triangles APR, PBQ, and RQC are Sierpinski
-triangle at level n-1, where P, Q, and R are the midpoints of the three
+triangles at level n-1, where P, Q, and R are the midpoints of the three
 sides AB, BC and CA, respectively.
 </p>
 
@@ -200,8 +200,9 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
-Let us introduce a function [drawTriangle]
-for drawing a triangle ABC filled with a given color:
+Following is the interface of a function [drawTriangle],
+which is called to draw a triangle ABC filled with a given
+color:
 </p>
 
 <?php
@@ -211,7 +212,7 @@ extern
 fun
 drawTriangle
 (
-  c: color
+  c: color // color for filling
 , Ax: double, Ay: double // x-y-coordinates for A
 , Bx: double, By: double // x-y-coordinates for B
 , Cx: double, Cy: double // x-y-coordinates for C
@@ -383,7 +384,7 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
-The entirety of the code for this implementation
+The entirety of the code for this implementation of
 an animated drawing of Sierpinski triangles is stored in
 <u>Sierpinski-3angle-final.dats</u>, which can be readily tested
 <a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinski-3angle/Sierpinski-3angle-final.dats">on-line</a>.
