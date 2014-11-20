@@ -172,6 +172,7 @@ drawFrame () =
   val Cx = theCx_get()
   val Cy = theCy_get()
   val level = theLevel_getinc ()
+  val ((*void*)) = drawTriangle (BLUE, Ax, Ay, Bx, By, Cx, Cy)
   val ((*void*)) = drawSTriangle (YELLOW, Ax, Ay, Bx, By, Cx, Cy, level)
 }
 
