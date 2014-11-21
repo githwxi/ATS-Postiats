@@ -323,7 +323,7 @@ atspacktarzvcf:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-s
 atspacktarzvcf:: ; make -C $(PACKNAME) cleanall
 atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 #
-atspacktarzvcf_up:: ; scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/.
+atspacktarzvcf_up:: ; scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/.
 #
 ######
 
