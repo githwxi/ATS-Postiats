@@ -56,6 +56,7 @@ all::
 #make_entry("time")
 #make_entry("types")
 #make_entry("wait")
+#make_entry("socket")
 
 ######
 

@@ -40,8 +40,7 @@ Drawing Sierpinski triangles
 <p>
 In this article, I would like to give an example that
 combines ATS code with JavaScript (JS) code. This is also
-another occasion for me to advocate refinement-based
-programming.
+an occasion for me to advocate refinement-based programming.
 </p>
 
 <h2>
