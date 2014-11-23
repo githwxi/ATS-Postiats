@@ -197,28 +197,33 @@ ifintrel_bool_int_int_int
 (* ****** ****** *)
 
 stadef
-bool2int (b: bool): int = ifint (b, 1, 0)
+bool2int(b: bool): int = ifint (b, 1, 0)
 stadef int2bool (i: int): bool = (i != 0)
 stadef b2i = bool2int and i2b = int2bool
+
+(* ****** ****** *)
 
 (*
 ** HX: [char] = [int8]
 ** HX-2012-06-12: removed
 //
 stacst int_of_char: char -> int
-stadef c2i = int_of_char
 stacst char_of_int : int -> char
-stadef i2c = char_of_int
+stadef c2i = int_of_char and i2c = char_of_int
 //
 *)
 
-stacst int_of_addr : addr -> int
-stacst addr_of_int : int -> addr
-stadef a2i = int_of_addr
-stadef i2a = addr_of_int
-
 (* ****** ****** *)
 
+(*
+** HX: pointer <-> integer
+*)
+stacst int_of_addr: addr -> int
+stacst addr_of_int: int -> addr
+stadef a2i = int_of_addr and i2a = addr_of_int
+
+(* ****** ****** *)
+//
 stadef pow2_7 = 128
 stadef pow2_8 = 256
 stadef i2u_int8 (i:int) = ifint (i >= 0, i, i+pow2_8)
@@ -229,9 +234,14 @@ stadef u2i8 = u2i_int8
 stadef pow2_15 = 32768
 stadef pow2_16 = 65536
 stadef i2u_int16 (i:int) = ifint (i >= 0, i, i+pow2_16)
-stadef i2u8 = i2u_int16
+stadef i2u16 = i2u_int16
 stadef u2i_int16 (u:int) = ifint (u < pow2_15, u, u-pow2_16)
-stadef u2i8 = u2i_int16
+stadef u2i16 = u2i_int16
+//
+(* ****** ****** *)
+
+stadef pow2_32 = 0x100000000
+stadef pow2_64 = 0x10000000000000000
 
 (* ****** ****** *)
 
