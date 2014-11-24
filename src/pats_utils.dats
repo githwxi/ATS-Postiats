@@ -53,6 +53,16 @@ static char *patsopt_PATSHOMERELOC = (char*)0 ;
 static char *patsopt_ATSPKGRELOCROOT = (char*)0 ;
 extern char *getenv (const char *name) ; // [stdlib.h]
 //
+ATSinline()
+ats_ptr_type
+patsopt_getenv(ats_ptr_type name) {
+  const char *v = getenv((const char *)name);
+  if (!v) {
+    return NULL;
+  }
+  return strdup (v);
+} // end of [patsopt_getenv]
+//
 ATSextfun()
 ats_ptr_type
 patsopt_PATSHOME_get () {
@@ -67,15 +77,15 @@ patsopt_PATSHOMERELOC_get () {
 ATSextfun()
 ats_void_type
 patsopt_PATSHOME_set () {
-  patsopt_PATSHOME = getenv ("PATSHOME") ;
+  patsopt_PATSHOME = patsopt_getenv ("PATSHOME") ;
   if (!patsopt_PATSHOME) patsopt_PATSHOME = getenv ("ATSHOME") ;
   return ;
 } // end of [patsopt_PATSHOME_set]
 ATSextfun()
 ats_void_type
 patsopt_PATSHOMERELOC_set () {
-  patsopt_PATSHOMERELOC = getenv ("PATSHOMERELOC") ;
-  if (!patsopt_PATSHOMERELOC) patsopt_PATSHOMERELOC = getenv ("ATSHOMERELOC") ;
+  patsopt_PATSHOMERELOC = patsopt_getenv ("PATSHOMERELOC") ;
+  if (!patsopt_PATSHOMERELOC) patsopt_PATSHOMERELOC = patsopt_getenv ("ATSHOMERELOC") ;
   return ;
 } // end of [patsopt_PATSHOMERELOC_set]
 //
@@ -87,7 +97,7 @@ patsopt_ATSPKGRELOCROOT_get () {
 ATSextfun()
 ats_void_type
 patsopt_ATSPKGRELOCROOT_set () {
-  patsopt_ATSPKGRELOCROOT = getenv ("ATSPKGRELOCROOT") ; return ;
+  patsopt_ATSPKGRELOCROOT = patsopt_getenv ("ATSPKGRELOCROOT") ; return ;
 } // end of [patsopt_ATSPKGRELOCROOT_set]
 //
 %} (* end of [%{^] *)
