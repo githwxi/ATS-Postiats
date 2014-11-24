@@ -71,6 +71,15 @@ socket_atxt.dats: socket.atxt
 clean:: ; $(RMF) socket_atxt.exe
 cleanall:: ; $(RMF) socket.cats
 
+all:: socket_in.cats
+socket_in.cats: socket_in_atxt.exe ; ./$< > $@
+socket_in_atxt.exe: socket_in_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ socket_in_atxt.dats -latsdoc
+socket_in_atxt.dats: socket_in.atxt
+	$(ATSDOC) --outcode $@ -i socket_in.atxt > socket_in_atxt.txt
+clean:: ; $(RMF) socket_in_atxt.exe
+cleanall:: ; $(RMF) socket_in.cats
+
 
 ######
 

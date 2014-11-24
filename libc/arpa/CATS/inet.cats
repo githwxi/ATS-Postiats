@@ -63,7 +63,7 @@
 /* ****** ****** */
 
 ATSinline()
-ats_bool_type
+atstype_bool
 atslib_inet_aton
 (
   atstype_ptr cp, atstype_ref inp
@@ -72,7 +72,7 @@ atslib_inet_aton
   int rtn ;
 //
   rtn =
-  inet_aton((char*)cp, (in_addr_struct*)inp) ;
+  inet_aton((char*)cp, (struct in_addr*)inp) ;
 //
   return (rtn ? atsbool_true : atsbool_false) ;
 //

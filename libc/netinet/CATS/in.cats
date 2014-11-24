@@ -46,6 +46,13 @@
 /* ****** ****** */
 //
 typedef
+struct in_addr in_addr_struct;
+typedef
+struct in6_addr in6_addr_struct;
+//
+/* ****** ****** */
+//
+typedef
 struct sockaddr_in sockaddr_in_struct ;
 typedef
 struct sockaddr_in6 ats_sockaddr_in6_struct ;

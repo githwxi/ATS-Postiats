@@ -272,4 +272,59 @@ socket_close_exn
 //
 (* ****** ****** *)
 
+abst@ype
+shutkind_t = int
+macdef SHUT_RD = $extval(shutkind_t, "SHUT_RD")
+macdef SHUT_WR = $extval(shutkind_t, "SHUT_WR")
+macdef SHUT_RDWR = $extval(shutkind_t, "SHUT_RDWR")
+
+(* ****** ****** *)
+//
+// HX: what error can occur?
+//
+fun
+shutdown
+  {fd:int} // 0/-1 : succ/fail // errno set
+(
+  pf: socket_v (fd, conn) | fd: int fd, how: shutkind_t
+) : [i:int | i <= 0]
+(
+  option_v (socket_v (fd, conn), i < 0) | int i
+) = "mac#%" // end of [shutdown]
+//
+fun
+shutdown_exn
+  {fd:int} // 0/-1 : succ/fail // errno set
+(
+  pf: socket_v (fd, conn) | fd: int fd, how: shutkind_t
+) : void = "mac#%" // end of [shutdown_exn]
+//
+(* ****** ****** *)
+//
+// HX: it is just [read] in [fcntl]
+//
+fun
+socket_read
+  {fd:int}
+  {n,sz:int |
+   0 <= n; n <= sz}
+(
+  pf: !socket_v(fd, conn) | fd: int fd, buf: &bytes(sz), ntot: size_t(n)
+) : ssizeBtwe(~1, n) = "mac#%" // end of [socket_read]
+
+(* ****** ****** *)
+//
+// HX: it is just [write] in [fcntl]
+//
+fun
+socket_write
+  {fd:int}
+  {n,sz:int |
+   0 <= n; n <= sz}
+(
+  pf: !socket_v(fd, conn) | fd: int fd, buf: &bytes(sz), ntot: size_t(n)
+) : ssizeBtwe(~1, n) = "mac#%" // end of [socket_write]
+//
+(* ****** ****** *)
+
 (* end of [socket.sats] *)

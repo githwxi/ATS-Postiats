@@ -44,14 +44,20 @@ staload "./pats_utils.sats"
 
 %{^
 //
-// HX-2011-04-18:
-// there is no need for marking these variables as
-// GC roots because the values stored in them cannot be GCed
-//
 static char *patsopt_PATSHOME = (char*)0 ;
 static char *patsopt_PATSHOMERELOC = (char*)0 ;
 static char *patsopt_ATSPKGRELOCROOT = (char*)0 ;
-extern char *getenv (const char *name) ; // [stdlib.h]
+//
+extern
+ats_ptr_type
+patsopt_getenv_gc(ats_ptr_type);
+ATSinline()
+char *getenv_gc (const char *name)
+{
+  return (char*)(patsopt_getenv_gc((char*)name));
+}
+//
+#define patsopt_getenv(name) getenv(name)
 //
 ATSextfun()
 ats_ptr_type
@@ -67,15 +73,17 @@ patsopt_PATSHOMERELOC_get () {
 ATSextfun()
 ats_void_type
 patsopt_PATSHOME_set () {
-  patsopt_PATSHOME = getenv ("PATSHOME") ;
-  if (!patsopt_PATSHOME) patsopt_PATSHOME = getenv ("ATSHOME") ;
+  patsopt_PATSHOME = getenv_gc("PATSHOME") ;
+  if (!patsopt_PATSHOME)
+    patsopt_PATSHOME = getenv_gc("ATSHOME") ;
   return ;
 } // end of [patsopt_PATSHOME_set]
 ATSextfun()
 ats_void_type
 patsopt_PATSHOMERELOC_set () {
-  patsopt_PATSHOMERELOC = getenv ("PATSHOMERELOC") ;
-  if (!patsopt_PATSHOMERELOC) patsopt_PATSHOMERELOC = getenv ("ATSHOMERELOC") ;
+  patsopt_PATSHOMERELOC = getenv_gc("PATSHOMERELOC") ;
+  if (!patsopt_PATSHOMERELOC)
+    patsopt_PATSHOMERELOC = getenv_gc("ATSHOMERELOC") ;
   return ;
 } // end of [patsopt_PATSHOMERELOC_set]
 //
@@ -87,10 +95,39 @@ patsopt_ATSPKGRELOCROOT_get () {
 ATSextfun()
 ats_void_type
 patsopt_ATSPKGRELOCROOT_set () {
-  patsopt_ATSPKGRELOCROOT = getenv ("ATSPKGRELOCROOT") ; return ;
+  patsopt_ATSPKGRELOCROOT = getenv_gc("ATSPKGRELOCROOT") ; return ;
 } // end of [patsopt_ATSPKGRELOCROOT_set]
 //
 %} (* end of [%{^] *)
+
+(* ****** ****** *)
+
+extern
+fun
+patsopt_getenv_gc
+  (name: string): Stropt = "ext#patsopt_getenv_gc"
+//
+implement
+patsopt_getenv_gc
+  (name) = let
+//
+val opt =
+patsopt_getenv (name) where
+{
+extern
+fun
+patsopt_getenv
+  (name: string): stropt = "mac#patsopt_getenv"
+} (* end of [val] *)
+//
+in
+//
+if
+stropt_is_some(opt)
+then stropt_some(string0_copy(stropt_unsome(opt)))
+else stropt_none(*void*)
+//
+end // end of [patsopt_getenv_gc]
 
 (* ****** ****** *)
 
