@@ -96,7 +96,7 @@ overload time with time_getset
 fun ctime // non-reentrant
 (
   t: &RD(time_t) // read-only
-) :<!ref> [l:addr] vttakeout0 (strptr l) = "mac#%" // endfun
+) :<!ref> [l:agez] vttakeout0 (strptr l) = "mac#%" // endfun
 
 (* ****** ****** *)
 //

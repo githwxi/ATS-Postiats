@@ -238,8 +238,8 @@ accept_err
   pf: !socket_v(fd1, listen)
 | fd1: int fd1
 , sa: &SA(n)? >> opt(SA(n), fd2 >= 0)
-, salen: &socklen_t(n) >> socklen_t(n1)
-) : #[fd2:int;n1:nat] (accept_v (fd1, fd2) | int fd2) = "mac#%"
+, salen: &socklen_t(n) >> socklen_t(n2)
+) : #[fd2:int;n2:nat] (accept_v (fd1, fd2) | int fd2) = "mac#%"
 
 fun
 accept_null_err
@@ -248,7 +248,7 @@ accept_null_err
   pf: !socket_v(fd1, listen) | fd1: int fd1
 ) : [fd2:int]
 (
-  option_v (socket_v (fd1, conn), fd2 >= 0) | int fd2
+  option_v (socket_v (fd2, conn), fd2 >= 0) | int fd2
 ) = "mac#%" // end-of-function
 
 (* ****** ****** *)
@@ -300,7 +300,7 @@ shutdown_exn
 //
 (* ****** ****** *)
 //
-// HX: it is just [read] in [fcntl]
+// HX: it is just [read] in [unistd]
 //
 fun
 socket_read
@@ -313,7 +313,7 @@ socket_read
 
 (* ****** ****** *)
 //
-// HX: it is just [write] in [fcntl]
+// HX: it is just [write] in [unistd]
 //
 fun
 socket_write

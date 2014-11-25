@@ -160,7 +160,7 @@ fun
 in_addr_hbo2nbo (in_addr_hbo_t): in_addr_nbo_t = "mac#%"
 //
 (* ****** ****** *)
-
+//
 (* constant addresses in host-byte-order *)
 //
 // Address to accept any incoming messages: 0x00000000

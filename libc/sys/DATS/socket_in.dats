@@ -56,6 +56,26 @@ staload UN = "prelude/SATS/unsafe.sats"
 %{
 ATSextern()
 atsvoid_t0ype
+atslib_bind_in_exn
+(
+  atstype_int fd, atstype_ptr addr
+) {
+  int
+  err;
+  err =
+  bind(
+    fd, (const struct sockaddr*)addr, sizeof(struct sockaddr_in)
+  ); // end of [connent]
+  if(0 > err) ATSLIBfailexit("bind");
+  return;
+} // end of [atslib_bind_in_exn]
+%} // end of [%{]
+
+(* ****** ****** *)
+
+%{
+ATSextern()
+atsvoid_t0ype
 atslib_connect_in_exn
 (
   atstype_int fd, atstype_ptr addr

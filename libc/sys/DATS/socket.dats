@@ -73,6 +73,40 @@ atslib_socket_family_type_exn
 %{
 ATSextern()
 atsvoid_t0ype
+atslib_listen_exn
+(
+  atstype_int fd, atstype_int nq
+) {
+  int
+  err;
+  err = listen(fd, nq);
+  if(0 > err) ATSLIBfailexit("listen") ; // HX: failure
+  return;
+} // end of [atslib_listen_exn]
+%} // end of [%{]
+
+(* ****** ****** *)
+
+%{
+ATSextern()
+atsvoid_t0ype
+atslib_socket_close_exn
+(
+  atstype_int fd
+) {
+  int
+  err;
+  err = close(fd);
+  if(0 > err) ATSLIBfailexit("socket_close") ; // HX: failure
+  return;
+} // end of [atslib_socket_close_exn]
+%} // end of [%{]
+
+(* ****** ****** *)
+
+%{
+ATSextern()
+atsvoid_t0ype
 atslib_shutdown_exn
 (
   atstype_int fd, atstype_int how
