@@ -114,7 +114,7 @@ bind_in_exn
   {fd:int}
 (
   pf: !socket_v(fd, init) >> socket_v(fd, bind) | fd: int fd, sa: &SA_in
-) :<!exnref> void = "mac#%" // end of [bind_in_exn]
+) :<!exnref> void = "ext#%" // end of [bind_in_exn]
 
 (* ****** ****** *)
 
@@ -123,7 +123,7 @@ connect_in_exn
   {fd:int}
 (
   pf: !socket_v(fd, init) >> socket_v(fd, conn) | fd: int fd, sa: &SA_in
-) :<!exnref> void = "mac#%" // end of [connect_in_exn]
+) :<!exnref> void = "ext#%" // end of [connect_in_exn]
 
 (* ****** ****** *)
 

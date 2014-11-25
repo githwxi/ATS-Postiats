@@ -6,7 +6,7 @@
 
 /* (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2010-2014 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2010-2013 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,61 +27,35 @@
 
 /* ****** ****** */
 
-/*
-(* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom *)
-(* Start time: November, 2014 *)
-*/
+#ifndef PATS_ATSLIB_H
+#define PATS_ATSLIB_H
 
 /* ****** ****** */
 
-#ifndef ATSLIB_LIBC_NETINET_IN_CATS
-#define ATSLIB_LIBC_NETINET_IN_CATS
-
-/* ****** ****** */
-//
-#include <arpa/inet.h>
-#include <netinet/in.h>
-//
-/* ****** ****** */
-//
-typedef
-struct in_addr in_addr_struct;
-typedef
-struct in6_addr in6_addr_struct;
-//
-/* ****** ****** */
-//
-typedef
-struct sockaddr_in sockaddr_in_struct ;
-typedef
-struct sockaddr_in6 ats_sockaddr_in6_struct ;
-//
-#define atslib_socklen_in (sizeof(ats_sockaddr_in_struct))
-#define atslib_socklen_in6 (sizeof(ats_sockaddr_in6_struct))
-//
-/* ****** ****** */
-
-#define atslib_in_port_nbo_int(nport) htons(nport)
-#define atslib_in_port_nbo_uint(nport) htons(nport)
+#include <errno.h> // for [errno]
+#include <stdio.h> // for [perror]
 
 /* ****** ****** */
 
-ATSinline()
-in_addr_t
-atslib_in_addr_hbo2nbo
-  (in_addr_t addr_hbo) { return htonl (addr_hbo) ; }
-/* end of [atslib_in_addr_hbo2nbo] */
+#define \
+ATSLIBfailexit(cmd) \
+do { \
+  fprintf(stderr, "exit(ATSLIB): [%s] failed\n", cmd) ; exit(1) ; \
+} while (0) \
 
 /* ****** ****** */
 
-typedef
-struct in_addr in_addr_struct ;
+#define \
+ATSLIBfailexit2(cmd) \
+do { \
+  perror(cmd) ; \
+  fprintf(stderr, "exit(ATSLIB): [%s] failed\n", cmd) ; exit(1) ; \
+} while (0) \
 
 /* ****** ****** */
 
-#endif // ifndef ATSLIB_LIBC_NETINET_IN_CATS
+#endif // ifndef PATS_ATSLIB_H
 
 /* ****** ****** */
 
-/* end of [in.cats] */
+/* end of [pats_atslib.h] */

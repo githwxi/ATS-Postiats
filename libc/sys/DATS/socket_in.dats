@@ -29,12 +29,12 @@
 //
 // Author: Hongwei Xi
 // Authoremail: gmhwxiATgmailDOTcom
-// Start Time: April, 2014
+// Start Time: November, 2014
 //
 (* ****** ****** *)
 
 %{#
-#include "libc/sys/CATS/types.cats"
+#include "libc/sys/CATS/socket_in.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
@@ -44,9 +44,33 @@
 #define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
-//
-// HX-2014-04-29: it is still empty
-//
+
+staload "libc/sys/SATS/socket_in.sats"
+
 (* ****** ****** *)
 
-(* end of [types.dats] *)
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+%{
+ATSextern()
+atsvoid_t0ype
+atslib_connect_in_exn
+(
+  atstype_int fd, atstype_ptr addr
+) {
+  int
+  err;
+  err =
+  connect(
+    fd, (const struct sockaddr*)addr, sizeof(struct sockaddr_in)
+  ); // end of [connent]
+  if(0 > err) ATSLIBfailexit("connect");
+  return;
+} // end of [atslib_connect_in_exn]
+%} // end of [%{]
+
+(* ****** ****** *)
+
+(* end of [socket_in.dats] *)

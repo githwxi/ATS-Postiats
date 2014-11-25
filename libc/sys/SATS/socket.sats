@@ -161,7 +161,7 @@ fun
 socket_family_type_exn
 (
   af: sa_family_t, st: socktype_t
-) : [fd:nat] (socket_v(fd, init) | int fd)
+) : [fd:nat] (socket_v(fd, init) | int fd) = "ext#%"
 
 (* ****** ****** *)  
 //
@@ -220,7 +220,7 @@ listen_exn {fd:int}
 (
   pf: !socket_v(fd, bind) >> socket_v(fd, listen)
 | fd: int fd, backlog: intGt(0)
-) : void // end of [listen_exn]
+) : void = "ext#%" // end of [listen_exn]
 //
 (* ****** ****** *)
 //
@@ -267,7 +267,7 @@ socket_close_err
 fun
 socket_close_exn
   {fd:int}{s:status}
-  (pf: socket_v (fd, s) | fd: int fd): void
+  (pf: socket_v (fd, s) | fd: int fd): void = "ext#%"
 // end of [socket_close_exn]
 //
 (* ****** ****** *)
@@ -297,7 +297,7 @@ shutdown_exn
   {fd:int} // 0/-1 : succ/fail // errno set
 (
   pf: socket_v (fd, conn) | fd: int fd, how: shutkind_t
-) : void = "mac#%" // end of [shutdown_exn]
+) : void = "ext#%" // end of [shutdown_exn]
 //
 (* ****** ****** *)
 //

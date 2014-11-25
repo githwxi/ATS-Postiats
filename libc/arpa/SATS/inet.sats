@@ -89,7 +89,7 @@ fun
 inet_aton
 (
   cp: string
-, inp: &in_addr_struct? >> opt (in_addr_struct, b)
+, inp: &in_addr_struct? >> opt(in_addr_struct, b)
 ) : #[b:bool] bool(b) = "mac#%" // end-of-function
 
 (* ****** ****** *)

@@ -146,7 +146,14 @@ macdef INET6_ADDRSTRLEN = 46 // for IPv6 hex string
 
 (* ****** ****** *)
 //
-castfn in_port_nbo (in_port_t): in_port_nbo_t
+fun
+in_port_nbo_int (int): in_port_nbo_t = "mac#%"
+fun
+in_port_nbo_uint (uint): in_port_nbo_t = "mac#%"
+//
+symintr in_port_nbo
+overload in_port_nbo with in_port_nbo_int
+overload in_port_nbo with in_port_nbo_uint
 //
 (* ****** ****** *)
 //
