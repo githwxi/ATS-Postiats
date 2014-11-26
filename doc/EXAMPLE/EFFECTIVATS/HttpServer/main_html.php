@@ -34,7 +34,7 @@ include
 
 <h1>
 Effective ATS:<br>
-Implementing a simple http-server
+Implementing a simplistic http-server
 </h1>
 
 <p>
@@ -89,6 +89,8 @@ implement
 myserver_init () =
 {
 //
+// HX: it is a dummy for now
+//
 val () = println! ("myserver_init: start")
 val () = println! ("myserver_init: finish")
 //
@@ -132,6 +134,205 @@ handling requests by calling [myserver_loop]. The function
 [myserver_waitfor_request] is supposed to be blocked until a request
 is available, and the function [myserver_process_request] processes a
 given request.
+</p>
+
+<h2>
+Turning abstract into concrete
+</h2>
+
+<p>
+The three functions that need to be implemented
+(in order to get a running server)
+are [myserver_init], [myserver_waitfor_request], and
+[myserver_waitfor_process]. For someone familiar with
+BSD sockets, the following code should be readily accessible:
+</p>
+
+<?php
+$mycode = <<<EOT
+//
+%{^
+int theSockID = -1;
+%} // end of [%{^]
+//
+(* ****** ****** *)
+
+#define MYPORT 8888
+
+(* ****** ****** *)
+
+implement
+myserver_init () =
+{
+//
+val inport = in_port_nbo(MYPORT)
+val inaddr = in_addr_hbo2nbo (INADDR_ANY)
+//
+var servaddr
+  : sockaddr_in_struct
+val ((*void*)) =
+sockaddr_in_init
+  (servaddr, AF_INET, inaddr, inport)
+//
+val
+sockfd =
+\$extfcall
+(
+  int, "socket", AF_INET, SOCK_STREAM, 0
+) (* end of [val] *)
+val ((*void*)) = assertloc (sockfd >= 0)
+//
+extvar "theSockID" = sockfd
+//
+val () =
+\$extfcall
+(
+  void, "atslib_bind_exn", sockfd, addr@servaddr, socklen_in
+) (* end of [val] *)
+//
+val () =
+\$extfcall(void, "atslib_listen_exn", sockfd, 5(*LISTENQSZ*))
+//
+} (* end of [myserver_init] *)
+//
+EOT;
+atslangweb_pats2xhtmlize_dynamic($mycode);
+?><!--php-->
+
+<p>
+Essentially, [myserver_init] creates a server-side socket
+that is allowed to accept connection from any party, and then
+listens on the socket. Note that the file descriptor of the
+created socket is stored in a global variable [theSockID].
+The function [atslib_bind_exn] calls [bind]; it
+exits if the call to [bind] results in an error; otherwise,
+it returns normally.
+Similarly, the function [atslib_listen_exn] calls [listen]; it
+exits if the call to [listen] results in an error; otherwise,
+it returns normally.
+</p>
+
+<p>
+The function [myserver_waitfor_request] can be implemented
+as follows:
+</p>
+
+<?php
+$mycode = <<<EOT
+//
+implement
+myserver_waitfor_request
+  ((*void*)) = let
+//
+val fd = \$extval(int, "theSockID")
+val fd2 = \$extfcall(int, "accept", fd, 0(*addr*), 0(*addrlen*))
+//
+in
+  \$UN.cast{request}(fd2)
+end // end of [myserver_waitfor_request]
+//
+EOT;
+atslangweb_pats2xhtmlize_dynamic($mycode);
+?><!--php-->
+
+<p>
+A call to [accept] is blocked until a connection between the server and a
+client is established. What is returned by [accept] is the file descriptor of
+a socket that can be used to communicate with the client.
+</p>
+
+<p>
+The function [myserver_process_request] is implemented as follows:
+</p>
+
+<?php
+$mycode = <<<EOT
+//
+#define BUFSZ 1024
+#define BUFSZ2 1280
+//
+(* ****** ****** *)
+
+val
+theRespFmt = "\\
+HTTP/1.0 200 OK\\r\\n\\
+Content-type: text/html\\r\\n\\r\\n\\
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=\\"UTF-8\\">
+<meta http-equiv=\\"Content-Type\\" content=\\"text/html\\">
+</head>
+<body>
+<h1>
+Hello from myserver!
+</h1>
+<pre>
+%s
+</pre>
+</body>
+</html>
+" // end of [val]
+
+(* ****** ****** *)
+
+implement
+myserver_process_request
+  (req) = let
+//
+val fd2 = \$UN.cast{int}(req)
+//
+var buf = @[byte][BUFSZ]() // stack-allocated
+var buf2 = @[byte][BUFSZ2]() // stack-allocated
+//
+val bufp = addr@buf and bufp2 = addr@buf2
+//
+val nread = \$extfcall(ssize_t, "read", fd2, bufp, BUFSZ)
+//
+(*
+val () = println! ("myserver_process_request: nread = ", nread)
+*)
+//
+val () =
+if
+nread >= 0
+then let
+  val [n:int] n = \$UN.cast{Size}(nread)
+  val () = \$UN.ptr0_set_at<char> (bufp, n, '\000')
+  val ntot = \$extfcall(int, "snprintf", bufp2, BUFSZ, theRespFmt, bufp)
+  val nwrit = \$extfcall(ssize_t, "write", fd2, bufp2, min(ntot, BUFSZ2))
+in
+  // nothing
+end // end of [then]
+//
+//
+val err = \$extfcall(int, "close", fd2)
+//
+in
+  // nothing
+end // end of [myserver_process_request]
+//
+EOT;
+atslangweb_pats2xhtmlize_dynamic($mycode);
+?><!--php-->
+
+<p>
+The implementation of [myserver_process_request] reads into a
+buffer whatever is sent by the client; it generates an HTML page
+containing the content of the buffer and then sends the page to
+the client.
+</p>
+
+<h2>
+Testing
+</h2>
+
+<p>
+The entirety of the code for this implementation is contained in
+<u>myserver.dats</u>. There is also a Makefile available for building
+the server. Please click the link
+<a href="http://127.0.0.1:8888">http://127.0.0.1:8888</a>
+to test after the server is started running locally.
 </p>
 
 <hr size="2">

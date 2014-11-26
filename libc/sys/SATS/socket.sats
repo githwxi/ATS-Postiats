@@ -197,6 +197,14 @@ bind_err
 | fd: int fd, servaddr: &SA(n), salen: socklen_t(n)
 ) : [i:int] (bind_v (fd, i) | int i) = "mac#%"
 //
+fun
+bind_exn
+  {fd:int}{n:int}
+(
+  pf: !socket_v (fd, init) >> socket_v (fd, bind)
+| fd: int fd, servaddr: &SA(n), salen: socklen_t(n)
+) : void = "exn#%" // end of [bind_exn]
+//
 (* ****** ****** *)
 //
 dataview

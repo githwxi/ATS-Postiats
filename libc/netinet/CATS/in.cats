@@ -55,10 +55,10 @@ struct in6_addr in6_addr_struct;
 typedef
 struct sockaddr_in sockaddr_in_struct ;
 typedef
-struct sockaddr_in6 ats_sockaddr_in6_struct ;
+struct sockaddr_in6 sockaddr_in6_struct ;
 //
-#define atslib_socklen_in (sizeof(ats_sockaddr_in_struct))
-#define atslib_socklen_in6 (sizeof(ats_sockaddr_in6_struct))
+#define atslib_socklen_in (sizeof(sockaddr_in_struct))
+#define atslib_socklen_in6 (sizeof(sockaddr_in6_struct))
 //
 /* ****** ****** */
 

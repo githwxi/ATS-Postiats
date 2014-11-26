@@ -10,7 +10,14 @@ PHP=php
 
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
-ATSCC2JS=$(PATSHOME)/bin/atscc2js
+PATSLIB=$(PATSHOME)/ccomp/atslib/lib
+
+######
+
+all:: \
+myserver
+myserver: \
+myserver.dats; $(PATSCC) -o $@ $< -L$(PATSLIB) -latslib
 
 ######
 
@@ -37,6 +44,7 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) myserver
 cleanall:: ; $(RMF) main.html
 
 ######

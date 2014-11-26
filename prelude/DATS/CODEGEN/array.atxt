@@ -247,6 +247,7 @@ fprint_array_size
   (out, A, asz) = let
 //
 typedef tenv = int
+//
 implement
 array_foreach$fwork<a><tenv>
   (x, env) = let
