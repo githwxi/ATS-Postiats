@@ -98,6 +98,15 @@ macdef AF_MAX = $extval (sa_family_t, "AF_MAX")
 (* ****** ****** *)
 //
 abst@ype
+sp_family_t = $extype"sp_family_t"
+//
+macdef PF_UNIX = $extval (sp_family_t, "PF_UNIX")
+macdef PF_INET = $extval (sp_family_t, "PF_INET")
+macdef PF_INET6 = $extval (sp_family_t, "PF_INET6")
+//
+(* ****** ****** *)
+//
+abst@ype
 socktype_t = int
 //
 macdef SOCK_RAW = $extval (socktype_t, "SOCK_RAW")
@@ -146,7 +155,7 @@ absview socket_v (int, status)
 (* ****** ****** *)
   
 fun
-socket_family_type
+socket_AF_type
 (
   af: sa_family_t, st: socktype_t
 ) : [fd:int]
@@ -154,10 +163,8 @@ socket_family_type
   option_v (socket_v (fd, init), fd >= 0) | int fd
 ) = "mac#%" // end-of-function
   
-(* ****** ****** *)
-
 fun
-socket_family_type_exn
+socket_AF_type_exn
 (
   af: sa_family_t, st: socktype_t
 ) : [fd:nat] (socket_v(fd, init) | int fd) = "ext#%"

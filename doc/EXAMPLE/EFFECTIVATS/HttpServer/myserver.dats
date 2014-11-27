@@ -87,6 +87,7 @@ implement main0 () = myserver ()
 (* ****** ****** *)
 //
 staload "libc/SATS/time.sats"
+staload "libc/SATS/unistd.sats"
 //
 staload "libc/sys/SATS/socket.sats"
 staload "libc/arpa/SATS/inet.sats"

@@ -56,7 +56,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 %{
 ATSextern()
 atsvoid_t0ype
-atslib_socket_family_type_exn
+atslib_socket_AF_type_exn
 (
   sa_family_t af, atstype_int tp
 ) {
@@ -65,7 +65,7 @@ atslib_socket_family_type_exn
   fildes = socket(af, tp, 0);
   if(0 > fildes) ATSLIBfailexit("socket") ; // HX: failure
   return;
-} // end of [atslib_socket_family_type_exn]
+} // end of [atslib_socket_AF_type_exn]
 %} // end of [%{]
 
 (* ****** ****** *)

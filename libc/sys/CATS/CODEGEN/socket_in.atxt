@@ -28,8 +28,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#ifndef ATSLIB_LIBC_SYS_SOCKET_IN_CATS
-\#define ATSLIB_LIBC_SYS_SOCKET_IN_CATS
+\#ifndef ATSLIB_LIBC_SYS_CATS_SOCKET_IN
+\#define ATSLIB_LIBC_SYS_CATS_SOCKET_IN
 
 #atscode_separator_for_C()
 //
@@ -48,19 +48,19 @@ ATSinline()
 atsvoid_t0ype
 atslib_sockaddr_in_init
 (
-  atstype_ptr sa0
+  atstype_ptr sa
 , sa_family_t af, in_addr_t inp, in_port_t port
 ) {
-  struct sockaddr_in *sa = sa0 ;
-  (void)memset(sa, 0, sizeof(struct sockaddr_in)) ;
-  sa->sin_family = af ;
-  sa->sin_addr.s_addr = inp ;
-  sa->sin_port = port ;
+  struct sockaddr_in *sa2 = sa ;
+  (void)memset(sa2, 0, sizeof(struct sockaddr_in)) ;
+  sa2->sin_family = af ;
+  sa2->sin_addr.s_addr = inp ;
+  sa2->sin_port = port ;
 } // end of [sockaddr_in_init]
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSLIB_LIBC_SYS_SOCKET_IN_CATS
+\#endif // ifndef ATSLIB_LIBC_SYS_CATS_SOCKET_IN
 
 #atscode_separator_for_C()
 

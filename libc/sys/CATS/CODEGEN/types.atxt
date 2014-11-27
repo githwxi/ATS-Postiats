@@ -28,8 +28,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#ifndef ATSLIB_LIBC_SYS_TYPES_CATS
-\#define ATSLIB_LIBC_SYS_TYPES_CATS
+\#ifndef ATSLIB_LIBC_SYS_CATS_TYPES
+\#define ATSLIB_LIBC_SYS_CATS_TYPES
 
 #atscode_separator_for_C()
 
@@ -140,7 +140,7 @@ atslib_neq_time_time
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSLIB_LIBC_SYS_TYPES_CATS
+\#endif // ifndef ATSLIB_LIBC_SYS_CATS_TYPES
 
 #atscode_separator_for_C()
 
