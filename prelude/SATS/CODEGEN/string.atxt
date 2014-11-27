@@ -343,12 +343,27 @@ fun{
   (x: NSH(string)):<> size_t
 fun{
 } string1_length
-  {n:int} (x: NSH(string(n))):<> size_t (n)
+  {n:int} (x: NSH(string(n))):<> size_t(n)
 //
 overload strlen with string0_length of 0
 overload strlen with string1_length of 10
 overload string_length with string0_length of 0
 overload string_length with string1_length of 10
+//
+#atscode_separator()
+//
+symintr string_nlength
+//
+fun{
+} string0_nlength
+  (x: NSH(string), n: size_t):<> size_t
+fun{
+} string1_nlength
+  {n1,n2:int}
+  (NSH(string(n1)), size_t(n2)):<> size_t(min(n1,n2))
+//
+overload string_nlength with string0_nlength of 0
+overload string_nlength with string1_nlength of 10
 //
 #atscode_separator()
 //

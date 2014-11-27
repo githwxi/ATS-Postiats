@@ -1,0 +1,44 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"list_vt.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_GPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/list_vt.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("January, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_PRELUDE_CATS_LIST_VT
+\#define ATSLIB_PRELUDE_CATS_LIST_VT
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_PRELUDE_CATS_LIST_VT
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "list_vt_atxt.txt")
+%}\

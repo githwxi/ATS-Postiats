@@ -1,6 +1,6 @@
 <?php
 //
-atslangweb__set_pgname('Papers');
+atslangweb_set_pgname('Papers');
 //
 include "./thePageLeft/share2.php"; // shared locally
 //

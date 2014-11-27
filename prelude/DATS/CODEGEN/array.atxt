@@ -77,6 +77,39 @@ end // end of [array_exch_at_guint]
 #atscode_separator()
 
 implement{a}
+array_subreverse
+  (A, i, j) = let
+//
+fun
+loop
+(
+  p1: ptr, p2: ptr
+) : void =
+(
+if
+p1 < p2
+then let
+  val x = $UN.ptr0_get<a> (p1)
+  val () =
+  $UN.ptr0_set<a> (p1, $UN.ptr0_get<a> (p2))
+  val () = $UN.ptr0_set<a> (p2, x)
+in
+  loop (ptr0_succ<a> (p1), ptr0_pred<a> (p2))
+end // end of [then]
+else () // end of [else]
+) (* end of [loop] *)
+//
+val pA = addr@A
+val pi = ptr_add<a> (pA, i)
+val pj = ptr_add<a> (pA, j)
+//
+in
+  $effmask_all(loop (pi, ptr0_pred<a> (pj)))
+end // end of [array_subreverse]
+
+#atscode_separator()
+
+implement{a}
 array_interchange
   (A, i, j) = let
 in
@@ -214,6 +247,7 @@ fprint_array_size
   (out, A, asz) = let
 //
 typedef tenv = int
+//
 implement
 array_foreach$fwork<a><tenv>
   (x, env) = let

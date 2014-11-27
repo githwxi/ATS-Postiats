@@ -446,6 +446,21 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+fun
+auxseq
+(
+  hde, hdes: hidexplst
+) : bool =
+(
+  case+ hdes of
+  | list_nil () => hidexp_is_lvalue (hde)
+  | list_cons (hde, hdes) => auxseq (hde, hdes)
+) (* end of [auxseq] *)
+
+in (*in-of-local*)
+
 implement
 hidexp_is_lvalue
   (hde0) = let
@@ -457,9 +472,18 @@ case+ hde0.hidexp_node of
 | HDEselvar (d2v, _, _) =>
     $D2E.d2var_is_mutabl (d2v)
 | HDEselptr (hde, _, _) => true
+//
+| HDEseq (hdes) =>
+  (
+    case+ hdes of
+    | list_cons (hde, hdes) => auxseq (hde, hdes) | list_nil () => false
+  ) (* end of [HDEseq] *)
+//
 | _ (* non-lvalue *) => false
 //
 end // end of [hidexp_is_lvalue]
+
+end // end of [local]
 
 (* ****** ****** *)
 

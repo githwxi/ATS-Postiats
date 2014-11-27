@@ -28,8 +28,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#ifndef ATSLIB_LIBC_SYS_TIME_CATS
-\#define ATSLIB_LIBC_SYS_TIME_CATS
+\#ifndef ATSLIB_LIBC_SYS_CATS_TIME
+\#define ATSLIB_LIBC_SYS_CATS_TIME
 
 #atscode_separator_for_C()
 
@@ -65,7 +65,7 @@ typedef struct itimerval ats_itimerval_type ;
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSLIB_LIBC_SYS_TIME_CATS
+\#endif // ifndef ATSLIB_LIBC_SYS_CATS_TIME
 
 #atscode_separator_for_C()
 

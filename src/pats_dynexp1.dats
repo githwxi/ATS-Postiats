@@ -261,7 +261,8 @@ labp1at_omit (loc) = '{
 (* ****** ****** *)
 
 implement
-p1at_make_e1xp (loc0, e0) = let
+p1at_make_e1xp
+  (loc0, e0) = let
 //
 fun aux (
   e0: e1xp
@@ -272,26 +273,37 @@ fun aux (
   end // end of [val]
 *)
 in
-  case+ e0.e1xp_node of
-  | E1XPide id => p1at_ide (loc0, id)
-  | E1XPint (i) => p1at_int (loc0, i:int)
-  | E1XPintrep (rep) => p1at_intrep (loc0, rep)
-  | E1XPchar (c) => p1at_char (loc0, c:char)
-  | E1XPstring (str) => p1at_string (loc0, str)
-  | E1XPfloat (rep) => p1at_float (loc0, rep)
-  | E1XPapp (e1, loc_arg, es2) => begin
-      p1at_app_dyn (loc0, aux e1, loc0, ~1(*npf*), auxlst es2)
-    end // end of [E1XPapp]
-  | E1XPlist es =>  p1at_list (loc0, ~1(*npf*), auxlst (es))
-  | E1XPnone () => p1at_empty (loc0)
-  | _ => let
-      val () = prerr_error1_loc (loc0)
-      val () = prerr ": the expression cannot be translated into a legal pattern."
-      val () = prerr_newline ((*void*))
-    in
-      p1at_errpat (loc0)
-    end // end of [E1XPundef]
-  // end of [case]
+//
+case+
+e0.e1xp_node of
+//
+| E1XPide id => p1at_ide (loc0, id)
+| E1XPint (i) => p1at_int (loc0, i:int)
+| E1XPintrep (rep) => p1at_intrep (loc0, rep)
+| E1XPchar (c) => p1at_char (loc0, c:char)
+| E1XPfloat (rep) => p1at_float (loc0, rep)
+| E1XPstring (str) => p1at_string (loc0, str)
+| E1XPv1al (v1) => p1at_make_v1al (loc0, v1)
+| E1XPapp(
+    e1, loc_arg, es2
+  ) => let
+    val p1t1 = aux (e1)
+    val p1ts2 = auxlst (es2)
+  in
+    p1at_app_dyn (loc0, p1t1, loc0, ~1(*npf*), p1ts2)
+  end (* end of [E1XPapp] *)
+| E1XPlist es => p1at_list (loc0, ~1(*npf*), auxlst (es))
+| E1XPnone () => p1at_empty (loc0)
+| _ (*rest*) => let
+    val () =
+    prerr_error1_loc (loc0)
+    val () = prerr (": the expression [")
+    val () = prerr_e1xp (e0)
+    val () = prerrln! ("] cannot be translated into a legal pattern.")
+  in
+    p1at_errpat (loc0)
+  end // end of [rest]
+//
 end // end of [aux]
 
 and auxlst (
@@ -303,6 +315,21 @@ and auxlst (
 in
   aux (e0)
 end // end of [p1at_make_e1xp]
+
+(* ****** ****** *)
+
+implement
+p1at_make_v1al
+  (loc0, v0) = let
+in
+//
+case+ v0 of
+| V1ALint (i) => p1at_int (loc0, i)
+| V1ALchar (c) => p1at_char (loc0, c)
+| V1ALstring (str) => p1at_string (loc0, str)
+| _(*unsupported*) => p1at_errpat (loc0)
+//
+end // end of [p1at_make_v1al]
 
 (* ****** ****** *)
 
@@ -797,7 +824,8 @@ end // end of [d1exp_is_metric]
 (* ****** ****** *)
 
 implement
-d1exp_make_e1xp (loc0, e0) = let
+d1exp_make_e1xp
+  (loc0, e0) = let
 //
 fun aux (
   e0: e1xp
@@ -808,30 +836,37 @@ fun aux (
   end // end of [val]
 *)
 in
-  case+ e0.e1xp_node of
-  | E1XPide id => d1exp_ide (loc0, id)
-  | E1XPint (int) => d1exp_int (loc0, int)
-  | E1XPintrep (rep) => d1exp_intrep (loc0, rep)
-  | E1XPchar (c) => d1exp_char (loc0, c: char)
-  | E1XPstring (str) => d1exp_string (loc0, str)
-  | E1XPfloat (rep) => d1exp_float (loc0, rep)
-  | E1XPapp (
-      e1, loc_arg, es2
-    ) => d1exp_app_dyn
-      (loc0, aux (e1), loc0, ~1(*npf*), auxlst (es2))
-    // end of [E1XPapp]
-  | E1XPlist es =>  d1exp_list (loc0, ~1(*npf*), auxlst (es))
-  | E1XPnone () => d1exp_empty (loc0)
-  | _ => let
-      val () = prerr_error1_loc (loc0)
-      val () = prerr ": the expression ["
-      val () = prerr_e1xp (e0)
-      val () = prerr "] cannot be translated into a legal dynamic expression."
-      val () = prerr_newline ((*void*))
-    in
-      d1exp_errexp (loc0)
-    end // end of [E1XPundef]
-  // end of [case]
+//
+case+
+e0.e1xp_node of
+//
+| E1XPide id => d1exp_ide (loc0, id)
+| E1XPint (int) => d1exp_int (loc0, int)
+| E1XPintrep (rep) => d1exp_intrep (loc0, rep)
+| E1XPchar (c) => d1exp_char (loc0, c: char)
+| E1XPfloat (rep) => d1exp_float (loc0, rep)
+| E1XPstring (str) => d1exp_string (loc0, str)
+| E1XPv1al (v1) => d1exp_make_v1al (loc0, v1)
+| E1XPapp(
+    e1, loc_arg, es2
+  ) => let
+    val d1e1 = aux (e1)
+    val d1es2 = auxlst (es2)
+  in
+    d1exp_app_dyn (loc0, d1e1, loc0, ~1(*npf*), d1es2)
+  end // end of [E1XPapp]
+| E1XPlist es => d1exp_list (loc0, ~1(*npf*), auxlst (es))
+| E1XPnone () => d1exp_empty (loc0)
+| _ (*rest*) => let
+    val () =
+    prerr_error1_loc (loc0)
+    val () = prerr ": the expression ["
+    val () = prerr_e1xp (e0)
+    val () = prerrln! "] cannot be translated into a legal dynamic expression."
+  in
+    d1exp_errexp (loc0)
+  end // end of [rest]
+//
 end // end of [aux]
 
 and auxlst (
@@ -843,6 +878,23 @@ and auxlst (
 in
   aux (e0)
 end // end of [d1exp_make_e1xp]
+
+(* ****** ****** *)
+
+implement
+d1exp_make_v1al
+  (loc0, v0) = let
+in
+//
+case+ v0 of
+| V1ALint (i) => d1exp_int (loc0, i)
+| V1ALchar (c) => d1exp_char (loc0, c)
+| V1ALstring (str) => d1exp_string (loc0, str)
+| _(*unsupported*) => d1exp_errexp (loc0)
+//
+end // end of [d1exp_make_v1al]
+
+(* ****** ****** *)
 
 implement
 e1xp_make_d1exp

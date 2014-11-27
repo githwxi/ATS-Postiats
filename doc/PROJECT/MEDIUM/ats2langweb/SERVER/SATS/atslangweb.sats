@@ -7,7 +7,7 @@
 (* ****** ****** *)
 //
 #define ATS_PACKNAME "atslangweb"
-#define ATS_EXTERN_PREFIX "atslangweb__"
+#define ATS_EXTERN_PREFIX "atslangweb_"
 //
 (* ****** ****** *)
 //

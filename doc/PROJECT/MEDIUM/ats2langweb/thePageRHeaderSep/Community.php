@@ -1,6 +1,6 @@
 <?php
 //
-atslangweb__set_pgname('Community');
+atslangweb_set_pgname('Community');
 //
 include "./thePageRHeaderSep/share2.php";
 //

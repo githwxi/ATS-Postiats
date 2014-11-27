@@ -7,7 +7,7 @@
 #thePageRHeaderSepL
 {
   text-align: left;
-  padding-left: 6px;
+  padding-left: 2px;
 }
 
 #thePageRHeaderSepL ul
@@ -18,12 +18,15 @@
 }
 #thePageRHeaderSepL ul li
 {
+  float: left;
+/*
   display: inline;
+*/
   border-width: 1px;
   border-color: #ffffff;
   border-right-style: double;
-  padding-left: 2px;
-  padding-right: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 #thePageRHeaderSepL li.self
@@ -58,7 +61,7 @@
   position: absolute;
   padding: 6px;
   border-radius: 12px;
-  background-color: rgba(143,2,34,0.825)
+  background-color: rgba(160,20,50,0.875);
 }
 
 #thePageRHeaderSepR
@@ -77,57 +80,61 @@
 <script>
 //
 var
-theSubmenuTable = 0;
-theSubmenuTimeout = 0;
+theTopmenuTable = 0;
+var
+theTopmenuTimeout = 0;
 //
 function
-theSubmenuTable_hide()
+theTopmenuTable_hide()
 {
-  if(theSubmenuTable)
+  if(theTopmenuTable)
   {
-    theSubmenuTable.css({display:'none'});
+    theTopmenuTable.css({display:'none'});
   }
 }
 function
-theSubmenuTimeout_clear()
+theTopmenuTimeout_clear()
 {
-  if(theSubmenuTimeout)
+  if(theTopmenuTimeout)
   {
-    clearTimeout(theSubmenuTimeout); theSubmenuTimeout = 0;
+    clearTimeout(theTopmenuTimeout); theTopmenuTimeout = 0;
   }
 }
 //
 function
-submenu_mouseout()
+topmenu_mouseout()
 {
-  theSubmenuTimeout =
-  setTimeout (
-    function(){theSubmenuTimeout=0;theSubmenuTable_hide();}, 500
-  ) ; // end of [setTimeout]
+  topmenu_mouseout2(500); return;
+}
+function
+topmenu_mouseout2(msec)
+{
+//
+  if(theTopmenuTimeout) clearTimeout(theTopmenuTimeout); 
+  theTopmenuTimeout =
+  setTimeout (function(){theTopmenuTimeout=0;theTopmenuTable_hide();}, msec);
+//
+}
+//
+function
+topmenu_mouseover(x0)
+{
+  var jqi = jQuery(x0);
+  theTopmenuTable_hide();
+  theTopmenuTimeout_clear();
+  theTopmenuTable = jqi.next('table');
+  theTopmenuTable.css({display:'table'});
+  theTopmenuTable.css (
+    {top:jqi.position().top+jqi.outerHeight(true)+10}
+  ) ; // end of [theTopmenuTable.css]
+  theTopmenuTable.css({left:jqi.position().left});
   return;
 }
 //
 function
-submenu_mouseover(name)
-{
-  var jqi;
-  theSubmenuTable_hide();
-  theSubmenuTimeout_clear();
-  jqi =
-  $('#thePageRHeaderSepL>ul>li[name="'+name+'"]');
-  theSubmenuTable = jqi.next('table');
-  theSubmenuTable.css({display:'table'});
-  theSubmenuTable.css (
-    {top:jqi.position().top+jqi.outerHeight(true)+8}
-  ) ; // end of [theSubmenuTable.css]
-  theSubmenuTable.css({left:jqi.position().left});
-  return;
-}
-//
+submenu_table_mouseout() { topmenu_mouseout(); }
 function
-submenu_table_mouseout() { submenu_mouseout(); }
-function
-submenu_table_mouseover() { theSubmenuTimeout_clear(); }
+submenu_table_mouseover() { theTopmenuTimeout_clear(); }
 //
 </script>
 
@@ -136,7 +143,7 @@ submenu_table_mouseover() { theSubmenuTimeout_clear(); }
 
 <td width="75%">
 <div
-id="thePageRHeaderSepL"
+ id="thePageRHeaderSepL"
 >
 <?php thePageRHeaderSep_menu() ; ?>
 </div>
@@ -144,21 +151,21 @@ id="thePageRHeaderSepL"
 
 <td width="25%">
 <div
-id="thePageRHeaderSepR"
-style="margin-top:6px;margin-bottom:6px;"
+ id="thePageRHeaderSepR"
+ style="margin-top:6px;margin-bottom:6px;"
 >
 <form
-id="search-form"
-action="https://www.google.com/cse"
+ id="search-form"
+ action="https://www.google.com/cse"
 >
 <table>
 <tr>
 <td>
 <input
-id="thePageRHeaderSepR_input"
-type="text" name="q" size="22"
-onblur="if (/^\s*$/.test(this.value)) this.style.background='#FFFFF0 url(//www.google.com/coop/intl/en/images/google_custom_search_watermark.gif) left no-repeat'"
-onfocus="this.style.background='#FFFFF0'"
+ id="thePageRHeaderSepR_input"
+ type="text" name="q" size="22"
+ onblur="if (/^\s*$/.test(this.value)) this.style.background='#FFFFF0 url(//www.google.com/coop/intl/en/images/google_custom_search_watermark.gif) left no-repeat'"
+ onfocus="this.style.background='#FFFFF0'"
 />
 </td>
 <td>

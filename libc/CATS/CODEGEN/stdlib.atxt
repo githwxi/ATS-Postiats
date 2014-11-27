@@ -28,12 +28,16 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#ifndef ATSLIB_LIBC_STDLIB_CATS
-\#define ATSLIB_LIBC_STDLIB_CATS
+\#ifndef ATSLIB_LIBC_CATS_STDLIB
+\#define ATSLIB_LIBC_CATS_STDLIB
 
 #atscode_separator_for_C()
 
 \#include <stdlib.h>
+
+#atscode_separator_for_C()
+
+\#include "share/H/pats_atslib.h"
 
 #atscode_separator_for_C()
 
@@ -150,7 +154,7 @@ atslib_bsearch(key, base, nmemb, size, compar) \\
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSLIB_LIBC_STDLIB_CATS
+\#endif // ifndef ATSLIB_LIBC_CATS_STDLIB
 
 #atscode_separator_for_C()
 

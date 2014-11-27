@@ -66,13 +66,15 @@ datatype avltree
   | E (a, 0) of ((*void*))
 // end of [avltree]
 
-typedef avltree_inc (a:t0p, h:int) =
+typedef
+avltree_inc (a:t0p, h:int) =
   [h1:nat | h <= h1; h1 <= h+1] avltree (a, h1)
-// end of [avltree_inc]
+// end of [avltree_inc] // end of [typedef]
 
-typedef avltree_dec (a:t0p, h:int) =
+typedef
+avltree_dec (a:t0p, h:int) =
   [h1:nat | h1 <= h; h <= h1+1] avltree (a, h1)
-// end of [avltree_dec]
+// end of [avltree_dec] // end of [typedef]
 
 (* ****** ****** *)
 

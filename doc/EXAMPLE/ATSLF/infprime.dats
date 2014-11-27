@@ -35,8 +35,13 @@ extern prval prime7: PRIME (7)
 
 (* ****** ****** *)
 
-extern // this one is not proven
-prfun lemma10 {n:nat | n >= 2} (): [p,q:int | p >= 2] (PRIME p, MUL (p, q, n))
+extern
+prfun // this one is not proven
+lemma10
+{n:int | n >= 2}
+(
+// argumentless
+) : [p,q:int | p >= 2] (PRIME p, MUL (p, q, n))
 
 (* ****** ****** *)
 
@@ -51,7 +56,11 @@ FACT (int, int) =
 
 prfun
 fact_istot
-  {n:nat} .<n>. (): [r:nat] FACT (n, r) =
+{n:nat} .<n>.
+(
+// argumentless
+) : [r:nat] FACT (n, r) =
+(
   sif n == 0 then FACTbas ()
   else let
     prval pf_fac = fact_istot {n-1} ()
@@ -59,11 +68,18 @@ fact_istot
   in
     FACTind (pf_fac, pf_mul)
   end // end of [sif]
-// end of [fact_istot]
+) (* end of [fact_istot] *)
+
+(* ****** ****** *)
 
 prfun
-fact_isfun {n:nat} {r1,r2:int} .<n>.
-  (pf1: FACT (n, r1), pf2: FACT (n, r2)): [r1==r2] void =
+fact_isfun
+{n:nat}
+{r1,r2:int} .<n>.
+(
+  pf1: FACT (n, r1), pf2: FACT (n, r2)
+) : [r1==r2] void =
+(
   case+ (pf1, pf2) of
   | (FACTbas (), FACTbas ()) => ()
   | (FACTind (pf11, pf12), FACTind (pf21, pf22)) => let
@@ -71,14 +87,17 @@ fact_isfun {n:nat} {r1,r2:int} .<n>.
     in
       // nothing
     end // end of [FACTind, FACTind]
-// end of [fact_isfun]
+) (* end of [fact_isfun] *)
 
 (* ****** ****** *)
 
 prfun
-lemma20 {n,r:int}
-  {i:pos | i <= n} .<n>.
-  (pf_fac: FACT (n, r)): [k:nat] MUL (k, i, r) = let
+lemma20
+{n,r:int}
+{i:pos | i <= n} .<n>.
+(
+  pf_fac: FACT (n, r)
+) : [k:nat] MUL (k, i, r) = let
   prval FACTind (pf1_fac, pf2_mul) = pf_fac // r = n*r1
 in
 //

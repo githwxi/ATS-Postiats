@@ -259,6 +259,8 @@ fun strtold_unsafe
 //
 *)
 
+(* ****** ****** *)
+
 /*
 char *getenv(char *);
 */
@@ -269,13 +271,19 @@ fun getenv
 
 fun{} getenv_gc (name: NSH(string)):<!refwrt> Strptr0
 
+(* ****** ****** *)
+
 /*
 int putenv(char *);
 */
 //
 // HX: [nameval] is shared!
 //
-fun putenv (nameval: SHR(string)):<!refwrt> int = "mac#%"
+fun putenv
+  (nameval: SHR(string)):<!refwrt> int = "mac#%"
+// end of [putenv]
+
+(* ****** ****** *)
 
 /*
 int setenv
@@ -283,7 +291,8 @@ int setenv
   const char *name, const char *value, int overwrite
 ) ;
 */
-fun setenv (
+fun setenv
+(
   name: NSH(string), value: NSH(string), overwrite: int
 ) :<!refwrt> int = "mac#%"
 
@@ -294,6 +303,8 @@ fun unsetenv
   (name: NSH(string)):<!refwrt> int = "mac#%"
 // end of [unsetenv]
 
+(* ****** ****** *)
+
 /*
 int clearenv(void);
 */
@@ -302,10 +313,10 @@ fun clearenv ((*void*)):<!refwrt> int = "mac#%"
 (* ****** ****** *)
 //
 // HX:
-// these functions seem to have become obsolete
+// these funs seem to have become obsolete
 //
-fun rand ((*void*)):<!ref> int = "mac#%"
-fun srand (seed: uint):<!ref> void = "mac#%"
+fun rand ((*void*)):<!refwrt> int = "mac#%"
+fun srand (seed: uint):<!refwrt> void = "mac#%"
 
 fun rand_r (seed: &uint >> _):<> int = "mac#%"
 
@@ -313,12 +324,12 @@ fun rand_r (seed: &uint >> _):<> int = "mac#%"
 /*
 long int random(void);
 */
-fun random((*void*)):<!ref> lint = "mac#%"
+fun random((*void*)):<!refwrt> lint = "mac#%"
 
 /*
 void srandom(unsigned int seed);
 */
-fun srandom(seed: uint):<!ref> void = "mac#%"
+fun srandom(seed: uint):<!refwrt> void = "mac#%"
 
 /*
 char

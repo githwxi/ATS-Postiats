@@ -126,29 +126,27 @@ case+ e0.e1xp_node of
     val () = fprint_string (out, str)
     val () = prstr ")"
   } // end of [E1XPstring]
-| E1XPapp (e, _(*loc*), es) => {
-  val () = prstr "E1XPapp("
-    val () = fprint_e1xp (out, e)
+//
+| E1XPapp
+  (
+    e_fun, _(*loc*), es_arg
+  ) => {
+    val () = prstr "E1XPapp("
+    val () = fprint_e1xp (out, e_fun)
     val () = prstr "; "
-    val () = fprint_e1xplst (out, es)
+    val () = fprint_e1xplst (out, es_arg)
     val () = prstr ")"
-  } // end of [E1XPapp]
+  } (* end of [E1XPapp] *)
 | E1XPfun (arg, body) => {
     val () = prstr "E1XPfun("
     val () = $UT.fprintlst<symbol> (out, arg, ", ", fprint_symbol)
     val () = prstr "; "
     val () = fprint_e1xp (out, body)
     val () = prstr ")"
-  }
+  } (* end of [E1XPfun] *)
 //
-| E1XPeval e => begin
-    prstr "E1XPeval("; fprint_e1xp (out, e); prstr ")"
-  end // end of [E1XPlist]
-| E1XPlist es => begin
-    prstr "E1XPlist("; fprint_e1xplst (out, es); prstr ")"
-  end // end of [E1XPlist]
-//
-| E1XPif (
+| E1XPif
+  (
     _cond, _then, _else
   ) => {
     val () = prstr "E1XPif("
@@ -158,15 +156,24 @@ case+ e0.e1xp_node of
     val () = prstr "; "
     val () = fprint_e1xp (out, _else)
     val () = prstr ")"
-  } // end of [E1XPif]
+  } (* end of [E1XPif] *)
+//
+| E1XPeval e => begin
+    prstr "E1XPeval("; fprint_e1xp (out, e); prstr ")"
+  end // end of [E1XPlist]
+| E1XPlist es => begin
+    prstr "E1XPlist("; fprint_e1xplst (out, es); prstr ")"
+  end // end of [E1XPlist]
 //
 | E1XPerr () => prstr "E1XPerr()"
 //
 end // end of [fprint_e1xp]
 
+(* ****** ****** *)
+//
 implement print_e1xp (x) = fprint_e1xp (stdout_ref, x)
 implement prerr_e1xp (x) = fprint_e1xp (stderr_ref, x)
-
+//
 (* ****** ****** *)
 
 implement

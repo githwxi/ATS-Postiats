@@ -15,7 +15,8 @@
 <body>
 
 <h1>
-Effective ATS: Loops as Tail-Recursive Functions
+Effective ATS:<br>
+Loops as Tail-Recursive Functions
 </h1>
 
 Although language constructs are available in ATS to support direct

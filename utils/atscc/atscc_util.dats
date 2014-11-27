@@ -79,6 +79,25 @@ gcc -std=c99 -D_XOPEN_SOURCE \
 -I${PATSHOME} -I${PATSHOME}/ccomp/runtime \
 -L${PATSHOME}/ccomp/atslib/lib -L${PATSHOME}/ccomp/atslib/lib64 \
 "
+
+(* ****** ****** *)
+
+(*
+(*
+** HX: this one is suggested by Barry Schwartz, MN, USA
+*)
+#define
+ATSCCOMP_DEFAULT2 "\
+gcc -std=c99 \
+-D_XOPEN_SOURCE \
+-I${PATSHOME} -I${PATSHOME}/ccomp/runtime \
+-L${PATSHOME}/ccomp/atslib/lib -L${PATSHOME}/ccomp/atslib/lib64 \
+-Wl,--warn-common \
+"
+*)
+
+(* ****** ****** *)
+
 implement
 {}(*tmp*)
 atsccomp_get () = let
@@ -88,21 +107,23 @@ val def =
 //
 in
 //
-if strptr2ptr (def) > 0
-  then strptr2string (def)
-  else let
-    prval () = strptr_free_null (def)
-  in
-    ATSCCOMP_DEFAULT
-  end (* end of [if] *)
-// end of [if]
+if
+strptr2ptr (def) > 0
+then strptr2string (def)
+else let
+  prval () = strptr_free_null(def) in ATSCCOMP_DEFAULT
+end // end of [else]
 //
 end // end of [atsccomp_get]
   
 (* ****** ****** *)
 
 implement{}
-atsccomp_get2 (cas) = let
+atsccomp_get2
+  (cas) = let
+(*
+val () = println! ("atsccomp_get2")
+*)
 in
 //
 case+ cas of
@@ -110,12 +131,14 @@ case+ cas of
     (ca, cas) =>
   (
   case+ ca of
-  | CAatsccomp (opt) =>
-    (
-    if issome(opt) then unsome(opt) else atsccomp_get2 (cas)
-    )
-  | _ => atsccomp_get2 (cas)
-  )
+  | CAatsccomp
+      (opt) => (
+      if issome(opt)
+        then unsome(opt) else atsccomp_get2 (cas)
+      // end of [if]
+    ) (* end of [CAatsccomp] *)
+  | _ (*void*) => atsccomp_get2 (cas)
+  ) (* end of [list_cons] *)
 | list_nil () => atsccomp_get ()
 //
 end // end of [atsccomp_get2]

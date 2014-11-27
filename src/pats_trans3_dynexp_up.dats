@@ -395,11 +395,22 @@ case+ d2e0.d2exp_node of
   (
     s2e_elt, opt, d2es
   ) => let
+//
     var s2i_asz : s2exp
+    val nxs = list_length (d2es)
     val d3e_asz : d3exp =
     (
       case+ opt of
-      | Some (d2e_asz) => let
+      | None () =>
+          d3e_asz where
+        {
+          val () = s2i_asz := s2exp_int (nxs)
+          val s2e_asz = s2exp_int_index_t0ype (s2i_asz)
+          val d3e_asz = d3exp_int (loc0, s2e_asz, nxs)
+        } (* end of [None] *)
+      | Some (d2e_asz) =>
+          d3e_asz where
+        {
           val d3e_asz = d2exp_trup (d2e_asz)
           val s2e_asz = d3exp_get_type (d3e_asz)
           val s2f_asz = s2exp2hnf (s2e_asz)
@@ -408,20 +419,9 @@ case+ d2e0.d2exp_node of
           in
             case+ opt of
             | ~Some_vt (s2i) => s2i_asz := s2i
-            | ~None_vt () => let
-                val s2i = s2exp_err (s2rt_int) in s2i_asz := s2i
-              end // end of [None_vt]
+            | ~None_vt ((*void*)) => s2i_asz := s2exp_err (s2rt_int)
           end // end of [let] // end of [val]
-        in
-          d2exp_trup (d2e_asz)
-        end // end of [Some]
-      | None ((*void*)) => let
-          val n = list_length (d2es)
-          val () = s2i_asz := s2exp_int (n)
-          val s2e_asz = s2exp_int_index_t0ype (s2i_asz)
-        in
-          d3exp_int (loc0, s2e_asz, n)
-        end // end of [None]
+        } (* end of [Some] *)
     ) (* end of [val d3e_asz] *)
 //
     val s2e_elt = (

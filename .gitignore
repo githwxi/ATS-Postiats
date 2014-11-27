@@ -43,9 +43,10 @@ bin/patsopt
 bin/pats2xhtml
 bin/atspkgreloc_curl
 bin/atspkgreloc_wget
-bin/atscc2py
 bin/atscc2js
+bin/atscc2pl
 bin/atscc2php
+bin/atscc2py
 
 #
 # boostrapping
@@ -68,18 +69,15 @@ ccomp/atslib/lib
 ccomp/atslib/lib64
 ccomp/atslib/output
 
-
 #
 # ATSHOME/utils
 #
 
 utils/atscc/patscc
 
-
 #
 # ATSLIB/prelude
 #
-
 
 prelude/SATS/CODEGEN/*.sats
 prelude/SATS/CODEGEN/*_atxt.txt
@@ -218,7 +216,7 @@ doc/DISTRIB/ATS-Postiats/src/.depend
 doc/DISTRIB/ATS-Postiats/src/Makefile
 doc/DISTRIB/ATS-Postiats/src/pats_*.?ats
 doc/DISTRIB/ATS-Postiats/src/patsopt
-doc/DISTRIB/ATS-Postiats/src/CBOOT
+doc/DISTRIB/ATS-Postiats/src/CBOOT/*
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib64
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/output
@@ -283,7 +281,6 @@ doc/PROJECT/MEDIUM/UTFPL0/.depend
 # INT2PROGINATS
 #
 
-doc/BOOK/INT2PROGINATS/HTML
 doc/BOOK/INT2PROGINATS/preface
 doc/BOOK/INT2PROGINATS/preface.db
 doc/BOOK/INT2PROGINATS/*_atxt.txt
@@ -296,10 +293,9 @@ doc/BOOK/INT2PROGINATS/CHAP_*/main.db
 
 doc/BOOK/ATS2TUTORIAL/preface
 doc/BOOK/ATS2TUTORIAL/preface.db
+doc/BOOK/ATS2TUTORIAL/CHAP_*/main.db
 doc/BOOK/ATS2TUTORIAL/CHAP_*/*_atxt.txt
 doc/BOOK/ATS2TUTORIAL/CHAP_*/*_atxt.dats
-doc/BOOK/ATS2TUTORIAL/CHAP_*/main.db
-doc/BOOK/ATS2TUTORIAL/HTML
 
 #
 # ATS-for-APUE3

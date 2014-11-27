@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.1.4</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.1.4:
+</H2>
+
+<pre>
+
+This is the 13th release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Fixing the initialization of stacked allocated arrays:
+   var A0 = @[int][4]() // A0 = ?,?,?,?
+   var A1 = @[int][4](1) // A1 = 1,1,1,1
+   var A2 = @[int][4](1,2) // A2 = 1,2,1,2
+   var A3 = @[int][4](1,2,3) // A3 = 1,2,3,1
+   var A4 = @[int][4](1,2,3,4) // A4 = 1,2,3,4
+   var A5 = @[int][4](1,2,3,4,5) // A5 = 1,2,3,4
+2. Fixing hidexp_is_lvalue:
+   handling sequencing-expressions is supported
+3. Support for lazy-evaluation is added to atscc2js 
+4. ATStmpdec_void(...) is commented out in the generated C code
+5. [patscc] is given a flag '-verbose' for controlling verbosity
+(*
+# HX: it is dropped:
+6. [patscc] now passes the flag -Wl,warn-common to [gcc] by default
+*)
+
+</pre>
+
+</body><!--body-->
+</html><!--html-->

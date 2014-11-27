@@ -62,10 +62,6 @@ ATStylazy(tyval) \
 //
 /* ****** ****** */
 
-#define ATSempty()
-
-/* ****** ****** */
-
 #define ATSif(x) if(x)
 #define ATSthen()
 #define ATSelse() else
@@ -144,14 +140,12 @@ ATSloop_close(init, fini, cont) \
 #define ATSCSTSPmyloc(info) info
 
 /* ****** ****** */
-
+//
 #define ATSPMVtop() atserror_top
-#define ATSPMVempty() atserror_empty
-
-/* ****** ****** */
-
-#define ATSPMVextval(id) (id)
-
+//
+#define ATSPMVempty() /*empty*/
+#define ATSPMVextval(name) (name)
+//
 /* ****** ****** */
 
 #define ATSPMVfunlab(flab) (flab)
@@ -394,7 +388,10 @@ do { \
 /* ****** ****** */
 
 #define \
-ATSINSmove_ldelay(tmpret, tyval, pmv_thk) ATSINSmove(tmpret, pmv_thk)
+ATSINSmove_ldelay(tmpret, tyval, __thunk) \
+do { \
+  ATSINSmove(tmpret, __thunk) ; \
+} while(0) /* end of [do ... while ...] */
 
 #define \
 ATSINSmove_llazyeval(tmpret, tyval, __thunk) \
@@ -404,6 +401,8 @@ do { \
   ATS_MFREE(__thunk) ; \
 } while(0) /* end of [do ... while ...] */
 
+/* ****** ****** */
+
 #define \
 atspre_lazy_vt_free(__thunk) \
 do { \
@@ -411,6 +410,12 @@ do { \
   ATS_MFREE(__thunk) ; \
 } while(0) /* atspre_lazy_vt_free */
 
+/* ****** ****** */
+//
+// HX-2014-10:
+//
+#define atspre_lazy2cloref(pmv_lazy) ((*(ATStylazy(atstype_ptr)*)pmv_lazy).lazy.thunk)
+//
 /* ****** ****** */
 
 #endif /* PATS_CCOMP_INSTRSET_H */

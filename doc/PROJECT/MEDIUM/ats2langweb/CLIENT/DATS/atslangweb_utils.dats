@@ -1,9 +1,15 @@
 (*
 //
-// Various utilities
+// Utilities
+// for atslangweb
 //
 *)
-
+(* ****** ****** *)
+//
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+// Start time: September, 2014
+//
 (* ****** ****** *)
 //
 #include
@@ -18,8 +24,10 @@ UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
-#define ATS_EXTERN_PREFIX "atslangweb__"
-#define ATS_STATIC_PREFIX "atslangweb__"
+#define
+ATS_EXTERN_PREFIX "atslangweb_"
+#define
+ATS_STATIC_PREFIX "atslangweb_"
 
 (* ****** ****** *)
 //
@@ -34,6 +42,46 @@ staload "./../SATS/atslangweb.sats"
 //
 staload _(*anon*) = "./patsopt_tcats.dats"
 staload _(*anon*) = "./patsopt_atscc2js.dats"
+//
+(* ****** ****** *)
+//
+extern
+fun
+Home_whatisnew_onclick (): void = "mac#"
+//
+%{^
+//
+function
+Home_whatisnew_onclick
+  ()
+{
+window.open
+(
+  "./Community.html", "_blank"
+) // end of [window.open]
+} // end of [Home_whatisnew_onclick]
+//
+%} // end of [%{^]
+//
+(* ****** ****** *)
+//
+extern
+fun
+Home_tryatsnow_onclick (): void = "mac#"
+//
+%{^
+//
+function
+Home_tryatsnow_onclick
+  ()
+{
+window.open
+(
+  "./SERVER/MYCODE/Patsoptaas_serve.php?mycode=hello", "_blank"
+) // end of [window.open]
+} // end of [Home_tryatsnow_onclick]
+//
+%} // end of [%{^]
 //
 (* ****** ****** *)
 //
@@ -85,8 +133,11 @@ implement
 Home_hello_onclick () = let
 //
 implement
-patsopt_atscc2js_rpc$reply<>
-  (reply) = Home_hello_reply (reply)
+patsopt_atscc2js_rpc$cname<> () =
+  "SERVER/MYCODE/atslangweb_patsopt_atscc2js_1_.php"
+//
+implement
+patsopt_atscc2js_rpc$reply<> (reply) = Home_hello_reply (reply)
 //
 val mycode = Home_hello_getval ()
 val ((*void*)) = Home_hello_button_set ("Wait...")
@@ -148,8 +199,11 @@ implement
 Home_listsub_onclick () = let
 //
 implement
-patsopt_tcats_rpc$reply<>
-  (reply) = Home_listsub_reply (reply)
+patsopt_tcats_rpc$cname<> () =
+  "SERVER/MYCODE/atslangweb_patsopt_tcats_1_.php"
+//
+implement
+patsopt_tcats_rpc$reply<> (reply) = Home_listsub_reply (reply)
 //
 val mycode = Home_listsub_getval ()
 val ((*void*)) = Home_listsub_button_set ("Wait...")
@@ -211,8 +265,11 @@ implement
 Home_repeat_f0f1_onclick () = let
 //
 implement
-patsopt_atscc2js_rpc$reply<>
-  (reply) = Home_repeat_f0f1_reply (reply)
+patsopt_atscc2js_rpc$cname<> () =
+  "SERVER/MYCODE/atslangweb_patsopt_atscc2js_1_.php"
+//
+implement
+patsopt_atscc2js_rpc$reply<> (reply) = Home_repeat_f0f1_reply (reply)
 //
 val mycode = Home_repeat_f0f1_getval ()
 val ((*void*)) = Home_repeat_f0f1_button_set ("Wait...")

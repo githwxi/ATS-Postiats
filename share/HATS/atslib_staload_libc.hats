@@ -30,6 +30,11 @@ staload _(*DIRENT*) = "{$PATSLIBC}/DATS/dirent.dats"
 
 (* ****** ****** *)
 
+staload MATH = "{$PATSLIBC}/SATS/float.sats"
+staload _(*MATH*) = "{$PATSLIBC}/DATS/float.dats"
+
+(* ****** ****** *)
+
 staload MATH = "{$PATSLIBC}/SATS/math.sats"
 staload _(*MATH*) = "{$PATSLIBC}/DATS/math.dats"
 

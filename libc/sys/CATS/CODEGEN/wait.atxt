@@ -28,8 +28,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#ifndef ATSLIB_LIBC_SYS_WAIT_CATS
-\#define ATSLIB_LIBC_SYS_WAIT_CATS
+\#ifndef ATSLIB_LIBC_SYS_CATS_WAIT
+\#define ATSLIB_LIBC_SYS_CATS_WAIT
 
 #atscode_separator_for_C()
 //
@@ -41,7 +41,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 //
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSLIB_LIBC_SYS_WAIT_CATS
+\#endif // ifndef ATSLIB_LIBC_SYS_CATS_WAIT
 
 #atscode_separator_for_C()
 

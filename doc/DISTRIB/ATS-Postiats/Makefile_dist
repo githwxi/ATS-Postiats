@@ -29,7 +29,7 @@ configure : ; /bin/bash autogen.sh
 #
 #######
 #
-config.mk : configure ; echo "Please execute './configure'." ; exit 1 ;
+config.mk : configure ; @echo "Please execute './configure'." ; exit 1 ;
 #
 ######
 
@@ -82,7 +82,7 @@ PATSLIBHOME2 := $(DESTDIR)$(PATSLIBHOME)
 ######
 #
 # HX-2011-06-01:
-# This part was originally writtend by Georg Bauhaus
+# This part was originally written by Georg Bauhaus
 # (bauhaus AT arcor DOT de): It addresses the issue that
 # the [-D] option is not available for $(INSTALL) on MacOSX.
 #
@@ -140,12 +140,25 @@ RMF=rm -f
 RMRF=rm -rf
 
 ######
+#
+uninstall:: uninstall_bin
+uninstall:: uninstall_home
+#
+uninstall_bin:: ; $(RMF) $(bindir2)/patscc
+uninstall_bin:: ; $(RMF) $(bindir2)/patsopt
+uninstall_home:: ; $(RMRF) $(PATSLIBHOME2)
+#
+######
 
 clean::
+cleanall:: clean
 
 ######
 
-cleanall:: clean
+clean:: ; $(RMF) ccomp/atslib/output/*.o
+clean:: ; make -C src/CBOOT -f Makefile clean
+
+######
 
 cleanall:: ; $(RMF) config.h
 cleanall:: ; $(RMF) config.mk
@@ -159,13 +172,13 @@ cleanall:: ; $(RMF) bin/patsopt
 cleanall:: ; $(RMF) bin/patscc_env.sh
 cleanall:: ; $(RMF) bin/patsopt_env.sh
 
-cleanall:: ; make -C src -f Makefile cleanall
-cleanall:: ; make -C src/CBOOT -f Makefile cleanall
-cleanall:: ; make -C utils/atscc -f Makefile cleanall
-
 cleanall:: ; $(RMF) ccomp/atslib/lib/*
 cleanall:: ; $(RMF) ccomp/atslib/lib64/*
 cleanall:: ; $(RMF) ccomp/atslib/output/*
+
+cleanall:: ; make -C src -f Makefile cleanall
+cleanall:: ; make -C src/CBOOT -f Makefile cleanall
+cleanall:: ; make -C utils/atscc -f Makefile cleanall
 
 ######
 

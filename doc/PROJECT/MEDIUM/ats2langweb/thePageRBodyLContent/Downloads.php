@@ -4,7 +4,7 @@ class="thePageRBodyLContent"
 
 <hr></hr>
 
-<h2><a id="ATS_packages">ATS packages for download</a></h2>
+<h2><a id="ATS_packages">ATS packages</a></h2>
 
 <p>
 ATS is Open Source and Free Software, and it is freely available under
@@ -19,18 +19,49 @@ released packages of ATS2 are available at the following links:
 <ul>
 <li>
 The current <em>stable</em> release of ATS2 is at
-<a href="http://sourceforge.net/projects/ats2-lang/download">ATS2-0.1.3</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/download">ATS2-0.1.5</a>.
 
 </li>
 <li>
-The current <em>unstable</em> release of ATS2 is at
-<a href="http://www.ats-lang.org/IMPLEMENT/Positats/ATS2-0.1.4.tgz">ATS-0.1.4</a>.
+The current <em>pre-stable</em> release of ATS2 is at
+<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-0.1.6.tgz">ATS-0.1.6</a>.
 </li>
 </ul>
 
 <p>
 The previous stable releases of ATS2 are also available
 <a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/">on-line</a>.
+</p>
+
+<hr></hr>
+
+<h2><a id="Uninstall_for_ATS">Uninstallation for ATS</a></h2>
+
+<p>
+Before installing ATS, you are probably concerned with removing an
+installation of ATS if it is no longer needed. This can be done by simply issuing the
+following command-line:
+</p>
+
+<div
+class="command_line"
+>make uninstall</div>
+
+<p>
+Essentially, the following steps are involved in completely removing
+a properly installed package of ATS:
+<ul>
+<li>
+Removing the directory ${PATSHOME};
+</li>
+<li>
+Removing the binaries <u>patscc</u> and <u>patsopt</u>, which are
+usually stored in a directory like <u>/usr/bin</u> or <u>/usr/local/bin</u>;
+</li>
+<li>
+Removing the directory ${PATSHOMERELOC} if ATS2-contrib is installed.
+</li>
+</ul>
 </p>
 
 <hr></hr>
@@ -249,6 +280,29 @@ class="command_line"
 <p>
 This approach is preferred as it can greatly simplify the process of pulling in new contributions
 added to ATS2-contrib later.
+</p>
+
+<hr></hr>
+
+<h2>
+<a id="Install_of_ATS2_include">Installation of ATS2-include</a>
+</h2>
+
+<p>
+ATS2-include consists of the header files needed to compile the C code
+generated from ATS source.  Its primary purpose is to support the
+distribution of C code generated from a software package written in ATS.
+Note that the header files in ATS2-include are given a BSD-like license so
+that they can essentially be used anywhere without concerns of license
+violations.
+</p>
+<p>
+Strickly speaking, ATS2-include can be downloaded and then
+stored at any directory one likes. If ATS2-include is to be installed,
+then a directory like <u>/usr/lib/ats2-postiats-x.x.x</u> or
+<u>/usr/local/lib/ats2-postiats-x.x.x</u> should be proper for storing
+the header files contained in it, where x.x.x refers to the verison number of
+ATS2-include.
 </p>
 
 <hr></hr>

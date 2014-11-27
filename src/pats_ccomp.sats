@@ -335,14 +335,22 @@ fun funlab_make_dcst_type
 fun funlab_make_dvar_type
   (d2v: d2var, hse: hisexp, opt: fcopt_vt): funlab
 //
-fun funlab_make_tmpcst_type
+fun
+funlab_make_tmpcst_type
 (
   d2c: d2cst, t2ms: t2mpmarglst, hse: hisexp, opt: fcopt_vt
 ) : funlab // endfun
-fun funlab_make_tmpvar_type
+(*
+//
+// HX-2014-11-01:
+// Where is this needed?
+//
+fun
+funlab_make_tmpvar_type
 (
    d2v: d2var, t2ms: t2mpmarglst, hse: hisexp, opt: fcopt_vt
 ) : funlab // endfun
+*)
 //
 (* ****** ****** *)
 //
@@ -1638,6 +1646,12 @@ fun funent_get_instrlst (fent: funent): instrlst
 (* ****** ****** *)
 //
 datatype
+hifundec2 =
+HIFUNDEC2 of (hifundec, tmpsub)
+//
+fun fprint_hifundec2 (out: FILEref, hfd2: hifundec2): void
+//
+datatype
 hiimpdec2 =
 HIIMPDEC2 of (hiimpdec, tmpsub, s2explstlst)
 //
@@ -1770,7 +1784,12 @@ fun ccompenv_add_vbindmapenvall
 
 (* ****** ****** *)
 //
+fun ccompenv_add_tmpsub (env: !ccompenv, tsub: tmpsub): void
+//
+(* ****** ****** *)
+//
 fun ccompenv_add_fundec (env: !ccompenv, hfd: hifundec): void
+fun ccompenv_add_fundec2 (env: !ccompenv, hfd2: hifundec2): void
 //
 fun ccompenv_add_impdec (env: !ccompenv, imp: hiimpdec): void
 fun ccompenv_add_impdec2 (env: !ccompenv, imp2: hiimpdec2): void
@@ -1779,13 +1798,15 @@ fun ccompenv_add_staload (env: !ccompenv, fenv: filenv): void
 //
 (* ****** ****** *)
 //
-fun ccompenv_add_tmpsub (env: !ccompenv, tsub: tmpsub): void
-//
-fun ccompenv_add_impdecloc (env: !ccompenv, imp: hiimpdec): void
+fun
+ccompenv_add_impdecloc
+(
+  env: !ccompenv, sub: !stasub, imp: hiimpdec
+) : void // end of [ccompenv_add_impdecloc]
 //
 fun ccompenv_add_fundecsloc
 (
-  env: !ccompenv, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+  env: !ccompenv, sub: !stasub, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : void // end of [ccompenv_add_fundecsloc]
 //
 fun ccompenv_add_tmpcstmat (env: !ccompenv, tmpmat: tmpcstmat): void
@@ -1858,11 +1879,15 @@ fun hidexp_ccomp_ret_lazyeval : hidexp_ccomp_ret_funtype
 fun hidexp_ccomp_ret_trywith : hidexp_ccomp_ret_funtype
 //
 (* ****** ****** *)
-
+//
 fun hidexplst_ccomp
   (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
 // end of [hidexplst_ccomp]
-
+//
+fun hidexplst_ccompv
+  (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
+// end of [hidexplst_ccompv]
+//
 (* ****** ****** *)
 
 fun hidexp_ccomp_funlab_arg_body
@@ -1931,6 +1956,7 @@ fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
 // HX-2013-04: for handling environvals
 //
 fun funent_varbindmap_initize (fent: funent): void
+fun funent_varbindmap_initize2 (fent: funent): void
 fun funent_varbindmap_uninitize (fent: funent): void
 fun the_funent_varbindmap_find (d2v: d2var): Option_vt (primval)
 //
@@ -2189,28 +2215,31 @@ fun funlab_tmpcst_match
 // end of [funlab_tmpcst_match]
 
 (* ****** ****** *)
-
+//
 fun hiimpdec_tmpcst_match
   (imp: hiimpdec, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [hiimpdec_tmpcst_match]
-
-fun hiimpdeclst_tmpcst_match
-  (imps: hiimpdeclst, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
-// end of [hiimpdeclst_tmpcst_match]
-
 fun hiimpdec2_tmpcst_match
   (imp2: hiimpdec2, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [hiimpdec2_tmpcst_match]
-
+//
+fun hiimpdeclst_tmpcst_match
+  (imps: hiimpdeclst, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
+// end of [hiimpdeclst_tmpcst_match]
+//
 (* ****** ****** *)
-
+//
 fun hifundec2tmpvarmat
   (hfd: hifundec, t2mas: t2mpmarglst): tmpvarmat
 fun hifundecopt2tmpvarmat
   (opt: Option_vt (hifundec), t2mas: t2mpmarglst): tmpvarmat
+//
 fun hifundec_tmpvar_match
   (hfd: hifundec, d2v: d2var, t2mas: t2mpmarglst): tmpvarmat
-// end of [hiimpdec_tmpvar_match]
+// end of [hifundec_tmpvar_match]
+fun hifundec2_tmpvar_match
+  (hfd2: hifundec2, d2v: d2var, t2mas: t2mpmarglst): tmpvarmat
+// end of [hifundec2_tmpvar_match]
 
 (* ****** ****** *)
 

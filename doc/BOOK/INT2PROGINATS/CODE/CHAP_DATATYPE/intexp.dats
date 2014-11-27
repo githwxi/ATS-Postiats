@@ -1,11 +1,11 @@
 (*
-** Some code used in the book INT2PROGINATS
+** Some code used
+** in the book INT2PROGINATS
 *)
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/bool.dats"
-staload _(*anon*) = "prelude/DATS/integer.dats"
+#include "share/atspre_staload.hats"
 
 (* ****** ****** *)
 

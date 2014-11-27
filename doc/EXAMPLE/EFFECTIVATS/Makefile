@@ -6,35 +6,57 @@
 
 all::
 
-all::mergesort
+all:: \
+mergesort
 mergesort:: ; make -C mergesort all
 
-all::stack-array
+all:: \
+stack-array
 stack-array:: ; make -C stack-array all
 
-all::queue-sllist2
+all:: \
+queue-sllist2
 queue-sllist2:: ; make -C queue-sllist2 all
 
-all::loop-as-tailrec
+all:: \
+loop-as-tailrec
 loop-as-tailrec:: ; make -C loop-as-tailrec all
 
-all::file-copying
+all:: \
+file-copying
 file-copying:: ; make -C file-copying all
 
-all::word-counting
+all:: \
+word-counting
 word-counting:: ; make -C word-counting all
 
-all::DiningPhil
+all:: \
+DiningPhil
 DiningPhil:: ; make -C DiningPhil all
 
-all::DiningPhil
+all:: \
+DiningPhil2
 DiningPhil2:: ; make -C DiningPhil2 all
 
-all::Producer-Consumer
+all:: \
+Producer-Consumer
 Producer-Consumer:: ; make -C Producer-Consumer all
 
-all::IPC-redis
+all:: \
+IPC-redis
 IPC-redis:: ; make -C IPC-redis all
+
+all:: \
+HttpServer
+HttpServer:: ; make -C HttpServer all
+
+all:: \
+sorting-linear-lists
+sorting-linear-lists:: ; make -C sorting-linear-lists all
+
+all:: \
+Sierpinski-3angle
+Sierpinski-3angle:: ; make -C Sierpinski-3angle all
 
 ######
 
@@ -49,7 +71,9 @@ cleanall:: ; make -C DiningPhil cleanall
 cleanall:: ; make -C DiningPhil2 cleanall
 cleanall:: ; make -C Producer-Consumer cleanall
 cleanall:: ; make -C IPC-redis cleanall
+cleanall:: ; make -C HttpServer cleanall
 cleanall:: ; make -C sorting-linear-lists cleanall
+cleanall:: ; make -C Sierpinski-3angle cleanall
 
 ######
 
@@ -64,7 +88,9 @@ uploadall::upload_DiningPhil
 uploadall::upload_DiningPhil2
 uploadall::upload_Producer-Consumer
 uploadall::upload_IPC-redis
+uploadall::upload_HttpServer
 uploadall::upload_sorting-linear-lists
+uploadall::upload_Sierpinski-3angle
 
 ######
 
@@ -172,6 +198,14 @@ upload_IPC-redis:: ; \
 
 ######
 
+upload_HttpServer:: ; \
+  scp \
+  HttpServer/Makefile \
+  HttpServer/myserver.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/HttpServer
+
+######
+
 upload_sorting-linear-lists:: ; \
   scp \
   sorting-linear-lists/Makefile \
@@ -183,6 +217,16 @@ upload_sorting-linear-lists:: ; \
   sorting-linear-lists/quicksort_sllist.dats \
   sorting-linear-lists/quicksort_list_vt.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/sorting-linear-lists
+
+######
+
+upload_Sierpinski-3angle:: ; \
+  scp \
+  Sierpinski-3angle/Makefile \
+  Sierpinski-3angle/Sierpinski-3angle.html \
+  Sierpinski-3angle/Sierpinski-3angle-part.dats \
+  Sierpinski-3angle/Sierpinski-3angle-final.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Sierpinski-3angle
 
 ######
 

@@ -79,7 +79,7 @@ main0 () = {
   val () = println! ("coin_change (25) = ", coin_change (25))
   val () = println! ("coin_change (100) = ", coin_change (100))
   val () = println! ("coin_change (1000) = ", coin_change (1000))
-} // end of [main]
+} (* end of [main] *)
 
 (* ****** ****** *)
 

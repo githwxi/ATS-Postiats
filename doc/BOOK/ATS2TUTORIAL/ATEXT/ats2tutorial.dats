@@ -182,8 +182,12 @@ end // end of [atscodefil]
 end // end of [local]
 
 (* ****** ****** *)
-
-#define MYCODEROOT "http://www.ats-lang.org/DOCUMENT"
+//
+#define
+MYCODEROOT
+"http://ats-lang.sourceforge.net/DOCUMENT"
+//
+(* ****** ****** *)
 
 fun mycodelink (
   codepath: string, linkname: string

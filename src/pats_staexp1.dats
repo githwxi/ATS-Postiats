@@ -81,6 +81,8 @@ e1xp_string (loc, str) = e1xp_make (loc, E1XPstring (str))
 implement
 e1xp_float (loc, rep) = e1xp_make (loc, E1XPfloat rep)
 
+(* ****** ****** *)
+
 implement
 e1xp_i0nt
   (loc, x) = let
@@ -107,17 +109,24 @@ in
   e1xp_float (loc, rep)
 end // end of [e1xp_s0tring]
 
+(* ****** ****** *)
+//
 implement
-e1xp_v1al (loc, v) = e1xp_make (loc, E1XPv1al (v))
+e1xp_v1al
+  (loc, v) = e1xp_make (loc, E1XPv1al (v))
+//
+(* ****** ****** *)
 
 implement
 e1xp_none (loc) = e1xp_make (loc, E1XPnone ())
-
 implement
 e1xp_undef (loc) = e1xp_make (loc, E1XPundef ())
 
+(* ****** ****** *)
+
 implement
-e1xp_app (
+e1xp_app
+(
   loc, e_fun, loc_arg, es_arg
 ) = e1xp_make (loc, E1XPapp (e_fun, loc_arg, es_arg))
 
@@ -126,19 +135,24 @@ e1xp_fun
   (loc, arg, body) = e1xp_make (loc, E1XPfun (arg, body))
 // end of [e1xp_fun]
 
+(* ****** ****** *)
+//
+implement
+e1xp_if (loc, _cond, _then, _else) =
+  e1xp_make (loc, E1XPif (_cond, _then, _else))
+//
+(* ****** ****** *)
+//
 implement
 e1xp_eval (loc, e) = e1xp_make (loc, E1XPeval (e: e1xp))
-
+//
 implement
 e1xp_list (loc, es) = e1xp_make (loc, E1XPlist (es: e1xplst))
+//
+(* ****** ****** *)
 
 implement
-e1xp_if (
-  loc, _cond, _then, _else
-) = e1xp_make (loc, E1XPif (_cond, _then, _else))
-
-implement
-e1xp_err (loc) = e1xp_make (loc, E1XPerr ())
+e1xp_err (loc) = e1xp_make (loc, E1XPerr(*void*))
 
 (* ****** ****** *)
 

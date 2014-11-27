@@ -38,28 +38,29 @@ staload "./../SATS/atslangweb.sats"
 implement
 {}(*tmp*)
 patsopt_tcats_rpc
-  (code) = let
+  (mycode) = let
 //
 val xmlhttp =
   XMLHttpRequest_new()
 val ((*void*)) =
 xmlhttp.onreadystatechange
 (
-  lam((*void*)) =>
-    if xmlhttp.is_ready_okay()
-      then patsopt_tcats_rpc$reply<> (xmlhttp.responseText)
-  // end of [lam]
+lam((*void*)) =>
+(
+  if xmlhttp.is_ready_okay()
+    then patsopt_tcats_rpc$reply<> (xmlhttp.responseText)
+  // end of [if]
+) (* end of [lam] *)
 )
 //
-val command =
-  "SERVER/mycode/atslangweb__patsopt_tcats_1_.php"
-//
-val ((*void*)) = xmlhttp.open("POST", command, true)
+val command = patsopt_tcats_rpc$cname()
 //
 val ((*void*)) =
+  xmlhttp.open("POST", command, true(*async*))
+val ((*void*)) =
   xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-//
-val () = xmlhttp.send("mycode=" + encodeURIComponent(code))
+val ((*void*)) =
+  xmlhttp.send("mycode=" + encodeURIComponent(mycode))
 //
 in
   // nothing

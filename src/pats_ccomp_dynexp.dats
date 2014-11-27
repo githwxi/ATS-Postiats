@@ -456,6 +456,47 @@ end // end of [hidexplst_ccomp]
 
 (* ****** ****** *)
 
+implement
+hidexplst_ccompv
+  (env, res, hdes) = let
+//
+fun loop (
+  env: !ccompenv
+, res: !instrseq
+, hdes: hidexplst
+, pmvs: &primvalist_vt? >> primvalist_vt
+) : void = let
+in
+//
+case+ hdes of
+| list_cons
+    (hde, hdes) => let
+    val pmv =
+      hidexp_ccompv (env, res, hde)
+    val () = pmvs := list_vt_cons {..}{0} (pmv, ?)
+    val list_vt_cons (_, !p_pmvs) = pmvs
+    val () = loop (env, res, hdes, !p_pmvs)
+    val () = fold@ (pmvs)
+  in
+    // nothing
+  end // end of [list_cons]
+| list_nil () => let
+    val () = pmvs := list_vt_nil () in (*nothing*)
+  end // end of [list_nil]
+//
+end // end of [loop]
+//
+var pmvs: primvalist_vt
+val () = loop (env, res, hdes, pmvs)
+//
+in
+//
+list_of_list_vt (pmvs)
+//
+end // end of [hidexplst_ccompv]
+
+(* ****** ****** *)
+
 extern
 fun labhidexplst_ccomp
   (env: !ccompenv, res: !instrseq, lhdes: labhidexplst): labprimvalist
@@ -716,9 +757,10 @@ val pmv = d2var_ccomp (env, loc0, hse0, d2v)
 in
 //
 case+
-  d2var_get_view (d2v) of
+d2var_get_view (d2v) of
+//
+| None _(*val*) => pmv
 | Some _(*ref*) => primval_selptr (loc0, hse0, pmv, hse0, list_nil)
-| None _(*val*) => (pmv)
 //
 end // end of [hidexp_ccomp_var]
 
@@ -1135,7 +1177,7 @@ hidexp_ccomp_ret_app
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val-HDEapp (hde_fun, hse_fun, hdes_arg) = hde0.hidexp_node
+val-HDEapp(hde_fun, hse_fun, hdes_arg) = hde0.hidexp_node
 //
 val pmv_fun = hidexp_ccomp (env, res, hde_fun)
 val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
@@ -1144,7 +1186,10 @@ var added: int = 0
 val isret = tmpvar_isret (tmpret)
 //
 (*
-val () = println! ("hidexp_ccomp_ret_app: pmv_fun = ", pmv_fun)
+val () =
+println! ("hidexp_ccomp_ret_app: loc0 = ", loc0)
+val () =
+println! ("hidexp_ccomp_ret_app: pmv_fun = ", pmv_fun)
 *)
 //
 val () =
@@ -1225,7 +1270,13 @@ pmv_fun.primval_node of
   end // end of [PMVtmpltcst]
 //
 | _ (*non-tail-recursive*) => () // HX: [INSfcall] is to be added
-) // end of [if]
+) (* end of [if] *)
+//
+(*
+val () =
+println!
+  ("hidexp_ccomp_ret_app: added = ", added)
+*)
 //
 val () =
 if added > 0 then tmpvar_inc_tailcal (tmpret)
@@ -1406,8 +1457,12 @@ end // end of [local]
 
 local
  
-fun auxlst (
-  env: !ccompenv, res: !instrseq, lxs: labhidexplst
+fun
+auxlst
+(
+  env: !ccompenv
+, res: !instrseq
+, lxs: labhidexplst
 ) : labprimvalist = let
 in
 //
@@ -1500,94 +1555,73 @@ end // end of [hidexp_ccomp_ret_seq]
 
 local
 
-fun auxelt
+fun
+auxlst
 (
   env: !ccompenv
 , res: !instrseq
 , arrp: tmpvar
-, hse_elt: hisexp, hde: hidexp, asz: int
-) : void = let
-(*
-val () = 
-(
-println! ("hidexp_ccomp_ret_arrinit: auxelt: asz = ", asz)
-)
-*)
-in
+, asz: int, hse_elt: hisexp, hdes_elt: hidexplst
+) : void = (
 //
-if asz >= 0 then let
+case+ hdes_elt of
+| list_cons _ => let
+    val pmvs_elt = hidexplst_ccompv (env, res, hdes_elt)
+  in
+    auxlst2 (env, res, arrp, hse_elt, pmvs_elt, asz, pmvs_elt)
+  end // end of [list_cons]
+| list_nil ((*void*)) => () // HX: uninitialized array
 //
-val pmv = hidexp_ccomp (env, res, hde)
-//
-in
-  auxelt2 (env, res, arrp, hse_elt, pmv, asz)
-end else () // end of [if]
-//
-end // end of [auxelt]
+) (* end of [auxlst] *)
 
-and auxelt2
+and auxlst2
 (
   env: !ccompenv
 , res: !instrseq
 , arrp: tmpvar
-, hse_elt: hisexp, pmv: primval, asz: int
-) : void = let
-in
+, hse_elt: hisexp
+, pmvs_elt: primvalist
+, n: int, xs: primvalist
+) : void = (
 //
-if asz >= 1 then let
-  val loc = pmv.primval_loc
-  val ins =
-    instr_pmove_val (loc, arrp, pmv)
-  val () = instrseq_add (res, ins)
-  val asz = asz - 1
-  val () =
-  if asz >= 1 then {
-    val ins =
-      instr_update_ptrinc (loc, arrp, hse_elt)
-    val () = instrseq_add (res, ins)
-  } // end of [if] // end of [val]
-in
-  auxelt2 (env, res, arrp, hse_elt, pmv, asz)
-end else () // end of [if]
-//
-end // end of [auxelt2]
-
-fun auxlst
+if n > 0 then
 (
-  env: !ccompenv
-, res: !instrseq
-, arrp: tmpvar
-, hse_elt: hisexp, hdes: hidexplst
-) : void = let
-in
 //
-case+ hdes of
-//
-| list_nil ((*void*)) => ()
+case+ xs of
 //
 | list_cons
-    (hde, hdes) => let
-    val loc = hde.hidexp_loc
+    (x, xs) => let
 //
-    val pmv =
-      hidexp_ccomp (env, res, hde)
-    val ins = instr_pmove_val (loc, arrp, pmv)
+    val n = n - 1
+    val loc = x.primval_loc
+//
+    val ins =
+      instr_pmove_val (loc, arrp, x)
     val () = instrseq_add (res, ins)
 //
     val () = (
-      case+ hdes of
-      | list_nil () => ()
-      | list_cons _ => let
-          val ins = instr_update_ptrinc (loc, arrp, hse_elt)
-        in
-          instrseq_add (res, ins)
-        end // end of [list_cons]
+      if n >= 1 then let
+        val ins =
+          instr_update_ptrinc (loc, arrp, hse_elt)
+        // end of [val]
+      in
+        instrseq_add (res, ins)
+      end // end of [then] // end of [if]
     ) : void // end of [val]
+//
   in
-    auxlst (env, res, arrp, hse_elt, hdes)
+    auxlst2 (env, res, arrp, hse_elt, pmvs_elt, n, xs)
   end // end of [list_cons]
 //
-end // end of [auxlst]
+| list_nil () => let
+    val xs = pmvs_elt
+  in
+    auxlst2 (env, res, arrp, hse_elt, pmvs_elt, n, xs)
+  end // end of [list_nil]
+//
+) (* end of [then] *)
+//
+) (* end of [auxlst2] *)
 
 in (* in of [local] *)
 
@@ -1616,7 +1650,7 @@ val ins = instr_move_arrpsz_ptr (loc0, arrp, tmpret)
 val ((*void*)) = instrseq_add (res, ins)
 //
 in
-  auxlst (env, res, arrp, hse_elt, hdes)
+  auxlst (env, res, arrp, asz, hse_elt, hdes)
 end // end of [hidexp_ccomp_ret_arrpsz]
 
 (* ****** ****** *)
@@ -1635,19 +1669,7 @@ val ins = instr_move_val (loc0, arrp, primval_make_tmp (loc, tmpret))
 val ((*void*)) = instrseq_add (res, ins)
 //
 in
-//
-case+ hdes of
-| list_nil () => ()
-| list_cons
-    (hde, hdes2) =>
-  (
-    case+ hdes2 of
-    | list_cons _ =>
-        auxlst (env, res, arrp, hse_elt, hdes)
-    | list_nil ((*void*)) =>
-        auxelt (env, res, arrp, hse_elt, hde, asz)
-  ) (* end of [list_cons] *)
-//
+  auxlst (env, res, arrp, asz, hse_elt, hdes)
 end // end of [hidexp_ccomp_ret_arrinit]
 
 end // end of [local]

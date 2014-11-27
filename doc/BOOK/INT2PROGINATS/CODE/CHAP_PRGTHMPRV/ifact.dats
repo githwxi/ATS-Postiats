@@ -1,5 +1,6 @@
 (*
-** Some code used in the book INTPROGINATS
+** Some code used
+** in the book INTPROGINATS
 *)
 
 (* ****** ****** *)

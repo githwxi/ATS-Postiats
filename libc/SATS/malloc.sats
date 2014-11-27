@@ -47,14 +47,18 @@
 #define SHR (x) x // for commenting: it is shared
 
 (* ****** ****** *)
-
-abst@ype mallopt_param = int
+//
+abst@ype
+mallopt_param = int
+//
 macdef M_MXFAST = $extval (mallopt_param, "M_MXFAST")
 macdef M_TRIM_THRESHOLD = $extval (mallopt_param, "M_TRIM_THRESHOLD")
 macdef M_TOP_PAD = $extval (mallopt_param, "M_TOP_PAD")
 macdef M_MMAP_THRESHOLD = $extval (mallopt_param, "M_MMAP_THRESHOLD")
 macdef M_MMAP_MAX = $extval (mallopt_param, "M_MMAP_MAX")
 macdef M_CHECK_ACTION = $extval (mallopt_param, "M_CHECK_ACTION")
+//
+(* ****** ****** *)
 
 fun mallopt
 (

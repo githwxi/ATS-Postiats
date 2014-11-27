@@ -155,6 +155,17 @@ atslib:: atslib_libc
 
 ######
 
+atslib:: atslib_libc_sys
+
+######
+
+#make_entry("libc/sys", "socket.dats")
+#make_entry("libc/sys", "socket_in.dats")
+#make_entry("libc/sys", "stat.dats")
+#make_entry("libc/sys", "types.dats")
+
+######
+
 atslib:: atslib_libats
 
 ######
@@ -186,6 +197,9 @@ atslib:: atslib_libats
 ######
 
 atslib:: atslib_libats_ML
+
+######
+
 #make_entry("libats/ML", "list0.dats")
 #make_entry("libats/ML", "option0.dats")
 #make_entry("libats/ML", "array0.dats")
@@ -206,7 +220,8 @@ RMF=rm -f
 ######
 
 clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o *_?ats.c
+clean:: ; $(RMF) *_?ats.o
+clean:: ; $(RMF) *_?ats.c
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 

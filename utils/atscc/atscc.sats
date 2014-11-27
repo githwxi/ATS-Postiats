@@ -47,6 +47,7 @@ datatype commarg =
 //
   | CAgline of () // --gline: line programa info
 //
+  | CAverbose of () // -verbose: verbosity
   | CAcleanaft of () // -cleanaft: cleaning up *_?ats.c files
 //
   | CAatsccomp of (stropt) // -atsccomp 'gcc ...'
@@ -117,6 +118,10 @@ fun atsccomp_cont (cas: commarglst): bool
 fun atsccompline_exec
   (flag: int, atsccomp: string, args: stringlst_vt): int(*status*)
 //
+(* ****** ****** *)
+
+fun atscc_verbose (cas: commarglst): bool
+
 (* ****** ****** *)
 
 fun atscc_cleanaft_cont (cas: commarglst): bool

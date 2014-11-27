@@ -12,6 +12,7 @@
 //
 // HX-2012-06-12:
 // This code is ported to ATS2 without any changes
+//
 // HX-2014-01-06: Tidying-up a bit
 //
 (* ****** ****** *)
@@ -40,12 +41,14 @@ extensionality {X1,X2:set}
   (pf: {x:elt} IN (x, X1) == IN (x, X2)): SETEQ (X1, X2)
 //
 (* ****** ****** *)
-
-sta union_set_set: (set, set) -> set
-stadef + = union_set_set
-sta inter_set_set: (set, set) -> set
-stadef * = inter_set_set
-
+//
+stacst
+union_set_set: (set, set) -> set
+stacst
+inter_set_set: (set, set) -> set
+//
+stadef + = union_set_set and * = inter_set_set
+//
 (* ****** ****** *)
 
 dataprop

@@ -3,7 +3,6 @@
 {
   color: #483D8B;
 }
-
 #thePageLeft td.self
 {
   font-weight: bold;
@@ -12,7 +11,6 @@
 {
   font-weight: normal;
 }
-
 .thePageLeft_menu
 {
   width: 88%;
@@ -21,7 +19,6 @@
   border-radius: 12px;
   background-color: rgba(255,255,240,0.375);
 }
-
 </style>
 
 <table
@@ -29,7 +26,7 @@
 >
 <tr>
 <td height="156px" align="center">
-<img src="theLogo/theLogo.png" alt="ATSlogo" style="height:72%"></img>
+<img src="./MYDATA/theLogo.png" alt="ATSlogo" style="height:72%"></img>
 </td>
 </tr>
 <tr>

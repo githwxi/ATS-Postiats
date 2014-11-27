@@ -3,7 +3,8 @@ class="thePageRBodyLContent"
 ><!--div-->
 
 <?php
-include "./SERVER/mycode/atslangweb__pats2xhtmlize.php";
+include
+"./SERVER/MYCODE/atslangweb_pats2xhtmlize.php";
 ?><!--php-->
 
 <hr></hr>
@@ -18,7 +19,7 @@ world!" plus a newline: </p>
 $mycode = <<<EOT
 implement main0 () = print("Hello, world!\\n")
 EOT;
-atslangweb__pats2xhtmlize_dynamic($mycode);
+atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
@@ -69,7 +70,7 @@ in
   end // end of [if]
 end (* end of [fcopy] *)
 EOT;
-atslangweb__pats2xhtmlize_dynamic($mycode);
+atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
@@ -118,7 +119,7 @@ fib (
   if n >= 2 then fib (n-2) + fib (n-1) else n
 // end of [fib]
 EOT;
-atslangweb__pats2xhtmlize_dynamic($mycode);
+atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
@@ -156,7 +157,7 @@ in
   loop (n, 0, 1)
 end // end of [fibc]
 EOT;
-atslangweb__pats2xhtmlize_dynamic($mycode);
+atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
@@ -174,7 +175,7 @@ dataprop FIB (int, int) =
   | {n:nat} {r0,r1:int} FIB2 (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))
 // end of [FIB] // end of [dataprop]
 EOT;
-atslangweb__pats2xhtmlize_static($mycode);
+atslangweb_pats2xhtmlize_static($mycode);
 ?><!--php-->
 
 <p>
@@ -255,7 +256,7 @@ in
   loop {0} (FIB0 (), FIB1 () | n, 0, 1)
 end // end of [fibats]
 EOT;
-atslangweb__pats2xhtmlize_dynamic($mycode);
+atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
@@ -266,24 +267,30 @@ Note that fibats is given the following declaration:
 $mycode = <<<EOT
 fun fibats : {n:nat} int(n) -> [r:int] (FIB(n,r) | int(r))
 EOT;
-atslangweb__pats2xhtmlize_static($mycode);
+atslangweb_pats2xhtmlize_static($mycode);
 ?><!--php-->
 
 <p>
-where [...] is the concrete syntax in ATS for existential quantification
+where the concrete syntax [...] is for existential quantification
 and the bar symbol (|) is just a separator (like a comma) for separating
 proofs from values. For each integer I, int(I) is a singleton type for the
 only integer whose value equals I. When fibats is applied to an integer of
-value n, it returns a pair consisting of a proof and an integer value r
-such that the proof, which is of the type FIB(n,r), asserts
-fib(n)=r. Therefore, fibats is a verified implementation of fib as is
-encoded by FIB. Note that the inner function loop directly corresponds to
-the while-loop in the body of the function fibc (written in C).
+value n, it returns a pair consisting of a proof and an integer value r such
+that the proof, which is of the type FIB(n,r), asserts fib(n)=r.
+Therefore, fibats is a verified implementation of fib as is encoded by FIB.
+Note that the inner function loop directly corresponds to the while-loop in
+the body of the function fibc (written in C).
 </p>
 
 <p>
-Lastly, it should be emphasized that proofs are completely erased after
-typechecking. In particular, there is no proof construction at run-time.
+Lastly, it should be emphasized that proofs are completely erased after they
+pass typechecking. In particular, there is no proof construction at run-time.
+</p>
+
+<p>
+Please click
+<a href="./SERVER/MYCODE/Patsoptaas_serve.php?mycode=fibats">here</a> if you
+are interested in compiling and running this example on-line.
 </p>
 
 <!--
@@ -295,6 +302,17 @@ Here is a button for trying this example on-line:
 >Try-it-yourself</button>
 </p>
 -->
+
+<hr></hr>
+
+<h2><a id="EffectiveATS">Effective ATS</a></h2>
+
+<p>
+Please find <a
+href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/">on-line</a>
+various (short) programs in ATS plus detailed explanation that are written
+for the purpose of advocating effective programming in ATS.
+</p>
 
 <hr></hr>
 

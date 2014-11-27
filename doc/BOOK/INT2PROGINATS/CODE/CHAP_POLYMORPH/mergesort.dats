@@ -60,6 +60,8 @@ staload _(*anon*) = "libats/ML/DATS/list0.dats"
 
 typedef lte (a:t@ype) = (a, a) -> bool
 
+(* ****** ****** *)
+
 fun{
 a:t@ype
 } merge (
@@ -80,6 +82,8 @@ a:t@ype
   | nil0 () => ys
 ) (* end of [merge] *)
 
+(* ****** ****** *)
+
 fun{
 a:t@ype
 } mergesort
@@ -98,17 +102,23 @@ fun msort
 and split
 (
   xs: list0 a, n: int, lte: lte a, i: int, xsf: list0 a
-) : list0 a =
-  if i > 0 then let
-    val-cons0 (x, xs) = xs
-  in
-    split (xs, n, lte, i-1, cons0{a}(x, xsf))
-  end else let
-    val xsf = list0_reverse<a> (xsf) // make sorting stable!
-    val xsf = msort (xsf, n/2, lte) and xs = msort (xs, n-n/2, lte)
-  in
-    merge<a> (xsf, xs, lte)
-  end // end of [if]
+) : list0 a = (
+//
+if
+i > 0
+then let
+  val-cons0 (x, xs) = xs
+in
+  split (xs, n, lte, i-1, cons0{a}(x, xsf))
+end // end of [then]
+else let
+  val xsf = list0_reverse<a> (xsf) // make sorting stable!
+  val xsf = msort (xsf, n/2, lte) and xs = msort (xs, n-n/2, lte)
+in
+  merge<a> (xsf, xs, lte)
+end // end of [else]
+//
+) (* end of [split] *)
 //
 in
   msort (xs, n, lte)
@@ -166,7 +176,10 @@ main0 () =
 val out = stdout_ref
 //
 val () =
-  srand48 ($UN.cast2lint(time_get()))
+srand48
+(
+  $UN.cast2lint(time_get())
+) (* end of [val] *)
 //
 val xs1 = $RG.randgen_list<T1> (N)
 val () = fprintln! (out, "input:\t", xs1)

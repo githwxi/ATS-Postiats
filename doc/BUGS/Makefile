@@ -120,7 +120,35 @@ cleanall:: ; $(RMF) bug-2013-12-04
 
 all:: \
 bug-2014-05-17
-bug-2014-05-17: ; $(PATSCC) -tcats bug-2014-02-15.dats
+bug-2014-05-17: ; $(PATSCC) -tcats bug-2014-05-17.dats
+
+######
+
+all:: \
+bug-2014-10-29
+bug-2014-10-29: ; $(PATSCC) -c bug-2014-10-29.dats
+cleanall:: ; $(RMF) bug-2014-10-29_dats.c
+
+######
+
+all:: \
+bug-2014-10-31
+bug-2014-10-31: ; $(PATSCC) -c bug-2014-10-31.dats
+cleanall:: ; $(RMF) bug-2014-10-31_dats.c
+
+######
+
+all:: \
+bug-2014-11-14
+bug-2014-11-14: ; $(PATSCC) -c bug-2014-11-14.dats
+cleanall:: ; $(RMF) bug-2014-11-14_dats.c
+
+######
+
+all:: \
+bug-2014-11-14-2
+bug-2014-11-14-2: ; $(PATSCC) -c bug-2014-11-14-2.dats
+cleanall:: ; $(RMF) bug-2014-11-14-2_dats.c
 
 ######
 

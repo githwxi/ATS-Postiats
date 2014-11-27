@@ -1,6 +1,7 @@
 (*
 **
-** A template for a single-file ATS program
+** A template for
+** a single-file ATS program
 **
 *)
 
@@ -10,12 +11,16 @@
 //
 (* ****** ****** *)
 
-#define N 8 // HX: this should not be changed!
+#define N 8 // HX: it should not change!
+
+(* ****** ****** *)
 
 typedef int8 =
 (
   int, int, int, int, int, int, int, int
-) // end of [int8]
+) (* end of [int8] *)
+
+(* ****** ****** *)
 
 fun print_dots (i: int): void =
   if i > 0 then (print ". "; print_dots (i-1)) else ()
@@ -31,8 +36,13 @@ fun print_board (bd: int8): void = begin
   print_newline ()
 end // end of [print_board]
 
-fun board_get
-  (bd: int8, i: int): int =
+(* ****** ****** *)
+
+fun
+board_get
+(
+  bd: int8, i: int
+) : int =
   if i = 0 then bd.0
   else if i = 1 then bd.1
   else if i = 2 then bd.2
@@ -44,8 +54,11 @@ fun board_get
   else 0 // end of [if]
 // end of [board_get]
 
-fun board_set
-  (bd: int8, i: int, j:int): int8 = let
+fun
+board_set
+(
+  bd: int8, i: int, j:int
+) : int8 = let
   val (x0, x1, x2, x3, x4, x5, x6, x7) = bd
 in
   if i = 0 then let
@@ -66,6 +79,8 @@ in
     val x7 = j in (x0, x1, x2, x3, x4, x5, x6, x7)
   end else bd // end of [if]
 end // end of [board_set]
+
+(* ****** ****** *)
 
 fun safety_test1
 (
@@ -88,12 +103,18 @@ fun safety_test2
   else true // end of [if]
 // end of [safety_test2]
 
+(* ****** ****** *)
+
 fun search
 (
   bd: int8, i: int, j: int, nsol: int
 ) : int =
-  if j < N then
-    if safety_test2 (i, j, bd, i-1) then let
+//
+if (
+j < N
+) then (
+  if safety_test2 (i, j, bd, i-1)
+    then let
       val bd1 = board_set (bd, i, j)
     in
       if i+1 = N then let
@@ -101,10 +122,14 @@ fun search
           ("This is solution no. ", nsol+1, ":\n\n")
         val () = print_board (bd1) in search (bd, i, j+1, nsol+1)
       end else search (bd1, i+1, 0, nsol)
-    end else search (bd, i, j+1, nsol)
-  else if i > 0 then
-    search (bd, i-1, board_get (bd, i-1) + 1, nsol)
-  else nsol // end of [if]
+    end // end of [then]
+    else search (bd, i, j+1, nsol)
+) else (
+  if i > 0
+    then search (bd, i-1, board_get (bd, i-1) + 1, nsol) else nsol
+  // end of [if]
+) (* end of [if] *)
+//
 // end of [search]
 
 (* ****** ****** *)

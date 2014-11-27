@@ -1297,8 +1297,8 @@ in
 case+ hses of
 | list_cons
     (hse, hses) => let
-    val (
-    ) = emit_text (out, "ATStmpdec(")
+    val () =
+      emit_text (out, "ATStmpdec(")
     val () = (
       emit_funarg (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
     ) (* end of [val] *)
@@ -1335,8 +1335,8 @@ in
 case+ hses of
 | list_cons
     (hse, hses) => let
-    val (
-    ) = emit_text (out, "ATStmpdec(")
+    val () =
+      emit_text (out, "ATStmpdec(")
     val () = (
       emit_funapy (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
     ) (* end of [val] *)
@@ -1671,6 +1671,7 @@ val () = emit_text (out, ")\n")
 // tmpvardec and funbody
 //
 val () = funent_varbindmap_initize (fent)
+val () = funent_varbindmap_initize2 (fent)
 //
 val () = emit_text (out, "{\n")
 //

@@ -210,7 +210,7 @@ upload:: upload_html
 upload_pdf:: ; \
   scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL/
 upload_html:: ; \
-  scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL/
+  rsync -av --delete HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL
 
 ######
 
@@ -221,7 +221,7 @@ uploadloc:: ; $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/ATS2TUTORIA
 upload_code:: ; \
   make -C CODE cleanall
 upload_code:: ; \
-  scp -r CODE ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL
+  rsync -av --delete CODE ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2TUTORIAL
 #
 ######
 
@@ -236,7 +236,6 @@ clean:: ; $(RMF) *_atxt_dats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) preface.db
-cleanall:: ; $(RMF) HTML/*.html
 cleanall:: ; $(RMF) PDF/main.pdf
 cleanall:: ; $(RMF) TEMP/chap_*.dats
 

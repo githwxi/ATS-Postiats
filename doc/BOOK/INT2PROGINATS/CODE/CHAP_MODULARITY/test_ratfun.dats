@@ -19,7 +19,10 @@ staload _(*M*) = "libc/DATS/math.dats"
 
 (* ****** ****** *)
 
+(*
+// HX: not any more
 dynload "ratfun.sats"
+*)
 dynload "ratfun.dats"
 
 (* ****** ****** *)

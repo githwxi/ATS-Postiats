@@ -90,6 +90,8 @@ case+ ca of
 //
 | CAgline () => prstr "CAgline()"
 //
+| CAverbose () => prstr "CAverbose()"
+//
 | CAcleanaft () => prstr "CAcleanaft()"
 //
 | CAatsccomp (opt) =>
@@ -325,6 +327,8 @@ case+ ca of
 | CAgline () => ()
 //
 | CAcleanaft () => ()
+//
+| CAverbose _ => ()
 //
 | CAatsccomp _ => ()
 //

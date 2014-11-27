@@ -121,9 +121,10 @@ b:t@ype}
 // end of [list_zipwith]
 
 (* ****** ****** *)
-
+//
 typedef T = int
-
+typedef T2 = (T, T)
+//
 (* ****** ****** *)
 
 implement
@@ -136,12 +137,12 @@ main0 () =
 val xs1 = list_vt2t((list)$arrpsz{T}(0, 1, 2, 3, 4))
 val xs2 = list_vt2t((list)$arrpsz{T}(5, 6, 7, 8, 9))
 //
-val () = assertloc (
+val () =
+assertloc (
   list_reverse_append<T> (xs1, xs2)
 = list_append<T> (list_reverse<T> (xs1), xs2)
 ) // end of [val]
 //
-typedef T2 = (T, T)
 val ys = list_map<T2><T>
   (list_zip<T,T>(xs1, xs2), lam xx => xx.0 + xx.1)
 val zs = list_zipwith<T,T><T> (xs1, xs2, lam (x1, x2) => x1 + x2)

@@ -176,6 +176,7 @@ fun fprint_labp1atlst : fprint_type (labp1atlst)
 
 (* ****** ****** *)
 
+fun p1at_make_v1al (loc: location, v: v1al): p1at
 fun p1at_make_e1xp (loc: location, e: e1xp): p1at
 fun e1xp_make_p1at (loc: location, p1t: p1at): e1xp
 
@@ -829,7 +830,8 @@ fun fprint_labd1explst : fprint_type (labd1explst)
 
 fun d1exp_is_metric (d1e: d1exp): bool
 
-fun d1exp_make_e1xp (loc: location, exp: e1xp): d1exp
+fun d1exp_make_v1al (loc: location, v: v1al): d1exp
+fun d1exp_make_e1xp (loc: location, e: e1xp): d1exp
 fun e1xp_make_d1exp (loc: location, d1e: d1exp): e1xp
 
 (* ****** ****** *)

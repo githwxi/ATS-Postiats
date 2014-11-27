@@ -62,6 +62,15 @@ fcntl_atxt.dats: fcntl.atxt
 clean:: ; $(RMF) fcntl_atxt.exe
 cleanall:: ; $(RMF) fcntl.cats
 
+all:: float.cats
+float.cats: float_atxt.exe ; ./$< > $@
+float_atxt.exe: float_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ float_atxt.dats -latsdoc
+float_atxt.dats: float.atxt
+	$(ATSDOC) --outcode $@ -i float.atxt > float_atxt.txt
+clean:: ; $(RMF) float_atxt.exe
+cleanall:: ; $(RMF) float.cats
+
 all:: fnmatch.cats
 fnmatch.cats: fnmatch_atxt.exe ; ./$< > $@
 fnmatch_atxt.exe: fnmatch_atxt.dats

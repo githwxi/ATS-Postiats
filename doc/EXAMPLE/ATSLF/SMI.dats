@@ -16,27 +16,31 @@ prfun SMI {P:int->prop}
 primplmnt
 SMI{P}(fpf){n} = let
 //
-propdef Q
-  (n:int) = {k:nat | k <= n} P (k)
+propdef
+Q (n:int) = {k:nat | k <= n} P (k)
 //
-prfun lemma
-  {n:nat} .<n>. (): Q (n) =
+prfun
+lemma
+{n:nat} .<n>.
+(
+// argless
+) : Q (n) =
   lam {
     k:nat | k <= n
   } : P (k) =>
     sif n > 0 then let
-      val IH = lemma {n-1} ()
+      val IH = lemma{n-1}()
     in
-      sif k < n then IH {k} else fpf {n} (IH)
+      sif k < n then IH{k} else fpf{n}(IH)
     end else
-      fpf {0} (lam {} => case+ 0 of _ =/=> ())
+      fpf{0}(lam{} => case+ 0 of _ =/=> ())
     (* end of [sif] *)
 // end of [lemma]
 //
 in
-  lemma {n} () {n}
+  lemma{n}(){n}
 end // end of [SMI]
 
 (* ****** ****** *)
 
-(* end of [strongmathind.dats] *)
+(* end of [SMI.dats] *)

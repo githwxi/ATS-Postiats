@@ -109,14 +109,26 @@ Let us introduce a linear abstract type #stacode("counter") for counter
 objects and a few functions associated with it:
 
 #atscode('\
+//
+absvtype counter = ptr
+//
+extern
+fun counter_make (): counter
+extern
+fun counter_free (counter): void
+//
+extern
+fun counter_get (cntr: !counter): int
+extern
+fun counter_incby (cntr: !counter, n: int): void
+//
 ')
 
-As can be expected, the
-functions #dyncode("counter_make") and #dyncode("counter_free") are for
-creating and destroying a counter object, respectively. The function
-#dyncode("counter_get") returns the current count stored in a give counter,
-and the function #dyncode("counter_incby") increase that count by a given
-integer value.
+As can be expected, the functions #dyncode("counter_make") and
+#dyncode("counter_free") are for creating and destroying a counter object,
+respectively. The function #dyncode("counter_get") returns the current
+count stored in a give counter, and the function #dyncode("counter_incby")
+increase that count by a given integer value.
 
 ")#comment("para")
 

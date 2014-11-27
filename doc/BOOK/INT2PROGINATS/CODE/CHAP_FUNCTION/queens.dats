@@ -169,10 +169,15 @@ fun search
 
 implement
 main0 () = {
-  val () = print_board @(0, 1, 2, 3, 4, 5, 6, 7)
-  val nsol = search ((0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0)
-  val () = assertloc (nsol = 92)
-} // end of [main0]
+//
+val () =
+print_board @(0, 1, 2, 3, 4, 5, 6, 7)
+//
+val nsol = search ((0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0)
+//
+val ((*void*)) = assertloc (nsol = 92)
+//
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

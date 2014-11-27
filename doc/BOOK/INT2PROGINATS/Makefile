@@ -172,46 +172,46 @@ clean:: ; make -C CHAP_ABSVTYPE -f ../Makefile_chap clean
 
 ######
 
+RMF=rm -f
 CPRF=cp -rf
 SCPR=scp -r
 CHMOD=chmod
 
 ######
-
-SUBDIRS_CODE := $(wildcard CODE/*/)
-
+#
+SUBDIRS_CODE := $(wildcard CODE/CHAP_*/)
+#
 regress:: ; \
   set -e; \
-  for i in $(SUBDIRS_CODE); do \
-    $(MAKE) -C $$i $@; \
-  done
-
+  for i in $(SUBDIRS_CODE); do $(MAKE) -C $$i $@; done
+#
 ######
-
-upload:: upload_html
-
+#
+upload:: \
+upload_pdf
 upload_pdf:: ; \
-  scp -r PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS/
+  rsync -av --delete PDF ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS/
+#
+######
+#
+upload:: \
+upload_html
 upload_html:: ; \
-  scp -r HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS
-
+  rsync -av --delete HTML ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS/
+#
 ######
 
 uploadloc:: ; \
-  $(SCPR) PDF hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS
-  $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS
+  $(SCPR) PDF hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS/
+  $(SCPR) HTML hwxi@csa2.bu.edu:public_html/ATS/DOCUMENT/INT2PROGINATS/
 
 ######
 #
 upload_code:: ; \
   make -C CODE cleanall
 upload_code:: ; \
-  scp -r CODE ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS
+  rsync -av --delete CODE ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/INT2PROGINATS/
 #
-######
-
-RMF=rm -f
-
 ######
 
 clean:: ; $(RMF) *~
@@ -221,7 +221,5 @@ clean:: ; $(RMF) *_atxt_dats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) preface.db
-cleanall:: ; $(RMF) HTML/*.html
-cleanall:: ; $(RMF) PDF/main.pdf
 
 ###### end of [Makefile] ######

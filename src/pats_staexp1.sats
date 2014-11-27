@@ -32,18 +32,18 @@
 // Start Time: April, 2011
 //
 (* ****** ****** *)
-
+//
 staload
 INTINF = "./pats_intinf.sats"
 typedef intinf = $INTINF.intinf
-
+//
 staload
 FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 staload
 LOC = "./pats_location.sats"
 typedef location = $LOC.location
-
+//
 (* ****** ****** *)
 
 staload
@@ -105,57 +105,67 @@ e1xp_node =
   | E1XPintrep of string(*rep*)
 //
   | E1XPchar of char
-  | E1XPstring of string
   | E1XPfloat of string(*rep*)
+  | E1XPstring of string
 //
   | E1XPv1al of v1al
 //
   | E1XPnone of () // defintion is not given
-  | E1XPundef of () // a special value for marking un-definition
+  | E1XPundef of () // for marking un-definition
 //
-  | E1XPapp of (e1xp, location(*arg*), e1xplst)
-  | E1XPfun of (symbolist, e1xp)
+  | E1XPapp of
+    (
+      e1xp(*fun*), location(*arg*), e1xplst
+    ) (* end of [E1XPapp] *)
+  | E1XPfun of (symbolist(*arg*), e1xp(*body*))
+//
+  | E1XPif of (e1xp, e1xp, e1xp)
 //
   | E1XPeval of e1xp
   | E1XPlist of e1xplst
-//
-  | E1XPif of (e1xp, e1xp, e1xp)
 //
   | E1XPerr of () // HX: placeholder for error indication
 //
 // end of [e1xp_node]
 
 where
-e1xp: type = '{
-  e1xp_loc= location, e1xp_node= e1xp_node
-}
+e1xp :
+type = '{
+  e1xp_loc= location
+, e1xp_node= e1xp_node
+} // end of [e1xp]
 and e1xplst: type = List (e1xp)
 
+(* ****** ****** *)
+//
 fun print_e1xp (_: e1xp): void
 overload print with print_e1xp
 fun prerr_e1xp (_: e1xp): void
 overload prerr with prerr_e1xp
 fun fprint_e1xp : fprint_type (e1xp)
-
+//
 fun print_e1xplst (_: e1xplst): void
 overload print with print_e1xplst
 fun prerr_e1xplst (_: e1xplst): void
 overload prerr with prerr_e1xplst
 fun fprint_e1xplst : fprint_type (e1xplst)
-
+//
 (* ****** ****** *)
 //
 fun e1xp_make
   (loc: location, node: e1xp_node): e1xp
 // end of [e1xp_make]
 //
+(* ****** ****** *)
+//
 fun e1xp_ide (loc: location, sym: symbol): e1xp
 //
 fun e1xp_int (loc: location, i: int): e1xp
 fun e1xp_intrep (loc: location, rep: string): e1xp
+//
 fun e1xp_char (loc: location, c: char): e1xp
-fun e1xp_string (loc: location, str: string): e1xp
 fun e1xp_float (loc: location, rep: string): e1xp
+fun e1xp_string (loc: location, str: string): e1xp
 //
 fun e1xp_i0nt (loc: location, x: i0nt): e1xp
 fun e1xp_c0har (loc: location, x: c0har): e1xp
@@ -167,21 +177,25 @@ fun e1xp_v1al (loc: location, v: v1al): e1xp
 fun e1xp_none (loc: location): e1xp
 fun e1xp_undef (loc: location): e1xp
 //
-fun e1xp_app (
+fun
+e1xp_app
+(
   loc: location
 , _fun: e1xp, loc_arg: location, _arg: e1xplst
 ) : e1xp // end of [e1xp_app]
 //
-fun e1xp_fun
+fun
+e1xp_fun
   (loc: location, arg: symbolist, body: e1xp): e1xp
 // end of [e1xp_fun]
 //
-fun e1xp_eval (loc: location, e: e1xp): e1xp
-fun e1xp_list (loc: location, es: e1xplst): e1xp
-//
-fun e1xp_if (
+fun e1xp_if
+(
   loc: location, _cond: e1xp, _then: e1xp, _else: e1xp
 ) : e1xp // end of [e1xp_if]
+//
+fun e1xp_eval (loc: location, e: e1xp): e1xp
+fun e1xp_list (loc: location, es: e1xplst): e1xp
 //
 fun e1xp_err (loc: location): e1xp
 //
@@ -405,8 +419,8 @@ fun sp1at_cstr
 
 datatype s1exp_node =
 //
-  | S1Eide of (symbol) // static identifer
-  | S1Esqid of (s0taq, symbol) // qualified static identifer
+  | S1Eide of (symbol) // static identifier
+  | S1Esqid of (s0taq, symbol) // qualified static identifier
 //
   | S1Eint of int
   | S1Eintrep of string(*rep*)

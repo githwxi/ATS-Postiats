@@ -12,6 +12,7 @@
 (* ****** ****** *)
 
 (*
+**
 ** Compiling embedded template instantiation
 ** caused the following line in pats_ccomp_subst to fail:
 **

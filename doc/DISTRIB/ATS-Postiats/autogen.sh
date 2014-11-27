@@ -2,13 +2,16 @@
 
 ######
 #
-# Preparing for making a distribution package 
+# For making a distribution package 
 #
 ######
-
+#
 autoheader configure.ac
 aclocal
-automake --add-missing --foreign || true
+#
+# NO messing with [automake]
+# automake --add-missing --foreign || true
+#
 autoconf
-
+#
 ###### end of [autogen.sh] ######

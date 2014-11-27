@@ -53,7 +53,9 @@ extern void *atsruntime_realloc_undef (void *ptr, size_t bsz) ;
 
 /* ****** ****** */
 
+#ifdef ATS_MEMALLOC_FLAG
 #undef ATS_MEMALLOC_FLAG
+#endif // ifdef(ATS_MEMALLOC_FLAG)
 
 /* ****** ****** */
 

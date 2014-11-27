@@ -36,9 +36,10 @@
 // An abstract thread interface
 //
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.athread"
-
+//
+#define
+ATS_PACKNAME "ATSLIB.libats.athread"
+//
 (* ****** ****** *)
 
 absview locked_v (l:addr)

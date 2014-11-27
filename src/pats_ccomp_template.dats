@@ -547,31 +547,7 @@ end else
 //
 end // end of [hiimpdec_tmpcst_match]
 
-implement
-hiimpdeclst_tmpcst_match
-  (imps, d2c0, t2mas) = let
-//
-(*
-val () =
-println! ("hiimpdeclst_tmpcst_match: d2c0 = ", d2c0)
-*)
-//
-in
-//
-case+ imps of
-| list_cons (
-    imp, imps
-  ) => let
-    val opt = hiimpdec_tmpcst_match (imp, d2c0, t2mas)
-  in
-    case+ opt of
-    | TMPCSTMATsome _ => opt
-    | TMPCSTMATsome2 _ => opt
-    | TMPCSTMATnone _ => hiimpdeclst_tmpcst_match (imps, d2c0, t2mas)
-  end // end of [list_cons]
-| list_nil () => TMPCSTMATnone ()
-//
-end // end of [hiimpdeclst_tmpcst_match]
+(* ****** ****** *)
 
 implement
 hiimpdec2_tmpcst_match
@@ -609,26 +585,64 @@ end else TMPCSTMATnone () // end of [if]
 //
 end // end of [hiimpdec2_tmpcst_match]
 
+(* ****** ****** *)
+
+implement
+hiimpdeclst_tmpcst_match
+  (imps, d2c0, t2mas) = let
+//
+(*
+val () =
+println! ("hiimpdeclst_tmpcst_match: d2c0 = ", d2c0)
+*)
+//
+in
+//
+case+ imps of
+| list_cons (
+    imp, imps
+  ) => let
+    val opt = hiimpdec_tmpcst_match (imp, d2c0, t2mas)
+  in
+    case+ opt of
+    | TMPCSTMATsome _ => opt
+    | TMPCSTMATsome2 _ => opt
+    | TMPCSTMATnone _ => hiimpdeclst_tmpcst_match (imps, d2c0, t2mas)
+  end // end of [list_cons]
+| list_nil () => TMPCSTMATnone ()
+//
+end // end of [hiimpdeclst_tmpcst_match]
+
+(* ****** ****** *)
+
 implement
 tmpcstmat_tmpcst_match
   (mat, d2c0, t2mas) = let
 //
 var ans: bool = false
 //
-val-TMPCSTMATsome2 (d2c, s2ess, flab) = mat
+val-TMPCSTMATsome2(d2c, s2ess, flab) = mat
 //
 val () =
-  if d2c = d2c0 then let
+(
+if
+d2c=d2c0
+then let
   val env = IMPENVnil ()
   val () = ans := auxmatlstlst (env, s2ess, t2mas)
   val () = impenv_free (env)
 //
 in
   // nothing
-end //end of [val]
+end // end of [then]
+else () // end of [else]
+//
+) : void // end of [val]
 //
 in
-  if ans then mat else TMPCSTMATnone
+//
+if ans then mat else TMPCSTMATnone()
+//
 end // end of [tmpcstmat_tmpcst_match]
 
 (* ****** ****** *)
@@ -636,8 +650,10 @@ end // end of [tmpcstmat_tmpcst_match]
 implement
 hifundec2tmpvarmat
   (hfd, t2mas) = let
-  val s2vs = hfd.hifundec_imparg
-  val tsub = auxbndlstlst (s2vs, t2mas)
+//
+val s2vs = hfd.hifundec_imparg
+val tsub = auxbndlstlst (s2vs, t2mas)
+//
 in
   TMPVARMATsome (hfd, tsub)
 end // end of [hifundec2tmpvarmat]
@@ -648,11 +664,12 @@ hifundecopt2tmpvarmat
 in
 //
 case hfdopt of
-| ~Some_vt (hfd) =>
-    hifundec2tmpvarmat (hfd, t2mas)
-| ~None_vt ((*void*)) => TMPVARMATnone ()
+| ~None_vt () => TMPVARMATnone ()
+| ~Some_vt (hfd) => hifundec2tmpvarmat (hfd, t2mas)
 //
 end // end of [hifundecopt2tmpvarmat]
+
+(* ****** ****** *)
 
 implement
 hifundec_tmpvar_match
@@ -662,10 +679,39 @@ val d2v = hfd.hifundec_var
 //
 in
 //
-if d2v = d2v0 then
-  hifundec2tmpvarmat (hfd, t2mas) else TMPVARMATnone ()
+if d2v=d2v0
+  then hifundec2tmpvarmat (hfd, t2mas) else TMPVARMATnone()
 //
 end // end of [hifundec_tmpvar_match]
+
+(* ****** ****** *)
+
+implement
+hifundec2_tmpvar_match
+  (hfd2, d2v0, t2mas) = let
+//
+val
+HIFUNDEC2
+  (hfd, tsub0) = hfd2
+//
+val d2v = hfd.hifundec_var
+//
+in
+//
+if
+d2v=d2v0
+then let
+  val s2vs = hfd.hifundec_imparg
+  val tsub1 = auxbndlstlst (s2vs, t2mas)
+  val tsub01 = tmpsub_append (tsub0, tsub1)
+in
+  TMPVARMATsome (hfd, tsub01)
+end // end of [then]
+else TMPVARMATnone() // end of [else]
+//
+end // end of [hifundec2_tmpvar_match]
+
+(* ****** ****** *)
 
 implement
 tmpvarmat_tmpvar_match
@@ -686,7 +732,9 @@ in
 end //end of [val]
 //
 in
-  if ans then mat else TMPVARMATnone
+//
+if ans then mat else TMPVARMATnone()
+//
 end // end of [tmpvarmat_tmpvar_match]
 
 end // end of [local]

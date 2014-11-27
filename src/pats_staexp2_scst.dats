@@ -437,6 +437,16 @@ s2cst_is_binarian (s2c) = let
 end // end of [s2cst_is_binarian]
 
 (* ****** ****** *)
+//
+implement
+s2cst_is_linear (s2c) =
+  s2rt_is_lin_fun(s2cst_get_srt(s2c))
+//
+implement
+s2cst_is_nonlinear (s2c) = 
+  if s2cst_is_linear(s2c) then false else true
+//
+(* ****** ****** *)
 
 implement
 s2cst_subeq

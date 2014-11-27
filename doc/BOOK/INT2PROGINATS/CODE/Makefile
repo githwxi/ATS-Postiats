@@ -9,6 +9,19 @@
 MAKE=make
 
 ######
+#
+all:: \
+INT2PROGINATS-CODE.html
+INT2PROGINATS-CODE.html: \
+INT2PROGINATS-CODE.php ; php -f $< > $@
+#
+# cleanall:: ; $(RMF) INT2PROGINATS-CODE.html
+#
+######
+
+RMF=rm -f
+
+######
 
 cleanall::
 cleanall:: ; $(MAKE) -C CHAP_START cleanall
