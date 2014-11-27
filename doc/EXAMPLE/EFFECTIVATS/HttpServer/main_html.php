@@ -34,12 +34,12 @@ include
 
 <h1>
 Effective ATS:<br>
-Implementing a simplistic http-server
+Implementing a minimal http-server
 </h1>
 
 <p>
 In this article, I would like to present an implementation
-of a simple http-server. This is also a good occasion for me
+of a minimal http-server. This is also a good occasion for me
 to advocate refinement-based programming.
 </p>
 
@@ -270,9 +270,19 @@ Hello from myserver!
 <pre>
 %s
 </pre>
+<pre>
+<u>The time stamp</u>: <b>%s</b>
+</pre>
 </body>
 </html>
 " // end of [val]
+
+(* ****** ****** *)
+
+%{^
+typedef char *charptr;
+%} // end of [%{^]
+abstype charptr = \$extype"charptr"
 
 (* ****** ****** *)
 
@@ -282,31 +292,39 @@ myserver_process_request
 //
 val fd2 = \$UN.cast{int}(req)
 //
-var buf = @[byte][BUFSZ]() // stack-allocated
-var buf2 = @[byte][BUFSZ2]() // stack-allocated
+var buf = @[byte][BUFSZ]()
+var buf2 = @[byte][BUFSZ2]()
 //
 val bufp = addr@buf and bufp2 = addr@buf2
 //
-val nread = \$extfcall(ssize_t, "read", fd2, bufp, BUFSZ)
+val nread = \$extfcall (ssize_t, "read", fd2, bufp, BUFSZ)
 //
 (*
 val () = println! ("myserver_process_request: nread = ", nread)
 *)
+//
+var time = time_get()
+val tmstr = \$extfcall(charptr, "ctime", addr@time)
 //
 val () =
 if
 nread >= 0
 then let
   val [n:int] n = \$UN.cast{Size}(nread)
-  val () = \$UN.ptr0_set_at<char> (bufp, n, '\000')
-  val ntot = \$extfcall(int, "snprintf", bufp2, BUFSZ, theRespFmt, bufp)
-  val nwrit = \$extfcall(ssize_t, "write", fd2, bufp2, min(ntot, BUFSZ2))
+  val () = \$UN.ptr0_set_at<char> (bufp, n, '\\000')
+//
+  val nbyte =
+    \$extfcall(int, "snprintf", bufp2, BUFSZ2, theRespFmt, bufp, tmstr)
+  // end of [val]
+//
+  val nwrit = \$extfcall(ssize_t, "write", fd2, bufp2, min(nbyte, BUFSZ2))
+//
 in
   // nothing
 end // end of [then]
 //
 //
-val err = \$extfcall(int, "close", fd2)
+val err = \$extfcall (int, "close", fd2)
 //
 in
   // nothing
@@ -319,8 +337,8 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 <p>
 The implementation of [myserver_process_request] reads into a
 buffer whatever is sent by the client; it generates an HTML page
-containing the content of the buffer and then sends the page to
-the client.
+containing the content of the buffer plus a time stamp and then
+sends the page to the client.
 </p>
 
 <h2>

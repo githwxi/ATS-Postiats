@@ -196,14 +196,14 @@ implement
 myserver_process_request
   (req) = let
 //
-val fd2 = $UNSAFE.cast{int}(req)
+val fd2 = $UN.cast{int}(req)
 //
 var buf = @[byte][BUFSZ]()
-var buf2 = @[byte][BUFSZ]()
+var buf2 = @[byte][BUFSZ2]()
 //
 val bufp = addr@buf and bufp2 = addr@buf2
 //
-val nread = $extfcall (ssize_t, "read", fd2, bufp, BUFSZ)
+val nread = $extfcall(ssize_t, "read", fd2, bufp, BUFSZ)
 //
 (*
 val () = println! ("myserver_process_request: nread = ", nread)
@@ -220,7 +220,7 @@ then let
   val () = $UN.ptr0_set_at<char> (bufp, n, '\000')
 //
   val nbyte =
-    $extfcall(int, "snprintf", bufp2, BUFSZ, theRespFmt, bufp, tmstr)
+    $extfcall(int, "snprintf", bufp2, BUFSZ2, theRespFmt, bufp, tmstr)
   // end of [val]
 //
   val nwrit = $extfcall (ssize_t, "write", fd2, bufp2, min(nbyte, BUFSZ2))
