@@ -182,10 +182,19 @@ connect_v
 //
 fun
 connect_err
-  {fd:int}{n:int} (
+  {fd:int}{n:int}
+(
   pf: socket_v (fd, init)
-| fd: int fd, servaddr: &SA(n), salen: socklen_t(n)
-) : [i:int | i <= 0] (connect_v (fd, i) | int i) = "mac#%"
+| fd: int fd, sockaddr: &SA(n), salen: socklen_t(n)
+) : [i:int] (connect_v (fd, i) | int i) = "mac#%"
+//
+fun
+connect_exn
+  {fd:int}{n:int}
+(
+  pf: !socket_v(fd, init) >> socket_v(fd, conn)
+| fd: int fd, sockaddr: &SA(n), salen: socklen_t(n)
+) : void = "exn#%" // end of [connect_exn]
 //
 (* ****** ****** *)
 //
@@ -201,15 +210,15 @@ bind_err
   {fd:int}{n:int}
 (
   pf: socket_v (fd, init)
-| fd: int fd, servaddr: &SA(n), salen: socklen_t(n)
+| fd: int fd, sockaddr: &SA(n), salen: socklen_t(n)
 ) : [i:int] (bind_v (fd, i) | int i) = "mac#%"
 //
 fun
 bind_exn
   {fd:int}{n:int}
 (
-  pf: !socket_v (fd, init) >> socket_v (fd, bind)
-| fd: int fd, servaddr: &SA(n), salen: socklen_t(n)
+  pf: !socket_v(fd, init) >> socket_v(fd, bind)
+| fd: int fd, sockaddr: &SA(n), salen: socklen_t(n)
 ) : void = "exn#%" // end of [bind_exn]
 //
 (* ****** ****** *)
