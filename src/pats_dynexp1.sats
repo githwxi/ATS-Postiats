@@ -262,7 +262,7 @@ datatype d1ecl_node =
       (string (*name*), s1exp (*definition*))
   | D1Cextype of (* external type *)
       (int(*knd*), string (*name*), s1exp (*definition*))
-  | D1Cextval of (* external value *)
+  | D1Cextvar of (* external variable *)
       (string (*name*), d1exp (*definition*))
 //
   | D1Cextcode of (
@@ -323,8 +323,11 @@ and d1exp_node =
 //
   | D1Eextval of (s1exp (*type*), string (*name*))
   | D1Eextfcall of // externally named fcall
-      (s1exp (*res*), string (*fun*), d1explst (*arg*))
+      (s1exp(*res*), string(*fun*), d1explst(*arg*))
     // end of [D1Eextfcall]
+  | D1Eextmcall of // externally named fcall
+      (s1exp(*res*), d1exp(*obj*), string(*method*), d1explst(*arg*))
+    // end of [D1Eextmcall]
 //
   | D1Efoldat of (* fold at a given address *)
       (s1exparglst, d1exp)
@@ -574,12 +577,26 @@ fun d1exp_empty (loc: location): d1exp
 fun d1exp_top (loc: location): d1exp
 
 (* ****** ****** *)
-
-fun d1exp_extval
-  (loc: location, _type: s1exp, name: string): d1exp
-fun d1exp_extfcall
-  (loc: location, _type: s1exp, _fun: string, _arg: d1explst): d1exp
-
+//
+fun
+d1exp_extval
+(
+  loc: location, _type: s1exp, name: string
+) : d1exp // end of [d1exp_extval]
+//
+fun
+d1exp_extfcall
+(
+  loc: location
+, _type: s1exp, _fun: string, _arg: d1explst
+) : d1exp // end of [d1exp_extfcall]
+fun
+d1exp_extmcall
+(
+  loc: location
+, _type: s1exp, _obj: d1exp, _mtd: string, _arg: d1explst
+) : d1exp // end of [d1exp_extmcall]
+//
 (* ****** ****** *)
 
 fun d1exp_foldat
@@ -947,9 +964,9 @@ fun d1ecl_extype (
 fun d1ecl_extype2 (
   loc: location, knd: int, name: string, def: s1exp
 ) : d1ecl // end of [d1ecl_extype]
-fun d1ecl_extval (
+fun d1ecl_extvar (
   loc: location, name: string, def: d1exp
-) : d1ecl // end of [d1ecl_extval]
+) : d1ecl // end of [d1ecl_extvar]
 fun d1ecl_extcode (
   loc: location, knd: int, pos: int, code: string
 ) : d1ecl // end of [d1ecl_extcode]

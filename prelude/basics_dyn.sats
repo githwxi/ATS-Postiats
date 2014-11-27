@@ -181,6 +181,12 @@ lazy_vt_force (lazyval: lazy_vt (a)): (a)
 //
 (* ****** ****** *)
 //
+fun
+lazy2cloref
+  {a:t0p}(lazy(a)): ((*void*)) -<cloref1> (a) = "mac#%"
+//
+(* ****** ****** *)
+//
 // HX-2013:
 // macro implemented in [pats_ccomp_instrset]
 //

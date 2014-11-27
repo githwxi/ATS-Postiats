@@ -13,7 +13,12 @@
 (* ****** ****** *)
 
 %{^
+//
 #include <pthread.h>
+//
+#undef ATSextfcall
+#define ATSextfcall(f, xs) f xs
+//
 %} // end of [%{^]
 
 (* ****** ****** *)

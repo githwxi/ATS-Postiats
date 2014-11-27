@@ -1335,38 +1335,41 @@ val+HTLABELED (lab, opt, hit) = lhit
 var isa: bool = false
 var dim: s2explst = list_nil ()
 //
-val (
-) = (
-  case+ hit of
-  | HITtyarr (
-      hit_elt, s2es
-    ) => {
-      val () = isa := true
-      val () = dim := s2es
-      val () = emit_hitype (out, hit_elt)
-    } // end of [HITtyarr]
-  | _ => emit_hitype (out, hit)
+val () = (
+//
+case+ hit of
+| HITtyarr (
+    hit_elt, s2es
+  ) => {
+    val () = isa := true
+    val () = dim := s2es
+    val () = emit_hitype (out, hit_elt)
+  } (* end of [HITtyarr] *)
+| _ (*non-tyarr*) => emit_hitype (out, hit)
+//
 ) : void // end of [val]
 //
-val (
-) = emit_text (out, " ")
-val (
-) = (
+val () = emit_text (out, " ")
+//
+val () =
+if isa then
+  emit_text (out, "atstyarr_field(")
+// end of [if]
+//
+val () = (
   case+ opt of
-  | Some (
-      name
-    ) => emit_text (out, name)
-  | None (
-    ) => emit_labelext (out, 0(*extknd*), lab)
+  | Some (name) => emit_text (out, name)
+  | None ((*void*)) =>
+      emit_labelext (out, 0(*extknd*), lab)
+    // end of [None]
 ) : void // end of [val]
 //
 val () = (
-  if isa
-    then emit_text (out, "[]")
-  // end of [if]
-) : void // end of [val]
 //
-val () = emit_text (out, "; ")
+if isa then
+  emit_text (out, ") ;") else emit_text (out, " ;")
+//
+) : void // end of [val]
 //
 in
   // nothing

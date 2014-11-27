@@ -39,45 +39,45 @@
 #define ATS_PACKNAME "ATSLIB.libats"
 
 (* ****** ****** *)
-
-typedef cfun0
-  (b:vt0p) = ((*void*)) -<cloref1> b
-typedef cfun1
-  (a:vt0p, b:vt0p) = (a) -<cloref1> b
-typedef cfun2
-  (a1:vt0p, a2:vt0p, b:vt0p) = (a1, a2) -<cloref1> b
-
+//
+typedef
+cfun0(b:vt0p) = ((*void*)) -<cloref1> b
+typedef
+cfun1(a:vt0p, b:vt0p) = (a) -<cloref1> b
+typedef
+cfun2(a1:vt0p, a2:vt0p, b:vt0p) = (a1, a2) -<cloref1> b
+//
 (* ****** ****** *)
-
-typedef cfun3
-(
+//
+typedef
+cfun3 (
   a1:vt0p, a2:vt0p, a3:vt0p, b:vt0p
 ) = (a1, a2, a3) -<cloref1> b
-typedef cfun4
-(
+typedef
+cfun4 (
   a1:vt0p, a2:vt0p, a3:vt0p, a4:vt0p, b:vt0p
 ) = (a1, a2, a3, a4) -<cloref1> b
-typedef cfun5
-(
+typedef
+cfun5 (
   a1:vt0p, a2:vt0p, a3:vt0p, a4:vt0p, a5:vt0p, b:vt0p
 ) = (a1, a2, a3, a4, a5) -<cloref1> b
-typedef cfun6
-(
+typedef
+cfun6 (
   a1:vt0p, a2:vt0p, a3:vt0p, a4:vt0p, a5:vt0p, a6:vt0p, b:vt0p
 ) = (a1, a2, a3, a4, a5, a6) -<cloref1> b
-typedef cfun7
-(
+typedef
+cfun7 (
   a1:vt0p, a2:vt0p, a3:vt0p, a4:vt0p, a5:vt0p, a6:vt0p, a7:vt0p, b:vt0p
 ) = (a1, a2, a3, a4, a5, a6, a7) -<cloref1> b
-typedef cfun8
-(
+typedef
+cfun8 (
   a1:vt0p, a2:vt0p, a3:vt0p, a4:vt0p, a5:vt0p, a6:vt0p, a7:vt0p, a8:vt0p, b:vt0p
 ) = (a1, a2, a3, a4, a5, a6, a7, a8) -<cloref1> b
-typedef cfun9
-(
+typedef
+cfun9 (
   a1:vt0p, a2:vt0p, a3:vt0p, a4:vt0p, a5:vt0p, a6:vt0p, a7:vt0p, a8:vt0p, a9:vt0p, b:vt0p
 ) = (a1, a2, a3, a4, a5, a6, a7, a8, a9) -<cloref1> b
-
+//
 (* ****** ****** *)
 
 stadef cfun = cfun0

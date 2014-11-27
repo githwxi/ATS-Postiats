@@ -343,18 +343,18 @@ case+ d1e0.d1exp_node of
   } // end of [D1Eempty]
 | D1Etop () => prstr "D1Etop()"
 //
-| D1Eextval (s1e, name) =>
-  {
+| D1Eextval
+    (s1e, name) => {
     val () = prstr "D1Eextval("
     val () = fprint_s1exp (out, s1e)
     val () = prstr "; "
     val () = prstr "\""
     val () = fprint_string (out, name)
     val () = prstr "\""
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
   } // end of [D1Eextval]
-| D1Eextfcall (s1e, _fun, _arg) =>
-  {
+| D1Eextfcall
+    (s1e, _fun, _arg) => {
     val () = prstr "D1Eextfcall("
     val () = fprint_s1exp (out, s1e)
     val () = prstr "; "
@@ -363,8 +363,22 @@ case+ d1e0.d1exp_node of
     val () = prstr "\""
     val () = prstr "; "
     val () = fprint_d1explst (out, _arg)
-    val () = prstr ")"
-  } // end of [D1Eextfcall]
+    val ((*closing*)) = prstr ")"
+  } (* end of [D1Eextfcall] *)
+| D1Eextmcall
+    (s1e, _obj, _mtd, _arg) => {
+    val () = prstr "D1Eextmcall("
+    val () = fprint_s1exp (out, s1e)
+    val () = prstr "; "
+    val () = fprint_d1exp (out, _obj)
+    val () = prstr "; "
+    val () = prstr "\""
+    val () = fprint_string (out, _mtd)
+    val () = prstr "\""
+    val () = prstr "; "
+    val () = fprint_d1explst (out, _arg)
+    val ((*closing*)) = prstr ")"
+  } (* end of [D1Eextmcall] *)
 //
 | D1Eloopexn (knd) => {
     val () = fprintf (out, "D1Eloopexn(%i)", @(knd))
@@ -975,13 +989,13 @@ case+ d1c0.d1ecl_node of
     val () = prstr ")"
   }
 //
-| D1Cextval
+| D1Cextvar
     (name, def) => {
-    val () = prstr "D1Cextval("
+    val () = prstr "D1Cextvalr"
     val () = fprint_string (out, name)
     val () = prstr " = "
     val () = fprint_d1exp (out, def)
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
   }
 //
 | D1Cextcode

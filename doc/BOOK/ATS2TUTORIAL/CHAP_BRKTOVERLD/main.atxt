@@ -88,6 +88,13 @@ also be used to access and update a given reference.\
 
 ')#comment("para")
 
+#para("\
+
+Please find #mycodelink("chap_brktoverld.dats", "on-line") the entirety of the
+code presented in this chapter.\
+
+")#comment("para")
+
 </chapter><!--"bracket-overload"-->
 
 #comment(" ****** ****** ")

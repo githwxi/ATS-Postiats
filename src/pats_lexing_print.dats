@@ -97,7 +97,7 @@ fprint_token
   | T_EXCEPTION () => fprintf (out, "EXCEPTION()", @())
   | T_EXTERN () => fprintf (out, "EXTERN()", @())
   | T_EXTYPE () => fprintf (out, "EXTYPE()", @())
-  | T_EXTVAL () => fprintf (out, "EXTVAL()", @())
+  | T_EXTVAR () => fprintf (out, "EXTVAR()", @())
 //
   | T_FIX (x) => fprintf (out, "FIX(%i)", @(x))
   | T_FIXITY (x) => fprintf (out, "FIXITY(...)", @())
@@ -159,8 +159,10 @@ fprint_token
   | T_DLREXTKIND () => fprintf (out, "DLREXTKIND()", @())
   | T_DLREXTYPE () => fprintf (out, "DLREXTYPE()", @())
   | T_DLREXTYPE_STRUCT () => fprintf (out, "DLREXTYPE_STRUCT()", @())
+//
   | T_DLREXTVAL () => fprintf (out, "DLREXTVAL()", @())
   | T_DLREXTFCALL () => fprintf (out, "DLREXTFCALL()", @())
+  | T_DLREXTMCALL () => fprintf (out, "DLREXTMCALL()", @())
 //
   | T_DLRBREAK () => fprintf (out, "DLRBREAK()", @())
   | T_DLRCONTINUE () => fprintf (out, "DLRCONTINUE()", @())

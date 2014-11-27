@@ -1,0 +1,44 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_DYNLOAD/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter
+id="staload">
+#title("Static Load")
+
+#para("\
+In ATS, static load (or staload for short) refers to the creation
+of a namespace populated with the declared names in a loaded package.
+")
+
+</chapter><!--"staload"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_staload.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}

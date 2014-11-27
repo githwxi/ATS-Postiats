@@ -133,8 +133,12 @@ case+
   in
     hidecl_extype (loc0, name, hse_def)
   end // end of [D3Cextype]
-| D3Cextval (name, d3e_def) =>
-    hidecl_extval (loc0, name, d3exp_tyer (d3e_def))
+| D3Cextvar
+    (name, d3e_def) =>
+  (
+    hidecl_extvar (loc0, name, d3exp_tyer (d3e_def))
+  ) (* end of [D3Cextvar] *)
+//
 | D3Cextcode
     (knd, pos, code) => hidecl_extcode (loc0, knd, pos, code)
   // end of [D3Cextcode]

@@ -622,10 +622,20 @@ case+ d2en0 of
   (* end of [D2Eextval] *)
 //
 | D2Eextfcall
-    (res, fname, d2es) =>
-  (
-    d2exp_extfcall (loc0, res, fname, eval1dexplst (d2es))
-  ) // end of [D2Eextfcall]
+    (res, _fun, _arg) => let
+    val res = eval1sexp (res)
+    val _arg = eval1dexplst (_arg)
+  in
+    d2exp_extfcall (loc0, res, _fun, _arg)
+  end // end of [D2Eextfcall]
+| D2Eextmcall
+    (res, _obj, _mtd, _arg) => let
+    val res = eval1sexp (res)
+    val _obj = eval1dexp(_obj)
+    val _arg = eval1dexplst (_arg)
+  in
+    d2exp_extmcall (loc0, res, _obj, _mtd, _arg)
+  end // end of [D2Eextmcall]
 //
 | D2Econ
   (

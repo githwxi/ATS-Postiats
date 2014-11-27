@@ -95,14 +95,17 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
+//
 (*
+//
+// HX: it is no longer in use
+//
 val the_STALOADFLAG = ref<int> (0)
 *)
-val the_DYNLOADFLAG = ref<int> (1)
-
+val the_DYNLOADFLAG = ref<int> (0)
+//
 in (* in of [local] *)
-
+//
 (*
 //
 // HX-2014-06-06:
@@ -111,10 +114,10 @@ in (* in of [local] *)
 implement the_STALOADFLAG_get () = !the_STALOADFLAG
 implement the_STALOADFLAG_set (flag) = !the_STALOADFLAG := flag
 *)
-
+//
 implement the_DYNLOADFLAG_get () = !the_DYNLOADFLAG
 implement the_DYNLOADFLAG_set (flag) = !the_DYNLOADFLAG := flag
-
+//
 end // end of [local]
 
 (* ****** ****** *)

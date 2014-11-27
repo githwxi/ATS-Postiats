@@ -51,6 +51,11 @@ macdef
 prelude_string_sing = string_sing
 //
 macdef
+prelude_string_is_empty = string_is_empty
+macdef
+prelude_string_isnot_empty = string_isnot_empty
+//
+macdef
 prelude_string0_copy = string0_copy
 //
 macdef
@@ -104,6 +109,15 @@ implement{
 implement{
 } string_sing (c) =
   strnptr2string ($effmask_wrt(prelude_string_sing (c)))
+//
+(* ****** ****** *)
+//
+implement{
+} string_is_empty (str) =
+  prelude_string_is_empty (g1ofg0(str))
+implement{
+} string_isnot_empty (str) =
+  prelude_string_isnot_empty (g1ofg0(str))
 //
 (* ****** ****** *)
 

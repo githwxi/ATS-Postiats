@@ -196,26 +196,38 @@ in
 end // end of [jsonize_s0tring]
 
 (* ****** ****** *)
-
+//
+// HX-2014-09-08:
+// Should the type property be output?
+//
 implement
 jsonize_d2cst
   (d2c) = let
 //
 val sym =
   jsonize_symbol (d2cst_get_sym (d2c))
+val type =
+  jsonize1_s2exp (d2cst_get_type (d2c))
 val stamp =
   jsonize_stamp (d2cst_get_stamp (d2c))
 //
 in
 //
-jsonval_labval2
+jsonval_labval3
 (
   "d2cst_name", sym
+, "d2cst_type", type
 , "d2cst_stamp", stamp
 )
 //
 end // end of [jsonize_d2cst]
 
+(* ****** ****** *)
+//
+// HX-2014-09-08:
+// [jsonize_d2cst_long]
+// may output more properties
+//
 implement
 jsonize_d2cst_long
   (d2c) = let
@@ -846,13 +858,13 @@ d2c0.d2ecl_node of
   in
     jsonval_conarg2 ("D2Cextype", name, s2e_def)
   end // end of [D2Cextype]
-| D2Cextval
+| D2Cextvar
     (name, d2e_def) => let
     val name = jsonval_string (name)
     val d2e_def = jsonize_d2exp (d2e_def)
   in
-    jsonval_conarg2 ("D2Cextval", name, d2e_def)
-  end // end of [D2Cextval]
+    jsonval_conarg2 ("D2Cextvar", name, d2e_def)
+  end // end of [D2Cextvar]
 | D2Cextcode
     (knd, pos, code) => let
     val knd = jsonval_int (knd)
@@ -865,12 +877,16 @@ d2c0.d2ecl_node of
 | D2Cdatdecs
     (knd, s2cs) => let
     val knd = jsonval_int (knd)
-    val s2cs = jsonize_list_fun (s2cs, jsonize_s2cst)
+    val s2cs =
+      jsonize_list_fun (s2cs, jsonize_s2cst)
+    // end of [val]
   in
     jsonval_conarg2 ("D2Cdatdecs", knd, s2cs)
   end // end of [D2Cdatdecs]
 | D2Cexndecs (d2cs) => let
-    val d2cs = jsonize_list_fun (d2cs, jsonize_d2con_long)
+    val d2cs =
+      jsonize_list_fun (d2cs, jsonize_d2con_long)
+    // end of [val]
   in
     jsonval_conarg1 ("D2Cexndecs", d2cs(*constr*))
   end // end of [D2Cdatdecs]
@@ -879,7 +895,9 @@ d2c0.d2ecl_node of
     (knd, dck, d2cs) => let
     val knd = jsonval_int (knd)
     val dck = jsonize_dcstkind (dck)
-    val d2cs = jsonize_list_fun (d2cs, jsonize_d2cst_long)
+    val d2cs =
+      jsonize_list_fun (d2cs, jsonize_d2cst_long)
+    // end of [val]
   in
     jsonval_conarg3 ("D2Cdcstdecs", knd, dck, d2cs)
   end // end of [D2Cdcstdecs]

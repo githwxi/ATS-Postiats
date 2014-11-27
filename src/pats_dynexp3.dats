@@ -343,6 +343,14 @@ d3exp_extfcall
 , d3exp_node= D3Eextfcall (_fun, _arg)
 } // end of [d3exp_extfcall]
 
+implement
+d3exp_extmcall
+  (loc, s2f, _obj, _mtd, _arg) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eextmcall (_obj, _mtd, _arg)
+} // end of [d3exp_extmcall]
+
 (* ****** ****** *)
 
 (*
@@ -1111,10 +1119,12 @@ d3ecl_extype
 // end of [d3ecl_extype]
 
 implement
-d3ecl_extval
+d3ecl_extvar
   (loc, name, d3e_def) =
-  d3ecl_make_node (loc, D3Cextval (name, d3e_def))
-// end of [d3ecl_extval]
+  d3ecl_make_node (loc, D3Cextvar (name, d3e_def))
+// end of [d3ecl_extvar]
+
+(* ****** ****** *)
 
 implement
 d3ecl_extcode

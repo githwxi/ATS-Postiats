@@ -30,6 +30,13 @@ Here is a list of major additions and changes since the last release:
 2. Adding support for functional style o dot-notation overloading.
    This feature makes it very convenient for ATS to interact with OOP.
 3. Generally improving level-2 jsonization (pats_dynexp2_jsonize)
+4. Adding support for extvar decl. (which is different from $extval):
+   extval "external_name" = internal_value
+5. ATS_DYNLOADFLAG is set to 1 by default only for DATS-files. So
+   dynloading SATS-files is no longer necessary (but it is still harmless).
+6. Adding support for $extmcall(ret_type, obj, "method", arglst),
+   which translates into the method invocation: obj.method(arglst)
+7. Adding -D_ATS_ARRAY_FIELD to safe-guard using array fields in records
 
 </pre>
 

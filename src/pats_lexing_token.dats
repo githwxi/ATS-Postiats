@@ -383,7 +383,7 @@ val () = ins ("end", T_END)
 val () = ins ("exception", T_EXCEPTION)
 val () = ins ("extern", T_EXTERN)
 val () = ins ("extype", T_EXTYPE)
-val () = ins ("extval", T_EXTVAL)
+val () = ins ("extvar", T_EXTVAR)
 //
 val () = ins ("fn", FN) // non-recursive
 val () = ins ("fnx", FNX) // mutual tail-rec.
@@ -506,8 +506,10 @@ val () = ins ("$extern", T_DLREXTERN)
 val () = ins ("$extkind", T_DLREXTKIND)
 val () = ins ("$extype", T_DLREXTYPE)
 val () = ins ("$extype_struct", T_DLREXTYPE_STRUCT)
+//
 val () = ins ("$extval", T_DLREXTVAL)
 val () = ins ("$extfcall", T_DLREXTFCALL)
+val () = ins ("$extmcall", T_DLREXTMCALL)
 //
 val () = ins ("$lst", DLRLST)
 val () = ins ("$lst_t", DLRLST_T)

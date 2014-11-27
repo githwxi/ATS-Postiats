@@ -408,6 +408,12 @@ d2exp_extfcall
   d2exp_make_node (loc, D2Eextfcall (s2e, _fun, _arg))
 // end of [d2exp_extfcall]
 
+implement
+d2exp_extmcall
+  (loc, s2e, _obj, _mtd, _arg) =
+  d2exp_make_node (loc, D2Eextmcall (s2e, _obj, _mtd, _arg))
+// end of [d2exp_extmcall]
+
 (* ****** ****** *)
 
 implement
@@ -1115,8 +1121,8 @@ implement
 d2ecl_extype (loc, name, def) =
   d2ecl_make_node (loc, D2Cextype (name, def))
 implement
-d2ecl_extval (loc, name, def) =
-  d2ecl_make_node (loc, D2Cextval (name, def))
+d2ecl_extvar (loc, name, def) =
+  d2ecl_make_node (loc, D2Cextvar (name, def))
 implement
 d2ecl_extcode (loc, knd, pos, code) =
   d2ecl_make_node (loc, D2Cextcode (knd, pos, code))

@@ -1759,50 +1759,78 @@ d0exp_MYFUN (tok) = '{
 (* ****** ****** *)
 
 implement
-d0exp_extval (
-  t_beg, _type, name, t_end
+d0exp_extval
+(
+  t_beg, _type, rep, t_end
 ) = let
-  val-T_STRING (name) = name.token_node
-  val loc = t_beg.token_loc + t_end.token_loc
+//
+val-T_STRING(rep) = rep.token_node
+val loc =
+  t_beg.token_loc + t_end.token_loc
+//
 in '{
-  d0exp_loc= loc, d0exp_node= D0Eextval (_type, name)
+  d0exp_loc= loc
+, d0exp_node= D0Eextval (_type, rep)
 } end // end of [d0exp_extval]
 
 implement
 d0exp_extfcall (
   t_beg, _type, _fun, _arg, t_end
 ) = let
-  val-T_STRING (_fun) = _fun.token_node
+  val-T_STRING(_fun) = _fun.token_node
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  d0exp_loc= loc, d0exp_node= D0Eextfcall (_type, _fun, _arg)
+  d0exp_loc= loc
+, d0exp_node= D0Eextfcall (_type, _fun, _arg)
 } end // end of [d0exp_extfcall]
+
+implement
+d0exp_extmcall
+(
+  t_beg, _type, _obj, _mtd, _arg, t_end
+) = let
+  val-T_STRING(_mtd) = _mtd.token_node
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  d0exp_loc= loc
+, d0exp_node= D0Eextmcall (_type, _obj, _mtd, _arg)
+} end // end of [d0exp_extmcall]
 
 (* ****** ****** *)
 
 implement
 d0exp_foldat
   (t_foldat, d0es) = let
-  val loc = (
-    case+ list_last_opt<d0exp> (d0es) of
-    | ~Some_vt x => t_foldat.token_loc + x.d0exp_loc
-    | ~None_vt _ => t_foldat.token_loc
-  ) : location // end of [val]
+//
+val opt =
+  list_last_opt<d0exp> (d0es)
+val loc =
+(
+  case+ opt of
+  | ~None_vt _ => t_foldat.token_loc
+  | ~Some_vt x => t_foldat.token_loc + x.d0exp_loc
+) : location // end of [val]
 in '{
   d0exp_loc= loc, d0exp_node= D0Efoldat d0es
-} end // end of [d0exp_foldat]
+} end (* end of [d0exp_foldat] *)
 
 implement
 d0exp_freeat
   (t_freeat, d0es) = let
-  val loc = (
-    case+ list_last_opt<d0exp> (d0es) of
-    | ~Some_vt x => t_freeat.token_loc + x.d0exp_loc
-    | ~None_vt _ => t_freeat.token_loc
-  ) : location // end of [val]
+//
+val opt =
+  list_last_opt<d0exp> (d0es)
+//
+val loc =
+(
+  case+ opt of
+  | ~None_vt _ => t_freeat.token_loc
+  | ~Some_vt x => t_freeat.token_loc + x.d0exp_loc
+) : location // end of [val]
+//
 in '{
   d0exp_loc= loc, d0exp_node= D0Efreeat d0es
-} end // end of [d0exp_freeat]
+} end (* end of [d0exp_freeat] *)
 
 (* ****** ****** *)
 
@@ -2860,14 +2888,24 @@ in '{
 (* ****** ****** *)
 
 implement
-d0ecl_extval
+d0ecl_extvar
   (tok, name, d0e) = let
-  val-T_EXTVAL () = tok.token_node
+  val-T_EXTVAR () = tok.token_node
   val-T_STRING (name) = name.token_node
   val loc = tok.token_loc + d0e.d0exp_loc
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cextval (name, d0e)
-} end // end of [d0ecl_extval]
+  d0ecl_loc= loc, d0ecl_node= D0Cextvar (name, d0e)
+} end // end of [d0ecl_extvar]
+
+implement
+d0ecl_extvar2
+  (tok, name, d0e) = let
+  val-T_VAR _ = tok.token_node
+  val-T_STRING (name) = name.token_node
+  val loc = tok.token_loc + d0e.d0exp_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cextvar (name, d0e)
+} end // end of [d0ecl_extvar2]
 
 (* ****** ****** *)
 

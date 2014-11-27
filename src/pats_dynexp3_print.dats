@@ -250,7 +250,7 @@ case+ d3e0.d3exp_node of
     (name) => {
     val () = prstr "D3Eextval("
     val () = fprint_string (out, name)
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
   }
 | D3Eextfcall
     (_fun, _arg) => {
@@ -258,7 +258,17 @@ case+ d3e0.d3exp_node of
     val () = fprint_string (out, _fun)
     val () = prstr "; "
     val () = fprint_d3explst (out, _arg)
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
+  }
+| D3Eextmcall
+    (_obj, _mtd, _arg) => {
+    val () = prstr "D3Eextmcall("
+    val () = fprint_d3exp (out, _obj)
+    val () = prstr "; "
+    val () = fprint_string (out, _mtd)
+    val () = prstr "; "
+    val () = fprint_d3explst (out, _arg)
+    val ((*closing*)) = prstr ")"
   }
 //
 | D3Econ (
@@ -653,7 +663,7 @@ case+ d3c0.d3ecl_node of
 | D3Csaspdec _ => prstr "D3Csaspdec(...)"
 //
 | D3Cextype _ => prstr "D3Cextype(...)"
-| D3Cextval _ => prstr "D3Cextval(...)"
+| D3Cextvar _ => prstr "D3Cextvar(...)"
 | D3Cextcode _ => prstr "D3Cextcode(...)"
 //
 | D3Cdatdecs _ => prstr "D3Cdatdecs(...)"

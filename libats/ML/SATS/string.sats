@@ -58,6 +58,18 @@ fun{
 (* ****** ****** *)
 
 fun{
+} string_is_empty (NSH(string)):<> bool
+fun{
+} string_isnot_empty (NSH(string)):<> bool
+  
+(* ****** ****** *)
+
+overload iseqz with string_is_empty
+overload isneqz with string_isnot_empty
+
+(* ****** ****** *)
+
+fun{
 } string_copy (x: NSH(string)):<> string
 
 (* ****** ****** *)

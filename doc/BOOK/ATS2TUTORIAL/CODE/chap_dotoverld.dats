@@ -183,7 +183,7 @@ val () = counter_free (c0)
 
 (* ****** ****** *)
 
-implement main0 () = {}
+implement main0 () = ()
 
 (* ****** ****** *)
 

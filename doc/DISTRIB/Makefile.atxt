@@ -139,9 +139,9 @@ all_script::
 #make_entry("atscntrb_libats_hwxi")
 #make_entry("atscntrb_libats_hwxi_teaching")
 #
-#make_entry("atscntrb_kernelats")
+#make_entry("atscntrb_libatscc")
 #
-#make_entry("atscntrb_libatscc2py")
+#make_entry("atscntrb_kernelats")
 #
 ######
 
@@ -309,8 +309,8 @@ srcget_atscntrb_kernelats:: SCRIPT/atscntrb_kernelats.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_libatscc2py
-srcget_atscntrb_libatscc2py:: SCRIPT/atscntrb_libatscc2py.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatscc
+srcget_atscntrb_libatscc:: SCRIPT/atscntrb_libatscc.bash ; bash $<
 
 ######
 

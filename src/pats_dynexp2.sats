@@ -727,7 +727,7 @@ d2ecl_node =
   | D2Csaspdec of s2aspdec (* for static assumption *)
 //
   | D2Cextype of (string(*name*), s2exp(*def*))
-  | D2Cextval of (string(*name*), d2exp(*def*))
+  | D2Cextvar of (string(*name*), d2exp(*def*))
   | D2Cextcode of (int(*knd*), int(*pos*), string(*code*))
 //
   | D2Cdatdecs of (int(*knd*), s2cstlst) // datatype declarations
@@ -792,6 +792,10 @@ and d2exp_node =
     (
       s2exp(*res*), string(*fun*), d2explst(*arg*)
     ) (* end of [D2Eextfcall] *)
+  | D2Eextmcall of
+    (
+      s2exp(*res*), d2exp(*obj*), string(*method*), d2explst(*arg*)
+    ) (* end of [D2Eextmcall] *)
 //
 // HX: data-constructor
 //
@@ -1173,16 +1177,27 @@ fun d2exp_cstsp
   (loc: location, cst: $SYN.cstsp): d2exp
 
 (* ****** ****** *)
-
-fun d2exp_extval
-  (loc: location, s2e: s2exp, name: string): d2exp
-
-(* ****** ****** *)
-
-fun d2exp_extfcall (
-  loc: location, s2e: s2exp, _fun: string, _arg: d2explst
+//
+fun
+d2exp_extval
+(
+  loc: location, s2e: s2exp, name: string
+) : d2exp // end of [d2exp_extval]
+//
+fun
+d2exp_extfcall
+(
+  loc: location
+, s2e: s2exp, _fun: string, _arg: d2explst
 ) : d2exp // end of [d2exp_extfcall]
-
+//
+fun
+d2exp_extmcall
+(
+  loc: location
+, s2e: s2exp, _obj: d2exp, _mtd: string, _arg: d2explst
+) : d2exp // end of [d2exp_extmcall]
+//
 (* ****** ****** *)
 
 fun d2exp_cst (loc: location, d2c: d2cst): d2exp
@@ -1655,7 +1670,7 @@ fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
 
 fun d2ecl_extype
   (loc: location, name: string, def: s2exp): d2ecl
-fun d2ecl_extval
+fun d2ecl_extvar
   (loc: location, name: string, def: d2exp): d2ecl
 fun d2ecl_extcode
   (loc: location, knd: int, pos: int, code: string): d2ecl

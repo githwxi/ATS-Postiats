@@ -161,12 +161,12 @@ case+ d2c0.d2ecl_node of
 | D2Cextype
     (name, s2e_def) =>
     d3ecl_extype (d2c0.d2ecl_loc, name, s2e_def)
-| D2Cextval
+| D2Cextvar
     (name, d2e_def) => let
     val d3e_def = d2exp_trup (d2e_def)
   in
-    d3ecl_extval (d2c0.d2ecl_loc, name, d3e_def)
-  end // end of [D2Cextval]
+    d3ecl_extvar (d2c0.d2ecl_loc, name, d3e_def)
+  end // end of [D2Cextvar]
 //
 | D2Cextcode (
     knd, pos, code

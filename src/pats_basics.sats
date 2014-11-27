@@ -184,18 +184,23 @@ overload != with neq_funclo_funclo
 //
 // HX: implemented in pats_basics.dats
 //
-fun debug_flag_get (): int = "patsopt_debug_flag_get"
-fun debug_flag_set (i: int): void = "patsopt_debug_flag_set"
+fun
+debug_flag_get
+  ((*void*)): int = "patsopt_debug_flag_get"
+fun
+debug_flag_set
+  (flag: int): void = "patsopt_debug_flag_set"
 //
 fun
-prerrf_ifdebug{ts:types}
-  (fmt: printf_c ts, arg: ts): void = "patsopt_prerrf_ifdebug"
-// end of [prerrf_ifdebug]
+prerrf_ifdebug
+  {ts:types}
+(
+  fmt: printf_c ts, arg: ts
+) : void = "patsopt_prerrf_ifdebug"
 //
 macdef
 filprerr_ifdebug (x) =
   prerrf_ifdebug (": [%s]: %s", @(#FILENAME, ,(x)))
-// end of [filprerr_ifdebug]
 //
 (* ****** ****** *)
 

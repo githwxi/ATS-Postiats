@@ -283,4 +283,37 @@ end // end of [tokbuf_discard_all]
 
 (* ****** ****** *)
 
+implement
+tokbuf_unget_token
+  (buf, tok) = let
+//
+prval () =
+  $DQ.lemma_deque_param (buf.tbuf)
+//
+val n = $DQ.deque_size (buf.tbuf)
+val m = $DQ.deque_cap {token} (buf.tbuf)
+//
+in
+//
+if(
+m > n
+) then (
+  $DQ.deque_insert_beg<token> (buf.tbuf, tok)
+) else let
+  val m2 = m + m
+(*
+  val () = println! ("tokbuf_get_token: m2 = ", m2)
+*)
+  val (pfgc2, pfarr2 | p2) = array_ptr_alloc<token> (m2)
+  val (pfgc1, pfarr1 | p1) =
+    $DQ.deque_update_capacity<token> (pfgc2, pfarr2 | buf.tbuf, m2, p2)
+  val () = array_ptr_free (pfgc1, pfarr1 | p1)
+in
+  $DQ.deque_insert_beg<token> (buf.tbuf, tok)
+end (* end of [if] *)
+//
+end // end of [tokbuf_unget_token]
+
+(* ****** ****** *)
+
 (* end of [pats_tokbuf.dats] *)

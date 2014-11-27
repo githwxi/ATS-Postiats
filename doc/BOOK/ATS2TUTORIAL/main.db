@@ -15,6 +15,8 @@
 <!ENTITY chap_filename SYSTEM "CHAP_FILENAME/main.db">
 <!ENTITY chap_fileincl SYSTEM "CHAP_FILEINCL/main.db">
 <!ENTITY chap_fixity SYSTEM "CHAP_FIXITY/main.db">
+<!ENTITY chap_staload SYSTEM "CHAP_STALOAD/main.db">
+<!ENTITY chap_dynload SYSTEM "CHAP_DYNLOAD/main.db">
 <!ENTITY chap_brktoverld SYSTEM "CHAP_BRKTOVERLD/main.db">
 <!ENTITY chap_dotoverld SYSTEM "CHAP_DOTOVERLD/main.db">
 <!ENTITY chap_exception SYSTEM "CHAP_EXCEPTION/main.db">
@@ -26,6 +28,7 @@
 <!ENTITY chap_tailrec SYSTEM "CHAP_TAILREC/main.db">
 <!ENTITY chap_hordfun SYSTEM "CHAP_HORDFUN/main.db">
 <!ENTITY chap_stream SYSTEM "CHAP_STREAM/main.db">
+<!ENTITY chap_extvar SYSTEM "CHAP_EXTVAR/main.db">
 <!ENTITY chap_cloptr SYSTEM "CHAP_CLOPTR/main.db">
 <!ENTITY chap_stream_vt SYSTEM "CHAP_STREAM_VT/main.db">
 ]>
@@ -50,6 +53,8 @@ To Jinning, Zoe, and Chloe
 &chap_filename;
 &chap_fileincl;
 &chap_fixity;
+&chap_staload;
+&chap_dynload;
 &chap_brktoverld;
 &chap_dotoverld;
 &chap_exception;
@@ -65,6 +70,7 @@ To Jinning, Zoe, and Chloe
 
 <part id="advanced_tutorial_topics">
 <title>Advanced Tutorial Topics</title>
+&chap_extvar;
 &chap_cloptr;
 &chap_stream_vt;
 </part><!--"advanced_tutorial_topics"-->

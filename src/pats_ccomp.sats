@@ -181,23 +181,23 @@ fun tmpvar_make_ret
 fun tmpvar_copy_err (tmp: tmpvar): tmpvar
 
 (* ****** ****** *)
-
+//
 fun tmpvar_get_loc (tmp: tmpvar): location
-
+//
 fun tmpvar_get_type (tmp: tmpvar): hisexp
-
+//
 fun tmpvar_isref (tmp: tmpvar): bool // tmpref?
 fun tmpvar_isret (tmp: tmpvar): bool // tmpret?
 fun tmpvar_iserr (tmp: tmpvar): bool // tmperr?
-
+//
 fun tmpvar_get_topknd
   (tmp: tmpvar): int // knd=0/1: local/(static)top
-
+//
 fun tmpvar_get_origin (tmp: tmpvar): tmpvaropt
 fun tmpvar_get_suffix (tmp: tmpvar): int
-
+//
 fun tmpvar_get_stamp (tmp: tmpvar): stamp // unicity
-
+//
 (* ****** ****** *)
 
 fun tmpvar_get_tailcal (tmp: tmpvar): int // if >= 2
@@ -544,6 +544,10 @@ primdec_node =
 //
   | PMDsaspdec of (s2aspdec)
 //
+  | PMDextvar of
+      (string(*name*), instrlst)
+    // end of [PMDextvar]
+//
   | PMDdatdecs of (s2cstlst)
   | PMDexndecs of (d2conlst)
 //
@@ -688,14 +692,23 @@ fun fprint_primdeclst : fprint_type (primdeclst)
 fun primdec_none (loc: location): primdec
 
 (* ****** ****** *)
+//
+fun primdec_list
+  (loc: location, pmds: primdeclst): primdec
+//
+(* ****** ****** *)
 
-fun primdec_list (loc: location, pmds: primdeclst): primdec
+fun
+primdec_saspdec
+  (loc: location, d2c: s2aspdec): primdec
+// end of [primdec_saspdec]
 
 (* ****** ****** *)
 
-fun primdec_saspdec
-  (loc: location, d2c: s2aspdec): primdec
-// end of [primdec_saspdec]
+fun
+primdec_extvar
+  (loc: location, name: string, inss: instrlst): primdec
+// end of [primdec_extvar]
 
 (* ****** ****** *)
 
@@ -709,16 +722,23 @@ fun primdec_exndecs
 
 (* ****** ****** *)
 
-fun primdec_fundecs (
-  loc: location, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+fun
+primdec_fundecs
+(
+  loc: location
+, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : primdec // end of [primdec_fundecs]
 
 (* ****** ****** *)
 
-fun primdec_valdecs (
+fun
+primdec_valdecs
+(
   loc: location, knd: valkind, hvds: hivaldeclst, inss: instrlst
 ) : primdec // end of [primdec_valdecs]
-fun primdec_valdecs_rec (
+fun
+primdec_valdecs_rec
+(
   loc: location, knd: valkind, hvds: hivaldeclst, inss: instrlst
 ) : primdec // end of [primdec_valdecs_rec]
 
@@ -1108,7 +1128,9 @@ instr_node =
       (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
   | INSfcall2 of // tail-recursive funcall // ntl: 0/1+ : fun/fnx
       (tmpvar, funlab, int(*ntl*), hisexp, primvalist(*arg*))
+//
   | INSextfcall of (tmpvar, string(*fun*), primvalist(*arg*))
+  | INSextmcall of (tmpvar, primval(*obj*), string(*mtd*), primvalist(*arg*))
 //    
   | INScond of ( // conditinal instruction
       primval(*test*), instrlst(*then*), instrlst(*else*)
@@ -1195,6 +1217,7 @@ instr_node =
 //
   | INStmpdec of (tmpvar) // HX-2013-01: this is a no-op
 //
+  | INSextvar of (string, primval) // HX-2013-05: extvar def
   | INSdcstdef of (d2cst, primval) // HX-2013-05: global const def
 //
 // end of [instr_node]
@@ -1270,12 +1293,22 @@ fun instr_fcall2
 , pmvs_arg: primvalist
 ) : instr // end of [instr_fcall2]
 
-fun instr_extfcall
+(* ****** ****** *)
+//
+fun
+instr_extfcall
 (
   loc: location
 , tmpret: tmpvar, _fun: string, _arg: primvalist
 ) : instr // end of [instr_extfcall]
-
+//
+fun
+instr_extmcall
+(
+  loc: location
+, tmpret: tmpvar, _obj: primval, _mtd: string, _arg: primvalist
+) : instr // end of [instr_extmcall]
+//
 (* ****** ****** *)
 
 fun instr_cond
@@ -1476,6 +1509,7 @@ fun instr_tmpdec (loc: location, tmp: tmpvar): instr
 
 (* ****** ****** *)
 
+fun instr_extvar (loc: location, xnm: string, pmv: primval): instr
 fun instr_dcstdef (loc: location, d2c: d2cst, pmv: primval): instr
 
 (* ****** ****** *)
@@ -1514,6 +1548,15 @@ fun instrseq_add_comment (res: !instrseq, comment: string): void
 //
 fun instrseq_add_tmpdec
   (res: !instrseq, loc: location, tmp: tmpvar): void
+//
+(* ****** ****** *)
+//
+fun
+instrseq_add_extvar
+(
+  res: !instrseq, loc: location, xnm: string, pmv: primval
+) : void // end-of-fun
+//
 fun instrseq_add_dcstdef
   (res: !instrseq, loc: location, d2c: d2cst, pmv: primval): void
 //
@@ -2091,7 +2134,9 @@ fun emit_instr : emit_instr_type
 //
 fun emit_instr_fcall : emit_instr_type
 fun emit_instr_fcall2 : emit_instr_type
+//
 fun emit_instr_extfcall : emit_instr_type
+fun emit_instr_extmcall : emit_instr_type
 //
 fun emit_instr_patck : emit_instr_type
 //

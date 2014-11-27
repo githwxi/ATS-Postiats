@@ -108,6 +108,34 @@ JNI_targetloc "$PATSHOMERELOC/contrib/JNI"
 //
 (* ****** ****** *)
 //
+#define
+GUROBI_targetloc "$PATSHOMERELOC/contrib/gurobi"
+//
+(* ****** ****** *)
+//
+#define
+KERNELATS_targetloc "$PATSHOMERELOC/contrib/kernelats"
+//
+(* ****** ****** *)
+//
+#define
+LIBATSCC_targetloc
+"$PATSHOMERELOC/contrib/libatscc"
+//
+#define
+LIBATSCC2PY_targetloc
+"$PATSHOMERELOC/contrib/libatscc/libatscc2py"
+//
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOMERELOC/contrib/libatscc/libatscc2js"
+//
+#define
+LIBATSCC2PHP_targetloc
+"$PATSHOMERELOC/contrib/libatscc/libatscc2php"
+//
+(* ****** ****** *)
+//
 // HX-2014-05-12:
 // This is for backward compatibility
 //
@@ -120,27 +148,6 @@ LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 LIBATS_HWXI_sourceloc "$ATSLANGWEBLIB/contrib/libats-/hwxi"
 #define
 LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
-//
-(* ****** ****** *)
-//
-#define
-GUROBI_targetloc "$PATSHOMERELOC/contrib/gurobi"
-//
-(* ****** ****** *)
-//
-#define
-KERNELATS_targetloc "$PATSHOMERELOC/contrib/kernelats"
-//
-(* ****** ****** *)
-//
-#define
-LIBATSCC2PY_targetloc "$PATSHOMERELOC/contrib/libatscc2py"
-//
-#define
-LIBATSCC2JS_targetloc "$PATSHOMERELOC/contrib/libatscc2js"
-//
-#define
-LIBATSCC2PHP_targetloc "$PATSHOMERELOC/contrib/libatscc2php"
 //
 (* ****** ****** *)
 

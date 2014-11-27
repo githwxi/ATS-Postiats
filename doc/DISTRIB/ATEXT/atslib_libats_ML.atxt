@@ -111,7 +111,14 @@ The ATSLIB/libats/ML library\
 #packfilename("SATS/matrix0.sats")
 #packfilename("SATS/string.sats")
 #packfilename("SATS/strarr.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/filebas.sats")
+#packfilename("SATS/intrange.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/stdlib.sats")
 #packfilename("SATS/funset.sats")
 #packfilename("SATS/funmap.sats")
@@ -139,6 +146,8 @@ The ATSLIB/libats/ML library\
 
 #packfilename("DATS/filebas.dats")
 #packfilename("DATS/filebas_dirent.dats")
+
+#packfilename("DATS/intrange.dats")
 
 #packfilename("DATS/stdlib.dats")
 

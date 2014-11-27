@@ -1290,7 +1290,7 @@ d0ecl_node =
 //
   | D0Cextype of (string, s0exp) // externally named types
   | D0Cextype of (int(*knd*), string, s0exp) // externally named structs
-  | D0Cextval of (string, d0exp) // externally named values
+  | D0Cextvar of (string, d0exp) // externally named left-values
 //
   | D0Cextcode of
       (int(*knd*), int(*pos*), string(*code*)) // external code
@@ -1359,10 +1359,14 @@ and d0exp_node =
 //
   | D0Ecstsp of cstsp // special constants
 //
-  | D0Eextval of (s0exp(*type*), string(*name*)) // external values
+  | D0Eextval of
+      (s0exp(*type*), string(*name*)) // external values
   | D0Eextfcall of
       (s0exp(*res*), string(*fun*), d0explst(*arg*)) // external fcalls
     // end of [D0Eextfcall]
+  | D0Eextmcall of
+      (s0exp(*res*), d0exp, string(*method*), d0explst(*arg*)) // external mcalls
+    // end of [D0Eextmcall]
 //
   | D0Efoldat of d0explst (* folding at a given address *)
   | D0Efreeat of d0explst (* freeing at a given address *)
@@ -1631,17 +1635,27 @@ fun d0exp_MYLOC (tok: token): d0exp
 fun d0exp_MYFUN (tok: token): d0exp
 
 (* ****** ****** *)
-
+//
 fun d0exp_extval
 (
-  t_beg: token, _type: s0exp, name: token, t_end: token
+  t_beg: token
+, _type: s0exp, name: token
+, t_end: token
 ) : d0exp // end of [d0exp_extval]
-
+//
 fun d0exp_extfcall
 (
-  t_beg: token, _type: s0exp, _fun: token, _arg: d0explst, t_end: token
+  t_beg: token
+, _type: s0exp, _fun: token, _arg: d0explst
+, t_end: token
 ) : d0exp // end of [d0exp_extfcall]
-
+fun d0exp_extmcall
+(
+  t_beg: token
+, _type: s0exp, _obj: d0exp, _mtd: token, _arg: d0explst
+, t_end: token
+) : d0exp // end of [d0exp_extmcall]
+//
 (* ****** ****** *)
 
 fun d0exp_label_int (t_dot: token, lab: token): d0exp
@@ -2000,28 +2014,45 @@ fun d0ecl_sexpdefs (knd: int, _1: token, _2: s0expdeflst): d0ecl
 fun d0ecl_saspdec (_1: token, _2: s0aspdec): d0ecl
 //
 fun d0ecl_exndecs (_1: token, _2: e0xndeclst): d0ecl
-fun d0ecl_datdecs_none (
-  knd: int, t1: token, ds_dec: d0atdeclst
-) : d0ecl // end of [d0ecl_datdecs_none]
-fun d0ecl_datdecs_some (
-  knd: int, t1: token, ds_dec: d0atdeclst, t2: token, ds_def: s0expdeflst
+//
+fun
+d0ecl_datdecs_none
+(
+  knd: int, tok: token, ds_dec: d0atdeclst
+) : d0ecl // end-of-fun
+fun
+d0ecl_datdecs_some
+(
+  knd: int
+, t1: token, ds_dec: d0atdeclst, t2: token, ds_def: s0expdeflst
 ) : d0ecl // end of [d0ecl_datdecs_some]
 //
-fun d0ecl_macdefs (
+fun
+d0ecl_macdefs
+(
   knd: int, isrec: bool, t: token, defs: m0acdeflst
 ) : d0ecl // end of [d0ecl_macdefs]
 //
-fun d0ecl_overload
-  (t: token, id: i0de, dqid: dqi0de, opt: i0ntopt): d0ecl
-fun d0ecl_classdec (t: token, id: i0de, sup: s0expopt): d0ecl
+fun
+d0ecl_overload
+(
+  tok: token, id: i0de, dqid: dqi0de, opt: i0ntopt
+) : d0ecl // end-of-fun
+//
+fun d0ecl_classdec
+  (t: token, id: i0de, sup: s0expopt): d0ecl
 //
 fun d0ecl_extype
   (tok: token, name: s0tring, s0e: s0exp): d0ecl
 fun d0ecl_extype2
   (tok: token, name: s0tring, s0e: s0exp): d0ecl
-fun d0ecl_extval
+//
+fun d0ecl_extvar
   (tok: token, name: s0tring, d0e: d0exp): d0ecl
-fun d0ecl_extcode (knd: int, tok: token): d0ecl
+fun d0ecl_extvar2
+  (tok: token, name: s0tring, d0e: d0exp): d0ecl
+//
+fun d0ecl_extcode (knd: int, tok(*string*): token): d0ecl
 //
 fun d0ecl_impdec
   (t_implement: token, imparg: i0mparg, d: i0mpdec): d0ecl

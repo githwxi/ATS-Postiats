@@ -528,10 +528,26 @@ case+ d0e0.d0exp_node of
     FXITMatm (
     d1exp_extval (loc0, s0exp_tr (s0e), name)
   ) // end of [D0Eextval]
-| D0Eextfcall (s0e, _fun, _arg) =>
+//
+| D0Eextfcall
+    (s0e, _fun, _arg) => let
+    val s1e = s0exp_tr (s0e)
+    val _arg = d0explst_tr (_arg)
+  in
     FXITMatm (
-    d1exp_extfcall (loc0, s0exp_tr (s0e), _fun, d0explst_tr (_arg))
-  ) // end of [D0Eextfcall]
+      d1exp_extfcall (loc0, s1e, _fun, _arg)
+    ) (* end of [FXITMatm] *)
+  end // end of [D0Eextfcall]
+| D0Eextmcall
+    (s0e, _obj, _mtd, _arg) => let
+    val s1e = s0exp_tr (s0e)
+    val _obj = d0exp_tr (_obj)
+    val _arg = d0explst_tr (_arg)
+  in
+    FXITMatm (
+      d1exp_extmcall (loc0, s1e, _obj, _mtd, _arg)
+    ) (* end of [FXITMatm] *)
+  end // end of [D0Eextmcall]
 //
 (*
 | D0Elabel lab => d1exp_label (loc0, lab)

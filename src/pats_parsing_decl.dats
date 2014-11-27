@@ -1575,11 +1575,9 @@ d0ec_dyn
 //
   | IMPLEMENT i0mpargseq i0mpdec
 //
+  | EXTERN VAR LITERAL_string EQ d0exp
   | EXTERN TYPEDEF s0tring EQ s0exp
   | EXTERN dcstkind q0margseq d0cstdecseq
-/*
-  | EXTERN VAL LITERAL_string EQ d0exp
-*/
   | LITERAL_extcode
   | SRPINCLUDE LITERAL_string
   | DYNLOAD LITERAL_string
@@ -1650,7 +1648,11 @@ case+ tok.token_node of
     if err = err0
       then d0ecl_impdec (tok, ent2, ent3) else synent_null ()
     // (* end of [if] *)
-  end
+  end // end of [T_IMPLEMENT]
+//
+| T_EXTCODE _ => let
+    val () = incby1 () in d0ecl_extcode (1(*dyn*), tok)
+  end // end of [T_EXTCODE]
 //
 | T_EXTERN () => let
     val bt = 0
@@ -1673,13 +1675,27 @@ case+ tok.token_node of
         // end of [if]
       end // end of [...]
 //
-    | T_TYPEDEF _ => let
+    | T_VAR _ => let
         val () = incby1 ()
-        val+~SYNENT3 (ent1, ent2, ent3) =
-          pseq3_fun {s0tring,token,s0exp} (buf, bt, err, p_s0tring, p_EQ, p_s0exp)
+        val+~SYNENT3(ent1, ent2, ent3) =
+          pseq3_fun{s0tring,token,d0exp}
+            (buf, bt, err, p_s0tring, p_EQ, p_d0exp)
         // end of [val]
       in
-        if err = err0 then d0ecl_extype2 (tok2, ent1, ent3) else synent_null ()
+        if err = err0
+          then d0ecl_extvar2 (tok2, ent1, ent3) else synent_null ()
+        // end of [if]
+      end // end of [T_VAR]
+    | T_TYPEDEF _ => let
+        val () = incby1 ()
+        val+~SYNENT3(ent1, ent2, ent3) =
+          pseq3_fun{s0tring,token,s0exp}
+            (buf, bt, err, p_s0tring, p_EQ, p_s0exp)
+        // end of [val]
+      in
+        if err = err0
+          then d0ecl_extype2 (tok2, ent1, ent3) else synent_null ()
+        // end of [if]
       end // end of [T_TYPEDEF]
 //
     | _ => let
@@ -1691,24 +1707,26 @@ case+ tok.token_node of
 | T_EXTYPE () => let
     val () = incby1 ()
     val+~SYNENT3(ent1, ent2, ent3) =
-      pseq3_fun{s0tring,token,s0exp}(buf, bt, err, p_s0tring, p_EQ, p_s0exp)
+      pseq3_fun{s0tring,token,s0exp}
+        (buf, bt, err, p_s0tring, p_EQ, p_s0exp)
     // end of [val]
   in
-    if err = err0 then d0ecl_extype (tok, ent1, ent3) else synent_null ()
+    if err = err0
+      then d0ecl_extype (tok, ent1, ent3) else synent_null ()
+    // end of [if]
    end // end of [T_EXTYPE]
 //
-| T_EXTVAL () => let
+| T_EXTVAR () => let
     val () = incby1 ()
     val+~SYNENT3(ent1, ent2, ent3) =
-      pseq3_fun{s0tring,token,d0exp}(buf, bt, err, p_s0tring, p_EQ, p_d0exp)
+      pseq3_fun{s0tring,token,d0exp}
+        (buf, bt, err, p_s0tring, p_EQ, p_d0exp)
     // end of [val]
   in
-    if err = err0 then d0ecl_extval (tok, ent1, ent3) else synent_null ()
-  end // end of [T_EXTVAL]
-//
-| T_EXTCODE _ => let
-    val () = incby1 () in d0ecl_extcode (1(*dyn*), tok)
-  end // end of [T_EXTCODE]
+    if err = err0
+      then d0ecl_extvar (tok, ent1, ent3) else synent_null ()
+    // end of [if]
+  end // end of [T_EXTVAR]
 //
 | T_DYNLOAD () => let
     val bt = 0

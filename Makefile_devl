@@ -22,6 +22,7 @@
 ######
 
 CPF=cp -f
+MAKE=make
 
 ######
 #
@@ -33,29 +34,32 @@ all:: atslib_update
 ######
 #
 src_depend: ; touch src/.depend
-src_cleanall: ; make -C src cleanall
+src_cleanall: ; $(MAKE) -C src cleanall
 #
-bin_patscc: src_patscc ; $(CPF) utils/atscc/patscc bin/patscc
-src_patscc: bin_patsopt ; make -C utils/atscc -f Makefile all
+bin_patscc: \
+src_patscc; $(CPF) utils/atscc/patscc bin/patscc
 #
-bin_patsopt: src_patsopt ; $(CPF) src/patsopt bin/patsopt
-src_patsopt: src_depend src_cleanall ; make -C src -f Makefile all
+src_patscc:: ; $(MAKE) -f codegen/Makefile_atslib
+src_patscc:: bin_patsopt ; $(MAKE) -C utils/atscc -f Makefile all
+#
+bin_patsopt: \
+src_patsopt; $(CPF) src/patsopt bin/patsopt
+src_patsopt: src_depend src_cleanall ; $(MAKE) -C src -f Makefile all
 #
 ######
 #
-atslib_update:: ; make -f codegen/Makefile_atslib
-atslib_update:: ; make -C ccomp/atslib -f Makefile
+atslib_update:: ; $(MAKE) -C ccomp/atslib -f Makefile
 #
 ######
 #
 bin_atspkgreloc:: \
 src_atspkgreloc_curl ; \
 $(CPF) utils/atspkgreloc/atspkgreloc_curl bin/atspkgreloc_curl
-src_atspkgreloc_curl : ; make -C utils/atspkgreloc atspkgreloc_curl
+src_atspkgreloc_curl : ; $(MAKE) -C utils/atspkgreloc atspkgreloc_curl
 #
 bin_atspkgreloc:: \
 src_atspkgreloc_wget ; \
 $(CPF) utils/atspkgreloc/atspkgreloc_wget bin/atspkgreloc_wget
-src_atspkgreloc_wget : ; make -C utils/atspkgreloc atspkgreloc_wget
+src_atspkgreloc_wget : ; $(MAKE) -C utils/atspkgreloc atspkgreloc_wget
 #
 ###### end of [Makefile_devl] ######

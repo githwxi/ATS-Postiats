@@ -999,7 +999,8 @@ do_trans1234
 ) : hideclist // end-of-function
 //
 extern
-fun do_transfinal
+fun
+do_transfinal
   (state: &cmdstate, given: string, d0cs: d0eclist): void
 //
 (* ****** ****** *)
@@ -1191,6 +1192,10 @@ case+ arglst of
 //
         val () = state.infil := $FIL.filename_stdin
 //
+        val () =
+        if stadyn >= 1
+          then $GLOB.the_DYNLOADFLAG_set (1)
+        // end of [if]
         val d0cs = parse_from_stdin_toplevel (stadyn)
 //
         var istrans: bool = true
@@ -1231,7 +1236,8 @@ case+ arg of
 //
 // HX: the [inpwait] state stays unchanged
 //
-    val stadyn = waitkind_get_stadyn (state.waitkind)
+    val stadyn =
+      waitkind_get_stadyn (state.waitkind)
     val nif = state.ninpfile
   in
     case+ arg of
@@ -1246,7 +1252,13 @@ case+ arg of
         val () = state.ninpfile := state.ninpfile + 1
         val () = prelude_load_if (PATSHOME, state.preludeflag)
 //
-        val d0cs = parse_from_givename_toplevel (stadyn, given, state.infil)
+        val () =
+        if stadyn >= 1
+          then $GLOB.the_DYNLOADFLAG_set (1)
+        // end of [if]
+        val d0cs =
+          parse_from_givename_toplevel (stadyn, given, state.infil)
+        // end of [val]
 //
         var istrans: bool = true
         val isdepgen = state.depgen > 0

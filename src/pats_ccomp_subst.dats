@@ -1080,6 +1080,13 @@ case+
 //
 | PMDsaspdec _ => pmd0
 //
+| PMDextvar
+    (name, inss) => let
+    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+  in
+    primdec_extvar (loc0, name, inss)
+  end // end of [PMDextvar]
+//
 | PMDdatdecs _ => pmd0
 | PMDexndecs _ => pmd0
 //
@@ -1295,12 +1302,21 @@ case+
   end // end of [INSfcall2]
 //
 | INSextfcall
-    (tmp, fnm, args) => let
+    (tmp, _fun, _arg) => let
     val tmp = ftmp (tmp)
-    val args = fpmvlst (args)
+    val _arg = fpmvlst (_arg)
   in
-    instr_extfcall (loc0, tmp, fnm, args)
+    instr_extfcall (loc0, tmp, _fun, _arg)
   end // end of [INSextfcall]
+//
+| INSextmcall
+    (tmp, _obj, _mtd, _arg) => let
+    val tmp = ftmp (tmp)
+    val _obj = fpmv (_obj)
+    val _arg = fpmvlst (_arg)
+  in
+    instr_extmcall (loc0, tmp, _obj, _mtd, _arg)
+  end // end of [INSextmcall]
 //
 | INScond
   (

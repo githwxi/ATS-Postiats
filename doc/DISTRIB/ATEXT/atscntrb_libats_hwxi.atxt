@@ -105,6 +105,8 @@ ATSCNTRB/libats-/hwxi\
 #packfilename("globals/HATS/globvar.hats")
 #packfilename("globals/HATS/gstacklst.hats")
 #packfilename("globals/HATS/gdeqarray.hats")
+#packfilename("globals/HATS/ghashtbl_chain.hats")
+#packfilename("globals/HATS/ghashtbl_linprb.hats")
 
 (* ****** ****** *)
 
@@ -124,6 +126,7 @@ ATSCNTRB/libats-/hwxi\
 (* ****** ****** *)
 
 #packfilename("cstream/SATS/cstream.sats")
+#packfilename("cstream/DATS/cstream.dats")
 #packfilename("cstream/DATS/cstream_fun.dats")
 #packfilename("cstream/DATS/cstream_cloref.dats")
 #packfilename("cstream/DATS/cstream_string.dats")

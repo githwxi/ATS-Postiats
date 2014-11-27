@@ -379,6 +379,17 @@ cleanall:: ; $(RMF) HTML/atscntrb_libats_hwxi_teaching.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libats_hwxi_teaching.bash
 
 #
+all_html:: HTML/atscntrb_libatscc.html
+HTML/atscntrb_libatscc.html: atscntrb_libatscc_atxt.exe ; ./$< > $@
+all_script:: SCRIPT/atscntrb_libatscc.bash
+SCRIPT/atscntrb_libatscc.bash: atscntrb_libatscc_atxt.exe ; ./$< > $@
+atscntrb_libatscc_atxt.dats: ATEXT/atscntrb_libatscc.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb_libatscc_atxt.exe: atscntrb_libatscc_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb_libatscc_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb_libatscc.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb_libatscc.bash
+
+#
 all_html:: HTML/atscntrb_kernelats.html
 HTML/atscntrb_kernelats.html: atscntrb_kernelats_atxt.exe ; ./$< > $@
 all_script:: SCRIPT/atscntrb_kernelats.bash
@@ -388,17 +399,6 @@ atscntrb_kernelats_atxt.exe: atscntrb_kernelats_atxt.dats ; $(ATSCC) $(INCLATS) 
 clean:: ; $(RMF) atscntrb_kernelats_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_kernelats.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_kernelats.bash
-
-#
-all_html:: HTML/atscntrb_libatscc2py.html
-HTML/atscntrb_libatscc2py.html: atscntrb_libatscc2py_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/atscntrb_libatscc2py.bash
-SCRIPT/atscntrb_libatscc2py.bash: atscntrb_libatscc2py_atxt.exe ; ./$< > $@
-atscntrb_libatscc2py_atxt.dats: ATEXT/atscntrb_libatscc2py.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_libatscc2py_atxt.exe: atscntrb_libatscc2py_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_libatscc2py_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_libatscc2py.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_libatscc2py.bash
 
 #
 ######
@@ -567,8 +567,8 @@ srcget_atscntrb_kernelats:: SCRIPT/atscntrb_kernelats.bash ; bash $<
 
 ######
 
-srcget_atscntrb:: srcget_atscntrb_libatscc2py
-srcget_atscntrb_libatscc2py:: SCRIPT/atscntrb_libatscc2py.bash ; bash $<
+srcget_atscntrb:: srcget_atscntrb_libatscc
+srcget_atscntrb_libatscc:: SCRIPT/atscntrb_libatscc.bash ; bash $<
 
 ######
 

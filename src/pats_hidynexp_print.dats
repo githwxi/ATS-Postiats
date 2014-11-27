@@ -308,6 +308,15 @@ case+
     val () = prstr ")"
   }
 //
+| HDEcastfn
+    (d2c, arg) => {
+    val () = prstr "HDEcastfn("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr ", "
+    val () = fprint_hidexp (out, arg)
+    val () = prstr ")"
+  }
+//
 | HDEextval (name) =>
   {
     val () = prstr "HDEextval("
@@ -316,6 +325,7 @@ case+
     val () = prstr "\""
     val () = prstr ")"
   }
+//
 | HDEextfcall
     (_fun, _arg) =>
   {
@@ -327,12 +337,17 @@ case+
     val () = fprint_hidexplst (out, _arg)
     val () = prstr ")"
   }
-//
-| HDEcastfn (d2c, arg) => {
-    val () = prstr "HDEcastfn("
-    val () = fprint_d2cst (out, d2c)
-    val () = prstr ", "
-    val () = fprint_hidexp (out, arg)
+| HDEextmcall
+    (_obj, _mtd, _arg) =>
+  {
+    val () = prstr "HDEextmcall("
+    val () = fprint_hidexp (out, _obj)
+    val () = prstr "; "
+    val () = prstr "\""
+    val () = fprint_string (out, _mtd)
+    val () = prstr "\""
+    val () = prstr "; "
+    val () = fprint_hidexplst (out, _arg)
     val () = prstr ")"
   }
 //

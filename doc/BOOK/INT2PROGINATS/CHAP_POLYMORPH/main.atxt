@@ -285,9 +285,9 @@ While this could be intended, it is very unlikely.\
 Given the potential confusion, why do we need both function templates and
 polymorphic functions?  At this stage, it is certainly plausible that we
 program only with function templates and make no use of polymorphic
-functions. However, polymorphic functions can hardly be missed in the
-presence dependent types. There will actually be numerous occasions where
-we encounter polymorphic function templates, that is, templates for
+functions. However, polymorphic functions simply become indispensible in
+the presence dependent types. There will actually be numerous occasions
+where we encounter polymorphic function templates, that is, templates for
 polymorphic functions.\
 
 ")#comment("para")

@@ -527,7 +527,14 @@ case+
     val _arg = d3explst_tyer (_arg)
   in
     hidexp_extfcall (loc0, hse0, _fun, _arg)
-  end // end of [D3Eextfcal]
+  end // end of [D3Eextfcall]
+| D3Eextmcall
+    (_obj, _mtd, _arg) => let
+    val _obj = d3exp_tyer (_obj)
+    val _arg = d3explst_tyer (_arg)
+  in
+    hidexp_extmcall (loc0, hse0, _obj, _mtd, _arg)
+  end // end of [D3Eextmcall]
 //
 | D3Econ (d2c, npf, d3es) => let
     val lhdes =
@@ -900,14 +907,14 @@ case+
 //
 | D3Eerrexp ((*void*)) => hidexp_errexp (loc0, hse0)
 //
-| _ => let
-    val () = println! ("d3exp_tyer: loc0 = ", loc0)
-    val () = println! ("d3exp_tyer: d3e0 = ", d3e0)
+| _(*unspported*) => let
+    val () = prerr_interror_loc(loc0)
+    val () = prerrln! ("d3exp_tyer: d3e0 = ", d3e0)
   in
     exitloc (1)
-  end // end of [_]
+  end // end of [_(*unsupported*)]
 //
-end // endof [d3exp_tyer]
+end // end of [let] // end of [d3exp_tyer]
 
 (* ****** ****** *)
 

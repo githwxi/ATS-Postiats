@@ -182,8 +182,13 @@ ATSloop_close(init, fini, cont) \
 //
 /* ****** ****** */
 
-#define ATSfuncall(fun_id, fun_arg) (fun_id)fun_arg
+#define ATSfuncall(fun, funarg) (fun)funarg
 
+/* ****** ****** */
+//
+#define ATSextfcall(fun, funarg) (fun)funarg
+#define ATSextmcall(obj, mtd, funarg) (obj->mtd)funarg
+//
 /* ****** ****** */
 //
 #define \
@@ -342,6 +347,11 @@ ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))
 #define ATSINSupdate_ptrinc(tmp, tyelt) (tmp = (tyelt*)(tmp) + 1)
 #define ATSINSupdate_ptrdec(tmp, tyelt) (tmp = (tyelt*)(tmp) - 1)
 //
+/* ****** ****** */
+
+#define ATSINSextvar_assign(var, pmv) var = (pmv)
+#define ATSINSdyncst_valbind(d2c, pmv) d2c = (pmv)
+
 /* ****** ****** */
 
 #define ATSINSclosure_initize(flab, tmpenv) (flab##__closureinit)tmpenv

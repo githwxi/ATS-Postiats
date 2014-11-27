@@ -246,26 +246,12 @@ doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/Makefile
-doc/DISTRIB/ATS2-Postiats-0.0.1
-doc/DISTRIB/ATS2-Postiats-0.0.2
-doc/DISTRIB/ATS2-Postiats-0.0.3
-doc/DISTRIB/ATS2-Postiats-0.0.4
-doc/DISTRIB/ATS2-Postiats-0.0.5
-doc/DISTRIB/ATS2-Postiats-0.0.6
-doc/DISTRIB/ATS2-Postiats-0.0.7
 #
 # ATSHOME/doc/DISTRIB/ATS-Postiats-contrib
 #
 doc/DISTRIB/ATS-Postiats-contrib/contrib/*
 doc/DISTRIB/ATS-Postiats-contrib/document/*
-doc/DISTRIB/ATS-Postiats-contrib/project/*
-doc/DISTRIB/ATS2-Postiats-contrib-0.0.1
-doc/DISTRIB/ATS2-Postiats-contrib-0.0.2
-doc/DISTRIB/ATS2-Postiats-contrib-0.0.3
-doc/DISTRIB/ATS2-Postiats-contrib-0.0.4
-doc/DISTRIB/ATS2-Postiats-contrib-0.0.5
-doc/DISTRIB/ATS2-Postiats-contrib-0.0.6
-doc/DISTRIB/ATS2-Postiats-contrib-0.0.7
+doc/DISTRIB/ATS-Postiats-contrib/projects/*
 #
 # ATSHOME/doc/DISTRIB/ATS-Postiats-include
 #

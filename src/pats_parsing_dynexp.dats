@@ -837,6 +837,31 @@ case+ tok.token_node of
     end (* end of [if] *)
   end // end of [T_DLREXTFCALL]
 //
+| T_DLREXTMCALL () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_s0exp, err0)
+    val ent4 = pif_fun (buf, bt, err, p_COMMA, err0)
+    val ent5 = pif_fun (buf, bt, err, p_d0exp, err0)
+    val ent6 = pif_fun (buf, bt, err, p_COMMA, err0)
+    val ent7 = pif_fun (buf, bt, err, p_s0tring, err0)
+    val ent8 = pstar_COMMA_fun {d0exp} (buf, bt, p_d0exp)
+    val ent9 = pif_fun (buf, bt, err, p_RPAREN, err0)
+    val okay = (if err = err0 then true else false): bool
+  in
+    if okay
+      then let
+        val ent8 = (l2l)ent8
+      in
+        d0exp_extmcall (tok, ent3, ent5, ent7, ent8, ent9)
+      end // end of [then]
+      else let // HX: err > err0
+        val () = list_vt_free (ent8) in synent_null ((*void*))
+      end // end of [else]
+    // end of [if]
+  end // end of [T_DLREXTMCALL]
+//
 | T_LPAREN () => let
     val () = incby1 ()
     val d0e =
