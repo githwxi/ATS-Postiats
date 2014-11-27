@@ -60,6 +60,14 @@ unsigned short int sp_family_t; // socket protocol family
 atslib_connect_err(fd, sa, len) \\
   connect(fd, (const struct sockaddr*)sa, len)
 //
+extern
+void
+atslib_connect_exn
+(
+  int sockfd
+, atstype_ptr addr, socklen_t addrlen
+); // end of [atslib_connect_exn]
+//
 #atscode_separator_for_C()
 //
 \#define \\
@@ -92,6 +100,10 @@ atslib_accept_err(fd, sa, len) \\
 \#define \\
 atslib_accept_null_err(fd) atslib_accept_err(fd, 0, 0)
 //
+#atscode_separator_for_C()
+
+\#define atslib_shutdown(fd, how) shutdown(fd, how)
+
 #atscode_separator_for_C()
 
 \#define \\
