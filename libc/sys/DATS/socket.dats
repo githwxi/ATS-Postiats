@@ -108,6 +108,24 @@ atslib_listen_exn
 %{
 ATSextern()
 atsvoid_t0ype
+atslib_connect_exn
+(
+  atstype_int fd
+, atstype_ptr addr, socklen_t addrlen
+) {
+  int
+  err;
+  err = connect(fd, addr, addrlen);
+  if(0 > err) ATSLIBfailexit("connect") ; // HX: failure
+  return;
+} // end of [atslib_connect_exn]
+%} // end of [%{]
+
+(* ****** ****** *)
+
+%{
+ATSextern()
+atsvoid_t0ype
 atslib_socket_close_exn
 (
   atstype_int fd
