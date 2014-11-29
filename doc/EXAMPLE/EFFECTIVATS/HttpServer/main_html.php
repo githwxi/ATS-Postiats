@@ -353,6 +353,16 @@ the server. Please click the link
 to test after the server is started running locally.
 </p>
 
+<h2>
+A side note
+</h2>
+
+<p>
+For someone interested in <a href="http://www.zeromq.org">ZMQ</a>,
+please find in the file <u>myserver2.dats</u> a ZMQ-based implementation
+of a http-server that is essentially equivalent to the one given above.
+</p>
+
 <hr size="2">
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.

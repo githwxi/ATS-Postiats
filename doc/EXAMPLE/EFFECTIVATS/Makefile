@@ -202,6 +202,7 @@ upload_HttpServer:: ; \
   scp \
   HttpServer/Makefile \
   HttpServer/myserver.dats \
+  HttpServer/myserver2.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/HttpServer
 
 ######

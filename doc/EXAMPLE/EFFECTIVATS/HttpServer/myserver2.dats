@@ -5,7 +5,7 @@
 
 (* ****** ****** *)
 //
-// Author: HX-2014-11-26
+// Author: HX-2014-11-29
 //
 (* ****** ****** *)
 //
@@ -160,7 +160,7 @@ Content-type: text/html\r\n\r\n\
 </head>
 <body>
 <h1>
-Hello from myserver!
+Hello from myserver2!
 </h1>
 <pre>
 %s
@@ -219,7 +219,6 @@ zframe_send0_val (handle, router, ZFRAME_MORE)
 //
 val (fpf | router2) = zsock_get_socket (router)
 val err = $extfcall (int, "zmq_send", ptrcast(router2), NULL, 0, 0)
-val ((*void*)) = assertloc (err >= 0)
 prval ((*void*)) = minus_addback (fpf, router2 | router)
 //
 prval () = $UN.cast2void(router)
@@ -252,4 +251,4 @@ end // end of [myserver_process_request]
 
 (* ****** ****** *)
 
-(* end of [myserver.dats] *)
+(* end of [myserver2.dats] *)

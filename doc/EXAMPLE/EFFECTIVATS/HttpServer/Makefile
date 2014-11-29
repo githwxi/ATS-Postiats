@@ -18,6 +18,7 @@ all:: \
 myserver
 myserver: \
 myserver.dats; $(PATSCC) -o $@ $< -L$(PATSLIB) -latslib
+cleanall:: ; $(RMF) myserver
 
 ######
 
@@ -52,7 +53,6 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) myserver
 cleanall:: ; $(RMF) main.html
 
 ######
