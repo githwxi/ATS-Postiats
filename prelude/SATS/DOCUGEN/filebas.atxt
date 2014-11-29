@@ -22,9 +22,9 @@ ATSLIB/prelude/filebas\
 #declpreamble('\
 #para("\
 
-The functions declared in this package are mostly provided for the sake of
-convenience.  For full-fledged IO support, please see
-[ATSLIB/libc/SATS/stdio.sats].
+The functions declared in this package are mostly provided
+for the sake of convenience.  For full-fledged IO support,
+please see [ATSLIB/libc/SATS/stdio.sats].\
 
 ") ')#comment("declpreamble")
 

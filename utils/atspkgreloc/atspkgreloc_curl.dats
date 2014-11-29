@@ -47,6 +47,8 @@ UN = "prelude/SATS/unsafe.sats"
 
 staload
 STDLIB = "libc/SATS/stdlib.sats"
+staload
+STRING = "libc/SATS/string.sats"
 
 (* ****** ****** *)
 //
