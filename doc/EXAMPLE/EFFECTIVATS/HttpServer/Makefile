@@ -22,6 +22,14 @@ myserver.dats; $(PATSCC) -o $@ $< -L$(PATSLIB) -latslib
 ######
 
 all:: \
+myserver2
+myserver2: myserver2.dats ; \
+  $(PATSCC) -D_GNU_SOURCE -I${PATSHOME}/contrib -o $@ $< -lczmq -lzmq
+cleanall:: ; $(RMF) myserver2
+
+######
+
+all:: \
 main.html
 main.html: main_html.php; $(PHP) -f $< > $@
 
