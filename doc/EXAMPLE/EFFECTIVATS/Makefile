@@ -43,6 +43,10 @@ Producer-Consumer
 Producer-Consumer:: ; make -C Producer-Consumer all
 
 all:: \
+Readers-and-Writers
+Readers-and-Writers:: ; make -C Readers-and-Writers all
+
+all:: \
 IPC-redis
 IPC-redis:: ; make -C IPC-redis all
 
@@ -70,6 +74,7 @@ cleanall:: ; make -C word-counting cleanall
 cleanall:: ; make -C DiningPhil cleanall
 cleanall:: ; make -C DiningPhil2 cleanall
 cleanall:: ; make -C Producer-Consumer cleanall
+cleanall:: ; make -C Readers-and-Writers cleanall
 cleanall:: ; make -C IPC-redis cleanall
 cleanall:: ; make -C HttpServer cleanall
 cleanall:: ; make -C sorting-linear-lists cleanall
@@ -87,6 +92,7 @@ uploadall::upload_word-counting
 uploadall::upload_DiningPhil
 uploadall::upload_DiningPhil2
 uploadall::upload_Producer-Consumer
+uploadall::upload_Readers-and-Writers
 uploadall::upload_IPC-redis
 uploadall::upload_HttpServer
 uploadall::upload_sorting-linear-lists

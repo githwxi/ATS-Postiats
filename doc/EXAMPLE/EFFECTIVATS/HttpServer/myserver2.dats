@@ -210,16 +210,17 @@ $extfcall
 (
   int
 , "zstr_sendf"
-, ptrcast(router)
+, dataget(router)
 , theRespFmt, $UN.castvwtp1{charptr}(req2), tmstr
 ) (* end of [val] *)
 val () = zstr_free_val (req2)
 val err =
 zframe_send0_val (handle, router, ZFRAME_MORE)
 //
-val (fpf | router2) = zsock_get_socket (router)
-val err = $extfcall (int, "zmq_send", ptrcast(router2), NULL, 0, 0)
-prval ((*void*)) = minus_addback (fpf, router2 | router)
+val fpfx =
+  zsock_get_socket (router)
+val err = zmq_send_null (fpfx.1)
+prval ((*void*)) = minus_addback (fpfx.0, fpfx.1 | router)
 //
 prval () = $UN.cast2void(router)
 //
