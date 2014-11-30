@@ -85,6 +85,9 @@ prelude/SATS/CODEGEN/*_atxt.dats
 prelude/DATS/CODEGEN/*.dats
 prelude/DATS/CODEGEN/*_atxt.txt
 prelude/DATS/CODEGEN/*_atxt.dats
+prelude/DATS/SHARE/CODEGEN/*.dats
+prelude/DATS/SHARE/CODEGEN/*_atxt.txt
+prelude/DATS/SHARE/CODEGEN/*_atxt.dats
 prelude/CATS/CODEGEN/*.cats
 prelude/CATS/CODEGEN/*_atxt.txt
 prelude/CATS/CODEGEN/*_atxt.dats

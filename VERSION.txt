@@ -22,7 +22,8 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Improving ATS2-contrib/zeromq
+1. Reorganizing ATSLIB/prelude
+2. Improving ATS2-contrib/zeromq
 
 ######
 

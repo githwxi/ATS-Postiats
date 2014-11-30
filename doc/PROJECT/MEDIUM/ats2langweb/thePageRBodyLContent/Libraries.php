@@ -206,14 +206,6 @@ is also referred to as <u>ATSLIB/prelude</u>.
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/list_vt.dats">DATS/list_vt</a>
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/list_vt_dats.html">html</a>)
 </li>
-<li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/list_vt_quicksort.dats">DATS/list_vt_quicksort</a>
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/list_vt_quicksort_dats.html">html</a>)
-</li>
-<li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/list_vt_mergesort.dats">DATS/list_vt_mergesort</a>
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/list_vt_mergesort_dats.html">html</a>)
-</li>
 
 <li>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/stream.dats">DATS/stream</a>
@@ -227,14 +219,6 @@ is also referred to as <u>ATSLIB/prelude</u>.
 <li>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/array.dats">DATS/array</a>
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/array_dats.html">html</a>)
-</li>
-<li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/array_bsearch.dats">DATS/array_bsearch</a>
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/array_bsearch_dats.html">html</a>)
-</li>
-<li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/array_quicksort.dats">DATS/array_quicksort</a>
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/array_quicksort_dats.html">html</a>)
 </li>
 <li>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/arrayptr.dats">DATS/arrayptr</a>

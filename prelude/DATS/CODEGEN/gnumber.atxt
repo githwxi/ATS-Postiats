@@ -32,9 +32,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-\#include "prelude/DATS/gnumber_int.dats"
-\#include "prelude/DATS/gnumber_uint.dats"
-\#include "prelude/DATS/gnumber_float.dats"
+\#include "./SHARE/gnumber_int.dats"
+\#include "./SHARE/gnumber_uint.dats"
+
+#atscode_separator()
+
+\#include "./SHARE/gnumber_float.dats"
 
 #atscode_separator()
 

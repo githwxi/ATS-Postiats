@@ -1101,6 +1101,11 @@ end // end of [array_permute]
 
 #atscode_separator()
 
+\#include "./SHARE/array_bsearch.dats"
+\#include "./SHARE/array_quicksort.dats"
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

@@ -67,10 +67,7 @@ staload _ = "{$PATSPRE}/DATS/gnumber.dats"
 (* ****** ****** *)
 //
 staload _ = "{$PATSPRE}/DATS/list.dats"
-//
 staload _ = "{$PATSPRE}/DATS/list_vt.dats"
-staload _ = "{$PATSPRE}/DATS/list_vt_mergesort.dats"
-staload _ = "{$PATSPRE}/DATS/list_vt_quicksort.dats"
 //
 (* ****** ****** *)
 //
@@ -80,9 +77,6 @@ staload _ = "{$PATSPRE}/DATS/option_vt.dats"
 (* ****** ****** *)
 //
 staload _ = "{$PATSPRE}/DATS/array.dats"
-staload _ = "{$PATSPRE}/DATS/array_bsearch.dats"
-staload _ = "{$PATSPRE}/DATS/array_quicksort.dats"
-//
 staload _ = "{$PATSPRE}/DATS/arrayptr.dats"
 staload _ = "{$PATSPRE}/DATS/arrayref.dats"
 //

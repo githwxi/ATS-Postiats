@@ -1110,6 +1110,11 @@ list_vt_iforeach$cont (i, x, env) = true
 
 #atscode_separator()
 
+\#include "./SHARE/list_vt_mergesort.dats"
+\#include "./SHARE/list_vt_quicksort.dats"
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
