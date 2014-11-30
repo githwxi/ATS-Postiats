@@ -229,8 +229,11 @@ doc/DISTRIB/ATS-Postiats/utils/atscc
 doc/DISTRIB/ATS-Postiats/prelude/*.ats
 doc/DISTRIB/ATS-Postiats/prelude/*.?ats
 doc/DISTRIB/ATS-Postiats/prelude/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/prelude/DATS/SHARE/*.dats
 doc/DISTRIB/ATS-Postiats/libc/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libc/sys/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libc/arpa/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libc/netinet/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libc/gdbm/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libc/gdbm/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/*.?ats

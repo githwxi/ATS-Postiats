@@ -90,6 +90,10 @@ is also referred to as <u>ATSLIB/prelude</u>.
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/unsafe.sats">SATS/unsafe</a>
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/unsafe_sats.html">html</a>)
 </li>
+<li>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/checkast.sats">SATS/checkast</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/checkast_sats.html">html</a>)
+</li>
 
 <li>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/filebas.sats">SATS/filebas</a>
@@ -107,6 +111,15 @@ is also referred to as <u>ATSLIB/prelude</u>.
 <li>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/list_vt.sats">SATS/list_vt</a>
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/list_vt_sats.html">html</a>)
+</li>
+
+<li>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/option.sats">SATS/option</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/option_sats.html">html</a>)
+</li>
+<li>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/option_vt.sats">SATS/option_vt</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/option_vt_sats.html">html</a>)
 </li>
 
 <li>
@@ -188,6 +201,10 @@ is also referred to as <u>ATSLIB/prelude</u>.
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/unsafe.dats">DATS/unsafe</a>
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/unsafe_dats.html">html</a>)
 </li>
+<li>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/checkast.dats">DATS/checkast</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/checkast_dats.html">html</a>)
+</li>
 
 <li>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/filebas.dats">DATS/filebas</a>
@@ -208,6 +225,15 @@ is also referred to as <u>ATSLIB/prelude</u>.
 </li>
 
 <li>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/option.dats">DATS/option</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/option_dats.html">html</a>)
+</li>
+<li>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/option_vt.dats">DATS/option_vt</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/option_vt_dats.html">html</a>)
+</li>
+
+<li>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/stream.dats">DATS/stream</a>
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/stream_dats.html">html</a>)
 </li>
@@ -219,6 +245,10 @@ is also referred to as <u>ATSLIB/prelude</u>.
 <li>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/array.dats">DATS/array</a>
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/array_dats.html">html</a>)
+</li>
+<li>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/array_prf.dats">DATS/array_prf</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/array_prf_dats.html">html</a>)
 </li>
 <li>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/arrayptr.dats">DATS/arrayptr</a>
@@ -279,7 +309,7 @@ linear types to ensure the safety of manual memory management.
 
 <u>ATSLIB/libats/ML</u>
 essentially consists of an API of ML-style for making use of various
-functional data structures implmemented in <u>ATSLIB/libats</u>.
+functional data structures implemented in <u>ATSLIB/libats</u>.
 
 </p>
 

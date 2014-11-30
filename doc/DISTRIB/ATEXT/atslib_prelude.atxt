@@ -249,19 +249,19 @@ The ATSLIB/prelude library\
 (* ****** ****** *)
 
 #packfilename("DATS/gorder.dats")
-#packfilename("DATS/gorder_int.dats")
-#packfilename("DATS/gorder_uint.dats")
-#packfilename("DATS/gorder_bool.dats")
-#packfilename("DATS/gorder_char.dats")
-#packfilename("DATS/gorder_float.dats")
-#packfilename("DATS/gorder_string.dats")
+#packfilename("DATS/SHARE/gorder_int.dats")
+#packfilename("DATS/SHARE/gorder_uint.dats")
+#packfilename("DATS/SHARE/gorder_bool.dats")
+#packfilename("DATS/SHARE/gorder_char.dats")
+#packfilename("DATS/SHARE/gorder_float.dats")
+#packfilename("DATS/SHARE/gorder_string.dats")
 
 (* ****** ****** *)
 
 #packfilename("DATS/gnumber.dats")
-#packfilename("DATS/gnumber_int.dats")
-#packfilename("DATS/gnumber_uint.dats")
-#packfilename("DATS/gnumber_float.dats")
+#packfilename("DATS/SHARE/gnumber_int.dats")
+#packfilename("DATS/SHARE/gnumber_uint.dats")
+#packfilename("DATS/SHARE/gnumber_float.dats")
 
 (* ****** ****** *)
 
@@ -273,16 +273,19 @@ The ATSLIB/prelude library\
 #packfilename("DATS/list.dats")
 
 #packfilename("DATS/list_vt.dats")
-#packfilename("DATS/list_vt_mergesort.dats")
-#packfilename("DATS/list_vt_quicksort.dats")
+#packfilename("DATS/SHARE/list_vt_mergesort.dats")
+#packfilename("DATS/SHARE/list_vt_quicksort.dats")
 
 #packfilename("DATS/option.dats")
 #packfilename("DATS/option_vt.dats")
 
+#packfilename("DATS/stream.dats")
+#packfilename("DATS/stream_vt.dats")
+
 #packfilename("DATS/array.dats")
 #packfilename("DATS/array_prf.dats")
-#packfilename("DATS/array_bsearch.dats")
-#packfilename("DATS/array_quicksort.dats")
+#packfilename("DATS/SHARE/array_bsearch.dats")
+#packfilename("DATS/SHARE/array_quicksort.dats")
 
 #packfilename("DATS/arrayptr.dats")
 #packfilename("DATS/arrayref.dats")

@@ -119,10 +119,16 @@ The ATSLIB/libc library\
 #packfilename("CATS/unistd.cats")
 
 #packfilename("sys/CATS/mman.cats")
+#packfilename("sys/CATS/socket.cats")
+#packfilename("sys/CATS/socket_in.cats")
 #packfilename("sys/CATS/stat.cats")
 #packfilename("sys/CATS/time.cats")
 #packfilename("sys/CATS/types.cats")
 #packfilename("sys/CATS/wait.cats")
+
+#packfilename("arpa/CATS/inet.cats")
+
+#packfilename("netinet/CATS/in.cats")
 
 #packfilename("gdbm/CATS/gdbm.cats")
 #packfilename("gdbm/CATS/datum.cats")
@@ -150,10 +156,16 @@ The ATSLIB/libc library\
 #packfilename("SATS/unistd_pathconf.sats")
 
 #packfilename("sys/SATS/mman.sats")
+#packfilename("sys/SATS/socket.sats")
+#packfilename("sys/SATS/socket_in.sats")
 #packfilename("sys/SATS/stat.sats")
 #packfilename("sys/SATS/time.sats")
 #packfilename("sys/SATS/types.sats")
 #packfilename("sys/SATS/wait.sats")
+
+#packfilename("arpa/SATS/inet.sats")
+
+#packfilename("netinet/SATS/in.sats")
 
 #packfilename("gdbm/SATS/gdbm.sats")
 #packfilename("gdbm/SATS/SHARE/datum.hats")
@@ -172,6 +184,8 @@ The ATSLIB/libc library\
 #packfilename("DATS/time.dats")
 #packfilename("DATS/unistd.dats")
 
+#packfilename("sys/DATS/socket.dats")
+#packfilename("sys/DATS/socket_in.dats")
 #packfilename("sys/DATS/stat.dats")
 #packfilename("sys/DATS/types.dats")
 

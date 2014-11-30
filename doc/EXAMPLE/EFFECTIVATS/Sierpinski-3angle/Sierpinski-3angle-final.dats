@@ -148,11 +148,11 @@ drawFrame () =
   val Cx = theCx_get() // x-coordinate of C
   val Cy = theCy_get() // y-coordinate of C
 //
-  val level = theLevel_getinc ()
+  val level = theLevel_getinc () // get and increase
   val ((*void*)) = drawTriangle (BLUE, Ax, Ay, Bx, By, Cx, Cy)
   val ((*void*)) = drawSTriangle (YELLOW, Ax, Ay, Bx, By, Cx, Cy, level)
 //
-} (* end of [drawFram] *)
+} (* end of [drawFrame] *)
 //
 end // end of [local]
 

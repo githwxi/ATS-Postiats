@@ -304,7 +304,7 @@ drawFrame () =
   val ((*void*)) = drawTriangle (BLUE, Ax, Ay, Bx, By, Cx, Cy)
   val ((*void*)) = drawSTriangle (YELLOW, Ax, Ay, Bx, By, Cx, Cy, level)
 //
-} (* end of [drawFram] *)
+} (* end of [drawFrame] *)
 //
 end // end of [local]
 //

@@ -88,6 +88,9 @@ integer_fixed_sats.html: ./../SATS/integer_fixed.sats; $(PATS2XHTML) -o SATS/$@ 
 all_sats:: \
 unsafe_sats.html
 unsafe_sats.html: ./../SATS/unsafe.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+checkast_sats.html
+checkast_sats.html: ./../SATS/checkast.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 
 all_sats:: \
 filebas_sats.html
@@ -102,6 +105,13 @@ list_sats.html: ./../SATS/list.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 all_sats:: \
 list_vt_sats.html
 list_vt_sats.html: ./../SATS/list_vt.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
+option_sats.html
+option_sats.html: ./../SATS/option.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+option_vt_sats.html
+option_vt_sats.html: ./../SATS/option_vt.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 
 all_sats:: \
 stream_sats.html
@@ -176,6 +186,9 @@ strptr_dats.html: ./../DATS/strptr.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 all_dats:: \
 unsafe_dats.html
 unsafe_dats.html: ./../DATS/unsafe.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+all_dats:: \
+checkast_dats.html
+checkast_dats.html: ./../DATS/checkast.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 
 all_dats:: \
 filebas_dats.html
@@ -190,12 +203,13 @@ list_dats.html: ./../DATS/list.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 all_dats:: \
 list_vt_dats.html
 list_vt_dats.html: ./../DATS/list_vt.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+
 all_dats:: \
-list_vt_quicksort_dats.html
-list_vt_quicksort_dats.html: ./../DATS/list_vt_quicksort.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+option_dats.html
+option_dats.html: ./../DATS/option.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 all_dats:: \
-list_vt_mergesort_dats.html
-list_vt_mergesort_dats.html: ./../DATS/list_vt_mergesort.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+option_vt_dats.html
+option_vt_dats.html: ./../DATS/option_vt.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 
 all_dats:: \
 stream_dats.html
@@ -208,11 +222,8 @@ all_dats:: \
 array_dats.html
 array_dats.html: ./../DATS/array.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 all_dats:: \
-array_bsearch_dats.html
-array_bsearch_dats.html: ./../DATS/array_bsearch.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
-all_dats:: \
-array_quicksort_dats.html
-array_quicksort_dats.html: ./../DATS/array_quicksort.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+array_prf_dats.html
+array_prf_dats.html: ./../DATS/array_prf.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 all_dats:: \
 arrayptr_dats.html
 arrayptr_dats.html: ./../DATS/arrayptr.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
