@@ -163,8 +163,10 @@ matrixptr_foreach_env
 
 implement{a}
 matrixptr_tabulate
-  (nrow, ncol) = matrixptr_encode2(matrix_ptr_tabulate<a> (nrow, ncol))
-// end of [matrixptr_tabulate]
+  (nrow, ncol) =
+(
+  matrixptr_encode2(matrix_ptr_tabulate<a> (nrow, ncol))
+) (* end of [matrixptr_tabulate] *)
 
 #atscode_separator()
 

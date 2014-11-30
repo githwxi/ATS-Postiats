@@ -351,6 +351,25 @@ clean:: ; $(RMF) option_vt_atxt.exe
 cleanall:: ; $(RMF) option_vt.dats
 
 
+all:: stream.dats
+stream.dats: stream_atxt.exe ; ./$< > $@
+stream_atxt.exe: stream_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ stream_atxt.dats -latsdoc
+stream_atxt.dats: stream.atxt
+	$(ATSDOC) --outcode $@ -i stream.atxt > stream_atxt.txt
+clean:: ; $(RMF) stream_atxt.exe
+cleanall:: ; $(RMF) stream.dats
+
+all:: stream_vt.dats
+stream_vt.dats: stream_vt_atxt.exe ; ./$< > $@
+stream_vt_atxt.exe: stream_vt_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ stream_vt_atxt.dats -latsdoc
+stream_vt_atxt.dats: stream_vt.atxt
+	$(ATSDOC) --outcode $@ -i stream_vt.atxt > stream_vt_atxt.txt
+clean:: ; $(RMF) stream_vt_atxt.exe
+cleanall:: ; $(RMF) stream_vt.dats
+
+
 all:: array.dats
 array.dats: array_atxt.exe ; ./$< > $@
 array_atxt.exe: array_atxt.dats

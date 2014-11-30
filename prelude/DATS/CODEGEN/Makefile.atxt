@@ -110,6 +110,9 @@ all::
 #make_entry("option")
 #make_entry("option_vt")
 
+#make_entry("stream")
+#make_entry("stream_vt")
+
 #make_entry("array")
 #make_entry("array_prf")
 #make_entry("array_bsearch")

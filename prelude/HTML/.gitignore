@@ -1,0 +1,8 @@
+#
+# ignoring generated files
+#
+*_ats.html
+*_sats.html
+*_dats.html
+
+###### end of [.gitignore] ######

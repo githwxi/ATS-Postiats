@@ -32,7 +32,8 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 implement
 {a}(*tmp*)
-list_vt_make_sing (x) = list_vt_cons{a}(x, list_vt_nil)
+list_vt_make_sing (x) =
+  list_vt_cons{a}(x, list_vt_nil)
 implement
 {a}(*tmp*)
 list_vt_make_pair (x1, x2) =
