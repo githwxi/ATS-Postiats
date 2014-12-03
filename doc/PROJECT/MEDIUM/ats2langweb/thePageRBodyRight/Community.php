@@ -6,6 +6,15 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2014-12-02:<br>
+
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/HkGtXA88dJU"
+>ATS for Arduino+Yun</a>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2014-11-20:<br>
 
 <a

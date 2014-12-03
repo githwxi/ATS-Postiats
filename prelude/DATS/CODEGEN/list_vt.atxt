@@ -559,7 +559,7 @@ fun loop
 (
   xs: list_vt (a, m), ys: list_vt (a, n)
 ) :<!wrt> list_vt (a, m+n) =
-  case xs of
+  case+ xs of
   | @list_vt_cons
       (_, xs1) => let
       val xs1_ = xs1
