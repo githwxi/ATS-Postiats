@@ -23,35 +23,45 @@ FACT (int, int) =
 
 (* ****** ****** *)
 
-fun fact
-  {n:nat} .<n>. (
-  x: int n // the val of x is n
+fun
+fact
+{n:nat} .<n>.
+(
+  x: int n // x = n
 ) : [r:int]
-  (FACT (n, r) | int r) = let
-in
+(
+  FACT(n, r) | int(r)
+) = (
 //
-if x > 0 then let
+if
+x > 0
+then let
   val [r1:int]
     (pf1 | r1) = fact (x-1)
   prval pf = FACTind {n}{r1} (pf1)
   val r = x * r1
 in
   (pf | r)
-end else
-  (FACTbas () | 1)
-// end of [if]
+end // end of [then]
+else (FACTbas () | 1)
 //
-end // end of [fact]
+) (* end of [fact] *)
   
 (* ****** ****** *)
 
 (*
 ** HX: this one is tail-recursive
 *)
-fun fact2
-  {n:nat} .<n>. (
-  x: int n // the val of x is n
-) : [r:int] (FACT (n, r) | int r) = let
+fun
+fact2
+{n:nat} .<n>.
+(
+  x: int n // x = n
+) : [r:int]
+(
+  FACT(n, r) | int(r)
+) = let
+//
   fun loop
     {n:nat}
     {r0:int} .<n>. (
@@ -69,6 +79,7 @@ fun fact2
       (FACTbas () | r0)
     // end of [if]
   ) // end of [loop]
+//
 in
   loop (x, 1)
 end // end of [fact2]
@@ -76,19 +87,22 @@ end // end of [fact2]
 (* ****** ****** *)
 
 implement
-main (
-  argc, argv
-) = let
-  val n = (
-    if argc >= 2 then g1string2int (argv[1]) else 10(*default*)
-  ) : Int // end of [val]
-  val () = assertexn (n >= 0)
-  val pfr = fact (n)
-  and pfr2 = fact2 (n)
-  val () = assertloc (pfr.1 = pfr2.1)
-in
-  0(*normalexit*)
-end // end of [main]
+main0 (argc, argv) =
+{
+//
+val n = (
+  if argc >= 2
+    then g1string2int (argv[1]) else 10(*default*)
+  // end of [if]
+) : Int // end of [val]
+val () = assertexn (n >= 0)
+//
+val pfr = fact (n)
+and pfr2 = fact2 (n)
+//
+val () = assertloc (pfr.1 = pfr2.1)
+//
+} (* end of [main0] *)
 
 (* ****** ****** *)
 
