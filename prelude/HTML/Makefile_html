@@ -3,9 +3,11 @@
 # syntax highlighting
 #
 ######
-
-PATS2XHTML=$(PATSHOME)/bin/pats2xhtml
-
+#
+# EMBED=--embedded
+#
+PATS2XHTML=$(PATSHOME)/bin/pats2xhtml $(EMBED)
+#
 ######
 
 all:: all_top
@@ -54,10 +56,12 @@ lmacrodef_sats.html: ./../lmacrodef.sats; $(PATS2XHTML) -o $@ --static $<
 
 all_sats:: \
 integer_sats.html
-integer_sats.html: ./../SATS/integer.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+integer_sats.html: \
+./../SATS/integer.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 all_sats:: \
 pointer_sats.html
-pointer_sats.html: ./../SATS/pointer.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+pointer_sats.html: \
+./../SATS/pointer.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 all_sats:: \
 memory_sats.html
 memory_sats.html: ./../SATS/memory.sats; $(PATS2XHTML) -o SATS/$@ --static $<
@@ -242,9 +246,19 @@ matrixref_dats.html
 matrixref_dats.html: ./../DATS/matrixref.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 
 ######
-
+#
+PHP=php
 SCP=scp
-
+MAKE=make
+#
+######
+#
+ATSPREall1:: ; \
+$(MAKE) EMBED=--embedded -f Makefile_html all
+#
+ATSPREall2:: ; \
+$(PHP) -f ATSPRE_all_in_one.php > ATSPRE_all_in_one.html
+#
 ######
 
 upload_top: ; \
@@ -269,6 +283,12 @@ ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/
 
 ######
 
+upload_all_in_one: ; \
+$(SCP) ATSPRE_all_in_one.html \
+ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/.
+
+######
+
 RMF=rm -f
 
 ######
@@ -277,6 +297,7 @@ cleanall:: ; $(RMF) *_ats.html
 cleanall:: ; $(RMF) *_?ats.html
 cleanall:: ; $(RMF) SATS/*_sats.html
 cleanall:: ; $(RMF) DATS/*_dats.html
+cleanall:: ; $(RMF) ATSPRE_all_in_one.html
 
 ######
 

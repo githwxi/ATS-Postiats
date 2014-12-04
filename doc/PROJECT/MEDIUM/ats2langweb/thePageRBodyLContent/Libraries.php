@@ -272,6 +272,11 @@ is also referred to as <u>ATSLIB/prelude</u>.
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/matrixref_dats.html">html</a>)
 </li>
 
+<li>
+ATSPRE_all_in_one
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/ATSPRE_all_in_one.html">html</a>)
+</li>
+
 </ul>
 
 <hr></hr>

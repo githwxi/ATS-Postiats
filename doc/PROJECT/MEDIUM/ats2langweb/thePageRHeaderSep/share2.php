@@ -71,8 +71,9 @@
 #thePageRHeaderSepR_input
 {
   height: 100%;
-  font-size: 12pt;
-  border-radius: 6px;
+  padding: 6px;
+  font-size: 11pt;
+  border-radius: 8px;
   background: #FFFFF0 url(//www.google.com/coop/intl/en/images/google_custom_search_watermark.gif) left no-repeat;
 }
 </style>
