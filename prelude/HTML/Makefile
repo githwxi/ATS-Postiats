@@ -295,6 +295,11 @@ RMF=rm -f
 
 ######
 
+clean:: ; $(RMF) *~
+
+######
+
+cleanall:: clean
 cleanall:: ; $(RMF) *_ats.html
 cleanall:: ; $(RMF) *_?ats.html
 cleanall:: ; $(RMF) SATS/*_sats.html
