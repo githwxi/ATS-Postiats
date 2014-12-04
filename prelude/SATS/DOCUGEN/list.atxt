@@ -153,10 +153,18 @@ This function casts a linear list-value into a nonlinear list-value.
 (* ****** ****** *)
 
 #declnamesynop("list_make_sing")
-#decldescrpt("This function returns a list consisting of a given value.")
+#decldescrpt("\
+
+This function returns a list consisting of a single given value.\
+
+")
 
 #declnamesynop("list_make_pair")
-#decldescrpt("This function returns a list consisting of two given values.")
+#decldescrpt("\
+
+This function returns a list consisting of a pair of given values.\
+
+")
 
 (* ****** ****** *)
 
@@ -164,7 +172,7 @@ This function casts a linear list-value into a nonlinear list-value.
 #decldescrpt('\
 
 Given a natural number n and an element x, this function returns a list
-consisting of n occurrences of x.
+consisting of n occurrences of x.\
 
 ')
 

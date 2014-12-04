@@ -62,12 +62,12 @@ print_dt2 (x0) = print_dt12 (dt2_to_dt12(x0))
 (* ****** ****** *)
 
 val x0_dt1 = A1 ()
-val x1_dt1 = B1 (0, x0_dt1)
+val x1_dt1 = B1 (1, x0_dt1)
 
 (* ****** ****** *)
 
 val x0_dt2 = A2 ()
-val x1_dt2 = B2 (0, x0_dt2)
+val x1_dt2 = B2 (2, x0_dt2)
 val x2_dt2 = C2 (x1_dt1, x1_dt2)
 
 (* ****** ****** *)

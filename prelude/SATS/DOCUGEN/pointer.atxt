@@ -46,7 +46,7 @@ the function.
 Let p be a value of the type #stacode("ptr(L)") for some L. Then the
 following line of code initiates a binding between l and L:
 #pats2xhtmld('\
-prval [l:addr] PTREQ () = ptr_get_index (p)\
+prval [l:addr] EQADDR () = ptr_get_index (p)\
 ')\
 ')
 
