@@ -13,46 +13,56 @@ is also referred to as <u>ATSLIB/prelude</u>.
 
 <ul>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/fixity.ats">fixity</a>
+fixity
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/fixity.ats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/fixity_ats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/basics_pre.sats">basics_pre</a>
+basics_pre
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/basics_pre.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/basics_pre_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/basics_sta.sats">basics_sta</a>
+basics_sta
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/basics_sta.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/basics_sta_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/basics_dyn.sats">basics_dyn</a>
+basics_dyn
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/basics_dyn.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/basics_dyn_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/basics_gen.sats">basics_gen</a>
+basics_gen
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/basics_gen.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/basics_gen_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/macrodef.sats">macrodef</a>
+macrodef
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/macrodef.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/macrodef_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/lmacrodef.sats">lmacrodef</a>
+lmacrodef
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/lmacrodef.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/lmacrodef_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/integer.sats">SATS/integer</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/integer.html">SATS/integer</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/integer.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/integer_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/pointer.sats">SATS/pointer</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/pointer.html">SATS/pointer</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/pointer.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/pointer_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/memory.sats">SATS/memory</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/memory.html">SATS/memory</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/memory.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/memory_sats.html">html</a>)
 </li>
 
@@ -274,6 +284,7 @@ is also referred to as <u>ATSLIB/prelude</u>.
 
 <li>
 ATSPRE_all_in_one
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/ATSPRE_all_in_one.raw">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/ATSPRE_all_in_one.html">html</a>)
 </li>
 

@@ -44,10 +44,10 @@ array_v_split
 prfun
 array_v_split_at
   {a:vt0p}
-  {tk:tk}{l:addr}
+  {l:addr}
   {n:int}{i:nat | i <= n}
 (
-  pfarr: array_v (INV(a), l, n) | i: g1int(tk, i)
+  pfarr: array_v (INV(a), l, n) | i: size_t (i)
 ) :<prf> @(
   array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
 ) // end of [array_v_split_at]

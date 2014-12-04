@@ -253,11 +253,13 @@ MAKE=make
 #
 ######
 #
+ATSPREall0:: ; \
+$(PHP) -f ATSPRE_all_in_one_raw.php > ATSPRE_all_in_one.raw
+#
 ATSPREall1:: ; \
 $(MAKE) EMBED=--embedded -f Makefile_html all
-#
 ATSPREall2:: ; \
-$(PHP) -f ATSPRE_all_in_one.php > ATSPRE_all_in_one.html
+$(PHP) -f ATSPRE_all_in_one_htmp.php > ATSPRE_all_in_one.html
 #
 ######
 
@@ -284,7 +286,7 @@ ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/
 ######
 
 upload_all_in_one: ; \
-$(SCP) ATSPRE_all_in_one.html \
+$(SCP) ATSPRE_all_in_one.raw ATSPRE_all_in_one.html \
 ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/.
 
 ######
@@ -297,8 +299,9 @@ cleanall:: ; $(RMF) *_ats.html
 cleanall:: ; $(RMF) *_?ats.html
 cleanall:: ; $(RMF) SATS/*_sats.html
 cleanall:: ; $(RMF) DATS/*_dats.html
+cleanall:: ; $(RMF) ATSPRE_all_in_one.raw
 cleanall:: ; $(RMF) ATSPRE_all_in_one.html
 
 ######
 
-###### end of [Makefile_html] ######
+###### end of [Makefile] ######

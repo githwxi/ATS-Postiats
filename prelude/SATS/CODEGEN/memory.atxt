@@ -50,9 +50,9 @@ bytes_v_split
 
 prfun
 bytes_v_split_at
-  {tk:tk}{l:addr}
+  {l:addr}
   {n:int}{i:nat | i <= n}
-  (pf: bytes_v (l, n) | i: g1int(tk, i)): (bytes_v (l, i), bytes_v (l+i, n-i))
+  (pf: bytes_v (l, n) | i: size_t (i)): (bytes_v (l, i), bytes_v (l+i, n-i))
 // end of [bytes_v_split_at]
 
 #atscode_separator()
