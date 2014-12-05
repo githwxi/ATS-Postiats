@@ -14,7 +14,7 @@ datatype dt1 =
 | A1 of () | B1 of (int, dt1) | C1 of bottom
 //
 datatype dt2 =
-| A2 of () | B2 of (int, dt2) | C2 of (dt1, dt2)
+| A2 of () | B2 of (int, dt2) | C2 of (dt2, dt2)
 //
 (* ****** ****** *)
 
@@ -68,7 +68,7 @@ val x1_dt1 = B1 (1, x0_dt1)
 
 val x0_dt2 = A2 ()
 val x1_dt2 = B2 (2, x0_dt2)
-val x2_dt2 = C2 (x1_dt1, x1_dt2)
+val x2_dt2 = C2 (x1_dt2, x1_dt2)
 
 (* ****** ****** *)
 

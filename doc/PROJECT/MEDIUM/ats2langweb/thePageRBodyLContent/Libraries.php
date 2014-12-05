@@ -67,218 +67,267 @@ lmacrodef
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/bool.sats">SATS/bool</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/bool.html">SATS/bool</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/bool.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/bool_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/char.sats">SATS/char</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/char.html">SATS/char</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/char.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/char_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/float.sats">SATS/float</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/float.html">SATS/float</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/float.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/float_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/string.sats">SATS/string</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/string.html">SATS/string</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/string.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/string_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/strptr.sats">SATS/strptr</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/strptr.html">SATS/strptr</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/strptr.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/strptr_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/integer_ptr.sats">SATS/integer_ptr</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/integer_ptr.html">SATS/integer_ptr</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/integer_ptr.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/integer_ptr_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/integer_fixed.sats">SATS/integer_fixed</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/integer_fixed.html">SATS/integer_fixed</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/integer_fixed.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/integer_fixed_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/unsafe.sats">SATS/unsafe</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/unsafe.html">SATS/unsafe</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/unsafe.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/unsafe_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/checkast.sats">SATS/checkast</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/checkast.html">SATS/checkast</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/checkast.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/checkast_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/filebas.sats">SATS/filebas</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/filebas.html">SATS/filebas</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/filebas.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/filebas_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/intrange.sats">SATS/intrange</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/intrange.html">SATS/intrange</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/intrange.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/intrange_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/list.sats">SATS/list</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/list.html">SATS/list</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/list.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/list_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/list_vt.sats">SATS/list_vt</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/list_vt.html">SATS/list_vt</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/list_vt.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/list_vt_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/option.sats">SATS/option</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/option.html">SATS/option</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/option.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/option_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/option_vt.sats">SATS/option_vt</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/option_vt.html">SATS/option_vt</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/option_vt.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/option_vt_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/stream.sats">SATS/stream</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/stream.html">SATS/stream</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/stream.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/stream_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/stream_vt.sats">SATS/stream_vt</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/stream_vt.html">SATS/stream_vt</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/stream_vt.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/stream_vt_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/array.sats">SATS/array</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/array.html">SATS/array</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/array.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/array_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/arrayptr.sats">SATS/arrayptr</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/arrayptr.html">SATS/arrayptr</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/arrayptr.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/arrayptr_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/arrayref.sats">SATS/arrayref</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/arrayref.html">SATS/arrayref</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/arrayref.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/arrayref_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/matrix.sats">SATS/matrix</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/matrix.html">SATS/matrix</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/matrix.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/matrix_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/matrixptr.sats">SATS/matrixptr</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/matrixptr.html">SATS/matrixptr</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/matrixptr.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/matrixptr_sats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/matrixref.sats">SATS/matrixref</a>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/matrixref.html">SATS/matrixref</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/matrixref.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/matrixref_sats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/basics.dats">DATS/basics</a>
+DATS/basics
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/basics.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/basics_dats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/integer.dats">DATS/integer</a>
+DATS/integer
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/integer.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/integer_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/pointer.dats">DATS/pointer</a>
+DATS/pointer
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/pointer.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/pointer_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/memory.dats">DATS/memory</a>
+DATS/memory
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/memory.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/memory_dats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/bool.dats">DATS/bool</a>
+DATS/bool
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/bool.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/bool_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/char.dats">DATS/char</a>
+DATS/char
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/char.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/char_dats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/float.dats">DATS/float</a>
+DATS/float
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/float.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/float_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/string.dats">DATS/string</a>
+DATS/string
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/string.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/string_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/strptr.dats">DATS/strptr</a>
+DATS/strptr
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/strptr.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/strptr_dats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/unsafe.dats">DATS/unsafe</a>
+DATS/unsafe
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/unsafe.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/unsafe_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/checkast.dats">DATS/checkast</a>
+DATS/checkast
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/checkast.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/checkast_dats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/filebas.dats">DATS/filebas</a>
+DATS/filebas
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/filebas.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/filebas_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/intrange.dats">DATS/intrange</a>
+DATS/intrange
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/intrange.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/intrange_dats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/list.dats">DATS/list</a>
+DATS/list
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/list.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/list_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/list_vt.dats">DATS/list_vt</a>
+DATS/list_vt
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/list_vt.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/list_vt_dats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/option.dats">DATS/option</a>
+DATS/option
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/option.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/option_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/option_vt.dats">DATS/option_vt</a>
+DATS/option_vt
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/option_vt.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/option_vt_dats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/stream.dats">DATS/stream</a>
+DATS/stream
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/stream.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/stream_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/stream_vt.dats">DATS/stream_vt</a>
+DATS/stream_vt
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/stream_vt.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/stream_vt_dats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/array.dats">DATS/array</a>
+DATS/array
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/array.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/array_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/array_prf.dats">DATS/array_prf</a>
+DATS/array_prf
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/array_prf.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/array_prf_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/arrayptr.dats">DATS/arrayptr</a>
+DATS/arrayptr
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/arrayptr.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/arrayptr_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/arrayref.dats">DATS/arrayref</a>
+DATS/arrayref
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/arrayref.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/arrayref_dats.html">html</a>)
 </li>
 
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/matrix.dats">DATS/matrix</a>
+DATS/matrix
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/matrix.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/matrix_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/matrixptr.dats">DATS/matrixptr</a>
+DATS/matrixptr
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/matrixptr.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/matrixptr_dats.html">html</a>)
 </li>
 <li>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/matrixref.dats">DATS/matrixref</a>
+DATS/matrixref
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/matrixref.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/matrixref_dats.html">html</a>)
 </li>
 

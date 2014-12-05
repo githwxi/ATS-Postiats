@@ -60,11 +60,12 @@ The full name for the list-type constructor #stacode("list") is
 follows:
 #pats2xhtmls('\
 datatype // t@ype+: covariant
-list_t0ype_int_type (a:t@ype+, int) =
+list_t0ype_int_type
+  (a:t@ype+, int) =
+  | list_nil (a, 0) of ()
   | {n:int | n >= 0}
     list_cons (a, n+1) of (a, list_t0ype_int_type (a, n))
-  | list_nil (a, 0) of ()
-// end of [datatype]
+ // end of [list_t0ype_int_type]
 ')\
 ')')
 #decldescrpt('\
