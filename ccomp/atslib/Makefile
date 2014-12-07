@@ -31,6 +31,7 @@ DATSMEMALLOC=
 ######
 
 all:: atslib
+all:: ; ranlib lib/libatslib.a
 
 ######
 
