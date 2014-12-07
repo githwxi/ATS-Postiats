@@ -28,9 +28,14 @@ GCFLAG=
 GCFLAG=-D_ATS_GCATS
 
 ######
-
+#
+# Bootstrapping:
+#
+# [gmpknd] for CBOOT
+# [intknd] for CBOOTmin
+#
 C3NSTRINTKND=gmpknd
-
+#
 ######
 
 DATSCC=-DATS C3NSTRINTKND=$(C3NSTRINTKND)
@@ -542,8 +547,9 @@ all:: patsopt
 
 ######
 #
-# AS-20130407: libats depends on libgmp (hence specified earlier);
+# AS-20130407:
 # link order matters to GNU ld
+# please keep the order '$(LIBATS) $(LIBGMP)' as libats depends on libgmp
 #
 patsopt: \
   pats_main_dats.o $(OBJECTS) ; \
@@ -567,8 +573,15 @@ CBOOT:: ; $(CPF) pats_*_dats.c CBOOT
 
 ######
 
+CBOOTmin:: ; $(CPF) pats_*.hats CBOOTmin
+CBOOTmin:: ; $(CPF) pats_*.cats CBOOTmin
+CBOOTmin:: ; $(CPF) pats_*_sats.c CBOOTmin
+CBOOTmin:: ; $(CPF) pats_*_dats.c CBOOTmin
+
+######
+
 TAGATS:: ; $(RMF) $@
-TAGATS:: ; $(ATSOPT) -o $@ --taggen -s $(SOURCESsta) -d $(SOURCESdyn)
+TAGATS:: ; $(ATSOPT) --output-a $@ --taggen -s $(SOURCESsta) -d $(SOURCESdyn)
 
 ######
 

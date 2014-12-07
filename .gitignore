@@ -52,11 +52,7 @@ bin/atscc2py
 # boostrapping
 #
 src/CBOOT/pats*.?ats
-
-#
-# building patsopt thru CMake 
-#
-src/BUILD/*
+src/CBOOTmin/pats*.?ats
 
 utils/atsyntax/HTML
 utils/atsyntax/pats2xhtml

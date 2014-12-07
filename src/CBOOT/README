@@ -4,15 +4,6 @@
 #
 
 ######
-
-$ libtoolize --force
-$ aclocal
-$ autoheader
-$ automake --force-missing --add-missing
-$ autoconf
-$ ./configure
-
-######
 #
 # HX-2014-04-02:
 # for generating *_?ats.c files:
@@ -21,4 +12,18 @@ $ ./configure
 # make -C libc
 # make -C libats
 #
+######
+
+#
+# A sequence of command-lines
+# for manually bootstrapping ATS2:
+#
+
+$ libtoolize --force
+$ aclocal
+$ autoheader
+$ automake --force-missing --add-missing
+$ autoconf
+$ ./configure
+
 ###### end of [README] ######

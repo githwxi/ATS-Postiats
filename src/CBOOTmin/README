@@ -1,0 +1,11 @@
+#
+# This is for
+# minmally bootstrapping ATS2
+#
+
+###### beg of [README] ######
+
+1. There is no GCATS by default
+2. There is no dependency on libgmp
+
+###### end of [README] ######

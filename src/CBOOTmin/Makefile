@@ -16,9 +16,9 @@ CCOMP=$(GCC)
 #
 ######
 #
-# This is fixed:
+# This is fixed
 #
-C3NSTRINTKND=gmpknd
+C3NSTRINTKND=intknd
 #
 # [gmpknd] for CBOOT
 # [intknd] for CBOOTmin
