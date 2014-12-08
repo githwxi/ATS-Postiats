@@ -18,18 +18,18 @@ fun comment
 fun make_entry
   (nm: string): atext = let
 //
-val ent = sprintf ("\
-all_html:: HTML/%s.html\n\
-HTML/%s.html: %s_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/%s.bash\n\
+val ent =
+sprintf ("\
+all_script:: \\
+SCRIPT/%s.bash\n\
 SCRIPT/%s.bash: %s_atxt.exe ; ./$< > $@
-%s_atxt.dats: ATEXT/%s.atxt ; \
+%s_atxt.dats: ATEXT/%s.atxt ; \\
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
 %s_atxt.exe: %s_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) %s_atxt.exe
 cleanall:: ; $(RMF) HTML/%s.html
 cleanall:: ; $(RMF) SCRIPT/%s.bash
-", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
 in
@@ -78,7 +78,6 @@ ATSDIST=ATS-Postiats
 ######
 
 all::
-all_html::
 all_script::
 
 ######

@@ -24,6 +24,9 @@ Here is a list of major additions and changes since the last release:
 
 1. Reorganizing ATSLIB/prelude
 2. Improving ATS2-contrib/zeromq
+3. Adding src/Makefile_CBOOTmin to for minimally C-bootstrapping ATS2:
+   There is no GCATS by default
+   There is no dependency on libgmp
 
 ######
 

@@ -1,6 +1,6 @@
 #
 # The main Makefile
-# for ATS/Postiats C-bootstrapping
+# for C-bootstrapping ATS2
 #
 ######
 #
@@ -16,9 +16,9 @@ CCOMP=$(GCC)
 #
 ######
 #
-# This is fixed
+# This is fixed:
 #
-C3NSTRINTKND=intknd
+C3NSTRINTKND=gmpknd
 #
 # [gmpknd] for CBOOT
 # [intknd] for CBOOTmin

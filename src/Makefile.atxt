@@ -581,19 +581,21 @@ BUILD/clean: ; make -C BUILD -f Makefile clean
 BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
 #
 ######
-
+#
 CBOOT:: ; $(CPF) pats_*.hats CBOOT
 CBOOT:: ; $(CPF) pats_*.cats CBOOT
 CBOOT:: ; $(CPF) pats_*_sats.c CBOOT
 CBOOT:: ; $(CPF) pats_*_dats.c CBOOT
-
+CBOOT:: ; $(CPF) Makefile_CBOOT CBOOT/Makefile
+#
 ######
-
-CBOOTmin:: ; $(CPF) pats_*.hats CBOOTmin
-CBOOTmin:: ; $(CPF) pats_*.cats CBOOTmin
-CBOOTmin:: ; $(CPF) pats_*_sats.c CBOOTmin
-CBOOTmin:: ; $(CPF) pats_*_dats.c CBOOTmin
-
+#
+CBOOTmin:: ; $(CPF) pats_*.hats CBOOT
+CBOOTmin:: ; $(CPF) pats_*.cats CBOOT
+CBOOTmin:: ; $(CPF) pats_*_sats.c CBOOT
+CBOOTmin:: ; $(CPF) pats_*_dats.c CBOOT
+CBOOTmin:: ; $(CPF) Makefile_CBOOTmin CBOOT/Makefile
+#
 ######
 
 TAGATS:: ; $(RMF) $@

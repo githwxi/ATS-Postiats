@@ -1,6 +1,9 @@
 #
-# The main Makefile
-# for ATS/Postiats C-bootstrapping
+# The main Makefile for
+# minimally C-bootstrapping ATS2
+#
+# 1. There is no GCATS by default
+# 2. There is no dependency on libgmp
 #
 ######
 #
@@ -16,9 +19,9 @@ CCOMP=$(GCC)
 #
 ######
 #
-# This is fixed:
+# This is fixed
 #
-C3NSTRINTKND=gmpknd
+C3NSTRINTKND=intknd
 #
 # [gmpknd] for CBOOT
 # [intknd] for CBOOTmin
