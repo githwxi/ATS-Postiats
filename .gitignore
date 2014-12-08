@@ -30,8 +30,8 @@ contrib
 #
 # The compiler for POSTIATS 
 #
-src/.depend
 src/patsopt
+src/.depend
 src/Makefile_atxt.txt
 src/Makefile_atxt.dats
 src/TAGS
@@ -49,7 +49,13 @@ bin/atscc2php
 bin/atscc2py
 
 #
-# syntax-highlighting
+# Boostrapping
+#
+
+src/CBOOT/pats*.?ats
+
+#
+# Syntax-highlighting
 #
 
 utils/atsyntax/HTML
@@ -210,6 +216,7 @@ doc/DISTRIB/ATS-Postiats/patsopt_env.sh.in
 doc/DISTRIB/ATS-Postiats/bin/*
 doc/DISTRIB/ATS-Postiats/share/*
 doc/DISTRIB/ATS-Postiats/src/patsopt
+doc/DISTRIB/ATS-Postiats/src/.depend
 doc/DISTRIB/ATS-Postiats/src/Makefile
 doc/DISTRIB/ATS-Postiats/src/pats_*.?ats
 doc/DISTRIB/ATS-Postiats/src/CBOOT/*
