@@ -8,6 +8,14 @@ style="margin-top:8px;padding:8px;"
 
 ATS-2014-12-02:<br>
 <a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/fvGsJj-FTh4"
+>ATS2-min needs no libgmp</a>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+ATS-2014-12-02:<br>
+<a
  href="http://togetter.com/li/752948"
 >Zen(禅) Practice on ATS</a>
 by <a href="http://www.masterq.net">Kiwamu Okabe</a>

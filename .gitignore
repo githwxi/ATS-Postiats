@@ -52,6 +52,7 @@ bin/atscc2py
 # Boostrapping
 #
 
+src/CBOOT/Makefile
 src/CBOOT/pats*.?ats
 
 #
