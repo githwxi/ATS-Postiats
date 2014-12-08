@@ -49,10 +49,8 @@ bin/atscc2php
 bin/atscc2py
 
 #
-# boostrapping
+# syntax-highlighting
 #
-src/CBOOT/pats*.?ats
-src/CBOOTmin/pats*.?ats
 
 utils/atsyntax/HTML
 utils/atsyntax/pats2xhtml
@@ -211,10 +209,9 @@ doc/DISTRIB/ATS-Postiats/patscc_env.sh.in
 doc/DISTRIB/ATS-Postiats/patsopt_env.sh.in
 doc/DISTRIB/ATS-Postiats/bin/*
 doc/DISTRIB/ATS-Postiats/share/*
-doc/DISTRIB/ATS-Postiats/src/.depend
+doc/DISTRIB/ATS-Postiats/src/patsopt
 doc/DISTRIB/ATS-Postiats/src/Makefile
 doc/DISTRIB/ATS-Postiats/src/pats_*.?ats
-doc/DISTRIB/ATS-Postiats/src/patsopt
 doc/DISTRIB/ATS-Postiats/src/CBOOT/*
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib64
