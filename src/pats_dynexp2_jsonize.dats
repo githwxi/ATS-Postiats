@@ -973,11 +973,11 @@ jsonval_labval2
 end // end of [jsonize_d2ecl]
 
 (* ****** ****** *)
-
+//
 implement
 jsonize_d2eclist (d2cs) =
   jsonize_list_fun (d2cs, jsonize_d2ecl)
-
+//
 (* ****** ****** *)
 
 implement

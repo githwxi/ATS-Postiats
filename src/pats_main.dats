@@ -900,10 +900,13 @@ do_pkgreloc
 val itms =
   $TRENV1.the_pkgrelocitmlst_get ()
 //
-val filr = outchan_get_filr (state.outchan)
+val filr =
+  outchan_get_filr (state.outchan)
 //
 in
-  $TRENV1.fprint_pkgrelocitmlst (filr, itms)
+//
+$TRENV1.fprint_pkgrelocitmlst(filr, itms)
+//
 end // end of [do_pkgreloc]
 //
 (* ****** ****** *)
@@ -913,7 +916,7 @@ fun
 do_jsonize_2
 (
   state: &cmdstate
-, given: string, d2cs: d2eclist
+, given: string(*unused*), d2cs: d2eclist
 ) : void // end-of-fun
 //
 (* ****** ****** *)
@@ -936,9 +939,9 @@ case+ jsvs of
 | list_cons
     (jsv, jsvs) => let
     val () =
-      if i > 0
-        then fprint_string (out, ",\n")
-      // end of [if]
+    if i > 0
+      then fprint_string (out, ",\n")
+    // end of [if]
     val ((*void*)) = fprintln! (out, jsv)
   in
     loop (out, jsvs, i+1)

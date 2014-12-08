@@ -59,6 +59,7 @@ staload "./pats_label.sats"
 
 datatype
 jsonval =
+//
   | JSONnul of ()
   | JSONint of (int)
   | JSONintinf of (intinf)
@@ -152,13 +153,13 @@ jsonval_labval6
 ) : jsonval // end of [jsonval_labval6]
 //
 (* ****** ****** *)
-
+//
 fun
 jsonval_conarglst
   (con: string, arglst: jsonvalist): jsonval
-
+//
 (* ****** ****** *)
-
+//
 fun
 jsonval_conarg0 (con: string): jsonval
 fun
@@ -166,6 +167,7 @@ jsonval_conarg1 (con: string, arg: jsonval): jsonval
 fun
 jsonval_conarg2
   (con: string, arg1: jsonval, arg2: jsonval): jsonval
+//
 fun
 jsonval_conarg3
 (
@@ -177,7 +179,7 @@ jsonval_conarg4
   con: string
 , arg1: jsonval, arg2: jsonval, arg3: jsonval, arg4: jsonval
 ) : jsonval // end of [jsonval_conarg4]
-
+//
 (* ****** ****** *)
 //
 fun jsonval_none (): jsonval
