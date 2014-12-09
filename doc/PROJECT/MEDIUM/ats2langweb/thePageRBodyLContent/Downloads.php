@@ -100,11 +100,10 @@ a note so that other users of ATS may benefit.
 </p>
 
 <p>
-The GMP library (libgmp.a), which is in general included in a GNU/Linux
-distribution, is required for installing a release of ATS2. Please see
-<a href="http://gmplib.org">http://gmplib.org</a> for more details on GMP.
-Alternatively, one may choose to install a release of ATS2-min, which does
-not depend on the GMP library.
+The GMP library (libgmp) is needed for installing ATS2. Please
+see <a href="http://gmplib.org">http://gmplib.org</a> for more details on
+GMP. Optionally, one may choose to install ATS2-min, which has
+no dependency on the GMP library.
 </p>
 
 <hr></hr>

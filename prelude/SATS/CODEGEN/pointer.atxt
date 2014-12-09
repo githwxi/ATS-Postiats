@@ -29,12 +29,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 sortdef tk = tkind
 
 #atscode_separator()
-
-sortdef t0p = t@ype and vt0p = viewt@ype
-
+//
+sortdef
+t0p = t@ype and vt0p = viewt@ype
+//
 #atscode_separator()
 
 stadef ptrknd = ptr_kind
+
+#atscode_separator()
+
+absprop is_word_aligned_p (l:addr)
 
 #atscode_separator()
 //

@@ -6,7 +6,7 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
-ATS-2014-12-02:<br>
+ATS-2014-12-07:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/fvGsJj-FTh4"
 >ATS2-min needs no libgmp</a>
