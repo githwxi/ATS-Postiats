@@ -58,28 +58,6 @@ synent_app
   (a:type) = (a, appenv) -> void
 //
 (* ****** ****** *)
-  
-extern
-fun s2cst_app : synent_app (s2cst)  
-
-(* ****** ****** *)
-
-extern
-fun s2var_app : synent_app (s2var)
-  
-(* ****** ****** *)
-
-extern
-fun d2con_app : synent_app (d2con)
-
-(* ****** ****** *)
-
-extern
-fun s2exp_app : synent_app (s2exp)
-extern
-fun s2explst_app : synent_app (s2explst)
-
-(* ****** ****** *)
 
 extern
 fun d2cst_app : synent_app (d2cst)  
@@ -98,20 +76,11 @@ fun d2explst_app : synent_app (d2explst)
 
 (* ****** ****** *)
 
-implement
-s2explst_app
-  (xs, env) = let
-in
-//
-case+ xs of
-| list_nil () => ()
-| list_cons (x, xs) =>
-  (
-    s2exp_app(x, env); s2explst_app(xs, env)
-  )
-//
-end (* end of [s2explst_app] *)
-
+extern
+fun d2ecl_app : synent_app (d2ecl)
+extern
+fun d2eclist_app : synent_app (d2eclist)
+  
 (* ****** ****** *)
 
 implement
@@ -124,10 +93,26 @@ case+ xs of
 | list_cons (x, xs) =>
   (
     d2exp_app(x, env); d2explst_app(xs, env)
-  )
+  ) (* end of [list_cons] *)
 //
 end (* end of [d2explst_app] *)
 
 (* ****** ****** *)
 
-(* end of [pats_synent2_appenv.dats] *)
+implement
+d2eclist_app
+  (xs, env) = let
+in
+//
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) =>
+  (
+    d2ecl_app(x, env); d2eclist_app(xs, env)
+  ) (* end of [list_cons] *)
+//
+end (* end of [d2eclist_app] *)
+
+(* ****** ****** *)
+
+(* end of [pats_dynexp2_appenv.hats] *)

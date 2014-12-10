@@ -81,10 +81,11 @@ jsonize_loc (x) = jsonize_location (,(x))
 //
 extern
 fun
-jsonize_c3nstrkind: jsonize_ftype (c3nstrkind)
-implement
 jsonize_c3nstrkind
-  (knd) = let
+  : jsonize_ftype (c3nstrkind)
+//
+implement
+jsonize_c3nstrkind (knd) = let
 in
 //
 case+ knd of

@@ -460,10 +460,10 @@ s2exp_node =
 //
   | S2Eexi of ( // exist. quantified type
       s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
-    ) // end of [S2Euni]
+    ) (* end of [S2Eexi] *)
   | S2Euni of ( // universally quantified type
       s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
-    ) // end of [S2Euni]
+    ) (* end of [S2Euni] *)
 //
 // HX: reference argument type // related to [S1Einvar]
   | S2Erefarg of (int(*0/1:val/ref*), s2exp) (* !/&: call-by-val/ref *)

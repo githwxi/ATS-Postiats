@@ -171,9 +171,22 @@ implement
 jsonize_s2cst
   (s2c) = let
 //
+val stamp =
+jsonize_stamp(s2cst_get_stamp(s2c))
+//
+in
+  jsonval_labval1 ("s2cst_stamp", stamp)
+end // end of [jsonize_s2cst]
+//
+implement
+jsonize_s2cst_long
+  (s2c) = let
+//
 val sym =
-  jsonize_symbol (s2cst_get_sym (s2c))
-val s2t = jsonize_s2rt (s2cst_get_srt (s2c))
+  jsonize_symbol(s2cst_get_sym(s2c))
+//
+val s2t =
+  jsonize_s2rt (s2cst_get_srt (s2c))
 val stamp =
   jsonize_stamp (s2cst_get_stamp (s2c))
 val supcls = 
@@ -187,16 +200,27 @@ jsonval_labval4
 , "s2cst_stamp", stamp, "s2cst_supcls", supcls
 )
 //
-end // end of [jsonize_s2cst]
+end // end of [jsonize_s2cst_long]
 
 (* ****** ****** *)
-
+//
 implement
 jsonize_s2var
   (s2v) = let
 //
+val stamp =
+  jsonize_stamp(s2var_get_stamp(s2v))
+//
+in
+  jsonval_labval1 ("s2var_stamp", stamp)
+end // end of [jsonize_s2var]
+//
+implement
+jsonize_s2var_long
+  (s2v) = let
+//
 val sym =
-  jsonize_symbol (s2var_get_sym (s2v))
+  jsonize_symbol(s2var_get_sym(s2v))
 val s2rt = jsonize_s2rt (s2var_get_srt (s2v))
 val stamp =
   jsonize_stamp (s2var_get_stamp (s2v))
@@ -206,8 +230,8 @@ in
 jsonval_labval3
   ("s2var_name", sym, "s2var_srt", s2rt, "s2var_stamp", stamp)
 //
-end // end of [jsonize_s2var]
-
+end // end of [jsonize_s2var_long]
+//
 (* ****** ****** *)
 
 implement
@@ -220,9 +244,7 @@ val szexp =
   jsonize_s2zexp (s2Var_get_szexp (s2V))
 //
 in
-//
   jsonval_labval2 ("s2Var_stamp", stamp, "s2Var_szexp", szexp)
-//
 end // end of [jsonize_s2Var]
 
 (* ****** ****** *)
@@ -239,23 +261,18 @@ in
 end // end of [jsonize_s2varlst]
 
 (* ****** ****** *)
-
+//
 implement
 jsonize_d2con
   (d2c) = let
 //
-val sym =
-  jsonize_symbol (d2con_get_sym (d2c))
 val stamp =
-  jsonize_stamp (d2con_get_stamp (d2c))
+  jsonize_stamp(d2con_get_stamp(d2c))
 //
 in
-//
-jsonval_labval2
-  ("d2con_name", sym, "d2con_stamp", stamp)
-//
+  jsonval_labval1 ("d2con_stamp", stamp)
 end // end of [jsonize_d2con]
-
+//
 implement
 jsonize_d2con_long
   (d2c) = let
@@ -277,7 +294,7 @@ jsonval_labval3
 )
 //
 end // end of [jsonize_d2con_long]
-
+//
 (* ****** ****** *)
 
 implement
@@ -686,7 +703,7 @@ implement
 jsonize_s0tring
   (tok) = let
 //
-val-$LEX.T_STRING (rep) = tok.token_node
+val-$LEX.T_STRING(rep) = tok.token_node
 //
 in
   jsonval_string (rep)
@@ -694,29 +711,15 @@ end // end of [jsonize_s0tring]
 
 (* ****** ****** *)
 //
-// HX-2014-09-08:
-// Should the type property be output?
-//
 implement
 jsonize_d2cst
   (d2c) = let
 //
-val sym =
-  jsonize_symbol (d2cst_get_sym (d2c))
-val type =
-  jsonize1_s2exp (d2cst_get_type (d2c))
 val stamp =
-  jsonize_stamp (d2cst_get_stamp (d2c))
+  jsonize_stamp(d2cst_get_stamp(d2c))
 //
 in
-//
-jsonval_labval3
-(
-  "d2cst_name", sym
-, "d2cst_type", type
-, "d2cst_stamp", stamp
-)
-//
+  jsonval_labval1 ("d2cst_stamp", stamp)
 end // end of [jsonize_d2cst]
 
 (* ****** ****** *)
@@ -753,15 +756,11 @@ implement
 jsonize_d2var
   (d2v) = let
 //
-val sym =
-  jsonize_symbol (d2var_get_sym (d2v))
 val stamp =
   jsonize_stamp (d2var_get_stamp (d2v))
 //
 in
-//
-jsonval_labval2 ("d2var_name", sym, "d2var_stamp", stamp)
-//
+  jsonval_labval1 ("d2var_stamp", stamp)
 end // end of [jsonize_d2var]
 
 (* ****** ****** *)

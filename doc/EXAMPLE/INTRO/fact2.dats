@@ -1,10 +1,14 @@
 //
-// Two verified implementations of the factorial function:
-// the first one is not tail-recursive whereas the second one is
+// Two verified implementations
+// of the well-known factorial function:
+//
+// the first one is not tail-recursive
+// whereas the second one is tail-recursive
+//
+(* ****** ****** *)
 //
 // Author: Hongwei Xi (February 2012)
 //
-
 (* ****** ****** *)
 
 staload _(*anon*) = "prelude/DATS/basics.dats"
