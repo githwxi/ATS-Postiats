@@ -573,39 +573,6 @@ prerr_s2cstlst (xs) = fprint_s2cstlst (stderr_ref, xs)
 local
 
 staload
-LS = "libats/SATS/linset_listord.sats"
-staload _ = "libats/DATS/linset_listord.dats"
-
-val cmp = lam (
-  s2c1: s2cst, s2c2: s2cst
-) : int =<cloref>
-  compare_s2cst_s2cst (s2c1, s2c2)
-// end of [val]
-
-assume s2cstset_vtype = $LS.set (s2cst)
-
-in // in of [local]
-
-implement
-s2cstset_vt_nil () = $LS.linset_make_nil ()
-
-implement
-s2cstset_vt_free (xs) = $LS.linset_free (xs)
-
-implement
-s2cstset_vt_add
-  (xs, x) = xs where {
-  var xs = xs
-  val _(*replaced*) = $LS.linset_insert (xs, x, cmp)
-} // end of [s2cstset_vt_add]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-local
-
-staload
 MAP = "libats/SATS/funmap_avltree.sats"
 staload _ = "libats/DATS/funmap_avltree.dats"
 

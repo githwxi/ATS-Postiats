@@ -673,15 +673,6 @@ overload fprint with fprint_s2cstlst
 
 (* ****** ****** *)
 //
-absvtype
-s2cstset_vtype // assumed in [pats_staexp2_scst.dats]
-vtypedef s2cstset_vt = s2cstset_vtype
-fun s2cstset_vt_nil (): s2cstset_vt
-fun s2cstset_vt_free (xs: s2cstset_vt): void
-fun s2cstset_vt_add (xs: s2cstset_vt, x: s2cst): s2cstset_vt
-//
-(* ****** ****** *)
-//
 abstype
 s2cstmap_type_type (a:type)
 stadef s2cstmap = s2cstmap_type_type
@@ -1426,10 +1417,10 @@ fun s2aspdec_make (
 
 (* ****** ****** *)
 //
-abstype appenv_type = ptr
+absvtype appenv_type = ptr
+vtypedef appenv = appenv_type
 //
-typedef appenv = appenv_type
-typedef synent_app (a:type) = (a, appenv) -> void
+typedef synent_app (a:type) = (a, !appenv) -> void
 //
 (* ****** ****** *)
   
