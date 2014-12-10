@@ -67,11 +67,15 @@ staload "./pats_dynexp2.sats"
 (* ****** ****** *)
 
 implement
-fprint_d2itm (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+fprint_d2itm
+  (out, x0) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
 in
 //
-case+ x of
+case+ x0 of
+//
 | D2ITMcst d2c => begin
     prstr "D2ITMcst("; fprint_d2cst (out, d2c); prstr ")"
   end // end of [D2ITMcst]
@@ -106,13 +110,21 @@ case+ x of
 // end of [case]
 end // end of [fprint_d2item]
 
-implement print_d2itm (x) = fprint_d2itm (stdout_ref, x)
-implement prerr_d2itm (x) = fprint_d2itm (stderr_ref, x)
+(* ****** ****** *)
+
+implement
+print_d2itm (x) = fprint_d2itm (stdout_ref, x)
+implement
+prerr_d2itm (x) = fprint_d2itm (stderr_ref, x)
+
+(* ****** ****** *)
 
 implement
 fprint_d2itmlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d2itm)
 // end of [fprint_d2itmlst]
+
+(* ****** ****** *)
 
 implement
 fprint_d2pitm
@@ -133,27 +145,18 @@ fprint_d2pitmlst
 (* ****** ****** *)
 //
 implement
-print_d2sym
-  (d2s) = fprint (stdout_ref, d2s)
-implement
-prerr_d2sym
-  (d2s) = fprint (stderr_ref, d2s)
-//
-implement
 fprint_d2sym
   (out, d2s) = {
   val () = fprint_d0ynq (out, d2s.d2sym_qua)
   val () = fprint_symbol (out, d2s.d2sym_sym)
 } (* end of [d2sym] *)
 //
-(* ****** ****** *)
+implement
+print_d2sym (d2s) = fprint (stdout_ref, d2s)
+implement
+prerr_d2sym (d2s) = fprint (stderr_ref, d2s)
 //
-implement
-print_pckind
-  (pck) = fprint (stdout_ref, pck)
-implement
-prerr_pckind
-  (pck) = fprint (stderr_ref, pck)
+(* ****** ****** *)
 //
 implement
 fprint_pckind
@@ -172,6 +175,11 @@ in
 //
 end // end of [fprint_pckind]
 //
+implement
+print_pckind (x) = fprint (stdout_ref, x)
+implement
+prerr_pckind (x) = fprint (stderr_ref, x)
+//
 (* ****** ****** *)
 
 implement
@@ -183,11 +191,15 @@ fprint_pckindopt
 
 implement
 fprint_p2at
-  (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+  (out, x0) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
 in
 //
-case+ x.p2at_node of
+case+
+x0.p2at_node of
+//
 | P2Tany () => {
     val () = prstr "P2Tany()"
   }
@@ -320,23 +332,25 @@ case+ x.p2at_node of
 //
 end // end of [fprint_p2at]
 
+(* ****** ****** *)
+
 implement
 print_p2at (x) = fprint_p2at (stdout_ref, x)
 implement
 prerr_p2at (x) = fprint_p2at (stderr_ref, x)
 
 (* ****** ****** *)
-
+//
 implement
 fprint_p2atlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_p2at)
 // end of [fprint_p2atlst]
-
+//
 implement
 print_p2atlst (xs) = fprint_p2atlst (stdout_ref, xs)
 implement
 prerr_p2atlst (xs) = fprint_p2atlst (stderr_ref, xs)
-
+//
 (* ****** ****** *)
 
 implement
@@ -362,8 +376,7 @@ fprint_d2exp
   (out, d2e0) = let
 //
 macdef
-prstr (str) =
-fprint_string (out, ,(str))
+prstr (s) = fprint_string (out, ,(s))
 //
 in
 //
@@ -822,6 +835,8 @@ d2e0.d2exp_node of
 //
 end // end of [fprint_d2exp]
 
+(* ****** ****** *)
+
 implement
 print_d2exp (x) = fprint_d2exp (stdout_ref, x)
 implement
@@ -854,7 +869,8 @@ end // end of [fprint_d2expopt]
 (* ****** ****** *)
 
 implement
-fprint_labd2exp (out, x) = {
+fprint_labd2exp
+  (out, x) = {
   val $SYN.DL0ABELED (l0, d2e) = x
   val () = fprint_l0ab (out, l0)
   val () = fprint_string (out, "=")
@@ -869,8 +885,11 @@ fprint_labd2explst (out, xs) =
 (* ****** ****** *)
 
 implement
-fprint_d2exparg (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+fprint_d2exparg
+  (out, x) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
 in
 //
 case+ x of
@@ -899,8 +918,11 @@ fprint_d2exparglst (out, xs) =
 (* ****** ****** *)
 
 implement
-fprint_d2lab (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+fprint_d2lab
+  (out, x) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
 in
 //
 case+ x.d2lab_node of
@@ -923,10 +945,11 @@ fprint_d2lablst (out, xs) =
 // end of [fprint_d2lablst]
 
 (* ****** ****** *)
-
+//
 extern
-fun fprint_i2nvarg : fprint_type (i2nvarg)
-
+fun
+fprint_i2nvarg : fprint_type (i2nvarg)
+//
 implement
 fprint_i2nvarg
   (out, arg) = let
@@ -990,11 +1013,15 @@ end // end of [fprint_loopi2nv]
 (* ****** ****** *)
 
 implement
-fprint_d2ecl (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+fprint_d2ecl
+  (out, x0) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
 in
 //
-case+ x.d2ecl_node of
+case+
+x0.d2ecl_node of
 //
 | D2Cnone () => prstr "D2Cnone()"
 //
@@ -1133,11 +1160,15 @@ prerr_d2ecl (x) = fprint_d2ecl (stderr_ref, x)
 (* ****** ****** *)
 
 implement
-fprint_d2lval (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+fprint_d2lval
+  (out, x0) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
 in
 //
-case+ x of
+case+ x0 of
+//
 | D2LVALderef (d2e, d2ls) => {
     val () = prstr "D2LVALderef("
     val () = fprint_d2exp (out, d2e)
@@ -1180,11 +1211,13 @@ case+ x of
 //
 end // end of [fprint_d2lval]
 
+(* ****** ****** *)
+//
 implement
-print_d2lval (d2lv) = fprint_d2lval (stdout_ref, d2lv)
+print_d2lval (x) = fprint_d2lval (stdout_ref, x)
 implement
-prerr_d2lval (d2lv) = fprint_d2lval (stderr_ref, d2lv)
-
+prerr_d2lval (x) = fprint_d2lval (stderr_ref, x)
+//
 (* ****** ****** *)
 
 (* end of [pats_dynexp2_print.dats] *)

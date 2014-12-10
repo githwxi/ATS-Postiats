@@ -18,18 +18,18 @@ fun comment
 fun make_entry
   (nm: string): atext = let
 //
-val ent = sprintf ("\
-all_html:: HTML/%s.html\n\
-HTML/%s.html: %s_atxt.exe ; ./$< > $@
-all_script:: SCRIPT/%s.bash\n\
+val ent =
+sprintf ("\
+all_script:: \\
+SCRIPT/%s.bash\n\
 SCRIPT/%s.bash: %s_atxt.exe ; ./$< > $@
-%s_atxt.dats: ATEXT/%s.atxt ; \
+%s_atxt.dats: ATEXT/%s.atxt ; \\
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
 %s_atxt.exe: %s_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) %s_atxt.exe
 cleanall:: ; $(RMF) HTML/%s.html
 cleanall:: ; $(RMF) SCRIPT/%s.bash
-", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
 in
@@ -78,7 +78,6 @@ ATSDIST=ATS-Postiats
 ######
 
 all::
-all_html::
 all_script::
 
 ######
@@ -168,22 +167,25 @@ srcget_home:: ; $(CPF) ../../bin/patscc_env.sh.in $(ATSDIST)/bin/
 srcget_home:: ; $(CPF) ../../bin/patsopt_env.sh.in $(ATSDIST)/bin/
 
 ######
-
+#
 srcget_share:: ; \\
-  $(CPF) ../../share/Makefile.gen $(ATSDIST)/share/
+  $(CPF) ../../share/Makefile.gen $(ATSDIST)/share/.
 srcget_share:: ; \\
-  $(CPF) ../../share/atspre_define.hats $(ATSDIST)/share/
+  $(CPF) ../../share/atspre_define.hats $(ATSDIST)/share/.
 srcget_share:: ; \\
-  $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/
+  $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/.
 srcget_share:: ; \\
-  $(CPF) ../../share/HATS/atspre_define_pkgreloc.hats $(ATSDIST)/share/HATS/
+  $(CPF) ../../share/H/pats_atslib.h $(ATSDIST)/share/H/.
 srcget_share:: ; \\
-  $(CPF) ../../share/HATS/atslib_staload_libc.hats $(ATSDIST)/share/HATS/
+  $(CPF) ../../share/HATS/atspre_define_pkgreloc.hats $(ATSDIST)/share/HATS/.
 srcget_share:: ; \\
-  $(CPF) ../../share/HATS/atspre_staload_libats_ML.hats $(ATSDIST)/share/HATS/
-srcget_share:: ; $(CPF) ../../share/atsmake-pre.mk $(ATSDIST)/share/
-srcget_share:: ; $(CPF) ../../share/atsmake-post.mk $(ATSDIST)/share/
-
+  $(CPF) ../../share/HATS/atslib_staload_libc.hats $(ATSDIST)/share/HATS/.
+srcget_share:: ; \\
+  $(CPF) ../../share/HATS/atspre_staload_libats_ML.hats $(ATSDIST)/share/HATS/.
+#
+srcget_share:: ; $(CPF) ../../share/atsmake-pre.mk $(ATSDIST)/share/.
+srcget_share:: ; $(CPF) ../../share/atsmake-post.mk $(ATSDIST)/share/.
+#
 ######
 
 srcget_patsrc:: SCRIPT/patsopt_src.bash ; bash $<
@@ -315,6 +317,8 @@ srcget_atscntrb_libatscc:: SCRIPT/atscntrb_libatscc.bash ; bash $<
 ######
 #
 PACKNAME=ATS2-Postiats-0.1.6
+PACKNAMEmin=ATS2-Postiats-min-0.1.6
+#
 atspacktarzvcf:: ; rm -rf $(PACKNAME)
 atspacktarzvcf:: ; cp -rf ATS-Postiats $(PACKNAME)
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/Makefile_conf
@@ -323,7 +327,10 @@ atspacktarzvcf:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-s
 atspacktarzvcf:: ; make -C $(PACKNAME) cleanall
 atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 #
-atspacktarzvcf_up:: ; scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/.
+atspacktarzvcf_up:: ; \\
+scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAME).tgz
+atspacktarzvcf_min_up:: ; \\
+scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEmin).tgz
 #
 ######
 

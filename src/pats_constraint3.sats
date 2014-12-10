@@ -36,13 +36,14 @@
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_staexp2.sats"
+//
 staload
 TRENV3 = "./pats_trans3_env.sats"
 typedef h3ypo = $TRENV3.h3ypo
 typedef c3nstr = $TRENV3.c3nstr
-
+//
 (* ****** ****** *)
 
 staload "./pats_lintprgm.sats"

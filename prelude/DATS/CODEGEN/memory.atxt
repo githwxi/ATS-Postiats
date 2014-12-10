@@ -25,8 +25,9 @@ UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
-implement{
-} memory$free{l}
+implement
+{}(*tmp*)
+memory$free{l}
   (pfat, pfmf | p) = let
 //
 prval pfgc = $UN.castview0{mfree_gc_v(l)}(pfmf)
@@ -37,8 +38,9 @@ end // end of [memory$free]
 
 #atscode_separator()
 
-implement{
-} memory$alloc
+implement
+{}(*tmp*)
+memory$alloc
   {n} (bsz) = let
 //
 val [l:addr]

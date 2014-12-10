@@ -172,33 +172,6 @@ socket_AF_type_exn
 (* ****** ****** *)  
 //
 dataview
-connect_v
-(
-  fd:int, int
-) =
-  | connect_v_succ (fd,  0) of socket_v (fd, conn)
-  | connect_v_fail (fd, ~1(*err*)) of socket_v (fd, init)
-// end of [connect_v]
-//
-fun
-connect_err
-  {fd:int}{n:int}
-(
-  pf: socket_v (fd, init)
-| fd: int fd, sockaddr: &SA(n), salen: socklen_t(n)
-) : [i:int] (connect_v (fd, i) | int i) = "mac#%"
-//
-fun
-connect_exn
-  {fd:int}{n:int}
-(
-  pf: !socket_v(fd, init) >> socket_v(fd, conn)
-| fd: int fd, sockaddr: &SA(n), salen: socklen_t(n)
-) : void = "exn#%" // end of [connect_exn]
-//
-(* ****** ****** *)
-//
-dataview
 bind_v
   (fd:int, int) = 
   | bind_v_succ (fd,  0) of socket_v (fd, bind)
@@ -248,6 +221,33 @@ listen_exn {fd:int}
 (* ****** ****** *)
 //
 dataview
+connect_v
+(
+  fd:int, int
+) =
+  | connect_v_succ (fd,  0) of socket_v (fd, conn)
+  | connect_v_fail (fd, ~1(*err*)) of socket_v (fd, init)
+// end of [connect_v]
+//
+fun
+connect_err
+  {fd:int}{n:int}
+(
+  pf: socket_v (fd, init)
+| fd: int fd, sockaddr: &SA(n), salen: socklen_t(n)
+) : [i:int] (connect_v (fd, i) | int i) = "mac#%"
+//
+fun
+connect_exn
+  {fd:int}{n:int}
+(
+  pf: !socket_v(fd, init) >> socket_v(fd, conn)
+| fd: int fd, sockaddr: &SA(n), salen: socklen_t(n)
+) : void = "exn#%" // end of [connect_exn]
+//
+(* ****** ****** *)
+//
+dataview
 accept_v
   (fd1: int, int) =
   | {fd2:nat}
@@ -278,7 +278,7 @@ accept_null_err
 (* ****** ****** *)
 //
 fun
-socket_close_err
+socket_close
   {fd:int}{s:status}
 (
   pf: socket_v (fd, s) | fd: int fd

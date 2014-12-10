@@ -18,6 +18,15 @@ all:: \
 myserver
 myserver: \
 myserver.dats; $(PATSCC) -o $@ $< -L$(PATSLIB) -latslib
+cleanall:: ; $(RMF) myserver
+
+######
+
+all:: \
+myserver2
+myserver2: myserver2.dats ; \
+  $(PATSCC) -D_GNU_SOURCE -I${PATSHOME}/contrib -o $@ $< -lczmq -lzmq
+cleanall:: ; $(RMF) myserver2
 
 ######
 
@@ -44,7 +53,6 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) myserver
 cleanall:: ; $(RMF) main.html
 
 ######

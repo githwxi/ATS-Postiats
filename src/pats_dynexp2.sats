@@ -79,12 +79,6 @@ typedef macsynkind = $SYN.macsynkind
 (* ****** ****** *)
 
 staload
-JSON = "./pats_jsonize.sats"
-typedef jsonval = $JSON.jsonval
-
-(* ****** ****** *)
-
-staload
 S1E = "./pats_staexp1.sats"
 typedef e1xp = $S1E.e1xp
 typedef s1exp = $S1E.s1exp
@@ -1785,21 +1779,6 @@ fun d2cst_match_def (d2c: d2cst, def: d1exp): bool
 fun d2exp_get_seloverld (d2e0: d2exp): d2symopt
 fun d2exp_get_seloverld_root (d2e0: d2exp): d2exp
 //
-(* ****** ****** *)
-
-fun jsonize_d2cst (d2c: d2cst): jsonval
-fun jsonize_d2cst_long (d2c: d2cst): jsonval
-
-(* ****** ****** *)
-
-fun jsonize_d2var (d2v: d2var): jsonval
-fun jsonize_d2var_long (d2v: d2var): jsonval
-
-(* ****** ****** *)
-
-fun jsonize_d2ecl (d2c: d2ecl): jsonval
-fun jsonize_d2eclist (d2cs: d2eclist): jsonval
-
 (* ****** ****** *)
 
 (* end of [pats_dynexp2.sats] *)

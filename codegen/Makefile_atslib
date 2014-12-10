@@ -25,6 +25,8 @@ prelude_sats:
 prelude_dats:
 	make -C prelude/DATS/CODEGEN -f Makefile.gen
 	make -C prelude/DATS/CODEGEN -f Makefile all
+	make -C prelude/DATS/SHARE/CODEGEN -f Makefile.gen
+	make -C prelude/DATS/SHARE/CODEGEN -f Makefile all
 prelude_cats:
 	make -C prelude/CATS/CODEGEN -f Makefile.gen
 	make -C prelude/CATS/CODEGEN -f Makefile all

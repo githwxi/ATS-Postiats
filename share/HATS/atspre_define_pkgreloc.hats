@@ -47,6 +47,9 @@ LIBGMP_targetloc "$PATSHOMERELOC/contrib/libgmp"
 #define
 ZLOG_targetloc "$PATSHOMERELOC/contrib/zlog"
 //
+#define
+ZEROMQ_targetloc "$PATSHOMERELOC/contrib/zeromq"
+//
 (* ****** ****** *)
 //
 #define

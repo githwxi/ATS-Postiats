@@ -39,6 +39,13 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
+
+%{^
+#define \
+atstyarr_field_undef(fname) fname[]
+%} // end of [%{]
+
+(* ****** ****** *)
 //
 staload
 UN = "prelude/SATS/unsafe.sats"
@@ -306,7 +313,7 @@ cmdstate =
 } (* end of [cmdstate] *)
 
 (* ****** ****** *)
-
+//
 extern
 fun arg_process
   (state: &cmdstate >> _, arg: string): void
@@ -316,7 +323,7 @@ fun arg_process_inp
 extern
 fun arg_process_out
   (state: &cmdstate >> _, arg: string): void
-
+//
 (* ****** ****** *)
 
 extern
@@ -464,20 +471,6 @@ fprint_newline (out);
 //
 end // end of [fprint_usage]
 
-(* ****** ****** *)
-//
-local
-#include
-"{$LIBATSHWXI}/cstream/DATS/cstream.dats"
-in (*in-of-local *)
-end // end of [local]
-//
-local
-#include
-"{$LIBATSHWXI}/cstream/DATS/cstream_fileref.dats"
-in (*in-of-local *)
-end // end of [local]
-//
 (* ****** ****** *)
 
 implement

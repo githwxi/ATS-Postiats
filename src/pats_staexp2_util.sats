@@ -142,15 +142,17 @@ fun s2explstlst_subst (sub: !stasub, s2ess: s2explstlst): s2explstlst
 fun s2expopt_subst (sub: !stasub, os2e: s2expopt): s2expopt
 //
 (* ****** ****** *)
-
-fun s2exp_subst_flag
+//
+fun
+s2exp_subst_flag
   (sub: !stasub, s2e: s2exp, flag: &int): s2exp
 // end of [s2exp_subst_flag]
-
-fun s2explst_subst_flag
+//
+fun
+s2explst_subst_flag
   (sub: !stasub, s2es: s2explst, flag: &int): s2explst
 // end of [s2explst_subst_flag]
-
+//
 (* ****** ****** *)
 
 fun s2zexp_subst_flag
@@ -168,15 +170,14 @@ fun s2explst_alpha
 // end of [s2explst_alpha]
 
 (* ****** ****** *)
-
+//
 fun s2ctxt_hrepl
   (ctxt: s2ctxt, repl: s2exp): s2exp
 fun s2ctxtopt_hrepl
   (ctxtopt: s2ctxtopt, repl: s2exp): s2expopt
-// end of [s2ctxtopt_hrepl]
-
+//
 fun s2exp_hrepl (s2e: s2exp, repl: s2exp): s2exp
-
+//
 (* ****** ****** *)
 
 fun s2exp_linkrem (s2e: s2exp): s2exp

@@ -1,5 +1,33 @@
 0.1.6
 
+This is the 14th release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Reorganizing ATSLIB/prelude
+2. Improving ATS2-contrib/zeromq
+3. Adding src/Makefile_CBOOTmin to for minimally C-bootstrapping ATS2:
+   There is no GCATS by default
+   There is no dependency on libgmp
+
 ######
 
 0.1.5

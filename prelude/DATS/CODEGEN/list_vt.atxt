@@ -32,7 +32,8 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 implement
 {a}(*tmp*)
-list_vt_make_sing (x) = list_vt_cons{a}(x, list_vt_nil)
+list_vt_make_sing (x) =
+  list_vt_cons{a}(x, list_vt_nil)
 implement
 {a}(*tmp*)
 list_vt_make_pair (x1, x2) =
@@ -558,7 +559,7 @@ fun loop
 (
   xs: list_vt (a, m), ys: list_vt (a, n)
 ) :<!wrt> list_vt (a, m+n) =
-  case xs of
+  case+ xs of
   | @list_vt_cons
       (_, xs1) => let
       val xs1_ = xs1
@@ -1106,6 +1107,11 @@ end // end of [list_vt_iforeach_env]
 implement
 {x}{env}
 list_vt_iforeach$cont (i, x, env) = true
+
+#atscode_separator()
+
+\#include "./SHARE/list_vt_mergesort.dats"
+\#include "./SHARE/list_vt_quicksort.dats"
 
 #atscode_separator()
 

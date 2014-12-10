@@ -843,6 +843,8 @@ atspre_string_make_vsnprintf
 //
 \%}
 
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

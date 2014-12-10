@@ -28,9 +28,14 @@ GCFLAG=
 GCFLAG=-D_ATS_GCATS
 
 ######
-
+#
+# Bootstrapping:
+#
+# [gmpknd] for CBOOT
+# [intknd] for CBOOTmin
+#
 C3NSTRINTKND=gmpknd
-
+#
 ######
 
 DATSCC=-DATS C3NSTRINTKND=$(C3NSTRINTKND)
@@ -161,7 +166,6 @@ SOURCES := \
   pats_stacst2.dats \
   pats_staexp2_print.dats \
   pats_staexp2_pprint.dats \
-  pats_staexp2_jsonize.dats \
   pats_staexp2_sort.dats \
   pats_staexp2_scst.dats \
   pats_staexp2_svar.dats \
@@ -186,11 +190,12 @@ SOURCES := \
   pats_dyncst2.sats \
   pats_dyncst2.dats \
   pats_dynexp2_print.dats \
-  pats_dynexp2_jsonize.dats \
   pats_dynexp2_dcst.dats \
   pats_dynexp2_dvar.dats \
   pats_dynexp2_dmac.dats \
   pats_dynexp2_util.dats \
+  pats_synent2_jsonize.sats \
+  pats_synent2_jsonize.dats \
   pats_trans2.sats \
   pats_namespace.sats \
   pats_namespace.dats \
@@ -400,7 +405,6 @@ OBJECTS := \
   pats_stacst2_dats.o \
   pats_staexp2_print_dats.o \
   pats_staexp2_pprint_dats.o \
-  pats_staexp2_jsonize_dats.o \
   pats_staexp2_sort_dats.o \
   pats_staexp2_scst_dats.o \
   pats_staexp2_svar_dats.o \
@@ -425,11 +429,12 @@ OBJECTS := \
   pats_dyncst2_sats.o \
   pats_dyncst2_dats.o \
   pats_dynexp2_print_dats.o \
-  pats_dynexp2_jsonize_dats.o \
   pats_dynexp2_dcst_dats.o \
   pats_dynexp2_dvar_dats.o \
   pats_dynexp2_dmac_dats.o \
   pats_dynexp2_util_dats.o \
+  pats_synent2_jsonize_sats.o \
+  pats_synent2_jsonize_dats.o \
   pats_trans2_sats.o \
   pats_namespace_sats.o \
   pats_namespace_dats.o \
@@ -542,8 +547,9 @@ all:: patsopt
 
 ######
 #
-# AS-20130407: libats depends on libgmp (hence specified earlier);
+# AS-20130407:
 # link order matters to GNU ld
+# please keep the order '$(LIBATS) $(LIBGMP)' as libats depends on libgmp
 #
 patsopt: \
   pats_main_dats.o $(OBJECTS) ; \
@@ -559,16 +565,25 @@ BUILD/clean: ; make -C BUILD -f Makefile clean
 BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
 #
 ######
-
+#
 CBOOT:: ; $(CPF) pats_*.hats CBOOT
 CBOOT:: ; $(CPF) pats_*.cats CBOOT
 CBOOT:: ; $(CPF) pats_*_sats.c CBOOT
 CBOOT:: ; $(CPF) pats_*_dats.c CBOOT
-
+CBOOT:: ; $(CPF) Makefile_CBOOT CBOOT/Makefile
+#
+######
+#
+CBOOTmin:: ; $(CPF) pats_*.hats CBOOT
+CBOOTmin:: ; $(CPF) pats_*.cats CBOOT
+CBOOTmin:: ; $(CPF) pats_*_sats.c CBOOT
+CBOOTmin:: ; $(CPF) pats_*_dats.c CBOOT
+CBOOTmin:: ; $(CPF) Makefile_CBOOTmin CBOOT/Makefile
+#
 ######
 
 TAGATS:: ; $(RMF) $@
-TAGATS:: ; $(ATSOPT) -o $@ --taggen -s $(SOURCESsta) -d $(SOURCESdyn)
+TAGATS:: ; $(ATSOPT) --output-a $@ --taggen -s $(SOURCESsta) -d $(SOURCESdyn)
 
 ######
 
@@ -860,9 +875,6 @@ pats_staexp2_print_dats.o: pats_staexp2_print_dats.c; $(ATSCC) $(CFLAGS) -c $<
 pats_staexp2_pprint_dats.c: pats_staexp2_pprint.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_staexp2_pprint_dats.o: pats_staexp2_pprint_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
-pats_staexp2_jsonize_dats.c: pats_staexp2_jsonize.dats; $(ATSCC) $(DATSCC) -cc $<
-pats_staexp2_jsonize_dats.o: pats_staexp2_jsonize_dats.c; $(ATSCC) $(CFLAGS) -c $<
-
 pats_staexp2_sort_dats.c: pats_staexp2_sort.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_staexp2_sort_dats.o: pats_staexp2_sort_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
@@ -935,9 +947,6 @@ pats_dyncst2_dats.o: pats_dyncst2_dats.c; $(ATSCC) $(CFLAGS) -c $<
 pats_dynexp2_print_dats.c: pats_dynexp2_print.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_dynexp2_print_dats.o: pats_dynexp2_print_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
-pats_dynexp2_jsonize_dats.c: pats_dynexp2_jsonize.dats; $(ATSCC) $(DATSCC) -cc $<
-pats_dynexp2_jsonize_dats.o: pats_dynexp2_jsonize_dats.c; $(ATSCC) $(CFLAGS) -c $<
-
 pats_dynexp2_dcst_dats.c: pats_dynexp2_dcst.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_dynexp2_dcst_dats.o: pats_dynexp2_dcst_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
@@ -949,6 +958,12 @@ pats_dynexp2_dmac_dats.o: pats_dynexp2_dmac_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 pats_dynexp2_util_dats.c: pats_dynexp2_util.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_dynexp2_util_dats.o: pats_dynexp2_util_dats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_synent2_jsonize_sats.c: pats_synent2_jsonize.sats; $(ATSCC) $(DATSCC) -cc $<
+pats_synent2_jsonize_sats.o: pats_synent2_jsonize_sats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_synent2_jsonize_dats.c: pats_synent2_jsonize.dats; $(ATSCC) $(DATSCC) -cc $<
+pats_synent2_jsonize_dats.o: pats_synent2_jsonize_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 pats_trans2_sats.c: pats_trans2.sats; $(ATSCC) $(DATSCC) -cc $<
 pats_trans2_sats.o: pats_trans2_sats.c; $(ATSCC) $(CFLAGS) -c $<

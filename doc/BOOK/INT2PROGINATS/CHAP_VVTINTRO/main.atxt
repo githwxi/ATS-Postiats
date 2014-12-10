@@ -756,7 +756,7 @@ The support for linear closure-functions in ATS1 is crucial in a setting
 where higher-order functions are needed but run-time garbage collection
 (GC) is not allowed or supported. In ATS2, linear closure-functions become
 much less important as programming with higher-order functions in a setting
-without GC can be more conveniently achieved through the use templates.
+without GC can be more conveniently achieved through the use of templates.
 However, if one wants to store closure-functions in a data structure
 without causing memory leaks, it is necessary to use linear closure-functions
 unless GC can be relied upon to reclaim memory.\

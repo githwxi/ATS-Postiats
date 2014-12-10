@@ -39,13 +39,16 @@ all:: atspkgreloc_wget
 
 ######
 
-atspkgreloc_curl: atspkgreloc_curl.dats ; \
+atspkgreloc_curl: \
+atspkgreloc_curl.dats ; \
   $(PATSCC) -I . -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
 
 ######
 
-atspkgreloc_wget: atspkgreloc_wget.dats ; \
-  $(PATSCC) -I . -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
+atspkgreloc_wget: \
+atspkgreloc_wget.dats \
+atspkgreloc_wget_lib.dats ; \
+  $(PATSCC) -I . -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $^ $(LDFLAGS)
 
 ######
 

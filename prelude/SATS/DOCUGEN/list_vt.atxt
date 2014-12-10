@@ -66,10 +66,11 @@ The full name for the list-type constructor #stacode("list_vt") is
 linear datatype (dataviewtype) declared as follows:
 #pats2xhtmls('\
 dataviewtype // viewt@ype+: covariant
-list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
+list_viewt0ype_int_viewtype
+  (a:viewt@ype+, int) =
+  | list_vt_nil (a, 0) of ()
   | {n:int | n >= 0}
     list_vt_cons (a, n+1) of (a, list_viewt0ype_int_viewtype (a, n))
-  | list_vt_nil (a, 0) of ()
 // end of [list_viewt0ype_int_viewtype]
 ')')
 ')

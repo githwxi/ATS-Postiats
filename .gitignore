@@ -30,8 +30,8 @@ contrib
 #
 # The compiler for POSTIATS 
 #
-src/.depend
 src/patsopt
+src/.depend
 src/Makefile_atxt.txt
 src/Makefile_atxt.dats
 src/TAGS
@@ -49,14 +49,15 @@ bin/atscc2php
 bin/atscc2py
 
 #
-# boostrapping
+# Boostrapping
 #
+
+src/CBOOT/Makefile
 src/CBOOT/pats*.?ats
 
 #
-# building patsopt thru CMake 
+# Syntax-highlighting
 #
-src/BUILD/*
 
 utils/atsyntax/HTML
 utils/atsyntax/pats2xhtml
@@ -85,6 +86,9 @@ prelude/SATS/CODEGEN/*_atxt.dats
 prelude/DATS/CODEGEN/*.dats
 prelude/DATS/CODEGEN/*_atxt.txt
 prelude/DATS/CODEGEN/*_atxt.dats
+prelude/DATS/SHARE/CODEGEN/*.dats
+prelude/DATS/SHARE/CODEGEN/*_atxt.txt
+prelude/DATS/SHARE/CODEGEN/*_atxt.dats
 prelude/CATS/CODEGEN/*.cats
 prelude/CATS/CODEGEN/*_atxt.txt
 prelude/CATS/CODEGEN/*_atxt.dats
@@ -212,10 +216,10 @@ doc/DISTRIB/ATS-Postiats/patscc_env.sh.in
 doc/DISTRIB/ATS-Postiats/patsopt_env.sh.in
 doc/DISTRIB/ATS-Postiats/bin/*
 doc/DISTRIB/ATS-Postiats/share/*
+doc/DISTRIB/ATS-Postiats/src/patsopt
 doc/DISTRIB/ATS-Postiats/src/.depend
 doc/DISTRIB/ATS-Postiats/src/Makefile
 doc/DISTRIB/ATS-Postiats/src/pats_*.?ats
-doc/DISTRIB/ATS-Postiats/src/patsopt
 doc/DISTRIB/ATS-Postiats/src/CBOOT/*
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/lib64
@@ -226,8 +230,11 @@ doc/DISTRIB/ATS-Postiats/utils/atscc
 doc/DISTRIB/ATS-Postiats/prelude/*.ats
 doc/DISTRIB/ATS-Postiats/prelude/*.?ats
 doc/DISTRIB/ATS-Postiats/prelude/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/prelude/DATS/SHARE/*.dats
 doc/DISTRIB/ATS-Postiats/libc/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libc/sys/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libc/arpa/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libc/netinet/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libc/gdbm/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libc/gdbm/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/*.?ats

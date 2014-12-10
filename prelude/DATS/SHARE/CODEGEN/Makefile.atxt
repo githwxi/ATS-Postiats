@@ -1,0 +1,103 @@
+%{
+//
+staload
+STDIO = "libc/SATS/stdio.sats"
+staload TIME = "libc/SATS/time.sats"
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+%}\
+%{
+
+fun comment
+  (x: string): atext = atext_nil ()
+// end of [comment]
+
+fun make_entry
+  (nm: string): atext = let
+//
+val ent = sprintf
+("\
+all:: %s.dats\n\
+%s.dats: %s_atxt.exe ; ./$< > $@\n\
+%s_atxt.exe: %s_atxt.dats\n\
+	$(ATSCC) $(ATSGCFLAG) -o $@ %s_atxt.dats -latsdoc\n\
+%s_atxt.dats: %s.atxt\n\
+	$(ATSDOC) --outcode $@ -i %s.atxt > %s_atxt.txt\n\
+clean:: ; $(RMF) %s_atxt.exe\n\
+cleanall:: ; $(RMF) %s.dats\n\
+", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+) // end of [val]
+//
+val ent = string_of_strptr (ent)
+in
+  atext_strcst (ent)
+end // end of [make_entry]
+
+%}\
+#
+#
+# A simple Makefile
+#
+#
+
+######
+
+ATSHOMEQ="$(ATSHOME)"
+ATSCC=$(ATSHOMEQ)/bin/atscc
+ATSOPT=$(ATSHOMEQ)/bin/atsopt
+ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+
+######
+
+ATSGCFLAG=-D_ATS_GCATS
+
+######
+
+all::
+
+######
+
+#make_entry("gorder_int")
+#make_entry("gorder_uint")
+#make_entry("gorder_bool")
+#make_entry("gorder_char")
+#make_entry("gorder_float")
+#make_entry("gorder_string")
+
+######
+
+#make_entry("gnumber_int")
+#make_entry("gnumber_uint")
+#make_entry("gnumber_float")
+
+######
+
+#make_entry("list_vt_mergesort")
+#make_entry("list_vt_quicksort")
+
+######
+
+#make_entry("array_bsearch")
+#make_entry("array_quicksort")
+
+######
+
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.o *_?ats.c
+clean:: ; $(RMF) *_atxt.txt
+clean:: ; $(RMF) *_atxt.dats
+
+cleanall:: clean
+
+###### end of [Makefile] ######
+\
+%{
+implement main () = fprint_filsub (stdout_ref, "Makefile_atxt.txt")
+%}\

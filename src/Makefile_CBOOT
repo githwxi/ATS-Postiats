@@ -1,6 +1,6 @@
 #
 # The main Makefile
-# for ATS/Postiats C-bootstrapping
+# for C-bootstrapping ATS2
 #
 ######
 #
@@ -16,8 +16,12 @@ CCOMP=$(GCC)
 #
 ######
 #
-C3NSTRINTKND=intknd
+# This is fixed:
+#
 C3NSTRINTKND=gmpknd
+#
+# [gmpknd] for CBOOT
+# [intknd] for CBOOTmin
 #
 ######
 #
@@ -152,7 +156,6 @@ SOURCES := \
   pats_stacst2.dats \
   pats_staexp2_print.dats \
   pats_staexp2_pprint.dats \
-  pats_staexp2_jsonize.dats \
   pats_staexp2_sort.dats \
   pats_staexp2_scst.dats \
   pats_staexp2_svar.dats \
@@ -177,11 +180,12 @@ SOURCES := \
   pats_dyncst2.sats \
   pats_dyncst2.dats \
   pats_dynexp2_print.dats \
-  pats_dynexp2_jsonize.dats \
   pats_dynexp2_dcst.dats \
   pats_dynexp2_dvar.dats \
   pats_dynexp2_dmac.dats \
   pats_dynexp2_util.dats \
+  pats_synent2_jsonize.sats \
+  pats_synent2_jsonize.dats \
   pats_trans2.sats \
   pats_namespace.sats \
   pats_namespace.dats \
@@ -419,11 +423,14 @@ gcats.o: \
 gcats1_hats: ; \
   $(GCC) -E -P -o gcats1.hats -x c ./ccomp/runtime/GCATS/gcats1_master.hats
 #
+gcats1_all_cats.c: \
+  $(CPF) ./ccomp/runtime/GCATS/gcats1_all.cats $@
 gcats1_all_cats.o: \
   gcats1_all_cats.c ; $(CCOMP) -O2 -I. -I./ccomp/runtime -c -o $@ $<
 #
 ######
 
+CPF=cp -f
 RMF=rm -f
 
 ######
