@@ -329,9 +329,13 @@ dynload pats_lintprgm_myint_gmp.dats
 dynload "pats_lintprgm_solve.dats"
 //
 dynload "pats_constraint3.dats"
-dynload "pats_constraint3_init.dats"
+//
 dynload "pats_constraint3_print.dats"
+//
+dynload "pats_constraint3_mapgen.dats"
 dynload "pats_constraint3_jsonize.dats"
+//
+dynload "pats_constraint3_init.dats"
 dynload "pats_constraint3_simplify.dats"
 dynload "pats_constraint3_icnstr.dats"
 dynload "pats_constraint3_solve.dats"

@@ -571,6 +571,64 @@ prerr_s2cstlst (xs) = fprint_s2cstlst (stderr_ref, xs)
 (* ****** ****** *)
 
 local
+//
+staload
+FS = "libats/SATS/funset_avltree.sats"
+staload
+LS = "libats/SATS/linset_avltree.sats"
+staload
+_(*FS*) = "libats/DATS/funset_avltree.dats"
+staload
+_(*LS*) = "libats/DATS/linset_avltree.dats"
+//
+val
+cmp =
+lam (
+  s2v1: s2cst, s2v2: s2cst
+) : int =<cloref>
+  compare_s2cst_s2cst (s2v1, s2v2)
+// end of [val]
+//
+assume s2cstset_type = $FS.set (s2cst)
+assume s2cstset_vtype = $LS.set (s2cst)
+//
+in (* in-of-local *)
+
+implement
+s2cstset_nil
+  ((*void*)) = $FS.funset_make_nil ()
+//
+implement
+s2cstset_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*rplced*) = $FS.funset_insert (xs, x, cmp)
+} (* end of [s2cstset_add] *)
+//
+implement
+s2cstset_listize (xs) = $FS.funset_listize (xs)
+
+(* ****** ****** *)
+
+implement
+s2cstset_vt_nil
+  ((*void*)) = $LS.linset_make_nil ()
+//
+implement
+s2cstset_vt_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*rplced*) = $LS.linset_insert (xs, x, cmp)
+} (* end of [s2cstset_vt_add] *)
+//
+implement
+s2cstset_vt_listize_free (xs) = $LS.linset_listize_free (xs)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
 
 staload
 MAP = "libats/SATS/funmap_avltree.sats"

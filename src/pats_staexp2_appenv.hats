@@ -293,4 +293,44 @@ end (* end of [s2explstlst_app] *)
 //
 (* ****** ****** *)
 
+implement
+labs2explst_app
+  (lxs, env) = let
+in
+//
+case+ lxs of
+| list_nil () => ()
+| list_cons
+    (lx, lxs) => let
+    val+SLABELED(_, _, x) = lx
+    val () = s2exp_app (x, env)
+  in
+    labs2explst_app (lxs, env)
+  end // end of [list_cons]
+//
+end // end of [labs2explst_app]
+
+(* ****** ****** *)
+
+implement
+wths2explst_app
+  (wxs, env) = let
+in
+//
+case+ wxs of
+| WTHS2EXPLSTnil () => ()
+| WTHS2EXPLSTcons_invar(_, x, wxs) =>
+  (
+    s2exp_app (x, env); wths2explst_app (wxs, env)
+  )
+| WTHS2EXPLSTcons_trans(_, x, wxs) =>
+  (
+    s2exp_app (x, env); wths2explst_app (wxs, env)
+  )
+| WTHS2EXPLSTcons_none (wxs) => wths2explst_app (wxs, env)
+//
+end // end of [wths2explst_app]
+
+(* ****** ****** *)
+
 (* end of [pats_staexp2_appenv.hats] *)

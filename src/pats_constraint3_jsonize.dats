@@ -305,10 +305,42 @@ implement
 c3nstr_export
   (out, c3t0) = let
 //
-val jsv0 = jsonize_c3nstr (c3t0)
+val
+(s2cs, s2vs) =
+  c3nstr_mapgen_scst_svar (c3t0)
 //
-val ((*void*)) = fprint_jsonval (out, jsv0)
+val s2cs = s2cstset_vt_listize_free (s2cs)
+val s2vs = s2varset_vt_listize_free (s2vs)
+//
+val jsv_s2cs =
+  jsonize_list_fun{s2cst}($UN.list_vt2t(s2cs), jsonize_s2cst_long)
+val () = list_vt_free (s2cs)
+//
+val jsv_s2vs =
+  jsonize_list_fun{s2var}($UN.list_vt2t(s2vs), jsonize_s2var_long)
+val () = list_vt_free (s2vs)
+//
+val jsv_c3t0 = jsonize_c3nstr (c3t0)
+//
+val () =
+  fprint_string (out, "{\n\"s2cstmap\":\n")
+//
+val ((*void*)) = fprint_jsonval (out, jsv_s2cs)
 val ((*void*)) = fprint_newline (out)
+//
+val () =
+  fprint_string (out, ",\n\"s2varmap\":\n")
+//
+val ((*void*)) = fprint_jsonval (out, jsv_s2vs)
+val ((*void*)) = fprint_newline (out)
+//
+val () =
+  fprint_string (out, ",\n\"c3nstrbody\":\n")
+//
+val ((*void*)) = fprint_jsonval (out, jsv_c3t0)
+val ((*void*)) = fprint_string (out, "\n}")
+val ((*void*)) = fprint_newline (out)
+//
 in
   // nothing
 end // end of [c3nstr_export]
