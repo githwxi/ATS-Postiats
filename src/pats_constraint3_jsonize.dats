@@ -313,11 +313,11 @@ val s2cs = s2cstset_vt_listize_free (s2cs)
 val s2vs = s2varset_vt_listize_free (s2vs)
 //
 val jsv_s2cs =
-  jsonize_list_fun{s2cst}($UN.list_vt2t(s2cs), jsonize_s2cst_long)
+  jsonize_list_fun{s2cst}($UN.linlst2lst(s2cs), jsonize_s2cst_long)
 val () = list_vt_free (s2cs)
 //
 val jsv_s2vs =
-  jsonize_list_fun{s2var}($UN.list_vt2t(s2vs), jsonize_s2var_long)
+  jsonize_list_fun{s2var}($UN.linlst2lst(s2vs), jsonize_s2var_long)
 val () = list_vt_free (s2vs)
 //
 val jsv_c3t0 = jsonize_c3nstr (c3t0)
