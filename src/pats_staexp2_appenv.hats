@@ -44,36 +44,42 @@
 staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
-
-staload "./pats_dynexp2.sats"
-
-(* ****** ****** *)
-
-abstype appenv = ptr
-
-(* ****** ****** *)
 //
-typedef
-synent_app
-  (a:type) = (a, appenv) -> void
-//
-(* ****** ****** *)
-  
 extern
-fun s2cst_app : synent_app (s2cst)  
-
+fun s2cst_app : synent_app (s2cst)
+extern
+fun s2cstlst_app : synent_app (s2cstlst)
+//
 (* ****** ****** *)
-
+//
 extern
 fun s2var_app : synent_app (s2var)
 extern
 fun s2varlst_app : synent_app (s2varlst)
-  
+//
 (* ****** ****** *)
-
+//
 extern
 fun d2con_app : synent_app (d2con)
-
+extern
+fun d2conlst_app : synent_app (d2conlst)
+//
+(* ****** ****** *)
+//
+implement
+s2cstlst_app
+  (xs, env) = let
+in
+//
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) =>
+  (
+    s2cst_app(x, env); s2cstlst_app(xs, env)
+  ) (* end of [list_cons] *)
+//
+end (* end of [s2cstlst_app] *)
+//
 (* ****** ****** *)
 //
 implement
@@ -89,6 +95,22 @@ case+ xs of
   ) (* end of [list_cons] *)
 //
 end (* end of [s2varlst_app] *)
+//
+(* ****** ****** *)
+//
+implement
+d2conlst_app
+  (xs, env) = let
+in
+//
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) =>
+  (
+    d2con_app(x, env); d2conlst_app(xs, env)
+  ) (* end of [list_cons] *)
+//
+end (* end of [d2conlst_app] *)
 //
 (* ****** ****** *)
 //

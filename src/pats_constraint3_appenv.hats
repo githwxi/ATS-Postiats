@@ -34,34 +34,64 @@
 // Start Time: December, 2014
 //
 (* ****** ****** *)
-//
-// HX-2014-12-09:
-// This one implements a standard [app] function over the level-2 syntax tree
-// Note that [app] is often referred to as [foreach]
-//
-(* ****** ****** *)
-//
+
 staload "./pats_staexp2.sats"
-staload "./pats_dynexp2.sats"
-//
+
+(* ****** ****** *)
+
+staload "./pats_trans3_env.sats"
+staload "./pats_constraint3.sats"
+
+(* ****** ****** *)
+
+#include "./pats_staexp2_appenv.hats"
+
 (* ****** ****** *)
 //
 extern
-fun d2cst_app : synent_app (d2cst)
+fun s3itm_app : synent_app (s3itm)
 extern
-fun d2cstlst_app : synent_app (d2cstlst)
+fun s3itmlst_app : synent_app (s3itmlst)
+extern
+fun s3itmlstlst_app : synent_app (s3itmlstlst)
+//
+extern
+fun h3ypo_app : synent_app (h3ypo)
+//
+extern
+fun c3nstr_app : synent_app (c3nstr)
 //
 (* ****** ****** *)
+
+implement
+s3itm_app
+  (s3i, env) = let
+in
 //
-extern
-fun d2var_app : synent_app (d2var)
-extern
-fun d2varlst_app : synent_app (d2varlst)
-//  
+case+ s3i of
+//
+| S3ITMsvar (s2v) => s2var_app (s2v, env)
+| S3ITMhypo (h3p) => h3ypo_app (h3p, env)
+//
+| S3ITMsVar (s2V) => ()
+//
+| S3ITMcnstr (c3t) => c3nstr_app (c3t, env)
+//
+| S3ITMcnstr_ref (c3tr) => let
+    val ref = c3tr.c3nstroptref_ref
+  in
+    case+ !ref of
+    | Some (c3t) => c3nstr_app (c3t, env) | None () => ()
+  end // end of [S3ITMcnstr_ref]
+//
+| S3ITMdisj (s3iss) => s3itmlstlst_app (s3iss, env)
+//
+end // end of [jsonize_s3itm]
+
 (* ****** ****** *)
 //
 implement
-d2cstlst_app
+s3itmlst_app
   (xs, env) = let
 in
 //
@@ -69,73 +99,62 @@ case+ xs of
 | list_nil () => ()
 | list_cons (x, xs) =>
   (
-    d2cst_app(x, env); d2cstlst_app(xs, env)
+    s3itm_app(x, env); s3itmlst_app(xs, env)
   ) (* end of [list_cons] *)
 //
-end (* end of [d2cstlst_app] *)
-//
-(* ****** ****** *)
+end (* end of [s3itmlst_app] *)
 //
 implement
-d2varlst_app
-  (xs, env) = let
+s3itmlstlst_app
+  (xss, env) = let
 in
 //
-case+ xs of
+case+ xss of
 | list_nil () => ()
-| list_cons (x, xs) =>
+| list_cons (xs, xss) =>
   (
-    d2var_app(x, env); d2varlst_app(xs, env)
+    s3itmlst_app(xs, env); s3itmlstlst_app(xss, env)
   ) (* end of [list_cons] *)
 //
-end (* end of [d2varlst_app] *)
-//
-(* ****** ****** *)
-//
-extern
-fun d2exp_app : synent_app (d2exp)
-extern
-fun d2explst_app : synent_app (d2explst)
-//
-(* ****** ****** *)
-//
-extern
-fun d2ecl_app : synent_app (d2ecl)
-extern
-fun d2eclist_app : synent_app (d2eclist)
+end (* end of [s3itmlstlst_app] *)
 //
 (* ****** ****** *)
 
 implement
-d2explst_app
-  (xs, env) = let
+h3ypo_app
+  (h3p0, env) = let
 in
 //
-case+ xs of
-| list_nil () => ()
-| list_cons (x, xs) =>
-  (
-    d2exp_app(x, env); d2explst_app(xs, env)
-  ) (* end of [list_cons] *)
+case+
+h3p0.h3ypo_node of
 //
-end (* end of [d2explst_app] *)
+| H3YPOprop (s2e) => s2exp_app (s2e, env)
+| H3YPObind (s2v1, s2e2) =>
+  (
+    s2var_app (s2v1, env); s2exp_app (s2e2, env)
+  )
+| H3YPOeqeq (s2e1, s2e2) =>
+  (
+    s2exp_app (s2e1, env); s2exp_app (s2e2, env)
+  )
+//
+end // end of [h3ypo_app]
 
 (* ****** ****** *)
 
 implement
-d2eclist_app
-  (xs, env) = let
+c3nstr_app
+  (c3t0, env) = let
 in
 //
-case+ xs of
-| list_nil () => ()
-| list_cons (x, xs) =>
-  (
-    d2ecl_app(x, env); d2eclist_app(xs, env)
-  ) (* end of [list_cons] *)
+case+
+c3t0.c3nstr_node of
 //
-end (* end of [d2eclist_app] *)
+| C3NSTRprop (s2e) => s2exp_app (s2e, env)
+| C3NSTRitmlst (s3is) => s3itmlst_app (s3is, env)
+//
+end // end of [c3nstr_app]
 
 (* ****** ****** *)
 
-(* end of [pats_dynexp2_appenv.hats] *)
+(* end of [pats_constraint3_appenv.hats] *)

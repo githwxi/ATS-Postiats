@@ -161,7 +161,8 @@ extern fun jsonize_c3nstropt: jsonize_ftype (c3nstropt)
 (* ****** ****** *)
 
 implement
-jsonize_s3itm (s3i) = let
+jsonize_s3itm
+  (s3i) = let
 in
 //
 case+ s3i of
@@ -209,7 +210,8 @@ jsonize_s3itmlstlst
 (* ****** ****** *)
 
 implement
-jsonize_h3ypo (h3p0) = let
+jsonize_h3ypo
+  (h3p0) = let
 //
 fun auxmain
   (h3p0: h3ypo): jsonval = let
@@ -262,7 +264,8 @@ end // end of [jsonize_h3ypo]
 (* ****** ****** *)
 
 implement
-jsonize_c3nstr (c3t0) = let
+jsonize_c3nstr
+  (c3t0) = let
 //
 fun auxmain
   (c3t0: c3nstr): jsonval = let

@@ -1425,5 +1425,12 @@ fun s2aspdec_make (
 ) : s2aspdec // end of [s2aspdec_make]
 
 (* ****** ****** *)
-
+//
+abstype appenv_type = ptr
+//
+typedef appenv = appenv_type
+typedef synent_app (a:type) = (a, appenv) -> void
+//
+(* ****** ****** *)
+  
 (* end of [pats_staexp2.sats] *)
