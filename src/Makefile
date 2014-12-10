@@ -34,7 +34,9 @@ GCFLAG=-D_ATS_GCATS
 # [gmpknd] for CBOOT
 # [intknd] for CBOOTmin
 #
-C3NSTRINTKND=gmpknd
+ifndef C3NSTRINTKND
+  C3NSTRINTKND=gmpknd
+endif
 #
 ######
 
