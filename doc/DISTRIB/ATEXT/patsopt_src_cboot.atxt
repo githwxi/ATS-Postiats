@@ -309,7 +309,6 @@ The ATS/Postiats C-Boostrapping\
 
 #packfilename("pats_staexp2_print_dats.c")
 #packfilename("pats_staexp2_pprint_dats.c")
-#packfilename("pats_staexp2_jsonize_dats.c")
 
 (* ****** ****** *)
 
@@ -349,7 +348,6 @@ The ATS/Postiats C-Boostrapping\
 (* ****** ****** *)
 
 #packfilename("pats_dynexp2_print_dats.c")
-#packfilename("pats_dynexp2_jsonize_dats.c")
 
 (* ****** ****** *)
 
@@ -357,6 +355,10 @@ The ATS/Postiats C-Boostrapping\
 #packfilename("pats_dynexp2_dvar_dats.c")
 #packfilename("pats_dynexp2_dmac_dats.c")
 #packfilename("pats_dynexp2_util_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_synent2_jsonize_dats.c")
 
 (* ****** ****** *)
 
@@ -651,7 +653,6 @@ The ATS/Postiats C-Boostrapping\
 
 (* ****** ****** *)
 
-#packfilename("gcats1_all_cats.c")
 #packfilename("ccomp/runtime/GCATS/gcats1.cats")
 #packfilename("ccomp/runtime/GCATS/gcats1_master.hats")
 

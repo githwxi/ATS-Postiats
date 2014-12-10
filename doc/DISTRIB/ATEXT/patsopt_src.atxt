@@ -320,7 +320,6 @@ The ATS/Postiats (ATS2) Compiler\
 
 #packfilename("pats_staexp2_print.dats")
 #packfilename("pats_staexp2_pprint.dats")
-#packfilename("pats_staexp2_jsonize.dats")
 
 (* ****** ****** *)
 
@@ -360,7 +359,6 @@ The ATS/Postiats (ATS2) Compiler\
 (* ****** ****** *)
 
 #packfilename("pats_dynexp2_print.dats")
-#packfilename("pats_dynexp2_jsonize.dats")
 
 (* ****** ****** *)
 
@@ -368,6 +366,11 @@ The ATS/Postiats (ATS2) Compiler\
 #packfilename("pats_dynexp2_dvar.dats")
 #packfilename("pats_dynexp2_dmac.dats")
 #packfilename("pats_dynexp2_util.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_synent2_jsonize.sats")
+#packfilename("pats_synent2_jsonize.dats")
 
 (* ****** ****** *)
 

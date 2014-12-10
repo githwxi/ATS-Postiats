@@ -34,13 +34,15 @@
 (* ****** ****** *)
 //
 staload
-ATSPRE = "./pats_atspre.dats"
+ATSPRE =
+  "./pats_atspre.dats"
 //
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
 staload "./pats_jsonize.sats"
@@ -49,6 +51,10 @@ staload "./pats_jsonize.sats"
 
 staload "./pats_staexp2.sats"
 staload "./pats_dynexp2.sats"
+
+(* ****** ****** *)
+
+staload "./pats_synent2_jsonize.sats"
 
 (* ****** ****** *)
 

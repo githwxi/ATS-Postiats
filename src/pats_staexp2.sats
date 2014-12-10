@@ -77,15 +77,8 @@ typedef effset = $EFF.effset
 
 (* ****** ****** *)
 //
-staload
-JSON = "./pats_jsonize.sats"
-//
-typedef jsonval = $JSON.jsonval
-//
-(* ****** ****** *)
-
 staload "./pats_staexp1.sats"
-
+//
 (* ****** ****** *)
 //
 // HX: assumed in [pats_staexp2_scst.dats]
@@ -1431,43 +1424,6 @@ fun s2aspdec_make (
   loc: location, s2c: s2cst, def: s2exp
 ) : s2aspdec // end of [s2aspdec_make]
 
-(* ****** ****** *)
-//
-fun jsonize_s2rt (s2t: s2rt): jsonval
-fun jsonize_s2rtlst (s2ts: s2rtlst): jsonval
-//
-fun jsonize_s2cst (s2c: s2cst): jsonval
-fun jsonize_s2var (s2v: s2var): jsonval
-fun jsonize_s2Var (s2V: s2Var): jsonval
-//
-fun jsonize_s2varlst (s2vs: s2varlst): jsonval
-//
-fun jsonize_d2con (d2c: d2con): jsonval
-fun jsonize_d2con_long (d2c: d2con): jsonval
-//
-fun jsonize_tyreckind : tyreckind -> jsonval
-//
-fun jsonize_s2exp (flag: int, s2e: s2exp): jsonval
-fun jsonize_s2explst (flag: int, s2es: s2explst): jsonval
-fun jsonize_s2expopt (flag: int, s2eopt: s2expopt): jsonval
-//
-fun jsonize_labs2explst (flag: int, ls2es: labs2explst): jsonval  
-//
-fun jsonize_s2eff (s2fe: s2eff): jsonval
-//
-fun jsonize_s2zexp (s2e: s2zexp): jsonval
-//
-(* ****** ****** *)
-//
-fun jsonize0_s2exp (s2e: s2exp): jsonval // w/o hnfizing
-fun jsonize1_s2exp (s2e: s2exp): jsonval // with hnfizing
-//
-fun jsonize0_s2explst (s2es: s2explst): jsonval // w/o hnfizing
-fun jsonize1_s2explst (s2es: s2explst): jsonval // with hnfizing
-//
-fun jsonize0_s2expopt (opt: s2expopt): jsonval // w/o hnfizing
-fun jsonize1_s2expopt (opt: s2expopt): jsonval // with hnfizing
-//  
 (* ****** ****** *)
 
 (* end of [pats_staexp2.sats] *)
