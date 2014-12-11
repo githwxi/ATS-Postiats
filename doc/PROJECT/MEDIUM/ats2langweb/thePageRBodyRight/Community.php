@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2014-12-10:<br>
+<a
+ href="https://github.com/githwxi/ATS-Postiats-contrib/blob/master/contrib/libats-/bbarker/NixOS/ats-dev.nix"
+>ATS development environment for NixOS</a>
+by <a href="http://www.cac.cornell.edu/barker/">Brandon Barker</a>
+
+<hr></hr>
+
 ATS-2014-12-07:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/fvGsJj-FTh4"

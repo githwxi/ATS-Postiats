@@ -47,6 +47,8 @@ LIBGMP_targetloc "$PATSHOMERELOC/contrib/libgmp"
 #define
 ZLOG_targetloc "$PATSHOMERELOC/contrib/zlog"
 //
+(* ****** ****** *)
+//
 #define
 ZEROMQ_targetloc "$PATSHOMERELOC/contrib/zeromq"
 //
@@ -81,16 +83,16 @@ LIBCURL_targetloc "$PATSHOMERELOC/contrib/libcurl"
 (* ****** ****** *)
 //
 #define
-GLIB_sourceloc "$ATSLANGWEBLIB/contrib/glib"
+GTK_sourceloc "$ATSLANGWEBLIB/contrib/GTK"
 #define
-GLIB_targetloc "$PATSHOMERELOC/contrib/glib"
+GTK_targetloc "$PATSHOMERELOC/contrib/GTK"
 //
 (* ****** ****** *)
 //
 #define
-GTK_sourceloc "$ATSLANGWEBLIB/contrib/GTK"
+GLIB_sourceloc "$ATSLANGWEBLIB/contrib/glib"
 #define
-GTK_targetloc "$PATSHOMERELOC/contrib/GTK"
+GLIB_targetloc "$PATSHOMERELOC/contrib/glib"
 //
 (* ****** ****** *)
 //
@@ -102,12 +104,12 @@ CAIRO_targetloc "$PATSHOMERELOC/contrib/cairo"
 (* ****** ****** *)
 //
 #define
-SDL2_targetloc "$PATSHOMERELOC/contrib/SDL2"
+JNI_targetloc "$PATSHOMERELOC/contrib/JNI"
 //
 (* ****** ****** *)
 //
 #define
-JNI_targetloc "$PATSHOMERELOC/contrib/JNI"
+SDL2_targetloc "$PATSHOMERELOC/contrib/SDL2"
 //
 (* ****** ****** *)
 //

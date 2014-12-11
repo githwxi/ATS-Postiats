@@ -90,6 +90,15 @@ typedef s2cstopt = Option (s2cst)
 //
 vtypedef s2cstlst_vt = List_vt (s2cst)
 //
+abstype s2cstset_type
+typedef s2cstset = s2cstset_type
+absvtype s2cstset_vtype
+vtypedef s2cstset_vt = s2cstset_vtype
+//
+abstype
+s2cstmap_type_type (a:type)
+typedef s2cstmap(a:type) = s2cstmap_type_type(a)
+//
 (* ****** ****** *)
 //
 // HX: assumed in [pats_staexp2_svar.dats]
@@ -148,6 +157,9 @@ vtypedef d2conlst_vt = List_vt (d2con)
 //
 abstype d2conset_type
 typedef d2conset = d2conset_type
+//
+absvtype d2conset_vtype
+vtypedef d2conset_vt = d2conset_vtype
 //
 (* ****** ****** *)
 
@@ -539,15 +551,15 @@ s2qua = @{
 } // end of [s2qua]
 typedef s2qualst = List (s2qua)
 vtypedef s2qualst_vt = List_vt (s2qua)
-
+//
 fun s2qua_make (s2vs: s2varlst, s2ps: s2explst): s2qua
-
+//
 fun fprint_s2qua : fprint_type (s2qua)
-
+//
 fun print_s2qualst (xs: s2qualst): void
 fun prerr_s2qualst (xs: s2qualst): void
 fun fprint_s2qualst : fprint_type (s2qualst)
-
+//
 (* ****** ****** *)
 
 fun s2cst_make (
@@ -673,24 +685,23 @@ overload fprint with fprint_s2cstlst
 
 (* ****** ****** *)
 //
-absvtype
-s2cstset_vtype // assumed in [pats_staexp2_scst.dats]
-vtypedef s2cstset_vt = s2cstset_vtype
+fun s2cstset_nil (): s2cstset
+fun s2cstset_add (xs: s2cstset, x: s2cst): s2cstset
+fun s2cstset_listize (xs: s2cstset): s2cstlst_vt
+//
 fun s2cstset_vt_nil (): s2cstset_vt
-fun s2cstset_vt_free (xs: s2cstset_vt): void
 fun s2cstset_vt_add (xs: s2cstset_vt, x: s2cst): s2cstset_vt
+fun s2cstset_vt_listize_free (xs: s2cstset_vt): s2cstlst_vt
 //
 (* ****** ****** *)
 //
-abstype
-s2cstmap_type_type (a:type)
-stadef s2cstmap = s2cstmap_type_type
-//
-fun s2cstmap_nil {a:type} (): s2cstmap (a)
-fun s2cstmap_add {a:type}
+fun
+s2cstmap_nil{a:type} (): s2cstmap (a)
+fun
+s2cstmap_add{a:type}
   (map: s2cstmap (a), key: s2cst, itm: a):<> s2cstmap (a)
-fun s2cstmap_find
-  {a:type} (map: s2cstmap (a), key: s2cst):<> Option_vt (a)
+fun
+s2cstmap_find{a:type} (map: s2cstmap (a), key: s2cst):<> Option_vt (a)
 //
 (* ****** ****** *)
 
@@ -759,7 +770,10 @@ fun s2varset_nil (): s2varset
 fun s2varset_add (xs: s2varset, x: s2var): s2varset
 fun s2varset_del (xs: s2varset, x: s2var): s2varset
 fun s2varset_union (xs: s2varset, ys: s2varset): s2varset
+fun s2varset_listize (xs: s2varset): s2varlst_vt
 
+(* ****** ****** *)
+//
 fun s2varset_vt_nil (): s2varset_vt
 fun s2varset_vt_add
   (xs: s2varset_vt, x: s2var): s2varset_vt
@@ -769,10 +783,10 @@ fun s2varset_vt_delist
   (xs1: s2varset_vt, xs2: s2varlst): s2varset_vt
 fun s2varset_vt_union
   (xs: s2varset_vt, ys: s2varset_vt): s2varset_vt
-
+//
 fun s2varset_vt_free (xs: s2varset_vt): void
 fun s2varset_vt_listize_free (xs: s2varset_vt): s2varlst_vt
-
+//
 (* ****** ****** *)
 
 fun s2varmset_nil (): s2varmset
@@ -1426,10 +1440,14 @@ fun s2aspdec_make (
 
 (* ****** ****** *)
 //
-abstype appenv_type = ptr
+absvtype appenv_type = ptr
+vtypedef appenv = appenv_type
 //
-typedef appenv = appenv_type
-typedef synent_app (a:type) = (a, appenv) -> void
+typedef synent_app (a:type) = (a, !appenv) -> void
+//
+fun
+synentlst_app{a:type}
+  (xs: List(a), env: !appenv, app: synent_app(a)): void
 //
 (* ****** ****** *)
   

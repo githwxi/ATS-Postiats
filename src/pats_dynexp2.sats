@@ -119,8 +119,11 @@ vtypedef d2cstopt_vt = Option_vt (d2cst)
 abstype d2cstset_type
 typedef d2cstset = d2cstset_type
 //
-abstype d2cstmap_type (a:type)
-typedef d2cstmap (a:type) = d2cstmap_type (a)
+absvtype d2cstset_vtype
+vtypedef d2cstset_vt = d2cstset_vtype
+//
+abstype d2cstmap_type(a:type)
+typedef d2cstmap(a:type) = d2cstmap_type(a)
 //
 (* ****** ****** *)
 //
@@ -1779,6 +1782,22 @@ fun d2cst_match_def (d2c: d2cst, def: d1exp): bool
 fun d2exp_get_seloverld (d2e0: d2exp): d2symopt
 fun d2exp_get_seloverld_root (d2e0: d2exp): d2exp
 //
+(* ****** ****** *)
+//
+// HX-2014-12-11
+//
+fun
+d2eclist_mapgen
+(
+  d2cs: d2eclist
+) : 
+( s2cstset_vt
+, s2varset_vt
+, d2conset_vt
+, d2cstset_vt
+, d2varset_vt
+) (* end of [d2eclist_mapgen] *)
+
 (* ****** ****** *)
 
 (* end of [pats_dynexp2.sats] *)

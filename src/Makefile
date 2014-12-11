@@ -194,6 +194,8 @@ SOURCES := \
   pats_dynexp2_dvar.dats \
   pats_dynexp2_dmac.dats \
   pats_dynexp2_util.dats \
+  pats_staexp2_appenv.hats \
+  pats_dynexp2_appenv.hats \
   pats_synent2_jsonize.sats \
   pats_synent2_jsonize.dats \
   pats_trans2.sats \
@@ -255,9 +257,11 @@ SOURCES := \
   pats_lintprgm_solve.dats \
   pats_constraint3.sats \
   pats_constraint3.dats \
-  pats_constraint3_init.dats \
   pats_constraint3_print.dats \
+  pats_constraint3_appenv.hats \
+  pats_constraint3_mapgen.dats \
   pats_constraint3_jsonize.dats \
+  pats_constraint3_init.dats \
   pats_constraint3_simplify.dats \
   pats_constraint3_icnstr.dats \
   pats_constraint3_solve.dats \
@@ -493,9 +497,10 @@ OBJECTS := \
   pats_lintprgm_solve_dats.o \
   pats_constraint3_sats.o \
   pats_constraint3_dats.o \
-  pats_constraint3_init_dats.o \
   pats_constraint3_print_dats.o \
+  pats_constraint3_mapgen_dats.o \
   pats_constraint3_jsonize_dats.o \
+  pats_constraint3_init_dats.o \
   pats_constraint3_simplify_dats.o \
   pats_constraint3_icnstr_dats.o \
   pats_constraint3_solve_dats.o \
@@ -1139,14 +1144,17 @@ pats_constraint3_sats.o: pats_constraint3_sats.c; $(ATSCC) $(CFLAGS) -c $<
 pats_constraint3_dats.c: pats_constraint3.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_constraint3_dats.o: pats_constraint3_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
-pats_constraint3_init_dats.c: pats_constraint3_init.dats; $(ATSCC) $(DATSCC) -cc $<
-pats_constraint3_init_dats.o: pats_constraint3_init_dats.c; $(ATSCC) $(CFLAGS) -c $<
-
 pats_constraint3_print_dats.c: pats_constraint3_print.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_constraint3_print_dats.o: pats_constraint3_print_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
+pats_constraint3_mapgen_dats.c: pats_constraint3_mapgen.dats; $(ATSCC) $(DATSCC) -cc $<
+pats_constraint3_mapgen_dats.o: pats_constraint3_mapgen_dats.c; $(ATSCC) $(CFLAGS) -c $<
+
 pats_constraint3_jsonize_dats.c: pats_constraint3_jsonize.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_constraint3_jsonize_dats.o: pats_constraint3_jsonize_dats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_constraint3_init_dats.c: pats_constraint3_init.dats; $(ATSCC) $(DATSCC) -cc $<
+pats_constraint3_init_dats.o: pats_constraint3_init_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 pats_constraint3_simplify_dats.c: pats_constraint3_simplify.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_constraint3_simplify_dats.o: pats_constraint3_simplify_dats.c; $(ATSCC) $(CFLAGS) -c $<
