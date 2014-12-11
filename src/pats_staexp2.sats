@@ -548,15 +548,15 @@ s2qua = @{
 } // end of [s2qua]
 typedef s2qualst = List (s2qua)
 vtypedef s2qualst_vt = List_vt (s2qua)
-
+//
 fun s2qua_make (s2vs: s2varlst, s2ps: s2explst): s2qua
-
+//
 fun fprint_s2qua : fprint_type (s2qua)
-
+//
 fun print_s2qualst (xs: s2qualst): void
 fun prerr_s2qualst (xs: s2qualst): void
 fun fprint_s2qualst : fprint_type (s2qualst)
-
+//
 (* ****** ****** *)
 
 fun s2cst_make (
@@ -1441,6 +1441,10 @@ absvtype appenv_type = ptr
 vtypedef appenv = appenv_type
 //
 typedef synent_app (a:type) = (a, !appenv) -> void
+//
+fun
+synentlst_app{a:type}
+  (xs: List(a), env: !appenv, app: synent_app(a)): void
 //
 (* ****** ****** *)
   

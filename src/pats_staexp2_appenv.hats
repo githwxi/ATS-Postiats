@@ -44,6 +44,19 @@
 staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
+
+implement
+synentlst_app
+  (xs, env, app) =
+(
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) =>
+    (app (x, env); synentlst_app (xs, env, app))
+  // end of [list_cons]
+) (* end of [synentlst_app] *)
+
+(* ****** ****** *)
 //
 extern
 fun s2cst_app : synent_app (s2cst)
@@ -68,49 +81,19 @@ fun d2conlst_app : synent_app (d2conlst)
 //
 implement
 s2cstlst_app
-  (xs, env) = let
-in
-//
-case+ xs of
-| list_nil () => ()
-| list_cons (x, xs) =>
-  (
-    s2cst_app(x, env); s2cstlst_app(xs, env)
-  ) (* end of [list_cons] *)
-//
-end (* end of [s2cstlst_app] *)
+  (xs, env) = synentlst_app (xs, env, s2cst_app)
 //
 (* ****** ****** *)
 //
 implement
 s2varlst_app
-  (xs, env) = let
-in
-//
-case+ xs of
-| list_nil () => ()
-| list_cons (x, xs) =>
-  (
-    s2var_app(x, env); s2varlst_app(xs, env)
-  ) (* end of [list_cons] *)
-//
-end (* end of [s2varlst_app] *)
+  (xs, env) = synentlst_app (xs, env, s2var_app)
 //
 (* ****** ****** *)
 //
 implement
 d2conlst_app
-  (xs, env) = let
-in
-//
-case+ xs of
-| list_nil () => ()
-| list_cons (x, xs) =>
-  (
-    d2con_app(x, env); d2conlst_app(xs, env)
-  ) (* end of [list_cons] *)
-//
-end (* end of [d2conlst_app] *)
+  (xs, env) = synentlst_app (xs, env, d2con_app)
 //
 (* ****** ****** *)
 //
@@ -126,6 +109,14 @@ extern
 fun labs2explst_app : synent_app (labs2explst)
 extern
 fun wths2explst_app : synent_app (wths2explst)
+//
+extern
+fun s2expopt_app : synent_app (s2expopt)
+//
+(* ****** ****** *)
+//
+extern
+fun s2qualst_app : synent_app (s2qualst)
 //
 (* ****** ****** *)
 
@@ -265,31 +256,11 @@ end // end of [s2exp_app]
 //
 implement
 s2explst_app
-  (xs, env) = let
-in
-//
-case+ xs of
-| list_nil () => ()
-| list_cons (x, xs) =>
-  (
-    s2exp_app(x, env); s2explst_app(xs, env)
-  ) (* end of [list_cons] *)
-//
-end (* end of [s2explst_app] *)
+  (xs, env) = synentlst_app (xs, env, s2exp_app)
 //
 implement
 s2explstlst_app
-  (xss, env) = let
-in
-//
-case+ xss of
-| list_nil () => ()
-| list_cons (xs, xss) =>
-  (
-    s2explst_app(xs, env); s2explstlst_app(xss, env)
-  ) (* end of [list_cons] *)
-//
-end (* end of [s2explstlst_app] *)
+  (xss, env) = synentlst_app (xss, env, s2explst_app)
 //
 (* ****** ****** *)
 
@@ -331,6 +302,34 @@ case+ wxs of
 //
 end // end of [wths2explst_app]
 
+(* ****** ****** *)
+
+implement
+s2expopt_app (opt, env) =
+(
+//
+case+ opt of
+| Some (s2e) => s2exp_app (s2e, env) | None () => ()
+//
+) (* end of [s2expopt] *)
+
+(* ****** ****** *)
+  
+implement
+s2qualst_app
+  (s2qs, env) = let
+in
+//
+case+ s2qs of
+| list_nil () => ()
+| list_cons (s2q, s2qs) =>
+  (
+    s2varlst_app (s2q.s2qua_svs, env);
+    s2explst_app (s2q.s2qua_sps, env); s2qualst_app (s2qs, env)
+  ) (* end of [list_cons] *)
+//
+end // end of [s2qualst_app]
+  
 (* ****** ****** *)
 
 (* end of [pats_staexp2_appenv.hats] *)
