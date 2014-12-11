@@ -4,6 +4,8 @@ style="margin-top:8px;padding:8px;"
 
 <h2 style="display:inline;">What is new?</h2>
 
+<hr></hr>
+
 ATS-2014-12-10:<br>
 <a
  href="https://github.com/githwxi/ATS-Postiats-contrib/blob/master/contrib/libats-/bbarker/NixOS/ats-dev.nix"

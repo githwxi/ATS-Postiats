@@ -27,6 +27,14 @@ Here is a list of major additions and changes since the last release:
 3. Adding src/Makefile_CBOOTmin to for minimally C-bootstrapping ATS2:
    There is no GCATS by default
    There is no dependency on libgmp
+4. Code for level-2 jsonization is moved into
+   pats_synent2_jsonize.sats
+   pats_synent2_jsonize.dats
+5. Adding various functions for traversing level-2 syntax See:
+   pats_staexp2_appenv.hats
+   pats_dynexp2_appenv.hats
+   pats_constraint3_appenv.hats
+6. Using a more compact format for representing exported constraints
 
 ######
 
