@@ -158,6 +158,9 @@ vtypedef d2conlst_vt = List_vt (d2con)
 abstype d2conset_type
 typedef d2conset = d2conset_type
 //
+absvtype d2conset_vtype
+vtypedef d2conset_vt = d2conset_vtype
+//
 (* ****** ****** *)
 
 abstype s2rtdat_type
