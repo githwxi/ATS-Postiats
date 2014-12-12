@@ -273,7 +273,12 @@ givename_is_relative
   (
     given: string n, i: size_t i, dirsep: char
   ) : bool =
-    if string_isnot_atend (given, i) then (given[i] != dirsep) else false 
+    if string_isnot_atend (given, i) then 
+    (
+      if (given[i] = dirsep) then false
+      else if string_isnot_atend (given, i+1) 
+        then (given[i+1] != ':') else true
+    ) else false 
   // end of [aux]
   val dirsep = theDirSep_get ()
   val given = string1_of_string (given)
