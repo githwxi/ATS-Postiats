@@ -66,7 +66,7 @@ extern
 int
 inet_aton
 (
-  char *cp, struct in_addr *inp
+  const char *cp, struct in_addr *inp
 ) ; // end of [inet_aton]
 
 ATSinline()
