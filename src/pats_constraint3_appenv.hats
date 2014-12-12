@@ -43,6 +43,12 @@ staload "./pats_trans3_env.sats"
 staload "./pats_constraint3.sats"
 
 (* ****** ****** *)
+
+(*
+#include "./pats_staexp2_appenv.hats"
+*)
+
+(* ****** ****** *)
 //
 extern
 fun s3itm_app : synent_app (s3itm)

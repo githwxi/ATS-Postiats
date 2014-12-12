@@ -679,4 +679,17 @@ s2aspdec_make (loc, s2c, def) = '{
 
 (* ****** ****** *)
 
+implement
+synentlst_app
+  (xs, env, app) =
+(
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) =>
+    (app (x, env); synentlst_app (xs, env, app))
+  // end of [list_cons]
+) (* end of [synentlst_app] *)
+
+(* ****** ****** *)
+
 (* end of [pats_staexp2.dats] *)

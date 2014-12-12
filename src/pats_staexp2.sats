@@ -998,9 +998,15 @@ fun d2con_is_nonlinear (d2c: d2con): bool // nonlinear constructor
 (* ****** ****** *)
 
 fun d2conset_nil ():<> d2conset
-fun d2conset_ismem (xs: d2conset, x: d2con):<> bool
 fun d2conset_add (xs: d2conset, x: d2con):<> d2conset
+fun d2conset_ismem (xs: d2conset, x: d2con):<> bool
 
+(* ****** ****** *)
+  
+fun d2conset_vt_nil ():<> d2conset_vt
+fun d2conset_vt_add (xs: d2conset_vt, x: d2con):<> d2conset_vt
+fun d2conset_vt_listize_free (xs: d2conset_vt):<> d2conlst_vt
+  
 (* ****** ****** *)
 //
 // HX: static expressions

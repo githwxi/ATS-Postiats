@@ -196,6 +196,7 @@ SOURCES := \
   pats_dynexp2_util.dats \
   pats_staexp2_appenv.hats \
   pats_dynexp2_appenv.hats \
+  pats_dynexp2_mapgen.dats \
   pats_synent2_jsonize.sats \
   pats_synent2_jsonize.dats \
   pats_trans2.sats \
@@ -437,6 +438,7 @@ OBJECTS := \
   pats_dynexp2_dvar_dats.o \
   pats_dynexp2_dmac_dats.o \
   pats_dynexp2_util_dats.o \
+  pats_dynexp2_mapgen_dats.o \
   pats_synent2_jsonize_sats.o \
   pats_synent2_jsonize_dats.o \
   pats_trans2_sats.o \
@@ -963,6 +965,9 @@ pats_dynexp2_dmac_dats.o: pats_dynexp2_dmac_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 pats_dynexp2_util_dats.c: pats_dynexp2_util.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_dynexp2_util_dats.o: pats_dynexp2_util_dats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_dynexp2_mapgen_dats.c: pats_dynexp2_mapgen.dats; $(ATSCC) $(DATSCC) -cc $<
+pats_dynexp2_mapgen_dats.o: pats_dynexp2_mapgen_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 pats_synent2_jsonize_sats.c: pats_synent2_jsonize.sats; $(ATSCC) $(DATSCC) -cc $<
 pats_synent2_jsonize_sats.o: pats_synent2_jsonize_sats.c; $(ATSCC) $(CFLAGS) -c $<

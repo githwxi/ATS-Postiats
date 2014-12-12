@@ -45,59 +45,55 @@ staload "./pats_staexp2.sats"
 staload "./pats_dynexp2.sats"
 //
 (* ****** ****** *)
-
-#include "./pats_staexp2_appenv.hats"
-
-(* ****** ****** *)
 //
 extern
-fun d2sym_app : synent_app (d2sym)
+fun{}
+d2cstlst_app : synent_app (d2cstlst)
+//
+extern
+fun{}
+d2varlst_app : synent_app (d2varlst)
+extern
+fun{}
+d2varopt_app : synent_app (d2varopt)
 //  
 (* ****** ****** *)
 //
 extern
-fun d2cst_app : synent_app (d2cst)
+fun{}
+d2itm_app : synent_app (d2itm)
 extern
-fun d2cstlst_app : synent_app (d2cstlst)
-//
-(* ****** ****** *)
-//
+fun{}
+d2itmlst_app : synent_app (d2itmlst)
 extern
-fun d2var_app : synent_app (d2var)
-extern
-fun d2varlst_app : synent_app (d2varlst)
-extern
-fun d2varopt_app : synent_app (d2varopt)
-//  
-(* ****** ****** *)
+fun{}
+d2itmopt_app : synent_app (d2itmopt)
 //
 extern
-fun d2itm_app : synent_app (d2itm)
+fun{}
+d2pitm_app : synent_app (d2pitm)
 extern
-fun d2itmlst_app : synent_app (d2itmlst)
-extern
-fun d2itmopt_app : synent_app (d2itmopt)
-//
-extern
-fun d2pitm_app : synent_app (d2pitm)
-extern
-fun d2pitmlst_app : synent_app (d2pitmlst)
+fun{}
+d2pitmlst_app : synent_app (d2pitmlst)
 //
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 d2cstlst_app
   (xs, env) = synentlst_app (xs, env, d2cst_app)
 //
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 d2varlst_app
   (xs, env) = synentlst_app (xs, env, d2var_app)
 //
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 d2varopt_app
   (opt, env) =
 (
@@ -108,6 +104,7 @@ case+ opt of
 (* ****** ****** *)
   
 implement
+{}(*tmp*)
 d2itm_app
   (d2i, env) = let
 in
@@ -126,12 +123,14 @@ end // end of [d2itm_app]
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 d2itmlst_app
   (xs, env) = synentlst_app (xs, env, d2itm_app)
 //
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 d2itmopt_app
   (opt, env) =
 (
@@ -142,6 +141,7 @@ case+ opt of
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 d2pitm_app
   (d2pi, env) = let
 //
@@ -152,124 +152,160 @@ end // end of [d2pitm_app]
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 d2pitmlst_app
   (xs, env) = synentlst_app (xs, env, d2pitm_app)
 //
 (* ****** ****** *)
 
 extern
-fun sp2at_app : synent_app (sp2at)
+fun{}
+sp2at_app : synent_app (sp2at)
 
 (* ****** ****** *)
 
 extern
-fun s2exparg_app : synent_app (s2exparg)
+fun{}
+s2exparg_app : synent_app (s2exparg)
 extern
-fun s2exparglst_app : synent_app (s2exparglst)
+fun{}
+s2exparglst_app : synent_app (s2exparglst)
 
 (* ****** ****** *)
 
 extern
-fun t2mpmarg_app : synent_app (t2mpmarg)
+fun{}
+t2mpmarg_app : synent_app (t2mpmarg)
 extern
-fun t2mpmarglst_app : synent_app (t2mpmarglst)
+fun{}
+t2mpmarglst_app : synent_app (t2mpmarglst)
 
 (* ****** ****** *)
 //
 extern
-fun p2at_app : synent_app (p2at)
+fun{}
+p2at_app : synent_app (p2at)
 extern
-fun p2atlst_app : synent_app (p2atlst)
+fun{}
+p2atlst_app : synent_app (p2atlst)
 extern
-fun labp2atlst_app : synent_app (labp2atlst)
+fun{}
+labp2atlst_app : synent_app (labp2atlst)
 //
 extern
-fun p2atopt_app : synent_app (p2atopt)
-//
-(* ****** ****** *)
-//
-extern
-fun d2exp_app : synent_app (d2exp)
-extern
-fun d2explst_app : synent_app (d2explst)
-extern
-fun labd2explst_app : synent_app (labd2explst)
-//
-extern
-fun d2expopt_app : synent_app (d2expopt)
-//
-(* ****** ****** *)
-
-extern
-fun d2lab_app : synent_app (d2lab)
-extern
-fun d2lablst_app : synent_app (d2lablst)
-
-(* ****** ****** *)
-
-extern
-fun d2exparg_app : synent_app (d2exparg)
-extern
-fun d2exparglst_app : synent_app (d2exparglst)
-
-(* ****** ****** *)
-//
-extern
-fun gm2at_app : synent_app (gm2at)
-extern
-fun gm2atlst_app : synent_app (gm2atlst)
+fun{}
+p2atopt_app : synent_app (p2atopt)
 //
 (* ****** ****** *)
 //
 extern
-fun c2lau_app : synent_app (c2lau)
+fun{}
+d2exp_app : synent_app (d2exp)
 extern
-fun c2laulst_app : synent_app (c2laulst)
+fun{}
+d2explst_app : synent_app (d2explst)
+extern
+fun{}
+labd2explst_app : synent_app (labd2explst)
 //
 extern
-fun sc2lau_app : synent_app (sc2lau)
-extern
-fun sc2laulst_app : synent_app (sc2laulst)
-//
-(* ****** ****** *)
-//
-extern
-fun d2ecl_app : synent_app (d2ecl)
-extern
-fun d2eclist_app : synent_app (d2eclist)
+fun{}
+d2expopt_app : synent_app (d2expopt)
 //
 (* ****** ****** *)
 
 extern
-fun i2mpdec_app : synent_app (i2mpdec)
+fun{}
+d2lab_app : synent_app (d2lab)
+extern
+fun{}
+d2lablst_app : synent_app (d2lablst)
+
+(* ****** ****** *)
+
+extern
+fun{}
+d2exparg_app : synent_app (d2exparg)
+extern
+fun{}
+d2exparglst_app : synent_app (d2exparglst)
 
 (* ****** ****** *)
 //
 extern
-fun f2undec_app : synent_app (f2undec)
+fun{}
+gm2at_app : synent_app (gm2at)
 extern
-fun f2undeclst_app : synent_app (f2undeclst)
-//
-extern
-fun v2aldec_app : synent_app (v2aldec)
-extern
-fun v2aldeclst_app : synent_app (v2aldeclst)
+fun{}
+gm2atlst_app : synent_app (gm2atlst)
 //
 (* ****** ****** *)
 //
 extern
-fun v2ardec_app : synent_app (v2ardec)
+fun{}
+c2lau_app : synent_app (c2lau)
 extern
-fun v2ardeclst_app : synent_app (v2ardeclst)
+fun{}
+c2laulst_app : synent_app (c2laulst)
 //
 extern
-fun prv2ardec_app : synent_app (prv2ardec)
+fun{}
+sc2lau_app : synent_app (sc2lau)
 extern
-fun prv2ardeclst_app : synent_app (prv2ardeclst)
+fun{}
+sc2laulst_app : synent_app (sc2laulst)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+d2ecl_app : synent_app (d2ecl)
+extern
+fun{}
+d2eclist_app : synent_app (d2eclist)
+//
+(* ****** ****** *)
+
+extern
+fun{}
+i2mpdec_app : synent_app (i2mpdec)
+
+(* ****** ****** *)
+//
+extern
+fun{}
+f2undec_app : synent_app (f2undec)
+extern
+fun{}
+f2undeclst_app : synent_app (f2undeclst)
+//
+extern
+fun{}
+v2aldec_app : synent_app (v2aldec)
+extern
+fun{}
+v2aldeclst_app : synent_app (v2aldeclst)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+v2ardec_app : synent_app (v2ardec)
+extern
+fun{}
+v2ardeclst_app : synent_app (v2ardeclst)
+//
+extern
+fun{}
+prv2ardec_app : synent_app (prv2ardec)
+extern
+fun{}
+prv2ardeclst_app : synent_app (prv2ardeclst)
 //
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 sp2at_app
   (sp2t, env) = let
 in
@@ -288,6 +324,7 @@ end // end of [sp2at_app]
 (* ****** ****** *)
   
 implement
+{}(*tmp*)
 s2exparg_app
   (s2a0, env) = let
 in
@@ -303,6 +340,7 @@ end // end of [s2exparg_app]
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 s2exparglst_app
   (xs, env) =
   synentlst_app (xs, env, s2exparg_app)
@@ -310,11 +348,13 @@ s2exparglst_app
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 t2mpmarg_app
   (t2ma, env) =
   s2explst_app (t2ma.t2mpmarg_arg, env)
 //
 implement
+{}(*tmp*)
 t2mpmarglst_app
   (xs, env) =
   synentlst_app (xs, env, t2mpmarg_app)
@@ -322,6 +362,7 @@ t2mpmarglst_app
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 p2at_app
   (p2t0, env) = let
 in
@@ -387,12 +428,14 @@ end // end of [p2at_app]
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 p2atlst_app
   (xs, env) = synentlst_app (xs, env, p2at_app)
 //
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 labp2atlst_app
   (lxs, env) = let
 in
@@ -416,6 +459,7 @@ end // end of [labp2atlst_app]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 p2atopt_app
   (opt, env) =
 (
@@ -426,6 +470,7 @@ case+ opt of
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 d2exp_app
   (d2e0, env) = let
 in
@@ -668,6 +713,7 @@ end // end of [d2exp_app]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 d2explst_app
   (xs, env) = let
 in
@@ -684,6 +730,24 @@ end (* end of [d2explst_app] *)
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
+labd2explst_app
+  (lxs, env) = (
+//
+case+ lxs of
+| list_nil () => ()
+| list_cons (lx, lxs) => let
+    val+$SYN.DL0ABELED(l, x) = lx
+  in
+    d2exp_app (x, env); labd2explst_app (lxs, env)
+  end // end of [list_cons]
+//
+) (* end of [labd2exp_app] *)
+  
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
 d2expopt_app
   (opt, env) =
 (
@@ -694,6 +758,7 @@ case+ opt of
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 d2lab_app
   (d2l0, env) = let
 in
@@ -708,12 +773,14 @@ end // end of [d2lab_app]
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 d2lablst_app
   (xs, env) = synentlst_app (xs, env, d2lab_app)
 //
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 d2exparg_app
   (d2a0, env) = let
 in
@@ -727,12 +794,14 @@ end // end of [d2exparg_app]
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 d2exparglst_app
   (xs, env) = synentlst_app (xs,env, d2exparg_app)
 //
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 gm2at_app
   (gua, env) =
 {
@@ -741,12 +810,14 @@ gm2at_app
 } (* end of [gm2at] *)
 //
 implement
+{}(*tmp*)
 gm2atlst_app
   (xs, env) = synentlst_app (xs,env, gm2at_app)
 //
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 c2lau_app
   (c2l, env) =
 {
@@ -756,12 +827,14 @@ c2lau_app
 } (* end of [c2lau_app] *)
 //
 implement
+{}(*tmp*)
 c2laulst_app
   (xs, env) = synentlst_app (xs, env, c2lau_app)
 //
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 sc2lau_app
   (sc2l, env) =
 {
@@ -770,12 +843,14 @@ sc2lau_app
 } (* end of [sc2lau_app] *)
 //
 implement
+{}(*tmp*)
 sc2laulst_app
   (xs, env) = synentlst_app (xs, env, sc2lau_app)
 //
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 d2ecl_app
   (d2c0, env) = let
 in
@@ -845,6 +920,7 @@ end // end of [d2ecl_app]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 d2eclist_app
   (xs, env) = let
 in
@@ -861,6 +937,7 @@ end (* end of [d2eclist_app] *)
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 i2mpdec_app
   (impdec, env) =
 {
@@ -876,6 +953,7 @@ val () = d2exp_app (impdec.i2mpdec_def, env)
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 f2undec_app
   (f2d, env) =
 {
@@ -887,12 +965,14 @@ val () = s2expopt_app (f2d.f2undec_ann, env)
 } (* end of [f2undec_app] *)
 //
 implement
+{}(*tmp*)
 f2undeclst_app
   (xs, env) = synentlst_app (xs, env, f2undec_app)
 //
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 v2aldec_app
   (v2d, env) =
 {
@@ -904,12 +984,14 @@ val () = s2expopt_app (v2d.v2aldec_ann, env)
 } (* end of [v2aldec_app] *)
 //
 implement
+{}(*tmp*)
 v2aldeclst_app
   (xs, env) = synentlst_app (xs, env, v2aldec_app)
 //
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 v2ardec_app
   (v2d, env) =
 {
@@ -924,12 +1006,14 @@ val () = d2varopt_app (v2d.v2ardec_dvaropt, env)
 } (* end of [v2ardec_app] *)
 //
 implement
+{}(*tmp*)
 v2ardeclst_app
   (xs, env) = synentlst_app (xs, env, v2ardec_app)
 //
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 prv2ardec_app
   (pv2d, env) =
 {
@@ -941,9 +1025,10 @@ val () = d2expopt_app (pv2d.prv2ardec_init, env)
 } (* end of [prv2ardec_val] *)
 //
 implement
+{}(*tmp*)
 prv2ardeclst_app
   (xs, env) = synentlst_app (xs, env, prv2ardec_app)
 //
 (* ****** ****** *)
 
-(* end of [pats_dynexp2_appenv.hats] *)
+(* end of [pats_dynexp2_appenv.dats] *)

@@ -264,6 +264,7 @@ dynload "pats_dynexp2_dmac.dats"
 //
 dynload "pats_dynexp2_util.dats"
 //
+dynload "pats_dynexp2_mapgen.dats"
 dynload "pats_synent2_jsonize.dats"
 //
 dynload "pats_namespace.dats"
@@ -970,17 +971,14 @@ implement
 do_jsonize_2
 (
   state, given, d2cs
-) = () where {
+) = let
 //
-val jsv = jsonize_d2eclist (d2cs)
-val-JSONlist(d2cs) = jsv
-val out = outchan_get_filr (state.outchan)
+val out = state.outchan
+val out = outchan_get_filr (out)
 //
-val ((*void*)) = fprint_string (out, "[\n")
-val ((*void*)) = fprint_jsonlst (out, d2cs)
-val ((*void*)) = fprint_string (out, "]\n")
-//
-} (* end of [do_jsonize_2] *)
+in
+  d2eclist_export (out, d2cs)
+end (* end of [do_jsonize_2] *)
 
 end // end of [local]
 

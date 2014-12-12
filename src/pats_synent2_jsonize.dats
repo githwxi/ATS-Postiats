@@ -196,7 +196,7 @@ in
 //
 jsonval_labval4
 (
-  "s2cst_name", sym, "s2cst_srt", s2t
+  "s2cst_sym", sym, "s2cst_srt", s2t
 , "s2cst_stamp", stamp, "s2cst_supcls", supcls
 )
 //
@@ -228,7 +228,7 @@ val stamp =
 in
 //
 jsonval_labval3
-  ("s2var_name", sym, "s2var_srt", s2rt, "s2var_stamp", stamp)
+  ("s2var_sym", sym, "s2var_srt", s2rt, "s2var_stamp", stamp)
 //
 end // end of [jsonize_s2var_long]
 //
@@ -288,7 +288,7 @@ in
 //
 jsonval_labval3
 (
-  "d2con_name", sym
+  "d2con_sym", sym
 , "d2con_type", type
 , "d2con_stamp", stamp
 )
@@ -743,7 +743,7 @@ in
 //
 jsonval_labval3
 (
-  "d2cst_name", sym
+  "d2cst_sym", sym
 , "d2cst_type", type
 , "d2cst_stamp", stamp
 )
@@ -766,6 +766,26 @@ end // end of [jsonize_d2var]
 (* ****** ****** *)
 
 implement
+jsonize_d2var_long
+  (d2v) = let
+//
+val sym =
+  jsonize_symbol (d2var_get_sym (d2v))
+val stamp =
+  jsonize_stamp (d2var_get_stamp (d2v))
+//
+in
+//
+jsonval_labval2
+(
+  "d2var_sym", sym, "d2var_stamp", stamp
+)
+//
+end // end of [jsonize_d2cst_long]
+
+(* ****** ****** *)
+
+implement
 jsonize_d2sym
   (d2s) = let
 //
@@ -773,7 +793,7 @@ val sym =
   jsonize_symbol (d2s.d2sym_sym)
 //
 in
-  jsonval_labval1 ("d2sym_name", sym)
+  jsonval_labval1 ("d2sym_sym", sym)
 end // end of [jsonize_d2sym]
 
 (* ****** ****** *)
@@ -1562,6 +1582,94 @@ implement
 jsonize_v2aldeclst (v2ds) =
   jsonize_list_fun (v2ds, jsonize_v2aldec)
 // end of [jsonize_v2aldeclst]
+
+(* ****** ****** *)
+
+implement
+d2eclist_export
+  (out, d2cls) = let
+//
+val
+( s2cs
+, s2vs
+, d2cons
+, d2csts
+, d2vars
+) = d2eclist_mapgen_all (d2cls)
+//
+val s2cs =
+  s2cstset_vt_listize_free (s2cs)
+val s2vs =
+  s2varset_vt_listize_free (s2vs)
+val d2cons =
+  d2conset_vt_listize_free (d2cons)
+val d2csts =
+  d2cstset_vt_listize_free (d2csts)
+val d2vars =
+  d2varset_vt_listize_free (d2vars)
+//
+val jsv_s2cs =
+  jsonize_list_fun{s2cst}($UN.linlst2lst(s2cs), jsonize_s2cst_long)
+val () = list_vt_free (s2cs)
+//
+val jsv_s2vs =
+  jsonize_list_fun{s2var}($UN.linlst2lst(s2vs), jsonize_s2var_long)
+val () = list_vt_free (s2vs)
+//
+val jsv_d2cons =
+  jsonize_list_fun{d2con}($UN.linlst2lst(d2cons), jsonize_d2con_long)
+val () = list_vt_free (d2cons)
+//
+val jsv_d2csts =
+  jsonize_list_fun{d2cst}($UN.linlst2lst(d2csts), jsonize_d2cst_long)
+val () = list_vt_free (d2csts)
+//
+val jsv_d2vars =
+  jsonize_list_fun{d2var}($UN.linlst2lst(d2vars), jsonize_d2var_long)
+val () = list_vt_free (d2vars)
+//
+val jsv_d2cls = jsonize_d2eclist(d2cls)
+//
+val () =
+  fprint_string (out, "{\n\"s2cstmap\":\n")
+//
+val ((*void*)) = fprint_jsonval (out, jsv_s2cs)
+val ((*void*)) = fprint_newline (out)
+//
+val () =
+  fprint_string (out, ",\n\"s2varmap\":\n")
+//
+val ((*void*)) = fprint_jsonval (out, jsv_s2vs)
+val ((*void*)) = fprint_newline (out)
+//
+val () =
+  fprint_string (out, ",\n\"d2conmap\":\n")
+//
+val ((*void*)) = fprint_jsonval (out, jsv_d2cons)
+val ((*void*)) = fprint_newline (out)
+//
+val () =
+  fprint_string (out, ",\n\"d2cstmap\":\n")
+//
+val ((*void*)) = fprint_jsonval (out, jsv_d2csts)
+val ((*void*)) = fprint_newline (out)
+//
+val () =
+  fprint_string (out, ",\n\"d2varmap\":\n")
+//
+val ((*void*)) = fprint_jsonval (out, jsv_d2vars)
+val ((*void*)) = fprint_newline (out)
+//
+val () =
+  fprint_string (out, ",\n\"d2eclist\":\n")
+//
+val ((*void*)) = fprint_jsonval (out, jsv_d2cls)
+val ((*void*)) = fprint_string (out, "\n}")
+val ((*void*)) = fprint_newline (out)
+//
+in
+  // nothing
+end // end of [d2eclist_export]
 
 (* ****** ****** *)
 

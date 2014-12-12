@@ -53,7 +53,7 @@ staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
 
-staload "./pats_constraint3.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
@@ -64,11 +64,23 @@ fun s2cst_app : synent_app (s2cst)
 and s2var_app : synent_app (s2var)
 and d2con_app : synent_app (d2con)
 //
+extern
+fun d2cst_app : synent_app (d2cst)
+and d2var_app : synent_app (d2var)
+and d2sym_app : synent_app (d2sym)
+//  
 #include "./pats_staexp2_appenv.hats"
-#include "./pats_constraint3_appenv.hats"
+#include "./pats_dynexp2_appenv.hats"
 //
-datavtype myenv =
-  | MYENV of (s2cstset_vt, s2varset_vt)
+datavtype
+myenv =
+MYENV of (
+  s2cstset_vt
+, s2varset_vt
+, d2conset_vt
+, d2cstset_vt
+, d2varset_vt
+) (* end of [MYENV] *)
 //
 in
 //
@@ -78,7 +90,7 @@ s2cst_app
 //
 val env2 =
   $UN.castvwtp1{myenv}(env)
-val+MYENV (!p_s2cs, _) = env2
+val+MYENV(!p_s2cs, _, _, _, _) = env2
 val ((*void*)) = !p_s2cs := s2cstset_vt_add(!p_s2cs, s2c)
 prval ((*void*)) = fold@ (env2)
 prval ((*void*)) = $UN.castvwtp0{void}(env2)
@@ -93,7 +105,7 @@ s2var_app
 //
 val env2 =
   $UN.castvwtp1{myenv}(env)
-val+MYENV (_, !p_s2vs) = env2
+val+MYENV(_, !p_s2vs, _, _, _) = env2
 val ((*void*)) = !p_s2vs := s2varset_vt_add(!p_s2vs, s2v)
 prval ((*void*)) = fold@ (env2)
 prval ((*void*)) = $UN.castvwtp0{void}(env2)
@@ -102,26 +114,86 @@ in
   // nothing
 end // end of [s2var_app]
 
-implement d2con_app (s2v, env) = ()
+implement
+d2con_app
+  (d2c, env) = let
+//
+val env2 =
+  $UN.castvwtp1{myenv}(env)
+val+MYENV(_, _, !p_d2cs, _, _) = env2
+val ((*void*)) = !p_d2cs := d2conset_vt_add(!p_d2cs, d2c)
+prval ((*void*)) = fold@ (env2)
+prval ((*void*)) = $UN.castvwtp0{void}(env2)
+//
+in
+  // nothing
+end // end of [d2con_app]
+
+implement
+d2cst_app
+  (d2c, env) = let
+//
+val env2 =
+  $UN.castvwtp1{myenv}(env)
+val+MYENV(_, _, _, !p_d2cs, _) = env2
+val ((*void*)) = !p_d2cs := d2cstset_vt_add(!p_d2cs, d2c)
+prval ((*void*)) = fold@ (env2)
+prval ((*void*)) = $UN.castvwtp0{void}(env2)
+//
+in
+  // nothing
+end // end of [d2cst_app]
+
+implement
+d2var_app
+  (d2v, env) = let
+//
+val env2 =
+  $UN.castvwtp1{myenv}(env)
+val+MYENV(_, _, _, _, !p_d2vs) = env2
+val ((*void*)) = !p_d2vs := d2varset_vt_add(!p_d2vs, d2v)
+prval ((*void*)) = fold@ (env2)
+prval ((*void*)) = $UN.castvwtp0{void}(env2)
+//
+in
+  // nothing
+end // end of [d2var_app]
+
+implement d2sym_app (d2s, env) = ()
 
 (* ****** ****** *)
 
 implement
-c3nstr_mapgen_scst_svar
-  (c3t) = let
+d2eclist_mapgen_all
+  (d2cls) = let
 //
   val s2cs = s2cstset_vt_nil ()
   val s2vs = s2varset_vt_nil ()
-  val appenv = $UN.castvwtp0{appenv}(MYENV(s2cs, s2vs))
-  val ((*void*)) = c3nstr_app (c3t, appenv)
-  val+~MYENV (s2cs, s2vs) = $UN.castvwtp0{myenv}(appenv)
+//
+  val d2cons = d2conset_vt_nil ()
+  val d2csts = d2cstset_vt_nil ()
+  val d2vars = d2varset_vt_nil ()
+//
+  val appenv = $UN.castvwtp0{appenv}(MYENV(s2cs, s2vs, d2cons, d2csts, d2vars))
+//
+  val ((*void*)) = d2eclist_app (d2cls, appenv)
+//
+  val+~MYENV(s2cs, s2vs, d2cons, d2csts, d2vars) = $UN.castvwtp0{myenv}(appenv)
 //
 in
-  (s2cs, s2vs)
-end // end of [c3nstr_mapgen_scst_svar]
+//
+(
+  s2cs
+, s2vs
+, d2cons
+, d2csts
+, d2vars
+)
+//
+end // end of [d2eclist_mapgen_all]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [pats_constraint3_mapgen.dats] *)
+(* end of [pats_dynexp2_mapgen.dats] *)

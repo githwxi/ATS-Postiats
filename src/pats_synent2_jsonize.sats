@@ -117,5 +117,10 @@ fun jsonize_d2ecl (d2c: d2ecl): jsonval
 fun jsonize_d2eclist (d2cs: d2eclist): jsonval
 
 (* ****** ****** *)
+//
+fun
+d2eclist_export (out: FILEref, d2cs: d2eclist): void
+//
+(* ****** ****** *)
 
 (* end of [pats_synent2_jsonize.sats] *)

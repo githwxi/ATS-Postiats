@@ -412,20 +412,24 @@ prerr_d2conlst (xs) = fprint_d2conlst (stderr_ref, xs)
 (* ****** ****** *)
 
 local
-
+//
 staload
 FS = "libats/SATS/funset_avltree.sats"
 staload _ = "libats/DATS/funset_avltree.dats"
-
+staload
+LS = "libats/SATS/linset_avltree.sats"
+staload _ = "libats/DATS/linset_avltree.dats"
+//
 val cmp = lam
 (
   d2c1: d2con, d2c2: d2con
 ) : int =<cloref>
   compare_d2con_d2con (d2c1, d2c2)
 // end of [val]
-
+//
 assume d2conset_type = $FS.set (d2con)
-
+assume d2conset_vtype = $LS.set (d2con)
+//
 in (* in of [local] *)
 
 implement
@@ -440,8 +444,23 @@ implement
 d2conset_add
   (xs, x) = xs where {
   var xs = xs
-  val _(*replaced*) = $FS.funset_insert (xs, x, cmp)
+  val _(*rplced*) = $FS.funset_insert (xs, x, cmp)
 } // end of [d2conset_add]
+
+(* ****** ****** *)
+
+implement
+d2conset_vt_nil () = $LS.linset_make_nil ()
+
+implement
+d2conset_vt_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*rplced*) = $LS.linset_insert (xs, x, cmp)
+} // end of [d2conset_vt_add]
+
+implement
+d2conset_vt_listize_free (xs) = $LS.linset_listize_free (xs)
 
 end // end of [local]
 

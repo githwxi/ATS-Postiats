@@ -111,11 +111,11 @@ token_node =
   | T_CLASSDEC of () // classdec
   | T_DATASORT of () // datasort
   | T_DATATYPE of int // datatype, dataprop, dataview, dataviewtype
-  | T_DO of () // do
-  | T_DYNLOAD of () // dynload
-  | T_ELSE of () // else
-  | T_END of () // end
-  | T_EXCEPTION of () // exception
+  | T_DO of () // [do]
+  | T_DYNLOAD of () // [dynload]
+  | T_ELSE of () // [else]
+  | T_END of () // the [end] keyword
+  | T_EXCEPTION of () // [exception]
 //
   | T_EXTERN of () // extern
   | T_EXTYPE of () // externally named type
@@ -155,12 +155,12 @@ token_node =
 *)
   | T_SYMELIM of () // symelim // symbol elimination
   | T_SYMINTR of () // symintr // symbol introduction
-  | T_THEN of () // then
+  | T_THEN of () // the [then] keyword
   | T_TKINDEF of () // tkindef // for introducting tkinds
   | T_TRY of () // try
   | T_TYPE of int // type, type+, type-
-  | T_TYPEDEF of
-      (int) // typedef, propdef, viewdef, viewtypedef
+  | T_TYPEDEF of (int)
+    // typedef, propdef, viewdef, viewtypedef
   | T_VAL of (valkind) // val, val+, val-, prval
   | T_VAR of (int(*knd*)) // knd = 0/1: var/prvar
   | T_WHEN of () // when
