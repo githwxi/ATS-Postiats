@@ -374,6 +374,10 @@ The ATS/Postiats (ATS2) Compiler\
 
 (* ****** ****** *)
 
+#packfilename("pats_dynexp2_mapgen.dats")
+
+(* ****** ****** *)
+
 #packfilename("pats_synent2_jsonize.sats")
 #packfilename("pats_synent2_jsonize.dats")
 

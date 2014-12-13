@@ -358,6 +358,10 @@ The ATS/Postiats C-Boostrapping\
 
 (* ****** ****** *)
 
+#packfilename("pats_dynexp2_mapgen_dats.c")
+
+(* ****** ****** *)
+
 #packfilename("pats_synent2_jsonize_dats.c")
 
 (* ****** ****** *)

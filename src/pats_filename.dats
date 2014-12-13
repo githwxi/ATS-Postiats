@@ -357,14 +357,22 @@ path_normalize_vt (s0) = let
     end // end of [if]
   // end of [loop1] and [loop2]
 //
-  viewtypedef strptrlst = List_vt (strptr1)
-  extern castfn p2s {l:agz} (x: !strptr l):<> string
+  extern
+  castfn
+  p2s{l:agz} (x: !strptr l):<> string
 //
-  fun dirs_process {n:nat} (
+  vtypedef strptrlst = List_vt (strptr1)
+//
+  fun
+  dirs_process{n:nat}
+  (
     curdir: string, pardir: string
   , npar: int n, dirs: strptrlst, res: strptrlst
-  ) : strptrlst = case+ dirs of
-    | ~list_vt_cons (dir, dirs) => (
+  ) : strptrlst = let
+  in
+    case+ dirs of
+    | ~list_vt_cons
+        (dir, dirs) => (
         if (p2s)dir = curdir then let
           val () = strptr_free (dir) in
           dirs_process (curdir, pardir, npar, dirs, res)
@@ -380,11 +388,13 @@ path_normalize_vt (s0) = let
             dirs_process (curdir, pardir, 0, dirs, list_vt_cons (dir, res))
           end (* end of [if] *)
         ) // end of [if]
-      ) // end of [list_vt_cons]
-    | ~list_vt_nil () =>
-        loop (pardir, npar, res) where {
-        fun loop {i,j:nat} (
-          pardir: string, npar: int i, res: list_vt (strptr1, j)
+      ) (* end of [list_vt_cons] *)
+    | ~list_vt_nil () => let
+        fun
+        loop{i,j:nat}
+        (
+          pardir: string
+        , npar: int i, res: list_vt (strptr1, j)
         ) : list_vt (strptr1, i+j) =
           if npar > 0 then let
             val dir =
@@ -398,19 +408,25 @@ path_normalize_vt (s0) = let
           end else res
           (* end of [if] *)
         // end of [loop]
-      } // end of [list_vt_nil]
+      in
+        loop (pardir, npar, res)
+      end (* end of [list_vt_nil] *)
+  end // end of [dirs_process]
 //
   val dirsep = theDirSep_get ()
-  val curdir = theCurDir_get () and pardir = theParDir_get ()
+  val curdir = theCurDir_get ()
+  and pardir = theParDir_get ()
 //
-  var dirs: strptrlst = list_vt_nil ()
-  val s0 = string1_of_string s0; val n0 = string_length s0
+  var dirs
+    : strptrlst = list_vt_nil ()
+  val s0 = string1_of_string(s0); val n0 = string_length(s0)
   val () = loop1 (dirsep, s0, n0, 0, dirs)
   val () = dirs := dirs_process (curdir, pardir, 0, dirs, list_vt_nil ())
   val path =
-    stringlst_concat (__cast dirs) where {
+  stringlst_concat
+    (__cast dirs) where {
     extern castfn __cast (x: !strptrlst): List string
-  } // end of [val]
+  } (* end of [where] *) // end of [val]
   val () = list_vt_free_fun<strptr1> (dirs, lam x => strptr_free (x))
 //
 in
@@ -426,7 +442,8 @@ path_normalize (s0) =
 
 local
 
-extern castfn p2s {l:agz} (x: !strptr l):<> string
+extern
+castfn p2s{l:agz}(x: !strptr l):<> string
 
 in (* in of [local] *)
 
