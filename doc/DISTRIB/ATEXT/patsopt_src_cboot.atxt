@@ -528,6 +528,8 @@ The ATS/Postiats C-Boostrapping\
 #packfilename("ccomp/runtime/ats_prelude_gcats.c")
 #packfilename("ccomp/runtime/ats_prelude_gcbdw.c")
 //
+#packfilename("ccomp/runtime/gcats1_all.cats")
+//
 (* ****** ****** *)
 
 #packfilename("prelude/basics_sta_sats.c")
