@@ -362,6 +362,7 @@ The ATS/Postiats C-Boostrapping\
 
 (* ****** ****** *)
 
+#packfilename("pats_synent2_jsonize_sats.c")
 #packfilename("pats_synent2_jsonize_dats.c")
 
 (* ****** ****** *)

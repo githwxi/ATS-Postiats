@@ -184,6 +184,7 @@ SOURCES := \
   pats_dynexp2_dvar.dats \
   pats_dynexp2_dmac.dats \
   pats_dynexp2_util.dats \
+  pats_dynexp2_mapgen.dats \
   pats_synent2_jsonize.sats \
   pats_synent2_jsonize.dats \
   pats_trans2.sats \
@@ -245,9 +246,10 @@ SOURCES := \
   pats_lintprgm_solve.dats \
   pats_constraint3.sats \
   pats_constraint3.dats \
-  pats_constraint3_init.dats \
   pats_constraint3_print.dats \
+  pats_constraint3_mapgen.dats \
   pats_constraint3_jsonize.dats \
+  pats_constraint3_init.dats \
   pats_constraint3_simplify.dats \
   pats_constraint3_icnstr.dats \
   pats_constraint3_solve.dats \
@@ -423,10 +425,8 @@ gcats.o: \
 gcats1_hats: ; \
   $(GCC) -E -P -o gcats1.hats -x c ./ccomp/runtime/GCATS/gcats1_master.hats
 #
-gcats1_all_cats.c: \
-  $(CPF) ./ccomp/runtime/GCATS/gcats1_all.cats $@
-gcats1_all_cats.o: \
-  gcats1_all_cats.c ; $(CCOMP) -O2 -I. -I./ccomp/runtime -c -o $@ $<
+gcats1_all_cats.o: ; \
+  $(CCOMP) -O2 -I. -I./ccomp/runtime -c -o $@ -x c ./ccomp/runtime/gcats1_all.cats
 #
 ######
 
