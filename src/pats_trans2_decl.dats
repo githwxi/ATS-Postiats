@@ -348,7 +348,7 @@ fun aux .<>.
   , None () // def
   ) (* end of [s2cst_make] *)
 //
-  val () = s2cst_set_tag (s2c, i)
+  val () = s2cst_set_dstag (s2c, i)
 //
   val () = the_s2expenv_add_scst (s2c)
 //

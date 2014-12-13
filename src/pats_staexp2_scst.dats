@@ -119,10 +119,11 @@ s2cst_struct = @{
 //
 , s2cst_sVarset= s2Varset // for occurrence checks
 //
-, s2cst_stamp= stamp // unique stamp
+, s2cst_dstag= int // dstag >= 0 if associated a datasort
 //
-, s2cst_tag= int // tag >= 0 if associated with a datasort
-} // end of [s2cst_struct]
+, s2cst_stamp= stamp // stamp for unicity
+//
+} (* end of [s2cst_struct] *)
 
 (* ****** ****** *)
 
@@ -173,8 +174,8 @@ val () = p->s2cst_dconlst := None ()
 val () = p->s2cst_sup := s2cstlst_encode (list_nil)
 val () = p->s2cst_supcls := list_nil ()
 val () = p->s2cst_sVarset := s2Varset_make_nil ()
+val () = p->s2cst_dstag := (~1)
 val () = p->s2cst_stamp := stamp
-val () = p->s2cst_tag := (~1)
 //
 in // in of [let]
 //
@@ -290,18 +291,18 @@ s2cst_get_sVarset (s2c) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_sVarset
 end // end of [s2cst_get_sVarset]
 implement
-s2cst_set_sVarset (s2c, xs) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_sVarset := xs
+s2cst_set_sVarset (s2c, s2Vs) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_sVarset := s2Vs
 end // end of [s2cst_set_sVarset]
 
 implement
-s2cst_get_tag (s2c) = $effmask_ref let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_tag
-end // end of [s2cst_get_tag]
+s2cst_get_dstag (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_dstag
+end // end of [s2cst_get_dstag]
 implement
-s2cst_set_tag (s2c, tag) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_tag := tag
-end // end of [s2cst_set_tag]
+s2cst_set_dstag (s2c, tag) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_dstag := tag
+end (* end of [s2cst_set_dstag] *)
 
 implement
 s2cst_get_stamp (s2c) = let

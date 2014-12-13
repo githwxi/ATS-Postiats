@@ -1100,14 +1100,22 @@ fun sc1laulst_trdn (
 
 local
 
-viewtypedef sc2laulst_vt = List_vt (sc2lau)
+vtypedef
+sc2laulst_vt = List_vt (sc2lau)
 
-fn sc2lau_get_tag
-  (sc2l: sc2lau):<> int = let
-  val sp2t = sc2l.sc2lau_pat in
+fun
+sc2lau_get_dstag
+  .<>.
+(
+  sc2l: sc2lau
+) :<> int = let
+  val sp2t = sc2l.sc2lau_pat
+in
   case+ sp2t.sp2at_node of
-  | SP2Tcon (s2c, _) => s2cst_get_tag (s2c) | SP2Terr () => ~1 (*err*)
-end // end of [sc2lau_get_tag]
+  | SP2Tcon (s2c, _) =>
+      $effmask_all (s2cst_get_dstag (s2c))
+  | SP2Terr () => ~1 (*err*)
+end // end of [sc2lau_get_dstag]
 
 fun auxerr_lt
   (loc0: location, sc2l: sc2lau): void = let
@@ -1152,11 +1160,15 @@ fun auxmain1 (
 , sc2ls: sc2laulst
 , s2td_pat: s2rtdat
 ) : void = let
-  val sc2ls2 = list_copy (sc2ls)
-  val sc2ls2 = let
-    var !p_clo = @lam (
+  val
+  sc2ls2 =
+    list_copy (sc2ls)
+  val
+  sc2ls2 = let
+    var !p_clo = @lam
+    (
       x1: &sc2lau, x2: &sc2lau
-    ) : int =<clo> sc2lau_get_tag (x1) - sc2lau_get_tag (x2)
+    ) : int =<clo> sc2lau_get_dstag (x1) - sc2lau_get_dstag (x2)
   in
     list_vt_mergesort (sc2ls2, !p_clo)
   end // end of [val]
@@ -1180,7 +1192,7 @@ in
 case+ sc2ls of
 | ~list_vt_cons
     (sc2l, sc2ls) => let
-    val tag = sc2lau_get_tag (sc2l)
+    val tag = sc2lau_get_dstag (sc2l)
   in
     if tag >= 0 then (
       if tag < n then let
@@ -1209,7 +1221,7 @@ in
   loop (loc0, sc2ls, s2cs, 0)
 end // end of [auxmain2]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 sc2laulst_coverck
@@ -1219,10 +1231,10 @@ fun auxerr1 (
   loc0: location, s2t_pat: s2rt
 ) : void = let
   val () = prerr_error2_loc (loc0)
-  val () = prerr ": the static expression being analyzed is of the sort ["
+  val () =
+  prerr ": the static expression being analyzed is of the sort ["
   val () = prerr_s2rt (s2t_pat)
-  val () = prerr "], which is not a base sort as is required."
-  val () = prerr_newline ()
+  val () = prerrln! ("], which is not a base sort as is required.")
 in
   the_trans2errlst_add (T2E_sc2laulst_coverck_sort (loc0, s2t_pat))
 end // end of [auxerr1]
@@ -1230,10 +1242,10 @@ fun auxerr2 (
   loc0: location, s2t_pat: s2rt
 ) : void = let
   val () = prerr_error2_loc (loc0)
-  val () = prerr ": the static expression being analyzed is of the sort ["
+  val () =
+  prerr ": the static expression being analyzed is of the sort ["
   val () = prerr_s2rt (s2t_pat)
-  val () = prerr "], which is not a datasort as is required."
-  val () = prerr_newline ()
+  val () = prerrln! ("], which is not a datasort as is required.")
 in
   the_trans2errlst_add (T2E_sc2laulst_coverck_sort (loc0, s2t_pat))
 end // end of [auxerr2]
@@ -1242,12 +1254,11 @@ in
 //
 case s2t_pat of
 | S2RTbas s2tb => (
-  case+ s2tb of
-  | S2RTBASdef s2td =>
-      auxmain1 (loc0, sc2ls, s2td)
-  | _ => auxerr2 (loc0, s2t_pat)
-  )
-| _ => auxerr1 (loc0, s2t_pat)
+    case+ s2tb of
+    | S2RTBASdef s2td => auxmain1 (loc0, sc2ls, s2td)
+    | _ (*non-S2RTBASdef*) => auxerr2 (loc0, s2t_pat)
+  ) (* end of [S2RTbas] *)
+| _(*non-S2RTbas*) => auxerr1 (loc0, s2t_pat)
 //
 end // end of [sc2laulst_coverck]
 

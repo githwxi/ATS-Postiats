@@ -627,8 +627,8 @@ fun s2cst_add_supcls (x: s2cst, sup: s2exp): void
 fun s2cst_get_sVarset (x: s2cst): s2Varset
 fun s2cst_set_sVarset (x: s2cst, _: s2Varset): void
 
-fun s2cst_get_tag (x: s2cst):<> int
-fun s2cst_set_tag (x: s2cst, tag: int): void
+fun s2cst_get_dstag (x: s2cst): int
+fun s2cst_set_dstag (x: s2cst, tag: int): void
 
 fun s2cst_get_stamp (x: s2cst): stamp
 

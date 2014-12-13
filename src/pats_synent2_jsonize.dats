@@ -189,15 +189,28 @@ val s2t =
   jsonize_s2rt (s2cst_get_srt (s2c))
 val stamp =
   jsonize_stamp (s2cst_get_stamp (s2c))
+//
 val supcls = 
   jsonize1_s2explst (s2cst_get_supcls (s2c))
 //
+val
+dconlstopt = let
+  val opt = s2cst_get_dconlst (s2c)
+in
+  case+ opt of
+  | None () => jsonval_none ()
+  | Some (d2cs) => jsonval_some (jsonize_list_fun (d2cs, jsonize_d2con_long))
+end // end of [val]
+//
 in
 //
-jsonval_labval4
+jsonval_labval5
 (
-  "s2cst_sym", sym, "s2cst_srt", s2t
-, "s2cst_stamp", stamp, "s2cst_supcls", supcls
+  "s2cst_sym", sym
+, "s2cst_srt", s2t
+, "s2cst_stamp", stamp
+, "s2cst_supcls", supcls
+, "s2cst_dconlst", dconlstopt
 )
 //
 end // end of [jsonize_s2cst_long]
