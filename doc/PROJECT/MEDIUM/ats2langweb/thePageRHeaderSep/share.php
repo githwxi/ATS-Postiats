@@ -103,6 +103,7 @@ thePageRHeaderSep_submenu_for_Community($name)
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
   echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseout $onmouseover>\n";
   echo "<tr><td><a href=\"$page#ATS_wikipage\">Wiki for ATS users</a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#ATS_subreddit\">ATS news links at reddit</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#ATS_IRC_channel\">IRC channel for ATS users</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#ATS_QandA_forum\">Q&amp;A forum for ATS users</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#ATS_devel_forum\">Discussion forum for ATS developers</a></td></tr>\n";

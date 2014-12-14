@@ -27,6 +27,26 @@ is a major source for ATS users to acquire information on and related to ATS.
 <td>
 <h2
 style="margin-bottom:0px">
+<a id="ATS_subreddit">ATS news links at reddit</a>:</h2>
+<ul>
+<li>
+Here is the
+<a href="http://www.reddit.com/r/ATS">subreddit</a>
+for reading and posting any and all news on or related to the ATS
+programming language.
+</li>
+</ul>
+</td>
+</tr>
+</table>
+
+<hr></hr>
+
+<table>
+<tr>
+<td>
+<h2
+style="margin-bottom:0px">
 <a id="ATS_IRC_channel">IRC channel for ATS users: ##ats</a>:</h2>
 <ul>
 <li>
