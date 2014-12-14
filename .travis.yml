@@ -26,5 +26,8 @@ script:
   - make -f Makefile_devl all
   - make -C ${PATSHOME}/doc regress > regress_doc.log 2>&1
   - tail -100 regress_doc.log
+  # Build utils
+  - make -C libatsynmark
+  - make -C utils/atsynmark
 after_script:
   - date
