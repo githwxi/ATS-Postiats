@@ -50,8 +50,11 @@ OBJECTS := \
   pats_trans1_sats.o \
   pats_trans1_env_sats.o \
   pats_trans1_env_dats.o \
-  pats_trans1_error_dats.o \
+  pats_e1xpval_sats.o \
+  pats_e1xpval_dats.o \
+  pats_e1xpval_error_dats.o \
   pats_trans1_e0xp_dats.o \
+  pats_trans1_error_dats.o \
   pats2xhtml_sats.o \
   pats2xhtml_level1_dats.o \
 

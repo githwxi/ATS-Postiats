@@ -539,8 +539,10 @@ dynload "src/pats_symenv.dats"
 dynload "src/pats_comarg.dats"
 dynload "src/pats_staexp1.dats"
 dynload "src/pats_trans1_env.dats"
-dynload "src/pats_trans1_error.dats"
+dynload "src/pats_e1xpval.dats"
+dynload "src/pats_e1xpval_error.dats"
 dynload "src/pats_trans1_e0xp.dats"
+dynload "src/pats_trans1_error.dats"
 
 (* ****** ****** *)
 
