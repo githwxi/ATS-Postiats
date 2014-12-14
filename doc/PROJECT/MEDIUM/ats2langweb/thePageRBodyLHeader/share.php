@@ -93,6 +93,7 @@ function
 thePageRBodyLHeader_Resources()
 {
   echo "<ul name=\"Resources\">\n";
+  echo "<li><a href=\"#ATS-Toolkit\">ATS Toolkit</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Resources] */
