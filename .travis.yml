@@ -28,8 +28,8 @@ script:
   - make -C ${PATSHOME}/doc regress > regress_doc.log 2>&1
   - tail -100 regress_doc.log
   # Build utils
-  - make -C libatsynmark
-  - make -C utils/atsynmark
-  - make -C utils/packedit
+  # - make -C libatsynmark # it is moved to ATS2-contrib
+  # - make -C utils/atsynmark # it is moved to ATS2-contrib
+  # - make -C utils/packedit # it is moved to ATS2-contrib
 after_script:
   - date
