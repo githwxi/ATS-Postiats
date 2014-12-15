@@ -35,6 +35,7 @@ Here is a list of major additions and changes since the last release:
    pats_dynexp2_appenv.hats
    pats_constraint3_appenv.hats
 6. Using a more compact format for representing exported constraints
+7. Using a more compact format for representing JSONized level-2 syntax
 
 ######
 

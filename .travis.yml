@@ -1,6 +1,7 @@
 before_install:
   - date
   - cd ${HOME}
+  - sudo apt-get -qq -y update
   - sudo apt-get -qq -y install libgc-dev
   - sudo apt-get -qq -y install libgmp3-dev
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
@@ -29,5 +30,6 @@ script:
   # Build utils
   - make -C libatsynmark
   - make -C utils/atsynmark
+  - make -C utils/packedit
 after_script:
   - date
