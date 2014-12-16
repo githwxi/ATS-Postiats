@@ -27,8 +27,8 @@ The current <em>pre-stable</em> release of ATS2 is at
 <a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-0.1.6.tgz">ATS2-0.1.6</a>
 </li>
 <li>
-The current <em>pre-stable</em> release of ATS2-min is at
-<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-min-0.1.6.tgz">ATS2-min-0.1.6</a>
+The current <em>pre-stable</em> release of ATS2-intmin is at
+<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-intmin-0.1.6.tgz">ATS2-intmin-0.1.6</a>
 </li>
 </ul>
 
@@ -102,7 +102,7 @@ a note so that other users of ATS may benefit.
 <p>
 The GMP library (libgmp) is needed for installing ATS2. Please
 see <a href="http://gmplib.org">http://gmplib.org</a> for more details on
-GMP. Optionally, one may choose to install ATS2-min, which has
+GMP. Optionally, one may choose to install ATS2-intmin, which has
 no dependency on the GMP library.
 </p>
 

@@ -100,7 +100,7 @@ install_files: \
   install_files_5 \
 
 install_dirs: ; \
-  cd $(abs_top_srcdir) && \
+  cd "$(abs_top_srcdir)" && \
   $(MKDIR_P) $(PATSLIBHOME2)/bin && \
   if [ ! -d $(bindir2) ] ; then $(MKDIR_P) $(bindir2) ; fi && \
   for x in share ccomp prelude libc libats ; do \
@@ -109,7 +109,7 @@ install_dirs: ; \
 
 install_files_0: install_dirs ; \
   for x in share ccomp/runtime prelude libc libats ; do \
-    cd $(abs_top_srcdir) && \
+    cd "$(abs_top_srcdir)" && \
     $(INSTALL) -d $(PATSLIBHOME2)/"$$x" && \
     find "$$x" -type l -exec cp -d \{} $(PATSLIBHOME2)/\{} \; -print && \
     find "$$x" -type f -exec $(INSTALL) -m644 \{} $(PATSLIBHOME2)/\{} \; -print; \

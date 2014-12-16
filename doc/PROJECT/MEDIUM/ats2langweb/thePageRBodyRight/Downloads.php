@@ -33,18 +33,28 @@ if the platform happens to run a Unix-like OS.
 <p>
 The name
 <a href="https://github.com/githwxi/ATS-Postiats">ATS2-github</a>
-often refers to the version of ATS2 available at github.com.
-This version contains the latest changes made after the last
-release of ATS2. Assume that ATS1 has been installed.
-Then ATS2-github can be built by first git-cloning it into a local
-directory and then issuing the following command-line after entering
-the directory:
+refers to the version of ATS2 available at github.com.  This version
+contains the latest changes made after the last release of ATS2. Assume
+that ATS1 has been installed.  Then ATS2-github can be built by first
+git-cloning it into a local directory and then issuing the following
+command-line after entering the directory:
 
 <pre
 style="font-size:12px;"
 >make -f Makefile_devl</pre>
 
 Usually, the whole process of building ATS2-github takes less than 5 minutes.
+</p>
+
+<hr></hr>
+
+<p>
+The name
+<a href="https://github.com/githwxi/ATS-Postiats-contrib">ATS2-contrib-github</a>
+refers to the version of ATS2-contrib available at github.com.  This
+version contains the latest changes made after the last release of
+ATS2-contrib. It is ready for use immediately after being git-cloned into a
+local directory.
 </p>
 
 <hr></hr>

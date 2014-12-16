@@ -4,8 +4,9 @@
 #
 ######
 #
+CC=gcc
 GCC=gcc
-CCOMP=$(GCC)
+CCOMP=$(CC)
 #
 # GCFLAG=-D_ATS_NGC
 # GCFLAG=-D_ATS_GCATS
