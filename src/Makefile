@@ -9,7 +9,8 @@
 
 ######
 
-CCOMP=gcc
+CC=gcc
+export ATSCCOMP=$(CC)
 
 ######
 
