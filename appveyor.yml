@@ -5,6 +5,10 @@ environment:
     global:
         CYG_MIRROR: http://cygwin.uib.no
         CYG_CACHE: C:/cygwin/var/cache/setup
+        ATSHOME: /tmp/ats-lang-anairiats-0.2.11
+        ATSHOMERELOC: ATS-0.2.11
+        ATS1_VER: 0.2.11
+
     matrix:
         -   CYG_ARCH: x86
             CYG_ROOT: C:/cygwin
@@ -18,6 +22,9 @@ install:
     - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName setup.exe'
     - 'setup.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P wget -P make >NUL'
     - '%CYG_ROOT%/bin/bash -lc "cygcheck -dc cygwin"'
+    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && wget -q http://downloads.sourceforge.net/project/ats-lang/ats-lang/anairiats-%ATS1_VER%/ats-lang-anairiats-%ATS1_VER%.tgz"
+    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && tar xf ats-lang-anairiats-%ATS1_VER%.tgz"
+    - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME% && ./configure && make all"
 
 build_script:
     - '%CYG_ROOT%/bin/bash -lc "cd \"$OLDPWD\" && make -f Makefile_devl"'
