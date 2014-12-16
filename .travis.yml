@@ -11,7 +11,7 @@ before_install:
   # Building ATS1
   - ${TRAVIS_BUILD_DIR}/travis-ci/setup.sh 0.2.11
   # Download ATS2-contrib
-  - git https://github.com/githwxi/ATS-Postiats-contrib.git ATS2-contrib
+  - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS2-contrib
   - export PATSHOMERELOC=${PATSHOME}/ATS2-contrib
 script:
   - cd ${TRAVIS_BUILD_DIR}
