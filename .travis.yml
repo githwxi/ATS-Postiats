@@ -27,9 +27,14 @@ script:
   - make -f Makefile_devl all
   - make -C ${PATSHOME}/doc regress > regress_doc.log 2>&1
   - tail -100 regress_doc.log
-  # Build utils
-  # - make -C libatsynmark # it is moved to ATS2-contrib
-  # - make -C utils/atsynmark # it is moved to ATS2-contrib
-  # - make -C utils/packedit # it is moved to ATS2-contrib
+  # Download ATS2-contrib
+  - git https://github.com/githwxi/ATS-Postiats-contrib.git ATS2-contrib
+  - export PATSHOMERELOC=${PATSHOME}/ATS2-contrib
+  # Building utils
+  - make -C libatsynmark # it is moved to ATS2-contrib
+  - make -C utils/atsynmark # it is moved to ATS2-contrib
+  - make -C utils/packedit # it is moved to ATS2-contrib
+  # Testing extensively
+  - make -C ${PATSHOMERELOC} -f Makefile_test testall
 after_script:
   - date

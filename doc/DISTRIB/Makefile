@@ -575,7 +575,6 @@ srcget_atscntrb_libatscc:: SCRIPT/atscntrb_libatscc.bash ; bash $<
 ######
 #
 PACKNAME=ATS2-Postiats-0.1.6
-PACKNAMEmin=ATS2-Postiats-min-0.1.6
 #
 atspacktarzvcf:: ; rm -rf $(PACKNAME)
 atspacktarzvcf:: ; cp -rf ATS-Postiats $(PACKNAME)
@@ -587,8 +586,13 @@ atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
 #
 atspacktarzvcf_up:: ; \
 scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAME).tgz
-atspacktarzvcf_min_up:: ; \
-scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEmin).tgz
+#
+######
+#
+PACKNAMEintmin=ATS2-Postiats-intmin-0.1.6
+#
+atspacktarzvcf_intmin_up:: ; \
+scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEintmin).tgz
 #
 ######
 
