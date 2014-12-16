@@ -22,6 +22,7 @@ init:
     - 'echo System architecture: %PLATFORM%'
     - 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
     - 'echo Build folder is: %APPVEYOR_BUILD_FOLDER%'
+    - 'git config --global core.autocrlf input'
 
 install:
 #   - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName setup.exe'
