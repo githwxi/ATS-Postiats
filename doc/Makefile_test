@@ -50,18 +50,20 @@ SUBDIRS += BOOK/INT2PROGINATS/CODE/CHAP_ABSVTYPE
 #
 ######
 
-.PHONY: all
+.PHONY: testall
 
 ######
 
-all:: regress
-all:: cleanall
+testall:: all
+testall:: regress
+testall:: cleanall
 
 ######
 
+all:: ; for i in $(SUBDIRS); do $(MAKE) -C "$$i" $@; done
 regress:: ; for i in $(SUBDIRS); do $(MAKE) -C "$$i" $@; done
 cleanall:: ; for i in $(SUBDIRS); do $(MAKE) -C "$$i" $@; done
 
 ######
 
-###### end of [Makefile] ######
+###### end of [Makefile_test] ######

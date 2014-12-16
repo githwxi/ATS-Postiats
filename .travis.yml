@@ -28,8 +28,8 @@ script:
   - make -C ${PATSHOME}/doc/DISTRIB atspacktarzvcf
   # Regress test
   - make -f Makefile_devl all
-  - make -C ${PATSHOME}/doc regress > regress_doc.log 2>&1
-  - tail -100 regress_doc.log
+  - make -C ${PATSHOME}/doc -f Makefile_test testall > testall_doc.log 2>&1
+  - tail -100 testall_doc.log
   # Building utils
   - make -C libatsynmark # it is moved to ATS2-contrib
   - make -C utils/atsynmark # it is moved to ATS2-contrib
