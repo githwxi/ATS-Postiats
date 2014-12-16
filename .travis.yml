@@ -7,9 +7,12 @@ before_install:
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
   - export ATSHOMERELOC=ATS-0.2.11
   - export PATSHOME=${TRAVIS_BUILD_DIR}
-  - export PATSHOMERELOC=${TRAVIS_BUILD_DIR}
   - export PATH=${PATH}:${PATSHOME}/bin
+  # Building ATS1
   - ${TRAVIS_BUILD_DIR}/travis-ci/setup.sh 0.2.11
+  # Download ATS2-contrib
+  - git https://github.com/githwxi/ATS-Postiats-contrib.git ATS2-contrib
+  - export PATSHOMERELOC=${PATSHOME}/ATS2-contrib
 script:
   - cd ${TRAVIS_BUILD_DIR}
   # Test release process
@@ -27,9 +30,6 @@ script:
   - make -f Makefile_devl all
   - make -C ${PATSHOME}/doc regress > regress_doc.log 2>&1
   - tail -100 regress_doc.log
-  # Download ATS2-contrib
-  - git https://github.com/githwxi/ATS-Postiats-contrib.git ATS2-contrib
-  - export PATSHOMERELOC=${PATSHOME}/ATS2-contrib
   # Building utils
   - make -C libatsynmark # it is moved to ATS2-contrib
   - make -C utils/atsynmark # it is moved to ATS2-contrib
