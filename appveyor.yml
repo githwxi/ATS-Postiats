@@ -1,9 +1,12 @@
+os: Unstable
+
 platform:
     - x64
 
 environment:
     global:
-        CYG_MIRROR: http://cygwin.uib.no
+        CYG_ROOT: C:/cygwin
+        CYG_MIRROR: http://cygwin.mirror.constant.com
         CYG_CACHE: C:/cygwin/var/cache/setup
         ATSHOME: /tmp/ats-lang-anairiats-0.2.11
         ATSHOMERELOC: ATS-0.2.11
@@ -17,14 +20,28 @@ environment:
 
 init:
     - 'echo System architecture: %PLATFORM%'
+    - 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
+    - 'echo Build folder is: %APPVEYOR_BUILD_FOLDER%'
 
 install:
-    - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName setup.exe'
-    - 'setup.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P wget -P make >NUL'
+#   - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName setup.exe'
+    - 'echo Setting up Cygwin dependencies'
+    - '%CYG_ROOT%\setup-x86.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P autoconf -P automake -P gcc-core -P libtool -P make -P intltool -P pkg-config -P git -P wget > NUL'
+    - 'echo Check Cygwin setup'
     - '%CYG_ROOT%/bin/bash -lc "cygcheck -dc cygwin"'
+    - 'echo Done setting up Cygwin'
+    - 'echo Install ATS1...'
     - '%CYG_ROOT%/bin/bash -lc "cd /tmp && wget -q http://downloads.sourceforge.net/project/ats-lang/ats-lang/anairiats-%ATS1_VER%/ats-lang-anairiats-%ATS1_VER%.tgz"'
     - '%CYG_ROOT%/bin/bash -lc "cd /tmp && tar xf ats-lang-anairiats-%ATS1_VER%.tgz"'
-    - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME% && ./configure && make all"'
+    - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure"'
+    - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; make all"'
 
 build_script:
-    - '%CYG_ROOT%/bin/bash -lc "cd \"$OLDPWD\" && make -f Makefile_devl"'
+    - cmd: 'echo Cygwin root is: %CYG_ROOT%'
+    - cmd: 'echo Build folder is: %APPVEYOR_BUILD_FOLDER%'
+    - cmd: 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
+    - cmd: 'echo Repo build commit is: %APPVEYOR_REPO_COMMIT%'
+    - cmd: 'echo Build ATS2...'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; make -f Makefile_devl"'
+
+test: off
