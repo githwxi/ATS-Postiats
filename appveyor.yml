@@ -26,7 +26,7 @@ init:
 install:
 #   - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName setup.exe'
     - 'echo Setting up Cygwin dependencies'
-    - '%CYG_ROOT%\setup-x86.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P autoconf -P automake -P gcc-core -P libtool -P make -P intltool -P pkg-config -P git -P wget > NUL'
+    - '%CYG_ROOT%\setup-x86.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P autoconf -P automake -P gcc-core -P libtool -P make -P intltool -P pkg-config -P git -P wget -P libgc-devel -P libgmp-devel > NUL'
     - 'echo Check Cygwin setup'
     - '%CYG_ROOT%/bin/bash -lc "cygcheck -dc cygwin"'
     - 'echo Done setting up Cygwin'
@@ -42,6 +42,8 @@ build_script:
     - cmd: 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
     - cmd: 'echo Repo build commit is: %APPVEYOR_REPO_COMMIT%'
     - cmd: 'echo Build ATS2...'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; make -f codegen/Makefile_atslib"'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; make -f Makefile_devl src_depend"'
     - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; make -f Makefile_devl"'
 
 test: off
