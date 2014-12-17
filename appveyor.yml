@@ -11,7 +11,7 @@ environment:
         ATSHOME: /tmp/ats-lang-anairiats-0.2.11
         ATSHOMERELOC: ATS-0.2.11
         ATS1_VER: 0.2.11
-%        PATSHOME: %APPVEYOR_BUILD_FOLDER%
+#        PATSHOME: %APPVEYOR_BUILD_FOLDER%
         PATSHOMERELOC: /tmp/ATS-Postiats-contrib
 
     matrix:
