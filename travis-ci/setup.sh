@@ -12,27 +12,30 @@
 ######
 #
 ATSVER=$1
-ATSPACK=ats-lang-anairiats-${ATSVER}
-ATSPACKTGZ=${ATSPACK}.tgz
+#
+ATSPACK=\
+ats-lang-anairiats-${ATSVER}
+#
+ATSPACKTGZ=${ATSPACK}-final.tgz
 #
 ATSLANGURL=\
-http://downloads.sourceforge.net/project/ats-lang
+http://sourceforge.net/project/ats-lang
 #
 ######
-
+#
 WGETQ="wget -q"
 TARZXF="tar zxf"
-
+#
 ######
 #
 ${WGETQ} \
-${ATSLANGURL}/ats-lang/anairiats-${ATSVER}/${ATSPACKTGZ}
+${ATSLANGURL}/files/ats-lang/anairiats-1.0.0/${ATSPACKTGZ}
 #
 ${TARZXF} ${ATSPACKTGZ}
 #
 ######
 #
-cd ${ATSPACK}; ./configure; make all
+cd ${ATSPACK}; ./configure; make all0
 #
 ######
 

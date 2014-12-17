@@ -136,6 +136,13 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/gvector.sats")
+#packfilename("SATS/gmatrix.sats")
+#packfilename("SATS/gmatrix_col.sats")
+#packfilename("SATS/gmatrix_row.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/refcount.sats")
 
 (* ****** ****** *)
@@ -259,6 +266,13 @@ The ATSLIB/libats library\
 #packfilename("DATS/stkarray.dats")
 #packfilename("DATS/deqarray.dats")
 #packfilename("DATS/dynarray.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/gvector.dats")
+#packfilename("DATS/gmatrix.dats")
+#packfilename("DATS/gmatrix_col.dats")
+#packfilename("DATS/gmatrix_row.dats")
 
 (* ****** ****** *)
 
