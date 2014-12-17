@@ -19,7 +19,7 @@ ats-lang-anairiats-${ATSVER}
 ATSPACKTGZ=${ATSPACK}-final.tgz
 #
 ATSLANGURL=\
-http://sourceforge.net/project/ats-lang
+http://sourceforge.net/projects/ats-lang
 #
 ######
 #
