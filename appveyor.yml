@@ -35,7 +35,6 @@ install:
     - '%CYG_ROOT%/bin/bash -lc "cd /tmp && wget -q http://downloads.sourceforge.net/project/ats-lang/ats-lang/anairiats-%ATS1_VER%/ats-lang-anairiats-%ATS1_VER%.tgz"'
     - '%CYG_ROOT%/bin/bash -lc "cd /tmp && tar xf ats-lang-anairiats-%ATS1_VER%.tgz"'
     - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure"'
-    - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; file Makefile"' # xxx
     - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; make all"'
 
 build_script:
@@ -44,8 +43,10 @@ build_script:
     - cmd: 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
     - cmd: 'echo Repo build commit is: %APPVEYOR_REPO_COMMIT%'
     - cmd: 'echo Build ATS2...'
-    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; file share/Makefile.gen"' # xxx
-    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; make -f codegen/Makefile_atslib"'
+#   - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; make -f codegen/Makefile_atslib"'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; ls -l prelude/SATS/CODEGEN/"'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; cp -f share/Makefile.gen prelude/SATS/CODEGEN/"'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; make -C prelude/SATS/CODEGEN -f Makefile.gen"'
     - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; make -f Makefile_devl src_depend"'
     - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null; make -f Makefile_devl"'
 
