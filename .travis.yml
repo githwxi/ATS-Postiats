@@ -3,23 +3,17 @@ os:
   - linux
 before_install:
   - date
+  - cat /proc/cpuinfo
   - cd ${HOME}
-  - sudo apt-get -qq -y update
-  - sudo apt-get -qq -y install libgc-dev
-  - sudo apt-get -qq -y install libgmp3-dev
-  # For contrib/GTK/
-  - sudo apt-get -qq -y install libgtk-3-dev
-  # For contrib/libev/
-  - sudo apt-get -qq -y install libev-dev
-  # For contrib/jansson/
-  - sudo apt-get -qq -y install libjansson-dev
   # Setting-up
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
   - export ATSHOMERELOC=ATS-0.2.11
   - export PATSHOME=${TRAVIS_BUILD_DIR}
   - export PATH=${PATH}:${PATSHOME}/bin
+  # Install pkgs
+  - ${TRAVIS_BUILD_DIR}/travis-ci/installpkg.sh
   # Download ATS1
-  - ${TRAVIS_BUILD_DIR}/travis-ci/setup.sh 0.2.11
+  - ${TRAVIS_BUILD_DIR}/travis-ci/ats1_setup.sh 0.2.11
   # Download ATS2-contrib
   - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
   - export PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
