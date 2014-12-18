@@ -109,15 +109,19 @@ fun{a:t0p}
 option_unsome_exn (opt: Option (INV(a))):<!exn> a
 
 #atscode_separator()
-
+//
 fun{a:t0p}
-fprint_option (out: FILEref, opt: Option (INV(a))): void
+fprint_option
+  (out: FILEref, opt: Option (INV(a))): void
+//
 overload fprint with fprint_option
-
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "option_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "option_atxt.txt")
 %}\

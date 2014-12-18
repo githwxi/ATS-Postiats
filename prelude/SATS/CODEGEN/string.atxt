@@ -536,5 +536,7 @@ overload fprint with fprint_stropt of 0
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "string_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "string_atxt.txt")
 %}\

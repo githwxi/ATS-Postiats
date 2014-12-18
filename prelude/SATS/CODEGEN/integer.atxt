@@ -1380,5 +1380,9 @@ overload sz2u with g1uint2uint_size_uint of 10
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "integer_atxt.txt")
+//
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "integer_atxt.txt")
+//
 %}\

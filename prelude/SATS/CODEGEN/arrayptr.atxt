@@ -490,5 +490,7 @@ overload ptrcast with arrayptrout2ptr
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "arrayptr_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "arrayptr_atxt.txt")
 %}\

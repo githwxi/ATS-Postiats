@@ -94,5 +94,7 @@ ckastloc_Strptr1 (x) = checkast_Strptr1 (,(x), $mylocation)
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "checkast_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "checkast_atxt.txt")
 %}\

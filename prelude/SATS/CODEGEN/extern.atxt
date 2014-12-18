@@ -107,5 +107,7 @@ argv_takeout_parray
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "extern_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "extern_atxt.txt")
 %}\

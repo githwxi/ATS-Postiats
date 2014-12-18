@@ -502,5 +502,9 @@ overload char2u2ui with char2u2uint0 of 0
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "char_atxt.txt")
+//
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "char_atxt.txt")
+//
 %}\

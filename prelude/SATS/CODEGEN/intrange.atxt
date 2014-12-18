@@ -58,5 +58,7 @@ intrange_rforeach_env (l: int, r: int, env: &(env) >> _): int
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "intrange_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "intrange_atxt.txt")
 %}\

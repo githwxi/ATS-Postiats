@@ -280,5 +280,7 @@ macdef g0f2f (x) = g0float2float (,(x))
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "float_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "float_atxt.txt")
 %}\
