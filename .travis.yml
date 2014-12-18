@@ -1,3 +1,6 @@
+os:
+  - osx
+  - linux
 before_install:
   - date
   - cd ${HOME}
@@ -37,9 +40,9 @@ script:
   - make -C ${PATSHOME}/doc/DISTRIB atspackaging
   - make -C ${PATSHOME}/doc/DISTRIB atspacktarzvcf
   - make -C ${PATSHOME}/doc/DISTRIB cleanall
-  - make -C ${PATSHOME}/doc/DISTRIB atscontribing
-  - make -C ${PATSHOME}/doc/DISTRIB atscntrbtarzvcf
-  - make -C ${PATSHOME}/doc/DISTRIB cleanall
+  # make -C ${PATSHOME}/doc/DISTRIB atscontribing
+  # make -C ${PATSHOME}/doc/DISTRIB atscntrbtarzvcf
+  # make -C ${PATSHOME}/doc/DISTRIB cleanall
   # Regress test
   - make -C ${PATSHOME}/doc -f Makefile_test testall > testall_doc.log 2>&1
   - tail -100 testall_doc.log
