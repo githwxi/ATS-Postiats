@@ -33,7 +33,7 @@ install:
     - '%CYG_ROOT%/bin/bash -lc "cygcheck -dc cygwin"'
     - 'echo Done setting up Cygwin'
     - 'echo Install ATS1...'
-    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && wget -q http://downloads.sourceforge.net/project/ats-lang/ats-lang/anairiats-%ATS1_VER%/ats-lang-anairiats-%ATS1_VER%.tgz"'
+    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && wget -q http://downloads.sourceforge.net/project/ats-lang/ats-lang/anairiats-%ATS1_VER%/ats-lang-anairiats-%ATS1_VER%-final.tgz"'
     - '%CYG_ROOT%/bin/bash -lc "cd /tmp && tar xf ats-lang-anairiats-%ATS1_VER%.tgz"'
     - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure"'
     - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; make all"'
