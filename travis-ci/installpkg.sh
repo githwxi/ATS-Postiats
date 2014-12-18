@@ -15,6 +15,7 @@ if
 then
   brew install gmp
   brew install bdw-gc
+  brew install gtk+3
 fi
 
 ###### for LINUX ######
