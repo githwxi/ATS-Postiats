@@ -40,13 +40,13 @@ ${TARZXF} ${ATSPACKTGZ}
 #
 ######
 #
-# cd ${ATSPACK}; ./configure; make all
+# ./configure; make all
 #
 ######
 #
 # -- If you do
 #
-# cd ${ATSPACK}; ./configure; make all_ngc
+# ./configure; make all_ngc
 #
 # -- Please remember to use the following
 # -- command-line later when building ATS2
