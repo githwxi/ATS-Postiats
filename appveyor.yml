@@ -11,6 +11,7 @@ environment:
         ATSHOME: /tmp/ats-lang-anairiats-0.2.11
         ATSHOMERELOC: ATS-0.2.11
         ATS1_VER: 0.2.11
+        PATSHOME: /tmp/ATS-Postiats
         PATSHOMERELOC: /tmp/ATS-Postiats-contrib
 
     matrix:
@@ -37,6 +38,9 @@ install:
     - '%CYG_ROOT%/bin/bash -lc "cd /tmp && tar xf ats-lang-anairiats-%ATS1_VER%.tgz"'
     - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure"'
     - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; make all"'
+    - 'echo Download ATS2... (It's needed to use symlink.)'
+#   - '%CYG_ROOT%/bin/bash -lc "cd /tmp && git clone https://github.com/githwxi/ATS-Postiats.git"'
+    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && git clone -b feature/support_cygwin_ci https://github.com/master-q/ATS-Postiats.git"' # xxx
     - 'echo Download ATS2-contrib...'
     - '%CYG_ROOT%/bin/bash -lc "cd /tmp && git clone https://github.com/githwxi/ATS-Postiats-contrib.git"'
 
@@ -46,6 +50,8 @@ build_script:
     - cmd: 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
     - cmd: 'echo Repo build commit is: %APPVEYOR_REPO_COMMIT%'
     - cmd: 'echo Build ATS2...'
-    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $APPVEYOR_BUILD_FOLDER; exec 0</dev/null;make -f appveyor/build.mk"'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $PATSHOME; exec 0</dev/null; make -f codegen/Makefile_atslib"'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $PATSHOME; exec 0</dev/null; make -f Makefile_devl src_depend"'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $PATSHOME; exec 0</dev/null; make -f Makefile_devl"'
 
 test: off
