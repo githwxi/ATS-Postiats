@@ -25,11 +25,12 @@ script:
   - cd ${ATSHOME}
   # ./configure&&make all
   - ./configure&&make all_ngc
-  # Trying-out release process
+  # Building ATS2
   - cd ${TRAVIS_BUILD_DIR}
   - make -f codegen/Makefile_atslib
-  - make -f Makefile_devl src_depend
-  - make -C ${PATSHOME}/src patsopt
+  # make -f Makefile_devl all
+  - make GCFLAG=-D_ATS_NGC -f Makefile_devl all
+  # Trying-out release process
   - make -C ${PATSHOME}/src CBOOT
   - make -C ${PATSHOME}/src/CBOOT/prelude
   - make -C ${PATSHOME}/src/CBOOT/libc
@@ -38,8 +39,6 @@ script:
   - make -C ${PATSHOME}/doc/DISTRIB cleanall
   - make -C ${PATSHOME}/doc/DISTRIB atspacktarzvcf
   # Regress test
-  # make -f Makefile_devl all
-  - make GCFLAG=-D_ATS_NGC -f Makefile_devl all
   - make -C ${PATSHOME}/doc -f Makefile_test testall > testall_doc.log 2>&1
   - tail -100 testall_doc.log
   # Building utils
