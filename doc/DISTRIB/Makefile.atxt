@@ -25,7 +25,7 @@ SCRIPT/%s.bash\n\
 SCRIPT/%s.bash: %s_atxt.exe ; ./$< > $@
 %s_atxt.dats: ATEXT/%s.atxt ; \\
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-%s_atxt.exe: %s_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+%s_atxt.exe: %s_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) %s_atxt.exe
 cleanall:: ; $(RMF) HTML/%s.html
 cleanall:: ; $(RMF) SCRIPT/%s.bash
@@ -49,6 +49,9 @@ end // end of [make_entry]
 ######
 
 ATSHOMEQ="$(ATSHOME)"
+
+######
+
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSOPT=$(ATSHOMEQ)/bin/atsopt
 ATSDOC=$(ATSHOMEQ)/bin/atsdoc
@@ -62,9 +65,11 @@ PATSHOMEQ="$(PATSHOME)"
 INCLATS:=-IATS $(ATSHOMEQ)
 
 ######
-
-ATSGCFLAG=-D_ATS_GCATS
-
+#
+GCFLAG=
+#
+# GCFLAG=-D_ATS_GCATS
+#
 ######
 
 CAT=cat

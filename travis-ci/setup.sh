@@ -16,7 +16,7 @@ ATSVER=$1
 ATSPACK=\
 ats-lang-anairiats-${ATSVER}
 #
-ATSPACKTGZ=${ATSPACK}-final.tgz
+ATSPACKTGZ=${ATSPACK}-fin.tgz
 #
 ATSLANGURL=\
 http://sourceforge.net/projects/ats-lang
@@ -29,19 +29,24 @@ TARZXF="tar zxf"
 ######
 #
 ${WGETQ} \
-${ATSLANGURL}/files/ats-lang/anairiats-1.0.0/${ATSPACKTGZ}
+${ATSLANGURL}/files/ats-lang/anairiats-0.2.11/${ATSPACKTGZ}
 #
 ${TARZXF} ${ATSPACKTGZ}
 #
 ######
 #
-cd ${ATSPACK}; ./configure; make all
+# HX-2014-12-16:
+# The rest is moved into .travis.yml
+#
+######
+#
+# ./configure; make all
 #
 ######
 #
 # -- If you do
 #
-# cd ${ATSPACK}; ./configure; make all_ngc
+# ./configure; make all_ngc
 #
 # -- Please remember to use the following
 # -- command-line later when building ATS2

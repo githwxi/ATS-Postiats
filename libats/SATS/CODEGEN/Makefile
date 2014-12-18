@@ -12,9 +12,11 @@ ATSOPT=$(ATSHOMEQ)/bin/atsopt
 ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
-
-ATSGCFLAG=-D_ATS_GCATS
-
+#
+GCFLAG=
+#
+# GCFLAG=-D_ATS_GCATS
+#
 ######
 
 all::

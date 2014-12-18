@@ -22,7 +22,7 @@ val ent = sprintf ("\
 all:: %s.sats\n\
 %s.sats: %s_atxt.exe ; ./$< > $@\n\
 %s_atxt.exe: %s_atxt.dats\n\
-	$(ATSCC) -D_ATS_GCATS -o $@ %s_atxt.dats -latsdoc\n\
+	$(ATSCC) $(GCFLAG) -o $@ %s_atxt.dats -latsdoc\n\
 %s_atxt.dats: %s.atxt\n\
 	$(ATSDOC) --outcode $@ -i %s.atxt > %s_atxt.txt\n\
 clean:: ; $(RMF) %s_atxt.exe\n\
@@ -48,10 +48,19 @@ end // end of [make_entry]
 ######
 
 ATSHOMEQ="$(ATSHOME)"
+
+######
+
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSOPT=$(ATSHOMEQ)/bin/atsopt
 ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
+######
+#
+GCFLAG=
+#
+# GCFLAG=-D_ATS_GCATS
+#
 ######
 
 all::

@@ -26,7 +26,7 @@ HTML/%s.html: \
   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
 %s_atxt.exe: htmlgendecl_atxt.dats \
   %s_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ; \
-  $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $< \
+  $(ATSCC) $(INCLUDE) $(INCLATS) $(GCFLAG) -o $@ $< \
     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOMEQ)/libatsynmark/libatsynmark.a -latsdoc
 upload_%s:: ; \
   scp HTML/%s.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libc/SATS/DOCUGEN/HTML
@@ -71,9 +71,11 @@ INCLUDE:=-I $(PATSHOMEQ)/src
 INCLATS:=-IATS $(SHAREDOCU) -IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ)
 
 ######
-
-ATSGCFLAG=-D_ATS_GCATS
-
+#
+GCFLAG=
+#
+# GCFLAG=-D_ATS_GCATS
+#
 ######
 
 CAT=cat

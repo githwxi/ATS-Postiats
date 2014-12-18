@@ -10,6 +10,9 @@
 ######
 
 ATSHOMEQ="$(ATSHOME)"
+
+######
+
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSOPT=$(ATSHOMEQ)/bin/atsopt
 ATSDOC=$(ATSHOMEQ)/bin/atsdoc
@@ -23,9 +26,11 @@ PATSHOMEQ="$(PATSHOME)"
 INCLATS:=-IATS $(ATSHOMEQ)
 
 ######
-
-ATSGCFLAG=-D_ATS_GCATS
-
+#
+GCFLAG=
+#
+# GCFLAG=-D_ATS_GCATS
+#
 ######
 
 CAT=cat
@@ -48,7 +53,7 @@ SCRIPT/patsopt_src.bash
 SCRIPT/patsopt_src.bash: patsopt_src_atxt.exe ; ./$< > $@
 patsopt_src_atxt.dats: ATEXT/patsopt_src.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patsopt_src_atxt.exe: patsopt_src_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+patsopt_src_atxt.exe: patsopt_src_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) patsopt_src_atxt.exe
 cleanall:: ; $(RMF) HTML/patsopt_src.html
 cleanall:: ; $(RMF) SCRIPT/patsopt_src.bash
@@ -58,7 +63,7 @@ SCRIPT/patsopt_src_cboot.bash
 SCRIPT/patsopt_src_cboot.bash: patsopt_src_cboot_atxt.exe ; ./$< > $@
 patsopt_src_cboot_atxt.dats: ATEXT/patsopt_src_cboot.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patsopt_src_cboot_atxt.exe: patsopt_src_cboot_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+patsopt_src_cboot_atxt.exe: patsopt_src_cboot_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) patsopt_src_cboot_atxt.exe
 cleanall:: ; $(RMF) HTML/patsopt_src_cboot.html
 cleanall:: ; $(RMF) SCRIPT/patsopt_src_cboot.bash
@@ -71,7 +76,7 @@ SCRIPT/atslib_prelude.bash
 SCRIPT/atslib_prelude.bash: atslib_prelude_atxt.exe ; ./$< > $@
 atslib_prelude_atxt.dats: ATEXT/atslib_prelude.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atslib_prelude_atxt.exe: atslib_prelude_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atslib_prelude_atxt.exe: atslib_prelude_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atslib_prelude_atxt.exe
 cleanall:: ; $(RMF) HTML/atslib_prelude.html
 cleanall:: ; $(RMF) SCRIPT/atslib_prelude.bash
@@ -81,7 +86,7 @@ SCRIPT/atslib_libc.bash
 SCRIPT/atslib_libc.bash: atslib_libc_atxt.exe ; ./$< > $@
 atslib_libc_atxt.dats: ATEXT/atslib_libc.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atslib_libc_atxt.exe: atslib_libc_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atslib_libc_atxt.exe: atslib_libc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atslib_libc_atxt.exe
 cleanall:: ; $(RMF) HTML/atslib_libc.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libc.bash
@@ -91,7 +96,7 @@ SCRIPT/atslib_libats.bash
 SCRIPT/atslib_libats.bash: atslib_libats_atxt.exe ; ./$< > $@
 atslib_libats_atxt.dats: ATEXT/atslib_libats.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atslib_libats_atxt.exe: atslib_libats_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atslib_libats_atxt.exe: atslib_libats_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atslib_libats_atxt.exe
 cleanall:: ; $(RMF) HTML/atslib_libats.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libats.bash
@@ -101,7 +106,7 @@ SCRIPT/atslib_libats_ML.bash
 SCRIPT/atslib_libats_ML.bash: atslib_libats_ML_atxt.exe ; ./$< > $@
 atslib_libats_ML_atxt.dats: ATEXT/atslib_libats_ML.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atslib_libats_ML_atxt.exe: atslib_libats_ML_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atslib_libats_ML_atxt.exe: atslib_libats_ML_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atslib_libats_ML_atxt.exe
 cleanall:: ; $(RMF) HTML/atslib_libats_ML.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libats_ML.bash
@@ -111,7 +116,7 @@ SCRIPT/atslib_libats_ATS1.bash
 SCRIPT/atslib_libats_ATS1.bash: atslib_libats_ATS1_atxt.exe ; ./$< > $@
 atslib_libats_ATS1_atxt.dats: ATEXT/atslib_libats_ATS1.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atslib_libats_ATS1_atxt.exe: atslib_libats_ATS1_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atslib_libats_ATS1_atxt.exe: atslib_libats_ATS1_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atslib_libats_ATS1_atxt.exe
 cleanall:: ; $(RMF) HTML/atslib_libats_ATS1.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libats_ATS1.bash
@@ -124,7 +129,7 @@ SCRIPT/ccomp_atslib.bash
 SCRIPT/ccomp_atslib.bash: ccomp_atslib_atxt.exe ; ./$< > $@
 ccomp_atslib_atxt.dats: ATEXT/ccomp_atslib.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-ccomp_atslib_atxt.exe: ccomp_atslib_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+ccomp_atslib_atxt.exe: ccomp_atslib_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) ccomp_atslib_atxt.exe
 cleanall:: ; $(RMF) HTML/ccomp_atslib.html
 cleanall:: ; $(RMF) SCRIPT/ccomp_atslib.bash
@@ -134,7 +139,7 @@ SCRIPT/ccomp_runtime.bash
 SCRIPT/ccomp_runtime.bash: ccomp_runtime_atxt.exe ; ./$< > $@
 ccomp_runtime_atxt.dats: ATEXT/ccomp_runtime.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-ccomp_runtime_atxt.exe: ccomp_runtime_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+ccomp_runtime_atxt.exe: ccomp_runtime_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) ccomp_runtime_atxt.exe
 cleanall:: ; $(RMF) HTML/ccomp_runtime.html
 cleanall:: ; $(RMF) SCRIPT/ccomp_runtime.bash
@@ -147,7 +152,7 @@ SCRIPT/utils_atscc.bash
 SCRIPT/utils_atscc.bash: utils_atscc_atxt.exe ; ./$< > $@
 utils_atscc_atxt.dats: ATEXT/utils_atscc.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-utils_atscc_atxt.exe: utils_atscc_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+utils_atscc_atxt.exe: utils_atscc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) utils_atscc_atxt.exe
 cleanall:: ; $(RMF) HTML/utils_atscc.html
 cleanall:: ; $(RMF) SCRIPT/utils_atscc.bash
@@ -160,7 +165,7 @@ SCRIPT/doc_example_intro.bash
 SCRIPT/doc_example_intro.bash: doc_example_intro_atxt.exe ; ./$< > $@
 doc_example_intro_atxt.dats: ATEXT/doc_example_intro.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-doc_example_intro_atxt.exe: doc_example_intro_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+doc_example_intro_atxt.exe: doc_example_intro_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) doc_example_intro_atxt.exe
 cleanall:: ; $(RMF) HTML/doc_example_intro.html
 cleanall:: ; $(RMF) SCRIPT/doc_example_intro.bash
@@ -170,7 +175,7 @@ SCRIPT/doc_example_atslib.bash
 SCRIPT/doc_example_atslib.bash: doc_example_atslib_atxt.exe ; ./$< > $@
 doc_example_atslib_atxt.dats: ATEXT/doc_example_atslib.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-doc_example_atslib_atxt.exe: doc_example_atslib_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+doc_example_atslib_atxt.exe: doc_example_atslib_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) doc_example_atslib_atxt.exe
 cleanall:: ; $(RMF) HTML/doc_example_atslib.html
 cleanall:: ; $(RMF) SCRIPT/doc_example_atslib.bash
@@ -180,7 +185,7 @@ SCRIPT/doc_example_misc.bash
 SCRIPT/doc_example_misc.bash: doc_example_misc_atxt.exe ; ./$< > $@
 doc_example_misc_atxt.dats: ATEXT/doc_example_misc.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-doc_example_misc_atxt.exe: doc_example_misc_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+doc_example_misc_atxt.exe: doc_example_misc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) doc_example_misc_atxt.exe
 cleanall:: ; $(RMF) HTML/doc_example_misc.html
 cleanall:: ; $(RMF) SCRIPT/doc_example_misc.bash
@@ -190,7 +195,7 @@ SCRIPT/doc_example_pcpv.bash
 SCRIPT/doc_example_pcpv.bash: doc_example_pcpv_atxt.exe ; ./$< > $@
 doc_example_pcpv_atxt.dats: ATEXT/doc_example_pcpv.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-doc_example_pcpv_atxt.exe: doc_example_pcpv_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+doc_example_pcpv_atxt.exe: doc_example_pcpv_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) doc_example_pcpv_atxt.exe
 cleanall:: ; $(RMF) HTML/doc_example_pcpv.html
 cleanall:: ; $(RMF) SCRIPT/doc_example_pcpv.bash
@@ -203,7 +208,7 @@ SCRIPT/atscntrb_pcre.bash
 SCRIPT/atscntrb_pcre.bash: atscntrb_pcre_atxt.exe ; ./$< > $@
 atscntrb_pcre_atxt.dats: ATEXT/atscntrb_pcre.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_pcre_atxt.exe: atscntrb_pcre_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_pcre_atxt.exe: atscntrb_pcre_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_pcre_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_pcre.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_pcre.bash
@@ -214,7 +219,7 @@ SCRIPT/atscntrb_libgmp.bash
 SCRIPT/atscntrb_libgmp.bash: atscntrb_libgmp_atxt.exe ; ./$< > $@
 atscntrb_libgmp_atxt.dats: ATEXT/atscntrb_libgmp.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_libgmp_atxt.exe: atscntrb_libgmp_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_libgmp_atxt.exe: atscntrb_libgmp_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_libgmp_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_libgmp.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libgmp.bash
@@ -225,7 +230,7 @@ SCRIPT/atscntrb_zeromq.bash
 SCRIPT/atscntrb_zeromq.bash: atscntrb_zeromq_atxt.exe ; ./$< > $@
 atscntrb_zeromq_atxt.dats: ATEXT/atscntrb_zeromq.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_zeromq_atxt.exe: atscntrb_zeromq_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_zeromq_atxt.exe: atscntrb_zeromq_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_zeromq_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_zeromq.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_zeromq.bash
@@ -236,7 +241,7 @@ SCRIPT/atscntrb_libcurl.bash
 SCRIPT/atscntrb_libcurl.bash: atscntrb_libcurl_atxt.exe ; ./$< > $@
 atscntrb_libcurl_atxt.dats: ATEXT/atscntrb_libcurl.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_libcurl_atxt.exe: atscntrb_libcurl_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_libcurl_atxt.exe: atscntrb_libcurl_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_libcurl_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_libcurl.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libcurl.bash
@@ -247,7 +252,7 @@ SCRIPT/atscntrb_glib.bash
 SCRIPT/atscntrb_glib.bash: atscntrb_glib_atxt.exe ; ./$< > $@
 atscntrb_glib_atxt.dats: ATEXT/atscntrb_glib.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_glib_atxt.exe: atscntrb_glib_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_glib_atxt.exe: atscntrb_glib_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_glib_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_glib.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_glib.bash
@@ -257,7 +262,7 @@ SCRIPT/atscntrb_GTK.bash
 SCRIPT/atscntrb_GTK.bash: atscntrb_GTK_atxt.exe ; ./$< > $@
 atscntrb_GTK_atxt.dats: ATEXT/atscntrb_GTK.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_GTK_atxt.exe: atscntrb_GTK_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_GTK_atxt.exe: atscntrb_GTK_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_GTK_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_GTK.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_GTK.bash
@@ -267,7 +272,7 @@ SCRIPT/atscntrb_SDL2.bash
 SCRIPT/atscntrb_SDL2.bash: atscntrb_SDL2_atxt.exe ; ./$< > $@
 atscntrb_SDL2_atxt.dats: ATEXT/atscntrb_SDL2.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_SDL2_atxt.exe: atscntrb_SDL2_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_SDL2_atxt.exe: atscntrb_SDL2_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_SDL2_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_SDL2.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_SDL2.bash
@@ -277,7 +282,7 @@ SCRIPT/atscntrb_cairo.bash
 SCRIPT/atscntrb_cairo.bash: atscntrb_cairo_atxt.exe ; ./$< > $@
 atscntrb_cairo_atxt.dats: ATEXT/atscntrb_cairo.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_cairo_atxt.exe: atscntrb_cairo_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_cairo_atxt.exe: atscntrb_cairo_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_cairo_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_cairo.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_cairo.bash
@@ -288,7 +293,7 @@ SCRIPT/atscntrb_json-c.bash
 SCRIPT/atscntrb_json-c.bash: atscntrb_json-c_atxt.exe ; ./$< > $@
 atscntrb_json-c_atxt.dats: ATEXT/atscntrb_json-c.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_json-c_atxt.exe: atscntrb_json-c_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_json-c_atxt.exe: atscntrb_json-c_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_json-c_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_json-c.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_json-c.bash
@@ -298,7 +303,7 @@ SCRIPT/atscntrb_jansson.bash
 SCRIPT/atscntrb_jansson.bash: atscntrb_jansson_atxt.exe ; ./$< > $@
 atscntrb_jansson_atxt.dats: ATEXT/atscntrb_jansson.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_jansson_atxt.exe: atscntrb_jansson_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_jansson_atxt.exe: atscntrb_jansson_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_jansson_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_jansson.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_jansson.bash
@@ -308,7 +313,7 @@ SCRIPT/atscntrb_hiredis.bash
 SCRIPT/atscntrb_hiredis.bash: atscntrb_hiredis_atxt.exe ; ./$< > $@
 atscntrb_hiredis_atxt.dats: ATEXT/atscntrb_hiredis.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_hiredis_atxt.exe: atscntrb_hiredis_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_hiredis_atxt.exe: atscntrb_hiredis_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_hiredis_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_hiredis.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_hiredis.bash
@@ -319,7 +324,7 @@ SCRIPT/atscntrb_OpenSSL.bash
 SCRIPT/atscntrb_OpenSSL.bash: atscntrb_OpenSSL_atxt.exe ; ./$< > $@
 atscntrb_OpenSSL_atxt.dats: ATEXT/atscntrb_OpenSSL.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_OpenSSL_atxt.exe: atscntrb_OpenSSL_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_OpenSSL_atxt.exe: atscntrb_OpenSSL_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_OpenSSL_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_OpenSSL.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_OpenSSL.bash
@@ -330,7 +335,7 @@ SCRIPT/atscntrb_JNI.bash
 SCRIPT/atscntrb_JNI.bash: atscntrb_JNI_atxt.exe ; ./$< > $@
 atscntrb_JNI_atxt.dats: ATEXT/atscntrb_JNI.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_JNI_atxt.exe: atscntrb_JNI_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_JNI_atxt.exe: atscntrb_JNI_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_JNI_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_JNI.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_JNI.bash
@@ -341,7 +346,7 @@ SCRIPT/atscntrb_HTML-emscripten.bash
 SCRIPT/atscntrb_HTML-emscripten.bash: atscntrb_HTML-emscripten_atxt.exe ; ./$< > $@
 atscntrb_HTML-emscripten_atxt.dats: ATEXT/atscntrb_HTML-emscripten.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_HTML-emscripten_atxt.exe: atscntrb_HTML-emscripten_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_HTML-emscripten_atxt.exe: atscntrb_HTML-emscripten_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_HTML-emscripten_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_HTML-emscripten.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_HTML-emscripten.bash
@@ -351,7 +356,7 @@ SCRIPT/atscntrb_HTML-emscripten_canvas-2d.bash
 SCRIPT/atscntrb_HTML-emscripten_canvas-2d.bash: atscntrb_HTML-emscripten_canvas-2d_atxt.exe ; ./$< > $@
 atscntrb_HTML-emscripten_canvas-2d_atxt.dats: ATEXT/atscntrb_HTML-emscripten_canvas-2d.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_HTML-emscripten_canvas-2d_atxt.exe: atscntrb_HTML-emscripten_canvas-2d_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_HTML-emscripten_canvas-2d_atxt.exe: atscntrb_HTML-emscripten_canvas-2d_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_HTML-emscripten_canvas-2d_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_HTML-emscripten_canvas-2d.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_HTML-emscripten_canvas-2d.bash
@@ -362,7 +367,7 @@ SCRIPT/atscntrb_libats_hwxi.bash
 SCRIPT/atscntrb_libats_hwxi.bash: atscntrb_libats_hwxi_atxt.exe ; ./$< > $@
 atscntrb_libats_hwxi_atxt.dats: ATEXT/atscntrb_libats_hwxi.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_libats_hwxi_atxt.exe: atscntrb_libats_hwxi_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_libats_hwxi_atxt.exe: atscntrb_libats_hwxi_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_libats_hwxi_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_libats_hwxi.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libats_hwxi.bash
@@ -372,7 +377,7 @@ SCRIPT/atscntrb_libats_hwxi_teaching.bash
 SCRIPT/atscntrb_libats_hwxi_teaching.bash: atscntrb_libats_hwxi_teaching_atxt.exe ; ./$< > $@
 atscntrb_libats_hwxi_teaching_atxt.dats: ATEXT/atscntrb_libats_hwxi_teaching.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_libats_hwxi_teaching_atxt.exe: atscntrb_libats_hwxi_teaching_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_libats_hwxi_teaching_atxt.exe: atscntrb_libats_hwxi_teaching_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_libats_hwxi_teaching_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_libats_hwxi_teaching.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libats_hwxi_teaching.bash
@@ -383,7 +388,7 @@ SCRIPT/atscntrb_libatscc.bash
 SCRIPT/atscntrb_libatscc.bash: atscntrb_libatscc_atxt.exe ; ./$< > $@
 atscntrb_libatscc_atxt.dats: ATEXT/atscntrb_libatscc.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_libatscc_atxt.exe: atscntrb_libatscc_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_libatscc_atxt.exe: atscntrb_libatscc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_libatscc_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_libatscc.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_libatscc.bash
@@ -394,7 +399,7 @@ SCRIPT/atscntrb_kernelats.bash
 SCRIPT/atscntrb_kernelats.bash: atscntrb_kernelats_atxt.exe ; ./$< > $@
 atscntrb_kernelats_atxt.dats: ATEXT/atscntrb_kernelats.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_kernelats_atxt.exe: atscntrb_kernelats_atxt.dats ; $(ATSCC) $(INCLATS) $(ATSGCFLAG) -o $@ $< -latsdoc
+atscntrb_kernelats_atxt.exe: atscntrb_kernelats_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
 clean:: ; $(RMF) atscntrb_kernelats_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_kernelats.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_kernelats.bash
