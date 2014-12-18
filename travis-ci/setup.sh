@@ -35,7 +35,12 @@ ${TARZXF} ${ATSPACKTGZ}
 #
 ######
 #
-cd ${ATSPACK}; ./configure; make all
+# HX-2014-12-16:
+# The rest is moved into .travis.yml
+#
+######
+#
+# cd ${ATSPACK}; ./configure; make all
 #
 ######
 #
