@@ -4,6 +4,13 @@ before_install:
   - sudo apt-get -qq -y update
   - sudo apt-get -qq -y install libgc-dev
   - sudo apt-get -qq -y install libgmp3-dev
+  # For contrib/GTK/
+  - sudo apt-get -qq -y install libgtk-3-dev
+  # For contrib/libev/
+  - sudo apt-get -qq -y install libev-dev
+  # For contrib/jansson/
+  - sudo apt-get -qq -y install libjansson-dev
+  # Setting-up
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
   - export ATSHOMERELOC=ATS-0.2.11
   - export PATSHOME=${TRAVIS_BUILD_DIR}
