@@ -27,7 +27,6 @@ script:
   - ./configure&&make all_ngc
   # Building ATS2
   - cd ${TRAVIS_BUILD_DIR}
-  - make -f codegen/Makefile_atslib
   # make -f Makefile_devl all
   - make GCFLAG=-D_ATS_NGC -f Makefile_devl all
   # Trying-out release process

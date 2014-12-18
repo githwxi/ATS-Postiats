@@ -14,10 +14,12 @@
 ######
 #
 # Note:
-# Please execute the following command-line if you have
-# never done it explicitly before:
+#
+# You may need to execute the command-line:
 #
 # make -f codegen/Makefile_atslib
+#
+# if you have never done it explicitly before:
 #
 ######
 
