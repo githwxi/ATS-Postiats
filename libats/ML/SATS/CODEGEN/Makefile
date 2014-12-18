@@ -10,10 +10,19 @@
 ######
 
 ATSHOMEQ="$(ATSHOME)"
+
+######
+
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSOPT=$(ATSHOMEQ)/bin/atsopt
 ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
+######
+#
+GCFLAG=
+#
+# GCFLAG=-D_ATS_GCATS
+#
 ######
 
 all::
