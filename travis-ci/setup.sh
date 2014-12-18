@@ -35,7 +35,18 @@ ${TARZXF} ${ATSPACKTGZ}
 #
 ######
 #
-cd ${ATSPACK}; ./configure; make all_ngc
+cd ${ATSPACK}; ./configure; make all
+#
+######
+#
+# -- If you do
+#
+# cd ${ATSPACK}; ./configure; make all_ngc
+#
+# -- Please remember to use the following
+# -- command-line later when building ATS2
+#
+# make GCFLAG=-D_ATS_NGC all
 #
 ######
 
