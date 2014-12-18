@@ -3,7 +3,6 @@ os:
   - linux
 before_install:
   - date
-  - cat /proc/cpuinfo
   - cd ${HOME}
   # Setting-up
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
