@@ -27,7 +27,6 @@ init:
     - 'git config --global core.autocrlf input'
 
 install:
-#   - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName setup.exe'
     - 'echo Setting up Cygwin dependencies'
     - '%CYG_ROOT%\setup-x86.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P autoconf -P automake -P gcc-core -P libtool -P make -P intltool -P pkg-config -P git -P wget -P libgc-devel -P libgmp-devel > NUL'
     - 'echo Check Cygwin setup'
