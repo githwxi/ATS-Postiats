@@ -35,7 +35,7 @@ ${TARZXF} ${ATSPACKTGZ}
 #
 ######
 #
-cd ${ATSPACK}; ./configure; make all
+cd ${ATSPACK}; ./configure; make all_ngc
 #
 ######
 
