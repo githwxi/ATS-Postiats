@@ -16,6 +16,7 @@ then
 #
 # brew install gcc49
   wget -q https://distfiles.macports.org/MacPorts/MacPorts-2.3.3.tar.gz
+  tar zvxf MacPorts-2.3.3.tar.gz
   cd MacPorts-2.3.3
   ./configure && make && sudo make instal
   sudo port install gcc49
