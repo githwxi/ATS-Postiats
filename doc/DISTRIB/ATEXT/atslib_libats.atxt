@@ -377,7 +377,7 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 %{
-implement main () = ()
+implement main (argc, argv) = ()
 %}
 
 (* ****** ****** *)

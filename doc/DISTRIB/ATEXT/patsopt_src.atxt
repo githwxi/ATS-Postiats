@@ -541,11 +541,9 @@ The ATS/Postiats (ATS2) Compiler\
 (* ****** ****** *)
 
 %{
-
-implement main () = ()
-
+implement main (argc, argv) = ()
 %}
 
 (* ****** ****** *)
 
-(* end of [patsopt.atxt] *)
+(* end of [patsopt_src.atxt] *)

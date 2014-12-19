@@ -110,9 +110,7 @@ ATS/ccomp/atslib
 (* ****** ****** *)
 
 %{
-
-implement main () = ()
-
+implement main (argc, argv) = ()
 %}
 
 (* ****** ****** *)

@@ -14,16 +14,7 @@ if
   expr ${is_osx} > 0
 then
 #
-# brew install gcc47
-  wget -q https://distfiles.macports.org/MacPorts/MacPorts-2.3.3.tar.gz
-  tar zvxf MacPorts-2.3.3.tar.gz
-  cd MacPorts-2.3.3
-  ./configure && make && sudo make install
-  export PATH=${PATH}:/opt/local/bin:/opt/local/sbin
-  sudo port -v selfupdate
-  sudo port install gcc47
-  sudo port select --list gcc
-  sudo port select --set gcc mp-gcc47
+  export CC=gcc-4.8
 #
   brew install gmp
   brew install bdw-gc

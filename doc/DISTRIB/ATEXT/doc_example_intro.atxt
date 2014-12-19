@@ -217,9 +217,7 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 (* ****** ****** *)
 
 %{
-
-implement main () = ()
-
+implement main (argc, argv) = ()
 %}
 
 (* ****** ****** *)
