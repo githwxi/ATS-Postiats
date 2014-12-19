@@ -14,6 +14,7 @@ if
   expr ${is_osx} > 0
 then
   brew install gmp
+  brew install gcc49
   brew install bdw-gc
 # brew install gtk+3
   brew install libev
