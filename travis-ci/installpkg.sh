@@ -14,8 +14,8 @@ if
   expr ${is_osx} > 0
 then
 #
-  export CC=gcc-4.8
-  export GCC=gcc-4.8
+# export CC=gcc-4.8
+# export GCC=gcc-4.8
 #
   brew install gmp
   brew install bdw-gc
