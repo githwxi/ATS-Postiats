@@ -24,8 +24,8 @@ script:
   - ${CLANG} --version
   # Building ATS1
   - cd ${ATSHOME}
-  # ./configure&&make CC=${GCC} all
-  - ./configure&&make CC=${GCC} all_ngc
+  - ./configure&&make CC=${GCC} all
+  # ./configure&&make CC=${GCC} all_ngc
   # Building ATS2
   - cd ${TRAVIS_BUILD_DIR}
   - make -f Makefile_devl CC=${GCC} all
