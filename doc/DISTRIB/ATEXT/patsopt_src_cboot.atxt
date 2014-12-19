@@ -90,8 +90,11 @@ The ATS/Postiats C-Boostrapping\
 (* ****** ****** *)
 
 #packfilename("Makefile")
-#packfilesynop("\
-")
+#packfilesynop("patsopt_src_cboot")
+
+(* ****** ****** *)
+
+#packfilename("config.h")
 
 (* ****** ****** *)
 
@@ -694,11 +697,9 @@ The ATS/Postiats C-Boostrapping\
 (* ****** ****** *)
 
 %{
-
-implement main () = ()
-
+implement main (argc, argv) = ()
 %}
 
 (* ****** ****** *)
 
-(* end of [patsopt.atxt] *)
+(* end of [patsopt_src_cboot.atxt] *)

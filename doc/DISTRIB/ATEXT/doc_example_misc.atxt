@@ -197,9 +197,7 @@ The ATSHOME/doc/EXAMPLE/MISC\
 (* ****** ****** *)
 
 %{
-
-implement main () = ()
-
+implement main (argc, argv) = ()
 %}
 
 (* ****** ****** *)

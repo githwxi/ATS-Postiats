@@ -1,42 +1,46 @@
+os:
+  # osx
+  - linux
 before_install:
   - date
   - cd ${HOME}
-  - sudo apt-get -qq -y update
-  - sudo apt-get -qq -y install libgc-dev
-  - sudo apt-get -qq -y install libgmp3-dev
-  # For contrib/GTK/
-  - sudo apt-get -qq -y install libgtk-3-dev
-  # For contrib/libev/
-  - sudo apt-get -qq -y install libev-dev
-  # For contrib/jansson/
-  - sudo apt-get -qq -y install libjansson-dev
   # Setting-up
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.11
   - export ATSHOMERELOC=ATS-0.2.11
   - export PATSHOME=${TRAVIS_BUILD_DIR}
   - export PATH=${PATH}:${PATSHOME}/bin
+  # Install pkgs
+  - ${TRAVIS_BUILD_DIR}/travis-ci/installpkg.sh
   # Download ATS1
-  - ${TRAVIS_BUILD_DIR}/travis-ci/setup.sh 0.2.11
+  - ${TRAVIS_BUILD_DIR}/travis-ci/ats1_setup.sh 0.2.11
   # Download ATS2-contrib
   - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
   - export PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
+  - export GCC=gcc
+  - export CLANG=clang
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export GCC=gcc-4.8; fi
 script:
+  - ${GCC} --version
+  - ${CLANG} --version
   # Building ATS1
   - cd ${ATSHOME}
-  # ./configure&&make all
-  - ./configure&&make all_ngc
+  - ./configure&&make CC=${GCC} all
+  # ./configure&&make CC=${GCC} all_ngc
   # Building ATS2
   - cd ${TRAVIS_BUILD_DIR}
-  # make -f Makefile_devl all
-  - make GCFLAG=-D_ATS_NGC -f Makefile_devl all
+  - make -f Makefile_devl CC=${GCC} all
+  # make GCFLAG=-D_ATS_NGC -f Makefile_devl CC=${GCC} all
   # Trying-out release process
   - make -C ${PATSHOME}/src CBOOT
   - make -C ${PATSHOME}/src/CBOOT/prelude
   - make -C ${PATSHOME}/src/CBOOT/libc
   - make -C ${PATSHOME}/src/CBOOT/libats
   - make -C ${PATSHOME}/doc/DISTRIB atspackaging
-  - make -C ${PATSHOME}/doc/DISTRIB cleanall
   - make -C ${PATSHOME}/doc/DISTRIB atspacktarzvcf
+  - make -C ${PATSHOME}/doc/DISTRIB cleanall
+  # make -C ${PATSHOME}/doc/DISTRIB atscontribing
+  # make -C ${PATSHOME}/doc/DISTRIB atscntrbtarzvcf
+  # make -C ${PATSHOME}/doc/DISTRIB cleanall
   # Regress test
   - make -C ${PATSHOME}/doc -f Makefile_test testall > testall_doc.log 2>&1
   - tail -100 testall_doc.log

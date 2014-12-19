@@ -251,5 +251,7 @@ end // end of [exp2_muladd]
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "arith_prf_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "arith_prf_atxt.txt")
 %}\

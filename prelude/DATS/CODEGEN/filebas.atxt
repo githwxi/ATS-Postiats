@@ -871,5 +871,7 @@ end // end of [fileref_foreach$fworkv]
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "filebas_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "filebas_atxt.txt")
 %}\

@@ -206,5 +206,6 @@ atslib_ferror(p) ferror(((FILE*)p))
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "stdio_atxt.txt")
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "stdio_atxt.txt")
 %}\

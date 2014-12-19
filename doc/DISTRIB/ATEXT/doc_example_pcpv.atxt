@@ -118,9 +118,7 @@ The ATSHOME/doc/EXAMPLE/PCPV\
 (* ****** ****** *)
 
 %{
-
-implement main () = ()
-
+implement main (argc, argv) = ()
 %}
 
 (* ****** ****** *)

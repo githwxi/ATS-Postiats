@@ -78,5 +78,7 @@ end // end of [fprint_option]
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "option_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "option_atxt.txt")
 %}\

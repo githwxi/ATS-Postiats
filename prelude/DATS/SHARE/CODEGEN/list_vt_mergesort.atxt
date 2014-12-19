@@ -252,5 +252,7 @@ end // end of [list_vt_mergesort_fun]
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "list_vt_mergesort_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "list_vt_mergesort_atxt.txt")
 %}\

@@ -202,9 +202,7 @@ The ATSLIB/libc library\
 (* ****** ****** *)
 
 %{
-
-implement main () = ()
-
+implement main (argc, argv) = ()
 %}
 
 (* ****** ****** *)

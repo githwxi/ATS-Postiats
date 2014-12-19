@@ -37,7 +37,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#if(1)
+\#ifdef __CYGWIN__
+//
 \#ifndef isascii
 extern int isascii (int c) ; // _XOPEN_SOURCE
 \#endif // end of [isascii]
@@ -49,7 +50,8 @@ extern int isblank (int c) ; // _XOPEN_SOURCE >= 600
 \#ifndef toascii
 extern int toascii (int c) ; // _XOPEN_SOURCE
 \#endif // end of [toascii]
-\#endif // end of [ \#if(1) ]
+//
+\#endif // end of [\#ifdef(__CYGWIN__)]
 
 #atscode_separator_for_C()
 
@@ -439,5 +441,6 @@ atspre_int2xxdigit
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "char_atxt.txt")
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "char_atxt.txt")
 %}\

@@ -68,5 +68,7 @@ overload >= with gindex_gt_int
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "gindex_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "gindex_atxt.txt")
 %}\

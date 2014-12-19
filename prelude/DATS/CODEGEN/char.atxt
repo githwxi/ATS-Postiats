@@ -87,5 +87,7 @@ implement fprint_val<schar> = fprint_schar
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "char_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "char_atxt.txt")
 %}\

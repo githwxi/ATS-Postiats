@@ -34,5 +34,7 @@ gcompare_val<string> = compare_string_string
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "gorder_string_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "gorder_string_atxt.txt")
 %}\

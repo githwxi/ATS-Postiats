@@ -55,4 +55,4 @@ ${TARZXF} ${ATSPACKTGZ}
 #
 ######
 
-###### end of [setup.sh] ######
+###### end of [ats1_setup.sh] ######

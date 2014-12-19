@@ -218,5 +218,7 @@ fun{a:vt0p} cptr_exch (p: cPtr1 (INV(a)), x: &a >> a):<!wrt> void
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "unsafe_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "unsafe_atxt.txt")
 %}\

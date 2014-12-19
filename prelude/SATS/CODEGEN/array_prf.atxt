@@ -110,5 +110,7 @@ array_v_ungroup
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "array_prf_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "array_prf_atxt.txt")
 %}\

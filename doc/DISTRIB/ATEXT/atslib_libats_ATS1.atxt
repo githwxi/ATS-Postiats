@@ -148,9 +148,7 @@ The ATSLIB/libats/ATS1 library\
 (* ****** ****** *)
 
 %{
-
-implement main () = ()
-
+implement main (argc, argv) = ()
 %}
 
 (* ****** ****** *)

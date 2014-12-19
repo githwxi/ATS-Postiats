@@ -121,5 +121,7 @@ fprint_val<ptr> (out, p) = fprint_ptr (out, p)
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "pointer_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "pointer_atxt.txt")
 %}\
