@@ -19,8 +19,8 @@ then
   tar zvxf MacPorts-2.3.3.tar.gz
   cd MacPorts-2.3.3
   ./configure && make && sudo make install
-  sudo port install gcc49
   export PATH=${PATH}:/opt/local/bin:/opt/local/sbin
+  sudo port install gcc49
 #
   brew install gmp
   brew install bdw-gc
