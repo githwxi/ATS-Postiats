@@ -19,6 +19,7 @@ before_install:
 script:
   # Building ATS1
   - cd ${ATSHOME}
+  - gcc --version
   # ./configure&&make all
   - ./configure&&make all_ngc
   # Building ATS2
