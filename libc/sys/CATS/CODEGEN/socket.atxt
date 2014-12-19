@@ -122,5 +122,6 @@ atslib_socket_write(fd, bufp, bsz) write(fd, (const char*)bufp, bsz)
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "socket_atxt.txt")
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "socket_atxt.txt")
 %}\

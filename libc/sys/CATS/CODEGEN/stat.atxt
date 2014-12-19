@@ -73,5 +73,6 @@ atslib_stat_struct ;
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "stat_atxt.txt")
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "stat_atxt.txt")
 %}\

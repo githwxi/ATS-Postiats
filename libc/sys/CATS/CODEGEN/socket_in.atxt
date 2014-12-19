@@ -67,5 +67,6 @@ atslib_sockaddr_in_init
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "socket_in_atxt.txt")
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "socket_in_atxt.txt")
 %}\

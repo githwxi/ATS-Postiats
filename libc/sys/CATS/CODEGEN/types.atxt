@@ -147,5 +147,6 @@ atslib_neq_time_time
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "types_atxt.txt")
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "types_atxt.txt")
 %}\
