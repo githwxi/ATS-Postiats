@@ -161,5 +161,6 @@ atslib_bsearch(key, base, nmemb, size, compar) \\
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "stdlib_atxt.txt")
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "stdlib_atxt.txt")
 %}\

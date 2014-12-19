@@ -587,7 +587,7 @@ atspacktarzvcf:: ; $(RMF) $(PACKNAME)/Makefile_conf
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAME)/
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAME)/
 atspacktarzvcf:: ; make -C $(PACKNAME) cleanall
-atspacktarzvcf:: ; tar -zvcf  $(PACKNAME).tgz  $(PACKNAME)/
+atspacktarzvcf:: ; tar -zvcf $(PACKNAME).tgz  $(PACKNAME)/
 #
 atspacktarzvcf_up:: ; \
 scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAME).tgz

@@ -57,5 +57,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "strings_atxt.txt")
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "strings_atxt.txt")
 %}\
