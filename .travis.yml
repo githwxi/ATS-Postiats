@@ -49,6 +49,6 @@ script:
   - make -C utils/atsynmark # it is moved to ATS2-contrib
   - make -C utils/packedit # it is moved to ATS2-contrib
   # Testing extensively
-  - make -C ${PATSHOMERELOC} -f Makefile_test testall
+  # make -C ${PATSHOMERELOC} -f Makefile_test testall
 after_script:
   - date
