@@ -32,5 +32,7 @@ gcompare_val<bool> = compare_bool0_bool0
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "gorder_bool_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "gorder_bool_atxt.txt")
 %}\

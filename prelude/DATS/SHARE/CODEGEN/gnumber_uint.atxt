@@ -128,5 +128,7 @@ gconjugate_val<size_t> (x) = x
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "gnumber_uint_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "gnumber_uint_atxt.txt")
 %}\

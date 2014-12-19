@@ -40,5 +40,7 @@ gcompare_val<size_t> = g0uint_compare_size
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "gorder_uint_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "gorder_uint_atxt.txt")
 %}\

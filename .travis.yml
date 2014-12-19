@@ -29,7 +29,7 @@ script:
   # Building ATS2
   - cd ${TRAVIS_BUILD_DIR}
   # make -f Makefile_devl all
-  - make GCFLAG=-D_ATS_NGC -f Makefile_devl all
+  - make GCFLAG=-D_ATS_NGC -f Makefile_devl CC=${GCC} all
   # Trying-out release process
   - make -C ${PATSHOME}/src CBOOT
   - make -C ${PATSHOME}/src/CBOOT/prelude
