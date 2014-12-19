@@ -15,7 +15,7 @@ if
 then
   brew install gmp
   brew install bdw-gc
-  brew install gtk+3
+# brew install gtk+3
   brew install libev
   brew install jansson
 fi
