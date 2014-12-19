@@ -513,5 +513,6 @@ end // end of [fun_aop_g0float_int_decl]
 #atscode_eof_strsub_for_C("\#thisfilename$")
 
 %{
-implement main () = fprint_filsub (stdout_ref, "float_atxt.txt")
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "float_atxt.txt")
 %}\
