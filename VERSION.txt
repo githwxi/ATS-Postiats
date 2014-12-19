@@ -36,7 +36,10 @@ Here is a list of major additions and changes since the last release:
    pats_constraint3_appenv.hats
 6. Using a more compact format for representing exported constraints
 7. Using a more compact format for representing JSONized level-2 syntax
-8. Supporting NGC-bootstrapping (via ats-lang-anairiats-0.2.11-fin)
+8. Overhauling the build process for ATS1
+9. Supporting NGC-bootstrapping (via ats-lang-anairiats-0.2.11-fin)
+10. Automated testing (via Travis-CI) is substantially extended.
+11. Building ATS2 on MACOSX (via ATS1-ngc) is formally documented
 
 ######
 
