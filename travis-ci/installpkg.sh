@@ -20,7 +20,7 @@ then
   cd MacPorts-2.3.3
   ./configure && make && sudo make install
   export PATH=${PATH}:/opt/local/bin:/opt/local/sbin
-  sudo port install gcc49
+  sudo port install gcc48
 #
   brew install gmp
   brew install bdw-gc
