@@ -16,16 +16,16 @@ before_install:
   # Download ATS2-contrib
   - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
   - export PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
+  - export GCC=gcc
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export GCC=gcc-4.8; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$CC" = "gcc" ]; then export CC=gcc-4.8; fi
 script:
   - gcc --version
   - clang --version
   - gcc-4.8 --version
   # Building ATS1
   - cd ${ATSHOME}
-  # ./configure&&make all
-  - ./configure&&make all_ngc
+  # ./configure&&make CC=${GCC} all
+  - ./configure&&make CC=${GCC} all_ngc
   # Building ATS2
   - cd ${TRAVIS_BUILD_DIR}
   # make -f Makefile_devl all
