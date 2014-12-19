@@ -46,9 +46,9 @@
 /* ****** ****** */
 //
 typedef
-struct in_addr in_addr_struct;
+struct in_addr in_addr_structats;
 typedef
-struct in6_addr in6_addr_struct;
+struct in6_addr in6_addr_structats;
 //
 /* ****** ****** */
 //
@@ -72,11 +72,6 @@ in_addr_t
 atslib_in_addr_hbo2nbo
   (in_addr_t addr_hbo) { return htonl (addr_hbo) ; }
 /* end of [atslib_in_addr_hbo2nbo] */
-
-/* ****** ****** */
-
-typedef
-struct in_addr in_addr_struct ;
 
 /* ****** ****** */
 
