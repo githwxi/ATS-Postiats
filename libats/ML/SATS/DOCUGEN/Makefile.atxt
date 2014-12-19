@@ -155,5 +155,6 @@ cleanall:: clean
 ###### end of [Makefile] ######
 \
 %{
-implement main () = fprint_filsub (stdout_ref, "Makefile_atxt.txt")
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "Makefile_atxt.txt")
 %}\
