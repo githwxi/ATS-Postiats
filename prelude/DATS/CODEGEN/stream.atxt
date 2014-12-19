@@ -683,5 +683,7 @@ fprint_stream$sep (out) = fprint_string (out, ", ")
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "stream_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "stream_atxt.txt")
 %}\

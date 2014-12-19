@@ -111,5 +111,7 @@ gmin_val (x, y) = if glte_val (x, y) then x else y
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "gorder_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "gorder_atxt.txt")
 %}\

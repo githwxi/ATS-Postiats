@@ -218,5 +218,7 @@ gcompare_val<tup(a0,a1,a2,a3)> (x, y) = tupval4_compare<a0,a1,a2,a3> (x, y)
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "tuple_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "tuple_atxt.txt")
 %}\

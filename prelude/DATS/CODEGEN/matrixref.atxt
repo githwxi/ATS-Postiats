@@ -421,5 +421,7 @@ end // end of [mtrxszref_tabulate_cloref]
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "matrixref_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "matrixref_atxt.txt")
 %}\

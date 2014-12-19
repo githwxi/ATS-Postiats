@@ -741,5 +741,7 @@ neq_g1uint_int (x, y) = g1uint_neq<tk> (x, g1int2uint (y))
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "integer_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "integer_atxt.txt")
 %}\

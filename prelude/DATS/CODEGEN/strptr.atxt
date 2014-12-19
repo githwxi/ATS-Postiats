@@ -423,5 +423,7 @@ end // end of [strnptr_rforeach_env]
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "strptr_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "strptr_atxt.txt")
 %}\

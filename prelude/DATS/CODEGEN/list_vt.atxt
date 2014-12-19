@@ -1118,5 +1118,7 @@ list_vt_iforeach$cont (i, x, env) = true
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "list_vt_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "list_vt_atxt.txt")
 %}\

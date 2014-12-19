@@ -848,5 +848,7 @@ atspre_string_make_vsnprintf
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "string_atxt.txt")
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "string_atxt.txt")
 %}\
