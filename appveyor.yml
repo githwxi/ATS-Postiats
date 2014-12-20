@@ -38,7 +38,7 @@ install:
     - 'echo Setup Cygwin dependencies is finished!'
     - 'echo Build ATS1(with GC support)'
     - '%CYG_ROOT%/bin/bash -lc "wget -q -P /tmp %ATS1PACKURL%"'
-    - '%CYG_ROOT%/bin/bash -lc "tar zxvf -C /tmp %ATS1PACKTGZ%"'
+    - '%CYG_ROOT%/bin/bash -lc "tar -zxvf -C /tmp /tmp/%ATS1PACKTGZ%"'
     - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure&&make all"'
     - 'echo Build ATS1(with GC support) is finished!'
     - 'echo Download ATS2... (needed to use symlink.)'
