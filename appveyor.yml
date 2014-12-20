@@ -42,7 +42,7 @@ install:
     - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure&&make all"'
     - 'echo Build ATS1(with GC support) is finished!'
     - 'echo Download ATS2... (needed to use symlink.)'
-    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && https://github.com/githwxi/ATS-Postiats.git"'
+    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && git clone https://github.com/githwxi/ATS-Postiats.git"'
     - '%CYG_ROOT%/bin/bash -lc "cd $PATSHOME && git checkout %APPVEYOR_REPO_COMMIT%"'
     - 'echo Download ATS2-contrib...'
     - '%CYG_ROOT%/bin/bash -lc "cd /tmp && git clone https://github.com/githwxi/ATS-Postiats-contrib.git"'
