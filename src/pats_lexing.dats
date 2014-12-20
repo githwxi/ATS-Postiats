@@ -187,8 +187,9 @@ datatype lexsym =
 
 local
 //
-// HX: hashtable based on linear probing seems
-// unwieldy to use
+// HX:
+// linear-probing based HB
+// seems very unwieldy to use
 //
 %{^
 typedef ats_ptr_type string ;
@@ -300,18 +301,21 @@ val rtbl = HASHTBLref_make_ptr {key,itm} (ptbl)
 //
 in (* in of [local] *)
 
-fun IDENT_alp_get_lexsym
+fun
+IDENT_alp_get_lexsym
   (x: string): lexsym = let
   val (fptbl | ptbl) = HASHTBLref_takeout_ptr (rtbl)
   var res: itm?
   val b = hashtbl_search<key,itm> (ptbl, encode(x), res)
   prval () = fptbl (ptbl)
 in
-  if b then let
-    prval () = opt_unsome {itm} (res) in decode (res)
-  end else let
-    prval () = opt_unnone {itm} (res) in LS_NONE (*void*)
-  end // end of [if]
+//
+if b then let
+  prval () = opt_unsome {itm} (res) in decode (res)
+end else let
+  prval () = opt_unnone {itm} (res) in LS_NONE (*void*)
+end // end of [if]
+//
 end // end of [IDENT_alp_get_lexsym]
 
 end // end of [local]
@@ -393,11 +397,10 @@ end // end of [IDENT_sym_get_lexsym]
 end // end of [local]
 
 (* ****** ****** *)
-
-fun BLANK_test
-  (c: char): bool = char_isspace (c)
-// end of [BLANK_test]
-
+//
+fun
+BLANK_test (c: char): bool = char_isspace (c)
+//
 (* ****** ****** *)
 
 fun
