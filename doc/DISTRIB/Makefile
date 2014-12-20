@@ -35,7 +35,11 @@ GCFLAG=
 
 CAT=cat
 CPF=cp -f
+CPRF=cp -rf
 RMF=rm -f
+RMRF=rm -rf
+MAKE=make
+TARZVCF=tar -zvcf
 
 ######
 
@@ -581,13 +585,13 @@ srcget_atscntrb_libatscc:: SCRIPT/atscntrb_libatscc.bash ; bash $<
 #
 PACKNAME=ATS2-Postiats-0.1.6
 #
-atspacktarzvcf:: ; rm -rf $(PACKNAME)
-atspacktarzvcf:: ; cp -rf ATS-Postiats $(PACKNAME)
+atspacktarzvcf:: ; $(RMRF) $(PACKNAME)
+atspacktarzvcf:: ; $(CPRF) ATS-Postiats $(PACKNAME)
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/Makefile_conf
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAME)/
 atspacktarzvcf:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAME)/
-atspacktarzvcf:: ; make -C $(PACKNAME) cleanall
-atspacktarzvcf:: ; tar -zvcf $(PACKNAME).tgz  $(PACKNAME)/
+atspacktarzvcf:: ; $(MAKE) -C $(PACKNAME) cleanall
+atspacktarzvcf:: ; $(TARZVCF) $(PACKNAME).tgz $(PACKNAME)/.
 #
 atspacktarzvcf_up:: ; \
 scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAME).tgz
@@ -602,9 +606,9 @@ scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Posti
 ######
 
 CNTRBNAME=ATS2-Postiats-contrib-0.1.6
-atscntrbtarzvcf:: ; rm -rf $(CNTRBNAME)
-atscntrbtarzvcf:: ; cp -rf ATS-Postiats-contrib $(CNTRBNAME)
-atscntrbtarzvcf:: ; tar -zvcf  $(CNTRBNAME).tgz  $(CNTRBNAME)/
+atscntrbtarzvcf:: ; $(RMRF) $(CNTRBNAME)
+atscntrbtarzvcf:: ; $(CPRF) ATS-Postiats-contrib $(CNTRBNAME)
+atscntrbtarzvcf:: ; $(TARZVCF)  $(CNTRBNAME).tgz  $(CNTRBNAME)/.
 
 ######
 

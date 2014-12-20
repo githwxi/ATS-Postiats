@@ -6,8 +6,8 @@ platform:
 environment:
     global:
         CYG_ROOT: C:/cygwin
-        CYG_MIRROR: http://cygwin.mirror.constant.com
         CYG_CACHE: C:/cygwin/var/cache/setup
+        CYG_MIRROR: http://cygwin.mirror.constant.com
         ATS1VER: 0.2.11
         ATS1PACK: ats-lang-anairiats-0.2.11
         ATS1PACKTGZ: ats-lang-anairiats-0.2.11-fin.tgz
