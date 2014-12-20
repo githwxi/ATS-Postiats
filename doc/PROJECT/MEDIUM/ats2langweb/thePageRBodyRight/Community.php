@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2014-12-19:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/cPfnEQ3nE28"
+>ATS and OSX</a>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2014-12-10:<br>
 <a
  href="https://github.com/githwxi/ATS-Postiats-contrib/blob/master/contrib/libats-/bbarker/NixOS/ats-dev.nix"

@@ -8,9 +8,13 @@ environment:
         CYG_ROOT: C:/cygwin
         CYG_MIRROR: http://cygwin.mirror.constant.com
         CYG_CACHE: C:/cygwin/var/cache/setup
-        ATSHOME: /tmp/ats-lang-anairiats-0.2.11
-        ATSHOMERELOC: ATS-0.2.11
-        ATS1_VER: 0.2.11
+        ATS1VER: 0.2.11
+        ATS1PACK: ats-lang-anairiats-%ATS1VER%
+        ATS1PACKTGZ: ats-lang-anairiats-%ATS1VER%-fin.tgz
+        ATS1LANGURL: http://sourceforge.net/projects/ats-lang
+        ATS1PACKURL: %ATS1LANGURL%/files/anairiats-%ATS1VER%/%ATS1PACKTGZ%
+        ATSHOME: /tmp/%ATS1PACK%
+        ATSHOMERELOC: ATS-%ATS1VER%
         PATSHOME: /tmp/ATS-Postiats
         PATSHOMERELOC: /tmp/ATS-Postiats-contrib
 
@@ -27,16 +31,16 @@ init:
     - 'git config --global core.autocrlf input'
 
 install:
-    - 'echo Setting up Cygwin dependencies'
-    - '%CYG_ROOT%\setup-x86.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P autoconf -P automake -P gcc-core -P libtool -P make -P intltool -P pkg-config -P git -P wget -P libgc-devel -P libgmp-devel > NUL'
-    - 'echo Check Cygwin setup'
+    - 'echo Setup Cygwin dependencies'
+    - '%CYG_ROOT%\setup-x86.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P make -P autoconf -P automake -P gcc-core -P libtool -P intltool -P pkg-config -P git -P wget -P libgc-devel -P libgmp-devel > NUL'
+    - 'echo Checking the Cygwin setup'
     - '%CYG_ROOT%/bin/bash -lc "cygcheck -dc cygwin"'
-    - 'echo Done setting up Cygwin'
-    - 'echo Install ATS1...'
-    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && wget -q http://downloads.sourceforge.net/project/ats-lang/ats-lang/anairiats-%ATS1_VER%/ats-lang-anairiats-%ATS1_VER%-fin.tgz"'
-    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && tar xf ats-lang-anairiats-%ATS1_VER%-fin.tgz"'
-    - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure"'
-    - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; make all"'
+    - 'echo Setup Cygwin dependencies is finished!'
+    - 'echo Build ATS1(with GC support)'
+    - '%CYG_ROOT%/bin/bash -lc "wget -q -P /tmp %ATS1PACKURL%"'
+    - '%CYG_ROOT%/bin/bash -lc "tar zxvf -C /tmp %ATS1PACKTGZ%"'
+    - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure&&make all"'
+    - 'echo Build ATS1(with GC support) is finished!'
     - 'echo Download ATS2... (needed to use symlink.)'
     - '%CYG_ROOT%/bin/bash -lc "cd /tmp && https://github.com/githwxi/ATS-Postiats.git"'
     - '%CYG_ROOT%/bin/bash -lc "cd $PATSHOME && git checkout %APPVEYOR_REPO_COMMIT%"'
