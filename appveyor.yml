@@ -12,7 +12,7 @@ environment:
         ATS1PACK: ats-lang-anairiats-0.2.11
         ATS1PACKTGZ: ats-lang-anairiats-0.2.11-fin.tgz
         ATS1LANGURL: http://sourceforge.net/projects/ats-lang
-        ATS1PACKURL: http://sourceforge.net/projects/ats-lang/files/anairiats-0.2.11/ats-lang-anairiats-0.2.11-fin.tgz
+        ATS1PACKURL: http://sourceforge.net/projects/ats-lang/files/ats-lang/anairiats-0.2.11/ats-lang-anairiats-0.2.11-fin.tgz
         ATSHOME: /tmp/%ATS1PACK%
         ATSHOMERELOC: ATS-0.2.11
         PATSHOME: /tmp/ATS-Postiats
