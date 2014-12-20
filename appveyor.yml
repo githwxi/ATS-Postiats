@@ -9,12 +9,12 @@ environment:
         CYG_MIRROR: http://cygwin.mirror.constant.com
         CYG_CACHE: C:/cygwin/var/cache/setup
         ATS1VER: 0.2.11
-        ATS1PACK: ats-lang-anairiats-%ATS1VER%
-        ATS1PACKTGZ: ats-lang-anairiats-%ATS1VER%-fin.tgz
+        ATS1PACK: ats-lang-anairiats-0.2.11
+        ATS1PACKTGZ: ats-lang-anairiats-0.2.11-fin.tgz
         ATS1LANGURL: http://sourceforge.net/projects/ats-lang
-        ATS1PACKURL: %ATS1LANGURL%/files/anairiats-%ATS1VER%/%ATS1PACKTGZ%
+        ATS1PACKURL: http://sourceforge.net/projects/ats-lang/files/anairiats-0.2.11/ats-lang-anairiats-0.2.11-fin.tgz
         ATSHOME: /tmp/%ATS1PACK%
-        ATSHOMERELOC: ATS-%ATS1VER%
+        ATSHOMERELOC: ATS-0.2.11
         PATSHOME: /tmp/ATS-Postiats
         PATSHOMERELOC: /tmp/ATS-Postiats-contrib
 
