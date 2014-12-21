@@ -43,8 +43,10 @@ staload "libats/SATS/bitvec.sats"
 //
 implement
 {}(*tmp*)
-bitvec_get_wordsize() =
-  8 * $extval(intGt(0), "sizeof(atstype_ptr)")
+bitvec_get_wordsize
+(
+// argumentless
+) = $UN.cast{intGt(0)}(8*sz2i(sizeof<ptr>))
 //
 implement
 {}(*tmp*)
@@ -249,6 +251,33 @@ bitvec_notequal
 
 implement
 {}(*tmp*)
+bitvecptr_equal
+  {l1,l2}{n}
+  (bvp1, bvp2, nbit) = ans where
+{
+//
+val (pf1, fpf1 | p1) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp1))
+and (pf2, fpf2 | p2) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp2))
+val ans = bitvec_equal (!p1, !p2, nbit)
+//
+prval () = fpf1 (pf1) and () = fpf2 (pf2)
+//
+} (* end of [bitvecptr_equal] *)
+
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+bitvecptr_notequal
+  (bvp1, bvp2, nbit) =
+  not(bitvecptr_equal(bvp1, bvp2, nbit))
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
 bitvec_copy
   (vec1, vec2, nbit) = let
 //
@@ -309,17 +338,40 @@ else p // end of [else]
 //
 ) (* end of [loop] *)
 //
-val pz = loop (addr@vec, asz)
-val extra =
-  $UN.cast{intGte(0)}((asz << log) - nbit)
-// end of [val]
-val i = $UN.ptr0_get<uintptr> (pz)
-val i2 = lnot(i) land ($UN.cast{uintptr}(~1) >> extra)
-val () = $UN.ptr0_set<uintptr> (pz, i2)
+in
+//
+if
+nbit > 0
+then let
+  val pz = loop (addr@vec, asz)
+  val extra =
+    $UN.cast{intGte(0)}((asz << log) - nbit)
+  // end of [val]
+  val i = $UN.ptr0_get<uintptr> (pz)
+  val i2 = lnot(i) land ($UN.cast{uintptr}(~1) >> extra)
+  val () = $UN.ptr0_set<uintptr> (pz, i2)
+in
+  // nothing
+end // end of [then]
+else () // end of [else]
+//
+end // end of [bitvec_lnot]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvecptr_lnot
+  {l}{n}(bvp, nbit) = let
+//
+val (pf, fpf | p) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp))
+val ((*void*)) = bitvec_lnot (!p, nbit)
+prval ((*void*)) = fpf (pf)
 //
 in
   // nothing
-end // end of [bitvec_lnot]
+end // end of [bitvecptr_lnot]
 
 (* ****** ****** *)
 
@@ -431,6 +483,139 @@ else () // end of [else]
 in
   loop (addr@vec1, addr@vec2, asz)
 end // end of [bitvec_land]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvecptr_lor
+  {l1,l2}{n}(bvp1, bvp2, nbit) = let
+//
+val (pf1, fpf1 | p1) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp1))
+and (pf2, fpf2 | p2) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp2))
+val ((*void*)) = bitvec_lor (!p1, !p2, nbit)
+//
+prval () = fpf1 (pf1) and () = fpf2 (pf2)
+//
+in
+  // nothing
+end // end of [bitvecptr_lor]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvecptr_lxor
+  {l1,l2}{n}(bvp1, bvp2, nbit) = let
+//
+val (pf1, fpf1 | p1) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp1))
+and (pf2, fpf2 | p2) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp2))
+val ((*void*)) = bitvec_lxor (!p1, !p2, nbit)
+//
+prval () = fpf1 (pf1) and () = fpf2 (pf2)
+//
+in
+  // nothing
+end // end of [bitvecptr_lxor]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvecptr_land
+  {l1,l2}{n}(bvp1, bvp2, nbit) = let
+//
+val (pf1, fpf1 | p1) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp1))
+and (pf2, fpf2 | p2) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp2))
+val ((*void*)) = bitvec_land (!p1, !p2, nbit)
+//
+prval () = fpf1 (pf1) and () = fpf2 (pf2)
+//
+in
+  // nothing
+end // end of [bitvecptr_land]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+fprint_bitvec$word
+  (out, w) = let
+//
+fun
+loop
+(
+  w: uintptr, _1: uintptr, n: int
+) : void =
+(
+//
+if
+n > 0
+then let
+//
+val b =
+  $UN.cast{uint}(w land _1)
+//
+in
+  fprint_uint(out, b); loop (w >> 1, _1, n - 1)
+end // end of [then]
+else () // end of [else]
+//
+) (* end of [loop] *)
+//
+in
+  loop (w, $UN.cast{uintptr}(1), bitvec_get_wordsize())
+end // end of [fprint_bitvec]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+fprint_bitvec
+  (out, vec, nbit) = let
+//
+//
+val wsz = bitvec_get_wordsize ()
+val log = bitvec_get_wordsize_log ()
+val asz = $UN.cast{intGte(0)}((nbit + wsz - 1) >> log)
+//
+prval [n:int] EQINT() = eqint_make_gint (asz)
+//
+implement
+fprint_val<uintptr> (out, x) = fprint_bitvec$word<> (out, x)
+//
+implement fprint_array$sep<> (out) = ()
+//
+in
+//
+fprint_arrayref
+(
+  out, $UN.castvwtp1{arrayref(uintptr,n)}(addr@vec), i2sz(asz)
+) (* fprint_arrayref *)
+//
+end // end of [fprint_bitvec]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+fprint_bitvecptr
+  {n}(out, bvp, nbit) = let
+//
+val (pf, fpf | p) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp))
+val ((*void*)) = fprint_bitvec (out, !p, nbit)
+prval ((*void*)) = fpf (pf)
+//
+in
+  // nothing
+end // end of [fprint_bitvecptr]
 
 (* ****** ****** *)
 

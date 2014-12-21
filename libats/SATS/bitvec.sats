@@ -57,7 +57,7 @@ typedef bit = natLt(2)
 (* ****** ****** *)
 //
 absvtype
-bitvecptr_vtype(l:addr, n:int)
+bitvecptr_vtype(l:addr, n:int) = ptr(l)
 vtypedef
 bitvecptr (l:addr, n:int) = bitvecptr_vtype(l, n)
 //
@@ -85,24 +85,24 @@ bitvec_get_wordsize_log ():<> intGte(0)
 //
 fun{}
 bitvecptr_make_none
-  {n:nat}(n: int(n)):<!wrt> bitvecptr(n) = "mac#%"
+  {n:nat}(n: int(n)):<!wrt> bitvecptr(n)
 fun{}
 bitvecptr_make_full
-  {n:nat}(n: int(n)):<!wrt> bitvecptr(n) = "mac#%"
+  {n:nat}(n: int(n)):<!wrt> bitvecptr(n)
 //
 (* ****** ****** *)
 
 fun{}
-bitvecptr_free{n:int}(bitvecptr(n)):<!wrt> void = "mac#%"
+bitvecptr_free{n:int}(bitvecptr(n)):<!wrt> void
 
 (* ****** ****** *)
 //
 fun
 bitvec_get_at{n:int}
-  (x: &bitvec(n), i: natLt(n)): bit = "mac#%"
+  (x: &bitvec(n), i: natLt(n)): bit
 fun
 bitvec_set_at{n:int}
-  (x: &bitvec(n) >> _, i: natLt(n), bit): void = "mac#%"
+  (x: &bitvec(n) >> _, i: natLt(n), bit): void
 //
 (* ****** ****** *)
 
@@ -113,40 +113,80 @@ overload [] with bitvec_set_at
 //
 fun{}
 bitvec_is_none
-  {n:int}(&bitvec(n), int(n)):<> bool = "mac#%"
+  {n:int}(&bitvec(n), int(n)):<> bool
 fun{}
 bitvec_is_full
-  {n:int}(&bitvec(n), int(n)):<> bool = "mac#%"
+  {n:int}(&bitvec(n), int(n)):<> bool
 //  
 (* ****** ****** *)
 //
 fun{}
 bitvec_equal{n:int}
-  (&bitvec(n), &bitvec(n), int(n)):<> bool = "mac#%"
+  (&bitvec(n), &bitvec(n), int(n)):<> bool
 fun{}
 bitvec_notequal{n:int}
-  (&bitvec(n), &bitvec(n), int(n)):<> bool = "mac#%"
+  (&bitvec(n), &bitvec(n), int(n)):<> bool
+//
+fun{}
+bitvecptr_equal
+  {l1,l2:addr}{n:int}
+  (x1: !bitvecptr(l1, n), x2: !bitvecptr(l2, n), int(n)):<> bool
+fun{}
+bitvecptr_notequal
+  {l1,l2:addr}{n:int}
+  (x1: !bitvecptr(l1, n), x2: !bitvecptr(l2, n), int(n)):<> bool
 //
 (* ****** ****** *)
 //
 fun{}
 bitvec_copy{n:int}
-  (x1: &bitvec(n) >> _, x2: &bitvec(n), int(n)):<!wrt> void = "mac#%"
+  (x1: &bitvec(n) >> _, x2: &bitvec(n), int(n)):<!wrt> void
 //
 (* ****** ****** *)
 //
 fun{}
-bitvec_lnot{n:pos}(x: &bitvec(n) >> _, int(n)):<!wrt> void = "mac#%"
+bitvec_lnot
+  {n:int}(x: &bitvec(n) >> _, int(n)):<!wrt> void
+fun{}
+bitvecptr_lnot{l:addr}
+  {n:int}(x: !bitvecptr(l, n) >> _, int(n)):<!wrt> void
+//
+(* ****** ****** *)
 //
 fun{}
 bitvec_lor{n:int}
-  (x1: &bitvec(n) >> _, x2: &bitvec(n), int(n)):<!wrt> void = "mac#%"
+  (x1: &bitvec(n) >> _, x2: &bitvec(n), int(n)):<!wrt> void
 fun{}
 bitvec_lxor{n:int}
-  (x1: &bitvec(n) >> _, x2: &bitvec(n), int(n)):<!wrt> void = "mac#%"
+  (x1: &bitvec(n) >> _, x2: &bitvec(n), int(n)):<!wrt> void
 fun{}
 bitvec_land{n:int}
-  (x1: &bitvec(n) >> _, x2: &bitvec(n), int(n)):<!wrt> void = "mac#%"
+  (x1: &bitvec(n) >> _, x2: &bitvec(n), int(n)):<!wrt> void
+//
+fun{}
+bitvecptr_lor{l1,l2:addr}{n:int}
+(
+  x1: !bitvecptr(l1, n) >> _, x2: !bitvecptr(l2, n), int(n)
+) :<!wrt> void // end-of-function
+fun{}
+bitvecptr_lxor{l1,l2:addr}{n:int}
+(
+  x1: !bitvecptr(l1, n) >> _, x2: !bitvecptr(l2, n), int(n)
+) :<!wrt> void // end-of-function
+fun{}
+bitvecptr_land{l1,l2:addr}{n:int}
+(
+  x1: !bitvecptr(l1, n) >> _, x2: !bitvecptr(l2, n), int(n)
+) :<!wrt> void // end-of-function
+//
+(* ****** ****** *)
+//
+fun{}
+fprint_bitvec$word(out: FILEref, w: uintptr): void
+fun{}
+fprint_bitvec{n:int}(out: FILEref, vec: &bitvec(n), n: int(n)): void
+fun{}
+fprint_bitvecptr{n:int}(out: FILEref, vec: !bitvecptr(n), n: int(n)): void
 //
 (* ****** ****** *)
 

@@ -139,7 +139,7 @@ val fopr = (
   case+ opr of
   | "add" => "+" | "sub" => "-"
   | "mul" => "*" | "div" => "/" | "mod" => "%"
-  | _ => opr
+  | _ (* rest *) => opr
 ) : string // end of [val]
 //
 val ent = sprintf ("\
@@ -395,7 +395,7 @@ val fopr = (
   case+ opr of
   | "add" => "+" | "sub" => "-"
   | "mul" => "*" | "div" => "/" | "mod" => "%"
-  | _ => opr
+  | _ (* rest *) => opr
 ) : string // end of [val]
 //
 val ent = sprintf ("\

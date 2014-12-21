@@ -126,6 +126,15 @@ arith_prf_atxt.dats: arith_prf.atxt
 clean:: ; $(RMF) arith_prf_atxt.exe
 cleanall:: ; $(RMF) arith_prf.dats
 
+all:: integer_ptr.dats
+integer_ptr.dats: integer_ptr_atxt.exe ; ./$< > $@
+integer_ptr_atxt.exe: integer_ptr_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ integer_ptr_atxt.dats -latsdoc
+integer_ptr_atxt.dats: integer_ptr.atxt
+	$(ATSDOC) --outcode $@ -i integer_ptr.atxt > integer_ptr_atxt.txt
+clean:: ; $(RMF) integer_ptr_atxt.exe
+cleanall:: ; $(RMF) integer_ptr.dats
+
 all:: integer_fixed.dats
 integer_fixed.dats: integer_fixed_atxt.exe ; ./$< > $@
 integer_fixed_atxt.exe: integer_fixed_atxt.dats

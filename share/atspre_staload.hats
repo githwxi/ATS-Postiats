@@ -29,6 +29,7 @@ staload _ = "{$PATSPRE}/DATS/pointer.dats"
 (* ****** ****** *)
 //
 staload _ = "{$PATSPRE}/DATS/integer.dats"
+staload _ = "{$PATSPRE}/DATS/integer_ptr.dats"
 staload _ = "{$PATSPRE}/DATS/integer_fixed.dats"
 //
 (* ****** ****** *)

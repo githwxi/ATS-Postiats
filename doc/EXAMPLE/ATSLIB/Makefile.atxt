@@ -165,6 +165,10 @@ RMF=rm -f
 
 ######
 
+#make2_entry("libats_bitvec", "-DATS_MEMALLOC_LIBC", "")
+
+######
+
 #make2_entry("libats_stkarray", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_deqarray", "-DATS_MEMALLOC_LIBC", "")
 

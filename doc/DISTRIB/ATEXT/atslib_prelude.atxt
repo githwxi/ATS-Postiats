@@ -225,22 +225,26 @@ The ATSLIB/prelude library\
 
 #packfilename("DATS/basics.dats")
 
+#packfilename("DATS/arith_prf.dats")
+
+#packfilename("DATS/integer.dats")
+#packfilename("DATS/pointer.dats")
+
 #packfilename("DATS/bool.dats")
 #packfilename("DATS/char.dats")
 
-#packfilename("DATS/integer.dats")
+#packfilename("DATS/integer_ptr.dats")
 #packfilename("DATS/integer_fixed.dats")
 
-#packfilename("DATS/arith_prf.dats")
-
 #packfilename("DATS/float.dats")
+
+#packfilename("DATS/memory.dats")
+
 #packfilename("DATS/string.dats")
 #packfilename("DATS/strptr.dats")
 
 #packfilename("DATS/tuple.dats")
 
-#packfilename("DATS/memory.dats")
-#packfilename("DATS/pointer.dats")
 #packfilename("DATS/reference.dats")
 
 #packfilename("DATS/filebas.dats")

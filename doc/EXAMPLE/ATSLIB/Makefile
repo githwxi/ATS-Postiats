@@ -403,6 +403,17 @@ cleanall:: ; $(RMF) libats_dllist.exe
 
 ######
 
+all:: libats_bitvec
+libats_bitvec: libats_bitvec.exe
+libats_bitvec.exe: libats_bitvec_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_bitvec_dats.c: libats_bitvec.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_bitvec_dats.c --dynamic libats_bitvec.dats
+clean:: ; $(RMF) libats_bitvec_dats.o
+clean:: ; $(RMF) libats_bitvec_dats.c
+cleanall:: ; $(RMF) libats_bitvec.exe
+
+
+######
+
 all:: libats_stkarray
 libats_stkarray: libats_stkarray.exe
 libats_stkarray.exe: libats_stkarray_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
