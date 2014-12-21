@@ -136,8 +136,7 @@ bitvec_copy{n:int}
 (* ****** ****** *)
 //
 fun{}
-bitvec_neg{n:int}
-  (x: &bitvec(n) >> _, int(n)):<!wrt> void = "mac#%"
+bitvec_lnot{n:pos}(x: &bitvec(n) >> _, int(n)):<!wrt> void = "mac#%"
 //
 fun{}
 bitvec_lor{n:int}

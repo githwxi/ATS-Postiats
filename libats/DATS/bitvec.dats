@@ -285,6 +285,46 @@ end // end of [bitvec_copy]
 
 implement
 {}(*tmp*)
+bitvec_lnot
+  (vec, nbit) = let
+//
+val wsz = bitvec_get_wordsize ()
+val log = bitvec_get_wordsize_log ()
+val asz = $UN.cast{intGte(0)}((nbit + wsz - 1) >> log)
+//
+fun
+loop{n:nat} .<n>.
+  (p: ptr, n: int(n)):<!wrt> ptr =
+(
+//
+if
+n > 1
+then let
+  val i = $UN.ptr0_get<uintptr> (p)
+  val () = $UN.ptr0_set<uintptr> (p, lnot(i))
+in
+  loop (ptr_succ<uintptr> (p), n - 1)
+end // end of [then]
+else p // end of [else]
+//
+) (* end of [loop] *)
+//
+val pz = loop (addr@vec, asz)
+val extra =
+  $UN.cast{intGte(0)}((asz << log) - nbit)
+// end of [val]
+val i = $UN.ptr0_get<uintptr> (pz)
+val i2 = lnot(i) land ($UN.cast{uintptr}(~1) >> extra)
+val () = $UN.ptr0_set<uintptr> (pz, i2)
+//
+in
+  // nothing
+end // end of [bitvec_lnot]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
 bitvec_lor
   (vec1, vec2, nbit) = let
 //
