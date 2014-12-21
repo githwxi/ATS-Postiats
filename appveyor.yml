@@ -1,5 +1,3 @@
-os: Unstable
-
 platform:
     - x64
 
@@ -31,10 +29,8 @@ init:
 
 install:
     - 'echo Setup Cygwin dependencies'
-    - '%CYG_ROOT%\setup-%CYG_ARCH%.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P make -P autoconf -P automake -P gcc-core -P libtool -P intltool -P pkg-config -P git -P wget -P libgc-devel -P libgmp-devel > NUL'
-    - '%CYG_ROOT%/bin/bash -lc "ls /cygdrive/c/"' # xxx
-    - '%CYG_ROOT%/bin/bash -lc "ls /cygdrive/c/cygwin/"' # xxx
-    - '%CYG_ROOT%/bin/bash -lc "ls /cygdrive/c/cygwin64/"' # xxx
+    - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName setup.exe'
+    - 'setup.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P make -P autoconf -P automake -P gcc-core -P libtool -P intltool -P pkg-config -P git -P wget -P libgc-devel -P libgmp-devel > NUL'
     - 'echo Checking the Cygwin setup'
     - '%CYG_ROOT%/bin/bash -lc "cygcheck -dc cygwin"'
     - 'echo Setup Cygwin dependencies is finished!'
