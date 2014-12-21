@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef ATSHOME_LIBATS_STKARRAY_CATS
-#define ATSHOME_LIBATS_STKARRAY_CATS
+#ifndef ATSHOME_LIBATS_CATS_STKARRAY
+#define ATSHOME_LIBATS_CATS_STKARRAY
 
 /* ****** ****** */
 
@@ -188,7 +188,7 @@ atslib_stkarray_isnot_full
 
 /* ****** ****** */
 
-#endif // ifndef ATSHOME_LIBATS_STKARRAY_CATS
+#endif // ifndef ATSHOME_LIBATS_CATS_STKARRAY
 
 /* ****** ****** */
 

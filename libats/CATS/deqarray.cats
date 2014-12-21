@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef ATSHOME_LIBATS_DEQARRAY_CATS
-#define ATSHOME_LIBATS_DEQARRAY_CATS
+#ifndef ATSHOME_LIBATS_CATS_DEQARRAY
+#define ATSHOME_LIBATS_CATS_DEQARRAY
 
 /* ****** ****** */
 
@@ -277,7 +277,7 @@ atslib_deqarray_getref_at__tsz
 
 /* ****** ****** */
 
-#endif // ifndef ATSHOME_LIBATS_DEQARRAY_CATS
+#endif // ifndef ATSHOME_LIBATS_CATS_DEQARRAY
 
 /* ****** ****** */
 
