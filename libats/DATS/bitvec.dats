@@ -619,4 +619,79 @@ end // end of [fprint_bitvecptr]
 
 (* ****** ****** *)
 
+implement
+{}(*tmp*)
+bitvecptr_tabulate
+  {n}(nbit) = let
+//
+val wsz = bitvec_get_wordsize ()
+val log = bitvec_get_wordsize_log ()
+val asz = $UN.cast{intGte(0)}((nbit + wsz - 1) >> log)
+//
+val bvp = arrayptr_make_uninitized<uintptr> (i2sz(asz))
+//
+fun
+loop1
+(
+  p: ptr
+, i: intGte(0)
+, nbit: intGte(0)
+, w: uintptr, i2: intGte(0)
+) : void = (
+//
+if
+nbit > 0
+then let
+//
+val b = bitvec_tabulate$fopr(i)
+//
+in
+//
+if
+b = 0
+then (
+  loop1 (p, i+1, nbit-1, w, i2+1)
+) (* end of [then] *)
+else (
+  loop1 (p, i+1, nbit-1, w lor ($UN.cast{uintptr}(1) << i2), i2+1)
+) (* end of [else] *)
+//
+end // end of [then]
+else ($UN.ptr0_set<uintptr> (p, w))
+//
+) (* end of [loop1] *)
+//
+fun
+loop2
+(
+  p: ptr, i: intGte(0), nbit: intGt(0)
+) : void =
+(
+if
+nbit > wsz
+then let
+//
+val () =
+  loop1 (p, i, wsz, $UN.cast{uintptr}(0), 0)
+//
+in
+  loop2 (ptr_succ<uintptr> (p), i + wsz, nbit - wsz)
+end // end of [then]
+else (
+  loop1 (p, i, nbit, $UN.cast{uintptr}(0), 0)
+) (* end of [else] *)
+//
+) (* end of [loop2] *)
+//
+val () =
+if nbit > 0
+  then loop2 (ptrcast(bvp), 0, nbit)
+// end of [if]
+//
+in
+  $UN.castvwtp0{bitvecptr(n)}(bvp)
+end // end of [bitvecptr_tabulate]
+
+(* ****** ****** *)
+
 (* end of [bitvec.dats] *)

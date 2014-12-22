@@ -40,6 +40,7 @@ Here is a list of major additions and changes since the last release:
 9. Supporting NGC-bootstrapping (via ats-lang-anairiats-0.2.11-fin)
 10. Automated testing (via Travis-CI) is substantially extended.
 11. Building ATS2 on MACOSX (via ATS1-ngc) is formally documented
+12. Adding support for bit vectors: libats/bitvec
 
 ######
 

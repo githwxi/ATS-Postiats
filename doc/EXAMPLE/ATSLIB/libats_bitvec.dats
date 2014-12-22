@@ -67,8 +67,19 @@ val () = fprint (out, "bvp1 = ")
 val () = fprint_bitvecptr (out, bvp1, nbit)
 val ((*newln*)) = fprint_newline (out)
 //
+local
+implement
+bitvec_tabulate$fopr<> (i) = g1int_nmod(i, 2)
+in(*in-of-local*)
+val bvp3 = bitvecptr_tabulate (nbit)
+end // end of [local]
+val () = fprint (out, "bvp3 = ")
+val () = fprint_bitvecptr (out, bvp3, nbit)
+val ((*newln*)) = fprint_newline (out)
+//
 val ((*freed*)) = bitvecptr_free (bvp1)
 val ((*freed*)) = bitvecptr_free (bvp2)
+val ((*freed*)) = bitvecptr_free (bvp3)
 //
 val () = fprintln! (out, "[libats_bitvec] is done!")
 //

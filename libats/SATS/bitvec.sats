@@ -189,5 +189,12 @@ fun{}
 fprint_bitvecptr{n:int}(out: FILEref, vec: !bitvecptr(n), n: int(n)): void
 //
 (* ****** ****** *)
+//
+fun{}
+bitvec_tabulate$fopr(i: intGte(0)): bit
+fun{}
+bitvecptr_tabulate{n:nat}(nbit: int(n)): bitvecptr(n)
+//
+(* ****** ****** *)
 
 (* end of [bitvec.sats] *)
