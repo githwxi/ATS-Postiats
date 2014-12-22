@@ -115,8 +115,15 @@ fun{}
 bitvec_is_none
   {n:int}(&bitvec(n), int(n)):<> bool
 fun{}
+bitvecptr_is_none
+  {l:addr}{n:int}(!bitvecptr(n), int(n)):<> bool
+//
+fun{}
 bitvec_is_full
   {n:int}(&bitvec(n), int(n)):<> bool
+fun{}
+bitvecptr_is_full
+  {l:addr}{n:int}(!bitvecptr(l,n), int(n)):<> bool
 //  
 (* ****** ****** *)
 //
@@ -184,9 +191,11 @@ bitvecptr_land{l1,l2:addr}{n:int}
 fun{}
 fprint_bitvec$word(out: FILEref, w: uintptr): void
 fun{}
-fprint_bitvec{n:int}(out: FILEref, vec: &bitvec(n), n: int(n)): void
+fprint_bitvec{n:int}
+  (out: FILEref, vec: &bitvec(n), n: int(n)): void
 fun{}
-fprint_bitvecptr{n:int}(out: FILEref, vec: !bitvecptr(n), n: int(n)): void
+fprint_bitvecptr{l:addr}{n:int}
+  (out: FILEref, vec: !bitvecptr(l, n), n: int(n)): void
 //
 (* ****** ****** *)
 //

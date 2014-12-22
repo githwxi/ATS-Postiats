@@ -40,6 +40,21 @@ UN = "prelude/SATS/unsafe.sats"
 staload "libats/SATS/bitvec.sats"
 
 (* ****** ****** *)
+
+macdef U0 = $UN.cast{uintptr}(0)
+macdef U1 = $UN.cast{uintptr}(1)
+macdef U_1 = $UN.cast{uintptr}(~1)
+
+(* ****** ****** *)
+
+macdef
+uintptr_p_inc(p) = ptr_succ<uintptr> (,(p))
+macdef
+uintptr_p_get(p) = $UN.ptr0_get<uintptr> (,(p))
+macdef
+uintptr_p_set(p, x) = $UN.ptr0_set<uintptr> (,(p), ,(x))
+
+(* ****** ****** *)
 //
 implement
 {}(*tmp*)
@@ -63,12 +78,13 @@ if
 then (5)
 else
 (
-if (wsz=64)
-  then 6 else let val () = assertloc(false) in 0 end
+if(wsz=64)
+  then (6)
+  else let val () = assertloc(false) in 0 end
 // end of [if]
 ) (* end of [else] *)
 //
-end // end of [let] // end of [bitvec_get_wordsize_log]
+end // end of [let]
 ) (* end of [$effmask_all] *)
 //
 (* ****** ****** *)
@@ -80,12 +96,13 @@ bitvecptr_make_none
 //
 val wsz = bitvec_get_wordsize ()
 val log = bitvec_get_wordsize_log ()
-val asz = $UN.cast{intGte(0)}((nbit + wsz - 1) >> log)
+val asz =
+  $UN.cast{intGte(0)}((nbit + wsz - 1) >> log)
 //
 in
 //
 $UN.castvwtp0{bitvecptr(n)}
-  (arrayptr_make_elt<uintptr> (i2sz(asz), $UN.cast{uintptr}(0)))
+  (arrayptr_make_elt<uintptr> (i2sz(asz), U0))
 //
 end // end of [bitvecptr_make_none]
 
@@ -99,17 +116,19 @@ bitvecptr_make_full
 //
 val wsz = bitvec_get_wordsize ()
 val log = bitvec_get_wordsize_log ()
-val asz = $UN.cast{intGte(0)}((nbit + wsz - 1) >> log)
+val asz =
+  $UN.cast{intGte(0)}((nbit + wsz - 1) >> log)
 //
-val extra = $UN.cast{intGte(0)}((asz << log) - nbit)
+val extra =
+  $UN.cast{intGte(0)}((asz << log) - nbit)
 //
 val vec =
 $UN.castvwtp0{bitvecptr(n)}
-  (arrayptr_make_elt<uintptr> (i2sz(asz), $UN.cast{uintptr}(~1)))
+  (arrayptr_make_elt<uintptr> (i2sz(asz), U_1))
 //
 val () =
 if extra > 0
-  then $UN.ptr0_set_at<uintptr>(ptrcast(vec), asz-1, $UN.cast{uintptr}(~1) >> extra)
+  then $UN.ptr0_set_at<uintptr>(ptrcast(vec), asz-1, U_1 >> extra)
 // end of [if]
 //
 } (* end of [bitvecptr_make_full] *)
@@ -138,18 +157,42 @@ loop{n:nat} .<n>.
   p: ptr, n: int(n)
 ) :<> bool =
 (
-  if n > 0 then let
-    val i = $UN.ptr0_get<uintptr> (p)
-  in
-    if i = $UN.cast{uintptr}(0)
-      then loop (ptr_succ<uintptr> (p), n-1) else false
-    // end of [if]
-  end else true // end of [if]
+//
+if
+n > 0
+then let
+//
+val i =
+  uintptr_p_get (p)
+//
+in
+  if i = U0
+    then loop (uintptr_p_inc (p), n-1) else false
+  // end of [if]
+end // end of [then]
+else true // end of [else]
+//
 ) (* end of [loop] *)
 //
 in
   loop (addr@vec, asz)
 end // end of [bitvec_is_none]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvecptr_is_none
+  {l}{n}
+  (bvp, nbit) = ans where
+{
+//
+val (pf, fpf | p) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp))
+val ans = bitvec_is_none (!p, nbit)
+prval ((*void*)) = fpf (pf)
+//
+} (* end of [bitvecptr_is_none] *)
 
 (* ****** ****** *)
 
@@ -168,13 +211,16 @@ loop{n:nat} .<n>.
   p: ptr, n: int(n)
 ) :<> bool =
 (
-  if n > 1 then let
-    val i = $UN.ptr0_get<uintptr> (p)
-  in
-    if i = $UN.cast{uintptr}(~1)
-      then loop (ptr_succ<uintptr> (p), n-1) else false
-    // end of [if]
-  end else true // end of [if]
+//
+if
+n > 1
+then let
+  val i = uintptr_p_get (p)
+in
+  if i = U_1 then loop (uintptr_p_inc (p), n-1) else false
+end // end of [then]
+else true // end of [else]
+//
 ) (* end of [loop] *)
 //
 in
@@ -190,7 +236,7 @@ then let
     $UN.cast{intGte(0)}((asz << log) - nbit)
   // end of [val]
 in
-  $UN.ptr0_get_at<uintptr> (addr@vec, asz-1) = ($UN.cast{uintptr}(~1) >> extra)
+  $UN.ptr0_get_at<uintptr> (addr@vec, asz-1) = (U_1 >> extra)
 end // end of [then]
 else false // end of [else]
 //
@@ -198,6 +244,22 @@ else false // end of [else]
 else true // end of [else]
 //
 end // end of [bitvec_is_full]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvecptr_is_full
+  {l}{n}
+  (bvp, nbit) = ans where
+{
+//
+val (pf, fpf | p) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp))
+val ans = bitvec_is_full (!p, nbit)
+prval ((*void*)) = fpf (pf)
+//
+} (* end of [bitvecptr_is_full] *)
 
 (* ****** ****** *)
 
@@ -220,13 +282,13 @@ loop{n:nat} .<n>.
 if
 n > 0
 then let
-  val i1 = $UN.ptr0_get<uintptr> (p1)
-  and i2 = $UN.ptr0_get<uintptr> (p2)
+  val i1 = uintptr_p_get (p1)
+  and i2 = uintptr_p_get (p2)
 in
   if i1 = i2
     then let
-      val p1 = ptr_succ<uintptr> (p1)
-      and p2 = ptr_succ<uintptr> (p2)
+      val p1 = uintptr_p_inc (p1)
+      and p2 = uintptr_p_inc (p2)
     in
       loop (p1, p2, n-1)
     end // end of [then]
@@ -295,10 +357,10 @@ loop{n:nat} .<n>.
 if
 n > 0
 then let
-  val i2 = $UN.ptr0_get<uintptr> (p2)
-  val () = $UN.ptr0_set<uintptr> (p1, i2)
-  val p1 = ptr_succ<uintptr> (p1)
-  and p2 = ptr_succ<uintptr> (p2)
+  val i2 = uintptr_p_get (p2)
+  val () = uintptr_p_set (p1, i2)
+  val p1 = uintptr_p_inc (p1)
+  and p2 = uintptr_p_inc (p2)
 in
   loop (p1, p2, n-1)
 end // end of [then]
@@ -329,10 +391,10 @@ loop{n:nat} .<n>.
 if
 n > 1
 then let
-  val i = $UN.ptr0_get<uintptr> (p)
-  val () = $UN.ptr0_set<uintptr> (p, lnot(i))
+  val i = uintptr_p_get (p)
+  val () = uintptr_p_set (p, lnot(i))
 in
-  loop (ptr_succ<uintptr> (p), n - 1)
+  loop (uintptr_p_inc (p), n - 1)
 end // end of [then]
 else p // end of [else]
 //
@@ -347,9 +409,9 @@ then let
   val extra =
     $UN.cast{intGte(0)}((asz << log) - nbit)
   // end of [val]
-  val i = $UN.ptr0_get<uintptr> (pz)
-  val i2 = lnot(i) land ($UN.cast{uintptr}(~1) >> extra)
-  val () = $UN.ptr0_set<uintptr> (pz, i2)
+  val i = uintptr_p_get (pz)
+  val i2 = lnot(i) land (U_1 >> extra)
+  val () = uintptr_p_set (pz, i2)
 in
   // nothing
 end // end of [then]
@@ -362,7 +424,8 @@ end // end of [bitvec_lnot]
 implement
 {}(*tmp*)
 bitvecptr_lnot
-  {l}{n}(bvp, nbit) = let
+  {l}{n}
+  (bvp, nbit) = let
 //
 val (pf, fpf | p) =
   $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp))
@@ -394,11 +457,11 @@ loop{n:nat} .<n>.
 if
 n > 0
 then let
-  val i1 = $UN.ptr0_get<uintptr> (p1)
-  val i2 = $UN.ptr0_get<uintptr> (p2)
-  val () = $UN.ptr0_set<uintptr> (p1, i1 lor i2)
-  val p1 = ptr_succ<uintptr> (p1)
-  and p2 = ptr_succ<uintptr> (p2)
+  val i1 = uintptr_p_get (p1)
+  val i2 = uintptr_p_get (p2)
+  val () = uintptr_p_set (p1, i1 lor i2)
+  val p1 = uintptr_p_inc (p1)
+  and p2 = uintptr_p_inc (p2)
 in
   loop (p1, p2, n-1)
 end // end of [then]
@@ -431,11 +494,11 @@ loop{n:nat} .<n>.
 if
 n > 0
 then let
-  val i1 = $UN.ptr0_get<uintptr> (p1)
-  val i2 = $UN.ptr0_get<uintptr> (p2)
-  val () = $UN.ptr0_set<uintptr> (p1, i1 lxor i2)
-  val p1 = ptr_succ<uintptr> (p1)
-  and p2 = ptr_succ<uintptr> (p2)
+  val i1 = uintptr_p_get (p1)
+  val i2 = uintptr_p_get (p2)
+  val () = uintptr_p_set (p1, i1 lxor i2)
+  val p1 = uintptr_p_inc (p1)
+  and p2 = uintptr_p_inc (p2)
 in
   loop (p1, p2, n-1)
 end // end of [then]
@@ -468,11 +531,11 @@ loop{n:nat} .<n>.
 if
 n > 0
 then let
-  val i1 = $UN.ptr0_get<uintptr> (p1)
-  val i2 = $UN.ptr0_get<uintptr> (p2)
-  val () = $UN.ptr0_set<uintptr> (p1, i1 land i2)
-  val p1 = ptr_succ<uintptr> (p1)
-  and p2 = ptr_succ<uintptr> (p2)
+  val i1 = uintptr_p_get (p1)
+  val i2 = uintptr_p_get (p2)
+  val () = uintptr_p_set (p1, i1 land i2)
+  val p1 = uintptr_p_inc (p1)
+  and p2 = uintptr_p_inc (p2)
 in
   loop (p1, p2, n-1)
 end // end of [then]
@@ -508,7 +571,8 @@ end // end of [bitvecptr_lor]
 implement
 {}(*tmp*)
 bitvecptr_lxor
-  {l1,l2}{n}(bvp1, bvp2, nbit) = let
+  {l1,l2}{n}
+  (bvp1, bvp2, nbit) = let
 //
 val (pf1, fpf1 | p1) =
   $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp1))
@@ -527,7 +591,8 @@ end // end of [bitvecptr_lxor]
 implement
 {}(*tmp*)
 bitvecptr_land
-  {l1,l2}{n}(bvp1, bvp2, nbit) = let
+  {l1,l2}{n}
+  (bvp1, bvp2, nbit) = let
 //
 val (pf1, fpf1 | p1) =
   $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp1))
@@ -551,7 +616,7 @@ fprint_bitvec$word
 fun
 loop
 (
-  w: uintptr, _1: uintptr, n: int
+  w: uintptr, n: int
 ) : void =
 (
 //
@@ -559,18 +624,17 @@ if
 n > 0
 then let
 //
-val b =
-  $UN.cast{uint}(w land _1)
+val b = $UN.cast{uint}(w land U1)
 //
 in
-  fprint_uint(out, b); loop (w >> 1, _1, n - 1)
+  fprint_uint(out, b); loop (w >> 1, n - 1)
 end // end of [then]
 else () // end of [else]
 //
 ) (* end of [loop] *)
 //
 in
-  loop (w, $UN.cast{uintptr}(1), bitvec_get_wordsize())
+  loop (w, bitvec_get_wordsize())
 end // end of [fprint_bitvec]
 
 (* ****** ****** *)
@@ -606,7 +670,8 @@ end // end of [fprint_bitvec]
 implement
 {}(*tmp*)
 fprint_bitvecptr
-  {n}(out, bvp, nbit) = let
+  {l}{n}
+  (out, bvp, nbit) = let
 //
 val (pf, fpf | p) =
   $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp))
@@ -653,11 +718,11 @@ then (
   loop1 (p, i+1, nbit-1, w, i2+1)
 ) (* end of [then] *)
 else (
-  loop1 (p, i+1, nbit-1, w lor ($UN.cast{uintptr}(1) << i2), i2+1)
+  loop1 (p, i+1, nbit-1, w lor (U1 << i2), i2+1)
 ) (* end of [else] *)
 //
 end // end of [then]
-else ($UN.ptr0_set<uintptr> (p, w))
+else (uintptr_p_set (p, w))
 //
 ) (* end of [loop1] *)
 //
@@ -672,13 +737,13 @@ nbit > wsz
 then let
 //
 val () =
-  loop1 (p, i, wsz, $UN.cast{uintptr}(0), 0)
+  loop1 (p, i, wsz, U0, 0)
 //
 in
-  loop2 (ptr_succ<uintptr> (p), i + wsz, nbit - wsz)
+  loop2 (uintptr_p_inc (p), i + wsz, nbit - wsz)
 end // end of [then]
 else (
-  loop1 (p, i, nbit, $UN.cast{uintptr}(0), 0)
+  loop1 (p, i, nbit, U0, 0)
 ) (* end of [else] *)
 //
 ) (* end of [loop2] *)

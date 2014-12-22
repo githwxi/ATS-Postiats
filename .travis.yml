@@ -1,5 +1,5 @@
 os:
-  # osx
+  - osx
   - linux
 before_install:
   - date
@@ -29,7 +29,8 @@ script:
   # Building ATS2
   - cd ${TRAVIS_BUILD_DIR}
   # make -f Makefile_devl CC=${GCC} all
-  - make GCFLAG=-D_ATS_NGC -f Makefile_devl CC=${GCC} all
+  # make GCFLAG=-D_ATS_NGC -f Makefile_devl CC=${GCC} all
+  - make C3NSTRINTKND=intknd GCFLAG=-D_ATS_NGC -f Makefile_devl CC=${GCC} all
   # Trying-out release process
   - make -C ${PATSHOME}/src CBOOT
   - make -C ${PATSHOME}/src/CBOOT/prelude

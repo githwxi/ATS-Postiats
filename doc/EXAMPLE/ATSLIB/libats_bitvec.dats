@@ -32,9 +32,11 @@ main0 () =
 val
 out = stdout_ref
 //
-val () = fprintln! (out, "[libats_bitvec] starts!")
+val () =
+  fprintln! (out, "[libats_bitvec] starts!")
 //
 val bvp1 = bitvecptr_make_none (nbit)
+val () = assertloc(bitvecptr_is_none(bvp1, nbit))
 val () = fprint (out, "bvp1 = ")
 val () = fprint_bitvecptr (out, bvp1, nbit)
 val ((*newln*)) = fprint_newline (out)
@@ -45,6 +47,7 @@ val () = fprint_bitvecptr (out, bvp1, nbit)
 val ((*newln*)) = fprint_newline (out)
 //
 val bvp2 = bitvecptr_make_full (nbit)
+val () = assertloc(bitvecptr_is_full(bvp1, nbit))
 val () = fprint (out, "bvp2 = ")
 val () = fprint_bitvecptr (out, bvp2, nbit)
 val ((*newln*)) = fprint_newline (out)
@@ -73,6 +76,8 @@ bitvec_tabulate$fopr<> (i) = g1int_nmod(i, 2)
 in(*in-of-local*)
 val bvp3 = bitvecptr_tabulate (nbit)
 end // end of [local]
+val () = assertloc(~bitvecptr_is_none(bvp3, nbit))
+val () = assertloc(~bitvecptr_is_full(bvp3, nbit))
 val () = fprint (out, "bvp3 = ")
 val () = fprint_bitvecptr (out, bvp3, nbit)
 val ((*newln*)) = fprint_newline (out)
