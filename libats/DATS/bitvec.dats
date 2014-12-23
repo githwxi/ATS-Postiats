@@ -73,16 +73,11 @@ let
   val wsz = bitvec_get_wordsize()
 in
 //
-if
-(wsz=32)
-then (5)
-else
-(
-if(wsz=64)
-  then (6)
-  else let val () = assertloc(false) in 0 end
-// end of [if]
-) (* end of [else] *)
+case+ 0 of
+| _ when wsz=16 => 4
+| _ when wsz=32 => 5
+| _ when wsz=64 => 6
+| _ (* unsupported *) => let val () = assertloc(false) in 0 end
 //
 end // end of [let]
 ) (* end of [$effmask_all] *)
