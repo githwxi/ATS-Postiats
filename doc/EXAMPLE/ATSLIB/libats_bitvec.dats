@@ -82,6 +82,21 @@ val () = fprint (out, "bvp3 = ")
 val () = fprint_bitvecptr (out, bvp3, nbit)
 val ((*newln*)) = fprint_newline (out)
 //
+val () = assertloc (bvp3[0] = 0)
+val () = assertloc (bvp3[1] = 1)
+val () = assertloc (bvp3[2] = 0)
+val () = assertloc (bvp3[3] = 1)
+//
+val () = bvp3[0] := 1
+val () = bvp3[1] := 0
+val () = assertloc (bvp3[0] = 1)
+val () = assertloc (bvp3[1] = 0)
+//
+val () = bitvecptr_flip_at (bvp3, 2)
+val () = bitvecptr_flip_at (bvp3, 3)
+val () = assertloc (bvp3[2] = 1 - 0)
+val () = assertloc (bvp3[3] = 1 - 1)
+//
 val ((*freed*)) = bitvecptr_free (bvp1)
 val ((*freed*)) = bitvecptr_free (bvp2)
 val ((*freed*)) = bitvecptr_free (bvp3)

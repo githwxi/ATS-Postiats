@@ -139,6 +139,126 @@ bitvecptr_free (vec) =
 
 implement
 {}(*tmp*)
+bitvec_get_at
+  (vec, i) = let
+//
+val wsz = bitvec_get_wordsize ()
+val log = bitvec_get_wordsize_log ()
+//
+val j = (i >> log)
+val k = i - (j << log)
+val k = $UN.cast{intGte(0)}(k)
+//
+val w =
+  $UN.ptr0_get_at<uintptr> (addr@vec, j)
+//
+in
+  $UN.cast{bit}((w >> k) land U1)
+end // end of [bitvec_get_at]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvec_set_at
+  (vec, i, b) = let
+//
+val wsz = bitvec_get_wordsize ()
+val log = bitvec_get_wordsize_log ()
+//
+val j = (i >> log)
+val k = i - (j << log)
+val k = $UN.cast{intGte(0)}(k)
+//
+val p = ptr_add<uintptr> (addr@vec, j)
+//
+val m = U1 << k
+val w = uintptr_p_get (p)
+//
+in
+//
+if
+b > 0
+then uintptr_p_set (p, w lor m)
+else uintptr_p_set (p, w land ~m)
+//
+end // end of [bitvec_set_at]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvec_flip_at
+  (vec, i) = let
+//
+val wsz = bitvec_get_wordsize ()
+val log = bitvec_get_wordsize_log ()
+//
+val j = (i >> log)
+val k = i - (j << log)
+val k = $UN.cast{intGte(0)}(k)
+//
+val p = ptr_add<uintptr> (addr@vec, j)
+//
+val m = U1 << k
+val w = uintptr_p_get (p)
+//
+in
+  uintptr_p_set (p, w lxor m)
+end // end of [bitvec_flip_at]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvecptr_get_at
+  {l}{n}
+  (bvp, i) = bit where
+{
+//
+val (pf, fpf | p) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp))
+val bit = bitvec_get_at (!p, i)
+prval ((*void*)) = fpf (pf)
+//
+} (* end of [bitvecptr_get_at] *)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvecptr_set_at
+  {l}{n}
+  (bvp, i, bit) =
+{
+//
+val (pf, fpf | p) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp))
+val bit = bitvec_set_at (!p, i, bit)
+prval ((*void*)) = fpf (pf)
+//
+} (* end of [bitvecptr_set_at] *)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvecptr_flip_at
+  {l}{n}
+  (bvp, i) =
+{
+//
+val (pf, fpf | p) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp))
+val bit = bitvec_flip_at (!p, i)
+prval ((*void*)) = fpf (pf)
+//
+} (* end of [bitvecptr_flip_at] *)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
 bitvec_is_none
   (vec, nbit) = let
 //

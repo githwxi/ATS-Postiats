@@ -80,7 +80,9 @@ val env2 =
   $UN.castvwtp1{myenv}(env)
 val+MYENV (!p_s2cs, _) = env2
 //
-val ismem = s2cstset_vt_ismem (!p_s2cs, s2c)
+val ismem =
+  s2cstset_vt_ismem (!p_s2cs, s2c)
+//
 val () = (
 if
 (ismem)
@@ -110,7 +112,8 @@ s2var_app
 val env2 =
   $UN.castvwtp1{myenv}(env)
 val+MYENV (_, !p_s2vs) = env2
-val ((*void*)) = !p_s2vs := s2varset_vt_add(!p_s2vs, s2v)
+val ((*void*)) =
+  !p_s2vs := s2varset_vt_add(!p_s2vs, s2v)
 prval ((*void*)) = fold@ (env2)
 prval ((*void*)) = $UN.castvwtp0{void}(env2)
 //
