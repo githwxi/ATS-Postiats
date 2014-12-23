@@ -44,6 +44,10 @@
 staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
+
+staload "./pats_staexp2_util.sats"
+
+(* ****** ****** *)
 //
 extern
 fun{}
@@ -114,6 +118,8 @@ implement
 {}(*tmp*)
 s2exp_app
   (s2e0, env) = let
+      val s2f0 = s2exp2hnf (s2e0)
+      val s2e0 = s2hnf2exp (s2f0)
 in
 //
 case+
