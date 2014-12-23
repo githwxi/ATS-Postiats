@@ -79,7 +79,23 @@ s2cst_app
 val env2 =
   $UN.castvwtp1{myenv}(env)
 val+MYENV (!p_s2cs, _) = env2
-val ((*void*)) = !p_s2cs := s2cstset_vt_add(!p_s2cs, s2c)
+//
+val ismem = s2cstset_vt_ismem (!p_s2cs, s2c)
+val () = (
+if
+(ismem)
+then ((*void*))
+else let
+//
+val () =
+  !p_s2cs :=
+  s2cstset_vt_add(!p_s2cs, s2c)
+//
+in
+  s2expopt_app (s2cst_get_def(s2c), env)
+end // end of [else]
+) (* end of [val] *)
+//
 prval ((*void*)) = fold@ (env2)
 prval ((*void*)) = $UN.castvwtp0{void}(env2)
 //

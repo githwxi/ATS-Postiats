@@ -600,6 +600,10 @@ s2cstset_nil
   ((*void*)) = $FS.funset_make_nil ()
 //
 implement
+s2cstset_ismem
+  (xs, x) = $FS.funset_is_member (xs, x, cmp)
+//
+implement
 s2cstset_add
   (xs, x) = xs where {
   var xs = xs
@@ -614,6 +618,10 @@ s2cstset_listize (xs) = $FS.funset_listize (xs)
 implement
 s2cstset_vt_nil
   ((*void*)) = $LS.linset_make_nil ()
+//
+implement
+s2cstset_vt_ismem
+  (xs, x) = $LS.linset_is_member (xs, x, cmp)
 //
 implement
 s2cstset_vt_add

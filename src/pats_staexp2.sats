@@ -687,10 +687,12 @@ overload fprint with fprint_s2cstlst
 //
 fun s2cstset_nil (): s2cstset
 fun s2cstset_add (xs: s2cstset, x: s2cst): s2cstset
+fun s2cstset_ismem (xs: s2cstset, x: s2cst):<> bool
 fun s2cstset_listize (xs: s2cstset): s2cstlst_vt
 //
 fun s2cstset_vt_nil (): s2cstset_vt
 fun s2cstset_vt_add (xs: s2cstset_vt, x: s2cst): s2cstset_vt
+fun s2cstset_vt_ismem (xs: !s2cstset_vt, x: s2cst):<> bool
 fun s2cstset_vt_listize_free (xs: s2cstset_vt): s2cstlst_vt
 //
 (* ****** ****** *)
