@@ -635,7 +635,7 @@ else () // end of [else]
 //
 in
   loop (w, bitvec_get_wordsize())
-end // end of [fprint_bitvec]
+end // end of [fprint_bitvec$word]
 
 (* ****** ****** *)
 
