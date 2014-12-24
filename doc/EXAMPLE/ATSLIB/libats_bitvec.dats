@@ -97,6 +97,15 @@ val () = bitvecptr_flip_at (bvp3, 3)
 val () = assertloc (bvp3[2] = 1 - 0)
 val () = assertloc (bvp3[3] = 1 - 1)
 //
+local
+implement(env)
+bitvec_foreach$fworkbit<env>(b, env) = fprint(out, b)
+in
+val () = fprint (out, "bvp3 = ")
+val () = bitvecptr_foreach (bvp3, nbit)
+val () = fprint_newline (out)
+end // end of [local]
+//
 val ((*freed*)) = bitvecptr_free (bvp1)
 val ((*freed*)) = bitvecptr_free (bvp2)
 val ((*freed*)) = bitvecptr_free (bvp3)

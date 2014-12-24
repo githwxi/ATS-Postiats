@@ -236,7 +236,23 @@ env:vt0p
 //
 fun{
 env:vt0p
-} bitvec_foreach$fwork (b: bit, env: &(env) >> _): void
+} bitvec_foreach$fwork{n:nat}
+  (w: &uintptr >> _, n: int(n), env: &(env) >> _): void
+fun{
+env:vt0p
+} bitvec_foreach$fworkbit (b: bit, env: &(env) >> _): void
+//
+(* ****** ****** *)
+//
+fun{}
+bitvecptr_foreach
+  {l:addr}{n:int}
+  (bvp: !bitvecptr(l, n) >> _, n: int(n)): void
+fun{
+env:vt0p
+} bitvecptr_foreach_env
+  {l:addr}{n:int}
+  (bvp: !bitvecptr(l, n) >> _, n: int(n), env: &env >> _): void
 //
 (* ****** ****** *)
 

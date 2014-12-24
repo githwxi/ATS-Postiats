@@ -759,7 +759,6 @@ implement
 fprint_bitvec
   (out, vec, nbit) = let
 //
-//
 val wsz = bitvec_get_wordsize ()
 val log = bitvec_get_wordsize_log ()
 val asz = $UN.cast{intGte(0)}((nbit + wsz - 1) >> log)
@@ -871,6 +870,117 @@ if nbit > 0
 in
   $UN.castvwtp0{bitvecptr(n)}(bvp)
 end // end of [bitvecptr_tabulate]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvec_foreach
+  (vec, nbit) = let
+  var env: void = ()
+in
+  bitvec_foreach_env<void> (vec, nbit, env)
+end // end of [bitvec_foreach]
+
+(* ****** ****** *)
+
+implement
+{env}(*tmp*)
+bitvec_foreach_env
+  (vec, nbit, env) = let
+//
+val wsz = bitvec_get_wordsize ()
+//
+fun
+loop
+(
+  p: ptr, nbit: intGt(0), env: &env
+) : void = let
+//
+var w = uintptr_p_get(p)
+//
+in
+//
+if
+nbit > wsz
+then let
+val () =
+  bitvec_foreach$fwork<env> (w, wsz, env)
+//
+in
+  loop (uintptr_p_inc(p), nbit - wsz, env)
+end // end of [then]
+else bitvec_foreach$fwork<env> (w, nbit, env)
+//
+end (* end of [loop] *)
+//
+in
+//
+if nbit > 0 then loop (addr@vec, nbit, env) else ()
+//
+end // end of [bitvec_foreach_env]
+
+(* ****** ****** *)
+
+implement(env)
+bitvec_foreach$fwork<env>
+  (w, n, env) = let
+//
+fun loop
+(
+  w: uintptr, n: int, env: &env >> _
+) : void =
+(
+//
+if
+n > 0
+then let
+//
+val b = $UN.cast{bit}(w land U1)
+val () = bitvec_foreach$fworkbit(b, env)
+//
+val wsz = bitvec_get_wordsize()
+//
+in
+  loop (w >> 1, n - 1, env)
+end // end of [then]
+else () // end of [else]
+//
+) (* end of [loop] *)
+//
+val wsz = bitvec_get_wordsize()
+//
+in
+  if n <= wsz then loop (w, n, env) else loop (w, wsz, env)
+end // end of [bitvec_foreach$fwork]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+bitvecptr_foreach
+  (bvp, nbit) = let
+  var env: void = ()
+in
+  bitvecptr_foreach_env<void> (bvp, nbit, env)
+end // end of [bitvecptr_foreach]
+
+(* ****** ****** *)
+
+implement
+{env}(*tmp*)
+bitvecptr_foreach_env
+  {l}{n}
+  (bvp, nbit, env) = let
+//
+val (pf, fpf | p) =
+  $UN.ptr_vtake{bitvec(n)}(ptrcast(bvp))
+val ((*void*)) = bitvec_foreach_env (!p, nbit, env)
+prval ((*void*)) = fpf (pf)
+//
+in
+  // nothing
+end // end of [bitvecptr_foreach_env]
 
 (* ****** ****** *)
 
