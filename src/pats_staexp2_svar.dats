@@ -109,7 +109,7 @@ s2var_make_id_srt
   val () = p->s2var_sym := id
   val () = p->s2var_srt := s2t
   val () = p->s2var_tmplev := 0
-  val () = p->s2var_sVarset := s2Varset_make_nil ()
+  val () = p->s2var_sVarset := s2Varset_nil ()
   val () = p->s2var_stamp := stamp
 //
 in

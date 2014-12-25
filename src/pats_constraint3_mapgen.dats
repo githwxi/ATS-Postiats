@@ -62,13 +62,14 @@ local
 extern
 fun s2cst_app : synent_app (s2cst)
 and s2var_app : synent_app (s2var)
+and s2Var_app : synent_app (s2Var)
 and d2con_app : synent_app (d2con)
 //
 #include "./pats_staexp2_appenv.hats"
 #include "./pats_constraint3_appenv.hats"
 //
 datavtype myenv =
-  | MYENV of (s2cstset_vt, s2varset_vt)
+  | MYENV of (s2cstset_vt, s2varset_vt, s2Varset_vt)
 //
 in
 //
@@ -78,7 +79,7 @@ s2cst_app
 //
 val env2 =
   $UN.castvwtp1{myenv}(env)
-val+MYENV (!p_s2cs, _) = env2
+val+MYENV (!p_s2cs, _, _) = env2
 //
 val ismem =
   s2cstset_vt_ismem (!p_s2cs, s2c)
@@ -111,7 +112,7 @@ s2var_app
 //
 val env2 =
   $UN.castvwtp1{myenv}(env)
-val+MYENV (_, !p_s2vs) = env2
+val+MYENV (_, !p_s2vs, _) = env2
 val ((*void*)) =
   !p_s2vs := s2varset_vt_add(!p_s2vs, s2v)
 prval ((*void*)) = fold@ (env2)
@@ -121,6 +122,44 @@ in
   // nothing
 end // end of [s2var_app]
 
+implement
+s2Var_app
+  (s2V, env) = let
+//
+val env2 =
+  $UN.castvwtp1{myenv}(env)
+val+MYENV (_, _, !p_s2Vs) = env2
+//
+val ismem =
+  s2Varset_vt_ismem (!p_s2Vs, s2V)
+//
+val () =
+if
+(ismem)
+then ((*void*))
+else let
+//
+val () =
+  !p_s2Vs :=
+  s2Varset_vt_add(!p_s2Vs, s2V)
+//
+val opt = s2Var_get_link (s2V)
+val void = s2expopt_app (opt, env)
+//
+val s2ze = s2Var_get_szexp (s2V)
+val ((*void*)) = s2zexp_app (s2ze, env)
+//
+in
+  // nothing
+end // end of [else]
+//
+prval ((*void*)) = fold@ (env2)
+prval ((*void*)) = $UN.castvwtp0{void}(env2)
+//
+in
+  // nothing
+end // end of [s2Var_app]
+
 implement d2con_app (s2v, env) = ()
 
 (* ****** ****** *)
@@ -129,11 +168,18 @@ implement
 c3nstr_mapgen_scst_svar
   (c3t) = let
 //
-  val s2cs = s2cstset_vt_nil ()
-  val s2vs = s2varset_vt_nil ()
-  val appenv = $UN.castvwtp0{appenv}(MYENV(s2cs, s2vs))
-  val ((*void*)) = c3nstr_app (c3t, appenv)
-  val+~MYENV (s2cs, s2vs) = $UN.castvwtp0{myenv}(appenv)
+val s2cs = s2cstset_vt_nil ()
+val s2vs = s2varset_vt_nil ()
+val s2Vs = s2Varset_vt_nil ()
+//
+val appenv =
+  $UN.castvwtp0{appenv}(MYENV(s2cs, s2vs, s2Vs))
+//
+val ((*void*)) = c3nstr_app (c3t, appenv)
+//
+val+~MYENV(s2cs, s2vs, s2Vs) = $UN.castvwtp0{myenv}(appenv)
+//
+val ((*void*)) = s2Varset_vt_free (s2Vs)
 //
 in
   (s2cs, s2vs)

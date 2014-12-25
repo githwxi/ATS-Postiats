@@ -698,7 +698,7 @@ stasub_occurcheck
   (sub, s2V) = case+ sub of
   | list_vt_cons (x, !p_xs) => let
       val s2Vs = s2var_get_sVarset (x.0)
-      val ismem = s2Varset_is_member (s2Vs, s2V)
+      val ismem = s2Varset_ismem (s2Vs, s2V)
     in
       if ismem then let
         prval () = fold@ (sub) in true

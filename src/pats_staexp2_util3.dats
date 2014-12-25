@@ -241,7 +241,7 @@ and aux_s2eff (
     end // end of [S2EFFadd]
 // end of [aux_s2eff]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2exp_freevars
@@ -256,25 +256,29 @@ end // end of [local]
 
 local
 
-fun loop (
+fun
+loop (
   xs: s2Varlst, s2Vs2: s2Varset
 ) : bool = (
   case+ xs of
   | list_cons (x, xs) => let
-      val ismem = s2Varset_is_member (s2Vs2, x)
+      val ismem = s2Varset_ismem (s2Vs2, x)
     in
       if ismem then true else loop (xs, s2Vs2)
     end
   | list_nil () => false
 ) // end of [loop]
 
-in // in of [loop]
+in (* in of [loop] *)
 
-fun s2Var_occurcheck_s2cst
+fun
+s2Var_occurcheck_s2cst
   (s2V0: s2Var, s2c: s2cst): bool = let
 //
-val s2Vs2 = s2cst_get_sVarset (s2c)
-val ismem = s2Varset_is_member (s2Vs2, s2V0)
+val s2Vs2 =
+  s2cst_get_sVarset (s2c)
+//
+val ismem = s2Varset_ismem (s2Vs2, s2V0)
 //
 in
 //
@@ -291,7 +295,7 @@ val s2Vs2 = s2var_get_sVarset (s2v)
 (*
 val () = println! ("s2Var_occurcheck_s2cst: s2Vs2 = ", s2Vs2)
 *)
-val ismem = s2Varset_is_member (s2Vs2, s2V0)
+val ismem = s2Varset_ismem (s2Vs2, s2V0)
 //
 in
 //
@@ -446,7 +450,7 @@ val () = println! ("aux_s2exp: s2vs = ", s2vs)
 val () = println! ("aux_s2exp: s2Vs = ", s2Vs)
 *)
 //
-in // in of [let]
+in (* in of [let] *)
 //
 case+ s2e.s2exp_node of
 //
@@ -628,7 +632,7 @@ case+ ws2es of
 //
 end // end of [aux_wths2explst]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2Var_occurcheck_s2exp

@@ -68,6 +68,7 @@ fun jsonize_s2var (s2v: s2var): jsonval
 fun jsonize_s2var_long (s2v: s2var): jsonval
 //
 fun jsonize_s2Var (s2V: s2Var): jsonval
+fun jsonize_s2Var_long (s2V: s2Var): jsonval
 //
 fun jsonize_s2varlst (s2vs: s2varlst): jsonval
 //

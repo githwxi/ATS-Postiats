@@ -106,12 +106,6 @@ s2expopt_app : synent_app (s2expopt)
 //
 extern
 fun{}
-s2Var_app: synent_app (s2Var)
-//
-(* ****** ****** *)
-//
-extern
-fun{}
 s2qualst_app : synent_app (s2qualst)
 //
 (* ****** ****** *)
@@ -329,23 +323,6 @@ case+ opt of
 | Some (s2e) => s2exp_app (s2e, env) | None () => ()
 //
 ) (* end of [s2expopt] *)
-
-(* ****** ****** *)
-
-implement
-{}(*tmp*)
-s2Var_app
-  (s2V, env) = let
-//
-val opt = s2Var_get_link (s2V)
-val void = s2expopt_app (opt, env)
-//
-val s2ze = s2Var_get_szexp (s2V)
-val ((*void*)) = s2zexp_app (s2ze, env)
-//
-in
-  // nothing
-end // end of [s2Var_app]
 
 (* ****** ****** *)
   

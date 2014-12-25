@@ -130,12 +130,19 @@ abstype s2Var_type
 typedef s2Var = s2Var_type
 typedef s2Varlst = List (s2Var)
 typedef s2Varopt = Option (s2Var)
+//
+vtypedef s2Varlst_vt = List_vt (s2Var)
+//
 abstype s2Varset_type
 typedef s2Varset = s2Varset_type
+//
+absvtype s2Varset_vtype
+vtypedef s2Varset_vt = s2Varset_vtype
+//
 abstype s2VarBound_type
 typedef s2VarBound = s2VarBound_type
 typedef s2VarBoundlst = List (s2VarBound)
-
+//
 (* ****** ****** *)
 
 abstype s2hole_type
@@ -887,11 +894,19 @@ overload prerr with prerr_s2Varlst
 fun fprint_s2Varlst : fprint_type (s2Varlst)
 
 (* ****** ****** *)
-
-fun s2Varset_make_nil (): s2Varset
+//
+fun s2Varset_nil (): s2Varset
 fun s2Varset_add (xs: s2Varset, x: s2Var): s2Varset
-fun s2Varset_is_member (xs: s2Varset, x: s2Var): bool
+fun s2Varset_ismem (xs: s2Varset, x: s2Var): bool
 fun s2Varset_listize (xs: s2Varset): List_vt (s2Var)
+//
+fun s2Varset_vt_nil (): s2Varset_vt
+fun s2Varset_vt_add (xs: s2Varset_vt, x: s2Var): s2Varset_vt
+fun s2Varset_vt_ismem (xs: !s2Varset_vt, x: s2Var):<> bool
+fun s2Varset_vt_free (xs: s2Varset_vt): void
+fun s2Varset_vt_listize_free (xs: s2Varset_vt): List_vt (s2Var)
+//
+(* ****** ****** *)
 
 fun print_s2Varset (xs: s2Varset): void
 overload print with print_s2Varset

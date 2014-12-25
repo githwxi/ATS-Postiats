@@ -173,9 +173,9 @@ val () = p->s2cst_argsrtss := argsrtss
 val () = p->s2cst_dconlst := None ()
 val () = p->s2cst_sup := s2cstlst_encode (list_nil)
 val () = p->s2cst_supcls := list_nil ()
-val () = p->s2cst_sVarset := s2Varset_make_nil ()
-val () = p->s2cst_dstag := (~1)
-val () = p->s2cst_stamp := stamp
+val () = p->s2cst_sVarset := s2Varset_nil ()
+val () = p->s2cst_dstag := (~1) // datasort
+val () = p->s2cst_stamp := stamp // unicity
 //
 in // in of [let]
 //

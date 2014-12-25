@@ -1818,6 +1818,7 @@ d2eclist_mapgen_all
 ) : 
 ( s2cstset_vt // static
 , s2varset_vt // static
+, s2Varset_vt // static
 , d2conset_vt // static
 , d2cstset_vt // dynamic
 , d2varset_vt // dynamic

@@ -75,7 +75,7 @@ case+ s3i of
 | S3ITMsvar (s2v) => s2var_app (s2v, env)
 | S3ITMhypo (h3p) => h3ypo_app (h3p, env)
 //
-| S3ITMsVar (s2V) => ()
+| S3ITMsVar (s2V) => s2Var_app (s2V, env)
 //
 | S3ITMcnstr (c3t) => c3nstr_app (c3t, env)
 //

@@ -317,7 +317,10 @@ fun c3nstr_solve (c3t: c3nstr): void
 //
 fun
 c3nstr_mapgen_scst_svar
-  (c3t: c3nstr): (s2cstset_vt, s2varset_vt)
+  (c3t: c3nstr):
+(
+  s2cstset_vt, s2varset_vt
+) (* end of [c3nstr_mapgen_scst_svar] *)
 //
 fun jsonize_c3nstr (c3t: c3nstr): jsonval
 //

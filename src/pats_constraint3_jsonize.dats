@@ -306,8 +306,9 @@ c3nstr_export
   (out, c3t0) = let
 //
 val
-(s2cs, s2vs) =
-  c3nstr_mapgen_scst_svar (c3t0)
+(
+  s2cs, s2vs
+) = c3nstr_mapgen_scst_svar (c3t0)
 //
 val s2cs = s2cstset_vt_listize_free (s2cs)
 val s2vs = s2varset_vt_listize_free (s2vs)

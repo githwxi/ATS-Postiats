@@ -384,7 +384,7 @@ case+ s2vs of
 //
 end // end of [stasub_s2varlst_instcollect]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2exp_exiuni_instantiate_all
@@ -777,14 +777,15 @@ extern
 fun the_s2Varset_env_add (x: s2Var): void
 
 local
-
+//
 vtypedef
-s2Varsetlst_vt = List_vt (s2Varset)
-val s2Varset_nil = s2Varset_make_nil ()
+s2Varsetlst_vt = List_vt(s2Varset)
+//
+val s2Varset_nil = s2Varset_nil ()
 val the_s2Varset = ref_make_elt<s2Varset> (s2Varset_nil)
 val the_s2Varsetlst = ref_make_elt<s2Varsetlst_vt> (list_vt_nil ())
-
-in // in of [local]
+//
+in (* in of [local] *)
 
 implement
 the_s2Varset_env_get () = !the_s2Varset
@@ -857,7 +858,7 @@ viewtypedef s3itmlstlst_vt = List_vt (s3itmlst_vt)
 val the_s3itmlst = ref_make_elt<s3itmlst_vt> (list_vt_nil ())
 val the_s3itmlstlst = ref_make_elt<s3itmlstlst_vt> (list_vt_nil ())
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 the_s3itmlst_env_push () = let
@@ -1424,7 +1425,7 @@ fun trans3_env_hypadd_disj
   the_s3itmlst_env_add (S3ITMdisj (xss))
 ) // end of [trans3_env_hypadd_disj]
 
-in // in of [local]
+in (* in of [local] *)
 //
 // HX: enforcing sequentiality of pattern match
 //
@@ -1466,9 +1467,10 @@ end // end of [local]
 
 local
 
-assume trans3_env_push_v = unit_v
+assume
+trans3_env_push_v = unit_v
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 trans3_env_pop
@@ -1639,21 +1641,26 @@ fun auxres
   s2e: s2exp
 ) : ws2elstopt =
 (
-  case+ s2e.s2exp_node of
-  | S2Ewthtype
-      (_, ws2es) => Some_vt (ws2es)
-    // end of [S2Ewthtype]
-  | S2Eexi (_, _, s2e) => auxres (s2e)
-  | _ (*rest*) => None_vt ()
+case+
+s2e.s2exp_node of
+| S2Ewthtype
+    (_, ws2es) => Some_vt (ws2es)
+  // end of [S2Ewthtype]
+| S2Eexi (_, _, s2e) => auxres (s2e)
+| _ (*rest*) => None_vt ()
 ) (* end of [auxres] *)
 
 fun auxarg
 (
-  loc: location, s2es: s2explst, ws2es: wths2explst
+  loc: location
+, s2es: s2explst, ws2es: wths2explst
 ) : s2explst = let
 in
 //
 case+ s2es of
+//
+| list_nil
+    ((*void*)) => list_nil ()
 | list_cons
     (s2e, s2es) => (
   case+ ws2es of
@@ -1676,11 +1683,10 @@ case+ s2es of
       list_cons (s2e, auxarg (loc, s2es, ws2es))
   | WTHS2EXPLSTnil () => list_nil ()
   ) // end of [list_cons]
-| list_nil () => list_nil ()
 //
 end // end of [auxarg]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2fun_opninv_and_add

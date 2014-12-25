@@ -248,6 +248,19 @@ end // end of [jsonize_s2var_long]
 (* ****** ****** *)
 
 implement
+jsonize_s2varlst
+  (s2vs) = let
+//
+val jsvs =
+  list_map_fun (s2vs, jsonize_s2var)
+//
+in
+  JSONlist (list_of_list_vt{jsonval}(jsvs))
+end // end of [jsonize_s2varlst]
+
+(* ****** ****** *)
+
+implement
 jsonize_s2Var
   (s2V) = let
 //
@@ -260,18 +273,8 @@ in
   jsonval_labval2 ("s2Var_stamp", stamp, "s2Var_szexp", szexp)
 end // end of [jsonize_s2Var]
 
-(* ****** ****** *)
-
 implement
-jsonize_s2varlst
-  (s2vs) = let
-//
-val jsvs =
-  list_map_fun (s2vs, jsonize_s2var)
-//
-in
-  JSONlist (list_of_list_vt{jsonval}(jsvs))
-end // end of [jsonize_s2varlst]
+jsonize_s2Var_long (s2V) = jsonize_s2Var (s2V)
 
 (* ****** ****** *)
 //
@@ -1605,6 +1608,7 @@ d2eclist_export
 val
 ( s2cs
 , s2vs
+, s2Vs
 , d2cons
 , d2csts
 , d2vars
@@ -1614,6 +1618,8 @@ val s2cs =
   s2cstset_vt_listize_free (s2cs)
 val s2vs =
   s2varset_vt_listize_free (s2vs)
+val s2Vs =
+  s2Varset_vt_listize_free (s2Vs)
 val d2cons =
   d2conset_vt_listize_free (d2cons)
 val d2csts =
@@ -1628,6 +1634,10 @@ val () = list_vt_free (s2cs)
 val jsv_s2vs =
   jsonize_list_fun{s2var}($UN.linlst2lst(s2vs), jsonize_s2var_long)
 val () = list_vt_free (s2vs)
+//
+val jsv_s2Vs =
+  jsonize_list_fun{s2Var}($UN.linlst2lst(s2Vs), jsonize_s2Var_long)
+val () = list_vt_free (s2Vs)
 //
 val jsv_d2cons =
   jsonize_list_fun{d2con}($UN.linlst2lst(d2cons), jsonize_d2con_long)
