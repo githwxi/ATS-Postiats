@@ -239,16 +239,18 @@ implement
 s2Varlst_add_sVarlst
   (s2Vs, s2V2) = let
 in
-  case+ s2Vs of
-  | list_cons
-      (s2V, s2Vs) => let
-      val () =
-        s2Var_add_sVarlst (s2V, s2V2)
-      // end of [val]
-    in
-      s2Varlst_add_sVarlst (s2Vs, s2V2)
-    end // end of [list_cons]
-  | list_nil () => ()
+//
+case+ s2Vs of
+| list_nil () => ()
+| list_cons
+    (s2V, s2Vs) => let
+    val () =
+      s2Var_add_sVarlst (s2V, s2V2)
+    // end of [val]
+  in
+    s2Varlst_add_sVarlst (s2Vs, s2V2)
+  end // end of [list_cons]
+//
 end // end of [s2Varlst_add_sVarlst]
 
 (* ****** ****** *)
@@ -263,9 +265,10 @@ s2VarBound_type = '{
 in (* in of [local] *)
 
 implement
-s2VarBound_make (loc, s2f) = '{
+s2VarBound_make
+  (loc, s2f) = '{
   s2VarBound_loc= loc, s2VarBound_val= s2f
-} // end of [s2VarBound_make]
+} (* end of [s2VarBound_make] *)
 
 implement s2VarBound_get_loc (x) = x.s2VarBound_loc
 implement s2VarBound_get_val (x) = x.s2VarBound_val
@@ -273,39 +276,30 @@ implement s2VarBound_get_val (x) = x.s2VarBound_val
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 implement
-lt_s2Var_s2Var
-  (x1, x2) = (compare (x1, x2) < 0)
-// end of [lt_s2Var_s2Var]
-
+lt_s2Var_s2Var(x1, x2) = (compare (x1, x2) < 0)
 implement
-lte_s2Var_s2Var
-  (x1, x2) = (compare (x1, x2) <= 0)
-// end of [lte_s2Var_s2Var]
-
+lte_s2Var_s2Var(x1, x2) = (compare (x1, x2) <= 0)
+//
 implement
-eq_s2Var_s2Var
-  (x1, x2) = (compare (x1, x2) = 0)
-// end of [eq_s2Var_s2Var]
-
+eq_s2Var_s2Var(x1, x2) = (compare (x1, x2) = 0)
 implement
-neq_s2Var_s2Var
-  (x1, x2) = (compare (x1, x2) != 0)
-// end of [neq_s2Var_s2Var]
-
+neq_s2Var_s2Var(x1, x2) = (compare (x1, x2) != 0)
+//
 implement
 compare_s2Var_s2Var (x1, x2) = let
 (*
-  val () = $effmask_all (
-    print "compare_s2var_s2var: x1 = "; print_s2var x1; print_newline ();
-    print "compare_s2var_s2var: x2 = "; print_s2var x2; print_newline ();
-  ) // end of [val]
+val () =
+$effmask_all (
+  println! ("compare_s2var_s2var: x1 = ", x1);
+  println! ("compare_s2var_s2var: x2 = ", x2);
+) (* end of [val] *)
 *)
 in
   compare (s2Var_get_stamp (x1), s2Var_get_stamp (x2))
 end // end of [compare_s2Var_s2Var]
-
+//
 (* ****** ****** *)
 
 implement
@@ -442,16 +436,21 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-fprint_s2Varlst
-  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s2Var)
-// end of [fprint_s2Varlst]
-
-implement
 print_s2Varlst (xs) = fprint_s2Varlst (stdout_ref, xs)
 implement
 prerr_s2Varlst (xs) = fprint_s2Varlst (stderr_ref, xs)
 
+implement
+fprint_s2Varlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s2Var)
+// end of [fprint_s2Varlst]
+
 (* ****** ****** *)
+
+implement
+print_s2Varset (xs) = fprint_s2Varset (stdout_ref, xs)
+implement
+prerr_s2Varset (xs) = fprint_s2Varset (stderr_ref, xs)
 
 implement
 fprint_s2Varset
@@ -462,11 +461,6 @@ fprint_s2Varset
   val () = fprint_string (out, "]")
   val () = list_vt_free (xs)
 } // end of [fprint_s2Varset]
-
-implement
-print_s2Varset (xs) = fprint_s2Varset (stdout_ref, xs)
-implement
-prerr_s2Varset (xs) = fprint_s2Varset (stderr_ref, xs)
 
 (* ****** ****** *)
 

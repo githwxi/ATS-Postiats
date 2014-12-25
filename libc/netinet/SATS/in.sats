@@ -215,19 +215,25 @@ $extval (in_addr_hbo_t, "INADDR_MAX_LOCAL_GROUP")
 //
 (* ****** ****** *)
 //
+(*
+** HX: [in_addr_struct] is taken by C++
+*)
 typedef
 in_addr_struct =
 $extype_struct
-"in_addr_struct" of {
+"in_addr_structats" of {
   s_addr= in_addr_nbo_t // IPv4 address of ulint
 } (* end of [in_addr_struct] *)
 //
 (* ****** ****** *)
 //
+(*
+** HX: [in6_addr_struct] may be taken by C++
+*)
 typedef
 in6_addr_struct =
 $extype_struct
-"in6_addr_struct" of {
+"in6_addr_structats" of {
   s6_addr= @[uint8][16] // IPv6 address of 16 bytes
 } (* end of [in6_addr_struct] *)
 
