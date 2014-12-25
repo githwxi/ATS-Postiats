@@ -106,7 +106,29 @@ s2expopt_app : synent_app (s2expopt)
 //
 extern
 fun{}
+s2Var_app: synent_app (s2Var)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
 s2qualst_app : synent_app (s2qualst)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+s2zexp_app : synent_app (s2zexp)
+extern
+fun{}
+s2zexplst_app : synent_app (s2zexplst)
+extern
+fun{}
+s2zexplstlst_app : synent_app (s2zexplstlst)
+//
+extern
+fun{}
+labs2zexplst_app : synent_app (labs2zexplst)
 //
 (* ****** ****** *)
 
@@ -131,25 +153,24 @@ s2e0.s2exp_node of
 //
 | S2Evar (s2v) => s2var_app (s2v, env)
 //
-| S2EVar _ => ()
-| S2Ehole _ => ()
+| S2EVar (s2V) => s2Var_app (s2V, env)
+//
+| S2Ehole (s2hole) => ()
 //
 | S2Edatcontyp
     (d2c, s2es) => let
-    val () =
-      d2con_app (d2c, env)
-    // end of [val]
+    val () = d2con_app (d2c, env)
+    val () = s2explst_app (s2es, env)
   in
-    s2explst_app (s2es, env)
+    // nothing
   end // end of [S2Edatcontyp]
 | S2Edatconptr
     (d2c, s2e1, s2es2) => let
-    val () =
-      d2con_app (d2c, env)
-    // end of [val]
+    val () = d2con_app (d2c, env)
+    val () = s2exp_app (s2e1, env)
+    val () = s2explst_app (s2es2, env)
   in
-    s2exp_app (s2e1, env);
-    s2explst_app (s2es2, env)
+    // nothing    
   end // end of [S2Edatconptr]
 //
 | S2Eat (s2e1, s2e2) =>
@@ -310,6 +331,23 @@ case+ opt of
 ) (* end of [s2expopt] *)
 
 (* ****** ****** *)
+
+implement
+{}(*tmp*)
+s2Var_app
+  (s2V, env) = let
+//
+val opt = s2Var_get_link (s2V)
+val void = s2expopt_app (opt, env)
+//
+val s2ze = s2Var_get_szexp (s2V)
+val ((*void*)) = s2zexp_app (s2ze, env)
+//
+in
+  // nothing
+end // end of [s2Var_app]
+
+(* ****** ****** *)
   
 implement
 {}(*tmp*)
@@ -327,6 +365,72 @@ case+ s2qs of
 //
 end // end of [s2qualst_app]
   
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+s2zexp_app
+  (x0, env) =
+(
+//
+case+ x0 of
+//
+| S2ZEprf () => ()
+| S2ZEptr () => ()
+//
+| S2ZEcst (s2c) => s2cst_app (s2c, env)
+| S2ZEvar (s2v) => s2var_app (s2v, env)
+| S2ZEVar (s2V) => s2Var_app (s2V, env)
+//
+| S2ZEextype (name, xss) => s2zexplstlst_app (xss, env)
+| S2ZEextkind (name, xss) => s2zexplstlst_app (xss, env)
+//
+| S2ZEapp (x1, xs2) =>
+  (
+    s2zexp_app (x1, env); s2zexplst_app (xs2, env)
+  )
+| S2ZEtyarr (x1, s2es_dim) =>
+  (
+    s2zexp_app (x1, env); s2explst_app (s2es_dim, env)
+  )
+| S2ZEtyrec (knd, lxs) => labs2zexplst_app (lxs, env)
+//
+| S2ZEclo () => ()
+//
+| S2ZEbot () => ()
+//
+) (* end of [s2zexp_app] *)
+
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+s2zexplst_app
+  (xs, env) = synentlst_app (xs, env, s2zexp_app)
+//
+implement
+{}(*tmp*)
+s2zexplstlst_app
+  (xss, env) = synentlst_app (xss, env, s2zexplst_app)
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+labs2zexplst_app
+  (lxs, env) = (
+//
+case+ lxs of
+| list_nil () => ()
+| list_cons (lx, lxs) => let
+    val SZLABELED(l, x) = lx
+    val ((*void*)) = s2zexp_app (x, env)
+  in
+    labs2zexplst_app (lxs, env)
+  end // end of [list_cons]
+//
+) (* end of [labs2zexplst_app] *)
+
 (* ****** ****** *)
 
 (* end of [pats_staexp2_appenv.dats] *)

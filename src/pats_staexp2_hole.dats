@@ -61,7 +61,7 @@ local
 
 assume s2hole_type = ref (s2hole_struct)
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2hole_make_srt (s2t) = let
