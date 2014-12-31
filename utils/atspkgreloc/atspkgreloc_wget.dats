@@ -113,12 +113,24 @@ implement
 wget_params
   (source, target) = let
 //
+(*
+val () =
+println! ("wget_params: source = ", source)
+val () =
+println! ("wget_params: target = ", target)
+*)
+//
 val source = g1ofg0 (source)
 val target = g1ofg0 (target)
 val n1 = string_length (source)
 val n2 = string_length (target)
 //
 val n12 = suffix_max (source, n1, target, n2)
+//
+(*
+val () =
+  println! ("wget_params: suffix_max = ", n12)
+*)
 //
 fun aux1
 (
@@ -177,21 +189,33 @@ pkgreloc_jsonval
 fun auxmain
 (
   source: string, target: string
-) : void =
+) : void = () where
 {
-  val (
-    cut_dirs, dir_prefix
-  ) = wget_params (source, target)
-  val () =
-  fprint! (out, "wgetall:: ;"
+//
+val isexi =
+  test_file_exists (target)
+//
+val (
+  cut_dirs, dir_prefix
+) = wget_params (source, target)
+//
+val () =
+if isexi
+  then fprint (out, "#SKIP:: ;")
+  else fprint (out, "wgetall:: ;")
+//
+val () =
+  fprint! (out
   , " ", "$(WGET)"
   , " ", "$(WGETFLAGS)"
   , " ", "--cut-dirs=", cut_dirs
   , " ", "--directory-prefix=\"", dir_prefix, "\""
   , " ", "\"", source, "\""
   ) (* end of [fprint!] *) // end of [val]
-  val ((*void*)) = fprint_newline (out)
-}
+//
+val ((*void*)) = fprint_newline (out)
+//
+} (* end of [auxmain] *)
 //
 val opt1 =
   jsonval_object_get_key (jsv, "pkgreloc_source")
@@ -253,6 +277,10 @@ fprint! (out,
 val () = fprint! (out, "#\n")
 val () = fprint! (out, "WGET=wget\n")
 val () = fprint! (out, "WGETFLAGS=-r -nH --timestamping --no-parent --execute robots=off\n")
+val () = fprint! (out, "#\n")
+val () = fprint! (out, "######\n")
+val () = fprint! (out, "#\n")
+val () = fprint! (out, "wgetall::\n")
 val () = fprint! (out, "#\n")
 //
 } (* end of [if] *)

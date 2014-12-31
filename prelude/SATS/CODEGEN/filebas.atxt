@@ -77,12 +77,13 @@ val file_mode_aa
   : file_mode (rw()) = "mac\#%" // = "a+"
 //
 #atscode_separator()
-
+//
 (*
 ** HX: [stat] is called
 *)
-fun test_file_exists (path: NSH(string)): bool = "mac\#%"
-
+fun
+test_file_exists (path: NSH(string)): bool = "mac\#%"
+//
 #atscode_separator()
 //
 // HX-2011-02-16:

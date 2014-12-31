@@ -19,21 +19,21 @@ ATSPKGRELOC2=$(PATSHOME)/bin/atspkgreloc_wget
 ######
 
 test01: test01.dats ; \
-$(PATSCC) -DATS ATSPKGRELOCROOT=\\\".TEST01\\\" -o $@ $<
+$(PATSCC) -DATS ATSPKGRELOCROOT='\".TEST01\"' -o $@ $<
 
 ######
 #
 test02: \
 test02.dats ; \
 $(PATSCC) -IIATS ./.TEST02 \
--DATS_MEMALLOC_LIBC -DATS ATSPKGRELOCROOT=\\\".TEST02\\\" -o $@ $< -lgmp
+-DATS_MEMALLOC_LIBC -DATS ATSPKGRELOCROOT='\".TEST02\"' -o $@ $< -lgmp
 #
 ######
 #
 test03: \
 test03.dats ; \
 $(PATSCC) -IIATS ./.TEST03 \
--DATS_MEMALLOC_LIBC -DATS ATSPKGRELOCROOT=\\\".TEST03\\\" -o $@ $< -lpcre
+-DATS_MEMALLOC_LIBC -DATS ATSPKGRELOCROOT='\".TEST03\"' -o $@ $< -lpcre
 #
 ######
 

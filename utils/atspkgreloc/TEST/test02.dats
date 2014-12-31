@@ -14,7 +14,7 @@ ATS_PACKNAME "atspkgreloc_test02"
 (* ****** ****** *)
 //
 #define
-PATSCONTRIB "http://www.ats-lang.org/LIBRARY/contrib"
+PATSCONTRIB "http://ats-lang.sourceforge.net/LIBRARY/contrib"
 //
 (* ****** ****** *)
 //
