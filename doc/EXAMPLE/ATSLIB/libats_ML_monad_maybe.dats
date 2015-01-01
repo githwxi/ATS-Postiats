@@ -15,8 +15,28 @@ staload _ = "libats/ML/DATS/monad_maybe.dats"
 
 val () =
 {
-val m0 = monad_maybe_some<int> (5)
-val m1 = monad_maybe_some<int> (10)
+//
+infix >>=
+macdef ret(x) = monad_return<int> (,(x))
+macdef >>= (x, f) = monad_bind<int><int> (,(x), ,(f))
+//
+val m0 =
+ret(1) >>=
+(
+lam(x) => ret(10) >>= (lam(y) => ret(100) >>= (lam(z) => ret (x + y + z)))
+) (* end of [val] *)
+//
+val () = fprintln! (stdout_ref, "m0(111) = ", m0)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val m0 = monad_maybe_some<int> (50)
+val m1 = monad_maybe_some<int> (100)
 val m01_add = monad_bind2<int,int><int> (m0, m1, lam (x, y) => monad_return<int> (x+y))
 val m01_mul = monad_bind2<int,int><int> (m0, m1, lam (x, y) => monad_return<int> (x*y))
 //

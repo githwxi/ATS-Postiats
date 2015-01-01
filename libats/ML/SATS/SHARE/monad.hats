@@ -49,7 +49,7 @@ fun
 monad_bind
 (
   monad (a), cfun (a, monad (b))
-) : monad (b) // end of [monad_bind]
+) : monad (b) // end-of-function
 
 fun
 {a1,a2:t0p}
@@ -57,7 +57,7 @@ fun
 monad_bind2
 (
   monad (a1), monad(a2), cfun (a1, a2, monad (b))
-) : monad (b) // end of [monad_bind2]
+) : monad (b) // end-of-function
 
 fun
 {a1,a2,a3:t0p}
@@ -65,7 +65,7 @@ fun
 monad_bind3
 (
   monad (a1), monad(a2), monad (a3), cfun (a1, a2, a3, monad (b))
-) : monad (b) // end of [monad_bind3]
+) : monad (b) // end-of-function
 
 (* ****** ****** *)
 
@@ -82,15 +82,18 @@ fun{a:t0p}
 monad_nil (): monad (list0 (a))
 fun{a:t0p}
 monad_cons
-  (monad (INV(a)), monad (list0 (a))): monad (list0 (a))
+(
+  monad (INV(a)), monad (list0 (a))
+) : monad (list0 (a)) // end-of-fun
 //
 (* ****** ****** *)
 
 fun
 {a1,a2:t0p}
 monad_seq
-  (monad (INV(a1)), monad (INV(a2))): monad (a2)
-// end of [monad_seq]
+(
+  m1: monad (INV(a1)), m2: monad (INV(a2))
+): monad (a2) // end of [monad_seq]
 
 (* ****** ****** *)
 
