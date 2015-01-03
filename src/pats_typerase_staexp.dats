@@ -220,9 +220,11 @@ s2hnf_tyer
   (loc0, flag, s2f0) = let
 //
 val s2e0 = s2hnf2exp (s2f0)
+//
 (*
 val () = println! ("s2hnf_tyer: s2e0 = ", s2e0)
 *)
+//
 in
 //
 case+
@@ -467,7 +469,9 @@ case knd of
   in
     case+ lhses of
     | list_cons
-        (lhse, list_nil()) => hisexp_tyrecsin (lhse)
+      (
+        lhse, list_nil()
+      ) => hisexp_tyrecsin (lhse)
     | _(*non-sing*) => hisexp_tyrec (knd, lhses)
   end // end of [TYRECKINDflt0/1]
 //
@@ -701,7 +705,9 @@ implement
 s2zexp_tyer_tyrec
   (loc0, s2ze0) = let
 //
-val-S2ZEtyrec (knd, ls2zes) = s2ze0
+val-S2ZEtyrec
+  (knd, ls2zes) = s2ze0
+//
 val lhses = labs2zexplst_tyer (loc0, ls2zes)
 //
 in
@@ -713,7 +719,9 @@ case knd of
   in
     case+ lhses of
     | list_cons
-        (lhse, list_nil()) => hisexp_tyrecsin (lhse)
+      (
+        lhse, list_nil()
+      ) => hisexp_tyrecsin (lhse)
     | _(*non-sing*) => hisexp_tyrec (knd, lhses)
   end // end of [TYRECKINDflt0/1]
 //
