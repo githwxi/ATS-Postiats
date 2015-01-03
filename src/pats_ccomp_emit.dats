@@ -2390,7 +2390,7 @@ case+ lxs of
     loop (boxknd, extknd, tmp, hit_rec, lxs, i+1)
   end // end of [list_cons]
 //
-| list_nil () => ()
+| list_nil ((*void*)) => ()
 //
 end // end of [loop]
 //
@@ -2495,7 +2495,8 @@ end // end of [local]
 
 local
 
-fun auxfnd
+fun
+auxfnd
 (
   l0: label, lxs: labhisexplst
 ) : hisexp = let
@@ -2505,7 +2506,8 @@ in
   if l0 = l then x else auxfnd (l0, lxs)
 end // end of [auxfnd]
 
-fun auxsel
+fun
+auxsel
 (
   hse0: hisexp, pml: primlab
 ) : hisexp = let
@@ -2545,7 +2547,8 @@ case+
 //
 end // end of [auxsel]
 
-fun auxselist
+fun
+auxselist
 (
   hse0: hisexp, pmls: primlablst
 ) : List_vt @(hisexp, primlab) = let
@@ -2571,7 +2574,8 @@ in
   loop (hse0, pmls, list_vt_nil ())
 end // end of [auxselist]
 
-fun auxmain
+fun
+auxmain
 (
   out: FILEref
 , knd: int
