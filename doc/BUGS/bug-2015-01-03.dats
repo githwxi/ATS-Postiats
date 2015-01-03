@@ -34,9 +34,16 @@ stadef sstream = sstream_type
 //
 (* ****** ****** *)
 //
+(*
+extern
+fun
+sstream_create () : sstream(null)
+*)
+// (*
 extern
 fun
 sstream_create () : [l:addr] sstream(l)
+// *)
 //
 (* ****** ****** *)
 
@@ -48,10 +55,7 @@ sstream_type(l:addr) = (unit_p | ptr(l))
 in (* in-of-local *)
 
 implement
-sstream_create() =
-(
-  unit_p() | the_null_ptr
-) // end of [sstream_create]
+sstream_create() = (unit_p() | the_null_ptr)
 
 end // end of [local]
 

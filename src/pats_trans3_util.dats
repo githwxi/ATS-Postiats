@@ -325,7 +325,8 @@ d23explst_free (xs) = case+ xs of
 
 local
 
-fun aux .<>. (
+fun
+aux .<>. (
   d3e1: d3exp, s2f2: s2hnf
 ) : d3exp = let
   val loc = d3e1.d3exp_loc
@@ -340,7 +341,8 @@ fun aux .<>. (
   ) // end of [val]
 *)
   val err = $SOL.s2hnf_tyleq_solve (loc, s2f1, s2f2)
-  val () = if (err != 0) then let
+  val () =
+  if (err != 0) then let
     val () = prerr_error3_loc (loc)
     val () = filprerr_ifdebug "d3exp_trdn"
     val () = prerr ": the dynamic expression cannot be assigned the type ["
@@ -350,7 +352,7 @@ fun aux .<>. (
     val () = prerr_the_staerrlst ()
   in
     the_trans3errlst_add (T3E_d3exp_trdn (d3e1, s2e2))
-  end // end of [val]
+  end // end of [if] // end of [val]
   val () = d3exp_set_type (d3e1, s2e2)
 in
   d3e1

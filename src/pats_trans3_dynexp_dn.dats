@@ -271,7 +271,7 @@ case+ d2e0.d2exp_node of
 //
 | D2Etrywith _ => d2exp_trdn_trywith (d2e0, s2f0)
 //
-| _ => d2exp_trdn_rest (d2e0, s2f0)
+| _ (*rest-of-d2exp*) => d2exp_trdn_rest (d2e0, s2f0)
 //
 end // end of [d2exp_trdn]
 
@@ -766,7 +766,7 @@ case+ ld2es of
 //
 end // end of [auxrec]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 d2exp_trdn_tup
@@ -788,22 +788,24 @@ case+
     var err: int = 0
     val () = $SOL.boxity_equal_solve_err (loc0, knd, knd1, err)
     val () = $SOL.pfarity_equal_solve_err (loc0, npf, npf1, err)
-    val () = if err != 0 then {
+    val () =
+    if err != 0 then {
       val () = prerr_the_staerrlst ()
       val () = the_trans3errlst_add (T3E_d2exp_trdn_tup (d2e0, s2e0))
-    } // end of [if] // end of [val]
+    } (* end of [if] *) // end of [val]
 //
     var serr: int = 0
     val d3es = auxtup (d2es, ls2es, serr)
-    val () = if (serr != 0) then {
+    val () =
+    if (serr != 0) then {
       val () = auxerrlen (loc0, serr)
       val () = the_trans3errlst_add (T3E_d2exp_trdn_tup (d2e0, s2e0))
-    } // end of [if] // end of [val]
+    } (* end of [if] *) // end of [val]
 //
   in
     d3exp_tup (loc0, s2e0, knd, npf, d3es)
   end // end of [S2Etyrec]
-| _ => d2exp_trdn_rest (d2e0, s2f0)
+| _ (*non-S2Etyrec*) => d2exp_trdn_rest (d2e0, s2f0)
 //
 end // end of [d2exp_trdn_tup]
 
@@ -840,7 +842,7 @@ case+
   in
     d3exp_rec (loc0, s2e0, knd, npf, ld3es)
   end // end of [S2Etyrec]
-| _ => d2exp_trdn_rest (d2e0, s2f0)
+| _ (* non-S2Etyrec *) => d2exp_trdn_rest (d2e0, s2f0)
 //
 end // end of [d2exp_trdn_rec]
 
@@ -861,30 +863,33 @@ fun aux (
 , s2e_void: s2exp
 , s2e0: s2exp
 ) : d3explst =
+(
   case+ d2es of
-  | list_cons (d2e1, d2es1) => let
+  | list_cons
+      (d2e1, d2es1) => let
       val d3e = d2exp_trdn (d2e, s2e_void)
       val d3es = aux (d2e1, d2es1, s2e_void, s2e0)
     in
       list_cons (d3e, d3es)
-    end // end of [cons]
+    end // end of [list_cons]
   | list_nil () => let
       val d3e = d2exp_trdn (d2e, s2e0) in list_sing (d3e)
-    end // end of [nil]
-// end of [aux]
+    end // end of [list_nil]
+) (* end of [aux] *)
 //
 val s2e_void = s2exp_void_t0ype ()
 //
 in
 //
 case+ d2es of
-| list_cons (d2e, d2es) => let
+| list_cons
+    (d2e, d2es) => let
     var s2e_res: s2exp // uninitialized
     val d3es = aux (d2e, d2es, s2e_void, s2e0)
   in
     d3exp_seq (loc0, s2e0, d3es)
-  end // end of [cons]
-| list_nil () => let
+  end // end of [list_cons]
+| list_nil ((*void*)) => let
     val d3e =
       d3exp_empty (loc0, s2e_void)
     // end of [val]
@@ -898,12 +903,16 @@ end // end of [d2exp_trdn_seq]
 implement
 d2exp_trdn_effmask
   (d2e0, s2f0) = let
-  val loc0 = d2e0.d2exp_loc
-  val-D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
-  val (pfpush | ()) = the_effenv_push_effmask (s2fe)
-  val s2e0 = s2hnf2exp (s2f0)
-  val d3e = d2exp_trdn (d2e, s2e0)
-  val () = the_effenv_pop (pfpush | (*none*))
+//
+val loc0 = d2e0.d2exp_loc
+val-D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
+//
+val
+(pfpush | ()) = the_effenv_push_effmask (s2fe)
+val s2e0 = s2hnf2exp (s2f0)
+val d3e = d2exp_trdn (d2e, s2e0)
+val ((*void*)) = the_effenv_pop (pfpush | (*none*))
+//
 in
   d3exp_effmask (loc0, s2fe, d3e)
 end // end of [d2exp_trdn_effmask]
@@ -914,33 +923,34 @@ implement
 d2exp_trdn_exist
   (d2e0, s2f0) = let
   val loc0 = d2e0.d2exp_loc
-  val-D2Eexist (s2a, d2e) = d2e0.d2exp_node
+  val-D2Eexist
+    (s2a, d2e) = d2e0.d2exp_node
   val s2e0 = s2hnf2exp (s2f0)
-  var s2ps: s2explst_vt
-  var err: int = 0
+  var err: int = 0; var s2ps0: s2explst_vt
   val s2e_ins = (
     case+ s2e0.s2exp_node of
     | S2Ewthtype
         (s2e1, wths2e2) => let
         val (s2e1, s2ps1) =
           s2exp_exi_instantiate_sexparg (s2e1, s2a, err)
-        val () = s2ps := s2ps1
+        val () = s2ps0 := s2ps1
       in
         s2exp_wthtype (s2e1, wths2e2)
       end // end of [S2Ewthtype]
     | _ => s2e1 where {
         val (s2e1, s2ps1) =
           s2exp_exi_instantiate_sexparg (s2e0, s2a, err)
-        val () = s2ps := s2ps1
+        val () = s2ps0 := s2ps1
       } // end of [_]
   ) : s2exp // end of [val]
-  val () = trans3_env_add_proplst_vt (loc0, s2ps)
+  val () = trans3_env_add_proplst_vt (loc0, s2ps0)
 (*
-  val () = if err > 0 then {
+  val () =
+  if err > 0 then {
     val () = prerr_error3_loc (loc0)
     val () = prerr ": existential abstraction mismatch"
     val () = the_trans3errlst_add (T3E_d2exp_trdn_exist (d2e0, s2e0))
-  } // end of [val]
+  } (* end of [if] *) // end of [val]
 *)
 in
   d2exp_trdn (d2e, s2e_ins)
