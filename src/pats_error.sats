@@ -34,11 +34,22 @@
 (* ****** ****** *)
 
 exception FatalErrorExn of ()
+exception FatalErrorExn_interr of ()
 
 (* ****** ****** *)
-
-fun abort {a:viewt@ype} ():<!exn> a // raising FatalErrorException
-
+//
+// HX:
+// raising FatalErrorException
+//
+fun abort {a:viewt@ype} ():<!exn> (a)
+//
+(* ****** ****** *)
+//
+// HX-2015-01-04:
+// raising FatalErrorException_interr
+//
+fun abort_interr{a:viewt@ype}():<!exn> (a)
+//
 (* ****** ****** *)
 
 (* end of [pats_error.sats] *)

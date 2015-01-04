@@ -45,15 +45,16 @@ staload ERR = "./pats_error.sats"
 staload "./pats_trans1.sats"
 
 (* ****** ****** *)
-
-viewtypedef
+//
+vtypedef
 trans1errlst_vt = List_vt (trans1err)
-
+//
 (* ****** ****** *)
 
 local
 
-val the_trans1errlst = ref<trans1errlst_vt> (list_vt_nil)
+val
+the_trans1errlst = ref<trans1errlst_vt> (list_vt_nil)
 
 fun
 the_trans1errlst_get
@@ -67,7 +68,7 @@ in
   xs
 end // end of [the_trans1errlst_get]
 
-in (* in of [local] *)
+in (* in-of-local *)
 
 implement
 the_trans1errlst_add
@@ -79,15 +80,22 @@ the_trans1errlst_add
 implement
 the_trans1errlst_finalize () =
 {
-  val xs = the_trans1errlst_get ()
-  val n = list_vt_length (xs); val () = list_vt_free (xs)
-(*
+  val xs =
+    the_trans1errlst_get ()
+  // end of [val]
+  val nxs = list_vt_length (xs)
+  val ((*freed*)) = list_vt_free (xs)
+// (*
   val () =
-  if n > 0 then {
-    val () = fprintf (stderr_ref, "TRANS1: there are [%i] errors in total.\n", @(n))
-  } (* end of [val] *)
-*)
-  val () = if n > 0 then $ERR.abort () else ()
+  if nxs > 0 then {
+    val () =
+    fprintf (
+      stderr_ref
+    , "patsopt(TRANS1): there are [%i] errors in total.\n", @(nxs)
+    ) (* end of [fprintf] *)
+  } (* end of [if] *) // end of [val]
+// *)
+  val () = if nxs > 0 then $ERR.abort () else ()
 } (* end of [the_trans1errlst_finalize] *)
 
 end // end of [local]

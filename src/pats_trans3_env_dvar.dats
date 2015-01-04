@@ -897,14 +897,14 @@ case+ p3t.p3at_node of
 | P3Tvar (d2v) => d2v
 | P3Trefas (d2v, _) => d2v
 | _ => let
-    val loc = p3t.p3at_loc
-    val () = prerr_interror_loc (loc)
+    val () =
+      prerr_interror_loc (p3t.p3at_loc)
+    // end of [val]
     val () = prerr ": s2exp_wthtype_instantiate"
-    val () = prerr ": p2at_get_var: the pattern is expected to be a variable."
-    val () = prerr_newline ()
-    val () = assertloc (false)
+    val () = prerrln! ": p2at_get_var: the pattern is expected to be a variable."
+    val ((*exit*)) = assertloc (false)
   in
-    $ERR.abort {d2var} ()
+    $ERR.abort_interr{d2var}((*deadcode*))
   end // end of [_]
 //
 end // end of [p3at_get_var]
@@ -915,9 +915,8 @@ fun d2vfin_unchecked
 in
 //
 case+ d2vfin of
-| D2VFINdone
-    (d2vfin) => d2var_set_finknd (d2v, d2vfin)
-| _ => () // HX: is this deadcode?
+| D2VFINdone(d2vfin) => d2var_set_finknd(d2v, d2vfin)
+| _ (*non-D2VFINdone*) => () // HX: is this deadcode?
 //
 end // end of [d2vfin_unchecked]
 //

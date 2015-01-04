@@ -1120,6 +1120,8 @@ fun p0at_ann (p0t: p0at, ann: s0exp): p0at
 
 fun p0at_err (loc: location): p0at // HX: indicating syntax-error
 
+(* ****** ****** *)
+
 fun fprint_p0at : fprint_type (p0at)
 
 (* ****** ****** *)

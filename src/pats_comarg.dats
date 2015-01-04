@@ -200,7 +200,7 @@ in
 //
 case+ opt of
 | ~Some_vt (def) => let
-    val+$SYN.DATSDEF (key, opt) = def
+    val+$SYN.DATSDEF(key, opt) = def
     val e1xp = (
       case+ opt of
       | Some v => $TRANS1.e0xp_tr (v)
@@ -209,11 +209,15 @@ case+ opt of
   in
     $TRENV1.the_e1xpenv_addperv (key, e1xp)
   end // end of [Some_vt]
-| ~None_vt () => let
-    val () = prerr ("error(ATS)")
-    val () = prerrln! (": the command-line argument [", def, "] cannot be properly parsed.")
+| ~None_vt ((*void*)) => let
+    val () =
+    prerr ("error(ATS)")
+    val () =
+    prerrln! (
+      ": the command-line argument [", def, "] cannot be properly parsed."
+    ) (* end of [prerrln!] *)
   in
-    $ERR.abort ()
+    $ERR.abort ((*reachable*))
   end // end of [None_vt]
 //
 end // end of [process_DATS_def]

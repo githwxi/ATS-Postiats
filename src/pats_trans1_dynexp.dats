@@ -223,7 +223,7 @@ case+ d1e.d1exp_node of
     val () = prerr_interror_loc (loc)
     val () = prerrln! (": s0expdarg_tr: d1e = ", d1e)
   in
-    $ERR.abort {s1exparg} ()
+    $ERR.abort_interr{s1exparg}((*reachable*))
   end // end of [_]
 //
 end // end of [s0expdarg_tr]
@@ -905,10 +905,13 @@ case+ d0e0.d0exp_node of
   end // end of [D0Eann]
 (*
 | _ => let
-    val () = (
-      print "d0e0 = "; fprint_d0exp (stdout_ref, d0e0); print_newline ()
-    ) // end of [val]
-    val () = assertloc (false) in $ERR.abort ()
+    val () =
+    prerr_interror_loc (loc0)
+    val () =
+    fprintln! (
+      stderr_ref, "d0exp_tr: aux_item: d0e0 = ", d0e0
+    ) (* end of [fprintln!] *)
+    val () = assertloc (false) in $ERR.abort_interr((*deadcode*))
   end // end of [_]
 *)
 //

@@ -772,10 +772,12 @@ case+ p1t0.p1at_node of
 //
 (*
 | _ => let
-    val () = prerr_interror_loc (loc0)
-    val () = prerrln! (": p1at_tr: not yet implemented: p1t0 = ", p1t0, "]")
+    val () =
+    prerr_interror_loc (loc0)
+    val () =
+    prerrln! (": p1at_tr: not yet implemented: p1t0 = ", p1t0, "]")
   in
-    $ERR.abort {p2at} ()
+    $ERR.abort_interr{p2at}((*unreachable*))
   end // end of [_]
 *)
 //

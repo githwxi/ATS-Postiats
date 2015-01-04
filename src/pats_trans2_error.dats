@@ -45,15 +45,16 @@ staload ERR = "./pats_error.sats"
 staload "./pats_trans2.sats"
 
 (* ****** ****** *)
-
-viewtypedef
+//
+vtypedef
 trans2errlst_vt = List_vt (trans2err)
-
+//
 (* ****** ****** *)
 
 local
 
-val the_trans2errlst = ref<trans2errlst_vt> (list_vt_nil)
+val
+the_trans2errlst = ref<trans2errlst_vt> (list_vt_nil)
 
 fun
 the_trans2errlst_get
@@ -79,14 +80,22 @@ the_trans2errlst_add (x) =
 implement
 the_trans2errlst_finalize () =
 {
-  val xs = the_trans2errlst_get ()
-  val n = list_vt_length (xs); val () = list_vt_free (xs)
+  val xs =
+    the_trans2errlst_get ()
+  val nxs = list_vt_length (xs)
+  val ((*freed*)) = list_vt_free (xs)
 // (*
-  val () = if n > 0 then {
-    val () = fprintf (stderr_ref, "TRANS2: there are [%i] errors in total.\n", @(n))
-  } // end of [val]
+  val () =
+  if nxs > 0 then {
+    val () =
+    fprintf (
+      stderr_ref
+    , "patsopt(TRANS2): there are [%i] errors in total.\n", @(nxs)
+    ) (* end of [fprintf] *)
+  } (* end of [if] *) // end of [val]
 // *)
-  val () = if n > 0 then $ERR.abort () else ()
+  val () = if nxs > 0 then $ERR.abort () else ()
+//
 } (* end of [the_trans2errlst_finalize] *)
 
 end // end of [local]

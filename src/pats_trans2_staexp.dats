@@ -598,17 +598,14 @@ case+ ans of
     end // end of [S2ITMvar]
 //
   | _ => let
-      val () = prerr_interror_loc (loc0)
-      val () = (
-        prerr ": s1exp_trup_sqid: s1e0 = "; prerr_s1exp (s1e0)
-      ) // end of [val]
-      val () = prerr_newline ()
-      val () = (
-        prerr ": s1exp_trup_sqid: s2i0 = "; prerr_s2itm (s2i0)
-      ) // end of [val]
-      val () = prerr_newline ()
+      val () =
+      prerr_interror_loc (loc0)
+      val () =
+      prerrln! (": s1exp_trup_sqid: s1e0 = ", s1e0)
+      val () =
+      prerrln! (": s1exp_trup_sqid: s2i0 = ", s2i0)
     in
-      $ERR.abort {s2exp} ((*void*))
+      $ERR.abort_interr{s2exp}((*void*))
     end (* end of [_] *)
   end // end of [Some_vt]
 //
@@ -1503,13 +1500,11 @@ case+ s2i0 of
 | _ => let
     val () = list_vt_free (xs)
     val () = prerr_interror_loc (s1opr.s1exp_loc)
-    val () = prerr_newline ()
-    val () = (prerr ": NIY: s1exp_trup_app_sqid_itm: s1e0 = "; prerr_s1exp s1e0)
-    val () = prerr_newline ()
-    val () = (prerr ": NIY: s1exp_trup_app_sqid_itm: s2i0 = "; prerr_s2itm s2i0)
-    val () = prerr_newline ()
+    val () = prerr_newline ((*void*))
+    val () = prerrln! (": NIY: s1exp_trup_app_sqid_itm: s1e0 = ", s1e0)
+    val () = prerrln! (": NIY: s1exp_trup_app_sqid_itm: s2i0 = ", s2i0)
   in
-    $ERR.abort {s2exp} ()
+    $ERR.abort_interr{s2exp}((*reachable*))
   end // end of [_]
 end // end of [s1exp_trup_app_sqid_itm]
 
@@ -1855,11 +1850,14 @@ case+ s1e0.s1exp_node of
     val s2vs = s1arglst_trup (s1ma.s1marg_arg)
     val (pfenv | ()) = the_s2expenv_push_nil ()
     val () = the_s2expenv_add_svarlst (s2vs)
-    val s2e_body = (case+ s1topt of
+    val s2e_body = (
+      case+ s1topt of
       | Some s1t => let
-          val s2t = s1rt_tr (s1t) in s1exp_trdn (s1e_body, s2t)
-        end
-      | None () => s1exp_trup (s1e_body)
+          val s2t =
+            s1rt_tr(s1t) in s1exp_trdn (s1e_body, s2t)
+          // end of [val]
+        end // end of [Some]
+      | None ((*void*)) => s1exp_trup (s1e_body)
     ) : s2exp // end of [val]
     val () = the_s2expenv_pop_free (pfenv | (*none*))  
   in
@@ -1868,10 +1866,9 @@ case+ s1e0.s1exp_node of
 //
 | S1Eimp _ => let
     val () = prerr_interror_loc (loc0)
-    val () = (prerr ": s1exp_trup: S1Eimp: s1e0 = "; prerr_s1exp s1e0)
-    val () = prerr_newline ()
+    val () = prerrln! (": s1exp_trup: S1Eimp: s1e0 = ", s1e0)
   in
-    $ERR.abort {s2exp} ()
+    $ERR.abort_interr{s2exp}((*reachable*))
   end // end of [S1Eimp]
 //
 | S1Etop (knd, s1e) => s1exp_trup_top (knd, s1e)
@@ -1946,15 +1943,14 @@ case+ s1e0.s1exp_node of
     val s2t = s1rt_tr (s1t) in s1exp_trdn (s1e, s2t)
   end // end of [S1Eann]
 //
-| S1Eerr () => s2exp_s2rt_err ()
+| S1Eerr ((*erroneous*)) => s2exp_s2rt_err((*void*))
 //
 (*
 | _ => let
     val () = prerr_interror_loc (loc0)
-    val () = (prerr ": NYI: s1exp_tr: s1e0 = "; prerr_s1exp s1e0)
-    val () = prerr_newline ()
+    val () = prerrln! (": NYI: s1exp_tr: s1e0 = ", s1e0)
   in
-    $ERR.abort ()
+    $ERR.abort_interr((*unreachable*))
   end // end of [_]
 *)
 //

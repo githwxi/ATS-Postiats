@@ -33,17 +33,29 @@
 //
 (* ****** ****** *)
 
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
 staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
-staload "./pats_basics.sats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans1_staexp"
+
+(* ****** ****** *)
+
 staload "./pats_effect.sats"
 staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 
 staload "./pats_staexp1.sats"
+
+(* ****** ****** *)
+
 staload "./pats_trans1.sats"
 
 (* ****** ****** *)
@@ -81,18 +93,21 @@ val effvars_nil: effvarlst = list_nil ()
 
 local
 
-fn loop_err (
+fun
+loop_err
+(
   tag: e0fftag, name: string
-) : void = {
-  val loc = tag.e0fftag_loc
-  val () = $LOC.prerr_location (loc)
-  val () = prerr ": error(1)"
-  val () = prerr ": unrecognized effect constant: ["
-  val () = prerr name
-  val () = prerr "]"
-  val () = prerr_newline ()
-  val () = $ERR.abort ()
-} // end of [loop_err]
+) : void = () where
+{
+//
+  val () =
+  prerr_error1_loc (tag.e0fftag_loc)
+  val () =
+  prerrln! (": unrecognized effect constant: [", name, "]")
+//
+  val () = $ERR.abort_interr ((*reachable*))
+//
+} (* end of [loop_err] *)
 
 fun loop
 (
@@ -253,4 +268,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [pats_trans_effect.dats] *)
+(* end of [pats_trans1_effect.dats] *)

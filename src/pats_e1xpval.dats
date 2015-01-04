@@ -147,7 +147,7 @@ e1xp_valize
     | V1ALerr () => {
         val () = fprint_the_valerrlst (stderr_ref)
         val () = $ERR.abort ()
-      } // end of [V1ALerr]
+      } (* end of [V1ALerr] *)
     | _ (*non-err*) => ((*void*))
   ) : void // end of [val]
 } (* end of [e1xp_valize] *)

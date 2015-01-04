@@ -418,7 +418,10 @@ aux_item (
       FXITMatm (s1exp_tyrec_ext (loc0, name, npf, ls1es))
     end // end of [S0Etyrec]
 //
-  | S0Eexi (knd(*funres*), s0qs) => let
+  | S0Eexi
+    (
+      knd(*funres*), s0qs
+    ) => let
       val s1qs = s0qualst_tr s0qs
       fn f (
         body: s1exp
@@ -442,16 +445,19 @@ aux_item (
     end // end of [S0Euni]
 //
   | S0Eann (s0e, s0t) => let
-      val s1e_ann = s1exp_ann (loc0, s0exp_tr (s0e), s0rt_tr (s0t))
+      val s1t = s0rt_tr (s0t)
+      val s1e = s0exp_tr (s0e)
     in
-      FXITMatm (s1e_ann)
+      FXITMatm (s1exp_ann (loc0, s1e, s1t))
     end // end of [S0Eann]
 (*
   | _ => let
-      val () = (
-        print "s0e0 = "; fprint_s0exp (stdout_ref, s0e0); print_newline ()
-      ) // end of [val]
-      val () = assertloc (false) in $ERR.abort ()
+      val () = prerr_interror_loc (loc0)
+      val () =
+      fprintln! (
+        stdout_ref, "s0exp_tr: aux_item: s0e0 = ", s0e0
+      ) (* end of [fprintln!] *)
+      val () = assertloc (false) in $ERR.abort_interr((*deadcode*))
     end (* end of [_] *)
 *)
 end // end of [aux_item]
@@ -653,12 +659,12 @@ val ind = (
   | Some s0e => let
       val s1es = (
         case+ s0e.s0exp_node of
-        | S0Elist s0es => s0explst_tr (s0es)
-        | _(*non-list*) => let
+        | S0Elist (s0es) => s0explst_tr (s0es)
+        | _(*non-S0Elist*) => let
             val () = prerr_interror ()
             val () = prerrln! (": d0atcon_tr: index is required to be a list.")
           in
-            $ERR.abort ()
+            $ERR.abort_interr{s1explst}((*reachable*))
           end // end of [_]
       ) : s1explst // end of [val]
     in

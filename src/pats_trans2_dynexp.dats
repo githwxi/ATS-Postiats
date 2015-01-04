@@ -310,10 +310,9 @@ in
     ) => d2exp_deref (loc0, d1exp_tr d1e)
   | _ => let
       val () = prerr_interror_loc (loc0)
-      val () = (prerr ": d1exp_tr_deref: d1e0 = "; prerr_d1exp d1e0)
-      val () = prerr_newline ()
+      val () = prerrln! (": d1exp_tr_deref: d1e0 = ", d1e0)
     in
-      $ERR.abort {d2exp} ()
+      $ERR.abort_interr{d2exp}((*reachable*))
     end // end of [_]
 end // end of [d1exp_tr_deref]
 
@@ -330,10 +329,9 @@ in
     // end of [...]
   | _ => let
       val () = prerr_interror_loc (loc0)
-      val () = (prerr ": d1exp_tr_assgn: d1e0 = "; prerr_d1exp d1e0)
-      val () = prerr_newline ()
+      val () = prerrln! (": d1exp_tr_assgn: d1e0 = ", d1e0)
     in
-      $ERR.abort {d2exp} ()
+      $ERR.abort_interr{d2exp}((*reachable*))
     end // end of [_]
 end // end of [d1exp_tr_assgn]
 
@@ -350,10 +348,9 @@ in
     // end of [...]
   | _ => let
       val () = prerr_interror_loc (loc0)
-      val () = (prerr ": d1exp_tr_xchng: d1e0 = "; prerr_d1exp d1e0)
-      val () = prerr_newline ()
+      val () = prerrln! (": d1exp_tr_xchng: d1e0 = ", d1e0)
     in
-      $ERR.abort {d2exp} ()
+      $ERR.abort_interr{d2exp}((*reachable*))
     end // end of [_]
 end // end of [d1exp_tr_xchng]
 
@@ -1712,11 +1709,9 @@ case+ d1e0.d1exp_node of
 | _ (*unsupported*) => let
     val () = prerr_interror_loc (loc0)
     val () = filprerr_ifdebug "d1exp_tr"
-    val () = prerr ": not yet implemented: d1e0 = "
-    val () = (prerr ("["); prerr_d1exp (d1e0); prerr ("]"))
-    val () = prerr_newline ((*void*))
+    val () = prerrln! (": not yet implemented: d1e0 = ", d1e0)
   in
-    $ERR.abort {d2exp} ()
+    $ERR.abort_interr{d2exp}((*reachable*))
   end // end of [_(*unsupported*)]
 // *)
 //
@@ -1732,7 +1727,7 @@ d1expopt_tr (d1eopt) =
 (
 case+ d1eopt of
 | Some (d1e) => Some (d1exp_tr (d1e)) | None () => None ()
-) // end of [d1expopt_tr]
+) (* end of [d1expopt_tr] *)
 
 (* ****** ****** *)
 

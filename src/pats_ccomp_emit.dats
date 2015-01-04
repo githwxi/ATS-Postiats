@@ -2530,12 +2530,10 @@ case+
     // end of [HSEtysum]
   | _ => let
       val () = prerr_interror ()
-      val () = prerr (": auxsel: hse0 = ")
-      val () = prerr_hisexp (hse0)
-      val () = prerr_newline ()
-      val () = assertloc (false)
+      val () = prerrln! (": auxsel: hse0 = ", hse0)
+      val ((*exit*)) = assertloc (false)
     in
-      $ERR.abort ()
+      $ERR.abort_interr{hisexp}((*deadcode*))
     end // end of [_]
   ) (* end of [PMLlab] *)
 //
@@ -2652,7 +2650,8 @@ case+ xys of
   in
     // nothing
   end // end of [list_vt_cons]
-| ~list_vt_nil () => let
+| ~list_vt_nil
+    ((*void*)) => let
   in
     case+ knd of
     | 0 => emit_primval (out, pmv)

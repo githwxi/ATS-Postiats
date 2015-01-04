@@ -78,22 +78,29 @@ effectlst_all = '[
 implement
 eq_effect_effect (eff1, eff2) = eq_uint_uint (eff1, eff2)
 
+(* ****** ****** *)
+
 implement
 effect_get_name
-  (eff) = (case+ (int_of)eff of
+  (eff) = let
+//
+val eff = int_of(eff)
+//
+in
+  case+ eff of
   | EFFntm => "ntm"
   | EFFexn => "exn"
   | EFFref => "ref"
   | EFFwrt => "wrt"
   | _ => let
-      val () = assertloc (false) in $ERR.abort ()
+      val () = assertloc (false) in $ERR.abort_interr((*deadcode*))
     end // end of [_]
-) // end of [effect_get_name]
+end // end of [effect_get_name]
+
+(* ****** ****** *)
 
 implement
-fprint_effect
-  (out, x) = fprint_string (out, effect_get_name (x))
-// end of [fprint_effect]
+fprint_effect (out, x) = fprint_string (out, effect_get_name (x))
 
 (* ****** ****** *)
 

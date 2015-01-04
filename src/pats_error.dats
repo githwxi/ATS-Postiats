@@ -37,18 +37,33 @@ staload "./pats_error.sats"
 
 (* ****** ****** *)
 
+local
+//
+extern
+fun
+segfault(): int = "ext#pats_error_segfault"
+//
+in (* in-of-local *)
+
 implement
 abort () = let
 (*
-val _ =
-segfault () where
-{
-  extern fun segfault (): int = "pats_error_segfault"
-} (* end of [val] *)
+  val _ = segfault ()
 *)
 in
   $raise FatalErrorExn((*void*))
 end // end of [abort]
+
+implement
+abort_interr () = let
+(*
+  val _ = segfault ()
+*)
+in
+  $raise FatalErrorExn_interr((*void*))
+end // end of [abort]
+
+end // end of [local]
 
 (* ****** ****** *)
 

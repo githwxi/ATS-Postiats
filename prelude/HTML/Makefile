@@ -257,9 +257,9 @@ ATSPREall0:: ; \
 $(PHP) -f ATSPRE_all_in_one_raw.php > ATSPRE_all_in_one.raw
 #
 ATSPREall1:: ; \
-$(MAKE) EMBED=--embedded -f Makefile_html all
+$(MAKE) EMBED=--embedded -f Makefile all
 ATSPREall2:: ; \
-$(PHP) -f ATSPRE_all_in_one_htmp.php > ATSPRE_all_in_one.html
+$(PHP) -f ATSPRE_all_in_one_html.php > ATSPRE_all_in_one.html
 #
 ######
 

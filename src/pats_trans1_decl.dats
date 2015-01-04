@@ -602,10 +602,14 @@ case+ opt of
       $GLOB.the_PKGRELOC_get ()
     val () =
     if srcloc = 0 then {
-      val () = prerr_error1_loc (loc0)
-      val () = prerrln! (": the file [", given, "] is not available for inclusion.")
+      val () =
+      prerr_error1_loc (loc0)
+      val () =
+      prerrln! (": the file [", given, "] is not available for inclusion.")
       val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
-      val () = $ERR.abort ((*void*))
+(*
+      val () = $ERR.abort{void}((*reachable*)) // HX: it is meaningful to continue
+*)
     } (* end of [if] *) // end of [val]
   in
     $FIL.filename_dummy
@@ -627,7 +631,7 @@ val (
   val () = $FIL.fprint_the_filenamelst (stderr_ref)
   val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
 in
-  $ERR.abort ((*void*))
+  $ERR.abort{void}((*reachable*))
 end // end of [if] // end of [val]
 val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //  
@@ -825,10 +829,14 @@ case+ opt of
       $GLOB.the_PKGRELOC_get ()
     val () =
     if srcloc = 0 then {
-      val () = prerr_error1_loc (loc0)
-      val () = prerrln! (": the file [", given, "] is not available for staloading.")
+      val () =
+      prerr_error1_loc (loc0)
+      val () =
+      prerrln! (": the file [", given, "] is not available for staloading.")
       val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
-      val () = $ERR.abort ((*void*))
+(*
+      val () = $ERR.abort{void}((*reachable*)) // HX: it is meaningful to continue
+*)
     } (* end of [if] *) // end of [val]
   in
     $FIL.filename_dummy
@@ -847,8 +855,8 @@ val (
   val () = prerr ("] generates the following looping trace:\n")
   val () = $FIL.fprint_the_filenamelst (stderr_ref)
   val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
-  val () = $ERR.abort ((*void*))
-} // end of [if] // end of [val]
+  val () = $ERR.abort{void}((*reachable*))
+} (* end of [if] *) // end of [val]
 val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
 val () = filref := fil
@@ -938,13 +946,15 @@ case+ opt of
       $GLOB.the_PKGRELOC_get ()
     val () =
     if srcloc = 0 then {
-      val () = prerr_error1_loc (loc0)
-      val () = prerrln! (": the file [", given, "] is not available for dynloading")
+      val () =
+      prerr_error1_loc (loc0)
+      val () =
+      prerrln! (": the file [", given, "] is not available for dynloading")
       val () = the_trans1errlst_add (T1E_d0ynload_tr (d0c0))
-    } (* end of [if] *) // end of [val]
 (*
-    val () = $ERR.abort ((*void*)) // HX: it is still meaningful to continue
+      val () = $ERR.abort{void}((*reachable*)) // HX: it is meaningful to continue
 *)
+    } (* end of [if] *) // end of [val]
   in
     $FIL.filename_dummy
   end // end of [None_vt]
@@ -1330,7 +1340,7 @@ case+ opt of
       val () = prerr ": non-integer definition for [ATS_DYNLOADFLAG]."
       val () = prerr_newline ((*void*))
     in
-       $ERR.abort {void} ()
+       $ERR.abort{void}((*reachable*)) // HX: is it meaningful to continue?
     end // end of [_]
   ) (* end of [Some_vt] *)
 //
@@ -1355,7 +1365,7 @@ case+ opt of
       val () = prerr ": non-string definition for [ATS_DYNLOADNAME]."
       val () = prerr_newline ((*void*))
     in
-       $ERR.abort {void} ()
+       $ERR.abort{void}((*reachable*)) // HX: is it meaningful to continue?
     end // end of [_]
   ) (* end of [Some_vt] *)
 //
@@ -1382,7 +1392,7 @@ case+ opt of
       val () = prerr ": non-integer definition for [ATS_MAINATSFLAG]."
       val () = prerr_newline ((*void*))
     in
-       $ERR.abort {void} ()
+       $ERR.abort{void}((*reachable*)) // HX: is it meaningful to continue?
     end // end of [_]
   ) (* end of [Some_vt] *)
 //
@@ -1407,7 +1417,7 @@ case+ opt of
       val () = prerr ": non-string definition for [ATS_STATIC_PREFIX]."
       val () = prerr_newline ((*void*))
     in
-       $ERR.abort {void} ()
+       $ERR.abort{void}((*reachable*)) // HX: is it meaningful to continue?
     end // end of [_]
   ) (* end of [Some_vt] *)
 //

@@ -275,11 +275,16 @@ fun emit_hitypelst_sep
 //
 (* ****** ****** *)
 
+local
+//
+exception EQUALexn of ()
+//
+in (* in-of-local *)
+
 implement
 eq_hitype_hitype
   (x1, x2) = let
 //
-exception EQUALexn of ()
 macdef abort () = $raise (EQUALexn)
 //
 fun aux
@@ -361,7 +366,8 @@ case+ x1 of
 //
 end // end of [aux]
 
-and auxlst (
+and
+auxlst (
   xs1: hitypelst, xs2: hitypelst
 ) : void = let
 in
@@ -376,7 +382,8 @@ case+ (xs1, xs2) of
 //
 end // end of [auxlst]
 
-and auxlablst (
+and
+auxlablst (
   lxs1: labhitypelst, lxs2: labhitypelst
 ) : void = let
 in
@@ -418,6 +425,8 @@ end with
 //
 end // end of [eq_hitype_hitype]
 
+end // end of [local]
+
 (* ****** ****** *)
 
 extern
@@ -425,7 +434,8 @@ fun hitype_hash (hit: hitype): ulint
 
 local
 
-fun auxint (
+fun
+auxint (
   hval: &ulint, int: int
 ) : void = let
   val int = $UN.cast2ulint (int)
@@ -433,7 +443,8 @@ in
   hval := (hval << 8) + hval + int // hval = 65*hval + int
 end // end of [auxint]
 
-fun auxstr (
+fun
+auxstr (
   hval: &ulint, str: string
 ) : void = let
 //
@@ -453,7 +464,8 @@ end else () // end of [if]
 //
 end // end of [auxstr]
 
-fun auxsym (
+fun
+auxsym (
   hval: &ulint, sym: symbol
 ) : void =
   auxstr (hval, $SYM.symbol_get_name (sym))
@@ -538,7 +550,8 @@ case+ hit0 of
 //
 end // end of [aux]
 
-and auxlst (
+and
+auxlst (
   hval: &ulint, hits: hitypelst
 ) : void = let
 in
@@ -574,7 +587,8 @@ in
   aux (hval, hit)
 end // end of [auxlab]
 
-and auxlablst (
+and
+auxlablst (
   hval: &ulint, lhits: labhitypelst
 ) : void = let
 in
@@ -602,15 +616,18 @@ end // end of [hitype_hash]
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 extern
-fun the_hitypemaplst_get (): List_vt @(hitype, hitype)
-
+fun
+the_hitypemaplst_get (): List_vt @(hitype, hitype)
+//
 extern
-fun the_hitypemap_search (hit: hitype): Option_vt (hitype)
+fun
+the_hitypemap_search (hit: hitype): Option_vt (hitype)
 extern
-fun the_hitypemap_insert (hit: hitype, hit2: hitype): void
-
+fun
+the_hitypemap_insert (hit: hitype, hit2: hitype): void
+//
 (* ****** ****** *)
 
 local
@@ -884,7 +901,8 @@ implement
 emit_hitypelst_sep
   (out, hits, sep) = let
 //
-fun auxlst (
+fun
+auxlst (
   out: FILEref
 , xs: hitypelst, sep: string, i: int
 ) : void = let

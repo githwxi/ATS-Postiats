@@ -45,18 +45,22 @@ staload ERR = "./pats_error.sats"
 staload "./pats_trans3.sats"
 
 (* ****** ****** *)
-
-viewtypedef
+//
+vtypedef
 trans3errlst_vt = List_vt (trans3err)
-
+//
 (* ****** ****** *)
 
 local
 
-val the_trans3errlst = ref<trans3errlst_vt> (list_vt_nil)
+val
+the_trans3errlst = ref<trans3errlst_vt> (list_vt_nil)
 
-fun the_trans3errlst_get
-  (): trans3errlst_vt = let
+fun
+the_trans3errlst_get
+(
+// argumentless
+) : trans3errlst_vt = let
   val (vbox pf | p) = ref_get_view_ptr (the_trans3errlst)
   val xs = !p
   val () = !p := list_vt_nil ()
@@ -64,25 +68,34 @@ in
   xs
 end // end of [the_trans3errlst_get]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
-the_trans3errlst_add (x) = () where {
+the_trans3errlst_add
+  (x) = () where {
   val (vbox pf | p) = ref_get_view_ptr (the_trans3errlst)
   val () = !p := list_vt_cons (x, !p)
 } // end of [the_trans3errlst_add]
 
 implement
 the_trans3errlst_finalize () = {
-  val xs = the_trans3errlst_get ()
-  val n = list_vt_length (xs); val () = list_vt_free (xs)
+  val xs =
+    the_trans3errlst_get ()
+  // end of [val]
+  val nxs = list_vt_length (xs)
+  val ((*freed*)) = list_vt_free (xs)
 // (*
-  val () = if n > 0 then {
-    val () = fprintf (stderr_ref, "TRANS3: there are [%i] errors in total.\n", @(n))
-  } // end of [val]
+  val () =
+  if nxs > 0 then {
+    val () =
+    fprintf (
+      stderr_ref
+    , "patsopt(TRANS3): there are [%i] errors in total.\n", @(nxs)
+    ) (* end of [fprintf] *)
+  } (* end of [if] *) // end of [val]
 // *)
-  val () = if n > 0 then $ERR.abort () else ()
-} // end of [the_trans3errlst_finalize]
+  val () = if nxs > 0 then $ERR.abort () else ()
+} (* end of [the_trans3errlst_finalize] *)
 
 end // end of [local]
 

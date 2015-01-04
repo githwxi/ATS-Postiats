@@ -68,7 +68,15 @@ staload "./pats_trans1_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
-macdef list_sing (x) = list_cons (,(x), list_nil ())
+
+(* ****** ****** *)
+
+overload fprint with fprint_p0at
+
+(* ****** ****** *)
+
+macdef
+list_sing (x) = list_cons (,(x), list_nil ())
 
 (* ****** ****** *)
 //
@@ -76,7 +84,7 @@ macdef list_sing (x) = list_cons (,(x), list_nil ())
 //
 typedef p1atitm = fxitm (p1at)
 typedef p1atitmlst = List (p1atitm)
-
+//
 (* ****** ****** *)
 
 local
@@ -111,7 +119,7 @@ in
   FXITMatm (p1t_app)
 end // end of [appf]
 
-in // in of [local]
+in (* in-of-local *)
 
 fn p1atitm_app
   (loc: location): p1atitm = fxitm_app (loc, appf)
@@ -155,7 +163,7 @@ in
   p1at_errpat (loc0)
 end // end of [p0at_tr_errmsg_opr]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 p0at_tr (p0t0) = let
@@ -243,20 +251,20 @@ case+ p0t0.p0at_node of
     FXITMatm (p1at_ann (loc0, p1t, s1e))
   end // end of [P0Tann]
 //
-| P0Terr () => let
+| P0Terr ((*erroneous*)) => let
     val () = prerr_interror_loc (loc0)
-    val () = prerr ": p0at_tr: p0t0 = "
-    val () = fprint_p0at (stderr_ref, p0t0)
-    val () = prerr_newline ()
+    val () = fprintln! (stderr_ref, ": p0at_tr: p0t0 = ", p0t0)
   in
-    $ERR.abort {p1atitm} ()
+    $ERR.abort_interr{p1atitm}((*reachable*))
   end // end of [P0Terr]
 (*
 | _ => let
-    val () = (
-      print "p0t0 = "; fprint_p0at (stdout_ref, p0t0); print_newline ()
-    ) // end of [val]
-    val () = assertloc (false) in $ERR.abort ()
+    val () = prerr_interror_loc (loc0)
+    val () =
+    fprintln (
+      stderr_ref, "p0at_tr: aux_item: p0t0 = ", p0t0
+    ) (* end of [val] *)
+    val () = assertloc (false) in $ERR.abort_interr((*deadcode*))
   end
 *)
 end (* end of [aux_item] *)

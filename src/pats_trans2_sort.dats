@@ -106,11 +106,12 @@ case+ s1t_fun.s1rt_node of
       S2RTfun (s2ts1, s2t2)
     end
   | _ => let
-      val () = prerr_interror_loc (loc0)
-      val () = prerr ": s1rt_tr_app: [->] is not an infix operator!"
-      val () = prerr_newline ()
+      val () =
+      prerr_interror_loc (loc0)
+      val () =
+      prerrln! ": s1rt_tr_app: [->] is not an infix operator!"
     in
-      $ERR.abort {s2rt} ()
+      $ERR.abort_interr{s2rt}((*unreachable*))
     end // end of [_]
   ) // end of [s1rt_is_arrow]
 | _ => s2rt_err () where {

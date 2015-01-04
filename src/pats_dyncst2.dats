@@ -137,11 +137,11 @@ fn auxerr
   val () = prerr ": d2cstref_get_cst"
   val () = prerrln! (": the pervasive dynamic constant [", id, "] is not available.")
 in
-  $ERR.abort {d2cst} ()
+  $ERR.abort_interr{d2cst}((*reachable*))
 end (* end of [auxerr] *)
 //
-  val d2c = d2cstref_get_cstnul (r)
-  val isnul = d2cstnul_is_null (d2c)
+val d2c = d2cstref_get_cstnul (r)
+val isnul = d2cstnul_is_null (d2c)
 //
 in
 //
