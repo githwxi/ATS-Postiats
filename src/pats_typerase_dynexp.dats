@@ -479,36 +479,6 @@ end // end of [d3exp_tyer_type]
 
 (* ****** ****** *)
 
-fun
-hidexp_recify
-(
-  loc0: loc_t
-, hse0: hisexp
-, tupknd: int
-, lhdes: labhidexplst
-, hse_rec: hisexp
-) : hidexp = (
-//
-if
-tupknd = 0
-then (
-case+ lhdes of
-| list_cons
-  (
-    lhde, list_nil()
-  ) => let
-    val+LABHIDEXP (l, hde) = lhde in hde
-  end // end of [list_cons]
-| _ (*non-sing*) =>
-    hidexp_rec (loc0, hse0, tupknd, lhdes, hse_rec)
-  // end of [non-sing]
-) (* end of [then] *)
-else hidexp_rec (loc0, hse0, tupknd, lhdes, hse_rec)
-//
-) (* end of [hidexp_recify] *)
-
-(* ****** ****** *)
-
 implement
 d3exp_tyer
   (d3e0) = let
@@ -665,7 +635,7 @@ case+
       d3explst_npf_tyer_labize (npf, d3es)
     // end of [val]
   in
-    hidexp_recify (loc0, hse0, knd, lhdes, hse_rec)
+    hidexp_rec2 (loc0, hse0, knd, lhdes, hse_rec)
   end // end of [D3Etup]
 //
 | D3Erec (
@@ -676,7 +646,7 @@ case+
     // end of [val]
     val lhdes = labd3explst_npf_tyer (npf, ld3es)
   in
-    hidexp_recify (loc0, hse0, knd, lhdes, hse_rec)
+    hidexp_rec2 (loc0, hse0, knd, lhdes, hse_rec)
   end // end of [D3Erec]
 //
 | D3Eseq (d3es) => let

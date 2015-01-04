@@ -28,14 +28,6 @@ sstream_create
 //
 extern
 fun
-sstream_is_atend
-  {l:addr}{m,n:nat | m > n}
-  (cs: !sstream(l,m,n)): bool(m==n)
-//  
-(* ****** ****** *)
-//
-extern
-fun
 sstream_cap
   {l:addr}{m,n:int}
   (cs: !sstream(l,m,n)): size_t(m)
@@ -45,6 +37,18 @@ sstream_pos
   {l:addr}{m,n:int}
   (cs: !sstream(l,m,n)): size_t(n)
 //
+(* ****** ****** *)
+//
+extern
+fun
+sstream_is_atend
+  {l:addr}{m,n:int}
+  (cs: !sstream(l,m,n)): bool(m==n)
+and
+sstream_isnot_atend
+  {l:addr}{m,n:int}
+  (cs: !sstream(l,m,n)): bool(m > n)
+//  
 (* ****** ****** *)
 //
 extern
@@ -112,6 +116,13 @@ implement
 sstream_cap (cs) = (cs.2)->cap
 implement
 sstream_pos (cs) = (cs.2)->pos
+
+implement
+sstream_is_atend (cs) =
+  let val p = cs.2 in p->cap = p->pos end
+implement
+sstream_isnot_atend (cs) =
+  let val p = cs.2 in p->cap > p->pos end
 
 implement
 sstream_get

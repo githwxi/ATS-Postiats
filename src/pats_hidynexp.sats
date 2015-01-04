@@ -662,18 +662,21 @@ fun hidexp_let
   (loc: location, hse: hisexp, hids: hideclist, hde: hidexp): hidexp
 // end of [hidexp_let]
 
-fun hidexp_let_simplify
+fun
+hidexp_let_simplify
   (loc: location, hse: hisexp, hids: hideclist, hde: hidexp): hidexp
 // end of [hidexp_let_simplify]
 
 (* ****** ****** *)
 
-fun hidexp_app (
+fun
+hidexp_app (
   loc: location
 , hse: hisexp, hse_fun: hisexp, _fun: hidexp, _arg: hidexplst
 ) : hidexp // end of [hidexp_app]
 
-fun hidexp_app2 (
+fun
+hidexp_app2 (
   loc: location
 , hse: hisexp, hse_fun: hisexp, _fun: hidexp, _arg: hidexplst
 ) : hidexp // end of [hidexp_app2]
@@ -692,22 +695,34 @@ fun hidexp_sif (
 
 (* ****** ****** *)
 
-fun hidexp_case (
+fun
+hidexp_case (
   loc: location
 , hse: hisexp, knd: caskind, hdes: hidexplst, hcls: hiclaulst
 ) : hidexp // end of [hidexp_case]
 
 (* ****** ****** *)
 
-fun hidexp_lst (
+fun
+hidexp_lst (
   loc: location
 , hse: hisexp, lin: int, hse_elt: hisexp, hdes: hidexplst
 ) : hidexp // end of [hidexp_lst]
 
-fun hidexp_rec (
+(* ****** ****** *)
+
+fun
+hidexp_rec (
   loc: location
 , hse: hisexp, knd: int, lhses: labhidexplst, hse_rec: hisexp
 ) : hidexp // end of [hidexp_rec]
+fun
+hidexp_rec2 (
+  loc: location
+, hse: hisexp, knd: int, lhses: labhidexplst, hse_rec: hisexp
+) : hidexp // end of [hidexp_rec2]
+
+(* ****** ****** *)
 
 fun hidexp_seq
   (loc: location, hse: hisexp, hdes: hidexplst): hidexp
