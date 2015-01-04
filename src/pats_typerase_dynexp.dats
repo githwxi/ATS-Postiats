@@ -480,7 +480,7 @@ end // end of [d3exp_tyer_type]
 (* ****** ****** *)
 
 fun
-hidexp_recize
+hidexp_recify
 (
   loc0: loc_t
 , hse0: hisexp
@@ -505,7 +505,7 @@ case+ lhdes of
 ) (* end of [then] *)
 else hidexp_rec (loc0, hse0, tupknd, lhdes, hse_rec)
 //
-) (* end of [hidexp_recize] *)
+) (* end of [hidexp_recify] *)
 
 (* ****** ****** *)
 
@@ -665,7 +665,7 @@ case+
       d3explst_npf_tyer_labize (npf, d3es)
     // end of [val]
   in
-    hidexp_recize (loc0, hse0, knd, lhdes, hse_rec)
+    hidexp_recify (loc0, hse0, knd, lhdes, hse_rec)
   end // end of [D3Etup]
 //
 | D3Erec (
@@ -676,7 +676,7 @@ case+
     // end of [val]
     val lhdes = labd3explst_npf_tyer (npf, ld3es)
   in
-    hidexp_recize (loc0, hse0, knd, lhdes, hse_rec)
+    hidexp_recify (loc0, hse0, knd, lhdes, hse_rec)
   end // end of [D3Erec]
 //
 | D3Eseq (d3es) => let
