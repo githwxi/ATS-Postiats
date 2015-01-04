@@ -1393,8 +1393,8 @@ and d0exp_node =
 // recknd:
 // TYRECKIND_flt(0)/TYRECKIND_box(1)/TYRECKIND_box_t(2)/TYRECKIND_box_vt(3)
 //
-  | D0Etup of (int (*tupknd*), int(*npf*), d0explst)
-  | D0Erec of (int (*recknd*), int (*npf*), labd0explst)
+  | D0Etup of (int(*tupknd*), int(*npf*), d0explst)
+  | D0Erec of (int(*recknd*), int (*npf*), labd0explst)
 //
   | D0Eseq of d0explst // dynamic sequence-expression
 //

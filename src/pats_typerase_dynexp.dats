@@ -53,13 +53,22 @@ implement prerr_FILENAME<> () = prerr "pats_typerase_dynexp"
 
 (* ****** ****** *)
 
-staload LAB = "./pats_label.sats"
+staload
+LAB = "./pats_label.sats"
 
-staload LOC = "./pats_location.sats"
+(* ****** ****** *)
+
+staload
+LOC = "./pats_location.sats"
+typedef loc_t = $LOC.location
 overload print with $LOC.print_location
+
+(* ****** ****** *)
 
 staload SYM = "./pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
+
+(* ****** ****** *)
 
 staload SYN = "./pats_syntax.sats"
 
@@ -470,6 +479,36 @@ end // end of [d3exp_tyer_type]
 
 (* ****** ****** *)
 
+fun
+hidexp_recize
+(
+  loc0: loc_t
+, hse0: hisexp
+, tupknd: int
+, lhdes: labhidexplst
+, hse_rec: hisexp
+) : hidexp = (
+//
+if
+tupknd = 0
+then (
+case+ lhdes of
+| list_cons
+  (
+    lhde, list_nil()
+  ) => let
+    val+LABHIDEXP (l, hde) = lhde in hde
+  end // end of [list_cons]
+| _ (*non-sing*) =>
+    hidexp_rec (loc0, hse0, tupknd, lhdes, hse_rec)
+  // end of [non-sing]
+) (* end of [then] *)
+else hidexp_rec (loc0, hse0, tupknd, lhdes, hse_rec)
+//
+) (* end of [hidexp_recize] *)
+
+(* ****** ****** *)
+
 implement
 d3exp_tyer
   (d3e0) = let
@@ -622,10 +661,13 @@ case+
     val hse_rec =
        s2exp_tyer_deep (loc0, s2e0)
     // end of [val]
-    val lhdes = d3explst_npf_tyer_labize (npf, d3es)
+    val lhdes =
+      d3explst_npf_tyer_labize (npf, d3es)
+    // end of [val]
   in
-    hidexp_rec (loc0, hse0, knd, lhdes, hse_rec)
+    hidexp_recize (loc0, hse0, knd, lhdes, hse_rec)
   end // end of [D3Etup]
+//
 | D3Erec (
     knd, npf, ld3es
   ) => let
@@ -634,7 +676,7 @@ case+
     // end of [val]
     val lhdes = labd3explst_npf_tyer (npf, ld3es)
   in
-    hidexp_rec (loc0, hse0, knd, lhdes, hse_rec)
+    hidexp_recize (loc0, hse0, knd, lhdes, hse_rec)
   end // end of [D3Erec]
 //
 | D3Eseq (d3es) => let

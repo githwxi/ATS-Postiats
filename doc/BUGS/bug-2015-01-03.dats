@@ -1,6 +1,6 @@
 (*
-** Bug in compiling
-** singular record as a return value.
+** Bug causing erroneous
+** singular flat record compilation
 *)
 
 (* ****** ****** *)
@@ -12,7 +12,7 @@
 (* ****** ****** *)
 
 (*
-** Status: HX: It is yet to be fixed
+** Status: HX-2015-01-03: it is fixed
 *)
 
 (* ****** ****** *)
@@ -34,16 +34,9 @@ stadef sstream = sstream_type
 //
 (* ****** ****** *)
 //
-(*
-extern
-fun
-sstream_create () : sstream(null)
-*)
-// (*
 extern
 fun
 sstream_create () : [l:addr] sstream(l)
-// *)
 //
 (* ****** ****** *)
 

@@ -6,8 +6,6 @@
 //
 #include "share/atspre_staload.hats"
 //
-staload UN = "prelude/SATS/unsafe.sats"
-//
 (* ****** ****** *)
 //
 absvtype // for char streams
@@ -94,7 +92,9 @@ in (* in-of-local *)
 
 implement
 sstream_create
-  (init) = let
+  (init) =
+  (pf, pfgc | p) where
+{
 //
 val (pf, pfgc | p) =
   ptr_alloc<sstream_struct0>()
@@ -106,9 +106,7 @@ val () = p->cap := length(init)
 //
 val () = p->pos := i2sz(0)
 //
-in
-  $UN.castvwtp0((pf, pfgc | p))
-end // end of [sstream_create]
+} (* end of [sstream_create] *)
 
 implement
 sstream_cap (cs) = (cs.2)->cap
