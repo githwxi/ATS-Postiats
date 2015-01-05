@@ -1026,6 +1026,7 @@ do_trans1
 val d1cs =
   $TRANS1.d0eclist_tr_errck (d0cs)
 // end of [val]
+//
 val () = $TRANS1.trans1_finalize ()
 //
 val () =
@@ -1167,9 +1168,9 @@ case+ 0 of
   end // end of [when ...]
 | _ => let
     val hids = do_trans1234 (state, given, d0cs)
-    val out = outchan_get_filr (state.outchan)
+    val outfil = outchan_get_filr (state.outchan)
     val flag = waitkind_get_stadyn (state.waitkind)
-    val () = $CCOMP.ccomp_main (out, flag, state.infil, hids)
+    val ((*void*)) = $CCOMP.ccomp_main (outfil, flag, state.infil, hids)
   in
     // nothing
   end // end of [_]
@@ -1502,6 +1503,8 @@ patsopt_main
   {n:int | n > 0}
   (argc: int(n), argc: &(@[string][n])): void
 //
+(* ****** ****** *)
+
 implement
 patsopt_main
   (argc, argv) = {

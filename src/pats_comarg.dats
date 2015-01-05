@@ -255,20 +255,28 @@ val opt = get () where
 } // end of [where] // end of [val]
 val issome = stropt_is_some (opt)
 //
-val def =
-(
-if issome
-  then stropt_unsome (opt)
-  else let
-    val user = getenv ("USER")
-    val issome = stropt_is_some (user)
-    val user =
-    (
-      if issome then stropt_unsome (user) else "$USER"
-    ) : string // end of [val]
-  in
-    string_of_strptr(sprintf("/tmp/.ATSPKGRELOCROOT-%s", @(user)))
-  end // end of [else]
+val def = (
+//
+if
+issome
+then stropt_unsome (opt)
+else let
+  val user = getenv ("USER")
+  val issome = stropt_is_some (user)
+  val user =
+  (
+    if issome
+      then stropt_unsome(user) else "$USER"
+    // end of [if]
+  ) : string // end of [val]
+  val
+  ATSPKGRELOCROOT =
+    sprintf("/tmp/.ATSPKGRELOCROOT-%s", @(user))
+  // end of [val]
+in
+  string_of_strptr(ATSPKGRELOCROOT)
+end // end of [else]
+//
 ) : string // end of [val]
 //
 (*

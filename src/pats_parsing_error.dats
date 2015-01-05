@@ -146,7 +146,7 @@ the_parerrlst_add_ifunclosed
 in
 //
 if string_contains (name, newline)
-  then the_parerrlst_add (parerr_make (loc, PE_filename)) else ()
+  then the_parerrlst_add (parerr_make (loc, PE_fname_unclosed)) else ()
 //
 end // end of [the_parerrlst_add_ifunclosed]
 
@@ -195,14 +195,14 @@ parenth_needed
 (* ****** ****** *)
 
 fun
-filename_unclosed
+fname_unclosed
 (
   out: FILEref, x: parerr
 ) : void = () where {
   val () = fprint (out, x.parerr_loc)
   val () = fprintf (out, ": error(parsing): the filename is unclosed.", @())
   val () = fprint_newline (out)
-} (* end of [filename_unclosed] *)
+} (* end of [fname_unclosed] *)
 
 (* ****** ****** *)
 
@@ -215,6 +215,24 @@ token_discarded
   val () = fprintf (out, ": error(parsing): the token is discarded.", @())
   val () = fprint_newline (out)
 } // end of [token_discarded]
+
+(* ****** ****** *)
+
+(*
+fun
+file_unavailable
+(
+  out: FILEref, x: parerr
+) : void = let
+//
+val-PE_FILENONE(fname) = x.parerr_node
+val ((*void*)) = fprint (out, x.parerr_loc)
+val ((*void*)) = fprintf (out, ": error(parsing): the file [%s] is unavailable.", @(fname))
+//
+in
+  // nothing
+end // end of [file_unavailable]
+*)
 
 (* ****** ****** *)
 
@@ -358,16 +376,19 @@ case+ node of
 | PE_guad0ecl () => SN (x, "guad0ecl")
 | PE_staloadarg () => SN (x, "staloadarg")
 //
-| PE_filename () => filename_unclosed (out, x)
+| PE_fname_unclosed () => fname_unclosed (out, x)
 //
 | PE_DISCARD () => token_discarded (out, x)
+(*
+| PE_FILENONE (fname) => file_unavailable (out, x)
+*)
 //
 (*
 | _ => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): unspecified", @())
     val () = fprint_newline (out)
-  }
+  } (* end of [_] *)
 *)
 //
 end // end of [fprint_parerr]

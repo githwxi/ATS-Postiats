@@ -169,24 +169,36 @@ val filopt =
 in
 //
 case+ filopt of
-| ~Some_vt (fil) => let
+| ~Some_vt(fil) => let
     val () = filref := fil
     val d0cs = 
       parse_from_filename_toplevel (stadyn, fil)
-    val () = $FIL.the_filenamelst_ppush (fil) // permanent push
+    val ((*void*)) = $FIL.the_filenamelst_ppush (fil)
   in
     d0cs
   end // end of [Some_vt]
-| ~None_vt () => let
+| ~None_vt((*void*)) => let
     val () = filref := $FIL.filename_dummy
-    val () = prerrln! (
-      "error(ATS): the file of the name [", given, "] is not available."
-    ) (* end of [val] *)
 (*
-    val () = assertloc (false) // HX: immediately abort!
+    val () =
+    the_parerrlst_add
+    (
+      parerr_make ($LOC.location_dummy, PE_FILENONE(given))
+    ) (* end of [the_parerrlst_add] *)
 *)
+//
+    val () =
+    fprintln! (
+      stderr_ref
+    , "error(ATS): the file of the given name [", given, "] cannot be accessed."
+    ) (* end of [fprintln] *)
+//
+// HX: this is treated as a meta-level failure:
+//
+    val ((*exit*)) = $raise($ERR.PATSOPT_FILENONE_EXN(given))
+//
   in
-    list_nil ()
+    list_nil(*deadcode*)
   end // end of [None_vt]
 //
 end // end of [parse_from_givename_toplevel]

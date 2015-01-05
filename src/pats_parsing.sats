@@ -156,14 +156,18 @@ parerr_node =
   | PE_guad0ecl
   | PE_staloadarg
 //
-  | PE_filename of ()
+  | PE_fname_unclosed of ()
 //
   | PE_DISCARD of ()
+(*
+  | PE_FILENONE of string
+*)
 // end of [parerr_node]
 
 typedef
 parerr = '{
-  parerr_loc= location, parerr_node= parerr_node
+  parerr_loc= location
+, parerr_node= parerr_node
 } // end of [parerr]
 
 fun parerr_make (

@@ -51,5 +51,18 @@ fun abort {a:viewt@ype} ():<!exn> (a)
 fun abort_interr{a:viewt@ype}():<!exn> (a)
 //
 (* ****** ****** *)
+//
+exception
+PATSOPT_FILENONE_EXN of (string)
+//
+exception PATSOPT_TRANS1_EXN of ()
+exception PATSOPT_TRANS2_EXN of ()
+exception PATSOPT_TRANS3_EXN of ()
+exception PATSOPT_TRANS4_EXN of ()
+(*
+exception PATSOPT_TYPERASE_EXN of ()
+*)
+//
+(* ****** ****** *)
 
 (* end of [pats_error.sats] *)

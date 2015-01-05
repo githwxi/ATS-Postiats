@@ -89,7 +89,10 @@ the_trans4errlst_finalize () = {
     ) (* end of [fprintf] *)
   } (* end of [if] *) // end of [val]
 // *)
-  val () = if nxs > 0 then $ERR.abort () else ()
+  val () =
+  if nxs > 0
+    then $raise($ERR.PATSOPT_TRANS4_EXN())
+  // end of [if]
 } (* end of [the_trans4errlst_finalize] *)
 
 end // end of [local]
