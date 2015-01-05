@@ -187,6 +187,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libats_bitvec.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_stkarray.dats")
 #packfilename("libats_deqarray.dats")
 
