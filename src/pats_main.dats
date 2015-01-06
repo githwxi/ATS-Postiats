@@ -1223,27 +1223,49 @@ in
 //
 case+ exn of
 //
-| ~($ERR.PATSOPT_FIXITY_EXN()) =>
-    auxerr (outfil, given, "fixity-errors")
+| $ERR.PATSOPT_FIXITY_EXN() =>
+  (
+    fold@(exn);
+    auxerr (outfil, given, "fixity-errors");
+    $raise(exn);
+  )
 //
-| ~($ERR.PATSOPT_TRANS1_EXN()) =>
-    auxerr (outfil, given, "trans1-errors")
+| $ERR.PATSOPT_TRANS1_EXN() =>
+  (
+    fold@(exn);
+    auxerr (outfil, given, "trans1-errors");
+    $raise(exn);
+  )
 //
-| ~($ERR.PATSOPT_TRANS2_EXN()) =>
-    auxerr (outfil, given, "trans2-errors")
+| $ERR.PATSOPT_TRANS2_EXN() =>
+  (
+    fold@(exn);
+    auxerr (outfil, given, "trans2-errors");
+    $raise(exn);
+  )
 //
-| ~($ERR.PATSOPT_TRANS3_EXN()) =>
-    auxerr (outfil, given, "trans3-errors")
+| $ERR.PATSOPT_TRANS3_EXN() =>
+  (
+    fold@(exn);
+    auxerr (outfil, given, "trans3-errors");
+    $raise(exn);
+  )
 //
-| ~($ERR.PATSOPT_TRANS4_EXN()) =>
-    auxerr (outfil, given, "trans4-errors")
+| $ERR.PATSOPT_TRANS4_EXN() =>
+  (
+    fold@(exn);
+    auxerr (outfil, given, "trans4-errors");
+    $raise(exn);
+  )
 //
 (*
-| ~($ERR.PATSOPT_FILENONE_EXN(fname)) =>
+| $ERR.PATSOPT_FILENONE_EXN(fname) =>
   (
+    fold@(exn);  
     fprintf (outfil, "/* ****** ****** */\n//\n", @());
     fprintf (outfil, "#error(patsopt(%s): [%s] cannot be accessed)\n", @(given, fname));
     fprintf (outfil, "//\n/* ****** ****** */\n", @());
+    $raise(exn);
   )
 *)
 //
@@ -1521,7 +1543,7 @@ case+ key of
 //
 | "-v" => patsopt_version (stdout_ref)
 //
-| _ => comarg_warning (key) // unrecognized key
+| _ (*rest*) => comarg_warning (key) // unrecognized key
 //
 ) : void // end of [val]
 //
@@ -1717,11 +1739,12 @@ implement
 main (argc, argv) =
 (
 //
-if argc >= 2
-  then patsopt_main (argc, argv)
-  else prerrln! ("Hello from ATS2(ATS/Postiats)!")
+if
+(argc >= 2)
+then patsopt_main (argc, argv)
+else prerrln! ("Hello from ATS2(ATS/Postiats)!")
 // end of [if]
-)
+) (* end of [main] *)
 //
 (* ****** ****** *)
 
