@@ -1016,6 +1016,10 @@ extern
 fun
 do_transfinal
   (state: &cmdstate, given: string, d0cs: d0eclist): void
+extern
+fun
+do_transfinal2
+  (state: &cmdstate, given: string, d0cs: d0eclist): void
 //
 (* ****** ****** *)
 
@@ -1179,6 +1183,104 @@ case+ 0 of
 
 (* ****** ****** *)
 
+local
+
+fun
+auxexn
+(
+  p0: ptr
+, given: string, d0cs: d0eclist, exn: exn
+) : void = let
+//
+fun
+auxerr
+(
+  outfil: FILEref, given: string, msg: string
+) : void = let
+val
+cmtl =
+"/* ****** ****** */\n"
+//
+in
+//
+fprintf
+(
+  outfil
+, "%s//\n#error(patsopt(%s): %s)\n//\n%s", @(cmtl, given, msg, cmtl)
+) // end of [fprintf]
+//
+end (* end of [aux] *)
+//
+val
+(pf, fpf | p) =
+$UN.ptr0_vtake{cmdstate}(p0)
+//
+val outfil = outchan_get_filr (p->outchan)
+//
+prval ((*addback*)) = fpf (pf)
+//
+in
+//
+case+ exn of
+//
+| ~($ERR.PATSOPT_FIXITY_EXN()) =>
+    auxerr (outfil, given, "fixity-errors")
+//
+| ~($ERR.PATSOPT_TRANS1_EXN()) =>
+    auxerr (outfil, given, "trans1-errors")
+//
+| ~($ERR.PATSOPT_TRANS2_EXN()) =>
+    auxerr (outfil, given, "trans2-errors")
+//
+| ~($ERR.PATSOPT_TRANS3_EXN()) =>
+    auxerr (outfil, given, "trans3-errors")
+//
+| ~($ERR.PATSOPT_TRANS4_EXN()) =>
+    auxerr (outfil, given, "trans4-errors")
+//
+(*
+| ~($ERR.PATSOPT_FILENONE_EXN(fname)) =>
+  (
+    fprintf (outfil, "/* ****** ****** */\n//\n", @());
+    fprintf (outfil, "#error(patsopt(%s): [%s] cannot be accessed)\n", @(given, fname));
+    fprintf (outfil, "//\n/* ****** ****** */\n", @());
+  )
+*)
+//
+| exn => $raise(exn)
+//
+end // end of [auxexn]
+
+in (* in-of-local*)
+
+implement
+do_transfinal2
+  (state, given, d0cs) = let
+//
+val p0 = &state
+//
+in
+//
+try let
+//
+val
+(pf, fpf | p) =
+$UN.ptr0_vtake{cmdstate}(p0)
+//
+val () = do_transfinal(!p, given, d0cs)
+//
+prval ((*addback*)) = fpf (pf)
+//
+in
+  // nothing
+end with exn => auxexn (p0, given, d0cs, exn)
+//
+end // end of [do_transfinal2]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 fn*
 process_cmdline
   {i:nat} .<i,0>.
@@ -1188,9 +1290,11 @@ process_cmdline
 in
 //
 case+ arglst of
+//
 | ~list_vt_cons
     (arg, arglst) =>
     process_cmdline2 (state, arg, arglst)
+//
 | ~list_vt_nil ()
     when state.ninpfile = 0 => let
     val stadyn =
@@ -1221,15 +1325,20 @@ case+ arglst of
 //
         val given = "<STDIN>"
 //
-        val () = if isdepgen then do_depgen (state, given, d0cs)
-        val () = if istaggen then do_taggen (state, given, d0cs)
+        val () =
+          if isdepgen then do_depgen (state, given, d0cs)
+        val () =
+          if istaggen then do_taggen (state, given, d0cs)
 //
-        val () = if istrans then do_transfinal (state, given, d0cs)
+        val () =
+          if istrans then do_transfinal2 (state, given, d0cs)
+        // end of [val]
 //
       } // end of [_ when ...]
     | _ => ()
   end // end of [list_vt_nil when ...]
-| ~list_vt_nil () => ()
+//
+| ~list_vt_nil ((*void*)) => ()
 //
 end // end of [process_cmdline]
 
@@ -1281,10 +1390,14 @@ case+ arg of
         val istaggen = state.taggen > 0
         val () = if istaggen then istrans := false
 //
-        val () = if isdepgen then do_depgen (state, given, d0cs)
-        val () = if istaggen then do_taggen (state, given, d0cs)
+        val () =
+          if isdepgen then do_depgen (state, given, d0cs)
+        val () =
+          if istaggen then do_taggen (state, given, d0cs)
 //
-        val () = if istrans then do_transfinal (state, given, d0cs)
+        val () =
+          if istrans then do_transfinal2 (state, given, d0cs)
+        // end of [val]
 //
       in
         process_cmdline (state, arglst)

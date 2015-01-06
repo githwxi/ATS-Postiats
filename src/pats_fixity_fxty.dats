@@ -227,7 +227,7 @@ fn erropr (
   val () = prerr ": operator fixity cannot be resolved."
   val () = prerr_newline ()
 in
-  $ERR.abort{a}((*void*))
+  $raise($ERR.PATSOPT_FIXITY_EXN(*void*))
 end // end of [erropt]
 //
 fn errapp (
@@ -239,7 +239,7 @@ fn errapp (
   val () = prerr ": application fixity cannot be resolved."
   val () = prerr_newline ()
 in
-  $ERR.abort{a}((*void*))
+  $raise($ERR.PATSOPT_FIXITY_EXN(*void*))
 end // end of [errapp]
 //
 fn err_reduce (
@@ -250,7 +250,7 @@ fn err_reduce (
   val () = prerr ": operator fixity cannot be resolved."
   val () = prerr_newline ()
 in
-  $ERR.abort{a}((*void*))
+  $raise($ERR.PATSOPT_FIXITY_EXN(*void*))
 end // end of [err]
 //
 (*

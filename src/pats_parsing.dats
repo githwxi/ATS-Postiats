@@ -188,10 +188,11 @@ case+ filopt of
 *)
 //
     val () =
-    fprintln! (
-      stderr_ref
-    , "error(ATS): the file of the given name [", given, "] cannot be accessed."
-    ) (* end of [fprintln] *)
+    prerr("patsopt: error(0)")
+    val () =
+    prerrln! (
+      ": the given file [", given, "] cannot be accessed."
+    ) (* end of [prerrln!] *)
 //
 // HX: this is treated as a meta-level failure:
 //

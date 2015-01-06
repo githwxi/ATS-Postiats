@@ -55,6 +55,12 @@ fun abort_interr{a:viewt@ype}():<!exn> (a)
 exception
 PATSOPT_FILENONE_EXN of (string)
 //
+(* ****** ****** *)
+//
+exception PATSOPT_FIXITY_EXN of ()
+//
+(* ****** ****** *)
+//
 exception PATSOPT_TRANS1_EXN of ()
 exception PATSOPT_TRANS2_EXN of ()
 exception PATSOPT_TRANS3_EXN of ()

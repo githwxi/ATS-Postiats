@@ -211,7 +211,7 @@ case+ opt of
   end // end of [Some_vt]
 | ~None_vt ((*void*)) => let
     val () =
-    prerr ("error(ATS)")
+    prerr ("patsopt: error(0)")
     val () =
     prerrln! (
       ": the command-line argument [", def, "] cannot be properly parsed."
