@@ -63,7 +63,7 @@ val () = thePageRight.pheight(100)
 val () =
   thePage.tabstyle(TShbox)
 val () =
-  thePage.percentlst ($list(15, 85))
+  thePage.percentlst ($list(14, 86))
 val () =
   thePage.children (thePageLeft, thePageRight)
 //
@@ -192,7 +192,8 @@ body {\n\
   background-color: #213449; /* dark blue */\n\
 }\n\
 ") (* end of [fprint] *)
-// 
+//
+(*
 val () =
 fprint (out, "\
 \n\
@@ -202,6 +203,7 @@ fprint (out, "\
   margin-right: auto;\n\
 }\n\
 ") (* end of [fprint] *)
+*)
 //
 val () =
 fprint (out, "\

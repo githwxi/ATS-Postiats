@@ -1207,7 +1207,7 @@ in
 fprintf
 (
   outfil
-, "%s//\n#error(patsopt(%s): %s)\n//\n%s", @(cmtl, given, msg, cmtl)
+, "%s//\n#error(PATSOPT_ERROR_(patsopt(%s): %s))\n//\n%s", @(cmtl, given, msg, cmtl)
 ) // end of [fprintf]
 //
 end (* end of [aux] *)
