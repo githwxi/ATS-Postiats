@@ -49,6 +49,12 @@ LBF = "./pats_lexbuf.sats"
 stadef lexbuf = $LBF.lexbuf
 
 (* ****** ****** *)
+//
+typedef
+arrayref
+  (a:t@ype, n:int) = array(a, n)
+//
+(* ****** ****** *)
 
 datatype
 token_node =
@@ -242,7 +248,7 @@ token_node =
   | T_FLOAT of (int(*base*), string(*rep*), uint(*suffix*))
 //
   | {n:int}
-    T_CDATA of (array (char, n), size_t (n))
+    T_CDATA of (arrayref(char, n), size_t(n)) // for binaries
   | T_STRING of (string)
 //
 (*

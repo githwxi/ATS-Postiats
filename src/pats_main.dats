@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2014 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2015 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -470,11 +470,12 @@ HX: VERSION-0.1.2 released on Friday, August 29, 2014
 HX: VERSION-0.1.3 released on Monday, September 29, 2014
 HX: VERSION-0.1.4 released on Thursday, October 23, 2014
 HX: VERSION-0.1.5 released on Thursday, November 20, 2014
+HX: VERSION-0.1.6 released on Tuesday, January 6, 2015
 //
 *)
 #define PATS_MAJOR_VERSION 0
 #define PATS_MINOR_VERSION 1
-#define PATS_MICRO_VERSION 6
+#define PATS_MICRO_VERSION 7
 (*
 //
 // HX-2011-04-27: this is supported in Postiats:
@@ -494,7 +495,7 @@ implement
 patsopt_version (out) =
 {
   val () = fprintf (out
-, "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-2014 Hongwei Xi\n"
+, "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-2015 Hongwei Xi\n"
 , @(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
   ) // end of [fprintf]
 } (* end of [patsopt_version] *)
