@@ -92,6 +92,13 @@ clean:: ; make -C CHAP_DYNLOAD -f ../Makefile_chap clean
 
 ######
 
+allchap:: CHAP_RECURSION
+CHAP_RECURSION:: ; \
+  make -C CHAP_RECURSION -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_RECURSION -f ../Makefile_chap clean
+
+######
+
 allchap:: CHAP_EXCEPTION
 CHAP_EXCEPTION:: ; \
   make -C CHAP_EXCEPTION -f ../Makefile_chap main.db

@@ -21,7 +21,10 @@ staload "htmlgendecl.sats"
 (* ****** ****** *)
 
 #define
-ATSCODEROOT "http://www.ats-lang.org/DOCUMENT/ATS-Postiats"
+ATSCODEROOT
+"http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats"
+
+(* ****** ****** *)
 
 implement
 myatscodelink

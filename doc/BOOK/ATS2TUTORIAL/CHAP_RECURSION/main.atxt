@@ -1,0 +1,168 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from [CHAP_RECURSION/main.atxt].\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter
+id="recursion"
+>#title("Recursion")
+
+<!-- ****** ****** -->
+
+#para('\
+
+The notion of recursion is ubiquitous in ATS.
+For instance, there are recursively defined sorts (datasorts) and
+recursively defined types (datatypes) in the statics, and there are also
+recursively defined functions in the dynamics.
+Literally, the word #emphasis("recurse") means "go back". When
+an entity is defined recursively, it means that the entity being defined
+can appear in its own definition. In the following presentation, I will
+show several ways to define (or implement) recursive functions.
+
+')
+
+#para("\
+
+The keyword #keycode("fun") can be used to initiate the definition of
+a recursive function. For instance, following is the definition of a
+recursive function:
+
+#atscode('\
+fun
+fact(x: int): int =
+  if x > 0 then x * fact(x-1) else 1
+(* end of [fact] *)
+')
+
+A non-recursive function is a special kind of recursive function that
+does make use of itself in its own definition. So one can certainly use
+#keycode("fun") to initiate the definition of a non-recursive function.
+However, if there is a need to indicate explicitly that a non-recursive is being
+defined, then one can use the keyword #keycode("fn") to do so. For
+instance, the definiton of a non-recursive function is given as follows:
+
+#atscode('\
+fn square(x: int): int = x * x
+')
+
+which is directly translated by the compiler into the following binding
+between a name and a lambda-expression:
+
+#atscode('\
+val square = lam (x: int): int => x * x
+')
+
+As another example, please note that the two occurrences of the
+symbol #dyncode("fact") in the following refer to two distinct
+functions:
+
+#atscode('\
+fn
+fact(x: int): int =
+  if x > 0 then x * fact(x-1) else 1
+(* end of [fact] *)
+')
+
+While the first #dyncode("fact") (to the left of the equality symbol)
+refers to the (non-recursive) function being defined, the second one is
+supposed to have been declared previously.
+
+")
+
+#para("\
+
+A recursive function can also be defined as a recursive value. For
+instance, the recursive function #dyncode("fact") defined above can
+be defined as follows:
+
+#atscode('\
+val
+rec
+fact = lam (x) =>
+  if x > 0 then x * fact(x-1) else 1
+(* end of [fact] *)
+')
+
+In fact, the former definition of #dyncode("fact") is directly translated
+into the latter one by the compiler. There is yet another way to define
+#dyncode("fact") as a fixed-point expression:
+
+#atscode('\
+val
+fact =
+fix f(x: int): int =>
+  if x > 0 then x * fact(x-1) else 1
+(* end of [fact] *)
+')
+
+Even at this point, I have not presented all of the possible ways to define
+functions in ATS. For instance, one can also define stack-allocated
+closure-functions in ATS, which may be either recursive or non-recursive.
+I plan to introduce such functions elsewhere in this tutorial.
+
+")
+
+#para("\
+
+Often, the interface (that is, type) for a function is declared at one
+place and its definition (or implementation) is given at another place.
+For instance, one may first introduce the following declaration:
+
+#atscode('\
+extern fun fact (x: int): int
+')
+
+Later, one can implement #dyncode("fact") according to the above declaration:
+
+#atscode('\
+implement
+fact (x) =
+  if x > 0 then x * fact(x-1) else 1
+// end of [fact]
+')
+
+When #dyncode("implement") is used to initiate the definition of a
+function, any previously declared symbols (including the one that is
+being defined) can appear in the definition. If it is desirable, one
+may replace #dyncode("implement") with #dyncode("implmnt").
+
+")
+
+#para("\
+
+Please find #mycodelink("chap_recursion.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
+</chapter><!--"recursion"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [chap_recursion.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_recursion.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} (* end of [main] *)
+%}

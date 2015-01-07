@@ -8,8 +8,8 @@ style="margin-top:8px;padding:8px;"
 
 ATS-2015-01-06:<br>
 <a
- href="https://groups.google.com/d/msg/ats-lang-users/bT0t5emu8cE/kzyOObf5DzwJ"
->IntelliJATS-0.0.1 (initial pre-release) available </a><br>
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/bT0t5emu8cE"
+>IntelliJATS-0.0.1 (initial pre-release) available</a><br>
 by <a href="http://www.cac.cornell.edu/barker/">Brandon Barker</a>
 
 <hr></hr>
