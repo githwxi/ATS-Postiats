@@ -63,7 +63,7 @@ val square = lam (x: int): int => x * x
 ')
 
 As another example, please note that the two occurrences of the
-symbol #dyncode("fact") in the following refer to two distinct
+symbol #dyncode("fact") in the following code refer to two distinct
 functions:
 
 #atscode('\
@@ -88,14 +88,17 @@ be defined as follows:
 #atscode('\
 val
 rec
-fact = lam (x) =>
+fact : int -> int =
+lam (x) =>
   if x > 0 then x * fact(x-1) else 1
 (* end of [fact] *)
 ')
 
-In fact, the former definition of #dyncode("fact") is directly translated
-into the latter one by the compiler. There is yet another way to define
-#dyncode("fact") as a fixed-point expression:
+where the keyword #keycode("rec") indicates that #dyncode("fact") is
+defined recursively, that is, it is allowed to appear in its own
+definition. In fact, the former definition of #dyncode("fact") is directly
+translated into the latter one by the compiler. There is yet another way to
+define #dyncode("fact") as a fixed-point expression:
 
 #atscode('\
 val
@@ -104,6 +107,41 @@ fix f(x: int): int =>
   if x > 0 then x * fact(x-1) else 1
 (* end of [fact] *)
 ')
+
+")
+
+#para("\
+
+For definiting mutually recursive functions, one can simply use the
+keyword #keycode("and") to concatenate function definitions. For instance,
+the following code defines two functions #dyncode("isevn") and #dyncode("isodd")
+mutually recursively:
+
+#atscode('\
+fun
+isevn(x: int): bool =
+  if x > 0 then isodd(x-1) else true
+and
+isodd(x: int): bool =
+  if x > 0 then isevn(x-1) else false
+')
+
+which, as one may have guessed, is translated by the compiler into the
+following form (for defining two mutually recursive values):
+
+#atscode('\
+val
+rec
+isevn : int -> bool =
+  lam (x) => if x > 0 then isodd(x-1) else true
+and
+isodd : int -> bool =
+  lam (x) => if x > 0 then isevn(x-1) else false
+')
+
+")
+
+#para("\
 
 Even at this point, I have not presented all of the possible ways to define
 functions in ATS. For instance, one can also define stack-allocated
@@ -131,10 +169,10 @@ fact (x) =
 // end of [fact]
 ')
 
-When #dyncode("implement") is used to initiate the definition of a
+When #keycode("implement") is used to initiate the definition of a
 function, any previously declared symbols (including the one that is
 being defined) can appear in the definition. If it is desirable, one
-may replace #dyncode("implement") with #dyncode("implmnt").
+may replace #keycode("implement") with #keycode("implmnt").
 
 ")
 

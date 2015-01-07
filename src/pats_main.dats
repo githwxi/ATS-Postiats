@@ -571,6 +571,8 @@ cmdstate = @{
 //
 , cnstrsolveflag= int // 0 by default
 //
+, ntrans= int // level of trans(1,2,3,4)
+//
 , nerror= int // number of accumulated errors
 } // end of [cmdstate]
 
@@ -1032,6 +1034,7 @@ val d1cs =
   $TRANS1.d0eclist_tr_errck (d0cs)
 // end of [val]
 //
+val () = state.ntrans := 1
 val () = $TRANS1.trans1_finalize ()
 //
 val () =
@@ -1054,9 +1057,13 @@ do_trans12
   state, given, d0cs
 ) = d2cs where {
 //
-val d1cs = do_trans1 (state, given, d0cs)
+val d1cs =
+  do_trans1 (state, given, d0cs)
 //
-val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
+val d2cs =
+  $TRANS2.d1eclist_tr_errck (d1cs)
+//
+val () = state.ntrans := 2
 //
 val () =
 if isdebug() then
@@ -1076,10 +1083,15 @@ do_trans123
   state, given, d0cs
 ) = d3cs where {
 //
-val d2cs = do_trans12 (state, given, d0cs)
+val d2cs =
+  do_trans12 (state, given, d0cs)
 //
-val () = $TRENV3.trans3_env_initialize ()
-val d3cs = $TRANS3.d2eclist_tr_errck (d2cs)
+val () =
+  $TRENV3.trans3_env_initialize ()
+val d3cs =
+  $TRANS3.d2eclist_tr_errck (d2cs)
+//
+val () = state.ntrans := 3
 //
 (*
 val () = {
@@ -1128,7 +1140,10 @@ do_trans1234
 val d3cs =
   do_trans123 (state, given, d0cs)
 // end of [d3cs]
+//
 val hids = $TYER.d3eclist_tyer_errck (d3cs)
+//
+val () = state.ntrans := 4
 //
 (*
 val () = fprint_hideclist (stdout_ref, hids)
@@ -1196,7 +1211,7 @@ auxexn
 fun
 auxerr
 (
-  outfil: FILEref, given: string, msg: string
+  n: int, outfil: FILEref, given: string, msg: string
 ) : void = let
 val
 cmtl =
@@ -1204,18 +1219,22 @@ cmtl =
 //
 in
 //
+if
+(n >= 4)
+then
 fprintf
 (
   outfil
 , "%s//\n#error(PATSOPT_ERROR_(patsopt(%s): %s))\n//\n%s", @(cmtl, given, msg, cmtl)
 ) // end of [fprintf]
 //
-end (* end of [aux] *)
+end (* end of [auxerr] *)
 //
 val
 (pf, fpf | p) =
 $UN.ptr0_vtake{cmdstate}(p0)
 //
+val ntrans = p->ntrans
 val outfil = outchan_get_filr (p->outchan)
 //
 prval ((*addback*)) = fpf (pf)
@@ -1224,39 +1243,29 @@ in
 //
 case+ exn of
 //
-| $ERR.PATSOPT_FIXITY_EXN() =>
+| ~($ERR.PATSOPT_FIXITY_EXN()) =>
   (
-    fold@(exn);
-    auxerr (outfil, given, "fixity-errors");
-    $raise(exn);
+    auxerr (ntrans, outfil, given, "fixity-errors")
   )
 //
-| $ERR.PATSOPT_TRANS1_EXN() =>
+| ~($ERR.PATSOPT_TRANS1_EXN()) =>
   (
-    fold@(exn);
-    auxerr (outfil, given, "trans1-errors");
-    $raise(exn);
+    auxerr (ntrans, outfil, given, "trans1-errors")
   )
 //
-| $ERR.PATSOPT_TRANS2_EXN() =>
+| ~($ERR.PATSOPT_TRANS2_EXN()) =>
   (
-    fold@(exn);
-    auxerr (outfil, given, "trans2-errors");
-    $raise(exn);
+    auxerr (ntrans, outfil, given, "trans2-errors")
   )
 //
-| $ERR.PATSOPT_TRANS3_EXN() =>
+| ~($ERR.PATSOPT_TRANS3_EXN()) =>
   (
-    fold@(exn);
-    auxerr (outfil, given, "trans3-errors");
-    $raise(exn);
+    auxerr (ntrans, outfil, given, "trans3-errors")
   )
 //
-| $ERR.PATSOPT_TRANS4_EXN() =>
+| ~($ERR.PATSOPT_TRANS4_EXN()) =>
   (
-    fold@(exn);
-    auxerr (outfil, given, "trans4-errors");
-    $raise(exn);
+    auxerr (ntrans, outfil, given, "trans4-errors")
   )
 //
 (*
@@ -1724,6 +1733,8 @@ state = @{
 , typecheckflag= 0 // compiling by default
 //
 , cnstrsolveflag= 0 // cnstr-solving by default
+//
+, ntrans= 0 // level of trans(1,2,3,4)
 //
 , nerror= 0 // number of accumulated errors
 } : cmdstate // end of [var]
