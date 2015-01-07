@@ -63,6 +63,16 @@ cleanall:: ; $(RMF) chap_dotoverld
 ######
 #
 all:: \
+chap_recursion
+chap_recursion: \
+  chap_recursion.dats ; \
+  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: chap_recursion; ./$<
+cleanall:: ; $(RMF) chap_recursion
+#
+######
+#
+all:: \
 chap_exception
 chap_exception: \
   chap_exception.dats ; \
