@@ -287,17 +287,17 @@ if
 knd >= 0
 then let
 //
-  val loc = impdec.i3mpdec_loc
-  val d2c = impdec.i3mpdec_cst
-  val imparg = impdec.i3mpdec_imparg
-  val tmparg = impdec.i3mpdec_tmparg
-  val tmparg = s2explstlst_mhnfize (tmparg)
+val loc = impdec.i3mpdec_loc
+val d2c = impdec.i3mpdec_cst
+val imparg = impdec.i3mpdec_imparg
+val tmparg = impdec.i3mpdec_tmparg
+val tmparg = s2explstlst_mhnfize (tmparg)
 //
-  val d2c = d2cst_tyer (d2c)
-  val hse = d3exp_tyer (impdec.i3mpdec_def)
-  val himp =
-    hiimpdec_make (loc, knd, d2c, imparg, tmparg, hse)
-  // end of [val]
+val d2c = d2cst_tyer (d2c)
+val hse = d3exp_tyer (impdec.i3mpdec_def)
+val himp =
+  hiimpdec_make (loc, knd, d2c, imparg, tmparg, hse)
+// end of [val]
 //
 in
   hidecl_impdec (loc0, knd(*implmnt/implement*), himp)
@@ -305,7 +305,6 @@ end // end of [then]
 else (
   hidecl_none (loc0)
 ) (* end of [else] *)
-//
 //
 end // end of [d3ecl_tyer_impdec]
 
