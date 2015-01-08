@@ -874,10 +874,12 @@ hivardec_make
 (* ****** ****** *)
 
 implement
-hiimpdec_make (
-  loc, d2c, imparg, tmparg, def
+hiimpdec_make
+(
+  loc, knd, d2c, imparg, tmparg, def
 ) = '{
   hiimpdec_loc= loc
+, hiimpdec_knd= knd
 , hiimpdec_cst= d2c
 , hiimpdec_imparg= imparg
 , hiimpdec_tmparg= tmparg

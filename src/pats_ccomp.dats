@@ -75,8 +75,11 @@ hiimpdec_set_instrlstopt (imp, opt) =
 (* ****** ****** *)
 
 extern
-fun primdec_make_node
-  (loc: location, node: primdec_node): primdec
+fun
+primdec_make_node
+(
+  loc: loc_t, node: primdec_node
+) : primdec // end-of-function
 implement
 primdec_make_node
   (loc, node) = '{
@@ -188,8 +191,9 @@ primdec_local
 (* ****** ****** *)
 
 extern
-fun primval_make_node
-  (loc: location, hse: hisexp, node: primval_node): primval
+fun
+primval_make_node
+  (loc: loc_t, hse: hisexp, node: primval_node): primval
 implement
 primval_make_node
   (loc, hse, node) = '{
@@ -531,8 +535,11 @@ primlab_ind (loc, ind) = '{
 (* ****** ****** *)
 
 extern
-fun instr_make_node
-  (loc: location, node: instr_node): instr
+fun
+instr_make_node
+(
+  loc: loc_t, node: instr_node
+) : instr // end-of-function
 implement
 instr_make_node
   (loc, node) = '{

@@ -151,7 +151,7 @@ local
 fun auxlst
 (
   res: !instrseq
-, loc0: location, pmvs: primvalist_vt
+, loc0: loc_t, pmvs: primvalist_vt
 ) : void = let
 //
 in

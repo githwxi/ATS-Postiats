@@ -453,7 +453,7 @@ end // end of [auxmap]
 fun
 auxenv
 (
-  map: &vbindmap_vt, loc0: location, i: int, d2es: d2envlst
+  map: &vbindmap_vt, loc0: loc_t, i: int, d2es: d2envlst
 ) : void = let
 in
 //

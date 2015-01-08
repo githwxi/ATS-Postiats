@@ -283,7 +283,9 @@ val-D3Cimpdec (knd, impdec) = d3c0.d3ecl_node
 //
 in
 //
-if knd <= 1 then let
+if
+knd >= 0
+then let
 //
   val loc = impdec.i3mpdec_loc
   val d2c = impdec.i3mpdec_cst
@@ -292,14 +294,18 @@ if knd <= 1 then let
   val tmparg = s2explstlst_mhnfize (tmparg)
 //
   val d2c = d2cst_tyer (d2c)
-  val hse_def = d3exp_tyer (impdec.i3mpdec_def)
-  val himp = hiimpdec_make (loc, d2c, imparg, tmparg, hse_def)
+  val hse = d3exp_tyer (impdec.i3mpdec_def)
+  val himp =
+    hiimpdec_make (loc, knd, d2c, imparg, tmparg, hse)
+  // end of [val]
 //
 in
-  hidecl_impdec (loc0, knd(*0*), himp)
-end else
+  hidecl_impdec (loc0, knd(*implmnt/implement*), himp)
+end // end of [then]
+else (
   hidecl_none (loc0)
-// end of [if]
+) (* end of [else] *)
+//
 //
 end // end of [d3ecl_tyer_impdec]
 
