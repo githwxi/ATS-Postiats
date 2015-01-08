@@ -43,9 +43,10 @@ fix f(x: int): int =>
 (* ****** ****** *)
 //
 extern fun fact (x: int): int
-//
 implmnt fact(x) = if x > 0 then x * fact(x-1) else 1
-implement fact(x) = if x > 0 then x * fact(x-1) else 1
+//
+extern fun fact2 (x: int): int
+implement fact2(x) = if x > 0 then x * fact2(x-1) else 1
 //
 (* ****** ****** *)
 

@@ -65,6 +65,11 @@ into Javascript for execution in the browser.
 <?php listitem_gen('chap_brktoverld.dats'); ?>
 </ul>
 
+<h2>Recursion</h2>
+<ul>
+<?php listitem_gen('chap_recursion.dats'); ?>
+</ul>
+
 <h2>Exceptions</h2>
 <ul>
 <?php listitem_gen('chap_exception.dats'); ?>

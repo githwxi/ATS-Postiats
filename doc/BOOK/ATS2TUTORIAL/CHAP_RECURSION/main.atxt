@@ -27,7 +27,9 @@ recursively defined functions in the dynamics.
 Literally, the word #emphasis("recurse") means "go back". When
 an entity is defined recursively, it means that the entity being defined
 can appear in its own definition. In the following presentation, I will
-show several ways to define (or implement) recursive functions.
+show several ways to define (or implement) recursive functions and
+non-recursive functions, where the latter is just a special case of the
+former.
 
 ')
 
@@ -139,6 +141,10 @@ and
 isodd : int -> bool =
   lam (x) => if x > 0 then isevn(x-1) else false
 ')
+
+One can certainly use the keyword #keycode("and") to concatenate
+definitions of non-recursive functions, but doing so is probably just a
+curiosity (instead of a meaningful practice).\
 
 ")
 
