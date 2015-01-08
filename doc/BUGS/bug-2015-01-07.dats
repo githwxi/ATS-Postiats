@@ -18,7 +18,8 @@
 (* ****** ****** *)
 
 extern
-fun add_int_int : (int, int) -> int
+fun
+add_int_int : (int, int) -> int
 overload + with add_int_int of 1000000
 
 (* ****** ****** *)
@@ -30,15 +31,25 @@ extern fun{} bar12(int): int
 
 (* ****** ****** *)
 
-implement{} bar1 (x) = bar2 (x)
-implement{} bar2 (x) = foo() + bar1 (x)
+implmnt{} bar1 (x) = bar2 (x)
+implmnt{} bar2 (x) = foo() + bar1 (x)
 
 (* ****** ****** *)
 
 implement
-main(argc, argv) = let
+main(argc
+   , argv) = let
 //
-implement{} foo () = argc
+implement
+{}(*tmp*) foo((*void*)) = argc
+//
+(*
+//
+// HX-2015-01-08:
+// This seems to be reasonable:
+//
+prval () = $closure_addenv(argc)
+*)
 //
 in
   bar2 (1000000)

@@ -1009,7 +1009,9 @@ case+ 0 of
     val tmparg = imp.hiimpdec_tmparg
     val hde_def = imp.hiimpdec_def
 //
+(*
     val knd = imp.hiimpdec_knd
+*)
     val istmp = list_is_cons (tmparg)
 //
 (*
@@ -1018,22 +1020,15 @@ case+ 0 of
     // end of [val]
 *)
 //
-    val () =
-    if istmp then (
-      if knd > 0 then ccompenv_add_impdec (env, imp)
-    ) (* end of [if] *)
-//
     val () = if istmp then ccompenv_inc_tmplevel (env)
     val flab = auxmain (env, loc0, d2c, imparg, tmparg, hde_def)
     val () = if istmp then ccompenv_dec_tmplevel (env)
 //
-    val () =
-    if istmp then (
-      if knd = 0 then ccompenv_add_impdec (env, imp)
-    ) (* end of [if] *)
+    val () = if istmp then ccompenv_add_impdec (env, imp)
 //
     val opt = Some (flab)
-    val ((*void*)) = hiimpdec_set_funlabopt (imp, opt)
+    val ((*void*)) =
+      hiimpdec_set_funlabopt (imp, opt)
     val ((*void*)) =
     if not(istmp) then
       $D2E.d2cst_set_funlab (d2c, $UN.cast{dynexp2_funlabopt}(opt))
