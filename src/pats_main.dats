@@ -1737,15 +1737,12 @@ state = @{
 val () = process_ATSPKGRELOCROOT ()
 //
 val () = process_cmdline (state, arglst)
-(*
 //
 // HX-2015-01-09:
 // should compilation be aborted?
 //
 val () =
   if state.nerror > 0 then $ERR.abort{void}()
-//
-*)
 //
 } (* end of [where] *) // end of [patsopt_main]
 //

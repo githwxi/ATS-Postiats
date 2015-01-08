@@ -40,8 +40,10 @@ endif
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
-PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
-
+#
+# PATSLIB32=$(PATSHOMEQ)/ccomp/atslib/lib32
+# PATSLIB64=$(PATSHOMEQ)/ccomp/atslib/lib64
+#
 ######
 #
 ifdef \
@@ -62,7 +64,8 @@ CFLAGS += -D_GNU_SOURCE
 ######
 
 LDFLAGS += -L$(PATSLIB)
-LDFLAGS += -L$(PATSLIB64)
+# LDFLAGS += -L$(PATSLIB32)
+# LDFLAGS += -L$(PATSLIB64)
 LDFLAGS += -latslib
 
 ######
