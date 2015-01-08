@@ -6,6 +6,12 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-01-07:<br>
+<a href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>: Chapter "Recursion" is added.<br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 <h2 style="display:inline;">Suggestions on learning programming in ATS</h2>
 
 <hr></hr>
