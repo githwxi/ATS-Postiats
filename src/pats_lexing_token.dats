@@ -151,6 +151,9 @@ implement VIEWTYPEDEF = T_TYPEDEF (VIEWT0YPE_int)
 implement VAL = T_VAL (VK_val)
 implement VAL_pos = T_VAL (VK_val_pos)
 implement VAL_neg = T_VAL (VK_val_neg)
+(*
+implement MCVAL = T_VAL (VK_mcval)
+*)
 implement PRVAL = T_VAL (VK_prval)
 
 implement VAR = T_VAR (0)

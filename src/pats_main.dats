@@ -571,7 +571,7 @@ cmdstate = @{
 //
 , cnstrsolveflag= int // 0 by default
 //
-, ntrans= int // level of trans(1,2,3,4)
+, olevel= int // level for output
 //
 , nerror= int // number of accumulated errors
 } // end of [cmdstate]
@@ -1034,7 +1034,6 @@ val d1cs =
   $TRANS1.d0eclist_tr_errck (d0cs)
 // end of [val]
 //
-val () = state.ntrans := 1
 val () = $TRANS1.trans1_finalize ()
 //
 val () =
@@ -1063,8 +1062,6 @@ val d1cs =
 val d2cs =
   $TRANS2.d1eclist_tr_errck (d1cs)
 //
-val () = state.ntrans := 2
-//
 val () =
 if isdebug() then
 {
@@ -1090,8 +1087,6 @@ val () =
   $TRENV3.trans3_env_initialize ()
 val d3cs =
   $TRANS3.d2eclist_tr_errck (d2cs)
-//
-val () = state.ntrans := 3
 //
 (*
 val () = {
@@ -1143,8 +1138,6 @@ val d3cs =
 //
 val hids = $TYER.d3eclist_tyer_errck (d3cs)
 //
-val () = state.ntrans := 4
-//
 (*
 val () = fprint_hideclist (stdout_ref, hids)
 *)
@@ -1168,25 +1161,23 @@ do_transfinal
 case+ 0 of
 | _ when
     state.pkgreloc > 0 => let
-    val d1cs =
-      do_trans1 (state, given, d0cs)
-    // end of [val]
+    val d1cs = do_trans1 (state, given, d0cs)
   in
     do_pkgreloc (state, given, d1cs)
   end // end of [when ...]
 | _ when
     state.jsonizeflag = 2 => let
-    val d2cs =
-      do_trans12 (state, given, d0cs)
-    // end of [val]
+    val d2cs = do_trans12 (state, given, d0cs)
   in
     do_jsonize_2 (state, given, d2cs)
   end // end of [when ...]
 | _ when
-    state.typecheckflag > 0 => let
-    val d3cs = do_trans123 (state, given, d0cs) in (*none*)
-  end // end of [when ...]
+    state.typecheckflag > 0 =>
+  {
+    val d3cs = do_trans123 (state, given, d0cs)
+  } (* end of [when ...] *)
 | _ => let
+    val () = state.olevel := 1 // there is output
     val hids = do_trans1234 (state, given, d0cs)
     val outfil = outchan_get_filr (state.outchan)
     val flag = waitkind_get_stadyn (state.waitkind)
@@ -1220,7 +1211,7 @@ cmtl =
 in
 //
 if
-(n >= 4)
+(n > 0)
 then
 fprintf
 (
@@ -1234,8 +1225,11 @@ val
 (pf, fpf | p) =
 $UN.ptr0_vtake{cmdstate}(p0)
 //
-val ntrans = p->ntrans
+val olevel = p->olevel
 val outfil = outchan_get_filr (p->outchan)
+//
+val nerror = p->nerror
+val ((*void*)) = p->nerror := nerror + 1
 //
 prval ((*addback*)) = fpf (pf)
 //
@@ -1245,27 +1239,27 @@ case+ exn of
 //
 | ~($ERR.PATSOPT_FIXITY_EXN()) =>
   (
-    auxerr (ntrans, outfil, given, "fixity-errors")
+    auxerr (olevel, outfil, given, "fixity-errors")
   )
 //
 | ~($ERR.PATSOPT_TRANS1_EXN()) =>
   (
-    auxerr (ntrans, outfil, given, "trans1-errors")
+    auxerr (olevel, outfil, given, "trans1-errors")
   )
 //
 | ~($ERR.PATSOPT_TRANS2_EXN()) =>
   (
-    auxerr (ntrans, outfil, given, "trans2-errors")
+    auxerr (olevel, outfil, given, "trans2-errors")
   )
 //
 | ~($ERR.PATSOPT_TRANS3_EXN()) =>
   (
-    auxerr (ntrans, outfil, given, "trans3-errors")
+    auxerr (olevel, outfil, given, "trans3-errors")
   )
 //
 | ~($ERR.PATSOPT_TRANS4_EXN()) =>
   (
-    auxerr (ntrans, outfil, given, "trans4-errors")
+    auxerr (olevel, outfil, given, "trans4-errors")
   )
 //
 (*
@@ -1652,7 +1646,8 @@ patsopt_main
 
 implement
 patsopt_main
-  (argc, argv) = {
+  (argc, argv) = () where
+{
 //
 val () =
 set () where
@@ -1734,16 +1729,25 @@ state = @{
 //
 , cnstrsolveflag= 0 // cnstr-solving by default
 //
-, ntrans= 0 // level of trans(1,2,3,4)
+, olevel= 0 // level of output
 //
 , nerror= 0 // number of accumulated errors
 } : cmdstate // end of [var]
 //
 val () = process_ATSPKGRELOCROOT ()
 //
-val ((*void*)) = process_cmdline (state, arglst)
+val () = process_cmdline (state, arglst)
+(*
 //
-} (* end of [patsopt_main] *)
+// HX-2015-01-09:
+// should compilation be aborted?
+//
+val () =
+  if state.nerror > 0 then $ERR.abort{void}()
+//
+*)
+//
+} (* end of [where] *) // end of [patsopt_main]
 //
 (* ****** ****** *)
 //

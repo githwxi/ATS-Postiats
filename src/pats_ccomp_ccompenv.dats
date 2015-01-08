@@ -511,9 +511,10 @@ case+ xs of
     (
       if i > 0 then fprint_string (out, ", ")
     )
-    val () = fprint_string (out, "||")
+    val () =
+      fprint_string (out, "||")
     val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
+    prval ((*void*)) = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTmark]
@@ -521,11 +522,12 @@ case+ xs of
     (!p_x, !p_xs) => let
     val () =
     (
-       if i > 0 then fprint_string (out, ", ")
+      if i > 0 then fprint_string (out, ", ")
     )
-    val () = fprint_d2var (out, !p_x)
+    val () =
+      fprint_d2var (out, !p_x)
     val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
+    prval ((*void*)) = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTcons_var]
@@ -537,9 +539,11 @@ case+ xs of
       then fprint_string (out, ", ")
     // end of [val]
     val hfd = !p_x
-    val () = fprint_d2var (out, hfd.hifundec_var)
+    val d2v = hfd.hifundec_var
+    val () =
+      fprint_d2var (out, d2v)
     val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
+    prval ((*void*)) = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTcons_fundec]
@@ -549,9 +553,10 @@ case+ xs of
     if i > 0
       then fprint_string (out, ", ")
     // end of [val]
-    val () = fprint_hifundec2 (out, !p_x)
+    val () =
+      fprint_hifundec2 (out, !p_x)
     val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
+    prval ((*void*)) = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTcons_fundec2]
@@ -563,9 +568,11 @@ case+ xs of
       then fprint_string (out, ", ")
     // end of [val]
     val imp = !p_x
-    val () = fprint_d2cst (out, imp.hiimpdec_cst)
+    val d2c = imp.hiimpdec_cst
+    val () =
+      fprint_d2cst (out, d2c)
     val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
+    prval ((*void*)) = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTcons_impdec]
@@ -575,9 +582,10 @@ case+ xs of
     if i > 0
       then fprint_string (out, ", ")
     // end of [val]
-    val () = fprint_hiimpdec2 (out, !p_x)
+    val () =
+      fprint_hiimpdec2 (out, !p_x)
     val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
+    prval ((*void*)) = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTcons_impdec2]
@@ -585,13 +593,14 @@ case+ xs of
 | MARKENVLSTcons_staload
     (!p_x, !p_xs) => let
     val () =
-    (
-      if i > 0 then fprint_string (out, ", ")
-    )
+    if i > 0
+      then fprint_string (out, ", ")
+    // end of [if]
     val fname = filenv_get_name (!p_x)
-    val () = $FIL.fprint_filename_full (out, fname)
+    val () =
+      $FIL.fprint_filename_full (out, fname)
     val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
+    prval ((*void*)) = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTcons_staload]
@@ -599,12 +608,13 @@ case+ xs of
 | MARKENVLSTcons_tmpsub
     (!p_x, !p_xs) => let
     val () =
-    (
-      if i > 0 then fprint_string (out, ", ")
-    )
-    val () = fprint_tmpsub (out, !p_x)
+    if i > 0
+      then fprint_string (out, ", ")
+    // end of [val]
+    val () =
+      fprint_tmpsub (out, !p_x)
     val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
+    prval ((*void*)) = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTcons_tmpsub]
@@ -612,12 +622,13 @@ case+ xs of
 | MARKENVLSTcons_tmpcstmat
     (!p_x, !p_xs) => let
     val () =
-    (
-      if i > 0 then fprint_string (out, ", ")
-    )
-    val () = fprint_tmpcstmat (out, !p_x)
+    if i > 0
+      then fprint_string (out, ", ")
+    // end of [if]
+    val () =
+      fprint_tmpcstmat (out, !p_x)
     val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
+    prval ((*void*)) = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTcons_tmpcstmat]
@@ -625,12 +636,13 @@ case+ xs of
 | MARKENVLSTcons_tmpvarmat
     (!p_x, !p_xs) => let
     val () =
-    (
-      if i > 0 then fprint_string (out, ", ")
-    )
-    val () = fprint_tmpvarmat (out, !p_x)
+    if i > 0
+      then fprint_string (out, ", ")
+    // end of [val]
+    val () =
+      fprint_tmpvarmat (out, !p_x)
     val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
+    prval ((*void*)) = fold@ (xs)
   in
     // nothing
   end // end of [MARKENVLSTcons_tmpvarmat]
@@ -1463,7 +1475,7 @@ case+ d2es of
   in
     addlst_if (env, flvl0, d2es)
   end (* end of [list_cons] *)
-| list_nil () => ()
+| list_nil ((*void*)) => ()
 //
 end // end of [addlst_if]
 //

@@ -197,6 +197,13 @@ end // end of [fprint_funkind]
 
 (* ****** ****** *)
 
+(*
+implement
+valkind_is_model (vk) =
+  case+ vk of VK_mcval () => true | _ => false
+// end of [valkind_is_model]
+*)
+
 implement
 valkind_is_proof (vk) =
   case+ vk of VK_prval () => true | _ => false

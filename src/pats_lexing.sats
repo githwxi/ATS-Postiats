@@ -394,10 +394,11 @@ val VIEWTYPEDEF : tnode
 val VAL : tnode
 val VAL_pos : tnode
 val VAL_neg : tnode
-val PRVAL  : tnode
+val MCVAL : tnode // for model-checking
+val PRVAL : tnode // for theorem-proving
 
 val VAR : tnode
-val PRVAR  : tnode
+val PRVAR : tnode
 
 val WHILE : tnode
 val WHILESTAR : tnode

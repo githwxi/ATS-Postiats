@@ -108,16 +108,22 @@ fun fprint_funkind : fprint_type (funkind)
 datatype
 valkind =
   | VK_val // val
-  | VK_prval // prval
   | VK_val_pos // val+
   | VK_val_neg // val-
+(*
+  | VK_mcval // mcval: for model-checking
+*)
+  | VK_prval // prval: for theorem-proving
 // end of [valkind]
 
-fun valkind_is_proof (vk: valkind):<> bool
+(* ****** ****** *)
+
+fun
+valkind_is_model (vk: valkind):<> bool
+fun
+valkind_is_proof (vk: valkind):<> bool
 
 fun fprint_valkind : fprint_type (valkind)
-
-(* ****** ****** *)
 
 fun valkind2caskind (knd: valkind): caskind
 
