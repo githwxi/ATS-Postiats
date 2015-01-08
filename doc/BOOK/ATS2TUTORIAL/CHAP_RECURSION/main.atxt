@@ -20,16 +20,14 @@ id="recursion"
 
 #para('\
 
-The notion of recursion is ubiquitous in ATS.
-For instance, there are recursively defined sorts (datasorts) and
-recursively defined types (datatypes) in the statics, and there are also
-recursively defined functions in the dynamics.
-Literally, the word #emphasis("recurse") means "go back". When
-an entity is defined recursively, it means that the entity being defined
-can appear in its own definition. In the following presentation, I will
-show several ways to define (or implement) recursive functions and
-non-recursive functions, where the latter is just a special case of the
-former.
+The notion of recursion is ubiquitous in ATS.  For instance, there are
+recursively defined sorts (datasorts) and types (datatypes) in the statics,
+and there are also recursively defined functions in the dynamics.
+Literally, the word #emphasis("recurse") means "go back". When an entity is
+defined recursively, it means that the entity being defined can appear in
+its own definition. In the following presentation, I will show several ways
+to define (or implement) recursive functions and non-recursive functions,
+where the latter is just a special case of the former.\
 
 ')
 

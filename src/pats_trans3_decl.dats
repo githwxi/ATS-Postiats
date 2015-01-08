@@ -278,14 +278,14 @@ implement
 i2mpdec_tr (impdec) = let
   val loc0 = impdec.i2mpdec_loc
   val locid = impdec.i2mpdec_locid
-  val d2c = impdec.i2mpdec_cst
+  val d2c0 = impdec.i2mpdec_cst
   val imparg = impdec.i2mpdec_imparg
   val tmparg = impdec.i2mpdec_tmparg
   val tmpgua = impdec.i2mpdec_tmpgua
 (*
-  val () = begin
-    print "d2ec_tr: D2Cimpdec: impdec = "; print_d2ecl (impdec); print_newline ()
-  end // end of [val]
+  val () = (
+    println! ("d2ec_tr: D2Cimpdec: impdec = ", impdec)
+  ) (* end of [val] *)
 *)
   val (pfpush | ()) = trans3_env_push ()
   val () = trans3_env_add_svarlst (imparg)
@@ -295,7 +295,7 @@ i2mpdec_tr (impdec) = let
   val d3e_def = d2exp_trup (impdec.i2mpdec_def)
   val () = trans3_env_pop_and_add_main (pfpush | loc0)
 in
-  i3mpdec_make (loc0, d2c, imparg, tmparg, d3e_def)
+  i3mpdec_make (loc0, d2c0, imparg, tmparg, d3e_def)
 end // end of [i2mpdec_tr]
 
 (* ****** ****** *)

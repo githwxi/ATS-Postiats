@@ -283,7 +283,7 @@ val-D3Cimpdec (knd, impdec) = d3c0.d3ecl_node
 //
 in
 //
-if knd = 0 then let
+if knd <= 1 then let
 //
   val loc = impdec.i3mpdec_loc
   val d2c = impdec.i3mpdec_cst

@@ -1838,9 +1838,10 @@ prv1ardeclst_tr
 (*
 //
 // HX:
-// this one is implemented in [pats_trans2_impdec.dats]
+// it is implemented in [pats_trans2_impdec.dats]:
 //
 extern fun i1mpdec_tr (d1c: d1ecl): Option_vt (i2mpdec)
+//
 *)
 
 (* ****** ****** *)
@@ -2021,14 +2022,14 @@ fun auxcheck_impdec
 ) : void = let
   val d2c = impdec.i2mpdec_cst
   val okay = (
-    if knd > 0 then d2cst_is_prf (d2c) else d2cst_is_nonprf (d2c)
+    if knd < 0 then d2cst_is_prf (d2c) else d2cst_is_nonprf (d2c)
   ) : bool // end of [val]
   val () = if ~okay then let
     val () = prerr_error2_loc (d1c0.d1ecl_loc)
     val () = filprerr_ifdebug "d1ecl_tr: auxcheck_impdec" // for debugging
-    val () = if knd > 0 then
+    val () = if knd < 0 then
       prerr ": the implemented dynamic constant is required to be proof."
-    val () = if knd = 0 then
+    val () = if knd >= 0 then
       prerr ": the implemented dynamic constant is required to be non-proof."
     val () = prerr_newline ()
   in

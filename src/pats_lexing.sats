@@ -135,7 +135,7 @@ token_node =
   | T_FUN of (funkind) // fn, fnx, fun, prfn and prfun
   | T_IF of () // (dynamic) if
   | T_IMPLEMENT of
-      (int) // 0/1: implement/primplement
+      (int) // 0/1/2: implmnt/implement/primplmnt
   | T_IMPORT of () // import (for packages)
   | T_IN of () // in
   | T_LAM of int // lam, llam (linear lam) and lam@ (flat lam)
@@ -341,6 +341,7 @@ val FORSTAR : tnode
 val FREE : tnode
 val FREEAT : tnode
 
+val IMPLMNT : tnode // implmnt
 val IMPLEMENT : tnode // implement
 val PRIMPLMNT : tnode // primplmnt
 

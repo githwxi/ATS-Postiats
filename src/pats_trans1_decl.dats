@@ -1170,10 +1170,11 @@ case+ d0c0.d0ecl_node of
     d1ecl_vardecs (loc0, knd, d1cs)
   end // end of [D0Cvardecs]
 //
-| D0Cimpdec (knd, i0mparg, d0c) => let
+| D0Cimpdec
+    (knd, i0mparg, d0c) => let
     val i1mparg = i0mparg_tr (i0mparg) in
     d1ecl_impdec (loc0, knd, i1mparg, i0mpdec_tr d0c)
-  end // end of [D0Cimpdec]
+  end (* end of [D0Cimpdec] *)
 //
 | D0Cinclude
     (pfil, stadyn, given) => let
