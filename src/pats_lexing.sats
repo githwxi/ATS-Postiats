@@ -213,6 +213,8 @@ token_node =
 //
   | T_DLRSHOWTYPE of () // $showtype // for debugging purpose
 //
+  | T_DLRCLOSURENV of () // $closurenv // for adding envar
+//
   | T_DLRVCOPYENV of (int) // $vcopyenv_v(v)/$vcopyenv_vt(vt)
 //
   | T_SRPASSERT of () // #assert

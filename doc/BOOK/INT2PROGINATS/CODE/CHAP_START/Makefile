@@ -5,7 +5,7 @@
 ######
 
 CC=gcc
-CCOPT=$(CC) -std=c99
+CCOPT=$(CC) -std=c99 -D_XOPEN_SOURCE
 
 ######
 
@@ -18,7 +18,7 @@ INCLUDES=-I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime
 
 ######
 
-CCFLAGS=-O2
+CFLAGS=-O2
 ATSCCFLAGS=
 
 ######
@@ -29,12 +29,12 @@ all:: queens
 ######
 
 hello: hello_dats.c ; \
-  $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) $(INCLUDES) $(CFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 regress:: hello; ./hello
 cleanall:: ; $(RMF) hello
 
 queens: queens_dats.c ; \
-  $(CCOPT) $(INCLUDES) $(CCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
+  $(CCOPT) $(INCLUDES) $(CFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 regress:: queens; ./queens
 cleanall:: ; $(RMF) queens
 

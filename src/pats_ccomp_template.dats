@@ -252,9 +252,12 @@ case+ env of
 end // end of [impenv_free]
 
 (* ****** ****** *)
-
+//
 extern
-fun impenv2tmpsub (env: impenv): tmpsub
+fun
+impenv2tmpsub
+  (env: impenv): tmpsub
+//
 implement
 impenv2tmpsub
   (env) = let
@@ -277,8 +280,8 @@ end // end of [aux]
 //
 in
   aux (env, TMPSUBnil ())
-end // end of [impenv2stasub]
-
+end // end of [impenv2tmpsub]
+//
 (* ****** ****** *)
 
 local
@@ -306,7 +309,7 @@ in
 //
 case+ s2en_pat of
 //
-| S2Evar (s2v) => let
+| S2Evar(s2v) => let
     val s2f =
       impenv_find (env, s2v)
     // end of [val]
@@ -318,7 +321,7 @@ case+ s2en_pat of
     ) else (s2hnf_syneq (s2f, s2f_arg))
   end // end of [S2Evar]
 //
-| S2Ecst (s2c) => let
+| S2Ecst(s2c) => let
   in
     case+ s2en_arg of
     | S2Ecst (s2c_arg) =>
@@ -369,7 +372,8 @@ case+ s2en_pat of
 //
 end // end of [auxmat]
 
-and auxmatlst
+and
+auxmatlst
 (
   env: !impenv
 , s2es_pat: s2explst
@@ -383,7 +387,8 @@ val () = println! ("auxmatlst: s2es_arg = ", s2es_arg)
 //
 in
 //
-case+ s2es_pat of
+case+
+s2es_pat of
 | list_cons
   (
     s2e_pat, s2es_pat
@@ -402,7 +407,8 @@ case+ s2es_pat of
 //
 end // end of [auxmatlst]
 
-and auxlabmatlst
+and
+auxlabmatlst
 (
   env: !impenv
 , ls2es_pat: labs2explst
@@ -429,7 +435,7 @@ case+ ls2es_pat of
       if ans then auxlabmatlst (env, ls2es_pat, ls2es_arg) else false
     end // end of [list_cons]
   | list_nil () => false
-  )
+  ) (* end o [cons] *)
 | list_nil () => (
   case+ ls2es_arg of
   | list_cons _ => false | list_nil () => true
@@ -437,7 +443,8 @@ case+ ls2es_pat of
 //
 end // end of [auxlabmatlst]
 
-fun auxmatlstlst
+fun
+auxmatlstlst
 (
   env: !impenv, s2ess: s2explstlst, t2mas: t2mpmarglst
 ) : bool = let
@@ -476,7 +483,8 @@ case+ t2mas of
 //
 end // end of [auxbndlstlst]
 
-and auxbndlstlst2
+and
+auxbndlstlst2
 (
   s2vs: s2varlst, s2es: s2explst, t2mas: t2mpmarglst
 ) : tmpsub = let

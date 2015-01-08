@@ -544,6 +544,8 @@ val () = ins ("$myfunction", T_DLRMYFUNCTION)
 //
 val () = ins ("$showtype", T_DLRSHOWTYPE)
 //
+val () = ins ("$closurenv", T_DLRCLOSURENV)
+//
 val () = ins ("$vcopyenv_v", DLRVCOPYENV_V)
 val () = ins ("$vcopyenv_vt", DLRVCOPYENV_VT)
 //
@@ -572,10 +574,10 @@ in (* in of [local] *)
 implement
 tnode_search (x) = let
 //
-  val (fptbl | ptbl) = HASHTBLref_takeout_ptr (rtbl)
-  var res: itm?
-  val b = hashtbl_search<key,itm> (ptbl, encode(x), res)
-  prval () = fptbl (ptbl)
+var res: itm?
+val (fptbl | ptbl) = HASHTBLref_takeout_ptr (rtbl)
+val b = hashtbl_search<key,itm> (ptbl, encode(x), res)
+prval () = fptbl (ptbl)
 //
 in
 //

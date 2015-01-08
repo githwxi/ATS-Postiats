@@ -82,7 +82,8 @@ overload fprint with fprint_vbindmap
 local
 
 extern
-fun funent_set_flablst_fin
+fun
+funent_set_flablst_fin
 (
   fent: funent, opt: Option (funlablst)
 ) : void = "ext#patsopt_funent_set_flablst_fin"
@@ -112,7 +113,8 @@ in
   funent_get_flablst (fent)
 end // end of [aux_funlab_get_flablst]
 
-fun auxtrclo
+fun
+auxtrclo
 (
   flvl0: int
 , xs: funlablst
@@ -192,11 +194,11 @@ case+ opt of
   {
     val fl0 = funent_get_lab (fent)
     val flvl = funent_get_level (fent)
-    val xs = funent_get_flablst (fent)
+    val xs0 = funent_get_flablst (fent)
     val xss = list_vt_nil () // : funlablst2_vt
     val res = funlabset_vt_nil ()
     val res = funlabset_vt_add (res, fl0)
-    val res = auxtrclo (flvl, xs, xss, res)
+    val res = auxtrclo (flvl, xs0, xss, res)
     val fls = funlabset_vt_listize_free (res)
     val fls = list_of_list_vt{funlab}(fls)
     val ((*void*)) = funent_set_flablst_fin (fent, Some (fls))
@@ -211,7 +213,8 @@ end // end of [local]
 local
 
 extern
-fun funent_set_d2envlst_fin
+fun
+funent_set_d2envlst_fin
 (
   fent: funent, opt: Option (d2envlst)
 ) : void = "ext#patsopt_funent_set_d2envlst_fin"
@@ -250,7 +253,8 @@ case+ d2esopt of
 //
 end // end of [aux_funlab_get_d2envlst]
 
-fun auxd2es
+fun
+auxd2es
 (
   d2es: d2envlst
 , vbmap: vbindmap, res: d2envset_vt
@@ -284,10 +288,11 @@ end // end of [auxd2es]
 
 (* ****** ****** *)
 //
-// HX-2013:-04:
+// HX-2013-04:
 // [vbmap] is not actually used.
 //
-fun auxtrclo
+fun
+auxtrclo
 (
   fls: funlablst
 , vbmap: vbindmap, res: d2envset_vt
@@ -340,22 +345,22 @@ case+ opt of
   {
     val fls0 = funent_eval_flablst (fent)
     val vbmap = funent_get_vbindmap (fent)
-    val d2es(*set*) =
-      auxtrclo (fls0, vbmap, d2envset_vt_nil())
-    // end of [val]
+    val d2es(*set*) = d2envset_vt_nil()
+    val d2es(*set*) = auxtrclo (fls0, vbmap, d2es)
     val d2es(*list*) = d2envset_vt_listize_free (d2es)
-    val d2es = list_of_list_vt{d2env}(d2es)
+    val d2es(*list*) = list_of_list_vt{d2env}(d2es)
     val ((*void*)) = funent_set_d2envlst_fin (fent, Some (d2es))
   } (* end of [None] *)
 //
-end // end of [funent_eval_d2varlst]
+end // end of [funent_eval_d2envlst]
 
 end // end of [local]
 
 (* ****** ****** *)
 
 implement
-funlab_is_envful (flab) = let
+funlab_is_envful
+  (flab) = let
 //
 val opt = funlab_get_funent (flab)
 val d2es =
@@ -371,7 +376,8 @@ end // end of [funlab_is_envful]
 (* ****** ****** *)
 
 implement
-funlab_get_type_fullarg (flab) = let
+funlab_get_type_fullarg
+  (flab) = let
 //
 fun aux
 (
@@ -538,7 +544,7 @@ end // end of [funent_varbindmap_initize2]
 
 implement
 funent_varbindmap_uninitize
-  (fent) = let
+  (fent0) = let
 //
 val
 (

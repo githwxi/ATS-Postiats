@@ -178,6 +178,8 @@ fprint_token
 //
   | T_DLRSHOWTYPE () => fprintf (out, "DLRSHOWTYPE()", @())
 //
+  | T_DLRCLOSURENV () => fprintf (out, "DLRCLOSURENV()", @())
+//
   | T_DLRVCOPYENV (x) => fprintf (out, "DLRVCOPYENV(%i)", @(x))
 //
   | T_SRPASSERT () => fprintf (out, "SRPASSERT()", @())

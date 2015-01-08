@@ -27,7 +27,6 @@ overload + with add_int_int of 1000000
 extern fun{} foo(): int
 extern fun{} bar1(int): int
 extern fun{} bar2(int): int
-extern fun{} bar12(int): int
 
 (* ****** ****** *)
 
@@ -48,7 +47,7 @@ implement
 // HX-2015-01-08:
 // This seems to be reasonable:
 //
-prval () = $closure_addenv(argc)
+val () = $closurenv(argc)
 *)
 //
 in
