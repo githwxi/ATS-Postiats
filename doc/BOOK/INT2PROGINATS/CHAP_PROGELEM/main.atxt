@@ -71,7 +71,7 @@ instance, following are some character constants: #dyncode("'a'"),
 #dyncode("'\\\\('") (left parenthesis), #dyncode("')'") (right
 parenthesis), #dyncode("'\\\\{'") (left curly brace), #dyncode("'}'")
 (right curly brace), etc; following are some string constants:
-#dyncode('"My name is Zoe"'), #dyncode('"Don\'t call me \\\\"Cloe\\\\""'),
+#dyncode('"My name is Zoe"'), #dyncode('"Don\'t call me \\\\"Chloe\\\\""'),
 #dyncode('"this is a newline:\\\\n"'), etc.\
 
 ')

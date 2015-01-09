@@ -6,7 +6,11 @@
 <author>
 <firstname>Hongwei</firstname>
 <surname>Xi</surname>
-<affiliation><address><email>gmhwxiATgmailDOTcom</email></address></affiliation>
+<affiliation>
+<address>
+ATS Trustful Software, Inc.
+</address>
+</affiliation>
 </author>
 </authorgroup>
 
@@ -15,6 +19,14 @@
 
 <abstract>
 <para>
+As a programming language, ATS is both syntax-rich and feature-rich.
+This book introduces the reader to some core features of ATS, including
+basic functional programming, simple types, (recursively defined)
+datatypes, polymorphic types, dependent types, linear types, theorem-proving,
+programming with theorem-proving (PwTP) and template-based programming.
+Although the reader is not assumed to be familiar with programming in general,
+the book is likely to be rather dense for someone without considerable
+programming experience.
 </para>
 </abstract>
 

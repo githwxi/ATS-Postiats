@@ -1518,9 +1518,9 @@ end // end of [insfix_l]
 
 However, I would like to point out that the interface for the above
 #dyncode("insfix_l") is a #emphasis("direct") translation of the interface for
-the previous #dyncode("infix_l"). In other words, the previously captured
+the previous #dyncode("insfix_l"). In other words, the previously captured
 relation between a tree being rotated and the one obtained from applying
-#dyncode("infix_l") to it also holds in the setting of linear red-black trees.
+#dyncode("insfix_l") to it also holds in the setting of linear red-black trees.
 The very same statement can be made about the following function template
 #dyncode("insfix_r"), which is precisely a mirror image of #dyncode("insfix_l"):
 
