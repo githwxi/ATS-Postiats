@@ -634,9 +634,9 @@ case+
 | HDEvcopyenv (d2v) => HX: HDEvar(d2v)
 *)
 //
-| HDEclosurenv (d2vs) =>
+| HDEtempenver (d2vs) =>
   {
-    val () = prstr "HDEclosurenv("
+    val () = prstr "HDEtempenver("
     val () = fprint_d2varlst (out, d2vs)
     val () = prstr ")"
   }

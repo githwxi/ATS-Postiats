@@ -752,9 +752,9 @@ case+ d0e0.d0exp_node of
 //
 | D0Eshowtype (d0e) => FXITMatm (d1exp_showtype (loc0, d0exp_tr (d0e)))
 //
-| D0Eclosurenv (d0e) => FXITMatm (d1exp_closurenv (loc0, d0exp_tr (d0e)))
-//
 | D0Evcopyenv (knd, d0e) => FXITMatm (d1exp_vcopyenv (loc0, knd, d0exp_tr (d0e)))
+//
+| D0Etempenver (d0e) => FXITMatm (d1exp_tempenver (loc0, d0exp_tr (d0e)))
 //
   | D0Eptrof () => let
     fn f (d1e: d1exp):<cloref1> d1expitm = let

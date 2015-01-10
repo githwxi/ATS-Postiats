@@ -471,7 +471,7 @@ markenvlst_vt =
   | MARKENVLSTcons_tmpcstmat of (tmpcstmat, markenvlst_vt) 
   | MARKENVLSTcons_tmpvarmat of (tmpvarmat, markenvlst_vt) 
 //
-  | MARKENVLSTcons_closurenv of (d2varlst, markenvlst_vt)
+  | MARKENVLSTcons_tempenver of (d2varlst, markenvlst_vt)
 //
 // end of [markenvlst]
 
@@ -495,7 +495,7 @@ in
   | ~MARKENVLSTcons_tmpsub (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_tmpcstmat (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_tmpvarmat (_, xs) => markenvlst_vt_free (xs)
-  | ~MARKENVLSTcons_closurenv (_, xs) => markenvlst_vt_free (xs)
+  | ~MARKENVLSTcons_tempenver (_, xs) => markenvlst_vt_free (xs)
 end // end of [markenvlst_vt_free]
 
 (* ****** ****** *)
@@ -658,7 +658,7 @@ case+ xs of
     // nothing
   end // end of [MARKENVLSTcons_tmpvarmat]
 //
-| MARKENVLSTcons_closurenv
+| MARKENVLSTcons_tempenver
     (!p_x, !p_xs) => let
     val () =
     if i > 0
@@ -670,7 +670,7 @@ case+ xs of
     prval ((*void*)) = fold@ (xs)
   in
     // nothing
-  end // end of [MARKENVLSTcons_closurenv]
+  end // end of [MARKENVLSTcons_tempenver]
 //
 end // end of [loop]
 //
@@ -1681,7 +1681,7 @@ case+ xs of
 | ~MARKENVLSTcons_tmpsub (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_tmpcstmat (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_tmpvarmat (_, xs) => auxpop (map, xs)
-| ~MARKENVLSTcons_closurenv (_, xs) => auxpop (map, xs)
+| ~MARKENVLSTcons_tempenver (_, xs) => auxpop (map, xs)
 //
 end // end of [auxpop]
 
@@ -1735,9 +1735,9 @@ case+ xs of
     val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
   end // end of [MENVLSTcons_tmpvarmat]
 //
-| MARKENVLSTcons_closurenv (_, !p_xs) => let
+| MARKENVLSTcons_tempenver (_, !p_xs) => let
     val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
-  end // end of [MENVLSTcons_closurenv]
+  end // end of [MENVLSTcons_tempenver]
 //
 end // end of [auxjoin]
 
@@ -2007,11 +2007,11 @@ case+ xs of
     val res = loop (!p_xs); prval () = fold@ (xs)
   } // end of [MARKENVLSTcons_tmpvarmat]
 //
-| MARKENVLSTcons_closurenv
+| MARKENVLSTcons_tempenver
     (_, !p_xs) => res where
   {
     val res = loop (!p_xs); prval () = fold@ (xs)
-  } // end of [MARKENVLSTcons_closurenv]
+  } // end of [MARKENVLSTcons_tempenver]
 //
 end // end of [loop]
 //
@@ -2209,9 +2209,9 @@ case+ xs of
     val res = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); res
   end (* end of [MARKENVLSTcons_tmpvarmat] *)
 //
-| MARKENVLSTcons_closurenv (_, !p_xs) => let
+| MARKENVLSTcons_tempenver (_, !p_xs) => let
     val res = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); res
-  end (* end of [MARKENVLSTcons_closurenv] *)
+  end (* end of [MARKENVLSTcons_tempenver] *)
 //
 end (* end of [auxlst] *)
 
@@ -2323,9 +2323,9 @@ case+ xs of
     val res2 = auxcont (res, !p_xs, d2v0, t2mas) in fold@ (xs); res2
   end (* end of [MARKENVLSTcons_tmpvarmat] *)
 //
-| MARKENVLSTcons_closurenv (_, !p_xs) => let
+| MARKENVLSTcons_tempenver (_, !p_xs) => let
     val res = auxlst (!p_xs, d2v0, t2mas) in fold@ (xs); res
-  end (* end of [MARKENVLSTcons_closurenv] *)
+  end (* end of [MARKENVLSTcons_tempenver] *)
 //
 end // end of [auxlst]
 
@@ -2380,7 +2380,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-ccompenv_get_closurenv
+ccompenv_get_tempenver
   (env) = let
 //
 fun
@@ -2406,11 +2406,11 @@ case+ xs of
 //
 | MARKENVLSTnil() => (fold@(xs); res)
 //
-| MARKENVLSTcons_closurenv
+| MARKENVLSTcons_tempenver
     (!p_x, !p_xs) => let
     val res = revapp (!p_x, res)
     val res = auxlst (!p_xs, res) in fold@(xs); res
-  end // end of [MARKENVLSTcons_closurenv]
+  end // end of [MARKENVLSTcons_tempenver]
 //
 | MARKENVLSTmark(!p_xs) => let
     val res = auxlst (!p_xs, res) in fold@(xs); res
@@ -2466,36 +2466,77 @@ prval ((*void*)) = fold@ (env)
 //
 in
   list_vt_reverse(d2vs)
-end // end of [ccompenv_get_closurenv]
+end // end of [ccompenv_get_tempenver]
 
 (* ****** ****** *)
 
+local
+
+val
+theFlag = ref<bool> (false)
+fun
+theFlag_get () = !theFlag
+fun
+theFlag_set () = !theFlag := true
+fun
+theFlag_unset () = !theFlag := false
+
+in (* in-of-local *)
+
 implement
-ccompenv_add_closurenv
+ccompenv_add_tempenver
   (env, d2vs) = let
 //
 (*
 val () =
 fprintln!
-  (stdout_ref, "ccompenv_add_closurenv: d2vs = ", d2vs)
+  (stdout_ref, "ccompenv_add_tempenver: d2vs = ", d2vs)
 *)
+//
+val () = theFlag_set()
 //
 val CCOMPENV (!p) = env
 //
 val xs = p->ccompenv_markenvlst
 val () =
-  p->ccompenv_markenvlst := MARKENVLSTcons_closurenv (d2vs, xs)
+  p->ccompenv_markenvlst := MARKENVLSTcons_tempenver (d2vs, xs)
 //
 prval ((*void*)) = fold@ (env)
 //
 in
   // nothing
-end // end of [ccompenv_add_closurenv]
+end // end of [ccompenv_add_tempenver]
 
 (* ****** ****** *)
 
 implement
-ccompenv_dvarsetenv_add_closurenv
+ccompenv_get2_tempenver
+  (env) = let
+//
+val flag = theFlag_get ()
+//
+in
+//
+if
+flag
+then let
+//
+val d2vs = ccompenv_get_tempenver(env)
+val ((*void*)) =
+  if list_vt_is_nil(d2vs) then theFlag_unset()
+//
+in
+  d2vs
+end // end of [then]
+//
+else list_vt_nil ()
+//
+end // end of [ccompenv_get2_tempenver]
+
+(* ****** ****** *)
+
+implement
+ccompenv_dvarsetenv_add_tempenver
   (env, d2es) = let
 //
 fun auxlst
@@ -2515,18 +2556,19 @@ case+ d2vs of
 //
 ) (* end of [auxlst] *)
 //
-val d2vs = ccompenv_get_closurenv (env)
+val d2vs = ccompenv_get2_tempenver (env)
 //
 (*
 val d2vs2 = $UN.list_vt2t{d2var}(d2vs)
 val ((*void*)) =
-fprintln! (stdout_ref, "ccompenv_dvarsetenv_add_closurenv: d2vs = ", d2vs2)
+fprintln! (stdout_ref, "ccompenv_dvarsetenv_add_tempenver: d2vs = ", d2vs2)
 *)
 //
 in
   auxlst (d2es, d2vs)
-end // end of [ccompenv_dvarsetenv_add_closurenv]
+end // end of [ccompenv_dvarsetenv_add_tempenver]
 
+end // end of [local]
 
 (* ****** ****** *)
 

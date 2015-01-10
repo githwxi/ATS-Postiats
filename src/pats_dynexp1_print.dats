@@ -575,8 +575,8 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eclosurenv (d1e) => {
-    val () = prstr "D1Eclosurenv("
+| D1Etempenver (d1e) => {
+    val () = prstr "D1Etempenver("
     val () = fprint_d1exp (out, d1e)
     val () = prstr ")"
   }

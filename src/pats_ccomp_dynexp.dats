@@ -384,11 +384,11 @@ case+ hde0.hidexp_node of
 | HDEvcopyenv (d2v) => HX: HDEvar (d2v)
 *)
 //
-| HDEclosurenv (d2vs) => let
-    val () = ccompenv_add_closurenv(env, d2vs)
+| HDEtempenver (d2vs) => let
+    val () = ccompenv_add_tempenver(env, d2vs)
   in
     primval_empty (loc0, hse0)
-  end // end of [HDEclosurenv]
+  end // end of [HDEtempenver]
 //
 | HDElam _ => hidexp_ccomp_lam (env, res, hde0)
 | HDEfix _ => hidexp_ccomp_fix (env, res, hde0)

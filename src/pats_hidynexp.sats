@@ -396,7 +396,7 @@ and hidexp_node =
 (*
   | HDEvcopyenv of (d2var) // HX: HDEvar
 *)
-  | HDEclosurenv of (d2varlst) // for environvars
+  | HDEtempenver of (d2varlst) // for environvars
 //
   | HDElam of (int(*knd=0/1:flat/boxed*), hipatlst, hidexp) // HX: lam_dyn
 //
@@ -860,7 +860,7 @@ hidexp_vcopyenv
 (* ****** ****** *)
 //
 fun
-hidexp_closurenv
+hidexp_tempenver
   (loc: loc_t, hse: hisexp, d2vs: d2varlst): hidexp
 //
 (* ****** ****** *)

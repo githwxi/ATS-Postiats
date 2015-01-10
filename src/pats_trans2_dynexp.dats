@@ -1536,7 +1536,7 @@ case+ d1e0.d1exp_node of
     (knd, d1e) => d2exp_vcopyenv (loc0, knd, d1exp_tr d1e)
   // end of [D1Evcopyenv]
 //
-| D1Eclosurenv
+| D1Etempenver
     (d1e) => let
 //
     fun auxlst
@@ -1568,8 +1568,8 @@ case+ d1e0.d1exp_node of
       | _(*ignored*) => list_nil(*void*)
     ) : d2varlst // end of [val]
   in
-    d2exp_closurenv (loc0, d2vs)
-  end // end of [D1Eclosurenv]
+    d2exp_tempenver (loc0, d2vs)
+  end // end of [D1Etempenver]
 //
 | D1Eptrof (d1e) => d2exp_ptrof (loc0, d1exp_tr d1e)
 | D1Eviewat (d1e) => d2exp_viewat (loc0, d1exp_tr d1e)

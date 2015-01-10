@@ -701,8 +701,8 @@ d1exp_vcopyenv (loc, knd, d1e) =
 (* ****** ****** *)
 //
 implement
-d1exp_closurenv (loc, d1e) =
-  d1exp_make (loc, D1Eclosurenv (d1e))
+d1exp_tempenver (loc, d1e) =
+  d1exp_make (loc, D1Etempenver (d1e))
 //
 (* ****** ****** *)
 

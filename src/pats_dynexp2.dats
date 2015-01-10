@@ -714,9 +714,9 @@ d2exp_vcopyenv
 (* ****** ****** *)
 //
 implement
-d2exp_closurenv
+d2exp_tempenver
   (loc, d2vs) =
-  d2exp_make_node (loc, D2Eclosurenv (d2vs))
+  d2exp_make_node (loc, D2Etempenver (d2vs))
 //
 (* ****** ****** *)
 

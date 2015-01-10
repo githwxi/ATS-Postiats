@@ -677,7 +677,7 @@ val fls0 = funent_funlablst_update (env, fls0)
 val fls02 = list_vt_append (fls0, fls0_tmp)
 //
 val d2es2 = ccompenv_getdec_dvarsetenv (env)
-val d2es2 = ccompenv_dvarsetenv_add_closurenv (env, d2es2)
+val d2es2 = ccompenv_dvarsetenv_add_tempenver (env, d2es2)
 val d2es2(*list*) = d2envset_vt_listize_free (d2es2)
 //
 val () = the_d2varlev_dec (pfinc | (*void*))

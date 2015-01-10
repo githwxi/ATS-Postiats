@@ -699,9 +699,9 @@ hidexp_vcopyenv
 (* ****** ****** *)
 //
 implement
-hidexp_closurenv
+hidexp_tempenver
   (loc, hse, d2vs) =
-  hidexp_make_node (loc, hse, HDEclosurenv (d2vs))
+  hidexp_make_node (loc, hse, HDEtempenver (d2vs))
 //
 (* ****** ****** *)
 

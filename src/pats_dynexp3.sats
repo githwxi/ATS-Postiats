@@ -366,9 +366,9 @@ and d3exp_node =
 //
   | D3Eeffmask of (s2eff, d3exp) // $effmask(s2eff, d3exp)
 //
-  | D3Eclosurenv of (d2varlst) // for environvars
-//
   | D3Evcopyenv of (int(*knd*), d2var) // $vcopyenv_v/vcopyenv_vt
+//
+  | D3Etempenver of (d2varlst) // $tempenver for environvars
 //
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
@@ -791,34 +791,43 @@ fun d3exp_selab
 
 (* ****** ****** *)
 
-fun d3exp_ptrofvar
+fun
+d3exp_ptrofvar
   (loc: location, s2f: s2exp, d2v: d2var): d3exp
-fun d3exp_ptrofsel (
-  loc: location, s2f: s2exp, d3e: d3exp, s2rt: s2exp, d3ls: d3lablst
+fun
+d3exp_ptrofsel
+(
+  loc: location
+, s2f: s2exp, d3e: d3exp, s2rt: s2exp, d3ls: d3lablst
 ) : d3exp // end of [d3exp_ptrofsel]
 
 (* ****** ****** *)
 
-fun d3exp_viewat
-  (loc: location, s2at: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
-// end of [d3exp_viewat]
-fun d3exp_viewat_assgn
-  (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
-// end of [d3exp_viewat_assgn]
+fun
+d3exp_viewat
+(
+  loc: location, s2at: s2exp, d3e: d3exp, d3ls: d3lablst
+) : d3exp // end of [d3exp_viewat]
+fun
+d3exp_viewat_assgn
+(
+  loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp
+) : d3exp // end of [d3exp_viewat_assgn]
 
 (* ****** ****** *)
-
+//
 fun
 d3exp_vcopyenv
 (
   loc: location, s2f: s2exp, knd: int, d2v: d2var
 ) : d3exp // end of [d3exp_vcopyenv]
-
+//
 (* ****** ****** *)
-
-fun d3exp_closurenv
+//
+fun
+d3exp_tempenver
   (loc: location, s2f: s2exp, d2vs: d2varlst): d3exp
-
+//
 (* ****** ****** *)
 
 fun d3exp_lam_dyn

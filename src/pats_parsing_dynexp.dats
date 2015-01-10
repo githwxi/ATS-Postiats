@@ -1319,13 +1319,13 @@ case+ tok.token_node of
     (* end of [if] *)
   end
 //
-| T_DLRCLOSURENV () => let
+| T_DLRTEMPENVER () => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_d0exp1 (buf, bt, err)
   in
     if err = err0 then
-      d0exp_closurenv (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+      d0exp_tempenver (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
 //

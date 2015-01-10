@@ -1816,14 +1816,19 @@ fun ccompenv_add_tmpvarmat (env: !ccompenv, tmpmat: tmpvarmat): void
 //
 (* ****** ****** *)
 //
-fun ccompenv_get_closurenv (env: !ccompenv): d2varlst_vt
+// HX-2015-01-10:
+// [get] and [get2] return the same result
+// however, [get2] is supposed to be more efficient
 //
-fun ccompenv_add_closurenv (env: !ccompenv, d2vs: d2varlst): void
+fun ccompenv_get_tempenver (env: !ccompenv): d2varlst_vt
+fun ccompenv_get2_tempenver (env: !ccompenv): d2varlst_vt
+//
+fun ccompenv_add_tempenver (env: !ccompenv, d2vs: d2varlst): void
 //
 (* ****** ****** *)
 //
 fun
-ccompenv_dvarsetenv_add_closurenv (env: !ccompenv, d2es: d2envset_vt): d2envset_vt
+ccompenv_dvarsetenv_add_tempenver (env: !ccompenv, d2es: d2envset_vt): d2envset_vt
 //
 (* ****** ****** *)
 

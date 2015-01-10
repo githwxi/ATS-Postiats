@@ -2117,11 +2117,11 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_closurenv (tok, ent2) = let
+d0exp_tempenver (tok, ent2) = let
   val loc = tok.token_loc + ent2.d0exp_loc
 in '{
-  d0exp_loc= loc, d0exp_node= D0Eclosurenv (ent2)
-} end // end of [d0exp_closurenv]
+  d0exp_loc= loc, d0exp_node= D0Etempenver (ent2)
+} end // end of [d0exp_tempenver]
 
 (* ****** ****** *)
 

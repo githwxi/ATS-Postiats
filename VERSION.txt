@@ -24,12 +24,11 @@ Here is a list of major additions and changes since the last release:
 
 1: Improving some error-handling code.
 2. Fixing bug-2015-01-07.
-   One can use $closurenv to explicitly declare that a dynamic
+   One can use $tempenver to explicitly declare that a dynamic
    variable should be added to the environment of each template instance
-   within the scope of $closurenv-declaration.
+   within the scope of $tempenver-declaration.
    A running example using this feature is available at
    https://github.com/githwxi/ATS-Postiats/blob/master/doc/BUGS/bug-2015-01-07.dats
-   
 
 ######
 

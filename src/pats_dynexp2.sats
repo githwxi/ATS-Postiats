@@ -882,9 +882,9 @@ and d2exp_node =
 //
   | D2Eshowtype of (d2exp) // $showtype: for debugging
 //
-  | D2Eclosurenv of (d2varlst) // $closurenv: for environvars
-//
   | D2Evcopyenv of (int(*knd*), d2exp) // $vcopyenv_v/$vcopyenv_vt
+//
+  | D2Etempenver of (d2varlst) // $tempenver: for environvars
 //
   | D2Eexist of (s2exparg, d2exp) // witness-carrying expression
 //
@@ -1422,7 +1422,7 @@ d2exp_vcopyenv
 (* ****** ****** *)
 //
 fun
-d2exp_closurenv (loc: location, d2vs: d2varlst): d2exp
+d2exp_tempenver (loc: location, d2vs: d2varlst): d2exp
 //
 (* ****** ****** *)
 

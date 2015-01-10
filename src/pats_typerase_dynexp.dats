@@ -837,12 +837,12 @@ case+
     // end of [val]
   end // end of [D3Evcopyenv]
 //
-| D3Eclosurenv (d2vs) => let
+| D3Etempenver (d2vs) => let
     val () =
     list_app_fun
-      (d2vs, d2var_inc_utimes) in hidexp_closurenv (loc0, hse0, d2vs)
+      (d2vs, d2var_inc_utimes) in hidexp_tempenver (loc0, hse0, d2vs)
     // end of [val]
-  end // end of [D3Eclosurenv]
+  end // end of [D3Etempenver]
 //
 | D3Elam_dyn
   (

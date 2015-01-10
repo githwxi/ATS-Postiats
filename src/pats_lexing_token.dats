@@ -547,10 +547,10 @@ val () = ins ("$myfunction", T_DLRMYFUNCTION)
 //
 val () = ins ("$showtype", T_DLRSHOWTYPE)
 //
-val () = ins ("$closurenv", T_DLRCLOSURENV)
-//
 val () = ins ("$vcopyenv_v", DLRVCOPYENV_V)
 val () = ins ("$vcopyenv_vt", DLRVCOPYENV_VT)
+//
+val () = ins ("$tempenver", T_DLRTEMPENVER)
 //
 val () = ins ("#assert", T_SRPASSERT)
 val () = ins ("#define", T_SRPDEFINE)

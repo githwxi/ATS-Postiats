@@ -50,7 +50,7 @@ foo((*void*)) = argc
 // HX-2015-01-10:
 // This is now implemented, and it works!
 //
-val () = $closurenv(argc)
+val () = $tempenver(argc)
 //
 in
   println! ("bar2(10) = ", bar2(10))

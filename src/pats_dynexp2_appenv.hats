@@ -637,9 +637,9 @@ d2e0.d2exp_node of
 //
 | D2Eshowtype (d2e) => d2exp_app (d2e, env)
 //
-| D2Eclosurenv (d2vs) => d2varlst_app (d2vs, env)
-//
 | D2Evcopyenv (knd, d2e) => d2exp_app (d2e, env)
+//
+| D2Etempenver (d2vs) => d2varlst_app (d2vs, env)
 //
 | D2Eexist (s2a, d2e) =>
   (

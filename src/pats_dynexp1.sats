@@ -384,7 +384,7 @@ and d1exp_node =
   | D1Evcopyenv of
       (int(*knd=0/1*), d1exp) // $vcopyenv_v/$vcopyenv_vt
 //
-  | D1Eclosurenv of (d1exp) // $closurenv: for environvar
+  | D1Etempenver of (d1exp) // $tempenver: for environvar
 //
   | D1Esexparg of s1exparg (* for temporary use *)
 //
@@ -740,7 +740,7 @@ fun d1exp_vcopyenv
 
 (* ****** ****** *)
 
-fun d1exp_closurenv (loc: location, d1e: d1exp): d1exp
+fun d1exp_tempenver (loc: location, d1e: d1exp): d1exp
 
 (* ****** ****** *)
 

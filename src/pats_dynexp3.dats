@@ -822,14 +822,14 @@ d3exp_vcopyenv
 (* ****** ****** *)
 
 implement
-d3exp_closurenv
+d3exp_tempenver
 (
   loc, s2f, d2vs
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eclosurenv (d2vs)
-} // end of [d3exp_closurenv]
+, d3exp_node= D3Etempenver (d2vs)
+} // end of [d3exp_tempenver]
 
 (* ****** ****** *)
 

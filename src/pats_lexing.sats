@@ -213,9 +213,9 @@ token_node =
 //
   | T_DLRSHOWTYPE of () // $showtype // for debugging purpose
 //
-  | T_DLRCLOSURENV of () // $closurenv // for adding environvar
-//
   | T_DLRVCOPYENV of (int) // $vcopyenv_v(v)/$vcopyenv_vt(vt)
+//
+  | T_DLRTEMPENVER of () // $tempenver // for adding environvar
 //
   | T_SRPASSERT of () // #assert
   | T_SRPDEFINE of () // #define
