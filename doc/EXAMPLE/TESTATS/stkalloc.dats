@@ -100,6 +100,28 @@ val ((*void*)) = fprintln! (out, "factorial(", 10, ") = ", factorial(10))
 
 (* ****** ****** *)
 
+fun
+factorial2 (n: int): int = let
+//
+var
+factorial2_loop =
+fix@ f
+(
+  i: int, res: int
+) : int => if i < n then f (i+1, (i+1)*res) else res
+//
+prval () = showviewtype (factorial2_loop)
+//
+in
+  factorial2_loop (0, 1)
+end // end of [factorial2]
+
+(* ****** ****** *)
+
+val () = fprintln! (stdout_ref, "factorial2(10) = ", factorial2(10))
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

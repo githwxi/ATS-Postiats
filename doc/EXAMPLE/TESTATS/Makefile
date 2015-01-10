@@ -214,6 +214,14 @@ cleanall:: ; $(RMF) sumodd
 ######
 
 all:: \
+tempenver
+tempenver: tempenver.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: tempenver ; ./$<
+cleanall:: ; $(RMF) tempenver
+
+######
+
+all:: \
 trywith
 trywith: trywith.dats ; \
   $(PATSCC2) -D_GNU_SOURCE -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<

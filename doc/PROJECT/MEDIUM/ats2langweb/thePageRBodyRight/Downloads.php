@@ -13,7 +13,7 @@ implemented in itself. The lastest released version of ATS1 is
 which needs to be installed first in order to build ATS2 from its source
 (written in ATS1). Essentially, the process of installing ATS1 is the same
 as installing ATS2. For more information, please check out a simple shell script
-<a href="https://github.com/githwxi/ATS-Postiats/blob/master/travis-ci/setup.sh">on-line</a>
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/travis-ci/ats1_setup.sh">on-line</a>
 for installing ATS1 under Linux.
 </p>
 
