@@ -1,0 +1,156 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from [CHAP_DATATYPE/main.atxt].\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter
+id="datatypes"
+>#title("Datatypes")
+
+<!-- ****** ****** -->
+
+#para('\
+
+Datatypes are a form of user-defined types for classifying data (or
+values). The support for datatypes and pattern matching in ATS is primarily
+adopted from ML.
+
+')
+
+#para('\
+
+The following code declares a datatype of the name #stacode("weekday") for
+values representing weekdays:
+
+#atscode('\
+datatype weekday =
+  | Monday | Tuesday | Wednesday | Thursday | Friday
+')
+
+There are five data constructors associated with #stacode("weekday"), which
+are
+#dyncode("Monday"),
+#dyncode("Tuesday"),
+#dyncode("Wednesday"),
+#dyncode("Thursday"), and
+#dyncode("Friday").
+All of these data constructors are nullary,
+that is, they take no arguments to
+form values (of the type #stacode("weekday")).\
+
+')
+
+#para('\
+
+Each nullary constructor is represented by a small integer
+(e.g., one that is less than 1024). We can use the following
+function #dyncode("weekday2int") to find out the integers reprsenting
+the constructors associated with #stacode("weekday"):
+
+#atscode('\
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun
+weekday2int
+  (wd: weekday): int = $UN.cast{int}($UN.cast{intptr}(wd))
+//
+')
+
+The small integer representing a nullary constructor is often referred to
+as the tag of the constructor.
+
+In this case,
+The tags for
+#dyncode("Monday"),
+#dyncode("Tuesday"),
+#dyncode("Wednesday"),
+#dyncode("Thursday"), and
+#dyncode("Friday")
+are 0, 1, 2, 3, and 4, respectively.
+')
+
+#para('\
+
+The following declaration introduces a datatype of the name #stacode("abc"):
+
+#atscode('\
+datatype abc =
+  | A of () | B of (bool) | C of (int, double)
+')
+
+The three constructors associated with #stacode("abc") are #dyncode("A"),
+#dyncode("B"), and #dyncode("C"); #dyncode("A") is nullary; #dyncode("B")
+is unary, taking a boolean to form a value (of the type #stacode("abc"));
+#dyncode("C") is binary, taking an integer and a float (of double precision)
+to form a value (of the type #stacode("abc")).
+
+')
+
+#para('\
+
+Suppose that a data constructor takes n arguments (for some positive n) to
+construct a value. Then the constructed value is a heap-allocated tuple of
+n+1 components, where the first one is the tag associated with the
+constructor and the rest are the arguments passed to the constructor.
+For instance, the following function can be called to find out the tags
+associated with #stacode("abc"):
+
+#atscode('\
+fun
+abc2tag
+(x: abc): int = let
+  val p = $UN.cast{intptr}(x)
+in
+//
+case+ 0 of
+| _ when p < 1024 => $UN.cast{int}(p)
+| _ (*heap-allocated*) => $UN.ptr0_get<int>($UN.cast{ptr}(p))
+//
+end // end of [abc2tag]
+')
+
+In this case, the tags for #dyncode("A"), #dyncode("B"), and #dyncode("C")
+are 0, 1, and 2, respectively.
+
+')
+
+<!-- ****** ****** -->
+
+#para("\
+
+Please find #mycodelink("chap_datatype.dats", "on-line") the entirety of the
+code used in this chapter plus some code for testing.\
+
+")#comment("para")
+
+</chapter><!--"datatypes"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [chap_datatype.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_datatype.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} (* end of [main] *)
+%}

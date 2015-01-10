@@ -43,6 +43,11 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 #atscode_separator()
 
+implement
+g0int2int<intknd,intptrknd> = g0int2int_int_intptr
+
+#atscode_separator()
+
 %{
 //
 fun g0int_implist (
@@ -127,6 +132,11 @@ end // end of [g0int_implist]
 \
 #g0int_implist("intptrknd", "intptr", "intptr")
 //
+#atscode_separator()
+
+implement
+g0uint2uint<uintknd,uintptrknd> = g0uint2uint_uint_uintptr
+
 #atscode_separator()
 
 %{
