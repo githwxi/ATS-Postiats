@@ -528,6 +528,13 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
+| D3Eclosurenv(d2vs) =>
+  {
+    val () = prstr "D3Eclosurenv("
+    val () = fprint_d2varlst (out, d2vs)
+    val () = prstr ")"
+  }
+//
 | D3Elam_dyn (
     lin, npf, _arg, _body
   ) => {

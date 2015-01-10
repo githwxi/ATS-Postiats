@@ -40,15 +40,16 @@ main(argc
    , argv) = let
 //
 implement
-{}(*tmp*) foo((*void*)) = argc
+{}(*tmp*)
+foo((*void*)) = argc
 //
-(*
+// (*
 //
 // HX-2015-01-08:
 // This seems to be reasonable:
 //
 val () = $closurenv(argc)
-*)
+// *)
 //
 in
   bar2 (1000000)

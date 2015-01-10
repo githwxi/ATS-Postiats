@@ -540,6 +540,27 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Eselab (knd, d1e, d1l) => {
+    val () = prstr "D1Eselab("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr "; "
+    val () = fprint_d1lab (out, d1l)
+    val () = prstr ")"
+  }
+//
+| D1Eptrof (d1e) => {
+    val () = prstr "D1Eptrof("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr ")"
+  }
+| D1Eviewat (d1e) => {
+    val () = prstr "D1Eviewat("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr ")"
+  }
+//
 | D1Eshowtype (d1e) => {
     val () = prstr "D1Eshowtype("
     val () = fprint_d1exp (out, d1e)
@@ -554,23 +575,9 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eptrof (d1e) => {
-    val () = prstr "D1Eptrof("
+| D1Eclosurenv (d1e) => {
+    val () = prstr "D1Eclosurenv("
     val () = fprint_d1exp (out, d1e)
-    val () = prstr ")"
-  }
-| D1Eviewat (d1e) => {
-    val () = prstr "D1Eviewat("
-    val () = fprint_d1exp (out, d1e)
-    val () = prstr ")"
-  }
-| D1Eselab (knd, d1e, d1l) => {
-    val () = prstr "D1Eselab("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
-    val () = fprint_d1exp (out, d1e)
-    val () = prstr "; "
-    val () = fprint_d1lab (out, d1l)
     val () = prstr ")"
   }
 //

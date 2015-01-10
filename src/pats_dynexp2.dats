@@ -669,21 +669,6 @@ d2exp_effmask
 (* ****** ****** *)
 
 implement
-d2exp_showtype
-  (loc, d2e) =
-  d2exp_make_node (loc, D2Eshowtype (d2e))
-
-(* ****** ****** *)
-
-implement
-d2exp_vcopyenv
-  (loc, knd, d2e) =
-  d2exp_make_node (loc, D2Evcopyenv (knd, d2e))
-// end of [d2exp_vcopyenv]
-
-(* ****** ****** *)
-
-implement
 d2exp_ptrof (loc, d2e) = d2exp_make_node (loc, D2Eptrof (d2e))
 
 implement
@@ -711,6 +696,28 @@ in
   d2exp_selab (loc, d2e_deref, list_sing (d2l))
 end // end of [d2exp_sel_ptr]
 
+(* ****** ****** *)
+//
+implement
+d2exp_showtype
+  (loc, d2e) =
+  d2exp_make_node (loc, D2Eshowtype (d2e))
+//
+(* ****** ****** *)
+
+implement
+d2exp_vcopyenv
+  (loc, knd, d2e) =
+  d2exp_make_node (loc, D2Evcopyenv (knd, d2e))
+// end of [d2exp_vcopyenv]
+
+(* ****** ****** *)
+//
+implement
+d2exp_closurenv
+  (loc, d2vs) =
+  d2exp_make_node (loc, D2Eclosurenv (d2vs))
+//
 (* ****** ****** *)
 
 implement

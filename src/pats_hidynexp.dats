@@ -690,6 +690,20 @@ hidexp_raise
 // end of [hidexp_raise]
 
 (* ****** ****** *)
+//
+implement
+hidexp_vcopyenv
+  (loc, hse, d2v) =
+  hidexp_make_node (loc, hse, HDEvar (d2v))
+//
+(* ****** ****** *)
+//
+implement
+hidexp_closurenv
+  (loc, hse, d2vs) =
+  hidexp_make_node (loc, hse, HDEclosurenv (d2vs))
+//
+(* ****** ****** *)
 
 implement
 hidexp_lam

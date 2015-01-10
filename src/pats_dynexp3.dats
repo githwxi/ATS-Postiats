@@ -822,6 +822,18 @@ d3exp_vcopyenv
 (* ****** ****** *)
 
 implement
+d3exp_closurenv
+(
+  loc, s2f, d2vs
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eclosurenv (d2vs)
+} // end of [d3exp_closurenv]
+
+(* ****** ****** *)
+
+implement
 d3exp_lam_dyn
 (
   loc, s2f_fun, lin, npf, arg, body

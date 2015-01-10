@@ -138,6 +138,11 @@ fun d2exp_trup_vcopyenv (d2e0: d2exp): d3exp
 (* ****** ****** *)
 
 extern
+fun d2exp_trup_closurenv (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
+extern
 fun
 d2exp_trup_arg_body
 (
@@ -459,6 +464,8 @@ case+ d2e0.d2exp_node of
   } (* end of [D2Eshowtype] *)
 //
 | D2Evcopyenv _ => d2exp_trup_vcopyenv (d2e0)
+//
+| D2Eclosurenv _ => d2exp_trup_closurenv (d2e0)
 //
 | D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
@@ -1599,6 +1606,19 @@ case+
 | _(*non-var*) => d2exp_trup (d2e) // HX: ignoring [$vcopyenv]
 //
 end // end of [d2exp_trup_vcopyenv]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_closurenv
+  (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val-D2Eclosurenv(d2vs) = d2e0.d2exp_node
+//
+in
+  d3exp_closurenv (loc0, s2exp_void_t0ype(), d2vs)
+end // end of [d2exp_trup_closurenv]
 
 (* ****** ****** *)
 

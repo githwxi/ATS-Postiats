@@ -651,6 +651,9 @@ d2e0.d2exp_node of
 | D2Evcopyenv (knd, d2e) =>
     fprint! (out, "D2Evcopyenv(", knd, "; ", d2e, ")")
 //
+| D2Eclosurenv (d2vs) =>
+    fprint! (out, "D2Eclosurenv(", d2vs, ")")
+//
 | D2Eselab (d2e, d2ls) =>
     fprint! (out, "D2Eselab(", d2e, "; ", d2ls, ")")
 //

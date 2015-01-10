@@ -393,6 +393,11 @@ and hidexp_node =
 //
   | HDEraise of (hidexp(*exn*))
 //
+(*
+  | HDEvcopyenv of (d2var) // HX: HDEvar
+*)
+  | HDEclosurenv of (d2varlst) // for environvars
+//
   | HDElam of (int(*knd=0/1:flat/boxed*), hipatlst, hidexp) // HX: lam_dyn
 //
   | HDEfix of (int(*knd=0/1:flat/boxed*), d2var(*fixvar*), hidexp) // fixed-point
@@ -841,10 +846,23 @@ hidexp_arrinit
 
 (* ****** ****** *)
 
-fun hidexp_raise
+fun
+hidexp_raise
   (loc: loc_t, hse: hisexp, hde_exn: hidexp): hidexp
 // end of [hidexp_raise]
 
+(* ****** ****** *)
+//
+fun
+hidexp_vcopyenv
+  (loc: loc_t, hse: hisexp, d2v: d2var): hidexp
+//
+(* ****** ****** *)
+//
+fun
+hidexp_closurenv
+  (loc: loc_t, hse: hisexp, d2vs: d2varlst): hidexp
+//
 (* ****** ****** *)
 
 fun hidexp_lam

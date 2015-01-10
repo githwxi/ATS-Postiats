@@ -1807,16 +1807,19 @@ ccompenv_add_impdecloc
 //
 fun ccompenv_add_fundecsloc
 (
-  env: !ccompenv, sub: !stasub, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+  env: !ccompenv
+, sub: !stasub, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : void // end of [ccompenv_add_fundecsloc]
 //
 fun ccompenv_add_tmpcstmat (env: !ccompenv, tmpmat: tmpcstmat): void
 fun ccompenv_add_tmpvarmat (env: !ccompenv, tmpmat: tmpvarmat): void
 //
 (* ****** ****** *)
-
-fun ccompenv_get_d2vbindmap (env: !ccompenv): d2varmap (primval)
-
+//
+fun ccompenv_get_closurenv (env: !ccompenv): d2varlst
+//
+fun ccompenv_add_closurenv (env: !ccompenv, d2vs: d2varlst): void
+//
 (* ****** ****** *)
 
 fun hipatck_ccomp

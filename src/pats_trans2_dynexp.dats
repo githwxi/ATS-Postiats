@@ -1532,7 +1532,44 @@ case+ d1e0.d1exp_node of
 //
 | D1Eshowtype (d1e) => d2exp_showtype (loc0, d1exp_tr d1e)
 //
-| D1Evcopyenv (knd, d1e) => d2exp_vcopyenv (loc0, knd, d1exp_tr d1e)
+| D1Evcopyenv
+    (knd, d1e) => d2exp_vcopyenv (loc0, knd, d1exp_tr d1e)
+  // end of [D1Evcopyenv]
+//
+| D1Eclosurenv
+    (d1e) => let
+//
+    fun auxlst
+    (
+      d2es: d2explst
+    ) : d2varlst =
+    (
+      case+ d2es of
+      | list_cons
+          (d2e, d2es) =>
+        (
+          case+
+          d2e.d2exp_node of
+          | D2Evar (d2v) =>
+              list_cons(d2v, auxlst(d2es))
+            // end of [D2Evar]
+          | _(*non-D2Evar*) => auxlst(d2es)
+        ) (* end of [list_cons] *)
+      | list_nil ((*void*)) => list_nil ()
+    ) (* end of [auxlst] *)
+//
+    val d2e = d1exp_tr (d1e)
+    val d2vs =
+    (
+      case+
+      d2e.d2exp_node of
+      | D2Evar (d2v) => list_sing(d2v)
+      | D2Elist (_, d2es) => auxlst (d2es)
+      | _(*ignored*) => list_nil(*void*)
+    ) : d2varlst // end of [val]
+  in
+    d2exp_closurenv (loc0, d2vs)
+  end // end of [D1Eclosurenv]
 //
 | D1Eptrof (d1e) => d2exp_ptrof (loc0, d1exp_tr d1e)
 | D1Eviewat (d1e) => d2exp_viewat (loc0, d1exp_tr d1e)

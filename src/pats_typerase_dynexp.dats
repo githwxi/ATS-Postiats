@@ -830,9 +830,19 @@ case+
 //
 | D3Eeffmask (_, d3e) => d3exp_tyer (d3e)
 //
-| D3Evcopyenv (knd, d2v) => let
-    val () = d2var_inc_utimes (d2v) in hidexp_var (loc0, hse0, d2v)
+| D3Evcopyenv
+    (knd, d2v) => let
+    val () = // HX: hidexp_vcopyenv = hidexp_var
+      d2var_inc_utimes (d2v) in hidexp_vcopyenv (loc0, hse0, d2v)
+    // end of [val]
   end // end of [D3Evcopyenv]
+//
+| D3Eclosurenv (d2vs) => let
+    val () =
+    list_app_fun
+      (d2vs, d2var_inc_utimes) in hidexp_closurenv (loc0, hse0, d2vs)
+    // end of [val]
+  end // end of [D3Eclosurenv]
 //
 | D3Elam_dyn
   (
@@ -923,7 +933,7 @@ case+
 //
 | _(*unspported*) => let
     val () = prerr_interror_loc(loc0)
-    val () = prerrln! ("d3exp_tyer: d3e0 = ", d3e0)
+    val () = prerrln! (": d3exp_tyer: d3e0 = ", d3e0)
   in
     exitloc (1)
   end // end of [_(*unsupported*)]

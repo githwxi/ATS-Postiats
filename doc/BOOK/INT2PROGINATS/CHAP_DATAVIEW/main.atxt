@@ -259,7 +259,8 @@ based on #dyncode("arrgetfst"):
 ')
 
 #atscode('\
-implement{a}
+implement
+{a}(*tmp*)
 arrget (pf | p, i) =
   if i > 0 then let
     prval array_v_cons (pf1, pf2) = pf
@@ -328,7 +329,8 @@ that are O(1)-time:
 ')
 
 #atscode('\
-implement{a}
+implement
+{a}(*tmp*)
 arrget{l}{n,i}
   (pf | p, i) = x where {
   prval (pf1, pf2) = array_v_split{a}{l}{n,i}(pf)
@@ -336,9 +338,10 @@ arrget{l}{n,i}
   val x = ptr_get1<a> (pf21 | ptr_add<a> (p, i))
   prval pf2 = array_v_cons (pf21, pf22)
   prval () = pf := array_v_unsplit{a}{l}{i,n-i}(pf1, pf2)
-} // end of [arrget]
+} (* end of [arrget] *)
 
-implement{a}
+implement
+{a}(*tmp*)
 arrset{l}{n,i}
   (pf | p, i, x) = () where {
   prval (pf1, pf2) = array_v_split{a}{l}{n,i}(pf)
@@ -346,7 +349,7 @@ arrset{l}{n,i}
   val () = ptr_set1<a> (pf21 | ptr_add<a> (p, i), x)
   prval pf2 = array_v_cons (pf21, pf22)
   prval () = pf := array_v_unsplit{a}{l}{i,n-i}(pf1, pf2)
-} // end of [arrset]
+} (* end of [arrset] *)
 ')
 
 #para('\
@@ -785,7 +788,7 @@ An implementation of #dyncode("array_v_split") is given as follows:
 ')
 
 #atscode('\
-primplement
+primplmnt
 array_v_split
   {a}{l}{n,i}(pfarr) = let
   prfun split
@@ -813,14 +816,15 @@ end // end of [array_v_split]
 
 #para('\
 
-Note that the keyword #dyncode("primplement") (instead of
-#dyncode("implement")) should be used for implementing proof functions.
-Clearly, the proof function #dyncode("split") directly encodes a proof
-based on mathematical induction. Following is an implementation of
-#dyncode("array_v_unsplit"):
+Note that the keyword #keycode("primplmnt") (instead of
+#keycode("implement")) should be used for implementing proof functions.
+One can also choose to use the keyword #keycode("primplement") in place of
+#keycode("primplmnt"). Clearly, the proof function #dyncode("split")
+directly encodes a proof based on mathematical induction. Following is an
+implementation of #dyncode("array_v_unsplit"):
 
 #atscode('\
-primplement
+primplmnt
 array_v_unsplit
   {a}{l}{n1,n2}
   (pf1arr, pf2arr) = let
@@ -883,14 +887,15 @@ By making use of #dyncode("array_v_takeout"), we can give another
 implementation of #dyncode("arrget"):
 
 #atscode('\
-implement{a}
+implement
+{a}(*tmp*)
 arrget{l}{n,i}
   (pf | p, i) = x where {
   prval (pf1, fpf2) =
   array_v_takeout{a}{l}{n,i} (pf)
   val x = ptr_get1<a> (pf1 | ptr_add<a> (p, i))
   prval () = pf := fpf2 (pf1) // putting the cell and the rest together
-} // end of [arrget]
+} (* end of [arrget] *)
 ')
 
 ')
@@ -902,7 +907,7 @@ The proof function #dyncode("array_v_takeout") can be implemented as follows:\
 ')
 
 #atscode('\
-primplement
+primplmnt
 array_v_takeout
   {a}{l}{n,i}(pfarr) = let
   prfun takeout
@@ -945,7 +950,8 @@ array-views. The following one is different in this regard as it combines
 two views for singly-linked list segments into one:
 
 #atscode('\
-prfun slseg_v_unsplit
+prfun
+slseg_v_unsplit
   {a:t@ype}
   {l1,l2,l3:addr}{n1,n2:nat}
 (
@@ -961,7 +967,7 @@ L3 that is of length N1+N2. The following implementation of
 #dyncode("array_v_unsplit"):
 
 #atscode('\
-primplement
+primplmnt
 slseg_v_unsplit
   {a}(pf1lst, pf2lst) = let
   prfun unsplit

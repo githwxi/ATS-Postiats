@@ -882,6 +882,8 @@ and d2exp_node =
 //
   | D2Eshowtype of (d2exp) // $showtype: for debugging
 //
+  | D2Eclosurenv of (d2varlst) // $closurenv: for environvars
+//
   | D2Evcopyenv of (int(*knd*), d2exp) // $vcopyenv_v/$vcopyenv_vt
 //
   | D2Eexist of (s2exparg, d2exp) // witness-carrying expression
@@ -895,7 +897,7 @@ and d2exp_node =
 //
   | D2Efix of (
       int(*knd=0/1:flat/boxed*), d2var(*fixvar*), d2exp(*def*)
-    ) // end of [D2Efix]
+    ) (* end of [D2Efix] *)
 //
   | D2Edelay of (d2exp(*eval*)) // $delay
   | D2Eldelay of (d2exp(*eval*), d2expopt(*free*)) // $ldelay
@@ -1388,17 +1390,6 @@ fun d2exp_effmask
 //
 (* ****** ****** *)
 
-fun
-d2exp_showtype (loc: location, d2e: d2exp): d2exp
-
-(* ****** ****** *)
-//
-fun
-d2exp_vcopyenv
-  (loc: location, knd(*v/vt*): int, d2e: d2exp): d2exp
-//
-(* ****** ****** *)
-
 fun d2exp_ptrof (loc: location, d2e: d2exp): d2exp
 fun d2exp_viewat (loc: location, d2e: d2exp): d2exp
 
@@ -1416,6 +1407,22 @@ fun d2exp_sel_dot // = d2exp_selab
 //
 fun d2exp_sel_ptr
   (loc: location, _rec: d2exp, d2l: d2lab): d2exp
+//
+(* ****** ****** *)
+//
+fun
+d2exp_showtype (loc: location, d2e: d2exp): d2exp
+//
+(* ****** ****** *)
+//
+fun
+d2exp_vcopyenv
+  (loc: location, knd(*v/vt*): int, d2e: d2exp): d2exp
+//
+(* ****** ****** *)
+//
+fun
+d2exp_closurenv (loc: location, d2vs: d2varlst): d2exp
 //
 (* ****** ****** *)
 

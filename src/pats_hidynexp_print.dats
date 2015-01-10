@@ -630,6 +630,17 @@ case+
     val () = prstr ")"
   }
 //
+(*
+| HDEvcopyenv (d2v) => HX: HDEvar(d2v)
+*)
+//
+| HDEclosurenv (d2vs) =>
+  {
+    val () = prstr "HDEclosurenv("
+    val () = fprint_d2varlst (out, d2vs)
+    val () = prstr ")"
+  }
+//
 | HDElam
     (knd, _arg, _body) =>
   {

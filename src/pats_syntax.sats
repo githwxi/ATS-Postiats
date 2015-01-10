@@ -1412,6 +1412,8 @@ and d0exp_node =
 //
   | D0Eshowtype of (d0exp) // $showtype
 //
+  | D0Eclosurenv of (d0exp) // $closurenv
+//
   | D0Evcopyenv of (int(*knd*), d0exp) // $vcopyenv_v/$vcopyenv_vt
 //
   | D0Eptrof of () // taking the addr of a left-value
@@ -1779,7 +1781,12 @@ fun d0exp_showtype (tok: token, d0e: d0exp): d0exp
 
 (* ****** ****** *)
 
-fun d0exp_vcopyenv (knd: int, tok: token, d0e: d0exp): d0exp
+fun d0exp_vcopyenv
+  (knd: int(*0/1*), tok: token, d0e: d0exp): d0exp
+
+(* ****** ****** *)
+
+fun d0exp_closurenv (tok: token, d0e: d0exp): d0exp
 
 (* ****** ****** *)
 

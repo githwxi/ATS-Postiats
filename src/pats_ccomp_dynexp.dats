@@ -138,13 +138,13 @@ in
 //
 case+ 0 of
 | _ when
-    lvl1 < lvl0 => let (* environval *)
+    lvl1 < lvl0 => let (* environvar *)
 (*
     val () = println! ("d2var_ccomp_some: pmv = ", pmv)
 *)
   in
     case+
-      pmv.primval_node of
+    pmv.primval_node of
     | PMVfunlab (fl) => let
         val () = ccompenv_add_flabsetenv (env, fl) in pmv
       end // end of [PMVfunlab]
@@ -154,14 +154,14 @@ case+ 0 of
     | PMVd2vfunlab (d2v, fl) => let
         val () = ccompenv_add_flabsetenv (env, fl) in pmv
       end // end of [PMVd2vfunlab]
-    | _ => let
+    | _ (*non-funlab*) => let
         val () = ccompenv_add_dvarsetenv_var (env, d2v)
       in
         if lvl1 > 0 then primval_env (loc0, hse0, d2v) else pmv(*toplevel*)
       end (* end of [_] *)
-  end // end of [environval]
+  end // end of [environvar]
 //
-| _ => pmv (* [d2v] is at current-level *)
+| _ (*lvl1 >= lvl0*) => pmv (* [d2v] is at current-level *)
 //
 end // end of [d2var_ccomp_some]
 
@@ -379,6 +379,10 @@ case+ hde0.hidexp_node of
 | HDEarrpsz _ => auxret (env, res, hde0)
 //
 | HDEraise (hde_exn) => auxret (env, res, hde0)
+//
+(*
+| HDEvcopyenv (d2v) => HX: HDEvar (d2v)
+*)
 //
 | HDElam _ => hidexp_ccomp_lam (env, res, hde0)
 | HDEfix _ => hidexp_ccomp_fix (env, res, hde0)
@@ -1740,9 +1744,9 @@ val flset =
 val fls0 = funlabset_vt_listize_free (flset)
 val fls0 = ccompenv_addlst_flabsetenv_ifmap (env, flvl0, vbmap, fls0)
 //
-var d2eset =
+var d2es =
   ccompenv_getdec_dvarsetenv (env)
-val d2es = d2envset_vt_listize_free (d2eset)
+val d2es = d2envset_vt_listize_free (d2es)
 //
 val () = the_d2varlev_dec (pfinc | (*none*))
 //
@@ -1762,7 +1766,8 @@ end // end of [hidexp_ccomp_funlab_arg_body]
 (* ****** ****** *)
 
 extern
-fun hidexp_ccomp_lam_flab
+fun
+hidexp_ccomp_lam_flab
 (
   env: !ccompenv, res: !instrseq, hde0: hidexp, flab: funlab
 ) : void // end of [hidexp_ccomp_lam_flab]

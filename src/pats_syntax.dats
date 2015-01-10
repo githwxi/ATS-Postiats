@@ -2117,6 +2117,15 @@ in '{
 (* ****** ****** *)
 
 implement
+d0exp_closurenv (tok, ent2) = let
+  val loc = tok.token_loc + ent2.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eclosurenv (ent2)
+} end // end of [d0exp_closurenv]
+
+(* ****** ****** *)
+
+implement
 d0exp_ptrof (t_addrat) = '{
   d0exp_loc= t_addrat.token_loc, d0exp_node= D0Eptrof ()
 } // end of [d0exp_ptrof]
