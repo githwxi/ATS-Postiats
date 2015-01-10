@@ -12,15 +12,12 @@
 (* ****** ****** *)
 
 (*
-** Status: FIXME!
+** Status: It is fixed by HX-2015-01-10
 *)
 
 (* ****** ****** *)
 
-extern
-fun
-add_int_int : (int, int) -> int
-overload + with add_int_int of 1000000
+#include "share/atspre_staload.hats"
 
 (* ****** ****** *)
 
@@ -29,30 +26,34 @@ extern fun{} bar1(int): int
 extern fun{} bar2(int): int
 
 (* ****** ****** *)
-
-implmnt{} bar1 (x) = bar2 (x)
-implmnt{} bar2 (x) = foo() + bar1 (x)
-
+//
+implmnt
+{}(*tmp*)
+bar1 (x) = bar2 (x)
+implmnt
+{}(*tmp*)
+bar2 (x) =
+  if x > 0 then foo() + bar1 (x-1) else 0
+//
 (* ****** ****** *)
 
 implement
-main(argc
-   , argv) = let
+main0(argc
+    , argv) = let
 //
 implement
 {}(*tmp*)
 foo((*void*)) = argc
 //
-// (*
-//
 // HX-2015-01-08:
 // This seems to be reasonable:
+// HX-2015-01-10:
+// This is now implemented, and it works!
 //
 val () = $closurenv(argc)
-// *)
 //
 in
-  bar2 (1000000)
+  println! ("bar2(10) = ", bar2(10))
 end // end of [main]
 
 (* ****** ****** *)

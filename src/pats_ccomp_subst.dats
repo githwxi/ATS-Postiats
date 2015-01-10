@@ -660,7 +660,7 @@ val d2es = funent_get_d2envlst (fent)
 val d2es2 = d2envlst_subst (sub, d2es)
 val () = ccompenv_inc_flabsetenv (env)
 val () = ccompenv_incwth_dvarsetenv (env, list_vt2t(d2es2))
-val () = list_vt_free (d2es2)
+val ((*freed*)) = list_vt_free (d2es2)
 //
 val inss2_body =
   instrlst_subst (env, tmpmap2, sub, inss_body, sfx)
@@ -676,7 +676,8 @@ val fls0 = funent_get_flablst (fent)
 val fls0 = funent_funlablst_update (env, fls0)
 val fls02 = list_vt_append (fls0, fls0_tmp)
 //
-val d2es2(*set*) = ccompenv_getdec_dvarsetenv (env)
+val d2es2 = ccompenv_getdec_dvarsetenv (env)
+val d2es2 = ccompenv_dvarsetenv_add_closurenv (env, d2es2)
 val d2es2(*list*) = d2envset_vt_listize_free (d2es2)
 //
 val () = the_d2varlev_dec (pfinc | (*void*))

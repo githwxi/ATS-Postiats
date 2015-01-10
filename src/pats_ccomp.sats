@@ -1816,9 +1816,14 @@ fun ccompenv_add_tmpvarmat (env: !ccompenv, tmpmat: tmpvarmat): void
 //
 (* ****** ****** *)
 //
-fun ccompenv_get_closurenv (env: !ccompenv): d2varlst
+fun ccompenv_get_closurenv (env: !ccompenv): d2varlst_vt
 //
 fun ccompenv_add_closurenv (env: !ccompenv, d2vs: d2varlst): void
+//
+(* ****** ****** *)
+//
+fun
+ccompenv_dvarsetenv_add_closurenv (env: !ccompenv, d2es: d2envset_vt): d2envset_vt
 //
 (* ****** ****** *)
 

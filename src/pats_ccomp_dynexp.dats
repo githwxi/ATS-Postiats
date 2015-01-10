@@ -384,6 +384,12 @@ case+ hde0.hidexp_node of
 | HDEvcopyenv (d2v) => HX: HDEvar (d2v)
 *)
 //
+| HDEclosurenv (d2vs) => let
+    val () = ccompenv_add_closurenv(env, d2vs)
+  in
+    primval_empty (loc0, hse0)
+  end // end of [HDEclosurenv]
+//
 | HDElam _ => hidexp_ccomp_lam (env, res, hde0)
 | HDEfix _ => hidexp_ccomp_fix (env, res, hde0)
 //
@@ -1744,8 +1750,9 @@ val flset =
 val fls0 = funlabset_vt_listize_free (flset)
 val fls0 = ccompenv_addlst_flabsetenv_ifmap (env, flvl0, vbmap, fls0)
 //
-var d2es =
+val d2es =
   ccompenv_getdec_dvarsetenv (env)
+//
 val d2es = d2envset_vt_listize_free (d2es)
 //
 val () = the_d2varlev_dec (pfinc | (*none*))

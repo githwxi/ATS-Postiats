@@ -2380,17 +2380,153 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+ccompenv_get_closurenv
+  (env) = let
+//
+fun
+revapp
+(
+  d2vs: d2varlst, res: d2varlst_vt
+) : d2varlst_vt =
+(
+case+ d2vs of
+| list_nil () => res
+| list_cons (d2v, d2vs) =>
+    revapp (d2vs, list_vt_cons (d2v, res))
+  // end of [list_cons]
+)
+//
+fun
+auxlst
+(
+  xs: !markenvlst_vt, res: d2varlst_vt
+) : d2varlst_vt =
+(
+case+ xs of
+//
+| MARKENVLSTnil() => (fold@(xs); res)
+//
+| MARKENVLSTcons_closurenv
+    (!p_x, !p_xs) => let
+    val res = revapp (!p_x, res)
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTcons_closurenv]
+//
+| MARKENVLSTmark(!p_xs) => let
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTmark]
+//
+| MARKENVLSTcons_var
+    (_, !p_xs) => let
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTcons_var]
+//
+| MARKENVLSTcons_fundec
+    (_, !p_xs) => let
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTcons_fundec]
+| MARKENVLSTcons_fundec2
+    (_, !p_xs) => let
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTcons_fundec2]
+//
+| MARKENVLSTcons_impdec
+    (_, !p_xs) => let
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTcons_impdec]
+| MARKENVLSTcons_impdec2
+    (_, !p_xs) => let
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTcons_impdec2]
+//
+| MARKENVLSTcons_staload
+    (_, !p_xs) => let
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTcons_staload]
+//
+| MARKENVLSTcons_tmpsub
+    (_, !p_xs) => let
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTcons_tmpsub]
+//
+| MARKENVLSTcons_tmpcstmat
+    (_, !p_xs) => let
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTcons_tmpcstmat]
+| MARKENVLSTcons_tmpvarmat
+    (_, !p_xs) => let
+    val res = auxlst (!p_xs, res) in fold@(xs); res
+  end // end of [MARKENVLSTcons_tmpvarmat]
+//
+) (* end of [auxlst] *)
+//
+val CCOMPENV (!p) = env
+val d2vs = auxlst (p->ccompenv_markenvlst, list_vt_nil)
+prval ((*void*)) = fold@ (env)
+//
+in
+  list_vt_reverse(d2vs)
+end // end of [ccompenv_get_closurenv]
+
+(* ****** ****** *)
+
+implement
 ccompenv_add_closurenv
   (env, d2vs) = let
 //
-  val CCOMPENV (!p) = env
-  val xs = p->ccompenv_markenvlst
-  val () = p->ccompenv_markenvlst := MARKENVLSTcons_closurenv (d2vs, xs)
-  prval () = fold@ (env)
+(*
+val () =
+fprintln!
+  (stdout_ref, "ccompenv_add_closurenv: d2vs = ", d2vs)
+*)
+//
+val CCOMPENV (!p) = env
+//
+val xs = p->ccompenv_markenvlst
+val () =
+  p->ccompenv_markenvlst := MARKENVLSTcons_closurenv (d2vs, xs)
+//
+prval ((*void*)) = fold@ (env)
 //
 in
   // nothing
 end // end of [ccompenv_add_closurenv]
+
+(* ****** ****** *)
+
+implement
+ccompenv_dvarsetenv_add_closurenv
+  (env, d2es) = let
+//
+fun auxlst
+(
+  d2es: d2envset_vt
+, d2vs: d2varlst_vt
+) : d2envset_vt =
+(
+//
+case+ d2vs of
+| ~list_vt_nil () => d2es
+| ~list_vt_cons (d2v, d2vs) => let
+    val d2es = d2envset_vt_add (d2es, d2var2env(d2v))
+  in
+    auxlst (d2es, d2vs)
+  end // end of [list_vt_cons]
+//
+) (* end of [auxlst] *)
+//
+val d2vs = ccompenv_get_closurenv (env)
+//
+(*
+val d2vs2 = $UN.list_vt2t{d2var}(d2vs)
+val ((*void*)) =
+fprintln! (stdout_ref, "ccompenv_dvarsetenv_add_closurenv: d2vs = ", d2vs2)
+*)
+//
+in
+  auxlst (d2es, d2vs)
+end // end of [ccompenv_dvarsetenv_add_closurenv]
+
 
 (* ****** ****** *)
 

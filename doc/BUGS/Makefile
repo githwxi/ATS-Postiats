@@ -176,9 +176,8 @@ cleanall:: ; $(RMF) bug-2015-01-03_dats.c
 
 all:: \
 bug-2015-01-07
-bug-2015-01-07: ; \
-$(PATSCC) -c bug-2015-01-07.dats
-cleanall:: ; $(RMF) bug-2015-01-07_dats.c
+bug-2015-01-07: bug-2015-01-07.dats; $(PATSCC) -o $@ $<
+cleanall:: ; $(RMF) bug-2015-01-07
 
 ######
 
