@@ -113,7 +113,7 @@ fix f(x: int): int =>
 
 #para("\
 
-For definiting mutually recursive functions, one can simply use the
+For defining mutually recursive functions, one can simply use the
 keyword #keycode("and") to concatenate function definitions. For instance,
 the following code defines two functions #dyncode("isevn") and #dyncode("isodd")
 mutually recursively:
