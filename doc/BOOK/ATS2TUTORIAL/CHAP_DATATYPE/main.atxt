@@ -51,7 +51,7 @@ form values (of the type #stacode("weekday")).\
 
 #para('\
 
-Each nullary constructor is represented by a small integer
+Each nullary constructor is represented as a small integer
 (e.g., one that is less than 1024). We can use the following
 function #dyncode("weekday2int") to find out the integers reprsenting
 the constructors associated with #stacode("weekday"):
@@ -121,6 +121,132 @@ end // end of [abc2tag]
 
 In this case, the tags for #dyncode("A"), #dyncode("B"), and #dyncode("C")
 are 0, 1, and 2, respectively.
+
+')
+
+#para('\
+
+A datatype is list-like if there are two data constructors associated with
+it such that one is nullary (nil-like) and the other is non-nullary
+(cons-like). For instance, the datatype #stacode('abc') declared as follows
+is list-like:
+
+#atscode('\
+datatype ab = A of () | B of (bool)
+')
+
+The values of a list-like datatype are represented in a special way.  Given
+a value of the datatype; if it is constructed with the nil-like
+constructor, then it is represented as the null-pointer; if it is
+constructed with the cons-like constructor, then it is reprenstend as a
+heap-allocated tuple containing all of the arguments passed to the
+constructor.
+
+In the above case, the value #dyncode("A()") is represented as the null
+pointer, and the value #dyncode("B(b)") for each boolean #dyncode("b") is
+represented as a heap-allocated singleton tuple containing the only
+component #dyncode("b"). This description can be readily verified with
+the following code:
+
+#atscode('\
+val () = assertloc (iseqz($UN.cast{ptr}(A())))
+val () = assertloc (true = $UN.ptr0_get<bool>($UN.cast{ptr}(B(true))))
+val () = assertloc (false = $UN.ptr0_get<bool>($UN.cast{ptr}(B(false))))
+')
+
+')
+
+#para('\
+
+Datatypes can be defined recursively. As an example,
+the following declaration introduces a recursively defined datatype
+#stacode("intexp") (for representing arithemetic integer expressions):
+
+#atscode('\
+datatype
+intexp =
+| Int of int
+| Neg of (intexp)
+| Add of (intexp, intexp)
+| Sub of (intexp, intexp)
+')
+
+For instance, #dyncode("(1+2)-3")
+can be represented as #dyncode("Sub(Add(Int(1), Int(2)), Int(3))").
+As another example, the following code introduces two mutually recursively
+define datatypes #stacode("intexp") and #stacode("boolexp")
+(for integer expressions and boolean expressions):
+
+#atscode('\
+datatype
+intexp =
+| Int of int
+| Neg of (intexp)
+| Add of (intexp, intexp)
+| Sub of (intexp, intexp)
+| IfThenElse of (boolexp, intexp, intexp)
+
+and
+boolexp =
+| Bool of bool // constant
+| Not of (boolexp) // negation
+| Less of (intexp, intexp) // Less(x, y): x < y
+| LessEq of (intexp, intexp) // LessEq(x, y): x <= y
+| Conj of (boolexp, boolexp) // Conj(x, y): x /\ y
+| Disj of (boolexp, boolexp) // Disj(x, y): x \/ y
+')
+
+The code presented as follows implements two mutually recursive functions
+#dyncode("eval_intexp") and #dyncode("eval_boolexp") for evaluating integer
+expressions and boolean expressions, respectively:
+
+#atscode('\
+//
+symintr eval
+//
+extern
+fun eval_intexp : intexp -> int
+extern
+fun eval_boolexp : boolexp -> bool
+//
+overload eval with eval_intexp
+overload eval with eval_boolexp
+//
+(* ****** ****** *)
+//
+implement
+eval_intexp
+  (e0) = (
+//
+case+ e0 of
+| Int (i) => i
+| Neg (e) => ~eval(e)
+| Add (e1, e2) => eval(e1) + eval(e2)
+| Sub (e1, e2) => eval(e1) - eval(e2)
+| IfThenElse
+    (e_test, e_then, e_else) =>
+    if eval(e_test) then eval(e_then) else eval(e_else)
+//
+) (* end of [eval_intexp] *)
+//
+implement
+eval_boolexp
+  (e0) = (
+//
+case+ e0 of
+| Bool (b) => b
+| Not (e) => ~eval(e)
+| Less (e1, e2) => eval(e1) < eval(e2)
+| LessEq (e1, e2) => eval(e1) <= eval(e2)
+| Conj (e1, e2) => eval(e1) && eval(e2)
+| Disj (e1, e2) => eval(e1) || eval(e2)
+//
+) (* end of [eval_boolexp] *)
+//
+(* ****** ****** *)
+')
+
+I will present more on patter matching elsewhere.
 
 ')
 
