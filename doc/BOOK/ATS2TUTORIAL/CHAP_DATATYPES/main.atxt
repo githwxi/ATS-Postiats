@@ -7,7 +7,7 @@ dynload "libatsdoc/dynloadall.dats"
 %}\
 #comment("\n\
 The file is automatically generated
-by [atsdoc] from [CHAP_DATATYPE/main.atxt].\n\
+by [atsdoc] from [CHAP_DATATYPES/main.atxt].\n\
 ")
 #comment("\n\
 Time of Generation: #timestamp()\
@@ -257,7 +257,7 @@ elsewhere.
 
 #para("\
 
-Please find #mycodelink("chap_datatype.dats", "on-line") the entirety of the
+Please find #mycodelink("chap_datatypes.dats", "on-line") the entirety of the
 code used in this chapter plus some code for testing.\
 
 ")#comment("para")
@@ -266,7 +266,7 @@ code used in this chapter plus some code for testing.\
 
 #comment(" ****** ****** ")
 
-#comment(" end of [chap_datatype.atxt] ")
+#comment(" end of [chap_datatypes.atxt] ")
 
 %{
 //
@@ -275,7 +275,7 @@ staload STDIO = "libc/SATS/stdio.sats"
 implement main () = {
 //
 val filr =
-  $STDIO.fopen_ref_exn ("../TEMP/chap_datatype.dats", file_mode_w)
+  $STDIO.fopen_ref_exn ("../TEMP/chap_datatypes.dats", file_mode_w)
 val () = fprint_theCodeLst (filr)
 val () = $STDIO.fclose_exn (filr)
 //

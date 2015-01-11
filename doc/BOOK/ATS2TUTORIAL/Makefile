@@ -99,10 +99,10 @@ clean:: ; make -C CHAP_RECURSION -f ../Makefile_chap clean
 
 ######
 
-allchap:: CHAP_DATATYPE
-CHAP_DATATYPE:: ; \
-  make -C CHAP_DATATYPE -f ../Makefile_chap main.db
-clean:: ; make -C CHAP_DATATYPE -f ../Makefile_chap clean
+allchap:: CHAP_DATATYPES
+CHAP_DATATYPES:: ; \
+  make -C CHAP_DATATYPES -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_DATATYPES -f ../Makefile_chap clean
 
 ######
 

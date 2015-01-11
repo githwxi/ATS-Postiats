@@ -6,6 +6,12 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-01-11:<br>
+<a href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>: Chapter "Datatypes" is added.<br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-01-07:<br>
 <a href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>: Chapter "Recursion" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
