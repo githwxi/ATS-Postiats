@@ -196,7 +196,7 @@ boolexp =
 | Disj of (boolexp, boolexp) // Disj(x, y): x \/ y
 ')
 
-The code presented as follows implements two mutually recursive functions
+The code below implements two mutually recursive functions
 #dyncode("eval_intexp") and #dyncode("eval_boolexp") for evaluating integer
 expressions and boolean expressions, respectively:
 
@@ -246,7 +246,10 @@ case+ e0 of
 (* ****** ****** *)
 ')
 
-I will present more on patter matching elsewhere.
+The datatypes presented in this chapter are simple datatypes.
+Other more advanced forms of datatypes include polymorphic datatypes,
+dependent datatypes, and linear datatypes, which will be covered
+elsewhere.
 
 ')
 
