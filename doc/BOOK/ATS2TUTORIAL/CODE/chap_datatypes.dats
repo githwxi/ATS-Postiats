@@ -152,4 +152,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [chap_datatype.dats] *)
+(* end of [chap_datatypes.dats] *)
