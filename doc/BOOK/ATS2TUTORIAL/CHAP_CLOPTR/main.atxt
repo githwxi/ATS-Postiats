@@ -116,7 +116,7 @@ fun acker2 (m:int) (n:int): int = acker (m, n)
 Suppose that we apply #dyncode("acker2") to two integers 3 and 4:
 #dyncode("acker2(3)(4)"); the application #dyncode("acker2(3)") evaluates
 to a (non-linear) closure-function; the application of this
-closure-function to 4 evaluates #dyncode("acker(3,4)"), which further
+closure-function to 4 evaluates to #dyncode("acker(3,4)"), which further
 evaluates to the integer 125. Note that the closure-function generated from
 evaluating #dyncode("acker2(3)") becomes a heap-allocated value that is no
 longer accessible after the evaluation of #dyncode("acker2(3)(4)")
@@ -149,7 +149,7 @@ advanced support for templates in ATS2, the role played by linear
 closure-functions in ATS1 is greatly diminished. However, if
 closure-functions need to be stored in a data structure but GC is
 unavailable or undesirable, then using linear closure-functions can lead to
-a solution that avoids the risk of creating memory leaks.
+a solution that avoids the risk of generatig memory leaks at run-time.
 
 ")
 
