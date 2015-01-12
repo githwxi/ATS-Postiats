@@ -31,6 +31,17 @@ val () = println! ("Thursday -> ", weekday2int(Thursday))
 val () = println! ("Friday -> ", weekday2int(Friday))
 
 (* ****** ****** *)
+//
+fun
+isFriday(x: weekday): bool =
+  case+ x of Friday() => true | _ => false
+//
+(* ****** ****** *)
+
+val () = assertloc (isFriday(Friday))
+val () = assertloc (isFriday(Friday()))
+
+(* ****** ****** *)
 
 datatype abc =
   | A of () | B of (bool) | C of (int, double)

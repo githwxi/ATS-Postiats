@@ -1,5 +1,5 @@
 //
-// Test list-patterns
+// Testing list-patterns
 //
 (* ****** ****** *)
 //
@@ -10,7 +10,7 @@
 
 val xs = '[1,2,3]
 val+$list(x1,x2,x3) = xs: list(int, 3)
-val () = assertloc (length (xs) = 3)
+val () = assertloc (list_length (xs) = 3)
 val () = assertloc (x1 = 1 && x2 = 2 && x3 = 3)
 
 (* ****** ****** *)

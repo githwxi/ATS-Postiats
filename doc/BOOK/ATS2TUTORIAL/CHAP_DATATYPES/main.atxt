@@ -81,6 +81,34 @@ are 0, 1, 2, 3, and 4, respectively.
 
 #para('\
 
+Given a nullary constructor #dyncode("foo"), both #dyncode("foo") and
+#dyncode("foo()") can be used to refer the value constructed by
+#dyncode("foo").  However, only #dyncode("foo()") can be used as the
+pattern that matches this value. For instance, the following function tests
+whether a given value of the type #stacode("weekday") is formed with the
+constructor #dyncode("Friday"):
+
+#atscode('\
+fun
+isFriday(x: weekday): bool =
+  case+ x of Friday() => true | _ => false
+')
+
+Note that the pattern #dyncode("Friday()") cannot be replaced
+with #dyncode("Friday") as the latter is treated as a variable when
+used as a pattern. On the other hand, both of the following
+assertions hold at run-time as #dyncode("Friday") and #dyncode("Friday()")
+refer to the same value:
+
+#atscode('\
+val () = assertloc (isFriday(Friday))
+val () = assertloc (isFriday(Friday()))
+')
+
+')
+
+#para('\
+
 The following declaration introduces a datatype of the name #stacode("abc"):
 
 #atscode('\
