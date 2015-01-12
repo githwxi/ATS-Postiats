@@ -156,7 +156,7 @@ are 0, 1, and 2, respectively.
 
 A datatype is list-like if there are two data constructors associated with
 it such that one is nullary (nil-like) and the other is non-nullary
-(cons-like). For instance, the datatype #stacode('abc') declared as follows
+(cons-like). For instance, the datatype #stacode("ab") declared as follows
 is list-like:
 
 #atscode('\
@@ -202,8 +202,8 @@ intexp =
 For instance, #dyncode("(1+2)-3")
 can be represented as #dyncode("Sub(Add(Int(1), Int(2)), Int(3))").
 As another example, the following code introduces two mutually recursively
-define datatypes #stacode("intexp") and #stacode("boolexp")
-(for integer expressions and boolean expressions):
+defined datatypes #stacode("intexp") and #stacode("boolexp")
+(for integer expressions and boolean expressions, respectively):
 
 #atscode('\
 datatype
