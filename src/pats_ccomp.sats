@@ -1287,19 +1287,20 @@ fun instr_move_arg_val
 
 (* ****** ****** *)
 
-fun instr_fcall
+fun
+instr_fcall
 (
   loc: loc_t
 , tmpret: tmpvar
 , pmv_fun: primval, hse_fun: hisexp, pmvs_arg: primvalist
 ) : instr // end of [instr_fcall]
 
-fun instr_fcall2
+fun
+instr_fcall2
 (
   loc: loc_t
 , tmpret: tmpvar
-, fl: funlab, ntl: int, hse_fun: hisexp
-, pmvs_arg: primvalist
+, fl: funlab, ntl: int, hse_fun: hisexp, pmvs_arg: primvalist
 ) : instr // end of [instr_fcall2]
 
 (* ****** ****** *)

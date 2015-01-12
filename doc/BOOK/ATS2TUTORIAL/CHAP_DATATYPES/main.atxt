@@ -52,7 +52,7 @@ form values (of the type #stacode("weekday")).\
 #para('\
 
 Each nullary constructor is represented as a small integer
-(e.g., one that is less than 1024). We can use the following
+(e.g., one that is less than 1024). One can use the following
 function #dyncode("weekday2int") to find out the integers reprsenting
 the constructors associated with #stacode("weekday"):
 
@@ -70,7 +70,7 @@ The small integer representing a nullary constructor is often referred to
 as the tag of the constructor.
 
 In this case,
-The tags for
+the tags for
 #dyncode("Monday"),
 #dyncode("Tuesday"),
 #dyncode("Wednesday"),
