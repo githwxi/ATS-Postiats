@@ -79,7 +79,7 @@ staload "./pats_trans2_env.sats"
 
 local
 
-viewtypedef
+vtypedef
 filenv_struct =
 @{
   name= filename
@@ -136,7 +136,7 @@ implement
 filenv_get_s2temap (fenv) = let
   val (vbox pf | p) = ref_get_view_ptr (fenv)
   prval (pf1, fpf1) = __assert (view@ (p->sort)) where {
-    extern prfun __assert {a:viewt@ype} {l:addr} (pf: !a @ l): (a @ l, minus (filenv, a @ l))
+    extern prfun __assert {a:vt@ype} {l:addr} (pf: !a @ l): (a @ l, minus (filenv, a @ l))
   } // end of [prval]
 in
   (pf1, fpf1 | &p->sort)
@@ -146,7 +146,7 @@ implement
 filenv_get_s2itmmap (fenv) = let
   val (vbox pf | p) = ref_get_view_ptr (fenv)
   prval (pf1, fpf1) = __assert (view@ (p->sexp)) where {
-    extern prfun __assert {a:viewt@ype} {l:addr} (pf: !a @ l): (a @ l, minus (filenv, a @ l))
+    extern prfun __assert {a:vt@ype} {l:addr} (pf: !a @ l): (a @ l, minus (filenv, a @ l))
   } // end of [prval]
 in
   (pf1, fpf1 | &p->sexp)
@@ -156,7 +156,7 @@ implement
 filenv_get_d2itmmap (fenv) = let
   val (vbox pf | p) = ref_get_view_ptr (fenv)
   prval (pf1, fpf1) = __assert (view@ (p->dexp)) where {
-    extern prfun __assert {a:viewt@ype} {l:addr} (pf: !a @ l): (a @ l, minus (filenv, a @ l))
+    extern prfun __assert {a:vt@ype} {l:addr} (pf: !a @ l): (a @ l, minus (filenv, a @ l))
   } // end of [prval]
 in
   (pf1, fpf1 | &p->dexp)
@@ -194,15 +194,14 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
-viewtypedef s2rtenv = symenv (s2rtext)
+//
+assume s2rtenv_push_v = unit_v
+//
+vtypedef s2rtenv = symenv (s2rtext)
+//
 val [l0:addr] (pf | p0) = symenv_make_nil ()
 val (pf0 | ()) = vbox_make_view_ptr {s2rtenv} (pf | p0)
-
-(* ****** ****** *)
-
-assume s2rtenv_push_v = unit_v
-
+//
 (* ****** ****** *)
 
 fun
@@ -258,6 +257,15 @@ end // end of [the_s2rtenv_find]
 (* ****** ****** *)
 
 implement
+the_s2rtenv_top_clear
+  () = () where {
+  prval vbox pf = pf0
+  val () = symenv_top_clear (!p0)
+} // end of [the_s2rtenv_top_clear]
+
+(* ****** ****** *)
+
+implement
 the_s2rtenv_pop (
   pfenv | (*none*)
 ) = let
@@ -282,6 +290,8 @@ the_s2rtenv_push_nil
   val () = symenv_push_nil (!p0)
   prval pfenv = unit_v ()
 } // end of [the_s2rtenv_push_nil]
+
+(* ****** ****** *)
 
 fun
 the_s2rtenv_localjoin
@@ -335,7 +345,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-the_s2rtenv_find_qua (q, id) = let
+the_s2rtenv_find_qua
+  (q, id) = let
 (*
 val () =
 print "the_s2rtenv_find_qua: qid = "
@@ -391,12 +402,15 @@ end // end of [the_s2rtenv_find_qua]
 (* ****** ****** *)
 
 local
-
-viewtypedef s2expenv = symenv (s2itm)
+//
+assume s2expenv_push_v = unit_v
+//
+vtypedef s2expenv = symenv (s2itm)
+//
 val [l0:addr] (pf | p0) = symenv_make_nil ()
 val (pf0 | ()) = vbox_make_view_ptr {s2expenv} (pf | p0)
-
-assume s2expenv_push_v = unit_v
+//
+(* ****** ****** *)
 
 fun
 the_s2expenv_find_namespace .<>.
@@ -458,6 +472,15 @@ end // end of [the_s2expenv_pervasive_find]
 (* ****** ****** *)
 
 implement
+the_s2expenv_top_clear
+  () = () where {
+  prval vbox pf = pf0
+  val () = symenv_top_clear (!p0)
+} // end of [the_s2expenv_top_clear]
+
+(* ****** ****** *)
+
+implement
 the_s2expenv_pop (
   pfenv | (*none*)
 ) = let
@@ -482,6 +505,8 @@ the_s2expenv_push_nil
   val () = symenv_push_nil (!p0)
   prval pfenv = unit_v ()
 } // end of [the_s2expenv_push_nil]
+
+(* ****** ****** *)
 
 fun
 the_s2expenv_localjoin
@@ -533,7 +558,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-the_s2expenv_find_qua (q, id) = let
+the_s2expenv_find_qua
+  (q, id) = let
 (*
 //
 val () =
@@ -594,29 +620,37 @@ end // end of [the_s2expenv_find_qua]
 (* ****** ****** *)
 
 implement
-the_s2expenv_add_scst (s2c) = let
+the_s2expenv_add_scst
+  (s2c) = let
 (*
-  val () = begin
-    print "s2expenv_add_scst: s2c = "; print (s2c); print_newline ()
-    print "s2expenv_add_scst: s2t = "; print (s2cst_get_srt s2c); print_newline ()
-  end // end of [val]
+val () =
+(
+  println! ("s2expenv_add_scst: s2c = ", s2c);
+  println! ("s2expenv_add_scst: s2t = ", s2cst_get_srt(s2c));
+) (* end of [val] *)
 *)
-  val id = s2cst_get_sym s2c
-  val s2cs = (
-    case+ the_s2expenv_find (id) of
-    | ~Some_vt s2i => begin case+ s2i of
-      | S2ITMcst s2cs => s2cs | _ => list_nil ()
-      end // end of [Some_vt]
-    | ~None_vt () => list_nil ()
-  ) : s2cstlst // end of [val]
-  val s2i = S2ITMcst (list_cons (s2c, s2cs))
+val id = s2cst_get_sym s2c
+//
+val s2cs = (
+  case+ the_s2expenv_find (id) of
+  | ~Some_vt s2i => begin case+ s2i of
+    | S2ITMcst s2cs => s2cs | _ => list_nil ()
+    end // end of [Some_vt]
+  | ~None_vt () => list_nil ()
+) : s2cstlst // end of [val]
+//
+val s2i = S2ITMcst (list_cons (s2c, s2cs))
+//
 in
   the_s2expenv_add (id, s2i)
 end // end of [the_s2expenv_add_scst]
 
 implement
-the_s2expenv_add_svar (s2v) = let
-  val id = s2var_get_sym (s2v) in the_s2expenv_add (id, S2ITMvar s2v)
+the_s2expenv_add_svar
+  (s2v) = let
+  val id = s2var_get_sym (s2v)
+in
+  the_s2expenv_add (id, S2ITMvar s2v)
 end // end of [the_s2expenv_add_svar]
 
 implement
@@ -794,10 +828,12 @@ s2qualstlst_set_tmplev
 (* ****** ****** *)
 
 local
-
-val the_d2varlev = ref<int> (0)
+//
+val
+the_d2varlev = ref<int> (0)
+//
 assume the_d2varlev_inc_v = unit_v
-
+//
 in (* in of [local] *)
 
 implement
@@ -836,12 +872,15 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
-viewtypedef d2expenv = symenv (d2itm)
+//
+assume d2expenv_push_v = unit_v
+//
+vtypedef d2expenv = symenv (d2itm)
+//
 val [l0:addr] (pf | p0) = symenv_make_nil ()
 val (pf0 | ()) = vbox_make_view_ptr {d2expenv} (pf | p0)
-
-assume d2expenv_push_v = unit_v
+//
+(* ****** ****** *)
 
 fn the_d2expenv_find_namespace
   (id: symbol): d2itmopt_vt = let
@@ -903,6 +942,15 @@ end // end of [the_d2expenv_pervasive_find]
 (* ****** ****** *)
 
 implement
+the_d2expenv_top_clear
+  () = () where {
+  prval vbox pf = pf0
+  val () = symenv_top_clear (!p0)
+} // end of [the_d2expenv_top_clear]
+
+(* ****** ****** *)
+
+implement
 the_d2expenv_pop (
   pfenv | (*none*)
 ) = let
@@ -927,6 +975,8 @@ the_d2expenv_push_nil
   val () = symenv_push_nil (!p0)
   prval pfenv = unit_v ()
 } // end of [the_d2expenv_push_nil]
+
+(* ****** ****** *)
 
 fun
 the_d2expenv_localjoin
@@ -978,11 +1028,12 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-the_d2expenv_find_qua (q, id) = let
+the_d2expenv_find_qua
+  (q, id) = let
 (*
   val () = print "the_d2expenv_find_qua: qid = "
   val () = ($SYN.print_s0taq (q); $SYM.print_symbol (id))
-  val () = print_newline ()
+  val () = print_newline ((*void*))
 *)
 in
 //
@@ -1189,7 +1240,7 @@ local
 assume
 trans2_env_push_v = @(
   s2rtenv_push_v, s2expenv_push_v, d2expenv_push_v
-) // end of [trans2_env_push_v]
+) (* end of [trans2_env_push_v] *)
 
 in (* in of [local] *)
 
@@ -1235,7 +1286,7 @@ the_trans2_env_pervasive_joinwth
   val fenv = filenv_make (fil, m0, m1, m2, d2cs)
   val ((*void*)) = the_filenvmap_add (fsymb, fenv)
 //
-} // end of [the_trans2_env_pervasive_joinwth]
+} // end of [the_trans2_env_pervasive_joinwth1]
 
 end // end of [local]
 
@@ -1279,7 +1330,10 @@ end // end of [local]
 local
 
 fun
-the_s2rtenv_initialize (): void = {
+the_s2rtenv_initialize
+(
+// argless
+) : void = {
 //
   val (pfenv | ()) = the_s2rtenv_push_nil ()
 //
@@ -1320,8 +1374,20 @@ the_s2rtenv_initialize (): void = {
   val map = the_s2rtenv_pop (pfenv | (*none*))
   val ((*void*)) = the_s2rtenv_pervasive_joinwth0 (map)
 //
-} // end of [trans2_env_initialize]
+} (* end of [trans2_env_initialize] *)
 
+fun
+the_s2rtenv_reinitialize(): void = the_s2rtenv_top_clear ()
+
+(* ****** ****** *)
+//
+fun 
+the_s2expenv_initialize (): void = ()
+fun
+the_s2expenv_reinitialize(): void = the_s2expenv_top_clear()
+//
+(* ****** ****** *)
+//
 fun 
 the_d2expenv_initialize (): void = {
 (*
@@ -1337,19 +1403,47 @@ end // end of [val]
 //
 val map = the_d2expenv_pop (pfenv | (*none*))
 //
-val () = the_d2expenv_pervasive_joinwth (map)
+val () = the_d2expenv_pervasive_joinwth0 (map)
 //
 *)
 //
-} // end of [the_d2expenv_initialize]
+} (* end of [the_d2expenv_initialize] *)
+//
+fun
+the_d2expenv_reinitialize(): void = the_d2expenv_top_clear()
+//
+(* ****** ****** *)
+
+val the_trans2_env_flag = ref<int> (0)
+
+(* ****** ****** *)
 
 in (* in of [local] *)
 
 implement
-the_trans2_env_initialize () = {
+the_trans2_env_initialize
+(
+// argumentless
+) = let
+//
+val n = !the_trans2_env_flag
+val () = !the_trans2_env_flag := n+1
+//
+in
+//
+if
+n = 0
+then {
   val () = the_s2rtenv_initialize ()
+  val () = the_s2expenv_initialize ()
   val () = the_d2expenv_initialize ()
-} // end of [the_trans2_env_initialize]
+} else {
+  val () = the_s2rtenv_reinitialize ()
+  val () = the_s2expenv_reinitialize ()
+  val () = the_d2expenv_reinitialize ()
+} (* end of [if] *)
+//
+end // end of [the_trans2_env_initialize]
 
 end // end of [local]
 

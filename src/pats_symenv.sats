@@ -41,11 +41,11 @@ typedef symbol = $SYM.symbol
 
 staload
 SYMMAP = "./pats_symmap.sats"
-viewtypedef symmap (itm:type) = $SYMMAP.symmap (itm)
+vtypedef symmap (itm:type) = $SYMMAP.symmap (itm)
 
 (* ****** ****** *)
 
-absviewt@ype
+absvt@ype
 symenv_vt0ype (itm:type)
 stadef symenv = symenv_vt0ype
 
@@ -69,13 +69,17 @@ fun symenv_insert
 
 (* ****** ****** *)
 
-fun symenv_pop {itm:type}
+fun symenv_pop{itm:type}
   (env: &symenv itm):<> symmap (itm)
-fun symenv_pop_free {itm:type} (env: &symenv itm):<> void
+fun symenv_pop_free{itm:type}(env: &symenv itm):<> void
 
 fun symenv_push {itm:type}
   (env: &symenv itm, map: symmap (itm)):<> void
-fun symenv_push_nil {itm:type} (env: &symenv itm):<> void
+fun symenv_push_nil{itm:type}(env: &symenv itm):<> void
+
+(* ****** ****** *)
+
+fun symenv_top_clear{itm:type}(env: &symenv itm):<> void
 
 (* ****** ****** *)
 //
@@ -102,26 +106,31 @@ fun symenv_localjoin
 
 (* ****** ****** *)
 
-fun symenv_pervasive_search
-  {itm:type} (env: &symenv itm, k: symbol):<> Option_vt (itm)
+fun
+symenv_pervasive_search
+  {itm:type}(env: &symenv itm, k: symbol):<> Option_vt (itm)
 // end of [symenv_pervasive_search]
 
-fun symenv_pervasive_insert
+fun
+symenv_pervasive_insert
   {itm:type} (env: &symenv itm, k: symbol, i: itm):<> void
 // end of [symenv_pervasive_insert]
 
 (* ****** ****** *)
 
-fun symenv_pervasive_joinwth0
+fun
+symenv_pervasive_joinwth0
   {itm:type} (env: &symenv itm, map:  symmap itm):<> void
 // end of [symenv_pervasive_joinwth0]
-fun symenv_pervasive_joinwth1
+fun
+symenv_pervasive_joinwth1
   {itm:type} (env: &symenv itm, map: !symmap itm):<> void
 // end of [symenv_pervasive_joinwth1]
 
 (* ****** ****** *)
 
-fun fprint_symenv_map
+fun
+fprint_symenv_map
   {itm:type} (
   out: FILEref, env: &symenv itm, f: (FILEref, itm) -> void
 ) : void // end of [fprint_symenv_map]

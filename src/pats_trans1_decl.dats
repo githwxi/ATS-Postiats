@@ -1439,6 +1439,8 @@ trans1_finalize () =
   val () = aux_mainatsflag ()
   val () = aux_static_prefix ()
 //
+  val () = $FIL.the_filenamelst_ppop ()
+//
 } (* end of [trans1_finalize] *)
 
 end // end of [local]

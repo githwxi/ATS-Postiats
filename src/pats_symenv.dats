@@ -43,11 +43,11 @@ staload "./pats_symenv.sats"
 
 (* ****** ****** *)
 
-viewtypedef
+vtypedef
 symmaplst (
   itm:type, n:int
 ) = list_vt (symmap itm, n)
-viewtypedef
+vtypedef
 symmaplst (itm:type) = [n:nat] symmaplst (itm, n)
 
 (* ****** ****** *)
@@ -108,7 +108,7 @@ symenv_make_nil
   prval () = free_gc_elim (pfgc)
 in
   (pfat | p)
-end // end of [symenv_make_null]
+end // end of [symenv_make_nil]
 
 (* ****** ****** *)
 
@@ -164,8 +164,19 @@ symenv_push_nil
 (* ****** ****** *)
 
 implement
+symenv_top_clear
+  (env) = () where {
+//
+val () = symmap_free (env.map)
+val () = env.map := symmap_make_nil ()
+//
+} (* end of [symenv_top_clear] *)
+
+(* ****** ****** *)
+
+implement
 symenv_savecur
-  {itm} (env) = let
+  {itm}(env) = let
   val m = env.map
   val () = env.map := symmap_make_nil ()
   val ms = env.maplst
@@ -177,8 +188,8 @@ end // end of [symenv_savecur]
 
 implement
 symenv_restore
-  {itm} (env) = let
-  viewtypedef map = symmap (itm)
+  {itm}(env) = let
+  vtypedef map = symmap (itm)
   val top = env.map
   val () = symmaplst_free (env.maplst)
   val-~list_vt_cons (x, xs) = env.savedlst
@@ -192,7 +203,7 @@ end // end of [symenv_restore]
 
 implement
 symenv_localjoin
-  {itm} (env) = let
+  {itm}(env) = let
 //
 val ms = env.maplst
 val-~list_vt_cons (m1, ms) = ms
@@ -201,8 +212,9 @@ val-~list_vt_cons (m2, ms) = ms
 val () = env.maplst := ms
 //
 // HX-2013-06:
-// it is done this way so that a binding in [map1] can replace one
-// [map2] if they happen to share the same key.
+// it is done in this way so that a binding
+// in [map1] can replace another one in [map2]
+// if they happen to be sharing the same key.
 //
 val m0 = env.map
 val () = env.map := m2
@@ -217,19 +229,21 @@ end // end of [symenv_localjoin]
 
 implement
 symenv_pervasive_search
-  {itm} (env, k) = symmap_search (env.pervasive, k)
+  (env, k) =
+  symmap_search (env.pervasive, k)
 // end of [symenv_pervasive_search]
 
 implement
-symenv_pervasive_insert {itm}
-  (env, k, i) = symmap_insert {itm} (env.pervasive, k, i)
+symenv_pervasive_insert
+  (env, k, i) =
+  symmap_insert (env.pervasive, k, i)
 // end of [symenv_insert]
 
 (* ****** ****** *)
 
 implement
 symenv_pervasive_joinwth0
-  {itm} (env, map) = let
+  (env, map) = let
 //
 val () = symmap_joinwth (env.pervasive, map)
 //
@@ -239,7 +253,7 @@ end // end of [symenv_pervasive_joinwth0]
 
 implement
 symenv_pervasive_joinwth1
-  {itm} (env, map) = symmap_joinwth (env.pervasive, map)
+  (env, map) = symmap_joinwth (env.pervasive, map)
 // end of [symenv_pervasive_joinwth1]
 
 (* ****** ****** *)

@@ -88,7 +88,7 @@ symmap_insert
   var res: itm
   val _exist = linmap_insert (map, k, i, cmp0, res)
   prval () = opt_clear (res)
-} // end of [symmap_insert]
+} (* end of [symmap_insert] *)
 
 (* ****** ****** *)
 

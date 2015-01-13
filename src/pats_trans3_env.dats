@@ -1770,7 +1770,8 @@ d3explst_open_and_add
 (* ****** ****** *)
 
 implement
-trans3_env_initialize () = {
+the_trans3_env_initialize
+  ((*void*)) = {
 //
 val () =
   s2cst_add_sup (s2c1, s2c0) where {
@@ -1820,12 +1821,13 @@ val () =
   val s2c1 = s2cstref_get_cst (the_string_int_type)
 } // end of [val]
 //
-} // end of [trans3_env_initialize]
+} // end of [the_trans3_env_initialize]
 
 (* ****** ****** *)
 
 implement
-trans3_finget_constraint () = let
+the_trans3_finget_constraint
+  ((*void*)) = let
 //
 val s3is = the_s3itmlst_env_pop ()
 val s3is = list_of_list_vt{s3itm}(s3is)
@@ -1840,7 +1842,7 @@ val (
 //
 in
   c3nstr_itmlst ($LOC.location_dummy, C3NSTRKmain, s3is)
-end // end of [c3nstr_get_final]
+end // end of [the_trans3_finget_constraint]
 
 (* ****** ****** *)
 

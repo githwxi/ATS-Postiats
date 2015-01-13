@@ -112,10 +112,21 @@ fun the_s2rtenv_add (id: symbol, s2te: s2rtext): void
 fun the_s2rtenv_find (id: symbol): s2rtextopt_vt
 fun the_s2rtenv_find_qua (q: $SYN.s0rtq, id: symbol): s2rtextopt_vt
 
+(* ****** ****** *)
+
 absview s2rtenv_push_v
+
+(* ****** ****** *)
+
+fun the_s2rtenv_top_clear ((*void*)): void
+
+(* ****** ****** *)
+//
 fun the_s2rtenv_pop (pf: s2rtenv_push_v | (*none*)): s2temap
 fun the_s2rtenv_pop_free (pf: s2rtenv_push_v | (*none*)): void
 fun the_s2rtenv_push_nil (): (s2rtenv_push_v | void)
+//
+(* ****** ****** *)
 
 fun the_s2rtenv_localjoin
 (
@@ -142,10 +153,21 @@ fun the_s2expenv_find_qua (q: $SYN.s0taq, id: symbol): s2itmopt_vt
 
 fun the_s2expenv_pervasive_find (id: symbol): Option_vt (s2itm)
 
+(* ****** ****** *)
+//
 absview s2expenv_push_v
+//
+(* ****** ****** *)
+
+fun the_s2expenv_top_clear ((*void*)): void
+
+(* ****** ****** *)
+//
 fun the_s2expenv_pop (pf: s2expenv_push_v | (*none*)): s2itmmap
 fun the_s2expenv_pop_free (pf: s2expenv_push_v | (*none*)): void
 fun the_s2expenv_push_nil (): (s2expenv_push_v | void)
+//
+(* ****** ****** *)
 
 fun the_s2expenv_localjoin
 (
@@ -214,6 +236,12 @@ fun the_d2expenv_pervasive_find (id: symbol): Option_vt (d2itm)
 //
 absview d2expenv_push_v
 //
+(* ****** ****** *)
+
+fun the_d2expenv_top_clear ((*void*)): void
+
+(* ****** ****** *)
+//
 fun the_d2expenv_pop (pf: d2expenv_push_v | (*none*)): d2itmmap
 fun the_d2expenv_pop_free (pf: d2expenv_push_v | (*none*)): void
 fun the_d2expenv_push_nil ((*void*)): (d2expenv_push_v | void)
@@ -272,7 +300,7 @@ fun the_trans2_env_restore
 
 fun the_trans2_env_pervasive_joinwth
   (pf: trans2_env_push_v | fil: filename, d2cs: d2eclist): void
-// end of [the_trans2_env_pervasive_joinwth]
+// end of [the_trans2_env_pervasive_joinwth1]
 
 (* ****** ****** *)
 

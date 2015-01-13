@@ -471,7 +471,7 @@ end (* end of [local] *)
 local
 
 assume the_filenamelst_push_v = unit_v
-viewtypedef filenamelst = List_vt filename
+vtypedef filenamelst = List_vt filename
 
 val the_filename = ref_make_elt<filename> (filename_dummy)
 val the_filenamelst = ref_make_elt<filenamelst> (list_vt_nil ())
@@ -502,10 +502,17 @@ in (* in of [local] *)
 implement
 filename_get_current () = !the_filename
 
+(* ****** ****** *)
+
 implement
 the_filenamelst_pop
   (pf | (*none*)) = let
-  prval unit_v () = pf
+  prval unit_v () = pf in the_filenamelst_ppop ()
+end // end of [the_filenamelst_pop]
+
+implement
+the_filenamelst_ppop
+  ((*none*)) = let
   val x = x where {
     val (vbox pf | p) = ref_get_view_ptr (the_filenamelst)
     val-~list_vt_cons (x, xs) = !p
@@ -514,7 +521,9 @@ the_filenamelst_pop
   val () = !the_filename := x
 in
   // nothing
-end // end of [the_filenamelst_pop]
+end // end of [the_filenamelst_ppop]
+
+(* ****** ****** *)
 
 implement
 the_filenamelst_push (f0) = let
@@ -530,6 +539,8 @@ the_filenamelst_ppush (f0) = let
 in
   // nothing
 end // end of [the_filenamelst_ppush]
+
+(* ****** ****** *)
 
 implement
 the_filenamelst_push_check
@@ -550,6 +561,8 @@ the_filenamelst_push_check
 in
   (pf | isexi)
 end // end of [the_filenamelst_push_check]
+
+(* ****** ****** *)
 
 implement
 fprint_the_filenamelst
@@ -577,7 +590,7 @@ end // end of [local]
 (* ****** ****** *)
 
 typedef pathlst = List (path)
-viewtypedef pathlst_vt = List_vt (path)
+vtypedef pathlst_vt = List_vt (path)
 
 local
 //

@@ -1059,8 +1059,14 @@ do_trans12
 val d1cs =
   do_trans1 (state, given, d0cs)
 //
-val d2cs =
-  $TRANS2.d1eclist_tr_errck (d1cs)
+val () =
+if
+state.ninpfile >= 2
+then
+  $TRENV2.the_trans2_env_initialize ()
+// end of [if]
+//
+val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
 //
 val () =
 if isdebug() then
@@ -1084,7 +1090,7 @@ val d2cs =
   do_trans12 (state, given, d0cs)
 //
 val () =
-  $TRENV3.trans3_env_initialize ()
+  $TRENV3.the_trans3_env_initialize ()
 val d3cs =
   $TRANS3.d2eclist_tr_errck (d2cs)
 //
@@ -1098,25 +1104,29 @@ val () = {
 //
 val () = 
 {
-  val flag = state.cnstrsolveflag
-  val c3t0 = $TRENV3.trans3_finget_constraint ()
+val flag = state.cnstrsolveflag
+val c3t0 =
+  $TRENV3.the_trans3_finget_constraint ()
+// end of [val]
 //
-  val () =
-  if flag = 0 then $CNSTR3.c3nstr_solve (c3t0)
+val () =
+if flag = 0 then $CNSTR3.c3nstr_solve (c3t0)
 //
-  val () =
-  if flag > 0 then
-  {
-    val filr =
-      outchan_get_filr (state.outchan)
-    val () = $CNSTR3.c3nstr_export (filr, c3t0)
-  } (* end of [if] *)
+val () =
+if
+flag > 0
+then {
+  val filr =
+    outchan_get_filr (state.outchan)
+  val () = $CNSTR3.c3nstr_export (filr, c3t0)
+} (* end of [if] *)
 //
 } (* end of [val] *)
 //
 val () =
-if isdebug() then
-{
+if
+isdebug()
+then {
   val () = prerrln! (
     "The 3rd translation (type-checking) of [", given, "] is successfully completed!"
   ) (* end of [val] *)
@@ -1331,7 +1341,7 @@ case+ arglst of
     | _ when stadyn >= 0 => {
         val PATSHOME = state.PATSHOME
         val () =
-          prelude_load_if (
+        prelude_load_if (
           PATSHOME, state.preludeflag // loading once
         ) // end of [val]
 //
@@ -1674,24 +1684,23 @@ PATSHOME = let
   val opt = get () where
   {
     extern fun get (): Stropt = "mac#patsopt_PATSHOME_get"
-  } // end of [where] // end of [val]
+  } (* end of [where] *)
   val issome = stropt_is_some (opt)
 in
   if issome
-    then
-      stropt_unsome opt
-    // end of [then]
+    then stropt_unsome(opt)
     else let
       val () = prerrln! ("The environment variable PATSHOME is undefined!")
     in
       $ERR.abort ()
-    end // end of [else]
+    end (* end of [else] *)
   // end of [if]
 end : string // end of [val]
 //
 // for the run-time and atslib
 //
-val () = $FIL.the_prepathlst_push (PATSHOME)
+val () =
+  $FIL.the_prepathlst_push (PATSHOME)
 //
 val () = $TRENV1.the_trans1_env_initialize ()
 val () = $TRENV2.the_trans2_env_initialize ()

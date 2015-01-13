@@ -148,7 +148,8 @@ fun the_filenamelst_push_check
   (fil: filename): (the_filenamelst_push_v | bool)
 // end of [the_filenamelst_push_check]
 
-fun the_filenamelst_ppush (fil: filename): void // permanent
+fun the_filenamelst_ppop (): void 
+fun the_filenamelst_ppush (fil: filename): void
 
 fun fprint_the_filenamelst (out: FILEref): void
 
@@ -163,13 +164,15 @@ fun path_normalize_vt (s0: NSHARED(path)): Strptr1
 
 absview the_pathlst_push_v
 
+(* ****** ****** *)
+//
 fun the_pathlst_pop
   (pf: the_pathlst_push_v | (*none*)): void
 fun the_pathlst_push (p: path): (the_pathlst_push_v | void)
 fun the_pathlst_ppush (p: path): void // HX: permanent push
-
+//
 fun the_prepathlst_push (p: path): void
-
+//
 (* ****** ****** *)
 
 fun filename_make

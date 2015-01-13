@@ -608,11 +608,11 @@ fun pfobj_search_atview (s2l0: s2exp): pfobjopt
 //
 (* ****** ****** *)
 
-fun trans3_env_initialize (): void
+fun the_trans3_env_initialize (): void
 
 (* ****** ****** *)
 
-fun trans3_finget_constraint (): c3nstr
+fun the_trans3_finget_constraint (): c3nstr
 
 (* ****** ****** *)
 

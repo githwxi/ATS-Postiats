@@ -39,7 +39,7 @@ typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
-absviewtype
+absvtype
 symmap_vtype (itm:type)
 stadef symmap = symmap_vtype
 
