@@ -141,7 +141,7 @@ end else s2e_sel // end of [if]
 //
 end // end of [auxmain]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 s2addr_deref
@@ -192,7 +192,10 @@ in
   the_trans3errlst_add (T3E_d3exp_deref_reflinsel (d3e, d3ls))
 end // end of [auxerr_reflinsel]
 
-fun aux1
+(* ****** ****** *)
+
+fun
+aux1
 (
   loc0: loc_t
 , s2f0: s2hnf, d3e: d3exp, d3ls: d3lablst
@@ -215,7 +218,8 @@ case+ opt of
 //
 end // end of [aux1]
 
-and aux2
+and
+aux2
 (
   loc0: loc_t
 , s2f0: s2hnf, d3e: d3exp, d3ls: d3lablst
@@ -243,11 +247,11 @@ case+ opt of
 //
 end // end of [aux2]
 
-and aux3
+and
+aux3
 (
   loc0: loc_t
-, s2f0: s2hnf
-, d3e: d3exp, d3ls: d3lablst
+, s2f0: s2hnf, d3e: d3exp, d3ls: d3lablst
 ) : d3exp = let
 //
 // HX: [d3ls] is ignored!!!
@@ -261,19 +265,18 @@ case+ opt of
 | ~None_vt () => let
     val opt = un_s2exp_lazy_vt0ype_vtype (s2f0)
   in
-  //
-  case+ opt of
-  | ~Some_vt (s2e) =>
-      d3exp_lazyeval (loc0, s2e, 1(*lin*), d3e)
-  | ~None_vt () => let
-      val () = auxerr_nonderef (loc0, d3e) in d3exp_errexp (loc0)
-    end // end of [None_vt]
-  //
+    case+ opt of
+    | ~Some_vt (s2e) =>
+        d3exp_lazyeval (loc0, s2e, 1(*lin*), d3e)
+    | ~None_vt () => let
+        val () = auxerr_nonderef (loc0, d3e) in d3exp_errexp (loc0)
+      end // end of [None_vt]
+    // end of [case]
   end // end of [None_vt]
 //
 end // end of [aux3]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 d2exp_trup_deref
