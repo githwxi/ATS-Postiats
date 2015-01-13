@@ -31,6 +31,8 @@ Here is a list of major additions and changes since the last release:
    https://github.com/githwxi/ATS-Postiats/blob/master/doc/BUGS/bug-2015-01-07.dats
 3. Adding ATS2TUTORIAL/CHAP_RECURSION
 4. Adding ATS2TUTORIAL/CHAP_DATATYPES
+5. Fixing bug-2015-01-10:
+   [pfobj_search_atview] is now stopped by either [lam] or [llam]
 
 ######
 

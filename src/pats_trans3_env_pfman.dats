@@ -90,7 +90,8 @@ assume pfmanenv_push_v = unit_v
 
 (* ****** ****** *)
 
-val the_d2varmrklst =
+val
+the_d2varmrklst =
   ref<d2varmrklst> (D2VMRKLSTnil)
 // end of [val]
 
@@ -174,13 +175,18 @@ end // end of [the_pfmanenv_pop]
 
 (* ****** ****** *)
 
+#define PUSH_LET 1 // continue
+#define PUSH_LAM ~1 // stopping
+#define PUSH_LLAM 0 // flexible
+#define PUSH_TRY ~1 // stopping
+
 implement
-the_pfmanenv_push_let () = pushenv (1) // continuing search
+the_pfmanenv_push_let () = pushenv (PUSH_LET)
 implement
 the_pfmanenv_push_lam
-  (lin: int) = pushenv (lin) // 0/1: stopping/continuing search
+  (lin: int) = pushenv (if lin = 0 then PUSH_LAM else PUSH_LLAM)
 implement
-the_pfmanenv_push_try () = pushenv (0) // stopping search
+the_pfmanenv_push_try () = pushenv (PUSH_TRY)
 
 (* ****** ****** *)
 
@@ -208,6 +214,8 @@ end // end of [if]
 in
   // nothing
 end // end of [the_pfmanenv_add_dvar]
+
+(* ****** ****** *)
 
 implement
 the_pfmanenv_add_dvarlst
@@ -471,32 +479,45 @@ fun loop (
 in
 //
 case+ xs of
+//
 | D2VMRKLSTcons
     (d2v, !p_xs) => let
     val opt = d2var_search (d2v, s2l0, res)
   in
     case+ opt of
-    | ~Some_vt s2e_ctx => (
+    | ~Some_vt
+        (s2e_ctx) =>
+      (
         fold@ (xs); Some_vt @(d2v, s2e_ctx)
       ) // end of [Some_vt]
     | ~None_vt () => let
         val opt = loop (!p_xs, s2l0, res) in fold@ (xs); opt
       end // end of [None]
   end // end of [D2VMARKLSTcons]
-| D2VMRKLSTmark (knd, !p_xs) => (
+//
+// HX-2015-01-12:
+// searching is only blocked by [lam]
+//
+| D2VMRKLSTmark
+    (knd, !p_xs) => (
     if knd > 0 then let
       val opt = loop (!p_xs, s2l0, res) in fold@ (xs); opt
     end else (fold@ (xs); None_vt ())
   ) (* end of [D2VMARKLSTmark] *)
+//
 | D2VMRKLSTnil () => (fold@ (xs); None_vt ())
 //
 end // end of [loop]
 //
-var res
-  : s2exp = s2exp_t0ype_err ()
-val (pf, fpf | p) = the_d2varmrklst_get_view_ptr ()
-val opt = loop (!p, s2l0, res)
-prval () = fpf (pf)
+var
+res: s2exp =
+  s2exp_t0ype_err()
+val (pf, fpf | p0_lst) =
+  the_d2varmrklst_get_view_ptr ()
+//
+val opt = loop (!p0_lst, s2l0, res)
+//
+prval ((*void*)) = fpf (pf)
 //
 in
 //

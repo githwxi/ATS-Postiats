@@ -278,7 +278,7 @@ case+ xs of
       prval () =
         strptr_free_null (x)
       val xs1 = xs1
-      val () = free@ {..}{0} (xs)
+      val () = free@{..}{0}(xs)
       val ((*void*)) = (xs := xs1)
     in
       loop (xs)

@@ -961,22 +961,26 @@ end // end of [d2exp_trdn_exist]
 implement
 d2exp_trdn_trywith
   (d2e0, s2f0) = let
-  val loc0 = d2e0.d2exp_loc
-  val-D2Etrywith
-    (r2es, d2e, c2ls) = d2e0.d2exp_node
 //
-  val (pfpush | ()) = the_d2varenv_push_try ()
+val loc0 = d2e0.d2exp_loc
+val-D2Etrywith
+  (r2es, d2e, c2ls) = d2e0.d2exp_node
 //
-  val s2e_res = s2hnf2exp (s2f0)
-  val d3e = d2exp_trdn (d2e, s2e_res)
-  val s2e_pat = s2exp_exception_vtype ()
-  val d3es = list_sing (d3e)
-  val s2es_pat = list_sing (s2e_pat)
-  val c3ls = c2laulst_trdn (
+val (pfd2v | ()) = the_d2varenv_push_try ()
+val (pfman | ()) = the_pfmanenv_push_try ()
+//
+val s2e_res = s2hnf2exp (s2f0)
+val d3e = d2exp_trdn (d2e, s2e_res)
+val s2e_pat = s2exp_exception_vtype ()
+val d3es = list_sing (d3e)
+val s2es_pat = list_sing (s2e_pat)
+val c3ls =
+  c2laulst_trdn (
     loc0, CK_case_neg, r2es, c2ls, d3es, s2es_pat, s2e_res
-  ) // end of [val]
+  ) (* end of [val] *)
 //
-  val () = the_d2varenv_pop (pfpush | (*none*))
+val ((*void*)) = the_d2varenv_pop (pfd2v | (*none*))
+val ((*void*)) = the_pfmanenv_pop (pfman | (*none*))
 //
 in
   d3exp_trywith (loc0, d3e, c3ls)
