@@ -144,6 +144,10 @@ ATSCNTRB/libats-/hwxi\
 
 (* ****** ****** *)
 
+#packfilename("PEULER/SATS/peuler.sats")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)

@@ -20,12 +20,15 @@
 //
 (* ****** ****** *)
 //
+#include "share/atspre_define.hats"
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-absprop MOD (n:int, p:int, r:int) // n mod p = r
-
+//
+// HX: n mod p = r
+//
+absprop MOD (n:int, p:int, r:int)
+//
 (* ****** ****** *)
 
 extern

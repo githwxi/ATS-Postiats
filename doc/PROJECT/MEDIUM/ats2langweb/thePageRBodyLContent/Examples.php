@@ -80,6 +80,11 @@ back into loops in C. For instance, fcopy as is implemented above is such
 a tail-recursive function.
 </p>
 
+<p>
+Further reading about copying files in ATS can be found
+<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/file-copying/.">on-line</a>.
+</p>
+
 <hr></hr>
 
 <h2><a id="Fibonacci_numbers">Computing Fibonacci numbers</a></h2>

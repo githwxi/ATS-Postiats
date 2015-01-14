@@ -89,10 +89,10 @@ stadef <> = neq_char_char // backward compatibility // deprecated
 *)
 
 (* ****** ****** *)
-
+//
 stacst neg_int : (int) -> int
 stadef ~ = neg_int // overloaded
-
+//
 stacst add_int_int : (int, int) -> int
 stacst sub_int_int : (int, int) -> int
 stacst mul_int_int : (int, int) -> int
@@ -101,30 +101,39 @@ stadef + = add_int_int
 stadef - = sub_int_int
 stadef * = mul_int_int
 stadef / = div_int_int
-
+//
+// HX: ndiv: divisor is positive
+//
 stacst ndiv_int_int : (int, int) -> int
 stadef ndiv = ndiv_int_int
-stacst idiv_int_int : (int, int) -> int // HX: alias for div_int_int
+//
+// HX: idiv: alias for div_int_int
+//
+stacst idiv_int_int : (int, int) -> int
 stadef idiv = idiv_int_int
-
-stadef mod_int_int
-  (x:int, y:int) = x - y * (x \ndiv_int_int y)
+//
+stadef
+mod_int_int (
+  x:int, y:int
+) = x - y * (x \ndiv_int_int y)
 stadef mod = mod_int_int
 stadef % (*adopted from C*) = mod_int_int
-
+//
+(* ****** ****** *)
+//
 stacst lt_int_int : (int, int) -> bool
 stacst lte_int_int : (int, int) -> bool
 stacst gt_int_int : (int, int) -> bool
 stacst gte_int_int : (int, int) -> bool
 stadef < = lt_int_int and <= = lte_int_int
 stadef > = gt_int_int and >= = gte_int_int
-
+//
 stacst eq_int_int : (int, int) -> bool
 stacst neq_int_int : (int, int) -> bool
 stadef == = eq_int_int
 stadef != = neq_int_int
-stadef <> = neq_int_int // backward compatibility
-
+stadef <> = neq_int_int // HX: backward compatibility
+//
 (* ****** ****** *)
 //
 stacst abs_int : (int) -> int
