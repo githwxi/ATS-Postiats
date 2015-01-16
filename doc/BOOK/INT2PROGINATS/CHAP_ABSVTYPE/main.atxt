@@ -986,6 +986,14 @@ moves; thread 1 moves; thread 2 moves; etc.
 <sect1
 id="communication-channels">
 #title("Communication Channels")
+
+#para("
+
+In this section, I will present an implementation of linear channels
+to support communication between threads.
+
+")
+
 </sect1><!--id="communication-channels"-->
 
 </chapter><!--id="abstract_views_viewtypes"-->
