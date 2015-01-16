@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-01-15:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/qAn8eR4eOdQ"
+>Learn ATS by solving math puzzles</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-01-06:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/bT0t5emu8cE"

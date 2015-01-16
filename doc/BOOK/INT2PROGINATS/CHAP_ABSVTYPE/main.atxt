@@ -188,6 +188,7 @@ end // end of [timer_finish]
 ')
 
 #para('\
+
 A timer can be paused and then resumed.
 The following code implements the functions for pausing and resuming a
 timer:
@@ -744,19 +745,248 @@ is available #mycodelink("CHAP_ABSVTYPE/mergeSort.dats", "on-line").
 <!-- ****** ****** -->
 
 <sect1
-id="locking-and-unlocking-shared-resources">
-#title("Locking and Unlocking Shared Resources")
+id="locking-and-unlocking">
+#title("Locking and Unlocking")
 
 #para("\
 
-In concurrent programming, the issue of safely locking and unlocking shared
-resources is both essential and challenging.
+In concurrent programming, the issue of safely locking and unlocking
+shared resources is both essential and challenging. I will demonstrate
+here concretely and convincingly that linear types can be used with
+great effectiveness to address this issue.
 
 ")
 
-</sect1><!--id="locking-and-unlocking-shared-resources"-->
+#para("\
+
+Let us first introduce a linear abstract type #stacode("shared_vtype")
+as follows:
+
+#atscode('\
+absvtype shared(a:vtype) = ptr
+')
+
+Given a viewtype VT (for some resources), a value of the type
+#stacode("shared(VT)") is essentially a boxed record containing a resource
+of the type VT plus a lock (or several) of some kind. The following
+function #dyncode("shared_make") is called to turn a resource into a shared
+resource:
+
+#atscode('\
+fun shared_make{a:vtype}(x: a): shared(a)  
+')
+
+Notice that the type #stacode("shared(VT)") itself is linear. In terms of
+implementation, there is usually a reference count inside a linear shared
+resource that is protected by a spin-lock. The functions
+#dyncode("shared_ref") and #dyncode("shared_unref") are for increasing and
+descreasing the reference count inside a shared resource:
+
+#atscode('\
+fun shared_ref{a:vtype}(!shared(a)): shared(a)
+fun shared_unref{a:vtype}(shared(a)): Option_vt(a)
+')
+
+If the reference count of a shared resource is 1, then calling
+#dyncode("shared_unref") on the shared resource frees the memory used in
+its representation and then returns the resource stored inside it.
+
+")
+
+#para("\
+
+The function #dyncode("shared_lock") acquires the resource from a
+given shared resource and the function #dyncode("shared_unlock") does
+the opposite:
+
+#atscode('\
+//
+absview locked_v
+//
+fun shared_lock{a:vtype}(!shared(a)): (locked_v | a)
+fun shared_unlock{a:vtype}(locked_v | !shared(a), x: a): void
+//
+')
+
+Note that the abstract view #stacode("locked_v") is introduced for linear
+proofs that are meant to remind the programmer that a shared resoure needs
+to be unlocked after it is locked.
+
+")
+
+#para("\
+
+As can be expected, a shared resource can be implemented as a boxed tuple
+consisting of a spin-lock, a reference count and a pointer (referring the
+stored resource):
+
+#atscode('\
+//
+datavtype
+shared_ (a:vtype) =
+  SHARED of (spin1_vt(*lock*), int(*count*), ptr)
+//
+assume shared = shared_
+//
+')
+
+Note that the type #stacode("spin1_vt") is for linear spin-locks. The
+function #dyncode("shared_ref") is implemented as follows:
+
+#atscode('\
+implement
+shared_ref
+  {a}(sh) = let
+//
+val+@SHARED
+  (spin, count, _) = sh
+//
+val
+spin = // for temp. use
+  unsafe_spin_vt2t(spin)
+//
+val
+(pf | ()) = spin_lock(spin)
+val c0 = count
+val () = count := c0 + 1
+val ((*void*)) = spin_unlock(pf | spin)
+prval ((*void*)) = fold@sh
+//
+in
+  $UN.castvwtp1{shared(a)}(sh)
+end // end of [shared_ref]
+')
+
+Clearly, the implementation makes use of several unsafe casts.  An
+implementation without such casts would be very involved even if it could
+be done.  The spin-lock must be acquired before the binding between
+#dyncode("c0") and the integer stored in #dyncode("count") is formed for
+otherwise a race condition can appear. The function #dyncode("shared_ref")
+is implemented as follows:
+
+#atscode('\
+implement
+shared_unref
+  {a}(sh) = let
+//
+val+@SHARED
+  (spin, count, _) = sh
+//
+val
+spin = // for temp. use
+  unsafe_spin_vt2t(spin)
+//
+val
+(pf | ()) = spin_lock(spin)
+val c0 = count
+val () = count := c0 - 1
+val ((*void*)) = spin_unlock(pf | spin)
+prval ((*void*)) = fold@sh
+//
+in
+if
+c0 <= 1
+then let
+  val+~SHARED(spin, _, x) = sh
+  val ((*freed*)) = spin_vt_destroy(spin)
+in
+  Some_vt($UN.castvwtp0{a}(x))
+end // end of [then]
+else let
+  prval () = $UN.cast2void(sh) in None_vt()
+end // end of [else]
+//
+end // end of [shared_unref]
+')
+
+In the case where the reference count is 1,
+then the shared resource is freed, the spin-lock in it
+is destroyed, and the resource in it is returned.
+
+")
+
+#para("\
+
+The functions
+#dyncode("shared_lock")
+and
+#dyncode("shared_unlock")
+are implemented as follows:
+
+#atscode('\
+implement
+shared_lock
+  {a}(sh) = let
+//
+val+@SHARED(spin, _, x) = sh
+//
+val
+spin =
+  unsafe_spin_vt2t(spin)
+//
+val
+(pf | ()) = spin_lock(spin)
+//
+val x0 = $UN.castvwtp0{a}(x)
+//
+prval () = fold@sh
+//
+in
+  ($UN.castview0(pf) | x0)
+end // end of [shared_lock]
+')
+
+#atscode('\
+implement
+shared_unlock
+  {a}(pf | sh, x0) = let
+//
+val+@SHARED(spin, _, x) = sh
+//
+val
+spin =
+  unsafe_spin_vt2t(spin)
+//
+val () = x := $UN.castvwtp0{ptr}(x0)
+//
+val () =
+  spin_unlock($UN.castview0(pf) | spin)
+//
+prval () = fold@sh
+//
+in
+  // nothing
+end // end of [shared_unlock]
+')
+
+In the case of #dyncode("shared_lock"), please notice that the content
+stored in the variable #dyncode("x") is read out after the spin-lock is
+acquired. This is crucial for otherwise a race condition can readily
+appear. In the case of #dyncode("shared_unlock"), the content of the
+variable #dyncode("x") is updated before the acquired spin-lock is
+released.
+
+")
+
+#para("\
+
+Please find on-line the file
+#mycodelink("CHAP_ABSVTYPE/SharedResource.dats", "SharedResource.dats")
+containing the entirety of the code presented in this section. In addition,
+the file also contains an implementation of three threads that move in
+locked steps: thread 0 moves; thread 1 moves; thread 2 moves; thread 0
+moves; thread 1 moves; thread 2 moves; etc.
+
+")
+
+</sect1><!--id="locking-and-unlocking"-->
 
 <!-- ****** ****** -->
+
+<sect1
+id="communication-channels">
+#title("Communication Channels")
+</sect1><!--id="communication-channels"-->
 
 </chapter><!--id="abstract_views_viewtypes"-->
 

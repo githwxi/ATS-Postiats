@@ -61,6 +61,19 @@ Atscc2perl
 
 <hr></hr>
 
+<h2><a id="Learn_ATS_by_puzzles">Learn ATS by Solving Math Puzzles</a></h2>
+
+<p>
+ATS is equipped with a highly expressive type system rooted
+in the framework Applied Types System, which also gives the
+language its name. It is, however, non-trivial to make effective
+use of types in ATS. Please find
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/projects/MEDIUM/PEULER">on-line</a>
+a tested and fun way to learn ATS by solving math puzzles.
+</p>
+
+<hr></hr>
+
 </div>
 
 <?php /* end of [Resources.php] */ ?>
