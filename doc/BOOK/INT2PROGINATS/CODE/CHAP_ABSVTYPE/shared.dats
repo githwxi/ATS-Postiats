@@ -1,5 +1,5 @@
 (*
-** Copyright (C) 2011 Hongwei Xi, Boston University
+** Copyright (C) 2015 Hongwei Xi, Boston University
 **
 ** Permission is hereby granted, free of charge, to any person
 ** obtaining a copy of this software and associated documentation
@@ -25,7 +25,11 @@
 
 (* ****** ****** *)
 //
-// Author: HX-2015-01-15
+(*
+** Author: Hongwei Xi
+** Authoremail: gmhwxiATgmailDOTcom
+** Start time: January, 2015
+*)
 //
 (* ****** ****** *)
 
@@ -285,4 +289,4 @@ end // end of [main0]
 
 (* ****** ****** *)
 
-(* end of [SharedResource.dats] *)
+(* end of [shared.dats] *)

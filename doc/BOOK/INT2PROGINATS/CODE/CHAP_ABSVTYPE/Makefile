@@ -16,7 +16,8 @@ LDFLAGS += -latslib
 
 ######
 
-all:: mergeSort
+all:: \
+mergeSort
 mergeSort: mergeSort.dats ; \
   $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS)
 regress:: mergeSort ; ./mergeSort
@@ -32,7 +33,8 @@ cleanall:: ; $(RMF) timer
 
 ######
 
-all:: circbuf
+all:: \
+circbuf
 circbuf: circbuf.dats ; \
   $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS)
 regress:: circbuf ; ./circbuf
@@ -40,7 +42,8 @@ cleanall:: ; $(RMF) circbuf
 
 ######
 
-all:: circbuf2
+all:: \
+circbuf2
 circbuf2: circbuf2.dats ; \
   $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< $(LDFLAGS)
 regress:: circbuf2 ; ./circbuf2
@@ -49,12 +52,11 @@ cleanall:: ; $(RMF) circbuf2
 ######
 
 all:: \
-SharedResource
-SharedResource: \
-SharedResource.dats ; \
+shared
+shared: shared.dats ; \
   $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< -lpthread $(LDFLAGS)
-regress:: SharedResource ; ./SharedResource
-cleanall:: ; $(RMF) SharedResource
+regress:: shared ; ./shared
+cleanall:: ; $(RMF) shared
 
 ######
 
