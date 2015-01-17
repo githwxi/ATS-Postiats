@@ -45,8 +45,10 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.deqarray"
-#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
+#define
+ATS_PACKNAME "ATSLIB.libats.deqarray"
+#define
+ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
 

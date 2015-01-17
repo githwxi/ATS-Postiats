@@ -64,6 +64,7 @@ upload_main: \
 clean: cleanats
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
+cleanats:: ; $(RMF) main_atxt_dats.c
 
 ######
 

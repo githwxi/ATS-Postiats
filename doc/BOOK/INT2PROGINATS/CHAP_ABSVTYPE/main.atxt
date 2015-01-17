@@ -971,7 +971,7 @@ released.
 #para("\
 
 Please find on-line the file
-#mycodelink("CHAP_ABSVTYPE/shared.dats", "shared.dats")
+#mycodelink("CHAP_ABSVTYPE/shared_vt.dats", "shared_vt.dats")
 containing the entirety of the code presented in this section. In addition,
 the file also contains an implementation of three threads that move in
 locked steps: thread 0 moves; thread 1 moves; thread 2 moves; thread 0

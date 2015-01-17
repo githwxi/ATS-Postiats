@@ -100,7 +100,7 @@ val ch_rfork = fork_changet (nr)
 val lf = channel_takeout (ch_lfork)
 val () = println! ("phil_loop(", n, ") picks left fork")
 //
-val () = randsleep (2) // HX: try to actively induce deadlock
+val () = randsleep (3) // HX: try to actively induce deadlock
 //
 val rf = channel_takeout (ch_rfork)
 val () = println! ("phil_loop(", n, ") picks right fork")
