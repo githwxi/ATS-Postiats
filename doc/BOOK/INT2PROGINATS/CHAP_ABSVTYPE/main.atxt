@@ -817,8 +817,8 @@ to be unlocked after it is locked.
 #para("\
 
 As can be expected, a shared resource can be implemented as a boxed tuple
-consisting of a spin-lock, a reference count and a pointer (referring the
-stored resource):
+consisting of a spin-lock, a reference count and a pointer (referring to
+the stored resource):
 
 #atscode('\
 //
@@ -858,7 +858,7 @@ end // end of [shared_ref]
 ')
 
 Clearly, the implementation makes use of several unsafe casts.  An
-implementation without such casts would be very involved even if it could
+implementation without such casts would be highly involved even if it could
 be done.  The spin-lock must be acquired before the binding between
 #dyncode("c0") and the integer stored in #dyncode("count") is formed for
 otherwise a race condition can appear. The function #dyncode("shared_ref")

@@ -109,46 +109,8 @@ val () = assertloc (isFriday(Friday()))
 
 #para('\
 
-The following declaration introduces a datatype of the name #stacode("abc"):
-
-#atscode('\
-datatype abc =
-  | A of () | B of (bool) | C of (int, double)
-')
-
-The three constructors associated with #stacode("abc") are #dyncode("A"),
-#dyncode("B"), and #dyncode("C"); #dyncode("A") is nullary; #dyncode("B")
-is unary, taking a boolean to form a value (of the type #stacode("abc"));
-#dyncode("C") is binary, taking an integer and a float (of double precision)
-to form a value (of the type #stacode("abc")).
-
-')
-
-#para('\
-
-Suppose that a data constructor takes n arguments (for some positive n) to
-construct a value. Then the constructed value is a heap-allocated tuple of
-n+1 components, where the first one is the tag associated with the
-constructor and the rest are the arguments passed to the constructor.
-For instance, the following function can be called to find out the tags
-associated with #stacode("abc"):
-
-#atscode('\
-fun
-abc2tag
-(x: abc): int = let
-  val p = $UN.cast{intptr}(x)
-in
-//
-case+ 0 of
-| _ when p < 1024 => $UN.cast{int}(p)
-| _ (*heap-allocated*) => $UN.ptr0_get<int>($UN.cast{ptr}(p))
-//
-end // end of [abc2tag]
-')
-
-In this case, the tags for #dyncode("A"), #dyncode("B"), and #dyncode("C")
-are 0, 1, and 2, respectively.
+If there is only one constructor associated with a datatype, then
+there is no tag in the representation for values of this datatype.
 
 ')
 
@@ -181,6 +143,51 @@ val () = assertloc (iseqz($UN.cast{ptr}(A())))
 val () = assertloc (true = $UN.ptr0_get<bool>($UN.cast{ptr}(B(true))))
 val () = assertloc (false = $UN.ptr0_get<bool>($UN.cast{ptr}(B(false))))
 ')
+
+')
+
+#para('\
+
+The following declaration introduces a datatype of the name #stacode("abc"):
+
+#atscode('\
+datatype abc =
+  | A of () | B of (bool) | C of (int, double)
+')
+
+The three constructors associated with #stacode("abc") are #dyncode("A"),
+#dyncode("B"), and #dyncode("C"); #dyncode("A") is nullary; #dyncode("B")
+is unary, taking a boolean to form a value (of the type #stacode("abc"));
+#dyncode("C") is binary, taking an integer and a float (of double precision)
+to form a value (of the type #stacode("abc")).
+
+')
+
+#para('\
+
+In a general case, if a data constructor is n-ary for some positive n, then
+each value it constructs is a heap-allocated tuple of n+1 components, where
+the first one is the tag assigned to the constructor and the rest are the
+arguments passed to the constructor.  For instance, the following function
+can be called to find out the tags assigned to the constructors associated
+with #stacode("abc"):
+
+#atscode('\
+fun
+abc2tag
+(x: abc): int = let
+  val p = $UN.cast{intptr}(x)
+in
+//
+case+ 0 of
+| _ when p < 1024 => $UN.cast{int}(p)
+| _ (*heap-allocated*) => $UN.ptr0_get<int>($UN.cast{ptr}(p))
+//
+end // end of [abc2tag]
+')
+
+In this case, the tags assigned to #dyncode("A"), #dyncode("B"), and
+#dyncode("C") are 0, 1, and 2, respectively.
 
 ')
 
