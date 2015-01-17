@@ -52,11 +52,11 @@ cleanall:: ; $(RMF) circbuf2
 ######
 
 all:: \
-shared
-shared: shared.dats ; \
+shared_vt
+shared_vt: shared_vt.dats ; \
   $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< -lpthread $(LDFLAGS)
-regress:: shared ; ./shared
-cleanall:: ; $(RMF) shared
+regress:: shared_vt ; ./shared_vt
+cleanall:: ; $(RMF) shared_vt
 
 ######
 
