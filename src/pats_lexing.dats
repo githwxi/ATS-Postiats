@@ -1803,6 +1803,10 @@ staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 
 (* ****** ****** *)
 
+vtypedef Q(m:int, n:int) = QUEUE(uchar, m, n)
+
+(* ****** ****** *)
+
 fun
 lexing_string_char_oct
 (
@@ -1919,80 +1923,99 @@ implement
 lexing_DQUOTE
   (buf, pos) = let
 //
-  fn regerr ( // register error
-    buf: &lexbuf, pos: &position
-  ) : void = let
-    val loc = lexbufpos_get_location (buf, pos)
-    val err = lexerr_make (loc, LE_STRING_unclose)
-  in
-    the_lexerrlst_add (err)
-  end // end of [regerr]
-//
-  fn* loop {m,n:int | m > 0} (
-    buf: &lexbuf
-  , pos: &position
-  , q: &QUEUE (uchar, m, n) >> QUEUE (uchar, m, n)
-  , m: size_t (m), n: size_t (n)
-  ) : #[m,n:nat] size_t (n) = let
-    val i = lexbufpos_get_char (buf, pos)
-    prval () = lemma_queue_param (q) // m >= n >= 0
-  in
-    if i >= 0 then let
-      val c = (i2c)i
-      val () = posincbyc (pos, i)
-    in
-      case+ c of
-      | '"' => n // string is properly closed
-      | '\\' => let
-          var err: int = 0
-          val i = lexing_string_char_special (buf, pos, err)
-        in
-          if err = AGAIN then
-            loop (buf, pos, q, m, n)
-          else
-            loop_ins (buf, pos, q, m, n, i)
-          // end of [if]
-        end // end of ['\\']
-      | _ => loop_ins (buf, pos, q, m, n, i)
-    end else let
-      val () = regerr (buf, pos) in queue_size {uchar} (q)
-    end (* end of [if] *)
-  end // end of [loop]
-//  
-  and loop_ins {m,n:int | m > 0} (
-    buf: &lexbuf
-  , pos: &position
-  , q: &QUEUE (uchar, m, n) >> QUEUE (uchar, m, n)
-  , m: size_t (m), n: size_t (n), i: int
-  ) : #[m,n:nat] size_t (n) = let
-    val c = (i2uc)i
-    prval () = lemma_queue_param (q) // m >= n >= 0
-  in
-    case+ 0 of
-    | _ when m > n => let
-        val () = queue_insert<uchar> (q, c) in
-        loop (buf, pos, q, m, n+1)
-      end
-    | _ => let
-        val m2 = m + m
-        val () = queue_update_capacity<uchar> (q, m2)
-        val () = queue_insert (q, c)
-      in
-        loop (buf, pos, q, m2, n+1)
-      end
-  end // end of [loop_ins]
-//
-  var q: QUEUE0(uchar)
-  #define m0 128 // HX: chosen randomly
-  val () = queue_initialize<uchar> (q, m0)
-//
-  val n = loop (buf, pos, q, m0, 0)
-  val str = $UTL.queue_get_strptr1 (q, 0, n)
-  val str = string_of_strptr (str)
-//
-  val () = queue_uninitialize (q)
+fn
+regerr
+( // register error
+  buf: &lexbuf, pos: &position
+) : void = let
+  val loc = lexbufpos_get_location (buf, pos)
+  val err = lexerr_make (loc, LE_STRING_unclose)
 in
-  lexbufpos_token_reset (buf, pos, T_STRING (str))
+  the_lexerrlst_add (err)
+end // end of [regerr]
+//
+fn*
+loop
+{m,n:int | m > 0}
+(
+  buf: &lexbuf
+, pos: &position
+, q: &Q(m, n) >> Q(m, n)
+, m: size_t (m), n: size_t (n)
+) : #[m,n:nat] size_t(n) = let
+  val i = lexbufpos_get_char (buf, pos)
+  prval () = lemma_queue_param (q) // m >= n >= 0
+in
+//
+if
+i >= 0
+then let
+  val c = (i2c)i
+  val () = posincbyc (pos, i)
+in
+  case+ c of
+  | '"' => n // string is properly closed
+  | '\\' => let
+      var err: int = 0
+      val i = lexing_string_char_special (buf, pos, err)
+    in
+      if err = AGAIN
+        then loop (buf, pos, q, m, n)
+        else loop_ins (buf, pos, q, m, n, i)
+      // end of [if]
+    end // end of ['\\']
+  | _(*rest*) => loop_ins (buf, pos, q, m, n, i)
+end // end of [then]
+else let
+  val () = regerr (buf, pos) in queue_size {uchar} (q)
+end (* end of [else] *)
+//
+end // end of [loop]
+//  
+and
+loop_ins
+{m,n:int | m > 0}
+(
+  buf: &lexbuf
+, pos: &position
+, q: &Q(m, n) >> Q(m, n)
+, m: size_t (m), n: size_t (n), i: int
+) : #[m,n:nat] size_t (n) = let
+  val c = (i2uc)i
+  prval () =
+    lemma_queue_param (q) // m >= n >= 0
+  // end of [prval]
+in
+  case+ 0 of
+  | _ when m > n => let
+      val () =
+      queue_insert<uchar> (q, c)
+    in
+      loop (buf, pos, q, m, n+1)
+    end // end of [m > n]
+  | _ (* m <= n *) => let
+      val m2 = m + m
+      val () =
+        queue_update_capacity<uchar> (q, m2)
+      // end of [val]
+      val ((*inserted*)) = queue_insert (q, c)
+    in
+      loop (buf, pos, q, m2, n+1)
+    end // end of [m <= n]
+end // end of [loop_ins]
+//
+var q: QUEUE0(uchar)
+#define m0 128 // HX: chosen randomly
+val () = queue_initialize<uchar> (q, m0)
+//
+val n = loop (buf, pos, q, m0, 0)
+val str = $UTL.queue_get_strptr1 (q, 0, n)
+val str = string_of_strptr (str)
+//
+val () = queue_uninitialize (q)
+//
+in
+  lexbufpos_token_reset (buf, pos, T_STRING(str))
 end // end of [lexing_DQUOTE]
 
 end // end of [local]
