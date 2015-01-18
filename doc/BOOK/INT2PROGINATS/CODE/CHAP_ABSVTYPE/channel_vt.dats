@@ -275,7 +275,7 @@ val
 val rfcnt = ch.rfcnt
 val ((*void*)) = spin_unlock (pf | spin)
 //
-in
+in (* in-of-let *)
 //
 if
 rfcnt <= 1
