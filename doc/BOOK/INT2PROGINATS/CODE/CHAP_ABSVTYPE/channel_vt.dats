@@ -38,14 +38,14 @@
 %} // end of [%{^]
 
 (* ****** ****** *)
-
+//
 #include
 "share/atspre_define.hats"
 #include
 "share/atspre_staload.hats"
-
+//
 staload UN = $UNSAFE
-
+//
 (* ****** ****** *)
 
 staload "libc/SATS/unistd.sats"
@@ -63,11 +63,23 @@ _ = "libats/DATS/athread_posix.dats"
 
 absvtype
 queue_vtype
-  (a:vt@ype, int(*id*)) = ptr
+  (a:vt@ype+, int(*id*)) = ptr
 vtypedef
-queue(a:vt@ype, id:int) = queue_vtype(a, id)
-vtypedef queue(a:vt@ype) = [id:int] queue(a, id)
+queue(a:vt0p, id:int) = queue_vtype(a, id)
+vtypedef queue(a:vt0p) = [id:int] queue(a, id)
 
+(* ****** ****** *)
+//
+extern
+fun
+{a:vt0p}
+queue_make (cap: intGt(0)): queue(a)
+//
+extern
+fun
+{a:t@ype}
+queue_free_type (que: queue(a)): void
+//
 (* ****** ****** *)
 //
 absprop ISNIL(id:int, b:bool)
@@ -75,18 +87,18 @@ absprop ISFUL(id:int, b:bool)
 //
 extern
 fun
-{a:vt@ype}
+{a:vt0p}
 queue_isnil{id:int}(!queue(a, id)): [b:bool] (ISNIL(id, b) | bool(b))
 extern
 fun
-{a:vt@ype}
+{a:vt0p}
 queue_isful{id:int}(!queue(a, id)): [b:bool] (ISFUL(id, b) | bool(b))
 //
 (* ****** ****** *)
 
 extern
 fun
-{a:vt@ype}
+{a:vt0p}
 queue_insert
   {id:int}
 (
@@ -96,7 +108,7 @@ queue_insert
 //
 extern
 fun
-{a:vt@ype}
+{a:vt0p}
 queue_takeout
   {id:int}
 (
@@ -106,21 +118,43 @@ queue_takeout
 (* ****** ****** *)
 //
 absvtype
-channel_vtype(a:vt@ype) = ptr
+channel_vtype(a:vt@ype+) = ptr
 vtypedef
-channel(a:vt@ype) = channel_vtype(a)
+channel(a:vt0p) = channel_vtype(a)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:vt0p}
+channel_make(cap: intGt(0)): channel(a)
 //
 (* ****** ****** *)
 
 extern
 fun
-{a:vt@ype}
+{a:vt0p}
 channel_ref(ch: !channel(a)): channel(a)
+extern
+fun
+{a:vt0p}
+channel_unref(ch: channel(a)): Option_vt(queue(a))
+
+(* ****** ****** *)
 
 extern
 fun
-{a:vt@ype}
-channel_unref(ch: channel(a)): Option_vt(queue(a))
+{a:vt0p}
+channel_rfcnt(ch: !channel(a)): intGt(0)
+
+(* ****** ****** *)
+
+extern
+fun{a:vt0p}
+channel_insert (!channel(a), a): void
+extern
+fun{a:vt0p}
+channel_takeout (chan: !channel(a)): (a)
 
 (* ****** ****** *)
 //
@@ -141,8 +175,64 @@ l0,l1,l2,l3:agz
 //
 (* ****** ****** *)
 
+local
+
 assume
-channel_vtype(a:vt@ype) = channel_
+channel_vtype(a:vt0p) = channel_
+
+in (*in-of-local*)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+channel_make
+  (cap) = let
+//
+extern
+praxi __assert(): [l:agz] void
+//
+prval [l0:addr] () = __assert()
+prval [l1:addr] () = __assert()
+prval [l2:addr] () = __assert()
+prval [l3:addr] () = __assert()
+//
+val chan = CHANNEL{l0,l1,l2,l3}(_)
+//
+val+CHANNEL(ch) = chan
+//
+val () = ch.cap := cap
+val () = ch.rfcnt := 1
+//
+local
+val x = spin_create_exn()
+in(*in-of-local*)
+val () = ch.spin := unsafe_spin_t2vt(x)
+end // end of [local]
+//
+local
+val x = mutex_create_exn()
+in(*in-of-local*)
+val () = ch.mutex := unsafe_mutex_t2vt(x)
+end // end of [local]
+//
+local
+val x = condvar_create_exn()
+in(*in-of-local*)
+val () = ch.CVisnil := unsafe_condvar_t2vt(x)
+end // end of [local]
+//
+local
+val x = condvar_create_exn()
+in(*in-of-local*)
+val () = ch.CVisful := unsafe_condvar_t2vt(x)
+end // end of [local]
+//
+val () = ch.queue := $UN.castvwtp0{ptr}(queue_make<a>(cap))
+//
+in
+  fold@(chan); chan
+end // end of [channel_make]
 
 (* ****** ****** *)
 
@@ -213,12 +303,19 @@ end // end of [channel_unref]
 
 (* ****** ****** *)
 
-extern
-fun{a:vt0p}
-channel_insert (!channel(a), a): void
-extern
-fun{a:vt0p}
-channel_takeout (chan: !channel(a)): (a)
+implement
+{a}(*tmp*)
+channel_rfcnt
+  (chan) = let
+//
+val@CHANNEL
+  {l0,l1,l2,l3}(ch) = chan
+//
+val rfcnt = ch.rfcnt
+//
+in
+  fold@(chan); rfcnt
+end // end of [channel_rfcnt]
 
 (* ****** ****** *)
 //
@@ -285,8 +382,10 @@ end // end of [then]
 else let
   val isnil = queue_isnil (xs)
   val ((*void*)) = queue_insert (pf | xs, x0)
-  val CVisnil = unsafe_condvar_vt2t(ch.CVisnil)
-  val ((*void*)) = if isnil.1 then condvar_signal (CVisnil)
+  val ((*void*)) =
+  if isnil.1
+    then condvar_signal(unsafe_condvar_vt2t(ch.CVisnil))
+  // end of [if]
 in
   // nothing
 end // end of [else]
@@ -346,13 +445,152 @@ end // end of [then]
 else let
   val isful = queue_isful (xs)
   val x0_out = queue_takeout (pf | xs)
-  val CVisful = unsafe_condvar_vt2t(ch.CVisful)
-  val ((*void*)) = if isful.1 then condvar_signal (CVisful)
+  val ((*void*)) =
+  if isful.1
+    then condvar_signal(unsafe_condvar_vt2t(ch.CVisful))
+  // end of [if]
 in
   x0_out
 end // end of [else]
 //
 end // end of [channel_takeout2]
+
+(* ****** ****** *)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+staload
+"libats/SATS/deqarray.sats"
+//
+assume
+queue_vtype(a:vt0p, id:int) = deqarray(a)
+//
+assume ISNIL(id:int, b:bool) = unit_p
+assume ISFUL(id:int, b:bool) = unit_p
+//
+in (* in-of-local *)
+
+implement
+{a}(*tmp*)
+queue_make(cap) = deqarray_make_cap(i2sz(cap))
+
+implement
+{a}(*tmp*)
+queue_free_type(que) =
+  deqarray_free_nil($UN.castvwtp0{deqarray(a,1,0)}(que))
+// end of [queue_free_type]
+
+implement
+{a}(*tmp*)
+queue_isnil(xs) = (unit_p() | deqarray_is_nil(xs))
+
+implement
+{a}(*tmp*)
+queue_isful(xs) = (unit_p() | deqarray_is_full(xs))
+
+implement
+{a}(*tmp*)
+queue_insert
+  (pf | xs, x0) =
+{
+//
+prval () =
+__assert (pf) where
+{
+  extern
+  praxi
+  __assert
+    {id:int}
+  (
+    pf: ISFUL(id, false)
+  ) : [false] void
+} (* end of [prval] *)
+//
+val () =
+  deqarray_insert_atend<a> (xs, x0)
+//
+} (* end of [queue_insert] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+queue_takeout
+  (pf | xs) = let
+//
+prval () =
+__assert (pf) where
+{
+  extern
+  praxi
+  __assert
+    {id:int}
+  (
+    pf: ISNIL(id, false)
+  ) : [false] void
+} (* end of [prval] *)
+//
+in
+  deqarray_takeout_atbeg<a> (xs)
+end (* end of [queue_takeout] *)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+staload
+_(*anon*) = "libats/DATS/deqarray.dats"
+
+(* ****** ****** *)
+
+fun
+do_work
+(
+  chan: channel(int)
+) : void =
+{
+  val () = channel_insert (chan, 0)
+  val-~None_vt() = channel_unref(chan)
+}
+(* ****** ****** *)
+
+implement
+main0 () =
+{
+//
+val chan = channel_make<int>(2)
+//
+val chan2 = channel_ref(chan)
+val chan3 = channel_ref(chan)
+val chan4 = channel_ref(chan)
+//
+val tid2 =
+athread_create_cloptr_exn (llam () => do_work(chan2))
+val tid3 =
+athread_create_cloptr_exn (llam () => do_work(chan3))
+val tid4 =
+athread_create_cloptr_exn (llam () => do_work(chan4))
+//
+val-0 = channel_takeout(chan)
+val-0 = channel_takeout(chan)
+//
+// HX: a cheap hack!!!
+//
+val () = ignoret(usleep(1000u))
+//
+val () =
+  while(channel_rfcnt(chan) >= 2)()
+//
+val-
+~Some_vt(que) = channel_unref<int>(chan)
+//
+val ((*freed*)) = queue_free_type<int>(que)
+//
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

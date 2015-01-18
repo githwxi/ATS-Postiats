@@ -104,7 +104,7 @@ shared_make(x) = let
     unsafe_spin_t2vt(spin_create_exn())
   // end of [val]
 in
-  SHARED (spin, 1, $UN.castvwtp0{ptr}(x))
+  SHARED(spin, 1, $UN.castvwtp0{ptr}(x))
 end // end of [shared_make]
 
 (* ****** ****** *)

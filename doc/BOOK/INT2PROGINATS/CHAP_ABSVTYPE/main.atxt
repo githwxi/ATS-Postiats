@@ -987,10 +987,54 @@ moves; thread 1 moves; thread 2 moves; etc.
 id="communication-channels">
 #title("Communication Channels")
 
-#para("
+#para("\
 
-In this section, I will present an implementation of linear channels
-to support communication between threads.
+In this section, I will present an implementation of linear channels to
+support (asynchronous) communication between threads. This is also a very fitting occasion
+for me to advocate what I often refer to as #emphasis("programmer-centric")
+program verification.\
+
+")
+
+#para("\
+
+A communication channel between threads is essentially a queue wrapped in
+some kind of protection mechanism needed for guarding against race
+conditions.  Assume that the queues we use are of a fixed capacity, that
+is, the capacity of every queue is fixed after the queue is created.  If a
+queue is full, then inserting an element into the queue result in a
+failure.  If a queue is empty, then removing an element from the queue
+results in a failure. In order to prevent insertion into a full queue or
+removal from an empty queue, I could first introduce a linear abstract type
+for queues as follows:
+
+#atscode("\
+absvtype
+queue_vtype(a:vt@ype+, int(*m*), int(*n*))
+vtypedef queue(a:vt@ype,m:int,n:int) = queue_vtype(a,m,n)
+")
+
+where the type #stacode("queue(VT,M,N)") is for a queue of capacity M that
+currently contains N elements of type VT. Then the functions inserting into
+and removing from a queue can be given the following interface:
+
+#atscode("\
+//
+fun{a:vt0p}
+queue_insert
+  {m,n:nat | m > n}
+  (!queue(a, m, n) >> queue(a, m, n+1), a): void
+//
+fun{a:vt0p}
+queue_takeout
+  {m,n:nat | n > 0}(!queue(a, m, n) >> queue(a, m, n-1)): (a)
+//
+")
+
+The presented abstract type #stacode("queue") can indeed work very well for
+my task of implementing linear channels. However, I will not continue with
+it here. Instead, I will go on to present a style of program verification
+that is less rigorous but far more flexible.
 
 ")
 

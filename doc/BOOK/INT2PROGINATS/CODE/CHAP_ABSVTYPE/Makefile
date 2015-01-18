@@ -60,6 +60,15 @@ cleanall:: ; $(RMF) shared_vt
 
 ######
 
+all:: \
+channel_vt
+channel_vt: channel_vt.dats ; \
+  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< -lpthread $(LDFLAGS)
+regress:: channel_vt ; ./channel_vt
+cleanall:: ; $(RMF) channel_vt
+
+######
+
 RMF=rm -f
 
 ######
