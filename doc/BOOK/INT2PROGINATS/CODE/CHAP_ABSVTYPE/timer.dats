@@ -254,16 +254,16 @@ val timer = timer_new ()
 val () = timer_start (timer)
 //
 val ntick = timer_get_ntick (timer)
-val () = println! ("ntick(0) = ", ntick)
-val err = $US.sleep (1u)
-val () = timer_pause (timer)
+val ((*void*)) = println! ("ntick(0) = ", ntick)
+val _(*nleft*) = $US.sleep (1u) // this one is counted
+val ((*void*)) = timer_pause (timer)
 val ntick = timer_get_ntick (timer)
-val () = println! ("ntick(1) = ", ntick)
-val err = $US.sleep (1u) // this one is not counted!
-val () = timer_resume (timer)
-val err = $US.sleep (1u)
+val ((*void*)) = println! ("ntick(1) = ", ntick)
+val _(*nleft*) = $US.sleep (1u) // this one is skipped
+val ((*void*)) = timer_resume (timer)
+val _(*nleft*) = $US.sleep (1u) // this one is counted
 val ntick = timer_get_ntick (timer)
-val () = println! ("ntick(2) = ", ntick)
+val ((*void*)) = println! ("ntick(2) = ", ntick)
 //
 val () = timer_finish (timer)
 //
