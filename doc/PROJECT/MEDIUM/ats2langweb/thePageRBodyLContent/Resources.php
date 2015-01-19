@@ -46,13 +46,13 @@ to see a converted example.
 Atscc2js
 </li>
 <li>
-Atscc2py
-</li>
-<li>
 Atscc2php
 </li>
 <li>
-Atscc2perl
+Atscc2pl
+</li>
+<li>
+Atscc2py
 </li>
 </ul>
 </td>
