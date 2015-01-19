@@ -2740,7 +2740,9 @@ case+ 0 of
   end // end of [rest-of-char]
 //
 end // end of [then]
-else lexbufpos_token_reset (buf, pos, T_EOF(*last*))
+else (
+  lexbufpos_token_reset (buf, pos, T_EOF(*last*))
+) (* end of [else] *)
 //
 end // end of [lexing_next_token]
 
@@ -2754,15 +2756,18 @@ val tok = lexing_next_token (buf)
 //
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_COMMENT_line _ =>
-    lexing_next_token_ncmnt (buf) // HX: skip
+  lexing_next_token_ncmnt (buf) // HX: skip
 | T_COMMENT_block _ =>
-    lexing_next_token_ncmnt (buf) // HX: skip
+  lexing_next_token_ncmnt (buf) // HX: skip
 //
-// HX: A rest-of-file comment is considered as EOF
+// HX-2011:
+// each rest-of-file comment is treated as EOF
 //
 | T_COMMENT_rest _ => token_make (tok.token_loc, T_EOF)
+//
 | _ (*non-COMMENT*) => tok
 //
 end // end of [lexing_next_token_ncmnt]
