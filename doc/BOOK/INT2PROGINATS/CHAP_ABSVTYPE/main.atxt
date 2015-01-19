@@ -810,7 +810,7 @@ fun shared_unlock{a:vtype}(locked_v | !shared(a), x: a): void
 
 Note that the abstract view #stacode("locked_v") is introduced for linear
 proofs that are meant to remind the programmer that a shared resoure needs
-to be unlocked after it is locked.
+to be released after it is acquired.
 
 ")
 
@@ -861,7 +861,7 @@ Clearly, the implementation makes use of several unsafe casts.  An
 implementation without such casts would be highly involved even if it could
 be done.  The spin-lock must be acquired before the binding between
 #dyncode("c0") and the integer stored in #dyncode("count") is formed for
-otherwise a race condition can appear. The function #dyncode("shared_ref")
+otherwise a race condition can appear. The function #dyncode("shared_unref")
 is implemented as follows:
 
 #atscode('\
@@ -884,6 +884,7 @@ val ((*void*)) = spin_unlock(pf | spin)
 prval ((*void*)) = fold@sh
 //
 in
+//
 if
 c0 <= 1
 then let
@@ -984,27 +985,27 @@ moves; thread 1 moves; thread 2 moves; etc.
 <!-- ****** ****** -->
 
 <sect1
-id="communication-channels">
-#title("Communication Channels")
+id="linear-channels-for-async-ipc">
+#title("Linear Channels for Asynchronous IPC")
 
 #para("\
 
-In this section, I will present an implementation of linear channels to
-support (asynchronous) communication between threads. This is also a very fitting occasion
-for me to advocate what I often refer to as #emphasis("programmer-centric")
-program verification.\
+In this section, I will present an implementation of
+linear channels to support asynchronous communication between threads. This
+is also a very fitting occasion for me to advocate what I often refer to as
+#emphasis("programmer-centric") program verification.\
 
 ")
 
 #para("\
 
-A communication channel between threads is essentially a queue wrapped in
-some kind of protection mechanism needed for guarding against race
-conditions.  Assume that a queue is of a fixed capacity, that is, the
-capacity of the queue is fixed after its creation. If the queue is full,
-then inserting an element into it results in a failure.  If the queue is
-empty, then removing an element from it results in a failure. In order to
-prevent inserting into a full queue or removing from an empty queue, I
+A communication channel between threads is essentially
+a queue wrapped in some kind of protection mechanism needed for guarding
+against race conditions.  Assume that a queue is of a fixed capacity, that
+is, the capacity of the queue is fixed after its creation. If the queue is
+full, then inserting an element into it results in a failure.  If the queue
+is empty, then removing an element from it results in a failure. In order
+to prevent inserting into a full queue or removing from an empty queue, I
 could first introduce a linear abstract type for queues as follows:
 
 #atscode("\
@@ -1026,7 +1027,7 @@ queue_insert
   (!queue(a, m, n) >> queue(a, m, n+1), a): void
 //
 fun{a:vt0p}
-queue_takeout
+queue_remove
   {m,n:nat | n > 0}(!queue(a, m, n) >> queue(a, m, n-1)): (a)
 //
 ")
@@ -1038,7 +1039,7 @@ program verification that is less rigorous but far more flexible.
 
 ")
 
-</sect1><!--id="communication-channels"-->
+</sect1><!--id="linear-channels-for-async-ipc"-->
 
 </chapter><!--id="abstract_views_viewtypes"-->
 

@@ -109,7 +109,7 @@ queue_insert
 extern
 fun
 {a:vt0p}
-queue_takeout
+queue_remove
   {id:int}
 (
   ISNIL(id, false) | xs: !queue(a, id) >> queue(a, id2)
@@ -154,7 +154,7 @@ fun{a:vt0p}
 channel_insert (!channel(a), a): void
 extern
 fun{a:vt0p}
-channel_takeout (chan: !channel(a)): (a)
+channel_remove (chan: !channel(a)): (a)
 
 (* ****** ****** *)
 //
@@ -326,7 +326,7 @@ channel_insert2
 //
 extern
 fun{a:vt0p}
-channel_takeout2 (!channel(a), !queue(a) >> _): (a)
+channel_remove2 (!channel(a), !queue(a) >> _): (a)
 //
 (* ****** ****** *)
 
@@ -394,8 +394,9 @@ end // end of [channel_insert2]
 
 (* ****** ****** *)
 
-implement{a}
-channel_takeout
+implement
+{a}(*tmp*)
+channel_remove
   (chan) = x0 where
 {
 //
@@ -406,16 +407,16 @@ val mutex =
 val (pfmut | ()) = mutex_lock (mutex)
 val xs =
   $UN.castvwtp0{queue(a)}((pfmut | ch.queue))
-val x0 = channel_takeout2<a> (chan, xs)
+val x0 = channel_remove2<a> (chan, xs)
 prval pfmut = $UN.castview0{locked_v(l1)}(xs)
 val ((*void*)) = mutex_unlock (pfmut | mutex)
 //
-} // end of [channel_takeout2]
+} // end of [channel_remove2]
 
 (* ****** ****** *)
 
 implement{a}
-channel_takeout2
+channel_remove2
   (chan, xs) = let
 //
 val+CHANNEL
@@ -440,11 +441,11 @@ then let
   val ((*void*)) = condvar_wait (pfmut | CVisnil, mutex)
   prval ((*void*)) = fpf (pfmut)
 in
-  channel_takeout2 (chan, xs)
+  channel_remove2 (chan, xs)
 end // end of [then]
 else let
   val isful = queue_isful (xs)
-  val x0_out = queue_takeout (pf | xs)
+  val x0_out = queue_remove (pf | xs)
   val ((*void*)) =
   if isful.1
     then condvar_signal(unsafe_condvar_vt2t(ch.CVisful))
@@ -453,7 +454,7 @@ in
   x0_out
 end // end of [else]
 //
-end // end of [channel_takeout2]
+end // end of [channel_remove2]
 
 (* ****** ****** *)
 
@@ -519,7 +520,7 @@ val () =
 
 implement
 {a}(*tmp*)
-queue_takeout
+queue_remove
   (pf | xs) = let
 //
 prval () =
@@ -536,7 +537,7 @@ __assert (pf) where
 //
 in
   deqarray_takeout_atbeg<a> (xs)
-end (* end of [queue_takeout] *)
+end (* end of [queue_remove] *)
 
 end // end of [local]
 
@@ -575,8 +576,8 @@ athread_create_cloptr_exn (llam () => do_work(chan3))
 val tid4 =
 athread_create_cloptr_exn (llam () => do_work(chan4))
 //
-val-0 = channel_takeout(chan)
-val-0 = channel_takeout(chan)
+val-(0) = channel_remove(chan)
+val-(0) = channel_remove(chan)
 //
 // HX: a cheap hack!!!
 //

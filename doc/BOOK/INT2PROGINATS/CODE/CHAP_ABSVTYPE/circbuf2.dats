@@ -264,29 +264,36 @@ implement
 main0 () =
 {
 //
-val buf = cbufObj_new (i2sz(2))
+val
+buf = cbufObj_new (i2sz(2))
 //
-val () = cbufObj_insert<int> (buf, 1)
-val () = cbufObj_insert<int> (buf, 2)
+val () =
+  cbufObj_insert<int> (buf, 1)
+val () =
+  cbufObj_insert<int> (buf, 2)
 //
 val () = cbufObj_clear{int} (buf)
 //
-val () = cbufObj_insert<int> (buf, 1)
-val () = cbufObj_insert<int> (buf, 2)
+val () =
+  cbufObj_insert<int> (buf, 1)
+val () =
+  cbufObj_insert<int> (buf, 2)
 //
-val x = cbufObj_remove<int> (buf)
-val () = println! ("x(1) = ", x)
+val x1 = cbufObj_remove<int> (buf)
+val () = println! ("x(1) = ", x1)
 //
-val () = cbufObj_insert<int> (buf, 3)
+val () =
+  cbufObj_insert<int> (buf, 3)
 //
-val x = cbufObj_remove<int> (buf)
-val () = println! ("x(2) = ", x)
-val x = cbufObj_remove<int> (buf)
-val () = println! ("x(3) = ", x)
+val x2 = cbufObj_remove<int> (buf)
+val () = println! ("x(2) = ", x2)
+val x3 = cbufObj_remove<int> (buf)
+val () = println! ("x(3) = ", x3)
 //
-val () = cbufObj_insert<int> (buf, 4)
-val x = cbufObj_remove<int> (buf)
-val () = println! ("x(4) = ", x)
+val () =
+  cbufObj_insert<int> (buf, 4)
+val x4 = cbufObj_remove<int> (buf)
+val () = println! ("x(4) = ", x4)
 //
 val ((*freed*)) = cbufObj_free (buf)
 //
