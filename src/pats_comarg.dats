@@ -190,9 +190,16 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-process_DATS_def (def) = let
+process_DATS_def
+  (def) = let
 //
 val def = string1_of_string (def)
+//
+(*
+val () =
+  println! ("process_DATS_def: def = ", def)
+*)
+//
 val opt =
   $PAR.parse_from_string (def, $PAR.p_datsdef)
 //
