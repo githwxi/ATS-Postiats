@@ -27,6 +27,13 @@ val ((*void*)) = println! ("x_hex = ", x_hex)
 
 (* ****** ****** *)
 
+val () = assertloc (01234 + 01234 = 02470)
+val () = assertloc (01234U + 01234U = 02470U)
+val () = assertloc (0x1234567 + 0x1234567 = 0x2468ace)
+val () = assertloc (0x1234567UL + 0x1234567UL = 0x2468aceUL)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)
