@@ -237,10 +237,6 @@ in
 case+
 tok.token_node of
 //
-| T_IDENT_alp (id) => let
-    val () = incby1 () in e0xp_make_stringid (loc, id)
-  end // end of [T_IDENT_alp]
-//
 | T_INT _ => let
     val () = incby1 () in e0xp_i0nt (tok)
   end
@@ -253,33 +249,47 @@ tok.token_node of
 | T_STRING _ => let
     val () = incby1 () in e0xp_s0tring (tok)
   end
-| _ => e0xp_make_stringid (loc, "")
+//
+| T_IDENT_alp (id) => let
+    val () = incby1 () in e0xp_make_stringid (loc, id)
+  end // end of [T_IDENT_alp]
+//
+| _(* rest *) => e0xp_make_stringid (loc, "")
 //
 end // end of [p_datsval]
 
+(* ****** ****** *)
+//
 (*
-datsdef ::= i0de [EQ = datsval] // for use in a command-line
+datsdef ::=
+i0de [EQ = datsval] // HX: for use in a command-line
 *)
-
+//
 implement
 p_datsdef
   (buf, bt, err) = let
+//
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
   val ent1 = p_i0de (buf, bt, err)
   val ent2 = (
-    if err = err0 then
-      ptokentopt_fun (buf, is_EQ, p_datsval)
-    else None_vt ()
+    if err = err0
+      then ptokentopt_fun (buf, is_EQ, p_datsval)
+      else None_vt ()
+    // end of [if]
   ) : Option_vt (e0xp)
+//
 in
-  if err = err0 then
-    datsdef_make (ent1, (t2t)ent2)
-  else let
-    val () = option_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
-  end // end of [if]
+//
+if
+err = err0
+then datsdef_make (ent1, (t2t)ent2)
+else let
+  val () = option_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+end // end of [else]
+//
 end // end of [p_datsdef]
-
+//
 (* ****** ****** *)
 
 (* end of [pats_parsing_e0xp.dats] *)
