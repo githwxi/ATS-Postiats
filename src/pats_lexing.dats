@@ -2729,18 +2729,18 @@ case+ 0 of
 //
     val loc =
       lexbufpos_get_location (buf, pos)
+    // end of [loc]
     val err =
       lexerr_make (loc, LE_UNSUPPORTED_char(c0))
-    val () = the_lexerrlst_add (err)
-    val () = lexbuf_set_position (buf, pos)
+    // end of [val]
+    val ((*void*)) = the_lexerrlst_add (err)
+    val ((*void*)) = lexbuf_set_position (buf, pos)
   in
     lexing_next_token (buf)
   end // end of [rest-of-char]
 //
 end // end of [then]
-else (
-  lexbufpos_token_reset (buf, pos, T_EOF)
-) (* end of [else] *)
+else lexbufpos_token_reset (buf, pos, T_EOF(*last*))
 //
 end // end of [lexing_next_token]
 
