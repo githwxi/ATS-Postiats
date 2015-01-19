@@ -2247,9 +2247,10 @@ implement
 lexing_IDENT2_alp
   {l}(buf, pos, mystr) = let
 //
-viewtypedef mystr = strptr(l)
+vtypedef mystr = strptr(l)
 //
-val sym = IDENT_alp_get_lexsym ($UN.castvwtp1{string}{mystr}(mystr))
+val sym =
+  IDENT_alp_get_lexsym($UN.castvwtp1{string}{mystr}(mystr))
 //
 in
 //
@@ -2374,12 +2375,14 @@ implement
 lexing_IDENT_sym
   (buf, pos, k) = let
 //
-val [l:addr]
-  mystr = lexbuf_get_strptr1 (buf, k)
+val
+[l:addr]
+mystr = lexbuf_get_strptr1 (buf, k)
 //
-viewtypedef mystr = strptr(l)
+vtypedef mystr = strptr(l)
 //
-val sym = IDENT_sym_get_lexsym ($UN.castvwtp1{string}{mystr}(mystr))
+val sym =
+  IDENT_sym_get_lexsym($UN.castvwtp1{string}{mystr}(mystr))
 //
 in
 //
@@ -2437,22 +2440,30 @@ implement
 lexing_IDENT_dlr
   (buf, pos, k) = let
 //
-val [l:addr]
-  mystr = lexbuf_get_strptr1 (buf, k)
+val
+[l:addr]
+mystr = lexbuf_get_strptr1 (buf, k)
 //
-viewtypedef mystr = strptr(l)
+vtypedef mystr = strptr(l)
 //
-val tnode = tnode_search ($UN.castvwtp1{string}{mystr}(mystr))
+val tnode =
+  tnode_search($UN.castvwtp1{string}{mystr}(mystr))
 //
 in
-  case+ tnode of
-  | T_NONE () => let
-      val mystr = string_of_strptr (mystr) in
-      lexbufpos_token_reset (buf, pos, T_IDENT_dlr (mystr))
-    end // end of [T_NONE]
-  | _ (*rest*) => let
-      val () = strptr_free (mystr) in lexbufpos_token_reset (buf, pos, tnode)
-    end // end of [_]
+//
+case+
+tnode of
+| T_NONE () => let
+    val mystr =
+      string_of_strptr (mystr)
+    // end of [val]
+  in
+    lexbufpos_token_reset (buf, pos, T_IDENT_dlr (mystr))
+  end // end of [T_NONE]
+| _(*rest*) => let
+    val () = strptr_free (mystr) in
+    lexbufpos_token_reset (buf, pos, tnode)
+  end // end of [_(*rest*)]
 end // end of [lexing_IDENT_dlr]
 
 (* ****** ****** *)
@@ -2461,22 +2472,34 @@ implement
 lexing_IDENT_srp
   (buf, pos, k) = let
 //
-val [l:addr]
-  mystr = lexbuf_get_strptr1 (buf, k)
+val
+[l:addr]
+mystr = lexbuf_get_strptr1 (buf, k)
 //
-viewtypedef mystr = strptr(l)
+vtypedef mystr = strptr(l)
 //
-val tnode = tnode_search ($UN.castvwtp1{string}{mystr}(mystr))
+val tnode =
+  tnode_search($UN.castvwtp1{string}{mystr}(mystr))
 //
 in
-  case+ tnode of
-  | T_NONE () => let
-      val mystr = string_of_strptr (mystr) in
-      lexbufpos_token_reset (buf, pos, T_IDENT_srp (mystr))
-    end // end of [T_NONE]
-  | _ (*rest*) => let
-      val () = strptr_free (mystr) in lexbufpos_token_reset (buf, pos, tnode)
-    end // end of [_]
+//
+case+
+tnode of
+//
+| T_NONE () => let
+    val mystr =
+      string_of_strptr(mystr)
+    // end of [val]
+  in
+    lexbufpos_token_reset (buf, pos, T_IDENT_srp(mystr))
+  end // end of [T_NONE]
+//
+| _ (*rest*) => let
+    val () = strptr_free (mystr)
+  in
+    lexbufpos_token_reset (buf, pos, tnode)
+  end // end of [_(*rest*)]
+//
 end // end of [lexing_IDENT_srp]
 
 (* ****** ****** *)
@@ -2635,7 +2658,9 @@ in
     end // end of [_]
   // end of [case]
 end // end of [then]
-else lexbufpos_token_reset (buf, pos, INTZERO)
+else (
+  lexbufpos_token_reset (buf, pos, INTZERO)
+) (* end of [else] *)
 //
 end // end of [lexing_ZERO]
 
