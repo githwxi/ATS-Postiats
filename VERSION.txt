@@ -34,6 +34,8 @@ Here is a list of major additions and changes since the last release:
 5. Fixing bug-2015-01-10:
    [pfobj_search_atview] is now stopped by either [lam] or [llam]
 6. Fixing various issues with multi-file compliation via patsopt
+7. Adding INT2PROGINATS/CHAP_ABSVTYPE/LockingAndUnlocking
+8. Bootstrapping via the newly released ATS1-0.2.12
 
 ######
 

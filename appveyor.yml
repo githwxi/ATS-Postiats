@@ -4,13 +4,13 @@ platform:
 environment:
     global:
         CYG_MIRROR: http://cygwin.mirror.constant.com
-        ATS1VER: 0.2.11
-        ATS1PACK: ats-lang-anairiats-0.2.11
-        ATS1PACKTGZ: ats-lang-anairiats-0.2.11-fin.tgz
+        ATS1VER: 0.2.12
+        ATS1PACK: ats-lang-anairiats-0.2.12
+        ATS1PACKTGZ: ats-lang-anairiats-0.2.12.tgz
         ATS1LANGURL: http://sourceforge.net/projects/ats-lang
-        ATS1PACKURL: http://sourceforge.net/projects/ats-lang/files/ats-lang/anairiats-0.2.11/ats-lang-anairiats-0.2.11-fin.tgz
-        ATSHOME: /tmp/ats-lang-anairiats-0.2.11
-        ATSHOMERELOC: ATS-0.2.11
+        ATS1PACKURL: http://sourceforge.net/projects/ats-lang/files/ats-lang/anairiats-0.2.12/ats-lang-anairiats-0.2.12.tgz
+        ATSHOME: /tmp/ats-lang-anairiats-0.2.12
+        ATSHOMERELOC: ATS-0.2.12
         PATSHOME: /tmp/ATS-Postiats
         PATSHOMERELOC: /tmp/ATS-Postiats-contrib
 
