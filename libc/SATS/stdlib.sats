@@ -161,13 +161,13 @@ long int strtol(const char *nptr, char **endptr, int base);
 */
 symintr strtol
 fun strtol0
-  (nptr: string, base: intBtwe (2, 36)):<!wrt> lint
+  (nptr: string, base: intBtwe (2, 36)):<!wrt> lint = "mac#%"
 overload strtol with strtol0
 fun strtol1
-  (nptr: string, endptr: &ptr? >> _, base: intBtwe (2, 36)):<!wrt> lint
+  (nptr: string, endptr: &ptr? >> _, base: intBtwe (2, 36)):<!wrt> lint = "mac#%"
 overload strtol with strtol1
 fun strtol_unsafe
-  (nptr: string, endptr: ptr, base: int):<!wrt> lint
+  (nptr: string, endptr: ptr, base: int):<!wrt> lint = "mac#%"
 // end of [strtol_unsafe]
 /*
 long long int strtoll(const char *nptr, char **endptr, int base);
