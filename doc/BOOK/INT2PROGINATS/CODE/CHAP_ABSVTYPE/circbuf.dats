@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// An Array-based implementation of circular buffer 
+// An Array-based implementation of circular buffers
 //
 (* ****** ****** *)
 
@@ -92,9 +92,10 @@ cbufObj_addback_struct
 
 (* ****** ****** *)
 //
-implement{a}
+implement
+{a}(*tmp*)
 cbufObj_get_cap
-  {m,n} (buf) = let
+  {m,n}(buf) = let
 //
 prval () =
   lemma_cbufObj_param (buf)
@@ -111,9 +112,10 @@ end // end of [circbuf_get_cap]
 //
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 cbufObj_get_size
-  {m,n} (buf) = let
+  {m,n}(buf) = let
 //
 prval () =
   lemma_cbufObj_param (buf)
@@ -152,9 +154,10 @@ a:vt0p
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 cbufObj_is_empty
-  {m,n} (buf) = let
+  {m,n}(buf) = let
 //
 val (pfat | p) =
   cbufObj_takeout_struct (buf)
@@ -166,9 +169,10 @@ in
   $UN.cast{bool(n==0)}(p1 = p2)
 end // end of [cbufObj_is_empty]
 
-implement{a}
+implement
+{a}(*tmp*)
 cbufObj_isnot_empty
-  {m,n} (buf) = let
+  {m,n}(buf) = let
 //
 prval () = lemma_cbufObj_param (buf)
 //
@@ -178,9 +182,10 @@ end // end of [cbufObj_isnot_empty]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 cbufObj_is_full
-  {m,n} (buf) = let
+  {m,n}(buf) = let
 //
 val (pfat | p) =
   cbufObj_takeout_struct (buf)
@@ -194,10 +199,14 @@ in
   $UN.cast{bool(m==n)}(p1 = p2_next)
 end // end of [cbufObj_is_full]
 
-implement{a}
+implement
+{a}(*tmp*)
 cbufObj_isnot_full
-  {m,n} (buf) = let
-  prval () = lemma_cbufObj_param (buf)
+  {m,n}(buf) = let
+//
+prval () =
+  lemma_cbufObj_param (buf)
+//
 in
   ~cbufObj_is_full (buf)
 end // end of [cbufObj_isnot_full]
@@ -207,7 +216,7 @@ end // end of [cbufObj_isnot_full]
 implement
 {a}(*tmp*)
 cbufObj_new
-  {m} (m) = let
+  {m}(m) = let
   val m1 = m + 1
 //
 val (pf1, pfgc1 | parr) = array_ptr_alloc<a> (m1)
@@ -232,13 +241,15 @@ val (pfat | p) =
 val () =
 __free (p->p_beg) where
 {
-  extern fun __free (p: ptr): void = "atspre_mfree_gc"
+  extern
+  fun __free (p: ptr): void = "atspre_mfree_gc"
 } (* end of [where] *) // end of [val]
 prval () = cbufObj_addback_struct (pfat | buf)
 //
 val () = __free (buf) where
 {
-  extern fun __free {vt:vtype} (x: vt): void = "atspre_mfree_gc"
+  extern
+  fun __free {vt:vtype} (x: vt): void = "atspre_mfree_gc"
 } (* end of [where] *) // end of [val]
 //
 in
@@ -249,7 +260,7 @@ end // end of [cbufObj_free]
 
 implement
 cbufObj_clear
-  {a}{m,n} (buf) = let
+  {a}{m,n}(buf) = let
 //
 val (pfat | p) =
   cbufObj_takeout_struct (buf)
@@ -276,17 +287,23 @@ cbufObj_insert
   buf: !cbufObj (a, m, n) >> cbufObj (a, m, n+1), x: a
 ) : void // end of [cbufObj_insert]
 *)
-implement{a}
+implement
+{a}(*tmp*)
 cbufObj_insert
-  {m,n} (buf, x) = {
-  val (pfat | p) = cbufObj_takeout_struct (buf)
+  {m,n}(buf, x) = {
+  val (pfat | p) =
+    cbufObj_takeout_struct (buf)
   val p_last = p->p_last
-  val () = p->p_last := cpadd<a> (p->p_beg, p->p_end, p_last)
-  prval () = cbufObj_addback_struct (pfat | buf)
+  val () =
+  p->p_last :=
+    cpadd<a> (p->p_beg, p->p_end, p_last)
+  prval () =
+    cbufObj_addback_struct (pfat | buf)
   val () = $UN.ptr0_set<a> (p_last, x)
-  prval () = __assert (buf) where {
+  prval () =
+  __assert (buf) where {
     extern praxi __assert (buf: !cbufObj (a, m, n) >> cbufObj (a, m, n+1)): void
-  } // end of [prval]
+  } (* end of [prval] *)
 } // end of [cbufObj_insert]
 
 (* ****** ****** *)
@@ -298,17 +315,23 @@ cbufObj_remove
   buf: !cbufObj (a, m, n) >> cbufObj (a, m, n-1)
 ) : a // end of [cbufObj_remove]
 *)
-implement{a}
+implement
+{a}(*tmp*)
 cbufObj_remove
-  {m,n} (buf) = x where {
-  val (pfat | p) = cbufObj_takeout_struct (buf)
+  {m,n}(buf) = x where {
+  val (pfat | p) =
+    cbufObj_takeout_struct (buf)
   val p_frst = p->p_frst
-  val () = p->p_frst := cpadd<a> (p->p_beg, p->p_end, p_frst)
-  prval () = cbufObj_addback_struct (pfat | buf)
+  val () =
+  p->p_frst :=
+    cpadd<a> (p->p_beg, p->p_end, p_frst)
+  prval () =
+    cbufObj_addback_struct (pfat | buf)
   val x = $UN.ptr0_get<a> (p_frst)
-  prval () = __assert (buf) where {
+  prval () =
+  __assert (buf) where {
     extern praxi __assert (buf: !cbufObj (a, m, n) >> cbufObj (a, m, n-1)): void
-  } // end of [prval]
+  } (* end of [prval] *)
 } // end of [cbufObj_remove]
 
 (* ****** ****** *)
@@ -325,7 +348,7 @@ val () =
 val () =
   cbufObj_insert<int> (buf, 2)
 //
-val () = cbufObj_clear{int} (buf)
+val () = cbufObj_clear{int}(buf)
 //
 val () =
   cbufObj_insert<int> (buf, 1)
