@@ -16,7 +16,7 @@ ATSVER=$1
 ATSPACK=\
 ats-lang-anairiats-${ATSVER}
 #
-ATSPACKTGZ=${ATSPACK}-fin.tgz
+ATSPACKTGZ=${ATSPACK}.tgz
 #
 ATSLANGURL=\
 http://sourceforge.net/projects/ats-lang

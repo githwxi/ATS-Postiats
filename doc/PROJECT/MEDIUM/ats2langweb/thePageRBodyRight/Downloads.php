@@ -9,7 +9,7 @@ style="margin-top:8px;padding:8px;"
 <p>
 ATS2 (ATS/Postiats) is implemented in ATS1 (ATS/Anairiats), and ATS1 is
 implemented in itself. The lastest released version of ATS1 is
-<a href="http://sourceforge.net/projects/ats-lang/files/latest/download?source=files">ATS1-0.2.11</a>,
+<a href="http://sourceforge.net/projects/ats-lang/files/latest/download?source=files">ATS1-0.2.12</a>,
 which needs to be installed first in order to build ATS2 from its source
 (written in ATS1). Essentially, the process of installing ATS1 is the same
 as installing ATS2. For more information, please check out a simple shell script
