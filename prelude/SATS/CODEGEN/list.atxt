@@ -431,9 +431,9 @@ fun{x:t0p} list_forall$pred (x):<> bool
 #atscode_separator()
 
 fun{x:t0p}
-list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
-fun{x:t0p}
 list_equal$eqfn (x, x):<> bool
+fun{x:t0p}
+list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
 
 #atscode_separator()
 //

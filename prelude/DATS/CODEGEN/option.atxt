@@ -57,6 +57,26 @@ option_unsome_exn
 
 #atscode_separator()
 
+implement
+{a}(*tmp*)
+option_equal
+  (opt1, opt2) =
+(
+//
+case+ opt1 of
+| None () =>
+  (
+    case+ opt1 of None () => true | Some _ => false
+  )
+| Some x1 =>
+  (
+    case+ opt2 of None () => false | Some x2 => option_equal$eqfn(x1, x2)
+  )
+//
+) (* end of [option_equal] *)
+
+#atscode_separator()
+
 implement{a}
 fprint_option
   (out, opt) = let
