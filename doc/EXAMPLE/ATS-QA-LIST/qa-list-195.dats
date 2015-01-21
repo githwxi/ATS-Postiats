@@ -12,6 +12,13 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
+%{^
+#ifdef ATSextfcall
+#undef ATSextfcall
+#endif // end-of-ifdef
+#define ATSextfcall(f, xs) f xs
+%} // end of [%{^]
+(* ****** ****** *)
 //
 staload "libc/SATS/alloca.sats"
 //

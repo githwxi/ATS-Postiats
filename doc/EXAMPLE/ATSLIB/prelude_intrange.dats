@@ -15,6 +15,23 @@ staload UN = "prelude/SATS/unsafe.sats"
 val () =
 {
 //
+val out = stdout_ref
+//
+implement(env)
+intrange_foreach$fwork<env> (i, env) = fprint(out, i)
+//
+val _ =
+intrange_foreach<> (0, 10)
+//
+val () = fprint_newline(out)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
 fun fact
   (n:int): int = let
 //
@@ -38,6 +55,23 @@ val () = assertloc (fact (10) = 1*2*3*4*5*6*7*8*9*10)
 val () =
 {
 //
+val out = stdout_ref
+//
+implement(env)
+intrange_rforeach$fwork<env> (i, env) = fprint(out, i)
+//
+val _ =
+intrange_rforeach<> (0, 10)
+//
+val () = fprint_newline(out)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
 fun fact
   (n:int): int = let
 //
@@ -54,7 +88,7 @@ end (* end of [fact] *)
 //
 val () = assertloc (fact (10) = 10*9*8*7*6*5*4*3*2*1)
 //
-}
+} (* end of [val] *)
 
 (* ****** ****** *)
 
