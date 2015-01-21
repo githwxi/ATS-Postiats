@@ -1,3 +1,7 @@
+0.1.8
+
+######
+
 0.1.7
 
 This is the 16th release of ATS2, the successor of the ATS
@@ -36,6 +40,7 @@ Here is a list of major additions and changes since the last release:
 6. Fixing various issues with multi-file compliation via patsopt
 7. Adding INT2PROGINATS/CHAP_ABSVTYPE/LockingAndUnlocking
 8. Bootstrapping via the newly released package ATS1-0.2.12
+9. Adding INT2PROGINATS/CHAP_ABSVTYPE/LinearChannelsForIPC
 
 ######
 
