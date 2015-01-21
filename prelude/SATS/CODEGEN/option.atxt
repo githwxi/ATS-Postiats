@@ -111,11 +111,32 @@ option_unsome_exn (opt: Option (INV(a))):<!exn> a
 #atscode_separator()
 //
 fun{a:t0p}
+option_equal$eqfn (a, a):<> bool
+fun{a:t0p}
+option_equal
+  (opt1: Option(a), opt2: Option(a)):<> bool
+//
+#atscode_separator()
+//
+fun{a:t0p}
 fprint_option
   (out: FILEref, opt: Option (INV(a))): void
 //
 overload fprint with fprint_option
 //
+#atscode_separator()
+//
+// overloading for certain symbols
+//
+#atscode_separator()
+
+overload = with option_equal
+
+#atscode_separator()
+
+overload iseqz with option_is_none
+overload isneqz with option_is_some
+
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
