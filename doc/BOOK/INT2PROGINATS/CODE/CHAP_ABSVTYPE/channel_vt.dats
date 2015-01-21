@@ -60,14 +60,14 @@ staload
 _ = "libats/DATS/athread_posix.dats"
 //  
 (* ****** ****** *)
-
+//
 absvtype
-queue_vtype
-  (a:vt@ype+, int(*id*)) = ptr
+queue_vtype (a:vt@ype+, int(*id*)) = ptr
+//
 vtypedef
 queue(a:vt0p, id:int) = queue_vtype(a, id)
 vtypedef queue(a:vt0p) = [id:int] queue(a, id)
-
+//
 (* ****** ****** *)
 //
 extern
@@ -95,7 +95,7 @@ fun
 queue_isful{id:int}(!queue(a, id)): [b:bool] (ISFUL(id, b) | bool(b))
 //
 (* ****** ****** *)
-
+//
 extern
 fun
 {a:vt0p}
@@ -384,7 +384,7 @@ else let
   val ((*void*)) = queue_insert (pf | xs, x0)
   val ((*void*)) =
   if isnil.1
-    then condvar_signal(unsafe_condvar_vt2t(ch.CVisnil))
+    then condvar_broadcast(unsafe_condvar_vt2t(ch.CVisnil))
   // end of [if]
 in
   // nothing
@@ -448,7 +448,7 @@ else let
   val x0_out = queue_remove (pf | xs)
   val ((*void*)) =
   if isful.1
-    then condvar_signal(unsafe_condvar_vt2t(ch.CVisful))
+    then condvar_broadcast(unsafe_condvar_vt2t(ch.CVisful))
   // end of [if]
 in
   x0_out
@@ -547,16 +547,19 @@ staload
 _(*anon*) = "libats/DATS/deqarray.dats"
 
 (* ****** ****** *)
-
+//
 fun
 do_work
 (
   chan: channel(int)
 ) : void =
 {
-  val () = channel_insert (chan, 0)
-  val-~None_vt() = channel_unref(chan)
-}
+//
+val () = channel_insert (chan, 0)
+val-~None_vt() = channel_unref(chan)
+//
+} (* end of [do_work] *)
+//
 (* ****** ****** *)
 
 implement
