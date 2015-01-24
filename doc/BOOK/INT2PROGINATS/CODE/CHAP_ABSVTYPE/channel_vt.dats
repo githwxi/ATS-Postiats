@@ -143,9 +143,8 @@ channel_unref(ch: channel(a)): Option_vt(queue(a))
 (* ****** ****** *)
 
 extern
-fun
-{a:vt0p}
-channel_rfcnt(ch: !channel(a)): intGt(0)
+fun{}
+channel_rfcnt{a:vt0p}(ch: !channel(a)): intGt(0)
 
 (* ****** ****** *)
 
@@ -304,9 +303,9 @@ end // end of [channel_unref]
 (* ****** ****** *)
 
 implement
-{a}(*tmp*)
+{}(*tmp*)
 channel_rfcnt
-  (chan) = let
+  {a}(chan) = let
 //
 val@CHANNEL
   {l0,l1,l2,l3}(ch) = chan
@@ -323,10 +322,6 @@ extern
 fun{a:vt0p}
 channel_insert2
   (!channel(a), !queue(a) >> _, a): void
-//
-extern
-fun{a:vt0p}
-channel_remove2 (!channel(a), !queue(a) >> _): (a)
 //
 (* ****** ****** *)
 
@@ -392,6 +387,13 @@ end // end of [else]
 //
 end // end of [channel_insert2]
 
+(* ****** ****** *)
+//
+extern
+fun{a:vt0p}
+channel_remove2
+  (chan: !channel(a), !queue(a) >> _): (a)
+//
 (* ****** ****** *)
 
 implement
