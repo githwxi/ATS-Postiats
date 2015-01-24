@@ -1,5 +1,14 @@
 0.1.8
 
+This is the 17th release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+From this version on, the compiler (patsopt) built based on
+the released package of ATS2 no longer runs GC when it compiles
+ATS source code. Please use ATS2-github if you want to customize
+various settings of patsopt (including GC and constraint-solving).
+
 ######
 
 0.1.7

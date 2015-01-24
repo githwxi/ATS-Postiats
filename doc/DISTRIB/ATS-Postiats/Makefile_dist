@@ -39,9 +39,16 @@ bin_patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
 ######
 #
 CCOMP=gcc
-GCFLAG=-D_ATS_GCATS
+#
+GCFLAG=
+#GCFLAG=-D_ATS_NGC
+#GCFLAG=-D_ATS_GCBDW
+#GCFLAG=-D_ATS_GCATS
+#
 CFLAGS=
 LDFLAGS=
+#
+######
 #
 src2_patsopt: ; \
 make -j4 -C src/CBOOT \

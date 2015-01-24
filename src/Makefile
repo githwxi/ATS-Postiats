@@ -24,10 +24,13 @@ CFLAGS=-g -O
 CFLAGS=-g -O2
 
 ######
-
+#
 GCFLAG=
-GCFLAG=-D_ATS_GCATS
-
+#
+# GCFLAG=-D_ATS_NGC
+# GCFLAG=-D_ATS_GCBDW
+# GCFLAG=-D_ATS_GCATS
+#
 ######
 #
 # Bootstrapping:
