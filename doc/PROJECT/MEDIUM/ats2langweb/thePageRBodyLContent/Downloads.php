@@ -186,12 +186,12 @@ ATS programs.
 </p>
 
 <p>
-If you encounter errors during or after building <u>patscc</u> and <u>patsopt</u>,
-please re-build by issuing the following command-line:
+If you want <u>patsopt</u> to run GC when it is called to compile
+ATS source, please re-build by issuing the following command-line:
 </p>
 <div
 class="command_line"
->make cleanall && ./configure && make GCFLAG=-D_ATS_NGC all
+>make cleanall && ./configure && make GCFLAG=-D_ATS_GCATS all
 </div>
 
 <p>

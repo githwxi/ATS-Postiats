@@ -29,9 +29,9 @@ script:
   # Building ATS2
   - cd ${TRAVIS_BUILD_DIR}
   # make -f Makefile_devl CC=${GCC} all
-  # make GCFLAG=-D_ATS_NGC -f Makefile_devl CC=${GCC} all
-  # make C3NSTRINTKND=intknd -f Makefile_devl CC=${CLANG} all
-  - make C3NSTRINTKND=intknd GCFLAG=-D_ATS_NGC -f Makefile_devl CC=${CLANG} all
+  # make GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${GCC} all
+  - make C3NSTRINTKND=intknd -f Makefile_devl CC=${CLANG} all
+  # make C3NSTRINTKND=intknd GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${CLANG} all
   # Trying-out release process
   - make -C ${PATSHOME}/src CBOOT
   - make -C ${PATSHOME}/src/CBOOT/prelude
