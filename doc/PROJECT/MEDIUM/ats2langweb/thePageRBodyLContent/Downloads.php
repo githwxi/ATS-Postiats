@@ -193,6 +193,14 @@ ATS source, please re-build by issuing the following command-line:
 class="command_line"
 >make cleanall && ./configure && make GCFLAG=-D_ATS_GCATS all
 </div>
+<p>
+If you prefer to have <u>patsopt</u> run Boehm-GC, please issue
+the following command-line:
+</p>
+<div
+class="command_line"
+>make cleanall && ./configure && make GCFLAG=-D_ATS_GCBDW all
+</div>
 
 <p>
 <strong>Step3</strong>
