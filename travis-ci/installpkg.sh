@@ -21,6 +21,9 @@ then
   brew install bdw-gc
 # brew install gtk+3
   brew install libev
+  brew install cairo
+  brew install pcre
+  brew install glib
   brew install jansson
 #
 fi
