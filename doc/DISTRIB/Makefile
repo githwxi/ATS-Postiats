@@ -161,6 +161,16 @@ clean:: ; $(RMF) utils_atscc_atxt.exe
 cleanall:: ; $(RMF) HTML/utils_atscc.html
 cleanall:: ; $(RMF) SCRIPT/utils_atscc.bash
 
+all_script:: \
+SCRIPT/utils_emacs.bash
+SCRIPT/utils_emacs.bash: utils_emacs_atxt.exe ; ./$< > $@
+utils_emacs_atxt.dats: ATEXT/utils_emacs.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+utils_emacs_atxt.exe: utils_emacs_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) utils_emacs_atxt.exe
+cleanall:: ; $(RMF) HTML/utils_emacs.html
+cleanall:: ; $(RMF) SCRIPT/utils_emacs.bash
+
 
 ######
 
@@ -419,6 +429,7 @@ atspackaging:: srcget_atslib
 atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
 atspackaging:: srcget_utils_atscc
+atspackaging:: srcget_utils_emacs
 atspackaging:: srcget_doc_example
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 
@@ -479,6 +490,7 @@ srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 ######
 
 srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
+srcget_utils_emacs:: SCRIPT/utils_emacs.bash ; bash $<
 
 ######
 
@@ -583,7 +595,7 @@ srcget_atscntrb_libatscc:: SCRIPT/atscntrb_libatscc.bash ; bash $<
 
 ######
 #
-PACKNAME=ATS2-Postiats-0.1.8
+PACKNAME=ATS2-Postiats-0.1.9
 #
 atspacktarzvcf:: ; $(RMRF) $(PACKNAME)
 atspacktarzvcf:: ; $(CPRF) ATS-Postiats $(PACKNAME)
@@ -598,14 +610,14 @@ scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Posti
 #
 ######
 #
-PACKNAMEintmin=ATS2-Postiats-intmin-0.1.8
+PACKNAMEintmin=ATS2-Postiats-intmin-0.1.9
 #
 atspacktarzvcf_intmin_up:: ; \
 scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEintmin).tgz
 #
 ######
 
-CNTRBNAME=ATS2-Postiats-contrib-0.1.8
+CNTRBNAME=ATS2-Postiats-contrib-0.1.9
 atscntrbtarzvcf:: ; $(RMRF) $(CNTRBNAME)
 atscntrbtarzvcf:: ; $(CPRF) ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtarzvcf:: ; $(TARZVCF)  $(CNTRBNAME).tgz  $(CNTRBNAME)/.

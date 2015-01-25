@@ -227,6 +227,7 @@ doc/DISTRIB/ATS-Postiats/ccomp/atslib/output
 doc/DISTRIB/ATS-Postiats/ccomp/atslib/Makefile
 doc/DISTRIB/ATS-Postiats/ccomp/runtime
 doc/DISTRIB/ATS-Postiats/utils/atscc
+doc/DISTRIB/ATS-Postiats/utils/emacs
 doc/DISTRIB/ATS-Postiats/prelude/*.ats
 doc/DISTRIB/ATS-Postiats/prelude/*.?ats
 doc/DISTRIB/ATS-Postiats/prelude/?ATS/*.?ats
