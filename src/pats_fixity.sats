@@ -155,7 +155,7 @@ datatype
 fxopr (a:type) = 
   | FXOPRinf (a) of (
       prec, assoc, (a, a) -<cloref1> fxitm a
-    ) // end of [FXOPRinf]
+    ) (* end of [FXOPRinf] *)
   | FXOPRpre (a) of (prec, a -<cloref1> fxitm a)
   | FXOPRpos (a) of (prec, a -<cloref1> fxitm a)
 // end of [fxopr]
@@ -169,33 +169,42 @@ fun fxopr_associativity {a:type} (opr: fxopr a): assoc
 
 (* ****** ****** *)
 
-fun fxitm_app {a:type}
-  (loc: location, app: (a, a) -<cloref1> fxitm a): fxitm a
-// end of [fxitm_app]
+fun
+fxitm_app
+  {a:type}
+(
+  loc: location, app: (a, a) -<cloref1> fxitm a
+) : fxitm a // end of [fxitm_app]
 
 (* ****** ****** *)
 
-fun fxopr_make
-  {a:type} (
+fun
+fxopr_make
+  {a:type}
+(
   locf: a -> location
 , appf: (location, a, location, List a) -<cloref1> a
-, opr: a
-, fxty: fxty
+, oper: a, fxty: fxty
 ) : fxitm a // end of [fxopr_make]
 
-fun fxopr_make_backslash
-  {a:type} ( // HX: for handling temp infix status
+fun
+fxopr_make_backslash
+  {a:type}
+( // HX: for handling temp infix status
   locf: a -> location
 , appf: (location, a, location, List a) -<cloref1> a
-, loc: location (* loc of [backslash] *)
+, loc0: location (* loc of [backslash] *)
 ) : fxitm a // end of [fxopr_make_backslash]
 
 (* ****** ****** *)
 
-fun fixity_resolve {a:type} (
+fun
+fixity_resolve
+  {a:type}
+(
   loc: location
 , locf: a -> location, app: fxitm (a), xs: List (fxitm a)
-) : a // end of [fixity_resolve]
+) : (a) // end of [fixity_resolve]
 
 (* ****** ****** *)
 

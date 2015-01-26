@@ -261,7 +261,9 @@ fn* resolve (
 ) :<cloref1> a = case+ m of
   | FXITMatm _ => (
     case+ ys of
-    | FXITMatm _ :: _ => resolve_app (xs, m, ys)
+    | FXITMatm _ :: _ =>
+        resolve_app (xs, m, ys)
+      // end of [FXITMatm]
     | _ => pushup (xs, m :: ys)
     ) // end of [_, FXITMatm, _]
   | FXITMopr (loc, opr) => resolve_opr (loc, opr, xs, m, ys)
