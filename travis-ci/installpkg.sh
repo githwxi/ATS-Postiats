@@ -4,30 +4,6 @@
 
 cd ${HOME}
 
-###### for OSX ######
-
-is_osx=`expr "${TRAVIS_OS_NAME}" : "osx"`;
-
-# echo "is_osx = ${is_osx}"
-
-if
-  expr ${is_osx} > 0
-then
-#
-# export CC=gcc-4.8
-# export GCC=gcc-4.8
-#
-# brew install gmp
-  brew install bdw-gc
-# brew install gtk+3
-  brew install libev
-  brew install cairo
-  brew install pcre
-  brew install glib
-  brew install jansson
-#
-fi
-
 ###### for LINUX ######
 
 is_linux=`expr "${TRAVIS_OS_NAME}" : "linux"`;
