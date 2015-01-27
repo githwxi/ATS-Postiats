@@ -100,7 +100,7 @@ a:t@ype
   vim: !s2varindmap (n), s3e: s3exp
 ) : indexset (n+1) = let
   typedef res = indexset (n+1)
-  viewtypedef map = s2varindmap (n)
+  vtypedef map = s2varindmap (n)
   fun loop (
     s2vs: s2varlst_vt, vim: !map, res: res
   ) : res =
@@ -135,31 +135,38 @@ a:t@ype
 //
 // HX: note that the order is reversed:
 //
-val ics_asmp = let
-  viewtypedef res = icnstrlst (a, n+1)
-  fun loop (
-    loc0: location
-  , vim: !s2varindmap (n), n: int n, s3ps: s3explst
-  , res: res
-  ) : res = let
-  in
-    case+ s3ps of
-    | list_cons
-        (s3p, s3ps) => let
-        val ic =
-          s3exp2icnstr<a> (loc0, vim, n, s3p)
-        // end ofl[val]
+val
+ics_asmp = let
+//
+vtypedef res = icnstrlst (a, n+1)
+//
+fun
+loop
+(
+  loc0: location
+, vim: !s2varindmap (n), n: int n, s3ps: s3explst
+, res: res
+) : res = let
+in
+  case+ s3ps of
+  | list_nil
+      ((*void*)) => res
+  | list_cons
+      (s3p, s3ps) => let
+      val ic =
+        s3exp2icnstr<a> (loc0, vim, n, s3p)
+      // end ofl[val]
 (*
-        val () = (
-          println! ("auxsolve: loop: s3p = ", s3p);
-          print "auxsolve: loop: ic = "; print_icnstr (ic, n+1); print_newline ();
-        ) (* end of [val] *)
+      val () = (
+        println! ("auxsolve: loop: s3p = ", s3p);
+        print "auxsolve: loop: ic = "; print_icnstr (ic, n+1); print_newline ();
+      ) (* end of [val] *)
 *)
-      in
-        loop (loc0, vim, n, s3ps, list_vt_cons (ic, res))
-      end // end of [list_cons]
-    | list_nil ((*void*)) => res
-  end // end of [loop]
+    in
+      loop (loc0, vim, n, s3ps, list_vt_cons (ic, res))
+    end // end of [list_cons]
+end // end of [loop]
+//
 in
   loop (loc0, vim, n, s3ps_asmp, list_vt_nil)
 end // end of [val]
@@ -272,7 +279,7 @@ and () = list_vt_free (s3ps)
 (*
 val () = (
   println! ("s3explst_solve_s2exp: status = ", status)
-) // end of [val]
+) (* end of [val] *)
 *)
 //
 in
@@ -296,21 +303,24 @@ c3nstr_solve_errmsg (c3t: c3nstr, unsolved: uint): int
 
 extern
 fun
-c3nstr_solve_main (
+c3nstr_solve_main
+(
   env: &s2vbcfenv, c3t: c3nstr, unsolved: &uint, err: &int
 ) : int(*status*)
 // end of [c3nstr_solve_main]
 
 extern
 fun
-c3nstr_solve_prop (
+c3nstr_solve_prop
+(
   loc0: location, env: &s2vbcfenv, s2p: s2exp, err: &int
 ) : int(*status*)
 // end of [c3nstr_solve_prop]
 
 extern
 fun
-c3nstr_solve_itmlst (
+c3nstr_solve_itmlst
+(
   loc0: location
 , env: &s2vbcfenv
 , s3is: s3itmlst, unsolved: &uint, err: &int
@@ -318,7 +328,8 @@ c3nstr_solve_itmlst (
 
 extern
 fun
-c3nstr_solve_itmlst_cnstr (
+c3nstr_solve_itmlst_cnstr
+(
   loc0: location
 , env: &s2vbcfenv
 , s3is: s3itmlst, c3t: c3nstr, unsolved: &uint, err: &int
@@ -326,7 +337,8 @@ c3nstr_solve_itmlst_cnstr (
 
 extern
 fun
-c3nstr_solve_itmlst_disj (
+c3nstr_solve_itmlst_disj
+(
   loc0: location
 , env: &s2vbcfenv
 , s3is: s3itmlst, s3iss: s3itmlstlst, unsolved: &uint, err: &int
@@ -557,7 +569,10 @@ end // end of [val]
 in
 //
 case+ s3is of
-| list_cons (s3i, s3is) => (
+| list_nil
+    ((*solved*)) => ~1
+| list_cons
+    (s3i, s3is) => (
   case+ s3i of
   | S3ITMsvar (s2v) => let
       val () = s2vbcfenv_add_svar (env, s2v)
@@ -579,7 +594,7 @@ case+ s3is of
           in
             // nothing
           end // end of [S3Eerr]
-        | _ => let
+        | _ (*non-S3Eerr*) => let
             val s3p = s3exp_lintize (env, s3p) in s2vbcfenv_add_sbexp (env, s3p)
           end // end of [_]
       ) : void // end of [val]
@@ -600,8 +615,7 @@ case+ s3is of
     end // end of [S3ITMcnstr_ref]
   | S3ITMdisj (s3iss_disj) =>
       c3nstr_solve_itmlst_disj (loc0, env, s3is, s3iss_disj, unsolved, err)
-  ) // end of [list_cons]
-| list_nil () => ~1(*solved*)
+  ) (* end of [list_cons] *)
 //
 end // end of [c3nstr_solve_itmlst]
 
@@ -659,43 +673,46 @@ end // end of [c3nstr_solve_itmlst_disj]
 implement
 c3nstr_solve (c3t) = let
 (*
-val () = begin
+val () = (
   print "c3nstr_solve: c3t = "; print c3t; print_newline ()
-end // end of [val]
+) (* end of [val] *)
 *)
 var env: s2vbcfenv = s2vbcfenv_nil ()
 //
 // HX-2010-09-09: this is needed for solving
 val () = the_s2varbindmap_freetop () // top-level constraints!!!
 //
-var unsolved: uint = 0u and err: int = 0
+var
+unsolved: uint = 0u and err: int = 0
 val _(*status*) = c3nstr_solve_main (env, c3t, unsolved, err)
-val () = s2vbcfenv_free (env)
+val ((*freed*)) = s2vbcfenv_free (env)
 //
 in
 //
 case+ 0 of
-| _ when unsolved = 0u => let
+| _ when
+    unsolved = 0u => let
 (*
     val () = (
       prerr "typechecking is finished successfully!"; prerr_newline ()
-    ) // end of [val]
+    ) (* end of [val] *)
 *)
   in
     // nothing
   end // end of [unsolved = 0]
-| _ => { // unsolved > 0
+| _ (*unsolved*) => // unsolved > 0
+  {
     val () = prerr "typechecking has failed"
-    val () = if unsolved <= 1u then
-      prerr ": there is one unsolved constraint"
-    val () = if unsolved >= 2u then
-      prerr ": there are some unsolved constraints"
+    val () =
+    if unsolved <= 1u then prerr ": there is one unsolved constraint"
+    val () =
+    if unsolved >= 2u then prerr ": there are some unsolved constraints"
     val () = (
       prerr ": please inspect the above reported error message(s) for information."
-    ) // end of [val]
+    ) (* end of [val] *)
     val () = prerr_newline ()
     val () = $ERR.abort {void} ()
-  } // end of [_]
+  } (* end of [_] *)
 //
 end // end of [c3nstr_solve]
 
