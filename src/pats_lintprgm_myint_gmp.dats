@@ -76,7 +76,7 @@ extern praxi myintdec (x: !myint >> lintinf): void
 macdef midec = myintdec
 
 (* ****** ****** *)
-
+//
 implement
 fprint_myint<gmpknd>
   (out, x) = let
@@ -88,7 +88,12 @@ fprint_myint<gmpknd>
 in
   (*nothing*)
 end // end of [fprint_myint<gmpknd>]
-
+//
+implement
+print_myint<gmpknd> (x) = fprint_myint<gmpknd> (stdout_ref, x)
+implement
+prerr_myint<gmpknd> (x) = fprint_myint<gmpknd> (stderr_ref, x)
+//
 (* ****** ****** *)
 
 implement

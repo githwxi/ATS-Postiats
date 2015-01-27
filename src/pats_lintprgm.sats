@@ -53,7 +53,7 @@ abstype gmpknd = $extype "gmpknd"
 //
 (* ****** ****** *)
 
-absviewt@ype
+absvt@ype
 myint(a:t@ype) = a // [a] is a kind
 
 (* ****** ****** *)
@@ -168,9 +168,9 @@ compare_myint_myint (x: !myint(a), y: !myint(a)):<> int
 ** A[0] + A[1]*x1 + A[2]*x2 + ... + A[n]*xn >= 0
 **
 *)
-absviewtype myintvec (a:t@ype, n: int) // initialized
-absviewtype myintvec0 (a:t@ype, n: int) // uninitialized
-absviewtype myintvecout (a:t@ype, n: int, l:addr) // SHELL
+absvtype myintvec (a:t@ype, n: int) // initialized
+absvtype myintvec0 (a:t@ype, n: int) // uninitialized
+absvtype myintvecout (a:t@ype, n: int, l:addr) // SHELL
 
 praxi lemma_myintvec_params
   {a:t@ype}{n:int} (iv: !myintvec (a, n)): [n>=0] void
