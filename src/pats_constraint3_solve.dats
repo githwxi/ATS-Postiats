@@ -174,7 +174,7 @@ val () =
 (
   print ("auxsolve: ic_conc_neg = ");
   print_icnstr (ic_conc_neg, n+1); print_newline ()
-) // end of [val]
+) (* end of [val] *)
 *)
 //
 val iset = indexset_make_s3exp (vim, s3p_conc)
@@ -288,38 +288,44 @@ end // end of [local]
 // normally; if it returns 1, then the reported
 // error should be treated as a warning instead.
 //
-extern fun
+extern
+fun
 c3nstr_solve_errmsg (c3t: c3nstr, unsolved: uint): int
 //
 (* ****** ****** *)
 
-extern fun
+extern
+fun
 c3nstr_solve_main (
   env: &s2vbcfenv, c3t: c3nstr, unsolved: &uint, err: &int
 ) : int(*status*)
 // end of [c3nstr_solve_main]
 
-extern fun
+extern
+fun
 c3nstr_solve_prop (
   loc0: location, env: &s2vbcfenv, s2p: s2exp, err: &int
 ) : int(*status*)
 // end of [c3nstr_solve_prop]
 
-extern fun
+extern
+fun
 c3nstr_solve_itmlst (
   loc0: location
 , env: &s2vbcfenv
 , s3is: s3itmlst, unsolved: &uint, err: &int
 ) : int(*status*) // end of [c3nstr_solve_itmlst]
 
-extern fun
+extern
+fun
 c3nstr_solve_itmlst_cnstr (
   loc0: location
 , env: &s2vbcfenv
 , s3is: s3itmlst, c3t: c3nstr, unsolved: &uint, err: &int
 ) : int(*status*) // end of [c3nstr_solve_itmlst_cnstr]
 
-extern fun
+extern
+fun
 c3nstr_solve_itmlst_disj (
   loc0: location
 , env: &s2vbcfenv
@@ -329,7 +335,8 @@ c3nstr_solve_itmlst_disj (
 (* ****** ****** *)
 
 extern
-fun prerr_case_exhaustiveness_errmsg
+fun
+prerr_case_exhaustiveness_errmsg
 (
   loc0: location, casknd: caskind, p2tcs: p2atcstlst
 ) : void // end of [prerr_case_exhaustiveness_errmsg]
@@ -496,12 +503,16 @@ var status: int = (
       c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
 ) : int // end of [val]
 //
-val () = if status >= 0 then {
+val () =
+if
+status >= 0
+then
+{
   val iswarn =
     c3nstr_solve_errmsg (c3t, unsolved)
   // end of [val]
   val () = if iswarn > 0 then (status := ~1)
-} // end of [val]
+} (* end of [if] *)
 //
 (*
 val () = begin

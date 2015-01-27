@@ -6,6 +6,22 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-01-26:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/RYGlLoU18M0"
+>ATS-Postiats-test: code needed for testing!</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+ATS-2015-01-25:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/SGpN2D991tA"
+>ATS2-0.1.8 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-01-20:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/zFpSIr2lwxA"
