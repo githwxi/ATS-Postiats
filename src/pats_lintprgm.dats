@@ -33,6 +33,10 @@
 //
 (* ****** ****** *)
 
+staload "./pats_utils.sats"
+
+(* ****** ****** *)
+
 staload "./pats_lintprgm.sats"
 
 (* ****** ****** *)
@@ -415,6 +419,11 @@ myintvec_cffgcd
 var res
   : myint(a) = myint_make_int<a> (0)
 val p_res = &res
+//
+// HX-2015-01-27:
+// fixing a bug in (clang-3.5 -O2)
+//
+val ((*void*)) = ptr_as_volatile(p_res)
 //
 val ivp =
 __cast (iv) where {

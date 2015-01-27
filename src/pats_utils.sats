@@ -188,5 +188,10 @@ a:t@ype
 // end of [tostring_fprint]
 
 (* ****** ****** *)
+//
+fun
+ptr_as_volatile (p: ptr): void // for stoping optimization
+//
+(* ****** ****** *)
 
 (* end of [pats_utils.sats] *)

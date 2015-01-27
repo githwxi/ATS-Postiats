@@ -753,13 +753,20 @@ tostring_fprint
   val tmp = strptr_of_strbuf (tmp)
 in
 //
-if fd >= 0 then let
-  prval $FCNTL.open_v_succ (pffil) = pfopt
-  val (fpf | out) = fdopen (pffil | fd, file_mode_w) where {
-    extern fun fdopen {fd:nat} (
+if
+fd >= 0
+then let
+  prval
+  $FCNTL.open_v_succ (pffil) = pfopt
+  val (fpf | out) =
+  fdopen (pffil | fd, file_mode_w) where {
+    extern
+    fun
+    fdopen{fd:nat}
+    (
       pffil: !fildes_v fd | fd: int fd, mode: file_mode
     ) : (fildes_v fd -<lin,prf> void | FILEref) = "mac#fdopen"
-  } // end of [out]
+  } (* end of [out] *)
   val () = fpr (out, x)
   val _err = $STDIO.fflush_err (out)
   val _err = $STDIO.fseek_err (out, 0L, SEEK_SET)
@@ -770,15 +777,23 @@ if fd >= 0 then let
   val () = strptr_free (tmp)
 in
   res (*strptr*)
-end else let
+end // end of [then]
+else let
   prval $FCNTL.open_v_fail () = pfopt
   val () = strptr_free (tmp) in strptr_null ()
-end // end of [if]
+end // end of [else]
 //
 end // end of [tostring_fprint]
 
 end // end of [local]
 
+(* ****** ****** *)
+//
+// HX-2015-01-27:
+// for stopping optimization
+//
+implement ptr_as_volatile (ptr) = ((*dummy*))
+//
 (* ****** ****** *)
 
 (* end of [pats_utils.dats] *)
