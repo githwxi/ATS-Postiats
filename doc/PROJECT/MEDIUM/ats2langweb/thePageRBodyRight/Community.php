@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-01-27:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/FSgjjkUURs4"
+>ATS2 can be built with Clang-3.5-O2!</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-01-26:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/RYGlLoU18M0"

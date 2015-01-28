@@ -186,15 +186,15 @@ ATS programs.
 </p>
 
 <p>
-If you want <u>patsopt</u> to run GC when it is called to compile
-ATS source, please re-build by issuing the following command-line:
+If you want <u>patsopt</u> to run with GC when it is called to
+compile ATS source, please re-build by issuing the following command-line:
 </p>
 <div
 class="command_line"
 >make cleanall && ./configure && make GCFLAG=-D_ATS_GCATS all
 </div>
 <p>
-If you prefer to have <u>patsopt</u> run Boehm-GC, please issue
+If you prefer to have <u>patsopt</u> run with Boehm-GC, please issue
 the following command-line:
 </p>
 <div
@@ -254,15 +254,13 @@ of library packages, tutorials, examples, documentation of various sorts, etc.
 <ul>
 <li>
 The current <em>stable</em> release of ATS2-contrib is at
-<a href="http://sourceforge.net/projects/ats2-lang-contrib/download">ATS2-contrib-0.1.7</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.1.7/.">ATS2-contrib-0.1.7</a>.
 </li>
 </ul>
 
 <p>
-You can download a package of ATS2-contrib available
-<a href="http://sourceforge.net/projects/ats2-lang-contrib/download">on-line</a>
-and then untar it in a directory, say MYATS, of your choice by issuing the following
-command-line:
+You can download a package of ATS2-contrib and then untar it in a directory,
+say MYATS, of your choice by issuing the following command-line:
 </p>
 <div
 class="command_line"
@@ -270,7 +268,7 @@ class="command_line"
 </div>
 <p>
 where <u>ATS2-Postiats-contrib-x.x.x.tgz</u> refers to the downloaded package and
-x.x.x is the version number of the package.  All the directories and files extracted
+x.x.x is the version number of the package. All the directories and files extracted
 from the tarball are now in the directory <u>MYATS/ATS2-Postiats-contrib-x.x.x</u>.
 </p>
 <p>
@@ -282,16 +280,16 @@ the name ${PATSHOME}.
 </p>
 
 <p>
-If you have access to the <em>git</em> command, then you can also do a git-clone as follows
-to obtain the current release of ATS2-contrib:
+If you have access to the <em>git</em> command, then you can also do a git-clone as
+follows to obtain the current release of ATS2-contrib:
 </p>
 <div
 class="command_line"
 >git clone git://git.code.sf.net/p/ats2-lang-contrib/code ATS2-Postiats-contrib
 </div>
 <p>
-This approach is preferred as it can greatly simplify the process of pulling in new contributions
-added to ATS2-contrib later.
+This approach is preferred as it can greatly simplify the process of pulling in new
+contributions added to ATS2-contrib later.
 </p>
 
 <hr></hr>
@@ -308,9 +306,17 @@ Note that the header files in ATS2-include are given a BSD-like license so
 that they can essentially be used anywhere without concerns of license
 violations.
 </p>
+
+<ul>
+<li>
+The current <em>stable</em> release of ATS2-include is at
+<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.1.7/.">ATS2-include-0.1.7</a>.
+</li>
+</ul>
+
 <p>
 Strickly speaking, ATS2-include can be downloaded and then
-stored at any directory one likes. If ATS2-include is to be installed,
+stored in any directory one likes. If ATS2-include is to be installed,
 then a directory like <u>/usr/lib/ats2-postiats-x.x.x</u> or
 <u>/usr/local/lib/ats2-postiats-x.x.x</u> should be proper for storing
 the header files contained in it, where x.x.x refers to the verison number of

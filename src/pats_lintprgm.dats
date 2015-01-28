@@ -32,6 +32,12 @@
 // Time: February 2012
 //
 (* ****** ****** *)
+//
+staload
+UN =
+"prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
 
 staload "./pats_utils.sats"
 
@@ -246,7 +252,11 @@ myintvec_inspect
 //
 vtypedef vt = myint(a)
 //
-fun loop {n:nat} {l:addr} .<n>. (
+fun
+loop
+{n:nat}
+{l:addr} .<n>.
+(
   pf: !array_v (vt, n, l) | p: ptr l, n: int n
 ) : bool(*cffs=0*) = let
 in
@@ -381,10 +391,15 @@ myintvec_cffgcd_main
 macdef
 gcd = gcd01_myint_myint
 //
-stadef x = myint(a); stadef v = x @ l
+(*
 //
-var !p_clo = @lam
-  (pf: !v | x: &x): void =<1>
+stadef v = myint(a) @ l
+//
+var
+!p_clo =
+@lam (
+  pf: !v | x: &myint(a)
+) : void =<1>
   if x != 0 then (
     if x != 1 then (
       !p_res := gcd (!p_res, x)
@@ -397,17 +412,68 @@ var !p_clo = @lam
   ) // end of [if]
 // end of [var]
 //
-val n = size1_of_int1 (n)
+val n1 = size1_of_int1(n-1)
 //
 val (pfarr | p_arr) = myintvec_takeout (iv)
 prval (pf1at, pf2arr) = array_v_uncons {myint(a)} (pfarr)
 val p2_arr = p_arr + sizeof<myint(a)>
-val () = array_ptr_foreach_vclo {v} (pf | !p2_arr, !p_clo, n-1)
+val () = array_ptr_foreach_vclo {v} (pf | !p2_arr, !p_clo, n1)
 prval () = pfarr := array_v_cons {myint(a)} (pf1at, pf2arr)
 prval () = myintvecout_addback (pfarr | iv)
+*)
+//
+fun
+loop
+(
+  pf: !myint(a) @ l | p: ptr, i: int
+) :<cloref1> void =
+(
+if
+i < n
+then let
+  val x = $UN.ptr0_get<myint(a)>(p)
+  extern praxi __vfree(x: myint(a)): void
+in
+//
+if
+x != 0
+then (
+//
+if x != 1
+  then let
+    val () =
+      !p_res := gcd (!p_res, x)
+    // end of [val]
+    prval ((*void*)) = __vfree(x)
+  in
+    loop (pf | p+sizeof<myint(a)>, i+1)
+  end // end of [then]
+  else let
+    val () = myint_free (!p_res)
+    val () = !p_res := myint_make_int<a> (1)
+    prval ((*void*)) = __vfree(x)
+  in
+    // nothing
+  end // end of [else]
+//
+) (* end of [then] *)
+else let
+  prval ((*void*)) = __vfree(x)
+in
+  loop (pf | p+sizeof<myint(a)>, i+1)
+end // end of [else]
+//
+end // end of [then]
+//
+) (* end of [loop] *)
+//
+val
+(pfarr | p_arr) = myintvec_takeout (iv)
+val () = loop (pf | p_arr+sizeof<myint(a)>, 1)
+prval ((*void*)) = myintvecout_addback (pfarr | iv)
 //
 in
-  (*nothing*)
+  // nothing
 end // end of [myintvec_cffgcd_main]
 
 in (* in of [local] *)
@@ -420,10 +486,14 @@ var res
   : myint(a) = myint_make_int<a> (0)
 val p_res = &res
 //
+(*
+//
 // HX-2015-01-27:
 // fixing a bug in (clang-3.5 -O2)
 //
 val ((*void*)) = ptr_as_volatile(p_res)
+//
+*)
 //
 val ivp =
 __cast (iv) where {
