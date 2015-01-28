@@ -1,0 +1,37 @@
+/*
+**
+** Author: Andrea Ferretti
+**
+*/
+
+body {
+  font-family:
+  "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: justify;
+  line-height: 150%;
+}
+
+font {
+  font-family: Inconsolata, "Courier New", Courier, monospace;
+  font-size: 90%;
+  background-color: #dddddd;
+  padding: 2px 5px;
+}
+
+a {
+  color: #888888;
+  text-decoration: none;
+  font-weight: bold;
+  font-style: italic;
+}
+
+h1 a {
+  color: black;
+  font-style: normal;
+}
+
+/* ****** ****** */
+
+/* end of [INT2PROGINATS-BOOK.css] */
