@@ -5,5 +5,6 @@
 ######
 
 Philipp Gesang <phg@phi-gamma.net> 
+Yannick Duchêne
 
 ###### end of [ACKNOWLEDGMENTS.txt] ######

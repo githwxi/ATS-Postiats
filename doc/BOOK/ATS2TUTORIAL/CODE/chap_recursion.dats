@@ -37,7 +37,7 @@ fact : int -> int =
 val
 fact =
 fix f(x: int): int =>
-  if x > 0 then x * fact(x-1) else 1
+  if x > 0 then x * f(x-1) else 1
 (* end of [fact] *)
 
 (* ****** ****** *)
