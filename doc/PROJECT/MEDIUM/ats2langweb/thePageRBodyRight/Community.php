@@ -145,6 +145,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
 ATS-2014-10-24:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/prfDLf2_LKM"
@@ -169,7 +170,6 @@ by <a href="https://github.com/ashalkhakov">Artyom Shalkhakov</a>
 
 <hr></hr>
 
-<!--
 ATS-2014-10-19:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/xJmNk4oGo6A"

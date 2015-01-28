@@ -17,7 +17,7 @@ Start time: 2013-09-02
 # Please note that this file is kept for
 # use only if the following link is unavailable:
 #
-# http://www.ats-lang.org/DOWNLOAD/#ATS_packages
+# http://www.ats-lang.org/Downloads.html#ATS_packages
 #
 # Otherwise please visit the link for up-to-date
 # instructions on installing the ATS programming
@@ -54,7 +54,7 @@ ats2-lang-postiats-x.x.x.tgz
 where x.x.x is the version of the package. You can untar it by
 issuing the following command-line:
 
-tar vxfz ats2-lang-postiats-x.x.x.tgz
+tar -vxfz ats2-lang-postiats-x.x.x.tgz
 
 which creates a directory named ATS-Postiats
 
@@ -64,7 +64,12 @@ Step 2: Get pre-requisites
 
 libgmp is required for successful building of ATS2.
 
-On e.g. Ubuntu Linus: sudo apt-get install libgmp-dev
+On e.g. Ubuntu Linux: sudo apt-get install libgmp-dev
+
+If you are unable to or do not want to download libgmp,
+then please use ATS2-intmin, which can be found at:
+
+http://www.ats-lang.org/Downloads.html#ATS_packages
 
 ######
 

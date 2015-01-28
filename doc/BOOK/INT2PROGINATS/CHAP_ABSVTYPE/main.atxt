@@ -1147,10 +1147,10 @@ What is really of concern here is not to actually verify that
 #dyncode("queue_isnil") and #dyncode("queue_isful") have the interface
 assigned to them. Instead, the focus is on ensuring that
 #dyncode("queue_insert") is never applied to a full queue and
-#dyncode("queue_remove") is never applied to an empty queue.
-#emphasis("assuming") #dyncode("queue_isnil") and #dyncode("queue_isful")
-have the assigned interface. I refer to this form of program verification
-as being #emphasis("programmer-centric") because its correctness is not
+#dyncode("queue_remove") is never applied to an empty queue under the
+assumption that #dyncode("queue_isnil") and #dyncode("queue_isful") have
+the assigned interface. I refer to this form of program verification as
+being #emphasis("programmer-centric") because its correctness is not
 formally established in an objective manner. I myself find that
 programmer-centric programm verification is very flexible and effective in
 practice.  If we believe that constructing informal mathematical proofs can
