@@ -67,11 +67,30 @@ fun acker2
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2015-01-29: no leaks
+//
+fun
+acker3(m: int) =
+lam (n: int): int =<cloptr1>
+(
+  if m > 0 then
+    if n > 0 then acker3 (m-1) (acker3 m (n-1)) else acker3 (m-1) 1
+  else n+1 // end of [if]
+) (* end of [acker3] *)
+*)
+
+(* ****** ****** *)
+
 implement
 main0 () =
 {
 val () = assertloc (acker1 (3, 3) = 61)
 val () = assertloc (acker2 (3) (3) = 61)
+(*
+val () = assertloc (acker3 (3) (3) = 61) // HX: no leaks
+*)
 } // end of [main0]
 
 (* ****** ****** *)
