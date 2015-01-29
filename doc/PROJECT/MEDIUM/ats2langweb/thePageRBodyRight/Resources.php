@@ -11,6 +11,9 @@ style="margin-top:8px;padding:8px;"
    IntelliJATS </a></b> - an ATS plugin for
 <a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a>.
 
+<b><a href="https://github.com/steinwaywhw/ats-mode-sublimetext">ats-mode-sublimetext</a></b>
+ - an ATS syntax highlighter for <a href="http://www.sublimetext.com">SublimeText 2/3</a>
+
 <hr></hr>
 
 </div>
