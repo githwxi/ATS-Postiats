@@ -47,13 +47,13 @@ allchap:: CHAPTER_EOP
 allchap:: CHAPTER_FUNCTIONS
 allchap:: CHAPTER_DATATYPES
 allchap:: CHAPTER_POLYMORPHISM
-#allchap:: CHAPTER_SUMMARY_basic
+#allchap:: CHAPTER_SUMMARY_BASIC
 allchap:: CHAPTER_EFFECTFUL
 allchap:: CHAPTER_CONVENIENCE
 allchap:: CHAPTER_MODULARITY
 allchap:: CHAPTER_LIBRARIES
 allchap:: CHAPTER_CINTERACT
-#allchap:: CHAPTER_SUMMARY_practical
+#allchap:: CHAPTER_SUMMARY_PRACTICAL
 allchap:: CHAPTER_DEPTYPES
 allchap:: CHAPTER_DEPREFDTS
 allchap:: CHAPTER_THMPRVING
@@ -78,9 +78,9 @@ CHAPTER_DATATYPES:: ; \
 chapter_datatypes:: ; \
   make -C CHAPTER_DATATYPES -f ../Makefile.chap clean
 
-chapter_functions:: ; \
+CHAPTER_FUNCTIONS:: ; \
   make -C CHAPTER_FUNCTIONS -f ../Makefile.chap main.db
-chapter_functions:: ; \
+CHAPTER_FUNCTIONS:: ; \
   make -C CHAPTER_FUNCTIONS -f ../Makefile.chap clean
 
 CHAPTER_POLYMORPHISM:: ; \
