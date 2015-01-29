@@ -25,6 +25,10 @@ An ATS syntax highlighter for <a href="http://www.sublimetext.com">SublimeText 2
 by Hanwen (Steinway) Wu
 <hr></hr>
 
+<b><a href="https://github.com/Hibou57/ats2-language-support">ats2-language-support</a></b><br>
+ATS2 language support and integration (for now, for Linux with Freedesktop and GtkSourceView)
+<hr></hr>
+
 </div>
 
 <?php /* end of [Resources.php] */ ?>
