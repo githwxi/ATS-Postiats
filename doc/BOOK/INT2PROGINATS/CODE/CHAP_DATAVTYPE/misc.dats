@@ -8,8 +8,10 @@
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-find_rightmost{n:nat} .<n>.
+fun
+{a:t@ype}
+find_rightmost
+  {n:nat} .<n>.
 (
   xs: list (a, n), P: (a) -<cloref1> bool
 ) : Option_vt (a) =
@@ -27,7 +29,8 @@ find_rightmost{n:nat} .<n>.
 
 (* ****** ****** *)
 
-fn{a:t@ype}
+fn
+{a:t@ype}
 list_optcons
   {b:bool}{n:nat}
 (

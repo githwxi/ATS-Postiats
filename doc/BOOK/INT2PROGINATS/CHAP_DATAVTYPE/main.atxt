@@ -59,7 +59,8 @@ the rightmost element in a list that satisfies a given predicate:
 
 #atscode('\
 fun{a:t@ype}
-find_rightmost{n:nat} .<n>.
+find_rightmost
+  {n:nat} .<n>.
 (
   xs: list (a, n), P: (a) -<cloref1> bool
 ) : Option_vt (a) =
