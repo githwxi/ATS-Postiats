@@ -35,11 +35,26 @@ fact : int -> int =
 (* ****** ****** *)
 
 val
+fact = ref<int->int>($UNSAFE.cast(0))
+val () =
+!fact :=
+(
+  lam (x:int):int => if x > 0 then x * !fact(x-1) else 1
+) (* end of [val] *)
+
+(* ****** ****** *)
+
+val
 fact =
 fix f(x: int): int =>
   if x > 0 then x * f(x-1) else 1
 (* end of [fact] *)
 
+(* ****** ****** *)
+  
+val double = lam(x:int):int => x + x  
+val double = fix _(x:int):int => x + x  
+  
 (* ****** ****** *)
 //
 extern fun fact (x: int): int

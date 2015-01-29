@@ -50,10 +50,11 @@
 //
 (* ****** ****** *)
 
-fun print_intarray
+fun
+print_intarray
   (A: arrszref (int)): void = let
   val asz = g0uint2int_size_int (A.size)
-  fun loop (i: int, sep: string):<cloref1> void =
+  fun loop (i: int, sep: string): void =
     if i < asz then
       (if i > 0 then print sep; print A[i]; loop (i+1, sep))
     // end of [if]
@@ -63,7 +64,9 @@ end // end of [print_intarray]
 
 (* ****** ****** *)
 
-fun lrotate (
+fun
+lrotate
+(
   A: arrszref int, i: int, j: int
 ) : void = let
   fun lshift (
@@ -76,7 +79,9 @@ in
   end // end of [if]
 end // end of [lrotate]
 
-fun rrotate (
+fun
+rrotate
+(
   A: arrszref int, i: int, j: int
 ) : void = let
   fun rshift (
@@ -91,32 +96,31 @@ end // end of [rrotate]
 
 (* ****** ****** *)
 
-fun permute
+fun
+permute
   (n: int): void = let
 //
   #define i2sz g0int2uint_int_size
   val A = arrszref_make_elt<int> (i2sz(n), 0)
 //
-  val () = init (0) where
+  val () = init(0) where
   {
-    fun init (i: int):<cloref1> void =
+    fun init (i: int): void =
       if i < n then (A[i] := i+1; init (i+1))
   } // end of [where] // end of [val]
 //
   fun aux
-    (
-      i: int
-    ) :<cloref1> void =
+    (i: int) : void =
   (
-    if i <= n then aux2 (i, i) else (
-      print_intarray (A); print_newline ()
-    ) // end of [if]
+    if i <= n
+      then aux2 (i, i)
+      else (
+        print_intarray (A); print_newline ()
+      ) (* end of [else] *)
   ) (* end of [aux] *)
 //
   and aux2
-    (
-      i: int, j: int
-    ) :<cloref1> void =
+    (i: int, j: int) : void =
   (
     if j <= n then let
       val () = (

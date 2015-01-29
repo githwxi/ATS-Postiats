@@ -469,7 +469,7 @@ fun sumup
   (n: int): int = let
   val i = ref<int> (1)
   val res = ref<int> (0)
-  fun loop ():<cloref1> void =
+  fun loop (): void =
     if !i <= n then (!res := !res + !i; !i := !i + 1; loop ())
   // end of [loop]
 in
@@ -769,7 +769,7 @@ fun print_intarray
 //
 // The integers are to be separated by the string [sep]
 //
-  fun loop (i: int, sep: string):<cloref1> void =
+  fun loop (i: int, sep: string): void =
     if i < asz then
       (if i > 0 then print sep; print A[i]; loop (i+1, sep))
     // end of [if]
@@ -840,25 +840,24 @@ fun permute
 //
 // Initializing A with integers from 1 to n, inclusive
 //
-  val () = init (0) where
+  val () = init(0) where
   {
-    fun init (i: int):<cloref1> void =
+    fun init (i: int): void =
       if i < n then (A[i] := i+1; init (i+1))
   } // end of [where] // end of [val]
 //
   fun aux
-    (i: int):<cloref1> void =
+    (i: int): void =
   (
     if i <= n
-      then aux2 (i, i) else (
-      print_intarray (A); print_newline ()
-    ) // end of [if]
+      then aux2 (i, i)
+      else (
+        print_intarray (A); print_newline ()
+      ) (* end of [else] *)
   ) (* end of [aux] *)
 //
   and aux2
-    (
-      i: int, j: int
-    ) :<cloref1> void =
+    (i: int, j: int): void =
   (
     if j <= n then let
       val () = (
@@ -992,11 +991,11 @@ mtrxszref_transpose
 val nrow = mtrxszref_get_nrow (M)
 //
 fnx loop1
-  (i: size_t):<cloref1> void =
+  (i: size_t): void =
   if i < nrow then loop2 (i, 0) else ()
 //
 and loop2
-  (i: size_t, j: size_t):<cloref1> void =
+  (i: size_t, j: size_t): void =
   if j < i then let
     val tmp = M[i,j]
   in
