@@ -381,9 +381,11 @@ local
 
 exception Finished
 
-fun{a:t@ype}
+fun
+{a:t0p}
 myintvec_cffgcd_main
-  {n:pos}{l:addr} (
+  {n:pos}
+  {l:addr} (
   pf: !myint(a) @ l
 | iv: !myintvec (a, n), n: int n, p_res: ptr l
 ) : void = let
@@ -490,14 +492,16 @@ val p_res = &res
 //
 // HX-2015-01-27:
 // fixing a bug in (clang-3.5 -O2)
-//
+// HX-2015-01-28:
+// this is no longer needed due to
+// there being no longer use of exception
 val ((*void*)) = ptr_as_volatile(p_res)
 //
 *)
 //
 val ivp =
 __cast (iv) where {
-  extern castfn __cast (iv: !myintvec (a, n)): ptr
+  extern castfn __cast (iv: !myintvec(a, n)): ptr
 } (* end of [val] *)
 //
 viewdef v = myint(a)@res
