@@ -647,18 +647,35 @@ end // end of [s2explst_tyer_arglst]
 implement
 s2zexp_tyer
   (loc0, s2ze0) = let
+//
+(*
+val () =
+println!
+  ("s2zexp_tyer: s2ze0 = ", s2ze0)
+*)
+//
 in
 //
 case+ s2ze0 of
+//
 | S2ZEptr () => hisexp_tybox
+//
 | S2ZEcst (s2c) =>
     s2cst_tyer (loc0, 0(*flag*), s2c)
   // end of [S2ZEcst]
+//
 | S2ZEvar (s2v) => hisexp_tyvar (s2v)
+//
 | S2ZEapp (s2ze1, s2zes2) =>
     s2zexp_tyer_app (loc0, s2ze1, s2zes2)
+//
 | S2ZEtyrec _ => s2zexp_tyer_tyrec (loc0, s2ze0)
-| _ => hisexp_s2zexp (s2ze0)
+//
+// HX-2015-01-30:
+// is this the right way to go?
+| S2ZEVar (s2V) => hisexp_undefined
+//
+| _ (* rest-of-S2ZE *) => hisexp_s2zexp (s2ze0)
 //
 end // end of [s2zexp_tyer]
 

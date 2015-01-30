@@ -411,7 +411,8 @@ extern void patsopt_ATSPKGRELOCROOT_set () ;
 
 (* ****** ****** *)
 
-fn patsopt_usage
+fn
+patsopt_usage
 (
   out: FILEref, arg0: comarg
 ) : void = let

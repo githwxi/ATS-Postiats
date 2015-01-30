@@ -75,18 +75,15 @@ fun the_trans4errlst_finalize (): void // cleanup all the errors
 // [s2exp_tyer] is essentially for
 // measuring the size of a given type
 //
-fun s2exp_tyer // flag=0/1:shallow/deep
+fun
+s2exp_tyer // flag=0/1:shallow/deep
   (loc: location, flag: int, s2e0: s2exp): hisexp
-// end of [s2exp_tyer]
-
-fun s2exp_tyer_deep
-  (loc: location, s2e0: s2exp): hisexp
-// end of [s2exp_tyer_deep]
-
-fun s2exp_tyer_shallow
-  (loc: location, s2e0: s2exp): hisexp
-// end of [s2exp_tyer_shallow]
-
+//
+fun
+s2exp_tyer_deep(loc: location, s2e0: s2exp): hisexp
+fun
+s2exp_tyer_shallow(loc: location, s2e0: s2exp): hisexp
+//
 (* ****** ****** *)
 
 fun s2zexp_tyer (loc: location, s2ze: s2zexp): hisexp

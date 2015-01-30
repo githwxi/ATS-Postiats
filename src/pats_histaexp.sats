@@ -112,16 +112,19 @@ and hisexplstlst = List (hisexplst)
 and labhisexplst = List (labhisexp)
 
 (* ****** ****** *)
-
+//
 fun print_hisexp (x: hisexp): void
-overload print with print_hisexp
 fun prerr_hisexp (x: hisexp): void
+//
+overload print with print_hisexp
 overload prerr with prerr_hisexp
+//
 fun fprint_hisexp : fprint_type (hisexp)
-overload fprint with fprint_hisexp
 fun fprint_hisexplst : fprint_type (hisexplst)
+//
+overload fprint with fprint_hisexp
 overload fprint with fprint_hisexplst
-
+//
 (* ****** ****** *)
 //
 val hisexp_tybox : hisexp

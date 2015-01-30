@@ -26,6 +26,10 @@ Here is a list of major additions and changes since the last release:
    to crash immediately. For more, please visit:
    https://groups.google.com/forum/#!topic/ats-lang-users/FSgjjkUURs4
 
+2. Fixing a bug in pats_tyerase:s2zexp_tyer:
+   https://groups.google.com/forum/#!topic/ats-lang-users/SGpN2D991tA
+   https://github.com/githwxi/ATS-Postiats/blob/master/doc/BUGS/bug-2015-01-25.dats
+
 ######
 
 0.1.8
