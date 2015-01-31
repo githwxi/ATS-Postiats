@@ -765,7 +765,8 @@ d1exp_tr_wths1explst
   val loc0 = d1e0.d1exp_loc
 in
 //
-case+ d1e0.d1exp_node of
+case+
+d1e0.d1exp_node of
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr (d1e)
     val s2e = s1exp_trdn_res_impred (s1e, w1ts)
@@ -794,7 +795,8 @@ case+ d1e0.d1exp_node of
   end // end of [_]
 end (* end of [d1exp_tr_wths1explst] *)
 
-fun d1exp_tr_arg_body
+fun
+d1exp_tr_arg_body
 (
   p1t_arg: p1at, d1e_body: d1exp
 ) : @(int, p2atlst, d2exp) = let
@@ -811,7 +813,7 @@ fun d1exp_tr_arg_body
   val () = {
     val () = the_s2expenv_add_svarlst ($UT.lstord2list (p2t_arg.p2at_svs))
     val () = the_d2expenv_add_dvarlst ($UT.lstord2list (p2t_arg.p2at_dvs))
-  } // end of [val]
+  } (* end of [val] *)
 //
   val (pfinc | ()) = the_d2varlev_inc ()
 //

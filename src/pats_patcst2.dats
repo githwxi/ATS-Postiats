@@ -108,7 +108,7 @@ staload "./pats_patcst2.sats"
 implement
 i0nt2intinf (tok) = let
 //
-val-T_INT (_, rep, sfx) = tok.token_node
+val-T_INT(_, rep, sfx) = tok.token_node
 //
 in
 //
@@ -397,7 +397,7 @@ case+ p2t0.p2at_node of
     val i0 = i0nt2intinf (tok) in P2TCint (i0)
   end // end of [P2Ti0nt]
 | P2Tf0loat (tok) => let
-    val-T_FLOAT (base, rep, sfx) = tok.token_node in P2TCfloat (rep)
+    val-T_FLOAT(base, rep, sfx) = tok.token_node in P2TCfloat (rep)
   end // end of [P2Tf0loat]
 //
 | P2Tlst (lin, p2ts) =>
@@ -431,22 +431,20 @@ case+ p2t0.p2at_node of
 //
 | P2Tann (p2t, _) => p2at2cst (p2t)
 //
-| _ => let
-    val () = prerr_interror ()
-    val () = (
-      prerr ": p2at2cst: p2t0 = "; prerr_p2at (p2t0); prerr_newline ()
-    ) // end of [val]
-    val () = assertloc (false)
+| _ (* P2T-rest *) => let
+    val () = prerr_interror_loc (p2t0.p2at_loc)
+    val () = prerrln! (": p2at2cst: p2t0 = ", p2t0)
   in
-    P2TCany ()
-  end // end of [_]
+    let val ((*exit*)) = assertloc(false) in P2TCany() end
+  end // end of [P2T-rest]
 //
-end // end of [p2at2cst]
+end (* end of [p2at2cst] *)
 
 (* ****** ****** *)
 
 fun
-p2atcst_comp_con (
+p2atcst_comp_con
+(
   d2c0: d2con
 , d2cs: d2conlst, arg: p2atcstlst
 ) : p2atcstlst_vt = let

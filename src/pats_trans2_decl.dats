@@ -2208,7 +2208,7 @@ case+ d1c0.d1ecl_node of
 //
 // HX: the error is already reported
 //
-    | ~None_vt () => d2ecl_none (loc0)
+    | ~None_vt ((*void*)) => d2ecl_none (loc0)
   end // end of [D1Cimpdec]
 //
 | D1Cfundecs

@@ -39,6 +39,11 @@ ATSPRE = "./pats_atspre.dats"
 (* ****** ****** *)
 //
 staload
+LAB = "./pats_label.sats"
+//
+(* ****** ****** *)
+//
+staload
 LOC = "./pats_location.sats"
 overload + with $LOC.location_combine
 //
@@ -59,6 +64,34 @@ staload "./pats_dynexp2.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+
+(* ****** ****** *)
+
+implement
+p2atlst_tupize
+  (p2ts) = let
+//
+fun
+aux
+(
+  p2ts: p2atlst, n: int
+) : labp2atlst =
+  case+ p2ts of
+  | list_cons
+      (p2t, p2ts) => let
+      val loc = p2t.p2at_loc
+      val l = $LAB.label_make_int (n)
+      val l0 = $SYN.l0ab_make_label (loc, l)
+      val lp2t = LABP2ATnorm (l0, p2t)
+    in
+      list_cons (lp2t, aux (p2ts, n+1))
+    end // end of [list_vt_cons]
+  | list_nil ((*void*)) => list_nil ()
+// end of [aux]
+//
+in
+  aux (p2ts, 0)
+end // end of [p2atlst_tupize]
 
 (* ****** ****** *)
 
@@ -101,17 +134,21 @@ d2con_select_arity
   (d2cs, n) = let
   val nd2cs = list_length (d2cs)
 in
-  if nd2cs >= 2 then let
-    var !p_clo = @lam (
-      pf: !unit_v | d2c: d2con
-    ) : bool =<clo1> d2con_get_arity_full (d2c) = n
-    prval pfu = unit_v ()
-    val d2cs2 = list_filter_vclo {unit_v} (pfu | d2cs, !p_clo)
-    prval unit_v () = pfu
-    val d2cs2 = (l2l)d2cs2
-  in
-    case+ d2cs2 of list_cons _ => d2cs2 | list_nil () => d2cs
-  end else d2cs // end of [if]
+//
+if
+nd2cs >= 2
+then let
+  var !p_clo = @lam (
+    pf: !unit_v | d2c: d2con
+  ) : bool =<clo1> d2con_get_arity_full (d2c) = n
+  prval pfu = unit_v ()
+  val d2cs2 = list_filter_vclo {unit_v} (pfu | d2cs, !p_clo)
+  prval unit_v () = pfu
+  val d2cs2 = (l2l)d2cs2
+in
+  case+ d2cs2 of list_cons _ => d2cs2 | list_nil () => d2cs
+end else d2cs // end of [if]
+//
 end // end of [d2con_select_arity]
 
 (* ****** ****** *)

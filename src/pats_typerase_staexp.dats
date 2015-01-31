@@ -675,7 +675,7 @@ case+ s2ze0 of
 // is this the right way to go?
 | S2ZEVar (s2V) => hisexp_undefined
 //
-| _ (* rest-of-S2ZE *) => hisexp_s2zexp (s2ze0)
+| _ (*S2ZE-rest*) => hisexp_s2zexp (s2ze0)
 //
 end // end of [s2zexp_tyer]
 
@@ -686,8 +686,12 @@ s2zexp_tyer_app
 (
   loc0, s2ze1, s2zes2
 ) = let
-  val hse_fun = s2zexp_tyer (loc0, s2ze1)
-  val hses_arg = s2zexplst_tyer_arglst (loc0, s2zes2)
+//
+val hse_fun =
+  s2zexp_tyer (loc0, s2ze1)
+val hses_arg =
+  s2zexplst_tyer_arglst (loc0, s2zes2)
+//
 in
   hisexp_app (hse_fun, hses_arg)
 end // end of [s2exp_tyer_app]
