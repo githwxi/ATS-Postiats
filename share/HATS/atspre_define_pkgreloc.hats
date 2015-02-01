@@ -163,6 +163,10 @@ LIBATS_HWXI_sourceloc "$ATSLANGWEBLIB/contrib/libats-/hwxi"
 LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 //
 (* ****** ****** *)
+#define
+LIBATSBBARKER_targetloc "$PATSHOMERELOC/contrib/libats-/bbarker"
+//
+(* ****** ****** *)
 //
 // For applying ATS to AVR programming
 //
