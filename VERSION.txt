@@ -22,13 +22,16 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Circumventing a Clang-3.5-O2 bug that caused the generated patsopt
-   to crash immediately. For more, please visit:
+1. Circumventing a Clang-3.5-O2 related bug that caused the generated
+   patsopt to crash immediately. For more, please visit:
    https://groups.google.com/forum/#!topic/ats-lang-users/FSgjjkUURs4
 
 2. Fixing a bug in pats_tyerase:s2zexp_tyer:
    https://groups.google.com/forum/#!topic/ats-lang-users/SGpN2D991tA
    https://github.com/githwxi/ATS-Postiats/blob/master/doc/BUGS/bug-2015-01-25.dats
+
+3. Improving pats_trans2_p1at:p1at_tr_arg. See:
+   ATS-Postiats-test/contrib/test-hwxi/test03.dats
 
 ######
 

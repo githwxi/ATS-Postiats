@@ -1170,7 +1170,7 @@ end // end of [rtfind]
 Given a function from integers to integers, #dyncode("rtfind") searches
 for the first natural number that is a root of the function. For instance,
 calling #dyncode("rtfind") on the polynomial function #dyncode("lam x => x * x
-- x + 110") returns #dyncode("11").  Note that #dyncode("rtfind")
+- x - 110") returns #dyncode("11").  Note that #dyncode("rtfind")
 loops forever if it is applied to a function that does not have a root.
 ")#comment("para")
 
