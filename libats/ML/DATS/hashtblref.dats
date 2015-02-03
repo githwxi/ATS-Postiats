@@ -32,11 +32,6 @@
 (* Start time: August, 2013 *)
 
 (* ****** ****** *)
-//
-// HX-2012-12:
-// the map implementation is based on AVL trees
-//
-(* ****** ****** *)
 
 staload
 UN = "prelude/SATS/unsafe.sats"

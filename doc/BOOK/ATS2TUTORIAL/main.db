@@ -21,6 +21,7 @@
 <!ENTITY chap_dotoverld SYSTEM "CHAP_DOTOVERLD/main.db">
 <!ENTITY chap_recursion SYSTEM "CHAP_RECURSION/main.db">
 <!ENTITY chap_datatypes SYSTEM "CHAP_DATATYPES/main.db">
+<!ENTITY chap_list SYSTEM "CHAP_LIST/main.db">
 <!ENTITY chap_exception SYSTEM "CHAP_EXCEPTION/main.db">
 <!ENTITY chap_reference SYSTEM "CHAP_REFERENCE/main.db">
 <!ENTITY chap_arrayref SYSTEM "CHAP_ARRAYREF/main.db">
@@ -61,6 +62,7 @@ To Jinning, Zoe, and Chloe
 &chap_dotoverld;
 &chap_recursion;
 &chap_datatypes;
+&chap_list;
 &chap_exception;
 &chap_reference;
 &chap_arrayref;

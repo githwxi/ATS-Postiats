@@ -1,0 +1,122 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_ARRAYREF/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="funlist">
+#title("Functional Lists")
+
+#para("\
+
+A functional list is just a singly-linked list that is immutable
+after its construction. The following datatype declaration introduces
+a type #stacode("list") for functional lists:
+
+#atscode('\
+//
+datatype
+list(a:t@ype, int) =
+| list_nil(a, 0) of ()
+| {n:nat}
+  list_cons(a, n+1) of (a, list(a, n))
+//
+')
+
+Given a type T and an integer N, the type #stacode("list(T,N)") is for a
+list of length N that contains elements of type T.  The interfaces for
+various functions on functional lists can be found in the SATS file
+#myatscodelink("prelude/SATS/list.sats", "prelude/SATS/list.sats"), which
+is automatically loaded by #command("atsopt").\
+
+")
+
+#para("\
+
+There are various functions in ATSLIB for list construction. In practice, a
+list is usually built by making direct use of the constructors
+#dyncode('list_nil') and #dyncode('list_cons'). For instance, the following
+function #dyncode("fromto") builds a list of integers between to given ones:
+
+#atscode('\
+//
+fun
+fromto
+{m,n:int | m <= n}
+(
+  m: int(m), n: int(n)
+) : list(int, n-m) =
+  if m < n then list_cons(m, fromto(m+1, n)) else list_nil()
+//
+')
+
+Traversing a list is commonly done by making use of pattern matching.
+For instance, the following code implements a function template for computing
+the length of a given list:
+
+#atscode('\
+//
+fun
+{a:t@ype}
+list_length
+  {n:nat}
+(
+  xs: list(a, n)
+) : int(n) = let
+//
+fun
+loop
+{i,j:nat}
+(
+  xs: list(a, i), j: int(j)
+) : int(i+j) =
+(
+case+ xs of
+| list_nil () => j
+| list_cons (_, xs) => loop(xs, j+1)
+)
+//
+in
+  loop (xs, 0)
+end // end of [list_length]
+//
+')
+
+")
+
+#para("\
+
+Please find #mycodelink("chap_list.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
+</chapter><!--"funlist"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_list.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}

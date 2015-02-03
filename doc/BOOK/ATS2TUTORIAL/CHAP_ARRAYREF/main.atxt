@@ -38,8 +38,8 @@ which is automatically loaded by #command("atsopt").
 
 #para("\
 
-There are various functions for array creation. For instance, the following
-two are commonly used:
+There are various functions in ATSLIB for array creation. For instance, the
+following two are commonly used:
 
 #atscode("\
 fun{a:t@ype}
