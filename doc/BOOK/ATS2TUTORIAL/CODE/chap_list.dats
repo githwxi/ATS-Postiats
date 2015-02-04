@@ -44,15 +44,15 @@ in
 end // end of [list_length]
 
 (* ****** ****** *)
-
+//
 fun
-{a:t@ype}
-list_length
+{a,b:t@ype}
+list_foldleft
   {n:nat}
 (
-  xs: list(a, n)
-) : int(n) =
-  if iseqz(xs) then 0 else 1 + list_length(xs.tail)
+  f: (a, b) -> a, ini: a, xs: list(b, n)
+) : a =
+  if iseqz(xs) then ini else list_foldleft (f, f(ini, xs.head), xs.tail)
 //
 (* ****** ****** *)
 

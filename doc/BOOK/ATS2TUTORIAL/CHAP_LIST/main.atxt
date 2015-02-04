@@ -44,7 +44,7 @@ is automatically loaded by #command("atsopt").\
 There are various functions in ATSLIB for list construction. In practice, a
 list is usually built by making direct use of the constructors
 #dyncode('list_nil') and #dyncode('list_cons'). For instance, the following
-function #dyncode("fromto") builds a list of integers between to given ones:
+function #dyncode("fromto") builds a list of integers between two given ones:
 
 #atscode('\
 //
@@ -58,9 +58,9 @@ fromto
 //
 ')
 
-Traversing a list is commonly done by making use of pattern matching.
-For instance, the following code implements a function template for computing
-the length of a given list:
+Traversing a list is commonly done by making use of pattern matching.  For
+instance, the following code implements a function for computing the length
+of a given list:
 
 #atscode('\
 //
@@ -88,6 +88,23 @@ in
   loop (xs, 0)
 end // end of [list_length]
 //
+')
+
+Given a non-empty list xs, #dyncode("xs.head") and #dyncode("xs.tail")
+refer to the head and tail of xs, respectively, where #dyncode(".head") and
+#dyncode(".tail") are overloaded dot-symbols. For instance, the function
+#dyncode("list_foldleft") for folding a given list from the left can be
+implemented as follows:
+
+#atscode('\
+fun
+{a,b:t@ype}
+list_foldleft
+  {n:nat}
+(
+  f: (a, b) -> a, ini: a, xs: list(b, n)
+) : a =
+  if iseqz(xs) then ini else list_foldleft (f, f(ini, xs.head), xs.tail)
 ')
 
 ")

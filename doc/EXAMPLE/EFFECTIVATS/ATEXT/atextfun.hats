@@ -36,7 +36,7 @@ patscode_style
   .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
   .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
 </style>
-") (* end of [style_patscode] *)
+") (* end of [patscode_style] *)
 
 (* ****** ****** *)
 
@@ -75,4 +75,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [myfundef.hats] *)
+(* end of [atextfun.hats] *)

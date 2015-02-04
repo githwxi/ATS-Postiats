@@ -8,11 +8,14 @@ PATSCC=$(PATSHOME)/bin/patscc
 
 ######
 
-all::tailrec
+all::
 
 ######
 
-tailrec: tailrec.dats ; $(PATSCC) -tcats $@ $<
+all:: \
+tailrec
+tailrec: \
+tailrec.dats ; $(PATSCC) -tcats $@ $<
 
 ######
 
@@ -21,18 +24,19 @@ ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
-
+#
 main.exe: \
-  main_atxt.dats ; \
-  $(ATSCC) \
-  -IATS $(PATSHOME) -IATS $(ATSHOME) \
-  -I$(PATSHOME)/src -D_ATS_GCATS -o $@ $< \
+main_atxt.dats ; \
+$(ATSCC) \
+  -D_ATS_GCATS -I$(PATSHOME)/src \
+  -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ $< \
   -L$(PATSHOME)/libatsynmark -latsynmark -latsdoc
-
-main_atxt.dats: \
-  main.atxt; $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
+#
+main_atxt.dats: main.atxt; \
+$(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
+#
 main.html: main.exe ; ./main.exe > $@
-
+#
 ######
 
 upload_main: \

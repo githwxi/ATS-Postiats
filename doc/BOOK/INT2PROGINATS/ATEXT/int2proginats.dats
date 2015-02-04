@@ -20,6 +20,10 @@ staload TIME = "libc/SATS/time.sats"
 
 (* ****** ****** *)
 
+dynload "libatsynmark/dynloadall.dats"
+
+(* ****** ****** *)
+
 staload "libatsdoc/SATS/libatsdoc_atext.sats"
 
 (* ****** ****** *)
@@ -179,6 +183,41 @@ in
   atext_apptxt3 (_opn, _code, _cls)
 end // end of [atscodefil]
 //
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+staload
+"libatsynmark/SATS/libatsynmark.sats"
+//
+in (* in of [local] *)
+
+fun
+pats2xhtml_sats
+  (x: string): atext = let
+  val [l:addr]
+  str = string_pats2xhtmlize_bground (0, x)
+  prval () = addr_is_gtez {l} ()
+in
+  if strptr_is_null (str) then let
+    prval () = strptr_free_null (str) in atext_nil ()
+  end else atext_strptr (str) // end of [if]
+end // end of [pats2xhtml_sats]
+
+fun
+pats2xhtml_dats
+  (x: string): atext = let
+  val [l:addr]
+  str = string_pats2xhtmlize_bground (1, x)
+  prval () = addr_is_gtez {l} ()
+in
+  if strptr_is_null (str) then let
+    prval () = strptr_free_null (str) in atext_nil ()
+  end else atext_strptr (str) // end of [if]
+end // end of [pats2xhtml_dats]
+
 end // end of [local]
 
 (* ****** ****** *)

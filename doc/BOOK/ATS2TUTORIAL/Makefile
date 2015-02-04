@@ -25,13 +25,21 @@ cleanall::
 JADE=/usr/bin/openjade
 
 ######
-
-pdf: main.db ; jw -b pdf --dsl default --parser $(JADE) --output PDF/ main.db
-
+#
+DSL=default
+DSL=./mydocbook.dsl
+#
+pdf: main.db ; \
+jw -b pdf --dsl default --parser $(JADE) --output PDF/ main.db
+#
 ######
-
-html: main.db ; jw -b html --dsl default --parser $(JADE) --output HTML/ main.db
-
+#
+DSL=default
+DSL=./mydocbook.dsl
+#
+html: main.db ; \
+jw -b html --parser $(JADE) --dsl $(DSL) --output HTML/ main.db
+#
 ######
 
 main.db:: allchap
