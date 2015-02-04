@@ -97,6 +97,7 @@ refer to the head and tail of xs, respectively, where #dyncode(".head") and
 implemented as follows:
 
 #atscode('\
+//
 fun
 {a,b:t@ype}
 list_foldleft
@@ -105,9 +106,101 @@ list_foldleft
   f: (a, b) -> a, ini: a, xs: list(b, n)
 ) : a =
   if iseqz(xs) then ini else list_foldleft (f, f(ini, xs.head), xs.tail)
+//
 ')
 
+And the function
+#dyncode("list_foldright") for folding a given list from the right can be
+implemented as follows:
+
+#atscode('\
+//
+fun
+{a,b:t@ype}
+list_foldright
+  {n:nat}
+(
+  f: (a, b) -> b, xs: list(a, n), snk: b
+) : b =
+  if iseqz(xs) then snk else f (xs.head, list_foldright (f, xs.tail, snk))
+//
+')
+
+Note that #dyncode("list_foldleft") is tail-recursive but #dyncode("list_foldright")
+is not.\
+
 ")
+
+
+#para("\
+
+One may think of a functional list as a representation for the finite
+mapping that maps each natural number i less than the length of the list to
+element i in the list. The following function #dyncode("list_get_at") is
+for accessing a list element at a given position:
+
+#atscode("\
+//
+fun
+{a:t@ype}
+list_get_at
+  {n:nat}
+(
+  xs: list(a, n), i: natLt(n)
+) : a =
+  if i > 0 then list_get_at(xs.tail, i-1) else xs.head
+//
+")
+
+This function can be called through the use of the bracket
+notation. In other words, #dyncode("xs[i]") is automatically interpreted
+as #dyncode("list_get_at(xs, i)") whenever xs and i are a list and an integer,
+respectively. Note that the time-complexity of #dyncode("list_get_at(xs,
+i)") is O(i). If one uses #dyncode("list_get_at") frequently when handling
+lists, then it is almost always a sure sign of poor programming style.
+
+")
+
+#para("\
+
+There is no destructive update on a functional list as it is immutable.
+The following function #dyncode("list_set_at") can be called to construct
+a list that differs from a given one only at a given position:
+
+#atscode('\
+//
+fun
+{a:t@ype}
+list_set_at
+  {n:nat}
+(
+  xs: list(a, n), i: natLt(n), x0: a
+) : list(a, n) =
+  if i > 0
+    then list_cons(xs.head, list_set_at(xs.tail, i-1, x0))
+    else list_cons(x0, xs.tail)
+  // end of [if]
+//
+')
+
+This function can also be called through the use of the bracket
+notation. In other words, #dyncode("xs[i] := x0") is automatically
+interpreted as #dyncode("list_set_at(xs, i, x0)") whenever xs and i are a
+list and an integer, respectively. A need to call #dyncode("list_set_at")
+often indicates that another data structure should be chosen in place of
+functional list.\
+
+")
+
+#para("\
+
+Functional lists are by far the most widely used data structure
+in functional programming. However, one should not attempt to use a
+functional list like an array as doing so is inefficient both time-wise and
+memory-wise.\
+
+")
+
 
 #para("\
 

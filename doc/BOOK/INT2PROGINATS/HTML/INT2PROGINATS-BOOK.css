@@ -1,6 +1,7 @@
 /*
 **
 ** Author: Andrea Ferretti
+** Author: Hongwei Xi (for minor changes)
 **
 */
 
@@ -8,7 +9,8 @@
 
 body {
   font-family:
-  "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  "Palatino Linotype",
+  "Book Antiqua", Palatino, serif;
   max-width: 800px;
   margin: 0 auto;
   text-align: justify;
@@ -16,17 +18,18 @@ body {
 }
 
 font {
-  font-family: Inconsolata, "Courier New", Courier, monospace;
+  font-family:
+  Inconsolata, "Courier New", Courier, monospace;
   font-size: 90%;
-  background-color: #dddddd;
-  padding: 2px 5px;
+  padding: 2px 4px;
+  background-color: #e0e0e0;
 }
 
 a {
-  color: #888888;
-  text-decoration: none;
-  font-weight: bold;
+  color: #707070;
   font-style: italic;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 h1 a {
@@ -37,7 +40,10 @@ h1 a {
 /* ****** ****** */
 
 .programlisting {
-  background-color: #d0d0d0;
+  padding: 4px 8px;
+  line-height: 144%;
+  border-radius: 6px;
+  background-color: #e0e0e0;
 }
 
 /* ****** ****** */
