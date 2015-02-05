@@ -107,21 +107,31 @@ and Q (n:int): int = if n > 0 then Q(n-1) + n * P(n) else 0
 //
 // Mutually tail-recursive functions
 //
-fun print_multable () = let
+fun
+print_multable
+  ((*void*)) = let
 //
 #define N 9
 //
-fnx loop1 (i: int): void =
+fnx
+loop1
+  (i: int): void =
   if i <= N then loop2 (i, 1) else ()
-and loop2 (i: int, j: int): void =
-  if j <= i then let
-    val () = if j >= 2 then print "  "
-    val () = $extfcall (void, "printf", "%dx%d = %2.2d", j, i, j*i)
-  in
-    loop2 (i, j+1) 
-  end else let
-    val () = print_newline () in loop1 (i+1)
-  end // end of [if]
+//
+and
+loop2
+  (i: int, j: int): void =
+  if j <= i
+    then let
+      val () = if j >= 2 then print " "
+      val () = $extfcall(void, "printf", "%dx%d=%2.2d", j, i, j*i)
+    in
+      loop2 (i, j+1) 
+    end // end of [then]
+    else let
+      val () = print_newline () in loop1 (i+1)
+    end // end of [else]
+  // end of [if]
 //
 in
   loop1 (1)

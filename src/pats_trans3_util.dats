@@ -90,15 +90,27 @@ implement
 fshowtype_d3exp
   (d3e) = let
 //
+val out = stdout_ref
+//
 val loc = d3e.d3exp_loc
 val s2e = d3exp_get_type (d3e)
 //
-val out = stdout_ref
-val () = print "**SHOWTYPE**("
-val () = $LOC.print_location (loc)
-val () = print "): "
+val () =
+fprint
+  (out, "**SHOWTYPE**")
+//
+val () = fprint (out, "(")
+val () =
+  $LOC.fprint_location (out, loc)
+val () = fprint (out, ")")
+//
+val () = fprint (out, ": ")
 val () = fpprint_s2exp (out, s2e)
-val () = print_newline ()
+//
+val () = fprint (out, ": ")
+val () = fprint_s2rt (out, s2e.s2exp_srt)
+//
+val () = fprint_newline (out)
 //
 in
   // nothing

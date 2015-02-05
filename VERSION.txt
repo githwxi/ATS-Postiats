@@ -33,6 +33,10 @@ Here is a list of major additions and changes since the last release:
 3. Improving pats_trans2_p1at:p1at_tr_arg. See:
    ATS-Postiats-test/contrib/test-hwxi/test03.dats
 
+4. Improving the formatting of INT2PROGINATS and ATS2TUTORIAL
+
+5. Having $showtype to also print out the sort information
+
 ######
 
 0.1.8
