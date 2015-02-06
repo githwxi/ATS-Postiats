@@ -83,6 +83,16 @@ cleanall:: ; $(RMF) chap_datatypes
 ######
 #
 all:: \
+chap_list
+chap_list: \
+  chap_list.dats ; \
+  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: chap_list; ./$<
+cleanall:: ; $(RMF) chap_list
+#
+######
+#
+all:: \
 chap_exception
 chap_exception: \
   chap_exception.dats ; \

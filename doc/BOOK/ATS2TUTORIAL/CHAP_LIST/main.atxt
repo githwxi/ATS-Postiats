@@ -131,6 +131,85 @@ is not.\
 
 ")
 
+#para("\
+
+As an application of #dyncode("list_foldleft"), the following
+code implements a function for reversing a given list:
+
+#atscode('\
+fun
+{a:t@ype}
+list_reverse
+(
+  xs: List0(a)
+) : List0(a) =
+(
+list_foldleft<List0(a),a>
+  (lam (xs, x) => list_cons(x, xs), list_nil, xs)
+)
+')
+
+where the type constructor #stacode("List0") is for lists of
+unspecified length:
+
+#atscode('\
+typedef List0(a:t@ype) = [n:nat] list (a, n)
+')
+
+Clearly, #dyncode("list_reverse") is length-preserving, that is, it always
+returns a list of the same length as its input. Unfortunately, this
+invariant is not captured in the above implementation of
+#dyncode("list_reverse") based on #dyncode("list_foldleft"). For the
+purpose of comparison, another implementation of #dyncode("list_reverse") is
+given as follows that captures the invariant of #dyncode("list_reverse")
+being length-preserving:
+
+#atscode('\
+fun
+{a:t@ype}
+list_reverse
+  {n:nat}
+(
+  xs: list(a, n)
+) : list(a, n) = let
+//
+fun
+loop{i,j:nat}
+(
+  xs: list(a, i), ys: list(a, j)
+) : list(a, i+j) =
+  case+ xs of
+  | list_nil () => ys
+  | list_cons (x, xs) => loop (xs, list_cons (x, ys))
+//
+in
+  loop (xs, list_nil)
+end // end of [list_reverse]
+')
+
+")
+
+#para("\
+
+A function for concatenating two given lists can be implemented
+base on #dyncode("list_foldright"):
+
+#atscode('\
+//
+fun
+{a:t@ype}
+list_append
+(
+  xs: List0(a), ys: List0(a)
+) : List0(a) =
+  list_foldright<a, List0(a)>(lam (x, xs) => list_cons(x, xs), ys, xs)
+//
+')
+
+The type assigned to #dyncode("list_append") states that this function
+takes two lists as its arguments and returns one of unspecified length.
+
+")
 
 #para("\
 
@@ -183,12 +262,9 @@ list_set_at
 //
 ')
 
-This function can also be called through the use of the bracket
-notation. In other words, #dyncode("xs[i] := x0") is automatically
-interpreted as #dyncode("list_set_at(xs, i, x0)") whenever xs and i are a
-list and an integer, respectively. A need to call #dyncode("list_set_at")
-often indicates that another data structure should be chosen in place of
-functional list.\
+While it is fine to call #dyncode("list_set_at") occasionally, a need to
+do so repeatedly often indicates that another data structure should probably
+be chosen in place of functional list.\
 
 ")
 
@@ -205,7 +281,7 @@ memory-wise.\
 #para("\
 
 Please find #mycodelink("chap_list.dats", "on-line") the entirety of the
-code used in this chapter.\
+code used in this chapter plus some testing code.\
 
 ")#comment("para")
 

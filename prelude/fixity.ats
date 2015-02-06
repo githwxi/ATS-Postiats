@@ -26,57 +26,86 @@
 *)
 
 (* ****** ****** *)
-
-// author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-
+//
+// Author: Hongwei Xi
+// Authoremail: hwxiATcsDOTbuDOTedu
+//
+// This one was
+// there at the very the beginning
+//
 (* ****** ****** *)
-
-// some fixity declarations
-
+//
+(*
+HX: fixity declarations
+*)
 #include "prelude/params.hats"
+//
+(* ****** ****** *)
 
 #if VERBOSE_FIXITY #then
 #print "Loading [fixity.ats] starts!\n"
 #endif // end of [VERBOSE_FIXITY]
 
 (* ****** ****** *)
-
+//
 (*
-prefix  00 ! (* static *)
+prefix 00 ! (* static *)
 *)
-
-prefix  99 ! (* dynamic *)
+//
+prefix 99 ! (* dynamic *)
+//
+(* ****** ****** *)
 
 (*
-postfix 80  .lab // dynamic
+postfix 80 .lab // dynamic
 postfix 80 ->lab // dynamic
 *)
 
+(* ****** ****** *)
+
 (*
-prefix  79  &    // dynamic
+prefix 79 & // dynamic
+*)
+
+(* ****** ****** *)
+
+(*
+infixl 70 app
 *)
 
 (*
 postfix 69 ?
-infixl 70 app
 *)
 
-prefix  61 ~
+(* ****** ****** *)
 
+prefix 61 ~
+
+(* ****** ****** *)
+//
 infixl 60 * / % mod
+//
 (*
 infixl 60 nmul ndiv nmod
 *)
-
+//
+(* ****** ****** *)
+//
 infixl 50 + -
-
+//
 (*
 infixr (+) ++ (*concat*)
 *)
+//
+(* ****** ****** *)
 
-infixl 41 asl asr lsl lsr
+infixl 41 asl asr
+infixl 41 lsl lsr
 
+(* ****** ****** *)
+//
 infix 40 < <= > >=
+//
 (*
 //
 // HX-2012-07: removed
@@ -86,10 +115,17 @@ infixl ( <= ) ilte flte plte ulte
 infixl ( > ) igt fgt pgt ugt
 infixl ( >= ) igte fgte pgte ugte
 *)
+//
+(* ****** ****** *)
 
 infixr 40 :: @
 
+(* ****** ****** *)
+
 infix 30 = == != <>
+
+(* ****** ****** *)
+
 (*
 //
 // HX-2012-07: removed
@@ -98,14 +134,24 @@ infix ( = ) ieq feq peq ueq
 infix ( <> ) ineq fneq pneq uneq
 *)
 
+(* ****** ****** *)
+
 infixl 21 &&
 infixl ( && ) andalso land
+
+(* ****** ****** *)
+
 infixl 20 ||
 infixl ( || ) orelse lor lxor
 
+(* ****** ****** *)
+
 infixr 10 ->
 
-infix 0 := :=: // HX: assgn and xchng
+(* ****** ****** *)
+
+infix 0 := // HX: assign
+infix 0 :=: // HX: exchange
 
 (* ****** ****** *)
 

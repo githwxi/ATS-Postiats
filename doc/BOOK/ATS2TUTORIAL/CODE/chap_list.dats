@@ -67,6 +67,50 @@ list_foldright
 //
 fun
 {a:t@ype}
+list_reverse
+(
+  xs: List0(a)
+) : List0(a) =
+(
+list_foldleft<List0(a),a>
+  (lam (xs, x) => list_cons(x, xs), list_nil, xs)
+)
+//
+fun
+{a:t@ype}
+list_append
+(
+  xs: List0(a), ys: List0(a)
+) : List0(a) =
+  list_foldright<a, List0(a)>(lam (x, xs) => list_cons(x, xs), ys, xs)
+//
+(* ****** ****** *)
+  
+fun
+{a:t@ype}
+list_reverse
+  {n:nat}
+(
+  xs: list(a, n)
+) : list(a, n) = let
+//
+fun
+loop{i,j:nat}
+(
+  xs: list(a, i), ys: list(a, j)
+) : list(a, i+j) =
+  case+ xs of
+  | list_nil () => ys
+  | list_cons (x, xs) => loop (xs, list_cons (x, ys))
+//
+in
+  loop (xs, list_nil)
+end // end of [list_reverse]
+  
+(* ****** ****** *)
+//
+fun
+{a:t@ype}
 list_get_at
   {n:nat}
 (
@@ -87,6 +131,37 @@ list_set_at
     then list_cons(xs.head, list_set_at(xs.tail, i-1, x0))
     else list_cons(x0, xs.tail)
   // end of [if]
+//
+(* ****** ****** *)
+//
+val
+digits = fromto(0, 10)
+//
+val () =
+assertloc
+(
+list_foldleft<int,int> (lam (x, y) => x + y, 0, digits) = 45
+) (* end of [val] *)
+val () =
+assertloc
+(
+list_foldright<int,int> (lam (x, y) => x + y, digits, 0) = 45
+) (* end of [val] *)
+//
+val () =
+println! ("digits[4] = ", digits[4])
+val () =
+println! ("digits[5] = ", digits[5])
+val () = println! ("digits = ", digits)
+//
+val digits = list_set_at<int> (digits, 4, 5)
+val digits = list_set_at<int> (digits, 5, 4)
+//
+val () =
+println! ("digits[4] = ", digits[4])
+val () =
+println! ("digits[5] = ", digits[5])
+val () = println! ("digits = ", digits)
 //
 (* ****** ****** *)
 

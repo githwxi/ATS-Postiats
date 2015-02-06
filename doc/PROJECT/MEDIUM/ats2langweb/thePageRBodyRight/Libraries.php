@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-02-05:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/rYOUeh3rpRM"
+>API for simple dynamic strings</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-01-06:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/vQreE2D6n4k"
