@@ -61,7 +61,10 @@ list_foldright
 (
   f: (a, b) -> b, xs: list(a, n), snk: b
 ) : b =
-  if iseqz(xs) then snk else f (xs.head, list_foldright (f, xs.tail, snk))
+(
+if iseqz(xs)
+  then snk else f (xs.head, list_foldright (f, xs.tail, snk))
+)
 //
 (* ****** ****** *)
 //
@@ -76,16 +79,6 @@ list_foldleft<List0(a),a>
   (lam (xs, x) => list_cons(x, xs), list_nil, xs)
 )
 //
-fun
-{a:t@ype}
-list_append
-(
-  xs: List0(a), ys: List0(a)
-) : List0(a) =
-  list_foldright<a, List0(a)>(lam (x, xs) => list_cons(x, xs), ys, xs)
-//
-(* ****** ****** *)
-  
 fun
 {a:t@ype}
 list_reverse
@@ -106,7 +99,33 @@ loop{i,j:nat}
 in
   loop (xs, list_nil)
 end // end of [list_reverse]
-  
+//  
+(* ****** ****** *)
+//
+fun
+{a:t@ype}
+list_append
+(
+  xs: List0(a), ys: List0(a)
+) : List0(a) =
+(
+list_foldright<a, List0(a)>
+  (lam (x, xs) => list_cons(x, xs), ys, xs)
+)
+//
+fun
+{a:t@ype}
+list_append
+  {m,n:nat}
+(
+  xs: list(a,m), ys: list(a,n)
+) : list(a,m+n) =
+(
+case+ xs of
+| list_nil () => ys
+| list_cons (x, xs) => list_cons (x, list_append (xs, ys))
+)
+//
 (* ****** ****** *)
 //
 fun

@@ -105,7 +105,9 @@ list_foldleft
 (
   f: (a, b) -> a, ini: a, xs: list(b, n)
 ) : a =
-  if iseqz(xs) then ini else list_foldleft (f, f(ini, xs.head), xs.tail)
+  if iseqz(xs)
+    then ini else list_foldleft(f, f(ini, xs.head), xs.tail)
+  // end of [if]
 //
 ')
 
@@ -122,7 +124,9 @@ list_foldright
 (
   f: (a, b) -> b, xs: list(a, n), snk: b
 ) : b =
-  if iseqz(xs) then snk else f (xs.head, list_foldright (f, xs.tail, snk))
+  if iseqz(xs)
+    then snk else f(xs.head, list_foldright(f, xs.tail, snk))
+  // end of [if]
 //
 ')
 
@@ -133,8 +137,8 @@ is not.\
 
 #para("\
 
-As an application of #dyncode("list_foldleft"), the following
-code implements a function for reversing a given list:
+As an application of #dyncode("list_foldleft"), the following code
+implements a function for reversing a given list:
 
 #atscode('\
 fun
@@ -191,8 +195,8 @@ end // end of [list_reverse]
 
 #para("\
 
-A function for concatenating two given lists can be implemented
-base on #dyncode("list_foldright"):
+As an application of #dyncode("list_foldright"), the following code
+implements a function for concatenating two given lists:
 
 #atscode('\
 //
@@ -208,6 +212,29 @@ list_append
 
 The type assigned to #dyncode("list_append") states that this function
 takes two lists as its arguments and returns one of unspecified length.
+For the purpose of comparison, another implementation of #dyncode("list_append")
+is given as follows:
+
+#atscode('\
+//
+fun
+{a:t@ype}
+list_append
+  {m,n:nat}
+(
+  xs: list(a,m), ys: list(a,n)
+) : list(a,m+n) =
+(
+case+ xs of
+| list_nil () => ys
+| list_cons (x, xs) => list_cons (x, list_append (xs, ys))
+)
+//
+')
+
+where the type assigned to #dyncode("list_append") states that this
+function takes two lists of length m and n, respectively, and returns
+another list of length m+n.
 
 ")
 
