@@ -1223,10 +1223,10 @@ the reference count in the field of the name #dyncode("rfcnt"); the
 #dyncode("mutex") field stores a mutex for protecting the queue in the
 field of the name #dyncode("queue"); the field #dyncode("CVisnil") stores a
 conditional variable for the situation where a caller (holding the mutex)
-wants to wait for the condition that the queueu becomes not empty; the
+wants to wait for the condition that the queue becomes not empty; the
 field #dyncode("CVisful") stores a conditional variable for the situation
 where a caller (holding the mutex) wants to wait for the condition that the
-queueu becomes not full.
+queue becomes not full.
 
 ")
 

@@ -164,8 +164,16 @@ fact{n:nat} .<n>.
 (* ****** ****** *)
 
 fun
-f91{i:int} .<max(101-i,0)>. (x: int i)
-  : [j:int | (i < 101 && j==91) || (i >= 101 && j==i-10)] int (j) =
+f91
+{i:int}
+.<max(101-i,0)>.
+(
+  x: int i
+) :
+[
+  j:int
+| (i < 101 && j==91) || (i >= 101 && j==i-10)
+] int (j) =
   if x >= 101 then x-10 else f91 (f91 (x+11))
 // end of [f91]
 
@@ -190,9 +198,14 @@ and isodd{n:nat} .<2*n+1>.
 //
 // This is a buggy implementation!
 //
-fun isqrt (x: int): int = let
+fun
+isqrt
+(
+  x: int
+) : int = let
 //
-fun search
+fun
+search
 (
   x: int, l: int, r: int
 ) : int = let
@@ -202,15 +215,57 @@ in
   | _ when diff > 0 => let
       val m = l + (diff / 2)
     in
-      if x / m < m then search (x, l, m) else search (x, m, r)
+      if x / m < m
+        then search (x, l, m) else search (x, m, r)
+      // end of [if]
     end // end of [if]
-  | _ => l
+  | _ (* diff <= 0 *) => l (* the result is found *)
 end // end of [search]
 //
 in
   search (x, 0, x)
 end // end of [isqrt]
 
+(* ****** ****** *)
+//
+(*
+//
+// HX-2015-02-06:
+// The following implementation of [isqrt] fixes the above one
+// 
+//
+*)
+//
+fun
+isqrt
+{x:nat}
+(
+  x: int x
+) : int = let
+//
+fun
+search
+{x,l,r:nat | l < r} .<r-l>.
+(
+  x: int x, l: int l, r: int r
+) : int = let
+  val diff = r - l
+in
+  case+ 0 of
+  | _ when diff > 1 => let
+      val m = l + half(diff)
+    in
+      if x / m < m
+        then search (x, l, m) else search (x, m, r)
+      // end of [if]
+    end // end of [if]
+  | _ (* diff <= 1 *) => l (* the result is found *)
+end // end of [search]
+//
+in
+  if x > 0 then search (x, 0, x) else 0
+end // end of [isqrt]
+//
 (* ****** ****** *)
 
 extern

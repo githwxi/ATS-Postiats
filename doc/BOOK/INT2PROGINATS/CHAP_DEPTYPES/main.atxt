@@ -914,10 +914,14 @@ integer i satisfying i * i <= x.  An implementation of the integer square
 root function is given as follows based on the method of binary search:
 
 #atscode("\
-fun isqrt
-  (x: int): int = let
+fun
+isqrt
+(
+  x: int
+) : int = let
 //
-fun search
+fun
+search
 (
   x: int, l: int, r: int
 ) : int = let
@@ -927,10 +931,12 @@ in
   | _ when diff > 0 => let
       val m = l + (diff / 2)
     in
-      // x < m * m is more efficient but can overflow easily
-      if x / m < m then search (x, l, m) else search (x, m, r)
+      // x < m * m can overflow easily
+      if x / m < m
+        then search (x, l, m) else search (x, m, r)
+      // end of [if]
     end // end of [if]
-  | _ => l (* the result is found *)
+  | _ (* diff <= 0 *) => l (* the result is found *)
 end // end of [search]
 //
 in
@@ -990,11 +996,15 @@ proper modification does pass typechecking:
 
 #atscode("\
 fun
-isqrt{x:nat}
-  (x: int x): int = let
+isqrt
+{x:nat}
+(
+  x: int x
+) : int = let
 //
-fun search
-  {x,l,r:nat | l < r} .<r-l>.
+fun
+search
+{x,l,r:nat | l < r} .<r-l>.
 (
   x: int x, l: int l, r: int r
 ) : int = let
@@ -1002,11 +1012,13 @@ fun search
 in
   case+ 0 of
   | _ when diff > 1 => let
-      val m = l + (diff / 2)
+      val m = l + half(diff)
     in
-      if x / m < m then search (x, l, m) else search (x, m, r)
+      if x / m < m
+        then search (x, l, m) else search (x, m, r)
+      // end of [if]
     end // end of [if]
-  | _ => l (* the result is found *)
+  | _ (* diff <= 1 *) => l (* the result is found *)
 end // end of [search]
 //
 in
@@ -1016,10 +1028,10 @@ end // end of [isqrt]
 
 It is now rather clear that infinite looping in the previous implementation
 of #dyncode("search") may happen if #dyncode("search(x, l, r)") is called
-in a situaltion where r-l equals 1 as this call can potentially lead to
-another call to #dyncode("search") of the same arguments. However, such a call
-leads to a type-error after #dyncode("search") is assigned the aforementioned
-dependent function type.\
+in a situaltion where #stacode("r-l") equals 1 as this call can potentially
+lead to another call to #dyncode("search") of the same arguments. However,
+such a call leads to a type-error after #dyncode("search") is assigned the
+aforementioned dependent function type.\
 
 ")#comment("para")
 
