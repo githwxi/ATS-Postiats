@@ -133,13 +133,13 @@ dataprop MUL(int, int, int) =
   | {m:nat}{n:int}{p:int}
     MULind(m+1, n, p+n) of MUL(m, n, p)
   | {m:pos}{n:int}{p:int}
-    MULneg(~m, n, ~p) of MUL(m, n, p)
+    MULneg(~(m), n, ~(p)) of MUL(m, n, p)
 // end of [MUL]
 ")
 
-Given three integers m, n and p, the prop #stacode("MUL(m, n, p)") encodes
-the relation m*n = p. As for #dyncode("MULbas"), #dyncode("MULind") and
-#dyncode("MULneg"), they correspond to the following three equations,
+Given three integers m, n and p, the prop #stacode("MUL(m, n, p)")
+encodes the relation m*n = p. As for #dyncode("MULbas"), #dyncode("MULind")
+and #dyncode("MULneg"), they correspond to the following three equations,
 respectively:
 
 <itemizedlist>
@@ -225,11 +225,13 @@ relation #stacode("MUL"). The following code gives an implementation of
 
 #atscode("\
 primplement
-mul_istot {m,n} () = let
-  prfun istot
-    {m:nat;n:int} .<m>. (): [p:int] MUL(m, n, p) =
-    sif m > 0 then MULind(istot{m-1,n}()) else MULbas()
-  // end of [istot]
+mul_istot{m,n}() = let
+//
+prfun istot
+  {m:nat;n:int} .<m>. (): [p:int] MUL(m, n, p) =
+  sif m > 0 then MULind(istot{m-1,n}()) else MULbas()
+// end of [istot]
+//
 in
   sif m >= 0 then istot{m,n}() else MULneg(istot{~m,n}())
 end // end of [mul_istot]  
@@ -284,7 +286,7 @@ in
   | MULneg(pf1nat) => let
       prval MULneg(pf2nat) = pf2 in isfun (pf1nat, pf2nat)
     end // end of [MULneg]
-  | _ =>> isfun (pf1, pf2)
+  | _ (*non-MULneg*) =>> isfun (pf1, pf2)
 end // end of [mul_isfun]
 ")
 
@@ -399,7 +401,7 @@ based on #dyncode("aux").\
 
 <sect1
 id="datasorts">
-#title("Datasorts")
+#title("Algebraic Datasorts")
 
 #para("\
 A datasort is rather similar to a dataype. However, the former is
@@ -429,13 +431,15 @@ We now declare two dataprops as follows for capturing the notion of
 size and height of trees:
 
 #atscode("\
-dataprop SZ (tree, int) =
+dataprop
+SZ (tree, int) =
   | SZE (E (), 0) of ()
   | {tl,tr:tree}{sl,sr:nat}
     SZB (B (tl, tr), 1+sl+sr) of (SZ (tl, sl), SZ (tr, sr))
 // end of [SZ]
 
-dataprop HT (tree, int) =
+dataprop
+HT (tree, int) =
   | HTE (E (), 0) of ()
   | {tl,tr:tree}{hl,hr:nat}
     HTB (B (tl, tr), 1+max(hl,hr)) of (HT (tl, hl), HT (tr, hr))
@@ -452,7 +456,8 @@ As the power function (of base 2) is not available in the statics of ATS,
 we declare a dataprop as follows to capture it:
 
 #atscode("\
-dataprop POW2 (int, int) =
+dataprop
+POW2 (int, int) =
   | POW2bas (0, 1)
   | {n:nat}{p:int} POW2ind (n+1, p+p) of POW2 (n, p)
 // end of [POW2]
@@ -488,24 +493,26 @@ We first establish some elementary properties on the power function
 #atscode("\
 prfun pow2_istot
   {h:nat} .<h>. (): [p:int] POW2 (h, p) =
-  sif h > 0 then POW2ind (pow2_istot {h-1} ()) else POW2bas ()
+  sif h==0
+    then POW2bas () else POW2ind (pow2_istot {h-1} ())
+  // end of [sif]
 // end of [pow2_istot]
 
 prfun pow2_pos
   {h:nat}{p:int} .<h>.
   (pf: POW2 (h, p)): [p > 0] void =
   case+ pf of
-  | POW2ind (pf1) => pow2_pos (pf1) | POW2bas () => ()
+  | POW2bas () => () | POW2ind (pf1) => pow2_pos (pf1)
 // end of [pow2_pos]
 
 prfun pow2_inc
   {h1,h2:nat | h1 <= h2}{p1,p2:int} .<h2>.
   (pf1: POW2 (h1, p1), pf2: POW2 (h2, p2)): [p1 <= p2] void =
   case+ pf1 of
+  | POW2bas () => pow2_pos (pf2)
   | POW2ind (pf11) => let
       prval POW2ind (pf21) = pf2 in pow2_inc (pf11, pf21)
-    end
-  | POW2bas () => pow2_pos (pf2)
+    end // end of [POW2ind]
 // end of [pow2_inc]
 ")
 
@@ -536,6 +543,13 @@ lemma{t:tree}
 ) : [p > s] void =
 (
   scase t of
+  | E () => let
+      prval SZE () = pf1
+      prval HTE () = pf2
+      prval POW2bas () = pf3
+   in
+     // nothing
+   end // end of [E]
   | B (tl, tr) => let
       prval SZB (pf1l, pf1r) = pf1
       prval HTB {tl,tr}{hl,hr} (pf2l, pf2r) = pf2
@@ -549,13 +563,6 @@ lemma{t:tree}
     in
       // nothing
     end // end of [B]
-  | E () => let
-      prval SZE () = pf1
-      prval HTE () = pf2
-      prval POW2bas () = pf3
-   in
-     // nothing
-   end // end of [E]
 ) (* end of [lemma] *)
 //
 in
@@ -595,7 +602,8 @@ can declare the following dataprop #dyncode("isBraun") to capture the notion
 of Braun trees:
 
 #atscode("\
-dataprop isBraun (tree) =
+dataprop
+isBraun (tree) =
   | isBraunE (E) of ()
   | {tl,tr:tree}
     {sl,sr:nat | sr <= sl; sl <= sr + 1}
@@ -622,18 +630,19 @@ and the size of t is n. The following code gives an implementation of
 
 #atscode("\
 primplement
-lemma_existence {n} () = let
+lemma_existence{n}() = let
   prfun lemma {n:nat} .<n>.
     (): [t:tree] (isBraun (t), SZ (t, n)) =
-    sif n > 0 then let
-      stadef nl = n / 2 // size for the left subtree
-      stadef nr = n - 1 - nl // size for the right subtree
-      val (pfl1, pfl2) = lemma {nl} ()
-      and (pfr1, pfr2) = lemma {nr} ()
-    in
-      (isBraunB (pfl1, pfr1, pfl2, pfr2), SZB (pfl2, pfr2))
-    end else
-      (isBraunE (), SZE ())
+    sif n==0
+      then (isBraunE (), SZE ())
+      else let
+        stadef nl = n / 2
+        stadef nr = n - 1 - nl
+        val (pfl1, pfl2) = lemma {nl} ()
+        and (pfr1, pfr2) = lemma {nr} ()
+      in
+        (isBraunB (pfl1, pfr1, pfl2, pfr2), SZB (pfl2, pfr2))
+      end // end of [else]
     // end of [sif]
 in
   lemma {n} ()
@@ -684,23 +693,26 @@ lemma_unicity
   (
     pf1: isBraun t1, pf2: isBraun t2, pf3: SZ (t1, n), pf4: SZ (t2, n)
   ) : EQ (t1, t2) =
-    sif n > 0 then let
-      prval SZB (pf3l, pf3r) = pf3
-      prval SZB (pf4l, pf4r) = pf4
-      prval isBraunB (pf1l, pf1r, pf1lsz, pf1rsz) = pf1
-      prval isBraunB (pf2l, pf2r, pf2lsz, pf2rsz) = pf2
-      prval () = SZ_istot (pf1lsz, pf3l) and () = SZ_istot (pf1rsz, pf3r)
-      prval () = SZ_istot (pf2lsz, pf4l) and () = SZ_istot (pf2rsz, pf4r)
-      prval pfeql = lemma (pf1l, pf2l, pf3l, pf4l)
-      prval pfeqr = lemma (pf1r, pf2r, pf3r, pf4r)
-    in
-      EQB (pfeql, pfeqr)
-    end else let
-      prval SZE () = pf3 and SZE () = pf4
-      prval isBraunE () = pf1 and isBraunE () = pf2
-    in
-      EQE ()
-    end // end of [sif]
+    sif n==0
+      then let
+        prval SZE () = pf3 and SZE () = pf4
+        prval isBraunE () = pf1 and isBraunE () = pf2
+      in
+        EQE ()
+      end // end of [then]
+      else let
+        prval SZB (pf3l, pf3r) = pf3
+        prval SZB (pf4l, pf4r) = pf4
+        prval isBraunB (pf1l, pf1r, pf1lsz, pf1rsz) = pf1
+        prval isBraunB (pf2l, pf2r, pf2lsz, pf2rsz) = pf2
+        prval () = SZ_istot (pf1lsz, pf3l) and () = SZ_istot (pf1rsz, pf3r)
+        prval () = SZ_istot (pf2lsz, pf4l) and () = SZ_istot (pf2rsz, pf4r)
+        prval pfeql = lemma (pf1l, pf2l, pf3l, pf4l)
+        prval pfeqr = lemma (pf1r, pf2r, pf3r, pf4r)
+      in
+        EQB (pfeql, pfeqr)
+      end // end of [else]
+    // end of [sif]
 in
   lemma (pf1, pf2, pf3, pf4)
 end // end of [lemma_unicity]
@@ -742,35 +754,39 @@ As a comparison, the following code gives another implementation of
 primplement
 lemma_unicity
   (pf1, pf2, pf3, pf4) = let
-  prfun lemma{n:nat}{t1,t2:tree} .<t1>.
-  (
-    pf1: isBraun t1, pf2: isBraun t2, pf3: SZ (t1, n), pf4: SZ (t2, n)
-  ) : EQ (t1, t2) =
-    case+ (pf1, pf2) of
-    | (isBraunE (), isBraunE ()) => EQE ()
-    | (isBraunB (pf11, pf12, pf13, pf14),
-       isBraunB (pf21, pf22, pf23, pf24)) => let
 //
-        prval SZB (pf31, pf32) = pf3
-        prval SZB (pf41, pf42) = pf4
+prfun
+lemma{n:nat}{t1,t2:tree} .<t1>.
+(
+  pf1: isBraun t1, pf2: isBraun t2, pf3: SZ (t1, n), pf4: SZ (t2, n)
+) : EQ (t1, t2) =
+  case+ (pf1, pf2) of
 //
-        prval () = SZ_istot (pf13, pf31)
-        prval () = SZ_istot (pf23, pf41)
+  | (isBraunE (), isBraunE ()) => EQE ()
 //
-        prval () = SZ_istot (pf14, pf32)
-        prval () = SZ_istot (pf24, pf42)
+  | (isBraunB (pf11, pf12, pf13, pf14),
+     isBraunB (pf21, pf22, pf23, pf24)) => let
 //
-        prval pfeq1 = lemma (pf11, pf21, pf31, pf41)
-        prval pfeq2 = lemma (pf12, pf22, pf32, pf42)
-      in
-        EQB (pfeq1, pfeq2)
-      end
-    | (isBraunE _, isBraunB _) =/=> let
-        prval SZE _ = pf3 and SZB _ = pf4 in (*none*)
-      end
-    | (isBraunB _, isBraunE _) =/=> let
-        prval SZB _ = pf3 and SZE _ = pf4 in (*none*)
-      end
+      prval SZB (pf31, pf32) = pf3
+      prval SZB (pf41, pf42) = pf4
+//
+      prval () = SZ_istot (pf13, pf31)
+      prval () = SZ_istot (pf23, pf41)
+//
+      prval () = SZ_istot (pf14, pf32)
+      prval () = SZ_istot (pf24, pf42)
+//
+      prval pfeq1 = lemma (pf11, pf21, pf31, pf41)
+      prval pfeq2 = lemma (pf12, pf22, pf32, pf42)
+    in
+      EQB (pfeq1, pfeq2)
+    end
+//
+  | (isBraunE _, isBraunB _) =/=>
+    let prval SZE _ = pf3 and SZB _ = pf4 in (*none*) end
+  | (isBraunB _, isBraunE _) =/=>
+    let prval SZB _ = pf3 and SZE _ = pf4 in (*none*) end
+//
 in
   lemma (pf1, pf2, pf3, pf4)
 end // end of [lemma_unicity]
