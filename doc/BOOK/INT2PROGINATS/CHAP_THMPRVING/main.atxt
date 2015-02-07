@@ -17,7 +17,7 @@ id="theorem-proving_in_ats_lf">
 
 #para("\
 
-Within the ATS programming langauge system, there is a component named
+Within the ATS programming language system, there is a component named
 ATS/LF for supporting (interactive) therorem-proving. In ATS/LF,
 theorem-proving is done by constructing proofs as total functional
 programs. It will soon become clear that this style of theorem-proving can

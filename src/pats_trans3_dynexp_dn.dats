@@ -261,6 +261,13 @@ case+ d2e0.d2exp_node of
 //
 | D2Eeffmask _ => d2exp_trdn_effmask (d2e0, s2f0)
 //
+| D2Eshowtype
+    (d2e) => d3e where
+  {
+    val d3e = d2exp_trdn (d2e, s2e0)
+    val ((*void*)) = fshowtype_d3exp (d3e)
+  } (* end of [D2Eshowtype] *)
+//
 | D2Eexist _ => d2exp_trdn_exist (d2e0, s2f0)
 //
 | D2Elam_dyn _ => d2exp_trdn_lam_dyn (d2e0, s2f0)
