@@ -460,7 +460,7 @@ case+ d2e0.d2exp_node of
     (d2e) => d3e where
   {
     val d3e = d2exp_trup (d2e)
-    val () = fshowtype_d3exp (d3e)
+    val () = fshowtype_d3exp_up (d3e)
   } (* end of [D2Eshowtype] *)
 //
 | D2Evcopyenv _ => d2exp_trup_vcopyenv (d2e0)

@@ -86,9 +86,13 @@ staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-implement
+local
+
+fun
 fshowtype_d3exp
-  (d3e) = let
+(
+  knd: int, d3e: d3exp
+) : void = let
 //
 val out = stdout_ref
 //
@@ -96,8 +100,12 @@ val loc = d3e.d3exp_loc
 val s2e = d3exp_get_type (d3e)
 //
 val () =
-fprint
-  (out, "**SHOWTYPE**")
+(
+if
+knd > 0
+then fprint (out, "**SHOWTYPE[UP]**")
+else fprint (out, "**SHOWTYPE[DN]**")
+) (* end of [val] *)
 //
 val () = fprint (out, "(")
 val () =
@@ -115,6 +123,15 @@ val () = fprint_newline (out)
 in
   // nothing
 end // end of [fshowtype_d3exp]
+
+in (* in-of-local *)
+
+implement
+fshowtype_d3exp_up (d3e) = fshowtype_d3exp (1, d3e)
+implement
+fshowtype_d3exp_dn (d3e) = fshowtype_d3exp (~1, d3e)
+
+end // end of [local]
 
 (* ****** ****** *)
 

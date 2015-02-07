@@ -266,7 +266,8 @@ fun labd2explst_syn_type (ld2es: labd2explst): labs2explst
 
 (* ****** ****** *)
 
-fun fshowtype_d3exp (d3e: d3exp): void
+fun fshowtype_d3exp_up (d3e: d3exp): void
+fun fshowtype_d3exp_dn (d3e: d3exp): void
 
 (* ****** ****** *)
 
