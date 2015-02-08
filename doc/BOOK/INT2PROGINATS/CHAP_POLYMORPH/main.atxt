@@ -128,17 +128,17 @@ a,b,c:t@ype
   f: cfun (a, b), g: cfun (b, c)
 ) :<cloref1> cfun (a, c) = lam x => g(f(x))
 
-val plus1 = lam (x:int): int =<cloref> x+1
-val times2 = lam (x:int): int =<cloref> x*2
+val inc_by_1 = lam (x:int): int =<cloref> x+1
+val mul_by_2 = lam (x:int): int =<cloref> x*2
 
-val f_2x_1 = compose<int,int,int> (times2, plus1)
-val f_2x_2 = compose<int,int,int> (plus1, times2)
+val f_2x_1 = compose<int,int,int> (mul_by_2, inc_by_1)
+val f_2x_2 = compose<int,int,int> (inc_by_1, mul_by_2)
 ")
 
 It should be clear that the value #dyncode("f_2x_1") represents the
-function that multiplies its integer argument by 2 and then adds 1 to it.
-Similarly, the value #dyncode("f_2x_2") represents the function that adds 1
-to its integer argument and then multiplies it by 2.\
+function that multiplies its integer argument by 2 and then adds 1 to the
+result. Similarly, the value #dyncode("f_2x_2") represents the function
+that adds 1 to its integer argument and then multiplies the result by 2.\
 
 ")#comment("para")
 

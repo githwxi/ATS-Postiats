@@ -48,41 +48,63 @@ fastpow_elt_int (x, n) = let
 // lemma: (x*x)^n = x^(2n)
 //
 (*
-extern prfun
-lemma {x:elt} {xx:elt} {n:nat} {y:elt}
+extern
+prfun
+lemma
+{x:elt}{xx:elt}{n:nat}{y:elt}
   (pfxx: MUL (x, x, xx), pfpow: POW (xx, n, y)): POW (x, 2*n, y)
 *)
-prfun lemma
-  {x:elt} {xx:elt} {n:nat} {y:elt} .<n>.
-  (pfxx: MUL (x, x, xx), pfpow: POW (xx, n, y)): POW (x, 2*n, y) =
-  sif n > 0 then let
-    prval POWind {xx} {n1} {y1,y} (pf1pow, pf2mul) = pfpow
-    prval pf1pow_res = lemma (pfxx, pf1pow) // pf1pow_res: x^(2n-2) = y1
-    prval [xy1:elt] pfxy1 = mul_istot {x,y1} ()
-    prval [xxy1:elt] pfxxy1 = mul_istot {x,xy1} ()
-    prval () = mul_assoc (pfxx, pf2mul, pfxy1, pfxxy1)
-  in
-    POWind (POWind (pf1pow_res, pfxy1), pfxxy1)
-  end else let
-    prval POWbas () = pfpow in POWbas ()
-  end (* end of [sif] *)
-// end of [lemma]
+prfun
+lemma
+{x:elt}{xx:elt}{n:nat}{y:elt} .<n>.
+(
+  pfxx: MUL(x, x, xx), pfpow: POW(xx, n, y)
+) : POW (x, 2*n, y) =
+(
+//
+sif
+n > 0
+then let
+  prval
+  POWind{xx}{n1}{y1,y}(pf1pow, pf2mul) = pfpow
+  prval
+  pf1pow_res =
+    lemma (pfxx, pf1pow) // pf1pow_res: x^(2n-2) = y1
+  // end of [prval]
+  prval [xy1:elt] pfxy1 = mul_istot {x,y1} ()
+  prval [xxy1:elt] pfxxy1 = mul_istot {x,xy1} ()
+  prval () = mul_assoc (pfxx, pf2mul, pfxy1, pfxxy1)
+in
+  POWind (POWind (pf1pow_res, pfxy1), pfxxy1)
+end // end of [then]
+else let
+  prval POWbas () = pfpow in POWbas ()
+end // end of [else]
+//
+) (* end of [lemma] *)
+//
+overload * with mul_elt_elt
 //
 in
-  if n > 0 then let
-    val n2 = half(n); val i = n - (n2+n2)
-    val (pfxx | xx) = mul_elt_elt (x, x) // xx = x*x
-    val (pfpow2 | res) = fastpow_elt_int<a> (xx, n2) // xx^n2 = res
-    prval pfpow = lemma (pfxx, pfpow2) // pfpow: x^(2*n2) = res
-  in
-    if i > 0 then let
-      val (pfmul | xres) = mul_elt_elt<a> (x, res) // xres = x*res
-    in
-      (POWind (pfpow, pfmul) | xres)
-    end else (pfpow | res)
-  end else let
-    val res = mulunit<a> () in (POWbas () | res) // res = 1
-  end (* end of [if] *)
+//
+if
+n = 0
+then let
+  val res = mulunit<a> () in (POWbas () | res) // res = 1
+end // end of [then]
+else let
+  val n2 = half(n)
+  val (pfxx | xx) = x * x
+  val (pfpow2 | res) = fastpow_elt_int<a> (xx, n2) // xx^n2 = res
+  prval pfpow = lemma (pfxx, pfpow2) // pfpow: x^(2*n2) = res
+in
+  if n=2*n2
+    then (pfpow | res)
+    else let
+      val (pfmul | xres) = x * res in (POWind(pfpow, pfmul) | xres)
+    end // end of [else]
+end // end of [else]
+//
 end // end of [fastpow_elt_int]
 
 (* ****** ****** *)

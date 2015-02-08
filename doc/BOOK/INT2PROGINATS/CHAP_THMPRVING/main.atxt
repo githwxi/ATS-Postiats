@@ -39,7 +39,7 @@ code for testing.\
 <!-- ****** ****** -->
 
 <sect1
-id="encoding_relations_as_dataprops">
+ id="encoding_relations_as_dataprops">
 #title("Encoding Relations as Dataprops")
 
 #para("\
@@ -52,11 +52,12 @@ mostly similar to the declaration of a datatype. For instance, a prop
 construct #stacode("FIB") is introduced in the following dataprop declaration:
 
 #atscode("\
-dataprop FIB (int, int) =
-  | FIB0 (0, 0) of () // [of ()] can be dropped
-  | FIB1 (1, 1) of () // [of ()] can be dropped
+dataprop
+FIB(int, int) =
+  | FIB0(0, 0) of () // [of ()] can be dropped
+  | FIB1(1, 1) of () // [of ()] can be dropped
   | {n:nat}{r0,r1:nat}
-    FIB2 (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))
+    FIB2(n+2, r0+r1) of (FIB(n, r0), FIB(n+1, r1))
 // end of [FIB]
 ")
 
@@ -70,13 +71,13 @@ assigned the following function types (or more accurately, prop-types):
 
 <listitem>
 #para("\
-#dyncode("FIB0"): #stacode("() -> FIB (0, 0)")
+#dyncode("FIB0"): #stacode("() -> FIB(0, 0)")
 ")
 </listitem>
 
 <listitem>
 #para("\
-#dyncode("FIB1"): #stacode("() -> FIB (1, 1)")
+#dyncode("FIB1"): #stacode("() -> FIB(1, 1)")
 ")
 </listitem>
 
@@ -327,27 +328,26 @@ corresponds to the base case in the inductive proof encoded by
 
 <!-- ****** ****** -->
 
-<sect1 id="example_proving_distributivity_of_multiplication">
-#title("Example: Proving Distributivity of Multiplication")
+<sect1
+ id="example_distributivity_of_multiplication">
+#title("Example: Distributivity of Multiplication")
 
 #para("\
 The distributivity of multiplication over addition means that the following
 equation holds
 
-#atscode("\
-m * (n1 + n2) = m * n1 + m * n2
-")
+#atscode("m * (n1 + n2) = m * n1 + m * n2")
 
-for m, n1 and n2 ranging over integers. Clearly, a direct encoding of the equation
+for m, n1 and n2 ranging over integers. A direct encoding of the equation
 is given by the following (proof) function interface:
 
 #atscode("\
-extern
+//
 prfun
 mul_distribute
-  {m:int}{n1,n2:int}{p1,p2:int}
-  (pf1: MUL(m, n1, p1), pf2: MUL(m, n2, p2)): MUL(m, n1+n2, p1+p2)
-// end of [mul_distribute]
+  {m,n1,n2:int}{p1,p2:int}
+  (MUL(m, n1, p1), MUL(m, n2, p2)): MUL(m, n1+n2, p1+p2)
+//
 ")
 
 Plainly speaking, the encoding states that the product of m and (n1+n2) is
@@ -357,31 +357,39 @@ An implementation of #dyncode("mul_distribute") is given as follows:
 #atscode("\
 primplement
 mul_distribute
-  {m}{n1,n2}{p1,p2} (pf1, pf2) = let
-  prfun aux
-    {m:nat}
-    {n1,n2:int}
-    {p1,p2:int}
-    .<m>. (
-    pf1: MUL(m, n1, p1), pf2: MUL(m, n2, p2)
-  ) : MUL(m, n1+n2, p1+p2) =
-    case+ (pf1, pf2) of
-    | (MULbas(), MULbas()) => MULbas()
-    | (MULind pf1, MULind pf2) => MULind(aux (pf1, pf2))
-  // end of [aux]
+{m,n1,n2}{p1,p2}
+  (pf1, pf2) = let
+//
+prfun
+auxnat
+{m:nat}{p1,p2:int} .<m>.
+(
+  pf1: MUL(m, n1, p1), pf2: MUL(m, n2, p2)
+) : MUL(m, n1+n2, p1+p2) =
+(
+  case+ (pf1, pf2) of
+  | (MULbas(), MULbas()) => MULbas()
+  | (MULind pf1, MULind pf2) => MULind(auxnat (pf1, pf2))
+) (* end of [auxnat] *)
+//
 in
-  sif m >= 0 then
-    aux (pf1, pf2)
-  else let
-    prval MULneg(pf1) = pf1
-    prval MULneg(pf2) = pf2
-  in
-    MULneg(aux (pf1, pf2))
-  end
+//
+sif
+m >= 0
+then (
+  auxnat (pf1, pf2)
+) // end of [then]
+else let
+  prval MULneg(pf1) = pf1
+  prval MULneg(pf2) = pf2
+in
+  MULneg(auxnat (pf1, pf2))
+end // end of [else]
+//
 end // end of [mul_distribute]
 ")
 
-In essence, the inner function #dyncode("aux") encodes a straighforward
+The inner function #dyncode("auxnat") encodes a straighforward
 proof based on mathematical induction that establishes the following
 equation:
 
@@ -391,16 +399,100 @@ m * (n1 + n2) = m * n1 + m * n2
 
 for m ranging over natural numbers and n1 and n2 ranging over integers. The
 function #dyncode("mul_distribute") can then be implemented immediately
-based on #dyncode("aux").\
+based on #dyncode("auxnat").\
 
 ")
 
-</sect1><!--id="example_proving_distributivity_of_multiplication"-->
+</sect1><!--id="example_distributivity_of_multiplication"-->
 
 <!-- ****** ****** -->
 
 <sect1
-id="datasorts">
+ id="example_commutativity_of_multiplication">
+#title("Example: Commutativity of Multiplication")
+
+#para("\
+The commutativity of multiplication means that the following equation
+holds
+
+#atscode("m * n = n * m")
+
+for m and n ranging over integers. A direct encoding of this equation
+is given by the following (proof) function interface:
+
+#atscode("\
+//
+prfun
+mul_commute{m,n:int}{p:int}(MUL(m, n, p)): MUL(n, m, p)
+//
+")
+
+An implementation of #dyncode("mul_commute") is given as follows:
+
+#atscode("\
+primplmnt
+mul_commute
+  {m,n}{p}(pf0) = let
+//
+prfun
+auxnat
+{m:nat}
+{p:int} .<m>.
+(
+pf: MUL(m, n, p)
+) : MUL(n, m, p) =
+(
+  case+ pf of
+  | MULbas() => mul_nx0_0{n}()
+  | MULind(pf1) =>
+      mul_distribute(auxnat(pf1), mul_nx1_n{n}())
+    // end of [MULind]
+) (* end of [auxnat] *)
+//
+in
+//
+sif
+m >= 0
+then auxnat(pf0)
+else let
+  prval MULneg(pf1) = pf0 in mul_neg_2(auxnat(pf1))
+end // end of [else]
+//
+end // end of [mul_commute]
+")
+
+where the following proof functions are called:
+
+#atscode("\
+//
+prfun
+mul_nx0_0{n:int}(): MUL(n, 0, 0) // n * 0 = 0
+//
+prfun
+mul_nx1_n{n:int}(): MUL(n, 1, n) // n * 1 = n
+//
+prfun
+mul_neg_2
+  {m,n:int}{p:int}(MUL(m,n,p)): MUL(m,~n,~p) // m*(~n) = ~(m*n)
+//
+")
+
+The inner function #dyncode("auxnat") encodes a straighforward
+proof based on mathematical induction that establishes the following
+equation:
+
+#atscode("m * n = n * m")
+
+for m ranging over natural numbers and n ranging over integers.
+The function #dyncode("mul_commute") can then be implemented immediately
+based on #dyncode("auxnat").\
+")
+
+</sect1><!--id="example_commutativity_of_multiplication"-->
+
+<!-- ****** ****** -->
+
+<sect1 id="datasorts">
 #title("Algebraic Datasorts")
 
 #para("\
@@ -474,7 +566,6 @@ interface encodes the theorem stating that s is strictly less than
 given binary tree:
 
 #atscode("\
-extern
 prfun
 lemma_tree_size_height
   {t:tree}{s,h:nat}{p:int}
@@ -491,21 +582,24 @@ We first establish some elementary properties on the power function
 (of base 2):
 
 #atscode("\
-prfun pow2_istot
+prfun
+pow2_istot
   {h:nat} .<h>. (): [p:int] POW2 (h, p) =
   sif h==0
     then POW2bas () else POW2ind (pow2_istot {h-1} ())
   // end of [sif]
 // end of [pow2_istot]
 
-prfun pow2_pos
+prfun
+pow2_pos
   {h:nat}{p:int} .<h>.
   (pf: POW2 (h, p)): [p > 0] void =
   case+ pf of
   | POW2bas () => () | POW2ind (pf1) => pow2_pos (pf1)
 // end of [pow2_pos]
 
-prfun pow2_inc
+prfun
+pow2_inc
   {h1,h2:nat | h1 <= h2}{p1,p2:int} .<h2>.
   (pf1: POW2 (h1, p1), pf2: POW2 (h2, p2)): [p1 <= p2] void =
   case+ pf1 of
@@ -590,8 +684,8 @@ and #keycode("case").  Please find the entirety of the above code
 <!-- ****** ****** -->
 
 <sect1
-id="example_proving_properties_on_braun_trees">
-#title("Example: Proving Properties on Braun Trees")
+ id="example_establishing_properties_on_braun_trees">
+#title("Example: Establishing Properties on Braun Trees")
 
 #para("\
 
@@ -619,7 +713,6 @@ We first prove that there exists a Braun tree of any given size.
 This property can be encoded as follows in ATS:
 
 #atscode("\
-extern
 prfun lemma_existence {n:nat} (): [t:tree] (isBraun (t), SZ (t, n))
 ")
 
@@ -630,22 +723,28 @@ and the size of t is n. The following code gives an implementation of
 
 #atscode("\
 primplement
-lemma_existence{n}() = let
-  prfun lemma {n:nat} .<n>.
-    (): [t:tree] (isBraun (t), SZ (t, n)) =
-    sif n==0
-      then (isBraunE (), SZE ())
-      else let
-        stadef nl = n / 2
-        stadef nr = n - 1 - nl
-        val (pfl1, pfl2) = lemma {nl} ()
-        and (pfr1, pfr2) = lemma {nr} ()
-      in
-        (isBraunB (pfl1, pfr1, pfl2, pfr2), SZB (pfl2, pfr2))
-      end // end of [else]
-    // end of [sif]
+lemma_existence
+  {n}((*void*)) = let
+//
+prfun
+lemma{n:nat} .<n>.
+(
+  // argless
+) : [t:tree] (isBraun (t), SZ (t, n)) =
+  sif n==0
+    then (isBraunE (), SZE ())
+    else let
+      stadef nl = n / 2
+      stadef nr = n - 1 - nl
+      val (pfl1, pfl2) = lemma{nl}((*void*))
+      and (pfr1, pfr2) = lemma{nr}((*void*))
+    in
+      (isBraunB (pfl1, pfr1, pfl2, pfr2), SZB (pfl2, pfr2))
+    end // end of [else]
+  // end of [sif]
+//
 in
-  lemma {n} ()
+  lemma{n}((*void*))
 end // end of [lemma_existence]
 ")
 
@@ -661,7 +760,6 @@ Next we show that two Braun trees of the same size are identical. This
 property can be encoded as follows:
 
 #atscode("\
-extern
 prfun
 lemma_unicity
   {n:nat}{t1,t2:tree}
@@ -722,8 +820,8 @@ Note that the proof function #dyncode("SZ_istot") in this implementation of
 #dyncode("lemma_unicity") is given the following interface:
 
 #atscode("\
-extern
-prfun SZ_istot{t:tree}{n1,n2:int}
+prfun
+SZ_istot{t:tree}{n1,n2:int}
   (pf1: SZ (t, n1), pf2: SZ (t, n2)): [n1==n2] void
 ")
 
@@ -802,7 +900,34 @@ right-hand side of the clause. Please find the entirety of the above code
 
 ")#comment("para")
 
-</sect1><!--id="example_proving_properties_on_braun_trees"-->
+</sect1><!--id="example_establishing_properties_on_braun_trees"-->
+
+<!-- ****** ****** -->
+
+<sect1
+ id="programmer_centeric_theorem_proving">
+#title("Programmer-Centeric Theorem-Proving")
+
+#para("\
+
+I have so far presented several formal proofs in ATS.  However,
+constructing such formal proofs is at most a secondary issue in ATS. If I
+compare ATS with theorem-proving systems such as Isabel and Coq, I would
+like to state emphatically that the design for theorem-proving in ATS takes
+a fundamentally different view of theorem-proving. In particular,
+theorem-proving in ATS does not take a foundational approach that
+establishes the validity of a theorem by reducing it to the validity of a
+minimal set of axioms and rules. Instead, theorem-proving in ATS is mostly
+done in a semi-formal manner and its primary purpose is to greatly diminish
+the chance of a programmer making use of incorrect assumptions or
+claims. In this regard, theorem-proving in ATS is rather similar to
+contructing informal paper-and-pencil proofs (in mathematics and
+elsewhere). I refer to this style of theorem-proving in ATS as being
+programmer-centeric.
+
+")#comment("para")
+
+</sect1><!--id="programmer_centeric_theorem_proving"-->
 
 <!-- ****** ****** -->
 

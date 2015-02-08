@@ -102,6 +102,12 @@ allchap:: CHAP_DATAVTYPE
 allchap:: CHAP_ABSVTYPE
 #
 ######
+#
+# PART V
+#
+allchap:: CHAP_FNTMPINT
+#
+######
 
 CHAP_START:: ; \
   make -C CHAP_START -f ../Makefile_chap main.db
@@ -188,6 +194,12 @@ clean:: ; make -C CHAP_DATAVTYPE -f ../Makefile_chap clean
 CHAP_ABSVTYPE:: ; \
   make -C CHAP_ABSVTYPE -f ../Makefile_chap main.db
 clean:: ; make -C CHAP_ABSVTYPE -f ../Makefile_chap clean
+
+######
+
+CHAP_FNTMPINT:: ; \
+  make -C CHAP_FNTMPINT -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_FNTMPINT -f ../Makefile_chap clean
 
 ######
 

@@ -70,15 +70,18 @@ A function template #dyncode("list_concat") is implemented as follows:
 
 #atscode("\
 //
-// [list_concat] does not typecheck!!!
+// [list_concat] does typecheck in ATS2
+// [list_concat] does not typecheck in ATS1
 //
 fun{
 a:t@ype
 } list_concat{m,n:nat}
-  (xss: list (list (a, n), m)): list (a, m * n) =
+(
+  xss: list (list (a, n), m)
+) : list (a, m * n) =
   case+ xss of
-  | list_cons (xs, xss) => list_append<a> (xs, list_concat xss)
   | list_nil () => list_nil ()
+  | list_cons (xs, xss) => list_append<a> (xs, list_concat xss)
 // end of [list_concat]
 ")
 
@@ -113,16 +116,20 @@ fun{
 a:t@ype
 } list_concat{m,n:nat}
 (
-  xss: list (list (a, n), m)
-) : [p:nat] (MUL (m, n, p) | list (a, p)) =
-  case+ xss of
-  | list_cons (xs, xss) => let
-      val (pf | res) = list_concat (xss)
-    in
-      (MULind pf | list_append<a> (xs, res))
-    end
-  | list_nil () => (MULbas () | list_nil ())
-// end of [list_concat]
+  xss: list(list(a, n), m)
+) : [p:nat] (MUL(m, n, p) | list(a, p)) =
+(
+//
+case+ xss of
+| list_nil () =>
+    (MULbas() | list_nil())
+| list_cons (xs, xss) => let
+    val (pf | res) = list_concat (xss)
+  in
+    (MULind pf | list_append<a> (xs, res))
+  end // end of [list_cons]
+//
+) (* end of [list_concat] *)
 ")
 
 Given a list #dyncode("xss") of the type #stacode("list(list(T,n),m)"),
@@ -200,16 +207,16 @@ are assigned the following interfaces:
 
 #atscode("\
 fun imul2{i,j:int}
-  (i: int i, j: int j): [ij:int] (MUL (i, j, ij) | int ij)
+  (i: int i, j: int j): [ij:int] (MUL(i, j, ij) | int ij)
 
 prfun mul_nat_nat_nat
-  {i,j:nat}{ij:int} (pf: MUL (i, j, ij)): [ij >= 0] void
+  {i,j:nat}{ij:int} (pf: MUL(i, j, ij)): [ij >= 0] void
 
 prfun mul_gte_gte_gte
   {m,n:int | m >= 0; n >= 0} ((*void*)): [m*n >= 0] void
 
 prfun mul_elim
-  {i,j:int}{ij:int} (pf: MUL (i, j, ij)): [i*j==ij] void
+  {i,j:int}{ij:int} (pf: MUL(i, j, ij)): [i*j==ij] void
 ")
 
 Assume that m and n are natural numbers and i and j are natural numbers
@@ -286,10 +293,11 @@ Naturally, these equations can be encoded by the constructors associated
 with the dataprop #stacode("FACT") declared as follows:
 
 #atscode("\
-dataprop FACT (int, int) =
-  | FACTbas (0, 1)
+dataprop
+FACT(int, int) =
+  | FACTbas(0, 1)
   | {n:nat}{r1,r:int}
-    FACTind (n, r) of (FACT (n-1, r1), MUL (n, r1, r))
+    FACTind(n, r) of (FACT(n-1, r1), MUL(n, r1, r))
 // end of [FACT]
 ")
 
@@ -298,7 +306,7 @@ r)") can be assigned to a proof if and only if #dyncode("fact(n)") equals
 r. Therefore, the following type:
 
 #atscode("\
-{n:nat} int (n) -> [r:int] (FACT (n, r) | int (r))
+{n:nat} int(n) -> [r:int] (FACT(n, r) | int(r))
 ")
 
 can only be assigned to a function that, if applied to a natural number n,
@@ -307,19 +315,27 @@ being equal to #dyncode("fact(n)"). For instance, the following defined
 function #dyncode("ifact") is assigned this type:
 
 #atscode("\
-fun ifact
-  {n:nat} .<n>.
-  (n: int (n)):<> [r:int] (FACT (n, r) | int r) =
+//
+fun
+ifact
+{n:nat} .<n>.
 (
-  if n > 0 then let
-    val (pf1 | r1) = ifact (n-1) // pf1: FACT (n-1, r1)
-    val (pfmul | r) = imul2 (n, r1) // pfmul: FACT (n, r1, r)
-  in (
-    FACTind (pf1, pfmul) | r
-  ) end else (
-    FACTbas () | 1 // the base case
-  ) // end of [if]
+  n: int(n)
+) :<> [r:int] (FACT(n, r) | int r) =
+(
+//
+if
+n = 0
+then (FACTbas() | 1)
+else let
+  val (pf1 | r1) = ifact (n-1) // pf1: FACT(n-1, r1)
+  val (pfmul | r) = imul2 (n, r1) // pfmul: FACT(n, r1, r)
+in
+  (FACTind(pf1, pfmul) | r)
+end // end of [else]
+//
 ) (* end of [ifact] *)
+//
 ")
 
 After proof erasure, #dyncode("ifact") precisely implements the factorial
@@ -358,22 +374,24 @@ implementation of factorial that is also tail-recursive. This can be done
 as follows:
 
 #atscode("\
-fun ifact2
-  {n:nat} .<>.
+fun
+ifact2
+{n:nat} .<>.
 (
   n: int (n)
-) :<> [r:int] (FACT (n, r) | int r) = let
+) :<> [r:int] (FACT(n, r) | int r) = let
   fun loop
-    {i:nat | i <= n}{r:int} .<n-i>.
+    {i:nat|i <= n}{r:int} .<n-i>.
   (
-    pf: FACT (i, r) | n: int n, i: int i, r: int r
-  ) :<> [r:int] (FACT (n, r) | int r) =
+    pf: FACT(i, r)
+  | n: int n, i: int i, r: int r
+  ) :<> [r:int] (FACT(n, r) | int r) =
     if n - i > 0 then let
-      val (pfmul | r1) = (i+1) imul2 r in loop (FACTind (pf, pfmul) | n, i+1, r1)
+      val (pfmul | r1) = (i+1) imul2 r in loop (FACTind(pf, pfmul) | n, i+1, r1)
     end else (pf | r) // end of [if]
   // end of [loop]
 in
-  loop (FACTbas () | n, 0, 1)
+  loop (FACTbas() | n, 0, 1)
 end // end of [ifact2]
 ")
 
@@ -388,7 +406,7 @@ fun ifact2 (n) = let
   fun loop (n, i, r) =
     if n - i > 0 then let
       val r1 = (i+1) * r in loop (n, i+1, r1)
-    end else r
+    end else r // end of [if]
   // end of [loop]
 in
   loop (n, 0, 1)
@@ -440,13 +458,17 @@ which is of time-complexity O(n) (assuming multiplication is O(1)). A
 more efficient implmentation can be given as follows:
 
 #atscode("\
-fun ifastpow {n:nat} .<n>.
-  (x: int, n: int n): int =
+fun
+ifastpow
+{n:nat} .<n>.
+(
+  x: int, n: int n
+) : int =
   if n > 0 then let
     val n2 = n/2; i = n-(2*n2)
   in
     if i > 0 then ifastpow (x*x, n2) else x * ifastpow (x*x, n2)
-  end else 1
+  end else 1 // end of [if]
 // end of [ifastpow]
 ")
 
@@ -473,22 +495,25 @@ constructor #stacode("ELT") as follows:
 
 #atscode("\
 sortdef elt = int // [elt] is just an alias for [int]
-abst@ype ELT (a:t@ype, x:elt) = a // [x] is an imaginary stamp
+abst@ype ELT(a:t@ype, x:elt) = a // [x] is an imaginary stamp
 ")
 
 This is often referred to as #emphasis("stamping"). For each type T and stamp
 x, #stacode("ELT(T, x)") is just T as far as data representation is concerned.
 The stamps are imaginary and they are solely used for the purpose of
-specification. We next introduce an abstract prop-type #stacode("MUL") and
+specification. Let us next introduce an abstract prop-type #stacode("MUL") and
 a function template #dyncode("mul_elt_elt"):
 
 #atscode("\
-absprop MUL (elt, elt, elt) // abstract mul relation
-
-fun{a:t@ype}
-mul_elt_elt {x,y:elt}
-  (x: ELT (a, x), y: ELT (a, y)): [xy:elt] (MUL (x, y, xy) | ELT (a, xy))
+//
+absprop MUL(elt, elt, elt) // abstract mul relation
+//
+fun
+{a:t@ype}
+mul_elt_elt{x,y:elt}
+  (x: ELT(a, x), y: ELT(a, y)): [xy:elt] (MUL(x, y, xy) | ELT(a, xy))
 // end of [mul_elt_elt]
+//
 ")
 
 Please do not confuse #stacode("MUL") with the one of the same name that is
@@ -497,12 +522,12 @@ state that the encoded multiplication is associative, we can introduce the
 following proof function:
 
 #atscode("\
-praxi mul_assoc
-  {x,y,z:elt}{xy,yz:elt}{xy_z,x_yz:elt}
+praxi
+mul_assoc
+{x,y,z:elt}{xy,yz:elt}{xy_z,x_yz:elt}
 (
-  pf1: MUL (x, y, xy), pf2: MUL (xy, z, xy_z)
-, pf3: MUL (y, z, yz), pf4: MUL (x, yz, x_yz)
-) : [xy_z==x_yz] void
+  MUL(x, y, xy), MUL(xy, z, xy_z), MUL(y, z, yz), MUL(x, yz, x_yz)
+) : [xy_z==x_yz] void // end of [mul_assoc]
 ")
 
 The keyword #keycode("praxi") indicates that #dyncode("mul_assoc") is treated as
@@ -515,12 +540,14 @@ The abstract power function can be readily specified in terms of the
 abstract prop-type #stacode("MUL"):
 
 #atscode("\
-dataprop POW (
+dataprop
+POW (
   elt(*base*), int(*exp*), elt(*res*)
 ) = // res = base^exp
-  | {x:elt} POWbas (x, 0, 1(*unit*))
+  | {x:elt}
+    POWbas(x, 0, 1(*unit*))
   | {x:elt}{n:nat}{p,p1:elt}
-    POWind (x, n+1, p1) of (POW (x, n, p), MUL (x, p, p1))
+    POWind(x, n+1, p1) of (POW(x, n, p), MUL(x, p, p1))
 // end of [POW]
 ")
 
@@ -530,7 +557,7 @@ interface:
 #atscode("\
 fun{a:t@ype}
 fastpow_elt_int{x:elt}{n:nat}
-  (x: ELT (a, x), n: int n): [p:elt] (POW (x, n, p) | ELT (a, p))
+  (x: ELT(a, x), n: int n): [p:elt] (POW(x, n, p) | ELT(a, p))
 // end of [fastpow_elt_int]
 ")
 
@@ -542,30 +569,40 @@ With the preparation done above, a straightforward implementation of
 
 #atscode("\
 implement{a}
-fastpow_elt_int (x, n) = let
+fastpow_elt_int
+  (x, n) = let
 //
-// lemma: (x*x)^n = x^(2n)
-//
+(*
+lemma: (x*x)^n = x^(2n)
+*)
 extern
 prfun
-lemma{x:elt}{xx:elt}{n:nat}{y:elt}
-  (pfxx: MUL (x, x, xx), pfpow: POW (xx, n, y)): POW (x, 2*n, y)
+lemma
+{x:elt}{xx:elt}{n:nat}{y:elt}
+  (pfxx: MUL(x, x, xx), pfpow: POW(xx, n, y)): POW(x, 2*n, y)
+//
+overload * with mul_elt_elt // [*] loaded with mul_elt_elt
 //
 in
-  if n > 0 then let
-    val n2 = n / 2; val i = n - (n2+n2) // i = 0 or 1
-    val (pfxx | xx) = mul_elt_elt (x, x) // xx = x*x
-    val (pfpow2 | res) = fastpow_elt_int<a> (xx, n2) // xx^n2 = res
-    prval pfpow = lemma (pfxx, pfpow2) // pfpow: x^(2*n2) = res
-  in
-    if i > 0 then let
-      val (pfmul | xres) = mul_elt_elt<a> (x, res) // xres = x*res
-    in
-      (POWind (pfpow, pfmul) | xres)
-    end else (pfpow | res)
-  end else let
-    val res = mulunit<a> () in (POWbas () | res) // res = 1
-  end (* end of [if] *)
+//
+if
+n = 0
+then let
+  val res = mulunit<a> () in (POWbas () | res) // res = 1
+end // end of [then]
+else let
+  val n2 = half n
+  val (pfxx | xx) = x * x
+  val (pfpow2 | res) = fastpow_elt_int<a> (xx, n2) // xx^n2 = res
+  prval pfpow = lemma (pfxx, pfpow2) // pfpow: x^(2*n2) = res
+in
+  if n=2*n2
+    then (pfpow | res)
+    else let
+      val (pfmul | xres) = x * res in (POWind(pfpow, pfmul) | xres)
+    end // end of [else]
+end // end of [else]
+//
 end // end of [fastpow_elt_int]
 ")
 
@@ -575,22 +612,26 @@ produce a unit for the underlying multiplication, is assigned the following
 interface:
 
 #atscode("\
-fun{a:t@ype} mulunit (): ELT (a, 1(*stamp*))
+fun{a:t@ype} mulunit (): ELT(a, 1(*stamp*))
 ")
 
 The proof function #dyncode("lemma") simply establishes that pow(x, 2*n)=
 pow(x*x, n) for each natural number n.  I have made an implementation of
 #dyncode("lemma") available on-line but I suggest that the interested
-reader give it a try first before taking a look. Note that the following
-axioms are needed to implement #dyncode("lemma"):
+reader give it a try first to implement #dyncode("lemma") before taking a
+look at the given implementation. Note that the following axioms are needed
+to implement #dyncode("lemma"):
 
 #atscode("\
+//
 praxi
-mul_istot // [MUL] is total
-  {x,y:elt} ((*void*)): [xy:elt] MUL (x, y, xy)
+mul_istot // MUL is total
+  {x,y:elt} ((*void*)): [xy:elt] MUL(x, y, xy)
+//
 praxi
-mul_isfun{x,y:elt}{z1,z2:elt} // MUL is functional
-  (pf1: MUL (x, y, z1), pf2: MUL (x, y, z2)): [z1==z2] void
+mul_isfun // MUL is functional
+  {x,y:elt}{z1,z2:elt}(MUL(x, y, z1), MUL(x, y, z2)): [z1==z2] void
+//
 ")
 
 Another interesting (and possibly a bit challenging) exercise is to
