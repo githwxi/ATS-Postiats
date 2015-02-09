@@ -284,10 +284,12 @@ case+ 0 of
 //
 end // end of [p_s0taq]
 
+(* ****** ****** *)
+//
 (*
 sqi0de := si0de | s0taq si0de
 *)
-
+//
 implement
 p_sqi0de
   (buf, bt, err) = let
@@ -320,7 +322,8 @@ end // end of [p_sqi0de]
 (* ****** ****** *)
 
 extern
-fun p_asnameopt
+fun
+p_asnameopt
   : parser (s0tringopt) // COLON s0rt
 // end of [p_asnameopt]
 
