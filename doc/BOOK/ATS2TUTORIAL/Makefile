@@ -15,6 +15,7 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 all::
 all:: html
+all:: htmltoc
 
 ######
 
@@ -22,6 +23,7 @@ cleanall::
 
 ######
 
+MAKE=make
 JADE=/usr/bin/openjade
 
 ######
@@ -39,6 +41,8 @@ DSL=./mydocbook.dsl
 #
 html: main.db ; \
 jw -b html --parser $(JADE) --dsl $(DSL) --output HTML/ main.db
+#
+htmltoc: ; $(MAKE) -C HTML -f Makefile htmltoc
 #
 ######
 

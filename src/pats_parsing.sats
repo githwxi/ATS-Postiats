@@ -204,12 +204,12 @@ tokbuf_set_ntok_null{a:type}(buf: &tokbuf, n0: uint): (a)
 
 typedef
 parser (a:type) =
-  (&tokbuf, int(*bt*), &int(*err*)) -> a
+  (&tokbuf(*>> _*), int(*bt*), &int(*err*)) -> a
 // end of [parser]
 
 typedef
 parser_tok (a:type) =
-  (&tokbuf, int(*bt*), &int(*err*), token) -> a
+  (&tokbuf(*>> _*), int(*bt*), &int(*err*), token) -> a
 // end of [parser_tok]
 
 (* ****** ****** *)

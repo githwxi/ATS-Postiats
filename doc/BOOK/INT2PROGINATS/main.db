@@ -71,7 +71,7 @@ id="programming-with-dependent-types">
 
 <part
 id="programming-with-linear-views-and-types">
-<title>Programming with Linear Views and Types</title>
+<title>Programming with Views and Viewtypes</title>
 &chap_vvtintro;
 &chap_dataview;
 &chap_datavtype;

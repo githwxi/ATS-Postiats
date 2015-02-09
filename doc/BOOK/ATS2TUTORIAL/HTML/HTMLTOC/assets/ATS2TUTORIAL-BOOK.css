@@ -1,0 +1,134 @@
+/*
+**
+** Author: Andrea Ferretti (original author)
+** Author: Hongwei Xi (for minor changes)
+** Author: Yannick Duchêne (for overridings in last section)
+**
+*/
+
+/* ****** ****** */
+
+body {
+  font-family:
+  "Palatino Linotype",
+  "Book Antiqua", Palatino, serif;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: justify;
+  line-height: 150%;
+}
+
+font {
+  font-family:
+  Inconsolata, "Courier New", Courier, monospace;
+  font-size: 90%;
+  padding: 2px 4px;
+  background-color: #e0e0e0;
+}
+
+a {
+  color: #707070;
+  font-style: italic;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+h1 a {
+  color: black;
+  font-style: normal;
+}
+
+/* ****** ****** */
+
+.programlisting {
+  padding: 4px 8px;
+  line-height: 144%;
+  border-radius: 6px;
+  background-color: #e0e0e0;
+}
+
+/* ****** ****** */
+
+body {
+  max-width: 1200px;
+  margin: 0;
+}
+
+.content,
+.BOOK {
+   display: block;
+   padding-left: 12px;
+   margin-right: 8px;
+   margin-left: 300px;
+   border-left: 1px dotted;
+}
+
+.TOC.sidebar {
+   display: block;
+   box-sizing: border-box;
+   width: 300px;
+   padding: 4px 8px 4px 4px;
+   text-align: left;
+   font-size: 88%;
+/*
+** Initial:
+** may be switched to `fixed` via JS when applicable
+*/
+   position: absolute;
+}
+
+.TOC.sidebar dt {
+   padding-left: 3px;
+}
+
+.TOC.sidebar dd {
+   margin-left: 0;
+}
+
+.TOC.sidebar > dl > dt {
+   margin-top: 1em;
+}
+
+.TOC.sidebar > dl > dt > a {
+   color: crimson;
+}
+
+.TOC.sidebar dl dl dl a {
+   font-weight: normal;
+}
+
+.TOC.sidebar dl dl {
+   padding-left: 1em;
+}
+
+.TOC.sidebar dl dl {
+/*
+** Initial:
+** This will be switched to `block` via JS,
+** when relevant, depending on the current document URL.
+*/
+   display: none;
+}
+
+.TOC.sidebar .selected {
+   border: 1px solid darkgray;
+   border-radius: 4px;
+   background: lightgray;
+}
+
+@media (max-width: 800px) {
+   .TOC.sidebar {
+      display: none;
+   }
+   .content,
+   .BOOK {
+      padding-left: 8px;
+      margin-right: 8px;
+      margin-left: 0px;
+      border-left: none;
+   }
+}
+
+/* ****** ****** */
+
+/* end of [ATS2TUTORIAL-BOOK.css] */
