@@ -39,10 +39,17 @@ implement
 main0((*void*)) = let
 //
 val N = 100
-val A = arrayref_tabulate_cloref<int>(i2sz(N), lam(i) => sz2i(i)+1)
+//
+val A =
+arrayref_tabulate_cloref<int>
+  (i2sz(N), lam(i) => sz2i(i)+1)
+val A2 =
+arrayref_tabulate_cloref<double>
+  (i2sz(N), lam(i) => $UNSAFE.cast{double}(i)+1.0)
 //
 in
-  println! ("tally = ", array_tally (A, i2sz(N)))
+  println! ("tally = ", array_tally (A, i2sz(N)));
+  println! ("tally = ", array_tally (A2, i2sz(N)));
 end (* end of [main0] *)
 
 (* ****** ****** *)

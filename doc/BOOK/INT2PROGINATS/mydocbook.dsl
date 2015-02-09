@@ -11,8 +11,9 @@
 <style-specification-body> 
 
 ;; customization for html
+;; (define nochunks #t)
 (define %html-ext% ".html")
-(define %stylesheet% "./INT2PROGINATS-BOOK.css")
+(define %stylesheet% "./assets/INT2PROGINATS-BOOK.css")
     
 </style-specification-body>
 </style-specification>

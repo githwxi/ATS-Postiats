@@ -602,23 +602,27 @@ Some properties on the parameters of #stacode("cbufObj") can be captured
 by introducing the following proof function:
 
 #atscode('\
+//
 prfun
 lemma_cbufObj_param
   {a:vt0p}{m,n:int}
   (buf: !cbufObj(a, m, n)): [m>=n; n>=0] void
+//
 ')
 
 The interface for the following two function templates indicates that they
 can be called to compute the capacity and current size of a buffer:
 
 #atscode('\
+//
 fun{a:vt0p}
 cbufObj_get_cap
   {m,n:int} (buf: !cbufObj(a, m, n)): size_t(m)
-
+//
 fun{a:vt0p}
 cbufObj_get_size
   {m,n:int}(buf: !cbufObj(a, m, n)): size_t(n)
+//
 ')
 
 ")
@@ -651,12 +655,14 @@ The functions for creating and destroying circular buffers are named
 #dyncode("cbufObj_new") and #dyncode("cbufObj_free"), respectively:
 
 #atscode('\
+//
 fun{a:vt0p}
 cbufObj_new
   {m:pos}(m: size_t(m)): cbufObj(a, m, 0)
 //
 fun cbufObj_free
   {a:vt0p}{m:int}(buf: cbufObj(a, m, 0)): void
+//
 ')
 
 Note that a buffer can be freed only if it contains no elements as

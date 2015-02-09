@@ -11,8 +11,9 @@
 <style-specification-body> 
 
 ;; customization for html
+;; (define nochunks #t)
 (define %html-ext% ".html")
-(define %stylesheet% "./ATS2TUTORIAL-BOOK.css")
+(define %stylesheet% "./assets/ATS2TUTORIAL-BOOK.css")
     
 </style-specification-body>
 </style-specification>
