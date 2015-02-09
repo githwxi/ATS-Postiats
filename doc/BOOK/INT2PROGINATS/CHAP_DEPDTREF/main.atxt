@@ -497,29 +497,30 @@ The following defined function #dyncode("merge") combines two
 ordered list (according to a given ordering) into a single ordered list:
 
 #atscode("\
+//
 typedef lte (a:t@ype) = (a, a) -> bool
-
+//
 fun{
 a:t@ype
 } merge
   {m,n:nat} .<m+n>.
 (
-  xs: list (a, m), ys: list (a, n), lte: lte a
+  xs0: list (a, m), ys0: list (a, n), lte: lte a
 ) : list (a, m+n) =
-  case+ xs of
-  | list_nil () => ys
+  case+ xs0 of
+  | list_nil () => ys0
   | list_cons (x, xs1) =>
     (
-    case+ ys of
-    | list_nil () => xs
+    case+ ys0 of
+    | list_nil () => xs0
     | list_cons (y, ys1) =>
-        if x \lte y then
-          list_cons (x, merge (xs1, ys, lte))
-        else
-          list_cons (y, merge (xs, ys1, lte))
+        if x \lte y
+          then list_cons (x, merge (xs1, ys0, lte))
+          else list_cons (y, merge (xs0, ys1, lte))
         // end of [if]
     ) // end of [list_cons]
 // end of [merge]
+//
 ")
 
 Clearly, the type assigned to #dyncode("merge") indicates that the function

@@ -49,27 +49,26 @@ a:t@ype
 } merge
   {m,n:nat} .<m+n>.
 (
-  xs: list (a, m)
-, ys: list (a, n)
-, lte: lte a
+  xs0: list (a, m), ys0: list (a, n), lte: lte a
 ) : list (a, m+n) =
-  case+ xs of
-  | list_nil () => ys
-  | list_cons (x, xs1) => (
-    case+ ys of
+  case+ xs0 of
+  | list_nil () => ys0
+  | list_cons (x, xs1) =>
+    (
+    case+ ys0 of
+    | list_nil () => xs0
     | list_cons (y, ys1) =>
-        if x \lte y then
-          list_cons{a}(x, merge<a> (xs1, ys, lte))
-        else
-          list_cons{a}(y, merge<a> (xs, ys1, lte))
+        if x \lte y
+          then list_cons (x, merge (xs1, ys0, lte))
+          else list_cons (y, merge (xs0, ys1, lte))
         // end of [if]
-    | list_nil () => xs
     ) // end of [list_cons]
 // end of [merge]
 
 fun{
 a:t@ype
-} mergesort{n:nat}
+} mergesort
+  {n:nat} .<>.
 (
   xs: list (a, n), lte: lte a
 ) : list (a, n) = let
