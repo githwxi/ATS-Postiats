@@ -759,15 +759,15 @@ in this implementation.
 #para("\
 
 In concurrent programming, the issue of safely locking and unlocking
-shared resources is both essential and challenging. I will demonstrate
-here concretely and convincingly that linear types can be used with
-great effectiveness to address this issue.
+shared resources is both essential and challenging. I am to demonstrate
+in this section concretely and convincingly that linear types can be used
+with great effectiveness to address this issue.
 
 ")
 
 #para("\
 
-Let us first introduce a linear abstract type #stacode("shared_vtype")
+Let us first introduce a linear abstract type #stacode("shared")
 as follows:
 
 #atscode('\

@@ -27,7 +27,7 @@ learn-by-examples. Although it is possible to learn programming in ATS by
 studying the tutorial (if the reader is familiar with ML and C), I consider
 the book <ulink
 url="http://www.ats-lang.org/DOCUMENT/INTPROGINATS/HTML/book1.html"
->Introduction to Programming in ATS</ulink> a far more approriate resource
+>Introduction to Programming in ATS</ulink> a far more approriate source
 for someone to acquire a view of ATS in a coherent and systematic manner.
 Of course, there will also be considerable amount of overlapping between
 these two books.  The primary purpose of the tutorial is to bring more

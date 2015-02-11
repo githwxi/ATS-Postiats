@@ -547,7 +547,9 @@ a:t@ype
   (
     xs: list (a, n), n: int n, lte: lte a
   ) : list (a, n) =
-    if n >= 2 then split (xs, n, lte, n/2, list_nil) else xs
+    if n >= 2
+      then split (xs, n, lte, half(n), list_nil) else xs
+    // end of [if]
   // end of [msort]
   and split
     {n:int | n >= 2}{i:nat | i <= n/2} .<n,i>.
@@ -560,9 +562,10 @@ a:t@ype
     in
       split (xs, n, lte, i-1, list_cons (x, xsf))
     end else let
+      val n2 = half(n)
       val xsf = list_reverse<a> (xsf) // make sorting stable!
       val xsf = list_of_list_vt (xsf) // linear list -> nonlinear list
-      val xsf = msort (xsf, n/2, lte) and xs = msort (xs, n-n/2, lte)
+      val xsf = msort (xsf, n2, lte) and xs = msort (xs, n-n2, lte)
     in
       merge (xsf, xs, lte)
     end // end of [if]

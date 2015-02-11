@@ -89,9 +89,10 @@ and split
   in
     split (xs, n, lte, i-1, list_cons{a}(x, xsf))
   end else let
+    val n2 = half(n)
     val xsf = list_reverse<a> (xsf) // make sorting stable!
     val xsf = list_of_list_vt (xsf)
-    val xsf = msort (xsf, half(n), lte) and xs = msort (xs, n-half(n), lte)
+    val xsf = msort (xsf, n2, lte) and xs = msort (xs, n-n2, lte)
   in
     merge<a> (xsf, xs, lte)
   end // end of [if]

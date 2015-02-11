@@ -42,6 +42,22 @@ staload "fastexp.sats"
 
 (* ****** ****** *)
 
+fun
+ifastpow
+{n:nat} .<n>.
+(
+  x: int, n: int n
+) : int =
+  if n > 0 then let
+    val n2 = half(n)
+    val i2 = n-(2*n2)
+  in
+    if i2 > 0 then ifastpow (x*x, n2) else x * ifastpow (x*x, n2)
+  end else 1 // end of [if]
+// end of [ifastpow]
+
+(* ****** ****** *)
+
 implement{a}
 fastpow_elt_int (x, n) = let
 //

@@ -733,7 +733,7 @@ the array being subscripted.\
 #para("\
 
 As a convincing example of practical programming with dependent types, the
-following code implements the standard binary search algorithms on an ordered
+following code implements the standard binary search algorithm on an ordered
 array:
 
 #atscode("\
@@ -839,7 +839,7 @@ fun f91 {i:int} .<max(101-i,0)>. (x: int i)
 ")
 
 The metric supplied to verify the termination of #dyncode("f91") is
-#stacode("max(101-i,0)"), where #stacode("i"). is the value of the
+#stacode("max(101-i,0)"), where #stacode("i") is the value of the
 integer argument of #dyncode("f91"). Please try to verify manually that
 this metric suffices for verifying the termination of #dyncode("f91").\
 

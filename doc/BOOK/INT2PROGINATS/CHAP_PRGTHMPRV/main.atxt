@@ -207,7 +207,7 @@ are assigned the following interfaces:
 
 #atscode("\
 fun imul2{i,j:int}
-  (i: int i, j: int j): [ij:int] (MUL(i, j, ij) | int ij)
+  (int i, int j):<> [ij:int] (MUL(i, j, ij) | int ij)
 
 prfun mul_nat_nat_nat
   {i,j:nat}{ij:int} (pf: MUL(i, j, ij)): [ij >= 0] void
@@ -387,7 +387,7 @@ ifact2
   | n: int n, i: int i, r: int r
   ) :<> [r:int] (FACT(n, r) | int r) =
     if n - i > 0 then let
-      val (pfmul | r1) = (i+1) imul2 r in loop (FACTind(pf, pfmul) | n, i+1, r1)
+      val (pfmul | r1) = imul2 (i+1, r) in loop (FACTind(pf, pfmul) | n, i+1, r1)
     end else (pf | r) // end of [if]
   // end of [loop]
 in
@@ -465,9 +465,10 @@ ifastpow
   x: int, n: int n
 ) : int =
   if n > 0 then let
-    val n2 = n/2; i = n-(2*n2)
+    val n2 = half(n)
+    val i2 = n-(2*n2)
   in
-    if i > 0 then ifastpow (x*x, n2) else x * ifastpow (x*x, n2)
+    if i2 > 0 then ifastpow (x*x, n2) else x * ifastpow (x*x, n2)
   end else 1 // end of [if]
 // end of [ifastpow]
 ")

@@ -5,6 +5,8 @@
 ######
 
 Bernt, Matthias (...)
+Duchêne, Yannick (...)
+Ferretti, Andrea (...)
 Okabe, Kiwamu (master-q) (...)
 Zhang, Haitao (...)
 

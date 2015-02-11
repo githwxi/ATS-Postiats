@@ -52,13 +52,14 @@ typedef NSH(a:type) = a // for commenting purpose
 sortdef fm = file_mode
 
 (* ****** ****** *)
-
+//
 staload
 TYPES =
 "libc/sys/SATS/types.sats"
+//
 stadef fildes = $TYPES.fildes
 stadef fildes_v = $TYPES.fildes_v
-
+//
 (* ****** ****** *)
 
 (*
@@ -71,19 +72,24 @@ abstype FILEref = ptr // declared in [prelude/basic_dyn.sats]
 //
 absview
 FILE_view (l:addr, m:fm)
-viewdef FILE_v (l:addr, m:fm) = FILE_view (l, m)
-
 absvtype
 FILEptr_vtype (addr, fm) = ptr
-vtypedef FILEptr (l:addr, m: fm) = FILEptr_vtype (l, m)
-
+//
+viewdef
+FILE_v (l:addr, m:fm) = FILE_view (l, m)
+vtypedef
+FILEptr (l:addr, m: fm) = FILEptr_vtype (l, m)
+//
 (* ****** ****** *)
 //
 vtypedef
-FILEptr0 (m:fm) = [l:addr | l >= null] FILEptr (l, m)
+FILEptr0 (m:fm) =
+  [l:addr | l >= null] FILEptr (l, m)
 //
-vtypedef FILEptr1 (m:fm) = [l:agz] FILEptr (l, m)
-vtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
+vtypedef
+FILEptr1 (m:fm) = [l:agz] FILEptr (l, m)
+vtypedef
+FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
 //
 (* ****** ****** *)
 
@@ -92,7 +98,8 @@ stadef fmlte = file_mode_lte
 (* ****** ****** *)
 //
 castfn
-FILEptr2ptr{l:addr}{m:fm} (filp: !FILEptr (l, m)):<> ptr (l)
+FILEptr2ptr
+  {l:addr}{m:fm}(filp: !FILEptr (l, m)):<> ptr(l)
 //
 overload ptrcast with FILEptr2ptr
 //

@@ -905,14 +905,14 @@ right-hand side of the clause. Please find the entirety of the above code
 <!-- ****** ****** -->
 
 <sect1
- id="programmer_centeric_theorem_proving">
-#title("Programmer-Centeric Theorem-Proving")
+ id="programmer_centric_theorem_proving">
+#title("Programmer-Centric Theorem-Proving")
 
 #para("\
 
 I have so far presented several formal proofs in ATS.  However,
 constructing such formal proofs is at most a secondary issue in ATS. If I
-compare ATS with theorem-proving systems such as Isabel and Coq, I would
+compare ATS with theorem-proving systems such as Isabelle and Coq, I would
 like to state emphatically that the design for theorem-proving in ATS takes
 a fundamentally different view of theorem-proving. In particular,
 theorem-proving in ATS does not take a foundational approach that
@@ -923,11 +923,161 @@ the chance of a programmer making use of incorrect assumptions or
 claims. In this regard, theorem-proving in ATS is rather similar to
 contructing informal paper-and-pencil proofs (in mathematics and
 elsewhere). I refer to this style of theorem-proving in ATS as being
-programmer-centeric.
+programmer-centric.  In order to allow the reader to obtain a more concrete
+feel as to what this style of theorem-proving is like, I present in the
+rest of this section a simple but telling example of programmer-centric
+theorem-proving.\
 
 ")#comment("para")
 
-</sect1><!--id="programmer_centeric_theorem_proving"-->
+#para("\
+
+Suppose we are to prove that the square of any rational number cannot equal
+2. Note that this statement is a bit weaker than the one stating that the
+square root of 2 is irrational as the latter assumes the very existence of the
+square root of 2. Let us first sketch an informal proof as follows.\
+
+")#comment("para")
+
+#para("\
+
+Suppose that (m/n)#sup("2")=2 for some positive numbers m and n. Clearly,
+this means (m)#sup("2")=2(n)#sup("2"), implying m being an even number.
+Let m=2m#sub("2"). We have (2m#sub("2"))#sup("2")=2(n)#sup("2"), implying
+(n/m#sub("2"))#sup("2")=2. Clearly, m &gt; n &gt; m#sub("2") holds. If we
+assume that m is the least positive number satisfying (m/n)#sup("2")=2 for
+some n, then a contradiction is reached as n satisfies the same property.
+Therefore, there is no rational number whose square equals 2. Clearly,
+this proof still holds if the number 2 is replaced with another prime number.
+
+")#comment("para")
+
+#para("\
+
+The primary argument in the above informal proof can be encoded in
+ATS as follows:
+
+#atscode('\
+//
+extern
+prfun
+mylemma_main
+{m,n,p:int | m*m==p*n*n}(PRIME(p)): [m2:nat | n*n==p*m2*m2] void
+//
+primplmnt
+mylemma_main
+{m,n,p}(pfprm) = let
+  prval pfeq_mm_pnn =
+    eqint_make{m*m,p*n*n}()
+  prval () = square_is_nat{m}()
+  prval () = square_is_nat{n}()
+  prval () = lemma_PRIME_param(pfprm)
+  prval
+  pfmod1 =
+    lemma_MOD0_intr{m*m,p,n*n}()
+  prval
+  pfmod2 = mylemma1{m,p}(pfmod1, pfprm)
+  prval
+  [m2:int]
+  EQINT() =
+    lemma_MOD0_elim(pfmod2)
+  prval EQINT() = pfeq_mm_pnn
+  prval () =
+  __assert{p}{p*m2*m2,n*n}() where
+  {
+    extern prfun __assert{p:pos}{x,y:int | p*x==p*y}(): [x==y] void
+  } (* end of [where] *) // end of [prval]
+in
+  #[m2 | ()]
+end // end of [mylemma_main]
+//
+')
+
+The interface for #dyncode("mylemma_main") states that
+(m)#sup("2")=p(n)#sup("2") implies (n)#sup("2")=p(m#sub("2"))#sup("2") for
+some natural number m#sub("2").
+
+")
+
+#para("\
+
+Given two integers m and p, #dyncode("MOD0(m,p)") means that m equals the
+product of p and q for some natural number q. This meaning is encoded into
+the following two proof functions:
+
+#atscode("\
+//
+prfun
+lemma_MOD0_intr{m,p,q:nat | m==p*q}(): MOD0(m, p)
+//
+prfun
+lemma_MOD0_elim{m,p:int}(MOD0(m, p)): [q:nat] EQINT(m, p*q)
+//
+")
+
+where #dyncode("EQINT") is a dataprop declared as follows:
+
+#atscode('\
+dataprop EQINT(int, int) = {x:int} EQINT(x, x)
+')
+
+Given two integers x and y, #dyncode("EQINT(x, y)") simply means that
+x equals y.  Also, the function #dyncode("eqint_make") is assgined the
+interface below:
+
+#atscode('\
+prfun eqint_make{x,y:int | x == y}((*void*)): EQINT (x, y)
+')
+
+Given an integer p, #dyncode("PRIME(p)") means that p is a prime number.
+The following two proof functions are called in the above implementation
+of #dyncode("mylemma_main"):
+
+#atscode('\
+//
+prfun lemma_PRIME_param{p:int}(PRIME(p)): [p >= 2] void
+//
+prfun mylemma1{n,p:int}(MOD0(n*n, p), PRIME(p)): MOD0(n, p)
+//
+')
+
+The proof function #dyncode("mylemma1") encodes a proposition stating that
+p divides n if p divides the square of n and p is also a prime number.
+I give no implementation of #dyncode("mylemma1") as I see the encoded
+proposition to be obviously true. Certainly, this is a kind of programmer-centric
+judgment. \
+
+")
+
+#para("\
+
+One may find that
+the following declaration in the implementation of #dyncode("mylemma_main")
+looks mysterious:
+
+#atscode("\
+  prval EQINT() = pfeq_mm_pnn
+")
+
+Note that #dyncode("pfeq_mm_pnn")
+is of the prop #dyncode('EQINT(m*m, p*(n*n))').
+Also, m equaling p*m#sub("2") for some natural number m#sub("2") is
+available when the above declaration is typechecked.
+This means that the equality between
+(p*m#sub("2"))#sup("2") and p*(n)#sup("2") is added into the current store
+of (static) assumptions after the above declaration is typechecked.
+
+")
+
+#para("\
+
+Please find #mycodelink("CHAP_THMPRVING/sqrt2_irrat.dats", "on-line") the
+entirety of an encoded proof showing that there exists no rational number whose
+square equals 2.\
+
+")
+
+</sect1><!--id="programmer_centric_theorem_proving"-->
 
 <!-- ****** ****** -->
 

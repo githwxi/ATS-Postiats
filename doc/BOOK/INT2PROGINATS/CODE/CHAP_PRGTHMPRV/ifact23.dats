@@ -32,9 +32,12 @@ imul2{i,j:int}
 // this is a verified implementation of
 // factorial that is also tail-recursive.
 //
-fun ifact2
-  {n:nat} .<>.
-  (n: int (n)):<> [r:int] (FACT (n, r) | int r) = let
+fun
+ifact2
+{n:nat} .<>.
+(
+  n: int (n)
+) :<> [r:int] (FACT (n, r) | int r) = let
   fun loop
     {i:nat | i <= n} {r:int} .<n-i>.
   (
@@ -53,8 +56,12 @@ end // end of [ifact2]
 // this is another verified implementation of
 // factorial that is also to be tail-recursive.
 //
-fun ifact3 {n:nat} .<>.
-  (n: int n): [r:int] (FACT (n, r) | int r) = let
+fun
+ifact3
+{n:nat} .<>.
+(
+  n: int n
+) : [r:int] (FACT (n, r) | int r) = let
 //
 extern
 prfun
