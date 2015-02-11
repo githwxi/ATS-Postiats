@@ -156,12 +156,15 @@ mul_is_associative
 //
 // HX-2010-12-30: 
 //
-absprop DIVMOD (
+absprop
+DIVMOD (
   x:int, y: int, q: int, r: int // x = q * y + r
 ) // end of [DIVMOD]
 
-propdef DIV (x:int, y:int, q:int) = [r:int] DIVMOD (x, y, q, r)
-propdef MOD (x:int, y:int, r:int) = [q:int] DIVMOD (x, y, q, r)
+propdef
+DIV (x:int, y:int, q:int) = [r:int] DIVMOD (x, y, q, r)
+propdef
+MOD (x:int, y:int, r:int) = [q:int] DIVMOD (x, y, q, r)
 
 #atscode_separator()
 
@@ -175,6 +178,8 @@ divmod_istot
    x >= 0; y > 0}
   ((*void*)): [q,r:nat | r < y] DIVMOD (x, y, q, r)
 
+#atscode_separator()
+
 praxi
 divmod_isfun
   {x,y:int | x >= 0; y > 0}
@@ -182,6 +187,8 @@ divmod_isfun
   pf1: DIVMOD (x, y, q1, r1)
 , pf2: DIVMOD (x, y, q2, r2)
 ) : [q1==q2;r1==r2] void // end of [divmod_isfun]
+
+#atscode_separator()
 
 praxi
 divmod_elim

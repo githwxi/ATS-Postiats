@@ -941,7 +941,7 @@ square root of 2. Let us first sketch an informal proof as follows.\
 
 #para("\
 
-Suppose that (m/n)#sup("2")=2 for some positive numbers m and n. Clearly,
+Suppose (m/n)#sup("2")=2 for some positive numbers m and n. Clearly,
 this means (m)#sup("2")=2(n)#sup("2"), implying m being an even number.
 Let m=2m#sub("2"). We have (2m#sub("2"))#sup("2")=2(n)#sup("2"), implying
 (n/m#sub("2"))#sup("2")=2. Clearly, m &gt; n &gt; m#sub("2") holds. If we
