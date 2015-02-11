@@ -56,6 +56,7 @@ thePageRHeaderSep_submenu_for_Home($name)
   echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseout $onmouseover>\n";
   echo "<tr><td><a href=\"$page#What_is_ATS\">What is ATS?<a></td></tr>\n";
   echo "<tr><td><a href=\"$page#What_is_ATS_good_for\">What is ATS good for?<a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#Suggestion_on_learning_ATS\">Suggestion on learning ATS<a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Acknowledgments\">Acknowledgments</a></td></tr>\n";
   echo "</table>\n";
   return;

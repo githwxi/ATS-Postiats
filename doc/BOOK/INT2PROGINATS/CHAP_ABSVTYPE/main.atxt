@@ -59,9 +59,10 @@ Let us now take a look at a concrete example of simple linear object.
 The following code presents an interface for a timer (that is, stopwatch):
 
 #atscode('\
+//
 absvtype timer_vtype
 vtypedef timer = timer_vtype
-
+//
 fun timer_new (): timer
 fun timer_free (x: timer): void
 fun timer_start (x: !timer): void
@@ -70,12 +71,14 @@ fun timer_pause (x: !timer): void
 fun timer_resume (x: !timer): void
 fun timer_get_ntick (x: !timer): uint
 fun timer_reset (x: !timer): void
+//
 ')
 
 The state of a timer is given the
 record type #stacode("timer_struct") defined as follows:
 
 #atscode('\
+//
 typedef
 timer_struct = @{
   started= bool // the timer has started
@@ -84,6 +87,7 @@ timer_struct = @{
 , ntick_beg= uint // was turned on last time
 , ntick_acc= uint // the number of accumulated ticks
 } (* end of [timer_struct] *)
+//
 ')
 
 The following linear datatype #stacode("timer")
@@ -107,7 +111,6 @@ Various functions on timers can now be readily implemented.
 Let us first see the code for creating and freeing timers:
 
 #atscode('\
-
 implement
 timer_new () = let
 //

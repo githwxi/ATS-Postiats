@@ -419,24 +419,12 @@ option_t0ype_bool_type
 stadef option = option_t0ype_bool_type
 typedef Option (a:t0p) = [b:bool] option (a, b)
 //
-dataview
-option_prop_bool_prop
-  (a:prop+, bool) = Some_p (a, true) of (a) | None_p (a, false)
-// end of [option_prop_bool_prop]
-stadef option_p = option_prop_bool_prop
-//
 datavtype // vt@ype+: covariant
 option_vt0ype_bool_vtype
   (a:vt@ype+, bool) = Some_vt (a, true) of (a) | None_vt (a, false)
 // end of [option_vt0ype_bool_vtype]
 stadef option_vt = option_vt0ype_bool_vtype
 vtypedef Option_vt (a:vt0p) = [b:bool] option_vt (a, b)
-//
-dataview
-option_view_bool_view
-  (a:view+, bool) = Some_v (a, true) of (a) | None_v (a, false)
-// end of [option_view_bool_view]
-stadef option_v = option_view_bool_view
 //
 (* ****** ****** *)
 //
@@ -448,13 +436,42 @@ praxi opt_unsome
 fun{a:vt0p}
 opt_unsome_get (x: &opt (INV(a), true) >> a?): (a)
 //
-praxi opt_none
+praxi
+opt_none
   {a:vt0p} (x: !(a?) >> opt (a, false)):<prf> void
-praxi opt_unnone
+praxi
+opt_unnone
   {a:vt0p} (x: !opt (INV(a), false) >> a?):<prf> void
 //
-praxi opt_clear
-  {a:t0p}{b:bool} (x: !opt (INV(a), b) >> a?):<prf> void
+praxi
+opt_clear
+  {a:t0p}{b:bool}(x: !opt (INV(a), b) >> a?):<prf> void
+//
+(* ****** ****** *)
+//
+dataprop
+or_prop_prop_int_prop
+  (a0: prop+, a1: prop+, int) =
+  PORleft(a0, a1, 0) of a0 | PORright(a0, a1, 1) of a1
+stadef por = or_prop_prop_int_prop
+//
+dataview
+or_view_view_int_view
+  (a0: view+, a1: view+, int) =
+  VORleft(a0, a1, 0) of a0 | VORright(a0, a1, 1) of a1
+stadef vor = or_view_view_int_view
+//
+dataprop
+option_prop_bool_prop
+  (a:prop+, bool) = Some_p (a, true) of (a) | None_p (a, false)
+// end of [option_prop_bool_prop]
+stadef option_p = option_prop_bool_prop
+//
+dataview
+option_view_bool_view
+  (a:view+, bool) = Some_v (a, true) of (a) | None_v (a, false)
+// end of [option_view_bool_view]
+stadef option_v = option_view_bool_view
 //
 (* ****** ****** *)
 //

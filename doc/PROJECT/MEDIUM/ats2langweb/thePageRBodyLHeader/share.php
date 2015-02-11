@@ -6,6 +6,7 @@ thePageRBodyLHeader_Home()
   echo "<ul name=\"Home\">\n";
   echo "<li><a href=\"#What_is_ATS\">What is ATS?<a></li>\n";
   echo "<li><a href=\"#What_is_ATS_good_for\">What is ATS good for?<a></li>\n";
+  echo "<li><a href=\"#Suggestion_on_learning_ATS\">Suggestion on learning ATS<a></li>\n";
   echo "<li><a href=\"#Acknowledgments\">Acknowledgments</a></li>\n";
   echo "</ul>\n";
   return;
