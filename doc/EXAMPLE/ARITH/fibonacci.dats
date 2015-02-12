@@ -35,7 +35,7 @@ staload "./fibonacci.sats"
 (* ****** ******)
 
 primplmnt
-fib_istot {n} () = let
+fib_istot{n}() = let
 //
 prfun
 istot {n:nat} .<n>.
@@ -54,7 +54,7 @@ end // end of [fib_istot]
 (* ****** ****** *)
 
 primplmnt
-fib_isfun (pf1, pf2) = let
+fib_isfun(pf1, pf2) = let
 //
 prfun isfun
   {n:nat}{r1,r2:int} .<n>. (
@@ -77,7 +77,7 @@ in
 end // end of [fib_isfun]
 
 primplmnt
-fib_isfun2 (pf1, pf2) = let
+fib_isfun2(pf1, pf2) = let
   prval () = fib_isfun (pf1, pf2) in eqint_make ()
 end // end of [fib_isfun2]
 
@@ -130,7 +130,7 @@ end // end of [fibeq1]
 // fib(n)*fib(n+2) + (-1)^n = (fib(n+1))^2
 //
 primplmnt
-fibeq2{n}{i}
+fibeq2{n}
 (
   pf0, pf1, pf2, pf3
 ) = let
@@ -176,7 +176,7 @@ end // end of [else]
 ) (* end of [fibeq2] *)
 //
 in
-  fibeq2{n}{i}(pf0, pf1, pf2, pf3)
+  fibeq2{n}(pf0, pf1, pf2, pf3)
 end // end of [fibeq2]
 
 (* ****** ****** *)

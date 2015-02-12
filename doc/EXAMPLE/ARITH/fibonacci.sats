@@ -90,8 +90,8 @@ fibeq1
 prfun
 fibeq2
 {n:nat}
-{i:int}
 {f0,f1,f2:int}
+{i:int}
 (
   pf0: FIB (n, f0)
 , pf1: FIB (n+1, f1)
