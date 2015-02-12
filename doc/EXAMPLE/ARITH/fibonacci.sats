@@ -38,35 +38,41 @@ staload "./basics.sats"
 //
 dataprop
 FIB (int, int) =
-  | FIBbas1 (0, 0) of ()
-  | FIBbas2 (1, 1) of ()
+  | FIBbas0 (0, 0) of ()
+  | FIBbas1 (1, 1) of ()
   | {n:nat}{r0,r1:int}
-    FIBind (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))
+    FIBind2 (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))
 // end of [FIB]
-
+//
 (* ****** ****** *)
 //
 // HX: [FIB] is a total functional relation
 //
-prfun fib_istot {n:nat} (): [r:nat] FIB (n, r)
-
-prfun fib_isfun
-  {n:nat}{r1,r2:int}
+prfun
+fib_istot{n:nat}((*void*)): [r:nat] FIB (n, r)
+//
+prfun
+fib_isfun
+{n:nat}{r1,r2:int}
   (pf1: FIB (n, r1), pf2: FIB (n, r2)): [r1==r2] void
 // end of [fib_isfun]
-prfun fib_isfun2
-  {n:nat}{r1,r2:int}
+//
+prfun
+fib_isfun2
+{n:nat}{r1,r2:int}
   (pf1: FIB (n, r1), pf2: FIB (n, r2)): EQINT (r1, r2)
 // end of [fib_isfun2]
-
+//
 (* ****** ****** *)
 //
 // HX-2012-03:
 // fib(m+n+1)=fib(m)*fib(n)+fib(m+1)*fib(n+1)
 //
-prfun fibeq1
-  {m,n:nat}
-  {r1,r2,r3,r4:int} (
+prfun
+fibeq1
+{m,n:nat}
+{r1,r2,r3,r4:int}
+(
   pf1: FIB (m, r1) // r1 = fib(m)
 , pf2: FIB (n, r2) // r2 = fib(n)
 , pf3: FIB (m+1, r3) // r3 = fib(m+1)
@@ -83,8 +89,10 @@ prfun fibeq1
 
 prfun
 fibeq2
-  {n:nat}{i:int}
-  {f0,f1,f2:int} (
+{n:nat}
+{i:int}
+{f0,f1,f2:int}
+(
   pf0: FIB (n, f0)
 , pf1: FIB (n+1, f1)
 , pf2: FIB (n+2, f2)

@@ -40,9 +40,9 @@ fib_istot {n} () = let
 prfun
 istot {n:nat} .<n>.
   (): [r:nat] FIB (n, r) =
-  sif n == 0 then FIBbas1 ()
-  else sif n == 1 then FIBbas2 ()
-  else FIBind (
+  sif n == 0 then FIBbas0 ()
+  else sif n == 1 then FIBbas1 ()
+  else FIBind2 (
     istot {n-2} (), istot {n-1} ()
   ) // end of [sif]
 // end of [istot]
@@ -61,15 +61,15 @@ prfun isfun
   pf1: FIB (n, r1), pf2: FIB (n, r2)
 ) : [r1==r2] void =
   case+ (pf1, pf2) of
+  | (FIBbas0 (), FIBbas0 ()) => ()
   | (FIBbas1 (), FIBbas1 ()) => ()
-  | (FIBbas2 (), FIBbas2 ()) => ()
-  | (FIBind (pf11, pf12),
-     FIBind (pf21, pf22)) => let
+  | (FIBind2 (pf11, pf12),
+     FIBind2 (pf21, pf22)) => let
       prval () = isfun (pf11, pf21)
       prval () = isfun (pf12, pf22)
     in
       (*nothing*)
-    end // end of [FIBind, FIBind]
+    end // end of [FIBind2, FIBind2]
 // end of [isfun]
 //
 in
@@ -107,15 +107,13 @@ sif
 m > 0
 then let
   prval
-  FIBind(pf30, pf31) = pf3
+  FIBind2(pf30, pf31) = pf3
   prval EQINT() = fib_isfun2 (pf1, pf31)
 in
-  lemma {m-1,n+1}
-    (pf30, pf4, pf31, FIBind (pf2, pf4))
-  // end of [lemma]
+  lemma{m-1,n+1}(pf30, pf4, pf31, FIBind2(pf2, pf4))
 end // end of [then]
 else let
-  prval FIBbas1() = pf1; prval FIBbas2() = pf3 in pf4
+  prval FIBbas0() = pf1; prval FIBbas1() = pf3 in pf4
 end // end of [else]
 //
 end // end of [lemma]
@@ -157,7 +155,7 @@ then let
   prval
   SGNind(pf31) = pf3
   prval
-  FIBind(pf11, pf12) = pf1
+  FIBind2(pf11, pf12) = pf1
   prval EQINT() = fib_isfun2(pf0, pf12)
   prval pf_n_n = fibeq1(pf0, pf0, pf1, pf1)
   prval pf_1n_n1 = fibeq1(pf11, pf1, pf0, pf2)
@@ -168,9 +166,9 @@ in
 end // end of [then]
 else let
   prval SGNbas() = pf3
-  prval FIBbas1() = pf0
-  prval FIBbas2() = pf1
-  prval FIBind(FIBbas1(), FIBbas2()) = pf2
+  prval FIBbas0() = pf0
+  prval FIBbas1() = pf1
+  prval FIBind2(FIBbas0(), FIBbas1()) = pf2
 in
   // nothing
 end // end of [else]
