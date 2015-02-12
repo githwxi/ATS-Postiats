@@ -762,7 +762,8 @@ d2ecl_node =
   | D2Cextvar of (string(*name*), d2exp(*def*))
   | D2Cextcode of (int(*knd*), int(*pos*), string(*code*))
 //
-  | D2Cdatdecs of (int(*knd*), s2cstlst) // datatype declarations
+  | D2Cdatdecs of
+      (int(*knd*), s2cstlst) // datatype declarations
   | D2Cexndecs of (d2conlst) // exception constructor declarations
 //
   | D2Cdcstdecs of (int(*0/1:sta/ext*), dcstkind, d2cstlst) // dyncst

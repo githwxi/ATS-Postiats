@@ -2130,30 +2130,32 @@ case+ d1c0.d1ecl_node of
   end // end of [D1Cstacons]
 (*
 | D1Cstavars (d1s) => let
-    val s2vs = s1tavarlst_tr (d1s) in d2ecl_stavars (loc0, s2vs)
+    val s2vs =
+      s1tavarlst_tr (d1s) in d2ecl_stavars (loc0, s2vs)
   end // end of [D1Cstavars]
 *)
 //
 | D1Ctkindef (d) => let
     val () = t1kindef_tr (d) in d2ecl_none (loc0)
   end // end of [D1Ckindef]
+//
 | D1Csexpdefs (knd, ds) => let
     val () = s1expdeflst_tr (knd, ds) in d2ecl_none (loc0)
   end // end of [D1Csexpdefs]
+//
 | D1Csaspdec (d1c) => let
-    val d2copt = s1aspdec_tr (d1c)
+    val opt = s1aspdec_tr (d1c)
   in
-    case+ d2copt of
-    | ~Some_vt d2c => d2ecl_saspdec (loc0, d2c)
-    | ~None_vt () =>
+    case+ opt of
+    | ~Some_vt d2c =>
+        d2ecl_saspdec (loc0, d2c)
+      // end of [Some_vt]
+    | ~None_vt ((*void*)) =>
         d2ecl_none (loc0) // HX: error already reported
+      // end of [None_vt]
     // end of [case]
   end // end of [D1Csaspdec]
 //
-| D1Cexndecs (d1cs) =>
-  (
-    d2ecl_exndecs (loc0, e1xndeclst_tr (d1cs))
-  ) (* end of [D1Cexndecs] *)
 | D1Cdatdecs
   (
     knd, d1cs_dat, d1cs_def
@@ -2162,6 +2164,11 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_datdecs (loc0, knd, s2cs)
   end // end of [D1Cdatdecs]
+//
+| D1Cexndecs (d1cs) =>
+  (
+    d2ecl_exndecs (loc0, e1xndeclst_tr (d1cs))
+  ) (* end of [D1Cexndecs] *)
 //
 | D1Cclassdec (id, sup) => let
     val () = c1lassdec_tr (id, sup) in d2ecl_none (loc0)

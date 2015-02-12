@@ -254,8 +254,9 @@ datatype d1ecl_node =
   | D1Csexpdefs of (int(*knd*), s1expdeflst) // static definitions
   | D1Csaspdec of s1aspdec // static assumption
 //
-  | D1Cexndecs of e1xndeclst // exception declarations
-  | D1Cdatdecs of (int(*knd*), d1atdeclst, s1expdeflst) // DT decls
+  | D1Cdatdecs of
+      (int(*knd*), d1atdeclst, s1expdeflst) // DT declarations
+  | D1Cexndecs of e1xndeclst // exception constructor declarations
 //
   | D1Cclassdec of (i0de, s1expopt)
 //
