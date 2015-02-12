@@ -219,7 +219,8 @@ case+ c of
 | '\n' => emit_text (out, "\\n")
 | '\t' => emit_text (out, "\\t")
 | '\\' => emit_text (out, "\\\\")
-| _ => (
+| _ (*rest-of-char*) =>
+  (
     if char_isprint (c)
       then fprint_char (out, c)
       else let
@@ -227,7 +228,7 @@ case+ c of
         fprintf (out, "\\%.3o", @($UN.cast2uint(uc)))
       end // end of [else]
     // end of [if]
-  ) // end of [_]
+  ) (* end of [_] *)
 //
 end // end of [auxch2]
 

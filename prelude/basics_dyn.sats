@@ -618,9 +618,9 @@ datasort file_mode =
   | file_mode_rw (* read and write *)
 // end of [file_mode]
 
-stadef r() = file_mode_r ()
-stadef w() = file_mode_w ()
-stadef rw() = file_mode_rw ()
+stadef r() = file_mode_r()
+stadef w() = file_mode_w()
+stadef rw() = file_mode_rw()
 
 (* ****** ****** *)
 

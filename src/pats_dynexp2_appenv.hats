@@ -77,6 +77,12 @@ fun{}
 d2pitmlst_app : synent_app (d2pitmlst)
 //
 (* ****** ****** *)
+
+extern
+fun{}
+d2atdecs_app : synent_app (s2cstlst)
+
+(* ****** ****** *)
 //
 implement
 {}(*tmp*)
@@ -156,6 +162,41 @@ implement
 d2pitmlst_app
   (xs, env) = synentlst_app (xs, env, d2pitm_app)
 //
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+d2atdecs_app
+  (s2cs, env) = let
+//
+fun
+auxlst_scst
+(
+  s2cs: s2cstlst, env: !appenv
+) : void = 
+(
+case+ s2cs of
+| list_nil () => ()
+| list_cons
+    (s2c, s2cs) => let
+    val opt = s2cst_get_dconlst(s2c)
+    val ((*void*)) =
+    (
+      case+ opt of
+      | None () => ()
+      | Some (d2cs) => d2conlst_app (d2cs, env)
+    ) (* end of [val] *)
+  in
+    auxlst_scst (s2cs, env)
+  end // end of [list_cons]
+) (* end of [auxlst_scst] *)
+//
+val () = s2cstlst_app (s2cs, env)
+//
+in
+  auxlst_scst (s2cs, env)
+end // end of [d2atdecs_app]
+
 (* ****** ****** *)
 
 extern
@@ -880,7 +921,7 @@ d2c0.d2ecl_node of
 | D2Cextvar (name, d2e) => d2exp_app (d2e, env)
 | D2Cextcode (knd, pos, code) => ((*void*))
 //
-| D2Cdatdecs (int, s2cs) => s2cstlst_app (s2cs, env)
+| D2Cdatdecs (int, s2cs) => d2atdecs_app (s2cs, env)
 | D2Cexndecs ( d2cs_exn ) => d2conlst_app (d2cs_exn, env)
 //
 | D2Cdcstdecs (staext, knd, d2cs) => d2cstlst_app (d2cs, env)

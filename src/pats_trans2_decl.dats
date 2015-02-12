@@ -665,6 +665,8 @@ end // end of [t1kindef_tr]
 
 (* ****** ****** *)
 
+local
+
 fun
 s1expdef_tr_arg
 (
@@ -712,8 +714,11 @@ in
   s2e_def  
 end // end of [s1expdef_tr_def]
 
+in (* in-of-local *)
+
 fun
-s1expdef_tr (
+s1expdef_tr
+(
   res: s2rtopt, d: s1expdef
 ) : s2cst = let
 //
@@ -775,7 +780,7 @@ s2cst_make (
 //
 end // end of [s1expdef_tr]
 
-fn s1expdeflst_tr
+fun s1expdeflst_tr
   (knd: int, ds: s1expdeflst): void = let
 //
 val res =
@@ -817,9 +822,15 @@ in
   // nothing
 end // end of [s1expdeflst_tr]
 
+end // end of [local]
+
 (* ****** ****** *)
 
-fun s1aspdec_tr_arg (
+local
+
+fun
+s1aspdec_tr_arg
+(
   d: s1aspdec, xs: s1marglst, s2t_fun: &s2rt
 ) : List_vt (s2varlst) = let
 //
@@ -854,27 +865,34 @@ case+ xs of
 //
 end // end of [s1aspdec_tr_arg]
 
-fun s1aspdec_tr_res (
+fun
+s1aspdec_tr_res
+(
   d: s1aspdec, s2t_res: s2rt
 ) : s2rt = let
 //
 fn auxerr (
   d: s1aspdec, s2t1: s2rt, s2t2: s2rt
 ) : void = {
+//
   val () = prerr_error2_loc (d.s1aspdec_loc)
   val () = filprerr_ifdebug ("s1aspdec_tr_res")
-  val () = prerr ": the static assumption is given the sort ["
+//
+  val () =
+  prerr ": the static assumption is given the sort ["
   val () = prerr_s2rt (s2t1)
   val () = prerr "] but it is expected to be of the sort ["
   val () = prerr_s2rt (s2t2)
   val () = prerr "]."
   val () = prerr_newline ()
+//
   val () = the_trans2errlst_add (T2E_s1aspdec_tr_res (d, s2t1, s2t2))
 } // end of [auxerr]
 //
 in // in of [let]
 //
-case+ d.s1aspdec_res of
+case+
+d.s1aspdec_res of
 | Some s1t => let
     val s2t = s1rt_tr (s1t)
     val test = s2rt_ltmat1 (s2t, s2t_res)
@@ -883,12 +901,14 @@ case+ d.s1aspdec_res of
       val () = auxerr (d, s2t, s2t_res) in s2t
     end (* end of [if] *)
   end // end of [Some]
-| None () => s2t_res
+| None ((*void*)) => s2t_res
 //
 end // end of [s1aspdec_tr_res]
 
 viewtypedef
 s2aspdecopt_vt = Option_vt (s2aspdec)
+
+in (* in-of-local *)
 
 fn s1aspdec_tr
   (d1c: s1aspdec): s2aspdecopt_vt = let
@@ -974,6 +994,8 @@ case+ ans of
       val () = auxerr3 (d1c, q, id) in None_vt ()
     end // end of [None_vt]
 end // end of [s1aspdec_tr]
+
+end // end of [local]
 
 (* ****** ****** *)
 

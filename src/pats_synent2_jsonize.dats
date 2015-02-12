@@ -198,8 +198,8 @@ dconlstopt = let
   val opt = s2cst_get_dconlst (s2c)
 in
   case+ opt of
-  | None () => jsonval_none ()
-  | Some (d2cs) => jsonval_some (jsonize_list_fun (d2cs, jsonize_d2con_long))
+  | None () => jsonval_none((*void*))
+  | Some (d2cs) => jsonval_some(jsonize_list_fun(d2cs, jsonize_d2con))
 end // end of [val]
 //
 in
