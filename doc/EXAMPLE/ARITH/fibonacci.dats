@@ -91,7 +91,7 @@ fibeq1
   (pf1, pf2, pf3, pf4) = let
 //
 prfun
-lemma {m,n:nat}
+lemma{m,n:nat}
   {r1,r2,r3,r4:int} .<m>. (
   pf1: FIB (m, r1) // r1 = fib(m)
 , pf2: FIB (n, r2) // r2 = fib(n)
@@ -128,7 +128,7 @@ end // end of [fibeq1]
 // fib(n)*fib(n+2) + (-1)^n = (fib(n+1))^2
 //
 primplmnt
-fibeq2 {n}{i}
+fibeq2{n}{i}
 (
   pf0, pf1, pf2, pf3
 ) = let
@@ -141,28 +141,37 @@ fibeq2
 , pf1: FIB (n+1, f1)
 , pf2: FIB (n+2, f2)
 , pf3: SGN (n, i)
-) : [
+) :
+[
   f0*f2 + i == f1*f1
 ] void =
-  sif n > 0 then let
-    prval FIBind (pf11, pf12) = pf1
-    prval EQINT () = fib_isfun2 (pf0, pf12)
-    prval pf_n_n = fibeq1 (pf0, pf0, pf1, pf1)
-    prval pf_1n_n1 = fibeq1 (pf11, pf1, pf0, pf2)
-    prval () = fib_isfun (pf_n_n, pf_1n_n1)
-    prval SGNind (pf31) = pf3
-    prval () = fibeq2 {n-1} (pf11, pf12, pf1, pf31) // IH
-  in
-    // nothing
-  end else let
-    prval FIBbas1 () = pf0
-    prval FIBbas2 () = pf1
-    prval FIBind (FIBbas1 (), FIBbas2 ()) = pf2
-    prval SGNbas () = pf3
-  in
-    // nothing
-  end // end of [sif]
-// end of [fibeq2]
+(
+//
+sif
+n > 0
+then let
+  prval
+  SGNind(pf31) = pf3
+  prval
+  FIBind(pf11, pf12) = pf1
+  prval EQINT() = fib_isfun2 (pf0, pf12)
+  prval pf_n_n = fibeq1 (pf0, pf0, pf1, pf1)
+  prval pf_1n_n1 = fibeq1 (pf11, pf1, pf0, pf2)
+  prval () = fib_isfun (pf_n_n, pf_1n_n1)
+  prval () = fibeq2{n-1} (pf11, pf12, pf1, pf31) // IH
+in
+  // nothing
+end // end of [then]
+else let
+  prval SGNbas () = pf3
+  prval FIBbas1 () = pf0
+  prval FIBbas2 () = pf1
+  prval FIBind (FIBbas1 (), FIBbas2 ()) = pf2
+in
+  // nothing
+end // end of [else]
+//
+) (* end of [fibeq2] *)
 //
 in
   fibeq2 {n}{i} (pf0, pf1, pf2, pf3)
