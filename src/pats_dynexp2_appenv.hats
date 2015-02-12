@@ -170,6 +170,24 @@ d2atdecs_app
   (s2cs, env) = let
 //
 fun
+auxlst_dcon
+(
+  d2cs: d2conlst, env: !appenv
+) : void = 
+(
+case+ d2cs of
+| list_nil () => ()
+| list_cons
+    (d2c, d2cs) => let
+    val () = d2con_app (d2c, env)
+    val s2e = d2con_get_type (d2c)
+    val () = s2exp_app (s2e, env)
+  in
+    auxlst_dcon (d2cs, env)
+  end // end of [list_cons]
+) (* end of [auxlst_dcon] *)
+//
+fun
 auxlst_scst
 (
   s2cs: s2cstlst, env: !appenv
@@ -184,7 +202,7 @@ case+ s2cs of
     (
       case+ opt of
       | None () => ()
-      | Some (d2cs) => d2conlst_app (d2cs, env)
+      | Some (d2cs) => auxlst_dcon (d2cs, env)
     ) (* end of [val] *)
   in
     auxlst_scst (s2cs, env)
