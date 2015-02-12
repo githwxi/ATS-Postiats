@@ -103,16 +103,20 @@ lemma{m,n:nat}
 //
 in
 //
-sif m > 0 then let
-  prval FIBind (pf30, pf31) = pf3
-  prval EQINT () = fib_isfun2 (pf1, pf31)
+sif
+m > 0
+then let
+  prval
+  FIBind(pf30, pf31) = pf3
+  prval EQINT() = fib_isfun2 (pf1, pf31)
 in
   lemma {m-1,n+1}
     (pf30, pf4, pf31, FIBind (pf2, pf4))
   // end of [lemma]
-end else let
-  prval FIBbas1 () = pf1; prval FIBbas2 () = pf3 in pf4
-end // end of [sif]
+end // end of [then]
+else let
+  prval FIBbas1() = pf1; prval FIBbas2() = pf3 in pf4
+end // end of [else]
 //
 end // end of [lemma]
 //
@@ -135,17 +139,17 @@ fibeq2{n}{i}
 //
 prfun
 fibeq2
-  {n:nat}{i:int}
-  {f0,f1,f2:int} .<n>. (
+{n:nat}{i:int}
+{f0,f1,f2:int} .<n>.
+(
   pf0: FIB (n, f0)
 , pf1: FIB (n+1, f1)
 , pf2: FIB (n+2, f2)
-, pf3: SGN (n, i)
+, pf3: SGN (n, i) // i = (-1)^n
 ) :
 [
   f0*f2 + i == f1*f1
-] void =
-(
+] void = (
 //
 sif
 n > 0
@@ -154,19 +158,19 @@ then let
   SGNind(pf31) = pf3
   prval
   FIBind(pf11, pf12) = pf1
-  prval EQINT() = fib_isfun2 (pf0, pf12)
-  prval pf_n_n = fibeq1 (pf0, pf0, pf1, pf1)
-  prval pf_1n_n1 = fibeq1 (pf11, pf1, pf0, pf2)
-  prval () = fib_isfun (pf_n_n, pf_1n_n1)
-  prval () = fibeq2{n-1} (pf11, pf12, pf1, pf31) // IH
+  prval EQINT() = fib_isfun2(pf0, pf12)
+  prval pf_n_n = fibeq1(pf0, pf0, pf1, pf1)
+  prval pf_1n_n1 = fibeq1(pf11, pf1, pf0, pf2)
+  prval () = fib_isfun(pf_n_n, pf_1n_n1)
+  prval () = fibeq2{n-1}(pf11, pf12, pf1, pf31) // IH
 in
   // nothing
 end // end of [then]
 else let
-  prval SGNbas () = pf3
-  prval FIBbas1 () = pf0
-  prval FIBbas2 () = pf1
-  prval FIBind (FIBbas1 (), FIBbas2 ()) = pf2
+  prval SGNbas() = pf3
+  prval FIBbas1() = pf0
+  prval FIBbas2() = pf1
+  prval FIBind(FIBbas1(), FIBbas2()) = pf2
 in
   // nothing
 end // end of [else]
@@ -174,7 +178,7 @@ end // end of [else]
 ) (* end of [fibeq2] *)
 //
 in
-  fibeq2 {n}{i} (pf0, pf1, pf2, pf3)
+  fibeq2{n}{i}(pf0, pf1, pf2, pf3)
 end // end of [fibeq2]
 
 (* ****** ****** *)
