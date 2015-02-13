@@ -498,6 +498,24 @@ symintr char2u2ui
 overload char2u2ui with char2u2uint0 of 0
 
 #atscode_separator()
+//
+fun int2byte0 (i: int): byte = "mac\#%"
+fun byte2int0 (b: byte):<> int = "mac\#%"
+//
+fun uint2byte0 (u: uint): byte = "mac\#%"
+fun byte2uint0 (b: byte):<> uint = "mac\#%"
+//
+symintr byte2i
+overload byte2i with byte2int0 of 0
+symintr i2byte
+overload i2byte with int2byte0 of 0
+//
+symintr byte2ui
+overload byte2i with byte2uint0 of 0
+symintr ui2byte
+overload i2byte with uint2byte0 of 0
+//
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 

@@ -434,6 +434,29 @@ atspre_int2xxdigit
 
 #atscode_separator_for_C()
 
+ATSinline()
+atstype_int
+atspre_byte2int (atstype_byte b) { return ((atstype_int)b) ; }
+ATSinline()
+atstype_byte
+atspre_int2byte (atstype_int i) { return ((atstype_byte)i) ; }
+
+ATSinline()
+atstype_uint
+atspre_byte2uint (atstype_byte b) { return ((atstype_uint)b) ; }
+ATSinline()
+atstype_byte
+atspre_uint2byte (atstype_uint u) { return ((atstype_byte)u) ; }
+
+#atscode_separator_for_C()
+
+\#define atspre_byte2int0 atspre_byte2int
+\#define atspre_int2byte0 atspre_int2byte
+\#define atspre_byte2uint0 atspre_byte2uint
+\#define atspre_uint2byte0 atspre_uint2byte
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSLIB_PRELUDE_CATS_CHAR
 
 #atscode_separator_for_C()
