@@ -64,6 +64,12 @@ praxi
 CONGline_AB_BA{A,B:pnt}(): CONG(line(A,B), line(B,A))
 //
 (* ****** ****** *)
+//
+extern
+praxi
+CONGangle_ABC_CBA{A,B,C:pnt}(): CONG(angle(A,B,C), angle(C,B,A))
+//
+(* ****** ****** *)
 
 absprop ONLINE (p: pnt, l: line)
 
@@ -185,7 +191,32 @@ IsoscelesAngleq
 ) : CONG(angle(A,B,C), angle(A,C,B))
 
 (* ****** ****** *)
+//
+// HX-2015-02-12:
+// This is by a theorem-prover
+//
+primplmnt
+IsoscelesAngleq
+  {A,B,C}
+(
+  eq_AB_AC
+) = let
+//
+prval
+eq_AC_AB = CONGline_symm(eq_AB_AC)
+//
+val trieq_ABC_ACB =
+  lemma_CONGtriangle_line_line_angle(eq_AB_AC, eq_AC_AB, CONGangle_ABC_CBA())
+//
+in
+  lemma_CONGtriangle_ABC(trieq_ABC_ACB)
+end // end of [IsoscelesAngleq]
 
+(* ****** ****** *)
+//
+// HX-2015-02-12:
+// This is a standard textbook proof
+//
 primplmnt
 IsoscelesAngleq
   {A,B,C}
