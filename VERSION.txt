@@ -33,6 +33,7 @@ Here is a list of major additions and changes since the last release:
 4. Improving the formatting of INT2PROGINATS and ATS2TUTORIAL
 5. Having $showtype to also print out the sort information
 6. Adding API for sdstring (simple dynamic strings) in ATS2-contrib
+7. Adding $UN.prop_assert for asserting any proposition one needs
 
 ######
 

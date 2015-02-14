@@ -57,73 +57,83 @@ extern int toascii (int c) ; // _XOPEN_SOURCE
 
 \#ifndef fprintf
 extern
-int fprintf (FILE *stream, const char *format, ...) ;
+int
+fprintf(FILE *stream, const char *format, ...) ;
 \#endif // end of [ifndef]
 
 #atscode_separator_for_C()
-
+//
 ATSinline()
 atstype_char
-atspre_int2char (atstype_int i) { return ((atstype_char)i) ; }
-\#define atspre_int2char0 atspre_int2char
-
+atspre_int2char
+  (atstype_int i) { return ((atstype_char)i) ; }
 ATSinline()
 atstype_schar
-atspre_int2schar (atstype_int i) { return ((atstype_schar)i) ; }
-\#define atspre_int2schar0 atspre_int2schar
-
+atspre_int2schar
+  (atstype_int i) { return ((atstype_schar)i) ; }
 ATSinline()
 atstype_uchar
-atspre_int2uchar (atstype_int i) { return ((atstype_uchar)i) ; }
+atspre_int2uchar
+  (atstype_int i) { return ((atstype_uchar)i) ; }
+//
+\#define atspre_int2char0 atspre_int2char
+\#define atspre_int2schar0 atspre_int2schar
 \#define atspre_int2uchar0 atspre_int2uchar
-
+//
 #atscode_separator_for_C()
-
+//
 ATSinline()
 atstype_int
-atspre_char2int (atstype_char c) { return ((atstype_int)c) ; }
+atspre_char2int
+  (atstype_char c) { return ((atstype_int)c) ; }
+ATSinline()
+atstype_int
+atspre_schar2int
+  (atstype_schar c) { return ((atstype_int)c) ; }
+ATSinline()
+atstype_int
+atspre_uchar2int
+  (atstype_uchar c) { return ((atstype_int)c) ; }
+//
 \#define atspre_char2int0 atspre_char2int
-
-ATSinline()
-atstype_int
-atspre_schar2int (atstype_schar c) { return ((atstype_int)c) ; }
 \#define atspre_schar2int0 atspre_schar2int
-
-ATSinline()
-atstype_int
-atspre_uchar2int (atstype_uchar c) { return ((atstype_int)c) ; }
 \#define atspre_uchar2int0 atspre_uchar2int
-
+//
 #atscode_separator_for_C()
-
+//
 ATSinline()
 atstype_uint
-atspre_char2uint (atstype_char c) { return ((atstype_uint)c) ; }
+atspre_char2uint
+  (atstype_char c) { return ((atstype_uint)c) ; }
+ATSinline()
+atstype_uint
+atspre_schar2uint
+  (atstype_schar c) { return ((atstype_uint)c) ; }
+ATSinline()
+atstype_uint
+atspre_uchar2uint
+  (atstype_uchar c) { return ((atstype_uint)c) ; }
+//
 \#define atspre_char2uint0 atspre_char2uint
-
-ATSinline()
-atstype_uint
-atspre_schar2uint (atstype_schar c) { return ((atstype_uint)c) ; }
 \#define atspre_schar2uint0 atspre_schar2uint
-
-ATSinline()
-atstype_uint
-atspre_uchar2uint (atstype_uchar c) { return ((atstype_uint)c) ; }
 \#define atspre_uchar2uint0 atspre_uchar2uint
-
+//
 #atscode_separator_for_C()
-
+//
 ATSinline()
 atstype_int
 atspre_char2u2int
-  (atstype_char c) { return ((atstype_int)((atstype_uchar)c)) ; }
-\#define atspre_char2u2int0 atspre_char2u2int
+  (atstype_char c)
+  { return ((atstype_int)((atstype_uchar)c)) ; }
 ATSinline()
 atstype_uint
 atspre_char2u2uint
-  (atstype_char c) { return ((atstype_uint)((atstype_uchar)c)) ; }
+  (atstype_char c)
+  { return ((atstype_uint)((atstype_uchar)c)) ; }
+//
+\#define atspre_char2u2int0 atspre_char2u2int
 \#define atspre_char2u2uint0 atspre_char2u2uint
-
+//
 #atscode_separator_for_C()
 
 ATSinline()
@@ -147,32 +157,38 @@ atspre_char_isneqz
 \#define atspre_char1_isneqz(c) atspre_char_isneqz(c) 
 
 #atscode_separator_for_C()
-
+//
 ATSinline()
 atstype_char
 atspre_add_char_int
-  (atstype_char c1, atstype_int i2) { return (c1 + i2) ; }
-// end of [atspre_add_char_int]
+(
+  atstype_char c1, atstype_int i2
+) { return (c1 + i2) ; }
+//
 \#define atspre_add_char0_int0 atspre_add_char_int
-
+//
 #atscode_separator_for_C()
-
+//
 ATSinline()
 atstype_char
 atspre_sub_char_int
-  (atstype_char c1, atstype_int i2) { return (c1 - i2) ; }
-// end of [atspre_sub_char_int]
+(
+  atstype_char c1, atstype_int i2
+) { return (c1 - i2) ; }
+//
 \#define atspre_sub_char0_int0 atspre_sub_char_int
-
+//
 #atscode_separator_for_C()
-
+//
 ATSinline()
 atstype_int
 atspre_sub_char_char
-  (atstype_char c1, atstype_char c2) { return (c1 - c2) ; }
-// end of [sub_char0_char0]
+(
+  atstype_char c1, atstype_char c2
+) { return (c1 - c2) ; }
+//
 \#define atspre_sub_char0_char0 atspre_sub_char_char
-
+//
 #atscode_separator_for_C()
 
 %{

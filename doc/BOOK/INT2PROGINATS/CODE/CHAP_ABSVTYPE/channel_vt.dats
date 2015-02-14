@@ -170,7 +170,7 @@ l0,l1,l2,l3:agz
 , CVisnil=condvar_vt(l2)
 , CVisful=condvar_vt(l3)
 , queue=ptr // deqarray
-} (* end of [channel] *)
+} (* end of [channel_] *)
 //
 (* ****** ****** *)
 
