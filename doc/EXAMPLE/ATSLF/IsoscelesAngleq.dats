@@ -91,7 +91,7 @@ CONGangle_online
 
 extern
 praxi
-lemma_CONGtriangle_line_line_line
+CONGtriangle_line_line_line
 {A1,B1,C1:pnt}
 {A2,B2,C2:pnt}
 (
@@ -104,7 +104,7 @@ lemma_CONGtriangle_line_line_line
 
 extern
 praxi
-lemma_CONGtriangle_line_line_angle
+CONGtriangle_line_line_angle
 {A1,B1,C1:pnt}
 {A2,B2,C2:pnt}
 (
@@ -117,7 +117,7 @@ lemma_CONGtriangle_line_line_angle
 
 extern
 praxi
-lemma_CONGtriangle_line_angle_angle
+CONGtriangle_line_angle_angle
 {A1,B1,C1:pnt}
 {A2,B2,C2:pnt}
 (
@@ -206,7 +206,7 @@ prval
 eq_AC_AB = CONGline_symm(eq_AB_AC)
 //
 val trieq_ABC_ACB =
-  lemma_CONGtriangle_line_line_angle(eq_AB_AC, eq_AC_AB, CONGangle_ABC_CBA())
+  CONGtriangle_line_line_angle(eq_AB_AC, eq_AC_AB, CONGangle_ABC_CBA())
 //
 in
   lemma_CONGtriangle_ABC(trieq_ABC_ACB)
@@ -245,7 +245,7 @@ eq_DA_DA = CONGline_refl{line(D,A)}()
 //
 prval
 trieq_ABD_ACD =
-  lemma_CONGtriangle_line_line_line(eq_AB_AC, eq_BD_CD, eq_DA_DA)
+  CONGtriangle_line_line_line(eq_AB_AC, eq_BD_CD, eq_DA_DA)
 //
 prval eq_ABD_ACD =
   lemma_CONGtriangle_ABC(trieq_ABD_ACD)
