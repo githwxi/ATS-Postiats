@@ -62,7 +62,7 @@ _ = "libats/DATS/athread_posix.dats"
 (* ****** ****** *)
 //
 absvtype
-queue_vtype (a:vt@ype+, int(*id*)) = ptr
+queue_vtype(a:vt@ype+, int(*id*)) = ptr
 //
 vtypedef
 queue(a:vt0p, id:int) = queue_vtype(a, id)
@@ -88,11 +88,15 @@ absprop ISFUL(id:int, b:bool)
 extern
 fun
 {a:vt0p}
-queue_isnil{id:int}(!queue(a, id)): [b:bool] (ISNIL(id, b) | bool(b))
+queue_isnil
+  {id:int}
+  (!queue(a, id)): [b:bool] (ISNIL(id, b) | bool(b))
 extern
 fun
 {a:vt0p}
-queue_isful{id:int}(!queue(a, id)): [b:bool] (ISFUL(id, b) | bool(b))
+queue_isful
+  {id:int}
+  (!queue(a, id)): [b:bool] (ISFUL(id, b) | bool(b))
 //
 (* ****** ****** *)
 //
@@ -227,7 +231,8 @@ in(*in-of-local*)
 val () = ch.CVisful := unsafe_condvar_t2vt(x)
 end // end of [local]
 //
-val () = ch.queue := $UN.castvwtp0{ptr}(queue_make<a>(cap))
+val () =
+ch.queue := $UN.castvwtp0{ptr}(queue_make<a>(cap))
 //
 in
   fold@(chan); chan
@@ -360,17 +365,21 @@ in
 if
 isful
 then let
+//
   prval
   (pfmut, fpf) =
   __assert () where
   {
     extern
-    praxi __assert (): vtakeout0(locked_v(l1))
-  }
+    praxi
+    __assert(): vtakeout0(locked_v(l1))
+  } (* end of [prval] *)
+//
   val mutex = unsafe_mutex_vt2t(ch.mutex)
   val CVisful = unsafe_condvar_vt2t(ch.CVisful)
   val ((*void*)) = condvar_wait (pfmut | CVisful, mutex)
   prval ((*void*)) = fpf (pfmut)
+//
 in
   channel_insert2 (chan, xs, x0)
 end // end of [then]
@@ -413,7 +422,7 @@ val x0 = channel_remove2<a> (chan, xs)
 prval pfmut = $UN.castview0{locked_v(l1)}(xs)
 val ((*void*)) = mutex_unlock (pfmut | mutex)
 //
-} // end of [channel_remove2]
+} // end of [channel_remove]
 
 (* ****** ****** *)
 
@@ -431,17 +440,21 @@ in
 if
 isnil
 then let
+//
   prval
   (pfmut, fpf) =
   __assert () where
   {
     extern
-    praxi __assert (): vtakeout0(locked_v(l1))
-  }
+    praxi
+    __assert (): vtakeout0(locked_v(l1))
+  } (* end of [prval] *)
+//
   val mutex = unsafe_mutex_vt2t(ch.mutex)
   val CVisnil = unsafe_condvar_vt2t(ch.CVisnil)
   val ((*void*)) = condvar_wait (pfmut | CVisnil, mutex)
   prval ((*void*)) = fpf (pfmut)
+//
 in
   channel_remove2 (chan, xs)
 end // end of [then]
@@ -594,7 +607,9 @@ val () =
 val-
 ~Some_vt(que) = channel_unref<int>(chan)
 //
-val ((*freed*)) = queue_free_type<int>(que)
+val () = queue_free_type<int>(que)
+//
+val () = println! ("Testing for [channel_vt] has passed!")
 //
 } (* end of [main0] *)
 
