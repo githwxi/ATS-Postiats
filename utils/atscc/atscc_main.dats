@@ -222,17 +222,26 @@ in
 //
 case+ 0 of
 //
-| _ when (str0="-vats") => let
-    val res = list_vt_cons{ca}(CAvats(), res)
+| _ when (str0="-h") => let
+    val res = list_vt_cons{ca}(CAhelp(), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]  
+//
+| _ when (str0="--help") => let
+    val res = list_vt_cons{ca}(CAhelp(), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]  
+//
+| _ when (str0="-hats") => let
+    val res = list_vt_cons{ca}(CAhats(), res)
   in
     aux0 (n, argv, i+1, res)
   end // end of [_ when ...]
-| _ when (str0="--version") => let
-    val res =
-      list_vt_cons{ca}(CAvats(), res)
-    val res =
-      list_vt_cons{ca}(CA_CCOMPitm(str0), res)
-    // end of [val]
+//
+| _ when (str0="-vats") => let
+    val res = list_vt_cons{ca}(CAvats(), res)
   in
     aux0 (n, argv, i+1, res)
   end // end of [_ when ...]
@@ -310,7 +319,8 @@ end // end of [aux1]
 
 (* ****** ****** *)
 
-and aux1_atsccomp
+and
+aux1_atsccomp
   {n:int}
   {i:nat | i <= n}
   .<3*(n-i)+0>.
@@ -328,7 +338,8 @@ end // end of [aux1_atsccomp]
 
 (* ****** ****** *)
 
-and aux1_iats
+and
+aux1_iats
   {n:int}
   {i:nat | i <= n}
   .<3*(n-i)+0>.
@@ -344,7 +355,8 @@ in
   if i < n then aux0 (n, argv, i+1, res) else res
 end // end of [aux1_iats]
 
-and aux1_iiats
+and
+aux1_iiats
   {n:int}
   {i:nat | i <= n}
   .<3*(n-i)+0>.
@@ -362,7 +374,8 @@ end // end of [aux1_iiats]
 
 (* ****** ****** *)
 
-and aux1_dats
+and
+aux1_dats
   {n:int}
   {i:nat | i <= n}
   .<3*(n-i)+0>.
@@ -378,7 +391,8 @@ in
   if i < n then aux0 (n, argv, i+1, res) else res
 end // end of [aux1_dats]
 
-and aux1_ddats
+and
+aux1_ddats
   {n:int}
   {i:nat | i <= n}
   .<3*(n-i)+0>.
@@ -396,7 +410,8 @@ end // end of [aux1_ddats]
 
 (* ****** ****** *)
 
-and aux1_fsats
+and
+aux1_fsats
   {n:int}
   {i:nat | i <= n}
   .<3*(n-i)+0>.
@@ -412,7 +427,8 @@ in
   if i < n then aux0 (n, argv, i+1, res) else res
 end // end of [aux1_fsats]
 
-and aux1_fdats
+and
+aux1_fdats
   {n:int}
   {i:nat | i <= n}
   .<3*(n-i)+0>.
@@ -553,9 +569,17 @@ val () = auxlst (cas, 1(*i*), res)
 val () =
 (
 case+ ca0 of
+| CAhats () =>
+  {
+    val () =
+    res :=
+    list_vt_cons{string}("--help", res)
+  }
 | CAvats () =>
   {
-    val () = res := list_vt_cons{string}("--version", res)
+    val () =
+    res :=
+    list_vt_cons{string}("--version", res)
   }
 | CAfilats (knd, opt) =>
   if issome (opt) then
@@ -605,10 +629,23 @@ fun auxlst
 in
 //
 case+ cas2 of
+//
+| list_nil () => let
+    val () = list_vt_free (cas1) in (*nothing*)
+  end (* end of [list_nil] *)
+//
 | list_cons
-    (ca2, cas2) => let
-  in
+    (ca2, cas2) =>
+  (
     case+ ca2 of
+//
+    | CAhats () => let
+        val res =
+          atsoptline_make ($UN.list_vt2t(cas1), ca2)
+        val () = ress := list_vt_cons{res}(res, ress)
+      in
+        auxlst (cas1, cas2, ress)
+      end (* end of [CAvats] *)
 //
     | CAvats () => let
         val res =
@@ -652,10 +689,7 @@ case+ cas2 of
 //
     | _(*ignored*) => auxlst (cas1, cas2, ress)
 //
-  end // end of [list_cons]
-| list_nil () => let
-    val () = list_vt_free (cas1) in (*nothing*)
-  end (* end of [list_nil] *)
+  ) (* end of [list_cons] *)
 //
 end // end of [auxlst]
 
@@ -688,10 +722,13 @@ in
 //
 case+ ca of
 //
+| CAhats () => ()
 | CAvats () => ()
 //
 | CAccats () => ()
 | CAtcats () => ()
+//
+| CAhelp () => ()
 //
 | CAgline () => ()
 //
@@ -791,7 +828,8 @@ overload + with add_ptr0_bsz of 10
 
 (* ****** ****** *)
 
-fun auxstr
+fun
+auxstr
 (
   p0: &ptr >> _, n0: &size_t >> _, x: string
 ) : int = let
@@ -812,7 +850,8 @@ end else ~1(*failure*) // end of [if]
 //
 end // end of [auxstr]
 
-fun auxstrlst_sep
+fun
+auxstrlst_sep
 (
   p0: &ptr >> _, n0: &size_t >> _, sep: string, xs: stringlst
 ) : int = let
@@ -835,7 +874,8 @@ end // end of [auxstrlst_sep]
 
 (* ****** ****** *)
 
-fun auxline
+fun
+auxline
 (
   cmd: string
 , args: stringlst
@@ -945,18 +985,36 @@ end // end of [atsoptline_exec_all]
 (* ****** ****** *)
 
 implement
-atsccomp_cont (cas) = let
+atsccomp_cont
+  (cas) = let
+//
+fun
+auxlst
+(
+  cas: commarglst, n: int
+) : bool =
+//
+case+ cas of
+| list_cons
+    (ca, cas) => let
+  in
+    case+ ca of
+    | CAccats _ => false
+    | CAtcats _ => false
+    | CAhelp () => auxlst (cas, n)
+    | CAhats () => auxlst (cas, n)
+    | CAvats () => auxlst (cas, n)
+    | CAverbose () => auxlst (cas, n)
+    | _ (*rest*) => auxlst (cas, n+1)
+  end (* end of [cons] *)
+| list_nil ((*void*)) =>
+    if n > 0 then true else false
+//
 in
 //
 case+ cas of
-| list_cons (ca, cas) =>
-  (
-    case+ ca of
-    | CAccats () => false
-    | CAtcats () => false
-    | _ => atsccomp_cont (cas)
-  ) (* end of [cons] *)
-| list_nil ((*void*)) => true
+| list_nil () => false
+| list_cons (_, cas) => auxlst (cas, 0)
 //
 end // end of [atsccomp_cont]
 
@@ -993,6 +1051,24 @@ in
 end // end of [atsccompline_exec]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+atscc_help
+  (cas) = let
+in
+//
+case+ cas of
+| list_cons
+    (ca, cas) =>
+  (
+    case+ ca of
+    | CAhelp () => true | _ => atscc_help (cas)
+  )
+| list_nil ((*void*)) => false
+//
+end // end of [atscc_help]
 
 (* ****** ****** *)
 

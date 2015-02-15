@@ -61,6 +61,13 @@ var status: int = 0
 val cas =
 atsccproc_commline (argc, argv)
 //
+val help = atscc_help (cas)
+//
+val () =
+(
+  if help then atsopt_print_usage ()
+) (* end of [val] *)
+//
 val verb =
 (
   if atscc_verbose (cas) then 1 else 0
@@ -68,8 +75,9 @@ val verb =
 //
 val cmd = atsopt_get ()
 val argss = atsoptline_make_all (cas)
-val (
-) = status := atsoptline_exec_all (verb, cmd, argss)
+val () =
+  status :=
+  atsoptline_exec_all (verb, cmd, argss)
 //
 val cont =
 (

@@ -34,6 +34,7 @@ Here is a list of major additions and changes since the last release:
 5. Having $showtype to also print out the sort information
 6. Adding API for sdstring (simple dynamic strings) in ATS2-contrib
 7. Adding $UN.prop_assert for asserting any proposition one needs
+8. Adding flags -h/--help for patscc to print out usage information
 
 ######
 

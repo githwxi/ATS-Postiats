@@ -33,18 +33,15 @@
 
 (* ****** ****** *)
 
-fun{} atsopt_get (): string
-fun{} atsccomp_get (): string
-
-(* ****** ****** *)
-
 datatype commarg =
 //
-  | CAvats of () // -vats: version inquiry
+  | CAhats of () // -hats: patsopt --help
+  | CAvats of () // -vats: patsopt --version 
 //
   | CAccats of () // -ccats: compilation only
   | CAtcats of () // -tcats: typechecking only
 //
+  | CAhelp of () // --help: usage information
   | CAgline of () // --gline: line programa info
 //
   | CAverbose of () // -verbose: verbosity
@@ -62,19 +59,31 @@ datatype commarg =
   | CA_CCOMPitm of string // any generic item is passed to $(CCOMP)
 // end of [commarg]
 
+(* ****** ****** *)
+
 typedef commarglst = List0 (commarg)
 vtypedef commarglst_vt = List0_vt (commarg)
 
 (* ****** ****** *)
-
-fun{} atsccomp_get2 (cas: commarglst): string
-
-(* ****** ****** *)
-
-fun fprint_commarg (out: FILEref, ca: commarg): void
-fun fprint_commarglst (out: FILEref, cas: commarglst): void
+//
+fun
+fprint_commarg (out: FILEref, ca: commarg): void
+fun
+fprint_commarglst (out: FILEref, cas: commarglst): void
+//
+overload fprint with fprint_commarg of 0
 overload fprint with fprint_commarglst of 10
-
+//
+(* ****** ****** *)
+//
+fun{} atsopt_get (): string
+fun{} atsopt_print_usage (): void
+//
+(* ****** ****** *)
+//
+fun{} atsccomp_get (): string
+fun{} atsccomp_get2 (cas: commarglst): string
+//
 (* ****** ****** *)
 //
 // HX: flag=0/1:static/dynamic
@@ -86,32 +95,44 @@ fun atscc_outname (flag: int, path: string): string
 fun atsccproc_commline {n:int} (int n, !argv(n)): commarglst
 
 (* ****** ****** *)
-
-fun fprint_atsoptline
+//
+fun
+fprint_atsoptline
 (
   out: FILEref, cas: commarglst, ca0: commarg
 ) : void // end of [fprint_atsoptline]
-
-fun fprint_atsoptline_all (FILEref, commarglst): void
-
-fun fprint_atsccompline (out: FILEref, cas: commarglst): void
-
+//
+fun
+fprint_atsoptline_all (FILEref, commarglst): void
+//
 (* ****** ****** *)
 
-fun atsoptline_make
-  (cas: !RD(commarglst), ca0: commarg): stringlst_vt
-// end of [atsoptline_make]
+fun
+fprint_atsccompline (out: FILEref, cas: commarglst): void
 
-fun atsoptline_make_all (cas: commarglst): List0_vt (stringlst_vt)
+(* ****** ****** *)
+//
+fun
+atsoptline_make
+  (cas: !RD(commarglst), ca0: commarg): stringlst_vt
+//
+fun
+atsoptline_make_all(cas: commarglst): List0_vt(stringlst_vt)
+//
+(* ****** ****** *)
 
 fun atsccompline_make (cas: commarglst): stringlst_vt
 
 (* ****** ****** *)
 //
-fun atsoptline_exec
+fun
+atsoptline_exec
   (flag: int, atsopt: string, args: stringlst_vt): int(*status*)
-fun atsoptline_exec_all
+fun
+atsoptline_exec_all
   (flag: int, atsopt: string, args: List_vt (stringlst_vt)): int(*status*)
+//
+(* ****** ****** *)
 //
 fun atsccomp_cont (cas: commarglst): bool
 //
@@ -120,6 +141,7 @@ fun atsccompline_exec
 //
 (* ****** ****** *)
 
+fun atscc_help (cas: commarglst): bool
 fun atscc_verbose (cas: commarglst): bool
 
 (* ****** ****** *)

@@ -421,7 +421,7 @@ val COMARGkey (_, cmdname) = arg0
 //
 in
 //
-fprintln! (out, "usage: ", cmdname, " <command> ... <command>\n");
+fprintln! (out, "Usage: ", cmdname, " <command> ... <command>\n");
 fprintln! (out, "where a <command> is of one of the following forms:\n");
 fprintln! (out, "  -h (for printing out this help usage)");
 fprintln! (out, "  --help (for printing out this help usage)");
@@ -1556,7 +1556,11 @@ case+ key of
     end // end of [if]
   end
 //
-| "-h" => patsopt_usage (stdout_ref, state.comarg0)
+| "-h" => let
+    val cmd = state.comarg0
+  in
+    patsopt_usage (stdout_ref, cmd)
+  end // end of ["-h"]
 //
 | "-v" => patsopt_version (stdout_ref)
 //

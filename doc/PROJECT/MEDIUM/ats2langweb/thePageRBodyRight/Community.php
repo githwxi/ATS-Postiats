@@ -144,12 +144,12 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
 ATS-2014-11-07:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/PqtPZKGKrFw"
 >Animating sorting in ATS</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
-
 
 <hr></hr>
 
@@ -161,7 +161,6 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-<!--
 ATS-2014-10-24:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/prfDLf2_LKM"
