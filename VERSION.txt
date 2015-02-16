@@ -35,6 +35,7 @@ Here is a list of major additions and changes since the last release:
 6. Adding API for sdstring (simple dynamic strings) in ATS2-contrib
 7. Adding $UN.prop_assert for asserting any proposition one needs
 8. Adding flags -h/--help for patscc to print out usage information
+9. Handling D2Coverload during the jsonization of level-2 syntax
 
 ######
 

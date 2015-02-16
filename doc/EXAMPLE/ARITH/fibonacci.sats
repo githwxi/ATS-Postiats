@@ -82,13 +82,10 @@ fibeq1
 (* ****** ****** *)
 //
 // Cassini's formula states:
-//
 // fib(n)*fib(n+2) + (-1)^n = (fib(n+1))^2
 //
-(* ****** ****** *)
-
 prfun
-fibeq2
+fib_cassini
 {n:nat}
 {f0,f1,f2:int}
 {i:int}
@@ -98,7 +95,28 @@ fibeq2
 , pf2: FIB (n+2, f2)
 , pf3: SGN (n, i)
 ) : [f0*f2 + i == f1*f1] void
-
+//
+(* ****** ****** *)
+//
+// Vajda's formula states:
+// fib(n+i)*fib(n+j)-fib(n)*fib(n+i+j) = (-1)^n*fib(i)*fib(j)
+//
+prfun
+fib_vajda
+{n:nat}
+{i,j:nat}
+{f_n,f_i,f_j,f_ni,f_nj,f_nij:int}
+{sgn:int}
+(
+  pf_n: FIB (n, f_n)
+, pf_i: FIB (i, f_i)
+, pf_j: FIB (j, f_j)
+, pf_ni: FIB (n+i, f_ni)
+, pf_nj: FIB (n+j, f_nj)
+, pf_nij: FIB (n+i+j, f_nij)
+, sgn: SGN (n, sgn)
+) : [f_ni*f_nj - f_n*f_nij == sgn*f_i*f_j] void
+//
 (* ****** ****** *)
 
 (* end of [fibonacci.sats] *)

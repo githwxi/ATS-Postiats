@@ -38,17 +38,24 @@ primplmnt
 fib_istot{n}() = let
 //
 prfun
-istot {n:nat} .<n>.
+istot{n:nat} .<n>.
   (): [r:nat] FIB (n, r) =
-  sif n == 0 then FIBbas0 ()
-  else sif n == 1 then FIBbas1 ()
-  else FIBind2 (
-    istot {n-2} (), istot {n-1} ()
-  ) // end of [sif]
-// end of [istot]
+(
+//
+sif
+n == 0
+then FIBbas0 ()
+else (
+  sif n == 1
+    then FIBbas1 ()
+    else FIBind2 (istot{n-2}(), istot{n-1}())
+  // end of [sif]
+) (* end of [else] *)
+//
+) (* end of [istot] *)
 //
 in
-  istot {n} ()
+  istot{n}((*void*))
 end // end of [fib_istot]
 
 (* ****** ****** *)
@@ -130,7 +137,7 @@ end // end of [fibeq1]
 // fib(n)*fib(n+2) + (-1)^n = (fib(n+1))^2
 //
 primplmnt
-fibeq2{n}
+fib_cassini{n}
 (
   pf0, pf1, pf2, pf3
 ) = let
@@ -177,7 +184,129 @@ end // end of [else]
 //
 in
   fibeq2{n}(pf0, pf1, pf2, pf3)
-end // end of [fibeq2]
+end // end of [fib_cassini]
+
+(* ****** ****** *)
+
+primplmnt
+fib_vajda
+{n}{i,j}{...}{sgn}
+(
+  pf_n, pf_i, pf_j, pf_ni, pf_nj, pf_nij, sgn
+) = let
+//
+prfun
+lemma
+{j:nat}
+{f_j,f_n,f_n1,f_nj,f_nj1:int} .<j>.
+(
+  pf_j: FIB(j, f_j)
+, pf_n: FIB(n, f_n)
+, pf_n1: FIB(n+1, f_n1)
+, pf_nj: FIB(n+j, f_nj)
+, pf_nj1: FIB(n+j+1, f_nj1)
+) :
+[
+  f_n1*f_nj-f_n*f_nj1==sgn*f_j
+] void = let
+in
+//
+sif
+j==0
+then let
+//
+prval
+FIBbas0() = pf_j
+prval EQINT() = fib_isfun2(pf_n, pf_nj)
+prval EQINT() = fib_isfun2(pf_n1, pf_nj1)
+//
+in
+  // nothing
+end // end of [then]
+else (
+sif
+j==1
+then let
+//
+prval
+FIBbas1() = pf_j
+prval EQINT() = fib_isfun2(pf_n1, pf_nj)
+prval ((*void*)) = fib_cassini (pf_n, pf_n1, pf_nj1, sgn)
+in
+  // nothing
+end // end of [then]
+else let
+//
+prval
+FIBind2(pf_j_2, pf_j_1) = pf_j
+prval
+FIBind2(pf_nj_2, pf_nj_1) = pf_nj
+prval
+FIBind2(pf_nj1_2, pf_nj1_1) = pf_nj1
+//
+prval ((*void*)) =
+  lemma{j-2}(pf_j_2, pf_n, pf_n1, pf_nj_2, pf_nj1_2)
+prval ((*void*)) =
+  lemma{j-1}(pf_j_1, pf_n, pf_n1, pf_nj_1, pf_nj1_1)
+//
+in
+  // nothing
+end // end of [else]
+) (* end of [else] *)
+//
+end // end of [lemma]
+//
+in
+//
+sif
+i==0
+then let
+//
+prval
+FIBbas0() = pf_i
+//
+prval EQINT() = fib_isfun2 (pf_n, pf_ni)
+prval EQINT() = fib_isfun2 (pf_nj, pf_nij)
+//
+in
+  // nothing
+end // end of [then]
+else (
+//
+sif
+i==1
+then let
+//
+prval
+FIBbas1() = pf_i
+prval () = lemma{j}(pf_j, pf_n, pf_ni, pf_nj, pf_nij)
+//
+in
+end // end of [then]
+else let
+//
+prval
+FIBind2(pf_i_2, pf_i_1) = pf_i
+prval
+FIBind2(pf_ni_2, pf_ni_1) = pf_ni
+prval
+FIBind2(pf_nij_2, pf_nij_1) = pf_nij
+//
+prval ((*void*)) =
+fib_vajda{n}{i-2,j}
+  (pf_n, pf_i_2, pf_j, pf_ni_2, pf_nj, pf_nij_2, sgn)
+//
+prval ((*void*)) =
+fib_vajda{n}{i-1,j}
+  (pf_n, pf_i_1, pf_j, pf_ni_1, pf_nj, pf_nij_1, sgn)
+//
+in
+  // nothing
+end // end of [else]
+//
+) (* end of [else] *)
+//
+end // end of [fib_vajda]
 
 (* ****** ****** *)
 
