@@ -98,6 +98,25 @@ fib_cassini
 //
 (* ****** ****** *)
 //
+// Catalan's formula states:
+// (fib(n))^2 - fib(n-r)*fib(n+r) = (-1)^(n-r)*(fib(r))^2
+//
+prfun
+fib_catalan
+{n:nat}
+{r:nat | n >= r}
+{f_n,f_r,f_rn,f_nr:int}
+{sgn:int}
+(
+  pf_n: FIB (n, f_n)
+, pf_r: FIB (r, f_r)
+, pf_rn: FIB (n-r, f_rn)
+, pf_nr: FIB (n+r, f_nr)
+, sgn: SGN (n-r, sgn)
+) : [f_n*f_n - f_rn*f_nr == sgn*f_r*f_r] void
+//
+(* ****** ****** *)
+//
 // Vajda's formula states:
 // fib(n+i)*fib(n+j)-fib(n)*fib(n+i+j) = (-1)^n*fib(i)*fib(j)
 //

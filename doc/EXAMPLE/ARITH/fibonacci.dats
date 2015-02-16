@@ -187,6 +187,17 @@ in
 end // end of [fib_cassini]
 
 (* ****** ****** *)
+//
+primplmnt
+fib_catalan
+  (pf_n, pf_r, pf_rn, pf_nr, sgn) =
+(
+//
+fib_vajda(pf_rn, pf_r, pf_r, pf_n, pf_n, pf_nr, sgn)
+//
+) (* end of [fib_catalan] *)
+//
+(* ****** ****** *)
 
 primplmnt
 fib_vajda
