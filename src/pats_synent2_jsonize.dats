@@ -195,11 +195,16 @@ val supcls =
 //
 val
 dconlstopt = let
-  val opt = s2cst_get_dconlst (s2c)
+  val opt =
+    s2cst_get_dconlst (s2c)
+  // end of [val]
 in
-  case+ opt of
-  | None () => jsonval_none((*void*))
-  | Some (d2cs) => jsonval_some(jsonize_list_fun(d2cs, jsonize_d2con))
+//
+case+ opt of
+| None () => jsonval_none((*void*))
+| Some (d2cs) =>
+    jsonval_some(jsonize_d2conlst(d2cs))
+  // end of [Some]
 end // end of [val]
 //
 in
@@ -214,6 +219,15 @@ jsonval_labval5
 )
 //
 end // end of [jsonize_s2cst_long]
+
+(* ****** ****** *)
+
+implement
+jsonize_s2cstlst
+  (s2cs) =
+(
+  jsonize_list_fun (s2cs, jsonize_s2cst)
+) (* end of [jsonize_s2cstlst] *)
 
 (* ****** ****** *)
 //
@@ -311,6 +325,15 @@ jsonval_labval3
 //
 end // end of [jsonize_d2con_long]
 //
+(* ****** ****** *)
+
+implement
+jsonize_d2conlst
+  (d2cs) =
+(
+  jsonize_list_fun (d2cs, jsonize_d2con)
+) (* end of [jsonize_d2conlst] *)
+
 (* ****** ****** *)
 
 implement
@@ -737,8 +760,6 @@ val stamp =
 in
   jsonval_labval1 ("d2cst_stamp", stamp)
 end // end of [jsonize_d2cst]
-
-(* ****** ****** *)
 //
 // HX-2014-09-08:
 // [jsonize_d2cst_long]
@@ -765,6 +786,15 @@ jsonval_labval3
 )
 //
 end // end of [jsonize_d2cst_long]
+
+(* ****** ****** *)
+
+implement
+jsonize_d2cstlst
+  (d2cs) =
+(
+  jsonize_list_fun (d2cs, jsonize_d2cst)
+) (* end of [jsonize_d2cstlst] *)
 
 (* ****** ****** *)
 
@@ -819,9 +849,7 @@ case+ d2i of
     jsonval_conarg1 ("D2ITMvar", d2v)
   end // end of [D2ITMvar]
 | D2ITMcon (d2cs) => let
-    val d2cs =
-      jsonize_list_fun (d2cs, jsonize_d2con)
-    // end of [val]
+    val d2cs = jsonize_d2conlst (d2cs)
   in
     jsonval_conarg1 ("D2ITMcon", d2cs)
   end // end of [D2ITMcon]
@@ -975,15 +1003,18 @@ end // end of [jsonize_p2at]
 (* ****** ****** *)
 
 implement
-jsonize_p2atlst (p2ts) =
+jsonize_p2atlst
+  (p2ts) =
+(
   jsonize_list_fun (p2ts, jsonize_p2at)
-// end of [jsonize_p2atlst]
-
+) // end of [jsonize_p2atlst]
 
 implement
-jsonize_p2atopt (p2topt) =
+jsonize_p2atopt
+  (p2topt) =
+(
   jsonize_option_fun (p2topt, jsonize_p2at)
-// end of [jsonize_p2atopt]
+) // end of [jsonize_p2atopt]
 
 (* ****** ****** *)
 
@@ -1012,9 +1043,11 @@ end // end of [jsonize_labp2at]
 (* ****** ****** *)
 
 implement
-jsonize_labp2atlst (lp2ts) =
+jsonize_labp2atlst
+  (lp2ts) =
+(
   jsonize_list_fun (lp2ts, jsonize_labp2at)
-// end of [jsonize_labp2atlst]
+) // end of [jsonize_labp2atlst]
 
 (* ****** ****** *)
 
@@ -1228,9 +1261,11 @@ end // end of [jsonize_d2exp]
 (* ****** ****** *)
   
 implement
-jsonize_d2explst (d2es) =
+jsonize_d2explst
+  (d2es) =
+(
   jsonize_list_fun (d2es, jsonize_d2exp)
-// end of [jsonize_d2explst]
+) // end of [jsonize_d2explst]
 
 (* ****** ****** *)
 
@@ -1259,9 +1294,11 @@ end // end of [jsonize_labd2exp]
 (* ****** ****** *)
 
 implement
-jsonize_labd2explst (ld2es) =
+jsonize_labd2explst
+  (ld2es) =
+(
   jsonize_list_fun (ld2es, jsonize_labd2exp)
-// end of [jsonize_labd2explst]
+) // end of [jsonize_labd2explst]
 
 (* ****** ****** *)
 
@@ -1282,7 +1319,9 @@ case+ d2a of
     val jsv1 = jsonval_int (npf)
     val jsv2 = jsonize_loc (loc)
     val jsv3 = jsonize_d2explst (d2es)
-    val arglst = JSONlist (jsv1 :: jsv2 :: jsv3 :: list_nil)
+    val arglst =
+      JSONlist (jsv1 :: jsv2 :: jsv3 :: list_nil)
+    // end of [val]
   in
     jsonval_labval1 ("D2EXPARGdyn", arglst)
   end // end of [D2EXPARGdyn]
@@ -1293,8 +1332,10 @@ end // end of [jsonize_d2exparg]
 
 implement
 jsonize_d2exparglst
-  (d2as) = jsonize_list_fun (d2as, jsonize_d2exparg)
-// end of [jsonize_d2exparglst]
+  (d2as) =
+(
+  jsonize_list_fun (d2as, jsonize_d2exparg)
+) // end of [jsonize_d2exparglst]
 
 (* ****** ****** *)
 
@@ -1335,8 +1376,10 @@ end // end of [jsonize_d2lab]
 
 implement
 jsonize_d2lablst
-  (d2ls) = jsonize_list_fun (d2ls, jsonize_d2lab)
-// end of [jsonize_d2lablst]
+  (d2ls) =
+(
+  jsonize_list_fun (d2ls, jsonize_d2lab)
+) // end of [jsonize_d2lablst]
 
 (* ****** ****** *)
 
@@ -1359,8 +1402,10 @@ end // end of [jsonize_gm2at]
 
 implement
 jsonize_gm2atlst
-  (c2ls) = jsonize_list_fun (c2ls, jsonize_gm2at)
-// end of [jsonize_gm2atlst]
+  (c2ls) =
+(
+  jsonize_list_fun (c2ls, jsonize_gm2at)
+) // end of [jsonize_gm2atlst]
 
 (* ****** ****** *)
 
@@ -1393,8 +1438,10 @@ end // end of [jsonize_c2lau]
 
 implement
 jsonize_c2laulst
-  (c2ls) = jsonize_list_fun (c2ls, jsonize_c2lau)
-// end of [jsonize_c2laulst]
+  (c2ls) =
+(
+  jsonize_list_fun (c2ls, jsonize_c2lau)
+) // end of [jsonize_c2laulst]
 
 (* ****** ****** *)
 
@@ -1430,17 +1477,13 @@ d2c0.d2ecl_node of
   end // end of [D2Coverload]
 //
 | D2Cstacsts (s2cs) => let
-    val s2cs =
-      jsonize_list_fun (s2cs, jsonize_s2cst)
-    // end of [val]
+    val s2cs = jsonize_s2cstlst (s2cs)
   in
     jsonval_conarg1 ("D2Cstacsts", s2cs)
   end // end of [D2Cstacsts]
 | D2Cstacons (knd, s2cs) => let
     val knd = jsonval_int (knd)
-    val s2cs =
-      jsonize_list_fun (s2cs, jsonize_s2cst)
-    // end of [val]
+    val s2cs = jsonize_s2cstlst (s2cs)
   in
     jsonval_conarg2 ("D2Cstacsts", knd, s2cs)
   end // end of [D2Cstacons]
@@ -1471,16 +1514,12 @@ d2c0.d2ecl_node of
 | D2Cdatdecs
     (knd, s2cs) => let
     val knd = jsonval_int (knd)
-    val s2cs =
-      jsonize_list_fun (s2cs, jsonize_s2cst)
-    // end of [val]
+    val s2cs = jsonize_s2cstlst (s2cs)
   in
     jsonval_conarg2 ("D2Cdatdecs", knd, s2cs)
   end // end of [D2Cdatdecs]
 | D2Cexndecs (d2cs) => let
-    val d2cs =
-      jsonize_list_fun (d2cs, jsonize_d2con_long)
-    // end of [val]
+    val d2cs = jsonize_d2conlst (d2cs)
   in
     jsonval_conarg1 ("D2Cexndecs", d2cs(*constr*))
   end // end of [D2Cdatdecs]
@@ -1489,9 +1528,7 @@ d2c0.d2ecl_node of
     (knd, dck, d2cs) => let
     val knd = jsonval_int (knd)
     val dck = jsonize_dcstkind (dck)
-    val d2cs =
-      jsonize_list_fun (d2cs, jsonize_d2cst_long)
-    // end of [val]
+    val d2cs = jsonize_d2cstlst (d2cs)
   in
     jsonval_conarg3 ("D2Cdcstdecs", knd, dck, d2cs)
   end // end of [D2Cdcstdecs]
@@ -1629,9 +1666,11 @@ end // end of [json_f2undec]
 (* ****** ****** *)
 
 implement
-jsonize_f2undeclst (f2ds) =
+jsonize_f2undeclst
+  (f2ds) =
+(
   jsonize_list_fun (f2ds, jsonize_f2undec)
-// end of [jsonize_f2undeclst]
+) // end of [jsonize_f2undeclst]
 
 (* ****** ****** *)
 
@@ -1657,9 +1696,11 @@ end // end of [json_v2aldec]
 (* ****** ****** *)
 
 implement
-jsonize_v2aldeclst (v2ds) =
+jsonize_v2aldeclst
+  (v2ds) =
+(
   jsonize_list_fun (v2ds, jsonize_v2aldec)
-// end of [jsonize_v2aldeclst]
+) // end of [jsonize_v2aldeclst]
 
 (* ****** ****** *)
 

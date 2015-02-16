@@ -63,6 +63,7 @@ fun jsonize_s2rtlst (s2ts: s2rtlst): jsonval
 //
 fun jsonize_s2cst (s2c: s2cst): jsonval
 fun jsonize_s2cst_long (s2c: s2cst): jsonval
+fun jsonize_s2cstlst (s2cs: s2cstlst): jsonval
 //
 fun jsonize_s2var (s2v: s2var): jsonval
 fun jsonize_s2var_long (s2v: s2var): jsonval
@@ -74,6 +75,7 @@ fun jsonize_s2varlst (s2vs: s2varlst): jsonval
 //
 fun jsonize_d2con (d2c: d2con): jsonval
 fun jsonize_d2con_long (d2c: d2con): jsonval
+fun jsonize_d2conlst (d2cs: d2conlst): jsonval
 //
 fun jsonize_tyreckind : tyreckind -> jsonval
 //
@@ -106,6 +108,7 @@ fun jsonize1_s2expopt (opt: s2expopt): jsonval // with hnfizing
 
 fun jsonize_d2cst (d2c: d2cst): jsonval
 fun jsonize_d2cst_long (d2c: d2cst): jsonval
+fun jsonize_d2cstlst (d2cs: d2cstlst): jsonval
 
 (* ****** ****** *)
 
