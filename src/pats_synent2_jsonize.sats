@@ -114,6 +114,10 @@ fun jsonize_d2var_long (d2v: d2var): jsonval
 
 (* ****** ****** *)
 
+fun jsonize_d2itm (d2i: d2itm): jsonval
+
+(* ****** ****** *)
+
 fun jsonize_d2ecl (d2c: d2ecl): jsonval
 fun jsonize_d2eclist (d2cs: d2eclist): jsonval
 

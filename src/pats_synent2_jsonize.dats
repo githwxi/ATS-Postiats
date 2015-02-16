@@ -802,6 +802,37 @@ end // end of [jsonize_d2cst_long]
 (* ****** ****** *)
 
 implement
+jsonize_d2itm
+  (d2i) = let
+in
+//
+case+ d2i of
+//
+| D2ITMcst (d2c) => let
+    val d2c = jsonize_d2cst (d2c)
+  in
+    jsonval_conarg1 ("D2ITMcst", d2c)
+  end // end of [D2ITMcst]
+| D2ITMvar (d2v) => let
+    val d2v = jsonize_d2var (d2v)
+  in
+    jsonval_conarg1 ("D2ITMvar", d2v)
+  end // end of [D2ITMvar]
+| D2ITMcon (d2cs) => let
+    val d2cs =
+      jsonize_list_fun (d2cs, jsonize_d2con)
+    // end of [val]
+  in
+    jsonval_conarg1 ("D2ITMcon", d2cs)
+  end // end of [D2ITMcon]
+//
+| _ (*rest*) => jsonval_conarg0 ("D2ITMignored")
+//
+end // end of [jsonize_d2itm]
+
+(* ****** ****** *)
+
+implement
 jsonize_d2sym
   (d2s) = let
 //
@@ -851,10 +882,14 @@ in
 case+
 p2t0.p2at_node of
 //
-| P2Tany () => jsonval_conarg0 ("P2Tany")
+| P2Tany () =>
+    jsonval_conarg0 ("P2Tany")
 //
-| P2Tvar (d2v) =>
-    jsonval_conarg1 ("P2Tvar", jsonize_d2var (d2v))
+| P2Tvar (d2v) => let
+    val d2v = jsonize_d2var (d2v)
+  in
+    jsonval_conarg1 ("P2Tvar", d2v)
+  end // end of [P2Tvar]
 //
 | P2Tcon
   (
@@ -1374,10 +1409,25 @@ in
 case+
 d2c0.d2ecl_node of
 //
-| D2Cnone () => jsonval_conarg0 ("D2Cnone")
-| D2Clist (d2cs) =>
-    jsonval_conarg1 ("D2Clist", jsonize_d2eclist (d2cs))
-  // end of [D2Clist]
+| D2Cnone () =>
+    jsonval_conarg0 ("D2Cnone")
+| D2Clist (xs) => let
+    val xs = jsonize_d2eclist (xs)
+  in
+    jsonval_conarg1 ("D2Clist", xs)
+  end // end of [D2Clist]
+//
+| D2Coverload
+    (id, pval, opt) => let
+    val sym =
+      jsonize_symbol(id.i0de_sym)
+    val pval = jsonval_int (pval)
+    val opt =
+      jsonize_option_fun (opt, jsonize_d2itm)
+    // end of [val]
+  in
+    jsonval_conarg3 ("D2Coverload", sym, pval, opt)
+  end // end of [D2Coverload]
 //
 | D2Cstacsts (s2cs) => let
     val s2cs =
@@ -1388,7 +1438,9 @@ d2c0.d2ecl_node of
   end // end of [D2Cstacsts]
 | D2Cstacons (knd, s2cs) => let
     val knd = jsonval_int (knd)
-    val s2cs = jsonize_list_fun (s2cs, jsonize_s2cst)
+    val s2cs =
+      jsonize_list_fun (s2cs, jsonize_s2cst)
+    // end of [val]
   in
     jsonval_conarg2 ("D2Cstacsts", knd, s2cs)
   end // end of [D2Cstacons]
