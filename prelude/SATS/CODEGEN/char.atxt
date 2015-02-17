@@ -46,9 +46,23 @@ end // end of [fprint_print_prerr_decl]
 #atscode_start_time("September, 2011")
 
 #atscode_separator()
-
-sortdef t0p = t@ype
-
+//
+praxi
+lemma_char_size
+(
+// argumentless
+) : [sizeof(char)==sizeof(byte)] void
+praxi
+lemma_schar_size
+(
+// argumentless
+) : [sizeof(schar)==sizeof(byte)] void
+praxi
+lemma_uchar_size
+(
+// argumentless
+) : [sizeof(uchar)==sizeof(byte)] void
+//
 #atscode_separator()
 //
 castfn char2schar0 (c: char):<> schar

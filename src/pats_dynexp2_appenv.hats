@@ -151,7 +151,7 @@ implement
 d2pitm_app
   (d2pi, env) = let
 //
-val+D2PITM(pval, d2i) = d2pi in d2pitm_app (d2pi, env)
+val+D2PITM(pval, d2i) = d2pi in d2itm_app (d2i, env)
 //
 end // end of [d2pitm_app]
 

@@ -834,6 +834,13 @@ end // end of [jsonize_d2cst_long]
 implement
 jsonize_d2itm
   (d2i) = let
+//
+(*
+val () =
+println!
+  ("jsonize_d2itm: d2i = ", d2i)
+*)
+//
 in
 //
 case+ d2i of
@@ -1448,6 +1455,13 @@ jsonize_c2laulst
 implement
 jsonize_d2ecl
   (d2c0) = let
+//
+(*
+val () =
+println! (
+"jsonize_d2ecl: d2c0 = ", d2c0
+) (* end of [val] *)
+*)
 //
 fun auxmain
   (d2c0: d2ecl): jsonval = let

@@ -190,20 +190,20 @@ implement
 d2eclist_mapgen_all
   (d2cls) = let
 //
-  val s2cs = s2cstset_vt_nil ()
-  val s2vs = s2varset_vt_nil ()
-  val s2Vs = s2Varset_vt_nil ()
+val s2cs = s2cstset_vt_nil ()
+val s2vs = s2varset_vt_nil ()
+val s2Vs = s2Varset_vt_nil ()
 //
-  val d2cons = d2conset_vt_nil ()
-  val d2csts = d2cstset_vt_nil ()
-  val d2vars = d2varset_vt_nil ()
+val d2cons = d2conset_vt_nil ()
+val d2csts = d2cstset_vt_nil ()
+val d2vars = d2varset_vt_nil ()
 //
-  val appenv =
-  $UN.castvwtp0{appenv}(MYENV(s2cs, s2vs, s2Vs, d2cons, d2csts, d2vars))
+val appenv =
+$UN.castvwtp0{appenv}(MYENV(s2cs, s2vs, s2Vs, d2cons, d2csts, d2vars))
 //
-  val ((*void*)) = d2eclist_app (d2cls, appenv)
+val ((*void*)) = d2eclist_app (d2cls, appenv)
 //
-  val+~MYENV(s2cs, s2vs, s2Vs, d2cons, d2csts, d2vars) = $UN.castvwtp0{myenv}(appenv)
+val+~MYENV(s2cs, s2vs, s2Vs, d2cons, d2csts, d2vars) = $UN.castvwtp0{myenv}(appenv)
 //
 in
 //
