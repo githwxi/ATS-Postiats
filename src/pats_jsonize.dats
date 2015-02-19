@@ -210,16 +210,19 @@ in
 //
 case+ c of
 | '"' => fprint_string (out, "\\\"")
-| '\n' => fprint_string (out, "\\n")
-| '\t' => fprint_string (out, "\\t")
 | '\\' => fprint_string (out, "\\\\")
+| '\n' => fprint_string (out, "\\n")
+| '\r' => fprint_string (out, "\\r")
+| '\t' => fprint_string (out, "\\t")
+| '\b' => fprint_string (out, "\\b")
+| '\f' => fprint_string (out, "\\f")
 | _ (*rest-of-char*) =>
   (
     if char_isprint(c)
       then fprint_char(out, c)
       else let
         val uc = uchar_of_char(c) in
-        fprintf (out, "\\%.3o", @($UN.cast2uint(uc)))
+        fprintf (out, "\\u00%.2X", @($UN.cast2uint(uc)))
       end // end of [else]
     // end of [if]
   ) (* end of [_] *)

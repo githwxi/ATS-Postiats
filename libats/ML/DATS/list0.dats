@@ -1052,6 +1052,36 @@ end // end of [list0_zip]
 
 (* ****** ****** *)
 
+implement
+{x,y}
+list0_cross (xs, ys) = let
+  val xs = g1ofg0(xs) and ys = g1ofg0(ys)
+  val xys = $effmask_wrt (list_cross<x,y> (xs, ys))
+in
+  list0_of_list_vt (xys)
+end // end of [list0_cross]
+
+(* ****** ****** *)
+
+implement
+{x,y}{z}
+list0_crosswith
+  (xs, ys, f) = let
+//
+implement
+{x2,y2}{z2}
+list_crosswith$fopr(x, y) =
+  $UN.castvwtp0{z2}(f($UN.cast{x}(x), $UN.cast{y}(y)))
+//
+val xs = g1ofg0(xs) and ys = g1ofg0(ys)
+val zs = $effmask_wrt (list_crosswith<x,y><z> (xs, ys))
+//
+in
+  list0_of_list_vt (zs)
+end // end of [list0_crosswith]
+
+(* ****** ****** *)
+
 implement{a}
 list0_quicksort (xs, cmp) = let
 //

@@ -105,6 +105,7 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packfilename("SATS/gdk.sats")
+#packfilename("SATS/gdk/README")
 #packfilename("SATS/gdk/gdkcairo.sats")
 #packfilename("SATS/gdk/gdkevents.sats")
 
@@ -142,6 +143,7 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packfilename("SATS/gtk.sats")
+#packfilename("SATS/gtk/README")
 #packfilename("SATS/gtk/gtkenums.sats")
 #packfilename("SATS/gtk/gtkversion.sats")
 #packfilename("SATS/gtk/mybasis.sats")

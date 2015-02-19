@@ -105,6 +105,7 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packfilename("SATS/glib.sats")
+#packfilename("SATS/glib/README")
 #packfilename("SATS/glib/gtypes.sats")
 #packfilename("SATS/glib/mybasis.sats")
 #packfilename("SATS/glib/gmain.sats")

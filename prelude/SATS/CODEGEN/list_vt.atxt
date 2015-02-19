@@ -179,7 +179,7 @@ list_vt_set_at{n:int}
 
 fun{x:vt0p}
 list_vt_exch_at{n:int}
-  (xs: !list_vt (INV(x), n), i: natLt n, x: &x>>_):<!wrt> void
+  (xs: !list_vt (INV(x), n), i: natLt n, x: &x >> _):<!wrt> void
 // end of [list_vt_exch_at]
 
 #atscode_separator()
@@ -232,7 +232,7 @@ x:vt0p
 ) :<!wrt> void // end of [list_vt_uninitize]
 //
 fun{x:vt0p}
-list_vt_uninitize$clear (x: &(x)>>x?):<!wrt> void
+list_vt_uninitize$clear (x: &(x) >> x?):<!wrt> void
 //
 fun{
 x:vt0p
@@ -325,7 +325,7 @@ list_vt_filterlin
 fun{x:vt0p}
 list_vt_filterlin$pred (x: &RD(x)):<> bool
 fun{x:vt0p}
-list_vt_filterlin$clear (x: &x>>x?):<!wrt> void
+list_vt_filterlin$clear (x: &x >> x?):<!wrt> void
 //
 #atscode_separator()
 
@@ -371,11 +371,10 @@ x:vt0p}{y:vt0p
 
 fun{
 x:vt0p}{y:vt0p
-} list_vt_mapfree{n:int}
-  (list_vt (INV(x), n)): list_vt (y, n)
+} list_vt_mapfree{n:int} (list_vt (INV(x), n)): list_vt (y, n)
 fun{
 x:vt0p}{y:vt0p
-} list_vt_mapfree$fopr (x: x): (y)
+} list_vt_mapfree$fopr (x: &(x) >> x?): (y)
 
 #atscode_separator()
 //

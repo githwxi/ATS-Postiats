@@ -454,19 +454,32 @@ fun{a:t0p}
 list0_tabulate_opt (n: int, f: cfun (int, Option_vt (a))): list0 (a)
 
 (* ****** ****** *)
-
-fun{x,y:t0p}
-list0_zip (xs: list0 (INV(x)), ys: list0 (INV(y))):<> list0 @(x, y)
-
+//
+fun
+{x,y:t0p}
+list0_zip
+  (xs: list0 (INV(x)), ys: list0 (INV(y))):<> list0 @(x, y)
+//
 (*
 fun{
 x,y:t0p}{z:t0p
-} list0_zipwith (
-  xs: list0 (INV(x)), ys: list0 (INV(y)), f: cfun2 (x, y, z)
-) : list0 (z) // end of [list0_zipwith]
+} list0_zipwith
+  (xs: list0 (INV(x)), ys: list0 (INV(y)), f: cfun2 (x, y, z)): list0 (z)
 *)
 macdef list0_zipwith = list0_map2
-
+//
+(* ****** ****** *)
+//
+fun
+{x,y:t0p}
+list0_cross
+  (xs: list0 (INV(x)), ys: list0 (INV(y))):<> list0 @(x, y)
+//
+fun{
+x,y:t0p}{z:t0p
+} list0_crosswith
+  (xs: list0 (INV(x)), ys: list0 (INV(y)), f: cfun2 (x, y, z)): list0 (z)
+//
 (* ****** ****** *)
 
 fun{a:t0p}
