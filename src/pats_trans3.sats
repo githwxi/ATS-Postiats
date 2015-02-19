@@ -185,6 +185,8 @@ datatype trans3err =
   | T3E_c2laulst0_trdn_noclause of (loc_t)
   | T3E_c2laulst2_trdn_redundant of (loc_t, c2lau)
 //
+  | T3E_cp2atcstlst_arity of (loc_t, int(*serr*))
+//
   | T3E_loopexn of (loc_t, int(*knd*)) // HX: 0/1: break/continue
 //
   | T3E_d2var_some of (loc_t, d2var, s2exp) // should be retained but consumed

@@ -252,7 +252,8 @@ end // end of [stasub_make_svarlst]
 local
 
 fun
-stasub_s2varlst_instantiate_none (
+stasub_s2varlst_instantiate_none
+(
   sub: &stasub
 , locarg: location, s2vs: s2varlst
 , err: &int // HX: [err] is not used
@@ -276,7 +277,8 @@ case+ s2vs of
 end // end of [stasub_s2varlst_instantiate_none]
 
 fun
-stasub_s2varlst_instantiate_some (
+stasub_s2varlst_instantiate_some
+(
   sub: &stasub
 , locarg: location, s2vs: s2varlst, s2es: s2explst
 , err: &int
@@ -315,7 +317,8 @@ end // end of [auxerr2]
 in
 //
 case+ s2vs of
-| list_cons (s2v, s2vs) => (
+| list_cons
+    (s2v, s2vs) => (
   case+ s2es of
   | list_cons (s2e, s2es) => let
       val s2t1 = s2var_get_srt (s2v)
@@ -354,11 +357,11 @@ case+ s2vs of
   ) // end of [list_nil]
 end // end of [stasub_s2varlst_instantiate_some]
 
-fun stasub_s2varlst_instcollect (
+fun
+stasub_s2varlst_instcollect
+(
   sub: &stasub
-, locarg: location
-, s2vs: s2varlst
-, res: s2explst_vt
+, locarg: location, s2vs: s2varlst, res: s2explst_vt
 ) : s2explst_vt = let
 //
 macdef loop = stasub_s2varlst_instcollect
@@ -1328,30 +1331,59 @@ implement
 trans3_env_hypadd_patcstlst
   (loc0, cp2tcs, s2es_pat) = let
 //
-fun loop (
+fun
+loop
+(
   p2tcs: p2atcstlst_vt, s2es: s2explst, serr: int
 ) :<cloref1> int = let
 in
 //
 case+ p2tcs of
-| ~list_vt_cons (p2tc, p2tcs) => (
-  case+ s2es of
-  | list_cons (s2e, s2es) => let
-      val () = trans3_env_hypadd_patcst (loc0, p2tc, s2e)
-    in
-      loop (p2tcs, s2es, serr)
-    end // end of [list_cons]
-  | list_nil () => loop (p2tcs, s2es, serr + 1)
-  ) // end of [list_cons]
-| ~list_vt_nil () => (
-  case+ s2es of
-  | list_cons (_, s2es) => loop (list_vt_nil, s2es, serr - 1)
-  | list_nil () => serr // the number of accumulated errors
-  ) // end of [list_nil]
+| ~list_vt_nil () =>
+  (
+    case+ s2es of
+    | list_cons (_, s2es) =>
+        loop (list_vt_nil, s2es, serr - 1)
+    | list_nil () => serr // the number of errors
+  ) (* end of [list_nil] *)
+| ~list_vt_cons (p2tc, p2tcs) =>
+  (
+    case+ s2es of
+    | list_cons
+        (s2e, s2es) => let
+        val () =
+          trans3_env_hypadd_patcst (loc0, p2tc, s2e)
+        // end of [val]
+      in
+        loop (p2tcs, s2es, serr)
+      end // end of [list_cons]
+    | list_nil ((*void*)) => loop (p2tcs, s2es, serr + 1)
+  ) (* end of [list_cons] *)
 //
 end // end of [loop]
 //
-val () = assertloc (loop (cp2tcs, s2es_pat, 0) = 0)
+val serr = loop (cp2tcs, s2es_pat, 0)
+//
+val () =
+if
+(serr != 0)
+then let
+//
+val () = prerr_error3_loc (loc0)
+val () =
+  filprerr_ifdebug "trans3_env_hypadd_patcstlst"
+//
+val () = print! (": constructor arity mismatch")
+val () = if serr < 0 then println! (": more arguments are expected")
+val () = if serr > 0 then println! (": fewer arguments are expected")
+//
+in
+  the_trans3errlst_add (T3E_cp2atcstlst_arity (loc0, serr))
+end // end of [then]
+//
+(*
+val ((*void*)) = assertloc (serr = 0)
+*)
 //
 in
   (*nothing*)
@@ -1420,8 +1452,10 @@ end // end of [trans3_env_hypadd_labpatcstlst]
 
 local
 
-fun trans3_env_hypadd_disj
-  (xss: s3itmlstlst): void = (
+fun
+trans3_env_hypadd_disj
+  (xss: s3itmlstlst): void =
+(
   the_s3itmlst_env_add (S3ITMdisj (xss))
 ) // end of [trans3_env_hypadd_disj]
 

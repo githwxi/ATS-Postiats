@@ -381,7 +381,7 @@ auxerr_arity
 ) : void = let
   val loc0 = p2t0.p2at_loc
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": arity mismatch"
+  val () = prerr ": constructor arity mismatch"
   val () = if serr < 0 then prerr ": more arguments are expected."
   val () = if serr > 0 then prerr ": fewer arguments are expected."
   val () = prerr_newline ()
