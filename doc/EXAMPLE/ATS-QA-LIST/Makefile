@@ -272,6 +272,15 @@ cleanall:: ; $(RMF) qa-list-2015-02-08
 ######
 
 all:: \
+qa-list-2015-02-20
+qa-list-2015-02-20: \
+qa-list-2015-02-20.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+cleanall:: ; $(RMF) qa-list-2015-02-20
+
+######
+
+all:: \
 list_last
 list_last: list_last.dats ; \
   $(PATSCC) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<

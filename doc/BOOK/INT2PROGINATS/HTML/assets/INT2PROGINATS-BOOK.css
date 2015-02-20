@@ -11,8 +11,8 @@ body {
   font-family:
   "Palatino Linotype",
   "Book Antiqua", Palatino, serif;
-  max-width: 800px;
   margin: 0 auto;
+  max-width: 800px;
   text-align: justify;
   line-height: 150%;
 }
