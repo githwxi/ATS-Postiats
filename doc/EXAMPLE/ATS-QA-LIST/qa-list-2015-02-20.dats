@@ -28,7 +28,7 @@ fun
 tally{n:nat}
 (
   pf: teqint(t, n) | n: int(n)
-) : int
+) : int // end of [tally]
 
 (* ****** ****** *)
 
