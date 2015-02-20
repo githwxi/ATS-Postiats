@@ -33,12 +33,18 @@
 *)
 
 (* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0
-
+//
+#define
+ATS_DYNLOADFLAG 0
+//
+(* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
 (* ****** ****** *)
 
-staload "fastexp.sats"
+staload "./fastexp.sats"
 
 (* ****** ****** *)
 
