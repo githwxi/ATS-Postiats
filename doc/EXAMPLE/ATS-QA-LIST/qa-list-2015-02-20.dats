@@ -15,10 +15,10 @@ abstype S(type)
 (* ****** ****** *)
 //
 dataprop
-teqint (type, int) =
-| TEQINTZ(Z, 0)
+tieq (type, int) =
+| TIEQZ(Z, 0)
 | {t:type}{n:nat}
-  TEQINTS(S(t), n+1) of teqint(t, n)
+  TIEQS(S(t), n+1) of tieq(t, n)
 //
 (* ****** ****** *)
 
@@ -27,7 +27,7 @@ fun
 {t:type}
 tally{n:nat}
 (
-  pf: teqint(t, n) | n: int(n)
+  pf: tieq(t, n) | n: int(n)
 ) : int // end of [tally]
 
 (* ****** ****** *)
@@ -36,7 +36,7 @@ implement
 (t)(*tmp*)
 tally<S(t)>
   (pf | n) = let
-  prval TEQINTS(pf) = pf in n + tally<t> (pf | n-1)
+  prval TIEQS(pf) = pf in n + tally<t> (pf | n-1)
 end // end of [tally]
 
 (* ****** ****** *)
@@ -45,7 +45,7 @@ implement tally<Z> (pf | n) = 0
 
 (* ****** ****** *)
 
-val res = tally<S(S(Z))> (TEQINTS(TEQINTS(TEQINTZ)) | 2)
+val res = tally<S(S(Z))> (TIEQS(TIEQS(TIEQZ)) | 2)
 
 (* ****** ****** *)
 
