@@ -53,9 +53,9 @@ implement tally<Z> (pf | n) = 0
 typedef
 S11(t:type) =
   S(S(S(S(S(S(S(S(S(S(t))))))))))
-//
 typedef
-S99(t:type) = S11(S11(S11(S11(S11(S11(S11(S11(S11(t)))))))))
+S99(t:type) =
+  S11(S11(S11(S11(S11(S11(S11(S11(S11(t)))))))))
 //
 extern
 praxi pf99: tieq(S99(Z), 99)
