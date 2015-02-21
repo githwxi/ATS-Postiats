@@ -50,19 +50,23 @@ implement tally<Z> (pf | n) = 0
 //
 (* ****** ****** *)
 //
+(*
 typedef
 S11(t:type) =
   S(S(S(S(S(S(S(S(S(S(t))))))))))
 typedef
 S99(t:type) =
   S11(S11(S11(S11(S11(S11(S11(S11(S11(t)))))))))
+*)
 //
-extern
-praxi pf99: tieq(S99(Z), 99)
+#define fs3(n)
+  if n > 0 then S(S(S(fs3(n-1)))) else Z
+//
+extern praxi fpf33(): tieq(fs3(33), 3*33)
 //
 (* ****** ****** *)
 //
-val res = tally<S99(Z)> (pf99 | 99)
+val res = tally<fs3(33)> (fpf33() | 3*33)
 //
 (* ****** ****** *)
 
