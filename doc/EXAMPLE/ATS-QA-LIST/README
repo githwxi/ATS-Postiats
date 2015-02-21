@@ -99,6 +99,71 @@ qa-list-244: fact: (Nat, Nat) -> Nat
 
 ######
 
+qa-list-262: an example of pragma
+
+######
+
+qa-list-285: an example of stateful closure
+
+######
+
+qa-list-303: showing use of DIVMOD
+
+######
+
+qa-list-312:
+pattern matching can handle the indexed char type
+
+######
+
+qa-list-334: explicit packaging of existential sum
+
+######
+
+qa-list-358: an example of error reporting
+
+######
+
+qa-list-366: an example of external struct
+
+######
+
+qa-list-370: representation of enumerative datatype
+
+######
+
+qa-list-387: an example of template based on C-macro
+
+######
+//
+qa-list-2014-12-04:
+qa-list-2014-12-04-02:
+//
+an example showing how to merge datatypes
+//
+######
+
+qa-list-2014-12-07:
+an example for illustrating use of templates
+
+######
+//
+qa-list-2015-01-03:
+a linear stream of characters (record)
+//
+qa-list-2015-01-03-2:
+a linear stream of characters (dataviewtype)
+//
+######
+
+qa-list-2015-02-08: a kind of LMS
+
+######
+
+qa-list-2015-02-20: a kind of loop unrolling
+
+######
+
 alloca: a simple example involving alloca
 //
 list_copy: copying a given list tail-recursively

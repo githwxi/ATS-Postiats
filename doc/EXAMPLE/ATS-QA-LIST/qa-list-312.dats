@@ -3,7 +3,7 @@
 // HX-2014-08-04
 //
 // Pattern-matching
-// does not handle dependent char type
+// can handle dependent char type
 //
 (* ****** ****** *)
 //
