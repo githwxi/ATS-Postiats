@@ -44,13 +44,30 @@ end // end of [tally]
 implement tally<Z> (pf | n) = 0
 
 (* ****** ****** *)
-
-val res = tally<S(S(Z))> (TIEQS(TIEQS(TIEQZ)) | 2)
-
+//
+// HX-2015-02-20:
+// The maximal depth for template instantiation is 99!
+//
+(* ****** ****** *)
+//
+typedef
+S11(t:type) =
+  S(S(S(S(S(S(S(S(S(S(t))))))))))
+//
+typedef
+S99(t:type) = S11(S11(S11(S11(S11(S11(S11(S11(S11(t)))))))))
+//
+extern
+praxi pf99: tieq(S99(Z), 99)
+//
+(* ****** ****** *)
+//
+val res = tally<S99(Z)> (pf99 | 99)
+//
 (* ****** ****** *)
 
 implement
-main0 () = println! ("res = ", res)
+main0 () = println! ("1 + 2 + ... + 99 = ", res)
 
 (* ****** ****** *)
 
