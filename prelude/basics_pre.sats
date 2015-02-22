@@ -123,11 +123,14 @@ stadef ndiv = ndiv_int_int
 stadef idiv = idiv_int_int
 //
 stadef
-mod_int_int (
+nmod_int_int
+(
   x:int, y:int
 ) = x - y * (x \ndiv_int_int y)
-stadef mod = mod_int_int
-stadef % (*adopted from C*) = mod_int_int
+//
+stadef mod = nmod_int_int
+stadef nmod = nmod_int_int
+stadef % (*adopted from C*) = nmod_int_int
 //
 (* ****** ****** *)
 //
