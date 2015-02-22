@@ -81,11 +81,15 @@ stadef <> = neq_bool_bool // backward compatibility // deprecated
 //
 // HX-2012-06-12: removed
 //
-stacst eq_char_char : (char, char) -> bool
-stacst neq_char_char : (char, char) -> bool
+stacst
+eq_char_char : (char, char) -> bool
+stacst
+neq_char_char : (char, char) -> bool
+//
 stadef == = eq_char_char
 stadef != = neq_char_char
 stadef <> = neq_char_char // backward compatibility // deprecated
+//
 *)
 
 (* ****** ****** *)
@@ -93,23 +97,29 @@ stadef <> = neq_char_char // backward compatibility // deprecated
 stacst neg_int : (int) -> int
 stadef ~ = neg_int // overloaded
 //
-stacst add_int_int : (int, int) -> int
-stacst sub_int_int : (int, int) -> int
-stacst mul_int_int : (int, int) -> int
-stacst div_int_int : (int, int) -> int
+stacst
+add_int_int : (int, int) -> int
+stacst
+sub_int_int : (int, int) -> int
+stacst
+mul_int_int : (int, int) -> int
+stacst
+div_int_int : (int, int) -> int
+//
 stadef + = add_int_int
 stadef - = sub_int_int
 stadef * = mul_int_int
 stadef / = div_int_int
 //
 // HX: ndiv: divisor is positive
-//
-stacst ndiv_int_int : (int, int) -> int
-stadef ndiv = ndiv_int_int
-//
 // HX: idiv: alias for div_int_int
 //
-stacst idiv_int_int : (int, int) -> int
+stacst
+ndiv_int_int : (int, int) -> int
+stacst
+idiv_int_int : (int, int) -> int
+//
+stadef ndiv = ndiv_int_int
 stadef idiv = idiv_int_int
 //
 stadef
