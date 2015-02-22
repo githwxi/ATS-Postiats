@@ -224,7 +224,8 @@ val () =
 //
 in
 //
-case+ d3e0.d3exp_node of
+case+
+d3e0.d3exp_node of
 //
 | D3Evar (d2v)
     when d2var_is_mutabl (d2v) => let
@@ -324,15 +325,21 @@ case+ d3e0.d3exp_node of
   end // end of [D2Eviewat]
 //
 (*
-| _ => let
+| D3Eapp_sta(d3e) =>
+    d3lval_set_type_err (refval, d3e, s2e_new, err)
+  // end of [D3Eapp_sta]
+*)
+//
+| _ (*D3E...: non-left-values*) => (err := err + 1)
+//
+(*
+| _ (*D3E...: non-left-values*) => let
     val () = prerr_error3_loc (loc0)
-    val () = prerr ": type-restoration cannot be applied to a non-left-value."
-    val () = prerr_newline ()
+    val () = prerrln! ": type-restoration cannot be applied to a non-left-value."
   in
     the_trans3errlst_add (T3E_d3lval_funarg (d3e0))
   end // end of [_]
 *)
-| _ => (err := err + 1)
 //
 end // end of [d3lval_set_type_err]
 
@@ -470,7 +477,9 @@ case+ s2e_fun.s2exp_node of
   (
   case+ fc of
   | FUNCLOclo (knd) =>
-      if knd > 0 then (if lin <= 0 then true else false) else false
+      if knd > 0
+        then (if lin <= 0 then true else false) else false
+      // end of [if]
   | _ (*non-clofun*) => false
   ) // end of [S2Efun]
 | _ (*non-fun-type*) => false
@@ -488,7 +497,7 @@ auxerr
 ) : void = let
   val loc0 = d3e0.d3exp_loc
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": the function needs to be a left-value."
+  val () = prerr ": the function itself needs to be a left-value."
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_d3lval_fun (d3e0))
