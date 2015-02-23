@@ -428,24 +428,26 @@ vtypedef Option_vt (a:vt0p) = [b:bool] option_vt (a, b)
 //
 (* ****** ****** *)
 //
-praxi opt_some
-  {a:vt0p} (x: !INV(a) >> opt (a, true)):<prf> void
-praxi opt_unsome
-  {a:vt0p} (x: !opt (INV(a), true) >> a):<prf> void
+praxi
+opt_some
+  {a:vt0p}(x: !INV(a) >> opt(a, true)):<prf> void
+praxi
+opt_unsome
+  {a:vt0p}(x: !opt(INV(a), true) >> a):<prf> void
 //
 fun{a:vt0p}
-opt_unsome_get (x: &opt (INV(a), true) >> a?): (a)
+opt_unsome_get (x: &opt(INV(a), true) >> a?): (a)
 //
 praxi
 opt_none
-  {a:vt0p} (x: !(a?) >> opt (a, false)):<prf> void
+  {a:vt0p} (x: !(a?) >> opt(a, false)):<prf> void
 praxi
 opt_unnone
-  {a:vt0p} (x: !opt (INV(a), false) >> a?):<prf> void
+  {a:vt0p} (x: !opt(INV(a), false) >> a?):<prf> void
 //
 praxi
 opt_clear
-  {a:t0p}{b:bool}(x: !opt (INV(a), b) >> a?):<prf> void
+  {a:t0p}{b:bool}(x: !opt(INV(a), b) >> a?):<prf> void
 //
 (* ****** ****** *)
 //
@@ -480,16 +482,16 @@ arrayopt (a:vt0p, n:int, b:bool) = array (a, n)
 //
 praxi
 arrayopt_some
-  {a:vt0p}{n:int} (A: &array (a, n) >> arrayopt (a, n, true)): void
+  {a:vt0p}{n:int} (A: &array(a, n) >> arrayopt(a, n, true)): void
 praxi
 arrayopt_none
-  {a:vt0p}{n:int} (A: &array (a?, n) >> arrayopt (a, n, false)): void
+  {a:vt0p}{n:int} (A: &array(a?, n) >> arrayopt(a, n, false)): void
 praxi
 arrayopt_unsome
-  {a:vt0p}{n:int} (A: &arrayopt (a, n, true) >> array (a, n)): void
+  {a:vt0p}{n:int} (A: &arrayopt(a, n, true) >> array(a, n)): void
 praxi
 arrayopt_unnone
-  {a:vt0p}{n:int} (A: &arrayopt (a, n, false) >> array (a?, n)): void
+  {a:vt0p}{n:int} (A: &arrayopt(a, n, false) >> array(a?, n)): void
 //
 (* ****** ****** *)
 
