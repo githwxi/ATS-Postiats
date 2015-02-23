@@ -3,6 +3,11 @@
 {
   color: #483D8B;
 }
+#thePageLeft
+{
+  position: fixed;
+  min-width: 14%;
+}
 #thePageLeft td.self
 {
   font-weight: bold;
