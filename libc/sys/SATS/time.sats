@@ -39,18 +39,20 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libc"
-#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
+#define
+ATS_PACKNAME "ATSLIB.libc"
+#define
+ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
-
+//
 staload
 TYPES = "libc/sys/SATS/types.sats"
 typedef time_t = $TYPES.time_t
 typedef suseconds_t = $TYPES.suseconds_t
-
+//
 (* ****** ****** *)
-
+//
 typedef
 timeval_struct =
 $extype_struct
@@ -59,8 +61,9 @@ $extype_struct
   tv_sec= time_t // seconds  
 , tv_usec= suseconds_t // microseconds
 } // end of [timeval_struct]
+//
 typedef timeval = timeval_struct
-
+//
 (* ****** ****** *)
 
 (*
@@ -132,22 +135,25 @@ fun futimesat
 ) : int = "mac#%" // end of [futimesat]
 
 (* ****** ****** *)
-
+//
 abst@ype
 itimerknd_t0ype = int
 typedef itimerknd = itimerknd_t0ype
 macdef ITIMER_REAL = $extval (itimerknd, "ITIMER_REAL")
 macdef ITIMER_VIRTUAL = $extval (itimerknd, "ITIMER_VIRTUAL")
 macdef ITIMER_PROF = $extval (itimerknd, "ITIMER_PROF")
-
+//
+(* ****** ****** *)
+//
 typedef
 itimerval_struct =
 $extype_struct"atslib_itimerval_type" of
 {
   it_interval= timeval, it_value= timeval
-} // end of [itimerval_struct]
+} // end of [itimerval_struct] // end of [typedef]
+//
 typedef itimerval = itimerval_struct
-
+//
 (* ****** ****** *)
 //
 // HX: -1/0 : succ/fail // errno set

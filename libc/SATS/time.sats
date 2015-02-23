@@ -81,9 +81,11 @@ fun difftime
 //
 symintr time
 //
-fun time_get
-  ():<> time_t = "mac#%"
-fun time_getset
+fun
+time_get ():<> time_t = "mac#%"
+//
+fun
+time_getset
 (
   t: &time_t? >> opt (time_t, b)
 ) :<> #[b:bool] bool (b) = "mac#%"
@@ -133,7 +135,7 @@ $extype_struct"atslib_tm_struct_type" of
 , tm_mday= int (* day of the month *)
 , tm_yday= int (* day in the year *)
 , tm_isdst= int (* daylight saving time *) // yes/no: 1/0
-} // end of [tm_struct]
+} // end of [tm_struct] // end of [typedef]
 
 (* ****** ****** *)
 //
@@ -188,7 +190,8 @@ fun strftime
 
 (* ****** ****** *)
 
-fun gmtime // non-reentrant
+fun
+gmtime // non-reentrant
 (
   tval: &RD(time_t)
 ) :<!ref>
@@ -198,14 +201,16 @@ fun gmtime // non-reentrant
   option_v (vtakeout0 (tm_struct@l), l > null) | ptr l
 ) = "mac#%" // end of [gmtime]
 
-fun gmtime_r // reentrant-version
+fun
+gmtime_r // reentrant-version
 (
   tval: &RD(time_t), tm: &tm_struct? >> opt (tm_struct, l > null)
 ) :<> #[l:addr] ptr (l) = "mac#%" // endfun
 
 (* ****** ****** *)
 
-fun localtime // non-reentrant
+fun
+localtime // non-reentrant
 (
   tval: &RD(time_t) // read-only
 ) :<!ref>
@@ -215,7 +220,8 @@ fun localtime // non-reentrant
   option_v (vtakeout0 (tm_struct@l), l > null) | ptr l
 ) = "mac#%" // end of [localtime]
 
-fun localtime_r // reentrant-version
+fun
+localtime_r // reentrant-version
 (
   tval: &RD(time_t), tm: &tm_struct? >> opt (tm_struct, l > null)
 ) :<> #[l:addr] ptr (l) = "mac#%" // endfun
@@ -239,30 +245,40 @@ $extype_struct"atslib_timespec_type" of
 
 (* ****** ****** *)
 
-fun nanosleep
+fun
+nanosleep
 (
-  tms: &RD(timespec), rem: &timespec? >> opt (timespec, i==0)
-) : #[i:int | i <= 0] int(i) = "mac#%" // endfun
+  tms: &RD(timespec)
+, rem: &timespec? >> opt (timespec, i==0)
+) : #[i:int | i <= 0] int(i) = "mac#%"
 
-fun nanosleep_null (tms: &RD(timespec)): int = "mac#%" // endfun
+fun
+nanosleep_null (tms: &RD(timespec)): int = "mac#%"
 
 (* ****** ****** *)
 //
-// HX: linking with -lrt is needed for these functions
+// HX:
+// librt is needed for these functions
 //
-fun clock_getres
+fun
+clock_getres
 (
-  id: clockid_t, res: &timespec? >> opt (timespec, i==0)
-) : #[i:int | i <= 0] int(i) = "mac#%" // endfun
+  id: clockid_t
+, res: &timespec? >> opt (timespec, i==0)
+) : #[i:int | i <= 0] int(i) = "mac#%"
 //
-fun clock_gettime
+fun
+clock_gettime
 (
-  id: clockid_t, tp: &timespec? >> opt (timespec, i==0)
-) : #[i:int | i <= 0] int(i) = "mac#%" // endfun
+  id: clockid_t
+, tms: &timespec? >> opt (timespec, i==0)
+) : #[i:int | i <= 0] int(i) = "mac#%"
 //
 // HX: this one requires SUPERUSER previlege
 //
-fun clock_settime (id: clockid_t, tp: &RD(timespec)): int = "mac#%"
+fun
+clock_settime
+  (id: clockid_t, tms: &RD(timespec)): int = "mac#%"
 //
 (* ****** ****** *)
 
