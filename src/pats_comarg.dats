@@ -133,7 +133,7 @@ end // end of [comarglst_parse]
 
 implement
 comarg_warning (str) = {
-  val () = prerr ("waring(ATS)")
+  val () = prerr ("warning(ATS)")
   val () = prerr (": unrecognized command line argument [")
   val () = prerr (str)
   val () = prerr ("] is ignored.")
