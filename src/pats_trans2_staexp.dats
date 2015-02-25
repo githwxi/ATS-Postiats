@@ -1191,7 +1191,7 @@ fun auxerr2
 ) : void = {
   val () = prerr_error2_loc (loc)
   val () = filprerr_ifdebug "s1exp_trup_app"
-  val () = prerr ": the static expresstion ["
+  val () = prerr ": the static expression ["
   val () = prerr_s2exp (s2e)
   val () = prerr "] is expected to be of a functional sort but it is assigned the sort [";
   val () = prerr_s2rt (s2e.s2exp_srt)
