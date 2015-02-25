@@ -346,10 +346,11 @@ and hidexp_node =
 //
   | HDEif of (
       hidexp(*cond*), hidexp(*then*), hidexp(*else*)
-    ) // end f [HDEif]
-  | HDEsif of (
-      s2exp(*cond*), hidexp(*then*), hidexp(*else*)
-    ) // end of [HDEsif]
+    ) // end of [HDEif]
+//
+  | HDEsif of
+      (s2exp(*cond*), hidexp(*then*), hidexp(*else*))
+    (* end of [HDEsif] *)
 //
   | HDEcase of (
       caskind, hidexplst(*values*), hiclaulst(*clauses*)

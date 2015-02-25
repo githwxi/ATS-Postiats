@@ -402,8 +402,20 @@ case+ hde0.hidexp_node of
 //
 | HDEtrywith _ => auxret (env, res, hde0)
 //
+| HDEsif _(*error*) => let
+    val () =
+    prerr_errccomp_loc(loc0)
+    val () =
+    prerrln!
+      (": [sif] is not supported after proof-erasure.")
+    // end of [val]
+  in
+    primval_err (loc0, hse0)
+  end (* end of [HDEsif] *)
+//
 | _(*unspported*) => let
-    val () = prerr_interror_loc(loc0)
+    val () =
+    prerr_interror_loc(loc0)
     val () = prerrln! (": hidexp_ccomp: hde0 = ", hde0)
   in
     exitloc (1)
@@ -557,17 +569,19 @@ end // end of [labhidexplst_ccomp]
 
 local
 
-fun auxval (
+fun
+auxval
+(
   env: !ccompenv
 , res: !instrseq
 , tmpret: tmpvar
-, hde0: hidexp
+, hde0_val: hidexp
 ) : void = let
-  val loc0 = hde0.hidexp_loc
-  val pmv = hidexp_ccomp (env, res, hde0)
-  val ins = instr_move_val (loc0, tmpret, pmv)
+  val loc0 = hde0_val.hidexp_loc
+  val pmv0 = hidexp_ccomp (env, res, hde0_val)
+  val ins0 = instr_move_val (loc0, tmpret, pmv0)
 in
-  instrseq_add (res, ins)
+  instrseq_add (res, ins0)
 end // end of [auxval]
 
 in (* in of [local] *)
@@ -678,10 +692,13 @@ case+ hde0.hidexp_node of
 | HDExchng_var _ => auxval (env, res, tmpret, hde0)
 | HDExchng_ptr _ => auxval (env, res, tmpret, hde0)
 //
-| HDEarrpsz _ => hidexp_ccomp_ret_arrpsz (env, res, tmpret, hde0)
-| HDEarrinit _ => hidexp_ccomp_ret_arrinit (env, res, tmpret, hde0)
+| HDEarrpsz _ =>
+    hidexp_ccomp_ret_arrpsz (env, res, tmpret, hde0)
+| HDEarrinit _ =>
+    hidexp_ccomp_ret_arrinit (env, res, tmpret, hde0)
 //
-| HDEraise (hde_exn) => hidexp_ccomp_ret_raise (env, res, tmpret, hde0)
+| HDEraise (hde_exn) =>
+    hidexp_ccomp_ret_raise (env, res, tmpret, hde0)
 //
 | HDElam (knd, _, _) =>
   (
@@ -704,6 +721,8 @@ case+ hde0.hidexp_node of
 | HDEloopexn _ => auxval (env, res, tmpret, hde0)
 //
 | HDEtrywith _ => hidexp_ccomp_ret_trywith (env, res, tmpret, hde0)
+//
+| HDEsif _(*error*) => auxval (env, res, tmpret, hde0)
 //
 | _ => let
     val () = println! ("hidexp_ccomp_ret: loc0 = ", loc0)
@@ -1717,9 +1736,10 @@ hidexp_ccomp_funlab_arg_body
 ) = let
 (*
 val () =
+println!
 (
-  println! ("hidexp_ccomp_funlab_arg_body: flab = ", flab)
-) // end of [val]
+"hidexp_ccomp_funlab_arg_body: flab = ", flab
+) (* end of [val] *)
 *)
 //
 val res = instrseq_make_nil ()
