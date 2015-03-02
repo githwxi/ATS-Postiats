@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.1.9</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.1.9:
+</H2>
+
+<pre>
+
+This is the 18th release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Circumventing a Clang-3.5-O2 related bug that caused the generated
+   patsopt to crash immediately. For more, please visit:
+   https://groups.google.com/forum/#!topic/ats-lang-users/FSgjjkUURs4
+2. Fixing a bug in pats_tyerase:s2zexp_tyer:
+   https://groups.google.com/forum/#!topic/ats-lang-users/SGpN2D991tA
+   https://github.com/githwxi/ATS-Postiats/blob/master/doc/BUGS/bug-2015-01-25.dats
+3. Improving pats_trans2_p1at:p1at_tr_arg. See:
+   ATS-Postiats-test/contrib/test-hwxi/test03.dats
+4. Improving the formatting of INT2PROGINATS and ATS2TUTORIAL
+5. Having $showtype to also print out the sort information
+6. Adding API for sdstring (simple dynamic strings) in ATS2-contrib
+7. Adding $UN.prop_assert for asserting any proposition one needs
+8. Adding flags -h/--help for patscc to print out usage information
+9. Handling D2Coverload during the jsonization of level-2 syntax
+10. Reporting a compilation error if HDEsif is encountered
+
+</pre>
+
+</body><!--body-->
+</html><!--html-->
