@@ -55,6 +55,9 @@ include 'SATS/integer_fixed_sats.html';
 include 'SATS/unsafe_sats.html';
 include 'SATS/checkast_sats.html';
 //
+include 'SATS/tuple_sats.html';
+include 'SATS/reference_sats.html';
+//
 include 'SATS/filebas_sats.html';
 include 'SATS/intrange_sats.html';
 //
@@ -91,6 +94,9 @@ include 'DATS/strptr_dats.html';
 //
 include 'DATS/unsafe_dats.html';
 include 'DATS/checkast_dats.html';
+//
+include 'DATS/tuple_dats.html';
+include 'DATS/reference_dats.html';
 //
 include 'DATS/filebas_dats.html';
 include 'DATS/intrange_dats.html';

@@ -97,6 +97,14 @@ checkast_sats.html
 checkast_sats.html: ./../SATS/checkast.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 
 all_sats:: \
+tuple_sats.html
+tuple_sats.html: ./../SATS/tuple.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
+reference_sats.html
+reference_sats.html: ./../SATS/reference.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
 filebas_sats.html
 filebas_sats.html: ./../SATS/filebas.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 all_sats:: \
@@ -193,6 +201,13 @@ unsafe_dats.html: ./../DATS/unsafe.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 all_dats:: \
 checkast_dats.html
 checkast_dats.html: ./../DATS/checkast.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+
+all_dats:: \
+tuple_dats.html
+tuple_dats.html: ./../DATS/tuple.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+all_dats:: \
+reference_dats.html
+reference_dats.html: ./../DATS/reference.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 
 all_dats:: \
 filebas_dats.html

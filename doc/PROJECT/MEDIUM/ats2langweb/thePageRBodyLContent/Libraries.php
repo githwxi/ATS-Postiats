@@ -115,6 +115,18 @@ lmacrodef
 </li>
 
 <li>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/tuple.html">SATS/tuple</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/tuple.sats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/tuple_sats.html">html</a>)
+</li>
+
+<li>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/reference.html">SATS/reference</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/reference.sats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/reference_sats.html">html</a>)
+</li>
+
+<li>
 <a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/filebas.html">SATS/filebas</a>
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/filebas.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/filebas_sats.html">html</a>)

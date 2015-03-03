@@ -28,6 +28,9 @@ include './../SATS/integer_fixed.sats';
 include './../SATS/unsafe.sats';
 include './../SATS/checkast.sats';
 //
+include './../SATS/tuple.sats';
+include './../SATS/reference.sats';
+//
 include './../SATS/filebas.sats';
 include './../SATS/intrange.sats';
 //
@@ -64,6 +67,9 @@ include './../DATS/strptr.dats';
 //
 include './../DATS/unsafe.dats';
 include './../DATS/checkast.dats';
+//
+include './../DATS/tuple.dats';
+include './../DATS/reference.dats';
 //
 include './../DATS/filebas.dats';
 include './../DATS/intrange.dats';
