@@ -28,23 +28,22 @@ loop
   A1: &(@[a][n])
 , A2: &(@[a][n])
 , i: int(i), res: a
-) : a =
-(
-  sif (i < n) then loop(A1, A2, i+1, res+A1[i]*A2[i]) else res
+) : a = (
+//
+sif
+(i==n)
+then res
+else let
+  val x_i = A1[i]*A2[i]
+in
+  loop(A1, A2, i+1, res + x_i)
+end // end of [else]
+//
 ) (* end of [loop] *)
 //
 in
   loop(A1, A2, 0, gnumber_int<a>(0))
 end // end of [dotprod]
-
-(* ****** ****** *)
-
-(*
-loop_{0}
-loop_{1}
-loop_{2}
-loop_{3}
-*)
 
 (* ****** ****** *)
 //
@@ -56,9 +55,11 @@ dotprod3
 //
 (* ****** ****** *)
 
+(*
 implement
 {a}(*tmp*)
 dotprod3(A1, A2) = $seval(dotprod<a>(A1, A2))
+*)
 
 (* ****** ****** *)
 
