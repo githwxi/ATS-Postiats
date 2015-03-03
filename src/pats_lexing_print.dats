@@ -166,7 +166,10 @@ fprint_token
 //
   | T_DLRBREAK () => fprintf (out, "DLRBREAK()", @())
   | T_DLRCONTINUE () => fprintf (out, "DLRCONTINUE()", @())
+//
   | T_DLRRAISE () => fprintf (out, "DLRRAISE()", @())
+//
+  | T_DLRSEVAL () => fprintf (out, "DLRSEVAL()", @())
 //
   | T_DLRLST (x) => fprintf (out, "DLRLST(%i)", @(x))
   | T_DLRREC (x) => fprintf (out, "DLRREC(%i)", @(x))

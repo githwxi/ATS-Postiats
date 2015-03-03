@@ -539,7 +539,10 @@ val () = ins ("$tuple_vt", DLRTUP_VT)
 //
 val () = ins ("$break", T_DLRBREAK)
 val () = ins ("$continue", T_DLRCONTINUE)
+//
 val () = ins ("$raise", T_DLRRAISE)
+//
+val () = ins ("$seval", T_DLRSEVAL)
 //
 val () = ins ("$myfilename", T_DLRMYFILENAME)
 val () = ins ("$mylocation", T_DLRMYLOCATION)

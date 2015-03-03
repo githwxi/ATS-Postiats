@@ -201,7 +201,10 @@ token_node =
 //
   | T_DLRBREAK of () // $break
   | T_DLRCONTINUE of () // $continue
+//
   | T_DLRRAISE of () // $raise // raising exceptions
+//
+  | T_DLRSEVAL of () // $seval // for static evaluation
 //
   | T_DLRLST of int // $lst and $lst_t and $lst_vt
   | T_DLRREC of int // $rec and $rec_t and $rec_vt

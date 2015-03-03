@@ -864,6 +864,7 @@ case+
   in
     hidexp_lam (loc0, hse_fun, 0(*unboxed*), hips_arg, hde_body)
   end // end of [D3Elaminit_dyn]
+//
 | D3Elam_sta
   (
     s2vs, s2ps, d3e_body

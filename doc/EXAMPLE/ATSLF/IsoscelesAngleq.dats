@@ -3,6 +3,11 @@
 // HX-2015-02-12: Let's do geometry!
 //
 (* ****** ****** *)
+//
+// The encoded proof shows that the two base
+// angles of a given isosceles triangle are equal
+//
+(* ****** ****** *)
 
 datasort pnt = // abstract
 datasort line = line of (pnt, pnt)
