@@ -981,6 +981,26 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
+| D0Eptrof () => prstr "D0Eptrof()"
+| D0Eviewat () => prstr "D0Eviewat()"
+//
+| D0Esel_lab
+    (knd, lab) => {
+    val () = prstr "D0Esel_lab("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_label (out, lab)
+    val () = prstr ")"
+  }
+| D0Esel_ind
+    (knd, ind) => {
+    val () = prstr "D0Esel_int("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
 | D0Eraise (d0e) => {
     val () = prstr "D0Eraise("
     val () = fprint_d0exp (out, d0e)
@@ -1016,21 +1036,9 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
-| D0Eptrof () => prstr "D0Eptrof()"
-| D0Eviewat () => prstr "D0Eviewat()"
-//
-| D0Esel_lab (knd, lab) => {
-    val () = prstr "D0Esel_lab("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
-    val () = fprint_label (out, lab)
-    val () = prstr ")"
-  }
-| D0Esel_ind (knd, ind) => {
-    val () = prstr "D0Esel_int("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
-    val () = prstr "..."
+| D0Etempenver (d0e) => {
+    val () = prstr "D0Etempenver("
+    val () = fprint_d0exp (out, d0e)
     val () = prstr ")"
   }
 //

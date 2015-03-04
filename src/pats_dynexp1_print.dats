@@ -574,7 +574,8 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Evcopyenv (knd, d1e) => {
+| D1Evcopyenv
+    (knd, d1e) => {
     val () = prstr "D1Evcopyenv("
     val () = fprint_int (out, knd)
     val () = prstr ", "

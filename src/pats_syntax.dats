@@ -2072,6 +2072,43 @@ end // end of [d0exp_seq]
 (* ****** ****** *)
 
 implement
+d0exp_ptrof (t_addrat) = '{
+  d0exp_loc= t_addrat.token_loc, d0exp_node= D0Eptrof ()
+} // end of [d0exp_ptrof]
+
+implement
+d0exp_viewat (t_viewat) = '{
+  d0exp_loc= t_viewat.token_loc, d0exp_node= D0Eviewat ()
+} // end of [d0exp_viewat]
+
+(* ****** ****** *)
+
+implement
+d0exp_sel_lab (sel, lab) = let
+  val loc = sel.s0elop_loc + lab.l0ab_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Esel_lab (sel.s0elop_knd, lab.l0ab_lab)
+} end // end of [d0exp_sel_lab]
+
+implement
+d0exp_sel_ind (sel, ind) = let
+  val loc = sel.s0elop_loc + ind.d0arrind_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Esel_ind (sel.s0elop_knd, ind.d0arrind_ind)
+} end // end of [d0exp_sel_ind]
+
+implement
+d0exp_sel_int (tok) = let
+  val knd = 0 // HX: dot selection
+  val-T_DOTINT (int) = tok.token_node
+  val lab = $LAB.label_make_int (int)
+in '{
+  d0exp_loc= tok.token_loc, d0exp_node= D0Esel_lab (knd, lab)
+} end // end of [d0exp_sel_int]
+
+(* ****** ****** *)
+
+implement
 d0exp_raise (tok, ent2) = let
   val loc = tok.token_loc + ent2.d0exp_loc
 in '{
@@ -2131,43 +2168,6 @@ d0exp_tempenver (tok, ent2) = let
 in '{
   d0exp_loc= loc, d0exp_node= D0Etempenver (ent2)
 } end // end of [d0exp_tempenver]
-
-(* ****** ****** *)
-
-implement
-d0exp_ptrof (t_addrat) = '{
-  d0exp_loc= t_addrat.token_loc, d0exp_node= D0Eptrof ()
-} // end of [d0exp_ptrof]
-
-implement
-d0exp_viewat (t_viewat) = '{
-  d0exp_loc= t_viewat.token_loc, d0exp_node= D0Eviewat ()
-} // end of [d0exp_viewat]
-
-(* ****** ****** *)
-
-implement
-d0exp_sel_lab (sel, lab) = let
-  val loc = sel.s0elop_loc + lab.l0ab_loc
-in '{
-  d0exp_loc= loc, d0exp_node= D0Esel_lab (sel.s0elop_knd, lab.l0ab_lab)
-} end // end of [d0exp_sel_lab]
-
-implement
-d0exp_sel_ind (sel, ind) = let
-  val loc = sel.s0elop_loc + ind.d0arrind_loc
-in '{
-  d0exp_loc= loc, d0exp_node= D0Esel_ind (sel.s0elop_knd, ind.d0arrind_ind)
-} end // end of [d0exp_sel_ind]
-
-implement
-d0exp_sel_int (tok) = let
-  val knd = 0 // HX: dot selection
-  val-T_DOTINT (int) = tok.token_node
-  val lab = $LAB.label_make_int (int)
-in '{
-  d0exp_loc= tok.token_loc, d0exp_node= D0Esel_lab (knd, lab)
-} end // end of [d0exp_sel_int]
 
 (* ****** ****** *)
 

@@ -1407,6 +1407,12 @@ and d0exp_node =
   | D0Earrinit of (* array initilization *)
       (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
 //
+  | D0Eptrof of () // taking the addr of a left-value
+  | D0Eviewat of () // taking the view at the addr of a left-value
+//
+  | D0Esel_lab of (int(*knd*), label)
+  | D0Esel_ind of (int(*knd*), d0explstlst(*ind*))
+//
   | D0Eraise of (d0exp) // $raise
   | D0Eeffmask of (e0fftaglst, d0exp)
   | D0Eeffmask_arg of (int(*knd*), d0exp)
@@ -1418,12 +1424,6 @@ and d0exp_node =
   | D0Evcopyenv of (int(*knd*), d0exp) // $vcopyenv_v/$vcopyenv_vt
 //
   | D0Etempenver of (d0exp) // $tempenver for adding environvar
-//
-  | D0Eptrof of () // taking the addr of a left-value
-  | D0Eviewat of () // taking the view at the addr of a left-value
-//
-  | D0Esel_lab of (int(*knd*), label)
-  | D0Esel_ind of (int(*knd*), d0explstlst(*ind*))
 //
   | D0Esexparg of s0exparg // static multi-argument
 //

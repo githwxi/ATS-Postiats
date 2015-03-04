@@ -1175,7 +1175,14 @@ end // end of [p_argd0exp]
 (* ****** ****** *)
 
 (*
-d0exp0 ::= atmd0exp argd0expseq [COLON s0exp]
+d0exp0 ::=
+| atmd0exp argd0expseq [COLON s0exp]
+| break | continue
+| $seval d0exp
+| $showtype d0exp
+| $vcopyenv_v d0exp
+| $vcopyenv_vt d0exp
+| $tempenver d0exp
 *)
 fun
 p_d0exp0
