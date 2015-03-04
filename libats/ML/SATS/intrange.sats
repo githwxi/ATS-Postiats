@@ -62,12 +62,13 @@ fun{}
 int_foreach_cloref
   (n: int, f: cfun1 (int, void)): void
 //
+overload foreach with int_foreach_cloref
+//
 fun{}
 int_foreach2_cloref
   (n1: int, n2: int, f: cfun2 (int, int, void)): void
 //
-overload foreach with int_foreach_cloref
-overload foreach with int_foreach2_cloref
+overload foreach2 with int_foreach2_cloref
 //
 (* ****** ****** *)
 //

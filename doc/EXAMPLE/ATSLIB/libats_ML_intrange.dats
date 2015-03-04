@@ -27,6 +27,28 @@ val ((*void*)) =
 //
 (* ****** ****** *)
 
+val () =
+{
+//
+val
+N = 9
+//
+val () =
+foreach2
+(
+N, N,
+lam (i, j) =>
+(
+  if j > 0 then print ' ';
+  $extfcall(void, "printf", "%dx%d=%02d", i+1, j+1, (i+1)*(j+1));
+  if (j+1=N) then println! ();
+) (* end of [lam] *)
+) (* end of [foreach2] *)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

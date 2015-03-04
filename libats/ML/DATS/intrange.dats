@@ -115,14 +115,14 @@ intrange_foreach2_cloref
 fnx
 loop1
 (
-  l1: int, r1: int
+  m1: int, r1: int
 , l2: int, r2: int
 , f: cfun2 (int, int, void)
 ) : void = (
 //
 if
-l1 < r1
-then loop2(l1, r1, l2, r2, f)
+m1 < r1
+then loop2(m1, r1, l2, l2, r2, f)
 else ()
 //
 ) (* end of [loop1] *)
@@ -130,20 +130,20 @@ else ()
 and
 loop2
 (
-  l1: int, r1: int
-, l2: int, r2: int
+  m1: int, r1: int
+, l2: int, m2: int, r2: int
 , f: cfun2 (int, int, void)
 ) : void = (
 //
 if
-l2 < r2
+m2 < r2
 then (
-  f(l1, l2);
-  loop2(l1, r1, l2+1, r2, f)
+//
+f(m1, m2);
+loop2(m1, r1, l2, m2+1, r2, f)
+//
 ) (* end of [then] *)
-else (
-  loop1(l1+1, r1, l2, r2, f)
-) (* end of [else] *)
+else loop1(m1+1, r1, l2, r2, f)
 //
 ) (* end of [loop2] *)
 //

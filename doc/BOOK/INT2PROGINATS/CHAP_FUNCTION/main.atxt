@@ -781,37 +781,47 @@ We are now ready to implement the following function
 fun search
 (
   bd: int8, i: int, j: int, nsol: int
-) : int =
-  if j < N then let
-    val test = safety_test2 (i, j, bd, i-1)
-  in
-    if test then let
+) : int = (
+//
+if
+j < N
+then let
+  val test = safety_test2 (i, j, bd, i-1)
+in
+  if test
+    then let
       val bd1 = board_set (bd, i, j)
     in
-      if i+1 = N then let
-        val () = print! ("Solution #", nsol+1, ":\\\n\\\n")
-        val () = print_board (bd1)
-      in
-        search (bd, i, j+1, nsol+1)
-      end else
-        search (bd1, i+1, 0(*j*), nsol) // positioning next piece
+      if i+1 = N
+        then let
+          val () = print! ("Solution #", nsol+1, ":\\\n\\\n")
+          val () = print_board (bd1)
+        in
+          search (bd, i, j+1, nsol+1)
+        end // end of [then]
+        else (
+          search (bd1, i+1, 0(*j*), nsol) // positioning next piece
+        ) (* end of [else] *)
       // end of [if]
-    end else
-      search (bd, i, j+1, nsol)
-  end else
-  (
-    if i > 0 then
-      search (bd, i-1, board_get (bd, i-1) + 1, nsol)
-    else nsol // end of [if]
-  )
-// end of [search]
+    end // end of [then]
+    else search (bd, i, j+1, nsol)
+  // end of [if]
+end // end of [then]
+else (
+  if i > 0
+    then search (bd, i-1, board_get (bd, i-1) + 1, nsol) else nsol
+  // end of [if]
+) (* end of [else] *)
+//
+) (* end of [search] *)
 ')
 
 The return value of #dyncode("search") is the number of distinct solutions
 to the eight queens puzzle. The symbol #dyncode("print!") in the body of
 #dyncode("search") is a special identifier in ATS: It takes an indefinite
-number of arguments and then applies #dyncode("print") to each of them. Here
-is the first solution printed out by a call to the function #dyncode("search"):
+number of arguments and then applies #dyncode("print") to each of
+them. Following is the first solution printed out by
+#dyncode("print_board") during a call to the function #dyncode("search"):
 
 #atscode("\
 Q . . . . . . . 
