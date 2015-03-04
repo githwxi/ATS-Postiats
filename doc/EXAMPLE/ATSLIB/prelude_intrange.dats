@@ -97,8 +97,7 @@ val () =
 //
 val N = 10
 //
-implement
-(tenv)
+implement(tenv)
 intrange_foreach2$fwork<tenv>
   (i, j, env) =
 (

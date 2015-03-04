@@ -77,6 +77,11 @@ implement
 int_foreach_cloref
   (n, f) = intrange_foreach_cloref<> (0, n, f)
 //
+implement
+{}(*tmp*)
+int_foreach2_cloref
+  (n1, n2, f) = intrange_foreach2_cloref<> (0, n1, 0, n2, f)
+//
 (* ****** ****** *)
 
 implement
@@ -91,7 +96,7 @@ loop
 ) : void = (
 //
 if l < r
-  then let val () = f (l) in loop (l+1, r, f) end
+  then let val () = f(l) in loop(l+1, r, f) end
   else ()
 //
 ) (* end of [loop] *)
@@ -99,6 +104,52 @@ if l < r
 in
   loop (l, r, f)
 end // end of [intrange_foreach_cloref]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+intrange_foreach2_cloref
+  (l1, r1, l2, r2, f) = let
+//
+fnx
+loop1
+(
+  l1: int, r1: int
+, l2: int, r2: int
+, f: cfun2 (int, int, void)
+) : void = (
+//
+if
+l1 < r1
+then loop2(l1, r1, l2, r2, f)
+else ()
+//
+) (* end of [loop1] *)
+//
+and
+loop2
+(
+  l1: int, r1: int
+, l2: int, r2: int
+, f: cfun2 (int, int, void)
+) : void = (
+//
+if
+l2 < r2
+then (
+  f(l1, l2);
+  loop2(l1, r1, l2+1, r2, f)
+) (* end of [then] *)
+else (
+  loop1(l1+1, r1, l2, r2, f)
+) (* end of [else] *)
+//
+) (* end of [loop2] *)
+//
+in
+  loop1 (l1, r1, l2, r2, f)
+end // end of [intrange_foreach2_cloref]
 
 (* ****** ****** *)
 
