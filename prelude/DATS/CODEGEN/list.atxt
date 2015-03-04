@@ -31,6 +31,10 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 #atscode_separator()
 
+abstype List0_(a:t@ype+) = List0(a)
+
+#atscode_separator()
+
 implement
 {x}(*tmp*)
 list_make_sing (x) = list_vt_cons{x}(x, list_vt_nil)
@@ -213,10 +217,15 @@ fprint_listlist_sep
   (out, xss, sep1, sep2) = let
 //
 implement
-fprint_val<List(a)> (out, xs) = fprint_list_sep<a> (out, xs, sep2)
+fprint_val<List0_(a)>
+  (out, xs) = let
+  val xs = $UN.cast{List0(a)}(xs)
+in
+  fprint_list_sep<a> (out, xs, sep2)
+end // end of [fprint_val]
 //
 in
-  fprint_list_sep<List(a)> (out, xss, sep1)
+  fprint_list_sep<List0_(a)> (out, $UN.cast{List(List0_(a))}(xss), sep1)
 end // end of [fprint_listlist_sep]
 
 #atscode_separator()
