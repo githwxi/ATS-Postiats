@@ -373,12 +373,14 @@ and d1exp_node =
   | D1Earrpsz of (* arraysize expression *)
       (s1expopt (*element type*), d1explst (*elements*))
 //
-  | D1Eraise of (d1exp) // raised exception
-  | D1Eeffmask of (effcst(*eff*), d1exp(*body*)) // $effmask(...)
-//
   | D1Eptrof of d1exp // taking the address of
   | D1Eviewat of d1exp // taking view at a given address
   | D1Eselab of (int(*knd*), d1exp, d1lab)
+//
+  | D1Eraise of (d1exp) // raised exception
+  | D1Eeffmask of (effcst(*eff*), d1exp(*body*)) // $effmask(...)
+//
+  | D1Eseval of (d1exp) // for static evaluation
 //
   | D1Eshowtype of (d1exp) // $showtype: for debugging
 //
@@ -701,34 +703,37 @@ fun d1exp_arrinit (
 (* ****** ****** *)
 //
 fun
-d1exp_sexparg (loc: location, s1a: s1exparg): d1exp
+d1exp_sexparg
+  (loc: location, s1a: s1exparg): d1exp
 //
-fun d1exp_exist (loc: location, s1a: s1exparg, d1e: d1exp): d1exp
+fun
+d1exp_exist
+  (loc: location, s1a: s1exparg, d1e: d1exp): d1exp
 //
 (* ****** ****** *)
-
-fun d1exp_raise (loc: location, d1e: d1exp): d1exp
-
-(* ****** ****** *)
-
-fun d1exp_effmask (
-  loc: location, eff: effcst, d1e: d1exp
-) : d1exp // end of [d1exp_effmask]
-
-fun d1exp_effmask_arg
-  (loc: location, knd: int, d1e: d1exp): d1exp
-// end of [d1exp_effmask_arg]
-
-(* ****** ****** *)
-
-fun d1exp_selab
+//
+fun
+d1exp_selab
   (loc: location, kind: int, root: d1exp, lab: d1lab): d1exp
 // end of [d1exp_selab]
-
+//
 (* ****** ****** *)
 
 fun d1exp_ptrof (loc: location, d1e: d1exp): d1exp
 fun d1exp_viewat (loc: location, d1e: d1exp): d1exp
+
+(* ****** ****** *)
+//
+fun d1exp_raise (loc: location, d1e: d1exp): d1exp
+//
+fun
+d1exp_effmask (loc: location, eff: effcst, d1e: d1exp): d1exp
+fun
+d1exp_effmask_arg (loc: location, knd: int, d1e: d1exp): d1exp
+//
+(* ****** ****** *)
+
+fun d1exp_seval (loc: location, d1e: d1exp): d1exp
 
 (* ****** ****** *)
 

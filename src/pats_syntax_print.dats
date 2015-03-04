@@ -987,6 +987,21 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
+| D0Eeffmask _ =>
+  {
+    val () = prstr "D0Eeffmask(...)"
+  }
+| D0Eeffmask_arg _ =>
+  {
+    val () = prstr "D0Eeffmask_arg(...)"
+  }
+//
+| D0Eseval (d0e) => {
+    val () = prstr "D0Eseval("
+    val () = fprint_d0exp (out, d0e)
+    val () = prstr ")"
+  }
+//
 | D0Eshowtype (d0e) => {
     val () = prstr "D0Eshowtype("
     val () = fprint_d0exp (out, d0e)

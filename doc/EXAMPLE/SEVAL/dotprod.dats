@@ -55,11 +55,9 @@ dotprod3
 //
 (* ****** ****** *)
 
-(*
 implement
 {a}(*tmp*)
 dotprod3(A1, A2) = $seval(dotprod<a>(A1, A2))
-*)
 
 (* ****** ****** *)
 

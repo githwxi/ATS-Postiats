@@ -1402,7 +1402,8 @@ and d0exp_node =
 //
   | D0Earrsub of // array subscripting
       (dqi0de, location(*ind*), d0explstlst(*ind*))
-  | D0Earrpsz of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
+  | D0Earrpsz of
+      (s0expopt (*elt*), d0exp (*int*)) // arraysize expr
   | D0Earrinit of (* array initilization *)
       (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
 //
@@ -1410,7 +1411,9 @@ and d0exp_node =
   | D0Eeffmask of (e0fftaglst, d0exp)
   | D0Eeffmask_arg of (int(*knd*), d0exp)
 //
-  | D0Eshowtype of (d0exp) // $showtype
+  | D0Eseval of (d0exp) // $seval for static evaluation
+//
+  | D0Eshowtype of (d0exp) // $showtype for static debugging
 //
   | D0Evcopyenv of (int(*knd*), d0exp) // $vcopyenv_v/$vcopyenv_vt
 //
@@ -1774,6 +1777,10 @@ fun d0exp_effmask (
 fun d0exp_effmask_arg
   (knd: int, tok: token, d0e: d0exp): d0exp
 // end of [d0exp_effmask_arg]
+
+(* ****** ****** *)
+
+fun d0exp_seval (tok: token, d0e: d0exp): d0exp
 
 (* ****** ****** *)
 

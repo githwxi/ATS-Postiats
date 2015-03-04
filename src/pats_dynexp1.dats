@@ -643,65 +643,84 @@ d1exp_arrinit
 
 (* ****** ****** *)
 
+implement
+d1exp_selab
+  (loc, knd, d1e, d1l) =
+(
+  d1exp_make (loc, D1Eselab (knd, d1e, d1l))
+) // end of [d1exp_selab]
+
+(* ****** ****** *)
+//
+implement
+d1exp_ptrof
+  (loc, d1e) = d1exp_make (loc, D1Eptrof (d1e))
+implement
+d1exp_viewat
+  (loc, d1e) = d1exp_make (loc, D1Eviewat (d1e))
+//
+(* ****** ****** *)
 //
 implement
 d1exp_raise
   (loc, d1e) = d1exp_make (loc, D1Eraise (d1e))
 //
 (* ****** ****** *)
-
+//
 implement
-d1exp_effmask (loc, efc, d1e) =
-  d1exp_make (loc, D1Eeffmask (efc, d1e))
-
+d1exp_effmask
+  (loc, efc, d1e) = let
+//
+val node =
+  D1Eeffmask (efc, d1e)
+//
+in
+  d1exp_make (loc, node)
+end (* end of [d1exp_effmask] *)
+//
 implement
 d1exp_effmask_arg
   (loc, knd, d1e) = let
-  val efc = (
-    case+ knd of
-    | 0 => effcst_ntm
-    | 1 => effcst_exn
-    | 2 => effcst_ref
-    | 3 => effcst_wrt
-    | _ => effcst_all
-  ) : effcst // end of [val]
+//
+val efc = (
+  case+ knd of
+  | 0 => effcst_ntm
+  | 1 => effcst_exn
+  | 2 => effcst_ref
+  | 3 => effcst_wrt
+  | _ => effcst_all
+) : effcst // end of [val]
+//
 in
   d1exp_effmask (loc, efc, d1e)
 end // end of [d1exp_effmask_arg]
-
-(* ****** ****** *)
-
-implement
-d1exp_selab (loc, knd, d1e, d1l) =
-  d1exp_make (loc, D1Eselab (knd, d1e, d1l))
-// end of [d1exp_selab]
-
-(* ****** ****** *)
-
-implement
-d1exp_ptrof (loc, d1e) =
-  d1exp_make (loc, D1Eptrof (d1e))
-
-implement
-d1exp_viewat (loc, d1e) =
-  d1exp_make (loc, D1Eviewat (d1e))
-
+//
 (* ****** ****** *)
 //
 implement
-d1exp_showtype (loc, d1e) =
+d1exp_seval
+  (loc, d1e) =
+  d1exp_make (loc, D1Eseval (d1e))
+//
+(* ****** ****** *)
+//
+implement
+d1exp_showtype
+  (loc, d1e) =
   d1exp_make (loc, D1Eshowtype (d1e))
 //
 (* ****** ****** *)
 //
 implement
-d1exp_vcopyenv (loc, knd, d1e) =
+d1exp_vcopyenv
+  (loc, knd, d1e) =
   d1exp_make (loc, D1Evcopyenv (knd, d1e))
 //
 (* ****** ****** *)
 //
 implement
-d1exp_tempenver (loc, d1e) =
+d1exp_tempenver
+  (loc, d1e) =
   d1exp_make (loc, D1Etempenver (d1e))
 //
 (* ****** ****** *)

@@ -2099,6 +2099,15 @@ in '{
 (* ****** ****** *)
 
 implement
+d0exp_seval (tok, ent2) = let
+  val loc = tok.token_loc + ent2.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eseval (ent2)
+} end // end of [d0exp_seval]
+
+(* ****** ****** *)
+
+implement
 d0exp_showtype (tok, ent2) = let
   val loc = tok.token_loc + ent2.d0exp_loc
 in '{
