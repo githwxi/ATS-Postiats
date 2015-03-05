@@ -415,7 +415,8 @@ end // end of [labp3atlst_npf_tyer]
 (* ****** ****** *)
 
 implement
-p3at_tyer_con (
+p3at_tyer_con
+(
   loc0, hse0, pck, d2c, npf, p3ts
 ) = let
   val lhips =
@@ -452,11 +453,13 @@ fun d3exp_tyer_cst
 // end of [d3exp_tyer_cst]
 
 extern
-fun d3exp_tyer_tmpcst (
+fun
+d3exp_tyer_tmpcst (
   loc0: location, hse0: hisexp, d2c: d2cst, t2mas: t2mpmarglst
 ) : hidexp // end of [d3exp_tyer_tmpcst]
 extern
-fun d3exp_tyer_tmpvar (
+fun
+d3exp_tyer_tmpvar (
   loc0: location, hse0: hisexp, d2v: d2var, t2mas: t2mpmarglst
 ) : hidexp // end of [d3exp_tyer_tmpvar]
 
@@ -468,15 +471,16 @@ extern
 fun labd3explst_npf_tyer (npf: int, ld3es: labd3explst): labhidexplst
 
 (* ****** ****** *)
-
-fun d3exp_tyer_type
+//
+fun
+d3exp_tyer_type
   (d3e: d3exp): hisexp = let
   val loc = d3e.d3exp_loc
   val s2e = d3exp_get_type (d3e)
 in
   s2exp_tyer_deep (loc, s2e)
 end // end of [d3exp_tyer_type]
-
+//
 (* ****** ****** *)
 
 implement
@@ -496,7 +500,7 @@ val hse0 = s2exp_tyer_shallow (loc0, s2e0)
 in
 //
 case+
-  d3e0.d3exp_node of
+d3e0.d3exp_node of
 //
 | D3Evar (d2v) => let
     val (
