@@ -116,14 +116,6 @@ clean:: ; $(RMF) hanoi_dats.o
 clean:: ; $(RMF) hanoi_dats.c
 cleanall:: ; $(RMF) hanoi hanoi.exe
 
-all:: mailist
-mailist: mailist.exe
-mailist.exe: mailist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-mailist_dats.c: mailist.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output mailist_dats.c --dynamic mailist.dats
-clean:: ; $(RMF) mailist_dats.o
-clean:: ; $(RMF) mailist_dats.c
-cleanall:: ; $(RMF) mailist mailist.exe
-
 all:: monad_maybe
 monad_maybe: monad_maybe.exe
 monad_maybe.exe: monad_maybe_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -147,6 +139,14 @@ morse_enum_dats.c: morse_enum.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --ou
 clean:: ; $(RMF) morse_enum_dats.o
 clean:: ; $(RMF) morse_enum_dats.c
 cleanall:: ; $(RMF) morse_enum morse_enum.exe
+
+all:: mysendmailist
+mysendmailist: mysendmailist.exe
+mysendmailist.exe: mysendmailist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+mysendmailist_dats.c: mysendmailist.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output mysendmailist_dats.c --dynamic mysendmailist.dats
+clean:: ; $(RMF) mysendmailist_dats.o
+clean:: ; $(RMF) mysendmailist_dats.c
+cleanall:: ; $(RMF) mysendmailist mysendmailist.exe
 
 all:: passwdgen
 passwdgen: passwdgen.exe

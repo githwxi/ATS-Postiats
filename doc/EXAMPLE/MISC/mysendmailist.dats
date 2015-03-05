@@ -1,5 +1,11 @@
 (* ****** ****** *)
 //
+// HX-2015-03-05:
+// For sending a message
+// to a list of email addresses
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 //
@@ -75,11 +81,11 @@ end // end of [mysendmail]
 implement
 theFrom_get<>() = $UN.cast{charptr}("hwxi@bu.edu")
 implement
-theSubject_get<>() = $UN.cast{charptr}("CS520:Grade")
+theSubject_get<>() = $UN.cast{charptr}("Mysendmailist")
 implement
 theOtherOpt_get<>() = $UN.cast{charptr}("-c gmhwxi@gmail.com")
 implement
-theMessage_fname<>() = $UN.cast{charptr}("./mailing-list.dats")
+theMessage_fname<>() = $UN.cast{charptr}("./mysendmailist.dats")
 //
 (* ****** ****** *)
 //
@@ -97,4 +103,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [mailist] *)
+(* end of [mysendmailist.dats] *)
