@@ -1178,7 +1178,6 @@ end // end of [p_argd0exp]
 d0exp0 ::=
 | atmd0exp argd0expseq [COLON s0exp]
 | break | continue
-| $seval d0exp
 | $showtype d0exp
 | $vcopyenv_v d0exp
 | $vcopyenv_vt d0exp
@@ -1230,16 +1229,6 @@ of // case+
 | T_DLRCONTINUE () => let
     val () = incby1 () in d0exp_loopexn (1(*knd*), tok)
   end // end of [T_DLRCONTINUE]
-//
-| T_DLRSEVAL () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_d0exp0 (buf, bt, err)
-  in
-    if err = err0 then
-      d0exp_seval (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
-    (* end of [if] *)
-  end
 //
 | T_DLRSHOWTYPE () => let
     val bt = 0

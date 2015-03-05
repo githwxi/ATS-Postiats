@@ -164,20 +164,18 @@ fprint_token
   | T_DLREXTFCALL () => fprintf (out, "DLREXTFCALL()", @())
   | T_DLREXTMCALL () => fprintf (out, "DLREXTMCALL()", @())
 //
-  | T_DLRBREAK () => fprintf (out, "DLRBREAK()", @())
-  | T_DLRCONTINUE () => fprintf (out, "DLRCONTINUE()", @())
-//
-  | T_DLRRAISE () => fprintf (out, "DLRRAISE()", @())
-//
-  | T_DLRSEVAL () => fprintf (out, "DLRSEVAL()", @())
+  | T_DLRMYFILENAME () => fprintf (out, "DLRMYFILENAME()", @())
+  | T_DLRMYLOCATION () => fprintf (out, "DLRMYLOCATION()", @())
+  | T_DLRMYFUNCTION () => fprintf (out, "DLRMYFUNCTION()", @())
 //
   | T_DLRLST (x) => fprintf (out, "DLRLST(%i)", @(x))
   | T_DLRREC (x) => fprintf (out, "DLRREC(%i)", @(x))
   | T_DLRTUP (x) => fprintf (out, "DLRTUP(%i)", @(x))
 //
-  | T_DLRMYFILENAME () => fprintf (out, "DLRMYFILENAME()", @())
-  | T_DLRMYLOCATION () => fprintf (out, "DLRMYLOCATION()", @())
-  | T_DLRMYFUNCTION () => fprintf (out, "DLRMYFUNCTION()", @())
+  | T_DLRBREAK () => fprintf (out, "DLRBREAK()", @())
+  | T_DLRCONTINUE () => fprintf (out, "DLRCONTINUE()", @())
+//
+  | T_DLRRAISE () => fprintf (out, "DLRRAISE()", @())
 //
   | T_DLRSHOWTYPE () => fprintf (out, "DLRSHOWTYPE()", @())
 //

@@ -698,13 +698,6 @@ end // end of [d1exp_effmask_arg]
 (* ****** ****** *)
 //
 implement
-d1exp_seval
-  (loc, d1e) =
-  d1exp_make (loc, D1Eseval (d1e))
-//
-(* ****** ****** *)
-//
-implement
 d1exp_showtype
   (loc, d1e) =
   d1exp_make (loc, D1Eshowtype (d1e))

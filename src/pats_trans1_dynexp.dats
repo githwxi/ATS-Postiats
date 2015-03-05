@@ -765,8 +765,6 @@ case+ d0e0.d0exp_node of
     val d1e = d0exp_tr (d0e) in FXITMatm (d1exp_effmask_arg (loc0, knd, d1e))
   end // end of [D0Eeffmask_arg]
 //
-| D0Eseval (d0e) => FXITMatm (d1exp_seval (loc0, d0exp_tr (d0e)))
-//
 | D0Eshowtype (d0e) => FXITMatm (d1exp_showtype (loc0, d0exp_tr (d0e)))
 //
 | D0Evcopyenv (knd, d0e) => FXITMatm (d1exp_vcopyenv (loc0, knd, d0exp_tr (d0e)))

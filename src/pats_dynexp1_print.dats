@@ -562,12 +562,6 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eseval (d1e) => {
-    val () = prstr "D1Eseval("
-    val () = fprint_d1exp (out, d1e)
-    val () = prstr ")"
-  }
-//
 | D1Eshowtype (d1e) => {
     val () = prstr "D1Eshowtype("
     val () = fprint_d1exp (out, d1e)

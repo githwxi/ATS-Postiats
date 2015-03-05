@@ -97,17 +97,19 @@ LNS=ln -s
 RMF=rm -f
 
 ######
-
+#
 #make_entry("arith_overflow")
-#make2_entry("autodiff", "-DATS_MEMALLOC_GCBDW -O2", "-lm -lgc")
 #make_entry("coinflip")
 #make_entry("ferryman")
 #make_entry("fibver_loop")
 #make_entry("fibver_trec")
-#make2_entry("fourslot", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("hanoi", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("isqrt")
 #make_entry("matrixops")
+#
+#make2_entry("autodiff", "-DATS_MEMALLOC_GCBDW -O2", "-lm -lgc")
+#make2_entry("fourslot", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("hanoi", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("mailist", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("monad_maybe", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("monad_state", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("morse_enum", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
@@ -122,7 +124,7 @@ RMF=rm -f
 #make2_entry("strmat", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("wclines", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make2_entry("word-chain", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
-
+#
 ######
 
 clean:: ; $(RMF) *~

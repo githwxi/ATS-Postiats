@@ -367,8 +367,6 @@ and d3exp_node =
 //
   | D3Eeffmask of (s2eff, d3exp) // $effmask(s2eff, d3exp)
 //
-  | D3Eseval of (int(*knd*), d3exp) // $seval: static evaluation
-//
   | D3Evcopyenv of (int(*knd*), d2var) // $vcopyenv_v/vcopyenv_vt
 //
   | D3Etempenver of (d2varlst) // $tempenver for environvars
@@ -853,11 +851,6 @@ d3exp_effmask
   (loc: location, s2fe: s2eff, d3e: d3exp): d3exp
 // end of [d3exp_effmask]
 
-(* ****** ****** *)
-//
-fun
-d3exp_seval(loc: loc_t, knd: int, d3e: d3exp) : d3exp
-//
 (* ****** ****** *)
 //
 fun

@@ -699,13 +699,6 @@ d2exp_effmask
 (* ****** ****** *)
 //
 implement
-d2exp_seval
-  (loc, knd, d2e) =
-  d2exp_make_node (loc, D2Eseval(knd, d2e))
-//
-(* ****** ****** *)
-//
-implement
 d2exp_showtype
   (loc, d2e) =
   d2exp_make_node (loc, D2Eshowtype (d2e))

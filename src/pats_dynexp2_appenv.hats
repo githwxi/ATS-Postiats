@@ -694,8 +694,6 @@ d2e0.d2exp_node of
 //
 | D2Eeffmask (s2fe, d2e) => d2exp_app (d2e, env)
 //
-| D2Eseval (knd, d2e) => d2exp_app (d2e, env)
-//
 | D2Eshowtype (d2e) => d2exp_app (d2e, env)
 //
 | D2Evcopyenv (knd, d2e) => d2exp_app (d2e, env)

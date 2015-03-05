@@ -459,10 +459,6 @@ case+ d2e0.d2exp_node of
 //
 | D2Eeffmask _ => d2exp_trup_effmask (d2e0)
 //
-| D2Eseval (knd, d2e) =>
-    d3exp_seval (loc0, knd, d2exp_trup (d2e))
-  // end of [D2Eseval]
-//
 | D2Eshowtype
     (d2e) => d3e where
   {

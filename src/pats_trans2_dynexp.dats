@@ -1349,6 +1349,7 @@ implement
 d1exp_tr (d1e0) = let
   val loc0 = d1e0.d1exp_loc
 //
+(*
 fun
 aux_d2e2i
 (d2e: d2exp): int =
@@ -1366,6 +1367,7 @@ d2e.d2exp_node of
   end // end of [D2Ei0nt]
 | _(*rest-of-D2E*) => (~1)
 ) (* end of [aux_d2e2i] *)
+*)
 //
 (*
 //
@@ -1659,22 +1661,6 @@ d1e0.d1exp_node of
   in
     d2exp_effmask (loc0, s2fe, d2e_body)
   end // end of [D1Eeffmask]
-//
-| D1Eseval (d1e) => let
-    val d2e = d1exp_tr (d1e)
-  in
-    case+ d2e.d2exp_node of
-    | D2Elist(npf, d2es) => let
-        val-list_cons(d2e1, d2es) = d2es
-      in
-        case+ d2es of
-        | list_nil () =>
-            d2exp_seval(loc0, ~1, d2e1)
-        | list_cons (d2e2, _) =>
-            d2exp_seval(loc0, aux_d2e2i(d2e2), d2e1)
-      end // end of [D2Elist]
-    | _(* non-D2Elist *) => d2exp_seval(loc0, ~1, d2e)
-  end // end of [D1Eseval]
 //
 | D1Eshowtype (d1e) => d2exp_showtype (loc0, d1exp_tr d1e)
 //

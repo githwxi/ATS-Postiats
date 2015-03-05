@@ -649,9 +649,6 @@ d2e0.d2exp_node of
     (out, "D2Eeffmask(", s2fe, "; ", d2e, ")")
   // end of [D2Eeffmask]
 //
-| D2Eseval (knd, d2e) =>
-    fprint! (out, "D2Eseval(", knd, "; ", d2e, ")")
-//
 | D2Eshowtype (d2e) =>
     fprint! (out, "D2Eshowtype(", d2e, ")")
 //

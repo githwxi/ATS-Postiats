@@ -261,13 +261,6 @@ case+ d2e0.d2exp_node of
 //
 | D2Eeffmask _ => d2exp_trdn_effmask (d2e0, s2f0)
 //
-| D2Eseval
-    (knd, d2e) => let
-    val loc0 = d2e0.d2exp_loc
-  in
-    d3exp_seval (loc0, knd, d2exp_trdn (d2e, s2e0))
-  end // end of [D2Eseval]
-//
 | D2Eshowtype
     (d2e) => d3e where
   {

@@ -34,18 +34,7 @@ LNS=ln -s
 RMF=rm -f
 
 ######
-
-all:: autodiff
-autodiff: autodiff.exe
-autodiff.exe: autodiff_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_GCBDW -O2 -o $@ $< -lm -lgc
-autodiff_dats.c: autodiff.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output autodiff_dats.c --dynamic autodiff.dats
-clean:: ; $(RMF) autodiff_dats.o
-clean:: ; $(RMF) autodiff_dats.c
-cleanall:: ; $(RMF) autodiff autodiff.exe
-
-
-######
-
+#
 all:: arith_overflow
 arith_overflow: arith_overflow.exe
 arith_overflow.exe: arith_overflow_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -86,6 +75,31 @@ clean:: ; $(RMF) fibver_trec_dats.o
 clean:: ; $(RMF) fibver_trec_dats.c
 cleanall:: ; $(RMF) fibver_trec fibver_trec.exe
 
+all:: isqrt
+isqrt: isqrt.exe
+isqrt.exe: isqrt_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+isqrt_dats.c: isqrt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output isqrt_dats.c --dynamic isqrt.dats
+clean:: ; $(RMF) isqrt_dats.o
+clean:: ; $(RMF) isqrt_dats.c
+cleanall:: ; $(RMF) isqrt isqrt.exe
+
+all:: matrixops
+matrixops: matrixops.exe
+matrixops.exe: matrixops_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+matrixops_dats.c: matrixops.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output matrixops_dats.c --dynamic matrixops.dats
+clean:: ; $(RMF) matrixops_dats.o
+clean:: ; $(RMF) matrixops_dats.c
+cleanall:: ; $(RMF) matrixops matrixops.exe
+
+#
+all:: autodiff
+autodiff: autodiff.exe
+autodiff.exe: autodiff_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_GCBDW -O2 -o $@ $< -lm -lgc
+autodiff_dats.c: autodiff.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output autodiff_dats.c --dynamic autodiff.dats
+clean:: ; $(RMF) autodiff_dats.o
+clean:: ; $(RMF) autodiff_dats.c
+cleanall:: ; $(RMF) autodiff autodiff.exe
+
 all:: fourslot
 fourslot: fourslot.exe
 fourslot.exe: fourslot_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -102,21 +116,13 @@ clean:: ; $(RMF) hanoi_dats.o
 clean:: ; $(RMF) hanoi_dats.c
 cleanall:: ; $(RMF) hanoi hanoi.exe
 
-all:: isqrt
-isqrt: isqrt.exe
-isqrt.exe: isqrt_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-isqrt_dats.c: isqrt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output isqrt_dats.c --dynamic isqrt.dats
-clean:: ; $(RMF) isqrt_dats.o
-clean:: ; $(RMF) isqrt_dats.c
-cleanall:: ; $(RMF) isqrt isqrt.exe
-
-all:: matrixops
-matrixops: matrixops.exe
-matrixops.exe: matrixops_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-matrixops_dats.c: matrixops.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output matrixops_dats.c --dynamic matrixops.dats
-clean:: ; $(RMF) matrixops_dats.o
-clean:: ; $(RMF) matrixops_dats.c
-cleanall:: ; $(RMF) matrixops matrixops.exe
+all:: mailist
+mailist: mailist.exe
+mailist.exe: mailist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+mailist_dats.c: mailist.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output mailist_dats.c --dynamic mailist.dats
+clean:: ; $(RMF) mailist_dats.o
+clean:: ; $(RMF) mailist_dats.c
+cleanall:: ; $(RMF) mailist mailist.exe
 
 all:: monad_maybe
 monad_maybe: monad_maybe.exe
@@ -230,7 +236,7 @@ clean:: ; $(RMF) word-chain_dats.o
 clean:: ; $(RMF) word-chain_dats.c
 cleanall:: ; $(RMF) word-chain word-chain.exe
 
-
+#
 ######
 
 clean:: ; $(RMF) *~

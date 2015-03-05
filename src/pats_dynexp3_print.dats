@@ -519,15 +519,6 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Eseval
-    (knd, d3e) => {
-    val () = prstr "D3Eseval("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
-    val () = fprint_d3exp (out, d3e)
-    val () = prstr ")"
-  }
-//
 | D3Evcopyenv
     (knd, d2v) => {
     val () = prstr "D3Evcopyenv("

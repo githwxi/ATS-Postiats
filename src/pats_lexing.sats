@@ -199,20 +199,18 @@ token_node =
   | T_DLREXTFCALL of () // externally named fun-call
   | T_DLREXTMCALL of () // externally named method-call
 //
-  | T_DLRBREAK of () // $break
-  | T_DLRCONTINUE of () // $continue
-//
-  | T_DLRRAISE of () // $raise // raising exceptions
-//
-  | T_DLRSEVAL of () // $seval // for static evaluation
+  | T_DLRMYFILENAME of () // $myfilename
+  | T_DLRMYLOCATION of () // $mylocation
+  | T_DLRMYFUNCTION of () // $myfunction
 //
   | T_DLRLST of int // $lst and $lst_t and $lst_vt
   | T_DLRREC of int // $rec and $rec_t and $rec_vt
   | T_DLRTUP of int // $tup and $tup_t and $tup_vt
 //
-  | T_DLRMYFILENAME of () // $myfilename
-  | T_DLRMYLOCATION of () // $mylocation
-  | T_DLRMYFUNCTION of () // $myfunction
+  | T_DLRBREAK of () // $break
+  | T_DLRCONTINUE of () // $continue
+//
+  | T_DLRRAISE of () // $raise // raising exceptions
 //
   | T_DLRSHOWTYPE of () // $showtype // for debugging purpose
 //

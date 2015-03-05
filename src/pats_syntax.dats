@@ -2136,16 +2136,8 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_seval (tok, ent2) = let
-  val loc = tok.token_loc + ent2.d0exp_loc
-in '{
-  d0exp_loc= loc, d0exp_node= D0Eseval (ent2)
-} end // end of [d0exp_seval]
-
-(* ****** ****** *)
-
-implement
-d0exp_showtype (tok, ent2) = let
+d0exp_showtype
+  (tok, ent2) = let
   val loc = tok.token_loc + ent2.d0exp_loc
 in '{
   d0exp_loc= loc, d0exp_node= D0Eshowtype (ent2)
@@ -2154,7 +2146,8 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_vcopyenv (knd, tok, ent2) = let
+d0exp_vcopyenv
+  (knd, tok, ent2) = let
   val loc = tok.token_loc + ent2.d0exp_loc
 in '{
   d0exp_loc= loc, d0exp_node= D0Evcopyenv (knd, ent2)
@@ -2163,7 +2156,8 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_tempenver (tok, ent2) = let
+d0exp_tempenver
+  (tok, ent2) = let
   val loc = tok.token_loc + ent2.d0exp_loc
 in '{
   d0exp_loc= loc, d0exp_node= D0Etempenver (ent2)
