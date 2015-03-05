@@ -616,19 +616,33 @@ case+ d0e0.d0exp_node of
   end // end of [D0Edeclseq]
 //
 | D0Eapp _ => let 
-    val d1eis = aux_itemlst (d0e0)
-    val d1e0 = fixity_resolve
-      (loc0, d1exp_get_loc, d1expitm_app (loc0), d1eis)
-    // end of [val]
+//
+    val
+    deis = aux_itemlst (d0e0)
+//
+    val
+    d1e0 =
+    fixity_resolve
+    (
+      loc0
+    , d1exp_get_loc, d1expitm_app(loc0), deis
+    ) (* end of [val] *)
+//
 (*
-    val () = println! ("d0exp_tr: aux_item: d1e0 = ", d1e0)
+    val () =
+    println!
+      ("d0exp_tr: aux_item: d1e0 = ", d1e0)
+    // end of [val]
 *)
+//
     val d1e0 = d1exp_syndef_resolve (loc0, d1e0)
+//
   in
     FXITMatm (d1e0)
   end // end of [D0Eapp]
 //
-| D0Elist (npf, d0es) => let
+| D0Elist
+    (npf, d0es) => let
     val d1es = d0explst_tr (d0es)
   in
     FXITMatm (d1exp_list (loc0, npf, d1es))
@@ -657,6 +671,7 @@ case+ d0e0.d0exp_node of
   in
     FXITMatm (d1e_sif)        
   end // end of [D0Esifhead]
+//
 | D0Ecasehead
     (hd, d0e, c0ls) => let
     val tok = hd.casehead_tok

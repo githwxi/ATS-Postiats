@@ -381,7 +381,8 @@ case+ d2e0.d2exp_node of
   in
     d2exp_trup_applst_sym (d2e0, d2s, d2as)
   end // end of [D2Earrsub]
-| D2Earrpsz (opt, d2es) => let
+| D2Earrpsz
+    (opt, d2es) => let
     val s2e = (
       case+ opt of
       | Some s2e => s2e | None () => let
@@ -442,11 +443,13 @@ case+ d2e0.d2exp_node of
     d3exp_arrinit (loc0, s2e_tyarr, s2e_elt, d3e_asz, d3es)
   end // end of [D2Earrinit]
 //
-| D2Eraise (d2e_exn) => let
+| D2Eraise
+    (d2e_exn) => let
     val err = the_effenv_check_exn (loc0)
     val () =
-      if (err > 0) then the_trans3errlst_add (T3E_d2exp_trup_exn (loc0))
-    // end of [val]
+    if (err > 0) then
+      the_trans3errlst_add (T3E_d2exp_trup_exn (loc0))
+    // end of [if] // end of [val]
     val s2e_exn = s2exp_exception_vtype ()
     val d3e_exn = d2exp_trdn (d2e_exn, s2e_exn)
     val s2e_raise = s2exp_bottom_vt0ype_uni ()
@@ -455,6 +458,10 @@ case+ d2e0.d2exp_node of
   end // end of [D2Eraise]
 //
 | D2Eeffmask _ => d2exp_trup_effmask (d2e0)
+//
+| D2Eseval (knd, d2e) =>
+    d3exp_seval (loc0, knd, d2exp_trup (d2e))
+  // end of [D2Eseval]
 //
 | D2Eshowtype
     (d2e) => d3e where
@@ -1592,22 +1599,25 @@ val-D2Evcopyenv (knd, d2e) = d2e0.d2exp_node
 in
 //
 case+
-  d2e.d2exp_node of
+d2e.d2exp_node of
 | D2Evar (d2v) => let
-    val opt = d2var_get_type (d2v)
+    val opt =
+      d2var_get_type (d2v)
+    // end of [val]
     val s2f = (
       case+ opt of
-      | Some s2e => let
-          val isprf = test_prfkind (knd)
-        in
-          if isprf then s2exp_vcopyenv_v (s2e) else s2exp_vcopyenv_vt (s2e)
-        end // end of [Some]
+      | Some s2e =>
+        (
+          if test_prfkind(knd)
+            then s2exp_vcopyenv_v(s2e) else s2exp_vcopyenv_vt(s2e)
+          // end of [if]
+        ) (* end of [Some] *)
       | None () => s2exp_void_t0ype ()
     ) : s2exp // end of [val]
   in
     d3exp_vcopyenv (loc0, s2f, knd, d2v)
   end // end of [D2Evar]
-| _(*non-var*) => d2exp_trup (d2e) // HX: ignoring [$vcopyenv]
+| _(*non-D2Evar*) => d2exp_trup (d2e) // HX: ignoring [$vcopyenv]
 //
 end // end of [d2exp_trup_vcopyenv]
 

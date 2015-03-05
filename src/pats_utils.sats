@@ -33,12 +33,14 @@
 //
 (* ****** ****** *)
 
-fun eqref_type {a:type} (x1: a, x2: a):<> bool
+fun
+eqref_type{a:type}(x1: a, x2: a):<> bool
 
 (* ****** ****** *)
 //
-// HX: the [base] of the representation is contained
-fun llint_make_string (rep: string): llint // in the [rep]
+// HX: the [base] is stored inside [rep]
+//
+fun llint_make_string (rep: string): llint
 //
 (* ****** ****** *)
 

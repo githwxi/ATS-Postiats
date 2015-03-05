@@ -43,6 +43,11 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
+
+(* ****** ****** *)
+
 staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
@@ -63,12 +68,19 @@ staload
 SYM = "./pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
 
+(* ****** ****** *)
+
+staload
+LEX = "./pats_lexing.sats"
+
+(* ****** ****** *)
+//
 staload
 SYN = "./pats_syntax.sats"
 typedef d0ynq = $SYN.d0ynq
-
+//
 overload fprint with $SYN.fprint_macsynkind
-
+//
 macdef
 print_dqid (dq, id) =
   ($SYN.print_d0ynq ,(dq); $SYM.print_symbol ,(id))
@@ -77,7 +89,7 @@ macdef
 prerr_dqid (dq, id) =
   ($SYN.prerr_d0ynq ,(dq); $SYM.prerr_symbol ,(id))
 // end of [prerr_dqid]
-
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
@@ -134,23 +146,27 @@ end // end of [dynspecid_of_dqid]
 
 (* ****** ****** *)
 
-fun macdef_check
+fun
+macdef_check
 (
-  loc0: location, d2m: d2mac, dq: d0ynq, id: symbol
+  loc0: location
+, d2m0: d2mac, dq: d0ynq, id: symbol
 ) : void = let
   val lev = the_maclev_get ()
-  val knd = d2mac_get_kind (d2m)
+  val knd = d2mac_get_kind (d2m0)
 in
 //
 if lev > 0 then (
   if knd >= 1 then let
-    val () = prerr_error2_loc (loc0)
+    val () =
+      prerr_error2_loc (loc0)
+    // end of [val]
     val () = prerr ": the identifier ["
     val () = prerr_dqid (dq, id)
     val () = prerr "] refers to a macdef in long form but one in short form is expected."
     val () = prerr_newline ()
   in
-    the_trans2errlst_add (T2E_macdef_check (loc0, d2m))
+    the_trans2errlst_add (T2E_macdef_check (loc0, d2m0))
   end else () // end of [if]
 ) else ( // lev = 0
   if knd = 0 then let //
@@ -160,7 +176,7 @@ if lev > 0 then (
     val () = prerr "] refers to a macdef in short form but one in long form is expected."
     val () = prerr_newline ()
   in
-    the_trans2errlst_add (T2E_macdef_check (loc0, d2m))    
+    the_trans2errlst_add (T2E_macdef_check (loc0, d2m0))    
   end else () // end of [if]
 ) (* end of [if] *)
 //
@@ -229,21 +245,24 @@ case+ ans of
     end // end of [D2ITEMcon]
 //
   | D2ITMe1xp exp => let
-      val d1e = d1exp_make_e1xp (loc0, exp) in d1exp_tr (d1e)
+      val d1e = d1exp_make_e1xp (loc0, exp)
+    in
+      d1exp_tr (d1e)
     end // end of [D2ITMe1xp]
 //
-  | D2ITMsymdef (sym, d2pis) => let
+  | D2ITMsymdef
+      (sym, d2pis) => let
       val d2s = d2sym_make (loc0, dq, id, d2pis)
     in
       d2exp_sym (loc0, d2s)
     end // end of [D2ITEMsymdef]
 //
-  | D2ITMmacdef d2m => let
+  | D2ITMmacdef (d2m) => let
       val () = macdef_check (loc0, d2m, dq, id)
     in
       d2exp_mac (loc0, d2m)
     end // end of [D2ITEMmacdef]
-  | D2ITMmacvar d2v => let
+  | D2ITMmacvar (d2v) => let
       val () = macvar_check (loc0, d2v, dq, id)
     in
       d2exp_var (loc0, d2v)
@@ -1226,7 +1245,8 @@ implement
 sc2laulst_coverck
   (loc0, sc2ls, s2t_pat) = let
 //
-fun auxerr1 (
+fun
+auxerr1 (
   loc0: location, s2t_pat: s2rt
 ) : void = let
   val () = prerr_error2_loc (loc0)
@@ -1237,7 +1257,8 @@ fun auxerr1 (
 in
   the_trans2errlst_add (T2E_sc2laulst_coverck_sort (loc0, s2t_pat))
 end // end of [auxerr1]
-fun auxerr2 (
+fun
+auxerr2 (
   loc0: location, s2t_pat: s2rt
 ) : void = let
   val () = prerr_error2_loc (loc0)
@@ -1268,6 +1289,25 @@ end // end of [local]
 implement
 d1exp_tr (d1e0) = let
   val loc0 = d1e0.d1exp_loc
+//
+fun
+aux_d2e2i
+(d2e: d2exp): int =
+(
+case+
+d2e.d2exp_node of
+//
+| D2Eint (i) => i
+//
+| D2Ei0nt (x) => let
+    val-$LEX.T_INT
+      (base, rep, sfx) = x.token_node
+  in
+    $UN.cast2int($UT.llint_make_string(rep))
+  end // end of [D2Ei0nt]
+| _(*rest-of-D2E*) => (~1)
+) (* end of [aux_d2e2i] *)
+//
 (*
 //
 val () = println! ("d1exp_tr: d1e0 = ", d1e0)
@@ -1275,7 +1315,8 @@ val () = println! ("d1exp_tr: d1e0 = ", d1e0)
 *)
 in
 //
-case+ d1e0.d1exp_node of
+case+
+d1e0.d1exp_node of
 //
 | D1Eide (id) =>
     d1exp_tr_dqid (d1e0, $SYN.the_d0ynq_none, id)
@@ -1524,13 +1565,53 @@ case+ d1e0.d1exp_node of
     d2exp_arrinit (loc0, s2e_elt, asz, init)
   end // end of [D1Earrinit]
 //
+| D1Eptrof (d1e) => d2exp_ptrof (loc0, d1exp_tr d1e)
+| D1Eviewat (d1e) => d2exp_viewat (loc0, d1exp_tr d1e)
+//
+| D1Eselab
+    (knd, d1e, d1l) => let
+    val d2e = d1exp_tr d1e
+    val d2l = d1lab_tr (d1l)
+  in
+    if knd = 0
+      then ( // [.]
+      case+ d2e.d2exp_node of
+      | D2Eselab
+          (d2e_root, d2ls) =>
+        (
+          d2exp_sel_dot (loc0, d2e_root, l2l (list_extend (d2ls, d2l)))
+        ) (* end of [D2Eselab] *)
+      | _ (*non-D2Eselab*) => d2exp_sel_dot (loc0, d2e, list_sing (d2l))
+    ) else (
+      d2exp_sel_ptr (loc0, d2e, d2l) // [->]
+    ) (* end of [if] *)
+  end (* end of [D1Eselab] *)
+//
 | D1Eraise (d1e) => d2exp_raise (loc0, d1exp_tr d1e)
 //
-| D1Eeffmask (efc, d1e) => let
-    val s2fe = effcst_tr (efc); val d2e = d1exp_tr (d1e)
+| D1Eeffmask
+    (efc, d1e_body) => let
+    val s2fe = effcst_tr (efc)
+    val d2e_body = d1exp_tr (d1e_body)
   in
-    d2exp_effmask (loc0, s2fe, d2e)
+    d2exp_effmask (loc0, s2fe, d2e_body)
   end // end of [D1Eeffmask]
+//
+| D1Eseval (d1e) => let
+    val d2e = d1exp_tr (d1e)
+  in
+    case+ d2e.d2exp_node of
+    | D2Elist(npf, d2es) => let
+        val-list_cons(d2e1, d2es) = d2es
+      in
+        case+ d2es of
+        | list_nil () =>
+            d2exp_seval(loc0, ~1, d2e1)
+        | list_cons (d2e2, _) =>
+            d2exp_seval(loc0, aux_d2e2i(d2e2), d2e1)
+      end // end of [D2Elist]
+    | _(* non-D2Elist *) => d2exp_seval(loc0, ~1, d2e)
+  end // end of [D1Eseval]
 //
 | D1Eshowtype (d1e) => d2exp_showtype (loc0, d1exp_tr d1e)
 //
@@ -1572,27 +1653,6 @@ case+ d1e0.d1exp_node of
   in
     d2exp_tempenver (loc0, d2vs)
   end // end of [D1Etempenver]
-//
-| D1Eptrof (d1e) => d2exp_ptrof (loc0, d1exp_tr d1e)
-| D1Eviewat (d1e) => d2exp_viewat (loc0, d1exp_tr d1e)
-//
-| D1Eselab
-    (knd, d1e, d1l) => let
-    val d2e = d1exp_tr d1e
-    val d2l = d1lab_tr (d1l)
-  in
-    if knd = 0 then ( // [.]
-      case+ d2e.d2exp_node of
-      | D2Eselab
-          (d2e_root, d2ls) =>
-        (
-          d2exp_sel_dot (loc0, d2e_root, l2l (list_extend (d2ls, d2l)))
-        ) (* end of [D2Eselab] *)
-      | _ (*non-D2Eselab*) => d2exp_sel_dot (loc0, d2e, list_sing (d2l))
-    ) else (
-      d2exp_sel_ptr (loc0, d2e, d2l) // [->]
-    ) // end of [if]
-  end (* end of [D1Eselab] *)
 //
 | D1Eexist (s1a, d1e) => let
     val s2a = s1exparg_tr (s1a); val d2e = d1exp_tr (d1e)

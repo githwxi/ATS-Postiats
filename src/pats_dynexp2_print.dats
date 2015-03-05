@@ -638,12 +638,19 @@ d2e0.d2exp_node of
     val () = prstr ")"
   } (* end of [D2Erec] *)
 //
-| D2Eseq (d2es) => fprint! (out, "D2Eseq(", d2es, ")")
+| D2Eseq (d2es) =>
+    fprint! (out, "D2Eseq(", d2es, ")")
 //
-| D2Eraise (d2e) => fprint! (out, "D2Eraise(", d2e, ")")
+| D2Eraise (d2e) =>
+    fprint! (out, "D2Eraise(", d2e, ")")
 //
 | D2Eeffmask (s2fe, d2e) =>
-    fprint! (out, "D2Eeffmask(", s2fe, "; ", d2e, ")")
+  fprint!
+    (out, "D2Eeffmask(", s2fe, "; ", d2e, ")")
+  // end of [D2Eeffmask]
+//
+| D2Eseval (knd, d2e) =>
+    fprint! (out, "D2Eseval(", knd, "; ", d2e, ")")
 //
 | D2Eshowtype (d2e) =>
     fprint! (out, "D2Eshowtype(", d2e, ")")

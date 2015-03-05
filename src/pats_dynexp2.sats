@@ -893,6 +893,8 @@ and d2exp_node =
 //
   | D2Eeffmask of (s2eff, d2exp) // $effmask (s2eff, d2exp)
 //
+  | D2Eseval of (int(*knd*), d2exp) // $seval
+//
   | D2Eshowtype of (d2exp) // $showtype: for debugging
 //
   | D2Evcopyenv of (int(*knd*), d2exp) // $vcopyenv_v/$vcopyenv_vt
@@ -1392,34 +1394,44 @@ fun d2exp_arrinit
 ) : d2exp // end of [d2exp_arrinit]
 
 (* ****** ****** *)
-//
-fun
-d2exp_raise (loc: location, d2e: d2exp): d2exp
-//
-(* ****** ****** *)
-//
-fun d2exp_effmask
-  (loc: location, s2fe: s2eff, d2e: d2exp): d2exp
-//
-(* ****** ****** *)
 
 fun d2exp_ptrof (loc: location, d2e: d2exp): d2exp
 fun d2exp_viewat (loc: location, d2e: d2exp): d2exp
 
 (* ****** ****** *)
 //
-fun d2exp_selab
+fun
+d2exp_selab
 (
   loc: location, _rec: d2exp, d2ls: d2lablst
 ) : d2exp // end of [d2exp_selab]
 //
-fun d2exp_sel_dot // = d2exp_selab
+fun
+d2exp_sel_dot // = d2exp_selab
 (
   loc: location, _rec: d2exp, d2ls: d2lablst
 ) : d2exp // end of [d2exp_sel_dot]
 //
-fun d2exp_sel_ptr
+fun
+d2exp_sel_ptr
   (loc: location, _rec: d2exp, d2l: d2lab): d2exp
+//
+(* ****** ****** *)
+//
+fun
+d2exp_raise (loc: location, d2e: d2exp): d2exp
+//
+(* ****** ****** *)
+//
+fun
+d2exp_effmask
+  (loc: location, s2fe: s2eff, d2e: d2exp): d2exp
+//
+(* ****** ****** *)
+//
+fun
+d2exp_seval
+  (loc: location, knd: int, d2e: d2exp): d2exp
 //
 (* ****** ****** *)
 //
