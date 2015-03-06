@@ -167,17 +167,17 @@ propdef
 MOD (x:int, y:int, r:int) = [q:int] DIVMOD (x, y, q, r)
 
 #atscode_separator()
-
+//
 praxi
 div_istot
   {x,y:int | x >= 0; y > 0} (): DIV (x, y, x/y)
-
+//
 praxi
 divmod_istot
   {x,y:int |
    x >= 0; y > 0}
   ((*void*)): [q,r:nat | r < y] DIVMOD (x, y, q, r)
-
+//
 #atscode_separator()
 
 praxi
