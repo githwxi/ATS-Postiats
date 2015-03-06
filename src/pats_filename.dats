@@ -638,19 +638,25 @@ end // end of [the_pathlst_ppush]
 
 (* ****** ****** *)
 
-fun the_prepathlst_get
-  (): pathlst_vt = xs where {
+fun
+the_prepathlst_get
+(
+  // argless
+) : pathlst_vt = xs where {
   val (vbox pf | p) = ref_get_view_ptr (the_prepathlst)
   val xs = !p
   val () = !p := list_vt_nil ()
 } // end of [the_prepathlst_get]
 
-fun the_prepathlst_set
+fun
+the_prepathlst_set
   (xs: pathlst_vt): void = {
   val (vbox pf | p) = ref_get_view_ptr (the_prepathlst)
   val-~list_vt_nil () = !p
   val () = !p := xs
 } // end of [the_prepathlst_set]
+
+(* ****** ****** *)
 
 implement
 the_prepathlst_push (x) = let
@@ -679,6 +685,8 @@ in '{
 (* ****** ****** *)
 
 local
+
+(* ****** ****** *)
 
 extern castfn s2s (x: string):<> String
 extern castfn p2s {l:agz} (x: !strptr l):<> String
@@ -728,7 +736,8 @@ case+ paths of
 //
 end // end of [aux_try]
 
-and aux2_try
+and
+aux2_try
   {n:nat} .<n,1>. (
   path: path, paths: list (path, n), given: string
 ) : Stropt = let
@@ -752,7 +761,8 @@ end // end of [aux2_try]
 
 (* ****** ****** *)
 
-fun aux_try_pathlst
+fun
+aux_try_pathlst
   (given: string): Stropt = let
   val path = theCurDir_get ()
   val paths = the_pathlst_get ()
@@ -764,7 +774,8 @@ in
   ans
 end // end of [aux_try_pathlst]
 
-fun aux_try_prepathlst
+fun
+aux_try_prepathlst
   (given: string): Stropt = let
   val paths = the_prepathlst_get ()
   val ans =
@@ -797,7 +808,11 @@ case+ knd of
 //
 end // end of [aux_relative]
 
+(* ****** ****** *)
+
 in (* in of [local] *)
+
+(* ****** ****** *)
 
 implement
 filenameopt_make_local
@@ -860,6 +875,8 @@ in
 end else None_vt () // end of [if]
 //
 end // end of [filenameopt_make_relative]
+
+(* ****** ****** *)
 
 end // end of [local]
 
