@@ -46,11 +46,13 @@ UN = "prelude/SATS/unsafe.sats"
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_caseof"
-
+//
+implement
+prerr_FILENAME<> () = prerr "pats_trans3_caseof"
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
@@ -118,7 +120,8 @@ end // end of [gm2atlst_trup]
 (* ****** ****** *)
 
 extern
-fun c2lau_trdn
+fun
+c2lau_trdn
   {n:nat} (
   casknd: caskind
 , c2l: c2lau
@@ -164,12 +167,14 @@ val () =
 if (serr != 0) then
 {
   val () = the_trans3errlst_add (T3E_c2lau_trdn_arity (c2l, s2es_pat))
-} // end of [val]
+} (* end of [val] *)
+//
 (*
 val () = (
   print "c2lau_trdn: p3ts = "; fprint_p3atlst (stdout_ref, p3ts); print_newline ()
 ) (* end of [val] *)
 *)
+//
 val (pfd2v | ()) = the_d2varenv_push_let ()
 val () = the_d2varenv_add_p3atlst (p3ts)
 val (pfman | ()) = the_pfmanenv_push_let ()

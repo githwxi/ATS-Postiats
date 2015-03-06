@@ -86,11 +86,17 @@ main0 () =
 //
 var A0 = @[int](1, 2, 3)
 var A1 = @[int](1, 2, 3)
-val () = fprintln! (stdout_ref, "1*1+2*2+3*3=", dotprod3<int> (A0, A1))
+val res3 = dotprod3<int> (A0, A1)
+val () = fprintln! (stdout_ref, "1*1+2*2+3*3=", res3)
+//
+val () = assertloc(1*1+2*2+3*3=res3)
 //
 var A0 = @[int](1, 2, 3, 4)
 var A1 = @[int](1, 2, 3, 4)
-val () = fprintln! (stdout_ref, "1*1+2*2+3*3+4*4=", dotprod4<int> (A0, A1))
+val res4 = dotprod4<int> (A0, A1)
+val () = fprintln! (stdout_ref, "1*1+2*2+3*3+4*4=", res4)
+//
+val () = assertloc(1*1+2*2+3*3+4*4=res4)
 //
 } (* end of [main0] *)
 
