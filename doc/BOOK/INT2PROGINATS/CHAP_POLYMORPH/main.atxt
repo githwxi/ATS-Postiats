@@ -147,18 +147,18 @@ that adds 1 to its integer argument and then multiplies the result by 2.\
 In ATS, function templates are typechecked but not compiled to code in C.
 Instead, they are compiled to an intermediate form.  Only instances of
 function templates are compiled to code in C. Suppose we have a function
-template foo taking one type parameter and two instances foo&lt;T1&gt; and
-foo&lt;T2&gt; are used in a program for some types T1 and T2. In general,
-one function in C is generated for each instance of foo when the program is
-compiled. However, if T1 and T2 have the same name, then the two instances
-may share one function in C.\
+template #dyncode("foo") taking one type parameter and two instances
+foo&lt;T1&gt; and foo&lt;T2&gt; are used in a program for some types T1 and
+T2. In general, one function in C is generated for each instance of foo
+when the program is compiled. However, if T1 and T2 have the same name,
+then the two instances may share one function in C.\
 
 ")#comment("para")
 
 #para("\
 
-Please note that I may simply use the name function to refer to a function
-template from now on if no confusion is expected.\
+Please note that I may simply use the name #emphasis("function") to refer
+to a function template from now on if no confusion is expected.\
 
 ")
 

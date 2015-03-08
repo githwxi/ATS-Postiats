@@ -32,16 +32,16 @@ tally{n:nat}
 
 (* ****** ****** *)
 
+implement tally<Z> (pf | n) = 0
+
+(* ****** ****** *)
+
 implement
 (t)(*tmp*)
 tally<S(t)>
   (pf | n) = let
   prval TIEQS(pf) = pf in n + tally<t> (pf | n-1)
 end // end of [tally]
-
-(* ****** ****** *)
-
-implement tally<Z> (pf | n) = 0
 
 (* ****** ****** *)
 //

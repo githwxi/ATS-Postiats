@@ -22,9 +22,313 @@ id="introduction-to-function-templates">
 The support for function templates in ATS is deeply ingrained in the
 design and implementation of ATS. Primarily, function templates are meant
 to provide a general approach to code reuse in ATS that is highly flexible
-(in terms of applicability) while incurring minimal run-time overhead if any.
+(in terms of applicability) while incurring minimal run-time overhead if any.\
 
 ')#comment("para")
+
+<!-- ****** ****** -->
+
+<sect1
+ id="genericity-of-template-implementations">
+#title("Genericity of Template Implementations")
+
+#para('\
+
+As is briefly explained in Part I of the book, function templates can be
+seen as a natural solution to the problem of supporting parametric
+polymorphism in the presence of native unboxed data. However, function
+templates can do much more than just supporting parametric polymorphism.
+Let #dyncode("myprint") be a function template of the following interface:
+
+#atscode('\
+fun{a:t@ype} myprint (x: a): void
+')
+
+Given a value, #dyncode("myprint") is supposed to print out some kind of
+representation for this value. For instance, we can implement
+#dyncode("myprint") as follows:
+
+#atscode('\
+implement{a} myprint (x) = print_string "?"
+')
+
+This implementation of #dyncode("myprint") is often referred to as a
+(fully) generic template implementation due to no restriction being imposed
+on the template parameter. Following is another way to code the same
+implementation:
+
+#atscode('\
+implement(a) myprint<a> (x) = print_string "?"
+')
+
+Clearly, the above generic implementation of #dyncode("myprint") is
+unsatisfactory as it outputs no specific information on a given value.  We
+may want to implement #dyncode("myprint") as follows for only values of the
+type #stacode("int"):
+
+#atscode('\
+implement
+myprint<int> (x) = print_int (x)
+')
+
+where #dyncode("print_int") is called to print out a given integer. This
+implementation of #dyncode("myprint") is often referred to as a specific
+template implementation due to the template parameter being bound to a
+specific type (that is, #stacode("int") in this case). The following code
+implements #dyncode("myprint") for list0-values (that is, values of type
+#stacode("list0(T)") for some type T):
+
+#atscode('\
+implement(a)
+myprint<list0(a)> (xs) =
+case+ xs of
+| list0_nil () => ()
+| list0_cons (x, xs) => (myprint<a> (x); myprint<list0(a)> (xs))
+')
+
+This implementation of #dyncode("myprint") is often referred to as a
+partially generic template implementation. In order for an instance of
+#dyncode("myprint") to use this implementation, the template parameter for
+the instance must be of the form #stacode("list0(T)") for some type T.
+
+')#comment("para")
+
+#para('\
+
+Implementations of a function template can be ordered according to an
+obvious partial ordering referred to as genericity ordering: The genericity
+of one implementation is less than or equal to that of another one if the
+former implementation is an instance of the latter one. Please note that
+the first-fit (instead of best-fit) strategy is employed to locate the
+template implementation needed for compiling a given template
+instance. More specifically, locating the template implementation for a
+particular template instance follows the standard principle of lexical
+scoping to search for the first one that is available for use.
+
+')#comment("para")
+
+</sect1><!--id="genericity-of-template-implementations"-->
+
+<!-- ****** ****** -->
+
+<sect1
+ id="function-templates-vs-higher-order-functions">
+#title("Function Templates vs. Higher-Order Functions")
+
+#para("\
+
+Many uses of higher-order functions can be readily replaced with function
+templates in ATS.  In particular, higher-order functions are often
+implemented in ATS based on the corresponding function templates.\
+
+")
+
+</sect1><!--id="function-templates-vs-higher-order-functions"-->
+
+<!-- ****** ****** -->
+
+<sect1
+ id="template-for-loop-construction">
+#title("Example: Templates for Loop Construction")
+
+#para('\
+
+Beginners in functional programming (FP) who have already acquired some
+knowledge of imperative programming often ask about ways to construct
+for-loops and while-loops in FP. A commonly given answer is that loop
+constructs are unnecessary in FP as they can be readily replaced with
+higher-order functions. Let us first see some thorny issues with this
+answer.\
+
+')#comment("para")
+
+#para('\
+
+The following code in C implements a function that returns the sum
+of the first n natural numbers when applied to a natural number n:
+
+#atscode('\
+int
+tally (int n) {
+  int i, res;
+  for (i = 0, res = 0; i < n; i += 1) res += i;
+  return res;
+}
+')
+
+This function #dyncode("tally") can be given the following
+equivalent implementation in ATS:
+
+#atscode('\
+fun
+tally
+(
+  n: int
+) : int = loop (0, 0) where
+{
+  fun loop (i: int, res: int): int =
+    if i < n then loop (i + 1, res + i) else res
+}
+')
+
+where the tail-recursive function #dyncode("loop") is just a translation
+of the for-loop in C.
+
+')#comment("para")
+
+#para('\
+
+When someone claims that loop constructs can be replaced with higher-order
+functions, he or she probably means to construct loops with a function like
+the following one:
+
+#atscode('\
+fun
+for_loop
+(
+  count: int, limit: int, fwork: (int) -<cloref1> void
+) : void = (
+if count < limit
+  then (fwork(count); for_loop(count+1, limit, fwork)) else ()
+// end of [if]
+) (* end of [for_loop] *)
+')
+
+For instance, the following function #dyncode("tally2") is directly based
+on #dyncode("for_loop"):
+
+#atscode('\
+fun
+tally2
+(
+  n: int
+) : int = let
+  val res = ref<int> (0)
+in
+  for_loop (0, n, lam (i) => !res := !res + i); !res
+end // end of [tally2]
+')
+
+While both #dyncode("tally") and #dyncode("tally2") return the same result
+when applied to a given natural number, they behave very differently at
+run-time. In particular, each call to #dyncode("tally2") creates a
+(persistent) reference on heap for temporary use; the reference becomes
+garbage immediately after the call returns. Compared to #dyncode("tally"),
+#dyncode("tally2") is inefficient both time-wise and memory-wise.\
+
+')#comment("para")
+
+#para('\
+
+To eliminate the need for reference creation in #dyncode("tally2"), we
+turn #dyncode("for_loop") into the following function template
+#dyncode("for_loop2"):
+
+#atscode('\
+fun{
+env:t@ype
+} for_loop2
+(
+  count: int, limit: int
+, env: &env >> _, fwork: (int, &env >> _) -<cloref1> void
+) : void = (
+if
+count < limit
+then (
+  fwork(count, env); for_loop2<env> (count+1, limit, env, fwork)
+) else ()
+// end of [if]
+) (* end of [for_loop2] *)
+')
+
+We can further turn #dyncode("tally2") into the following #dyncode("tally3")
+based on #dyncode("for_loop2"):
+
+#atscode('\
+fun
+tally3
+(
+  n: int
+) : int = let
+  var res: int = 0
+in
+  for_loop2<int> (0, n, res, lam (i, res) => res := res + i); res
+end // end of [tally3]
+')
+
+While #dyncode("tally3") improves upon #dyncode("tally2"), it is still a
+bit unsatisfactory. Clearly, the closure function formed before
+#dyncode("tally3") calls #dyncode("for_loop2") becomes garbage immediately
+after the call returns. It is plausible to expect an optimizing C compiler
+(e.g., gcc and clang) can eliminate the need for actual closure formation
+when it is called on the C code generated from ATS source, but there is
+no guarantee. In order to have such a guarantee, we can evolve
+#dyncode("for_loop2") into the following function template
+#dyncode("for_loop3:") 
+
+#atscode('\
+fun{
+env:t@ype
+} for_loop3
+(
+  count: int, limit: int, env: &env >> _
+) : void = (
+if
+count < limit
+then (
+  for_loop3$fwork<env>(count, env); for_loop3<env>(count+1, limit, env)
+) else ()
+// end of [if]
+) (* end of [for_loop3] *)
+')
+
+where #dyncode("for_loop3$fwork") is given the interface below:
+
+#atscode('\
+fun{
+env:t@ype
+} for_loop3$fwork(count: int, env: &env >> _): void
+')
+
+Finally, we can turn #dyncode("tally3") into #dyncode("tally4")
+as follows:
+
+#atscode('\
+fun
+tally4
+(
+  n: int
+) : int = let
+//
+var res: int = 0
+//
+implement
+for_loop3$fwork<int> (i, res) = res := res + i
+//
+in
+  for_loop3<int> (0, n, res); res
+end // end of [tally4]
+')
+
+By inspecting the C code generated by #command("patsopt") from compiling
+#dyncode("tally4"), we can see that the C code is essentially equivalent to
+the implementation of #dyncode("tally") in C (given at the beginning of
+this section).
+
+')#comment("para")
+
+#para('\
+
+By now, the reader probably agrees with me if I say the statement is at
+best misleading that claims loop constructs in FP can be readily replaced
+with higher-order functions.  Please find on-line the file
+#mycodelink("CHAP_FNTMPINT/loopcons.dats", "loopcons.dats") containing the
+entirety of the code presented in this section plus some testing code.\
+
+
+')#comment("para")
+
+</sect1><!--id="template-for-loop-construction"-->
 
 <!-- ****** ****** -->
 

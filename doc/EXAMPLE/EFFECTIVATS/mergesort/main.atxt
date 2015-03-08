@@ -62,9 +62,8 @@ in
 end // end of [mergesort]
 ")</pre>
 
-where the function
-[myseq_length], [myseq_split] and [myseq_merge]
-are assigned the following types:
+where the functions [myseq_length], [myseq_split] and [myseq_merge] are
+assigned the following types:
 
 <pre
 class="patsyntax">
