@@ -19,10 +19,16 @@ id="introduction-to-function-templates">
 
 #para('\
 
-The support for function templates in ATS is deeply ingrained in the
-design and implementation of ATS. Primarily, function templates are meant
-to provide a general approach to code reuse in ATS that is highly flexible
-(in terms of applicability) while incurring minimal run-time overhead if any.\
+The support for function templates in ATS is deeply ingrained in the design
+and implementation of ATS. Primarily, function templates are meant to
+provide a general approach to code reuse in ATS that is highly flexible (in
+terms of applicability) while incurring minimal run-time overhead if
+any. Both ATSPRE (that is, ATSLIB/prelude) and ATSLIB/libats are nearly
+entirely template-based, and the templates in these libraries are for use
+by #command("patsopt") to generate C code that implements template
+instances in the ATS source being compiled. The library files of ATS for
+linking (#filename("libats.a") and #filename("libats.so")) are minimal, and
+they are not even necessary for compiling ATS source into executable binaries.
 
 ')#comment("para")
 
@@ -119,9 +125,155 @@ scoping to search for the first one that is available for use.
 
 Many uses of higher-order functions can be readily replaced with function
 templates in ATS.  In particular, higher-order functions are often
-implemented in ATS based on the corresponding function templates.\
+implemented in ATS based on the corresponding function templates.
+Let us start with a concrete example. Following is a standard
+implementation of list mapping as a higher-order function (template):
+
+#atscode('\
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list_map_fun{n:nat}
+  (xs: list(a, n), f: a -> b): list_vt(b, n)
+//
+implement
+{a}{b}
+list_map_fun (xs, f) = let
+//
+fun
+aux{n:nat}
+  (xs: list(a, n)): list_vt(b, n) =
+(
+case+ xs of
+| list_nil () => list_vt_nil ()
+| list_cons (x, xs) => list_vt_cons (f(x), aux(xs))
+)
+//
+in
+  aux(xs)
+end // end of [list_map_fun]
+//
+')
+
+Given a list of cerntain length and a function (which is envless),
+#dyncode("list_map_fun") returns a linear list of the same
+length. Unfortunately, #dyncode("list_map_fun") cannot be called on a list and
+a closure-function. We certainly can implement a variant of
+#dyncode("list_map_fun") of the following interface by essentially duplicating
+the implementation of #dyncode("list_map_fun"):
+
+#atscode('\
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list_map_cloref{n:nat}
+  (xs: list(a, n), f: a -<cloref1> b): list_vt(b, n)
+//
+')
+
+While #dyncode("list_map_cloref") can be called on a list and a
+closure-function, the closure-function that is formed at run-time to be
+passed to a call to #dyncode("list_map_cloref") most likely becomes garbage
+immediately after the call returns. Without garbage collection (GC), the
+memory for storing the closure is leaked. We surely have many good reasons
+for avoiding using a higher-order function like #dyncode("list_map_cloref")
+when doing embedded programming in ATS.
 
 ")
+
+#para('\
+
+A proper way to implement list mapping (as I see it) is given as follows:
+
+#atscode('\
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list_map{n:nat}
+  (xs: list(a, n)): list_vt(b, n)
+//
+extern
+fun
+{a:t@ype}{b:t@ype} list_map$fopr(x: a): b
+//
+implement
+{a}{b}
+list_map (xs) = let
+//
+fun
+aux{n:nat}
+  (xs: list(a, n)): list_vt(b, n) =
+(
+case+ xs of
+| list_nil () => list_vt_nil ()
+| list_cons (x, xs) => list_vt_cons (list_map$fopr<a><b>(x), aux(xs))
+) (* end of [aux] *)
+//
+in
+  aux(xs)
+end // end of [list_map]
+//
+')
+
+The function template #dyncode("list_map") is given in a style that is
+often referred to as being functorial: #dyncode("list_map") can be thought
+of as a functor in Standard ML that applies to a module consisting of a
+single function #dyncode("list_map$fopr"). In SML, each argument of a
+functor, which itself is a module, needed to be constructed and then passed
+to the functor explcitly. In ATS, the template implementation needed for
+compiling a particular template instance is located through a search
+procedure (that follows the standard principle of lexical scoping).
+
+')#comment("para")
+
+#para('\
+
+With #dyncode("list_map"), we can implement both #dyncode("list_map_fun")
+and #dyncode("list_map_cloref") as follows in a straightforward manner:
+
+#atscode('\
+implement
+{a}{b}
+list_map_fun(xs, f) = let
+//
+implement list_map$fopr<a><b> (x) = f(x)
+//
+in
+  list_map<a><b> (xs)
+end // end of [list_map_fun]
+
+(* ****** ****** *)
+
+implement
+{a}{b}
+list_map_cloref(xs, f) = let
+//
+implement list_map$fopr<a><b> (x) = f(x)
+//
+in
+  list_map<a><b> (xs)
+end // end of [list_map_cloref]
+')
+
+For those who are familiar with functors in SML, the implementation of
+#dyncode("list_map_fun") and #dyncode("list_map_cloref") should clearly
+remind them of functor application.
+
+')#comment("para")
+
+#para('\
+
+Please find on-line the file
+#mycodelink("CHAP_FNTMPINT/list_map.dats", "list_map.dats") containing the
+entirety of the code presented in this section plus some testing code.\
+
+')#comment("para")
 
 </sect1><!--id="function-templates-vs-higher-order-functions"-->
 
