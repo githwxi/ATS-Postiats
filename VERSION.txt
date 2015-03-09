@@ -24,6 +24,7 @@ Here is a list of major additions and changes since the last release:
 
 1. Minorly improving ATSPRE and ATSLIB/libats
 2. Adding libats/tmpeval to support numeric arguments for templates
+3. Improving gnumber and gorder slightly
 
 ######
 

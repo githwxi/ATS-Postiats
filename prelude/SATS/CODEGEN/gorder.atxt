@@ -62,10 +62,31 @@ fun{a:t0p}
 ggt_val (x: a, y: a):<> bool
 fun{a:t0p}
 ggte_val (x: a, y: a):<> bool
+
+#atscode_separator()
+
+fun{a:t0p}
+glt_val_int (x: a, y: int):<> bool
+fun{a:t0p}
+glte_val_int (x: a, y: int):<> bool
+fun{a:t0p}
+ggt_val_int (x: a, y: int):<> bool
+fun{a:t0p}
+ggte_val_int (x: a, y: int):<> bool
+
+#atscode_separator()
+
 fun{a:t0p}
 geq_val (x: a, y: a):<> bool
 fun{a:t0p}
 gneq_val (x: a, y: a):<> bool
+
+#atscode_separator()
+
+fun{a:t0p}
+geq_val_int (x: a, y: int):<> bool
+fun{a:t0p}
+gneq_val_int (x: a, y: int):<> bool
 
 #atscode_separator()
 

@@ -16,6 +16,15 @@ CFLAGS=-O2
 ######
 
 all:: \
+gnumber
+gnumber: gnumber.dats ; \
+  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<
+regress:: gnumber ; ./gnumber
+cleanall:: ; $(RMF) gnumber
+
+######
+
+all:: \
 loopcons
 loopcons: loopcons.dats ; \
   $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<

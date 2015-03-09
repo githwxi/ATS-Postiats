@@ -30,7 +30,8 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_bsearch
   {n} (A, asz) = let
 //
@@ -61,7 +62,8 @@ end (* end of [array_bsearch] *)
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_bsearch_fun
   (A, asz, key, cmp) = let
 //
