@@ -118,6 +118,169 @@ scoping to search for the first one that is available for use.
 <!-- ****** ****** -->
 
 <sect1
+ id="generic-operations-on-numbers">
+#title("Example: Generic Operations on Numbers")
+
+#para("\
+
+There are many types of numbers in ATS. With function templates, we can
+greatly enhance code sharing in numerical computation. For instance, we can
+give a generic implementation of matrix multiplication of the following
+interface:
+
+#atscode("\
+fun
+{a:t@ype}
+matrix_mul
+  {p,q,r:int}
+(
+  p: int(p)
+, q: int(q)
+, r: int(r)
+, A: &matrix(a, p, q)
+, B: &matrix(a, q, r)
+, C: &matrix(a?, p, r) >> matrix(a, p, r)
+) : void // end of [matrix_mul]
+")
+
+and then use it to immediately obtain implementations of matrix
+multiplication for matrices of integers, matrices of floating point
+numbers, matrices of floating point complex numbers, etc. This approach is
+clearly far superior to relying on error-prone macros in C.
+
+")#comment("para")
+
+#para("\
+
+Let us take a look at a concrete example involving generic operations on
+numbers. The following code gives a standard implementation of the
+factorial function:
+
+#atscode('\
+//
+extern
+fun fact(n: int): int
+//
+implement
+fact(n) =
+  if n > 0 then n * fact(n-1) else 1
+// end of [fact]
+//
+')
+
+When applied to 100, #dyncode("fact") is likely to return 0. This can be
+easily understood as the true value of the factorial of 100 is a multiple
+of 2#sup("32") and the multiplication operation on integers of the type
+#stacode("int") is probably modulo 2#sup("32"). Suppose that we want to
+replace this multiplication operation with the one on floating point
+numbers of double precision. This can be done by implementing a slight variant
+of #dyncode("fact") as follows
+
+#atscode('\
+//
+extern
+fun factd(n: int): double
+
+implement
+factd(n) =
+  if n > 0 then n * factd(n-1) else 1.0
+// end of [factd]
+//
+')
+
+When applied to 100, #dyncode("factd") should return a large floating point
+number. Obviously, there is a great deal of code duplication between the
+implementations of #dyncode("fact") and #dyncode("factd"). We can readily
+eliminate this duplication by introducing a generic implementation of the
+factorial function as follows:
+
+#atscode('\
+//
+extern
+fun{a:t@ype} gfact(n: int): a
+//
+implement
+{a}(*tmp*)
+gfact(n) = (
+//
+if n > 0
+then gmul_int_val<a>(n, gfact<a>(n-1))
+else gnumber_int<a>(1)
+//
+) (* end of [gfact] *)
+//
+')
+
+With a bit of support for overloading in ATS, we can rewrite
+#dyncode("gfact") as follows:
+
+#atscode('\
+implement
+{a}(*tmp*)
+gfact(n) = let
+//
+overload * with gmul_int_val
+//
+in
+//
+if n > 0
+then n * gfact<a>(n-1) else gnumber_int<a>(1)
+//
+end (* end of [gfact] *)
+')
+
+As is expected, we can now implement #dyncode("fact") and #dyncode("factd")
+as follows:
+
+#atscode('\
+//
+implement fact = gfact<int>
+implement factd = gfact<double>
+//
+')
+
+There is support in ATS based on the GNU multiple precision arithmetic
+library (GMPLIB) for integers of unlimited precision. The following code
+presents a way to compute the true value of the factorial of 100:
+
+#atscode('\
+//
+staload _(*T*) =
+"{$LIBATSHWXI}/intinf/DATS/intinf_t.dats"
+staload _(*VT*) =
+"{$LIBATSHWXI}/intinf/DATS/intinf_vt.dats"
+//
+staload GINTINF =
+"{$LIBATSHWXI}/intinf/DATS/gintinf_t.dats"
+//
+typedef intinf = $GINTINF.intinf
+overload print with $GINTINF.print_intinf
+//
+val () =
+println! ("gfact<intinf>(100) = ", gfact<intinf>(100))
+//
+')
+
+I only list some leading digits of the result:
+
+#atscode('\
+gfact<intinf>(100) = 933262154439441526816992388562667[...omitted...]
+')
+")
+
+#para('\
+
+Please find on-line the file
+#mycodelink("CHAP_FNTMPINT/gnumber.dats", "gnumber.dats") containing the
+entirety of the code presented in this section plus some testing code.\
+
+')#comment("para")
+
+</sect1><!--id="generic-operations-on-numbers"-->
+
+<!-- ****** ****** -->
+
+<sect1
  id="templates-as-a-special-form-of-functors">
 #title("Templates as a Special Form of Functors")
 

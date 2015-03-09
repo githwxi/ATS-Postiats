@@ -11,6 +11,10 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
+PATSCONTRIB=${PATSHOMERELOC}/contrib
+
+######
+
 CFLAGS=-O2
 
 ######
@@ -18,7 +22,8 @@ CFLAGS=-O2
 all:: \
 gnumber
 gnumber: gnumber.dats ; \
-  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<
+$(PATSCC) -I${PATSCONTRIB} \
+  -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< -lgmp
 regress:: gnumber ; ./gnumber
 cleanall:: ; $(RMF) gnumber
 

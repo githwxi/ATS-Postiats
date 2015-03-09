@@ -7,24 +7,43 @@
 // Generic Operations on Numbers
 //
 (* ****** ****** *)
-
+//
+#include
+"share/atspre_define.hats"
 #include
 "share/atspre_staload.hats"
+//
+(* ****** ****** *)
+
+extern
+fun fact(n: int): int
+
+implement
+fact(n) =
+  if n > 0 then n * fact(n-1) else 1
+// end of [fact]
 
 (* ****** ****** *)
 
 extern
-fun{a:t@ype} gfact(n: a): a
+fun factd(n: int): double
+
+implement
+factd(n) =
+  if n > 0 then n * factd(n-1) else 1.0
+// end of [factd]
 
 (* ****** ****** *)
+
+extern
+fun{a:t@ype} gfact(n: int): a
 
 implement
 {a}(*tmp*)
 gfact(n) = (
 //
-if
-gisgtz_val<a>(n)
-then gmul_val<a>(n, gfact<a>(gpred_val<a>(n)))
+if n > 0
+then gmul_int_val<a>(n, gfact<a>(n-1))
 else gnumber_int<a>(1)
 //
 ) (* end of [gfact] *)
@@ -35,27 +54,95 @@ implement
 {a}(*tmp*)
 gfact(n) = let
 //
-overload * with gmul_val
-overload - with gsub_val_int
-//
-overload > with ggt_val_int
-//
-macdef gint(x) = gnumber_int(,(x))
+overload * with gmul_int_val
 //
 in
 //
-if n > 0 then n * gfact<a> (n-1) else gint(1)
+if n > 0
+then n * gfact<a>(n-1) else gnumber_int<a>(1)
 //
 end (* end of [gfact] *)
 
 (* ****** ****** *)
+
+implement fact = gfact<int>
+implement factd = gfact<double>
+  
+(* ****** ****** *)
+//
+val () =
+println! ("fact(10) = ", fact(10))
+val () =
+println! ("fact(34) = ", fact(34))
+val () =
+println! ("fact(100) = ", fact(100))
+//
+val () =
+println! ("factd(10) = ", factd(10))
+val () =
+println! ("factd(34) = ", factd(34))
+val () =
+println! ("factd(100) = ", factd(100))
 //
 val () =
 println! ("gfact<int>(10) = ", gfact<int>(10))
+val () =
+println! ("gfact<int>(34) = ", gfact<int>(34))
+val () =
+println! ("gfact<int>(100) = ", gfact<int>(100))
 //
 val () =
-println! ("gfact<double>(10) = ", gfact<double>(10.0))
+println! ("gfact<lint>(10) = ", gfact<lint>(10))
+val () =
+println! ("gfact<lint>(34) = ", gfact<lint>(34))
+val () =
+println! ("gfact<lint>(100) = ", gfact<lint>(100))
 //
+val () =
+println! ("gfact<llint>(10) = ", gfact<llint>(10))
+val () =
+println! ("gfact<llint>(34) = ", gfact<llint>(34))
+val () =
+println! ("gfact<llint>(100) = ", gfact<llint>(100))
+//
+val () =
+println! ("gfact<float>(10) = ", gfact<float>(10))
+val () =
+println! ("gfact<float>(34) = ", gfact<float>(34))
+val () =
+println! ("gfact<float>(100) = ", gfact<float>(100))
+//
+val () =
+println! ("gfact<double>(10) = ", gfact<double>(10))
+val () =
+println! ("gfact<double>(34) = ", gfact<double>(34))
+val () =
+println! ("gfact<double>(100) = ", gfact<double>(100))
+//
+(* ****** ****** *)
+//
+staload _(*T*) =
+"{$LIBATSHWXI}/intinf/DATS/intinf_t.dats"
+staload _(*VT*) =
+"{$LIBATSHWXI}/intinf/DATS/intinf_vt.dats"
+//
+staload GINTINF =
+"{$LIBATSHWXI}/intinf/DATS/gintinf_t.dats"
+//
+(* ****** ****** *)
+
+typedef intinf = $GINTINF.intinf
+overload print with $GINTINF.print_intinf
+
+(* ****** ****** *)
+
+val () =
+println! ("gfact<intinf>(10) = ", gfact<intinf>(10))
+val () =
+println! ("gfact<intinf>(34) = ", gfact<intinf>(34))
+val () =
+println! ("gfact<intinf>(100) = ", gfact<intinf>(100))
+
 (* ****** ****** *)
 
 implement main0 () = ()
