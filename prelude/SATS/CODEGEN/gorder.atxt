@@ -110,6 +110,9 @@ fun{a:vt0p}
 ggt_ref (x: &INV(a), y: &a):<> bool
 fun{a:vt0p}
 ggte_ref (x: &INV(a), y: &a):<> bool
+
+#atscode_separator()
+
 fun{a:vt0p}
 geq_ref (x: &INV(a), y: &a):<> bool
 fun{a:vt0p}

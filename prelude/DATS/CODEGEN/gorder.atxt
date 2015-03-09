@@ -63,26 +63,6 @@ gneq_val_int (x, y) = gneq_val<a> (x, gnumber_int<a>(y))
 #atscode_separator()
 
 implement{a}
-glt_ref (x, y) = gcompare_ref<a> (x, y) < 0
-implement{a}
-glte_ref (x, y) = gcompare_ref<a> (x, y) <= 0
-implement{a}
-ggt_ref (x, y) = gcompare_ref<a> (x, y) > 0
-implement{a}
-ggte_ref (x, y) = gcompare_ref<a> (x, y) >= 0
-implement{a}
-geq_ref (x, y) = gcompare_ref<a> (x, y) = 0
-implement{a}
-gneq_ref (x, y) = gcompare_ref<a> (x, y) != 0
-
-#atscode_separator()
-
-implement(a:t0p)
-gcompare_ref<a> (x, y) = gcompare_val<a> (x, y)
-
-#atscode_separator()
-
-implement{a}
 gisltz_val (x) = glt_val_int<a> (x, 0)
 implement{a}
 gisltez_val (x) = glte_val_int<a> (x, 0)
@@ -97,6 +77,29 @@ implement{a}
 giseqz_val (x) = geq_val_int<a> (x, 0)
 implement{a}
 gisneqz_val (x) = gneq_val_int<a> (x, 0)
+
+#atscode_separator()
+
+implement{a}
+glt_ref (x, y) = gcompare_ref<a> (x, y) < 0
+implement{a}
+glte_ref (x, y) = gcompare_ref<a> (x, y) <= 0
+implement{a}
+ggt_ref (x, y) = gcompare_ref<a> (x, y) > 0
+implement{a}
+ggte_ref (x, y) = gcompare_ref<a> (x, y) >= 0
+
+#atscode_separator()
+
+implement{a}
+geq_ref (x, y) = gcompare_ref<a> (x, y) = 0
+implement{a}
+gneq_ref (x, y) = gcompare_ref<a> (x, y) != 0
+
+#atscode_separator()
+
+implement(a:t0p)
+gcompare_ref<a> (x, y) = gcompare_val<a> (x, y)
 
 #atscode_separator()
 
