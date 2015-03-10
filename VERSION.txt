@@ -28,6 +28,8 @@ Here is a list of major additions and changes since the last release:
 4. Renaming:
    gequal_val -> gequal_val_val; gequal_ref -> gequal_ref_ref
    gcompare_val -> gcompare_val_val; gcompare_ref -> gcompare_ref_ref
+5. Adding s2exp_syneq2:
+   this version (in constrast to s2exp_syneq) handles bound variables
 
 ######
 

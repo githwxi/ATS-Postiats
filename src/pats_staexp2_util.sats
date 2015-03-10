@@ -221,11 +221,14 @@ fun s2exp_syneq (s2e1: s2exp, s2e2: s2exp): bool
 fun s2explst_syneq (xs1: s2explst, xs2: s2explst): bool
 
 (* ****** ****** *)
-
+//
+// HX-2015-03:
+// this version handles bound variables:
+//
 fun s2hnf_syneq2 (s2f1: s2hnf, s2f2: s2hnf): bool
 fun s2exp_syneq2 (s2e1: s2exp, s2e2: s2exp): bool
 fun s2explst_syneq2 (xs1: s2explst, xs2: s2explst): bool
-
+//
 (* ****** ****** *)
 
 fun s2hnf_tszeq

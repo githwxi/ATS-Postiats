@@ -1077,6 +1077,12 @@ case s2en10 of
 end // end of [s2hnf_syneq]
 
 (* ****** ****** *)
+//
+// HX-2015-03:
+// s2exp_syneq2:
+// this version handles bound variables
+//
+(* ****** ****** *)
 
 extern
 fun
