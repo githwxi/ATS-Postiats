@@ -229,7 +229,7 @@ then n * gfact<a>(n-1) else gnumber_int<a>(1)
 end (* end of [gfact] *)
 ')
 
-As is expected, we can now implement #dyncode("fact") and #dyncode("factd")
+We can now implement #dyncode("fact") and #dyncode("factd")
 as follows:
 
 #atscode('\
