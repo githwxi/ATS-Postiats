@@ -51,7 +51,7 @@ staload "libats/SATS/funmap_avltree.sats"
 implement
 {key}
 compare_key_key
-  (k1, k2) = gcompare_val<key> (k1, k2)
+  (k1, k2) = gcompare_val_val<key> (k1, k2)
 // end of [compare_key_key]
 
 (* ****** ****** *)

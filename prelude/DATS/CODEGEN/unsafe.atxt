@@ -139,31 +139,31 @@ cptr_exch (p, x) = ptr1_exch<a> (cptr2ptr(p), x)
 
 implement{a}
 ptr0_addby (p, x) = let
-  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gadd_val<a> (x0, x))
+  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gadd_val_val<a> (x0, x))
 end // end of [ptr0_addby]
 implement{a} ptr1_addby = ptr0_addby<a>
 
 implement{a}
 ptr0_subby (p, x) = let
-  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gsub_val<a> (x0, x))
+  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gsub_val_val<a> (x0, x))
 end // end of [ptr0_subby]
 implement{a} ptr1_subby = ptr0_subby<a>
 
 implement{a}
 ptr0_mulby (p, x) = let
-  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gmul_val<a> (x0, x))
+  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gmul_val_val<a> (x0, x))
 end // end of [ptr0_mulby]
 implement{a} ptr1_mulby = ptr0_mulby<a>
 
 implement{a}
 ptr0_divby (p, x) = let
-  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gdiv_val<a> (x0, x))
+  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gdiv_val_val<a> (x0, x))
 end // end of [ptr0_divby]
 implement{a} ptr1_divby = ptr0_divby<a>
 
 implement{a}
 ptr0_modby (p, x) = let
-  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gmod_val<a> (x0, x))
+  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gmod_val_val<a> (x0, x))
 end // end of [ptr0_modby]
 implement{a} ptr1_modby = ptr0_modby<a>
 

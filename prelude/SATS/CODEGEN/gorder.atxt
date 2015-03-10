@@ -55,13 +55,13 @@ gisneqz_val (x: a):<> bool
 (* ****** ****** *)
 
 fun{a:t0p}
-glt_val (x: a, y: a):<> bool
+glt_val_val (x: a, y: a):<> bool
 fun{a:t0p}
-glte_val (x: a, y: a):<> bool
+glte_val_val (x: a, y: a):<> bool
 fun{a:t0p}
-ggt_val (x: a, y: a):<> bool
+ggt_val_val (x: a, y: a):<> bool
 fun{a:t0p}
-ggte_val (x: a, y: a):<> bool
+ggte_val_val (x: a, y: a):<> bool
 
 #atscode_separator()
 
@@ -77,9 +77,9 @@ ggte_val_int (x: a, y: int):<> bool
 #atscode_separator()
 
 fun{a:t0p}
-geq_val (x: a, y: a):<> bool
+geq_val_val (x: a, y: a):<> bool
 fun{a:t0p}
-gneq_val (x: a, y: a):<> bool
+gneq_val_val (x: a, y: a):<> bool
 
 #atscode_separator()
 
@@ -91,43 +91,42 @@ gneq_val_int (x: a, y: int):<> bool
 #atscode_separator()
 
 fun{a:t0p}
-gcompare_val (x: a, y: a):<> int
+gcompare_val_val (x: a, y: a):<> int
 
 #atscode_separator()
 
 fun{a:t0p}
-gmax_val (x: a, y: a):<> (a)
+gmax_val_val (x: a, y: a):<> (a)
 fun{a:t0p}
-gmin_val (x: a, y: a):<> (a)
+gmin_val_val (x: a, y: a):<> (a)
 
 #atscode_separator()
 
 fun{a:vt0p}
-glt_ref (x: &INV(a), y: &a):<> bool
+glt_ref_ref (x: &INV(a), y: &a):<> bool
 fun{a:vt0p}
-glte_ref (x: &INV(a), y: &a):<> bool
+glte_ref_ref (x: &INV(a), y: &a):<> bool
 fun{a:vt0p}
-ggt_ref (x: &INV(a), y: &a):<> bool
+ggt_ref_ref (x: &INV(a), y: &a):<> bool
 fun{a:vt0p}
-ggte_ref (x: &INV(a), y: &a):<> bool
+ggte_ref_ref (x: &INV(a), y: &a):<> bool
 
 #atscode_separator()
 
 fun{a:vt0p}
-geq_ref (x: &INV(a), y: &a):<> bool
+geq_ref_ref (x: &INV(a), y: &a):<> bool
 fun{a:vt0p}
-gneq_ref (x: &INV(a), y: &a):<> bool
+gneq_ref_ref (x: &INV(a), y: &a):<> bool
 
 #atscode_separator()
 
 fun{a:vt0p}
-gcompare_ref (x: &INV(a), y: &a):<> int
+gcompare_ref_ref (x: &INV(a), y: &a):<> int
 
 #atscode_separator()
 
-fun{a:t0p} gabs_val (x: a):<> a
-fun{a:t0p} gmax_val (x: a, y: a):<> a
-fun{a:t0p} gmin_val (x: a, y: a):<> a
+fun{a:t0p} gmax_val_val (x: a, y: a):<> a
+fun{a:t0p} gmin_val_val (x: a, y: a):<> a
 
 #atscode_separator()
 

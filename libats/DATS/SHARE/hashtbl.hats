@@ -41,14 +41,14 @@
 (*
 implement
 {key}(*tmp*)
-hash_key = ghash_val<key>
+hash_key = ghash_val_val<key>
 *)
 
 (* ****** ****** *)
 
 implement
 {key}(*tmp*)
-equal_key_key = gequal_val<key>
+equal_key_key = gequal_val_val<key>
 
 (* ****** ****** *)
 //

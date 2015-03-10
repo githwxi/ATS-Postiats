@@ -34,31 +34,31 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 implement
 {a}(*tmp*)
-gadd_val_int(x, y) = gadd_val<a> (x, gnumber_int<a> (y))
+gadd_val_int(x, y) = gadd_val_val<a> (x, gnumber_int<a> (y))
 implement
 {a}(*tmp*)
-gsub_val_int(x, y) = gsub_val<a> (x, gnumber_int<a> (y))
+gsub_val_int(x, y) = gsub_val_val<a> (x, gnumber_int<a> (y))
   
 #atscode_separator()
 
 implement
 {a}(*tmp*)
-gmul_int_val(x, y) = gmul_val<a> (gnumber_int<a> (x), y)
+gmul_int_val(x, y) = gmul_val_val<a> (gnumber_int<a> (x), y)
 implement
 {a}(*tmp*)
-gmul_val_int(x, y) = gmul_val<a> (x, gnumber_int<a> (y))
+gmul_val_int(x, y) = gmul_val_val<a> (x, gnumber_int<a> (y))
 
 #atscode_separator()
 
 implement
 {a}(*tmp*)
-gdiv_int_val(x, y) = gdiv_val<a> (gnumber_int<a> (x), y)
+gdiv_int_val(x, y) = gdiv_val_val<a> (gnumber_int<a> (x), y)
 implement
 {a}(*tmp*)
-gdiv_val_int(x, y) = gdiv_val<a> (x, gnumber_int<a> (y))
+gdiv_val_int(x, y) = gdiv_val_val<a> (x, gnumber_int<a> (y))
 implement
 {a}(*tmp*)
-gmod_val_int(x, y) = gmod_val<a> (x, gnumber_int<a> (y))
+gmod_val_int(x, y) = gmod_val_val<a> (x, gnumber_int<a> (y))
 
 #atscode_separator()
 
@@ -72,17 +72,21 @@ loop
 {n:pos} .<n>.
 (
   n: int(n), x: a, res: a
-) :<> a =
+) :<> (a) =
 (
-  if n >= 2 then let
-    val n2 = half(n)
-    val r2 = n - (n2 + n2)
-  in
-    if r2 = 0
-      then loop (n2, gmul_val<a> (x, x), res)
-      else loop (n2, gmul_val<a> (x, x), gmul_val<a> (x, res))
-    // end of [if]
-  end else gmul_val<a> (x, res)
+//
+if
+n >= 2
+then let
+  val n2 = half(n)
+  val r2 = n - (n2 + n2)
+in
+  if r2 = 0
+    then loop (n2, gmul_val_val<a> (x, x), res)
+    else loop (n2, gmul_val_val<a> (x, x), gmul_val_val<a> (x, res))
+  // end of [if]
+end else gmul_val_val<a> (x, res)
+//
 ) (* end of [loop] *)
 //
 in

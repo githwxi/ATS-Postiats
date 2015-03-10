@@ -912,7 +912,7 @@ end // end of [list_forall]
 
 implement
 {a}(*tmp*)
-list_equal$eqfn = gequal_val<a>
+list_equal$eqfn = gequal_val_val<a>
 
 implement
 {x}(*tmp*)
@@ -969,7 +969,7 @@ end // end of [list_find_opt]
 
 implement
 {key}(*tmp*)
-list_assoc$eqfn = gequal_val<key>
+list_assoc$eqfn = gequal_val_val<key>
 
 implement
 {key,itm}
@@ -1990,7 +1990,7 @@ end // end of [list_foldright]
 implement
 {a}(*tmp*)
 list_mergesort$cmp
-  (x1, x2) = gcompare_val<a> (x1, x2)
+  (x1, x2) = gcompare_val_val<a> (x1, x2)
 // end of [list_mergesort$cmp]
 
 implement
@@ -2055,7 +2055,7 @@ end // end of [list_mergesort_cloref]
 implement
 {a}(*tmp*)
 list_quicksort$cmp
-  (x1, x2) = gcompare_val<a> (x1, x2)
+  (x1, x2) = gcompare_val_val<a> (x1, x2)
 // end of [list_quicksort$cmp]
 
 implement

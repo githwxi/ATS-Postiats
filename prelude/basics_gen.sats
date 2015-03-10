@@ -83,11 +83,11 @@ gclear_ref (x: &a >> a?):<!wrt> void
 //
 fun
 {a:t0p}
-gequal_val (x: a, y: a):<> bool
+gequal_val_val (x: a, y: a):<> bool
 //
 fun
 {a:vt0p}
-gequal_ref (x: &INV(a), y: &a):<> bool
+gequal_ref_ref (x: &INV(a), y: &a):<> bool
 //
 (* ****** ****** *)
 

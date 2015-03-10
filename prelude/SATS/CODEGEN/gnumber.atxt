@@ -86,11 +86,11 @@ fun{a:t0p} grecip_val (x: a):<!exn> a
 
 #atscode_separator()
 
-fun{a:t0p} gadd_val (x: a, y: a):<> a
-fun{a:t0p} gsub_val (x: a, y: a):<> a
-fun{a:t0p} gmul_val (x: a, y: a):<> a
-fun{a:t0p} gdiv_val (x: a, y: a):<!exn> a
-fun{a:t0p} gmod_val (x: a, y: a):<!exn> a
+fun{a:t0p} gadd_val_val (x: a, y: a):<> a
+fun{a:t0p} gsub_val_val (x: a, y: a):<> a
+fun{a:t0p} gmul_val_val (x: a, y: a):<> a
+fun{a:t0p} gdiv_val_val (x: a, y: a):<!exn> a
+fun{a:t0p} gmod_val_val (x: a, y: a):<!exn> a
 
 #atscode_separator()
 //

@@ -477,11 +477,12 @@ in
 end // end of [stream_merge_cloref]
 
 #atscode_separator()
-
+//
 implement
 {a}(*tmp*)
-stream_merge$cmp (x1, x2) = gcompare_val<a> (x1, x2)
-
+stream_merge$cmp
+  (x1, x2) = gcompare_val_val<a> (x1, x2)
+//
 #atscode_separator()
 
 local
@@ -547,11 +548,12 @@ in
 end // end of [stream_mergeq_cloref]
 
 #atscode_separator()
-
+//
 implement
 {a}(*tmp*)
-stream_mergeq$cmp (x1, x2) = gcompare_val<a> (x1, x2)
-
+stream_mergeq$cmp
+  (x1, x2) = gcompare_val_val<a> (x1, x2)
+//
 #atscode_separator()
 
 implement

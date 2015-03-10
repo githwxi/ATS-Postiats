@@ -39,7 +39,7 @@
 (* ****** ****** *)
 
 implement{a}
-compare_elt_elt = gcompare_val<a>
+compare_elt_elt = gcompare_val_val<a>
 
 (* ****** ****** *)
 

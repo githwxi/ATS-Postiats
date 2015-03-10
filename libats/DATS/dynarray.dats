@@ -463,19 +463,25 @@ end // end of [if]
 end // end of [dynarray_reset_capacity]
 
 (* ****** ****** *)
+//
+implement{a}
+dynarray_quicksort$cmp
+  (x, y) = gcompare_ref_ref<a> (x, y)
+//
+(* ****** ****** *)
 
 implement{a}
-dynarray_quicksort
-  (DA) = let
+dynarray_quicksort(DA) = let
 //
-val+DYNARRAY{a}{m,n}(A, m, n) = DA
+val+
+DYNARRAY{a}{m,n}(A, m, n) = DA
 //
-val p = arrayptr2ptr (A)
+val p0 = arrayptr2ptr (A)
 //
 prval
 (
 pf, fpf
-) = __assert (p) where
+) = __assert (p0) where
 {
 extern
 praxi __assert
@@ -483,18 +489,17 @@ praxi __assert
 } (* end of [prval] *)
 //
 implement{a}
-array_quicksort$cmp (x, y) = dynarray_quicksort$cmp<a> (x, y)
+array_quicksort$cmp
+  (x, y) = dynarray_quicksort$cmp<a> (x, y)
 //
-val () = array_quicksort (!p, n)
+val () =
+  array_quicksort<a> (!p0, n)
 //
-prval () = fpf (pf)
+prval ((*returned*)) = fpf (pf)
 //
 in
   // nothing
 end // end of [dynarray_quicksort]
-
-implement{a}
-dynarray_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
 
 (* ****** ****** *)
 

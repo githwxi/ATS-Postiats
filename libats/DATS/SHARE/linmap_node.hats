@@ -39,9 +39,9 @@
 (* ****** ****** *)
 
 implement{key}
-equal_key_key = gequal_val<key>
+equal_key_key = gequal_val_val<key>
 implement{key}
-compare_key_key = gcompare_val<key>
+compare_key_key = gcompare_val_val<key>
 
 (* ****** ****** *)
 

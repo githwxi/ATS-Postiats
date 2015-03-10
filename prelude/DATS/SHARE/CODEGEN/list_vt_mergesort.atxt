@@ -33,8 +33,10 @@ staload UN = "prelude/SATS/unsafe.sats"
 implement
 {a}(*tmp*)
 list_vt_mergesort$cmp
-  (x1, x2) = gcompare_ref<a> (x1, x2)
-// end of [list_vt_mergesort$cmp]
+  (x1, x2) =
+(
+  gcompare_ref_ref<a> (x1, x2)
+) // end of [list_vt_mergesort$cmp]
 
 #atscode_separator()
 //
