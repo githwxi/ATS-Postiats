@@ -89,7 +89,7 @@ else (
   else let
     val x1 = $UN.ptr0_get<a> (p1)
     val x2 = $UN.ptr0_get<a> (p2)
-    val sgn = gcompare_val<a> (x1, x2)
+    val sgn = gcompare_val_val<a> (x1, x2)
   in
     if sgn <= 0
     then let

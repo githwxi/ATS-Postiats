@@ -57,12 +57,12 @@ end // end of [local]
 (* ****** ****** *)
 
 implement(a)
-gmul_val<cmplx(a)>
+gmul_val_val<cmplx(a)>
   (z1, z2) = let
 //
-macdef + = gadd_val<a>
-macdef - = gsub_val<a>
-macdef * = gmul_val<a>
+macdef + = gadd_val_val<a>
+macdef - = gsub_val_val<a>
+macdef * = gmul_val_val<a>
 //
 val r1 = cmplx_real<a> (z1)
 val i1 = cmplx_imag<a> (z1)
@@ -98,12 +98,12 @@ main0 () =
 val out = stdout_ref
 //
 val z_i = cmplx_make<int> (1, 1)
-val zz_i = gmul_val<cmplx(int)> (z_i, z_i)
+val zz_i = gmul_val_val<cmplx(int)> (z_i, z_i)
 //
 val () = fprintln! (out, "zz_i = ", zz_i)
 //
 val z_d = cmplx_make<double> (1.0, 1.0)
-val zz_d = gmul_val<cmplx(double)> (z_d, z_d)
+val zz_d = gmul_val_val<cmplx(double)> (z_d, z_d)
 //
 val () = fprintln! (out, "zz_d = ", zz_d)
 //

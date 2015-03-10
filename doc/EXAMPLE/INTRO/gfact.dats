@@ -19,32 +19,31 @@ staload _ = "prelude/DATS/gnumber.dats"
 
 (* ****** ****** *)
 
-extern fun{a:t@ype} gfact (x: a): a
+extern fun{a:t@ype} gfact (x: int): a
 
 (* ****** ****** *)
-
+//
 (*
 fun fact (x: int): int =
   if x > 0 then x * fact (x-1) else 1
 *)
-
+//
 implement
 {a}(*tmp*)
 gfact (x) = let
 //
-macdef ggt = ggt_val<a>
-//
-macdef gmul = gmul_val<a>
-macdef gpred = gpred_val<a>
-//
 macdef gint = gnumber_int<a>
+//
+overload > with ggt_val_int
+//
+overload * with gmul_int_val
 //
 in
 //
-if x \ggt gint(0) then x \gmul gfact<a> (gpred (x)) else gint(1)
+if x > 0 then x * gfact<a> (x - 1) else gint(1)
 //
 end // end of [gfact]
-
+//
 (* ****** ****** *)
 
 implement
@@ -53,7 +52,7 @@ main0 () =
 //
 val out = stdout_ref
 val () = fprintln! (out, "fact(12) = ", gfact<int> (12))
-val () = fprintln! (out, "fact(12) = ", gfact<double> (12.0))
+val () = fprintln! (out, "fact(12) = ", gfact<double> (12))
 //
 } // end of [main0]
 

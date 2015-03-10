@@ -36,15 +36,16 @@ compare_mynode_mynode<>
   (x, y) = ans where
 {
 //
-  val x =
+val x =
   $UN.castvwtp1{list_vt_cons_pstruct(a,ptr)}(x)
-  val y =
+val y =
   $UN.castvwtp1{list_vt_cons_pstruct(a,ptr)}(y)
-  val+list_vt_cons (x_1, x_2) = x
-  val+list_vt_cons (y_1, y_2) = y
-  val ans = gcompare_ref<a> (x_1, y_1)
-  prval () = $UN.cast2void ((view@x_1, view@x_2 | x))
-  prval () = $UN.cast2void ((view@y_1, view@y_2 | y))
+//
+val+list_vt_cons (x_1, x_2) = x
+val+list_vt_cons (y_1, y_2) = y
+val ans = gcompare_ref_ref<a> (x_1, y_1)
+prval () = $UN.cast2void ((view@x_1, view@x_2 | x))
+prval () = $UN.cast2void ((view@y_1, view@y_2 | y))
 //
 } // end of [compare_mynode_mynode]
 //
