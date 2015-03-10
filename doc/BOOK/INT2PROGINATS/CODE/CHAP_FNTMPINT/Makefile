@@ -20,6 +20,16 @@ CFLAGS=-O2
 ######
 
 all:: \
+myprint
+myprint: myprint.dats ; \
+$(PATSCC) -I${PATSCONTRIB} \
+  -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< -lgmp
+regress:: myprint ; ./myprint
+cleanall:: ; $(RMF) myprint
+
+######
+
+all:: \
 gnumber
 gnumber: gnumber.dats ; \
 $(PATSCC) -I${PATSCONTRIB} \

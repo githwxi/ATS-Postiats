@@ -286,7 +286,8 @@ end // end of [impenv2tmpsub]
 
 local
 
-fun auxmat
+fun
+auxmat
 (
   env: !impenv
 , s2e_pat: s2exp
@@ -327,7 +328,7 @@ case+ s2en_pat of
     | S2Ecst (s2c_arg) =>
         if s2c = s2c_arg then true else false
       // end of [S2Ecst]
-    | _ (*non-s2cst*) => false
+    | _ (* non-S2Ecst *) => false
   end // end of [S2Ecst]
 //
 | S2Eapp
@@ -346,7 +347,7 @@ case+ s2en_pat of
           auxmatlst (env, s2es_pat, s2es_arg) else false
         // end of [if]
       end // end of [S2Eapp]
-    | _ => false
+    | _ (* non-S2Eapp *) => false
   end // end of [S2Eapp]
 //
 | S2Etyrec
@@ -363,7 +364,7 @@ case+ s2en_pat of
           auxlabmatlst (env, ls2es_pat, ls2es_arg) else false
         // end of [if]
       ) // end of [S2Etyrec]
-    | _ => false
+    | _ (* non-S2Etyrec *) => false
   end // end of [S2Etyrec]
 //
 | _ when s2hnf_syneq (s2f_pat, s2f_arg) => true

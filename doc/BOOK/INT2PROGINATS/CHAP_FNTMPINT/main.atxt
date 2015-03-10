@@ -73,8 +73,7 @@ may want to implement #dyncode("myprint") as follows for only values of the
 type #stacode("int"):
 
 #atscode('\
-implement
-myprint<int> (x) = print_int (x)
+implement myprint<int> (x) = print_int (x)
 ')
 
 where #dyncode("print_int") is called to print out a given integer. This
