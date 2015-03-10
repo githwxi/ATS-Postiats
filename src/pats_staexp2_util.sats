@@ -222,6 +222,12 @@ fun s2explst_syneq (xs1: s2explst, xs2: s2explst): bool
 
 (* ****** ****** *)
 
+fun s2hnf_syneq2 (s2f1: s2hnf, s2f2: s2hnf): bool
+fun s2exp_syneq2 (s2e1: s2exp, s2e2: s2exp): bool
+fun s2explst_syneq2 (xs1: s2explst, xs2: s2explst): bool
+
+(* ****** ****** *)
+
 fun s2hnf_tszeq
   (s2f1: s2hnf, s2f2: s2hnf): bool // type-size-equality-test
 fun s2exp_tszeq

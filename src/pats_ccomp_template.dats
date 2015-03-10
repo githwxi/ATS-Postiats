@@ -319,7 +319,7 @@ case+ s2en_pat of
     if iserr then
     (
       impenv_update(env, s2v, s2f_arg)
-    ) else (s2hnf_syneq (s2f, s2f_arg))
+    ) else (s2hnf_syneq2 (s2f, s2f_arg))
   end // end of [S2Evar]
 //
 | S2Ecst(s2c) => let
@@ -367,7 +367,7 @@ case+ s2en_pat of
     | _ (* non-S2Etyrec *) => false
   end // end of [S2Etyrec]
 //
-| _ when s2hnf_syneq (s2f_pat, s2f_arg) => true
+| _ when s2hnf_syneq2 (s2f_pat, s2f_arg) => true
 //
 | _ => false
 //

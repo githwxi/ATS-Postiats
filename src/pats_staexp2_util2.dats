@@ -120,7 +120,8 @@ end // end of [s2exp_linkrem]
 
 (* ****** ****** *)
 
-fun labs2explst_top
+fun
+labs2explst_top
 (
   knd: int, ls2es0: labs2explst
 ) : labs2explst = let
@@ -143,19 +144,24 @@ end // end of [labs2explst_top]
 (* ****** ****** *)
 
 extern
-fun s2exp_topize_flag
+fun
+s2exp_topize_flag
   (knd: int, s2e: s2exp, flag: &int): s2exp
 // end of [s2exp_topize_flag]
 
 extern
-fun s2exp_invar_flag (s2e: s2exp, flag: &int): s2exp
+fun
+s2exp_invar_flag (s2e: s2exp, flag: &int): s2exp
 
 extern
-fun s2exp_hnfize_flag (s2e: s2exp, flag: &int): s2exp
+fun
+s2exp_hnfize_flag (s2e: s2exp, flag: &int): s2exp
 extern
-fun s2explst_hnfize_flag (s2es: s2explst, flag: &int): s2explst
+fun
+s2explst_hnfize_flag (s2es: s2explst, flag: &int): s2explst
 extern
-fun labs2explst_hnfize_flag (ls2es: labs2explst, flag: &int): labs2explst
+fun
+labs2explst_hnfize_flag (ls2es: labs2explst, flag: &int): labs2explst
 
 extern
 fun s2exp_hnfize_app
@@ -486,13 +492,17 @@ end // end of [s2expopt_hnfsize]
 (* ****** ****** *)
 
 extern
-fun s2exp_mhnfize_flag (s2e: s2exp, flag: &int): s2exp
+fun
+s2exp_mhnfize_flag (s2e: s2exp, flag: &int): s2exp
 extern
-fun s2explst_mhnfize_flag (s2es: s2explst, flag: &int): s2explst
+fun
+s2explst_mhnfize_flag (s2es: s2explst, flag: &int): s2explst
 extern
-fun labs2explst_mhnfize_flag (ls2es: labs2exp, flag: &int): labs2explst
+fun
+s2explstlst_mhnfize_flag (s2ess: s2explstlst, flag: &int): s2explstlst
 extern
-fun s2explstlst_mhnfize_flag (s2ess: s2explstlst, flag: &int): s2explstlst
+fun
+labs2explst_mhnfize_flag (ls2es: labs2exp, flag: &int): labs2explst
 
 (* ****** ****** *)
 
@@ -715,8 +725,25 @@ s2explstlst_syneq_exn
 // end of [s2explstlst_syneq_exn]
 
 (* ****** ****** *)
-
+//
 fun
+s2eff_syneq
+(
+  s2fe1: s2eff, s2fe2: s2eff
+) : bool =
+(
+try let
+//
+val () =
+  s2eff_syneq_exn (s2fe1, s2fe2)
+//
+in
+  true
+end with
+  | ~SYNEQexn((*void*)) => false
+) (* end of [s2eff_syneq_exn] *)
+//
+and
 s2eff_syneq_exn
 (
   s2fe1: s2eff, s2fe2: s2eff
@@ -737,8 +764,8 @@ case+ (s2fe1, s2fe2) of
   } // end of [S2EFFadd, S2EFFadd]
 | (_, _) => $raise (SYNEQexn)
 //
-end // end of [s2eff]
-
+end // end of [s2eff_syneq_exn]
+//
 (* ****** ****** *)
 
 fun
@@ -791,7 +818,10 @@ labs2explst_syneq_exn
 ) : void = let
 in
 //
-case+ (ls2es1, ls2es2) of
+case+
+(
+ ls2es1,ls2es2
+) of // case+
 | (list_cons (ls2e1, ls2es1),
    list_cons (ls2e2, ls2es2)) => let
     val SLABELED (l1, _(*opt*), s2e1) = ls2e1
@@ -804,7 +834,7 @@ case+ (ls2es1, ls2es2) of
     end else $raise (SYNEQexn)
   end // end of [cons, cons]
 | (list_nil (), list_nil ()) => ()
-| (_, _) => $raise (SYNEQexn)
+| (_(*ls2es1*), _(*ls2es2*)) => $raise (SYNEQexn)
 //
 end // end of [labs2explst_syneq]
 
@@ -865,7 +895,7 @@ case s2en10 of
       (name2, s2ess2) => (
     if name1 = name2 then
       s2explstlst_syneq_exn(s2ess1, s2ess2) else $raise(SYNEQexn)
-    ) // end of [S2Eextype
+    ) // end of [S2Eextype]
   | _ (* non-S2Eextype *) => $raise (SYNEQexn)
   ) (* end of [S2Eextype] *)
 | S2Eextkind
@@ -885,6 +915,7 @@ case s2en10 of
     if s2v1 != s2v2 then $raise (SYNEQexn)
   | _ (* non-S2Evar *) => $raise (SYNEQexn)
   ) (* end of [S2Evar] *)
+//
 | S2EVar(s2V1) => (
   case+ s2en20 of
   | S2EVar(s2V2) =>
@@ -1049,32 +1080,183 @@ end // end of [s2hnf_syneq]
 
 extern
 fun
+s2var_syneq_env
+(
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, s2v1: s2var, s2v2: s2var
+) : bool // end of [s2var_syneq_env]
+extern
+fun
 s2hnf_syneq_env
 (
-  env: !s2varlst_vt, s2f1: s2hnf, s2f2: s2hnf
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, s2f1: s2hnf, s2f2: s2hnf
 ) : bool // end of [s2hnf_syneq_env]
 extern
 fun
 s2exp_syneq_env
 (
-  env: !s2varlst_vt, s2e1: s2exp, s2e2: s2exp
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, s2e1: s2exp, s2e2: s2exp
 ) : bool // end of [s2exp_syneq_env]
 extern
 fun
 s2explst_syneq_env
 (
-  env: !s2varlst_vt, s2es1: s2explst, s2es2: s2explst
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, s2es1: s2explst, s2es2: s2explst
 ) : bool // end of [s2explst_syneq_env]
+extern
+fun
+s2explstlst_syneq_env
+(
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, s2ess1: s2explstlst, s2ess2: s2explstlst
+) : bool // end of [s2explstlst_syneq_env]
+extern
+fun
+labs2explst_syneq_env
+(
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, ls2es1: labs2explst, ls2es2: labs2explst
+) : bool // end of [labs2explst_syneq_env]
 
 (* ****** ****** *)
 
 local
 
+fun
+aux0
+(
+  env1: s2varlst
+, env2: s2varlst
+, s2v10: s2var, s2v20: s2var
+) : bool = (
+//
+case+ env1 of
+| list_nil () =>
+    aux1_0 (env1, env2, s2v10, s2v20)
+| list_cons (s2v1, env1) =>
+    if s2v1 = s2v10
+      then aux1_t (env1, env2, s2v10, s2v20)
+      else aux1_f (env1, env2, s2v10, s2v20)
+    // end of [if]
+//
+) (* end of [aux0] *)
+
+and
+aux1_0
+(
+  env1: s2varlst
+, env2: s2varlst
+, s2v10: s2var, s2v20: s2var
+) : bool = (
+//
+case+ env2 of
+| list_nil () =>
+    if s2v10=s2v20 then true else false
+| list_cons (s2v2, env2) =>
+    if s2v2 = s2v20
+      then false else aux1_0 (env1, env2, s2v10, s2v20)
+    // end of [if]
+//
+) (* end of [aux1_0] *)
+
+and
+aux1_t
+(
+  env1: s2varlst
+, env2: s2varlst
+, s2v10: s2var, s2v20: s2var
+) : bool = (
+//
+case+ env2 of
+| list_nil () => false
+| list_cons (s2v2, env2) =>
+    if s2v2 = s2v20 then true else false
+//
+) (* end of [aux1_t] *)
+
+and
+aux1_f
+(
+  env1: s2varlst
+, env2: s2varlst
+, s2v10: s2var, s2v20: s2var
+) : bool = (
+//
+case+ env2 of
+| list_nil () =>
+    aux2_0 (env1, env2, s2v10, s2v20)
+| list_cons (s2v2, env2) =>
+    if s2v2 = s2v20
+      then false else aux0 (env1, env2, s2v10, s2v20)
+    // end of [if]
+//
+) (* end of [aux1_f] *)
+
+and
+aux2_0
+(
+  env1: s2varlst
+, env2: s2varlst
+, s2v10: s2var, s2v20: s2var
+) : bool = (
+//
+case+ env1 of
+| list_nil () =>
+    if s2v10=s2v20 then true else false
+| list_cons (s2v1, env1) =>
+    if s2v1 = s2v10
+      then false else aux2_0 (env1, env2, s2v10, s2v20)
+    // end of [if]
+//
+) (* end of [aux2_0] *)
+
+in (* in-of-local *)
+
+implement
+s2var_syneq_env
+(
+  env1, env2, s2v10, s2v20
+) = let
+//
+val env1 = $UN.linlst2lst(env1)
+and env2 = $UN.linlst2lst(env2)
+//
+in
+  aux0 (env1, env2, s2v10, s2v20)
+end // end of [s2var_syneq_env]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun
+auxextenv
+(
+  env: !s2varlst_vt, s2vs: s2varlst
+) : s2varlst_vt = let
+  val env2 = list_vt_copy (env)
+in
+  list_reverse_append2_vt<s2var> (s2vs, env2)
+end // end of [auxextenv]
+
 in (* in-of-local *)
 
 implement
 s2hnf_syneq_env
-  (env, s2f10, s2f20) = let
+(
+  env1, env2, s2f10, s2f20
+) = let
 //
 val s2e10 = s2hnf2exp (s2f10)
 and s2e20 = s2hnf2exp (s2f20)
@@ -1094,7 +1276,6 @@ in
 //
 case+ s2en10 of
 //
-//
 | S2Eint i1 => (
   case+ s2en20 of
   | S2Eint i2 =>
@@ -1112,6 +1293,190 @@ case+ s2en10 of
   | _ (*non-integer*) => false
   ) (* end of [S2Eintinf] *)
 //
+| S2Ecst(s2c1) => (
+  case+ s2en20 of
+  | S2Ecst(s2c2) =>
+    if s2c1 = s2c2 then true else false
+  | _ (* non-S2Ecst *) => false
+  ) (* end of [S2Ecst] *)
+//
+| S2Eextype
+  (name1, s2ess1) => (
+  case+ s2en20 of
+  | S2Eextype
+      (name2, s2ess2) => (
+    if name1 = name2
+      then (
+        s2explstlst_syneq_env(env1, env2, s2ess1, s2ess2)
+      ) else false
+    ) // end of [S2Eextype]
+  | _ (* non-S2Eextype *) => false
+  ) (* end of [S2Eextype] *)
+| S2Eextkind
+  (name1, s2ess1) => (
+  case+ s2en20 of
+  | S2Eextkind
+      (name2, s2ess2) => (
+    if name1 = name2
+      then (
+        s2explstlst_syneq_env(env1, env2, s2ess1, s2ess2)
+      ) else false
+    ) // end of [S2Eextkind]
+  | _ (* non-S2Eextkind *) => false
+  ) (* end of [S2Eextkind] *)
+//
+| S2Evar(s2v1) => (
+  case+ s2en20 of
+  | S2Evar(s2v2) => s2var_syneq_env (env1, env2, s2v1, s2v2)
+  | _ (* non-S2Evar *) => false
+  ) (* end of [S2Evar] *)
+//
+| S2EVar(s2V1) => (
+  case+ s2en20 of
+  | S2EVar(s2V2) =>
+    if s2V1 = s2V2 then true else false
+  | _ (* non-S2EVar *) => false
+  ) (* end of [S2EVar] *)
+//
+| S2Eapp
+    (s2e11, s2es12) => (
+  case+ s2en20 of
+  | S2Eapp
+      (s2e21, s2es22) => let
+      val syneq =
+        s2exp_syneq_env (env1, env2, s2e11, s2e21)
+    in
+      if syneq then
+        s2explst_syneq_env (env1, env2, s2es12, s2es22) else false
+      // end of [if]
+    end // end of [S2Eapp]
+  | _ (* non-S2Eapp *) => false
+  ) (* end of [S2Eapp] *)
+//
+| S2Efun (
+    fc1, lin1, s2fe1, npf1, s2es1_arg, s2e1_res
+  ) => (
+  case+ s2en20 of
+  | S2Efun (
+      fc2, lin2, s2fe2, npf2, s2es2_arg, s2e2_res
+    ) => let
+      val syneq =
+        (if fc1 = fc2 then true else false): bool
+      val syneq =
+        (if syneq then lin1 = lin2 else false): bool
+      val syneq =
+        (if syneq then s2eff_syneq (s2fe1, s2fe2) else false): bool
+      val syneq =
+        (if syneq then npf1 = npf2 else false): bool
+      val syneq = (
+        if syneq
+          then s2explst_syneq_env(env1, env2, s2es1_arg, s2es2_arg)
+          else false
+      ) : bool // end of [val]
+    in
+      if syneq then
+        s2exp_syneq_env (env1, env2, s2e1_res, s2e2_res) else false
+      // end of [if]
+    end // end of [S2Efun]
+  | _ (* non-S2Efun *) => false
+  ) (* end of [S2Efun] *)
+//
+| S2Etop
+    (knd1, s2e1) => (
+  case+ s2en20 of
+  | S2Etop
+      (knd2, s2e2) => (
+    if knd1 = knd2 then
+      s2exp_syneq_env(env1, env2, s2e1, s2e2) else false
+    ) // end of [S2Etop]
+  | _ (* non-S2Etop *) => false
+  ) (* end of [S2Etop] *)
+//
+| S2Ewithout (s2e1) => (
+  case+ s2en20 of
+  | S2Ewithout (s2e2) => s2exp_syneq_env (env1, env2, s2e1, s2e2)
+  | _ (* non-S2Ewithout *) => false
+  ) // end of [S2Ewithout]
+//
+| S2Etyarr
+    (s2e1_elt, s2es1_int) => (
+  case+ s2en20 of
+  | S2Etyarr
+      (s2e2_elt, s2es2_int) => let
+      val syneq =
+        s2exp_syneq_env (env1, env2, s2e1_elt, s2e2_elt)
+    in
+      if syneq
+        then s2explst_syneq_env (env1, env2, s2es1_int, s2es2_int)
+        else false
+      // end of [if]
+    end // [S2Etyarr]
+  | _ (* non-S2Etyarr *) => false
+  ) (* end of [S2Etyarr] *)
+//
+| S2Etyrec
+    (knd1, npf1, ls2es1) => (
+  case+ s2en20 of
+  | S2Etyrec
+      (knd2, npf2, ls2es2) => let
+      val syneq =
+        (if knd1 = knd2 then true else false): bool
+      val syneq =
+        (if syneq then npf1 = npf2 else false): bool
+    in
+      if syneq
+        then labs2explst_syneq_env (env1, env2, ls2es1, ls2es2)
+        else false
+      // end of [if]
+    end // [S2Etyrec]
+  | _ (* non-S2Etyrec *) => false
+  ) (* end of [S2Etyrec] *)
+//
+| S2Einvar (s2e1) => (
+  case+ s2en20 of
+  | S2Einvar (s2e2) => s2exp_syneq_env (env1, env2, s2e1, s2e2)
+  | _ (* non-S2Einvar *) => false
+  ) (* end of [S2Einvar] *)
+//
+| S2Eexi
+    (s2vs1, s2ps1, s2e1) => (
+  case+ s2en20 of
+  | S2Eexi
+      (s2vs2, s2ps2, s2e2) => let
+      val env1 = auxextenv (env1, s2vs1)
+      val env2 = auxextenv (env2, s2vs2)
+      val syneq =
+        s2explst_syneq_env (env1, env2, s2ps1, s2ps2)
+      val syneq =
+      (
+        if syneq then
+          s2exp_syneq_env (env1, env2, s2e1, s2e2) else false
+        // end of [if]
+      ) : bool // end of [val]
+      val () = list_vt_free (env1) and () = list_vt_free (env2)
+    in
+      syneq
+    end // end of [S2Eexi]
+  | _ (* non-S2Eexi *) => false
+  ) (* end of [S2EVar] *)
+//
+| S2Erefarg
+    (knd1, s2e1) => (
+  case+ s2en20 of
+  | S2Erefarg
+      (knd2, s2e2) => (
+    if knd1 = knd2
+      then s2exp_syneq_env (env1, env2, s2e1, s2e2) else false
+    ) // end of [S2Erefarg]
+  | _ (* non-S2Erefarg *) => false
+  ) (* end of [S2Erefarg] *)
+//
+| S2Evararg (s2e1) => (
+  case+ s2en20 of
+  | S2Evararg (s2e2) => s2exp_syneq_env (env1, env2, s2e1, s2e2)
+  | _ (* non-S2Evararg *) => false
+  ) (* end of [S2Evararg] *)
+//
 | _ (* rest-of-s2exp *) => false
 //
 end // end of [s2hnf_syneq_env]
@@ -1122,20 +1487,20 @@ end // end of [local]
 
 implement
 s2exp_syneq_env
-  (env, s2e10, s2e20) = let
+  (env1, env2, s2e10, s2e20) = let
 //
 val s2f10 = s2exp2hnf (s2e10)
 and s2f20 = s2exp2hnf (s2e20)
 //
 in
-  s2hnf_syneq_env (env, s2f10, s2f20)
+  s2hnf_syneq_env (env1, env2, s2f10, s2f20)
 end // end of [s2exp_syneq_env]
 
 (* ****** ****** *)
 
 implement
 s2explst_syneq_env
-  (env, s2es1, s2es2) =
+  (env1, env2, s2es1, s2es2) =
 (
 //
 case+ s2es1 of
@@ -1146,20 +1511,117 @@ case+ s2es1 of
     | list_cons _ => false
   )
 | list_cons
-    (s2e1, s2es2) =>
+    (s2e1, s2es1) =>
   (
     case+ s2es2 of
     | list_nil () => false
     | list_cons
         (s2e2, s2es2) =>
       (
-        if s2exp_syneq_env (env, s2e1, s2e2)
-          then s2explst_syneq_env (env, s2es1, s2es2) else false
+        if s2exp_syneq_env (env1, env2, s2e1, s2e2)
+          then s2explst_syneq_env (env1, env2, s2es1, s2es2) else false
       ) (* end of [list_cons] *)
   ) (* end of [list_cons] *)
 //
 ) (* end of [s2explst_syneq_env] *)
 
+(* ****** ****** *)
+
+implement
+s2explstlst_syneq_env
+  (env1, env2, s2ess1, s2ess2) =
+(
+//
+case+ s2ess1 of
+| list_nil () =>
+  (
+    case+ s2ess2 of
+    | list_nil () => true
+    | list_cons _ => false
+  )
+| list_cons
+    (s2es1, s2ess1) =>
+  (
+    case+ s2ess2 of
+    | list_nil () => false
+    | list_cons
+        (s2es2, s2ess2) =>
+      (
+        if s2explst_syneq_env (env1, env2, s2es1, s2es2)
+          then s2explstlst_syneq_env (env1, env2, s2ess1, s2ess2) else false
+      ) (* end of [list_cons] *)
+  ) (* end of [list_cons] *)
+//
+) (* end of [s2explstlst_syneq_env] *)
+
+(* ****** ****** *)
+
+implement
+labs2explst_syneq_env
+(
+  env1, env2, ls2es1, ls2es2
+) = let
+in
+//
+case+
+(
+ ls2es1,ls2es2
+) of // case+
+| (list_cons (ls2e1, ls2es1),
+   list_cons (ls2e2, ls2es2)) => let
+    val SLABELED (l1, _(*opt*), s2e1) = ls2e1
+    val SLABELED (l2, _(*opt*), s2e2) = ls2e2
+  in
+    if (l1 = l2) then let
+      val syneq =
+        s2exp_syneq_env(env1, env2, s2e1, s2e2)
+      // end of [val]
+    in
+      if syneq
+        then labs2explst_syneq_env(env1, env2, ls2es1, ls2es2)
+        else false
+    end else $raise (SYNEQexn)
+  end // end of [cons, cons]
+| (list_nil (), list_nil ()) => true
+| (_(*ls2es1*), _(*ls2es2*)) => false
+//
+end // end of [labs2explst_syneq_env]
+
+(* ****** ****** *)
+//
+implement
+s2hnf_syneq2
+  (s2f1, s2f2) = syneq where
+{
+  val env1 = list_vt_nil()
+  val env2 = list_vt_nil()
+  val syneq =
+    s2hnf_syneq_env (env1, env2, s2f1, s2f2)
+  val () = list_vt_free (env1) and () = list_vt_free (env2)
+} (* end of [s2hnf_syneq2] *)
+//
+implement
+s2exp_syneq2
+  (s2e1, s2e2) = syneq where
+{
+  val env1 = list_vt_nil()
+  val env2 = list_vt_nil()
+  val syneq =
+    s2exp_syneq_env (env1, env2, s2e1, s2e2)
+  val () = list_vt_free (env1) and () = list_vt_free (env2)
+} (* end of [s2exp_syneq2] *)
+//
+implement
+s2explst_syneq2
+  (s2es1, s2es2) = syneq where
+{
+  val env1 = list_vt_nil()
+  val env2 = list_vt_nil()
+  val syneq =
+    s2explst_syneq_env (env1, env2, s2es1, s2es2)
+  val () = list_vt_free (env1) and () = list_vt_free (env2)
+} (* end of [s2explst_syneq2] *)
+//
 (* ****** ****** *)
 
 local
