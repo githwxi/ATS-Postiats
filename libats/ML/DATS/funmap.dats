@@ -57,7 +57,7 @@ map_type (key:t0p, itm:t0p) = $FM.map (key, itm)
 (* ****** ****** *)
 
 implement{a}
-compare_key_key = gcompare_val<a>
+compare_key_key = gcompare_val_val<a>
 implement{a}
 $FM.compare_key_key = compare_key_key<a>
 

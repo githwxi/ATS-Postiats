@@ -55,7 +55,7 @@ staload "libats/ML/SATS/funset.sats"
 (* ****** ****** *)
 
 implement{a}
-compare_elt_elt = gcompare_val<a>
+compare_elt_elt = gcompare_val_val<a>
 implement{a}
 $FS.compare_elt_elt = compare_elt_elt<a>
 
