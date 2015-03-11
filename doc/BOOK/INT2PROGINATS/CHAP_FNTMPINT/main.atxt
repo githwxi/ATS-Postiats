@@ -32,6 +32,13 @@ they are not even necessary for compiling ATS source into executable binaries.
 
 ')#comment("para")
 
+#para("\
+
+The code employed for illustration in this chapter plus some additional
+code for testing is available #mycodelink("CHAP_FNTMPINT/", "on-line").\
+
+")
+
 <!-- ****** ****** -->
 
 <sect1
@@ -51,7 +58,7 @@ fun{a:t@ype} myprint (x: a): void
 ')
 
 Given a value, #dyncode("myprint") is supposed to print out some kind of
-representation for this value. For instance, we can implement
+representation for this value. For example, we can implement
 #dyncode("myprint") as follows:
 
 #atscode('\
@@ -88,13 +95,14 @@ implement(a)
 myprint<List(a)> (xs) =
 case+ xs of
 | list_nil () => ()
-| list_cons (x, xs) => (myprint<a> (x); myprint<List(a)> (xs))
+| list_cons (x, xs) =>
+    (myprint<a> (x); myprint<List(a)> (xs))
 ')
 
 This implementation of #dyncode("myprint") is often referred to as a
 partially generic template implementation. In order for an instance of
 #dyncode("myprint") to use this implementation, the template parameter for
-the instance must be of the form #stacode("List(T)") for some type T.
+the instance must be of the form #stacode("List(T)") for some type T.\
 
 ')#comment("para")
 
@@ -105,10 +113,92 @@ obvious partial ordering referred to as genericity ordering: The genericity
 of one implementation is less than or equal to that of another one if the
 former implementation is an instance of the latter one. Please note that
 the first-fit (instead of best-fit) strategy is employed to locate the
-template implementation needed for compiling a given template
-instance. More specifically, locating the template implementation for a
-particular template instance follows the standard principle of lexical
-scoping to search for the first one that is available for use.
+template implementation needed for compiling a given template instance.
+More specifically, locating the template implementation for a particular
+template instance follows the standard principle of lexical scoping to
+search for the first one that is available for use.
+
+')#comment("para")
+
+#para('\
+
+In practice, there is quite a bit of subtlety in choosing a template
+implementation for a template instance. Let #dyncode("myprint2") be a
+function template of the following interface:
+
+#atscode('\
+fun{a:t@ype} myprint2 (x: a): int
+')
+
+Following is a partially generic implementation of #dyncode("myprint2"):
+
+#atscode('\
+//
+implement(a)
+myprint<List(a)> (xs) =
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) =>
+    (myprint<a> (x); 1 + myprint2 (xs))
+//
+')
+
+This template implementation actually behaves quite differently from what
+one might have expected. Note that the template parameter of the called
+instance of #dyncode("myprint2") in the body of the implementation is
+synthesized to be a type of the form #stacode("list(a, N)") for some static
+term N (of the sort #stacode("int")). As this form can never match
+#stacode("List(T)") for any type T, the called instance of the template
+#dyncode("myprint2") cannot be compiled according to the given template
+implementation of #dyncode("myprint2"). This issue can be readily fixed by
+passing explicity the type #stacode("List(a)") (as a template parameter) to
+the called instance of #dyncode("myprint2"):
+
+#atscode('\
+//
+implement(a)
+myprint<List(a)> (xs) =
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) =>
+    (myprint<a> (x); 1 + myprint2<List(a)> (xs))
+//
+')
+
+The instance #dyncode("myprint2&lt;List(a)&gt;") in this example is often
+referred to as a recursive instance. In general, it is a good programming
+practice to #emphasis("avoid") using recursive instances. For example, the
+following equivalent implementation of #dyncode("myprint2") makes no use of
+recursive instances:
+
+#atscode('\
+//
+implement(a)
+myprint2<List(a)>
+  (xs) = let
+//
+fun
+aux
+(xs: List(a)): int =
+//
+case+ xs of
+| list_nil () => 0
+| list_cons (x, xs) => (myprint<a>(x); 1 + aux(xs))
+//
+in
+  aux (xs)
+end // end of [myprint2<List(a)>]
+//
+')
+
+')#comment("para")
+
+
+#para('\
+
+Please find on-line the file
+#mycodelink("CHAP_FNTMPINT/myprint.dats", "myprint.dats") containing the
+entirety of the code presented in this section plus some testing code.\
 
 ')#comment("para")
 
@@ -123,7 +213,7 @@ scoping to search for the first one that is available for use.
 #para("\
 
 There are many types of numbers in ATS. With function templates, we can
-greatly enhance code sharing in numerical computation. For instance, we can
+greatly enhance code sharing in numerical computation. For example, we can
 give a generic implementation of matrix multiplication of the following
 interface:
 
@@ -508,7 +598,7 @@ if count < limit
 ) (* end of [for_loop] *)
 ')
 
-For instance, the following function #dyncode("tally2") is directly based
+For example, the following function #dyncode("tally2") is directly based
 on #dyncode("for_loop"):
 
 #atscode('\

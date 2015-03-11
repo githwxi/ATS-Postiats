@@ -31,7 +31,8 @@ features in ATS, which will be presented in this book later.\
 #para("\
 
 The code employed for illustration in this chapter plus some additional
-code for testing is available #mycodelink("CHAP_FUNCTION/", "on-line").
+code for testing is available #mycodelink("CHAP_FUNCTION/", "on-line").\
+
 ")
 
 <sect1
