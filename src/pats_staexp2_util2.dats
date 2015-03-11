@@ -1083,47 +1083,7 @@ end // end of [s2hnf_syneq]
 // this version handles bound variables
 //
 (* ****** ****** *)
-
-extern
-fun
-s2var_syneq_env
-(
-  env1: !s2varlst_vt
-, env2: !s2varlst_vt
-, s2v1: s2var, s2v2: s2var
-) : bool // end of [s2var_syneq_env]
-extern
-fun
-s2hnf_syneq_env
-(
-  env1: !s2varlst_vt
-, env2: !s2varlst_vt
-, s2f1: s2hnf, s2f2: s2hnf
-) : bool // end of [s2hnf_syneq_env]
-extern
-fun
-s2exp_syneq_env
-(
-  env1: !s2varlst_vt
-, env2: !s2varlst_vt
-, s2e1: s2exp, s2e2: s2exp
-) : bool // end of [s2exp_syneq_env]
-extern
-fun
-s2explst_syneq_env
-(
-  env1: !s2varlst_vt
-, env2: !s2varlst_vt
-, s2es1: s2explst, s2es2: s2explst
-) : bool // end of [s2explst_syneq_env]
-extern
-fun
-s2explstlst_syneq_env
-(
-  env1: !s2varlst_vt
-, env2: !s2varlst_vt
-, s2ess1: s2explstlst, s2ess2: s2explstlst
-) : bool // end of [s2explstlst_syneq_env]
+//
 extern
 fun
 labs2explst_syneq_env
@@ -1132,7 +1092,7 @@ labs2explst_syneq_env
 , env2: !s2varlst_vt
 , ls2es1: labs2explst, ls2es2: labs2explst
 ) : bool // end of [labs2explst_syneq_env]
-
+//
 (* ****** ****** *)
 
 local
@@ -1247,14 +1207,14 @@ end // end of [local]
 local
 
 fun
-auxextenv
+auxenv
 (
   env: !s2varlst_vt, s2vs: s2varlst
 ) : s2varlst_vt = let
   val env2 = list_vt_copy (env)
 in
   list_reverse_append2_vt<s2var> (s2vs, env2)
-end // end of [auxextenv]
+end // end of [auxenv]
 
 in (* in-of-local *)
 
@@ -1449,8 +1409,8 @@ case+ s2en10 of
   case+ s2en20 of
   | S2Eexi
       (s2vs2, s2ps2, s2e2) => let
-      val env1 = auxextenv (env1, s2vs1)
-      val env2 = auxextenv (env2, s2vs2)
+      val env1 = auxenv (env1, s2vs1)
+      val env2 = auxenv (env2, s2vs2)
       val syneq =
         s2explst_syneq_env (env1, env2, s2ps1, s2ps2)
       val syneq =

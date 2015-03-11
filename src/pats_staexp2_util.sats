@@ -225,9 +225,52 @@ fun s2explst_syneq (xs1: s2explst, xs2: s2explst): bool
 // HX-2015-03:
 // this version handles bound variables:
 //
-fun s2hnf_syneq2 (s2f1: s2hnf, s2f2: s2hnf): bool
-fun s2exp_syneq2 (s2e1: s2exp, s2e2: s2exp): bool
-fun s2explst_syneq2 (xs1: s2explst, xs2: s2explst): bool
+fun
+s2hnf_syneq2 (s2f1: s2hnf, s2f2: s2hnf): bool
+fun
+s2exp_syneq2 (s2e1: s2exp, s2e2: s2exp): bool
+fun
+s2explst_syneq2 (xs1: s2explst, xs2: s2explst): bool
+//
+fun
+s2var_syneq_env
+(
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, s2v1: s2var, s2v2: s2var
+) : bool // end of [s2var_syneq_env]
+//
+fun
+s2hnf_syneq_env
+(
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, s2f1: s2hnf, s2f2: s2hnf
+) : bool // end of [s2hnf_syneq_env]
+//
+fun
+s2exp_syneq_env
+(
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, s2e1: s2exp, s2e2: s2exp
+) : bool // end of [s2exp_syneq_env]
+//
+fun
+s2explst_syneq_env
+(
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, s2es1: s2explst, s2es2: s2explst
+) : bool // end of [s2explst_syneq_env]
+//
+fun
+s2explstlst_syneq_env
+(
+  env1: !s2varlst_vt
+, env2: !s2varlst_vt
+, s2ess1: s2explstlst, s2ess2: s2explstlst
+) : bool // end of [s2explstlst_syneq_env]
 //
 (* ****** ****** *)
 

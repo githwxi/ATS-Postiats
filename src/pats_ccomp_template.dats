@@ -272,60 +272,160 @@ case+ env of
     (s2v, s2f, env) => let
     val s2e = s2hnf2exp (s2f)
   in
-    TMPSUBcons (s2v, s2e, aux (env, tsub))
+    TMPSUBcons(s2v, s2e, aux (env, tsub))
   end // end of [IMPENVcons]
-| ~IMPENVnil () => tsub
+| ~IMPENVnil((*void*)) => tsub
 //
 end // end of [aux]
 //
 in
-  aux (env, TMPSUBnil ())
+  aux (env, TMPSUBnil(*void*))
 end // end of [impenv2tmpsub]
 //
 (* ****** ****** *)
 
 local
 
+(* ****** ****** *)
+
+fun
+auxenv
+(
+  env: !s2varlst_vt, s2vs: s2varlst
+) : s2varlst_vt = let
+  val env2 = list_vt_copy (env)
+in
+  list_reverse_append2_vt<s2var> (s2vs, env2)
+end // end of [auxenv]
+
+(* ****** ****** *)
+
+fun
+auxfvar
+(
+  env: !s2varlst_vt, s2v0: s2var
+) : bool =
+(
+case+ env of
+| list_vt_cons
+    (s2v, !p_env1) => (
+    if (s2v = s2v0)
+      then (fold@env; false)
+      else let
+        val ans =
+          auxfvar(!p_env1, s2v0)
+        // end of [val]
+        prval ((*void*)) = fold@env
+      in
+        ans
+      end // end of [else]
+  ) (* end of [list_vt_cons] *)
+| list_vt_nil() => (fold@env; true)
+) (* end of [auxbvar] *)
+
+(* ****** ****** *)
+
 fun
 auxmat
 (
   env: !impenv
-, s2e_pat: s2exp
-, s2e_arg: s2exp
+, s2e0_pat: s2exp, s2e0_arg: s2exp
+) : bool = ismatch where
+{
+//
+val env_pat = list_vt_nil()
+and env_arg = list_vt_nil()
+//
+val
+ismatch =
+auxmat_env
+(
+  env, env_pat, env_arg, s2e0_pat, s2e0_arg
+) (* end of [val] *)
+//
+val ((*void*)) = list_vt_free (env_pat)
+val ((*void*)) = list_vt_free (env_arg)
+//
+} (* end of [auxmat] *)
+
+and
+auxmatlst
+(
+  env: !impenv
+, s2es_pat: s2explst, s2es_arg: s2explst
+) : bool = ismatch where
+{
+//
+val env_pat = list_vt_nil()
+and env_arg = list_vt_nil()
+//
+val
+ismatch =
+auxmatlst_env
+(
+  env, env_pat, env_arg, s2es_pat, s2es_arg
+) (* end of [val] *)
+//
+val ((*void*)) = list_vt_free (env_pat)
+val ((*void*)) = list_vt_free (env_arg)
+//
+} (* end of [auxmatlst] *)
+
+(* ****** ****** *)
+
+and
+auxmat_env
+(
+  env: !impenv
+, env_pat: !s2varlst_vt
+, env_arg: !s2varlst_vt
+, s2e0_pat: s2exp, s2e0_arg: s2exp
 ) : bool = let
 //
-val s2f_pat = s2exp2hnf (s2e_pat)
-val s2f_arg = s2exp2hnf (s2e_arg)
-val s2e_pat = s2hnf2exp (s2f_pat)
-val s2e_arg = s2hnf2exp (s2f_arg)
-val s2en_pat = s2e_pat.s2exp_node
-val s2en_arg = s2e_arg.s2exp_node
+val s2f0_pat = s2exp2hnf(s2e0_pat)
+val s2f0_arg = s2exp2hnf(s2e0_arg)
+val s2e0_pat = s2hnf2exp(s2f0_pat)
+val s2e0_arg = s2hnf2exp(s2f0_arg)
+val s2en_pat = s2e0_pat.s2exp_node
+val s2en_arg = s2e0_arg.s2exp_node
 //
 (*
-val () = println! ("auxmat: s2e_pat(aft) = ", s2e_pat)
-val () = println! ("auxmat: s2e_arg(aft) = ", s2e_arg)
+val () = println! ("auxmat_env: s2e0_pat(aft) = ", s2e0_pat)
+val () = println! ("auxmat_env: s2e0_arg(aft) = ", s2e0_arg)
 *)
 //
 in
 //
-case+ s2en_pat of
+case+
+s2en_pat of
 //
 | S2Evar(s2v) => let
-    val s2f =
-      impenv_find (env, s2v)
+    val ans =
+      auxfvar (env_pat, s2v)
     // end of [val]
-    val iserr = s2hnf_is_err (s2f)
   in
-    if iserr then
-    (
-      impenv_update(env, s2v, s2f_arg)
-    ) else (s2hnf_syneq2 (s2f, s2f_arg))
+    case+ ans of
+    | true => let
+        val s2f =
+          impenv_find (env, s2v)
+        // end of [val]
+        val iserr = s2hnf_is_err (s2f)
+      in
+        if iserr
+          then (
+            impenv_update (env, s2v, s2f0_arg)
+          ) else (s2hnf_syneq2 (s2f, s2f0_arg))
+       end (* [true] *)
+     | false =>
+       s2hnf_syneq_env
+         (env_pat, env_arg, s2f0_pat, s2f0_arg)
+       (* end of [false] *)
   end // end of [S2Evar]
 //
 | S2Ecst(s2c) => let
   in
     case+ s2en_arg of
-    | S2Ecst (s2c_arg) =>
+    | S2Ecst(s2c_arg) =>
         if s2c = s2c_arg then true else false
       // end of [S2Ecst]
     | _ (* non-S2Ecst *) => false
@@ -341,10 +441,18 @@ case+ s2en_pat of
       (
         s2e_arg, s2es_arg
       ) => let
-        val ans = auxmat (env, s2e_pat, s2e_arg)
+        val
+        ismatch =
+        auxmat_env
+          (env, env_pat, env_arg, s2e_pat, s2e_arg)
+        // end of [val]
       in
-        if ans then
-          auxmatlst (env, s2es_pat, s2es_arg) else false
+        if ismatch
+          then
+          auxmatlst_env
+            (env, env_pat, env_arg, s2es_pat, s2es_arg)
+          // end of [then]
+          else false
         // end of [if]
       end // end of [S2Eapp]
     | _ (* non-S2Eapp *) => false
@@ -355,35 +463,79 @@ case+ s2en_pat of
     knd, npf, ls2es_pat
   ) => let
   in
-    case+ s2en_arg of
+    case+
+    s2en_arg of
     | S2Etyrec
       (
         knd2, npf2, ls2es_arg
       ) => (
-        if knd = knd2 then
-          auxlabmatlst (env, ls2es_pat, ls2es_arg) else false
+        if knd = knd2
+          then
+          auxlabmatlst_env
+            (env, env_pat, env_arg, ls2es_pat, ls2es_arg)
+          // end of [then]
+          else false
         // end of [if]
       ) // end of [S2Etyrec]
     | _ (* non-S2Etyrec *) => false
   end // end of [S2Etyrec]
 //
-| _ when s2hnf_syneq2 (s2f_pat, s2f_arg) => true
+| S2Eexi
+  (
+    s2vs_pat, s2ps_pat, s2e_pat
+  ) => let
+  in
+    case+ s2en_arg of
+    | S2Eexi
+      (
+        s2vs_arg, s2ps_arg, s2e_arg
+      ) => ismatch where
+      {
+        val
+        env_pat = auxenv (env_pat, s2vs_pat)
+        val
+        env_arg = auxenv (env_arg, s2vs_arg)
+        val
+        syneq =
+        s2explst_syneq_env
+        (
+          env_pat, env_arg, s2ps_pat, s2ps_arg
+        ) (* end of [val] *)
+        val
+        ismatch =
+        (
+          if syneq
+            then (
+              auxmat_env (env, env_pat, env_arg, s2e_pat, s2e_arg)
+            ) else false
+        ) : bool // end of [val]
+        val () = list_vt_free(env_pat)
+        and () = list_vt_free(env_arg)
+      } (* [S2Eexi] *)
+    | _ (* non-S2Eexi *) => false
+  end // end of [S2Eexi]
 //
-| _ => false
+| _ when
+    s2hnf_syneq_env
+      (env_pat, env_arg, s2f0_pat, s2f0_arg) => true
+    // end of [when]
 //
-end // end of [auxmat]
+| _ (* rest-of-s2exp *) => false
+//
+end // end of [auxmat_env]
 
 and
-auxmatlst
+auxmatlst_env
 (
   env: !impenv
-, s2es_pat: s2explst
-, s2es_arg: s2explst
+, env_pat: !s2varlst_vt
+, env_arg: !s2varlst_vt
+, s2es_pat: s2explst, s2es_arg: s2explst
 ) : bool = let
 //
 (*
-val () = println! ("auxmatlst: s2es_pat = ", s2es_pat)
-val () = println! ("auxmatlst: s2es_arg = ", s2es_arg)
+val () = println! ("auxmatlst_env: s2es_pat = ", s2es_pat)
+val () = println! ("auxmatlst_env: s2es_arg = ", s2es_arg)
 *)
 //
 in
@@ -398,9 +550,13 @@ s2es_pat of
     | list_cons (
         s2e_arg, s2es_arg
       ) => let
-         val ans = auxmat (env, s2e_pat, s2e_arg)
+         val ismatch =
+           auxmat_env (env, env_pat, env_arg, s2e_pat, s2e_arg)
        in
-         if ans then auxmatlst (env, s2es_pat, s2es_arg) else false
+         if ismatch
+           then (
+             auxmatlst_env (env, env_pat, env_arg, s2es_pat, s2es_arg)
+           ) else false
        end // end of [list_cons]
      | list_nil () => true // HX: deadcode
   ) // end of [list_cons]
@@ -409,45 +565,61 @@ s2es_pat of
 end // end of [auxmatlst]
 
 and
-auxlabmatlst
+auxlabmatlst_env
 (
   env: !impenv
-, ls2es_pat: labs2explst
-, ls2es_arg: labs2explst
+, env_pat: !s2varlst_vt, env_arg: !s2varlst_vt
+, ls2es_pat: labs2explst, ls2es_arg: labs2explst
 ) : bool = let
 (*
 val out = stdout_ref
-val () = fprintln! (out, "auxlabmatlst: ls2es_pat = ", ls2es_pat)
-val () = fprintln! (out, "auxlabmatlst: ls2es_arg = ", ls2es_arg)
+val () = fprintln! (out, "auxlabmatlst_env: ls2es_pat = ", ls2es_pat)
+val () = fprintln! (out, "auxlabmatlst_env: ls2es_arg = ", ls2es_arg)
 *)
 in
 //
-case+ ls2es_pat of
+case+
+ls2es_pat of
 | list_cons _ => (
   case+ ls2es_arg of
   | list_cons _ => let
-      val+list_cons (lx1, ls2es_pat) = ls2es_pat
-      val+list_cons (lx2, ls2es_arg) = ls2es_arg
-      val+SLABELED (l1, _, x1) = lx1 and SLABELED (l2, _, x2) = lx2
-      val ans = (
-        if l1 = l2 then auxmat (env, x1, x2) else false
+      val+list_cons
+        (lx1, ls2es_pat) = ls2es_pat
+      val+list_cons
+        (lx2, ls2es_arg) = ls2es_arg
+      val+SLABELED (l1, _, x1) = lx1
+      and SLABELED (l2, _, x2) = lx2
+      val
+      ismatch =
+      (
+        if l1 = l2
+          then (
+            auxmat_env (env, env_pat, env_arg, x1, x2)
+          ) else false
       ) : bool // end of [val]
     in
-      if ans then auxlabmatlst (env, ls2es_pat, ls2es_arg) else false
+      if ismatch
+        then
+        auxlabmatlst_env
+          (env, env_pat, env_arg, ls2es_pat, ls2es_arg)
+        // end of [then]
+        else false
     end // end of [list_cons]
-  | list_nil () => false
-  ) (* end o [cons] *)
-| list_nil () => (
-  case+ ls2es_arg of
-  | list_cons _ => false | list_nil () => true
-  ) // end of [list_nil]
+  | list_nil ((*void*)) => false
+  ) (* [list_cons] *)
+| list_nil () =>
+    (case+ ls2es_arg of list_cons _ => false | list_nil() => true)
+  (* end of [list_nil] *)
 //
-end // end of [auxlabmatlst]
+end // end of [auxlabmatlst_env]
+
+(* ****** ****** *)
 
 fun
 auxmatlstlst
 (
-  env: !impenv, s2ess: s2explstlst, t2mas: t2mpmarglst
+  env: !impenv
+, s2ess: s2explstlst, t2mas: t2mpmarglst
 ) : bool = let
 in
 //
@@ -471,7 +643,8 @@ end // end of [auxmatlstlst]
 
 (* ****** ****** *)
 
-fun auxbndlstlst
+fun
+auxbndlstlst
 (
   s2vs: s2varlst, t2mas: t2mpmarglst
 ) : tmpsub = let

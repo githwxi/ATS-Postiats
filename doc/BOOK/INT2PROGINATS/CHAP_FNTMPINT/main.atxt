@@ -80,21 +80,21 @@ where #dyncode("print_int") is called to print out a given integer. This
 implementation of #dyncode("myprint") is often referred to as a specific
 template implementation due to the template parameter being bound to a
 specific type (that is, #stacode("int") in this case). The following code
-implements #dyncode("myprint") for list0-values (that is, values of type
-#stacode("list0(T)") for some type T):
+implements #dyncode("myprint") for list-values (that is, values of type
+#stacode("List(T)") for some type T):
 
 #atscode('\
 implement(a)
-myprint<list0(a)> (xs) =
+myprint<List(a)> (xs) =
 case+ xs of
-| list0_nil () => ()
-| list0_cons (x, xs) => (myprint<a> (x); myprint<list0(a)> (xs))
+| list_nil () => ()
+| list_cons (x, xs) => (myprint<a> (x); myprint<List(a)> (xs))
 ')
 
 This implementation of #dyncode("myprint") is often referred to as a
 partially generic template implementation. In order for an instance of
 #dyncode("myprint") to use this implementation, the template parameter for
-the instance must be of the form #stacode("list0(T)") for some type T.
+the instance must be of the form #stacode("List(T)") for some type T.
 
 ')#comment("para")
 
