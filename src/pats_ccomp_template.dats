@@ -505,9 +505,11 @@ s2en_pat of
         ismatch =
         (
           if syneq
-            then (
-              auxmat_env (env, env_pat, env_arg, s2e_pat, s2e_arg)
-            ) else false
+            then
+            auxmat_env
+              (env, env_pat, env_arg, s2e_pat, s2e_arg)
+            // end of [then]
+            else false
         ) : bool // end of [val]
         val () = list_vt_free(env_pat)
         and () = list_vt_free(env_arg)
