@@ -135,7 +135,7 @@ Following is a partially generic implementation of #dyncode("myprint2"):
 #atscode('\
 //
 implement(a)
-myprint<List(a)> (xs) =
+myprint2<List(a)> (xs) =
 case+ xs of
 | list_nil () => ()
 | list_cons (x, xs) =>
@@ -157,7 +157,7 @@ the called instance of #dyncode("myprint2"):
 #atscode('\
 //
 implement(a)
-myprint<List(a)> (xs) =
+myprint2<List(a)> (xs) =
 case+ xs of
 | list_nil () => ()
 | list_cons (x, xs) =>
