@@ -37,12 +37,12 @@
 // For quickly building a hashmap interface
 //
 (* ****** ****** *)
+//
 (*
-//
-typedef key = ...
-typedef itm = ...
-//
+typedef key = int/string
+typedef itm = int/string/...
 *)
+//
 (* ****** ****** *)
 //
 abstype
@@ -144,6 +144,18 @@ overload fprint with fprint_myhashtbl
 //
 extern
 fun
+myhashtbl_foreach_cloref
+(
+  tbl: myhashtbl
+, fwork: (key, &(itm) >> _) -<cloref1> void
+) : void // end-of-function
+//
+overload .foreach_cloref with myhashtbl_foreach_cloref
+//
+(* ****** ****** *)
+//
+extern
+fun
 myhashtbl_listize1
   (tbl: myhashtbl): List0 @(key, itm)
 //
@@ -208,6 +220,11 @@ myhashtbl_takeout_all
 implement
 fprint_myhashtbl
   (out, tbl) = fprint_hashtbl<key,itm>(out, tbl)
+//
+implement
+myhashtbl_foreach_cloref
+  (tbl, fwork) =
+  hashtbl_foreach_cloref<key,itm>(tbl, fwork)
 //
 implement
 myhashtbl_listize1

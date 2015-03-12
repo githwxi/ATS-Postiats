@@ -263,6 +263,26 @@ fprint_hashtbl$mapto (out) = fprint (out, "->")
 
 implement
 {key,itm}
+hashtbl_foreach_cloref
+  (tbl, fwork) = () where
+{
+//
+var env: void = ((*void*))
+//
+implement
+(env)(*tmp*)
+$HT.hashtbl_foreach$fwork<key,itm><env> (k, x, env) = fwork(k, x)
+//
+val tbl = htdecode (tbl)
+val ((*void*)) = $HT.hashtbl_foreach_env<key,itm><void> (tbl, env)
+prval ((*void*)) = $UN.cast2void (tbl)
+//
+} (* end of [hashtbl_foreach_cloref] *)
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 hashtbl_listize1
   (tbl) = kxs where
 {
