@@ -57,6 +57,15 @@ cleanall:: ; $(RMF) list_map
 
 ######
 
+all:: \
+intfloat
+intfloat: intfloat.dats ; \
+  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<
+regress:: intfloat ; ./intfloat
+cleanall:: ; $(RMF) intfloat
+
+######
+
 RMF=rm -f
 
 ######

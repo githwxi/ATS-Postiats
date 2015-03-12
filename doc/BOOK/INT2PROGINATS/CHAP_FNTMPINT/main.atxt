@@ -102,7 +102,19 @@ case+ xs of
 This implementation of #dyncode("myprint") is often referred to as a
 partially generic template implementation. In order for an instance of
 #dyncode("myprint") to use this implementation, the template parameter for
-the instance must be of the form #stacode("List(T)") for some type T.\
+the instance must be of the form #stacode("List(T)") for some type T.
+As an example, the following code calls an instance of #dyncode("myprint")
+to print out a list of two integer lists:
+
+#atscode('\
+(*
+** The output is "0123401234"
+*)
+val ys = $list{int}(0,1,2,3,4)
+val yss = $list{List(int)}(ys, ys)
+val ((*void*)) = myprint<List(List(int))> (yss)
+val ((*void*)) = print_newline((*void*))
+')
 
 ')#comment("para")
 
@@ -122,7 +134,7 @@ search for the first one that is available for use.
 
 #para('\
 
-In practice, there is quite a bit of subtlety in choosing a template
+In practice, there is quite a bit of subtlety in locating a template
 implementation for a template instance. Let #dyncode("myprint2") be a
 function template of the following interface:
 
@@ -143,7 +155,7 @@ case+ xs of
 //
 ')
 
-This template implementation actually behaves quite differently from what
+This template implementation actually behaves very differently from what
 one might have expected. Note that the template parameter of the called
 instance of #dyncode("myprint2") in the body of the implementation is
 synthesized to be a type of the form #stacode("list(a, N)") for some static
@@ -745,7 +757,174 @@ testing code.\
 When asked about the meaning of object-oriented programming (OOP),
 Alan Kay once said that OOP to him meant only messaging, local retention
 and protection and hiding of state-process, and extreme late-binding of all
-things.
+things.\
+
+')#comment("para")
+
+#para('\
+
+In ATS, function templates can provide a highly flexible approach to
+supporting late-binding (of function calls). Let us first take a look at a
+simple example to see why late-binding can be so desirable. The following
+code declares a datatype #stacode("intfloat") such that each value of this
+declared type represents either an integer or a floating point number (of
+double precision):
+
+#atscode('\
+//
+datatype
+intfloat =
+  INT of int | FLOAT of double
+//
+')
+
+In order to print values of the type #stacode("intfloat"), we can implement
+#dyncode("print_intfloat") as follows:
+
+#atscode('\
+//
+fun
+print_intfloat
+  (x: intfloat): void =
+(
+case+ x of
+| INT(int) => print_int(int)
+| FLOAT(float) => print_double(float)
+)
+//
+')
+
+where #dyncode("print_int") and #dyncode("print_double") are monomorphic
+functions for printing an integer and a floating point number (of double
+precision), respectively. There are certainly many different ways to print
+integers and floating point numbers, but #dyncode("print_intfloat") only
+uses a particular one for integers (via #dyncode("print_int")) and a
+particular one for floating point numbers (via #dyncode("print_double")).
+One possibility of avoiding this form of extreme inflexibility is to define
+a higher-order function #dyncode("fprint_intfloat") as follows:
+
+#atscode('\
+//
+fun
+fprint_intfloat
+(
+  x: intfloat
+, print_int: int -> void
+, print_double: double -> void
+) : void =
+(
+case+ x of
+| INT(int) => print_int(int)
+| FLOAT(float) => print_double(float)
+)
+//
+')
+
+With #dyncode("fprint_intfloat"), one can decide to choose implementations
+for #dyncode("print_int") and #dyncode("print_double") at a later stage. In
+this regard, we say that higher-order functions can support a form of
+late-binding. However, using higher-order functions in such a manner is not
+without serious problems. Basically, any function that calls
+#dyncode("print_int") either directly or indirectly needs to be turned into
+a higher-order function, and the same can be said about functions calling
+#dyncode("print_double") as well. This style of programming with extensive
+use of higher-order functions can become extremely unwieldy when the number
+of functions grows large that need to be treated like #dyncode("print_int")
+and #dyncode("print_double").
+
+')#comment("para")
+
+#para('\
+
+Instead of using higher-order functions, we can rely on template functions
+to support late-binding (of function calls). For example, the following
+code implements a template function #dyncode("tprint_intfloat") for
+printing values of the type #stacode("intfloat"):
+
+#atscode('\
+//
+extern
+fun{}
+tprint_int(int): void
+extern
+fun{}
+tprint_double(double): void
+extern
+fun{}
+tprint_intfloat(intfloat): void
+//
+(* ****** ****** *)
+//
+implement
+tprint_int<> (x) = print_int(x)
+implement
+tprint_double<> (x) = print_double(x)
+//
+(* ****** ****** *)
+//
+implement
+tprint_intfloat<> (x) =
+(
+case+ x of
+| INT(int) => tprint_int<> (int)
+| FLOAT(float) => tprint_double<> (float)
+)
+//
+')
+
+Please note that the default implementations for #dyncode("tprint_int") and
+#dyncode("tprint_double") are based on #dyncode("print_int") and #dyncode("print_double"),
+respectively. As can be expected, the following code outputs two lines:
+
+#atscode('\
+//
+val () = (
+  tprint_intfloat<> (INT(0)); print_newline()
+) (* end of [val] *)
+//
+val () = (
+  tprint_intfloat<> (FLOAT(1.0)); print_newline()
+) (* end of [val] *)
+//
+')
+
+where the first line consists of the string "0" and the second one
+the string "1.000000". The following code also outputs two lines:
+
+#atscode('\
+local
+//
+implement
+tprint_int<> (x) = print! ("INT(", x, ")")
+implement
+tprint_double<> (x) = print! ("FLOAT(", x, ")")
+//
+in (* in-of-local *)
+//
+val () = (
+  tprint_intfloat<> (INT(0)); print_newline()
+) (* end of [val] *)
+//
+val () = (
+  tprint_intfloat<> (FLOAT(1.0)); print_newline()
+) (* end of [val] *)
+//
+end // end of [local]
+')
+
+where the first line consists of the string "INT(0)" and the second one the
+string "FLOAT(1.000000)"). In the latter case, the calls to template instances
+#dyncode("tprint_int&lt;&gt;") and #dyncode("tprint_double&lt;&gt;") are compiled
+according to the implementations for #dyncode("tprint_int") and #dyncode("tprint_double")
+given between the keywords #keycode("local") and #keycode("in").\
+
+')#comment("para")
+
+#para('\
+
+Please find on-line the file
+#mycodelink("CHAP_FNTMPINT/intfloat.dats", "intfloat.dats") containing the
+entirety of the code presented in this section plus some testing code.\
 
 ')#comment("para")
 

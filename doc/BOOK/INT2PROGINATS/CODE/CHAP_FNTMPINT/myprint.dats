@@ -40,6 +40,13 @@ val () = print_newline((*void*))
 //
 (* ****** ****** *)
 
+val ys = $list{int}(0,1,2,3,4)
+val yss = $list{List(int)}(ys, ys)
+val ((*void*)) = myprint<List(List(int))> (yss)
+val ((*void*)) = print_newline((*void*))
+
+(* ****** ****** *)
+
 extern
 fun{a:t@ype} myprint2 (x: a): int
 
