@@ -104,6 +104,20 @@ clean:: ; make -C CHAP_DYNLOAD -f ../Makefile_chap clean
 
 ######
 
+allchap:: CHAP_DOTOVERLD
+CHAP_DOTOVERLD:: ; \
+  make -C CHAP_DOTOVERLD -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_DOTOVERLD -f ../Makefile_chap clean
+
+######
+
+allchap:: CHAP_BRKTOVERLD
+CHAP_BRKTOVERLD:: ; \
+  make -C CHAP_BRKTOVERLD -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_BRKTOVERLD -f ../Makefile_chap clean
+
+######
+
 allchap:: CHAP_RECURSION
 CHAP_RECURSION:: ; \
   make -C CHAP_RECURSION -f ../Makefile_chap main.db
@@ -167,17 +181,10 @@ clean:: ; make -C CHAP_MTRXSZREF -f ../Makefile_chap clean
 
 ######
 
-allchap:: CHAP_DOTOVERLD
-CHAP_DOTOVERLD:: ; \
-  make -C CHAP_DOTOVERLD -f ../Makefile_chap main.db
-clean:: ; make -C CHAP_DOTOVERLD -f ../Makefile_chap clean
-
-######
-
-allchap:: CHAP_BRKTOVERLD
-CHAP_BRKTOVERLD:: ; \
-  make -C CHAP_BRKTOVERLD -f ../Makefile_chap main.db
-clean:: ; make -C CHAP_BRKTOVERLD -f ../Makefile_chap clean
+allchap:: CHAP_HASHTABLE
+CHAP_HASHTABLE:: ; \
+  make -C CHAP_HASHTABLE -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_HASHTABLE -f ../Makefile_chap clean
 
 ######
 

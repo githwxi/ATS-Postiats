@@ -40,13 +40,15 @@
 (* ****** ****** *)
 //
 // HX-2013-01:
+//
 // ported to ATS/Postitats from ATS/Anairiats
 //
 (* ****** ****** *)
-
+//
 #define
-ATS_PACKNAME "ATSLIB.libats.hashtbl_chain"
-
+ATS_PACKNAME
+"ATSLIB.libats.hashtbl_chain"
+//
 (* ****** ****** *)
 
 #include "./SHARE/hashtbl.hats"

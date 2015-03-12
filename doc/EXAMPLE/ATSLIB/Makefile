@@ -720,6 +720,14 @@ clean:: ; $(RMF) libats_ML_hashtblref_dats.o
 clean:: ; $(RMF) libats_ML_hashtblref_dats.c
 cleanall:: ; $(RMF) libats_ML_hashtblref.exe
 
+all:: libats_ML_myhashtblref
+libats_ML_myhashtblref: libats_ML_myhashtblref.exe
+libats_ML_myhashtblref.exe: libats_ML_myhashtblref_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ML_myhashtblref_dats.c: libats_ML_myhashtblref.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_myhashtblref_dats.c --dynamic libats_ML_myhashtblref.dats
+clean:: ; $(RMF) libats_ML_myhashtblref_dats.o
+clean:: ; $(RMF) libats_ML_myhashtblref_dats.c
+cleanall:: ; $(RMF) libats_ML_myhashtblref.exe
+
 
 ######
 

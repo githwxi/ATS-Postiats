@@ -1,0 +1,54 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_ARRAYREF/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="hashtable">
+#title("Persistent Hashtables")
+
+#para("\
+
+Hashtables are commonly used to implement finite maps.
+There are many different ways to implement hashtables.
+In ATSLIB/libats, there are implementations of hashtables
+based on linear chaining and linear probing.\
+
+")
+
+#para("\
+
+Please find #mycodelink("chap_hashtable.dats", "on-line") the entirety of the
+code used in this chapter.\
+
+")#comment("para")
+
+</chapter><!--"hashtable"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_hashtable.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}

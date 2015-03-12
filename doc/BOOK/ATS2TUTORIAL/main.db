@@ -28,6 +28,7 @@
 <!ENTITY chap_arrszref SYSTEM "CHAP_ARRSZREF/main.db">
 <!ENTITY chap_matrixref SYSTEM "CHAP_MATRIXREF/main.db">
 <!ENTITY chap_mtrxszref SYSTEM "CHAP_MTRXSZREF/main.db">
+<!ENTITY chap_hashtable SYSTEM "CHAP_HASHTABLE/main.db">
 <!ENTITY chap_tailrec SYSTEM "CHAP_TAILREC/main.db">
 <!ENTITY chap_hordfun SYSTEM "CHAP_HORDFUN/main.db">
 <!ENTITY chap_stream SYSTEM "CHAP_STREAM/main.db">
@@ -69,6 +70,7 @@ To Jinning, Zoe, and Chloe
 &chap_arrszref;
 &chap_matrixref;
 &chap_mtrxszref;
+&chap_hashtable;
 &chap_tailrec;
 &chap_hordfun;
 &chap_stream;

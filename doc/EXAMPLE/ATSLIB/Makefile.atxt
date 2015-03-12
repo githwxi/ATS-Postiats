@@ -260,6 +260,7 @@ RMF=rm -f
 ######
 
 #make2_entry("libats_ML_hashtblref", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_ML_myhashtblref", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######
 
