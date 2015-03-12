@@ -335,8 +335,8 @@ as follows:
 
 #atscode('\
 //
-implement fact = gfact<int>
-implement factd = gfact<double>
+implement fact(n) = gfact<int>(n)
+implement factd(n) = gfact<double>(n)
 //
 ')
 

@@ -14,25 +14,27 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 extern
 fun fact(n: int): int
-
+//
+(*
 implement
 fact(n) =
   if n > 0 then n * fact(n-1) else 1
 // end of [fact]
-
+*)
 (* ****** ****** *)
-
+//
 extern
 fun factd(n: int): double
-
+//
+(*
 implement
 factd(n) =
   if n > 0 then n * factd(n-1) else 1.0
 // end of [factd]
-
+*)
 (* ****** ****** *)
 
 extern
@@ -65,8 +67,8 @@ end (* end of [gfact] *)
 
 (* ****** ****** *)
 
-implement fact = gfact<int>
-implement factd = gfact<double>
+implement fact(n) = gfact<int>(n)
+implement factd(n) = gfact<double>(n)
   
 (* ****** ****** *)
 //
