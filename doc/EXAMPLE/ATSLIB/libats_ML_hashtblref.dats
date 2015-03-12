@@ -7,13 +7,20 @@
 //
 #include
 "share/atspre_staload.hats"
-#include
-"share/HATS/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
+(* ****** ****** *)
+//
+staload "libats/ML/SATS/hashtblref.sats"
+//
+staload _(*anon*) = "libats/DATS/hashfun.dats"
+staload _(*anon*) = "libats/DATS/linmap_list.dats"
+staload _(*anon*) = "libats/DATS/hashtbl_chain.dats"
+staload _(*anon*) = "libats/ML/DATS/hashtblref.dats"
+//
 (* ****** ****** *)
 
 val () = {
