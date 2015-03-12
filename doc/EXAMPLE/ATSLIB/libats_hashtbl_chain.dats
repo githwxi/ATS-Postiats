@@ -1,5 +1,6 @@
 (*
-** for testing [libats/hashtbl_chain]
+** for testing
+** [libats/hashtbl_chain]
 *)
 
 (* ****** ****** *)

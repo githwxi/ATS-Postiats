@@ -6,41 +6,66 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-03-11:<br>
+<a
+ href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
+<br>
+Chapter "From genericity to late-binding" is added.<br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+ATS-2015-03-11:<br>
+<a
+ href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
+<br>
+Section "Template-based support for late-binding" is added.<br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-03-07:<br>
 <a
- href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
-Section on genericity of template implementations is added.<br>
+ href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
+<br>
+Section "Genericity of template implementations" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
 ATS-2015-02-10:<br>
 <a
- href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
-Section on programmer-centric theorem-proving is added.<br>
+ href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
+<br>
+Section "Programmer-centric theorem-proving" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
 ATS-2015-01-20:<br>
 <a
- href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
-Linear channels for IPC.<br>
+ href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
+<br>
+Section "Linear channels for IPC" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-01-16:<br>
 <a
- href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
-On locking and unlocking.<br>
+ href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
+<br>
+Section on locking and unlocking is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
 ATS-2015-01-11:<br>
 <a
- href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
+ href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
+<br>
 Chapter "Datatypes" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
@@ -48,11 +73,14 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 ATS-2015-01-07:<br>
 <a
- href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
+ href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
+<br>
 Chapter "Recursion" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
+
+-->
 
 </div>
 

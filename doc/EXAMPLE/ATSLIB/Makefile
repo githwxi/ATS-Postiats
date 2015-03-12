@@ -712,6 +712,17 @@ cleanall:: ; $(RMF) libats_ML_funmap.exe
 
 ######
 
+all:: libats_ML_hashtblref
+libats_ML_hashtblref: libats_ML_hashtblref.exe
+libats_ML_hashtblref.exe: libats_ML_hashtblref_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ML_hashtblref_dats.c: libats_ML_hashtblref.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_hashtblref_dats.c --dynamic libats_ML_hashtblref.dats
+clean:: ; $(RMF) libats_ML_hashtblref_dats.o
+clean:: ; $(RMF) libats_ML_hashtblref_dats.c
+cleanall:: ; $(RMF) libats_ML_hashtblref.exe
+
+
+######
+
 all:: libats_ML_monad_list
 libats_ML_monad_list: libats_ML_monad_list.exe
 libats_ML_monad_list.exe: libats_ML_monad_list_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib

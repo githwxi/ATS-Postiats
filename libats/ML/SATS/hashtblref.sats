@@ -52,12 +52,15 @@ typedef
 hashtbl (key:t0p, itm:t0p) = hashtbl_type (key, itm)
 //
 (* ****** ****** *)
-
-fun{key:t0p}
-hash_key (x: key):<> ulint
-fun{key:t0p}
-equal_key_key (x1: key, x2: key):<> bool
-
+//
+fun{
+key:t0p
+} hash_key (x: key):<> ulint
+//
+fun{
+key:t0p
+} equal_key_key (x1: key, x2: key):<> bool
+//
 (* ****** ****** *)
 
 fun{

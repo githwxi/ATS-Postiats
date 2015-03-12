@@ -20,12 +20,6 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload _ = "libats/DATS/hashfun.dats"
-staload _ = "libats/DATS/linmap_list.dats"
-staload _ = "libats/DATS/hashtbl_chain.dats"
-
-(* ****** ****** *)
-
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/string.sats"
@@ -34,8 +28,15 @@ staload "libats/ML/SATS/string.sats"
 
 staload _ = "libats/ML/DATS/list0.dats"
 staload _ = "libats/ML/DATS/string.dats"
-staload _ = "libats/ML/DATS/hashtblref.dats"
 
+(* ****** ****** *)
+//
+staload _ = "libats/DATS/hashfun.dats"
+staload _ = "libats/DATS/linmap_list.dats"
+staload _ = "libats/DATS/hashtbl_chain.dats"
+//
+staload _ = "libats/ML/DATS/hashtblref.dats"
+//
 (* ****** ****** *)
 
 abstype wcmap_type = ptr

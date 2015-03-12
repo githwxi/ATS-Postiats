@@ -114,8 +114,7 @@ fun{a:t0p} gconjugate_val (x: a):<> a
 
 #atscode_separator()
 
-fun{a:t0p}
-gpow_int_val (n: intGte(0), x: a):<> a
+fun{a:t0p} gpow_int_val (n: intGte(0), x: a):<> a
 
 #atscode_separator()
 

@@ -1,5 +1,6 @@
 (*
-** for testing [libats/hashtbl_linprb]
+** for testing
+** [libats/hashtbl_linprb]
 *)
 
 (* ****** ****** *)

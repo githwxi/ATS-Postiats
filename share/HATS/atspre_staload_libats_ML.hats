@@ -68,10 +68,10 @@ staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/funset.dats"
 //
 staload "{$PATSLIBATS}/ML/SATS/hashtblref.sats"
 //
-staload _ = "{$PATSLIBATS}/DATS/hashfun.dats"
-staload _ = "{$PATSLIBATS}/DATS/linmap_list.dats"
-staload _ = "{$PATSLIBATS}/DATS/hashtbl_chain.dats"
-staload _ = "{$PATSLIBATS}/ML/DATS/hashtblref.dats"
+staload _(*anon*) = "{$PATSLIBATS}/DATS/hashfun.dats"
+staload _(*anon*) = "{$PATSLIBATS}/DATS/linmap_list.dats"
+staload _(*anon*) = "{$PATSLIBATS}/DATS/hashtbl_chain.dats"
+staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/hashtblref.dats"
 //
 (* ****** ****** *)
 
