@@ -2562,13 +2562,13 @@ fun loop
 ) : res =
 (
   case+ pmls of
+  | list_nil ((*void*)) => res
   | list_cons (pml, pmls) => let
       val hse1 = auxsel (hse0, pml)
       val res = list_vt_cons ( @(hse0, pml), res )
     in
       loop (hse1, pmls, res)
     end // end of [list_cons]
-  | list_nil () => res
 ) (* end of [loop] *)
 //
 in

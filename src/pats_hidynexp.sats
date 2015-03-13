@@ -436,9 +436,8 @@ and hideclistopt = Option (hideclist)
 
 and hidexp = '{
   hidexp_loc= loc_t
-, hidexp_type= hisexp
-, hidexp_node= hidexp_node
-}
+, hidexp_type= hisexp, hidexp_node= hidexp_node
+} (* end of [hidexp] *)
 
 and hidexplst = List (hidexp)
 and hidexpopt = Option (hidexp)
@@ -449,7 +448,7 @@ and labhidexplst = List (labhidexp)
 
 and hilab = '{
   hilab_loc= loc_t, hilab_node= hilab_node
-} // end of [hilab]
+} (* end of [hilab] *)
 
 and hilablst = List (hilab)
 
@@ -459,7 +458,7 @@ and higmat = '{
   higmat_loc= loc_t
 , higmat_exp= hidexp
 , higmat_pat= hipatopt
-} // end of [higmat]
+} (* end of [higmat] *)
 
 and higmatlst = List (higmat)
 
@@ -472,7 +471,7 @@ and hiclau = '{
 , hiclau_seq= int // sequentiality
 , hiclau_neg= int // negativativity
 , hiclau_body= hidexp (* clause body *)
-} // end of [hiclau]
+} (* end of [hiclau] *)
 
 and hiclaulst = List (hiclau)
 
@@ -485,7 +484,7 @@ and hifundec = '{
 , hifundec_def= hidexp
 , hifundec_hidecl= Option (hidynexp_hidecl_type)
 , hifundec_funlab= Option (hidynexp_funlab_type)
-} // end of [hifundec]
+} (* end of [hifundec] *)
 
 and hifundeclst = List (hifundec)
 
@@ -495,7 +494,7 @@ and hivaldec = '{
   hivaldec_loc= loc_t
 , hivaldec_pat= hipat
 , hivaldec_def= hidexp
-} // end of [hivaldec]
+} (* end of [hivaldec] *)
 
 and hivaldeclst = List (hivaldec)
 
@@ -508,7 +507,7 @@ and hivardec = '{
 , hivardec_dvar_view= d2var
 , hivardec_type= hisexp
 , hivardec_init= hidexpopt
-} // end of [hivardec]
+} (* end of [hivardec] *)
 
 and hivardeclst = List (hivardec)
 

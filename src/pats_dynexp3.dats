@@ -993,7 +993,7 @@ d3lab_lab
 , d3lab_node= D3LABlab (lab)
 , d3lab_overld= opt
 , d3lab_overld_app= None(*void*)
-} // end of [d3lab_lab]
+} (* end of [d3lab_lab] *)
 
 implement
 d3lab_ind
@@ -1002,7 +1002,7 @@ d3lab_ind
 , d3lab_node= D3LABind (ind)
 , d3lab_overld= None(*void*)
 , d3lab_overld_app= None(*void*)
-} // end of [d3lab_ind]
+} (* end of [d3lab_ind] *)
 
 (* ****** ****** *)
 

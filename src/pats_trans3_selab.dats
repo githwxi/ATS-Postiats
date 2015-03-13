@@ -356,9 +356,9 @@ of // case+
         val () = prerr_error3_loc (loc0)
         val () =
         prerrln! (
-          ": the type [", s2e, "] is expected to be a tyrec (record-type)."
+          ": the type [", s2e, "] is expected to be a tyrec(record)."
         ) (* end of [val] *)
-        val () = the_trans3errlst_add (T3E_s2exp_selab_tyrec (loc0, s2e))
+        val () = the_trans3errlst_add (T3E_s2exp_selab_tyrec(loc0, s2e))
       in
         s2exp_t0ype_err ((*void*))
       end // end of [None]
