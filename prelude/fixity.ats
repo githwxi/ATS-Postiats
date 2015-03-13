@@ -57,6 +57,12 @@ prefix 99 ! (* dynamic *)
 (* ****** ****** *)
 
 (*
+prefix 81 ID (* identity *)
+*)
+
+(* ****** ****** *)
+
+(*
 postfix 80 .lab // dynamic
 postfix 80 ->lab // dynamic
 *)

@@ -579,7 +579,7 @@ s2e.s2exp_node of
     val () = prerr_error3_loc (loc0)
     val () =
     prerrln! (
-      ": the type [", s2e, "] is expected to be a tyrec (record-type)."
+      ": the type [", s2e, "] is expected to be a tyrec(record)."
     ) (* end of [val] *)
     val () = the_trans3errlst_add (T3E_s2exp_selab_tyrec (loc0, s2e))
   in
@@ -761,21 +761,28 @@ extern
 fun
 d2var_trup_selab
 (
-  loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
+  loc0: location
+, locvar: location, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab]
+
+(* ****** ****** *)
 
 extern
 fun
 d2var_trup_selab_lin
 (
-  loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
+  loc0: location
+, locvar: location, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab_lin]
 extern
 fun
 d2var_trup_selab_mut
 (
-  loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
+  loc0: location
+, locvar: location, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab_mut]
+
+(* ****** ****** *)
 
 extern
 fun d3exp_trup_selab
@@ -789,8 +796,10 @@ d2var_trup_selab_lin
   (loc0, loc, d2v, d2ls) = let
 (*
 val () =
-  println! ("d2var_trup_selab_lin: D2Evar(lin): d2v = ", d2v)
-// end of [val]
+println!
+(
+  "d2var_trup_selab_lin: d2v = ", d2v
+) (* end of [val] *)
 *)
 val s2e =
   d2var_get_type_some(loc, d2v)
@@ -798,6 +807,24 @@ val s2e =
 val s2rt = s2e // HX: root type for selection
 //
 val d3ls = d2lablst_trup (d2ls)
+//
+val
+overld = d3lablst_is_overld (d3ls)
+val () =
+if overld then
+{
+//
+val () =
+prerr_error3_loc (loc0) 
+val () =
+prerrln!
+  (": overloaded dot-symbol should be applied.")
+//
+val () =
+the_trans3errlst_add
+  (T3E_d2var_lin_overld(loc0, d2v, d3ls))
+//
+} (* end of [if] *)
 //
 var linrest: int = 0 and sharing: int = 0
 //
@@ -860,14 +887,32 @@ end // end of [d2var_trup_selab_lin]
 implement
 d2var_trup_selab_mut
   (loc0, loc, d2v, d2ls) = let
-  val-Some(s2l) =
-    d2var_get_addr (d2v)
-  // end of [val]
-  val d3ls = d2lablst_trup (d2ls)
-  var s2rt: s2exp
-  val s2e_sel =
-    s2addr_deref (loc0, s2l, d3ls, s2rt)
-  // end of [val]
+//
+val-Some(s2l) = d2var_get_addr (d2v)
+//
+val d3ls = d2lablst_trup (d2ls)
+//
+val
+overld = d3lablst_is_overld (d3ls)
+val () =
+if overld then
+{
+//
+val () =
+prerr_error3_loc (loc0) 
+val () =
+prerrln!
+  (": overloaded dot-symbol should be applied.")
+//
+val () =
+the_trans3errlst_add
+  (T3E_d2var_mul_overld(loc0, d2v, d3ls))
+//
+} (* end of [if] *)
+//
+var s2rt: s2exp
+val s2e_sel = s2addr_deref (loc0, s2l, d3ls, s2rt)
+//
 in
   d3exp_sel_var (loc0, s2e_sel, d2v, s2rt, d3ls)
 end // end of [d2var_trup_selab_mut]
@@ -931,7 +976,7 @@ case+ d3ls of
         val d3ls_pre = list_take_exn (d3ls0, n)
         val d3ls_pre = list_of_list_vt (d3ls_pre)
         val s2e_app = d3exp_get_type (d3e_app)
-        val-D3Eapp_dyn (d3e_fun, npf, d3es_arg) = d3e_app.d3exp_node
+        val-D3Eapp_dyn(d3e_fun, npf, d3es_arg) = d3e_app.d3exp_node
         val-list_cons (d3e_arg, d3es_arg) = d3es_arg
         val s2e_arg = d3exp_get_type (d3e_arg)
         val d3e_arg = d3exp_selab (loc0, s2e_arg, d3e0, d3ls_pre)

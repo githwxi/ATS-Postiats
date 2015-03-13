@@ -340,16 +340,38 @@ end // end of labd2explst_syn_type]
 (* ****** ****** *)
 
 implement
-d23exp_free (x) = case+ x of
-  | ~D23Ed2exp (d2e) => () | ~D23Ed3exp (d3e) => ()
-// end of [d23exp_free]
+d23exp_free (x) = (
+//
+case+ x of
+| ~D23Ed2exp (d2e) => () | ~D23Ed3exp (d3e) => ()
+//
+) (* end of [d23exp_free] *)
 
 implement
-d23explst_free (xs) = case+ xs of
-  | ~list_vt_cons (x, xs) => (d23exp_free (x); d23explst_free (xs))
-  | ~list_vt_nil () => ()
-// end of [d23explst_free]
+d23explst_free (xs) = (
+//
+case+ xs of
+| ~list_vt_nil () => ()
+| ~list_vt_cons (x, xs) => (d23exp_free (x); d23explst_free (xs))
+//
+) (* end of [d23explst_free] *)
 
+(* ****** ****** *)
+
+implement
+d3lablst_is_overld
+  (d3ls) = (
+//
+case+ d3ls of
+| list_nil () => false
+| list_cons (d3l, d3ls) =>
+  (
+    case+ d3l.d3lab_overld of
+    | Some _ => true | None () => d3lablst_is_overld (d3ls)
+  ) (* end of [list_cons] *)
+//
+) (* end of [d3lablst_is_overld] *)
+//
 (* ****** ****** *)
 
 local

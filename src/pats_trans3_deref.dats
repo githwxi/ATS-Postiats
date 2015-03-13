@@ -284,20 +284,39 @@ in (* in-of-local *)
 
 implement
 d2exp_trup_deref
-  (loc0, d2e, d2ls) = let
+  (loc0, d2rt, d2ls) = let
 (*
-val () = (
-  print "d2exp_trup_deref: d2e = "; print_d2exp (d2e); print_newline ()
-) // end of [val]
+val () =
+println!
+(
+  "d2exp_trup_deref: d2rt = ", d2rt
+) (* end of [val] *)
 *)
-val d3e = d2exp_trup (d2e)
+val d3rt = d2exp_trup (d2rt)
 val d3ls = d2lablst_trup (d2ls)
-val () = d3exp_open_and_add (d3e)
-val s2e0 = d3exp_get_type (d3e)
+val () = d3exp_open_and_add (d3rt)
+val s2e0 = d3exp_get_type (d3rt)
 val s2f0 = s2exp2hnf_cast (s2e0)
 //
+val
+overld = d3lablst_is_overld (d3ls)
+val () =
+if overld then
+{
+//
+val () =
+prerr_error3_loc (loc0) 
+val () =
+prerrln! (": overloaded dot-symbol should be applied.")
+//
+val () =
+the_trans3errlst_add
+  (T3E_d2exp_deref_overld(loc0, d2rt, d3ls))
+//
+} (* end of [if] *)
+//
 in
-  aux1 (loc0, s2f0, d3e, d3ls)
+  aux1 (loc0, s2f0, d3rt, d3ls)
 end // end of [d2exp_trup_deref]
 
 end // end of [local]
