@@ -342,11 +342,13 @@ of // case+
         val _fun = d2exp_top (loc0)
         val d2e1 = d2exp_top2 (loc0, s2e)
         val d2a1 =
-          D2EXPARGdyn (~1(*npf*), loc0, list_sing (d2e1))
+          D2EXPARGdyn(~1(*npf*), loc0, list_sing(d2e1))
         // end of [val]
         val _arg = list_sing (d2a1)
-        val d3e_sel = d2exp_trup_applst_sym (_fun, d2s, _arg)
-        val () = d3lab_set_overld_app (d3l, Some(d3e_sel))
+        val d3e_sel =
+          d2exp_trup_applst_sym (_fun, d2s, _arg)
+        val ((*void*)) =
+          d3lab_set_overld_app (d3l, Some(d3e_sel))
       in
         d3exp_get_type (d3e_sel)
       end // end of [Some]
@@ -851,7 +853,9 @@ end // end of [d2var_trup_selab_lin]
 implement
 d2var_trup_selab_mut
   (loc0, loc, d2v, d2ls) = let
-  val-Some (s2l) = d2var_get_addr (d2v)
+  val-Some(s2l) =
+    d2var_get_addr (d2v)
+  // end of [val]
   val d3ls = d2lablst_trup (d2ls)
   var s2rt: s2exp
   val s2e_sel = s2addr_deref (loc0, s2l, d3ls, s2rt)
@@ -971,19 +975,21 @@ end // end of [local]
 
 implement
 d2exp_trup_selab
-  (loc0, d2e, d2ls) = let
+  (loc0, d2rt, d2ls) = let
 //
 (*
 val () =
 println! ("d2exp_trup_selab: loc0 = ", loc0)
+val () =
+println! ("d2exp_trup_selab: d2rt = ", d2rt)
 *)
 in
 //
 case+
-d2e.d2exp_node of
+d2rt.d2exp_node of
 //
 | D2Evar (d2v) => let
-    val loc = d2e.d2exp_loc
+    val loc = d2rt.d2exp_loc
   in
     d2var_trup_selab (loc0, loc, d2v, d2ls)
   end // end of [D2Evar]
@@ -991,10 +997,10 @@ d2e.d2exp_node of
 | D2Ederef (d2e) => d2exp_trup_deref (loc0, d2e, d2ls)
 //
 | _ (*rest-of-d2exp*) => let
-    val d3e = d2exp_trup (d2e)
+    val d3rt = d2exp_trup (d2rt)
     val d3ls = d2lablst_trup (d2ls)
   in
-    d3exp_trup_selab (loc0, d3e, d3ls)
+    d3exp_trup_selab (loc0, d3rt, d3ls)
   end (* end of [_] *)
 //
 end // end of [d2exp_trup_selab]
