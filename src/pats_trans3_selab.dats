@@ -800,30 +800,36 @@ val s2rt = s2e // HX: root type for selection
 val d3ls = d2lablst_trup (d2ls)
 //
 var linrest: int = 0 and sharing: int = 0
+//
 val s2es2ps =
   s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
 // end of [val]
+//
 val s2e_sel = s2exp_hnfize (s2es2ps.0)
 val () = trans3_env_add_proplst_vt (loc0, s2es2ps.1)
 val islin = s2exp_is_lin (s2e_sel)
 //
 in
 //
-if islin then let
+if
+islin
+then let
   val s2t = s2e.s2exp_srt
   var ctxtopt: s2expopt = None ()
   val s2e_sel =
     s2exp_get_dlablst_context (loc0, s2e, d3ls, ctxtopt)
+  // end of [val]
 //
   val isctx = (
     case+ ctxtopt of Some _ => true | None _ => false
   ) : bool // end of [val]
-  val () = if ~isctx then {
+  val () =
+  if ~isctx then {
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the linear component cannot be taken out."
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d2var_selab_context (loc0, d2v, d3ls))
-  } // end of [if] // end of [val]
+  } (* end of [if] *) // end of [val]
 //
   val () = d2var_inc_linval (d2v)
   val () = let
@@ -838,9 +844,10 @@ if islin then let
   end // end of [val]
 in
   d3exp_sel_var (loc0, s2e_sel, d2v, s2rt, d3ls)
-end else
+end // end of [then]
+else (
   d3exp_sel_var (loc0, s2e_sel, d2v, s2rt, d3ls) // there is no type-change
-// end of [if]
+) (* end of [else] *)
 //
 end // end of [d2var_trup_selab_lin]
 
@@ -858,7 +865,9 @@ d2var_trup_selab_mut
   // end of [val]
   val d3ls = d2lablst_trup (d2ls)
   var s2rt: s2exp
-  val s2e_sel = s2addr_deref (loc0, s2l, d3ls, s2rt)
+  val s2e_sel =
+    s2addr_deref (loc0, s2l, d3ls, s2rt)
+  // end of [val]
 in
   d3exp_sel_var (loc0, s2e_sel, d2v, s2rt, d3ls)
 end // end of [d2var_trup_selab_mut]
@@ -892,9 +901,11 @@ auxerr_linrest
 (
   loc0: location, d3e: d3exp, d3ls: d3lablst
 ) : void = let
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": a linear component is abandoned by field selection."
-  val () = prerr_newline ()
+//
+val () = prerr_error3_loc (loc0)
+val () =
+  prerrln! (": a linear component is abandoned by field selection.")
+//
 in
   the_trans3errlst_add (T3E_d3exp_selab_linrest (loc0, d3e, d3ls))
 end // end of [auxerr_linrest]
@@ -931,7 +942,7 @@ case+ d3ls of
       end
   end // end of [list_cons]
 //
-| list_nil ((*void*)) => d3exp_selab (loc0, s2e_sel, d3e0, d3ls0)
+| list_nil((*void*)) => d3exp_selab (loc0, s2e_sel, d3e0, d3ls0)
 //
 end // end of [auxfinize]
 

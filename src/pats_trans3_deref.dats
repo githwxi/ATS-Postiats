@@ -106,20 +106,23 @@ auxmain .<>.
   val islin = s2exp_is_lin (s2e_sel)
 in
 //
-if islin then let
+if
+islin
+then let
   val s2t_elt = s2e_elt.s2exp_srt
-  var ctxtopt: s2ctxtopt = None ()
+  var ctxtopt: s2ctxtopt = None(*void*)
   val s2e_sel =
     s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, ctxtopt)
   // end of [val]
   val isctx = (
     case+ ctxtopt of Some _ => true | None _ => false
   ) : bool // end of [val]
-  val () = if ~isctx then {
+  val () =
+  if ~isctx then {
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the linear component cannot taken out."
     val () = prerr_newline ()
-    val () = the_trans3errlst_add (T3E_s2addr_deref_context (loc0, s2e_elt, d3ls))
+    val () = the_trans3errlst_add (T3E_s2addr_deref_context(loc0, s2e_elt, d3ls))
   } // end of [val]
 //
   val () = d2var_inc_linval (d2vw)
@@ -137,7 +140,8 @@ if islin then let
 //
 in
   s2e_sel
-end else s2e_sel // end of [if]
+end // end of [then]
+else s2e_sel // end of [else]
 //
 end // end of [auxmain]
 
