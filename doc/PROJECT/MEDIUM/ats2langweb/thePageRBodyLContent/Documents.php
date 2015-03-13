@@ -28,7 +28,7 @@ Links:
 
 <hr></hr>
 
-<h2><a id="TUT2PROGINATS">A Tutorial on Programming Features in ATS</a></h2>
+<h2><a id="ATS2TUTORIAL0">A Tutorial on Programming Features in ATS</a></h2>
 
 <table>
 <tr><td>
@@ -50,6 +50,17 @@ Links:
 </tr>
 <tr height="8px"><td></td></tr>
 </table>
+
+<hr></hr>
+
+<h2><a id="EFF2ATSPROGEX">Effective ATS Programming through Examples</a></h2>
+
+<p>
+Please find <a
+href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/">on-line</a>
+various (short) programs in ATS plus detailed explanation that are written
+for the purpose of advocating effective programming in ATS.
+</p>
 
 <hr></hr>
 

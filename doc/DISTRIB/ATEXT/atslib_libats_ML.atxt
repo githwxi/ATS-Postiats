@@ -154,12 +154,14 @@ The ATSLIB/libats/ML library\
 #packfilename("DATS/funset.dats")
 #packfilename("DATS/funmap.dats")
 #packfilename("DATS/hashtblref.dats")
+
 #packfilename("DATS/monad_list.dats")
 #packfilename("DATS/monad_maybe.dats")
+#packfilename("DATS/SHARE/monad.hats")
 
 (* ****** ****** *)
 
-#packfilename("DATS/SHARE/monad.hats")
+#packfilename("HATS/myhashtblref.hats")
 
 (* ****** ****** *)
 

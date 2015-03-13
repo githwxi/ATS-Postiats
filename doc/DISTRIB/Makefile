@@ -621,7 +621,10 @@ CNTRBNAME=ATS2-Postiats-contrib-0.1.10
 atscntrbtarzvcf:: ; $(RMRF) $(CNTRBNAME)
 atscntrbtarzvcf:: ; $(CPRF) ATS-Postiats-contrib $(CNTRBNAME)
 atscntrbtarzvcf:: ; $(TARZVCF)  $(CNTRBNAME).tgz  $(CNTRBNAME)/.
-
+#
+atscntrbtarzvcf_up:: ; \
+scp $(CNTRBNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(CNTRBNAME).tgz
+#
 ######
 
 clean:: ; $(RMF) *~

@@ -148,6 +148,21 @@ cleanall:: ; $(RMF) chap_mtrxszref
 ######
 #
 all:: \
+chap_hashtable
+chap_hashtable: \
+  chap_hashtable.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: chap_hashtable; ./$<
+cleanall:: ; $(RMF) chap_hashtable
+all:: \
+chap_hashtable2
+chap_hashtable2: \
+  chap_hashtable2.dats ; $(PATSCC2) -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: chap_hashtable2; ./$<
+cleanall:: ; $(RMF) chap_hashtable2
+#
+######
+#
+all:: \
 chap_hordfun
 chap_hordfun: \
   chap_hordfun.dats ; $(PATSCC2) -DATS_MEMALLOC_GCBDW -o $@ $< -lgc

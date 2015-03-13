@@ -62,14 +62,14 @@ myhashtbl_make_nil
 //
 extern
 fun
-myhashtbl_get_size(myhashtbl): size_t
+myhashtbl_get_size(myhashtbl): intGte(0)
 //
 overload .size with myhashtbl_get_size
 overload .get_size with myhashtbl_get_size
 //
 extern
 fun
-myhashtbl_get_capacity(myhashtbl): sizeGte(1)
+myhashtbl_get_capacity(myhashtbl): intGte(1)
 //
 overload .capacity with myhashtbl_get_capacity
 overload .get_capacity with myhashtbl_get_capacity
@@ -180,14 +180,18 @@ assume myhashtbl_type = hashtbl(key, itm)
 //
 in (* in-of-local *)
 //
+macdef sz2n(sz) = sz2i(g1ofg0(,(sz)))
+//
 implement
 myhashtbl_make_nil(cap) =
   hashtbl_make_nil<key,itm>(i2sz(cap))
 //
 implement
-myhashtbl_get_size(tbl) = hashtbl_get_size<>(tbl)
+myhashtbl_get_size
+  (tbl) = sz2n(hashtbl_get_size<>(tbl))
 implement
-myhashtbl_get_capacity(tbl) = hashtbl_get_capacity<>(tbl)
+myhashtbl_get_capacity
+  (tbl) = sz2i(hashtbl_get_capacity<>(tbl))
 //
 implement
 myhashtbl_search

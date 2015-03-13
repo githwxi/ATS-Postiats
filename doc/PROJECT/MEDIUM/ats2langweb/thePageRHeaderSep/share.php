@@ -90,7 +90,8 @@ thePageRHeaderSep_submenu_for_Documents($name)
   $onmouseover = "onmouseover=\"submenu_table_mouseover()\"";
   echo "<table class=\"thePageRHeaderSepL_submenu\" $onmouseout $onmouseover>\n";
   echo "<tr><td><a href=\"$page#INT2PROGINATS\">Introduction to Programming in ATS</a></td></tr>\n";
-  echo "<tr><td><a href=\"$page#TUT2PROGINATS\">A Tutorial on Programming Features in ATS</a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#ATS2TUTORIAL0\">A Tutorial on Programming Features in ATS</a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#EFF2ATSPROGEX\">Effective ATS Programming through Examples</a></td></tr>\n";
   echo "</table>\n";
   return;
 } /* end of [thePageRBodyLHeader_Documents] */

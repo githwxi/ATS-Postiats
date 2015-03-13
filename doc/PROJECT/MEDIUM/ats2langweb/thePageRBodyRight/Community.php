@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-03-12:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/hnuPgISzOi8"
+>A new ATS2TUTIROAL chapter on hashtables</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-02-27:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/olyjkpQu0Ns"
@@ -141,9 +149,9 @@ ATS-2014-11-18:<br>
 >ATSCC2PL: from ATS to Perl</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
-
 <hr></hr>
 
+<!--
 ATS-2014-11-10:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/PO4X6L5dyHE"
@@ -152,7 +160,6 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-<!--
 ATS-2014-11-07:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/PqtPZKGKrFw"

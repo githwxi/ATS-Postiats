@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-03-12:<br>
+<a
+ href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/ML/HATS/myhashtblref.hats"
+>libats/ML/HATS/myhashtblref.hats</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-02-05:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/rYOUeh3rpRM"

@@ -202,6 +202,7 @@ arrayref_tail{n:pos} (A: arrayref (a, n)): arrayref (a, n-1)
 //
 overload .head with arrayref_head
 overload .tail with arrayref_tail
+//
 ')
 
 For instance, the fold-left function for arrays can be implemented

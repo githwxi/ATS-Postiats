@@ -310,7 +310,7 @@ Here is a button for trying this example on-line:
 
 <hr></hr>
 
-<h2><a id="EffectiveATS">Effective ATS</a></h2>
+<h2><a id="EffectiveATS">Effective Programming in ATS</a></h2>
 
 <p>
 Please find <a

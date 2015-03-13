@@ -36,7 +36,8 @@ thePageRBodyLHeader_Documents()
 {
   echo "<ul name=\"Documents\">\n";
   echo "<li><a href=\"#INT2PROGINATS\">Introduction to Programming in ATS</a></li>\n";
-  echo "<li><a href=\"#TUT2PROGINATS\">A Tutorial on Programming Features in ATS</a></li>\n";
+  echo "<li><a href=\"#ATS2TUTORIAL0\">A Tutorial on Programming Features in ATS</a></li>\n";
+  echo "<li><a href=\"#EFF2ATSPROGEX\">Effective ATS Programming through Examples</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Documents] */
@@ -83,7 +84,7 @@ thePageRBodyLHeader_Examples()
   echo "<li><a href=\"#Hello_world\">Hello, world!</a></li>\n";
   echo "<li><a href=\"#Copying_files\">Copying files</a></li>\n";
   echo "<li><a href=\"#Fibonacci_numbers\">Computing Fibonacci numbers</a></li>\n";
-  echo "<li><a href=\"#EffectiveATS\">Effective ATS</a></li>\n";
+  echo "<li><a href=\"#EffectiveATS\">Effective Programming in ATS</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Examples] */

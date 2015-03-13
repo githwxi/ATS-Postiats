@@ -17,17 +17,194 @@ Time of Generation: #timestamp()\
 
 #para("\
 
-Hashtables are commonly used to implement finite maps.
-There are many different ways to implement hashtables.
-In ATSLIB/libats, there are implementations of hashtables
-based on linear chaining and linear probing.\
+Hashtables are commonly used to implement finite maps. In ATSLIB/libats,
+there are hashtable implementations based on linear chaining and linear
+probing. There is also support for linear hashtables as well as persistent
+hashtables. The linear ones can be safely freed by the programmer, and the
+persistent ones (which are directly based on linear ones) can only be
+safely reclaimed through garbage collection (GC). In this chapter, I show
+how persistent hashtables can be created and operated on.\
 
 ")
 
 #para("\
 
-Please find #mycodelink("chap_hashtable.dats", "on-line") the entirety of the
-code used in this chapter.\
+Suppose that a map is needed for mapping keys of type
+#stacode("key_t") to items of type #stacode("itm_t"). The following code
+essentially sets up an interface for creating and operating on such a map
+based on a hashtable implementation in ATSLIB/libats:
+
+#atscode('\
+local
+
+typedef
+key = key_t and itm = itm_t
+
+in (* in-of-local *)
+
+\#include "libats/ML/HATS/myhashtblref.hats"
+
+end // end of [local]
+')
+
+Please find #myatscodelink("libats/ML/HATS/myhashtblref.hats", "on-line")
+the HATS file mentioned in the code, which is essentially a convenience wrapper
+made to simplify programming with hashtables.
+
+")#comment("para")
+
+#para("\
+
+Assume that #stacode("key_t") is #stacode("string") and #stacode("itm_t")
+is #stacode("int"). The following line creates a hashtable with its
+initial capacity set to be 1000:
+
+
+#atscode('\
+val mymap = myhashtbl_make_nil(1000)
+')
+
+Note that the capacity in this case is the size of the array associated
+with the created hashtable. The underlying hashtable implementation is
+based on linear chaining, and this hashtable can store up to 5000 (5*1000)
+items without need for resizing. When resizing is indeed needed, it is done
+automatically. The following few lines insert some key/item pairs into
+#dyncode("mymap"):
+
+#atscode('\
+//
+val-~None_vt() = mymap.insert("a", 0)
+val-~Some_vt(0) = mymap.insert("a", 1)
+//
+val-~None_vt() = mymap.insert("b", 1)
+val-~Some_vt(1) = mymap.insert("b", 2)
+//
+val-~None_vt() = mymap.insert("c", 2)
+val-~Some_vt(2) = mymap.insert("c", 3)
+//
+')
+
+The dot-symbol #dyncode(".insert") is overloaded with a function of the
+name #dyncode("myhashtbl_insert"). Given a key and an item,
+#dyncode("mymap.insert") inserts the key/item pair into #dyncode("mymap").
+If the key is in the domain of the map represented by #dyncode("mymap")
+before inserting, then the original item associated with the key is
+returned. Otherwise, no item is returned. As can be expected, the size
+of #dyncode("mymap") is 3 at this point:
+
+#atscode('\
+val () = assertloc (mymap.size = 3)
+')
+
+The dot-symbol #dyncode(".size") is overloaded with a function of the name
+#dyncode("myhashtbl_get_size"), which returns the number of key/item pairs
+stored in a given hashtable.  During the course of debugging, one may want
+to print out the key/item pairs in a given hashtable:
+
+#atscode('\
+//
+val () =
+  fprintln! (stdout_ref, "mymap = ", mymap)
+//
+')
+
+where the symbol #dyncode("fprint") is overloaded with
+#dyncode("fprint_myhashtbl"). The next two lines of code show how search
+with a given key operates on a hashtable:
+
+#atscode('\
+val-~None_vt() = mymap.search("")
+val-~Some_vt(1) = mymap.search("a")
+')
+
+The dot-symbol #dyncode(".search") is overloaded with a function of the
+name #dyncode("myhashtbl_search"), which returns the item associated with a
+given key if it is found. The next few lines of code remove some key/item
+pairs from #dyncode("mymap"):
+
+#atscode('\
+//
+val-true = mymap.remove("a")
+val-false = mymap.remove("a")
+//
+val-~Some_vt(2) = mymap.takeout("b")
+val-~Some_vt(3) = mymap.takeout("c")
+//
+')
+
+The dot-symbol #dyncode(".remove") is overloaded with a function of the
+name #dyncode("myhashtbl_remove") for removing a key/item pair of a given
+key. If a key/item pair is removed, then the function returns
+true. Otherwise, it returns false to indicates that no key/item pair of the
+given key is stored in the hashtable being operated on.  The dot-symbol
+#dyncode(".takeout") is overloaded with a function of the name
+#dyncode("myhashtbl_takeout"), which is similar to
+#dyncode("myhashtbl_remove") excepting for returning the removed item.
+The next few lines of code make use of several less commonly used functions
+on hashtables:
+
+#atscode('\
+//
+val () = mymap.insert_any("a", 0)
+val () = mymap.insert_any("b", 1)
+val () = mymap.insert_any("c", 2)
+val kxs = mymap.listize1((*void*))
+val ((*void*)) = fprintln! (stdout_ref, "kxs = ", kxs)
+val kxs = mymap.takeout_all((*void*))
+val ((*void*)) = fprintln! (stdout_ref, "kxs = ", kxs)
+//
+val () = assertloc (mymap.size = 0)
+//
+')
+
+The dot-symbol #dyncode(".insert_any") is overloaded with a function of the
+name #dyncode("myhashtbl_insert_any"), which #emphasis("always") inserts a
+given key/item pair regardless whether the key is already in use. One
+should really avoid using this function or only call it when it is
+absolutely sure that the given key is not already in use for otherwise the
+involved hashtable would be corrupted.  The dot-symbols
+#dyncode(".listize1") and #dyncode(".takeout_all") are overloaded with two
+functions of the names #dyncode("myhashtbl_listize1") and
+#dyncode("myhashtbl_takeout_all"), respectively. Both of them return a list
+consisting of all the key/item pairs in a given hashtable; the former keeps
+the hashtable unchanged while the latter empties it. Last, I present as follows the
+interface for an iterator going over all the key/item pairs in a given hashtable:
+
+#atscode('\
+//
+extern
+fun
+myhashtbl_foreach_cloref
+(
+  tbl: myhashtbl
+, fwork: (key, &(itm) >> _) -<cloref1> void
+) : void // end-of-function
+//
+overload .foreach_cloref with myhashtbl_foreach_cloref
+//
+')
+
+As an example, the following code prints out all the key/item
+pairs in a given hashtable:
+
+#atscode('\
+//
+val () =
+mymap.foreach_cloref
+(
+  lam (k, x) => fprintln! (stdout_ref, "k=", k, " and ", "x=", x)
+) (* end of [val] *)
+//
+')
+
+")
+
+#para("\
+
+Please find the entirety of the code used in this chapter
+#mycodelink("chap_hashtable.dats", "on-line"). Also, there is a
+hashtable-based implementation of symbol table available
+#mycodelink("chap_hashtable2.dats", "on-line").
 
 ")#comment("para")
 
