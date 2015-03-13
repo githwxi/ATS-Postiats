@@ -115,6 +115,29 @@ overload .remove with myfunset_remove
 //
 extern
 fun
+myfunset_foreach_cloref
+  (xs: myset, fwork: (elt) -<cloref1> void): void
+//
+overload .foreach_cloref with myfunset_foreach_cloref
+//
+(* ****** ****** *)
+//
+extern
+fun
+{res:t@ype}
+myfunset_foldleft_cloref
+(
+  xs: myset, ini: res, fopr: (res, elt) -<cloref1> res
+) : res // end of [myfunset_foldleft_cloref]
+//
+(*
+overload .foldleft_cloref with myfunset_foldleft_cloref
+*)
+//
+(* ****** ****** *)
+//
+extern
+fun
 myfunset_listize(myset): List0(elt)
 //
 overload .listize with myfunset_listize
@@ -122,6 +145,9 @@ overload .listize with myfunset_listize
 (* ****** ****** *)
 
 local
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
 //
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
@@ -160,6 +186,26 @@ myfunset_insert(xs, x0) = funset_insert<elt>(xs, x0)
 //
 implement
 myfunset_remove(xs, x0) = funset_remove<elt>(xs, x0)
+//
+implement
+myfunset_foreach_cloref
+  (xs, fwork) = funset_foreach_cloref<elt> (xs, fwork)
+//
+implement
+{res}(*tmp*)
+myfunset_foldleft_cloref
+  (xs, ini, fopr) = r0 where
+{
+//
+var r0: res = ini
+val p_r0 = addr@r0
+val ((*void*)) =
+myfunset_foreach_cloref
+(
+  xs, lam(x) => $UN.ptr0_set<res>(p_r0, fopr($UN.ptr0_get<res>(p_r0), x))
+) (* end of [myfunset_foreach_cloref] *) // end of [val]
+//
+} (* end of [myfunset_foldleft_cloref] *)
 //
 implement
 myfunset_listize(xs) = g1ofg0(funset_listize<elt>(xs))

@@ -717,16 +717,29 @@ in (* in of [local] *)
 implement
 s2exp_get_dlablst_context
   (loc0, s2e, d3ls, context) = let
-  var context2: ctxtopt_vt = None_vt ()
-  val s2es2ps =
-    auxselist (s2e, d3ls, context2, false(*ischeck*))
-  val () = list_vt_free (s2es2ps.1)
-  val () = (
-    case+ context2 of
-    | ~Some_vt @(s2e_ctx, s2h) =>
-        context := Some (s2ctxt_make (s2e_ctx, s2h))
-    | ~None_vt () => ()
-  ) : void // end of [val]
+//
+var
+context2
+  : ctxtopt_vt = None_vt(*void*)
+val
+s2es2ps =
+auxselist
+(
+  s2e, d3ls, context2, false(*ischeck*)
+) (* end of [val] *)
+//
+val () = list_vt_free (s2es2ps.1)
+//
+val () =
+(
+case+ context2 of
+| ~None_vt () => ()
+| ~Some_vt @(s2e_ctx, s2h) =>
+  (
+    context := Some (s2ctxt_make (s2e_ctx, s2h))
+  ) // end of [Some_vt]
+) : void // end of [val]
+//
 in
   s2es2ps.0(*selected*)
 end // end of [s2exp_get_dlablst_context]
@@ -882,7 +895,8 @@ end // end of [d2var_trup_selab_lin]
 
 (*
 ** HX-2012-05:
-** [s2addr] is implemented in [pats_trans3_deref]
+** [s2addr] implemented
+** in [pats_trans3_deref]
 *)
 implement
 d2var_trup_selab_mut
