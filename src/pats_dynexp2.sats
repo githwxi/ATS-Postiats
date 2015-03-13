@@ -953,8 +953,9 @@ and d2eclist = List (d2ecl)
 
 and
 d2exp = '{
-  d2exp_loc= location, d2exp_node= d2exp_node, d2exp_type= s2expopt
-} // end of [d2exp]
+  d2exp_loc= location
+, d2exp_node= d2exp_node, d2exp_type= s2expopt
+} (* end of [d2exp] *)
 
 and d2explst = List (d2exp)
 and d2expopt = Option (d2exp)

@@ -801,6 +801,12 @@ overload fprint with fprint_primvalist
 //
 (* ****** ****** *)
 //
+fun print_primlab (x: primlab): void
+fun prerr_primlab (x: primlab): void
+//
+overload print with print_primlab
+overload prerr with prerr_primlab
+//
 fun fprint_primlab : fprint_type (primlab)
 fun fprint_primlablst : fprint_type (primlablst)
 //

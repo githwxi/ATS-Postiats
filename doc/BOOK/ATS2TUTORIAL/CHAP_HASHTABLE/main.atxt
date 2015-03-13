@@ -48,7 +48,7 @@ end // end of [local]
 ')
 
 Please find #myatscodelink("libats/ML/HATS/myhashtblref.hats", "on-line")
-the HATS file mentioned in the code, which is essentially a convenience wrapper
+the HATS file mentioned in the code, which is just a convenience wrapper
 made to simplify programming with hashtables.
 
 ")#comment("para")

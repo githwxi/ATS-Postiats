@@ -8,7 +8,7 @@ style="margin-top:8px;padding:8px;"
 
 ATS-2015-03-12:<br>
 <a
- href="https://groups.google.com/forum/#!topic/ats-lang-users/hnuPgISzOi8"
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/5a9h2mSGl1M"
 >A new ATS2TUTIROAL chapter on hashtables</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 

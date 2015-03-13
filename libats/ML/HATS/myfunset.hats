@@ -42,8 +42,6 @@
 typedef elt = int/...
 *)
 //
-abstype elt
-//
 (* ****** ****** *)
 //
 abstype
@@ -67,6 +65,15 @@ extern
 fun
 myfunset_make_list(List(elt)): myset
 
+(* ****** ****** *)
+//
+extern
+fun
+fprint_myfunset
+  (out: FILEref, xs: myset): void
+//
+overload fprint with fprint_myfunset
+//
 (* ****** ****** *)
 //
 extern
@@ -120,6 +127,8 @@ staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/funset.sats"
 //
+staload _ = "libats/DATS/funset_avltree.dats"
+//
 staload _(*anon*) = "libats/ML/DATS/funset.dats"
 //
 assume myset_type = set_type(elt)
@@ -132,6 +141,9 @@ implement
 myfunset_make_sing(x) = funset_make_sing<elt>(x)
 implement
 myfunset_make_list(xs) = funset_make_list<elt>(g0ofg1(xs))
+//
+implement
+fprint_myfunset(out, xs) = fprint_funset<elt>(out, xs)
 //
 implement
 myfunset_size(xs) = funset_size<elt>(xs)

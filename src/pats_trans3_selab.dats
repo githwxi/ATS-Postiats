@@ -289,7 +289,8 @@ in
   auxlab_shnf (loc0, s2f, d3l, l0, linrest, sharing)
 end // and [auxlab_sexp]
 
-and auxlab_shnf
+and
+auxlab_shnf
 (
   loc0: location, s2f: s2hnf
 , d3l: d3lab, l0: label, linrest: &int, sharing: &int
@@ -300,7 +301,8 @@ val s2e = s2hnf2exp (s2f)
 in
 //
 case+
-s2e.s2exp_node of
+s2e.s2exp_node
+of // case+
 //
 | S2Etyrec
     (knd, npf, ls2es) => let
@@ -362,7 +364,8 @@ s2e.s2exp_node of
 //
 end // end of [auxlab_shnf]
 
-fun auxind
+fun
+auxind
 (
   loc0: location, s2e: s2exp, ind: d3explst
 ) : (
@@ -410,7 +413,8 @@ case+
 //
 end // end of [auxind]
 
-fun auxsel
+fun
+auxsel
 (
   s2e: s2exp, d3l: d3lab, linrest: &int, sharing: &int
 ) : (
@@ -422,7 +426,8 @@ val loc0 = d3l.d3lab_loc
 in
 //
 case+
-  d3l.d3lab_node of
+d3l.d3lab_node
+of // case+
 | D3LABlab (l0) => let
     val s2f = s2exp2hnf (s2e)
     val s2e = auxlab_shnf (loc0, s2f, d3l, l0, linrest, sharing)
@@ -438,13 +443,16 @@ case+
 //
 end // end of [auxsel]
 
-and auxselist
+and
+auxselist
 (
   s2e: s2exp, d3ls: d3lablst, linrest: &int, sharing: &int
 ) : (s2exp, s2explst_vt) = let
 in
 //
 case+ d3ls of
+| list_nil
+    ((*void*)) => (s2e, list_vt_nil ())
 | list_cons
     (d3l, d3ls) => let
     val (s2e, s2ps1) = auxsel (s2e, d3l, linrest, sharing)
@@ -452,7 +460,6 @@ case+ d3ls of
   in
     (s2e, list_vt_append (s2ps1, s2ps2))
   end // end of [list_cons]
-| list_nil () => (s2e, list_vt_nil ())
 //
 end // end of [auxselist]
 
@@ -726,8 +733,13 @@ implement
 s2exp_get_dlablst_context_check
   (loc0, s2e, d3ls, context) = let
 //
-var context2: ctxtopt_vt = None_vt ()
-val s2es2ps = auxselist (s2e, d3ls, context2, true(*ischeck*))
+var
+context2
+  : ctxtopt_vt = None_vt(*void*)
+//
+val s2es2ps =
+  auxselist (s2e, d3ls, context2, true(*ischeck*))
+//
 val () = (
   case+ context2 of
   | ~None_vt ((*void*)) => ()

@@ -2515,7 +2515,7 @@ auxsel
 in
 //
 case+
-  pml.primlab_node of
+pml.primlab_node of
 //
 | PMLlab (lab) => (
   case+
@@ -2529,7 +2529,9 @@ case+
   | HSEtysum
       (d2c, lhses) => auxfnd (lab, lhses)
     // end of [HSEtysum]
-  | _ => let
+  | _ (*non-tuple*) => let
+      val () = prerr_interror ()
+      val () = prerrln! (": auxsel: pml = ", pml)
       val () = prerr_interror ()
       val () = prerrln! (": auxsel: hse0 = ", hse0)
       val ((*exit*)) = assertloc (false)
@@ -2693,7 +2695,7 @@ val () = let
   val xys = auxselist (hse_rt, pmls)
 in
   auxmain (out, 0(*non*), pmv, hse_rt, xys, 0)
-end // end of [val]
+end // end of [let] // end of [val]
 //
 in
   // nothing
