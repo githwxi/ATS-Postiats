@@ -176,7 +176,8 @@ staload _(*anon*) = "libats/DATS/linmap_list.dats"
 staload _(*anon*) = "libats/DATS/hashtbl_chain.dats"
 staload _(*anon*) = "libats/ML/DATS/hashtblref.dats"
 //
-assume myhashtbl_type = hashtbl(key, itm)
+assume
+myhashtbl_type = hashtbl_type(key, itm)
 //
 in (* in-of-local *)
 //
