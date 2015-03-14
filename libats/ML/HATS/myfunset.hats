@@ -117,13 +117,31 @@ extern
 fun
 myfunset_union(myset, myset): myset
 and
+myfunset_union2(&myset >> _, myset): void
+extern
+fun
 myfunset_intersect(myset, myset): myset
+and
+myfunset_intersect2(&myset >> _, myset): void
+//
+overload .union with myfunset_union2
+overload .intersect with myfunset_intersect2
+//
+(* ****** ****** *)
 //
 extern
 fun
 myfunset_diff(xs: myset, ys: myset): myset
 and
+myfunset_diff2(xs: &myset >> _, ys: myset): void
+extern
+fun
 myfunset_symdiff(xs: myset, ys: myset): myset
+and
+myfunset_symdiff2(xs: &myset >> _, ys: myset): void
+//
+overload .diff with myfunset_diff2
+overload .symdiff with myfunset_symdiff2
 //
 (* ****** ****** *)
 //
@@ -151,9 +169,6 @@ fun
 myfunset_is_subset(myset, myset): bool
 and
 myfunset_is_supset(myset, myset): bool
-//
-overload .is_subset with myfunset_is_subset
-overload .is_supset with myfunset_is_subset
 //
 (* ****** ****** *)
 //
@@ -241,12 +256,20 @@ myfunset_remove(xs, x0) = funset_remove<elt>(xs, x0)
 implement
 myfunset_union(xs, ys) = funset_union<elt>(xs, ys)
 implement
+myfunset_union2(xs, ys) = xs := funset_union<elt>(xs, ys)
+implement
 myfunset_intersect(xs, ys) = funset_intersect<elt>(xs, ys)
+implement
+myfunset_intersect2(xs, ys) = xs := funset_intersect<elt>(xs, ys)
 //
 implement
 myfunset_diff(xs, ys) = funset_diff<elt>(xs, ys)
 implement
+myfunset_diff2(xs, ys) = xs := funset_diff<elt>(xs, ys)
+implement
 myfunset_symdiff(xs, ys) = funset_symdiff<elt>(xs, ys)
+implement
+myfunset_symdiff2(xs, ys) = xs := funset_symdiff<elt>(xs, ys)
 //
 implement
 myfunset_equal(xs, ys) = funset_equal<elt>(xs, ys)
