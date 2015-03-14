@@ -115,6 +115,50 @@ overload .remove with myfunset_remove
 //
 extern
 fun
+myfunset_union(myset, myset): myset
+and
+myfunset_intersect(myset, myset): myset
+//
+extern
+fun
+myfunset_diff(xs: myset, ys: myset): myset
+and
+myfunset_symdiff(xs: myset, ys: myset): myset
+//
+(* ****** ****** *)
+//
+extern
+fun
+myfunset_equal(myset, myset): bool
+and
+myfunset_notequal(myset, myset): bool
+//
+overload = with myfunset_equal
+overload != with myfunset_notequal
+//
+(* ****** ****** *)
+//
+extern
+fun
+myfunset_compare(myset, myset): int
+//
+overload compare with myfunset_compare
+//
+(* ****** ****** *)
+//
+extern
+fun
+myfunset_is_subset(myset, myset): bool
+and
+myfunset_is_supset(myset, myset): bool
+//
+overload .is_subset with myfunset_is_subset
+overload .is_supset with myfunset_is_subset
+//
+(* ****** ****** *)
+//
+extern
+fun
 myfunset_foreach_cloref
   (xs: myset, fwork: (elt) -<cloref1> void): void
 //
@@ -133,6 +177,13 @@ myfunset_foldleft_cloref
 (*
 overload .foldleft_cloref with myfunset_foldleft_cloref
 *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+myfunset_tabulate_cloref
+  {n:nat}(n: int(n), fopr: (intGte(0)) -<cloref1> elt): myset
 //
 (* ****** ****** *)
 //
@@ -188,13 +239,36 @@ implement
 myfunset_remove(xs, x0) = funset_remove<elt>(xs, x0)
 //
 implement
+myfunset_union(xs, ys) = funset_union<elt>(xs, ys)
+implement
+myfunset_intersect(xs, ys) = funset_intersect<elt>(xs, ys)
+//
+implement
+myfunset_diff(xs, ys) = funset_diff<elt>(xs, ys)
+implement
+myfunset_symdiff(xs, ys) = funset_symdiff<elt>(xs, ys)
+//
+implement
+myfunset_equal(xs, ys) = funset_equal<elt>(xs, ys)
+implement
+myfunset_notequal(xs, ys) = ~(funset_equal<elt>(xs, ys))
+//
+implement
+myfunset_compare(xs, ys) = funset_compare<elt>(xs, ys)
+//
+implement
+myfunset_is_subset(xs, ys) = funset_is_subset<elt>(xs, ys)
+implement
+myfunset_is_supset(xs, ys) = funset_is_supset<elt>(xs, ys)
+//
+implement
 myfunset_foreach_cloref
   (xs, fwork) = funset_foreach_cloref<elt> (xs, fwork)
 //
 implement
 {res}(*tmp*)
 myfunset_foldleft_cloref
-  (xs, ini, fopr) = r0 where
+  (xs0, ini, fopr) = r0 where
 {
 //
 var r0: res = ini
@@ -202,10 +276,18 @@ val p_r0 = addr@r0
 val ((*void*)) =
 myfunset_foreach_cloref
 (
-  xs, lam(x) => $UN.ptr0_set<res>(p_r0, fopr($UN.ptr0_get<res>(p_r0), x))
+  xs0
+, lam(x) =>
+  $UN.ptr0_set<res>
+    (p_r0, fopr($UN.ptr0_get<res>(p_r0), x))
+  // end of [lam]
 ) (* end of [myfunset_foreach_cloref] *) // end of [val]
 //
 } (* end of [myfunset_foldleft_cloref] *)
+//
+implement
+myfunset_tabulate_cloref
+   (n, fopr) = funset_tabulate_cloref<elt>(n, fopr)
 //
 implement
 myfunset_listize(xs) = g1ofg0(funset_listize<elt>(xs))

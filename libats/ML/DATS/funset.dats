@@ -327,6 +327,20 @@ end // end of [funset_foreach_cloref]
 
 implement
 {a}(*tmp*)
+funset_tabulate_cloref
+  (n, fopr) = let
+//
+implement
+$FS.funset_tabulate$fopr<a> (i) = fopr(i)
+//
+in
+  $FS.funset_tabulate<a> (n)
+end // end of [funset_tabulate]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 funset_listize (xs) =
 (
   $effmask_wrt (list0_of_list_vt ($FS.funset_listize (xs)))

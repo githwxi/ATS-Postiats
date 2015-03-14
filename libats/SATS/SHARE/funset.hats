@@ -186,6 +186,15 @@ a:t0p}{env:vt0p
 // end of [funset_foreach_env]
 //
 (* ****** ****** *)
+//
+fun
+{a:t0p}
+funset_tabulate{n:nat}(n: int(n)): set(a)
+fun
+{a:t0p}
+funset_tabulate$fopr (index: intGte(0)): (a)
+//
+(* ****** ****** *)
 
 fun{a:t0p}
 funset_listize (xs: set(INV(a))):<!wrt> List0_vt (a)

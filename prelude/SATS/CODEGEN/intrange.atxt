@@ -42,6 +42,14 @@ fun{env:vt0p}
 intrange_foreach$fwork (i: int, env: &(env) >> _): void
 //
 #atscode_separator()
+
+fun{}
+intrange_foreach_cloref
+(
+  l: int, r: int, fwork: (int) -<cloref1> void
+) : int // end of [intrange_foreach_cloref]
+
+#atscode_separator()
 //
 fun{}
 intrange_rforeach (l: int, r: int): int
@@ -53,6 +61,14 @@ intrange_rforeach$cont (i: int, env: &env): bool
 fun{env:vt0p}
 intrange_rforeach$fwork (i: int, env: &(env) >> _): void
 //
+#atscode_separator()
+
+fun{}
+intrange_rforeach_cloref
+(
+  l: int, r: int, fwork: (int) -<cloref1> void
+) : int // end of [intrange_rforeach_cloref]
+
 #atscode_separator()
 //
 fun{}

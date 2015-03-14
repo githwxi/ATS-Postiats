@@ -312,8 +312,8 @@ else gnumber_int<a>(1)
 //
 ')
 
-With a bit of support for overloading in ATS, we can rewrite
-#dyncode("gfact") as follows:
+With a bit of help from the support for
+overloading in ATS, we can rewrite #dyncode("gfact") as follows:
 
 #atscode('\
 implement

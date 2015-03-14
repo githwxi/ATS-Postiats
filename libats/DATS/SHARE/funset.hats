@@ -205,6 +205,42 @@ end // end of [fprint_funset]
 
 implement
 {a}(*tmp*)
+funset_tabulate
+  {n}(n) = res where
+{
+//
+fun
+loop
+{i:nat | i <= n} .<n-i>.
+(
+  i: int(i), n: int(n), res: &set(a) >> _
+) : void = (
+//
+if
+i < n
+then let
+//
+val x(*a*) = funset_tabulate$fopr<a> (i)
+val _(*bool*) = funset_insert<a> (res, x)
+//
+in
+  loop(i+1, n, res)
+end // end of [then]
+else () // end of [else]
+//
+) (* end of [loop] *)
+//
+var
+res: set(a) = funset_make_nil ()
+//
+val ((*void*)) = loop (0, n, res)
+//
+} (* end of [funset_tabulate] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 funset_listize
   (xs) = let
 //

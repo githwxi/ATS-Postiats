@@ -176,6 +176,12 @@ funset_foreach_cloref
   (set: set(INV(a)), fwork: (a) -<cloref1> void): void
 //
 (* ****** ****** *)
+//
+fun{a:t0p}
+funset_tabulate_cloref
+  {n:nat}(int(n), fopr: (intGte(0)) -<cloref1> a): set(a)
+//
+(* ****** ****** *)
 
 fun{a:t0p}
 funset_listize (xs: set(INV(a))):<> list0 (a)

@@ -71,6 +71,26 @@ end // end of [intrange_foreach_env]
 
 #atscode_separator()
 
+implement
+{}(*tmp*)
+intrange_foreach_cloref
+  (l, r, fwork) = let
+//
+implement
+(env)(*tmp*)
+intrange_foreach$cont<env> (i, env) = true
+implement
+(env)(*tmp*)
+intrange_foreach$fwork<env>(i, env) = fwork(i)
+//
+var env: void = ()
+//
+in
+  intrange_foreach_env<void> (l, r, env)
+end // end of [intrange_foreach_cloref]
+
+#atscode_separator()
+
 implement{env}
 intrange_rforeach$cont (i, env) = true
 (*
@@ -114,6 +134,26 @@ else r // end of [else]
 in
   loop (l, r, env)
 end // end of [intrange_rforeach_env]
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+intrange_rforeach_cloref
+  (l, r, fwork) = let
+//
+implement
+(env)(*tmp*)
+intrange_rforeach$cont<env> (i, env) = true
+implement
+(env)(*tmp*)
+intrange_rforeach$fwork<env>(i, env) = fwork(i)
+//
+var env: void = ()
+//
+in
+  intrange_rforeach_env<void> (l, r, env)
+end // end of [intrange_rforeach_cloref]
 
 #atscode_separator()
 
