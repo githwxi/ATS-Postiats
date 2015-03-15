@@ -326,7 +326,7 @@ to exp1, then exp1 can also be assigned the type T. In other words, static
 meaning is an invariant under evaluation. This property is often referred
 to as #emphasis("type preservation"), which is part of the soundness of the
 type system of ATS. Based on this property, we can readily infer that any
-value is of the type T if exp0 can be evaluated to it (in many steps).\
+value is of the type T if exp0 can be evaluated to it (in multiple steps).\
 
 ")
 

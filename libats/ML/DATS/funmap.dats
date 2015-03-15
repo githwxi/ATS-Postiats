@@ -112,6 +112,49 @@ funmap_remove (map, k) = $FM.funmap_remove (map, k)
 
 implement
 {key,itm}
+fprint_funmap
+  (out, map) = let
+//
+implement
+$FM.fprint_funmap$sep<> = fprint_funmap$sep<>
+implement
+$FM.fprint_funmap$mapto<> = fprint_funmap$mapto<>
+//
+val () = $FM.fprint_funmap (out, map)
+//
+in
+  // nothing
+end // end of [fprint_funmap]
+
+(* ****** ****** *)
+
+implement{}
+fprint_funmap$sep (out) = fprint (out, "; ")
+implement{}
+fprint_funmap$mapto (out) = fprint (out, "->")
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_foreach_cloref
+  (tbl, fwork) = () where
+{
+//
+var env: void = ((*void*))
+//
+implement
+(env)(*tmp*)
+$FM.funmap_foreach$fwork<key,itm><env> (k, x, env) = fwork(k, x)
+//
+val ((*void*)) = $FM.funmap_foreach_env<key,itm><void> (tbl, env)
+//
+} (* end of [funmap_foreach_cloref] *)
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 funmap_listize
   (map) = let
   val xs = $effmask_wrt ($FM.funmap_listize (map))

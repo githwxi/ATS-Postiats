@@ -107,6 +107,47 @@ key,itm:t0p
 } funmap_remove (map: &map (key, INV(itm)) >> _, k: key): bool
 
 (* ****** ****** *)
+//
+fun{
+key,itm:t@ype
+} fprint_funmap
+  (out: FILEref, map: map(key, itm)): void
+//
+overload fprint with fprint_funmap
+//
+fun{}
+fprint_funmap$sep (out: FILEref): void // default: fprint("; ")
+fun{}
+fprint_funmap$mapto (out: FILEref): void // default: fprint("->")
+//
+(* ****** ****** *)
+//
+fun{
+key,itm:t0p
+} funmap_foreach
+  (map: map(key, itm)): void
+fun
+{key:t0p
+;itm:t0p}
+{env:vt0p}
+funmap_foreach_env
+  (map: map(key, itm), env: &(env) >> _): void
+//
+fun
+{key:t0p
+;itm:t0p}
+{env:vt0p}
+funmap_foreach$fwork
+  (key: key, itm: &itm >> _, env: &(env) >> _): void
+//
+(* ****** ****** *)
+//
+fun{
+key,itm:t0p
+} funmap_foreach_cloref
+  (map: map(key, itm), fwork: (key, itm) -<cloref1> void): void
+//
+(* ****** ****** *)
 
 fun{
 key,itm:t0p

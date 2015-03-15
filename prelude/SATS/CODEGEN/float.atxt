@@ -74,11 +74,11 @@ g0string2float (str: NSH(string)):<> g0float (tk)
 fun g0string2float_double (x: NSH(string)):<> double = "mac\#%"
 //
 #atscode_separator()
-
+//
 typedef
 g0float_uop_type
   (tk:tk) = g0float (tk) -<fun0> g0float (tk)
-
+//
 #atscode_separator()
 
 fun{tk:tk}

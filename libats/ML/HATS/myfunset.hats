@@ -54,11 +54,16 @@ myset = myset_type
 //
 extern
 fun
+myfunset_nil():<> myset
+and
 myfunset_make_nil():<> myset
+//
+(* ****** ****** *)
+
 extern
 fun
 myfunset_make_sing(elt): myset
-//
+
 (* ****** ****** *)
 
 extern
@@ -228,7 +233,10 @@ assume myset_type = set_type(elt)
 in (* in-of-local *)
 //
 implement
+myfunset_nil() = funset_nil{elt}()
+implement
 myfunset_make_nil() = funset_make_nil{elt}()
+//
 implement
 myfunset_make_sing(x) = funset_make_sing<elt>(x)
 implement
