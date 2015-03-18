@@ -127,6 +127,11 @@ val-true = myset.remove(1) // removed
 val-false = myset.remove(1) // not actually removed
 ')
 
+Various common set operations can be found in
+#myatscodelink("libats/ML/HATS/myfunset.hats", "libats/ML/HATS/myfunset.hats").
+By following the types assigned to these operations, one should have no difficulty
+in figuring out how they are supposed to be called.\
+
 ")
 
 </sect1><!--"funsetmap_set"-->

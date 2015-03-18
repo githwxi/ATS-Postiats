@@ -97,6 +97,9 @@ myfunset_is_member(myset, elt): bool
 and
 myfunset_isnot_member(myset, elt): bool
 //
+overload is_member with myfunset_is_member
+overload isnot_member with myfunset_isnot_member
+//
 overload .is_member with myfunset_is_member
 overload .isnot_member with myfunset_isnot_member
 //

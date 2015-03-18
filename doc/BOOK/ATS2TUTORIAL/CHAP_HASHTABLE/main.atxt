@@ -179,8 +179,6 @@ myhashtbl_foreach_cloref
 , fwork: (key, &(itm) >> _) -<cloref1> void
 ) : void // end-of-function
 //
-overload .foreach_cloref with myhashtbl_foreach_cloref
-//
 ')
 
 As an example, the following code prints out all the key/item
@@ -189,10 +187,11 @@ pairs in a given hashtable:
 #atscode('\
 //
 val () =
-mymap.foreach_cloref
+myhashtbl_foreach_cloref
 (
-  lam (k, x) => fprintln! (stdout_ref, "k=", k, " and ", "x=", x)
-) (* end of [val] *)
+  mymap
+, lam (k, x) => fprintln! (stdout_ref, "k=", k, " and ", "x=", x)
+) (* myhashtbl_foreach_cloref *)
 //
 ')
 
