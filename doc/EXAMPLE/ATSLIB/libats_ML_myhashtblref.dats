@@ -89,7 +89,8 @@ val-~Some_vt(2) = mytbl.takeout("c")
 //
 val ((*void*)) = fprintln! (out, "mytbl = ", mytbl)
 //
-val ((*void*)) = mytbl.foreach_cloref(lam (k, x) => x:=x+x)
+val ((*void*)) =
+  myhashtbl_foreach_cloref(mytbl, lam (k, x) => x:=x+x)
 //
 val ((*void*)) = fprintln! (out, "mytbl = ", mytbl)
 //

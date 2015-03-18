@@ -6,6 +6,22 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-03-16:<br>
+<a
+ href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/ML/HATS/myfunset.hats"
+>libats/ML/HATS/myfunset.hats</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+ATS-2015-03-16:<br>
+<a
+ href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/ML/HATS/myfunmap.hats"
+>libats/ML/HATS/myfunmap.hats</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-03-12:<br>
 <a
  href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/ML/HATS/myhashtblref.hats"

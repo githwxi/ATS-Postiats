@@ -93,6 +93,16 @@ cleanall:: ; $(RMF) chap_list
 ######
 #
 all:: \
+chap_funsetmap
+chap_funsetmap: \
+  chap_funsetmap.dats ; \
+  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: chap_funsetmap; ./$<
+cleanall:: ; $(RMF) chap_funsetmap
+#
+######
+#
+all:: \
 chap_exception
 chap_exception: \
   chap_exception.dats ; \

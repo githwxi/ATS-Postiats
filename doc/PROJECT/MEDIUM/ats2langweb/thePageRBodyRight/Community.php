@@ -6,6 +6,15 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-03-16:<br>
+<a
+ href="https://groups.google.com/forum/?fromgroups#!topic/ats-lang-users/ORqTD0KANEY"
+>Slides on learning ATS</a><br>
+by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
+
+<hr></hr>
+
 ATS-2015-03-12:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/5a9h2mSGl1M"
@@ -143,6 +152,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
 ATS-2014-11-18:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/nZ1RLzGae1Y"
@@ -151,7 +161,6 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-<!--
 ATS-2014-11-10:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/PO4X6L5dyHE"

@@ -1,0 +1,169 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_ARRAYREF/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="funsetmap">
+#title("Functional Sets and Maps")
+
+#para("\
+
+Both (finite) sets and (finite) maps are commonly used data structures.
+Functional sets and maps are immutable after their construction.  Insertion
+into or removal from a functional set/map results in the construction of a
+new set/map while the original is kept intact. Usually the newly
+constructed set/map and the original one share a lot of underlying
+representation. Note that a function set/map cannot be safely freed
+explicitly and the memory for representing it can only be reclaimed through
+garbage collection (GC).
+
+")
+
+<sect1
+ id="funsetmap_set">
+#title("Functional Sets")
+
+#para("\
+
+Suppose that a set is needed for collecting values of type
+#stacode("elt_t"). The following code essentially sets up an interface for
+creating and operating on such a set based on a balanced-tree
+implementation in ATSLIB/libats:
+
+#atscode('\
+staload
+FS = "libats/ML/SATS/funset.sats"
+//
+local
+//
+typedef elt = elt_t
+//
+implement
+$FS.compare_elt_elt<elt_t>(x, y) = compare(x, y)
+//
+in (* in-of-local *)
+
+\#include "libats/ML/HATS/myfunset.hats"
+
+end // end of [local]
+')
+
+Please find #myatscodelink("libats/ML/HATS/myfunset.hats", "on-line") the
+HATS file mentioned in the code, which is just a convenience wrapper made
+to simplify programming with functional sets. Note that it is assumed here
+that there is a comparison function on the type #stacode("elt_t") that
+overloads the symbol #dyncode("compare"). If this is not the case, one
+needs to implement such a function.
+
+")
+
+#para("\
+
+Assume that #stacode("elt_t") is #stacode("int"). The following line
+of code creates a functional set (of integers) containing no elements:
+
+#atscode('\
+val myset = myfunset_nil()
+')
+
+The function for inserting an element into a given set is assigned the
+following type:
+
+#atscode('\
+//
+fun myfunset_insert(xs: &myset >> _, x0: elt): bool
+//
+')
+
+The dot-symbol #dyncode(".insert") is overloaded with the function
+#dyncode("myfunset_insert"). Note that the first argument of
+#dyncode("myfunset_insert") is call-by-reference. If the given element is
+inserted into the given set, then the newly created set is stored into the
+call-by-reference argument and #dyncode("false") is returned (to indicate
+no error).  Otherwise, #dyncode("true") is returned (to indicate a
+failure). The following few lines of code shows how insertion can be
+operated on a functional set:
+
+#atscode('\
+var myset = myset
+val-false = myset.insert(0) // inserted
+val-(true) = myset.insert(0) // not actually inserted
+var-false = myset.insert(1) // inserted
+val-(true) = myset.insert(1) // not actually inserted
+')
+
+The first line of code above may seem puzzling: Its sole purpose is to
+create a left-value to be passed as the first argument to #dyncode("myfunset_insert").
+The function for removing an element from a given set is assigned the
+following type:
+
+#atscode('\
+//
+fun myfunset_remove(xs: &myset >> _, x0: elt): bool
+//
+')
+
+The dot-symbol #dyncode(".remove") is overloaded with the function
+#dyncode("myfunset_remove"). Note that the first argument of
+#dyncode("myfunset_remove") is call-by-reference. If the given element is
+removed from the given set, then the newly created set is stored into the
+call-by-reference argument and #dyncode("true") is returned.  Otherwise,
+#dyncode("false") is returned.  The following few lines of code shows how
+removal can be operated on a functional set:
+
+#atscode('\
+val-true = myset.remove(0) // removed
+val-false = myset.remove(0) // not actually removed
+val-true = myset.remove(1) // removed
+val-false = myset.remove(1) // not actually removed
+')
+
+")
+
+</sect1><!--"funsetmap_set"-->
+
+<sect1
+ id="funsetmap_map">
+#title("Functional Maps")
+
+#para("\
+
+Suppose that a map is needed for mapping keys of type
+#stacode("key_t") to items of type #stacode("itm_t"). The following code
+essentially sets up an interface for creating and operating on such a map
+based on a hashtable implementation in ATSLIB/libats:
+
+")
+
+</sect1><!--"funsetmap_map"-->
+
+</chapter><!--"funsetmap"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_funsetmap.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}

@@ -643,7 +643,8 @@ end // end of [funset_takeoutmin]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_union
   (t1, t2) = let
 //
@@ -675,7 +676,8 @@ end // end of [funset_union]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_intersect
   (t1, t2) = let
 //
@@ -710,8 +712,9 @@ end // end of [funset_intersect]
 
 (* ****** ****** *)
 
-implement{a}
-funset_diff
+implement
+{a}(*tmp*)
+funset_differ
   (t1, t2) = let
 //
 fun aux
@@ -742,11 +745,12 @@ in
 //
 $effmask_wrt (aux (t1, t2))
 //
-end // end of [funset_diff]
+end // end of [funset_differ]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_symdiff
   (t1, t2) = let
 //

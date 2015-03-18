@@ -137,7 +137,7 @@ funset_union (xs1: set(INV(a)), xs2: set(a)):<> set(a)
 fun{a:t0p}
 funset_intersect (xs1: set(INV(a)), xs2: set(a)):<> set(a)
 fun{a:t0p}
-funset_diff (xs1: set(INV(a)), xs2: set(a)):<> set(a)
+funset_differ (xs1: set(INV(a)), xs2: set(a)):<> set(a)
 fun{a:t0p}
 funset_symdiff (xs1: set(INV(a)), xs2: set(a)):<> set(a)
 

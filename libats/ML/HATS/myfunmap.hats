@@ -33,8 +33,8 @@
 
 (* ****** ****** *)
 //
-// HX-2015-03-12:
-// For quickly building a hashmap interface
+// HX-2015-03-15:
+// For quickly building a funmap interface
 //
 (* ****** ****** *)
 //
@@ -130,7 +130,9 @@ myfunmap_foreach_cloref
   tbl: mymap, fwork: (key, itm) -<cloref1> void
 ) : void // end-of-function
 //
-overload .foreach_cloref with myfunmap_foreach_cloref
+(*
+overload foreach_cloref with myfunmap_foreach_cloref
+*)
 //
 (* ****** ****** *)
 //

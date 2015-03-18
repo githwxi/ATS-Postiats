@@ -374,7 +374,8 @@ end // end of [funset_takeoutmin]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_union
   (xs1, xs2) = let
 //
@@ -413,7 +414,8 @@ end // end of [funset_union]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_intersect
   (xs1, xs2) = let
 //
@@ -452,8 +454,9 @@ end // end of [funset_intersect]
 
 (* ****** ****** *)
 
-implement{a}
-funset_diff
+implement
+{a}(*tmp*)
+funset_differ
   (xs1, xs2) = let
 //
 fun aux // non-tail-recursive
@@ -486,11 +489,12 @@ end // end of [aux]
 //
 in
   aux (xs1, xs2)
-end // end of [funset_diff]
+end // end of [funset_differ]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_symdiff
   (xs1, xs2) = let
 //

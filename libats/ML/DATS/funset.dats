@@ -214,15 +214,15 @@ end // end of [funset_intersect]
 
 implement
 {a}(*tmp*)
-funset_diff
+funset_differ
   (xs1, xs2) = let
 //
 implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_diff (xs1, xs2)
-end // end of [funset_diff]
+  $FS.funset_differ (xs1, xs2)
+end // end of [funset_differ]
 
 (* ****** ****** *)
 

@@ -150,7 +150,9 @@ myhashtbl_foreach_cloref
 , fwork: (key, &(itm) >> _) -<cloref1> void
 ) : void // end-of-function
 //
-overload .foreach_cloref with myhashtbl_foreach_cloref
+(*
+overload foreach_cloref with myhashtbl_foreach_cloref
+*)
 //
 (* ****** ****** *)
 //

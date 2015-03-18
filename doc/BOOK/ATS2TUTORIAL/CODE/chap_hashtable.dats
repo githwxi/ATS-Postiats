@@ -81,10 +81,11 @@ val () = mymap.insert_any("b", 1)
 val () = mymap.insert_any("c", 2)
 //
 val () =
-mymap.foreach_cloref
+myhashtbl_foreach_cloref
 (
-  lam (k, x) => fprintln! (stdout_ref, "k=", k, " and ", "x=", x)
-) (* end of [val] *)
+  mymap
+, lam (k, x) => fprintln! (stdout_ref, "k=", k, " and ", "x=", x)
+) (* myhashtbl_foreach_cloref *)
 //
 (* ****** ****** *)
 

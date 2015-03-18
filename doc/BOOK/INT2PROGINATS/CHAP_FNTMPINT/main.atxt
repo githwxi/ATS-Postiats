@@ -826,7 +826,7 @@ this regard, I say that higher-order functions can support a form of
 late-binding. However, using higher-order functions in such a manner is not
 without serious problems. Basically, any function that calls
 #dyncode("print_int") either directly or indirectly needs to be turned into
-a higher-order function, and the same applies about functions calling
+a higher-order function, and the same applies to functions calling
 #dyncode("print_double") as well. This style of programming with extensive
 use of higher-order functions can soon become extremely unwieldy when the
 number of functions grows large that need to be treated like

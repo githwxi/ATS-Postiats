@@ -33,8 +33,8 @@
 
 (* ****** ****** *)
 //
-// HX-2015-03-12:
-// For quickly building a hashmap interface
+// HX-2015-03-14:
+// For quickly building a funset interface
 //
 (* ****** ****** *)
 //
@@ -62,6 +62,8 @@ myfunset_make_nil():<> myset
 
 extern
 fun
+myfunset_sing(elt): myset
+and
 myfunset_make_sing(elt): myset
 
 (* ****** ****** *)
@@ -123,29 +125,41 @@ fun
 myfunset_union(myset, myset): myset
 and
 myfunset_union2(&myset >> _, myset): void
+//
+overload union with myfunset_union
+overload .union with myfunset_union2
+//
 extern
 fun
 myfunset_intersect(myset, myset): myset
 and
 myfunset_intersect2(&myset >> _, myset): void
 //
-overload .union with myfunset_union2
+overload intersect with myfunset_intersect
 overload .intersect with myfunset_intersect2
 //
 (* ****** ****** *)
 //
 extern
 fun
-myfunset_diff(xs: myset, ys: myset): myset
+myfunset_differ
+  (xs: myset, ys: myset): myset
 and
-myfunset_diff2(xs: &myset >> _, ys: myset): void
+myfunset_differ2
+  (xs: &myset >> _, ys: myset): void
+//
+overload differ with myfunset_differ
+overload .differ with myfunset_differ2
+//
 extern
 fun
-myfunset_symdiff(xs: myset, ys: myset): myset
+myfunset_symdiff
+  (xs: myset, ys: myset): myset
 and
-myfunset_symdiff2(xs: &myset >> _, ys: myset): void
+myfunset_symdiff2
+  (xs: &myset >> _, ys: myset): void
 //
-overload .diff with myfunset_diff2
+overload symdiff with myfunset_symdiff
 overload .symdiff with myfunset_symdiff2
 //
 (* ****** ****** *)
@@ -177,12 +191,22 @@ myfunset_is_supset(myset, myset): bool
 //
 (* ****** ****** *)
 //
+overload is_subset with myfunset_is_subset
+overload is_supset with myfunset_is_supset
+//
+overload .is_subset with myfunset_is_subset
+overload .is_supset with myfunset_is_supset
+//
+(* ****** ****** *)
+//
 extern
 fun
 myfunset_foreach_cloref
   (xs: myset, fwork: (elt) -<cloref1> void): void
 //
-overload .foreach_cloref with myfunset_foreach_cloref
+(*
+overload foreach_cloref with myfunset_foreach_cloref
+*)
 //
 (* ****** ****** *)
 //
@@ -195,7 +219,7 @@ myfunset_foldleft_cloref
 ) : res // end of [myfunset_foldleft_cloref]
 //
 (*
-overload .foldleft_cloref with myfunset_foldleft_cloref
+overload foldleft_cloref with myfunset_foldleft_cloref
 *)
 //
 (* ****** ****** *)
@@ -211,6 +235,7 @@ extern
 fun
 myfunset_listize(myset): List0(elt)
 //
+overload listize with myfunset_listize
 overload .listize with myfunset_listize
 //
 (* ****** ****** *)
@@ -233,12 +258,15 @@ assume myset_type = set_type(elt)
 in (* in-of-local *)
 //
 implement
-myfunset_nil() = funset_nil{elt}()
+myfunset_nil() = funset_make_nil{elt}()
 implement
 myfunset_make_nil() = funset_make_nil{elt}()
 //
 implement
+myfunset_sing(x) = funset_make_sing<elt>(x)
+implement
 myfunset_make_sing(x) = funset_make_sing<elt>(x)
+//
 implement
 myfunset_make_list(xs) = funset_make_list<elt>(g0ofg1(xs))
 //
@@ -271,9 +299,9 @@ implement
 myfunset_intersect2(xs, ys) = xs := funset_intersect<elt>(xs, ys)
 //
 implement
-myfunset_diff(xs, ys) = funset_diff<elt>(xs, ys)
+myfunset_differ(xs, ys) = funset_differ<elt>(xs, ys)
 implement
-myfunset_diff2(xs, ys) = xs := funset_diff<elt>(xs, ys)
+myfunset_differ2(xs, ys) = xs := funset_differ<elt>(xs, ys)
 implement
 myfunset_symdiff(xs, ys) = funset_symdiff<elt>(xs, ys)
 implement

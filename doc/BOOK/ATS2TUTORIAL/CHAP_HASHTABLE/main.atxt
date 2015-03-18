@@ -56,9 +56,8 @@ made to simplify programming with hashtables.
 #para("\
 
 Assume that #stacode("key_t") is #stacode("string") and #stacode("itm_t")
-is #stacode("int"). The following line creates a hashtable with its
+is #stacode("int"). The following line of code creates a hashtable with its
 initial capacity set to be 1000:
-
 
 #atscode('\
 val mymap = myhashtbl_make_nil(1000)
