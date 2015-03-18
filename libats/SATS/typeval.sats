@@ -49,6 +49,16 @@ tieq(type, int) =
 //
 (* ****** ****** *)
 //
+praxi
+lemma_tieq_param {T:type} {n:int} (tieq (T, n)): [n >= 0] void
+//
+(* ****** ****** *)
+
+fun{N:type
+} tieq_to_int1 {n:int} (tieq (N, n) | (*void*)): int(n)
+
+(* ****** ****** *)
+//
 fun
 {a:vt0p}
 {t:type}

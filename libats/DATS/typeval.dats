@@ -36,6 +36,20 @@
 staload "libats/SATS/typeval.sats"
 
 (* ****** ****** *)
+
+implement
+tieq_to_int1<Z()> (pf | (*void*)) = let
+  prval TIEQZ () = pf in 0
+end // end of [tieq_to_int1<Z()>]
+
+implement
+(t)(*tmp*)
+tieq_to_int1<S(t)> (pf | (*void*)) = let
+  prval TIEQS(pf) = pf in
+  succ(tieq_to_int1<t> (pf | (*void*)))
+end // end of [tieq_to_int1<S(t)>]
+
+(* ****** ****** *)
 //
 implement
 (a)(*tmp*)
