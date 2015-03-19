@@ -87,7 +87,7 @@ The dot-symbol #dyncode(".insert") is overloaded with a function of the
 name #dyncode("myhashtbl_insert"). Given a key and an item,
 #dyncode("mymap.insert") inserts the key/item pair into #dyncode("mymap").
 If the key is in the domain of the map represented by #dyncode("mymap")
-before inserting, then the original item associated with the key is
+before insertion, then the original item associated with the key is
 returned. Otherwise, no item is returned. As can be expected, the size
 of #dyncode("mymap") is 3 at this point:
 

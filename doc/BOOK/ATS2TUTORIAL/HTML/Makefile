@@ -12,9 +12,10 @@ PATSCC=$(PATSHOME)/bin/patscc
 
 ######
 
-htmltoc:: htmltoc.exe; ./$< p*.html
-htmltoc:: htmltoc.exe; ./$< f*.html
 htmltoc:: htmltoc.exe; ./$< c*.html
+htmltoc:: htmltoc.exe; ./$< f*.html
+htmltoc:: htmltoc.exe; ./$< p*.html
+htmltoc:: htmltoc.exe; ./$< x*.html
 htmltoc:: htmltoc.exe; ./$< book1.html
 
 ######
