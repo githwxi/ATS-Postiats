@@ -26,20 +26,14 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload "{$LIBATSHWXI}/teaching/mythread/SATS/channel.sats"
-
-(* ****** ****** *)
 //
-staload _ = "libats/DATS/deqarray.dats"
+#include
+"{$LIBATSHWXI}/threadkit/staloadall.hats"
 //
 (* ****** ****** *)
-//
-staload _ = "libats/DATS/athread.dats"
-staload _ = "libats/DATS/athread_posix.dats"
-//
-staload _ = "{$LIBATSHWXI}/teaching/mythread/DATS/channel.dats"
-//
+
+staload $CHANNEL
+
 (* ****** ****** *)
 
 staload "./DiningPhil2.sats"

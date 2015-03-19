@@ -37,10 +37,12 @@ Here is a list of major additions and changes since the last release:
    implement(a) myprint<List(int)> = ...
 7. Adding some convenience wrappers:
    libats/ML/HATS/myfunset.hats
+   libats/ML/HATS/myfunmap.hats
    libats/ML/HATS/myhashtblref.hats
 8. Fixing certain issues with overloaded dot-symbols
 9. Adding INT2PROGINATS-chapter: From genericity to late-binding
-10. Adding ATS2TUTORIAL-chapter: Persistent Hashtables
+10. Adding ATS2TUTORIAL-chapter: Persistent hashtables
+11. Adding ATS2TUTORIAL-chapter: Functional sets and maps
 
 ######
 

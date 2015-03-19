@@ -11,9 +11,10 @@
 "share/atspre_define.hats"
 
 (* ****** ****** *)
-
-staload "{$LIBATSHWXI}/teaching/mythread/SATS/channel.sats"
-
+//
+staload
+"{$LIBATSHWXI}/threadkit/SATS/channel.sats"
+//
 (* ****** ****** *)
 
 %{#

@@ -101,12 +101,20 @@ ATSCNTRB/libats-/hwxi\
 
 (* ****** ****** *)
 
-#packfilename("globals/HATS/gcount.hats")
-#packfilename("globals/HATS/globvar.hats")
-#packfilename("globals/HATS/gstacklst.hats")
-#packfilename("globals/HATS/gdeqarray.hats")
-#packfilename("globals/HATS/ghashtbl_chain.hats")
-#packfilename("globals/HATS/ghashtbl_linprb.hats")
+#packfilename("SIMD/SATS/v2df.sats")
+#packfilename("SIMD/CATS/v2df.cats")
+
+(* ****** ****** *)
+
+#packfilename("PEULER/SATS/peuler.sats")
+
+(* ****** ****** *)
+
+#packfilename("intinf/SATS/intinf.sats")
+#packfilename("intinf/SATS/intinf_t.sats")
+#packfilename("intinf/SATS/intinf_vt.sats")
+#packfilename("intinf/DATS/intinf_t.dats")
+#packfilename("intinf/DATS/intinf_vt.dats")
 
 (* ****** ****** *)
 
@@ -117,11 +125,12 @@ ATSCNTRB/libats-/hwxi\
 
 (* ****** ****** *)
 
-#packfilename("intinf/SATS/intinf.sats")
-#packfilename("intinf/SATS/intinf_t.sats")
-#packfilename("intinf/SATS/intinf_vt.sats")
-#packfilename("intinf/DATS/intinf_t.dats")
-#packfilename("intinf/DATS/intinf_vt.dats")
+#packfilename("globals/HATS/gcount.hats")
+#packfilename("globals/HATS/globvar.hats")
+#packfilename("globals/HATS/gstacklst.hats")
+#packfilename("globals/HATS/gdeqarray.hats")
+#packfilename("globals/HATS/ghashtbl_chain.hats")
+#packfilename("globals/HATS/ghashtbl_linprb.hats")
 
 (* ****** ****** *)
 
@@ -139,12 +148,19 @@ ATSCNTRB/libats-/hwxi\
 
 (* ****** ****** *)
 
-#packfilename("SIMD/SATS/v2df.sats")
-#packfilename("SIMD/CATS/v2df.cats")
+#packfilename("threadkit/staloadall.hats")
 
-(* ****** ****** *)
+#packfilename("threadkit/SATS/spinvar.sats")
+#packfilename("threadkit/SATS/spinref.sats")
+#packfilename("threadkit/SATS/nwaiter.sats")
+#packfilename("threadkit/SATS/channel.sats")
+#packfilename("threadkit/SATS/channel_vt.sats")
 
-#packfilename("PEULER/SATS/peuler.sats")
+#packfilename("threadkit/DATS/spinvar.dats")
+#packfilename("threadkit/DATS/spinref.dats")
+#packfilename("threadkit/DATS/nwaiter.dats")
+#packfilename("threadkit/DATS/channel.dats")
+#packfilename("threadkit/DATS/channel_vt.dats")
 
 (* ****** ****** *)
 
