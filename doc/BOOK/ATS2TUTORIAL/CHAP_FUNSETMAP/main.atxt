@@ -106,8 +106,20 @@ val-(true) = myset.insert(1) // not actually inserted
 
 The first line in the above code may seem puzzling:
 Its sole purpose is to create a left-value to be passed as the first
-argument to #dyncode("myfunset_insert").  The function for removing an
-element from a given set is assigned the following type:
+argument to #dyncode("myfunset_insert").
+
+During the course of debugging, one may want to print out the values
+contained in a given set:
+
+#atscode('\
+//
+val () = fprintln! (stdout_ref, "myset = ", myset)
+//
+')
+
+where the symbol #dyncode("fprint") is overloaded with
+#dyncode("fprint_myset"). The function for removing an element from a
+given set is assigned the following type:
 
 #atscode('\
 //
@@ -135,9 +147,11 @@ val-false = myset.remove(1) // not actually removed
 #para('\
 
 Various common set operations can be found in
-#myatscodelink("libats/ML/HATS/myfunset.hats", "libats/ML/HATS/myfunset.hats").
-By following the types assigned to these operations, one should have no difficulty
-in figuring out how they are supposed to be called.\
+#myatscodelink("libats/ML/HATS/myfunset.hats",
+"libats/ML/HATS/myfunset.hats").  By following the types assigned to these
+operations, one should have no difficulty in figuring out how they are
+supposed to be called.  Please find the entirety of the code used in this
+section #mycodelink("chap_funsetmap_set.dats", "on-line").
 
 ')
 
@@ -164,7 +178,7 @@ typedef
 key = key_t and itm = itm_t
 //
 implement
-$FS.compare_key_key<key_t>(x, y) = compare(x, y)
+$FM.compare_key_key<key_t>(x, y) = compare(x, y)
 //
 in (* in-of-local *)
 
@@ -230,8 +244,7 @@ print out the key/item pairs in a given map:
 
 #atscode('\
 //
-val () =
-fprintln! (stdout_ref, "mymap = ", mymap)
+val () = fprintln! (stdout_ref, "mymap = ", mymap)
 //
 ')
 
@@ -273,11 +286,13 @@ excepting for returning the removed item.
 #para('\
 
 Various common map operations can be found in
-#myatscodelink("libats/ML/HATS/myfunmap.hats", "libats/ML/HATS/myfunmap.hats").
-By following the types assigned to these operations, one should have no difficulty
-in figuring out how they are supposed to be called.\
+#myatscodelink("libats/ML/HATS/myfunmap.hats",
+"libats/ML/HATS/myfunmap.hats").  By following the types assigned to these
+operations, one should have no difficulty in figuring out how they are
+supposed to be called. Please find the entirety of the code used in this
+section #mycodelink("chap_funsetmap_map.dats", "on-line").
 
-')
+')#comment("para")
 
 </sect1><!--"funsetmap_map"-->
 

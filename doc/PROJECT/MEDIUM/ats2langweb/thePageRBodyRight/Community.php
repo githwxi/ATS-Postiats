@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-03-19:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/Bb_yowRWqPA"
+>A new ATS2TUTORIAL chapter</a><br>(Functional sets and maps)<br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-03-16:<br>
 <a
  href="https://groups.google.com/forum/?fromgroups#!topic/ats-lang-users/ORqTD0KANEY"
@@ -18,7 +26,7 @@ at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 ATS-2015-03-12:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/5a9h2mSGl1M"
->A new ATS2TUTIROAL chapter on hashtables</a><br>
+>A new ATS2TUTORIAL chapter</a><br>(On persistent hashtables)<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
@@ -136,6 +144,7 @@ at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
 
+<!--
 ATS-2014-12-02:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/HkGtXA88dJU"
@@ -152,7 +161,6 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-<!--
 ATS-2014-11-18:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/nZ1RLzGae1Y"
