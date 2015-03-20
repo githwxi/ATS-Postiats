@@ -18,6 +18,12 @@
 Effective ATS: Parallel Sorting
 </h1>
 
+In this article, I present two implementations of parallel mergesort.
+One implementation makes heavy use of explicit synchronization while the
+other does not. The former is easier to code, but it is significantly less
+efficient than the latter in terms of the level of concurrency.
+
+
 <hr size="2">
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.

@@ -56,9 +56,9 @@ that the so-called #stacode("wrt")-effect may occur when
 
 #para("\
 
-For reading writing through a reference, the function templates
-#dyncode("ref_get_elt") and #dyncode("ref_set_elt") can be used,
-respectively, which are assigned the following interfaces:
+For reading from and writing through a reference, the function
+templates #dyncode("ref_get_elt") and #dyncode("ref_set_elt") can be used,
+respectively, which are assigned the following types:
 
 #atscode('\
 fun{a:t@ype} ref_get_elt (r: ref a):<!ref> a
@@ -152,7 +152,7 @@ variable #dyncode("res") in the C implementation of #dyncode("fact") is
 stack-allocated (or it can even be mapped to a machine register), and there
 is no generated garbage after a call to #dyncode("fact") returns. A proper
 translation of the C implementation in ATS can actually be given as
-follows, which makes no use of references:
+follows:
 
 #atscode_extract('\
 fun fact
@@ -164,6 +164,8 @@ in
   loop (n, 1)
 end // end of [fact]
 ')
+
+which makes no use of references at all.
 
 ")#comment("para")
 
