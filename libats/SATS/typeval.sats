@@ -45,7 +45,16 @@ abstype Z() and S(type)
 dataprop
 tieq(type, int) =
   | TIEQZ (Z(), 0)
-  | {t:type}{n:nat} TIEQS(S(t), n+1) of tieq(t, n)
+  | {t:type}{n:nat}
+    TIEQS(S(t), n+1) of tieq(t, n)
+//
+(* ****** ****** *)
+//
+fun
+{t:type}
+tieq2int
+  {n:int}
+  (pf: tieq(t, n) | (*void*)): int(n)
 //
 (* ****** ****** *)
 //
@@ -55,13 +64,12 @@ fun
 sarray_foreach
   {n:int}
 (
-  pf: tieq(t, n)
-| A0: &array(a, n), env: ptr
+  pf: tieq(t, n)| A0: &array(a, n), env: ptr
 ) : void // end-of-fun
 //
 fun
 {a:vt0p}
-sarray_foreach$fwork (x: &a >> _, env: ptr): void
+sarray_foreach$fwork(x: &a >> _, env: ptr): void
 //
 (* ****** ****** *)
 //
@@ -77,7 +85,7 @@ sarray_foreach2
 //
 fun
 {a:vt0p}
-sarray_foreach2$fwork (x0: &a >> _, x1: &a >> _, env: ptr): void
+sarray_foreach2$fwork(x0: &a >> _, x1: &a >> _, env: ptr): void
 //
 (* ****** ****** *)
 

@@ -38,6 +38,23 @@ staload "libats/SATS/typeval.sats"
 (* ****** ****** *)
 //
 implement
+tieq2int<Z()>
+  (pf | (*void*)) =
+  let prval TIEQZ() = pf in 0 end
+//
+implement
+(t)(*tmp*)
+tieq2int<S(t)>
+  (pf | (*void*)) =
+(
+  let prval TIEQS(pf) = pf in
+    succ(tieq2int<t>(pf | (*void*))) end
+  // end of [tieq2int<S(t)>]
+)
+//
+(* ****** ****** *)
+//
+implement
 (a)(*tmp*)
 sarray_foreach<a><Z()>
   (pf | A, env) = ()
