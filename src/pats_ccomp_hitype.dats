@@ -43,6 +43,11 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
+staload
+INTINF = "./pats_intinf.sats"
+
+(* ****** ****** *)
+
 staload UT = "./pats_utils.sats"
 staload _(*anon*) = "./pats_utils.dats"
 
@@ -274,6 +279,64 @@ fun emit_hitypelst_sep
   (out: FILEref, hits: hitypelst, sep: string): void
 //
 (* ****** ****** *)
+//
+fun
+arrdim_static_compare (dims1: s2explst, dims2: s2explst): bool = let
+//
+fun aux0 (s2v: s2Var, s2e0: s2exp): bool = let
+  val opt = s2Var_get_link (s2v)
+in
+  case+ opt of
+  | Some (s2e) => aux (s2e, s2e0)
+  | None () => false
+end // end of [aux]
+//
+and aux
+(
+  dim1: s2exp, dim2: s2exp
+) : bool = let
+//
+in
+//
+case+
+(dim1.s2exp_node, dim2.s2exp_node) of
+//
+| (S2Eint (n1), S2Eint (n2)) => (n1 = n2)
+| (S2Eint (n1), S2Eintinf (n2)) => ($INTINF.compare_intinf_int (n2, n1) = 0)
+| (S2Eintinf (n1), S2Eint (n2)) => ($INTINF.compare_intinf_int (n1, n2) = 0)
+| (S2Eintinf (n1), S2Eintinf (n2)) => ($INTINF.compare_intinf_intinf (n1, n2) = 0)
+//
+| (S2EVar v1, S2EVar v2) => (v1 = v2)
+| (S2EVar v1, _) => aux0 (v1, dim2)
+| (_, S2EVar v1) => aux0 (v1, dim1)
+//
+| (_, _) => false
+//
+end // end of [aux]
+//
+fun auxlst
+(
+  dims1: s2explst,
+  dims2: s2explst
+) : bool = let
+in
+//
+case+ (dims1, dims2) of
+| (list_nil (), list_nil ()) => true(*static*)
+| (list_cons (dim1, dims1), list_cons (dim2, dims2)) => (
+    if ~aux (dim1, dim2) then false(*dynamic*)
+    else auxlst (dims1, dims2)
+  ) (* end of [list_cons] *)
+| (_, _) => false
+
+//
+end (* end of [auxlst] *)
+//
+in
+  auxlst (dims1, dims2)
+end // end of [arrdim_static_compare]
+//
+(* ****** ****** *)
 
 local
 //
@@ -310,7 +373,16 @@ case+ x1 of
   | _ => abort ()
   ) // end of [HITapp]
 //
-| HITtyarr _ => abort ()
+| HITtyarr (_elt1, _s2es1) => (
+  case+ x2 of
+  | HITtyarr
+      (_elt2, _s2es2) => let
+        val () = aux (_elt1, _elt2) in
+        // compare dimensions
+        if ~arrdim_static_compare (_s2es1, _s2es2) then abort ()
+      end // end of [HITtyarr]
+  | _ => abort ()
+  ) // end of [HITtyarr]
 //
 | HITtyrec (lxs1) => (
   case+ x2 of
@@ -832,6 +904,64 @@ in
 end // end of [emit_hitype_app]
 
 (* ****** ****** *)
+//
+extern
+fun
+emit_arrdim
+(
+  out: FILEref, s2es: s2explst
+) : void // end-of-fun
+//
+implement
+emit_arrdim (out, s2es) = let
+//
+fun aux
+(
+  out: FILEref
+, s2e: s2exp
+) : void = let
+in
+//
+case+
+s2e.s2exp_node of
+//
+| S2Eint (n) => emit_int (out, n)
+//
+| S2Eintinf (n) => emit_intinf (out, n)
+//
+| _(*non-fixed-int*) => let
+  in
+    emit_text (out, "ATSERRORarrdim_unknown(*ERROR*)")
+  end // end of [non-fixed-int]
+//
+end // end of [aux]
+//
+fun auxlst
+(
+  out: FILEref
+, s2es: s2explst, i: int
+) : void = let
+in
+//
+case+ s2es of
+| list_nil () => ()
+| list_cons (s2e, s2es) =>
+  {
+    val () =
+    if i > 0
+      then emit_text (out, "][")
+    // end of [if]
+    val () = aux (out, s2e)
+    val () = auxlst (out, s2es, i+1)
+  } (* end of [list_cons] *)
+//
+end (* end of [auxlst] *)
+//
+in
+  emit_text (out, "["); auxlst (out, s2es, 0); emit_text (out, "]")
+end // end of [emit_arrdim]
+//
+(* ****** ****** *)
 
 implement
 emit_hitype
@@ -1342,6 +1472,48 @@ end // end of [local]
 local
 
 fun
+arrdim_static
+(
+  s2es: s2explst
+) : bool = let
+//
+fun aux
+(
+  s2e: s2exp
+) : bool = let
+in
+//
+case+
+s2e.s2exp_node of
+//
+| S2Eint (n) => true
+//
+| S2Eintinf (n) => true
+//
+| _(*non-fixed-int*) => false
+//
+end // end of [aux]
+//
+fun auxlst
+(
+  s2es: s2explst
+) : bool = let
+in
+//
+case+ s2es of
+| list_nil () => true(*static*)
+| list_cons (s2e, s2es) => (
+  if ~aux (s2e) then false(*dynamic*)
+  else auxlst (s2es)
+) (* end of [list_cons] *)
+//
+end (* end of [auxlst] *)
+//
+in
+  auxlst (s2es)
+end // end of [arrdim_static]
+
+fun
 auxfld
 (
   out: FILEref
@@ -1351,6 +1523,7 @@ auxfld
 val+HTLABELED (lab, opt, hit) = lhit
 //
 var isa: bool = false
+var isa_static: bool = false
 var dim: s2explst = list_nil ()
 //
 val () = (
@@ -1360,6 +1533,7 @@ case+ hit of
     hit_elt, s2es
   ) => {
     val () = isa := true
+    val () = isa_static := arrdim_static (s2es)
     val () = dim := s2es
     val () = emit_hitype (out, hit_elt)
   } (* end of [HITtyarr] *)
@@ -1370,7 +1544,7 @@ case+ hit of
 val () = emit_text (out, " ")
 //
 val () =
-if isa then
+if isa && ~isa_static then
   emit_text (out, "atstyarr_field(")
 // end of [if]
 //
@@ -1384,8 +1558,12 @@ val () = (
 //
 val () = (
 //
-if isa then
-  emit_text (out, ") ;") else emit_text (out, " ;")
+if isa then (
+  if isa_static then (
+    emit_arrdim (out, dim);
+    emit_text (out, " ;")
+  ) else emit_text (out, ") ;")
+) else emit_text (out, " ;")
 //
 ) : void // end of [val]
 //
