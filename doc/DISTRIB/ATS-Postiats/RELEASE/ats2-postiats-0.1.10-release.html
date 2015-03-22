@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.1.10</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.1.10:
+</H2>
+
+<pre>
+
+This is the 19th release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Minorly improving ATSPRE and ATSLIB/libats
+2. Adding libats/tmpeval to support numeric arguments for templates
+3. Improving ATSPRE/gnumber and ATSPRE/gorder slightly
+4. Renaming:
+   gequal_val -> gequal_val_val; gequal_ref -> gequal_ref_ref
+   gcompare_val -> gcompare_val_val; gcompare_ref -> gcompare_ref_ref
+5. Adding s2exp_syneq2:
+   this version (in constrast to s2exp_syneq) handles bound variables
+6. Supporting template implementations parameterized with existentially
+   quantified types. For instance,
+   extern
+   fun{a:t@ype} myprint(a): void
+   implement(a) myprint<List(int)> = ...
+7. Adding some convenience wrappers:
+   libats/ML/HATS/myfunset.hats
+   libats/ML/HATS/myfunmap.hats
+   libats/ML/HATS/myhashtblref.hats
+8. Fixing certain issues with overloaded dot-symbols
+9. Adding INT2PROGINATS-chapter: From genericity to late-binding
+10. Adding ATS2TUTORIAL-chapter: Persistent hashtables
+11. Adding ATS2TUTORIAL-chapter: Functional sets and maps
+
+</pre>
+
+</body><!--body-->
+</html><!--html-->

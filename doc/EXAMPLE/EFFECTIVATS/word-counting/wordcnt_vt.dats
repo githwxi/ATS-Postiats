@@ -241,7 +241,7 @@ val () = list_vt_freelin (wcs1)
 val () = list_vt_freelin (wcs2)
 end // end of [local]
 //
-} // end of [main0]
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

@@ -234,7 +234,7 @@ end // end of [local]
 //
 val () = fprint_newline (stdout_ref)
 //
-} // end of [main0]
+} (* end of [main0] *)
 
 (* ****** ****** *)
 
