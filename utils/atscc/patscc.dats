@@ -61,6 +61,13 @@ var status: int = 0
 val cas =
 atsccproc_commline (argc, argv)
 //
+val cas =
+(
+if argc >= 2
+  then cas else cas+'[CAvats]
+// end of [if]
+) : commarglst
+//
 val help = atscc_help (cas)
 //
 val () =

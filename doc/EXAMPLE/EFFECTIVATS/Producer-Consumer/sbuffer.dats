@@ -18,7 +18,7 @@ staload "./sbuffer.sats"
 // HX: locking/unlocking a shared buffer
 //
 extern
-fun sbuffer_acquire{a:vt0p} (sbuf: sbuffer(a)): buffer (a)
+fun sbuffer_acquire{a:vt0p} (sbuf: sbuffer(a)): buffer(a)
 extern
 fun sbuffer_release{a:vt0p} (sbuf: sbuffer(a), buf: buffer(a)): void
 //

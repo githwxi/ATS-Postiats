@@ -645,7 +645,7 @@ case+ cas2 of
         val () = ress := list_vt_cons{res}(res, ress)
       in
         auxlst (cas1, cas2, ress)
-      end (* end of [CAvats] *)
+      end (* end of [CAhats] *)
 //
     | CAvats () => let
         val res =
