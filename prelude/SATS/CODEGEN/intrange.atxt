@@ -94,13 +94,6 @@ intrange_foreach2$fwork (i: int, j: int, env: &env >> _): void
 //
 #atscode_separator()
 
-(*
-overload .foreach_cloref with int_foreach_cloref
-overload .rforeach_cloref with int_rforeach_cloref
-*)
-
-#atscode_separator()
-
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
