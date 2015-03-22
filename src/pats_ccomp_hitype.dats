@@ -848,6 +848,7 @@ case+ hit0 of
     (hit, _) => {
     val () =
       emit_text (out, "atstyarr_type(")
+    // end of [val]
     val ((*void*)) = emit_hitype (out, hit)
     val ((*void*)) = emit_text (out, ")")
   } (* end of [HITtyarr] *)

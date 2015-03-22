@@ -55,6 +55,33 @@ tieq2int<S(t)>
 (* ****** ****** *)
 //
 implement
+ti2eq2int<Z()>
+  (pf | (*void*)) =
+  let prval TI2EQZ() = pf in 0 end
+//
+implement
+(t)(*tmp*)
+ti2eq2int<B0(t)>
+  (pf | (*void*)) =
+(
+  let prval TI2EQB0(pf) = pf in
+    2*(ti2eq2int<t>(pf | (*void*))) end
+  // end of [ti2eq2int<B0(t)>]
+)
+//
+implement
+(t)(*tmp*)
+ti2eq2int<B1(t)>
+  (pf | (*void*)) =
+(
+  let prval TI2EQB1(pf) = pf in
+    2*(ti2eq2int<t>(pf | (*void*)))+1 end
+  // end of [ti2eq2int<B1(t)>]
+)
+//
+(* ****** ****** *)
+//
+implement
 (a)(*tmp*)
 sarray_foreach<a><Z()>
   (pf | A, env) = ()

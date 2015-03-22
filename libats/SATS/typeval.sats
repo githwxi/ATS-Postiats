@@ -32,9 +32,10 @@
 // Start Time: March, 2015
 //
 (* ****** ****** *)
-
-abstype Z() and S(type)
-
+//
+abstype Z() // 0
+abstype S(type) // n+1
+//
 (* ****** ****** *)
 //
 #define fS(n)
@@ -48,13 +49,30 @@ tieq(type, int) =
   | {t:type}{n:nat}
     TIEQS(S(t), n+1) of tieq(t, n)
 //
-(* ****** ****** *)
-//
 fun
 {t:type}
 tieq2int
   {n:int}
   (pf: tieq(t, n) | (*void*)): int(n)
+//
+(* ****** ****** *)
+//
+abstype B0(type) // 2*n+0
+abstype B1(type) // 2*n+1
+//
+dataprop
+ti2eq(type, int) =
+  | TI2EQZ (Z(), 0)
+  | {t:type}{n:nat}
+    TI2EQB0(B0(t), 2*n) of ti2eq(t, n)
+  | {t:type}{n:nat}
+    TI2EQB1(B1(t), 2*n+1) of ti2eq(t, n)
+//
+fun
+{t:type}
+ti2eq2int
+  {n:int}
+  (pf: ti2eq(t, n) | (*void*)): int(n)
 //
 (* ****** ****** *)
 //

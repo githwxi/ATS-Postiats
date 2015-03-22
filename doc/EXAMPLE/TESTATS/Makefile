@@ -68,14 +68,14 @@ regress:: extfcall ; ./$<
 cleanall:: ; $(RMF) extfcall
 
 ######
-
+#
 all:: \
 fieldarr
 fieldarr: fieldarr.dats ; \
   $(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
 regress:: fieldarr ; ./$<
 cleanall:: ; $(RMF) fieldarr
-
+#
 ######
 
 all:: \

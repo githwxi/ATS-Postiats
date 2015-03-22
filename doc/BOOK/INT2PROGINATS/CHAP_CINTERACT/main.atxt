@@ -515,8 +515,10 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-implement{a}
-array_copy_from_list (A, xs) = let
+implement
+{a}(*tmp*)
+array_copy_from_list
+  (A, xs) = let
 //
 fun loop
 (
@@ -675,7 +677,7 @@ In general, it is essential for a pragrammer to acquire a solid
 understanding of low-level data representation of a programming language in
 order to use that language in low-level systems programming. The low-level
 data representation of ATS can be readily explained in terms of types in C,
-making it straightforward, if needed, to construct and manipulate
+making it straightforward, when needed, to construct and manipulate
 ATS-values in C directly.
 
 ')

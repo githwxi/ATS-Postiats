@@ -2512,6 +2512,12 @@ auxsel
 (
   hse0: hisexp, pml: primlab
 ) : hisexp = let
+//
+(*
+val () =
+println! ("auxsel: hse0 = ", hse0)
+*)
+//
 in
 //
 case+
