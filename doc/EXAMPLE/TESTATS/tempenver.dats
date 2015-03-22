@@ -29,7 +29,7 @@ bar2 (x) =
 
 implement
 main0(argc
-    , argv) = let
+     ,argv) = let
 //
 implement
 {}(*tmp*)
