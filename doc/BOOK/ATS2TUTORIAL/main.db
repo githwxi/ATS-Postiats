@@ -33,6 +33,7 @@
 <!ENTITY chap_tailrec SYSTEM "CHAP_TAILREC/main.db">
 <!ENTITY chap_hordfun SYSTEM "CHAP_HORDFUN/main.db">
 <!ENTITY chap_stream SYSTEM "CHAP_STREAM/main.db">
+<!ENTITY chap_list_vt SYSTEM "CHAP_LIST_VT/main.db">
 <!ENTITY chap_extvar SYSTEM "CHAP_EXTVAR/main.db">
 <!ENTITY chap_cloptr SYSTEM "CHAP_CLOPTR/main.db">
 <!ENTITY chap_stream_vt SYSTEM "CHAP_STREAM_VT/main.db">
@@ -76,6 +77,7 @@ To Jinning, Zoe, and Chloe
 &chap_tailrec;
 &chap_hordfun;
 &chap_stream;
+&chap_list_vt;
 </part><!--"basic_tutorial_topics"-->
 
 <part id="advanced_tutorial_topics">

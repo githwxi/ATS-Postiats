@@ -1,0 +1,72 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_ARRAYREF/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="linlist">
+#title("Linearly Typed Lists")
+
+#para("\
+
+A linearly typed list in ATS is also referred to as a linear list, which
+essentially corresponds to a singly-linked list in C. The following linear
+datatype declaration introduces a linear type #stacode("list_vt") for
+linear lists:
+
+#atscode('\
+//
+datavtype
+list_vt(a:vt@ype, int) =
+| list_vt_nil(a, 0) of ()
+| {n:nat}
+  list_vt_cons(a, n+1) of (a, list_vt(a, n))
+//
+')
+
+Note that the keyword #keycode('datavtype') can also be written as
+#keycode('dataviewtype'). Given a (possibly linear) type T and an integer
+N, the type #stacode("list_vt(T,N)") is for a list of length N that
+contains elements of type T.  The interfaces for various functions on
+linear lists can be found in the SATS file
+#myatscodelink("prelude/SATS/list_vt.sats", "prelude/SATS/list_vt.sats"),
+which is automatically loaded by #command("atsopt").\
+
+")
+
+#para("\
+
+Please find #mycodelink("chap_list_vt.dats", "on-line") the entirety of the
+code used in this chapter plus some testing code.\
+
+")#comment("para")
+
+</chapter><!--"linlist"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_list_vt.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}
