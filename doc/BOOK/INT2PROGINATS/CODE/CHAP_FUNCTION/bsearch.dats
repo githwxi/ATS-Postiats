@@ -79,7 +79,7 @@ val ISQRT_MAX = (1 << 16) - 1
 fun isqrt
   (x: uint): int =
 (
-  bsearch_fun (lam i => square ((g0i2u)i), x, 0, ISQRT_MAX)
+  bsearch_fun (lam i => square(g0i2u(i)), x, 0, ISQRT_MAX)
 ) // end of [isqrt]
 
 (* ****** ****** *)

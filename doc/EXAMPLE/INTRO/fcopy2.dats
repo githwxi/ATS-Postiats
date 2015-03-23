@@ -50,7 +50,7 @@ end // end of [loop]
 val
 (
   pfat, pfgc | p
-) = malloc_gc ((i2sz)N)
+) = malloc_gc (i2sz(N))
 val () = loop (!p, N, filr, filr2)
 val () = mfree_gc (pfat, pfgc | p)
 //

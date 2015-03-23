@@ -348,6 +348,7 @@ and d1exp_node =
   | D1Eapp_sta of (* static application *)
       (d1exp, s1exparglst)
 //
+  | D1Esing of (d1exp) // singleton
   | D1Elist of (int(*pfarity*), d1explst) // temporary
 //
   | D1Eifhead of
@@ -635,11 +636,13 @@ fun d1exp_app_dyn (
 ) : d1exp // end of [d1exp_app_dyn]
 
 (* ****** ****** *)
-
+//
+fun d1exp_sing
+  (loc: location, d1e: d1exp): d1exp
+//
 fun d1exp_list
   (loc: location, npf: int, d1es: d1explst): d1exp
-// end of [d1exp_list]
-
+//
 (* ****** ****** *)
 
 fun d1exp_ifhead (

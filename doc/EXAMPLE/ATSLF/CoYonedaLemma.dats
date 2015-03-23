@@ -93,7 +93,7 @@ fun int2bool (i: int0): bool =
 
 (* ****** ****** *)
 
-val myintlist0 = g0ofg1($list{int0}((I)1, (I)0, (I)1, (I)0, (I)0))
+val myintlist0 = g0ofg1($list{int0}(I(1), I(0), I(1), I(0), I(0)))
 val myboolist0 = CoYoneda{list0,bool}{int0}(lam (i) => int2bool(i), myintlist0)
 val myboolist0 = CoYoneda_psi{list0}(functor_list0){bool}(myboolist0)
 

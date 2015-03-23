@@ -179,7 +179,7 @@ funset_foreach_cloref
 //
 fun{a:t0p}
 funset_tabulate_cloref
-  {n:nat}(int(n), fopr: (intGte(0)) -<cloref1> a): set(a)
+  {n:nat}(int(n), fopr: (natLt(n)) -<cloref1> a): set(a)
 //
 (* ****** ****** *)
 

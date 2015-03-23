@@ -331,12 +331,19 @@ end // end of [proposition43]
 
 // Weakening rule
 
-prfn proposition44 {G:forms} {A,A':form} (pf: NJ0 (G, A)) : NJ0 (A' :: G, A) = 
+prfn
+proposition44
+  {G:forms}
+  {A,A':form}
+  (pf: NJ0 (G, A)) : NJ0 (A' :: G, A) = 
   (proposition43 (proposition40 (lam i => i)) pf)
 
 // Exchanging rule
 
-prfn proposition45 {G:forms} {A1,A2,A3:form}
+prfn
+proposition45
+  {G:forms}
+  {A1,A2,A3:form}
   (pf: NJ0 (A1 :: A2 :: G, A3)) : NJ0 (A2 :: A1 :: G, A3) = 
   (proposition43 (proposition41 (lam i => i)) pf)
 

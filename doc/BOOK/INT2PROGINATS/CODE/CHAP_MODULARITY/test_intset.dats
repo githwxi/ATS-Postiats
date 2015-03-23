@@ -29,14 +29,14 @@ dynload "intset.dats"
 
 val xs1 =
 intset_make_list
-  ((list0)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+  (list0($arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)))
 val () = let
   val xs1 = intset_listize (xs1) in fprintln! (stdout_ref, "xs1 = ", xs1)
 end // end of [val]
 
 val xs2 =
 intset_make_list 
-  ((list0)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ~9, ~8, ~7, ~6, ~5, ~4, ~3, ~2, ~1, 0))
+  (list0($arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ~9, ~8, ~7, ~6, ~5, ~4, ~3, ~2, ~1, 0)))
 val () = let
   val xs2 = intset_listize (xs2) in fprintln! (stdout_ref, "xs2 = ", xs2)
 end // end of [val]

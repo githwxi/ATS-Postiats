@@ -602,6 +602,8 @@ d2e0.d2exp_node of
     val () = prstr ")"
   }
 //
+| D2Esing (d2e) =>
+    fprint! (out, "D2Esing(", d2e, ")")
 | D2Elist (npf, d2es) =>
     fprint! (out, "D2Elist(", npf, "; ", d2es, ")")
   (* end of [D2Elist] *)

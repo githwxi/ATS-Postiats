@@ -332,7 +332,9 @@ end // end of [aux_itemlst]
 //
 in
 //
-case+ aux_item e0 of
+case+
+aux_item(e0)
+of // case+
 | FXITMatm (e) => e
 | FXITMopr _ => e0xp_tr_errmsg_opr (e0)
 //

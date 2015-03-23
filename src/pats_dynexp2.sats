@@ -866,6 +866,7 @@ and d2exp_node =
       i2nvresstate, s2exp, sc2laulst // static case-expression
     ) // end of [D2Escaseof]
 //
+  | D2Esing of (d2exp) // singleton
   | D2Elist of (int(*pfarity*), d2explst) // temporary
 //
   | D2Elst of (int(*lin*), s2expopt, d2explst) // list
@@ -1319,7 +1320,9 @@ fun d2exp_sifhead (
 
 (* ****** ****** *)
 
-fun d2exp_casehead (
+fun
+d2exp_casehead
+(
   loc: location
 , knd: caskind
 , res: i2nvresstate
@@ -1327,36 +1330,50 @@ fun d2exp_casehead (
 , c2ls: c2laulst
 ) : d2exp // end of [d2exp_casehead]
 
-fun d2exp_scasehead (
-  loc: location, res: i2nvresstate, s2f: s2exp, sc2ls: sc2laulst
+fun
+d2exp_scasehead
+(
+  loc: location
+, res: i2nvresstate, s2f: s2exp, sc2ls: sc2laulst
 ) : d2exp // end of [d2exp_scasehead]
 
 (* ****** ****** *)
-
-fun d2exp_list (
-  loc: location, npf: int, d2es: d2explst
-) : d2exp // end of [d2exp_list]
-
+//
+fun
+d2exp_sing
+  (loc: location, d2e: d2exp): d2exp
+fun
+d2exp_list
+  (loc: location, npf: int, d2es: d2explst): d2exp
+//
 (* ****** ****** *)
-
-fun d2exp_lst (
+//
+fun
+d2exp_lst
+(
   loc: location
 , lin: int, elt: s2expopt, d2es: d2explst
 ) : d2exp // end of [d2exp_lst]
-
-fun d2exp_tup (
+//
+fun
+d2exp_tup
+(
   loc: location
 , knd: int, npf: int, d2es: d2explst
 ) : d2exp // end of [d2exp_tup]
-fun d2exp_tup_flt (
+fun
+d2exp_tup_flt
+(
   loc: location, npf: int, d2es: d2explst  
 ) : d2exp // end of [d2exp_tup_flt]
-
-fun d2exp_rec (
+//
+fun
+d2exp_rec
+(
   loc: location
 , knd: int, npf: int, ld2es: labd2explst
 ) : d2exp // end of [d2exp_rec]
-
+//
 (* ****** ****** *)
 
 fun d2exp_seq (loc: location, d2es: d2explst): d2exp

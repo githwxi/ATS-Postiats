@@ -207,9 +207,12 @@ fun
 myfunset_foreach_cloref
   (xs: myset, fwork: (elt) -<cloref1> void): void
 //
-(*
-overload foreach_cloref with myfunset_foreach_cloref
-*)
+extern
+fun
+myfunset_foreach_method
+  (myset)(fwork: (elt) -<cloref1> void): void
+//
+overload .foreach with myfunset_foreach_method
 //
 (* ****** ****** *)
 //
@@ -218,19 +221,27 @@ fun
 {res:t@ype}
 myfunset_foldleft_cloref
 (
-  xs: myset, ini: res, fopr: (res, elt) -<cloref1> res
+  xs: myset
+, ini: res, fopr: (res, elt) -<cloref1> res
 ) : res // end of [myfunset_foldleft_cloref]
-//
-(*
-overload foldleft_cloref with myfunset_foldleft_cloref
-*)
 //
 (* ****** ****** *)
 //
 extern
 fun
 myfunset_tabulate_cloref
-  {n:nat}(n: int(n), fopr: (intGte(0)) -<cloref1> elt): myset
+  {n:nat}
+(
+  n: int(n), fopr: (natLt(n)) -<cloref1> elt
+) : myset // end-of-function
+//
+extern
+fun
+myfunset_tabulate_method
+  {n:nat}
+  (n: int(n))(fopr: (natLt(n)) -<cloref1> elt): myset
+//
+overload .tabulate with myfunset_tabulate_method
 //
 (* ****** ****** *)
 //
@@ -259,6 +270,8 @@ staload _(*anon*) = "libats/ML/DATS/funset.dats"
 assume myset_type = set_type(elt)
 //
 in (* in-of-local *)
+
+(* ****** ****** *)
 //
 implement
 myfunset_nil() = funset_make_nil{elt}()
@@ -266,18 +279,28 @@ implement
 myfunset_make_nil() = funset_make_nil{elt}()
 //
 implement
-myfunset_sing(x) = funset_make_sing<elt>(x)
+myfunset_sing
+  (x) = funset_make_sing<elt>(x)
 implement
-myfunset_make_sing(x) = funset_make_sing<elt>(x)
+myfunset_make_sing
+  (x) = funset_make_sing<elt>(x)
 //
 implement
-myfunset_make_list(xs) = funset_make_list<elt>(g0ofg1(xs))
+myfunset_make_list
+  (xs) = funset_make_list<elt>(g0ofg1(xs))
+//
+(* ****** ****** *)
 //
 implement
-fprint_myfunset(out, xs) = fprint_funset<elt>(out, xs)
+fprint_myfunset
+  (out, xs) = fprint_funset<elt>(out, xs)
+//
+(* ****** ****** *)
 //
 implement
 myfunset_size(xs) = funset_size<elt>(xs)
+//
+(* ****** ****** *)
 //
 implement
 myfunset_is_member
@@ -286,74 +309,129 @@ implement
 myfunset_isnot_member
   (xs, x0) = funset_isnot_member<elt>(xs, x0)
 //
-implement
-myfunset_insert(xs, x0) = funset_insert<elt>(xs, x0)
+(* ****** ****** *)
 //
 implement
-myfunset_remove(xs, x0) = funset_remove<elt>(xs, x0)
+myfunset_insert
+  (xs, x0) = funset_insert<elt>(xs, x0)
 //
 implement
-myfunset_union(xs, ys) = funset_union<elt>(xs, ys)
-implement
-myfunset_union2(xs, ys) = xs := funset_union<elt>(xs, ys)
-implement
-myfunset_intersect(xs, ys) = funset_intersect<elt>(xs, ys)
-implement
-myfunset_intersect2(xs, ys) = xs := funset_intersect<elt>(xs, ys)
+myfunset_remove
+  (xs, x0) = funset_remove<elt>(xs, x0)
+//
+(* ****** ****** *)
 //
 implement
-myfunset_differ(xs, ys) = funset_differ<elt>(xs, ys)
+myfunset_union
+  (xs, ys) = funset_union<elt>(xs, ys)
 implement
-myfunset_differ2(xs, ys) = xs := funset_differ<elt>(xs, ys)
+myfunset_union2
+  (xs, ys) = (xs := funset_union<elt>(xs, ys))
 implement
-myfunset_symdiff(xs, ys) = funset_symdiff<elt>(xs, ys)
+myfunset_intersect
+  (xs, ys) = funset_intersect<elt>(xs, ys)
 implement
-myfunset_symdiff2(xs, ys) = xs := funset_symdiff<elt>(xs, ys)
+myfunset_intersect2
+  (xs, ys) = (xs := funset_intersect<elt>(xs, ys))
+//
+(* ****** ****** *)
 //
 implement
-myfunset_equal(xs, ys) = funset_equal<elt>(xs, ys)
+myfunset_differ
+  (xs, ys) = funset_differ<elt>(xs, ys)
 implement
-myfunset_notequal(xs, ys) = ~(funset_equal<elt>(xs, ys))
+myfunset_differ2
+  (xs, ys) = (xs := funset_differ<elt>(xs, ys))
+implement
+myfunset_symdiff
+  (xs, ys) = funset_symdiff<elt>(xs, ys)
+implement
+myfunset_symdiff2
+  (xs, ys) = (xs := funset_symdiff<elt>(xs, ys))
+//
+(* ****** ****** *)
 //
 implement
-myfunset_compare(xs, ys) = funset_compare<elt>(xs, ys)
+myfunset_equal
+  (xs, ys) = funset_equal<elt>(xs, ys)
+implement
+myfunset_notequal
+  (xs, ys) = ~(funset_equal<elt>(xs, ys))
 //
 implement
-myfunset_is_subset(xs, ys) = funset_is_subset<elt>(xs, ys)
-implement
-myfunset_is_supset(xs, ys) = funset_is_supset<elt>(xs, ys)
+myfunset_compare
+  (xs, ys) = funset_compare<elt>(xs, ys)
 //
+(* ****** ****** *)
+//
+implement
+myfunset_is_subset
+  (xs, ys) = funset_is_subset<elt>(xs, ys)
+implement
+myfunset_is_supset
+  (xs, ys) = funset_is_supset<elt>(xs, ys)
+//
+(* ****** ****** *)
+
 implement
 myfunset_foreach_cloref
-  (xs, fwork) = funset_foreach_cloref<elt> (xs, fwork)
-//
+  (xs, fwork) =
+  funset_foreach_cloref<elt>(xs, fwork)
+implement
+myfunset_foreach_method
+  (xs) =
+(
+  lam(fwork) =>
+    funset_foreach_cloref<elt>(xs, fwork)
+  // end of [lam]
+) (* myfunset_foreach_method *)
+
+(* ****** ****** *)
+
 implement
 {res}(*tmp*)
 myfunset_foldleft_cloref
   (xs0, ini, fopr) = r0 where
 {
 //
-var r0: res = ini
+var r0
+  : res = ini
+//
 val p_r0 = addr@r0
+//
 val ((*void*)) =
 myfunset_foreach_cloref
 (
   xs0
 , lam(x) =>
   $UN.ptr0_set<res>
-    (p_r0, fopr($UN.ptr0_get<res>(p_r0), x))
+  (p_r0, fopr($UN.ptr0_get<res>(p_r0), x))
   // end of [lam]
-) (* end of [myfunset_foreach_cloref] *) // end of [val]
+) (* end of [myfunset_foreach_cloref] *)
 //
 } (* end of [myfunset_foldleft_cloref] *)
 //
 implement
 myfunset_tabulate_cloref
-   (n, fopr) = funset_tabulate_cloref<elt>(n, fopr)
+  (n, fopr) =
+  funset_tabulate_cloref<elt>(n, fopr)
+implement
+myfunset_tabulate_method
+  (n) = (
+//
+lam(fopr) =>
+  funset_tabulate_cloref<elt>(n, fopr)
+//
+) (* end of [myfunset_tabulate_method] *)
+//
+(* ****** ****** *)
 //
 implement
-myfunset_listize(xs) = g1ofg0(funset_listize<elt>(xs))
+myfunset_listize
+  (xs) = g1ofg0(funset_listize<elt>(xs))
 //
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)

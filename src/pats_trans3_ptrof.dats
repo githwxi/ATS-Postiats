@@ -67,7 +67,8 @@ s2addr_ptrof
 
 local
 
-fun auxerr_pfobj
+fun
+auxerr_pfobj
 (
   loc0: loc_t, s2l: s2exp
 ) : void = let
@@ -197,7 +198,8 @@ in
   the_trans3errlst_add (T3E_d2var_nonmut (loc0, d2v))
 end // end of [auxerr_nonmut]
 
-fun auxerr_nonlval (
+fun
+auxerr_nonlval (
   d2e0: d2exp
 ) : void = let
   val loc0 = d2e0.d2exp_loc
@@ -224,14 +226,21 @@ implement
 d2exp_trup_ptrof
   (d2e0) = let
 //
+fun
+aux
+(
+  d2e0: d2exp, d2e: d2exp
+) : d3exp = let
+//
 val loc0 = d2e0.d2exp_loc
-val-D2Eptrof (d2e) = d2e0.d2exp_node
 //
 in
 //
 case+
-  d2e.d2exp_node of
-| D2Evar (d2v) => let
+d2e.d2exp_node
+of // case+
+//
+| D2Evar(d2v) => let
     val opt = d2var_get_addr (d2v)
   in
     case+ opt of
@@ -247,6 +256,11 @@ case+
         auxerr_nonmut (loc0, d2v) in d3exp_errexp (loc0)
       end // end of [None]
   end (* end of [D2Evar] *)
+//
+| D2Ederef(d2e) =>
+    d2exp_trup_ptrof_ptrsel (loc0, d2e, list_nil)
+  // end of [D2Ederef]
+//
 | D2Eselab
     (d2e, d2ls) => (
   case+ d2e.d2exp_node of
@@ -260,13 +274,21 @@ case+
       val () = auxerr_nonlval (d2e0) in d3exp_errexp (loc0)
     end // end of [_]
   ) // end of [D2Esel]
-| D2Ederef (d2e) =>
-    d2exp_trup_ptrof_ptrsel (loc0, d2e, list_nil)
-  // end of [D2Ederef]
-| _ => let
+//
+(*
+| D2Esing (d2e) => aux (d2e0, d2e)
+*)
+//
+| _ (*rest-of-d2exp*) => let
     val () = auxerr_nonlval (d2e0) in d3exp_errexp (loc0)
   end // end of [_]
 //
+end // end of [aux]
+//
+val-D2Eptrof (d2e) = d2e0.d2exp_node
+//
+in
+  aux (d2e0, d2e)
 end // end of [d2exp_trup_ptrof]
 
 (* ****** ****** *)

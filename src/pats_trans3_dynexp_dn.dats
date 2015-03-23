@@ -247,6 +247,8 @@ case+ d2e0.d2exp_node of
     d2exp_trdn_scasehead (d2e0, s2f0)
   // end of [D2Escasehead]
 //
+| D2Esing (d2e) => d2exp_trdn (d2e, s2e0)
+//
 | D2Elist
     (npf, d2es) => let
     val loc0 = d2e0.d2exp_loc

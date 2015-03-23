@@ -121,7 +121,9 @@ d2e0.d2exp_node of
 //
 | D2Etop _ => true
 //
-| D2Eexist (s2as, d2e) => d2exp_is_varlamcst (d2e)
+| D2Esing(d2e) => d2exp_is_varlamcst (d2e)
+//
+| D2Eexist(s2as, d2e) => d2exp_is_varlamcst (d2e)
 //
 | _ (*rest-of-d2exp*) => false
 //
@@ -178,11 +180,15 @@ val () = (
 *)
 in
 //
-case+ d2e0.d2exp_node of
+case+
+d2e0.d2exp_node
+of // case+
+//
 | D2Evar (d2v) =>
-    d2exp_d2var_lvalize (d2e0, d2v, list_nil)
-  // end of [D2Evar]
+  d2exp_d2var_lvalize(d2e0, d2v, list_nil)
+//
 | D2Ederef (d2e) => D2LVALderef (d2e, list_nil)
+//
 | D2Eselab
     (d2e, d2ls) => (
   case+ d2e.d2exp_node of
@@ -192,11 +198,16 @@ case+ d2e0.d2exp_node of
   | D2Ederef (d2e) => D2LVALderef (d2e, d2ls)
   | _ => D2LVALnone (d2e0)
   ) // end of [D2Esel]
+//
 | D2Eviewat (d2e) => D2LVALviewat (d2e)
+//
 | D2Earrsub (
     d2s, arr, loc_ind, ind
   ) => D2LVALarrsub (d2s, arr, loc_ind, ind)
-| _ => D2LVALnone (d2e0)
+//
+| D2Esing (d2e) => d2exp_lvalize (d2e)
+//
+| _ (*rest-of-d2exp*) => D2LVALnone (d2e0)
 //
 end // end of [d2exp_lvalize]
 
@@ -247,7 +258,8 @@ end // end of [aritest]
 in (* in-of-local *)
 
 implement
-d2cst_match_def (d2c, def) = let
+d2cst_match_def
+  (d2c, def) = let
   val ns = d2cst_get_artylst (d2c) in aritest (def, ns)
 end // end of [d2cst_match_def]
 

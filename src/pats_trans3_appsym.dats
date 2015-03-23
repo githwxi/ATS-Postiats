@@ -254,7 +254,8 @@ viewtypedef d3exparglst_vt = List_vt d3exparg
 (* ****** ****** *)
 
 extern
-fun d3exp_trup_applst (
+fun
+d3exp_trup_applst (
   d2e0: d2exp, d3e_fun: d3exp, d3as: d3exparglst
 ) : d3exp // end of [d3exp_trup_applst]
 implement

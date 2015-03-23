@@ -32,12 +32,16 @@
 // Start Time: May, 2012
 //
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
+//
 implement
-prerr_FILENAME<> () = prerr "pats_trans3_viewat"
-
+prerr_FILENAME<>
+(
+// argumentless
+) = prerr "pats_trans3_viewat"
+//
 (* ****** ****** *)
 
 staload LAB = "./pats_label.sats"
@@ -343,7 +347,7 @@ in
   the_trans3errlst_add (T3E_d2var_nonmut (loc0, d2v))
 end // end of [auxerr1]
 
-fun aux1
+fun auxlablst1
 (
   loc0: loc_t
 , s2f0: s2hnf
@@ -354,12 +358,13 @@ fun aux1
 in
 //
 case+ opt of
-| ~Some_vt (s2l) =>
+| ~Some_vt(s2l) =>
     s2addr_viewat_deref (loc0, s2l, d3ls)
-| ~None_vt () => let
+| ~None_vt((*void*)) => let
     val () = auxerr_nonptr (loc0, d3e_l) in s2exp_t0ype_err ()
-  end // end of [None_vt]
-end // end of [aux1]
+  end (* end of [None_vt] *)
+//
+end // end of [auxlablst1]
 
 in (* in of [local] *)
 
@@ -391,7 +396,7 @@ case+ d2lv of
     val d3ls = d2lablst_trup (d2ls)
     val s2e0 = d3exp_get_type (d3e)
     val s2f0 = s2exp2hnf (s2e0)
-    val s2e_at = aux1 (loc0, s2f0, d3e, d3ls)
+    val s2e_at = auxlablst1 (loc0, s2f0, d3e, d3ls)
   in
     d3exp_viewat (loc0, s2e_at, d3e, d3ls)
   end // end of [D2LVALderef]
@@ -406,14 +411,14 @@ case+ d2lv of
     d3exp_errexp (loc0)
   end // end of [D2LVALvar_lin]
 //
-| _ => let
+| _ (*rest-of-d2lval*) => let
     val () = prerr_error3_loc (loc0)
     val () = prerr ": [view@] operation cannot be applied: "
     val () = prerr_newline ((*void*))
     val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e0))
   in
     d3exp_errexp (loc0)
-  end // end of [_]
+  end // end of [_(*rest-of-d2lval*)]
 //
 end // end of [d2exp_trup_viewat]
 
@@ -435,7 +440,7 @@ in
   the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
 end // end of [auxerr_nonptr]
 
-fun aux1
+fun auxlablst1
 (
   loc0: loc_t
 , s2f0: s2hnf
@@ -461,7 +466,7 @@ case+ opt of
     val (
     ) = auxerr_nonptr (loc0, d3e_l) in d3exp_errexp_void (loc0)
   end // end of [None_vt]
-end // end of [aux1]
+end // end of [auxlablst1]
 
 in (* in of [local] *)
 
@@ -500,7 +505,7 @@ case+ d2lv_l of
     val s2e0 = d3exp_get_type (d3e_l)
     val s2f0 = s2exp2hnf (s2e0)
   in
-    aux1 (loc0, s2f0, d3e_l, d3ls, d3e_r)
+    auxlablst1 (loc0, s2f0, d3e_l, d3ls, d3e_r)
   end // end of [D2LVALderef]
 //
 | D2LVALvar_lin _ => let

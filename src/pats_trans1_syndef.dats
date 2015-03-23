@@ -131,7 +131,10 @@ fun aux1lst
 (
   loc0: location, fid: d1exp, d1es: d1explst
 ) : d1explst = let
-  val d1es = list_map_cloptr (d1es, lam d1e =<1> aux1 (loc0, fid, d1e))
+//
+val d1es =
+  list_map_cloptr (d1es, lam d1e =<1> aux1 (loc0, fid, d1e))
+//
 in
   list_of_list_vt (d1es)
 end // end of [aux1lst]
@@ -147,7 +150,7 @@ in
   | D1Elist
       (npf, d1es) => d1exp_seq (loc0, aux1lst (loc0, fid, d1es))
     // end of [D1Elist]
-  | _ => aux1 (loc0, fid, d1e)
+  | _ (*rest-of-d1exp*) => aux1 (loc0, fid, d1e)
 end // end of [aux2]
 
 fun aux2lst
@@ -180,7 +183,8 @@ end // end of [aux3lst]
 
 (* ****** ****** *)
 
-fun fsyndef_TUPZ
+fun
+fsyndef_TUPZ
 (
   loc0: location, d1es: d1explst
 ) : d1exp = d1exp_list (loc0, ~1(*npf*), d1es)
@@ -189,7 +193,8 @@ fun fsyndef_TUPZ
 
 local
 
-fun auxpr
+fun
+auxpr
 (
   loc0: location
 , d1es: d1explst, sym: symbol
@@ -205,7 +210,8 @@ in
   d1exp_seq (loc0, d1e_res)
 end (* end of [auxpr] *)
 
-fun auxprln
+fun
+auxprln
 (
   loc0: location
 , d1es: d1explst, sym: symbol, sym2: symbol
@@ -225,7 +231,8 @@ end (* end of [auxprln] *)
 
 (* ****** ****** *)
 
-fun auxfpr
+fun
+auxfpr
 (
   loc0: location
 , d1es: d1explst, sym: symbol
@@ -248,7 +255,8 @@ case+ d1es of
 //
 end (* end of [auxfpr] *)
 
-fun auxfprln
+fun
+auxfprln
 (
   loc0: location
 , d1es: d1explst, sym: symbol, sym2: symbol
@@ -284,7 +292,8 @@ end (* end of [auxfprln] *)
 
 in (* in of [local] *)
 
-fun fsyndef_PRINT
+fun
+fsyndef_PRINT
 (
   loc0: location, d1es: d1explst
 ) : d1exp = auxpr (loc0, d1es, symbol_PRINT)
@@ -298,11 +307,13 @@ fun fsyndef_PRINTLN
 
 (* ****** ****** *)
 
-fun fsyndef_PRERR
+fun
+fsyndef_PRERR
 (
   loc0: location, d1es: d1explst
 ) : d1exp = auxpr (loc0, d1es, symbol_PRERR)
-fun fsyndef_PRERRLN
+fun
+fsyndef_PRERRLN
 (
   loc0: location, d1es: d1explst
 ) : d1exp =
@@ -312,7 +323,8 @@ fun fsyndef_PRERRLN
 
 (* ****** ****** *)
 
-fun fsyndef_FPRINT
+fun
+fsyndef_FPRINT
 (
   loc0: location, d1es: d1explst
 ) : d1exp = let
@@ -344,7 +356,8 @@ case+ d1es of
 //
 end (* end of [fsyndef_FPRINT] *)
 
-fun fsyndef_FPRINTLN
+fun
+fsyndef_FPRINTLN
 (
   loc0: location, d1es: d1explst
 ) : d1exp = let

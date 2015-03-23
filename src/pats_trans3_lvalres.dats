@@ -178,7 +178,8 @@ end // end of [local]
 
 local
 
-fun auxerr_linold
+fun
+auxerr_linold
 (
   loc0: loc_t
 , d3e: d3exp, d3ls: d3lablst, s2e_old: s2exp
@@ -191,7 +192,8 @@ in
   the_trans3errlst_add (T3E_d3lval_exch_type_linold (loc0, d3e, d3ls))
 end // end of [auxerr_linold]
 
-fun d2var_refval_check
+fun
+d2var_refval_check
 (
   loc0: loc_t, d2v: d2var, refval: int
 ) : void = 

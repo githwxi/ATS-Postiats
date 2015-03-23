@@ -160,7 +160,9 @@ macdef_check
   val knd = d2mac_get_kind (d2m0)
 in
 //
-if lev > 0 then (
+if
+lev > 0
+then (
   if knd >= 1 then let
     val () =
       prerr_error2_loc (loc0)
@@ -207,7 +209,8 @@ end // end of [macvar_check]
 
 (* ****** ****** *)
 
-fun d1exp_tr_dqid
+fun
+d1exp_tr_dqid
 (
   d1e0: d1exp, dq: d0ynq, id: symbol
 ) : d2exp = let
@@ -227,11 +230,11 @@ fun auxerr (
 } // end of [auxerr]
 //
 val loc0 = d1e0.d1exp_loc
-val ans = the_d2expenv_find_qua (dq, id)
+val ans0 = the_d2expenv_find_qua (dq, id)
 //
 in
 //
-case+ ans of
+case+ ans0 of
 | ~Some_vt d2i0 => (
   case+ d2i0 of
 //
@@ -310,16 +313,15 @@ d1exp_tr_app_sta_dyn
 ) : d2exp // end of [d1exp_tr_app_sta_dyn]
 
 (* ****** ****** *)
-
+//
 extern
-fun d1exp_tr_deref
-  (d1e0: d1exp, d1es: d1explst) : d2exp
-and d1exp_tr_assgn
-  (d1e0: d1exp, d1es: d1explst) : d2exp
-and d1exp_tr_xchng
-  (d1e0: d1exp, d1es: d1explst) : d2exp
-// end of [extern]
-
+fun
+d1exp_tr_deref(d1e0: d1exp, d1es: d1explst): d2exp
+and
+d1exp_tr_assgn(d1e0: d1exp, d1es: d1explst): d2exp
+and
+d1exp_tr_xchng(d1e0: d1exp, d1es: d1explst): d2exp
+//
 (* ****** ****** *)
 
 implement
@@ -1344,6 +1346,18 @@ end // end of [sc2laulst_coverck]
 end // end of [local]
 
 (* ****** ****** *)
+//
+fun
+un_d1exp_sing
+  (d1e: d1exp): d1exp =
+(
+//
+case+ d1e.d1exp_node of
+| D1Esing(d1e) => un_d1exp_sing(d1e) | _ => d1e
+//
+) (* end of [un_d1exp_sing] *)
+//
+(* ****** ****** *)
 
 implement
 d1exp_tr (d1e0) = let
@@ -1368,7 +1382,6 @@ d2e.d2exp_node of
 | _(*rest-of-D2E*) => (~1)
 ) (* end of [aux_d2e2i] *)
 *)
-//
 (*
 //
 val () = println! ("d1exp_tr: d1e0 = ", d1e0)
@@ -1431,10 +1444,12 @@ d1e0.d1exp_node of
 | D1Eloopexn (knd) => d2exp_loopexn (loc0, knd)
 //
 | D1Efoldat (s1as, d1e) => let
+    val d1e = un_d1exp_sing (d1e)
     val s2as = s1exparglst_tr (s1as) in
     d2exp_foldat (loc0, s2as, d1exp_tr (d1e))
   end // end of [D1Efoldat]
 | D1Efreeat (s1as, d1e) => let
+    val d1e = un_d1exp_sing (d1e)
     val s2as = s1exparglst_tr (s1as) in
     d2exp_freeat (loc0, s2as, d1exp_tr (d1e))
   end // end of [D1Efreeat]
@@ -1490,6 +1505,8 @@ d1e0.d1exp_node of
       d1e0, d1e0, d1e1, sarg, locarg, ~2(*fake*), list_nil(*darg*)
     ) // end of [d1exp_tr_app_sta_dyn]
   end // end of [D1Eapp_sta]
+//
+| D1Esing (d1e) => d2exp_sing(loc0, d1exp_tr (d1e))
 //
 | D1Elist
   (
@@ -1615,7 +1632,7 @@ d1e0.d1exp_node of
       | Some _ => (
         case+ init of
         | list_cons _ => s2rt_t0ype // cannot be linear
-        | list_nil () (*uninitialized*) => s2rt_vt0ype // can be linear
+        | list_nil ((*uninitialized*)) => s2rt_vt0ype // can be linear
         ) (* end of [Some] *)
       | None () => s2rt_vt0ype // can be linear
     ) : s2rt // end of [val]
@@ -1626,10 +1643,17 @@ d1e0.d1exp_node of
     d2exp_arrinit (loc0, s2e_elt, asz, init)
   end // end of [D1Earrinit]
 //
-| D1Eptrof (d1e) =>
-    d2exp_ptrof (loc0, d1exp_tr d1e)
-| D1Eviewat (d1e) =>
-    d2exp_viewat (loc0, d1exp_tr d1e)
+| D1Eptrof (d1e) => let
+    val d1e = un_d1exp_sing (d1e)
+  in
+    d2exp_ptrof (loc0, d1exp_tr (d1e))
+  end // end of [D1Eptrof]
+//
+| D1Eviewat (d1e) => let
+    val d1e = un_d1exp_sing (d1e)
+  in
+    d2exp_viewat (loc0, d1exp_tr (d1e))
+  end // end of [D1Eviewat]
 //
 | D1Eselab
     (knd, d1e, d1l) => let
@@ -1650,23 +1674,39 @@ d1e0.d1exp_node of
     ) (* end of [if] *)
   end (* end of [D1Eselab] *)
 //
-| D1Eraise (d1e) =>
-    d2exp_raise (loc0, d1exp_tr d1e)
-  // end of [D1Eraise]
+| D1Eraise
+    (d1e_exn) => let
+    val d1e_exn =
+      un_d1exp_sing (d1e_exn)
+    // end of [val]
+  in
+    d2exp_raise (loc0, d1exp_tr(d1e_exn))
+  end // end of [D1Eraise]
 //
 | D1Eeffmask
     (efc, d1e_body) => let
-    val s2fe = effcst_tr (efc)
+    val s2fe = effcst_tr(efc)
+    val d1e_body =
+      un_d1exp_sing (d1e_body)
+    // end of [val]
     val d2e_body = d1exp_tr (d1e_body)
   in
     d2exp_effmask (loc0, s2fe, d2e_body)
   end // end of [D1Eeffmask]
 //
-| D1Eshowtype (d1e) => d2exp_showtype (loc0, d1exp_tr d1e)
+| D1Eshowtype
+    (d1e) => let
+    val d1e = un_d1exp_sing(d1e)
+  in
+    d2exp_showtype (loc0, d1exp_tr(d1e))
+  end // end of [D1Eshowtype]
 //
 | D1Evcopyenv
-    (knd, d1e) => d2exp_vcopyenv (loc0, knd, d1exp_tr d1e)
-  // end of [D1Evcopyenv]
+    (knd, d1e) => let
+    val d1e = un_d1exp_sing(d1e)
+  in
+    d2exp_vcopyenv (loc0, knd, d1exp_tr d1e)
+  end // end of [D1Evcopyenv]
 //
 | D1Etempenver
     (d1e) => let
@@ -1677,36 +1717,47 @@ d1e0.d1exp_node of
     ) : d2varlst =
     (
       case+ d2es of
-      | list_cons
-          (d2e, d2es) =>
-        (
-          case+
-          d2e.d2exp_node of
-          | D2Evar (d2v) =>
-              list_cons(d2v, auxlst(d2es))
-            // end of [D2Evar]
-          | _(*non-D2Evar*) => auxlst(d2es)
-        ) (* end of [list_cons] *)
       | list_nil ((*void*)) => list_nil ()
+      | list_cons (d2e, d2es) => auxlst2 (d2e, d2es)
     ) (* end of [auxlst] *)
 //
+    and auxlst2
+    (
+      d2e: d2exp, d2es: d2explst
+    ) : d2varlst =
+    (
+      case+
+      d2e.d2exp_node of
+      | D2Evar (d2v) =>
+          list_cons(d2v, auxlst(d2es))
+        // end of [D2Evar]
+      | _(*non-D2Evar*) => auxlst(d2es)
+    ) (* end of [auxlst2] *)
+//
     val d2e = d1exp_tr (d1e)
+//
     val d2vs =
     (
       case+
       d2e.d2exp_node of
       | D2Evar (d2v) => list_sing(d2v)
-      | D2Elist (_, d2es) => auxlst (d2es)
-      | _(*ignored*) => list_nil(*void*)
+      | D2Esing (d2e) =>
+          auxlst2(d2e, list_nil(*void*))
+        // end of [D2Esing]
+      | D2Elist
+          (_(*npf*), d2es) => auxlst (d2es)
+        // end of [D2Elist]
+      | _(*rest-of-d2exp*) => list_nil(*void*)
     ) : d2varlst // end of [val]
   in
     d2exp_tempenver (loc0, d2vs)
   end // end of [D1Etempenver]
 //
 | D1Eexist (s1a, d1e) => let
-    val s2a = s1exparg_tr (s1a); val d2e = d1exp_tr (d1e)
+    val s2a = s1exparg_tr(s1a)
+    val d1e = un_d1exp_sing(d1e)
   in
-    d2exp_exist (loc0, s2a, d2e)
+    d2exp_exist (loc0, s2a, d1exp_tr(d1e))
   end // end of [D1Eexist]
 //
 | D1Elam_dyn

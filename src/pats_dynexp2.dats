@@ -564,12 +564,15 @@ d2exp_scasehead (
 ) = d2exp_make_node (loc, D2Escasehead (inv, s2f, sc2ls))
 
 (* ****** ****** *)
-
+//
+implement
+d2exp_sing (loc, d2e) =
+  d2exp_make_node (loc, D2Esing(d2e))
+//
 implement
 d2exp_list (loc, npf, d2es) =
-  d2exp_make_node (loc, D2Elist (npf, d2es))
-// end of [d2exp_list]
-
+  d2exp_make_node (loc, D2Elist(npf, d2es))
+//
 (* ****** ****** *)
 
 implement

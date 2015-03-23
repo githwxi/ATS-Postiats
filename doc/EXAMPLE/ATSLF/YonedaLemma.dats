@@ -10,14 +10,14 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 staload
 "libats/ML/SATS/basis.sats"
 staload
 "libats/ML/SATS/list0.sats"
 staload
 "libats/ML/SATS/option0.sats"
-
+//
 (* ****** ****** *)
 
 staload _ = "libats/ML/DATS/list0.dats"

@@ -31,7 +31,7 @@ in
 end // end of [loop]
 //
 in
-  loop (A, n, (i2sz)0)
+  loop (A, n, i2sz(0))
 end // end of [arrayref_reverse]
 
 (* ****** ****** *)
@@ -55,7 +55,7 @@ in
 end // end of [loop]
 //
 in
-  loop (A, n, (i2sz)0)
+  loop (A, n, i2sz(0))
 end // end of [arrayref_reverse]
 
 (* ****** ****** *)

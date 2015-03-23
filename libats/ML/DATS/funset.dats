@@ -36,10 +36,16 @@
 // HX-2012-12: the set implementation is based on AVL trees
 //
 (* ****** ****** *)
-
+//
 staload
-FS = "libats/SATS/funset_avltree.sats"
-
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+staload
+FS =
+"libats/SATS/funset_avltree.sats"
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
@@ -328,24 +334,22 @@ end // end of [funset_foreach_cloref]
 implement
 {a}(*tmp*)
 funset_tabulate_cloref
-  (n, fopr) = let
+  {n}(n, fopr) = let
 //
 implement
-$FS.funset_tabulate$fopr<a> (i) = fopr(i)
+$FS.funset_tabulate$fopr<a> (i) = fopr($UN.cast{natLt(n)}(i))
 //
 in
   $FS.funset_tabulate<a> (n)
 end // end of [funset_tabulate]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 funset_listize (xs) =
-(
-  $effmask_wrt (list0_of_list_vt ($FS.funset_listize (xs)))
-) // end of [funset_listize]
-
+  ($effmask_wrt(list0_of_list_vt{a}($FS.funset_listize<a>(xs))))
+//
 (* ****** ****** *)
 
 (* end of [funset.dats] *)

@@ -484,7 +484,8 @@ val d2as = eval1_d2exparglst (loc0, ctx, env, d2as)
 in
 //
 case+
-  d2e.d2exp_node of
+d2e.d2exp_node
+of // case+
 | D2Emac (d2m) => let
     val knd = d2mac_get_kind (d2m)
   in
@@ -716,15 +717,22 @@ case+ d2en0 of
     d2exp_casehead (loc0, knd, inv, d2es, c2ls)
   end // end of [D2Ecasehead]
 //
+| D2Esing (d2e) =>
+    d2exp_sing(loc0, eval1dexp (d2e))
+| D2Elist (npf, d2es) =>
+    d2exp_list(loc0, npf, eval1dexplst (d2es))
+//
 | D2Elst
     (lin, opt, d2es) => d2exp_lst
   (
     loc0, lin, eval1sexpopt (opt), eval1dexplst (d2es)
   ) (* end of [D2Elst] *)
+//
 | D2Etup (knd, npf, d2es) =>
     d2exp_tup (loc0, knd, npf, eval1dexplst (d2es))
 | D2Erec (knd, npf, ld2es) =>
     d2exp_rec (loc0, knd, npf, eval1labdexplst (ld2es))
+//
 | D2Eseq (d2es) => d2exp_seq (loc0, eval1dexplst (d2es))
 //
 | D2Eselab (d2e, d2ls) =>
@@ -789,7 +797,7 @@ case+ d2en0 of
     d2exp_ann_funclo (loc0, eval1dexp (d2e), funclo)
   // end of [D2Eann_funclo]
 //
-| _ => d2exp_errexp (loc0)
+| _ (*rest-of-d2exp*) => d2exp_errexp (loc0)
 //
 end // end of [eval1_d2exp]
 

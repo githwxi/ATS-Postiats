@@ -343,11 +343,14 @@ case+ d2e0.d2exp_node of
 //
 | D2Ecasehead _ => let
     val s2e_case =
-    s2exp_Var_make_srt (loc0, s2rt_t0ype)
+      s2exp_Var_make_srt (loc0, s2rt_t0ype)
+    // end of [val]
     val s2f_case = s2exp2hnf_cast (s2e_case)
   in
     d2exp_trdn_casehead (d2e0, s2f_case)
   end // end of [D2Ecasehead]
+//
+| D2Esing (d2e) => d2exp_trup (d2e)
 //
 | D2Elist (npf, d2es) => let
     val d2e0 =

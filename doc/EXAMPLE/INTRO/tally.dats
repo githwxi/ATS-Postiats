@@ -30,7 +30,7 @@ fun tally2
 var n: int = n
 var i: int // uninitialized
 var res: ullint = 0ull
-val () = for (i := 1 ; i <= n ; i :=+ 1) res :=+ (g0i2u)i
+val () = for (i := 1 ; i <= n ; i :=+ 1) res :=+ g0i2u(i)
 //
 in
   res
@@ -82,7 +82,7 @@ prval pf_res = view@ (res)
 implement{env}
 intrange_foreach$fwork
   (i, env) = let
-  prval (pf_res, fpf) = decode ($vcopyenv_v (pf_res))
+  prval (pf_res, fpf) = decode($vcopyenv_v(pf_res))
   val () = res := res + i
   prval () = fpf (pf_res)
 in

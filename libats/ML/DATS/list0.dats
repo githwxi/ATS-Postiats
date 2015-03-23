@@ -954,11 +954,10 @@ list0_map2
 implement
 {a11,a12}{b2}
 list_map2$fopr (x1, x2) =
-  $UN.castvwtp0{b2}(f($UN.cast{a1}(x1), $UN.cast{a2}(x2)))
-val ys = list_map2<a1,a2><b> ((g1ofg0)xs1, (g1ofg0)xs2)
+$UN.castvwtp0{b2}(f($UN.cast{a1}(x1), $UN.cast{a2}(x2)))
 //
 in
-  list0_of_list_vt (ys)
+  list0_of_list_vt(list_map2<a1,a2><b> (g1ofg0(xs1), g1ofg0(xs2)))
 end // end of [list0_map2]
 
 (* ****** ****** *)
@@ -971,7 +970,7 @@ list0_filter
 implement{a2}
 list_filter$pred
   (x) = p ($UN.cast{a}(x))
-val ys = list_filter<a> ((g1ofg0)xs)
+val ys = list_filter<a> (g1ofg0(xs))
 //
 in
   list0_of_list_vt (ys)
@@ -1088,7 +1087,7 @@ list0_quicksort (xs, cmp) = let
 implement
 list_quicksort$cmp<a> (x, y) = cmp (x, y)
 //
-val ys = $effmask_wrt (list_quicksort<a> ((g1ofg0)xs))
+val ys = $effmask_wrt (list_quicksort<a> (g1ofg0(xs)))
 //
 in
   list0_of_list_vt (ys)
@@ -1102,7 +1101,7 @@ list0_mergesort (xs, cmp) = let
 implement
 list_mergesort$cmp<a> (x, y) = cmp (x, y)
 //
-val ys = $effmask_wrt (list_mergesort<a> ((g1ofg0)xs))
+val ys = $effmask_wrt (list_mergesort<a> (g1ofg0(xs)))
 //
 in
   list0_of_list_vt (ys)

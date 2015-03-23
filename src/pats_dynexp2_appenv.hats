@@ -632,6 +632,7 @@ d2e0.d2exp_node of
     val () = s2exp_app (s2e, env) in sc2laulst_app (sc2ls, env)
   end // end of [D2Escasehead]
 //
+| D2Esing (d2e) => d2exp_app (d2e, env)
 | D2Elist (npf, d2es) => d2explst_app (d2es, env)
 //
 | D2Elst (lin, opt, d2es) =>

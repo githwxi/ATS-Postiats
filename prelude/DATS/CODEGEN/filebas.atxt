@@ -74,7 +74,7 @@ fun loop
   val c = $UN.ptr0_get<char> (p1)
 in
   if c != NUL then let
-    val p1 = p1 + (i2sz)1
+    val p1 = p1 + i2sz(1)
   in
     if c != c0 then loop (p1, p2, c0) else loop (p1, p1, c0)
   end else p2 // end of [if]
@@ -124,7 +124,7 @@ fun loop
   val c = $UN.ptr0_get<char> (p1)
 in
   if c != NUL then let
-    val p1 = p1 + (i2sz)1
+    val p1 = p1 + i2sz(1)
   in
     if c != c0 then loop (p1, p2, c0) else loop (p1, p1, c0)
   end else p2 // end of [if]
@@ -219,20 +219,31 @@ implement{}
 fileref_open_opt
   (path, fm) = let
 //
-val filp = $STDIO.fopen (path, fm)
-val isnot = $STDIO.FILEptr2ptr(filp) > 0
+val
+filp = $STDIO.fopen (path, fm)
+val
+isnot = $STDIO.FILEptr2ptr(filp) > 0
 //
 in
 //
-if isnot then let
-  val fil = $STDIO.FILEptr_refize (filp)
+if
+isnot
+then let
+//
+val filr =
+  $STDIO.FILEptr_refize(filp)
+//
 in
-  Some_vt{FILEref}(fil)
-end else let
-  prval () = $STDIO.FILEptr_free_null (filp)
+  Some_vt{FILEref}(filr) // success
+end // end of [then]
+else let
+//
+prval () =
+  $STDIO.FILEptr_free_null(filp)
+//
 in
-  None_vt{FILEref}((*void*))
-end // end of [if]
+  None_vt{FILEref}((*void*)) // failure
+end // end of [else]
 //
 end // end of [fileref_open_opt]
 
@@ -450,7 +461,7 @@ in
     val () =
     (
       res :=
-      list_vt_cons{char}{0}((i2c)i, _)
+      list_vt_cons{char}{0}(i2c(i), _)
     )
     val+list_vt_cons (_, res1) = res
     val n = loop (inp, pred(n), res1)

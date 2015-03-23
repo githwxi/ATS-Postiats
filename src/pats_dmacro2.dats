@@ -247,7 +247,7 @@ end // end of [local]
 
 local
 
-dataviewtype evalctx =
+datavtype evalctx =
   | EVALCTXsadd of (s2var, m2val, evalctx)
   | EVALCTXdadd of (d2var, m2val, evalctx)
   | EVALCTXnil of ()
