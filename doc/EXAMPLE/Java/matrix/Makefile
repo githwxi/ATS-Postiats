@@ -16,7 +16,8 @@ JNIincl=/usr/lib/jvm/java-7-openjdk-amd64/include
 #
 ######
 #
-# How to test: java -Djava.library.path=. MyMatrix_test
+# How to test:
+# java -Djava.library.path=. MyMatrix_test
 #
 ######
 

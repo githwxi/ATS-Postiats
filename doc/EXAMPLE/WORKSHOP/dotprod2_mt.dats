@@ -60,7 +60,9 @@ if
 then let
   val x = $UN.ptr0_get<a> (pa)
   val y = $UN.ptr0_get<a> (pb)
-  val res = gadd_val<a> (res, gmul_val<a> (x, y))
+  val res =
+    gadd_val_val<a> (res, gmul_val_val<a> (x, y))
+  // end of [val]
 in
   loop (ptr_succ<a> (pa), ptr_succ<a> (pb), succ(i), res)
 end // end of [then]
@@ -117,7 +119,8 @@ then let
   prval () = fpf1 (pf1) and () = fpf2 (pf2)
   local
   implement(env)
-  spinref_process$fwork<a><env> (x, env) = x := gadd_val<a> (x, res)
+  spinref_process$fwork<a><env>
+    (x, env) = x := gadd_val_val<a> (x, res)
   in(*in-of-local*)
   val ((*void*)) = spinref_process (spnr)
   end // end of [local]
@@ -205,20 +208,24 @@ implement
 test_dotprod
   (times, A, B, n, cutoff) =
 (
-  if times > 0
-    then let
-      val res1 =
-        dotprod_mt<a> (A, B, n, cutoff)
-      // end of [val]
-      val res2 =
-        test_dotprod<a> (times-1, A, B, n, cutoff)
-      // end of [val]
-    in
-      gadd_val (res1, res2)
-    end // end of [then]
-    else gnumber_int<a> (0)
-  // end of [if]
-)
+//
+if
+times > 0
+then let
+//
+val res1 =
+  dotprod_mt<a> (A, B, n, cutoff)
+// end of [val]
+val res2 =
+  test_dotprod<a> (times-1, A, B, n, cutoff)
+// end of [val]
+//
+in
+  gadd_val_val (res1, res2)
+end // end of [then]
+else gnumber_int<a> (0)
+//
+) (* end of [test_dotprod] *)
 //
 (* ****** ****** *)
 

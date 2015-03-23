@@ -44,8 +44,15 @@ LAB = "./pats_label.sats"
 (* ****** ****** *)
 //
 staload
-LOC = "./pats_location.sats"
+LOC =
+"./pats_location.sats"
+//
 overload + with $LOC.location_combine
+//
+(* ****** ****** *)
+//
+staload
+SYN = "./pats_syntax.sats"
 //
 (* ****** ****** *)
 
@@ -98,6 +105,12 @@ end // end of [p2atlst_tupize]
 implement
 d2exp_is_varlamcst
   (d2e0) = let
+//
+fun
+aux
+(
+  d2e0: d2exp
+) : bool = let
 in
 //
 case+
@@ -121,12 +134,48 @@ d2e0.d2exp_node of
 //
 | D2Etop _ => true
 //
-| D2Esing(d2e) => d2exp_is_varlamcst (d2e)
+| D2Esing(d2e) => aux (d2e)
 //
-| D2Eexist(s2as, d2e) => d2exp_is_varlamcst (d2e)
+| D2Etup (knd, npf, d2es) => auxlst (d2es)
+| D2Erec (knd, npf, ld2es) => auxlablst (ld2es)
+//
+| D2Eexist(s2as, d2e) => aux (d2e)
 //
 | _ (*rest-of-d2exp*) => false
 //
+end // end of [aux]
+//
+and
+auxlst
+(
+  d2es: d2explst
+) : bool =
+(
+case+ d2es of
+| list_nil () => true
+| list_cons (d2e, d2es) =>
+    if aux(d2e) then auxlst(d2es) else false
+  // end of [list_cons]
+)
+//
+and
+auxlablst
+(
+  ld2es: labd2explst
+) : bool =
+(
+case+ ld2es of
+| list_nil () => true
+| list_cons
+    (ld2e, ld2es) => let
+    val $SYN.DL0ABELED(l, d2e) = ld2e
+  in
+    if aux(d2e) then auxlablst(ld2es) else false
+  end // end of [list_cons]
+)
+//
+in
+  aux(d2e0)
 end // end of [d2exp_is_varlamcst]
 
 (* ****** ****** *)

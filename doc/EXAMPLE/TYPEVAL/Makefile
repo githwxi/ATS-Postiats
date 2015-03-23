@@ -14,16 +14,27 @@ all::
 all:: \
 dotprod
 dotprod: dotprod.dats; $(PATSCC) -O2 -o $@ $<
+regress:: dotprod; ./$<
+cleanall:: ; $(RMF) dotprod 
 
 ######
 
-clean:: ; rm -f *~
-clean:: ; rm -f *_?ats.c
-clean:: ; rm -f *_?ats.o
+testall:: all
+testall:: regress
+testall:: cleanall
+
+######
+
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.c
+clean:: ; $(RMF) *_?ats.o
 
 ######
 
 cleanall:: clean
-cleanall:: ; rm -f dotprod
 
 ###### end of [Makefile] ######

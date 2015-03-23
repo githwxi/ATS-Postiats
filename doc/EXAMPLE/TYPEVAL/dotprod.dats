@@ -46,7 +46,7 @@ sarray_foreach2$fwork<a>
   $UN.ptr0_get<a>(env)
   val () =
   $UN.ptr0_set<a>
-    (env, gadd_val<a> (r0, gmul_val<a> (x0, x1)))
+    (env, gadd_val_val<a> (r0, gmul_val_val<a> (x0, x1)))
   // end of [val]
 } (* end of [sarray_foreach2$fwork] *)
 
