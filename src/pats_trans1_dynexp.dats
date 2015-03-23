@@ -84,10 +84,11 @@ staload "./pats_trans1_env.sats"
 #define l2l list_of_list_vt
 
 (* ****** ****** *)
-
+//
 macdef
-list_sing (x) = list_cons (,(x), list_nil(*void*))
-
+list_sing (x) =
+  list_cons (,(x), list_nil(*void*))
+//
 (* ****** ****** *)
 //
 // HX: translation of dynamic expr
@@ -96,13 +97,15 @@ typedef d1expitm = fxitm (d1exp)
 typedef d1expitmlst = List (d1expitm)
 //
 (* ****** ****** *)
-
+//
 extern
 fun
 d1exp_app_proc
 (
-  loc0: location, _fun: d1exp, _arg: d1exp
-) : d1exp // end of [d1exp_app_proc]
+  loc0: location
+, d1e_fun: d1exp, d1e_arg: d1exp
+) : d1exp // end-of-function
+//
 implement
 d1exp_app_proc
 (
@@ -111,7 +114,8 @@ d1exp_app_proc
 in
 //
 case+
-d1e_fun.d1exp_node of
+d1e_fun.d1exp_node
+of // case+
 //
 | D1Eidextapp
     (id, d1es_arg) => let
@@ -121,31 +125,44 @@ d1e_fun.d1exp_node of
   in
     d1exp_idextapp (loc0, id, d1es_arg)
   end // end of [D1Eidexpapp]
-| _ => (
-  case+
-    d1e_arg.d1exp_node of
-  | D1Elist
-      (npf, d1es) => let
-      val locarg = d1e_arg.d1exp_loc
-    in
-      d1exp_app_dyn (loc0, d1e_fun, locarg, npf, d1es)
-    end // end of [D1Elist]
-  | D1Esexparg s1a => (
-    case+ d1e_fun.d1exp_node of
-    | D1Eapp_sta (d1e_fun, s1as) =>
-        d1exp_app_sta (loc0, d1e_fun, l2l(list_extend (s1as, s1a)))
-      // end of [D1Eapp_sta]
-    | _ => let
-        val s1as = list_sing (s1a) in d1exp_app_sta (loc0, d1e_fun, s1as)
-      end // end of [_]
-    ) // end of [D1Esexparg]
-  | _ => let
-      val npf = ~1 // HX: default
-      val locarg = d1e_arg.d1exp_loc
-      val d1es = list_sing (d1e_arg) in
-      d1exp_app_dyn (loc0, d1e_fun, locarg, npf, d1es)
-    end // end of [_]    
-  ) // end of [_]
+| _ (*non-D1Eidextapp*) => let
+  in
+    case+
+    d1e_arg.d1exp_node
+    of // case+
+    | D1Elist
+      (
+        npf, d1es
+      ) => let
+        val locarg = d1e_arg.d1exp_loc
+      in
+        d1exp_app_dyn (loc0, d1e_fun, locarg, npf, d1es)
+      end // end of [D1Elist]
+    | D1Esexparg
+        (s1a) => let
+      in
+        case+
+        d1e_fun.d1exp_node
+        of // case+
+        | D1Eapp_sta
+            (d1e_fun, s1as) => let
+            val s1as = list_extend(s1as, s1a)
+          in
+            d1exp_app_sta(loc0, d1e_fun, l2l(s1as))
+          end // end of [d1exp_app_sta]
+        | _ (*non-D1Eapp_sta*) =>
+          (
+            d1exp_app_sta (loc0, d1e_fun, list_sing(s1a))
+          ) (* end of [non-D1Eapp_sta] *)
+      end // end of [D1Esexparg]
+    | _ (*non-list-sexparg*) => let
+        val npf = ~1 // HX: default
+        val locarg = d1e_arg.d1exp_loc
+        val d1es_arg = list_sing (d1e_arg)
+      in
+        d1exp_app_dyn (loc0, d1e_fun, locarg, npf, d1es_arg)
+      end // end of [non-list-sexparg]
+  end // end of [non-D1Eidextapp]
 //
 end // end of [d1exp_app_proc]
 

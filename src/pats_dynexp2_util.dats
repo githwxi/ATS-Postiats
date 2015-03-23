@@ -189,16 +189,22 @@ in
 if
 nd2cs >= 2
 then let
-  var !p_clo = @lam (
+//
+  var !p_clo =
+  @lam (
     pf: !unit_v | d2c: d2con
   ) : bool =<clo1> d2con_get_arity_full (d2c) = n
+//
   prval pfu = unit_v ()
-  val d2cs2 = list_filter_vclo {unit_v} (pfu | d2cs, !p_clo)
+  val d2cs2 = list_filter_vclo{unit_v}(pfu | d2cs, !p_clo)
   prval unit_v () = pfu
+//
   val d2cs2 = (l2l)d2cs2
+//
 in
   case+ d2cs2 of list_cons _ => d2cs2 | list_nil () => d2cs
-end else d2cs // end of [if]
+end // end of [then]
+else d2cs // end of [else]
 //
 end // end of [d2con_select_arity]
 

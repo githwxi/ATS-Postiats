@@ -559,7 +559,12 @@ d1exp_app_dyn
 implement
 d1exp_sing
   (loc, d1e) =
-  d1exp_make (loc, D1Esing(d1e))
+(
+case+
+d1e.d1exp_node of
+| D1Eide _ => d1e
+| _(*non-D1Eide*) => d1exp_make (loc, D1Esing(d1e))
+) (* end of [d1exp_sing] *)
 //
 (* ****** ****** *)
 
