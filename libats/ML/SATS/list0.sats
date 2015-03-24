@@ -300,8 +300,12 @@ list0_drop_exn
 
 (* ****** ****** *)
 
-fun{a:t0p}
-list0_app (xs: list0(INV(a)), fwork: cfun(a, void)): void
+fun
+{a:t0p}
+list0_app
+(
+  xs: list0(INV(a)), fwork: cfun(a, void)
+) : void // end of [list0_app]
 
 (* ****** ****** *)
 
@@ -309,7 +313,7 @@ fun{a:t0p}
 list0_foreach
 (
   xs: list0(INV(a)), fwork: cfun(a, void)
-) : void
+) : void // end of [list0_foreach]
 
 fun{a:t0p}
 list0_iforeach
@@ -319,7 +323,8 @@ list0_iforeach
 
 (* ****** ****** *)
 
-fun{a1,a2:t0p}
+fun
+{a1,a2:t0p}
 list0_foreach2
 (
   xs1: list0(INV(a1))
@@ -375,10 +380,12 @@ a:t0p}{res:t0p
 //
 (* ****** ****** *)
 
-fun{a:t0p}
+fun
+{a:t0p}
 list0_exists (xs: list0(INV(a)), p: cfun(a, bool)): bool
 
-fun{a1,a2:t0p}
+fun
+{a1,a2:t0p}
 list0_exists2
 (
   xs1: list0(INV(a1))
@@ -388,16 +395,19 @@ list0_exists2
 
 (* ****** ****** *)
 
-fun{a:t0p}
+fun
+{a:t0p}
 list0_forall (xs: list0(INV(a)), p: cfun(a, bool)): bool
 
-fun{a1,a2:t0p}
+fun
+{a1,a2:t0p}
 list0_forall2 (
   xs1: list0(INV(a1))
 , xs2: list0(INV(a2))
 , pred: cfun2(a1, a2, bool)
 ) : bool // end of [list0_forall2]
-fun{a1,a2:t0p}
+fun
+{a1,a2:t0p}
 list0_forall2_eq
 (
   xs1: list0(INV(a1))
@@ -407,23 +417,27 @@ list0_forall2_eq
 
 (* ****** ****** *)
 
-fun{a:t0p}
+fun
+{a:t0p}
 list0_equal
 (
   xs1: list0(INV(a)), xs2: list0(a), eqfn: cfun2(a, a, bool)
 ) : bool // end of [list0_equal]
 
 (* ****** ****** *)
-
-fun{a:t0p}
+//
+fun
+{a:t0p}
 list0_find_exn
   (xs: list0(INV(a)), p: cfun(a, bool)): (a)
-fun{a:t0p}
+//
+fun
+{a:t0p}
 list0_find_opt
   (xs: list0(INV(a)), p: cfun(a, bool)): Option_vt (a)
-
+//
 (* ****** ****** *)
-
+//
 fun{
 a,b:t0p
 } list0_assoc_exn
@@ -432,7 +446,7 @@ fun{
 a,b:t0p
 } list0_assoc_opt
   (xys: list0 @(INV(a), b), x0: a, eq: cfun(a, a, bool)): Option_vt (b)
-
+//
 (* ****** ****** *)
 
 fun{a:t0p}
