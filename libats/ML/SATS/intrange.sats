@@ -70,6 +70,18 @@ overload .foreach with int_foreach_method
 //
 (* ****** ****** *)
 //
+fun{res:vt0p}
+int_foldleft_cloref
+  (n: int, ini: res, f: cfun2 (res, int, res)): res
+//
+fun{res:vt0p}
+int_foldleft_method
+  (int, TYPE(res))(ini: res, f: cfun2 (res, int, res)): res
+//
+overload .foldleft with int_foldleft_method
+//
+(* ****** ****** *)
+//
 fun{}
 int_foreach2_cloref
   (n1: int, n2: int, f: cfun2 (int, int, void)): void
@@ -84,6 +96,18 @@ intrange_foreach_method
   (lr: @(int, int)) (f: cfun1 (int, void)): void
 //
 overload .foreach with intrange_foreach_method
+//
+(* ****** ****** *)
+//
+fun{res:vt0p}
+intrange_foldleft_cloref
+  (l: int, r: int, ini: res, f: cfun2 (res, int, res)): res
+//
+fun{res:vt0p}
+intrange_foldleft_method
+  ((int, int), TYPE(res))(ini: res, f: cfun2 (res, int, res)): res
+//
+overload .foldleft with intrange_foldleft_method
 //
 (* ****** ****** *)
 //

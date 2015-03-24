@@ -146,6 +146,15 @@ list_atxt.dats: list.atxt
 clean:: ; $(RMF) list_atxt.exe
 cleanall:: ; $(RMF) list.cats
 
+all:: list_vt.cats
+list_vt.cats: list_vt_atxt.exe ; ./$< > $@
+list_vt_atxt.exe: list_vt_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ list_vt_atxt.dats -latsdoc
+list_vt_atxt.dats: list_vt.atxt
+	$(ATSDOC) --outcode $@ -i list_vt.atxt > list_vt_atxt.txt
+clean:: ; $(RMF) list_vt_atxt.exe
+cleanall:: ; $(RMF) list_vt.cats
+
 all:: option.cats
 option.cats: option_atxt.exe ; ./$< > $@
 option_atxt.exe: option_atxt.dats
@@ -199,6 +208,15 @@ matrixptr_atxt.dats: matrixptr.atxt
 	$(ATSDOC) --outcode $@ -i matrixptr.atxt > matrixptr_atxt.txt
 clean:: ; $(RMF) matrixptr_atxt.exe
 cleanall:: ; $(RMF) matrixptr.cats
+
+all:: matrixref.cats
+matrixref.cats: matrixref_atxt.exe ; ./$< > $@
+matrixref_atxt.exe: matrixref_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ matrixref_atxt.dats -latsdoc
+matrixref_atxt.dats: matrixref.atxt
+	$(ATSDOC) --outcode $@ -i matrixref.atxt > matrixref_atxt.txt
+clean:: ; $(RMF) matrixref_atxt.exe
+cleanall:: ; $(RMF) matrixref.cats
 
 
 ######

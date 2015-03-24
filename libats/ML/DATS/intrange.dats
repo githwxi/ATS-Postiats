@@ -75,18 +75,35 @@ end // end of [int_repeat_cloref]
 implement
 {}(*tmp*)
 int_foreach_cloref
-  (n, f) = intrange_foreach_cloref<> (0, n, f)
+  (n, f) =
+  intrange_foreach_cloref<> (0, n, f)
 //
 implement
 {}(*tmp*)
-int_foreach_method(n) = lam(f) => int_foreach_cloref (n, f)
+int_foreach_method
+  (n) = lam(f) => int_foreach_cloref (n, f)
+//
+(* ****** ****** *)
+//
+implement
+{res}(*tmp*)
+int_foldleft_cloref
+  (n, ini, f) =
+  intrange_foldleft_cloref<res> (0, n, ini, f)
+//
+implement
+{res}(*tmp*)
+int_foldleft_method
+  (n, tres) =
+  lam(ini, f) => int_foldleft_cloref (n, ini, f)
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
 int_foreach2_cloref
-  (n1, n2, f) = intrange_foreach2_cloref<> (0, n1, 0, n2, f)
+  (n1, n2, f) =
+  intrange_foreach2_cloref<> (0, n1, 0, n2, f)
 //
 (* ****** ****** *)
 
@@ -117,6 +134,36 @@ implement
 {}(*tmp*)
 intrange_foreach_method
   ( @(l, r) ) = lam(f) => intrange_foreach_cloref (l, r, f)
+//
+(* ****** ****** *)
+
+implement
+{res}(*tmp*)
+intrange_foldleft_cloref
+  (l, r, ini, fopr) = let
+//
+fun
+loop
+(
+  l: int, r: int
+, ini: res, f: cfun2(res, int, res)
+) : res = (
+//
+if l < r then loop (l+1, r, f(ini, l), f) else ini
+//
+) (* end of [loop] *)
+//
+in
+  loop (l, r, ini, fopr)
+end // end of [intrange_foldleft_cloref]
+
+(* ****** ****** *)
+//
+implement
+{res}(*tmp*)
+intrange_foldleft_method
+  ( @(l, r), tres ) =
+  lam(ini, f) => intrange_foldleft_cloref<res> (l, r, ini, f)
 //
 (* ****** ****** *)
 
