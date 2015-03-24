@@ -23,7 +23,21 @@ val (
   ptr_add<ptr> (nullp, 1) = add_ptr_bsz (nullp, sizeof<ptr>)
 ) // end of [val]
 //
-} // end of [val]
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val ap =
+aptr_make_elt<int> (10)
+//
+val-10 = ap[]
+val () = ap[] := 2 * 10
+val-20 = aptr_getfree_elt(ap)
+//
+} (* end of [val] *)
 
 (* ****** ****** *)
 
