@@ -675,12 +675,12 @@ end // end of [tally3]
 While #dyncode("tally3") improves upon #dyncode("tally2"), it is still a
 bit unsatisfactory. Clearly, the closure function formed before
 #dyncode("tally3") calls #dyncode("for_loop2") becomes garbage immediately
-after the call returns. It is plausible to expect an optimizing C compiler
-(e.g., gcc and clang) can eliminate the need for actual closure formation
-when it is called on the C code generated from ATS source, but there is
-no guarantee. In order to have such a guarantee, we can evolve
+after the call returns. It is plausible to expect that an optimizing C
+compiler (e.g., gcc and clang) can eliminate the need for actual closure
+formation when it compiles on the C code generated from ATS source, but
+there is no guarantee. In order to have such a guarantee, we can evolve
 #dyncode("for_loop2") into the following function template
-#dyncode("for_loop3:") 
+#dyncode("for_loop3:")
 
 #atscode('\
 fun{

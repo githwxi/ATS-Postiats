@@ -79,6 +79,12 @@ int_foreach_cloref
 //
 implement
 {}(*tmp*)
+int_foreach_method(n) = lam(f) => int_foreach_cloref (n, f)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
 int_foreach2_cloref
   (n1, n2, f) = intrange_foreach2_cloref<> (0, n1, 0, n2, f)
 //
@@ -105,6 +111,13 @@ in
   loop (l, r, f)
 end // end of [intrange_foreach_cloref]
 
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+intrange_foreach_method
+  ( @(l, r) ) = lam(f) => intrange_foreach_cloref (l, r, f)
+//
 (* ****** ****** *)
 
 implement

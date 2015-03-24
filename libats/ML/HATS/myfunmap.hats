@@ -127,12 +127,16 @@ extern
 fun
 myfunmap_foreach_cloref
 (
-  tbl: mymap, fwork: (key, itm) -<cloref1> void
+  mymap, fwork: (key, itm) -<cloref1> void
 ) : void // end-of-function
 //
-(*
-overload foreach_cloref with myfunmap_foreach_cloref
-*)
+extern
+fun
+myfunmap_foreach_method
+  (mymap)
+  (fwork: (key, itm) -<cloref1> void): void
+//
+overload .foreach with myfunmap_foreach_method
 //
 (* ****** ****** *)
 //
@@ -195,6 +199,12 @@ implement
 myfunmap_foreach_cloref
   (map, fwork) =
   funmap_foreach_cloref<key,itm>(map, fwork)
+implement
+myfunmap_foreach_method
+  (map) =
+(
+  lam(fwork) => myfunmap_foreach_cloref(map, fwork)
+) (* myfunmap_foreach_method *)
 //
 implement
 myfunmap_listize

@@ -1,3 +1,12 @@
+######
+#
+HX:
+#
+From this point on, ATS2-contrib
+will be released together with ATS2
+#
+######
+
 0.1.5
 
 releasing atscc2pl

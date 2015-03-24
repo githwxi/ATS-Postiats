@@ -51,13 +51,13 @@ typedef
 myset = myset_type
 //
 (* ****** ****** *)
-//
+
 extern
 fun
 myfunset_nil():<> myset
 and
 myfunset_make_nil():<> myset
-//
+
 (* ****** ****** *)
 
 extern
@@ -205,12 +205,12 @@ overload .is_supset with myfunset_is_supset
 extern
 fun
 myfunset_foreach_cloref
-  (xs: myset, fwork: (elt) -<cloref1> void): void
+  (myset, fwork: (elt) -<cloref1> void): void
 //
 extern
 fun
 myfunset_foreach_method
-  (myset)(fwork: (elt) -<cloref1> void): void
+  (myset) (fwork: (elt) -<cloref1> void): void
 //
 overload .foreach with myfunset_foreach_method
 //
@@ -225,6 +225,16 @@ myfunset_foldleft_cloref
 , ini: res, fopr: (res, elt) -<cloref1> res
 ) : res // end of [myfunset_foldleft_cloref]
 //
+extern
+fun
+{res:t@ype}
+myfunset_foldleft_method
+(
+  myset, TYPE(res)
+) (ini: res, fopr: (res, elt) -<cloref1> res): res
+//
+overload .foldleft with myfunset_foldleft_method
+//
 (* ****** ****** *)
 //
 extern
@@ -233,15 +243,7 @@ myfunset_tabulate_cloref
   {n:nat}
 (
   n: int(n), fopr: (natLt(n)) -<cloref1> elt
-) : myset // end-of-function
-//
-extern
-fun
-myfunset_tabulate_method
-  {n:nat}
-  (n: int(n))(fopr: (natLt(n)) -<cloref1> elt): myset
-//
-overload .tabulate with myfunset_tabulate_method
+) : myset // end of [myfunset_tabulate_cloref]
 //
 (* ****** ****** *)
 //
@@ -372,20 +374,20 @@ myfunset_is_supset
   (xs, ys) = funset_is_supset<elt>(xs, ys)
 //
 (* ****** ****** *)
-
+//
 implement
 myfunset_foreach_cloref
-  (xs, fwork) =
-  funset_foreach_cloref<elt>(xs, fwork)
+(
+  xs, fwork
+) = funset_foreach_cloref<elt>(xs, fwork)
+//
 implement
 myfunset_foreach_method
   (xs) =
 (
-  lam(fwork) =>
-    funset_foreach_cloref<elt>(xs, fwork)
-  // end of [lam]
+  lam (fwork) => myfunset_foreach_cloref(xs, fwork)
 ) (* myfunset_foreach_method *)
-
+//
 (* ****** ****** *)
 
 implement
@@ -411,18 +413,20 @@ myfunset_foreach_cloref
 //
 } (* end of [myfunset_foldleft_cloref] *)
 //
+(* ****** ****** *)
+//
+implement
+{res}(*tmp*)
+myfunset_foldleft_method
+  (xs0, tres) =
+  lam (int, fopr) => myfunset_foldleft_cloref<res> (xs0, int, fopr)
+//
+(* ****** ****** *)
+//
 implement
 myfunset_tabulate_cloref
   (n, fopr) =
   funset_tabulate_cloref<elt>(n, fopr)
-implement
-myfunset_tabulate_method
-  (n) = (
-//
-lam(fopr) =>
-  funset_tabulate_cloref<elt>(n, fopr)
-//
-) (* end of [myfunset_tabulate_method] *)
 //
 (* ****** ****** *)
 //

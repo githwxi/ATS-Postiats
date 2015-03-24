@@ -150,9 +150,14 @@ myhashtbl_foreach_cloref
 , fwork: (key, &(itm) >> _) -<cloref1> void
 ) : void // end-of-function
 //
-(*
-overload foreach_cloref with myhashtbl_foreach_cloref
-*)
+extern
+fun
+myhashtbl_foreach_method
+(
+  tbl: myhashtbl
+) (fwork: (key, &(itm) >> _) -<cloref1> void): void
+//
+overload .foreach with myhashtbl_foreach_method
 //
 (* ****** ****** *)
 //
@@ -189,12 +194,16 @@ implement
 myhashtbl_make_nil(cap) =
   hashtbl_make_nil<key,itm>(i2sz(cap))
 //
+(* ****** ****** *)
+//
 implement
 myhashtbl_get_size
   (tbl) = sz2n(hashtbl_get_size<>(tbl))
 implement
 myhashtbl_get_capacity
   (tbl) = sz2i(hashtbl_get_capacity<>(tbl))
+//
+(* ****** ****** *)
 //
 implement
 myhashtbl_search
@@ -203,12 +212,16 @@ implement
 myhashtbl_search_ref
   (tbl, k) = hashtbl_search_ref<key,itm>(tbl, k)
 //
+(* ****** ****** *)
+//
 implement
 myhashtbl_insert
   (tbl, k, x) = hashtbl_insert<key,itm>(tbl, k, x)
 implement
 myhashtbl_insert_any
   (tbl, k, x) = hashtbl_insert_any<key,itm>(tbl, k, x)
+//
+(* ****** ****** *)
 //
 implement
 myhashtbl_remove
@@ -224,14 +237,26 @@ myhashtbl_takeout_all
   g1ofg0(hashtbl_takeout_all<key,itm>(tbl))
 ) (* end of [myhashtbl_takeout_all] *)
 //
+(* ****** ****** *)
+//
 implement
 fprint_myhashtbl
   (out, tbl) = fprint_hashtbl<key,itm>(out, tbl)
+//
+(* ****** ****** *)
 //
 implement
 myhashtbl_foreach_cloref
   (tbl, fwork) =
   hashtbl_foreach_cloref<key,itm>(tbl, fwork)
+implement
+myhashtbl_foreach_method
+  (tbl) =
+(
+  lam(fwork) => myhashtbl_foreach_cloref(tbl, fwork)  
+) (* myhashtbl_foreach_method *)
+//
+(* ****** ****** *)
 //
 implement
 myhashtbl_listize1

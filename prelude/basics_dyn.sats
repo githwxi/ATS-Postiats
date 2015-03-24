@@ -46,6 +46,10 @@
 sortdef t0p = t@ype and vt0p = vt@ype
 //
 (* ****** ****** *)
+
+datatype TYPE(a:vt@ype) = TYPE(a) of ()
+
+(* ****** ****** *)
 //
 // HX-2012: In $ATSHOME/ccomp/runtime:
 // atsbool_true/atsbool_false are mapped to 1/0

@@ -20,10 +20,14 @@ staload _ = "libats/ML/DATS/intrange.dats"
 //
 val ((*void*)) =
   repeat(5, $delay(print"Hello!\n"))
+//
 val ((*void*)) =
-  repeat(5, lam () =<cloref1> print"Hello!\n")
+  (5).repeat(lam () =<cloref1> print"Hello!\n")
+//
 val ((*void*)) =
-  foreach (5, lam(i:int) =<cloref1> print!(i, ": Hello!\n"))
+  (5).foreach()(lam(i) => print!(i, ": Hello!\n"))
+val ((*void*)) =
+  (5,10).foreach()(lam(i) => print!(i, ": Hello!\n"))
 //
 (* ****** ****** *)
 
@@ -34,7 +38,7 @@ val
 N = 9
 //
 val () =
-foreach2
+int_foreach2_cloref
 (
 N, N,
 lam (i, j) =>
@@ -43,7 +47,7 @@ lam (i, j) =>
   $extfcall(void, "printf", "%dx%d=%02d", i+1, j+1, (i+1)*(j+1));
   if (j+1=N) then println! ();
 ) (* end of [lam] *)
-) (* end of [foreach2] *)
+) (* end of [int_foreach2_cloref] *)
 //
 } (* end of [val] *)
 
