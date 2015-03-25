@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-03-24:<br>
+<a
+ href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/pointer.sats"
+>aptr for singleton arrayptr</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-03-16:<br>
 <a
  href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/ML/HATS/myfunset.hats"

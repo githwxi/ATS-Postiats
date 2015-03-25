@@ -531,7 +531,7 @@ overload [] with aptr_set_elt
 // HX-2014-05-16:
 // A hack to stop buggy compilation
 //
-fun ptr_volatile (p: ptr): void
+fun ptr_as_volatile (p: ptr): void
 //
 #atscode_separator()
 //
