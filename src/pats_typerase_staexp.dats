@@ -471,7 +471,12 @@ case knd of
     | list_cons
       (
         lhse, list_nil()
-      ) => hisexp_tyrecsin (lhse)
+      ) => let
+        val+ HSLABELED (_, _, hse) = lhse in
+        case+ hse.hisexp_node of
+        | HSEtyarr _ => hisexp_tyrec (knd, lhses)
+        | _ => hisexp_tyrecsin (lhse)
+      end // end of [list_cons]
     | _(*non-sing*) => hisexp_tyrec (knd, lhses)
   end // end of [TYRECKINDflt0/1]
 //
@@ -742,7 +747,12 @@ case knd of
     | list_cons
       (
         lhse, list_nil()
-      ) => hisexp_tyrecsin (lhse)
+      ) => let
+        val+ HSLABELED (_, _, hse) = lhse in
+        case+ hse.hisexp_node of
+        | HSEtyarr _ => hisexp_tyrec (knd, lhses)
+        | _ => hisexp_tyrecsin (lhse)
+      end // end of [list_cons]
     | _(*non-sing*) => hisexp_tyrec (knd, lhses)
   end // end of [TYRECKINDflt0/1]
 //

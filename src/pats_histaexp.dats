@@ -501,7 +501,8 @@ if isflt then let
 in
 //
 if issin then let
-  val+ list_cons (lhse, _) = lhses in hisexp_tyrecsin (lhse)
+  val+ list_cons (lhse, _) = lhses in
+  hisexp_tyrecsin (lhse)
 end else let
 in
   hisexp_tyrec (knd, lhses)

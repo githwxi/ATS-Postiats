@@ -79,6 +79,15 @@ cleanall:: ; $(RMF) fieldarr
 ######
 
 all:: \
+fieldarr2
+fieldarr2: fieldarr2.dats ; \
+  $(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+regress:: fieldarr2 ; ./$<
+cleanall:: ; $(RMF) fieldarr2
+
+######
+
+all:: \
 findexn
 findexn: findexn_dats.c ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<

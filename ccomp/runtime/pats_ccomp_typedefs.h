@@ -116,6 +116,10 @@ typedef void* atstype_datconptr ;
 ** HX: for [datcontyp]
 */
 typedef void* atstype_datcontyp ;
+/*
+** AS: for arrays
+*/
+#define atstyarr_type(T)
 
 /* ****** ****** */
 
