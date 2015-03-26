@@ -254,7 +254,7 @@ of library packages, tutorials, examples, documentation of various sorts, etc.
 <ul>
 <li>
 The current <em>stable</em> release of ATS2-contrib is at
-<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.1.7/.">ATS2-contrib-0.1.7</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.1.10/.">ATS2-contrib-0.1.10</a>.
 </li>
 </ul>
 
