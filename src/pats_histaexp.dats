@@ -171,13 +171,18 @@ hisexp_is_void
 in
 //
 case+
-hse0.hisexp_node of
+hse0.hisexp_node
+of // case+
 | HSEcst (s2c) =>
     $S2C.s2cstref_equ_cst ($S2C.the_atsvoid_t0ype, s2c)
   // end of [HSEcst]
+//
 | HSEtyrecsin (lhse) => let
     val HSLABELED (_, _, hse) = lhse in hisexp_is_void (hse)
   end // end of [HSEtyrecsin]
+//
+| HSEs2exp (s2e) =>
+    $S2C.s2cstref_equ_exp ($S2C.the_atsvoid_t0ype, s2e)
 //
 | _ (*non-void*) => false
 //

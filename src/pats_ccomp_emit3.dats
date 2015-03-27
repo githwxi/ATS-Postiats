@@ -1281,10 +1281,11 @@ end // end of [emit_funent_closure]
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 extern fun
 emit_funlab_funarg
   (out: FILEref, flab: funlab): void
+//
 implement
 emit_funlab_funarg (out, flab) = let
 //
@@ -1299,6 +1300,11 @@ case+ hses of
     (hse, hses) => let
     val () =
       emit_text (out, "ATStmpdec(")
+    // end of [val]
+(*
+    val isvoid = hisexp_is_void (hse)
+    val () = if isvoid then emit_text (out, "_void")
+*)
     val () = (
       emit_funarg (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
     ) (* end of [val] *)
@@ -1315,7 +1321,7 @@ val hses = funlab_get_type_arg (flab)
 in
   auxlst (out, hses, 0(*i*))
 end // end of [emit_funlab_funarg]
-
+//
 (* ****** ****** *)
 //
 extern fun
@@ -1337,6 +1343,11 @@ case+ hses of
     (hse, hses) => let
     val () =
       emit_text (out, "ATStmpdec(")
+    // end of [val]
+(*
+    val isvoid = hisexp_is_void (hse)
+    val () = if isvoid then emit_text (out, "_void")
+*)
     val () = (
       emit_funapy (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
     ) (* end of [val] *)

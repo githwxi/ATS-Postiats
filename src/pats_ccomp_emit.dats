@@ -958,6 +958,13 @@ val hse = tmpvar_get_type (tmp)
 val knd = tmpvar_get_topknd (tmp)
 val isvoid = hisexp_is_void (hse)
 //
+(*
+val () =
+println! ("emit_tmpdec: tmp = ", tmp)
+val () =
+println! ("emit_tmpdec: hse = ", hse)
+*)
+//
 val () =
 if isvoid then emit_text (out, "// ")
 //
