@@ -994,8 +994,12 @@ val () =
 emit_text (out, ", ")
 val () =
 (
-case+ hse.hisexp_node of
-| HSEtyarr (hse_elt, _(*dim*)) => emit_hisexp (out, hse_elt)
+case+
+hse.hisexp_node of
+| HSEtyarr
+  (
+    hse_elt, _(*dim*)
+  ) => emit_hisexp (out, hse_elt)
 | _ (*non-tyarr*) => emit_hisexp (out, hse)
 ) (* end of [val] *)
 } (* end of [then] *)
