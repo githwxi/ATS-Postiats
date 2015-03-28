@@ -44,6 +44,45 @@ which is automatically loaded by #command("atsopt").\
 
 #para("\
 
+#atscode('\
+//
+fun
+{a:vt@ype}
+list_vt_length
+  (xs: !list_vt(a, n)): int(n) =
+(
+case+ xs of
+| list_vt_nil() => 0
+| list_vt_cons(_, xs) => 1 + list_vt_length<a> (xs)
+)
+//
+')
+
+")
+
+#para("\
+
+#atscode('\
+//
+fun
+{a:vt@ype}
+list_vt_foreach
+(
+  xs: !list_vt(a, n)
+, fwork: (&(a) >> _) -<cloref1> void
+) : void =
+(
+case+ xs of
+| list_vt_nil() => ()
+| @list_vt_cons(x, xs2) => (fwork(x); list_vt_foreach<a> (xs2, fwork); fold@(xs))
+)
+//
+')
+
+")
+
+#para("\
+
 Please find #mycodelink("chap_list_vt.dats", "on-line") the entirety of the
 code used in this chapter plus some testing code.\
 
