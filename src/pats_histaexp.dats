@@ -178,14 +178,17 @@ s2exp_is_void
 (
 case+
 s2e.s2exp_node of
+(*
 | S2EVar(s2V) => let
     val s2ze = s2Var_get_szexp(s2V)
   in
     case+ s2ze of
     | S2ZEcst(s2c) => s2cst_is_void(s2c) | _ => false
   end // end of [S2EVar]
+*)
 | _(*non-S2EVar*) =>
     $S2C.s2cstref_equ_exp ($S2C.the_atsvoid_t0ype, s2e)
+  // end of [non-S2EVar]
 )
 //
 in (* in-of-local *)

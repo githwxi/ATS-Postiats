@@ -47,7 +47,8 @@ implement
 main0((*void*)) =
 {
 //
-val () = kacker(3, 3, lam res => println! ("acker(3, 3) = ", res))
+val () =
+kacker<void>(3, 3, lam res => println! ("acker(3, 3) = ", res))
 //
 } (* end of [main0] *)
 
