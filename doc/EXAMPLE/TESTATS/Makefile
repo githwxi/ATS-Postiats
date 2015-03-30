@@ -109,9 +109,19 @@ cleanall:: ; $(RMF) funargpat
 
 all:: \
 intbase
-intbase: intbase.dats ; $(PATSCC2) -cleanaft -o $@ $<
+intbase: \
+intbase.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: intbase ; ./$<
 cleanall:: ; $(RMF) intbase
+
+######
+
+all:: \
+kacker
+kacker: kacker.dats ; \
+$(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+regress:: kacker ; ./$<
+cleanall:: ; $(RMF) kacker
 
 ######
 
