@@ -479,12 +479,15 @@ tmpvar2var (map, tmp) = let
 in
 //
 case+ opt of
-| ~Some_vt (tmp2) => tmp2
+| ~Some_vt
+    (tmp2) => tmp2
+  // Some_vt
 | ~None_vt () => let
 //
-    val loc = tmpvar_get_loc (tmp)
+    val
+    loc = tmpvar_get_loc (tmp)
     val () = prerr_warnccomp_loc (loc)
-    val () = prerr ": toplevel non-global code in template may be problematic."
+    val () = prerr ": toplevel code in template may be problematic."
     val () = prerr_newline ((*void*))
 //
 (*
