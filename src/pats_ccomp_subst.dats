@@ -486,14 +486,19 @@ case+ opt of
 //
     val
     loc = tmpvar_get_loc (tmp)
-    val () = prerr_warnccomp_loc (loc)
-    val () = prerr ": toplevel code in template may be problematic."
-    val () = prerr_newline ((*void*))
 //
 (*
-    val () = prerr_interror ()
-    val () = prerrln! (": tmpvar2var: copy is not found: tmp = ", tmp)
+    val () =
+    prerr_interror_loc (loc)
+    val () =
+    prerrln! (": tmpvar2var: copy is not found: tmp = ", tmp)
 *)
+//
+    val () =
+    prerr_warnccomp_loc (loc)
+    val () =
+    prerrln! ": referencing toplevel code in a template may be problematic."
+//
   in
     tmpvar_copy_err (tmp)
   end // end of [None_vt]
