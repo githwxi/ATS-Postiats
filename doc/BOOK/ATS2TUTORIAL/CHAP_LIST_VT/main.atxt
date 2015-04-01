@@ -148,9 +148,9 @@ end // end of [list_vt_append]
 The meaning of the symbol #dyncode("~") in front of a pattern is to be
 explained below. The implementation of #dyncode("list_vt_append") exactly
 corresponds to the standard implementaion of concatenating two
-singly-linked lists in C: Given two list xs and ys; if xs is empty, then ys
-is returned; otherwise, the last node in xs is located and ys is stored in
-the field of the node reserved for the next node.
+singly-linked lists in C: Let xs and ys be two given lists; if xs is empty,
+then ys is returned; otherwise, the last node in xs is located and ys is
+stored in the field of the node reserved for the next node.
 
 ")
 
