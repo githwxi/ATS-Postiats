@@ -335,15 +335,16 @@ symintr arrszref
 fun{}
 arrszref_make_arrpsz
   {a:vt0p}{n:int}
-  (psz: arrpsz (INV(a), n)):<!wrt> arrszref(a)
+  (arrpsz (INV(a), n)):<!wrt> arrszref(a)
+//
 overload arrszref with arrszref_make_arrpsz
-
+//
 #atscode_separator()
 
 fun{}
 arrszref_make_arrayref
   {a:vt0p}{n:int}
-  (A: arrayref (a, n), n: size_t n):<!wrt> arrszref (a)
+  (A: SHR(arrayref(a, n)), n: size_t n):<!wrt> arrszref (a)
 // end of [arrszref_make_arrayref]
 
 #atscode_separator()

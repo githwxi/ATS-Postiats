@@ -22,8 +22,9 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Adding D0Esing/D1Esing/D2Esing for parenthesized expressions
-2. Fixing a bug in hisexp_is_void
+1. Fixing a bug in hisexp_is_void
+2. Adding D0Esing for parenthesized expressions
+3. Adding ATS2TUTORIAL-chapter: Linearly typed lists
 
 ######
 
