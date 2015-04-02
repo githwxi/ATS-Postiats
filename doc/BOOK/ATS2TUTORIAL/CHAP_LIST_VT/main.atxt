@@ -44,6 +44,9 @@ which is automatically loaded by #command("atsopt").\
 
 #para("\
 
+The following function #dyncode("list_vt_length") shows a typical way of
+handling a linear list in a read-only situation:
+
 #atscode('\
 //
 fun
@@ -53,14 +56,26 @@ list_vt_length
 (
 case+ xs of
 | list_vt_nil() => 0
-| list_vt_cons(_, xs) => 1 + list_vt_length<a> (xs)
+| list_vt_cons(x, xs2) => 1 + list_vt_length<a> (xs2)
 )
 //
 ')
 
+When #dyncode("xs") is matched with the pattern #dyncode("list_vt_nil()"),
+the type of #dyncode("xs") is #stacode("list_vt(a, 0)").  When
+#dyncode("xs") is matched with the pattern #dyncode("list_vt_cons(x, xs2)"),
+the type of #dyncode("xs") is #stacode("list_vt(a, N+1)") for some natural
+number N and the types of #dyncode("x") and #dyncode("xs2") are
+#stacode("a") and #stacode("list_vt(a, N)"), respectively. Note that both
+#dyncode("x") and #dyncode("xs2") are names for values, and their types are
+required to stay unchanged.
+
 ")
 
 #para("\
+
+The following function #dyncode("list_vt_foreach") shows a typical way of
+modifying elements stored in a linear list:
 
 #atscode('\
 //
@@ -78,6 +93,101 @@ case+ xs of
 )
 //
 ')
+
+When #dyncode("xs") is matched with the pattern
+#dyncode("@list_vt_cons(x,xs2)"), the type of #dyncode("xs") is
+#stacode("list_vt(a, N+1)") for some natural number N and the types of
+#dyncode("x") and #dyncode("xs2") are #stacode("a") and
+#stacode("list_vt(a, N)"), respectively. Note that both #dyncode("x") and
+#dyncode("xs2") are variables (that are a form of left-values).  At the
+beginning of the body following the pattern
+#dyncode("@list_vt_cons(x,xs2)"), the type of #dyncode("xs") is assumed to
+be #stacode("list_vt_cons_unfold(L0, L1, L2)"), which is a viewtype is for
+a list-node created by a call to #dyncode("list_vt_cons") such that the
+node is located at L0 and the two arguments of #dyncode("list_vt_cons") are
+located at L1 and L2 while the proofs for the at-views associated with L1
+and L2 are put in the store for currently available proofs. Therefore,
+as left-values, #dyncode("x") and #dyncode("xs2") have addresses L1 and L2,
+respectively, and the views of the proofs associated with L1 and L2 are
+#stacode("a@L1") and #stacode("list_vt_cons(a, N)@L2"), respectively.
+The application #dyncode("fold@(xs)") turns #dyncode("xs") into a value
+of the type #stacode("list_vt(a, N+1)") while consuming the proofs
+associated with L1 and L2. Notice that the type of #dyncode("xs") can be
+different from the original one assigned to it after folding. The following
+example shows a case as such:
+
+#atscode('\
+//
+fun
+{a:vt@ype}
+list_vt_append
+  {m,n:nat}
+(
+  xs: list_vt(a, m), ys: list_vt(a, n)
+) : list_vt(a, m+n) = let
+//
+fun
+loop{m:nat}
+(
+  xs: &list_vt(a, m) >> list_vt(a, m+n), ys: list_vt(a, n)
+) : void =
+(
+case+ xs of
+| ~list_vt_nil() => (xs := ys)
+| @list_vt_cons(x, xs2) => (loop(xs2, ys); fold@(xs))
+)
+//
+in
+  case+ xs of
+  | ~list_vt_nil () => ys
+  | @list_vt_cons (x, xs2) => (loop(xs2, ys); fold@(xs); xs)
+end // end of [list_vt_append]
+//
+')
+
+The meaning of the symbol #dyncode("~") in front of a pattern is to be
+explained below. The implementation of #dyncode("list_vt_append") exactly
+corresponds to the standard implementaion of concatenating two
+singly-linked lists in C: Let xs and ys be two given lists; if xs is empty,
+then ys is returned; otherwise, the last node in xs is located and ys is
+stored in the field of the node reserved for the next node.
+
+")
+
+#para("\
+
+The following function #dyncode("list_vt_free") frees a given linear
+list containing non-linear elements:
+
+#atscode('\
+//
+fun
+{a:vt@ype}
+list_vt_free
+  {n:nat}
+(
+  xs: list_vt(a?, n)
+) : void =
+(
+case+ xs of
+| ~list_vt_nil() => ()
+| ~list_vt_cons(x, xs2) => list_vt_free<a> (xs2)
+)
+//
+')
+
+When #dyncode("xs") is matched with the pattern #dyncode("~list_vt_nil()"),
+the type of #dyncode("xs") changes to a special one indicating that
+#dyncode("xs") is no longer available for subsequent use.  When
+#dyncode("xs") is matched with the pattern
+#dyncode("~list_vt_cons(x,xs2)"), the type of #dyncode("xs") changes again
+to a special one indicating that #dyncode("xs") is no longer available for
+subsequent use. In the latter case, the two values representing the head
+and tail of the list referred to as #dyncode("xs") can be subsequently
+referred as #dyncode("x") and #dyncode("xs2"), respectively. So what is
+really freed here is the memory for the first list-node in the list
+referred to as #dyncode("xs").
+
 
 ")
 
