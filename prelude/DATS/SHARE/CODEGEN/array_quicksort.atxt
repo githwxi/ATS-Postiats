@@ -315,7 +315,8 @@ void qsort
   int(*compar)(const void *, const void *)
 ) ; // end of [qsort]
 *)
-implement{a}
+implement
+{a}(*tmp*)
 array_quicksort_stdlib
   (A, asz, cmp) = let
 in
