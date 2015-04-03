@@ -23,7 +23,8 @@ mul_scalar_matrix
   (c, A, m, n) = let
 //
 implement(env)
-matrix_foreach$fwork<a><env> (x, env) = x := gmul_val<a> (c, x)
+matrix_foreach$fwork<a><env>
+  (x, env) = (x := gmul_val_val<a> (c, x))
 //
 in
   matrix_foreach<a> (A, m, n)
