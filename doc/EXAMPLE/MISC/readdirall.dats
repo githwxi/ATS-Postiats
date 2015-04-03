@@ -144,7 +144,7 @@ val () =
   dynarray_quicksort<Direntp1> (DA)
 //
 var n: size_t
-val A = dynarray_getfree_arrayptr (DA, n)
+val A0 = dynarray_getfree_arrayptr (DA, n)
 //
 val out = stdout_ref
 //
@@ -167,13 +167,13 @@ fprint_ref<a> (out, x) =
 }
 //
 val () =
-  fprint_arrayptr (out, A, n)
+  fprint_arrayptr (out, A0, n)
 //
 val () = fprint_newline (out)
 //
 implement(a:vtype)
 array_uninitize$clear<a> (i, x) = direntp_free ($UN.castvwtp0(x))
-val () = arrayptr_freelin (A, n)
+val () = arrayptr_freelin (A0, n)
 //
 val () = closedir_exn (dirp)
 //
