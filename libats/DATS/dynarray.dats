@@ -497,7 +497,7 @@ implement
 dynarray_quicksort(DA) = let
 //
 val+
-DYNARRAY{a2}{m,n}(A, m, n) = DA
+DYNARRAY{_a_}{m,n}(A, m, n) = DA
 //
 val p0 = arrayptr2ptr (A)
 //
