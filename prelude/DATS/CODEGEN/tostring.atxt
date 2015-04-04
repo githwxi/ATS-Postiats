@@ -25,6 +25,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("April, 2015")
 
 #atscode_separator()
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+#atscode_separator()
 
 implement
 tostring_val<bool> = bool2string
@@ -47,6 +52,95 @@ tostrptr_val<lint> = g0int2string_lint
 implement
 tostrptr_val<llint> = g0int2string_llint
 
+#atscode_separator()
+//
+extern
+fun{a:t0p}
+tostrptr_list(List(a)): Strptr1
+//
+extern
+fun{}
+tostrptr_list$beg((*void*)): String
+extern
+fun{}
+tostrptr_list$end((*void*)): String
+extern
+fun{}
+tostrptr_list$sep((*void*)): String
+//
+#atscode_separator()
+//
+implement{} tostrptr_list$beg() = ""
+implement{} tostrptr_list$end() = ""
+implement{} tostrptr_list$sep() = ""
+//
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+tostrptr_list(xs) = let
+//
+fun
+loop
+(
+  i: int
+, xs: List(a)
+, res: List0_vt(Strptr1)
+) : List0_vt(Strptr1) =
+(
+case+ xs of
+| list_nil
+    ((*void*)) => res
+| list_cons
+    (x, xs) => let
+    val res1 = 
+    (
+      if i > 0
+        then let
+          val sep =
+            tostrptr_list$sep<> ()
+          // end of [val]
+          val sep = string0_copy (sep)
+        in
+          list_vt_cons (sep, res)
+        end // end of [then]
+        else res // end of [else]
+    ) : List0_vt(Strptr1)
+    val xrep = tostrptr_val<a> (x)
+    val res2 = list_vt_cons (xrep, res1)
+  in
+    loop (i+1, xs, res2)
+  end // end of [list_cons]
+)
+//
+val res = list_vt_nil ()
+//
+val _beg =
+  tostrptr_list$beg<> ()
+val _beg = string0_copy(_beg)
+val res = list_vt_cons (_beg, res)
+//
+val res = loop (0, xs, res)
+//
+val _end =
+  tostrptr_list$end<> ()
+val _end = string0_copy(_end)      
+val res = list_vt_cons (_end, res)
+//
+val res = list_vt_reverse<Strptr1> (res)
+//
+in
+//
+$UN.castvwtp0{Strptr1}(strptrlst_concat(res))
+//
+end // end of [tostrptr_list]
+
+#atscode_separator()
+//
+implement(a)
+tostrptr_val<List(a)>
+  (xs0) = $effmask_all (tostrptr_list<a> (xs0))
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
