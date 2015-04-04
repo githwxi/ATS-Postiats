@@ -163,13 +163,21 @@ overload compare with compare_char0_char0 of 0
 #atscode_separator()
 #atscode_decl_strcst('\
 //
-// HX: the return is dynamically allocated
+// HX:
+// return is dynamically allocated
 //
-fun tostring_char
-  (c: char):<> strnptr(1) = "mac\#%"
+fun
+tostring_char
+  (c: char):<> string = "mac\#%"
+fun
+tostrptr_char
+  (c: char):<!wrt> Strptr1 = "mac\#%"
+//
 overload tostring with tostring_char
+overload tostrptr with tostrptr_char
+//
 ')\
-
+\
 #atscode_separator()
 //
 castfn g0ofg1_char (c: Char):<> char
