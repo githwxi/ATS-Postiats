@@ -84,14 +84,14 @@ g1uint_of_uchar1
 
 implement
 {}(*tmp*)
-tostring_char(c) =
+char2string(c) =
 $effmask_wrt
 (
-  $UN.castvwtp0{string}(tostrptr_char(c))
-) (* end of [tostring_char] *)
+  $UN.castvwtp0{string}(char2strptr(c))
+) (* end of [char2string] *)
 implement
 {}(*tmp*)
-tostrptr_char(c) = let
+char2strptr(c) = let
 //
 \#define BSZ 16
 //
@@ -106,14 +106,7 @@ val _(*int*) =
 //
 in
   $UN.castvwtp0{Strptr1}(string0_copy($UN.cast{string}(bufp)))
-end // end of [tostrptr_char]
-
-#atscode_separator()
-
-implement
-tostring_val<char> = tostring_char
-implement
-tostrptr_val<char> = tostrptr_char
+end // end of [char2strptr]
 
 #atscode_separator()
 //

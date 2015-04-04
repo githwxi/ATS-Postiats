@@ -93,9 +93,11 @@ staload _ = "{$PATSPRE}/DATS/stream.dats"
 staload _ = "{$PATSPRE}/DATS/stream_vt.dats"
 //
 (* ****** ****** *)
-
+//
 staload _ = "{$PATSPRE}/DATS/gprint.dats"
-
+//
+staload _ = "{$PATSPRE}/DATS/tostring.dats"
+//
 (* ****** ****** *)
 //
 staload UNSAFE = "{$PATSPRE}/SATS/unsafe.sats"

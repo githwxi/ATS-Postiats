@@ -363,6 +363,15 @@ gprint_atxt.dats: gprint.atxt
 clean:: ; $(RMF) gprint_atxt.exe
 cleanall:: ; $(RMF) gprint.dats
 
+all:: tostring.dats
+tostring.dats: tostring_atxt.exe ; ./$< > $@
+tostring_atxt.exe: tostring_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ tostring_atxt.dats -latsdoc
+tostring_atxt.dats: tostring.atxt
+	$(ATSDOC) --outcode $@ -i tostring.atxt > tostring_atxt.txt
+clean:: ; $(RMF) tostring_atxt.exe
+cleanall:: ; $(RMF) tostring.dats
+
 
 ######
 

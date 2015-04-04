@@ -149,10 +149,7 @@ overload compare with compare_bool0_bool0
 // return is statically allocated
 //
 fun
-tostring_bool
-  (b: bool):<> string = "mac\#%"
-//
-overload tostring with tostring_bool
+bool2string(b: bool):<> string = "mac\#%"
 //
 #atscode_separator()
 //

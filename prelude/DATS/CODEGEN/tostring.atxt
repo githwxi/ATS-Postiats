@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"bool.dats"
+val _thisfilename = atext_strcst"tostring.dats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,45 +14,38 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/DATS/CODEGEN/bool.atxt
+** $PATSHOME/prelude/DATS/CODEGEN/tostring.atxt
 ** Time of generation: #timestamp()
 *)
 
 #atscode_separator()
 
 #atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("Feburary, 2012")
+#atscode_authoremail("hwxiATgmailDOTcom")
+#atscode_start_time("April, 2015")
 
 #atscode_separator()
 
-\#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
+implement
+tostring_val<bool> = bool2string
 
 #atscode_separator()
 
 (*
-//
-// HX: see CATS/bool.cats
-//
 implement
-bool2string
-  (b) = if b then "true" else "false"
-// end of [bool2string]
+tostring_val<char> = char2string
 *)
+implement
+tostrptr_val<char> = char2strptr
 
 #atscode_separator()
 
-(*
-//
-// HX: see CATS/bool.cats
-//
 implement
-fprint_bool (out, x) =
-  fprint_string (out, bool2string (x))
-// end of [fprint_bool]
-*)
-
-implement fprint_val<bool> = fprint_bool
+tostrptr_val<int> = g0int2string_int
+implement
+tostrptr_val<lint> = g0int2string_lint
+implement
+tostrptr_val<llint> = g0int2string_llint
 
 #atscode_separator()
 
@@ -61,5 +54,5 @@ implement fprint_val<bool> = fprint_bool
 %{
 implement
 main (argc, argv) =
-  fprint_filsub (stdout_ref, "bool_atxt.txt")
+  fprint_filsub (stdout_ref, "tostring_atxt.txt")
 %}\

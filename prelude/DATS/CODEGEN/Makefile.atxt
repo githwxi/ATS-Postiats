@@ -116,6 +116,7 @@ for pointer arrays terminated with the null pointer\
 #make_entry("matrixref")
 
 #make_entry("gprint")
+#make_entry("tostring")
 
 ######
 

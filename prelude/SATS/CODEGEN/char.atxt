@@ -407,12 +407,9 @@ g1uint_of_uchar1
 // return is dynamically allocated
 //
 fun{}
-tostring_char(c: char):<> string
+char2string(c: char):<> string
 fun{}
-tostrptr_char(c: char):<!wrt> Strptr1
-//
-overload tostring with tostring_char
-overload tostrptr with tostrptr_char
+char2strptr(c: char):<!wrt> Strptr1
 //
 ')\
 \
