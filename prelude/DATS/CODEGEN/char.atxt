@@ -30,6 +30,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
 implement{tk}
 g0int_of_char
   (c) = __cast (c) where {
@@ -75,6 +79,41 @@ g1uint_of_uchar1
   {c} (c) = __cast (c) where {
   extern castfn __cast (c: uchar c):<> g1uint (tk, c)
 } // end of [g1uint_of_uchar1]
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+tostring_char(c) =
+$effmask_wrt
+(
+  $UN.castvwtp0{string}(tostrptr_char(c))
+) (* end of [tostring_char] *)
+implement
+{}(*tmp*)
+tostrptr_char(c) = let
+//
+\#define BSZ 16
+//
+typedef
+cstring = $extype"atstype_string"
+//
+var buf = @[byte][BSZ]()
+val bufp = $UN.cast{cstring}(addr@buf)
+//
+val _(*int*) =
+  $extfcall(ssize_t, "snprintf", bufp, BSZ, "%c", c)
+//
+in
+  $UN.castvwtp0{Strptr1}(string0_copy($UN.cast{string}(bufp)))
+end // end of [tostrptr_char]
+
+#atscode_separator()
+
+implement
+tostring_val<char> = tostring_char
+implement
+tostrptr_val<char> = tostrptr_char
 
 #atscode_separator()
 //

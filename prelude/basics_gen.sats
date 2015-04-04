@@ -99,9 +99,9 @@ tostring_ref (x: &INV(a)):<> string
 (* ****** ****** *)
 
 fun{a:t0p}
-tostrptr_val (x: a):<> Strptr1
+tostrptr_val (x: a):<!wrt> Strptr1
 fun{a:vt0p}
-tostrptr_ref (x: &INV(a)):<> Strptr1
+tostrptr_ref (x: &INV(a)):<!wrt> Strptr1
 
 (* ****** ****** *)
 

@@ -101,7 +101,7 @@ RMF=rm -f
 #make_entry("prelude_basics")
 #make2_entry("prelude_integer", "-DATS_MEMALLOC_LIBC", "")
 #make_entry("prelude_bool")
-#make_entry("prelude_char")
+#make2_entry("prelude_char", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_float", "", "-lm")
 #make2_entry("prelude_memory", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_pointer", "-DATS_MEMALLOC_LIBC", "")

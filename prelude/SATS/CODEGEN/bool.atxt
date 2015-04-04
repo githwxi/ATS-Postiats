@@ -145,6 +145,17 @@ overload compare with compare_bool0_bool0
 
 #atscode_separator()
 //
+// HX:
+// return is statically allocated
+//
+fun
+tostring_bool
+  (b: bool):<> string = "mac\#%"
+//
+overload tostring with tostring_bool
+//
+#atscode_separator()
+//
 fun print_bool (x: bool): void = "mac\#%"
 fun prerr_bool (x: bool): void = "mac\#%"
 fun fprint_bool : fprint_type (bool) = "mac\#%"
@@ -153,14 +164,6 @@ overload print with print_bool
 overload prerr with prerr_bool
 overload fprint with fprint_bool
 //
-#atscode_separator()
-//
-// HX: the return is statically allocated
-//
-fun tostring_bool
-  (b: bool):<> string = "mac\#%"
-overload tostring with tostring_bool
-
 #atscode_separator()
 
 fun neg_bool1 {b:bool}

@@ -148,6 +148,11 @@ val () = assertloc ('9' - '0' = 9)
 
 (* ****** ****** *)
 
+val () = assertloc("a" = tostring('a'))
+val () = assertloc("\n" = tostring('\n'))
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

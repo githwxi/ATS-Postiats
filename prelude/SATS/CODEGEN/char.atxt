@@ -161,24 +161,6 @@ fun compare_char0_char0
 overload compare with compare_char0_char0 of 0
 
 #atscode_separator()
-#atscode_decl_strcst('\
-//
-// HX:
-// return is dynamically allocated
-//
-fun
-tostring_char
-  (c: char):<> string = "mac\#%"
-fun
-tostrptr_char
-  (c: char):<!wrt> Strptr1 = "mac\#%"
-//
-overload tostring with tostring_char
-overload tostrptr with tostrptr_char
-//
-')\
-\
-#atscode_separator()
 //
 castfn g0ofg1_char (c: Char):<> char
 castfn g1ofg0_char (c: char):<> Char
@@ -418,6 +400,22 @@ g1uint_of_uchar1
 // end of [g1uint_of_uchar1]
 ')\
 
+#atscode_separator()
+#atscode_decl_strcst('\
+//
+// HX:
+// return is dynamically allocated
+//
+fun{}
+tostring_char(c: char):<> string
+fun{}
+tostrptr_char(c: char):<!wrt> Strptr1
+//
+overload tostring with tostring_char
+overload tostrptr with tostrptr_char
+//
+')\
+\
 #atscode_separator()
 
 #fprint_print_prerr_decl("char")
