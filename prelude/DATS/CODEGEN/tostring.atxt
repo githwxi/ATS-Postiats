@@ -127,6 +127,113 @@ tostrptr_val<List(a)>
 //
 #atscode_separator()
 
+implement
+{a}(*tmp*)
+tostrptr_array
+  (A, n) = let
+//
+fun
+loop{n:int}
+(
+  i: int
+, p: ptr, n: size_t(n)
+, res: List0_vt(Strptr1)
+) : List0_vt(Strptr1) =
+(
+if
+(n > 0)
+then let
+//
+  val res1 = 
+  (
+    if i > 0
+      then let
+        val sep =
+          tostrptr_array$sep<> ()
+        // end of [val]
+        val sep = string0_copy (sep)
+      in
+        list_vt_cons (sep, res)
+      end // end of [then]
+      else res // end of [else]
+  ) : List0_vt(Strptr1)
+//
+  val
+  (pf, fpf | p) =
+    $UN.ptr_vtake{a}(p)
+  // end of [val]
+  val xrep = tostrptr_ref<a> (!p)
+  prval ((*returned*)) = fpf (pf)
+//
+  val res2 = list_vt_cons (xrep, res1)
+//
+in
+  loop (i+1, ptr_succ<a>(p), pred(n), res2)
+end // end of [then]
+else res // end of [else]
+//
+) (* end of [loop] *)
+//
+val res = list_vt_nil ()
+//
+val _beg =
+  tostrptr_array$beg<> ()
+val _beg = string0_copy(_beg)
+val res = list_vt_cons (_beg, res)
+//
+val res = loop (0, addr@A, n, res)
+//
+val _end =
+  tostrptr_array$end<> ()
+val _end = string0_copy(_end)      
+val res = list_vt_cons (_end, res)
+//
+val res = list_vt_reverse<Strptr1> (res)
+//
+in
+//
+$UN.castvwtp0{Strptr1}(strptrlst_concat(res))
+//
+end // end of [tostrptr_array]
+
+#atscode_separator()
+//
+implement{} tostrptr_array$beg() = ""
+implement{} tostrptr_array$end() = ""
+implement{} tostrptr_array$sep() = ""
+//
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+tostrptr_arrayref
+  (A, n) = let
+//
+val (vbox pf | p) =
+  arrayref_get_viewptr(A)
+//
+in
+//
+$effmask_ref(tostrptr_array<a> (!p, n))
+//
+end // end of [tostrptr_arrayref]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+tostrptr_arrszref
+  (ASZ) = let
+//
+var n: size_t
+val A = arrszref_get_refsize (ASZ, n)
+//
+in
+  tostrptr_arrayref<a> (A, n)
+end // end of [tostrptr_arrszref]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

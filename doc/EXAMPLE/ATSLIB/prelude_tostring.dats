@@ -9,9 +9,41 @@
 //
 (* ****** ****** *)
 
-val xs =
-$list{int}(0,1,2,3,4,5,6,7,8,9)
+local
+
+implement
+tostrptr_list$beg<> () = "["
+implement
+tostrptr_list$end<> () = "]"
+implement
+tostrptr_list$sep<> () = ","
+
+in (* in-of-local *)
+
+val xs = $list{int}(0,1,2,3,4,5,6,7,8,9)
 val () = println! ("xs = ", tostring_val<List(int)>(xs))
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+implement
+tostrptr_array$beg<> () = "["
+implement
+tostrptr_array$end<> () = "]"
+implement
+tostrptr_array$sep<> () = ","
+
+in (* in-of-local *)
+//
+var A0 = @[int](0,1,2,3,4,5,6,7,8,9)
+val rep = tostrptr_array(A0, i2sz(10))
+val ((*void*)) = println! ("A0 = ", rep)
+val ((*freed*)) = strptr_free (rep)
+//
+end // end of [local]
 
 (* ****** ****** *)
 

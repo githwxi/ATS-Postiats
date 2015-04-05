@@ -34,10 +34,12 @@ RD(a:vt0p) = a // for commenting: read-only
 #atscode_separator()
 
 sortdef t0p = t@ype
+sortdef vt0p = vt@ype
 
 #atscode_separator()
 //
-fun{a:t0p}
+fun
+{a:t0p}
 tostrptr_list
   (xs0: List(INV(a))): Strptr1
 //
@@ -47,6 +49,35 @@ fun{}
 tostrptr_list$end((*void*)): String
 fun{}
 tostrptr_list$sep((*void*)): String
+//
+#atscode_separator()
+//
+fun
+{a:vt0p}
+tostrptr_array
+  {n:int}
+(
+  &array(INV(a), n), size_t(n)
+) : Strptr1 // end-of-function
+//
+fun{}
+tostrptr_array$beg((*void*)): String
+fun{}
+tostrptr_array$end((*void*)): String
+fun{}
+tostrptr_array$sep((*void*)): String
+//
+#atscode_separator()
+//
+fun
+{a:vt0p}
+tostrptr_arrayref
+  {n:int}
+  (arrayref(a,n), size_t(n)): Strptr1
+//
+fun
+{a:vt0p}
+tostrptr_arrszref(arrszref(a)): Strptr1
 //
 #atscode_separator()
 
