@@ -114,8 +114,9 @@ all::
 #make_entry("stream_vt")
 
 #make_entry("gprint")
-#make_entry("giterator")
+#make_entry("tostring")
 
+#make_entry("giterator")
 #make_entry("fcontainer")
 
 #comment("

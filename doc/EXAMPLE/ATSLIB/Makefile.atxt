@@ -131,7 +131,8 @@ RMF=rm -f
 #make2_entry("prelude_stream", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_stream_vt", "-DATS_MEMALLOC_LIBC", "")
 
-#make_entry("prelude_gprint")
+#make2_entry("prelude_gprint", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("prelude_tostring", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 

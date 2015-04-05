@@ -851,6 +851,7 @@ val () = pervasive_load (PATSHOME, "prelude/SATS/stream.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/stream_vt.sats")
 //
 val () = pervasive_load (PATSHOME, "prelude/SATS/gprint.sats")
+val () = pervasive_load (PATSHOME, "prelude/SATS/tostring.sats")
 //
 val () = pervasive_load (PATSHOME, "prelude/SATS/parray.sats") // null-terminated
 //

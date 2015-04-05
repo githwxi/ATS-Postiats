@@ -340,6 +340,16 @@ gprint_atxt.dats: gprint.atxt
 clean:: ; $(RMF) gprint_atxt.exe
 cleanall:: ; $(RMF) gprint.sats
 
+all:: tostring.sats
+tostring.sats: tostring_atxt.exe ; ./$< > $@
+tostring_atxt.exe: tostring_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ tostring_atxt.dats -latsdoc
+tostring_atxt.dats: tostring.atxt
+	$(ATSDOC) --outcode $@ -i tostring.atxt > tostring_atxt.txt
+clean:: ; $(RMF) tostring_atxt.exe
+cleanall:: ; $(RMF) tostring.sats
+
+
 all:: giterator.sats
 giterator.sats: giterator_atxt.exe ; ./$< > $@
 giterator_atxt.exe: giterator_atxt.dats
@@ -348,7 +358,6 @@ giterator_atxt.dats: giterator.atxt
 	$(ATSDOC) --outcode $@ -i giterator.atxt > giterator_atxt.txt
 clean:: ; $(RMF) giterator_atxt.exe
 cleanall:: ; $(RMF) giterator.sats
-
 
 all:: fcontainer.sats
 fcontainer.sats: fcontainer_atxt.exe ; ./$< > $@

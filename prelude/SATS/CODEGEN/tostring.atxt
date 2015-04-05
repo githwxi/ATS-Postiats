@@ -1,0 +1,59 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"tostring.sats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_GPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/tostring.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("August, 2012")
+
+#atscode_separator()
+
+vtypedef
+RD(a:vt0p) = a // for commenting: read-only
+\#define NSH (x) x // for commenting: no sharing
+\#define SHR (x) x // for commenting: it is shared
+
+#atscode_separator()
+
+sortdef t0p = t@ype
+
+#atscode_separator()
+//
+fun{a:t0p}
+tostrptr_list
+  (xs0: List(INV(a))): Strptr1
+//
+fun{}
+tostrptr_list$beg((*void*)): String
+fun{}
+tostrptr_list$end((*void*)): String
+fun{}
+tostrptr_list$sep((*void*)): String
+//
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "tostring_atxt.txt")
+%}\
