@@ -32,17 +32,69 @@ UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement
-tostring_val<bool> = bool2string
-
+{}(*tmp*)
+tostring_int(i) = 
+$effmask_wrt
+(
+  strptr2string(tostrptr_int(i))
+)
+implement
+{}(*tmp*)
+tostrptr_int(i) = let
+//
+\#define BSZ 32
+//
+typedef
+cstring = $extype"atstype_string"
+//
+var buf = @[byte][BSZ]()
+val bufp = $UN.cast{cstring}(addr@buf)
+//
+val _(*int*) =
+  $extfcall(ssize_t, "snprintf", bufp, BSZ, "%i", i)
+//
+in
+  $UN.castvwtp0{Strptr1}(string0_copy($UN.cast{string}(bufp)))
+end // end of [tostrptr_int]
+//
+implement
+tostring_val<int> = tostring_int
+implement
+tostrptr_val<int> = tostrptr_int
+//
 #atscode_separator()
-
-(*
+//
 implement
-tostring_val<char> = char2string
-*)
+{}(*tmp*)
+tostring_bool(b) = bool2string(b)
 implement
-tostrptr_val<char> = char2strptr
-
+{}(*tmp*)
+tostrptr_bool(b) = string0_copy(bool2string(b))
+//
+implement
+tostring_val<bool> = tostring_bool
+implement
+tostrptr_val<bool> = tostrptr_bool
+//
+#atscode_separator()
+//
+implement
+{}(*tmp*)
+tostring_char(c) =
+$effmask_wrt
+(
+  strptr2string(char2strptr(c))
+)
+//
+implement
+{}(*tmp*)
+tostrptr_char(c) = char2strptr(c)
+//
+implement
+tostring_val<char> = tostring_char
+implement
+tostrptr_val<char> = tostrptr_char
+//
 #atscode_separator()
 
 implement
