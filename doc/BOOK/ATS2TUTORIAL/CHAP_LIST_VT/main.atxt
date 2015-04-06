@@ -184,7 +184,7 @@ the type of #dyncode("xs") changes to a special one indicating that
 to a special one indicating that #dyncode("xs") is no longer available for
 subsequent use. In the latter case, the two values representing the head
 and tail of the list referred to as #dyncode("xs") can be subsequently
-referred as #dyncode("x") and #dyncode("xs2"), respectively. So what is
+referred to as #dyncode("x") and #dyncode("xs2"), respectively. So what is
 really freed here is the memory for the first list-node in the list
 referred to as #dyncode("xs").
 

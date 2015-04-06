@@ -43,7 +43,7 @@ tostrptr_array$beg<> () = "["
 implement
 tostrptr_array$end<> () = "]"
 implement
-tostrptr_array$sep<> () = ","
+tostrptr_array$sep<> () = ";"
 
 in (* in-of-local *)
 //
