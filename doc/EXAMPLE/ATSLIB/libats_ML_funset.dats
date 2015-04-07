@@ -107,9 +107,9 @@ val () = fprintln! (out, "|xs12_u| = ", funset_size (xs12_u))
 val xs12_i = funset_intersect (xs1, xs2)
 val () = fprintln! (out, "|xs12_i| = ", funset_size (xs12_i))
 //
-val xs12_df = funset_diff (xs1, xs2)
+val xs12_df = funset_differ (xs1, xs2)
 val () = fprintln! (out, "|xs12_df| = ", funset_size (xs12_df))
-val xs21_df = funset_diff (xs2, xs1)
+val xs21_df = funset_differ (xs2, xs1)
 val () = fprintln! (out, "|xs21_df| = ", funset_size (xs21_df))
 //
 val-~Some_vt(x12_df_max) = funset_getmax_opt (xs12_df)

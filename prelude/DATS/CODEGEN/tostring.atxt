@@ -63,6 +63,39 @@ implement
 tostrptr_val<int> = tostrptr_int
 //
 #atscode_separator()
+
+implement
+{}(*tmp*)
+tostring_uint(u) = 
+$effmask_wrt
+(
+  strptr2string(tostrptr_uint(u))
+)
+implement
+{}(*tmp*)
+tostrptr_uint(u) = let
+//
+\#define BSZ 32
+//
+typedef
+cstring = $extype"atstype_string"
+//
+var buf = @[byte][BSZ]()
+val bufp = $UN.cast{cstring}(addr@buf)
+//
+val _(*int*) =
+  $extfcall(ssize_t, "snprintf", bufp, BSZ, "%u", u)
+//
+in
+  $UN.castvwtp0{Strptr1}(string0_copy($UN.cast{string}(bufp)))
+end // end of [tostrptr_uint]
+//
+implement
+tostring_val<uint> = tostring_uint
+implement
+tostrptr_val<uint> = tostrptr_uint
+//
+#atscode_separator()
 //
 implement
 {}(*tmp*)

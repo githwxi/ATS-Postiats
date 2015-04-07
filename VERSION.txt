@@ -26,6 +26,7 @@ Here is a list of major additions and changes since the last release:
 2. Adding D0Esing for parenthesized expressions
 3. Adding ATS2TUTORIAL-chapter: Linearly typed lists
 4. Adding prelude/tostring for converting values into strings
+5. Adding minimal FRP support based on Bacon.js in libatscc2js
 
 ######
 

@@ -13,6 +13,10 @@ val () = assertloc("1024" = tostring_val<int>(32*32))
 
 (* ****** ****** *)
 
+val () = assertloc("1024" = tostring_val<uint>(32u*32u))
+
+(* ****** ****** *)
+
 val () = assertloc("true" = tostring_val<bool>(true))
 val () = assertloc("false" = tostring_val<bool>(false))
 

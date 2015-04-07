@@ -46,6 +46,13 @@ tostrptr_int(int):<!wrt> Strptr1
 #atscode_separator()
 
 fun{}
+tostring_uint(uint):<> string
+fun{}
+tostrptr_uint(uint):<!wrt> Strptr1
+
+#atscode_separator()
+
+fun{}
 tostring_bool(bool):<> string
 fun{}
 tostrptr_bool(bool):<!wrt> Strptr1
