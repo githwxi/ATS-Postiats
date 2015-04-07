@@ -51,6 +51,9 @@ include './../SATS/matrix.sats';
 include './../SATS/matrixptr.sats';
 include './../SATS/matrixref.sats';
 //
+include './../SATS/gprint.sats';
+include './../SATS/tostring.sats';
+//
 // DATS
 //
 include './../DATS/basics.dats';
@@ -91,6 +94,9 @@ include './../DATS/arrayref.dats';
 include './../DATS/matrix.dats';
 include './../DATS/matrixptr.dats';
 include './../DATS/matrixref.dats';
+//
+include './../DATS/gprint.dats';
+include './../DATS/tostring.dats';
 //
 ?>
 

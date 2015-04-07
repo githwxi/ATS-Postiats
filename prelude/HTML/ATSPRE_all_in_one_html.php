@@ -78,6 +78,9 @@ include 'SATS/matrix_sats.html';
 include 'SATS/matrixptr_sats.html';
 include 'SATS/matrixref_sats.html';
 //
+include 'SATS/gprint_sats.html';
+include 'SATS/tostring_sats.html';
+//
 // DATS
 //
 include 'DATS/basics_dats.html';
@@ -118,6 +121,9 @@ include 'DATS/arrayref_dats.html';
 include 'DATS/matrix_dats.html';
 include 'DATS/matrixptr_dats.html';
 include 'DATS/matrixref_dats.html';
+//
+include 'DATS/gprint_dats.html';
+include 'DATS/tostring_dats.html';
 //
 ?><!--php-->
 

@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-04-07:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/MnWzG2VP2LQ"
+>FRP in ATS with Bacon.js</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-03-22:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/8z4ZC500wCQ"
@@ -143,6 +151,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
 ATS-2014-12-02:<br>
 <a
  href="http://togetter.com/li/752948"

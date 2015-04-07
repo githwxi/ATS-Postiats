@@ -203,6 +203,17 @@ lmacrodef
 </li>
 
 <li>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/gprint.html">SATS/gprint</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/gprint.sats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/gprint_sats.html">html</a>)
+</li>
+<li>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/tostring.html">SATS/tostring</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/tostring.sats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/tostring_sats.html">html</a>)
+</li>
+
+<li>
 DATS/basics
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/basics.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/basics_dats.html">html</a>)
@@ -341,6 +352,17 @@ DATS/matrixptr
 DATS/matrixref
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/matrixref.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/matrixref_dats.html">html</a>)
+</li>
+
+<li>
+DATS/gprint
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/gprint.dats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/gprint_dats.html">html</a>)
+</li>
+<li>
+DATS/tostring
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/tostring.dats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/tostring_dats.html">html</a>)
 </li>
 
 <li>

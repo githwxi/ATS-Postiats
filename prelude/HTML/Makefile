@@ -152,6 +152,13 @@ all_sats:: \
 matrixref_sats.html
 matrixref_sats.html: ./../SATS/matrixref.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 
+all_sats:: \
+gprint_sats.html
+gprint_sats.html: ./../SATS/gprint.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+tostring_sats.html
+tostring_sats.html: ./../SATS/tostring.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
 ######
 #
 # DATS
@@ -259,6 +266,13 @@ matrixptr_dats.html: ./../DATS/matrixptr.dats; $(PATS2XHTML) -o DATS/$@ --dynami
 all_dats:: \
 matrixref_dats.html
 matrixref_dats.html: ./../DATS/matrixref.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+
+all_dats:: \
+gprint_dats.html
+gprint_dats.html: ./../DATS/gprint.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+all_dats:: \
+tostring_dats.html
+tostring_dats.html: ./../DATS/tostring.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 
 ######
 #
