@@ -916,7 +916,7 @@ definitions.\
 
 <sect1
 id="mutual-tail-recursion">
-#title("Mutual Tail-Recursion")
+#title("Mutually Defined Tail-Recursion")
 
 #para("\
 
