@@ -217,6 +217,43 @@ gflist_reverse (xs) =
 (* ****** ****** *)
 
 implement{a}
+gflist_get_at
+  {xs}{x0}{i}
+  (pf | xs, i) = let
+//
+fun
+loop{xs:ilist}{i:int}
+(
+  pf: NTH(x0, xs, i)
+| xs: gflist(INV(a), xs), i: int(i)
+) : stamped_t(a, x0) = let
+//
+prval
+ILISTEQ() =
+lemma_nth_param(pf)
+//
+val+gflist_cons(x, xs) = xs
+//
+in
+//
+if
+i = 0
+then let
+  prval NTHbas() = pf in x
+end // end of [then]
+else let
+  prval NTHind(pf) = pf in loop(pf | xs, i-1)
+end // end of [else]
+//
+end // end of [loop]
+//
+in
+  loop (pf | xs, i)
+end (* end of [gflist_get_at] *)
+
+(* ****** ****** *)
+
+implement{a}
 gflist_mergesort
   (xs) = let
 //

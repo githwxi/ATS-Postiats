@@ -219,7 +219,8 @@ prfun revapp_isfun {xs,ys:ilist} {zs1,zs2:ilist}
 
 (* ****** ****** *)
 
-prfun lemma_revapp_length
+prfun
+lemma_revapp_length
   {xs,ys,zs:ilist}{m,n:int} (
   pf: REVAPP (xs, ys, zs), pf1len: LENGTH (xs, m), pf2len: LENGTH (ys, n)
 ) : LENGTH (zs, m+n) // end of [lemma_revapp_length]
@@ -228,8 +229,9 @@ prfun lemma_revapp_length
 
 dataprop
 NTH (x0:int, ilist, int) =
-  | {xs:ilist} NTHbas (x0, ilist_cons (x0, xs), 0)
-  | {x:int} {xs:ilist} {n:nat}
+  | {xs:ilist}
+    NTHbas (x0, ilist_cons (x0, xs), 0)
+  | {x:int}{xs:ilist}{n:nat}
     NTHind (x0, ilist_cons (x, xs), n+1) of NTH (x0, xs, n)
 // end of [NTH]
 //
@@ -237,21 +239,34 @@ NTH (x0:int, ilist, int) =
 //
 dataprop
 RNTH (x0:int, ilist, int) =
-  | {xs:ilist} {n:nat}
+  | {xs:ilist}{n:nat}
     RNTHbas (x0, ilist_cons (x0, xs), n) of LENGTH (xs, n)
-  | {x:int} {xs:ilist} {n:nat}
+  | {x:int}{xs:ilist}{n:nat}
     RNTHind (x0, ilist_cons (x, xs), n) of RNTH (x0, xs, n)
 // end of [RNTH]
 
 (* ****** ****** *)
 
-prfun lemma_nth_rnth
+prfun
+lemma_nth_param
+  {x0:int}
+  {xs:ilist}
+  {i:int}
+(
+  pf: NTH(x0, xs, i)
+) : [y:int;ys:ilist|i >= 0] ILISTEQ(xs, ilist_cons(y, ys))
+
+(* ****** ****** *)
+
+prfun
+lemma_nth_rnth
   {x:int} {xs:ilist}
   {n:int} {i:nat | i < n}
   (pf1: NTH (x, xs, i), pf2: LENGTH (xs, n)): RNTH (x, xs, n-1-i)
 // end of [lemma_nth_rnth]
 
-prfun lemma_rnth_nth
+prfun
+lemma_rnth_nth
   {x:int} {xs:ilist}
   {n:int} {i:nat | i < n}
   (pf1: RNTH (x, xs, i), pf2: LENGTH (xs, n)): NTH (x, xs, n-1-i)
@@ -261,8 +276,10 @@ prfun lemma_rnth_nth
 (*
 // HX-2012-12-14: proven
 *)
-prfun lemma_nth_ilisteq
-  {xs1,xs2:ilist} {n:nat} (
+prfun
+lemma_nth_ilisteq
+  {xs1,xs2:ilist}{n:nat}
+(
   pf1len: LENGTH (xs1, n), pf2len: LENGTH (xs2, n)
 , fpf: {x:int}{i:nat | i < n} NTH (x, xs1, i) -> NTH (x, xs2, i)
 ) : ILISTEQ (xs1, xs2) // end of [lemma_nth_ilisteq]
@@ -271,7 +288,8 @@ prfun lemma_nth_ilisteq
 (*
 // HX-2012-12-14: proven
 *)
-prfun lemma1_revapp_nth
+prfun
+lemma1_revapp_nth
   {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} (
   pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, ys, i)
 ) : NTH (x, zs, n+i) // end of [lemma1_revapp_nth]
@@ -279,7 +297,8 @@ prfun lemma1_revapp_nth
 (*
 // HX-2012-12-14: proven
 *)
-prfun lemma2_revapp_nth
+prfun
+lemma2_revapp_nth
   {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} (
   pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, xs, i)
 ) : NTH (x, zs, n-1-i) // end of [lemma2_revapp_nth]
@@ -296,7 +315,8 @@ prfun lemma_reverse_nth
 (*
 // HX-2012-12-14: proven
 *)
-prfun lemma_reverse_symm
+prfun
+lemma_reverse_symm
   {xs,ys:ilist} (pf: REVERSE (xs, ys)): REVERSE (ys, xs)
 // end of [lemma_reverse_symm]
 
@@ -331,7 +351,8 @@ prfun lemma_insert_length
 (*
 // HX-2012-12-14: proven
 *)
-prfun lemma_insert_nth_at
+prfun
+lemma_insert_nth_at
   {xi:int}{xs:ilist}{i:int}{ys:ilist}
   (pf: INSERT (xi, xs, i, ys)): NTH (xi, ys, i)
 // end of [lemma_insert_nth_eq]
@@ -339,7 +360,8 @@ prfun lemma_insert_nth_at
 (*
 // HX-2012-12-14: proven
 *)
-prfun lemma_insert_nth_lt
+prfun
+lemma_insert_nth_lt
   {xi:int}{xs:ilist}{i:int}{ys:ilist}{x:int}{j:int | j < i}
   (pf1: INSERT (xi, xs, i, ys), pf2: NTH (x, xs, j)): NTH (x, ys, j)
 // end of [lemma_insert_nth_lt]
@@ -347,7 +369,8 @@ prfun lemma_insert_nth_lt
 (*
 // HX-2012-12-14: proven
 *)
-prfun lemma_insert_nth_gte
+prfun
+lemma_insert_nth_gte
   {xi:int}{xs:ilist}{i:int}{ys:ilist}{x:int}{j:int | j >= i}
   (pf1: INSERT (xi, xs, i, ys), pf2: NTH (x, xs, j)): NTH (x, ys, j+1)
 // end of [lemma_insert_nth_lt]
@@ -356,7 +379,8 @@ prfun lemma_insert_nth_gte
 (*
 // HX-2012-12-14: proven
 *)
-prfun lemma_nth_insert
+prfun
+lemma_nth_insert
   {x:int}{xs:ilist}{n:int}
   (pf: NTH (x, xs, n)): [ys:ilist] INSERT (x, ys, n, xs)
 // end of [lemma_nth_insert]
@@ -390,12 +414,14 @@ absprop INTERCHANGE (xs:ilist, i:int, j:int, ys:ilist)
 
 (* ****** ****** *)
 
-prfun lemma_interchange_inv
+prfun
+lemma_interchange_inv
   {xs:ilist}{i,j:int}{ys:ilist}
   (pf: INTERCHANGE (xs, i, j, ys)): INTERCHANGE (xs, j, i, ys)
 // end of [lemma_interchange_inv]
 
-prfun lemma_interchange_symm
+prfun
+lemma_interchange_symm
   {xs:ilist}{i,j:int}{ys:ilist}
   (pf: INTERCHANGE (xs, i, j, ys)): INTERCHANGE (ys, i, j, xs)
 // end of [lemma_interchange_symm]
@@ -407,30 +433,36 @@ prfun lemma_interchange_symm
 //
 absprop
 PERMUTE (xs1:ilist, xs2:ilist)
-
-prfun permute_refl {xs:ilist} (): PERMUTE (xs, xs)
-prfun permute_symm
+//
+prfun
+permute_refl {xs:ilist} (): PERMUTE (xs, xs)
+prfun
+permute_symm
   {xs1,xs2:ilist} (pf: PERMUTE (xs1, xs2)): PERMUTE (xs2, xs1)
-prfun permute_trans {xs1,xs2,xs3:ilist}
+prfun
+permute_trans {xs1,xs2,xs3:ilist}
   (pf1: PERMUTE (xs1, xs2), pf2: PERMUTE (xs2, xs3)): PERMUTE (xs1, xs3)
-
+//
 (* ****** ****** *)
 
-prfun lemma_permute_length
+prfun
+lemma_permute_length
   {xs1,xs2:ilist} {n:nat}
   (pf1: PERMUTE (xs1, xs2), pf2: LENGTH (xs1, n)): LENGTH (xs2, n)
 // end of [lemma_permute_length]
 
 (* ****** ****** *)
 
-prfun lemma_permute_insert
+prfun
+lemma_permute_insert
   {x:int} {xs:ilist} {ys:ilist}
   (pf: PERMUTE (ilist_cons (x, xs), ys)): [ys1:ilist;i:nat] INSERT (x, ys1, i, ys)
 // end of [lemma_permute_insert]
 
 (* ****** ****** *)
 
-prfun lemma_interchange_permute
+prfun
+lemma_interchange_permute
   {xs:ilist}{i,j:int}{ys:ilist}
   (pf: INTERCHANGE (xs, i, j, ys)): PERMUTE (xs, ys)
 // end of [lemma_interchange_permute]
@@ -493,7 +525,8 @@ prfun lteb_dec
 
 (* ****** ****** *)
 
-dataprop ISORD (ilist) =
+dataprop
+ISORD (ilist) =
   | ISORDnil (ilist_nil) of ()
   | {x:int} {xs:ilist}
     ISORDcons (ilist_cons (x, xs)) of (ISORD xs, LTEB (x, xs))
@@ -501,11 +534,13 @@ dataprop ISORD (ilist) =
 
 (* ****** ****** *)
 
-prfun lemma_ltb_permute {x:int}
+prfun
+lemma_ltb_permute {x:int}
   {xs1,xs2:ilist} (pf1: LTB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTB (x, xs2)
 // end of [lemma_ltb_permute]
 
-prfun lemma_lteb_permute {x:int}
+prfun
+lemma_lteb_permute {x:int}
   {xs1,xs2:ilist} (pf1: LTEB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTEB (x, xs2)
 // end of [lemma_lteb_permute]
 
@@ -516,12 +551,14 @@ prfun lemma_lteb_permute {x:int}
 //
 absprop
 SORT (xs: ilist, ys: ilist)
-
-prfun sort_elim {xs,ys:ilist}
+//
+prfun
+sort_elim {xs,ys:ilist}
   (pf: SORT (xs, ys)): @(ISORD ys, PERMUTE (xs, ys))
-prfun sort_make {xs,ys:ilist}
+prfun
+sort_make {xs,ys:ilist}
   (pf1: ISORD ys, pf2: PERMUTE (xs, ys)): SORT (xs, ys)
-
+//
 (* ****** ****** *)
 
 (* end of [ilist_prf.sats] *)
