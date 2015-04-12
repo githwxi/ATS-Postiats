@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: hwxiATcsDOTbuDOTedu
 // Time: October, 2010
 //
 (* ****** ****** *)
@@ -49,7 +50,8 @@ staload "libats/SATS/gflist_vt.sats"
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_length (xs) = let
 //
 val (
@@ -62,7 +64,8 @@ end // end of [gflist_length]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_copy (xs) = let
 //
 fun loop
@@ -96,7 +99,8 @@ end // end of [gflist_copy]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_append
   (xs1, xs2) = let
 //
@@ -133,7 +137,8 @@ end // end of [gflist_append]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_revapp
   (xs1, xs2) = let
 //
@@ -161,7 +166,8 @@ end // end of [gflist_revapp]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_revapp1_vt
   (xs1, xs2) = let
 //
@@ -180,7 +186,8 @@ end // end of [gflist_revapp1_vt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_revapp2_vt
   (xs1, xs2) = let
 //
@@ -209,14 +216,16 @@ end // end of [gflist_revapp2_vt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_reverse (xs) =
   $effmask_wrt (gflist_revapp2_vt<a> (xs, gflist_vt_nil))
 // end of [gflist_reverse]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_get_at
   {xs}{x0}{i}
   (pf | xs, i) = let
@@ -253,7 +262,8 @@ end (* end of [gflist_get_at] *)
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_mergesort
   (xs) = let
 //

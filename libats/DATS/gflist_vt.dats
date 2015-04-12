@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi
+// Authoremail: hwxiATcsDOTbuDOTedu
 // Time: October, 2010
 //
 (* ****** ****** *)
@@ -49,7 +50,8 @@ staload "libats/SATS/gflist_vt.sats"
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_vt_length (xs) = let
 //
 fun loop
@@ -76,7 +78,8 @@ end // end of [gflist_vt_length]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_vt_append
   (xs, ys) = let
 //
@@ -113,7 +116,8 @@ end // end of [gflist_vt_append]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_vt_revapp
   (xs, ys) = let
 in
@@ -132,7 +136,8 @@ case+ xs of
 //
 end // end of [gflist_vt_append]
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_vt_reverse (xs) = gflist_vt_revapp (xs, gflist_vt_nil)
 
 (* ****** ****** *)
@@ -320,7 +325,8 @@ end // end of [msort]
 
 in (* in of [local] *)
 
-implement{a}
+implement
+{a}(*tmp*)
 gflist_vt_mergesort (xs) = let
   val (pflen | n) = gflist_vt_length<a> (xs) in msort<a> (pflen | xs, n)
 end // end of [mergesort]
