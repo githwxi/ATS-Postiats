@@ -50,9 +50,10 @@ array_v
 (
   a:vt@ype+, addr, int
 ) = // HX: for arry view
+  | {l:addr}
+    array_v_nil (a, l, 0)
   | {l:addr}{n:int}
     array_v_cons (a, l, n+1) of (a @ l, array_v (a, l+sizeof a, n))
-  | {l:addr} array_v_nil (a, l, 0)
 // end of [array_v]
 *)
 
