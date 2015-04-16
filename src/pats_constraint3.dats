@@ -369,7 +369,9 @@ s3explst_syneq
 
 local
 
-fun synlt_s2hnf_s2hnf (
+fun
+synlt_s2hnf_s2hnf
+(
   s2f1: s2hnf, s2f2: s2hnf
 ) : bool = let
   val s2e2 = s2hnf2exp s2f2
@@ -387,8 +389,11 @@ in
   | _ => false
 end // end pf [s2exp_synlt]
 
-and synlte_s2hnf_s2hnf
-  (s2f1: s2hnf, s2f2: s2hnf): bool =
+and
+synlte_s2hnf_s2hnf
+(
+  s2f1: s2hnf, s2f2: s2hnf
+) : bool =
   s2hnf_syneq (s2f1, s2f2) orelse synlt_s2hnf_s2hnf (s2f1, s2f2)
 (* end of [synlte_s2hnf_s2hnf] *)
 
@@ -396,8 +401,11 @@ and synlte_s2hnf_s2hnf
 // HX-2012-02:
 // [s2f1] <= at least one of [s2es2]
 //
-and synlte_s2hnf_s2explst
-  (s2f1: s2hnf, s2es2: s2explst): bool =
+and
+synlte_s2hnf_s2explst
+(
+  s2f1: s2hnf, s2es2: s2explst
+): bool =
   case+ s2es2 of
   | list_cons
       (s2e2, s2es2) => let
@@ -412,7 +420,9 @@ and synlte_s2hnf_s2explst
 
 in (* in of [local] *)
 
-fun s2exp_synlt (
+fun
+s2exp_synlt
+(
   s2e1: s2exp, s2e2: s2exp
 ) : bool = let
   val s2f1 = s2exp2hnf (s2e1) and s2f2 = s2exp2hnf (s2e2)
@@ -420,7 +430,9 @@ in
   synlt_s2hnf_s2hnf (s2f1, s2f2)
 end // end of [s2exp_synlt]
 
-fun s2exp_synlte (
+fun
+s2exp_synlte
+(
   s2e1: s2exp, s2e2: s2exp
 ) : bool = let
   val s2f1 = s2exp2hnf (s2e1) and s2f2 = s2exp2hnf (s2e2)
@@ -527,7 +539,8 @@ end // end of [local]
 
 local
 
-fun auxeq
+fun
+auxeq
 (
   env: &s2vbcfenv, s2e1: s2exp, s2e2: s2exp
 ) : s3exp = let
@@ -556,7 +569,8 @@ case+ 0 of
 //
 end // end of [auxeq]
 
-fun auxbind (
+fun
+auxbind (
   loc0: location
 , env: &s2vbcfenv, s2v1: s2var, s2e2: s2exp
 ) : s3exp = let

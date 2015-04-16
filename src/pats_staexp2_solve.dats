@@ -480,7 +480,9 @@ s2exp_equal_solve
 
 (* ****** ****** *)
 
-fn s2hnf_equal_solve_abscon_err (
+fun
+s2hnf_equal_solve_abscon_err
+(
   loc0: location, s2f1: s2hnf, s2f2: s2hnf, err: &int
 ) : void = let
 //
@@ -647,7 +649,7 @@ val () = case+
     s2hnf_equal_solve_abscon_err (loc0, s2f10, s2f20, err)
   // end of [abscon, abscon]
 //
-| (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
+| (_, _) when s2hnf_syneq2 (s2f10, s2f20) => ()
 //
 | (_, _) => trans3_env_add_eqeq (loc0, s2e10, s2e20)
 //
@@ -656,9 +658,10 @@ val () = case+
 *)
 // end of [val]
 //
-val () = if err > err0 then
+val () =
+if err > err0 then
   the_staerrlst_add (STAERR_s2exp_equal (loc0, s2e10, s2e20))
-// end of [val]
+// end of [if] // end of [val]
 in
   // nothing
 end // end of [s2hnf_equal_solve_err]
@@ -1133,15 +1136,17 @@ case+ (s2en10, s2en20) of
   | _ => (err := err + 1)
   )
 //
-| (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
+| (_, _) when s2hnf_syneq2 (s2f10, s2f20) => ()
 //
 | (_, _) => (err := err + 1)
 //
 ) (* end of [case] *) // end of [val]
 //
-val () = if err > err0 then
+val () =
+if err > err0 then
   the_staerrlst_add (STAERR_s2exp_tyleq (loc0, s2e10, s2e20))
-// end of [val]
+// end of [if] // end of [val]
+//
 in
   // nothing
 end // end of [s2hnf_tyleq_solve_err]
