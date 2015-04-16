@@ -839,6 +839,40 @@ case+
 end // end of [labs2explst_syneq]
 
 (* ****** ****** *)
+//
+fun
+s2lab_syneq
+(
+  s2l1: s2lab, s2l2: s2lab
+) : bool =
+(
+//
+try let
+//
+val () =
+  s2lab_syneq_exn(s2l1, s2l2)
+//
+in true end with ~SYNEQexn() => false
+//
+) (* end of [s2lab_syneq] *)
+//
+fun
+s2lablst_syneq
+(
+  s2ls1: s2lablst, s2ls2: s2lablst
+) : bool =
+(
+//
+try let
+//
+val () =
+  s2lablst_syneq_exn(s2ls1, s2ls2)
+//
+in true end with ~SYNEQexn() => false
+//
+) (* end of [s2lablst_syneq] *)
+//
+(* ****** ****** *)
 
 implement
 s2hnf_syneq_exn
@@ -1303,6 +1337,36 @@ case+ s2en10 of
     if s2V1 = s2V2 then true else false
   | _ (* non-S2EVar *) => false
   ) (* end of [S2EVar] *)
+//
+| S2Eeqeq
+    (s2e11, s2e12) => (
+  case+ s2en20 of
+  | S2Eeqeq
+      (s2e21, s2e22) => let
+      val syneq =
+        s2exp_syneq_env(env1, env2, s2e11, s2e21)
+      // end of [val]
+    in
+      if syneq then
+        s2exp_syneq_env(env1, env2, s2e12, s2e22) else false
+      // end of [if]
+    end // end of [S2Eeqeq]
+  | _ (* non-S2Eeqeq *) => false
+  ) (* end of[S2Eeqeq] *)
+//
+| S2Eproj
+    (s2e1, _, s2ls1) => (
+  case+ s2en20 of
+  | S2Eproj
+      (s2e2, _, s2ls2) => let
+      val syneq =
+        s2exp_syneq_env (env1, env2, s2e1, s2e2)
+      // end of [val]
+    in
+      if syneq then s2lablst_syneq (s2ls1, s2ls2) else false
+    end // end of [S2Eproj]
+  | _ (* non-S2Eproj *) => false
+  ) (* end of[S2Eproj] *)
 //
 | S2Eapp
     (s2e11, s2es12) => (
