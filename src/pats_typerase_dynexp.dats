@@ -813,17 +813,31 @@ d3e0.d3exp_node of
   (
     s2e_elt, d3e_asz, d3es_elt
   ) => let
-    val hse_elt = s2exp_tyer_shallow (loc0, s2e_elt)
+    val hse_elt =
+      s2exp_tyer_shallow (loc0, s2e_elt)
+    // end of [val]
+//
     val hde_asz = d3exp_tyer (d3e_asz)
     val s2e_asz = d3exp_get_type (d3e_asz)
     val s2f_asz = $S2UT.s2exp2hnf (s2e_asz)
-    val-~Some_vt(s2i) = un_s2exp_g1int_index_t0ype (s2f_asz)
-    val opt = un_s2exp_intconst (s2i)
+(*
+    val () = println! ("d3exp_tyer: s2e_asz = ", s2e_asz)
+    val () = println! ("d3exp_tyer: s2f_asz = ", s2f_asz)
+*)
+    val-~Some_vt(s2i) = un_s2exp_g1size_index_t0ype (s2f_asz)
+//
+    val opt =
+      un_s2exp_intconst (s2i)
+    // end of [opt]
     val asz = (
       case+ opt of | ~Some_vt (n) => n | ~None_vt () => ~1
     ) : int // end of [val]
-    val hdes_elt = list_map_fun (d3es_elt, d3exp_tyer)
+//
+    val hdes_elt =
+      list_map_fun (d3es_elt, d3exp_tyer)
+    // end of [val]
     val hdes_elt = list_of_list_vt (hdes_elt)
+//
   in
     hidexp_arrinit (loc0, hse0, hse_elt, hde_asz, hdes_elt, asz)
   end // end of [D3Earrinit]

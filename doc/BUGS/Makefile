@@ -189,6 +189,14 @@ cleanall:: ; $(RMF) bug-2015-01-12
 
 ######
 
+all:: \
+bug-2015-04-15
+bug-2015-04-15: ; \
+$(PATSCC) -c bug-2015-04-15.dats
+cleanall:: ; $(RMF) bug-2015-04-15_dats.c
+
+######
+
 RMF=rm -f
 
 ######

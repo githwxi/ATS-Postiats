@@ -673,8 +673,11 @@ in
   s2exp_cstapp (g1i, list_pair (knd, ind))
 end // end of [s2exp_g1int_kind_index_t0ype]
 
+(* ****** ****** *)
+
 implement
-un_s2exp_g1int_index_t0ype (s2f) = let
+un_s2exp_g1int_index_t0ype
+  (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
 //
@@ -709,8 +712,11 @@ in
   s2exp_cstapp (g1u, list_pair (knd, ind))
 end // end of [s2exp_g1uint_kind_index_t0ype]
 
+(* ****** ****** *)
+
 implement
-un_s2exp_g1uint_index_t0ype (s2f) = let
+un_s2exp_g1uint_index_t0ype
+  (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
 //
@@ -731,7 +737,8 @@ end // end of [un_s2exp_g1uint_index_t0ype]
 (* ****** ****** *)
 
 implement
-un_s2exp_g1size_index_t0ype (s2f) = let
+un_s2exp_g1size_index_t0ype
+  (s2f) = let
   val opt = un_s2exp_g1int_index_t0ype (s2f)
 in
 //
