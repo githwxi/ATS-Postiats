@@ -769,6 +769,38 @@ end // end of [s2eff_syneq_exn]
 (* ****** ****** *)
 
 fun
+s2lab_syneq
+(
+  s2l1: s2lab, s2l2: s2lab
+) : bool =
+(
+//
+try let
+//
+val () =
+  s2lab_syneq_exn(s2l1, s2l2)
+//
+in true end with ~SYNEQexn() => false
+//
+) (* end of [s2lab_syneq] *)
+
+and
+s2lablst_syneq
+(
+  s2ls1: s2lablst, s2ls2: s2lablst
+) : bool =
+(
+//
+try let
+//
+val () =
+  s2lablst_syneq_exn(s2ls1, s2ls2)
+//
+in true end with ~SYNEQexn() => false
+//
+) (* end of [s2lablst_syneq] *)
+
+and
 s2lab_syneq_exn
 (
   s2l1: s2lab, s2l2: s2lab
@@ -791,7 +823,8 @@ case+ s2l1 of
 //
 end // end of [s2lab_syneq_exn]
 
-fun s2lablst_syneq_exn
+and
+s2lablst_syneq_exn
 (
   s2ls1: s2lablst, s2ls2: s2lablst
 ) : void = let
@@ -811,7 +844,7 @@ case+ (s2ls1, s2ls2) of
 //
 end // end of [s2lablst_syneq_exn]
 
-fun
+and
 labs2explst_syneq_exn
 (
   ls2es1: labs2explst, ls2es2: labs2explst
@@ -836,42 +869,8 @@ case+
 | (list_nil (), list_nil ()) => ()
 | (_(*ls2es1*), _(*ls2es2*)) => $raise (SYNEQexn)
 //
-end // end of [labs2explst_syneq]
+end // end of [labs2explst_syneq_exn]
 
-(* ****** ****** *)
-//
-fun
-s2lab_syneq
-(
-  s2l1: s2lab, s2l2: s2lab
-) : bool =
-(
-//
-try let
-//
-val () =
-  s2lab_syneq_exn(s2l1, s2l2)
-//
-in true end with ~SYNEQexn() => false
-//
-) (* end of [s2lab_syneq] *)
-//
-fun
-s2lablst_syneq
-(
-  s2ls1: s2lablst, s2ls2: s2lablst
-) : bool =
-(
-//
-try let
-//
-val () =
-  s2lablst_syneq_exn(s2ls1, s2ls2)
-//
-in true end with ~SYNEQexn() => false
-//
-) (* end of [s2lablst_syneq] *)
-//
 (* ****** ****** *)
 
 implement
