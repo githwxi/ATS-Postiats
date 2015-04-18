@@ -814,6 +814,7 @@ BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
 #
 ######
 #
+CBOOT:: pats_main_dats.c
 CBOOT:: $(CFILES)
 CBOOT:: ; $(CPF) pats_*.hats CBOOT
 CBOOT:: ; $(CPF) pats_*.cats CBOOT
@@ -823,6 +824,7 @@ CBOOT:: ; $(CPF) Makefile_CBOOT CBOOT/Makefile
 #
 ######
 #
+CBOOTmin:: pats_main_dats.c
 CBOOTmin:: $(CFILES)
 CBOOTmin:: ; $(CPF) pats_*.hats CBOOT
 CBOOTmin:: ; $(CPF) pats_*.cats CBOOT
