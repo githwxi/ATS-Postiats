@@ -1147,6 +1147,11 @@ d2e0.d2exp_node of
     jsonval_conarg4 ("D2Ecasehead", jsv1, jsv2, jsv3, jsv4)
   end // end of [D2Ecasehead]
 //
+| D2Esing(d2e) => let
+    val jsv = jsonize_d2exp (d2e)
+  in
+    jsonval_conarg1 ("D2Esing", jsv)
+  end // end of [D2Esing]
 | D2Elist
     (npf, d2es) => let
     val jsv1 = jsonval_int (npf)

@@ -129,7 +129,6 @@ pats_stacst2.sats
 pats_stacst2.dats
 pats_staexp2_print.dats
 pats_staexp2_pprint.dats
-pats_staexp2_jsonize.dats
 pats_staexp2_sort.dats
 pats_staexp2_scst.dats
 pats_staexp2_svar.dats
@@ -154,11 +153,15 @@ pats_dynexp2.dats
 pats_dyncst2.sats
 pats_dyncst2.dats
 pats_dynexp2_print.dats
-pats_dynexp2_jsonize.dats
 pats_dynexp2_dcst.dats
 pats_dynexp2_dvar.dats
 pats_dynexp2_dmac.dats
 pats_dynexp2_util.dats
+pats_staexp2_appenv.hats
+pats_dynexp2_appenv.hats
+pats_dynexp2_mapgen.dats
+pats_synent2_jsonize.sats
+pats_synent2_jsonize.dats
 pats_trans2.sats
 pats_namespace.sats
 pats_namespace.dats
@@ -221,6 +224,8 @@ pats_constraint3.sats
 pats_constraint3.dats
 pats_constraint3_init.dats
 pats_constraint3_print.dats
+pats_constraint3_appenv.hats
+pats_constraint3_mapgen.dats
 pats_constraint3_jsonize.dats
 pats_constraint3_simplify.dats
 pats_constraint3_icnstr.dats
