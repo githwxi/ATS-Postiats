@@ -405,6 +405,40 @@ in
   atext_concatxt (res)
 end // end of [process_SOURCES]
 
+fn process_CFILES
+  (): atext = let
+//
+fun aux (
+  xs: List(string)
+) : atextlst =
+  case+ xs of
+  | list_cons (x, xs) => (
+    case+ 0 of
+    | _ when isSATS (x) => let
+        val x1 = extrem (x)
+        val x2 = sprintf ("  %s_sats.c \\\n", @(x1))
+        val res = atext_strptr (x2)
+      in
+        list_cons (res, aux (xs))
+      end
+    | _ when isDATS (x) => let
+        val x1 = extrem (x)
+        val x2 = sprintf ("  %s_dats.c \\\n", @(x1))
+        val res = atext_strptr (x2)
+      in
+        list_cons (res, aux (xs))
+      end
+    | _ => aux (xs)
+    )
+  | list_nil () => list_nil ()
+// end of [aux]
+//
+val res = aux (SOURCES)
+//
+in
+  atext_concatxt (res)
+end // end of [process_CFILES]
+
 fn process_OBJECTS
   (): atext = let
 //
@@ -567,6 +601,11 @@ SOURCESdyn := $(filter %.dats, $(SOURCES))
 
 ######
 
+CFILES := \\
+#process_CFILES()
+
+######
+
 OBJECTS := \\
 #process_OBJECTS()
 
@@ -595,6 +634,7 @@ BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
 #
 ######
 #
+CBOOT:: $(CFILES)
 CBOOT:: ; $(CPF) pats_*.hats CBOOT
 CBOOT:: ; $(CPF) pats_*.cats CBOOT
 CBOOT:: ; $(CPF) pats_*_sats.c CBOOT
@@ -603,6 +643,7 @@ CBOOT:: ; $(CPF) Makefile_CBOOT CBOOT/Makefile
 #
 ######
 #
+CBOOTmin:: $(CFILES)
 CBOOTmin:: ; $(CPF) pats_*.hats CBOOT
 CBOOTmin:: ; $(CPF) pats_*.cats CBOOT
 CBOOTmin:: ; $(CPF) pats_*_sats.c CBOOT
