@@ -253,8 +253,11 @@ fprint (out, "\
 \n\
 #thePage2Left\n\
 {\n\
+/*\n\
   background-color: #1e5799;\n\
   background-image: linear-gradient(to right, #1e5799, #7db9e8);\n\
+*/\n\
+  background-color: rgba(30, 87, 153, 0.750);\n\
 }\n\
 ") (* end of [fprint] *)
 //
