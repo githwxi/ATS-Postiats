@@ -279,6 +279,7 @@ patcomp =
   | PTCMPasvar of (d2var, tmprimval)
 //
   | PTCMPlablparen of (label)
+//
   | PTCMPpatlparen of
     (
       patck, tmprimval, tmplab, pckindopt, patckontref
@@ -702,12 +703,15 @@ auxlst
 in
 //
 case xs10 of
+//
+| list_nil () => Some_vt (xs20)
+//
 | list_cons _ =>
   (
     case+ xs20 of
-    | list_cons _ => auxlst2 (xs10, xs20, tmvlst) | list_nil _ => None_vt ()
+    | list_nil _ => None_vt ()
+    | list_cons _ => auxlst2 (xs10, xs20, tmvlst)
   )
-| list_nil () => Some_vt (xs20)
 //
 end // end of [auxlst]
 
@@ -800,8 +804,26 @@ case+ x2 of
           then auxlst (xs1, xs2, tmvlst) else None_vt(*void*)
         // end of [if]
       end // end of [PTCMPpatlparen]
-    | _ => None_vt ()
+    | _ (*non-PTCMPpatlparen*) => None_vt((*void*))
   )
+//
+// HX-2015-04-21:
+// bug-2015-04-21 due to
+// the following clause being missing
+//
+| PTCMPreclparen (tpmv2, _) =>
+  (
+    case+ x1 of
+    | PTCMPreclparen (tpmv1, _) => let
+        val ((*void*)) =
+          tmpmovlst_add (tmvlst, tpmv1, tpmv2)
+        // end of [val]
+      in
+        auxlst (xs1, xs2, tmvlst)
+      end // end of [PTCMPreclparen]
+    | _ (*non-PTCMPreclparen*) => None_vt((*void*))
+  ) (* end of [PTCMPreclparen] *)
+//
 | _ (* rest-of-PTCMP *) => None_vt((*void*))
 //
 end // end of [auxlst2]
@@ -841,6 +863,7 @@ case+ xs2 of
     case+ x2 of
     | PTCMPpatlparen
         (ptck2, tpmv2, _, _, _) => ftpmv (tpmv2, tmvlst)
+      // end of [PTCMPpatlparen]
     | PTCMPreclparen (tpmv2, _) => ftpmv (tpmv2, tmvlst) // HX: bug-2013-12-04
     | _ => auxmovfin (xs2, tmvlst)
   ) (* end of [list_cons] *)
@@ -993,7 +1016,7 @@ case+ xs of
         (
           case !kntr of PTCKNTnone () => !kntr := fail | _ => ()
         ) (* end of [PTCMPpatlparen] *)
-      | _ => ()
+      | _ (* non-PTCMPpatlparen *) => ()
     ) : void // end of [val]
   in
     patcomplst_jumpfill_fail (xs, fail)
