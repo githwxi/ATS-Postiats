@@ -1736,37 +1736,37 @@ val ((*void*)) = instrseq_addlst_vt (res, inss)
 //
 val higs = hicl.hiclau_gua (* guard-list *)
 //
-val () =
-(
+val () = (
+//
 case+ higs of
-| list_cons _ => let
-    val (
-    ) = instrseq_add_comment (res, "ibranch-guard:")
-    val fail = patcomplst_find_guafail (ptcmps)
-    val () = higmatlst_ccomp (env, res, lvl0, higs, fail)
-  in
-    // nothing
-  end // end of [list_cons]
 | list_nil () => ()
+| list_cons _ => let
+    val () =
+    instrseq_add_comment(res, "ibranch-guard:")
+    val fail = patcomplst_find_guafail (ptcmps)
+  in
+    higmatlst_ccomp (env, res, lvl0, higs, fail)
+  end // end of [list_cons]
+//
 ) : void // end of [val]
 //
 val loc = hicl.hiclau_loc
 val pmvs_freecon = ccompenv_getdec_freeconenv (env)
-val (
-) = instrseq_add_freeconlst (res, loc, pmvs_freecon)
+val () =
+  instrseq_add_freeconlst (res, loc, pmvs_freecon)
 //
 val () = instrseq_add_comment (res, "ibranch-mbody:")
 //
-val ((*void*)) =
+val () =
 hidexp_ccomp_ret (env, res, tmpret, hicl.hiclau_body)
 //
-val ((*void*)) = ccompenv_pop (pf0 | env)
+val () = ccompenv_pop (pf0 | env)
 //
 val inss = instrseq_get_free (res)
 //
 (*
-val (
-) = fprintln!
+val () =
+fprintln!
   (stdout_ref, "hiclaulst_ccomp: auxcl: inss =\n", inss)
 // end of [val]
 *)
