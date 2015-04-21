@@ -403,30 +403,38 @@ case+ x0 of
 end // end of [fprint_patcomp]
 
 (* ****** ****** *)
-
+//
 extern
-fun fprint_patcomplst (out: FILEref, xs: patcomplst): void
+fun
+fprint_patcomplst
+  (out: FILEref, xs: patcomplst): void
+extern
+fun
+fprint_patcomplstlst
+  (out: FILEref, xs: patcomplstlst): void
+//
 overload fprint with fprint_patcomplst
-extern
-fun fprint_patcomplstlst (out: FILEref, xs: patcomplstlst): void
 overload fprint with fprint_patcomplstlst
-
+//
 (* ****** ****** *)
 
 implement
 fprint_patcomplst
-  (out, xs) = $UT.fprintlst (out, xs, "; ", fprint_patcomp)
+  (out, xs) =
+  $UT.fprintlst (out, xs, "; ", fprint_patcomp)
 // end of [fprint_patcomplst]
 
 implement
 fprint_patcomplstlst
-  (out, xss) = $UT.fprintlst (out, xss, "\n", fprint_patcomplst)
+  (out, xss) =
+  $UT.fprintlst (out, xss, "\n", fprint_patcomplst)
 // end of [fprint_patcomplstlst]
 
 (* ****** ****** *)
 
 extern
-fun patcomplst_find_tmplab
+fun
+patcomplst_find_tmplab
   (xs: patcomplst): Option_vt (tmplab)
 // end of [patcomplst_find_tmplab]
 
@@ -462,12 +470,12 @@ case+ xs of
 end // end of [patcomplst_find_tmplab]
 
 (* ****** ****** *)
-
+//
 extern
-fun patcomplst_find_guafail (xs: patcomplst): patckont
-
-(* ****** ****** *)
-
+fun
+patcomplst_find_guafail
+  (xs: patcomplst): patckont
+//
 implement
 patcomplst_find_guafail
   (xs) = let
@@ -485,14 +493,16 @@ case+ xs of
 | list_nil ((*void*)) => PTCKNTnone ()
 //
 end // end of [patcomplst_find_guafail]
-
+//
 (* ****** ****** *)
 //
 extern
-fun patcomplst_unskip
+fun
+patcomplst_unskip
   (xs: patcomplst, na: &int >> int): patcomplst
 extern
-fun patcomplst_unrparen
+fun
+patcomplst_unrparen
   (xs: patcomplst, na: &int >> int): patcomplst
 //
 (* ****** ****** *)
@@ -605,20 +615,24 @@ end // end of [patcomplst_unrparen]
 (* ****** ****** *)
 
 extern
-fun patcomplst_subtest
+fun
+patcomplst_subtest
   (xs1: patcomplst, xs2: patcomplst): patckont
 // end of [patcomplst_subtest]
 extern
-fun patcomplst_subtests
+fun
+patcomplst_subtests
   (xs1: patcomplst, xss2: patcomplstlst): patckont
 // end of [patcomplst_subtests]
 
 (* ****** ****** *)
 //
 extern
-fun patck_isbin (ptck: patck): bool
+fun
+patck_isbin (ptck: patck): bool
 extern
-fun patck_ismat (ptck1: patck, ptck2: patck): bool
+fun
+patck_ismat (ptck1: patck, ptck2: patck): bool
 //
 (* ****** ****** *)
 
@@ -637,7 +651,8 @@ end // end of [patck_isbin]
 (* ****** ****** *)
 
 implement
-patck_ismat (ptck1, ptck2) = let
+patck_ismat
+  (ptck1, ptck2) = let
 in
 //
 case+ ptck1 of
@@ -669,9 +684,11 @@ end // end of [patck_ismat]
 
 local
 
-typedef patcomplst1 = List1 (patcomp)
+typedef
+patcomplst1 = List1 (patcomp)
 
-fun auxlst
+fun
+auxlst
 (
   xs10: patcomplst
 , xs20: patcomplst
@@ -689,7 +706,8 @@ case xs10 of
 //
 end // end of [auxlst]
 
-and auxlst2
+and
+auxlst2
 (
   xs10: patcomplst1
 , xs20: patcomplst1
@@ -783,7 +801,8 @@ case+ x2 of
 //
 end // end of [auxlst2]
 
-fun auxmovfin
+fun
+auxmovfin
 (
   xs2: patcomplst, tmvlst: &tmpmovlst_vt
 ) : void = let
@@ -878,7 +897,8 @@ end // end of [patcomplst_subtests]
 (* ****** ****** *)
 //
 extern
-fun patcomplst_jumpfill_rest
+fun
+patcomplst_jumpfill_rest
   (xs1: patcomplst, xss2: patcomplstlst): void
 //
 (* ****** ****** *)
@@ -944,7 +964,8 @@ end // end of [patcomplst_jumpfill_rest]
 (* ****** ****** *)
 //
 extern
-fun patcomplst_jumpfill_fail
+fun
+patcomplst_jumpfill_fail
   (xs: patcomplst, fail: patckont): void
 //
 (* ****** ****** *)
@@ -976,7 +997,8 @@ end // end of [patcomplst_jumpfill_fail]
 (* ****** ****** *)
 //
 extern
-fun patcomplstlst_jumpfill
+fun
+patcomplstlst_jumpfill
   (xss: patcomplstlst, fail: patckont): void
 //
 (* ****** ****** *)
@@ -1001,7 +1023,8 @@ end // end of [patcomplstlst_jumpfill]
 (* ****** ****** *)
 //
 extern
-fun himatchlst_patcomp
+fun
+himatchlst_patcomp
 (
   lvl0: int
 , hicl: hiclau, pmvs: primvalist, hips: hipatlst
@@ -1013,7 +1036,8 @@ local
 
 (* ****** ****** *)
 
-fun auxtpmv_make
+fun
+auxtpmv_make
 (
   hip: hipat, pmv0: primval
 ) : tmprimval = let
@@ -1033,7 +1057,8 @@ fun addrparen
 
 (* ****** ****** *)
 
-fun addselcon
+fun
+addselcon
 (
   tpmv: tmprimval
 , hse_sum: hisexp
@@ -1060,7 +1085,8 @@ case+ lxs of
 //
 end // end of [addselcon]
 
-fun addselect
+fun
+addselect
 (
   tpmv: tmprimval
 , hse_rec: hisexp
@@ -1090,7 +1116,8 @@ end // end of [addselect]
 
 (* ****** ****** *)
 
-fun auxcomplst
+fun
+auxcomplst
 (
   lvl0: int, mtks: matokenlst
 ) : patcomplst_vt = let
@@ -1103,7 +1130,8 @@ case+ mtks of
 //
 end // end of [auxcomplst]
 
-and auxcomplst_mtk
+and
+auxcomplst_mtk
 (
   lvl0: int
 , mtk0: matoken, mtks: matokenlst
@@ -1122,7 +1150,8 @@ case+ mtk0 of
 //
 end // end of [auxcomplst_mtk]
 
-and auxcomplst_pat
+and
+auxcomplst_pat
 (
   lvl0: int
 , tpmv: tmprimval
@@ -1299,7 +1328,8 @@ case+
 //
 end // end of [auxcomplst_pat]
 
-and auxcomplst_labpat
+and
+auxcomplst_labpat
 (
   lvl0: int
 , tpmv: tmprimval
@@ -1389,7 +1419,8 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun hiclau_patcomp
+fun
+hiclau_patcomp
 (
   lvl0: int
 , hicl: hiclau, pmvs: primvalist
@@ -1413,7 +1444,8 @@ end // end of [hiclau_patcomp]
 (* ****** ****** *)
 
 extern
-fun hiclaulst_patcomp
+fun
+hiclaulst_patcomp
 (
   lvl0: int
 , hicls: hiclaulst, pmvs: primvalist
@@ -1438,7 +1470,8 @@ end // end of [hiclaulst_patcomp]
 (* ****** ****** *)
 
 extern
-fun patcomplst_ccomp
+fun
+patcomplst_ccomp
   (env: !ccompenv, xs: patcomplst): instrlst_vt
 // end of [patcomplst_ccomp]
 
@@ -1446,7 +1479,8 @@ fun patcomplst_ccomp
 
 local
 
-fun addtpmv
+fun
+addtpmv
 (
   res: instrlst_vt, tpmv: tmprimval
 ) : instrlst_vt = let
@@ -1464,7 +1498,8 @@ case+ tpmv of
 //
 end (* end of [addtpmv] *)
 
-fun addtlab
+fun
+addtlab
 (
   res: instrlst_vt, tlab: tmplab
 ) : instrlst_vt = let
@@ -1474,7 +1509,8 @@ end // end of [addtlab]
 
 (* ****** ****** *)
 
-fun addfreecon
+fun
+addfreecon
 (
   env: !ccompenv
 , pmv: primval, opt: pckindopt, ptck: patck
@@ -1494,7 +1530,8 @@ end // end of [addfreecon]
 
 (* ****** ****** *)
 
-fun fptcmplst
+fun
+fptcmplst
 (
   env: !ccompenv
 , xs: patcomplst
@@ -1517,7 +1554,8 @@ case+ xs of
 //
 end (* end of [fptcmplst] *)
 
-and fptcmplst2
+and
+fptcmplst2
 (
   env: !ccompenv
 , x: patcomp, xs: patcomplst
@@ -1602,13 +1640,15 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun higmat_ccomp
+fun
+higmat_ccomp
 (
   env: !ccompenv, res: !instrseq
 , lvl0: int, hig: higmat, fail: patckont
 ) : void // end of [higmat_ccomp]
 extern
-fun higmatlst_ccomp
+fun
+higmatlst_ccomp
 (
   env: !ccompenv, res: !instrseq
 , lvl0: int, higs: higmatlst, fail: patckont
