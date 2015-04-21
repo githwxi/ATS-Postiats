@@ -1429,7 +1429,7 @@ end // end of [himatchlst_patcomp]
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 extern
 fun
 hiclau_patcomp
@@ -1437,6 +1437,7 @@ hiclau_patcomp
   lvl0: int
 , hicl: hiclau, pmvs: primvalist
 ) : patcomplst // endfun
+//
 implement
 hiclau_patcomp
   (lvl0, hicl, pmvs) = let
@@ -1452,7 +1453,7 @@ val () = fprintln! (out, "hiclau_patcomp: ptcmps =\n", ptcmps)
 in
   ptcmps
 end // end of [hiclau_patcomp]
-
+//
 (* ****** ****** *)
 
 extern
@@ -1553,16 +1554,15 @@ fptcmplst
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => let
-  in
-    fptcmplst2 (env, x, xs, res1, res2)
-  end // end of [list_cons]
-| list_nil () => let
+| list_nil() => let
     val res2 = list_vt_reverse (res2)
   in
     list_vt_reverse_append (res1, res2)
   end // end of [list_nil]
+| list_cons(x, xs) => let
+  in
+    fptcmplst2 (env, x, xs, res1, res2)
+  end // end of [list_cons]
 //
 end (* end of [fptcmplst] *)
 
@@ -1579,6 +1579,7 @@ in
 case+ x of
 | PTCMPany (d2v) =>
     fptcmplst (env, xs, res1, res2)
+  // end of [PTCMPany]
 | PTCMPvar (d2v, tpmv) => let
     val pmv = tmprimval2pmv2 (tpmv, d2v)
     val (
@@ -1676,23 +1677,27 @@ higmat_ccomp
 //
 val hde = hig.higmat_exp
 //
-val hip =
-(
+val hip = (
+//
 case+
-  hig.higmat_pat of
+hig.higmat_pat of
 | Some (hip) => hip
 | None ((*void*)) => let
     val hse = hisexp_bool_t0ype ()
   in
     hipat_bool (hde.hidexp_loc, hse, true)
   end // end of [None]
+//
 ) : hipat // end of [val]
 //
-val pmv = hidexp_ccomp (env, res, hde)
+val
+pmv = hidexp_ccomp (env, res, hde)
+//
 val () = hipatck_ccomp (env, res, fail, hip, pmv)
 val () = himatch_ccomp (env, res, lvl0, hip, pmv)
 //
 in
+  // nothing
 end // end of [higmat_ccomp]
 
 implement
@@ -1701,15 +1706,14 @@ higmatlst_ccomp
 in
 //
 case+ higs of
-| list_cons
-    (hig, higs) => let
+| list_nil() => ()
+| list_cons(hig, higs) => let
     val () =
       higmat_ccomp (env, res, lvl0, hig, fail)
     // end of [val]
   in
     higmatlst_ccomp (env, res, lvl0, higs, fail)
-  end // end of [list_cons]
-| list_nil () => ()
+  end (* end of [list_cons] *)
 //
 end // end of [higmatlst_ccomp]
 
