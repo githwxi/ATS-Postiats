@@ -55,24 +55,25 @@ staload INTINF = "./pats_intinf.sats"
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_ccomp_claulst"
-
+//
+implement
+prerr_FILENAME<>
+  ((*void*)) = prerr "pats_ccomp_claulst"
+//
 (* ****** ****** *)
-
-staload LAB = "./pats_label.sats"
-overload compare with $LAB.compare_label_label
-
-(* ****** ****** *)
-
-staload LOC = "./pats_location.sats"
-
-(* ****** ****** *)
-
+//
+staload
+LAB = "./pats_label.sats"
+staload
+LOC = "./pats_location.sats"
+//
 staload SYN = "./pats_syntax.sats"
-
+//
+overload compare with $LAB.compare_label_label
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
@@ -80,7 +81,8 @@ staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload P2TC = "./pats_patcst2.sats"
+staload
+P2TC = "./pats_patcst2.sats"
 
 (* ****** ****** *)
 
@@ -95,9 +97,13 @@ staload "./pats_ccomp.sats"
 
 (*
 extern
-fun tmprimval_make_none (pmv: primval): tmprimval
+fun
+tmprimval_make_none
+  (pmv: primval): tmprimval
 extern
-fun tmprimval_make_some (pmv: primval): tmprimval
+fun
+tmprimval_make_some
+  (pmv: primval): tmprimval
 //
 implement
 tmprimval_make_none
@@ -114,12 +120,16 @@ end // end of [tmprimval_make_some]
 *)
 
 (* ****** ****** *)
-
+//
 extern
-fun tmprimval2pmv (tpmv: tmprimval): primval
+fun
+tmprimval2pmv
+  (tpmv: tmprimval): primval
 extern
-fun tmprimval2pmv2 (tpmv: tmprimval, d2v: d2var): primval
-
+fun
+tmprimval2pmv2
+  (tpmv: tmprimval, d2v: d2var): primval
+//
 (* ****** ****** *)
 
 implement
@@ -194,7 +204,8 @@ end // end of [fprint_tmprimval]
 (* ****** ****** *)
 
 extern
-fun tmpmovlst_add
+fun
+tmpmovlst_add
 (
   tmvlst: &tmpmovlst_vt
 , tpmv1: tmprimval, tpmv2: tmprimval
