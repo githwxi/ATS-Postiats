@@ -248,9 +248,11 @@ typedef matokenlst = List (matoken)
 
 (*
 extern
-fun fprint_matoken (out: FILEref, x: matoken): void
+fun
+fprint_matoken (out: FILEref, x: matoken): void
 extern
-fun fprint_matokenlst (out: FILEref, xs: matokenlst): void
+fun
+fprint_matokenlst (out: FILEref, xs: matokenlst): void
 *)
 
 (* ****** ****** *)
@@ -517,8 +519,10 @@ fun auxlst
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) =>
+| list_nil() =>
+    list_nil(*void*)
+  // end of [list_nil]
+| list_cons(x, xs) =>
   (
     case+ x of
 //
@@ -540,8 +544,7 @@ case+ xs of
 //
     | _ => xs
 //
-  ) // end of [list_cons]
-| list_nil () => list_nil ()
+  ) (* end of [list_cons] *)
 //
 end // end of [auxlst]
 //
@@ -553,8 +556,10 @@ and auxlst2
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) =>
+| list_nil() =>
+    list_nil(*void*)
+  // end of [list_nil]
+| list_cons(x, xs) =>
   (
     case+ x of
 //
@@ -576,11 +581,9 @@ case+ xs of
         if plvl = 0 then xs else auxlst2 (plvl, xs, na)
       ) // end of [PTCMPrparen]
 //
-    | _ => auxlst2 (plvl, xs, na)
+    | _ (* rest-of-PTCMP *) => auxlst2 (plvl, xs, na)
 //
-  )
-| list_nil () => list_nil ()
-  // end of [list_nil]
+  ) (* end of [list_cons] *)
 //
 end // end of [auxlst2]
 //
@@ -596,7 +599,10 @@ patcomplst_unrparen
 in
 //
 case+ xs0 of
-| list_cons (x, xs1) =>
+| list_nil() =>
+    list_nil(*void*)
+  // end of [list_nil]
+| list_cons(x, xs1) =>
   (
     case+ x of
     | PTCMPrparen _ => xs1
@@ -607,8 +613,7 @@ case+ xs0 of
       in
         patcomplst_unrparen (xs0, na)
       end // end of [_]
-  )
-| list_nil () => list_nil ()
+  ) (* end of [list_cons] *)
 //
 end // end of [patcomplst_unrparen]
 
@@ -677,7 +682,7 @@ case+ ptck1 of
 | PATCKf0loat of (f0loat)
 *)
 //
-| _ => false
+| _ (*rest-of-PATCK*) => false
 end // end of [patck_ismat]
 
 (* ****** ****** *)
@@ -797,7 +802,7 @@ case+ x2 of
       end // end of [PTCMPpatlparen]
     | _ => None_vt ()
   )
-| _ => None_vt ()
+| _ (* rest-of-PTCMP *) => None_vt((*void*))
 //
 end // end of [auxlst2]
 
@@ -831,15 +836,14 @@ fun ftpmv
 in
 //
 case+ xs2 of
-| list_cons
-    (x2, xs2) => (
+| list_nil() => ()
+| list_cons(x2, xs2) => (
     case+ x2 of
     | PTCMPpatlparen
         (ptck2, tpmv2, _, _, _) => ftpmv (tpmv2, tmvlst)
     | PTCMPreclparen (tpmv2, _) => ftpmv (tpmv2, tmvlst) // HX: bug-2013-12-04
     | _ => auxmovfin (xs2, tmvlst)
   ) (* end of [list_cons] *)
-| list_nil ((*void*)) => ()
 //
 end // end of [auxmovfin]
 
@@ -859,6 +863,11 @@ case+
 :(
   tmvlst: tmpmovlst_vt?
 ) => opt of
+| ~None_vt () => let
+    val () = list_vt_free<tmpmov> (tmvlst)
+  in
+    PTCKNTnone ((*void*))
+  end // end of [None_vt]
 | ~Some_vt (xs2) => let
     val () = auxmovfin (xs2, tmvlst)
     val tmvlst = list_vt_reverse (tmvlst)
@@ -867,9 +876,6 @@ case+
   in
     PTCKNTtmplabmov (tlab, tmvlst)
   end // end of [some_vt]
-| ~None_vt () => let
-    val () = list_vt_free<tmpmov> (tmvlst) in PTCKNTnone ()
-  end // end of [None_vt]
 //
 end // end of [patcomplst_subtest]
 
@@ -883,6 +889,9 @@ patcomplst_subtests
 in
 //
 case+ xss2 of
+| list_nil
+    () => PTCKNTnone ()
+  // end of [list_nil]
 | list_cons
     (xs2, xss2) => let
     val ptjmp = patcomplst_subtest (xs1, xs2)
@@ -890,7 +899,6 @@ case+ xss2 of
     case+ ptjmp of
     | PTCKNTnone () => patcomplst_subtests (xs1, xss2) | _ => ptjmp
   end // end of [list_cons]
-| list_nil () => PTCKNTnone ()
 //
 end // end of [patcomplst_subtests]
 
@@ -922,6 +930,9 @@ fun auxlst
 in
 //
 case+ xs1 of
+| list_nil() =>
+    list_vt_free (rxs)
+  // end of [list_nil]
 | list_cons
     (x1, xs1) => let
     val () = (
@@ -951,9 +962,6 @@ case+ xs1 of
   in
     auxlst (xs1, xss2, list_vt_cons(x1, rxs))
   end // end of [list_cons]
-| list_nil () => let
-    val () = list_vt_free (rxs) in (*nothing*)
-  end // end of [list_nil]
 //
 end // end of [auxlst]
 //

@@ -77,7 +77,8 @@ end // end of [hipat_getset_asvar]
 (* ****** ****** *)
 
 extern
-fun hipatck_ccomp_rec
+fun
+hipatck_ccomp_rec
 (
   env: !ccompenv, res: !instrseq
 , fail: patckont, hip0: hipat, pmv0: primval
