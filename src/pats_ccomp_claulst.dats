@@ -945,7 +945,7 @@ case+ xs1 of
           val rxs1 = list_vt_cons (PTCMPpatneg (ptck, tpmv), rxs1)
           val pxs1 = list_vt_reverse (rxs1)
           val ptjmp = patcomplst_subtests ($UN.linlst2lst(pxs1), xss2)
-          val () = list_vt_free (pxs1)
+          val ((*freed*)) = list_vt_free (pxs1)
         in
           !kntr := ptjmp
         end (* end of [PTCMPpatlparen] *)
@@ -953,11 +953,11 @@ case+ xs1 of
           val rxs1 = list_vt_copy (rxs)
           val pxs1 = list_vt_reverse (rxs1)      
           val ptjmp = patcomplst_subtests ($UN.linlst2lst(pxs1), xss2)
-          val () = list_vt_free (pxs1)
+          val ((*freed*)) = list_vt_free (pxs1)
         in
           !kntr := ptjmp
         end (* end of [PTCMPtmplabgua] *)
-      | _ => ()
+      | _ (* rest-of-PTCMP *) => ((*void*))
     ) : void // end of [val]
   in
     auxlst (xs1, xss2, list_vt_cons(x1, rxs))
@@ -984,8 +984,8 @@ patcomplst_jumpfill_fail
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () = (
       case+ x of
       | PTCMPpatlparen
@@ -998,7 +998,6 @@ case+ xs of
   in
     patcomplst_jumpfill_fail (xs, fail)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [patcomplst_jumpfill_fail]
 
@@ -1017,14 +1016,13 @@ patcomplstlst_jumpfill
 in
 //
 case+ xss of
-| list_cons
-    (xs, xss) => let
+| list_nil() => ()
+| list_cons(xs, xss) => let
     val () = patcomplst_jumpfill_rest (xs, xss)
     val () = patcomplst_jumpfill_fail (xs, fail)
   in
     patcomplstlst_jumpfill (xss, fail)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [patcomplstlst_jumpfill]
 
@@ -1058,7 +1056,8 @@ end // end of [auxtpmv_make]
 
 (* ****** ****** *)
 
-fun addrparen
+fun
+addrparen
 (
   mtks: matokenlst
 ) : matokenlst = list_cons (MTKrparen (), mtks)
@@ -1076,8 +1075,8 @@ addselcon
 in
 //
 case+ lxs of
-| list_cons
-    (lx, lxs) => let
+| list_nil() => mtks
+| list_cons(lx, lxs) => let
     val+LABHIPAT (lab, hip) = lx
     val loc = hip.hipat_loc
     val hse = hip.hipat_type
@@ -1089,7 +1088,6 @@ case+ lxs of
   in
     list_cons (mtk0, mtks)
   end // end of [list_cons]
-| list_nil () => mtks
 //
 end // end of [addselcon]
 
@@ -1104,8 +1102,8 @@ addselect
 in
 //
 case+ lxs of
-| list_cons
-    (lx, lxs) => let
+| list_nil() => mtks
+| list_cons(lx, lxs) => let
     val+LABHIPAT (lab, hip) = lx 
     val loc = hip.hipat_loc
     val hse = hip.hipat_type
@@ -1118,7 +1116,6 @@ case+ lxs of
   in
     list_cons (mtk0, mtks)
   end // end of [list_cons]
-| list_nil () => mtks
 //
 end // end of [addselect]
 
@@ -1132,9 +1129,10 @@ auxcomplst
 in
 //
 case+ mtks of
+| list_nil () => list_vt_nil ()
 | list_cons
     (mtk, mtks) => auxcomplst_mtk (lvl0, mtk, mtks)
-| list_nil () => list_vt_nil ()
+  // end of [list_cons]
 //
 end // end of [auxcomplst]
 
@@ -1147,14 +1145,20 @@ auxcomplst_mtk
 in
 //
 case+ mtk0 of
-| MTKpat (hip, tpmv) =>
+//
+| MTKpat(hip, tpmv) =>
     auxcomplst_pat (lvl0, tpmv, hip, mtks)
-| MTKlabpat (lab, hip, tpmv) =>
+//
+| MTKlabpat
+    (lab, hip, tpmv) =>
+  (
     auxcomplst_labpat (lvl0, tpmv, lab, hip, mtks)
-| MTKrparen () =>
+  ) (* end of [MTKlabpat] *)
+//
+| MTKrparen((*void*)) =>
   (
     list_vt_cons (PTCMPrparen (), auxcomplst (lvl0, mtks))
-  ) // end of [MTKrparen]
+  ) (* end of [MTKrparen] *)
 //
 end // end of [auxcomplst_mtk]
 
