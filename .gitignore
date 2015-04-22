@@ -209,7 +209,9 @@ doc/DISTRIB/SCRIPT/*.bash
 doc/DISTRIB/ATS-Postiats/AUTHORS
 doc/DISTRIB/ATS-Postiats/COPYING
 doc/DISTRIB/ATS-Postiats/INSTALL
-doc/DISTRIB/ATS-Postiats/VERSION.txt
+doc/DISTRIB/ATS-Postiats/VERSION
+doc/DISTRIB/ATS-Postiats/CHANGES-ats2
+doc/DISTRIB/ATS-Postiats/CHANGES-contrib
 doc/DISTRIB/ATS-Postiats/config*
 doc/DISTRIB/ATS-Postiats/stamp-h1
 doc/DISTRIB/ATS-Postiats/patscc_env.sh.in
