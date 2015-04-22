@@ -123,4 +123,4 @@ libats-hwxi/teaching/fileAsLock
 
 0.0.1
 
-###### end of [VERSION-contrib.txt] ######
+###### end of [CHANGES-contrib.txt] ######

@@ -278,8 +278,6 @@ Here is a list of major additions and changes since the last release:
 
 0.1.4
 
-<pre>
-
 This is the 13th release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
 ATS/Positats, ATS2/Postiats or simply Postiats.
@@ -319,13 +317,9 @@ Here is a list of major additions and changes since the last release:
 6. [patscc] now passes the flag -Wl,warn-common to [gcc] by default
 *)
 
-</pre>
-
 ######
 
 0.1.3
-
-<pre>
 
 This is the 12th release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
@@ -363,13 +357,9 @@ Here is a list of major additions and changes since the last release:
    which translates into the method invocation: obj.method(arglst)
 7. Adding -D_ATS_ARRAY_FIELD to safe-guard using array fields in records
 
-</pre>
-
 ######
 
 0.1.2
-
-<pre>
 
 This is the 11th release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
@@ -400,12 +390,10 @@ Here is a list of major additions and changes since the last release:
    #define ATS_DYNLOADNAME ...
 5. Adding support for attaching a prefix to names of static vars and funs:
    #define ATS_STATIC_PREFIX ...
-</pre>
 
 ######
 
 0.1.1
-<pre>
 
 This is the tenth release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
@@ -442,12 +430,9 @@ Here is a list of major additions and changes since the last release:
    val () = assertloc (x1 = 1 && x2 = 2 && x3 = 3)
 7. Improving/fixing libats/deqarray and libats/dynarray
 
-</pre>
-
 ######
 
 0.1.0
-<pre>
 
 This is the nineth release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
@@ -483,12 +468,9 @@ Here is a list of major additions and changes since the last release:
    ATS-Positiats-contrib/contrib/libats-hwxi/teaching/mythread/*
    Please see ATS-Positiats-contrib/projects/MEDIUM/SHOOTOUT/ATS2/*
 
-</pre>
-
 ######
 
 0.0.8
-<pre>
 
 This is the eighth release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
@@ -524,12 +506,9 @@ Here is a list of major additions and changes since the last release:
    patsopt --pkgreloc ...
 8. Adding contrib/openssl into ATS2-contrib for the first time
 
-</pre>
-
 ######
 
 0.0.7
-<pre>
 
 This is the seventh release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
@@ -564,12 +543,9 @@ Here is a list of major additions and changes since the last release:
 7. Supporting creation of local namespaces // to-be-explained
 8. Supporting tcc-0.9.26 for compiling C code generated from ATS source
 
-</pre>
-
 ######
 
 0.0.6
-<pre>
 
 This is the sixth release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
@@ -602,12 +578,10 @@ Here is a list of major additions and changes since the last release:
    (for compilation purpose)
 7. Handling of template parameters is greatly improved.
 
-</pre>
-
 ######
 
 0.0.5
-<pre>
+
 This is the fifth release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
 ATS/Positats, ATS2/Postiats or simply Postiats.
@@ -649,12 +623,9 @@ Here is a list of major additions and changes since the last release:
 11. Supporting the flag -CSignore for patscc to ignore constraint-solving.
     Please only use it with proper justification!
 
-</pre>
-
 ######
 
 0.0.4
-<pre>
 
 This is the fourth release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
@@ -692,12 +663,9 @@ Here is a list of major additions and changes since the last release:
 10. Supporting that ATS-types be exported for use in C (extern typedef ...)
 11. Supporting generation of ats-lang-tags via the command-line flag --taggen
 
-</pre>
-
 ######
 
 0.0.3
-<pre>
 
 This is the third release of ATS2, the successor of the ATS
 programming language. The compiler for ATS2 is given the name
@@ -743,12 +711,9 @@ Here is a list of major additions and changes since the last release:
    deeply embedded function could be miscomputed, causing the C target
    code generated from ATS source to contain errors.
 
-</pre>
-
 ######
 
 0.0.2
-<pre>
 
 Date: September 19, 2013
 
@@ -802,12 +767,9 @@ Here is a list of major additions and changes since the last release:
 
 6. Improving atslib: adding code, fixing bugs, improving documentation, etc.
 
-</pre>
-
 ######
 
 0.0.1
-<pre>
 
 September 2, 2013
 
@@ -847,6 +809,4 @@ Bohem-GC) can be readily employed.
 I will gradually list differences between ATS and ATS2, helping people
 make the transition from ATS1 to ATS2.
 
-</pre>
-
-###### end of [VERSION.txt] ######
+###### end of [CHANGES-ats2.txt] ######
