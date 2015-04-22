@@ -456,8 +456,9 @@ in
 //
 case+ xs of
 //
-| list_cons
-    (x, xs) => let
+| list_nil() => None_vt()
+//
+| list_cons(x, xs) => let
   in
     case x of
     | PTCMPpatlparen
@@ -467,8 +468,6 @@ case+ xs of
     | PTCMPtmplabgua (tl, _) => Some_vt (tl)
     | _ => patcomplst_find_tmplab (xs)
   end // end of [list_cons]
-//
-| list_nil ((*void*)) => None_vt ()
 //
 end // end of [patcomplst_find_tmplab]
 
@@ -486,14 +485,14 @@ in
 //
 case+ xs of
 //
-| list_cons (x, xs) => let
-  in
+| list_cons(x, xs) =>
+  (
     case x of
     | PTCMPtmplabgua (_, kntr) => !kntr
     | _ => patcomplst_find_guafail (xs)
-  end // end of [list_cons]
+  ) (* end of [list_cons] *)
 //
-| list_nil ((*void*)) => PTCKNTnone ()
+| list_nil((*void*)) => PTCKNTnone ()
 //
 end // end of [patcomplst_find_guafail]
 //
@@ -521,7 +520,7 @@ in
 //
 case+ xs of
 | list_nil() =>
-    list_nil(*void*)
+    list_nil((*void*))
   // end of [list_nil]
 | list_cons(x, xs) =>
   (
@@ -558,7 +557,7 @@ in
 //
 case+ xs of
 | list_nil() =>
-    list_nil(*void*)
+    list_nil((*void*))
   // end of [list_nil]
 | list_cons(x, xs) =>
   (
@@ -601,7 +600,7 @@ in
 //
 case+ xs0 of
 | list_nil() =>
-    list_nil(*void*)
+    list_nil((*void*))
   // end of [list_nil]
 | list_cons(x, xs1) =>
   (
@@ -789,6 +788,7 @@ case+ x2 of
         val ismat = patck_ismat (ptck1, ptck2)
         val ((*void*)) =
           tmpmovlst_add (tmvlst, tpmv1, tpmv2)
+        // end of [val]
       in
         if ismat
           then None_vt () else let
@@ -839,25 +839,30 @@ auxmovfin
 ) : void = let
 //
 (*
-val out = stdout_ref
-val ((*void*)) =
-fprintln! (out, "auxmovfin: xs2 = ", xs2)
+//
+val
+out = stdout_ref
+val () =
+  fprintln! (out, "auxmovfin: xs2 = ", xs2)
+//
 *)
 //
 fun ftpmv
 (
-  tpmv2: tmprimval, tmvlst: &tmpmovlst_vt
+  tpmv2: tmprimval
+, tmvlst: &tmpmovlst_vt
 ) : void = 
 (
   case+ tpmv2 of
+  | TPMVnone
+      (pmv) => ((*void*))
   | TPMVsome
       (tmp, pmv) => let
       val tpmv1 = TPMVnone (pmv)
     in
       tmpmovlst_add (tmvlst, tpmv1, tpmv2)
     end // end of [TPMVsome]
-  | TPMVnone (pmv) => ()
-)
+) (* end of [ftpmv] *)
 //
 in
 //
@@ -869,7 +874,7 @@ case+ xs2 of
         (ptck2, tpmv2, _, _, _) => ftpmv (tpmv2, tmvlst)
       // end of [PTCMPpatlparen]
     | PTCMPreclparen (tpmv2, _) => ftpmv (tpmv2, tmvlst) // HX: bug-2013-12-04
-    | _ => auxmovfin (xs2, tmvlst)
+    | _ (*rest-of-PTCMP...lparen*) => auxmovfin (xs2, tmvlst)
   ) (* end of [list_cons] *)
 //
 end // end of [auxmovfin]
@@ -882,6 +887,7 @@ patcomplst_subtest
 //
 var tmvlst
   : tmpmovlst_vt = list_vt_nil ()
+//
 val opt = auxlst (xs10, xs20, tmvlst)
 //
 in
