@@ -46,7 +46,8 @@ dnl = checks for library functions
 dnl = checks for system services
 dnl = AC_CONFIG_FILES([file...])
 
-AC_INIT([ATS2/Postiats], [0.1.11], [gmpostiats@gmail.com])
+dnl = VERSION may have a trailing newline
+AC_INIT([ATS2/Postiats], m4_esyscmd([cat VERSION | tr -d '\n']), [gmpostiats@gmail.com])
 dnl = AC_INIT([ATS2/Postiats], [0.1.10], [gmpostiats@gmail.com])
 dnl = AC_INIT([ATS2/Postiats], [0.1.9], [gmpostiats@gmail.com])
 dnl = AC_INIT([ATS2/Postiats], [0.1.8], [gmpostiats@gmail.com])
