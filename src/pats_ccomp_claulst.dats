@@ -737,19 +737,23 @@ val () = fprintln! (out, "auxlst2: xs2 = ", xs2)
 in
 //
 case+ x2 of
+//
 | PTCMPany _ => let
     var na: int = 0
     val xs1 = patcomplst_unskip (xs10, na)
   in
     auxlst (xs1, xs2, tmvlst)
   end
+//
 | PTCMPvar _ => let
     var na: int = 0
     val xs1 = patcomplst_unskip (xs10, na)
   in
     auxlst (xs1, xs2, tmvlst)
   end
+//
 | PTCMPasvar _ => auxlst (xs10, xs2, tmvlst)
+//
 | PTCMPrparen _ => let
     var na: int = 0
     val xs1 = patcomplst_unrparen (xs10, na)
