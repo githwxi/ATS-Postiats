@@ -1,7 +1,12 @@
+# author: Shea Levy (sheaATshealevyDOTcom)
 let
   pkgs    = import <nixpkgs> {};
-  version = builtins.readFile ./VERSION;
+
+  version = builtins.head (builtins.match "([^\n]*)\n?" (
+    builtins.readFile ../VERSION
+  ));
 in rec {
-  tarball = pkgs.callPackage ./nix/tarball.nix { inherit version; };
-  build   = pkgs.callPackage ./nix/build.nix { inherit tarball version; };
+  tarball = pkgs.callPackage ./tarball.nix { inherit version; };
+
+  build   = pkgs.callPackage ./build.nix { inherit tarball version; };
 }
