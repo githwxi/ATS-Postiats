@@ -171,7 +171,9 @@ atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 srcget_home:: ; $(CPF) ../../AUTHORS $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../COPYING $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../INSTALL $(ATSDIST)/
-srcget_home:: ; $(CPF) ../../VERSION.txt $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../VERSION $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../CHANGES-ats2 $(ATSDIST)/
+srcget_home:: ; $(CPF) ../../CHANGES-contrib $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../configure.ac $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../config.mk.in $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../bin/patscc_env.sh.in $(ATSDIST)/bin/
