@@ -112,9 +112,10 @@ ATSCNTRB/libats-/hwxi\
 
 #packfilename("intinf/SATS/intinf.sats")
 #packfilename("intinf/SATS/intinf_t.sats")
-#packfilename("intinf/SATS/intinf_vt.sats")
 #packfilename("intinf/DATS/intinf_t.dats")
+#packfilename("intinf/SATS/intinf_vt.sats")
 #packfilename("intinf/DATS/intinf_vt.dats")
+#packfilename("intinf/DATS/gintinf_t.dats")
 
 (* ****** ****** *)
 
