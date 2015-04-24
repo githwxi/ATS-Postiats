@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-04-23:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/WDPiTEkZDZQ"
+>ATS2-0.1.11 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-04-07:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/MnWzG2VP2LQ"
@@ -135,6 +143,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2014-12-10:<br>
 <a
  href="https://github.com/githwxi/ATS-Postiats-contrib/blob/master/contrib/libats-/bbarker/NixOS/ats-dev.nix"
@@ -151,7 +161,6 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-<!--
 ATS-2014-12-02:<br>
 <a
  href="http://togetter.com/li/752948"
@@ -161,7 +170,6 @@ at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
 
-<!--
 ATS-2014-12-02:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/HkGtXA88dJU"
@@ -242,6 +250,7 @@ by <a href="http://www.masterq.net">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
+
 -->
 
 </div>
