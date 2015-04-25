@@ -7,7 +7,7 @@ A Programming Language System to Unleash the Potentials of Types and Templates
 ATS/Postiats (or ATS2/Postiats) is the name for the current compiler of
 ATS2, the successor of ATS (or ATS1).
 
-The actual implementation of ATS/Postiats started in the March of 2011, and
+The actual implementation of ATS/Postiats started in March, 2011, and
 it took about two and one-half years to reach the first release of ATS2 at
 the beginning of September, 2013. As of now, the code base for the compiler
 of ATS2 consists of 150,000+ lines of code (LOC), which are nearly all

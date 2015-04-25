@@ -252,9 +252,11 @@ c2laulst1_trdn
 , s2e_res: s2exp
 ) : c3lau (n) = let
 (*
-val () = begin
-  print "c2laulst1_trdn: s2es_pat = "; print s2es_pat; print_newline ();
-end // end of [val]
+val () =
+println!
+(
+  "c2laulst1_trdn: s2es_pat = ", s2es_pat
+) (* end of [val] *)
 *)
 //
 val cp2tcss =
@@ -270,10 +272,10 @@ val lsbis =
   the_d2varenv_save_lstbefitmlst ()
 var lsaft = lstaftc3nstr_initize (lsbis)
 //
-val ctr = c3nstroptref_make_none (c2l.c2lau_loc)
+val ctr =
+  c3nstroptref_make_none (c2l.c2lau_loc)
 val c3l = let
-  val cp2tcss1 = p2atcstlstlst_vt_copy (cp2tcss)
-in
+  val cp2tcss1 = c2lau_pat_any (c2l) in
   c2lau_trdn (casknd, c2l, ctr, d3es, s2es_pat, s2e_res, cp2tcss1)
 end // end of [val]
 val () = lstaftc3nstr_update (lsaft, ctr)
@@ -347,9 +349,11 @@ c2laulst2_trdn{n}
 , d3es, s2es_pat, s2e_res
 ) = let
 (*
-val () = begin
-  print "c2laulst2_trdn: s2es_pat = "; print s2es_pat; print_newline ();
-end // end of [val]
+val () =
+println!
+(
+  "c2laulst2_trdn: s2es_pat = ", s2es_pat
+) (* end of [val] *)
 *)
 //
 val cp2tcss = (
@@ -367,7 +371,7 @@ var lsaft = lstaftc3nstr_initize (lsbis)
 val loc_fst = c2l_fst.c2lau_loc
 val ctr = c3nstroptref_make_none (loc_fst)
 val c3l_fst = let
-  val cp2tcss1 = p2atcstlstlst_vt_copy (cp2tcss) in
+  val cp2tcss1 = c2lau_pat_any (c2l_fst) in
   c2lau_trdn (casknd, c2l_fst, ctr, d3es, s2es_pat, s2e_res, cp2tcss1)
 end // end of [val]
 val () = lstaftc3nstr_update (lsaft, ctr)
@@ -418,20 +422,24 @@ c2laulst2_trdn_rest
 , cp2tcss // : &patcstlstlst_vt
 ) = let
 //
-fun auxred (
-  casknd: caskind, c2l: c2lau, cp2tcss_inter: !p2atcstlstlst_vt
+fun
+auxred (
+  casknd: caskind
+, c2l: c2lau, cp2tcss_inter: !p2atcstlstlst_vt
 ) :<cloref1> void = let
 //
-fun auxerr (
+fun
+auxerr (
   xss: !p2atcstlstlst_vt
 ) :<cloref1> void = let
   val isnil = list_vt_is_nil (xss)
-  val () = if isnil then {
+  val () =
+  if isnil then {
     val () = prerr_error3_loc (c2l.c2lau_loc)
     val () = prerr ": this pattern match clause is redundant."
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_c2laulst2_trdn_redundant (loc0, c2l))
-  } // end of [val]
+  } (* end of [val] *)
 in
   // nothing
 end // end of [auxerr]
@@ -445,7 +453,8 @@ case+ casknd of
 //
 end // end of [auxred]
 //
-fun auxmain (
+fun
+auxmain (
   c2ls: c2laulst
 , lsbis: lstbefitmlst
 , lsaft: !lstaftc3nstr
@@ -459,8 +468,10 @@ case+ c2ls of
     val p2tcs_c2l = p2at2cstlst (c2l.c2lau_pat)
 (*
     val () = begin
-      print "c2laulst2_trdn_rest: p2tcs = "; print p2tcs; print_newline ();
-      print "c2laulst2_trdn_rest: cp2tcss =\n"; print cp2tcss; print_newline ();
+      print "c2laulst2_trdn_rest: p2tcs = ";
+      print_p2atcstlst p2tcs_c2l; print_newline ();
+      print "c2laulst2_trdn_rest: cp2tcss =\n";
+      print_p2atcstlstlst_vt cp2tcss; print_newline ();
     end (* end of [val] *)
 *)
     val cp2tcss_inter = let
@@ -471,8 +482,9 @@ case+ c2ls of
         | list_vt_cons
             (!p1_xs, !p2_xss) => let
             val res = aux (!p2_xss)
-            val test = p2atcstlst_inter_test
-              ($UN.castvwtp1 {p2atcstlst}{p2atcstlst_vt} (!p1_xs), p2tcs_c2l)
+            val test =
+            p2atcstlst_inter_test
+              ($UN.castvwtp1{p2atcstlst}{p2atcstlst_vt}(!p1_xs), p2tcs_c2l)
             // end of [val]
           in
             if test then let
@@ -484,16 +496,17 @@ case+ c2ls of
               prval () = fold@ (xss) in res
             end // end of [if]
           end // end of [list_vt_cons]
-        | list_vt_nil () => (fold@ (xss); list_vt_nil)
+        | list_vt_nil((*void*)) => (fold@ (xss); list_vt_nil())
       // end of [aux]
     in
       aux (cp2tcss)
     end // end of [let] // end of [val]
 (*
-    val () = begin
-      print "c2laulst2_trdn_rest: auxmain";
-      print ": cp2tcss_inter =\n"; print_p2atcstlstlst_vt (cp2tcss_inter); print_newline ()
-    end // end of [val]
+    val () = (
+      print "c2laulst2_trdn_rest;
+      print ": auxmain: cp2tcss_inter =\n";
+      print_p2atcstlstlst_vt (cp2tcss_inter); print_newline ()
+    ) (* end of [val] *)
 *)
     val () = auxred (casknd, c2l, cp2tcss_inter) // HX: redundancy checking
 //
@@ -599,9 +612,12 @@ val d3es = d2explst_trup (d2es)
 val _(*void*) = d3explst_open_and_add (d3es)
 val s2es_pat = list_map_fun (d3es, d3exp_get_type)
 val c3ls = let
-  val s2es1_pat = __cast (s2es_pat) where {
-    extern castfn __cast {n:int} (xs: !list_vt (s2exp, n)): list (s2exp, n)
-  } // end of [val]
+  val s2es1_pat =
+  __cast (s2es_pat) where {
+    extern
+    castfn
+    __cast {n:int}(xs: !list_vt(s2exp, n)): list(s2exp, n)
+  } // end of [where] // end of [val]
 in
   c2laulst_trdn (loc0, casknd, invres, c2ls, d3es, s2es1_pat, s2e0)
 end // end of [val]

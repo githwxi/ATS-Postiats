@@ -712,6 +712,18 @@ end // end of [labp2atcst_comp]
 (* ****** ****** *)
 
 implement
+c2lau_pat_any
+  (c2l) = let
+//
+val p2ts = c2l.c2lau_pat
+//
+in
+  list_vt_sing(list_map_fun(p2ts, lam(_) =<fun1> P2TCany()))
+end // end of [c2lau_pat_any]
+
+(* ****** ****** *)
+
+implement
 c2lau_pat_comp
   (c2l) = let
 //
