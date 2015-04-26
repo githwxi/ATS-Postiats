@@ -1267,7 +1267,7 @@ in '{
 implement
 p0at_i0de (id) = '{
   p0at_loc= id.i0de_loc, p0at_node= P0Tide id.i0de_sym
-} (* end of [p2at_i0de] *)
+} (* end of [p0at_i0de] *)
 
 implement
 p0at_dqid (ent1, ent2) = let

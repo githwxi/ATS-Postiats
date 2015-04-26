@@ -342,8 +342,8 @@ case+ s2e0.s2exp_node of
 | S2EVar _ => s2e0
 | S2Ehole _ => s2e0
 //
-| S2Edatconptr _ => s2e0
 | S2Edatcontyp _ => s2e0
+| S2Edatconptr _ => s2e0
 //
 | S2Eat _ => s2e0
 | S2Esizeof _ => s2e0

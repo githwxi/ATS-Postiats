@@ -340,7 +340,7 @@ case+ tok.token_node of
     val ent2 = p_LPAREN (buf, bt, err)
     val ent3 = (
       if err = err0 then
-        pstar_fun0_COMMA {p0at} (buf, bt, p_p0at) else list_vt_nil ()
+        pstar_fun0_COMMA{p0at}(buf, bt, p_p0at) else list_vt_nil()
       // end of [if]
     ) : p0atlst_vt // end of [val]
     val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
@@ -351,6 +351,35 @@ case+ tok.token_node of
       val () = list_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
   end
+//
+| T_DLRTUP (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err)
+    val ent3 = p_p0atseq_BAR_p0atseq (buf, bt, err)
+    val ent4 = p_RPAREN (buf, bt, err) // err = err0
+  in
+    if err = err0 then 
+      p0at_tup12 (knd, tok, ent3, ent4)
+    else let
+      val () = list12_free (ent3) in synent_null ()
+    end (* end of [if] *)
+  end
+//
+| T_DLRREC (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err)
+    val ent3 = p_labp0atseq_BAR_labp0atseq (buf, bt, err)
+    val ent4 = p_RPAREN (buf, bt, err) // err = err0
+  in
+    if err = err0 then 
+      p0at_rec12 (knd, tok, ent3, ent4)
+    else let
+      val () = list12_free (ent3) in synent_null ()
+    end (* end of [if] *)
+  end
+//
 (*
 //
 // HX-2014-07:
