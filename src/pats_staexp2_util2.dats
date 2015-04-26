@@ -956,26 +956,26 @@ case s2en10 of
   | _ (* non-S2EVar *) => $raise (SYNEQexn)
   ) (* end of [S2EVar] *)
 //
-| S2Edatcontyp
-    (d2c1, arg1) => (
-  case+ s2en20 of
-  | S2Edatcontyp
-      (d2c2, arg2) => (
-    if eq_d2con_d2con (d2c1, d2c2) then
-      s2explst_syneq_exn(arg1, arg2) else $raise(SYNEQexn)
-    ) // end of [S2Edatcontyp]
-  | _ (* non-S2Edatcontyp *) => $raise (SYNEQexn)
-  ) (* end of [S2Edatcontyp] *)
 | S2Edatconptr
     (d2c1, rt1, _) => (
   case+ s2en20 of
   | S2Edatconptr
       (d2c2, rt2, _) => (
-    if eq_d2con_d2con (d2c1, d2c2)
+    if (d2c1 = d2c2)
       then s2exp_syneq_exn (rt1, rt2) else $raise(SYNEQexn)
     ) // end of [S2Edatconptr]
   | _ (* non-S2Edatconptr *) => $raise (SYNEQexn)
   ) (* end of [S2Edatconptr] *)
+| S2Edatcontyp
+    (d2c1, arg1) => (
+  case+ s2en20 of
+  | S2Edatcontyp
+      (d2c2, arg2) => (
+    if (d2c1 = d2c2)
+      then s2explst_syneq_exn(arg1, arg2) else $raise(SYNEQexn)
+    ) // end of [S2Edatcontyp]
+  | _ (* non-S2Edatcontyp *) => $raise (SYNEQexn)
+  ) (* end of [S2Edatcontyp] *)
 //
 | S2Eeff (s2fe1) => (
   case+ s2en20 of
@@ -1336,6 +1336,28 @@ case+ s2en10 of
     if s2V1 = s2V2 then true else false
   | _ (* non-S2EVar *) => false
   ) (* end of [S2EVar] *)
+//
+| S2Edatconptr
+    (d2c1, rt1, _) => (
+  case+ s2en20 of
+  | S2Edatconptr
+      (d2c2, rt2, _) => (
+    if (d2c1 = d2c2)
+      then s2exp_syneq_env (env1, env2, rt1, rt2) else false
+    ) // end of [S2Edatconptr]
+  | _ (* non-S2Edatconptr *) => false
+  ) (* end of [S2Edatconptr] *)
+| S2Edatcontyp
+    (d2c1, arg1) => (
+  case+ s2en20 of
+  | S2Edatcontyp
+      (d2c2, arg2) => (
+    if (d2c1 = d2c2)
+      then s2explst_syneq_env(env1, env2, arg1, arg2) else false
+    // end of [if]
+    ) // end of [S2Edatcontyp]
+  | _ (* non-S2Edatcontyp *) => false
+  ) (* end of [S2Edatcontyp] *)
 //
 | S2Eeqeq
     (s2e11, s2e12) => (
