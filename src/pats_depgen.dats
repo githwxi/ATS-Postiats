@@ -60,23 +60,10 @@ viewtypedef pathlst_vt = List_vt (path)
 (* ****** ****** *)
 //
 extern
-fun pathtry_staloadarg
-  (arg: staloadarg): Option_vt (string)
-extern
-fun pathtry_givename
-  (givename: string): Option_vt (string)
+fun
+pathtry_givename
+  (given: string): Option_vt (string)
 //
-(* ****** ****** *)
-
-implement
-pathtry_staloadarg (arg) =
-(
-  case+ arg of
-  | STLDfname
-      (loc, name) => pathtry_givename (name)
-  | _ => None_vt (*void*)
-) (* end of [pathtry_staloadarg] *)
-
 (* ****** ****** *)
 
 implement
@@ -98,6 +85,10 @@ in
       (p, ps) => let
       val pname =
         $FIL.filename_append (p, given)
+      // end of [val]
+(*
+      val test = true
+*)
       val test = test_file_exists ((p2s)pname)
     in
       if test then let
@@ -138,6 +129,23 @@ case+ knd of
 //
 end // end of [pathtry_givename]
 
+(* ****** ****** *)
+//
+extern
+fun
+pathtry_staloadarg
+  (arg: staloadarg): Option_vt (string)
+//
+implement
+pathtry_staloadarg (arg) =
+(
+  case+ arg of
+  | STLDfname
+      (loc, name) => pathtry_givename (name)
+    // end of [STLDfname]
+  | _ => None_vt (*void*)
+) (* end of [pathtry_staloadarg] *)
+//
 (* ****** ****** *)
 
 typedef
