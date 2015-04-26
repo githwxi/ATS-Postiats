@@ -350,11 +350,16 @@ fun filenv_get_name (x: filenv): filename
 // static items
 //
 datatype s2itm =
+//
   | S2ITMvar of s2var
+//
   | S2ITMcst of s2cstlst
+//
   | S2ITMe1xp of e1xp
+//
   | S2ITMdatcontyp of d2con
   | S2ITMdatconptr of d2con
+//
   | S2ITMfilenv of filenv
 // end of [s2itm]
 
