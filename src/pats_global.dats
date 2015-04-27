@@ -225,6 +225,21 @@ end // end of [local]
 
 local
 //
+val rtlcalopt = ref<int> (1)
+//
+in
+//
+implement
+the_CCOMPATS_tlcalopt_get () = !rtlcalopt
+implement
+the_CCOMPATS_tlcalopt_set (flag) = !rtlcalopt := flag
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
 val
 rmaxtmprecdepth = ref<int> (CCOMPENV_MAXTMPRECDEPTH)
 //

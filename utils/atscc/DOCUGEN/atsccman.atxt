@@ -167,7 +167,13 @@ is unnecessary if the name of the file ends with the extension
 #uemph(".dats").
 
 <li>
-#uemph("-CSignore"):
+#uemph("--tlcalopt-disable"):
+This flag indicates that tail-call optimization (for turning each recursive
+tail-call into a local jump) is disabled. In general, a proper justification
+is expected for disabling tail-call optimization.
+
+<li>
+#uemph("--constraint-ignore"):
 This flag indicates that constaint-solving is to be ignored during
 typechecking.  Note that this is a dangerous flag and it is only suggested
 to be used with proper justification.

@@ -37,10 +37,12 @@ staload
 ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/unsafe.dats"
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*anon*) = "prelude/DATS/unsafe.dats"
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"

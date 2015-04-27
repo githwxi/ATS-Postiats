@@ -446,6 +446,7 @@ fprintln! (out, "  --debug (for enabling the generation of more informative erro
 fprintln! (out, "  --debug2 (for enabling the generation of debugging information in target code)");
 fprintln! (out, "  --pkgreloc (for generating a script to help relocate packages in need)");
 fprintln! (out, "  --jsonize-2 (for output level-2 syntax in JSON format)");
+fprintln! (out, "  --tlcalopt-disable (for disabling tail-call optimization)");
 fprintln! (out, "  --constraint-export (for exporting constraints in JSON format)");
 fprintln! (out, "  --constraint-ignore (for entirely ignoring constraint-solving)");
 fprint_newline (out);
@@ -1632,6 +1633,11 @@ case+ key of
   } (* end of [--pkgreloc] *)
 //
 | "--jsonize-2" => (state.jsonizeflag := 2)
+//
+| "--tlcalopt-disable" =>
+  {
+    val () = $GLOB.the_CCOMPATS_tlcalopt_set(0)
+  }
 //
 | "--constraint-export" =>
   {

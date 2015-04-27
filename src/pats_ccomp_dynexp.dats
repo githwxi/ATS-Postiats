@@ -54,6 +54,11 @@ implement
 prerr_FILENAME<> () = prerr "pats_ccomp_dynexp"
 //
 (* ****** ****** *)
+//
+staload
+GLOB = "./pats_global.sats"
+//  
+(* ****** ****** *)
 
 staload
 LOC = "./pats_location.sats"
@@ -1214,7 +1219,15 @@ val pmv_fun = hidexp_ccomp (env, res, hde_fun)
 val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
 //
 var added: int = 0
-val isret = tmpvar_isret (tmpret)
+//
+val
+tlcalopt =
+  $GLOB.the_CCOMPATS_tlcalopt_get()
+//
+val isret =
+(
+  if tlcalopt > 0 then tmpvar_isret (tmpret) else false
+) : bool // end of [val]
 //
 (*
 val () =

@@ -93,15 +93,13 @@ fun the_DEBUGATS_dbgline_get (): int
 fun the_DEBUGATS_dbgline_set (flag: int): void
 //
 (* ****** ****** *)
-
-(*
 //
-// HX-2015-01-11:
+// HX-2015-04-26:
 // for managing tail-call optimization
 //
-fun the_CCOMPATS_tailcalopt_get (): int // 0/1: no/yes
-*)
-
+fun the_CCOMPATS_tlcalopt_get (): int
+fun the_CCOMPATS_tlcalopt_set (flag: int): void
+//
 (* ****** ****** *)
 
 fun the_CCOMPENV_maxtmprecdepth_get (): int

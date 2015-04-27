@@ -54,7 +54,8 @@ datatype commarg =
 //
   | CAfilats of (int(*knd*), stropt) // knd=0/1:-fsats/-fdats
 //
-  | CA_CSignore // -CSignore: ignoring constraint-solving
+  | CA_tlcalopt_disable // --tlcalopt-disable
+  | CA_constraint_ignore // --constraint-ignore
 //
   | CA_CCOMPitm of string // any generic item is passed to $(CCOMP)
 // end of [commarg]

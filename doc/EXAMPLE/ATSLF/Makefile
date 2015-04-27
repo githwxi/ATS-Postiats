@@ -119,7 +119,8 @@ cleanall:: ; $(RMF) YonedaLemma
 all:: \
 CoYonedaLemma
 CoYonedaLemma: \
-CoYonedaLemma.dats ; $(PATSCC) -CSignore -DATS_MEMALLOC_LIBC -o $@ $<
+CoYonedaLemma.dats ; \
+$(PATSCC) --constraint-ignore -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: CoYonedaLemma ; ./$<
 cleanall:: ; $(RMF) CoYonedaLemma
 

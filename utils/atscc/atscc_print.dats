@@ -129,7 +129,8 @@ case+ ca of
     prstr "CAfilats(1, "; propt (opt); prstr ")"
   )
 //
-| CA_CSignore () => prstr "CA_CSignore()"  
+| CA_tlcalopt_disable() => prstr "CA_tlcalopt_disable"
+| CA_constraint_ignore() => prstr "CA_constraint_ignore"
 //
 | CA_CCOMPitm (itm) =>
   (
@@ -375,7 +376,8 @@ case+ ca of
     if issome (opt) then aux_fdats (out, unsome(opt))
   )
 //
-| CA_CSignore () => ()
+| CA_tlcalopt_disable () => ()
+| CA_constraint_ignore () => ()
 //
 | CA_CCOMPitm (itm) => aux_CCOMPitm (out, itm)
 //

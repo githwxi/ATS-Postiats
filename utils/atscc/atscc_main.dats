@@ -301,8 +301,17 @@ case+ 0 of
 | _ when isfilhats(str0) => // HX-2014-10-17:
     aux1_fdats (n, argv, i+0, res) // hats -> dats
 //
-| _ when (str0="-CSignore") => let
-    val res = list_vt_cons{ca}(CA_CSignore(), res)
+| _ when (
+    str0="--tlcalopt-disable"
+  ) => let
+    val res = list_vt_cons{ca}(CA_tlcalopt_disable(), res)
+  in
+    aux0 (n, argv, i+1, res)
+  end // end of [_ when ...]
+| _ when (
+    str0="--constraint-ignore"
+  ) => let
+    val res = list_vt_cons{ca}(CA_constraint_ignore(), res)
   in
     aux0 (n, argv, i+1, res)
   end // end of [_ when ...]
@@ -501,7 +510,15 @@ case+ ca of
     if issome (opt) then aux_iats (unsome(opt), res)
   )
 //
-| CA_CSignore () =>
+| CA_tlcalopt_disable () =>
+  {
+    val (
+    ) = res :=
+      list_vt_cons{string}("--tlcalopt-disable", res)
+    // end of [val]
+  }
+//
+| CA_constraint_ignore () =>
   {
     val (
     ) = res :=
@@ -682,10 +699,12 @@ case+ cas2 of
         auxlst (cas1, cas2, ress)
       end (* end of [CAfilats] *)
 //
-    | CA_CSignore () => let
-        val cas1 =
-          snoc (cas1, ca2) in auxlst (cas1, cas2, ress)
-      end (* end of [CA_CSignore] *)
+    | CA_tlcalopt_disable() => let
+        val cas1 = snoc (cas1, ca2) in auxlst (cas1, cas2, ress)
+      end (* end of [CA_tlcalopt_disable] *)
+    | CA_constraint_ignore() => let
+        val cas1 = snoc (cas1, ca2) in auxlst (cas1, cas2, ress)
+      end (* end of [CA_constraint_ignore] *)
 //
     | _(*ignored*) => auxlst (cas1, cas2, ress)
 //
@@ -762,7 +781,8 @@ case+ ca of
     if issome (opt) then aux_fdats (unsome(opt), res)
   )
 //
-| CA_CSignore () => ()
+| CA_tlcalopt_disable () => ()
+| CA_constraint_ignore () => ()
 //
 | CA_CCOMPitm (item) => aux_CCOMPitm (item, res)
 //
