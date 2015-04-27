@@ -23,7 +23,7 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Fixing a bug involving the sequentiality of pattern matching.
-   Please see doc/BUGS/bug-2015-04-15.dats for more details on it.
+   Please see doc/BUGS/bug-2015-04-15.dats for more on this one.
 2. Improving s2exp_syneq2 by adding a couple of missing cases:
    S2Edatcontyp and S2Edatconptr
 3. Adding patterns of the form: $tup(...) and $rec(...)
