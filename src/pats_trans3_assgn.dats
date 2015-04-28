@@ -257,7 +257,7 @@ in
 //
 if ~tszeq then let
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": assginment cannot be performed"
+  val () = prerr ": assignment cannot be performed"
   val () = prerr ": mismatch of bef/aft type-sizes:\n"
   val () = (prerr "bef: ["; prerr_s2exp (s2e1); prerr "]")
   val () = prerr_newline ((*void*))
