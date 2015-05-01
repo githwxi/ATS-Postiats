@@ -82,15 +82,15 @@ intrange_rforeach_cloref
 #atscode_separator()
 //
 fun{}
-intrange_foreach2
+intrange2_foreach
   (l1: int, r1: int, l2: int, r2: int): void
 //
 fun{env:vt0p}
-intrange_foreach2_env
+intrange2_foreach_env
   (l1: int, r1: int, l2: int, r2: int, env: &(env) >> _): void
 //
 fun{env:vt0p}
-intrange_foreach2$fwork (i: int, j: int, env: &env >> _): void
+intrange2_foreach$fwork (i: int, j: int, env: &env >> _): void
 //
 #atscode_separator()
 
