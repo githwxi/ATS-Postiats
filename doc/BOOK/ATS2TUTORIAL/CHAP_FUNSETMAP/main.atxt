@@ -22,7 +22,7 @@ Functional sets and maps are immutable after their construction.  Insertion
 into or removal from a functional set/map results in the construction of a
 new set/map while the original is kept intact. Usually the newly
 constructed set/map and the original one share a lot of underlying
-representation. Note that a function set/map cannot be safely freed
+representation. Note that a functional set/map cannot be safely freed
 explicitly and the memory for representing it can only be reclaimed through
 garbage collection (GC).
 
