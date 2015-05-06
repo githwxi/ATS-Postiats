@@ -67,6 +67,7 @@ typedef filename = $FIL.filename
 staload
 SYN = "./pats_syntax.sats"
 typedef c0har = $SYN.c0har
+typedef f0loat = $SYN.f0loat
 typedef sl0abeled (a:type) = $SYN.sl0abeled (a)
 
 (* ****** ****** *)
@@ -430,9 +431,7 @@ s2exp_node =
   | S2Echar of char // chars have been removed for now
 *)
 //
-(*
-  | S2Ereal of double // static reals are yet to be supported
-*)
+  | S2Efloat of f0loat // static floating point numbers
 //
   | S2Ecst of s2cst // constant
 //
@@ -1042,6 +1041,9 @@ fun s2exp_int_uchar (c: uchar): s2exp
 fun s2exp_bool (b: bool): s2exp // HX: in stacst.sats
 fun s2exp_char (c: char): s2exp // HX: merged into S2Eint
 *)
+//
+fun s2exp_float (f: f0loat): s2exp // HX: for exporting
+//
 fun s2exp_cst (x: s2cst): s2exp // HX: static constant
 fun s2exp_var (x: s2var): s2exp // HX: static variable
 fun s2exp_Var (x: s2Var): s2exp // HX: static existential variable

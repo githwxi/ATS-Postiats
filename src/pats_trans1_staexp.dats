@@ -239,25 +239,12 @@ fun
 aux_item (
   s0e0: s0exp
 ) : s1expitm = let
-  val loc0 = s0e0.s0exp_loc in
-  case+ s0e0.s0exp_node of
 //
-  | S0Eint (int) => FXITMatm (s1exp_i0nt (loc0, int))
-  | S0Echar (char) => FXITMatm (s1exp_c0har (loc0, char))
+val loc0 = s0e0.s0exp_loc
 //
-  | S0Eextype
-      (name, s0es) => let
-      val s1ess = list_map_fun (s0es, aux_extarg)
-    in
-      FXITMatm (s1exp_extype (loc0, name, (l2l)s1ess))
-    end // end of [S0Eextype]
+in
 //
-  | S0Eextkind
-      (name, s0es) => let
-      val s1ess = list_map_fun (s0es, aux_extarg)
-    in
-      FXITMatm (s1exp_extkind (loc0, name, (l2l)s1ess))
-    end // end of [S0Eextkind]
+case+ s0e0.s0exp_node of
 //
   | S0Eide id when id = AMPERSAND => let
       fn f (
@@ -347,8 +334,27 @@ aux_item (
       | ~Some_vt f => s1exp_make_opr (s1e, f) | ~None_vt () => FXITMatm (s1e)
       // end of [case]
     end // end of [S0Eide]
+//
   | S0Eopid (id) => FXITMatm (s1exp_ide (loc0, id))
   | S0Esqid (sq, id) => FXITMatm (s1exp_sqid (loc0, sq, id))
+//
+  | S0Eint (int) => FXITMatm (s1exp_i0nt (loc0, int))
+  | S0Echar (char) => FXITMatm (s1exp_c0har (loc0, char))
+  | S0Efloat (ftok) => FXITMatm (s1exp_f0loat (loc0, ftok))
+//
+  | S0Eextype
+      (name, s0es) => let
+      val s1ess = list_map_fun (s0es, aux_extarg)
+    in
+      FXITMatm (s1exp_extype (loc0, name, (l2l)s1ess))
+    end // end of [S0Eextype]
+//
+  | S0Eextkind
+      (name, s0es) => let
+      val s1ess = list_map_fun (s0es, aux_extarg)
+    in
+      FXITMatm (s1exp_extkind (loc0, name, (l2l)s1ess))
+    end // end of [S0Eextkind]
 //
   | S0Eapp _ => let 
       val s1e_app = fixity_resolve (
@@ -460,6 +466,7 @@ aux_item (
       val () = assertloc (false) in $ERR.abort_interr((*deadcode*))
     end (* end of [_] *)
 *)
+//
 end // end of [aux_item]
 //
 and aux_itemlst

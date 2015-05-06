@@ -332,6 +332,8 @@ case+ s2e0.s2exp_node of
 | S2Eint _ => s2e0
 | S2Eintinf _ => s2e0
 //
+| S2Efloat _ => s2e0
+//
 | S2Ecst _ => s2e0
 //
 | S2Eextype _ => s2e0
@@ -339,7 +341,10 @@ case+ s2e0.s2exp_node of
 //
 | S2Evar (s2v) =>
     s2exp_hnfize_flag_svar (s2e0, s2v, flag)
+  // end of [S2Evar]
+//
 | S2EVar _ => s2e0
+//
 | S2Ehole _ => s2e0
 //
 | S2Edatcontyp _ => s2e0

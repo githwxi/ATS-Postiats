@@ -55,6 +55,8 @@ case+ s2e0.s2exp_node of
 | S2Eint _ => ()
 | S2Eintinf _ => ()
 //
+| S2Efloat _ => ()
+//
 | S2Ecst _ => ()
 //
 | S2Eextype (_(*name*), s2ess) => aux_s2explstlst (s2ess, fvs)
@@ -456,6 +458,8 @@ case+ s2e.s2exp_node of
 //
 | S2Eint _ => ()
 | S2Eintinf _ => ()
+//
+| S2Efloat _ => ()
 //
 | S2Ecst s2c => f_s2cst (s2c)
 //

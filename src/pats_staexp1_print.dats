@@ -87,12 +87,21 @@ implement prerr_v1al (x) = fprint_v1al (stderr_ref, x)
 (* ****** ****** *)
 
 implement
-fprint_e1xp (out, e0) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+fprint_e1xp
+  (out, e0) = let
+//
+macdef
+prstr (s) = fprint_string (out, ,(s))
+//
 in
 //
-case+ e0.e1xp_node of
-| E1XPide (id) => fprint_symbol (out, id)
+case+
+e0.e1xp_node
+of // case+
+//
+| E1XPide (id) =>
+    fprint_symbol (out, id)
+  // end of [E1XPide]
 //
 | E1XPint (int) => {
     val () = prstr "E1XPint("
@@ -356,9 +365,15 @@ case+ x.s1exp_node of
     val () = fprint_string (out, rep)
     val () = prstr ")"
   }
+//
 | S1Echar (char) => {
     val () = prstr "S1Echar("
     val () = fprint_char (out, char)
+    val () = prstr ")"
+  }
+| S1Efloat (ftok) => {
+    val () = prstr "S1Efloat("
+    val () = $LEX.fprint_token (out, ftok)
     val () = prstr ")"
   }
 //

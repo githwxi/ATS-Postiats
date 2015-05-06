@@ -863,6 +863,8 @@ case+ s2e0.s2exp_node of
 | S2Eint _ => s2e0
 | S2Eintinf _ => s2e0
 //
+| S2Efloat _ => s2e0
+//
 | S2Ecst _ => s2e0
 //
 | S2Eextype

@@ -323,9 +323,16 @@ sp1at_cstr
 (* ****** ****** *)
 
 implement
-s1exp_char (loc, c) = '{
-  s1exp_loc= loc, s1exp_node= S1Echar (c)
-} // end of [s1exp_char]
+s1exp_ide (loc, id) = '{
+  s1exp_loc= loc, s1exp_node= S1Eide (id)
+} // end of [s1exp_ide]
+
+implement
+s1exp_sqid (loc, sq, id) = '{
+  s1exp_loc= loc, s1exp_node= S1Esqid (sq, id)
+} // end of [s1exp_sqid]
+
+(* ****** ****** *)
 
 implement
 s1exp_int
@@ -349,12 +356,26 @@ in
   s1exp_intrep (loc, rep)
 end // end of [s1exp_i0nt]
 
+(* ****** ****** *)
+
+implement
+s1exp_char (loc, c) = '{
+  s1exp_loc= loc, s1exp_node= S1Echar (c)
+} // end of [s1exp_char]
+
 implement
 s1exp_c0har (loc, x) = let
   val-$LEX.T_CHAR (c) = x.token_node
 in '{
   s1exp_loc= loc, s1exp_node= S1Echar (c)
 } end // end of [s1exp_c0har]
+
+(* ****** ****** *)
+
+implement
+s1exp_f0loat (loc, x) = '{
+  s1exp_loc= loc, s1exp_node= S1Efloat (x)
+} (* end of [s1exp_f0loat] *)
 
 (* ****** ****** *)
 
@@ -369,16 +390,6 @@ s1exp_extkind (loc, name, arg) = '{
 }
 
 (* ****** ****** *)
-
-implement
-s1exp_ide (loc, id) = '{
-  s1exp_loc= loc, s1exp_node= S1Eide (id)
-} // end of [s1exp_ide]
-
-implement
-s1exp_sqid (loc, sq, id) = '{
-  s1exp_loc= loc, s1exp_node= S1Esqid (sq, id)
-}
 
 implement
 s1exp_app (

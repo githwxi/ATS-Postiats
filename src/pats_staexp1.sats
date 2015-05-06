@@ -419,13 +419,15 @@ fun sp1at_cstr
 
 datatype s1exp_node =
 //
-  | S1Eide of (symbol) // static identifier
-  | S1Esqid of (s0taq, symbol) // qualified static identifier
+  | S1Eide of (symbol) // identifier
+  | S1Esqid of (s0taq, symbol) // qualified ID
 //
   | S1Eint of int
   | S1Eintrep of string(*rep*)
 //
   | S1Echar of char // character constant
+//
+  | S1Efloat of f0loat // floating-point constant
 //
   | S1Eextype of (string(*name*), s1explstlst) // extern type
   | S1Eextkind of (string(*name*), s1explstlst) // extern tkind
@@ -501,15 +503,17 @@ and s1qualstlst = List (s1qualst)
 
 (* ****** ****** *)
 
-fun s1exp_char (loc: location, c: char): s1exp
-fun s1exp_c0har (loc: location, c: c0har): s1exp
-
 fun s1exp_int
   (loc: location, i: int): s1exp
 fun s1exp_intrep
   (loc: location, rep: string): s1exp
 fun s1exp_i0nt
   (loc: location, x: i0nt): s1exp
+
+fun s1exp_char (loc: location, c: char): s1exp
+fun s1exp_c0har (loc: location, c: c0har): s1exp
+
+fun s1exp_f0loat (loc: location, f: f0loat): s1exp
 
 fun s1exp_extype (
   loc: location, name: string, arg: s1explstlst
