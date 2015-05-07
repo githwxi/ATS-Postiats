@@ -201,8 +201,9 @@ s2exp_int_uchar (c) = s2exp_int (int_of_uchar(c))
 (* ****** ****** *)
 
 implement
-s2exp_float (tok) = hnf '{
-  s2exp_srt= s2rt_real, s2exp_node= S2Efloat (tok)
+s2exp_float
+  (ftok) = hnf '{
+  s2exp_srt= s2rt_float, s2exp_node= S2Efloat(ftok)
 } // end of [s2exp_float]
 
 (* ****** ****** *)

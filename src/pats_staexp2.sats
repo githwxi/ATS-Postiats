@@ -240,24 +240,27 @@ fun fprint_s2rtlst : fprint_type (s2rtlst)
 
 (* ****** ****** *)
 //
-// HX: pre-defined predicative sorts
+// HX:
+// pre-defined predicative sorts
 //
 val s2rt_int : s2rt // integers
 val s2rt_bool : s2rt // booleans
 val s2rt_addr : s2rt // addresses
+//
 (*
 val s2rt_char : s2rt // = s2rt_int
 *)
 //
-val s2rt_real : s2rt // real numbers
+val s2rt_float : s2rt // floating-point
 //
-val s2rt_cls : s2rt // nominal classes
+val s2rt_cls : s2rt (* nominal classes *)
 //
-val s2rt_eff : s2rt // sets of effects
+val s2rt_eff : s2rt (* sets of effects *)
 //
 val s2rt_tkind : s2rt // for template arguments
 //
-// HX: pre-defined predicative sorts
+// HX:
+// pre-defined impredicative sorts
 //
 val s2rt_prop : s2rt
 val s2rt_prop_pos : s2rt
@@ -302,7 +305,7 @@ fun s2rt_is_bool (x: s2rt): bool
 fun s2rt_is_char (x: s2rt): bool
 *)
 //
-fun s2rt_is_real (x: s2rt): bool
+fun s2rt_is_float (x: s2rt): bool
 //
 fun s2rt_is_dat (x: s2rt): bool
 //
