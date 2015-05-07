@@ -511,6 +511,11 @@ case+ x.s0exp_node of
     val () = fprint_f0loat (out, x)
     val () = prstr ")"
   }
+| S0Estring (x) => {
+    val () = prstr "S0Estring("
+    val () = fprint_s0tring (out, x)
+    val () = prstr ")"
+  }
 //
 | S0Eextype
     (name, s0es) => {

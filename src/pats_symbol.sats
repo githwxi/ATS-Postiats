@@ -104,6 +104,7 @@ val symbol_CHAR : symbol
 *)
 //
 val symbol_FLOAT : symbol
+val symbol_STRING : symbol
 //
 val symbol_CLS : symbol // for nominal classes
 //

@@ -1812,6 +1812,7 @@ case+ s1e0.s1exp_node of
 | S1Echar (c) => s2exp_int_char (c) // HX: it is signed!
 //
 | S1Efloat (ftok) => s2exp_float (ftok) // HX: for exporting
+| S1Estring (stok) => s2exp_string (stok) // HX: for exporting
 //
 | S1Eextype
     (name, s1ess) => let

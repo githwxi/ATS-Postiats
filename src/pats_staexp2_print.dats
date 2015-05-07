@@ -57,7 +57,6 @@ macdef fprint_symbol = $SYM.fprint_symbol
 //
 (* ****** ****** *)
 //
-staload LEX = "./pats_lexing.sats"
 staload SYN = "./pats_syntax.sats"
 //
 (* ****** ****** *)
@@ -277,7 +276,12 @@ case+ x.s2exp_node of
 //
 | S2Efloat (x) => {
     val () = prstr "S2Efloat("
-    val () = $LEX.fprint_token (out, x)
+    val () = $SYN.fprint_f0loat (out, x)
+    val () = prstr ")"
+  }
+| S2Estring (x) => {
+    val () = prstr "S2Estring("
+    val () = $SYN.fprint_s0tring (out, x)
     val () = prstr ")"
   }
 //

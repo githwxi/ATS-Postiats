@@ -129,6 +129,7 @@ val s2tb_char: s2rtbas = S2RTBASpre ($SYM.symbol_CHAR)
 *)
 //
 val s2tb_float: s2rtbas = S2RTBASpre ($SYM.symbol_FLOAT)
+val s2tb_string: s2rtbas = S2RTBASpre ($SYM.symbol_STRING)
 //
 val s2tb_cls
   : s2rtbas = S2RTBASpre ($SYM.symbol_CLS) // for nominal classes
@@ -150,6 +151,7 @@ implement s2rt_char = S2RTbas s2tb_char
 *)
 //
 implement s2rt_float = S2RTbas s2tb_float
+implement s2rt_string = S2RTbas s2tb_string
 //
 implement s2rt_cls = S2RTbas s2tb_cls
 //

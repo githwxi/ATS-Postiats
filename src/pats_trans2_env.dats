@@ -1348,6 +1348,7 @@ the_s2rtenv_initialize
 *)
 //
   val () = the_s2rtenv_add ($SYM.symbol_FLOAT, S2TEsrt s2rt_float)
+  val () = the_s2rtenv_add ($SYM.symbol_STRING, S2TEsrt s2rt_string)
 //
   val () = the_s2rtenv_add ($SYM.symbol_CLS, S2TEsrt s2rt_cls) // classes
 //

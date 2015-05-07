@@ -475,6 +475,10 @@ tok.token_node of
     val () = incby1 () in s0exp_f0loat (tok)
   end // end of [T_FLOAT]
 //
+| T_STRING _ => let
+    val () = incby1 () in s0exp_s0tring (tok)
+  end // end of [T_STRING]
+//
 | T_OP ((*void*)) => let
     val bt = 0
     val () = incby1 ()

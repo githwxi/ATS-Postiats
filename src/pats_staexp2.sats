@@ -64,12 +64,17 @@ staload
 FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
+(* ****** ****** *)
+//
 staload
 SYN = "./pats_syntax.sats"
+//
 typedef c0har = $SYN.c0har
 typedef f0loat = $SYN.f0loat
+typedef s0tring = $SYN.s0tring
+//
 typedef sl0abeled (a:type) = $SYN.sl0abeled (a)
-
+//
 (* ****** ****** *)
 
 staload
@@ -252,6 +257,7 @@ val s2rt_char : s2rt // = s2rt_int
 *)
 //
 val s2rt_float : s2rt // floating-point
+val s2rt_string : s2rt // string constants
 //
 val s2rt_cls : s2rt (* nominal classes *)
 //
@@ -306,6 +312,7 @@ fun s2rt_is_char (x: s2rt): bool
 *)
 //
 fun s2rt_is_float (x: s2rt): bool
+fun s2rt_is_string (x: s2rt): bool
 //
 fun s2rt_is_dat (x: s2rt): bool
 //
@@ -434,7 +441,8 @@ s2exp_node =
   | S2Echar of char // chars have been removed for now
 *)
 //
-  | S2Efloat of f0loat // static floating point numbers
+  | S2Efloat of f0loat // static floating-points
+  | S2Estring of s0tring // static string constants
 //
   | S2Ecst of s2cst // constant
 //
@@ -1046,6 +1054,7 @@ fun s2exp_char (c: char): s2exp // HX: merged into S2Eint
 *)
 //
 fun s2exp_float (f: f0loat): s2exp // HX: for exporting
+fun s2exp_string (s: s0tring): s2exp // HX: for exporting
 //
 fun s2exp_cst (x: s2cst): s2exp // HX: static constant
 fun s2exp_var (x: s2var): s2exp // HX: static variable

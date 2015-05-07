@@ -340,7 +340,9 @@ case+ s0e0.s0exp_node of
 //
   | S0Eint (int) => FXITMatm (s1exp_i0nt (loc0, int))
   | S0Echar (char) => FXITMatm (s1exp_c0har (loc0, char))
+//
   | S0Efloat (ftok) => FXITMatm (s1exp_f0loat (loc0, ftok))
+  | S0Estring (stok) => FXITMatm (s1exp_s0tring (loc0, stok))
 //
   | S0Eextype
       (name, s0es) => let

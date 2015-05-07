@@ -48,9 +48,8 @@ STMP = "./pats_stamp.sats"
 
 (* ****** ****** *)
 //
-staload LEX = "./pats_lexing.sats"
-//
 staload EFF = "./pats_effect.sats"
+staload SYN = "./pats_syntax.sats"
 //
 (* ****** ****** *)
 
@@ -83,7 +82,12 @@ case+ s2e0.s2exp_node of
 //
 | S2Efloat (x) => {
     val () = prstr "S2Efloat("
-    val () = $LEX.fprint_token (out, x)
+    val () = $SYN.fprint_f0loat (out, x)
+    val () = prstr ")"
+  }
+| S2Estring (x) => {
+    val () = prstr "S2Estring("
+    val () = $SYN.fprint_s0tring (out, x)
     val () = prstr ")"
   }
 //

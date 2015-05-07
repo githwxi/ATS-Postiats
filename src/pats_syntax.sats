@@ -555,6 +555,7 @@ s0exp_node =
   | S0Eint of i0nt
   | S0Echar of c0har
   | S0Efloat of f0loat
+  | S0Estring of s0tring
 //
   | S0Eextype of (string(*name*), s0explst(*arg*))
   | S0Eextkind of (string(*name*), s0explst(*arg*))
@@ -649,7 +650,9 @@ fun s0exp_opid (_1: token, _2: i0de): s0exp
 
 fun s0exp_i0nt (_: i0nt): s0exp
 fun s0exp_c0har (_: c0har): s0exp
+
 fun s0exp_f0loat (_: f0loat): s0exp
+fun s0exp_s0tring (_: s0tring): s0exp
 
 fun s0exp_app (_1: s0exp, _2: s0exp): s0exp
 

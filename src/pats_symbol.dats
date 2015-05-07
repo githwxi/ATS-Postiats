@@ -275,6 +275,7 @@ implement symbol_CHAR = symbol_make_string "char"
 *)
 //
 implement symbol_FLOAT = symbol_make_string "float"
+implement symbol_STRING = symbol_make_string "string"
 //
 implement symbol_CLS = symbol_make_string "cls" // nominal classes
 //

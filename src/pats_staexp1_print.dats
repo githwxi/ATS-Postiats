@@ -371,9 +371,15 @@ case+ x.s1exp_node of
     val () = fprint_char (out, char)
     val () = prstr ")"
   }
+//
 | S1Efloat (ftok) => {
     val () = prstr "S1Efloat("
     val () = $LEX.fprint_token (out, ftok)
+    val () = prstr ")"
+  }
+| S1Estring (stok) => {
+    val () = prstr "S1Estring("
+    val () = $LEX.fprint_token (out, stok)
     val () = prstr ")"
   }
 //
@@ -527,7 +533,7 @@ case+ x.s1exp_node of
 | S1Eerr () => prstr "S1Eerr()"
 //
 (*
-| _ => prstr "S0E...(...)"
+| _ => prstr "S1E...(...)"
 *)
 //
 end // end of [fprint_s1exp]

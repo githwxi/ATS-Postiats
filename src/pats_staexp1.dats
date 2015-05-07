@@ -377,6 +377,11 @@ s1exp_f0loat (loc, x) = '{
   s1exp_loc= loc, s1exp_node= S1Efloat (x)
 } (* end of [s1exp_f0loat] *)
 
+implement
+s1exp_s0tring (loc, x) = '{
+  s1exp_loc= loc, s1exp_node= S1Estring (x)
+} (* end of [s1exp_s0tring] *)
+
 (* ****** ****** *)
 
 implement

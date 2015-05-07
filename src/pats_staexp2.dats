@@ -206,6 +206,12 @@ s2exp_float
   s2exp_srt= s2rt_float, s2exp_node= S2Efloat(ftok)
 } // end of [s2exp_float]
 
+implement
+s2exp_string
+  (stok) = hnf '{
+  s2exp_srt= s2rt_string, s2exp_node= S2Estring(stok)
+} // end of [s2exp_string]
+
 (* ****** ****** *)
 
 implement

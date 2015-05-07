@@ -827,11 +827,19 @@ in '{
   s0exp_loc= x.token_loc, s0exp_node= S0Echar (x)
 } end // end of [s0exp_c0har]
 
+(* ****** ****** *)
+
 implement
 s0exp_f0loat (x) = let
 in '{
   s0exp_loc= x.token_loc, s0exp_node= S0Efloat (x)
 } end // end of [s0exp_f0loat]
+
+implement
+s0exp_s0tring (x) = let
+in '{
+  s0exp_loc= x.token_loc, s0exp_node= S0Estring (x)
+} end // end of [s0exp_string]
 
 (* ****** ****** *)
 

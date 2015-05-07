@@ -32,6 +32,8 @@ Here is a list of major additions and changes since the last release:
 5. Supporting the option to disable tail-call optimization:
    patscc --tlcalopt-disable
    patsopt --tlcalopt-disable
+6. Supporting s2rt_float and static floating-points
+7. Supporting s2rt_string and static string constants
 
 ######
 
