@@ -157,6 +157,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("prelude_tostring.dats")
+
+(* ****** ****** *)
+
 #packfilename("libc_dirent.dats")
 #packfilename("libc_dlfcn.dats")
 #packfilename("libc_fcntl.dats")
