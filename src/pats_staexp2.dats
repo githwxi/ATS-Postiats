@@ -202,14 +202,16 @@ s2exp_int_uchar (c) = s2exp_int (int_of_uchar(c))
 
 implement
 s2exp_float
-  (ftok) = hnf '{
-  s2exp_srt= s2rt_float, s2exp_node= S2Efloat(ftok)
+  (rep) = hnf '{
+  s2exp_srt= s2rt_float, s2exp_node= S2Efloat(rep)
 } // end of [s2exp_float]
+
+(* ****** ****** *)
 
 implement
 s2exp_string
-  (stok) = hnf '{
-  s2exp_srt= s2rt_string, s2exp_node= S2Estring(stok)
+  (str) = hnf '{
+  s2exp_srt= s2rt_string, s2exp_node= S2Estring(str)
 } // end of [s2exp_string]
 
 (* ****** ****** *)

@@ -441,8 +441,8 @@ s2exp_node =
   | S2Echar of char // chars have been removed for now
 *)
 //
-  | S2Efloat of f0loat // static floating-points
-  | S2Estring of s0tring // static string constants
+  | S2Efloat of string // static floating-points
+  | S2Estring of string // static string constants
 //
   | S2Ecst of s2cst // constant
 //
@@ -1053,8 +1053,8 @@ fun s2exp_bool (b: bool): s2exp // HX: in stacst.sats
 fun s2exp_char (c: char): s2exp // HX: merged into S2Eint
 *)
 //
-fun s2exp_float (f: f0loat): s2exp // HX: for exporting
-fun s2exp_string (s: s0tring): s2exp // HX: for exporting
+fun s2exp_float (rep: string): s2exp // HX: for exporting
+fun s2exp_string (str: string): s2exp // HX: for exporting
 //
 fun s2exp_cst (x: s2cst): s2exp // HX: static constant
 fun s2exp_var (x: s2var): s2exp // HX: static variable

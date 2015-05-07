@@ -323,14 +323,16 @@ sp1at_cstr
 (* ****** ****** *)
 
 implement
-s1exp_ide (loc, id) = '{
+s1exp_ide
+  (loc, id) = '{
   s1exp_loc= loc, s1exp_node= S1Eide (id)
-} // end of [s1exp_ide]
+} (* end of [s1exp_ide] *)
 
 implement
-s1exp_sqid (loc, sq, id) = '{
+s1exp_sqid
+  (loc, sq, id) = '{
   s1exp_loc= loc, s1exp_node= S1Esqid (sq, id)
-} // end of [s1exp_sqid]
+} (* end of [s1exp_sqid] *)
 
 (* ****** ****** *)
 
@@ -338,13 +340,13 @@ implement
 s1exp_int
   (loc, int) = '{
   s1exp_loc= loc, s1exp_node= S1Eint (int)
-} // end of [s1exp_int]
+} (* end of [s1exp_int] *)
 
 implement
 s1exp_intrep
   (loc, rep) = '{
   s1exp_loc= loc, s1exp_node= S1Eintrep (rep)
-} // end of [s1exp_intrep]
+} (* end of [s1exp_intrep] *)
 
 implement
 s1exp_i0nt
@@ -362,7 +364,6 @@ implement
 s1exp_char (loc, c) = '{
   s1exp_loc= loc, s1exp_node= S1Echar (c)
 } // end of [s1exp_char]
-
 implement
 s1exp_c0har (loc, x) = let
   val-$LEX.T_CHAR (c) = x.token_node
@@ -373,14 +374,29 @@ in '{
 (* ****** ****** *)
 
 implement
-s1exp_f0loat (loc, x) = '{
+s1exp_float (loc, x) = '{
   s1exp_loc= loc, s1exp_node= S1Efloat (x)
-} (* end of [s1exp_f0loat] *)
+} (* end of [s1exp_float] *)
+implement
+s1exp_f0loat (loc, x) = let
+  val-$LEX.T_FLOAT
+    (base, rep, _(*sfx*)) = x.token_node
+in '{
+  s1exp_loc= loc, s1exp_node= S1Efloat (rep)
+} end // end of [s1exp_f0loat]
+
+(* ****** ****** *)
 
 implement
-s1exp_s0tring (loc, x) = '{
+s1exp_string (loc, x) = '{
   s1exp_loc= loc, s1exp_node= S1Estring (x)
-} (* end of [s1exp_s0tring] *)
+} (* end of [s1exp_string] *)
+implement
+s1exp_s0tring (loc, x) = let
+  val-$LEX.T_STRING (str) = x.token_node
+in '{
+  s1exp_loc= loc, s1exp_node= S1Estring (str)
+} end // end of [s1exp_s0tring]
 
 (* ****** ****** *)
 
@@ -560,19 +576,31 @@ fun aux (
 *)
 in
   case+ e0.e1xp_node of
-  | E1XPapp (e1, loc_arg, es2) =>
+//
+  | E1XPapp
+      (e1, loc_arg, es2) =>
       s1exp_app (loc0, aux e1, loc_arg, auxlst es2)
     // end of [E1XPapp]
+//
   | E1XPide ide => s1exp_ide (loc0, ide)
+//
   | E1XPint (int) => s1exp_int (loc0, int)
   | E1XPintrep (rep) => s1exp_intrep (loc0, rep)
-  | E1XPchar (c) => s1exp_char (loc0, c)
-  | E1XPlist es => s1exp_list (loc0, auxlst es)
-  | _ => s1exp_err (loc0) where {
+//
+  | E1XPchar (chr) => s1exp_char (loc0, chr)
+//
+  | E1XPfloat (rep) => s1exp_float (loc0, rep)
+//
+  | E1XPstring (str) => s1exp_string (loc0, str)
+//
+  | E1XPlist (es) => s1exp_list (loc0, auxlst (es))
+//
+  | _ (*rest-of-E1XP*) =>
+      s1exp_err (loc0) where {
       val () = prerr_error1_loc (loc0)
       val () = prerr ": the expression cannot be transated into a legal static expression."
       val () = prerr_newline ()
-    } // end of [_]
+    } (* end of [rest-of-E1XP] *)
 end (* end of [aux] *)
 //
 and auxlst (

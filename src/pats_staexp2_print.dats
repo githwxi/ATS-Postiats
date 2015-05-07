@@ -274,14 +274,14 @@ case+ x.s2exp_node of
     val () = prstr ")"
   }
 //
-| S2Efloat (x) => {
+| S2Efloat (rep) => {
     val () = prstr "S2Efloat("
-    val () = $SYN.fprint_f0loat (out, x)
+    val () = fprint_string (out, rep)
     val () = prstr ")"
   }
-| S2Estring (x) => {
+| S2Estring (str) => {
     val () = prstr "S2Estring("
-    val () = $SYN.fprint_s0tring (out, x)
+    val () = fprint_string (out, str)
     val () = prstr ")"
   }
 //

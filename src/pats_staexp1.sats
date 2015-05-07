@@ -428,8 +428,8 @@ s1exp_node =
 //
   | S1Echar of char // character constant
 //
-  | S1Efloat of f0loat // floating-points
-  | S1Estring of s0tring // string constants
+  | S1Efloat of string // floating-points
+  | S1Estring of string // string constants
 //
   | S1Eextype of (string(*name*), s1explstlst) // extern type
   | S1Eextkind of (string(*name*), s1explstlst) // extern tkind
@@ -513,17 +513,28 @@ fun s1exp_i0nt
   (loc: location, x: i0nt): s1exp
 
 fun s1exp_char (loc: location, c: char): s1exp
-fun s1exp_c0har (loc: location, c: c0har): s1exp
+fun s1exp_c0har (loc: location, tok: c0har): s1exp
 
-fun s1exp_f0loat (loc: location, x: f0loat): s1exp
-fun s1exp_s0tring (loc: location, x: s0tring): s1exp
+fun s1exp_float (loc: location, rep: string): s1exp
+fun s1exp_f0loat (loc: location, tok: f0loat): s1exp
 
-fun s1exp_extype (
+fun s1exp_string (loc: location, str: string): s1exp
+fun s1exp_s0tring (loc: location, tok: s0tring): s1exp
+
+(* ****** ****** *)
+
+fun
+s1exp_extype
+(
   loc: location, name: string, arg: s1explstlst
 ) : s1exp // end of [s1exp_extype]
-fun s1exp_extkind (
+fun
+s1exp_extkind
+(
   loc: location, name: string, arg: s1explstlst
 ) : s1exp // end of [s1exp_extkind]
+
+(* ****** ****** *)
 
 fun s1exp_ide (loc: location, id: symbol): s1exp
 fun s1exp_sqid (loc: location, sq: s0taq, id: symbol): s1exp
