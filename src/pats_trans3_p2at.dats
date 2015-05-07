@@ -458,6 +458,8 @@ fun p2at_trdn_bool (p2t0: p2at, s2f0: s2hnf): p3at
 extern
 fun p2at_trdn_char (p2t0: p2at, s2f0: s2hnf): p3at
 extern
+fun p2at_trdn_float (p2t0: p2at, s2f0: s2hnf): p3at
+extern
 fun p2at_trdn_string (p2t0: p2at, s2f0: s2hnf): p3at
 extern
 fun p2at_trdn_i0nt (p2t0: p2at, s2f0: s2hnf): p3at
@@ -507,6 +509,7 @@ case+ p2t0.p2at_node of
 | P2Tintrep _ => p2at_trdn_intrep (p2t0, s2f0)
 | P2Tbool _ =>  p2at_trdn_bool (p2t0, s2f0)
 | P2Tchar _ =>  p2at_trdn_char (p2t0, s2f0)
+| P2Tfloat _ => p2at_trdn_float (p2t0, s2f0)
 | P2Tstring _ => p2at_trdn_string (p2t0, s2f0)
 //
 | P2Ti0nt _ => p2at_trdn_i0nt (p2t0, s2f0)
@@ -750,27 +753,37 @@ val p3t0 = p3at_char (loc0, s2e, c)
 //
 in
 //
-case+ s2e.s2exp_node of
-| S2Eapp (s2e_fun, s2es_arg)
-    when s2cstref_equ_exp (
+case+
+s2e.s2exp_node
+of // case+
+| S2Eapp
+  (
+    s2e_fun, s2es_arg
+  ) when s2cstref_equ_exp (
     the_char_int_t0ype, s2e_fun
   ) => let
-    val-list_cons (s2e_arg, _) = s2es_arg
+    val-
+    list_cons
+      (s2e_arg, _) = s2es_arg
+    // end of [val]
     val s2f_arg = s2exp2hnf (s2e_arg)
     val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
   in
     p3t0
   end (* end of [S2Eapp] *)
-| _ => let
-    val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e_pat, s2e)
-    val () = if (nerr > 0) then {
+| _ (*non-S2Eapp*) => let
+    val nerr =
+      $SOL.s2exp_tyleq_solve (loc0, s2e_pat, s2e)
+    // end of [val]
+    val () =
+    if (nerr > 0) then {
       val () = prerr_error3_loc (loc0)
       val () = prerr ": the char pattern is ill-typed."
       val () = prerr_newline ()
       val () = prerr_the_staerrlst ()
       val s2e0 = s2hnf2exp (s2f0)
       val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
-    } // end of [val]
+    } (* end of [val] *)
   in
     p3t0
   end (* end of [_] *)
@@ -779,45 +792,99 @@ end // end of [p2at_trdn_char]
 (* ****** ****** *)
 
 implement
+p2at_trdn_float
+  (p2t0, s2f0) = let
+//
+val loc0 = p2t0.p2at_loc
+val-P2Tfloat(dbl) = p2t0.p2at_node
+//
+val
+s2e_pat = s2exp_double_t0ype((*void*))
+//
+val s2e0 = s2hnf2exp (s2f0)
+val p3t0 = p3at_float (loc0, s2e0, dbl)
+//
+in
+case+ 0 of
+| _ (*non-S2Eapp*) => let
+    val nerr =
+      $SOL.s2exp_tyleq_solve (loc0, s2e_pat, s2e0)
+    // end of [val]
+    val () =
+    if (nerr > 0) then {
+      val () = prerr_error3_loc (loc0)
+      val () = prerr ": the floating-point pattern is ill-typed."
+      val () = prerr_newline ()
+      val () = prerr_the_staerrlst ()
+      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+    } (* end of [val] *)
+  in
+    p3t0
+  end // end of [_(*non-S2Eapp*)]
+end // end of [p2at_trdn_float]
+
+(* ****** ****** *)
+
+implement
 p2at_trdn_string
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val-P2Tstring (str) = p2t0.p2at_node
+val-P2Tstring(str) = p2t0.p2at_node
 val n = string_length (str)
 val n = $INTINF.intinf_make_size (n)
-val s2e_ind = s2exp_intinf (n)
-val s2f_ind = s2exp2hnf_cast (s2e_ind)
-val s2e_pat = s2exp_string_index_type (s2e_ind)
+//
+val
+s2e_ind = s2exp_intinf (n)
+val
+s2f_ind = s2exp2hnf_cast (s2e_ind)
+val
+s2e_pat = s2exp_string_index_type (s2e_ind)
+//
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
+//
 val p3t0 = p3at_string (loc0, s2e, str)
 //
 in
 //
-case+ s2e.s2exp_node of
-| S2Eapp (s2e_fun, s2es_arg)
-    when s2cstref_equ_exp (
+case+
+s2e.s2exp_node
+of // case+
+| S2Eapp
+  (
+    s2e_fun, s2es_arg
+  ) when
+    s2cstref_equ_exp (
     the_string_int_type, s2e_fun
   ) => let
-    val-list_cons (s2e_arg, _) = s2es_arg
+    val-
+    list_cons
+      (s2e_arg, _) = s2es_arg
+    // end of [val-]
     val s2f_arg = s2exp2hnf (s2e_arg)
-    val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
+    val ((*void*)) =
+      trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
+    // end of [val]
   in
     p3t0
   end (* end of [S2Eapp] *)
-| _ => let
-    val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e_pat, s2e)
-    val () = if (nerr > 0) then {
+//
+| _ (*non-S2Eapp*) => let
+    val nerr =
+      $SOL.s2exp_tyleq_solve (loc0, s2e_pat, s2e)
+    // end of [val]
+    val () =
+    if (nerr > 0) then {
       val () = prerr_error3_loc (loc0)
-      val () = prerr ": the char pattern is ill-typed."
+      val () = prerr ": the string pattern is ill-typed."
       val () = prerr_newline ()
       val () = prerr_the_staerrlst ()
       val s2e0 = s2hnf2exp (s2f0)
       val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
-    } // end of [val]
+    } (* end of [val] *)
   in
     p3t0
-  end // end of [_]
+  end // end of [_(*non-S2Eapp*)]
 //
 end // end of [p2at_trdn_string]
 
