@@ -557,6 +557,7 @@ d2e0.d2exp_node of
 | D2Eempty () => ()
 //
 | D2Ecstsp _ => ()
+| D2Eliteral _ => ()
 //
 | D2Eextval (s2e, name) => s2exp_app (s2e, env)
 //

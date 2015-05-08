@@ -69,11 +69,14 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_syncst"
 staload "./pats_lexing.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_staexp2.sats"
 staload "./pats_stacst2.sats"
+//
+staload "./pats_dynexp2.sats"
+//
 staload "./pats_dynexp3.sats"
-
+//
 (* ****** ****** *)
 
 staload "./pats_trans3.sats"
@@ -450,10 +453,10 @@ end // end of [d2exp_trup_f0loat]
 
 implement
 cstsp_syn_type
-  (d2e0, x) = let
+  (d2e0, csp) = let
 in
 //
-case+ x of
+case+ csp of
 | $SYN.CSTSPmyfil () => s2exp_string_type ()
 | $SYN.CSTSPmyloc () => s2exp_string_type ()
 | $SYN.CSTSPmyfun () => s2exp_string_type ()
@@ -466,12 +469,75 @@ end // end of [cstsp_syn_type]
 
 implement
 d2exp_trup_cstsp
-  (d2e0, x(*cstsp*)) = let
-  val loc0 = d2e0.d2exp_loc
-  val s2f = cstsp_syn_type (d2e0, x)
+  (d2e0, csp) = let
+//
+val s2f =
+  cstsp_syn_type (d2e0, csp)
+//
 in
-  d3exp_cstsp (loc0, s2f, x)
+  d3exp_cstsp (d2e0.d2exp_loc, s2f, csp)
 end // end of [d2exp_trup_cstsp]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_literal
+  (d2e0, d2e_lit) = let
+//
+val loc0 = d2e0.d2exp_loc
+//
+val ((*void*)) =
+  println! ("d2exp_trup_literal: d2e0 = ", d2e0)
+//
+in
+//
+case+
+d2e_lit.d2exp_node
+of // case+
+//
+| D2Efloat (rep) => let
+    val d3e_lit =
+      d2exp_trup_float (d2e_lit, rep)
+    // end of [val]
+    val s2e0 = s2exp_literal_float (rep)
+  in
+    d3exp_literal (loc0, s2e0, d3e_lit)
+  end // end of [D2Efloat]
+| D2Ef0loat (tok) => let
+    val-
+    T_FLOAT
+      (_, rep, _) = tok.token_node
+    // end of [val]
+    val d3e_lit =
+      d2exp_trup_f0loat (d2e_lit, tok)
+    // end of [val]
+    val s2e0 = s2exp_literal_float (rep)
+  in
+    d3exp_literal (loc0, s2e0, d3e_lit)
+  end // end of [D2Ef0loat]
+//
+| D2Estring (str) => let
+    val d3e_lit =
+      d2exp_trup_string (d2e_lit, str)
+    // end of [val]
+    val s2e0 = s2exp_literal_string (str)
+  in
+    d3exp_literal (loc0, s2e0, d3e_lit)
+  end // end of [D2Estring]
+| D2Es0tring (tok) => let
+    val-
+    T_STRING(str) = tok.token_node
+    val d3e_lit =
+      d2exp_trup_string (d2e_lit, str)
+    // end of [val]
+    val s2e0 = s2exp_literal_string (str)
+  in
+    d3exp_literal (loc0, s2e0, d3e_lit)
+  end // end of [D2Es0tring]
+//
+| _ (* rest-of-D2E *) => d3exp_errexp (loc0)
+//
+end // end of [d2exp_trup_literal]
 
 (* ****** ****** *)
 

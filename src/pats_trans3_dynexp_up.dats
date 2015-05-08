@@ -250,6 +250,8 @@ case+ d2e0.d2exp_node of
 //
 | D2Ecstsp (csp) => d2exp_trup_cstsp (d2e0, csp)
 //
+| D2Eliteral (d2e) => d2exp_trup_literal (d2e0, d2e)
+//
 (*
 | D2Etop () => // case for analysis
 *)

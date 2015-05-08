@@ -338,10 +338,14 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eempty () => {
-    val () = prstr "D1Eempty()"
-  } // end of [D1Eempty]
+| D1Eliteral (d1e_lit) => {
+    val () = prstr "D1Eliteral("
+    val () = fprint_d1exp (out, d1e_lit)
+    val () = prstr ")"
+  }
+//
 | D1Etop () => prstr "D1Etop()"
+| D1Eempty () => prstr "D1Eempty()"
 //
 | D1Eextval
     (s1e, name) => {

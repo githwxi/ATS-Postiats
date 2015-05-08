@@ -564,15 +564,6 @@ vcopyenv_vt0ype_vt0ype (vt: vt0ype) = vt
 stadef vcopyenv_vt = vcopyenv_vt0ype_vt0ype
 //
 (* ****** ****** *)
-//
-datasort literal =
-(*
-  | literal_int of intlit // $literal(31415926)
-*)
-  | literal_float of (float) // $literal(3.1415926)
-  | literal_string of (string) // $literal("3.1415926")
-//
-(* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_pre.sats] finishes!\n"

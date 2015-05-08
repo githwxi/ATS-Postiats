@@ -850,37 +850,6 @@ in
 end // end of [s2exp_uchar_int_t0ype]
 
 (* ****** ****** *)
-
-implement
-the_string_type = s2cstref_make "string_type"
-implement
-the_string_int_type = s2cstref_make "string_int_type"
-
-implement
-s2exp_string_type () =
-  s2exp_cst (s2cstref_get_cst (the_string_type))
-// end of [s2exp_string_type]
-
-implement
-s2exp_string_int_type (n) = let
-//
-// HX: the cast is okay as we do not attempt
-// to handle string of extremely long length
-//
-  val ind = s2exp_int ((int_of_size)n)
-  val s2c = s2cstref_get_cst (the_string_int_type)
-in
-  s2exp_cstapp (s2c, list_sing (ind))
-end // end of [s2exp_string_type]
-
-implement
-s2exp_string_index_type (ind) = let
-  val s2c = s2cstref_get_cst (the_string_int_type)
-in
-  s2exp_cstapp (s2c, list_sing (ind))
-end // end of [s2exp_string_index_type]
-
-(* ****** ****** *)
 //
 implement
 the_float_kind = s2cstref_make "float_kind"
@@ -920,6 +889,62 @@ s2exp_ldouble_t0ype () =
 // end of [s2exp_ldouble_t0ype]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+the_string_type = s2cstref_make "string_type"
+implement
+the_string_int_type = s2cstref_make "string_int_type"
+
+implement
+s2exp_string_type () =
+  s2exp_cst (s2cstref_get_cst (the_string_type))
+// end of [s2exp_string_type]
+
+implement
+s2exp_string_int_type (n) = let
+//
+// HX: the cast is okay as we do not attempt
+// to handle string of extremely long length
+//
+  val ind = s2exp_int ((int_of_size)n)
+  val s2c = s2cstref_get_cst (the_string_int_type)
+in
+  s2exp_cstapp (s2c, list_sing(ind))
+end // end of [s2exp_string_type]
+
+implement
+s2exp_string_index_type (ind) = let
+  val s2c = s2cstref_get_cst (the_string_int_type)
+in
+  s2exp_cstapp (s2c, list_sing(ind))
+end // end of [s2exp_string_index_type]
+
+(* ****** ****** *)
+
+implement
+the_literal_float = s2cstref_make "literal_float"
+implement
+the_literal_string = s2cstref_make "literal_string"
+
+implement
+s2exp_literal_float
+  (rep) = let
+  val ind = s2exp_float (rep)
+  val s2c = s2cstref_get_cst (the_literal_float)
+in
+  s2exp_cstapp (s2c, list_sing(ind))
+end // end of [s2exp_literal_float]
+
+implement
+s2exp_literal_string
+  (str) = let
+  val ind = s2exp_string (str)
+  val s2c = s2cstref_get_cst (the_literal_string)
+in
+  s2exp_cstapp (s2c, list_sing(ind))
+end // end of [s2exp_literal_string]
 
 (* ****** ****** *)
 

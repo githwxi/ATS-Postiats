@@ -323,6 +323,8 @@ and d1exp_node =
 //
   | D1Ecstsp of cstsp // special constants
 //
+  | D1Eliteral of d1exp // $literal: int, float, string
+//
   | D1Eextval of (s1exp (*type*), string (*name*))
   | D1Eextfcall of // externally named fcall
       (s1exp(*res*), string(*fun*), d1explst(*arg*))
@@ -577,11 +579,19 @@ fun d1exp_c0har (loc: location, x: c0har): d1exp
 fun d1exp_f0loat (loc: location, x: f0loat): d1exp
 fun d1exp_s0tring (loc: location, x: s0tring): d1exp
 //
-fun d1exp_cstsp (loc: location, x: cstsp): d1exp
-//
-fun d1exp_empty (loc: location): d1exp
 fun d1exp_top (loc: location): d1exp
-
+fun d1exp_empty (loc: location): d1exp
+//
+(* ****** ****** *)
+//
+fun
+d1exp_cstsp
+  (loc: location, x: cstsp): d1exp
+//
+fun
+d1exp_literal
+  (loc: location, lit: d1exp): d1exp
+//
 (* ****** ****** *)
 //
 fun

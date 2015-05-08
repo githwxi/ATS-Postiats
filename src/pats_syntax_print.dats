@@ -882,6 +882,12 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
+| D0Eliteral (x) => {
+    val () = prstr "D0Eliteral("
+    val () = fprint_d0exp (out, x)
+    val () = prstr ")"
+  }
+//
 | D0Elet _ => {
     val () = prstr "D0Elet("
     val () = prstr "..."

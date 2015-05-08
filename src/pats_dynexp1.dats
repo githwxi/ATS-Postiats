@@ -489,18 +489,23 @@ implement
 d1exp_s0tring (loc, x) = d1exp_make (loc, D1Es0tring (x))
 
 (* ****** ****** *)
-
+//
 implement
-d1exp_cstsp (loc, x) = d1exp_make (loc, D1Ecstsp (x))
-
+d1exp_cstsp
+  (loc, x) = d1exp_make (loc, D1Ecstsp (x))
+//
+implement
+d1exp_literal
+  (loc, x) = d1exp_make (loc, D1Eliteral (x))
+//
 (* ****** ****** *)
-
+//
 implement
-d1exp_empty
-  (loc) = d1exp_make (loc, D1Eempty ())
+d1exp_top(loc) = d1exp_make (loc, D1Etop ())
+//
 implement
-d1exp_top (loc) = d1exp_make (loc, D1Etop ())
-
+d1exp_empty(loc) = d1exp_make (loc, D1Eempty ())
+//
 (* ****** ****** *)
 //
 implement

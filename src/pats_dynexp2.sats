@@ -820,6 +820,8 @@ and d2exp_node =
 //
   | D2Ecstsp of $SYN.cstsp // special constants
 //
+  | D2Eliteral of (d2exp) // $literal: int, float, string
+//
   | D2Eextval of (s2exp(*type*), string(*name*))
   | D2Eextfcall of
     (
@@ -1209,10 +1211,17 @@ fun d2exp_top2 (loc: location, s2e: s2exp): d2exp
 fun d2exp_empty (loc: location): d2exp
 
 (* ****** ****** *)
-
-fun d2exp_cstsp
-  (loc: location, cst: $SYN.cstsp): d2exp
-
+//
+fun
+d2exp_cstsp
+(
+  loc: location, cst: $SYN.cstsp
+) : d2exp // end-of-function
+//
+fun
+d2exp_literal
+  (loc: location, d2e_lit: d2exp): d2exp
+//
 (* ****** ****** *)
 //
 fun

@@ -163,13 +163,16 @@ val the_schar_int_t0ype : s2cstref
 val the_uchar_t0ype : s2cstref
 val the_uchar_int_t0ype : s2cstref
 //
-val the_string_type : s2cstref
-val the_string_int_type : s2cstref
-//
 val the_float_kind : s2cstref
 val the_double_kind : s2cstref
 val the_ldouble_kind : s2cstref
 val the_g0float_t0ype : s2cstref
+//
+val the_string_type : s2cstref
+val the_string_int_type : s2cstref
+//
+val the_literal_float : s2cstref
+val the_literal_string : s2cstref
 //
 val the_ptr_type : s2cstref
 val the_ptr_addr_type : s2cstref
@@ -304,16 +307,21 @@ fun s2exp_uchar_int_t0ype (c: int): s2exp // uchar1(c)
 //
 (* ****** ****** *)
 //
+fun s2exp_float_t0ype (): s2exp // float
+fun s2exp_double_t0ype (): s2exp // double
+fun s2exp_ldouble_t0ype (): s2exp // ldouble
+//
+(* ****** ****** *)
+//
 fun s2exp_string_type (): s2exp // string0
 fun s2exp_string_int_type (n: size_t): s2exp // string1
 fun s2exp_string_index_type (ind: s2exp): s2exp // string1(ind)
 //
 (* ****** ****** *)
-//
-fun s2exp_float_t0ype (): s2exp // float
-fun s2exp_double_t0ype (): s2exp // double
-fun s2exp_ldouble_t0ype (): s2exp // ldouble
-//
+
+fun s2exp_literal_float (rep: string): s2exp
+fun s2exp_literal_string (str: string): s2exp
+
 (* ****** ****** *)
 
 fun s2exp_ptr_type (): s2exp // ptr0

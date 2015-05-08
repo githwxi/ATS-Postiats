@@ -49,9 +49,9 @@ staload FIL = "./pats_filename.sats"
 staload SYM = "./pats_symbol.sats"
 macdef fprint_symbol = $SYM.fprint_symbol
 staload SYN = "./pats_syntax.sats"
-macdef fprint_cstsp = $SYN.fprint_cstsp
 macdef fprint_l0ab = $SYN.fprint_l0ab
 macdef fprint_i0de = $SYN.fprint_i0de
+macdef fprint_cstsp = $SYN.fprint_cstsp
 macdef fprint_d0ynq = $SYN.fprint_d0ynq
 
 (* ****** ****** *)
@@ -239,8 +239,16 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Ecstsp (x) => {
-    val () = $SYN.fprint_cstsp (out, x)
+| D3Ecstsp (csp) => {
+    val () = prstr "D3Ecstsp("
+    val () = $SYN.fprint_cstsp (out, csp)
+    val () = prstr ")"
+  }
+//
+| D3Eliteral (d3e) => {
+    val () = prstr "D3Eliteral("
+    val () = fprint_d3exp (out, d3e) // int, float, string
+    val () = prstr ")"
   }
 //
 | D3Etop () => prstr "D3Etop()"

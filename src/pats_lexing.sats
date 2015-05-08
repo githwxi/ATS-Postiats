@@ -199,6 +199,8 @@ token_node =
   | T_DLREXTFCALL of () // externally named fun-call
   | T_DLREXTMCALL of () // externally named method-call
 //
+  | T_DLRLITERAL of () // $literal
+//
   | T_DLRMYFILENAME of () // $myfilename
   | T_DLRMYLOCATION of () // $mylocation
   | T_DLRMYFUNCTION of () // $myfunction

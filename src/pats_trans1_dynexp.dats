@@ -541,6 +541,10 @@ case+ d0e0.d0exp_node of
 //
 | D0Ecstsp x => FXITMatm (d1exp_cstsp (loc0, x))
 //
+| D0Eliteral (d0e) =>
+    FXITMatm (d1exp_literal (loc0, d0exp_tr (d0e)))
+  // end of [D0Eliteral]
+//
 | D0Eextval (s0e, name) =>
     FXITMatm (
     d1exp_extval (loc0, s0exp_tr (s0e), name)

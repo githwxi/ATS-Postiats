@@ -1409,14 +1409,23 @@ d1e0.d1exp_node of
 | D1Ef0loat (x) => d2exp_f0loat (loc0, x)
 | D1Es0tring (x) => d2exp_s0tring (loc0, x)
 //
-| D1Ecstsp cst => d2exp_cstsp (loc0, cst)
+| D1Ecstsp
+    (csp) => d2exp_cstsp (loc0, csp)
+  // end of [D1Ecstsp]
+//
+| D1Eliteral
+    (d1e) =>
+    d2exp_literal(loc0, d1exp_tr(d1e))
+  // end of [D1Eliteral]
 //
 | D1Etop () => d2exp_top (loc0)
 | D1Eempty () => d2exp_empty (loc0)
 //
 | D1Eextval
     (s1e, name) => let
-    val s2e = s1exp_trdn_vt0ype (s1e)
+    val s2e =
+      s1exp_trdn_vt0ype (s1e)
+    // end of [val]
   in
     d2exp_extval (loc0, s2e, name)
   end (* end of [D1Eextval] *)

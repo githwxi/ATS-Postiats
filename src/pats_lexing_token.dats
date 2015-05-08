@@ -516,6 +516,8 @@ val () = ins ("$extval", T_DLREXTVAL)
 val () = ins ("$extfcall", T_DLREXTFCALL)
 val () = ins ("$extmcall", T_DLREXTMCALL)
 //
+val () = ins ("$literal", T_DLRLITERAL)
+//
 val () = ins ("$myfilename", T_DLRMYFILENAME)
 val () = ins ("$mylocation", T_DLRMYLOCATION)
 val () = ins ("$myfunction", T_DLRMYFUNCTION)

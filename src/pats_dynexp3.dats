@@ -328,6 +328,16 @@ d3exp_cstsp
 (* ****** ****** *)
 
 implement
+d3exp_literal
+  (loc, s2f, d3e) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eliteral (d3e)
+} // end of [d3exp_literal]
+
+(* ****** ****** *)
+
+implement
 d3exp_extval
   (loc, s2f, name) = '{
   d3exp_loc= loc

@@ -164,6 +164,8 @@ fprint_token
   | T_DLREXTFCALL () => fprintf (out, "DLREXTFCALL()", @())
   | T_DLREXTMCALL () => fprintf (out, "DLREXTMCALL()", @())
 //
+  | T_DLRLITERAL () => fprintf (out, "DLRLITERAL()", @())
+//
   | T_DLRMYFILENAME () => fprintf (out, "DLRMYFILENAME()", @())
   | T_DLRMYLOCATION () => fprintf (out, "DLRMYLOCATION()", @())
   | T_DLRMYFUNCTION () => fprintf (out, "DLRMYFUNCTION()", @())

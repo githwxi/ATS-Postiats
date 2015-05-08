@@ -692,12 +692,23 @@ lazy_vt0ype_vtype (vt@ype+) = ptr
 vtypedef lazy_vt (a: vt@ype)= lazy_vt0ype_vtype (a)
 //
 (* ****** ****** *)
-
+//
+(*
+abst@ype
+literal_int(intlit) = $extype"atsliteral_int"
+*)
+abst@ype
+literal_float(float) = $extype"atsliteral_float"
+abst@ype
+literal_string(string) = $extype"atsliteral_string"
+//
+(* ****** ****** *)
+//
 abst@ype
 undefined_t0ype = $extype"atstype_undefined"
 absvt@ype
 undefined_vt0ype = $extype"atstype_undefined"
-
+//
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then

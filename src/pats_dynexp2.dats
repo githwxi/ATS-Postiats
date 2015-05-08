@@ -391,8 +391,15 @@ d2exp_empty (loc) = d2exp_make_node (loc, D2Eempty ())
 
 implement
 d2exp_cstsp
-  (loc, cst) = d2exp_make_node (loc, D2Ecstsp (cst))
+  (loc, csp) = d2exp_make_node (loc, D2Ecstsp (csp))
 // end of [d2exp_cstsp]
+
+(* ****** ****** *)
+
+implement
+d2exp_literal
+  (loc, d2e) = d2exp_make_node (loc, D2Eliteral (d2e))
+// end of [d2exp_literal]
 
 (* ****** ****** *)
 

@@ -326,6 +326,11 @@ fun d2exp_trup_cstsp
 // end of [d2exp_trup_cstsp]
 
 (* ****** ****** *)
+//
+fun d2exp_trup_literal
+  (d2e0: d2exp, d2e_lit: d2exp): d3exp
+//
+(* ****** ****** *)
 
 fun d2var_get_type_some
   (loc: loc_t, d2v: d2var): s2exp

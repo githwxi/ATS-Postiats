@@ -728,6 +728,17 @@ case+ tok.token_node of
     val () = incby1 () in d0exp_MYFUN (tok)
   end
 //
+| T_DLRLITERAL((*void*)) => let
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
+    val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
+  in
+    if err = err0
+      then d0exp_literal (tok, ent3, ent4) else synent_null ()
+    // end of [if]
+  end // end of [T_DLRLITERAL]
+//
 | _ when
     ptest_fun (
     buf, p_s0elop, ent // s0elop ::= DOT | MINUSGT
@@ -1321,8 +1332,9 @@ of // case+
     val () = incby1 ()
     val ent2 = p_d0exp0 (buf, bt, err)
   in
-    if err = err0 then
-      d0exp_delay (knd, tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    if err = err0
+      then d0exp_delay (knd, tok, ent2)
+      else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
 //
@@ -1331,8 +1343,8 @@ of // case+
     val () = incby1 ()
     val ent2 = p_d0exp0 (buf, bt, err)
   in
-    if err = err0 then
-      d0exp_raise (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    if err = err0
+      then d0exp_raise (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
 //

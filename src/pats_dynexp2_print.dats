@@ -440,6 +440,12 @@ d2e0.d2exp_node of
     val () = prstr ")"
   } // end of [D2Ecstsp]
 //
+| D2Eliteral (d2e) => {
+    val () = prstr "D2Eliteral("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Eliteral]
+//
 | D2Etop () => {
     val () = prstr "D2Etop()"
   } // end of [D2Etop]
@@ -448,9 +454,8 @@ d2e0.d2exp_node of
     val () = fprint_s2exp (out, s2e)
     val () = prstr ")"
   } // end of [D2Etop2]
-| D2Eempty () => {
-    val () = prstr "D2Eempty()"
-  } // end of [D2Eempty]
+//
+| D2Eempty () => prstr "D2Eempty()"
 //
 | D2Eextval
     (s2e, name) => {

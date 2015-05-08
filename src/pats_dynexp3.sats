@@ -284,6 +284,8 @@ and d3exp_node =
 //
   | D3Ecstsp of ($SYN.cstsp)
 //
+  | D3Eliteral of (d3exp) // $literal: int, float, string
+//
   | D3Etop of () // unspecified value
   | D3Eempty of () // the void-value of void-type
 //
@@ -596,6 +598,12 @@ fun d3exp_empty (loc: location, s2f: s2exp): d3exp
 fun d3exp_cstsp
   (loc: location, s2f: s2exp, x: $SYN.cstsp): d3exp
 // end of [d3exp_cstsp]
+
+(* ****** ****** *)
+
+fun d3exp_literal
+  (loc: location, s2f: s2exp, d3e_lit: d3exp): d3exp
+// end of [d3exp_literal]
 
 (* ****** ****** *)
 //

@@ -1366,6 +1366,8 @@ and d0exp_node =
 //
   | D0Ecstsp of cstsp // special constants
 //
+  | D0Eliteral of (d0exp) // $literal: int, float, string
+//
   | D0Eextval of
       (s0exp(*type*), string(*name*)) // external values
   | D0Eextfcall of
@@ -1645,6 +1647,11 @@ fun d0exp_MYFIL (tok: token): d0exp
 fun d0exp_MYLOC (tok: token): d0exp
 fun d0exp_MYFUN (tok: token): d0exp
 
+(* ****** ****** *)
+//
+fun d0exp_literal
+  (t_beg: token, lit: d0exp, t_end: token): d0exp
+//
 (* ****** ****** *)
 //
 fun d0exp_extval

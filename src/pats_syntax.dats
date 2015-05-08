@@ -1773,6 +1773,19 @@ d0exp_MYFUN (tok) = '{
 (* ****** ****** *)
 
 implement
+d0exp_literal
+  (t_beg, lit, t_end) = let
+//
+val loc =
+  t_beg.token_loc + t_end.token_loc
+//
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eliteral (lit)
+} end // end of [d0exp_literal]
+
+(* ****** ****** *)
+
+implement
 d0exp_extval
 (
   t_beg, _type, rep, t_end
@@ -2123,7 +2136,8 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_raise (tok, ent2) = let
+d0exp_raise
+  (tok, ent2) = let
   val loc = tok.token_loc + ent2.d0exp_loc
 in '{
   d0exp_loc= loc, d0exp_node= D0Eraise (ent2)
