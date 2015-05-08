@@ -65,6 +65,7 @@ fn srcRename
   | _ when isDATS (str) => extrem (str) + "_dats"
   | _ => str
 // end of [srcRename]
+
 %}\
 %{
 
