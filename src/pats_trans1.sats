@@ -168,11 +168,13 @@ fun d0atdec_tr (d: d0atdec): d1atdec
 fun e0xndec_tr (d: e0xndec): e1xndec
 
 (* ****** ****** *)
-
-fun dcstextdef_tr
-  (sym: symbol, extopt: s0tringopt): dcstextdef
-// end of [dcstextdef_tr]
-
+//
+fun
+dcstextdef_tr
+(
+  d0c: d0cstdec, sym: symbol, extopt: s0tringopt
+) : dcstextdef // end of [dcstextdef_tr]
+//
 (* ****** ****** *)
 
 fun a0typ_tr (x: a0typ): s1exp

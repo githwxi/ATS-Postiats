@@ -690,7 +690,10 @@ end // end of [d0atcon_tr]
 //
 extern
 fun
-proc_extdef(sym: symbol, ext: string): string
+proc_extdef
+(
+  d0c: d0cstdec, sym: symbol, ext: string
+) : string // end of [proc_extdef]
 //
 (* ****** ****** *)
 
@@ -702,7 +705,8 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 fun
 extprfx_add
 (
-  sym: symbol, pext: Ptr1
+  d0c: d0cstdec
+, sym: symbol, pext: Ptr1
 ) : string = let
 //
 val ext2 =
@@ -724,20 +728,24 @@ in
 if
 issome
 then let
-  val prfx = stropt_unsome(opt)
-  val ext2 = sprintf ("%s%s", @(prfx, ext2))
+  val prfx =
+    stropt_unsome(opt)
+  val prfxext2 =
+    sprintf ("%s%s", @(prfx, ext2))
+  // end of [val]
 in
-  string_of_strptr(ext2)
+  string_of_strptr(prfxext2)
 end // end of [then]
 else let
 (*
 // HX-2015-05:
 // Should a warning/error be reported?
 *)
-  val prfx = "__ATS_EXTERN_PREFIX__"
-  val ext2 = sprintf ("%s%s", @(prfx, ext2))
+  val prfxext2 =
+    sprintf ("__ATS_EXTERN_PREFIX__%s", @(ext2))
+  // end of [val]
 in
-  string_of_strptr(ext2)
+  string_of_strptr(prfxext2)
 end // end of [else]
 //
 end // end of [extprfx_add]
@@ -746,7 +754,7 @@ in (* in of [local] *)
 
 implement
 proc_extdef
-  (sym, ext) = let
+  (d0c, sym, ext) = let
 //
 #define NUL '\000'
 //
@@ -761,7 +769,7 @@ in
 //
 case+ 0 of
 | _ when isemp (pext) => symbol_get_name (sym)
-| _ when isperc (pext) => extprfx_add (sym, pext)
+| _ when isperc (pext) => extprfx_add (d0c, sym, pext)
 | _ (*non-special*) => ext // HX: no processing
 //
 end // end of [proc_extdef]
@@ -786,15 +794,18 @@ in (* in of [local] *)
 
 implement
 dcstextdef_tr
-  (sym, extopt) = let
+  (d0c, sym, extopt) = let
+//
 (*
+//
 val () =
   print ("dcstextdef_tr: sym = ...")
 val () =
   print ("dcstextdef_tr: extopt = ...")
+//
 *)
 //
-macdef f (x) = proc_extdef (sym, ,(x))
+macdef f (x) = proc_extdef (d0c, sym, ,(x))
 //
 in
 //
@@ -944,7 +955,7 @@ fn d0cstdec_tr
   val s1e_res = s0exp_tr d0c.d0cstdec_res
   val arg = d0c.d0cstdec_arg and eff = d0c.d0cstdec_eff
   val s1e = aux2 (d0c, isfun, isprf, arg, eff, s1e_res)
-  val extdef = dcstextdef_tr (sym, d0c.d0cstdec_extopt)
+  val extdef = dcstextdef_tr (d0c, sym, d0c.d0cstdec_extopt)
 in
   d1cstdec_make (loc, fil, sym, s1e, extdef)
 end // end of [d0cstdec_tr]
