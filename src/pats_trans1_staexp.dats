@@ -687,10 +687,11 @@ in
 end // end of [d0atcon_tr]
 
 (* ****** ****** *)
-
+//
 extern
-fun proc_extdef (sym: symbol, ext: string): string
-
+fun
+proc_extdef(sym: symbol, ext: string): string
+//
 (* ****** ****** *)
 
 local
@@ -698,30 +699,46 @@ local
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
-fun extprfx_add (
+fun
+extprfx_add
+(
   sym: symbol, pext: Ptr1
 ) : string = let
 //
-val ext2 = $UN.cast{string}(pext+1)
+val ext2 =
+  $UN.cast{string}(pext+1)
 val ext2 = (
-  if string_is_empty (ext2) then symbol_get_name (sym) else ext2
+  if string_is_empty(ext2)
+    then symbol_get_name (sym) else ext2
+  // end of [if]
 ) : string // end of [val]
 //
 val opt =
-  the_EXTERN_PREFIX_get ()
+  the_EXTERN_PREFIX_get()
 // end of [val]
-val issome = stropt_is_some (opt)
+val
+issome = stropt_is_some(opt)
 //
 in
 //
-if issome then let
-  val extprfx = stropt_unsome (opt)
-  val ext2 = sprintf ("%s%s", @(extprfx, ext2))
+if
+issome
+then let
+  val prfx = stropt_unsome(opt)
+  val ext2 = sprintf ("%s%s", @(prfx, ext2))
 in
-  string_of_strptr (ext2)
-end else
-  $UN.cast{string}(pext)
-// end of [if]
+  string_of_strptr(ext2)
+end // end of [then]
+else let
+(*
+// HX-2015-05:
+// Should a warning/error be reported?
+*)
+  val prfx = "__ATS_EXTERN_PREFIX__"
+  val ext2 = sprintf ("%s%s", @(prfx, ext2))
+in
+  string_of_strptr(ext2)
+end // end of [else]
 //
 end // end of [extprfx_add]
 
@@ -732,6 +749,7 @@ proc_extdef
   (sym, ext) = let
 //
 #define NUL '\000'
+//
 fun isemp
   (p: Ptr1): bool = $UN.ptrget<char> (p) = NUL
 fun isperc
@@ -753,21 +771,27 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
-extern fun ismac
+//
+extern
+fun ismac
   (ext: string, ext_new: &string): bool = "patsopt_extnam_ismac"
-extern fun issta
+extern
+fun issta
   (ext: string, ext_new: &string): bool = "patsopt_extnam_issta"
-extern fun isext
+extern
+fun isext
   (ext: string, ext_new: &string): bool = "patsopt_extnam_isext"
-
+//
 in (* in of [local] *)
 
 implement
-dcstextdef_tr (sym, extopt) = let
+dcstextdef_tr
+  (sym, extopt) = let
 (*
-val () = print ("dcstextdef_tr: sym = ...")
-val () = print ("dcstextdef_tr: extopt = ...")
+val () =
+  print ("dcstextdef_tr: sym = ...")
+val () =
+  print ("dcstextdef_tr: extopt = ...")
 *)
 //
 macdef f (x) = proc_extdef (sym, ,(x))

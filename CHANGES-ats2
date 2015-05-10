@@ -34,6 +34,8 @@ Here is a list of major additions and changes since the last release:
    patsopt --tlcalopt-disable
 6. Supporting s2rt_float and static floating-points
 7. Supporting s2rt_string and static string constants
+8. If undefined, ATS_EXTERN_PREFIX is assumed to have the value:
+   "__ATS_EXTERN_PREFIX__".
 
 ######
 

@@ -151,6 +151,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("mysendmailist.dats")
+
+(* ****** ****** *)
+
 #packfilename("passwdgen.dats")
 
 (* ****** ****** *)
