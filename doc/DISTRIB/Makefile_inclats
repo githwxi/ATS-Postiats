@@ -30,20 +30,27 @@ update:: ; \
 ######
 
 update:: ; \
+  $(CPF) $(SRC)/share/H/pats_atslib.h $(DST)/share/H/.
+
+######
+
+update:: ; \
   $(CPF) $(SRC)/ccomp/runtime/*.h $(DST)/ccomp/runtime/.
 update:: ; \
   $(CPF) $(SRC)/ccomp/runtime/*.c $(DST)/ccomp/runtime/.
 
 ######
-
+#
 update:: ; \
   $(CPF) $(SRC)/prelude/CATS/*.cats $(DST)/prelude/CATS/.
+#
 update:: ; $(CPF) $(SRC)/libc/CATS/*.cats $(DST)/libc/CATS/.
 update:: ; $(CPF) $(SRC)/libc/sys/CATS/*.cats $(DST)/libc/sys/CATS/.
 update:: ; $(CPF) $(SRC)/libc/gdbm/CATS/*.cats $(DST)/libc/gdbm/CATS/.
+#
 update:: ; $(CPF) $(SRC)/libats/CATS/*.cats $(DST)/libats/CATS/.
 update:: ; $(CPF) $(SRC)/libats/ML/CATS/*.cats $(DST)/libats/ML/CATS/.
-
+#
 ######
 #
 # ATS-contrib
