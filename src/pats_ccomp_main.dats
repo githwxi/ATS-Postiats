@@ -861,7 +861,9 @@ case+ xs of
       emit_filename (out, fil); emit_text (out, "__dynloadflag) ;\n")
     ) (* end of [val] *)
     val () =
-      emit_text (out, "extern atsvoid_t0ype\n")
+      emit_text (out, "ATSextern()\n")
+    val () =
+      emit_text (out, "atsvoid_t0ype\n")
     val () = (
       emit_filename (out, fil);
       emit_text (out, "__dynload(/*void*/) ;\n")

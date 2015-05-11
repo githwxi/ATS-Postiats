@@ -47,6 +47,7 @@ bin/atscc2js
 bin/atscc2pl
 bin/atscc2php
 bin/atscc2py
+bin/patsolve
 
 #
 # Boostrapping
