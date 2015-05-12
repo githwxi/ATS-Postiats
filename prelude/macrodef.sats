@@ -78,11 +78,14 @@ macdef ignoret (x) = let val x = ,(x) in (*nothing*) end
 macdef foldret (x) = let val x = ,(x) in fold@ (x); x end
 
 (* ****** ****** *)
-
+//
 macdef showtype (x) = $showtype ,(x)
+//
 macdef showview (x) = pridentity_v ($showtype ,(x))
+//
+macdef showvtype (x) = pridentity_vt ($showtype ,(x))
 macdef showviewtype (x) = pridentity_vt ($showtype ,(x))
-
+//
 (* ****** ****** *)
 
 (* end of [macrodef.sats] *)

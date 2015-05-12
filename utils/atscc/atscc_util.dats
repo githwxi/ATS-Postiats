@@ -149,10 +149,21 @@ This flag indicates that the next argument should be interpreted as
 the name of a file containing dynamic ATS code. Note that this flag is
 unnecessary if the name of the file ends with the extension .dats.
 //
--CSignore:
+(*
+//
+// HX:
+// no support yet:
+//
+--constraint-export:
+This flag indicates that the constaints generated during typechecking
+are to be exported so as to allows them be to solved externally.
+*)
+//
+--constraint-ignore:
 This flag indicates that constaint-solving is to be ignored during
 typechecking. Note that this is a dangerous flag and it is only suggested
-to be used with proper justification.
+to be used with proper justification (such as constraint-solving being
+performed externally)
 //
 " (* end of [ATSOPT_USAGE] *)
 //
