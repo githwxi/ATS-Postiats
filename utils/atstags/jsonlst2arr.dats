@@ -52,12 +52,17 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload "libc/SATS/string.sats"
+
+(* ****** ****** *)
+
 staload "{$JSONC}/SATS/json.sats"
 staload _(*anon*) = "{$JSONC}/DATS/json.dats"
 
 (* ****** ****** *)
 
-fun jsonlst2arr_usage
+fun
+jsonlst2arr_usage
 (
   out: FILEref, arg0: string
 ) : void = let
@@ -83,7 +88,8 @@ end // end of [jsonlst2arr]
 (* ****** ****** *)
 
 extern
-fun jsonlst2arr_main
+fun
+jsonlst2arr_main
   (out: FILEref, inp: FILEref, delim: string, n: int): int
 // end of [jsonlst2arr_main]
 
@@ -95,7 +101,8 @@ jsonlst2arr_main
 //
 vtypedef jobj = json_object0
 //
-fun auxlst
+fun
+auxlst
 (
   xs: List_vt (jobj), n: int
 ) : int = let
@@ -104,13 +111,18 @@ in
 case+ xs of
 | ~list_vt_cons
     (x, xs) => let
+//
     val () =
       if n > 0 then fprint (out, ",\n")
+    // end of [val]
+//
     val () =
     (
       fprint_json_object (out, x); fprint (out, "\n")
-    )
+    ) (* end of [val] *)
+//
     val _(*freed*) = json_object_put (x)
+//
   in
     auxlst (xs, n+1)
   end // end of [list_vt_cons]
@@ -120,7 +132,10 @@ end // end of [auxlst]
 //
 val cs =
   fileref_get_file_string (inp)
-val xs = json_tokener_parse_list_delim ($UN.strptr2string(cs), delim)
+//
+val xs =
+  json_tokener_parse_list_delim ($UN.strptr2string(cs), delim)
+//
 val ((*void*)) = strptr_free (cs)
 //
 in
@@ -139,10 +154,11 @@ commarg =
 // end of [commarg]
 
 (* ****** ****** *)
-
-vtypedef commarglst = List0 (commarg)
+//
+typedef commarglst = List0 (commarg)
+//
 vtypedef commarglst_vt = List0_vt (commarg)
-
+//
 (* ****** ****** *)
 
 macdef
@@ -233,7 +249,8 @@ case+ 0 of
 //
 end // end of [aux1]
 
-and aux1_help
+and
+aux1_help
   {n:int}
   {i:nat | i < n}
   .<3*(n-i)+0>.
@@ -250,7 +267,8 @@ in
   aux0 (n, argv, i+1, res)
 end // end of [aux1_help]
 
-and aux1_input
+and
+aux1_input
   {n:int}
   {i:nat | i < n}
   .<3*(n-i)+0>.
@@ -267,7 +285,8 @@ in
   aux0 (n, argv, i+1, res)
 end // end of [aux1_input]
 
-and aux1_output
+and
+aux1_output
   {n:int}
   {i:nat | i <= n}
   .<3*(n-i)+0>.
@@ -283,7 +302,8 @@ in
   if i < n then aux0 (n, argv, i+1, res) else res
 end // end of [aux1_output]
 
-and aux1_delim
+and
+aux1_delim
   {n:int}
   {i:nat | i <= n}
   .<3*(n-i)+0>.

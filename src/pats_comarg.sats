@@ -40,13 +40,15 @@ viewtypedef
 comarglst (n:int) = list_vt (comarg, n)
 
 (* ****** ****** *)
-
-fun comarg_parse (s: string):<> comarg
-
-fun comarglst_parse{n:nat}
+//
+fun
+comarg_parse (s: string):<> comarg
+//
+fun
+comarglst_parse{n:nat}
   (argc: int n, argv: &(@[string][n])):<> list_vt (comarg, n)
 // end of [comarglst_parse]
-
+//
 (* ****** ****** *)
 
 fun comarg_warning (str: string): void
