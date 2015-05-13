@@ -1921,10 +1921,11 @@ implement
 ccompenv_add_tmpsub
   (env, tsub) = let
 //
-  val CCOMPENV (!p) = env
-  val xs = p->ccompenv_markenvlst
-  val () = p->ccompenv_markenvlst := MARKENVLSTcons_tmpsub (tsub, xs)
-  prval () = fold@ (env)
+val
+CCOMPENV(!p) = env
+val xs = p->ccompenv_markenvlst
+val () = p->ccompenv_markenvlst := MARKENVLSTcons_tmpsub (tsub, xs)
+prval () = fold@ (env)
 //
 in
   // nothing
@@ -1935,10 +1936,13 @@ end // end of [ccompenv_add_tmpsub]
 extern
 fun
 ccompenv_find_tmpsub
-  (env: !ccompenv): tmpsubopt_vt
+(
+  env: !ccompenv
+) : tmpsubopt_vt // endfun
 //
 implement
-ccompenv_find_tmpsub (env) = let
+ccompenv_find_tmpsub
+  (env) = let
 //
 fun loop
 (

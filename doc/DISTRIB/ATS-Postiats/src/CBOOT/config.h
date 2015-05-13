@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define to 1 if you have the <gmp.h> header file. */
-#define HAVE_GMP_H 1
+/* #undef HAVE_GMP_H */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
@@ -37,9 +37,6 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Name of package */
-/* #undef PACKAGE */
-
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "gmpostiats@gmail.com"
 
@@ -47,7 +44,7 @@
 #define PACKAGE_NAME "ATS2/Postiats"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "ATS2/Postiats 0.1.9"
+#define PACKAGE_STRING "ATS2/Postiats 1.0.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "ats2-postiats"
@@ -56,13 +53,10 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.1.9"
+#define PACKAGE_VERSION "1.0.0"
 
 /* The size of `void*', as computed by sizeof. */
 #define SIZEOF_VOIDP 8
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
-
-/* Version number of package */
-/* #undef VERSION */
