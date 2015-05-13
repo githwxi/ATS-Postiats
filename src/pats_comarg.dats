@@ -121,6 +121,7 @@ loop
 | argv: &(@[string][n]), i: int i, p: ptr l
 ) :<cloref> (arglst (n-i) @ l | void) =
 (
+//
 if
 i < argc
 then let
