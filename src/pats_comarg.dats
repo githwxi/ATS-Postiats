@@ -109,22 +109,40 @@ end // end of [comarg_parse]
 implement
 comarglst_parse
   {n} (argc, argv) = let
-  viewtypedef arglst (n: int) = list_vt (comarg, n)
-  fun loop {i:nat | i <= n} {l:addr} .<n-i>.
-    (pf0: arglst 0 @ l | argv: &(@[string][n]), i: int i, p: ptr l)
-    :<cloref> (arglst (n-i) @ l | void) =
-    if i < argc then let
-      val+~list_vt_nil () = !p
-      val arg = comarg_parse (argv.[i])
-      val lst0 = list_vt_cons (arg, list_vt_nil ())
-      val+list_vt_cons (_, !lst) = lst0
-      val (pf | ()) = loop (view@ (!lst) | argv, i+1, lst)
-    in
-      fold@ lst0; !p := lst0; (pf0 | ())
-    end else (pf0 | ())
-  var lst0 = list_vt_nil {comarg} ()
-  val (pf | ()) = loop (view@ lst0 | argv, 0, &lst0) // tail-call
-  prval () = view@ lst0 := pf
+//
+vtypedef
+arglst(n:int) = list_vt(comarg, n)
+//
+fun
+loop
+{i:nat | i <= n}{l:addr} .<n-i>.
+(
+  pf0: arglst(0) @ l
+| argv: &(@[string][n]), i: int i, p: ptr l
+) :<cloref> (arglst (n-i) @ l | void) =
+(
+if
+i < argc
+then let
+  val+~list_vt_nil () = !p
+  val x = comarg_parse (argv.[i])
+  val () =
+    !p := list_vt_cons (x, list_vt_nil ())
+  val+list_vt_cons (_, !lst) = !p
+  val (pf | ()) =
+    loop (view@ (!lst) | argv, i+1, lst) // tail-call
+  // end of [val]
+in
+  fold@(!p); (pf0 | ())
+end // end of [then]
+else (pf0 | ()) // end of [else]
+//
+) (* end of [loop] *)
+//
+var lst0 = list_vt_nil{comarg}()
+val (pf | ()) = loop (view@ lst0 | argv, 0, &lst0)
+prval ((*void*)) = view@ lst0 := pf
+//
 in
   lst0
 end // end of [comarglst_parse]
