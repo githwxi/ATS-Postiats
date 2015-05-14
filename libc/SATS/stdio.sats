@@ -52,6 +52,12 @@ typedef NSH(a:type) = a // for commenting purpose
 sortdef fm = file_mode
 
 (* ****** ****** *)
+
+stadef r() = file_mode_r()
+stadef w() = file_mode_w()
+stadef rw() = file_mode_rw()
+
+(* ****** ****** *)
 //
 staload
 TYPES =
@@ -445,7 +451,7 @@ fun fgetc0
   (inp: FILEref):<!wrt> int = "mac#%"
 fun fgetc1 {m:fm}
 (
-  pf: fmlte (m, r) | inp: !FILEptr1 (m)
+  pf: fmlte (m, r()) | inp: !FILEptr1 (m)
 ) :<!wrt> intLte (UCHAR_MAX) = "mac#%"
 //
 overload fgetc with fgetc0
@@ -572,7 +578,7 @@ typedef
 fputc1_type
   (a:t0p) = {m:fm}
 (
-  fmlte (m, w) | a, !FILEptr1 (m)
+  fmlte (m, w()) | a, !FILEptr1 (m)
 ) -<0,!wrt> intLte (UCHAR_MAX)
 fun fputc1_int : fputc1_type (int) = "mac#%"
 fun fputc1_char : fputc1_type (char) = "mac#%"
@@ -617,9 +623,9 @@ fun fputs0
 (
   str: NSH(string), fil: FILEref
 ) :<!wrt> int = "mac#%"
-fun fputs1 {m:fm}
+fun fputs1{m:fm}
 (
-  pf: fmlte (m, w) | str: NSH(string), out: !FILEptr1 (m)
+  pf: fmlte (m, w()) | str: NSH(string), out: !FILEptr1 (m)
 ) :<!wrt> int = "mac#%"
 //
 overload fputs with fputs0
@@ -731,7 +737,7 @@ fwrite1 // [isz]: the size of each item
   {n:int | n*isz <= nbf}
   {m:fm}
 (
-  pfm: fmlte (m, w)
+  pfm: fmlte(m, w())
 | buf: &RD(bytes(nbf))
 , isz: size_t isz, n: size_t n
 , out: !FILEptr1 (m)
@@ -925,15 +931,16 @@ fun rewind1
 overload rewind with rewind1
 
 (* ****** ****** *)
-
-fun tmpfile
-  () :<!wrt> FILEptr0 (rw) = "mac#%"
-fun tmpfile_exn
-  () :<!exnwrt> FILEptr1 (rw) = "ext#%"
-fun tmpfile_ref_exn
-  () :<!exnwrt> FILEref(*none*) = "ext#%"
-// end of [tmpfile_ref_exn]
-
+//
+fun
+tmpfile() :<!wrt> FILEptr0 (rw()) = "mac#%"
+//
+fun
+tmpfile_exn() :<!exnwrt> FILEptr1 (rw()) = "ext#%"
+//
+fun
+tmpfile_ref_exn() :<!exnwrt> FILEref(*none*) = "ext#%"
+//
 (* ****** ****** *)
 (*
 //
@@ -954,7 +961,7 @@ fun
 ungetc1
   {l:agz}{m:fm}
 (
-  pfm: fmlte (m, rw) | c: char, f: !FILEptr (l, m)
+  pfm: fmlte (m, rw()) | c: char, f: !FILEptr (l, m)
 ) :<!wrt> [i:int | i <= UCHAR_MAX] int (i) = "mac#%"
 //
 overload ungetc with ungetc0

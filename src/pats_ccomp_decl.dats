@@ -1020,9 +1020,13 @@ case+ 0 of
     // end of [val]
 *)
 //
-    val () = if istmp then ccompenv_inc_tmplevel (env)
+    val () =
+      if istmp then ccompenv_inc_tmplevel (env)
+    // end of [val]
     val flab = auxmain (env, loc0, d2c, imparg, tmparg, hde_def)
-    val () = if istmp then ccompenv_dec_tmplevel (env)
+    val () =
+      if istmp then ccompenv_dec_tmplevel (env)
+    // end of [val]
 //
     val () = if istmp then ccompenv_add_impdec (env, imp)
 //

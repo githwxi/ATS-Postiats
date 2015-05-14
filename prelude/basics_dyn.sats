@@ -618,15 +618,22 @@ overload assert_errmsg2 with assert_errmsg2_bool1 of 10
 //
 (* ****** ****** *)
 
-datasort file_mode =
+datasort
+file_mode =
   | file_mode_r (* read *)
   | file_mode_w (* write *)
   | file_mode_rw (* read and write *)
 // end of [file_mode]
 
+(* ****** ****** *)
+
+local
+//
 stadef r() = file_mode_r()
 stadef w() = file_mode_w()
 stadef rw() = file_mode_rw()
+//
+in (* in-of-local *)
 
 (* ****** ****** *)
 
@@ -656,23 +663,32 @@ file_mode_lte
 
 (* ****** ****** *)
 //
-prval file_mode_lte_r_r
+prval
+file_mode_lte_r_r
   : file_mode_lte (r(), r()) // impled in [filebas_prf.dats]
-prval file_mode_lte_w_w
+prval
+file_mode_lte_w_w
   : file_mode_lte (w(), w()) // impled in [filebas_prf.dats]
-prval file_mode_lte_rw_rw
+prval
+file_mode_lte_rw_rw
   : file_mode_lte (rw(), rw()) // impled in [filebas_prf.dats]
 //
+(* ****** ****** *)
+
+end // end of [local]
+
 (* ****** ****** *)
 
 abstype FILEref_type = ptr
 typedef FILEref = FILEref_type
 
 (* ****** ****** *)
-
-typedef fprint_type (a: t0p) = (FILEref, a) -> void
-typedef fprint_vtype (a: vt0p) = (FILEref, !a) -> void
-
+//
+typedef
+fprint_type (a: t0p) = (FILEref, a) -> void
+typedef
+fprint_vtype (a: vt0p) = (FILEref, !a) -> void
+//
 (* ****** ****** *)
 
 fun print_newline (): void = "mac#%"

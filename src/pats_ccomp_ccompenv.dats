@@ -581,7 +581,8 @@ case+ xs of
     val imp = !p_x
     val d2c = imp.hiimpdec_cst
     val () =
-      fprint_d2cst (out, d2c)
+      fprint! (out, "HIIMPDEC(", d2c, ")")
+    // end of [val]
     val () = loop (out, !p_xs, i+1)
     prval ((*void*)) = fold@ (xs)
   in
@@ -593,8 +594,7 @@ case+ xs of
     if i > 0
       then fprint_string (out, ", ")
     // end of [val]
-    val () =
-      fprint_hiimpdec2 (out, !p_x)
+    val () = fprint_hiimpdec2 (out, !p_x)
     val () = loop (out, !p_xs, i+1)
     prval ((*void*)) = fold@ (xs)
   in
@@ -610,6 +610,7 @@ case+ xs of
     val fname = filenv_get_name (!p_x)
     val () =
       $FIL.fprint_filename_full (out, fname)
+    // end of [val]
     val () = loop (out, !p_xs, i+1)
     prval ((*void*)) = fold@ (xs)
   in
@@ -2242,7 +2243,9 @@ implement
 ccompenv_tmpcst_match
   (env, d2c0, t2mas) = let
 //
-val CCOMPENV (!p) = env
+val
+CCOMPENV (!p) = env
+//
 val opt = auxlst (p->ccompenv_markenvlst, d2c0, t2mas)
 prval () = fold@ (env)
 //

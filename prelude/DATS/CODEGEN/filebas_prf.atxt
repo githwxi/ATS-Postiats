@@ -26,13 +26,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 //
-stadef r = r()
-stadef w = w()
-stadef rw = rw()
+stadef r() = file_mode_r()
+stadef w() = file_mode_w()
+stadef rw() = file_mode_rw()
 //
-primplmnt file_mode_lte_r_r = file_mode_lte_refl {r} ()
-primplmnt file_mode_lte_w_w = file_mode_lte_refl {w} ()
-primplmnt file_mode_lte_rw_rw = file_mode_lte_refl {rw} ()
+primplmnt file_mode_lte_r_r = file_mode_lte_refl{r()}()
+primplmnt file_mode_lte_w_w = file_mode_lte_refl{w()}()
+primplmnt file_mode_lte_rw_rw = file_mode_lte_refl{rw()}()
 //
 #atscode_separator()
 

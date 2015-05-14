@@ -1011,15 +1011,14 @@ val () = the_funlablst_add (flab2)
 //
 val () = ccompenv_add_flabsetenv (env, flab2)
 //
-val (
-  pfpush | ()
-) = ccompenv_push (env)
+val (pfpush|()) = ccompenv_push (env)
+//
 val () = ccompenv_add_tmpsub (env, tsub)
 val () = ccompenv_inc_tmprecdepth (env)
 val fent2 = funent_subst (env, sub, flab2, fent, sfx)
 val () = ccompenv_dec_tmprecdepth (env)
-val (
-) = ccompenv_pop (pfpush | env)
+//
+val ((*popped*)) = ccompenv_pop (pfpush | env)
 //
 val () = funent_set_tmpsub (fent2, Some (tsub))
 //
@@ -1064,9 +1063,8 @@ in
 //
 case+ mat of
 | TMPCSTMATsome _ =>
-    ccomp_tmpcstmat_some
-      (env, loc0, hse0, d2c, t2mas, mat)
-    // end of [ccomp_tmpcstmat_some]
+  ccomp_tmpcstmat_some
+    (env, loc0, hse0, d2c, t2mas, mat)
   // end of [TMPCSTMATsome]
 | TMPCSTMATsome2
     (d2c, s2ess, flab) =>
