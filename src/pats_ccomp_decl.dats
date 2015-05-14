@@ -174,7 +174,9 @@ case+ hid0.hidecl_node of
     (_(*knd*), imp) => let
     val d2c = imp.hiimpdec_cst
     val lvl0 = the_d2varlev_get ()
-    val ((*void*)) = hiimpdec_ccomp (env, lvl0, imp)
+    val ((*void*)) =
+      hiimpdec_ccomp (env, lvl0, imp, 0(*local*))
+    // end of [val]
   in
     primdec_impdec (loc0, imp)
   end // end of [HIDimpdec]
@@ -984,7 +986,7 @@ in (* in of [local] *)
 implement
 hiimpdec_ccomp
 (
-  env, lvl0, imp
+  env, lvl0, imp, knd
 ) = let
 //
 val d2c = imp.hiimpdec_cst
@@ -1028,7 +1030,11 @@ case+ 0 of
       if istmp then ccompenv_dec_tmplevel (env)
     // end of [val]
 //
-    val () = if istmp then ccompenv_add_impdec (env, imp)
+    val () = (
+      if knd = 0 then
+        (if istmp then ccompenv_add_impdec (env, imp))
+      // end of [if]
+    ) (* end of [val] *)
 //
     val opt = Some (flab)
     val ((*void*)) =
@@ -1061,7 +1067,7 @@ end // end of [local]
 
 implement
 hiimpdec_ccomp_if
-  (env, lvl0, imp) = let
+  (env, lvl0, imp, knd) = let
 //
 val opt =
   hiimpdec_get_funlabopt (imp)
@@ -1070,7 +1076,7 @@ in
 //
 case+ opt of
 | Some _ => ((*void*))
-| None _ => hiimpdec_ccomp (env, lvl0, imp)
+| None _ => hiimpdec_ccomp (env, lvl0, imp, knd)
 //
 end // end of [hiimpdec_ccomp_if]
 

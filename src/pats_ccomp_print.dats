@@ -1383,10 +1383,11 @@ fprint_tmpcstmat
 in
 //
 case+ opt of
-| TMPCSTMATnone (
-  ) => prstr "TMPCSTMATnone()"
+| TMPCSTMATnone
+    ((*void*)) => prstr "TMPCSTMATnone()"
+  // end of [TMPCSTMATnone]
 | TMPCSTMATsome
-    (imp, tmpsub) => let
+    (imp, tmpsub, knd) => let
     val () = prstr "TMPCSTMATsome("
     val () = fprint_d2cst (out, imp.hiimpdec_cst)
     val () = prstr "; "
@@ -1398,7 +1399,7 @@ case+ opt of
     val () = prstr ")"
   in
     // nothing
-  end // end of [TMPCSTMATnone]
+  end // end of [TMPCSTMATsome]
 | TMPCSTMATsome2
     (d2c, s2ess, flab) => let
     val () = prstr "TMPCSTMATsome2("
@@ -1434,10 +1435,11 @@ fprint_tmpvarmat
 in
 //
 case+ opt of
-| TMPVARMATnone (
-  ) => prstr "TMPVARMATnone()"
+| TMPVARMATnone
+    ((*void*)) => prstr "TMPVARMATnone()"
+  // end of [TMPVARMATnone]
 | TMPVARMATsome
-    (hfd, tmpsub) => let
+    (hfd, tmpsub, knd) => let
     val () = prstr "TMPVARMATsome("
     val () = fprint_d2var (out, hfd.hifundec_var)
     val () = prstr "; "
@@ -1447,7 +1449,7 @@ case+ opt of
     val () = prstr ")"
   in
     // nothing
-  end // end of [TMPVARMATnone]
+  end // end of [TMPVARMATsome]
 | TMPVARMATsome2
     (d2v, s2ess, flab) => let
     val () = prstr "TMPVARMATsome2("

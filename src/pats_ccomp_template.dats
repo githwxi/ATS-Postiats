@@ -700,7 +700,7 @@ end // end of [funlab_tmpcst_match]
 
 implement
 hiimpdec_tmpcst_match
-  (imp, d2c0, t2mas) = let
+  (imp, d2c0, t2mas, knd) = let
 //
 val d2c1 = imp.hiimpdec_cst
 //
@@ -723,7 +723,7 @@ in
       impenv2tmpsub (env)
     // end of [val]
   in
-    TMPCSTMATsome (imp, tsub)
+    TMPCSTMATsome (imp, tsub, knd)
   end else let
     val () = impenv_free (env) in TMPCSTMATnone ()
   end // end of [if]
@@ -737,7 +737,7 @@ end // end of [hiimpdec_tmpcst_match]
 
 implement
 hiimpdec2_tmpcst_match
-  (imp2, d2c0, t2mas) = let
+  (imp2, d2c0, t2mas, knd) = let
 //
 val HIIMPDEC2
   (imp, tsub0, tmparg) = imp2
@@ -768,7 +768,7 @@ in
       tmpsub_append (tsub0, tsub1)
     // end of [val]
   in
-    TMPCSTMATsome (imp, tsub01)
+    TMPCSTMATsome (imp, tsub01, knd)
   end else let
     val () = impenv_free (env) in TMPCSTMATnone ()
   end // end of [if]
@@ -781,7 +781,7 @@ end // end of [hiimpdec2_tmpcst_match]
 
 implement
 hiimpdeclst_tmpcst_match
-  (imps, d2c0, t2mas) = let
+  (imps, d2c0, t2mas, knd) = let
 //
 (*
 val () =
@@ -794,12 +794,16 @@ case+ imps of
 | list_cons (
     imp, imps
   ) => let
-    val opt = hiimpdec_tmpcst_match (imp, d2c0, t2mas)
+    val opt =
+      hiimpdec_tmpcst_match (imp, d2c0, t2mas, knd)
+    // end of [val]
   in
     case+ opt of
     | TMPCSTMATsome _ => opt
     | TMPCSTMATsome2 _ => opt
-    | TMPCSTMATnone _ => hiimpdeclst_tmpcst_match (imps, d2c0, t2mas)
+    | TMPCSTMATnone _ =>
+        hiimpdeclst_tmpcst_match (imps, d2c0, t2mas, knd)
+      // end of [TMPCSTMATnone]
   end // end of [list_cons]
 | list_nil () => TMPCSTMATnone ()
 //
@@ -847,7 +851,7 @@ val s2vs = hfd.hifundec_imparg
 val tsub = auxbndlstlst (s2vs, t2mas)
 //
 in
-  TMPVARMATsome (hfd, tsub)
+  TMPVARMATsome (hfd, tsub, 0(*local*))
 end // end of [hifundec2tmpvarmat]
 
 implement
@@ -897,7 +901,7 @@ then let
   val tsub1 = auxbndlstlst (s2vs, t2mas)
   val tsub01 = tmpsub_append (tsub0, tsub1)
 in
-  TMPVARMATsome (hfd, tsub01)
+  TMPVARMATsome (hfd, tsub01, 0(*local*))
 end // end of [then]
 else TMPVARMATnone() // end of [else]
 //
@@ -1079,10 +1083,14 @@ implement
 ccomp_tmpcstmat_some
   (env, loc0, hse0, d2c, t2mas, mat) = let
 //
-val-TMPCSTMATsome (imp, tsub) = mat
+val-TMPCSTMATsome
+  (imp, tsub, knd) = mat
 //
 val lvl0 = the_d2varlev_save ()
-val () = hiimpdec_ccomp_if (env, 0(*level*), imp)
+//
+val () =
+  hiimpdec_ccomp_if (env, 0(*level*), imp, knd)
+//
 val () = the_d2varlev_restore (lvl0)
 //
 val-Some (flab) = hiimpdec_get_funlabopt (imp)
@@ -1140,7 +1148,9 @@ implement
 ccomp_tmpvarmat_some
   (env, loc0, hse0, d2v, t2mas, mat) = let
 //
-val-TMPVARMATsome (hfd, tsub) = mat
+val-TMPVARMATsome
+  (hfd, tsub, _(*knd*)) = mat
+//
 val opt = hifundec_get_funlabopt (hfd)
 val () =
 (

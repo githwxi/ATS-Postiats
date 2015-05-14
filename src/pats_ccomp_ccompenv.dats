@@ -2164,7 +2164,9 @@ case+ xs of
     (imp, !p_xs) => res where
   {
     val res =
-    hiimpdec_tmpcst_match (imp, d2c0, t2mas)
+    hiimpdec_tmpcst_match
+      (imp, d2c0, t2mas, 0(*local*))
+    // end of [val]
     val res = auxcont (res, !p_xs, d2c0, t2mas)
     prval () = fold@ (xs)
   } (* end of [MARKENVLSTcons_impdec] *)
@@ -2172,7 +2174,9 @@ case+ xs of
     (imp2, !p_xs) => res where
   {
     val res =
-    hiimpdec2_tmpcst_match (imp2, d2c0, t2mas)
+    hiimpdec2_tmpcst_match
+      (imp2, d2c0, t2mas, 0(*local*))
+    // end of [val]
     val res = auxcont (res, !p_xs, d2c0, t2mas)
     prval () = fold@ (xs)
   } (* end of [MARKENVLSTcons_impdec2] *)
@@ -2184,7 +2188,8 @@ case+ xs of
     case+ opt of
     | Some (map) => let
         val implst = tmpcstimpmap_find (map, d2c0)
-        val tmpmat = hiimpdeclst_tmpcst_match (implst, d2c0, t2mas)
+        val tmpmat =
+        hiimpdeclst_tmpcst_match (implst, d2c0, t2mas, 1(*staload*))
         val tmpmat = auxcont (tmpmat, !p_xs, d2c0, t2mas)
       in
         fold@ (xs); tmpmat

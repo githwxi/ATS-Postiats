@@ -520,8 +520,10 @@ and hiimpdec = '{
 , hiimpdec_imparg= s2varlst
 , hiimpdec_tmparg= s2explstlst
 , hiimpdec_def= hidexp
+//
 , hiimpdec_funlab= Option (hidynexp_funlab_type)
 , hiimpdec_instrlst= Option (hidynexp_instrlst_type)
+//
 } (* end of [hiimpdec] *)
 
 and hiimpdeclst = List (hiimpdec)

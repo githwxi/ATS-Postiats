@@ -502,9 +502,9 @@ fun tmpsub_append (xs1: tmpsub, xs2: tmpsub): tmpsub
 
 datatype
 tmpcstmat =
-  | TMPCSTMATsome of (hiimpdec, tmpsub)
-  | TMPCSTMATsome2 of (d2cst, s2explstlst, funlab)
   | TMPCSTMATnone of ()
+  | TMPCSTMATsome of (hiimpdec, tmpsub, int(*knd*))
+  | TMPCSTMATsome2 of (d2cst, s2explstlst, funlab)
 // end of [tmpcstmat]
 
 fun fprint_tmpcstmat : fprint_type (tmpcstmat)
@@ -514,9 +514,9 @@ fun fprint_tmpcstmat_kind : fprint_type (tmpcstmat) // 1/0:found/not
 
 datatype
 tmpvarmat =
-  | TMPVARMATsome of (hifundec, tmpsub)
-  | TMPVARMATsome2 of (d2var, s2explstlst, funlab)
   | TMPVARMATnone of ()
+  | TMPVARMATsome of (hifundec, tmpsub, int(*knd*))
+  | TMPVARMATsome2 of (d2var, s2explstlst, funlab)
 // end of [tmpvarmat]
 
 fun fprint_tmpvarmat : fprint_type (tmpvarmat)
@@ -1948,13 +1948,13 @@ fun hilablst_ccomp
 fun
 hiimpdec_ccomp
 (
-  env: !ccompenv, level: int, imp: hiimpdec
+  env: !ccompenv, level: int, imp: hiimpdec, knd: int
 ) : void // end of [hiimpdec_ccomp]
 
 fun
 hiimpdec_ccomp_if
 (
-  env: !ccompenv, level: int, imp: hiimpdec
+  env: !ccompenv, level: int, imp: hiimpdec, knd: int
 ) : void // end of [hiimpdec_ccomp_if]
 
 (* ****** ****** *)
@@ -2240,16 +2240,23 @@ fun funlab_tmpcst_match
 
 (* ****** ****** *)
 //
-fun hiimpdec_tmpcst_match
-  (imp: hiimpdec, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
-// end of [hiimpdec_tmpcst_match]
-fun hiimpdec2_tmpcst_match
-  (imp2: hiimpdec2, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
-// end of [hiimpdec2_tmpcst_match]
+fun
+hiimpdec_tmpcst_match
+(
+  imp: hiimpdec, d2c: d2cst, t2mas: t2mpmarglst, knd: int
+) : tmpcstmat // end of [hiimpdec_tmpcst_match]
 //
-fun hiimpdeclst_tmpcst_match
-  (imps: hiimpdeclst, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
-// end of [hiimpdeclst_tmpcst_match]
+fun
+hiimpdec2_tmpcst_match
+(
+  imp2: hiimpdec2, d2c: d2cst, t2mas: t2mpmarglst, knd: int
+) : tmpcstmat // end of [hiimpdec2_tmpcst_match]
+//
+fun
+hiimpdeclst_tmpcst_match
+(
+  imps: hiimpdeclst, d2c: d2cst, t2mas: t2mpmarglst, knd: int
+) : tmpcstmat // end of [hiimpdeclst_tmpcst_match]
 //
 (* ****** ****** *)
 //
@@ -2267,43 +2274,53 @@ fun hifundec2_tmpvar_match
 
 (* ****** ****** *)
 
-fun tmpcstmat_tmpcst_match
+fun
+ccomp_tmpcstmat
+(
+  env: !ccompenv
+, loc0: loc_t, hse0: hisexp
+, d2c: d2cst, t2ms: t2mpmarglst, tmpmat: tmpcstmat
+) : primval // end-of-function
+
+fun
+tmpcstmat_tmpcst_match
   (mat: tmpcstmat, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [tmpcstmat_tmpcst_match]
 
-fun ccompenv_tmpcst_match
+fun
+ccompenv_tmpcst_match
   (env: !ccompenv, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [ccompenv_tmpcst_match]
 
-fun ccomp_tmpcstmat
-(
-  env: !ccompenv, loc0: loc_t, hse0: hisexp
-, d2c: d2cst, t2ms: t2mpmarglst, tmpmat: tmpcstmat
-) : primval // end of [ccomp_tmpcstmat]
-
 (* ****** ****** *)
 
-fun tmpvarmat_tmpvar_match
+fun
+ccomp_tmpvarmat
+(
+  env: !ccompenv
+, loc0: loc_t, hse0: hisexp
+, d2v: d2var, t2ms: t2mpmarglst, tmpmat: tmpvarmat
+) : primval // end-of-function
+
+fun
+tmpvarmat_tmpvar_match
   (mat: tmpvarmat, d2v: d2var, t2mas: t2mpmarglst): tmpvarmat
 // end of [tmpvarmat_tmpvar_match]
 
-fun ccompenv_tmpvar_match
+fun
+ccompenv_tmpvar_match
   (env: !ccompenv, d2v: d2var, t2mas: t2mpmarglst): tmpvarmat
 // end of [ccompenv_tmpvar_match]
 
-fun ccomp_tmpvarmat
-(
-  env: !ccompenv, loc0: loc_t, hse0: hisexp
-, d2v: d2var, t2ms: t2mpmarglst, tmpmat: tmpvarmat
-) : primval // end of [ccomp_tmpvarmat]
-
 (* ****** ****** *)
 
-fun t2mpmarglst_subst
+fun
+t2mpmarglst_subst
   (loc0: loc_t, sub: !stasub, t2mas: t2mpmarglst): t2mpmarglst
 // end of [t2mpmarglst_subst]
 
-fun t2mpmarglst_tsubst
+fun
+t2mpmarglst_tsubst
   (loc0: loc_t, tsub: tmpsub, t2mas: t2mpmarglst): t2mpmarglst
 // end of [t2mpmarglst_tsubst]
 

@@ -36,6 +36,9 @@ Here is a list of major additions and changes since the last release:
 7. Supporting s2rt_string and static string constants
 8. If undefined, ATS_EXTERN_PREFIX is assumed to have the value:
    "__ATS_EXTERN_PREFIX__".
+9. no exporting of r(), w() and rw() from prelude/basics_dyn.sats
+10. Fixing bug-2015-05-13:
+    Handling of staloaded template implementations was incorrect
 
 ######
 

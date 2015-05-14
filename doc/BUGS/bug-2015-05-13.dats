@@ -12,6 +12,18 @@
 
 (* ****** ****** *)
 
+(*
+**
+** Status: It is fixed by HX-2015-05-13
+**
+** The strategy is to keep staloaded a template
+** implementation where it is instead of moving
+** it into the local compilation env (ccompenv)
+**
+*)
+
+(* ****** ****** *)
+
 typedef path = List (int)
 typedef pathlst = List (path)
 
