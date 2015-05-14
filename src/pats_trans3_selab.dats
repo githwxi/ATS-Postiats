@@ -814,17 +814,20 @@ println!
   "d2var_trup_selab_lin: d2v = ", d2v
 ) (* end of [val] *)
 *)
-val s2e =
-  d2var_get_type_some(loc, d2v)
+val
+s2e =
+d2var_get_type_some(loc, d2v)
 //
 val s2rt = s2e // HX: root type for selection
-//
 val d3ls = d2lablst_trup (d2ls)
 //
-val
-overld = d3lablst_is_overld (d3ls)
+(*
 val () =
-if overld then
+(
+//
+if
+d3lablst_is_overld (d3ls)
+then
 {
 //
 val () =
@@ -838,6 +841,9 @@ the_trans3errlst_add
   (T3E_d2var_lin_overld(loc0, d2v, d3ls))
 //
 } (* end of [if] *)
+//
+) (* end of [val] *)
+*)
 //
 var linrest: int = 0 and sharing: int = 0
 //
@@ -902,14 +908,19 @@ implement
 d2var_trup_selab_mut
   (loc0, loc, d2v, d2ls) = let
 //
-val-Some(s2l) = d2var_get_addr (d2v)
+val-
+Some
+(s2l) = d2var_get_addr (d2v)
 //
 val d3ls = d2lablst_trup (d2ls)
 //
-val
-overld = d3lablst_is_overld (d3ls)
+(*
 val () =
-if overld then
+(
+//
+if
+d3lablst_is_overld (d3ls)
+then
 {
 //
 val () =
@@ -923,6 +934,9 @@ the_trans3errlst_add
   (T3E_d2var_mul_overld(loc0, d2v, d3ls))
 //
 } (* end of [if] *)
+//
+) (* end of [val] *)
+*)
 //
 var s2rt: s2exp
 val s2e_sel = s2addr_deref (loc0, s2l, d3ls, s2rt)

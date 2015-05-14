@@ -347,6 +347,8 @@ val s2f0 = s2exp2hnf_cast (s2e0)
 //
 (*
 val () =
+(
+//
 if
 d3lablst_is_overld (d3ls)
 then
@@ -365,6 +367,8 @@ the_trans3errlst_add
   (T3E_d2exp_deref_overld(loc0, d2rt, d3ls))
 //
 } (* end of [if] *)
+//
+) (* end of [val] *)
 *)
 //
 in
