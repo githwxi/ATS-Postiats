@@ -53,7 +53,9 @@ prerr_FILENAME<> () = prerr "pats_trans3_selab"
 staload
 LAB = "./pats_label.sats"
 overload = with $LAB.eq_label_label
-macdef prerr_label = $LAB.prerr_label
+overload prerr with $LAB.prerr_label
+
+(* ****** ****** *)
 
 staload
 LOC = "./pats_location.sats"
@@ -317,7 +319,7 @@ of // case+
       val () = prerr ": the record-type ["
       val () = prerr_s2exp (s2e)
       val () = prerr "] is expected to contain the label ["
-      val () = prerr_label (l0)
+      val () = $LAB.prerr_label (l0)
       val () = prerr "] but it does not."
       val () = prerr_newline ()
     in
@@ -338,27 +340,49 @@ of // case+
     val opt = d3l.d3lab_overld
   in
     case+ opt of
-    | Some (d2s) => let
-        val _fun = d2exp_top (loc0)
-        val d2e1 = d2exp_top2 (loc0, s2e)
-        val d2a1 =
-          D2EXPARGdyn(~1(*npf*), loc0, list_sing(d2e1))
+(*
+//
+// HX-2015-05-14:
+// It is commented out for now.
+// It can be reinstated if there is a genuine need.
+//
+    | Some(d2s) =>
+      (s2e_sel) where
+      {
+        val d2e_fun = d2exp_top (loc0)
+        val d2e_arg = d2exp_top2 (loc0, s2e)
+        val d2a_arg =
+          D2EXPARGdyn(~1(*npf*), loc0, list_sing(d2e_arg))
         // end of [val]
-        val _arg = list_sing (d2a1)
         val d3e_sel =
-          d2exp_trup_applst_sym (_fun, d2s, _arg)
-        val ((*void*)) =
-          d3lab_set_overld_app (d3l, Some(d3e_sel))
+          d2exp_trup_applst_sym(d2e_fun, d2s, list_sing(d2a_arg))
+        // end of [val]
+        val s2e_sel = d3exp_get_type (d3e_sel)
+        val ((*void*)) = d3lab_set_overld_app (d3l, Some(d3e_sel))
+      } (* end of [Some] *)
+//
+*)
+    | Some(d2s) => let
+        val () = prerr_error3_loc (loc0) 
+        val () =
+        prerrln! (
+          ": overloaded dot-symbol: [", d2s, "] should be applied."
+        ) (* end of [val] *)
+        val () = the_trans3errlst_add(T3E_d3lab_overld_app(loc0, d3l))
       in
-        d3exp_get_type (d3e_sel)
+        s2exp_t0ype_err ((*void*))
       end // end of [Some]
-    | None ((*void*)) => let
+    | None((*void*)) => let
         val () = prerr_error3_loc (loc0)
+        val () =
+        prerr! (
+          ": [", l0, "] cannot be found"
+        ) (* end of [val] *)
         val () =
         prerrln! (
           ": the type [", s2e, "] is expected to be a tyrec(record)."
         ) (* end of [val] *)
-        val () = the_trans3errlst_add (T3E_s2exp_selab_tyrec(loc0, s2e))
+        val () = the_trans3errlst_add(T3E_s2exp_selab_tyrec(loc0, s2e))
       in
         s2exp_t0ype_err ((*void*))
       end // end of [None]
@@ -565,7 +589,7 @@ s2e.s2exp_node of
       val () = prerr ": the record-type ["
       val () = prerr_s2exp (s2e)
       val () = prerr "] is expected to contain the label ["
-      val () = prerr_label (l0)
+      val () = $LAB.prerr_label (l0)
       val () = prerr "] but it does not."
       val () = prerr_newline ()
     in

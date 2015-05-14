@@ -131,9 +131,13 @@ datatype trans3err =
 //
   | T3E_d2var_nonmut of (loc_t, d2var) // no address for d2var
 //
+(*
   | T3E_d2var_lin_overld of (loc_t, d2var, d3lablst)
   | T3E_d2var_mul_overld of (loc_t, d2var, d3lablst)
   | T3E_d2exp_deref_overld of (loc_t, d2exp, d3lablst)
+*)
+//
+  | T3E_d3lab_overld_app of (loc_t, d3lab) // dot-symbol not applied
 //
   | T3E_d2exp_nonlval of (d2exp) // non-lval expression
   | T3E_d2exp_addrless of (d2exp) // addressless lval
