@@ -84,7 +84,7 @@ assigned the following function types (or more accurately, prop-types):
 <listitem>
 #para("\
 #dyncode("FIB2"):
- #stacode("{n:nat}{r0,r1:int} (FIB(n, r0), FIB(n+1, r1)) -> FIB(n+2, r0+r1)")
+ #stacode("{n:nat}{r0,r1:nat} (FIB(n, r0), FIB(n+1, r1)) -> FIB(n+2, r0+r1)")
 ")
 </listitem>
 
