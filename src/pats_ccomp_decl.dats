@@ -1025,7 +1025,9 @@ case+ 0 of
     val () =
       if istmp then ccompenv_inc_tmplevel (env)
     // end of [val]
-    val flab = auxmain (env, loc0, d2c, imparg, tmparg, hde_def)
+    val flab =
+      auxmain (env, loc0, d2c, imparg, tmparg, hde_def)
+    // end of [val]
     val () =
       if istmp then ccompenv_dec_tmplevel (env)
     // end of [val]
@@ -1037,12 +1039,13 @@ case+ 0 of
     ) (* end of [val] *)
 //
     val opt = Some (flab)
+    val ((*void*)) = hiimpdec_set_funlabopt (imp, opt)
     val ((*void*)) =
-      hiimpdec_set_funlabopt (imp, opt)
-    val ((*void*)) =
-    if not(istmp) then
-      $D2E.d2cst_set_funlab (d2c, $UN.cast{dynexp2_funlabopt}(opt))
-    // end of [if] // end of [val]
+    (
+      if not(istmp) then
+        $D2E.d2cst_set_funlab (d2c, $UN.cast{dynexp2_funlabopt}(opt))
+      // end of [if]
+    ) (* end of [val] *)
 //
   in
     // nothing
