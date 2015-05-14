@@ -60,7 +60,7 @@ fun{
 a:t@ype
 } list0_length
   (xs: list0 (a)): int =
-  try 1 + list0_length<a> (xs.tail) with ~ListSubscriptExn() => 0
+  try 1 + list0_length<a> (xs.tail()) with ~ListSubscriptExn() => 0
 // end of [list0_length]
 
 (* ****** ****** *)

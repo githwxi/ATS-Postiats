@@ -50,8 +50,8 @@ val p0 = point_make (~1, 1)
 
 (* ****** ****** *)
 
-val () = assertloc (p0.x = ~1)
-val () = assertloc (p0.y =  1)
+val () = assertloc (p0.x() = ~1)
+val () = assertloc (p0.y() =  1)
 
 (* ****** ****** *)
 

@@ -88,18 +88,16 @@ set-functions as is shown in the following code:
 
 #atscode('\
 val p0 = point_make (1.0, ~1.0)
-val x0 = p0.x // point_get_x (p0)
-and y0 = p0.y // point_get_y (p0)
+val x0 = p0.x() // point_get_x (p0)
+and y0 = p0.y() // point_get_y (p0)
 val () = p0.x := y0 // point_set_x (p0, y0)
 and () = p0.y := x0 // point_set_y (p0, x0)
 ')
 
-Note that the dot-notation in any assigement is only allowed to refer to a
-function that returns the void-value. In the above example, both
+Note that writing #dyncode("p0.x") for #dyncode("p0.x()") is currently not
+supported.  The dot-notation in any assigement is only allowed to refer to
+a function that returns the void-value. In the above example, both
 #dyncode("point_set_x") and #dyncode("point_set_y") return the void-value.
-Also, it should be emphasized that overloaded dot-notation as is shown
-above can only be applied to non-linear values. For handling linear values,
-a slight restriction needs to be imposed, which I explain as follows.
 
 ')
 
@@ -134,7 +132,7 @@ increase that count by a given integer value.
 
 #para("\
 
-Suppose that we now introduce the following overloading declarations:
+Let us introduce the following overloading declarations:
 
 #atscode('\
 //
@@ -143,16 +141,7 @@ overload .incby with counter_incby
 //
 ')
 
-One may expect the following line of code to typecheck:
-
-#atscode('\
-val n0 = c0.get
-')
-
-But this is not the case due to #dyncode("c0") being a linear
-value. Instead, one needs to use #dyncode("c0.get") as the function
-inside a function call in order to call #dyncode("counter_get") on
-#dyncode("c0"):
+As is expected, one can now call #dyncode("counter_get") as follows:
 
 #atscode('\
 val n0 = c0.get() // = counter_get(c0)

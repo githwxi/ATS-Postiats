@@ -344,7 +344,7 @@ in
 //
 if
 isneqz(str1)
-  then loop (str1.tail, pred(n2), succ(r)) else (r)
+  then loop (str1.tail(), pred(n2), succ(r)) else (r)
 //
 end // end of [then]
 else (r) // end of [else]

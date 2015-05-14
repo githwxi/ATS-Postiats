@@ -52,7 +52,10 @@ list_foldleft
 (
   f: (a, b) -> a, ini: a, xs: list(b, n)
 ) : a =
-  if iseqz(xs) then ini else list_foldleft (f, f(ini, xs.head), xs.tail)
+(
+if iseqz(xs)
+  then ini else list_foldleft (f, f(ini, xs.head()), xs.tail())
+) (* end of [list_foldleft] *)
 //
 fun
 {a,b:t@ype}
@@ -63,7 +66,7 @@ list_foldright
 ) : b =
 (
 if iseqz(xs)
-  then snk else f (xs.head, list_foldright (f, xs.tail, snk))
+  then snk else f (xs.head(), list_foldright (f, xs.tail(), snk))
 )
 //
 (* ****** ****** *)
@@ -135,7 +138,7 @@ list_get_at
 (
   xs: list(a, n), i: natLt(n)
 ) : a =
-  if i > 0 then list_get_at(xs.tail, i-1) else xs.head
+  if i > 0 then list_get_at(xs.tail(), i-1) else xs.head()
 //
 (* ****** ****** *)
 //
@@ -147,8 +150,8 @@ list_set_at
   xs: list(a, n), i: natLt(n), x0: a
 ) : list(a, n) =
   if i > 0
-    then list_cons(xs.head, list_set_at(xs.tail, i-1, x0))
-    else list_cons(x0, xs.tail)
+    then list_cons(xs.head(), list_set_at(xs.tail(), i-1, x0))
+    else list_cons(x0, xs.tail())
   // end of [if]
 //
 (* ****** ****** *)

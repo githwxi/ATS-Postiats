@@ -53,7 +53,9 @@
 fun
 print_intarray
   (A: arrszref (int)): void = let
-  val asz = g0uint2int_size_int (A.size)
+  val asz =
+    g0uint2int_size_int(A.size())
+  // end of [val]
   fun loop (i: int, sep: string): void =
     if i < asz then
       (if i > 0 then print sep; print A[i]; loop (i+1, sep))

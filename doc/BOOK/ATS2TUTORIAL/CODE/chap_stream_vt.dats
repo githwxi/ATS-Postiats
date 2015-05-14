@@ -39,8 +39,9 @@ val thePrimes = sieve(from(2))
 //
 (* ****** ****** *)
 //
-val p1000 =
-  (stream_vt_drop_exn(thePrimes, 1000)).head
+val
+p1000 =
+(stream_vt_drop_exn(thePrimes, 1000)).head()
 //
 (* ****** ****** *)
 

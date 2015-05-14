@@ -92,7 +92,7 @@ returned. Otherwise, no item is returned. As can be expected, the size
 of #dyncode("mymap") is 3 at this point:
 
 #atscode('\
-val () = assertloc (mymap.size = 3)
+val () = assertloc (mymap.size() = 3)
 ')
 
 The dot-symbol #dyncode(".size") is overloaded with a function of the name
@@ -152,7 +152,7 @@ val ((*void*)) = fprintln! (stdout_ref, "kxs = ", kxs)
 val kxs = mymap.takeout_all((*void*))
 val ((*void*)) = fprintln! (stdout_ref, "kxs = ", kxs)
 //
-val () = assertloc (mymap.size = 0)
+val () = assertloc (mymap.size() = 0)
 //
 ')
 

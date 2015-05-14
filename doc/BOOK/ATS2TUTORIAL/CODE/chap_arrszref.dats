@@ -15,7 +15,7 @@ arrszref_reverse
   A: arrszref (a)
 ) : void = let
 //
-val n = A.size
+val n = A.size()
 val n2 = half (n)
 //
 fun loop

@@ -391,7 +391,7 @@ fun{
 a:t@ype
 } list0_length
   (xs: list0 (a)): int =
-  try 1 + list0_length (xs.tail) with ~ListSubscriptExn() => 0
+  try 1 + list0_length (xs.tail()) with ~ListSubscriptExn() => 0
 // end of [list0_length]
 ')
 
@@ -650,10 +650,11 @@ is #dyncode("asz") and each cell in the array is initialized with the value
 #dyncode("init"). Given an array A of the type #stacode("arrszref(T)") for
 some T, #dyncode("arrszref_get_size(A)") returns the size of A, which is of
 the type #stacode("size_t"). For convenience,
-#dyncode("arrszref_get_size(A)") can be written as #dyncode("A.size").  As
-for array access and update, the functions #dyncode("arrszref_get_elt_at")
-and #dyncode("arrszref_set_elt_at") can be called. For convenience, the
-bracket notation can be used to call these functions.  \
+#dyncode("arrszref_get_size(A)") can be written as #dyncode("A.size()").
+As for array access and update, the functions
+#dyncode("arrszref_get_elt_at") and #dyncode("arrszref_set_elt_at") can be
+called. For convenience, the bracket notation can be used to call these
+functions.  \
 
 ")
 
@@ -671,7 +672,7 @@ a:t@ype
   A: arrszref (a)
 , cmp: (a, a) -> int
 ) : void = let
-  val n = g0uint2int_size_int (A.size)
+  val n = g0uint2int_size_int(A.size())
   fun ins (x: a, i: int):<cloref1> void =
     if i >= 0 then
     (
@@ -765,7 +766,7 @@ of integers:
 #atscode('
 fun print_intarray
   (A: arrszref (int)): void = let
-  val asz = g0uint2int_size_int (A.size)
+  val asz = g0uint2int_size_int(A.size())
 //
 // The integers are to be separated by the string [sep]
 //

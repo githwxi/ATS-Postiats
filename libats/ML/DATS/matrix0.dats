@@ -167,8 +167,8 @@ implement
 matrix0_copy (M0) = let
 //
 val M = matrix0_get_ref (M0)
-val [m:int] m = g1ofg0 (M0.nrow)
-val [n:int] n = g1ofg0 (M0.ncol)
+val [m:int] m = g1ofg0 (M0.nrow())
+val [n:int] n = g1ofg0 (M0.ncol())
 val M =
   matrixref_copy<a> ($UN.cast{matrixref(a,m,n)}(M), m, n)
 // end of [val]

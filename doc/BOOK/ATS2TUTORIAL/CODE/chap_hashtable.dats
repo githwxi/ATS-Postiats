@@ -25,9 +25,9 @@ end // end of [local]
 val mymap = myhashtbl_make_nil(1000)
 //
 val () =
-fprintln! (stdout_ref, "mymap.size = ", mymap.size)
+fprintln! (stdout_ref, "mymap.size = ", mymap.size())
 val () =
-fprintln! (stdout_ref, "mymap.capacity = ", mymap.capacity)
+fprintln! (stdout_ref, "mymap.capacity = ", mymap.capacity())
 //
 (* ****** ****** *)
 //
@@ -42,7 +42,7 @@ val-~Some_vt(2) = mymap.insert("c", 3)
 //
 (* ****** ****** *)
 //
-val () = assertloc (mymap.size = 3)
+val () = assertloc (mymap.size() = 3)
 val () = fprintln! (stdout_ref, "mymap = ", mymap)
 //
 (* ****** ****** *)
@@ -60,7 +60,7 @@ val-~Some_vt(3) = mymap.takeout("c")
 //
 (* ****** ****** *)
 //
-val () = assertloc (mymap.size = 0)
+val () = assertloc (mymap.size() = 0)
 //
 (* ****** ****** *)
 //
@@ -72,7 +72,7 @@ val ((*void*)) = fprintln! (stdout_ref, "kxs = ", kxs)
 val kxs = mymap.takeout_all((*void*))
 val ((*void*)) = fprintln! (stdout_ref, "kxs = ", kxs)
 //
-val () = assertloc (mymap.size = 0)
+val () = assertloc (mymap.size() = 0)
 //
 (* ****** ****** *)
 //

@@ -67,7 +67,7 @@ arrayref_foldleft{n:int}
 ) : a =
 (
 if n > 0
-  then arrayref_foldleft<a,b> (f, f (x, A.head), A.tail, pred(n))
+  then arrayref_foldleft<a,b> (f, f (x, A.head()), A.tail(), pred(n))
   else x
 // end of [if]
 ) (* end of [arrayref_foldleft] *)

@@ -16,10 +16,12 @@ mtrxszref_transpose (M: mtrxszref (a)): void
 (* ****** ****** *)
 
 implement{a}
-mtrxszref_transpose (M) = let
+mtrxszref_transpose
+  (M) = let
 //
-val n = M.nrow
-val ((*void*)) = assertloc (M.nrow = M.ncol)
+val n = M.nrow()
+//
+val ((*void*)) = assertloc (M.nrow() = M.ncol())
 //
 fun loop
 (

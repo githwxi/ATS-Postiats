@@ -58,7 +58,7 @@ if c2 != CNUL then
     prval string_index_p_neqz () = pf1
     prval string_index_p_neqz () = pf2
   in
-    loop (str1.tail, str2.tail, succ(i))
+    loop (str1.tail(), str2.tail(), succ(i))
   end else (i) // end of [if]
 ) else (i)
 //
