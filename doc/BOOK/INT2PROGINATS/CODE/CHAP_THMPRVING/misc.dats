@@ -8,7 +8,7 @@ dataprop
 FIB(int, int) =
   | FIB0(0, 0) of () // [of ()] can be dropped
   | FIB1(1, 1) of () // [of ()] can be dropped
-  | {n:nat}{r0,r1:nat}
+  | {n:nat}{r0,r1:int}
     FIB2(n+2, r0+r1) of (FIB(n, r0), FIB(n+1, r1))
 // end of [FIB]
 
