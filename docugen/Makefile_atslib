@@ -1,9 +1,8 @@
 ######
 #
-# This is for generating atslib source code
-# [atslib] currently includes the following ones:
+# This is for generating doc for [ATSLIB], where
+# [ATSLIB] currently includes the following ones:
 # [prelude], [libc] and [libats]
-#
 #
 ######
 
