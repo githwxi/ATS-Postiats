@@ -40,7 +40,9 @@ Here is a list of major additions and changes since the last release:
 10. Fixing bug-2015-05-13:
     Handling of staloaded template implementations was incorrect
 11. Dot-symbol overloading is required to be of functional style.
-    This is a pervasive change!!!
+    For instance,
+    point.x changes to point.x()
+    point.y changes to point.y()
 
 ######
 
