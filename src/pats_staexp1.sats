@@ -42,6 +42,7 @@ FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 staload
 LOC = "./pats_location.sats"
+typedef loc_t = $LOC.location
 typedef location = $LOC.location
 //
 (* ****** ****** *)
@@ -327,9 +328,12 @@ d1atsrtdec = '{
 , d1atsrtdec_con= d1atsrtconlst
 } // end of [d1atsrtdec]
 
-typedef d1atsrtdeclst = List d1atsrtdec
+typedef
+d1atsrtdeclst = List d1atsrtdec
 
-fun d1atsrtdec_make (
+fun
+d1atsrtdec_make
+(
   loc: location, name: symbol, conlst: d1atsrtconlst
 ) : d1atsrtdec // end of [d1atsrtdec]
 
@@ -343,7 +347,9 @@ typedef s1arg = '{
 typedef s1arglst = List s1arg
 typedef s1arglstlst = List s1arglst
 
-fun s1arg_make (
+fun
+s1arg_make
+(
   loc: location, sym: symbol, srtopt: s1rtopt
 ) : s1arg // end of [s1arg_make]
 
@@ -715,17 +721,22 @@ fun fprint_s1rtdef : fprint_type (s1rtdef)
 (* ****** ****** *)
 
 typedef
-s1tacst = '{ // static constant declaration
-  s1tacst_loc= location
+s1tacst = '{
+//
+// static constant declaration
+//
+  s1tacst_loc= loc_t
 , s1tacst_sym= symbol
-, s1tacst_arg= a1msrtlst
-, s1tacst_res= s1rt
+, s1tacst_fil= filename
+, s1tacst_arg= a1msrtlst, s1tacst_res= s1rt
 } // end of [s1tacst]
 
 typedef s1tacstlst = List s1tacst
 
-fun s1tacst_make (
-  loc: location, sym: symbol, arg: a1msrtlst, res: s1rt
+fun
+s1tacst_make (
+  loc: location
+, fil: filename, sym: symbol, arg: a1msrtlst, res: s1rt
 ) : s1tacst // end of [s1tacst_make]
 
 fun fprint_s1tacst : fprint_type (s1tacst)
@@ -733,17 +744,22 @@ fun fprint_s1tacst : fprint_type (s1tacst)
 (* ****** ****** *)
 
 typedef
-s1tacon = '{ // static constructor declaration
-  s1tacon_loc= location
+s1tacon = '{
+//
+// static constructor declaration
+//
+  s1tacon_loc= loc_t
 , s1tacon_sym= symbol
-, s1tacon_arg= a1msrtlst
-, s1tacon_def= s1expopt
+, s1tacon_fil= filename
+, s1tacon_arg= a1msrtlst, s1tacon_def= s1expopt
 } // end of [s1tacon]
 
 typedef s1taconlst = List s1tacon
 
-fun s1tacon_make (
-  loc: location, sym: symbol, arg: a1msrtlst, def: s1expopt
+fun
+s1tacon_make (
+  loc: location
+, fil: filename, sym: symbol, arg: a1msrtlst, def: s1expopt
 ) : s1tacon // end of [s1tacon]
 
 fun fprint_s1tacon : fprint_type (s1tacon)

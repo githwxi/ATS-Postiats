@@ -584,9 +584,11 @@ fun fprint_s2qualst : fprint_type (s2qualst)
 //
 (* ****** ****** *)
 
-fun s2cst_make (
-  id: symbol // the name
-, loc: location // the location of declaration
+fun
+s2cst_make (
+  id: symbol
+, loc: location
+, fil: filename
 , s2t: s2rt // the sort
 , isabs: Option (s2expopt)
 , iscon: bool
@@ -597,7 +599,8 @@ fun s2cst_make (
 , def: s2expopt
 ) : s2cst // end of [s2cst_make]
 
-fun s2cst_make_dat (
+fun
+s2cst_make_dat (
   id: symbol
 , loc: location
 , s2ts_arg: s2rtlstlst

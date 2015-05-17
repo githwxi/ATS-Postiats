@@ -52,7 +52,8 @@ staload GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
 //
-staload SYM = "./pats_symbol.sats"
+staload
+SYM = "./pats_symbol.sats"
 //
 overload = with $SYM.eq_symbol_symbol
 //
@@ -77,7 +78,8 @@ macdef ATS_MAINATSFLAG = $SYM.symbol_ATS_MAINATSFLAG
 //
 (* ****** ****** *)
 
-staload FIL = "./pats_filename.sats"
+staload
+FIL = "./pats_filename.sats"
 
 (* ****** ****** *)
 
@@ -256,20 +258,22 @@ end // end of [local]
 
 implement
 s0tacst_tr (d) = let
+  val fil = $FIL.filename_get_current ()
   val arg = a0msrtlst_tr (d.s0tacst_arg)
   val res: s1rt = s0rt_tr (d.s0tacst_res)
 in
-  s1tacst_make (d.s0tacst_loc, d.s0tacst_sym, arg, res)
+  s1tacst_make (d.s0tacst_loc, fil, d.s0tacst_sym, arg, res)
 end // end of [s0tacst_tr]
 
 (* ****** ****** *)
 
 implement
 s0tacon_tr (d) = let
+  val fil = $FIL.filename_get_current ()
   val arg = a0msrtlst_tr (d.s0tacon_arg)
   val def: s1expopt = s0expopt_tr (d.s0tacon_def)
 in
-  s1tacon_make (d.s0tacon_loc, d.s0tacon_sym, arg, def)
+  s1tacon_make (d.s0tacon_loc, fil, d.s0tacon_sym, arg, def)
 end // end of [s0tacon_tr]
 
 (* ****** ****** *)
@@ -1067,54 +1071,63 @@ case+ d0c0.d0ecl_node of
   end // end of [D0Ce0xpact]
 //
 | D0Cdatsrts (d0cs) => let
-    val d1cs = l2l (list_map_fun (d0cs, d0atsrtdec_tr))
+    val d1cs =
+    list_map_fun
+      (d0cs, d0atsrtdec_tr)
+    // end of [val]
   in
-    d1ecl_datsrts (loc0, d1cs)
+    d1ecl_datsrts (loc0, l2l(d1cs))
   end // end of [D0Cdatsrts]
 | D0Csrtdefs (d0cs) => let
-    val d1cs = l2l (list_map_fun (d0cs, s0rtdef_tr))
+    val d1cs =
+    list_map_fun(d0cs, s0rtdef_tr)
   in
-    d1ecl_srtdefs (loc0, d1cs)
+    d1ecl_srtdefs (loc0, l2l(d1cs))
   end // end of [D0Csrtdefs]
 //
 | D0Cstacsts (d0cs) => let
-    val d1cs = l2l (list_map_fun (d0cs, s0tacst_tr))
+    val d1cs =
+    list_map_fun(d0cs, s0tacst_tr)
   in
-    d1ecl_stacsts (loc0, d1cs)
+    d1ecl_stacsts (loc0, l2l(d1cs))
   end // end of [D0Cstacsts]
 | D0Cstacons (knd, d0cs) => let
-    val d1cs = l2l (list_map_fun (d0cs, s0tacon_tr))
+    val d1cs =
+    list_map_fun(d0cs, s0tacon_tr)
   in
-    d1ecl_stacons (loc0, knd, d1cs)
+    d1ecl_stacons (loc0, knd, l2l(d1cs))
   end // end of [D0Cstacons]
 (*
 | D0Cstavars (d0cs) => let
-    val d1cs = l2l (list_map_fun (d0cs, s0tavar_tr))
+    val d1cs =
+    list_map_fun(d0cs, s0tavar_tr)
   in
-    d1ecl_stavars (loc0, d1cs)
+    d1ecl_stavars (loc0, l2l(d1cs))
   end // end of [D0Cstavars]
 *)
 //
 | D0Ctkindef (d0c) =>
     d1ecl_tkindef (loc0, t0kindef_tr d0c)
 | D0Csexpdefs (knd, d0cs) => let
-    val d1cs = l2l (list_map_fun (d0cs, s0expdef_tr))
+    val d1cs =
+    list_map_fun(d0cs, s0expdef_tr)
   in
-    d1ecl_sexpdefs (loc0, knd, d1cs)
+    d1ecl_sexpdefs (loc0, knd, l2l(d1cs))
   end // end of [D0Csexpdefs]
 | D0Csaspdec (d0c) =>
     d1ecl_saspdec (loc0, s0aspdec_tr (d0c))
 //
 | D0Cexndecs (d0cs) => let
-    val d1cs = l2l (list_map_fun (d0cs, e0xndec_tr))
+    val d1cs =
+    list_map_fun(d0cs, e0xndec_tr)
   in
-    d1ecl_exndecs (loc0, d1cs)
+    d1ecl_exndecs (loc0, l2l(d1cs))
   end // end of [D0Cexndecs]
 | D0Cdatdecs (knd, d0cs1, d0cs2) => let
-    val d1cs1 = l2l (list_map_fun (d0cs1, d0atdec_tr))
-    val d1cs2 = l2l (list_map_fun (d0cs2, s0expdef_tr))
+    val d1cs1 = list_map_fun (d0cs1, d0atdec_tr)
+    val d1cs2 = list_map_fun (d0cs2, s0expdef_tr)
   in
-    d1ecl_datdecs (loc0, knd, d1cs1, d1cs2)
+    d1ecl_datdecs (loc0, knd, l2l(d1cs1), l2l(d1cs2))
   end // end of [D0Cdatdecs]
 //
 | D0Cclassdec (id, sup) => let
@@ -1148,9 +1161,10 @@ case+ d0c0.d0ecl_node of
 | D0Cmacdefs
     (knd, isrec, d0cs) => let
     // knd: 0/1 => short/long
-    val d1cs = l2l (list_map_fun (d0cs, m0acdef_tr))
+    val d1cs =
+    list_map_fun (d0cs, m0acdef_tr)
   in
-    d1ecl_macdefs (loc0, knd, isrec, d1cs)
+    d1ecl_macdefs (loc0, knd, isrec, l2l(d1cs))
   end // end of [D0Cmacdefs]
 //
 | D0Cfundecs (knd, qarg, d0cs) => let
@@ -1160,14 +1174,15 @@ case+ d0c0.d0ecl_node of
     d1ecl_fundecs (loc0, knd, qarg, d1cs)
   end // end of [D0Cfundecs]
 | D0Cvaldecs (knd, isrec, d0cs) => let
-    val d1cs = l2l (list_map_fun (d0cs, v0aldec_tr))
+    val d1cs = list_map_fun (d0cs, v0aldec_tr)
   in
-    d1ecl_valdecs (loc0, knd, isrec, d1cs)
+    d1ecl_valdecs (loc0, knd, isrec, l2l(d1cs))
   end // end of [D0Cvaldecs]
 | D0Cvardecs (knd, d0cs) => let
-    val d1cs = l2l (list_map_fun (d0cs, v0ardec_tr))
+    val d1cs =
+    list_map_fun (d0cs, v0ardec_tr)
   in
-    d1ecl_vardecs (loc0, knd, d1cs)
+    d1ecl_vardecs (loc0, knd, l2l(d1cs))
   end // end of [D0Cvardecs]
 //
 | D0Cimpdec

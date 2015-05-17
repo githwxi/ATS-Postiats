@@ -350,6 +350,7 @@ fun aux .<>.
   s2cst_make (
     id // sym
   , loc // location
+  , $FIL.filename_dummy
   , s2t // srt
   , None () // isabs
   , true // iscon
@@ -410,35 +411,44 @@ fun loop2 (
   d1cs: d1atsrtdeclst, res: List_vt (T)
 ) : void = let
 in
-  case+ d1cs of
-  | list_cons
-      (d1c, d1cs) => let
-      val loc = d1c.d1atsrtdec_loc
-      val sym = d1c.d1atsrtdec_sym
-      val s2td = s2rtdat_make (sym)
-      val s2t = S2RTbas (S2RTBASdef s2td)
 //
-      val s2ts_arg = '[s2t, s2t]
-      val s2t_eqeq = s2rt_fun (s2ts_arg, s2rt_bool)
-      val s2c_eqeq = s2cst_make (
-        EQEQ // sym
-      , loc // location
-      , s2t_eqeq // srt
-      , None () // isabs
-      , false // iscon
-      , false // isrec
-      , false // isasp
-      , None () // islst
-      , list_nil () // argvarlst
-      , None () // def
-      ) // end of [val]
-      val () = the_s2expenv_add_scst (s2c_eqeq)
+case+ d1cs of
+| list_cons
+    (d1c, d1cs) => let
+    val loc = d1c.d1atsrtdec_loc
+    val sym = d1c.d1atsrtdec_sym
+    val s2td = s2rtdat_make (sym)
+    val s2t = S2RTbas (S2RTBASdef s2td)
 //
-      val () = the_s2rtenv_add (sym, S2TEsrt s2t)
-    in
-      loop2 (d1cs, list_vt_cons ( @(d1c, s2td, s2t), res ))
-    end // end of [list_cons]
-  | list_nil () => loop1 (res)
+    val
+    s2t_eqeq =
+    s2rt_fun ('[s2t, s2t], s2rt_bool)
+//
+    val
+    s2c_eqeq =
+    s2cst_make (
+      EQEQ // sym
+    , loc // location
+    , $FIL.filename_dummy
+    , s2t_eqeq // srt
+    , None () // isabs
+    , false // iscon
+    , false // isrec
+    , false // isasp
+    , None () // islst
+    , list_nil () // argvarlst
+    , None () // def
+    ) (* end of [s2cst_make] *)
+//
+    val () = the_s2expenv_add_scst (s2c_eqeq)
+//
+    val () = the_s2rtenv_add (sym, S2TEsrt s2t)
+  in
+    loop2 (d1cs, list_vt_cons ( @(d1c, s2td, s2t), res ))
+  end // end of [list_cons]
+//
+| list_nil ((*void*)) => loop1 (res)
+//
 end // end of [loop2]
 //
 in
@@ -478,11 +488,18 @@ fun s1tacst_tr
 //
   val id = d.s1tacst_sym
   val loc = d.s1tacst_loc
-  val s2t_res = s1rt_tr (d.s1tacst_res)
-  val s2t_cst = aux (d.s1tacst_arg, s2t_res)
-  val s2c = s2cst_make (
+  val fil = d.s1tacst_fil
+//
+  val
+  s2t_res = s1rt_tr (d.s1tacst_res)
+  val
+  s2t_cst = aux (d.s1tacst_arg, s2t_res)
+//
+  val s2c =
+  s2cst_make (
     id // sym
   , loc // location
+  , fil // filename
   , s2t_cst // srt
   , None () // isabs
   , false // iscon
@@ -491,7 +508,7 @@ fun s1tacst_tr
   , None () // islst
   , list_nil () // argvarlst
   , None () // def
-  ) // end of [s2cst_make]
+  ) (* end of [s2cst_make] *)
 //
 in
   the_s2expenv_add_scst (s2c); s2c
@@ -513,6 +530,7 @@ fun s1tacon_tr
 //
   val id = d.s1tacon_sym
   val loc = d.s1tacon_loc
+  val fil = d.s1tacon_fil
 //
   val argvars = l2l (
     list_map_fun (d.s1tacon_arg, a1msrt_tr_symsrt)
@@ -595,6 +613,7 @@ fun s1tacon_tr
   s2cst_make (
     id // sym
   , loc // location
+  , fil // filename
   , s2t_fun // srt
   , Some (def) // isabs
   , true // iscon
@@ -661,11 +680,15 @@ fn t1kindef_tr
 //
 val sym = d.t1kindef_sym
 val loc_id = d.t1kindef_loc_id
+//
 val def = s1exp_trup (d.t1kindef_def)
-val s2c =
-  s2cst_make (
+//
+val
+s2c =
+s2cst_make (
   sym // name
 , loc_id // location
+, $FIL.filename_dummy
 , s2rt_tkind // tkind constant
 , None () // isabs
 , false // iscon
@@ -674,7 +697,8 @@ val s2c =
 , None () // islst
 , list_nil () // argvar
 , Some (def) // definition
-) // end of [val]
+) (* end of [s2cst_make] *)
+//
 in
   the_s2expenv_add_scst (s2c)
 end // end of [t1kindef_tr]
@@ -781,9 +805,11 @@ val def2 = s1expdef_tr_def (arg, res2, def)
 //
 in
 //
-s2cst_make (
+s2cst_make
+(
   sym // name
 , loc_id // location
+, $FIL.filename_dummy
 , def2.s2exp_srt // srt
 , None () // isabs
 , false // iscon
@@ -1176,7 +1202,8 @@ val d1cs2cs2vsslst = let
       l2l (list_map_fun (argvar, f))
     end : s2rtlstlst
 //
-    val s2c = s2cst_make_dat (
+    val s2c =
+    s2cst_make_dat (
       d1c.d1atdec_sym, d1c.d1atdec_loc, s2tss_arg, s2t_res, argvar
     ) // end of [val]
     val () = the_s2expenv_add_scst (s2c)
@@ -1284,12 +1311,18 @@ c1lassdec_tr
   id: i0de, sup: s1expopt
 ) : void = () where {
 //
+val
+sym = id.i0de_sym
+val
+loc = id.i0de_loc
+//
 val s2c =
 s2cst_make
 (
-  id.i0de_sym // sym
-, id.i0de_loc // location
-, s2rt_cls // srt
+  sym // sym
+, loc // location
+, $FIL.filename_dummy
+, s2rt_cls // sort for nominal classes
 , None(*isabs*)
 , false(*iscon*), false(*isrec*), false(*isasp*)
 , None (*islst*)
@@ -1298,17 +1331,19 @@ s2cst_make
 ) (* end of [s2cst_make] *)
 //
 val () = (
+//
 case+ sup of
 | Some s1e => {
     val s2e = s1exp_trdn (s1e, s2rt_cls)
     val ((*void*)) = s2cst_add_supcls (s2c, s2exp_hnfize(s2e))
-  } // end of [Some]
-| None () => ()
+  } (* end of [Some] *)
+| None ((*void*)) => ()
+//
 ) (* end of [val] *)
 //
 val () = the_s2expenv_add_scst (s2c)
 //
-} // end of [c1lassdec_tr]
+} (* end of [c1lassdec_tr] *)
 
 (* ****** ****** *)
 

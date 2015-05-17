@@ -950,8 +950,8 @@ fn d0cstdec_tr
 //
 // HX; [fil] should be the includer instead of includee
 //
-  val fil = $FIL.filename_get_current ()
   val sym = d0c.d0cstdec_sym
+  val fil = $FIL.filename_get_current ()
   val s1e_res = s0exp_tr d0c.d0cstdec_res
   val arg = d0c.d0cstdec_arg and eff = d0c.d0cstdec_eff
   val s1e = aux2 (d0c, isfun, isprf, arg, eff, s1e_res)

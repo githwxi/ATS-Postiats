@@ -738,21 +738,25 @@ s1rtdef_make (
 (* ****** ****** *)
 
 implement
-s1tacst_make (
-  loc, sym, arg, res
+s1tacst_make
+(
+  loc, fil, sym, arg, res
 ) = '{
   s1tacst_loc= loc
 , s1tacst_sym= sym
+, s1tacst_fil= fil
 , s1tacst_arg= arg
 , s1tacst_res= res
 } // end of [s1tacst_make]
 
 implement
-s1tacon_make (
-  loc, sym, arg, def
+s1tacon_make
+(
+  loc, fil, sym, arg, def
 ) = '{
   s1tacon_loc= loc
 , s1tacon_sym= sym
+, s1tacon_fil= fil
 , s1tacon_arg= arg
 , s1tacon_def= def
 } // end of [s1tacon_make]

@@ -227,7 +227,8 @@ typedef intlst = List (int)
 
 (* ****** ****** *)
 
-datatype d1ecl_node =
+datatype
+d1ecl_node =
   | D1Cnone of ()
   | D1Clist of d1eclist
 //
