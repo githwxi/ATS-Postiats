@@ -58,13 +58,25 @@ staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans2_decl"
 
 (* ****** ****** *)
+//
+staload
+FIL = "./pats_filename.sats"
+//
+overload
+print with $FIL.print_filename_full
+//
+(* ****** ****** *)
 
 staload
 SYM = "./pats_symbol.sats"
+//
 macdef EQEQ = $SYM.symbol_EQEQ
+//
 overload = with $SYM.eq_symbol_symbol
 overload != with $SYM.neq_symbol_symbol
-
+//
+overload print with $SYM.print_symbol
+//
 (* ****** ****** *)
 
 staload
@@ -485,9 +497,12 @@ in
   the_s2expenv_add_scst (s2c); s2c
 end // end of [s1tacst_tr]
 
-fun s1tacstlst_tr
+fun
+s1tacstlst_tr
   (ds: s1tacstlst): s2cstlst =
+(
   list_of_list_vt (list_map_fun (ds, s1tacst_tr))
+) (* end of [s1tacstlst_tr] *)
 
 (* ****** ****** *)
 
@@ -495,12 +510,13 @@ fun s1tacon_tr
 (
   s2t_res: s2rt, d: s1tacon
 ) : s2cst = let
+//
   val id = d.s1tacon_sym
   val loc = d.s1tacon_loc
 //
   val argvars = l2l (
     list_map_fun (d.s1tacon_arg, a1msrt_tr_symsrt)
-  ) // end of [val]
+  ) (* end of [val] *)
 //
   val s2t_fun = let
     fun aux (
@@ -1322,30 +1338,50 @@ case+ dck of
 | _(*rest*) => ((*void*))
 ) (* end of [dckfun_check] *)
 
-fun s2exp_get_arylst
-  (s2e: s2exp): List int =
-  case+ s2e.s2exp_node of
-  | S2Efun (_, _, _, _, s2es, s2e) =>
-      list_cons (list_length s2es, s2exp_get_arylst (s2e))
-  | S2Eexi (_, _, s2e) => s2exp_get_arylst (s2e)
-  | S2Euni (_, _, s2e) => s2exp_get_arylst (s2e)
-  | S2Emetfun (_, _, s2e) => s2exp_get_arylst (s2e)
-  | _ => list_nil ()
-// end of [s2exp_get_arylst]
+fun
+s2exp_get_arylst
+  (s2e: s2exp): List(int) =
+(
+//
+case+
+s2e.s2exp_node of
+//
+| S2Efun
+  (
+    _, _, _, _, s2es, s2e
+  ) => let
+    val n = list_length (s2es)
+  in
+    list_cons (n, s2exp_get_arylst(s2e))
+  end // end of [S2Efun]
+//
+| S2Eexi (_, _, s2e) => s2exp_get_arylst(s2e)
+| S2Euni (_, _, s2e) => s2exp_get_arylst(s2e)
+//
+| S2Emetfun (_, _, s2e) => s2exp_get_arylst(s2e)
+//
+| _ (* rest-of-s2exp *) => list_nil ((*void*))
+//
+) (* end of [s2exp_get_arylst] *)
 
 in (* in of [local] *)
 
-fun d1cstdec_tr
+fun
+d1cstdec_tr
 (
   knd: int
-, dck: dcstkind
-, s2qs: s2qualst
-, d1c: d1cstdec
+, dck: dcstkind, s2qs: s2qualst, d1c: d1cstdec
 ) : d2cst = d2c where
 {
+//
   val loc = d1c.d1cstdec_loc
   val fil = d1c.d1cstdec_fil
   val sym = d1c.d1cstdec_sym
+//
+(*
+  val () = println! ("d1cstdec_tr: fil = ", fil)
+  val () = println! ("d1cstdec_tr: sym = ", sym)
+*)
 //
 // HX-2012:
 // it is either prop or t@ype; it cannot be linear
@@ -2203,8 +2239,8 @@ case+ d1c0.d1ecl_node of
     val (
       pfenv | ()
     ) = the_s2expenv_push_nil ()
-    val s2qs = l2l (list_map_fun (decarg, q1marg_tr_dec))
-    val d2cs = d1cstdeclst_tr (knd, dck, s2qs, d1cs)
+    val s2qs = list_map_fun (decarg, q1marg_tr_dec)
+    val d2cs = d1cstdeclst_tr (knd, dck, l2l(s2qs), d1cs)
     val ((*void*)) = the_s2expenv_pop_free (pfenv | (*none*))
   in
     d2ecl_dcstdecs (loc0, knd, dck, d2cs)

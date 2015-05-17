@@ -88,7 +88,11 @@ castfn s2cstopt_decode (x: s2cstopt_t):<> s2cstopt
 typedef
 s2cst_struct = @{
   s2cst_sym= symbol // the name
-, s2cst_loc= location // the location of declaration
+, s2cst_loc= location // location
+(*
+, s2cst_fil= filename // filename
+*)
+//
 , s2cst_srt= s2rt // the sort
 //
 , s2cst_def= s2expopt // definition
