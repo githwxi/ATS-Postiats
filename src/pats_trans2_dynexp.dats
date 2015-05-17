@@ -129,23 +129,32 @@ list_sing (x) = list_cons (,(x), list_nil)
 (*
 ** HX: dynamic special identifier
 *)
-datatype dynspecid =
+datatype
+dynspecid =
   | SPDIDderef | SPDIDassgn | SPDIDxchng | SPDIDnone
 // end of [dynspecid]
 
-fun dynspecid_of_dqid
+(* ****** ****** *)
+
+fun
+dynspecid_of_dqid
 (
   dq: d0ynq, id: symbol
 ) : dynspecid = let
 in
-  case+ dq.d0ynq_node of
-  | $SYN.D0YNQnone () => (case+ 0 of
-    | _ when id = $SYM.symbol_BANG => SPDIDderef ()
-    | _ when id = $SYM.symbol_COLONEQ => SPDIDassgn ()
-    | _ when id = $SYM.symbol_COLONEQCOLON => SPDIDxchng ()
-    | _ => SPDIDnone ()        
-    ) // end of [D0YNQnone]
-  | _ => SPDIDnone ()
+//
+case+
+dq.d0ynq_node
+of // case+
+| $SYN.D0YNQnone() =>
+  (case+ 0 of
+   | _ when id = $SYM.symbol_BANG => SPDIDderef ()
+   | _ when id = $SYM.symbol_COLONEQ => SPDIDassgn ()
+   | _ when id = $SYM.symbol_COLONEQCOLON => SPDIDxchng ()
+   | _ => SPDIDnone ()        
+  ) (* end of [D0YNQnone] *)
+| _ (*non-D0YNQnone*) => SPDIDnone ()
+//
 end // end of [dynspecid_of_dqid]
 
 (* ****** ****** *)
@@ -164,23 +173,27 @@ if
 lev > 0
 then (
   if knd >= 1 then let
+    val () = prerr_ERROR_beg()
+    val () = prerr_error2_loc (loc0)
     val () =
-      prerr_error2_loc (loc0)
-    // end of [val]
-    val () = prerr ": the identifier ["
+    prerr ": the identifier ["
     val () = prerr_dqid (dq, id)
-    val () = prerr "] refers to a macdef in long form but one in short form is expected."
-    val () = prerr_newline ()
+    val () =
+    prerrln! ("] refers to a macdef in long form but one in short form is expected.")
+    val () = prerr_ERROR_end()
   in
     the_trans2errlst_add (T2E_macdef_check (loc0, d2m0))
   end else () // end of [if]
 ) else ( // lev = 0
   if knd = 0 then let //
+    val () = prerr_ERROR_beg()
     val () = prerr_error2_loc (loc0)
-    val () = prerr ": the identifier ["
+    val () =
+    prerr ": the identifier ["
     val () = prerr_dqid (dq, id)
-    val () = prerr "] refers to a macdef in short form but one in long form is expected."
-    val () = prerr_newline ()
+    val () =
+    prerrln! ("] refers to a macdef in short form but one in long form is expected.")
+    val () = prerr_ERROR_end()
   in
     the_trans2errlst_add (T2E_macdef_check (loc0, d2m0))    
   end else () // end of [if]
