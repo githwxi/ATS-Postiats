@@ -338,36 +338,36 @@ d1atsrtdec_tr
 //
 fun aux .<>.
 (
-  i: int, res: s2rt, d1c: d1atsrtcon
-) : s2cst = let
+  i: int
+, res: s2rt, d1c: d1atsrtcon
+) : s2cst = s2c where
+{
 //
-  val id = d1c.d1atsrtcon_sym
-  val loc = d1c.d1atsrtcon_loc
-  val arg = s1rtlst_tr (d1c.d1atsrtcon_arg)
-  val s2t = s2rt_fun (arg, res)
+val id = d1c.d1atsrtcon_sym
+val loc = d1c.d1atsrtcon_loc
+val arg = s1rtlst_tr (d1c.d1atsrtcon_arg)
+val s2t = s2rt_fun (arg, res)
 //
-  val s2c =
-  s2cst_make (
-    id // sym
-  , loc // location
-  , $FIL.filename_dummy
-  , s2t // srt
-  , None () // isabs
-  , true // iscon
-  , false // isrec
-  , false // isasp
-  , None () // islst
-  , list_nil () // argvarlst
-  , None () // def
-  ) (* end of [s2cst_make] *)
+val s2c =
+s2cst_make (
+  id // sym
+, loc // location
+, $FIL.filename_dummy
+, s2t // srt
+, None () // isabs
+, true // iscon
+, false // isrec
+, false // isasp
+, None () // islst
+, list_nil () // argvarlst
+, None () // def
+) (* end of [s2cst_make] *)
 //
-  val () = s2cst_set_dstag (s2c, i)
+val () = s2cst_set_dstag (s2c, i)
 //
-  val () = the_s2expenv_add_scst (s2c)
+val () = the_s2expenv_add_scst (s2c)
 //
-in
-  s2c
-end // end of [aux]
+} (* end of [aux] *)
 //
 fun auxlst
 (
@@ -675,8 +675,11 @@ fn s1tavarlst_tr
 
 (* ****** ****** *)
 
-fn t1kindef_tr
-  (d: t1kindef): void = let
+fun
+t1kindef_tr
+(
+  d: t1kindef
+) : void = let
 //
 val sym = d.t1kindef_sym
 val loc_id = d.t1kindef_loc_id
@@ -846,16 +849,21 @@ in
 end // end of [val]
 //
 val () = let
+//
   fun loop
   (
     s2cs: List_vt (s2cst)
   ) : void =
+  (
     case+ s2cs of
-    | ~list_vt_cons (s2c, s2cs) => let
+    | ~list_vt_nil
+        ((*void*)) => ()
+    | ~list_vt_cons
+        (s2c, s2cs) => let
         val () = the_s2expenv_add_scst (s2c) in loop (s2cs)
       end // end of [list_vt_cons]
-    | ~list_vt_nil () => ()
-  // end of [loop]
+  ) (* end of [loop] *)
+//
 in
   loop (s2cs)
 end // end of [val]
@@ -887,10 +895,11 @@ in
   the_trans2errlst_add (T2E_s1aspdec_tr_arg (d, x))
 end // end of [auxerr]
 //
-in // in of [let]
+in (* in-of-let *)
 //
 case+ xs of
-| list_cons (x, xs) => (
+| list_cons
+    (x, xs) => (
   case+ s2t_fun of
   | S2RTfun (s2ts_arg, s2t_res) => let
       val () = s2t_fun := s2t_res
@@ -958,12 +967,13 @@ fn s1aspdec_tr
 fn auxerr1 (
   d: s1aspdec, q: s0taq, id: symbol
 ) : void = let
-  val () = prerr_error2_loc (d.s1aspdec_loc)
+  val () =
+    prerr_error2_loc (d.s1aspdec_loc)
+  // end of [val]
   val () = filprerr_ifdebug ("s1aspdec_tr")
   val () = prerr (": the static constant [")
   val () = ($SYN.prerr_s0taq (q); $SYM.prerr_symbol id)
-  val () = prerr ("] is not abstract.")
-  val () = prerr_newline ()
+  val () = prerrln! ("] is not abstract.")
 in
   the_trans2errlst_add (T2E_s1aspdec_tr (d))
 end // end of [auxerr1]
@@ -977,8 +987,7 @@ fn auxerr2 (
   val () = filprerr_ifdebug ("s1aspdec_tr")
   val () = prerr (": the identifier [")
   val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
-  val () = prerr "] does not refer to a static constant."
-  val () = prerr_newline ()
+  val () = prerrln! "] does not refer to a static constant."
 in
   the_trans2errlst_add (T2E_s1aspdec_tr (d))
 end // end of [auxerr2]
@@ -1056,7 +1065,8 @@ d1atconlst_tr
 //
 case+ d1cs of
 | list_nil () => list_nil ()
-| list_cons (d1c, d1cs) => let
+| list_cons
+    (d1c, d1cs) => let
     val d2c = d1atcon_tr (s2c, islin, isprf, s2vss0, fil, d1c)
     val d2cs = d1atconlst_tr (s2c, islin, isprf, s2vss0, fil, d1cs)
   in
@@ -1072,54 +1082,82 @@ fn d1atdec_tr
   s2c: s2cst, s2vss0: s2varlstlst, d1c: d1atdec
 ) : void = let
 //
-  val () = let
-    val n = list_length (s2vss0) in
-    if n >= 2 then {
-      val () = prerr_error2_loc (d1c.d1atdec_loc)
-      val () = filprerr_ifdebug "d1atdec_tr" // for debugging
-      val () = prerr ": the declared type constructor is overly applied."
-      val () = prerr_newline ()
-      val () = the_trans2errlst_add (T2E_d1atdec_tr (d1c))
-    } // end of [if]
-  end // end of [val]
+val () = let
+  val n = list_length (s2vss0) in
+  if n >= 2 then {
+    val () = prerr_error2_loc (d1c.d1atdec_loc)
+    val () = filprerr_ifdebug "d1atdec_tr" // for debugging
+    val () = prerr ": the declared type constructor is overly applied."
+    val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_d1atdec_tr (d1c))
+  } // end of [if]
+end // end of [val]
 //
-  val s2t_fun = s2cst_get_srt (s2c)
-  val s2t_res = (
-    case+ s2t_fun of S2RTfun (_, s2t) => s2t | s2t => s2t
-  ) // end of [val]
-  val islin = s2rt_is_lin s2t_res and isprf = s2rt_is_prf s2t_res
-  val d2cs = d1atconlst_tr
-    (s2c, islin, isprf, s2vss0, d1c.d1atdec_fil, d1c.d1atdec_con)
-  // end of [val]
-  val () = let // assigning tags to dynamic constructors
-    fun aux (
-      i: int, d2cs: d2conlst
-    ) : void = case+ d2cs of
-      | list_cons (d2c, d2cs) => let
-          val () = d2con_set_tag (d2c, i) in aux (i+1, d2cs)
-        end // end of [list_cons]
-      | list_nil () => () // end of [list_nil]
-    // end of [aux]
-  in
-    aux (0, d2cs)
-  end // end of [val]
+val
+s2t_fun = s2cst_get_srt (s2c)
+val
+s2t_res =
+(
+  case+ s2t_fun of
+  | S2RTfun (_, s2t) => s2t | s2t => s2t
+) : s2rt (* end of [val] *)
 //
-  val islst = (case+ d2cs of
-    | list_cons (
-        d2c1, list_cons (d2c2, list_nil ())
-      ) =>
-        if d2con_get_arity_real (d2c1) = 0 then (
-          if d2con_get_arity_real (d2c2) > 0 then Some @(d2c1, d2c2)
-          else None ()
-        ) else (
-          if d2con_get_arity_real (d2c2) = 0 then Some @(d2c2, d2c1)
-          else None ()
-        ) // end of [if]
-      // end of [list_cons (_, list_cons (_, list_nil _))
-    | _ => None () // end of [_]
-  ) : Option @(d2con, d2con)
-  val () = s2cst_set_islst (s2c, islst)
-  val () = s2cst_set_dconlst (s2c, Some d2cs)
+val
+islin = s2rt_is_lin s2t_res and isprf = s2rt_is_prf s2t_res
+//
+val d2cs =
+d1atconlst_tr
+(
+  s2c, islin, isprf
+, s2vss0, d1c.d1atdec_fil, d1c.d1atdec_con
+) (* end of [val] *)
+//
+val () = let
+//
+// HX:
+// Assigning tags to
+// dynamic constructors
+//
+  fun aux (
+    i: int, d2cs: d2conlst
+  ) : void =
+  (
+    case+ d2cs of
+    | list_nil
+        ((*void*)) => ()
+      // end of [list_nil]
+    | list_cons
+       (d2c, d2cs) => let
+        val () = d2con_set_tag (d2c, i) in aux (i+1, d2cs)
+      end // end of [list_cons]
+  ) (* end of [aux] *)
+in
+  aux (0, d2cs)
+end // end of [let] // end of [val]
+//
+val
+islst = (
+//
+case+ d2cs of
+| list_cons
+  (
+    d2c1
+  , list_cons(d2c2, list_nil())
+  ) =>
+  (
+    if d2con_get_arity_real(d2c1) = 0
+      then (
+        if d2con_get_arity_real(d2c2) > 0 then Some((d2c1, d2c2)) else None()
+      ) else (
+        if d2con_get_arity_real(d2c2) = 0 then Some((d2c2, d2c1)) else None()
+      ) (* end of [if] *)
+  ) (* end of [cons(cons(nil))] *)
+  | _ (* it-is-not-list-like *) => None ()
+//
+) : Option @(d2con, d2con)
+//
+val () = s2cst_set_islst (s2c, islst)
+val () = s2cst_set_dconlst (s2c, Some d2cs)
 //
 in
   // nothing
