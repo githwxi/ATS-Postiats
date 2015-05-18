@@ -415,6 +415,7 @@ in
 case+ d1cs of
 | list_cons
     (d1c, d1cs) => let
+//
     val loc = d1c.d1atsrtdec_loc
     val sym = d1c.d1atsrtdec_sym
     val s2td = s2rtdat_make (sym)
@@ -1346,13 +1347,13 @@ end // end of [e1xndeclst_tr]
 fun
 c1lassdec_tr
 (
-  id: i0de, sup: s1expopt
-) : void = () where {
+  id: i0de
+, sup: s1expopt
+) : void = () where
+{
 //
-val
-sym = id.i0de_sym
-val
-loc = id.i0de_loc
+val sym = id.i0de_sym
+val loc = id.i0de_loc
 //
 val s2c =
 s2cst_make
@@ -1362,20 +1363,26 @@ s2cst_make
 , $FIL.filename_dummy
 , s2rt_cls // sort for nominal classes
 , None(*isabs*)
-, false(*iscon*), false(*isrec*), false(*isasp*)
-, None (*islst*)
-, list_nil () // argvar
-, None () // def
+, false(*iscon*)
+, false(*isrec*)
+, false(*isasp*)
+, None((*listlike*))
+, list_nil(*argvar*)
+, None((*s2expopt*))
 ) (* end of [s2cst_make] *)
 //
 val () = (
 //
 case+ sup of
+| None () => ()
 | Some s1e => {
-    val s2e = s1exp_trdn (s1e, s2rt_cls)
-    val ((*void*)) = s2cst_add_supcls (s2c, s2exp_hnfize(s2e))
+    val s2e =
+      s1exp_trdn (s1e, s2rt_cls)
+    // end of [val]
+    val ((*void*)) =
+      s2cst_add_supcls (s2c, s2exp_hnfize(s2e))
+    // end of [val]
   } (* end of [Some] *)
-| None ((*void*)) => ()
 //
 ) (* end of [val] *)
 //
