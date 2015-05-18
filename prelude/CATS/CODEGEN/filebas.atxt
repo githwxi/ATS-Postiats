@@ -237,7 +237,7 @@ ATSinline()
 atsvoid_t0ype
 atspre_fileref_puts
 (
-  atstype_ref filr, atstype_string cs
+  atstype_ref filr, atstype_ptr cs
 ) {
   fputs ((char*)cs, (FILE*)filr) ; return ;
 } // end of [atspre_fileref_puts]
