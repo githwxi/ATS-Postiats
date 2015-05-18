@@ -1316,32 +1316,58 @@ in
   d2c (* HX: the defined exception constructor *)
 end // end of [e1xndec_tr]
 
+(* ****** ****** *)
+//
 extern
-fun e1xndeclst_tr (d1cs: e1xndeclst): d2conlst
+fun
+e1xndeclst_tr
+  (d1cs: e1xndeclst): d2conlst
+//
 implement
-e1xndeclst_tr (d1cs) = let
-  fun aux (
-    s2c: s2cst, d1cs: e1xndeclst
-  ) : d2conlst =
-    case+ d1cs of
-    | list_cons (d1c, d1cs) => let
-        val d2c = e1xndec_tr (s2c, d1c)
-      in
-        list_cons (d2c, aux (s2c, d1cs))
-      end // end of [list_cons]
-    | list_nil () => list_nil ()
+e1xndeclst_tr
+  (d1cs) = let
+//
+fun
+aux (
+  s2c: s2cst, d1cs: e1xndeclst
+) : d2conlst =
+(
+  case+ d1cs of
+  | list_nil
+      ((*void*)) => list_nil ()
+  | list_cons
+      (d1c, d1cs) => let
+      val d2c = e1xndec_tr (s2c, d1c)
+    in
+      list_cons (d2c, aux (s2c, d1cs))
+    end // end of [list_cons]
   // end of [aux]
-  val s2c = s2cstref_get_cst (the_exception_vtype)
-  val d2cs = aux (s2c, d1cs)
-  val d2cs0 = (
-    case+ s2cst_get_dconlst (s2c) of
-    | Some d2cs0 => list_append (d2cs, d2cs0) | None () => d2cs
-  ) : d2conlst // end of [val]
-  val () = s2cst_set_dconlst (s2c, Some d2cs0)
+) (* end of [aux] *)
+//
+val
+s2c =
+s2cstref_get_cst
+  (the_exception_vtype)
+//
+val d2cs = aux (s2c, d1cs)
+//
+val d2cs0 =
+(
+//
+case+
+s2cst_get_dconlst (s2c)
+of // case+
+| None () => d2cs
+| Some d2cs0 => list_append (d2cs, d2cs0)
+//
+) : d2conlst // end of [val]
+//
+val () = s2cst_set_dconlst (s2c, Some(d2cs0))
+//
 in
   d2cs (*d2conlst*)
 end // end of [e1xndeclst_tr]
-
+//
 (* ****** ****** *)
 
 fun
@@ -2276,7 +2302,9 @@ case+ d1c0.d1ecl_node of
   (
     knd, d1cs_dat, d1cs_def
   ) => let
-    val s2cs = d1atdeclst_tr (knd, d1cs_dat, d1cs_def)
+    val s2cs =
+      d1atdeclst_tr (knd, d1cs_dat, d1cs_def)
+    // end of [val]
   in
     d2ecl_datdecs (loc0, knd, s2cs)
   end // end of [D1Cdatdecs]
@@ -2286,7 +2314,7 @@ case+ d1c0.d1ecl_node of
     d2ecl_exndecs (loc0, e1xndeclst_tr (d1cs))
   ) (* end of [D1Cexndecs] *)
 //
-| D1Cclassdec (id, sup) => let
+| D1Cclassdec(id, sup) => let
     val () = c1lassdec_tr (id, sup) in d2ecl_none (loc0)
   end // end of [D1Cclassdec]
 //
@@ -2294,7 +2322,9 @@ case+ d1c0.d1ecl_node of
   (
     name, s1e_def // arity=2
   ) => let
-    val s2e_def = s1exp_trdn_impred (s1e_def)
+    val s2e_def =
+      s1exp_trdn_impred (s1e_def)
+    // end of [val]
   in
     d2ecl_extype (loc0, name, s2e_def)
   end // end of [D1Cextype]
@@ -2302,15 +2332,25 @@ case+ d1c0.d1ecl_node of
   (
     knd, name, s1e_def // arity=3
   ) => let
-    val s2t_def = s2rt_impred (knd)
-    val s2e_def = s1exp_trdn (s1e_def, s2t_def)
+    val s2t_def =
+      s2rt_impred (knd)
+    val s2e_def =
+      s1exp_trdn (s1e_def, s2t_def)
+    // end of [val]
   in
     d2ecl_extype (loc0, name, s2e_def)
   end // end of [D1Cextype]
-| D1Cextvar (name, def) => let
-    val def = d1exp_tr (def) in d2ecl_extvar (loc0, name, def)
+//
+| D1Cextvar
+    (name, def) => let
+    val def = d1exp_tr (def)
+  in
+    d2ecl_extvar (loc0, name, def)
   end // end of [D1Cextvar]
-| D1Cextcode (knd, pos, code) => d2ecl_extcode (loc0, knd, pos, code)
+| D1Cextcode
+    (knd, pos, code) =>
+    d2ecl_extcode (loc0, knd, pos, code)
+  // end of [D1Cextcode]
 //
 | D1Cdcstdecs
   (
@@ -2404,7 +2444,8 @@ case+ d1c0.d1ecl_node of
     end // end of [if]
   ) // end of [D1Cvardecs]
 //
-| D1Cinclude (knd, d1cs) => let
+| D1Cinclude
+    (knd, d1cs) => let
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, knd, d2cs)
   end // end of [D1Cinclude]
 //
