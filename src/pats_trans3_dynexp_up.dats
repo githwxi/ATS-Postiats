@@ -2043,10 +2043,13 @@ d2exp_trup_macsyn
 val loc0 = d2e0.d2exp_loc
 val-D2Emacsyn (knd, d2e) = d2e0.d2exp_node
 //
-val () = (
+(*
+val () =
+(
   println! ("d2exp_trup: D2Emacsyn: knd = ", knd);
   println! ("d2exp_trup: D2Emacsyn: d2e = ", d2e);
 ) (* end of [val] *)
+*)
 //
 val d2e_mac = (
   case+ knd of

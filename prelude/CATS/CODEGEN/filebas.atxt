@@ -218,7 +218,7 @@ atspre_fileref_getc
 // end of [atspre_fileref_getc]
 
 #atscode_separator_for_C()
-
+//
 ATSinline()
 atsvoid_t0ype
 atspre_fileref_putc
@@ -227,19 +227,32 @@ atspre_fileref_putc
 ) {
   fputc (c, (FILE*)filr) ; return ;
 } // end of [atspre_fileref_putc]
+//
 \#define atspre_fileref_putc_int atspre_fileref_putc
 \#define atspre_fileref_putc_char atspre_fileref_putc
+//
+#atscode_separator_for_C()
+
+ATSinline()
+atsvoid_t0ype
+atspre_fileref_puts
+(
+  atstype_ref filr, atstype_string cs
+) {
+  fputs ((char*)cs, (FILE*)filr) ; return ;
+} // end of [atspre_fileref_puts]
 
 #atscode_separator_for_C()
 
 ATSinline()
 atstype_bool
-atspre_fileref_is_eof (atstype_ref filr)
+atspre_fileref_is_eof
+  (atstype_ref filr)
 {
   int eof ;
   eof = feof ((FILE*)filr) ;
   return (eof != 0 ? atsbool_true : atsbool_false) ;
-} // end of [fileref_is_eof]
+} // end of [atspre_fileref_is_eof]
 
 #atscode_separator_for_C()
 
