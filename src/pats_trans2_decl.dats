@@ -1425,23 +1425,34 @@ dckfun_check
 (
   d1c: d1cstdec
 , dck: dcstkind, s2e_cst: s2exp
-) : void =
-(
+) : void = (
+//
 case+ dck of
+//
 | DCKfun () => let
     val isfun =
       s2exp_is_FUNCLOfun (s2e_cst)
     // end of [val]
   in
-    if not(isfun) then {
+    if not(isfun) then
+    {
+//
+      val () = prerr_ERROR_beg()
       val () =
         prerr_error2_loc (d1c.d1cstdec_loc)
+      // end of [val]
       val () = filprerr_ifdebug "d1cstdec_tr" // for debugging
-      val () = prerrln! ": the function may need to be declard as a value"
-      val () = the_trans2errlst_add (T2E_d1cstdec_tr (d1c))
+      val () =
+        prerrln!(": the function may need to be declared as a value")
+      val () = prerr_ERROR_end()
+//
+      val () = the_trans2errlst_add (T2E_d1cstdec_tr(d1c))
+//
     } (* end of [if] *)
   end (* end of [DCKfun] *)
+//
 | _(*rest*) => ((*void*))
+//
 ) (* end of [dckfun_check] *)
 
 fun
