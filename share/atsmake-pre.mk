@@ -36,7 +36,7 @@ endif
 endif
 
 ######
-
+#
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
@@ -52,6 +52,10 @@ else
 export PATSCCOMP = $(CC) -std=c99 -D_XOPEN_SOURCE
 endif
 #
+######
+
+PATS2XHML=$(PATSHOMEQ)/bin/pats2xhtml
+
 ######
 
 INCLUDE += -I$(PATSHOMEQ)
