@@ -267,4 +267,10 @@ cleanall:: ; $(RMF) withtype
 
 ######
 
+testall:: all
+testall:: regress
+testall:: cleanall
+
+######
+
 ###### end of [Makefile] ######
