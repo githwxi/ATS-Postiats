@@ -54,7 +54,7 @@ endif
 #
 ######
 
-PATS2XHML=$(PATSHOMEQ)/bin/pats2xhtml
+PATS2XHTML=$(PATSHOMEQ)/bin/pats2xhtml
 
 ######
 
