@@ -52,10 +52,13 @@ trans4errlst_vt = List_vt (trans4err)
 (* ****** ****** *)
 
 local
-
-val the_trans4errlst = ref<trans4errlst_vt> (list_vt_nil)
-
-fun the_trans4errlst_get
+//
+val
+the_trans4errlst =
+  ref<trans4errlst_vt> (list_vt_nil)
+//
+fun
+the_trans4errlst_get
   (): trans4errlst_vt = let
   val (vbox pf | p) = ref_get_view_ptr (the_trans4errlst)
   val xs = !p
@@ -63,8 +66,8 @@ fun the_trans4errlst_get
 in
   xs
 end // end of [the_trans4errlst_get]
-
-in // in of [local]
+//
+in (* in of [local] *)
 
 implement
 the_trans4errlst_add (x) = () where {
@@ -73,7 +76,8 @@ the_trans4errlst_add (x) = () where {
 } // end of [the_trans4errlst_add]
 
 implement
-the_trans4errlst_finalize () = {
+the_trans4errlst_finalize
+  ((*argumentless*)) = {
   val xs =
     the_trans4errlst_get ()
   // end of [val]

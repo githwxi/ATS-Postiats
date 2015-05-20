@@ -46,11 +46,13 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_typerase_decl"
-
+//
+implement
+prerr_FILENAME<> () = prerr "pats_typerase_decl"
+//
 (* ****** ****** *)
 
 staload LOC = "./pats_location.sats"
@@ -343,8 +345,10 @@ f3undec_tyer
   val ((*void*)) =
   if isprf then let
     val () = prerr_error4_loc (loc)
-    val () = prerr ": [fun] should be replaced with [prfun] as this is a proof binding."
-    val () = prerr_newline ()
+    val () =
+    prerrln! (
+      ": [fun] should be replaced with [prfun]"
+    ) (* end of [val] *)
   in
     the_trans4errlst_add (T4E_d3exp_tyer_isprf (d3e_def))
   end // end of [val]
@@ -404,26 +408,40 @@ end // end of [local]
 
 local
 
-fun v3aldec_tyer
-  (v3d: v3aldec): hivaldec = let
-  val loc = v3d.v3aldec_loc
-  val hip = p3at_tyer (v3d.v3aldec_pat)
-  val d3e_def = v3d.v3aldec_def
-  val isprf = d3exp_is_prf (d3e_def)
-  val ((*void*)) =
-  if isprf then let
-    val () = prerr_error4_loc (loc)
-    val () = prerr ": [val] should be replaced with [prval] as this is a proof binding."
-    val () = prerr_newline ()
-  in
-    the_trans4errlst_add (T4E_d3exp_tyer_isprf (d3e_def))
-  end // end of [val]
-  val hde_def = d3exp_tyer (d3e_def)
+fun
+v3aldec_tyer
+(
+  v3d: v3aldec
+) : hivaldec = let
+//
+val loc = v3d.v3aldec_loc
+val hip =
+  p3at_tyer (v3d.v3aldec_pat)
+// end of [val]
+val d3e_def = v3d.v3aldec_def
+//
+val isprf = d3exp_is_prf(d3e_def)
+//
+val () =
+if isprf then let
+  val () =
+  prerr_error4_loc (loc)
+  val () =
+  prerrln! (
+    ": [val] should be replaced with [prval]."
+  ) (* end of [val] *)
+in
+  the_trans4errlst_add (T4E_d3exp_tyer_isprf (d3e_def))
+end // end of [if] // end of [val]
+//
+val hde_def = d3exp_tyer (d3e_def)
+//
 in
   hivaldec_make (loc, hip, hde_def)
 end // end of [v3aldec_tyer]
 
-fun v3aldeclst_tyer
+fun
+v3aldeclst_tyer
 (
   knd: valkind, v3ds: v3aldeclst
 ) : hivaldeclst = let

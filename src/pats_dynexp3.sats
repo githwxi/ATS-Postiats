@@ -208,9 +208,11 @@ fun p3at_set_type_left
 // end of [p3at_set_type_left]
 
 (* ****** ****** *)
-
+//
 fun p3at_is_prf (p3t: p3at): bool
-
+//
+fun p3at_is_full (p3t: p3at): bool
+//
 (* ****** ****** *)
 
 fun p3at_is_lincon (p3t: p3at): bool

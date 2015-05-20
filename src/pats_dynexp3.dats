@@ -174,17 +174,75 @@ end // end of [p3at_is_prf]
 
 implement
 p3at_is_lincon (p3t) =
+(
   case+ p3t.p3at_node of
-  | P3Tcon (pck, _, _, _) => pck = PCKlincon
-  | _ => false
-// end of [p3at_is_lincon]
+  | P3Tcon (pck, _, _, _) => pck = PCKlincon | _ => false
+) (* end of [p3at_is_lincon] *)
 
 implement
 p3at_is_unfold (p3t) =
+(
   case+ p3t.p3at_node of
-  | P3Tcon (pck, _, _, _) => pck = PCKunfold
-  | _ => false
-// end of [p3at_is_unfold]
+  | P3Tcon (pck, _, _, _) => pck = PCKunfold | _ => false
+) (* end of [p3at_is_unfold] *)
+
+(* ****** ****** *)
+
+local
+
+fun
+aux_labp3atlst
+(
+  lxs: labp3atlst
+) : bool =
+(
+case+ lxs of
+| list_nil
+    ((*void*)) => true
+| list_cons
+    (lx, lxs) => let
+    val+LABP3AT(l, x) = lx
+  in
+    if p3at_is_full(x)
+      then aux_labp3atlst(lxs) else false
+    // end of [if]
+  end // end of [list_con]
+)
+
+in (* in-of-local *)
+
+implement
+p3at_is_full
+  (p3t0) =
+(
+//
+case+
+p3t0.p3at_node of
+//
+| P3Tany _ => true
+| P3Tvar _ => true
+//
+| P3Tempty _ => true
+//
+| P3Trec
+  (
+    knd, npf, lxs
+  ) => aux_labp3atlst (lxs)
+//
+| P3Trefas
+    (_, p3t) => p3at_is_full (p3t)
+  // end of [P3Trefas]
+| P3Texist
+    (_, p3t) => p3at_is_full (p3t)
+  // end of [P3Texist]
+//
+| P3Tann(p3t, _) => p3at_is_full (p3t)
+//
+| _ (*rest-of-P3T*) => false
+//
+) (* end of [p3at_is_full] *)
+
+end // end of [local]
 
 (* ****** ****** *)
 
