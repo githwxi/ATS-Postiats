@@ -566,13 +566,16 @@ fun aux
 in
 //
 case+
-x.primdec_node of
+x.primdec_node
+of // case+
 //
-| PMDimpdec (imp) => let
-    val opt = hiimpdec_get_instrlstopt (imp)
+| PMDimpdec(imp) => let
+    val opt =
+      hiimpdec_get_instrlstopt (imp)
+    // end of [val]
   in
     case+ opt of
-    | None _ => ((*void*))
+    | None _ => ()
     | Some _ => let
         val d2c = imp.hiimpdec_cst
         val-Some(hse) = d2cst_get2_hisexp (d2c)
@@ -584,11 +587,20 @@ x.primdec_node of
       in
         // nothing
       end // end of [Some]
-  end (* end of [PMDimpdec] *)
+  end // end of [PMDimpdec]
 //
-| PMDlocal (xs_head, xs_body) => auxlst (out, xs_body)
+| PMDlocal
+    (xs_head, xs_body) =>
+  {
+    val ((*void*)) = auxlst (out, xs_head)
+    val ((*void*)) = auxlst (out, xs_body)
+  } (* end of [PMDlocal] *)
 //
-| _ (*rest*) => ()
+| PMDinclude
+    (knd, xs_incl) => if knd > 0 then auxlst (out, xs_incl)
+  // end of [PMDinclude]
+//
+| _ (*rest-of-PMD*) => ()
 //
 end // end of [aux]
 
@@ -599,11 +611,10 @@ and auxlst
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => let
+| list_nil () => ()
+| list_cons(x, xs) => let
     val () = aux (out, x) in auxlst (out, xs)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [auxlst]
 

@@ -26,7 +26,9 @@ githwxi/ATS-Postiats-contrib/master/contrib"
 //
 // HX-2014-05-08: this is a backup:
 //
-#define PATSCONTRIB "http://ats-lang.sourceforge.net/LIBRARY/contrib"
+#define
+PATSCONTRIB
+"http://ats-lang.sourceforge.net/LIBRARY/contrib"
 *)
 //
 (* ****** ****** *)
