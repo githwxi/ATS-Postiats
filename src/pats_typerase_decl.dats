@@ -335,26 +335,33 @@ f3undec_tyer
   imparg: s2varlst, f3d: f3undec
 ) : hifundec = let
 //
-  val loc = f3d.f3undec_loc
+val loc = f3d.f3undec_loc
 //
-  val d2v_fun = f3d.f3undec_var
-  val d3e_def = f3d.f3undec_def
+val d2v_fun = f3d.f3undec_var
+val d3e_def = f3d.f3undec_def
 //
-  val isprf = d3exp_is_prf (d3e_def)
+val isprf = d3exp_is_prf (d3e_def)
 //
-  val ((*void*)) =
-  if isprf then let
-    val () = prerr_error4_loc (loc)
-    val () =
-    prerrln! (
-      ": [fun] should be replaced with [prfun]"
-    ) (* end of [val] *)
-  in
-    the_trans4errlst_add (T4E_d3exp_tyer_isprf (d3e_def))
-  end // end of [val]
+val () = (
 //
-  val d2v_fun = d2var_tyer (d2v_fun)
-  val hde_def = d3exp_tyer (d3e_def)
+if
+isprf
+then let
+//
+val () = prerr_error4_loc (loc)
+val () =
+prerrln! (
+  ": [fun] should be replaced with [prfun]."
+) (* end of [val] *)
+//
+in
+  the_trans4errlst_add (T4E_d3exp_tyer_isprf (d3e_def))
+end // end of [if]
+//
+) (* end of [val] *)
+//
+val d2v_fun = d2var_tyer (d2v_fun)
+val hde_def = d3exp_tyer (d3e_def)
 //
 in
   hifundec_make (loc, d2v_fun, imparg, hde_def)
@@ -400,7 +407,7 @@ val hdc0 = hidecl_fundecs (loc0, knd, decarg, hfds)
 //
 val () = hifundeclst_set_hideclopt (hfds, Some(hdc0))
 //
-} // end of [d3ecl_tyer_fundecs]
+} (* end of [d3ecl_tyer_fundecs] *)
 
 end // end of [local]
 
@@ -422,17 +429,23 @@ val d3e_def = v3d.v3aldec_def
 //
 val isprf = d3exp_is_prf(d3e_def)
 //
+val () = (
+if
+isprf
+then let
+//
 val () =
-if isprf then let
-  val () =
-  prerr_error4_loc (loc)
-  val () =
-  prerrln! (
-    ": [val] should be replaced with [prval]."
-  ) (* end of [val] *)
+prerr_error4_loc (loc)
+val () =
+prerrln! (
+  ": [val] should be replaced with [prval]."
+) (* end of [val] *)
+//
 in
   the_trans4errlst_add (T4E_d3exp_tyer_isprf (d3e_def))
-end // end of [if] // end of [val]
+end // end of [if]
+//
+) (* end of [val] *)
 //
 val hde_def = d3exp_tyer (d3e_def)
 //
