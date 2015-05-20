@@ -25,6 +25,8 @@ Here is a list of major additions and changes since the last release:
 1. Fixing a bug that associates static constants with
    incorrect filenames
 2. Starting to put markers around error/warning messages
+3. Fixing a bug causing mishandling of valimp in included code
+4. Fixing a bug causing incorrect erasure of proof patterns
 
 ######
 

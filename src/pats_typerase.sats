@@ -58,10 +58,13 @@ staload "./pats_hidynexp.sats"
 // during the level-4 translation
 //
 datatype trans4err =
-  | T4E_p3at_tyer_isprf of (p3at)
-  | T4E_d3exp_tyer_isprf of (d3exp)
+//
+  | T4E_p3at_tyer_isprf of (p3at) // [p3at] is partial
+//
+  | T4E_d3exp_tyer_isprf of (d3exp) // [d3exp] should be erased
+//
 (*
-  | T4E_d3exp_tyer_isnotval of (d3exp) // HX: warning
+  | T4E_d3exp_tyer_isnotval of (d3exp) // HX: it is only a warning!
 *)
 // end of [trans4err]
 //
