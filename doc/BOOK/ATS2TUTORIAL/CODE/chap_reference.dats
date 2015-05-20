@@ -40,20 +40,34 @@ fun fact
   (n: int): int = let
   val res = ref<int> (1)
   fun loop (n: int):<cloref1> void =
-    if n > 0 then !res := n * !res else ()
+    if n > 0
+      then (!res := n * !res; loop(n-1)) else ()
+    // end of [if]
   val () = loop (n)
 in
   !res
 end // end of [fact]
 
+val fact1 = fact
+
+(* ****** ****** *)
+
 fun fact
   (n: int): int = let
   fun loop (n: int, res: int): int =
-    if n > 0 then loop (n, n * res) else res
+    if n > 0 then loop (n-1, n * res) else res
   // end of [loop]
 in
   loop (n, 1)
 end // end of [fact]
+
+val fact2 = fact
+
+(* ****** ****** *)
+
+val () = assertloc (fact1(10) = fact2(10))
+
+(* ****** ****** *)
 
 var myvar: int = 0
 val myref = ref_make_viewptr (view@(myvar) | addr@(myvar))

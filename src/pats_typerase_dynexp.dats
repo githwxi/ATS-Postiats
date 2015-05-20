@@ -437,15 +437,19 @@ case+ 0 of
 //
 end // end of [p3at_tyer_con]
 
-
 (* ****** ****** *)
-
+//
 extern
 fun gm3at_tyer (gm3t: gm3at): higmat
+extern
+fun gm3atlst_tyer (gm3ts: gm3atlst): higmatlst
+//
 extern
 fun c3lau_tyer (c3l: c3lau): hiclau
 extern
 fun c3laulst_tyer (c3ls: c3laulst): hiclaulst
+//
+(* ****** ****** *)
 
 extern
 fun d3exp_tyer_cst
@@ -1173,35 +1177,58 @@ end (* end of [d3exp_tyer_tmpvar] *)
 (* ****** ****** *)
 
 implement
-gm3at_tyer (gm3t) = let
-  val loc = gm3t.gm3at_loc
-  val hde = d3exp_tyer (gm3t.gm3at_exp)
-  val opt = (
-    case+ gm3t.gm3at_pat of
-    | Some (p3t) => Some (p3at_tyer (p3t)) | None () => None ()
-  ) : hipatopt // end of [val]
+gm3at_tyer
+  (gm3t) = let
+//
+val loc = gm3t.gm3at_loc
+//
+val hde =
+  d3exp_tyer(gm3t.gm3at_exp)
+//
+val opt = (
+  case+ gm3t.gm3at_pat of
+  | Some (p3t) => Some(p3at_tyer(p3t)) | None() => None()
+) : hipatopt // end of [val]
+//
 in
   higmat_make (loc, hde, opt)
-end // end of [gm3at_tyer]
+end (* end of [gm3at_tyer] *)
 
 implement
-c3lau_tyer (c3l) = let
-  val loc = c3l.c3lau_loc
-  val hips = p3atlst_tyer (c3l.c3lau_pat)
-  val gua = list_map_fun (c3l.c3lau_gua, gm3at_tyer)
-  val gua = list_of_list_vt (gua)
-  val seq = c3l.c3lau_seq
-  val neg = c3l.c3lau_neg
-  val body = d3exp_tyer (c3l.c3lau_body)
+gm3atlst_tyer(gm3ts) = let
+//
+val hgmats =
+  list_map_fun(gm3ts, gm3at_tyer) in list_of_list_vt(hgmats)
+//
+end // end of [gm3atlst_tyer]
+
+(* ****** ****** *)
+
+implement
+c3lau_tyer
+  (c3l) = let
+//
+val loc = c3l.c3lau_loc
+val hips =
+  p3atlst_tyer (c3l.c3lau_pat)
+// end of [val]
+val gua =
+  gm3atlst_tyer (c3l.c3lau_gua)
+//
+val seq = c3l.c3lau_seq
+val neg = c3l.c3lau_neg
+val body = d3exp_tyer (c3l.c3lau_body)
+//
 in
   hiclau_make (loc, hips, gua, seq, neg, body)
 end // end of [c3lau_tyer]
 
 implement
-c3laulst_tyer (c3ls) = let
-  val hcls = list_map_fun (c3ls, c3lau_tyer)
-in
-  list_of_list_vt (hcls)
+c3laulst_tyer(c3ls) = let
+//
+val hcls =
+  list_map_fun(c3ls, c3lau_tyer) in list_of_list_vt(hcls)
+//
 end // end of [c3laulst_tyer]
 
 (* ****** ****** *)
