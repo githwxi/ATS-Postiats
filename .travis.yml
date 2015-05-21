@@ -9,9 +9,9 @@ before_install:
   - export PATSHOME=${TRAVIS_BUILD_DIR}
   - export PATH=${PATH}:${PATSHOME}/bin
   # Install pkgs
-  - ${TRAVIS_BUILD_DIR}/travis-ci/installpkg.sh
+  - sudo ${TRAVIS_BUILD_DIR}/travis-ci/installpkg.sh
   # Download ATS1
-  - ${TRAVIS_BUILD_DIR}/travis-ci/ats1_setup.sh 0.2.12
+  - sudo ${TRAVIS_BUILD_DIR}/travis-ci/ats1_setup.sh 0.2.12
   # Download ATS2-contrib
   - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
   - export PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
@@ -31,6 +31,7 @@ script:
   # make C3NSTRINTKND=intknd -f Makefile_devl CC=${CLANG} all
   # make C3NSTRINTKND=intknd GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${CLANG} all
   # Trying-out release process
+  - cd ${TRAVIS_BUILD_DIR}
   - make -C ${PATSHOME}/src CBOOT
   - make -C ${PATSHOME}/src/CBOOT/prelude
   - make -C ${PATSHOME}/src/CBOOT/libc
@@ -41,14 +42,14 @@ script:
   # make -C ${PATSHOME}/doc/DISTRIB atscontribing
   # make -C ${PATSHOME}/doc/DISTRIB atscntrbtarzvcf
   # make -C ${PATSHOME}/doc/DISTRIB cleanall
-  # Regress test
+  # Running regress test
+  - cd ${TRAVIS_BUILD_DIR}
   - make -C ${PATSHOME}/doc -f Makefile_test testall > testall_doc.log 2>&1
   - tail -100 testall_doc.log
-  # Building utils
-  - make -C libatsynmark # it is moved to ATS2-contrib
-  - make -C utils/atsynmark # it is moved to ATS2-contrib
-  - make -C utils/packedit # it is moved to ATS2-contrib
-  # Testing extensively
+  # Building some utilities
+  - make -C libatsynmark
+  - make -C utils/atsynmark
+  # Running test on ATS2-contrib
   - make -C ${PATSHOMERELOC} -f Makefile_test testall
 after_script:
   - date
