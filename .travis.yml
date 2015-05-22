@@ -1,5 +1,6 @@
 os:
   - linux
+sudo: required
 before_install:
   - date
   - cd ${HOME}
