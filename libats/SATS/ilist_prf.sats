@@ -51,32 +51,52 @@ stadef ilist_sing (x:int): ilist = ilist_cons (x, ilist_nil)
 
 (* ****** ****** *)
 
-dataprop
-ilisteq (
-  ilist, ilist
-) =
-  | ilisteq_nil (
-      ilist_nil, ilist_nil
-    ) of ()
-  | {x:int} {xs1,xs2:ilist}
-    ilisteq_cons (
-      ilist_cons (x, xs1), ilist_cons (x, xs2)
-    ) of (
-      ilisteq (xs1, xs2)
-    ) // end of [ilisteq_cons]
-// end of [ilisteq]
-
-(* ****** ****** *)
-
 dataprop ILISTEQ
   (ilist, ilist) = {xs:ilist} ILISTEQ (xs, xs) of ()
 // end of [ILISTEQ]
 
 (* ****** ****** *)
+//
+prfun
+ILISTEQ_refl{xs:ilist}(): ILISTEQ(xs, xs)
+//
+prfun
+ILISTEQ_symm
+  {xs,ys:ilist}(ILISTEQ(xs, ys)): ILISTEQ(ys, xs)
+//
+prfun
+ILISTEQ_tran
+  {xs,ys,zs:ilist}
+  (ILISTEQ(xs, ys), ILISTEQ(ys, zs)): ILISTEQ(xs, zs)
+//
+(* ****** ****** *)
 
-prfun ilisteq_elim
-  {xs1,xs2:ilist} (pf: ilisteq (xs1, xs2)): ILISTEQ (xs1, xs2)
-// end of [ilisteq_elim]
+dataprop
+ILISTEQ2 (
+  ilist, ilist
+) =
+  | ILISTEQ2nil
+    (
+      ilist_nil, ilist_nil
+    ) of ((*void*))
+  | {x:int}
+    {xs1,xs2:ilist}
+    ILISTEQ2cons
+    (
+      ilist_cons (x, xs1)
+    , ilist_cons (x, xs2)
+    ) of (
+      ILISTEQ2 (xs1, xs2)
+    ) // end of [ILISTEQ2cons]
+// end of [ILISTEQ2]
+
+(* ****** ****** *)
+
+prfun
+ILISTEQ2_elim
+  {xs1,xs2:ilist}
+  (pf: ILISTEQ2(xs1, xs2)): ILISTEQ (xs1, xs2)
+// end of [ILISTEQ2_elim]
 
 (* ****** ****** *)
 

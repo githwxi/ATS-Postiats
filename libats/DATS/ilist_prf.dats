@@ -45,27 +45,33 @@ staload "libats/SATS/ilist_prf.sats"
 (* ****** ****** *)
 
 (*
-prfun ilisteq_elim
-  {xs1,xs2:ilist} (pf: ilisteq (xs1, xs2)): ILISTEQ (xs1, xs2)
-// end of [ilisteq_elim]
+prfun
+ILISTEQ2_elim
+  {xs1,xs2:ilist}
+  (pf: ILISTEQ2(xs1, xs2)): ILISTEQ(xs1, xs2)
+// end of [ILISTEQ2_elim]
 *)
 primplmnt
-ilisteq_elim (pf) = let
+ILISTEQ2_elim (pf) = let
 //
 prfun lemma
   {xs1,xs2:ilist} .<xs1>.
-  (pf: ilisteq (xs1, xs2)): ILISTEQ (xs1, xs2) = let
+(
+  pf: ILISTEQ2(xs1, xs2)
+) : ILISTEQ(xs1, xs2) = let
 in
-  case+ pf of
-  | ilisteq_cons (pf) => let
-      prval ILISTEQ () = lemma (pf) in ILISTEQ ()
-    end // end of [ILISTEQ_cons]
-  | ilisteq_nil () => ILISTEQ ()
+//
+case+ pf of
+| ILISTEQ2nil() => ILISTEQ()
+| ILISTEQ2cons(pf) => let
+    prval ILISTEQ () = lemma (pf) in ILISTEQ ()
+  end // end of [ILISTEQ_cons]
+//
 end // end of [lemma]
 //
 in
   lemma (pf)
-end // end of [ilisteq_elim]
+end // end of [ILISTEQ2_elim]
 
 (* ****** ****** *)
 
@@ -354,8 +360,10 @@ end // end of [lemma_append_assoc]
 (* ****** ****** *)
 
 (*
-prfun lemma_nth_ilisteq
-  {xs1,xs2:ilist}{n:nat} (
+prfun
+lemma_nth_ilisteq
+  {xs1,xs2:ilist}{n:nat}
+(
   pf1len: LENGTH (xs1, n), pf2len: LENGTH (xs2, n)
 , fpf: {x:int}{i:nat | i < n} NTH (x, xs1, i) -> NTH (x, xs2, i)
 ) : ILISTEQ (xs1, xs2) =

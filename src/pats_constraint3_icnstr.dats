@@ -41,28 +41,34 @@ ATSPRE = "./pats_atspre.dats"
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload "./pats_errmsg.sats"
-staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_constraint3_icnstr"
-
+//
+staload
+"./pats_errmsg.sats"
+staload
+_(*anon*) = "./pats_errmsg.dats"
+//
+implement
+prerr_FILENAME<> () = prerr "pats_constraint3_icnstr"
+//
 (* ****** ****** *)
 
 staload "./pats_intinf.sats"
 
 (* ****** ****** *)
-
-staload "./pats_staexp2.sats"
+//
+staload ERR = "./pats_error.sats"
+staload LOC = "./pats_location.sats"
+//
 overload prerr with $LOC.prerr_location
-
+//
+(* ****** ****** *)
+//
+staload "./pats_staexp2.sats"
+//
 (* ****** ****** *)
 
 staload "./pats_lintprgm.sats"
 staload "./pats_constraint3.sats"
-
-(* ****** ****** *)
-
-#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
@@ -295,9 +301,18 @@ case+ s3e0 of
 *)
 //
 | _ => let
-    val () = prerr_error3_loc (loc0)
-    val () = prerrln! (": this constraint cannot be s3exp2icnstr-handled: s3e0 = ", s3e0)
-    val () = assertloc (false) in ICerr (loc0, $UN.cast(s3e0))
+    val () =
+    prerr_error3_loc (loc0)
+    val () =
+    prerrln! (
+      ": this constraint cannot be s3exp2icnstr-handled: s3e0 = ", s3e0
+    ) (* end of [val] *)
+    val () = $ERR.abort()
+(*
+    val () = assertloc (false)
+*)
+  in
+    ICerr (loc0, $UN.cast(s3e0))
   end // end of [_]
 //
 end // end of [s3exp2icnstr]
