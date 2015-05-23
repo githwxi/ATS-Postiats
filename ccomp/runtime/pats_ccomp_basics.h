@@ -72,6 +72,8 @@
 //
 #define ATSdynloadflag_init(flag) int flag = 0
 //
+#define ATSdynloadflag_minit(flag) int flag = 0
+//
 #define ATSdynloadset(flag) flag = 1
 #define ATSdynloadfcall(dynloadfun) dynloadfun()
 //

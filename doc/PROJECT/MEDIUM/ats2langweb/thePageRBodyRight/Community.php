@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-05-22:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/Q54YTXt8u1g"
+>ATS2-0.1.13 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-05-16:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/BScZOguFm0Y"
@@ -135,6 +143,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-01-06:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/bT0t5emu8cE"
@@ -142,8 +152,6 @@ ATS-2015-01-06:<br>
 by <a href="http://www.cac.cornell.edu/barker/">Brandon Barker</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-01-06:<br>
 <a

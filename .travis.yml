@@ -1,4 +1,5 @@
 os:
+  - osx
   - linux
 sudo: required
 before_install:

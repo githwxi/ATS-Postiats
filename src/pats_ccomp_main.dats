@@ -46,10 +46,11 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 staload "pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload
 FIL = "./pats_filename.sats"
-
+typedef filename = $FIL.filename
+//
 (* ****** ****** *)
 
 staload GLOB = "./pats_global.sats"
@@ -714,21 +715,24 @@ the_dynloadflag_get (): int
 implement
 the_dynloadflag_get () = let
 //
-val the_mainatsflag = $GLOB.the_MAINATSFLAG_get ()
+val
+the_mainatsflag =
+  $GLOB.the_MAINATSFLAG_get ()
 //
 in
 //
-if the_mainatsflag = 0
-  then let
-    val opt = the_mainats_d2copt_get ()
-  in
+if
+the_mainatsflag = 0
+then let
+  val opt = the_mainats_d2copt_get ()
+in
 //
-  case+ opt of
-  | Some _ => (~1)
-  | None () => $GLOB.the_DYNLOADFLAG_get ()
+case+ opt of
+| Some _ => (~1)
+| None () => $GLOB.the_DYNLOADFLAG_get ()
 //
-  end // end of [then]
-  else (~1) // HX: mainatsflag overrules dynloadflag
+end // end of [then]
+else (~1) // HX: mainatsflag overrules dynloadflag
 //
 end // end of [the_dynloadflag_get]
 
@@ -741,14 +745,19 @@ emit_main_arglst_err
 implement
 emit_main_arglst_err
   (out, arty) = let
-  val () = if arty >= 1 then emit_text (out, "argc")
-  val () = if arty >= 2 then emit_text (out, ", argv")
-  val () = if arty >= 3 then emit_text (out, ", envp")
-  val () = (
-    if arty <= 0
-      then emit_text (out, "err") else emit_text (out, ", err")
-    // end of [if]
-  ) : void // end of [val]
+//
+val () =
+  if arty >= 1 then emit_text (out, "argc")
+val () =
+  if arty >= 2 then emit_text (out, ", argv")
+val () =
+  if arty >= 3 then emit_text (out, ", envp")
+val () = (
+  if arty <= 0
+    then emit_text (out, "err") else emit_text (out, ", err")
+  // end of [if]
+) : void // end of [val]
+//
 in
   // nothing
 end // end of [emit_main_arglst_err]
@@ -758,7 +767,7 @@ end // end of [emit_main_arglst_err]
 extern
 fun
 emit_dynload
-  (out: FILEref, infil: $FIL.filename): void
+  (out: FILEref, infil: filename): void
 implement
 emit_dynload
   (out, infil) =
@@ -770,7 +779,7 @@ emit_dynload
 extern
 fun
 emit_dynloadflag
-  (out: FILEref, infil: $FIL.filename): void
+  (out: FILEref, infil: filename): void
 implement
 emit_dynloadflag
   (out, infil) =
@@ -892,8 +901,7 @@ end // end of [aux_dynload_ext]
 fun
 aux_dynload_ias
 (
-  out: FILEref
-, infil: $FIL.filename
+  out: FILEref, infil: filename
 ) : void = let
 //
 val opt = $GLOB.the_DYNLOADNAME_get ()
@@ -940,7 +948,7 @@ fun
 aux_dynload_def
 (
   out: FILEref
-, infil: $FIL.filename, fbody: string
+, infil: filename, fbody: string
 ) : void = let
 //
 val flag = the_dynloadflag_get ()
@@ -951,12 +959,17 @@ if flag = 0
 //
 val () = emit_text (out, "/*\n")
 val () =
+(
   emit_text (out, "** for initialization(dynloading)")
+) (* end of [val] *)
+//
 val () = emit_text (out, "\n*/\n")
 //
 val () =
-if flag <= 0 then (
-  emit_text (out, "ATSdynloadflag_init(");
+if
+flag <= 0
+then (
+  emit_text (out, "ATSdynloadflag_minit(");
   emit_dynloadflag (out, infil); emit_text (out, ") ;\n")
 ) (* end of [if] *)
 //
@@ -1021,8 +1034,7 @@ fun
 aux_main
 (
   out: FILEref
-, infil: $FIL.filename
-, d2cmain: d2cst
+, infil: filename, d2cmain: d2cst
 ) : void = let
 //
 val () = emit_text (out, "\n/*\n")
@@ -1079,7 +1091,7 @@ end // end of [aux_main]
 fun
 aux_main_ifopt
 (
-  out: FILEref, infil: $FIL.filename
+  out: FILEref, infil: filename
 ) : void = let
 //
 val opt = the_mainats_d2copt_get ()
