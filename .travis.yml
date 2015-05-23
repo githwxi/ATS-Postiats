@@ -50,8 +50,8 @@ script:
   - tail -100 testall_doc.log
   # Building some utilities
   - make -C libatsynmark
+  - make -C utils/atstags
   - make -C utils/atsynmark
-  # Running test on ATS2-contrib
-  - make -C ${PATSHOMERELOC} -f Makefile_test testall
+  - make -C utils/packedit
 after_script:
   - date
