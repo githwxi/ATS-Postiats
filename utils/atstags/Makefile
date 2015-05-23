@@ -11,6 +11,7 @@ CC=gcc -std=c99 -D_XOPEN_SOURCE
 ######
 
 PATSHOMEQ="$(PATSHOME)"
+PATSHOMERELOCQ="$(PATSHOMERELOC)"
 
 ######
 
@@ -20,7 +21,7 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 ######
 
 CFLAGS :=
-CFLAGS += -I $(PATSHOMEQ)/contrib
+CFLAGS +=-I$(PATSHOMERELOCQ)/contrib
 CFLAGS += $(shell pkg-config --cflags json-c)
 
 ######
@@ -30,7 +31,8 @@ LDFLAGS += $(shell pkg-config --libs json-c)
 
 ######
 
-jsonlst2arr: jsonlst2arr.dats ; \
+jsonlst2arr: \
+jsonlst2arr.dats ; \
   $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
 
 ######
