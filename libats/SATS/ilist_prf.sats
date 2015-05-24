@@ -115,9 +115,9 @@ ISEMP (ilist, bool) =
 
 dataprop
 LENGTH (ilist, int) =
-  | LENGTHnil (ilist_nil, 0) of ()
-  | {x:int} {xs:ilist} {n:nat}
-    LENGTHcons (ilist_cons (x, xs), n+1) of LENGTH (xs, n)
+  | LENGTHnil(ilist_nil, 0) of ()
+  | {x:int}{xs:ilist}{n:nat}
+    LENGTHcons(ilist_cons (x, xs), n+1) of LENGTH (xs, n)
 // end of [LENGTH]
 
 prfun length_istot {xs:ilist} (): [n:nat] LENGTH (xs, n)
@@ -146,8 +146,9 @@ prfun snoc_isfun {xs:ilist} {x:int}
 (*
 // HX-2012-12-13: proven
 *)
-prfun lemma_snoc_length
-  {xs:ilist} {x:int} {xsx:ilist} {n:nat}
+prfun
+lemma_snoc_length
+  {xs:ilist}{x:int}{xsx:ilist}{n:int}
   (pf1: SNOC (xs, x, xsx), pf2: LENGTH (xs, n)): LENGTH (xsx, n+1)
 // end of [lemma_snoc_length]
 
@@ -223,20 +224,25 @@ lemma_append_assoc
 
 dataprop
 REVAPP (ilist, ilist, ilist) =
-  | {ys:ilist} REVAPPnil (ilist_nil, ys, ys) of ()
-  | {x:int} {xs:ilist} {ys:ilist} {zs:ilist}
+  | {ys:ilist}
+    REVAPPnil (ilist_nil, ys, ys) of ()
+  | {x:int}{xs:ilist}{ys:ilist}{zs:ilist}
     REVAPPcons (ilist_cons (x, xs), ys, zs) of REVAPP (xs, ilist_cons (x, ys), zs)
 // end of [REVAPP]
 
 propdef REVERSE (xs: ilist, ys: ilist) = REVAPP (xs, ilist_nil, ys)
 
 (* ****** ****** *)
-
-prfun revapp_istot
+//
+prfun
+revapp_istot
   {xs,ys:ilist} (): [zs:ilist] REVAPP (xs, ys, zs)
-prfun revapp_isfun {xs,ys:ilist} {zs1,zs2:ilist}
+//
+prfun
+revapp_isfun
+  {xs,ys:ilist}{zs1,zs2:ilist}
   (pf1: REVAPP (xs, ys, zs1), pf2: REVAPP (xs, ys, zs2)): ILISTEQ (zs1, zs2)
-
+//
 (* ****** ****** *)
 
 prfun
@@ -245,6 +251,23 @@ lemma_revapp_length
   pf: REVAPP (xs, ys, zs), pf1len: LENGTH (xs, m), pf2len: LENGTH (ys, n)
 ) : LENGTH (zs, m+n) // end of [lemma_revapp_length]
 
+(* ****** ****** *)
+//
+prfun
+reverse_istot
+  {xs:ilist}(): [ys:ilist] REVERSE(xs, ys)
+//
+prfun
+reverse_isfun
+  {xs:ilist}{ys1,ys2:ilist}
+  (REVERSE(xs, ys1), REVERSE(xs, ys2)): ILISTEQ(ys1, ys2)
+//
+(* ****** ****** *)
+//
+prfun
+lemma_reverse_length
+  {xs,ys:ilist}{n:int}(REVERSE(xs, ys), LENGTH(xs, n)): LENGTH(ys, n)
+//
 (* ****** ****** *)
 
 dataprop
@@ -270,38 +293,38 @@ RNTH (x0:int, ilist, int) =
 prfun
 lemma_nth_param
   {x0:int}
-  {xs:ilist}
-  {i:int}
+  {xs:ilist}{i:int}
 (
   pf: NTH(x0, xs, i)
-) : [y:int;ys:ilist|i >= 0] ILISTEQ(xs, ilist_cons(y, ys))
+) : [y:int;ys:ilist | i >= 0] ILISTEQ(xs, ilist_cons(y, ys))
 
 (* ****** ****** *)
 
 prfun
 lemma_nth_rnth
-  {x:int} {xs:ilist}
-  {n:int} {i:nat | i < n}
+  {x:int}{xs:ilist}
+  {n:int}{i:int | i < n}
   (pf1: NTH (x, xs, i), pf2: LENGTH (xs, n)): RNTH (x, xs, n-1-i)
 // end of [lemma_nth_rnth]
 
 prfun
 lemma_rnth_nth
-  {x:int} {xs:ilist}
-  {n:int} {i:nat | i < n}
+  {x:int}{xs:ilist}
+  {n:int}{i:int | i < n}
   (pf1: RNTH (x, xs, i), pf2: LENGTH (xs, n)): NTH (x, xs, n-1-i)
 // end of [lemma_rnth_nth]
 
 (* ****** ****** *)
+
 (*
 // HX-2012-12-14: proven
 *)
 prfun
 lemma_nth_ilisteq
-  {xs1,xs2:ilist}{n:nat}
+  {xs1,xs2:ilist}{n:int}
 (
   pf1len: LENGTH (xs1, n), pf2len: LENGTH (xs2, n)
-, fpf: {x:int}{i:nat | i < n} NTH (x, xs1, i) -> NTH (x, xs2, i)
+, fpf: {x:int}{i:int | i < n} NTH (x, xs1, i) -> NTH (x, xs2, i)
 ) : ILISTEQ (xs1, xs2) // end of [lemma_nth_ilisteq]
 
 (* ****** ****** *)
@@ -311,8 +334,9 @@ lemma_nth_ilisteq
 *)
 prfun
 lemma1_revapp_nth
-  {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} (
-  pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, ys, i)
+  {xs,ys,zs:ilist}
+  {n:int}{x:int}{i:int} (
+  REVAPP (xs, ys, zs), LENGTH (xs, n), NTH (x, ys, i)
 ) : NTH (x, zs, n+i) // end of [lemma1_revapp_nth]
 
 (* ****** ****** *)
@@ -322,8 +346,9 @@ lemma1_revapp_nth
 *)
 prfun
 lemma2_revapp_nth
-  {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} (
-  pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, xs, i)
+  {xs,ys,zs:ilist}
+  {n:int}{x:int}{i:int} (
+  REVAPP (xs, ys, zs), LENGTH (xs, n), NTH (x, xs, i)
 ) : NTH (x, zs, n-1-i) // end of [lemma2_revapp_nth]
 
 (* ****** ****** *)
@@ -331,9 +356,12 @@ lemma2_revapp_nth
 (*
 // HX-2012-12-14: proven
 *)
-prfun lemma_reverse_nth
-  {xs,ys:ilist}{n:nat}{x:int}{i:nat} (
-  pf: REVERSE (xs, ys), pflen: LENGTH (xs, n), pfnth: NTH (x, xs, i)
+prfun
+lemma_reverse_nth
+  {xs,ys:ilist}
+  {n:int}{x:int}{i:int}
+(
+  pf: REVERSE(xs, ys), pf2: LENGTH(xs, n), pf3: NTH(x, xs, i)
 ) : NTH (x, ys, n-1-i) // end of [lemma_reverse_nth]
     
 (* ****** ****** *)
@@ -342,8 +370,7 @@ prfun lemma_reverse_nth
 // HX-2012-12-14: proven
 *)
 prfun
-lemma_reverse_symm
-  {xs,ys:ilist} (pf: REVERSE (xs, ys)): REVERSE (ys, xs)
+lemma_reverse_symm{xs,ys:ilist}(REVERSE(xs, ys)): REVERSE(ys, xs)
 // end of [lemma_reverse_symm]
 
 (* ****** ****** *)
@@ -356,7 +383,7 @@ INSERT (
     INSERTbas (
       xi, xs, 0, ilist_cons (xi, xs)
     ) of () // end of [INSERTbas]
-  | {x:int} {xs:ilist} {i:nat} {ys:ilist}
+  | {x:int}{xs:ilist}{i:nat}{ys:ilist}
     INSERTind (
       xi, ilist_cons (x, xs), i+1, ilist_cons (x, ys)
     ) of INSERT (xi, xs, i, ys) // end of [INSERTind]
@@ -425,7 +452,7 @@ UPDATE (
     UPDATEbas (
       yi, ilist_cons (x0, xs), 0, ilist_cons (yi, xs)
     ) of () // end of [UPDATEbas]
-  | {x:int} {xs:ilist} {i:nat} {ys:ilist}
+  | {x:int}{xs:ilist}{i:nat}{ys:ilist}
     UPDATEind (
       yi, ilist_cons (x, xs), i+1, ilist_cons (x, ys)
     ) of UPDATE (yi, xs, i, ys) // end of [UPDATEind]
@@ -473,7 +500,7 @@ permute_trans {xs1,xs2,xs3:ilist}
 
 prfun
 lemma_permute_length
-  {xs1,xs2:ilist} {n:nat}
+  {xs1,xs2:ilist}{n:int}
   (pf1: PERMUTE (xs1, xs2), pf2: LENGTH (xs1, n)): LENGTH (xs2, n)
 // end of [lemma_permute_length]
 
