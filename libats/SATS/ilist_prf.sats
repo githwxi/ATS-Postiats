@@ -305,6 +305,7 @@ lemma_nth_ilisteq
 ) : ILISTEQ (xs1, xs2) // end of [lemma_nth_ilisteq]
 
 (* ****** ****** *)
+
 (*
 // HX-2012-12-14: proven
 *)
@@ -313,6 +314,8 @@ lemma1_revapp_nth
   {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} (
   pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, ys, i)
 ) : NTH (x, zs, n+i) // end of [lemma1_revapp_nth]
+
+(* ****** ****** *)
 
 (*
 // HX-2012-12-14: proven
@@ -324,6 +327,7 @@ lemma2_revapp_nth
 ) : NTH (x, zs, n-1-i) // end of [lemma2_revapp_nth]
 
 (* ****** ****** *)
+
 (*
 // HX-2012-12-14: proven
 *)
@@ -332,6 +336,8 @@ prfun lemma_reverse_nth
   pf: REVERSE (xs, ys), pflen: LENGTH (xs, n), pfnth: NTH (x, xs, i)
 ) : NTH (x, ys, n-1-i) // end of [lemma_reverse_nth]
     
+(* ****** ****** *)
+
 (*
 // HX-2012-12-14: proven
 *)

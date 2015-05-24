@@ -566,7 +566,7 @@ lemma_reverse_nth
 (* ****** ****** *)
 
 primplmnt
-lemma_reverse_symm {xs,ys} (pf) = let
+lemma_reverse_symm{xs,ys}(pf) = let
 //
 prval [n:int] pflen_xs = length_istot {xs} ()
 prval pflen_ys = lemma_revapp_length (pf, pflen_xs, LENGTHnil ())
