@@ -1,3 +1,36 @@
+0.2.0
+
+This is the 23rd release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Re-structuring CATS-parsemit
+2. Creating ATS-Postiats-frozen for storing inactive projects
+3. Porting Atscc2js based on the newly re-structured CATS-parsemit
+4. Porting Atscc2php based on the newly re-structured CATS-parsemit
+5. Porting Atscc2py based on the newly re-structured CATS-parsemit
+6. Porting Atscc2pl based on the newly re-structured CATS-parsemit
+
+######
+
 0.1.13
 
 This is the 22nd release of ATS2, the successor of the ATS
