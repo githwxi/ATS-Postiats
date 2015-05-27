@@ -1279,6 +1279,7 @@ val () = print_newline ((*void*))
 *)
 //
 val () = emit_time_stamp (out)
+//
 val () = emit_ats_ccomp_header (out)
 val () = emit_ats_ccomp_prelude (out)
 //

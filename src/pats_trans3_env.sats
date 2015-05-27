@@ -180,10 +180,16 @@ fun h3ypo_eqeq
 // end of [h3ypo_eqeq]
 
 (* ****** ****** *)
-
+//
 fun print_c3nstr (x: c3nstr): void
 and prerr_c3nstr (x: c3nstr): void
 fun fprint_c3nstr : fprint_type (c3nstr)
+//
+overload print with print_c3nstr
+overload prerr with prerr_c3nstr
+overload fprint with fprint_c3nstr
+//
+(* ****** ****** *)
 
 fun fprint_c3nstrkind : fprint_type (c3nstrkind)
 

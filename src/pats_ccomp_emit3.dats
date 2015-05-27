@@ -34,27 +34,33 @@
 (* ****** ****** *)
 //
 staload
-ATSPRE = "./pats_atspre.dats"
+ATSPRE =
+"./pats_atspre.dats"
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
 staload "pats_basics.sats"
 
 (* ****** ****** *)
-
-staload ERR = "./pats_error.sats"
-
+//
+staload
+"./pats_errmsg.sats"
+staload
+_(*anon*) = "./pats_errmsg.dats"
+//
+implement
+prerr_FILENAME<> () = prerr "pats_ccomp_emit2"
+//
 (* ****** ****** *)
-
-staload "./pats_errmsg.sats"
-staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_ccomp_emit2"
-
-(* ****** ****** *)
+//
+staload
+ERR = "./pats_error.sats"
 //
 staload
 FIL = "./pats_filename.sats"

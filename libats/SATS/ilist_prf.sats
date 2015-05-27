@@ -178,7 +178,8 @@ prfun append_unit_right
 (*
 // HX-2012-12-17: proven
 *)
-prfun append_sing
+prfun
+append_sing
   {x:int}{xs:ilist}
   (): APPEND (ilist_sing(x), xs, ilist_cons (x, xs))
 // end of [append_sing]
@@ -274,8 +275,8 @@ dataprop
 NTH (x0:int, ilist, int) =
   | {xs:ilist}
     NTHbas (x0, ilist_cons (x0, xs), 0)
-  | {x:int}{xs:ilist}{n:nat}
-    NTHind (x0, ilist_cons (x, xs), n+1) of NTH (x0, xs, n)
+  | {x1:int}{xs:ilist}{n:nat}
+    NTHind (x0, ilist_cons (x1, xs), n+1) of NTH (x0, xs, n)
 // end of [NTH]
 //
 // HX: reverse NTH
@@ -284,8 +285,8 @@ dataprop
 RNTH (x0:int, ilist, int) =
   | {xs:ilist}{n:nat}
     RNTHbas (x0, ilist_cons (x0, xs), n) of LENGTH (xs, n)
-  | {x:int}{xs:ilist}{n:nat}
-    RNTHind (x0, ilist_cons (x, xs), n) of RNTH (x0, xs, n)
+  | {x1:int}{xs:ilist}{n:nat}
+    RNTHind (x0, ilist_cons (x1, xs), n) of RNTH (x0, xs, n)
 // end of [RNTH]
 
 (* ****** ****** *)
@@ -296,6 +297,14 @@ lemma_nth_param
   {xs:ilist}{i:int}
 (
   pf: NTH(x0, xs, i)
+) : [y:int;ys:ilist | i >= 0] ILISTEQ(xs, ilist_cons(y, ys))
+
+prfun
+lemma_rnth_param
+  {x0:int}
+  {xs:ilist}{i:int}
+(
+  pf: RNTH(x0, xs, i)
 ) : [y:int;ys:ilist | i >= 0] ILISTEQ(xs, ilist_cons(y, ys))
 
 (* ****** ****** *)
