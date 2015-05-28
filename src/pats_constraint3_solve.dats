@@ -712,11 +712,12 @@ end // end of [c3nstr_solve_itmlst_disj]
 (* ****** ****** *)
 
 implement
-c3nstr_solve (c3t) = let
+c3nstr_ats2_solve (c3t) = let
 (*
 //
-val () = (
-  println! ("c3nstr_solve: c3t = ", c3t)
+val () =
+(
+  println! ("c3nstr_ats2_solve: c3t = ", c3t)
 ) (* end of [val] *)
 //
 *)
@@ -757,7 +758,7 @@ case+ 0 of
     val () = $ERR.abort {void} ()
   } (* end of [_] *)
 //
-end // end of [c3nstr_solve]
+end // end of [c3nstr_ats2_solve]
 
 (* ****** ****** *)
 

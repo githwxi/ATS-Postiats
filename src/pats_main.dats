@@ -1134,8 +1134,15 @@ val c3t0 =
   $TRENV3.the_trans3_finget_constraint ()
 // end of [val]
 //
-val () =
-if flag = 0 then $CNSTR3.c3nstr_solve (c3t0)
+val () = (
+//
+if
+flag = 0
+then {
+  val () = $CNSTR3.c3nstr_ats2_solve (c3t0)
+} (* end of [if] *)
+//
+) (* end of [val] *)
 //
 val () =
 if
