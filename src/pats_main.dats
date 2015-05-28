@@ -892,6 +892,7 @@ implement
 do_depgen
   (state, given, d0cs) = let
   val ents = $DEPGEN.depgen_eval (d0cs)
+  val ((*pop*)) = $FIL.the_filenamelst_ppop ()
   val filr = outchan_get_filr (state.outchan)
 in
   $DEPGEN.fprint_entlst (filr, given, ents)
@@ -901,6 +902,7 @@ implement
 do_taggen
   (state, given, d0cs) = let
   val ents = $TAGGEN.taggen_proc (d0cs)
+  val ((*pop*)) = $FIL.the_filenamelst_ppop ()
   val filr = outchan_get_filr (state.outchan)
 in
   $TAGGEN.fprint_entlst (filr, given, ents)

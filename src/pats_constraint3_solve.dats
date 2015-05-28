@@ -593,10 +593,12 @@ c3nstr_solve_itmlst
   loc0, env, s3is, unsolved, err
 ) = let
 (*
+//
 val () = begin
   print "c3str_solve_itmlst: s3is = ";
   fprint_s3itmlst (stdout_ref, s3is); print_newline ();
 end // end of [val]
+//
 *)
 in
 //
@@ -675,28 +677,35 @@ end // end of [c3nstr_solve_itmlst_cnstr]
 (* ****** ****** *)
 
 implement
-c3nstr_solve_itmlst_disj (
+c3nstr_solve_itmlst_disj
+(
   loc0, env, s3is0, s3iss(*disj*), unsolved, err
 ) = let
 (*
-val () = (
-  print "c3nstr_solve_itmlst_disj: s3iss = ..."; print_newline ()
-) // end of [val]
+//
+val () =
+(
+  println! ("c3nstr_solve_itmlst_disj: s3iss = ...")
+) (* end of [val] *)
+//
 *)
 in
 //
 case+ s3iss of
-| list_cons (s3is, s3iss) => let
+| list_nil
+    ((*void*)) => ~1(*solved*)
+  // end of [list_nil]
+| list_cons
+    (s3is, s3iss) => let
     val (pf1 | ()) = s2vbcfenv_push (env)
     val (pf2 | ()) = the_s2varbindmap_push ()
     val s3is1 = list_append (s3is, s3is0)
-    val ans = c3nstr_solve_itmlst (loc0, env, s3is1, unsolved, err)
-    val () = the_s2varbindmap_pop (pf2 | (*none*))
-    val () = s2vbcfenv_pop (pf1 |env)
+    val _(*ans*) = c3nstr_solve_itmlst (loc0, env, s3is1, unsolved, err)
+    val ((*void*)) = the_s2varbindmap_pop (pf2 | (*none*))
+    val ((*void*)) = s2vbcfenv_pop (pf1 |env)
   in
     c3nstr_solve_itmlst_disj (loc0, env, s3is0, s3iss, unsolved, err)
   end // end of [list_cons]
-| list_nil () => ~1(*solved*)
 //
 end // end of [c3nstr_solve_itmlst_disj]
 
@@ -705,9 +714,11 @@ end // end of [c3nstr_solve_itmlst_disj]
 implement
 c3nstr_solve (c3t) = let
 (*
+//
 val () = (
-  print "c3nstr_solve: c3t = "; print c3t; print_newline ()
+  println! ("c3nstr_solve: c3t = ", c3t)
 ) (* end of [val] *)
+//
 *)
 var env: s2vbcfenv = s2vbcfenv_nil ()
 //
