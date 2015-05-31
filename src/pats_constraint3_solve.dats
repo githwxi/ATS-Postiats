@@ -748,15 +748,18 @@ case+ 0 of
   {
     val () = prerr "typechecking has failed"
     val () =
-    if unsolved <= 1u then prerr ": there is one unsolved constraint"
+    if unsolved <= 1u
+      then prerr ": there is one unsolved constraint"
+    // end of [if]
     val () =
-    if unsolved >= 2u then prerr ": there are some unsolved constraints"
+    if unsolved >= 2u
+      then prerr ": there are some unsolved constraints"
+    // end of [if]
     val () = (
-      prerr ": please inspect the above reported error message(s) for information."
+      prerrln! ": please inspect the above reported error message(s) for information."
     ) (* end of [val] *)
-    val () = prerr_newline ()
-    val () = $ERR.abort {void} ()
-  } (* end of [_] *)
+    val () = $ERR.abort{void}()
+  } (* end of [_ when unsolved > 0] *)
 //
 end // end of [c3nstr_ats2_solve]
 

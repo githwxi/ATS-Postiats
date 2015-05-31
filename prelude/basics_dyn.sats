@@ -565,7 +565,7 @@ fun exit_fprintf{ts:types}
 ) :<!exn> {a:vt0p}(a) = "mac#%" // end of [exit_fprintf]
 *)
 
-(* ****** ****** *)
+(* *****p* ****** *)
 //
 fun exit_void
   (ecode: int):<!exn> void = "mac#%"
