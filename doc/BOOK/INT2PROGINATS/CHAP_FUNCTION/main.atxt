@@ -276,7 +276,7 @@ evaluate the function call #dyncode("abs(0.0 - 1.0)") under some
 environment ENV0, where the function #dyncode("abs") is defined as follows:
 
 #atscode("\
-fn abs (x: double): double = if x >= 0 then x else ~x
+fn abs (x: double): double = if x >= 0.0 then x else ~x
 ")
 
 We first evaluate the argument of the call to #dyncode("~1.0") under ENV0;
