@@ -586,7 +586,7 @@ case+ t0 of
         // end of [if]
       end // end of [sgn > 0]
     | _ (* sgn = 0 *) => let
-        val () = res := true // fould
+        val () = res := true // found
         val () = res2 := x
         prval () = opt_some{itm}(res2)
       in

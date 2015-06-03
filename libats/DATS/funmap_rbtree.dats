@@ -58,7 +58,8 @@ compare_key_key
 //
 #define BLK 0; #define RED 1
 //
-sortdef clr = {c:nat | c <= 1}
+sortdef two = {c:nat | c < 2}
+sortdef clr = {c:nat | c < 2}
 //
 typedef color(c:int) = int(c)
 typedef color = [c:clr] color(c)
@@ -295,7 +296,8 @@ rbtree0
 //
 fun
 insert
-{c:clr}{bh:nat} .<bh,c>.
+{c:clr}
+{bh:nat} .<bh,c>.
 (
   t0: rbtree0 (c, bh)
 , res: &bool? >> bool (b)
@@ -340,8 +342,9 @@ case+ t0 of
             T{..}{..}{..}{0}(c, k, x0, tl, tr)
           end // end of [else]
         // end of [if]
-      ) (* end of [if] *)
-  end // end of [T]
+      ) (* end of [else] *)
+    // end of [if]
+  end // end of [let] // end of [T]
 //
 ) (* end of [insert] *)
 //
@@ -355,6 +358,107 @@ case+ map1 of
 //
 } (* end of [funmap_insert] *)
   
+(* ****** ****** *)
+
+fn
+{key
+,itm:t0p
+} rbtree_redden
+  {bh:pos}
+(
+  t0: rbtree0 (key, itm, BLK, bh)
+) :<>
+[
+  v:nat | v <= 2
+] rbtree (key, itm, RED, bh-1, v) = let
+  val+T{..}{c,cl,cr}(_, k, x, tl, tr) = t0 in T{..}{..}{..}{cl+cr} (RED, k, x, tl, tr)
+end // end of [let] // end of [rbtree_redden]
+
+(* ****** ****** *)
+
+fn
+{key
+,itm:t0p
+} remfix_l
+  {cl,cr:clr}
+  {bh:nat}{v:nat}
+(
+  k: key, x: itm
+, tl: rbtree (key, itm, cl, bh+0, v)
+, tr: rbtree (key, itm, cr, bh+1, 0)
+) :<>
+[
+  c:clr;v:nat | v <= cr
+] rbtree (key, itm, c, bh+1, v) = let
+  #define B BLK; #define R RED
+in
+//
+case+ tl of
+| T(R, kl, xl, tll, tlr) =>
+  T{..}{..}{..}{cr}(R, k, x, T (B, kl, xl, tll, tlr), tr)
+| _ (*non-red-tree*) =>>
+  (
+    case+ tr of
+    | T{..}{cr,crl,crr}
+      (
+        B, kr, xr, trl, trr
+      ) =>
+      insfix_r
+      (
+        k, x, tl, T{..}{..}{..}{crl+crr}(R, kr, xr, trl, trr)
+      ) (* end of [T (B, ...)] *)
+    | T(R, kr, xr, trl, trr) => let
+        val+T(B, krl, xrl, trll, trlr) = trl
+        val [cr2:int] tr2 = insfix_r (kr, xr, trlr, rbtree_redden trr)
+      in
+        T{..}{..}{..}{cr2}(R, krl, xrl, T (B, k, x, tl, trll), tr2)
+      end (* end of [T (R, ...)] *)
+  ) (* end of [_(*non-red-tree*)] *)
+//
+end // end of [remfix_l]
+
+(* ****** ****** *)
+
+fn
+{key
+,itm:t0p
+} remfix_r
+  {cl,cr:clr}
+  {bh:nat}{v:nat}
+(
+  k: key, x: itm
+, tl: rbtree (key, itm, cl, bh+1, 0)
+, tr: rbtree (key, itm, cr, bh+0, v)
+) :<>
+[
+  c:clr;v:nat | v <= cl
+] rbtree (key, itm, c, bh+1, v) = let
+  #define B BLK; #define R RED
+in
+//
+case+ tr of
+| T(R, kr, xr, trl, trr) =>
+  T{..}{..}{..}{cl}(R, k, x, tl, T (B, kr, xr, trl, trr))
+| _(*non-red-tree*) =>>
+  (
+    case+ tl of
+    | T{..}{cl,cll,clr}
+      (
+        B, kl, xl, tll, tlr
+      ) =>
+      insfix_l
+      (
+        k, x, T {..}{..}{..}{cll+clr}(R, kl, xl, tll, tlr), tr
+      ) (* end of [T (B, ...)] *)
+    | T(R, kl, xl, tll, tlr) => let
+        val+ T (B, klr, xlr, tlrl, tlrr) = tlr
+        val [cl2:int] tl2 = insfix_l (kl, xl, rbtree_redden tll, tlrl)
+      in
+        T{..}{..}{..}{cl2}(R, klr, xlr, tl2, T(B, k, x, tlrr, tr))
+      end (* end of [T (R, ...)] *)
+  ) (* end of [_(*non-red-tree*)] *)
+end // end of [remfix_r]
+
 (* ****** ****** *)
 
 implement
