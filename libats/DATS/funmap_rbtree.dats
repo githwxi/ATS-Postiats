@@ -358,6 +358,57 @@ case+ map1 of
 (* ****** ****** *)
 
 implement
+{key,itm}{env}
+funmap_foreach_env
+  (xs, env) = let
+//
+typedef
+rbtree0
+(
+  c:int, bh:int
+) = rbtree0(key, itm, c, bh)
+//
+val p_env = addr@ (env)
+//
+fun
+foreach
+{c:clr}
+{bh:nat} .<bh,c>.
+(
+  t0: rbtree0 (c, bh), p_env: ptr
+) : void = let
+in
+//
+case+ t0 of
+//
+| E ((*void*)) => ()
+//
+| T (_, k, x, tl, tr) => let
+//
+    val () = foreach (tl, p_env)
+//
+    val (
+      pf, fpf | p_env
+    ) = $UN.ptr_vtake (p_env)
+    val ((*void*)) =
+      funmap_foreach$fwork<key,itm><env> (k, x, !p_env)
+    prval ((*void*)) = fpf (pf)
+//
+    val () = foreach (tr, p_env)
+//
+  in
+    // nothing
+  end // end of [B]
+//
+end // end of [foreach]
+//
+in
+  foreach (xs, p_env)
+end // end of [funmap_foreach_env]
+
+(* ****** ****** *)
+
+implement
 {key,itm}
 funmap_rbtree_height(t0) = let
 //
