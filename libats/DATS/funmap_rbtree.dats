@@ -148,16 +148,14 @@ aux
 in
 //
 case+ t0 of
-| T (
-    _, _, _, tl, tr
-  ) => let
+| E((*void*)) => res
+| T(_, _, _, tl, tr) => let
     val res = succ(res)
     val res = aux (tl, res)
     val res = aux (tr, res)
   in
     res
   end // end of [B]
-| E ((*void*)) => res
 //
 end // end of [aux]
 //
@@ -189,6 +187,12 @@ search
 in
 //
 case+ t0 of
+| E (
+  ) => let
+    prval () = opt_none{itm}(res)
+  in
+    false
+  end // end of [E]
 | T (
     _(*h*), k, x, tl, tr
   ) => let
@@ -204,9 +208,6 @@ case+ t0 of
         prval () = opt_some{itm}(res) in true
       end // end of [_]
   end // end of [B]
-| E () => 
-    let prval () = opt_none{itm}(res) in false end
-  // end of [E]
 //
 end // end of [search]
 //
@@ -214,6 +215,146 @@ in
   search (map, res)
 end // end of [funmap_search]
 
+(* ****** ****** *)
+//
+// HX: right rotation
+//
+fn{
+key,
+itm:t0p
+} insfix_l
+  {cl,cr:clr}
+  {bh:nat}{v:nat}
+(
+  k: key, x: itm
+, tl: rbtree (key, itm, cl, bh, v)
+, tr: rbtree (key, itm, cr, bh, 0)
+) :<> [c:clr] rbtree0 (key, itm, c, bh+1) =
+(
+//
+let
+  #define B BLK; #define R RED
+in
+  case+ (tl) of
+  | T (R, kl, xl, T (R, kll, xll, tlll, tllr), tlr) =>
+      T (R, kl, xl, T (B, kll, xll, tlll, tllr), T (B, k, x, tlr, tr))
+  | T (R, kl, xl, tll, T (R, klr, xlr, tlrl, tlrr)) =>
+      T (R, klr, xlr, T (B, kl, xl, tll, tlrl), T (B, k, x, tlrr, tr))
+  | _ (*non-R-rooted*) =>> T (B, k, x, tl, tr)
+end
+//
+) (* end of [insfix_l] *)
+//
+(* ****** ****** *)
+//
+// HX: left rotation
+//
+fn{
+key,
+itm:t0p}
+insfix_r
+  {cl,cr:clr}
+  {bh:nat}{v:nat}
+(
+  k: key, x: itm
+, tl: rbtree (key, itm, cl, bh, 0)
+, tr: rbtree (key, itm, cr, bh, v)
+) :<> [c:clr] rbtree0 (key, itm, c, bh+1) =
+(
+//
+let
+  #define B BLK; #define R RED
+in
+  case+ (tr) of
+  | T (R, kr, xr, trl, T (R, krr, xrr, trrl, trrr)) =>
+      T (R, kr, xr, T (B, k, x, tl, trl), T (B, krr, xrr, trrl, trrr))
+  | T (R, kr, xr, T (R, krl, xrl, trll, trlr), trr) =>
+      T (R, krl, xrl, T (B, k, x, tl, trll), T (B, kr, xr, trlr, trr))
+  | _ (*non-R-rooted*) =>> T (B, k, x, tl, tr)
+end
+//
+) (* end of [insfix_r] *)
+//
+(* ****** ****** *)
+  
+  
+implement
+{key,itm}
+funmap_insert
+(
+  map, k0, x0, res2
+) = res where {
+//
+#define B BLK; #define R RED
+//
+typedef
+rbtree0
+(
+  c:int, bh:int
+) = rbtree0(key, itm, c, bh)
+//
+fun
+insert
+{c:clr}{bh:nat} .<bh,c>.
+(
+  t0: rbtree0 (c, bh)
+, res: &bool? >> bool (b)
+, res2: &itm? >> opt (itm, b)
+) :<!wrt> #[b:bool]
+[
+  c1:clr; v:nat | v <= c
+] rbtree (key, itm, c1, bh, v) =
+(
+case+ t0 of
+//
+| E((*void*)) => let
+    val () = res := false
+    prval () = opt_none{itm}(res2)
+  in
+    T{..}{..}{..}{0} (R, k0, x0, E, E)
+  end // end of [E]
+//
+| T (c, k, x, tl, tr) => let
+    val sgn = compare_key_key<key> (k0, k)
+  in
+    if sgn < 0 
+      then let
+        val [cl:int,v:int] tl = insert (tl, res, res2) in
+        if c = B
+          then insfix_l(k, x, tl, tr) else T{..}{..}{..}{cl}(R, k, x, tl, tr)
+        // end of [if]
+      end // end of [then]
+      else (
+        if sgn > 0
+          then let
+            val [cr:int,v:int] tr = insert (tr, res, res2) in
+            if c = B
+              then insfix_r(k, x, tl, tr) else T{..}{..}{..}{cr}(R, k, x, tl, tr)
+            // end of [if]
+          end // end of [then]
+          else let
+            val () = res := true
+            val () = res2 := x;
+            prval () = opt_some{itm}(res2)
+          in
+            T{..}{..}{..}{0}(c, k, x0, tl, tr)
+          end // end of [else]
+        // end of [if]
+      ) (* end of [if] *)
+  end // end of [T]
+//
+) (* end of [insert] *)
+//
+var res: bool
+val map1 = insert (map, res, res2)
+val () =
+(
+case+ map1 of
+| T (R, k, x, tl, tr) => map := T (B, k, x, tl, tr) | _ =>> map := map1
+) (* end of [val] *)
+//
+} (* end of [funmap_insert] *)
+  
 (* ****** ****** *)
 
 implement
