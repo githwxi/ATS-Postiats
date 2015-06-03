@@ -28,24 +28,32 @@
 (* ****** ****** *)
 
 (*
+** A red-black tree implementation
 **
-** A functional map implementation based on AVL trees
+** The insertion operation is based on the algorithm in the following
+** paper by Chris Okasaki:
+**
+** Red-Black Trees in a Functional Setting (Functional Pearls)
+**
+** J. of Functional Programming, vol. 9 (4), pp. 471-477, January, 1993
+**
+** The removal operation, which seems novel in its implementation, is by
+** Hongwei Xi
 **
 ** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: May, 2011 // based on a version done in October, 2008
-**
+** Time: September, 2011 // based on a version done in October, 2008
 *)
 
 (* ****** ****** *)
 //
-// HX-2012-12:
+// HX-2015-06:
 // It is ported to ATS/Postitats from ATS/Anairiats
 //
 (* ****** ****** *)
 //
 #define
 ATS_PACKNAME
-"ATSLIB.libats.funmap_avltree"
+"ATSLIB.libats.funmap_rbtree"
 //
 (* ****** ****** *)
 
@@ -57,7 +65,11 @@ ATS_PACKNAME
 //
 fun{
 key:t0p;itm:t0p
-} funmap_avltree_height (map: map (key, itm)):<> intGte(0)
+} funmap_rbtree_height (map: map (key, itm)):<> intGte(0)
+//
+fun{
+key:t0p;itm:t0p
+} funmap_rbtree_bheight (map: map (key, itm)):<> intGte(0)
 //
 (* ****** ****** *)
 

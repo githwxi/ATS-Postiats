@@ -28,13 +28,13 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxi AT gmail DOT com *)
+(* Authoremail: gmhwxiATgmailDOTcom *)
 (* Start time: August, 2013 *)
 
 (* ****** ****** *)
 
 #define
-ATS_PACKNAME "ATSLIB.libats.funset_avltree"
+ATS_PACKNAME "ATSLIB.libats.funmap_avltree"
 #define
 ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
 
