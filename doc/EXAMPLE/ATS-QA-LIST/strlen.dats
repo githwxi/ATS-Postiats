@@ -13,7 +13,7 @@ strlen{n:nat}
 //
 fun loop{i,j:nat}
   (str: string(i), j: int(j)): int(i+j) =
-  if isneqz (str) then loop (str.tail, succ(j)) else j
+  if isneqz (str) then loop (str.tail(), succ(j)) else j
 //
 in
   loop (str, 0)

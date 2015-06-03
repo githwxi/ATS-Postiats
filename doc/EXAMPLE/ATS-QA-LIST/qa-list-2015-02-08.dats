@@ -27,7 +27,7 @@ var env: a = gnumber_int(0)
 //
 implement
 array_foreach$fwork<a><a>
-  (x, env) = env := gadd_val(env, x)
+  (x, env) = env := gadd_val_val(env, x)
 //
 val _(*n*) = arrayref_foreach_env(A, n, env)
 //
