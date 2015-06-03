@@ -216,4 +216,64 @@ end // end of [funmap_search]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+funmap_rbtree_height(t0) = let
+//
+typedef
+rbtree0
+(
+  c:int, bh:int
+) = rbtree0(key, itm, c, bh)
+//
+fun
+aux
+{c:clr}
+{bh:nat} .<bh,c>.
+(
+  t: rbtree0 (c, bh)
+) :<> intGte(0) = (
+//
+case+ t of
+| T (_(*c*), _(*key*), _(*itm*), tl, tr) => 1 + max (aux(tl), aux(tr))
+| E () => 0
+//
+) (* end of [aux] *)
+//
+in
+  aux(t0)
+end // end of [funmap_rbtree_height]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_rbtree_bheight(t0) = let
+//
+typedef
+rbtree0
+(
+  c:int, bh:int
+) = rbtree0(key, itm, c, bh)
+//
+fun
+aux
+{c:clr}
+{bh,k:nat} .<bh,c>.
+(
+  t: rbtree0 (c, bh), k: int(k)
+) :<> int(bh+k) = (
+//
+case+ t of
+| T (c, _(*key*), _(*itm*), tl, tr) => aux(tl, k+1-c)
+| E () => k
+//
+) (* end of [aux] *)
+//
+in
+  aux(t0, 0)
+end // end of [funmap_rbtree_bheight]
+
+(* ****** ****** *)
+
 (* end of [funmap_rbtree.dats] *)
