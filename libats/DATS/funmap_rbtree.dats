@@ -132,12 +132,18 @@ implement
 funmap_size
   (map) = let
 //
+typedef
+rbtree0
+(
+  c:int, bh:int
+) = rbtree0(key, itm, c, bh)
+//
 fun
 aux
 {c:clr}
 {bh:nat}
 (
-  t0: rbtree0(key, itm, c, bh), res: size_t
+  t0: rbtree0(c, bh), res: size_t
 ) : size_t = let
 in
 //
@@ -158,6 +164,55 @@ end // end of [aux]
 in
   $effmask_all (aux (map, i2sz(0)))
 end // end of [funmap_size]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_search
+  (map, k0, res) = let
+//
+typedef
+rbtree0
+(
+  c:int, bh:int
+) = rbtree0(key, itm, c, bh)
+//
+fun
+search
+{c:clr}
+{bh:nat} .<bh,c>.
+(
+  t0: rbtree0(c, bh)
+, res: &itm? >> opt (itm, b)
+) :<!wrt> #[b:bool] bool(b) = let
+in
+//
+case+ t0 of
+| T (
+    _(*h*), k, x, tl, tr
+  ) => let
+    val sgn =
+      compare_key_key<key> (k0, k)
+    // end of [val]
+  in
+    case+ 0 of
+    | _ when sgn < 0 => search (tl, res)
+    | _ when sgn > 0 => search (tr, res)
+    | _ => let
+        val () = res := x
+        prval () = opt_some{itm}(res) in true
+      end // end of [_]
+  end // end of [B]
+| E () => 
+    let prval () = opt_none{itm}(res) in false end
+  // end of [E]
+//
+end // end of [search]
+//
+in
+  search (map, res)
+end // end of [funmap_search]
 
 (* ****** ****** *)
 
