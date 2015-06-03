@@ -49,8 +49,10 @@ matrix0_tabulate<int>
   (nrow, ncol, lam (i, j) => sz2i(i+j)+1)
 val () = fprintln! (out, "M_elt = ", M_elt)
 //
-val () = fprintln! (out, "M_elt.nrow = ", M_elt.nrow)
-val () = fprintln! (out, "M_elt.ncol = ", M_elt.ncol)
+val () =
+  fprintln! (out, "M_elt.nrow = ", M_elt.nrow())
+val () =
+  fprintln! (out, "M_elt.ncol = ", M_elt.ncol())
 //
 var i: int and j: int
 val () =

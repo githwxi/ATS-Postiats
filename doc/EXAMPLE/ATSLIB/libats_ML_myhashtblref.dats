@@ -34,9 +34,9 @@ val mytbl = myhashtbl_make_nil(N)
 (* ****** ****** *)
 //
 val ((*void*)) =
-  fprintln! (out, "size = ", mytbl.size)
+  fprintln! (out, "size = ", mytbl.size())
 val ((*void*)) =
-  fprintln! (out, "capacity = ", mytbl.capacity)
+  fprintln! (out, "capacity = ", mytbl.capacity())
 //
 (* ****** ****** *)
 //
@@ -58,9 +58,9 @@ val-~Some_vt(4) = mytbl.insert("e", 4)
 (* ****** ****** *)
 //
 val ((*void*)) =
-  fprintln! (out, "size = ", mytbl.size)
+  fprintln! (out, "size = ", mytbl.size())
 val ((*void*)) =
-  fprintln! (out, "capacity = ", mytbl.capacity)
+  fprintln! (out, "capacity = ", mytbl.capacity())
 //
 (* ****** ****** *)
 
