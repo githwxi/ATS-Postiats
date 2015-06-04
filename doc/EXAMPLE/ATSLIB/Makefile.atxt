@@ -215,6 +215,7 @@ RMF=rm -f
 
 #make2_entry("libats_funmap_list", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_funmap_avltree", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_funmap_rbtree", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 

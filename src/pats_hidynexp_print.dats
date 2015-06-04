@@ -100,6 +100,12 @@ case+ x.hipat_node of
     val () = fprint_int (out, i)
     val () = prstr ")"
   }
+| HIPintrep
+    (intrep) => {
+    val () = prstr "HIPintrep("
+    val () = fprint_string (out, intrep)
+    val () = prstr ")"
+  }
 | HIPbool (b) => {
     val () = prstr "HIPbool("
     val () = fprint_bool (out, b)
@@ -156,6 +162,15 @@ case+ x.hipat_node of
     val () = prstr ")"
   } // end of [HIPrec]
 //
+| HIPrefas
+    (d2v, hip) => {
+    val () = prstr "HIPrefas("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ", "
+    val () = fprint_hipat (out, hip)
+    val () = prstr (")")
+  } (* end of [HIPrefas] *)
+//
 | HIPann (hip, ann) => {
     val () = prstr "HIPann("
     val () = fprint_hipat (out, hip)
@@ -164,9 +179,13 @@ case+ x.hipat_node of
     val () = prstr ")"
   } (* end of [HIPann] *)
 //
+| HIPerr ((*void*)) => prstr "HIPerr()"
+//
+(*
 | _ => {
     val () = fprint_string (out, "HIP...(...)")
   } // end of [_]
+*)
 //
 end // end of [fprint_hipat]
 

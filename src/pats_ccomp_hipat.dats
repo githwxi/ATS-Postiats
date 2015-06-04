@@ -34,9 +34,16 @@
 (* ****** ****** *)
 //
 staload
-LAB = "./pats_label.sats"
-staload
-LOC = "./pats_location.sats"
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+staload UT = "./pats_utils.sats"
+//
+(* ****** ****** *)
+//
+staload LAB = "./pats_label.sats"
+staload LOC = "./pats_location.sats"
 //
 overload print with $LOC.print_location
 //
@@ -357,15 +364,22 @@ of (* case+ *)
 | HIPcon _ =>
     hipatck_ccomp_sum (env, res, fail, hip0, pmv0)
   // end of [HIPcon]
-| HIPcon_any (pck, d2c) =>
+| HIPcon_any(pck, d2c) =>
     hipatck_ccomp_con (env, res, fail, loc0, d2c, pmv0)
   // end of [HIPcon_any]
 //
-| HIPint (i) => let
+| HIPint(i) => let
     val ins = instr_patck (loc0, pmv0, PATCKint (i), fail)
   in
     instrseq_add (res, ins)
   end // end of [HIPint]
+| HIPintrep(rep) => let
+    val i = $UN.cast{int}($UT.llint_make_string(rep))
+    val ins = instr_patck (loc0, pmv0, PATCKint (i), fail)
+  in
+    instrseq_add (res, ins)
+  end // end of [HIPint]
+//
 | HIPbool (b) => let
     val ins = instr_patck (loc0, pmv0, PATCKbool (b), fail)
   in
@@ -739,6 +753,8 @@ case+ hip0.hipat_node of
 | HIPvar (d2v) => auxvar (env, res, lvl0, d2v, pmv0)
 //
 | HIPint _ => ()
+| HIPintrep _ => ()
+//
 | HIPbool _ => ()
 | HIPchar _ => ()
 | HIPstring _ => ()

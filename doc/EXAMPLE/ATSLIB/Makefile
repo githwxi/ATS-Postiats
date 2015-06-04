@@ -514,6 +514,14 @@ clean:: ; $(RMF) libats_funmap_avltree_dats.o
 clean:: ; $(RMF) libats_funmap_avltree_dats.c
 cleanall:: ; $(RMF) libats_funmap_avltree.exe
 
+all:: libats_funmap_rbtree
+libats_funmap_rbtree: libats_funmap_rbtree.exe
+libats_funmap_rbtree.exe: libats_funmap_rbtree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_funmap_rbtree_dats.c: libats_funmap_rbtree.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_funmap_rbtree_dats.c --dynamic libats_funmap_rbtree.dats
+clean:: ; $(RMF) libats_funmap_rbtree_dats.o
+clean:: ; $(RMF) libats_funmap_rbtree_dats.c
+cleanall:: ; $(RMF) libats_funmap_rbtree.exe
+
 
 ######
 

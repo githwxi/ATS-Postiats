@@ -28,6 +28,8 @@ Here is a list of major additions and changes since the last release:
 4. Porting Atscc2php based on the newly re-structured CATS-parsemit
 5. Porting Atscc2py based on the newly re-structured CATS-parsemit
 6. Porting Atscc2pl based on the newly re-structured CATS-parsemit
+7. Handling of HIPintrep is now supported
+8. Porting ATSLIB/libats/funmap_rbtree to ATS2 from ATS1
 
 ######
 
