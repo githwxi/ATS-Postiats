@@ -384,7 +384,7 @@ fn
   {bh:nat}{v:nat}
 (
   k: key, x: itm
-, tl: rbtree (key, itm, cl, bh+0, v)
+, tl: rbtree (key, itm, cl, bh  , v)
 , tr: rbtree (key, itm, cr, bh+1, 0)
 ) :<>
 [
@@ -428,7 +428,7 @@ fn
 (
   k: key, x: itm
 , tl: rbtree (key, itm, cl, bh+1, 0)
-, tr: rbtree (key, itm, cr, bh+0, v)
+, tr: rbtree (key, itm, cr, bh  , v)
 ) :<>
 [
   c:clr;v:nat | v <= cl
@@ -459,6 +459,299 @@ case+ tr of
   ) (* end of [_(*non-red-tree*)] *)
 end // end of [remfix_r]
 
+(* ****** ****** *)
+
+fun
+{key
+,itm:t@ype}
+rbtree_remove_min
+  {c:clr}
+  {bh:nat | bh+c > 0} .<bh,c>.
+(
+  t0: rbtree0 (key, itm, c, bh)
+, k0: &key? >> key, x0: &itm? >> itm
+, dfbh: &int? >> int (d)
+) :<!wrt>
+#[d:two | d <= bh]
+ [c1:clr | c1 <= c+d]
+ rbtree0 (key, itm, c1, bh-d) =
+(
+//
+let
+  #define B BLK; #define R RED
+in
+  case+ t0 of
+  | T (B, k, x, tl, tr) =>
+    (
+    case+ tl of
+    | T _ => let
+        val tl =
+          rbtree_remove_min(tl, k0, x0, dfbh)
+        // end of [val]
+      in
+        if dfbh = 0
+          then
+          (
+            T{..}{..}{..}{0}(B, k, x, tl, tr)
+          ) (* end of [then] *)
+          else let
+            val t = remfix_l (k, x, tl, tr)
+          in
+            case+ t of
+            | T (R, k, x, tl, tr) =>
+                (dfbh := 0; T (B, k, x, tl, tr))
+            | _ (* non-red-tree *) =>> t
+          end (* end of [else] *)
+        // end of [if]
+      end // end of [T]
+    | E _ => (k0 := k; x0 := x; dfbh := 1; tr)
+    ) (* end of [T (B, ...)] *) 
+  | T (R, k, x, tl, tr) =>
+    (
+    case+ tl of
+    | T _ => let
+        val tl =
+          rbtree_remove_min(tl, k0, x0, dfbh)
+        // end of [val]
+      in
+        if dfbh = 0
+          then
+          (
+            T{..}{..}{..}{0}(R, k, x, tl, tr)
+          ) (* end of [then] *)
+          else let // dfbh = 1
+            val () = dfbh := 0 in
+            insfix_r (k, x, tl, rbtree_redden tr)
+          end (* end of [else] *)
+        // end of [if]
+      end // end of [T (B, ...)]
+    | E () => (k0 := k; x0 := x; dfbh := 0; tr)
+    ) (* end of [T (R, ...)] *)
+end // end of [let]
+//
+) (* end of [rbtree_remove_min] *)
+
+(* ****** ****** *)
+
+fn
+{key
+,itm:t@ype
+} rbtree_join
+  {cl,cr:clr}{bh:nat}
+(
+  tl: rbtree0 (key, itm, cl, bh)
+, tr: rbtree0 (key, itm, cr, bh)
+) :<!wrt>
+[
+  c:clr;v:nat | v <= cl+cr
+] rbtree (key, itm, c, bh, v) =
+(
+//
+case+ tr of
+| E _ => tl
+| T _ => let
+    var k0: key
+    and x0: itm
+    var dfbh: int // uninmitialized
+    val [cr:int] tr = rbtree_remove_min(tr, k0, x0, dfbh)
+  in
+    if dfbh = 0
+      then T{..}{..}{..}{cl+cr}(RED, k0, x0, tl, tr) else remfix_r(k0, x0, tl, tr)
+    // end of [if]
+  end // end of [T]
+//
+) (* end of [rbtree_join] *)
+
+(* ****** ****** *)
+//
+// HX-2011-09-24:
+// the pointer [pres] is assumed to be
+// associated with a proof of at-view if non-null
+//
+extern
+fun
+{key
+,itm:t@ype
+} funmap_takeout_ref
+(
+  &map (key, itm) >> _, k0: key, pres: ptr
+) :<!wrt> bool // end of [funmap_takeout_ref]
+
+implement
+{key,itm}
+funmap_takeout_ref
+(
+  map, k0, pres
+) = taken where {
+//
+#define B BLK; #define R RED
+//
+fun
+takeout
+{c:clr}
+{bh:nat} .<bh,c>.
+(
+  t0:
+  rbtree0
+    (key, itm, c, bh)
+  // rbtree0
+, pres: ptr
+, dfbh: &int? >> int(d)
+, taken: &bool? >> bool
+) :<!wrt>
+#[d:two | d <= bh]
+ [c1:clr | c1 <= c+d]
+ rbtree0 (key, itm, c1, bh-d) =
+(
+//
+case+ t0 of
+//
+| E () =>
+    (dfbh := 0; taken := false; t0)
+//
+| T (B, k, x, tl, tr) => let
+    val sgn =
+      compare_key_key<key> (k0, k)
+    // end of [val]
+  in
+    if sgn < 0 then let
+      val tl =
+        takeout(tl, pres, dfbh, taken)
+      // end of [val]
+    in
+      if dfbh = 0
+        then
+        (
+          T{..}{..}{..}{0}(B, k, x, tl, tr)
+        ) (* end of [then] *)
+        else let // dfbh = 1
+          val t = remfix_l (k, x, tl, tr)
+        in
+          case+ t of
+          | T (R, k, x, tl, tr) =>
+              (dfbh := 0; T (B, k, x, tl, tr))
+          | _ (* non-red-tree *) =>> t
+        end (* end of [else] *)
+      // end of [if]
+    end else if sgn > 0 then let
+      val tr =
+        takeout (tr, pres, dfbh, taken)
+      // end of [val]
+    in
+      if dfbh = 0
+        then
+        (
+          T{..}{..}{..}{0}(B, k, x, tl, tr)
+        ) (* end of [then] *)
+        else let // dfbh = 1
+          val t = remfix_r (k, x, tl, tr)
+        in
+          case+ t of
+          | T (R, k, x, tl, tr) =>
+              (dfbh := 0; T (B, k, x, tl, tr))
+          | _ (* non-red-tree *) =>> t
+        end (* end of [else] *)
+    end else let // x0 = x
+      val () =
+      if (pres > 0) then $UN.ptr0_set<itm>(pres, x)
+      val () = taken := true
+      val t2 = rbtree_join (tl, tr)
+    in
+      case+ t2 of
+      | T (R, k, x, tl, tr) =>
+          (dfbh := 0; T (B, k, x, tl, tr))
+      | _ (* non-red-tree *) =>> (dfbh := 1; t2)
+    end (* end of [if] *)
+  end // end of [T (B, ...)]
+//
+| T (R, k, x, tl, tr) => let
+    val sgn =
+      compare_key_key<key> (k0, k)
+    // end of [val]
+  in
+    if sgn < 0 then let
+      val tl =
+        takeout(tl, pres, dfbh, taken)
+      // end of [val]
+    in
+      if dfbh = 0
+        then
+        (
+          T{..}{..}{..}{0}(R, k, x, tl, tr)
+        ) (* end of [then] *)
+        else let // dfbh = 1
+          val () = dfbh := 0 in remfix_l (k, x, tl, tr)
+        end (* end of [else] *)
+      // end of [if]
+    end else if sgn > 0 then let
+      val tr = takeout(tr, pres, dfbh, taken)
+    in
+      if dfbh = 0
+        then
+        (
+          T{..}{..}{..}{0}(R, k, x, tl, tr)
+        ) (* end of [then] *)
+        else let // dfbh = 1
+          val () = dfbh := 0 in remfix_r (k, x, tl, tr)
+        end (* end of [else] *)
+      // end of [if]
+    end else let // x0 = x
+      val () = dfbh := 0
+      val () =
+      if (pres > 0) then $UN.ptr0_set<itm> (pres, x)
+      val () = taken := true
+    in
+      rbtree_join (tl, tr)
+    end (* end of [if] *)
+  end // end of [T (R, ...)]
+//
+) (* end of [takeout] *)
+//
+var dfbh: int and taken: bool
+//
+val () =
+(
+  map := takeout (map, pres, dfbh, taken)
+) (* end of [val] *)
+//
+} (* end of [funmap_takeout_ref] *)
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_takeout
+(
+  map, k0, res
+) = ans where {
+//
+val ans =
+  funmap_takeout_ref<key,itm> (map, k0, addr@res)
+//
+val [b:bool] ans = g1ofg0(ans)
+//
+prval
+pfres =
+__assert
+(
+  view@ res
+) where {
+  extern
+  praxi __assert{l_res:addr} (pf: itm? @ l_res):<> (opt (itm, b) @ l_res)
+} (* end of [prval] *)
+//
+prval () = view@res := pfres
+//
+} (* end of [funmap_takeout] *)
+
+(* ****** ****** *)
+//
+implement
+{key,itm}
+funmap_remove
+  (map, k0) =
+  funmap_takeout_ref<key,itm> (map, k0, the_null_ptr)
+//
 (* ****** ****** *)
 
 implement
@@ -555,14 +848,14 @@ rbtree0
 fun
 aux
 {c:clr}
-{bh,k:nat} .<bh,c>.
+{bh,n:nat} .<bh,c>.
 (
-  t: rbtree0 (c, bh), k: int(k)
-) :<> int(bh+k) = (
+  t: rbtree0 (c, bh), n: int(n)
+) :<> int(bh+n) = (
 //
 case+ t of
-| T (c, _(*key*), _(*itm*), tl, tr) => aux(tl, k+1-c)
-| E () => k
+| E ((*void*)) => n
+| T (c, _(*key*), _(*itm*), tl, tr) => aux(tl, n+1-c)
 //
 ) (* end of [aux] *)
 //
