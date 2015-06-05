@@ -83,12 +83,6 @@ overload .foldleft with int_foldleft_method
 (* ****** ****** *)
 //
 fun{}
-int_foreach2_cloref
-  (n1: int, n2: int, f: cfun2 (int, int, void)): void
-//
-(* ****** ****** *)
-//
-fun{}
 intrange_foreach_cloref
   (l: int, r: int, f: cfun1 (int, void)): void
 fun{}
@@ -111,8 +105,23 @@ overload .foldleft with intrange_foldleft_method
 //
 (* ****** ****** *)
 //
+fun{a:t0p}
+int_list_map_cloref
+  (n: int, f: cfun(int, a)): list0(a)
+fun{a:t0p}
+int_list_map_method
+  (n: int, TYPE(a))(f: cfun(int, a)): list0(a)
+//
+overload .list_map with int_list_map_method
+//
+(* ****** ****** *)
+//
 fun{}
-intrange_foreach2_cloref
+int2_foreach_cloref
+  (n1: int, n2: int, f: cfun2 (int, int, void)): void
+//
+fun{}
+intrange2_foreach_cloref
   (l1: int, r1: int, l2: int, r2: int, f: cfun2 (int, int, void)): void
 //
 (* ****** ****** *)

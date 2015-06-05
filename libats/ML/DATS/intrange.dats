@@ -37,6 +37,7 @@ staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 
+staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/intrange.sats"
 
 (* ****** ****** *)
@@ -96,14 +97,6 @@ implement
 int_foldleft_method
   (n, tres) =
   lam(ini, f) => int_foldleft_cloref (n, ini, f)
-//
-(* ****** ****** *)
-//
-implement
-{}(*tmp*)
-int_foreach2_cloref
-  (n1, n2, f) =
-  intrange_foreach2_cloref<> (0, n1, 0, n2, f)
 //
 (* ****** ****** *)
 
@@ -166,10 +159,28 @@ intrange_foldleft_method
   lam(ini, f) => intrange_foldleft_cloref<res> (l, r, ini, f)
 //
 (* ****** ****** *)
-
+//
+implement
+{a}(*tmp*)
+int_list_map_cloref
+  (n, f) = list0_tabulate<a> (n, f)
+//
+implement
+{a}(*tmp*)
+int_list_map_method
+  (n, tres) = lam(f) => int_list_map_cloref<a> (n, f)
+//
+(* ****** ****** *)
+//
 implement
 {}(*tmp*)
-intrange_foreach2_cloref
+int2_foreach_cloref
+  (n1, n2, f) =
+  intrange2_foreach_cloref<> (0, n1, 0, n2, f)
+//
+implement
+{}(*tmp*)
+intrange2_foreach_cloref
   (l1, r1, l2, r2, f) = let
 //
 fnx
@@ -209,8 +220,8 @@ else loop1(m1+1, r1, l2, r2, f)
 //
 in
   loop1 (l1, r1, l2, r2, f)
-end // end of [intrange_foreach2_cloref]
-
+end // end of [intrange2_foreach_cloref]
+//
 (* ****** ****** *)
 
 (* end of [intrange.dats] *)

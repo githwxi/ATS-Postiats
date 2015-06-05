@@ -552,7 +552,7 @@ case+ tr of
 | T _ => let
     var k0: key
     and x0: itm
-    var dfbh: int // uninmitialized
+    var dfbh: int // uninitialized
     val [cr:int] tr = rbtree_remove_min(tr, k0, x0, dfbh)
   in
     if dfbh = 0
