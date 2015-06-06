@@ -32,16 +32,18 @@
 (* Start time: June, 2015 *)
 
 (* ****** ****** *)
-
+//
 #define
 ATS_PACKNAME "ATSLIB.libats.funmap_rbtree"
+//
 #define
 ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
-
+//
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
 staload "libats/SATS/funmap_rbtree.sats"
@@ -495,12 +497,12 @@ in
             T{..}{..}{..}{0}(B, k, x, tl, tr)
           ) (* end of [then] *)
           else let
-            val t = remfix_l (k, x, tl, tr)
+            val t2 = remfix_l (k, x, tl, tr)
           in
-            case+ t of
+            case+ t2 of
             | T (R, k, x, tl, tr) =>
                 (dfbh := 0; T (B, k, x, tl, tr))
-            | _ (* non-red-tree *) =>> t
+            | _ (* non-red-tree *) =>> t2
           end (* end of [else] *)
         // end of [if]
       end // end of [T]
@@ -571,8 +573,8 @@ case+ tr of
 extern
 fun
 {key
-,itm:t@ype
-} funmap_takeout_ref
+,itm:t0p}
+funmap_takeout_ref
 (
   &map (key, itm) >> _, k0: key, pres: ptr
 ) :<!wrt> bool // end of [funmap_takeout_ref]
@@ -625,12 +627,12 @@ case+ t0 of
           T{..}{..}{..}{0}(B, k, x, tl, tr)
         ) (* end of [then] *)
         else let // dfbh = 1
-          val t = remfix_l (k, x, tl, tr)
+          val t2 = remfix_l (k, x, tl, tr)
         in
-          case+ t of
+          case+ t2 of
           | T (R, k, x, tl, tr) =>
               (dfbh := 0; T (B, k, x, tl, tr))
-          | _ (* non-red-tree *) =>> t
+          | _ (* non-red-tree *) =>> t2
         end (* end of [else] *)
       // end of [if]
     end else if sgn > 0 then let
@@ -644,12 +646,12 @@ case+ t0 of
           T{..}{..}{..}{0}(B, k, x, tl, tr)
         ) (* end of [then] *)
         else let // dfbh = 1
-          val t = remfix_r (k, x, tl, tr)
+          val t2 = remfix_r (k, x, tl, tr)
         in
-          case+ t of
+          case+ t2 of
           | T (R, k, x, tl, tr) =>
               (dfbh := 0; T (B, k, x, tl, tr))
-          | _ (* non-red-tree *) =>> t
+          | _ (* non-red-tree *) =>> t2
         end (* end of [else] *)
     end else let // x0 = x
       val () =
@@ -820,12 +822,12 @@ aux
 {c:clr}
 {bh:nat} .<bh,c>.
 (
-  t: rbtree0 (c, bh)
+  t0: rbtree0 (c, bh)
 ) :<> intGte(0) = (
 //
-case+ t of
-| T (_(*c*), _(*key*), _(*itm*), tl, tr) => 1 + max (aux(tl), aux(tr))
-| E () => 0
+case+ t0 of
+| E ((*void*)) => 0
+| T (_, _, _, tl, tr) => 1 + max (aux(tl), aux(tr))
 //
 ) (* end of [aux] *)
 //
@@ -850,10 +852,10 @@ aux
 {c:clr}
 {bh,n:nat} .<bh,c>.
 (
-  t: rbtree0 (c, bh), n: int(n)
+  t0: rbtree0 (c, bh), n: int(n)
 ) :<> int(bh+n) = (
 //
-case+ t of
+case+ t0 of
 | E ((*void*)) => n
 | T (c, _(*key*), _(*itm*), tl, tr) => aux(tl, n+1-c)
 //
