@@ -158,7 +158,7 @@ case+ t0 of
     val res = aux (tr, res)
   in
     res
-  end // end of [B]
+  end // end of [T]
 //
 end // end of [aux]
 //
@@ -210,7 +210,7 @@ case+ t0 of
         val () = res := x
         prval () = opt_some{itm}(res) in true
       end // end of [_]
-  end // end of [B]
+  end // end of [T]
 //
 end // end of [search]
 //
@@ -797,7 +797,7 @@ case+ t0 of
 //
   in
     // nothing
-  end // end of [B]
+  end // end of [T]
 //
 end // end of [foreach]
 //
