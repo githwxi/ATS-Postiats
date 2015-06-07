@@ -124,7 +124,7 @@ jsonize_s2rt
 in
 //
 case+ s2t0 of
-| S2RTbas (s2tb) => let
+| S2RTbas(s2tb) => let
     val s2tb = jsonize_s2rtbas (s2tb)
   in
     jsonval_conarg1 ("S2RTbas", s2tb)
@@ -142,13 +142,17 @@ case+ s2t0 of
     jsonval_conarg2 ("S2RTfun", arg, res)
   end // end of [S2RTfun]
 //
-| S2RTtup (s2ts) => let
+| S2RTtup(s2ts) => let
     val s2ts = jsonize_s2rtlst (s2ts)
   in
     jsonval_conarg1 ("S2RTtup", s2ts)
   end // end of [S2RTtup]
 //
-| _(*ignored*) => jsonval_conarg0 ("S2RTignored")
+| S2RTVar(s2tV) =>
+    jsonize_s2rt(s2rtVar_get_s2rt(s2tV))
+  // end of [S2RTVar]
+//
+| S2RTerr((*void*)) => jsonval_conarg0 ("S2RTerr")
 //
 end // end of [jsonize_s2rt]
   

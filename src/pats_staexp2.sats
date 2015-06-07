@@ -202,16 +202,21 @@ datatype s2rtbas =
 fun fprint_s2rtbas : fprint_type (s2rtbas)
 
 (* ****** ****** *)
-
+//
 abstype s2rtVar // ref (s2rt)
-
-fun eq_s2rtVar_s2rtVar (x1: s2rtVar, x2: s2rtVar): bool
+//
+fun
+eq_s2rtVar_s2rtVar
+  (x1: s2rtVar, x2: s2rtVar): bool
+fun
+compare_s2rtVar_s2rtVar
+  (s2tV1: s2rtVar, s2tV2: s2rtVar): Sgn
+//
 overload = with eq_s2rtVar_s2rtVar
-fun compare_s2rtVar_s2rtVar (x1: s2rtVar, x2: s2rtVar): Sgn
 overload compare with compare_s2rtVar_s2rtVar
-
+//
 fun s2rtVar_make (loc: location): s2rtVar
-
+//
 (* ****** ****** *)
 
 datatype s2rt =
@@ -335,16 +340,18 @@ fun s2rt_is_tkind_fun (x: s2rt): bool // is (... ->) tkind?
 fun s2rt_get_pol (x: s2rt): int // neg/neu/pos: -1/0/1
 
 (* ****** ****** *)
-
-fun s2rtVar_set_s2rt (V: s2rtVar, s2t: s2rt): void
-fun s2rtVar_occurscheck (V: s2rtVar, s2t: s2rt): bool
-
-fun s2rt_delink (x: s2rt): s2rt // HX: shallow removal
-fun s2rt_delink_all (x: s2rt): s2rt // HX: perform deep removal
-
+//
+fun s2rtVar_get_s2rt (s2tV: s2rtVar): s2rt
+fun s2rtVar_set_s2rt (s2tV: s2rtVar, s2t: s2rt): void
+//
+fun s2rtVar_occurscheck (s2tV: s2rtVar, s2t: s2rt): bool
+//
+fun s2rt_delink (s2t: s2rt): s2rt // HX: shallow removal
+fun s2rt_delink_all (s2t: s2rt): s2rt // HX: perform deep removal
+//
 fun s2rt_ltmat0 (s2t1: s2rt, s2t2: s2rt): bool // HX: dry-run
 fun s2rt_ltmat1 (s2t1: s2rt, s2t2: s2rt): bool // HX: real-run
-
+//
 (* ****** ****** *)
 //
 // HX-2011-05-02:

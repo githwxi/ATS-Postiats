@@ -403,9 +403,11 @@ c3nstr_solve_errmsg
   (c3t, unsolved) = let
 //
 val loc0 = c3t.c3nstr_loc
-val c3tknd = c3t.c3nstr_kind
+val c3tk = c3t.c3nstr_kind
 //
-fn prerr_c3nstr_if (
+fun
+prerr_c3nstr_if
+(
   unsolved: uint, c3t: c3nstr
 ) : void =
   if (unsolved = 0u) then (prerr ": "; prerr_c3nstr c3t)
@@ -413,7 +415,7 @@ fn prerr_c3nstr_if (
 //
 in
 //
-case+ c3tknd of
+case+ c3tk of
 | C3NSTRKmain() =>
   (
     if unsolved = 0u
@@ -443,18 +445,21 @@ case+ c3tknd of
     () => 0 where {
     val () =
     prerr_error3_loc (loc0)
-    val () =
-    prerr ": unsolved constraint for termination metric being welfounded"
+    val () = prerr
+    (
+      ": unsolved constraint for termetric being well-founded"
+    ) (* end of [val] *)
     val () =
     prerr_c3nstr_if (unsolved, c3t)
     val () = prerr_newline ((*void*))
   } // end of [C3NSTRKtermet_isnat]
 | C3NSTRKtermet_isdec
     () => 0 where {
-    val () =
-    prerr_error3_loc (loc0)
-    val () =
-    prerr ": unsolved constraint for termination metric being decreasing"
+    val () = prerr_error3_loc (loc0)
+    val () = prerr
+    (
+      ": unsolved constraint for termetric being strictly decreasing"
+    ) (* end of [val] *)
     val () =
     prerr_c3nstr_if (unsolved, c3t)
     val () = prerr_newline ((*void*))
@@ -462,24 +467,21 @@ case+ c3tknd of
 //
 | C3NSTRKsome_fin _ =>
     (0) where {
-    val () =
-    prerr_error3_loc (loc0)
-    val () =
-    prerrln! ": unsolved constraint for var preservation"
+    val () = prerr_error3_loc (loc0)
+    val ((*void*)) =
+      prerrln! ": unsolved constraint for var preservation"
   } (* end of [C3NSTRKsome_fin] *)
 | C3NSTRKsome_lvar _ =>
     (0) where {
-    val () =
-    prerr_error3_loc (loc0)
-    val () =
-    prerrln! ": unsolved constraint for lvar preservation"
+    val () = prerr_error3_loc (loc0)
+    val ((*void*)) =
+      prerrln! ": unsolved constraint for lvar preservation"
   } (* end of [C3NSTRKsome_lvar] *)
 | C3NSTRKsome_vbox _ =>
     (0) where {
-    val () =
-    prerr_error3_loc (loc0)
-    val () =
-    prerrln! ": unsolved constraint for vbox preservation"
+    val () = prerr_error3_loc (loc0)
+    val ((*void*)) = 
+      prerrln! ": unsolved constraint for vbox preservation"
   } (* end of [C3NSTRKsome_vbox] *)
 //
 | C3NSTRKlstate

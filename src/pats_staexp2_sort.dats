@@ -601,41 +601,74 @@ end // end of [s2rt_delink_all]
 (* ****** ****** *)
 
 implement
-s2rtVar_set_s2rt (s2tV, s2t) = let
+s2rtVar_get_s2rt
+  (s2tV) = let
+  val s2t = !s2tV
+  val isnot = s2rtnul_isnot_null(s2t)
+in
+//
+if isnot then s2rtnul_unsome(s2t) else S2RTerr()
+//
+end // end of [s2rtVar_set_s2rt]
+
+implement
+s2rtVar_set_s2rt
+  (s2tV, s2t) = let
   val s2t = s2rtnul_some (s2t) in !s2tV := s2t 
 end // end of [s2rtVar_set_s2rt]
 
 implement
 s2rtVar_occurscheck
-  (V, s2t0) = let
+  (s2tV, s2t0) = let
 //
 fun aux (
   s2t0: s2rt
 ) :<cloref1> bool =
-  case+ s2t0 of
-  | S2RTbas _ => false
-  | S2RTfun (s2ts, s2t) =>
-      if auxlst (s2ts) then true else aux (s2t)
-    // end of [S2RTfun]
-  | S2RTtup (s2ts) => auxlst (s2ts)
-  | S2RTVar (V1) =>
-      if V = V1 then true else let
-        val s2t1 = !V1
-      in
-        if s2rtnul_isnot_null (s2t1) then
-          aux (s2rtnul_unsome (s2t1)) else false
-        // end of [if]
-      end (* end of [if] *)
-  | S2RTerr () => false
+(
 //
-and auxlst (
+case+ s2t0 of
+//
+| S2RTbas _ => false
+//
+| S2RTfun (s2ts, s2t) =>
+  (
+    if auxlst (s2ts) then true else aux (s2t)
+  ) (* end of [S2RTfun] *)
+//
+| S2RTtup (s2ts) => auxlst (s2ts)
+//
+| S2RTVar (s2tV1) =>
+  (
+    if s2tV = s2tV1
+      then true else let
+        val s2t1 = !s2tV1
+        val isnot = s2rtnul_isnot_null(s2t1)
+      in
+        if isnot
+          then aux (s2rtnul_unsome(s2t1)) else false
+        // end of [if]
+      end // end of [else]
+    // end of [if]
+  ) (* end of [S2RTVar] *)
+//
+| S2RTerr ((*void*)) => false
+//
+) (* end of [aux] *)
+//
+and
+auxlst
+(
   s2ts: s2rtlst
 ) :<cloref1> bool =
-  case+ s2ts of
-  | list_cons (s2t, s2ts) =>
-      if aux (s2t) then true else auxlst (s2ts)
-    // end of [list_cons]
-  | list_nil () => false
+(
+//
+case+ s2ts of
+| list_nil () => false
+| list_cons (s2t, s2ts) =>
+    if aux (s2t) then true else auxlst (s2ts)
+  // end of [list_cons]
+//
+) (* end of [auxlst] *)
 //
 in
   aux (s2t0)
@@ -687,21 +720,23 @@ implement
 s2rt_ltmat
   (knd, s2t1, s2t2) = let
 //
-  fun auxVar (
-    V: s2rtVar, s2t: s2rt, knd: int
-  ) : bool =
-    if knd > 0 then let
-      val test = s2rtVar_occurscheck (V, s2t)
-    in
-      if test then false else let
-        val () = s2rtVar_set_s2rt (V, s2t) in true
-      end (* end of [if] *)
-    end else
-      true // HX: a dry run always succeeds
-    // end of [auxVar]
+fun
+auxVar
+(
+  V: s2rtVar, s2t: s2rt, knd: int
+) : bool =
+  if knd > 0 then let
+    val test = s2rtVar_occurscheck (V, s2t)
+  in
+    if test then false else let
+      val () = s2rtVar_set_s2rt (V, s2t) in true
+    end (* end of [if] *)
+  end else
+    true // HX: a dry run always succeeds
+  // end of [auxVar]
 //
-  val s2t1 = s2rt_delink (s2t1)
-  and s2t2 = s2rt_delink (s2t2)
+val s2t1 = s2rt_delink (s2t1)
+and s2t2 = s2rt_delink (s2t2)
 //
 in
 //
@@ -724,19 +759,27 @@ case+ s2t1 of
 | S2RTVar (V1) => (case+ s2t2 of
   | S2RTVar (V2) when V1 = V2 => true | _ => auxVar (V1, s2t2, knd)
   )
-| S2RTerr () => false
+//
+| S2RTerr ((*void*)) => false
 //
 end // end of [s2rt_ltmat]
 
+(* ****** ****** *)
+
 implement
 s2rtlst_ltmat
-  (knd, xs1, xs2) = (
+  (knd, xs1, xs2) =
+(
   case+ (xs1, xs2) of
-  | (list_cons (x1, xs1), list_cons (x2, xs2)) =>
+  | (list_nil (),
+     list_nil ()) => true
+  | (list_cons (x1, xs1),
+     list_cons (x2, xs2)) =>
+    (
       if s2rt_ltmat (knd, x1, x2) then s2rtlst_ltmat (knd, xs1, xs2) else false
-  | (list_nil (), list_nil ()) => true
+    )
   | (_, _) => false
-) // end of [s2rtlst_ltmat]
+) (* end of [s2rtlst_ltmat] *)
 
 (* ****** ****** *)
 

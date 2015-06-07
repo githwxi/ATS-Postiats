@@ -809,7 +809,8 @@ end // end of [funmap_foreach_env]
 
 implement
 {key,itm}
-funmap_rbtree_height(t0) = let
+funmap_rbtree_height
+  (t0) = let
 //
 typedef
 rbtree0
@@ -839,7 +840,8 @@ end // end of [funmap_rbtree_height]
 
 implement
 {key,itm}
-funmap_rbtree_bheight(t0) = let
+funmap_rbtree_bheight
+  (t0) = let
 //
 typedef
 rbtree0
@@ -857,7 +859,7 @@ aux
 //
 case+ t0 of
 | E ((*void*)) => n
-| T (c, _(*key*), _(*itm*), tl, tr) => aux(tl, n+1-c)
+| T (c, _, _, tl, tr) => aux(tl, n+1-c)
 //
 ) (* end of [aux] *)
 //

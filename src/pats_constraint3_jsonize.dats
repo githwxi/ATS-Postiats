@@ -79,6 +79,10 @@ jsonize_loc (x) = jsonize_location (,(x))
 // HX-2013-12-24:
 // this does not seem to be really useful
 //
+// HX-2015-06-06:
+// Change-of-mind!
+//
+*)
 extern
 fun
 jsonize_c3nstrkind
@@ -100,6 +104,7 @@ case+ knd of
   in
     jsonval_conarg2
       ("C3NSTRKcase_exhaustiveness", knd, p2tcss)
+    // end of [jsonval_conarg2]
   end // end of [C3NSTRKcase_exhaustiveness]
 //
 | C3NSTRKtermet_isnat () =>
@@ -142,7 +147,6 @@ case+ knd of
     jsonval_conarg1 ("C3NSTRKlloop", jsonval_int (knd))
 //
 end // end of [jsonize_c3nstrkind]
-*)
 
 (* ****** ****** *)
 
@@ -286,10 +290,16 @@ end // end of [auxmain]
 //
 val loc0 = c3t0.c3nstr_loc
 val loc0 = jsonize_loc (loc0)
+//
+val ctk0 = jsonize_c3nstrkind(c3t0.c3nstr_kind)
+//
 val c3t0 = auxmain (c3t0)
 //
 in
-  jsonval_labval2 ("c3nstr_loc", loc0, "c3nstr_node", c3t0)
+//
+jsonval_labval3
+  ("c3nstr_loc", loc0, "c3nstr_kind", ctk0, "c3nstr_node", c3t0)
+//
 end // end of [jsonize_c3nstr]
 
 (* ****** ****** *)

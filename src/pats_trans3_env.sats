@@ -144,16 +144,17 @@ and h3ypo = '{
 } // end of [h3ypo]
 
 (* ****** ****** *)
-
-fun c3nstr_prop
+//
+fun
+c3nstr_prop
   (loc: loc_t, s2e: s2exp): c3nstr
-
+//
 fun
 c3nstr_itmlst
 (
   loc: loc_t, knd: c3nstrkind, s3is: s3itmlst
 ) : c3nstr // end of [c3nstr_itmlst]
-
+//
 fun
 c3nstr_case_exhaustiveness
 (
@@ -166,9 +167,9 @@ fun c3nstr_termet_isnat
 fun c3nstr_termet_isdec
   (loc: loc_t, met: s2explst, metbd: s2explst): c3nstr
 // end of [c3nstr_termet_isdec]
-
+//
 fun c3nstroptref_make_none (loc: loc_t): c3nstroptref
-
+//
 (* ****** ****** *)
 
 fun h3ypo_prop
@@ -190,13 +191,16 @@ overload prerr with prerr_c3nstr
 overload fprint with fprint_c3nstr
 //
 (* ****** ****** *)
-
-fun fprint_c3nstrkind : fprint_type (c3nstrkind)
-
+//
+fun
+fprint_c3nstrkind : fprint_type (c3nstrkind)
+//
+(* ****** ****** *)
+//
 fun print_h3ypo (x: h3ypo): void
 and prerr_h3ypo (x: h3ypo): void
 fun fprint_h3ypo : fprint_type (h3ypo)
-
+//
 (* ****** ****** *)
 //
 fun fprint_s3itm : fprint_type (s3itm)
