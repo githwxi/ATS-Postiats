@@ -1005,24 +1005,31 @@ end // end of [s2var_occurcheck_s2exp]
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 extern
-fun the_s3itmlst_env_push (): void
+fun
+the_s3itmlst_env_push(): void
+//
 extern
 fun the_s3itmlst_env_pop (): s3itmlst_vt
 extern
 fun the_s3itmlst_env_add (s3i: s3itm): void
+//
+(* ****** ****** *)
 
 local
-
-viewtypedef s3itmlstlst_vt = List_vt (s3itmlst_vt)
+//
+vtypedef
+s3itmlstlst_vt = List_vt (s3itmlst_vt)
+//
 val the_s3itmlst = ref_make_elt<s3itmlst_vt> (list_vt_nil ())
 val the_s3itmlstlst = ref_make_elt<s3itmlstlst_vt> (list_vt_nil ())
-
+//
 in (* in of [local] *)
 
 implement
-the_s3itmlst_env_push () = let
+the_s3itmlst_env_push
+  ((*void*)) = let
   val s3is = s3is where {
     val (vbox pf | p) = ref_get_view_ptr (the_s3itmlst)
     val s3is = !p
@@ -1065,23 +1072,29 @@ end // end of [the_s3itmlst_env_add]
 (* ****** ****** *)
 
 implement
-fprint_the_s3itmlst (out) = let
-  val s3is = let
-    val (vbox pf | p) = ref_get_view_ptr (the_s3itmlst)
-  in
-    $UN.castvwtp1 {s3itmlst} (!p)
-  end // end of [val]
+fprint_the_s3itmlst
+  (out) = let
+//
+val s3is = let
+  val (vbox pf | p) = ref_get_view_ptr (the_s3itmlst)
+in
+  $UN.castvwtp1{s3itmlst}(!p)
+end // end of [val]
+//
 in
   fprint_s3itmlst (out, s3is)
 end // end of [fprint_the_s3itmlst]
 
 implement
-fprint_the_s3itmlstlst (out) = let
-  val s3iss = let
-    val (vbox pf | pp) = ref_get_view_ptr (the_s3itmlstlst)
-  in
-    $UN.castvwtp1 {s3itmlstlst} (!pp)
-  end // end of [val]
+fprint_the_s3itmlstlst
+  (out) = let
+//
+val s3iss = let
+  val (vbox pf | pp) = ref_get_view_ptr (the_s3itmlstlst)
+in
+  $UN.castvwtp1{s3itmlstlst}(!pp)
+end // end of [val]
+//
 in
   fprint_s3itmlstlst (out, s3iss)
 end // end of [fprint_the_s3itmlstlst]
