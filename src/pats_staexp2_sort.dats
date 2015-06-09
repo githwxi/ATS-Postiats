@@ -618,7 +618,7 @@ s2rtVar_set_s2rt
 end // end of [s2rtVar_set_s2rt]
 
 implement
-s2rtVar_occurscheck
+s2rtVar_occurcheck
   (s2tV, s2t0) = let
 //
 fun aux (
@@ -726,7 +726,7 @@ auxVar
   V: s2rtVar, s2t: s2rt, knd: int
 ) : bool =
   if knd > 0 then let
-    val test = s2rtVar_occurscheck (V, s2t)
+    val test = s2rtVar_occurcheck (V, s2t)
   in
     if test then false else let
       val () = s2rtVar_set_s2rt (V, s2t) in true

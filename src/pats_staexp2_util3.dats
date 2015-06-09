@@ -45,7 +45,9 @@ staload "./pats_staexp2_util.sats"
 
 local
 
-fun aux_s2exp (
+fun
+aux_s2exp
+(
   s2e0: s2exp, fvs: &s2varset_vt
 ) : void = let
 in
@@ -145,7 +147,9 @@ of // case+
 //
 end // end of [aux_s2exp]
 
-and aux_s2explst (
+and
+aux_s2explst
+(
   s2es0: s2explst, fvs: &s2varset_vt
 ) : void = case+ s2es0 of
   | list_cons (s2e, s2es) => (
@@ -154,7 +158,9 @@ and aux_s2explst (
   | list_nil () => ()
 // end of [aux_s2explst]
 
-and aux_s2explstlst (
+and
+aux_s2explstlst
+(
   s2ess0: s2explstlst, fvs: &s2varset_vt
 ) : void = case+ s2ess0 of
   | list_cons (s2es, s2ess) => (
@@ -163,7 +169,9 @@ and aux_s2explstlst (
   | list_nil () => ()
 // end of [aux_s2explstlst]
 
-and aux_labs2explst (
+and
+aux_labs2explst
+(
   ls2es0: labs2explst, fvs: &s2varset_vt
 ) : void = case+ ls2es0 of
   | list_cons (ls2e, ls2es) => let
@@ -175,7 +183,9 @@ and aux_labs2explst (
   | list_nil () => ()
 // end of [aux_labs2explst]
 
-and aux_wths2explst (
+and
+aux_wths2explst
+(
   ws2es0: wths2explst, fvs: &s2varset_vt
 ) : void = (
   case+ ws2es0 of
@@ -192,32 +202,44 @@ and aux_wths2explst (
       (ws2es) => aux_wths2explst (ws2es, fvs)
 ) // end of [aux_wths2explst]
 
-and aux_s2Var (
+and
+aux_s2Var
+(
   s2V: s2Var, fvs: &s2varset_vt
 ) : void = let
   val opt = s2Var_get_link s2V
 in
   case+ opt of
-  | Some s2e => aux_s2exp (s2e, fvs)
+  | Some s2e =>
+      aux_s2exp (s2e, fvs)
+    // end of [Some]
   | None () => let
-      val s2e = s2exp_err (s2Var_get_srt (s2V))
+      val s2e =
+        s2exp_err(s2Var_get_srt(s2V))
+      // end of [val]
     in
       s2Var_set_link (s2V, Some (s2e))
     end // end of [None]
 end // end of [aux_s2Var]
 
-and aux_s2exp_exiuni (
-  s2vs: s2varlst, s2ps: s2explst, s2e: s2exp, fvs: &s2varset_vt
+and
+aux_s2exp_exiuni
+(
+  s2vs: s2varlst
+, s2ps: s2explst
+, s2e_body: s2exp
+, fvs: &s2varset_vt
 ) : void = let
   var fvs1 = s2varset_vt_nil ()
   val () = aux_s2explst (s2ps, fvs1)
-  val () = aux_s2exp (s2e, fvs1)
+  val () = aux_s2exp (s2e_body, fvs1)
   val () = fvs1 := s2varset_vt_delist (fvs1, s2vs)
 in
   fvs := s2varset_vt_union (fvs, fvs1)
 end // end of [aux_s2exp_exiuni]
 
-and aux_s2lab (
+and
+aux_s2lab (
   s2l: s2lab, fvs: &s2varset_vt
 ) : void =
   case+ s2l of
@@ -225,7 +247,8 @@ and aux_s2lab (
   | S2LABind (ind) => aux_s2explst (ind, fvs)
 // end of [aux_s2lab]
 
-and aux_s2lablst (
+and
+aux_s2lablst (
   s2ls: s2lablst, fvs: &s2varset_vt
 ) : void =
   case+ s2ls of
@@ -235,7 +258,8 @@ and aux_s2lablst (
   | list_nil () => ()
 // end of [aux_s2lablst]
 
-and aux_s2eff (
+and
+aux_s2eff (
   s2fe: s2eff, fvs: &s2varset_vt
 ) : void =
   case+ s2fe of

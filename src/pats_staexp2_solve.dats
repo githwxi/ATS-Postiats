@@ -466,17 +466,21 @@ end // end of [s2eff_subeq_solve_err]
 
 implement
 s2hnf_equal_solve
-  (loc0, s2f10, s2f20) = err where {
+(
+  loc0, s2f10, s2f20
+) = err where {
   var err: int = 0
   val () = s2hnf_equal_solve_err (loc0, s2f10, s2f20, err)
-} // end of [s2hnf_equal_solve]
+} (* end of [s2hnf_equal_solve] *)
 
 implement
 s2exp_equal_solve
-  (loc0, s2e10, s2e20) = err where {
+(
+  loc0, s2e10, s2e20
+) = err where {
   var err: int = 0
   val () = s2exp_equal_solve_err (loc0, s2e10, s2e20, err)
-} // end of [s2exp_equal_solve]
+} (* end of [s2exp_equal_solve] *)
 
 (* ****** ****** *)
 
@@ -1436,7 +1440,7 @@ case+ (s2e1.s2exp_node, s2e2.s2exp_node) of
         trans3_env_hypadd_bind (loc0, s2v1, s2f2)
     | _ when sgn < 0 =>
         trans3_env_hypadd_bind (loc0, s2v2, s2f1)
-    | _ (*sgn = 0*) => ()
+    | _ (* sgn = 0: s2v1 = s2v2 *) => ((*void*))
   end // end of [S2Evar _, S2Evar _]
 | (S2Evar s2v1, _) => trans3_env_hypadd_bind (loc0, s2v1, s2f2)
 | (_, S2Evar s2v2) => trans3_env_hypadd_bind (loc0, s2v2, s2f1)

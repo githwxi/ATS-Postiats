@@ -30,6 +30,7 @@ Here is a list of major additions and changes since the last release:
 6. Porting Atscc2pl based on the newly re-structured CATS-parsemit
 7. Handling of HIPintrep is now supported
 8. Porting ATSLIB/libats/funmap_rbtree to ATS2 from ATS1
+9. Modifying jsonization of constraints to support ATS-extsolve
 
 ######
 

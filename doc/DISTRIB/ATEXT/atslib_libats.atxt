@@ -177,6 +177,7 @@ The ATSLIB/libats library\
 
 #packfilename("SATS/funmap_list.sats")
 #packfilename("SATS/funmap_avltree.sats")
+#packfilename("SATS/funmap_rbtree.sats")
 
 (* ****** ****** *)
 
@@ -311,6 +312,7 @@ The ATSLIB/libats library\
 
 #packfilename("DATS/funmap_list.dats")
 #packfilename("DATS/funmap_avltree.dats")
+#packfilename("DATS/funmap_rbtree.dats")
 
 (* ****** ****** *)
 

@@ -1110,16 +1110,20 @@ trans3_env_hypadd_bind
 // HX: [s2v1] cannot be bound at this point
 //
 (*
-  val () = begin
-    print "trans3_env_hypadd_bind: s2v1 = "; print_s2var s2v1; print_newline ();
-    print "trans3_env_hypadd_bind: s2f2 = "; pprint_s2hnf s2f2; print_newline ();
-  end // end of [val]
+val () =
+(
+  print "trans3_env_hypadd_bind: s2v1 = "; print_s2var s2v1; print_newline ();
+  print "trans3_env_hypadd_bind: s2f2 = "; pprint_s2hnf s2f2; print_newline ();
+) (* end of [val] *)
 *)
-  val () =
-    the_s2varbindmap_insert (s2v1, s2f2)
-  // end of [val]
-  val h3p = h3ypo_bind (loc, s2v1, s2f2)
-  val s3i = S3ITMhypo (h3p)
+//
+val () =
+the_s2varbindmap_insert (s2v1, s2f2)
+//
+val h3p = h3ypo_bind (loc, s2v1, s2f2)
+//
+val s3i = S3ITMhypo (h3p)
+//
 in
   the_s3itmlst_env_add (s3i)
 end // end of [trans3_env_hypadd_bind]

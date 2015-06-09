@@ -306,7 +306,12 @@ fun s2exp_freevars (s2e: s2exp): s2varset_vt
 
 (* ****** ****** *)
 
-fun s2Var_occurcheck_s2exp
+fun s2var_occurcheck_s2exp (s2v0: s2var, s2e: s2exp): bool
+
+(* ****** ****** *)
+
+fun
+s2Var_occurcheck_s2exp
   (s2V0: s2Var, s2e: s2exp) : (int, s2cstlst, s2varlst, s2Varlst)
 // end of [s2Var_occurcheck_s2exp]
 

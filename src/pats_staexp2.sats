@@ -344,7 +344,7 @@ fun s2rt_get_pol (x: s2rt): int // neg/neu/pos: -1/0/1
 fun s2rtVar_get_s2rt (s2tV: s2rtVar): s2rt
 fun s2rtVar_set_s2rt (s2tV: s2rtVar, s2t: s2rt): void
 //
-fun s2rtVar_occurscheck (s2tV: s2rtVar, s2t: s2rt): bool
+fun s2rtVar_occurcheck (s2tV: s2rtVar, s2t: s2rt): bool
 //
 fun s2rt_delink (s2t: s2rt): s2rt // HX: shallow removal
 fun s2rt_delink_all (s2t: s2rt): s2rt // HX: perform deep removal

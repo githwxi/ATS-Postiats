@@ -181,6 +181,7 @@ The ATSLIB/prelude library\
 #packfilename("SATS/reference.sats")
 
 #packfilename("SATS/filebas.sats")
+
 #packfilename("SATS/intrange.sats")
 
 (* ****** ****** *)
@@ -249,6 +250,8 @@ The ATSLIB/prelude library\
 #packfilename("DATS/reference.dats")
 
 #packfilename("DATS/filebas.dats")
+#packfilename("DATS/filebas_prf.dats")
+
 #packfilename("DATS/intrange.dats")
 
 (* ****** ****** *)
