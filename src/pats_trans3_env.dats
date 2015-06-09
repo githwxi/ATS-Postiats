@@ -826,24 +826,28 @@ end // end of [local]
 
 (* ****** ****** *)
 //
-// HX: it is declared in [pats_staexp2_util.sats]
+// HX:
+// it is declared in [pats_staexp2_util.sats]
 //
 implement
 s2exp_hnfize_flag_svar
   (s2e0, s2v, flag) = let
 (*
-val () = (
-  print "s2exp_hnfize_flag_svar: s2v = "; print_s2var (s2v); print_newline ()
-) // end of [val]
+val () =
+(
+  print ("s2exp_hnfize_flag_svar: s2v = ", s2v)
+) (* end of [val] *)
 *)
 val ans = the_s2varbindmap_search (s2v)
 //
 in
-  case+ ans of
-  | ~Some_vt s2e => let
-      val () = flag := flag + 1 in s2exp_hnfize (s2e)
-    end // end of [Some_vt]
-  | ~None_vt () => s2e0 // end of [None_vt]
+//
+case+ ans of
+| ~None_vt () => s2e0
+| ~Some_vt s2e => let
+    val () = flag := flag + 1 in s2exp_hnfize (s2e)
+  end // end of [Some_vt]
+//
 end // end of [s2exp_hnfize_flag_svar]
 
 (* ****** ****** *)
