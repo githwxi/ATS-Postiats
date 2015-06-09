@@ -31,6 +31,8 @@ Here is a list of major additions and changes since the last release:
 7. Handling of HIPintrep is now supported
 8. Porting ATSLIB/libats/funmap_rbtree to ATS2 from ATS1
 9. Modifying jsonization of constraints to support ATS-extsolve
+10. ATS-extsolve-z3 (Z3-based ATS-extsolve) can now be put into use
+11. Performing occurs-checking before HYPObind(s2v, s2e) can be formed
 
 ######
 
