@@ -69,81 +69,101 @@ of // case+
 //
 | S2Evar s2v => {
     val () = fvs := s2varset_vt_add (fvs, s2v)
-  } // end of [S2Evar]
+  } (* end of [S2Evar] *)
+//
 | S2EVar s2V => aux_s2Var (s2V, fvs)
 //
 | S2Ehole _ => ()
 //
 | S2Edatcontyp
     (d2c, arg) => aux_s2explst (arg, fvs)
-| S2Edatconptr (d2c, rt, arg) => (
+| S2Edatconptr
+    (d2c, rt, arg) => (
     aux_s2exp (rt, fvs); aux_s2explst (arg, fvs)
-  )
+  ) (* end of [S2Edatconptr] *)
 //
-| S2Eat (s2e1, s2e2) => (
+| S2Eat(s2e1, s2e2) => (
     aux_s2exp (s2e1, fvs); aux_s2exp (s2e2, fvs)
-  ) // end of [s2Eat]
-| S2Esizeof (s2e) => aux_s2exp (s2e, fvs)
+  ) (* end of [s2Eat] *)
 //
-| S2Eeff (s2fe) => aux_s2eff (s2fe, fvs)
-| S2Eeqeq (s2e1, s2e2) => (
+| S2Eeff(s2fe) => aux_s2eff (s2fe, fvs)
+//
+| S2Esizeof(s2e) => aux_s2exp (s2e, fvs)
+//
+| S2Eeqeq(s2e1, s2e2) => (
     aux_s2exp (s2e1, fvs); aux_s2exp (s2e2, fvs)
-  ) // end of [S2Eeqeq]
+  ) (* end of [S2Eeqeq] *)
+//
 | S2Eproj
-    (s2ae, s2te, s2ls) => {
+    (s2ae, s2te, s2ls) =>
+  {
     val () = aux_s2exp (s2ae, fvs)
     val () = aux_s2exp (s2te, fvs)
     val () = aux_s2lablst (s2ls, fvs)
-  } // end of [S2Eproj]
+  } (* end of [S2Eproj] *)
 //
-| S2Eapp (s2e_fun, s2es_arg) => (
-    aux_s2exp (s2e_fun, fvs); aux_s2explst (s2es_arg, fvs)
-  ) // end of [S2Eapp]
-| S2Elam (s2vs, s2e) => let
+| S2Eapp(s2e, s2es_arg) =>
+  {
+    val () = aux_s2exp (s2e, fvs)
+    val () = aux_s2explst (s2es_arg, fvs)
+  } (* end of [S2Eapp] *)
+//
+| S2Elam(s2vs, s2e_body) => let
     var fvs1 = s2varset_vt_nil ()
-    val () = aux_s2exp (s2e, fvs1)
+    val () = aux_s2exp (s2e_body, fvs1)
     val () = fvs1 := s2varset_vt_delist (fvs1, s2vs)
   in
     fvs := s2varset_vt_union (fvs, fvs1)
   end // end of [S2Elam]
+//
 | S2Efun (
-    _,  _, s2fe, _, s2es_arg, s2e_res
+    fc,  lin, s2fe
+  , npf, s2es_arg, s2e_res
   ) => {
     val () = aux_s2eff (s2fe, fvs)
-    val () = aux_s2explst (s2es_arg, fvs)
-    val () = aux_s2exp (s2e_res, fvs)
-  } // end of [S2Efun]
-| S2Emetfun (opt, s2es, s2e) => (
+    val () = (
+      aux_s2explst (s2es_arg, fvs); aux_s2exp (s2e_res, fvs)
+    ) (* end of [val] *)
+  } (* end of [S2Efun] *)
+//
+| S2Emetfun
+    (opt, s2es, s2e) =>
+  (
     aux_s2explst (s2es, fvs); aux_s2exp (s2e, fvs)
-  ) // end of [S2Emetfun]
+  ) (* end of [S2Emetfun] *)
 //
-| S2Emetdec (s2es1, s2es2) => (
+| S2Emetdec
+    (s2es1, s2es2) => (
     aux_s2explst (s2es1, fvs); aux_s2explst (s2es2, fvs)
-  ) // end of [S2Emetdec]
+  ) (* end of [S2Emetdec] *)
 //
-| S2Etop (_(*knd*), s2e) => aux_s2exp (s2e, fvs)
-| S2Ewithout (s2e) => aux_s2exp (s2e, fvs) // taken out by [view@]
+| S2Etop(knd, s2e) => aux_s2exp (s2e, fvs)
 //
-| S2Etyarr (s2e_elt, s2es_dim) => (
+| S2Ewithout(s2e_elt) => aux_s2exp (s2e_elt, fvs) // taken-out
+//
+| S2Etyarr
+    (s2e_elt, s2es_dim) =>
+  (
     aux_s2exp (s2e_elt, fvs); aux_s2explst (s2es_dim, fvs)
-  ) // end of [S2Etyarr]
-| S2Etyrec (_(*knd*), _(*npf*), ls2es) => aux_labs2explst (ls2es, fvs)
+  ) (* end of [S2Etyarr] *)
+//
+| S2Etyrec(knd, npf, ls2es) => aux_labs2explst (ls2es, fvs)
 //
 | S2Einvar (s2e) => aux_s2exp (s2e, fvs)
 //
 | S2Erefarg (_, s2e) => aux_s2exp (s2e, fvs)
 //
-| S2Eexi (s2vs, s2ps, s2e) => aux_s2exp_exiuni (s2vs, s2ps, s2e, fvs)
-| S2Euni (s2vs, s2ps, s2e) => aux_s2exp_exiuni (s2vs, s2ps, s2e, fvs)
+| S2Eexi(s2vs, s2ps, s2e) => aux_s2exp_exiuni (s2vs, s2ps, s2e, fvs)
+| S2Euni(s2vs, s2ps, s2e) => aux_s2exp_exiuni (s2vs, s2ps, s2e, fvs)
 //
 | S2Evararg s2e => aux_s2exp (s2e, fvs)
 //
-| S2Ewthtype (s2e, ws2es) =>
-  (
+| S2Ewthtype
+    (s2e, ws2es) => (
     aux_s2exp (s2e, fvs); aux_wths2explst (ws2es, fvs)
-  ) // end of [S2Ewthtype]
+  ) (* end of [S2Ewthtype] *)
 //
-| S2Eerr () => ()
+| S2Eerr((*void*)) => ()
 //
 end // end of [aux_s2exp]
 
@@ -315,7 +335,8 @@ if ismem then true else loop (s2Var_get_sVarlst (s2V0), s2Vs2)
 //
 end // end of [s2Var_occurcheck_s2cst]
 
-fun s2Var_occurcheck_s2var
+fun
+s2Var_occurcheck_s2var
   (s2V0: s2Var, s2v: s2var): bool = let
 (*
 val () = println! ("s2Var_occurcheck_s2cst: s2v = ", s2v)
@@ -339,37 +360,44 @@ end // end of [local]
 local
 
 typedef
-aux_type (a:type) =
+aux2_type(a:type) =
   (s2Var, a, &int, &s2cstlst, &s2varlst, &s2Varlst) -> void
 // end of [typedef]
 
-extern fun aux_s2cst : aux_type (s2cst)
-extern fun aux_s2var : aux_type (s2var)
-extern fun aux_s2Var : aux_type (s2Var)
+extern fun aux2_s2cst : aux2_type (s2cst)
+extern fun aux2_s2var : aux2_type (s2var)
+extern fun aux2_s2Var : aux2_type (s2Var)
 
-extern fun aux_s2exp : aux_type (s2exp)
-extern fun aux_s2explst : aux_type (s2explst)
-extern fun aux_s2explstlst : aux_type (s2explstlst)
+extern fun aux2_s2exp : aux2_type (s2exp)
+extern fun aux2_s2explst : aux2_type (s2explst)
+extern fun aux2_s2explstlst : aux2_type (s2explstlst)
 
-extern fun aux_s2eff : aux_type (s2eff)
+extern fun aux2_s2eff : aux2_type (s2eff)
 
-extern fun aux_s2lab : aux_type (s2lab)
-extern fun aux_s2lablst : aux_type (s2lablst)
+extern fun aux2_s2lab : aux2_type (s2lab)
+extern fun aux2_s2lablst : aux2_type (s2lablst)
 
-extern fun aux_labs2exp : aux_type (labs2exp)
-extern fun aux_labs2explst : aux_type (labs2explst)
+extern fun aux2_labs2exp : aux2_type (labs2exp)
+extern fun aux2_labs2explst : aux2_type (labs2explst)
 
-extern fun aux_wths2explst : aux_type (wths2explst)
+extern fun aux2_wths2explst : aux2_type (wths2explst)
 
 (* ****** ****** *)
 
-fun auxlst
-  {a:type} (
+fun
+auxlst
+{a:type}
+(
   s2V0: s2Var
 , xs: List(a)
 , ans: &int, s2cs: &s2cstlst, s2vs: &s2varlst, s2Vs: &s2Varlst
-, fwork: aux_type (a)
+, fwork: aux2_type (a)
 ) : void = let
+//
+(*
+val = println! ("auxlst: s2V0 = ", s2V0)
+*)
+//
 in
 //
 case+ xs of
@@ -387,7 +415,7 @@ end // end of [auxlst]
 (* ****** ****** *)
 
 implement
-aux_s2cst (
+aux2_s2cst (
   s2V0, s2c, ans, s2cs, s2vs, s2Vs
 ) = let
   val found =
@@ -399,10 +427,10 @@ in
   in
     s2cs := list_cons (s2c, s2cs)
   end else () // end of [if]
-end // end of [aux_s2cst]
+end // end of [aux2_s2cst]
 
 implement
-aux_s2var (
+aux2_s2var (
   s2V0, s2v, ans, s2cs, s2vs, s2Vs
 ) = let
   val found = s2Var_occurcheck_s2var (s2V0, s2v)
@@ -412,10 +440,10 @@ in
   in
     s2vs := list_cons (s2v, s2vs)
   end else () // end of [if]
-end // end of [aux_s2var]
+end // end of [aux2_s2var]
 
 implement
-aux_s2Var (
+aux2_s2Var (
   s2V0, s2V, ans, s2cs, s2vs, s2Vs
 ) = let
   val opt = s2Var_get_link (s2V)
@@ -423,60 +451,60 @@ in
 //
 case+ opt of
 | Some (s2e) =>
-    aux_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
+    aux2_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
 | None () => let
     val iseq = eq_s2Var_s2Var (s2V0, s2V)
   in
     if iseq then (ans := ans + 1) else s2Vs := list_cons (s2V, s2Vs)
   end // end of [None]
 //
-end // end of [aux_s2Var]
+end // end of [aux2_s2Var]
 
 (* ****** ****** *)
 
 implement
-aux_s2exp (
+aux2_s2exp (
   s2V0, s2e, ans, s2cs, s2vs, s2Vs
 ) = let
 //
 macdef
 f_s2cst (x) =
-  aux_s2cst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
+  aux2_s2cst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
 macdef
 f_s2var (x) =
-  aux_s2var (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
+  aux2_s2var (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
 macdef
 f_s2Var (x) =
-  aux_s2Var (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
+  aux2_s2Var (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
 macdef
 f_s2exp (x) =
-  aux_s2exp (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
+  aux2_s2exp (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
 macdef
 f_s2explst (x) =
-  aux_s2explst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
+  aux2_s2explst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
 macdef
 f_s2explstlst (x) =
-  aux_s2explstlst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
+  aux2_s2explstlst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
 macdef
 f_s2eff (x) =
-  aux_s2eff (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
+  aux2_s2eff (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
 macdef
 f_s2lablst (x) =
-  aux_s2lablst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
+  aux2_s2lablst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
 macdef
 f_labs2explst (x) =
-  aux_labs2explst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
+  aux2_labs2explst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
 macdef
 f_wths2explst (x) =
-  aux_wths2explst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
+  aux2_wths2explst (s2V0, ,(x), ans, s2cs, s2vs, s2Vs)
 //
 (*
-val () = println! ("aux_s2exp: s2V0 = ", s2V0)
-val () = println! ("aux_s2exp: s2e = ", s2e)
-val () = println! ("aux_s2exp: ans = ", ans)
-val () = println! ("aux_s2exp: s2cs = ", s2cs)
-val () = println! ("aux_s2exp: s2vs = ", s2vs)
-val () = println! ("aux_s2exp: s2Vs = ", s2Vs)
+val () = println! ("aux2_s2exp: s2V0 = ", s2V0)
+val () = println! ("aux2_s2exp: s2e = ", s2e)
+val () = println! ("aux2_s2exp: ans = ", ans)
+val () = println! ("aux2_s2exp: s2cs = ", s2cs)
+val () = println! ("aux2_s2exp: s2vs = ", s2vs)
+val () = println! ("aux2_s2exp: s2Vs = ", s2Vs)
 *)
 //
 in (* in of [let] *)
@@ -557,24 +585,24 @@ case+ s2e.s2exp_node of
 //
 | S2Eerr ((*void*)) => ()
 //
-end // end of [aux_s2exp]
+end // end of [aux2_s2exp]
 
 implement
-aux_s2explst
+aux2_s2explst
   (s2V0, xs, ans, s2cs, s2vs, s2Vs) =
-  auxlst (s2V0, xs, ans, s2cs, s2vs, s2Vs, aux_s2exp)
-// end of [aux_s2explst]
+  auxlst (s2V0, xs, ans, s2cs, s2vs, s2Vs, aux2_s2exp)
+// end of [aux2_s2explst]
 
 implement
-aux_s2explstlst
+aux2_s2explstlst
   (s2V0, xss, ans, s2cs, s2vs, s2Vs) =
-  auxlst (s2V0, xss, ans, s2cs, s2vs, s2Vs, aux_s2explst)
-// end of [aux_s2explstlst]
+  auxlst (s2V0, xss, ans, s2cs, s2vs, s2Vs, aux2_s2explst)
+// end of [aux2_s2explstlst]
 
 (* ****** ****** *)
 
 implement
-aux_s2eff (
+aux2_s2eff (
   s2V0, s2fe, ans, s2cs, s2vs, s2Vs
 ) = let
 in
@@ -582,22 +610,22 @@ in
 case+ s2fe of
 | S2EFFset _ => ()
 | S2EFFexp (s2e) =>
-    aux_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
+    aux2_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
 | S2EFFadd (s2fe1, s2fe2) => let
     val () =
-      aux_s2eff (s2V0, s2fe1, ans, s2cs, s2vs, s2Vs)
+      aux2_s2eff (s2V0, s2fe1, ans, s2cs, s2vs, s2Vs)
     val () =
-      aux_s2eff (s2V0, s2fe2, ans, s2cs, s2vs, s2Vs)
+      aux2_s2eff (s2V0, s2fe2, ans, s2cs, s2vs, s2Vs)
   in
     // nothing
   end // end of [S2EFFadd]
 //
-end // end of [aux_s2eff]
+end // end of [aux2_s2eff]
 
 (* ****** ****** *)
 
 implement
-aux_s2lab (
+aux2_s2lab (
   s2V0, s2l, ans, s2cs, s2vs, s2Vs
 ) = let
 in
@@ -605,40 +633,51 @@ in
 case+ s2l of
 | S2LABlab _ => ()
 | S2LABind (ind) =>
-    aux_s2explst (s2V0, ind, ans, s2cs, s2vs, s2Vs)
+    aux2_s2explst (s2V0, ind, ans, s2cs, s2vs, s2Vs)
   // end of [S2LABind]
 //
-end // end of [aux_s2lab]
+end // end of [aux2_s2lab]
 
 implement
-aux_s2lablst
+aux2_s2lablst
   (s2V0, s2ls, ans, s2cs, s2vs, s2Vs) =
-  auxlst (s2V0, s2ls, ans, s2cs, s2vs, s2Vs, aux_s2lab)
-// end of [aux_s2lablst]
+  auxlst (s2V0, s2ls, ans, s2cs, s2vs, s2Vs, aux2_s2lab)
+// end of [aux2_s2lablst]
 
 (* ****** ****** *)
 
 implement
-aux_labs2exp (
+aux2_labs2exp (
   s2V0, ls2e, ans, s2cs, s2vs, s2Vs
 ) = let
   val SLABELED (l, name, s2e) = ls2e
 in
-  aux_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
-end // end of [aux_labs2exp]
+  aux2_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
+end // end of [aux2_labs2exp]
 
 implement
-aux_labs2explst
+aux2_labs2explst
   (s2V0, xs, ans, s2cs, s2vs, s2Vs) =  
-  auxlst (s2V0, xs, ans, s2cs, s2vs, s2Vs, aux_labs2exp)
-// end of [aux_labs2explst]
+  auxlst (s2V0, xs, ans, s2cs, s2vs, s2Vs, aux2_labs2exp)
+// end of [aux2_labs2explst]
 
 (* ****** ****** *)
 
 implement
-aux_wths2explst (
+aux2_wths2explst
+(
   s2V0, ws2es, ans, s2cs, s2vs, s2Vs
 ) = let
+//
+(*
+val () =
+println!
+  ("aux2_wths2explst: s2V0 = ", s2V0)
+val () =
+println!
+  ("aux2_wths2explst: ws2es = ", ws2es)
+*)
+//
 in
 //
 case+ ws2es of
@@ -646,23 +685,23 @@ case+ ws2es of
 | WTHS2EXPLSTcons_invar
     (_, s2e, ws2es) => let
     val () =
-      aux_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
+      aux2_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
     // end of [val]
   in
-    aux_wths2explst (s2V0, ws2es, ans, s2cs, s2vs, s2Vs)
+    aux2_wths2explst (s2V0, ws2es, ans, s2cs, s2vs, s2Vs)
   end
 | WTHS2EXPLSTcons_trans
     (_, s2e, ws2es) => let
     val () =
-      aux_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
+      aux2_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
     // end of [val]
   in
-    aux_wths2explst (s2V0, ws2es, ans, s2cs, s2vs, s2Vs)
+    aux2_wths2explst (s2V0, ws2es, ans, s2cs, s2vs, s2Vs)
   end
 | WTHS2EXPLSTcons_none (ws2es) =>
-    aux_wths2explst (s2V0, ws2es, ans, s2cs, s2vs, s2Vs)
+    aux2_wths2explst (s2V0, ws2es, ans, s2cs, s2vs, s2Vs)
 //
-end // end of [aux_wths2explst]
+end // end of [aux2_wths2explst]
 
 in (* in of [local] *)
 
@@ -675,7 +714,7 @@ s2Var_occurcheck_s2exp
   var s2vs: s2varlst = list_nil () // collecting violating s2vs
   var s2Vs: s2Varlst = list_nil () // collecting unsolved s2Vs in s2e
 //
-  val () = aux_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
+  val () = aux2_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
 //
 in
   @(ans, s2cs, s2vs, s2Vs)
@@ -687,7 +726,8 @@ end // end of [local]
 
 local
 
-fun ismem (
+fun
+ismem (
   s2vs: s2varlst, s2v0: s2var
 ) : bool = let
 in
@@ -702,11 +742,14 @@ end // end of [ismem]
 in (* in of [local] *)
 
 implement
-s2exp_isbot (s2e) = let
+s2exp_isbot
+  (s2e0) = let
 in
 //
 case+
-  s2e.s2exp_node of
+s2e0.s2exp_node
+of // case+
+//
 | S2Euni (
     s2vs, s2ps, s2e2
   ) => let
@@ -718,7 +761,8 @@ case+
       | S2Evar (s2v) => ismem (s2vs, s2v) | _ => false
     ) else false // end of [if]
   end // end of [S2Euni]
-| _ => false // end of [_]
+//
+| _ (* non-S2Euni *) => false
 //
 end // end of [s2exp_isbot]
 
@@ -729,7 +773,9 @@ s2exp_fun_isbot (s2e) = let
 in
 //
 case+
-  s2e.s2exp_node of
+s2e.s2exp_node
+of // case+
+//
 | S2Efun (
     _, _, _, _, _, s2e_res
   ) => s2exp_isbot (s2e_res)
@@ -737,7 +783,8 @@ case+
 | S2Euni (_, _, s2e) => s2exp_fun_isbot (s2e)
 | S2Emetfun (_, _, s2e) => s2exp_fun_isbot (s2e)
 //
-| _ => false
+| _ (* rest-of-S2E *) => false
+//
 end // end of [s2exp_fun_isbot]
 
 (* ****** ****** *)

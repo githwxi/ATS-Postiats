@@ -71,9 +71,10 @@ staload "./pats_dynexp2.sats"
 staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
-
-fun filenv_get_d3eclistopt (fenv: filenv): d3eclistopt
-
+//
+fun
+filenv_get_d3eclistopt (fenv: filenv): d3eclistopt
+//
 (* ****** ****** *)
 
 datatype
@@ -223,42 +224,56 @@ fun stasub_make_svarlst
 // end of [stasub_make_svarlst]
 
 (* ****** ****** *)
-
-fun s2exp_exiuni_instantiate_all // knd=0/1:exi/uni
+//
+fun
+s2exp_exiuni_instantiate_all // knd=0/1:exi/uni
   (knd: int, s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
-fun s2exp_exi_instantiate_all
+fun
+s2exp_exi_instantiate_all
   (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
-fun s2exp_uni_instantiate_all
+fun
+s2exp_uni_instantiate_all
   (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
-
+//
 (* ****** ****** *)
-
-fun s2exp_termet_instantiate
+//
+fun
+s2exp_termet_instantiate
   (loc: loc_t, stamp: stamp, met: s2explst): void
-fun s2exp_unimet_instantiate_all
+fun
+s2exp_unimet_instantiate_all
 // HX: instantiating universal quantifiers and term. metrics
   (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
-
+//
 (* ****** ****** *)
-
-fun s2exp_exi_instantiate_sexparg
+//
+fun
+s2exp_exi_instantiate_sexparg
   (s2e: s2exp, arg: s2exparg, err: &int): (s2exp, s2explst_vt)
-fun s2exp_uni_instantiate_sexparglst
+fun
+s2exp_uni_instantiate_sexparglst
   (s2e: s2exp, arg: s2exparglst, err: &int): (s2exp, s2explst_vt)
-
+//
 (* ****** ****** *)
 
-fun s2exp_tmp_instantiate_rest (
+fun
+s2exp_tmp_instantiate_rest (
   s2f: s2exp, locarg: loc_t, s2qs: s2qualst, err: &int
 ) : (s2exp(*res*), t2mpmarglst)
 // end of [s2exp_tmp_instantiate_rest]
 
-fun s2exp_tmp_instantiate_tmpmarglst (
+fun
+s2exp_tmp_instantiate_tmpmarglst (
   s2f: s2exp
 , locarg: loc_t, s2qs: s2qualst, t2mas: t2mpmarglst, err: &int
 ) : (s2exp(*res*), t2mpmarglst)
 // end of [s2exp_tmp_instantiate_tmpmarglst]
 
+(* ****** ****** *)
+//
+fun
+s2var_occurcheck_s2exp (s2v0: s2var, s2e: s2exp): bool
+//
 (* ****** ****** *)
 
 absview trans3_env_push_v
@@ -298,7 +313,9 @@ fun trans3_env_add_eqeq
   (loc: loc_t, s2e1: s2exp, s2e2: s2exp): void
 // end of [trans3_env_add_eqeq]
 
-fun trans3_env_add_patcstlstlst_false (
+fun
+trans3_env_add_patcstlstlst_false
+(
   loc: loc_t
 , casknd: caskind, cp2tcss: p2atcstlstlst_vt, s2es_pat: s2explst
 ) : void // end of [trans3_env_add_p2atcstlstlst_false]
@@ -363,11 +380,11 @@ fun the_s2cstbindlst_push (): (s2cstbindlst_push_v | void)
 
 (* ****** ****** *)
 
+absview termetenv_push_v
+
 fun s2explst_check_termet
   (loc0: loc_t, met: s2explst): void
 // end of [s2explst_check_termet]
-
-absview termetenv_push_v
 
 fun termetenv_pop
   (pf: termetenv_push_v | (*none*)): void

@@ -1373,7 +1373,9 @@ end // end of [s2explst_tyleq_solve_argsrtlst_err]
 
 (* ****** ****** *)
 
-fun s2hnf_hypequal_solve_abscon (
+fun
+s2hnf_hypequal_solve_abscon
+(
   loc0: location, s2f1: s2hnf, s2f2: s2hnf
 ) : void = let
 (*
@@ -1384,8 +1386,11 @@ end // end of [val]
 *)
 val s2e1 = s2hnf2exp (s2f1) and s2e2 = s2hnf2exp (s2f2)
 //
-fun auxsolve (
-  loc0: location, s2e1: s2exp, s2e2: s2exp
+fun
+auxsolve
+(
+  loc0: location
+, s2e1: s2exp, s2e2: s2exp
 ) : void =
   case+ (s2e1.s2exp_node, s2e2.s2exp_node) of
   | (S2Eapp (s2e1_fun, s2es1_arg),
@@ -1396,44 +1401,69 @@ fun auxsolve (
     end
   | (_, _) => ()
 // end of [auxsolve]
-fun auxcheck (
+//
+fun
+auxcheck
+(
   s2e1: s2exp, s2e2: s2exp
 ) : bool =
-  case+ (s2e1.s2exp_node, s2e2.s2exp_node) of
-  | (S2Ecst s2c1, S2Ecst s2c2) => eq_s2cst_s2cst (s2c1, s2c2)
-  | (S2Eapp (s2e1, _), S2Eapp (s2e2, _)) => auxcheck (s2e1, s2e2)
-  | (_, _) => false
+(
+case+
+( s2e1.s2exp_node
+, s2e2.s2exp_node
+) of // case+
+| (S2Ecst s2c1, S2Ecst s2c2) => eq_s2cst_s2cst (s2c1, s2c2)
+| (S2Eapp (s2e1, _), S2Eapp (s2e2, _)) => auxcheck (s2e1, s2e2)
+| (_, _) => false
+)
 in
 //
-if auxcheck (s2e1, s2e2) then begin
-  auxsolve (loc0, s2e1, s2e2) // c1 arg1_1 ... arg1_n = c2 arg2_1 ... arg2_n
-end else begin
+if
+auxcheck(s2e1, s2e2)
+then begin
+//
+// C1(arg1_1)...(arg1_n) = C2(arg2_1)...(arg2_n)
+//
+  auxsolve (loc0, s2e1, s2e2)
+end // end of [then]
+else begin
   trans3_env_hypadd_prop (loc0, s2exp_bool false)
-end // end of [if]
+end // end of [else]
 //
 end // end of [s2exp_hypequal_solve_abscon]
+
+(* ****** ****** *)
 
 implement
 s2hnf_hypequal_solve
   (loc0, s2f1, s2f2) = let
 (*
-  val () = begin
-    println! ("s2exp_hypequal_solve: s2f1 = ", s2f1);
-    println! ("s2exp_hypequal_solve: s2f2 = ", s2f2);
-  end // end of [val]
+val () =
+(
+  println! ("s2exp_hypequal_solve: s2f1 = ", s2f1);
+  println! ("s2exp_hypequal_solve: s2f2 = ", s2f2);
+) (* end of [val] *)
 *)
-  val s2e1 = s2hnf2exp (s2f1) and s2e2 = s2hnf2exp (s2f2)
+//
+val s2e1 = s2hnf2exp (s2f1) and s2e2 = s2hnf2exp (s2f2)
+//
 in
 //
-case+ (s2e1.s2exp_node, s2e2.s2exp_node) of
-| (_, _) when (
-    s2hnf_is_abscon s2f1 && s2hnf_is_abscon s2f2
-  ) =>
+case+
+( s2e1.s2exp_node
+, s2e2.s2exp_node
+) of // case+
+| (_, _) when
+  (
+    s2hnf_is_abscon(s2f1) && s2hnf_is_abscon(s2f2)
+  ) (* when *) =>
     s2hnf_hypequal_solve_abscon (loc0, s2f1, s2f2)
   // end of [abscon, abscon]
 | (S2Ecst s2c1, S2Ecst s2c2) when s2c1 = s2c2 => ()
-| (S2Evar s2v1, S2Evar s2v2) => let
-    val sgn = compare_s2var_s2var (s2v1, s2v2)
+//
+| (S2Evar s2v1,
+   S2Evar s2v2) => let
+    val sgn = compare_s2var_s2var(s2v1, s2v2)
   in
     case+ sgn of 
     | _ when sgn > 0 =>
@@ -1442,15 +1472,34 @@ case+ (s2e1.s2exp_node, s2e2.s2exp_node) of
         trans3_env_hypadd_bind (loc0, s2v2, s2f1)
     | _ (* sgn = 0: s2v1 = s2v2 *) => ((*void*))
   end // end of [S2Evar _, S2Evar _]
-| (S2Evar s2v1, _) => trans3_env_hypadd_bind (loc0, s2v1, s2f2)
-| (_, S2Evar s2v2) => trans3_env_hypadd_bind (loc0, s2v2, s2f1)
+//
+| (S2Evar s2v1, _) => let
+    val test = s2var_occurcheck_s2exp(s2v1, s2e2)
+  in
+    if test
+      then trans3_env_hypadd_eqeq(loc0, s2f1, s2f2)
+      else trans3_env_hypadd_bind(loc0, s2v1, s2f2)
+    // end of [if]
+  end // end of [(S2Evar, _)]
+| (_, S2Evar s2v2) => let
+    val test = s2var_occurcheck_s2exp(s2v2, s2e1)
+  in
+    if test
+      then trans3_env_hypadd_eqeq(loc0, s2f1, s2f2)
+      else trans3_env_hypadd_bind(loc0, s2v2, s2f1)
+    // end of [if]
+  end // end of [(_, S2Evar)]
+//
 | (S2Efun (_, _, _, _, s2es11, s2e12),
    S2Efun (_, _, _, _, s2es21, s2e22)) => let
-    val () = s2explst_hypequal_solve (loc0, s2es21, s2es11)
+    val () =
+      s2exp_hypequal_solve(loc0, s2e12, s2e22)
+    // end of [val]
   in
-    s2exp_hypequal_solve (loc0, s2e12, s2e22)
+    s2explst_hypequal_solve(loc0, s2es21, s2es11)
   end // end of [S2Efun _, S2Efun _]
-| (_, _) => trans3_env_hypadd_eqeq (loc0, s2f1, s2f2)
+//
+| (_, _) => trans3_env_hypadd_eqeq(loc0, s2f1, s2f2)
 //
 end // end of [s2exp_hypequal_solve]
 
@@ -1459,9 +1508,10 @@ end // end of [s2exp_hypequal_solve]
 implement
 s2exp_hypequal_solve
   (loc0, s2e10, s2e20) = let
-  val s2f10 = s2exp2hnf s2e10 and s2f20 = s2exp2hnf s2e20
+  val s2f10 = s2exp2hnf(s2e10)
+  and s2f20 = s2exp2hnf(s2e20)
 in
-  s2hnf_hypequal_solve (loc0, s2f10, s2f20)
+  s2hnf_hypequal_solve(loc0, s2f10, s2f20)
 end // end of [s2exp_hypequal_solve]
 
 implement
@@ -1470,25 +1520,27 @@ s2explst_hypequal_solve
 in
 //
 case+ s2es1 of
-| list_cons (s2e1, s2es1) => (
+| list_nil() =>
+  (
   case+ s2es2 of
-  | list_cons (s2e2, s2es2) => let
+  | list_nil() => ()
+  | list_cons _ =>
+    trans3_env_hypadd_prop(loc0, s2exp_bool(false))
+  ) // end of [list_nil]
+| list_cons(s2e1, s2es1) =>
+  (
+  case+ s2es2 of
+  | list_nil() =>
+    trans3_env_hypadd_prop(loc0, s2exp_bool(false))
+  | list_cons
+      (s2e2, s2es2) => let
       val () =
         s2exp_hypequal_solve (loc0, s2e1, s2e2)
       // end of [val]
     in
       s2explst_hypequal_solve (loc0, s2es1, s2es2)
     end // end of [list_cons]
-  | list_nil () =>
-      trans3_env_hypadd_prop (loc0, s2exp_bool false)
-    // end of [list_nil]
-  ) // end of [list_cons]
-| list_nil () => (
-  case+ s2es2 of
-  | list_cons _ =>
-      trans3_env_hypadd_prop (loc0, s2exp_bool false)
-  | list_nil () => ()
-  ) // end of [list_nil]
+  ) (* end of [list_cons] *)
 //
 end // end of [s2explst_hypequal_solve]
 
