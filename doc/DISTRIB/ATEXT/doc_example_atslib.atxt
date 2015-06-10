@@ -266,6 +266,11 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libats_ML_hashtblref.dats")
+#packfilename("libats_ML_myhashtblref.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_ML_monad_list.dats")
 #packfilename("libats_ML_monad_maybe.dats")
 
