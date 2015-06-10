@@ -135,44 +135,62 @@ prfun ORDPERM2SORT
 (* ****** ****** *)
 
 extern
-prfun SORT_nil (): SORT (nil, nil)
+prfun
+SORT_nil (): SORT (nil, nil)
 extern
-prfun SORT_sing {x:int} (): SORT (cons (x, nil), cons (x, nil))
+prfun
+SORT_sing {x:int} (): SORT(cons(x, nil), cons(x, nil))
 
 (* ****** ****** *)
 
 extern prfun LB_nil {x:int} (): LB (x, nil)
 extern prfun UB_nil {x:int} (): UB (x, nil)
 
-extern prfun LB_cons {x0:int}
-  {x:int | x0 <= x} {xs:ilist} (pf: LB (x0, xs)): LB (x0, cons (x, xs))
-extern prfun UB_cons {x0:int}
-  {x:int | x0 >= x} {xs:ilist} (pf: UB (x0, xs)): UB (x0, cons (x, xs))
-
-extern prfun LB_perm {x:int} {xs1,xs2:ilist} 
-  (pf1: PERM (xs1, xs2), pf2: LB (x, xs1)): LB (x, xs2)
-extern prfun UB_perm {x:int} {xs1,xs2:ilist} 
-  (pf1: PERM (xs1, xs2), pf2: UB (x, xs1)): UB (x, xs2)
-
 (* ****** ****** *)
-
+//
 extern
-prfun UNION4_perm {x:int} {xs:ilist} {res:ilist}
+prfun
+LB_cons{x0:int}
+  {x:int | x0 <= x}
+  {xs:ilist}(pf: LB (x0, xs)): LB (x0, cons (x, xs))
+extern
+prfun
+UB_cons{x0:int}
+  {x:int | x0 >= x}
+  {xs:ilist}(pf: UB (x0, xs)): UB (x0, cons (x, xs))
+//
+extern
+prfun
+LB_perm{x:int}{xs1,xs2:ilist} 
+  (pf1: PERM (xs1, xs2), pf2: LB (x, xs1)): LB (x, xs2)
+extern
+prfun
+UB_perm{x:int}{xs1,xs2:ilist} 
+  (pf1: PERM (xs1, xs2), pf2: UB (x, xs1)): UB (x, xs2)
+//
+(* ****** ****** *)
+//
+extern
+prfun
+UNION4_perm{x:int}{xs:ilist}{res:ilist}
   (pf: UNION4 (x, xs, nil, nil, res)): PERM (cons (x, xs), res)
-
+//
 extern
-prfun UNION4_mov1
-  {x0:int} {x:int} {xs:ilist} {ys,zs:ilist} {res:ilist}
+prfun
+UNION4_mov1
+  {x0:int}{x:int}{xs:ilist}{ys,zs:ilist}{res:ilist}
   (pf: UNION4 (x0, xs, cons (x, ys), zs, res)): UNION4 (x0, cons (x, xs), ys, zs, res)
 extern
-prfun UNION4_mov2
-  {x0:int} {x:int} {xs:ilist} {ys,zs:ilist} {res:ilist}
+prfun
+UNION4_mov2
+  {x0:int}{x:int}{xs:ilist}{ys,zs:ilist}{res:ilist}
   (pf: UNION4 (x0, xs, ys, cons (x, zs), res)): UNION4 (x0, cons (x, xs), ys, zs, res)
-
+//
 (* ****** ****** *)
-
+//
 extern
-prfun APPEND_ord
+prfun
+APPEND_ord
   {x:int}
   {ys,zs:ilist}
   {res:ilist} (
@@ -180,17 +198,23 @@ prfun APPEND_ord
 , pf3: ORD (ys), pf4: ORD (zs)
 , pf5: APPEND (ys, cons (x, zs), res)
 ) : ORD (res)
-
+//
 extern
-prfun APPEND_union4
-  {x:int} {ys,ys1:ilist} {zs,zs1:ilist} {res:ilist} (
+prfun
+APPEND_union4
+  {x:int}
+  {ys,ys1:ilist}
+  {zs,zs1:ilist}
+  {res:ilist} (
   pf1: PERM (ys, ys1), pf2: PERM (zs, zs1), pf3: APPEND (ys1, cons (x, zs1), res)
 ) : UNION4 (x, nil, ys, zs, res)
-
+//
 (* ****** ****** *)
 
-fun{a:t@ype}
-sort {xs:ilist}
+fun
+{a:t0p}
+sort
+{xs:ilist}
 (
   xs: gflist (a, xs), cmp: cmp a
 ) : [ys:ilist] (SORT (xs, ys) | gflist (a, ys)) =
@@ -204,8 +228,11 @@ sort {xs:ilist}
   | gflist_nil () => (SORT_nil () | nil ())
 // end of [sort]
 
-and part
-  {x0:int}{xs:ilist}{ys,zs:ilist}
+and
+part
+{x0:int}
+{xs:ilist}
+{ys,zs:ilist}
 (
   pf1: UB (x0, ys), pf2: LB (x0, zs)
 | x0: stamped_t (a, x0), xs: gflist (a, xs)
