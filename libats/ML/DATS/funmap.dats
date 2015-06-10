@@ -50,10 +50,10 @@ staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/funmap.sats"
 
 (* ****** ****** *)
-
+//
 assume
-map_type (key:t0p, itm:t0p) = $FM.map (key, itm)
-
+map_type(key, itm) = $FM.map (key, itm)
+//
 (* ****** ****** *)
 
 implement{a}
@@ -63,17 +63,19 @@ $FM.compare_key_key = compare_key_key<a>
 
 (* ****** ****** *)
 
-implement{}
-funmap_nil () = $FM.funmap_nil ()
-implement{}
-funmap_make_nil () = $FM.funmap_make_nil ()
+implement
+{}(*tmp*)
+funmap_nil() = $FM.funmap_nil ()
+implement
+{}(*tmp*)
+funmap_make_nil() = $FM.funmap_make_nil ()
 
 (* ****** ****** *)
 
 implement{}
-funmap_is_nil (map) = $FM.funmap_is_nil (map)
+funmap_is_nil(map) = $FM.funmap_is_nil (map)
 implement{}
-funmap_isnot_nil (map) = $FM.funmap_isnot_nil (map)
+funmap_isnot_nil(map) = $FM.funmap_isnot_nil (map)
 
 (* ****** ****** *)
 //

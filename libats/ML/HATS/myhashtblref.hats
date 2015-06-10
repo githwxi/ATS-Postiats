@@ -234,7 +234,7 @@ implement
 myhashtbl_takeout_all
   (tbl) =
 (
-  g1ofg0(hashtbl_takeout_all<key,itm>(tbl))
+  g1ofg0_list(hashtbl_takeout_all<key,itm>(tbl))
 ) (* end of [myhashtbl_takeout_all] *)
 //
 (* ****** ****** *)
@@ -259,7 +259,7 @@ myhashtbl_foreach_method(tbl) =
 //
 implement
 myhashtbl_listize1
-  (tbl) = g1ofg0(hashtbl_listize1<key,itm>(tbl))
+  (tbl) = g1ofg0_list(hashtbl_listize1<key,itm>(tbl))
 //
 end // end of [local]
 

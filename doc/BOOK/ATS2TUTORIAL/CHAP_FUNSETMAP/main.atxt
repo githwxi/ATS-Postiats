@@ -48,7 +48,7 @@ local
 typedef elt = elt_t
 //
 implement
-$FS.compare_elt_elt<elt_t>(x, y) = compare(x, y)
+$FS.compare_elt_elt<elt>(x, y) = compare(x, y)
 //
 in (* in-of-local *)
 
@@ -178,7 +178,7 @@ typedef
 key = key_t and itm = itm_t
 //
 implement
-$FM.compare_key_key<key_t>(x, y) = compare(x, y)
+$FM.compare_key_key<key>(x, y) = compare(x, y)
 //
 in (* in-of-local *)
 

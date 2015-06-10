@@ -208,7 +208,7 @@ myfunmap_foreach_method
 //
 implement
 myfunmap_listize
-  (map) = g1ofg0(funmap_listize<key,itm>(map))
+  (map) = g1ofg0_list(funmap_listize<key,itm>(map))
 //
 end // end of [local]
 
