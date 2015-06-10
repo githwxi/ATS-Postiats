@@ -185,6 +185,9 @@ token_node =
 //
   | T_DLRARRPSZ of () // $arrpsz // $arrptrsize
 //
+  | T_DLRASSERT of () // $assert
+  | T_DLRASSERT_PROP of () // $assert_prop
+//
   | T_DLRDELAY of (int(*lin*)) // $delay(type)/$ldelay(vtype)
 //
   | T_DLREFFMASK of () // $effmask

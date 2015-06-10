@@ -282,34 +282,53 @@ typedef keyitm = (key, itm)
 implement
 keyitem_nullify<keyitm>
   (x) = () where {
-  extern prfun __assert (x: &keyitm? >> keyitm): void
+//
+  extern
+  prfun
+  __assert
+    (x: &keyitm? >> keyitm): void
+  // end of [prfun]
   prval () = __assert (x)
-  val () = x.0 := $UN.cast{key} (null)
+//
+  val () = x.0 := $UN.cast{key}(null)
   prval () = Opt_some (x)
+//
 } (* end of [keyitem_nullify] *)
 //
 implement
 keyitem_isnot_null<keyitm>
   (x) = b where {
-  extern prfun __assert1 (x: &Opt(keyitm) >> keyitm): void
+//
+  extern
+  prfun
+  __assert1
+    (x: &Opt(keyitm) >> keyitm): void
   prval () = __assert1 (x)
-  val b = $UN.cast{ptr} (x.0) <> null
+//
+  val b = $UN.cast{ptr}(x.0) <> null
   val [b:bool] b = bool1_of_bool (b)
-  extern prfun __assert2 (x: &keyitm >> opt (keyitm, b)): void
+//
+  extern
+  prfun
+  __assert2
+    (x: &keyitm >> opt (keyitm, b)): void
   prval () = __assert2 (x)
+//
 } (* end of [keyitem_isnot_null] *)
 //
-val hash0 = $UN.cast{hash(key)} (null)
-val eqfn0 = $UN.cast{eqfn(key)} (null)
+val hash0 = $UN.cast{hash(key)}(null)
+val eqfn0 = $UN.cast{eqfn(key)}(null)
 //
 implement
-hash_key<key> (x, _) = string_hash_33 (decode(x))
+hash_key<key>
+  (x, _) = string_hash_33 (decode(x))
+//
 implement
 equal_key_key<key>
-  (x1, x2, _) = compare (decode(x1), decode(x2)) = 0
-(* end of [equal_key_key] *)
+  (x1, x2, _) = compare(decode(x1), decode(x2)) = 0
 //
-val [l:addr] ptbl = hashtbl_make_hint<key,itm> (hash0, eqfn0, HASHTBLSZ)
+val [l:addr] ptbl =
+  hashtbl_make_hint<key,itm> (hash0, eqfn0, HASHTBLSZ)
 //
 fun insert (
   ptbl: !HASHTBLptr (key, itm, l)
@@ -320,6 +339,7 @@ fun insert (
   val _ = hashtbl_insert<key,itm> (ptbl, k, i, res)
   prval () = opt_clear (res)
 } // end of [insert]
+//
 macdef ins (k, i) = insert (ptbl, ,(k), ,(i))
 //
 val () = ins ("@", T_AT)
@@ -332,23 +352,31 @@ val () = ins (".", T_DOT)
 val () = ins ("=", T_EQ)
 val () = ins ("#", T_HASH)
 val () = ins ("~", T_TILDE)
+//
 val () = ins ("..", T_DOTDOT)
 val () = ins ("...", T_DOTDOTDOT)
+//
 val () = ins ("=>", T_EQGT)
 val () = ins ("=<", T_EQLT)
 val () = ins ("=<>", T_EQLTGT)
 val () = ins ("=/=>", T_EQSLASHEQGT)
 val () = ins ("=>>", T_EQGTGT)
 val () = ins ("=/=>>", T_EQSLASHEQGTGT)
+//
 val () = ins ("<", T_LT) // opening a tmparg
 val () = ins (">", T_GT) // closing a tmparg
+//
 val () = ins ("><", T_GTLT)
+//
 val () = ins (".<", T_DOTLT)
 val () = ins (">.", T_GTDOT)
+//
 val () = ins (".<>.", T_DOTLTGTDOT)
+//
 val () = ins ("->", T_MINUSGT)
 val () = ins ("-<", T_MINUSLT)
 val () = ins ("-<>", T_MINUSLTGT)
+//
 (*
 val () = ins (":<", T_COLONLT)
 *)
@@ -362,9 +390,12 @@ val () = ins ("absviewtype", ABSVIEWTYPE)
 val () = ins ("absvt0ype", ABSVIEWT0YPE)
 val () = ins ("absviewt0ype", ABSVIEWT0YPE)
 //
-val () = ins ("and", T_AND)
 val () = ins ("as", T_AS)
+//
+val () = ins ("and", T_AND)
+//
 val () = ins ("assume", T_ASSUME)
+//
 val () = ins ("begin", T_BEGIN)
 //
 (*
@@ -372,6 +403,7 @@ val () = ins ("case", CASE)
 *)
 //
 val () = ins ("classdec", T_CLASSDEC)
+//
 val () = ins ("datasort", T_DATASORT)
 //
 val () = ins ("datatype", DATATYPE)
@@ -381,13 +413,14 @@ val () = ins ("datavtype", DATAVIEWTYPE)
 val () = ins ("dataviewtype", DATAVIEWTYPE)
 //
 val () = ins ("do", T_DO)
-val () = ins ("dynload", T_DYNLOAD)
-val () = ins ("else", T_ELSE)
+//
 val () = ins ("end", T_END)
-val () = ins ("exception", T_EXCEPTION)
+//
 val () = ins ("extern", T_EXTERN)
 val () = ins ("extype", T_EXTYPE)
 val () = ins ("extvar", T_EXTVAR)
+//
+val () = ins ("exception", T_EXCEPTION)
 //
 val () = ins ("fn", FN) // non-recursive
 val () = ins ("fnx", FNX) // mutual tail-rec.
@@ -400,6 +433,9 @@ val () = ins ("praxi", PRAXI)
 val () = ins ("castfn", CASTFN)
 //
 val () = ins ("if", T_IF)
+val () = ins ("then", T_THEN)
+val () = ins ("else", T_ELSE)
+//
 val () = ins ("in", T_IN)
 //
 val () = ins ("infix", INFIX)
@@ -431,13 +467,18 @@ val () = ins ("macrodef", MACRODEF)
 //
 val () = ins ("nonfix", T_NONFIX)
 //
+val () = ins ("symelim", T_SYMELIM)
+val () = ins ("symintr", T_SYMINTR)
 val () = ins ("overload", T_OVERLOAD)
 //
 val () = ins ("of", T_OF)
 val () = ins ("op", T_OP)
+//
 val () = ins ("rec", T_REC)
-val () = ins ("scase", T_SCASE)
+//
 val () = ins ("sif", T_SIF)
+val () = ins ("scase", T_SCASE)
+//
 val () = ins ("sortdef", T_SORTDEF)
 (*
 // HX: [sta] is now deprecated
@@ -450,12 +491,9 @@ val () = ins ("static", T_STATIC)
 val () = ins ("stavar", T_STAVAR)
 *)
 val () = ins ("require", T_REQUIRE)
+//
 val () = ins ("staload", T_STALOAD)
-//
-val () = ins ("symelim", T_SYMELIM)
-val () = ins ("symintr", T_SYMINTR)
-//
-val () = ins ("then", T_THEN)
+val () = ins ("dynload", T_DYNLOAD)
 //
 val () = ins ("try", T_TRY)
 //
@@ -496,6 +534,9 @@ val () = ins ("withviewtype", WITHVIEWTYPE)
 //
 val () = ins ("$arrpsz", T_DLRARRPSZ)
 val () = ins ("$arrptrsize", T_DLRARRPSZ)
+//
+val () = ins ("$assert", T_DLRASSERT)
+val () = ins ("$assert_prop", T_DLRASSERT_PROP)
 //
 val () = ins ("$delay", DLRDELAY)
 val () = ins ("$ldelay", DLRLDELAY)
@@ -555,25 +596,34 @@ val () = ins ("$vcopyenv_vt", DLRVCOPYENV_VT)
 //
 val () = ins ("$tempenver", T_DLRTEMPENVER)
 //
-val () = ins ("#assert", T_SRPASSERT)
-val () = ins ("#define", T_SRPDEFINE)
-val () = ins ("#elif", T_SRPELIF)
-val () = ins ("#elifdef", T_SRPELIFDEF)
-val () = ins ("#elifndef", T_SRPELIFNDEF)
-val () = ins ("#else", T_SRPELSE)
-val () = ins ("#endif", T_SRPENDIF)
-val () = ins ("#error", T_SRPERROR)
 val () = ins ("#if", T_SRPIF)
 val () = ins ("#ifdef", T_SRPIFDEF)
 val () = ins ("#ifndef", T_SRPIFNDEF)
-val () = ins ("#include", T_SRPINCLUDE)
-val () = ins ("#print", T_SRPPRINT)
+//
 val () = ins ("#then", T_SRPTHEN)
+//
+val () = ins ("#elif", T_SRPELIF)
+val () = ins ("#elifdef", T_SRPELIFDEF)
+val () = ins ("#elifndef", T_SRPELIFNDEF)
+//
+val () = ins ("#else", T_SRPELSE)
+val () = ins ("#endif", T_SRPENDIF)
+//
+val () = ins ("#print", T_SRPPRINT)
+//
+val () = ins ("#error", T_SRPERROR)
+//
+val () = ins ("#assert", T_SRPASSERT)
+//
+val () = ins ("#define", T_SRPDEFINE)
+//
+val () = ins ("#include", T_SRPINCLUDE)
+//
 val () = ins ("#undef", T_SRPUNDEF)
 //
 // HX: end of special tokens
 //
-val rtbl = HASHTBLref_make_ptr {key,itm} (ptbl)
+val rtbl = HASHTBLref_make_ptr{key,itm}(ptbl)
 //
 in (* in of [local] *)
 //
@@ -581,9 +631,13 @@ implement
 tnode_search (x) = let
 //
 var res: itm?
-val (fptbl | ptbl) = HASHTBLref_takeout_ptr (rtbl)
+//
+val (fptbl | ptbl) =
+  HASHTBLref_takeout_ptr (rtbl)
+//
 val b = hashtbl_search<key,itm> (ptbl, encode(x), res)
-prval () = fptbl (ptbl)
+//
+prval ((*addback*)) = fptbl (ptbl)
 //
 in
 //
