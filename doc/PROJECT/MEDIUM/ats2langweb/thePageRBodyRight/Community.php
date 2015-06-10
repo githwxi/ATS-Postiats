@@ -14,6 +14,14 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+ATS-2015-06-06:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/-blGURRstqc"
+>ATS+Z3: ATS-extsolve-z3</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-05-22:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/Q54YTXt8u1g"
@@ -135,6 +143,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-01-20:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/zFpSIr2lwxA"
@@ -150,8 +160,6 @@ ATS-2015-01-15:<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-01-06:<br>
 <a
