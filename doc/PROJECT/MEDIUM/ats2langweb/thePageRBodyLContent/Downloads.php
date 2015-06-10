@@ -19,12 +19,12 @@ released packages of ATS2 are available at the following links:
 <ul>
 <li>
 The current <em>stable</em> release of ATS2 is at
-<a href="http://sourceforge.net/projects/ats2-lang/download">ATS2-0.1.13</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/download">ATS2-0.2.0</a>.
 </li>
 
 <li>
 The current <em>pre-stable</em> release of ATS2 is at
-<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-0.2.0.tgz">ATS2-0.2.0</a>
+<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-0.2.1.tgz">ATS2-0.2.1</a>
 </li>
 <li>
 The current <em>pre-stable</em> release of ATS2-intmin is at
