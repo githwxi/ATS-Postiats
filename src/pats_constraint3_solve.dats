@@ -416,7 +416,7 @@ prerr_c3nstr_if
 in
 //
 case+ c3tk of
-| C3NSTRKmain() =>
+| C3TKmain((*void*)) =>
   (
     if unsolved = 0u
       then let
@@ -430,7 +430,7 @@ case+ c3tk of
       else 0 // this errmsg has already been reported
     // end of [if]
   ) (* end of [C3STRKmain] *)
-| C3NSTRKcase_exhaustiveness
+| C3TKcase_exhaustiveness
     (casknd, p2tcs) => let
     val () =
     prerr_case_exhaustiveness_errmsg (loc0, casknd, p2tcs)
@@ -439,9 +439,9 @@ case+ c3tk of
     | CK_case () => 1 (*warning*)
     | CK_case_pos () => 0 (*error*)
     | CK_case_neg () => 0 (*deadcode*)
-  end // end of [C3NSTRKcase_exhaustiveness]
+  end // end of [C3TKcase_exhaustiveness]
 //
-| C3NSTRKtermet_isnat
+| C3TKtermet_isnat
     () => 0 where {
     val () =
     prerr_error3_loc (loc0)
@@ -452,8 +452,8 @@ case+ c3tk of
     val () =
     prerr_c3nstr_if (unsolved, c3t)
     val () = prerr_newline ((*void*))
-  } // end of [C3NSTRKtermet_isnat]
-| C3NSTRKtermet_isdec
+  } // end of [C3TKtermet_isnat]
+| C3TKtermet_isdec
     () => 0 where {
     val () = prerr_error3_loc (loc0)
     val () = prerr
@@ -465,51 +465,66 @@ case+ c3tk of
     val () = prerr_newline ((*void*))
   } // end of [C3STRKmetric_dec]
 //
-| C3NSTRKsome_fin _ =>
+| C3TKsome_fin _ =>
     (0) where {
     val () = prerr_error3_loc (loc0)
     val ((*void*)) =
       prerrln! ": unsolved constraint for var preservation"
-  } (* end of [C3NSTRKsome_fin] *)
-| C3NSTRKsome_lvar _ =>
+  } (* end of [C3TKsome_fin] *)
+| C3TKsome_lvar _ =>
     (0) where {
     val () = prerr_error3_loc (loc0)
     val ((*void*)) =
       prerrln! ": unsolved constraint for lvar preservation"
-  } (* end of [C3NSTRKsome_lvar] *)
-| C3NSTRKsome_vbox _ =>
+  } (* end of [C3TKsome_lvar] *)
+| C3TKsome_vbox _ =>
     (0) where {
     val () = prerr_error3_loc (loc0)
     val ((*void*)) = 
       prerrln! ": unsolved constraint for vbox preservation"
-  } (* end of [C3NSTRKsome_vbox] *)
+  } (* end of [C3TKsome_vbox] *)
 //
-| C3NSTRKlstate
+| C3TKlstate
     () => 0 where {
     val () =
     prerr_error3_loc (loc0)
     val () = prerrln! ": unsolved constraint for lstate merging"
-  } // end of [C3NSTRKlstate]
-| C3NSTRKlstate_var
+  } // end of [C3TKlstate]
+| C3TKlstate_var
     (d2v) => 0 where {
     val () =
     prerr_error3_loc (loc0)
     val () =
     prerrln! (": unsolved constraint for merging the lstate of [", d2v, "]")
-  } // end of [C3NSTRKlstate_var]
+  } // end of [C3TKlstate_var]
 //
-| C3NSTRKloop
-    (knd) => 0 where {
+| C3TKloop(knd) =>
+    (0) where {
     val () =
     prerr_error3_loc (loc0)
     val () =
     if knd < 0 then prerr ": unsolved constraint for loop(enter)"
     val () =
-    if knd = 0 then prerr ": unsolved constraint for loop(exit)"
+    if knd = 0 then prerr ": unsolved constraint for loop(break)"
     val () =
     if knd > 0 then prerr ": unsolved constraint for loop(continue)"
     val () = prerr_newline ((*void*))
-  } // end of [C3STRKloop]
+  } (* end of [C3TKloop] *)
+//
+| C3TKsolver(knd) =>
+    (0) where {
+    val () =
+    prerr_error3_loc (loc0)
+    val () =
+    if knd = 0
+      then prerr ": assertion for external constraint-solving"
+    // end of [if]
+    val () =
+    if knd = 1
+      then prerr ": verification for external constraint-solving"
+    // end of [if]
+    val () = prerr_newline ((*void*))
+  } (* end of [C3TKsolver] *)
 //
 end // end of [c3nstr_solve_errmsg]
 
@@ -530,7 +545,8 @@ println! ("c3nstr_solve_main: c3t = ", c3t)
 //
 *)
 //
-var status: int = (
+var
+status: int = (
 //
 // ~1: solved; 0: unsolved
 //
@@ -543,6 +559,8 @@ of // case+
 | C3NSTRitmlst s3is =>
     c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
   // end of [C3NSTRitmlst]
+//
+| C3NSTRsolver(knd, s2e) => 0(*unasserted/unverified*)
 //
 ) : int // end of [val]
 //

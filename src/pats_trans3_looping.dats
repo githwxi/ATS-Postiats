@@ -257,9 +257,10 @@ case+ opt of
       val () =
         if ~(iseq) then let
 //
-        val (pfpush | ()) = trans3_env_push ()
+        val
+        (pfpush|()) = trans3_env_push()
         val err = $SOL.s2exp_tyleq_solve (loc, s2e, s2e2)
-        val ctrknd = C3NSTRKlstate_var (d2v)
+        val ctrknd = C3TKlstate_var (d2v)
         val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
 //
       in
@@ -363,12 +364,18 @@ end (* end of [auxitmlst] *)
 val sub =
   stasub_make_svarlst (loc, i2nv.loopi2nv_svs)
 val s2ps = s2explst_subst_vt (sub, i2nv.loopi2nv_gua)
-val (pfpush | ()) = trans3_env_push ()
+//
+val
+(pfpush | ()) = trans3_env_push ()
+//
 val () = trans3_env_add_proplst_vt (loc, s2ps)
-val () = auxitmlst (loc, sub, i2nv.loopi2nv_arg, lsbis)
-val ctrknd = C3NSTRKloop(~1(*enter*))
-val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
-val () = stasub_free (sub)
+val () = auxitmlst(loc, sub, i2nv.loopi2nv_arg, lsbis)
+//
+val ctrknd = C3TKloop(~1(*entering*))
+//
+val ((*void*)) = trans3_env_pop_and_add (pfpush | loc, ctrknd)
+//
+val ((*freed*)) = stasub_free (sub)
 //
 in
   // nothing
@@ -489,15 +496,24 @@ case+ xs of
 end (* end of [auxitmlst] *)
 //
 val r2es = i2nv.loopi2nv_res
-val sub =
-  stasub_make_svarlst (loc, r2es.i2nvresstate_svs)
+val s2vs = r2es.i2nvresstate_svs
+//
+val sub = stasub_make_svarlst(loc, s2vs)
+//
 val lsbis2 = the_d2varenv_save_lstbefitmlst ()
-val (pfpush | ()) = trans3_env_push ()
-val () = auxitmlst
+//
+val
+(pfpush | ()) = trans3_env_push ()
+//
+val () =
+auxitmlst
   (loc, i2nv, lsbis, sub, r2es.i2nvresstate_arg, lsbis2)
-val ctrknd = C3NSTRKloop(0(*break*))
-val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
-val () = stasub_free (sub)
+//
+val ctrknd = C3TKloop(0(*breaking*))
+//
+val ((*void*)) = trans3_env_pop_and_add (pfpush | loc, ctrknd)
+//
+val ((*freed*)) = stasub_free (sub)
 //
 in
   // nothing
@@ -599,13 +615,22 @@ val post = (
 val sub =
   stasub_make_svarlst (loc, i2nv.loopi2nv_svs)
 val lsbis2 = the_d2varenv_save_lstbefitmlst ()
-val (pfpush | ()) = trans3_env_push ()
-val () = auxMetCK (loc, sub, i2nv.loopi2nv_met)
-val () = auxitmlst
+//
+val
+(pfpush | ()) = trans3_env_push ()
+//
+val () =
+auxMetCK (loc, sub, i2nv.loopi2nv_met)
+val () =
+auxitmlst
   (loc, lsbis, sub, i2nv.loopi2nv_arg, lsbis2)
-val ctrknd = C3NSTRKloop(1(*continue*))
-val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
-val () = stasub_free (sub)
+//
+val ctrknd = C3TKloop(1(*continue*))
+//
+val ((*void*)) =
+  trans3_env_pop_and_add (pfpush | loc, ctrknd)
+//
+val ((*freed*)) = stasub_free (sub)
 //
 in
   post(*d3expopt*)
@@ -614,7 +639,8 @@ end // end of [auxContinue]
 in (* in of [local] *)
 
 implement
-d2exp_trup_loop (
+d2exp_trup_loop
+(
   loc0, i2nv, init, test, post, body
 ) = let
 //

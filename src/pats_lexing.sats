@@ -185,9 +185,6 @@ token_node =
 //
   | T_DLRARRPSZ of () // $arrpsz // $arrptrsize
 //
-  | T_DLRASSERT of () // $assert
-  | T_DLRASSERT_PROP of () // $assert_prop
-//
   | T_DLRDELAY of (int(*lin*)) // $delay(type)/$ldelay(vtype)
 //
   | T_DLREFFMASK of () // $effmask
@@ -223,29 +220,38 @@ token_node =
 //
   | T_DLRTEMPENVER of () // $tempenver // for adding environvar
 //
-  | T_SRPASSERT of () // #assert
-  | T_SRPDEFINE of () // #define
+  | T_DLRSOLASSERT of () // $solver_assert // assert(d2e_prf)
+  | T_DLRSOLVERIFY of () // $solver_verify // verify(s2e_prop)
+//
+  | T_SRPIF of () // #if
+  | T_SRPIFDEF of () // #ifdef
+  | T_SRPIFNDEF of () // #ifndef
+//
+  | T_SRPTHEN of () // #then
+//
   | T_SRPELIF of () // #elif
   | T_SRPELIFDEF of () // #elifdef
   | T_SRPELIFNDEF of () // #elifndef
   | T_SRPELSE of () // #else
+//
   | T_SRPENDIF of () // #endif
+//
   | T_SRPERROR of () // #error
-  | T_SRPIF of () // #if
-  | T_SRPIFDEF of () // #ifdef
-  | T_SRPIFNDEF of () // #ifndef
-  | T_SRPINCLUDE of () // #include
   | T_SRPPRINT of () // #print
-  | T_SRPTHEN of () // #then
+//
+  | T_SRPASSERT of () // #assert
+  | T_SRPDEFINE of () // #define
+  | T_SRPINCLUDE of () // #include
+//
   | T_SRPUNDEF of () // #undef
 //
-  | T_IDENT_alp of string
-  | T_IDENT_sym of string
-  | T_IDENT_arr of string
-  | T_IDENT_tmp of string
-  | T_IDENT_dlr of string
-  | T_IDENT_srp of string
-  | T_IDENT_ext of string
+  | T_IDENT_alp of string // alnum
+  | T_IDENT_sym of string // symbol
+  | T_IDENT_arr of string // A[...]
+  | T_IDENT_tmp of string // A<...>
+  | T_IDENT_dlr of string // $alnum
+  | T_IDENT_srp of string // #alnum
+  | T_IDENT_ext of string // alnum!
 //
   | T_INT of (
       int(*base*), string(*rep*), uint(*suffix*)
@@ -294,18 +300,22 @@ token_node =
   | T_ERR of () // for errors
 //
   | T_EOF of () // end-of-file
-// end of [token_node]
+//
+(* end of [token_node] *)
 
-typedef token = '{
+typedef
+token = '{
   token_loc= location, token_node= token_node
 } (* end of [token] *)
 
 typedef tokenopt = Option (token)
 
 (* ****** ****** *)
-
+//
 typedef
 tnode = token_node
+//
+(* ****** ****** *)
 
 val ABSTYPE : tnode
 val ABST0YPE : tnode

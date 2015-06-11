@@ -535,9 +535,6 @@ val () = ins ("withviewtype", WITHVIEWTYPE)
 val () = ins ("$arrpsz", T_DLRARRPSZ)
 val () = ins ("$arrptrsize", T_DLRARRPSZ)
 //
-val () = ins ("$assert", T_DLRASSERT)
-val () = ins ("$assert_prop", T_DLRASSERT_PROP)
-//
 val () = ins ("$delay", DLRDELAY)
 val () = ins ("$ldelay", DLRLDELAY)
 //
@@ -595,6 +592,9 @@ val () = ins ("$vcopyenv_v", DLRVCOPYENV_V)
 val () = ins ("$vcopyenv_vt", DLRVCOPYENV_VT)
 //
 val () = ins ("$tempenver", T_DLRTEMPENVER)
+//
+val () = ins ("$solver_assert", T_DLRSOLASSERT)
+val () = ins ("$solver_verify", T_DLRSOLVERIFY)
 //
 val () = ins ("#if", T_SRPIF)
 val () = ins ("#ifdef", T_SRPIFDEF)

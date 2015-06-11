@@ -1112,7 +1112,19 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
-| _ => prstr "D0E(...)"
+| D0Esolassert(d0e) => {
+    val () = prstr "D0Esolassert("
+    val () = fprint_d0exp (out, d0e)
+    val () = prstr ")"
+  }
+//
+| D0Esolverify(s0e) => {
+    val () = prstr "D0Esolverify("
+    val () = fprint_s0exp (out, s0e)
+    val () = prstr ")"
+  }
+//
+| _ (* rest-of-D0E *) => prstr "D0E(...)"
 //
 end // end of [fprint_d0exp]
 

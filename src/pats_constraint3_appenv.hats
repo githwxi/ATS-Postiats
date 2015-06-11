@@ -147,13 +147,18 @@ end // end of [h3ypo_app]
 implement
 c3nstr_app
   (c3t0, env) = let
+(*
+val () =
+println! ("c3nstr_app: c3t0 = ", c3t0)
+*)
 in
 //
 case+
 c3t0.c3nstr_node of
 //
-| C3NSTRprop (s2e) => s2exp_app (s2e, env)
-| C3NSTRitmlst (s3is) => s3itmlst_app (s3is, env)
+| C3NSTRprop(s2e) => s2exp_app (s2e, env)
+| C3NSTRitmlst(s3is) => s3itmlst_app (s3is, env)
+| C3NSTRsolver(knd, s2e) => s2exp_app (s2e, env)
 //
 end // end of [c3nstr_app]
 

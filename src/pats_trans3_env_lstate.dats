@@ -649,19 +649,24 @@ fun auxsait
 in
 //
 case+ sait0 of
-| Some (s2e0) => (
+| Some(s2e0) => (
   case+ sait of
-  | Some (s2e) => (
+  | Some(s2e) => (
     case+ 0 of
     | _ when knd >= 1 => let
-        val s2e0 = (
-          if knd >= 2 then s2exp_subst (sub, s2e0) else s2e0
+        val
+        s2e0 = (
+          if knd >= 2
+            then s2exp_subst (sub, s2e0) else s2e0
+          // end of [if]
         ) : s2exp // end of [val]
 //
-        val (pfpush | ()) = trans3_env_push ()
+        val
+        (pfpush|()) =
+        trans3_env_push()
         val err = $SOL.s2exp_tyleq_solve (loc, s2e, s2e0)
-        val knd = C3NSTRKlstate_var (d2v)
-        val () = trans3_env_pop_and_add (pfpush | loc, knd)
+        val knd = C3TKlstate_var (d2v)
+        val ((*void*)) = trans3_env_pop_and_add (pfpush | loc, knd)
 //
         val () =
         if (err > 0) then {
@@ -671,19 +676,15 @@ case+ sait0 of
       in
         // nothing
       end
-    | _ (*0*) => ()
+    | _ (* knd = 0 *) => ()
     ) // end of [Some]
-  | None () =>
-      auxerr_some (loc, d2v, s2e0)
-    // end of [None]
+  | None ((*void*)) => auxerr_some (loc, d2v, s2e0)
   )
-| None () => (
-  case+ sait of
-  | Some (s2e) =>
-      auxerr_none (loc, d2v, s2e)
-    // end of [Some]
-  | None () => ()
-  )
+| None((*void*)) =>
+  (
+    case+ sait of
+    | Some(s2e) => auxerr_none (loc, d2v, s2e) | None() => ()
+  ) (* end of [None] *)
 //
 end // end of [auxsait]
 
@@ -723,13 +724,16 @@ case+ ctrs of
     val sub =
       stasub_make_svarlst (ctrloc, invres.i2nvresstate_svs)
     val s2ps = s2explst_subst_vt (sub, invres.i2nvresstate_gua)
-    val (pfpush | ()) = trans3_env_push ()
+//
+    val
+    (pfpush|()) = trans3_env_push()
+//
     val () = trans3_env_add_proplst_vt (ctrloc, s2ps)
     val () = auxmain (xs, ctr, sub)
 //
     val s3is = trans3_env_pop (pfpush | (*none*))
     val c3t0 =
-      c3nstr_itmlst (ctrloc, C3NSTRKlstate(), (l2l)s3is)
+      c3nstr_itmlst (ctrloc, C3TKlstate(), (l2l)s3is)
     val () = let
       val ref = ctr.c3nstroptref_ref in !ref := Some (c3t0)
     end // end of [val]
@@ -738,7 +742,8 @@ case+ ctrs of
   in
     auxmainlst (xs, ctrs, invres)
   end // end of [list_vt_cons]
-| ~list_vt_nil () => ()
+//
+| ~list_vt_nil((*void*)) => ()
 //
 end // end of [auxmainlst]
 
@@ -748,17 +753,23 @@ implement
 lstaftc3nstr_process
   (lsaft, invres) = let
 //
-val () = lstaftc3nstr_check (lsaft, invres)
+val () =
+  lstaftc3nstr_check (lsaft, invres)
+//
 (*
 val () = print "lstaftc3nstr_process:\n"
 val () = fprint_lstaftc3nstr (stdout_ref, lsaft)
 *)
-val LSTAFTC3NSTR
+//
+val
+LSTAFTC3NSTR
   (!p_lsais, !p_ctrs) = lsaft
+//
 val ctrs = !p_ctrs
 val () = !p_ctrs := list_vt_nil ()
 val () = auxmainlst (!p_lsais, ctrs, invres)
-val () = fold@ (lsaft)
+//
+prval ((*void*)) = fold@ (lsaft)
 //
 in
   // nothing

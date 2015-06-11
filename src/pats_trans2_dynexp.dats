@@ -1879,9 +1879,6 @@ d1e0.d1exp_node of
     d2exp_trywith (loc0, r2es, d2e, c2ls)
   end // end of [D1Etrywith]
 //
-| D1Emacsyn _ => d1exp_tr_macsyn (d1e0)
-| D1Emacfun _ => d1exp_tr_macfun (d1e0)
-//
 | D1Eann_type
     (d1e, s1e) => let
     val d2e = d1exp_tr (d1e)
@@ -1902,6 +1899,14 @@ d1e0.d1exp_node of
   in
     d2exp_ann_funclo (loc0, d2e, funclo)
   end // end of [D1Eann_funclo]
+//
+| D1Esolassert(d1e) =>
+    d2exp_solassert(loc0, d1exp_tr(d1e))
+| D1Esolverify(s1e) =>
+    d2exp_solverify(loc0, s1exp_trdn(s1e, s2rt_prop))
+//
+| D1Emacsyn _ => d1exp_tr_macsyn (d1e0)
+| D1Emacfun _ => d1exp_tr_macfun (d1e0)
 //
 | D1Eerrexp () => d2exp_errexp (loc0)
 //

@@ -811,20 +811,6 @@ d1exp_trywith
 // end of [d1exp_trywith]
 
 (* ****** ****** *)
-
-implement
-d1exp_macsyn
-  (loc, knd, d1e) =
-  d1exp_make (loc, D1Emacsyn (knd, d1e))
-// end of [d1exp_macsyn]
-
-implement
-d1exp_macfun
-  (loc, name, d1es) =
-  d1exp_make (loc, D1Emacfun (name, d1es))
-// end of [d1exp_macfun]
-
-(* ****** ****** *)
 //
 implement
 d1exp_ann_type
@@ -847,9 +833,29 @@ d1exp_ann_funclo_opt
 // end of [d1exp_ann_funclo_opt]
 //
 (* ****** ****** *)
+//
+implement
+d1exp_solassert
+  (loc, d1e) = d1exp_make(loc, D1Esolassert(d1e))
+//
+implement
+d1exp_solverify
+  (loc, s1e) = d1exp_make(loc, D1Esolverify(s1e))
+//
+(* ****** ****** *)
+//
+implement
+d1exp_macsyn
+  (loc, knd, d1e) = d1exp_make (loc, D1Emacsyn(knd, d1e))
+//
+implement
+d1exp_macfun
+  (loc, name, d1es) = d1exp_make (loc, D1Emacfun(name, d1es))
+//
+(* ****** ****** *)
 
 implement
-d1exp_errexp (loc) = d1exp_make (loc, D1Eerrexp ())
+d1exp_errexp (loc) = d1exp_make (loc, D1Eerrexp())
 
 (* ****** ****** *)
 

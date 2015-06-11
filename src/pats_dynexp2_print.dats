@@ -796,26 +796,6 @@ d2e0.d2exp_node of
     val () = prstr ")"
   } // end of [D2Etrywith]
 //
-| D2Emac (d2m) => {
-    val () = prstr "D2Emac("
-    val () = fprint_d2mac (out, d2m)
-    val () = prstr ")"
-  }
-| D2Emacsyn (knd, d2e) => {
-    val () = prstr "D2Emacsyn("
-    val () = fprint_macsynkind (out, knd)
-    val () = prstr "; "
-    val () = fprint_d2exp (out, d2e)
-    val () = prstr ")"
-  } // end of [D2Emacsyn]
-| D2Emacfun (name, d2es) => {
-    val () = prstr "D2Emacfun("
-    val () = fprint_symbol (out, name)
-    val () = prstr "; "
-    val () = fprint_d2explst (out, d2es)
-    val () = prstr ")"
-  } // end of [D2Emacfun]
-//
 | D2Eann_type
     (d2e, s2f) => {
     val () = prstr "D2Eann_type("
@@ -840,6 +820,39 @@ d2e0.d2exp_node of
     val () = fprint_funclo (out, funclo)
     val () = prstr ")"
   } // end of [D2Eann_funclo]
+//
+| D2Esolassert
+    (d2e_prf) => {
+    val () = prstr "D2Esolassert("
+    val () = fprint_d2exp(out, d2e_prf)
+    val () = prstr ")"
+  }
+| D2Esolverify
+    (s2e_prop) => {
+    val () = prstr "D2Esolverify("
+    val () = fprint_s2exp(out, s2e_prop)
+    val () = prstr ")"
+  }
+//
+| D2Emac (d2m) => {
+    val () = prstr "D2Emac("
+    val () = fprint_d2mac (out, d2m)
+    val () = prstr ")"
+  }
+| D2Emacsyn (knd, d2e) => {
+    val () = prstr "D2Emacsyn("
+    val () = fprint_macsynkind (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Emacsyn]
+| D2Emacfun (name, d2es) => {
+    val () = prstr "D2Emacfun("
+    val () = fprint_symbol (out, name)
+    val () = prstr "; "
+    val () = fprint_d2explst (out, d2es)
+    val () = prstr ")"
+  } // end of [D2Emacfun]
 //
 | D2Eerrexp ((*void*)) => prstr "D2Eerr()"
 //

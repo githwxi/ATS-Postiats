@@ -652,10 +652,6 @@ d2e0.d2exp_node of
 | D2Eptrof (d2lval) => d2exp_app (d2lval, env)
 | D2Eviewat (d2lval) => d2exp_app (d2lval, env)
 //
-| D2Emac (d2mac) => ()
-| D2Emacsyn (knd, d2e) => d2exp_app (d2e, env)
-| D2Emacfun (name, d2es) => d2explst_app (d2es, env)
-//
 | D2Eann_type (d2e, s2e_ann) =>
   (
     d2exp_app (d2e, env); s2exp_app (s2e_ann, env)
@@ -768,6 +764,13 @@ d2e0.d2exp_node of
   (
     d2exp_app (d2e, env); c2laulst_app (c2ls, env)
   )
+//
+| D2Esolverify(s2e) => ()
+| D2Esolassert(d2e) => d2exp_app (d2e, env)
+//
+| D2Emac (d2mac) => ()
+| D2Emacsyn (knd, d2e) => d2exp_app (d2e, env)
+| D2Emacfun (name, d2es) => d2explst_app (d2es, env)
 //
 | D2Eerrexp ((*void*)) => ()
 //

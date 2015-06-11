@@ -408,41 +408,54 @@ case+ d2e0.d2exp_node of
   ) => let
 //
     var s2i_asz : s2exp
+//
     val nxs = list_length (d2es)
-    val d3e_asz : d3exp =
+//
+    val d3e_asz =
     (
       case+ opt of
-      | None () =>
+//
+      | None((*void*)) =>
           d3e_asz where
         {
-          val () = s2i_asz := s2exp_int (nxs)
-          val s2e_asz = s2exp_int_index_t0ype (s2i_asz)
-          val d3e_asz = d3exp_int (loc0, s2e_asz, nxs)
+          val () =
+            (s2i_asz := s2exp_int(nxs))
+          val s2e_asz =
+            s2exp_int_index_t0ype(s2i_asz)
+          val d3e_asz =
+            d3exp_int (loc0, s2e_asz, nxs)
         } (* end of [None] *)
+//
       | Some (d2e_asz) =>
           d3e_asz where
         {
-          val d3e_asz = d2exp_trup (d2e_asz)
-          val s2e_asz = d3exp_get_type (d3e_asz)
-          val s2f_asz = s2exp2hnf (s2e_asz)
+          val d3e_asz = d2exp_trup(d2e_asz)
+          val s2e_asz = d3exp_get_type(d3e_asz)
           val () = let
-            val opt = un_s2exp_g1size_index_t0ype (s2f_asz)
+            val s2f = s2exp2hnf (s2e_asz)
+            val opt =
+              un_s2exp_g1size_index_t0ype(s2f)
+            // end of [val]
           in
             case+ opt of
-            | ~Some_vt (s2i) => s2i_asz := s2i
-            | ~None_vt ((*void*)) => s2i_asz := s2exp_err (s2rt_int)
+            | ~Some_vt(s2i) => (s2i_asz := s2i)
+            | ~None_vt((*void*)) =>
+                let val s2i = s2exp_err(s2rt_int) in s2i_asz := s2i end
+              // end of [None_vt]
           end // end of [let] // end of [val]
         } (* end of [Some] *)
-    ) (* end of [val d3e_asz] *)
 //
-    val s2e_elt = (
+    ) : d3exp (* end of [val d3e_asz] *)
+//
+    val s2e_elt =
+    (
       case+ d2es of
       | list_cons _ => s2e_elt
       | list_nil () => s2exp_top (0(*knd*), s2e_elt)
-    ) : s2exp // end of [val]
+    ) : s2exp (* end of [val] *)
     val d3es = d2explst_trdn_elt (d2es, s2e_elt)
 //
-    val s2e_tyarr = s2exp_tyarr (s2e_elt, list_sing (s2i_asz))
+    val s2e_tyarr = s2exp_tyarr (s2e_elt, list_sing(s2i_asz))
 //
   in
     d3exp_arrinit (loc0, s2e_tyarr, s2e_elt, d3e_asz, d3es)
@@ -450,10 +463,12 @@ case+ d2e0.d2exp_node of
 //
 | D2Eraise
     (d2e_exn) => let
-    val err = the_effenv_check_exn (loc0)
+    val err =
+      the_effenv_check_exn (loc0)
+    // end of [val]
     val () =
     if (err > 0) then
-      the_trans3errlst_add (T3E_d2exp_trup_exn (loc0))
+      the_trans3errlst_add (T3E_d2exp_trup_exn(loc0))
     // end of [if] // end of [val]
     val s2e_exn = s2exp_exception_vtype ()
     val d3e_exn = d2exp_trdn (d2e_exn, s2e_exn)

@@ -1219,20 +1219,23 @@ dcstextdef_sta (sym) =
   DCSTEXTDEFsome_sta ($SYM.symbol_get_name (sym))
 
 (* ****** ****** *)
-
+//
 implement
-dcstextdef_is_ext (x) = (
+dcstextdef_is_ext(x) =
+(
   case+ x of DCSTEXTDEFsome_ext _ => true | _ => false
 ) // end of [dcstextdef_is_ext]
 implement
-dcstextdef_is_mac (x) = (
+dcstextdef_is_mac(x) =
+(
   case+ x of DCSTEXTDEFsome_mac _ => true | _ => false
 ) // end of [dcstextdef_is_mac]
 implement
-dcstextdef_is_sta (x) = (
+dcstextdef_is_sta(x) =
+(
   case+ x of DCSTEXTDEFsome_sta _ => true | _ => false
 ) // end of [dcstextdef_is_sta]
-
+//
 (* ****** ****** *)
 
 implement
@@ -2277,6 +2280,33 @@ in '{
 
 (* ****** ****** *)
 
+implement
+d0exp_ann (d0e, s0e) = let
+  val loc = d0e.d0exp_loc + s0e.s0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eann (d0e, s0e)
+} end // end of [d0exp_ann]
+
+(* ****** ****** *)
+
+implement
+d0exp_solassert
+  (tok, ent2) = let
+  val loc = tok.token_loc + ent2.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Esolassert(ent2)
+} end // end of [d0exp_solassert]
+
+implement
+d0exp_solverify
+  (tok, ent2) = let
+  val loc = tok.token_loc + ent2.s0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Esolverify(ent2)
+} end // end of [d0exp_solverify]
+
+(* ****** ****** *)
+
 local
 
 fun
@@ -2314,15 +2344,6 @@ in
 end // end of [d0exp_macsyn_encode_seq]
 
 end // end of [local]
-
-(* ****** ****** *)
-
-implement
-d0exp_ann (d0e, s0e) = let
-  val loc = d0e.d0exp_loc + s0e.s0exp_loc
-in '{
-  d0exp_loc= loc, d0exp_node= D0Eann (d0e, s0e)
-} end // end of [d0exp_ann]
 
 (* ****** ****** *)
 

@@ -152,8 +152,8 @@ fprint_token
 //
   | T_DLRARRPSZ () => fprintf (out, "DLRARRPSZ()", @())
 //
-  | T_DLRASSERT () => fprintf (out, "DLRASSERT()", @())
-  | T_DLRASSERT_PROP () => fprintf (out, "DLRASSERT_PROP()", @())
+  | T_DLRSOLASSERT () => fprintf (out, "DLRSOLASSERT()", @())
+  | T_DLRSOLVERIFY () => fprintf (out, "DLRSOLVERIFY()", @())
 //
   | T_DLRDELAY (x) => fprintf (out, "DLRDELAY(%i)", @(x))
 //

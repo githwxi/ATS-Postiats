@@ -574,7 +574,7 @@ in
 //
 case+ d2vfin of
 //
-| D2VFINnone () => let
+| D2VFINnone() => let
     val islin = s2exp_is_lin2 (s2e)
     val () = if islin then auxerr2 (loc0, d2v, s2e)
     val linval = d2var_get_linval (d2v)
@@ -582,45 +582,57 @@ case+ d2vfin of
     if linval >= 0 then d2var_set_type (d2v, None ())
   end // end of [D2VFINnone]
 //
-| D2VFINsome (s2e_fin) => let
-    val (pfpush | ()) = trans3_env_push ()
+| D2VFINsome
+    (s2e_fin) => let
+    val
+    (pfpush | ()) = trans3_env_push()
     val err = $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_fin)
     val () = if err > 0 then auxerr1 (loc0, d2v, s2e, s2e_fin)
-    val knd = C3NSTRKsome_fin (d2v, s2e_fin, s2e)
-    val () = trans3_env_pop_and_add (pfpush | loc0, knd)
+    val knd = C3TKsome_fin (d2v, s2e_fin, s2e)
+    val ((*void*)) = trans3_env_pop_and_add (pfpush | loc0, knd)
   in
     d2var_set_type (d2v, Some s2e_fin)
   end // end of [D2VFINsome_lvar]
 //
-| D2VFINsome_lvar (s2e_fin) => let
-    val (pfpush | ()) = trans3_env_push ()
+| D2VFINsome_lvar
+    (s2e_fin) => let
+//
+    val
+    (pfpush | ()) = trans3_env_push()
 //
     val s2e = (
-      case+ s2e.s2exp_node of
-      | S2Eat (s2at, s2l) => let
+      case+
+      s2e.s2exp_node
+      of // case+
+      | S2Eat(s2at, s2l) => let
           val isnonlin = s2exp_is_nonlin (s2at)
         in
           if isnonlin then s2exp_at (s2exp_topize_0 (s2at), s2l) else s2e
         end // end of [S2Eat]
-      | _ => let
+      | _ (* non-S2Eat *) => let
           val () = assertloc (false) in s2e // HX: this should be deadcode!
         end // end of [_]
     ) : s2exp // end of [val]
 //
-    val err = $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_fin)
+    val err =
+    $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_fin)
     val () = if err > 0 then auxerr1 (loc0, d2v, s2e, s2e_fin)
-    val knd = C3NSTRKsome_lvar (d2v, s2e_fin, s2e)
-    val () = trans3_env_pop_and_add (pfpush | loc0, knd)
+    val knd = C3TKsome_lvar (d2v, s2e_fin, s2e)
+    val ((*void*)) = trans3_env_pop_and_add (pfpush | loc0, knd)
+//
   in
     d2var_set_type (d2v, Some (s2e_fin))
   end // end of [D2VFINsome_lvar]
 //
-| D2VFINsome_vbox (s2e_box) => let
-    val (pfpush | ()) = trans3_env_push ()
-    val err = $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_box)
+| D2VFINsome_vbox
+    (s2e_box) => let
+    val
+    (pfpush | ()) = trans3_env_push ()
+    val err =
+    $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_box)
     val () = if err > 0 then auxerr1 (loc0, d2v, s2e, s2e_box)
-    val knd = C3NSTRKsome_vbox (d2v, s2e_box, s2e)
-    val () = trans3_env_pop_and_add (pfpush | loc0, knd)
+    val knd = C3TKsome_vbox (d2v, s2e_box, s2e)
+    val ((*void*)) = trans3_env_pop_and_add (pfpush | loc0, knd)
   in
     d2var_set_type (d2v, Some (s2e_box))
   end // end of [D2VFINsome_vbox]

@@ -1193,6 +1193,8 @@ d0exp0 ::=
 | $vcopyenv_v d0exp
 | $vcopyenv_vt d0exp
 | $tempenver d0exp
+| $solassert d0exp
+| $solverify s0exp
 *)
 fun
 p_d0exp0
@@ -1234,14 +1236,14 @@ of // case+
     | Some s0e => d0exp_ann (d0e, s0e) | None () => d0e
   end
 //
-| T_DLRBREAK () => let
+| T_DLRBREAK() => let
     val () = incby1 () in d0exp_loopexn (0(*knd*), tok)
   end // end of [T_DLRBREAK]
-| T_DLRCONTINUE () => let
+| T_DLRCONTINUE() => let
     val () = incby1 () in d0exp_loopexn (1(*knd*), tok)
   end // end of [T_DLRCONTINUE]
 //
-| T_DLRSHOWTYPE () => let
+| T_DLRSHOWTYPE() => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_d0exp0 (buf, bt, err)
@@ -1251,32 +1253,55 @@ of // case+
     (* end of [if] *)
   end
 //
-| T_DLRVCOPYENV (knd) => let
+| T_DLRVCOPYENV(knd) => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_d0exp0 (buf, bt, err)
   in
-    if err = err0 then
-      d0exp_vcopyenv (knd, tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    if err = err0
+      then d0exp_vcopyenv (knd, tok, ent2)
+      else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
 //
-| T_DLRTEMPENVER () => let
+| T_DLRTEMPENVER() => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_d0exp0 (buf, bt, err)
   in
-    if err = err0 then
-      d0exp_tempenver (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    if err = err0
+      then d0exp_tempenver (tok, ent2)
+      else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
 //
-| _ => let
+| T_DLRSOLASSERT() => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_atmd0exp (buf, bt, err)
+  in
+    if err = err0
+      then d0exp_solassert (tok, ent2)
+      else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
+  end
+| T_DLRSOLVERIFY() => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_atms0exp (buf, bt, err)
+  in
+    if err = err0
+      then d0exp_solverify (tok, ent2)
+      else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
+  end
+//
+| _ (* rest-of-d0exp0 *) => let
     val tok =
-      tokbuf_get_token (buf)
+      tokbuf_get_token(buf)
     val loc = tok.token_loc
-    val () = err := err + 1
-    val () = the_parerrlst_add_ifnbt (bt, loc, PE_d0exp0)
+    val ((*void*)) = err := err + 1
+    val ((*void*)) = the_parerrlst_add_ifnbt (bt, loc, PE_d0exp0)
   in
     synent_null ()
   end

@@ -110,8 +110,8 @@ implement
 c3nstr_prop
   (loc, s2e) = '{
   c3nstr_loc= loc
-, c3nstr_kind= C3NSTRKmain
-, c3nstr_node= C3NSTRprop (s2e)
+, c3nstr_kind= C3TKmain()
+, c3nstr_node= C3NSTRprop(s2e)
 } // end of [c3nstr_prop]
 
 implement
@@ -128,7 +128,7 @@ c3nstr_case_exhaustiveness
   val p2tcs = list_vt_copy (p2tcs)
 in '{
   c3nstr_loc= loc
-, c3nstr_kind= C3NSTRKcase_exhaustiveness (casknd, (l2l)p2tcs)
+, c3nstr_kind= C3TKcase_exhaustiveness (casknd, (l2l)p2tcs)
 , c3nstr_node= C3NSTRprop (s2exp_bool (false))
 } end // end of [c3nstr_case_exhaustiveness]
 
@@ -136,7 +136,7 @@ implement
 c3nstr_termet_isnat
   (loc, s2e) = '{
   c3nstr_loc= loc
-, c3nstr_kind= C3NSTRKtermet_isnat
+, c3nstr_kind= C3TKtermet_isnat
 , c3nstr_node=
     C3NSTRprop (s2exp_intgte (s2e, s2exp_int(0)))
   // end of [c3str_node]
@@ -146,7 +146,7 @@ implement
 c3nstr_termet_isdec
   (loc, met, met_bound) = '{
   c3nstr_loc= loc
-, c3nstr_kind= C3NSTRKtermet_isdec
+, c3nstr_kind= C3TKtermet_isdec
 , c3nstr_node=
     C3NSTRprop (s2exp_metdec (met, met_bound))
   // end of [c3str_node]
@@ -1706,7 +1706,7 @@ end // end of [trans3_env_pop_and_add]
 implement
 trans3_env_pop_and_add_main
   (pf | loc) =
-  trans3_env_pop_and_add (pf | loc, C3NSTRKmain)
+  trans3_env_pop_and_add (pf | loc, C3TKmain())
 // end of [trans3_env_pop_and_add_main]
 
 implement
@@ -2042,15 +2042,16 @@ val s3is = the_s3itmlst_env_pop ()
 val s3is = list_of_list_vt{s3itm}(s3is)
 //
 (*
-val (
-) = fprintln!
+val () =
+fprintln!
 (
-  stdout_ref, "trans3_finget_constraint: s3is = ", s3is
+  stdout_ref
+, "trans3_finget_constraint: s3is = ", s3is
 ) (* end of [val] *)
 *)
 //
 in
-  c3nstr_itmlst ($LOC.location_dummy, C3NSTRKmain, s3is)
+  c3nstr_itmlst ($LOC.location_dummy, C3TKmain(), s3is)
 end // end of [the_trans3_finget_constraint]
 
 (* ****** ****** *)

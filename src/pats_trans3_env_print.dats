@@ -52,21 +52,39 @@ macdef prstr (x) = fprint_string (out, ,(x))
 //
 in
 //
-case+ c3t.c3nstr_node of
-| C3NSTRprop s2p => {
-    val () = prstr "C3NSTRprop("
+case+
+c3t.c3nstr_node
+of // case+
+| C3NSTRprop
+    (s2p) => {
+    val () =
+      prstr "C3NSTRprop("
     val () = fprint_c3nstrkind (out, c3t.c3nstr_kind)
     val () = prstr "; "
     val () = fpprint_s2exp (out, s2p)
-    val () = prstr ")"
-  } // end of [C3NSTRprop]
-| C3NSTRitmlst s3is => {
-    val () = prstr "C3NSTRitmlst("
+    val ((*closing*)) = prstr ")"
+  } (* end of [C3NSTRprop] *)
+| C3NSTRitmlst
+    (s3is) => {
+    val () =
+      prstr "C3NSTRitmlst("
     val () = fprint_c3nstrkind (out, c3t.c3nstr_kind)
     val () = prstr "; "
     val () = fprint_s3itmlst (out, s3is)
-    val () = prstr ")"
-  } // end of [C3NSTRitmlst]
+    val ((*closing*)) = prstr ")"
+  } (* end of [C3NSTRitmlst] *)
+//
+| C3NSTRsolver
+    (knd, s2e) => {
+    val () =
+      prstr "C3NSTRsolver("
+    // end of [val]
+    val () =
+    (
+      fprint_int (out, knd); prstr "; "; fprint_s2exp (out, s2e)
+    ) (* end of [val] *)
+    val ((*closing*)) = prstr ")"
+  } (* end of [C3NSTRsolver] *)
 //
 end // end of [fprint_c3nstr]
 
@@ -86,26 +104,32 @@ macdef prstr (x) = fprint_string (out, ,(x))
 in
 //
 case+ knd of
-| C3NSTRKmain () => prstr "main"
-| C3NSTRKcase_exhaustiveness _ =>
+| C3TKmain () => prstr "main"
+| C3TKcase_exhaustiveness _ =>
     prstr "case_exhaustiveness(...)"
 //
-| C3NSTRKtermet_isnat () => prstr "termet_isnat"
-| C3NSTRKtermet_isdec () => prstr "termet_isdec"
+| C3TKtermet_isnat () => prstr "termet_isnat"
+| C3TKtermet_isdec () => prstr "termet_isdec"
 //
-| C3NSTRKsome_fin _ => prstr "some_fin"
-| C3NSTRKsome_lvar _ => prstr "some_lvar"
-| C3NSTRKsome_vbox _ => prstr "some_vbox"
+| C3TKsome_fin _ => prstr "some_fin"
+| C3TKsome_lvar _ => prstr "some_lvar"
+| C3TKsome_vbox _ => prstr "some_vbox"
 //
-| C3NSTRKlstate ((*void*)) => prstr "lstate"
-| C3NSTRKlstate_var (d2v) =>
+| C3TKlstate ((*void*)) => prstr "lstate"
+| C3TKlstate_var (d2v) =>
   (
     prstr "lstate("; fprint_d2var (out, d2v); prstr ")"
-  ) (* end of [C3NSTRKlstate_var] *)
+  ) (* end of [C3TKlstate_var] *)
 //
-| C3NSTRKloop (knd) => (
+| C3TKloop (knd) =>
+  (
     prstr "loop("; fprint_int (out, knd); prstr ")"
-  ) (* end of [C3NSTRKloop] *)
+  ) (* end of [C3TKloop] *)
+//
+| C3TKsolver(knd) =>
+  (
+    prstr "solver("; fprint_int (out, knd); prstr ")"
+  )
 //
 end // end of [fprint_c3nstrkind]
 

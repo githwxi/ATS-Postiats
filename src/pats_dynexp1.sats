@@ -424,12 +424,15 @@ and d1exp_node =
 //
   | D1Etrywith of (i1nvresstate, d1exp, c1laulst)
 //
-  | D1Emacsyn of (macsynkind, d1exp) // macro syntax
-  | D1Emacfun of (symbol(*name*), d1explst) // built-in macfun
-//
   | D1Eann_type of (d1exp, s1exp) // ascribed dynexp
   | D1Eann_effc of (d1exp, effcst) // ascribed with effects
   | D1Eann_funclo of (d1exp, funclo) // ascribed with funtype
+//
+  | D1Esolassert of (d1exp) // $solver_assert(d1e_prf)
+  | D1Esolverify of (s1exp) // $solver_verify(s1e_prop)
+//
+  | D1Emacsyn of (macsynkind, d1exp) // macro syntax
+  | D1Emacfun of (symbol(*name*), d1explst) // built-in macfun
 //
   | D1Eerrexp of () // HX: placeholder for indicating an error
 // end of [d1exp_node]
@@ -805,17 +808,7 @@ fun d1exp_while (
 fun d1exp_loopexn (loc: location, knd: int): d1exp
 
 (* ****** ****** *)
-
-fun d1exp_macsyn
-  (loc: location, knd: macsynkind, d1e: d1exp): d1exp
-// end of [d1exp_macsyn]
-
-fun d1exp_macfun
-  (loc: location, name: symbol, d1es: d1explst): d1exp
-// end of [d1exp_macfun]
-
-(* ****** ****** *)
-
+//
 fun d1exp_ann_type
   (loc: location, d1e: d1exp, s1e: s1exp): d1exp
 fun d1exp_ann_effc
@@ -824,6 +817,23 @@ fun d1exp_ann_funclo
   (loc: location, d1e: d1exp, fc: funclo): d1exp
 fun d1exp_ann_funclo_opt
   (loc: location, d1e: d1exp, fc: funclo): d1exp
+//
+(* ****** ****** *)
+//
+fun
+d1exp_solassert (loc: location, d1e: d1exp): d1exp
+fun
+d1exp_solverify (loc: location, s1e: s1exp): d1exp
+//
+(* ****** ****** *)
+
+fun d1exp_macsyn
+  (loc: location, knd: macsynkind, d1e: d1exp): d1exp
+// end of [d1exp_macsyn]
+
+fun d1exp_macfun
+  (loc: location, name: symbol, d1es: d1explst): d1exp
+// end of [d1exp_macfun]
 
 (* ****** ****** *)
 

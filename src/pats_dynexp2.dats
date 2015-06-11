@@ -825,26 +825,6 @@ d2exp_trywith (
 (* ****** ****** *)
 
 implement
-d2exp_mac
-  (loc, d2m) =
-  d2exp_make_node (loc, D2Emac (d2m))
-// end of [d2exp_mac]
-
-implement
-d2exp_macsyn
-  (loc, knd, d2e) =
-  d2exp_make_node (loc, D2Emacsyn (knd, d2e))
-// end of [d2exp_macsyn]
-
-implement
-d2exp_macfun
-  (loc, name, d2es) =
-  d2exp_make_node (loc, D2Emacfun (name, d2es))
-// end of [d2exp_macfun]
-
-(* ****** ****** *)
-
-implement
 d2exp_ann_type
   (loc, d2e, s2e) =
   d2exp_make_node (loc, D2Eann_type (d2e, s2e))
@@ -861,6 +841,37 @@ d2exp_ann_funclo
   (loc, d2e, fc) =
   d2exp_make_node (loc, D2Eann_funclo (d2e, fc))
 // end of [d2exp_ann_funclo]
+
+(* ****** ****** *)
+//
+implement
+d2exp_solassert
+  (loc, d2e_prf) =
+  d2exp_make_node(loc, D2Esolassert(d2e_prf))
+implement
+d2exp_solverify
+  (loc, s2e_prop) =
+  d2exp_make_node(loc, D2Esolverify(s2e_prop))
+//
+(* ****** ****** *)
+
+implement
+d2exp_mac
+  (loc, d2m) =
+  d2exp_make_node (loc, D2Emac (d2m))
+// end of [d2exp_mac]
+
+implement
+d2exp_macsyn
+  (loc, knd, d2e) =
+  d2exp_make_node (loc, D2Emacsyn (knd, d2e))
+// end of [d2exp_macsyn]
+
+implement
+d2exp_macfun
+  (loc, name, d2es) =
+  d2exp_make_node (loc, D2Emacfun (name, d2es))
+// end of [d2exp_macfun]
 
 (* ****** ****** *)
 

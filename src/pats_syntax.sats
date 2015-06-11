@@ -1434,6 +1434,8 @@ and d0exp_node =
 //
   | D0Eexist of (location(*qua*), s0exparg, d0exp) // existential sum
 //
+  | D0Eann of (d0exp, s0exp) // type-ascribed dynamic expressions
+//
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
   | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
 //
@@ -1450,7 +1452,8 @@ and d0exp_node =
 //
   | D0Etrywith of (tryhead, d0exp, c0laulst) (* try-expression *)
 //
-  | D0Eann of (d0exp, s0exp) // type-ascribed dynamic expressions
+  | D0Esolassert of (d0exp) // $solver_assert(d0e_prf)
+  | D0Esolverify of (s0exp) // $solver_verify(s0e_prop)
 //
   | D0Emacsyn of (macsynkind, d0exp) // macro syntax // HX: not yet in use
 //
@@ -1827,6 +1830,10 @@ fun d0exp_exist (
 
 (* ****** ****** *)
 
+fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
+
+(* ****** ****** *)
+
 fun
 d0exp_lam
 (
@@ -1877,6 +1884,11 @@ fun d0exp_trywith_seq (
 ) : d0exp // end of [d0exp_trywith_seq]
 
 (* ****** ****** *)
+//
+fun d0exp_solassert (tok: token, d0e: d0exp): d0exp
+fun d0exp_solverify (tok: token, s0e: s0exp): d0exp
+//
+(* ****** ****** *)
 
 fun d0exp_macsyn_decode
   (t_beg: token, _: d0exp, t_end: token): d0exp
@@ -1889,10 +1901,6 @@ fun d0exp_macsyn_encode_seq
 fun d0exp_macsyn_cross
   (t_beg: token, _: d0exp, t_end: token): d0exp
 // end of [d0exp_macsyn_cross]
-
-(* ****** ****** *)
-
-fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
 
 (* ****** ****** *)
 

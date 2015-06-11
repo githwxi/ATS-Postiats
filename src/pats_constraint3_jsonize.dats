@@ -94,57 +94,62 @@ in
 //
 case+ knd of
 //
-| C3NSTRKmain () =>
-    jsonval_conarg0 ("C3NSTRKmain")
+| C3TKmain () =>
+    jsonval_conarg0 ("C3TKmain")
 //
-| C3NSTRKcase_exhaustiveness
+| C3TKcase_exhaustiveness
     (knd, p2tcss) => let
     val knd = jsonize_caskind (knd)
     val p2tcss = jsonize_ignored (p2tcss)
   in
     jsonval_conarg2
-      ("C3NSTRKcase_exhaustiveness", knd, p2tcss)
+      ("C3TKcase_exhaustiveness", knd, p2tcss)
     // end of [jsonval_conarg2]
-  end // end of [C3NSTRKcase_exhaustiveness]
+  end // end of [C3TKcase_exhaustiveness]
 //
-| C3NSTRKtermet_isnat () =>
-    jsonval_conarg0 ("C3NSTRKtermet_isnat")
-| C3NSTRKtermet_isdec () =>
-    jsonval_conarg0 ("C3NSTRKtermet_isdec")
+| C3TKtermet_isnat () =>
+    jsonval_conarg0 ("C3TKtermet_isnat")
+| C3TKtermet_isdec () =>
+    jsonval_conarg0 ("C3TKtermet_isdec")
 //
-| C3NSTRKsome_fin
+| C3TKsome_fin
     (d2v, s2e1, s2e2) => let
     val d2v = jsonize_d2var (d2v)
     val s2e1 = jsonize1_s2exp (s2e1)
     val s2e2 = jsonize1_s2exp (s2e2)
   in
-    jsonval_conarg3 ("C3NSTRKsome_fin", d2v, s2e1, s2e2)
-  end // end of [C3NSTRKsome_fin]
-| C3NSTRKsome_lvar
+    jsonval_conarg3 ("C3TKsome_fin", d2v, s2e1, s2e2)
+  end // end of [C3TKsome_fin]
+| C3TKsome_lvar
     (d2v, s2e1, s2e2) => let
     val d2v = jsonize_d2var (d2v)
     val s2e1 = jsonize1_s2exp (s2e1)
     val s2e2 = jsonize1_s2exp (s2e2)
   in
-    jsonval_conarg3 ("C3NSTRKsome_lvar", d2v, s2e1, s2e2)
-  end // end of [C3NSTRKsome_lvar]
-| C3NSTRKsome_vbox
+    jsonval_conarg3 ("C3TKsome_lvar", d2v, s2e1, s2e2)
+  end // end of [C3TKsome_lvar]
+| C3TKsome_vbox
     (d2v, s2e1, s2e2) => let
     val d2v = jsonize_d2var (d2v)
     val s2e1 = jsonize1_s2exp (s2e1)
     val s2e2 = jsonize1_s2exp (s2e2)
   in
-    jsonval_conarg3 ("C3NSTRKsome_vbox", d2v, s2e1, s2e2)
-  end // end of [C3NSTRKsome_vbox]
+    jsonval_conarg3 ("C3TKsome_vbox", d2v, s2e1, s2e2)
+  end // end of [C3TKsome_vbox]
 //
-| C3NSTRKlstate () =>
-    jsonval_conarg0 ("C3NSTRKlstate")
-| C3NSTRKlstate_var (d2v) =>
-    jsonval_conarg1 ("C3NSTRKlstate_var", jsonize_d2var (d2v))
-  // end of [C3NSTRKlstate_var]
+| C3TKlstate () =>
+    jsonval_conarg0 ("C3TKlstate")
+| C3TKlstate_var (d2v) =>
+    jsonval_conarg1 ("C3TKlstate_var", jsonize_d2var (d2v))
+  // end of [C3TKlstate_var]
 //
-| C3NSTRKloop (knd) =>
-    jsonval_conarg1 ("C3NSTRKlloop", jsonval_int (knd))
+| C3TKloop (knd) =>
+    jsonval_conarg1 ("C3TKloop", jsonval_int (knd))
+  // end of [C3TKloop]
+//
+| C3TKsolver (knd) =>
+    jsonval_conarg1 ("C3TKsolver", jsonval_int (knd))
+  // end of [C3TKsolver]
 //
 end // end of [jsonize_c3nstrkind]
 
@@ -278,13 +283,20 @@ in
 case+
 c3t0.c3nstr_node of
 //
-| C3NSTRprop (s2e) =>
+| C3NSTRprop(s2e) =>
     jsonval_conarg1 ("C3NSTRprop", jsonize1_s2exp (s2e))
   // end of [C3NSTRprop]
 //
-| C3NSTRitmlst (s3is) =>
+| C3NSTRitmlst(s3is) =>
     jsonval_conarg1 ("C3NSTRitmlst", jsonize_s3itmlst (s3is))
   // end of [C3NSTRitmlst]
+//
+| C3NSTRsolver(knd, s2e) => let
+    val knd = jsonval_int(knd)
+    val s2e_prop = jsonize1_s2exp(s2e)
+  in
+    jsonval_conarg2 ("C3NSTRitmlst", knd, s2e_prop)
+  end // end of [C3NSTRsolver]
 //
 end // end of [auxmain]
 //

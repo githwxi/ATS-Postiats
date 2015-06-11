@@ -80,22 +80,24 @@ filenv_get_d3eclistopt (fenv: filenv): d3eclistopt
 datatype
 c3nstrkind =
 //
-  | C3NSTRKmain of () // generic
+  | C3TKmain of () // generic
 //
-  | C3NSTRKcase_exhaustiveness of
+  | C3TKcase_exhaustiveness of
       (caskind (*case/case+*), p2atcstlst) // no [case-]
 //
-  | C3NSTRKtermet_isnat of () // term. metric welfounded
-  | C3NSTRKtermet_isdec of () // term. metric decreasing
+  | C3TKtermet_isnat of () // term. metric welfounded
+  | C3TKtermet_isdec of () // term. metric decreasing
 //
-  | C3NSTRKsome_fin of (d2var, s2exp(*fin*), s2exp)
-  | C3NSTRKsome_lvar of (d2var, s2exp(*lvar*), s2exp)
-  | C3NSTRKsome_vbox of (d2var, s2exp(*vbox*), s2exp)
+  | C3TKsome_fin of (d2var, s2exp(*fin*), s2exp)
+  | C3TKsome_lvar of (d2var, s2exp(*lvar*), s2exp)
+  | C3TKsome_vbox of (d2var, s2exp(*vbox*), s2exp)
 //
-  | C3NSTRKlstate of () // lstate merge
-  | C3NSTRKlstate_var of (d2var) // lstate merge for d2var
+  | C3TKlstate of () // lstate merge
+  | C3TKlstate_var of (d2var) // lstate merge for d2var
 //
-  | C3NSTRKloop of (int) // HX: ~1/0/1: enter/break/continue
+  | C3TKloop of (int) // HX: ~1/0/1: enter/break/continue
+//
+  | C3TKsolver of (int) // HX-2015-06: 0/1: assert/verify
 // end of [c3nstrkind]
 
 datatype s3itm =
@@ -110,6 +112,7 @@ datatype s3itm =
 and c3nstr_node =
   | C3NSTRprop of s2exp
   | C3NSTRitmlst of s3itmlst
+  | C3NSTRsolver of (int(*knd*), s2exp)
 // end of [c3nstr_node]
 
 and h3ypo_node =
