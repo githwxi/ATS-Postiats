@@ -1809,73 +1809,94 @@ end // end of [local]
 implement
 s2hnf_absuni_and_add
   (loc0, s2f0) = let
-  val s2e0 = s2hnf2exp (s2f0)
+//
+val s2e0 = s2hnf2exp (s2f0)
+//
 (*
-  val () = begin
-    print "s2exp_absuni_and_add: before: s2e0 = "; print_s2exp s2e0;
-    print_newline ()
-  end // end of [val]
+//
+val () =
+println!
+  ("s2exp_absuni_and_add: before: s2e0 = ", s2e0)
+//
 *)
-  val s2es2vss2ps = s2exp_absuni (s2e0)
+val s2es2vss2ps = s2exp_absuni (s2e0)
+//
 (*
-  val () = begin
-    print "s2exp_absuni_and_add: after: s2e = "; print_s2exp s2es2vss2ps.0;
-    print_newline ()
-  end // end of [val]
+val () =
+println!
+  ("s2exp_absuni_and_add: after: s2e0 = ", s2es2vss2ps.0)
+//
 *)
-  val s2vs = s2es2vss2ps.1
-  val () = let
-    val s2vs =
-      $UN.castvwtp1 {s2varlst} (s2vs)
-    // end of [val]
-    val s2Vs = the_s2Varset_env_get ()
-    val () = s2varlst_set_sVarset (s2vs, s2Vs)
-    val () = trans3_env_add_svarlst (s2vs)
-  in
-    // nothing
-  end // end of [val]
-  val () = list_vt_free (s2vs)
-  val s2ps = s2es2vss2ps.2
-  val () = trans3_env_hypadd_proplst (loc0, $UN.castvwtp1 {s2explst} (s2ps))
-  val () = list_vt_free (s2ps)
+val s2vs = s2es2vss2ps.1
+//
+val () = let
+  val s2vs =
+    $UN.castvwtp1 {s2varlst} (s2vs)
+  // end of [val]
+  val s2Vs = the_s2Varset_env_get ()
+  val () = s2varlst_set_sVarset (s2vs, s2Vs)
+  val () = trans3_env_add_svarlst (s2vs)
+//
+in
+  // nothing
+end // end of [val]
+//
+val ((*freed*)) = list_vt_free (s2vs)
+//
+val s2ps = s2es2vss2ps.2
+val ((*added*)) =
+  trans3_env_hypadd_proplst(loc0, $UN.castvwtp1{s2explst}(s2ps))
+val ((*freed*)) = list_vt_free (s2ps)
+//
 in
   s2es2vss2ps.0
 end // end of [s2hnf_absuni_and_add]
 
+(* ****** ****** *)
+
 implement
 s2hnf_opnexi_and_add
   (loc0, s2f0) = let
-  val s2e0 = s2hnf2exp (s2f0)
+//
+val s2e0 = s2hnf2exp (s2f0)
+//
 (*
-  val () =
-  (
-    println! ("s2hnf_opnexi_and_add: before: s2e0 = ", s2e0);
-  ) // end of [val]
+val () =
+println!
+  ("s2hnf_opnexi_and_add: before: s2e0 = ", s2e0)
+//
 *)
-  val s2es2vss2ps = s2exp_opnexi (s2e0)
+val s2es2vss2ps = s2exp_opnexi (s2e0)
 (*
-  val () =
-  (
-    println! ("s2exp_opnexi_and_add: after: s2e = ", s2es2vss2ps.0);
-  ) // end of [val]
+val () =
+println!
+  ("s2exp_opnexi_and_add: after: s2e0 = ", s2es2vss2ps.0)
+//
 *)
-  val s2vs = s2es2vss2ps.1
-  val () = let
-    val s2vs =
-      $UN.castvwtp1{s2varlst}(s2vs)
-    // end of [val]
-    val s2Vs = the_s2Varset_env_get ()
-    val () = s2varlst_set_sVarset (s2vs, s2Vs)
-    val () = trans3_env_add_svarlst (s2vs)
-  in
-    // nothing
-  end // end of [val]
-  val () = list_vt_free (s2vs)
-  val s2ps = s2es2vss2ps.2
-  val () = trans3_env_hypadd_proplst_vt (loc0, s2ps)
+//
+val s2vs = s2es2vss2ps.1
+//
+val () = let
+  val s2vs =
+    $UN.castvwtp1{s2varlst}(s2vs)
+  // end of [val]
+  val s2Vs = the_s2Varset_env_get ()
+  val () = s2varlst_set_sVarset (s2vs, s2Vs)
+  val () = trans3_env_add_svarlst (s2vs)
+in
+  // nothing
+end // end of [val]
+//
+val ((*freed*)) = list_vt_free (s2vs)
+//
+val ((*added*)) =
+  trans3_env_hypadd_proplst_vt (loc0, s2es2vss2ps.2)
+//
 in
   s2es2vss2ps.0
 end // end of [s2hnf_opnexi_and_add]
+
+(* ****** ****** *)
 
 implement
 s2hnf_opn1exi_and_add
@@ -1928,12 +1949,15 @@ fun auxres
 ) : ws2elstopt =
 (
 case+
-s2e.s2exp_node of
+s2e.s2exp_node
+of // case+
+| S2Eexi
+    (_, _, s2e) => auxres (s2e)
+  // end of [S2Eexi]
 | S2Ewthtype
-    (_, ws2es) => Some_vt (ws2es)
+    (_, ws2es) => Some_vt(ws2es)
   // end of [S2Ewthtype]
-| S2Eexi (_, _, s2e) => auxres (s2e)
-| _ (*rest*) => None_vt ()
+| _ (*rest-of-S2E*) => None_vt ()
 ) (* end of [auxres] *)
 
 fun auxarg
@@ -1967,8 +1991,8 @@ case+ s2es of
       list_cons (s2e, auxarg (loc, s2es, ws2es))
   | WTHS2EXPLSTcons_none (ws2es) =>
       list_cons (s2e, auxarg (loc, s2es, ws2es))
-  | WTHS2EXPLSTnil () => list_nil ()
-  ) // end of [list_cons]
+  | WTHS2EXPLSTnil((*void*)) => list_nil((*void*))
+  ) (* end of [list_cons] *)
 //
 end // end of [auxarg]
 
@@ -1992,7 +2016,9 @@ end // end of [local]
 implement
 d2var_opnset_and_add
   (loc, d2v) = let
-  val opt = d2var_get_type (d2v)
+//
+val opt = d2var_get_type (d2v)
+//
 in
 //
 case+ opt of
@@ -2012,17 +2038,21 @@ implement
 un_s2exp_wthtype
   (loc, s2e) = let
 //
-  var s2e_res: s2exp = s2e
-  var wths2es: wths2explst = WTHS2EXPLSTnil ()
+var s2e_res: s2exp = s2e
+var wths2es: wths2explst = WTHS2EXPLSTnil ()
 //
-  val iswth = s2exp_is_wthtype (s2e)
-  val () = if iswth then let
-    val s2f = s2exp2hnf (s2e)
-    val s2e = s2hnf_opnexi_and_add (loc, s2f)
-    val-S2Ewthtype (s2e, wths2es1) = s2e.s2exp_node
-  in
-    s2e_res := s2e; wths2es := wths2es1
-  end : void // end of [val]
+val
+iswth = s2exp_is_wthtype (s2e)
+//
+val () =
+if iswth then let
+  val s2f = s2exp2hnf (s2e)
+  val s2e = s2hnf_opnexi_and_add (loc, s2f)
+  val-S2Ewthtype (s2e, wths2es1) = s2e.s2exp_node
+in
+  s2e_res := s2e; wths2es := wths2es1
+end : void // end of [val]
+//
 in
   (iswth, s2e_res, wths2es)
 end // end of [un_s2exp_wthtype]
@@ -2030,19 +2060,29 @@ end // end of [un_s2exp_wthtype]
 (* ****** ****** *)
 
 implement
-d3exp_open_and_add (d3e) = let
-  val s2e = d3e.d3exp_type
-  val s2f = s2exp2hnf (s2e)
+d3exp_open_and_add
+  (d3e) = let
+//
+val s2e = d3e.d3exp_type
+val s2f = s2exp2hnf (s2e)
+//
 (*
-  val () = (
-    print "d3exp_open_and_add: bef: s2e = "; print_s2exp (s2e); print_newline ()
-  ) // end of [val]
+//
+val () =
+println!
+  ("d3exp_open_and_add: bef: s2e = ", s2e)
+//
 *)
-  val s2e = s2hnf_opnexi_and_add (d3e.d3exp_loc, s2f)
+//
+val s2e =
+  s2hnf_opnexi_and_add (d3e.d3exp_loc, s2f)
+//
 (*
-  val () = (
-    print "d3exp_open_and_add: aft: s2e = "; print_s2exp (s2e); print_newline ()
-  ) // end of [val]
+//
+val () =
+println!
+  ("d3exp_open_and_add: aft: s2e = ", s2e)
+//
 *)
 in
   d3exp_set_type (d3e, s2e)
