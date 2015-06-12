@@ -344,6 +344,14 @@ c3nstr_solve_itmlst_disj
 , s3is: s3itmlst, s3iss: s3itmlstlst, unsolved: &uint, err: &int
 ) : int(*status*) // end of [c3nstr_solve_itmlst_disj]
 
+extern
+fun
+c3nstr_solve_solverify
+(
+  loc0: location, env: &s2vbcfenv, s2e_prop: s2exp, err: &int
+) : int(*status*)
+// end of [c3nstr_solve_solverify]
+
 (* ****** ****** *)
 
 extern
@@ -553,7 +561,8 @@ of // case+
     c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
   // end of [C3NSTRitmlst]
 //
-| C3NSTRsolverify(s2e_prop) => 0(*unasserted/unverified*)
+| C3NSTRsolverify(s2e_prop) => 
+    c3nstr_solve_solverify (loc0, env, s2e_prop, err)
 //
 ) : int // end of [val]
 //
@@ -739,6 +748,23 @@ end // end of [c3nstr_solve_itmlst_disj]
 (* ****** ****** *)
 
 implement
+c3nstr_solve_solverify
+  (loc0, env, s2e_prop, err) = let
+//
+(*
+val () =
+println!
+  ("c3nstr_solve_solverify: s2e_prop = ", s2e_prop)
+// end of [val]
+*)
+//
+in
+  0(*unsolved*)
+end // end of [c3nstr_solve_solverify]
+
+(* ****** ****** *)
+
+implement
 c3nstr_ats2_solve (c3t) = let
 (*
 //
@@ -764,9 +790,10 @@ case+ 0 of
 | _ when
     unsolved = 0u => let
 (*
-    val () = (
-      prerr "typechecking is finished successfully!"; prerr_newline ()
-    ) (* end of [val] *)
+    val () =
+    prerrln!
+      ("typechecking is finished successfully!")
+    // end of [val]
 *)
   in
     // nothing
@@ -782,8 +809,9 @@ case+ 0 of
     if unsolved >= 2u
       then prerr ": there are some unsolved constraints"
     // end of [if]
-    val () = (
-      prerrln! ": please inspect the above reported error message(s) for information."
+    val () =
+    prerrln! (
+      ": please inspect the above reported error message(s) for information."
     ) (* end of [val] *)
     val () = $ERR.abort{void}()
   } (* end of [_ when unsolved > 0] *)

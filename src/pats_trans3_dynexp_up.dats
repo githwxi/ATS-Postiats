@@ -2196,9 +2196,11 @@ val-
 D2Esolverify
   (s2e_prop) = d2e0.d2exp_node
 //
+(*
 val () =
 println!
   ("d2exp_trup: D2Esolverify: s2e_prop = ", s2e_prop)
+*)
 //
 val s2f_prop = s2exp_hnfize(s2e_prop)
 //

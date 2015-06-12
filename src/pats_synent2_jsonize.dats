@@ -472,6 +472,7 @@ case+ s2e0.s2exp_node of
     (knd, npf, ls2es) => let
     val knd =
       jsonize_tyreckind (knd)
+    // end of [val]
     val npf = jsonval_int (npf)
     val ls2es = jsonize_labs2explst (flag, ls2es)
   in
@@ -590,7 +591,7 @@ case+ ls2es of
   in
     list_cons (ls2e, auxlst (flag, ls2es))
   end // end of [list_cons]
-| list_nil ((*void*)) => list_nil ()
+| list_nil((*void*)) => list_nil ()
 //
 in
   JSONlist (auxlst (flag, ls2es))
