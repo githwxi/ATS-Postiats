@@ -195,6 +195,11 @@ array0_subcirculate
 
 (* ****** ****** *)
 //
+fun{a:vt0p}
+print_array0 (A: array0 (a)): void
+fun{a:vt0p}
+prerr_array0 (A: array0 (a)): void
+//
 (*
 fun{}
 fprint_array$sep (out: FILEref): void
@@ -303,6 +308,10 @@ a:vt0p}{res:vt0p
 //
 (* ****** ****** *)
 
+overload .size with array0_get_size
+
+(* ****** ****** *)
+
 overload [] with array0_get_at_gint
 overload [] with array0_get_at_guint
 overload [] with array0_set_at_gint
@@ -310,10 +319,8 @@ overload [] with array0_set_at_guint
 
 (* ****** ****** *)
 
-overload .size with array0_get_size
-
-(* ****** ****** *)
-
+overload print with print_array0
+overload prerr with print_array0
 overload fprint with fprint_array0
 overload fprint with fprint_array0_sep
 

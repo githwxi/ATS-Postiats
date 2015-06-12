@@ -131,7 +131,12 @@ overload matrix0_set_at with matrix0_set_at_int
 overload matrix0_set_at with matrix0_set_at_size
 //
 (* ****** ****** *)
-
+//
+fun{a:vt0p}
+print_matrix0 (M: matrix0 (a)): void
+fun{a:vt0p}
+prerr_matrix0 (M: matrix0 (a)): void
+//
 (*
 fprint_matrix$sep1 // col separation
 fprint_matrix$sep2 // row separation
@@ -189,6 +194,11 @@ res:vt0p}{a:vt0p
 //
 (* ****** ****** *)
 
+overload .nrow with matrix0_get_nrow
+overload .ncol with matrix0_get_ncol
+
+(* ****** ****** *)
+
 overload [] with matrix0_get_at_int of 0
 overload [] with matrix0_get_at_size of 0
 overload [] with matrix0_set_at_int of 0
@@ -196,11 +206,8 @@ overload [] with matrix0_set_at_size of 0
 
 (* ****** ****** *)
 
-overload .nrow with matrix0_get_nrow
-overload .ncol with matrix0_get_ncol
-
-(* ****** ****** *)
-
+overload print with print_matrix0
+overload prerr with print_matrix0
 overload fprint with fprint_matrix0
 overload fprint with fprint_matrix0_sep
 

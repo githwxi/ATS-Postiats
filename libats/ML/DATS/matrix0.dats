@@ -154,12 +154,27 @@ matrix0_set_at_size
 end // end of [matrix0_set_at_size]
 
 (* ****** ****** *)
-
+//
+implement
+{a}(*tmp*)
+print_matrix0 (A) =
+  fprint_matrix0<a> (stdout_ref, A)
+//
+implement
+{a}(*tmp*)
+prerr_matrix0 (A) =
+  fprint_matrix0<a> (stderr_ref, A)
+//
 implement
 {a}(*tmp*)
 fprint_matrix0 (out, M) =
-fprint_mtrxszref (out, mtrxszref_of_matrix0 (M))
-
+  fprint_mtrxszref (out, mtrxszref_of_matrix0(M))
+//
+implement
+{a}(*tmp*)
+fprint_matrix0_sep (out, M, sep1, sep2) =
+  fprint_mtrxszref_sep (out, mtrxszref_of_matrix0(M), sep1, sep2)
+//
 (* ****** ****** *)
 
 implement

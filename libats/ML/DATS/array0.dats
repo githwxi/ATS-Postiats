@@ -160,19 +160,27 @@ in
 end // end of [array0_make_subarray]
 
 (* ****** ****** *)
-
+//
+implement
+{a}(*tmp*)
+print_array0 (A) =
+  fprint_array0<a> (stdout_ref, A)
+//
+implement
+{a}(*tmp*)
+prerr_array0 (A) =
+  fprint_array0<a> (stderr_ref, A)
+//
 implement
 {a}(*tmp*)
 fprint_array0 (out, A) =
-  fprint_arrszref (out, arrszref_of_array0 (A))
-// end of [fprint_array0]
-
+  fprint_arrszref (out, arrszref_of_array0(A))
+//
 implement
 {a}(*tmp*)
 fprint_array0_sep (out, A, sep) =
-  fprint_arrszref_sep (out, arrszref_of_array0 (A), sep)
-// end of [fprint_array0_sep]
-
+  fprint_arrszref_sep (out, arrszref_of_array0(A), sep)
+//
 (* ****** ****** *)
 
 implement
