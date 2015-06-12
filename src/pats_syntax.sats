@@ -1452,12 +1452,12 @@ and d0exp_node =
 //
   | D0Etrywith of (tryhead, d0exp, c0laulst) (* try-expression *)
 //
+  | D0Emacsyn of (macsynkind, d0exp) // macro syntax // HX: not yet in use
+//
   | D0Esolassert of (d0exp) // $solver_assert(d0e_prf)
   | D0Esolverify of (s0exp) // $solver_verify(s0e_prop)
 //
-  | D0Emacsyn of (macsynkind, d0exp) // macro syntax // HX: not yet in use
-//
-// end of [d0exp_node]
+// end of [d0exp_node] // end of [datatype]
 
 (* ****** ****** *)
 

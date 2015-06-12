@@ -723,21 +723,21 @@ end // end of [d1exp_effmask_arg]
 implement
 d1exp_showtype
   (loc, d1e) =
-  d1exp_make (loc, D1Eshowtype (d1e))
+  d1exp_make (loc, D1Eshowtype(d1e))
 //
 (* ****** ****** *)
 //
 implement
 d1exp_vcopyenv
   (loc, knd, d1e) =
-  d1exp_make (loc, D1Evcopyenv (knd, d1e))
+  d1exp_make (loc, D1Evcopyenv(knd, d1e))
 //
 (* ****** ****** *)
 //
 implement
 d1exp_tempenver
   (loc, d1e) =
-  d1exp_make (loc, D1Etempenver (d1e))
+  d1exp_make (loc, D1Etempenver(d1e))
 //
 (* ****** ****** *)
 
@@ -752,48 +752,65 @@ d1exp_exist
 // end of [d1exp_exist]
 
 (* ****** ****** *)
-
+//
 implement
-d1exp_lam_dyn (loc, lin, p1t, d1e) =
-  d1exp_make (loc, D1Elam_dyn (lin, p1t, d1e))
-
+d1exp_lam_dyn
+  (loc, lin, p1t, d1e) =
+  d1exp_make (loc, D1Elam_dyn(lin, p1t, d1e))
+//
 implement
-d1exp_laminit_dyn (loc, lin, p1t, d1e) =
-  d1exp_make (loc, D1Elaminit_dyn (lin, p1t, d1e))
-
+d1exp_laminit_dyn
+  (loc, lin, p1t, d1e) =
+  d1exp_make (loc, D1Elaminit_dyn(lin, p1t, d1e))
+//
 implement
-d1exp_lam_met (loc, loc_arg, s1es, d1e) =
-  d1exp_make (loc, D1Elam_met (loc_arg, s1es, d1e))
-
+d1exp_lam_met
+  (loc, loc_arg, s1es, d1e) =
+  d1exp_make (loc, D1Elam_met(loc_arg, s1es, d1e))
+//
 implement
-d1exp_lam_sta_ana (loc, loc_arg, s1v, d1e) =
-  d1exp_make (loc, D1Elam_sta_ana (loc_arg, s1v, d1e))
-
+d1exp_lam_sta_ana
+  (loc, loc_arg, s1v, d1e) =
+  d1exp_make (loc, D1Elam_sta_ana(loc_arg, s1v, d1e))
+//
 implement
-d1exp_lam_sta_syn (loc, loc_arg, s1qs, d1e) =
-  d1exp_make (loc, D1Elam_sta_syn (loc_arg, s1qs, d1e))
-
-implement
-d1exp_fix (loc, knd, id, d1e) =
-  d1exp_make (loc, D1Efix (knd, id, d1e))
-
+d1exp_lam_sta_syn
+  (loc, loc_arg, s1qs, d1e) =
+  d1exp_make (loc, D1Elam_sta_syn(loc_arg, s1qs, d1e))
+//
 (* ****** ****** *)
-
+//
 implement
-d1exp_delay (loc, knd, d1e) =
-  d1exp_make (loc, D1Edelay (knd, d1e))
-
+d1exp_fix
+  (loc, knd, id, d1e) =
+  d1exp_make(loc, D1Efix(knd, id, d1e))
+//
+(* ****** ****** *)
+//
+implement
+d1exp_delay
+  (loc, knd, d1e_body) =
+  d1exp_make (loc, D1Edelay(knd, d1e_body))
+//
 (* ****** ****** *)
 
 implement
 d1exp_for
-  (loc, inv, ini, test, post, body) =
-  d1exp_make (loc, D1Efor (inv, ini, test, post, body))
-// end of [d1exp_for]
+(
+  loc, inv
+, ini, test, post, body
+) = (
+//
+d1exp_make
+  (loc, D1Efor(inv, ini, test, post, body))
+//
+) (* end of [d1exp_for] *)
 
 implement
 d1exp_while
-  (loc, inv, test, body) =
+(
+  loc, inv, test, body
+) =
   d1exp_make (loc, D1Ewhile (inv, test, body))
 // end of [d1exp_while]
 
@@ -819,18 +836,38 @@ d1exp_ann_type
 // end of [d1exp_ann_type]
 //
 implement
-d1exp_ann_effc (loc, d1e, efc) =
+d1exp_ann_effc
+  (loc, d1e, efc) =
   d1exp_make (loc, D1Eann_effc (d1e, efc))
 //
 implement
-d1exp_ann_funclo (loc, d1e, fc) =
-  d1exp_make (loc, D1Eann_funclo (d1e, fc))
+d1exp_ann_funclo
+  (loc, d1e, fc0) =
+  d1exp_make (loc, D1Eann_funclo (d1e, fc0))
 //
 implement
 d1exp_ann_funclo_opt
-  (loc, d1e, fc) = case+ d1e.d1exp_node of
-  | D1Eann_funclo _ => d1e | _ => d1exp_ann_funclo (loc, d1e, fc)
-// end of [d1exp_ann_funclo_opt]
+  (loc, d1e, fc0) = (
+//
+case+
+d1e.d1exp_node
+of // case+
+| D1Eann_funclo _ => d1e
+| _ (*non-D1Eann_funclo*) => d1exp_ann_funclo (loc, d1e, fc0)
+//
+) (* end of [d1exp_ann_funclo_opt] *)
+//
+(* ****** ****** *)
+//
+implement
+d1exp_macsyn
+  (loc, knd, d1e) =
+  d1exp_make (loc, D1Emacsyn(knd, d1e))
+//
+implement
+d1exp_macfun
+  (loc, name, d1es) =
+  d1exp_make (loc, D1Emacfun(name, d1es))
 //
 (* ****** ****** *)
 //
@@ -841,16 +878,6 @@ d1exp_solassert
 implement
 d1exp_solverify
   (loc, s1e) = d1exp_make(loc, D1Esolverify(s1e))
-//
-(* ****** ****** *)
-//
-implement
-d1exp_macsyn
-  (loc, knd, d1e) = d1exp_make (loc, D1Emacsyn(knd, d1e))
-//
-implement
-d1exp_macfun
-  (loc, name, d1es) = d1exp_make (loc, D1Emacfun(name, d1es))
 //
 (* ****** ****** *)
 

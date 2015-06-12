@@ -943,16 +943,16 @@ case+ d0e0.d0exp_node of
     FXITMatm(d1exp_ann_type (loc0, d1e, s1e))
   end // end of [D0Eann]
 //
+| D0Emacsyn(knd, d0e) =>
+    FXITMatm(d1exp_macsyn (loc0, knd, d0exp_tr(d0e)))
+  // end of [D0Emacsyn]
+//
 | D0Esolassert(d0e) =>
     FXITMatm(d1exp_solassert(loc0, d0exp_tr(d0e)))
   // end of [D0Esolassert]
 | D0Esolverify(s0e) =>
     FXITMatm(d1exp_solverify(loc0, s0exp_tr(s0e)))
   // end of [D0Esolverify]
-//
-| D0Emacsyn(knd, d0e) =>
-    FXITMatm(d1exp_macsyn (loc0, knd, d0exp_tr(d0e)))
-  // end of [D0Emacsyn]
 //
 (*
 | _ => let

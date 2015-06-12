@@ -821,19 +821,6 @@ d2e0.d2exp_node of
     val () = prstr ")"
   } // end of [D2Eann_funclo]
 //
-| D2Esolassert
-    (d2e_prf) => {
-    val () = prstr "D2Esolassert("
-    val () = fprint_d2exp(out, d2e_prf)
-    val () = prstr ")"
-  }
-| D2Esolverify
-    (s2e_prop) => {
-    val () = prstr "D2Esolverify("
-    val () = fprint_s2exp(out, s2e_prop)
-    val () = prstr ")"
-  }
-//
 | D2Emac (d2m) => {
     val () = prstr "D2Emac("
     val () = fprint_d2mac (out, d2m)
@@ -853,6 +840,19 @@ d2e0.d2exp_node of
     val () = fprint_d2explst (out, d2es)
     val () = prstr ")"
   } // end of [D2Emacfun]
+//
+| D2Esolassert
+    (d2e_prf) => {
+    val () = prstr "D2Esolassert("
+    val () = fprint_d2exp(out, d2e_prf)
+    val () = prstr ")"
+  }
+| D2Esolverify
+    (s2e_prop) => {
+    val () = prstr "D2Esolverify("
+    val () = fprint_s2exp(out, s2e_prop)
+    val () = prstr ")"
+  }
 //
 | D2Eerrexp ((*void*)) => prstr "D2Eerr()"
 //

@@ -105,6 +105,10 @@ staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
+extern fun d2exp_trup_sym (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 extern fun d2exp_trup_extval (d2e0: d2exp): d3exp
 extern fun d2exp_trup_extfcall (d2e0: d2exp): d3exp
 extern fun d2exp_trup_extmcall (d2e0: d2exp): d3exp
@@ -193,12 +197,14 @@ extern fun d2exp_trup_mac (d2e0: d2exp): d3exp
 extern fun d2exp_trup_macsyn (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
-
-extern fun d2exp_trup_sym (d2e0: d2exp): d3exp
-
+  
+extern fun d2exp_trup_solassert (d2e0: d2exp): d3exp
+extern fun d2exp_trup_solverify (d2e0: d2exp): d3exp
+  
 (* ****** ****** *)
 
-fun d2exp_is_sym
+fun
+d2exp_is_sym
   (d2e: d2exp): bool = let
 in
 //
@@ -296,7 +302,9 @@ of // case+
     ) (* end of [val] *)
 *)
   in
-    case+ _fun.d2exp_node of    
+    case+
+    _fun.d2exp_node
+    of // case+
 //
     | D2Esym (d2s) =>
         d2exp_trup_applst_sym (d2e0, d2s, _arg)
@@ -537,9 +545,6 @@ of // case+
 //
 | D2Etrywith _ => d2exp_trup_trywith (d2e0)
 //
-| D2Emac _ => d2exp_trup_mac (d2e0)
-| D2Emacsyn _ => d2exp_trup_macsyn (d2e0)
-//
 | D2Eann_type
     (d2e, s2e_ann) => let
     val d3e = d2exp_trdn (d2e, s2e_ann)
@@ -552,6 +557,12 @@ of // case+
   in
     d2exp_trup (d2e) // HX: [d2e] should be a value
   end // end of [D2Eann_seff]
+//
+| D2Emac _ => d2exp_trup_mac (d2e0)
+| D2Emacsyn _ => d2exp_trup_macsyn (d2e0)
+//
+| D2Esolassert _ => d2exp_trup_solassert (d2e0)
+| D2Esolverify _ => d2exp_trup_solverify (d2e0)
 //
 | D2Eerrexp () => d3exp_errexp (loc0) // : [s2exp_t0ype_err]
 //
@@ -900,10 +911,35 @@ end // end of [d2cst_trup_cst]
 (* ****** ****** *)
 
 implement
+d2exp_trup_sym
+  (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val-D2Esym(d2s) = d2e0.d2exp_node
+//
+val () = prerr_error3_loc (loc0)
+val () = filprerr_ifdebug "d2exp_trup_sym"
+//
+val () =
+prerrln!
+  (": the symbol [", d2s, "] cannot be resolved.")
+//
+val () =
+  the_trans3errlst_add (T3E_d2exp_trup_sym (d2e0))
+//
+in
+  d3exp_errexp (loc0) // : [s2exp_t0ype_err]
+end // end of [d2exp_trup_sym]
+
+(* ****** ****** *)
+
+implement
 d2exp_trup_extval
   (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val-D2Eextval (s2e, name) = d2e0.d2exp_node
+//
+val loc0 = d2e0.d2exp_loc
+val-D2Eextval(s2e, name) = d2e0.d2exp_node
+//
 in
   d3exp_extval (loc0, s2e, name)
 end // end of [d2exp_trup_extval]
@@ -2117,23 +2153,48 @@ end // end of [d2exp_trup_macsyn]
 (* ****** ****** *)
 
 implement
-d2exp_trup_sym
+d2exp_trup_solassert
   (d2e0) = let
 //
-val loc0 = d2e0.d2exp_loc
-val-D2Esym(d2s) = d2e0.d2exp_node
+val
+loc0 = d2e0.d2exp_loc
 //
-val () = prerr_error3_loc (loc0)
-val () = filprerr_ifdebug "d2exp_trup_sym"
-val () =
-  prerrln! (": the symbol [", d2s, "] cannot be resolved.")
+val-
+D2Esolassert
+  (d2e_prf) = d2e0.d2exp_node
 //
-val () =
-  the_trans3errlst_add (T3E_d2exp_trup_sym (d2e0))
+val d3e_prf = d2exp_trup(d2e_prf)
+val s2e_prop = d3exp_get_type(d3e_prf)
+val ((*void*)) =
+println!
+  ("d2exp_trup: D2Esolassert: s2e_prop = ", s2e_prop)
+// end of [val]
 //
 in
-  d3exp_errexp (loc0) // : [s2exp_t0ype_err]
-end // end of [d2exp_trup_sym]
+  d3exp_empty (loc0, s2exp_void_t0ype())
+end // end of [D2Esolassert]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_solverify
+  (d2e0) = let
+//
+val
+loc0 = d2e0.d2exp_loc
+//
+val-
+D2Esolverify
+  (s2e_prop) = d2e0.d2exp_node
+//
+val ((*void*)) =
+println!
+  ("d2exp_trup: D2Esolverify: s2e_prop = ", s2e_prop)
+// end of [val]
+//
+in
+  d3exp_empty (loc0, s2exp_void_t0ype())
+end // end of [D2Esolverify]
 
 (* ****** ****** *)
 

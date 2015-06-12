@@ -807,7 +807,7 @@ d2exp_while
 (
   loc, i2nv, test, body
 ) =
-  d2exp_make_node (loc, D2Ewhile (i2nv, test, body))
+  d2exp_make_node (loc, D2Ewhile(i2nv, test, body))
 // end of [d2exp_while]
 
 implement
@@ -820,27 +820,47 @@ d2exp_loopexn
 implement
 d2exp_trywith (
   loc, r2es, d2e, c2ls
-) = d2exp_make_node (loc, D2Etrywith (r2es, d2e, c2ls))
+) = d2exp_make_node (loc, D2Etrywith(r2es, d2e, c2ls))
 
 (* ****** ****** *)
 
 implement
 d2exp_ann_type
   (loc, d2e, s2e) =
-  d2exp_make_node (loc, D2Eann_type (d2e, s2e))
+  d2exp_make_node (loc, D2Eann_type(d2e, s2e))
 // end of [d2exp_ann_type]
 
 implement
 d2exp_ann_seff
   (loc, d2e, s2fe) =
-  d2exp_make_node (loc, D2Eann_seff (d2e, s2fe))
+  d2exp_make_node (loc, D2Eann_seff(d2e, s2fe))
 // end of [d2exp_ann_seff]
 
 implement
 d2exp_ann_funclo
   (loc, d2e, fc) =
-  d2exp_make_node (loc, D2Eann_funclo (d2e, fc))
+  d2exp_make_node (loc, D2Eann_funclo(d2e, fc))
 // end of [d2exp_ann_funclo]
+
+(* ****** ****** *)
+
+implement
+d2exp_mac
+  (loc, d2m) =
+  d2exp_make_node (loc, D2Emac(d2m))
+// end of [d2exp_mac]
+
+implement
+d2exp_macsyn
+  (loc, knd, d2e) =
+  d2exp_make_node (loc, D2Emacsyn(knd, d2e))
+// end of [d2exp_macsyn]
+
+implement
+d2exp_macfun
+  (loc, name, d2es) =
+  d2exp_make_node (loc, D2Emacfun(name, d2es))
+// end of [d2exp_macfun]
 
 (* ****** ****** *)
 //
@@ -854,34 +874,15 @@ d2exp_solverify
   d2exp_make_node(loc, D2Esolverify(s2e_prop))
 //
 (* ****** ****** *)
-
+//
 implement
-d2exp_mac
-  (loc, d2m) =
-  d2exp_make_node (loc, D2Emac (d2m))
-// end of [d2exp_mac]
-
-implement
-d2exp_macsyn
-  (loc, knd, d2e) =
-  d2exp_make_node (loc, D2Emacsyn (knd, d2e))
-// end of [d2exp_macsyn]
-
-implement
-d2exp_macfun
-  (loc, name, d2es) =
-  d2exp_make_node (loc, D2Emacfun (name, d2es))
-// end of [d2exp_macfun]
-
+d2exp_errexp(loc) =
+  d2exp_make_node (loc, D2Eerrexp((*void*)))
+//
 (* ****** ****** *)
 
 implement
-d2exp_errexp (loc) = d2exp_make_node (loc, D2Eerrexp ())
-
-(* ****** ****** *)
-
-implement
-labd2exp_make (l, d2e) = $SYN.DL0ABELED (l, d2e)
+labd2exp_make (l, d2e) = $SYN.DL0ABELED(l, d2e)
 
 (* ****** ****** *)
 
@@ -907,9 +908,12 @@ d2lab_ind
 
 implement
 i2nvarg_make
-  (d2v, s2e) = '{
+  (d2v, s2e) =
+'{
   i2nvarg_var= d2v, i2nvarg_type= s2e
-} // end of [i2nvarg_make]
+} (* end of [i2nvarg_make] *)
+
+(* ****** ****** *)
 
 implement
 i2nvarg_get_var
@@ -918,25 +922,35 @@ i2nvarg_get_var
   val opt = d2var_get_view (d2v)
 in
   case+ opt of
-  | Some d2vw => d2vw | None () => d2v
+  | Some(d2vw) => d2vw | None() => d2v
 end // end of [i2nvarg_get_var]
 
 implement
 i2nvarg_get_type
   (arg) = let
-  val opt = arg.i2nvarg_type
+//
+val opt = arg.i2nvarg_type
+//
 in
 //
 case+ opt of
-| Some (s2e) => let
+| None() => None()
+| Some(s2e) => let
     val d2v = arg.i2nvarg_var
     val ismut = d2var_is_mutabl (d2v)
   in
-    if ismut then let
-      val-Some s2l = d2var_get_addr (d2v) in Some (s2exp_at (s2e, s2l))
-    end else opt // end of [if]
+    if ismut
+      then let
+        val-
+        Some(s2l) =
+          d2var_get_addr(d2v)
+        // end of [val]
+      in
+        Some(s2exp_at (s2e, s2l))
+      end // end of [then]
+      else opt // end of [else]
+    // end of [if]
   end // end of [Some]
-| None () => None ()
 //
 end // end of [i2nvarg_get_type]
 

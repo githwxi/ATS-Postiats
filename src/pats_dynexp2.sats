@@ -931,12 +931,12 @@ and d2exp_node =
   | D2Eann_seff of (d2exp, s2eff) // ascribed with effects
   | D2Eann_funclo of (d2exp, funclo) // ascribed with funtype
 //
-  | D2Esolassert of (d2exp) // $solve_assert(d2e_prf)
-  | D2Esolverify of (s2exp) // $solve_verify(s2e_prop)
-//
   | D2Emac of (d2mac) // macro-expression
   | D2Emacsyn of (macsynkind, d2exp) // backquote-comma-notation
   | D2Emacfun of (symbol(*name*), d2explst) // built-in macfun
+//
+  | D2Esolassert of (d2exp) // $solve_assert(d2e_prf)
+  | D2Esolverify of (s2exp) // $solve_verify(s2e_prop)
 //
   | D2Eerrexp of () // HX: placeholder for indicating an error
 // end of [d2exp_node]
@@ -1571,15 +1571,6 @@ d2exp_ann_funclo
   (loc: location, d2e: d2exp, funclo: funclo): d2exp
 //
 (* ****** ****** *)
-//
-fun
-d2exp_solassert
-  (loc: location, d2e_prf: d2exp): d2exp
-fun
-d2exp_solverify
-  (loc: location, s2e_prop: s2exp): d2exp
-//
-(* ****** ****** *)
 
 fun d2exp_mac(loc: location, d2m: d2mac): d2exp
 
@@ -1592,9 +1583,20 @@ fun d2exp_macfun
 // end of [d2exp_macfun]
 
 (* ****** ****** *)
-
-fun d2exp_errexp (loc: location): d2exp
-
+//
+fun
+d2exp_solassert
+  (loc: location, d2e_prf: d2exp): d2exp
+//
+fun
+d2exp_solverify
+  (loc: location, s2e_prop: s2exp): d2exp
+//
+(* ****** ****** *)
+//
+fun
+d2exp_errexp (loc: location): d2exp // HX: indicating error
+//
 (* ****** ****** *)
 
 fun labd2exp_make (l: l0ab, d2e: d2exp): labd2exp
