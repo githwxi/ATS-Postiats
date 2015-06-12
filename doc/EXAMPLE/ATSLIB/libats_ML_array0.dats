@@ -26,11 +26,9 @@ staload _(*anon*) = "libats/ML/DATS/array0.dats"
 val () =
 {
 //
-val out = stdout_ref
-//
 val asz = i2sz(3)
 val A_elt = array0_make_elt<int> (asz, 0)
-val () = fprintln! (out, "A_elt = ", A_elt)
+val ((*void*)) = println! ("A_elt = ", A_elt)
 //
 } (* end of [val] *)
 

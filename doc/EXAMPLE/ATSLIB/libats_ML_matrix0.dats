@@ -26,12 +26,13 @@ staload _(*anon*) = "libats/ML/DATS/matrix0.dats"
 val () =
 {
 //
-val out = stdout_ref
-//
 val nrow = i2sz(3)
-val ncol = i2sz(4)
-val A_elt = matrix0_make_elt<int> (nrow, ncol, 0)
-val () = fprintln! (out, "A_elt = ", A_elt)
+and ncol = i2sz(4)
+//
+val A_elt =
+  matrix0_make_elt<int> (nrow, ncol, 0)
+//
+val ((*void*)) = println! ("A_elt = ", A_elt)
 //
 } (* end of [val] *)
 
