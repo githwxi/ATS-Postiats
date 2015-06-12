@@ -319,10 +319,14 @@ and d3exp_node =
       s2exp(*cond*), d3exp(*then*), d3exp(*else*)
     ) // end of [D3Esif]
 //
-  | D3Ecase of (
+  | D3Ecase of
+    (
       caskind, d3explst(*values*), c3laulst(*clauses*)
-    ) // end of [D3Ecase]
-  | D3Escase of (s2exp(*value*), sc3laulst(*clauses*))
+    ) (* end of [D3Ecase] *)
+  | D3Escase of
+    (
+      s2exp(*static-value*), sc3laulst(*static-clauses*)
+    ) (* end of [D3Escase] *)
 //
   | D3Elst of (* list expression *)
       (int(*lin*), s2exp(*elt*), d3explst)
@@ -375,6 +379,8 @@ and d3exp_node =
 //
   | D3Etempenver of (d2varlst) // $tempenver for environvars
 //
+  | D3Eann_type of (d3exp, s2exp) // HX: annotated with type
+//
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
   | D3Elaminit_dyn of // dynamic flat funtion closure
@@ -388,7 +394,10 @@ and d3exp_node =
     ) // end of [D3Efix]
 //
   | D3Edelay of d3exp(*eval*) // delayed evaluation
-  | D3Eldelay of (d3exp(*eval*), d3exp(*free*)) // delayed evaluation
+  | D3Eldelay of
+      (d3exp(*eval*), d3exp(*free*)) // delayed evaluation
+    // end of [D3Eldelay]
+//
   | D3Elazyeval of (int(*lin*), d3exp) // lazy-value evaluation
 //
   | D3Eloop of (* for/while-loops *)
@@ -399,10 +408,10 @@ and d3exp_node =
 //
   | D3Etrywith of (d3exp(*try-exp*), c3laulst(*with-clauses*))
 //
-  | D3Eann_type of (d3exp, s2exp)
+  | D3Esolverify of (s2exp) // HX: $solver_verify
 //
-  | D3Eerrexp of ((*void*)) // indication of error
-// end of [d3exp_node]
+  | D3Eerrexp of ((*void*)) // HX: indication of error
+// end of [d3exp_node] // end of [datatype]
 
 and d3lab_node =
   | D3LABlab of (label) | D3LABind of (d3explst)
@@ -948,6 +957,11 @@ fun d3exp_ann_type
   (loc: location, d3e: d3exp, s2f: s2exp): d3exp
 // end of [d3exp_ann_type]
 
+(* ****** ****** *)
+//
+fun
+d3exp_solverify (loc: location, s2f: s2exp): d3exp
+//
 (* ****** ****** *)
 
 fun d3exp_errexp (loc: location): d3exp

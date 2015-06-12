@@ -906,6 +906,16 @@ d3exp_tempenver
 (* ****** ****** *)
 
 implement
+d3exp_ann_type
+  (loc, d3e, s2f) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eann_type (d3e, s2f)
+} // end of [d3exp_ann_type]
+
+(* ****** ****** *)
+
+implement
 d3exp_lam_dyn
 (
   loc, s2f_fun, lin, npf, arg, body
@@ -1017,18 +1027,19 @@ d3exp_trywith (
 ) = '{
   d3exp_loc= loc
 , d3exp_type= d3e_try.d3exp_type
-, d3exp_node= D3Etrywith (d3e_try, c3ls_wth)
+, d3exp_node= D3Etrywith(d3e_try, c3ls_wth)
 } // end of [d3exp_trywith]
 
 (* ****** ****** *)
 
 implement
-d3exp_ann_type
-  (loc, d3e, s2f) = '{
+d3exp_solverify
+  (loc, s2e_prop) = let
+in '{
   d3exp_loc= loc
-, d3exp_type= s2f
-, d3exp_node= D3Eann_type (d3e, s2f)
-} // end of [d3exp_ann_type]
+, d3exp_type= s2e_prop
+, d3exp_node= D3Esolverify(s2e_prop)
+} end // end of [d3exp_solverify]
 
 (* ****** ****** *)
 

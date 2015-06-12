@@ -74,17 +74,13 @@ of // case+
     val ((*closing*)) = prstr ")"
   } (* end of [C3NSTRitmlst] *)
 //
-| C3NSTRsolver
-    (knd, s2e) => {
+| C3NSTRsolverify
+    (s2e_prop) => {
     val () =
-      prstr "C3NSTRsolver("
-    // end of [val]
-    val () =
-    (
-      fprint_int (out, knd); prstr "; "; fprint_s2exp (out, s2e)
-    ) (* end of [val] *)
+      prstr "C3NSTRsolverify("
+    val () = fprint_s2exp (out, s2e_prop)
     val ((*closing*)) = prstr ")"
-  } (* end of [C3NSTRsolver] *)
+  } (* end of [C3NSTRsolverify] *)
 //
 end // end of [fprint_c3nstr]
 
@@ -104,32 +100,36 @@ macdef prstr (x) = fprint_string (out, ,(x))
 in
 //
 case+ knd of
-| C3TKmain () => prstr "main"
+| C3TKmain() =>
+    prstr "C3TKmain()"
 | C3TKcase_exhaustiveness _ =>
-    prstr "case_exhaustiveness(...)"
+    prstr "C3TKcase_exhaustiveness(...)"
 //
-| C3TKtermet_isnat () => prstr "termet_isnat"
-| C3TKtermet_isdec () => prstr "termet_isdec"
+| C3TKtermet_isnat() =>
+    prstr "C3TKtermet_isnat()"
+| C3TKtermet_isdec() =>
+    prstr "C3TKtermet_isdec()"
 //
-| C3TKsome_fin _ => prstr "some_fin"
-| C3TKsome_lvar _ => prstr "some_lvar"
-| C3TKsome_vbox _ => prstr "some_vbox"
+| C3TKsome_fin _ =>
+    prstr "C3TKsome_fin()"
+| C3TKsome_lvar _ =>
+    prstr "C3TKsome_lvar()"
+| C3TKsome_vbox _ =>
+    prstr "C3TKsome_vbox()"
 //
-| C3TKlstate ((*void*)) => prstr "lstate"
-| C3TKlstate_var (d2v) =>
+| C3TKlstate() =>
+    prstr "C3TKlstate()"
+| C3TKlstate_var(d2v) =>
   (
-    prstr "lstate("; fprint_d2var (out, d2v); prstr ")"
-  ) (* end of [C3TKlstate_var] *)
+    fprint!
+      (out, "C3TKlstate(", d2v, ")")
+    // fprint!
+  ) (* C3TKlstate_var *)
 //
-| C3TKloop (knd) =>
-  (
-    prstr "loop("; fprint_int (out, knd); prstr ")"
-  ) (* end of [C3TKloop] *)
+| C3TKloop(knd) =>
+    fprint! (out, "C3TKloop(", knd, ")")
 //
-| C3TKsolver(knd) =>
-  (
-    prstr "solver("; fprint_int (out, knd); prstr ")"
-  )
+| C3TKsolverify() => prstr "C3TKsolverify()"
 //
 end // end of [fprint_c3nstrkind]
 
@@ -140,7 +140,8 @@ fprint_h3ypo
   (out, h3p) = let
 //
 macdef
-prstr (x) = fprint_string (out, ,(x))
+prstr (x) =
+  fprint_string (out, ,(x))
 //
 in
 //
@@ -228,6 +229,14 @@ case+ s3i of
     val () = fprint_s3itmlstlst (out, s3iss)
     val () = prstr ")"
   }
+//
+| S3ITMsolassert
+    (s2e_prop) => {
+    val () =
+      prstr "S3ITMsolassert("
+    val () = fprint_s2exp (out, s2e_prop)
+    val ((*closing*)) = prstr ")"
+  } (* end of [S3ITMsolassert] *)
 //
 end // end of [fprint_s3itm]
 

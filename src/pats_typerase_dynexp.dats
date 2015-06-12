@@ -983,28 +983,37 @@ d3e0.d3exp_node of
     val hdes_elt = list_of_list_vt (hdes_elt)
 //
   in
-    hidexp_arrinit (loc0, hse0, hse_elt, hde_asz, hdes_elt, asz)
+    hidexp_arrinit
+      (loc0, hse0, hse_elt, hde_asz, hdes_elt, asz)
+    // end of [hidexp_arrinit]
   end // end of [D3Earrinit]
 //
-| D3Eraise (d3e) => let
-    val hde = d3exp_tyer (d3e) in hidexp_raise (loc0, hse0, hde)
-  end // end of [D3Eraise]
+| D3Eraise (d3e) =>
+  hidexp_raise(loc0, hse0, d3exp_tyer(d3e))
 //
-| D3Eeffmask (_, d3e) => d3exp_tyer (d3e)
+| D3Eeffmask (s2fe, d3e) => d3exp_tyer (d3e)
 //
 | D3Evcopyenv
     (knd, d2v) => let
-    val () = // HX: hidexp_vcopyenv = hidexp_var
-      d2var_inc_utimes (d2v) in hidexp_vcopyenv (loc0, hse0, d2v)
+//
+// HX: hidexp_vcopyenv = hidexp_var
+//
+    val () =
+      d2var_inc_utimes (d2v)
     // end of [val]
+  in
+    hidexp_vcopyenv (loc0, hse0, d2v)
   end // end of [D3Evcopyenv]
 //
 | D3Etempenver (d2vs) => let
     val () =
     list_app_fun
-      (d2vs, d2var_inc_utimes) in hidexp_tempenver (loc0, hse0, d2vs)
-    // end of [val]
+      (d2vs, d2var_inc_utimes)
+  in
+    hidexp_tempenver (loc0, hse0, d2vs)
   end // end of [D3Etempenver]
+//
+| D3Eann_type (d3e, _(*ann*)) => d3exp_tyer (d3e)
 //
 | D3Elam_dyn
   (
@@ -1059,26 +1068,36 @@ d3e0.d3exp_node of
   end // end of [D3Efix]
 //
 | D3Edelay (d3e) => let
-    val hde = d3exp_tyer (d3e) in hidexp_delay (loc0, hse0, hde)
+    val hde = d3exp_tyer (d3e)
+  in
+    hidexp_delay (loc0, hse0, hde)
   end // end of [D3Edelay]
 | D3Eldelay (d3e1, d3e2) => let
     val hde1 = d3exp_tyer (d3e1)
-    val hde2 = d3exp_tyer (d3e2) in hidexp_ldelay (loc0, hse0, hde1, hde2)
+    val hde2 = d3exp_tyer (d3e2)
+  in
+    hidexp_ldelay (loc0, hse0, hde1, hde2)
   end // end of [D3Eldelay]
 | D3Elazyeval (lin, d3e) => let
-    val hde = d3exp_tyer (d3e) in hidexp_lazyeval (loc0, hse0, lin, hde)
+    val hde = d3exp_tyer (d3e)
+  in
+    hidexp_lazyeval (loc0, hse0, lin, hde)
   end // end of [D3Elazyeval]
 //
 | D3Eloop
   (
     init, test, post, body
   ) => let
-    val init = d3expopt_tyer (init)
-    val test = d3exp_tyer (test)
-    val post = d3expopt_tyer (post)
+    val init =
+      d3expopt_tyer(init)
+    // end of [val]
+    val test = d3exp_tyer(test)
+    val post =
+      d3expopt_tyer (post)
+    // end of [val]
     val body = d3exp_tyer (body)
   in
-    hidexp_loop (loc0, hse0, init, test, post, body)
+    hidexp_loop(loc0, hse0, init, test, post, body)
   end // end of [D3Eloop]
 | D3Eloopexn (knd) => hidexp_loopexn (loc0, hse0, knd)
 //
@@ -1087,10 +1106,12 @@ d3e0.d3exp_node of
     val hde_try = d3exp_tyer (d3e_try)
     val hicls_with = c3laulst_tyer (c3ls_with)
   in
-    hidexp_trywith (loc0, hse0, hde_try, hicls_with)
+    hidexp_trywith(loc0, hse0, hde_try, hicls_with)
   end // end of [D3Etrywith]
 //
-| D3Eann_type (d3e, _(*ann*)) => d3exp_tyer (d3e)
+| D3Esolverify _ =>
+    hidexp_empty(loc0, hisexp_void_t0ype((*void*)))
+  // end of [D3Esolverify]
 //
 | D3Eerrexp ((*void*)) => hidexp_errexp (loc0, hse0)
 //

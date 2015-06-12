@@ -128,8 +128,10 @@ c3nstr_case_exhaustiveness
   val p2tcs = list_vt_copy (p2tcs)
 in '{
   c3nstr_loc= loc
-, c3nstr_kind= C3TKcase_exhaustiveness (casknd, (l2l)p2tcs)
-, c3nstr_node= C3NSTRprop (s2exp_bool (false))
+, c3nstr_kind=
+    C3TKcase_exhaustiveness (casknd, (l2l)p2tcs)
+  // c3nstr_kind
+, c3nstr_node= C3NSTRprop(s2exp_bool(false))
 } end // end of [c3nstr_case_exhaustiveness]
 
 implement
@@ -138,19 +140,28 @@ c3nstr_termet_isnat
   c3nstr_loc= loc
 , c3nstr_kind= C3TKtermet_isnat
 , c3nstr_node=
-    C3NSTRprop (s2exp_intgte (s2e, s2exp_int(0)))
+    C3NSTRprop(s2exp_intgte(s2e, s2exp_int(0)))
   // end of [c3str_node]
 } // end of [c3nstr_termet_isnat]
 
 implement
 c3nstr_termet_isdec
-  (loc, met, met_bound) = '{
+  (loc, met, mbd) = '{
   c3nstr_loc= loc
 , c3nstr_kind= C3TKtermet_isdec
-, c3nstr_node=
-    C3NSTRprop (s2exp_metdec (met, met_bound))
-  // end of [c3str_node]
+, c3nstr_node= C3NSTRprop(s2exp_metdec(met, mbd))
 } // end of [c3nstr_termet_isdec]
+
+(* ****** ****** *)
+
+implement
+c3nstr_solverify
+  (loc, s2e_prop) = let
+in '{
+  c3nstr_loc=loc
+, c3nstr_kind= C3TKsolverify()
+, c3nstr_node= C3NSTRsolverify(s2e_prop)
+} end // end of [c3nstr_solverify]
 
 (* ****** ****** *)
 
@@ -1206,20 +1217,22 @@ trans3_env_add_patcstlstlst_false
 fun loop (
   xss: p2atcstlstlst_vt
 ) :<cloptr1> void =
-  case+ xss of
-  | ~list_vt_cons (xs, xss) => let
-      val (pfpush | ()) = trans3_env_push ()
-      val c3t =
-        c3nstr_case_exhaustiveness (loc0, casknd, xs)
-      // end of [val]
-      val () = trans3_env_hypadd_patcstlst (loc0, xs, s2es)
-      val () = trans3_env_add_cnstr (c3t)
-      val () = trans3_env_pop_and_add_main (pfpush | loc0)
-    in
-      loop (xss)
-    end // end of [list_cons]
-  | ~list_vt_nil () => () // end of [list_nil]
-// end of [aux]
+(
+case+ xss of
+| ~list_vt_nil () => ()
+| ~list_vt_cons (xs, xss) => let
+    val (pfpush | ()) = trans3_env_push ()
+    val c3t =
+      c3nstr_case_exhaustiveness (loc0, casknd, xs)
+    // end of [val]
+    val () = trans3_env_hypadd_patcstlst (loc0, xs, s2es)
+    val () = trans3_env_add_cnstr (c3t)
+    val () = trans3_env_pop_and_add_main (pfpush | loc0)
+  in
+    loop (xss)
+  end // end of [list_cons]
+) (* end of [aux] *)
+//
 in
   loop (cp2tcss)
 end // end of [trans3_env_add_patcstlstlst_false]
@@ -1227,13 +1240,21 @@ end // end of [trans3_env_add_patcstlstlst_false]
 (* ****** ****** *)
 
 implement
-trans3_env_hypadd_prop (loc, s2p) = let
+trans3_env_hypadd_prop
+  (loc, s2p) = let
 (*
-  val () = (
-    print "trans3_env_hypadd_prop: s2p = "; print_s2exp s2p; print_newline ()
-  ) // end of [val]
+//
+val () =
+println!
+  ("trans3_env_hypadd_prop: s2p = ", s2p)
+//
 *)
-  val h3p = h3ypo_prop (loc, s2p); val s3i = S3ITMhypo (h3p)
+//
+val h3p =
+  h3ypo_prop (loc, s2p)
+//
+val s3i = S3ITMhypo (h3p)
+//
 in
   the_s3itmlst_env_add (s3i)
 end // end of [trans3_env_hypadd_prop]
@@ -1241,10 +1262,10 @@ end // end of [trans3_env_hypadd_prop]
 implement
 trans3_env_hypadd_proplst
   (loc, s2ps) = case+ s2ps of
-  | list_cons (s2p, s2ps) => (
+  | list_nil() => ()
+  | list_cons(s2p, s2ps) => (
       trans3_env_hypadd_prop (loc, s2p); trans3_env_hypadd_proplst (loc, s2ps)
     ) // end of [list_cons]
-  | list_nil () => ()
 // end of [trans3_env_hypadd_proplst]
 
 implement
@@ -1258,19 +1279,23 @@ trans3_env_hypadd_proplst_vt
 
 implement
 trans3_env_hypadd_propopt
-  (loc, opt) = case+ opt of
-  | Some (s2p) => trans3_env_hypadd_prop (loc, s2p)
+  (loc, opt) =
+(
+  case+ opt of
   | None () => ()
-// end of [trans3_env_hypadd_propopt]
+  | Some (s2p) => trans3_env_hypadd_prop (loc, s2p)
+) // end of [trans3_env_hypadd_propopt]
 
 implement
 trans3_env_hypadd_propopt_neg
-  (loc, opt) = case+ opt of
+  (loc, opt) =
+(
+  case+ opt of
+  | None () => ()
   | Some (s2p) =>
       trans3_env_hypadd_prop (loc, s2exp_bneg (s2p))
     // end of [Some]
-  | None () => ()
-// end of [trans3_env_hypadd_propopt]
+) // end of [trans3_env_hypadd_propopt]
 
 (* ****** ****** *)
 
@@ -1306,9 +1331,11 @@ trans3_env_hypadd_eqeq
   val s2e2 = s2hnf2exp (s2f2)
 in
 //
-case+ (
-  s2e1.s2exp_node, s2e2.s2exp_node
-) of // end of [case]
+case+
+(
+  s2e1.s2exp_node
+, s2e2.s2exp_node
+) of // case+
 (*
 | (S2Evar (s2v1), _) => trans3_env_hypadd_bind (loc, s2v1, s2f2)
 | (_, S2Evar (s2v2)) => trans3_env_hypadd_bind (loc, s2v2, s2f1)
@@ -1343,6 +1370,7 @@ val () = println! ("trans3_env_hypadd_patcst: p2tc = ", p2tc)
 in
 //
 case+ p2tc of
+//
 | P2TCany () => ()
 //
 | P2TCcon
@@ -1641,36 +1669,85 @@ in (* in of [local] *)
 implement
 trans3_env_hypadd_patcstlstlst
   (loc0, cp2tcss, s2es_pat) = let
-  fun aux (
-    p2tcss: p2atcstlstlst_vt
-  ) :<cloref1> s3itmlstlst = (
-     case+ p2tcss of
-    | ~list_vt_cons (p2tcs, p2tcss) => let
+//
+fun
+aux (
+  p2tcss: p2atcstlstlst_vt
+) :<cloref1> s3itmlstlst =
+(
+case+ p2tcss of
+| ~list_vt_nil
+   ((*void*)) => list_nil()
+| ~list_vt_cons
+    (p2tcs, p2tcss) => let
 (*
-        val () = (
-          print "trans3_env_hypadd_patcstlstlst: aux: p2tcs = "; print_p2atcstlst_vt (p2tcs); print_newline ()
-        ) // end of [val]
+    val () = (
+      print "trans3_env_hypadd_patcstlstlst: aux: p2tcs = ";
+      print_p2atcstlst_vt (p2tcs); print_newline ((*void*));
+    ) (* end of [val] *)
 *)
-        val (pfpush | ()) = trans3_env_push ()
-        val () = trans3_env_hypadd_patcstlst (loc0, p2tcs, s2es_pat)
-        val s3is = trans3_env_pop (pfpush | (*none*))
-      in
-        list_cons ((l2l)s3is, aux (p2tcss))
-      end // end of [list_vt_cons]
-    | ~list_vt_nil () => list_nil ()
-  ) // end of [aux]
-  val s3iss = aux (cp2tcss)
+    val
+    (pf|()) = trans3_env_push ((*none*))
+    val () = trans3_env_hypadd_patcstlst (loc0, p2tcs, s2es_pat)
+    val s3is = trans3_env_pop (pf|(*none*))
+  in
+    list_cons(l2l(s3is), aux (p2tcss))
+  end // end of [list_vt_cons]
+) (* end of [aux] *)
+//
+val s3iss = aux (cp2tcss)
 (*
-  val n = list_length (s3iss)
-  val () = (
-    print "trans3_env_hypadd_patcstlstlst: ns3iss = "; print n; print_newline ()
-  ) // end of [val]
+val n = list_length (s3iss)
+val () =
+(
+  print "trans3_env_hypadd_patcstlstlst: ns3iss = "; print n; print_newline ()
+) (* end of [val] *)
 *)
 in
   trans3_env_hypadd_disj (s3iss)
 end // end of [trans3_env_hypadd_p2atcstlstlst]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+trans3_env_solver_assert
+  (loc0, s2e) = let
+//
+(*
+val () =
+println!
+(
+  "trans3_env_solver_assert: s2e = ", s2e
+) (* end of [val] *)
+*)
+//
+in
+//
+the_s3itmlst_env_add(S3ITMsolassert(s2e))
+//
+end // end of [trans3_env_solver_assert]
+
+(* ****** ****** *)
+
+implement
+trans3_env_solver_verify
+  (loc0, s2e) = let
+//
+val c3t = c3nstr_solverify(loc0, s2e)
+//
+(*
+val () =
+println!
+(
+  "trans3_env_solver_assert: c3t = ", c3t
+) (* end of [val] *)
+*)
+//
+in
+  the_s3itmlst_env_add(S3ITMcnstr(c3t))
+end // end of [trans3_env_solver_verify]
 
 (* ****** ****** *)
 

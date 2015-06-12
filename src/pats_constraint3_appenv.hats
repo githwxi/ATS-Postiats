@@ -72,21 +72,24 @@ in
 //
 case+ s3i of
 //
-| S3ITMsvar (s2v) => s2var_app (s2v, env)
-| S3ITMhypo (h3p) => h3ypo_app (h3p, env)
+| S3ITMsvar(s2v) => s2var_app (s2v, env)
+| S3ITMhypo(h3p) => h3ypo_app (h3p, env)
 //
-| S3ITMsVar (s2V) => s2Var_app (s2V, env)
+| S3ITMsVar(s2V) => s2Var_app (s2V, env)
 //
-| S3ITMcnstr (c3t) => c3nstr_app (c3t, env)
+| S3ITMcnstr(c3t) => c3nstr_app (c3t, env)
 //
-| S3ITMcnstr_ref (c3tr) => let
+| S3ITMcnstr_ref(c3tr) => let
     val ref = c3tr.c3nstroptref_ref
   in
     case+ !ref of
-    | Some (c3t) => c3nstr_app (c3t, env) | None () => ()
+    | None() => ()
+    | Some(c3t) => c3nstr_app (c3t, env)
   end // end of [S3ITMcnstr_ref]
 //
-| S3ITMdisj (s3iss) => s3itmlstlst_app (s3iss, env)
+| S3ITMdisj(s3iss) => s3itmlstlst_app (s3iss, env)
+//
+| S3ITMsolassert(s2e) => s2exp_app (s2e, env)
 //
 end // end of [jsonize_s3itm]
 
@@ -158,7 +161,7 @@ c3t0.c3nstr_node of
 //
 | C3NSTRprop(s2e) => s2exp_app (s2e, env)
 | C3NSTRitmlst(s3is) => s3itmlst_app (s3is, env)
-| C3NSTRsolver(knd, s2e) => s2exp_app (s2e, env)
+| C3NSTRsolverify(s2e) => s2exp_app (s2e, env)
 //
 end // end of [c3nstr_app]
 

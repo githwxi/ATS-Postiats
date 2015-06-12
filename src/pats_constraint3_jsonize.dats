@@ -94,7 +94,7 @@ in
 //
 case+ knd of
 //
-| C3TKmain () =>
+| C3TKmain() =>
     jsonval_conarg0 ("C3TKmain")
 //
 | C3TKcase_exhaustiveness
@@ -107,9 +107,9 @@ case+ knd of
     // end of [jsonval_conarg2]
   end // end of [C3TKcase_exhaustiveness]
 //
-| C3TKtermet_isnat () =>
+| C3TKtermet_isnat() =>
     jsonval_conarg0 ("C3TKtermet_isnat")
-| C3TKtermet_isdec () =>
+| C3TKtermet_isdec() =>
     jsonval_conarg0 ("C3TKtermet_isdec")
 //
 | C3TKsome_fin
@@ -137,19 +137,17 @@ case+ knd of
     jsonval_conarg3 ("C3TKsome_vbox", d2v, s2e1, s2e2)
   end // end of [C3TKsome_vbox]
 //
-| C3TKlstate () =>
+| C3TKlstate() =>
     jsonval_conarg0 ("C3TKlstate")
-| C3TKlstate_var (d2v) =>
+| C3TKlstate_var(d2v) =>
     jsonval_conarg1 ("C3TKlstate_var", jsonize_d2var (d2v))
   // end of [C3TKlstate_var]
 //
-| C3TKloop (knd) =>
+| C3TKloop(knd) =>
     jsonval_conarg1 ("C3TKloop", jsonval_int (knd))
   // end of [C3TKloop]
 //
-| C3TKsolver (knd) =>
-    jsonval_conarg1 ("C3TKsolver", jsonval_int (knd))
-  // end of [C3TKsolver]
+| C3TKsolverify() => jsonval_conarg0 ("C3TKsolverify")
 //
 end // end of [jsonize_c3nstrkind]
 
@@ -176,23 +174,23 @@ in
 //
 case+ s3i of
 //
-| S3ITMsvar (s2v) =>
-    jsonval_conarg1 ("S3ITMsvar", jsonize_s2var (s2v))
+| S3ITMsvar(s2v) =>
+    jsonval_conarg1 ("S3ITMsvar", jsonize_s2var(s2v))
   // end of [S3ITMsvar]
 //
-| S3ITMhypo (h3p) =>
-    jsonval_conarg1 ("S3ITMhypo", jsonize_h3ypo (h3p))
+| S3ITMhypo(h3p) =>
+    jsonval_conarg1 ("S3ITMhypo", jsonize_h3ypo(h3p))
   // end of [S3ITMhypo]
 //
-| S3ITMsVar (s2V) =>
-    jsonval_conarg1 ("S3ITMsVar", jsonize_s2Var (s2V))
+| S3ITMsVar(s2V) =>
+    jsonval_conarg1 ("S3ITMsVar", jsonize_s2Var(s2V))
   // end of [S3ITMsVar]
 //
-| S3ITMcnstr (c3t) =>
-    jsonval_conarg1 ("S3ITMcnstr", jsonize_c3nstr (c3t))
+| S3ITMcnstr(c3t) =>
+    jsonval_conarg1 ("S3ITMcnstr", jsonize_c3nstr(c3t))
   // end of [S3ITMcnstr]
 //
-| S3ITMcnstr_ref (c3tr) => let
+| S3ITMcnstr_ref(c3tr) => let
     val loc = c3tr.c3nstroptref_loc
     val ref = c3tr.c3nstroptref_ref
     val loc = jsonize_location (loc)
@@ -201,9 +199,13 @@ case+ s3i of
     jsonval_conarg2 ("S3ITMcnstr_ref", loc, opt)
   end // end of [S3ITMcnstr_ref]
 //
-| S3ITMdisj (s3iss) =>
-    jsonval_conarg1 ("S3ITMdisj", jsonize_s3itmlstlst (s3iss))
+| S3ITMdisj(s3iss) =>
+    jsonval_conarg1 ("S3ITMdisj", jsonize_s3itmlstlst(s3iss))
   // end of [S3ITMdisj]
+//
+| S3ITMsolassert(s2e_prop) =>
+    jsonval_conarg1 ("S3ITMsolassert", jsonize1_s2exp(s2e_prop))
+  // end of [S3ITMsolassert]
 //
 end // end of [jsonize_s3itm]
 
@@ -291,12 +293,9 @@ c3t0.c3nstr_node of
     jsonval_conarg1 ("C3NSTRitmlst", jsonize_s3itmlst (s3is))
   // end of [C3NSTRitmlst]
 //
-| C3NSTRsolver(knd, s2e) => let
-    val knd = jsonval_int(knd)
-    val s2e_prop = jsonize1_s2exp(s2e)
-  in
-    jsonval_conarg2 ("C3NSTRitmlst", knd, s2e_prop)
-  end // end of [C3NSTRsolver]
+| C3NSTRsolverify(s2e_prop) =>
+    jsonval_conarg1 ("C3NSTRsolverify", jsonize1_s2exp(s2e_prop))
+  // end of [C3NSTRsolverify]
 //
 end // end of [auxmain]
 //

@@ -543,6 +543,15 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
+| D3Eann_type
+    (d3e, ann) => {
+    val () = prstr "D3Eann_type("
+    val () = fprint_d3exp (out, d3e)
+    val () = prstr " : "
+    val () = fprint_s2exp (out, ann)
+    val () = prstr ")"
+  }
+//
 | D3Elam_dyn (
     lin, npf, _arg, _body
   ) => {
@@ -625,12 +634,10 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Eann_type
-    (d3e, ann) => {
-    val () = prstr "D3Eann_type("
-    val () = fprint_d3exp (out, d3e)
-    val () = prstr " : "
-    val () = fprint_s2exp (out, ann)
+| D3Esolverify
+    (s2e_prop) => {
+    val () = prstr "D3Esolverify("
+    val () = fprint_s2exp (out, s2e_prop)
     val () = prstr ")"
   }
 //

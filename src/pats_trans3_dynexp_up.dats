@@ -2124,28 +2124,32 @@ val loc0 = d2e0.d2exp_loc
 val-D2Emacsyn (knd, d2e) = d2e0.d2exp_node
 //
 (*
-val () =
-(
+val () = (
   println! ("d2exp_trup: D2Emacsyn: knd = ", knd);
   println! ("d2exp_trup: D2Emacsyn: d2e = ", d2e);
 ) (* end of [val] *)
 *)
 //
 val d2e_mac = (
-  case+ knd of
-  | $SYN.MSKdecode () => $MAC.dmacro_eval_decode (d2e)
-  | $SYN.MSKxstage () => $MAC.dmacro_eval_xstage (d2e)
-  | $SYN.MSKencode () => let
-      val () = prerr_errmac_loc (loc0)
-      val () = prerr ": the macro syntax `(...) is used incorrectly.";
-      val () = prerr_newline ()
-    in
-      d2exp_errexp (loc0)
-    end // end of [MSKINDencode]
+//
+case+ knd of
+| $SYN.MSKdecode () => $MAC.dmacro_eval_decode (d2e)
+| $SYN.MSKxstage () => $MAC.dmacro_eval_xstage (d2e)
+| $SYN.MSKencode () => let
+    val () =
+    prerr_errmac_loc(loc0)
+    val () =
+    prerrln! ": the macro syntax `(...) is used incorrectly."
+  in
+    d2exp_errexp (loc0)
+  end // end of [MSKINDencode]
+//
 ) : d2exp // end of [val]
+//
 (*
 val () = println! ("d2exp_trup: D2Emacsyn: d2e_mac = ", d2e_mac)
 *)
+//
 in
   d2exp_trup (d2e_mac)
 end // end of [d2exp_trup_macsyn]
@@ -2165,10 +2169,15 @@ D2Esolassert
 //
 val d3e_prf = d2exp_trup(d2e_prf)
 val s2e_prop = d3exp_get_type(d3e_prf)
-val ((*void*)) =
+//
+(*
+val () =
 println!
   ("d2exp_trup: D2Esolassert: s2e_prop = ", s2e_prop)
 // end of [val]
+*)
+//
+val ((*added*)) = trans3_env_solver_assert (loc0, s2e_prop)
 //
 in
   d3exp_empty (loc0, s2exp_void_t0ype())
@@ -2187,13 +2196,16 @@ val-
 D2Esolverify
   (s2e_prop) = d2e0.d2exp_node
 //
-val ((*void*)) =
+val () =
 println!
   ("d2exp_trup: D2Esolverify: s2e_prop = ", s2e_prop)
-// end of [val]
+//
+val s2f_prop = s2exp_hnfize(s2e_prop)
+//
+val ((*added*)) = trans3_env_solver_verify (loc0, s2f_prop)
 //
 in
-  d3exp_empty (loc0, s2exp_void_t0ype())
+  d3exp_solverify (loc0, s2f_prop)
 end // end of [D2Esolverify]
 
 (* ****** ****** *)

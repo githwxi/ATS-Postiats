@@ -967,22 +967,30 @@ case+ (s2en10, s2en20) of
   ) // end of [_, S2Etop]
 //
 | (S2Euni _, _) => let
+//
     val (pfpush | ()) = trans3_env_push ()
+//
     // this order is mandatary!
     val s2e2 = s2hnf_absuni_and_add (loc0, s2f20)
     val (s2e1, s2ps) = s2exp_uni_instantiate_all (s2e10, loc0, err)
+//
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+//
   in
     trans3_env_pop_and_add_main (pfpush | loc0)
   end // end of [S2Euni, _]
 | (_, S2Eexi _) => let
+//
     val (pfpush | ()) = trans3_env_push ()
+//
     // this order is mandatary!
     val s2e1 = s2hnf_opnexi_and_add (loc0, s2f10)
     val (s2e2, s2ps) = s2exp_exi_instantiate_all (s2e20, loc0, err)
+//
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+//
   in
     trans3_env_pop_and_add_main (pfpush | loc0)
   end // end of [_, S2Eexi]

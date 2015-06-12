@@ -511,19 +511,12 @@ case+ c3tk of
     val () = prerr_newline ((*void*))
   } (* end of [C3TKloop] *)
 //
-| C3TKsolver(knd) =>
+| C3TKsolverify() =>
     (0) where {
     val () =
     prerr_error3_loc (loc0)
     val () =
-    if knd = 0
-      then prerr ": assertion for external constraint-solving"
-    // end of [if]
-    val () =
-    if knd = 1
-      then prerr ": verification for external constraint-solving"
-    // end of [if]
-    val () = prerr_newline ((*void*))
+    prerrln! ": verification for external constraint-solving"
   } (* end of [C3TKsolver] *)
 //
 end // end of [c3nstr_solve_errmsg]
@@ -556,11 +549,11 @@ of // case+
 | C3NSTRprop s2p =>
     c3nstr_solve_prop (loc0, env, s2p, err)
   // end of [C3NSTRprop]
-| C3NSTRitmlst s3is =>
+| C3NSTRitmlst(s3is) =>
     c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
   // end of [C3NSTRitmlst]
 //
-| C3NSTRsolver(knd, s2e) => 0(*unasserted/unverified*)
+| C3NSTRsolverify(s2e_prop) => 0(*unasserted/unverified*)
 //
 ) : int // end of [val]
 //
@@ -623,17 +616,16 @@ end // end of [val]
 in
 //
 case+ s3is of
-| list_nil
-    ((*solved*)) => ~1
-| list_cons
-    (s3i, s3is) => (
+| list_nil() => ~1
+| list_cons(s3i, s3is) =>
+  (
   case+ s3i of
-  | S3ITMsvar (s2v) => let
+  | S3ITMsvar(s2v) => let
       val () = s2vbcfenv_add_svar (env, s2v)
     in
-      c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
+      c3nstr_solve_itmlst(loc0, env, s3is, unsolved, err)
     end // end of [S3ITMsvar]
-  | S3ITMhypo (h3p) => let
+  | S3ITMhypo(h3p) => let
       val s3p = s3exp_make_h3ypo (env, h3p)
       val () = (
         case+ s3p of
@@ -649,26 +641,41 @@ case+ s3is of
             // nothing
           end // end of [S3Eerr]
         | _ (*non-S3Eerr*) => let
-            val s3p = s3exp_lintize (env, s3p) in s2vbcfenv_add_sbexp (env, s3p)
+            val s3p = s3exp_lintize(env, s3p) in s2vbcfenv_add_sbexp (env, s3p)
           end // end of [_]
       ) : void // end of [val]
     in
-      c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
+      c3nstr_solve_itmlst(loc0, env, s3is, unsolved, err)
     end // end of [S3ITMhypo]
-  | S3ITMsVar (s2V) =>
-      c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
-  | S3ITMcnstr c3t =>
-      c3nstr_solve_itmlst_cnstr (loc0, env, s3is, c3t, unsolved, err)
-  | S3ITMcnstr_ref (ctr) => let
+  | S3ITMsVar(s2V) =>
+      c3nstr_solve_itmlst(loc0, env, s3is, unsolved, err)
+  | S3ITMcnstr(c3t) =>
+      c3nstr_solve_itmlst_cnstr(loc0, env, s3is, c3t, unsolved, err)
+  | S3ITMcnstr_ref(ctr) => let
       val ref = ctr.c3nstroptref_ref
     in
       case+ !ref of
-      | Some c3t =>
-          c3nstr_solve_itmlst_cnstr (loc0, env, s3is, c3t, unsolved, err)
       | None () => ~1(*solved*)
+      | Some c3t =>
+          c3nstr_solve_itmlst_cnstr(loc0, env, s3is, c3t, unsolved, err)
+        // end of [Some]
     end // end of [S3ITMcnstr_ref]
-  | S3ITMdisj (s3iss_disj) =>
-      c3nstr_solve_itmlst_disj (loc0, env, s3is, s3iss_disj, unsolved, err)
+  | S3ITMdisj(s3iss_disj) =>
+      c3nstr_solve_itmlst_disj(loc0, env, s3is, s3iss_disj, unsolved, err)
+//
+  | S3ITMsolassert(s2e_prop) => let
+(*
+      val () =
+      print! "c3nstr_solve_itmlst"
+      val () =
+      println!
+        (": S3ITMsolassert: s2e_prop = ", s2e_prop)
+      // end of [val]
+*)
+    in
+      c3nstr_solve_itmlst(loc0, env, s3is, unsolved, err)
+    end // end of [S3ITMsolassert]
+//
   ) (* end of [list_cons] *)
 //
 end // end of [c3nstr_solve_itmlst]
