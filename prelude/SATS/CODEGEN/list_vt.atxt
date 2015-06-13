@@ -246,7 +246,8 @@ list_vt_uninitize$clear (x: &(x) >> x?):<!wrt> void
 fun{
 x:vt0p
 } list_vt_uninitize_fun
-  {n:int}{fe:eff} (
+  {n:int}{fe:eff}
+(
   xs: !list_vt (INV(x), n) >> list_vt (x?, n), f: (&x>>x?) -<fe> void
 ) :<!wrt,fe> void // end of [list_vt_uninitize_fun]
 //
@@ -263,13 +264,13 @@ a:vt0p
 
 fun{
 x:vt0p
-} list_vt_extend
-  {n:int} (xs1: list_vt (INV(x), n), x2: x):<!wrt> list_vt (x, n+1)
+} list_vt_extend{n:int}
+  (xs1: list_vt (INV(x), n), x2: x):<!wrt> list_vt (x, n+1)
 // end of [list_vt_extend]
 
 fun{x:vt0p}
 list_vt_unextend{n:pos}
-  (xs: &list_vt (INV(x), n) >> list_vt (x, n-1)):<!wrt> x
+  (xs: &list_vt (INV(x), n) >> list_vt (x, n-1)):<!wrt> (x)
 // end of [list_vt_unextend]
 
 #atscode_separator()
