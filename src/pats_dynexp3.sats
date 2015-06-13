@@ -355,13 +355,19 @@ and d3exp_node =
   | D3Esel_ref of
       (d3exp, s2exp(*root*), d3lablst) // referenced record/tuple field selection
 //
-  | D3Eassgn_var of (d2var(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
-  | D3Eassgn_ptr of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
-  | D3Eassgn_ref of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
+  | D3Eassgn_var of
+      (d2var(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
+  | D3Eassgn_ptr of
+      (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
+  | D3Eassgn_ref of
+      (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
 //
-  | D3Exchng_var of (d2var(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
-  | D3Exchng_ptr of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
-  | D3Exchng_ref of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
+  | D3Exchng_var of
+      (d2var(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
+  | D3Exchng_ptr of
+      (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
+  | D3Exchng_ref of
+      (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
 //
   | D3Eviewat_assgn of
       (d3exp, d3lablst, d3exp) // returing the atview of // it is to be erased

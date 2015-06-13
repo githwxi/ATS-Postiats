@@ -524,7 +524,7 @@ case+ c3tk of
     val () =
     prerr_error3_loc (loc0)
     val () =
-    prerrln! ": verification for external constraint-solving"
+    prerrln! ": the constraint is expected to be verified externally."
   } (* end of [C3TKsolver] *)
 //
 end // end of [c3nstr_solve_errmsg]

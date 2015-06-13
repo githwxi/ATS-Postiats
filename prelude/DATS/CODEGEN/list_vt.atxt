@@ -162,7 +162,9 @@ implement
 list_vt_copy (xs) = let
 //
 implement
-list_vt_copylin$copy<x> (x) = x
+{x2}(*tmp*)
+list_vt_copylin$copy
+  (x) = $UN.ptr0_get<x2>(addr@x)
 //
 in
   $effmask_all (list_vt_copylin<x> (xs))
@@ -206,6 +208,30 @@ val () =
 in
   res
 end // end of [list_vt_copylin]
+
+#atscode_separator()
+
+implement
+{x}(*tmp*)
+list_vt_copylin_fun
+  (xs, f) = let
+//
+implement
+{x2}(*tmp*)
+list_vt_copylin$copy
+  (x) = x2 where
+{
+//
+val f2 =
+  $UN.cast{(&RD(x2))->x2}(f)
+//
+val x2 = $effmask_all(f2(x))
+//
+} (* end of [copy] *)
+//
+in
+  list_vt_copylin<x> (xs)
+end // end of [list_vt_copylin_fun]
 
 #atscode_separator()
 
@@ -384,13 +410,14 @@ implement
 list_vt_free (xs) = let
 //
 implement
-list_vt_freelin$clear<a>
+(a2:t0p)
+list_vt_freelin$clear<a2>
   (x) = let
   prval () = topize (x) in (*void*)
 end // end of [list_vt_freelin$clear]
 //
 in
-  list_vt_freelin (xs)
+  list_vt_freelin<a> (xs)
 end // end of [list_vt_free]
 
 #atscode_separator()
@@ -425,6 +452,30 @@ fun loop
 in
   loop (xs)
 end // end of [list_vt_freelin]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+list_vt_freelin_fun
+  (xs, f) = let
+//
+implement
+{a2}(*tmp*)
+list_vt_freelin$clear
+  (x) = () where
+{
+//
+val f2 =
+  $UN.cast{(&a2 >> _?) -> void}(f)
+//
+val ((*void*)) = $effmask_all(f2(x))
+//
+} (* end of [clear] *)
+//
+in
+  list_vt_freelin<a> (xs)
+end // end of [list_vt_freelin_fun]
 
 #atscode_separator()
 

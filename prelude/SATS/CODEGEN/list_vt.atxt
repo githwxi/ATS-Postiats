@@ -203,25 +203,34 @@ list_vt_copy{n:int}
 // end of [list_vt_copy]
 
 #atscode_separator()
-
+//
 fun{x:vt0p}
 list_vt_copylin{n:int}
   (xs: !list_vt (INV(x), n)):<!wrt> list_vt (x, n)
 fun{x:vt0p}
 list_vt_copylin$copy (x: &RD(x)): (x)
-
+//
+fun{x:vt0p}
+list_vt_copylin_fun{n:int}{fe:eff}
+  (xs: !list_vt (INV(x), n), f: (&RD(x)) -<fe> x):<!wrt,fe> list_vt (x, n)
+//
 #atscode_separator()
 
 fun{x:t0p}
 list_vt_free (xs: List_vt (INV(x))):<!wrt> void
 
 #atscode_separator()
-
+//
 fun{x:vt0p}
-list_vt_freelin (xs: List_vt (INV(x))):<!wrt> void
+list_vt_freelin
+  (xs: List_vt (INV(x))):<!wrt> void
 fun{x:vt0p}
 list_vt_freelin$clear (x: &x >> x?):<!wrt> void
-
+//
+fun{x:vt0p}
+list_vt_freelin_fun{fe:eff}
+  (xs: List_vt (INV(x)), f: (&x>>x?) -<fe> void):<!wrt,fe> void
+//
 #atscode_separator()
 //
 fun{
@@ -239,7 +248,7 @@ x:vt0p
 } list_vt_uninitize_fun
   {n:int}{fe:eff} (
   xs: !list_vt (INV(x), n) >> list_vt (x?, n), f: (&x>>x?) -<fe> void
-) :<fe> void // end of [list_vt_uninitize_fun]
+) :<!wrt,fe> void // end of [list_vt_uninitize_fun]
 //
 #atscode_separator()
 
