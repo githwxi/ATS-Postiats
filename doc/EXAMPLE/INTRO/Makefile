@@ -43,6 +43,7 @@ all:: f91
 all:: fact1
 all:: fact2
 all:: fact3
+all:: fact_uninterp
 all:: fcopy
 all:: fcopy2
 all:: fib1
@@ -80,6 +81,7 @@ regress:: f91 ; ./f91
 regress:: fact1 ; ./fact1 10
 regress:: fact2 ; ./fact2
 regress:: fact3 ; ./fact3
+regress:: fact_uninterp ; ./fact_uninterp
 #regress:: fcopy ; ./fcopy
 #regress:: fcopy2 ; ./fcopy2
 regress:: fib1 ; ./fib1
@@ -117,6 +119,7 @@ cleanall:: ; $(RMF) f91
 cleanall:: ; $(RMF) fact1
 cleanall:: ; $(RMF) fact2
 cleanall:: ; $(RMF) fact3
+cleanall:: ; $(RMF) fact_uninterp
 cleanall:: ; $(RMF) fcopy
 cleanall:: ; $(RMF) fcopy2
 cleanall:: ; $(RMF) fib1
@@ -166,11 +169,13 @@ bintree: bintree.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 f91: f91.dats ; $(PATSCC) -o $@ $<
 
 ######
-
+#
 fact1: fact1.dats ; $(PATSCC) -o $@ $<
 fact2: fact2.dats ; $(PATSCC) -o $@ $<
 fact3: fact3.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
-
+#
+fact_uninterp: fact_uninterp.dats ; $(PATSCC) -o $@ $<
+#
 ######
 
 fcopy: fcopy.dats ; $(PATSCC) -o $@ $<
