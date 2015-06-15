@@ -47,7 +47,7 @@ datasort ilist =
 
 (* ****** ****** *)
 
-stadef ilist_sing (x:int): ilist = ilist_cons (x, ilist_nil)
+stadef ilist_sing (x:int) = ilist_cons (x, ilist_nil)
 
 (* ****** ****** *)
 
@@ -138,8 +138,12 @@ SNOC (ilist, int, ilist) =
     SNOCcons (ilist_cons (x0, xs1), x, ilist_cons (x0, xs2)) of SNOC (xs1, x, xs2)
 // end of [SNOC]
 
-prfun snoc_istot {xs:ilist} {x:int} (): [xsx:ilist] SNOC (xs, x, xsx)
-prfun snoc_isfun {xs:ilist} {x:int}
+(* ****** ****** *)
+
+prfun
+snoc_istot{xs:ilist}{x:int} (): [xsx:ilist] SNOC (xs, x, xsx)
+prfun
+snoc_isfun{xs:ilist}{x:int}
   {xsx1,xsx2:ilist} (pf1: SNOC (xs, x, xsx1), pf2: SNOC (xs, x, xsx2)): ILISTEQ (xsx1, xsx2)
 // end of [snoc_isfun]
 

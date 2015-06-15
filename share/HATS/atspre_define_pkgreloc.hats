@@ -181,4 +181,9 @@ LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 //
 (* ****** ****** *)
 
+#define EXTSOLVE_sourceloc "$ATSLANGWEBLIB/contrib/extsolve"
+#define EXTSOLVE_targetloc "$PATSHOMERELOC/contrib/extsolve"
+
+(* ****** ****** *)
+
 (* end of [atspre_define_pkgreloc.hats] *)
