@@ -260,7 +260,7 @@ stamped_vt2t
 // end of [stamped_vt2t]
 //
 fun{a:t@ype}
-stamped_vt2t_get{x:int}
+stamped_vt2t_ref{x:int}
   (x: &stamped_vt0ype(INV(a), x)):<> stamped_t0ype (a, x)
 //
 (* ****** ****** *)

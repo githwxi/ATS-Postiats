@@ -73,7 +73,7 @@ lazy_vt_force (lazyval) = !lazyval
 //
 implement
 {a}(*tmp*)
-stamped_vt2t_get{x}(x) =
+stamped_vt2t_ref{x}(x) =
   $UN.ptr0_get<stamped_t(a,x)>(addr@x)
 //
 (* ****** ****** *)

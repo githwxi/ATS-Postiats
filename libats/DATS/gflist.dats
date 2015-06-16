@@ -67,7 +67,8 @@ implement
 gflist_copy (xs) = let
 //
 fun loop
-  {xs:ilist} .<xs>. (
+  {xs:ilist} .<xs>.
+(
   xs: gflist (a, xs), res: &ptr? >> gflist_vt (a, xs)
 ) :<!wrt> void = let
 in
@@ -90,6 +91,7 @@ case+ xs of
 end // end of [loop]
 //
 var res: ptr // uninitialized
+//
 val () = $effmask_wrt (loop (xs, res))
 //
 in
@@ -133,7 +135,7 @@ end // end of [loop]
 //
 var res: ptr // uninitialized
 //
-val (pf | ()) = $effmask_wrt (loop (xs1, xs2, res))
+val (pf | ()) = $effmask_wrt(loop (xs1, xs2, res))
 //
 in
   (pf | res)
@@ -182,14 +184,15 @@ gflist_revapp1_vt
 val xs2 =
   __cast (xs2) where {
   extern
-  castfn __cast {xs2:ilist}
-    (xs2: gflist (a, xs2)):<> gflist_vt (a, xs2)
+  castfn
+  __cast{xs2:ilist}
+    (gflist (a, xs2)):<> gflist_vt (a, xs2)
   // end of [castfn]
-} // end of [val]
+} (* end of [val] *)
 val (pf | ys) = gflist_vt_revapp<a> (xs1, xs2)
 //
 in
-  (pf | gflist_vt2t (ys))
+  (pf | gflist_vt2t{a}(ys))
 end // end of [gflist_revapp1_vt]
 
 (* ****** ****** *)
@@ -283,7 +286,7 @@ val xs = gflist_copy<a>(xs)
 implement(a:t0p)
 gflist_vt_mergesort$cmp<a>
   (x1, x2) =
-  gflist_mergesort$cmp<a>(stamped_vt2t_get(x1), stamped_vt2t_get(x2))
+  gflist_mergesort$cmp<a>(stamped_vt2t_ref(x1), stamped_vt2t_ref(x2))
 //
 in
   gflist_vt_mergesort<a>(xs)
