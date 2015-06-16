@@ -411,6 +411,17 @@ cleanall:: ; $(RMF) libats_dllist.exe
 
 ######
 
+all:: libats_gflist
+libats_gflist: libats_gflist.exe
+libats_gflist.exe: libats_gflist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_gflist_dats.c: libats_gflist.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_gflist_dats.c --dynamic libats_gflist.dats
+clean:: ; $(RMF) libats_gflist_dats.o
+clean:: ; $(RMF) libats_gflist_dats.c
+cleanall:: ; $(RMF) libats_gflist.exe
+
+
+######
+
 all:: libats_bitvec
 libats_bitvec: libats_bitvec.exe
 libats_bitvec.exe: libats_bitvec_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

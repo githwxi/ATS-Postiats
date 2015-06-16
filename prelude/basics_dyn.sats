@@ -246,17 +246,23 @@ unstamp_vt0ype
   {a:vt@ype}{x:int} (x: stamped_vt0ype (INV(a), x)):<> a
 // end of [unstamp_vt0ype]
 
+(* ****** ****** *)
+//
 castfn
 stamped_t2vt
   {a:t@ype}{x:int}
-  (x: stamped_t0ype (INV(a), x)):<> stamped_vt0ype (a, x)
+  (x: stamped_t0ype(INV(a), x)):<> stamped_vt0ype (a, x)
 // end of [stamped_t2vt]
 castfn
 stamped_vt2t
   {a:t@ype}{x:int}
-  (x: &stamped_vt0ype (INV(a), x)):<> stamped_t0ype (a, x)
+  (x: stamped_vt0ype(INV(a), x)):<> stamped_t0ype (a, x)
 // end of [stamped_vt2t]
-
+//
+fun{a:t@ype}
+stamped_vt2t_get{x:int}
+  (x: &stamped_vt0ype(INV(a), x)):<> stamped_t0ype (a, x)
+//
 (* ****** ****** *)
 //
 praxi

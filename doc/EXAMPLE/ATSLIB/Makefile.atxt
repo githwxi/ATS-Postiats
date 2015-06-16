@@ -173,6 +173,10 @@ RMF=rm -f
 
 ######
 
+#make2_entry("libats_gflist", "-DATS_MEMALLOC_LIBC", "")
+
+######
+
 #make2_entry("libats_bitvec", "-DATS_MEMALLOC_LIBC", "")
 
 ######

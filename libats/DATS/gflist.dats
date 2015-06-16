@@ -278,14 +278,15 @@ implement
 gflist_mergesort
   (xs) = let
 //
-val xs = gflist_copy (xs)
+val xs = gflist_copy<a>(xs)
 //
-implement
-gflist_vt_mergesort$cmp<a> (x1, x2) =
-  gflist_mergesort$cmp<a> (stamped_vt2t (x1), stamped_vt2t (x2))
+implement(a:t0p)
+gflist_vt_mergesort$cmp<a>
+  (x1, x2) =
+  gflist_mergesort$cmp<a>(stamped_vt2t_get(x1), stamped_vt2t_get(x2))
 //
 in
-  gflist_vt_mergesort<a> (xs)
+  gflist_vt_mergesort<a>(xs)
 end // end of [gflist_mergesort]
 
 (* ****** ****** *)

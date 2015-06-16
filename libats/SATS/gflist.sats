@@ -93,7 +93,7 @@ gflist_vt (
 castfn
 gflist_vt2t
   {a:t@ype}{xs:ilist}
-  (gflist_vt (a, xs)):<!wrt> gflist (a, xs)
+  (gflist_vt(INV(a), xs)):<!wrt> gflist (a, xs)
 // end of [gflist_vt2t]
 
 (* ****** ****** *)
@@ -137,20 +137,24 @@ list2gflist_vt
 fun{a:t@ype}
 gflist_length
   {xs:ilist}
-  (xs: gflist (INV(a), xs)):<> [n:nat] (LENGTH (xs, n) | int n)
+(
+  xs: gflist(INV(a), xs)
+) :<> [n:nat] (LENGTH (xs, n) | int n)
 // end of [gflist_length]
 
 (* ****** ****** *)
 //
 fun{a:t@ype}
 gflist_copy
-  {xs:ilist}(xs: gflist (INV(a), xs)):<> gflist_vt (a, xs)
+  {xs:ilist}
+  (xs: gflist(INV(a), xs)):<> gflist_vt (a, xs)
 //
 (* ****** ****** *)
 
 fun{a:t@ype}
 gflist_append
-  {xs1,xs2:ilist} (
+  {xs1,xs2:ilist}
+(
   xs1: gflist (INV(a), xs1), xs2: gflist (a, xs2)
 ) :<> [res:ilist] (APPEND (xs1, xs2, res) | gflist (a, res))
 // end of [gflist_append]
@@ -168,14 +172,16 @@ gflist_revapp
 
 fun{a:t@ype}
 gflist_revapp1_vt
-  {xs1,xs2:ilist} (
+  {xs1,xs2:ilist}
+(
   xs1: gflist_vt (INV(a), xs1), xs2: gflist (a, xs2)
 ) :<!wrt> [res:ilist] (REVAPP (xs1, xs2, res) | gflist (a, res))
 // end of [gflist_revapp1_vt]
 
 fun{a:t@ype}
 gflist_revapp2_vt
-  {xs1,xs2:ilist} (
+  {xs1,xs2:ilist}
+(
   xs1: gflist (INV(a), xs1), xs2: gflist_vt (a, xs2)
 ) :<!wrt> [res:ilist] (REVAPP (xs1, xs2, res) | gflist_vt (a, res))
 // end of [gflist_revapp2_vt]
@@ -184,7 +190,8 @@ gflist_revapp2_vt
 
 fun{a:t@ype}
 gflist_reverse
-  {xs:ilist} (
+  {xs:ilist}
+(
   xs: gflist (INV(a), xs)
 ) :<> [ys:ilist] (REVERSE (xs, ys) | gflist_vt (a, ys))
 // end of [gflist_reverse]
@@ -199,16 +206,17 @@ gflist_get_at
 ) : stamped_t(a, x0) // end-of-function
 //
 (* ****** ****** *)
-
+//
 fun{a:t@ype}
 gflist_mergesort$cmp
   {x1,x2:int}
   (x1: stamped_t (a, x1), x2: stamped_t (a, x2)): int(sgn(x1-x2))
+//
 fun{a:t@ype}
 gflist_mergesort{xs:ilist}
   (xs: gflist (INV(a), xs)): [ys:ilist] (SORT (xs, ys) | gflist_vt (a, ys))
 // end of [gflist_mergesort]
-
+//
 (* ****** ****** *)
 
 (* end of [gflist.sats] *)

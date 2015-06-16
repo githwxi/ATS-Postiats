@@ -25,9 +25,24 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("March, 2012")
 
 #atscode_separator()
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+#atscode_separator()
+//
 primplmnt
-false_elim () = case+ 0 of _ =/=> ()
+false_elim() = case+ 0 of _ =/=> ()
+//
+#atscode_separator()
+
+primplmnt prop_verify () = ()
+primplmnt prop_verify_and_add () = ()
+
+#atscode_separator()
+
+primplmnt pridentity_v (x) = ()
+primplmnt pridentity_vt (x) = ()
 
 #atscode_separator()
 
@@ -47,16 +62,6 @@ primplmnt eqbool_make_bool (x) = EQBOOL ()
 
 #atscode_separator()
 
-primplmnt prop_verify () = ()
-primplmnt prop_verify_and_add () = ()
-
-#atscode_separator()
-
-primplmnt pridentity_v (x) = ()
-primplmnt pridentity_vt (x) = ()
-
-#atscode_separator()
-
 implement
 {a}(*tmp*)
 lazy_force (lazyval) = !lazyval
@@ -65,6 +70,13 @@ implement
 lazy_vt_force (lazyval) = !lazyval
 
 #atscode_separator()
+//
+implement
+{a}(*tmp*)
+stamped_vt2t_get{x}(x) =
+  $UN.ptr0_get<stamped_t(a,x)>(addr@x)
+//
+(* ****** ****** *)
 
 primplmnt
 unit_v_elim (pf) = let
