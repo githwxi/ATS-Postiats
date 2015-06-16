@@ -54,9 +54,7 @@ implement
 {a}(*tmp*)
 gflist_length (xs) = let
 //
-val (
-  pf | xs
-) = gflist2list (xs) // castfn
+val (pf | xs) = gflist2list (xs)
 //
 in
   (pf | list_length<a> (xs))
@@ -151,13 +149,17 @@ gflist_revapp
 fun loop
   {xs1,xs2:ilist} .<xs1>.
 (
-  xs1: gflist (INV(a), xs1), xs2: gflist (a, xs2)
+  xs1: gflist (a, xs1), xs2: gflist (a, xs2)
 ) :<> [res:ilist]
   (REVAPP (xs1, xs2, res) | gflist (a, res)) = let
 in
 //
 case+ xs1 of
-| gflist_nil() => (REVAPPnil () | xs2)
+//
+| gflist_nil() =>
+    (REVAPPnil () | xs2)
+  // end of [gflist_nil]
+//
 | gflist_cons(x1, xs1) => let
     val (pf | res) = loop (xs1, gflist_cons(x1, xs2))
   in
@@ -198,8 +200,9 @@ gflist_revapp2_vt
   (xs1, xs2) = let
 //
 fun loop
-  {xs1,xs2:ilist} .<xs1>. (
-  xs1: gflist (INV(a), xs1), xs2: gflist_vt (a, xs2)
+  {xs1,xs2:ilist} .<xs1>.
+(
+  xs1: gflist (a, xs1), xs2: gflist_vt (a, xs2)
 ) :<> [res:ilist]
   (REVAPP (xs1, xs2, res) | gflist_vt (a, res)) = let
 in
@@ -238,10 +241,11 @@ gflist_get_at
   (pf | xs, i) = let
 //
 fun
-loop{xs:ilist}{i:int}
+loop
+{xs:ilist}{i:int}
 (
   pf: NTH(x0, xs, i)
-| xs: gflist(INV(a), xs), i: int(i)
+| xs: gflist(a, xs), i: int(i)
 ) : stamped_t(a, x0) = let
 //
 prval
