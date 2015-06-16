@@ -92,7 +92,8 @@ gflist_vt (
 
 castfn
 gflist_vt2t
-  {a:t@ype}{xs:ilist} (xs: gflist_vt (a, xs)):<!wrt> gflist (a, xs)
+  {a:t@ype}{xs:ilist}
+  (gflist_vt (a, xs)):<!wrt> gflist (a, xs)
 // end of [gflist_vt2t]
 
 (* ****** ****** *)
@@ -101,7 +102,7 @@ castfn
 gflist2list
   {a:t@ype}{xs:ilist}
 (
-  xs: gflist (a, xs)
+  gflist(INV(a), xs)
 ) :<> [n:nat] (LENGTH (xs, n) | list (a, n))
 // end of [gflist2list]
 
@@ -109,7 +110,7 @@ castfn
 list2gflist
   {a:t@ype}{n:int}
 (
-  xs: list (a, n)
+  xs: list(INV(a), n)
 ) :<> [xs:ilist] (LENGTH (xs, n) | gflist (a, xs))
 // end of [list2gflist]
 
@@ -119,7 +120,7 @@ castfn
 gflist2list_vt
   {a:vt@ype}{xs:ilist}
 (
-  xs: gflist_vt (a, xs)
+  gflist_vt(INV(a), xs)
 ) :<> [n:nat] (LENGTH (xs, n) | list_vt (a, n))
 // end of [gflist2list_vt]
 
@@ -127,7 +128,7 @@ castfn
 list2gflist_vt
   {a:vt@ype}{n:int}
 (
-  xs: list_vt (a, n)
+  xs: list_vt(INV(a), n)
 ) :<> [xs:ilist] (LENGTH (xs, n) | gflist_vt (a, xs))
 // end of [list2gflist_vt]
 

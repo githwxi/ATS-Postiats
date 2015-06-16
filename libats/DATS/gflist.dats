@@ -106,16 +106,20 @@ gflist_append
 //
 fun loop
   {xs1:ilist}
-  {xs2:ilist} .<xs1>. (
-  xs1: gflist (a, xs1), xs2: gflist (a, xs2), res: &ptr? >> gflist (a, ys)
+  {xs2:ilist} .<xs1>.
+(
+  xs1: gflist (a, xs1)
+, xs2: gflist (a, xs2)
+, res: &ptr? >> gflist (a, ys)
 ) :<!wrt> #[ys:ilist] (APPEND (xs1, xs2, ys) | void) = let
 in
 //
 case+ xs1 of
 | gflist_cons
     (x1, xs1) => let
-    val () = res := gflist_cons (x1, _)
-    val+ gflist_cons (_, res1) = res
+    val () =
+    res := gflist_cons{a}(x1, _)
+    val+gflist_cons (_, res1) = res
     val (pf | ()) = loop (xs1, xs2, res1)
     prval () = fold@ (res)
   in
