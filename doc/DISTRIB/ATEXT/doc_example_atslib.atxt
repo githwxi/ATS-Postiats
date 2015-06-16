@@ -191,6 +191,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libats_gflist.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_bitvec.dats")
 
 (* ****** ****** *)
