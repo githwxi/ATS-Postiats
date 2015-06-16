@@ -70,15 +70,18 @@ fun fprint_hitnam : fprint_type (hitnam)
 datatype
 hisexp_node =
 //
+  | HSEcst of (s2cst)
+//
   | HSEtybox of () // for pointers
   | HSEtyabs of (symbol) // for abstypes
 //
-  | HSEfun of (* function type *)
-      (funclo, hisexplst(*arg*), hisexp(*res*))
-  | HSEcst of (s2cst)
   | HSEapp of (hisexp, hisexplst)
 //
   | HSEextype of (string(*name*), hisexplstlst)
+//
+  | HSEfun of (* function type *)
+      (funclo, hisexplst(*arg*), hisexp(*res*))
+    // end of [HSEfun]
 //
   | HSErefarg of (int(*refval*), hisexp)
 //

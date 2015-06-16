@@ -275,41 +275,62 @@ s2exp_hnfize_app
   s2e0, s2e_fun, s2es_arg, flag
 ) = let
 (*
-  val () = (
-    print "s2exp_hnfize_app: s2e0 = "; print_s2exp s2e0; print_newline ()
-  ) // end of [val]
+//
+val () =
+println!
+  ("s2exp_hnfize_app: s2e0 = ", s2e0)
+//
 *)
-  val flag0 = flag
-  val s2e_fun = s2exp_hnfize_flag (s2e_fun, flag)
+//
+val flag0 = flag
+//
+val s2e_fun =
+  s2exp_hnfize_flag (s2e_fun, flag)
+//
+val s2es_arg =
+  s2explst_hnfize_flag (s2es_arg, flag)
+//
+(*
+//
+val () =
+println!
+  ("s2exp_hnfize_app: s2es_arg = ", s2es_arg)
+//
+*)
 in
 //
 case+
-  s2e_fun.s2exp_node of
-| S2Elam (s2vs_arg, s2e_body) => let
+s2e_fun.s2exp_node
+of // case+
+| S2Elam (
+    s2vs_arg, s2e_body
+  ) => let
     #define :: list_cons
-    val () = flag := flag + 1
-    var sub = stasub_make_nil ()
     fun aux (
       s2vs: s2varlst, s2es: s2explst, sub: &stasub
     ) : void =
       case+ (s2vs, s2es) of
+      | (list_nil(), _) => ()
+      | (_, list_nil()) => ()
       | (s2v :: s2vs, s2e :: s2es) => let
           val () = stasub_add (sub, s2v, s2e) in aux (s2vs, s2es, sub)
         end // end of [::, ::]
-      | (_, _) => ()
     // end of [aux]
-    val s2es_arg = s2explst_hnfize (s2es_arg)
+    val () = flag := flag + 1
+    var sub = stasub_make_nil ()
     val () = aux (s2vs_arg, s2es_arg, sub)
     val s2e0 = s2exp_subst (sub, s2e_body)
-    val () = stasub_free (sub)
+    val ((*freed*)) = stasub_free (sub)
   in
     s2exp_hnfize_flag (s2e0, flag)
   end // end of [S2Elam]
-| _ =>
-    if flag > flag0 then
-      s2exp_app_srt (s2e0.s2exp_srt, s2e_fun, s2es_arg)
-    else s2e0 (* there is no change *)
-  (* end of [_] *)
+| _ (* non-S2Elam *) =>
+  (
+    if flag > flag0
+      then s2exp_app_srt(s2e0.s2exp_srt, s2e_fun, s2es_arg)
+      else s2e0 (* there is no change *)
+    // end of [if]
+  ) (* end of [non-S2Elam] *)
 //
 end // end of [s2exp_hnfize_flag_app]
 

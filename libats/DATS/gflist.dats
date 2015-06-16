@@ -75,19 +75,20 @@ fun loop
 in
 //
 case+ xs of
-| gflist_cons
-    (x, xs1) => let
+| gflist_nil() =>
+    (res := gflist_vt_nil())
+  // end of [gflist_nil]
+| gflist_cons(x, xs1) => let
     val x = stamped_t2vt (x)
     val () =
-      res := gflist_vt_cons (x, _)
-    // end of [val]
-    val+ gflist_vt_cons (_, res1) = res
-    val () = loop (xs1, res1)
-    prval () = fold@ (res)
+    res := gflist_vt_cons(x, _)
+    val+
+    gflist_vt_cons (_, res1) = res
+    val ((*void*)) = loop (xs1, res1)
+    prval ((*void*)) = fold@ (res)
   in
     // nothing
   end // end of [gflist_vt_cons]
-| gflist_nil () => (res := gflist_vt_nil ())
 end // end of [loop]
 //
 var res: ptr // uninitialized
@@ -111,23 +112,24 @@ fun loop
   xs1: gflist (a, xs1)
 , xs2: gflist (a, xs2)
 , res: &ptr? >> gflist (a, ys)
-) :<!wrt> #[ys:ilist] (APPEND (xs1, xs2, ys) | void) = let
+) :<!wrt> #[ys:ilist] (APPEND(xs1, xs2, ys) | void) = let
 in
 //
 case+ xs1 of
-| gflist_cons
-    (x1, xs1) => let
+| gflist_nil() => let
+    val () = res := xs2
+  in
+    (APPENDnil() | ())
+  end // end of [gflist_nil]
+| gflist_cons(x1, xs1) => let
     val () =
-    res := gflist_cons{a}(x1, _)
-    val+gflist_cons (_, res1) = res
+    res := gflist_cons(x1, _)
+    val+gflist_cons(_, res1) = res
     val (pf | ()) = loop (xs1, xs2, res1)
     prval () = fold@ (res)
   in
-    (APPENDcons (pf) | ())
+    (APPENDcons(pf) | ())
   end // end of [gflist_cons]
-| gflist_nil () => let
-    val () = res := xs2 in (APPENDnil () | ())
-  end // end of [gflist_nil]
 //
 end // end of [loop]
 //
@@ -147,20 +149,20 @@ gflist_revapp
   (xs1, xs2) = let
 //
 fun loop
-  {xs1,xs2:ilist} .<xs1>. (
+  {xs1,xs2:ilist} .<xs1>.
+(
   xs1: gflist (INV(a), xs1), xs2: gflist (a, xs2)
 ) :<> [res:ilist]
   (REVAPP (xs1, xs2, res) | gflist (a, res)) = let
 in
 //
 case+ xs1 of
-| gflist_cons
-    (x1, xs1) => let
-    val (pf | res) = loop (xs1, gflist_cons (x1, xs2))
+| gflist_nil() => (REVAPPnil () | xs2)
+| gflist_cons(x1, xs1) => let
+    val (pf | res) = loop (xs1, gflist_cons(x1, xs2))
   in
     (REVAPPcons (pf) | res)
   end // end of [gflist_cons]
-| gflist_nil () => (REVAPPnil () | xs2)
 //
 end // end of [loop]
 //
@@ -203,14 +205,15 @@ fun loop
 in
 //
 case+ xs1 of
-| gflist_cons
-    (x1, xs1) => let
+| gflist_nil() =>
+    (REVAPPnil () | xs2)
+  // end of [gflist_nil]
+| gflist_cons(x1, xs1) => let
     val x1 = stamped_t2vt (x1)
-    val (pf | res) = loop (xs1, gflist_vt_cons (x1, xs2))
+    val (pf | res) = loop (xs1, gflist_vt_cons(x1, xs2))
   in
     (REVAPPcons (pf) | res)
   end // end of [gflist_cons]
-| gflist_nil () => (REVAPPnil () | xs2)
 //
 end // end of [loop]
 //

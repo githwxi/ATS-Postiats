@@ -607,51 +607,63 @@ case+
   hse0.hisexp_node
 of // of [case]
 //
+| HSEcst _ => hse0
+//
 | HSEtyabs _ => hse0
 | HSEtybox _ => hse0
 //
-| HSEfun (
-    fc, hses_arg, hse_res
+| HSEapp (
+    hse_fun, hses_arg
   ) => let
-    val f0 = flag
-    val hses_arg = auxlst (sub, hses_arg, flag)
-    val hse_res = aux (sub, hse_res, flag)
-  in
-    if flag > f0
-      then hisexp_fun (fc, hses_arg, hse_res) else hse0
-    // end of [if]
-  end // end of [HSEfun]
-//
-| HSEapp (hse_fun, hses_arg) => let
     val f0 = flag
     val hse_fun = aux (sub, hse_fun, flag)
     val hses_arg = auxlst (sub, hses_arg, flag)
   in
-    if flag > f0 then hisexp_app (hse_fun, hses_arg) else hse0
+    if flag > f0
+      then hisexp_app (hse_fun, hses_arg) else hse0
+    // end of [if]
   end // end of [HSEapp]
 //
 | HSEextype (name, hsess) => let
     val f0 = flag
     val hsess = auxlstlst (sub, hsess, flag)
   in
-    if flag > f0 then hisexp_extype (name, hsess) else hse0
+    if flag > f0
+      then hisexp_extype (name, hsess) else hse0
+    // end of [if]
   end // end of [HSEextype]
 //
-| HSErefarg (knd, hse) => let
+| HSEfun (
+    fc, hses_arg, hse_res
+  ) => let
+    val f0 = flag
+    val hse_res = aux (sub, hse_res, flag)
+    val hses_arg = auxlst (sub, hses_arg, flag)
+  in
+    if flag > f0
+      then hisexp_fun (fc, hses_arg, hse_res) else hse0
+    // end of [if]
+  end // end of [HSEfun]
+//
+| HSErefarg
+    (knd, hse) => let
     val f0 = flag
     val hse = aux (sub, hse, flag)
   in
-    if flag > f0 then hisexp_refarg (knd, hse) else hse0
+    if flag > f0
+      then hisexp_refarg (knd, hse) else hse0
+    // end of [if]
   end // end of [HSErefarg]
 //
-| HSEtyarr (
-    hse_elt, s2es
-  ) => let
+| HSEtyarr
+    (hse_elt, s2es) => let
     val f0 = flag
     val s2es = s2explst_subst_flag (sub, s2es, flag)
     val hse_elt = aux (sub, hse_elt, flag)
   in
-    if flag > f0 then hisexp_tyarr (hse_elt, s2es) else hse0
+    if flag > f0
+      then hisexp_tyarr (hse_elt, s2es) else hse0
+    // end of [if]
   end // end of [HSEtyarr]
 | HSEtyrec (knd, lhses) => let
     val f0 = flag
@@ -705,7 +717,9 @@ of // of [case]
     if flag > f0 then hisexp_s2zexp (s2ze) else hse0
   end // end of [HSEs2zexp]
 //
-| _ => hse0
+(*
+| _ (*rest-of-hisexp*) => hse0
+*)
 //
 end // end of [aux]
 

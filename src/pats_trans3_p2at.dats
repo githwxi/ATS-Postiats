@@ -236,7 +236,7 @@ case+
 | P2Tann (p2t, s2e) =>
     p2at_trdn_arg (p2t, s2e)
   // end of [P2Tann]
-| _ => let
+| _ (*non-P2Tann*) => let
     val-Some (s2e) = p2t0.p2at_type
   in
     p2at_trdn (p2t0, s2e)
@@ -289,7 +289,8 @@ p2atlst_trup_arg
 
 local
 
-fun p2at_trdn_arg_refarg_var
+fun
+p2at_trdn_arg_refarg_var
   (p2t0: p2at, s2e0: s2exp): p3at = let
 //
 val loc0 = p2t0.p2at_loc
@@ -362,10 +363,11 @@ p2at_trdn_arg
 val s2f0 = s2exp2hnf (s2e0)
 val s2e0 = s2hnf2exp (s2f0)
 (*
+//
 val () =
-(
-  println! ("p2at_trdn_arg: s2e0 = ", s2e0)
-)
+println!
+  ("p2at_trdn_arg: s2e0 = ", s2e0)
+//
 *)
 in
 //
@@ -374,9 +376,10 @@ case+ s2e0.s2exp_node of
   case+ p2t0.p2at_node of
   | P2Tvar _ =>
       p2at_trdn_arg_refarg_var (p2t0, s2e0)
-  | _ => p2at_trdn_arg_refarg_err (p2t0, s2e0)
+  | _ (*non-P2Tvar*) =>
+      p2at_trdn_arg_refarg_err (p2t0, s2e0)
   )
-| _ => p2at_trdn (p2t0, s2e0)
+| _ (*non-S2Erefarg*) => p2at_trdn (p2t0, s2e0)
 //
 end // end of [p2at_trdn_arg]
 
@@ -385,7 +388,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-p2atlst_trdn_arg (
+p2atlst_trdn_arg
+(
   loc0, npf, p2ts, s2es, serr
 ) = let
 //
@@ -494,8 +498,9 @@ val () =
 (
   println! ("p2at_trdn: p2t0 = ", p2t0);
   println! ("p2at_trdn: s2f0 = ", s2f0);
-) // end of [val]
+) (* end of [val] *)
 *)
+//
 in
 //
 case+ p2t0.p2at_node of
