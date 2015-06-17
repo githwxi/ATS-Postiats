@@ -78,10 +78,15 @@ val () = assertloc (myset1.is_subset(myset2))
 val () = assertloc (myset2.is_supset(myset1))
 
 (* ****** ****** *)
-
-val myset3 = (100).tabulate(lam x => x%10)
+//
+val
+myset3 = (100).tabulate()(lam x => x%10)
+//
+val () =
+fprintln! (stdout_ref, "myset3 = ", myset3.size())
+//
 val () = fprintln! (stdout_ref, "myset3 = ", myset3)
-
+//
 (* ****** ****** *)
 
 implement main0 () = {}
