@@ -245,6 +245,8 @@ myfunset_tabulate_cloref
   n: int(n), fopr: (natLt(n)) -<cloref1> elt
 ) : myset // end of [myfunset_tabulate_cloref]
 //
+overload .tabulate with myfunset_tabulate_cloref
+//
 (* ****** ****** *)
 //
 extern
