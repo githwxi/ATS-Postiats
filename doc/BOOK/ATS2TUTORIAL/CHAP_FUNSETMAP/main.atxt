@@ -40,13 +40,13 @@ creating and operating on such a set based on a balanced-tree
 implementation in ATSLIB/libats:
 
 #atscode('\
-staload
-FS = "libats/ML/SATS/funset.sats"
-//
+
 local
 //
 typedef elt = elt_t
 //
+staload
+FS = "libats/ML/SATS/funset.sats"
 implement
 $FS.compare_elt_elt<elt>(x, y) = compare(x, y)
 //
@@ -169,14 +169,13 @@ essentially sets up an interface for creating and operating on such a map
 based on a balanced-tree implementation in ATSLIB/libats:
 
 #atscode('\
-staload
-FM = "libats/ML/SATS/funmap.sats"
-//
 local
 //
 typedef
 key = key_t and itm = itm_t
 //
+staload
+FM = "libats/ML/SATS/funmap.sats"
 implement
 $FM.compare_key_key<key>(x, y) = compare(x, y)
 //

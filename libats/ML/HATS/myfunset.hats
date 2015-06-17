@@ -432,7 +432,7 @@ myfunset_tabulate_cloref
 //
 implement
 myfunset_listize
-  (xs) = g1ofg0(funset_listize<elt>(xs))
+  (xs) = g1ofg0_list(funset_listize<elt>(xs))
 //
 (* ****** ****** *)
 

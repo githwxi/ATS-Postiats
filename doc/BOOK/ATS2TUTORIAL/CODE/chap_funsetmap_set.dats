@@ -8,14 +8,13 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-//
-staload
-FS = "libats/ML/SATS/funset.sats"
-//
+
 local
 //
 typedef elt = int
 //
+staload
+FS = "libats/ML/SATS/funset.sats"
 implement
 $FS.compare_elt_elt<elt>(x, y) = compare(x, y)
 //

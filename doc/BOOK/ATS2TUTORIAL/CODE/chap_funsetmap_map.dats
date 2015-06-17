@@ -8,15 +8,14 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-//
-staload
-FM = "libats/ML/SATS/funmap.sats"
-//
+
 local
 //
 typedef
 key = string and itm = int
 //
+staload
+FM = "libats/ML/SATS/funmap.sats"
 implement
 $FM.compare_key_key<key>(x, y) = compare(x, y)
 //
