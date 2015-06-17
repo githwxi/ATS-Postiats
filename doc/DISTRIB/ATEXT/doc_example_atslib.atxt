@@ -267,6 +267,8 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 #packfilename("libats_ML_funset.dats")
 #packfilename("libats_ML_funmap.dats")
+#packfilename("libats_ML_myfunset.dats")
+#packfilename("libats_ML_myfunmap.dats")
 
 (* ****** ****** *)
 
