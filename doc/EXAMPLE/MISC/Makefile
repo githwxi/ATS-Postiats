@@ -100,6 +100,14 @@ clean:: ; $(RMF) autodiff_dats.o
 clean:: ; $(RMF) autodiff_dats.c
 cleanall:: ; $(RMF) autodiff autodiff.exe
 
+all:: fib_memo
+fib_memo: fib_memo.exe
+fib_memo.exe: fib_memo_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+fib_memo_dats.c: fib_memo.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fib_memo_dats.c --dynamic fib_memo.dats
+clean:: ; $(RMF) fib_memo_dats.o
+clean:: ; $(RMF) fib_memo_dats.c
+cleanall:: ; $(RMF) fib_memo fib_memo.exe
+
 all:: fourslot
 fourslot: fourslot.exe
 fourslot.exe: fourslot_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

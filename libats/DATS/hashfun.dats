@@ -102,4 +102,4 @@ end // end of [string_hash_multiplier]
 
 (* ****** ****** *)
 
-(* end of [hashfun.sats] *)
+(* end of [hashfun.dats] *)

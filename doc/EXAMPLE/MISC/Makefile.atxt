@@ -107,6 +107,7 @@ RMF=rm -f
 #make_entry("matrixops")
 #
 #make2_entry("autodiff", "-DATS_MEMALLOC_GCBDW -O2", "-lm -lgc")
+#make2_entry("fib_memo", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make2_entry("fourslot", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("hanoi", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("monad_maybe", "-DATS_MEMALLOC_LIBC", "")

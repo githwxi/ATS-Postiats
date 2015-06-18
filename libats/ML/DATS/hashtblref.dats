@@ -66,11 +66,27 @@ equal_key_key = gequal_val_val<key>
 
 (* ****** ****** *)
 //
+implement
+hash_key<int> (key) = let
+  val key = $UN.cast{uint32}(key)
+in
+  $UN.cast{ulint}(inthash_jenkins<>(key))
+end // end of [hash_key<int>]
+//
+implement
+hash_key<uint> (key) = let
+  val key = $UN.cast{uint32}(key)
+in
+  $UN.cast{ulint}(inthash_jenkins<>(key))
+end // end of [hash_key<uint>]
+//
+(* ****** ****** *)
+//
 // HX: 31 and 37 are top choices
 //
 implement
-hash_key<string> (str) =
-  string_hash_multiplier (31UL, 31415926536UL, str)
+hash_key<string> (key) =
+  string_hash_multiplier (31UL, 31415926536UL, key)
 //
 (* ****** ****** *)
 //

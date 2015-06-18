@@ -235,7 +235,7 @@ myhashtbl_takeout_all
   (tbl) =
 (
   g1ofg0_list(hashtbl_takeout_all<key,itm>(tbl))
-) (* end of [myhashtbl_takeout_all] *)
+) (* myhashtbl_takeout_all *)
 //
 (* ****** ****** *)
 //
