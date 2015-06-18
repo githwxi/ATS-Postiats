@@ -62,6 +62,22 @@ end // end of [gflist_length]
 
 (* ****** ****** *)
 
+implement{a} gflist_snoc {xs}{x} (xs, x) = let
+  fun loop {xs:ilist}{x:int} (xs: gflist (a, xs), x: stamped_t (a, x)):
+      [xsx:ilist] (SNOC (xs, x, xsx) | gflist (a, xsx)) =
+    case+ xs of
+    | gflist_nil () => (SNOCnil () | gflist_cons (x, gflist_nil))
+    | gflist_cons (x1, xs1) => let
+      val (pfsnoc | xs2) = loop (xs1, x)
+    in
+      (SNOCcons pfsnoc | gflist_cons(x1, xs2))
+    end
+in
+  loop (xs, x)
+end
+
+(* ****** ****** *)
+
 implement
 {a}(*tmp*)
 gflist_copy (xs) = let

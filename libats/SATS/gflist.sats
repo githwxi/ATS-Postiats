@@ -143,6 +143,16 @@ gflist_length
 // end of [gflist_length]
 
 (* ****** ****** *)
+
+fun{a:t@ype}
+gflist_snoc
+  {xs:ilist}{x:int}
+(
+  xs: gflist (a, xs), x: stamped_t (a, x)
+) : [xsx:ilist] (SNOC (xs, x, xsx) | gflist (a, xsx))
+// end of gflist_snoc
+
+(* ****** ****** *)
 //
 fun{a:t@ype}
 gflist_copy
