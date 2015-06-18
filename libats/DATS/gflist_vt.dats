@@ -77,6 +77,26 @@ in
 end // end of [gflist_vt_length]
 
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+gflist_vt_snoc
+  {xs}{x0}(xs, x0) = let
+//
+val (pfapp | res) =
+  gflist_vt_append<a> (xs, gflist_vt_sing(x0))
+//
+extern
+praxi
+lemma :
+{xsx:ilist}
+APPEND(xs, ilist_sing(x0), xsx) -> SNOC(xs, x0, xsx)
+//
+in
+  (lemma(pfapp) | res)
+end // end of [gflist_vt_snoc]
+
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)

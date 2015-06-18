@@ -53,7 +53,7 @@ staload "libats/SATS/gflist.sats"
 
 (* ****** ****** *)
 
-fun{a:vt@ype}
+fun{a:vt0p}
 gflist_vt_length
   {xs:ilist}
   (xs: !gflist_vt (INV(a), xs)):<> [n:nat] (LENGTH (xs, n) | int n)
@@ -61,23 +61,34 @@ gflist_vt_length
 
 (* ****** ****** *)
 
-fun{a:vt@ype}
+fun{a:vt0p}
+gflist_vt_snoc
+  {xs:ilist}{x0:int}
+(
+  xs: gflist_vt (a, xs), x0: stamped_vt (a, x0)
+) : [xsx:ilist] (SNOC (xs, x0, xsx) | gflist_vt (a, xsx))
+
+(* ****** ****** *)
+
+fun{a:vt0p}
 gflist_vt_append
-  {xs1,xs2:ilist} (
+  {xs1,xs2:ilist}
+(
   xs1: gflist_vt (INV(a), xs1), xs2: gflist_vt (a, xs2)
 ) :<!wrt> [res:ilist] (APPEND (xs1, xs2, res) | gflist_vt (a, res))
 // end of [gflist_vt_append]
 
 (* ****** ****** *)
 
-fun{a:vt@ype}
+fun{a:vt0p}
 gflist_vt_revapp
-  {xs1,xs2:ilist} (
+  {xs1,xs2:ilist}
+(
   xs1: gflist_vt (INV(a), xs1), xs2: gflist_vt (a, xs2)
 ) :<!wrt> [res:ilist] (REVAPP (xs1, xs2, res) | gflist_vt (a, res))
 // end of [gflist_vt_revapp]
 
-fun{a:vt@ype}
+fun{a:vt0p}
 gflist_vt_reverse
   {xs:ilist} (
   xs: gflist_vt (INV(a), xs)
@@ -85,15 +96,20 @@ gflist_vt_reverse
 // end of [gflist_vt_reverse]
 
 (* ****** ****** *)
-
-fun{a:vt@ype}
-gflist_vt_mergesort$cmp {x1,x2:int}
-  (x1: &stamped_vt (a, x1), x2: &stamped_vt (a, x2)): int(sgn(x1-x2))
-fun{a:vt@ype}
-gflist_vt_mergesort {xs:ilist}
-  (xs: gflist_vt (INV(a), xs)): [ys:ilist] (SORT (xs, ys) | gflist_vt (a, ys))
+//
+fun{a:vt0p}
+gflist_vt_mergesort
+  {xs:ilist}
+(
+  xs: gflist_vt (INV(a), xs)
+) : [ys:ilist] (SORT (xs, ys) | gflist_vt (a, ys))
 // end of [gflist_vt_mergesort]
-
+//
+fun{a:vt0p}
+gflist_vt_mergesort$cmp
+  {x1,x2:int}
+  (x1: &stamped_vt (a, x1), x2: &stamped_vt (a, x2)): int(sgn(x1-x2))
+//
 (* ****** ****** *)
 
 (* end of [gflist_vt.sats] *)

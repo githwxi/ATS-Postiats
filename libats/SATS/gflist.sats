@@ -89,6 +89,13 @@ gflist_vt (
 // end of [gflist_vt]
 
 (* ****** ****** *)
+//
+#define
+gflist_sing(x) gflist_cons(x, gflist_nil())
+#define
+gflist_vt_sing(x) gflist_vt_cons(x, gflist_vt_nil())
+//
+(* ****** ****** *)
 
 castfn
 gflist_vt2t
@@ -134,7 +141,7 @@ list2gflist_vt
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 gflist_length
   {xs:ilist}
 (
@@ -144,24 +151,23 @@ gflist_length
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 gflist_snoc
-  {xs:ilist}{x:int}
+  {xs:ilist}{x0:int}
 (
-  xs: gflist (a, xs), x: stamped_t (a, x)
-) : [xsx:ilist] (SNOC (xs, x, xsx) | gflist (a, xsx))
-// end of gflist_snoc
+  xs: gflist (a, xs), x0: stamped_t (a, x0)
+) : [xsx:ilist] (SNOC (xs, x0, xsx) | gflist_vt (a, xsx))
 
 (* ****** ****** *)
 //
-fun{a:t@ype}
+fun{a:t0p}
 gflist_copy
   {xs:ilist}
   (xs: gflist(INV(a), xs)):<> gflist_vt (a, xs)
 //
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 gflist_append
   {xs1,xs2:ilist}
 (
@@ -171,7 +177,7 @@ gflist_append
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 gflist_revapp
   {xs1,xs2:ilist} (
   xs1: gflist (INV(a), xs1), xs2: gflist (a, xs2)
@@ -180,7 +186,7 @@ gflist_revapp
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 gflist_revapp1_vt
   {xs1,xs2:ilist}
 (
@@ -188,7 +194,7 @@ gflist_revapp1_vt
 ) :<!wrt> [res:ilist] (REVAPP (xs1, xs2, res) | gflist (a, res))
 // end of [gflist_revapp1_vt]
 
-fun{a:t@ype}
+fun{a:t0p}
 gflist_revapp2_vt
   {xs1,xs2:ilist}
 (
@@ -198,7 +204,7 @@ gflist_revapp2_vt
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 gflist_reverse
   {xs:ilist}
 (
@@ -208,7 +214,7 @@ gflist_reverse
 
 (* ****** ****** *)
 //
-fun{a:t@ype}
+fun{a:t0p}
 gflist_get_at
   {xs:ilist}{x0:int}{i:int}
 (
@@ -217,15 +223,17 @@ gflist_get_at
 //
 (* ****** ****** *)
 //
-fun{a:t@ype}
+fun{a:t0p}
+gflist_mergesort
+  {xs:ilist}
+(
+  xs: gflist (INV(a), xs)
+) : [ys:ilist] (SORT (xs, ys) | gflist_vt (a, ys))
+//
+fun{a:t0p}
 gflist_mergesort$cmp
   {x1,x2:int}
   (x1: stamped_t (a, x1), x2: stamped_t (a, x2)): int(sgn(x1-x2))
-//
-fun{a:t@ype}
-gflist_mergesort{xs:ilist}
-  (xs: gflist (INV(a), xs)): [ys:ilist] (SORT (xs, ys) | gflist_vt (a, ys))
-// end of [gflist_mergesort]
 //
 (* ****** ****** *)
 
