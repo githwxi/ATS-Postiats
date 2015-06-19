@@ -98,14 +98,6 @@ gflist_vt_sing(x) gflist_vt_cons(x, gflist_vt_nil())
 (* ****** ****** *)
 
 castfn
-gflist_vt2t
-  {a:t@ype}{xs:ilist}
-  (gflist_vt(INV(a), xs)):<!wrt> gflist (a, xs)
-// end of [gflist_vt2t]
-
-(* ****** ****** *)
-
-castfn
 gflist2list
   {a:t@ype}{xs:ilist}
 (
@@ -118,7 +110,7 @@ list2gflist
   {a:t@ype}{n:int}
 (
   xs: list(INV(a), n)
-) :<> [xs:ilist] (LENGTH (xs, n) | gflist (a, xs))
+) :<> [xs:ilist] (LENGTH(xs, n) | gflist (a, xs))
 // end of [list2gflist]
 
 (* ****** ****** *)
@@ -136,8 +128,16 @@ list2gflist_vt
   {a:vt@ype}{n:int}
 (
   xs: list_vt(INV(a), n)
-) :<> [xs:ilist] (LENGTH (xs, n) | gflist_vt (a, xs))
+) :<> [xs:ilist] (LENGTH(xs, n) | gflist_vt (a, xs))
 // end of [list2gflist_vt]
+
+(* ****** ****** *)
+
+castfn
+gflist_vt2t
+  {a:t@ype}{xs:ilist}
+  (xs: gflist_vt(INV(a), xs)):<!wrt> gflist (a, xs)
+// end of [gflist_vt2t]
 
 (* ****** ****** *)
 
@@ -179,7 +179,8 @@ gflist_append
 
 fun{a:t0p}
 gflist_revapp
-  {xs1,xs2:ilist} (
+  {xs1,xs2:ilist}
+(
   xs1: gflist (INV(a), xs1), xs2: gflist (a, xs2)
 ) :<> [res:ilist] (REVAPP (xs1, xs2, res) | gflist (a, res))
 // end of [gflist_revapp]

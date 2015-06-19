@@ -236,32 +236,40 @@ read_unsplit // HX: there is no need to check
 // end of [read_unsplit]
 *)
 (* ****** ****** *)
+//
+castfn
+stamp_t{a:t@ype}(x: a):<> stamped_t(a)
+castfn
+stamp_vt{a:vt@ype}(x: a):<> stamped_vt(a)
+//
+(* ****** ****** *)
 
 castfn
-unstamp_t0ype
-  {a:t@ype}{x:int} (x: stamped_t0ype (INV(a), x)):<> a
-// end of [unstamp_t0ype]
+unstamp_t
+  {a:t@ype}{x:int} (x: stamped_t (INV(a), x)):<> a
+// end of [unstamp_t]
 castfn
-unstamp_vt0ype
-  {a:vt@ype}{x:int} (x: stamped_vt0ype (INV(a), x)):<> a
-// end of [unstamp_vt0ype]
+unstamp_vt
+  {a:vt@ype}{x:int} (x: stamped_vt (INV(a), x)):<> a
+// end of [unstamp_vt]
 
 (* ****** ****** *)
 //
 castfn
 stamped_t2vt
   {a:t@ype}{x:int}
-  (x: stamped_t0ype(INV(a), x)):<> stamped_vt0ype (a, x)
+  (x: stamped_t(INV(a), x)):<> stamped_vt (a, x)
 // end of [stamped_t2vt]
+//
 castfn
 stamped_vt2t
   {a:t@ype}{x:int}
-  (x: stamped_vt0ype(INV(a), x)):<> stamped_t0ype (a, x)
+  (x: stamped_vt(INV(a), x)):<> stamped_t (a, x)
 // end of [stamped_vt2t]
 //
 fun{a:t@ype}
 stamped_vt2t_ref{x:int}
-  (x: &stamped_vt0ype(INV(a), x)):<> stamped_t0ype (a, x)
+  (x: &stamped_vt(INV(a), x)):<> stamped_t (a, x)
 //
 (* ****** ****** *)
 //

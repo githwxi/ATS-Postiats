@@ -587,6 +587,13 @@ vtypedef cloptr0 = cloptr_vt0ype_vtype (void)
 //
 (* ****** ****** *)
 //
+typedef
+stamped_t(a:t@ype) = [x:int] stamped_t(a, x)
+vtypedef
+stamped_vt(a:vt@ype) = [x:int] stamped_vt(a, x)
+//
+(* ****** ****** *)
+//
 // HX: for memory deallocation (with/without GC)
 //
 absview
