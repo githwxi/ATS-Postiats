@@ -311,6 +311,13 @@ a:vt0p}{env:vt0p
 
 #atscode_separator()
 //
+fun
+{a:vt0p}
+arrayref_quicksort
+  {n:int}(A: arrayref(a, n), asz: size_t(n)): void
+//
+#atscode_separator()
+//
 // arrszref: a reference to an array with size information attached
 //
 #atscode_separator()

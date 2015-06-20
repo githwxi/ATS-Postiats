@@ -439,6 +439,19 @@ end // end of [arrayptr_tabulate_cloref]
 
 #atscode_separator()
 
+implement
+{a}(*tmp*)
+arrayptr_quicksort
+  (A, asz) = () where
+{
+  val p = ptrcast (A)
+  prval pfarr = arrayptr_takeout (A)
+  val () = array_quicksort<a> (!p, asz)
+  prval () = arrayptr_addback (pfarr | A)
+} (* end of [arrayptr_quicksort] *)
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

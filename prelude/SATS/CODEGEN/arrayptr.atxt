@@ -458,7 +458,15 @@ arrayptr_tabulate
 //
 fun{a:vt0p}
 arrayptr_tabulate_cloref
-  {n:int} (size_t n, (sizeLt(n)) -<cloref> a): arrayptr (a, n)
+  {n:int}
+  (size_t n, (sizeLt(n)) -<cloref> a): arrayptr (a, n)
+//
+#atscode_separator()
+//
+fun
+{a:vt0p}
+arrayptr_quicksort
+  {n:int}(A: !arrayptr(a, n) >> _, asz: size_t(n)): void
 //
 #atscode_separator()
 //

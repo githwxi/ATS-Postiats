@@ -224,7 +224,9 @@ implement
 {a}{env}
 arrayref_foreach_env
   (A, asz, env) = let
-  val (vbox pf | p) = arrayref_get_viewptr (A)
+//
+val (vbox pf | p) = arrayref_get_viewptr (A)
+//
 in
   $effmask_ref (array_foreach_env<a><env> (!p, asz, env))
 end // end of [arrayref_foreach_env]
@@ -243,7 +245,9 @@ implement
 {a}{env}
 arrayref_iforeach_env
   (A, asz, env) = let
-  val (vbox pf | p) = arrayref_get_viewptr (A)
+//
+val (vbox pf | p) = arrayref_get_viewptr (A)
+//
 in
   $effmask_ref (array_iforeach_env<a><env> (!p, asz, env))
 end // end of [arrayref_iforeach_env]
@@ -262,10 +266,25 @@ implement
 {a}{env}
 arrayref_rforeach_env
   (A, asz, env) = let
-  val (vbox pf | p) = arrayref_get_viewptr (A)
+//
+val (vbox pf | p) = arrayref_get_viewptr (A)
+//
 in
   $effmask_ref (array_rforeach_env<a><env> (!p, asz, env))
 end // end of [arrayref_rforeach_env]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+arrayref_quicksort
+  (A, asz) = let
+//
+val (vbox pf | p) = arrayref_get_viewptr (A)
+//
+in
+  $effmask_ref (array_quicksort<a> (!p, asz))
+end // end of [arrayref_quicksort]
 
 #atscode_separator()
 

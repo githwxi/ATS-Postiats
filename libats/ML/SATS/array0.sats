@@ -304,6 +304,12 @@ a:vt0p}{res:vt0p
 
 (* ****** ****** *)
 //
+fun
+{a:vt0p}
+array0_quicksort(array0(a), cmp: (&a, &a) -<cloref1> int): void
+//
+(* ****** ****** *)
+//
 // Overloading certain symbols
 //
 (* ****** ****** *)

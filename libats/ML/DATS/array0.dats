@@ -407,9 +407,11 @@ implement
 {a}(*tmp*)
 array0_find_exn (A0, p) = let
 //
-val ASZ = arrszref_of_array0 (A0)
+val
+ASZ = arrszref_of_array0 (A0)
 //
-var asz: size_t
+var
+asz : size_t
 val A = arrszref_get_refsize (ASZ, asz)
 //
 implement(tenv)
@@ -440,9 +442,11 @@ implement
 array0_foreach
   (A0, f) = let
 //
-val ASZ = arrszref_of_array0 (A0)
+val
+ASZ = arrszref_of_array0 (A0)
 //
-var asz: size_t
+var
+asz : size_t
 val A = arrszref_get_refsize (ASZ, asz)
 //
 implement(tenv)
@@ -463,9 +467,11 @@ implement
 array0_iforeach
   (A0, f) = let
 //
-val ASZ = arrszref_of_array0 (A0)
+val
+ASZ = arrszref_of_array0 (A0)
 //
-var asz: size_t
+var
+asz : size_t
 val A = arrszref_get_refsize (ASZ, asz)
 //
 implement(tenv)
@@ -486,9 +492,11 @@ implement
 array0_rforeach
   (A0, f) = let
 //
-val ASZ = arrszref_of_array0 (A0)
+val
+ASZ = arrszref_of_array0 (A0)
 //
-var asz: size_t
+var
+asz : size_t
 val A = arrszref_get_refsize (ASZ, asz)
 //
 implement(tenv)
@@ -509,9 +517,11 @@ implement
 array0_foldleft
   (A0, ini, f) = let
 //
-val ASZ = arrszref_of_array0 (A0)
+val
+ASZ = arrszref_of_array0 (A0)
 //
-var asz: size_t
+var
+asz : size_t
 val A = arrszref_get_refsize (ASZ, asz)
 //
 implement
@@ -533,9 +543,11 @@ implement
 array0_ifoldleft
   (A0, ini, f) = let
 //
-val ASZ = arrszref_of_array0 (A0)
+val
+ASZ = arrszref_of_array0 (A0)
 //
-var asz: size_t
+var
+asz : size_t
 val A = arrszref_get_refsize (ASZ, asz)
 //
 implement
@@ -557,9 +569,11 @@ implement
 array0_foldright
   (A0, f, snk) = let
 //
-val ASZ = arrszref_of_array0 (A0)
+val
+ASZ = arrszref_of_array0 (A0)
 //
-var asz: size_t
+var
+asz : size_t
 val A = arrszref_get_refsize (ASZ, asz)
 //
 implement
@@ -573,6 +587,37 @@ val _ = arrayref_rforeach_env<a><res> (A, asz, result)
 in
   result
 end // end of [array0_foldright]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+array0_quicksort
+  (A0, cmp) = let
+//
+val
+ASZ = arrszref_of_array0 (A0)
+//
+var
+asz : size_t
+val A = arrszref_get_refsize (ASZ, asz)
+//
+implement
+{a}(*tmp*)
+array_quicksort$cmp
+  (x1, x2) = let
+//
+val
+cmp =
+$UN.cast{(&a,&a)-<cloref>int}(cmp)
+//
+in
+   cmp(x1, x2)
+end // end of [array_quicksort$cmp]
+//
+in
+  arrayref_quicksort<a> (A, asz)
+end // end of [array0_quicksort]
 
 (* ****** ****** *)
 
