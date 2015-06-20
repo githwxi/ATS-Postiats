@@ -454,7 +454,7 @@ array_foreach$cont<a><tenv> (x, env) = true
 implement(tenv)
 array_foreach$fwork<a><tenv> (x, env) = f (x)
 //
-val _ = arrayref_foreach<a> (A, asz)
+val _(*asz*) = arrayref_foreach<a> (A, asz)
 //
 in
   // nothing
@@ -479,7 +479,7 @@ array_iforeach$cont<a><tenv> (i, x, env) = true
 implement(tenv)
 array_iforeach$fwork<a><tenv> (i, x, env) = f (i, x)
 //
-val _ = arrayref_iforeach<a> (A, asz)
+val _(*asz*) = arrayref_iforeach<a> (A, asz)
 //
 in
   // nothing
@@ -504,7 +504,7 @@ array_rforeach$cont<a><tenv> (x, env) = true
 implement(tenv)
 array_rforeach$fwork<a><tenv> (x, env) = f (x)
 //
-val _ = arrayref_rforeach<a> (A, asz)
+val _(*asz*) = arrayref_rforeach<a> (A, asz)
 //
 in
   // nothing
@@ -529,8 +529,9 @@ array_foreach$cont<a><res> (x, env) = true
 implement
 array_foreach$fwork<a><res> (x, env) = env := f (env, x)
 //
-var result: res = ini
-val _ = arrayref_foreach_env<a><res> (A, asz, result)
+var
+result: res = ini
+val _(*asz*) = arrayref_foreach_env<a><res> (A, asz, result)
 //
 in
   result
@@ -555,8 +556,9 @@ array_iforeach$cont<a><res> (i, x, env) = true
 implement
 array_iforeach$fwork<a><res> (i, x, env) = (env := f (env, i, x))
 //
-var result: res = ini
-val _ = arrayref_iforeach_env<a><res> (A, asz, result)
+var
+result: res = ini
+val _(*asz*) = arrayref_iforeach_env<a><res> (A, asz, result)
 //
 in
   result
@@ -581,8 +583,9 @@ array_rforeach$cont<a><res> (x, env) = true
 implement
 array_rforeach$fwork<a><res> (x, env) = env := f (x, env)
 //
-var result: res = snk
-val _ = arrayref_rforeach_env<a><res> (A, asz, result)
+var
+result: res = snk
+val _(*asz*) = arrayref_rforeach_env<a><res> (A, asz, result)
 //
 in
   result
