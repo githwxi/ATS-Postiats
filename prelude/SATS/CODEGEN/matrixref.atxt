@@ -369,6 +369,9 @@ overload [] with matrixref_get_at_int of 0
 overload [] with matrixref_get_at_size of 0
 overload [] with matrixref_set_at_int of 0
 overload [] with matrixref_set_at_size of 0
+
+#atscode_separator()
+
 overload [] with mtrxszref_get_at_int of 0
 overload [] with mtrxszref_get_at_size of 0
 overload [] with mtrxszref_set_at_int of 0
