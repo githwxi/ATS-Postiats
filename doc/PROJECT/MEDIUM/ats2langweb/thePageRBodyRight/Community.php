@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-06-23:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/AmeOXNUZ7Ik"
+>Tetris: Autoplay is supported</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-06-09:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/j4ekLh2j6Zw"
