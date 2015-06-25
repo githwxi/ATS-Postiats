@@ -116,6 +116,17 @@ overload .list_map with int_list_map_method
 //
 (* ****** ****** *)
 //
+fun{a:t0p}
+int_array_map_cloref
+  (n: intGte(0), f: cfun(size_t, a)): array0(a)
+fun{a:t0p}
+int_array_map_method
+  (n: intGte(0), TYPE(a))(f: cfun(size_t, a)): array0(a)
+//
+overload .array_map with int_array_map_method
+//
+(* ****** ****** *)
+//
 fun{}
 int2_foreach_cloref
   (n1: int, n2: int, f: cfun2 (int, int, void)): void

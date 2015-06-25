@@ -38,6 +38,7 @@ staload "libats/ML/SATS/basis.sats"
 (* ****** ****** *)
 
 staload "libats/ML/SATS/list0.sats"
+staload "libats/ML/SATS/array0.sats"
 staload "libats/ML/SATS/intrange.sats"
 
 (* ****** ****** *)
@@ -169,6 +170,18 @@ implement
 {a}(*tmp*)
 int_list_map_method
   (n, tres) = lam(f) => int_list_map_cloref<a> (n, f)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+int_array_map_cloref
+  (n, f) = array0_tabulate<a> (i2sz(n), f)
+//
+implement
+{a}(*tmp*)
+int_array_map_method
+  (n, tres) = lam(f) => int_array_map_cloref<a> (n, f)
 //
 (* ****** ****** *)
 //
