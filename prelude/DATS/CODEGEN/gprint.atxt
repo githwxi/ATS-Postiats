@@ -30,33 +30,47 @@ implement{} gprint$out () = stdout_ref
 
 #atscode_separator()
 
-implement{a}
-gprint_val (x) = let
-  val out = gprint$out () in fprint_val<a> (out, x)
-end // end of [gprint_val]
-
-#atscode_separator()
-
 implement{}
 gprint_newline () = let
   val out = gprint$out () in fprint_newline (out)
 end // end of [gprint_newline]
 
 #atscode_separator()
+
+implement
+{a}(*tmp*)
+gprint_val (x) = let
+  val out = gprint$out () in fprint_val<a> (out, x)
+end // end of [gprint_val]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+gprint_ref (x) = let
+  val out = gprint$out () in fprint_ref<a> (out, x)
+end // end of [gprint_ref]
+
+#atscode_separator()
 //
-implement{}
+implement
+{}(*tmp*)
 gprint_int (x) =
   fprint_val<int> (gprint$out (), x)
-implement{}
+implement
+{}(*tmp*)
 gprint_char (x) =
   fprint_val<char> (gprint$out (), x)
-implement{}
+implement
+{}(*tmp*)
 gprint_float (x) =
   fprint_val<float> (gprint$out (), x)
-implement{}
+implement
+{}(*tmp*)
 gprint_double (x) =
   fprint_val<double> (gprint$out (), x)
-implement{}
+implement
+{}(*tmp*)
 gprint_string (x) =
   fprint_val<string> (gprint$out (), x)
 //
@@ -77,7 +91,8 @@ gprint_list$sep () = gprint_string ", "
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 gprint_list (xs) = let
 //
 typedef tenv = int
@@ -120,7 +135,8 @@ gprint_listlist$end2 () = gprint_string ")"
 implement{}
 gprint_listlist$sep2 () = gprint_string ", "
 
-implement{a}
+implement
+{a}(*tmp*)
 gprint_listlist
   (xss) = let
 //
@@ -156,7 +172,8 @@ gprint_array$sep () = gprint_string ", "
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 gprint_array (A, n) = let
 //
 typedef tenv = size_t
@@ -166,7 +183,7 @@ array_iforeach$fwork<a><env>
   (i, x, env) = let
   val () = if i > 0 then gprint_array$sep ()
 in
-  gprint_val<a> (x)
+  gprint_ref<a> (x)
 end // end of [array_iforeach$fwork]
 //
 var env: void = ()
@@ -180,23 +197,45 @@ end // end of [gprint_array]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 gprint_arrayptr
-  (A, n) = () where {
+  (A, n) =
+{
   val p = ptrcast (A)
   prval pf = arrayptr_takeout (A)
   val () = gprint_array<a> (!p, n)
   prval () = arrayptr_addback (pf | A)
-} // end of [gprint_arrayptr]
+} (* end of [gprint_arrayptr] *)
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 gprint_arrayref
-  (A, n) = () where {
-  val (vbox pf | p) = arrayref_get_viewptr (A)
-  val () = $effmask_ref (gprint_array<a> (!p, n))
-} // end of [gprint_arrayref]
+  (A, n) = let
+//
+val (vbox pf | p) =
+  arrayref_get_viewptr (A)
+//
+in
+  $effmask_ref (gprint_array<a> (!p, n))
+end // end of [gprint_arrayref]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+gprint_arrszref
+  (ASZ) = () where {
+//
+var n: size_t
+val A =
+  arrszref_get_refsize<> (ASZ, n)
+//
+val () = gprint_arrayref<a> (A, n)
+//
+} (* end of [gprint_arrszref] *)
 
 #atscode_separator()
 
