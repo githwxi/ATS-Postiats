@@ -819,6 +819,7 @@ val () = pervasive_load (PATSHOME, "prelude/SATS/intrange.sats")
 //
 val () = pervasive_load (PATSHOME, "prelude/SATS/gorder.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/gnumber.sats")
+val () = pervasive_load (PATSHOME, "prelude/SATS/grandom.sats")
 //
 (*
 //

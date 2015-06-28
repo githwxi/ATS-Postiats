@@ -1,0 +1,137 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"grandom.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_GPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/grandom.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("June, 2015")
+
+#atscode_separator()
+
+implement{} grandom_int() = 0
+implement{} grandom_uint() = 0u
+
+#atscode_separator()
+
+implement{} grandom_bool() = false
+
+#atscode_separator()
+
+implement{} grandom_float() = 0.0f
+implement{} grandom_double() = 0.0
+
+#atscode_separator()
+
+implement
+grandom_val<int> () = grandom_int<> ()
+implement
+grandom_val<uint> () = grandom_uint<> ()
+
+#atscode_separator()
+
+implement
+grandom_val<bool> () = grandom_bool<> ()
+
+#atscode_separator()
+
+implement
+grandom_val<double> () = grandom_double<> ()
+
+#atscode_separator()
+//
+implement
+{a}(*tmp*)
+grandom_list
+  (n) = list_vt2t(grandom_list_vt<a>(n))
+//
+implement{a}
+grandom_list_vt
+  (n) = res where
+{
+//
+fun loop
+  {n:nat} .<n>.
+(
+  n: int n, res: &ptr? >> list_vt (a, n)
+) : void = let
+in
+//
+if n > 0 then let
+//
+val () =
+  res := cons_vt{a}{0} (_, _)
+// end of [val]
+val+ list_vt_cons (x, res1) = res
+val () = grandom_ref<a> (x)
+val () = loop (pred (n), res1)
+//
+in
+  fold@ (res)
+end else res := nil_vt((*void*))
+//
+end // end of [loop]
+//
+var res: ptr // uninitialized
+val () = loop (n, res)
+//
+} (* end of [grandom_list_vt] *)
+//
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+grandom_arrayptr
+  (n) = A where {
+//
+val A =
+  arrayptr_make_uninitized<a> (n)
+//
+implement
+array_initize$init<a> (_, x) = grandom_ref<a> (x)
+//
+prval pf = arrayptr_takeout (A)
+val () = array_initize<a> (!(ptrcast(A)), n)
+prval () = arrayptr_addback (pf | A)
+//
+} (* end of [grandom_arrayptr] *)
+
+implement
+{a}(*tmp*)
+grandom_arrayref (n) =
+  arrayptr_refize(grandom_arrayptr<a> (n))
+// end of [grandom_arrayref]
+
+implement
+{a}(*tmp*)
+grandom_arrszref (n) = let
+  val n = g1ofg0_uint (n) in
+  arrszref_make_arrayref (grandom_arrayref<a> (n), n)
+end // end of [grandom_arrszref]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "grandom_atxt.txt")
+%}\

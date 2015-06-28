@@ -208,6 +208,15 @@ gnumber_atxt.dats: gnumber.atxt
 clean:: ; $(RMF) gnumber_atxt.exe
 cleanall:: ; $(RMF) gnumber.sats
 
+all:: grandom.sats
+grandom.sats: grandom_atxt.exe ; ./$< > $@
+grandom_atxt.exe: grandom_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ grandom_atxt.dats -latsdoc
+grandom_atxt.dats: grandom.atxt
+	$(ATSDOC) --outcode $@ -i grandom.atxt > grandom_atxt.txt
+clean:: ; $(RMF) grandom_atxt.exe
+cleanall:: ; $(RMF) grandom.sats
+
 
 all:: list.sats
 list.sats: list_atxt.exe ; ./$< > $@

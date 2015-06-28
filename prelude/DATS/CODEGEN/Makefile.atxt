@@ -91,6 +91,7 @@ all::
 
 #make_entry("gorder")
 #make_entry("gnumber")
+#make_entry("grandom")
 
 #make_entry("list")
 #make_entry("list_vt")
