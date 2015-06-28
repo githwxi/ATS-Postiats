@@ -106,20 +106,43 @@ RMF=rm -f
 ######
 
 #make_entry("prelude_basics")
+
+######
+
 #make2_entry("prelude_integer", "-DATS_MEMALLOC_LIBC", "")
-#make_entry("prelude_bool")
+
+######
+
+#make2_entry("prelude_bool", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_char", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("prelude_float", "", "-lm")
+#make2_entry("prelude_float", "-DATS_MEMALLOC_LIBC", "-lm")
+
+######
+
+#make2_entry("prelude_string", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
+######
+
 #make2_entry("prelude_memory", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_pointer", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("prelude_string", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
+######
+
 #make2_entry("prelude_reference", "-DATS_MEMALLOC_LIBC", "")
+
+######
 
 #make2_entry("prelude_filebas", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
+######
+
 #make_entry("prelude_intrange")
 
+######
+
 #make_entry("prelude_checkast")
+
+######
 
 #make2_entry("prelude_list", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_list_vt", "-DATS_MEMALLOC_LIBC", "")
@@ -137,6 +160,12 @@ RMF=rm -f
 
 #make2_entry("prelude_stream", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_stream_vt", "-DATS_MEMALLOC_LIBC", "")
+
+######
+
+#make2_entry("prelude_grandom", "-DATS_MEMALLOC_LIBC", "")
+
+######
 
 #make2_entry("prelude_gprint", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("prelude_tostring", "-DATS_MEMALLOC_LIBC", "")

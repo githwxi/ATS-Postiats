@@ -64,6 +64,7 @@ staload _ = "{$PATSPRE}/DATS/intrange.dats"
 
 staload _ = "{$PATSPRE}/DATS/gorder.dats"
 staload _ = "{$PATSPRE}/DATS/gnumber.dats"
+staload _ = "{$PATSPRE}/DATS/grandom.dats"
 
 (* ****** ****** *)
 //

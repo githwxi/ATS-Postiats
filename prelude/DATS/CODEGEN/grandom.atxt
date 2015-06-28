@@ -56,13 +56,20 @@ implement
 grandom_val<double> () = grandom_double<> ()
 
 #atscode_separator()
+
+implement
+{a}(*tmp*)
+grandom_ref(x) = (x := grandom_val<a> ())
+
+#atscode_separator()
 //
 implement
 {a}(*tmp*)
 grandom_list
   (n) = list_vt2t(grandom_list_vt<a>(n))
 //
-implement{a}
+implement
+{a}(*tmp*)
 grandom_list_vt
   (n) = res where
 {
@@ -79,7 +86,7 @@ if n > 0 then let
 val () =
   res := cons_vt{a}{0} (_, _)
 // end of [val]
-val+ list_vt_cons (x, res1) = res
+val+list_vt_cons (x, res1) = res
 val () = grandom_ref<a> (x)
 val () = loop (pred (n), res1)
 //

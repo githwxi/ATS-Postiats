@@ -1,5 +1,6 @@
 (*
-** for testing [prelude/char]
+** For testing
+** [prelude/char]
 *)
 
 (* ****** ****** *)
