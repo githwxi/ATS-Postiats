@@ -18,8 +18,19 @@ grandom_int<> () =
   $UNSAFE.cast2int($STDLIB.random()) mod 100
 //
 (* ****** ****** *)
+//
+implement
+grandom_bool<> () =
+  int2bool($UNSAFE.cast2int($STDLIB.random()) mod 2)
+//
+(* ****** ****** *)
 
 val xs = grandom_list<int>(10)
+val () = println! ("xs = ", xs)
+
+(* ****** ****** *)
+
+val xs = grandom_list<bool>(10)
 val () = println! ("xs = ", xs)
 
 (* ****** ****** *)
