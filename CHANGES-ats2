@@ -26,6 +26,7 @@ Here is a list of major additions and changes since the last release:
 2. Fixing [s2exp_hnfize_app] in [pats_staexp2_util2.dats]
 3. Adding testing code: doc/EXAMPLE/ATSLIB/libats_gflist.dats
 4. Adding various matrix-functions to libatscc/matrixref
+5. Adding prelude/grandom (for generating lists and arrays randomly)
 
 ######
 
