@@ -191,6 +191,7 @@ The ATSLIB/prelude library\
 (* ****** ****** *)
 
 #packfilename("SATS/gnumber.sats")
+#packfilename("SATS/grandom.sats")
 
 (* ****** ****** *)
 
@@ -270,6 +271,10 @@ The ATSLIB/prelude library\
 #packfilename("DATS/SHARE/gnumber_int.dats")
 #packfilename("DATS/SHARE/gnumber_uint.dats")
 #packfilename("DATS/SHARE/gnumber_float.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/grandom.dats")
 
 (* ****** ****** *)
 

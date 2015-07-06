@@ -147,9 +147,13 @@ ATSloop_close(init, fini, cont) \
 #define ATSPMVextval(name) (name)
 //
 /* ****** ****** */
-
+//
 #define ATSPMVfunlab(flab) (flab)
-
+//
+// HX-2015-07-06: not yet in use:
+//
+#define ATSPMVfunlab2(flab, arity) (flab)
+//
 /* ****** ****** */
 
 #define ATSPMVcfunlab(knd, flab, env) (flab##__closurerize)env
@@ -217,8 +221,10 @@ ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->cfun))
 /* ****** ****** */
 //
 #define ATSCKnot(x) ((x)==0)
+//
 #define ATSCKiseqz(x) ((x)==0)
 #define ATSCKisneqz(x) ((x)!=0)
+//
 #define ATSCKptriscons(x) (0 != (void*)(x))
 #define ATSCKptrisnull(x) (0 == (void*)(x))
 //
