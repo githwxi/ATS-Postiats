@@ -1450,14 +1450,19 @@ if isenv then
 } (* end of [then] *) // end of [if]
 )
 //
-val () =
-(
-if isenv then
-  emit_text (out, "ATSERRORnotenvless(")
+val () = (
+//
+if
+isenv
+then
+emit_text
+  (out, "ATSERRORnotenvless(")
+//
 ) (* end of [val] *)
 //
 val () =
-  emit_text (out, "ATSPMVfunlab(")
+emit_text
+  (out, "ATSPMVfunlab(")
 //
 val ((*void*)) = emit_funlab (out, flab)
 //
@@ -1481,20 +1486,22 @@ val opt = funlab_get_funent (flab)
 val d2es =
 (
 case+ opt of
+| None () => list_nil ()
 | Some (fent) =>
     funent_eval_d2envlst (fent)
-| None () => list_nil ()
-) : d2envlst
+  // end of [Some]
+) : d2envlst // end of [val]
 //
 val () =
-emit_text (out, "ATSPMVcfunlab(")
+emit_text
+  (out, "ATSPMVcfunlab(")
 //
 val () = emit_int (out, knd)
 val () = emit_text (out, ", ")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, ", (")
 val nenv = emit_d2envlst (out, d2es, 0)
-val () = emit_text (out, "))")
+val ((*closing*)) = emit_text (out, "))")
 //
 in
   // nothing
@@ -1504,7 +1511,8 @@ end // end of [emit_primval_cfunlab]
 
 local
 
-fun auxmain
+fun
+auxmain
 (
   out: FILEref
 , pmv: primval, hse: hisexp
