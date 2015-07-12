@@ -154,46 +154,50 @@ gfarray_v_unextend
 , pfarr: gfarray_v (a, l, xs)
 ) : [xsf:ilist;x:int] // xsf: the front
 (
-  SNOC (xsf, x, xs), stamped_vt (a, x) @ l+(n-1)*sizeof(a), gfarray_v (a, l, xsf)
-) // end of [gfarray_v_unextend]
+  SNOC (xsf, x, xs)
+, stamped_vt (a, x) @ l+(n-1)*sizeof(a), gfarray_v (a, l, xsf)
+) (* end of [gfarray_v_unextend] *)
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun
+{a:t0p}
 gfarray_get_at
   {l:addr}
-  {x:int}{xs:ilist}
-  {i:int}
+  {x0:int}{xs:ilist}
+  {i0:int}
 (
-  pf1: NTH (x, xs, i)
-, pf2: gfarray_v (a, l, xs)
-| p: ptr l, i: size_t i
-) :<> stamped_t (a, x)
-// end of [gfarray_get_at]
+  pf1: NTH(x0, xs, i0)
+, pf2: !gfarray_v (a, l, xs)
+| gp0: ptr (l), i0: size_t (i0)
+) :<> stamped_t (a, x0) // end
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun
+{a:t0p}
 gfarray_set_at
   {l:addr}
-  {x:int}{xs1:ilist}{xs2:ilist}
-  {i:int}
+  {x0:int}{xs1:ilist}{xs2:ilist}
+  {i0:int}
 (
-  pf1: UPDATE (x, xs1, i, xs2)
-, pf2: !gfarray_v (a, l, xs1) >> gfarray_v (a, l, xs2)
-| p: ptr l, i: size_t i, x: stamped_t (a, x)
+  pf1: UPDATE(x0, xs1, i0, xs2)
+, pf2: !gfarray_v(a, l, xs1) >> gfarray_v(a, l, xs2)
+| gp0: ptr (l), i0: size_t (i0), x0: stamped_t (a, x0)
 ) :<!wrt> void // end of [gfarray_set_at]
 
 (* ****** ****** *)
 
-fun{a:vt@ype}
+fun
+{a:vt0p}
 gfarray_exch_at
   {l:addr}
   {x0:int}{x1:int}
   {xs1:ilist}{xs2:ilist}
   {i:int}
 (
-  pf1: NTH (x1, xs1, i), pf2: UPDATE (x0, xs1, i, xs2)
+  pf1: NTH(x1, xs1, i)
+, pf2: UPDATE(x0, xs1, i, xs2)
 , pf3: !gfarray_v (a, l, xs1) >> gfarray_v (a, l, xs2)
 | p: ptr l, i: size_t i, x0: &stamped_vt (a, x0) >> stamped_vt (a, x1)
 ) :<!wrt> void // end of [gfarray_exch_at]
