@@ -1226,7 +1226,7 @@ tlcalopt =
 //
 val isret =
 (
-  if tlcalopt > 0 then tmpvar_isret (tmpret) else false
+  if tlcalopt > 0 then tmpvar_isret(tmpret) else false
 ) : bool // end of [val]
 //
 (*

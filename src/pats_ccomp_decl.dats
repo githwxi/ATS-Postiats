@@ -47,6 +47,11 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload
+GLOB = "./pats_global.sats"
+
+(* ****** ****** *)
+
 staload LOC = "./pats_location.sats"
 overload print with $LOC.print_location
 
@@ -577,7 +582,14 @@ hifundeclst_ccomp
   env, lvl0, knd, decarg, hfds
 ) = let
 //
-val isfnx = funkind_is_mutailrec(knd)
+val
+tlcalopt =
+  $GLOB.the_CCOMPATS_tlcalopt_get()
+val isfnx =
+(
+if tlcalopt > 0
+  then funkind_is_mutailrec(knd) else false
+) : bool // end of [val]
 //
 val i0 = (if isfnx then 1 else 0): int
 //
@@ -675,7 +687,8 @@ end // end of [local]
 
 local
 
-fun auxinit
+fun
+auxinit
   {n:nat} .<n>.
 (
   env: !ccompenv
