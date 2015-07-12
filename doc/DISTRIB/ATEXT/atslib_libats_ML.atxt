@@ -161,6 +161,7 @@ The ATSLIB/libats/ML library\
 
 (* ****** ****** *)
 
+#packfilename("HATS/myfunmap.hats")
 #packfilename("HATS/myfunset.hats")
 #packfilename("HATS/myhashtblref.hats")
 

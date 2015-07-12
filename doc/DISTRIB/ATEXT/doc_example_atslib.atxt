@@ -125,6 +125,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("prelude_grandom.dats")
+
+(* ****** ****** *)
+
 #packfilename("prelude_checkast.dats")
 
 (* ****** ****** *)

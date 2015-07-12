@@ -132,6 +132,7 @@ The ATSHOME/doc/EXAMPLE/INTRO\
 #packfilename("fact1.dats")
 #packfilename("fact2.dats")
 #packfilename("fact3.dats")
+#packfilename("fact_uninterp.dats")
 
 (* ****** ****** *)
 

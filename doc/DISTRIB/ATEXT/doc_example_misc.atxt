@@ -109,10 +109,6 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
-#packfilename("autodiff.dats")
-
-(* ****** ****** *)
-
 #packfilename("coinflip.dats")
 
 (* ****** ****** *)
@@ -123,6 +119,14 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 #packfilename("fibver_trec.dats")
 #packfilename("fibver_loop.dats")
+
+(* ****** ****** *)
+
+#packfilename("autodiff.dats")
+
+(* ****** ****** *)
+
+#packfilename("fib_memo.dats")
 
 (* ****** ****** *)
 
