@@ -1,7 +1,8 @@
 os:
   - osx
   - linux
-sudo: false
+sudo: required
+#sudo: false
 before_install:
   - date
   - cd ${HOME}
