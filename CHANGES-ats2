@@ -27,6 +27,9 @@ Here is a list of major additions and changes since the last release:
 3. Adding testing code: doc/EXAMPLE/ATSLIB/libats_gflist.dats
 4. Adding various matrix-functions to libatscc/matrixref
 5. Adding prelude/grandom (for generating lists and arrays randomly)
+6. Atscc2erl (from ATS to Erlang) is functioning!
+7. Libatscc2erl is created to work with Atscc2erl
+8. Supporting --tlcalopt-disable + fnx (important for atscc2erl)
 
 ######
 
