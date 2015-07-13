@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-07-12:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/wDXvk-x-odo"
+>ATS2-0.2.1 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-06-23:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/AmeOXNUZ7Ik"
@@ -133,6 +141,8 @@ ATS-2015-01-27:<br>
 >ATS2 can be built with Clang-3.5-O2!</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
+<!--
+
 <hr></hr>
 
 ATS-2015-01-26:<br>
@@ -142,8 +152,6 @@ ATS-2015-01-26:<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-01-25:<br>
 <a
