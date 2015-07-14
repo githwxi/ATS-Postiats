@@ -38,38 +38,44 @@
 (* ****** ****** *)
 //
 absvtype // invariant
-refcnt_vt0ype_vtype (a:vt@ype) = ptr
+refcnt_vt0ype_vtype(a:vt@ype) = ptr
 //
 stadef refcnt = refcnt_vt0ype_vtype
 //
 (* ****** ****** *)
 
+fun
+{a:vt0p}
+refcnt(x0: a): refcnt(a)
 fun{a:vt0p}
-refcnt_make (x: a): refcnt (a)
+refcnt_make_elt(x0: a): refcnt(a)
 
+(* ****** ****** *)
+//
+fun{a:vt0p}
+refcnt_get_count(!refcnt(a)): intGte(1)
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
-refcnt_get_count (!refcnt (a)): intGte(1)
+refcnt_incref (!refcnt(a)): refcnt(a)
 
 (* ****** ****** *)
-
-fun{a:vt0p}
-refcnt_incref (!refcnt (a)): refcnt (a)
 
 fun{a:vt0p}
 refcnt_decref
-  (refcnt (a), x: &a? >> opt(a, b)): #[b:bool] bool(b)
-// end of [refcnt_decref]
+(
+  rfc: refcnt(a), x: &a? >> opt(a, b)
+) : #[b:bool] bool(b) // end-of-fun
 
 fun{a:vt0p}
-refcnt_decref_opt (rfc: refcnt (a)): Option_vt (a)
+refcnt_decref_opt (rfc: refcnt(a)): Option_vt(a)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 refcnt_vtakeout
-  (rfc: !refcnt (a))
+  (rfc: !refcnt(a))
 : [l:addr] (a @ l, a @ l -<lin,prf> void | ptr l)
 // end of [refcnt_vtakeout]
 
