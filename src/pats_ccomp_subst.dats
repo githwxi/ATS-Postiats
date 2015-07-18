@@ -1831,7 +1831,16 @@ in
 case+ decarg of
 | list_cons _ => ()
 | list_nil () => let
-    val isfnx = funkind_is_mutailrec (knd)
+//
+    val
+    tlcalopt =
+      $GLOB.the_CCOMPATS_tlcalopt_get()
+    val isfnx =
+    (
+      if tlcalopt > 0
+      then funkind_is_mutailrec(knd) else false
+    ) : bool // end of [val]
+//
     val i0 = (if isfnx then 1 else 0): int
     val fls = auxinit (env, sub, hfds, i0)
     val ((*void*)) = auxmain (env, sub, hfds, fls)

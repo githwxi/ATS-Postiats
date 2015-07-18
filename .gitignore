@@ -44,6 +44,7 @@ bin/pats2xhtml
 bin/atspkgreloc_curl
 bin/atspkgreloc_wget
 bin/atscc2js
+bin/atscc2erl
 bin/atscc2pl
 bin/atscc2php
 bin/atscc2py

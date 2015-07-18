@@ -51,10 +51,12 @@ staload
 GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
-
-staload LOC = "./pats_location.sats"
-overload print with $LOC.print_location
-
+//
+staload
+LOC = "./pats_location.sats"
+overload
+print with $LOC.print_location
+//
 (* ****** ****** *)
 //
 staload "./pats_staexp2.sats"
@@ -62,7 +64,11 @@ staload "./pats_staexp2.sats"
 staload D2E = "./pats_dynexp2.sats"
 //
 typedef d2cst = $D2E.d2cst
-typedef dynexp2_funlabopt = $D2E.funlabopt
+//
+typedef
+dynexp2_funlabopt = $D2E.funlabopt
+//
+overload print with $D2E.print_d2var
 //
 (* ****** ****** *)
 
@@ -459,8 +465,16 @@ case+ hfds of
     ((*void*)) => list_nil ()
 | list_cons
     (hfd, hfds) => let
+//
     val loc = hfd.hifundec_loc
     val d2v = hfd.hifundec_var
+//
+(*
+    val () =
+    println! ("auxinit: loc = ", loc)
+    val () =
+    println! ("auxinit: d2v = ", d2v)
+*)
 //
     val () =
       $D2E.d2var_set_level (d2v, lvl0)
