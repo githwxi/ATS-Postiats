@@ -217,14 +217,16 @@ implement
 prerr_hitype (hit) = fprint_hitype (stderr_ref, hit)
 
 (* ****** ****** *)
-
+//
 extern
 fun hitype_none (): hitype
 extern
 fun hitype_tybox (): hitype
+//
 extern
-fun hitype_undef (hse: hisexp): hitype
-
+fun
+hitype_undef (hse: hisexp): hitype
+//
 (* ****** ****** *)
 //
 // HX:  0:non-tyvar
@@ -232,7 +234,8 @@ fun hitype_undef (hse: hisexp): hitype
 // HX: ~1:tyvar-unboxed
 //
 extern
-fun hitype_is_tyvarhd (hit0: hitype): int
+fun
+hitype_is_tyvarhd (hit0: hitype): int
 //
 (* ****** ****** *)
 
@@ -242,24 +245,33 @@ hitype_is_tyvarhd
 in
 //
 case+ hit0 of
+//
 | HITapp
-    (hit_fun, hits_arg) =>
-    hitype_is_tyvarhd (hit_fun)
-| HITtyvar (s2v) => let
-    val s2t = s2var_get_srt (s2v)
-    val isbox = s2rt_is_boxed_fun (s2t)
+  (
+    hit_fun, _(*arg*)
+  ) =>
+    hitype_is_tyvarhd(hit_fun)
+  // end of [HITapp]
+//
+| HITtyvar(s2v) => let
+    val s2t = s2var_get_srt(s2v)
+    val isbox = s2rt_is_boxed_fun(s2t)
   in
-    if isbox then 1(*boxed*) else ~1(*unboxed*)
+    if isbox
+      then 1(*boxed*) else ~1(*unboxed*)
+    // end of [if]
   end // end of [HITtyvar]
-| _(*rest*) => 0
+//
+| _(*rest-of-hitype*) => (0)(*non-tyvar*)
 //
 end (* end of [hitype_is_tyvarhd] *)
 
 (* ****** ****** *)
-
+//
 extern
-fun eq_hitype_hitype (x1: hitype, x2: hitype): bool
-
+fun
+eq_hitype_hitype(x1: hitype, x2: hitype): bool
+//
 (* ****** ****** *)
 
 extern
@@ -270,7 +282,8 @@ fun s2zexp_typize (flag: int, s2ze: s2zexp): hitype
 (* ****** ****** *)
 //
 extern
-fun emit_hitypelst_sep
+fun
+emit_hitypelst_sep
   (out: FILEref, hits: hitypelst, sep: string): void
 //
 (* ****** ****** *)
@@ -285,131 +298,178 @@ implement
 eq_hitype_hitype
   (x1, x2) = let
 //
-macdef abort () = $raise (EQUALexn)
+macdef
+abort() = $raise(EQUALexn)
 //
-fun aux
-  (x1: hitype, x2: hitype): void = let
+fun
+aux
+(
+  x1: hitype, x2: hitype
+) : void = let
+//
+(*
+val () =
+println!
+  ("eq_hitype_hitype: aux: x1 = ", x1)
+val () =
+println!
+  ("eq_hitype_hitype: aux: x2 = ", x2)
+*)
+//
 in
 //
 case+ x1 of
 //
-| HITnmd (name1) => (
+| HITnmd
+    (name1) => (
   case+ x2 of
-  | HITnmd
-      (name2) => if (name1 != name2) then abort ()
-  | _ => abort ()
+  | HITnmd(name2) =>
+      if (name1 != name2) then abort()
+  | _(*non-HITnmd*) => abort()
   ) // end of [HITnmd]
 //
 | HITapp
-    (_fun1, _arg1) => (
+    (x11, xs12) => (
   case+ x2 of
-  | HITapp
-      (_fun2, _arg2) => let
-      val () = aux (_fun1, _fun2) in auxlst (_arg1, _arg2)
-    end // end of [HITapp]
-  | _ => abort ()
+  | HITapp(x21, xs22) =>
+    (
+      aux(x11, x21); auxlst(xs12, xs22)
+    )
+  | _(*non-HITapp*) => abort()
   ) // end of [HITapp]
 //
-| HITtyarr _ => abort ()
+| HITtyarr _ => abort()
 //
-| HITtyrec (lxs1) => (
+| HITtyrec
+    (lxs1) => (
   case+ x2 of
-  | HITtyrec (lxs2) => auxlablst (lxs1, lxs2)
-  | _ => abort ()
+  | HITtyrec(lxs2) => auxlablst(lxs1, lxs2)
+  | _(*non-HITtyrec*) => abort()
   ) // end of [HITtyrec]
 //
 | HITtysum
     (tgd1, lxs1) => (
   case+ x2 of
-  | HITtysum (tgd2, lxs2) =>
-      if tgd1 = tgd2 then auxlablst (lxs1, lxs2) else abort ()
-    // end of [HITtysum]
-  | _ => abort ()
+  | HITtysum
+      (tgd2, lxs2) =>
+    (
+      if tgd1 = tgd2
+        then auxlablst(lxs1, lxs2) else abort()
+      // end of [if]
+    ) // end of [HITtysum]
+  | _(*non-HITtysum*) => abort()
   ) // end of [HITtysum]
 //
 | HITtyexn
     (lxs1) => (
   case+ x2 of
-  | HITtyexn (lxs2) => auxlablst (lxs1, lxs2)
-  | _ => abort ()
+  | HITtyexn(lxs2) => auxlablst(lxs1, lxs2)
+  | _(*non-HITtyexn*) => abort()
   ) // end of [HITtyexn]
 //
-| HITtyvar (s2v1) => (
+| HITtyvar
+    (s2v1) => (
   case+ x2 of
-  | HITtyvar (s2v2) => if s2v1 != s2v2 then abort ()
-  | _ => abort ((*void*))
-  )
+  | HITtyvar(s2v2) =>
+      if s2v1 != s2v2 then abort() else ()
+  | _(*non-HITtyvar*) => abort()
+  ) // end of [HITtyvar]
 //
-| HITtyclo (flab1) => (
+| HITtyclo
+    (flab1) => (
   case+ x2 of
-  | HITtyclo (flab2) =>
-      if $UN.cast{ptr}(flab1) != $UN.cast{ptr}(flab2) then abort ()
-  | _ => abort ((*void*))
-  )
+  | HITtyclo (flab2) => let
+      val p1 = $UN.cast{ptr}(flab1)
+      val p2 = $UN.cast{ptr}(flab2)
+    in
+      if p1 != p2 then abort() else ()
+    end // end of [HITtyclo]
+  | _(*non-HITtyclo*) => abort()
+  ) // end of [HITtyclo]
 //
 | HITrefarg
     (knd1, hit1) => (
   case+ x2 of
-  | HITrefarg (knd2, hit2) =>
-      if knd1 = knd2 then aux (hit1, hit2) else abort ()
-    // end of [HITrefarg]
-  | _ => abort ()
+  | HITrefarg(knd2, hit2) =>
+    (
+      if knd1 = knd2
+        then aux (hit1, hit2) else abort()
+      // end of [if]
+    ) // end of [HITrefarg]
+  | _(*non-HITrefarg*) => abort()
   ) // end of [HITrefarg]
 //
-| HITundef (n1, _) => (
+| HITundef
+    (stamp1, _) => (
   case+ x2 of
-  | HITundef (n2, _) => if (n1 != n2) then abort ()
-  | _ => abort ()
+  | HITundef(stamp2, _) =>
+      if (stamp1 != stamp2) then abort() else ()
+  | _(*non-HITundef*) => abort ()
   ) // end of [HITundef]
 //
-| HITnone () => abort ()
+| HITnone((*void*)) => abort()
 //
 end // end of [aux]
 
 and
-auxlst (
+auxlst
+(
   xs1: hitypelst, xs2: hitypelst
 ) : void = let
 in
 //
 case+ (xs1, xs2) of
-| (list_cons (x1, xs1),
-   list_cons (x2, xs2)) => let
-    val () = aux (x1, x2) in auxlst (xs1, xs2)
-  end // end of [list_cons, list_cons]
-| (list_nil (), list_nil ()) => ()
-| (_, _) => abort ()
+//
+| (list_nil(),
+   list_nil()) => ()
+//
+| (list_cons(x1, xs1),
+   list_cons(x2, xs2)) =>
+  (
+    aux (x1, x2); auxlst (xs1, xs2)
+  ) // end of [cons, cons]
+//
+| (list_nil(), list_cons _) => abort ()
+| (list_cons _, list_nil()) => abort ()
 //
 end // end of [auxlst]
 
 and
-auxlablst (
+auxlablst
+(
   lxs1: labhitypelst, lxs2: labhitypelst
 ) : void = let
 in
 //
 case+ (lxs1, lxs2) of
-| (list_cons (lx1, lxs1),
-   list_cons (lx2, lxs2)) => let
-    val HTLABELED (l1, opt1, x1) = lx1
-    val HTLABELED (l2, opt2, x2) = lx2
+//
+| (list_nil(),
+   list_nil()) => ()
+//
+| (list_cons(lx1, lxs1),
+   list_cons(lx2, lxs2)) => let
+    val HTLABELED(l1, opt1, x1) = lx1
+    val HTLABELED(l2, opt2, x2) = lx2
     val () =
       if (l1 != l2) then abort ()
     // end of [val]
     val () = (
       case+ (opt1, opt2) of
-      | (None (),
-         None ()) => ()
-      | (Some (name1),
-         Some (name2)) => if name1 != name2 then abort ()
+      | (None(),
+         None()) => ()
+      | (Some(nm1),
+         Some(nm2)) =>
+        (
+          if nm1 != nm2 then abort ()
+        )
       | (_, _) => abort ()
     ) : void // end of [val]
-    val () = aux (x1, x2)
   in
-    auxlablst (lxs1, lxs2)
-  end // end of [list_cons, list_cons]
-| (list_nil (), list_nil ()) => ()
-| (_, _) => abort ()
+    aux (x1, x2); auxlablst (lxs1, lxs2)
+  end // end of [cons, cons]
+//
+| (list_nil(), list_cons _) => abort ()
+| (list_cons _, list_nil()) => abort ()
 //
 end // end of [auxlablst]
 //
@@ -644,13 +704,20 @@ typedef ats_ptr_type hitype ;
 %} // end of [%{^]
 
 (* ****** ****** *)
-
-abstype hitype_t = $extype"hitype"
-extern castfn hitype_encode (x: hitype):<> hitype_t
-extern castfn hitype_decode (x: hitype_t):<> hitype
+//
+abstype
+hitype_t = $extype"hitype"
+//
+extern
+castfn
+hitype_encode (x: hitype):<> hitype_t
+extern
+castfn
+hitype_decode (x: hitype_t):<> hitype
+//
 overload encode with hitype_encode
 overload decode with hitype_decode
-
+//
 (* ****** ****** *)
 
 typedef key = hitype_t
@@ -658,13 +725,17 @@ typedef itm = hitype(*unnamed*)
 
 (* ****** ****** *)
 //
-staload H = "libats/SATS/hashtable_chain.sats"
-staload _(*anon*) = "libats/DATS/hashtable_chain.dats"
+staload H =
+"libats/SATS/hashtable_chain.sats"
+staload _(*anon*) =
+"libats/DATS/hashtable_chain.dats"
 //
 implement
 $H.hash_key<key>
   (k, fhash) = let
-  val k = decode (k) in $effmask_all (hitype_hash (k))
+  val k = decode(k)
+in
+  $effmask_all(hitype_hash(k))
 end // end of [hask_key]
 implement
 $H.equal_key_key<key>
@@ -699,14 +770,15 @@ in (* in of [local] *)
 (* ****** ****** *)
 
 implement
-the_hitypemaplst_get () = let
+the_hitypemaplst_get
+  ((*void*)) = let
 //
-val (
-  vbox pf | p
-) = ref_get_view_ptr (the_hitypemaplst)
+val
+(vbox(pf)|p) =
+ref_get_view_ptr(the_hitypemaplst)
+//
 val kis = !p
-val (
-) = !p := list_vt_nil ()
+val ((*void*)) = !p := list_vt_nil()
 //
 in
   list_vt_reverse (kis)
@@ -715,20 +787,28 @@ end // end of [the_hitypemaplst_get]
 (* ****** ****** *)
 
 implement
-the_hitypemap_search (hit) = let
-  val (
-    fpf | ptbl
-  ) = $H.HASHTBLref_takeout_ptr (the_hitypemap)
-  var res: itm?
-  val hit = encode (hit)
-  val ans = $H.hashtbl_search (ptbl, hit, res)
-  prval () = fpf (ptbl)
+the_hitypemap_search
+  (hit) = let
+//
+val (
+  fpf | ptbl
+) = $H.HASHTBLref_takeout_ptr(the_hitypemap)
+var res: itm?
+val hit = encode (hit)
+val ans = $H.hashtbl_search (ptbl, hit, res)
+prval () = fpf (ptbl)
+//
 in
-  if ans then let
-    prval () = opt_unsome{itm}(res) in Some_vt (res)
-  end else let
-    prval () = opt_unnone{itm}(res) in None_vt (*none*)
-  end // end of [if]
+//
+if
+ans
+then let
+  prval() = opt_unsome{itm}(res) in Some_vt(res)
+end // end of [then]
+else let
+  prval() = opt_unnone{itm}(res) in None_vt(*none*)
+end // end of [else]
+//
 end // end of [the_hitypemap_search]
 
 (* ****** ****** *)
@@ -747,7 +827,10 @@ prval () = fpf (ptbl)
 val (
   vbox pf | plst
 ) = ref_get_view_ptr (the_hitypemaplst)
-val () = !plst := list_vt_cons ( @(hit, hit2), !plst )
+val () =
+(
+  !plst := list_vt_cons ( @(hit, hit2), !plst )
+) (* end of [val] *)
 //
 in
   // nothing
@@ -758,21 +841,23 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-hitype_none () = HITnone ()
+hitype_none() = HITnone ()
 
 implement
-hitype_tybox () = HITnmd ("atstype_boxed")
+hitype_tybox() = HITnmd ("atstype_boxed")
 
 implement
-hitype_undef (hse) = let
-  val s = $STMP.hitype_stamp_make () in HITundef (s, hse)
+hitype_undef(hse) = let
+  val s = $STMP.hitype_stamp_make() in HITundef(s, hse)
 end // end of [hitype_undef]
 
 (* ****** ****** *)
-
+//
 extern
-fun emit_s2var
+fun
+emit_s2var
   (out: FILEref, s2v: s2var): void
+//
 implement
 emit_s2var
   (out, s2v) = let
@@ -781,15 +866,16 @@ emit_s2var
 in
   emit_ident (out, name)
 end // end of [emit_s2var]
-
+//
 (* ****** ****** *)
-
+//
 extern
 fun
 emit_hitype_app
 (
   out: FILEref, hit0: hitype
 ) : void // end-of-fun
+//
 implement
 emit_hitype_app
   (out, hit0) = let
@@ -830,7 +916,7 @@ val () = if knd != 0 then emit_text (out, ")")
 in
   // nothing
 end // end of [emit_hitype_app]
-
+//
 (* ****** ****** *)
 
 implement
