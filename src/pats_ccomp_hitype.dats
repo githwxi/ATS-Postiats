@@ -1177,7 +1177,8 @@ end // end of [s2zexp_typize]
 
 local
 
-fun aux
+fun
+aux
 (
   flag: int, hse0: hisexp
 ) : hitype = let
@@ -1241,23 +1242,27 @@ case+ hse0.hisexp_node of
 //
 end // end of [aux]
 
-and aux_s2cst
+and
+aux_s2cst
   (s2c: s2cst): hitype = let
 in
 //
 case+ 0 of
 | _ when
-    s2cst_is_datype (s2c) => hitype_tybox ()
+    s2cst_is_datype(s2c) => hitype_tybox()
+  // end of [datatype]
 | _ => let
-    val sym = s2cst_get_sym (s2c)
+    val sym =
+      s2cst_get_sym(s2c)
     val name =
-      $SYM.symbol_get_name (sym) in HITnmd (name)
+      $SYM.symbol_get_name (sym) in HITnmd(name)
     // end of [val]
   end // end of [_]
 //
 end // end of [aux_s2cst]
 
-and aux_tyarr
+and
+aux_tyarr
 (
   flag: int, hse0: hisexp
 ) : hitype = let
@@ -1270,7 +1275,8 @@ in
   HITtyarr (hit_elt, dim)
 end // end of [aux_tyarr]
 
-and aux_tyrec
+and
+aux_tyrec
 (
   flag: int, hse0: hisexp
 ) : hitype = let
@@ -1281,54 +1287,68 @@ in
 //
 case+ knd of
 //
-| TYRECKINDbox () =>
-    if flag > 0 then
-      hitype_tybox () else aux_tyrec2 (flag, lxs)
+| TYRECKINDbox() =>
+    if flag > 0
+      then hitype_tybox()
+      else aux_tyrec2 (flag, lxs)
     // end of [if]
-| TYRECKINDbox_lin () =>
-    if flag > 0 then
-      hitype_tybox () else aux_tyrec2 (flag, lxs)
+| TYRECKINDbox_lin() =>
+    if flag > 0
+      then hitype_tybox ()
+      else aux_tyrec2 (flag, lxs)
     // end of [if]
 //
-| TYRECKINDflt0 () => aux_tyrec2 (flag, lxs)
-| TYRECKINDflt1 (stamp) => aux_tyrec2 (flag, lxs)
+| TYRECKINDflt0() => aux_tyrec2(flag, lxs)
+| TYRECKINDflt1(stamp) => aux_tyrec2(flag, lxs)
+//
 | TYRECKINDflt_ext (name) => HITnmd (name)
 //
 end // end of [aux_tyrec]
 
-and aux_tyrec2
+and
+aux_tyrec2
 (
   flag: int, lxs: labhisexplst
 ) : hitype = let
-  val lys = auxlablst (flag, lxs)
-  val hit0 = HITtyrec (lys)
-  val opt = the_hitypemap_search (hit0)
+//
+val lys =
+  auxlablst(flag, lxs)
+//
+val hit = HITtyrec(lys)
+val opt = the_hitypemap_search(hit)
+//
 in
-  case+ opt of
-  | ~None_vt () => let
-      val hit1 = hitype_gen_tyrec ()
-      val () = the_hitypemap_insert (hit0, hit1)
-    in
-      hit1
-    end // end of [None_vt]
-  | ~Some_vt (hit0) => hit0
+//
+case+ opt of
+| ~None_vt() => let
+    val hit2 = hitype_gen_tyrec()
+  in
+    the_hitypemap_insert(hit, hit2); hit2
+  end // end of [None_vt]
+//
+| ~Some_vt(hit2) => hit2
+//
 end // end of [aux_tyrec2]
 
-and aux_tysum
+and
+aux_tysum
 (
   flag: int, hse0: hisexp
 ) : hitype = let
 //
-val-HSEtysum
+val-
+HSEtysum
   (d2c, lxs) = hse0.hisexp_node
+//
 val isbox =
   (if flag > 0 then true else false): bool
 //
 in
 //
-if isbox
-  then hitype_tybox ()
-  else let
+if
+isbox
+then hitype_tybox ()
+else let
   val tgd = (
     if d2con_is_tagless (d2c) then 0 else 1
   ) : int // end of [val]
@@ -1344,25 +1364,29 @@ in
       hit1
     end // end of [None_vt]
   | ~Some_vt (hit0) => hit0
-end // end of [if]
+end // end of [else]
 //
 end // end of [aux_tysum]
 
-and aux_tyexn
+and
+aux_tyexn
 (
   flag: int, hse0: hisexp
 ) : hitype = let
 //
-val-HSEtysum
+val-
+HSEtysum
   (d2c, lxs) = hse0.hisexp_node
+//
 val isbox =
   (if flag > 0 then true else false): bool
 //
 in
 //
-if isbox
-  then hitype_tybox ()
-  else let
+if
+isbox
+then hitype_tybox ()
+else let
   val lys = auxlablst (flag, lxs)
   val hit0 = HITtyexn (lys)
   val opt = the_hitypemap_search (hit0)
@@ -1375,17 +1399,19 @@ in
       hit1
     end // end of [None_vt]
   | ~Some_vt (hit0) => hit0
-end // end of [if]
+end // end of [else]
 //
 end // end of [aux_tyexn]
 
-and auxlst
+and
+auxlst
 (
   flag: int, xs: hisexplst
 ) : hitypelst = let
 in
 //
 case+ xs of
+//
 | list_cons
     (x, xs) => let
     val y = aux (flag+1, x)
@@ -1393,27 +1419,34 @@ case+ xs of
   in
     list_cons (y, ys)
   end // end of [list_cons]
-| list_nil () => list_nil ()
+//
+| list_nil((*void*)) => list_nil()
 //
 end // end of [auxlst]
 
-and auxlablst
+and
+auxlablst
 (
   flag: int, lxs: labhisexplst
 ) : labhitypelst = let
 in
 //
 case+ lxs of
+//
 | list_cons
     (lx, lxs) => let
-    val+HSLABELED (l, opt, x) = lx
+    val+
+    HSLABELED
+      (l, opt, x) = lx
+    // end of [val]
     val y = aux (flag+1, x)
     val ly = HTLABELED (l, opt, y)
     val lys = auxlablst (flag, lxs)
   in
     list_cons (ly, lys)
   end // end of [list_cons]
-| list_nil () => list_nil ()
+//
+| list_nil((*void*)) => list_nil ()
 //
 end // end of [auxlablst]
 
@@ -1569,15 +1602,19 @@ in
 case+ kis of
 | ~list_vt_cons
     (ki, kis) => let
-    val () = emit_text (out, "typedef\n")
+//
+    val () =
+    emit_text(out, "typedef\n")
+//
     val () = auxkey (out, ki.0)
     val () = emit_text (out, " ")
     val () = emit_hitype (out, ki.1)
     val () = emit_text (out, " ;\n")
+//
   in
     auxlst (out, kis)
   end // end of [list_vt_cons]
-| ~list_vt_nil () => ()
+| ~list_vt_nil((*void*)) => ()
 //
 end // end of [auxlst]
 //
