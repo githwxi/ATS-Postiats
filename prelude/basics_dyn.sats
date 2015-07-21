@@ -348,6 +348,26 @@ prfun unit_v_elim (pf: unit_v): void
 //
 (* ****** ****** *)
 //
+abstype
+boxed_t0ype_type(a:t@ype+) = unit
+absvtype
+boxed_vt0ype_vtype(a:vt@ype+) = unit
+//
+vtypedef
+boxed(a:vt@ype) = boxed_vt0ype_vtype(a)
+vtypedef
+boxed_vt(a:vt@ype) = boxed_vt0ype_vtype(a)
+//
+typedef boxed(a:t@ype) = boxed_t0ype_type(a)
+typedef boxed_t(a:t@ype) = boxed_t0ype_type(a)
+//
+fun{a:type} box: (INV(a)) -> boxed_t(a)
+fun{a:type} unbox: boxed_t(INV(a)) -> (a)
+fun{a:vtype} box_vt: (INV(a)) -> boxed_vt(a)
+fun{a:vtype} unbox_vt: boxed_vt(INV(a)) -> (a)
+//
+(* ****** ****** *)
+//
 typedef
 array (a, n) = @[a][n]
 viewdef
@@ -529,10 +549,12 @@ lemma_argv_param {n:int} (argv: !argv(n)): [n >= 0] void
 // end of [praxi]
 
 (* ****** ****** *)
-
-fun argv_get_at{n:int}
+//
+fun
+argv_get_at{n:int}
   (argv: !argv (n), i: natLt n):<> string = "mac#%"
-fun argv_set_at{n:int}
+fun
+argv_set_at{n:int}
   (argv: !argv (n), i: natLt n, x: string):<!wrt> void = "mac#%"
 //
 overload [] with argv_get_at

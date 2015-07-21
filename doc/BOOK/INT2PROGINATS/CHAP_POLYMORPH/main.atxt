@@ -182,20 +182,26 @@ fun swap_boxed{a,b:type} (xy: (a, b)): (b, a) = (xy.1, xy.0)
 ")
 
 The type variables #stacode("a") and #stacode("b") are often referred as
-static arguments while #dyncode("xy") is a dynamic argument. Here is some code
-that makes use of the polymorphic function #dyncode("swap_boxed"):
+static arguments while #dyncode("xy") is a dynamic argument. For example,
+the following code makes use of the polymorphic function #dyncode("swap_boxed"):
 
 #atscode('\
-val AB = ("A", "B")
-val BA1 = swap_boxed{string,string} (AB)
+val AB = (box("A"), box("B"))
+val BA1 = swap_boxed{boxstr,boxstr} (AB)
 val BA2 = swap_boxed (AB) // omitting type arguments may be fine
 ')
 
-If #stacode("swap_boxed") is called on a pair of the type (T1, T2) for some
-types T1 and T2, both T1 and T2 are required to be boxed. Otherwise, a
-type-error is reported. For instance, calling #dyncode("swap_boxed") on
-#dyncode("(0, 1)") yields a type-error as the type #dyncode("int") is not
-boxed.\
+where the type #stacode("boxstr") is an explicitly boxed version of
+#stacode("string") that is defined as #stacode("boxed(string)").
+Internally, there is really no difference between #stacode("string") and
+#stacode("boxed(string)").  If #dyncode("swap_boxed") is called on a pair
+of the type (T1, T2) for some types T1 and T2, both T1 and T2 are required
+to be boxed. Otherwise, a type-error is reported. For example, calling
+#dyncode("swap_boxed") on #dyncode("(0, 1)") yields a type-error as the
+type #stacode("int") is not boxed. One may be attempted to form a boxed
+integer like #dyncode("box(0)"), but doing so leads to a type-error as
+there is no assumption made about the size of an integer value of the type
+#stacode("int") in ATS.
 
 ")#comment("para")
 

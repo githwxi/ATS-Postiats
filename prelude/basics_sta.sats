@@ -673,9 +673,11 @@ stadef cmpval = cmpval_funenv
 
 (* ****** ****** *)
 
-typedef cmpref_fun
+typedef
+cmpref_fun
   (a: vt@ype) = (&RD(a), &RD(a)) -<fun> int
-typedef cmpref_funenv
+typedef
+cmpref_funenv
   (a: vt@ype, vt: vt@ype) = (&RD(a), &RD(a), !vt) -<fun> int
 stadef cmpref = cmpref_fun
 stadef cmpref = cmpref_funenv

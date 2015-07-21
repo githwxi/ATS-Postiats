@@ -28,8 +28,10 @@ fun{
 a,b:t@ype
 } swap (xy: (a, b)): (b, a) = (xy.1, xy.0)
 //
-fun swap_char_int (xy: charint): intchar = swap<char,int> (xy)
-fun swap_int_char (xy: intchar): charint = swap<int,char> (xy)
+fun
+swap_char_int (xy: charint): intchar = swap<char,int> (xy)
+fun
+swap_int_char (xy: intchar): charint = swap<int,char> (xy)
 //
 (* ****** ****** *)
 
@@ -37,8 +39,15 @@ fun
 {a:t@ype}
 {b:t@ype}
 swap2 (xy: (a, b)): (b, a) = (xy.1, xy.0)
-fun swap_char_int (xy: charint): intchar = swap2<char><int> (xy)
-fun swap_int_char (xy: intchar): charint = swap2<int><char> (xy)
+fun
+swap_char_int (xy: charint): intchar = swap2<char><int> (xy)
+fun
+swap_int_char (xy: intchar): charint = swap2<int><char> (xy)
+
+(* ****** ****** *)
+
+fun
+swap_boxed{a,b:type} (xy: (a, b)): (b, a) = (xy.1, xy.0)
 
 (* ****** ****** *)
 
@@ -131,6 +140,17 @@ implement $RG.randgen_val<T> () = drand48 ()
 implement
 main0 () =
 {
+//
+val AB = (box("A"), box("B"))
+//
+typedef boxstr = boxed(string)
+val BA1 = swap_boxed{boxstr,boxstr} (AB)
+val BA2 = swap_boxed (AB) // omitting type arguments may be fine
+//
+val () = println! ("BA1.0 = ", unbox(BA1.0))
+val () = println! ("BA1.1 = ", unbox(BA1.1))
+val () = println! ("BA2.0 = ", unbox(BA2.0))
+val () = println! ("BA2.1 = ", unbox(BA2.1))
 //
 #define N 100
 val xs = g0ofg1 ($RG.randgen_list<T> (N))
