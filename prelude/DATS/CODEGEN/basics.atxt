@@ -85,6 +85,14 @@ end // end of [unit_v_elim]
 
 #atscode_separator()
 //
+implement{a} box(x) = $UN.cast(x)
+implement{a} unbox(x) = $UN.cast(x)
+//
+implement{a} box_vt(x) = $UN.castvwtp0(x)
+implement{a} unbox_vt(x) = $UN.castvwtp0(x)
+//
+#atscode_separator()
+//
 // HX:
 // See prelude/basics_dyn.sats
 //

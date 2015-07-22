@@ -224,13 +224,13 @@ shown in the following style of implementation of a polymorphic function:
 #atscode('\
 fun swap2_boxed{a:type}{b:type} (xy: (a, b)): (b, a) = (xy.1, xy.0)
 
-val AB = ("A", "B")
+val AB = (box("A"), box("B"))
 val BA1 = swap2_boxed (AB) // both static arguments to be synthesized
 val BA2 = swap2_boxed{...} (AB) // both static arguments to be synthesized
-val BA3 = swap2_boxed{..}{string} (AB) // 1st static argument to be synthesized
-val BA4 = swap2_boxed{string}{..} (AB) // 2nd static argument to be synthesized
+val BA3 = swap2_boxed{..}{boxstr} (AB) // 1st static argument to be synthesized
+val BA4 = swap2_boxed{boxstr}{..} (AB) // 2nd static argument to be synthesized
 val BA5 = swap2_boxed{..}{..} (AB) // both static arguments to be synthesized
-val BA6 = swap2_boxed{string}{string} (AB) // both static arguments are provided
+val BA6 = swap2_boxed{boxstr}{boxstr} (AB) // both static arguments are provided
 ')
 
 The special syntax #stacode("{..}") indicates to the typechecker that the
