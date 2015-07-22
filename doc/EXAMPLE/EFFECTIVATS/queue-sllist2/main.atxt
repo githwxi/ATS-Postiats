@@ -15,7 +15,8 @@
 <body>
 
 <h1>
-Effective ATS: An Amortized Implementation of Queues
+Effective ATS:<br>
+An Amortized Queue Implementation
 </h1>
 
 Queues are a common data structure in practice. In the following

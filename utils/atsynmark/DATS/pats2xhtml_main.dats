@@ -30,10 +30,10 @@ fileref2charlst (fil) = char_list_vt_make_file (fil)
 ** HX-2012-06:
 ** prfexp: text-decoration: line-through for erasure?
 *)
-#define PSYNMARK_HTML_FILE_BEG "\
-<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\
-\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\
-<html xmlns=\"http://www.w3.org/1999/xhtml\">\n\
+#define
+PSYNMARK_HTML_FILE_BEG "\
+<!DOCTYPE html>\n\
+<html>\n\
 <head>\n\
   <title></title>\n\
   <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>\n\

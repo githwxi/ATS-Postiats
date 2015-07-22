@@ -616,19 +616,22 @@ three function templates and one polymorphic function on arrays are
 depicted by the following interfaces:
 
 #atscode("\
-fun{a:t@ype} // a template
+//
+fun{a:t@ype} // template
 arrszref_make_elt
   (asz: size_t, x: a): arrszref a // array creation
-
-// a polymorphic function
+//
+// polymorphic fun:
+//
 fun arrszref_get_size
   {a:t@ype} (A: arrszref a): size_t // size of an array
-
-fun{a:t@ype} // a template
+//
+fun{a:t@ype} // template
 arrszref_get_elt_at (A: arrszref a, i: size_t): a // A[i]
-
-fun{a:t@ype} // a template
+//
+fun{a:t@ype} // template
 arrszref_set_elt_at (A: arrszref a, i: size_t, x: a): void // A[i] := x
+//
 ")
 
 As for programming with arrays that carry no size information,

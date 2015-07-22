@@ -2,9 +2,8 @@
 #include "./../ATEXT/atextfun.hats"
 %}
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -15,7 +14,8 @@
 <body>
 
 <h1>
-Effective ATS: Producer-Consumer
+Effective ATS:<br>
+Producer-Consumer
 </h1>
 
 The Producer-Consumer problem is a classical one in concurrent programming.

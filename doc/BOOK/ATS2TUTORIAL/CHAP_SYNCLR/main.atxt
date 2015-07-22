@@ -63,7 +63,8 @@ The external code (in C) is colored
 
 #para('\
 
-Please find an example of ATS code #mycodelink("fact_dats.html", "on-line")
+Please find an example of ATS code
+#ulink("http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/CODE/fact_dats.html", "on-line")
 that involves all of the syntax-coloring mentioned above.\
 
 ')
