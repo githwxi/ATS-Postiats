@@ -15,7 +15,8 @@
 <body>
 
 <h1>
-Effective ATS: Sorting Linear Lists
+Effective ATS:<br>
+Sorting Linear Lists
 </h1>
 
 In this article, I present an implementation of merge-sort for sorting

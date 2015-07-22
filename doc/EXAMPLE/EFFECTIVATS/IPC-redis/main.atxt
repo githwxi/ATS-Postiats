@@ -15,7 +15,8 @@
 <body>
 
 <h1>
-Effective ATS: Inter-Process Communication based on Redis
+Effective ATS:<br>
+Inter-Process Communication based on Redis
 </h1>
 
 In this article, I present a straightforward example of inter-process

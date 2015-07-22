@@ -78,8 +78,14 @@ upload_main: \
 
 ######
 
+cleanats:: ; $(RMF) mylib_dats.c
+cleanats:: ; $(RMF) msgchan_dats.c
+cleanats:: ; $(RMF) redisContextSetup_dats.c
+cleanats:: ; $(RMF) test_up_dats.c
+cleanats:: ; $(RMF) test_dn_dats.c
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
+cleanats:: ; $(RMF) main_atxt_dats.c
 
 ######
 
