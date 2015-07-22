@@ -475,7 +475,7 @@ Reverse-Appending: #dyncode("list0_reverse_append")
 
 #para("\
 
-Given two lists xs and ys of the type #dyncode("list0(T)") for some type T,
+Given two lists xs and ys of the type #stacode("list0(T)") for some type T,
 #dyncode("list0_reverse_append(xs, ys)") returns a list that is the
 concatenation of the reverse of xs and ys:
 
@@ -628,10 +628,10 @@ list0_foldright
 
 #para("\
 
-Given two lists xs and ys of the types #stacode("list0(T1)") and
-#stacode("list0(T2)") for some types T1 and T2, respectively,
-#dyncode("list0_zip(xs, ys)") returns a list zs of the type #stacode("list0
-@(T1, T2)"):
+Given two lists xs and ys of the types #stacode("list0(T1)")
+and #stacode("list0(T2)") for some types T1 and T2, respectively,
+#dyncode("list0_zip(xs, ys)") returns a list zs of the type
+#stacode("list0(@(T1, T2))"):
 
 #atscode("\
 fun{
