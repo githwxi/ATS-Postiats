@@ -83,73 +83,101 @@ cleanall:: ; make -C Sierpinski-3angle cleanall
 ######
 
 uploadall::
-uploadall::upload_mergesort
+uploadall::upload_index
+uploadall::upload_file-copying
+uploadall::upload_loop-as-tailrec
+uploadall::upload_word-counting
 uploadall::upload_stack-array
 uploadall::upload_queue-sllist2
-uploadall::upload_loop-as-tailrec
-uploadall::upload_file-copying
-uploadall::upload_word-counting
+uploadall::upload_mergesort
+uploadall::upload_sorting-linear-lists
 uploadall::upload_DiningPhil
 uploadall::upload_DiningPhil2
 uploadall::upload_Producer-Consumer
 uploadall::upload_Readers-and-Writers
 uploadall::upload_IPC-redis
 uploadall::upload_HttpServer
-uploadall::upload_sorting-linear-lists
 uploadall::upload_Sierpinski-3angle
 
 ######
 
-upload_mergesort:: ; \
-  scp \
-  mergesort/Makefile \
-  mergesort/*.?ats \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/mergesort/
+SCP=scp
 
 ######
 
-upload_stack-array:: ; \
-  scp \
-  stack-array/Makefile \
-  stack-array/*.?ats \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/stack-array/
-
-######
-
-upload_queue-sllist2:: ; \
-  scp \
-  queue-sllist2/Makefile \
-  queue-sllist2/*.?ats \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/queue-sllist2/
+upload_index:: ; \
+  $(SCP) \
+  ./index.html \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/
 
 ######
 
 upload_file-copying:: ; \
-  scp \
-  file-copying/Makefile \
-  file-copying/*.?ats \
+  $(SCP) \
+  file-copying/index.html \
+  file-copying/Makefile file-copying/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/file-copying/
 
 ######
 
 upload_loop-as-tailrec:: ; \
-  scp \
-  loop-as-tailrec/Makefile \
-  loop-as-tailrec/*.?ats \
+  $(SCP) \
+  loop-as-tailrec/index.html \
+  loop-as-tailrec/Makefile loop-as-tailrec/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/loop-as-tailrec/
 
 ######
 
+upload_stack-array:: ; \
+  $(SCP) \
+  stack-array/index.html \
+  stack-array/Makefile stack-array/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/stack-array/
+
+######
+
+upload_queue-sllist2:: ; \
+  $(SCP) \
+  queue-sllist2/index.html \
+  queue-sllist2/Makefile queue-sllist2/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/queue-sllist2/
+
+######
+
 upload_word-counting:: ; \
-  scp \
-  word-counting/Makefile \
-  word-counting/*.?ats \
+  $(SCP) \
+  word-counting/index.html \
+  word-counting/Makefile word-counting/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/word-counting/
 
 ######
 
+upload_mergesort:: ; \
+  $(SCP) \
+  mergesort/index.html \
+  mergesort/Makefile mergesort/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/mergesort/
+
+######
+
+upload_sorting-linear-lists:: ; \
+  $(SCP) \
+  sorting-linear-lists/index.html \
+  sorting-linear-lists/Makefile \
+  sorting-linear-lists/mylist.dats \
+  sorting-linear-lists/mylist_mergesort.dats \
+  sorting-linear-lists/mergesort_sllist.dats \
+  sorting-linear-lists/mergesort_list_vt.dats \
+  sorting-linear-lists/mylist_quicksort.dats \
+  sorting-linear-lists/quicksort_sllist.dats \
+  sorting-linear-lists/quicksort_list_vt.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/sorting-linear-lists
+
+######
+
 upload_DiningPhil:: ; \
-  scp \
+  $(SCP) \
+  DiningPhil/index.html \
   DiningPhil/Makefile \
   DiningPhil/DiningPhil.sats \
   DiningPhil/DiningPhil.dats \
@@ -161,7 +189,8 @@ upload_DiningPhil:: ; \
 ######
 
 upload_DiningPhil2:: ; \
-  scp \
+  $(SCP) \
+  DiningPhil2/index.html \
   DiningPhil2/Makefile \
   DiningPhil2/DiningPhil2.sats \
   DiningPhil2/DiningPhil2.dats \
@@ -172,7 +201,8 @@ upload_DiningPhil2:: ; \
 ######
 
 upload_Producer-Consumer:: ; \
-  scp \
+  $(SCP) \
+  Producer-Consumer/index.html \
   Producer-Consumer/Makefile \
   Producer-Consumer/sbuffer.sats \
   Producer-Consumer/sbuffer.dats \
@@ -182,7 +212,8 @@ upload_Producer-Consumer:: ; \
 ######
 
 upload_Readers-and-Writers:: ; \
-  scp \
+  $(SCP) \
+  Readers-and-Writers/index.html \
   Readers-and-Writers/Makefile \
   Readers-and-Writers/DB_read_write.sats \
   Readers-and-Writers/DB_read_write.dats \
@@ -191,7 +222,8 @@ upload_Readers-and-Writers:: ; \
 ######
 
 upload_IPC-redis:: ; \
-  scp \
+  $(SCP) \
+  IPC-redis/index.html \
   IPC-redis/Makefile \
   IPC-redis/mylib.dats \
   IPC-redis/msgchan.sats \
@@ -205,7 +237,8 @@ upload_IPC-redis:: ; \
 ######
 
 upload_HttpServer:: ; \
-  scp \
+  $(SCP) \
+  HttpServer/index.html \
   HttpServer/Makefile \
   HttpServer/myserver.dats \
   HttpServer/myserver2.dats \
@@ -213,22 +246,9 @@ upload_HttpServer:: ; \
 
 ######
 
-upload_sorting-linear-lists:: ; \
-  scp \
-  sorting-linear-lists/Makefile \
-  sorting-linear-lists/mylist.dats \
-  sorting-linear-lists/mylist_mergesort.dats \
-  sorting-linear-lists/mergesort_sllist.dats \
-  sorting-linear-lists/mergesort_list_vt.dats \
-  sorting-linear-lists/mylist_quicksort.dats \
-  sorting-linear-lists/quicksort_sllist.dats \
-  sorting-linear-lists/quicksort_list_vt.dats \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/sorting-linear-lists
-
-######
-
 upload_Sierpinski-3angle:: ; \
-  scp \
+  $(SCP) \
+  Sierpinski-3angle/index.html \
   Sierpinski-3angle/Makefile \
   Sierpinski-3angle/Sierpinski-3angle.html \
   Sierpinski-3angle/Sierpinski-3angle-part.dats \
