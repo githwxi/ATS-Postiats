@@ -122,38 +122,45 @@ parse_from_filename_toplevel
 var buf: tokbuf
 prval pfmod = file_mode_lte_r_r
 //
-local
-val fname =
-  $FIL.filename_get_fullname (fil)
-in (* in of [local] *)
-val fname = $SYM.symbol_get_name (fname)
-end // end of [local]
+val
+fname =
+  $FIL.filename_get_fullname(fil)
 //
-val (
-  pffil | filp
-) = $STDIO.fopen_exn (fname, file_mode_r)
-val () =
-  tokbuf_initialize_filp (pfmod, pffil | buf, filp)
+val
+fname = $SYM.symbol_get_name(fname)
+//
+val (pf|fp) =
+  $STDIO.fopen_exn(fname, file_mode_r)
+//
+val ((*void*)) =
+  tokbuf_initialize_filp(pfmod, pf | buf, fp)
 // end of [val]
 //
-val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
-val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
-val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+val (pf|()) =
+  $FIL.the_filenamelst_push(fil)
+val d0cs_res =
+  parse_from_tokbuf_toplevel(stadyn, buf)
+val ((*void*)) =
+  $FIL.the_filenamelst_pop(pf | (*none*))
 //
-val () = tokbuf_uninitialize (buf)
+val ((*void*)) = tokbuf_uninitialize (buf)
 //
 in
-  d0cs
+  d0cs_res
 end // end of [parser_from_filename_toplevel]
+
+(* ****** ****** *)
 
 implement
 parse_from_filename_toplevel2
   (stadyn, fil) = let
-  val isnot = $FIL.filename_isnot_dummy (fil)
+//
+val isnot = $FIL.filename_isnot_dummy(fil)
+//
 in
 //
 if isnot
-  then parse_from_filename_toplevel (stadyn, fil) else list_nil()
+  then parse_from_filename_toplevel(stadyn, fil) else list_nil()
 //
 end // end of [parse_from_filename_toplevel2]
 
