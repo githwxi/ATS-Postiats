@@ -705,9 +705,10 @@ fun p_toplevel_dyn
 
 (* ****** ****** *)
 
-fun parse_from_string
+fun
+parse_from_string_parser
   {a:type} (inp: string, f: parser a): Option_vt (a)
-// end of [parse_from_string]
+// end of [parse_from_string_parser]
 
 (* ****** ****** *)
 

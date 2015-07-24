@@ -58,7 +58,7 @@ staload "./pats_parsing.sats"
 (* ****** ****** *)
 
 implement
-parse_from_string
+parse_from_string_parser
   (inp, f) = let
   var buf: tokbuf
   val () = tokbuf_initialize_string (buf, inp)
@@ -68,7 +68,7 @@ parse_from_string
   val () = tokbuf_uninitialize (buf)
 in
   if nerr = 0 then Some_vt (res) else None_vt ()
-end // end of [parser_from_string]
+end // end of [parse_from_string_parser]
 
 (* ****** ****** *)
 

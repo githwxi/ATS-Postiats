@@ -212,7 +212,7 @@ implement
 process_DATS_def
   (def) = let
 //
-val def = string1_of_string (def)
+val def = string1_of_string(def)
 //
 (*
 val () =
@@ -220,12 +220,12 @@ val () =
 *)
 //
 val opt =
-  $PAR.parse_from_string (def, $PAR.p_datsdef)
+  $PAR.parse_from_string_parser(def, $PAR.p_datsdef)
 //
 in
 //
 case+ opt of
-| ~Some_vt (def) => let
+| ~Some_vt(def) => let
     val+$SYN.DATSDEF(key, opt) = def
     val e1xp = (
       case+ opt of
@@ -235,7 +235,7 @@ case+ opt of
   in
     $TRENV1.the_e1xpenv_addperv (key, e1xp)
   end // end of [Some_vt]
-| ~None_vt ((*void*)) => let
+| ~None_vt((*void*)) => let
     val () =
     prerr ("patsopt: error(0)")
     val () =
@@ -273,13 +273,26 @@ getenv (name: string): Stropt = "getenv"
 in (* in-of-local *)
 
 implement
-process_ATSPKGRELOCROOT () = let
+process_ATSPKGRELOCROOT
+ ((*void*)) = let
 //
-val opt = get () where
+val
+opt =
+get() where
 {
-  extern fun get (): Stropt = "mac#patsopt_ATSPKGRELOCROOT_get"
-} // end of [where] // end of [val]
-val issome = stropt_is_some (opt)
+//
+extern
+fun
+get
+(
+// argless
+) : Stropt =
+  "mac#patsopt_ATSPKGRELOCROOT_get"
+// end of [extern]
+//
+} (* where *) // end of [val]
+val
+issome = stropt_is_some (opt)
 //
 val def = (
 //
@@ -287,18 +300,23 @@ if
 issome
 then stropt_unsome (opt)
 else let
-  val user = getenv ("USER")
-  val issome = stropt_is_some (user)
-  val user =
-  (
-    if issome
-      then stropt_unsome(user) else "$USER"
-    // end of [if]
-  ) : string // end of [val]
-  val
-  ATSPKGRELOCROOT =
-    sprintf("/tmp/.ATSPKGRELOCROOT-%s", @(user))
-  // end of [val]
+//
+val
+user = getenv ("USER")
+val
+issome = stropt_is_some (user)
+val
+user = (
+//
+if issome
+  then stropt_unsome(user) else "$USER"
+//
+) : string // end of [val]
+val
+ATSPKGRELOCROOT =
+  sprintf("/tmp/.ATSPKGRELOCROOT-%s", @(user))
+// end of [val]
+//
 in
   string_of_strptr(ATSPKGRELOCROOT)
 end // end of [else]
@@ -307,11 +325,16 @@ end // end of [else]
 //
 (*
 val () =
-println! ("process_ATSPKGRELOCROOT: def = ", def)
+println!
+(
+  "process_ATSPKGRELOCROOT: def = ", def
+) (* end of [val] *)
 *)
 //
-val key = $SYM.symbol_ATSPKGRELOCROOT
-val e1xp = e1xp_string ($LOC.location_dummy, def)
+val key =
+  $SYM.symbol_ATSPKGRELOCROOT
+val e1xp =
+  e1xp_string ($LOC.location_dummy, def)
 //
 in
   $TRENV1.the_e1xpenv_addperv (key, e1xp)
