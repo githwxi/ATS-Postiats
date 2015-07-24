@@ -108,7 +108,7 @@ end // end of [comarg_parse]
 
 implement
 comarglst_parse
-  {n} (argc, argv) = let
+  {n}(argc, argv) = let
 //
 vtypedef
 arglst(n:int) = list_vt(comarg, n)
@@ -151,24 +151,27 @@ end // end of [comarglst_parse]
 (* ****** ****** *)
 
 implement
-comarg_warning (str) = {
-  val () = prerr ("warning(ATS)")
-  val () = prerr (": unrecognized command line argument [")
-  val () = prerr (str)
-  val () = prerr ("] is ignored.")
-  val () = prerr_newline ()
+comarg_warning
+  (str) = {
+//
+val () = prerr ("warning(ATS)")
+val () = prerr (": unrecognized command line argument [")
+val () = prerr (str)
+val () = prerr ("] is ignored.")
+val () = prerr_newline ((*void*))
+//
 } (* end of [comarg_warning] *)
 
 (* ****** ****** *)
 
 implement
-is_DATS_flag (flg) = 
-  if strncmp (flg, "-DATS", 5) = 0 then true else false
+is_DATS_flag (flag) = 
+  if strncmp (flag, "-DATS", 5) = 0 then true else false
 // end of [is_DATS_flag]
 
 implement
-is_IATS_flag (flg) = 
-  if strncmp (flg, "-IATS", 5) = 0 then true else false
+is_IATS_flag (flag) = 
+  if strncmp (flag, "-IATS", 5) = 0 then true else false
 // end of [is_IATS_flag]
 
 (* ****** ****** *)
@@ -253,7 +256,8 @@ end // end of [process_DATS_def]
 // HX: [ppush] means permanent push
 //
 implement
-process_IATS_dir (dir) = let
+process_IATS_dir
+  (dir) = let
 //
 val () = $FIL.the_pathlst_ppush (dir)
 val () = $GLOB.the_IATS_dirlst_ppush (dir)
