@@ -237,21 +237,12 @@ end // end of [local]
 
 (* ****** ****** *)
 //
-(*
-#define
-MYCODEROOT"http://ats-lang.sourceforge.net/DOCUMENT"
-*)
 #define
 MYCODEROOT
-"https://github.com/githwxi/ATS-Postiats/blob/master/doc/BOOK"
-//
-(* ****** ****** *)
-(*
+"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT"
 #define
-MYATSCODEROOT"http://ats-lang.sourceforge.net/DOCUMENT"
-*)
-#define
-MYATSCODEROOT"https://github.com/githwxi/ATS-Postiats/blob/master"
+MYATSCODEROOT
+"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats"
 //
 (* ****** ****** *)
 
