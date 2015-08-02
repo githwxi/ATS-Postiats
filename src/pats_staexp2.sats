@@ -175,22 +175,27 @@ absvtype d2conset_vtype
 vtypedef d2conset_vt = d2conset_vtype
 //
 (* ****** ****** *)
-
+//
 abstype s2rtdat_type
 typedef s2rtdat = s2rtdat_type
-
+//
+(* ****** ****** *)
+//
 fun s2rtdat_make (id: symbol): s2rtdat
-
+//
 fun s2rtdat_get_sym (s2td: s2rtdat): symbol
+fun s2rtdat_get_stamp (s2td: s2rtdat): stamp
+//
 fun s2rtdat_get_sconlst (s2td: s2rtdat): s2cstlst
 fun s2rtdat_set_sconlst (s2td: s2rtdat, s2cs: s2cstlst): void
-fun s2rtdat_get_stamp (s2td: s2rtdat): stamp
-
+//
 fun eq_s2rtdat_s2rtdat (s2td1: s2rtdat, s2td2: s2rtdat): bool
 overload = with eq_s2rtdat_s2rtdat
-
+//
+fun print_s2rtdat : (s2rtdat) -> void
+and prerr_s2rtdat : (s2rtdat) -> void
 fun fprint_s2rtdat : fprint_type (s2rtdat)
-
+//
 (* ****** ****** *)
 
 datatype s2rtbas =
