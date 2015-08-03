@@ -86,6 +86,11 @@ postfix 69 ?
 *)
 
 (* ****** ****** *)
+//
+// HX-2015-08-04:
+// mostly following the Fortran convention
+//
+(* ****** ****** *)
 
 infixr 61 ** (*exp*)
 
