@@ -234,6 +234,30 @@ jsonize_s2cstlst
 ) (* end of [jsonize_s2cstlst] *)
 
 (* ****** ****** *)
+
+implement
+jsonize_s2rtdat_long
+  (s2td) = let
+//
+val sym =
+  jsonize_symbol(s2rtdat_get_sym(s2td))
+val stamp =
+  jsonize_stamp(s2rtdat_get_stamp(s2td))
+val sconlst=
+  jsonize_s2cstlst(s2rtdat_get_sconlst(s2td))
+//
+in
+//
+jsonval_labval3
+(
+  "s2rtdat_sym", sym
+, "s2rtdat_stamp", stamp
+, "s2rtdat_sconlst", sconlst
+)
+//
+end // end of [jsonize_s2rtdat_long]
+
+(* ****** ****** *)
 //
 implement
 jsonize_s2var

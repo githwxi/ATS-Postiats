@@ -91,7 +91,7 @@ case+ s3i of
 //
 | S3ITMsolassert(s2e) => s2exp_app (s2e, env)
 //
-end // end of [jsonize_s3itm]
+end // end of [s3itm_app]
 
 (* ****** ****** *)
 //

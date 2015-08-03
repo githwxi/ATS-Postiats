@@ -86,13 +86,12 @@ lstbefitmlst_opnset_and_add
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () = d2var_opnset_and_add (loc, x.lstbefitm_var)
   in
     lstbefitmlst_opnset_and_add (loc, xs)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [lstbefitmlst_opnset_and_add]
 
@@ -105,19 +104,18 @@ fun invarglst_opnset_and_add
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () = d2var_opnset_and_add (loc, x.i2nvarg_var)
   in
     invarglst_opnset_and_add (loc, xs)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [invarglst_opnset_and_add]
 *)
 
 (* ****** ****** *)
-
+//
 extern
 fun
 d2exp_trup_loop_dryrun
@@ -126,9 +124,10 @@ d2exp_trup_loop_dryrun
 , lsbis: lstbefitmlst
 , test: d2exp, post: d2expopt, body: d2exp
 ) : lstbefitmlst // end of [d2exp_trup_loop_dryrun]
-
+//
 implement
-d2exp_trup_loop_dryrun (
+d2exp_trup_loop_dryrun
+(
   loc0, lsbis, test, post, body
 ) = let
 //
@@ -149,11 +148,14 @@ val post = (
   | None () => None ()
 ) : d3expopt // end of [val]
 //
-val () = the_lamlpenv_pop (pfpush2 | (*void*))
-val s3itms = trans3_env_pop (pfpush | (*void*)) // HX: it is a dry-run
-val () = list_vt_free (s3itms)
+val () =
+  the_lamlpenv_pop (pfpush2 | (*void*))
 //
-fun aux (
+val s3itms = trans3_env_pop (pfpush | (*void*)) // HX: it is a dry-run
+val ((*freed*)) = list_vt_free (s3itms)
+//
+fun
+aux (
   x: lstbefitm
 ) : lstbefitm = let
 //
@@ -190,62 +192,84 @@ val lsbis2 = list_map_fun (lsbis, aux)
 in
   list_of_list_vt (lsbis2)
 end // end of [d2exp_trup_loop_dryrun]
-
+//
 (* ****** ****** *)
 
 local
 
-fun auxerr_some
-(
-  loc: loc_t, d2v: d2var, s2e0: s2exp
-) : void = let
-  val () = prerr_error3_loc (loc)
-  val () = prerr ": the dynamic variable ["
-  val () = prerr_d2var (d2v)
-  val () = prerr "] is consumed but it should be retained with the type ["
-  val () = prerr_s2exp (s2e0)
-  val () = prerr "] instead."
-  val () = prerr_newline ()
-in
-  the_trans3errlst_add (T3E_d2var_some (loc, d2v, s2e0))
-end // end of [auxerr_some]
-
-fun auxerr_none
+fun
+auxerr_none
 (
   loc: loc_t, d2v: d2var, s2e: s2exp
 ) : void = let
-  val () = prerr_error3_loc (loc)
-  val () = prerr ": the dynamic variable ["
-  val () = prerr_d2var (d2v)
-  val () = prerr "] is retained with the type ["
-  val () = prerr_s2exp (s2e)
-  val () = prerr "but it should be consumed instead."
-  val () = prerr_newline ()
+//
+val () =
+  prerr_error3_loc (loc)
+//
+val () = prerr ": the dynamic variable ["
+val () = prerr_d2var (d2v)
+val () = prerr "] is retained with the type ["
+val () = prerr_s2exp (s2e)
+val () = prerr "but it should be consumed instead."
+val () = prerr_newline ()
+//
 in
   the_trans3errlst_add (T3E_d2var_some (loc, d2v, s2e))
 end // end of [auxerr_none]
 
-fun auxerr_some2
+fun
+auxerr_some
+(
+  loc: loc_t, d2v: d2var, s2e0: s2exp
+) : void = let
+//
+val () =
+  prerr_error3_loc (loc)
+//
+val () = prerr ": the dynamic variable ["
+val () = prerr_d2var (d2v)
+val () = prerr "] is consumed but it should be retained with the type ["
+val () = prerr_s2exp (s2e0)
+val () = prerr "] instead."
+val () = prerr_newline ()
+//
+in
+  the_trans3errlst_add (T3E_d2var_some (loc, d2v, s2e0))
+end // end of [auxerr_some]
+
+fun
+auxerr_some2
 (
   loc: loc_t, d2v: d2var, s2e0: s2exp, s2e: s2exp
 ) : void = let
-  val () = prerr_error3_loc (loc)
-  val () = prerr ": the dynamic variable ["
-  val () = prerr_d2var (d2v)
-  val () = prerr "] is retained but with a type that fails to merge."
-  val () = prerr_newline ()
-  val () = prerr_the_staerrlst ()
+//
+val () =
+  prerr_error3_loc (loc)
+//
+val () = prerr ": the dynamic variable ["
+val () = prerr_d2var (d2v)
+val () = prerr "] is retained but with a type that fails to merge."
+val () = prerr_newline ()
+val () = prerr_the_staerrlst ()
+//
 in
   the_trans3errlst_add (T3E_d2var_some2 (loc, d2v, s2e0, s2e))
 end // end of [auxerr_some2]
 
 (* ****** ****** *)
 
-fun auxVarCK
+fun
+auxVarCK
 (
   loc: loc_t
-, d2v: d2var, opt: s2expopt, opt2: s2expopt
+, d2v: d2var
+, opt: s2expopt, opt2: s2expopt
 ) : void = let
+//
+(*
+val () = println! ("auxVarCK: d2v = ", d2v)
+*)
+//
 in
 //
 case+ opt of
@@ -253,6 +277,12 @@ case+ opt of
   case+ opt2 of
   | Some (s2e2) => let
       var err0: int = 0
+//
+(*
+      val () = println! ("auxVarCK: s2e = ", s2e)
+      val () = println! ("auxVarCK: s2e2 = ", s2e2)
+*)
+//
       val iseq = s2exp_refeq (s2e, s2e2)
       val () =
         if ~(iseq) then let
@@ -285,7 +315,8 @@ end // end of [auxVarCK]
 
 (* ****** ****** *)
 
-fun auxMetCK
+fun
+auxMetCK
 (
   loc: loc_t
 , sub: !stasub, opt: s2explstopt
@@ -303,13 +334,19 @@ end // end of [auxMetCK]
 
 (* ****** ****** *)
 
-fun auxEnter
+fun
+auxEnter
 (
   loc: loc_t
 , i2nv: loopi2nv, lsbis: lstbefitmlst
 ) : void = let
 //
-fun auxitm
+(*
+val () = println! ("auxEnter: enter")
+*)
+//
+fun
+auxitm
 (
   loc: loc_t
 , sub: !stasub, args: i2nvarglst, x: lstbefitm
@@ -318,31 +355,34 @@ fun auxitm
 in
 //
 case+ args of
-| list_cons
-    (arg, args) => let
-    val d2v2 = i2nvarg_get_var (arg)
-    val iseq = eq_d2var_d2var (d2v, d2v2)
-  in
-    if iseq then let
-      val opt = x.lstbefitm_type
-      val opt2 = i2nvarg_get_type (arg)
-      val opt2 = s2expopt_subst (sub, opt2)
-    in
-      auxVarCK (loc, d2v, opt, opt2)
-    end else
-      auxitm (loc, sub, args, x)
-    // end of [if]
-  end // end of [list_cons]
-| list_nil () => let
+| list_nil
+    ((*void*)) => let
     val opt = x.lstbefitm_type
     val opt2 = d2var_get_type (d2v)
   in
     auxVarCK (loc, d2v, opt, opt2)
   end // end of [list_nil]
+| list_cons
+    (arg, args) => let
+    val d2v2 = i2nvarg_get_var (arg)
+    val iseq = eq_d2var_d2var (d2v, d2v2)
+  in
+    if iseq
+      then let
+        val opt = x.lstbefitm_type
+        val opt2 = i2nvarg_get_type (arg)
+        val opt2 = s2expopt_subst (sub, opt2)
+      in
+        auxVarCK (loc, d2v, opt, opt2)
+      end // end of [then]
+      else auxitm (loc, sub, args, x) // else
+    // end of [if]
+  end // end of [list_cons]
 //
 end (* end of [auxitm] *)
 //
-fun auxitmlst
+fun
+auxitmlst
 (
   loc: loc_t
 , sub: !stasub, args: i2nvarglst, xs: lstbefitmlst
@@ -350,25 +390,31 @@ fun auxitmlst
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () =
       auxitm (loc, sub, args, x)
     // end of [val]
   in
     auxitmlst (loc, sub, args, xs)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end (* end of [auxitmlst] *)
 //
 val sub =
   stasub_make_svarlst (loc, i2nv.loopi2nv_svs)
-val s2ps = s2explst_subst_vt (sub, i2nv.loopi2nv_gua)
 //
 val
 (pfpush | ()) = trans3_env_push ()
 //
+local
+val
+s2ps =
+s2explst_subst_vt(sub, i2nv.loopi2nv_gua)
+in
 val () = trans3_env_add_proplst_vt (loc, s2ps)
+end // end of [local]
+//
 val () = auxitmlst(loc, sub, i2nv.loopi2nv_arg, lsbis)
 //
 val ctrknd = C3TKloop(~1(*entering*))
@@ -383,13 +429,19 @@ end // end of [auxEnter]
 
 (* ****** ****** *)
 
-fun auxBreak
+fun
+auxBreak
 (
   loc: loc_t
 , i2nv: loopi2nv, lsbis: lstbefitmlst
 ) : void = let
 //
-fun auxitm1
+(*
+val () = println! ("auxBreak: enter")
+*)
+//
+fun
+auxitm1
 (
   loc: loc_t
 , i2nv: loopi2nv
@@ -400,27 +452,33 @@ fun auxitm1
 in
 //
 case+ args of
+| list_nil () =>
+  auxitm2
+    (loc, lsbis, i2nv.loopi2nv_arg, x0)
+  // end of [list_nil]
 | list_cons
     (arg, args) => let
     val d2v2 = i2nvarg_get_var (arg)
     val iseq = eq_d2var_d2var (d2v, d2v2)
   in
-    if iseq then let
-      val opt = x0.lstbefitm_type
-      val opt2 = i2nvarg_get_type (arg)
-      val opt2 = s2expopt_subst (sub, opt2)
-    in
-      auxVarCK (loc, d2v, opt, opt2)
-    end else
-      auxitm1 (loc, i2nv, lsbis, sub, args, x0)
+    if iseq
+      then let
+        val opt = x0.lstbefitm_type
+        val opt2 = i2nvarg_get_type (arg)
+        val opt2 = s2expopt_subst (sub, opt2)
+      in
+        auxVarCK (loc, d2v, opt, opt2)
+      end // end of [then]
+      else (
+        auxitm1 (loc, i2nv, lsbis, sub, args, x0)
+      ) (* end of [else] *)
     // end of [if]
   end // end of [list_cons]
-| list_nil () =>
-    auxitm2 (loc, lsbis, i2nv.loopi2nv_arg, x0)
 //
 end // end of [auxitm1]
 //
-and auxitm2
+and
+auxitm2
 (
   loc: loc_t
 , lsbis: lstbefitmlst, args: i2nvarglst, x0: lstbefitm
@@ -429,25 +487,32 @@ and auxitm2
 in
 //
 case+ args of
+| list_nil
+    ((*void*)) =>
+    auxitm3 (loc, lsbis, x0)
+  // end of [list_nil]
 | list_cons
     (arg, args) => let
     val d2v2 = i2nvarg_get_var (arg)
     val iseq = eq_d2var_d2var (d2v, d2v2)
   in
-    if iseq then let
-      val opt = x0.lstbefitm_type
-      val opt2 = i2nvarg_get_type (arg)
-    in
-      auxVarCK (loc, d2v, opt, opt2)
-    end else
-      auxitm2 (loc, lsbis, args, x0)
+    if iseq
+      then let
+        val opt = x0.lstbefitm_type
+        val opt2 = i2nvarg_get_type (arg)
+      in
+        auxVarCK (loc, d2v, opt, opt2)
+      end // end of [then]
+      else (
+        auxitm2 (loc, lsbis, args, x0)
+      ) (* end of [else] *)
     // end of [if]
   end // end of [list_cons]
-| list_nil () => auxitm3 (loc, lsbis, x0)
 //
 end // end of [auxitm2]
 //
-and auxitm3
+and
+auxitm3
 (
   loc: loc_t
 , lsbis: lstbefitmlst, x0: lstbefitm
@@ -456,25 +521,28 @@ and auxitm3
 in
 //
 case+ lsbis of
+| list_nil
+    ((*void*)) => ()
 | list_cons
     (lsbi, lsbis) => let
     val d2v2 = lsbi.lstbefitm_var
     val iseq = eq_d2var_d2var (d2v, d2v2)
   in
-    if iseq then let
-      val opt = x0.lstbefitm_type
-      val opt2 = lsbi.lstbefitm_type
-    in
-      auxVarCK (loc, d2v, opt, opt2)
-    end else
-      auxitm3 (loc, lsbis, x0)
+    if iseq
+      then let
+        val opt = x0.lstbefitm_type
+        val opt2 = lsbi.lstbefitm_type
+      in
+        auxVarCK (loc, d2v, opt, opt2)
+      end // end of [then]
+      else auxitm3 (loc, lsbis, x0) // else
     // end of [if]
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [auxitm3]
 //
-fun auxitmlst
+fun
+auxitmlst
 (
   loc: loc_t
 , i2nv: loopi2nv
@@ -484,14 +552,14 @@ fun auxitmlst
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () =
       auxitm1 (loc, i2nv, lsbis, sub, args, x)
     // end of [val]
   in
     auxitmlst (loc, i2nv, lsbis, sub, args, xs)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end (* end of [auxitmlst] *)
 //
@@ -529,7 +597,12 @@ auxContinue
 , post: d2expopt
 ) : d3expopt = let
 //
-fun auxitm1
+(*
+val () = println! ("auxContinue: enter")
+*)
+//
+fun
+auxitm1
 (
   loc: loc_t
 , lsbis: lstbefitmlst
@@ -539,26 +612,31 @@ fun auxitm1
 in
 //
 case+ args of
-| list_cons
-    (arg, args) => let
+| list_nil() =>
+    auxitm2 (loc, lsbis, x0)
+  // end of [list_nil]
+| list_cons(arg, args) => let
     val d2v2 = i2nvarg_get_var (arg)
     val iseq = eq_d2var_d2var (d2v, d2v2)
   in
-    if iseq then let
-      val opt = x0.lstbefitm_type
-      val opt2 = i2nvarg_get_type (arg)
-      val opt2 = s2expopt_subst (sub, opt2)
-    in
-      auxVarCK (loc, d2v, opt, opt2)
-    end else
-      auxitm1 (loc, lsbis, sub, args, x0)
+    if iseq
+      then let
+        val opt = x0.lstbefitm_type
+        val opt2 = i2nvarg_get_type (arg)
+        val opt2 = s2expopt_subst (sub, opt2)
+      in
+        auxVarCK (loc, d2v, opt, opt2)
+      end // end of [then]
+      else (
+        auxitm1 (loc, lsbis, sub, args, x0)
+      ) (* end of [then] *)
     // end of [if]
   end // end of [list_cons]
-| list_nil () => auxitm2 (loc, lsbis, x0)
 //
 end // end of [auxitm1]
 //
-and auxitm2
+and
+auxitm2
 (
   loc: loc_t
 , lsbis: lstbefitmlst, x0: lstbefitm
@@ -567,25 +645,28 @@ and auxitm2
 in
 //
 case+ lsbis of
+| list_nil
+    ((*void*)) => ()
 | list_cons
     (lsbi, lsbis) => let
     val d2v2 = lsbi.lstbefitm_var
     val iseq = eq_d2var_d2var (d2v, d2v2)
   in
-    if iseq then let
-      val opt = x0.lstbefitm_type
-      val opt2 = lsbi.lstbefitm_type
-    in
-      auxVarCK (loc, d2v, opt, opt2)
-    end else
-      auxitm2 (loc, lsbis, x0)
+    if iseq
+      then let
+        val opt = x0.lstbefitm_type
+        val opt2 = lsbi.lstbefitm_type
+      in
+        auxVarCK (loc, d2v, opt, opt2)
+      end // end of [then]
+      else auxitm2 (loc, lsbis, x0) // else
     // end of [if]
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [auxitm2]
 //
-fun auxitmlst
+fun
+auxitmlst
 (
   loc: loc_t
 , lsbis: lstbefitmlst
@@ -594,18 +675,20 @@ fun auxitmlst
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () =
       auxitm1 (loc, lsbis, sub, args, x)
     // end of [val]
   in
     auxitmlst (loc, lsbis, sub, args, xs)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end (* end of [auxitmlst] *)
 //
-val s2f_void = s2exp_void_t0ype ()
+val
+s2f_void = s2exp_void_t0ype ()
+//
 val post = (
   case+ post of
   | Some (d2e) => Some (d2exp_trdn (d2e, s2f_void))
@@ -613,11 +696,20 @@ val post = (
 ) : d3expopt // end of [val]
 //
 val sub =
-  stasub_make_svarlst (loc, i2nv.loopi2nv_svs)
+  stasub_make_svarlst(loc, i2nv.loopi2nv_svs)
+//
 val lsbis2 = the_d2varenv_save_lstbefitmlst ()
 //
 val
 (pfpush | ()) = trans3_env_push ()
+//
+local
+val
+s2ps =
+s2explst_subst_vt(sub, i2nv.loopi2nv_gua)
+in
+val () = trans3_env_add_proplst_vt (loc, s2ps)
+end // end of [local]
 //
 val () =
 auxMetCK (loc, sub, i2nv.loopi2nv_met)
@@ -733,7 +825,8 @@ implement
 d2exp_trup_loopexn
   (loc0, knd) = let
 //
-fun auxerr
+fun
+auxerr
 (
   loc: loc_t, knd: int
 ) : void = let
