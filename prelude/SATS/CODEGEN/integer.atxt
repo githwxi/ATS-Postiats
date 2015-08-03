@@ -191,7 +191,7 @@ fun
 g0int_npow
   (x: g0int(tk), n: intGte(0)):<> g0int(tk)
 //
-overload ** with g0int_npow of 10
+overload ** with g0int_npow of 0
 //
 #atscode_separator()
 //
