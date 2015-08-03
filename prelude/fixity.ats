@@ -79,15 +79,19 @@ prefix 79 & // dynamic
 infixl 70 app
 *)
 
+(* ****** ****** *)
+
 (*
 postfix 69 ?
 *)
 
 (* ****** ****** *)
 
-prefix 61 ~
+infixr 61 ** (*exp*)
 
 (* ****** ****** *)
+//
+// multiplicative
 //
 infixl 60 * / % mod
 //
@@ -96,11 +100,15 @@ infixl 60 nmul ndiv nmod
 *)
 //
 (* ****** ****** *)
+
+prefix 51 ~ (*negative*)
+
+(* ****** ****** *)
 //
-infixl 50 + -
+infixl 50 + - (*additive*)
 //
 (*
-infixr (+) ++ (*concat*)
+infixr (+) ++ // concatenative
 *)
 //
 (* ****** ****** *)

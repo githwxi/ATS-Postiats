@@ -24,6 +24,7 @@ Here is a list of major additions and changes since the last release:
 
 1. Adding support for explicitly boxed types: boxed and boxed_vt
 2. Adding backup links to INT2PROGINATS, ATS2TUTORIAL, and EFFECTIVATS.
+3. Fixing a bug in typechecking loop invariants (see bug-2015-08-04).
 
 ######
 

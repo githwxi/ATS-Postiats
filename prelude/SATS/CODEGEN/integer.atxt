@@ -174,13 +174,20 @@ overload * with mul_size0_int1 of 11
 
 fun
 {tk:tk}
-g0int_asl (x: g0int (tk), n: intGte(0)):<> g0int (tk)
+g0int_asl (x: g0int(tk), n: intGte(0)):<> g0int(tk)
 overload << with g0int_asl
 fun
 {tk:tk}
-g0int_asr (x: g0int (tk), n: intGte(0)):<> g0int (tk)
+g0int_asr (x: g0int(tk), n: intGte(0)):<> g0int(tk)
 overload >> with g0int_asr
 
+#atscode_separator()
+//
+fun
+{tk:tk}
+g0int_npow (x: g0int(tk), n: intGte(0)):<> g0int(tk)
+overload ** with g0int_npow
+//
 #atscode_separator()
 
 fun{tk:tk}
