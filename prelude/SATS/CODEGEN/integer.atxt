@@ -171,44 +171,52 @@ overload * with mul_int1_size0 of 11
 overload * with mul_size0_int1 of 11
 
 #atscode_separator()
-
+//
 fun
 {tk:tk}
-g0int_asl (x: g0int(tk), n: intGte(0)):<> g0int(tk)
-overload << with g0int_asl
+g0int_asl
+  (x: g0int(tk), n: intGte(0)):<> g0int(tk)
 fun
 {tk:tk}
-g0int_asr (x: g0int(tk), n: intGte(0)):<> g0int(tk)
-overload >> with g0int_asr
-
+g0int_asr
+  (x: g0int(tk), n: intGte(0)):<> g0int(tk)
+//
+overload << with g0int_asl of 0
+overload >> with g0int_asr of 0
+//
 #atscode_separator()
 //
 fun
 {tk:tk}
-g0int_npow (x: g0int(tk), n: intGte(0)):<> g0int(tk)
-overload ** with g0int_npow
+g0int_npow
+  (x: g0int(tk), n: intGte(0)):<> g0int(tk)
+//
+overload ** with g0int_npow of 10
 //
 #atscode_separator()
-
+//
 fun{tk:tk}
 g0int_isltz (x: g0int (tk)):<> bool
-overload isltz with g0int_isltz of 0
 fun{tk:tk}
 g0int_isltez (x: g0int (tk)):<> bool
-overload isltez with g0int_isltez of 0
+//
 fun{tk:tk}
 g0int_isgtz (x: g0int (tk)):<> bool
-overload isgtz with g0int_isgtz of 0
 fun{tk:tk}
 g0int_isgtez (x: g0int (tk)):<> bool
-overload isgtez with g0int_isgtez of 0
+//
 fun{tk:tk}
 g0int_iseqz (x: g0int (tk)):<> bool
-overload iseqz with g0int_iseqz of 0
 fun{tk:tk}
 g0int_isneqz (x: g0int (tk)):<> bool
+//
+overload isltz with g0int_isltz of 0
+overload isltez with g0int_isltez of 0
+overload isgtz with g0int_isgtz of 0
+overload isgtez with g0int_isgtez of 0
+overload iseqz with g0int_iseqz of 0
 overload isneqz with g0int_isneqz of 0
-
+//
 #atscode_separator()
 
 typedef
