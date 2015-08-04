@@ -48,6 +48,8 @@ overload = with $SYM.eq_symbol_symbol
 (* ****** ****** *)
 
 staload STMP = "./pats_stamp.sats"
+typedef stamp = $STMP.stamp
+overload compare with $STMP.compare_stamp_stamp
 
 (* ****** ****** *)
 
@@ -64,7 +66,7 @@ s2rtdat_struct = @{
   s2rtdat_sym= symbol // name
 , s2rtdat_sconlst= s2cstlst
 , s2rtdat_stamp= stamp // unique stamp
-} // end of [s2rtdat_struct]
+} (* end of [s2rtdat_struct] *)
 
 (* ****** ****** *)
 
@@ -91,31 +93,43 @@ end // end of [s2rtdat_make]
 
 implement
 s2rtdat_get_sym (s2td) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_sym
+  val (vbox pf | p) = ref_get_view_ptr(s2td) in p->s2rtdat_sym
 end // end of [s2rtdat_get_sym]
 
 implement
 s2rtdat_get_sconlst (s2td) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_sconlst
+  val (vbox pf | p) = ref_get_view_ptr(s2td) in p->s2rtdat_sconlst
 end // end of [s2rtdat_get_sconlst]
 implement
 s2rtdat_set_sconlst (s2td, s2cs) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_sconlst := s2cs
+  val (vbox pf | p) = ref_get_view_ptr(s2td) in p->s2rtdat_sconlst := s2cs
 end // end of [s2rtdat_set_sconlst]
 
 implement
 s2rtdat_get_stamp (s2td) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_stamp
+  val (vbox pf | p) = ref_get_view_ptr(s2td) in p->s2rtdat_stamp
 end // end of [s2rtdat_get_stamp]
-
-implement
-eq_s2rtdat_s2rtdat
-  (x1, x2) = p1 = p2 where {
-  val p1 = ref_get_ptr (x1) and p2 = ref_get_ptr (x2)
-} // end of [eq_s2rtdat_s2rtdat]
 
 end // end of [local]
 
+(* ****** ****** *)
+//
+implement
+eq_s2rtdat_s2rtdat
+(
+  x1, x2
+) = (compare_s2rtdat_s2rtdat (x1, x2) = 0)
+//
+implement
+compare_s2rtdat_s2rtdat
+(
+  x1, x2
+) =
+$effmask_all
+(
+  compare(s2rtdat_get_stamp(x1), s2rtdat_get_stamp(x2))
+) (* end of [compare_s2rtdat_s2rtdat] *)
+//
 (* ****** ****** *)
 
 local
@@ -690,24 +704,32 @@ implement
 s2rt_err () = S2RTerr () // HX: error indication
 
 (* ****** ****** *)
-
+//
 extern
-fun lte_s2rtbas_s2rtbas
+fun
+lte_s2rtbas_s2rtbas
   (s2tb1: s2rtbas, s2tb2: s2rtbas): bool
+//
 overload <= with lte_s2rtbas_s2rtbas
-
+//
 implement
-lte_s2rtbas_s2rtbas (s2tb1, s2tb2) = begin
-  case+ (s2tb1, s2tb2) of
-  | (S2RTBASpre id1, S2RTBASpre id2) => (id1 = id2)
-  | (S2RTBASimp (knd1, id1),
-     S2RTBASimp (knd2, id2)) => lte_impkind_impkind (knd1, knd2)
-  | (S2RTBASdef s2td1, S2RTBASdef s2td2) => (s2td1 = s2td2)
-  | (_, _) => false
-end // end of [lte_s2rtbas_s2rtbas]
-
+lte_s2rtbas_s2rtbas
+  (s2tb1, s2tb2) =
+(
+case+
+(s2tb1, s2tb2)
+of // case+
+| (S2RTBASpre id1,
+   S2RTBASpre id2) => (id1 = id2)
+| (S2RTBASimp (knd1, id1),
+   S2RTBASimp (knd2, id2)) => lte_impkind_impkind (knd1, knd2)
+| (S2RTBASdef s2td1,
+   S2RTBASdef s2td2) => (s2td1 = s2td2)
+| (_, _) => false
+) (* end of [lte_s2rtbas_s2rtbas] *)
+//
 (* ****** ****** *)
-
+//
 (*
 ** HX: knd=0/1: dry-run / real-run
 *)
@@ -715,7 +737,7 @@ extern
 fun s2rt_ltmat (knd: int, s2t1: s2rt, s2t2: s2rt): bool
 extern
 fun s2rtlst_ltmat (knd: int, xs1: s2rtlst, xs2: s2rtlst): bool
-
+//
 implement
 s2rt_ltmat
   (knd, s2t1, s2t2) = let
@@ -763,7 +785,7 @@ case+ s2t1 of
 | S2RTerr ((*void*)) => false
 //
 end // end of [s2rt_ltmat]
-
+//
 (* ****** ****** *)
 
 implement
@@ -783,8 +805,45 @@ s2rtlst_ltmat
 
 (* ****** ****** *)
 
-implement s2rt_ltmat0 (x1, x2) = s2rt_ltmat (0, x1, x2)
-implement s2rt_ltmat1 (x1, x2) = s2rt_ltmat (1, x1, x2)
+implement s2rt_ltmat0(x1, x2) = s2rt_ltmat(0, x1, x2)
+implement s2rt_ltmat1(x1, x2) = s2rt_ltmat(1, x1, x2)
+
+(* ****** ****** *)
+
+local
+//
+staload
+FS = "libats/SATS/funset_avltree.sats"
+staload
+_(*FS*) = "libats/DATS/funset_avltree.dats"
+//
+val
+cmp =
+lam (
+  x1: s2rtdat, x2: s2rtdat
+) : int =<cloref>
+  compare_s2rtdat_s2rtdat (x1, x2)
+// end of [val]
+//
+assume s2rtdatset_type = $FS.set (s2rtdat)
+//
+in (* in-of-local *)
+
+implement
+s2rtdatset_nil
+  ((*void*)) = $FS.funset_make_nil ()
+
+implement
+s2rtdatset_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*rplced*) = $FS.funset_insert (xs, x, cmp)
+} (* end of [s2rtdatset_add] *)
+
+implement
+s2rtdatset_listize (xs) = $FS.funset_listize (xs)
+
+end // end of [local]
 
 (* ****** ****** *)
 

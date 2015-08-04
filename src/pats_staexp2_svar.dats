@@ -47,15 +47,17 @@ staload UT = "./pats_utils.sats"
 staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
-
+//
 staload
 CNTR = "./pats_counter.sats"
+//
+staload SYM = "./pats_symbol.sats"
+typedef symbol = $SYM.symbol
+//
 staload STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
 overload compare with $STMP.compare_stamp_stamp
-staload SYM = "./pats_symbol.sats"
-typedef symbol = $SYM.symbol
-
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"

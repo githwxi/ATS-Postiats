@@ -189,12 +189,26 @@ fun s2rtdat_get_stamp (s2td: s2rtdat): stamp
 fun s2rtdat_get_sconlst (s2td: s2rtdat): s2cstlst
 fun s2rtdat_set_sconlst (s2td: s2rtdat, s2cs: s2cstlst): void
 //
-fun eq_s2rtdat_s2rtdat (s2td1: s2rtdat, s2td2: s2rtdat): bool
+fun
+eq_s2rtdat_s2rtdat (s2td1: s2rtdat, s2td2: s2rtdat):<> bool
+fun
+compare_s2rtdat_s2rtdat (s2td1: s2rtdat, s2td2: s2rtdat):<> int
+//
 overload = with eq_s2rtdat_s2rtdat
+overload compare with compare_s2rtdat_s2rtdat
 //
 fun print_s2rtdat : (s2rtdat) -> void
 and prerr_s2rtdat : (s2rtdat) -> void
 fun fprint_s2rtdat : fprint_type (s2rtdat)
+//
+(* ****** ****** *)
+//
+abstype s2rtdatset_type
+typedef s2rtdatset = s2rtdatset_type
+//
+fun s2rtdatset_nil (): s2rtdatset
+fun s2rtdatset_add (xs: s2rtdatset, x: s2rtdat): s2rtdatset
+fun s2rtdatset_listize (xs: s2rtdatset): List_vt(s2rtdat)
 //
 (* ****** ****** *)
 
