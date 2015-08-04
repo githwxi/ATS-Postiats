@@ -68,11 +68,12 @@ fun s2rt_npf_lin_prf_prgm_boxed_labs2explst (
 ) : s2rt // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]
 
 (* ****** ****** *)
-
-fun s2cst_select_locs2explstlst
+//
+fun
+s2cst_select_locs2explstlst
   (s2cs: s2cstlst, arg: List (locs2explst)): s2cstlst
 // end of [s2cst_select_locs2explstlst]
-
+//
 (* ****** ****** *)
 //
 fun s2exp_is_nonvar (s2e: s2exp):<> bool
@@ -81,7 +82,7 @@ fun s2exp_is_without (s2e: s2exp):<> bool
 //
 // HX-2012-05: this one does more elaborate checking
 //
-fun s2exp_is_lin2 (x: s2exp): bool // when compared to [s2exp_is_lin]
+fun s2exp_is_lin2 (x: s2exp): bool // compared to [s2exp_is_lin]
 //
 (* ****** ****** *)
 
@@ -102,11 +103,20 @@ absvtype
 stasub_vtype // for static subst
 vtypedef stasub = stasub_vtype
 
-fun stasub_make_nil () : stasub
-fun stasub_copy (sub: !stasub): stasub
+(* ****** ****** *)
+//
+fun
+stasub_make_nil ((*void*)) : stasub
+//
 fun stasub_free (sub: stasub): void
+fun stasub_copy (sub: !stasub): stasub
+//
+(* ****** ****** *)
 
-fun fprint_stasub (out: FILEref, sub: !stasub): void
+fun
+fprint_stasub (out: FILEref, sub: !stasub): void
+
+(* ****** ****** *)
 
 fun stasub_add
   (sub: &stasub, s2v: s2var, s2f: s2exp): void
@@ -114,19 +124,25 @@ fun stasub_addlst
   (sub: &stasub, s2vs: s2varlst, s2fs: s2explst): int(*err*)
 // end of [stasub_addlst]
 
+(* ****** ****** *)
+
 fun stasub_find
   (sub: !stasub, s2v: s2var): Option_vt (s2exp)
 // end of [stasub_find]
 
+(* ****** ****** *)
+//
 (*
 fun stasub_get_domain (sub: !stasub): List_vt (s2var)
 *)
-
-fun stasub_occurcheck (sub: !stasub, s2V: s2Var): bool
-
+//
+fun
+stasub_occurcheck (sub: !stasub, s2V: s2Var): bool
+//
 (* ****** ****** *)
 
-fun stasub_extend_svarlst
+fun
+stasub_extend_svarlst
   (sub: &stasub, s2vs: s2varlst): s2varlst_vt
 // end of [stasub_extend_svarlst]
 
@@ -155,7 +171,8 @@ s2explst_subst_flag
 //
 (* ****** ****** *)
 
-fun s2zexp_subst_flag
+fun
+s2zexp_subst_flag
   (sub: !stasub, s2ze: s2zexp, flag: &int): s2zexp
 // end of [s2zexp_subst_flag]
 
