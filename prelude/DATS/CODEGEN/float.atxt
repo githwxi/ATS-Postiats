@@ -34,6 +34,16 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 //
+%}\
+//
+#atscode_separator()
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+#atscode_separator()
+
+%{
+//
 fun g0float_implist (
   kname: string, tname: string
 ) : atext = let
@@ -136,6 +146,43 @@ implement fprint_val<float> = fprint_float
 implement fprint_val<double> = fprint_double
 implement fprint_val<ldouble> = fprint_ldouble
 //
+#atscode_separator()
+
+implement
+{tk}(*tk*)
+g0float_npow(x, n) = let
+//
+typedef gfloat = g0float(tk)
+//
+fun
+loop
+(
+  x: gfloat, res: gfloat, n: int
+) : gfloat = (
+//
+if
+(n > 1)
+then let
+  val n2 = n >> 1
+  val b0 = n - (n2 << 1)
+  val xx = x * x
+in
+  if b0 = 0
+    then loop(xx, res, n2) else loop(xx, x * res, n2)
+  // end of [if]
+end // end of [then]
+else (
+  if n > 0 then x * res else res
+) (* end of [if] *)
+//
+) (* end of [loop] *)
+//
+val res = $UN.cast{gfloat}(1)
+//
+in
+  $effmask_all(loop(x, res, n))
+end // end of [g0float_npow]
+
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

@@ -26,6 +26,7 @@ Here is a list of major additions and changes since the last release:
 2. Adding backup links to INT2PROGINATS, ATS2TUTORIAL, and EFFECTIVATS.
 3. Fixing a bug in typechecking loop invariants (see bug-2015-08-04).
 4. Adding ** (exponentiation) and overloading it with [g0int_npow]
+5. Adding the_s2rtdatmap to the jsonization of generated constraints
 
 ######
 

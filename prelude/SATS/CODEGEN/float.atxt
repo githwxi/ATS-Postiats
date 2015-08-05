@@ -270,6 +270,15 @@ overload / with div_int_double of 0
 overload / with div_double_int of 0
 //
 #atscode_separator()
+//
+fun
+{tk:tk}
+g0float_npow
+  (x: g0float(tk), n: intGte(0)): g0float(tk)
+//
+overload ** with g0float_npow of 0
+//
+#atscode_separator()
 
 macdef g0i2f (x) = g0int2float (,(x))
 macdef g0f2i (x) = g0float2int (,(x))
