@@ -178,7 +178,7 @@ else (
 //
 ) (* end of [loop] *)
 //
-val res = $UN.cast{gfloat}(1)
+val res = $UN.cast{gfloat}(1.0)
 //
 in
   $effmask_all(loop(x, res, n))
