@@ -659,7 +659,7 @@ in
   multivariate_argmin (f, $lst{dualnum}(w0))
 end // end of [val]
 
-val list_sing (w_star) = ws_star
+val+list_sing(w_star) = ws_star
 
 in (* in of [let] *)
 //

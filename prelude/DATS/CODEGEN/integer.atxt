@@ -153,7 +153,8 @@ implement{} mul_size0_int1 (i, j) = i * i2sz(j)
 
 implement
 {tk}(*tk*)
-g0int_npow(x, n) = let
+g0int_npow
+  (x, n) = let
 //
 typedef gint = g0int(tk)
 //
@@ -176,7 +177,7 @@ in
 end // end of [then]
 else (
   if n > 0 then x * res else res
-) (* end of [if] *)
+) (* end of [else] *)
 //
 ) (* end of [loop] *)
 //

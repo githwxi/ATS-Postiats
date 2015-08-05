@@ -150,7 +150,8 @@ implement fprint_val<ldouble> = fprint_ldouble
 
 implement
 {tk}(*tk*)
-g0float_npow(x, n) = let
+g0float_npow
+  (x, n) = let
 //
 typedef gfloat = g0float(tk)
 //
@@ -173,7 +174,7 @@ in
 end // end of [then]
 else (
   if n > 0 then x * res else res
-) (* end of [if] *)
+) (* end of [else] *)
 //
 ) (* end of [loop] *)
 //
