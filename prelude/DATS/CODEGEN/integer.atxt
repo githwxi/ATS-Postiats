@@ -171,8 +171,7 @@ then let
   val xx = x * x
 in
   if b0 = 0
-    then loop(xx, res, n2)
-    else loop(xx, x * res, n2)
+    then loop(xx, res, n2) else loop(xx, x * res, n2)
   // end of [if]
 end // end of [then]
 else (
