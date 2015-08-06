@@ -48,7 +48,7 @@ xmlhttp.onreadystatechange
 lam((*void*)) =>
 (
   if xmlhttp.is_ready_okay()
-    then file_get_contents_rpc$reply<> (xmlhttp.responseText)
+    then file_get_contents_rpc$reply<> (xmlhttp.responseText())
   // end of [if]
 ) (* end of [lam] *)
 )

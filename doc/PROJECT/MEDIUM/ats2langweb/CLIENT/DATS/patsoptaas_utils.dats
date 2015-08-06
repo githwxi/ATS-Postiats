@@ -486,6 +486,49 @@ Patsoptaas_Evaluate_JS_onclick()
 //
 extern
 fun
+Help_about_onclick(): void = "mac#%"
+//
+%{^
+//
+function
+Patsoptaas_Help_about_onclick()
+{
+//
+var
+theHelp = "\n\
+Patsoptaas is a service for trying ATS on-line.\n\
+\n\
+Compile/Patsopt: for compiling the ATS source into C.\n\
+Compile/Patsopt2js: for compiling the ATS source into JS.\n\
+\n\
+Evaluate/EvalJS: for evaluating the generated JS code.\n\
+\n\
+Patsopt-tcats:\n\
+  If set, Patsopt does type-checking only;\n\
+  If not set, Patsopt translates ATS into C after type-checking\n\
+\n\
+Patsopt2js-eval:\n\
+  If set, Patsopt2js evaluates the generated JS code automatically;\n\
+  If not set, Patsopt2js does not try to evaluate the generated JS code.\n\
+\n\
+Compile-stderr:\n\
+  If set, compilation messages output to a designated window.\n\
+\n\
+Evaluate-canvas:\n\
+  If set, a canvas of the id 'Patsoptaas-Evaluate-canvas' is shown.\n\
+\n\
+" // end of [var]
+//
+alert(theHelp); return;
+//
+} // end of [Patsoptaas_Help_about_onclick]
+//
+%} // end of [%{^]
+//
+(* ****** ****** *)
+//
+extern
+fun
 File_loadurl_input_doWork
   (url: string): void = "mac#%"
 //

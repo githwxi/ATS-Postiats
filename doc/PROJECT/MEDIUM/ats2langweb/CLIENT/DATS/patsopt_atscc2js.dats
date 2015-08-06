@@ -50,7 +50,7 @@ xmlhttp.onreadystatechange
 lam((*void*)) =>
 (
   if xmlhttp.is_ready_okay()
-    then patsopt_atscc2js_rpc$reply<> (xmlhttp.responseText)
+    then patsopt_atscc2js_rpc$reply<> (xmlhttp.responseText())
   // end of [if]
 ) (* end of [lam] *)
 ) (* end of [onreadystatechange] *)

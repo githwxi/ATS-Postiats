@@ -88,13 +88,24 @@ function
 File_examples_onchange(x0)
 {
 //
-  var i0;
+  var i;
 //
-  i0 = x0.selectedIndex; x0.selectedIndex = 0;
+  i = x0.selectedIndex;
+  x0.selectedIndex = 0;
+  if (i===1) {
+    i = 2+Math.floor(10*Math.random());
+  } // end of [if]
+  File_examples_onchange_index(i); return;
 //
-  switch(i0)
+} // end of [File_examples_onchange]
+function
+File_examples_onchange_index(i)
+{
+//
+  switch(i)
   {
-    case 1: break;
+    case 0: break; // deadcode
+    case 1: break; // deadcode
     case 2:
     File_examples_load(Patsoptaas_File_examples_hello); break;
     case 3:
@@ -118,7 +129,7 @@ File_examples_onchange(x0)
     default: break;
   }
 //
-} // end of [File_examples_onchange]
+} // end of [File_examples_onchange_index]
 //
 </script>
 
