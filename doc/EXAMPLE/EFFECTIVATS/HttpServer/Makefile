@@ -25,7 +25,7 @@ cleanall:: ; $(RMF) myserver
 all:: \
 myserver2
 myserver2: myserver2.dats ; \
-  $(PATSCC) -D_GNU_SOURCE -I${PATSHOME}/contrib -o $@ $< -lczmq -lzmq
+  $(PATSCC) -D_GNU_SOURCE -I${PATSHOMERELOC}/contrib -o $@ $< -lczmq -lzmq
 cleanall:: ; $(RMF) myserver2
 
 ######
