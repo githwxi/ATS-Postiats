@@ -1242,7 +1242,9 @@ case+
 pmv_fun.primval_node of
 //
 | PMVcst (d2c) => let
-    val opt = ccompenv_find_tailcalenv_cst (env, d2c)
+    val opt =
+      ccompenv_find_tailcalenv_cst (env, d2c)
+    // end of [val]
   in
     case+ opt of
     | ~Some_vt (fl) => let
@@ -1298,13 +1300,18 @@ pmv_fun.primval_node of
     | _ (*ntl < 0*) => ((*void*))
   end // end of [PMVd2vfunlab]
 //
-| PMVtmpltcst (d2c, t2mas) => let
-    val opt = ccompenv_find_tailcalenv_tmpcst (env, d2c, t2mas)
+| PMVtmpltcst
+    (d2c, t2mas) => let
+    val opt =
+      ccompenv_find_tailcalenv_tmpcst (env, d2c, t2mas)
+    // end of [val]
   in
     case+ opt of
     | ~Some_vt (fl) => let
         val ntl = 0
-        val ins = instr_fcall2 (loc0, tmpret, fl, ntl, hse_fun, pmvs_arg)
+        val ins =
+          instr_fcall2 (loc0, tmpret, fl, ntl, hse_fun, pmvs_arg)
+        // end of [val]
         val () = added := added + 1
         val () = instrseq_add (res, ins)
       in
@@ -1313,7 +1320,26 @@ pmv_fun.primval_node of
     | ~None_vt ((*void*)) => ((*void*))
   end // end of [PMVtmpltcst]
 //
+| PMVtmpltvar
+    (d2v, t2mas) => let
+    var ntl: int = 0
+    val opt =
+      ccompenv_find_tailcalenv_tmpvar (env, d2v, t2mas, ntl)
+    // end of [val]
+  in
+    case+ opt of
+    | ~Some_vt (fl) => let
+        val ins = instr_fcall2 (loc0, tmpret, fl, ntl, hse_fun, pmvs_arg)
+        val () = added := added + 1
+        val () = instrseq_add (res, ins)
+      in
+        // nothing
+      end // end of [Some_vt]
+    | ~None_vt ((*void*)) => ((*void*))
+  end // end of [PMVtmpltvar]
+//
 | _ (*non-tail-recursive*) => () // HX: [INSfcall] is to be added
+//
 ) (* end of [if] *)
 //
 (*

@@ -1720,10 +1720,19 @@ fun ccompenv_inc_tailcalenv_fnx (env: !ccompenv, fls: funlablst_vt): void
 //
 fun ccompenv_find_tailcalenv (env: !ccompenv, fl: funlab): int
 //
-fun ccompenv_find_tailcalenv_cst
+fun
+ccompenv_find_tailcalenv_cst
   (env: !ccompenv, d2c: d2cst): funlabopt_vt
-fun ccompenv_find_tailcalenv_tmpcst
+fun
+ccompenv_find_tailcalenv_var
+  (env: !ccompenv, d2v: d2var, ntl: &int): funlabopt_vt
+//
+fun
+ccompenv_find_tailcalenv_tmpcst
   (env: !ccompenv, d2c: d2cst, t2mas: t2mpmarglst): funlabopt_vt
+fun
+ccompenv_find_tailcalenv_tmpvar
+  (env: !ccompenv, d2v: d2var, t2mas: t2mpmarglst, ntl: &int): funlabopt_vt
 //
 (* ****** ****** *)
 
@@ -2233,11 +2242,21 @@ fun emit_funent_implmnt (out: FILEref, fent: funent): void
 fun emit_primdeclst (out: FILEref, pmds: primdeclst): void
 
 (* ****** ****** *)
-
+//
+fun
+funlab_tmparg_match
+  (fl0: funlab, t2mas: t2mpmarglst) : bool
+(*
 fun funlab_tmpcst_match
   (fl: funlab, d2c: d2cst, t2mas: t2mpmarglst): bool
 // end of [funlab_tmpcst_match]
-
+*)
+(*
+fun funlab_tmpvar_match
+  (fl: funlab, d2v: d2var, t2mas: t2mpmarglst): bool
+// end of [funlab_tmpvar_match]
+*)
+//
 (* ****** ****** *)
 //
 fun

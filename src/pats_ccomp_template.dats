@@ -681,20 +681,22 @@ end // end of [auxbndlstlst2]
 
 in (* in of [local] *)
 
+(* ****** ****** *)
+
 implement
-funlab_tmpcst_match
-  (fl0, d2c0, t2mas) = let
+funlab_tmparg_match
+  (fl0, t2mas) = let
 //
 val env = impenv_make_nil ()
-val xs = funlab_get_tmparg (fl0)
-val s2ess = list_map_fun<t2mpmarg><s2explst> (xs, lam x =<1> x.t2mpmarg_arg)
+val xs0 = funlab_get_tmparg (fl0)
+val s2ess = list_map_fun<t2mpmarg><s2explst> (xs0, lam x =<1> x.t2mpmarg_arg)
 val ans = auxmatlstlst (env, $UN.linlst2lst(s2ess), t2mas)
-val () = list_vt_free (s2ess)
 val ((*env*)) = impenv_free (env)
+val ((*freed*)) = list_vt_free (s2ess)
 //
 in
   ans
-end // end of [funlab_tmpcst_match]
+end // end of [funlab_tmparg_match]
 
 (* ****** ****** *)
 

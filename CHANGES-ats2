@@ -29,6 +29,7 @@ Here is a list of major additions and changes since the last release:
    For instance: (x+y)**3 expands to x**3 + 3*x**2*y + 3*x*y**2 + y**3
 5. Adding the_s2rtdatmap to the jsonization of generated constraints
    (for listing the inductively defined sorts used in the constraints)
+6. Supporting tail-call optimization for static function templates
 
 ######
 

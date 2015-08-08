@@ -729,17 +729,23 @@ case+ xs of
 end // end of [loopexnenv_free]
 
 (* ****** ****** *)
-
+//
 datavtype
 tlcalitm =
   | TCIfun of funlab
   | TCIfnx of funlablst_vt
 // end of [tlcalitm]
-
-vtypedef tailcalenv = List_vt (tlcalitm)
-
+//
+vtypedef
+tailcalenv = List_vt (tlcalitm)
+//
+(* ****** ****** *)
+//
 extern
-fun tlcalitm_free (x: tlcalitm): void
+fun
+tlcalitm_free
+  (x: tlcalitm): void
+//
 implement
 tlcalitm_free (x) = let
 in
@@ -749,10 +755,14 @@ case+ x of
 | ~TCIfnx (fls) => list_vt_free (fls)
 //
 end // end of [tlcalitm_free]
-
+//
+(* ****** ****** *)
+//
 extern
-fun tailcalenv_free (xs: tailcalenv): void
-
+fun
+tailcalenv_free
+  (xs: tailcalenv): void
+//
 implement
 tailcalenv_free (xs) = let
 in
@@ -766,7 +776,7 @@ case+ xs of
 | ~list_vt_nil () => ()
 //
 end // end of [tailcalenv_free]
-
+//
 (* ****** ****** *)
 
 vtypedef
@@ -1178,7 +1188,10 @@ prval () = fold@ (env)
 
 local
 
-fun auxfind
+(* ****** ****** *)
+
+fun
+auxfind
 (
   s0: stamp, tci: !tlcalitm
 ) : int = let
@@ -1201,7 +1214,8 @@ case+ tci of
 //
 end // end of [auxfind]
 
-and auxfind_lst
+and
+auxfind_lst
 (
   s0: stamp, fls: List(funlab), i: int
 ) : int = let
@@ -1219,7 +1233,10 @@ case+ fls of
 //
 end // end of [auxfind_lst]
 
-fun auxfind2
+(* ****** ****** *)
+
+fun
+auxfind2
 (
   d2c0: d2cst, tci: !tlcalitm
 ) : funlabopt_vt = let
@@ -1232,10 +1249,6 @@ println! ("auxfind2: d2c0 = ", d2c0)
 in
 //
 case+ tci of
-| TCIfnx _ =>
-  (
-    fold@(tci); None_vt ()
-  ) (* TCIfnx *)
 | TCIfun (fl) => let
     val opt =
       funlab_get_d2copt (fl)
@@ -1251,7 +1264,86 @@ case+ tci of
     | None ((*void*)) => None_vt((*void*))
   end // end of [TCIfun]
 //
+| TCIfnx _ => (fold@(tci); None_vt ()) // TCIfnx
+//
 end // end of [auxfind2]
+
+(* ****** ****** *)
+
+fun
+auxfind3
+(
+  d2v0: d2var, tci: !tlcalitm, ntl: &int
+) : funlabopt_vt = let
+(*
+val () =
+println! ("auxfind3: d2v0 = ", d2v0)
+*)
+//
+in
+//
+case+ tci of
+| TCIfun(fl) => let
+    val opt =
+      funlab_get_d2vopt (fl)
+    // end of [val]
+    prval ((*void*)) = fold@ (tci)
+  in
+    case+ opt of
+    | Some (d2v) => let
+        val iseq = eq_d2var_d2var (d2v0, d2v)
+      in
+        if iseq then Some_vt(fl) else None_vt()
+      end // end of [Some]
+    | None ((*void*)) => None_vt()
+  end // end of [TCIfun]
+//
+| TCIfnx(!p_fls) => let
+    val () = ntl := 1
+    val res =
+      auxfind3_lst (d2v0, $UN.linlst2lst(!p_fls), ntl)
+    // end of [val]
+    prval () = fold@ (tci)
+  in
+    res
+  end // end of [TCIfnx]
+//
+end // end of [auxfind3]
+
+and
+auxfind3_lst
+(
+  d2v0: d2var, fls: List(funlab), ntl: &int
+) : funlabopt_vt = let
+in
+//
+case+ fls of
+//
+| list_cons
+    (fl, fls) => let
+    val opt =
+      funlab_get_d2vopt (fl)
+    // end of [val]
+  in
+    case+ opt of
+    | Some(d2v) => let
+        val iseq =
+          eq_d2var_d2var (d2v0, d2v)
+        // end of [val]
+      in
+        if iseq
+          then Some_vt(fl)
+          else let
+            val () = ntl := ntl + 1 in auxfind3_lst(d2v0, fls, ntl)
+          end // end of [else]
+        // end of [if]
+      end // end of [Some]
+    | None((*void*)) => None_vt()
+  end // end of [list_cons]
+//
+| list_nil((*void*)) => None_vt()
+//
+end // end of [auxfind3_lst]
 
 in (* in of [local] *)
 
@@ -1277,17 +1369,52 @@ ccompenv_find_tailcalenv_cst
   (env, d2c0) = let
 //
 val CCOMPENV (!p) = env
+//
 val-list_vt_cons
   (!p_tci, _) = p->ccompenv_tailcalenv
+//
 val ans = auxfind2 (d2c0, !p_tci)
+//
 prval () = fold@ (p->ccompenv_tailcalenv)
 prval () = fold@ (env)
 //
 in
   ans
-end // end of [ccompenv_find_tailcalenv]
+end // end of [ccompenv_find_tailcalenv_cst]
+
+implement
+ccompenv_find_tailcalenv_var
+  (env, d2v0, ntl) = let
+//
+val CCOMPENV (!p) = env
+//
+val-list_vt_cons
+  (!p_tci, _) = p->ccompenv_tailcalenv
+//
+val ans = auxfind3 (d2v0, !p_tci, ntl)
+//
+prval () = fold@ (p->ccompenv_tailcalenv)
+prval () = fold@ (env)
+//
+in
+  ans
+end // end of [ccompenv_find_tailcalenv_var]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+(*
+//
+implement
+ccompenv_find_tailcalenv_tmpcst
+  (env, d2c0, t2mas) = ccompenv_find_tailcalenv_cst (env, d2c0)
+//
+implement
+ccompenv_find_tailcalenv_tmpvar
+  (env, d2v0, t2mas, ntl) = ccompenv_find_tailcalenv_var (env, d2v0, ntl)
+//
+*)
 
 (* ****** ****** *)
 
@@ -1295,15 +1422,16 @@ implement
 ccompenv_find_tailcalenv_tmpcst
   (env, d2c0, t2mas) = let
 //
-val opt = ccompenv_find_tailcalenv_cst (env, d2c0)
+val opt =
+  ccompenv_find_tailcalenv_cst (env, d2c0)
 //
 in
 //
 case+ opt of
-| ~None_vt () => None_vt ()
-| ~Some_vt (fl0) => let
+//
+| ~Some_vt(fl0) => let
     val ans =
-      funlab_tmpcst_match (fl0, d2c0, t2mas)
+      funlab_tmparg_match (fl0, t2mas)
     // end of [val]
 (*
     val () =
@@ -1315,7 +1443,40 @@ case+ opt of
     if ans then Some_vt (fl0) else None_vt ()
   end // end [Some_vt]
 //
+| ~None_vt((*void*)) => None_vt()
+//
 end // end of [ccompenv_find_tailcalenv_tmpcst]
+
+(* ****** ****** *)
+
+implement
+ccompenv_find_tailcalenv_tmpvar
+  (env, d2v0, t2mas, ntl) = let
+//
+val opt =
+  ccompenv_find_tailcalenv_var (env, d2v0, ntl)
+//
+in
+//
+case+ opt of
+//
+| ~Some_vt (fl0) => let
+    val ans =
+      funlab_tmparg_match (fl0, t2mas)
+    // end of [val]
+(*
+    val () =
+      println! ("ccompenv_find_tailcalenv_tmpcst: fl0 = ", fl0)
+    val () =
+      println! ("ccompenv_find_tailcalenv_tmpcst: ans = ", ans)
+*)
+  in
+    if ans then Some_vt (fl0) else None_vt ()
+  end // end [Some_vt]
+//
+| ~None_vt((*void*)) => None_vt()
+//
+end // end of [ccompenv_find_tailcalenv_tmpvar]
 
 (* ****** ****** *)
 
