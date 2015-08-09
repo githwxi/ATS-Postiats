@@ -31,7 +31,8 @@ implement{a} option_vt_none ( ) = None_vt ( )
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 option_vt_make_opt
   (b, x) = (
   if b then let
@@ -43,7 +44,8 @@ option_vt_make_opt
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 option_vt_is_some
   (opt) = case+ opt of
   | Some_vt _ => true | None_vt _ => false
@@ -57,19 +59,22 @@ option_vt_is_none
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 option_vt_unsome
   (opt) = x where { val+ ~Some_vt (x) = opt }
 // end of [option_unsome]
 
-implement{a}
+implement
+{a}(*tmp*)
 option_vt_unnone
   (opt) = () where { val+ ~None_vt () = opt }
 // end of [option_unnone]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 option_vt_free (opt) =
 (
 case+ opt of ~Some_vt _ => () | ~None_vt () => ()
@@ -77,7 +82,8 @@ case+ opt of ~Some_vt _ => () | ~None_vt () => ()
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_option_vt
   (out, opt) = let
 in
