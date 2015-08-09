@@ -35,7 +35,7 @@ psynmark_process<> (psm, putc) =
   psynmark_process_xhtml_bground (psm, putc)
 // end of [psynmark_process<>]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 string_pats2xhtmlize_bground

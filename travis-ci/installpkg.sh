@@ -24,6 +24,7 @@ then
   brew install cairo
   brew install gtk+3
   brew install libev
+  brew install json-c
   brew install jansson
   brew install caskroom/cask/brew-cask
   brew cask install xquartz
@@ -49,6 +50,8 @@ then
   sudo apt-get -qq -y install libgtk-3-dev
 # For contrib/libev/
   sudo apt-get -qq -y install libev-dev
+# For contrib/json-c/
+  sudo apt-get -qq -y install libjson0-dev
 # For contrib/jansson/
   sudo apt-get -qq -y install libjansson-dev
 #

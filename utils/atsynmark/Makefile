@@ -1,15 +1,16 @@
+######
 #
-# A simple Makefile
+# Makefile for atsynmark
 #
 ######
 
 ATSHOMEQ="$(ATSHOME)"
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+PATSHOMEQ="$(PATSHOME)"
 
 ######
 
-PATSHOMEQ="$(PATSHOME)"
+ATSCC=$(ATSHOMEQ)/bin/atscc
+ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
 
@@ -66,20 +67,21 @@ OBJECTS := \
   $(PATSHOME)/src/%.dats; $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
 
 ######
-
+##
 pats2xhtml_sats.o: \
   SATS/pats2xhtml.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
-
+##
 pats2xhtml_level1_dats.o: \
   DATS/pats2xhtml_level1.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
-
+##
 ######
-
+##
 pats2xhtml: \
   DATS/pats2xhtml_main.dats $(OBJECTS) ; \
   $(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $< $(OBJECTS) -L $(PATSHOME)/libatsynmark -latsynmark -lgmp
+##
 cleanall:: ; $(RMF) pats2xhtml
-
+##
 ######
 
 RMF=rm -f
@@ -87,10 +89,11 @@ RMF=rm -f
 ######
 
 clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.c *_?ats.o
-clean:: ; $(RMF) *_atxt.txt
-clean:: ; $(RMF) *_atxt.dats
+clean:: ; $(RMF) *_?ats.c
+clean:: ; $(RMF) *_?ats.o
+
+######
 
 cleanall:: clean
 
-###### end of [Makefile] ######
+###### end of [Makefile for atsynmark] ######

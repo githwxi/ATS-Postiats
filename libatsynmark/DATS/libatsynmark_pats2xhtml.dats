@@ -55,7 +55,7 @@ SMextcode_beg "<span class=\"extcode\">"
 #define SMdynstr_beg "<span class=\"dynstr\">"
 #define SMdynstr_end "</span>"
 
-in (* in of [local] *)
+in (* in-of-local *)
 
 implement
 psynmark_process_xhtml_bground

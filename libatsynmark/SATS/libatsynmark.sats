@@ -13,39 +13,47 @@
 (* ****** ****** *)
 
 typedef charlst = List (char)
-viewtypedef charlst_vt = List_vt (char)
+vtypedef charlst_vt = List_vt (char)
 
 (* ****** ****** *)
 //
-staload ERR = "src/pats_error.sats"
+staload
+ERR = "src/pats_error.sats"
 //
 (* ****** ****** *)
 //
-staload SYM = "src/pats_symbol.sats"
+staload
+SYM = "src/pats_symbol.sats"
 //
 typedef symbol = $SYM.symbol
 //
 (* ****** ****** *)
 //
-staload LOC = "src/pats_location.sats"
+staload
+LOC = "src/pats_location.sats"
 //
 typedef position = $LOC.position
 typedef location = $LOC.location
 //
 (* ****** ****** *)
-
-fun fprint_position (out: FILEref, x: position): void
-fun fprint_location (out: FILEref, x: location): void
-
+//
+fun
+fprint_position(out: FILEref, x: position): void
+//
+fun
+fprint_location(out: FILEref, x: location): void
+//
 (* ****** ****** *)
-
-staload FIL = "src/pats_filename.sats"
+//
+staload
+FIL = "src/pats_filename.sats"
 (*
 // HX-2012-12:
 // this is needed for [#include] and [staload]
 *)
-fun libatsynmark_filename_set_current (name: string): void
-
+fun
+libatsynmark_filename_set_current (name: string): void
+//
 (* ****** ****** *)
 //
 absviewtype lexbufobj

@@ -1,5 +1,5 @@
 #
-# Makefile for [atscc]
+# Makefile for [atstagging]
 #
 
 ######
@@ -31,10 +31,16 @@ LDFLAGS += $(shell pkg-config --libs json-c)
 
 ######
 
+# cleanall:: ; $(RMF) ats2ctags
+# cleanall:: ; $(RMF) ats2etags
+
+######
+##
 jsonlst2arr: \
 jsonlst2arr.dats ; \
   $(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
-
+cleanall:: ; $(RMF) jsonlst2arr
+##
 ######
 
 RMF=rm -f
@@ -48,10 +54,7 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) ats2ctags
-cleanall:: ; $(RMF) ats2etags
-cleanall:: ; $(RMF) jsonlst2arr
 
 ######
 
-###### end of [Makefile] ######
+###### end of [Makefile for atstagging] ######

@@ -1,5 +1,5 @@
 #
-# README for [packedit]
+# Packeditall
 #
 ######
 #
@@ -21,6 +21,6 @@ turns this (possibly modified) single file into a list files
 ######
 
 The utility is largely implemented. Now we need a convenience wrapper
-to make [packedit] easier to user.
+to make [packeditall] easier to use.
 
-###### end of [README] ######
+###### end of [README for packeditall] ######

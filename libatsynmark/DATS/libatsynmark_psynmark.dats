@@ -1568,7 +1568,9 @@ guad0ecln_mark
 
 (* ****** ****** *)
 
-in // in of [local]
+in (* in-of-local *)
+
+(* ****** ****** *)
 
 implement
 tokbufobj_get_psynmarklst
