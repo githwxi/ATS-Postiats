@@ -178,22 +178,26 @@ fun the_parerrlst_clear (): void
 
 (* ****** ****** *)
 //
-fun the_parerrlst_add (x: parerr): void
+fun
+the_parerrlst_add(x: parerr): void
 //
 fun
 the_parerrlst_add_ifnbt
-  (bt: int, loc: location, node: parerr_node): void
-// end of [the_parerrlst_add_ifnbt]
+(
+  bt: int, loc: location, node: parerr_node
+) : void // end-of-function
 //
 fun
-the_parerrlst_add_ifunclosed (loc: location, name: string): void
+the_parerrlst_add_ifunclosed
+  (loc: location, content: string): void
 //
 (* ****** ****** *)
 //
 fun
-fprint_parerr (out: FILEref, x: parerr): void
+fprint_parerr(out: FILEref, x: parerr): void
+//
 fun
-fprint_the_parerrlst (out: FILEref): int(*err*) // 0/1
+fprint_the_parerrlst(out: FILEref): int(*err*) // 0/1
 //
 (* ****** ****** *)
 //
