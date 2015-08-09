@@ -10,6 +10,10 @@ PATS2XHTML=$(PATSHOME)/bin/pats2xhtml $(EMBED)
 #
 ######
 
+all::
+
+######
+
 all:: all_top
 all:: all_sats
 all:: all_dats
@@ -103,6 +107,16 @@ tuple_sats.html: ./../SATS/tuple.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 all_sats:: \
 reference_sats.html
 reference_sats.html: ./../SATS/reference.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
+gorder_sats.html
+gorder_sats.html: ./../SATS/gorder.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+gnumber_sats.html
+gnumber_sats.html: ./../SATS/gnumber.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+grandom_sats.html
+grandom_sats.html: ./../SATS/grandom.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 
 all_sats:: \
 filebas_sats.html

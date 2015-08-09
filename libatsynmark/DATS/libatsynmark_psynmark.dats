@@ -1467,13 +1467,22 @@ case+ d0c0.d0ecl_node of
 //
 | $SYN.D0Cvaldecs
     (vk, isrec, decs) => let
-    val isprf = $BAS.valkind_is_proof (vk)
+    val
+    isprf =
+      $BAS.valkind_is_proof (vk)
+    // end of [val]
     val sm = (
-      if isprf then SMprfexp else SMdynexp
+      if isprf
+        then SMprfexp else SMdynexp
+      // end of [if]
     ) : synmark // end of [val]
-    val () = psynmark_ins_beg (sm, loc0, res)
+    val () =
+      psynmark_ins_beg (sm, loc0, res)
+    // end of [val]
     val () = v0aldeclst_mark (vk, decs, res)
-    val () = psynmark_ins_end (sm, loc0, res)
+    val () =
+      psynmark_ins_end (sm, loc0, res)
+    // end of [val]
   in
     // nothing
   end // end of [D0Cvaldecs]
@@ -1482,14 +1491,20 @@ case+ d0c0.d0ecl_node of
 //
 | $SYN.D0Cimpdec
     (knd, imparg, impdec) => let
-    val isprf = knd > 0
-    val sm = (
-      if isprf then SMprfexp else SMdynexp
+    val sm =
+    (
+      if knd >= 0
+        then SMdynexp else SMprfexp
+      // end of [if]
     ) : synmark // end of [val]
-    val () = psynmark_ins_beg (sm, loc0, res)
-    val () = i0mparg_mark (imparg, res)
-    val () = i0mpdec_mark (impdec, res)
-    val () = psynmark_ins_end (sm, loc0, res)
+    val () =
+      psynmark_ins_beg (sm, loc0, res)
+    // end of [val]
+    val () = i0mparg_mark(imparg, res)
+    val () = i0mpdec_mark(impdec, res)
+    val () =
+      psynmark_ins_end (sm, loc0, res)
+    // end of [val]
   in
     // nothing
   end // end of [D0Cimpdec]
