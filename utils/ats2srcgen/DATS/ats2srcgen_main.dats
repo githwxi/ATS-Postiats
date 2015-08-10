@@ -11,7 +11,21 @@
 
 (* ****** ****** *)
 
+dynload "src/pats_utils.dats"
+
+(* ****** ****** *)
+
 staload "./../SATS/ats2srcgen.sats"
+
+(* ****** ****** *)
+
+implement
+main((*void*)) =
+{
+//
+val () = println! ("Hello from [ats2srcgen]!")
+//
+} (* end of [main] *)
 
 (* ****** ****** *)
 

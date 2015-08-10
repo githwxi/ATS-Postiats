@@ -30,12 +30,22 @@ all:: ats2srcgen
 OBJECTS := \
   pats_utils_sats.o \
   pats_utils_dats.o \
+  ats2srcgen_sats.o \
+  ats2srcgen_main_dats.o \
 
 ######
 ##
 ats2srcgen: $(OBJECTS) ; \
-  $(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $< $(OBJECTS) -lgmp
+  $(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $(OBJECTS) -lgmp
+cleanall:: ; $(RMF) ats2srcgen
 ##
+######
+
+ats2srcgen_sats.o: \
+  SATS/ats2srcgen.sats; $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
+ats2srcgen_main_dats.o: \
+  DATS/ats2srcgen_main.dats; $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
+
 ######
 ##
 %_sats.o: \
