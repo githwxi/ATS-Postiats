@@ -52,7 +52,7 @@ script:
   # Building some utilities
   - make -C libatsynmark
   - make -C utils/atsynmark
-  - make -C utils/atstagging
+  # make -C utils/atstagging
   - make -C utils/packeditall
 after_script:
   - date
