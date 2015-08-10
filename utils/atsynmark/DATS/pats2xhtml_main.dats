@@ -12,8 +12,10 @@ STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
-staload SYM = "src/pats_symbol.sats"
-staload FIL = "src/pats_filename.sats"
+staload
+SYM = "src/pats_symbol.sats"
+staload
+FIL = "src/pats_filename.sats"
 
 (* ****** ****** *)
 
@@ -65,31 +67,38 @@ PSYNMARK_HTML_FILE_BEG "\
 " // end of [PSYNMARK_HTML_FILE_END]
 
 (* ****** ****** *)
-
-fun pats2xhtml_file_beg
+//
+fun
+pats2xhtml_file_beg
   (out: FILEref): void = 
   fprint_string (out, PSYNMARK_HTML_FILE_BEG)
-fun pats2xhtml_file_end
+fun
+pats2xhtml_file_end
   (out: FILEref): void = 
   fprint_string (out, PSYNMARK_HTML_FILE_END)
-
+//
 (* ****** ****** *)
-
+//
 #define PSYNMARK_HTML_PRE_BEG "<pre class=\"patsyntax\">\n"
 #define PSYNMARK_HTML_PRE_END "</pre>\n"
-
-fun pats2xhtml_pre_beg
+//
+(* ****** ****** *)
+//
+fun
+pats2xhtml_pre_beg
   (out: FILEref): void = 
   fprint_string (out, PSYNMARK_HTML_PRE_BEG)
+//
 fun pats2xhtml_pre_end
   (out: FILEref): void = 
   fprint_string (out, PSYNMARK_HTML_PRE_END)
-
+//
 (* ****** ****** *)
 //
 staload "src/pats_comarg.sats"
 //
-viewtypedef comarglst (n: int) = list_vt (comarg, n)
+vtypedef
+comarglst (n: int) = list_vt (comarg, n)
 //
 (* ****** ****** *)
 
@@ -103,7 +112,10 @@ waitkind =
   | WTKinclude of () // -IATS ...
 // end of [waitkind]
 
-fn waitkind_get_stadyn
+(* ****** ****** *)
+
+fun
+waitkind_get_stadyn
   (knd: waitkind): int =
   case+ knd of
   | WTKinput_sta () => 0

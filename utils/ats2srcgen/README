@@ -1,3 +1,4 @@
+######
 #
 # Ats2srcgen
 #
@@ -5,9 +6,11 @@
 //
 HX-2015-08-09:
 //
-For supporting a form of
-static meta-programming in ATS
+For supporting static meta-programming
 //
 ######
 
-###### end of [README] ######
+Please note that the code in this directory is written in ATS/Anairiats
+(ATS1) as ATS/Postiats (ATS2) is implemented in ATS1.
+
+###### end of [README for ATS2srcgen] ######
