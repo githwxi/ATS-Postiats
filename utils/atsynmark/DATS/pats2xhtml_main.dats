@@ -542,7 +542,7 @@ in
 end // end of [process_cmdline2_COMARGkey2]
 
 (* ****** ****** *)
-
+//
 dynload "src/pats_global.dats"
 dynload "src/pats_errmsg.dats"
 dynload "src/pats_effect.dats"
@@ -550,12 +550,15 @@ dynload "src/pats_symmap.dats"
 dynload "src/pats_symenv.dats"
 dynload "src/pats_comarg.dats"
 dynload "src/pats_staexp1.dats"
+dynload "src/pats_staexp1_print.dats"
+dynload "src/pats_dynexp1.dats"
+dynload "src/pats_dynexp1_print.dats"
 dynload "src/pats_trans1_env.dats"
 dynload "src/pats_e1xpval.dats"
 dynload "src/pats_e1xpval_error.dats"
 dynload "src/pats_trans1_e0xp.dats"
 dynload "src/pats_trans1_error.dats"
-
+//
 (* ****** ****** *)
 
 dynload "libatsynmark/dynloadall.dats"

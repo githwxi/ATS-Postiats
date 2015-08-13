@@ -36,7 +36,9 @@ OBJECTS := \
   pats_errmsg_dats.o \
   pats_comarg_sats.o \
   pats_comarg_dats.o \
+  pats_symbol_sats.o \
   pats_symbol_dats.o \
+  pats_filename_sats.o \
   pats_filename_dats.o \
   pats_intinf_sats.o \
   pats_effect_sats.o \
@@ -47,7 +49,10 @@ OBJECTS := \
   pats_symenv_dats.o \
   pats_staexp1_sats.o \
   pats_staexp1_dats.o \
+  pats_staexp1_print_dats.o \
   pats_dynexp1_sats.o \
+  pats_dynexp1_dats.o \
+  pats_dynexp1_print_dats.o \
   pats_trans1_sats.o \
   pats_trans1_env_sats.o \
   pats_trans1_env_dats.o \

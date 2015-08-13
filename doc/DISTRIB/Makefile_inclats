@@ -14,6 +14,7 @@ DST2=ATS-Postiats-include/contrib
 ######
 
 all:: update
+all:: update2
 
 ######
 
@@ -57,51 +58,51 @@ update:: ; $(CPF) $(SRC)/libats/ML/CATS/*.cats $(DST)/libats/ML/CATS/.
 #
 ######
 
-update:: ; \
+update2:: ; \
   $(CPF) $(SRC2)/contrib/pcre/CATS/pcre.cats $(DST2)/pcre/CATS/.
 
 ######
 
-update:: ; \
+update2:: ; \
   $(CPF) $(SRC2)/contrib/libgmp/CATS/gmp.cats $(DST2)/libgmp/CATS/.
 
 ######
 
-update:: ; \
+update2:: ; \
   $(CPF) $(SRC2)/contrib/cairo/CATS/cairo.cats $(DST2)/cairo/CATS/.
 
 ######
 
-update:: ; \
+update2:: ; \
   $(CPF) $(SRC2)/contrib/zeromq/CATS/zmq.cats $(DST2)/zeromq/CATS/.
 
 ######
 
-update:: ; \
+update2:: ; \
   $(CPF) $(SRC2)/contrib/json-c/CATS/json.cats $(DST2)/json-c/CATS/.
-update:: ; \
+update2:: ; \
   $(CPF) $(SRC2)/contrib/json-c/CATS/printbuf.cats $(DST2)/json-c/CATS/.
 
 ######
 
-update:: ; \
+update2:: ; \
   $(CPF) $(SRC2)/contrib/hiredis/CATS/hiredis.cats $(DST2)/hiredis/CATS/.
 
 ######
 
-update:: ; \
+update2:: ; \
   $(CPF) $(SRC2)/contrib/glib/CATS/glib.cats $(DST2)/glib/CATS/.
-update:: ; \
+update2:: ; \
   $(CPF) $(SRC2)/contrib/glib/CATS/glib-object.cats $(DST2)/glib/CATS/.
 
 ######
 
-update:: ; \
+update2:: ; \
   $(CPF) $(SRC2)/contrib/GTK/CATS/gdk.cats $(DST2)/GTK/CATS/.
-update:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gdk $(DST2)/GTK/CATS/.
-update:: ; \
+update2:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gdk $(DST2)/GTK/CATS/.
+update2:: ; \
   $(CPF) $(SRC2)/contrib/GTK/CATS/gtk.cats $(DST2)/GTK/CATS/.
-update:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gtk $(DST2)/GTK/CATS/.
+update2:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gtk $(DST2)/GTK/CATS/.
 
 ######
 
@@ -134,6 +135,7 @@ PACKNAME=ATS2-Postiats-include-0.2.1
 ######
 
 tarzvcf:: update
+tarzvcf:: update2
 tarzvcf:: ; rm -rf $(PACKNAME)
 tarzvcf:: ; cp -rf $(DST) $(PACKNAME)
 tarzvcf:: ; $(TARZVCF) $(PACKNAME).tgz $(PACKNAME)
