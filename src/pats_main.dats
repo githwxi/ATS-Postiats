@@ -479,6 +479,10 @@ HX: VERSION-0.1.9 released on Friday, February 27, 2015
 HX: VERSION-0.1.10 released on Sunday, March 22, 2015
 HX: VERSION-0.1.11 released on Thursday, April 23, 2015
 HX: VERSION-0.1.12 released on Saturday, May 16, 2015
+HX: VERSION-0.1.13 released on Friday, May 22, 2015
+//
+HX: VERSION-0.2.0 released on Tuesday, June 9, 2015
+HX: VERSION-0.2.1 released on Sunday, July 12, 2015
 //
 *)
 #define PATS_MAJOR_VERSION 0

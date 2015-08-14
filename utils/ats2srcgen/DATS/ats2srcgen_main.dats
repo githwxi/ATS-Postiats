@@ -377,23 +377,23 @@ val () = (
 //
 case+ key of
 //
+| "-o" => {
+    val () = state.waitkind := WTKoutput ()
+  } (* -o *)
+//
 | "-s" => {
     val () = state.ninputfile := 0
     val () = state.waitkind := WTKinput_sta
-  }
+  } (* -s *)
 | "-d" => {
     val () = state.ninputfile := 0
     val () = state.waitkind := WTKinput_dyn
-  }
-//
-| "-o" => {
-    val () = state.waitkind := WTKoutput ()
-  }
+  } (* -d *)
 //
 | "-h" => {
     val () = state.waitkind := WTKnone ()
     val () = ats2srcgen_usage ("ats2srcgen")
-  }
+  } (* -h *)
 //
 | _ when
     is_DATS_flag (key) => let
