@@ -105,9 +105,9 @@ comarglst (n: int) = list_vt (comarg, n)
 datatype
 waitkind =
   | WTKnone of ()
+  | WTKoutput of () // -o ...
   | WTKinput_sta of () // -s ...
   | WTKinput_dyn of () // -d ...
-  | WTKoutput of () // -o ...
   | WTKdefine of () // -DATS ...
   | WTKinclude of () // -IATS ...
 // end of [waitkind]
@@ -199,19 +199,19 @@ end // end of [cmdstate_set_outchan_basename]
 
 (* ****** ****** *)
 
-fn isinpwait
-  (state: cmdstate): bool =
-  case+ state.waitkind of
-  | WTKinput_sta () => true
-  | WTKinput_dyn () => true
-  | _ => false
-// end of [isinpwait]
-
 fn isoutwait
   (state: cmdstate): bool =
   case+ state.waitkind of
   | WTKoutput () => true | _ => false
 // end of [isoutwait]
+
+fn isinpwait
+  (state: cmdstate): bool =
+  case+ state.waitkind of
+  | WTKinput_sta () => true
+  | WTKinput_dyn () => true
+  | _ (*non-WTKinput*) => false
+// end of [isinpwait]
 
 fn isdatswait
   (state: cmdstate): bool =
@@ -384,7 +384,7 @@ in
 //
 case+ arg of
 //
-| _ when isinpwait (state) => let
+| _ when isinpwait(state) => let
 //
 // HX: the [inpwait] state stays unchanged
 //
@@ -403,7 +403,7 @@ case+ arg of
       end (* end of [_] *)
   end // end of [_ when isinpwait]
 //
-| _ when isoutwait (state) => let
+| _ when isoutwait(state) => let
     val () = state.waitkind := WTKnone ()
     val COMARGkey (_, fname) = arg
     val () = cmdstate_set_outchan_basename (state, fname)
@@ -411,7 +411,7 @@ case+ arg of
     process_cmdline (state, arglst)
   end // end of [_ when isoutwait]
 //
-| _ when isdatswait (state) => let
+| _ when isdatswait(state) => let
     val () = state.waitkind := WTKnone ()
     val COMARGkey (_, def) = arg
     val () = process_DATS_def (def)
@@ -419,7 +419,7 @@ case+ arg of
     process_cmdline (state, arglst)
   end // end of [_ when isdatswait]
 //
-| _ when isiatswait (state) => let
+| _ when isiatswait(state) => let
     val () = state.waitkind := WTKnone ()
     val COMARGkey (_, dir) = arg
     val () = process_IATS_dir (dir)
@@ -452,23 +452,23 @@ val () = (
 //
 case+ key of
 //
+| "-o" => {
+    val () = state.waitkind := WTKoutput ()
+  } (* -o *)
+//
 | "-s" => {
     val () = state.ninputfile := 0
     val () = state.waitkind := WTKinput_sta
-  }
+  } (* -s *)
 | "-d" => {
     val () = state.ninputfile := 0
     val () = state.waitkind := WTKinput_dyn
-  }
-//
-| "-o" => {
-    val () = state.waitkind := WTKoutput ()
-  }
+  } (* -d *)
 //
 | "-h" => {
     val () = state.waitkind := WTKnone ()
     val () = pats2xhtml_usage ("pats2xhtml")
-  }
+  } (* -h *)
 //
 | _ when
     is_DATS_flag (key) => let
@@ -485,7 +485,7 @@ case+ key of
     in
       // nothing
     end // end of [if]
-  end
+  end // is_DATS_flag
 | _ when
     is_IATS_flag (key) => let
     val dir = IATS_extract (key)
@@ -501,7 +501,7 @@ case+ key of
     in
       // nothing
     end // end of [if]
-  end
+  end // is_IATS_flag
 | _ (*unrecognized*) => comarg_warning (key)
 //
 ) : void // end of [val]
@@ -522,13 +522,13 @@ val () = (
 //
 case+ key of
 //
+| "--output" =>
+    state.waitkind := WTKoutput ()
+//
 | "--static" =>
     state.waitkind := WTKinput_sta
 | "--dynamic" =>
     state.waitkind := WTKinput_dyn
-//
-| "--output" =>
-    state.waitkind := WTKoutput ()
 //
 | "--embedded" => state.standalone := false
 | "--help" => let
