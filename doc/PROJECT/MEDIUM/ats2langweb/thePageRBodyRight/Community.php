@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-08-07:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/WrgLk3BB1ck"
+>A presentation on ATS</a><br>
+by Aditya Siram
+
+<hr></hr>
+
 ATS-2015-07-12:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/wDXvk-x-odo"
@@ -133,6 +141,8 @@ ATS-2015-02-10:<br>
 >Programmer-centric theorem-proving</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
+<!--
+
 <hr></hr>
 
 ATS-2015-01-27:<br>
@@ -140,8 +150,6 @@ ATS-2015-01-27:<br>
  href="https://groups.google.com/forum/#!topic/ats-lang-users/FSgjjkUURs4"
 >ATS2 can be built with Clang-3.5-O2!</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
-
-<!--
 
 <hr></hr>
 
