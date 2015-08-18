@@ -9,7 +9,7 @@ style="margin-top:8px;padding:8px;"
 ATS-2015-08-07:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/WrgLk3BB1ck"
->A presentation on ATS</a><br>
+>A brief presentation on ATS</a><br>
 by Aditya Siram
 
 <hr></hr>

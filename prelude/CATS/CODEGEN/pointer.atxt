@@ -94,7 +94,7 @@ atspre_sub_ptr_bsz
 ATSinline()
 atstype_ssize
 atspre_sub_ptr_ptr
-  (atstype_ptr p1, atstype_ptr p2) { return (p1 - p2) ; }
+  (atstype_ptr p1, atstype_ptr p2) { return ((char*)p1 - (char*)p2) ; }
 // end of [atspre_sub_ptr_ptr]
 \#define atspre_sub_ptr0_ptr0 atspre_sub_ptr_ptr
 \#define atspre_sub_ptr1_ptr1 atspre_sub_ptr_ptr
