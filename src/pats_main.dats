@@ -88,12 +88,12 @@ staload "./pats_staexp1.sats"
 staload "./pats_dynexp1.sats"
 
 (* ****** ****** *)
-
+//
 staload
 TRANS1 = "./pats_trans1.sats"
 staload
 TRENV1 = "./pats_trans1_env.sats"
-
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
@@ -437,15 +437,20 @@ fprintln! (out, "  --output-w filename (output-write into <filename>)");
 fprintln! (out, "  --output-a filename (output-append into <filename>)");
 fprintln! (out, "  -tc (for typechecking only)");
 fprintln! (out, "  --typecheck (for typechecking only)");
+(*
 fprintln! (out, "  -dep (for generating information on file dependencices)");
+*)
 fprintln! (out, "  --depgen (for generating information on file dependencices)");
+(*
 fprintln! (out, "  -tag (for generating tagging information on syntactic entities)");
+*)
 fprintln! (out, "  --taggen (for generating tagging information on syntactic entities)");
 fprintln! (out, "  --gline (for generating line pragma information in target code)");
 fprintln! (out, "  --debug (for enabling the generation of more informative error messages)");
 fprintln! (out, "  --debug2 (for enabling the generation of debugging information in target code)");
 fprintln! (out, "  --pkgreloc (for generating a script to help relocate packages in need)");
-fprintln! (out, "  --jsonize-2 (for output level-2 syntax in JSON format)");
+fprintln! (out, "  --codegen-2 (for outputing code generated from level-2 syntax)");
+fprintln! (out, "  --jsonize-2 (for outputing code in JSON based on level-2 syntax)");
 fprintln! (out, "  --tlcalopt-disable (for disabling tail-call optimization)");
 fprintln! (out, "  --constraint-export (for exporting constraints in JSON format)");
 fprintln! (out, "  --constraint-ignore (for entirely ignoring constraint-solving)");
@@ -577,7 +582,8 @@ cmdstate = @{
 //
 , pkgreloc= int // relocating packages
 //
-, jsonizeflag= int // level-2 syntax in JSON
+, codegenflag= int // codegen based on level-2 syntax
+, jsonizeflag= int // jsonize based on level-2 syntax
 //
 , typecheckflag= int // 0 by default
 //
@@ -957,6 +963,29 @@ end // end of [do_pkgreloc]
 //
 extern
 fun
+do_codegen_2
+(
+  state: &cmdstate
+, given: string(*unused*), d2cs: d2eclist
+) : void // end-of-fun
+//
+(* ****** ****** *)
+
+implement
+do_codegen_2
+  (state, given, d2cs) = let
+//
+val out = state.outchan
+val out = outchan_get_filr (out)
+//
+in
+  fprintln! (out, "d0_codegen_2: this is a placeholder")
+end // end of [do_codegen_2]
+
+(* ****** ****** *)
+//
+extern
+fun
 do_jsonize_2
 (
   state: &cmdstate
@@ -1208,13 +1237,25 @@ do_transfinal
 case+ 0 of
 | _ when
     state.pkgreloc > 0 => let
-    val d1cs = do_trans1 (state, given, d0cs)
+    val d1cs =
+      do_trans1 (state, given, d0cs)
+    // end of [val]
   in
     do_pkgreloc (state, given, d1cs)
   end // end of [when ...]
 | _ when
+    state.codegenflag = 2 => let
+    val d2cs =
+      do_trans12 (state, given, d0cs)
+    // end of [val]
+  in
+    do_codegen_2 (state, given, d2cs)
+  end // end of [when ...]
+| _ when
     state.jsonizeflag = 2 => let
-    val d2cs = do_trans12 (state, given, d0cs)
+    val d2cs =
+      do_trans12 (state, given, d0cs)
+    // end of [val]
   in
     do_jsonize_2 (state, given, d2cs)
   end // end of [when ...]
@@ -1666,6 +1707,7 @@ case+ key of
     val () = $GLOB.the_PKGRELOC_set (1)
   } (* end of [--pkgreloc] *)
 //
+| "--codegen-2" => (state.codegenflag := 2)
 | "--jsonize-2" => (state.jsonizeflag := 2)
 //
 | "--tlcalopt-disable" =>
@@ -1778,12 +1820,13 @@ state = @{
 , outmode= file_mode_w
 , outchan= OUTCHANref(stdout_ref)
 //
-, depgen= 0 // dep info generation
-, taggen= 0 // tagging info generation
+, depgen= 0 // file dependency generation
+, taggen= 0 // syntax tagging info generation
 //
 , pkgreloc= 0 // for package relocation
 //
-, jsonizeflag= 0 // JSONizing syntax trees
+, codegenflag= 0 // syntax level for CODEgen
+, jsonizeflag= 0 // syntax level for JSONize 
 //
 , typecheckflag= 0 // compiling by default
 //
