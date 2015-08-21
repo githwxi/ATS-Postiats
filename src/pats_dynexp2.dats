@@ -1132,14 +1132,12 @@ d2ecl_overload
 // end of [d2ecl_overload]
 
 (* ****** ****** *)
-
-(*
+//
 implement
-d2ecl_stavars
-  (loc, xs) = d2ecl_make_node (loc, D2Cstavars (xs))
-// end of [d2ecl_stavars]
-*)
-
+d2ecl_codegen
+  (loc, knd, xs) =
+  d2ecl_make_node(loc, D2Ccodegen(knd, xs))
+//
 (* ****** ****** *)
 //
 implement
@@ -1151,6 +1149,15 @@ d2ecl_stacons
   (loc, knd, s2cs) =
   d2ecl_make_node (loc, D2Cstacons (knd, s2cs))
 //
+(* ****** ****** *)
+
+(*
+implement
+d2ecl_stavars
+  (loc, xs) = d2ecl_make_node (loc, D2Cstavars (xs))
+// end of [d2ecl_stavars]
+*)
+
 (* ****** ****** *)
 //
 implement

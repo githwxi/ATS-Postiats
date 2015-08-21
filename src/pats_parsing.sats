@@ -121,8 +121,8 @@ parerr_node =
   | PE_funarrow
   | PE_colonwith
 //
-  | PE_atme0xp
   | PE_e0xp
+  | PE_atme0xp
 //
   | PE_s0rt
   | PE_atms0rt
@@ -475,24 +475,28 @@ fun popt_fun
 
 (* ****** ****** *)
 
-dataviewtype
+datavtype
 synent2 (
   a1: viewtype, a2:viewtype
 ) = SYNENT2 (a1, a2) of (a1, a2)
 
-fun pseq2_fun
+fun
+pseq2_fun
   {a1,a2:type} (
   buf: &tokbuf
 , bt: int, err: &int
 , f1: parser (a1), f2: parser (a2)
 ) : synent2 (a1, a2)
 
-dataviewtype
+(* ****** ****** *)
+
+datavtype
 synent3 (
   a1: viewtype, a2:viewtype, a3:viewtype
 ) = SYNENT3 (a1, a2, a3) of (a1, a2, a3)
 
-fun pseq3_fun
+fun
+pseq3_fun
   {a1,a2,a3:type} (
   buf: &tokbuf
 , bt: int, err: &int
@@ -501,7 +505,8 @@ fun pseq3_fun
 
 (* ****** ****** *)
 
-fun ptest_fun
+fun
+ptest_fun
   {a:type} (
   buf: &tokbuf, f: parser (a), ent: &synent? >> synent
 ) : bool // end of [ptest_fun]
@@ -534,6 +539,8 @@ pif_fun
   buf: &tokbuf
 , bt: int, err: &int, f: parser (a), err0: int
 ) : (a) // end of [pif_fun]
+
+(* ****** ****** *)
 
 fun
 ptokwrap_fun
@@ -579,6 +586,10 @@ fun p_extnamopt : parser (s0tringopt)
 (* ****** ****** *)
 
 fun p_e0xp : parser (e0xp)
+fun p_e0xpseq : parser (e0xplst)
+
+(* ****** ****** *)
+
 fun p_datsdef : parser (datsdef)
 
 (* ****** ****** *)

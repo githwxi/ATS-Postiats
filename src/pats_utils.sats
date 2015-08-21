@@ -163,7 +163,7 @@ local
 
 staload FCNTL = "libc/SATS/fcntl.sats"
 
-in (*in-of-local]*)
+in (*in-of-local*)
 
 stadef fildes_v = $FCNTL.fildes_v
 

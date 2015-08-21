@@ -903,6 +903,16 @@ case+ d1c0.d1ecl_node of
     val () = prstr ")"
   }
 //
+| D1Ccodegen
+    (knd, xs) => {
+    val () =
+    prstr "D1Ccodegen("
+    val () = (
+      fprint_int (out, knd); prstr ","; fprint_string (out, "...")
+    ) (* end of [val] *)
+    val () = prstr (")")
+  } (* end of [D1Ccodegen] *)
+//
 | D1Cdatsrts (xs) =>
   {
     val () = prstr "D1Cdatsrts(\n"

@@ -2693,37 +2693,64 @@ in '{
 (* ****** ****** *)
 
 implement
-d0ecl_e0xpact_assert
-  (tok, ent2) = let
-  val loc = tok.token_loc + ent2.e0xp_loc
-in '{
-  d0ecl_loc= loc, d0ecl_node= D0Ce0xpact (E0XPACTassert, ent2)
-} end // end of [d0ecl_e0xpact_assert]
-
-implement
 d0ecl_e0xpact_print
   (tok, ent2) = let
-  val loc = tok.token_loc + ent2.e0xp_loc
+//
+val loc = tok.token_loc + ent2.e0xp_loc
+//
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Ce0xpact (E0XPACTprint, ent2)
+  d0ecl_loc= loc
+, d0ecl_node= D0Ce0xpact (E0XPACTprint, ent2)
 } end // end of [d0ecl_e0xpact_print]
 
 implement
 d0ecl_e0xpact_error
   (tok, ent2) = let
-  val loc = tok.token_loc + ent2.e0xp_loc
+//
+val loc = tok.token_loc + ent2.e0xp_loc
+//
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Ce0xpact (E0XPACTerror, ent2)
+  d0ecl_loc= loc
+, d0ecl_node= D0Ce0xpact (E0XPACTerror, ent2)
 } end // end of [d0ecl_e0xpact_error]
+
+implement
+d0ecl_e0xpact_assert
+  (tok, ent2) = let
+//
+val loc = tok.token_loc + ent2.e0xp_loc
+//
+in '{
+  d0ecl_loc= loc
+, d0ecl_node= D0Ce0xpact (E0XPACTassert, ent2)
+} end // end of [d0ecl_e0xpact_assert]
+
+(* ****** ****** *)
+
+implement
+d0ecl_codegen2
+(
+  tok1, xs, tok2
+) = let
+//
+val loc = tok1.token_loc + tok2.token_loc
+//
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Ccodegen (2(*knd*), xs)
+} end // end of [d0ecl_codegen2]
+
+(* ****** ****** *)
 
 implement
 d0ecl_datsrts
   (tok, xs) = let
-  val loc = tok.token_loc
-  val loc = (case+
-    list_last_opt<d0atsrtdec> (xs) of
-    | ~Some_vt x => loc + x.d0atsrtdec_loc | ~None_vt _ => loc
-  ) : location // end of [val]
+//
+val loc = tok.token_loc
+val loc = (case+
+  list_last_opt<d0atsrtdec> (xs) of
+  | ~Some_vt x => loc + x.d0atsrtdec_loc | ~None_vt _ => loc
+) : location // end of [val]
+//
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cdatsrts (xs)
 } end // end of [d0ecl_datsrts]

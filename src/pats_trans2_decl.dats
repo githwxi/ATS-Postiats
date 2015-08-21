@@ -2248,18 +2248,23 @@ case+ d1c0.d1ecl_node of
     d2ecl_overload (loc0, id, pval, d2iopt)
   end // end of [D1Coverload]
 //
-| D1Ce1xpdef (id, def) => let
+| D1Ce1xpdef
+    (id, def) => let
     val () = the_s2expenv_add (id, S2ITMe1xp def)
     val () = the_d2expenv_add (id, D2ITMe1xp def)
   in
     d2ecl_none (loc0)
   end // end of [D1Ce1xpdef]
-| D1Ce1xpundef (id, def) => let
+| D1Ce1xpundef
+    (id, def) => let
     val () = the_s2expenv_add (id, S2ITMe1xp def)
     val () = the_d2expenv_add (id, D2ITMe1xp def)
   in
     d2ecl_none (loc0)
   end // end of [D0Ce0xpundef]
+//
+| D1Ccodegen
+    (knd, e1xps) => d2ecl_codegen (loc0, knd, e1xps)
 //
 | D1Cdatsrts (ds) => let
     val () =

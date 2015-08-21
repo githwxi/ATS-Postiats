@@ -58,14 +58,20 @@ e0xpseq ::= /*(empty)*/ | e0xp {COMMA e0xpseq}*
 *)
 
 fun
-p_e0xpseq_vt (
+p_e0xpseq_vt
+(
   buf: &tokbuf
-, bt: int
-, err: &int
+, bt: int, err: &int
 ) : List_vt (e0xp) =
   pstar_fun0_COMMA {e0xp} (buf, bt, p_e0xp)
 // end of [p_e0xpseq_vt]
 
+(* ****** ****** *)
+//
+implement
+p_e0xpseq
+  (buf, bt, err) = l2l(p_e0xpseq_vt(buf, bt, err))
+//
 (* ****** ****** *)
 
 (*
@@ -120,7 +126,9 @@ case+ tok.token_node of
       val () = list_vt_free (ent2) in synent_null ()
     end (* end of [if] *)
   end // end of [T_LPAREN]
-| T_PERCENTLPAREN () => let
+//
+| T_PERCENTLPAREN
+    ((*void*)) => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_e0xp (buf, bt, err)

@@ -245,6 +245,9 @@ token_node =
 //
   | T_SRPUNDEF of () // #undef
 //
+  | T_SRPCODEGEN2 of () // #codegen2
+  | T_SRPCODEGEN3 of () // #codegen3
+//
   | T_IDENT_alp of string // alnum
   | T_IDENT_sym of string // symbol
   | T_IDENT_arr of string // A[...]

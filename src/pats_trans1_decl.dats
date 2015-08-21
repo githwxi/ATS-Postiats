@@ -1034,7 +1034,8 @@ case+ d0c0.d0ecl_node of
     (id, qid, pval) => d1ecl_overload (loc0, id, qid, pval)
   // end of [D0Coverload]
 //
-| D0Ce0xpdef (id, def) => let
+| D0Ce0xpdef
+    (id, def) => let
     val def = (
       case+ def of
       | Some e0xp => e0xp_tr e0xp | None () => e1xp_none (loc0)
@@ -1052,7 +1053,8 @@ case+ d0c0.d0ecl_node of
     d1ecl_e1xpundef (loc0, id, def)
   end // end of [D0Ce0xpundef]
 //
-| D0Ce0xpact (knd, e0xp) => let
+| D0Ce0xpact
+    (knd, e0xp) => let
     val e1xp = e0xp_tr (e0xp)
 (*
     val () =
@@ -1069,6 +1071,13 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_none (loc0)
   end // end of [D0Ce0xpact]
+//
+| D0Ccodegen
+    (knd, e0xps) => let
+    val e1xps = e0xplst_tr (e0xps)
+  in
+    d1ecl_codegen(loc0, knd, e1xps)
+  end // end of [D0Ccodegen]
 //
 | D0Cdatsrts (d0cs) => let
     val d1cs =

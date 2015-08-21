@@ -240,8 +240,10 @@ d1ecl_node =
       i0delst
   | D1Coverload of (i0de, dqi0de, int(*pval*)) // overloading
 //
-  | D1Ce1xpdef of (symbol, e1xp)
-  | D1Ce1xpundef of (symbol, e1xp) // HX: undefining
+  | D1Ce1xpdef of (symbol, e1xp) // HX: #define
+  | D1Ce1xpundef of (symbol, e1xp) // HX: #undef
+//
+  | D1Ccodegen of (int(*kind*), e1xplst) // HX: meta-programming
 //
   | D1Cdatsrts of d1atsrtdeclst // datasorts
   | D1Csrtdefs of s1rtdeflst // sort definitions
@@ -952,18 +954,34 @@ i1mpdec_make
 fun d1ecl_none (loc: location): d1ecl
 fun d1ecl_list (loc: location, ds: d1eclist): d1ecl
 
+(* ****** ****** *)
+
 fun d1ecl_packname (opt: Stropt): d1ecl
+
+(* ****** ****** *)
 
 fun d1ecl_symintr (loc: location, ids: i0delst): d1ecl
 fun d1ecl_symelim (loc: location, ids: i0delst): d1ecl
+
+(* ****** ****** *)
+
 fun d1ecl_overload
   (loc: location, id: i0de, qid: dqi0de, pval: int): d1ecl
 // end of [d1ecl_overload]
 
-fun d1ecl_e1xpdef
-  (loc: location, id: symbol, def: e1xp): d1ecl
-fun d1ecl_e1xpundef
-  (loc: location, id: symbol, def: e1xp): d1ecl
+(* ****** ****** *)
+//
+fun
+d1ecl_e1xpdef(loc: location, id: symbol, def: e1xp): d1ecl
+fun
+d1ecl_e1xpundef(loc: location, id: symbol, def: e1xp): d1ecl
+//
+(* ****** ****** *)
+//
+fun
+d1ecl_codegen(loc: location, knd: int, xs: e1xplst): d1ecl
+//
+(* ****** ****** *)
 
 fun d1ecl_datsrts (loc: location, ds: d1atsrtdeclst): d1ecl
 

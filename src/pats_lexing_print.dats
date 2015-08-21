@@ -206,6 +206,9 @@ fprint_token
   | T_SRPTHEN () => fprintf (out, "SRPTHEN()", @())
   | T_SRPUNDEF () => fprintf (out, "SRPUNDEF()", @())
 //
+  | T_SRPCODEGEN2 () => fprintf (out, "SRPCODEGEN2()", @())
+  | T_SRPCODEGEN3 () => fprintf (out, "SRPCODEGEN2()", @())
+//
   | T_IDENT_alp (x) => fprintf (out, "IDENT_alp(%s)", @(x))
   | T_IDENT_sym (x) => fprintf (out, "IDENT_sym(%s)", @(x))
   | T_IDENT_arr (x) => fprintf (out, "IDENT_arr(%s)", @(x))

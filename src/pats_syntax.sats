@@ -36,18 +36,20 @@
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload
 LOC = "./pats_location.sats"
 typedef location = $LOC.location
+//
 staload LEX = "./pats_lexing.sats"
 typedef token = $LEX.token
 typedef tokenopt = Option (token)
+//
 staload SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolist = $SYM.symbolist
 typedef symbolopt = $SYM.symbolopt
-
+//
 (* ****** ****** *)
 
 staload
@@ -81,7 +83,7 @@ srpifkind =
 // end of [srpifkind]
 
 (* ****** ****** *)
-
+//
 datatype
 macsynkind =
   | MSKencode of ()
@@ -89,11 +91,11 @@ macsynkind =
 // HX: cross-stage persistence:
   | MSKxstage of () // = decode(lift(.))
 // end of [macsynkind]
-
+//
 fun print_macsynkind (x: macsynkind): void
 fun prerr_macsynkind (x: macsynkind): void
 fun fprint_macsynkind : fprint_type (macsynkind)
-
+//
 (* ****** ****** *)
 
 (*
@@ -328,7 +330,7 @@ fun fprint_f0xty : fprint_type (f0xty)
 
 datatype
 e0xpactkind =
-  | E0XPACTassert | E0XPACTerror | E0XPACTprint
+  | E0XPACTprint | E0XPACTerror | E0XPACTassert
 // end of [e0xpactkind]
 
 fun fprint_e0xpactkind : fprint_type (e0xpactkind)
@@ -1270,13 +1272,15 @@ d0ecl_node =
   | D0Cfixity of (f0xty, i0delst)
   | D0Cnonfix of (i0delst) // absolving fixity status
 //
-  | D0Csymintr of (i0delst) // introducing symbols for overloading
-  | D0Csymelim of (i0delst) // eliminating symbols for overloading
+  | D0Csymintr of (i0delst) // symbols for overloading
+  | D0Csymelim of (i0delst) // eliminating overloading symbols
   | D0Coverload of (i0de, dqi0de, int(*pval*)) // overloading
 //
   | D0Ce0xpdef of (symbol, e0xpopt)
   | D0Ce0xpundef of (symbol) (* undefinition *)
-  | D0Ce0xpact of (e0xpactkind, e0xp)
+  | D0Ce0xpact of (e0xpactkind, e0xp) // HX: assert, error, print, ...
+//
+  | D0Ccodegen of (int(*level*), e0xplst)
 //
   | D0Cdatsrts of d0atsrtdeclst (* datasorts *)
   | D0Csrtdefs of s0rtdeflst (* sort definition *)
@@ -1331,10 +1335,10 @@ d0ecl_node =
 //
   | D0Crequire of (filename(*pfil*), string(*path*)) // HX: for pkgreloc
 //
-  | D0Cdynload of (filename(*pfil*), string(*path*)) // HX: dynloading(*initialization*)
+  | D0Cdynload of (filename(*pfil*), string(*path*)) // HX: dynloading(*initization*)
 //
-  | D0Clocal of (d0eclist, d0eclist)
-  | D0Cguadecl of (srpifkind, guad0ecl)
+  | D0Clocal of (d0eclist, d0eclist) // HX: local ... in ... end
+  | D0Cguadecl of (srpifkind, guad0ecl) // HX: guarded declarations
 // end of [d0ecl_node]
 
 and staloadarg =
@@ -1722,21 +1726,27 @@ fun d0exp_list (
 ) : d0exp // end of [d0exp_list]
 
 (* ****** ****** *)
-
-fun d0exp_ifhead (
+//
+fun
+d0exp_ifhead (
   hd: ifhead, _cond: d0exp, _then: d0exp, _else: d0expopt
 ) : d0exp // end of [d0exp_ifhead]
-fun d0exp_sifhead (
+fun
+d0exp_sifhead (
   hd: sifhead, _cond: s0exp, _then: d0exp, _else: d0exp
 ) : d0exp // end of [d0exp_sifhead]
-
-fun d0exp_casehead
+//
+(* ****** ****** *)
+//
+fun
+d0exp_casehead
   (hd: casehead, d0e: d0exp, t_of: token, c0ls: c0laulst): d0exp
 // end of [d0exp_casehead]
-fun d0exp_scasehead
+fun
+d0exp_scasehead
   (hd: scasehead, s0e: s0exp, t_of: token, c0ls: sc0laulst): d0exp
 // end of [d0exp_scasehead]
-
+//
 (* ****** ****** *)
 
 fun
@@ -2027,12 +2037,18 @@ fun d0ecl_include (knd: int, _1: token, _2: token): d0ecl
 fun d0ecl_symintr (_1: token, _2: i0delst): d0ecl
 fun d0ecl_symelim (_1: token, _2: i0delst): d0ecl
 //
-fun d0ecl_e0xpdef (_1: token, _2: i0de, _3: e0xpopt): d0ecl
-fun d0ecl_e0xpundef (_1: token, _2: i0de): d0ecl // HX: undefining
+fun
+d0ecl_e0xpdef
+  (_1: token, _2: i0de, _3: e0xpopt): d0ecl // #define
+fun
+d0ecl_e0xpundef(_1: token, _2: i0de): d0ecl // HX: #undef
 //
-fun d0ecl_e0xpact_assert (_1: token, _2: e0xp): d0ecl
-fun d0ecl_e0xpact_error (_1: token, _2: e0xp): d0ecl
 fun d0ecl_e0xpact_print (_1: token, _2: e0xp): d0ecl
+fun d0ecl_e0xpact_error (_1: token, _2: e0xp): d0ecl
+fun d0ecl_e0xpact_assert (_1: token, _2: e0xp): d0ecl
+//
+fun d0ecl_codegen2
+  (tok_beg: token, xs: e0xplst, tok_end: token): d0ecl
 //
 fun d0ecl_datsrts (_1: token, _2: d0atsrtdeclst): d0ecl
 fun d0ecl_srtdefs (_1: token, _2: s0rtdeflst): d0ecl
@@ -2071,8 +2087,8 @@ d0ecl_overload
   tok: token, id: i0de, dqid: dqi0de, opt: i0ntopt
 ) : d0ecl // end-of-fun
 //
-fun d0ecl_classdec
-  (t: token, id: i0de, sup: s0expopt): d0ecl
+fun
+d0ecl_classdec(t: token, id: i0de, sup: s0expopt): d0ecl
 //
 fun d0ecl_extype
   (tok: token, name: s0tring, s0e: s0exp): d0ecl

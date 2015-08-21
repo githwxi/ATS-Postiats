@@ -621,6 +621,9 @@ val () = ins ("#include", T_SRPINCLUDE)
 //
 val () = ins ("#undef", T_SRPUNDEF)
 //
+val () = ins ("#codegen2", T_SRPCODEGEN2) // for level-2 codegen
+val () = ins ("#codegen3", T_SRPCODEGEN3) // for level-3 codegen
+//
 // HX: end of special tokens
 //
 val rtbl = HASHTBLref_make_ptr{key,itm}(ptbl)

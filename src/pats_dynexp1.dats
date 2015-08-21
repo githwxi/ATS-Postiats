@@ -1138,24 +1138,30 @@ d1ecl_overload (loc, id, qid, pval) =
   d1ecl_make_node (loc, D1Coverload (id, qid, pval))
 
 (* ****** ****** *)
-
+//
 implement
 d1ecl_e1xpdef (loc, id, def) =
   d1ecl_make_node (loc, D1Ce1xpdef (id, def))
 implement
 d1ecl_e1xpundef (loc, id, def) =
   d1ecl_make_node (loc, D1Ce1xpundef (id, def))
-
+//
 (* ****** ****** *)
-
+//
+implement
+d1ecl_codegen(loc, knd, xs) =
+  d1ecl_make_node (loc, D1Ccodegen (knd, xs))
+//
+(* ****** ****** *)
+//
 implement
 d1ecl_datsrts (loc, xs) =
   d1ecl_make_node (loc, D1Cdatsrts (xs))
-
+//
 implement
 d1ecl_srtdefs (loc, xs) =
   d1ecl_make_node (loc, D1Csrtdefs (xs))
-
+//
 (* ****** ****** *)
 
 implement

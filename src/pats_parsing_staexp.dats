@@ -81,6 +81,7 @@ s0exp_tytup12
   knd: int
 , t_beg: token, ent2: s0explst12, t_end: token
 ) : s0exp =
+(
   case+ ent2 of
   | ~LIST12one (xs) =>
       s0exp_tytup (knd, t_beg, ~1, (l2l)xs, t_end)
@@ -90,7 +91,7 @@ s0exp_tytup12
     in
       s0exp_tytup (knd, t_beg, npf, (l2l)xs12, t_end)
     end
-// end of [s0exp_tytup12]
+) (* end of [s0exp_tytup12] *)
 
 (* ****** ****** *)
 
@@ -100,6 +101,7 @@ s0exp_tyrec12
   knd: int
 , t_beg: token, ent2: labs0explst12, t_end: token
 ) : s0exp =
+(
   case+ ent2 of
   | ~LIST12one (xs) =>
       s0exp_tyrec (knd, t_beg, ~1, (l2l)xs, t_end)
@@ -109,7 +111,7 @@ s0exp_tyrec12
     in
       s0exp_tyrec (knd, t_beg, npf, (l2l)xs12, t_end)
     end
-// end of [s0exp_tyrec12]
+) (* end of [s0exp_tyrec12] *)
 
 (* ****** ****** *)
 
@@ -119,6 +121,7 @@ s0exp_tyrec12_ext
   name: string
 , t_beg: token, ent2: labs0explst12, t_end: token
 ) : s0exp =
+(
   case+ ent2 of
   | ~LIST12one (xs) =>
       s0exp_tyrec_ext (name, t_beg, ~1, (l2l)xs, t_end)
@@ -128,7 +131,7 @@ s0exp_tyrec12_ext
     in
       s0exp_tyrec_ext (name, t_beg, npf, (l2l)xs12, t_end)
     end
-// end of [s0exp_tyrec12]
+) (* end of [s0exp_tyrec12_ext] *)
 
 (* ****** ****** *)
 
@@ -383,7 +386,7 @@ p_s0arrdim (
   val ent2 = (
     if err = err0
       then pstar_fun0_COMMA{s0exp}(buf, bt, p_s0exp)
-      else list_vt_nil ((*void*))
+      else list_vt_nil((*void*))
     // end of [if]
   ) : s0explst_vt
   val ent3 = pif_fun (buf, bt, err, p_RBRACKET, err0)
@@ -1000,9 +1003,10 @@ case+ 0 of
 end // end of [p_s0qua]
 
 implement
-p_s0quaseq (buf, bt, err) =
+p_s0quaseq
+  (buf, bt, err) =
   l2l (pstar_fun0_BARSEMI {s0qua} (buf, bt, p_s0qua))
-// end of [p_s0quaseq_vt]
+// end of [p_s0quaseq]
 
 (* ****** ****** *)
 
