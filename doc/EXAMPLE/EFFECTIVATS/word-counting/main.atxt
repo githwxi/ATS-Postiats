@@ -254,7 +254,7 @@ class="patsyntax">
 local
 //
 staload
-HT = "libats/ML/SATS/hashtbl.sats"
+HT = "libats/ML/SATS/hashtblref.sats"
 //
 assume wcmap_type = $HT.hashtbl (string, int)
 //
