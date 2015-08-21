@@ -1749,28 +1749,39 @@ fun prv2ardec_make
 //
 (* ****** ****** *)
 
-fun d2ecl_none (loc: location): d2ecl
-fun d2ecl_list (loc: location, xs: d2eclist): d2ecl
+fun d2ecl_none(loc: location): d2ecl
+fun d2ecl_list(loc: location, xs: d2eclist): d2ecl
 
 (* ****** ****** *)
 //
-fun d2ecl_symintr (loc: location, ids: i0delst): d2ecl
-fun d2ecl_symelim (loc: location, ids: i0delst): d2ecl
+fun
+d2ecl_symintr(loc: location, ids: i0delst): d2ecl
+fun
+d2ecl_symelim(loc: location, ids: i0delst): d2ecl
 //
 (* ****** ****** *)
 //
-fun d2ecl_overload
-  (loc: location, id: i0de, pval: int, opt: d2itmopt): d2ecl
-// end of [d2ecl_overload]
+fun
+d2ecl_overload
+(
+  loc: location, id: i0de, pval: int, opt: d2itmopt
+) : d2ecl // end of [d2ecl_overload]
 //
 (* ****** ****** *)
 //
-fun d2ecl_codegen (loc: location, knd: int, xs: e1xplst): d2ecl
+fun
+d2ecl_codegen
+  (loc: location, knd: int, e1xps: e1xplst): d2ecl
 //
 (* ****** ****** *)
 //
-fun d2ecl_stacsts (loc: location, s2cs: s2cstlst): d2ecl
-fun d2ecl_stacons (loc: location, knd: int, s2cs: s2cstlst): d2ecl
+fun
+d2ecl_stacsts
+  (loc: location, s2cs: s2cstlst): d2ecl
+//
+fun
+d2ecl_stacons
+  (loc: location, knd: int, s2cs: s2cstlst): d2ecl
 //
 (*
 fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
@@ -1781,52 +1792,64 @@ fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
 fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
 
 (* ****** ****** *)
-
-fun d2ecl_extype
+//
+fun
+d2ecl_extype
   (loc: location, name: string, def: s2exp): d2ecl
-fun d2ecl_extvar
+//
+fun
+d2ecl_extvar
   (loc: location, name: string, def: d2exp): d2ecl
-fun d2ecl_extcode
+//
+fun
+d2ecl_extcode
   (loc: location, knd: int, pos: int, code: string): d2ecl
 // end of [d2ecl_extcode]
-
+//
 (* ****** ****** *)
-
-fun d2ecl_datdecs
+//
+fun
+d2ecl_datdecs
 (
   loc: location, knd: int, s2cs: s2cstlst
 ) : d2ecl // end of [d2ecl_datdecs]
-fun d2ecl_exndecs (loc: location, d2cs: d2conlst): d2ecl
-
-fun d2ecl_dcstdecs
+//
+fun
+d2ecl_exndecs (loc: location, d2cs: d2conlst): d2ecl
+//
+fun
+d2ecl_dcstdecs
 (
   loc: location, knd: int, dck: dcstkind, d2cs: d2cstlst
 ) : d2ecl // end of [d2ecl_dcstdecs]
-
+//
 (* ****** ****** *)
-
-fun d2ecl_fundecs
+//
+fun
+d2ecl_fundecs
 (
   loc: location, knd: funkind, decarg: s2qualst, f2ds: f2undeclst
 ) : d2ecl // end of [d2ecl_fundecs]
-
+//
 (* ****** ****** *)
-
-fun d2ecl_valdecs
+//
+fun
+d2ecl_valdecs
 (
   loc: location, knd: valkind, v2ds: v2aldeclst
 ) : d2ecl // end of [d2ecl_valdecs]
-
-fun d2ecl_valdecs_rec
+//
+fun
+d2ecl_valdecs_rec
 (
   loc: location, knd: valkind, v2ds: v2aldeclst
 ) : d2ecl // end of [d2ecl_valdecs_rec]
-
+//
 (* ****** ****** *)
-
+//
 fun d2ecl_vardecs (loc: location, v2ds: v2ardeclst): d2ecl
 fun d2ecl_prvardecs (loc: location, v2ds: prv2ardeclst): d2ecl
-
+//
 (* ****** ****** *)
 
 fun d2ecl_impdec
@@ -1840,28 +1863,32 @@ fun d2ecl_include
 // end of [d2ecl_include]
 
 (* ****** ****** *)
-
-fun d2ecl_staload
+//
+fun
+d2ecl_staload
 (
   loc: location
 , idopt: symbolopt, cfil: filename
 , ldflag: int, fenv: filenv, loaded: int
 ) : d2ecl // end-of-fun
-
-fun d2ecl_staloadloc
+//
+fun
+d2ecl_staloadloc
 (
   loc: location
 , pfil: filename, nspace: symbol, fenv: filenv
 ) : d2ecl // end-of-fun
-
+//
 (* ****** ****** *)
 
-fun d2ecl_dynload (loc: location, fil: filename): d2ecl
+fun
+d2ecl_dynload (loc: location, fil: filename): d2ecl
 
 (* ****** ****** *)
-
-fun d2ecl_local (loc: location, ds1: d2eclist, ds2: d2eclist): d2ecl
-
+//
+fun d2ecl_local
+  (loc: location, ds1: d2eclist, ds2: d2eclist): d2ecl
+//
 (* ****** ****** *)
 
 fun d2ecl_errdec (loc: location): d2ecl
