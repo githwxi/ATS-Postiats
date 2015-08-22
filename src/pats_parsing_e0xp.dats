@@ -74,7 +74,7 @@ p_e0xpseq
   (buf, bt, err) = l2l(p_e0xpseq_vt(buf, bt, err))
 //
 (* ****** ****** *)
-
+//
 (*
 atme0xp ::=
   | i0de
@@ -86,6 +86,7 @@ atme0xp ::=
   | PERCENTLPAREN e0xp RPAREN
 ; /* atme0xp */
 *)
+//
 fun
 p_atme0xp (
   buf: &tokbuf, bt: int, err: &int
@@ -94,7 +95,7 @@ p_atme0xp (
   ptokwrap_fun
     (buf, bt, err, p_atme0xp_tok, PE_atme0xp)
 ) (* p_atme0xp *)
-
+//
 and
 p_atme0xp_tok (
   buf: &tokbuf, bt: int, err: &int, tok: token
@@ -160,12 +161,13 @@ of // case+
     let val () = err := err + 1 in synent_null() end
 //
 end // end of [p_atme0xp_tok]
-
+//
 (* ****** ****** *)
-
+//
 (*
 e0xp0 ::= {atme0xp}+
 *)
+//
 fun
 p_e0xp0 (
   buf: &tokbuf, bt: int, err: &int
@@ -192,14 +194,15 @@ case+ xs of
 | ~list_vt_cons (x, xs) => loop (x, xs)
 //
 end // end of [p_e0xp0]
-
+//
 (* ****** ****** *)
-
+//
 (*
 e0xp ::= e0xp0 [e0xp] | IF e0xp0 THEN e0xp [ELSE e0xp]
 *)
+//
 implement
-p_e0xp (buf, bt, err) = let
+p_e0xp(buf, bt, err) = let
 //
 val
 err0 = err
@@ -244,14 +247,14 @@ of // case+
 | _ (*rest-of-tokens*) =>
     let val () = err := err + 1 in synent_null() end
 end // end of [p_e0xp]
-
+//
 (* ****** ****** *)
-
+//
 (*
 datsval ::= i0de
   | LITERAL_char | LITERAL_float | LITERAL_int | LITERAL_string
 *)
-
+//
 fun
 p_datsval
 (
@@ -295,7 +298,7 @@ of // case+
 | _(*rest-of-tokens*) => e0xp_make_stringid (loc, "")
 //
 end // end of [p_datsval]
-
+//
 (* ****** ****** *)
 //
 (*
