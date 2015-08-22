@@ -1954,7 +1954,7 @@ end (* end of [else] *)
 end // end of [p_initestpost]
 
 (* ****** ****** *)
-
+//
 (*
 d0exp  :: =
   | d0exp1
@@ -1969,15 +1969,27 @@ d0exp  :: =
   | forhead   initestpost d0exp // done!
   | tryhead   d0expsemiseq WITH c0lauseq // done!
 *)
-
-local
-
+//
+extern
 fun
 p_d0exp_tok
 (
   buf: &tokbuf
 , bt: int, err: &int, tok: token
-) : d0exp = let
+) : d0exp // end-of-function
+//
+implement
+p_d0exp
+  (buf, bt, err) = 
+(
+  ptokwrap_fun (buf, bt, err, p_d0exp_tok, PE_d0exp)
+) (* end of [p_d0exp] *)
+//
+implement
+p_d0exp_tok
+(
+  buf, bt, err, tok
+) = let
 //
 val err0 = err
 var ent: synent?
@@ -2202,18 +2214,7 @@ of // case+
     let val () = err := err + 1 in synent_null () end
 //
 end // end of [p_d0exp_tok]
-
-in (* in-of-local *)
-
-implement
-p_d0exp
-  (buf, bt, err) = 
-(
-  ptokwrap_fun (buf, bt, err, p_d0exp_tok, PE_d0exp)
-) (* end of [p_d0exp] *)
-
-end // end of [local]
-
+//
 (* ****** ****** *)
 
 (* end of [pats_parsing_dynexp.dats] *)
