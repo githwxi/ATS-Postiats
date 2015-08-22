@@ -322,11 +322,17 @@ pqi0de_fun (
 , enode: parerr_node
 ) : dqi0de = let
 //
-val err0 = err
-val ntok0 = tokbuf_get_ntok (buf)
+val
+err0 = err
 //
-val tok = tokbuf_get_token (buf)
+val n0 =
+  tokbuf_get_ntok(buf)
+//
+val tok =
+  tokbuf_get_token (buf)
+//
 val loc = tok.token_loc
+//
 var ent: synent? // uninitialized
 //
 in
@@ -334,19 +340,19 @@ in
 case+ 0 of
 | _ when
     ptest_fun (buf, f, ent) =>
-    dqi0de_make_none (synent_decode{i0de}(ent))
+    dqi0de_make_none(synent_decode{i0de}(ent))
 | _ when
-    ptest_fun (buf, p_d0ynq, ent) => let
+    ptest_fun(buf, p_d0ynq, ent) => let
     // val bt = 0 // HX: avoiding false positive
-    val ent1 = synent_decode {d0ynq} (ent)
-    val ent2 = f (buf, bt, err) // err = err0
+    val ent1 = synent_decode{d0ynq}(ent)
+    val ent2 = f(buf, bt, err) // HX: err = err0
   in
     if err = err0
-      then dqi0de_make_some (ent1, ent2)
-      else tokbuf_set_ntok_null (buf, ntok0)
+      then dqi0de_make_some(ent1, ent2)
+      else tokbuf_set_ntok_null(buf, n0)
     // end of [if]
   end
-| _ => let
+| _ (*rest*) => let
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt (bt, loc, enode)
   in
@@ -1479,21 +1485,29 @@ p_i0nvarg
 (
   buf: &tokbuf, bt: int, err: &int
 ) : i0nvarg = let
-  val err0 = err
-  val ntok0 = tokbuf_get_ntok (buf)
 //
-  val ent1 = p_di0de (buf, bt, err)
-  val bt = 0
-  val ent2 = pif_fun (buf, bt, err, p_COLON, err0)
-  val ent3 = let
-    val s0e = pif_fun {s0exp} (buf, bt, err, p_s0exp, err0)
-  in
-    if err = err0 then Some (s0e) else None ()
-  end : s0expopt // end of [val]
+val
+err0 = err
+//
+val n0 = tokbuf_get_ntok (buf)
+//
+val ent1 = p_di0de (buf, bt, err)
+//
+val bt = 0
+val ent2 =
+  pif_fun (buf, bt, err, p_COLON, err0)
+val ent3 = let
+  val s0e =
+    pif_fun{s0exp}(buf, bt, err, p_s0exp, err0)
+  // end of [val]
+in
+  if err = err0 then Some(s0e) else None()
+end : s0expopt // end of [val]
 //
 in
-  if err = err0 then
-    i0nvarg_make (ent1, ent3) else tokbuf_set_ntok_null (buf, ntok0)
+  if err = err0
+    then i0nvarg_make (ent1, ent3)
+    else tokbuf_set_ntok_null (buf, n0)
   // end of [if]
 end // end of [p_i0nvarg]
 
@@ -1506,7 +1520,7 @@ p_i0nvargseq
 // end of [p_i0nvargseq]
 
 (* ****** ****** *)
-
+//
 (*
 i0nvqua :: /*(empty)*/ | LBRACE s0quaseq RBRACE
 *)
@@ -1515,16 +1529,23 @@ p_i0nvqua
 (
   buf: &tokbuf, bt: int, err: &int
 ) : Option (s0qualst) = let
-  val bt = 1 // HX: this is optional
-  val err0 = err
-  typedef a1 = token and a2 = s0qualst and a3 = token
-  val+~SYNENT3 (ent1, ent2, ent3) =
-    pseq3_fun {a1,a2,a3} (buf, bt, err, p_LBRACE, p_s0quaseq, p_RBRACE)
-  // end of [val]
+//
+val bt = 1
+val err0 = err
+//
+typedef a1 = token
+typedef a2 = s0qualst
+typedef a3 = token
+//
+val+~SYNENT3
+  (ent1, ent2, ent3) =
+  pseq3_fun{a1,a2,a3}
+    (buf, bt, err, p_LBRACE, p_s0quaseq, p_RBRACE)
+  // end of [pseq3_fun]
 in
-  if err = err0 then Some (ent2) else (err := err0; None ())
+  if err = err0 then Some(ent2) else (err := err0; None())
 end // end of [p_i0nvqua]
-
+//
 (*
 i0nvresqua ::= /*(empty)*/ | LBRACKET s0quaseq RBRACKET
 *)
@@ -1532,16 +1553,23 @@ fun p_i0nvresqua
 (
   buf: &tokbuf, bt: int, err: &int
 ) : Option (s0qualst) = let
-  val bt = 1 // HX: this is optional
-  val err0 = err
-  typedef a1 = token and a2 = s0qualst and a3 = token
-  val+~SYNENT3 (ent1, ent2, ent3) =
-    pseq3_fun {a1,a2,a3} (buf, bt, err, p_LBRACKET, p_s0quaseq, p_RBRACKET)
-  // end of [val]
+//
+val bt = 1
+val err0 = err
+//
+typedef a1 = token
+typedef a2 = s0qualst
+typedef a3 = token
+//
+val+~SYNENT3
+  (ent1, ent2, ent3) =
+  pseq3_fun{a1,a2,a3}
+    (buf, bt, err, p_LBRACKET, p_s0quaseq, p_RBRACKET)
+  // end of [pseq3_fun]
 in
-  if err = err0 then Some (ent2) else (err := err0; None ())
+  if err = err0 then Some(ent2) else (err := err0; None())
 end // end of [p_i0nvresqua]
-
+//
 (* ****** ****** *)
 
 (*
@@ -1551,28 +1579,38 @@ fun p_i0nvmet
 (
   buf: &tokbuf, bt: int, err: &int
 ) : s0explstopt = let
-  val err0 = err
-  val ntok0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  macdef incby1 () = tokbuf_incby1 (buf)
+//
+val
+err0 = err
+//
+val n0 = tokbuf_get_ntok (buf)
+val tok = tokbuf_get_token (buf)
+//
+macdef incby1 () = tokbuf_incby1 (buf)
+//
 in
 //
-case tok.token_node of
+case+
+tok.token_node
+of // case+
 | T_DOTLT () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {s0exp} (buf, bt, p_s0exp)
+    val ent2 =
+      pstar_fun0_COMMA{s0exp}(buf, bt, p_s0exp)
+    // end of [val]
     val ent3 = p_GTDOT (buf, bt, err) // err = err0
   in
-    if err = err0 then 
-      Some ((l2l)ent2) else let
-      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, ntok0)
-    end (* end of [if] *)
+    if err = err0
+      then Some ((l2l)ent2)
+      else let
+        val () = list_vt_free(ent2) in tokbuf_set_ntok_null(buf, n0)
+      end (* end of [else] *)
   end
 | T_DOTLTGTDOT () => let
     val () = incby1 () in Some (list_nil)
   end // end of [T_DOTLTGTDOT]
-| _ => None () // HX: there is no error
+| _ (*rest-of-tokens*) => None () // HX: there is no error
 //
 end // end of [p_i0nvmet]
 
@@ -1586,13 +1624,21 @@ p_i0nvargstate
 (
   buf: &tokbuf, bt: int, err: &int
 ) : i0nvarglst = let
-  val err0 = err
-  typedef a1 = token and a2 = i0nvarglst and a3 = token
-  val+~SYNENT3 (ent1, ent2, ent3) =
-    pseq3_fun {a1,a2,a3} (buf, bt, err, p_LPAREN, p_i0nvargseq, p_RPAREN)
-  // end of [val]
+//
+val err0 = err
+//
+typedef a1 = token
+typedef a2 = i0nvarglst
+typedef a3 = token
+//
+val+~SYNENT3
+  (ent1, ent2, ent3) =
+  pseq3_fun{a1,a2,a3}
+    (buf, bt, err, p_LPAREN, p_i0nvargseq, p_RPAREN)
+  // end of [pseq3_fun]
+//
 in
- if err = err0 then ent2 else synent_null ((*okay*))
+  if err = err0 then ent2 else synent_null((*void*))
 end // end of [p_i0nvargstate]
 //
 (*
