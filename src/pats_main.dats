@@ -101,15 +101,18 @@ staload "./pats_stacst2.sats"
 staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
-  
-staload "./pats_synent2_jsonize.sats"
-  
-(* ****** ****** *)
 
 staload
 TRANS2 = "./pats_trans2.sats"
 staload
 TRENV2 = "./pats_trans2_env.sats"
+
+(* ****** ****** *)
+
+staload
+CODEGEN2 = "./pats_codegen2.sats"
+staload
+JSONIZE2 = "./pats_jsonize_synent2.sats"
 
 (* ****** ****** *)
 
@@ -265,7 +268,6 @@ dynload "pats_dynexp2_dmac.dats"
 dynload "pats_dynexp2_util.dats"
 //
 dynload "pats_dynexp2_mapgen.dats"
-dynload "pats_synent2_jsonize.dats"
 //
 dynload "pats_namespace.dats"
 //
@@ -277,6 +279,13 @@ dynload "pats_trans2_p1at.dats"
 dynload "pats_trans2_dynexp.dats"
 dynload "pats_trans2_impdec.dats"
 dynload "pats_trans2_decl.dats"
+//
+dynload "pats_codegen2.dats"
+dynload "pats_codegen2_util.dats"
+dynload "pats_codegen2_datype.dats"
+dynload "pats_codegen2_fprint.dats"
+//
+dynload "pats_jsonize_synent2.dats"
 //
 dynload "pats_dynexp3.dats"
 dynload "pats_dynexp3_print.dats"
@@ -976,10 +985,10 @@ do_codegen_2
   (state, given, d2cs) = let
 //
 val out = state.outchan
-val out = outchan_get_filr (out)
+val out = outchan_get_filr(out)
 //
 in
-  fprintln! (out, "d0_codegen_2: this is a placeholder")
+  $CODEGEN2.d2eclist_codegen_out(out, d2cs)
 end // end of [do_codegen_2]
 
 (* ****** ****** *)
@@ -996,6 +1005,7 @@ do_jsonize_2
 
 local
 
+(*
 fun
 fprint_jsonlst
 (
@@ -1026,6 +1036,7 @@ end // end of [loop]
 in
   loop (out, jsvs, 0)
 end // end of [fprint_jsonlst]
+*)
 
 in (* in of [local] *)
 
@@ -1036,10 +1047,10 @@ do_jsonize_2
 ) = let
 //
 val out = state.outchan
-val out = outchan_get_filr (out)
+val out = outchan_get_filr(out)
 //
 in
-  d2eclist_export (out, d2cs)
+  $JSONIZE2.d2eclist_jsonize_out(out, d2cs)
 end (* end of [do_jsonize_2] *)
 
 end // end of [local]

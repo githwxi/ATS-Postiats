@@ -54,7 +54,7 @@ staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "./pats_synent2_jsonize.sats"
+staload "./pats_jsonize_synent2.sats"
 
 (* ****** ****** *)
 

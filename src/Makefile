@@ -201,8 +201,6 @@ SOURCES := \
   pats_staexp2_appenv.hats \
   pats_dynexp2_appenv.hats \
   pats_dynexp2_mapgen.dats \
-  pats_synent2_jsonize.sats \
-  pats_synent2_jsonize.dats \
   pats_trans2.sats \
   pats_namespace.sats \
   pats_namespace.dats \
@@ -215,6 +213,13 @@ SOURCES := \
   pats_trans2_dynexp.dats \
   pats_trans2_impdec.dats \
   pats_trans2_decl.dats \
+  pats_codegen2.sats \
+  pats_codegen2.dats \
+  pats_codegen2_util.dats \
+  pats_codegen2_datype.dats \
+  pats_codegen2_fprint.dats \
+  pats_jsonize_synent2.sats \
+  pats_jsonize_synent2.dats \
   pats_dynexp3.sats \
   pats_dynexp3.dats \
   pats_dynexp3_print.dats \
@@ -443,8 +448,6 @@ OBJECTS := \
   pats_dynexp2_dmac_dats.o \
   pats_dynexp2_util_dats.o \
   pats_dynexp2_mapgen_dats.o \
-  pats_synent2_jsonize_sats.o \
-  pats_synent2_jsonize_dats.o \
   pats_trans2_sats.o \
   pats_namespace_sats.o \
   pats_namespace_dats.o \
@@ -457,6 +460,13 @@ OBJECTS := \
   pats_trans2_dynexp_dats.o \
   pats_trans2_impdec_dats.o \
   pats_trans2_decl_dats.o \
+  pats_codegen2_sats.o \
+  pats_codegen2_dats.o \
+  pats_codegen2_util_dats.o \
+  pats_codegen2_datype_dats.o \
+  pats_codegen2_fprint_dats.o \
+  pats_jsonize_synent2_sats.o \
+  pats_jsonize_synent2_dats.o \
   pats_dynexp3_sats.o \
   pats_dynexp3_dats.o \
   pats_dynexp3_print_dats.o \
@@ -973,12 +983,6 @@ pats_dynexp2_util_dats.o: pats_dynexp2_util_dats.c; $(ATSCC) $(CFLAGS) -c $<
 pats_dynexp2_mapgen_dats.c: pats_dynexp2_mapgen.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_dynexp2_mapgen_dats.o: pats_dynexp2_mapgen_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
-pats_synent2_jsonize_sats.c: pats_synent2_jsonize.sats; $(ATSCC) $(DATSCC) -cc $<
-pats_synent2_jsonize_sats.o: pats_synent2_jsonize_sats.c; $(ATSCC) $(CFLAGS) -c $<
-
-pats_synent2_jsonize_dats.c: pats_synent2_jsonize.dats; $(ATSCC) $(DATSCC) -cc $<
-pats_synent2_jsonize_dats.o: pats_synent2_jsonize_dats.c; $(ATSCC) $(CFLAGS) -c $<
-
 pats_trans2_sats.c: pats_trans2.sats; $(ATSCC) $(DATSCC) -cc $<
 pats_trans2_sats.o: pats_trans2_sats.c; $(ATSCC) $(CFLAGS) -c $<
 
@@ -1014,6 +1018,27 @@ pats_trans2_impdec_dats.o: pats_trans2_impdec_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 pats_trans2_decl_dats.c: pats_trans2_decl.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_trans2_decl_dats.o: pats_trans2_decl_dats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_codegen2_sats.c: pats_codegen2.sats; $(ATSCC) $(DATSCC) -cc $<
+pats_codegen2_sats.o: pats_codegen2_sats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_codegen2_dats.c: pats_codegen2.dats; $(ATSCC) $(DATSCC) -cc $<
+pats_codegen2_dats.o: pats_codegen2_dats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_codegen2_util_dats.c: pats_codegen2_util.dats; $(ATSCC) $(DATSCC) -cc $<
+pats_codegen2_util_dats.o: pats_codegen2_util_dats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_codegen2_datype_dats.c: pats_codegen2_datype.dats; $(ATSCC) $(DATSCC) -cc $<
+pats_codegen2_datype_dats.o: pats_codegen2_datype_dats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_codegen2_fprint_dats.c: pats_codegen2_fprint.dats; $(ATSCC) $(DATSCC) -cc $<
+pats_codegen2_fprint_dats.o: pats_codegen2_fprint_dats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_jsonize_synent2_sats.c: pats_jsonize_synent2.sats; $(ATSCC) $(DATSCC) -cc $<
+pats_jsonize_synent2_sats.o: pats_jsonize_synent2_sats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_jsonize_synent2_dats.c: pats_jsonize_synent2.dats; $(ATSCC) $(DATSCC) -cc $<
+pats_jsonize_synent2_dats.o: pats_jsonize_synent2_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 pats_dynexp3_sats.c: pats_dynexp3.sats; $(ATSCC) $(DATSCC) -cc $<
 pats_dynexp3_sats.o: pats_dynexp3_sats.c; $(ATSCC) $(CFLAGS) -c $<

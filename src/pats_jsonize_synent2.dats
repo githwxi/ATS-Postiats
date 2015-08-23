@@ -78,7 +78,7 @@ staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
-staload "./pats_synent2_jsonize.sats"
+staload "./pats_jsonize_synent2.sats"
 
 (* ****** ****** *)
 
@@ -1753,7 +1753,7 @@ jsonize_v2aldeclst
 (* ****** ****** *)
 
 implement
-d2eclist_export
+d2eclist_jsonize_out
   (out, d2cls) = let
 //
 val
@@ -1843,8 +1843,8 @@ val ((*void*)) = fprint_newline (out)
 //
 in
   // nothing
-end // end of [d2eclist_export]
+end // end of [d2eclist_jsonize_out]
 
 (* ****** ****** *)
 
-(* end of [pats_synent2_jsonize.dats] *)
+(* end of [pats_jsonize_synent2.dats] *)

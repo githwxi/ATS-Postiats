@@ -131,9 +131,11 @@ end // end of [staspecid_of_sqid]
 
 fun effvar_tr
   (efv: effvar): s2exp = let
-  val loc = efv.i0de_loc
-  val sym = efv.i0de_sym
-  val ans = the_s2expenv_find (sym)
+//
+val loc = efv.i0de_loc
+val sym = efv.i0de_sym
+val ans = the_s2expenv_find (sym)
+//
 in
 //
 case+ ans of
