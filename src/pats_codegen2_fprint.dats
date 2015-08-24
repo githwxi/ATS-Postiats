@@ -109,16 +109,119 @@ aux_datype
 , d2c0: d2ecl, s2c: s2cst, xs: e1xplst
 ) : void = let
 //
+fun
+auxfun
+(
+// argless
+) :<cloref1> void =
+(
+case+ xs of
+| list_nil() => auxfun0()
+| list_cons(x, _) => auxfun1(x)
+)
+//
+and
+auxfun0
+(
+// argless
+) :<cloref1> void = let
+//
+val sym = s2cst_get_sym(s2c)
+val name = $SYM.symbol_get_name(sym)
+//
+in
+  fprint! (out, "fprint_", name)
+end // end of [auxfun0]
+//
+and
+auxfun1
+(
+  x0: e1xp
+) :<cloref1> void =
+(
+case+
+x0.e1xp_node
+of // case+
+| $S1E.E1XPide(sym) =>
+    $SYM.fprint_symbol (out, sym)
+  // end of [E1XPide]
+| $S1E.E1XPstring(name) => fprint (out, name)
+| _(*rest-of-e1xp*) => auxfun0((*void*))
+)
+//
+fun
+auxcon
+(
+  d2c: d2con
+) :<cloref1> void = let
+//
+(*
+val () =
+println!
+  ("codegen2_datcon: aux_datype: auxcon: d2c = ", d2c)
+*)
+//
+val sym = d2con_get_sym(d2c)
+val name = $SYM.symbol_get_name(sym)
+//
+//
+in
+  fprint! (out, "| ", name, " _ => ");
+  auxfun(); fprintln! (out, "_", name, "(out, arg0)");
+end // end of [auxcon]
+//
+fun
+auxconlst
+(
+  d2cs: d2conlst
+) :<cloref1> void =
+(
+case+ d2cs of
+| list_nil() => ()
+| list_cons(d2c, d2cs) => (auxcon(d2c); auxconlst(d2cs))
+)
+//
 val-Some(d2cs) = s2cst_get_dconlst(s2c)
 //
+(*
 val () =
 println!
   ("codegen2_fprint: aux_datype: s2c = ", s2c)
 val () =
 println!
   ("codegen2_fprint: aux_datype: d2cs = ", d2cs)
+*)
+//
+val
+linesep =
+"(* ****** ****** *)\n"
+//
+val () =
+fprint!
+  (out, linesep, "//\n")
+val () =
+fprint! (out, "implement\n")
+//
+val () = auxfun()
+//
+val () =
+fprint! (out, "\n  ")
+val () =
+fprint! (out, "(out, arg0) =\n")
+//
+val () =
+fprint! (out, "(\n")
+val () =
+fprint! (out, "case+ arg0 of\n")
+//
+val () = auxconlst (d2cs)
+//
+val () = fprint! (out, ")\n")
+val () =
+fprint! (out, "//\n", linesep)
 //
 in
+  // nothing
 end // end of [aux_datype]
 
 in (* in-of-local *)

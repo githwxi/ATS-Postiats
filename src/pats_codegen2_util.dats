@@ -72,12 +72,15 @@ of // case+
 ) (* end of [aux_test] *)
 
 in (* in-of-local *)
-
+//
 implement
 datcon_test_e1xp(x0) = aux_test(x0, "datcon")
 implement
+datcontag_test_e1xp(x0) = aux_test(x0, "datcontag")
+//
+implement
 fprint_test_e1xp(x0) = aux_test(x0, "fprint")
-
+//
 end // end of [local]
 
 (* ****** ****** *)

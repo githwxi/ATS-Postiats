@@ -359,6 +359,18 @@ lemma_nth_ilisteq
 ) : ILISTEQ (xs1, xs2) // end of [lemma_nth_ilisteq]
 
 (* ****** ****** *)
+//
+(*
+// HX-2015-08-24: proven
+*)
+//
+prfun
+lemma_length_nth
+  {xs:ilist}
+  {n:int}{i:nat | i < n}
+  (pflen: LENGTH(xs, n)): [x:int] NTH(x, xs, i)
+//
+(* ****** ****** *)
 
 (*
 // HX-2012-12-14: proven

@@ -52,7 +52,11 @@ typedef d2eclist = $D2E.d2eclist
 //
 (* ****** ****** *)
 //
-fun datcon_test_e1xp(name: e1xp): bool
+fun
+datcon_test_e1xp(name: e1xp): bool
+fun
+datcontag_test_e1xp(name: e1xp): bool
+//
 fun fprint_test_e1xp(name: e1xp): bool
 //
 (* ****** ****** *)
@@ -74,10 +78,14 @@ codegen2_process
 //
 (*
 #codegen2(datcon, [datatype])
+#codegen2(datcontag, [datatype])
 *)
 //
 fun
 codegen2_datcon
+  (out: FILEref, d2c0: d2ecl, xs: e1xplst): void
+fun
+codegen2_datcontag
   (out: FILEref, d2c0: d2ecl, xs: e1xplst): void
 //
 (* ****** ****** *)
@@ -88,6 +96,16 @@ codegen2_datcon
 //
 fun
 codegen2_fprint
+  (out: FILEref, d2c0: d2ecl, xs: e1xplst): void
+//
+(* ****** ****** *)
+//
+(*
+#codegen2(traverse, [datatype])
+*)
+//
+fun
+codegen2_traverse
   (out: FILEref, d2c0: d2ecl, xs: e1xplst): void
 //
 (* ****** ****** *)

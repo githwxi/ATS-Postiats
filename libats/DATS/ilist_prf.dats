@@ -420,6 +420,37 @@ end // end of [lemma_nth_ilisteq]
 (* ****** ****** *)
 
 primplmnt
+lemma_length_nth
+  (pflen) = let
+//
+prfun
+lemma
+{xs:ilist}
+{n:int}{i:nat | i < n}
+  .<xs>.
+(
+  pflen: LENGTH(xs, n)
+) : [x:int] NTH(x, xs, i) = let
+//
+prval
+LENGTHcons(pflen1) = pflen
+//
+in
+//
+sif
+(i==0)
+then NTHbas()
+else NTHind(lemma{..}{..}{i-1}(pflen1))
+//
+end (* end of [lemma] *)
+//
+in
+  lemma(pflen)
+end // end of [lemma_length_nth]
+
+(* ****** ****** *)
+
+primplmnt
 revapp_istot
   {xs,ys} () = let
 //
