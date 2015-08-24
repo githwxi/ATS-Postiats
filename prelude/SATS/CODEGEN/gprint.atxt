@@ -26,8 +26,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-vtypedef
-RD(a:vt0p) = a // for commenting: read-only
 \#define NSH (x) x // for commenting: no sharing
 \#define SHR (x) x // for commenting: it is shared
 
@@ -50,7 +48,7 @@ gprint_newline(): void
 fun{a:t0p}
 gprint_val (x: a): void
 fun{a:vt0p}
-gprint_ref (x: &RD(a)): void
+gprint_ref (x: &INV(a)): void
 
 #atscode_separator()
 
@@ -96,7 +94,7 @@ fun{} gprint_array$sep(): void
 fun{a:t0p}
 gprint_array
   {n:int}
-  (A: &RD(@[INV(a)][n]), n: size_t(n)): void
+  (A: &(@[INV(a)][n]), n: size_t(n)): void
 // end of [gprint_array]
 fun{a:t0p}
 gprint_arrayptr

@@ -100,16 +100,6 @@ codegen2_fprint
 //
 (* ****** ****** *)
 //
-(*
-#codegen2(traverse, [datatype])
-*)
-//
-fun
-codegen2_traverse
-  (out: FILEref, d2c0: d2ecl, xs: e1xplst): void
-//
-(* ****** ****** *)
-//
 fun
 d2eclist_codegen_out(out: FILEref, d2cs: d2eclist): void
 //
