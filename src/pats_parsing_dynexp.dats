@@ -1367,7 +1367,7 @@ of // case+
     (* end of [if] *)
   end
 //
-| _ (* rest-of-d0exp0 *) => let
+| _ (* rest-of-tokens *) => let
     val tok =
       tokbuf_get_token(buf)
     val loc = tok.token_loc
@@ -1440,7 +1440,8 @@ of // case+
     val ent2 = p_d0exp0 (buf, bt, err)
   in
     if err = err0
-      then d0exp_raise (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+      then d0exp_raise (tok, ent2)
+      else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
 //
@@ -1452,8 +1453,9 @@ of // case+
     val ent4 = pif_fun (buf, bt, err, p_RBRACE, err0)
     val ent5 = pif_fun (buf, bt, err, p_d0exp1, err0)
   in
-    if err=err0 then
-      d0exp_effmask (tok, ent3, ent5) else tokbuf_set_ntok_null (buf, n0)
+    if err = err0
+      then d0exp_effmask (tok, ent3, ent5)
+      else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
 | T_DLREFFMASK_ARG(knd) => let
@@ -1461,8 +1463,9 @@ of // case+
     val () = incby1 ()
     val ent2 = p_d0exp0 (buf, bt, err)
   in
-    if err=err0 then
-      d0exp_effmask_arg (knd, tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    if err=err0
+      then d0exp_effmask_arg (knd, tok, ent2)
+      else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
 //

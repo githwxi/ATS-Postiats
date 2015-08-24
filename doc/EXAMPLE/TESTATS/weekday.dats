@@ -1,5 +1,6 @@
 //
-// A simple example of datatype
+// A simple example of
+// datatype and datavtype
 //
 (* ****** ****** *)
 //
@@ -13,15 +14,12 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 datatype
 weekday =
-| Monday of ()
-| Tuesday of ()
-| Wednesday of ()
-| Thursday of ()
-| Friday of ()
-
+| Monday of () | Tuesday of ()
+| Wednesday of () | Thursday of () | Friday of ()
+//
 (* ****** ****** *)
 //
 // HX: testing internal rep.
@@ -80,15 +78,12 @@ val () = assertloc (~isFriday2(Thursday))
 val () = assertloc ( isFriday2(Friday) )
 
 (* ****** ****** *)
-
+//
 datavtype
 weekday_vt =
-| Monday_vt of ()
-| Tuesday_vt of ()
-| Wednesday_vt of ()
-| Thursday_vt of ()
-| Friday_vt of ()
-
+| Monday_vt of () | Tuesday_vt of ()
+| Wednesday_vt of () | Thursday_vt of () | Friday_vt of ()
+//
 (* ****** ****** *)
 
 val-~Monday_vt () = Monday_vt ()

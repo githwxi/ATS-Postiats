@@ -727,9 +727,9 @@ typedef FILEref = FILEref_type
 (* ****** ****** *)
 //
 typedef
-fprint_type (a: t0p) = (FILEref, a) -> void
+fprint_type(a: t0p) = (FILEref, a) -> void
 typedef
-fprint_vtype (a: vt0p) = (FILEref, !a) -> void
+fprint_vtype(a: vt0p) = (FILEref, !a) -> void
 //
 (* ****** ****** *)
 
