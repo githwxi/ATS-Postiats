@@ -74,10 +74,11 @@ val () = fprint! (out, "(*\n")
 //
 val () =
 fprint! (
-  out, loc0, ": error(codegen2): #codegen2(datcon, ...)\n"
+  out, loc0
+, ": error(codegen2): no spec on datatype is given\n"
 ) (* end of [val] *)
 //
-val () = fprint! (out, "*)\n")
+val () = fprintln! (out, "*)")
 //
 } (* end of [auxerr_nil] *)
 
@@ -94,10 +95,11 @@ val () = fprint! (out, "(*\n")
 //
 val () =
 fprint! (
-  out, loc0, ": error(codegen2): #codegen2(datcon, ", x, ", ...)\n"
+  out, loc0
+, ": error(codegen2): no datatype of the given spec\n"
 ) (* end of [val] *)
 //
-val () = fprint! (out, "*)\n")
+val () = fprintln! (out, "*)")
 //
 } (* end of [auxerr_cons] *)
 
@@ -105,7 +107,7 @@ fun
 aux_datype
 (
   out: FILEref
-, d2c0: d2ecl, s2c: s2cst, xs: e1xplst
+, d2c0: d2ecl, s2dat: s2cst, xs: e1xplst
 ) : void = let
 //
 fun
@@ -114,7 +116,7 @@ auxfun0
 // argless
 ) :<cloref1> void = let
 //
-val sym = s2cst_get_sym(s2c)
+val sym = s2cst_get_sym(s2dat)
 val name = $SYM.symbol_get_name(sym)
 //
 in
@@ -143,12 +145,6 @@ auxcon
   d2c: d2con
 ) :<cloref1> void = let
 //
-(*
-val () =
-println!
-  ("codegen2_datcon: aux_datype: auxcon: d2c = ", d2c)
-*)
-//
 val sym = d2con_get_sym(d2c)
 val name = $SYM.symbol_get_name(sym)
 //
@@ -164,19 +160,20 @@ auxconlst
 (
 case+ d2cs of
 | list_nil() => ()
-| list_cons(d2c, d2cs) => (auxcon(d2c); auxconlst(d2cs))
+| list_cons(d2c, d2cs) =>
+  let val () = auxcon(d2c) in auxconlst(d2cs) end
 )
 //
-val name = s2cst_get_name(s2c)
-val-Some(d2cs) = s2cst_get_dconlst(s2c)
+val name = s2cst_get_name(s2dat)
+val-Some(d2cs) = s2cst_get_dconlst(s2dat)
 //
 (*
 val () =
 println!
-  ("codegen2_datcon: aux_datype: s2c = ", s2c)
+  ("codegen2_datcon: aux_datype: s2dat = ", s2dat)
 val () =
 println!
-  ("codegen2_datcon: aux_datype: d2cs = ", d2cs)
+  ("codegen2_datcon: aux_datype: d2conlst = ", d2cs)
 *)
 //
 val
@@ -237,7 +234,7 @@ case+ xs of
   in
     case+ opt of
     | ~None_vt() => auxerr_cons(out, d2c0, x)
-    | ~Some_vt(s2c) => aux_datype(out, d2c0, s2c, xs)
+    | ~Some_vt(s2dat) => aux_datype(out, d2c0, s2dat, xs)
   end // end of [list_cons]
 //
 end // end of [codegen2_datcon]
@@ -260,7 +257,8 @@ val () = fprint! (out, "(*\n")
 //
 val () =
 fprint! (
-  out, loc0, ": error(codegen2): #codegen2(datcontag, ...)\n"
+  out, loc0
+, ": error(codegen2): no spec on datatype is given\n"
 ) (* end of [val] *)
 //
 val () = fprint! (out, "*)\n")
@@ -280,7 +278,8 @@ val () = fprint! (out, "(*\n")
 //
 val () =
 fprint! (
-  out, loc0, ": error(codegen2): #codegen2(datcontag, ", x, ", ...)\n"
+  out, loc0
+, ": error(codegen2): no datatype of the given spec\n"
 ) (* end of [val] *)
 //
 val () = fprint! (out, "*)\n")
@@ -291,7 +290,7 @@ fun
 aux_datype
 (
   out: FILEref
-, d2c0: d2ecl, s2c: s2cst, xs: e1xplst
+, d2c0: d2ecl, s2dat: s2cst, xs: e1xplst
 ) : void = let
 //
 fun
@@ -300,7 +299,7 @@ auxfun0
 // argless
 ) :<cloref1> void = let
 //
-val sym = s2cst_get_sym(s2c)
+val sym = s2cst_get_sym(s2dat)
 val name = $SYM.symbol_get_name(sym)
 //
 in
@@ -329,12 +328,6 @@ auxcon
   d2c: d2con
 ) :<cloref1> void = let
 //
-(*
-val () =
-println!
-  ("codegen2_datcontag: aux_datype: auxcon: d2c = ", d2c)
-*)
-//
 val sym = d2con_get_sym(d2c)
 val tag = d2con_get_tag(d2c)
 val name = $SYM.symbol_get_name(sym)
@@ -351,19 +344,20 @@ auxconlst
 (
 case+ d2cs of
 | list_nil() => ()
-| list_cons(d2c, d2cs) => (auxcon(d2c); auxconlst(d2cs))
+| list_cons(d2c, d2cs) =>
+  let val () = auxcon(d2c) in auxconlst(d2cs) end
 )
 //
-val name = s2cst_get_name(s2c)
-val-Some(d2cs) = s2cst_get_dconlst(s2c)
+val name = s2cst_get_name(s2dat)
+val-Some(d2cs) = s2cst_get_dconlst(s2dat)
 //
 (*
 val () =
 println!
-  ("codegen2_datcontag: aux_datype: s2c = ", s2c)
+  ("codegen2_datcontag: aux_datype: s2dat = ", s2dat)
 val () =
 println!
-  ("codegen2_datcontag: aux_datype: d2cs = ", d2cs)
+  ("codegen2_datcontag: aux_datype: d2conlst = ", d2cs)
 *)
 //
 val
@@ -425,7 +419,7 @@ case+ xs of
   in
     case+ opt of
     | ~None_vt() => auxerr_cons(out, d2c0, x)
-    | ~Some_vt(s2c) => aux_datype(out, d2c0, s2c, xs)
+    | ~Some_vt(s2dat) => aux_datype(out, d2c0, s2dat, xs)
   end // end of [list_cons]
 //
 end // end of [codegen2_datcontag]

@@ -32,15 +32,19 @@
 // Start Time: August, 2015
 //
 (* ****** ****** *)
-
+//
 staload
 SYM = "./pats_symbol.sats"
-
+//
+overload
+fprint with $SYM.fprint_symbol
+//
 (* ****** ****** *)
 //
 staload "./pats_staexp1.sats"
 //
 staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
 //
 staload "./pats_trans2_env.sats"
 //
@@ -159,6 +163,132 @@ case+ opt of
 | ~None_vt((*void*)) => None_vt()
 //
 end // end of [codegen2_get_datype]
+
+(* ****** ****** *)
+
+local
+
+fun
+aux_find
+(
+  name: symbol
+) : Option_vt(d2cst) = let
+//
+val ans = the_d2expenv_find (name)
+//
+in
+//
+case+ ans of
+//
+| ~Some_vt(d2i) => (
+  case+ d2i of
+  | D2ITMcst(d2c) => Some_vt(d2c)
+  | _ (*non-D2ITMcst*) => None_vt()
+  ) (* end of [Some_vt] *)
+//
+| ~None_vt((*void*)) => None_vt()
+//
+end // end of [aux_find]
+
+in (* in-of-local *)
+
+implement
+codegen2_get_d2cst
+  (x0) = let
+(*
+//
+val () =
+println!
+  ("codegen2_get_d2cst: x0 = ", x0)
+//
+*)
+in
+//
+case+
+x0.e1xp_node
+of // case+
+//
+| E1XPide(name) => aux_find(name)
+//
+| _(*rest-of-e1xp*) => None_vt((*void*))
+//
+end // end of [codegen2_get_d2cst]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun
+aux_s2qua
+(
+  out: FILEref
+, lpar: string, rpar: string, s2q: s2qua
+) : void = let
+//
+fun
+auxlst
+(
+  s2vs: s2varlst
+) :<cloref1> void =
+(
+case+ s2vs of
+| list_nil() => ()
+| list_cons(s2v, s2vs) =>
+  (
+    fprint(out, s2var_get_sym(s2v)); auxlst(s2vs)
+  )
+)
+//
+in
+  fprint(out, lpar); auxlst(s2q.s2qua_svs); fprint(out, rpar)
+end // end of [aux_s2qua]
+
+fun
+aux_s2qualst
+(
+  out: FILEref
+, lpar: string, rpar: string, s2qs: s2qualst
+) : void =
+(
+case+ s2qs of
+| list_nil() => ()
+| list_cons
+    (s2q, s2qs) => () where
+  {
+    val () = aux_s2qua(out, lpar, rpar, s2q)
+    val () = aux_s2qualst(out, lpar, rpar, s2qs)
+  }
+) (* end of [aux_s2qualst] *)
+
+in (* in-of-local *)
+
+implement
+codegen2_emit_tmpcstapp
+  (out, d2cf) = let
+//
+val s2qs = d2cst_get_decarg(d2cf)
+//
+in
+//
+aux_s2qualst(out, "<", ">", s2qs)
+//
+end // end of [codegen2_emit_tmpcstapp]
+
+implement
+codegen2_emit_tmpcstimp
+  (out, d2cf) = let
+//
+val s2qs = d2cst_get_decarg(d2cf)
+//
+in
+//
+aux_s2qualst(out, "{", "}", s2qs)
+//
+end // end of [codegen2_emit_tmpcstimp]
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -47,6 +47,7 @@ staload
 D2E = "pats_dynexp2.sats"
 //
 typedef s2cst = $S2E.s2cst
+typedef d2cst = $D2E.d2cst
 typedef d2ecl = $D2E.d2ecl
 typedef d2eclist = $D2E.d2eclist
 //
@@ -67,6 +68,21 @@ codegen2_get_s2cst
 fun
 codegen2_get_datype
   (name: e1xp): Option_vt(s2cst)
+//
+(* ****** ****** *)
+//
+fun
+codegen2_get_d2cst
+  (name: e1xp): Option_vt(d2cst)
+//
+(* ****** ****** *)
+//
+fun
+codegen2_emit_tmpcstapp
+  (out: FILEref, d2cf: d2cst): void
+fun
+codegen2_emit_tmpcstimp
+  (out: FILEref, d2cf: d2cst): void
 //
 (* ****** ****** *)
 //
