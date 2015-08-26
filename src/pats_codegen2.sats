@@ -47,6 +47,7 @@ staload
 D2E = "pats_dynexp2.sats"
 //
 typedef s2cst = $S2E.s2cst
+typedef s2exp = $S2E.s2exp
 typedef d2cst = $D2E.d2cst
 typedef d2ecl = $D2E.d2ecl
 typedef d2eclist = $D2E.d2eclist
@@ -83,6 +84,15 @@ codegen2_emit_tmpcstapp
 fun
 codegen2_emit_tmpcstimp
   (out: FILEref, d2cf: d2cst): void
+fun
+codegen2_emit_tmpcstdec
+  (out: FILEref, d2cf: d2cst): void
+//
+(* ****** ****** *)
+//
+fun
+codegen2_emit_s2exp
+  (out: FILEref, s2e0: s2exp): void
 //
 (* ****** ****** *)
 //

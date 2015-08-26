@@ -292,4 +292,81 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+codegen2_emit_tmpcstdec
+  (out, d2cf) = let
+//
+fun
+aux
+(
+  s2q: s2qua
+) :<cloref1> void = let
+//
+fun
+fprs2t
+(
+  out: FILEref, s2t: s2rt
+) : void = (
+//
+if s2rt_is_prgm(s2t) then
+{
+  val () =
+  if s2rt_is_lin(s2t) then fprint(out, "vt0p")
+  val () =
+  if s2rt_is_nonlin(s2t) then fprint(out, "t0p")
+}
+//
+) (* end of [fprs2t] *)
+//
+fun
+loop
+(
+  s2vs: s2varlst
+) :<cloref1> void =
+(
+case+ s2vs of
+| list_nil() => ()
+| list_cons
+    (s2v, s2vs) => let
+    val sym = s2var_get_sym(s2v)
+    val s2t = s2var_get_srt(s2v)
+  in
+    fprint(out, sym);
+    fprint(out, ":");
+    fprs2t(out, s2t); loop(s2vs)
+  end // end of [list_cons]
+)
+//
+val s2vs = s2q.s2qua_svs
+//
+in
+  fprint(out, "{"); loop(s2vs); fprint(out, "}");
+end // end of [aux]
+
+fun
+auxlst
+(
+  s2qs: s2qualst
+) :<cloref1> void =
+(
+case+ s2qs of
+| list_nil() => ()
+| list_cons(s2q, s2qs) => (aux(s2q); auxlst(s2qs))
+) (* end of [auxlst] *)
+//
+in
+  auxlst(d2cst_get_decarg(d2cf))
+end // end of [codegen2_emit_tmpcstdec]
+
+(* ****** ****** *)
+//
+implement
+codegen2_emit_s2exp
+  (out, s2e0) = let
+in
+  fprint_s2exp(out, s2e0)
+end // codegen2_emit_s2exp
+//
+(* ****** ****** *)
+
 (* end of [pats_codegen2_util.dats] *)

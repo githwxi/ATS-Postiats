@@ -203,6 +203,10 @@ aux_datype_d2cf
 ) : void = let
 //
 val
+linesep =
+"(* ****** ****** *)"
+//
+val
 fname = d2cst_get_name(d2cf)
 //
 fun
@@ -236,24 +240,100 @@ case+ d2cs of
   let val () = auxcon(d2c) in auxconlst(d2cs) end
 )
 //
+fun
+auxsep
+(
+// argless
+):<cloref1> void =
+{
+//
+val () =
+fprint!
+(
+  out, "//\nextern\nfun{}\n"
+) (* end of [val] *)
+val () =
+fprintln! (out, fname, "$sep: (FILEref) -> void")
+val () =
+fprint! (out, "implement{}\n")
+val () =
+fprintln! (out, fname, "$sep(out) = fprint(out, \",\")")
+//
+} (* end of [auxsep] *)
+//
+fun
+auxcarg
+(
+// argless
+):<cloref1> void =
+{
+//
+val () =
+fprint!
+( out
+, "//\nextern\nfun{a:t0p}\n"
+) (* end of [val] *)
+val () =
+fprintln! (out, fname, "$carg: (FILEref, INV(a)) -> void")
+val () =
+fprint! (out, "implement{a}\n")
+val () =
+fprintln! (out, fname, "$carg(out, arg) = fprint_val<a>(out, arg)")
+//
+} (* end of [auxcarg] *)
+//
+fun
+auxlpar
+(
+// argless
+):<cloref1> void =
+{
+//
+val () =
+fprint!
+(
+  out, "//\nextern\nfun{}\n"
+) (* end of [val] *)
+val () =
+fprintln! (out, fname, "$lpar: (FILEref) -> void")
+val () =
+fprint! (out, "implement{}\n")
+val () =
+fprintln! (out, fname, "$lpar(out) = fprint(out, \"(\")")
+//
+} (* end of [auxlpar] *)
+fun
+auxrpar
+(
+// argless
+):<cloref1> void =
+{
+//
+val () =
+fprint!
+(
+  out, "//\nextern\nfun{}\n"
+) (* end of [val] *)
+val () =
+fprintln! (out, fname, "$rpar: (FILEref) -> void")
+val () =
+fprint! (out, "implement{}\n")
+val () =
+fprintln! (out, fname, "$rpar(out) = fprint(out, \")\")")
+//
+} (* end of [auxrpar] *)
+//
 val-
 Some(d2cs) =
 s2cst_get_dconlst(s2dat)
-//
-val
-linesep =
-"(* ****** ****** *)"
 //
 val () =
 fprint!
   (out, linesep, "\n//\n")
 val () =
-fprint! (out, "implement\n")
-//
-val () =
-  codegen2_emit_tmpcstimp(out, d2cf)
-val () =
-  if d2cst_is_tmpcst(d2cf) then fprintln! (out)
+fprint(out, "implement")
+val () = codegen2_emit_tmpcstimp(out, d2cf)
+val () = fprintln! (out)
 //
 val () =
 fprint! (out, fname)
@@ -274,9 +354,401 @@ val () = fprint! (out, ")\n")
 val () =
 fprintln! (out, "//\n", linesep)
 //
+val () = auxsep ()
+val () = auxlpar ()
+val () = auxrpar ()
+val () = auxcarg ()
+//
+val () =
+fprintln! (out, "//\n", linesep)
+//
+val () =
+aux_datype_d2cf_conlst(out, d2c0, s2dat, d2cf, d2cs)
+//
 in
   // nothing
 end // end of [aux_datype_d2cf]
+
+and
+aux_datype_d2cf_con
+(
+  out: FILEref
+, d2c0: d2ecl, s2dat: s2cst, d2cf: d2cst, d2cn: d2con
+) : void = let
+//
+val
+fname = d2cst_get_name(d2cf)
+//
+val
+ftype = d2cst_get_type(d2cf)
+//
+val
+cname = d2con_get_name(d2cn)
+//
+val narg = d2con_get_arity_real(d2cn)
+//
+fun
+auxcon1
+(
+// argless
+) :<cloref1> void =
+{
+//
+val () =
+fprint(out, "extern\nfun")
+val () =
+codegen2_emit_tmpcstdec(out, d2cf)
+val () = fprint(out, "\n")
+val () =
+fprint! (out, fname, "$", cname, "$con")
+val () =
+fprint! (out, ": $mytype(", fname)
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val ((*closing*)) = fprintln! (out, ")")
+//
+}
+//
+fun
+auxlpar1
+(
+// argless
+) :<cloref1> void =
+{
+//
+val () =
+fprint(out, "extern\nfun")
+val () =
+codegen2_emit_tmpcstdec(out, d2cf)
+val () = fprint(out, "\n")
+val () =
+fprint! (out, fname, "$", cname, "$lpar")
+val () =
+fprint! (out, ": $mytype(", fname)
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val ((*closing*)) = fprintln! (out, ")")
+//
+}
+//
+fun
+auxrpar1
+(
+// argless
+) :<cloref1> void =
+{
+//
+val () =
+fprint(out, "extern\nfun")
+val () =
+codegen2_emit_tmpcstdec(out, d2cf)
+val () = fprint(out, "\n")
+val () =
+fprint! (out, fname, "$", cname, "$rpar")
+val () =
+fprint! (out, ": $mytype(", fname)
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val ((*closing*)) = fprintln! (out, ")")
+//
+}
+//
+fun
+auxcon2
+(
+// argless
+) :<cloref1> void =
+{
+//
+val () =
+fprint! (out, "val () = ")
+val () =
+fprint! (out, fname, "$", cname, "$con")
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val () = fprintln! (out, "(out, arg0)")
+//
+}
+fun
+auxlpar2
+(
+// argless
+) :<cloref1> void =
+{
+//
+val () =
+fprint! (out, "val () = ")
+val () =
+fprint!
+  (out, fname, "$", cname, "$lpar")
+//
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val () = fprintln! (out, "(out, arg0)")
+//
+}
+//
+fun
+auxrpar2
+(
+// argless
+) :<cloref1> void =
+{
+//
+val () =
+fprint! (out, "val () = ")
+val () =
+fprint!
+  (out, fname, "$", cname, "$rpar")
+//
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val () = fprintln! (out, "(out, arg0)")
+//
+}
+//
+fun
+auxsep2_n
+(
+  n: int
+) :<cloref1> void =
+{
+//
+val () =
+fprint! (out, "val () = ")
+val () =
+fprint!
+  (out, fname, "$", cname, "$sep", n)
+//
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val () = fprintln! (out, "(out, arg0)")
+//
+}
+fun
+auxarg2_n
+(
+  n: int
+) :<cloref1> void =
+{
+//
+val () =
+fprint! (out, "val () = ")
+val () =
+fprint!
+  (out, fname, "$", cname, "$arg", n)
+//
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val () = fprintln! (out, "(out, arg0)")
+//
+}
+//
+fun
+auxbody2
+(
+  n0: int, n: int
+) :<cloref1> void =
+(
+//
+if
+n < narg
+then let
+  val () =
+  if n > n0
+    then auxsep2_n(n)
+  // end of [val]
+  val () = auxarg2_n(n+1)
+in
+  auxbody2(n0, n+1)
+end // end of [then]
+else () // end of [else]
+//
+) (* end of [auxbody2] *)
+//
+fun
+auxcon3
+(
+// argless
+) :<cloref1> void =
+{
+//
+val () =
+fprint(out, "implement")
+val () =
+codegen2_emit_tmpcstimp(out, d2cf)
+val () = fprintln! (out)
+//
+val () =
+fprint!
+  (out, fname, "$", cname, "$con(out, _) = ")
+val () =
+fprintln! (out, "fprint(out, \"", cname, "\")")
+//
+} (* end of [auxcon3] *)
+//
+fun
+auxlpar3
+(
+// argless
+) :<cloref1> void =
+{
+//
+val () =
+fprint(out, "implement")
+val () =
+codegen2_emit_tmpcstimp(out, d2cf)
+val () = fprintln! (out)
+val () =
+fprintln!
+  (out, fname, "$", cname, "$lpar(out, _) = ", fname, "$lpar(out)")
+//
+} (* end of [auxlpar3] *)
+//
+fun
+auxrpar3
+(
+// argless
+) :<cloref1> void =
+{
+//
+val () =
+fprint(out, "implement")
+val () =
+codegen2_emit_tmpcstimp(out, d2cf)
+val () = fprintln! (out)
+val () =
+fprintln!
+  (out, fname, "$", cname, "$rpar(out, _) = ", fname, "$rpar(out)")
+//
+} (* end of [auxrpar3] *)
+//
+fun
+auxsep3_n
+(
+  n: int
+) :<cloref1> void =
+{
+//
+val () =
+fprint(out, "implement")
+val () =
+codegen2_emit_tmpcstimp(out, d2cf)
+val () = fprintln! (out)
+val () =
+fprintln!
+  (out, fname, "$", cname, "$sep", n, "(out, _) = ", fname, "$sep<>(out)")
+//
+} (* end of [auxsep3_n] *)
+//
+fun
+auxpat3_n
+(
+  n: int
+) :<cloref1> void = let
+//
+fun
+aux(i: int):<cloref1> void =
+(
+if
+(i <= narg)
+then let
+  val () =
+  if i > 1
+    then fprint(out, ", ")
+  // end of [val]
+  val () =
+  if (i = n)
+    then fprint!(out, "arg", n)
+  // end of [val]
+  val () =
+  if (i != n) then fprint(out, "_")
+in
+  aux(i+1)
+end // end of [then]
+else () // end of [else]
+)
+//
+in
+  fprint!(out, cname, "("); aux(1); fprint(out, ")")
+end // end of [auxpat3_n]
+//
+fun
+auxarg3_n
+(
+  n: int
+) :<cloref1> void =
+{
+//
+val () =
+fprint(out, "implement")
+val () =
+codegen2_emit_tmpcstimp(out, d2cf)
+val () = fprintln! (out)
+val () =
+fprintln!
+  (out, fname, "$", cname, "$arg", n, "(out, arg0) =")
+//
+val () =
+fprint
+  (out, "  let val-")
+//
+val () = auxpat3_n(n)
+//
+val () =
+fprintln! (out, " = arg0 in ", fname, "$carg(out, arg", n, ") end")
+//
+} (* end of [auxarg3_n] *)
+//
+val () =
+fprint(out, "//\n")
+//
+val () = auxcon1()
+val () = auxlpar1()
+val () = auxrpar1()
+//
+val () =
+fprint(out, "//\n")
+//
+val () =
+fprint(out, "implement")
+val () =
+codegen2_emit_tmpcstimp(out, d2cf)
+val () = fprintln! (out)
+//
+val () =
+fprintln! (out, fname, "$", cname, "(out, arg0) = ")
+//
+val () = fprintln! (out, "{\n//")
+val () = auxcon2()
+val () = auxlpar2()
+val () = auxbody2(0, 0)
+val () = auxrpar2()
+val () = fprintln! (out, "//\n}")
+//
+val () = auxcon3()
+val () = auxlpar3()
+val () = auxrpar3()
+val () = loop(1) where
+{
+  fun loop(n: int):<cloref1> void = if n < narg then (auxsep3_n(n); loop(n+1))
+}
+val () = loop(1) where
+{
+  fun loop(n: int):<cloref1> void = if n <= narg then (auxarg3_n(n); loop(n+1))
+}
+//
+in
+  // nothing
+end // end of [aux_datype_d2cf_con]
+
+and
+aux_datype_d2cf_conlst
+(
+  out: FILEref
+, d2c0: d2ecl, s2dat: s2cst, d2cf: d2cst, xs: d2conlst
+) : void =
+(
+case+ xs of
+| list_nil() => ()
+| list_cons(x, xs) =>
+  {
+    val () = aux_datype_d2cf_con(out, d2c0, s2dat, d2cf, x)
+    val () = aux_datype_d2cf_conlst(out, d2c0, s2dat, d2cf, xs)
+  }
+) (* end of [aux_datype_d2cf_conlst] *)
 
 in (* in-of-local *)
 

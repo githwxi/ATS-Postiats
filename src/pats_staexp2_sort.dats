@@ -353,13 +353,13 @@ case+ s2t of
 (* ****** ****** *)
 
 implement
-s2rt_is_fun (s2t) =
+s2rt_is_fun(s2t) =
 (
   case+ s2t of S2RTfun _ => true | _ => false
 ) // end of [s2rt_is_fun]
 
 implement
-s2rt_is_prf (s2t) =
+s2rt_is_prf(s2t) =
 (
 case+ s2t of
 | S2RTbas s2tb => (
@@ -369,22 +369,34 @@ case+ s2t of
 | _ => false // end of [_]
 ) // end of [s2rt_is_prf]
 
+(* ****** ****** *)
+
 implement
-s2rt_is_lin (s2t) =
+s2rt_is_lin(s2t) =
 (
 case+ s2t of
 | S2RTbas s2tb => (
   case+ s2tb of
-  | S2RTBASimp (knd, _) => test_linkind (knd) | _ => false
+  | S2RTBASimp (knd, _) => test_linkind(knd) | _ => false
   ) // end of [S2RTbas]
 | _ => false // end of [_]
 ) // end of [s2rt_is_lin]
 
 implement
-s2rt_is_nonlin (s2t) = not (s2rt_is_lin (s2t))
+s2rt_is_nonlin(s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASimp (knd, _) => not(test_linkind(knd)) | _ => false
+  ) // end of [S2RTbas]
+| _ => false // end of [_]
+) // end of [s2rt_is_nonlin]
+
+(* ****** ****** *)
 
 implement
-s2rt_is_flat (s2t) =
+s2rt_is_flat(s2t) =
 (
 case+ s2t of
 | S2RTbas s2tb => (
@@ -395,7 +407,7 @@ case+ s2t of
 ) // end of [s2rt_is_flat]
 
 implement
-s2rt_is_boxed (s2t) =
+s2rt_is_boxed(s2t) =
 (
 case+ s2t of
 | S2RTbas s2tb => (
@@ -405,8 +417,10 @@ case+ s2t of
 | _ => false // end of [_]
 ) // end of [s2rt_is_boxed]
 
+(* ****** ****** *)
+
 implement
-s2rt_is_prgm (s2t) =
+s2rt_is_prgm(s2t) =
 (
 case+ s2t of
 | S2RTbas s2tb => (
@@ -416,8 +430,10 @@ case+ s2t of
 | _ => false // end of [_]
 ) // end of [s2rt_is_prgm]
 
+(* ****** ****** *)
+
 implement
-s2rt_is_impred (s2t) =
+s2rt_is_impred(s2t) =
 (
 case+ s2t of
 | S2RTbas s2tb => (
@@ -446,13 +462,16 @@ case+ s2t of
 
 local
 
-fun s2rt_test_fun
-  (s2t: s2rt, f: s2rt -> bool): bool = (
+fun
+s2rt_test_fun
+(
+  s2t: s2rt, f: s2rt -> bool
+): bool = (
   case+ s2t of
   | S2RTfun (_, s2t) => s2rt_test_fun (s2t, f) | _ => f (s2t)
 ) // end of [s2rt_test_fun]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 s2rt_is_lin_fun
@@ -511,7 +530,7 @@ local
 //
 assume s2rtVar = ref (s2rtnul)
 //
-in // in of [local]
+in (* in-of-local *)
 
 implement
 eq_s2rtVar_s2rtVar
@@ -536,77 +555,115 @@ end // end of [s2rtVar_make]
 
 implement
 s2rt_delink (s2t0) = let
-  fun aux (s2t0: s2rt): s2rt =
-    case+ s2t0 of
-    | S2RTVar ref => let
-        val s2t = !ref
-        val test = s2rtnul_isnot_null (s2t)
+//
+fun
+aux
+(
+  s2t0: s2rt
+) : s2rt =
+(
+case+ s2t0 of
+| S2RTVar ref => let
+    val s2t = !ref
+    val test =
+      s2rtnul_isnot_null(s2t)
+    // end of [val]
+  in
+    if test
+      then let
+        val s2t =
+          s2rtnul_unsome(s2t)
+        val s2t = aux (s2t)
+        val ((*void*)) =
+          !ref := s2rtnul_some(s2t)
       in
-        if test then let
-          val s2t = s2rtnul_unsome (s2t)
-          val s2t = aux (s2t)
-          val () = !ref := s2rtnul_some (s2t)
-        in
-          s2t
-        end else s2t0
-      end (* S2RTVar *)
-    | _ => s2t0 // end of [_]
-  // end of [aux]
+        s2t
+      end // end of [then]
+      else s2t0 // end of [else]
+    // end of [if]
+  end (* S2RTVar *)
+| _ (*non-S2RTVar*) => s2t0
+) (* end of [aux] *)
+//
 in
   aux (s2t0)
 end // end of [s2rt_delink]
 
 implement
-s2rt_delink_all (s2t0) = let
+s2rt_delink_all
+  (s2t0) = let
 //
-  fun aux (
-    s2t0: s2rt, flag: &int
-  ) : s2rt =
-    case+ s2t0 of
-    | S2RTfun (s2ts, s2t) => let
-        val flag0 = flag
-        val s2ts = auxlst (s2ts, flag)
+fun
+aux (
+  s2t0: s2rt, flag: &int
+) : s2rt =
+(
+case+ s2t0 of
+| S2RTfun
+    (s2ts, s2t) => let
+    val
+    flag0 = flag
+    val s2t = aux(s2t, flag)
+    val s2ts = auxlst(s2ts, flag)
+  in
+    if flag > flag0
+      then S2RTfun (s2ts, s2t) else s2t0
+    // end of [if]
+  end
+| S2RTtup(s2ts) => let
+    val
+    flag0 = flag
+    val s2ts = auxlst (s2ts, flag)
+  in
+    if flag > flag0 then S2RTtup (s2ts) else s2t0
+  end
+| S2RTVar (ref) => let
+    val s2t = !ref
+    val isnotnull =
+      s2rtnul_isnot_null (s2t)
+    // end of [val]
+  in
+    if isnotnull
+      then let
+        val s2t =
+          s2rtnul_unsome(s2t)
         val s2t = aux (s2t, flag)
+        val ((*void*)) =
+          !ref := s2rtnul_some(s2t)
+        // end of [val]
       in
-        if flag > flag0 then S2RTfun (s2ts, s2t) else s2t0
-      end
-    | S2RTtup (s2ts) => let
-        val flag0 = flag
-        val s2ts = auxlst (s2ts, flag)
-      in
-        if flag > flag0 then S2RTtup (s2ts) else s2t0
-      end
-    | S2RTVar ref => let
-        val s2t = !ref
-        val isnotnull = s2rtnul_isnot_null (s2t)
-      in
-        if isnotnull then let
-          val s2t = s2rtnul_unsome (s2t)
-          val s2t = aux (s2t, flag)
-          val () = !ref := s2rtnul_some (s2t)
-          val () = flag := flag + 1
-        in
-          s2t
-        end else s2t0 // end of [if]
-      end (* S2RTVar *)
-    | _ => s2t0
-  (* end of [aux] *)
+        flag := flag + 1; s2t
+      end // end of [then]
+      else s2t0 // end of [else]
+    // end of [if]
+  end (* S2RTVar *)
+| _ (*rest-of-s2rt*) => s2t0
+) (* end of [aux] *)
 //
-  and auxlst (
-    s2ts0: s2rtlst, flag: &int
-  ) : s2rtlst =
-    case+ s2ts0 of
-    | list_cons (s2t, s2ts) => let
-        val flag0 = flag
-        val s2t = aux (s2t, flag)
-        val s2ts = auxlst (s2ts, flag)
-      in
-        if flag > flag0 then list_cons (s2t, s2ts) else s2ts0
-      end
-    | list_nil () => list_nil ()
-  (* end if [auxlst] *)
+and
+auxlst
+(
+  s2ts0: s2rtlst, flag: &int
+) : s2rtlst = (
 //
-  var flag: int = 0
+case+ s2ts0 of
+| list_nil
+    ((*void*)) => list_nil()
+| list_cons
+    (s2t, s2ts) => let
+    val
+    flag0 = flag
+    val s2t = aux (s2t, flag)
+    val s2ts = auxlst (s2ts, flag)
+  in
+    if flag > flag0
+      then list_cons(s2t, s2ts) else s2ts0
+    // end of [if]
+  end // end of [list_cons]
+//
+) (* end if [auxlst] *)
+//
+var flag: int = 0
 //
 in
   aux (s2t0, flag)
