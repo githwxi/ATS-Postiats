@@ -20,11 +20,19 @@ fun datcontag_weekday: (weekday) -> natLt(7)
 overload datcon with datcon_weekday
 overload datcontag with datcontag_weekday
 //
-(* ****** ****** *)
-
 #codegen2(datcon, weekday, datcon_weekday)
 #codegen2(datcontag, weekday, datcontag_weekday)
-
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_weekday: (FILEref, weekday) -> void
+//
+(*
+#codegen2(fprint, weekday, fprint_weekday)
+*)
+//
 (* ****** ****** *)
 
 implement main0() =
