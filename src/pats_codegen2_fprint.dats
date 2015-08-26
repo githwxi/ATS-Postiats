@@ -351,19 +351,19 @@ fprintln! (out, "case+ arg0 of")
 val () = auxconlst (d2cs) // clauses
 //
 val () = fprint! (out, ")\n")
-val () =
-fprintln! (out, "//\n", linesep)
+val () = fprintln! (out, "//\n", linesep)
 //
 val () = auxsep ()
 val () = auxlpar ()
 val () = auxrpar ()
 val () = auxcarg ()
 //
-val () =
-fprintln! (out, "//\n", linesep)
+val () = fprintln! (out, "//\n", linesep)
 //
 val () =
 aux_datype_d2cf_conlst(out, d2c0, s2dat, d2cf, d2cs)
+//
+val () = fprintln! (out, "//\n", linesep)
 //
 in
   // nothing
