@@ -451,6 +451,48 @@ val ((*closing*)) = fprintln! (out, ")")
 }
 //
 fun
+auxsep1_n
+(
+  n: int
+) :<cloref1> void =
+{
+//
+val () =
+fprint(out, "extern\nfun")
+val () =
+codegen2_emit_tmpcstdec(out, d2cf)
+val () = fprint(out, "\n")
+val () =
+fprint! (out, fname, "$", cname, "$sep", n)
+val () =
+fprint! (out, ": $mytype(", fname)
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val ((*closing*)) = fprintln! (out, ")")
+//
+}
+//
+fun
+auxarg1_n
+(
+  n: int
+) :<cloref1> void =
+{
+//
+val () =
+fprint(out, "extern\nfun")
+val () =
+codegen2_emit_tmpcstdec(out, d2cf)
+val () = fprint(out, "\n")
+val () =
+fprint! (out, fname, "$", cname, "$arg", n)
+val () =
+fprint! (out, ": $mytype(", fname)
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val ((*closing*)) = fprintln! (out, ")")
+//
+}
+//
+fun
 auxcon2
 (
 // argless
@@ -698,6 +740,14 @@ fprint(out, "//\n")
 val () = auxcon1()
 val () = auxlpar1()
 val () = auxrpar1()
+val () = loop(1) where
+{
+  fun loop(n: int):<cloref1> void = if n < narg then (auxsep1_n(n); loop(n+1))
+}
+val () = loop(1) where
+{
+  fun loop(n: int):<cloref1> void = if n <= narg then (auxarg1_n(n); loop(n+1))
+}
 //
 val () =
 fprint(out, "//\n")
