@@ -402,7 +402,7 @@ val () = fprint(out, "\n")
 val () =
 fprint! (out, fname, "$", cname, "$con")
 val () =
-fprint! (out, ": $mytype(", fname)
+fprint! (out, ": $d2ctype(", fname)
 val () = codegen2_emit_tmpcstapp(out, d2cf)
 val ((*closing*)) = fprintln! (out, ")")
 //
@@ -423,7 +423,7 @@ val () = fprint(out, "\n")
 val () =
 fprint! (out, fname, "$", cname, "$lpar")
 val () =
-fprint! (out, ": $mytype(", fname)
+fprint! (out, ": $d2ctype(", fname)
 val () = codegen2_emit_tmpcstapp(out, d2cf)
 val ((*closing*)) = fprintln! (out, ")")
 //
@@ -444,7 +444,7 @@ val () = fprint(out, "\n")
 val () =
 fprint! (out, fname, "$", cname, "$rpar")
 val () =
-fprint! (out, ": $mytype(", fname)
+fprint! (out, ": $d2ctype(", fname)
 val () = codegen2_emit_tmpcstapp(out, d2cf)
 val ((*closing*)) = fprintln! (out, ")")
 //
@@ -465,7 +465,7 @@ val () = fprint(out, "\n")
 val () =
 fprint! (out, fname, "$", cname, "$sep", n)
 val () =
-fprint! (out, ": $mytype(", fname)
+fprint! (out, ": $d2ctype(", fname)
 val () = codegen2_emit_tmpcstapp(out, d2cf)
 val ((*closing*)) = fprintln! (out, ")")
 //
@@ -486,7 +486,7 @@ val () = fprint(out, "\n")
 val () =
 fprint! (out, fname, "$", cname, "$arg", n)
 val () =
-fprint! (out, ": $mytype(", fname)
+fprint! (out, ": $d2ctype(", fname)
 val () = codegen2_emit_tmpcstapp(out, d2cf)
 val ((*closing*)) = fprintln! (out, ")")
 //

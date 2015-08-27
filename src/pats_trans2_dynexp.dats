@@ -228,7 +228,8 @@ d1exp_tr_dqid
   d1e0: d1exp, dq: d0ynq, id: symbol
 ) : d2exp = let
 //
-fun auxerr (
+fun
+auxerr (
   d1e0: d1exp, dq: d0ynq, id: symbol
 ) : void = {
   val () =
@@ -1405,17 +1406,27 @@ in
 case+
 d1e0.d1exp_node of
 //
-| D1Eide (id) =>
-    d1exp_tr_dqid (d1e0, $SYN.the_d0ynq_none, id)
-  // end of [D1Eide]
-| D1Edqid (dq, id) => d1exp_tr_dqid (d1e0, dq, id)
+| D1Eide
+    (id) => let
+    val dq = $SYN.the_d0ynq_none
+  in
+    d1exp_tr_dqid (d1e0, dq, id)
+  end // end of [D1Eide]
+| D1Edqid
+    (dq, id) =>
+    d1exp_tr_dqid (d1e0, dq, id)
 //
 | D1Eint (i) => d2exp_int (loc0, i)
-| D1Eintrep (rep) => d2exp_intrep (loc0, rep)
+| D1Eintrep
+    (rep) => d2exp_intrep (loc0, rep)
+//
 | D1Ebool (b) => d2exp_bool (loc0, b)
 | D1Echar (c) => d2exp_char (loc0, c)
-| D1Efloat (rep) => d2exp_float (loc0, rep)
-| D1Estring (s) => d2exp_string (loc0, s)
+//
+| D1Efloat
+    (rep) => d2exp_float (loc0, rep)
+| D1Estring
+    (str) => d2exp_string (loc0, str)
 //
 | D1Ei0nt (x) => d2exp_i0nt (loc0, x)
 | D1Ec0har (x) => d2exp_c0har (loc0, x)
