@@ -2534,6 +2534,11 @@ end // end of [t1mpmarglst_tr]
 (* ****** ****** *)
 
 implement
+S1Ed2ctype_tr(loc0, d2ctp) = exit(1)
+
+(* ****** ****** *)
+
+implement
 d1atcon_tr (
   s2c, islin, isprf, s2vss0, fil, d1c
 ) = let
@@ -2542,26 +2547,42 @@ fun auxerr1
 (
   d1c: d1atcon, id: symbol, serr: int
 ) : void = {
-  val () = prerr_error2_loc (d1c.d1atcon_loc)
-  val () = prerr ": the constructor ["
-  val () = $SYM.prerr_symbol (id)
-  val () = prerr "] is expected to be given "
-  val () = if serr < 0 then prerr_string "more indexes."
-  val () = if serr > 0 then prerr_string "fewer indexes."
-  val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))
-} // end of [auxerr1]
+//
+val loc = d1c.d1atcon_loc
+//
+val () =
+  prerr_error2_loc (loc)
+val () =
+  prerr ": the constructor ["
+val () = $SYM.prerr_symbol (id)
+//
+val () =
+if serr < 0
+  then prerrln! "] is expected to be given more indexes."
+//
+val () =
+if serr > 0
+  then prerrln! "] is expected to be given fewer indexes."
+//
+val () = the_trans2errlst_add(T2E_d1atcon_tr(d1c))
+//
+} (* end of [auxerr1] *)
 //
 fun auxerr2 (
   d1c: d1atcon, id: symbol
 ) : void = {
-  val () = prerr_error2_loc (d1c.d1atcon_loc)
-  val () = prerr ": the constructor ["
-  val () = $SYM.prerr_symbol (id)
-  val () = prerr "] needs some indexes (but is given none)."
-  val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))
-} // end of [auxerr2]
+//
+val loc = d1c.d1atcon_loc
+//
+val () =
+  prerr_error2_loc (loc)
+val () =
+  prerr ": the constructor ["
+val () = $SYM.prerr_symbol (id)
+val () = prerrln! "] needs some indexes (but is given none)."
+val () = the_trans2errlst_add (T2E_d1atcon_tr(d1c))
+//
+} (* end of [auxerr2] *)
 //
 fun auxerr3
 (
@@ -2570,17 +2591,18 @@ fun auxerr3
   val () = prerr_error2_loc (d1c.d1atcon_loc)
   val () = prerr ": the constructor ["
   val () = $SYM.prerr_symbol (id)
-  val () = prerr "] needs no indexes (but is given some)."
-  val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))
+  val () = prerrln! "] needs no indexes (but is given some)."
+  val () = the_trans2errlst_add (T2E_d1atcon_tr(d1c))
 } // end of [auxerr3]
 //
-val (pfenv | ()) = the_s2expenv_push_nil ()
+val (pfenv|()) = the_s2expenv_push_nil()
 //
 val () = list_app_fun
   (s2vss0, the_s2expenv_add_svarlst)
+//
 var s2qs: List_vt (s2qua) =
   list_map_fun<q1marg> (d1c.d1atcon_qua, q1marg_tr)
+//
 val () = let
   fun aux (
     s2qs: &List_vt (s2qua), xs: s2varlstlst
@@ -2599,13 +2621,16 @@ in
 end // end of [val]
 val s2qs = l2l (s2qs)
 //
-val indopt_s2ts = let
+val
+indopt_s2ts = let
   val s2t_fun = s2cst_get_srt (s2c) in
   case+ s2t_fun of S2RTfun (s2ts, _) => Some s2ts | _ => None ()
 end : s2rtlstopt // end of [val]
+//
 val npf = d1c.d1atcon_npf and s1es_arg = d1c.d1atcon_arg
 //
-val s2es_arg = let
+val
+s2es_arg = let
   val s2t_pfarg = (
     if islin then s2rt_view else s2rt_prop
   ) : s2rt // end of [val]
@@ -2633,8 +2658,12 @@ in
 end // end of [val]
 //
 val id = d1c.d1atcon_sym
-val indopt_s1es = d1c.d1atcon_ind
-val indopt_s2es = (
+val
+indopt_s1es = d1c.d1atcon_ind
+val
+indopt_s2es =
+(
+//
 case+ (
   indopt_s1es, indopt_s2ts
 ) of // of [case+]
@@ -2672,9 +2701,10 @@ case+ (
 | (Some _, None ()) => let
     val () = auxerr3 (d1c, id) in None ()
   end // end of [Some, None]
+//
 ) : s2explstopt // end of [val]
 //
-val () = the_s2expenv_pop_free (pfenv | (*none*))
+val ((*popped*)) = the_s2expenv_pop_free(pfenv | (*none*))
 //
 val loc0 = d1c.d1atcon_loc
 val vwtp = (if isprf then 0 else if islin then 1 else 0): int
