@@ -250,14 +250,15 @@ fn s0expdarglst_tr
 // end of [s0expdarglst_tr]
 
 (* ****** ****** *)
-
+//
 #if (FUNCLO_DEFAULT = 1)
 macdef FUNCLOdefault = FUNCLOcloptr
 #endif
+//
 #if (FUNCLO_DEFAULT = ~1)
 macdef FUNCLOdefault = FUNCLOcloref
 #endif
-
+//
 (* ****** ****** *)
 
 implement
@@ -458,12 +459,21 @@ fn gm0atlst_tr
 
 fn c0lau_tr
   (c0l: c0lau): c1lau = let
-  val gp0t = c0l.c0lau_pat
-  val gua = gm0atlst_tr (gp0t.guap0at_gua)
-  val p1t = p0at_tr (gp0t.guap0at_pat)
-  val body = d0exp_tr (c0l.c0lau_body)
+//
+val
+loc = c0l.c0lau_loc
+val
+gp0t = c0l.c0lau_pat
+//
+val p1t = p0at_tr (gp0t.guap0at_pat)
+val gua = gm0atlst_tr (gp0t.guap0at_gua)
+//
+val body = d0exp_tr (c0l.c0lau_body)
+//
 in
-  c1lau_make (c0l.c0lau_loc, p1t, gua, c0l.c0lau_seq, c0l.c0lau_neg, body)
+//
+c1lau_make (loc, p1t, gua, c0l.c0lau_seq, c0l.c0lau_neg, body)
+//
 end // end of [c0lau_tr]
 
 fn c0laulst_tr
@@ -606,38 +616,50 @@ case+ d0e0.d0exp_node of
 //
 | D0Etmpid (qid, tmparg) => let
     val tmparg =
-      l2l(list_map_fun (tmparg, t0mpmarg_tr))
+      list_map_fun (tmparg, t0mpmarg_tr)
     // end of [val]
   in
-    FXITMatm (d1exp_tmpid (loc0, qid, tmparg))
+    FXITMatm (d1exp_tmpid (loc0, qid, (l2l)tmparg))
   end // end of [D0Etmpid]
 //
 | D0Elet (d0cs, d0e_body) => let
-    val (pfenv | ()) = the_trans1_env_push ()
+//
+    val (pfenv|()) = the_trans1_env_push()
+//
     val d1cs = d0eclist_tr (d0cs)
     val d1e_body = d0exp_tr (d0e_body)
-    val () = the_trans1_env_pop (pfenv | (*none*))
+//
+    val ((*popped*)) = the_trans1_env_pop (pfenv | (*none*))
+//
   in
     FXITMatm (d1exp_let (loc0, d1cs, d1e_body))
   end // end of [D0Elet]
 //
-| D0Ewhere (d0e_body, d0cs) => let
-    val (pfenv | ()) = the_trans1_env_push ()
-    val d1cs = d0eclist_tr (d0cs)
-    val d1e_body = d0exp_tr (d0e_body)
-    val () = the_trans1_env_pop (pfenv | (*none*))
-  in
-    FXITMatm (d1exp_where (loc0, d1e_body, d1cs))
-  end // end of [D0Ewhere]
-//
 | D0Edeclseq d0cs => let
-    val (pfenv | ()) = the_trans1_env_push ()
+//
+    val (pfenv|()) = the_trans1_env_push()
+//
     val d1cs = d0eclist_tr (d0cs)
     val body = d1exp_empty (loc0)
-    val () = the_trans1_env_pop (pfenv | (*none*))
+//
+    val ((*popped*)) = the_trans1_env_pop (pfenv | (*none*))
+//
   in
     FXITMatm (d1exp_let (loc0, d1cs, body))
   end // end of [D0Edeclseq]
+//
+| D0Ewhere (d0e_body, d0cs) => let
+//
+    val (pfenv|()) = the_trans1_env_push()
+//
+    val d1cs = d0eclist_tr (d0cs)
+    val d1e_body = d0exp_tr (d0e_body)
+//
+    val ((*popped*)) = the_trans1_env_pop (pfenv | (*none*))
+//
+  in
+    FXITMatm (d1exp_where (loc0, d1e_body, d1cs))
+  end // end of [D0Ewhere]
 //
 | D0Eapp _ => let 
 //
@@ -741,10 +763,10 @@ case+ d0e0.d0exp_node of
   end // end of [D0Etup]
 | D0Erec (knd, npf, ld0es) => let
     val ld1es =
-      l2l(list_map_fun (ld0es, labd0exp_tr))
+      list_map_fun (ld0es, labd0exp_tr)
     // end of [val]
   in
-    FXITMatm (d1exp_rec (loc0, knd, npf, ld1es))
+    FXITMatm (d1exp_rec (loc0, knd, npf, (l2l)ld1es))
   end // end of [D0Erec]
 | D0Eseq d0es => FXITMatm (d1exp_seq (loc0, d0explst_tr d0es))
 //

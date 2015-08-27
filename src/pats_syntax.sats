@@ -557,6 +557,9 @@ fun sp0at_cstr
 
 (* ****** ****** *)
 //
+// HX-2015-08:
+// for placeholding
+//
 abstype
 S0Ed2ctype_type = ptr
 typedef
@@ -1494,7 +1497,7 @@ and d0exp_node =
 //
   | D0Elet of (d0eclist, d0exp) // dynamic let-expression
   | D0Edeclseq of d0eclist // = let [d0eclist] in (*nothing*) end
-  | D0Ewhere of (d0exp, d0eclist)
+  | D0Ewhere of (d0exp, d0eclist) // dynamic where-expression
 //
   | D0Eapp of (d0exp, d0exp) // functional application
 //

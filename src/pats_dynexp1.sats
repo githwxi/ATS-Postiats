@@ -45,9 +45,8 @@ datatype p1at_node =
   | P1Tany2 of () // wildcard: (_) // non-expandable
 //
   | P1Tide of symbol // variable
-  | P1Tdqid of // constructor (qualified) / variable (unqualified)
-      (d0ynq, symbol)
-    (* end of [P1Tdqid] *)
+    // qua: constructor // unqua: variable
+  | P1Tdqid of (d0ynq, symbol) // constructor/variable
 //
   | P1Tint of (int) // int constant
   | P1Tintrep of string(*rep*) // int constant

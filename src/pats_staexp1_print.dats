@@ -530,6 +530,8 @@ case+ x.s1exp_node of
     val () = prstr ")"
   }
 //
+| S1Ed2ctype (d2ctp) => prstr "S1Ed2ctype(...)"
+//
 | S1Eerr () => prstr "S1Eerr()"
 //
 (*

@@ -50,6 +50,7 @@ trans1err =
   | T1E_e0xp_tr of (e0xp)
   | T1E_s0rt_tr of (s0rt)
   | T1E_s0exp_tr of (s0exp)
+  | T1E_d2ctype_tr of S0Ed2ctype
   | T1E_d0cstdec_tr of (d0cstdec)
   | T1E_p0at_tr of (p0at)
   | T1E_termination_metric_check of (location)
@@ -123,6 +124,10 @@ fun s0qualst_tr (xs: s0qualst): s1qualst
 fun s0qualstlst_tr (xs: s0qualstlst): s1qualstlst
 
 fun witht0ype_tr (x: witht0ype): witht1ype
+
+(* ****** ****** *)
+
+fun S0Ed2ctype_tr (x: S0Ed2ctype): S1Ed2ctype
 
 (* ****** ****** *)
 

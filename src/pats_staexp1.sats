@@ -408,19 +408,30 @@ fun fprint_a1msrt : fprint_type (a1msrt)
 fun fprint_a1msrtlst : fprint_type (a1msrtlst)
 
 (* ****** ****** *)
-
-datatype sp1at_node =
+//
+datatype
+sp1at_node =
   | SP1Tcstr of (s0taq, symbol, s1arglst)
-
+//
 where sp1at = '{
   sp1at_loc= location, sp1at_node= sp1at_node
-}
-
+} (* end of [sp1at] *)
+//
 fun sp1at_arg (loc: location, arg: s1arg): sp1at
 fun sp1at_cstr
   (loc: location, q: s0taq, id: symbol, args: s1arglst): sp1at
 // end of [sp1at_cstr]
-
+//
+(* ****** ****** *)
+//
+// HX-2015-08:
+// for placeholding
+//
+abstype
+S1Ed2ctype_type = ptr
+typedef
+S1Ed2ctype = S1Ed2ctype_type
+//
 (* ****** ****** *)
 
 datatype
@@ -440,7 +451,7 @@ s1exp_node =
   | S1Eextype of (string(*name*), s1explstlst) // extern type
   | S1Eextkind of (string(*name*), s1explstlst) // extern tkind
 //
-  | S1Eapp of (s1exp, location(*arg*), s1explst) // application
+  | S1Eapp of (s1exp, loc_t(*arg*), s1explst) // application
   | S1Elam of (s1marg, s1rtopt, s1exp(*body*)) // lambda-abstraction
   | S1Eimp of (funclo, int (*lin*), int (*prf*), effcstopt)
 //
@@ -449,19 +460,23 @@ s1exp_node =
   | S1Elist of (int(*npf*), s1explst)
 //
   | S1Einvar of (int(*ref/val:1/0*), s1exp) // invariant
-  | S1Etrans of (s1exp(*bef*), s1exp(*aft*)) // view(type) transform
+  | S1Etrans of (s1exp(*bef*), s1exp(*aft*)) // view(type) transition
 //
   | S1Etyarr of (s1exp (*element*), s1explst (*dimension*))
-  | S1Etytup of (int(*knd*), int(*npf*), s1explst) // HX: 0/1: flat/boxed
-  | S1Etyrec of (int(*knd*), int(*npf*), labs1explst)// HX: 0/1: flat/boxed
+  | S1Etytup of
+      (int(*knd*), int(*npf*), s1explst) // HX: 0/1: flat/boxed
+  | S1Etyrec of
+      (int(*knd*), int(*npf*), labs1explst) // HX: 0/1: flat/boxed
   | S1Etyrec_ext of
       (string(*name*), int(*npf*), labs1explst) // external record type
     // end of [S1Etyrec_ext]
 //
-  | S1Eexi of (int(*funres*), s1qualst, s1exp) // existentially quantifed
   | S1Euni of (s1qualst, s1exp) // universal quantified
+  | S1Eexi of (int(*funres*), s1qualst, s1exp) // existentially quantifed
 //
-  | S1Eann of (s1exp, s1rt) // static expression with annotate sort
+  | S1Eann of (s1exp, s1rt) // sort-ascribed static expression
+//
+  | S1Ed2ctype of (S1Ed2ctype(*dyncst/tmpcst*)) // $d2ctype(...)
 //
   | S1Eerr of () // HX: placeholder for error indication
 // end of [s1exp_node]
@@ -581,13 +596,16 @@ fun s1exp_tyrec_ext (
   loc: location, name: string, npf: int, ls1es: labs1explst
 ) : s1exp // end of [s1exp_tyrec_ext]
 
+fun s1exp_uni
+  (loc: location, qua: s1qualst, body: s1exp): s1exp
 fun s1exp_exi
   (loc: location, knd: int, qua: s1qualst, body: s1exp): s1exp
-fun s1exp_uni (loc: location, qua: s1qualst, body: s1exp): s1exp
 
 fun s1exp_ann (loc: location, s1e: s1exp, s1t: s1rt): s1exp
 
-fun s1exp_err (loc: location): s1exp
+fun s1exp_d2ctype (loc: location, d2ctp: S1Ed2ctype): s1exp
+
+fun s1exp_err (loc: location): s1exp // HX: indication of error
 
 (* ****** ****** *)
 
@@ -876,6 +894,14 @@ typedef t1mpmarglst = List (t1mpmarg)
 
 fun t1mpmarg_make (loc: location, arg: s1explst): t1mpmarg
 
+(* ****** ****** *)
+//
+datatype
+S1Ed2ctype =
+| S1Ed2ctype_ide of (i0de) // dyn-id
+| S1Ed2ctype_dqid of (dqi0de) // qualified dyn-id
+| S1Ed2ctype_tmpid of (loc_t, dqi0de, t1mpmarglst) // template id
+//
 (* ****** ****** *)
 
 typedef

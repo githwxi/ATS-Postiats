@@ -639,7 +639,9 @@ case+ x.s0exp_node of
     val () = fprint_s0rt (out, s0t2)
     val ((*closing*)) = prstr ")"
   }
-| S0Ed2ctype _ => prstr "S0Ed2ctype(...)"
+//
+| S0Ed2ctype (d2ctp) => prstr "S0Ed2ctype(...)"
+//
 (*
 //  | _ => prstr "S0E(...)"
 *)

@@ -1305,10 +1305,12 @@ end // end of [else]
 end // end of [p_e0xndec]
 
 (* ****** ****** *)
-
+//
 (*
-d0atcon ::= conq0uaseq di0de coni0ndopt cona0rgopt
+d0atcon ::=
+conq0uaseq di0de coni0ndopt cona0rgopt
 *)
+//
 fun
 p_d0atcon (
   buf: &tokbuf, bt: int, err: &int  
@@ -1344,17 +1346,23 @@ else let
 end // end of [else]
 //
 end // end of [p_d0atcon]
-
+//
 implement
 p_d0atconseq
   (buf, bt, err) = let
   val _ = p_BAR_test(buf) in l2l(pstar_fun0_BAR (buf, bt, p_d0atcon))
 end // end of [p_d0atconseq]
-
+//
 (* ****** ****** *)
 
 (*
-a0typ ::= s0exp0 | pi0de COLON s0exp0 // s0exp0: annotationless
+//
+a0typ ::=
+  | s0exp0
+  | pi0de COLON s0exp0
+//
+// s0exp0: annotation-free
+//
 *)
 implement
 p_a0typ

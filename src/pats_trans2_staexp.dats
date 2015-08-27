@@ -1920,7 +1920,8 @@ of (* case+ *)
     s1exp_trup_tyrec_ext (s1e0, name, npf, ls1es)
 //
 | S1Einvar _ => let
-    val () = prerr_error2_loc (loc0)
+    val () =
+    prerr_error2_loc(loc0)
     val () =
     prerrln! (
       ": invariant type can only be assigned to a function argument."
@@ -1930,7 +1931,8 @@ of (* case+ *)
     s2exp_s2rt_err ()
   end // end of [S1Einvar]
 | S1Etrans _ => let
-    val () = prerr_error2_loc (loc0)
+    val () =
+    prerr_error2_loc(loc0)
     val () =
     prerrln! (
       ": transitional type can only be assigned to a function argument."
@@ -1970,19 +1972,20 @@ of (* case+ *)
     val () =
     if knd > 0 then
     {
-      val () = prerr_error2_loc (loc0)
+      val () = prerr_error2_loc(loc0)
       val () =
       prerrln! (
         ": incorrect use of the existential quantifier #[...]"
       ) (* end of [val] *)
-      val ((*added*)) = the_trans2errlst_add(T2E_s1exp_trup(s1e0))
+      val () =
+        the_trans2errlst_add(T2E_s1exp_trup(s1e0))
+      // end of [val]
     } (* end of [if] *) // end of [val]
 //
     val (pfenv|()) = the_s2expenv_push_nil()
     val s2q = s1qualst_tr (s1qs)
     val s2e_scope = s1exp_trdn_impred (s1e_scope)
     val ((*popped*)) = the_s2expenv_pop_free (pfenv | (*none*))
-    // end of [val]
   in
     s2exp_exi (s2q.s2qua_svs, s2q.s2qua_sps, s2e_scope)
   end // end of [S1Eexi]
@@ -1990,6 +1993,10 @@ of (* case+ *)
 | S1Eann (s1e, s1t) => let
     val s2t = s1rt_tr (s1t) in s1exp_trdn (s1e, s2t)
   end // end of [S1Eann]
+//
+| S1Ed2ctype (d2ctp) =>
+    S1Ed2ctype_tr (loc0, $UN.cast{S1Ed2ctype}(d2ctp))
+  // end of [S1Ed2ctype]
 //
 | S1Eerr ((*erroneous*)) => s2exp_s2rt_err((*void*))
 //

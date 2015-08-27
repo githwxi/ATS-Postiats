@@ -399,28 +399,33 @@ in '{
 } end // end of [s1exp_s0tring]
 
 (* ****** ****** *)
-
+//
 implement
-s1exp_extype (loc, name, arg) = '{
+s1exp_extype
+  (loc, name, arg) = '{
   s1exp_loc= loc, s1exp_node= S1Eextype (name, arg)
 }
-
+//
 implement
-s1exp_extkind (loc, name, arg) = '{
+s1exp_extkind
+  (loc, name, arg) = '{
   s1exp_loc= loc, s1exp_node= S1Eextkind (name, arg)
 }
-
+//
 (* ****** ****** *)
 
 implement
 s1exp_app (
   loc, _fun, loc_arg, _arg
 ) = '{
-  s1exp_loc= loc, s1exp_node= S1Eapp (_fun, loc_arg, _arg)
+  s1exp_loc= loc
+, s1exp_node= S1Eapp (_fun, loc_arg, _arg)
 } // end of [s1exp_app]
 
 implement
-s1exp_lam (loc, arg, res, body) = '{
+s1exp_lam (
+  loc, arg, res, body
+) = '{
   s1exp_loc= loc, s1exp_node= S1Elam (arg, res, body)
 }
 
@@ -435,15 +440,17 @@ s1exp_imp (
 
 implement
 s1exp_list
-  (loc, s1es) = case+ s1es of
+  (loc, s1es) =
+(
+case+ s1es of
 //
 // HX: singleton elimination is performed
 //
-  | list_cons (s1e, list_nil ()) => s1e
-  | _ => '{
-      s1exp_loc= loc, s1exp_node= S1Elist (~1(*npf*), s1es)
-    } // end of [_]
-// end of [s1exp_list]
+| list_cons (s1e, list_nil()) => s1e
+| _ (*non-sing*) => '{
+    s1exp_loc= loc, s1exp_node= S1Elist (~1(*npf*), s1es)
+  } // end of [non-sing]
+) (* end of [s1exp_list] *)
 
 implement
 s1exp_list2
@@ -456,11 +463,18 @@ in '{
 } end // end of [s1exp_list2]
 
 implement
-s1exp_npf_list (loc, npf, s1es) =
-  if npf >= 0 then '{
-    s1exp_loc= loc, s1exp_node= S1Elist (npf, s1es)
-  } else s1exp_list (loc, s1es)
-// end of [s1exp_npf_list]
+s1exp_npf_list
+  (loc, npf, s1es) =
+(
+//
+if
+npf >= 0
+then '{
+  s1exp_loc= loc, s1exp_node= S1Elist (npf, s1es)
+} (* end of [then] *)
+else s1exp_list (loc, s1es)
+//
+) // end of [s1exp_npf_list]
 
 (* ****** ****** *)
 
@@ -469,26 +483,36 @@ s1exp_top (loc, knd, s1e) = '{
   s1exp_loc= loc, s1exp_node= S1Etop (knd, s1e)
 }
 
+(* ****** ****** *)
+//
 implement
 s1exp_invar (loc, knd, s1e) = '{
   s1exp_loc= loc, s1exp_node= S1Einvar (knd, s1e)
 }
+//
 implement
 s1exp_trans (loc, s1e1, s1e2) = '{
   s1exp_loc= loc, s1exp_node= S1Etrans (s1e1, s1e2)
 }
+//
+(* ****** ****** *)
 
 implement
-s1exp_tyarr (loc, s1e_elt, s1es_dim) = '{
-  s1exp_loc= loc, s1exp_node= S1Etyarr (s1e_elt, s1es_dim)
-}
-
-implement
-s1exp_tytup (
-  loc, knd, npf, s1es
+s1exp_tyarr
+(
+  loc, s1e_elt, s1es_dim
 ) = '{
+  s1exp_loc= loc
+, s1exp_node= S1Etyarr (s1e_elt, s1es_dim)
+} (* end of [s1exp_tyarr] *)
+
+implement
+s1exp_tytup
+  (loc, knd, npf, s1es) = '{
   s1exp_loc= loc, s1exp_node= S1Etytup (knd, npf, s1es)
 }
+
+(* ****** ****** *)
 
 implement
 s1exp_tyrec (
@@ -505,22 +529,35 @@ s1exp_tyrec_ext (
 } // end of [s1exp_tyrec_ext]
 
 (* ****** ****** *)
-
+//
 implement
-s1exp_exi (loc, knd, s1qs, s1e) = '{
-  s1exp_loc= loc, s1exp_node= S1Eexi (knd, s1qs, s1e)
-}
-
-implement
-s1exp_uni (loc, s1qs, s1e) = '{
+s1exp_uni
+(
+  loc, s1qs, s1e
+) = '{
   s1exp_loc= loc, s1exp_node= S1Euni (s1qs, s1e)
-}
-
+} (* end of [s1exp_uni] *)
+//
+implement
+s1exp_exi
+(
+  loc, knd, s1qs, s1e
+) = '{
+  s1exp_loc= loc, s1exp_node= S1Eexi (knd, s1qs, s1e)
+} (* end of [s1exp_exi] *)
+//
 (* ****** ****** *)
 
 implement
 s1exp_ann (loc, s1e, s1t) = '{
   s1exp_loc= loc, s1exp_node= S1Eann (s1e, s1t)
+}
+
+(* ****** ****** *)
+
+implement
+s1exp_d2ctype (loc, d2ctp) = '{
+  s1exp_loc= loc, s1exp_node= S1Ed2ctype (d2ctp)
 }
 
 (* ****** ****** *)

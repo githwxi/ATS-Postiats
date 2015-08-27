@@ -235,13 +235,14 @@ auxerr (
   val () =
     prerr_error2_loc (d1e0.d1exp_loc)
   // end of [val]
-  val () = filprerr_ifdebug "d1exp_tr_dqid"
-  val () = prerr ": the dynamic identifier ["
+  val () =
+    filprerr_ifdebug "d1exp_tr_dqid"
+  val () =
+    prerr ": the dynamic identifier ["
   val () = prerr_dqid (dq, id)
-  val () = prerr "] is unrecognized."
-  val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
-} // end of [auxerr]
+  val () = prerrln! "] is unrecognized."
+  val () = the_trans2errlst_add (T2E_d1exp_tr(d1e0))
+} (* end of [auxerr] *)
 //
 val loc0 = d1e0.d1exp_loc
 val ans0 = the_d2expenv_find_qua (dq, id)
@@ -290,15 +291,16 @@ case+ ans0 of
     end // end of [D2ITEMmacvar]
 //
 (*
-  | _ => let
+  | _ (*rest-of-d2itm*) => let
       val () = (
         print "d1exp_tr_dqid: d2i0 = "; print_d2itm d2i0; print_newline ()
       ) // end of [val]
       val () = auxerr (d1e0, dq, id)
     in
       d2exp_err (loc0)
-    end // end of [_]
+    end // end of [_(*rest-of-d2itm*)]
 *)
+//
   ) // end of [Some_vt]
 | ~None_vt () => let
     val () = auxerr (d1e0, dq, id) in d2exp_errexp (loc0)
