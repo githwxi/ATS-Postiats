@@ -1582,12 +1582,13 @@ p_atms0exp_ngt
 in
 //
 case+
-tok.token_node of
+tok.token_node
+of // case+
 //
 | T_GT () => let
-    val () = err := err + 1 in synent_null ()
+    val () = err := err + 1 in synent_null()
   end // end of [T_GT]
-| _ (*non-GT*) => p_atms0exp (buf, bt, err)
+| _ (* non-GT *) => p_atms0exp (buf, bt, err)
 //
 end // end of [p_atms0exp_ngt]
 

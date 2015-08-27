@@ -1253,7 +1253,7 @@ case+ xs of
           psynmark_ins_begend (SMstaexp, x.f0arg_loc, res)
       | $SYN.F0ARGsta2 _ => 
           psynmark_ins_begend (SMstaexp, x.f0arg_loc, res)
-      | $SYN.F0ARGmet (s0es) => s0explst_mark (s0es, res)
+      | $SYN.F0ARGmet3 (s0es) => s0explst_mark (s0es, res)
     ) : void // end of [val]
   in
     f0arglst_mark (xs, res)

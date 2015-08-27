@@ -1210,6 +1210,14 @@ impqi0de_make_some
 // end of [impqi0de_make_some]
 //
 (* ****** ****** *)
+//
+datatype
+S0Ed2ctype =
+| S0Ed2ctype_ide of (symbol) // qualified dyn-id
+| S0Ed2ctype_dqid of (d0ynq, symbol) // qualified dyn-id
+| S0Ed2ctype_tmpid of (dqi0de, t0mpmarglst) // template id
+//
+(* ****** ****** *)
 
 datatype
 f0arg_node =
