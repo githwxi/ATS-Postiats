@@ -270,13 +270,15 @@ in
 //
 case+ 0 of
 | _ when
-    synent_isnot_null (x0) => let
-    val xs = pstar_sep_fun (buf, 1(*bt*), sep, f)
+    synent_isnot_null(x0) => let
+    val xs =
+      pstar_sep_fun (buf, 1(*bt*), sep, f)
+    // end of [val]
   in
     list_vt_cons (x0, xs)
   end
 | _ => let
-    val () = err := err + 1 in list_vt_nil ()
+    val () = err := err + 1 in list_vt_nil((*error*))
   end (* end of [_] *)
 //
 end // end of [pstar_fun1_sep]
@@ -330,34 +332,67 @@ pseq2_fun{a1,a2}
 (
   buf, bt, err, f1, f2
 ) = let
-  val err0 = err
-  val n0 = tokbuf_get_ntok (buf)
-  val ent1 = f1 (buf, bt, err)
-  val bt = 0
-  val ent2 = (
-    if err <= err0  then f2 (buf, bt, err) else synent_null ()
-  ) : a2 // end of [val]
-  val () = if (err > err0) then tokbuf_set_ntok (buf, n0)
+//
+val
+err0 = err
+//
+val n0 =
+  tokbuf_get_ntok (buf)
+//
+val ent1 = f1(buf, bt, err)
+//
+val bt = 0
+//
+val ent2 =
+(
+  if err <= err0
+    then f2(buf, bt, err) else synent_null()
+  // end of [if]
+) : a2 // end of [val]
+//
+val () =
+  if (err > err0) then tokbuf_set_ntok(buf, n0)
+// end of [val]
+//
 in
   SYNENT2 (ent1, ent2)
 end // end of [pseq2_fun]
+
+(* ****** ****** *)
 
 implement
 pseq3_fun{a1,a2,a3}
 (
   buf, bt, err, f1, f2, f3
 ) = let
-  val err0 = err
-  val n0 = tokbuf_get_ntok (buf)
-  val ent1 = f1 (buf, bt, err)
-  val bt = 0
-  val ent2 = (
-    if err <= err0  then f2 (buf, bt, err) else synent_null ()
-  ) : a2 // end of [val]
-  val ent3 = (
-    if err <= err0  then f3 (buf, bt, err) else synent_null ()
-  ) : a3 // end of [val]
-  val () = if (err > err0) then tokbuf_set_ntok (buf, n0)
+//
+val
+err0 = err
+//
+val n0 =
+  tokbuf_get_ntok (buf)
+//
+val ent1 = f1(buf, bt, err)
+//
+val bt = 0
+//
+val ent2 =
+(
+  if err <= err0
+    then f2 (buf, bt, err) else synent_null()
+  // end of [if]
+) : a2 // end of [val]
+val ent3 =
+(
+  if err <= err0
+    then f3 (buf, bt, err) else synent_null()
+  // end of [if]
+) : a3 // end of [val]
+//
+val ((*error*)) =
+  if (err > err0) then tokbuf_set_ntok(buf, n0)
+// end of [val]
+//
 in
   SYNENT3 (ent1, ent2, ent3)
 end // end of [pseq3_fun]
@@ -386,11 +421,11 @@ list12_free
 (* ****** ****** *)
 
 implement
-plist12_fun {a}
-  (buf, bt, f) = let
+plist12_fun
+  {a}(buf, bt, f) = let
 //
 val xs1 =
-  pstar_fun0_COMMA {a} (buf, bt, f)
+  pstar_fun0_COMMA{a}(buf, bt, f)
 //
 val tok = tokbuf_get_token (buf)
 //
@@ -402,7 +437,7 @@ case+
 tok.token_node of
 | T_BAR () => let
     val () = incby1 ()
-    val xs2 = pstar_fun0_COMMA {a} (buf, bt, f)
+    val xs2 = pstar_fun0_COMMA{a}(buf, bt, f)
   in
     LIST12two (xs1, xs2)
   end
@@ -413,12 +448,14 @@ end // end of [plist12_fun]
 (* ****** ****** *)
 
 implement
-p1list12_fun {a}
+p1list12_fun{a}
   (x, buf, bt, f) = let
 //
 val xs1 =
-  pstar_sep_fun {a} (buf, bt, p_COMMA_test, f)
-val xs1 = list_vt_cons {a} (x, xs1)
+pstar_sep_fun{a}
+  (buf, bt, p_COMMA_test, f)
+//
+val xs1 = list_vt_cons{a}(x, xs1)
 //
 val tok = tokbuf_get_token (buf)
 //
@@ -430,11 +467,11 @@ case+
 tok.token_node of
 | T_BAR () => let
     val () = incby1 ()
-    val xs2 = pstar_fun0_COMMA {a} (buf, bt, f)
+    val xs2 = pstar_fun0_COMMA{a}(buf, bt, f)
   in
     LIST12two (xs1, xs2)
   end
-| _ => LIST12one (xs1)
+| _ (*non-BAR*) => LIST12one (xs1)
 //
 end // end of [p1list12_fun]
 

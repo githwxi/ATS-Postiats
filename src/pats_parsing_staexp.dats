@@ -743,6 +743,7 @@ tok.token_node of
 | T_DLRD2CTYPE() => let
     val bt = 0
     val () = incby1 ()
+//
     val ent2 = p_LPAREN (buf, bt, err)
 //
     val ent3 =
@@ -1698,9 +1699,11 @@ of // case+
 | _ when
     ptest_fun (buf, p_di0de, ent) =>
     S0Ed2ctype_ide(synent_decode{i0de}(ent))
+//
 | _ when
     ptest_fun (buf, p_dqi0de, ent) =>
     S0Ed2ctype_dqid(synent_decode{dqi0de}(ent))
+//
 | _ when
     ptest_fun (
     buf, p_tmpqi0de, ent
