@@ -244,9 +244,12 @@ val loc0 = s0e0.s0exp_loc
 //
 in
 //
-case+ s0e0.s0exp_node of
+case+
+s0e0.s0exp_node
+of (* case+ *)
 //
-  | S0Eide id when id = AMPERSAND => let
+  | S0Eide id
+      when id = AMPERSAND => let
       fn f (
         s1e: s1exp
       ) :<cloref1> s1expitm = let
@@ -257,7 +260,8 @@ case+ s0e0.s0exp_node of
     in
       FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
     end // end of [S0Eide when ...]
-  | S0Eide id when id = AMPERQMARK => let
+  | S0Eide id
+      when id = AMPERQMARK => let
       fn f (
         s1e: s1exp
       ) :<cloref1> s1expitm = let
@@ -268,7 +272,8 @@ case+ s0e0.s0exp_node of
     in
       FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
     end // end of [S0Eide when ...]
-  | S0Eide id when id = AMPERBANG => let
+  | S0Eide id
+      when id = AMPERBANG => let
       fn f (
         s1e: s1exp
       ) :<cloref1> s1expitm = let
@@ -280,8 +285,12 @@ case+ s0e0.s0exp_node of
       FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
     end // end of [S0Eide when ...]
  //
-  | S0Eide id when id = BACKSLASH => s1expitm_backslash (loc0)
-  | S0Eide id when id = BANG => let
+  | S0Eide id
+      when id = BACKSLASH => s1expitm_backslash (loc0)
+    // end of [BACKSLASH]
+//
+  | S0Eide id
+      when id = BANG => let
       fn f (
         s1e: s1exp
       ) :<cloref1> s1expitm = let
@@ -293,7 +302,8 @@ case+ s0e0.s0exp_node of
       FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
     end // end of [S0Eide when ...]
 //
-  | S0Eide id when id = QMARK => let
+  | S0Eide id
+      when id = QMARK => let
       fn f (
         s1e: s1exp
       ) :<cloref1> s1expitm = let
@@ -304,7 +314,8 @@ case+ s0e0.s0exp_node of
     in
       FXITMopr (loc0, FXOPRpos (qmark_prec_sta, f))
     end // end of [S0Eide when ...]
-  | S0Eide id when id = QMARKBANG => let
+  | S0Eide id
+      when id = QMARKBANG => let
       fn f (
         s1e: s1exp
       ) :<cloref1> s1expitm = let
@@ -316,9 +327,11 @@ case+ s0e0.s0exp_node of
       FXITMopr (loc0, FXOPRpos (qmarkbang_prec_sta, f))
     end // end of [S0Eide when ...]
 //
-  | S0Eide id when id = GTGT => let
+  | S0Eide id
+      when id = GTGT => let
       fn f (
-        s1e1: s1exp, s1e2: s1exp
+        s1e1: s1exp
+      , s1e2: s1exp
       ) :<cloref1> s1expitm = let
         val loc = s1e1.s1exp_loc + s1e2.s1exp_loc
       in
@@ -329,7 +342,10 @@ case+ s0e0.s0exp_node of
     end // end of [S0Eide when ...]
 //
   | S0Eide (id) => let
-      val s1e = s1exp_ide (loc0, id) in
+      val s1e =
+        s1exp_ide (loc0, id)
+      // end of [val]
+    in
       case+ the_fxtyenv_find id of
       | ~Some_vt f => s1exp_make_opr (s1e, f) | ~None_vt () => FXITMatm (s1e)
       // end of [case]
@@ -426,6 +442,17 @@ case+ s0e0.s0exp_node of
       FXITMatm (s1exp_tyrec_ext (loc0, name, npf, ls1es))
     end // end of [S0Etyrec]
 //
+  | S0Euni (s0qs) => let
+      val s1qs = s0qualst_tr s0qs
+      fn f (
+        body: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = loc0 + body.s1exp_loc in
+        FXITMatm (s1exp_uni (loc, s1qs, body))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpre (uni_prec_sta, f))
+    end // end of [S0Euni]
   | S0Eexi
     (
       knd(*funres*), s0qs
@@ -440,17 +467,6 @@ case+ s0e0.s0exp_node of
     in
       FXITMopr (loc0, FXOPRpre (exi_prec_sta, f))
     end // end of [S0Eexi]
-  | S0Euni (s0qs) => let
-      val s1qs = s0qualst_tr s0qs
-      fn f (
-        body: s1exp
-      ) :<cloref1> s1expitm = let
-        val loc = loc0 + body.s1exp_loc in
-        FXITMatm (s1exp_uni (loc, s1qs, body))
-      end // end of [f]
-    in
-      FXITMopr (loc0, FXOPRpre (uni_prec_sta, f))
-    end // end of [S0Euni]
 //
   | S0Eann (s0e, s0t) => let
       val s1t = s0rt_tr (s0t)
@@ -458,8 +474,13 @@ case+ s0e0.s0exp_node of
     in
       FXITMatm (s1exp_ann (loc0, s1e, s1t))
     end // end of [S0Eann]
+//
+  | S0Ed2ctype (x0) => let
+      val () = prerr_interror_loc (loc0)
+      val () = assertloc (false) in $ERR.abort_interr((*deadcode*))
+    end (* end of [S0Ed2ctype] *)
 (*
-  | _ => let
+  | _ (*rest-of-s0exp*) => let
       val () = prerr_interror_loc (loc0)
       val () =
       fprintln! (

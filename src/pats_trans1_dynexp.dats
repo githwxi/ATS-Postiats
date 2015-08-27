@@ -292,19 +292,12 @@ case+ args of
       | Some loc => loc | None () => loc_arg + loc_body
     ) : location // end of [val]
   in
-    case+ arg.f0arg_node of
+    case+
+    arg.f0arg_node
+    of // case+
 //
-    | F0ARGsta1 qua =>
-      d1exp_lam_sta_syn
-        (loc, loc_arg, s0qualst_tr qua, d1e_body)
-      // end of [F0ARGsta1]
-//
-    | F0ARGsta2 s0v =>
-      d1exp_lam_sta_ana
-        (loc, loc_arg, s0vararg_tr s0v, d1e_body)
-      // end of [F0ARGsta2]
-//
-    | F0ARGdyn p0t when flag = 0 => let
+    | F0ARGdyn p0t
+        when flag = 0 => let
         val p1t = p0at_tr p0t
         val isbox = lamkind_isbox (lamknd)
       in
@@ -325,9 +318,19 @@ case+ args of
         d1exp_lam_dyn (loc, lin, p1t, d1e_body)
       end // end of [F0ARGdyn]
 //
-    | F0ARGmet s0es =>
+    | F0ARGsta1 qua =>
+      d1exp_lam_sta_syn
+        (loc, loc_arg, s0qualst_tr qua, d1e_body)
+      // end of [F0ARGsta1]
+//
+    | F0ARGsta2 s0v =>
+      d1exp_lam_sta_ana
+        (loc, loc_arg, s0vararg_tr s0v, d1e_body)
+      // end of [F0ARGsta2]
+//
+    | F0ARGmet3 s0es =>
         d1exp_lam_met (loc, loc_arg, s0explst_tr s0es, d1e_body)
-      // end of [F0ARGmet]
+      // end of [F0ARGmet3]
   end // end of [list_cons]
 //
 | list_nil ((*void*)) => d1e_body

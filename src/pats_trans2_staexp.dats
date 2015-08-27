@@ -1766,7 +1766,8 @@ case+ knd of
   end (* end of [_] *)
 end // end of [s1exp_trup_tyrec]
 
-fun s1exp_trup_tyrec_ext
+fun
+s1exp_trup_tyrec_ext
 (
   s1e0: s1exp, name: string, npf: int, ls1es: labs1explst
 ) : s2exp = let
@@ -1786,16 +1787,22 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-s1exp_trup (s1e0) = let
+s1exp_trup(s1e0) = let
+//
+val loc0 = s1e0.s1exp_loc
+//
 (*
-  val () = (
-    print "s1exp_trup: s1e0 = "; print_s1exp (s1e0); print_newline ()
-  ) // end of [val]
+//
+val () = (
+  println! ("s1exp_trup: s1e0 = ", s1e0)
+) (* end of [val] *)
+//
 *)
-  val loc0 = s1e0.s1exp_loc
 in
 //
-case+ s1e0.s1exp_node of
+case+
+s1e0.s1exp_node
+of (* case+ *)
 //
 | S1Eide (id) => let
     val sq = $SYN.the_s0taq_none
@@ -1820,6 +1827,7 @@ case+ s1e0.s1exp_node of
     (name, s1ess) => let
     val s2ess =
       list_map_fun (s1ess, s1explst_trdn_vt0ype)
+    // end of [val]
   in
     s2exp_extype_srt (s2rt_vt0ype, name, (l2l)s2ess)
   end // end of [S1Eextype]
@@ -1838,7 +1846,10 @@ case+ s1e0.s1exp_node of
     var xs: TS = list_vt_nil ()
     val s1opr = s1exp_app_unwind (s1e0, xs)
   in
-    case+ :(xs: TS?) => s1opr.s1exp_node of
+    case+
+    :(xs: TS?) =>
+    s1opr.s1exp_node
+    of (* case+ *)
     | S1Eide (id) => let
         val sq = $SYN.the_s0taq_none in 
         s1exp_trup_app_sqid (s1e0, s1opr, sq, id, xs)
@@ -1849,14 +1860,19 @@ case+ s1e0.s1exp_node of
     | S1Eimp (fc, lin, prf, oefc) =>
         s1exp_trup_arrow (s1e0, Some fc, lin>0, prf>0, oefc, xs)
       // end of [S1Eimp]
-    | _ => let
+    | _ (*rest-of-s1exp*) => let
         val s2opr = s1exp_trup (s1opr) in s1exp_trup_app (s1e0, s1opr, s2opr, xs)
-      end // end of [_]
+      end // end of [_(*rest*)]
   end (* end of [S1Eapp] *)
-| S1Elam (s1ma, s1topt, s1e_body) => let
-    val s2vs = s1arglst_trup (s1ma.s1marg_arg)
-    val (pfenv | ()) = the_s2expenv_push_nil ()
-    val () = the_s2expenv_add_svarlst (s2vs)
+| S1Elam
+  (
+    s1ma, s1topt, s1e_body
+  ) => let
+    val s2vs =
+      s1arglst_trup (s1ma.s1marg_arg)
+    // end of [val]
+    val (pfenv|()) = the_s2expenv_push_nil()
+    val ((*added*)) = the_s2expenv_add_svarlst (s2vs)
     val s2e_body = (
       case+ s1topt of
       | Some s1t => let
@@ -1866,23 +1882,31 @@ case+ s1e0.s1exp_node of
         end // end of [Some]
       | None ((*void*)) => s1exp_trup (s1e_body)
     ) : s2exp // end of [val]
-    val () = the_s2expenv_pop_free (pfenv | (*none*))  
+    val ((*popped*)) = the_s2expenv_pop_free (pfenv | (*none*))  
   in
     s2exp_lam (s2vs, s2e_body)
   end // end of [S1Elam]
 //
 | S1Eimp _ => let
-    val () = prerr_interror_loc (loc0)
-    val () = prerrln! (": s1exp_trup: S1Eimp: s1e0 = ", s1e0)
+    val () =
+    prerr_interror_loc(loc0)
+    val () =
+    prerrln! (
+      ": s1exp_trup: S1Eimp: s1e0 = ", s1e0
+    ) (* end of [val] *)
   in
     $ERR.abort_interr{s2exp}((*reachable*))
   end // end of [S1Eimp]
 //
-| S1Etop (knd, s1e) => s1exp_trup_top (knd, s1e)
+| S1Etop
+    (knd, s1e) => s1exp_trup_top (knd, s1e)
+  // end of [S1Etop]
 //
-| S1Elist (npf, s1es) => s1exp_trup_tytup_flt (s1e0, npf, s1es)
+| S1Elist (npf, s1es) =>
+    s1exp_trup_tytup_flt (s1e0, npf, s1es)
 //
-| S1Etyarr (s1e_elt, s1es_ind) => let
+| S1Etyarr
+    (s1e_elt, s1es_ind) => let
     val s2e_elt = s1exp_trdn_vt0ype (s1e_elt)
     val s2es_ind = s1explst_trdn_int (s1es_ind)
   in
@@ -1897,54 +1921,71 @@ case+ s1e0.s1exp_node of
 //
 | S1Einvar _ => let
     val () = prerr_error2_loc (loc0)
-    val () = prerr ": an invariant type can only be assigned to the argument of a function."
-    val () = prerr_newline ()
-    val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+    val () =
+    prerrln! (
+      ": invariant type can only be assigned to a function argument."
+    ) (* end of [val] *)
+    val () = the_trans2errlst_add(T2E_s1exp_trup(s1e0))
   in
     s2exp_s2rt_err ()
   end // end of [S1Einvar]
 | S1Etrans _ => let
     val () = prerr_error2_loc (loc0)
-    val () = prerr ": a transitional type can only be assigned to the argument of a function."
-    val () = prerr_newline ()
-    val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+    val () =
+    prerrln! (
+      ": transitional type can only be assigned to a function argument."
+    ) (* end of [val] *)
+    val () = the_trans2errlst_add(T2E_s1exp_trup(s1e0))
   in
     s2exp_s2rt_err ()
   end // end of [S1Etrans]
 //
-| S1Eexi (knd, s1qs, s1e_scope) => let
+| S1Euni
+    (s1qs, s1e_scope) => let
 (*
-    val () = begin
-      print "s1exp_trup: S1Eexi: s1e0 = "; print s1e0; print_newline ()
-    end // end of [val]
+    val () =
+    println!
+      ("s1exp_trup: S1Euni: s1e0 = ", s1e0)
+    // end of [val]
 *)
-//
-    val () = if knd > 0 then {
-      val () = prerr_error2_loc (loc0)
-      val () = prerr (
-        ": The existential quantifier #[...] is used incorrectly."
-      ) // end of [val]
-      val () = prerr_newline ()
-      val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
-    } // end of [val]
-//
-    val (pfenv | ()) = the_s2expenv_push_nil ()
-    val s2q = s1qualst_tr (s1qs)
-    val s2e_scope = s1exp_trdn_impred (s1e_scope)
-    val () = the_s2expenv_pop_free (pfenv | (*none*))
-  in
-    s2exp_exi (s2q.s2qua_svs, s2q.s2qua_sps, s2e_scope)
-  end // end of [S1Eexi]
-| S1Euni (s1qs, s1e_scope) => let
-    var s2vs: s2varlst = list_nil ()
-    and s2ps: s2explst = list_nil ()
-    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val (pfenv|()) = the_s2expenv_push_nil()
     val s2q = s1qualst_tr (s1qs)
     val s2e_scope = s1exp_trdn_impred s1e_scope
-    val () = the_s2expenv_pop_free (pfenv | (*none*))
+    val ((*popped*)) =
+      the_s2expenv_pop_free (pfenv | (*none*))
+    // end of [val]
+//
   in
     s2exp_uni (s2q.s2qua_svs, s2q.s2qua_sps, s2e_scope)
   end // end of [S1Euni]
+| S1Eexi
+    (knd, s1qs, s1e_scope) => let
+(*
+    val () =
+    println!
+      ("s1exp_trup: S1Eexi: s1e0 = ", s1e0)
+    // end of [val]
+*)
+//
+    val () =
+    if knd > 0 then
+    {
+      val () = prerr_error2_loc (loc0)
+      val () =
+      prerrln! (
+        ": incorrect use of the existential quantifier #[...]"
+      ) (* end of [val] *)
+      val ((*added*)) = the_trans2errlst_add(T2E_s1exp_trup(s1e0))
+    } (* end of [if] *) // end of [val]
+//
+    val (pfenv|()) = the_s2expenv_push_nil()
+    val s2q = s1qualst_tr (s1qs)
+    val s2e_scope = s1exp_trdn_impred (s1e_scope)
+    val ((*popped*)) = the_s2expenv_pop_free (pfenv | (*none*))
+    // end of [val]
+  in
+    s2exp_exi (s2q.s2qua_svs, s2q.s2qua_sps, s2e_scope)
+  end // end of [S1Eexi]
 //
 | S1Eann (s1e, s1t) => let
     val s2t = s1rt_tr (s1t) in s1exp_trdn (s1e, s2t)
@@ -1953,12 +1994,12 @@ case+ s1e0.s1exp_node of
 | S1Eerr ((*erroneous*)) => s2exp_s2rt_err((*void*))
 //
 (*
-| _ => let
-    val () = prerr_interror_loc (loc0)
+| _ (*rest-of-s1exp*) => let
+    val () = prerr_interror_loc(loc0)
     val () = prerrln! (": NYI: s1exp_tr: s1e0 = ", s1e0)
   in
     $ERR.abort_interr((*unreachable*))
-  end // end of [_]
+  end // end of [_(*rest-of-s1exp*)]
 *)
 //
 end // end of [s1exp_trup]
