@@ -183,8 +183,8 @@ implement FREEAT = T_FREEAT
 
 (* ****** ****** *)
 
-implement DLRDELAY = T_DLRDELAY (TYPE_int)
-implement DLRLDELAY = T_DLRDELAY (VIEWTYPE_int)
+implement DLRDELAY = T_DLRDELAY(TYPE_int)
+implement DLRLDELAY = T_DLRDELAY(VIEWTYPE_int)
 
 (* ****** ****** *)
 //
@@ -532,11 +532,13 @@ val () = ins ("withview", WITHVIEW)
 val () = ins ("withvtype", WITHVIEWTYPE)
 val () = ins ("withviewtype", WITHVIEWTYPE)
 //
+val () = ins ("$delay", DLRDELAY)
+val () = ins ("$ldelay", DLRLDELAY)
+//
 val () = ins ("$arrpsz", T_DLRARRPSZ)
 val () = ins ("$arrptrsize", T_DLRARRPSZ)
 //
-val () = ins ("$delay", DLRDELAY)
-val () = ins ("$ldelay", DLRLDELAY)
+val () = ins ("$d2ctype", T_DLRD2CTYPE)
 //
 val () = ins ("$effmask", DLREFFMASK)
 val () = ins ("$effmask_ntm", DLREFFMASK_NTM)

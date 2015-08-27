@@ -662,23 +662,29 @@ atmd0exp ::=
   | BREAK | CONTINUE
   | LABEL
 //
-  | DLREXTVAL LPAREN s0exp COMMA s0tring RPAREN
-  | DLREXTFALL LPAREN s0exp COMMA s0tring commad0expseq RPAREN
+  | DLREXTVAL
+    LPAREN s0exp COMMA s0tring RPAREN
+  | DLREXTFALL
+    LPAREN s0exp COMMA s0tring commad0expseq RPAREN
 //
   | LPAREN d0exp SEMICOLON d0expsemiseq RPAREN
   | LPAREN d0expcommaseq [BAR d0expcommaseq] RPAREN
 //
-  | ATLPAREN d0expcommaseq [BAR d0expcommaseq] RPAREN
-  | QUOTELPAREN d0expcommaseq [BAR d0expcommaseq] RPAREN
+  | ATLPAREN
+    d0expcommaseq [BAR d0expcommaseq] RPAREN
+  | QUOTELPAREN
+    d0expcommaseq [BAR d0expcommaseq] RPAREN
 //
   | ATLBRACE labd0expseq [BAR labd0expseq] RBRACE
   | QUOTELBRACE labd0expseq [BAR labde0xpseq] RBRACE
 //
-  | QUOTELBRACKET d0expcommaseq RBRACKET
+  | ATLBRACKET s0exp RBRACKET
+    arrdimopt LPAREN d0expcommaseq RPAREN
   | HASHLBRACKET s0exparg BAR d0exp RBRACKET
+  | QUOTELBRACKET d0expcommaseq RBRACKET
 //
   | arrqi0de d0arrind
-  | ATLBRACKET s0exp RBRACKET arrdimopt LPAREN d0expcommaseq RPAREN
+//
   | DLRARRPSZ s0expelt LPAREN d0expcommaseq RPAREN
 //
   | BEGIN d0expsemiseq END
@@ -1001,56 +1007,9 @@ case+ tok.token_node of
   end
 //
 (*
-| QUOTELBRACKET d0expseq RBRACKET
+| ATLBRACKET s0exp RBRACKET
+  arrdimopt LPAREN d0expcommaseq RPAREN
 *)
-| T_QUOTELBRACKET
-    ((*void*)) => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 =
-      pstar_fun0_COMMA{d0exp}(buf, bt, p_d0exp)
-    // end of [val]
-    val ent3 = p_RBRACKET(buf, bt, err)
-  in
-    if err = err0
-      then d0exp_lst_quote(tok, (l2l)ent2, ent3)
-      else let
-        val () = list_vt_free(ent2) in synent_null()
-      end // end of [else]
-    // end of [if]
-  end
-//
-(*
-| HASHLBRACKET s0exparg BAR d0exp RBRACKET
-*)
-| T_HASHLBRACKET
-    ((*void*)) => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_s0exparg (buf, bt, err)
-    val ent3 = pif_fun (buf, bt, err, p_BAR, err0)
-    val ent4 = pif_fun (buf, bt, err, p_d0exp, err0)
-    val ent5 = pif_fun (buf, bt, err, p_RBRACKET, err0)
-  in
-    if err = err0
-      then d0exp_exist(tok, ent2, ent3, ent4, ent5)
-      else synent_null()
-    // end of [if]
-  end
-//
-| _ when
-    ptest_fun (
-    buf, p_arrqi0de, ent
-  ) => let
-    val bt = 0
-    val ent1 = synent_decode {dqi0de} (ent)
-    val ent2 = p_d0arrind (buf, bt, err) // err = err0
-  in
-    if err = err0 then
-      d0exp_arrsub (ent1, ent2) else synent_null ()
-    // end of [if]
-  end
-//
 | T_ATLBRACKET
     ((*void*)) => let
     val bt = 0
@@ -1074,6 +1033,58 @@ case+ tok.token_node of
     else let
       val () = list_vt_free (ent6) in synent_null ()
     end (* end of [if] *)
+  end
+//
+(*
+| HASHLBRACKET
+  s0exparg BAR d0exp RBRACKET
+*)
+| T_HASHLBRACKET
+    ((*void*)) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0exparg (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_BAR, err0)
+    val ent4 = pif_fun (buf, bt, err, p_d0exp, err0)
+    val ent5 = pif_fun (buf, bt, err, p_RBRACKET, err0)
+  in
+    if err = err0
+      then d0exp_exist(tok, ent2, ent3, ent4, ent5)
+      else synent_null()
+    // end of [if]
+  end
+//
+(*
+| QUOTELBRACKET d0expseq RBRACKET
+*)
+| T_QUOTELBRACKET
+    ((*void*)) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 =
+      pstar_fun0_COMMA{d0exp}(buf, bt, p_d0exp)
+    // end of [val]
+    val ent3 = p_RBRACKET(buf, bt, err)
+  in
+    if err = err0
+      then d0exp_lst_quote(tok, (l2l)ent2, ent3)
+      else let
+        val () = list_vt_free(ent2) in synent_null()
+      end // end of [else]
+    // end of [if]
+  end
+//
+| _ when
+    ptest_fun (
+    buf, p_arrqi0de, ent
+  ) => let
+    val bt = 0
+    val ent1 = synent_decode {dqi0de} (ent)
+    val ent2 = p_d0arrind (buf, bt, err) // err = err0
+  in
+    if err = err0 then
+      d0exp_arrsub (ent1, ent2) else synent_null ()
+    // end of [if]
   end
 //
 | T_DLRARRPSZ

@@ -150,12 +150,11 @@ fprint_token
   | T_FREEAT () => fprintf (out, "FREEAT()", @()) // free@
   | T_VIEWAT () => fprintf (out, "VIEWAT()", @()) // view@
 //
+  | T_DLRDELAY (x) => fprintf (out, "DLRDELAY(%i)", @(x))
+//
   | T_DLRARRPSZ () => fprintf (out, "DLRARRPSZ()", @())
 //
-  | T_DLRSOLASSERT () => fprintf (out, "DLRSOLASSERT()", @())
-  | T_DLRSOLVERIFY () => fprintf (out, "DLRSOLVERIFY()", @())
-//
-  | T_DLRDELAY (x) => fprintf (out, "DLRDELAY(%i)", @(x))
+  | T_DLRD2CTYPE () => fprintf (out, "DLRD2CTYPE()", @())
 //
   | T_DLREFFMASK () => fprintf (out, "DLREFFMASK()", @())
   | T_DLREFFMASK_ARG (x) => fprintf (out, "DLREFFMASK(%i)", @(x))
@@ -189,6 +188,9 @@ fprint_token
   | T_DLRVCOPYENV (x) => fprintf (out, "DLRVCOPYENV(%i)", @(x))
 //
   | T_DLRTEMPENVER () => fprintf (out, "DLRTEMPENVER()", @())
+//
+  | T_DLRSOLASSERT () => fprintf (out, "DLRSOLASSERT()", @())
+  | T_DLRSOLVERIFY () => fprintf (out, "DLRSOLVERIFY()", @())
 //
   | T_SRPASSERT () => fprintf (out, "SRPASSERT()", @())
   | T_SRPDEFINE () => fprintf (out, "SRPDEFINE()", @())
