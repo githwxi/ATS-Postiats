@@ -914,64 +914,103 @@ implement
 s0exp_tyarr (
   t_beg, elt, dim
 ) = let
-  val loc = t_beg.token_loc + dim.s0arrdim_loc
+//
+val loc =
+  t_beg.token_loc + dim.s0arrdim_loc
+//
 in '{
-  s0exp_loc= loc, s0exp_node= S0Etyarr (elt, dim.s0arrdim_dim)
+  s0exp_loc= loc
+, s0exp_node= S0Etyarr(elt, dim.s0arrdim_dim)
 } end // end of [s0exp_tyarr]
+
+(* ****** ****** *)
 
 implement
 s0exp_tytup (
   knd, t_beg, npf, xs, t_end
 ) = let
-  val loc = t_beg.token_loc + t_end.token_loc
+//
+val loc =
+  t_beg.token_loc + t_end.token_loc
+//
 in '{
-  s0exp_loc= loc, s0exp_node= S0Etytup (knd, npf, xs)
+  s0exp_loc= loc, s0exp_node= S0Etytup(knd, npf, xs)
 } end // end of [s0exp_tytup]
+
+(* ****** ****** *)
 
 implement
 s0exp_tyrec (
   knd, t_beg, npf, xs, t_end
 ) = let
-  val loc = t_beg.token_loc + t_end.token_loc
+//
+val loc =
+  t_beg.token_loc + t_end.token_loc
+//
 in '{
-  s0exp_loc= loc, s0exp_node= S0Etyrec (knd, npf, xs)
+  s0exp_loc= loc, s0exp_node= S0Etyrec(knd, npf, xs)
 } end // end of [s0exp_tyrec]
 
 implement
 s0exp_tyrec_ext (
   name, t_beg, npf, xs, t_end
 ) = let
-  val loc = t_beg.token_loc + t_end.token_loc
+//
+val loc =
+  t_beg.token_loc + t_end.token_loc
+//
 in '{
-  s0exp_loc= loc, s0exp_node= S0Etyrec_ext (name, npf, xs)
+  s0exp_loc= loc, s0exp_node= S0Etyrec_ext(name, npf, xs)
 } end // end of [s0exp_tyrec]
+
+(* ****** ****** *)
 
 implement
 s0exp_uni (
   t_beg, xs, t_end
 ) = let
-  val loc = t_beg.token_loc + t_end.token_loc
+//
+val loc =
+  t_beg.token_loc + t_end.token_loc
+//
 in '{
-  s0exp_loc= loc, s0exp_node= S0Euni (xs)
+  s0exp_loc= loc, s0exp_node= S0Euni(xs)
 } end // end of [s0exp_uni]
 
 implement
 s0exp_exi (
   funres, t_beg, xs, t_end
 ) = let
-  val loc = t_beg.token_loc + t_end.token_loc
+//
+val loc =
+  t_beg.token_loc + t_end.token_loc
+//
 in '{
-  s0exp_loc= loc, s0exp_node= S0Eexi (funres, xs)
+  s0exp_loc= loc, s0exp_node= S0Eexi(funres, xs)
 } end // end of [s0exp_exi]
 
 (* ****** ****** *)
 
 implement
-s0exp_ann (x1, x2) = let
-  val loc = x1.s0exp_loc + x2.s0rt_loc
+s0exp_ann(s0e, s0t) = let
+//
+val loc = s0e.s0exp_loc + s0t.s0rt_loc
+//
 in '{
-  s0exp_loc= loc, s0exp_node= S0Eann (x1, x2)
+  s0exp_loc= loc, s0exp_node= S0Eann(s0e, s0t)
 } end // end of [s0exp_ann]
+
+(* ****** ****** *)
+
+implement
+s0exp_d2ctype
+  (t_beg, d2ctp, t_end) = let
+//
+val loc = t_beg.token_loc + t_end.token_loc
+//
+in '{
+  s0exp_loc= loc, s0exp_node= S0Ed2ctype(d2ctp)
+} end // end of [s0exp_d2ctype]
 
 (* ****** ****** *)
 

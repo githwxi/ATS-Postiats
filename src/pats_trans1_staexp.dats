@@ -93,9 +93,15 @@ staload "./pats_trans1_env.sats"
 staload "./pats_e1xpval.sats"
 
 (* ****** ****** *)
+//
+macdef
+l2l(x) = list_of_list_vt(,(x))
+macdef
+list_sing(x) = list_cons(,(x), list_nil())
+//
+(* ****** ****** *)
 
-#define l2l list_of_list_vt
-macdef list_sing (x) = list_cons (,(x), list_nil ())
+overload fprint with fprint_s0exp
 
 (* ****** ****** *)
 
@@ -476,12 +482,14 @@ of (* case+ *)
     end // end of [S0Eann]
 //
   | S0Ed2ctype (x0) => let
-      val () = prerr_interror_loc (loc0)
+      val () =
+      fprintln! (
+        stdout_ref, "s0exp_tr: aux_item: s0e0 = ", s0e0
+      ) (* end of [fprintln!] *)
       val () = assertloc (false) in $ERR.abort_interr((*deadcode*))
     end (* end of [S0Ed2ctype] *)
 (*
   | _ (*rest-of-s0exp*) => let
-      val () = prerr_interror_loc (loc0)
       val () =
       fprintln! (
         stdout_ref, "s0exp_tr: aux_item: s0e0 = ", s0e0

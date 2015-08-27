@@ -722,10 +722,10 @@ case+ tok.token_node of
 //
 | _ when
     ptest_fun (buf, p_di0de, ent) =>
-    d0exp_ide (synent_decode {i0de} (ent))
+    d0exp_ide (synent_decode{i0de}(ent))
 | _ when
     ptest_fun (buf, p_i0dext, ent) =>
-    d0exp_idext (synent_decode {i0de} (ent))
+    d0exp_idext (synent_decode{i0de}(ent))
 //
 | T_INT _ => let
     val () = incby1 () in d0exp_i0nt (tok)
@@ -751,7 +751,7 @@ case+ tok.token_node of
   end
 | _ when
     ptest_fun (buf, p_dqi0de, ent) =>
-    d0exp_dqid (synent_decode {dqi0de} (ent))
+    d0exp_dqid (synent_decode{dqi0de}(ent))
 //
 | T_DLRMYFILENAME
     ((*void*)) => let
@@ -846,9 +846,13 @@ case+ tok.token_node of
     val ent3 = pif_fun (buf, bt, err, p_GT, err0)
   in
     if err = err0
-      then d0exp_tmpid (ent1, (l2l)ent2, ent3)
+      then let
+        val ent2 = (l2l)ent2
+      in
+        d0exp_tmpid (ent1, ent2, ent3)
+      end // end of [then]
       else let
-        val () = list_vt_free (ent2) in synent_null ()
+        val () = list_vt_free(ent2) in synent_null()
       end (* end of [else] *)
     // end of [if]
   end
@@ -1232,7 +1236,7 @@ case+ tok.token_node of
   end
 //
 | _ (*rest-of-tokens*) => let
-    val () = err := err + 1 in synent_null ()
+    val () = err := err + 1 in synent_null((*error*))
   end
 // (* end of [case] *)
 end // end of [p_atmd0exp_tok]

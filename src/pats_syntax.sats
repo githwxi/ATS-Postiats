@@ -673,25 +673,46 @@ fun s0exp_i0de (_: i0de): s0exp
 fun s0exp_sqid (sq: s0taq, id: i0de): s0exp
 fun s0exp_opid (_1: token, _2: i0de): s0exp
 
+(* ****** ****** *)
+//
 fun s0exp_i0nt (_: i0nt): s0exp
 fun s0exp_c0har (_: c0har): s0exp
-
+//
 fun s0exp_f0loat (_: f0loat): s0exp
 fun s0exp_s0tring (_: s0tring): s0exp
+//
+(* ****** ****** *)
 
 fun s0exp_app (_1: s0exp, _2: s0exp): s0exp
 
-fun s0exp_imp
-  (t_beg: token, _: e0fftaglst, t_end: token): s0exp
-fun s0exp_imp_nil (t: token): s0exp
+(* ****** ****** *)
+
+fun
+s0exp_imp
+(
+  t_beg: token, _: e0fftaglst, t_end: token
+) : s0exp // end of [s0exp_imp]
+fun
+s0exp_imp_nil (tok: token): s0exp
+
+(* ****** ****** *)
 
 fun s0exp_tkname (str: token): s0exp
-fun s0exp_extype (_1: token, _2: token, xs: s0explst): s0exp
-fun s0exp_extkind (_1: token, _2: token, xs: s0explst): s0exp
+
+(* ****** ****** *)
+
+fun s0exp_extype
+  (_1: token, _2: token, xs: s0explst): s0exp
+fun s0exp_extkind
+  (_1: token, _2: token, xs: s0explst): s0exp
+
+(* ****** ****** *)
 
 fun s0exp_lams (
   _1: token, _2: s0marglst, _3: s0rtopt, _4: s0exp
 ) : s0exp // end of [s0exp_lam]
+
+(* ****** ****** *)
 
 fun s0exp_list (
   t_beg: token, xs: s0explst, t_end: token
@@ -700,31 +721,59 @@ fun s0exp_list2 (
   t_beg: token, xs1: s0explst, xs2: s0explst, t_end: token
 ) : s0exp // end of [s0exp_list2]
 
+(* ****** ****** *)
+
 fun s0exp_tyarr
   (t_beg: token, elt: s0exp, ind: s0arrdim): s0exp
 // end of [s0exp_tyarr]
 
-fun s0exp_tytup (
-  knd: int, t_beg: token, npf: int, ent2: s0explst, t_end: token
+(* ****** ****** *)
+
+fun
+s0exp_tytup
+(
+  knd: int
+, t_beg: token, npf: int, ent2: s0explst, t_end: token
 ) : s0exp // end of [s0exp_tytup]
 
-fun s0exp_tyrec (
-  knd: int, t_beg: token, npf: int, ent2: labs0explst, t_end: token
+(* ****** ****** *)
+
+fun
+s0exp_tyrec
+(
+  knd: int
+, t_beg: token, npf: int, ent2: labs0explst, t_end: token
 ) : s0exp // end of [s0exp_tyrec]
 
-fun s0exp_tyrec_ext (
-  name: string, t_beg: token, npf: int, ent2: labs0explst, t_end: token
+fun
+s0exp_tyrec_ext
+(
+  name: string
+, t_beg: token, npf: int, ent2: labs0explst, t_end: token
 ) : s0exp // end of [s0exp_tyrec_ext]
 
-fun s0exp_uni (
+(* ****** ****** *)
+
+fun
+s0exp_uni (
   t_beg: token, xs: s0qualst, t_end: token
 ) : s0exp // end of [s0exp_uni]
-
-fun s0exp_exi (
+fun
+s0exp_exi (
   funres: int, t_beg: token, xs: s0qualst, t_end: token
 ) : s0exp // end of [s0exp_uni]
 
-fun s0exp_ann (_1: s0exp, _2: s0rt): s0exp
+(* ****** ****** *)
+
+fun s0exp_ann (s0e: s0exp, s0t: s0rt): s0exp
+
+(* ****** ****** *)
+//
+fun
+s0exp_d2ctype
+  (t_beg: token, x: S0Ed2ctype, t_end: token): s0exp
+//
+(* ****** ****** *)
 
 fun fprint_s0exp : fprint_type (s0exp)
 fun fprint_s0explst : fprint_type (s0explst)
@@ -1213,9 +1262,9 @@ impqi0de_make_some
 //
 datatype
 S0Ed2ctype =
-| S0Ed2ctype_ide of (symbol) // qualified dyn-id
-| S0Ed2ctype_dqid of (d0ynq, symbol) // qualified dyn-id
-| S0Ed2ctype_tmpid of (dqi0de, t0mpmarglst) // template id
+| S0Ed2ctype_ide of (i0de) // dynamic id
+| S0Ed2ctype_dqid of (dqi0de) // qualified dynamic id
+| S0Ed2ctype_tmpid of (dqi0de, t0mpmarglst, token) // template id
 //
 (* ****** ****** *)
 
