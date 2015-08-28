@@ -365,8 +365,16 @@ The ATS/Postiats C-Boostrapping\
 
 (* ****** ****** *)
 
-#packfilename("pats_synent2_jsonize_sats.c")
-#packfilename("pats_synent2_jsonize_dats.c")
+#packfilename("pats_codegen2_sats.c")
+#packfilename("pats_codegen2_dats.c")
+#packfilename("pats_codegen2_util_dats.c")
+#packfilename("pats_codegen2_datype_dats.c")
+#packfilename("pats_codegen2_fprint_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_jsonize_synent2_sats.c")
+#packfilename("pats_jsonize_synent2_dats.c")
 
 (* ****** ****** *)
 

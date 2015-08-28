@@ -186,8 +186,13 @@ SOURCES := \
   pats_dynexp2_dmac.dats \
   pats_dynexp2_util.dats \
   pats_dynexp2_mapgen.dats \
-  pats_synent2_jsonize.sats \
-  pats_synent2_jsonize.dats \
+  pats_codegen2.sats \
+  pats_codegen2.dats \
+  pats_codegen2_util.dats \
+  pats_codegen2_datype.dats \
+  pats_codegen2_fprint.dats \
+  pats_jsonize_synent2.sats \
+  pats_jsonize_synent2.dats \
   pats_trans2.sats \
   pats_namespace.sats \
   pats_namespace.dats \
