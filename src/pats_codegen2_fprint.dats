@@ -210,7 +210,7 @@ val
 fname = d2cst_get_name(d2cf)
 //
 fun
-auxcon_dec
+auxd2c_dec
 (
   d2c: d2con
 ) :<cloref1> void = let
@@ -231,10 +231,10 @@ val ((*closing*)) = fprintln! (out, ")")
 //
 in
   // nothing
-end // end of [auxcon_dec]
+end // end of [auxd2c_dec]
 //
 fun
-auxconlst_dec
+auxd2cs_dec
 (
   d2cs: d2conlst
 ) :<cloref1> void =
@@ -242,11 +242,11 @@ auxconlst_dec
 case+ d2cs of
 | list_nil() => ()
 | list_cons(d2c, d2cs) =>
-  let val () = auxcon_dec(d2c) in auxconlst_dec(d2cs) end
+  let val () = auxd2c_dec(d2c) in auxd2cs_dec(d2cs) end
 )
 //
 fun
-auxcon_cla
+auxd2c_cla
 (
   d2c: d2con
 ) :<cloref1> void = let
@@ -262,10 +262,10 @@ val () = fprintln! (out, "(out, arg0)")
 //
 in
   // nothing
-end // end of [auxcon_cla]
+end // end of [auxd2c_cla]
 //
 fun
-auxconlst_cla
+auxd2cs_cla
 (
   d2cs: d2conlst
 ) :<cloref1> void =
@@ -273,7 +273,7 @@ auxconlst_cla
 case+ d2cs of
 | list_nil() => ()
 | list_cons(d2c, d2cs) =>
-  let val () = auxcon_cla(d2c) in auxconlst_cla(d2cs) end
+  let val () = auxd2c_cla(d2c) in auxd2cs_cla(d2cs) end
 )
 //
 fun
@@ -367,7 +367,7 @@ val () =
 fprint!
   (out, linesep, "\n//\n")
 //
-val () = auxconlst_dec (d2cs)
+val () = auxd2cs_dec (d2cs)
 //
 val () =
 fprint!
@@ -392,7 +392,7 @@ val () =
 fprintln!
   (out, "case+ arg0 of")
 //
-val () = auxconlst_cla (d2cs) // clauses
+val () = auxd2cs_cla (d2cs) // clauses
 //
 val () = fprint! (out, ")\n")
 val () = fprintln! (out, "//\n", linesep)
