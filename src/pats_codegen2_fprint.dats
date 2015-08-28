@@ -210,7 +210,43 @@ val
 fname = d2cst_get_name(d2cf)
 //
 fun
-auxcon
+auxcon_dec
+(
+  d2c: d2con
+) :<cloref1> void = let
+//
+val cname = d2con_get_name(d2c)
+//
+val () =
+fprint(out, "extern\nfun")
+val () =
+codegen2_emit_tmpcstdec(out, d2cf)
+val () = fprint(out, "\n")
+val () =
+fprint! (out, fname, "$", cname)
+val () =
+fprint! (out, ": $d2ctype(", fname)
+val () = codegen2_emit_tmpcstapp(out, d2cf)
+val ((*closing*)) = fprintln! (out, ")")
+//
+in
+  // nothing
+end // end of [auxcon_dec]
+//
+fun
+auxconlst_dec
+(
+  d2cs: d2conlst
+) :<cloref1> void =
+(
+case+ d2cs of
+| list_nil() => ()
+| list_cons(d2c, d2cs) =>
+  let val () = auxcon_dec(d2c) in auxconlst_dec(d2cs) end
+)
+//
+fun
+auxcon_cla
 (
   d2c: d2con
 ) :<cloref1> void = let
@@ -226,10 +262,10 @@ val () = fprintln! (out, "(out, arg0)")
 //
 in
   // nothing
-end // end of [auxcon]
+end // end of [auxcon_cla]
 //
 fun
-auxconlst
+auxconlst_cla
 (
   d2cs: d2conlst
 ) :<cloref1> void =
@@ -237,7 +273,7 @@ auxconlst
 case+ d2cs of
 | list_nil() => ()
 | list_cons(d2c, d2cs) =>
-  let val () = auxcon(d2c) in auxconlst(d2cs) end
+  let val () = auxcon_cla(d2c) in auxconlst_cla(d2cs) end
 )
 //
 fun
@@ -330,8 +366,14 @@ s2cst_get_dconlst(s2dat)
 val () =
 fprint!
   (out, linesep, "\n//\n")
+//
+val () = auxconlst_dec (d2cs)
+//
 val () =
-fprint(out, "implement")
+fprint!
+  (out, "//\n", linesep, "\n//\n")
+//
+val () = fprint(out, "implement")
 val () = codegen2_emit_tmpcstimp(out, d2cf)
 val () = fprintln! (out)
 //
@@ -341,14 +383,16 @@ fprint! (out, fname)
 val () =
 fprint! (out, "\n  ")
 val () =
-fprintln! (out, "(out, arg0) =")
+fprintln!
+  (out, "(out, arg0) =")
 //
 val () =
 fprint! (out, "(\n")
 val () =
-fprintln! (out, "case+ arg0 of")
+fprintln!
+  (out, "case+ arg0 of")
 //
-val () = auxconlst (d2cs) // clauses
+val () = auxconlst_cla (d2cs) // clauses
 //
 val () = fprint! (out, ")\n")
 val () = fprintln! (out, "//\n", linesep)
