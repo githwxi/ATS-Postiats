@@ -153,15 +153,15 @@ fun fxty_get_prec (fxty: fxty): Option_vt (prec)
 
 datatype
 fxopr (a:type) = 
-  | FXOPRinf (a) of (
+  | FXOPRinf(a) of (
       prec, assoc, (a, a) -<cloref1> fxitm a
     ) (* end of [FXOPRinf] *)
-  | FXOPRpre (a) of (prec, a -<cloref1> fxitm a)
-  | FXOPRpos (a) of (prec, a -<cloref1> fxitm a)
+  | FXOPRpre(a) of (prec, a -<cloref1> fxitm a)
+  | FXOPRpos(a) of (prec, a -<cloref1> fxitm a)
 // end of [fxopr]
         
 and fxitm (a:type) =
-  FXITMatm (a) of a | FXITMopr (a) of (location, fxopr a)
+  FXITMatm(a) of a | FXITMopr(a) of (location, fxopr(a))
 // end of [fxitm]
 
 fun fxopr_precedence {a:type} (opr: fxopr a): prec

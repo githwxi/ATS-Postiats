@@ -235,14 +235,15 @@ fun stasub_make_svarlst
 (* ****** ****** *)
 //
 fun
-s2exp_exiuni_instantiate_all // knd=0/1:exi/uni
-  (knd: int, s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
-fun
 s2exp_exi_instantiate_all
   (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
 fun
 s2exp_uni_instantiate_all
   (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
+//
+fun
+s2exp_exiuni_instantiate_all // knd=0/1:exi/uni
+  (knd: int, s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
 //
 (* ****** ****** *)
 //
@@ -264,20 +265,20 @@ s2exp_uni_instantiate_sexparglst
   (s2e: s2exp, arg: s2exparglst, err: &int): (s2exp, s2explst_vt)
 //
 (* ****** ****** *)
-
+//
 fun
-s2exp_tmp_instantiate_rest (
-  s2f: s2exp, locarg: loc_t, s2qs: s2qualst, err: &int
-) : (s2exp(*res*), t2mpmarglst)
-// end of [s2exp_tmp_instantiate_rest]
-
+s2exp_tmp_instantiate_rest
+(
+  s2f: s2exp, locarg: loc_t, s2qs: s2qualst, nerr: &int
+) : (s2exp(*res*), t2mpmarglst) = "ext#patsopt_s2exp_tmp_instantiate_rest"
+//
 fun
-s2exp_tmp_instantiate_tmpmarglst (
+s2exp_tmp_instantiate_tmpmarglst
+(
   s2f: s2exp
-, locarg: loc_t, s2qs: s2qualst, t2mas: t2mpmarglst, err: &int
-) : (s2exp(*res*), t2mpmarglst)
-// end of [s2exp_tmp_instantiate_tmpmarglst]
-
+, locarg: loc_t, s2qs: s2qualst, t2mas: t2mpmarglst, nerr: &int
+) : (s2exp(*res*), t2mpmarglst) = "ext#patsopt_s2exp_tmp_instantiate_tmpmarglst"
+//
 (* ****** ****** *)
 //
 fun

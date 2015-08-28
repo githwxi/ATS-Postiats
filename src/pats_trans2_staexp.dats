@@ -55,18 +55,23 @@ staload INT = "./pats_intinf.sats"
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans2_staexp"
-
+//
+implement
+prerr_FILENAME<> () = prerr "pats_trans2_staexp"
+//
 (* ****** ****** *)
 
 staload
 LOC = "./pats_location.sats"
 overload + with $LOC.location_combine
 
-staload LEX = "./pats_lexing.sats"
+(* ****** ****** *)
+
+staload
+LEX = "./pats_lexing.sats"
 typedef token = $LEX.token
 
 (* ****** ****** *)
@@ -79,6 +84,7 @@ overload = with $SYM.eq_symbol_symbol
 staload
 SYN = "./pats_syntax.sats"
 typedef s0taq = $SYN.s0taq
+typedef d0ynq = $SYN.d0ynq
 typedef i0delst = $SYN.i0delst
 
 macdef
@@ -1994,11 +2000,9 @@ of (* case+ *)
     val s2t = s1rt_tr (s1t) in s1exp_trdn (s1e, s2t)
   end // end of [S1Eann]
 //
-| S1Ed2ctype (d2ctp) =>
-    S1Ed2ctype_tr (loc0, $UN.cast{S1Ed2ctype}(d2ctp))
-  // end of [S1Ed2ctype]
+| S1Ed2ctype(d2ctp) => S1Ed2ctype_tr (d2ctp)
 //
-| S1Eerr ((*erroneous*)) => s2exp_s2rt_err((*void*))
+| S1Eerr((*error*)) => s2exp_s2rt_err((*void*))
 //
 (*
 | _ (*rest-of-s1exp*) => let
@@ -2534,12 +2538,8 @@ end // end of [t1mpmarglst_tr]
 (* ****** ****** *)
 
 implement
-S1Ed2ctype_tr(loc0, d2ctp) = exit(1)
-
-(* ****** ****** *)
-
-implement
-d1atcon_tr (
+d1atcon_tr
+(
   s2c, islin, isprf, s2vss0, fil, d1c
 ) = let
 //
@@ -2568,7 +2568,8 @@ val () = the_trans2errlst_add(T2E_d1atcon_tr(d1c))
 //
 } (* end of [auxerr1] *)
 //
-fun auxerr2 (
+fun auxerr2
+(
   d1c: d1atcon, id: symbol
 ) : void = {
 //
@@ -2608,22 +2609,23 @@ val () = let
     s2qs: &List_vt (s2qua), xs: s2varlstlst
   ) : void =
     case+ xs of
-    | list_cons (x, xs) => let
+    | list_nil() => ()
+    | list_cons(x, xs) => let
         val () = aux (s2qs, xs)
         val s2q = s2qua_make (x, list_nil)
       in
         s2qs := list_vt_cons (s2q, s2qs)
       end // end of [list_cons]
-    | list_nil () => ()
   // end of [aux]
 in
   aux (s2qs, s2vss0)
 end // end of [val]
-val s2qs = l2l (s2qs)
+val s2qs = l2l(s2qs)
 //
 val
 indopt_s2ts = let
-  val s2t_fun = s2cst_get_srt (s2c) in
+  val s2t_fun = s2cst_get_srt(s2c)
+in
   case+ s2t_fun of S2RTfun (s2ts, _) => Some s2ts | _ => None ()
 end : s2rtlstopt // end of [val]
 //
@@ -2631,13 +2633,15 @@ val npf = d1c.d1atcon_npf and s1es_arg = d1c.d1atcon_arg
 //
 val
 s2es_arg = let
-  val s2t_pfarg = (
+  val
+  s2t_pfarg =
+  (
     if islin then s2rt_view else s2rt_prop
   ) : s2rt // end of [val]
-  val s2t_arg = (
-    if isprf then s2t_pfarg else begin
-      if islin then s2rt_vt0ype else s2rt_t0ype
-    end // end of [if]
+  val s2t_arg =
+  (
+    if isprf then s2t_pfarg else
+      (if islin then s2rt_vt0ype else s2rt_t0ype)
   ) : s2rt // end of [val]
   fun aux (
     i: int, s1es: s1explst
@@ -2706,15 +2710,23 @@ case+ (
 //
 val ((*popped*)) = the_s2expenv_pop_free(pfenv | (*none*))
 //
-val loc0 = d1c.d1atcon_loc
-val vwtp = (if isprf then 0 else if islin then 1 else 0): int
-val d2c = d2con_make
+val
+loc0 = d1c.d1atcon_loc
+val
+vwtp =
+(
+  if isprf then 0 else if islin then 1 else 0
+) : int // end of [val]
+val d2c =
+d2con_make
   (loc0, fil, id, s2c, vwtp, s2qs, npf, s2es_arg, indopt_s2es)
 // end of [val]
 val () = the_d2expenv_add_dcon (d2c)
-val () = if not(isprf) then {
-  val () = the_s2expenv_add_datcontyp (d2c) // struct
-  val () = if islin then the_s2expenv_add_datconptr (d2c) // unfold
+//
+val () =
+if not(isprf) then {
+  val () = the_s2expenv_add_datcontyp(d2c) // struct
+  val () = if islin then the_s2expenv_add_datconptr(d2c) // unfold
 } // end of [if] // end of [val]
 //
 in

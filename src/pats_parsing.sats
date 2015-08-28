@@ -651,8 +651,6 @@ fun p_witht0ype : parser (witht0ype)
 //
 fun p_tmps0expseq : parser (t0mpmarg)
 //
-fun p_S0Ed2ctype : parser (S0Ed2ctype)
-//
 (* ****** ****** *)
 
 fun p_p0at : parser (p0at)
@@ -677,6 +675,10 @@ fun p_d0expsemiseq : parser (d0explst)
 //
 fun p_c0lauseq : parser (c0laulst) // pattern-matching clauses
 fun p_sc0lauseq : parser (sc0laulst) // static pattern-matching clauses
+
+(* ****** ****** *)
+
+fun p_S0Ed2ctype : parser (d0exp)
 
 (* ****** ****** *)
 

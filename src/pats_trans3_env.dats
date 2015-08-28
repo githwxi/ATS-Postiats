@@ -496,48 +496,63 @@ s2exp_exi_instantiate_sexparg
 //
 val locarg = s2a.s2exparg_loc
 //
-fun auxerr
+fun
+auxerr
 (
   locarg: location
 ) : void = let
-  val () = prerr_error3_loc (locarg)
-  val () = filprerr_ifdebug "s2exp_exi_instantiate_sexparg"
-  val () = prerr ": the static abstraction is overly done."
-  val () = prerr_newline ((*void*))
+  val () =
+  prerr_error3_loc(locarg)
+  val () =
+  filprerr_ifdebug "s2exp_exi_instantiate_sexparg"
+  val () =
+  prerrln! ": the static abstraction is overly done."
 in
-  the_trans3errlst_add (T3E_s2varlst_instantiate_nabs (locarg, 1))
+  the_trans3errlst_add(T3E_s2varlst_instantiate_nabs(locarg, 1))
 end (* end of [auxerr] *)
 //
 in
 //
-case+ s2a.s2exparg_node of
+case+
+s2a.s2exparg_node
+of (* case+ *)
+//
 | S2EXPARGall () =>
     s2exp_exi_instantiate_all (s2e0, locarg, err)
+  // end of [S2EXPARGall]
+//
 | S2EXPARGone () => let
     val s2e0 = s2exp_hnfize (s2e0)
   in
-    case+ s2e0.s2exp_node of
-    | S2Eexi (s2vs, s2ps, s2e1) => let
+    case+
+    s2e0.s2exp_node
+    of // case+
+    | S2Eexi (
+        s2vs, s2ps, s2e1
+      ) => let
         var sub: stasub = stasub_make_nil ()
         val () = stasub_s2varlst_instantiate_none (sub, locarg, s2vs, err)
         val s2e1 = s2exp_subst (sub, s2e1)
         val s2ps = s2explst_subst_vt (sub, s2ps)
-        val () = stasub_free (sub)
+        val ((*freed*)) = stasub_free (sub)
       in
         (s2e1, s2ps)
       end // end of [S2Eexi]
-    | _ => let
+    | _ (*non-S2Eexi*) => let
         val () = err := err + 1
-        val () = auxerr (locarg)
-      in
-        (s2e0, list_vt_nil)
+        val () = auxerr (locarg) in (s2e0, list_vt_nil)
       end // end of [_]
    end
+//
 | S2EXPARGseq (s2es) => let
     val s2e0 = s2exp_hnfize (s2e0)
   in
-    case+ s2e0.s2exp_node of
-    | S2Eexi (s2vs, s2ps, s2e1) => let
+    case+
+    s2e0.s2exp_node
+    of // case+
+    | S2Eexi (
+        s2vs, s2ps, s2e1
+      ) => let
         var sub: stasub = stasub_make_nil ()
         val () = stasub_s2varlst_instantiate_some (sub, locarg, s2vs, s2es, err)
         val s2e1 = s2exp_subst (sub, s2e1)
@@ -546,15 +561,13 @@ case+ s2a.s2exparg_node of
       in
         (s2e1, s2ps)
       end // end of [S2Eexi]
-    | _ => let
+    | _ (*non-S2Eexi*) => let
         val () = err := err + 1
-        val () = auxerr (locarg)
-      in
-        (s2e0, list_vt_nil)
+        val () = auxerr (locarg) in (s2e0, list_vt_nil)
       end (* end of [_] *)
   end // end of [S2EXPARGseq]
 //
-end // end of [s2exp_instantiate_sexparg]
+end // end of [s2exp_exi_instantiate_sexparg]
 
 (* ****** ****** *)
 
@@ -664,35 +677,52 @@ end // end of [s2exp_uni_instantiate_sexparglst]
 
 implement
 s2exp_tmp_instantiate_rest
-  (s2e_tmp, locarg, s2qs, err) = let
+  (s2e_tmp, locarg, s2qs, nerr) = let
 //
 fun loop (
   locarg: location
 , sub: &stasub
 , s2qs: s2qualst
 , t2mas: t2mpmarglst_vt
-, err: &int // HX: unused
+, nerr: &int // HX: unused
 ) : t2mpmarglst_vt = let
 in
   case+ s2qs of
-  | list_cons (s2q, s2qs) => let
-      val s2vs = s2q.s2qua_svs
-      val () = assertloc (list_is_nil (s2q.s2qua_sps))
-      val s2es = stasub_s2varlst_instcollect (sub, locarg, s2vs, list_vt_nil)
-      val t2ma = t2mpmarg_make (locarg, (l2l)s2es)
+  | list_nil() =>
+      list_vt_reverse (t2mas)
+    // end of [list_nil]
+  | list_cons(s2q, s2qs) => let
+//
+      val
+      s2vs = s2q.s2qua_svs
+      val () =
+      assertloc(list_is_nil(s2q.s2qua_sps))
+//
+      val s2es =
+      stasub_s2varlst_instcollect(sub, locarg, s2vs, list_vt_nil)
+//
+      val t2ma =
+        t2mpmarg_make (locarg, (l2l)s2es)
       val t2mas = list_vt_cons (t2ma, t2mas)
+//
     in
-      loop (locarg, sub, s2qs, t2mas, err)
+      loop (locarg, sub, s2qs, t2mas, nerr)
     end // end of [list_cons]
-  | list_nil () => list_vt_reverse (t2mas)
 end // end of [loop]
 //
 var sub
   : stasub = stasub_make_nil ()
 // end of [var]
-val t2mas = loop (locarg, sub, s2qs, list_vt_nil, err)
+//
+val
+t2mas =
+loop (
+  locarg, sub, s2qs, list_vt_nil, nerr
+) (* end of [val] *)
+//
 val s2e_res = s2exp_subst (sub, s2e_tmp)
-val () = stasub_free (sub)
+//
+val ((*freed*)) = stasub_free (sub)
 //
 in
   (s2e_res, (l2l)t2mas)
@@ -702,19 +732,21 @@ end // end of [s2exp_tmp_instantiate_rest]
 
 implement
 s2exp_tmp_instantiate_tmpmarglst
-  (s2e_tmp, locarg, s2qs, t2mas, err) = let
+  (s2e_tmp, locarg, s2qs, t2mas, nerr) = let
 //
 fun
 auxerr
 (
   locarg: location
 ) : void = let
-  val () = prerr_error3_loc (locarg)
-  val () = filprerr_ifdebug "s2exp_tmp_instantiate_tmpmarglst"
-  val () = prerr ": the template instantiation is overly done."
-  val () = prerr_newline ((*void*))
+  val () =
+  prerr_error3_loc (locarg)
+  val () =
+  filprerr_ifdebug "s2exp_tmp_instantiate_tmpmarglst"
+  val () =
+  prerrln! ": the template instantiation is overly done."
 in
-  the_trans3errlst_add (T3E_s2varlst_instantiate_napp (locarg, 1))
+  the_trans3errlst_add(T3E_s2varlst_instantiate_napp(locarg, 1))
 end (* end of [auxerr] *)
 //
 var locarg: location = locarg
@@ -726,55 +758,76 @@ auxsome
 , locarg: &location
 , s2qs: s2qualst
 , t2mas: t2mpmarglst
-, err: &int
+, nerr: &int
 ) : s2qualst = let
 in
 //
 case+ s2qs of
-| list_cons (s2q, s2qs1) => (
-  case+ t2mas of
-  | list_cons (t2ma, t2mas) => let
-      val s2vs = s2q.s2qua_svs
-      val () = assertloc (list_is_nil (s2q.s2qua_sps))
-      val () = locarg := t2ma.t2mpmarg_loc
-      val s2es = t2ma.t2mpmarg_arg
-      val () = stasub_s2varlst_instantiate_some (sub, locarg, s2vs, s2es, err)
-    in
-      auxsome (sub, locarg, s2qs1, t2mas, err)
-    end // end of [list_cons]
-  | list_nil () => s2qs
-  ) // end of [list_cons]
 | list_nil () => (
   case+ t2mas of
-  | list_cons (t2ma, t2mas) => let
-      val () = err := err + 1
-      val () = auxerr (locarg)
+  | list_nil() => list_nil ()
+  | list_cons(t2ma, t2mas) => let
+      val () = nerr := nerr + 1
       val () = locarg := t2ma.t2mpmarg_loc
+      val () = auxerr (locarg)
     in
-      auxsome (sub, locarg, s2qs, t2mas, err)
+      auxsome (sub, locarg, s2qs, t2mas, nerr)
     end // end of [list_cons]
-  | list_nil () => list_nil ()
-  ) // end of [list_nil]
+  ) (* end of [list_nil] *)
+| list_cons(s2q, s2qs1) => (
+  case+ t2mas of
+  | list_nil() => s2qs
+  | list_cons(t2ma, t2mas) => let
+//
+      val
+      s2vs = s2q.s2qua_svs
+      val () =
+      assertloc(list_is_nil(s2q.s2qua_sps))
+//
+      val
+      s2es = t2ma.t2mpmarg_arg
+      val () = locarg := t2ma.t2mpmarg_loc
+//
+      val () =
+      stasub_s2varlst_instantiate_some (sub, locarg, s2vs, s2es, nerr)
+//
+    in
+      auxsome (sub, locarg, s2qs1, t2mas, nerr)
+    end // end of [list_cons]
+  ) (* end of [list_cons] *)
 //
 end // end of [auxsome]
 //
 var sub
-  : stasub = stasub_make_nil ()
+  : stasub = stasub_make_nil()
 // end of [var]
-val s2qs = auxsome (sub, locarg, s2qs, t2mas, err)
-val s2e_res = s2exp_subst (sub, s2e_tmp)
-val () = stasub_free (sub)
+val
+s2qs =
+auxsome
+(
+  sub, locarg, s2qs, t2mas, nerr
+) (* end of [val] *)
+//
+val
+s2e_res = s2exp_subst (sub, s2e_tmp)
+//
+val ((*freed*)) = stasub_free (sub)
 //
 in
 //
 case+ s2qs of
+//
+| list_nil() => (s2e_res, t2mas)
+//
 | list_cons _ => let
-    val locarg = $LOC.location_rightmost (locarg)
-    val (s2e2_res, t2mas2) = s2exp_tmp_instantiate_rest (s2e_res, locarg, s2qs, err)
+    val locarg =
+      $LOC.location_rightmost (locarg)
+    val (s2e2_res, t2mas2) =
+      s2exp_tmp_instantiate_rest (s2e_res, locarg, s2qs, nerr)
   in
     (s2e2_res, list_append (t2mas, t2mas2))
   end // end of [list_cons]
-| list_nil () => (s2e_res, t2mas)
+//
 end // end of [s2exp_tmp_instantiate_tmpmarglst]
 
 end // end of [local]

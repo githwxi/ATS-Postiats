@@ -858,8 +858,9 @@ and d2exp_node =
   | D2Efreeat of (* freeing at a given address *)
       (s2exparglst, d2exp)
 //
-  | D2Etmpid of (* template instantiation *)
-      (d2exp(*id*), t2mpmarglst)
+  | D2Etmpid of
+      (d2exp(*id*), t2mpmarglst) // tmpcst/tmpvar instantiation
+    // end of [D2Etmpid]
 //
   | D2Elet of (d2eclist, d2exp) // let-expression
   | D2Ewhere of (d2exp, d2eclist) // where-expression

@@ -2020,5 +2020,123 @@ d1l0.d1lab_node of
 end // end of [d1lab_tr]
 
 (* ****** ****** *)
+//
+// HX: it is declared in [pats_trans3_env.sats]
+//
+extern
+fun
+s2exp_tmp_instantiate_tmpmarglst
+(
+  s2f: s2exp
+, locarg: loc_t, s2qs: s2qualst, t2mas: t2mpmarglst, err: &int
+) : (s2exp(*res*), t2mpmarglst) = "ext#patsopt_s2exp_tmp_instantiate_tmpmarglst"
+//
+implement
+S1Ed2ctype_tr(d2ctp) = let
+//
+val d2e0 =
+  d1exp_tr($UN.cast{d1exp}(d2ctp))
+//
+fun
+auxerr_cst
+(
+  d2c: d2cst
+) :<cloref1> void =
+{
+  val () =
+  prerr_error2_loc (d2e0.d2exp_loc)
+  val () = filprerr_ifdebug "S1Ed2ctype_tr"
+  val () =
+  prerrln! (": the dynamic constant [", d2c, "] should be instantiated.")
+  val () = the_trans2errlst_add (T2E_S1Ed2ctype_tr(d2ctp))
+}
+//
+fun
+auxerr1_tmpid
+(
+  d2e_id: d2exp
+) :<cloref1> void =
+{
+  val () =
+  prerr_error2_loc (d2e_id.d2exp_loc)
+  val () = filprerr_ifdebug "S1Ed2ctype_tr"
+  val () =
+  prerrln! (": a declared dynamic constant is expected instead of [", d2e_id, "].")
+}
+fun
+auxerr2_tmpid
+(
+  d2e_id: d2exp, d2c: d2cst
+) :<cloref1> void =
+{
+  val () =
+  prerr_error2_loc (d2e_id.d2exp_loc)
+  val () = filprerr_ifdebug "S1Ed2ctype_tr"
+  val () =
+  prerrln! (": the dynamic constant [", d2c, "] is required to be be fully instantiated.")
+  val () = the_trans2errlst_add (T2E_S1Ed2ctype_tr(d2ctp))
+}
+//
+in
+//
+case+
+d2e0.d2exp_node
+of (* cast+ *)
+//
+| D2Ecst(d2c) => let
+    val
+    istmp = d2cst_is_tmpcst(d2c)
+    val () =
+    if istmp then auxerr_cst(d2c)
+  in
+    d2cst_get_type(d2c)
+  end // end of [D2Ecst]
+//
+| D2Etmpid
+    (d2e_id, t2mas) => (
+    case+
+    d2e_id.d2exp_node
+    of (* case+ *)
+    | D2Ecst (d2c) => let
+        val
+        loc0 = d2e0.d2exp_loc
+        val
+        locarg =
+        $LOC.location_rightmost(loc0)
+        val s2e = d2cst_get_type(d2c)
+        val s2qs = d2cst_get_decarg (d2c)
+        val s2e_d2c = d2cst_get_type (d2c)
+//
+        var err: int = 0
+        val (s2e_tmp, t2mas2) =
+        s2exp_tmp_instantiate_tmpmarglst(s2e_d2c, locarg, s2qs, t2mas, err)
+//
+        val sgn =
+        list_length_compare(t2mas, t2mas2)
+        val ((*check*)) =
+        if sgn < 0 then auxerr2_tmpid(d2e_id, d2c) // partial instantiation
+//
+      in
+        s2e_tmp
+      end // end of [D2Ecst]
+    | _ (*non-D2Ecst*) => let
+        val () = auxerr1_tmpid(d2e_id) in s2exp_s2rt_err()
+      end // end of [non-D2Ecst]
+  ) (* end of [D2Etmpid] *)
+//
+| _(*rest-of-d2exp*) => let
+    val () =
+    prerr_error2_loc (d2e0.d2exp_loc)
+    val () = filprerr_ifdebug "S1Ed2ctype_tr"
+    val () =
+    println! (": [$d2ctype] can only be applied to a declared dynamic constant.")
+    val () = the_trans2errlst_add (T2E_S1Ed2ctype_tr(d2ctp))
+  in
+    s2exp_s2rt_err((*error*))
+  end // end of [rest-d2exp]
+//
+end // end of [S1Ed2ctype_tr]
+
+(* ****** ****** *)
 
 (* end of [pats_trans2_dynexp.dats] *)

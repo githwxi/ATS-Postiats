@@ -45,6 +45,12 @@ cleanall:: ; $(RMF) conjdisj
 ######
 
 all:: \
+d2ctype
+d2ctype: d2ctype.dats ; $(PATSCC2) -tcats $<
+
+######
+
+all:: \
 dotoverld
 dotoverld: dotoverld.dats ; \
   $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<

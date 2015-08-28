@@ -375,25 +375,29 @@ end // end of [d0exp_tr_lams_dyn]
 (* ****** ****** *)
 
 implement
-termination_metric_check
-  (loc, ismet, efcopt) = let
-in
+termet_check
+(
+  loc, ismet, efcopt
+) = (
+//
   case+ efcopt of
   | Some efc => let
       val okay = (
         if ismet then true else effcst_contain_ntm (efc)
       ) : bool // end of [val]
     in
-      if ~okay then let
-        val () = prerr_error1_loc (loc)
-        val () = prerrln! (": a termination metric is missing")
-        val () = the_trans1errlst_add (T1E_termination_metric_check(loc))
-      in
-        // nothing
-      end // end of [if]
+      if ~okay then
+      {
+        val () =
+          prerr_error1_loc (loc)
+        val () =
+          prerrln! (": a termination metric is missing")
+        val () = the_trans1errlst_add (T1E_termet_check(loc))
+      } (* end of [if] *)
     end // end of [Some]
   | None ((*void*)) => () // end of [None]
-end // end of [termination_metric_check]
+//
+) (* end of [termet_check] *)
 
 (* ****** ****** *)
 
@@ -879,58 +883,79 @@ case+ d0e0.d0exp_node of
       fcopt, lin, efcopt
     ) = (
       case+ effopt of
-      | Some eff => let
-          val (fcopt, lin, prf, efc) = e0fftaglst_tr (eff)
+      | Some(eff) => let
+          val
+          ( fcopt
+          , lin, prf, efc
+          ) = e0fftaglst_tr(eff)
         in
-          (fcopt, lin, Some efc)
+          (fcopt, lin, Some(efc))
         end // end of [Some]
-      | None () => (
-          None () (*fcopt*), 0 (*lin*), None () (*efcopt*)
+      | None((*void*)) => (
+          None(*fcopt*), 0(*lin*), None(*efcopt*)
         ) // end of [None]
-    ) : (fcopt, int, effcstopt)
-    val d1e_def = d0exp_tr_lams_dyn (
+    ) : (fcopt, int, effcstopt) // end of [val]
+    val d1e_def =
+    d0exp_tr_lams_dyn (
       knd, Some loc0, fcopt, lin, args, res, efcopt, d0e_def
-    ) // end of [val]
+    ) (* end of [val] *)
 //
-    val ismet = d1exp_is_metric (d1e_def)
-    val () = termination_metric_check (loc0, ismet, efcopt)
+    val
+    ismet =
+    d1exp_is_metric (d1e_def)
+    val () =
+    termet_check (loc0, ismet, efcopt)
 //
-    val isbox = lamkind_isbox (knd) // HX: fixind = lamkind
+    val
+    isbox = lamkind_isbox (knd) // HX: fixind = lamkind
     val knd = (if isbox > 0 then 1 else 0): int
 //
   in
     FXITMatm (d1exp_fix (loc0, knd, id, d1e_def))
   end // end of [D0Efix]
 //
-| D0Edelay (knd, d0e) => let
+| D0Edelay
+    (knd, d0e) => let
     val d1e = d0exp_tr (d0e) in FXITMatm (d1exp_delay (loc0, knd, d1e))
   end // end of [D0Edelay]
 //
-| D0Esel_lab (knd, lab) => let
+| D0Esel_lab
+    (knd, lab) => let
     val d1l = d1lab_lab (loc0, lab)
-    fn f (d1e: d1exp):<cloref1> d1expitm =
+    fn f (
+      d1e: d1exp
+    ) :<cloref1> d1expitm =
       let val loc = d1e.d1exp_loc + loc0 in
-        FXITMatm (d1exp_selab (loc, knd, d1e, d1l))
-      end // end of [let]
+        FXITMatm (d1exp_selab (loc, knd, d1e, d1l)) end // end of [let]
     // end of [f]
   in
     FXITMopr (loc0, FXOPRpos (select_prec, f))
   end // end of [D0Esel_lab]
-| D0Esel_ind (knd, d0ess) => let
-    val d0es_ind = list_concat (d0ess)
-    val d1es_ind = d0explst_tr ($UN.castvwtp1{d0explst}(d0es_ind))
+| D0Esel_ind
+    (knd, d0ess) => let
+//
+    val
+    d0es_ind = list_concat (d0ess)
+    val
+    d1es_ind =
+    d0explst_tr
+      ($UN.castvwtp1{d0explst}(d0es_ind))
+    // end of [val]
     val () = list_vt_free (d0es_ind)
+//
     val d1l = d1lab_ind (loc0, d1es_ind)
-    fn f (d1e: d1exp):<cloref1> d1expitm =
+    fn f (
+      d1e: d1exp
+    ) :<cloref1> d1expitm =
       let val loc = d1e.d1exp_loc + loc0 in
-        FXITMatm (d1exp_selab (loc, knd, d1e, d1l))
-      end // end of [let]
+        FXITMatm (d1exp_selab (loc, knd, d1e, d1l)) end // end of [let]
     // end of [f]
   in
     FXITMopr (loc0, FXOPRpos (select_prec, f))
   end // end of [D0Esel_ind]
 //
-| D0Etrywith (hd, d0e, c0ls) => let
+| D0Etrywith
+    (hd, d0e, c0ls) => let
     val inv = i0nvresstate_tr (hd.tryhead_inv)
     val d1e = d0exp_tr (d0e)
     val c1ls = c0laulst_tr (c0ls)
@@ -938,21 +963,30 @@ case+ d0e0.d0exp_node of
     FXITMatm (d1exp_trywith (loc0, inv, d1e, c1ls))
   end // end of [D0Etrywith]
 //
-| D0Efor (invopt, loc_inv, itp, body) => let
-    val inv = (case+ invopt of
+| D0Efor
+  (
+    invopt, loc_inv, itp, body
+  ) => let
+    val inv = (
+      case+ invopt of
       | Some x => loopi0nv_tr (loc_inv, x) | None _ => loopi1nv_nil (loc_inv)
     ) : loopi1nv // end of [val]
-    val init = d0exp_tr itp.itp_init
-    val test = d0exp_tr itp.itp_test
-    val post = d0exp_tr itp.itp_post
+    val init =
+      d0exp_tr itp.itp_init
+    val test =
+      d0exp_tr itp.itp_test
+    val post =
+      d0exp_tr itp.itp_post
     val body = d0exp_tr body
   in 
     FXITMatm (d1exp_for (loc0, inv, init, test, post, body))
   end // end of [D0Efor]
-| D0Ewhile (
+| D0Ewhile
+  (
     invopt, loc_inv, test, body
   ) => let
-    val inv = (case+ invopt of
+    val inv = (
+      case+ invopt of
       | Some x => loopi0nv_tr (loc_inv, x) | None _ => loopi1nv_nil (loc_inv)
     ) : loopi1nv // end of [val]
     val test = d0exp_tr (test)
@@ -972,12 +1006,8 @@ case+ d0e0.d0exp_node of
     FXITMatm(d1exp_macsyn (loc0, knd, d0exp_tr(d0e)))
   // end of [D0Emacsyn]
 //
-| D0Esolassert(d0e) =>
-    FXITMatm(d1exp_solassert(loc0, d0exp_tr(d0e)))
-  // end of [D0Esolassert]
-| D0Esolverify(s0e) =>
-    FXITMatm(d1exp_solverify(loc0, s0exp_tr(s0e)))
-  // end of [D0Esolverify]
+| D0Esolassert(d0e) => FXITMatm(d1exp_solassert(loc0, d0exp_tr(d0e)))
+| D0Esolverify(s0e) => FXITMatm(d1exp_solverify(loc0, s0exp_tr(s0e)))
 //
 (*
 | _ => let
@@ -1018,29 +1048,48 @@ val () = {
 //
 in
 //
-case+ aux_item (d0e0) of
-| FXITMatm (p1t) => p1t
-| FXITMopr _ => d0exp_tr_errmsg_opr (d0e0)
+case+
+aux_item(d0e0)
+of (* case+ *)
+| FXITMatm(p1t) => p1t
+| FXITMopr(_, _) => d0exp_tr_errmsg_opr (d0e0)
 //
 end // end of [d0exp_tr]
 
 end // end of [local]
 
-implement
-d0explst_tr (xs) = l2l(list_map_fun (xs, d0exp_tr))
+(* ****** ****** *)
 
 implement
-d0expopt_tr (opt) = case+ opt of
-  | Some (d0e) => Some (d0exp_tr d0e) | None () => None ()
-// end of [d0expopt_tr]
+d0explst_tr (xs) = l2l(list_map_fun(xs, d0exp_tr))
+
+(* ****** ****** *)
+
+implement
+d0expopt_tr
+  (opt) = (
+//
+case+ opt of
+ | Some(d0e) => Some(d0exp_tr(d0e)) | None() => None()
+//
+) (* end of [d0expopt_tr] *)
 
 (* ****** ****** *)
 
 implement
 labd0exp_tr (ld0e) = let
-  val+DL0ABELED (l, d0e) = ld0e in labd1exp_make (l, d0exp_tr (d0e))
+  val+DL0ABELED (l, d0e) = ld0e in labd1exp_make(l, d0exp_tr(d0e))
 end // end of [labd0exp_tr]
 
+(* ****** ****** *)
+//
+implement
+S0Ed2ctype_tr
+  (d2ctp) =
+(
+  $UN.cast{S1Ed2ctype}(d0exp_tr($UN.cast{d0exp}(d2ctp)))
+) (* end of [S0Ed2ctype_tr] *)
+//
 (* ****** ****** *)
 
 (* end of [pats_trans1_dynexp.dats] *)

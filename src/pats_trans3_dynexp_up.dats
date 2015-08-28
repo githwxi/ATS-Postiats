@@ -1121,8 +1121,10 @@ d2exp_trup_tmpcst
 //
 val locarg =
   $LOC.location_rightmost (loc0)
+//
 val s2qs = d2cst_get_decarg (d2c)
 val s2e_d2c = d2cst_get_type (d2c)
+//
 var err: int = 0
 val (s2e_tmp, t2mas) =
   s2exp_tmp_instantiate_tmpmarglst (s2e_d2c, locarg, s2qs, t2mas, err)
@@ -1157,7 +1159,8 @@ val-D2Etmpid (d2e_id, t2mas) = d2e0.d2exp_node
 in
 //
 case+
-  d2e_id.d2exp_node of
+d2e_id.d2exp_node
+of (* case+ *)
 | D2Ecst (d2c) =>
     d2exp_trup_tmpcst (loc0, d2c, t2mas)
 | D2Evar (d2v) =>

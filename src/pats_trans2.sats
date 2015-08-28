@@ -62,7 +62,7 @@ datatype trans2err =
   | T2E_s1exp_trdn_impred of (s1exp)
   | T2E_s2exp_trdn of (location, s2exp, s2rt)
 //
-  | T2E_d2ctype_tr of S1Ed2ctype
+  | T2E_S1Ed2ctype_tr of S1Ed2ctype
 //
   | T2E_s1arg_trdn of (s1arg, s2rt)
   | T2E_s1marg_trdn of (s1marg, s2rtlst)
@@ -197,8 +197,7 @@ fun witht1ype_tr (wty: witht1ype): s2expopt
 
 (* ****** ****** *)
 //
-fun S1Ed2ctype_tr
-  (loc0: location, d2ctp: S1Ed2ctype): s2exp // HX: $d2ctype(...)
+fun S1Ed2ctype_tr (d2ctp: S1Ed2ctype): s2exp // HX: $d2ctype(...)
 //
 (* ****** ****** *)
 //

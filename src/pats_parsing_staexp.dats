@@ -745,12 +745,11 @@ tok.token_node of
     val () = incby1 ()
 //
     val ent2 = p_LPAREN (buf, bt, err)
-//
     val ent3 =
-    pif_fun(buf, bt, err, p_S0Ed2ctype, err0)
-    val ent3 = $UN.cast{S0Ed2ctype_type}(ent3)
-//
+      pif_fun(buf, bt, err, p_S0Ed2ctype, err0)
+    val ent3 = $UN.cast{S0Ed2ctype}(ent3)
     val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
+//
   in
     if err = err0
       then s0exp_d2ctype(tok, ent3, ent4) else synent_null()
@@ -1706,11 +1705,11 @@ of // case+
 //
 | _ when
     ptest_fun (buf, p_di0de, ent) =>
-    S0Ed2ctype_ide(synent_decode{i0de}(ent))
+    d0exp_ide (synent_decode{i0de}(ent))
 //
 | _ when
     ptest_fun (buf, p_dqi0de, ent) =>
-    S0Ed2ctype_dqid(synent_decode{dqi0de}(ent))
+    d0exp_dqid (synent_decode{dqi0de}(ent))
 //
 | _ when
     ptest_fun (
@@ -1725,7 +1724,7 @@ of // case+
       then let
         val ent2 = (l2l)ent2
       in
-        S0Ed2ctype_tmpid (ent1, ent2, ent3)
+        d0exp_tmpid (ent1, ent2, ent3)
       end // end of [then]
       else let
         val () = list_vt_free(ent2) in synent_null()

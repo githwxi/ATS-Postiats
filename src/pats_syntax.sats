@@ -605,7 +605,7 @@ datatype s0exp_node =
 //
   | S0Eann of (s0exp, s0rt(*ann*)) // sort-ascribed staexps
 //
-  | S0Ed2ctype of (S0Ed2ctype(*dyncst/tmpcst*)) // $d2ctype(...)
+  | S0Ed2ctype of (S0Ed2ctype(*d0exp*)) // $d2ctype(d2c/tmpcst)
 // end of [s0exp_node]
 
 and s0rtext_node =
@@ -774,7 +774,7 @@ fun s0exp_ann (s0e: s0exp, s0t: s0rt): s0exp
 //
 fun
 s0exp_d2ctype
-  (t_beg: token, x: S0Ed2ctype, t_end: token): s0exp
+  (t_beg: token, d2ctp: S0Ed2ctype, t_end: token): s0exp
 //
 (* ****** ****** *)
 
@@ -1264,29 +1264,21 @@ impqi0de_make_some
 (* ****** ****** *)
 //
 datatype
-S0Ed2ctype =
-| S0Ed2ctype_ide of (i0de) // dynamic id
-| S0Ed2ctype_dqid of (dqi0de) // qualified dynamic id
-| S0Ed2ctype_tmpid of (dqi0de, t0mpmarglst, token) // template id
-//
-(* ****** ****** *)
-
-datatype
 f0arg_node =
   | F0ARGdyn of p0at
   | F0ARGsta1 of s0qualst
   | F0ARGsta2 of s0vararg
   | F0ARGmet3 of s0explst
 // end of [f0arg_node]
-
+//
 typedef
 f0arg = '{
   f0arg_loc= location, f0arg_node= f0arg_node
 } (* end of [f0arg] *)
-
+//
 typedef f0arglst = List (f0arg)
-viewtypedef f0arglst_vt = List_vt (f0arg)
-
+vtypedef f0arglst_vt = List_vt (f0arg)
+//
 (* ****** ****** *)
 //
 fun f0arg_dyn (x: p0at): f0arg

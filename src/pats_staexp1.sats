@@ -460,25 +460,28 @@ s1exp_node =
   | S1Elist of (int(*npf*), s1explst)
 //
   | S1Einvar of (int(*ref/val:1/0*), s1exp) // invariant
-  | S1Etrans of (s1exp(*bef*), s1exp(*aft*)) // view(type) transition
+  | S1Etrans of (s1exp(*bef*), s1exp(*aft*)) // transition
 //
-  | S1Etyarr of (s1exp (*element*), s1explst (*dimension*))
+  | S1Etyarr of
+     (s1exp (*element*), s1explst (*dimension*))
   | S1Etytup of
       (int(*knd*), int(*npf*), s1explst) // HX: 0/1: flat/boxed
   | S1Etyrec of
       (int(*knd*), int(*npf*), labs1explst) // HX: 0/1: flat/boxed
   | S1Etyrec_ext of
-      (string(*name*), int(*npf*), labs1explst) // external record type
+      (string(*name*), int(*npf*), labs1explst) // external record
     // end of [S1Etyrec_ext]
 //
-  | S1Euni of (s1qualst, s1exp) // universal quantified
-  | S1Eexi of (int(*funres*), s1qualst, s1exp) // existentially quantifed
+  | S1Euni of (s1qualst, s1exp) // universal quantifier
+  | S1Eexi of
+      (int(*funres*), s1qualst, s1exp) // existential quantifier
+    // end of [S1Eexi]
 //
-  | S1Eann of (s1exp, s1rt) // sort-ascribed static expression
+  | S1Eann of (s1exp, s1rt(*ann*)) // sort-ascribed staexps
 //
-  | S1Ed2ctype of (S1Ed2ctype(*dyncst/tmpcst*)) // $d2ctype(...)
+  | S1Ed2ctype of (S1Ed2ctype(*d1exp*)) // $d2ctype(d2c/tmpcst)
 //
-  | S1Eerr of () // HX: placeholder for error indication
+  | S1Eerr of ((*error*)) // HX: this one is for indication of errors
 // end of [s1exp_node]
 
 and s1rtext_node =
@@ -884,23 +887,16 @@ fun i1mparg_svararglst (arg: s1vararglst): i1mparg
 fun fprint_i1mparg : fprint_type (i1mparg)
 
 (* ****** ****** *)
-
+//
 typedef
 t1mpmarg = '{
   t1mpmarg_loc= location, t1mpmarg_arg= s1explst
-} // end of [t1mpmarg]
-
-typedef t1mpmarglst = List (t1mpmarg)
-
-fun t1mpmarg_make (loc: location, arg: s1explst): t1mpmarg
-
-(* ****** ****** *)
+} (* end of [t1mpmarg] *)
 //
-datatype
-S1Ed2ctype =
-| S1Ed2ctype_ide of (i0de) // dyn-id
-| S1Ed2ctype_dqid of (dqi0de) // qualified dyn-id
-| S1Ed2ctype_tmpid of (loc_t, dqi0de, t1mpmarglst) // template id
+typedef
+t1mpmarglst = List (t1mpmarg)
+//
+fun t1mpmarg_make (loc: location, arg: s1explst): t1mpmarg
 //
 (* ****** ****** *)
 

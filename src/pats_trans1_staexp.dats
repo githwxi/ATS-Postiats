@@ -488,13 +488,7 @@ of (* case+ *)
     end // end of [S0Eann]
 //
   | S0Ed2ctype (d2ctp) => let
-//
-      val d2ctp =
-        $UN.cast{S0Ed2ctype}(d2ctp)
-      val d2ctp = S0Ed2ctype_tr (d2ctp)
-      val d2ctp = 
-        $UN.cast{S1Ed2ctype_type}(d2ctp)
-//
+      val d2ctp = S0Ed2ctype_tr(d2ctp)
     in
       FXITMatm (s1exp_d2ctype(loc0, d2ctp))
     end // end of [S0Ed2ctype]
@@ -672,29 +666,6 @@ case+ m0as of
 //
 end // end of [m0acarglst_tr]
 
-(* ****** ****** *)
-//
-implement
-S0Ed2ctype_tr
-  (d2ctp) =
-(
-case+ d2ctp of
-| S0Ed2ctype_ide
-    (id) => S1Ed2ctype_ide (id)
-| S0Ed2ctype_dqid
-    (dqid) => S1Ed2ctype_dqid (dqid)
-| S0Ed2ctype_tmpid
-    (dqid, tmparg, tok) => let
-    val loc =
-      dqid.dqi0de_loc + tok.token_loc
-    val tmparg =
-      list_map_fun (tmparg, t0mpmarg_tr)
-    // end of [val]
-  in
-    S1Ed2ctype_tmpid(loc, dqid, (l2l)tmparg)
-  end // end of [S0Ed2ctype_tmpid]
-)
-//
 (* ****** ****** *)
 
 implement

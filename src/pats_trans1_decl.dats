@@ -491,7 +491,7 @@ d0exp_tr_lams_dyn
 //
 val () =
 if isrec then
-  termination_metric_check (loc, d1exp_is_metric d1e_def, efcopt)
+  termet_check (loc, d1exp_is_metric d1e_def, efcopt)
 // end of [if] // end of [val]
 //
 val ann = witht0ype_tr (d.f0undec_ann)
