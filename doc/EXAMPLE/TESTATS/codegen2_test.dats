@@ -1,6 +1,10 @@
 (* ****** ****** *)
 
-#include "./codegen2_out.dats"
+#include "./codegen2.dats" // written
+
+(* ****** ****** *)
+
+#include "./codegen2_out.dats" // generated
 
 (* ****** ****** *)
 //

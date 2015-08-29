@@ -284,7 +284,9 @@ cleanall:: ; $(RMF) d2ctype
 all:: \
 codegen2
 codegen2: \
-codegen2_out.dats ; $(PATSCC2) -cleanaft -o $@ codegen2_test.dats
+codegen2.dats \
+codegen2_out.dats ; \
+$(PATSCC2) -cleanaft -o $@ codegen2_test.dats
 regress:: codegen2 ; ./$<
 cleanall:: ; $(RMF) codegen2
 #

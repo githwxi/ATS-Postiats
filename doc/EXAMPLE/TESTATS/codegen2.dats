@@ -1,6 +1,10 @@
 //
-// A simple example of
-// datatype and datavtype
+// testing for
+// #codegen2(...)
+//
+(* ****** ****** *)
+//
+// HX-2015-08-28
 //
 (* ****** ****** *)
 //
