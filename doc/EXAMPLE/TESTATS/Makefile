@@ -280,7 +280,7 @@ CPF=cp -f
 all:: \
 codegen2
 codegen2: \
-codegen2_out.dats ; $(PATSCC2) -cleanaft -o $@ $<
+codegen2_out.dats ; $(PATSCC2) -cleanaft -o $@ codegen2_test.dats
 regress:: codegen2 ; ./$<
 cleanall:: ; $(RMF) codegen2
 #
