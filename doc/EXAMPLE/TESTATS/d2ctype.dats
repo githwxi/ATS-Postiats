@@ -3,6 +3,10 @@
 //
 (* ****** ****** *)
 
+staload "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
+
 implement
 {a}(*tmp*)
 list_length(xs) = let
@@ -48,7 +52,11 @@ end // end of [list_append]
 
 (* ****** ****** *)
 
-implement main0 () = ()
+implement
+main0 () = let
+  val xs = cons(1, cons(2, cons(3, nil{int}))) in
+  assertloc (length(list_append(xs, xs)) = 2 * length(xs))
+end // end of [main0]
 
 (* ****** ****** *)
 

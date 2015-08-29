@@ -32,9 +32,9 @@ fprint_weekday
 //
 overload fprint with fprint_weekday
 //
-(*
+// (*
 #codegen2(fprint, weekday, fprint_weekday)
-*)
+// *)
 //
 (* ****** ****** *)
 
