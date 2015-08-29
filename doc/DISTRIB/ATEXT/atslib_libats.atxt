@@ -155,6 +155,10 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/typeval.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/ilist_prf.sats")
 
 (* ****** ****** *)
@@ -290,6 +294,10 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("DATS/stringbuf.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/typeval.dats")
 
 (* ****** ****** *)
 

@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-08-29:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/f3ipzrgMG5c"
+>ATS2-0.2.2 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-08-07:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/WrgLk3BB1ck"
@@ -133,6 +141,8 @@ ATS-2015-02-14:<br>
 >Let us do geometry!</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
+<!--
+
 <hr></hr>
 
 ATS-2015-02-10:<br>
@@ -140,8 +150,6 @@ ATS-2015-02-10:<br>
  href="https://groups.google.com/forum/#!topic/ats-lang-users/A_AzNOxWkRI"
 >Programmer-centric theorem-proving</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
-
-<!--
 
 <hr></hr>
 

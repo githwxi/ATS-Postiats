@@ -501,7 +501,7 @@ HX: VERSION-0.2.1 released on Sunday, July 12, 2015
 *)
 #define PATS_MAJOR_VERSION 0
 #define PATS_MINOR_VERSION 2
-#define PATS_MICRO_VERSION 2
+#define PATS_MICRO_VERSION 3
 (*
 //
 // HX-2011-04-27: this is supported in Postiats:
