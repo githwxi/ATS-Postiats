@@ -6,6 +6,20 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/lK9WrvIT5i8"
+>Support for $d2ctype is added</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/sUfEyVVSr64"
+>Support for #codegen2 is added</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-08-29:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/f3ipzrgMG5c"
@@ -125,6 +139,8 @@ ATS-2015-03-12:<br>
 >A new ATS2TUTORIAL chapter</a><br>(On persistent hashtables)<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
+<!--
+
 <hr></hr>
 
 ATS-2015-02-27:<br>
@@ -140,8 +156,6 @@ ATS-2015-02-14:<br>
  href="https://groups.google.com/forum/#!topic/ats-lang-users/-fkC3tTmCTs"
 >Let us do geometry!</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
-
-<!--
 
 <hr></hr>
 

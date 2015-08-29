@@ -4,7 +4,22 @@
 //
 (* ****** ****** *)
 //
-// HX-2015-08-28
+// Author: HX-2015-08-28
+//
+(* ****** ****** *)
+//
+datatype abc =
+| A of () | B of (int) | C of (abc, abc)
+
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_abc : fprint_type (abc)
+//
+overload fprint with fprint_abc
+//
+#codegen2(fprint, abc, fprint_abc)
 //
 (* ****** ****** *)
 //
