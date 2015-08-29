@@ -32,25 +32,8 @@ fprint_weekday
 //
 overload fprint with fprint_weekday
 //
-// (*
 #codegen2(fprint, weekday, fprint_weekday)
-// *)
 //
-(* ****** ****** *)
-
-implement main0() =
-{
-//
-val () = println! (datcon(Monday),    "=", datcontag(Monday))
-val () = println! (datcon(Tuesday),   "=", datcontag(Tuesday))
-val () = println! (datcon(Wednesday), "=", datcontag(Wednesday))
-val () = println! (datcon(Thursday),  "=", datcontag(Thursday))
-val () = println! (datcon(Friday),    "=", datcontag(Friday))
-val () = println! (datcon(Saturday),  "=", datcontag(Saturday))
-val () = println! (datcon(Sunday),    "=", datcontag_weekday(Sunday))
-//
-} (* end of [main0] *)
-
 (* ****** ****** *)
 
 (* end of [codegen2.dats] *)
