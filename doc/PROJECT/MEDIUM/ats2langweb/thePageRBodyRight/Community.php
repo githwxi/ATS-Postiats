@@ -139,9 +139,9 @@ ATS-2015-03-12:<br>
 >A new ATS2TUTORIAL chapter</a><br>(On persistent hashtables)<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
-<!--
-
 <hr></hr>
+
+<!--
 
 ATS-2015-02-27:<br>
 <a

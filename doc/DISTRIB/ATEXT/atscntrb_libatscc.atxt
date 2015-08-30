@@ -100,10 +100,6 @@ ATSCNTRB/libatscc\
 ")
 
 (* ****** ****** *)
-//
-// JS
-//
-(* ****** ****** *)
 
 #packfilename("basics.sats")
 #packfilename("SATS/list.sats")
@@ -119,12 +115,17 @@ ATSCNTRB/libatscc\
 #packfilename("DATS/intrange.dats")
 
 (* ****** ****** *)
+//
+// JS
+//
+(* ****** ****** *)
 
 #packfilename("libatscc2js/basics_js.sats")
 #packfilename("libatscc2js/staloadall.hats")
 
 (* ****** ****** *)
 
+#packfilename("libatscc2js/SATS/bool.sats")
 #packfilename("libatscc2js/SATS/float.sats")
 #packfilename("libatscc2js/SATS/integer.sats")
 #packfilename("libatscc2js/SATS/string.sats")
@@ -164,6 +165,7 @@ ATSCNTRB/libatscc\
 (* ****** ****** *)
 
 #packfilename("libatscc2js/DATS/print.dats")
+#packfilename("libatscc2js/DATS/basics.dats")
 
 (* ****** ****** *)
 
@@ -173,6 +175,49 @@ ATSCNTRB/libatscc\
 #packfilename("libatscc2js/DATS/arrayref.dats")
 #packfilename("libatscc2js/DATS/matrixref.dats")
 #packfilename("libatscc2js/DATS/reference.dats")
+
+(* ****** ****** *)
+//
+// ERL
+//
+(* ****** ****** *)
+
+#packfilename("libatscc2erl/basics_erl.sats")
+#packfilename("libatscc2erl/staloadall.hats")
+
+(* ****** ****** *)
+
+#packfilename("libatscc2erl/SATS/bool.sats")
+#packfilename("libatscc2erl/SATS/float.sats")
+#packfilename("libatscc2erl/SATS/integer.sats")
+
+(* ****** ****** *)
+
+#packfilename("libatscc2erl/SATS/print.sats")
+
+(* ****** ****** *)
+
+#packfilename("libatscc2erl/SATS/list.sats")
+#packfilename("libatscc2erl/SATS/option.sats")
+#packfilename("libatscc2erl/SATS/intrange.sats")
+#packfilename("libatscc2erl/SATS/reference.sats")
+
+(* ****** ****** *)
+
+#packfilename("libatscc2erl/CATS/bool_cats.hrl")
+#packfilename("libatscc2erl/CATS/float_cats.hrl")
+#packfilename("libatscc2erl/CATS/integer_cats.hrl")
+
+(* ****** ****** *)
+
+#packfilename("libatscc2erl/DATS/print.dats")
+#packfilename("libatscc2erl/DATS/basics.dats")
+
+(* ****** ****** *)
+
+#packfilename("libatscc2erl/DATS/list.dats")
+#packfilename("libatscc2erl/DATS/option.dats")
+#packfilename("libatscc2erl/DATS/intrange.dats")
 
 (* ****** ****** *)
 //
@@ -207,10 +252,16 @@ ATSCNTRB/libatscc\
 (* ****** ****** *)
 
 #packfilename("libatscc2php/CATS/basics_cats.php")
-#packfilename("libatscc2php/CATS/integer_cats.php")
+
+(* ****** ****** *)
+
 #packfilename("libatscc2php/CATS/bool_cats.php")
 #packfilename("libatscc2php/CATS/float_cats.php")
+#packfilename("libatscc2php/CATS/integer_cats.php")
 #packfilename("libatscc2php/CATS/string_cats.php")
+
+(* ****** ****** *)
+
 #packfilename("libatscc2php/CATS/print_cats.php")
 #packfilename("libatscc2php/CATS/filebas_cats.php")
 
@@ -237,26 +288,29 @@ ATSCNTRB/libatscc\
 
 (* ****** ****** *)
 
-#packfilename("libatscc2pl/SATS/integer.sats")
 #packfilename("libatscc2pl/SATS/bool.sats")
+#packfilename("libatscc2pl/SATS/integer.sats")
 #packfilename("libatscc2pl/SATS/string.sats")
+
+(* ****** ****** *)
+
 #packfilename("libatscc2pl/SATS/print.sats")
 #packfilename("libatscc2pl/SATS/filebas.sats")
 
 (* ****** ****** *)
 
+#packfilename("libatscc2pl/SATS/list.sats")
 #packfilename("libatscc2pl/SATS/PLarray.sats")
 
 (* ****** ****** *)
 
-#packfilename("libatscc2pl/SATS/list.sats")
+#packfilename("libatscc2pl/CATS/basics_cats.pl")
 
 (* ****** ****** *)
 
-#packfilename("libatscc2pl/CATS/basics_cats.pl")
-#packfilename("libatscc2pl/CATS/integer_cats.pl")
 #packfilename("libatscc2pl/CATS/bool_cats.pl")
 #packfilename("libatscc2pl/CATS/float_cats.pl")
+#packfilename("libatscc2pl/CATS/integer_cats.pl")
 #packfilename("libatscc2pl/CATS/string_cats.pl")
 #packfilename("libatscc2pl/CATS/print_cats.pl")
 
@@ -271,27 +325,34 @@ ATSCNTRB/libatscc\
 
 (* ****** ****** *)
 
-#packfilename("libatscc2py/SATS/integer.sats")
 #packfilename("libatscc2py/SATS/bool.sats")
 #packfilename("libatscc2py/SATS/char.sats")
+#packfilename("libatscc2py/SATS/integer.sats")
 #packfilename("libatscc2py/SATS/string.sats")
+
+(* ****** ****** *)
+
 #packfilename("libatscc2py/SATS/print.sats")
 #packfilename("libatscc2py/SATS/filebas.sats")
-#packfilename("libatscc2py/SATS/PYlist.sats")
 
 (* ****** ****** *)
 
 #packfilename("libatscc2py/SATS/list.sats")
+#packfilename("libatscc2py/SATS/PYlist.sats")
 
 (* ****** ****** *)
 
 #packfilename("libatscc2py/CATS/basics_cats.py")
-#packfilename("libatscc2py/CATS/integer_cats.py")
+
+(* ****** ****** *)
+
 #packfilename("libatscc2py/CATS/bool_cats.py")
 #packfilename("libatscc2py/CATS/char_cats.py")
+#packfilename("libatscc2py/CATS/integer_cats.py")
 #packfilename("libatscc2py/CATS/string_cats.py")
-#packfilename("libatscc2py/CATS/filebas_cats.py")
+
 #packfilename("libatscc2py/CATS/PYlist_cats.py")
+#packfilename("libatscc2py/CATS/filebas_cats.py")
 
 (* ****** ****** *)
 
