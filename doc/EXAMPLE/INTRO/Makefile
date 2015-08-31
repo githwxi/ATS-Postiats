@@ -145,6 +145,12 @@ cleanall:: ; $(RMF) tally
 
 ######
 
+testall:: all
+testall:: regress
+testall:: cleanall
+
+######
+
 acker1: acker1.dats ; $(PATSCC) -o $@ $<
 acker2: acker2.dats ; $(PATSCC) -o $@ $<
 acker3: acker3.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
