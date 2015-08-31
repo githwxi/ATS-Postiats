@@ -46,7 +46,7 @@
 ;; Regular expressions for detecting and reporting errors.
 (push '("^\\(syntax error\\): *\\([^ ]+\\):.*line=\\([0-9]+\\).*$" 2 3 nil 1)
       flymake-err-line-patterns)
-(push '("^\\(.+.dats\\|.sats\\|.hats\\):.*line=\\([0-9]+\\).*\\(error.+\\)$" 1 2 nil 3)
+(push '("^\\(.+.dats\\|.+.sats\\|.+.hats\\):.*line=\\([0-9]+\\).*\\(error.+\\)$" 1 2 nil 3)
       flymake-err-line-patterns)
 
 (defun ats2-flymake-load ()
