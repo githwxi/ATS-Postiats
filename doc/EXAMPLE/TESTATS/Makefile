@@ -290,7 +290,8 @@ $(PATSCC2) -cleanaft -o $@ codegen2_test.dats -DATS_MEMALLOC_LIBC
 regress:: codegen2 ; ./$<
 cleanall:: ; $(RMF) codegen2
 #
-codegen2_out.dats:: ; $(PATSOPT) --output-a $@ --codegen-2 -d codegen2.dats
+codegen2_out.dats: \
+codegen2.dats; $(PATSOPT) --output-a $@ --codegen-2 -d codegen2.dats
 #
 cleanall:: ; $(RMF) codegen2_out.dats
 #
