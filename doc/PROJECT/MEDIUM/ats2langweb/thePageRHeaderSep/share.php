@@ -77,6 +77,7 @@ thePageRHeaderSep_submenu_for_Downloads($name)
   echo "<tr><td><a href=\"$page#Install_source_compile\">Installation through source compilation</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Install_of_ATS2_contrib\">Installation of ATS2-contrib</a></td></tr>\n";
   echo "<tr><td><a href=\"$page#Install_of_ATS2_include\">Installation of ATS2-include</a></td></tr>\n";
+  echo "<tr><td><a href=\"$page#Scripts_for_installing_ATS2_ATS2_contrib\">Scripts for installing ATS2/ATS2-contrib</a></td></tr>\n";
   echo "</table>\n";
   return;
 } /* end of [thePageRBodyLHeader_Downloads] */

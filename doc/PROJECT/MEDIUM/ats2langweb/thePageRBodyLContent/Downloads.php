@@ -325,6 +325,17 @@ ATS2-include.
 
 <hr></hr>
 
+<h2>
+<a id="Scripts_for_installing_ATS2_ATS2_contrib">Scripts for installing ATS2/ATS2-contrib</a>
+</h2>
+
+<p>
+Please find various scripts for installing ATS2/ATS2-contrib
+<a href="https://github.com/ats-lang/ats-lang.github.io/tree/master/SCRIPT">on-line</a>.
+</pr
+
+<hr></hr>
+
 </div>
 
 <?php /* end of [Downloads.php] */ ?>

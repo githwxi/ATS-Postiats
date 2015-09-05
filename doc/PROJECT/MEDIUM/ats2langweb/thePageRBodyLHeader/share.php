@@ -25,6 +25,7 @@ thePageRBodyLHeader_Downloads()
   echo "<li><a href=\"#Install_source_compile\">Installation through source compilation</a></li>\n";
   echo "<li><a href=\"#Install_of_ATS2_contrib\">Installation of ATS2-contrib</a></li>\n";
   echo "<li><a href=\"#Install_of_ATS2_include\">Installation of ATS2-include</a></li>\n";
+  echo "<li><a href=\"#Scripts_for_installing_ATS2_ATS2_contrib\">Scripts for installing ATS2/ATS2-contrib</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Downloads] */
