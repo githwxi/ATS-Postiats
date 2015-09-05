@@ -781,8 +781,8 @@ val (pfenv | ()) =
 val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
 val () = $TRENV2.the_trans2_env_pervasive_joinwth (pfenv | filename, d2cs)
 //
-val () = $GLOB.the_PACKNAME_set_none ()
-val () = $TRENV1.the_EXTERN_PREFIX_set_none ()
+val ((*default*)) = $GLOB.the_PACKNAME_set_none ()
+val ((*default*)) = $TRENV1.the_EXTERN_PREFIX_set_none ()
 //
 } // end of [pervasive_load]
 

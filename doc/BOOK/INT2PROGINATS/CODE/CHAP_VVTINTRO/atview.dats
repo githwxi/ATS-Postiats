@@ -77,7 +77,7 @@ implement{a} ptr_set1 (pf | p, x) = !p := x
 (* ****** ****** *)
 
 fn{a:t@ype}
-swap1 {l1,l2:addr}
+swap1{l1,l2:addr}
 (
   pf1: !a @ l1, pf2: !a @ l2 | p1: ptr l1, p2: ptr l2
 ) : void = let
@@ -91,7 +91,7 @@ end // end of [swap1]
 (* ****** ****** *)
 
 fn{a:t@ype}
-swap1 {l1,l2:addr}
+swap1{l1,l2:addr}
 (
   pf1: !a @ l1, pf2: !a @ l2 | p1: ptr l1, p2: ptr l2
 ) : void = let
@@ -172,7 +172,7 @@ fn foo (): void = let
   var z: int with pfz = 3 // pfz is an alias of view@ (z): int(3) @ z
 in
   // nothing
-end // end of [f]
+end // end of [foo]
 
 (* ****** ****** *)
 
