@@ -28,7 +28,7 @@
 (*
 ** Author: Hongwei Xi
 ** Authoremail: (gmhwxiATgmailDOTcom)
-** Time: Marck, 2014
+** Time: March, 2014
 *)
 
 (* ****** ****** *)

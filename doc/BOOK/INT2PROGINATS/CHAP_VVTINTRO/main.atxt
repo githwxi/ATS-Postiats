@@ -353,8 +353,9 @@ a:t@ype}{b:t@ype
 //
 // taking out pf: ((&env, a) -> b, env) @ l
 //
-*)
   prval pf = pclo.0
+//
+*)
   val res = !p.0 (!p.1, x)
 (*
   prval () = pclo.0 := pf // putting the proof pf back

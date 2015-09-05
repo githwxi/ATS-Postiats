@@ -126,9 +126,17 @@ a:t@ype}{b:t@ype
   pclo: !cloptr (a, b, l), x: a
 ) : b = let
   val p = pclo.1
-  prval pf = pclo.0 // takeout pf: ((&env, a) -> b, env) @ l
+(*
+//
+// taking out pf: ((&env, a) -> b, env) @ l
+//
+  prval pf = pclo.0
+//
+*)
   val res = !p.0 (!p.1, x)
-  prval () = pclo.0 := pf // return pf
+(*
+  prval () = pclo.0 := pf // putting the proof pf back
+*)
 in
   res
 end // end of [cloptr]
