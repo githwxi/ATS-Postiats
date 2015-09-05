@@ -1,4 +1,9 @@
 /*
+Time of Generation:
+Thu Sep  3 16:48:16 EDT 2015
+*/
+
+/*
 ******
 *
 * HX-2014-08:
@@ -38,6 +43,8 @@ function
 ATSCKpat_char(tmp, given) { return (tmp === given); }
 function
 ATSCKpat_float(tmp, given) { return (tmp === given); }
+function
+ATSCKpat_string(tmp, given) { return (tmp === given); }
 
 /* ****** ****** */
 
@@ -51,13 +58,13 @@ ATSCKpat_con1 (con, tag) { return (con[0] === tag); }
 function
 ATSINScaseof_fail(errmsg)
 {
-  new Error("ATSINScaseof_fail:"+errmsg);
+  throw new Error("ATSINScaseof_fail:"+errmsg);
   return;
 }
 //
 function
 ATSINSdeadcode_fail()
-  { new Error("ATSINSdeadcode_fail"); return; }
+  { throw new Error("ATSINSdeadcode_fail"); return; }
 //
 /* ****** ****** */
 
@@ -90,6 +97,8 @@ ATSPMVlazyval_eval(lazyval)
   } else {
     lazyval[0] = flag + 1;
   } // end of [if]
+//
+  return;
 //
 } // end of [ATSPMVlazyval_eval]
 
@@ -166,9 +175,15 @@ ats2jspre_assert_errmsg_bool1
 */
 
 /* ****** ****** */
+//
+// HX: for signed integers
+//
+/* ****** ****** */
 
 function
 ats2jspre_neg_int0(x) { return ( -x ); }
+function
+ats2jspre_neg_int1(x) { return ( -x ); }
 
 /* ****** ****** */
 
@@ -254,6 +269,14 @@ ats2jspre_neq_int0_int0(x, y) { return (x !== y); }
 /* ****** ****** */
 
 function
+ats2jspre_compare_int0_int0(x, y)
+{
+  if (x < y) return -1; else if (x > y) return 1; else return 0;
+}
+
+/* ****** ****** */
+
+function
 ats2jspre_lt_int1_int1(x, y) { return (x < y); }
 function
 ats2jspre_lte_int1_int1(x, y) { return (x <= y); }
@@ -267,8 +290,125 @@ function
 ats2jspre_neq_int1_int1(x, y) { return (x !== y); }
 
 /* ****** ****** */
+//
+// HX: for unsigned integers
+//
+/* ****** ****** */
+
+function
+ats2jspre_succ_uint0(x) { return (x + 1); }
+function
+ats2jspre_pred_uint0(x) { return (x - 1); }
+
+/* ****** ****** */
+
+function
+ats2jspre_add_uint0_uint0(x, y) { return (x + y); }
+function
+ats2jspre_sub_uint0_uint0(x, y) { return (x - y); }
+function
+ats2jspre_mul_uint0_uint0(x, y) { return (x * y); }
+function
+ats2jspre_div_uint0_uint0(x, y)
+{ 
+  var q = x / y; return (q >= 0 ? Math.floor(q) : Math.ceil(q));
+}
+function
+ats2jspre_mod_uint0_uint0(x, y) { return (x % y); }
+
+/* ****** ****** */
+
+function
+ats2jspre_lnot_uint0(x) { return (~x); }
+function
+ats2jspre_lor_uint0_uint0(x, y) { return (x | y); }
+function
+ats2jspre_lxor_uint0_uint0(x, y) { return (x ^ y); }
+function
+ats2jspre_land_uint0_uint0(x, y) { return (x & y); }
+
+/* ****** ****** */
+
+function
+ats2jspre_lt_uint0_uint0(x, y) { return (x < y); }
+function
+ats2jspre_lte_uint0_uint0(x, y) { return (x <= y); }
+function
+ats2jspre_gt_uint0_uint0(x, y) { return (x > y); }
+function
+ats2jspre_gte_uint0_uint0(x, y) { return (x >= y); }
+function
+ats2jspre_eq_uint0_uint0(x, y) { return (x === y); }
+function
+ats2jspre_neq_uint0_uint0(x, y) { return (x !== y); }
+
+/* ****** ****** */
+
+function
+ats2jspre_compare_uint0_uint0(x, y)
+{
+  if (x < y) return -1; else if (x > y) return 1; else return 0;
+}
+
+/* ****** ****** */
 
 /* end of [integer_cats.js] */
+/*
+******
+*
+* HX-2014-08:
+* for JavaScript code
+* translated from ATS
+*
+******
+*/
+
+/*
+******
+* beg of [bool_cats.js]
+******
+*/
+
+/* ****** ****** */
+//
+function
+ats2jspre_neg_bool0(x)
+  { return (x ? false : true ); }
+function
+ats2jspre_neg_bool1(x)
+  { return (x ? false : true ); }
+//
+/* ****** ****** */
+//
+function
+ats2jspre_eq_bool0_bool0(x, y) { return (x === y); }
+function
+ats2jspre_neq_bool0_bool0(x, y) { return (x !== y); }
+//
+function
+ats2jspre_eq_bool1_bool1(x, y) { return (x === y); }
+function
+ats2jspre_neq_bool1_bool1(x, y) { return (x !== y); }
+//
+/* ****** ****** */
+//
+function
+ats2jspre_int2bool0(x)
+  { return (x !== 0 ? true : false) ; }
+function
+ats2jspre_int2bool1(x)
+  { return (x !== 0 ? true : false) ; }
+//
+/* ****** ****** */
+//
+function
+ats2jspre_bool2int0(x) { return (x ? 1 : 0); }
+function
+ats2jspre_bool2int1(x) { return (x ? 1 : 0); }
+//
+/* ****** ****** */
+
+/* end of [bool_cats.js] */
 /*
 ******
 *
@@ -382,6 +522,14 @@ function
 ats2jspre_eq_double_double(x, y) { return (x === y); }
 function
 ats2jspre_neq_double_double(x, y) { return (x !== y); }
+
+/* ****** ****** */
+
+function
+ats2jspre_compare_double_double(x, y)
+{
+  if (x < y) return -1; else if (x > y) return 1; else return 0;
+}
 
 /* ****** ****** */
 
@@ -701,10 +849,27 @@ ats2jspre_JSarray_pair(x1, x2) { return [x1, x2]; }
 /* ****** ****** */
 
 function
-ats2jspre_JSarray_get_at(A, i) { return A[i]; }
-function
-ats2jspre_JSarray_set_at(A, i, x) { A[i] = x; return; }
+ats2jspre_JSarray_copy_arrayref(A, n)
+{
+//
+  var A2 = new Array(n);
+  for (var i = 0; i < n; i += 1) A2[i] = A[i]; return A2;
+//
+} // end of [ats2jspre_JSarray_copy_arrayref]
 
+/* ****** ****** */
+//
+function
+ats2jspre_JSarray_get_at
+  (A, i) { return A[i]; }
+function
+ats2jspre_JSarray_set_at
+  (A, i, x0) { A[i] = x0; return; }
+//
+function
+ats2jspre_JSarray_exch_at
+  (A, i, x0) { var x1 = A[i]; A[i] = x0; return x1; }
+//
 /* ****** ****** */
 //
 function
@@ -1170,7 +1335,73 @@ ats2js_HTML5_canvas2d_set_strokeStyle_gradient
 /*
 **
 ** The JavaScript code is generated by atscc2js
-** The starting compilation time is: 2014-11-6: 22h:45m
+** The starting compilation time is: 2015-7-14:  0h:31m
+**
+*/
+
+function
+ats2jspre_cloref0_app(arg0)
+{
+//
+// knd = 0
+  var tmpret0
+  var tmplab, tmplab_js
+//
+  // __patsflab_cloref0_app
+  tmpret0 = arg0[0](arg0);
+  return tmpret0;
+} // end-of-function
+
+
+function
+ats2jspre_cloref1_app(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret1
+  var tmplab, tmplab_js
+//
+  // __patsflab_cloref1_app
+  tmpret1 = arg0[0](arg0, arg1);
+  return tmpret1;
+} // end-of-function
+
+
+function
+ats2jspre_cloref2_app(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret2
+  var tmplab, tmplab_js
+//
+  // __patsflab_cloref2_app
+  tmpret2 = arg0[0](arg0, arg1, arg2);
+  return tmpret2;
+} // end-of-function
+
+
+function
+ats2jspre_cloref3_app(arg0, arg1, arg2, arg3)
+{
+//
+// knd = 0
+  var tmpret3
+  var tmplab, tmplab_js
+//
+  // __patsflab_cloref3_app
+  tmpret3 = arg0[0](arg0, arg1, arg2, arg3);
+  return tmpret3;
+} // end-of-function
+
+
+/* ****** ****** */
+
+/* end-of-compilation-unit */
+/*
+**
+** The JavaScript code is generated by atscc2js
+** The starting compilation time is: 2015-7-14:  0h:31m
 **
 */
 
@@ -1180,6 +1411,7 @@ ats2jspre_list_make_intrange_2(arg0, arg1)
 //
 // knd = 0
   var tmpret0
+  var tmplab, tmplab_js
 //
   // __patsflab_list_make_intrange_2
   tmpret0 = ats2jspre_list_make_intrange_3(arg0, arg1, 1);
@@ -1214,6 +1446,7 @@ ats2jspre_list_make_intrange_3(arg0, arg1, arg2)
   var tmp30
   var tmp31
   var tmp32
+  var tmplab, tmplab_js
 //
   // __patsflab_list_make_intrange_3
   // ATScaseofseq_beg
@@ -1368,30 +1601,31 @@ ats2jspre_list_length(arg0)
 {
 //
 // knd = 0
-  var tmpret42
+  var tmpret44
+  var tmplab, tmplab_js
 //
   // __patsflab_list_length
-  tmpret42 = _ats2jspre_list_loop_8(arg0, 0);
-  return tmpret42;
+  tmpret44 = _ats2jspre_list_loop_10(arg0, 0);
+  return tmpret44;
 } // end-of-function
 
 
 function
-_ats2jspre_list_loop_8(arg0, arg1)
+_ats2jspre_list_loop_10(arg0, arg1)
 {
 //
 // knd = 1
   var apy0
   var apy1
-  var tmpret43
-  var tmp45
-  var tmp46
+  var tmpret45
+  var tmp47
+  var tmp48
   var funlab_js
   var tmplab, tmplab_js
 //
   while(true) {
     funlab_js = 0;
-    // __patsflab__ats2jspre_list_loop_8
+    // __patsflab__ats2jspre_list_loop_10
     // ATScaseofseq_beg
     tmplab_js = 1;
     while(true) {
@@ -1401,20 +1635,20 @@ _ats2jspre_list_loop_8(arg0, arg1)
         case 1: // __atstmplab7
         if(ATSCKptriscons(arg0)) { tmplab_js = 4; break; }
         case 2: // __atstmplab8
-        tmpret43 = arg1;
+        tmpret45 = arg1;
         break;
         // ATSbranchseq_end
         // ATSbranchseq_beg
         case 3: // __atstmplab9
         case 4: // __atstmplab10
-        tmp45 = arg0[1];
-        tmp46 = ats2jspre_add_int1_int1(arg1, 1);
+        tmp47 = arg0[1];
+        tmp48 = ats2jspre_add_int1_int1(arg1, 1);
         // ATStailcalseq_beg
-        apy0 = tmp45;
-        apy1 = tmp46;
+        apy0 = tmp47;
+        apy1 = tmp48;
         arg0 = apy0;
         arg1 = apy1;
-        funlab_js = 1; // __patsflab__ats2jspre_list_loop_8
+        funlab_js = 1; // __patsflab__ats2jspre_list_loop_10
         // ATStailcalseq_end
         break;
         // ATSbranchseq_end
@@ -1422,7 +1656,45 @@ _ats2jspre_list_loop_8(arg0, arg1)
       if (tmplab_js === 0) break;
     } // endwhile
     // ATScaseofseq_end
-    if (funlab_js > 0) continue; else return tmpret43;
+    if (funlab_js > 0) continue; else return tmpret45;
+  } // endwhile-fun
+} // end-of-function
+
+
+function
+ats2jspre_list_get_at(arg0, arg1)
+{
+//
+// knd = 1
+  var apy0
+  var apy1
+  var tmpret49
+  var tmp50
+  var tmp51
+  var tmp52
+  var tmp53
+  var funlab_js
+  var tmplab, tmplab_js
+//
+  while(true) {
+    funlab_js = 0;
+    // __patsflab_list_get_at
+    tmp50 = ats2jspre_eq_int1_int1(arg1, 0);
+    if(tmp50) {
+      tmp51 = arg0[0];
+      tmpret49 = tmp51;
+    } else {
+      tmp52 = arg0[1];
+      tmp53 = ats2jspre_sub_int1_int1(arg1, 1);
+      // ATStailcalseq_beg
+      apy0 = tmp52;
+      apy1 = tmp53;
+      arg0 = apy0;
+      arg1 = apy1;
+      funlab_js = 1; // __patsflab_list_get_at
+      // ATStailcalseq_end
+    } // endif
+    if (funlab_js > 0) continue; else return tmpret49;
   } // endwhile-fun
 } // end-of-function
 
@@ -1432,10 +1704,11 @@ ats2jspre_list_append(arg0, arg1)
 {
 //
 // knd = 0
-  var tmpret47
-  var tmp48
-  var tmp49
-  var tmp50
+  var tmpret54
+  var tmp55
+  var tmp56
+  var tmp57
+  var tmplab, tmplab_js
 //
   // __patsflab_list_append
   // ATScaseofseq_beg
@@ -1447,23 +1720,23 @@ ats2jspre_list_append(arg0, arg1)
       case 1: // __atstmplab11
       if(ATSCKptriscons(arg0)) { tmplab_js = 4; break; }
       case 2: // __atstmplab12
-      tmpret47 = arg1;
+      tmpret54 = arg1;
       break;
       // ATSbranchseq_end
       // ATSbranchseq_beg
       case 3: // __atstmplab13
       case 4: // __atstmplab14
-      tmp48 = arg0[0];
-      tmp49 = arg0[1];
-      tmp50 = ats2jspre_list_append(tmp49, arg1);
-      tmpret47 = [tmp48, tmp50];
+      tmp55 = arg0[0];
+      tmp56 = arg0[1];
+      tmp57 = ats2jspre_list_append(tmp56, arg1);
+      tmpret54 = [tmp55, tmp57];
       break;
       // ATSbranchseq_end
     } // end-of-switch
     if (tmplab_js === 0) break;
   } // endwhile
   // ATScaseofseq_end
-  return tmpret47;
+  return tmpret54;
 } // end-of-function
 
 
@@ -1472,13 +1745,14 @@ ats2jspre_list_reverse(arg0)
 {
 //
 // knd = 0
-  var tmpret51
-  var tmp52
+  var tmpret58
+  var tmp59
+  var tmplab, tmplab_js
 //
   // __patsflab_list_reverse
-  tmp52 = null;
-  tmpret51 = ats2jspre_list_reverse_append(arg0, tmp52);
-  return tmpret51;
+  tmp59 = null;
+  tmpret58 = ats2jspre_list_reverse_append(arg0, tmp59);
+  return tmpret58;
 } // end-of-function
 
 
@@ -1487,31 +1761,32 @@ ats2jspre_list_reverse_append(arg0, arg1)
 {
 //
 // knd = 0
-  var tmpret53
+  var tmpret60
+  var tmplab, tmplab_js
 //
   // __patsflab_list_reverse_append
-  tmpret53 = _ats2jspre_list_loop_12(arg0, arg1);
-  return tmpret53;
+  tmpret60 = _ats2jspre_list_loop_15(arg0, arg1);
+  return tmpret60;
 } // end-of-function
 
 
 function
-_ats2jspre_list_loop_12(arg0, arg1)
+_ats2jspre_list_loop_15(arg0, arg1)
 {
 //
 // knd = 1
   var apy0
   var apy1
-  var tmpret54
-  var tmp55
-  var tmp56
-  var tmp57
+  var tmpret61
+  var tmp62
+  var tmp63
+  var tmp64
   var funlab_js
   var tmplab, tmplab_js
 //
   while(true) {
     funlab_js = 0;
-    // __patsflab__ats2jspre_list_loop_12
+    // __patsflab__ats2jspre_list_loop_15
     // ATScaseofseq_beg
     tmplab_js = 1;
     while(true) {
@@ -1521,21 +1796,21 @@ _ats2jspre_list_loop_12(arg0, arg1)
         case 1: // __atstmplab15
         if(ATSCKptriscons(arg0)) { tmplab_js = 4; break; }
         case 2: // __atstmplab16
-        tmpret54 = arg1;
+        tmpret61 = arg1;
         break;
         // ATSbranchseq_end
         // ATSbranchseq_beg
         case 3: // __atstmplab17
         case 4: // __atstmplab18
-        tmp55 = arg0[0];
-        tmp56 = arg0[1];
-        tmp57 = [tmp55, arg1];
+        tmp62 = arg0[0];
+        tmp63 = arg0[1];
+        tmp64 = [tmp62, arg1];
         // ATStailcalseq_beg
-        apy0 = tmp56;
-        apy1 = tmp57;
+        apy0 = tmp63;
+        apy1 = tmp64;
         arg0 = apy0;
         arg1 = apy1;
-        funlab_js = 1; // __patsflab__ats2jspre_list_loop_12
+        funlab_js = 1; // __patsflab__ats2jspre_list_loop_15
         // ATStailcalseq_end
         break;
         // ATSbranchseq_end
@@ -1543,8 +1818,152 @@ _ats2jspre_list_loop_12(arg0, arg1)
       if (tmplab_js === 0) break;
     } // endwhile
     // ATScaseofseq_end
-    if (funlab_js > 0) continue; else return tmpret54;
+    if (funlab_js > 0) continue; else return tmpret61;
   } // endwhile-fun
+} // end-of-function
+
+
+function
+ats2jspre_list_take(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret65
+  var tmp66
+  var tmp67
+  var tmp68
+  var tmp69
+  var tmp70
+  var tmplab, tmplab_js
+//
+  // __patsflab_list_take
+  tmp66 = ats2jspre_gt_int1_int1(arg1, 0);
+  if(tmp66) {
+    tmp67 = arg0[0];
+    tmp68 = arg0[1];
+    tmp70 = ats2jspre_sub_int1_int1(arg1, 1);
+    tmp69 = ats2jspre_list_take(tmp68, tmp70);
+    tmpret65 = [tmp67, tmp69];
+  } else {
+    tmpret65 = null;
+  } // endif
+  return tmpret65;
+} // end-of-function
+
+
+function
+ats2jspre_list_drop(arg0, arg1)
+{
+//
+// knd = 1
+  var apy0
+  var apy1
+  var tmpret71
+  var tmp72
+  var tmp73
+  var tmp74
+  var funlab_js
+  var tmplab, tmplab_js
+//
+  while(true) {
+    funlab_js = 0;
+    // __patsflab_list_drop
+    tmp72 = ats2jspre_gt_int1_int1(arg1, 0);
+    if(tmp72) {
+      tmp73 = arg0[1];
+      tmp74 = ats2jspre_sub_int1_int1(arg1, 1);
+      // ATStailcalseq_beg
+      apy0 = tmp73;
+      apy1 = tmp74;
+      arg0 = apy0;
+      arg1 = apy1;
+      funlab_js = 1; // __patsflab_list_drop
+      // ATStailcalseq_end
+    } else {
+      tmpret71 = arg0;
+    } // endif
+    if (funlab_js > 0) continue; else return tmpret71;
+  } // endwhile-fun
+} // end-of-function
+
+
+function
+ats2jspre_list_split_at(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret75
+  var tmp76
+  var tmp77
+  var tmplab, tmplab_js
+//
+  // __patsflab_list_split_at
+  tmp76 = ats2jspre_list_take(arg0, arg1);
+  tmp77 = ats2jspre_list_drop(arg0, arg1);
+  tmpret75 = [tmp76, tmp77];
+  return tmpret75;
+} // end-of-function
+
+
+function
+ats2jspre_list_insert_at(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret78
+  var tmp79
+  var tmp80
+  var tmp81
+  var tmp82
+  var tmp83
+  var tmplab, tmplab_js
+//
+  // __patsflab_list_insert_at
+  tmp79 = ats2jspre_gt_int1_int1(arg1, 0);
+  if(tmp79) {
+    tmp80 = arg0[0];
+    tmp81 = arg0[1];
+    tmp83 = ats2jspre_sub_int1_int1(arg1, 1);
+    tmp82 = ats2jspre_list_insert_at(tmp81, tmp83, arg2);
+    tmpret78 = [tmp80, tmp82];
+  } else {
+    tmpret78 = [arg2, arg0];
+  } // endif
+  return tmpret78;
+} // end-of-function
+
+
+function
+ats2jspre_list_remove_at(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret84
+  var tmp85
+  var tmp86
+  var tmp87
+  var tmp88
+  var tmp89
+  var tmp90
+  var tmp91
+  var tmp92
+  var tmplab, tmplab_js
+//
+  // __patsflab_list_remove_at
+  tmp85 = arg0[0];
+  tmp86 = arg0[1];
+  tmp87 = ats2jspre_gt_int1_int1(arg1, 0);
+  if(tmp87) {
+    tmp89 = ats2jspre_sub_int1_int1(arg1, 1);
+    tmp88 = ats2jspre_list_remove_at(tmp86, tmp89);
+    tmp90 = tmp88[0];
+    tmp91 = tmp88[1];
+    tmp92 = [tmp85, tmp91];
+    tmpret84 = [tmp90, tmp92];
+  } else {
+    tmpret84 = [tmp85, tmp86];
+  } // endif
+  return tmpret84;
 } // end-of-function
 
 
@@ -1553,6 +1972,7 @@ ats2jspre_list_app(arg0, arg1)
 {
 //
 // knd = 0
+  var tmplab, tmplab_js
 //
   // __patsflab_list_app
   ats2jspre_list_foreach(arg0, arg1);
@@ -1567,8 +1987,8 @@ ats2jspre_list_foreach(arg0, arg1)
 // knd = 1
   var apy0
   var apy1
-  var tmp60
-  var tmp61
+  var tmp95
+  var tmp96
   var funlab_js
   var tmplab, tmplab_js
 //
@@ -1590,11 +2010,11 @@ ats2jspre_list_foreach(arg0, arg1)
         // ATSbranchseq_beg
         case 3: // __atstmplab21
         case 4: // __atstmplab22
-        tmp60 = arg0[0];
-        tmp61 = arg0[1];
-        arg1[0](arg1, tmp60);
+        tmp95 = arg0[0];
+        tmp96 = arg0[1];
+        arg1[0](arg1, tmp95);
         // ATStailcalseq_beg
-        apy0 = tmp61;
+        apy0 = tmp96;
         apy1 = arg1;
         arg0 = apy0;
         arg1 = apy1;
@@ -1616,11 +2036,12 @@ ats2jspre_list_map(arg0, arg1)
 {
 //
 // knd = 0
-  var tmpret63
-  var tmp64
-  var tmp65
-  var tmp66
-  var tmp67
+  var tmpret98
+  var tmp99
+  var tmp100
+  var tmp101
+  var tmp102
+  var tmplab, tmplab_js
 //
   // __patsflab_list_map
   // ATScaseofseq_beg
@@ -1632,24 +2053,24 @@ ats2jspre_list_map(arg0, arg1)
       case 1: // __atstmplab23
       if(ATSCKptriscons(arg0)) { tmplab_js = 4; break; }
       case 2: // __atstmplab24
-      tmpret63 = null;
+      tmpret98 = null;
       break;
       // ATSbranchseq_end
       // ATSbranchseq_beg
       case 3: // __atstmplab25
       case 4: // __atstmplab26
-      tmp64 = arg0[0];
-      tmp65 = arg0[1];
-      tmp66 = arg1[0](arg1, tmp64);
-      tmp67 = ats2jspre_list_map(tmp65, arg1);
-      tmpret63 = [tmp66, tmp67];
+      tmp99 = arg0[0];
+      tmp100 = arg0[1];
+      tmp101 = arg1[0](arg1, tmp99);
+      tmp102 = ats2jspre_list_map(tmp100, arg1);
+      tmpret98 = [tmp101, tmp102];
       break;
       // ATSbranchseq_end
     } // end-of-switch
     if (tmplab_js === 0) break;
   } // endwhile
   // ATScaseofseq_end
-  return tmpret63;
+  return tmpret98;
 } // end-of-function
 
 
@@ -1659,7 +2080,87 @@ ats2jspre_list_map(arg0, arg1)
 /*
 **
 ** The JavaScript code is generated by atscc2js
-** The starting compilation time is: 2014-11-6: 22h:45m
+** The starting compilation time is: 2015-7-14:  0h:31m
+**
+*/
+
+function
+ats2jspre_option_is_some(arg0)
+{
+//
+// knd = 0
+  var tmpret0
+  var tmplab, tmplab_js
+//
+  // __patsflab_option_is_some
+  // ATScaseofseq_beg
+  tmplab_js = 1;
+  while(true) {
+    tmplab = tmplab_js; tmplab_js = 0;
+    switch(tmplab) {
+      // ATSbranchseq_beg
+      case 1: // __atstmplab0
+      if(ATSCKptrisnull(arg0)) { tmplab_js = 4; break; }
+      case 2: // __atstmplab1
+      tmpret0 = true;
+      break;
+      // ATSbranchseq_end
+      // ATSbranchseq_beg
+      case 3: // __atstmplab2
+      case 4: // __atstmplab3
+      tmpret0 = false;
+      break;
+      // ATSbranchseq_end
+    } // end-of-switch
+    if (tmplab_js === 0) break;
+  } // endwhile
+  // ATScaseofseq_end
+  return tmpret0;
+} // end-of-function
+
+
+function
+ats2jspre_option_is_none(arg0)
+{
+//
+// knd = 0
+  var tmpret1
+  var tmplab, tmplab_js
+//
+  // __patsflab_option_is_none
+  // ATScaseofseq_beg
+  tmplab_js = 1;
+  while(true) {
+    tmplab = tmplab_js; tmplab_js = 0;
+    switch(tmplab) {
+      // ATSbranchseq_beg
+      case 1: // __atstmplab4
+      if(ATSCKptriscons(arg0)) { tmplab_js = 4; break; }
+      case 2: // __atstmplab5
+      tmpret1 = true;
+      break;
+      // ATSbranchseq_end
+      // ATSbranchseq_beg
+      case 3: // __atstmplab6
+      case 4: // __atstmplab7
+      tmpret1 = false;
+      break;
+      // ATSbranchseq_end
+    } // end-of-switch
+    if (tmplab_js === 0) break;
+  } // endwhile
+  // ATScaseofseq_end
+  return tmpret1;
+} // end-of-function
+
+
+/* ****** ****** */
+
+/* end-of-compilation-unit */
+/*
+**
+** The JavaScript code is generated by atscc2js
+** The starting compilation time is: 2015-7-14:  0h:31m
 **
 */
 
@@ -1690,6 +2191,7 @@ ats2jspre_stream_map_cloref(arg0, arg1)
 //
 // knd = 0
   var tmpret0
+  var tmplab, tmplab_js
 //
   // __patsflab_stream_map_cloref
   tmpret0 = [0, _ats2jspre_stream_patsfun_1__closurerize(arg0, arg1)]
@@ -1708,6 +2210,7 @@ _ats2jspre_stream_patsfun_1(env0, env1)
   var tmp4
   var tmp5
   var tmp6
+  var tmplab, tmplab_js
 //
   // __patsflab__ats2jspre_stream_patsfun_1
   ATSPMVlazyval_eval(env0); tmp2 = env0[1];
@@ -1747,6 +2250,7 @@ ats2jspre_stream_filter_cloref(arg0, arg1)
 //
 // knd = 0
   var tmpret7
+  var tmplab, tmplab_js
 //
   // __patsflab_stream_filter_cloref
   tmpret7 = [0, _ats2jspre_stream_patsfun_3__closurerize(arg0, arg1)]
@@ -1766,6 +2270,7 @@ _ats2jspre_stream_patsfun_3(env0, env1)
   var tmp12
   var tmp13
   var tmp14
+  var tmplab, tmplab_js
 //
   // __patsflab__ats2jspre_stream_patsfun_3
   ATSPMVlazyval_eval(env0); tmp9 = env0[1];
@@ -1810,6 +2315,7 @@ ats2jspre_stream_tabulate_cloref(arg0)
 //
 // knd = 0
   var tmpret15
+  var tmplab, tmplab_js
 //
   // __patsflab_stream_tabulate_cloref
   tmpret15 = _ats2jspre_stream_aux_5(arg0, 0);
@@ -1823,6 +2329,7 @@ _ats2jspre_stream_aux_5(env0, arg0)
 //
 // knd = 0
   var tmpret16
+  var tmplab, tmplab_js
 //
   // __patsflab__ats2jspre_stream_aux_5
   tmpret16 = [0, _ats2jspre_stream_patsfun_6__closurerize(env0, arg0)]
@@ -1839,6 +2346,7 @@ _ats2jspre_stream_patsfun_6(env0, env1)
   var tmp18
   var tmp19
   var tmp20
+  var tmplab, tmplab_js
 //
   // __patsflab__ats2jspre_stream_patsfun_6
   tmp18 = env0[0](env0, env1);
@@ -1855,9 +2363,51 @@ _ats2jspre_stream_patsfun_6(env0, env1)
 /*
 **
 ** The JavaScript code is generated by atscc2js
-** The starting compilation time is: 2014-11-6: 22h:45m
+** The starting compilation time is: 2015-7-14:  0h:31m
 **
 */
+
+function
+_ats2jspre_intrange_patsfun_7__closurerize(env0)
+{
+  return [function(cenv, arg0) { return _ats2jspre_intrange_patsfun_7(cenv[1], arg0); }, env0];
+}
+
+
+function
+_ats2jspre_intrange_patsfun_9__closurerize(env0)
+{
+  return [function(cenv, arg0) { return _ats2jspre_intrange_patsfun_9(cenv[1], arg0); }, env0];
+}
+
+
+function
+_ats2jspre_intrange_patsfun_11__closurerize(env0)
+{
+  return [function(cenv, arg0) { return _ats2jspre_intrange_patsfun_11(cenv[1], arg0); }, env0];
+}
+
+
+function
+_ats2jspre_intrange_patsfun_14__closurerize(env0)
+{
+  return [function(cenv, arg0, arg1) { return _ats2jspre_intrange_patsfun_14(cenv[1], arg0, arg1); }, env0];
+}
+
+
+function
+_ats2jspre_intrange_patsfun_18__closurerize(env0)
+{
+  return [function(cenv, arg0) { return _ats2jspre_intrange_patsfun_18(cenv[1], arg0); }, env0];
+}
+
+
+function
+_ats2jspre_intrange_patsfun_31__closurerize(env0, env1)
+{
+  return [function(cenv, arg0, arg1) { return _ats2jspre_intrange_patsfun_31(cenv[1], cenv[2], arg0, arg1); }, env0, env1];
+}
+
 
 function
 ats2jspre_int_repeat_lazy(arg0, arg1)
@@ -1865,6 +2415,7 @@ ats2jspre_int_repeat_lazy(arg0, arg1)
 //
 // knd = 0
   var tmp1
+  var tmplab, tmplab_js
 //
   // __patsflab_int_repeat_lazy
   tmp1 = ats2jspre_lazy2cloref(arg1);
@@ -1878,6 +2429,7 @@ ats2jspre_int_repeat_cloref(arg0, arg1)
 {
 //
 // knd = 0
+  var tmplab, tmplab_js
 //
   // __patsflab_int_repeat_cloref
   _ats2jspre_intrange_loop_2(arg0, arg1);
@@ -1920,10 +2472,39 @@ _ats2jspre_intrange_loop_2(arg0, arg1)
 
 
 function
+ats2jspre_int_exists_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret7
+  var tmplab, tmplab_js
+//
+  // __patsflab_int_exists_cloref
+  tmpret7 = ats2jspre_intrange_exists_cloref(0, arg0, arg1);
+  return tmpret7;
+} // end-of-function
+
+
+function
+ats2jspre_int_forall_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret8
+  var tmplab, tmplab_js
+//
+  // __patsflab_int_forall_cloref
+  tmpret8 = ats2jspre_intrange_forall_cloref(0, arg0, arg1);
+  return tmpret8;
+} // end-of-function
+
+
+function
 ats2jspre_int_foreach_cloref(arg0, arg1)
 {
 //
 // knd = 0
+  var tmplab, tmplab_js
 //
   // __patsflab_int_foreach_cloref
   ats2jspre_intrange_foreach_cloref(0, arg0, arg1);
@@ -1932,45 +2513,394 @@ ats2jspre_int_foreach_cloref(arg0, arg1)
 
 
 function
-ats2jspre_intrange_foreach_cloref(arg0, arg1, arg2)
+ats2jspre_int_exists_method(arg0)
 {
 //
 // knd = 0
+  var tmpret10
+  var tmplab, tmplab_js
 //
-  // __patsflab_intrange_foreach_cloref
-  _ats2jspre_intrange_loop_5(arg0, arg1, arg2);
+  // __patsflab_int_exists_method
+  tmpret10 = _ats2jspre_intrange_patsfun_7__closurerize(arg0);
+  return tmpret10;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_patsfun_7(env0, arg0)
+{
+//
+// knd = 0
+  var tmpret11
+  var tmplab, tmplab_js
+//
+  // __patsflab__ats2jspre_intrange_patsfun_7
+  tmpret11 = ats2jspre_int_exists_cloref(env0, arg0);
+  return tmpret11;
+} // end-of-function
+
+
+function
+ats2jspre_int_forall_method(arg0)
+{
+//
+// knd = 0
+  var tmpret12
+  var tmplab, tmplab_js
+//
+  // __patsflab_int_forall_method
+  tmpret12 = _ats2jspre_intrange_patsfun_9__closurerize(arg0);
+  return tmpret12;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_patsfun_9(env0, arg0)
+{
+//
+// knd = 0
+  var tmpret13
+  var tmplab, tmplab_js
+//
+  // __patsflab__ats2jspre_intrange_patsfun_9
+  tmpret13 = ats2jspre_int_forall_cloref(env0, arg0);
+  return tmpret13;
+} // end-of-function
+
+
+function
+ats2jspre_int_foreach_method(arg0)
+{
+//
+// knd = 0
+  var tmpret14
+  var tmplab, tmplab_js
+//
+  // __patsflab_int_foreach_method
+  tmpret14 = _ats2jspre_intrange_patsfun_11__closurerize(arg0);
+  return tmpret14;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_patsfun_11(env0, arg0)
+{
+//
+// knd = 0
+  var tmplab, tmplab_js
+//
+  // __patsflab__ats2jspre_intrange_patsfun_11
+  ats2jspre_int_foreach_cloref(env0, arg0);
   return/*_void*/;
 } // end-of-function
 
 
 function
-_ats2jspre_intrange_loop_5(arg0, arg1, arg2)
+ats2jspre_int_foldleft_cloref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret16
+  var tmplab, tmplab_js
+//
+  // __patsflab_int_foldleft_cloref
+  tmpret16 = ats2jspre_intrange_foldleft_cloref(0, arg0, arg1, arg2);
+  return tmpret16;
+} // end-of-function
+
+
+function
+ats2jspre_int_foldleft_method(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret17
+  var tmplab, tmplab_js
+//
+  // __patsflab_int_foldleft_method
+  tmpret17 = _ats2jspre_intrange_patsfun_14__closurerize(arg0);
+  return tmpret17;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_patsfun_14(env0, arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret18
+  var tmplab, tmplab_js
+//
+  // __patsflab__ats2jspre_intrange_patsfun_14
+  tmpret18 = ats2jspre_int_foldleft_cloref(env0, arg0, arg1);
+  return tmpret18;
+} // end-of-function
+
+
+function
+_057_home_057_hwxi_057_research_057_Postiats_055_contrib_057_git_057_contrib_057_libatscc_057_libatscc2js_057_SATS_057_intrange_056_sats__int_list_map_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret19
+  var tmplab, tmplab_js
+//
+  // __patsflab_int_list_map_cloref
+  tmpret19 = _ats2jspre_intrange_aux_16(arg0, arg1, 0);
+  return tmpret19;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_aux_16(env0, env1, arg0)
+{
+//
+// knd = 0
+  var tmpret20
+  var tmp21
+  var tmp22
+  var tmp23
+  var tmp24
+  var tmplab, tmplab_js
+//
+  // __patsflab__ats2jspre_intrange_aux_16
+  tmp21 = ats2jspre_lt_int1_int1(arg0, env0);
+  if(tmp21) {
+    tmp22 = env1[0](env1, arg0);
+    tmp24 = ats2jspre_add_int1_int1(arg0, 1);
+    tmp23 = _ats2jspre_intrange_aux_16(env0, env1, tmp24);
+    tmpret20 = [tmp22, tmp23];
+  } else {
+    tmpret20 = null;
+  } // endif
+  return tmpret20;
+} // end-of-function
+
+
+function
+_057_home_057_hwxi_057_research_057_Postiats_055_contrib_057_git_057_contrib_057_libatscc_057_libatscc2js_057_SATS_057_intrange_056_sats__int_list_map_method(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret25
+  var tmplab, tmplab_js
+//
+  // __patsflab_int_list_map_method
+  tmpret25 = _ats2jspre_intrange_patsfun_18__closurerize(arg0);
+  return tmpret25;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_patsfun_18(env0, arg0)
+{
+//
+// knd = 0
+  var tmpret26
+  var tmplab, tmplab_js
+//
+  // __patsflab__ats2jspre_intrange_patsfun_18
+  tmpret26 = _057_home_057_hwxi_057_research_057_Postiats_055_contrib_057_git_057_contrib_057_libatscc_057_libatscc2js_057_SATS_057_intrange_056_sats__int_list_map_cloref(env0, arg0);
+  return tmpret26;
+} // end-of-function
+
+
+function
+ats2jspre_int2_exists_cloref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret27
+  var tmplab, tmplab_js
+//
+  // __patsflab_int2_exists_cloref
+  tmpret27 = ats2jspre_intrange2_exists_cloref(0, arg0, 0, arg1, arg2);
+  return tmpret27;
+} // end-of-function
+
+
+function
+ats2jspre_int2_forall_cloref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret28
+  var tmplab, tmplab_js
+//
+  // __patsflab_int2_forall_cloref
+  tmpret28 = ats2jspre_intrange2_forall_cloref(0, arg0, 0, arg1, arg2);
+  return tmpret28;
+} // end-of-function
+
+
+function
+ats2jspre_int2_foreach_cloref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmplab, tmplab_js
+//
+  // __patsflab_int2_foreach_cloref
+  ats2jspre_intrange2_foreach_cloref(0, arg0, 0, arg1, arg2);
+  return/*_void*/;
+} // end-of-function
+
+
+function
+ats2jspre_intrange_exists_cloref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret30
+  var tmplab, tmplab_js
+//
+  // __patsflab_intrange_exists_cloref
+  tmpret30 = _ats2jspre_intrange_loop_23(arg0, arg1, arg2);
+  return tmpret30;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_loop_23(arg0, arg1, arg2)
 {
 //
 // knd = 1
   var apy0
   var apy1
   var apy2
-  var tmp10
-  var tmp12
+  var tmpret31
+  var tmp32
+  var tmp33
+  var tmp34
   var funlab_js
   var tmplab, tmplab_js
 //
   while(true) {
     funlab_js = 0;
-    // __patsflab__ats2jspre_intrange_loop_5
-    tmp10 = ats2jspre_lt_int0_int0(arg0, arg1);
-    if(tmp10) {
+    // __patsflab__ats2jspre_intrange_loop_23
+    tmp32 = ats2jspre_lt_int0_int0(arg0, arg1);
+    if(tmp32) {
+      tmp33 = arg2[0](arg2, arg0);
+      if(tmp33) {
+        tmpret31 = true;
+      } else {
+        tmp34 = ats2jspre_add_int0_int0(arg0, 1);
+        // ATStailcalseq_beg
+        apy0 = tmp34;
+        apy1 = arg1;
+        apy2 = arg2;
+        arg0 = apy0;
+        arg1 = apy1;
+        arg2 = apy2;
+        funlab_js = 1; // __patsflab__ats2jspre_intrange_loop_23
+        // ATStailcalseq_end
+      } // endif
+    } else {
+      tmpret31 = false;
+    } // endif
+    if (funlab_js > 0) continue; else return tmpret31;
+  } // endwhile-fun
+} // end-of-function
+
+
+function
+ats2jspre_intrange_forall_cloref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret35
+  var tmplab, tmplab_js
+//
+  // __patsflab_intrange_forall_cloref
+  tmpret35 = _ats2jspre_intrange_loop_25(arg0, arg1, arg2);
+  return tmpret35;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_loop_25(arg0, arg1, arg2)
+{
+//
+// knd = 1
+  var apy0
+  var apy1
+  var apy2
+  var tmpret36
+  var tmp37
+  var tmp38
+  var tmp39
+  var funlab_js
+  var tmplab, tmplab_js
+//
+  while(true) {
+    funlab_js = 0;
+    // __patsflab__ats2jspre_intrange_loop_25
+    tmp37 = ats2jspre_lt_int0_int0(arg0, arg1);
+    if(tmp37) {
+      tmp38 = arg2[0](arg2, arg0);
+      if(tmp38) {
+        tmp39 = ats2jspre_add_int0_int0(arg0, 1);
+        // ATStailcalseq_beg
+        apy0 = tmp39;
+        apy1 = arg1;
+        apy2 = arg2;
+        arg0 = apy0;
+        arg1 = apy1;
+        arg2 = apy2;
+        funlab_js = 1; // __patsflab__ats2jspre_intrange_loop_25
+        // ATStailcalseq_end
+      } else {
+        tmpret36 = false;
+      } // endif
+    } else {
+      tmpret36 = true;
+    } // endif
+    if (funlab_js > 0) continue; else return tmpret36;
+  } // endwhile-fun
+} // end-of-function
+
+
+function
+ats2jspre_intrange_foreach_cloref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmplab, tmplab_js
+//
+  // __patsflab_intrange_foreach_cloref
+  _ats2jspre_intrange_loop_27(arg0, arg1, arg2);
+  return/*_void*/;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_loop_27(arg0, arg1, arg2)
+{
+//
+// knd = 1
+  var apy0
+  var apy1
+  var apy2
+  var tmp42
+  var tmp44
+  var funlab_js
+  var tmplab, tmplab_js
+//
+  while(true) {
+    funlab_js = 0;
+    // __patsflab__ats2jspre_intrange_loop_27
+    tmp42 = ats2jspre_lt_int0_int0(arg0, arg1);
+    if(tmp42) {
       arg2[0](arg2, arg0);
-      tmp12 = ats2jspre_add_int0_int0(arg0, 1);
+      tmp44 = ats2jspre_add_int0_int0(arg0, 1);
       // ATStailcalseq_beg
-      apy0 = tmp12;
+      apy0 = tmp44;
       apy1 = arg1;
       apy2 = arg2;
       arg0 = apy0;
       arg1 = apy1;
       arg2 = apy2;
-      funlab_js = 1; // __patsflab__ats2jspre_intrange_loop_5
+      funlab_js = 1; // __patsflab__ats2jspre_intrange_loop_27
       // ATStailcalseq_end
     } else {
       // ATSINSmove_void
@@ -1980,96 +2910,409 @@ _ats2jspre_intrange_loop_5(arg0, arg1, arg2)
 } // end-of-function
 
 
-/* ****** ****** */
-
-/* end-of-compilation-unit */
-/*
-**
-** The JavaScript code is generated by atscc2js
-** The starting compilation time is: 2014-11-6: 22h:45m
-**
-*/
-
-/* ATSextcode_beg() */
-// COMMENT_line
-
 function
-ats2jspre_arrayref_make_elt
-  (n, x)
-{
-  var A, i;
-  A = new Array(n);
-  for (i = 0; i < n; i += 1) A[i] = x;
-  return A;
-}
-// COMMENT_line
-
-/* ATSextcode_end() */
-
-function
-ats2jspre_arrayref_get_at(arg0, arg1)
+ats2jspre_intrange_foldleft_cloref(arg0, arg1, arg2, arg3)
 {
 //
 // knd = 0
-  var tmpret0
+  var tmpret45
+  var tmplab, tmplab_js
 //
-  // __patsflab_arrayref_get_at
-  tmpret0 = ats2jspre_JSarray_get_at(arg0, arg1);
-  return tmpret0;
+  // __patsflab_intrange_foldleft_cloref
+  tmpret45 = _ats2jspre_intrange_loop_29(arg0, arg1, arg2, arg3);
+  return tmpret45;
 } // end-of-function
 
 
 function
-ats2jspre_arrayref_set_at(arg0, arg1, arg2)
-{
-//
-// knd = 0
-//
-  // __patsflab_arrayref_set_at
-  ats2jspre_JSarray_set_at(arg0, arg1, arg2);
-  return/*_void*/;
-} // end-of-function
-
-
-function
-ats2jspre_arrayref_foreach_cloref(arg0, arg1, arg2)
-{
-//
-// knd = 0
-//
-  // __patsflab_arrayref_foreach_cloref
-  _ats2jspre_arrayref_loop_3(arg1, arg2, 0);
-  return/*_void*/;
-} // end-of-function
-
-
-function
-_ats2jspre_arrayref_loop_3(env0, env1, arg0)
+_ats2jspre_intrange_loop_29(arg0, arg1, arg2, arg3)
 {
 //
 // knd = 1
   var apy0
-  var tmp4
-  var tmp6
+  var apy1
+  var apy2
+  var apy3
+  var tmpret46
+  var tmp47
+  var tmp48
+  var tmp49
   var funlab_js
   var tmplab, tmplab_js
 //
   while(true) {
     funlab_js = 0;
-    // __patsflab__ats2jspre_arrayref_loop_3
-    tmp4 = ats2jspre_lt_int1_int1(arg0, env0);
-    if(tmp4) {
-      env1[0](env1, arg0);
-      tmp6 = ats2jspre_add_int1_int1(arg0, 1);
+    // __patsflab__ats2jspre_intrange_loop_29
+    tmp47 = ats2jspre_lt_int0_int0(arg0, arg1);
+    if(tmp47) {
+      tmp48 = ats2jspre_add_int0_int0(arg0, 1);
+      tmp49 = arg3[0](arg3, arg2, arg0);
       // ATStailcalseq_beg
-      apy0 = tmp6;
+      apy0 = tmp48;
+      apy1 = arg1;
+      apy2 = tmp49;
+      apy3 = arg3;
       arg0 = apy0;
-      funlab_js = 1; // __patsflab__ats2jspre_arrayref_loop_3
+      arg1 = apy1;
+      arg2 = apy2;
+      arg3 = apy3;
+      funlab_js = 1; // __patsflab__ats2jspre_intrange_loop_29
       // ATStailcalseq_end
     } else {
-      // ATSINSmove_void
+      tmpret46 = arg2;
     } // endif
-    if (funlab_js > 0) continue; else return/*_void*/;
+    if (funlab_js > 0) continue; else return tmpret46;
+  } // endwhile-fun
+} // end-of-function
+
+
+function
+ats2jspre_intrange_foldleft_method(arg0, arg1)
+{
+//
+// knd = 0
+  var tmp50
+  var tmp51
+  var tmpret52
+  var tmplab, tmplab_js
+//
+  // __patsflab_intrange_foldleft_method
+  tmp50 = arg0[0];
+  tmp51 = arg0[1];
+  tmpret52 = _ats2jspre_intrange_patsfun_31__closurerize(tmp50, tmp51);
+  return tmpret52;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_patsfun_31(env0, env1, arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret53
+  var tmplab, tmplab_js
+//
+  // __patsflab__ats2jspre_intrange_patsfun_31
+  tmpret53 = ats2jspre_intrange_foldleft_cloref(env0, env1, arg0, arg1);
+  return tmpret53;
+} // end-of-function
+
+
+function
+ats2jspre_intrange2_exists_cloref(arg0, arg1, arg2, arg3, arg4)
+{
+//
+// knd = 0
+  var tmpret54
+  var tmplab, tmplab_js
+//
+  // __patsflab_intrange2_exists_cloref
+  tmpret54 = _ats2jspre_intrange_loop1_33(arg2, arg3, arg0, arg1, arg4);
+  return tmpret54;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_loop1_33(env0, env1, arg0, arg1, arg2)
+{
+//
+// knd = 2
+  var apy0
+  var apy1
+  var apy2
+  var tmpret55
+  var tmp56
+  var a2rg0
+  var a2rg1
+  var a2rg2
+  var a2rg3
+  var a2rg4
+  var a2py0
+  var a2py1
+  var a2py2
+  var a2py3
+  var a2py4
+  var tmpret57
+  var tmp58
+  var tmp59
+  var tmp60
+  var tmp61
+  var funlab_js
+  var tmplab, tmplab_js
+//
+  funlab_js = 1;
+  while(true) {
+    switch(funlab_js) {
+      case 1: {
+        funlab_js = 0;
+        tmp56 = ats2jspre_lt_int0_int0(arg0, arg1);
+        if(tmp56) {
+          // ATStailcalseq_beg
+          a2py0 = arg0;
+          a2py1 = arg1;
+          a2py2 = env0;
+          a2py3 = env1;
+          a2py4 = arg2;
+          a2rg0 = a2py0;
+          a2rg1 = a2py1;
+          a2rg2 = a2py2;
+          a2rg3 = a2py3;
+          a2rg4 = a2py4;
+          funlab_js = 2; // __patsflab__ats2jspre_intrange_loop2_34
+          // ATStailcalseq_end
+        } else {
+          tmpret55 = false;
+        } // endif
+        if (funlab_js > 0) continue; else return tmpret55;
+      } // end-of-case
+      case 2: {
+        funlab_js = 0;
+        tmp58 = ats2jspre_lt_int0_int0(a2rg2, a2rg3);
+        if(tmp58) {
+          tmp59 = a2rg4[0](a2rg4, a2rg0, a2rg2);
+          if(tmp59) {
+            tmpret57 = true;
+          } else {
+            tmp60 = ats2jspre_add_int0_int0(a2rg2, 1);
+            // ATStailcalseq_beg
+            a2py0 = a2rg0;
+            a2py1 = a2rg1;
+            a2py2 = tmp60;
+            a2py3 = a2rg3;
+            a2py4 = a2rg4;
+            a2rg0 = a2py0;
+            a2rg1 = a2py1;
+            a2rg2 = a2py2;
+            a2rg3 = a2py3;
+            a2rg4 = a2py4;
+            funlab_js = 2; // __patsflab__ats2jspre_intrange_loop2_34
+            // ATStailcalseq_end
+          } // endif
+        } else {
+          tmp61 = ats2jspre_add_int0_int0(a2rg0, 1);
+          // ATStailcalseq_beg
+          apy0 = tmp61;
+          apy1 = a2rg1;
+          apy2 = a2rg4;
+          arg0 = apy0;
+          arg1 = apy1;
+          arg2 = apy2;
+          funlab_js = 1; // __patsflab__ats2jspre_intrange_loop1_33
+          // ATStailcalseq_end
+        } // endif
+        if (funlab_js > 0) continue; else return tmpret57;
+      } // end-of-case
+    } // end-of-switch
+  } // endwhile-fun
+} // end-of-function
+
+
+function
+ats2jspre_intrange2_forall_cloref(arg0, arg1, arg2, arg3, arg4)
+{
+//
+// knd = 0
+  var tmpret62
+  var tmplab, tmplab_js
+//
+  // __patsflab_intrange2_forall_cloref
+  tmpret62 = _ats2jspre_intrange_loop1_36(arg2, arg3, arg0, arg1, arg4);
+  return tmpret62;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_loop1_36(env0, env1, arg0, arg1, arg2)
+{
+//
+// knd = 2
+  var apy0
+  var apy1
+  var apy2
+  var tmpret63
+  var tmp64
+  var a2rg0
+  var a2rg1
+  var a2rg2
+  var a2rg3
+  var a2rg4
+  var a2py0
+  var a2py1
+  var a2py2
+  var a2py3
+  var a2py4
+  var tmpret65
+  var tmp66
+  var tmp67
+  var tmp68
+  var tmp69
+  var funlab_js
+  var tmplab, tmplab_js
+//
+  funlab_js = 1;
+  while(true) {
+    switch(funlab_js) {
+      case 1: {
+        funlab_js = 0;
+        tmp64 = ats2jspre_lt_int0_int0(arg0, arg1);
+        if(tmp64) {
+          // ATStailcalseq_beg
+          a2py0 = arg0;
+          a2py1 = arg1;
+          a2py2 = env0;
+          a2py3 = env1;
+          a2py4 = arg2;
+          a2rg0 = a2py0;
+          a2rg1 = a2py1;
+          a2rg2 = a2py2;
+          a2rg3 = a2py3;
+          a2rg4 = a2py4;
+          funlab_js = 2; // __patsflab__ats2jspre_intrange_loop2_37
+          // ATStailcalseq_end
+        } else {
+          tmpret63 = true;
+        } // endif
+        if (funlab_js > 0) continue; else return tmpret63;
+      } // end-of-case
+      case 2: {
+        funlab_js = 0;
+        tmp66 = ats2jspre_lt_int0_int0(a2rg2, a2rg3);
+        if(tmp66) {
+          tmp67 = a2rg4[0](a2rg4, a2rg0, a2rg2);
+          if(tmp67) {
+            tmp68 = ats2jspre_add_int0_int0(a2rg2, 1);
+            // ATStailcalseq_beg
+            a2py0 = a2rg0;
+            a2py1 = a2rg1;
+            a2py2 = tmp68;
+            a2py3 = a2rg3;
+            a2py4 = a2rg4;
+            a2rg0 = a2py0;
+            a2rg1 = a2py1;
+            a2rg2 = a2py2;
+            a2rg3 = a2py3;
+            a2rg4 = a2py4;
+            funlab_js = 2; // __patsflab__ats2jspre_intrange_loop2_37
+            // ATStailcalseq_end
+          } else {
+            tmpret65 = false;
+          } // endif
+        } else {
+          tmp69 = ats2jspre_add_int0_int0(a2rg0, 1);
+          // ATStailcalseq_beg
+          apy0 = tmp69;
+          apy1 = a2rg1;
+          apy2 = a2rg4;
+          arg0 = apy0;
+          arg1 = apy1;
+          arg2 = apy2;
+          funlab_js = 1; // __patsflab__ats2jspre_intrange_loop1_36
+          // ATStailcalseq_end
+        } // endif
+        if (funlab_js > 0) continue; else return tmpret65;
+      } // end-of-case
+    } // end-of-switch
+  } // endwhile-fun
+} // end-of-function
+
+
+function
+ats2jspre_intrange2_foreach_cloref(arg0, arg1, arg2, arg3, arg4)
+{
+//
+// knd = 0
+  var tmplab, tmplab_js
+//
+  // __patsflab_intrange2_foreach_cloref
+  _ats2jspre_intrange_loop1_39(arg2, arg3, arg0, arg1, arg4);
+  return/*_void*/;
+} // end-of-function
+
+
+function
+_ats2jspre_intrange_loop1_39(env0, env1, arg0, arg1, arg2)
+{
+//
+// knd = 2
+  var apy0
+  var apy1
+  var apy2
+  var tmp72
+  var a2rg0
+  var a2rg1
+  var a2rg2
+  var a2rg3
+  var a2rg4
+  var a2py0
+  var a2py1
+  var a2py2
+  var a2py3
+  var a2py4
+  var tmp74
+  var tmp76
+  var tmp77
+  var funlab_js
+  var tmplab, tmplab_js
+//
+  funlab_js = 1;
+  while(true) {
+    switch(funlab_js) {
+      case 1: {
+        funlab_js = 0;
+        tmp72 = ats2jspre_lt_int0_int0(arg0, arg1);
+        if(tmp72) {
+          // ATStailcalseq_beg
+          a2py0 = arg0;
+          a2py1 = arg1;
+          a2py2 = env0;
+          a2py3 = env1;
+          a2py4 = arg2;
+          a2rg0 = a2py0;
+          a2rg1 = a2py1;
+          a2rg2 = a2py2;
+          a2rg3 = a2py3;
+          a2rg4 = a2py4;
+          funlab_js = 2; // __patsflab__ats2jspre_intrange_loop2_40
+          // ATStailcalseq_end
+        } else {
+          // ATSINSmove_void
+        } // endif
+        if (funlab_js > 0) continue; else return/*_void*/;
+      } // end-of-case
+      case 2: {
+        funlab_js = 0;
+        tmp74 = ats2jspre_lt_int0_int0(a2rg2, a2rg3);
+        if(tmp74) {
+          a2rg4[0](a2rg4, a2rg0, a2rg2);
+          tmp76 = ats2jspre_add_int0_int0(a2rg2, 1);
+          // ATStailcalseq_beg
+          a2py0 = a2rg0;
+          a2py1 = a2rg1;
+          a2py2 = tmp76;
+          a2py3 = a2rg3;
+          a2py4 = a2rg4;
+          a2rg0 = a2py0;
+          a2rg1 = a2py1;
+          a2rg2 = a2py2;
+          a2rg3 = a2py3;
+          a2rg4 = a2py4;
+          funlab_js = 2; // __patsflab__ats2jspre_intrange_loop2_40
+          // ATStailcalseq_end
+        } else {
+          tmp77 = ats2jspre_add_int0_int0(a2rg0, 1);
+          // ATStailcalseq_beg
+          apy0 = tmp77;
+          apy1 = a2rg1;
+          apy2 = a2rg4;
+          arg0 = apy0;
+          arg1 = apy1;
+          arg2 = apy2;
+          funlab_js = 1; // __patsflab__ats2jspre_intrange_loop1_39
+          // ATStailcalseq_end
+        } // endif
+        if (funlab_js > 0) continue; else return/*_void*/;
+      } // end-of-case
+    } // end-of-switch
   } // endwhile-fun
 } // end-of-function
 
@@ -2080,69 +3323,7 @@ _ats2jspre_arrayref_loop_3(env0, env1, arg0)
 /*
 **
 ** The JavaScript code is generated by atscc2js
-** The starting compilation time is: 2014-11-6: 22h:45m
-**
-*/
-
-/* ATSextcode_beg() */
-// COMMENT_line
-
-function
-ats2jspre_matrixref_make_elt
-  (m, n, x)
-{
-  var A, i, j;
-  A = new Array(m*n);
-  for (i = 0; i < m; i += 1)
-  {
-    for (j = 0; j < n; j += 1) A[i*n+j] = x;
-  }
-  return A;
-}
-// COMMENT_line
-
-/* ATSextcode_end() */
-
-function
-ats2jspre_matrixref_get_at(arg0, arg1, arg2, arg3)
-{
-//
-// knd = 0
-  var tmpret0
-  var tmp1
-  var tmp2
-//
-  // __patsflab_matrixref_get_at
-  tmp2 = ats2jspre_mul_int1_int1(arg1, arg2);
-  tmp1 = ats2jspre_add_int1_int1(tmp2, arg3);
-  tmpret0 = ats2jspre_JSarray_get_at(arg0, tmp1);
-  return tmpret0;
-} // end-of-function
-
-
-function
-ats2jspre_matrixref_set_at(arg0, arg1, arg2, arg3, arg4)
-{
-//
-// knd = 0
-  var tmp4
-  var tmp5
-//
-  // __patsflab_matrixref_set_at
-  tmp5 = ats2jspre_mul_int1_int1(arg1, arg2);
-  tmp4 = ats2jspre_add_int1_int1(tmp5, arg3);
-  ats2jspre_JSarray_set_at(arg0, tmp4, arg4);
-  return/*_void*/;
-} // end-of-function
-
-
-/* ****** ****** */
-
-/* end-of-compilation-unit */
-/*
-**
-** The JavaScript code is generated by atscc2js
-** The starting compilation time is: 2014-11-6: 22h:45m
+** The starting compilation time is: 2015-7-14:  0h:31m
 **
 */
 
@@ -2152,6 +3333,7 @@ ats2jspre_ref(arg0)
 //
 // knd = 0
   var tmpret0
+  var tmplab, tmplab_js
 //
   // __patsflab_ref
   tmpret0 = ats2jspre_ref_make_elt(arg0);
@@ -2166,6 +3348,7 @@ ats2jspre_ref_make_elt(arg0)
 // knd = 0
   var tmpret1
   var tmp2
+  var tmplab, tmplab_js
 //
   // __patsflab_ref_make_elt
   tmp2 = ats2jspre_JSarray_sing(arg0);
@@ -2180,6 +3363,7 @@ ats2jspre_ref_get_elt(arg0)
 //
 // knd = 0
   var tmpret3
+  var tmplab, tmplab_js
 //
   // __patsflab_ref_get_elt
   tmpret3 = ats2jspre_JSarray_get_at(arg0, 0);
@@ -2192,6 +3376,7 @@ ats2jspre_ref_set_elt(arg0, arg1)
 {
 //
 // knd = 0
+  var tmplab, tmplab_js
 //
   // __patsflab_ref_set_elt
   ats2jspre_JSarray_set_at(arg0, 0, arg1);
@@ -2199,6 +3384,573 @@ ats2jspre_ref_set_elt(arg0, arg1)
 } // end-of-function
 
 
+function
+ats2jspre_ref_exch_elt(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret5
+  var tmp6
+  var tmplab, tmplab_js
+//
+  // __patsflab_ref_exch_elt
+  tmp6 = ats2jspre_JSarray_get_at(arg0, 0);
+  ats2jspre_JSarray_set_at(arg0, 0, arg1);
+  tmpret5 = tmp6;
+  return tmpret5;
+} // end-of-function
+
+
 /* ****** ****** */
 
 /* end-of-compilation-unit */
+/*
+**
+** The JavaScript code is generated by atscc2js
+** The starting compilation time is: 2015-7-14:  0h:31m
+**
+*/
+
+/* ATSextcode_beg() */
+//
+function
+ats2jspre_arrayref_make_elt
+  (n, x)
+{
+  var A, i;
+  A = new Array(n);
+  for (i = 0; i < n; i += 1) A[i] = x;
+  return A;
+}
+//
+/* ATSextcode_end() */
+
+function
+ats2jspre_arrayref_exists_cloref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret0
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrayref_exists_cloref
+  tmpret0 = ats2jspre_int_exists_cloref(arg1, arg2);
+  return tmpret0;
+} // end-of-function
+
+
+function
+ats2jspre_arrayref_forall_cloref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret1
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrayref_forall_cloref
+  tmpret1 = ats2jspre_int_forall_cloref(arg1, arg2);
+  return tmpret1;
+} // end-of-function
+
+
+function
+ats2jspre_arrayref_foreach_cloref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrayref_foreach_cloref
+  ats2jspre_int_foreach_cloref(arg1, arg2);
+  return/*_void*/;
+} // end-of-function
+
+
+function
+ats2jspre_arrszref_make_elt(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret3
+  var tmp4
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrszref_make_elt
+  tmp4 = ats2jspre_arrayref_make_elt(arg0, arg1);
+  tmpret3 = ats2jspre_arrszref_make_arrayref(tmp4, arg0);
+  return tmpret3;
+} // end-of-function
+
+
+function
+ats2jspre_arrszref_exists_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret5
+  var tmp6
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrszref_exists_cloref
+  tmp6 = ats2jspre_arrszref_size(arg0);
+  tmpret5 = ats2jspre_int_exists_cloref(tmp6, arg1);
+  return tmpret5;
+} // end-of-function
+
+
+function
+ats2jspre_arrszref_forall_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret7
+  var tmp8
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrszref_forall_cloref
+  tmp8 = ats2jspre_arrszref_size(arg0);
+  tmpret7 = ats2jspre_int_forall_cloref(tmp8, arg1);
+  return tmpret7;
+} // end-of-function
+
+
+function
+ats2jspre_arrszref_foreach_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmp10
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrszref_foreach_cloref
+  tmp10 = ats2jspre_arrszref_size(arg0);
+  ats2jspre_int_foreach_cloref(tmp10, arg1);
+  return/*_void*/;
+} // end-of-function
+
+
+function
+ats2jspre_arrayref_get_at(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret11
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrayref_get_at
+  tmpret11 = ats2jspre_JSarray_get_at(arg0, arg1);
+  return tmpret11;
+} // end-of-function
+
+
+function
+ats2jspre_arrayref_set_at(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrayref_set_at
+  ats2jspre_JSarray_set_at(arg0, arg1, arg2);
+  return/*_void*/;
+} // end-of-function
+
+
+function
+ats2jspre_arrszref_make_arrayref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret13
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrszref_make_arrayref
+  tmpret13 = arg0;
+  return tmpret13;
+} // end-of-function
+
+
+function
+ats2jspre_arrszref_size(arg0)
+{
+//
+// knd = 0
+  var tmpret14
+  var tmp15
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrszref_size
+  tmp15 = ats2jspre_JSarray_length(arg0);
+  tmpret14 = tmp15;
+  return tmpret14;
+} // end-of-function
+
+
+function
+ats2jspre_arrszref_get_at(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret16
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrszref_get_at
+  tmpret16 = ats2jspre_JSarray_get_at(arg0, arg1);
+  return tmpret16;
+} // end-of-function
+
+
+function
+ats2jspre_arrszref_set_at(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmplab, tmplab_js
+//
+  // __patsflab_arrszref_set_at
+  ats2jspre_JSarray_set_at(arg0, arg1, arg2);
+  return/*_void*/;
+} // end-of-function
+
+
+/* ****** ****** */
+
+/* end-of-compilation-unit */
+/*
+**
+** The JavaScript code is generated by atscc2js
+** The starting compilation time is: 2015-7-14:  0h:31m
+**
+*/
+
+/* ATSextcode_beg() */
+//
+function
+ats2jspre_matrixref_make_elt
+  (m, n, x)
+{
+  var A, i, j;
+  A = new Array(m*n);
+  for (i = 0; i < m; i += 1)
+  {
+    for (j = 0; j < n; j += 1) A[i*n+j] = x;
+  }
+  return A;
+}
+//
+/* ATSextcode_end() */
+
+/* ATSextcode_beg() */
+//
+function
+ats2jspre_mtrxszref_make_matrixref
+  (M, m, n)
+{
+  return { matrix: M, nrow: m, ncol: n };
+}
+//
+function
+ats2jspre_mtrxszref_get_nrow(MSZ) { return MSZ.nrow; }
+function
+ats2jspre_mtrxszref_get_ncol(MSZ) { return MSZ.ncol; }
+//
+function
+ats2jspre_mtrxszref_get_at
+  (MSZ, i, j)
+{
+  var nrow = MSZ.nrow;
+  var ncol = MSZ.ncol;
+  if (i < 0) throw new RangeError("mtrxszref_get_at");
+  if (i >= nrow) throw new RangeError("mtrxszref_get_at");
+  if (j < 0) throw new RangeError("mtrxszref_get_at");
+  if (j >= ncol) throw new RangeError("mtrxszref_get_at");
+  return MSZ.matrix[i*ncol+j];
+}
+//
+function
+ats2jspre_mtrxszref_set_at
+  (MSZ, i, j, x)
+{
+  var nrow = MSZ.nrow;
+  var ncol = MSZ.ncol;
+  if (i < 0) throw new RangeError("mtrxszref_set_at");
+  if (i >= nrow) throw new RangeError("mtrxszref_set_at");
+  if (j < 0) throw new RangeError("mtrxszref_set_at");
+  if (j >= ncol) throw new RangeError("mtrxszref_set_at");
+  return (MSZ.matrix[i*ncol+j] = x);
+}
+//
+/* ATSextcode_end() */
+
+function
+ats2jspre_matrixref_exists_cloref(arg0, arg1, arg2, arg3)
+{
+//
+// knd = 0
+  var tmpret0
+  var tmplab, tmplab_js
+//
+  // __patsflab_matrixref_exists_cloref
+  tmpret0 = ats2jspre_int2_exists_cloref(arg1, arg2, arg3);
+  return tmpret0;
+} // end-of-function
+
+
+function
+ats2jspre_matrixref_forall_cloref(arg0, arg1, arg2, arg3)
+{
+//
+// knd = 0
+  var tmpret1
+  var tmplab, tmplab_js
+//
+  // __patsflab_matrixref_forall_cloref
+  tmpret1 = ats2jspre_int2_forall_cloref(arg1, arg2, arg3);
+  return tmpret1;
+} // end-of-function
+
+
+function
+ats2jspre_matrixref_foreach_cloref(arg0, arg1, arg2, arg3)
+{
+//
+// knd = 0
+  var tmplab, tmplab_js
+//
+  // __patsflab_matrixref_foreach_cloref
+  ats2jspre_int2_foreach_cloref(arg1, arg2, arg3);
+  return/*_void*/;
+} // end-of-function
+
+
+function
+ats2jspre_mtrxszref_make_elt(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret3
+  var tmp4
+  var tmplab, tmplab_js
+//
+  // __patsflab_mtrxszref_make_elt
+  tmp4 = ats2jspre_matrixref_make_elt(arg0, arg1, arg2);
+  tmpret3 = ats2jspre_mtrxszref_make_matrixref(tmp4, arg0, arg1);
+  return tmpret3;
+} // end-of-function
+
+
+function
+ats2jspre_mtrxszref_exists_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret5
+  var tmp6
+  var tmp7
+  var tmplab, tmplab_js
+//
+  // __patsflab_mtrxszref_exists_cloref
+  tmp6 = ats2jspre_mtrxszref_get_nrow(arg0);
+  tmp7 = ats2jspre_mtrxszref_get_ncol(arg0);
+  tmpret5 = ats2jspre_int2_exists_cloref(tmp6, tmp7, arg1);
+  return tmpret5;
+} // end-of-function
+
+
+function
+ats2jspre_mtrxszref_forall_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret8
+  var tmp9
+  var tmp10
+  var tmplab, tmplab_js
+//
+  // __patsflab_mtrxszref_forall_cloref
+  tmp9 = ats2jspre_mtrxszref_get_nrow(arg0);
+  tmp10 = ats2jspre_mtrxszref_get_ncol(arg0);
+  tmpret8 = ats2jspre_int2_forall_cloref(tmp9, tmp10, arg1);
+  return tmpret8;
+} // end-of-function
+
+
+function
+ats2jspre_mtrxszref_foreach_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmp12
+  var tmp13
+  var tmplab, tmplab_js
+//
+  // __patsflab_mtrxszref_foreach_cloref
+  tmp12 = ats2jspre_mtrxszref_get_nrow(arg0);
+  tmp13 = ats2jspre_mtrxszref_get_ncol(arg0);
+  ats2jspre_int2_foreach_cloref(tmp12, tmp13, arg1);
+  return/*_void*/;
+} // end-of-function
+
+
+function
+ats2jspre_matrixref_get_at(arg0, arg1, arg2, arg3)
+{
+//
+// knd = 0
+  var tmpret14
+  var tmp15
+  var tmp16
+  var tmplab, tmplab_js
+//
+  // __patsflab_matrixref_get_at
+  tmp16 = ats2jspre_mul_int1_int1(arg1, arg2);
+  tmp15 = ats2jspre_add_int1_int1(tmp16, arg3);
+  tmpret14 = ats2jspre_JSarray_get_at(arg0, tmp15);
+  return tmpret14;
+} // end-of-function
+
+
+function
+ats2jspre_matrixref_set_at(arg0, arg1, arg2, arg3, arg4)
+{
+//
+// knd = 0
+  var tmp18
+  var tmp19
+  var tmplab, tmplab_js
+//
+  // __patsflab_matrixref_set_at
+  tmp19 = ats2jspre_mul_int1_int1(arg1, arg2);
+  tmp18 = ats2jspre_add_int1_int1(tmp19, arg3);
+  ats2jspre_JSarray_set_at(arg0, tmp18, arg4);
+  return/*_void*/;
+} // end-of-function
+
+
+/* ****** ****** */
+
+/* end-of-compilation-unit */
+/*
+**
+** The JavaScript code is generated by atscc2js
+** The starting compilation time is: 2015-7-14:  0h:31m
+**
+*/
+
+// ATSassume(_057_home_057_hwxi_057_research_057_Postiats_055_contrib_057_git_057_contrib_057_libatscc_057_libatscc2js_057_SATS_057_gmatrixref_056_sats__gmatrixref)
+
+function
+ats2jspre_gmatrixref_make_matrixref(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret0
+  var tmplab, tmplab_js
+//
+  // __patsflab_gmatrixref_make_matrixref
+  tmpret0 = [arg0, arg1, arg2, 0, 0, arg1, arg2];
+  return tmpret0;
+} // end-of-function
+
+
+function
+ats2jspre_gmatrixref_make_subregion(arg0, arg1, arg2, arg3, arg4)
+{
+//
+// knd = 0
+  var tmpret1
+  var tmp2
+  var tmp3
+  var tmplab, tmplab_js
+//
+  // __patsflab_gmatrixref_make_subregion
+  tmp2 = ats2jspre_add_int1_int1(arg0[3], arg1);
+  tmp3 = ats2jspre_add_int1_int1(arg0[4], arg2);
+  tmpret1 = [arg0[0], arg0[1], arg0[2], tmp2, tmp3, arg3, arg4];
+  return tmpret1;
+} // end-of-function
+
+
+function
+ats2jspre_gmatrixref_get_at(arg0, arg1, arg2)
+{
+//
+// knd = 0
+  var tmpret4
+  var tmp5
+  var tmp6
+  var tmplab, tmplab_js
+//
+  // __patsflab_gmatrixref_get_at
+  tmp5 = ats2jspre_add_int1_int1(arg0[3], arg1);
+  tmp6 = ats2jspre_add_int1_int1(arg0[4], arg2);
+  tmpret4 = ats2jspre_matrixref_get_at(arg0[0], tmp5, arg0[2], tmp6);
+  return tmpret4;
+} // end-of-function
+
+
+function
+ats2jspre_gmatrixref_set_at(arg0, arg1, arg2, arg3)
+{
+//
+// knd = 0
+  var tmp8
+  var tmp9
+  var tmplab, tmplab_js
+//
+  // __patsflab_gmatrixref_set_at
+  tmp8 = ats2jspre_add_int1_int1(arg0[3], arg1);
+  tmp9 = ats2jspre_add_int1_int1(arg0[4], arg2);
+  ats2jspre_matrixref_set_at(arg0[0], tmp8, arg0[2], tmp9, arg3);
+  return/*_void*/;
+} // end-of-function
+
+
+function
+ats2jspre_gmatrixref_exists_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret10
+  var tmplab, tmplab_js
+//
+  // __patsflab_gmatrixref_exists_cloref
+  tmpret10 = ats2jspre_int2_exists_cloref(arg0[3], arg0[4], arg1);
+  return tmpret10;
+} // end-of-function
+
+
+function
+ats2jspre_gmatrixref_forall_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmpret11
+  var tmplab, tmplab_js
+//
+  // __patsflab_gmatrixref_forall_cloref
+  tmpret11 = ats2jspre_int2_forall_cloref(arg0[3], arg0[4], arg1);
+  return tmpret11;
+} // end-of-function
+
+
+function
+ats2jspre_gmatrixref_foreach_cloref(arg0, arg1)
+{
+//
+// knd = 0
+  var tmplab, tmplab_js
+//
+  // __patsflab_gmatrixref_foreach_cloref
+  ats2jspre_int2_foreach_cloref(arg0[3], arg0[4], arg1);
+  return/*_void*/;
+} // end-of-function
+
+
+/* ****** ****** */
+
+/* end-of-compilation-unit */
+
+/* ****** ****** */
+
+/* end of [libatscc2js_all.js] */

@@ -349,9 +349,16 @@ a:t@ype}{b:t@ype
   pclo: !cloptr (a, b, l), x: a
 ) : b = let
   val p = pclo.1
-  prval pf = pclo.0 // take out pf: ((&env, a) -> b, env) @ l
+(*
+//
+// taking out pf: ((&env, a) -> b, env) @ l
+//
+*)
+  prval pf = pclo.0
   val res = !p.0 (!p.1, x)
-  prval () = pclo.0 := pf // put the proof pf back
+(*
+  prval () = pclo.0 := pf // putting the proof pf back
+*)
 in
   res
 end // end of [cloptr]
@@ -360,9 +367,17 @@ end // end of [cloptr]
 Note that the linear proof in #dyncode("pclo") is first taken out so that
 the code for dereferencing p (denoted by the syntax #dyncode("!p")) can
 pass typechecking, and it is then returned so that the type of
-#dyncode("pclo") is restored to its original one. The very ability to
-explain within ATS programming features such as closure function is a
-convincing indication of the expressiveness of the type system of ATS.
+#dyncode("pclo") is restored to its original one. This process of taking
+out a linear proof from a record and then putting it back into the record
+can be automatically performed by the typechecker of ATS.
+
+')
+
+#para('\
+
+The very ability to explain within ATS programming features such as closure
+function is a convincing indication of the expressiveness of the type
+system of ATS.
 
 ')
 
