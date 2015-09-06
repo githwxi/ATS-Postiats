@@ -781,29 +781,35 @@ val fullname = string_of_strptr (fullname)
 val filename =
   $FIL.filename_make (given, given, fullname)
 //
-val (pfpush | ()) = 
-  $FIL.the_filenamelst_push (filename)
+val (pfpush|()) = 
+  $FIL.the_filenamelst_push(filename)
 val d0cs =
-  parse_from_filename_toplevel (0(*sta*), filename)
-val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+  parse_from_filename_toplevel(0(*sta*), filename)
+val ((*popped*)) =
+  $FIL.the_filenamelst_pop(pfpush | (*none*))
 //
-val () = $TRENV1.the_EXTERN_PREFIX_set ("atspre_")
-val () = $GLOB.the_PACKNAME_set_name ("ATSLIB.prelude")
+val PACKNAME = "ATSLIB.prelude"
+val ((*default*)) =
+  $GLOB.the_PACKNAME_set_name(PACKNAME)
+val ((*default*)) =
+  $TRENV1.the_EXTERN_PREFIX_set("atspre_")
 //
 val (pfenv | ()) =
-  $TRENV1.the_trans1_env_push ((*void*))
-val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
-val () = $TRENV1.the_trans1_env_pop (pfenv | (*none*))
+  $TRENV1.the_trans1_env_push((*void*))
+val d1cs = $TRANS1.d0eclist_tr_errck(d0cs)
+val ((*popped*)) =
+  $TRENV1.the_trans1_env_pop(pfenv | (*none*))
 //
 val (pfenv | ()) =
-  $TRENV2.the_trans2_env_push ((*void*))
-val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
-val () = $TRENV2.the_trans2_env_pervasive_joinwth (pfenv | filename, d2cs)
+  $TRENV2.the_trans2_env_push((*void*))
+val d2cs = $TRANS2.d1eclist_tr_errck(d1cs)
+val ((*joined*)) =
+  $TRENV2.the_trans2_env_pervasive_joinwth(pfenv | filename, d2cs)
 //
-val ((*default*)) = $GLOB.the_PACKNAME_set_none ()
-val ((*default*)) = $TRENV1.the_EXTERN_PREFIX_set_none ()
+val ((*reset*)) = $GLOB.the_PACKNAME_set_none()
+val ((*reset*)) = $TRENV1.the_EXTERN_PREFIX_set_none()
 //
-} // end of [pervasive_load]
+} (* end of [pervasive_load] *)
 
 (* ****** ****** *)
 
