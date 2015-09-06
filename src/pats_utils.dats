@@ -757,30 +757,34 @@ if
 fd >= 0
 then let
   prval
-  $FCNTL.open_v_succ (pffil) = pfopt
+  $FCNTL.open_v_succ(pffil) = pfopt
   val (fpf | out) =
-  fdopen (pffil | fd, file_mode_w) where {
+  fdopen (pffil | fd, file_mode_w) where
+  {
     extern
     fun
     fdopen{fd:nat}
     (
-      pffil: !fildes_v fd | fd: int fd, mode: file_mode
+      pffil: !fildes_v fd
+    | fd: int fd, mode: file_mode
     ) : (fildes_v fd -<lin,prf> void | FILEref) = "mac#fdopen"
   } (* end of [out] *)
-  val () = fpr (out, x)
-  val _err = $STDIO.fflush_err (out)
-  val _err = $STDIO.fseek_err (out, 0L, SEEK_SET)
-  val res = file2strptr (pffil | fd)
+  val () = fpr(out, x)
+  val err =
+    $STDIO.fflush_err(out)
+  // end of [val]
+  val err = $STDIO.fseek_err(out, 0L, SEEK_SET)
+  val res = file2strptr(pffil|fd)
   prval () = fpf (pffil)
-  val _err = $STDIO.fclose_err (out)
-  val _err = $UNISTD.unlink ($UN.castvwtp1 (tmp))
-  val () = strptr_free (tmp)
+  val err = $STDIO.fclose_err(out)
+  val err = $UNISTD.unlink($UN.castvwtp1{string}(tmp))
+  val ((*freed*)) = strptr_free(tmp)
 in
   res (*strptr*)
 end // end of [then]
 else let
-  prval $FCNTL.open_v_fail () = pfopt
-  val () = strptr_free (tmp) in strptr_null ()
+  prval $FCNTL.open_v_fail() = pfopt
+  val ((*freed*)) = strptr_free(tmp) in strptr_null((*void*))
 end // end of [else]
 //
 end // end of [tostring_fprint]
