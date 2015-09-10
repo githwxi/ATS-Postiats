@@ -737,42 +737,44 @@ d2exp_exist
 // end of [d2exp_exist]
 
 (* ****** ****** *)
-
+//
 implement
-d2exp_lam_dyn (
+d2exp_lam_dyn
+(
   loc, knd, npf, arg, body
-) = d2exp_make_node (loc, D2Elam_dyn (knd, npf, arg, body))
-
+) = d2exp_make_node
+    (loc, D2Elam_dyn (knd, npf, arg, body))
+//
 implement
-d2exp_laminit_dyn (
+d2exp_laminit_dyn
+(
   loc, knd, npf, arg, body
-) = d2exp_make_node (loc, D2Elaminit_dyn (knd, npf, arg, body))
-
-implement
-d2exp_lam_met
-  (loc, ref, met, body) =
-  d2exp_make_node (loc, D2Elam_met (ref, met, body))
-// end of [d2exp_lam_met]
-
-implement
-d2exp_lam_met_new
-  (loc, met, body) = let
-  val ref = ref<d2varlst> (list_nil)
-in
-  d2exp_lam_met (loc, ref, met, body)
-end // end of [d2exp_lam_met_new]
-
+) = d2exp_make_node
+    (loc, D2Elaminit_dyn (knd, npf, arg, body))
+//
 implement
 d2exp_lam_sta
   (loc, s2vs, s2ps, body) =
   d2exp_make_node (loc, D2Elam_sta (s2vs, s2ps, body))
 // end of [d2exp_lam_sta]
-
+//
+implement
+d2exp_lam_met
+  (loc, ref, met, body) =
+  d2exp_make_node (loc, D2Elam_met (ref, met, body))
+// end of [d2exp_lam_met]
+//
+implement
+d2exp_lam_met_new
+  (loc, met, body) = let
+  val ref = ref<d2varlst> (list_nil) in d2exp_lam_met (loc, ref, met, body)
+end // end of [d2exp_lam_met_new]
+//
 implement
 d2exp_fix (
   loc, knd, d2v_fun, d2e_body
 ) = d2exp_make_node (loc, D2Efix (knd, d2v_fun, d2e_body))
-
+//
 (* ****** ****** *)
 
 implement

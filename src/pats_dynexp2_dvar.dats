@@ -97,7 +97,7 @@ d2var_struct =
 , d2var_mastype= s2expopt // the master type of a variable
 , d2var_utimes= int //
 , d2var_stamp= stamp // uniqueness stamp
-} // end of [d2var_struct]
+} (* end of [d2var_struct] *)
 
 (* ****** ****** *)
 

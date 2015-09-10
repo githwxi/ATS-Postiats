@@ -103,6 +103,40 @@ end // end of [p2atlst_tupize]
 (* ****** ****** *)
 
 implement
+d2exp_is_lam
+  (d2e0) = let
+//
+fun
+aux
+(
+  d2e0: d2exp
+) : bool = let
+in
+//
+case+
+d2e0.d2exp_node
+of // case+
+| D2Elam_dyn _ => true
+//
+| D2Elam_sta
+    (_, _, d2e) => aux(d2e)
+//
+| D2Elam_met
+    (_, _, d2e) => aux(d2e)
+//
+| D2Efix(knd, d2v, d2e) => aux(d2e)
+//
+| _ (*rest-of-d2exp*) => false
+//
+end // end of [aux]
+//
+in
+  aux(d2e0)
+end // end of [d2exp_is_lam]
+
+(* ****** ****** *)
+
+implement
 d2exp_is_varlamcst
   (d2e0) = let
 //
@@ -114,15 +148,19 @@ aux
 in
 //
 case+
-d2e0.d2exp_node of
+d2e0.d2exp_node
+of // case+
 //
 | D2Evar d2v =>
   (
-    if d2var_is_mutabl d2v then false else true
+    if d2var_is_mutabl(d2v) then false else true
   ) // end of [D2Evar]
 //
 | D2Elam_dyn _ => true
-| D2Elam_sta _ => true
+| D2Elam_sta (_, _, d2e) => aux(d2e)
+| D2Elam_met (_, _, d2e) => aux(d2e)
+//
+| D2Efix _ => true
 //
 | D2Eint _ => true
 | D2Ebool _ => true

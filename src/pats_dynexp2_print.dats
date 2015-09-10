@@ -695,18 +695,21 @@ d2e0.d2exp_node of
     val () = prstr ")"
   }
 //
-| D2Eexist (s2a, d2e) => {
+| D2Eexist
+    (s2a, d2e) => {
     val () = prstr "D2Eexist("
     val () = fprint_s2exparg (out, s2a)
     val () = prstr "; "
     val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
-  } // end of [D2Eexist]
+  } (* end of [D2Eexist] *)
 //
 | D2Elam_dyn (
     lin, npf, p2ts, d2e
   ) => {
-    val () = prstr "D2Elam_dyn("
+    val () =
+      prstr "D2Elam_dyn("
+    // end of [val]
     val () = fprint_int (out, lin)
     val () = prstr "; "
     val () = fprint_int (out, npf)
@@ -719,7 +722,9 @@ d2e0.d2exp_node of
 | D2Elaminit_dyn (
     lin, npf, p2ts, d2e
   ) => {
-    val () = prstr "D2Elaminit_dyn("
+    val () =
+      prstr "D2Elaminit_dyn("
+    // end of [val]
     val () = fprint_int (out, lin)
     val () = prstr "; "
     val () = fprint_int (out, npf)
@@ -727,34 +732,36 @@ d2e0.d2exp_node of
     val () = fprint_p2atlst (out, p2ts)
     val () = prstr "; "
     val () = fprint_d2exp (out, d2e)
-    val () = prstr ")"
+    val ((*closed*)) = prstr ")"
   } // end of [D2Elaminit_dyn]
 //
 | D2Elam_sta
-    (s2vs, s2ps, d2e) => {
+    (s2vs, s2ps, d2e) =>
+  {
     val () = prstr "D2Elam_sta("
     val () = fprint_s2varlst (out, s2vs)
     val () = prstr "; "
     val () = fprint_s2explst (out, s2ps)
     val () = prstr "; "
     val () = fprint_d2exp (out, d2e)
-    val () = prstr ")"
-  } // end of [D2Elam_sta]
+    val ((*closed*)) = prstr ")"
+  } (* end of [D2Elam_sta] *)
 //
 | D2Elam_met _ => {
     val () = prstr "D2Elam_met("
     val () = fprint_string (out, "...")
-    val () = prstr ")"
+    val ((*closed*)) = prstr ")"
   } // end of [D2Elam_met]
 //
 | D2Efix _ => {
     val () = prstr "D2Efix("
     val () = fprint_string (out, "...")
-    val () = prstr ")"
+    val ((*closed*)) = prstr ")"
   } // end of [D2Efix]
 //
 | D2Edelay (d2e) =>
     fprint! (out, "D2Edelay(", d2e, ")")
+  // end of [D2Edelay]
 | D2Eldelay
     (_eval, _free) => {
     val () = prstr "D2Eldelay("
@@ -764,8 +771,10 @@ d2e0.d2exp_node of
     val () = prstr ")"
   } // end of [D2Edelay]
 //
-| D2Efor (
-    i2nv, init, test, post, body
+| D2Efor
+  (
+    i2nv
+  , init, test, post, body
   ) => {
     val () = prstr "D2Efor("
     val () = fprint_loopi2nv (out, i2nv)
@@ -778,7 +787,7 @@ d2e0.d2exp_node of
     val () = prstr "; body="
     val () = fprint_d2exp (out, body)
     val () = prstr ")"
-  } // end of [D2Efor]
+  } (* end of [D2Efor] *)
 | D2Ewhile
     (i2nv, test, body) => {
     val () = prstr "D2Ewhile("

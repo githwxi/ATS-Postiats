@@ -37,18 +37,20 @@ staload
 ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/unsafe.dats"
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*anon*) = "prelude/DATS/unsafe.dats"
+//
 (* ****** ****** *)
-
+//
 staload "./pats_basics.sats"
-
+//
 (* ****** ****** *)
 
 staload
-GLOB = "./pats_global.sats"
+GLOBAL = "./pats_global.sats"
 
 (* ****** ****** *)
 //
@@ -478,6 +480,7 @@ case+ hfds of
 //
     val () =
       $D2E.d2var_set_level (d2v, lvl0)
+    // end of [val]
     val-Some(hse) = d2var_get2_hisexp (d2v)
     val fcopt = None_vt() // HX: by [hse]
 //
@@ -545,7 +548,7 @@ case+ hfds of
     val d2v = hfd.hifundec_var
     val imparg = hfd.hifundec_imparg
     val hde_def = hfd.hifundec_def
-    val-HDElam (knd, hips_arg, hde_body) = hde_def.hidexp_node
+    val-HDElam(knd, hips_arg, hde_body) = hde_def.hidexp_node
     val+list_cons (flab, flabs) = flabs
 //
     val () = (
@@ -554,14 +557,20 @@ case+ hfds of
       // end of [if]
     ) // end of [val]
 //
-    val istmp = list_is_cons (decarg)
-    val (
-    ) = if istmp then ccompenv_inc_tmplevel (env)
+    val
+    istmp = list_is_cons (decarg)
+    val () =
+      if istmp then ccompenv_inc_tmplevel (env)
+    // end of [val]
 //
-    val tmparg = list_nil(*s2ess*) // matching all?
-    val prolog = list_sing (instr_funlab (loc, flab))
+    val
+    tmparg = list_nil(*s2ess*) // matching all?
+    val
+    prolog = list_sing (instr_funlab (loc, flab))
+//
     val fent =
-      hidexp_ccomp_funlab_arg_body (
+    hidexp_ccomp_funlab_arg_body
+    (
       env, flab, imparg, tmparg, prolog, loc, hips_arg, hde_body
     ) // end of [fcall] // end of [val]
 //
@@ -578,6 +587,7 @@ case+ hfds of
 //
     val () =
       hifundec_set_funlabopt (hfd, Some (flab))
+    // end of [val]
     val () = funlab_set_funent (flab, Some(fent))
 //
     val i2 = (if i >= 1 then i + 1 else i): int
@@ -598,7 +608,7 @@ hifundeclst_ccomp
 //
 val
 tlcalopt =
-  $GLOB.the_CCOMPATS_tlcalopt_get()
+  $GLOBAL.the_CCOMPATS_tlcalopt_get()
 val isfnx =
 (
 if tlcalopt > 0
@@ -880,20 +890,20 @@ and auxlam2
 ) : funlab = flab where
 {
 //
-val (
-) = ccompenv_inc_tailcalenv (env, flab)
+val () =
+  ccompenv_inc_tailcalenv (env, flab)
 //
 val tmplev = ccompenv_get_tmplevel (env)
 val () =
+(
   if tmplev > 0 then funlab_set_tmpknd (flab, 1)
-// end of [val]
+) (* end of [val] *)
 //
 val pmv_lam = primval_make_funlab (loc0, flab)
 //
 val loc_fun = hde_fun.hidexp_loc
 //
-val-HDElam
-  (knd, hips_arg, hde_body) = hde_fun.hidexp_node
+val-HDElam(knd, hips_arg, hde_body) = hde_fun.hidexp_node
 //
 val fent = let
   val ins =
@@ -1050,13 +1060,13 @@ case+ 0 of
 *)
 //
     val () =
-      if istmp then ccompenv_inc_tmplevel (env)
+      if istmp then ccompenv_inc_tmplevel(env)
     // end of [val]
     val flab =
       auxmain (env, loc0, d2c, imparg, tmparg, hde_def)
     // end of [val]
     val () =
-      if istmp then ccompenv_dec_tmplevel (env)
+      if istmp then ccompenv_dec_tmplevel(env)
     // end of [val]
 //
     val () = (

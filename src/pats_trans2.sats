@@ -91,6 +91,8 @@ datatype trans2err =
   | T2E_i1nvarg_tr of (i1nvarg)
   | T2E_c1lau_tr of (c1lau)
 //
+  | T2E_f1undec_tr of (f1undec)
+//
   | T2E_d1cstdec_tr of (d1cstdec)
 //
   | T2E_prv1ardec_tr of (v1ardec)

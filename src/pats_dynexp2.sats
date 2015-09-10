@@ -921,8 +921,10 @@ and d2exp_node =
       (int(*lin*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
   | D2Elaminit_dyn of (* flat dynamic abstraction *)
       (int(*lin*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
-  | D2Elam_met of (ref(d2varlst), s2explst(*met*), d2exp(*body*))
-  | D2Elam_sta of (s2varlst, s2explst(*s2ps*), d2exp) // static abstraction
+  | D2Elam_sta of
+      (s2varlst, s2explst(*s2ps*), d2exp(*body*)) // static abstraction
+  | D2Elam_met of
+      (ref(d2varlst), s2explst(*met*), d2exp(*body*)) // termination metric
 //
   | D2Efix of (
       int(*knd=0/1:flat/boxed*), d2var(*fixvar*), d2exp(*def*)
@@ -1917,6 +1919,8 @@ dynexp2_tmpvardecmap_type // placeholer for [tmpvardecmap]
 ** these functions are
 ** implemented in [pats_dynexp2_util.dats]
 *)
+//
+fun d2exp_is_lam(d2e: d2exp): bool
 //
 fun
 d2exp_is_varlamcst (d2e: d2exp): bool

@@ -56,7 +56,7 @@ prerr_FILENAME<> () = prerr "pats_ccomp_dynexp"
 (* ****** ****** *)
 //
 staload
-GLOB = "./pats_global.sats"
+GLOBAL = "./pats_global.sats"
 //  
 (* ****** ****** *)
 
@@ -1222,7 +1222,7 @@ var added: int = 0
 //
 val
 tlcalopt =
-  $GLOB.the_CCOMPATS_tlcalopt_get()
+  $GLOBAL.the_CCOMPATS_tlcalopt_get()
 //
 val isret =
 (

@@ -1703,16 +1703,31 @@ fn f1undec_tr
   decarg: s2qualst
 , d2v: d2var, f1d: f1undec
 ) : f2undec = let
-  val (
-  ) = d2var_set_decarg (d2v, decarg)
+  val () =
+    d2var_set_decarg (d2v, decarg)
+  // end of [val]
   val def = d1exp_tr (f1d.f1undec_def)
+  val isnot = not (d2exp_is_lam (def))
 (*
   val () = begin
     print "f1undec_tr: d2v = "; print d2v; print_newline ()
     print "f1undec_tr: def = "; print def; print_newline ()
   end // end of [val]
 *)
+//
+  val () =
+  if isnot then let
+    val () =
+    prerr_error2_loc (def.d2exp_loc)
+    val () = filprerr_ifdebug "f1undec_tr"
+    val () =
+    prerrln! ": the function definition is required to be lam-abstract."
+  in
+    the_trans2errlst_add (T2E_f1undec_tr(f1d))
+  end // end of [if] // end of [val]
+//
   val ann = witht1ype_tr (f1d.f1undec_ann)
+//
 in
   f2undec_make (f1d.f1undec_loc, d2v, def, ann)
 end // end of [f1undec_tr]
@@ -2417,17 +2432,27 @@ case+ d1c0.d1ecl_node of
     funknd, decarg, f1ds
   ) => let
 //
-    val istmp = list_is_cons (decarg)
+    val
+    istmp = list_is_cons (decarg)
     val () = if istmp then the_tmplev_inc ()
 //
     val (pfenv | ()) = the_trans2_env_push ()
 //
-    val tmplev = the_tmplev_get ()
-    val s2qs = list_map_fun (decarg, q1marg_tr_dec)
-    val s2qs = list_of_list_vt (s2qs)
-    val () = s2qualstlst_set_tmplev (s2qs, tmplev)
+    val
+    tmplev = the_tmplev_get()
 //
-    val f2ds = f1undeclst_tr (funknd, s2qs, f1ds)
+    val s2qs =
+    list_map_fun
+      (decarg, q1marg_tr_dec)
+    // end of [val]
+    val s2qs = list_of_list_vt (s2qs)
+    val ((*void*)) =
+      s2qualstlst_set_tmplev (s2qs, tmplev)
+    // end of [val]
+//
+    val f2ds =
+      f1undeclst_tr (funknd, s2qs, f1ds)
+    // end of [val]
 //
     val () = if istmp then the_tmplev_dec ()
 //
