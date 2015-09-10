@@ -124,7 +124,13 @@ of // case+
 | D2Elam_met
     (_, _, d2e) => aux(d2e)
 //
-| D2Efix(knd, d2v, d2e) => aux(d2e)
+| D2Efix(_, _, d2e) => aux(d2e)
+//
+| D2Esing(d2e) => aux(d2e)
+//
+| D2Eann_type (d2e, _) => aux(d2e)
+| D2Eann_seff (d2e, _) => aux(d2e)
+| D2Eann_funclo (d2e, _) => aux(d2e)
 //
 | _ (*rest-of-d2exp*) => false
 //
@@ -172,10 +178,10 @@ of // case+
 //
 | D2Etop _ => true
 //
-| D2Esing(d2e) => aux (d2e)
+| D2Esing(d2e) => aux(d2e)
 //
-| D2Etup (knd, npf, d2es) => auxlst (d2es)
-| D2Erec (knd, npf, ld2es) => auxlablst (ld2es)
+| D2Etup(knd, npf, d2es) => auxlst(d2es)
+| D2Erec(knd, npf, ld2es) => auxlablst(ld2es)
 //
 | D2Eexist(s2as, d2e) => aux (d2e)
 //

@@ -1721,7 +1721,7 @@ fn f1undec_tr
     prerr_error2_loc (def.d2exp_loc)
     val () = filprerr_ifdebug "f1undec_tr"
     val () =
-    prerrln! ": the function definition is required to be lam-abstract."
+    prerrln! ": function definition is required to be lam-abstract."
   in
     the_trans2errlst_add (T2E_f1undec_tr(f1d))
   end // end of [if] // end of [val]
