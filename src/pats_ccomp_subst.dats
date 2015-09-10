@@ -562,10 +562,12 @@ fun aux
 (
   env: !ccompenv, fl: funlab
 ) : funlab = let
-  val opt = funlab_get_d2vopt (fl)
+//
+val d2vopt = funlab_get_d2vopt (fl)
+//
 in
 //
-case+ opt of
+case+ d2vopt of
 | Some (d2v) => let
 (*
     val () = println! ("funent_funlablst_update: aux: fl = ", fl)
@@ -573,15 +575,31 @@ case+ opt of
     val loc = d2var_get_loc (d2v)
     val () = println! ("funent_funlablst_update: aux: d2v.loc = ", loc)
 *)
-    val-~Some_vt(pmv) = ccompenv_find_vbindmapall (env, d2v)
-(*
-    val () = println! ("funent_funlablst_update: aux: pmv = ", pmv)
-*)
+    val pmvopt =
+      ccompenv_find_vbindmapall (env, d2v)
+    // end of [val]
   in
-    case+ pmv.primval_node of
-    | PMVfunlab (fl) => fl | PMVcfunlab (knd, fl) => fl | _ => fl
+    case+ pmvopt of
+    | ~Some_vt(pmv) => (
+        case+
+        pmv.primval_node
+        of // case+
+        | PMVfunlab (fl) => fl | PMVcfunlab (knd, fl) => fl | _ => fl
+      ) (* end of [Some_vt] *)
+    | ~None_vt((*void*)) => let
+(*
+        val () =
+        prerr_warnccomp_loc(d2var_get_loc(d2v))
+        val () =
+        prerrln! (
+          ": it can be problematic to refer to [", d2v, "] in a template."
+        ) (* end of [val] *)
+*)
+      in
+        fl // HX-2015-09-10: should this be reported as an error?
+      end (* end of [None_vt] *)
   end // end of [Some]
-| None ((*void*)) => fl // HX-2013-06-28: is this actually possible?
+| None ((*void*)) => fl(*error?*) // HX-2013-06-28: is this actually possible?
 //
 end // end of [aux]
 //

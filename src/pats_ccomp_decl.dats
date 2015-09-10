@@ -273,11 +273,23 @@ case+ hid0.hidecl_node of
   (
     hids_head, hids_body
   ) => let
-    val (pf | ()) = ccompenv_push (env)
+//
+// HX-2015-09-10:
+// So locally defined templates can be
+// accessed in template instances outside
+// the local-scope.
+//
+(*
+    val (pf1 | ()) = ccompenv_push (env)
+*)
     val pmds_head = hideclist_ccomp (env, hids_head)
+(*
     val (pf2 | ()) = ccompenv_push (env)
+*)
     val pmds_body = hideclist_ccomp (env, hids_body)
-    val ((*void*)) = ccompenv_localjoin (pf, pf2 | env)
+(*
+    val ((*void*)) = ccompenv_localjoin (pf1, pf2 | env)
+*)
   in
     primdec_local (loc0, pmds_head, pmds_body)
   end // end of [HIDlocal]
@@ -925,7 +937,7 @@ val () = ccompenv_dec_tailcalenv (env)
 val () = println! ("hiimpdec_ccomp: auxlam2: fent = ", fent)
 *)
 //
-} // end of [auxlam2]
+} (* end of [auxlam2] *)
 
 (* ****** ****** *)
 
@@ -1016,7 +1028,7 @@ case+
     exitloc (1)
   end // end of [_]
 //
-end // end of [auxmain]
+end (* end of [auxmain] *)
 
 in (* in of [local] *)
 
