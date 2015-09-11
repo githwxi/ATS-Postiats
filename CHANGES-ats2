@@ -24,6 +24,7 @@ Here is a list of major additions and changes since the last release:
 
 1. Enforcing function definition to be lab-abstract
 2. Supporting the use of locally defined templates:
+   local fun foo(): int = 0 in fun{} foo2() = foo() + 1 end
    local fun{} foo(): int = 0 in fun{} foo2() = foo() + 1 end
 3. Changing some names:
    _ATS_CCOMP_HEADER_NONE -> _ATS_CCOMP_HEADER_NONE_

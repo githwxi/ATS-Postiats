@@ -4,19 +4,24 @@
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-
-(* ****** ****** *)
-
-staload STDIO = "libc/SATS/stdio.sats"
+#define ATS_DYNLOADFLAG 0
 
 (* ****** ****** *)
 //
 staload
-  "libatsynmark/SATS/libatsynmark.sats"
+STDIO = "libc/SATS/stdio.sats"
+//
+(* ****** ****** *)
+
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+//
+staload
+"utils/libatsynmark/SATS/libatsynmark.sats"
 staload _(*anon*) =
-  "libatsynmark/DATS/libatsynmark_psynmark.dats"
+"utils/libatsynmark/DATS/libatsynmark_psynmark.dats"
 //
 (* ****** ****** *)
 

@@ -566,12 +566,15 @@ dynload "src/pats_trans1_e0xp.dats"
 dynload "src/pats_trans1_error.dats"
 //
 (* ****** ****** *)
-
-dynload "libatsynmark/dynloadall.dats"
-
+//
+dynload
+"utils/libatsynmark/dynloadall.dats"
+//
 (* ****** ****** *)
 
-dynload "./pats2xhtml_level1.dats"
+(*
+// dynload "./pats2xhtml_level1.dats"
+*)
 
 (* ****** ****** *)
 

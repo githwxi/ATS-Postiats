@@ -83,7 +83,7 @@ pats2xhtml_level1_dats.o: \
 ##
 pats2xhtml: \
   DATS/pats2xhtml_main.dats $(OBJECTS) ; \
-  $(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $< $(OBJECTS) -L $(PATSHOME)/libatsynmark -latsynmark -lgmp
+  $(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $< $(OBJECTS) -L $(PATSHOME)/utils/libatsynmark -latsynmark -lgmp
 ##
 cleanall:: ; $(RMF) pats2xhtml
 ##

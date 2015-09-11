@@ -8,7 +8,7 @@
 (* ****** ****** *)
 //
 staload LSYNMK =
-"libatsynmark/SATS/libatsynmark.sats"
+"utils/libatsynmark/SATS/libatsynmark.sats"
 //
 (* ****** ****** *)
 
