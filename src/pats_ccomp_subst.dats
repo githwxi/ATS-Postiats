@@ -594,10 +594,10 @@ case+ d2vopt of
         val () =
         prerr_interror_loc(d2var_get_loc(d2v))
         val () =
-        prerr! (": unbound variable [", d2v, "] is encountered")
+        prerr! (": unbound variable [", d2v, "]")
         val () =
         prerrln! (
-          ": it is likely during the compilation of a template instance."
+          ": appearance is likely during compilation of template instances."
         ) (* end of [val] *)
 //
       } (* end of [None_vt] *)
