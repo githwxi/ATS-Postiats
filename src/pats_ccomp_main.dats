@@ -94,10 +94,10 @@ emit_ats_ccomp_header (out) = let
   val () = emit_text (out, "#include \"pats_ccomp_instrset.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_memalloc.h\"\n")
 //
-  val () = emit_text (out, "#ifndef __ATS_CCOMP_EXCEPTION_NONE__\n")
+  val () = emit_text (out, "#ifndef _ATS_CCOMP_EXCEPTION_NONE_\n")
   val () = emit_text (out, "#include \"pats_ccomp_memalloca.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_exception.h\"\n")
-  val () = emit_text (out, "#endif // end of [__ATS_CCOMP_EXCEPTION_NONE__]\n")
+  val () = emit_text (out, "#endif // end of [_ATS_CCOMP_EXCEPTION_NONE_]\n")
 //
   val () = emit_text (out, "#endif /* _ATS_CCOMP_HEADER_NONE_ */\n")
   val () = emit_newline (out)
