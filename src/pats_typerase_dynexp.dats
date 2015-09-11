@@ -1046,7 +1046,7 @@ d3e0.d3exp_node of
     if not(isval) then let
       val () = prerr_warning4_loc (loc0)
       val () = prerrln! (
-        ": a non-value body for static lambda-abstraction is not supported."
+        ": a non-value body for static lam-abstraction is not supported."
       ) (* end of [val] *)
     in
 (*

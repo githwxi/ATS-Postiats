@@ -452,7 +452,7 @@ s1exp_node =
   | S1Eextkind of (string(*name*), s1explstlst) // extern tkind
 //
   | S1Eapp of (s1exp, loc_t(*arg*), s1explst) // application
-  | S1Elam of (s1marg, s1rtopt, s1exp(*body*)) // lambda-abstraction
+  | S1Elam of (s1marg, s1rtopt, s1exp(*body*)) // lam-abstraction
   | S1Eimp of (funclo, int (*lin*), int (*prf*), effcstopt)
 //
   | S1Etop of (int(*knd*), s1exp) // 0/1: topization/typization

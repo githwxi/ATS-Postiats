@@ -119,7 +119,12 @@ typedef void* atstype_datcontyp ;
 
 /* ****** ****** */
 
-#ifndef _ATS_CCOMP_EXCEPTION_NONE
+#ifdef \
+ATS_CCOMP_EXCEPTION_NONE
+//
+// HX: should a message be issued?
+//
+#else
 //
 typedef
 struct
@@ -161,21 +166,21 @@ typedef void* atstype_cloptr ;
 // making it unusable unless
 // _ATS_ARRAY_FIELD is defined
 //
-#ifdef _ATS_ARRAY_FIELD
+#ifdef _ATS_ARRAY_FIELD_
 #define atstyarr_field(fname) fname[]
 #else
 #define atstyarr_field(fname) atstyarr_field_undef(fname)
-#endif // end of [_ATS_ARRAY_FIELD]
+#endif // end of [_ATS_ARRAY_FIELD_]
 //
 /* ****** ****** */
 //
 // HX-2014-05:
 // making it not usable!!!
 //
-#ifdef _ATSTYPE_VAR_SIZE
+#ifdef _ATSTYPE_VAR_SIZE_
 // HX: it is set by the user
 #else
-#define _ATSTYPE_VAR_SIZE 0X10000
+#define _ATSTYPE_VAR_SIZE_ 0X10000
 #endif // end of [#ifdef]
 //
 // HX-2014-05:
@@ -183,7 +188,7 @@ typedef void* atstype_cloptr ;
 // _ATSTYPE_VAR_SIZE can be set to 0x100
 //
 typedef
-struct{char _[_ATSTYPE_VAR_SIZE];} atstype_var[0] ;
+struct{char _[_ATSTYPE_VAR_SIZE_];} atstype_var[0] ;
 //
 /* ****** ****** */
 

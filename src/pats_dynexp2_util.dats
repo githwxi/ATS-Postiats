@@ -163,8 +163,16 @@ of // case+
   ) // end of [D2Evar]
 //
 | D2Elam_dyn _ => true
+//
+| D2Elam_sta _ => true
+| D2Elam_met _ => true
+(*
+//
+// HX: not good for typechecking
+//
 | D2Elam_sta (_, _, d2e) => aux(d2e)
 | D2Elam_met (_, _, d2e) => aux(d2e)
+*)
 //
 | D2Efix _ => true
 //
