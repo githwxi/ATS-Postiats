@@ -586,18 +586,21 @@ case+ d2vopt of
         of // case+
         | PMVfunlab (fl) => fl | PMVcfunlab (knd, fl) => fl | _ => fl
       ) (* end of [Some_vt] *)
-    | ~None_vt((*void*)) => let
-(*
+    | ~None_vt((*void*)) => fl(*error?*) where
+      {
+//
+// HX-2015-09-10: can this actually be happening?
+//
         val () =
-        prerr_warnccomp_loc(d2var_get_loc(d2v))
+        prerr_interror_loc(d2var_get_loc(d2v))
+        val () =
+        prerr! (": unbound variable [", d2v, "] is encountered")
         val () =
         prerrln! (
-          ": it can be problematic to refer to [", d2v, "] in a template."
+          ": it is likely during the compilation of a template instance."
         ) (* end of [val] *)
-*)
-      in
-        fl // HX-2015-09-10: should this be reported as an error?
-      end (* end of [None_vt] *)
+//
+      } (* end of [None_vt] *)
   end // end of [Some]
 | None ((*void*)) => fl(*error?*) // HX-2013-06-28: is this actually possible?
 //

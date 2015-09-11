@@ -2324,7 +2324,7 @@ case+ d1c0.d1ecl_node of
         d2ecl_saspdec (loc0, d2c)
       // end of [Some_vt]
     | ~None_vt ((*void*)) =>
-        d2ecl_none (loc0) // HX: error already reported
+        d2ecl_none (loc0) // HX: error is already reported
       // end of [None_vt]
     // end of [case]
   end // end of [D1Csaspdec]

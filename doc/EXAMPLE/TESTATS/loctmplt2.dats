@@ -17,7 +17,7 @@
 
 local
 
-fun
+fun{}
 foo(): int = 0
 
 in (* in-of-local *)
@@ -33,4 +33,4 @@ implement main0 () = println! ("foo2() = ", foo2())
 
 (* ****** ****** *)
 
-(* end of [loctmplt.dats] *)
+(* end of [loctmplt2.dats] *)
