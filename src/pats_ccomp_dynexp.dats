@@ -334,7 +334,7 @@ case+ hde0.hidexp_node of
 //
 | HDElet (hids, hde_scope) => let
 //
-    val (pfpush | ()) = ccompenv_push (env)
+    val (pfpush|()) = ccompenv_push (env)
 //
     val pmds = hideclist_ccomp (env, hids)
     val ins_push = instr_letpush (loc0, pmds)
@@ -345,7 +345,7 @@ case+ hde0.hidexp_node of
     val ins_pop = instr_letpop (loc0)
     val () = instrseq_add (res, ins_pop)
 //
-    val ((*void*)) = ccompenv_pop (pfpush | env)
+    val ((*popped*)) = ccompenv_pop (pfpush | env)
 //
   in
     pmv_scope
