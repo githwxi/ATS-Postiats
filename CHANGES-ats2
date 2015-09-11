@@ -34,6 +34,9 @@ Here is a list of major additions and changes since the last release:
    _ATS_CCOMP_RUNTIME_NONE -> _ATS_CCOMP_RUNTIME_NONE_
    _ATS_CCOMP_EXCEPTION_NONE -> _ATS_CCOMP_EXCEPTION_NONE_
    _ATS_CCOMP_RUNTIME_TRYWITH_NONE -> _ATS_CCOMP_RUNTIME_TRYWITH_NONE_
+4. Moving libatsynmark to utils/libatsynmark
+5. Fixing an issue that causes crash due to compiling atstype_var.
+   See hitype_tyvar_test in [pats_ccomp_hitype] for more information.
 
 ######
 

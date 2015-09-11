@@ -62,8 +62,9 @@ src/CBOOT/pats*.?ats
 # Syntax-highlighting
 #
 
-utils/atsyntax/HTML
-utils/atsyntax/pats2xhtml
+utils/atsynmark/HTML
+utils/atsynmark/pats2xhtml
+utils/libatsynmark/libatsynmark.a
 
 #
 # ATSHOME/ccomp
@@ -186,18 +187,6 @@ libatslex/SATS/DOCUGEN/*_atxt.txt
 libatslex/SATS/DOCUGEN/*_atxt.dats
 libatslex/SATS/DOCUGEN/HTML
 libatslex/SATS/DOCUGEN/TRYIT
-
-#
-# ATSLIB/libatsynmark
-#
-
-libatsynmark/libatsynmark.a
-
-#
-# ATSLIB/libatsyn2json
-#
-
-libatsyn2json/libatsyn2json.a
 
 #
 # ATSHOME/doc/DISTRIB
