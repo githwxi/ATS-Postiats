@@ -129,7 +129,8 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
-fn symintr_tr
+fun
+symintr_tr
   (ids: i0delst): void = let
 //
 fun aux
@@ -154,25 +155,32 @@ end // end of [symintr_tr]
 
 (* ****** ****** *)
 
-fn symelim_tr
+fun
+symelim_tr
   (ids: i0delst): void = let
-  fn f (id: i0de): void = let
-    val sym = id.i0de_sym
-    val ans = the_d2expenv_find (sym)
-  in
-    case+ ans of
-    | ~Some_vt (d2i) =>
-      (
-        case+ d2i of
-        | D2ITMsymdef _ =>
-            the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
-          // end of [D2ITMsymdef]
-        | _ (*non-symdef*) => () // HX: should a warning be reported?
-      ) // end of [Some_vt]
-    | ~None_vt ((*void*)) => ()
-  end // end of [f]
+//
+fun
+fproc
+  (id: i0de): void = let
+  val sym = id.i0de_sym
+  val ans = the_d2expenv_find (sym)
 in
-  list_app_fun (ids, f)
+//
+  case+ ans of
+  | ~Some_vt (d2i) =>
+    (
+      case+ d2i of
+      | D2ITMsymdef _ =>
+          the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
+        // end of [D2ITMsymdef]
+      | _ (*non-symdef*) => () // HX: should a warning be reported?
+    ) // end of [Some_vt]
+  | ~None_vt ((*void*)) => ()
+//
+end // end of [fproc]
+//
+in
+  list_app_fun (ids, fproc)
 end // end of [symelim_tr]
 
 (* ****** ****** *)
@@ -208,7 +216,8 @@ val () =
 } (* end of [val] *)
 *)
 //
-fn auxerr (
+fun
+auxerr (
   d1c0: d1ecl, dqid: $SYN.dqi0de
 ) : void = let
   val loc = dqid.dqi0de_loc
@@ -244,7 +253,8 @@ overload_tr_def
 //
   var err: int = 0
 //
-fn auxerr1
+fun
+auxerr1
 (
   loc0: location, id: i0de, err: &int
 ) : void = let
@@ -259,7 +269,8 @@ in
   the_trans2errlst_add (T2E_d1ecl_tr_overload_def (loc0))
 end // end of [auxerr1]
 //
-fn auxerr2
+fun
+auxerr2
 (
   loc0: location, id: i0de, err: &int
 ) : void = let
@@ -388,7 +399,8 @@ in
   auxlst (0, res, d1c.d1atsrtdec_con)
 end // end of [d1atsrtdec_tr]
 
-fn d1atsrtdeclst_tr
+fun
+d1atsrtdeclst_tr
   (d1cs: d1atsrtdeclst) = let
 //
 typedef T = (d1atsrtdec, s2rtdat, s2rt)
@@ -628,7 +640,8 @@ in
   the_s2expenv_add_scst (s2c); s2c
 end // end of [s1tacon_tr]
 
-fn s1taconlst_tr
+fun
+s1taconlst_tr
 (
   knd: int, ds: s1taconlst
 ) : s2cstlst = let
@@ -659,7 +672,8 @@ end // end of [s1taconlst_tr]
 //
 // HX-2012-05-23: removed
 //
-fn s1tavar_tr
+fun
+s1tavar_tr
   (d: s1tavar): s2tavar = let
   val loc = d.s1tavar_loc
   val s2t = s1rt_tr (d.s1tavar_srt)
@@ -669,7 +683,8 @@ in
   s2tavar_make (loc, s2v)
 end // end of [s1tavar_tr]
 
-fn s1tavarlst_tr
+fun
+s1tavarlst_tr
   (ds: s1tavarlst): s2tavarlst = l2l (list_map_fun (ds, s1tavar_tr))
 // end of [s1tavarlst_tr]
 *)
@@ -717,16 +732,16 @@ s1expdef_tr_arg
   xs: s1marglst
 ) : List_vt (s2varlst) = let
 //
-fn f
-(
+fun
+fproc (
   x: s1marg
 ) : s2varlst = s2vs where {
   val s2vs = s1arglst_trup (x.s1marg_arg)
   val () = the_s2expenv_add_svarlst (s2vs)
-} // end of [f]
+} // end of [fproc]
 //
 in
-  list_map_fun (xs, f)
+  list_map_fun (xs, fproc)
 end // end of [s1expdef_tr_arg]
 
 fun
@@ -766,7 +781,8 @@ s1expdef_tr
   res: s2rtopt, d: s1expdef
 ) : s2cst = let
 //
-fn auxerr
+fun
+auxerr
   (d: s1expdef): void = let
 //
 val (
@@ -885,7 +901,8 @@ s1aspdec_tr_arg
   d: s1aspdec, xs: s1marglst, s2t_fun: &s2rt
 ) : List_vt (s2varlst) = let
 //
-fn auxerr (
+fun
+auxerr (
   d: s1aspdec, x: s1marg
 ) : void = let
   val () = prerr_error2_loc (x.s1marg_loc)
@@ -923,7 +940,8 @@ s1aspdec_tr_res
   d: s1aspdec, s2t_res: s2rt
 ) : s2rt = let
 //
-fn auxerr (
+fun
+auxerr (
   d: s1aspdec, s2t1: s2rt, s2t2: s2rt
 ) : void = {
 //
@@ -962,10 +980,12 @@ s2aspdecopt_vt = Option_vt (s2aspdec)
 
 in (* in-of-local *)
 
-fn s1aspdec_tr
+fun
+s1aspdec_tr
   (d1c: s1aspdec): s2aspdecopt_vt = let
 //
-fn auxerr1 (
+fun
+auxerr1 (
   d: s1aspdec, q: s0taq, id: symbol
 ) : void = let
   val () =
@@ -979,7 +999,8 @@ in
   the_trans2errlst_add (T2E_s1aspdec_tr (d))
 end // end of [auxerr1]
 //
-fn auxerr2 (
+fun
+auxerr2 (
   d: s1aspdec, q: s0taq, id: symbol
 ) : void = let
   val () =
@@ -993,7 +1014,8 @@ in
   the_trans2errlst_add (T2E_s1aspdec_tr (d))
 end // end of [auxerr2]
 //
-fn auxerr3 (
+fun
+auxerr3 (
   d: s1aspdec, q: s0taq, id: symbol
 ) : void = let
   val () = prerr_error2_loc (d.s1aspdec_loc)
@@ -1078,7 +1100,8 @@ case+ d1cs of
 
 in (* in of [local] *)
 
-fn d1atdec_tr
+fun
+d1atdec_tr
 (
   s2c: s2cst, s2vss0: s2varlstlst, d1c: d1atdec
 ) : void = let
@@ -1297,7 +1320,8 @@ end // end of [d1atdeclst_tr]
 //
 // HX: [exn] is considered a viewtype constructor
 //
-fn e1xndec_tr (
+fun
+e1xndec_tr (
   s2c: s2cst, d1c: e1xndec
 ) : d2con = let
   val loc = d1c.e1xndec_loc
@@ -1575,7 +1599,8 @@ fun trans2_env_add_m2acarglst
 
 in (* in of [local] *)
 
-fn m1acdef_tr (
+fun
+m1acdef_tr (
   knd: int, d2m: d2mac, d1c: m1acdef
 ) : void = let
 //
@@ -1698,7 +1723,8 @@ end // end of [local]
 
 (* ****** ****** *)
 
-fn f1undec_tr
+fun
+f1undec_tr
 (
   decarg: s2qualst
 , d2v: d2var, f1d: f1undec
@@ -1732,7 +1758,8 @@ in
   f2undec_make (f1d.f1undec_loc, d2v, def, ann)
 end // end of [f1undec_tr]
 
-fn f1undeclst_tr
+fun
+f1undeclst_tr
 (
   knd: funkind
 , decarg: s2qualst, f1ds: f1undeclst
@@ -1801,7 +1828,8 @@ end // end of [f1undeclst_tr]
 
 (* ****** ****** *)
 
-fn v1aldec_tr
+fun
+v1aldec_tr
 (
   v1d: v1aldec, p2t: p2at
 ) : v2aldec = let
@@ -1812,7 +1840,8 @@ in
   v2aldec_make (loc, p2t, def, ann)
 end // end of [v1aldec_tr]
 
-fn v1aldeclst_tr{n:nat}
+fun
+v1aldeclst_tr{n:nat}
 (
   isrec: bool, v1ds: list (v1aldec, n)
 ) : v2aldeclst = let
@@ -1839,7 +1868,8 @@ end (* end of [v1aldeclst_tr] *)
 
 (* ****** ****** *)
 
-fn v1ardec_tr
+fun
+v1ardec_tr
 (
   v1d: v1ardec
 ) : v2ardec = let
@@ -1901,7 +1931,8 @@ v2ardec_make
 //
 end // end of [v1ardec_tr]
 
-fn v1ardeclst_tr
+fun
+v1ardeclst_tr
 (
   v1ds: v1ardeclst
 ) : v2ardeclst = v2ds where
@@ -2018,10 +2049,11 @@ prv1ardeclst_tr
   val v2ds =
     l2l (list_map_fun (v1ds, prv1ardec_tr))
   // end of [val]
-  val () = list_app_fun (v2ds, f) where {
+  val () =
+  list_app_fun (v2ds, f) where {
     fn f (v2d: prv2ardec): void = the_d2expenv_add_dvar (v2d.prv2ardec_dvar)
-  } (* end of [val] *)
-} // end of [prv1ardeclst_tr]
+  } (* end of [where] *) // end of [val]
+} (* end of [prv1ardeclst_tr] *)
 
 (* ****** ****** *)
 
@@ -2123,7 +2155,8 @@ s1taloadnm_tr
 implement
 s1taloadnm_tr (d1c0) = let
 //
-fn auxerr
+fun
+auxerr
 (
   d1c0: d1ecl, name: symbol
 ) : void = let
