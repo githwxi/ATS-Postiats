@@ -22,7 +22,10 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Enforcing function definition to be lab-abstract
+1. Enforcing that the definition of each declared function be
+   lam-abstract. For instanct, the following code results in an
+   error during compilation:
+   fun fact = fix f(n:int): int => if n > 0 then n*f(n-1) else 1
 2. Supporting the use of locally defined templates:
    local fun foo(): int = 0 in fun{} foo2() = foo() + 1 end
    local fun{} foo(): int = 0 in fun{} foo2() = foo() + 1 end
