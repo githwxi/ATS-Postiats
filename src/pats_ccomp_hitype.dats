@@ -1660,7 +1660,7 @@ case+ kis of
     (ki, kis) => let
 //
     val
-    tyvar = hitype_tyvar_test(ki.0)
+    tyvar = hitype_tyvar_test(ki.1)
 //
     val () =
     if tyvar
