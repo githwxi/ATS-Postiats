@@ -7,6 +7,14 @@ style="margin-top:8px;padding:8px;"
 <hr></hr>
 
 <a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/3XXa-18GLOc"
+>Slides for learning ATS/LF</a><br>
+by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
+
+<hr></hr>
+
+<a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/HwMcg0vFGoA"
 >ATS for Arduino programming</a><br>
 by <a href="http://www.masterq.net">Kiwamu Okabe</a>
