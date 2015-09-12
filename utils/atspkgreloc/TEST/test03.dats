@@ -33,7 +33,7 @@ PATSCONTRIB
 //
 (* ****** ****** *)
 //
-require
+#require
 "{$PATSCONTRIB}/pcre/CATS/pcre.cats"
 //
 (* ****** ****** *)

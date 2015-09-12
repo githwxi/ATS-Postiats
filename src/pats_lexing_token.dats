@@ -490,7 +490,6 @@ val () = ins ("static", T_STATIC)
 (*
 val () = ins ("stavar", T_STAVAR)
 *)
-val () = ins ("require", T_REQUIRE)
 //
 val () = ins ("staload", T_STALOAD)
 val () = ins ("dynload", T_DYNLOAD)
@@ -617,11 +616,11 @@ val () = ins ("#error", T_SRPERROR)
 //
 val () = ins ("#assert", T_SRPASSERT)
 //
+val () = ins ("#undef", T_SRPUNDEF)
 val () = ins ("#define", T_SRPDEFINE)
 //
 val () = ins ("#include", T_SRPINCLUDE)
-//
-val () = ins ("#undef", T_SRPUNDEF)
+val () = ins ("#require", T_SRPREQUIRE)
 //
 val () = ins ("#codegen2", T_SRPCODEGEN2) // for level-2 codegen
 val () = ins ("#codegen3", T_SRPCODEGEN3) // for level-3 codegen

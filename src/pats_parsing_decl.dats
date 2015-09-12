@@ -884,6 +884,15 @@ case+ tok.token_node of
     // end of [if]
   end (* T_OVERLOAD *)
 //
+| T_SRPUNDEF () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_i0de (buf, bt, err)
+  in
+    if err = err0
+      then d0ecl_e0xpundef (tok, ent2) else synent_null ()
+    // end of [if]
+  end // end of [#undef]
 | T_SRPDEFINE
     ((*void*)) => let
     val bt = 0
@@ -905,16 +914,7 @@ case+ tok.token_node of
         val () = option_vt_free (ent3) in synent_null ()
       end // end of [else]
     // end of [if]
-  end
-| T_SRPUNDEF () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_i0de (buf, bt, err)
-  in
-    if err = err0
-      then d0ecl_e0xpundef (tok, ent2) else synent_null ()
-    // end of [if]
-  end
+  end // end of [#define]
 //
 | T_SRPPRINT () => let
     val bt = 0
@@ -943,6 +943,17 @@ case+ tok.token_node of
       then d0ecl_e0xpact_assert (tok, ent2) else synent_null()
     // end of [if]
   end
+//
+| T_SRPREQUIRE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0tring (buf, bt, err)
+  in
+    if err = err0
+      then d0ecl_require (tok, ent2) else synent_null()
+    // end of [if]
+  end // end of [T_SRPREQUIRE]
+//
 //
 | T_SRPCODEGEN2
     ((*void*)) => let
@@ -1083,16 +1094,6 @@ case+ tok.token_node of
   in
     p_staload_tok (buf, bt, err, tok)
   end
-//
-| T_REQUIRE () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_s0tring (buf, bt, err)
-  in
-    if err = err0
-      then d0ecl_require (tok, ent2) else synent_null()
-    // end of [if]
-  end // end of [T_REQUIRE]
 //
 | _ (*rest-of-tokens*) =>
     let val () = err := err + 1 in synent_null () end

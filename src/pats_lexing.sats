@@ -148,7 +148,6 @@ token_node =
   | T_OP of () // op // HX: taken from ML
   | T_REC of () // rec
   | T_REFAT of () // ref@
-  | T_REQUIRE of () // require
   | T_SCASE of () // scase
   | T_SIF of () // sif for static if
   | T_SORTDEF of () // sortdef
@@ -243,10 +242,12 @@ token_node =
   | T_SRPPRINT of () // #print
 //
   | T_SRPASSERT of () // #assert
-  | T_SRPDEFINE of () // #define
-  | T_SRPINCLUDE of () // #include
 //
   | T_SRPUNDEF of () // #undef
+  | T_SRPDEFINE of () // #define
+//
+  | T_SRPINCLUDE of () // #include
+  | T_SRPREQUIRE of () // #require
 //
   | T_SRPCODEGEN2 of () // #codegen2
   | T_SRPCODEGEN3 of () // #codegen3

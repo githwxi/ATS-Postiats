@@ -40,6 +40,7 @@ Here is a list of major additions and changes since the last release:
 4. Moving libatsynmark to utils/libatsynmark
 5. Fixing an issue that causes crash due to compiling atstyvar_type.
    See hitype_tyvar_test in [pats_ccomp_hitype] for more information.
+6. Changing the keyword 'require' to '#require' (for atspkgreloc)
 
 ######
 

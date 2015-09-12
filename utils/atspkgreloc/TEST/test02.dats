@@ -18,10 +18,10 @@ PATSCONTRIB "http://ats-lang.sourceforge.net/LIBRARY/contrib"
 //
 (* ****** ****** *)
 //
-require
+#require
 "{$PATSCONTRIB}/libgmp/CATS/gmp.cats"
 //
-require(*HX-2014-05-01: this one is required by others*)
+#require(*HX-2014-05-01: this one is required by others*)
 "{$PATSCONTRIB}/libats-hwxi/intinf/SATS/intinf_vt.sats"
 //
 (* ****** ****** *)
