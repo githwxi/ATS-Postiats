@@ -76,6 +76,7 @@ ATS2 (ATS/Postiats).
 #uemph("-v"): It is a shorthand for #uemph("--version").
 <li>
 #uemph("--version"):
+It is for printing out the version of #command("atsopt").
 
 <li>
 #uemph("-tc"): It is a shorthand for #uemph("--typecheck").
@@ -89,6 +90,15 @@ code into C (target) code.
 #uemph("--gline"):
 This flag indicates that line pragma information is to be generated
 in the C (target) code.
+
+<li>
+#uemph("--debug"):
+This flag indicates to the ATS-compiler the need for reporting more
+informative error messages.
+<li>
+#uemph("--debug2"):
+This flag indicates to the ATS-compiler the need for reporting even more
+informative error messages.
 
 <li>
 #uemph("-dep"): It is a shorthand for #uemph("--depgen").
@@ -150,6 +160,30 @@ extension #uemph(".sats").
 This flag indicates that the next argument is interpreted as the name of
 a file containing dynamic ATS code. Usually, this file name ends with the
 extension #uemph(".dats").
+
+<li>
+#uemph("--pkgreloc"):
+This flag indicates that a call to the ATS-compiler is for generateing a
+script (in JSON) that can be passed to the command #command("atspkgreloc")
+to perform relocation of remotely located files referenced in the processed
+ATS source code.
+
+<li>
+#uemph("--tlcalopt-disable"):
+This flag indicates to the ATS-compiler that tail-call optimization
+(that turns a recursive tail-call into a local jump) is to be suspended.
+For instance, the flag should be used for compiling ATS to Erlang as the
+latter does its own tail-call optimization.
+
+<li>
+#uemph("--constraint-export"):
+This flag indicates to the ATS-compiler that the constraints generated
+during typechecking should be exported (in JSON format).
+<li>
+#uemph("--constraint-ignored"):
+This flag indicates to the ATS-compiler that the constraints generated
+during typechecking should be entirely ignored. For instance, doing so
+can be justified if constraint-solving is performed externally.
 
 </menu>
 
