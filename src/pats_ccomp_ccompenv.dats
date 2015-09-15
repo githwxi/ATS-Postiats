@@ -1816,7 +1816,12 @@ prval () = fold@ (env)
 
 local
 
-assume ccompenv_push_v = unit_v
+(* ****** ****** *)
+//
+assume
+ccompenv_push_v = unit_v
+//
+(* ****** ****** *)
 
 fun auxpop
 (
@@ -1834,7 +1839,7 @@ case+ xs of
     val _(*removed*) = d2varmaplst_vt_remove (map, d2v)
   in
     auxpop (map, xs)
-  end // end of [MENVLSTcons]
+  end // end of [MENVLSTcons_var]
 | ~MARKENVLSTcons_fundec (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_fundec2 (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_impdec (_, xs) => auxpop (map, xs)
@@ -1847,6 +1852,9 @@ case+ xs of
 //
 end // end of [auxpop]
 
+(* ****** ****** *)
+
+(*
 fun auxjoin
 (
   map: &d2varmaplst_vt (primval), xs: &markenvlst_vt
@@ -1858,10 +1866,6 @@ case+ xs of
 | MARKENVLSTnil () => let
     prval () = fold@ (xs) in (*nothing*)
   end // end of [MENVLSTnil]
-//
-| ~MARKENVLSTmark (xs1) => let
-    val () = xs := auxpop (map, xs1) in (*nothing*)
-  end // end of [MARKENVLSTmark]
 //
 | MARKENVLSTcons_var (_, !p_xs) => let
     val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
@@ -1901,18 +1905,118 @@ case+ xs of
     val () = auxjoin (map, !p_xs); prval () = fold@ (xs) in (*nothing*)
   end // end of [MENVLSTcons_tempenver]
 //
+| ~MARKENVLSTmark (xs1) => (xs := auxpop (map, xs1))
+//
 end // end of [auxjoin]
+*)
+
+(* ****** ****** *)
+
+fun
+auxpop2
+  (xs: &markenvlst_vt): void = let
+in
+//
+case+ xs of
+//
+| MARKENVLSTnil () =>
+  let prval () = fold@ (xs) in (*nothing*) end
+//
+| MARKENVLSTcons_var
+     (_, !p_xs) => let
+     val () = auxpop2 (!p_xs); prval () = fold@(xs) in (*nothing*)
+   end // end of [MENVLSTcons_var]
+| MARKENVLSTcons_fundec
+     (_, !p_xs) => let
+     val () = auxpop2 (!p_xs); prval () = fold@(xs) in (*nothing*)
+   end // end of [MENVLSTcons_fundec]
+| MARKENVLSTcons_fundec2
+     (_, !p_xs) => let
+     val () = auxpop2 (!p_xs); prval () = fold@(xs) in (*nothing*)
+   end // end of [MENVLSTcons_fundec2]
+//
+| ~MARKENVLSTmark (xs1) => xs := xs1
+//
+| ~MARKENVLSTcons_impdec (_, xs1) => (xs := xs1; auxpop2(xs))
+| ~MARKENVLSTcons_impdec2 (_, xs1) => (xs := xs1; auxpop2(xs))
+//
+| ~MARKENVLSTcons_staload (_, xs1) => (xs := xs1; auxpop2(xs))
+//
+| ~MARKENVLSTcons_tmpsub (_, xs1) => (xs := xs1; auxpop2(xs))
+| ~MARKENVLSTcons_tmpcstmat (_, xs1) => (xs := xs1; auxpop2(xs))
+| ~MARKENVLSTcons_tmpvarmat (_, xs1) => (xs := xs1; auxpop2(xs))
+//
+| ~MARKENVLSTcons_tempenver (_, xs1) => (xs := xs1; auxpop2(xs))
+//
+end // end of [auxpop2]
+
+fun
+auxjoin2
+  (xs: &markenvlst_vt) : void = let
+in
+//
+case+ xs of
+//
+| MARKENVLSTnil () => let
+    prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTnil]
+//
+| MARKENVLSTcons_var (_, !p_xs) => let
+    val () = auxjoin2 (!p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_var]
+//
+| MARKENVLSTcons_fundec (_, !p_xs) => let
+    val () = auxjoin2 (!p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_fundec]
+| MARKENVLSTcons_fundec2 (_, !p_xs) => let
+    val () = auxjoin2 (!p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_fundec2]
+//
+| MARKENVLSTcons_impdec (_, !p_xs) => let
+    val () = auxjoin2 (!p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_impdec]
+| MARKENVLSTcons_impdec2 (_, !p_xs) => let
+    val () = auxjoin2 (!p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_impdec2]
+//
+| MARKENVLSTcons_staload (_, !p_xs) => let
+    val () = auxjoin2 (!p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_staload]
+//
+| MARKENVLSTcons_tmpsub (_, !p_xs) => let
+    val () = auxjoin2 (!p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_tmpsub]
+//
+| MARKENVLSTcons_tmpcstmat (_, !p_xs) => let
+    val () = auxjoin2 (!p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_tmpcstmat]
+//
+| MARKENVLSTcons_tmpvarmat (_, !p_xs) => let
+    val () = auxjoin2 (!p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_tmpvarmat]
+//
+| MARKENVLSTcons_tempenver (_, !p_xs) => let
+    val () = auxjoin2 (!p_xs); prval () = fold@ (xs) in (*nothing*)
+  end // end of [MENVLSTcons_tempenver]
+//
+| ~MARKENVLSTmark (xs1) => (xs := xs1; auxpop2 (xs))
+//
+end // end of [auxjoin2]
 
 in (* in of [local] *)
 
 implement
 ccompenv_push (env) = let
 //
-  val CCOMPENV (!p) = env
+val CCOMPENV (!p) = env
 //
-  val () = (
-    p->ccompenv_markenvlst := MARKENVLSTmark (p->ccompenv_markenvlst)
-  ) (* end of [val] *)
+val xs =
+  p->ccompenv_markenvlst
+//
+val xs = MARKENVLSTmark (xs)
+//
+val () =
+  p->ccompenv_markenvlst := xs
 //
   prval () = fold@ (env)
 //
@@ -1924,18 +2028,44 @@ implement
 ccompenv_pop
   (pfpush | env) = let
 //
-  prval unit_v () = pfpush
+prval unit_v () = pfpush
 //
-  val CCOMPENV (!p) = env
+val CCOMPENV (!p) = env
 //
-  val xs = p->ccompenv_markenvlst
-  val () = p->ccompenv_markenvlst := auxpop (p->ccompenv_vbindmapall, xs)
+val xs =
+  p->ccompenv_markenvlst
+val () =
+  p->ccompenv_markenvlst :=
+  auxpop (p->ccompenv_vbindmapall, xs)
 //
-  prval () = fold@ (env)
+prval((*folded*)) = fold@ (env)
 //
 in
   // nothing
 end // end of [ccompenv_pop]
+
+(*
+implement
+ccompenv_localjoin
+(
+  pfpush, pfpush2 | env
+) = let
+//
+prval unit_v () = pfpush
+prval unit_v () = pfpush2
+//
+val CCOMPENV (!p) = env
+//
+val map = p->ccompenv_vbindmapall
+val ((*void*)) =
+  auxjoin (map, p->ccompenv_markenvlst)
+//
+prval ((*folded*)) = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_localjoin]
+*)
 
 implement
 ccompenv_localjoin
@@ -1946,7 +2076,7 @@ ccompenv_localjoin
 //
   val CCOMPENV (!p) = env
 //
-  val () = auxjoin (p->ccompenv_vbindmapall, p->ccompenv_markenvlst)
+  val () = auxjoin2 (p->ccompenv_markenvlst)
 //
   prval () = fold@ (env)
 //

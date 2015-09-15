@@ -26,9 +26,16 @@ Here is a list of major additions and changes since the last release:
    lam-abstract. For instanct, the following code results in an
    error during compilation:
    fun fact = fix f(n:int): int => if n > 0 then n*f(n-1) else 1
+   Of course, one can always have:
+   val fact = fix f(n:int): int => if n > 0 then n*f(n-1) else 1
+(*
+//
+// HX-2015-09-15: This is reverted!!!
+//
 2. Supporting the use of locally defined templates:
    local fun foo(): int = 0 in fun{} foo2() = foo() + 1 end
    local fun{} foo(): int = 0 in fun{} foo2() = foo() + 1 end
+*)
 3. Changing some names:
    _ATS_CCOMP_HEADER_NONE -> _ATS_CCOMP_HEADER_NONE_
    _ATS_CCOMP_PRELUDE_NONE -> _ATS_CCOMP_PRELUDE_NONE_

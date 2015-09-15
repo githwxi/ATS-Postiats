@@ -274,22 +274,18 @@ case+ hid0.hidecl_node of
     hids_head, hids_body
   ) => let
 //
-// HX-2015-09-10:
-// So locally defined templates can be
-// accessed in template instances outside
-// the local-scope.
+// HX-2015-09-15:
+// Note that locally defined templates can be
+// accessed in template instances that are outside
+// the local-scope, but local implements cannot.
+// Please find the details in [ccompenv_localjoin].
 //
-(*
-    val (pf1 | ()) = ccompenv_push (env)
-*)
+    val (pf1|()) = ccompenv_push (env)
     val pmds_head = hideclist_ccomp (env, hids_head)
-(*
-    val (pf2 | ()) = ccompenv_push (env)
-*)
+    val (pf2|()) = ccompenv_push (env)
     val pmds_body = hideclist_ccomp (env, hids_body)
-(*
     val ((*void*)) = ccompenv_localjoin (pf1, pf2 | env)
-*)
+//
   in
     primdec_local (loc0, pmds_head, pmds_body)
   end // end of [HIDlocal]

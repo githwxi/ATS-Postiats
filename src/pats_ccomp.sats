@@ -1771,18 +1771,20 @@ fun ccompenv_add_vbindmapenv (env: !ccompenv, d2v: d2var, pmv: primval): void
 fun ccompenv_find_vbindmapenv (env: !ccompenv, d2v: d2var): Option_vt (primval)
 //
 (* ****** ****** *)
-
-absview ccompenv_push_v
-
-fun ccompenv_push
+//
+absview
+ccompenv_push_v
+//
+fun
+ccompenv_push
   (env: !ccompenv): (ccompenv_push_v | void)
-
+//
 fun ccompenv_pop
   (pfpush: ccompenv_push_v | env: !ccompenv): void
-
+//
 fun ccompenv_localjoin
   (pf1: ccompenv_push_v, pf2: ccompenv_push_v | env: !ccompenv): void
-
+//
 (* ****** ****** *)
 
 fun ccompenv_add_vbindmapall

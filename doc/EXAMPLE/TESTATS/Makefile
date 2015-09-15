@@ -173,6 +173,15 @@ cleanall:: ; $(RMF) loctmplt2
 ######
 
 all:: \
+locimplmnt
+locimplmnt: \
+locimplmnt.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: locimplmnt ; ./$<
+cleanall:: ; $(RMF) locimplmnt
+
+######
+
+all:: \
 mutailrec
 mutailrec: \
 mutailrec.dats ; $(PATSCC2) -cleanaft -o $@ $<
