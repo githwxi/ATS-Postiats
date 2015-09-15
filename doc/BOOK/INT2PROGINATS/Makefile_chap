@@ -24,7 +24,7 @@ main_atxt.dats; \
 $(ATSCC) \
   -D_ATS_GCATS -I$(PATSHOME)/src \
   -IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ) -o $@ main_atxt.dats \
-  -L$(PATSHOME)/libatsynmark -latsynmark -latsdoc
+  -L$(PATSHOME)/utils/libatsynmark -latsynmark -latsdoc
 #
 main_atxt.dats: main.atxt; $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
 #
