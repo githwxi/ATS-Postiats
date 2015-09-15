@@ -60,7 +60,7 @@ preface_atxt.dats; \
 $(ATSCC) \
   -D_ATS_GCATS -I$(PATSHOME)/src \
   -IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ) -o $@ $< \
-  -L$(PATSHOME)/libatsynmark -latsynmark -latsdoc
+  -L$(PATSHOME)/utils/libatsynmark -latsynmark -latsdoc
 #
 preface_atxt.dats: \
 preface.atxt; $(ATSDOC) --outcode $@ -i preface.atxt > preface_atxt.txt

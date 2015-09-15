@@ -20,7 +20,7 @@ staload TIME = "libc/SATS/time.sats"
 
 (* ****** ****** *)
 
-dynload "libatsynmark/dynloadall.dats"
+dynload "utils/libatsynmark/dynloadall.dats"
 
 (* ****** ****** *)
 
@@ -205,7 +205,7 @@ end // end of [ulink]
 local
 //
 staload
-"libatsynmark/SATS/libatsynmark.sats"
+"utils/libatsynmark/SATS/libatsynmark.sats"
 //
 in (* in of [local] *)
 
