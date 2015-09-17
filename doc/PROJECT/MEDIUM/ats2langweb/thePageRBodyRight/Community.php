@@ -7,6 +7,13 @@ style="margin-top:8px;padding:8px;"
 <hr></hr>
 
 <a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/jUhIh_tDTZM"
+>RFTP: Session types in ATS</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+<a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/3XXa-18GLOc"
 >Slides for learning ATS/LF</a><br>
 by <a href="http://www.masterq.net">Kiwamu Okabe</a>
@@ -140,6 +147,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-03-16:<br>
 <a
  href="https://groups.google.com/forum/?fromgroups#!topic/ats-lang-users/ORqTD0KANEY"
@@ -148,8 +157,6 @@ by <a href="http://www.masterq.net">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-03-12:<br>
 <a

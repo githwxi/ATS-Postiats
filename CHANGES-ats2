@@ -30,7 +30,7 @@ Here is a list of major additions and changes since the last release:
    val fact = fix f(n:int): int => if n > 0 then n*f(n-1) else 1
 (*
 //
-// HX-2015-09-15: This is reverted!!!
+// HX-2015-09-15: This is re-implemented:
 //
 2. Supporting the use of locally defined templates:
    local fun foo(): int = 0 in fun{} foo2() = foo() + 1 end
