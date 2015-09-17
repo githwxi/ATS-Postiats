@@ -680,6 +680,30 @@ end // end of [string_forall]
 
 #atscode_separator()
 
+implement
+{}(*tmp*)
+string_iforall
+  (str) = let
+//
+fun
+loop
+(
+  i: int, p: ptr
+) : bool = let
+  val c0 = $UN.ptr0_get<char>(p)
+in
+//
+if c0 = CNUL then true else
+  (if string_iforall$pred(i, c0) then loop(i+1, ptr0_succ<char>(p)) else false)
+//
+end // end of [loop]
+//
+in
+  loop(0, string2ptr(str))
+end // end of [string_iforall]
+
+#atscode_separator()
+
 implement{env}
 string_foreach$cont (c, env) = true
 implement{env}
