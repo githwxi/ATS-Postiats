@@ -149,6 +149,8 @@ at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-03-12:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/5a9h2mSGl1M"
@@ -156,8 +158,6 @@ ATS-2015-03-12:<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-02-27:<br>
 <a
