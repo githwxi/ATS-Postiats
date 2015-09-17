@@ -427,6 +427,13 @@ fun{
 
 #atscode_separator()
 //
+fun{}
+string_forall (str: string): bool
+fun{}
+string_forall$pred (c: char): bool
+//
+#atscode_separator()
+//
 fun{env:vt0p}
 string_foreach$cont (c: char, env: &env): bool
 fun{env:vt0p}
