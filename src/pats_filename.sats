@@ -168,6 +168,7 @@ absview the_pathlst_push_v
 //
 fun the_pathlst_pop
   (pf: the_pathlst_push_v | (*none*)): void
+//
 fun the_pathlst_push (p: path): (the_pathlst_push_v | void)
 fun the_pathlst_ppush (p: path): void // HX: permanent push
 //
