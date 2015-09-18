@@ -214,5 +214,7 @@ println! ("3^10 = ", power(3,10))
 
 </div>
 
+<hr></hr>
+
 </div>
 <?php /* end of [Home.php] */ ?>
