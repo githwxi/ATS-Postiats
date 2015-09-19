@@ -16,8 +16,8 @@ datatype expr =
 //
 (* ****** ****** *)
 
-fun datcon_expr : (expr) -> string
-fun datcontag_expr : (expr) -> intGte(0)
+fun{} datcon_expr : (expr) -> string
+fun{} datcontag_expr : (expr) -> intGte(0)
 
 (* ****** ****** *)
 //

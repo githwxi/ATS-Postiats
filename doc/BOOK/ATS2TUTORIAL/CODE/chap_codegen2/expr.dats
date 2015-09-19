@@ -39,7 +39,7 @@ fprint_expr$Int<>
 //
 implement fprint_expr$carg<expr> = fprint_expr
 //
-#endif
+#endif // #ifdef(CODEGEN2)
 
 (* ****** ****** *)
 
@@ -47,7 +47,11 @@ implement
 main0 () =
 {
 //
-val () = fprintln! (stdout_ref, "E = ", Mul(Int(10), Add(Int(1), Int(2))))
+val E = Mul(Int(10), Add(Int(1), Int(2)))
+//
+val () = fprintln! (stdout_ref, "E = ", E)
+val () = fprintln! (stdout_ref, "datcon(E) = ", datcon_expr(E))
+val () = fprintln! (stdout_ref, "datcontag(E) = ", datcontag_expr(E))
 //
 } (* end of [main0] *)
 
