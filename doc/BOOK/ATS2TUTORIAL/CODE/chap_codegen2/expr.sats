@@ -4,11 +4,6 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload.hats"
-//
-(* ****** ****** *)
-//
 datatype expr =
   | Int of int
   | Var of string
@@ -20,19 +15,14 @@ datatype expr =
   | Ifgtez of (expr, expr, expr) // if expr >= 0 then ... else ...
 //
 (* ****** ****** *)
+
+fun datcon_expr : (expr) -> string
+fun datcontag_expr : (expr) -> intGte(0)
+
+(* ****** ****** *)
 //
-extern
-fun{}
-fprint_expr(FILEref, expr): void
+fun{} fprint_expr : (FILEref, expr) -> void
 //
 (* ****** ****** *)
 
-#codegen2("fprint", expr, fprint_expr)
-
-(* ****** ****** *)
-
-implement main0 () = {}
-
-(* ****** ****** *)
-
-(* end of [chap_codegen2.dats] *)
+(* end of [expr.sats] *)

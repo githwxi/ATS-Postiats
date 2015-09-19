@@ -186,6 +186,8 @@ fprint!
 val () =
 fprint! (out, "implement\n")
 val () =
+fprint! (out, "{}(*tmp*)\n")
+val () =
 (
 case+ xs of
 | list_nil() => auxfun0()
@@ -370,6 +372,8 @@ fprint!
 //
 val () =
 fprint! (out, "implement\n")
+val () =
+fprint! (out, "{}(*tmp*)\n")
 val () =
 (
 case+ xs of
