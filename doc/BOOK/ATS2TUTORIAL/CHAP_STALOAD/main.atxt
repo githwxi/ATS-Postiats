@@ -7,7 +7,7 @@ dynload "libatsdoc/dynloadall.dats"
 %}\
 #comment("\n\
 The file is automatically generated
-by [atsdoc] from CHAP_DYNLOAD/main.atxt.\n\
+by [atsdoc] from CHAP_STALOAD/main.atxt.\n\
 ")
 #comment("\n\
 Time of Generation: #timestamp()\

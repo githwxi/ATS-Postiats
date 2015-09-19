@@ -249,6 +249,14 @@ clean:: ; make -C CHAP_STREAM -f ../Makefile_chap clean
 ######
 
 allchap:: \
+CHAP_EXTVAR
+CHAP_EXTVAR:: ; \
+  make -C CHAP_EXTVAR -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_EXTVAR -f ../Makefile_chap clean
+
+######
+
+allchap:: \
 CHAP_CLOPTR
 CHAP_CLOPTR:: ; \
   make -C CHAP_CLOPTR -f ../Makefile_chap main.db
@@ -257,10 +265,10 @@ clean:: ; make -C CHAP_CLOPTR -f ../Makefile_chap clean
 ######
 
 allchap:: \
-CHAP_EXTVAR
-CHAP_EXTVAR:: ; \
-  make -C CHAP_EXTVAR -f ../Makefile_chap main.db
-clean:: ; make -C CHAP_EXTVAR -f ../Makefile_chap clean
+CHAP_CODEGEN2
+CHAP_CODEGEN2:: ; \
+  make -C CHAP_CODEGEN2 -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_CODEGEN2 -f ../Makefile_chap clean
 
 ######
 

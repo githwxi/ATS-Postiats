@@ -135,7 +135,19 @@ case+
 x0.e1xp_node
 of // case+
 //
-| E1XPide(name) => aux_find(name)
+| E1XPide(name) =>
+    aux_find(name)
+//
+(*
+| E1XPstring
+    (name) => let
+    val name2 =
+      $SYM.symbol_make_string(name)
+    // end of [val]
+  in
+    aux_find(name2)
+  end // end of [E1XPstring]
+*)
 //
 | _(*rest-of-e1xp*) => None_vt((*void*))
 //
@@ -208,8 +220,19 @@ case+
 x0.e1xp_node
 of // case+
 //
-| E1XPide(name) => aux_find(name)
+| E1XPide(name) =>
+    aux_find(name)
 //
+(*
+| E1XPstring
+    (name) => let
+    val name2 =
+      $SYM.symbol_make_string(name)
+    // end of [val]
+  in
+    aux_find(name2)
+  end // end of [E1XPstring]
+*)
 | _(*rest-of-e1xp*) => None_vt((*void*))
 //
 end // end of [codegen2_get_d2cst]
