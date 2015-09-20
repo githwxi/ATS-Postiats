@@ -13,6 +13,22 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
+#
+all:: \
+expr_codegen2.hats
+#
+all:: expr
+#
+regress:: expr; ./expr
+cleanall:: ; rm -f expr
+#
+######
+#
+testall:: all
+testall:: regress
+testall:: cleanall
+#
+######
 
 expr: \
 expr.sats expr.dats; \

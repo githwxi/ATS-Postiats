@@ -130,11 +130,15 @@ declared somewhere in order for the generated code to be compiled properly:
 fun{} datcon_expr : (expr) -> string // a function template
 ')
 
+")
+
+#para('\
+
 Please find #mycodelink("chap_codegen2", "on-line") the entirety of this
 presented example plus a Makefile (for illustrating the code generation
-process).
+process).\
 
-")
+')
 
 </sect1><!--"codegen2_datcon"-->
 
@@ -197,11 +201,15 @@ declared somewhere in order for the generated code to be compiled properly:
 fun{} datcontag_expr : (expr) -> intGte(0) // a function template
 ')
 
+")
+
+#para('\
+
 Please find #mycodelink("chap_codegen2", "on-line")
 the entirety of this presented example plus a Makefile (for illustrating
-the code generation process).
+the code generation process).\
 
-")
+')
 
 </sect1><!--"codegen2_datcontag"-->
 
@@ -218,6 +226,507 @@ output certain kind of text representation for values of this datatype. For
 instance, such a function can be of great use in debugging.
 
 ")
+
+#para("\
+
+Let us first declare a function template #dyncode("fprint_expr") as
+follows:
+
+#atscode('\
+fun{} fprint_expr : (FILEref, expr) -> void // a function template
+')
+
+We can then use the directive below to indicate (to the ATS compiler) that
+the fprint-function for the datatype #stacode("expr") needs to be generated:
+
+#atscode('\
+\#codegen2("fprint", expr, fprint_expr)
+')
+
+The third argument of the #dyncode("codegen2")-directive can be omitted
+in this case as it coincides with the default. The generated code that
+implements #dyncode("fprint_expr") is listed as follows:
+
+#atscode('\
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_expr$Int: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Var: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Add: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Sub: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Mul: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Div: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtz: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtez: $d2ctype(fprint_expr<>)
+//
+(* ****** ****** *)
+//
+implement{}
+fprint_expr
+  (out, arg0) =
+(
+case+ arg0 of
+| Int _ => fprint_expr$Int<>(out, arg0)
+| Var _ => fprint_expr$Var<>(out, arg0)
+| Add _ => fprint_expr$Add<>(out, arg0)
+| Sub _ => fprint_expr$Sub<>(out, arg0)
+| Mul _ => fprint_expr$Mul<>(out, arg0)
+| Div _ => fprint_expr$Div<>(out, arg0)
+| Ifgtz _ => fprint_expr$Ifgtz<>(out, arg0)
+| Ifgtez _ => fprint_expr$Ifgtez<>(out, arg0)
+)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_expr$sep: (FILEref) -> void
+implement{}
+fprint_expr$sep(out) = fprint(out, ",")
+//
+extern
+fun{}
+fprint_expr$lpar: (FILEref) -> void
+implement{}
+fprint_expr$lpar(out) = fprint(out, "(")
+//
+extern
+fun{}
+fprint_expr$rpar: (FILEref) -> void
+implement{}
+fprint_expr$rpar(out) = fprint(out, ")")
+//
+extern
+fun{a:t0p}
+fprint_expr$carg: (FILEref, INV(a)) -> void
+implement{a}
+fprint_expr$carg(out, arg) = fprint_val<a>(out, arg)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_expr$Int$con: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Int$lpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Int$rpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Int$arg1: $d2ctype(fprint_expr<>)
+//
+implement{}
+fprint_expr$Int(out, arg0) = 
+{
+//
+val () = fprint_expr$Int$con<>(out, arg0)
+val () = fprint_expr$Int$lpar<>(out, arg0)
+val () = fprint_expr$Int$arg1<>(out, arg0)
+val () = fprint_expr$Int$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr$Int$con(out, _) = fprint(out, "Int")
+implement{}
+fprint_expr$Int$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Int$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Int$arg1(out, arg0) =
+  let val-Int(arg1) = arg0 in fprint_expr$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_expr$Var$con: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Var$lpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Var$rpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Var$arg1: $d2ctype(fprint_expr<>)
+//
+implement{}
+fprint_expr$Var(out, arg0) = 
+{
+//
+val () = fprint_expr$Var$con<>(out, arg0)
+val () = fprint_expr$Var$lpar<>(out, arg0)
+val () = fprint_expr$Var$arg1<>(out, arg0)
+val () = fprint_expr$Var$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr$Var$con(out, _) = fprint(out, "Var")
+implement{}
+fprint_expr$Var$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Var$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Var$arg1(out, arg0) =
+  let val-Var(arg1) = arg0 in fprint_expr$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_expr$Add$con: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Add$lpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Add$rpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Add$sep1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Add$arg1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Add$arg2: $d2ctype(fprint_expr<>)
+//
+implement{}
+fprint_expr$Add(out, arg0) = 
+{
+//
+val () = fprint_expr$Add$con<>(out, arg0)
+val () = fprint_expr$Add$lpar<>(out, arg0)
+val () = fprint_expr$Add$arg1<>(out, arg0)
+val () = fprint_expr$Add$sep1<>(out, arg0)
+val () = fprint_expr$Add$arg2<>(out, arg0)
+val () = fprint_expr$Add$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr$Add$con(out, _) = fprint(out, "Add")
+implement{}
+fprint_expr$Add$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Add$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Add$sep1(out, _) = fprint_expr$sep<>(out)
+implement{}
+fprint_expr$Add$arg1(out, arg0) =
+  let val-Add(arg1, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Add$arg2(out, arg0) =
+  let val-Add(_, arg2) = arg0 in fprint_expr$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr$Sub$con: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Sub$lpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Sub$rpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Sub$sep1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Sub$arg1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Sub$arg2: $d2ctype(fprint_expr<>)
+//
+implement{}
+fprint_expr$Sub(out, arg0) = 
+{
+//
+val () = fprint_expr$Sub$con<>(out, arg0)
+val () = fprint_expr$Sub$lpar<>(out, arg0)
+val () = fprint_expr$Sub$arg1<>(out, arg0)
+val () = fprint_expr$Sub$sep1<>(out, arg0)
+val () = fprint_expr$Sub$arg2<>(out, arg0)
+val () = fprint_expr$Sub$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr$Sub$con(out, _) = fprint(out, "Sub")
+implement{}
+fprint_expr$Sub$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Sub$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Sub$sep1(out, _) = fprint_expr$sep<>(out)
+implement{}
+fprint_expr$Sub$arg1(out, arg0) =
+  let val-Sub(arg1, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Sub$arg2(out, arg0) =
+  let val-Sub(_, arg2) = arg0 in fprint_expr$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr$Mul$con: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Mul$lpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Mul$rpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Mul$sep1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Mul$arg1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Mul$arg2: $d2ctype(fprint_expr<>)
+//
+implement{}
+fprint_expr$Mul(out, arg0) = 
+{
+//
+val () = fprint_expr$Mul$con<>(out, arg0)
+val () = fprint_expr$Mul$lpar<>(out, arg0)
+val () = fprint_expr$Mul$arg1<>(out, arg0)
+val () = fprint_expr$Mul$sep1<>(out, arg0)
+val () = fprint_expr$Mul$arg2<>(out, arg0)
+val () = fprint_expr$Mul$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr$Mul$con(out, _) = fprint(out, "Mul")
+implement{}
+fprint_expr$Mul$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Mul$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Mul$sep1(out, _) = fprint_expr$sep<>(out)
+implement{}
+fprint_expr$Mul$arg1(out, arg0) =
+  let val-Mul(arg1, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Mul$arg2(out, arg0) =
+  let val-Mul(_, arg2) = arg0 in fprint_expr$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr$Div$con: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Div$lpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Div$rpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Div$sep1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Div$arg1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Div$arg2: $d2ctype(fprint_expr<>)
+//
+implement{}
+fprint_expr$Div(out, arg0) = 
+{
+//
+val () = fprint_expr$Div$con<>(out, arg0)
+val () = fprint_expr$Div$lpar<>(out, arg0)
+val () = fprint_expr$Div$arg1<>(out, arg0)
+val () = fprint_expr$Div$sep1<>(out, arg0)
+val () = fprint_expr$Div$arg2<>(out, arg0)
+val () = fprint_expr$Div$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr$Div$con(out, _) = fprint(out, "Div")
+implement{}
+fprint_expr$Div$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Div$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Div$sep1(out, _) = fprint_expr$sep<>(out)
+implement{}
+fprint_expr$Div$arg1(out, arg0) =
+  let val-Div(arg1, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Div$arg2(out, arg0) =
+  let val-Div(_, arg2) = arg0 in fprint_expr$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr$Ifgtz$con: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtz$lpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtz$rpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtz$sep1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtz$sep2: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtz$arg1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtz$arg2: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtz$arg3: $d2ctype(fprint_expr<>)
+//
+implement{}
+fprint_expr$Ifgtz(out, arg0) = 
+{
+//
+val () = fprint_expr$Ifgtz$con<>(out, arg0)
+val () = fprint_expr$Ifgtz$lpar<>(out, arg0)
+val () = fprint_expr$Ifgtz$arg1<>(out, arg0)
+val () = fprint_expr$Ifgtz$sep1<>(out, arg0)
+val () = fprint_expr$Ifgtz$arg2<>(out, arg0)
+val () = fprint_expr$Ifgtz$sep2<>(out, arg0)
+val () = fprint_expr$Ifgtz$arg3<>(out, arg0)
+val () = fprint_expr$Ifgtz$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr$Ifgtz$con(out, _) = fprint(out, "Ifgtz")
+implement{}
+fprint_expr$Ifgtz$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Ifgtz$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Ifgtz$sep1(out, _) = fprint_expr$sep<>(out)
+implement{}
+fprint_expr$Ifgtz$sep2(out, _) = fprint_expr$sep<>(out)
+implement{}
+fprint_expr$Ifgtz$arg1(out, arg0) =
+  let val-Ifgtz(arg1, _, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Ifgtz$arg2(out, arg0) =
+  let val-Ifgtz(_, arg2, _) = arg0 in fprint_expr$carg(out, arg2) end
+implement{}
+fprint_expr$Ifgtz$arg3(out, arg0) =
+  let val-Ifgtz(_, _, arg3) = arg0 in fprint_expr$carg(out, arg3) end
+//
+extern
+fun{}
+fprint_expr$Ifgtez$con: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtez$lpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtez$rpar: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtez$sep1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtez$sep2: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtez$arg1: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtez$arg2: $d2ctype(fprint_expr<>)
+extern
+fun{}
+fprint_expr$Ifgtez$arg3: $d2ctype(fprint_expr<>)
+//
+implement{}
+fprint_expr$Ifgtez(out, arg0) = 
+{
+//
+val () = fprint_expr$Ifgtez$con<>(out, arg0)
+val () = fprint_expr$Ifgtez$lpar<>(out, arg0)
+val () = fprint_expr$Ifgtez$arg1<>(out, arg0)
+val () = fprint_expr$Ifgtez$sep1<>(out, arg0)
+val () = fprint_expr$Ifgtez$arg2<>(out, arg0)
+val () = fprint_expr$Ifgtez$sep2<>(out, arg0)
+val () = fprint_expr$Ifgtez$arg3<>(out, arg0)
+val () = fprint_expr$Ifgtez$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr$Ifgtez$con(out, _) = fprint(out, "Ifgtez")
+implement{}
+fprint_expr$Ifgtez$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Ifgtez$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Ifgtez$sep1(out, _) = fprint_expr$sep<>(out)
+implement{}
+fprint_expr$Ifgtez$sep2(out, _) = fprint_expr$sep<>(out)
+implement{}
+fprint_expr$Ifgtez$arg1(out, arg0) =
+  let val-Ifgtez(arg1, _, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Ifgtez$arg2(out, arg0) =
+  let val-Ifgtez(_, arg2, _) = arg0 in fprint_expr$carg(out, arg2) end
+implement{}
+fprint_expr$Ifgtez$arg3(out, arg0) =
+  let val-Ifgtez(_, _, arg3) = arg0 in fprint_expr$carg(out, arg3) end
+//
+(* ****** ****** *)
+')
+
+The code for #dyncode("fprint_expr") is entirely template-based. This style
+makes the code extremely flexible for adaption through template re-mplementation.
+As the datatype #stacode('expr') is recursively defined, the following template
+implementation needs to be added in order to make #dyncode("fprint_expr") work:
+
+#atscode('\
+implement fprint_expr$card<expr> = fprint_expr
+')
+
+For instance,
+applying #dyncode("fprint_expr")
+to the expression #dyncode("Add(Int(10),Mul(Int(1),Int(2)))")
+outputs the same text representation.
+
+As an example of adaptation, let us add the following template implementations:
+
+#atscode('\
+implement
+fprint_expr$Add$con<> (_, _) = ()
+implement
+fprint_expr$Add$sep1<> (out, _) = fprint! (out, "+")
+')
+
+When #dyncode("fprint_expr") is applied to the expression
+#dyncode("Add(Int(10),Mul(Int(1),Int(2)))") this time, the output is
+expected to read #dyncode("(Int(10)+Mul(Int(1),Int(2)))").
+
+")
+
+#para('\
+
+Please find #mycodelink("chap_codegen2", "on-line")
+the entirety of this presented example plus a Makefile (for illustrating
+the code generation process).\
+
+')
 
 </sect1><!--"codegen2_fprint"-->
 
