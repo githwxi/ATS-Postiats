@@ -7,6 +7,13 @@ style="margin-top:8px;padding:8px;"
 <hr></hr>
 
 <a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/RGsACNPKvL4"
+>Using codegen2-directives</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+<a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/jUhIh_tDTZM"
 >RFTP: Session types in ATS</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
@@ -139,6 +146,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-03-19:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/Bb_yowRWqPA"
@@ -146,8 +155,6 @@ ATS-2015-03-19:<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-03-16:<br>
 <a

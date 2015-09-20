@@ -185,7 +185,7 @@ typedef void* atstype_cloptr ;
 //
 // HX-2014-05:
 // for 8-bit or 16-bit march,
-// _ATSTYPE_VAR_SIZE can be set to 0x100
+// _ATSTYPE_VAR_SIZE can be set to 0X100
 //
 typedef
 struct{char _[_ATSTYPE_VAR_SIZE_];} atstype_var[0] ;
