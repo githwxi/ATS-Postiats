@@ -19,10 +19,6 @@ staload "./expr.sats"
 
 (* ****** ****** *)
 
-#include "expr_codegen2.hats"
-
-(* ****** ****** *)
-
 overload fprint with fprint_expr
 
 (* ****** ****** *)
@@ -31,6 +27,8 @@ overload fprint with fprint_expr
 CODEGEN2
 #then
 #else
+//
+#include "expr_codegen2.hats"
 //
 implement
 fprint_expr$carg<expr> = fprint_expr
