@@ -19,10 +19,6 @@ staload "./expr.sats"
 
 (* ****** ****** *)
 
-overload fprint with fprint_expr
-
-(* ****** ****** *)
-
 #ifdef
 CODEGEN2
 #then
@@ -62,6 +58,15 @@ implement
 fprint_expr$Div$sep1<> (out, _) = fprint! (out, "/")
 *)
 //
+extern
+fun
+my_fprint_expr
+  (out: FILEref, x: expr): void
+implement
+my_fprint_expr (out, x) = fprint_expr<> (out, x)
+//
+overload fprint with my_fprint_expr
+//
 #endif // #ifdef(CODEGEN2)
 
 (* ****** ****** *)
@@ -71,10 +76,15 @@ main0 () =
 {
 //
 val E = Add(Int(10), Mul(Int(1), Int(2)))
-//
 val () = fprintln! (stdout_ref, "E = ", E)
 val () = fprintln! (stdout_ref, "datcon(E) = ", datcon_expr(E))
 val () = fprintln! (stdout_ref, "datcontag(E) = ", datcontag_expr(E))
+//
+val E2 = Div(Int(1), Sub(E, E))
+val () = fprintln! (stdout_ref, "E2 = ", E2)
+val () = fprintln! (stdout_ref, "datcon(E2) = ", datcon_expr(E2))
+val () = fprintln! (stdout_ref, "datcontag(E2) = ", datcontag_expr(E2))
+//
 //
 } (* end of [main0] *)
 

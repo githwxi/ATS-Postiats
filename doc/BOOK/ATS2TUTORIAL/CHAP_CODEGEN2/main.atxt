@@ -722,6 +722,26 @@ expected to read #dyncode("(Int(10)+Mul(Int(1),Int(2)))").
 
 #para('\
 
+After proper adaptation is done, one can introduce a (non-template)
+function as follows:
+
+#atscode('\
+//
+extern
+fun
+my_fprint_expr(FILEref, expr): void
+implement
+my_fprint_expr (out, x) = fprint_expr<> (out, x)
+//
+')
+
+In this way, only one instance of #dyncode("fprint_expr") is compiled even
+if repeated calls to #dyncode("my_fprint_expr") are made.
+
+')
+
+#para('\
+
 Please find #mycodelink("chap_codegen2", "on-line")
 the entirety of this presented example plus a Makefile (for illustrating
 the code generation process).\
