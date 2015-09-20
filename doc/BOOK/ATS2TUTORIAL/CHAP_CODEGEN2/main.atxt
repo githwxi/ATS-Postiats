@@ -1,0 +1,244 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_CODEGEN2/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="codegen2">
+#title("Automatic Code Generation")
+
+#para("\
+
+In practice, one often encounters a need to write boilerplate code or code
+that tends to follow certain clearly recognizable patterns. It is commonly
+seen that meta-programming (of various forms) is employed to automatically
+generate such code, thus not only increasing programming productivity but
+also potentially eliminating bugs that would otherwise be introduced due to
+manual code construction.
+
+")
+
+#para("\
+
+In the following presentation, I am to show that the ATS compiler can be
+directed to generate the code for certain functions on values of a declared
+datatype. Following is the datatype used for illustration:
+
+#atscode('\
+//
+datatype expr =
+  | Int of int
+  | Var of string
+  | Add of (expr, expr)
+  | Sub of (expr, expr)
+  | Mul of (expr, expr)
+  | Div of (expr, expr)
+  | Ifgtz of (expr, expr, expr) // if expr > 0 then ... else ...
+  | Ifgtez of (expr, expr, expr) // if expr >= 0 then ... else ...
+//
+')
+
+which is for some kind of abstract syntax trees representing arithmetic
+expressions.
+
+")
+
+<sect1
+ id="codegen2_datcon">
+#title("Generating a datcon-function")
+
+#para("\
+
+Given a datatype, its datcon-function is the one that takes a value of the
+datatype and then returns a string representing the name of the (outmost)
+constructor in the construction of the value.  We can use the following
+directive to indicate (to the ATS compiler) that the datcon-function for
+the datatype #stacode("expr") needs to be generated:
+
+#atscode('\
+\#codegen2("datcon", expr)
+')
+
+By default, the name of the generated function is #dyncode('datcon_expr').
+If a different name is needed, it can be supplied as the third argument of
+the #dyncode("\codegen2")-directive. For instance, the following directive
+indicates that the generated function is of the given name
+#dyncode("my_datcon_expr"):
+
+#atscode('\
+\#codegen2("datcon", expr, my_datcon_expr)
+')
+
+Assume that a file of the name #filename("expr.dats") contains the
+following directive (as a toplevel declaration):
+
+#atscode('\
+\#codegen2("datcon", expr)
+')
+
+and the definition for #stacode('expr') is accessible at the point where
+the #dyncode("codegen2")-directive is declared. By executing the
+following command-line:
+
+<informalexample><programlisting>
+<command>patscc</command> --codegen-2 -d expr.dats
+</programlisting></informalexample>
+
+we can see some output of ATS code that implements #dyncode("datcon_expr"):
+
+#atscode('\
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+datcon_expr
+  (arg0) =
+(
+case+ arg0 of
+| Int _ => "Int"
+| Var _ => "Var"
+| Add _ => "Add"
+| Sub _ => "Sub"
+| Mul _ => "Mul"
+| Div _ => "Div"
+| Ifgtz _ => "Ifgtz"
+| Ifgtez _ => "Ifgtez"
+)
+//
+(* ****** ****** *)
+')
+
+If the output needs to be stored in a file of the name
+#dyncode("fprint_expr.hats"), we can issue the following command-line:
+
+<informalexample><programlisting>
+<command>patscc</command> -o fprint_expr.hats --codegen-2 -d expr.dats
+</programlisting></informalexample>
+
+Note that the funtion template #dyncode("datcon_expr") is required to be
+declared somewhere in order for the generated code to be compiled properly:
+
+#atscode('\
+fun{} datcon_expr : (expr) -> string // a function template
+')
+
+Please find #mycodelink("chap_codegen2", "on-line") the entirety of this
+presented example plus a Makefile (for illustrating the code generation
+process).
+
+")
+
+</sect1><!--"codegen2_datcon"-->
+
+<sect1
+ id="codegen2_datcontag">
+#title("Generating a datcontag-function")
+
+#para("\
+
+A datcontag-function is very similar to a datcon-function.  Given a
+datatype, its datcontag-function is the one that takes a value of the
+datatype and then returns the tag (which is a small integer) assigned to
+the (outmost) constructor in the construction of the value.  We can use the
+following directive to indicate (to the ATS compiler) that the
+datcontag-function for the datatype #stacode("expr") needs to be generated:
+
+#atscode('\
+\#codegen2("datcontag", expr)
+')
+
+By default, the name of the generated function is
+#dyncode('datcontag_expr').  If a different name is needed, it can be
+supplied as the third argument of the #dyncode("\codegen2")-directive. For
+instance, the following directive indicates that the generated function is
+of the given name #dyncode("my_datcontag_expr"):
+
+#atscode('\
+\#codegen2("datcontag", expr, my_datcontag_expr)
+')
+
+The following ATS code is expected to be generated that implements
+#dyncode("datcontag_expr"):
+
+#atscode('\
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+datcontag_expr
+  (arg0) =
+(
+case+ arg0 of
+| Int _ => 0
+| Var _ => 1
+| Add _ => 2
+| Sub _ => 3
+| Mul _ => 4
+| Div _ => 5
+| Ifgtz _ => 6
+| Ifgtez _ => 7
+)
+//
+(* ****** ****** *)
+')
+
+Note that the funtion template #dyncode("datcontag_expr") is required to be
+declared somewhere in order for the generated code to be compiled properly:
+
+#atscode('\
+fun{} datcontag_expr : (expr) -> intGte(0) // a function template
+')
+
+Please find #mycodelink("chap_codegen2", "on-line")
+the entirety of this presented example plus a Makefile (for illustrating
+the code generation process).
+
+")
+
+</sect1><!--"codegen2_datcontag"-->
+
+<sect1
+ id="codegen2_fprint">
+#title("Generating a fprint-function")
+
+#para("\
+
+A fprint-function takes a file-handle (of the type #stacode("FILEref")) and
+a value and then outputs a text representation of the value to the
+file-handle.  Given a datatype, one is often in need of a function that can
+output certain kind of text representation for values of this datatype. For
+instance, such a function can be of great use in debugging.
+
+")
+
+</sect1><!--"codegen2_fprint"-->
+
+</chapter><!--"codegen2"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_funsetmap.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}
