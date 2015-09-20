@@ -253,16 +253,26 @@ string_foreach
 //
 val str = g1ofg0_string(str)
 //
-implement{env}
-string_foreach$cont (c, env) = true
-implement{env}
-string_foreach$fwork (c, env) = f (c)
-val _(*n*) = prelude_string_foreach (str)
+implement(env)
+string_foreach$cont<env> (c, env) = true
+implement(env)
+string_foreach$fwork<env> (c, env) = f(c)
+//
+val _(*nchar*) = prelude_string_foreach (str)
 //
 in
   // nothing
 end // end of [string_foreach]
 
+(* ****** ****** *)
+//
+implement{}
+string_forall_method(x) = lam(f) => string_forall (x, f)
+implement{}
+string_iforall_method(x) = lam(f) => string_iforall (x, f)
+implement{}
+string_foreach_method(x) = lam(f) => string_foreach (x, f)
+//
 (* ****** ****** *)
 
 (* end of [string.dats] *)

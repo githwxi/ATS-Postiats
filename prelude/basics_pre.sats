@@ -401,10 +401,15 @@ symintr copy free length
 symintr print prerr fprint
 //
 (*
+//
+symintr forall
+symintr iforall
+//
 symintr foreach
 symintr foreach2
 symintr iforeach
 symintr rforeach
+//
 *)
 //
 symintr ofstring ofstrptr

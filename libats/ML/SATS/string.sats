@@ -111,14 +111,27 @@ fun string_tabulate
   (n: size_t, f: (size_t) -<cloref1> charNZ): string
 //
 (* ****** ****** *)
-
-fun string_forall (x: string, f: cfun (char, bool)): bool
-fun string_iforall (x: string, f: cfun (int, char, bool)): bool
-
-(* ****** ****** *)
-
-fun string_foreach (x: string, f: cfun (char, void)): void
-
+//
+fun
+string_forall (x: string, f: cfun (char, bool)): bool
+fun
+string_iforall (x: string, f: cfun2 (int, char, bool)): bool
+//
+fun
+string_foreach (x: string, f: cfun (char, void)): void
+//
+fun{}
+string_forall_method(string)(cfun (char, bool)): bool
+fun{}
+string_iforall_method(string)(cfun2 (int, char, bool)): bool
+//
+fun{}
+string_foreach_method(x: string)(f: cfun (char, void)): void
+//
+overload .forall with string_forall_method
+overload .iforall with string_iforall_method
+overload .foreach with string_foreach_method
+//
 (* ****** ****** *)
 
 (* end of [string.sats] *)
