@@ -112,6 +112,11 @@ fun string_tabulate
 //
 (* ****** ****** *)
 
+fun string_forall (x: string, f: cfun (char, bool)): bool
+fun string_iforall (x: string, f: cfun (int, char, bool)): bool
+
+(* ****** ****** *)
+
 fun string_foreach (x: string, f: cfun (char, void)): void
 
 (* ****** ****** *)
