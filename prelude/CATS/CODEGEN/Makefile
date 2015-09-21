@@ -51,24 +51,6 @@ integer_atxt.dats: integer.atxt
 clean:: ; $(RMF) integer_atxt.exe
 cleanall:: ; $(RMF) integer.cats
 
-all:: integer_ptr.cats
-integer_ptr.cats: integer_ptr_atxt.exe ; ./$< > $@
-integer_ptr_atxt.exe: integer_ptr_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ integer_ptr_atxt.dats -latsdoc
-integer_ptr_atxt.dats: integer_ptr.atxt
-	$(ATSDOC) --outcode $@ -i integer_ptr.atxt > integer_ptr_atxt.txt
-clean:: ; $(RMF) integer_ptr_atxt.exe
-cleanall:: ; $(RMF) integer_ptr.cats
-
-all:: integer_fixed.cats
-integer_fixed.cats: integer_fixed_atxt.exe ; ./$< > $@
-integer_fixed_atxt.exe: integer_fixed_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ integer_fixed_atxt.dats -latsdoc
-integer_fixed_atxt.dats: integer_fixed.atxt
-	$(ATSDOC) --outcode $@ -i integer_fixed.atxt > integer_fixed_atxt.txt
-clean:: ; $(RMF) integer_fixed_atxt.exe
-cleanall:: ; $(RMF) integer_fixed.cats
-
 
 all:: bool.cats
 bool.cats: bool_atxt.exe ; ./$< > $@
@@ -98,6 +80,25 @@ clean:: ; $(RMF) float_atxt.exe
 cleanall:: ; $(RMF) float.cats
 
 
+all:: integer_ptr.cats
+integer_ptr.cats: integer_ptr_atxt.exe ; ./$< > $@
+integer_ptr_atxt.exe: integer_ptr_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ integer_ptr_atxt.dats -latsdoc
+integer_ptr_atxt.dats: integer_ptr.atxt
+	$(ATSDOC) --outcode $@ -i integer_ptr.atxt > integer_ptr_atxt.txt
+clean:: ; $(RMF) integer_ptr_atxt.exe
+cleanall:: ; $(RMF) integer_ptr.cats
+
+all:: integer_fixed.cats
+integer_fixed.cats: integer_fixed_atxt.exe ; ./$< > $@
+integer_fixed_atxt.exe: integer_fixed_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ integer_fixed_atxt.dats -latsdoc
+integer_fixed_atxt.dats: integer_fixed.atxt
+	$(ATSDOC) --outcode $@ -i integer_fixed.atxt > integer_fixed_atxt.txt
+clean:: ; $(RMF) integer_fixed_atxt.exe
+cleanall:: ; $(RMF) integer_fixed.cats
+
+
 all:: memory.cats
 memory.cats: memory_atxt.exe ; ./$< > $@
 memory_atxt.exe: memory_atxt.dats
@@ -125,6 +126,16 @@ strptr_atxt.dats: strptr.atxt
 	$(ATSDOC) --outcode $@ -i strptr.atxt > strptr_atxt.txt
 clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.cats
+
+
+all:: fprintf.cats
+fprintf.cats: fprintf_atxt.exe ; ./$< > $@
+fprintf_atxt.exe: fprintf_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ fprintf_atxt.dats -latsdoc
+fprintf_atxt.dats: fprintf.atxt
+	$(ATSDOC) --outcode $@ -i fprintf.atxt > fprintf_atxt.txt
+clean:: ; $(RMF) fprintf_atxt.exe
+cleanall:: ; $(RMF) fprintf.cats
 
 
 all:: filebas.cats

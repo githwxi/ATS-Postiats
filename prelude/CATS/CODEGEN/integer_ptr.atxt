@@ -41,13 +41,6 @@ typedef intptr_t atstype_intptr ;
 typedef uintptr_t atstype_uintptr ;
 
 #atscode_separator_for_C()
-
-\#ifndef fprintf
-extern
-int fprintf (FILE *stream, const char *format, ...) ;
-\#endif // end of [ifndef]
-
-#atscode_separator_for_C()
 //
 \#define atspre_g0int2int_int_intptr(x) ((atstype_intptr)(x))
 \#define atspre_g0int2int_lint_intptr(x) ((atstype_intptr)(x))
@@ -279,22 +272,6 @@ end // end of [local]
 \
 #g0int_implist("intptr")\
 //
-#atscode_separator_for_C()
-
-ATSinline()
-atsvoid_t0ype
-atspre_fprint_intptr
-(
-  atstype_ref r, atstype_intptr x
-) {
-  int err ;
-  err = fprintf((FILE*)r, "%lli", (atstype_llint)x) ;
-  return ;
-} // end [atspre_fprint_intptr]
-
-\#define atspre_print_intptr(x) atspre_fprint_intptr(stdout, (x))
-\#define atspre_prerr_intptr(x) atspre_fprint_intptr(stderr, (x))
-
 #atscode_separator_for_C()
 
 %{
@@ -559,22 +536,6 @@ end // end of [local]
 \
 #g0uint_implist("uintptr")\
 //
-#atscode_separator_for_C()
-
-ATSinline()
-atsvoid_t0ype
-atspre_fprint_uintptr
-(
-  atstype_ref r, atstype_uintptr x
-) {
-  int err ;
-  err = fprintf((FILE*)r, "%llu", (atstype_ullint)x) ;
-  return ;
-} // end [atspre_fprint_uintptr]
-
-\#define atspre_print_uintptr(x) atspre_fprint_uintptr(stdout, (x))
-\#define atspre_prerr_uintptr(x) atspre_fprint_uintptr(stderr, (x))
-
 #atscode_separator_for_C()
 
 \#endif // ifndef ATSLIB_PRELUDE_CATS_INTEGER_PTR

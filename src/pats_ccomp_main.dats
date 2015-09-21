@@ -127,15 +127,17 @@ val () = emit_text (out, "#include \"prelude/CATS/pointer.cats\"\n")
 //
 val () = emit_text (out, "#include \"prelude/CATS/bool.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/char.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/float.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/integer_ptr.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/integer_fixed.cats\"\n")
-val () = emit_text (out, "#include \"prelude/CATS/float.cats\"\n")
 //
 val () = emit_text (out, "#include \"prelude/CATS/memory.cats\"\n")
 //
 val () = emit_text (out, "#include \"prelude/CATS/string.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/strptr.cats\"\n")
 //
+val () = emit_text (out, "//\n")
+val () = emit_text (out, "#include \"prelude/CATS/fprintf.cats\"\n")
 val () = emit_text (out, "//\n")
 val () = emit_text (out, "#include \"prelude/CATS/filebas.cats\"\n")
 //
