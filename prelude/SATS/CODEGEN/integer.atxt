@@ -78,6 +78,9 @@ fun g0int2int_sint_int (x: sint):<> int = "mac\#%"
 //
 #atscode_separator()
 //
+// HX-2015-09-20:
+// These functions are implemented in prelude/string.cats:
+//
 fun{tk:tk}
 g0int2string (x: g0int (tk)):<!wrt> Strptr1
 //
