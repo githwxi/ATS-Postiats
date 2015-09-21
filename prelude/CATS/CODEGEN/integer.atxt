@@ -46,7 +46,7 @@ int snprintf (char *str, size_t size, const char *format, ...) ;
 //
 #atscode_separator_for_C()
 //
-\#define atspre_g0int2int_int_int(x) (x)
+\#define atspre_g0int2int_int_int(x) ((atstype_int)(x))
 \#define atspre_g0int2int_int_lint(x) ((atstype_lint)(x))
 \#define atspre_g0int2int_int_llint(x) ((atstype_llint)(x))
 \#define atspre_g0int2int_int_ssize(x) ((atstype_ssize)(x))
@@ -56,7 +56,7 @@ int snprintf (char *str, size_t size, const char *format, ...) ;
 \#define atspre_g1int2int_int_ssize atspre_g0int2int_int_ssize
 //
 \#define atspre_g0int2int_lint_int(x) ((atstype_int)(x))
-\#define atspre_g0int2int_lint_lint(x) (x)
+\#define atspre_g0int2int_lint_lint(x) ((atstype_lint)(x))
 \#define atspre_g0int2int_lint_llint(x) ((atstype_llint)(x))
 \#define atspre_g0int2int_lint_ssize(x) ((atstype_ssize)(x))
 \#define atspre_g1int2int_lint_int atspre_g0int2int_lint_int
@@ -67,7 +67,7 @@ int snprintf (char *str, size_t size, const char *format, ...) ;
 \#define atspre_g0int2int_ssize_int(x) ((atstype_int)(x))
 \#define atspre_g0int2int_ssize_lint(x) ((atstype_lint)(x))
 \#define atspre_g0int2int_ssize_llint(x) ((atstype_llint)(x))
-\#define atspre_g0int2int_ssize_ssize(x) (x)
+\#define atspre_g0int2int_ssize_ssize(x) ((atstype_ssize)(x))
 \#define atspre_g1int2int_ssize_int atspre_g0int2int_ssize_int
 \#define atspre_g1int2int_ssize_lint atspre_g0int2int_ssize_lint
 \#define atspre_g1int2int_ssize_llint atspre_g0int2int_ssize_llint
