@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-09-21:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/VqnkjY3OmCE"
+>API for LedControl</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-03-24:<br>
 <a
  href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/pointer.sats"
