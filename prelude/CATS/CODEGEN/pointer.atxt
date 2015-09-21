@@ -40,13 +40,6 @@ void *memset(void *bufp, int c, size_t n) ;
 
 #atscode_separator_for_C()
 
-\#ifndef fprintf
-extern
-int fprintf (FILE *stream, const char *format, ...) ;
-\#endif // end of [ifndef]
-
-#atscode_separator_for_C()
-
 ATSinline()
 atstype_ptr
 atspre_ptr_null () { return (void*)0 ; }
@@ -208,21 +201,6 @@ atspre_ptr_nullize_tsz
 ) {
   memset (p, 0, tsz) ; return /*void*/ ;
 } // end of [atspre_ptr_nullize_tsz]
-
-#atscode_separator_for_C()
-
-ATSinline()
-atsvoid_t0ype
-atspre_fprint_ptr (
-  atstype_ref out, atstype_ptr x
-) {
-  int err ;
-  err = fprintf((FILE*)out, "%p", x) ;
-  return ;
-} // end [atspre_fprint_ptr]
-
-\#define atspre_print_ptr(x) atspre_fprint_ptr(stdout, (x))
-\#define atspre_prerr_ptr(x) atspre_fprint_ptr(stderr, (x))
 
 #atscode_separator_for_C()
 
