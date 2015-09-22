@@ -7,8 +7,21 @@
 //
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
-//
+#include
+"share/atspre_define.hats"
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
+
+(* ****** ****** *)
+
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
+
+(* ****** ****** *)
+
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
+
 (* ****** ****** *)
 //
 infixr (->) ->>
@@ -121,8 +134,14 @@ val () = println! ("ans(1+2*3) = ", unBox(ans))
 //
 (* ****** ****** *)
 
-implement main0 () = ()
+%{$
+//
+ats2jspre_the_print_store_clear();
+my_dynload();
+alert(ats2jspre_the_print_store_join());
+//
+%} // end of [%{$]
 
 (* ****** ****** *)
 
-(* end of [F-algebra.dats] *)
+(* end of [F-algebra_js.dats] *)
