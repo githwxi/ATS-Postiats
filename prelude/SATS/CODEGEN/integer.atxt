@@ -38,8 +38,8 @@ sortdef tk = tkind
 
 #atscode_separator()
 
-typedef SHR(a:type) = a // for commenting purpose
-typedef NSH(a:type) = a // for commenting purpose
+typedef SHR(a:t@ype) = a // for commenting purpose
+typedef NSH(a:t@ype) = a // for commenting purpose
 
 #atscode_separator()
 //

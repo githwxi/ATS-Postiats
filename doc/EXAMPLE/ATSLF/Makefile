@@ -108,6 +108,15 @@ IsoscelesAngleq.dats; $(PATSCC) -verbose -tcats $<
 ######
 
 all:: \
+F-algebra
+F-algebra: \
+F-algebra.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: F-algebra ; ./$<
+cleanall:: ; $(RMF) F-algebra
+
+######
+
+all:: \
 YonedaLemma
 YonedaLemma: \
 YonedaLemma.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<

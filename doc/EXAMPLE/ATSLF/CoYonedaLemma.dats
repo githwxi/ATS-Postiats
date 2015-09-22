@@ -24,14 +24,16 @@ staload _ = "libats/ML/DATS/list0.dats"
 sortdef ftype = type -> type
 
 (* ****** ****** *)
-
+//
 infixr (->) ->>
-typedef ->> (a:type, b:type) = a -<cloref1> b
-
+//
+typedef
+->> (a:type, b:type) = a -<cloref1> b
+//
 (* ****** ****** *)
 
 typedef
-functor(F:ftype) =
+Functor(F:ftype) =
   {a,b:type} (a ->> b) ->> F(a) ->> F(b)
 
 (* ****** ****** *)
@@ -39,12 +41,12 @@ functor(F:ftype) =
 typedef
 list0 (a:type) = list0 (a)
 extern
-val functor_list0 : functor (list0)
+val Functor_list0 : Functor (list0)
 
 (* ****** ****** *)
 
 implement
-functor_list0{a,b}
+Functor_list0{a,b}
   (f) = lam xs => list0_map<a><b> (xs, f)
 
 (* ****** ****** *)
@@ -58,10 +60,10 @@ CoYoneda
 //
 extern
 fun CoYoneda_phi
-  : {F:ftype}functor(F) -> {r:type} (F (r) ->> CoYoneda (F, r))
+  : {F:ftype}Functor(F) -> {r:type} (F (r) ->> CoYoneda (F, r))
 extern
 fun CoYoneda_psi
-  : {F:ftype}functor(F) -> {r:type} (CoYoneda (F, r) ->> F (r))
+  : {F:ftype}Functor(F) -> {r:type} (CoYoneda (F, r) ->> F (r))
 //
 (* ****** ****** *)
 
@@ -95,7 +97,7 @@ fun int2bool (i: int0): bool =
 
 val myintlist0 = g0ofg1($list{int0}(I(1), I(0), I(1), I(0), I(0)))
 val myboolist0 = CoYoneda{list0,bool}{int0}(lam (i) => int2bool(i), myintlist0)
-val myboolist0 = CoYoneda_psi{list0}(functor_list0){bool}(myboolist0)
+val myboolist0 = CoYoneda_psi{list0}(Functor_list0){bool}(myboolist0)
 
 (* ****** ****** *)
 
