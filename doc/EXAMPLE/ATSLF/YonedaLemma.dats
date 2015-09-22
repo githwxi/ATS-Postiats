@@ -133,29 +133,33 @@ Yoneda_psi_nat (ftor) = lam(mf) => mf(lam x => x)
 
 (* ****** ****** *)
 
-datatype bool = True | False // boxed boolean
+datatype bool = True | False // boxed
 
 (* ****** ****** *)
 //
-fun bool2string
+fun
+bool2string
   (x:bool): string =
 (
-  case+ x of True() => "True" | False() => "False"
+  case+ x of
+  | True() => "True" | False() => "False"
 )
 //
 implement
-fprint_val<bool> (out, x) = fprint (out, bool2string(x))
+fprint_val<bool>
+  (out, x) = fprint (out, bool2string(x))
 //
 (* ****** ****** *)
 //
 val myboolist0 =
-  $list_t{bool}(True, False, True, False, False)
+  $list{bool}(True, False, True, False, False)
 val myboolist0 = g0ofg1_list (myboolist0)
 //
 (* ****** ****** *)
 //
 extern
-val Yoneda_bool_list0 : {r:type} (bool ->> r) ->> list0(r)
+val
+Yoneda_bool_list0 : {r:type} (bool ->> r) ->> list0(r)
 //
 implement
 Yoneda_bool_list0 =

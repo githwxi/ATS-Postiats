@@ -33,11 +33,11 @@ typedef
 ->> (a:type, b:type) = a -<cloref1> b
 //
 (* ****** ****** *)
-
+//
 typedef
 Functor(F:ftype) =
   {a,b:type} (a ->> b) ->> F(a) ->> F(b)
-
+//
 (* ****** ****** *)
 //
 datatype
@@ -86,42 +86,6 @@ Yoneda_psi (ftor) = lam(mf) => mf(lam x => x)
 //
 (* ****** ****** *)
 
-(*
-
-(* ****** ****** *)
-//
-// HX-2014-01-05:
-// Another version based on Natural Transformation
-//
-(* ****** ****** *)
-
-typedef
-natrans(F:ftype, G:ftype) = {x:type} (F(x) ->> G(x))
-
-(* ****** ****** *)
-//
-extern
-fun Yoneda_phi_nat : {F:ftype}Functor(F) ->
-  {a:type} F(a) ->> natrans(lam (r:type) => (a ->> r), F)
-extern
-fun Yoneda_psi_nat : {F:ftype}Functor(F) ->
-  {a:type} natrans(lam (r:type) => (a ->> r), F) ->> F(a)
-//
-(* ****** ****** *)
-//
-implement
-Yoneda_phi_nat
-  (ftor) = lam(fx) => lam (m) => ftor(m)(fx)
-//
-implement
-Yoneda_psi_nat (ftor) = lam(mf) => mf(lam x => x)
-//
-(* ****** ****** *)
-
-*)
-
-(* ****** ****** *)
-
 datatype bool = True | False // boxed boolean
 
 (* ****** ****** *)
@@ -129,7 +93,8 @@ datatype bool = True | False // boxed boolean
 fun bool2string
   (x:bool): string =
 (
-  case+ x of True() => "True" | False() => "False"
+  case+ x of
+  | True() => "True" | False() => "False"
 )
 //
 (* ****** ****** *)
@@ -140,14 +105,18 @@ print_val<bool> (x) = print_string (bool2string(x))
 (* ****** ****** *)
 //
 #define :: list0_cons
+#define nil list0_nil
+#define cons list0_cons
 //
 val myboolist0 =
-  True::False::True::False::False::list0_nil{bool}()
+  True::False::True::False::False::nil{bool}()
 //
 (* ****** ****** *)
 //
 extern
-val Yoneda_bool_list0 : {r:type} (bool ->> r) ->> list0(r)
+val
+Yoneda_bool_list0
+  : {r:type} (bool ->> r) ->> list0(r)
 //
 implement
 Yoneda_bool_list0 =
