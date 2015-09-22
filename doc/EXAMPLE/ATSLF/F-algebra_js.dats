@@ -54,7 +54,7 @@ extern
 fun
 Fix_unfold{f:ftype} : Fix(f) -> f (Fix(f))
 implement
-Fix_unfold(f) = let val+Fix_fold(f) = f in f end
+Fix_unfold(f) = let val Fix_fold(f) = f in f end
 //
 (* ****** ****** *)
 //
