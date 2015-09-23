@@ -32,7 +32,7 @@ typedef
 (* ****** ****** *)
 
 sortdef
-ftype = t@ype -> t@ype
+ftype = t@ype -> type
 
 (* ****** ****** *)
 
