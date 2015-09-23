@@ -280,6 +280,8 @@ list0_reverse_append
   (xs: list0(INV(a)), ys: list0(a)):<> list0(a)
 // end of [list0_reverse_append]
 
+macdef list0_revapp = list_reverse_append
+
 (* ****** ****** *)
 //
 fun{a:t0p}

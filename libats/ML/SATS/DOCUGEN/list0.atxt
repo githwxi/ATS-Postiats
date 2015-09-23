@@ -406,9 +406,9 @@ end // end of [main]
 
 #decldescrpt("\
 
-Given a lists xs and y, this function returns the concatenation of xs and
-the singleton list consisting of y. It is O(n)-time, where n is the length
-of xs.\
+Given a list xs and an element y, this function returns the
+concatenation of xs and the singleton list consisting of y. It is
+O(n)-time, where n is the length of xs.\
 
 ")
 
@@ -456,7 +456,7 @@ is tail-recurisive.\
 #declnamesynop("list0_reverse_append")
 #decldescrpt("\
 
-Given two lists xs and ys, this function returns the concatenation of the
+Given two lists xs and ys, this function returns the concatenation of
 rxs and ys, where rxs refers to the reverse of xs. It is O(n)-time, where n
 is the length of the given list, and its implementation in ATSLIB is
 tail-recurisive.\
@@ -788,14 +788,17 @@ staload "libats/ML/SATS/list0.sats"
 implement{a}
 list0_equal
   (xs1, xs2, eqfn) = let
-  var sgn: int // uninitialied
-  val ans = list0_forall2_eq (xs1, xs2, eqfn, sgn)
+//
+var sgn: int // uninitialied
+val ans = list0_forall2_eq (xs1, xs2, eqfn, sgn)
+//
 in
-  if sgn = 0 then
-    ans // [xs1] and [xs2] are of the same length
-  else
-    false // [xs1] and [xs2] are of different length
-  // end of [if]
+//
+if
+sgn = 0
+then ans // [xs1] and [xs2] are of the same length
+else false // [xs1] and [xs2] are of different length
+//
 end // end of [list0_equal]
 ')
 ")
@@ -847,13 +850,13 @@ list0_filter (xs, p) = let
 in
 //
 case+ xs of
-| list0_cons (x, xs) =>
-    if p (x) then
-      list0_cons (x, list0_filter<a> (xs, p))
-    else
-      list0_filter<a> (xs, p)
+| list0_cons
+    (x, xs) =>
+    if p(x)
+      then list0_cons (x, list0_filter<a> (xs, p))
+      else list0_filter<a> (xs, p)
     // end of [if]
-| list0_nil () => list0_nil ()
+| list0_nil() => list0_nil(*void*)
 //
 end // end of [list0_filter]
 ')\
@@ -940,9 +943,11 @@ fun aux (
 ) : list0 b = let
 in
   case+ xs of
-  | list0_cons (x, xs) =>
+  | list0_cons
+      (x, xs) =>
       list0_cons (f (i, x), aux (i+1, xs, f))
-  | list0_nil () => list0_nil ()
+    // end of [list0_cons]
+  | list0_nil() => list0_nil(*void*)
 end // end of [aux]
 //
 in
@@ -977,13 +982,17 @@ list0_map2
 in
 //
 case+ xs1 of
-| list0_cons (x1, xs1) => (
+| list0_nil
+    () => list0_nil(*void*)
+| list0_cons
+    (x1, xs1) => (
   case+ xs2 of
-  | list0_cons (x2, xs2) =>
-      list0_cons (f (x1, x2), list0_map2 (xs1, xs2, f))
-  | list0_nil () => list0_nil ()
-  )
-| list0_nil () => list0_nil ()
+  | list0_nil() => list0_nil(*void*)
+  | list0_cons
+      (x2, xs2) =>
+      list0_cons (f(x1, x2), list0_map2 (xs1, xs2, f))
+    // end of [list0_cons]
+  ) (* end of [list0_cons] *)
 //
 end // end of [list0_map2]
 ')\
@@ -1012,13 +1021,18 @@ list0_zip (xs, ys) = let
 in
 //
 case+ xs of
-| list0_cons (x, xs) => (
+| list0_nil
+    () => list0_nil(*void*)
+| list0_cons
+    (x, xs) => (
   case+ ys of
-  | list0_cons (y, ys) =>
-      list0_cons (@(x, y), list0_zip<x,y> (xs, ys))
-  | list0_nil () => list0_nil ()
-  )
-| list0_nil () => list0_nil ()
+  | list0_nil
+      () => list0_nil(*void*)
+  | list0_cons
+      (y, ys) =>
+      list0_cons ((x, y), list0_zip<x,y> (xs, ys))
+    // end of [list0_cons]
+  ) (* end of [list0_cons] *)
 //
 end // end of [list0_zip]
 ')\
@@ -1062,16 +1076,20 @@ typedef T = int
 val out = stdout_ref
 //
 val xs =
-  list0_of_list (randgen_list<T> (N))
+list0_of_list
+  (randgen_list<T> (N))
+//
 val () =
-  fprint_string (out, "xs(bef) = ")
+  fprint (out, "xs(bef) = ")
 val () = fprint_list0_sep (out, xs, ", ")
 val () = fprint_newline (out)
 //
 val xs =
-  list0_quicksort<T> (xs, lam (x1, x2) => compare (x1, x2))
+list0_quicksort<T>
+  (xs, lam (x1, x2) => compare (x1, x2))
+//
 val () =
-  fprint_string (out, "xs(aft) = ")
+  fprint (out, "xs(aft) = ")
 val () = fprint_list0_sep (out, xs, ", ")
 val () = fprint_newline (out)
 //
@@ -1106,16 +1124,20 @@ typedef T = int
 val out = stdout_ref
 //
 val xs =
-  list0_of_list (randgen_list<T> (N))
+list0_of_list
+  (randgen_list<T> (N))
+//
 val () =
-  fprint_string (out, "xs(bef) = ")
+  fprint (out, "xs(bef) = ")
 val () = fprint_list0_sep (out, xs, ", ")
 val () = fprint_newline (out)
 //
 val xs =
-  list0_mergesort<T> (xs, lam (x1, x2) => compare (x1, x2))
+list0_mergesort<T>
+  (xs, lam (x1, x2) => compare (x1, x2))
+//
 val () =
-  fprint_string (out, "xs(aft) = ")
+  fprint (out, "xs(aft) = ")
 val () = fprint_list0_sep (out, xs, ", ")
 val () = fprint_newline (out)
 //

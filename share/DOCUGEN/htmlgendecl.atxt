@@ -2,8 +2,8 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-dynload "libatsynmark/dynloadall.dats"
-staload "libatsynmark/SATS/libatsynmark.sats"
+dynload "utils/libatsynmark/dynloadall.dats"
+staload "utils/libatsynmark/SATS/libatsynmark.sats"
 //
 #include "utils/atsdoc/HATS/pats2xhtmlatxt.hats"
 //
