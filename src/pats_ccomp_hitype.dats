@@ -943,6 +943,7 @@ fun aux
 in
 //
 case+ hit0 of
+//
 | HITapp
     (hit_fun, hits_arg) =>
   {
@@ -950,8 +951,10 @@ case+ hit0 of
     val () = emit_text (out, "(")
     val () = emit_hitypelst_sep (out, hits_arg, ", ")
     val () = emit_text (out, ")")
-  }
+  } (* end of [HITapp] *)
+//
 | HITtyvar (s2v) => emit_s2var (out, s2v)
+//
 | _(*rest-of-hitype*) => emit_hitype (out, hit0)
 //
 end // end of [aux]
