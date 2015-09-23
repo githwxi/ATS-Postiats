@@ -952,7 +952,7 @@ case+ hit0 of
     val () = emit_text (out, ")")
   }
 | HITtyvar (s2v) => emit_s2var (out, s2v)
-| _(*rest*) => emit_hitype (out, hit0)
+| _(*rest-of-hitype*) => emit_hitype (out, hit0)
 //
 end // end of [aux]
 //
