@@ -51,6 +51,7 @@ Here is a list of major additions and changes since the last release:
 7. Adding into ATSPRE string/string_forall and string/string_iforall
 8. Reorganizing:
    moving the fprint-functions in prelude into prelude/fprintf.cats
+9. Fixing a bug in CATS-parsemit (that affects parsing #if(0) ... #endif)
 
 ######
 
