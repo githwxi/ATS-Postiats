@@ -39,6 +39,7 @@ GCFLAG=
 # [intknd] for CBOOTmin
 #
 C3NSTRINTKND=gmpknd
+#C3NSTRINTKND=intknd
 #
 ######
 

@@ -28,7 +28,7 @@ The current <em>pre-stable</em> release of ATS2 is at
 </li>
 <li>
 The current <em>pre-stable</em> release of ATS2-intmin is at
-<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-intmin-0.1.11.tgz">ATS2-intmin-0.1.11</a>
+<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-intmin-0.2.3.tgz">ATS2-intmin-0.2.3</a>
 </li>
 </ul>
 
