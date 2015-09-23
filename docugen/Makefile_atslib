@@ -6,59 +6,77 @@
 #
 ######
 
+ROOT="."
+
+######
+#
 all:: prelude
+#
 all:: libc
+#
 all:: libats
 all:: libats_ML
+#
+######
+#
+prelude:: \
+prelude_sats
+prelude_sats:: ; \
+  make -C $(ROOT)/prelude/SATS/DOCUGEN -f Makefile.gen
+prelude_sats:: ; \
+  make -C $(ROOT)/prelude/SATS/DOCUGEN -f Makefile all
+#
+######
+
+libc:: \
+libc_sats
+libc_sats:: ; \
+  make -C $(ROOT)/libc/SATS/DOCUGEN -f Makefile.gen
+libc_sats:: ; \
+  make -C $(ROOT)/libc/SATS/DOCUGEN -f Makefile all
 
 ######
 
-prelude:: prelude_sats
-prelude_sats:
-	make -C prelude/SATS/DOCUGEN -f Makefile.gen
-	make -C prelude/SATS/DOCUGEN -f Makefile all
+libats:: \
+libats_sats
+libats_sats:: ; \
+  make -C $(ROOT)/libats/SATS/DOCUGEN -f Makefile.gen
+libats_sats:: ; \
+  make -C $(ROOT)/libats/SATS/DOCUGEN -f Makefile all
+
+######
+#
+libats_ML:: \
+libats_ML_sats
+libats_ML_sats:: ; \
+  make -C $(ROOT)/libats/ML/SATS/DOCUGEN -f Makefile.gen
+libats_ML_sats:: ; \
+  make -C $(ROOT)/libats/ML/SATS/DOCUGEN -f Makefile all
+#
+######
+
+uploadall:: ; \
+  make -C $(ROOT)/prelude/SATS/DOCUGEN -f Makefile uploadall
+uploadall:: ; \
+  make -C $(ROOT)/libc/SATS/DOCUGEN -f Makefile uploadall
+uploadall:: ; \
+  make -C $(ROOT)/libats/SATS/DOCUGEN -f Makefile uploadall
+uploadall:: ; \
+  make -C $(ROOT)/libats/ML/SATS/DOCUGEN -f Makefile uploadall
 
 ######
 
-libc:: libc_sats
-libc_sats:
-	make -C libc/SATS/DOCUGEN -f Makefile.gen
-	make -C libc/SATS/DOCUGEN -f Makefile all
+clean:: ; make -C $(ROOT)/prelude/SATS/DOCUGEN -f Makefile clean
+clean:: ; make -C $(ROOT)/libc/SATS/DOCUGEN -f Makefile clean
+clean:: ; make -C $(ROOT)/libats/SATS/DOCUGEN -f Makefile clean
+clean:: ; make -C $(ROOT)/libats/ML/SATS/DOCUGEN -f Makefile clean
 
 ######
 
-libats:: libats_sats
-libats_sats:
-	make -C libats/SATS/DOCUGEN -f Makefile.gen
-	make -C libats/SATS/DOCUGEN -f Makefile all
-
-######
-
-libats_ML:: libats_ML_sats
-libats_ML_sats:
-	make -C libats/ML/SATS/DOCUGEN -f Makefile.gen
-	make -C libats/ML/SATS/DOCUGEN -f Makefile all
-
-######
-
-uploadall:: ; make -C prelude/SATS/DOCUGEN -f Makefile uploadall
-uploadall:: ; make -C libc/SATS/DOCUGEN -f Makefile uploadall
-uploadall:: ; make -C libats/SATS/DOCUGEN -f Makefile uploadall
-uploadall:: ; make -C libats/ML/SATS/DOCUGEN -f Makefile uploadall
-
-######
-
-clean:: ; make -C prelude/SATS/DOCUGEN -f Makefile clean
-clean:: ; make -C libc/SATS/DOCUGEN -f Makefile clean
-clean:: ; make -C libats/SATS/DOCUGEN -f Makefile clean
-clean:: ; make -C libats/ML/SATS/DOCUGEN -f Makefile clean
-
-######
-
-cleanall:: ; make -C prelude/SATS/DOCUGEN -f Makefile cleanall
-cleanall:: ; make -C libc/SATS/DOCUGEN -f Makefile cleanall
-cleanall:: ; make -C libats/SATS/DOCUGEN -f Makefile cleanall
-cleanall:: ; make -C libats/ML/SATS/DOCUGEN -f Makefile cleanall
+cleanall:: ; make -C $(ROOT)/prelude/SATS/DOCUGEN -f Makefile cleanall
+cleanall:: ; make -C $(ROOT)/libc/SATS/DOCUGEN -f Makefile cleanall
+cleanall:: ; make -C $(ROOT)/libats/SATS/DOCUGEN -f Makefile cleanall
+cleanall:: ; make -C $(ROOT)/libats/ML/SATS/DOCUGEN -f Makefile cleanall
 
 
 ###### end of [Makefile_atslib] ######
