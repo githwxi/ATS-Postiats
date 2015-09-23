@@ -25,9 +25,6 @@ $(EMCC) \
 #
 fact_dats.c: fact.dats ; $(PATSOPT) -DATS_MEMALLOC_LIBC --output $@ --dynamic $<
 #
-cleanall:: ; $(RMF) fact_dats.js
-cleanall:: ; $(RMF) fact_dats.js.map
-#
 ######
 
 RMF=rm -f
@@ -35,12 +32,13 @@ RMF=rm -f
 ######
 
 clean:: ; $(RMF) *~
+clean:: ; $(RMF) *.map
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
-clean:: ; $(RMF) *.map
 
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) fact_dats.js
 
 ###### end of [Makefile] ######
