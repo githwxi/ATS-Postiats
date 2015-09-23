@@ -439,7 +439,7 @@ time-wise and memory-wise: It is O(n^2)-time and non-tail-recursive.\
 (* ****** ****** *)
 
 #declnamesynop("list0_snoc")
-#declexample("This function does the same as #dyncode("list0_extend").")
+#decldescrpt("This function does the same as #dyncode("list0_extend").")
 
 (* ****** ****** *)
 

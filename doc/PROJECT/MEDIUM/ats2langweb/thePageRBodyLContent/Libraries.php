@@ -60,11 +60,6 @@ lmacrodef
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/pointer.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/pointer_sats.html">html</a>)
 </li>
-<li>
-<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/memory.html">SATS/memory</a>
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/memory.sats">raw</a>)
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/memory_sats.html">html</a>)
-</li>
 
 <li>
 <a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/bool.html">SATS/bool</a>
@@ -81,16 +76,6 @@ lmacrodef
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/float.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/float_sats.html">html</a>)
 </li>
-<li>
-<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/string.html">SATS/string</a>
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/string.sats">raw</a>)
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/string_sats.html">html</a>)
-</li>
-<li>
-<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/strptr.html">SATS/strptr</a>
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/strptr.sats">raw</a>)
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/strptr_sats.html">html</a>)
-</li>
 
 <li>
 <a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/integer_ptr.html">SATS/integer_ptr</a>
@@ -101,6 +86,23 @@ lmacrodef
 <a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/integer_fixed.html">SATS/integer_fixed</a>
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/integer_fixed.sats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/integer_fixed_sats.html">html</a>)
+</li>
+
+<li>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/memory.html">SATS/memory</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/memory.sats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/memory_sats.html">html</a>)
+</li>
+
+<li>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/string.html">SATS/string</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/string.sats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/string_sats.html">html</a>)
+</li>
+<li>
+<a href="http://ats-lang.sourceforge.net/LIBRARY/prelude/SATS/DOCUGEN/HTML/strptr.html">SATS/strptr</a>
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/SATS/strptr.sats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/strptr_sats.html">html</a>)
 </li>
 
 <li>
@@ -229,11 +231,6 @@ DATS/pointer
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/pointer.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/pointer_dats.html">html</a>)
 </li>
-<li>
-DATS/memory
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/memory.dats">raw</a>)
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/memory_dats.html">html</a>)
-</li>
 
 <li>
 DATS/bool
@@ -251,6 +248,13 @@ DATS/float
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/float.dats">raw</a>)
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/float_dats.html">html</a>)
 </li>
+
+<li>
+DATS/memory
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/memory.dats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/memory_dats.html">html</a>)
+</li>
+
 <li>
 DATS/string
 (<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/DATS/string.dats">raw</a>)
