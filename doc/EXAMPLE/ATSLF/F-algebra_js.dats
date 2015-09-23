@@ -130,7 +130,7 @@ Cata
 (lam(f)=>fexpr_map(f))
 (lam(e)=>fexpr_eval(e))(Add_1_Mul_2_3)
 //
-val () = println! ("ans(1+2*3) = ", unBox(ans))
+val () = println! ("eval(1+2*3) = ", unBox(ans))
 //
 (* ****** ****** *)
 
