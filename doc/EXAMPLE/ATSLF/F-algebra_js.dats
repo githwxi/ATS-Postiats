@@ -27,23 +27,23 @@ staload
 infixr (->) ->>
 //
 typedef
-->> (a:type, b:type) = a -<cloref1> b
+->> (a:t@ype, b:t@ype) = a -<cloref1> b
 //
 (* ****** ****** *)
 
 sortdef
-ftype = type -> type
+ftype = t@ype -> t@ype
 
 (* ****** ****** *)
 
 typedef
 Functor(F:ftype) =
-  {a,b:type} (a ->> b) ->> F(a) ->> F(b)
+  {a,b:t@ype} (a ->> b) ->> F(a) ->> F(b)
 
 (* ****** ****** *)
 
 typedef
-Algebra (f:ftype, a:type) = f(a) ->> a
+Algebra (f:ftype, a:t@ype) = f(a) ->> a
 
 (* ****** ****** *)
 //
@@ -61,7 +61,7 @@ Fix_unfold(f) = let val Fix_fold(f) = f in f end
 extern
 fun Cata
   : {f:ftype}Functor(f) ->
-  {a:type}Algebra (f,a) ->> (Fix f ->> a)
+  {a:t@ype}Algebra (f,a) ->> (Fix f ->> a)
 //
 implement
 Cata(map) =
@@ -70,7 +70,7 @@ Cata(map) =
 (* ****** ****** *)
 //
 datatype
-fexpr(a:type) =
+fexpr(a:t@ype) =
 | Int of int
 | Add of (a, a)
 | Mul of (a, a)
@@ -94,25 +94,17 @@ case+ e0 of
 //
 (* ****** ****** *)
 //
-datatype
-intx = Box of (int)
-//
-fun unBox(Box(i): intx): int = i
-//
-(* ****** ****** *)
-//
 extern
 fun
-fexpr_eval
-  : fexpr(intx) -> intx
+fexpr_eval: fexpr(int) -> int
 //
 implement
 fexpr_eval(e0) =
 (
 case+ e0 of
-| Int(i) => Box(i)
-| Add(e1, e2) => Box(unBox(e1) + unBox(e2))
-| Mul(e1, e2) => Box(unBox(e1) * unBox(e2))
+| Int(i) => i
+| Add(e1, e2) => e1 + e2
+| Mul(e1, e2) => e1 + e2
 )
 //
 (* ****** ****** *)
@@ -130,7 +122,7 @@ Cata
 (lam(f)=>fexpr_map(f))
 (lam(e)=>fexpr_eval(e))(Add_1_Mul_2_3)
 //
-val () = println! ("eval(1+2*3) = ", unBox(ans))
+val () = println! ("eval(1+2*3) = ", ans)
 //
 (* ****** ****** *)
 
