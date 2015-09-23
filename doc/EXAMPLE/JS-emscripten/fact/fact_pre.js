@@ -20,3 +20,7 @@ var Module = {
         output.scrollTop = 1000000;
     }
 };
+
+/* ****** ****** */
+
+/* end of [fact_pre.js] */
