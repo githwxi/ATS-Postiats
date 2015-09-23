@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-09-22:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/vO0h2ezMV3E"
+>ATS2-0.2.3 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/RGsACNPKvL4"
 >Using codegen2-directives</a><br>
