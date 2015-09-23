@@ -10,24 +10,24 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
-all:: fact.js
+all:: fact_dats.js
 
 ######
-
-fact.js: fact_dats.c ; \
-  $(EMCC) \
-    -s EXPORTED_FUNCTIONS="['_ATSJS_fact_handle_keypress_fun']" \
-    -Wno-warn-absolute-paths \
-    -I${PATSHOME} -I${PATSHOME}/ccomp/runtime \
-    --pre-js fact_pre.js \
-    --post-js fact_post.js \
-    --js-library ${PATSHOME}/contrib/HTML-emscripten/JS/HTMLdocument.js \
-    -o $@ $<
-fact_dats.c: fact.dats ; \
-  $(PATSOPT) -DATS_MEMALLOC_LIBC -I${PATSHOME}/contrib --output $@ --dynamic $<
-cleanall:: ; $(RMF) fact.js
-cleanall:: ; $(RMF) fact.js.map
-
+#
+fact_dats.js: fact_dats.c ; \
+$(EMCC) \
+  -s EXPORTED_FUNCTIONS="['_ATSJS_fact_handle_keypress_']" \
+  -Wno-warn-absolute-paths \
+  -I${PATSHOME} -I${PATSHOME}/ccomp/runtime \
+  --pre-js fact_pre.js --post-js fact_post.js \
+  --js-library ${PATSHOMERELOC}/contrib/HTML-emscripten/JS/HTMLdocument.js \
+  -o $@ $<
+#
+fact_dats.c: fact.dats ; $(PATSOPT) -DATS_MEMALLOC_LIBC --output $@ --dynamic $<
+#
+cleanall:: ; $(RMF) fact_dats.js
+cleanall:: ; $(RMF) fact_dats.js.map
+#
 ######
 
 RMF=rm -f
