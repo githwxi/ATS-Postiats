@@ -74,19 +74,27 @@ fun s2hnf_tyer
 (* ****** ****** *)
 
 extern
-fun s2exp_tyer_app (
+fun
+s2exp_tyer_app
+(
   loc: location, flag: int, s2t: s2rt, _fun: s2exp, _arg: s2explst
 ) : hisexp // end of [s2exp_tyer_app]
 extern
-fun s2exp_tyer_app2 (
+fun
+s2exp_tyer_app2
+(
   loc: location, flag: int, s2t: s2rt, _fun: s2exp, _arg: s2explst
 ) : hisexp // end of [s2exp_tyer_app2]
 extern
-fun s2exp_tyer_apphnf (
+fun
+s2exp_tyer_apphnf
+(
   loc: location, flag: int, s2t: s2rt, _fun: s2hnf, _arg: s2explst
 ) : hisexp // end of [s2exp_tyer_apphnf]
 extern
-fun s2exp_tyer_appcst (
+fun
+s2exp_tyer_appcst
+(
   loc: location, flag: int, s2t: s2rt, _fun: s2cst, _arg: s2explst
 ) : hisexp // end of [s2exp_tyer_appcst]
 
@@ -285,14 +293,17 @@ end // end of [s2hnf_tyer]
 (* ****** ****** *)
 
 implement
-s2exp_tyer_app (
+s2exp_tyer_app
+(
   loc0, flag, s2t0, s2e_fun, s2es_arg
 ) = let
   val s2f_fun = s2exp2hnf (s2e_fun)
   val s2e_fun = s2hnf2exp (s2f_fun)
 in
 //
-case+ s2e_fun.s2exp_node of
+case+
+s2e_fun.s2exp_node
+of // case+
 | S2Ecst (s2c) =>
     s2exp_tyer_appcst (loc0, flag, s2t0, s2c, s2es_arg)
 | _ (*hnf*) => 
@@ -337,7 +348,8 @@ end // end of [s2exp_tyer_app2]
 (* ****** ****** *)
 
 implement
-s2exp_tyer_apphnf (
+s2exp_tyer_apphnf
+(
   loc0, flag, s2t0, s2f_fun, s2es_arg
 ) = let
   val hse_fun = s2hnf_tyer (loc0, flag, s2f_fun)

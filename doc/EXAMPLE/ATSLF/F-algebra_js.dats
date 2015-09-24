@@ -35,11 +35,11 @@ sortdef
 ftype = t@ype -> type
 
 (* ****** ****** *)
-
+//
 typedef
 Functor(F:ftype) =
-  {a,b:t@ype} (a ->> b) ->> F(a) ->> F(b)
-
+  {a,b:t@ype}(a ->> b) ->> F(a) ->> F(b)
+//
 (* ****** ****** *)
 
 typedef
@@ -59,9 +59,9 @@ Fix_unfold(f) = let val Fix_fold(f) = f in f end
 (* ****** ****** *)
 //
 extern
-fun Cata
-  : {f:ftype}Functor(f) ->
-  {a:t@ype}Algebra (f,a) ->> (Fix f ->> a)
+fun Cata:
+  {f:ftype} Functor(f) ->
+  {a:t@ype} Algebra (f,a) ->> (Fix f ->> a)
 //
 implement
 Cata(map) =
@@ -104,7 +104,7 @@ fexpr_eval(e0) =
 case+ e0 of
 | Int(i) => i
 | Add(e1, e2) => e1 + e2
-| Mul(e1, e2) => e1 + e2
+| Mul(e1, e2) => e1 * e2
 )
 //
 (* ****** ****** *)

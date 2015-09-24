@@ -60,33 +60,47 @@ staload "./pats_histaexp.sats"
 (* ****** ****** *)
 //
 #define ATSTYPE_BOXED "atstype_boxed"
+#define ATSTYPE_UNBOXED "atstype_unboxed"
+#define ATSTYPE_UNDEFINED "atstype_undefined"
 //
 (* ****** ****** *)
 //
-val HITNAM_BOXED =
-  HITNAM (1(*non*), 1(*fin*), ATSTYPE_BOXED)
+val
+HITNAM_BOXED =
+  HITNAM (1(*ptr*), 1(*fin*), ATSTYPE_BOXED)
 //
-val HITNAM_FUNPTR =
+val
+HITNAM_UNBOXED =
+  HITNAM (0(*non*), 1(*fin*), ATSTYPE_UNBOXED)
+//
+val
+HITNAM_UNDEFINED =
+  HITNAM (0(*non*), 1(*fin*), ATSTYPE_UNDEFINED)
+//
+(* ****** ****** *)
+//
+val
+HITNAM_FUNPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_funptr")
-val HITNAM_CLOPTR =
+val
+HITNAM_CLOPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_cloptr")
 //
-val HITNAM_ARRPTR =
+val
+HITNAM_ARRPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_arrptr")
 //
-val HITNAM_DATCONPTR =
+val
+HITNAM_DATCONPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_datconptr")
-val HITNAM_DATCONTYP =
+val
+HITNAM_DATCONTYP =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_datcontyp")
 //
-val HITNAM_EXNCONPTR =
+val
+HITNAM_EXNCONPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_exnconptr")
 //
-(* ****** ****** *)
-
-val HITNAM_UNDEFINED =
-  HITNAM (0(*non*), 1(*fin*), "atst0ype_undefined")
-
 (* ****** ****** *)
 //
 #define POSTIATS_TYABS "postiats_tyabs"
@@ -97,7 +111,7 @@ HITNAM_TYABS =
   HITNAM (0(*non*), 0(*fin*), POSTIATS_TYABS)
 val
 HITNAM_TYPTR =
-  HITNAM (1(*non*), 1(*fin*), POSTIATS_TYPTR)
+  HITNAM (1(*ptr*), 1(*fin*), POSTIATS_TYPTR)
 //
 val
 HITNAM_TYAPP =
@@ -376,14 +390,18 @@ hisexp_exnconptr = '{
 } (* end of [hisexp_exnconptr] *)
 
 (* ****** ****** *)
-
+//
 implement
 hisexp_undefined = let
-  val sym = $SYM.symbol_empty
+//
+val
+sym = 
+$SYM.symbol_make_string(ATSTYPE_UNDEFINED)
+//
 in '{
   hisexp_name= HITNAM_UNDEFINED, hisexp_node= HSEtyabs (sym)
 } end // end of [hisexp_undefined]
-
+//
 (* ****** ****** *)
 
 implement
@@ -458,23 +476,41 @@ hisexp_make_node
 } (* end of [hisexp_make_node] *)
 
 (* ****** ****** *)
-
+//
 implement
-hisexp_tyabs (sym) =
-  hisexp_make_node (HITNAM_TYABS, HSEtyabs (sym))
-// end of [hisexp_tyabs]
-
+hisexp_tyabs(sym) =
+hisexp_make_node(HITNAM_TYABS, HSEtyabs(sym))
+//
 (* ****** ****** *)
 
 implement
-hisexp_make_srt (s2t) =
-  hisexp_make_srtsym (s2t, $SYM.symbol_empty)
-(* end of [hisexp_make_srt]*)
+hisexp_make_srt
+  (s2t) = let
+//
+val isbox = s2rt_is_boxed_fun (s2t)
+//
+in
+//
+if
+isbox
+then hisexp_tybox
+else let
+val
+sym = 
+$SYM.symbol_make_string(ATSTYPE_UNBOXED)
+//
+in
+  hisexp_tyabs (sym)
+end // end of [else]
+//
+end // end of [hisexp_make_srt]
 
 implement
 hisexp_make_srtsym
   (s2t, sym) = let
-  val isbox = s2rt_is_boxed_fun (s2t)
+//
+val isbox = s2rt_is_boxed_fun (s2t)
+//
 in
   if isbox
     then hisexp_tybox else hisexp_tyabs (sym)
@@ -482,11 +518,11 @@ in
 end // end of [hisexp_make_srtsym]
 
 (* ****** ****** *)
-
+//
 implement
 hisexp_cst (s2c) =
   hisexp_make_node (HITNAM_TYABS, HSEcst (s2c))
-
+//
 (* ****** ****** *)
 
 implement

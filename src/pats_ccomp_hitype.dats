@@ -134,13 +134,15 @@ fprint_hitype
   (out, hit) = let
 //
 macdef
-prstr (s) = fprint_string (out, ,(s))
+prstr(x) =
+  fprint_string (out, ,(x))
 //
 in
 //
 case+ hit of
 //
-| HITnmd (name) => {
+| HITnmd
+    (name) => {
     val () = prstr "HITnmd("
     val () = fprint_string (out, name)
     val () = prstr ")"
@@ -166,35 +168,39 @@ case+ hit of
     val () = prstr ")"
   }
 //
-| HITtyrec (lhits) => {
+| HITtyrec
+    (lhits) => {
     val () = prstr "HITtyrec("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
-| HITtysum (tag, lhits) => {
+| HITtysum
+    (tag, lhits) => {
     val () = prstr "HITtysum("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
-| HITtyexn (lhits) => {
+| HITtyexn
+    (lhits) => {
     val () = prstr "HITtyexn("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
 //
-| HITtyvar (s2v) => {
+| HITtyvar(s2v) => {
     val () = prstr "HITtyvar("
     val () = fprint_s2var (out, s2v)
     val () = prstr ")"
   }
 //
-| HITtyclo (flab) => {
+| HITtyclo(flab) => {
     val () = prstr "HITtyclo("
     val () = fprint_funlab (out, flab)
     val () = prstr ")"
   }
 //
-| HITrefarg (knd, hit) => {
+| HITrefarg
+    (knd, hit) => {
     val () = prstr "HITrefarg("
     val () = fprint_int (out, knd)
     val () = prstr ", "
@@ -364,12 +370,14 @@ aux
 ) : void = let
 //
 (*
+//
 val () =
 println!
   ("eq_hitype_hitype: aux: x1 = ", x1)
 val () =
 println!
   ("eq_hitype_hitype: aux: x2 = ", x2)
+//
 *)
 //
 in
@@ -587,14 +595,17 @@ auxsym (
   auxstr (hval, $SYM.symbol_get_name (sym))
 // end of [auxsym]
 
-fun aux (
+fun aux
+(
   hval: &ulint, hit0: hitype
 ) : void = let
 in
 //
 case+ hit0 of
+//
 | HITnmd
     (name) => auxstr (hval, name)
+  // end of [HITnmd]
 //
 | HITapp
     (_fun, _arg) => let
@@ -895,18 +906,19 @@ end // end of [the_hitypemap_insert]
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 implement
-hitype_error() = HITerror ()
-
+hitype_error() =
+  HITerror((*void*))
+//
 implement
-hitype_tybox() = HITnmd ("atstype_boxed")
-
+hitype_tybox() = HITnmd("atstype_boxed")
+//
 implement
 hitype_undef(hse) = let
   val s = $STMP.hitype_stamp_make() in HITundef(s, hse)
 end // end of [hitype_undef]
-
+//
 (* ****** ****** *)
 //
 extern
@@ -940,6 +952,13 @@ fun aux
 (
   out: FILEref, hit0: hitype
 ) : void = let
+//
+(*
+val () =
+println!
+  ("emit_hitype_app: aux: hit0 = ", hit0)
+*)
+//
 in
 //
 case+ hit0 of
@@ -985,7 +1004,9 @@ in
 //
 case+ hit0 of
 //
-| HITnmd (name) => emit_text (out, name)
+| HITnmd
+    (name) => emit_text (out, name)
+  // end of [HITnmd]
 //
 | HITapp _ => emit_hitype_app (out, hit0)
 //
@@ -1078,13 +1099,16 @@ emit_hisexp
   (out, hse) = let
 //
 (*
-val () = println! ("emit_hisexp: hse = ", hse)
+val () =
+println!
+  ("emit_hisexp: hse = ", hse)
 *)
 //
 val hit = hisexp_typize (1, hse)
 //
 (*
-val () = println! ("emit_hisexp: hit = ", hit)
+val () =
+  println! ("emit_hisexp: hit = ", hit)
 *)
 //
 in
@@ -1094,7 +1118,7 @@ case+ hit of
   (
     emit_text (out, "HITundef("); fprint_hisexp (out, hse); emit_text (out, ")")
   ) (* end of [HITundef] *)
-| _ => emit_hitype (out, hit)
+| _ (*non-undef*) => emit_hitype (out, hit)
 //
 end // end of [emit_hisexp]
 
@@ -1104,7 +1128,9 @@ implement
 emit_hisexplst_sep
   (out, hses, sep) = let
 //
-fun loop (
+fun
+loop
+(
   out: FILEref
 , hses: hisexplst, sep: string, i: int
 ) : void = let
@@ -1138,8 +1164,10 @@ emit_hisexp_sel
 val hit = hisexp_typize (0, hse)
 //
 (*
-val () = println! ("emit_hisexp_sel: hse = ", hse)
-val () = println! ("emit_hisexp_sel: hit = ", hit)
+val () =
+println! ("emit_hisexp_sel: hse = ", hse)
+val () =
+println! ("emit_hisexp_sel: hit = ", hit)
 *)
 //
 in
@@ -1149,14 +1177,15 @@ case+ hit of
   (
     emit_text (out, "HITundef("); fprint_hisexp (out, hse); emit_text (out, ")")
   ) // end of [HITundef]
-| _ => emit_hitype (out, hit)
+| _ (*non-undef*) => emit_hitype (out, hit)
 //
 end // end of [emit_hisexp_sel]
 
 (* ****** ****** *)
 
 extern
-fun hitype_gen_tyrec (): hitype
+fun
+hitype_gen_tyrec (): hitype
 implement
 hitype_gen_tyrec () = let
   val n = $STMP.hitype_stamp_make ()
@@ -1166,7 +1195,8 @@ in
 end // end of [hitype_gen_tyrec]
 
 extern
-fun hitype_gen_tysum (): hitype
+fun
+hitype_gen_tysum (): hitype
 implement
 hitype_gen_tysum () = let
   val n = $STMP.hitype_stamp_make ()
@@ -1190,6 +1220,13 @@ end // end of [hitype_gen_tyexn]
 implement
 s2exp_typize
   (flag, s2e0) = let
+//
+(*
+val () = 
+println!
+  ("s2exp_typize: s2e0 = ", s2e0)
+*)
+//
 in
 //
 case+
@@ -1218,6 +1255,13 @@ end // end of [s2exp_typize]
 implement
 s2zexp_typize
   (flag, s2ze0) = let
+//
+(*
+val () = 
+println!
+  ("s2zexp_typize: s2ze0 = ", s2ze0)
+*)
+//
 in
 //
 case+ s2ze0 of
@@ -1241,21 +1285,29 @@ aux
 (
   flag: int, hse0: hisexp
 ) : hitype = let
+//
 (*
-val () = println! ("aux: hse0 = ", hse0)
+val () =
+println! ("aux: hse0 = ", hse0)
 *)
-val HITNAM (knd, fin, name) = hse0.hisexp_name
+//
+val
+HITNAM(knd, fin, name) = hse0.hisexp_name
 //
 in
 //
-case+ hse0.hisexp_node of
+case+
+hse0.hisexp_node
+of // case+
+//
 | _ when
     (fin > 0) => HITnmd (name)
+  // end of [fin > 0]
 //
 | HSEcst (s2c) => aux_s2cst (s2c)
 //
 | HSEapp (_fun, _arg) =>
-    HITapp (aux (flag, _fun), auxlst (flag, _arg))
+    HITapp (aux(flag, _fun), auxlst(flag, _arg))
   // end of [HSEapp]
 //
 | HSEtyabs (sym) => let
@@ -1269,19 +1321,23 @@ case+ hse0.hisexp_node of
 | HSEtyrec _ => aux_tyrec (flag, hse0)
 //
 | HSEtyrecsin (lhse) => let
-    val HSLABELED (lab, opt, hse) = lhse in aux (flag, hse)
+    val+HSLABELED(lab, opt, hse) = lhse in aux (flag, hse)
   end // end of [HSEtyrecsin]
 //
-| HSEtysum (d2c, _) =>
+| HSEtysum
+    (d2c, _) =>
   (
     if d2con_is_con (d2c)
       then aux_tysum (flag, hse0) else aux_tyexn (flag, hse0)
     // end of [if]
   ) // end of [HSEtysum]
 //
-| HSEtyclo (flab) => HITtyclo ($UN.cast{funlab}(flab))
+| HSEtyclo
+    (flab) => HITtyclo ($UN.cast{funlab}(flab))
+  // end of [HSEtyclo]
 //
-| HSErefarg (knd, hse) => let
+| HSErefarg
+    (knd, hse) => let
     val hit = aux (flag, hse) in HITrefarg (knd, hit)
   end // end of [HSErefarg]
 //
@@ -1290,7 +1346,8 @@ case+ hse0.hisexp_node of
     case+ hit of HITerror () => hitype_undef (hse0) | _ => (hit)
   end // end of [HSEs2exp]
 //
-| HSEs2zexp (s2ze) => let
+| HSEs2zexp
+    (s2ze) => let
     val hit = s2zexp_typize (flag, s2ze) in
     case+ hit of HITerror () => hitype_undef (hse0) | _ => (hit)
   end // end of [HSEs2zexp]
@@ -1527,10 +1584,17 @@ auxfld
 , lhit: labhitype
 ) : void = let
 //
-val+HTLABELED (lab, opt, hit) = lhit
+val+
+HTLABELED
+  (lab, opt, hit) = lhit
 //
 var isa: bool = false
 var dim: s2explst = list_nil ()
+//
+(*
+val () =
+println! ("auxfld: hit = ", hit)
+*)
 //
 val () = (
 //
