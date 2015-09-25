@@ -509,6 +509,45 @@ stringarr_concat<>
 //
 end // end of [string0_append3]
 
+implement{}
+string0_append4
+  (x1, x2, x3, x4) = let
+//
+var xs = @[string](x1, x2, x3, x4)
+//
+in
+//
+stringarr_concat<>
+  ($UN.cast{arrayref(string,4)}(addr@xs), i2sz(4))
+//
+end // end of [string0_append4]
+
+implement{}
+string0_append5
+  (x1, x2, x3, x4, x5) = let
+//
+var xs = @[string](x1, x2, x3, x4, x5)
+//
+in
+//
+stringarr_concat<>
+  ($UN.cast{arrayref(string,5)}(addr@xs), i2sz(5))
+//
+end // end of [string0_append5]
+
+implement{}
+string0_append6
+  (x1, x2, x3, x4, x5, x6) = let
+//
+var xs = @[string](x1, x2, x3, x4, x5, x6)
+//
+in
+//
+stringarr_concat<>
+  ($UN.cast{arrayref(string,6)}(addr@xs), i2sz(6))
+//
+end // end of [string0_append6]
+
 #atscode_separator()
 
 implement{}
