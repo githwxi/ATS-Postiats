@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-09-20:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/RGsACNPKvL4"
+>Using codegen2-directives</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-03-31:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
