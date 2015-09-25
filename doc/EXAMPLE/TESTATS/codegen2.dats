@@ -32,9 +32,11 @@ weekday =
 (* ****** ****** *)
 //
 extern
-fun datcon_weekday: (weekday) -> string
+fun{}
+datcon_weekday: (weekday) -> string
 extern
-fun datcontag_weekday: (weekday) -> natLt(7)
+fun{}
+datcontag_weekday: (weekday) -> natLt(7)
 //
 overload datcon with datcon_weekday
 overload datcontag with datcontag_weekday

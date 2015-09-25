@@ -19,10 +19,21 @@ include $(PATSHOME)/share/atsmake-post.mk
 
 all:: \
 arrinit
-arrinit: arrinit.dats ; \
+arrinit: \
+arrinit.dats ; \
   $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: arrinit ; ./$<
 cleanall:: ; $(RMF) arrinit
+
+######
+
+all:: \
+catamorph
+catamorph: \
+catamorph.dats ; \
+  $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: catamorph ; ./$<
+cleanall:: ; $(RMF) catamorph
 
 ######
 
