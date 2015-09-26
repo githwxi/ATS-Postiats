@@ -47,7 +47,7 @@ cata_expr(e0) = aux(e0) where
 {
 //
 fun
-aux : $d2ctype(cata_expr<a>) = lam e0 =>
+aux : expr -> a = lam e0 =>
 (
 //
 case+ e0 of
@@ -87,6 +87,27 @@ extern
 fun
 expr_tostring : expr -> string
 //
+(* ****** ****** *)
+
+fn{
+} string0_append5
+(
+  x1: NSH(string)
+, x2: NSH(string)
+, x3: NSH(string)
+, x4: NSH(string)
+, x5: NSH(string)
+) :<!wrt> Strptr1 = let
+//
+var xs = @[string](x1, x2, x3, x4, x5)
+//
+in
+//
+stringarr_concat<>
+  ($UNSAFE.cast{arrayref(string,5)}(addr@xs), i2sz(5))
+//
+end // end of [string0_append5]
+
 (* ****** ****** *)
 
 implement
