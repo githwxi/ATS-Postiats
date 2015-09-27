@@ -27,50 +27,33 @@
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype
+(*
+**
+** A functional mset based on ordered lists
+**
+** Contributed by Hongwei Xi (hwxiATcsDOTbuDOTedu)
+** Time: May 18, 2011
+**
+*)
 
 (* ****** ****** *)
 //
-abstype
-mset_type (a:t@ype+) = ptr
-typedef mset (a:t0p) = mset_type (a)
+// HX-2015-09:
+// ported to ATS/Postitats from ATS/Anairiats
 //
 (* ****** ****** *)
 
-fun{a:t0p}
-compare_elt_elt (x1: a, x2: a):<> int
+#define ATS_PACKNAME "ATSLIB.libats.funmset_listord"
 
 (* ****** ****** *)
 
-fun{}
-funmset_nil {a:t0p} ():<> mset(a)
-fun{}
-funmset_make_nil {a:t0p} ():<> mset(a)
+#include "./SHARE/funmset.hats"
 
 (* ****** ****** *)
-
-fun{a:t0p}
-funmset_sing (x0: a):<> mset(a) // singleton mset
-fun{a:t0p}
-funmset_make_sing (x0: a):<> mset(a) // singleton mset
-
+//
+castfn
+funmset2list{a:t0p} (xs: mset(INV(a))):<> List0 @(intGt(1), a)
+//
 (* ****** ****** *)
 
-fun{a:t0p}
-funmset_make_list (xs: List(INV(a))):<> mset(a)
-
-(* ****** ****** *)
-
-fun{}
-funmset_is_nil {a:t0p} (xs: mset(INV(a))):<> bool
-fun{}
-funmset_isnot_nil {a:t0p} (xs: mset(INV(a))):<> bool
-
-(* ****** ****** *)
-
-fun{a:t0p}
-funmset_size (xs: mset(INV(a))):<> size_t
-
-(* ****** ****** *)
-
-(* end of [funmset.hats] *)
+(* end of [funmset_listord.sats] *)
