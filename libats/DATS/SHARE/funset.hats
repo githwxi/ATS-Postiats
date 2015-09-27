@@ -33,17 +33,20 @@
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 compare_elt_elt = gcompare_val_val<a>
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 funset_isnot_nil (xs) = not(funset_is_nil (xs))
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_make_list
   (xs) = set where {
 //
@@ -68,14 +71,16 @@ val ((*void*)) = $effmask_all (loop (set, xs))
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_isnot_member
   (xs, x0) = not (funset_is_member<a> (xs, x0))
 // end of [funset_isnot_member]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_getmax_opt
   (xs) = let
 //
@@ -95,7 +100,8 @@ end // end of [funset_getmax_opt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_getmin_opt
   (xs) = let
 //
@@ -115,7 +121,8 @@ end // end of [funset_getmin_opt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_takeoutmax_opt
   (xs) = let
 //
@@ -135,7 +142,8 @@ end // end of [funset_takeoutmax_opt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_takeoutmin_opt
   (xs) = let
 //
@@ -155,18 +163,20 @@ end // end of [funset_takeoutmin_opt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 funset_equal
   (xs1, xs2) = let
   val sgn = funset_compare<a> (xs1, xs2) in sgn = 0
 end // end of [funset_equal]
 
 (* ****** ****** *)
-
-implement{a}
+//
+implement
+{a}(*tmp*)
 funset_is_supset
   (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
-
+//
 (* ****** ****** *)
 
 implement
@@ -179,7 +189,8 @@ end // end of [funset_foreach]
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 fprint_funset$sep
   (out) = fprint_string (out, ", ")
 implement
