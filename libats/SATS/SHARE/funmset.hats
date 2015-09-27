@@ -48,12 +48,14 @@ fun{}
 funmset_make_nil {a:t0p} ():<> mset(a)
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-funmset_sing (x0: a):<> mset(a) // singleton mset
+funmset_sing
+  (x0: a):<> mset(a) // singleton mset
 fun{a:t0p}
-funmset_make_sing (x0: a):<> mset(a) // singleton mset
-
+funmset_make_sing
+  (x0: a):<> mset(a) // singleton mset
+//
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -70,6 +72,18 @@ funmset_isnot_nil {a:t0p} (xs: mset(INV(a))):<> bool
 
 fun{a:t0p}
 funmset_size (xs: mset(INV(a))):<> size_t
+
+(* ****** ****** *)
+//
+fun{a:t0p}
+funmset_is_member(xs: mset(INV(a)), x: a): bool
+fun{a:t0p}
+funmset_isnot_member(xs: mset(INV(a)), x: a): bool
+//
+(* ****** ****** *)
+
+fun{a:t0p}
+funmset_get_ntime (xs: mset(INV(a)), x: a): intGte(0)
 
 (* ****** ****** *)
 

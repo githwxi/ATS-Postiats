@@ -76,10 +76,137 @@ mset_type (a: t0p) = List0 @(intGt(0), a)
 
 implement
 {}(*tmp*)
-funmset_nil () = list_nil ()
+funmset_nil () = list_nil()
 implement
 {}(*tmp*)
-funmset_make_nil () = list_nil ()
+funmset_make_nil () = list_nil()
+
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+funmset_make_sing
+  (x) = list_cons((1, x), list_nil)
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+funmset_make_list
+  (xs) = let
+//
+fun
+loop1
+(
+  xs: List_vt(a)
+) : mset(a) =
+(
+case+ xs of
+| ~nil_vt() => list_nil()
+| ~cons_vt(x, xs) => loop2(xs, x, 1, list_nil)
+) (* end of [loop1] *)
+//
+and
+loop2
+(
+  xs: List_vt(a), x0: a, n: intGt(0), res: mset(a)
+) : mset(a) =
+(
+case+ xs of
+| ~nil_vt() =>
+    list_cons ((n, x0), res)
+  // end of [list_nil]
+| ~cons_vt(x1, xs) => let
+    val sgn = compare_elt_elt<a> (x0, x1)
+  in
+    if sgn = 0
+      then loop2(xs, x0, n+1, res)
+      else loop2(xs, x1, 1, list_cons ((n, x0), res))
+    // end of [if]
+  end // end of [list_cons]
+)
+//
+implement
+list_mergesort$cmp<a>
+  (x1, x2) = compare_elt_elt<a> (x1, x2)
+//
+in
+  $effmask_all(loop1(list_mergesort(xs)))
+end // end of [funmset_make_list]
+
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+funmset_is_nil(nxs) = list_is_nil(nxs)
+implement
+{}(*tmp*)
+funmset_isnot_nil(nxs) = list_is_cons(nxs)
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+funmset_size(nxs) = let
+//
+fun
+loop
+(
+  nxs: List0 @(intGt(0), a), res: size_t
+) : size_t =
+(
+case+ nxs of
+| list_nil
+    ((*void*)) => res
+| list_cons
+    ((n, x), nxs) => loop (nxs, res+i2sz(n))
+  // end of [list_cons]
+)
+//
+in
+  $effmask_all(loop(nxs, i2sz(0)))
+end // end of [funmset_size]
+
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+funmset_is_member
+  (nxs, x0) = funmset_get_ntime(nxs, x0) > 0
+implement
+{a}(*tmp*)
+funmset_isnot_member
+  (nxs, x0) = funmset_get_ntime(nxs, x0) = 0
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+funmset_get_ntime
+  (nxs, x0) = let
+//
+fun
+loop
+(
+  nxs: List0 @(intGt(0), a), x0: a
+) : intGte(0) =
+(
+case+ nxs of
+| list_nil
+    ((*void*)) => 0
+| list_cons
+    ((n, x), nxs) => let
+    val sgn = compare_elt_elt<a> (x0, x)
+  in
+    if sgn < 0
+      then loop(nxs, x0) else (if sgn > 0 then 0 else n)
+    // end of [if]
+  end // end of [list_cons]
+) (* end of [loop] *)
+//
+in
+  loop(nxs, x0)
+end // end of [funmset_get_ntime]
 
 (* ****** ****** *)
 
