@@ -60,15 +60,15 @@ fprint_funmset$sep
 //
 implement
 {a}(*tmp*)
-fprint_mset_sep
+fprint_funmset_sep
   (out, xs, sep) = let
 //
 implement{}
-fprint_mset$sep(out) = fprint_string(out, sep)
+fprint_funmset$sep(out) = fprint_string(out, sep)
 //
 in
-  fprint_mset<a> (out, xs)
-end // end of [fprint_mset]
+  fprint_funmset<a> (out, xs)
+end // end of [fprint_funmset]
 //
 (* ****** ****** *)
 

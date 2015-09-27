@@ -307,4 +307,98 @@ end // end of [funmset_remove]
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+funmset_union
+  (nxs, nys) = let
+//
+typedef nx = (intGt(0), a)
+//
+prval () = lemma_list_param(nxs)
+prval () = lemma_list_param(nys)
+//
+fun
+union
+(
+  nxs: List0(nx)
+, nys: List0(nx)
+) : List0(nx) = (
+//
+case+
+(nxs, nys) of
+// case+
+| (list_nil(), _) => nys
+| (_, list_nil()) => nxs
+| (list_cons(nx, nxs2),
+   list_cons(ny, nys2)) => let
+   val x = nx.1
+   and y = ny.1
+   val sgn = compare_elt_elt<a> (x, y)
+ in
+   if sgn < 0
+     then list_cons(ny, union(nxs, nys2))
+     else (
+       if sgn > 0
+         then list_cons(nx, union(nxs2, nys))
+         else list_cons((nx.0+ny.0, x), union(nxs2, nys2))
+       // end of [if]
+     ) (* end of [if] *)
+   // end of [if]
+ end // end of [cons, cons]
+//
+) (* end of [union] *)
+//
+in
+  union(nxs, nys)
+end // end of [funmset_union]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+funmset_intersect
+  (nxs, nys) = let
+//
+typedef nx = (intGt(0), a)
+//
+prval () = lemma_list_param(nxs)
+prval () = lemma_list_param(nys)
+//
+fun
+intersect
+(
+  nxs: List0(nx)
+, nys: List0(nx)
+) : List0(nx) = (
+//
+case+
+(nxs, nys) of
+// case+
+| (list_nil(), _) => list_nil()
+| (_, list_nil()) => list_nil()
+| (list_cons(nx, nxs2),
+   list_cons(ny, nys2)) => let
+   val x = nx.1
+   and y = ny.1
+   val sgn = compare_elt_elt<a> (x, y)
+ in
+   if sgn < 0
+     then intersect(nxs, nys2)
+     else (
+       if sgn > 0
+         then intersect(nxs2, nys)
+         else list_cons((min(nx.0,ny.0), x), intersect(nxs2, nys2))
+       // end of [if]
+     ) (* end of [if] *)
+   // end of [if]
+ end // end of [cons, cons]
+//
+) (* end of [intersect] *)
+//
+in
+  intersect(nxs, nys)
+end // end of [funmset_intersect]
+
+(* ****** ****** *)
+
 (* end of [funmset_listord.dats] *)

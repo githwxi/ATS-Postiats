@@ -93,6 +93,13 @@ funmset_remove(xs: &mset(INV(a)) >> _, x0: a): intGte(0)
 //
 (* ****** ****** *)
 //
+fun{a:t0p}
+funmset_union(xs: mset(INV(a)), ys: mset(a)): mset(a)
+fun{a:t0p}
+funmset_intersect(xs: mset(INV(a)), ys: mset(a)): mset(a)
+//
+(* ****** ****** *)
+//
 fun{}
 fprint_funmset$sep
   (out: FILEref): void // ", "
