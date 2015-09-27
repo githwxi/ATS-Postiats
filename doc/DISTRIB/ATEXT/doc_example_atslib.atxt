@@ -227,9 +227,13 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 #packfilename("libats_funset_listord.dats")
 #packfilename("libats_funset_avltree.dats")
+
 #packfilename("libats_funmap_list.dats")
 #packfilename("libats_funmap_avltree.dats")
 #packfilename("libats_funmap_rbtree.dats")
+
+#packfilename("libats_funmset_listord.dats")
+
 #packfilename("libats_fundeque_fngtree.dats")
 #packfilename("libats_funralist_nested.dats")
 

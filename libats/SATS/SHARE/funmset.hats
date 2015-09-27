@@ -94,6 +94,15 @@ funmset_remove(xs: &mset(INV(a)) >> _, x0: a): intGte(0)
 (* ****** ****** *)
 //
 fun{a:t0p}
+funmset_insert2
+  (xs: &mset(INV(a)) >> _, n0: intGt(0), x0: a): intGte(0)
+fun{a:t0p}
+funmset_remove2
+  (xs: &mset(INV(a)) >> _, n0: intGt(0), x0: a): intGte(0)
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
 funmset_union(xs: mset(INV(a)), ys: mset(a)): mset(a)
 fun{a:t0p}
 funmset_intersect(xs: mset(INV(a)), ys: mset(a)): mset(a)

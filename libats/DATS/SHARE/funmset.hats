@@ -45,11 +45,22 @@ funmset_isnot_nil
   (xs) = not(funmset_is_nil<> (xs))
 //
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 funmset_isnot_member
   (xs, x0) = not(funmset_is_member<a> (xs, x0))
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+funmset_insert
+  (xs, x0) = funmset_insert2<a>(xs, 1, x0)
+implement
+{a}(*tmp*)
+funmset_remove
+  (xs, x0) = funmset_remove2<a>(xs, 1, x0)
 //
 (* ****** ****** *)
 
