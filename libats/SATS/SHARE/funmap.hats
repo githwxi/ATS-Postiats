@@ -126,21 +126,18 @@ key,itm:t0p
 // end of [funmap_insert_any]
 
 (* ****** ****** *)
-
+//
 fun{
 key,itm:t0p
 } funmap_takeout (
-  map: &map (key, INV(itm)) >> _
-, k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b)
-
+  &map (key, INV(itm)) >> _, k0: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // end-of-function
+//
 fun{
 key,itm:t0p
 } funmap_takeout_opt
-(
-  map: &map (key, INV(itm)) >> _, k0: key
-) : Option_vt (itm) // endfun
-
+  (map: &map (key, INV(itm)) >> _, k0: key) : Option_vt (itm)
+//
 (* ****** ****** *)
 
 fun{
@@ -151,10 +148,10 @@ key,itm:t0p
 
 (* ****** ****** *)
 //
-fun{
-} fprint_funmap$sep (out: FILEref): void // "; "
-fun{
-} fprint_funmap$mapto (out: FILEref): void // "->"
+fun{}
+fprint_funmap$sep (out: FILEref): void // "; "
+fun{}
+fprint_funmap$mapto (out: FILEref): void // "->"
 //
 fun{
 key,itm:t@ype
@@ -164,7 +161,7 @@ key,itm:t@ype
 overload fprint with fprint_funmap
 //
 (* ****** ****** *)
-
+//
 fun
 {key:t0p
 ;itm:t0p}
@@ -172,13 +169,11 @@ fun
 funmap_foreach$fwork
   (k: key, x: itm, env: &(env) >> _): void
 // end of [funmap_foreach$fwork]
-
+//
 fun{
 key,itm:t0p
-} funmap_foreach
-  (map: map (key, INV(itm))): void
-// end of [funmap_foreach]
-
+} funmap_foreach(map: map (key, INV(itm))): void
+//
 fun
 {key:t0p
 ;itm:t0p}
@@ -186,7 +181,7 @@ fun
 funmap_foreach_env
   (map: map (key, INV(itm)), env: &(env) >> _): void
 // end of [funmap_foreach_env]
-
+//
 (* ****** ****** *)
 
 fun{
@@ -196,7 +191,7 @@ key,itm:t0p
 // end of [funmap_listize]
 
 (* ****** ****** *)
-
+//
 fun
 {key:t0p
 ;itm:t0p}
@@ -206,10 +201,8 @@ fun
 {key:t0p
 ;itm:t0p}
 {ki2:t0p}
-funmap_flistize
-  (xs: map (key, INV(itm))): List_vt (ki2)
-// end of [funmap_flistize]
-
+funmap_flistize(xs: map (key, INV(itm))): List_vt (ki2)
+//
 (* ****** ****** *)
 
 (* end of [funmap.hats] *)

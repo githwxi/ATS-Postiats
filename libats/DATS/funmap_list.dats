@@ -119,12 +119,16 @@ end // end of [funmap_search]
 implement
 {key,itm}
 funmap_insert
-  (map, k0, x0, res) = let
+(
+  map, k0, x0, res
+) = let
 //
 typedef ki = @(key, itm)
-val ans = funmap_takeout<key,itm> (map, k0, res)
-val (
-) = map := list_cons{ki}( @(k0, x0), map )
+//
+val ans =
+  funmap_takeout<key,itm>(map, k0, res)
+val () =
+  (map := list_cons{ki}( @(k0, x0), map ))
 // end of [val]
 //
 in
@@ -137,7 +141,9 @@ implement
 {key,itm}
 funmap_insert_any
   (map, k0, x0) = let
-  typedef ki = @(key, itm)
+//
+typedef ki = @(key, itm)
+//
 in
   map := list_cons{ki}( @(k0, x0), map )
 end // end of [funmap_insert_any]
