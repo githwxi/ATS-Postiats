@@ -210,4 +210,101 @@ end // end of [funmset_get_ntime]
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+funmset_insert
+  (nxs, x0) = let
+//
+typedef nx = @(intGt(0), a)
+//
+fun
+loop
+(
+  nxs: List(nx), n0: &int? >> intGte(0)
+) : List0 nx =
+(
+//
+case+ nxs of
+| list_nil() => let
+    val () = n0 := 0
+  in
+    funmset_sing<a> (x0)
+  end // end of [list_nil]
+| list_cons
+    (nx, nxs2) => let
+    val x1 = nx.1
+    val sgn =
+      compare_elt_elt<a> (x0, nx.1)
+    // end of [val]
+  in
+    if sgn < 0
+      then list_cons(nx, loop(nxs2, n0))
+      else (
+        if sgn > 0
+          then (n0 := 0; list_cons((1, x0), nxs))
+          else (n0 := nx.0; list_cons((n0+1, x1), nxs2))
+        // end of [if]
+      ) (* end of [else] *)
+    // end of [if]
+  end // end of [list_cons]
+) (* end of [loop] *)
+//
+var n0: int // uninitized
+//
+in
+  nxs := loop(nxs, n0); n0
+end // end of [funmset_insert]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+funmset_remove
+  (nxs, x0) = let
+//
+typedef nx = @(intGt(0), a)
+//
+fun
+loop
+(
+  nxs: List(nx), n0: &int? >> intGte(0)
+) : List0 nx =
+(
+//
+case+ nxs of
+| list_nil() =>
+  (
+    n0 := 0; list_nil()
+  ) // end of [list_nil]
+| list_cons
+    (nx, nxs2) => let
+    val x1 = nx.1
+    val sgn =
+      compare_elt_elt<a> (x0, nx.1)
+    // end of [val]
+  in
+    if sgn < 0
+      then list_cons(nx, loop(nxs2, n0))
+      else (
+        if sgn > 0
+          then (n0 := 0; nxs)
+          else let
+            val () = n0 := nx.0
+          in
+            if n0 = 1 then nxs2 else list_cons((n0-1, nx.1), nxs2)
+          end // end of [else]
+        // end of [if]
+      ) (* end of [else] *)
+    // end of [if]
+  end // end of [list_cons]
+) (* end of [loop] *)
+//
+var n0: int // uninitized
+//
+in
+  nxs := loop(nxs, n0); n0
+end // end of [funmset_remove]
+
+(* ****** ****** *)
+
 (* end of [funmset_listord.dats] *)

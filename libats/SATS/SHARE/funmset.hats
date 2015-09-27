@@ -76,15 +76,21 @@ funmset_size (xs: mset(INV(a))):<> size_t
 (* ****** ****** *)
 //
 fun{a:t0p}
-funmset_is_member(xs: mset(INV(a)), x: a): bool
+funmset_get_ntime
+  (xs: mset(INV(a)), x0: a): intGte(0)
+//
 fun{a:t0p}
-funmset_isnot_member(xs: mset(INV(a)), x: a): bool
+funmset_is_member(xs: mset(INV(a)), x0: a): bool
+fun{a:t0p}
+funmset_isnot_member(xs: mset(INV(a)), x0: a): bool
 //
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-funmset_get_ntime (xs: mset(INV(a)), x: a): intGte(0)
-
+funmset_insert(xs: &mset(INV(a)) >> _, x0: a): intGte(0)
+fun{a:t0p}
+funmset_remove(xs: &mset(INV(a)) >> _, x0: a): intGte(0)
+//
 (* ****** ****** *)
 
 (* end of [funmset.hats] *)
