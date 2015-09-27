@@ -159,10 +159,15 @@ funset_is_supset (xs1: set(INV(a)), xs2: set(a)):<> bool
 (* ****** ****** *)
 //
 fun{}
-fprint_funset$sep (FILEref): void // ", "
+fprint_funset$sep
+  (out: FILEref): void // ", "
 //
 fun{a:t0p}
-fprint_funset (out: FILEref, xs: set(INV(a))): void
+fprint_funset
+  (out: FILEref, xs: set(INV(a))): void
+fun{a:t0p}
+fprint_funset_sep
+  (out: FILEref, xs: set(INV(a)), sep: string): void
 //
 overload fprint with fprint_funset
 //

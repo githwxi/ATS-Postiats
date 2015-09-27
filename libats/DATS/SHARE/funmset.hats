@@ -38,11 +38,38 @@ implement
 compare_elt_elt = gcompare_val_val<a>
 
 (* ****** ****** *)
-
+//
 implement
 {}(*tmp*)
-funmset_isnot_nil (xs) = not(funmset_is_nil (xs))
+funmset_isnot_nil
+  (xs) = not(funmset_is_nil<> (xs))
+//
+(* ****** ****** *)
 
+implement
+{a}(*tmp*)
+funmset_isnot_member
+  (xs, x0) = not(funmset_is_member<a> (xs, x0))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+fprint_funmset$sep
+  (out) = fprint_string (out, ", ")
+//
+implement
+{a}(*tmp*)
+fprint_mset_sep
+  (out, xs, sep) = let
+//
+implement{}
+fprint_mset$sep(out) = fprint_string(out, sep)
+//
+in
+  fprint_mset<a> (out, xs)
+end // end of [fprint_mset]
+//
 (* ****** ****** *)
 
 (* end of [funmset.hats] *)

@@ -92,5 +92,18 @@ fun{a:t0p}
 funmset_remove(xs: &mset(INV(a)) >> _, x0: a): intGte(0)
 //
 (* ****** ****** *)
+//
+fun{}
+fprint_funmset$sep
+  (out: FILEref): void // ", "
+//
+fun{a:t0p}
+fprint_funmset(out: FILEref, xs: mset(INV(a))): void
+fun{a:t0p}
+fprint_funmset_sep(out: FILEref, xs: mset(INV(a)), sep: string): void
+//
+overload fprint with fprint_funmset
+//
+(* ****** ****** *)
 
 (* end of [funmset.hats] *)

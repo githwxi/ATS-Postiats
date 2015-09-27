@@ -188,11 +188,12 @@ var env: void = () in funset_foreach_env<a><void> (xs, env)
 end // end of [funset_foreach]
 
 (* ****** ****** *)
-
+//
 implement
 {}(*tmp*)
 fprint_funset$sep
   (out) = fprint_string (out, ", ")
+//
 implement
 {a}(*tmp*)
 fprint_funset
@@ -201,7 +202,10 @@ fprint_funset
 implement
 funset_foreach$fwork<a><int>
   (x, env) = {
-  val () = if env > 0 then fprint_funset$sep (out)
+  val () =
+  if env > 0
+    then fprint_funset$sep (out)
+  // end of [val]
   val () = env := env + 1
   val () = fprint_val<a> (out, x)
 } (* end of [funset_foreach$fwork] *)
@@ -211,7 +215,19 @@ var env: int = 0
 in
   funset_foreach_env<a><int> (xs, env)
 end // end of [fprint_funset]
-
+//
+implement
+{a}(*tmp*)
+fprint_funset_sep
+  (out, xs, sep) = let
+//
+implement{}
+fprint_funset$sep(out) = fprint_string(out, sep)
+//
+in
+  fprint_funset<a> (out, xs)
+end // end of [fprint_set]
+//
 (* ****** ****** *)
 
 implement
