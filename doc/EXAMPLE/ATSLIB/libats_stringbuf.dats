@@ -113,10 +113,13 @@ val ((*void*)) = strptr_free (str)
 val () =
 {
 //
-val sbf = stringbuf_make_nil (i2sz(1))
+val sbf =
+  stringbuf_make_nil (i2sz(1))
 //
-val digits = $list_vt{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-val _ = stringbuf_insert_list<int> (sbf, $UN.list_vt2t(digits))
+val digits =
+  $list_vt{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+val _(*n*) =
+  stringbuf_insert_list<int> (sbf, $UN.list_vt2t(digits))
 val ((*void*)) = list_vt_free (digits)
 //
 var n: size_t
