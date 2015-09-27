@@ -37,18 +37,27 @@
 #define ATS_EXTERN_PREFIX "atslib_" // for extern names
 
 (* ****** ****** *)
-
-absvtype strobjref_vtype (l:addr)
-vtypedef strobjref (l:addr) = strobjref_vtype (l)
-viewtypedef Strobjref = [l:addr] strobjref (l)
-viewtypedef Strobjref0 = [l:addr | l >= null] strobjref (l)
-viewtypedef Strobjref1 = [l:addr | l >  null] strobjref (l)
-
+//
+absvtype
+strobjref_vtype (l:addr)
+vtypedef
+strobjref (l:addr) = strobjref_vtype (l)
+//
+vtypedef
+Strobjref = [l:addr] strobjref (l)
+vtypedef
+Strobjref0 = [l:agez] strobjref (l)
+vtypedef
+Strobjref1 = [l:addr | l > null] strobjref (l)
+//
 (* ****** ****** *)
-
-castfn strobjref2ptr{l:addr} (x: !strobjref (l)): ptr (l)
+//
+castfn
+strobjref2ptr
+  {l:addr} (x: !strobjref (l)): ptr (l)
+//
 overload ptrcast with strobjref2ptr
-
+//
 (* ****** ****** *)
 
 fun strobjref_make_nil ():<> strobjref (null)
@@ -79,42 +88,57 @@ fun strobjref_get1_strptr (x: !Strobjref1): Strptr1
 
 (* ****** ****** *)
 //
-fun lt_strobjref_strobjref
+fun
+lt_strobjref_strobjref
   (x1: !Strobjref, x2: !Strobjref):<> bool = "mac#%"
+fun
+lte_strobjref_strobjref
+  (x1: !Strobjref, x2: !Strobjref):<> bool = "mac#%"
+//
 overload < with lt_strobjref_strobjref
-fun lte_strobjref_strobjref
-  (x1: !Strobjref, x2: !Strobjref):<> bool = "mac#%"
 overload <= with lte_strobjref_strobjref
 //
-fun gt_strobjref_strobjref
+fun
+gt_strobjref_strobjref
   (x1: !Strobjref, x2: !Strobjref):<> bool = "mac#%"
+fun
+gte_strobjref_strobjref
+  (x1: !Strobjref, x2: !Strobjref):<> bool = "mac#%"
+//
 overload > with gt_strobjref_strobjref
-fun gte_strobjref_strobjref
-  (x1: !Strobjref, x2: !Strobjref):<> bool = "mac#%"
 overload >= with gte_strobjref_strobjref
 //
-fun eq_strobjref_strobjref
+fun
+eq_strobjref_strobjref
   (x1: !Strobjref, x2: !Strobjref):<> bool = "mac#%"
+fun
+neq_strobjref_strobjref
+  (x1: !Strobjref, x2: !Strobjref):<> bool = "mac#%"
+//
 overload = with eq_strobjref_strobjref
-fun neq_strobjref_strobjref
-  (x1: !Strobjref, x2: !Strobjref):<> bool = "mac#%"
 overload != with neq_strobjref_strobjref
 overload <> with neq_strobjref_strobjref
 //
 (* ****** ****** *)
-
-fun compare_strobjref_strobjref
+//
+fun
+compare_strobjref_strobjref
   (x1: !Strobjref, x2: !Strobjref):<> Sgn = "mac#%"
-overload compare with compare_strobjref_strobjref
-
+//
+overload
+compare with compare_strobjref_strobjref
+//
 (* ****** ****** *)
 //
-fun print_strobjref (x: !Strobjref): void
-fun prerr_strobjref (x: !Strobjref): void
+fun
+print_strobjref (x: !Strobjref): void
+fun
+prerr_strobjref (x: !Strobjref): void
+fun
+fprint_strobjref (out: FILEref, x: !Strobjref): void
+//
 overload print with print_strobjref
 overload prerr with prerr_strobjref
-//
-fun fprint_strobjref (out: FILEref, x: !Strobjref): void
 overload fprint with fprint_strobjref
 //
 (* ****** ****** *)

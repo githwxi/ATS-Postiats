@@ -138,17 +138,17 @@ dynarray_insert_at_opt
   (DA: !dynarray (INV(a)), i: size_t, x: a): Option_vt(a)
 //
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
 dynarray_insert_atbeg_exn (DA: !dynarray (INV(a)), x: a): void
 fun{a:vt0p}
 dynarray_insert_atbeg_opt (DA: !dynarray (INV(a)), x: a): Option_vt(a)
-
+//
 fun{a:vt0p}
 dynarray_insert_atend_exn (DA: !dynarray (INV(a)), x: a): void
 fun{a:vt0p}
 dynarray_insert_atend_opt (DA: !dynarray (INV(a)), x: a): Option_vt(a)
-
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
