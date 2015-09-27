@@ -52,8 +52,8 @@ aux : expr -> a = lam e0 =>
 //
 case+ e0 of
 | Int (i) => cata_expr_Int<a> (i)
-| Add (e1, e2) => cata_expr_Add (aux(e1), aux(e2))
-| Mul (e1, e2) => cata_expr_Mul (aux(e1), aux(e2))
+| Add (e1, e2) => cata_expr_Add<a> (aux(e1), aux(e2))
+| Mul (e1, e2) => cata_expr_Mul<a> (aux(e1), aux(e2))
 //
 ) (* end of [aux] *)
 //
@@ -89,8 +89,8 @@ expr_tostring : expr -> string
 //
 (* ****** ****** *)
 
-fn{
-} string0_append5
+fn{}
+string0_append5
 (
   x1: NSH(string)
 , x2: NSH(string)
@@ -119,10 +119,10 @@ cata_expr_Int<string>
   (i) = strptr2string(g0int2string(i))
 implement
 cata_expr_Add<string>
-  (e1, e2) = strptr2string(string_append("(", e1, "+", e2, ")"))
+  (e1, e2) = strptr2string(string0_append5("(", e1, "+", e2, ")"))
 implement
 cata_expr_Mul<string>
-  (e1, e2) = strptr2string(string_append("(", e1, "*", e2, ")"))
+  (e1, e2) = strptr2string(string0_append5("(", e1, "*", e2, ")"))
 //
 in
   cata_expr<string> (e0)
