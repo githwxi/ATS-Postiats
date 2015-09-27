@@ -100,6 +100,21 @@ funmset_intersect(xs: mset(INV(a)), ys: mset(a)): mset(a)
 //
 (* ****** ****** *)
 //
+fun
+{a:t0p}
+funmset_foreach(xs: mset(INV(a))): void
+fun
+{a:t0p}
+{env:vt0p}
+funmset_foreach_env(xs: mset(INV(a)), env: &(env) >> _): void
+//
+fun{
+a:t0p}{env:vt0p
+} funmset_foreach$fwork
+  (n: intGt(0), x: a, env: &(env) >> _): void
+//
+(* ****** ****** *)
+//
 fun{}
 fprint_funmset$sep
   (out: FILEref): void // ", "

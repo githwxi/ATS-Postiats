@@ -401,4 +401,34 @@ end // end of [funmset_intersect]
 
 (* ****** ****** *)
 
+implement
+{a}{env}
+funmset_foreach_env
+  (nxs, env) = let
+//
+fun
+loop:
+$d2ctype
+(
+  funmset_foreach_env<a><env>
+) =
+lam(nxs, env) =>
+(
+case+ nxs of
+| list_nil
+    ((*void*)) => ()
+| list_cons
+    ((n, x), nxs) => let
+    val () = funmset_foreach$fwork(n, x, env)
+  in
+    loop(nxs, env)
+  end // end of [list_cons]
+)
+//
+in
+  loop(nxs, env)
+end // end of [funmset_foreach_env]
+
+(* ****** ****** *)
+
 (* end of [funmset_listord.dats] *)

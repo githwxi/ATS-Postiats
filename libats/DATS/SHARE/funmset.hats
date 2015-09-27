@@ -52,6 +52,19 @@ funmset_isnot_member
   (xs, x0) = not(funmset_is_member<a> (xs, x0))
 //
 (* ****** ****** *)
+
+implement
+{a}(*tmp*)
+funmset_foreach
+  (nxs) = let
+//
+var env: void = ()
+//
+in
+  funmset_foreach_env<a><void> (nxs, env)
+end // end of [funmset_foreach]
+
+(* ****** ****** *)
 //
 implement
 {}(*tmp*)
@@ -70,6 +83,35 @@ in
   fprint_funmset<a> (out, xs)
 end // end of [fprint_funmset]
 //
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+fprint_funmset
+  (out, xs) = let
+//
+typedef tenv = int
+//
+implement
+funmset_foreach$fwork<a><tenv>
+  (n, x, env) = () where
+{
+//
+  val () =
+  if env > 0
+    then fprint_funmset$sep(out)
+  // end of [if]
+  val () = env := env + 1
+  val () = fprint_val<a> (out, x)
+  val () = fprint! (out, "(", n, ")")
+} (* end of [fprint_funmset$fwork] *)
+//
+var env: tenv = 0
+//
+in
+  funmset_foreach_env<a><tenv> (xs, env)
+end // end of [fprint_funmset]
+
 (* ****** ****** *)
 
 (* end of [funmset.hats] *)
