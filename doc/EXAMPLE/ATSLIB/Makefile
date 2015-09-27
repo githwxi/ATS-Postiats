@@ -591,6 +591,17 @@ cleanall:: ; $(RMF) libats_funset_avltree.exe
 
 ######
 
+all:: libats_funmset_listord
+libats_funmset_listord: libats_funmset_listord.exe
+libats_funmset_listord.exe: libats_funmset_listord_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_funmset_listord_dats.c: libats_funmset_listord.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_funmset_listord_dats.c --dynamic libats_funmset_listord.dats
+clean:: ; $(RMF) libats_funmset_listord_dats.o
+clean:: ; $(RMF) libats_funmset_listord_dats.c
+cleanall:: ; $(RMF) libats_funmset_listord.exe
+
+
+######
+
 all:: libats_fundeque_fngtree
 libats_fundeque_fngtree: libats_fundeque_fngtree.exe
 libats_fundeque_fngtree.exe: libats_fundeque_fngtree_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
