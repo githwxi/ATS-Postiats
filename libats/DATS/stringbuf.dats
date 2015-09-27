@@ -77,7 +77,8 @@ memmove (ptr, ptr, size_t):<!wrt> ptr = "mac#atslib_stringbuf_memmove"
 // 0: manual
 // 1: automatic doubling
 //
-implement{}
+implement
+{}(*tmp*)
 stringbuf$recapacitize () = 1 // default policy
 //
 (* ****** ****** *)
@@ -93,8 +94,9 @@ assume stringbuf_vtype = stringbuf
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_make_nil
+implement
+{}(*tmp*)
+stringbuf_make_nil
   (cap) = (sbf) where
 {
 //
@@ -110,15 +112,17 @@ val sbf = STRINGBUF ($UN.castvwtp0{arrayptr(char,m+1)}(A), p_A, cap)
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_free (sbf) =
+implement
+{}(*tmp*)
+stringbuf_free (sbf) =
   let val+~STRINGBUF (A, _, _) = sbf in arrayptr_free (A) end
 // end of [stringbuf_free]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_getfree_strptr
+implement
+{}(*tmp*)
+stringbuf_getfree_strptr
   (sbf) = let
 //
 val+~STRINGBUF(A, p, _) = sbf
@@ -130,8 +134,9 @@ end // end of [stringbuf_getfree_strptr]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_getfree_strnptr
+implement
+{}(*tmp*)
+stringbuf_getfree_strnptr
   (sbf, n0) = let
 //
 val+~STRINGBUF(A, p, _) = sbf
@@ -145,8 +150,9 @@ end // end of [stringbuf_getfree_strnptr]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_get_size
+implement
+{}(*tmp*)
+stringbuf_get_size
   (sbf) = let
 //
 val+STRINGBUF(A, p, _) = sbf
@@ -155,22 +161,25 @@ in
   $UN.cast{size_t}(p - ptrcast(A))
 end // end of [stringbuf_get_size]
 
-implement{
-} stringbuf_get_capacity
+implement
+{}(*tmp*)
+stringbuf_get_capacity
   (sbf) =
   let val+STRINGBUF (_, _, cap) = sbf in cap end
 // end of [stringbuf_get_capacity]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_get_bufptr
+implement
+{}(*tmp*)
+stringbuf_get_bufptr
   (sbf) = let
   val+STRINGBUF (A, _, _) = sbf in $UN.castvwtp1{Ptr1}(A)
 end // end of [stringbuf_get_bufptr]
 
-implement{
-} stringbuf_get_strptr
+implement
+{}(*tmp*)
+stringbuf_get_strptr
   (sbf) = let
   val+STRINGBUF (A, p, _) = sbf
   val () = $UN.ptr0_set<char> (p, '\000') in $UN.castvwtp1{vStrptr1}(A)
@@ -178,8 +187,9 @@ end // end of [stringbuf_get_strptr]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_takeout_strbuf
+implement
+{}(*tmp*)
+stringbuf_takeout_strbuf
   (sbf, n0) = let
 //
 val+STRINGBUF(A, p1, _) = sbf
@@ -200,8 +210,9 @@ end // end of [stringbuf_takeout_strbuf]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_reset_capacity
+implement
+{}(*tmp*)
+stringbuf_reset_capacity
   (sbf, m2) = let
 //
 val n = stringbuf_get_size (sbf)
@@ -236,8 +247,9 @@ end // end of [stringbuf_reset_capacity]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_get_at
+implement
+{}(*tmp*)
+stringbuf_get_at
   (sbf, i) = let
 //
 var n: size_t
@@ -253,8 +265,9 @@ end // end of [strigbuf_get_at]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_rget_at
+implement
+{}(*tmp*)
+stringbuf_rget_at
   (sbf, i) = let
 //
 var n: size_t
@@ -270,8 +283,9 @@ end // end of [strigbuf_rget_at]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_insert_char
+implement
+{}(*tmp*)
+stringbuf_insert_char
   (sbf, x) = let
 //
 val+@STRINGBUF(A, p, m) = sbf
@@ -302,8 +316,9 @@ end // end of [stringbuf_insert_char]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_insert_string
+implement
+{}(*tmp*)
+stringbuf_insert_string
   (sbf, x) = let
   val x = g1ofg0(x)
 in
@@ -321,8 +336,9 @@ _stringbuf_pow2min (s1, s2) =
 //
 (* ****** ****** *)
 
-implement{
-} stringbuf_insert_strlen
+implement
+{}(*tmp*)
+stringbuf_insert_strlen
   (sbf, x, nx) = let
 //
 val+@STRINGBUF(A, p, m) = sbf
@@ -356,8 +372,9 @@ end // end of [stringbuf_insert_char]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_insert_bool
+implement
+{}(*tmp*)
+stringbuf_insert_bool
   (sbf, x) = let
 in
 //
@@ -370,32 +387,36 @@ end // end of [stringbuf_insert_bool]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_insert_int
+implement
+{}(*tmp*)
+stringbuf_insert_int
   (sbf, x) = let
   val sbf = $UN.castvwtp1{ptr}(sbf)
   val recap = stringbuf$recapacitize ()
 in
   $extfcall(int, "atslib_stringbuf_insert_snprintf", sbf, recap, "%i", x)
 end // end of [stringbuf_insert_int]
-implement{
-} stringbuf_insert_uint
+implement
+{}(*tmp*)
+stringbuf_insert_uint
   (sbf, x) = let
   val sbf = $UN.castvwtp1{ptr}(sbf)
   val recap = stringbuf$recapacitize ()
 in
   $extfcall(int, "atslib_stringbuf_insert_snprintf", sbf, recap, "%u", x)
 end // end of [stringbuf_insert_uint]
-implement{
-} stringbuf_insert_lint
+implement
+{}(*tmp*)
+stringbuf_insert_lint
   (sbf, x) = let
   val sbf = $UN.castvwtp1{ptr}(sbf)
   val recap = stringbuf$recapacitize ()
 in
   $extfcall(int, "atslib_stringbuf_insert_snprintf", sbf, recap, "%li", x)
 end // end of [stringbuf_insert_lint]
-implement{
-} stringbuf_insert_ulint
+implement
+{}(*tmp*)
+stringbuf_insert_ulint
   (sbf, x) = let
   val sbf = $UN.castvwtp1{ptr}(sbf)
   val recap = stringbuf$recapacitize ()
@@ -405,8 +426,9 @@ end // end of [stringbuf_insert_ulint]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_insert_fread
+implement
+{}(*tmp*)
+stringbuf_insert_fread
   (sbf, inp, nb) = let
 //
 val+@STRINGBUF(A, p, m) = sbf
@@ -434,8 +456,9 @@ end // end of [stringbuf_insert_fread]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_insert_fgets
+implement
+{}(*tmp*)
+stringbuf_insert_fgets
   (sbf, inp, last) = let
 //
 val+@STRINGBUF(A, p, m) = sbf
@@ -500,7 +523,8 @@ stringbuf_insert_val<string> = stringbuf_insert_string
 //
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 stringbuf_insert_list
   (sbf, xs) = let
 //
@@ -527,8 +551,9 @@ end // end of [stringbuf_insert_list]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_takeout
+implement
+{}(*tmp*)
+stringbuf_takeout
   (sbf, i) = let
 //
 val+@STRINGBUF(A, p1, _) = sbf
@@ -554,8 +579,9 @@ end // end of [stringbuf_takeout]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_takeout_all
+implement
+{}(*tmp*)
+stringbuf_takeout_all
   (sbf) = let
 //
 val+@STRINGBUF(A, p1, _) = sbf
@@ -577,8 +603,9 @@ end // end of [stringbuf_takeout_all]
 
 (* ****** ****** *)
   
-implement{
-} stringbuf_remove
+implement
+{}(*tmp*)
+stringbuf_remove
   (sbf, i) = () where
 {
 //
@@ -600,8 +627,9 @@ prval () = fold@ (sbf)
   
 (* ****** ****** *)
 
-implement{
-} stringbuf_remove_all
+implement
+{}(*tmp*)
+stringbuf_remove_all
   (sbf) = () where
 {
 //
@@ -613,8 +641,9 @@ prval ((*void*)) = fold@ (sbf)
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_truncate
+implement
+{}(*tmp*)
+stringbuf_truncate
   (sbf, n2) = let
 //
 val+@STRINGBUF(A, p1, _) = sbf
@@ -642,8 +671,9 @@ end // end of [stringbuf_truncate]
 
 (* ****** ****** *)
 
-implement{
-} stringbuf_truncout
+implement
+{}(*tmp*)
+stringbuf_truncout
   (sbf, n2) = let
 //
 fun aux .<>.
@@ -687,11 +717,12 @@ if (
 end // end of [stringbuf_truncout]
 
 (* ****** ****** *)
-
-implement{
-} stringbuf_truncout_all (sbf) =
+//
+implement
+{}(*tmp*)
+stringbuf_truncout_all (sbf) =
   $UN.castvwtp0{Strptr1}(stringbuf_truncout (sbf, i2sz(0)))
-  
+//  
 (* ****** ****** *)
 //
 extern
@@ -779,7 +810,7 @@ atslib_stringbuf_insert_vsnprintf
 //
 } // end of [atslib_stringbuf_insert_snprintf]
 //
-%}
+%} // end of [%{$]
 
 (* ****** ****** *)
 
