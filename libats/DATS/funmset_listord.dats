@@ -85,6 +85,10 @@ funmset_make_nil () = list_nil()
 //
 implement
 {a}(*tmp*)
+funmset_sing
+  (x) = list_cons((1, x), list_nil)
+implement
+{a}(*tmp*)
 funmset_make_sing
   (x) = list_cons((1, x), list_nil)
 //
