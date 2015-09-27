@@ -31,14 +31,10 @@ sortdef t0p = t@ype
 
 (* ****** ****** *)
 //
-// HX: for sets of elements of type a
-//
-abstype set_type (a:t@ype+) = ptr
-//
-(* ****** ****** *)
-
+abstype
+set_type (a:t@ype+) = ptr
 typedef set (a:t0p) = set_type (a)
-
+//
 (* ****** ****** *)
 
 fun{a:t0p}
