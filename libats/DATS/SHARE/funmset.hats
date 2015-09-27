@@ -45,6 +45,26 @@ funmset_isnot_nil
   (xs) = not(funmset_is_nil<> (xs))
 //
 (* ****** ****** *)
+
+implement
+{a}(*tmp*)
+funmset_size(xs) = let
+//
+typedef tenv = size_t
+//
+implement(a)
+funmset_foreach$fwork<a><tenv>
+  (n, x, env) = (env := env + i2sz(n))
+//
+var env: tenv = i2sz(0)
+//
+in
+//
+  $effmask_all(funmset_foreach_env<a><tenv> (xs, env)); env
+//
+end // end of [funmset_size]
+//
+(* ****** ****** *)
 //
 implement
 {a}(*tmp*)

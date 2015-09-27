@@ -29,9 +29,11 @@
 
 (*
 **
-** A functional mset based on ordered lists
+** Functional mset
+** based on ordered lists
 **
-** Contributed by Hongwei Xi (hwxiATcsDOTbuDOTedu)
+** Contributed by
+** Hongwei Xi (hwxiATcsDOTbuDOTedu)
 ** Time: May 18, 2011
 **
 *)
@@ -42,9 +44,11 @@
 // ported to ATS/Postitats from ATS/Anairiats
 //
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.funmset_listord"
-
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.funmset_listord"
+//
 (* ****** ****** *)
 
 #include "./SHARE/funmset.hats"
@@ -52,7 +56,8 @@
 (* ****** ****** *)
 //
 castfn
-funmset2list{a:t0p} (xs: mset(INV(a))):<> List0 @(intGt(1), a)
+funmset2list{a:t0p}
+  (xs: mset(INV(a))):<> List0 @(intGt(1), a)
 //
 (* ****** ****** *)
 

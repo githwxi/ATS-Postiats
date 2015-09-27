@@ -29,9 +29,11 @@
 
 (*
 **
-** A functional set based on ordered lists
+** Functional set
+** based on ordered lists
 **
-** Contributed by Hongwei Xi (hwxiATcsDOTbuDOTedu)
+** Contributed by
+** Hongwei Xi (hwxiATcsDOTbuDOTedu)
 ** Time: May 18, 2011
 **
 *)
@@ -43,7 +45,9 @@
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.funset_listord"
+#define
+ATS_PACKNAME
+"ATSLIB.libats.funset_listord"
 
 (* ****** ****** *)
 
