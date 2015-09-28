@@ -38,30 +38,41 @@
 (* ****** ****** *)
 //
 #define
-ATS_PACKNAME "ATSLIB.libats.thegetset"
+ATS_PACKNAME "ATSLIB.libats.theGetSet"
 //
+(* ****** ****** *)
+
+exception
+Exception_the_get_elt_exn of ()
+exception
+Exception_the_set_elt_exn of ()
+
 (* ****** ****** *)
 //
 fun{a:vt0p}
-the_get_elt_exn(): a
+the_get_elt
+(
+  x: &a? >> opt(a,b)
+) : #[b:bool] bool(b)
 //
 fun{a:vt0p}
-the_get_list_exn(): List0_vt(a)
+the_getall_list(): List0_vt(a)
 fun{a:vt0p}
-the_get_arrayptr_exn
+the_getall_arrayptr
   (asz: &size_t? >> size_t(n)): #[n:int] arrayptr(a, n)
 //
 (* ****** ****** *)
 //
 fun{a:vt0p}
-the_get_elt_opt(): Option_vt(a)
-//
+the_get_elt_exn(): (a)
 fun{a:vt0p}
-the_get_list_opt(): List0_vt(a)
+the_getall_list_exn(): List0_vt(a)
 fun{a:vt0p}
-the_get_arrayptr_opt
+the_getall_rlist_exn(): List0_vt(a)
+fun{a:vt0p}
+the_getall_arrayptr_exn
   (asz: &size_t? >> size_t(n)): #[n:int] arrayptr(a, n)
 //
 (* ****** ****** *)
 
-(* end of [thegetset.sats] *)
+(* end of [theGetSet.sats] *)
