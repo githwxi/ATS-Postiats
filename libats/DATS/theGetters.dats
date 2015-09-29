@@ -28,8 +28,8 @@
 
 (* ****** ****** *)
 //
-// Various Common
-// generic get-set-templates
+// HX-2015-09-28:
+// Some templates for getters
 //
 (* ****** ****** *)
 
@@ -38,7 +38,7 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/theGetSet.sats"
+staload "libats/SATS/theGetters.sats"
 
 (* ****** ****** *)
 
@@ -220,4 +220,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [theGetSet.dats] *)
+(* end of [theGetters.dats] *)

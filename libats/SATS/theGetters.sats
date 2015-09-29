@@ -33,19 +33,20 @@
 //
 (* ****** ****** *)
 //
-// Common generic get-set-templates
+(*
+HX-2015-09-28:
+Some generic templates for getters
+*)
 //
 (* ****** ****** *)
 //
 #define
-ATS_PACKNAME "ATSLIB.libats.theGetSet"
+ATS_PACKNAME "ATSLIB.libats.theGetters"
 //
 (* ****** ****** *)
 
 exception
-Exception_the_get_elt_exn of ()
-exception
-Exception_the_set_elt_exn of ()
+Exception_the_get_elt_exn of ((*void*))
 
 (* ****** ****** *)
 //
@@ -77,11 +78,5 @@ the_getall_arrayptr_exn
   (asz: &size_t? >> size_t(n)): #[n:int] arrayptr(a, n)
 //
 (* ****** ****** *)
-//
-fun{a:vt0p}
-the_set_elt
-  (x: &a >> opt(a,b)): #[b:bool] bool(b)
-//
-(* ****** ****** *)
 
-(* end of [theGetSet.sats] *)
+(* end of [theGetters.sats] *)
