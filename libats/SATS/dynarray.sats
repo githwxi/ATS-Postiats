@@ -57,7 +57,7 @@ dynarray (a:vt0p) = dynarray_vtype (a)
 (* ****** ****** *)
 
 fun{a:vt0p}
-dynarray_make_nil (cap: sizeGte(1)): dynarray (a)
+dynarray_make_nil (cap: sizeGte(1)): dynarray(a)
 
 (* ****** ****** *)
 

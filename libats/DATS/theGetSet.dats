@@ -80,6 +80,7 @@ end // end of [then]
 else let
   prval
     () = opt_unnone(x)
+  // end of [prval]
   val () = free@{a}{0}(res)
   val () = res := list_vt_nil()
 in
@@ -88,11 +89,34 @@ end // end of [else]
 //
 end // end of [loop]
 //
-var res: ptr
+var res: ptr // uninitized
 //
 in
   loop(res); res
 end // end of [the_getall_list]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+the_get_elt_exn
+  ((*void*)) = let
+//
+var x: a? // uninitized
+val ans = the_get_elt<a> (x)
+//
+in
+//
+if
+ans
+then let
+  prval () = opt_unsome(x) in x
+end // end of [then]
+else let
+  prval () = opt_unnone(x) in $raise Exception_the_get_elt_exn()
+end // end of [else]
+//
+end // end of [the_get_elt_exn]
 
 (* ****** ****** *)
 
@@ -140,6 +164,59 @@ val ((*void*)) =
 in
   res
 end // end of [the_getall_rlist_exn]
+
+(* ****** ****** *)
+
+local
+//
+staload
+"libats/SATS/dynarray.sats"
+//
+(*
+staload
+_ = "libats/DATS/dynarray.dats"
+*)
+in (* in-of-local *)
+//
+implement
+{}(*tmp*)
+the_getall_asz_hint
+  ((*void*)) = i2sz(64)
+//
+implement
+{a}(*tmp*)
+the_getall_arrayptr_exn
+  (asz) = let
+//
+vtypedef DA = dynarray(a)
+//
+fun
+loop
+(
+  DA: ptr
+) : void = loop(DA) where
+{
+  val x =
+    the_get_elt_exn()
+  // end of [val]
+  val DA =
+    $UN.castvwtp0{DA}(DA)
+  // end of [val]
+  val () =
+    dynarray_insert_atend_exn<a>(DA, x)
+  // end of [val]
+  val DA = $UN.castvwtp0{ptr}(DA)
+} (* end of [loop] *)
+//
+val n0 = the_getall_asz_hint()
+val DA = dynarray_make_nil<a>(n0)
+val () = loop($UN.castvwtp1{ptr}(DA))
+//
+in
+  dynarray_getfree_arrayptr{a}(DA, asz)
+end // end of [the_getall_arrayptr_exn]
+//
+end // end of [local]
 
 (* ****** ****** *)
 
