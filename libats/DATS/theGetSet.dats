@@ -44,6 +44,60 @@ staload "libats/SATS/theGetSet.sats"
 
 implement
 {a}(*tmp*)
+the_getall_list
+  ((*void*)) = let
+//
+vtypedef
+res_vt = List0_vt(a)
+//
+fun
+loop
+(
+  res: &ptr? >> res_vt
+) : void = let
+//
+val () =
+  res :=
+  list_vt_cons{a}{0}(_, _)
+//
+val+list_vt_cons(x, res1) = res
+//
+val ans = the_get_elt<a>(x)
+//
+in
+//
+if
+ans
+then let
+  prval
+    () = opt_unsome(x)
+  // end of [prval]
+  val () = loop(res1)
+  prval () = fold@(res)
+in
+  // nothing
+end // end of [then]
+else let
+  prval
+    () = opt_unnone(x)
+  val () = free@{a}{0}(res)
+  val () = res := list_vt_nil()
+in
+  // nothing
+end // end of [else]
+//
+end // end of [loop]
+//
+var res: ptr
+//
+in
+  loop(res); res
+end // end of [the_getall_list]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 the_getall_list_exn
   ((*void*)) =
 (

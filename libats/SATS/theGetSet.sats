@@ -74,5 +74,11 @@ the_getall_arrayptr_exn
   (asz: &size_t? >> size_t(n)): #[n:int] arrayptr(a, n)
 //
 (* ****** ****** *)
+//
+fun{a:vt0p}
+the_set_elt
+  (x: &a >> opt(a,b)): #[b:bool] bool(b)
+//
+(* ****** ****** *)
 
 (* end of [theGetSet.sats] *)
