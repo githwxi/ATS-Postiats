@@ -304,7 +304,15 @@ loop
 //
 val n0 = the_getall_asz_hint()
 val DA = dynarray_make_nil<a>(n0)
-val () = loop($UN.castvwtp1{ptr}(DA))
+val p_DA = $UN.castvwtp1{ptr}(DA)
+//
+val () =
+ptr_as_volatile (p_DA) // longjmp/setjmp bug
+//
+val ((*void*)) =
+(
+  try loop(p_DA) with ~Exception_the_get_elt_exn() => ()
+) : void // end of [val]
 //
 in
   dynarray_getfree_arrayptr{a}(DA, asz)
