@@ -155,10 +155,15 @@ loop
 var
 res: ptr =
   list_vt_nil()
+val
+p_res = addr@res
+//
+val () =
+ptr_as_volatile (p_res) // longjmp/setjmp bug
 //
 val ((*void*)) =
 (
-  try loop(addr@res) with ~Exception_the_get_elt_exn() => ()
+  try loop(p_res) with ~Exception_the_get_elt_exn() => ()
 ) : void // end of [val]
 //
 in

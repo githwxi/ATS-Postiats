@@ -34,8 +34,8 @@
 (* ****** ****** *)
 //
 (*
-HX-2015-09-28:
-Some generic templates for getters
+// HX-2015-09-28:
+// Some templates for getters
 *)
 //
 (* ****** ****** *)
@@ -44,10 +44,10 @@ Some generic templates for getters
 ATS_PACKNAME "ATSLIB.libats.theGetters"
 //
 (* ****** ****** *)
-
+//
 exception
 Exception_the_get_elt_exn of ((*void*))
-
+//
 (* ****** ****** *)
 //
 fun{a:vt0p}
