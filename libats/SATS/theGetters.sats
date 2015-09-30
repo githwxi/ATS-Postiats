@@ -50,6 +50,11 @@ Exception_the_get_elt_exn of ((*void*))
 //
 (* ****** ****** *)
 //
+fun{}
+the_getall_asz_hint((*void*)): sizeGte(1)
+//
+(* ****** ****** *)
+//
 fun{a:vt0p}
 the_get_elt
 (
@@ -71,8 +76,6 @@ the_getall_list_exn(): List0_vt(a)
 fun{a:vt0p}
 the_getall_rlist_exn(): List0_vt(a)
 //
-fun{}
-the_getall_asz_hint(): sizeGte(1)
 fun{a:vt0p}
 the_getall_arrayptr_exn
   (asz: &size_t? >> size_t(n)): #[n:int] arrayptr(a, n)
