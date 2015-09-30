@@ -41,6 +41,12 @@ UN = "prelude/SATS/unsafe.sats"
 staload "libats/SATS/theGetters.sats"
 
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+the_getall_asz_hint((*void*)) = i2sz(64)
+//  
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
@@ -94,6 +100,94 @@ var res: ptr // uninitized
 in
   loop(res); res
 end // end of [the_getall_list]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+the_getall_arrayptr
+  (asz) = let
+//
+fun
+loop
+(
+  pp: ptr, pa: ptr, pz: ptr, asz: &size_t? >> _
+) : ptr = (
+//
+if
+pp < pz
+then let
+//
+val (
+  pf, fpf | pp
+) = $UN.ptr0_vtake{a?}(pp)
+val ans = the_get_elt<a>(!pp)
+prval () = $UN.cast2void((fpf, pf | pp))
+//
+in
+//
+if ans
+  then
+    loop(ptr0_succ<a>(pp), pa, pz, asz)
+  // end of [then]
+  else let
+    val () =
+    asz := $UN.cast2size(pp-pa)/sizeof<a> in pa
+  end // end of [else]
+// end of [if]
+//
+end // end of [then]
+else let
+//
+val n =
+$UN.cast2size(pz-pa)/sizeof<a>
+val n = $UN.cast{sizeGte(1)}(n)
+val n2 = n + n
+//
+val pa2 =
+$UN.castvwtp0{ptr}
+(
+  arrayptr_make_uninitized<a>(n2)
+)
+//
+extern
+fun
+memcpy
+(
+  dst: ptr, src: ptr, bsz: size_t
+) : ptr = "atslib_memcpy"
+val _ = memcpy(pa2, pa, n*sizeof<a>)
+//
+val pp2 = ptr_add<a>(pa2, n)
+val pz2 = ptr_add<a>(pa2, n2)
+//
+in
+  loop (pp2, pa2, pz2, asz)
+end // end of [else]
+//
+) (* end of [loop] *)
+//
+val n =
+the_getall_asz_hint()
+//
+val pa =
+$UN.castvwtp0{ptr}
+  (arrayptr_make_uninitized<a>(n))
+//
+val pz = ptr_add<a> (pa, n)
+//
+val pa = loop(pa, pa, pz, asz)
+//
+val [n:int] n = g1ofg0_uint(asz)
+//
+prval
+[l:addr]
+EQADDR() = eqaddr_make_ptr(addr@asz)
+prval () = view@asz := $UN.castview0{size_t(n)@l}(view@asz)
+//
+in
+  $UN.castvwtp0{arrayptr(a, n)}(asz)  
+end // end of [the_getall_arrayptr]
 
 (* ****** ****** *)
 
@@ -182,11 +276,6 @@ staload
 _ = "libats/DATS/dynarray.dats"
 *)
 in (* in-of-local *)
-//
-implement
-{}(*tmp*)
-the_getall_asz_hint
-  ((*void*)) = i2sz(64)
 //
 implement
 {a}(*tmp*)
