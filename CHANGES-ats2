@@ -24,6 +24,7 @@ Here is a list of major additions and changes since the last release:
 
 1. Fixing a bug due to abstract types being given the 'empty' name.
 2. Adding libats/theGetters
+3. Fixing a bug in ATS-extsolve (involving the s2rtdatmap generation)
 
 ######
 

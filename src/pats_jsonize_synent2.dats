@@ -243,8 +243,10 @@ val sym =
   jsonize_symbol(s2rtdat_get_sym(s2td))
 val stamp =
   jsonize_stamp(s2rtdat_get_stamp(s2td))
+//
 val sconlst=
-  jsonize_s2cstlst(s2rtdat_get_sconlst(s2td))
+jsonize_list_fun{s2cst}
+  (s2rtdat_get_sconlst(s2td), jsonize_s2cst_long)
 //
 in
 //

@@ -155,6 +155,10 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/theGetters.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/typeval.sats")
 
 (* ****** ****** *)
@@ -294,6 +298,10 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("DATS/stringbuf.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/theGetters.dats")
 
 (* ****** ****** *)
 

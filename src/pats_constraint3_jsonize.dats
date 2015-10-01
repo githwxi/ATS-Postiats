@@ -371,7 +371,10 @@ fun
 aux_s2cst
 (
   s2c: s2cst, res: s2tds
-) : s2tds = aux_s2rt(s2cst_get_srt(s2c), res)
+) : s2tds =
+(
+  aux_s2rt(s2cst_get_srt(s2c), res)
+)
 fun
 aux_s2cstlst
 (
@@ -389,7 +392,10 @@ fun
 aux_s2var
 (
   s2v: s2var, res: s2tds
-) : s2tds = aux_s2rt(s2var_get_srt(s2v), res)
+) : s2tds =
+(
+  aux_s2rt(s2var_get_srt(s2v), res)
+)
 fun
 aux_s2varlst
 (
