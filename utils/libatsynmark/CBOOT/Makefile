@@ -64,15 +64,6 @@ all:: libatsynmark
 
 ######
 
-CBOOT:: ; $(CPF) pats_*_sats.c CBOOT
-CBOOT:: ; $(CPF) pats_*_dats.c CBOOT
-CBOOT:: ; $(CPF) dynloadall_dats.c CBOOT
-CBOOT:: ; $(CPF) libatsynmark_sats.c CBOOT
-CBOOT:: ; $(CPF) libatsynmark_dats.c CBOOT
-CBOOT:: ; $(CPF) libatsynmark_*_dats.c CBOOT
-
-######
-
 SOURCES = \
   pats_error.sats \
   pats_error.dats \
@@ -133,10 +124,10 @@ libatsynmark:: $(OBJECTS)
 ######
 #
 %_sats.o: \
-$(PATSHOME)/src/%.sats ; \
+$(PATSHOME)/src/%_sats.c ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 %_dats.o: \
-$(PATSHOME)/src/%.dats ; \
+$(PATSHOME)/src/%_dats.c ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 #
 ######
@@ -144,12 +135,12 @@ $(PATSHOME)/src/%.dats ; \
 libatsynmark:: \
 libatsynmark_sats.o
 libatsynmark_sats.o: \
-SATS/libatsynmark.sats ; \
+libatsynmark_sats.c ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 libatsynmark:: \
 libatsynmark_dats.o
 libatsynmark_dats.o: \
-DATS/libatsynmark.dats ; \
+libatsynmark_dats.c ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 #
 libatsynmark:: libatsynmark_psynmark_dats.o
@@ -158,34 +149,37 @@ libatsynmark:: libatsynmark_pats2xhtml_bground_dats.o
 libatsynmark:: libatsynmark_pats2xhtml_embedded_dats.o
 #
 libatsynmark_psynmark_dats.o: \
-DATS/libatsynmark_psynmark.dats ; \
+libatsynmark_psynmark_dats.c ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 libatsynmark_pats2xhtml_dats.o: \
-DATS/libatsynmark_pats2xhtml.dats ; \
+libatsynmark_pats2xhtml_dats.c ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 libatsynmark_pats2xhtml_bground_dats.o: \
-DATS/libatsynmark_pats2xhtml_bground.dats ; \
+libatsynmark_pats2xhtml_bground_dats.c ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 libatsynmark_pats2xhtml_embedded_dats.o: \
-DATS/libatsynmark_pats2xhtml_embedded.dats ; \
+libatsynmark_pats2xhtml_embedded_dats.c ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 #
 ######
 
 libatsynmark:: dynloadall_dats.o
-dynloadall_dats.o: dynloadall.dats
+dynloadall_dats.o: dynloadall_dats.c
 	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 
 ######
 
 AR=ar
 RMF=rm -f
-CPF=cp -f
 
 ######
 
 clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.c *_?ats.o
+clean:: ; $(RMF) pats_*_?ats.o
+clean:: ; $(RMF) dynloadall_dats.o
+clean:: ; $(RMF) libatsynmark_sats.o
+clean:: ; $(RMF) libatsynmark_dats.o
+clean:: ; $(RMF) libatsynmark_*_dats.o
 
 cleanall:: clean
 cleanall:: ; $(RMF) libatsynmark.a
