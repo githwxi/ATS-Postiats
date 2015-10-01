@@ -123,11 +123,9 @@ libatsynmark:: $(OBJECTS)
 
 ######
 #
-%_sats.o: \
-$(PATSHOME)/src/%_sats.c ; \
+%_sats.o: %_sats.c ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
-%_dats.o: \
-$(PATSHOME)/src/%_dats.c ; \
+%_dats.o: %_dats.c ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 #
 ######

@@ -27,13 +27,6 @@ all:: pats2xhtml
 
 ######
 
-CBOOT:: ; $(CPF) pats_*_sats.c CBOOT
-CBOOT:: ; $(CPF) pats_*_dats.c CBOOT
-CBOOT:: ; $(CPF) pats2xhtml_sats.c CBOOT
-CBOOT:: ; $(CPF) pats2xhtml_*_dats.c CBOOT
-
-######
-
 OBJECTS := \
   pats_utils_sats.o \
   pats_utils_dats.o \
@@ -73,41 +66,39 @@ OBJECTS := \
 
 ######
 
-%_sats.o: \
-  $(PATSHOME)/src/%.sats; $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
-%_dats.o: \
-  $(PATSHOME)/src/%.dats; $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
+%_sats.o: %_sats.c; \
+  $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
+%_dats.o: %_dats.c; \
+  $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
 
 ######
 ##
 pats2xhtml_sats.o: \
-  SATS/pats2xhtml.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
+pats2xhtml_sats.c ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 ##
 pats2xhtml_level1_dats.o: \
-  DATS/pats2xhtml_level1.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
+pats2xhtml_level1_dats.c ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 ##
 ######
 ##
 pats2xhtml: \
-  DATS/pats2xhtml_main.dats $(OBJECTS) ; \
+pats2xhtml_main_dats.c $(OBJECTS) ; \
   $(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $< $(OBJECTS) -L $(PATSHOME)/utils/libatsynmark -latsynmark -lgmp
-##
-cleanall:: ; $(RMF) pats2xhtml
 ##
 ######
 
-CPF=cp -f
 RMF=rm -f
 
 ######
 
 clean:: ; $(RMF) *~
-clean:: ; $(RMF) */*~
-clean:: ; $(RMF) *_?ats.c
-clean:: ; $(RMF) *_?ats.o
+clean:: ; $(RMF) pats_*_?ats.o
+clean:: ; $(RMF) pats2xhtml_sats.o
+clean:: ; $(RMF) pats2xhtml_*_dats.o
 
 ######
-
+##
 cleanall:: clean
-
+cleanall:: ; $(RMF) pats2xhtml
+##
 ###### end of [Makefile for atsynmark] ######

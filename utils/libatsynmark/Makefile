@@ -179,8 +179,8 @@ dynloadall_dats.o: dynloadall.dats
 ######
 
 AR=ar
-RMF=rm -f
 CPF=cp -f
+RMF=rm -f
 
 ######
 
