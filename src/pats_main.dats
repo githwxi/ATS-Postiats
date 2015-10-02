@@ -32,13 +32,15 @@
 // Start Time: March, 2011
 //
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
-staload STDIO = "libc/SATS/stdio.sats"
+staload
+STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
@@ -131,10 +133,10 @@ staload
 CNSTR3 = "./pats_constraint3.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
-
+//
 (* ****** ****** *)
 
 staload TYER = "./pats_typerase.sats"
@@ -143,6 +145,15 @@ staload TYER = "./pats_typerase.sats"
 
 staload CCOMP = "./pats_ccomp.sats"
 
+(* ****** ****** *)
+//
+// HX-2015-10-02:
+//
+#define
+ATS_DYNLOADFLAG 0 // manual dynloading
+#define
+ATS_DYNLOADFUN_NAME "libatsopt_dynloadall"
+//
 (* ****** ****** *)
 //
 dynload "pats_error.dats"
@@ -1715,6 +1726,11 @@ val () =
 (
 case+ key of
 //
+| "--help" =>
+  patsopt_usage
+    (stdout_ref, state.comarg0)
+  // end of [--help]
+//
 | "--output" =>
     state.waitkind := WTKoutput ()
 | "--output-w" => {
@@ -1771,12 +1787,9 @@ case+ key of
     val () = state.cnstrsolveflag := ~1
   }
 //
-| "--help" =>
-    patsopt_usage (stdout_ref, state.comarg0)
-//
 | "--version" => patsopt_version (stdout_ref)
 //
-| _ => comarg_warning (key) // unrecognized key
+| _ (*unrecognized*) => comarg_warning (key)
 //
 ) : void // end of [val]
 //
@@ -1789,8 +1802,9 @@ end // end of [process_cmdline2_COMARGkey2]
 extern
 fun
 patsopt_main
-  {n:int | n > 0}
+  {n:pos}
   (argc: int(n), argc: &(@[string][n])): void
+  = "ext#patsopt_main"
 //
 (* ****** ****** *)
 

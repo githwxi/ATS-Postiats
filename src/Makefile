@@ -581,7 +581,7 @@ cleanall:: ; $(RMF) patsopt
 AR=ar
 #
 libatsopt.a: $(OBJECTS) ; \
-  $(ATSCC) -DPATSOPT_MAIN_NONE $(CFLAGS) $(GCFLAG) -c pats_main.dats && $(AR) -r $@ pats_main_dats.o $(OBJECTS)
+  $(ATSCC) -DATS PATSOPT_MAIN_NONE $(CFLAGS) $(GCFLAG) -c pats_main.dats && $(AR) -r $@ pats_main_dats.o $(OBJECTS)
 cleanall:: ; $(RMF) libpatsopt.a
 #
 ######
