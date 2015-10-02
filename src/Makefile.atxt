@@ -490,13 +490,25 @@ end // end of [fproc]
 in // in of [local]
 
 fun
-process_compile_lines () = let
-  val ys =
-    list_mapopt_fun<string><atext> (SOURCES, fproc)
-  val res1 = atext_concatxt ((l2l)ys)
-  val- ~Some_vt (res2) = fproc ("pats_main.dats")
+process_compile_lines
+  ((*void*)) = let
+//
+val ys =
+list_mapopt_fun<string><atext>
+  (SOURCES, fproc)
+// end of [val]
+val res1 = atext_concatxt ((l2l)ys)
+(*
+val-
+~Some_vt
+  (res2) = fproc ("pats_main.dats")
+// end of [val]
+*)
 in
+  res1
+(*
   atext_apptxt2 (res1, res2)
+*)
 end // end of [process_compile_lines]
 
 end // end of [local]
@@ -587,10 +599,17 @@ all:: patsopt
 # link order matters to GNU ld
 # please keep the order '$(LIBATS) $(LIBGMP)' as libats depends on libgmp
 #
-patsopt: \\
-  pats_main_dats.o $(OBJECTS) ; \\
-  $(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main_dats.o $(OBJECTS) $(LIBATS) $(LIBGMP)
+patsopt: $(OBJECTS) ; \\
+  $(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main.dats $(OBJECTS) $(LIBATS) $(LIBGMP)
 cleanall:: ; $(RMF) patsopt
+#
+######
+#
+AR=ar
+#
+libatsopt.a: $(OBJECTS) ; \\
+  $(ATSCC) -DPATSOPT_MAIN_NONE $(CFLAGS) $(GCFLAG) -c pats_main.dats && $(AR) -r $@ pats_main_dats.o $(OBJECTS)
+cleanall:: ; $(RMF) libpatsopt.a
 #
 ######
 #

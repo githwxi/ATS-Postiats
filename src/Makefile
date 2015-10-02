@@ -39,7 +39,6 @@ GCFLAG=
 # [intknd] for CBOOTmin
 #
 C3NSTRINTKND=gmpknd
-#C3NSTRINTKND=intknd
 #
 ######
 
@@ -573,10 +572,17 @@ all:: patsopt
 # link order matters to GNU ld
 # please keep the order '$(LIBATS) $(LIBGMP)' as libats depends on libgmp
 #
-patsopt: \
-  pats_main_dats.o $(OBJECTS) ; \
-  $(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main_dats.o $(OBJECTS) $(LIBATS) $(LIBGMP)
+patsopt: $(OBJECTS) ; \
+  $(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main.dats $(OBJECTS) $(LIBATS) $(LIBGMP)
 cleanall:: ; $(RMF) patsopt
+#
+######
+#
+AR=ar
+#
+libatsopt.a: $(OBJECTS) ; \
+  $(ATSCC) -DPATSOPT_MAIN_NONE $(CFLAGS) $(GCFLAG) -c pats_main.dats && $(AR) -r $@ pats_main_dats.o $(OBJECTS)
+cleanall:: ; $(RMF) libpatsopt.a
 #
 ######
 #
@@ -1319,9 +1325,6 @@ pats_ccomp_emit3_dats.o: pats_ccomp_emit3_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 pats_ccomp_main_dats.c: pats_ccomp_main.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_ccomp_main_dats.o: pats_ccomp_main_dats.c; $(ATSCC) $(CFLAGS) -c $<
-
-pats_main_dats.c: pats_main.dats; $(ATSCC) $(DATSCC) -cc $<
-pats_main_dats.o: pats_main_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 
 
