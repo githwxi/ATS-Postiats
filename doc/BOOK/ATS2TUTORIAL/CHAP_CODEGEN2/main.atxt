@@ -69,7 +69,7 @@ the datatype #stacode("expr") needs to be generated:
 
 By default, the name of the generated function is #dyncode('datcon_expr').
 If a different name is needed, it can be supplied as the third argument of
-the #dyncode("\codegen2")-directive. For instance, the following directive
+the #dyncode("\#codegen2")-directive. For instance, the following directive
 indicates that the generated function is of the given name
 #dyncode("my_datcon_expr"):
 
@@ -161,7 +161,7 @@ datcontag-function for the datatype #stacode("expr") needs to be generated:
 
 By default, the name of the generated function is
 #dyncode('datcontag_expr').  If a different name is needed, it can be
-supplied as the third argument of the #dyncode("\codegen2")-directive. For
+supplied as the third argument of the #dyncode("\#codegen2")-directive. For
 instance, the following directive indicates that the generated function is
 of the given name #dyncode("my_datcontag_expr"):
 

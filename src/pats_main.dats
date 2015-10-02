@@ -1897,6 +1897,9 @@ val () = if state.nerror > 0 then $ERR.abort{void}()
 //
 (* ****** ****** *)
 //
+#ifndef
+PATSOPT_MAIN_NONE
+//
 implement
 main (argc, argv) =
 (
@@ -1907,6 +1910,8 @@ then patsopt_main (argc, argv)
 else prerrln! ("Hello from ATS2(ATS/Postiats)!")
 // end of [if]
 ) (* end of [main] *)
+//
+#endif // ifndef(PATSOPT_MAIN_NONE)
 //
 (* ****** ****** *)
 
