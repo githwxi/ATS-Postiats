@@ -17,9 +17,13 @@ LDPATH += -L$(PATSHOME)/utils/libatsopt
 #
 ######
 
+LIBGMP=
+
+######
+
 patsopt: \
 patsopt.dats; \
-$(PATSCC) -I$(ATSRUNTIME) -o $@ $(ATSRUNTIME)/ats_prelude.c $< $(LDPATH) -latsopt -lgmp
+$(PATSCC) -I$(ATSRUNTIME) -o $@ $(ATSRUNTIME)/ats_prelude.c $< $(LDPATH) -latsopt $(LIBGMP)
 
 ######
 

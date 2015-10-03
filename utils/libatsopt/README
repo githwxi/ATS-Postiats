@@ -10,28 +10,24 @@
 ######
 
 Assume that ATS1 is already installed.
-
-Please execute the following command-lines
-
-cd ${PATSHOME}/src
-make libatsopt; make CBOOT
-cd ${PATSHOME}/src/CBOOT; make libatsopt
-
-after checking out ATS2-github, that is, the
-version of ATS2 stored in the following directory:
+Assume that ATS2-github is checked out, which is
+the version of ATS2 stored in the following directory:
 
 https://github.com/githwxi/ATS-Postiats
 
-The libatsopt.a built in this way needs to be
-used together with libgmp (-lgmp). To build a
-version of libatsopt.a that does not depend on
-libgmp, please execute the following command-lines
-instead:
+Please use the provided Makefile to build libatsopt.a:
 
-cd ${PATSHOME}/src
-make C3NSTRINTKND=intknd libatsopt; make CBOOTmin
-cd ${PATSHOME}/src/CBOOT; make libatsopt
+make libatsop # the built libatsopt.a depends on libgmp (-lgmp)
+make libatsop_min # the built libatsopt.a does not depend on libgmp
 
-######
+After libatsopt.a is successfully built, you can test it by doing
+
+cd TEST
+make patsopt # for libatsopt.a without libgmp dependency
+make patsopt LIBGMP=-lgmp # for libatsopt.a with libgmp dependency
+
+The generated executable 'patsopt' is just the compiler for ATS2 :)
+
+Cheers!
 
 ###### end of [README] ######
