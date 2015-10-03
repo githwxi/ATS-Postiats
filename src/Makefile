@@ -573,15 +573,18 @@ all:: patsopt
 # please keep the order '$(LIBATS) $(LIBGMP)' as libats depends on libgmp
 #
 patsopt: $(OBJECTS) ; \
-  $(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main.dats $(OBJECTS) $(LIBATS) $(LIBGMP)
+$(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main.dats $(OBJECTS) $(LIBATS) $(LIBGMP)
+#
 cleanall:: ; $(RMF) patsopt
 #
 ######
 #
 AR=ar
 #
-libatsopt.a: $(OBJECTS) ; \
-  $(ATSCC) -DATS PATSOPT_MAIN_NONE $(CFLAGS) $(GCFLAG) -c pats_main.dats && $(AR) -r $@ pats_main_dats.o $(OBJECTS)
+libatsopt: $(OBJECTS) ; \
+$(ATSCC) -DATS PATSOPT_MAIN_NONE \
+  $(CFLAGS) $(GCFLAG) -c pats_main.dats && $(AR) -r libatsopt.a pats_main_dats.o $^
+#
 cleanall:: ; $(RMF) libpatsopt.a
 #
 ######

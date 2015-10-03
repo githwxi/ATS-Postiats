@@ -13,7 +13,7 @@ ATSRUNTIME=$(ATSHOME)/ccomp/runtime
 ######
 #
 LDPATH :=
-LDPATH += -L$(PATSHOME)/ccomp/atslib
+LDPATH += -L$(PATSHOME)/utils/libatsopt
 #
 ######
 
