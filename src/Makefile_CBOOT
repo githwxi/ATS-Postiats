@@ -321,9 +321,24 @@ OBJECTSstadyn := $(OBJECTSsta) $(OBJECTSdyn)
 ######
 #
 patsopt: \
-  pats_main_dats.o $(OBJECTSstadyn) \
-  prelude_libats.o libc_libats.o libats_libats.o $(gcats_o) ; \
-  $(CCOMP) -O2 -I. $(GCFLAG) -o $@ ccomp/runtime/ats_prelude.c $^ $(LDFLAGS) $(LIBGMP) $(LIBGC)
+pats_main_dats.o \
+$(OBJECTSstadyn) \
+prelude_libats.o \
+libc_libats.o libats_libats.o ; \
+$(CCOMP) -O2 -I. $(GCFLAG) -o $@ \
+  ccomp/runtime/ats_prelude.c $^ $(gcats_o) $(LDFLAGS) $(LIBGMP) $(LIBGC)
+#
+######
+#
+AR=ar
+MV=mv
+#
+libatsopt: \
+pats_main_dats.o \
+$(OBJECTSstadyn) \
+prelude_libats.o \
+libc_libats.o libats_libats.o ; \
+$(AR) -r libatsopt.a $^ $(gcats_o) && $(MV) -f libatsopt.a $(PATSHOME)/utils/libatsopt/.
 #
 ######
 #

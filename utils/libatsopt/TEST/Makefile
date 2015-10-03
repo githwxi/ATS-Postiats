@@ -13,17 +13,13 @@ ATSRUNTIME=$(ATSHOME)/ccomp/runtime
 ######
 #
 LDPATH :=
-#
-LDPATH += -L$(ATSHOME)/ccomp/lib
-LDPATH += -L$(ATSHOME)/ccomp/lib64
-#
-LDPATH += -L$(PATSHOME)/src
+LDPATH += -L$(PATSHOME)/ccomp/atslib
 #
 ######
 
 patsopt: \
 patsopt.dats; \
-$(PATSCC) -I$(ATSRUNTIME) -o $@ $(ATSRUNTIME)/ats_prelude.c $< $(LDPATH) -latsopt -lats -lgmp
+$(PATSCC) -I$(ATSRUNTIME) -o $@ $(ATSRUNTIME)/ats_prelude.c $< $(LDPATH) -latsopt -lgmp
 
 ######
 
