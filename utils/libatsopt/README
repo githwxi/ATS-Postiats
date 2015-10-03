@@ -3,4 +3,26 @@
 # the lib version of patsopt
 #
 
+######
+#
+# How to build libatsopt.a
+#
+######
+
+Please execute the following command-lines:
+
+cd ${PATSHOME}/src; make libatsopt
+cd ${PATSHOME}/src/CBOOT; make libatsopt
+
+The libatsopt.a built in this way needs to be
+used together with libgmp (-lgmp). To build a
+version of libatsopt.a that does not depend on
+libgmp, please execute the following command-lines:
+
+cd ${PATSHOME}/src
+make C3NSTRINTKND=intknd libatsopt
+cd ${PATSHOME}/src/CBOOTmin; make libatsopt
+
+######
+
 ###### end of [README] ######
