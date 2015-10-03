@@ -13,7 +13,8 @@ Assume that ATS1 is already installed.
 
 Please execute the following command-lines
 
-cd ${PATSHOME}/src; make libatsopt
+cd ${PATSHOME}/src
+make libatsopt; make CBOOT
 cd ${PATSHOME}/src/CBOOT; make libatsopt
 
 after checking out ATS2-github, that is, the
@@ -28,8 +29,8 @@ libgmp, please execute the following command-lines
 instead:
 
 cd ${PATSHOME}/src
-make C3NSTRINTKND=intknd libatsopt
-cd ${PATSHOME}/src/CBOOTmin; make libatsopt
+make C3NSTRINTKND=intknd libatsopt; make CBOOTmin
+cd ${PATSHOME}/src/CBOOT; make libatsopt
 
 ######
 
