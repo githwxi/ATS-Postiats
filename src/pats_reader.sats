@@ -62,7 +62,7 @@ reader_initize_filp
   pfmod:
   file_mode_lte(m,r)
 , pffil: FILE(m) @ l0
-| r: &reader? >> reader, p: ptr l0
+| reader: &reader? >> reader, p0: ptr l0
 ) : void // end of [reader_initize_filp]
 //
 (* ****** ****** *)
