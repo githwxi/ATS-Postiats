@@ -899,7 +899,7 @@ case+ i1vs of
 //
 end // end of [loop]
 //
-var res: res // uninitialized
+var res: res // uninitized
 val () = loop (i1vs, i1veqs, n, res)
 //
 in
@@ -1203,7 +1203,7 @@ case+ !p_ic of
       ans2
     end // end of [knd = 1]
   | _ (* knd = ~1(neq) *) => let
-      var ans3: int // uninitialized
+      var ans3: int // uninitized
       val ic_new =
         auxneq (stamp, i1vs, i1veqs, !p_iv, n, ans3)
       val () = free@ {a}{0} (!p_ic)

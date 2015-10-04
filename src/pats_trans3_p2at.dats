@@ -261,29 +261,47 @@ in (* in-of-local *)
 
 implement
 p2atlst_trup_arg
-  (npf, p2ts) = res where {
-  fun loop (
-    npf: int, p2ts: p2atlst
-  , res: &p3atlst? >> p3atlst
-  ) : void =
-    case+ p2ts of
-    | list_cons (p2t, p2ts) => let
-        val () =
-          if npf > 0 then p2at_proofize (p2t)
-        // end of [val]
-        val p3t = p2at_trup_arg (p2t)
-        val () = res := list_cons {p3at}{0} (p3t, ?)
-        val+list_cons (_, !p_res) = res
-        val () = loop (npf-1, p2ts, !p_res)
-        prval () = fold@ (res)
-      in
-        // nothing
-      end // end of [list_cons]
-    | list_nil () => (res := list_nil)
-  // end of [loop]
-  var res: p3atlst // uninitialized
-  val () = loop (npf, p2ts, res)
-} // end of [p2atlst_trup_arg]
+  (npf, p2ts) = res where
+{
+//
+fun
+loop
+(
+  npf: int, p2ts: p2atlst
+, res: &p3atlst? >> p3atlst
+) : void = (
+//
+case+ p2ts of
+| list_nil() =>
+    (res := list_nil)
+| list_cons
+    (p2t, p2ts) => let
+//
+    val () =
+    if npf > 0
+      then p2at_proofize (p2t)
+    // end of [if]
+//
+    val p3t = p2at_trup_arg (p2t)
+//
+    val () =
+    res := list_cons {p3at}{0} (p3t, ?)
+//
+    val+list_cons (_, !p_res) = res
+//
+    val () = loop (npf-1, p2ts, !p_res)
+//
+    prval ((*folded*)) = fold@ (res)
+  in
+    // nothing
+  end // end of [list_cons]
+//
+) (* end of [loop] *)
+//
+var res: p3atlst // uninitized
+val ((*void*)) = loop (npf, p2ts, res)
+//
+} (* end of [p2atlst_trup_arg] *)
 
 (* ****** ****** *)
 
