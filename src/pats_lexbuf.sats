@@ -61,7 +61,7 @@ lexbuf_initize_filp
   pfmod:
   file_mode_lte(m,r)
 , pffil: FILE (m) @ l0
-| lexbuf: &lexbuf? >> lexbuf, p-: ptr l0
+| lexbuf: &lexbuf? >> lexbuf, p0: ptr l0
 ) : void // end of [lexbuf_initize_filp]
 
 (* ****** ****** *)
