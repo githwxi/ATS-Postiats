@@ -108,20 +108,21 @@ lexbuf_vt0ype =
 (* ****** ****** *)
 //
 macdef
-Q_queue_initize =
-  $Q.queue_initialize<uchar>
-//
+Q_queue_initize = $Q.queue_initialize<uchar>
 macdef
-Q_queue_uninitize = $Q.queue_uninitialize
+Q_queue_uninitize = $Q.queue_uninitialize{uchar}
 //
 (* ****** ****** *)
 
 implement
 lexbuf_initize_filp
-  (pfmod, pffil | buf, p) = () where {
+  (pfmod, pffil | buf, p) =
+{
 //
 extern
-prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
+prfun
+lexbuf0_trans
+  (buf: &lexbuf? >> lexbuf0): void
 //
 prval
 () = lexbuf0_trans (buf)
@@ -136,12 +137,17 @@ val () = $R.reader_initize_filp (pfmod, pffil | buf.reader, p)
 //
 } (* end of [lexbuf_initize_filp] *)
 
+(* ****** ****** *)
+
 implement
 lexbuf_initize_getc
-  (buf, getc) = () where {
+  (buf, getc) =
+{
 //
 extern
-prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
+prfun
+lexbuf0_trans
+  (buf: &lexbuf? >> lexbuf0): void
 //
 prval
 () = lexbuf0_trans (buf)
@@ -156,12 +162,17 @@ val () = $R.reader_initize_getc (buf.reader, getc)
 //
 } (* end of [lexbuf_initize_getc] *)
 
+(* ****** ****** *)
+
 implement
 lexbuf_initize_string
-  (buf, inp) = () where {
+  (buf, inp) =
+{
 //
 extern
-prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
+prfun
+lexbuf0_trans
+  (buf: &lexbuf? >> lexbuf0): void
 //
 prval
 () = lexbuf0_trans (buf)
@@ -174,6 +185,8 @@ val () = Q_queue_initize (buf.cbuf, QINISZ)
 val () = $R.reader_initize_string (buf.reader, inp)
 //
 } (* end of [lexbuf_initize_string] *)
+
+(* ****** ****** *)
 
 implement
 lexbuf_initize_charlst_vt

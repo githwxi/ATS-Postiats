@@ -92,11 +92,9 @@ tokbuf_vt0ype =
 (* ****** ****** *)
 //
 macdef
-DQ_deque_initize =
-  $DQ.deque_initialize<token>
-//
+DQ_deque_initize = $DQ.deque_initialize<token>
 macdef
-DQ_deque_uninitize = $DQ.deque_uninitialize
+DQ_deque_uninitize = $DQ.deque_uninitialize{token}
 //
 (* ****** ****** *)
 
