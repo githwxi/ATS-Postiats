@@ -116,7 +116,7 @@ Q_queue_uninitize = $Q.queue_uninitialize{uchar}
 
 implement
 lexbuf_initize_filp
-  (pfmod, pffil | buf, p) =
+  (pfmod, pffil | buf, p0) =
 {
 //
 extern
@@ -133,7 +133,7 @@ val () = buf.base_ncol := 0
 val () = buf.nspace := 0
 //
 val () = Q_queue_initize (buf.cbuf, QINISZ)
-val () = $R.reader_initize_filp (pfmod, pffil | buf.reader, p)
+val () = $R.reader_initize_filp (pfmod, pffil | buf.reader, p0)
 //
 } (* end of [lexbuf_initize_filp] *)
 

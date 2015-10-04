@@ -82,7 +82,7 @@ reader0_initize_filp
   pfmod:
   file_mode_lte(m,r)
 , pffil: FILE(m) @ l0
-| r: &reader0 >> reader, p: ptr l0
+| r: &reader0 >> reader, p0: ptr l0
 ) : void = () where
 {
 //
@@ -90,12 +90,12 @@ viewdef v = FILE(m) @ l0
 //
 val
 getchar = lam
-  (pffil: !v | (*none*)): int =<cloptr1> fgetc_err (pfmod | !p)
+  (pffil: !v | (*none*)): int =<cloptr1> fgetc_err (pfmod | !p0)
 // end of [getchar]
 //
 val
 freeres = lam
-  (pffil: v | (*none*)): void =<cloptr1> fclose_exn (pffil | p)
+  (pffil: v | (*none*)): void =<cloptr1> fclose_exn (pffil | p0)
 //
 prval () = r.pfres := pffil
 //
