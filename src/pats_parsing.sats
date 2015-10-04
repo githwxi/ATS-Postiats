@@ -170,7 +170,9 @@ parerr = '{
 , parerr_node= parerr_node
 } // end of [parerr]
 
-fun parerr_make (
+fun
+parerr_make
+(
   loc: location, node: parerr_node
 ) : parerr // end of [parerr_make]
 
@@ -748,7 +750,8 @@ parse_from_fileref_toplevel
 
 (* ****** ****** *)
 
-fun parse_from_stdin_toplevel (stadyn: int): d0eclist
+fun
+parse_from_stdin_toplevel (stadyn: int): d0eclist
 
 (* ****** ****** *)
 //

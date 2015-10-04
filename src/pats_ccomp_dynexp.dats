@@ -1636,11 +1636,13 @@ auxlst
 //
 case+ hdes_elt of
 | list_cons _ => let
-    val pmvs_elt = hidexplst_ccompv (env, res, hdes_elt)
+    val
+    pmvs_elt =
+    hidexplst_ccompv (env, res, hdes_elt)
   in
     auxlst2 (env, res, arrp, hse_elt, pmvs_elt, asz, pmvs_elt)
   end // end of [list_cons]
-| list_nil ((*void*)) => () // HX: uninitialized array
+| list_nil((*void*)) => () // HX: uninitized array
 //
 ) (* end of [auxlst] *)
 

@@ -512,9 +512,16 @@ HX: VERSION-0.2.2 released on Saturday, August 29, 2015
 HX: VERSION-0.2.3 released on Tuesday, September 22, 2015
 //
 *)
-#define PATS_MAJOR_VERSION 0
-#define PATS_MINOR_VERSION 2
-#define PATS_MICRO_VERSION 4
+//
+#define
+PATS_MAJOR_VERSION 0
+#define
+PATS_MINOR_VERSION 2
+#define
+PATS_MICRO_VERSION 4
+//
+#define PATS_COPYRIGHT "Copyright (c) 2011-2015 Hongwei Xi"
+//
 (*
 //
 // HX-2011-04-27: this is supported in Postiats:
@@ -528,15 +535,20 @@ HX: VERSION-0.2.3 released on Tuesday, September 22, 2015
 //
 extern
 fun
-patsopt_version (out: FILEref): void
+patsopt_version
+  (out: FILEref): void
 //
 implement
-patsopt_version (out) =
+patsopt_version(out) =
 {
-  val () = fprintf (out
-, "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-2015 Hongwei Xi\n"
-, @(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
-  ) // end of [fprintf]
+//
+val () =
+fprintf
+( out
+, "ATS/Postiats version %i.%i.%i with %s\n"
+, @(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION, PATS_COPYRIGHT)
+) (* end of [fprintf] *)
+//
 } (* end of [patsopt_version] *)
 //
 (* ****** ****** *)
@@ -1145,7 +1157,9 @@ do_transfinal2
 
 implement
 do_trans1
-  (state, given, d0cs) = let
+(
+  state, given, d0cs
+) = let
 //
 val d1cs =
   $TRANS1.d0eclist_tr_errck (d0cs)

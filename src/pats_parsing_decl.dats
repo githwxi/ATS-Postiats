@@ -1506,20 +1506,25 @@ case+ tok.token_node of
 end // end of [p_i0mparg]
 
 (* ****** ****** *)
-
+//
 (*
-impqi0de ::= dqi0de | tmpqi0de tmps0expseq_gtlt GT
+impqi0de ::=
+| dqi0de
+| tmpqi0de tmps0expseq_gtlt GT
 *)
+//
 fun
 p_impqi0de (
   buf: &tokbuf, bt: int, err: &int
 ) : impqi0de = let
 //
-val err0 = err
-val ntok0 = tokbuf_get_ntok (buf)
+val
+err0 = err
+val
+ntok0 = tokbuf_get_ntok (buf)
 //
 val tok = tokbuf_get_token (buf)
-var ent: synent? // uninitialized
+var ent: synent? // uninitized
 //
 in
 case+ 0 of
@@ -1527,8 +1532,8 @@ case+ 0 of
     ptest_fun (
     buf, p_dqi0de, ent
   ) => let
-    val qid = synent_decode {dqi0de} (ent) in impqi0de_make_none (qid)
-  end
+    val qid = synent_decode{dqi0de}(ent) in impqi0de_make_none(qid)
+  end // end of [dqi0de]
 | _ when
     ptest_fun (
     buf, p_tmpqi0de, ent
@@ -1542,23 +1547,25 @@ case+ 0 of
     if err = err0
       then impqi0de_make_some (ent1, (l2l)ent2, ent3)
       else let
-        val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, ntok0)
+        val () = list_vt_free (ent2) in tokbuf_set_ntok_null(buf, ntok0)
       end (* end of [else] *)
     // end of [if]
-  end
-| _ => let
+  end // end of [tmpqi0de]
+| _ (*rest-of-token*) => let
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_impqi0de)
   in
-    synent_null ()
+    synent_null((*void*))
   end
 end // end of [p_impqi0de]
 
 (* ****** ****** *)
-
+//
 (*
-i0mpdec ::= impqi0de f0arg2seq colons0expopt EQ d0exp
+i0mpdec ::=
+| impqi0de f0arg2seq colons0expopt EQ d0exp
 *)
+//
 fun p_i0mpdec (
   buf: &tokbuf, bt: int, err: &int
 ) : i0mpdec = let
@@ -1588,7 +1595,7 @@ in
 end // end of [p_i0mpdec]
 
 (* ****** ****** *)
-
+//
 (*
 d0ec_dyn
   | d0ec
@@ -1607,7 +1614,7 @@ d0ec_dyn
   | LOCAL d0ecseq_dyn IN d0ecseq_dyn END
   | srpifkind guad0ec_dyn
 *)
-
+//
 fun
 p_d0ecl_dyn_tok
 (
