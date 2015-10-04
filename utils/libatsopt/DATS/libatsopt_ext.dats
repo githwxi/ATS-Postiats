@@ -24,7 +24,7 @@ TRANS1 = "src/pats_trans1.sats"
 //
 (* ****** ****** *)
 
-staload "./../SATS/libatsopt.sats"
+staload "./../SATS/libatsopt_ext.sats"
 
 (* ****** ****** *)
 
@@ -72,4 +72,4 @@ end // end of [patsopt_ccats_string]
 
 (* ****** ****** *)
 
-(* end of [libatsopt.dats] *)
+(* end of [libatsopt_ext.dats] *)

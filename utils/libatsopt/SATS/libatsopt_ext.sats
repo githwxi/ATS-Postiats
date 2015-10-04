@@ -31,4 +31,4 @@ patsopt_ccats_string
 //
 (* ****** ****** *)
 
-(* end of [libatsopt.sats] *)
+(* end of [libatsopt_ext.sats] *)

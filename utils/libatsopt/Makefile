@@ -43,12 +43,12 @@ libatsopt_min:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt
 #
 ######
 
-libatsopt_extra:: ; \
-  $(ATSCC) -I ${PATSHOME}/src -IATS ${PATSHOME} -c SATS/libatsopt.sats && \
-  $(AR) -r libatsopt.a libatsopt_sats.o
-libatsopt_extra:: ; \
-  $(ATSCC) -I ${PATSHOME}/src -IATS ${PATSHOME} -c DATS/libatsopt.dats && \
-  $(AR) -r libatsopt.a libatsopt_dats.o
+libatsopt_ext:: ; \
+  $(ATSCC) -I ${PATSHOME}/src -IATS ${PATSHOME} -c SATS/libatsopt_ext.sats && \
+  $(AR) -r libatsopt.a libatsopt_ext_sats.o
+libatsopt_ext:: ; \
+  $(ATSCC) -I ${PATSHOME}/src -IATS ${PATSHOME} -c DATS/libatsopt_ext.dats && \
+  $(AR) -r libatsopt.a libatsopt_ext_dats.o
 
 ######
 
@@ -58,6 +58,13 @@ MAKE=make
 
 ######
 
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.c
+clean:: ; $(RMF) *_?ats.o
+
+######
+
+cleanall:: clean
 cleanall:: ; $(RMF) libatsopt.a
 
 ###### end of [Makefile] ######
