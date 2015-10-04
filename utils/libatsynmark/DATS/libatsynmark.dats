@@ -501,11 +501,15 @@ end (* end of [loop] *)
 var res: res
 val (pf, fpf | p) =
   __cast (lbf) where {
-  extern castfn __cast (lbf: !lexbufobj)
+  extern
+  castfn
+  __cast (lbf: !lexbufobj)
     : [l:addr] (lexbuf @ l, lexbuf @ l -<lin,prf> void | ptr l)
-} // end of [val]
+} (* end of [val] *)
+//
 val () = loop (!p, res)
-prval () = fpf (pf)
+//
+prval ((*rtrned*)) = fpf (pf)
 //
 in
   res
