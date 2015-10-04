@@ -90,29 +90,53 @@ val d0cs =
 //
 val nerr1 = fprint_the_lexerrlst (stderr_ref)
 val nerr2 = fprint_the_parerrlst (stderr_ref)
+//
 val () = if (nerr1 + nerr2) > 0 then $ERR.abort {void} ()
+//
 in
   d0cs
 end // end of [parse_from_tokbuf]
 
 (* ****** ****** *)
-
+//
+// HX-2015-10-04:
+// This one is for libatsopt
+//
 implement
-parse_from_fileref_toplevel
-  (stadyn, inp) = d0cs where {
-  var buf: tokbuf
-  val () =
-  tokbuf_initize_getc
-    (buf, lam () =<cloptr1> $STDIO.fgetc0_err (inp))
-  val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
-  val () = tokbuf_uninitize (buf)
-} // end of [parser_from_fileref_toplevel]
+parse_from_string_toplevel
+  (stadyn, inp) = d0cs where
+{
+//
+var buf: tokbuf
+val () = tokbuf_initize_string(buf, inp)
+val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
+val ((*cleared*)) = tokbuf_uninitize (buf)
+//
+} // end of [parser_from_string_toplevel]
+
+(* ****** ****** *)
 
 implement
 parse_from_stdin_toplevel
   (stadyn) =
   parse_from_fileref_toplevel (stadyn, stdin_ref)
 // end of [parser_from_stdin_toplevel]
+
+implement
+parse_from_fileref_toplevel
+  (stadyn, inp) = d0cs where
+{
+//
+var buf: tokbuf
+//
+val () =
+tokbuf_initize_getc
+  (buf, lam () =<cloptr1> $STDIO.fgetc0_err (inp))
+//
+val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
+val () = tokbuf_uninitize (buf)
+//
+} // end of [parser_from_fileref_toplevel]
 
 (* ****** ****** *)
 
@@ -160,8 +184,10 @@ val isnot = $FIL.filename_isnot_dummy(fil)
 //
 in
 //
-if isnot
-  then parse_from_filename_toplevel(stadyn, fil) else list_nil()
+if
+isnot
+then parse_from_filename_toplevel(stadyn, fil)
+else list_nil(*void*)
 //
 end // end of [parse_from_filename_toplevel2]
 
@@ -181,12 +207,15 @@ case+ filopt of
     val () = filref := fil
     val d0cs = 
       parse_from_filename_toplevel (stadyn, fil)
+    // end of [val]
     val ((*void*)) = $FIL.the_filenamelst_ppush (fil)
   in
     d0cs
   end // end of [Some_vt]
 | ~None_vt((*void*)) => let
+//
     val () = filref := $FIL.filename_dummy
+//
 (*
     val () =
     the_parerrlst_add

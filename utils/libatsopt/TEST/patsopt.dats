@@ -15,8 +15,9 @@ extern
 fun
 patsopt_main
   {n:pos}
-  (argc: int(n), argc: !argv(n)): void
-  = "ext#patsopt_main"
+(
+  argc: int(n), argc: !argv(n)
+) : void = "ext#libatsopt_patsopt_main"
 //
 extern
 fun

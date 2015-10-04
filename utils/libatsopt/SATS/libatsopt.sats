@@ -5,6 +5,10 @@
 *)
 
 (* ****** ****** *)
+
+#define ATS_STALOADFLAG 0
+
+(* ****** ****** *)
 //
 datatype
 tcatsres =
@@ -19,9 +23,11 @@ ccatsres =
 (* ****** ****** *)
 //
 fun
-patsopt_tcats_string(sourse: string): tcatsres
+patsopt_tcats_string
+  (stadyn: int, source: string): tcatsres
 fun
-patsopt_ccats_string(source: string): ccatsres
+patsopt_ccats_string
+  (stadyn: int, source: string): ccatsres
 //
 (* ****** ****** *)
 

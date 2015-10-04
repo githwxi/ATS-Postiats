@@ -58,9 +58,10 @@ staload "./pats_filename.sats"
 (* ****** ****** *)
 
 local
-
+//
 #include
 "prelude/params_system.hats"
+//
 #if SYSTEM_IS_UNIX_LIKE #then
 //
 val theDirSep: char = '/'
@@ -80,20 +81,25 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
+//
 staload
 STR = "libc/SATS/string.sats"
+//
 macdef strncmp = $STR.strncmp
-
+//
 in (* in of [local] *)
 
 implement
 givename_srchknd
   (given) = let
-  val dir = theCurDir_get ()
-  val len = string_length (dir)
+//
+val dir = theCurDir_get ()
+val len = string_length (dir)
+//
 in
-  if strncmp (given, dir, len) = 0 then 0(*loc*) else 1(*ext*)
+//
+if strncmp(given, dir, len) = 0 then 0(*loc*) else 1(*ext*)
+//
 end // end of [givename_srchknd]
 
 (* ****** ****** *)
@@ -125,7 +131,8 @@ case+ 0 of
     loop (p1, n+1, c0, c1)
 | _ when c = c1 =>
     if n > 1 then loop (p1, n-1, c0, c1) else p1
-| _ => if c != '\000' then loop (p1, n, c0, c1) else null
+| _ (* !=c0,c1 *) =>
+    if c != '\000' then loop (p1, n, c0, c1) else null
 //
 end (* end of [loop] *)
 //
@@ -161,29 +168,37 @@ end // end of [local]
 assume
 filename_type = '{
   filename_givename= string
-, filename_partname= string, filename_fullname= symbol
-} // end of [filename]
+, filename_partname= string
+, filename_fullname= symbol
+} (* end of [filename] *)
 
 (* ****** ****** *)
-
+//
 implement
-filename_get_givename (fil) = fil.filename_givename
+filename_get_givename
+  (fil) = fil.filename_givename
+//
 implement
-filename_get_partname (fil) = fil.filename_partname
+filename_get_partname
+  (fil) = fil.filename_partname
+//
 implement
-filename_get_fullname (fil) = fil.filename_fullname
-
+filename_get_fullname
+  (fil) = fil.filename_fullname
+//
 (* ****** ****** *)
 (*
 //
 implement
-fprint_filename (out, fil) =
-  fprint_string (out, fil.filename_partname)
+print_filename
+  (fil) = fprint_filename (stdout_ref, fil)
+implement
+prerr_filename
+  (fil) = fprint_filename (stderr_ref, fil)
 //
 implement
-print_filename (fil) = fprint_filename (stdout_ref, fil)
-implement
-prerr_filename (fil) = fprint_filename (stderr_ref, fil)
+fprint_filename (out, fil) =
+  fprint_string (out, fil.filename_partname)
 //
 *)
 (* ****** ****** *)
@@ -208,9 +223,12 @@ implement
 fprint2_filename_full
   (out, fil) = let
 //
-val given = fil.filename_givename
-val ngurl = givename_get_ngurl (given)
-val fname = $SYM.symbol_get_name (fil.filename_fullname)
+val given =
+  fil.filename_givename
+val ngurl =
+  givename_get_ngurl (given)
+val fname =
+  $SYM.symbol_get_name (fil.filename_fullname)
 //
 in
 //
@@ -225,7 +243,8 @@ end // end of [fprint2_filename_full]
 
 implement
 eq_filename_filename
-  (x1, x2) = x1.filename_fullname = x2.filename_fullname
+  (x1, x2) =
+  x1.filename_fullname = x2.filename_fullname
 // end of [eq_filename_filename]
 
 (* ****** ****** *)
@@ -233,39 +252,52 @@ eq_filename_filename
 implement
 compare_filename_filename
   (x1, x2) = let
-  val f1 = $SYM.symbol_get_name (x1.filename_fullname)
-  val f2 = $SYM.symbol_get_name (x2.filename_fullname)
+//
+val f1 =
+$SYM.symbol_get_name(x1.filename_fullname)
+//
+val f2 =
+$SYM.symbol_get_name(x2.filename_fullname)
+//
 in
   compare_string_string (f1, f2)
 end // end of [compare_filename_filename]
 
 (* ****** ****** *)
-
+//
 local
 //
 // HX: implemented in [pats_utils.dats]
 //
 extern
-fun string_test_suffix
+fun
+string_test_suffix
 (
   str: string, sffx: string
-) : bool = "ext#patsopt_string_test_suffix"
+) : bool =
+  "ext#patsopt_string_test_suffix"
 
 in (* in of [local] *)
 //
 implement
 filename_is_sats (fil) =
-  string_test_suffix (fil.filename_partname, ".sats")
+string_test_suffix
+  (fil.filename_partname, ".sats")
+//
 implement
 filename_is_dats (fil) =
-  string_test_suffix (fil.filename_partname, ".dats")
+string_test_suffix
+  (fil.filename_partname, ".dats")
 //
 end // end of [local]
-
+//
 (* ****** ****** *)
-
+//
 extern
-fun givename_is_relative (given: string): bool
+fun
+givename_is_relative
+  (given: string): bool
+//
 implement
 givename_is_relative
   (given) = let
@@ -280,36 +312,46 @@ givename_is_relative
 in
   aux (given, 0, dirsep)
 end // [givename_is_relative]
-
+//
 (* ****** ****** *)
 
 implement
 filename_dummy = '{
   filename_givename= ""
-, filename_partname= "", filename_fullname= $SYM.symbol_empty
+, filename_partname= ""
+, filename_fullname= $SYM.symbol_empty
 } // end of [filename_dummy]
 
 implement
 filename_stdin = '{
   filename_givename= "__STDIN__"
-, filename_partname= "__STDIN__", filename_fullname= $SYM.symbol_empty
+, filename_partname= "__STDIN__"
+, filename_fullname= $SYM.symbol_empty
 } // end of [filename_stdin]
 
 (* ****** ****** *)
-
+//
 implement
-filename_is_dummy (fil) =
-  if fil.filename_fullname = $SYM.symbol_empty then true else false
-// end of [filename_is_empty]
-
+filename_is_dummy(fil) =
+if
+(
+  fil.filename_fullname = $SYM.symbol_empty
+) then true else false
+//
 implement
-filename_isnot_dummy (fil) =
-  if fil.filename_fullname = $SYM.symbol_empty then false else true
-// end of [filename_isnot_empty]
-
+filename_isnot_dummy(fil) =
+if
+(
+  fil.filename_fullname = $SYM.symbol_empty
+) then false else true
+//
 (* ****** ****** *)
-
-staload UNISTD = "libc/SATS/unistd.sats"
+//
+staload
+UNISTD =
+"libc/SATS/unistd.sats"
+//
+(* ****** ****** *)
 
 implement
 path_normalize_vt (s0) = let
@@ -359,7 +401,7 @@ path_normalize_vt (s0) = let
 //
   extern
   castfn
-  p2s{l:agz} (x: !strptr l):<> string
+  p2s{l:agz}(x: !strptr(l)):<> string
 //
   vtypedef strptrlst = List_vt (strptr1)
 //
@@ -419,14 +461,24 @@ path_normalize_vt (s0) = let
 //
   var dirs
     : strptrlst = list_vt_nil ()
-  val s0 = string1_of_string(s0); val n0 = string_length(s0)
+//
+  val s0 =
+    string1_of_string(s0)
+  // end of [val]
+  val n0 = string_length(s0)
+//
   val () = loop1 (dirsep, s0, n0, 0, dirs)
-  val () = dirs := dirs_process (curdir, pardir, 0, dirs, list_vt_nil ())
+//
+  val () =
+  dirs :=
+  dirs_process (curdir, pardir, 0, dirs, list_vt_nil)
+//
   val path =
   stringlst_concat
     (__cast dirs) where {
     extern castfn __cast (x: !strptrlst): List string
   } (* end of [where] *) // end of [val]
+//
   val () = list_vt_free_fun<strptr1> (dirs, lam x => strptr_free (x))
 //
 in
@@ -441,27 +493,38 @@ path_normalize (s0) =
 (* ****** ****** *)
 
 local
-
+//
 extern
-castfn p2s{l:agz}(x: !strptr l):<> string
-
+castfn
+p2s{l:agz}
+  (x: !strptr(l)):<> string
+//
 in (* in of [local] *)
 
-fun partname_fullize
+fun
+partname_fullize
   (pname: string): string = let
-  val isrel = givename_is_relative (pname)
+//
+val isrel =
+  givename_is_relative (pname)
+//
 in
-  if isrel then let
-    val cwd = $UNISTD.getcwd0 ()
-    val fname =
-      filename_append ((p2s)cwd, pname)
-    // end of [val]
-    val () = strptr_free (cwd)
-    val fname_nf = path_normalize ((p2s)fname)
-    val () = strptr_free (fname)
-  in
-    fname_nf
-  end else pname // HX: it is absolute
+//
+if
+isrel
+then let
+  val cwd = $UNISTD.getcwd0 ()
+  val fname =
+    filename_append ((p2s)cwd, pname)
+  // end of [val]
+  val () = strptr_free (cwd)
+  val fname_nf = path_normalize ((p2s)fname)
+  val () = strptr_free (fname)
+in
+  fname_nf
+end // end of [then]
+else pname // HX: it is absolute
+//
 end // end of [partname_fullize]
 
 end (* end of [local] *)
@@ -469,56 +532,98 @@ end (* end of [local] *)
 (* ****** ****** *)
 
 local
-
-assume the_filenamelst_push_v = unit_v
+//
+assume
+the_filenamelst_push_v = unit_v
+//
 vtypedef filenamelst = List_vt filename
-
-val the_filename = ref_make_elt<filename> (filename_dummy)
-val the_filenamelst = ref_make_elt<filenamelst> (list_vt_nil ())
-
+//
+val
+the_filename =
+  ref_make_elt<filename> (filename_dummy)
+val
+the_filenamelst =
+  ref_make_elt<filenamelst> (list_vt_nil)
+//
 fun
 filename_occurs
   (f0: filename): bool = let
-  fun loop {n:nat} .<n>. (
-    fs: !list_vt (filename, n), f0: filename
-  ) :<> bool = case+ fs of
-    | list_vt_cons (f, !p_fs) =>
-        if eq_filename_filename (f0, f) then
-          (fold@ fs; true)
-        else let
-          val ans = loop (!p_fs, f0); prval () = fold@ (fs)
-        in
-          ans
-        end (* end of [if] *)
-    | list_vt_nil () => (fold@ fs; false)
-  // end of [loop]
-  val (vbox pf | p) = ref_get_view_ptr (the_filenamelst)
+//
+fun
+loop {n:nat} .<n>.
+(
+  fs: !list_vt (filename, n), f0: filename
+) :<> bool = (
+//
+case+ fs of
+| list_vt_cons
+    (f, !p_fs) => let
+    val eqfil =
+      eq_filename_filename(f0, f)
+    // end of [val]
+  in
+    if eqfil
+      then (fold@ fs; true)
+      else let
+        val ans = loop (!p_fs, f0)
+        prval ((*folded*)) = fold@ (fs)
+      in
+        ans
+      end (* end of [else] *)
+    // end of [if]
+  end // end of [list_vt_cons]
+//
+| list_vt_nil((*void*)) => (fold@ fs; false)
+//
+) (* end of [loop] *)
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr (the_filenamelst)
+//
 in
   loop (!p, f0)
 end // end of [filename_occurs]
 
 in (* in of [local] *)
-
+//
 implement
-filename_get_current () = !the_filename
-
+filename_get_current
+  ((*void*)) = !the_filename
+//
 (* ****** ****** *)
 
 implement
 the_filenamelst_pop
-  (pf | (*none*)) = let
-  prval unit_v () = pf in the_filenamelst_ppop ()
+(
+  pf | (*none*)
+) = let
+//
+prval unit_v() = pf
+//
+in
+  the_filenamelst_ppop((*void*))
 end // end of [the_filenamelst_pop]
 
 implement
 the_filenamelst_ppop
   ((*none*)) = let
-  val x = x where {
-    val (vbox pf | p) = ref_get_view_ptr (the_filenamelst)
-    val-~list_vt_cons (x, xs) = !p
-    val () = !p := xs
-  } // end of [val]
-  val () = !the_filename := x
+//
+val f0 = x where {
+//
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr(the_filenamelst)
+//
+  val-
+  ~list_vt_cons (x, xs) = !p
+  val ((*void*)) = (!p := xs)
+//
+} (* end of [val] *)
+//
+val () = !the_filename := f0
+//
 in
   // nothing
 end // end of [the_filenamelst_ppop]
@@ -526,15 +631,18 @@ end // end of [the_filenamelst_ppop]
 (* ****** ****** *)
 
 implement
-the_filenamelst_push (f0) = let
-  val () = the_filenamelst_ppush (f0) in (unit_v () | ())
+the_filenamelst_push(f0) = let
+//
+val () =
+  the_filenamelst_ppush (f0) in (unit_v() | ())
+//
 end // end of [the_filenamelst_push]
 
 implement
-the_filenamelst_ppush (f0) = let
+the_filenamelst_ppush(f0) = let
   val x = !the_filename
   val () = !the_filename := f0
-  val (vbox pf | p) = ref_get_view_ptr (the_filenamelst)
+  val (vbox pf | p) = ref_get_view_ptr(the_filenamelst)
   val () = !p := list_vt_cons (x, !p)
 in
   // nothing
@@ -546,18 +654,31 @@ implement
 the_filenamelst_push_check
   (f0) = let
 (*
-  val () = print ("the_filenamelst_push_check: the_filenamelst(bef) =\n")
-  val () = fprint_the_filenamelst (stdout_ref)
+val () =
+println
+(
+  "the_filenamelst_push_check:the_filenamelst(bef)="
+) (* end of [val] *)
+val ((*void*)) = fprint_the_filenamelst (stdout_ref)
 *)
-  val (pf | ()) = the_filenamelst_push (f0)
+//
+val (pf | ()) = the_filenamelst_push (f0)
+//
 (*
-  val () = print ("the_filenamelst_push_check: the_filenamelst(aft) =\n")
-  val () = fprint_the_filenamelst (stdout_ref)
+val () =
+println
+(
+  "the_filenamelst_push_check:the_filenamelst(aft)="
+) (* end of [val] *)
+val ((*void*)) = fprint_the_filenamelst (stdout_ref)
+//
 *)
-  val isexi =
-  (
-    if filename_isnot_dummy (f0) then filename_occurs (f0) else false
-  ) : bool // end of [val]
+val
+isexi =
+(
+  if filename_isnot_dummy(f0) then filename_occurs(f0) else false
+) : bool // end of [val]
+//
 in
   (pf | isexi)
 end // end of [the_filenamelst_push_check]
@@ -567,20 +688,36 @@ end // end of [the_filenamelst_push_check]
 implement
 fprint_the_filenamelst
   (out) = let
-  fun loop (
-    out: FILEref, fs: !filenamelst
-  ) : void =
-    case+ fs of
-    | list_vt_cons (f, !p_fs) => let
-        val () = fprint_filename_full (out, f)
-        val () = fprint_newline (out)
-        val () = loop (out, !p_fs)
-      in
-        fold@ (fs)
-      end // end of [list_vt_cons]
-    | list_vt_nil () => fold@ (fs)
-  // end of[ loop]
-  val (vbox pf | p) = ref_get_view_ptr (the_filenamelst)
+//
+fun
+loop (
+  out: FILEref, fs: !filenamelst
+) : void = (
+//
+case+ fs of
+| list_vt_cons
+    (f, !p_fs) => let
+//
+    val () =
+    fprint_filename_full(out, f)
+    val () = fprint_newline (out)
+//
+    val () = loop (out, !p_fs)
+    prval ((*folded*)) = fold@ (fs)
+//
+  in
+    // nothing
+  end // end of [list_vt_cons]
+//
+| list_vt_nil((*void*)) => fold@ (fs)
+) (* end of[ loop] *)
+//
+val
+(
+  vbox pf | p
+) =
+  ref_get_view_ptr (the_filenamelst)
+//
 in
   $effmask_ref (loop (out, !p))
 end // end of [fprint_the_filenamelst]
@@ -594,44 +731,85 @@ vtypedef pathlst_vt = List_vt (path)
 
 local
 //
-assume the_pathlst_push_v = unit_v
+assume
+the_pathlst_push_v = unit_v
 //
 val the_pathlst = ref_make_elt<pathlst_vt> (list_vt_nil)
 val the_prepathlst = ref_make_elt<pathlst_vt> (list_vt_nil)
 //
 in (* in of [local] *)
 
-fun the_pathlst_get
-  (): pathlst_vt = xs where {
-  val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
-  val xs = !p
-  val () = !p := list_vt_nil ()
-} // end of [the_pathlst_get]
+(* ****** ****** *)
 
-fun the_pathlst_set
-  (xs: pathlst_vt): void = {
-  val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
-  val-~list_vt_nil () = !p
-  val () = !p := xs
-} // end of [the_pathlst_set]
+fun
+the_pathlst_get
+  (): pathlst_vt = xs where
+{
+//
+val
+(
+  vbox pf | p
+) =
+  ref_get_view_ptr(the_pathlst)
+//
+val xs = !p
+val () = !p := list_vt_nil()
+//
+} (* end of [the_pathlst_get] *)
+
+fun
+the_pathlst_set
+  (xs: pathlst_vt): void =
+{
+//
+val
+(
+  vbox pf | p
+) =
+  ref_get_view_ptr(the_pathlst)
+//
+val-
+~list_vt_nil() = !p
+val () = (!p := xs)
+//
+} (* end of [the_pathlst_set] *)
+
+(* ****** ****** *)
 
 implement
 the_pathlst_pop
-  (pf | (*none*)) = {
-  prval unit_v () = pf
-  val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
-  val-~list_vt_cons (_, xs) = !p
-  val () = !p := xs
-} // end of [the_pathlst_pop]
+  (pf | (*none*)) =
+{
+//
+prval unit_v() = pf
+//
+val
+(
+  vbox pf | p
+) =
+  ref_get_view_ptr(the_pathlst)
+//
+val-
+~list_vt_cons(_, xs) = !p
+val ((*void*)) = !p := xs
+//
+} (* end of [the_pathlst_pop] *)
 
 implement
 the_pathlst_push (x) = let
-  val () = the_pathlst_ppush (x) in (unit_v () | ())
+//
+val () = the_pathlst_ppush (x) in (unit_v() | ())
+//
 end // end of [the_pathlst_push]
 
 implement
 the_pathlst_ppush (x) = let
-  val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr(the_pathlst)
+//
 in
   !p := list_vt_cons (x, !p)
 end // end of [the_pathlst_ppush]
@@ -643,27 +821,48 @@ the_prepathlst_get
 (
   // argless
 ) : pathlst_vt = xs where {
-  val (vbox pf | p) = ref_get_view_ptr (the_prepathlst)
-  val xs = !p
-  val () = !p := list_vt_nil ()
-} // end of [the_prepathlst_get]
+//
+val
+(
+  vbox pf | p
+) =
+  ref_get_view_ptr(the_prepathlst)
+//
+val xs = !p
+val () = !p := list_vt_nil((*void*))
+//
+} (* end of [the_prepathlst_get] *)
 
 fun
 the_prepathlst_set
-  (xs: pathlst_vt): void = {
-  val (vbox pf | p) = ref_get_view_ptr (the_prepathlst)
-  val-~list_vt_nil () = !p
-  val () = !p := xs
+  (xs: pathlst_vt): void =
+{
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr(the_prepathlst)
+//
+val-~list_vt_nil () = !p
+val ((*void*)) = !p := xs
+//
 } // end of [the_prepathlst_set]
 
 (* ****** ****** *)
 
 implement
 the_prepathlst_push (x) = let
-  val (vbox pf | p) = ref_get_view_ptr (the_prepathlst)
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr(the_prepathlst)
+//
 in
   !p := list_vt_cons (x, !p)
 end // end of [the_prepathlst_push]
+
+(* ****** ****** *)
 
 end // end of [local]
 
