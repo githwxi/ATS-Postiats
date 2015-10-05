@@ -15,7 +15,7 @@ extern
 fun
 patsopt_main
   {n:pos}
-  (argc: int(n), argc: !argv(n)): void
+  (argc: int(n), argv: !argv(n)): void
   = "ext#patsopt_main"
 //
 extern
@@ -39,6 +39,7 @@ in
 end // end of [then]
 else prerrln! ("Hello from ATS2(ATS/Postiats)!")
 // end of [if]
+//
 ) (* end of [main0] *)
 
 (* ****** ****** *)
