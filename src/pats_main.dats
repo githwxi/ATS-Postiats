@@ -1587,8 +1587,10 @@ case+ arg of
 //
 // HX: the [inpwait] state stays unchanged
 //
-    val stadyn =
+    val
+    stadyn =
       waitkind_get_stadyn (state.waitkind)
+    // end of [val]
     val nif = state.ninpfile
   in
     case+ arg of

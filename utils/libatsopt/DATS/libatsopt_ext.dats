@@ -26,6 +26,8 @@ staload "src/pats_dynexp1.sats"
 //
 staload
 TRANS1 = "src/pats_trans1.sats"
+staload
+TRENV1 = "src/pats_trans1_env.sats"
 //
 (* ****** ****** *)
 //
@@ -35,6 +37,8 @@ staload "src/pats_dynexp2.sats"
 //
 staload
 TRANS2 = "src/pats_trans2.sats"
+staload
+TRENV2 = "src/pats_trans2_env.sats"
 //
 (* ****** ****** *)
 
@@ -104,8 +108,9 @@ val
 val
 PATSHOME = PATSHOME_get(pf|(*none*))
 //
-val () =
-$FIL.the_prepathlst_push(PATSHOME)
+val () = $FIL.the_prepathlst_push(PATSHOME)
+val () = $TRENV1.the_trans1_env_initialize((*void*))
+val () = $TRENV2.the_trans2_env_initialize((*void*))
 //
 val () = the_prelude_load(PATSHOME)
 //
