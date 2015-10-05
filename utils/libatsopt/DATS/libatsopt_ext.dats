@@ -99,8 +99,13 @@ parse_from_string_toplevel(stadyn, inp)
 //
 val () = fprint_d0eclist(stdout_ref, d0cs)
 //
-val (pf|()) = PATSHOME_set()
-val PATSHOME = PATSHOME_get(pf|(*none*))
+val
+(pf|()) = PATSHOME_set()
+val
+PATSHOME = PATSHOME_get(pf|(*none*))
+//
+val () =
+$FIL.the_prepathlst_push(PATSHOME)
 //
 val () = the_prelude_load(PATSHOME)
 //

@@ -167,23 +167,33 @@ absview the_pathlst_push_v
 
 (* ****** ****** *)
 //
-fun the_pathlst_pop
-  (pf: the_pathlst_push_v | (*none*)): void
+fun
+the_pathlst_pop
+(
+  pf: the_pathlst_push_v | (*none*)
+) : void // end-of-function
 //
-fun the_pathlst_push (p: path): (the_pathlst_push_v | void)
-fun the_pathlst_ppush (p: path): void // HX: permanent push
+fun
+the_pathlst_push
+  (x: path): (the_pathlst_push_v | void)
+fun
+the_pathlst_ppush(x: path): void // HX: permanent push
 //
-fun the_prepathlst_push (p: path): void
+fun
+the_prepathlst_push
+  (x: path): void = "ext#libatsopt_the_prepathlst_push"
 //
 (* ****** ****** *)
-
-fun filename_make
+//
+fun
+filename_make
   (given: string, part: string, full: string): filename
-
+//
 (* ****** ****** *)
-
-fun pkgsrcname_relocatize (given: string, ngurl: int): string
-
+//
+fun
+pkgsrcname_relocatize (given: string, ngurl: int): string
+//
 (* ****** ****** *)
 
 fun filenameopt_make_local (name: string): filenameopt_vt

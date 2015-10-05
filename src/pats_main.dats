@@ -536,7 +536,8 @@ PATS_MICRO_VERSION 4
 extern
 fun
 patsopt_version
-  (out: FILEref): void
+  (out: FILEref): void =
+  "ext#libatsopt_patsopt_version"
 //
 implement
 patsopt_version(out) =
@@ -752,8 +753,8 @@ end // end of [local]
 extern
 fun
 the_fixity_load
-  (PATSHOME: string): void
-  = "ext#libatsopt_the_fixity_load"
+  (PATSHOME: string): void =
+  "ext#libatsopt_the_fixity_load"
 //
 implement
 the_fixity_load
@@ -852,7 +853,8 @@ fun
 the_prelude_load
 (
   PATSHOME: string
-) : void = "ext#libatsopt_the_prelude_load"
+) : void =
+  "ext#libatsopt_the_prelude_load"
 //
 implement
 the_prelude_load
@@ -967,7 +969,8 @@ fun
 the_prelude_load_if
 (
   PATSHOME: string, flag: &int
-) : void = "ext#libatsopt_the_prelude_load_if"
+) : void =
+  "ext#libatsopt_the_prelude_load_if"
 //
 implement
 the_prelude_load_if
@@ -1872,20 +1875,26 @@ val () =
 set () where
 { 
   extern
-  fun set (): void = "mac#patsopt_PATSHOME_set"
+  fun set (): void
+    = "mac#patsopt_PATSHOME_set"
+  // end of [fun]
 } // end of [where] // end of [val]
 val () =
 set () where
 {
   extern
-  fun set (): void = "mac#patsopt_PATSHOMERELOC_set"
+  fun set (): void
+    = "mac#patsopt_PATSHOMERELOC_set"
+  // end of [fun]
 } // end of [where] // end of [val]
 //
 val () =
 set () where
 { 
   extern
-  fun set (): void = "mac#patsopt_ATSPKGRELOCROOT_set"
+  fun set (): void
+    = "mac#patsopt_ATSPKGRELOCROOT_set"
+  // end of [fun]
 } // end of [where] // end of [val]
 //
 val
@@ -1893,19 +1902,26 @@ PATSHOME = let
 //
 val opt = get () where
 {
-  extern fun get (): Stropt = "mac#patsopt_PATSHOME_get"
+  extern
+  fun get (): Stropt = "mac#patsopt_PATSHOME_get"
 } (* end of [where] *)
 val issome = stropt_is_some (opt)
 //
 in
-  if issome
-    then stropt_unsome(opt)
-    else let
-      val () = prerrln! ("The environment variable PATSHOME is undefined!")
-    in
-      $ERR.abort ((*exit*))
-    end (* end of [else] *)
-  // end of [if]
+//
+if
+issome
+then stropt_unsome(opt)
+else let
+  val () =
+  prerrln!
+  (
+    "The environment variable PATSHOME is undefined!"
+  ) (* end of [val] *)
+in
+  $ERR.abort ((*exit*))
+end (* end of [else] *)
+//
 end : string // end of [val]
 //
 // for the run-time and atslib
