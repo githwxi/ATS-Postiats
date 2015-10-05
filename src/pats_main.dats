@@ -1494,7 +1494,7 @@ case+ arglst of
         val () =
         prelude_load_if (
           PATSHOME, state.preludeflag // loading once
-        ) // end of [val]
+        ) (* end of [val] *)
 //
         val () = state.infil := $FIL.filename_stdin
 //
@@ -1510,7 +1510,7 @@ case+ arglst of
         val istaggen = state.taggen > 0
         val () = if istaggen then istrans := false
 //
-        val given = "<STDIN>"
+        val given = "__STDIN__"
 //
         val () =
           if isdepgen then do_depgen (state, given, d0cs)
@@ -1519,6 +1519,10 @@ case+ arglst of
           if istaggen then do_taggen (state, given, d0cs)
         // end of [val]
 //
+        val () =
+          if istrans then
+            $FIL.the_filenamelst_ppush($FIL.filename_stdin)
+          // end of [if]
         val () =
           if istrans then do_transfinal2 (state, given, d0cs)
         // end of [val]

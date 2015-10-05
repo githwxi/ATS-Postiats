@@ -326,8 +326,15 @@ implement
 filename_stdin = '{
   filename_givename= "__STDIN__"
 , filename_partname= "__STDIN__"
-, filename_fullname= $SYM.symbol_empty
+, filename_fullname= $SYM.symbol__STDIN__
 } // end of [filename_stdin]
+
+implement
+filename_string = '{
+  filename_givename= "__STRING__"
+, filename_partname= "__STRING__"
+, filename_fullname= $SYM.symbol__STRING__
+} // end of [filename_string]
 
 (* ****** ****** *)
 //

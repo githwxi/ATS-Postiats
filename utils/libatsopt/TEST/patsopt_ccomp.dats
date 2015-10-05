@@ -7,7 +7,7 @@ staload
 //
 extern
 fun
-libatsopt_dynloadall((*void*)): void = "ext#"
+libatsopt_dynloadall(): void = "ext#"
 //
 (* ****** ****** *)
 //

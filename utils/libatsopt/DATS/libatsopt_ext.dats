@@ -10,6 +10,11 @@
 
 (* ****** ****** *)
 //
+staload
+FIL = "src/pats_filename.sats"
+//
+(* ****** ****** *)
+//
 staload "src/pats_syntax.sats"
 //
 staload "src/pats_parsing.sats"
@@ -32,15 +37,17 @@ implement
 patsopt_tcats_string
   (stadyn, inp) = let
 //
+val fil = $FIL.filename_string
+//
 val
 d0cs =
 parse_from_string_toplevel(stadyn, inp)
 //
 val () = fprint_d0eclist(stdout_ref, d0cs)
 //
-val d1cs =
-  $TRANS1.d0eclist_tr_errck (d0cs)
-// end of [val]
+val () = $FIL.the_filenamelst_ppush(fil)
+//
+val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
 //
 val () = $TRANS1.trans1_finalize ()
 //
