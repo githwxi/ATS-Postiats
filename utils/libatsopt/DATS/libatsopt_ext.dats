@@ -121,9 +121,15 @@ patsopt_tcats_d3eclist
 //
 val fil = $FIL.filename_string
 //
+val (pf|()) =
+  $FIL.the_filenamelst_push(fil)
+//
 val
 d0cs =
 parse_from_string_toplevel(stadyn, inp)
+//
+val ((*void*)) =
+  $FIL.the_filenamelst_pop(pf|(*none*))
 //
 val
 (pf|()) = PATSHOME_set()

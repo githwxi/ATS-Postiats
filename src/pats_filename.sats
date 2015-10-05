@@ -114,11 +114,12 @@ fun compare_filename_filename
 overload compare with compare_filename_filename
 
 (* ****** ****** *)
-
+//
 val filename_dummy : filename (* DUMMY *)
+//
 val filename_stdin : filename (* STDIN *)
 val filename_string : filename (* STRING *)
-
+//
 (* ****** ****** *)
 
 fun filename_is_dummy : filename -> bool

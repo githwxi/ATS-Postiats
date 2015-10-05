@@ -301,14 +301,30 @@ givename_is_relative
 implement
 givename_is_relative
   (given) = let
-  fn aux {n,i:nat | i <= n}
-  (
-    given: string n, i: size_t i, dirsep: char
-  ) : bool =
-    if string_isnot_atend (given, i) then (given[i] != dirsep) else false 
-  // end of [aux]
-  val dirsep = theDirSep_get ()
-  val given = string1_of_string (given)
+//
+fun
+aux
+{n:int}
+{i:nat | i <= n}
+(
+  given: string(n)
+, i: size_t(i), dirsep: char
+) : bool = let
+//
+val isnot =
+  string_isnot_atend(given, i)
+//
+in
+  if isnot
+    then (given[i] != dirsep) else false
+  // end of [if]
+end // end of [aux]
+//
+val given = 
+  string1_of_string (given)
+//
+val dirsep = theDirSep_get ()
+//
 in
   aux (given, 0, dirsep)
 end // [givename_is_relative]
