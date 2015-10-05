@@ -34,8 +34,8 @@ $(PATSCC) -I$(ATSRUNTIME) \
 #
 ######
 
-patsopt_tcats: \
-patsopt_tcats.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt $(LIBGMP)
+patsopt_ccomp: \
+patsopt_ccomp.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt $(LIBGMP)
 
 ######
 
@@ -47,6 +47,6 @@ clean:: ; rm -f *_?ats.c
 
 cleanall:: clean
 cleanall:: ; rm -f patsopt
-cleanall:: ; rm -f patsopt_tcats
+cleanall:: ; rm -f patsopt_ccomp
 
 ###### end of [Makefile] ######
