@@ -1586,7 +1586,7 @@ d1e0.d1exp_node of
     val c2ls = c1laulst_tr (ntup, c1ls)
   in
     d2exp_casehead (loc0, knd, r2es, d2es, c2ls)
-  end // end of [D1Ecaseof]
+  end // end of [D1Ecasehead]
 | D1Escasehead
   (
     r1es, s1e, sc1ls
@@ -1600,7 +1600,7 @@ d1e0.d1exp_node of
     // end of [val]
   in
     d2exp_scasehead (loc0, r2es, s2e, sc2ls)
-  end // end of [D1Escaseof]
+  end // end of [D1Escasehead]
 //
 | D1Elst
   (
@@ -1627,18 +1627,23 @@ d1e0.d1exp_node of
   end // end of [D1Elst]
 //
 | D1Etup
-    (tupknd, npf, d1es) => let
+  (
+    tupknd, npf, d1es
+  ) => let
   in
     d2exp_tup (loc0, tupknd, npf, d1explst_tr d1es)
   end // end of [D1Etup]
 | D1Erec
-    (recknd, npf, ld1es) => let
+  (
+    recknd, npf, ld1es
+  ) => let
     val ld2es =
       list_map_fun (ld1es, labd1exp_tr)
     // end of [val]
   in
     d2exp_rec (loc0, recknd, npf, (l2l)ld2es)
   end // end of [D1Erec]
+//
 | D1Eseq d1es => let
     val d2es = d1explst_tr (d1es) in d2exp_seq2 (loc0, d2es)
   end // end of [D1Eseq]
@@ -1651,7 +1656,9 @@ d1e0.d1exp_node of
 | D1Earrpsz
     (elt, init) => let
     val opt = s1expopt_trup (elt)
-    val opt = (case+ opt of
+    val opt =
+    (
+      case+ opt of
       | Some s2e => Some (s2e) | None () => None ()
     ) : s2expopt
     val init = d1explst_tr (init)
@@ -1660,16 +1667,18 @@ d1e0.d1exp_node of
   end // end of [D1Earrpsz]
 //
 | D1Earrinit
-    (s1e_elt, asz, init) => let
+  (
+    s1e_elt, asz, init
+  ) => let
     val s2t_elt =
     (
       case+ asz of
       | Some _ => (
-        case+ init of
-        | list_cons _ => s2rt_t0ype // cannot be linear
-        | list_nil ((*uninitialized*)) => s2rt_vt0ype // can be linear
+          case+ init of
+          | list_cons _ => s2rt_t0ype // cannot be linear
+          | list_nil ((*uninitized*)) => s2rt_vt0ype // can be linear
         ) (* end of [Some] *)
-      | None () => s2rt_vt0ype // can be linear
+      | None _ => s2rt_vt0ype // can be linear
     ) : s2rt // end of [val]
     val s2e_elt = s1exp_trdn (s1e_elt, s2t_elt)
     val asz = d1expopt_tr (asz)

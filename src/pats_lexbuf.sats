@@ -45,45 +45,55 @@ typedef position = $LOC.position
 typedef location = $LOC.location
 
 (* ****** ****** *)
-
-absviewt@ype
+//
+absvt@ype
 lexbuf_vt0ype =
 $extype "pats_lexbuf_struct"
-viewtypedef lexbuf = lexbuf_vt0ype
+//
+vtypedef lexbuf = lexbuf_vt0ype
+//
+(* ****** ****** *)
+
+fun
+lexbuf_initize_filp
+  {m:file_mode}{l0:addr}
+(
+  pfmod:
+  file_mode_lte(m,r)
+, pffil: FILE (m) @ l0
+| lexbuf: &lexbuf? >> lexbuf, p0: ptr l0
+) : void // end of [lexbuf_initize_filp]
 
 (* ****** ****** *)
 
 fun
-lexbuf_initialize_filp
-  {m:file_mode}{l:addr}
-(
-  pfmod:
-  file_mode_lte (m, r)
-, pffil: FILE (m) @ l
-| r: &lexbuf? >> lexbuf, p: ptr l
-) : void // end of [lexbuf_initialize_filp]
-
-fun lexbuf_initialize_getc
+lexbuf_initize_getc
 (
   buf: &lexbuf? >> lexbuf, getc: () -<cloptr1> int
-) : void // end of [lexbuf_initialize_getc]
-
-fun lexbuf_initialize_string
-(
-  buf: &lexbuf? >> lexbuf, inp: string
-) : void // end of [lexbuf_initialize_string]
-
-fun lexbuf_initialize_charlst_vt
-(
-  buf: &lexbuf? >> lexbuf, inp: List_vt (char)
-) : void // end of [lexbuf_initialize_charlst_vt]
+) : void // end of [lexbuf_initize_getc]
 
 (* ****** ****** *)
 
-fun lexbuf_uninitialize
+fun
+lexbuf_initize_string
+(
+  buf: &lexbuf? >> lexbuf, inp: string
+) : void // end of [lexbuf_initize_string]
+
+(* ****** ****** *)
+
+fun
+lexbuf_initize_charlst_vt
+(
+  buf: &lexbuf? >> lexbuf, inp: List_vt (char)
+) : void // end of [lexbuf_initize_charlst_vt]
+
+(* ****** ****** *)
+
+fun lexbuf_uninitize
 (
   buf: &lexbuf >> lexbuf?
-) : void // end of [lexbuf_uninitialize]
+) : void // end of [lexbuf_uninitize]
 
 (* ****** ****** *)
 
@@ -125,22 +135,28 @@ fun lexbufpos_get_char (buf: &lexbuf, position: &position): int
 fun lexbuf_incby_count (buf: &lexbuf, cnt: uint): void
 
 (* ****** ****** *)
-
-fun lexbuf_get_strptr0
+//
+fun
+lexbuf_get_strptr0
   (buf: &lexbuf, ln: uint): strptr0
-fun lexbuf_get_strptr1
+fun
+lexbuf_get_strptr1
   (buf: &lexbuf, ln: uint): strptr1
-
-fun lexbufpos_get_strptr0
+//
+fun
+lexbufpos_get_strptr0
   (buf: &lexbuf, pos: &position): strptr0
-fun lexbufpos_get_strptr1
+fun
+lexbufpos_get_strptr1
   (buf: &lexbuf, pos: &position): strptr1
-
-fun lexbuf_get_substrptr0
+//
+fun
+lexbuf_get_substrptr0
   (buf: &lexbuf, st: uint, ln: uint): strptr0
-fun lexbuf_get_substrptr1
+fun
+lexbuf_get_substrptr1
   (buf: &lexbuf, st: uint, ln: uint): strptr1
-
+//
 (* ****** ****** *)
 
 (* end of [pats_lexbuf.sats] *)

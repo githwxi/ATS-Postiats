@@ -512,9 +512,16 @@ HX: VERSION-0.2.2 released on Saturday, August 29, 2015
 HX: VERSION-0.2.3 released on Tuesday, September 22, 2015
 //
 *)
-#define PATS_MAJOR_VERSION 0
-#define PATS_MINOR_VERSION 2
-#define PATS_MICRO_VERSION 4
+//
+#define
+PATS_MAJOR_VERSION 0
+#define
+PATS_MINOR_VERSION 2
+#define
+PATS_MICRO_VERSION 4
+//
+#define PATS_COPYRIGHT "Copyright (c) 2011-2015 Hongwei Xi"
+//
 (*
 //
 // HX-2011-04-27: this is supported in Postiats:
@@ -528,15 +535,21 @@ HX: VERSION-0.2.3 released on Tuesday, September 22, 2015
 //
 extern
 fun
-patsopt_version (out: FILEref): void
+patsopt_version
+  (out: FILEref): void =
+  "ext#libatsopt_patsopt_version"
 //
 implement
-patsopt_version (out) =
+patsopt_version(out) =
 {
-  val () = fprintf (out
-, "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-2015 Hongwei Xi\n"
-, @(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
-  ) // end of [fprintf]
+//
+val () =
+fprintf
+( out
+, "ATS/Postiats version %i.%i.%i with %s\n"
+, @(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION, PATS_COPYRIGHT)
+) (* end of [fprintf] *)
+//
 } (* end of [patsopt_version] *)
 //
 (* ****** ****** *)
@@ -736,10 +749,16 @@ theOutFilename_set
 end // end of [local]
 
 (* ****** ****** *)
-
+//
+extern
 fun
-fixity_load
-  (PATSHOME: string): void = let
+the_fixity_load
+  (PATSHOME: string): void =
+  "ext#libatsopt_the_fixity_load"
+//
+implement
+the_fixity_load
+  (PATSHOME) = let
 //
   val given = "prelude/fixity.ats"
   val fullname =
@@ -825,19 +844,33 @@ val ((*reset*)) = $TRENV1.the_EXTERN_PREFIX_set_none()
 } (* end of [pervasive_load] *)
 
 (* ****** ****** *)
-
+//
+// HX-2015-10-05:
+// For use in libatsopt
+//
+extern
 fun
-prelude_load
+the_prelude_load
 (
   PATSHOME: string
-) : void = {
+) : void =
+  "ext#libatsopt_the_prelude_load"
 //
-val () = fixity_load (PATSHOME)
+implement
+the_prelude_load
+  (PATSHOME) = {
 //
-val () = pervasive_load (PATSHOME, "prelude/basics_pre.sats")
-val () = pervasive_load (PATSHOME, "prelude/basics_sta.sats")
-val () = pervasive_load (PATSHOME, "prelude/basics_dyn.sats")
-val () = pervasive_load (PATSHOME, "prelude/basics_gen.sats")
+val () =
+  the_fixity_load (PATSHOME)
+//
+val () =
+  pervasive_load (PATSHOME, "prelude/basics_pre.sats")
+val () =
+  pervasive_load (PATSHOME, "prelude/basics_sta.sats")
+val () =
+  pervasive_load (PATSHOME, "prelude/basics_dyn.sats")
+val () =
+  pervasive_load (PATSHOME, "prelude/basics_gen.sats")
 //
 val () = pervasive_load (PATSHOME, "prelude/macrodef.sats")
 //
@@ -924,19 +957,31 @@ val () = pervasive_load (PATSHOME, "prelude/SATS/giterator.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/fcontainer.sats")
 *)
 //
-} (* end of [prelude_load] *)
+} (* end of [the_prelude_load] *)
 
 (* ****** ****** *)
-
+//
+// HX-2015-10-05:
+// For use in libatsopt
+//
+extern
 fun
-prelude_load_if
+the_prelude_load_if
 (
   PATSHOME: string, flag: &int
 ) : void =
-  if flag = 0 then let
-    val () = flag := 1 in prelude_load (PATSHOME)
-  end else () // end of [if]
-// end of [prelude_load_if]
+  "ext#libatsopt_the_prelude_load_if"
+//
+implement
+the_prelude_load_if
+  (PATSHOME, flag) =
+(
+//
+if flag = 0 then let
+  val () = flag := 1 in the_prelude_load (PATSHOME)
+end else () // end of [if]
+//
+) (* end of [the_prelude_load_if] *)
 
 (* ****** ****** *)
 //
@@ -1145,7 +1190,9 @@ do_transfinal2
 
 implement
 do_trans1
-  (state, given, d0cs) = let
+(
+  state, given, d0cs
+) = let
 //
 val d1cs =
   $TRANS1.d0eclist_tr_errck (d0cs)
@@ -1476,13 +1523,14 @@ case+ arglst of
     case+ 0 of
     | _ when
         stadyn >= 0 => {
-        val PATSHOME = state.PATSHOME
-        val () =
-        prelude_load_if (
-          PATSHOME, state.preludeflag // loading once
-        ) // end of [val]
 //
-        val () = state.infil := $FIL.filename_stdin
+        val () =
+        state.infil := $FIL.filename_stdin
+//
+        val () =
+        the_prelude_load_if
+          (state.PATSHOME, state.preludeflag)
+        // end of [val]
 //
         val () =
         if stadyn >= 1
@@ -1496,7 +1544,7 @@ case+ arglst of
         val istaggen = state.taggen > 0
         val () = if istaggen then istrans := false
 //
-        val given = "<STDIN>"
+        val given = "__STDIN__"
 //
         val () =
           if isdepgen then do_depgen (state, given, d0cs)
@@ -1505,6 +1553,10 @@ case+ arglst of
           if istaggen then do_taggen (state, given, d0cs)
         // end of [val]
 //
+        val () =
+          if istrans then
+            $FIL.the_filenamelst_ppush($FIL.filename_stdin)
+          // end of [if]
         val () =
           if istrans then do_transfinal2 (state, given, d0cs)
         // end of [val]
@@ -1535,8 +1587,10 @@ case+ arg of
 //
 // HX: the [inpwait] state stays unchanged
 //
-    val stadyn =
+    val
+    stadyn =
       waitkind_get_stadyn (state.waitkind)
+    // end of [val]
     val nif = state.ninpfile
   in
     case+ arg of
@@ -1547,9 +1601,14 @@ case+ arg of
         (2, key) when nif > 0 =>
         process_cmdline2_COMARGkey2 (state, arglst, key)
     | COMARGkey (_, given) => let
-        val PATSHOME = state.PATSHOME
-        val () = state.ninpfile := state.ninpfile + 1
-        val () = prelude_load_if (PATSHOME, state.preludeflag)
+//
+        val () =
+        state.ninpfile := state.ninpfile+1
+//
+        val () =
+        the_prelude_load_if
+          (state.PATSHOME, state.preludeflag)
+        // end of [val]
 //
         val () =
         if stadyn >= 1
@@ -1803,8 +1862,9 @@ extern
 fun
 patsopt_main
   {n:pos}
-  (argc: int(n), argc: &(@[string][n])): void
-  = "ext#patsopt_main"
+(
+  argc: int(n), argc: &(@[string][n])
+) : void = "ext#libatsopt_patsopt_main"
 //
 (* ****** ****** *)
 
@@ -1817,38 +1877,53 @@ val () =
 set () where
 { 
   extern
-  fun set (): void = "mac#patsopt_PATSHOME_set"
+  fun set (): void
+    = "mac#patsopt_PATSHOME_set"
+  // end of [fun]
 } // end of [where] // end of [val]
 val () =
 set () where
 {
   extern
-  fun set (): void = "mac#patsopt_PATSHOMERELOC_set"
+  fun set (): void
+    = "mac#patsopt_PATSHOMERELOC_set"
+  // end of [fun]
 } // end of [where] // end of [val]
 //
 val () =
 set () where
 { 
   extern
-  fun set (): void = "mac#patsopt_ATSPKGRELOCROOT_set"
+  fun set (): void
+    = "mac#patsopt_ATSPKGRELOCROOT_set"
+  // end of [fun]
 } // end of [where] // end of [val]
 //
 val
 PATSHOME = let
-  val opt = get () where
-  {
-    extern fun get (): Stropt = "mac#patsopt_PATSHOME_get"
-  } (* end of [where] *)
-  val issome = stropt_is_some (opt)
+//
+val opt = get () where
+{
+  extern
+  fun get (): Stropt = "mac#patsopt_PATSHOME_get"
+} (* end of [where] *)
+val issome = stropt_is_some (opt)
+//
 in
-  if issome
-    then stropt_unsome(opt)
-    else let
-      val () = prerrln! ("The environment variable PATSHOME is undefined!")
-    in
-      $ERR.abort ()
-    end (* end of [else] *)
-  // end of [if]
+//
+if
+issome
+then stropt_unsome(opt)
+else let
+  val () =
+  prerrln!
+  (
+    "The environment variable PATSHOME is undefined!"
+  ) (* end of [val] *)
+in
+  $ERR.abort ((*exit*))
+end (* end of [else] *)
+//
 end : string // end of [val]
 //
 // for the run-time and atslib

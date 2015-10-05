@@ -1343,12 +1343,16 @@ val () = the_trans1errlst_finalize ()
 
 local
 
-fn intrep2int
+fun
+intrep2int
   (rep: string): int = let
-  val x = $UT.llint_make_string (rep) in int_of_llint (x)
+//
+val x = $UT.llint_make_string (rep) in int_of_llint (x)
+//
 end // end of [intrep2int]
 
-fun aux_dynloadflag (): void = let
+fun
+aux_dynloadflag(): void = let
   val opt = the_e1xpenv_find (ATS_DYNLOADFLAG)
 in
 //
@@ -1361,7 +1365,7 @@ case+ opt of
       $GLOB.the_DYNLOADFLAG_set (intrep2int(rep))
   | _ => let
       val () =
-        prerr_error1_loc (e.e1xp_loc)
+      prerr_error1_loc (e.e1xp_loc)
       val () = prerr ": non-integer definition for [ATS_DYNLOADFLAG]."
       val () = prerr_newline ((*void*))
     in
@@ -1375,7 +1379,8 @@ case+ opt of
 //
 end // end of [aux_dynloadflag]
 
-fun aux_dynloadname (): void = let
+fun
+aux_dynloadname(): void = let
   val opt = the_e1xpenv_find (ATS_DYNLOADNAME)
 in
 //
@@ -1386,7 +1391,7 @@ case+ opt of
       $GLOB.the_DYNLOADNAME_set (x)
   | _ => let
       val () =
-        prerr_error1_loc (e.e1xp_loc)
+      prerr_error1_loc (e.e1xp_loc)
       val () = prerr ": non-string definition for [ATS_DYNLOADNAME]."
       val () = prerr_newline ((*void*))
     in
@@ -1400,7 +1405,8 @@ case+ opt of
 //
 end // end of [aux_dynloadname]
 
-fun aux_mainatsflag (): void = let
+fun
+aux_mainatsflag(): void = let
   val opt = the_e1xpenv_find (ATS_MAINATSFLAG)
 in
 //
@@ -1413,7 +1419,7 @@ case+ opt of
       $GLOB.the_MAINATSFLAG_set (intrep2int(rep))
   | _ => let
       val () =
-        prerr_error1_loc (e.e1xp_loc)
+      prerr_error1_loc (e.e1xp_loc)
       val () = prerr ": non-integer definition for [ATS_MAINATSFLAG]."
       val () = prerr_newline ((*void*))
     in
@@ -1427,7 +1433,8 @@ case+ opt of
 //
 end // end of [aux_mainatsflag]
 
-fun aux_static_prefix (): void = let
+fun
+aux_static_prefix(): void = let
   val opt = the_e1xpenv_find (ATS_STATIC_PREFIX)
 in
 //

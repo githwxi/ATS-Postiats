@@ -893,7 +893,8 @@ in
 case+ d2es of
 | list_cons
     (d2e, d2es) => let
-    var s2e_res: s2exp // uninitialized
+    var
+    s2e_res: s2exp // uninitized
     val d3es = aux (d2e, d2es, s2e_void, s2e0)
   in
     d3exp_seq (loc0, s2e0, d3es)

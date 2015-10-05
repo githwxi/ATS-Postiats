@@ -238,13 +238,15 @@ fun auxck_addreq
 (
   loc0: loc_t, s2e1, d3ls, s2e2
 ) : void = let
-  val s2e2 = s2exp_hnfize (s2e2)
-  var s2ls: s2lablst // uninitialized
-  val s2e2_rt = s2addr_get_root (s2e2, s2ls)
-  val rooteq = s2exp_syneq (s2e1, s2e2_rt)
-  val addreq = (
-    if rooteq then eq_dlablst_slablst (d3ls, s2ls) else false
-  ) : bool // end of [val]
+//
+val s2e2 = s2exp_hnfize (s2e2)
+var s2ls: s2lablst // uninitized
+val s2e2_rt = s2addr_get_root (s2e2, s2ls)
+val rooteq = s2exp_syneq (s2e1, s2e2_rt)
+val addreq = (
+  if rooteq then eq_dlablst_slablst (d3ls, s2ls) else false
+) : bool // end of [val]
+//
 in
 //
 if ~addreq then let

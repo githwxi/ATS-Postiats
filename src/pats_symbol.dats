@@ -303,8 +303,10 @@ symbol_FALSE_BOOL = symbol_make_string "false_bool"
 
 (* ****** ****** *)
 
-implement symbol_DEFINED = symbol_make_string "defined"
-implement symbol_UNDEFINED = symbol_make_string "undefined"
+implement
+symbol_DEFINED = symbol_make_string "defined"
+implement
+symbol_UNDEFINED = symbol_make_string "undefined"
 
 (* ****** ****** *)
 
@@ -316,6 +318,13 @@ implement symbol_ISLIST = symbol_make_string "islist"
 
 implement symbol_TUPZ = symbol_make_string "tupz"
 
+(* ****** ****** *)
+//
+implement
+symbol__STDIN__ = symbol_make_string "__STDIN__"
+implement
+symbol__STRING__ = symbol_make_string "__STRING__"
+//
 (* ****** ****** *)
 
 implement

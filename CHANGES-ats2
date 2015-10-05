@@ -26,6 +26,7 @@ Here is a list of major additions and changes since the last release:
 2. Adding libats/theGetters
 3. Fixing a bug in ATS-extsolve (involving the s2rtdatmap generation)
 4. Fixing a minor parsing bug in CATS-parsemit
+5. Adding libatsopt, the library version of patsopt; see utils/libatsopt
 
 ######
 

@@ -261,7 +261,7 @@ val tok =
 //
 val loc = tok.token_loc
 //
-var ent: synent? // uninitialized
+var ent: synent? // uninitized
 macdef incby1 () = tokbuf_incby1 (buf)
 //
 in
@@ -333,7 +333,7 @@ val tok =
 //
 val loc = tok.token_loc
 //
-var ent: synent? // uninitialized
+var ent: synent? // uninitized
 //
 in
 //

@@ -170,7 +170,9 @@ parerr = '{
 , parerr_node= parerr_node
 } // end of [parerr]
 
-fun parerr_make (
+fun
+parerr_make
+(
   loc: location, node: parerr_node
 ) : parerr // end of [parerr_make]
 
@@ -718,38 +720,55 @@ fun p_m0acdef : parser (m0acdef)
 fun p_d0cstdecseq : parser (d0cstdeclst)
 //
 (* ****** ****** *)
-
+//
 fun p_toplevel_sta
   (buf: &tokbuf, nerr: &int? >> int): d0eclist
 // end of [p_toplevel_sta]
-
+//
 fun p_toplevel_dyn
   (buf: &tokbuf, nerr: &int? >> int): d0eclist
 // end of [p_toplevel_dyn]
-
+//
 (* ****** ****** *)
-
+//
 fun
 parse_from_string_parser
-  {a:type} (inp: string, f: parser a): Option_vt (a)
-// end of [parse_from_string_parser]
-
+  {a:type}
+(
+  inp: string, fparse: parser(a)
+) : Option_vt(a) // end-of-fun
+//
 (* ****** ****** *)
 
 fun
 parse_from_tokbuf_toplevel
-  (stadyn: int, buf: &tokbuf): d0eclist
-// end of [parse_from_tokbuf_toplevel]
+(
+  stadyn: int, buf: &tokbuf
+) : d0eclist // end-of-function
 
+(* ****** ****** *)
+//
+// HX-2015-10-04:
+// This one is for libatsopt
+//
+fun
+parse_from_string_toplevel
+(
+  stadyn: int, inp: string
+) : d0eclist =
+  "ext#libatsopt_parse_from_string_toplevel"
+//
+(* ****** ****** *)
+//
+fun
+parse_from_stdin_toplevel
+  (stadyn: int): d0eclist
+//
 fun
 parse_from_fileref_toplevel
   (stadyn: int, inp: FILEref): d0eclist
 // end of [parse_from_fileref_toplevel]
-
-(* ****** ****** *)
-
-fun parse_from_stdin_toplevel (stadyn: int): d0eclist
-
+//
 (* ****** ****** *)
 //
 fun

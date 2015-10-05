@@ -148,6 +148,11 @@ val symbol_ISCONS : symbol // iscons
 val symbol_ISNIL : symbol  // islist
 
 (* ****** ****** *)
+//
+val symbol__STDIN__ : symbol
+val symbol__STRING__ : symbol
+//
+(* ****** ****** *)
 
 val symbol_PATSHOME : symbol
 val symbol_PATSHOMERELOC : symbol
@@ -177,15 +182,18 @@ val symbol_ATS_EXTERN_PREFIX : symbol
 val symbol_ATS_STATIC_PREFIX : symbol
 //
 (* ****** ****** *)
-
-fun eq_symbol_symbol (x1: symbol, x2: symbol):<> bool
+//
+fun
+eq_symbol_symbol (x1: symbol, x2: symbol):<> bool
+fun
+neq_symbol_symbol (x1: symbol, x2: symbol):<> bool
+fun
+compare_symbol_symbol (x1: symbol, x2: symbol):<> Sgn
+//
 overload = with eq_symbol_symbol
-fun neq_symbol_symbol (x1: symbol, x2: symbol):<> bool
 overload != with eq_symbol_symbol
-
-fun compare_symbol_symbol (x1: symbol, x2: symbol):<> Sgn
 overload compare with compare_symbol_symbol
-
+//
 (* ****** ****** *)
 //
 fun print_symbol (x: symbol): void

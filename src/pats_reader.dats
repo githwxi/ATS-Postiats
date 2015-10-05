@@ -58,42 +58,57 @@ absviewt@ype reader0 = reader? // for initialization
 (* ****** ****** *)
 
 local
-
-staload "libc/SATS/stdio.sats"
-
+//
+staload
+"libc/SATS/stdio.sats"
+//
 assume reader0 = freader (unit_v)?
 assume reader_vt0ype = [v:view] freader (v)
-
-in // in of [local]
+//
+in (* in of [local] *)
 
 (* ****** ****** *)
-
+//
 implement
-reader_get_char (r) = r.getchar (r.pfres | (*none*))
+reader_get_char
+  (r) = r.getchar (r.pfres | (*none*))
+//
+(* ****** ****** *)
+
+fun
+reader0_initize_filp
+  {m:fmode}{l0:addr}
+(
+  pfmod:
+  file_mode_lte(m,r)
+, pffil: FILE(m) @ l0
+| r: &reader0 >> reader, p0: ptr l0
+) : void = () where
+{
+//
+viewdef v = FILE(m) @ l0
+//
+val
+getchar = lam
+  (pffil: !v | (*none*)): int =<cloptr1> fgetc_err (pfmod | !p0)
+// end of [getchar]
+//
+val
+freeres = lam
+  (pffil: v | (*none*)): void =<cloptr1> fclose_exn (pffil | p0)
+//
+prval () = r.pfres := pffil
+//
+val ((*void*)) = r.getchar := getchar
+val ((*void*)) = r.freeres := freeres  
+//
+} (* end of [reader0_initize_filp] *)
 
 (* ****** ****** *)
 
-fun reader0_initialize_filp
-  {m:file_mode}
-  {l:addr} (
-  pfmod: file_mode_lte (m, r)
-, pffil: FILE m @ l
-| r: &reader0 >> reader, p: ptr l
-) : void = () where {
-  viewdef v = FILE m @ l
-  val getchar = lam
-    (pffil: !v | (*none*)): int =<cloptr1> fgetc_err (pfmod | !p)
-  // end of [getchar]
-  val freeres = lam
-    (pffil: v | (*none*)): void =<cloptr1> fclose_exn (pffil | p)
-  prval () = r.pfres := pffil
-  val () = r.getchar := getchar
-  val () = r.freeres := freeres  
-} // end of [reader0_initialize_filp]
-
-(* ****** ****** *)
-
-fun reader0_initialize_getc (
+fun
+reader0_initize_getc
+(
   r: &reader0 >> reader, getc: () -<cloptr1> int
 ) : void = () where {
   viewdef v = unit_v
@@ -108,11 +123,12 @@ fun reader0_initialize_getc (
   val () = r.pfres := unit_v ()
   val () = r.getchar := getchar
   val () = r.freeres := freeres
-} // end of [reader0_initialize_getc]
+} // end of [reader0_initize_getc]
 
 (* ****** ****** *)
 
-fun reader0_initialize_string
+fun
+reader0_initize_string
   {n:nat} {l:addr} (
   pfgc: free_gc_v (size_t?, l)
 , pfat: sizeLte n @ l
@@ -147,17 +163,18 @@ fun reader0_initialize_string
   val () = r.pfres := (pfgc, pfat)
   val () = r.getchar := getchar
   val () = r.freeres := freeres
-} // end of [reader0_initialize_string]
+} // end of [reader0_initize_string]
 
 (* ****** ****** *)
 
 local
-
+//
 viewtypedef cs = List_vt (char)
+//
+in (* in of [local] *)
 
-in // in of [local]
-
-fun reader0_initialize_charlst_vt
+fun
+reader0_initize_charlst_vt
   {l:addr} (
   pfgc: free_gc_v (cs?, l)
 , pfat: cs @ l
@@ -201,13 +218,15 @@ fun reader0_initialize_charlst_vt
   val () = r.pfres := (pfgc, pfat)
   val () = r.getchar := getchar
   val () = r.freeres := freeres
-} // end of [reader0_initialize_charlst_vt]
+} // end of [reader0_initize_charlst_vt]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-fun reader0_uninitialize (
+fun
+reader0_uninitize
+(
   r: &reader >> reader0
 ) : void = () where {
   stavar v: view
@@ -218,7 +237,7 @@ fun reader0_uninitialize (
   prval () = __assert (r) where {
     extern prfun __assert (r: &freader(v)? >> reader0): void
   } // end of [prval]
-} // end of [reader0_uninitialize]
+} // end of [reader0_uninitize]
 
 (* ****** ****** *)
 
@@ -238,46 +257,82 @@ in // in of [local]
 (* ****** ****** *)
 
 implement
-reader_initialize_filp
-  (pfmod, pffil | r, p) = () where {
-  prval () = reader0_encode (r)
-  val () = reader0_initialize_filp (pfmod, pffil | r, p)
-} // end of [reader_initialize_filp]
-
-implement
-reader_initialize_getc
-  (r, getc) = () where {
-  prval () = reader0_encode (r)
-  val () = reader0_initialize_getc (r, getc)
-} // end of [reader_initialize_getc]
-
-implement
-reader_initialize_string
-  (r, inp) = () where {
-  val inp = string1_of_string inp
-  val (pfgc, pfat | p) = ptr_alloc<size_t> ()
-  val () = !p := size1_of_int1 (0)
-  prval () = reader0_encode (r)
-  val () = reader0_initialize_string (pfgc, pfat | r, inp, p)
-} // end of preader_initialize_string]
-
-implement
-reader_initialize_charlst_vt
-  (r, inp) = () where {
-  val (pfgc, pfat | p) = ptr_alloc<List_vt(char)> ()
-  val () = !p := inp
-  prval () = reader0_encode (r)
-  val () = reader0_initialize_charlst_vt (pfgc, pfat | r, p)
-} // end of preader_initialize_charlst_vt]
+reader_initize_filp
+(
+  pfmod, pffil | r, p
+) = () where
+{
+//
+prval () = reader0_encode (r)
+//
+val ((*void*)) =
+  reader0_initize_filp (pfmod, pffil | r, p)
+//
+} // end of [reader_initize_filp]
 
 (* ****** ****** *)
 
 implement
-reader_uninitialize
+reader_initize_getc
+  (r, getc) = () where
+{
+//
+prval () = reader0_encode (r)
+//
+val ((*void*)) = reader0_initize_getc (r, getc)
+//
+} // end of [reader_initize_getc]
+
+(* ****** ****** *)
+
+implement
+reader_initize_string
+  (r, inp) = () where
+{
+//
+val inp = string1_of_string inp
+val (pfgc, pfat | p) = ptr_alloc<size_t> ()
+val () = !p := size1_of_int1 (0)
+//
+prval () = reader0_encode (r)
+//
+val () =
+  reader0_initize_string (pfgc, pfat | r, inp, p)
+//
+} (* end of preader_initize_string] *)
+
+(* ****** ****** *)
+
+implement
+reader_initize_charlst_vt
+  (r, inp) = () where
+{
+val
+(
+  pfgc, pfat | p
+) =
+ptr_alloc<List_vt(char)> ()
+//
+val () = !p := inp
+//
+prval () = reader0_encode (r)
+//
+val ((*void*)) =
+  reader0_initize_charlst_vt (pfgc, pfat | r, p)
+//
+} (* end of preader_initize_charlst_vt] *)
+
+(* ****** ****** *)
+
+implement
+reader_uninitize
   (r) = () where {
-  val () = reader0_uninitialize (r)
-  prval () = reader0_decode (r)
-} // end of [reader_uninitialize]
+//
+val () = reader0_uninitize (r)
+//
+prval ((*void*)) = reader0_decode (r)
+//
+} (* end of [reader_uninitize] *)
 
 (* ****** ****** *)
 

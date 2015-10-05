@@ -394,7 +394,7 @@ lexbufobj_make_string
   (inp) = let
   val [l:addr]
     (pfgc, pfat | p) = ptr_alloc<lexbuf> ()
-  val () = $LBF.lexbuf_initialize_string (!p, inp)
+  val () = $LBF.lexbuf_initize_string (!p, inp)
   extern castfn __cast
     (pf1: free_gc_v (lexbuf?, l), pf2: lexbuf @ l | p: ptr l): lexbufobj
   // end of [extern]
@@ -407,12 +407,18 @@ end // end of [lexbufobj_make_string]
 implement
 lexbufobj_make_charlst_vt
   (inp) = let
-  val [l:addr]
-    (pfgc, pfat | p) = ptr_alloc<lexbuf> ()
-  val () = $LBF.lexbuf_initialize_charlst_vt (!p, inp)
-  extern castfn __cast
-    (pf1: free_gc_v (lexbuf?, l), pf2: lexbuf @ l | p: ptr l): lexbufobj
-  // end of [extern]
+//
+val
+[l:addr]
+  (pfgc, pfat | p) = ptr_alloc<lexbuf> ()
+//
+val () = $LBF.lexbuf_initize_charlst_vt (!p, inp)
+//
+extern
+castfn __cast
+  (pf1: free_gc_v (lexbuf?, l), pf2: lexbuf @ l | p: ptr l): lexbufobj
+// end of [extern]
+//
 in
   __cast (pfgc, pfat | p)
 end // end of [lexbufobj_make_charlst_vt]
@@ -422,13 +428,22 @@ end // end of [lexbufobj_make_charlst_vt]
 implement
 lexbufobj_make_fileref
   (inp) = let
-  val [l:addr]
-    (pfgc, pfat | p) = ptr_alloc<lexbuf> ()
-  val getc = lam () =<cloptr1> $STDIO.fgetc0_err (inp)
-  val () = $LBF.lexbuf_initialize_getc (!p, getc)
-  extern castfn __cast
-    (pf1: free_gc_v (lexbuf?, l), pf2: lexbuf @ l | p: ptr l): lexbufobj
-  // end of [extern]
+//
+val
+[l:addr]
+  (pfgc, pfat | p) = ptr_alloc<lexbuf> ()
+//
+val
+getc =
+  lam () =<cloptr1> $STDIO.fgetc0_err (inp)
+//
+val () = $LBF.lexbuf_initize_getc (!p, getc)
+//
+extern
+castfn __cast
+  (pf1: free_gc_v (lexbuf?, l), pf2: lexbuf @ l | p: ptr l): lexbufobj
+// end of [extern]
+//
 in
   __cast (pfgc, pfat | p)
 end // end of [lexbufobj_make_fileref]
@@ -437,10 +452,16 @@ end // end of [lexbufobj_make_fileref]
 
 implement
 lexbufobj_free (lbf) = let
-  extern castfn __cast (lbf: lexbufobj)
-    : [l:addr] (free_gc_v (lexbuf?, l), lexbuf @ l | ptr l)
-  val (pfgc, pfat | p) = __cast (lbf)
-  val () = $LBF.lexbuf_uninitialize (!p)
+//
+extern
+castfn
+__cast (lbf: lexbufobj)
+  : [l:addr] (free_gc_v (lexbuf?, l), lexbuf @ l | ptr l)
+//
+val (pfgc, pfat | p) = __cast (lbf)
+//
+val ((*cleared*)) = $LBF.lexbuf_uninitize (!p)
+//
 in
   ptr_free (pfgc, pfat | p)
 end // end of [lexbufobj_free]
@@ -451,8 +472,8 @@ implement
 lexbufobj_get_tokenlst
   (lbf) = let
 //
-viewtypedef res = tokenlst_vt
-viewtypedef lexbuf = $LEX.lexbuf
+vtypedef res = tokenlst_vt
+vtypedef lexbuf = $LEX.lexbuf
 //
 fun loop
 (
@@ -480,11 +501,15 @@ end (* end of [loop] *)
 var res: res
 val (pf, fpf | p) =
   __cast (lbf) where {
-  extern castfn __cast (lbf: !lexbufobj)
+  extern
+  castfn
+  __cast (lbf: !lexbufobj)
     : [l:addr] (lexbuf @ l, lexbuf @ l -<lin,prf> void | ptr l)
-} // end of [val]
+} (* end of [val] *)
+//
 val () = loop (!p, res)
-prval () = fpf (pf)
+//
+prval ((*rtrned*)) = fpf (pf)
 //
 in
   res
@@ -510,15 +535,20 @@ in
   __cast (lbf)
 end // end of [val]
 //
-val [l2:addr]
+val
+[l2:addr]
   (pfgc2, pfat2 | p2) = ptr_alloc<tokbuf> ()
-val () = $TBF.tokbuf_initialize_lexbuf (!p2, !p1)
+//
+val () = $TBF.tokbuf_initize_lexbuf (!p2, !p1)
 //
 val ((*void*)) = ptr_free (pfgc1, pfat1 | p1)
 //
-extern castfn __cast
-  (pf1: free_gc_v (tokbuf?, l2), pf2: tokbuf @ l2 | p: ptr l2): tokbufobj
-// end of [castfn] // end of [extern]
+extern
+castfn
+__cast
+(
+  pf1: free_gc_v (tokbuf?, l2), pf2: tokbuf @ l2 | p: ptr l2
+) : tokbufobj // end of [castfn] // end of [extern]
 //
 in
   __cast (pfgc2, pfat2 | p2)
@@ -529,11 +559,16 @@ end // end of [tokbufobj_make_lexbufobj]
 implement
 tokbufobj_free (tbf) = let
 //
-extern castfn __cast
-  (tbf: tokbufobj): [l:addr] (free_gc_v (tokbuf?, l), tokbuf @ l | ptr l)
+extern
+castfn
+__cast
+(
+  tbf: tokbufobj
+) : [l:addr] (free_gc_v (tokbuf?, l), tokbuf @ l | ptr l)
+//
 val (pfgc, pfat | p) = __cast (tbf)
 //
-val () = $TBF.tokbuf_uninitialize (!p)
+val () = $TBF.tokbuf_uninitize (!p)
 //
 in
   ptr_free (pfgc, pfat | p)
@@ -795,7 +830,7 @@ staload PAR = "src/pats_parsing.sats"
 local
 
 typedef charlst = List (char)
-viewtypedef charlst_vt = List_vt (char)
+vtypedef charlst_vt = List_vt (char)
 
 typedef d0eclist = $SYN.d0eclist
 
@@ -956,12 +991,16 @@ val inp1 = list_vt_copy (inp)
 val lbf =
   lexbufobj_make_charlst_vt (inp1)
 val tbf = tokbufobj_make_lexbufobj (lbf)
-extern castfn __cast (tbf: tokbufobj)
+//
+extern
+castfn __cast (tbf: tokbufobj)
   : [l:addr] (free_gc_v (tokbuf?, l), tokbuf @ l | ptr l)
+//
 val (pfgc, pfat | p) = __cast (tbf)
 val d0cs = $PAR.parse_from_tokbuf_toplevel (stadyn, !p)
-val () = $TBF.tokbuf_uninitialize (!p)
-val () = ptr_free (pfgc, pfat | p)  
+//
+val ((*void*)) = $TBF.tokbuf_uninitize(!p)
+val ((*void*)) = ptr_free (pfgc, pfat | p)  
 //
 fun d0eclrep_make
 (

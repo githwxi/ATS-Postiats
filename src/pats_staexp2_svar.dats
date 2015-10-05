@@ -454,7 +454,7 @@ val () = (
 ) (* end of [val] *)
 *)
 //
-var res: s2exp? // uninitialized
+var res: s2exp? // uninitized
 val found =
   $MAP.linmap_search<s2var,s2exp> (map, k, cmp, res)
 //
