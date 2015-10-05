@@ -1251,24 +1251,31 @@ do_trans123
 ) = d3cs where {
 //
 val d2cs =
-  do_trans12 (state, given, d0cs)
+  do_trans12(state, given, d0cs)
 //
 val () =
-  $TRENV3.the_trans3_env_initialize ()
-val d3cs =
-  $TRANS3.d2eclist_tr_errck (d2cs)
+  $TRENV3.the_trans3_env_initialize()
+//
+val d3cs = $TRANS3.d2eclist_tr_errck(d2cs)
 //
 (*
-val () = {
-  val () = print "do_trans123: the_s3itmlst =\n"
-  val () = $TRENV3.fprint_the_s3itmlst (stdout_ref)
-  val () = print_newline ()
+val () =
+{
+//
+  val () =
+  print "do_trans123: the_s3itmlst =\n"
+  val () =
+  $TRENV3.fprint_the_s3itmlst (stdout_ref)
+  val ((*void*)) = print_newline ((*void*))
+//
 } (* end of [val] *)
 *)
 //
 val () = 
 {
-val flag = state.cnstrsolveflag
+//
+val flag =
+  state.cnstrsolveflag
 val c3t0 =
   $TRENV3.the_trans3_finget_constraint ()
 // end of [val]
@@ -1279,7 +1286,7 @@ if
 flag = 0
 then {
   val () = $CNSTR3.c3nstr_ats2_solve (c3t0)
-} (* end of [if] *)
+} (* end of [then] *)
 //
 ) (* end of [val] *)
 //
@@ -1290,7 +1297,7 @@ then {
   val filr =
     outchan_get_filr (state.outchan)
   val () = $CNSTR3.c3nstr_export (filr, c3t0)
-} (* end of [if] *)
+} (* end of [then] *)
 //
 } (* end of [val] *)
 //
@@ -1369,7 +1376,7 @@ case+ 0 of
   {
     val d3cs = do_trans123 (state, given, d0cs)
   } (* end of [when ...] *)
-| _ => let
+| _ (*compilation*) => let
     val () = state.olevel := 1 // there is output
     val hids = do_trans1234 (state, given, d0cs)
     val outfil = outchan_get_filr (state.outchan)

@@ -26,7 +26,7 @@ main (argc, argv) =
 val () = libatsopt_dynloadall()
 //
 val res = 
-patsopt_tcats_string(1(*dyn*), HELLO_WORLD)
+patsopt_ccats_string(1(*dyn*), HELLO_WORLD)
 //
 } (* end of [main] *)
 

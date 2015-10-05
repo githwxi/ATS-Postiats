@@ -41,6 +41,25 @@ staload
 TRENV2 = "src/pats_trans2_env.sats"
 //
 (* ****** ****** *)
+//
+staload "src/pats_dynexp3.sats"
+//
+staload
+TRANS3 = "src/pats_trans3.sats"
+staload
+TRENV3 = "src/pats_trans3_env.sats"
+//
+(* ****** ****** *)
+//
+staload "src/pats_histaexp.sats"
+staload "src/pats_hidynexp.sats"
+//
+staload
+TYER = "src/pats_typerase.sats"
+//
+staload CCOMP = "src/pats_ccomp.sats"
+//
+(* ****** ****** *)
 
 staload "./../SATS/libatsopt_ext.sats"
 
@@ -90,9 +109,14 @@ in
 end // end of [PATSHOME_get]
 //
 (* ****** ****** *)
-
+//
+extern
+fun
+patsopt_tcats_d3eclist
+  (stadyn: int, inp: string): d3eclist
+//
 implement
-patsopt_tcats_string
+patsopt_tcats_d3eclist
   (stadyn, inp) = let
 //
 val fil = $FIL.filename_string
@@ -101,16 +125,17 @@ val
 d0cs =
 parse_from_string_toplevel(stadyn, inp)
 //
-val () = fprint_d0eclist(stdout_ref, d0cs)
-//
 val
 (pf|()) = PATSHOME_set()
 val
 PATSHOME = PATSHOME_get(pf|(*none*))
 //
-val () = $FIL.the_prepathlst_push(PATSHOME)
-val () = $TRENV1.the_trans1_env_initialize((*void*))
-val () = $TRENV2.the_trans2_env_initialize((*void*))
+val () =
+  $FIL.the_prepathlst_push(PATSHOME)
+val () =
+  $TRENV1.the_trans1_env_initialize()
+val () =
+  $TRENV2.the_trans2_env_initialize()
 //
 val () = the_prelude_load(PATSHOME)
 //
@@ -120,17 +145,25 @@ val d1cs = $TRANS1.d0eclist_tr_errck(d0cs)
 //
 val () = $TRANS1.trans1_finalize((*void*))
 //
-val () = fprint_d1eclist(stdout_ref, d1cs)
-//
 val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
 //
+val () =
+  $TRENV3.the_trans3_env_initialize()
+//
+val d3cs = $TRANS3.d2eclist_tr_errck(d2cs)
+//
+(*
+val () = fprint_d0eclist(stdout_ref, d0cs)
+val () = fprint_d1eclist(stdout_ref, d1cs)
 val () = fprint_d2eclist(stdout_ref, d2cs)
+val () = fprint_d3eclist(stdout_ref, d3cs)
+*)
 //
 in
 //
-  TCATSRESstdout("patsopt_tcats_string")
+  d3cs
 //
-end // end of [patsopt_tcats_string]
+end // end of [patsopt_tcats_d3eclst]
 
 (* ****** ****** *)
 
@@ -138,15 +171,20 @@ implement
 patsopt_ccats_string
   (stadyn, inp) = let
 //
-val
-d0cs =
-parse_from_string_toplevel(stadyn, inp)
+val out = stdout_ref
+val infil = $FIL.filename_string
 //
-val () = fprint_d0eclist(stdout_ref, d0cs)
+val
+d3cs = patsopt_tcats_d3eclist(stadyn, inp)
+//
+val hids =
+  $TYER.d3eclist_tyer_errck (d3cs)
+val ((*void*)) =
+  $CCOMP.ccomp_main (out, stadyn, infil, hids)
 //
 in
 //
-  CCATSRESstdout("patsopt_ccats_string")
+  CCATSRESstdout("patsopt_ccats_string: ...")
 //
 end // end of [patsopt_ccats_string]
 
