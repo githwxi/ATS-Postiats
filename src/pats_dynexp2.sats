@@ -1133,26 +1133,32 @@ d2lval = // type for left-values
 // end of [d2lval]
 
 (* ****** ****** *)
-
+//
 fun print_d2exp (x: d2exp): void
-overload print with print_d2exp
 fun prerr_d2exp (x: d2exp): void
-overload prerr with prerr_d2exp
 fun fprint_d2exp : fprint_type (d2exp)
-overload fprint with fprint_d2exp
-
 fun fprint_d2explst : fprint_type (d2explst)
-overload fprint with fprint_d2explst
-
 fun fprint_d2expopt : fprint_type (d2expopt)
+//
+overload print with print_d2exp
+overload prerr with prerr_d2exp
+overload fprint with fprint_d2exp
+overload fprint with fprint_d2explst
+overload fprint with fprint_d2expopt
+//
+(* ****** ****** *)
 
 fun fprint_labd2exp : fprint_type (labd2exp)
 fun fprint_labd2explst : fprint_type (labd2explst)
 overload fprint with fprint_labd2explst
 
+(* ****** ****** *)
+
 fun fprint_d2exparg : fprint_type (d2exparg)
 fun fprint_d2exparglst : fprint_type (d2exparglst)
 overload fprint with fprint_d2exparglst
+
+(* ****** ****** *)
 
 fun fprint_d2lab : fprint_type (d2lab)
 fun fprint_d2lablst : fprint_type (d2lablst)
@@ -1165,23 +1171,27 @@ fun fprint_i2nvarglst : fprint_type (i2nvarglst)
 fun fprint_i2nvresstate : fprint_type (i2nvresstate)
 
 (* ****** ****** *)
-
+//
 fun print_d2ecl (x: d2ecl): void
 fun prerr_d2ecl (x: d2ecl): void
+fun fprint_d2ecl : fprint_type (d2ecl)
+fun fprint_d2eclist : fprint_type (d2eclist)
+//
 overload print with print_d2ecl
 overload prerr with prerr_d2ecl
-fun fprint_d2ecl : fprint_type (d2ecl)
 overload fprint with fprint_d2ecl
-
+overload fprint with fprint_d2eclist
+//
 (* ****** ****** *)
-
+//
 fun print_d2lval (x: d2lval): void
 and prerr_d2lval (x: d2lval): void
+fun fprint_d2lval : fprint_type (d2lval)
+//
 overload print with print_d2lval
 overload prerr with prerr_d2lval
-fun fprint_d2lval : fprint_type (d2lval)
 overload fprint with fprint_d2lval
-
+//
 (* ****** ****** *)
 //
 // HX: dynamic expressions

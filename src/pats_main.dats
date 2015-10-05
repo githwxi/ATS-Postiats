@@ -748,10 +748,16 @@ theOutFilename_set
 end // end of [local]
 
 (* ****** ****** *)
-
+//
+extern
 fun
-fixity_load
-  (PATSHOME: string): void = let
+the_fixity_load
+  (PATSHOME: string): void
+  = "ext#libatsopt_the_fixity_load"
+//
+implement
+the_fixity_load
+  (PATSHOME) = let
 //
   val given = "prelude/fixity.ats"
   val fullname =
@@ -837,19 +843,32 @@ val ((*reset*)) = $TRENV1.the_EXTERN_PREFIX_set_none()
 } (* end of [pervasive_load] *)
 
 (* ****** ****** *)
-
+//
+// HX-2015-10-05:
+// For use in libatsopt
+//
+extern
 fun
-prelude_load
+the_prelude_load
 (
   PATSHOME: string
-) : void = {
+) : void = "ext#libatsopt_the_prelude_load"
 //
-val () = fixity_load (PATSHOME)
+implement
+the_prelude_load
+  (PATSHOME) = {
 //
-val () = pervasive_load (PATSHOME, "prelude/basics_pre.sats")
-val () = pervasive_load (PATSHOME, "prelude/basics_sta.sats")
-val () = pervasive_load (PATSHOME, "prelude/basics_dyn.sats")
-val () = pervasive_load (PATSHOME, "prelude/basics_gen.sats")
+val () =
+  the_fixity_load (PATSHOME)
+//
+val () =
+  pervasive_load (PATSHOME, "prelude/basics_pre.sats")
+val () =
+  pervasive_load (PATSHOME, "prelude/basics_sta.sats")
+val () =
+  pervasive_load (PATSHOME, "prelude/basics_dyn.sats")
+val () =
+  pervasive_load (PATSHOME, "prelude/basics_gen.sats")
 //
 val () = pervasive_load (PATSHOME, "prelude/macrodef.sats")
 //
@@ -936,19 +955,30 @@ val () = pervasive_load (PATSHOME, "prelude/SATS/giterator.sats")
 val () = pervasive_load (PATSHOME, "prelude/SATS/fcontainer.sats")
 *)
 //
-} (* end of [prelude_load] *)
+} (* end of [the_prelude_load] *)
 
 (* ****** ****** *)
-
+//
+// HX-2015-10-05:
+// For use in libatsopt
+//
+extern
 fun
-prelude_load_if
+the_prelude_load_if
 (
   PATSHOME: string, flag: &int
-) : void =
-  if flag = 0 then let
-    val () = flag := 1 in prelude_load (PATSHOME)
-  end else () // end of [if]
-// end of [prelude_load_if]
+) : void = "ext#libatsopt_the_prelude_load_if"
+//
+implement
+the_prelude_load_if
+  (PATSHOME, flag) =
+(
+//
+if flag = 0 then let
+  val () = flag := 1 in the_prelude_load (PATSHOME)
+end else () // end of [if]
+//
+) (* end of [the_prelude_load_if] *)
 
 (* ****** ****** *)
 //
@@ -1490,13 +1520,14 @@ case+ arglst of
     case+ 0 of
     | _ when
         stadyn >= 0 => {
-        val PATSHOME = state.PATSHOME
-        val () =
-        prelude_load_if (
-          PATSHOME, state.preludeflag // loading once
-        ) (* end of [val] *)
 //
-        val () = state.infil := $FIL.filename_stdin
+        val () =
+        state.infil := $FIL.filename_stdin
+//
+        val () =
+        the_prelude_load_if
+          (state.PATSHOME, state.preludeflag)
+        // end of [val]
 //
         val () =
         if stadyn >= 1
@@ -1565,9 +1596,14 @@ case+ arg of
         (2, key) when nif > 0 =>
         process_cmdline2_COMARGkey2 (state, arglst, key)
     | COMARGkey (_, given) => let
-        val PATSHOME = state.PATSHOME
-        val () = state.ninpfile := state.ninpfile + 1
-        val () = prelude_load_if (PATSHOME, state.preludeflag)
+//
+        val () =
+        state.ninpfile := state.ninpfile+1
+//
+        val () =
+        the_prelude_load_if
+          (state.PATSHOME, state.preludeflag)
+        // end of [val]
 //
         val () =
         if stadyn >= 1
@@ -1854,18 +1890,20 @@ set () where
 //
 val
 PATSHOME = let
-  val opt = get () where
-  {
-    extern fun get (): Stropt = "mac#patsopt_PATSHOME_get"
-  } (* end of [where] *)
-  val issome = stropt_is_some (opt)
+//
+val opt = get () where
+{
+  extern fun get (): Stropt = "mac#patsopt_PATSHOME_get"
+} (* end of [where] *)
+val issome = stropt_is_some (opt)
+//
 in
   if issome
     then stropt_unsome(opt)
     else let
       val () = prerrln! ("The environment variable PATSHOME is undefined!")
     in
-      $ERR.abort ()
+      $ERR.abort ((*exit*))
     end (* end of [else] *)
   // end of [if]
 end : string // end of [val]

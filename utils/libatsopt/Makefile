@@ -12,6 +12,10 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 #
 ######
+
+all:: libatsopt_ext
+
+######
 #
 # For building libatsopt with libgmp dependency
 #
@@ -44,10 +48,10 @@ libatsopt_min:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt
 ######
 
 libatsopt_ext:: ; \
-  $(ATSCC) -I ${PATSHOME}/src -IATS ${PATSHOME} -c SATS/libatsopt_ext.sats && \
+  $(ATSCC) -IATS ${PATSHOME} -IATS ${ATSHOME} -I ${PATSHOME}/src -c SATS/libatsopt_ext.sats && \
   $(AR) -r libatsopt.a libatsopt_ext_sats.o
 libatsopt_ext:: ; \
-  $(ATSCC) -I ${PATSHOME}/src -IATS ${PATSHOME} -c DATS/libatsopt_ext.dats && \
+  $(ATSCC) -IATS ${PATSHOME} -IATS ${ATSHOME} -I ${PATSHOME}/src -c DATS/libatsopt_ext.dats && \
   $(AR) -r libatsopt.a libatsopt_ext_dats.o
 
 ######

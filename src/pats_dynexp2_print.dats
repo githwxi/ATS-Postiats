@@ -48,16 +48,18 @@ staload "./pats_basics.sats"
 staload "./pats_lexing.sats"
 
 (* ****** ****** *)
-
+//
 staload SYM = "./pats_symbol.sats"
-macdef fprint_symbol = $SYM.fprint_symbol
 staload SYN = "./pats_syntax.sats"
-macdef fprint_cstsp = $SYN.fprint_cstsp
+//
+macdef fprint_symbol = $SYM.fprint_symbol
+//
 macdef fprint_l0ab = $SYN.fprint_l0ab
 macdef fprint_i0de = $SYN.fprint_i0de
+macdef fprint_cstsp = $SYN.fprint_cstsp
 macdef fprint_d0ynq = $SYN.fprint_d0ynq
 macdef fprint_macsynkind = $SYN.fprint_macsynkind
-
+//
 (* ****** ****** *)
 
 staload "./pats_staexp1.sats"
@@ -502,7 +504,8 @@ d2e0.d2exp_node of
     val () = prstr ")"
   } // end of [D2Eloopexn]
 //
-| D2Econ (
+| D2Econ
+  (
     d2c, _(*loc*), s2as, npf, _(*loc*), d2es
   ) => {
     val () = prstr "D2Econ("
@@ -517,7 +520,11 @@ d2e0.d2exp_node of
   } // end of [D2Econ]
 //
 | D2Esym (d2s) =>
-    fprint! (out, "D2Esym(", d2s, ")")
+  {
+    val () =
+      fprint! (out, "D2Esym(", d2s, ")")
+    // end of [val]
+  } // end of [D2Esym]
 //
 | D2Efoldat
     (s2as, d2e) => {
@@ -543,11 +550,13 @@ d2e0.d2exp_node of
     val () = prstr "; "
     val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ")"
-  }
+  } (* end of [D2Etmpid] *)
 //
 | D2Elet (d2cs, d2e) => {
     val () = prstr "D2Elet(\n"
-    val () = $UT.fprintlst (out, d2cs, "\n", fprint_d2ecl)
+    val () =
+      fprint_d2eclist (out, d2cs)
+    // end of [val]
     val () = prstr "\n>>in-of-let<<\n"
     val () = fprint_d2exp (out, d2e)
     val () = prstr "\n)"
@@ -556,7 +565,7 @@ d2e0.d2exp_node of
     val () = prstr "D2Ewhere("
     val () = fprint_d2exp (out, d2e)
     val () = prstr ";\n"
-    val () = $UT.fprintlst (out, d2cs, "\n", fprint_d2ecl)
+    val () = fprint_d2eclist (out, d2cs)
     val () = prstr "\n)"
   } (* end of [D2Ewhere] *)
 //
@@ -566,27 +575,24 @@ d2e0.d2exp_node of
     val () = prstr "; "
     val () = fprint_d2exparglst (out, d2as)
     val () = prstr ")"
-  }
+  } (* end of [D2Eapplst] *)
 //
-| D2Eifhead (
+| D2Eifhead
+  (
     invres, _test, _then, _else
-  ) => {
+  ) => { // D2Eifhead
     val () = prstr "D2Eifhead("
     val () = fprint_d2exp (out, _test)
     val () = prstr "; "
     val () = fprint_d2exp (out, _then)
-    val () = (
-      case+ _else of
-      | Some (d2e) => {
-          val () = prstr "; "; val () = fprint_d2exp (out, d2e)
-        } // end of [Some]
-      | None () => ()
-    ) : void // end of [val]
+    val () = prstr "; "
+    val () = fprint_d2expopt (out, _else)
     val () = prstr ")"
-  } // end of [D2Eifhead]
-| D2Esifhead (
+  } (* end of [D2Eifhead] *)
+| D2Esifhead
+  (
     invres, _test, _then, _else
-  ) => {
+  ) => { // D2Esifhead
     val () = prstr "D2Esifhead("
     val () = fprint_s2exp (out, _test)
     val () = prstr "; "
@@ -594,7 +600,7 @@ d2e0.d2exp_node of
     val () = prstr "; "
     val () = fprint_d2exp (out, _else)
     val () = prstr ")"
-  } // end of [D2Eifhead]
+  } (* end of [D2Esifhead] *)
 //
 | D2Ecasehead _ => {
     val () = prstr "D2Ecasehead("
@@ -1047,17 +1053,26 @@ in
 end // end of [fprint_loopi2nv]
 
 (* ****** ****** *)
-
+//
+implement
+print_d2ecl
+  (x) = fprint_d2ecl (stdout_ref, x)
+implement
+prerr_d2ecl
+  (x) = fprint_d2ecl (stderr_ref, x)
+//
 implement
 fprint_d2ecl
   (out, x0) = let
 //
-macdef prstr (s) = fprint_string (out, ,(s))
+macdef
+prstr(s) = fprint_string (out, ,(s))
 //
 in
 //
 case+
-x0.d2ecl_node of
+x0.d2ecl_node
+of // case+
 //
 | D2Cnone () => prstr "D2Cnone()"
 //
@@ -1184,42 +1199,46 @@ x0.d2ecl_node of
 //
 | D2Cerrdec () => prstr "D2Cerrdec()"
 //
-| _ => prstr "D2C...(...)"
+| _ (*rest-of-d2ecl*) => prstr "D2C...(...)"
 //
 end // end of [fprint_d2ecl]
-
+//
 implement
-print_d2ecl (x) = fprint_d2ecl (stdout_ref, x)
-implement
-prerr_d2ecl (x) = fprint_d2ecl (stderr_ref, x)
-
+fprint_d2eclist
+  (out, d2cs) =
+  $UT.fprintlst (out, d2cs, "\n", fprint_d2ecl)
+//
 (* ****** ****** *)
 
 implement
 fprint_d2lval
   (out, x0) = let
 //
-macdef prstr (s) = fprint_string (out, ,(s))
+macdef
+prstr(s) = fprint_string (out, ,(s))
 //
 in
 //
 case+ x0 of
 //
-| D2LVALderef (d2e, d2ls) => {
+| D2LVALderef
+    (d2e, d2ls) => {
     val () = prstr "D2LVALderef("
     val () = fprint_d2exp (out, d2e)
     val () = prstr "; "
     val () = fprint_d2lablst (out, d2ls)
     val () = prstr ")"
   }
-| D2LVALvar_lin (d2v, d2ls) => {
+| D2LVALvar_lin
+    (d2v, d2ls) => {
     val () = prstr "D2LVALvar_lin("
     val () = fprint_d2var (out, d2v)
     val () = prstr "; "
     val () = fprint_d2lablst (out, d2ls)
     val () = prstr ")"
   }
-| D2LVALvar_mut (d2v, d2ls) => {
+| D2LVALvar_mut
+    (d2v, d2ls) => {
     val () = prstr "D2LVALvar_mul("
     val () = fprint_d2var (out, d2v)
     val () = prstr "; "
