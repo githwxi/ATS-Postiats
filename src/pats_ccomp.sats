@@ -1979,11 +1979,11 @@ fun hifundeclst_ccomp
 (* ****** ****** *)
 
 fun hidecl_ccomp
-  (env: !ccompenv, hdc: hidecl): primdec
+  (env: !ccompenv, hid: hidecl): primdec
 fun hideclist_ccomp
-  (env: !ccompenv, hdcs: hideclist): primdeclst
+  (env: !ccompenv, hids: hideclist): primdeclst
 
-fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
+fun hideclist_ccomp0 (hids: hideclist): primdeclst
 
 (* ****** ****** *)
 //
@@ -2370,7 +2370,7 @@ fun the_toplevel_getref_primdeclst (): Ptr1
 
 fun ccomp_main
 (
-  out: FILEref, flag: int, infil: filename, hdcs: hideclist
+  out: FILEref, flag: int, infil: filename, hids: hideclist
 ) : void // end of [ccomp_main]
 
 (* ****** ****** *)
