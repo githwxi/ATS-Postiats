@@ -54,6 +54,11 @@ comarg =
 | COMARGstring of string
 | COMARGfilinp of string
 //
+typedef comarglst0 = List0(comarg)
+typedef comarglst1 = List1(comarg)
+//
+(* ****** ****** *)
+//
 fun
 string2file
   (content: string, nerr: &int >> int): string

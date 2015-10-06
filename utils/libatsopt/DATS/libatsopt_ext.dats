@@ -25,6 +25,17 @@ staload
 _ = "prelude/DATS/array.dats"
 
 (* ****** ****** *)
+
+staload
+FCNTL = "libc/SATS/fcntl.sats"
+staload
+STDIO = "libc/SATS/stdio.sats"
+staload
+STDLIB = "libc/SATS/stdlib.sats"
+staload
+UNISTD = "libc/SATS/unistd.sats"
+  
+(* ****** ****** *)
 //
 staload
 FIL = "src/pats_filename.sats"
@@ -76,7 +87,7 @@ TYER = "src/pats_typerase.sats"
 staload CCOMP = "src/pats_ccomp.sats"
 //
 (* ****** ****** *)
-
+  
 staload "./../SATS/libatsopt_ext.sats"
 
 (* ****** ****** *)
@@ -142,10 +153,71 @@ implement
 string2file
   (content, nerr) = let
 //
-val () = nerr := nerr + 1
+stadef
+fildes_v = $FCNTL.fildes_v
+//
+macdef
+SEEK_SET = $STDIO.SEEK_SET
+//
+val
+prfx = "libatsopt_string2file_"
+//
+val
+tmp0 =
+sprintf ("%sXXXXXX", @(prfx))
+val
+[m,n:int]
+tmpbuf = strbuf_of_strptr(tmp0)
+prval () =
+__assert () where {
+  extern prfun __assert (): [n >= 6] void
+} (* end of [prval] *)
+prval pfstr = tmpbuf.1
+val
+(pfopt | fd) =
+$STDLIB.mkstemp !(tmpbuf.2) // create it!
+prval () = tmpbuf.1 := pfstr
+val tmpres = string_of_strbuf (tmpbuf)
 //
 in
-  "/tmp/string2file_dummy"
+//
+if
+fd >= 0
+then let
+  prval
+  $FCNTL.open_v_succ(pffil) = pfopt
+  val (fpf | out) =
+  fdopen (pffil | fd, file_mode_w) where
+  {
+    extern
+    fun
+    fdopen{fd:nat}
+    (
+      pffil: !fildes_v fd
+    | fd: int fd, mode: file_mode
+    ) : (fildes_v fd -<lin,prf> void | FILEref) = "mac#fdopen"
+  } (* end of [out] *)
+  val ec =
+    $STDIO.fputs_err(content, out)
+  val () = if ec < 0 then nerr := nerr + 1
+  val ec = $STDIO.fflush_err(out)
+  val () = if ec != 0 then nerr := nerr + 1
+  val ec = $STDIO.fseek_err(out, 0L, SEEK_SET)
+  val () = if ec != 0 then nerr := nerr + 1
+  prval
+  ((*void*)) = fpf (pffil)
+  val ec = $STDIO.fclose_err(out)
+  val () = if ec != 0 then nerr := nerr + 1
+in
+  tmpres
+end // end of [then]
+else let
+  val () = nerr := nerr + 1
+  prval $FCNTL.open_v_fail((*void*)) = pfopt
+in
+  tmpres
+end // end of [else]
+//
 end // end of [string2file]
 
 (* ****** ****** *)
@@ -154,12 +226,17 @@ implement
 patsopt_main_list
   {n}(args) = let
 //
+vtypedef
+res = List0_vt(string)
+//
 fun
 loop
 {l:addr}
 (
   xs: List(comarg)
-, p0: ptr(l), nerr: &int >> int
+, p0: ptr(l)
+, res: &res >> res
+, nerr: &int >> int
 ) : void =
 (
 case+ xs of
@@ -169,15 +246,45 @@ case+ xs of
     (
       case+ x of
       | COMARGstring(x) => x
-      | COMARGfilinp(x) => string2file(x, nerr)
+      | COMARGfilinp(x) => let
+          val
+          fil = string2file(x, nerr)
+        in
+          res := list_vt_cons(fil, res); fil
+        end // end of [COMARGfilinp]
     ) : string // end of [val]
     val () =
       $UN.ptr0_set<string>(p0, x)
     // end of [val]
   in
-    loop(xs, p0+sizeof<string>, nerr)
+    loop(xs, p0+sizeof<string>, res, nerr)
   end // end of [list_cons]
 )
+//
+fun
+unlinklst
+(
+  xs: res
+) : void = let
+//
+macdef
+unlink = $UNISTD.unlink
+//
+in
+//
+case+ xs of
+| ~list_vt_nil
+    ((*void*)) => ()
+| ~list_vt_cons
+    (x, xs) => let
+    val ec = unlink(x) in unlinklst(xs)
+  end (* end of [list_cons] *)
+//
+end // end of [unlinklst]
+//
+var
+res: res =
+  list_vt_nil
 //
 var
 nerr: int = 0
@@ -191,7 +298,7 @@ val
 (pfgc, pfarr | p0) =
 array_ptr_alloc<string> (asz0)
 //
-val ((*void*)) = loop(args, p0, nerr)
+val ((*void*)) = loop(args, p0, res, nerr)
 //
 val ((*void*)) = (
 //
@@ -214,6 +321,7 @@ else ((*void*)) // end of [else]
 //
 ) (* end of [if] *)
 //
+val () = unlinklst(res)
 val () = array_ptr_free(pfgc, pfarr | p0)
 //
 in

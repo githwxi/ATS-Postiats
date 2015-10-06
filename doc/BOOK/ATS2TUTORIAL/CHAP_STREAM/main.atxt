@@ -95,11 +95,11 @@ val thePrimes = sieve(from(2))
 //
 ')
 
-A stream is constructed consisting of all the integers
-starting from 2; the first element of the stream is kept and all the
-multiples of this element are removed from the tail of stream; this process
-is then repeated on the tail of the stream recursively. Clearly, the final
-stream thus generated consists of all the prime numbers ordered
+A stream is constructed consisting of all the integers starting from
+2; the first element of the stream is kept and all the multiples of
+this element are removed from the tail of the stream; this process is
+then repeated on the tail of the stream recursively. Clearly, the
+final stream thus generated consists of all the prime numbers ordered
 ascendingly.
 
 ')#comment("para")

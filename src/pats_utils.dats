@@ -783,7 +783,8 @@ in
   res (*strptr*)
 end // end of [then]
 else let
-  prval $FCNTL.open_v_fail() = pfopt
+  prval
+  $FCNTL.open_v_fail((*void*)) = pfopt
   val ((*freed*)) = strptr_free(tmp) in strptr_null((*void*))
 end // end of [else]
 //

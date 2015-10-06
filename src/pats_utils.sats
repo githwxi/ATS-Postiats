@@ -192,7 +192,7 @@ a:t@ype
 (* ****** ****** *)
 //
 fun
-ptr_as_volatile (p: ptr): void // for stoping optimization
+ptr_as_volatile (p: ptr): void // for stopping optimization
 //
 (* ****** ****** *)
 
