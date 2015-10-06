@@ -149,6 +149,49 @@ end // end of [PATSHOME_get]
 //
 (* ****** ****** *)
 
+local
+
+fun
+auxexn
+(
+  exn: exn
+) : bool = let
+//
+val exn =
+$UN.castvwtp0{ptr}(exn)
+//
+in
+  false
+end // end of [auxexn]
+
+in (*in-of-local*)
+
+implement
+patsopt_main_opt
+  (argc, argv) = let
+//
+extern
+fun
+patsopt_main:
+  (int, ptr) -> void =
+  "ext#libatsopt_patsopt_main"
+in
+//
+try let
+//
+val () =
+  patsopt_main(argc, &argv)
+//
+in
+  true
+end with exn => auxexn(exn)
+//
+end (* end of [patsopt_main_opt] *)
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 string2file
   (content, nerr) = let
@@ -295,7 +338,7 @@ val
 asz0 = size1_of_int1(argc)
 //
 val
-(pfgc, pfarr | p0) =
+(pfgc,pfarr|p0) =
 array_ptr_alloc<string> (asz0)
 //
 val ((*void*)) = loop(args, p0, res, nerr)
@@ -310,22 +353,25 @@ val
 (pfarr,fpf|argv) =
 $UN.ptr1_vtake{@[string][n]}(p0)
 //
-val () = patsopt_main(argc, !argv)
+val ans =
+  patsopt_main_opt(argc, !argv)
 //
 prval ((*returned*)) = fpf(pfarr)
 //
 in
-  // nothing
+//
+if not(ans) then nerr := nerr+1
+//
 end // end of [then]
 else ((*void*)) // end of [else]
 //
 ) (* end of [if] *)
 //
 val () = unlinklst(res)
-val () = array_ptr_free(pfgc, pfarr | p0)
+val () = array_ptr_free(pfgc,pfarr|p0)
 //
 in
-  nerr
+  nerr (*number-of-errors*)
 end // end of [patsopt_main_list]
 
 (* ****** ****** *)

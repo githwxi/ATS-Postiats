@@ -41,11 +41,16 @@ the_prelude_load_if
 (* ****** ****** *)
 //
 fun
-patsopt_main
+patsopt_main_exn
   {n:pos}
 (
   argc: int(n), argv: &(@[string][n])
 ) : void = "ext#libatsopt_patsopt_main"
+//
+fun
+patsopt_main_opt
+  {n:pos}
+  (argc: int(n), argv: &(@[string][n])): bool
 //
 (* ****** ****** *)
 //
@@ -61,7 +66,9 @@ typedef comarglst1 = List1(comarg)
 //
 fun
 string2file
-  (content: string, nerr: &int >> int): string
+(
+  content: string, nerr: &int >> int
+) : string // end-of-string2file
 //
 (* ****** ****** *)
 //
