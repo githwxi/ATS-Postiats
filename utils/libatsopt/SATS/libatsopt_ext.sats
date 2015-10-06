@@ -40,24 +40,41 @@ the_prelude_load_if
 //
 (* ****** ****** *)
 //
-datatype
-tcatsres =
-  | TCATSRESstdout of string
-  | TCATSRESstderr of string
+fun
+patsopt_main
+  {n:pos}
+(
+  argc: int(n), argv: &(@[string][n])
+) : void = "ext#libatsopt_patsopt_main"
+//
+(* ****** ****** *)
 //
 datatype
-ccatsres =
-  | CCATSRESstdout of string
-  | CCATSRESstderr of string
+comarg =
+| COMARGstring of string
+| COMARGfilinp of string
+//
+fun
+string2file
+  (content: string, nerr: &int >> int): string
 //
 (* ****** ****** *)
 //
 fun
-patsopt_tcats_string
-  (stadyn: int, source: string): tcatsres
+patsopt_main_list
+  {n:pos}(args: list(comarg, n)): int
+//
+(* ****** ****** *)
+//
 fun
-patsopt_ccats_string
-  (stadyn: int, source: string): ccatsres
+libatsopt_dynloadall((*void*)): void = "ext#"
+//
+(* ****** ****** *)
+//
+datatype
+patsoptres =
+  | PATSOPTRESstdout of string // output to stdout
+  | PATSOPTRESstderr of string // output to stderr
 //
 (* ****** ****** *)
 

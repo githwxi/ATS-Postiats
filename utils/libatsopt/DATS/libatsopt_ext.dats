@@ -11,6 +11,22 @@
 (* ****** ****** *)
 //
 staload
+UN =
+"prelude/SATS/unsafe.sats"
+//
+staload
+_ = "prelude/DATS/unsafe.dats"
+//
+(* ****** ****** *)
+
+staload
+_ = "prelude/DATS/list.dats"
+staload
+_ = "prelude/DATS/array.dats"
+
+(* ****** ****** *)
+//
+staload
 FIL = "src/pats_filename.sats"
 //
 (* ****** ****** *)
@@ -73,14 +89,25 @@ extern char *patsopt_PATSHOME_get() ;
 %} // end of [{^]
 //
 implement
-PATSHOME_set() = let
-  extern
-  fun set (): void = "mac#patsopt_PATSHOME_set"
-  val () = set((*void*))
-  prval pf = __assert() where
-  {
-    extern prfun __assert(): PATSHOME_set_p  
-  } (* end of [prval] *)
+PATSHOME_set
+  ((*void*)) = let
+//
+val () = set() where
+{
+extern
+fun
+set (
+// argumentless
+) : void =
+  "mac#patsopt_PATSHOME_set"
+//
+} // end of [where]
+//
+prval pf = __assert() where
+{
+  extern prfun __assert(): PATSHOME_set_p  
+} (* end of [prval] *)
+//
 in
   (pf | ((*void*)))
 end // end of [PATSHOME_set]
@@ -91,14 +118,15 @@ PATSHOME_get
   pf | (*none*)
 ) = let
 //
-val opt = get () where
+val opt = get() where
 {
 extern
 fun
-get
-(
+get (
 // argumentless
-) : Stropt = "mac#patsopt_PATSHOME_get"
+) : Stropt =
+  "mac#patsopt_PATSHOME_get"
+//
 } (* end of [where] *)
 val issome = stropt_is_some (opt)
 //
@@ -109,14 +137,104 @@ in
 end // end of [PATSHOME_get]
 //
 (* ****** ****** *)
+
+implement
+string2file
+  (content, nerr) = let
+//
+val () = nerr := nerr + 1
+//
+in
+  "/tmp/string2file_dummy"
+end // end of [string2file]
+
+(* ****** ****** *)
+
+implement
+patsopt_main_list
+  {n}(args) = let
+//
+fun
+loop
+{l:addr}
+(
+  xs: List(comarg)
+, p0: ptr(l), nerr: &int >> int
+) : void =
+(
+case+ xs of
+| list_nil() => ()
+| list_cons(x, xs) => let
+    val x =
+    (
+      case+ x of
+      | COMARGstring(x) => x
+      | COMARGfilinp(x) => string2file(x, nerr)
+    ) : string // end of [val]
+    val () =
+      $UN.ptr0_set<string>(p0, x)
+    // end of [val]
+  in
+    loop(xs, p0+sizeof<string>, nerr)
+  end // end of [list_cons]
+)
+//
+var
+nerr: int = 0
+//
+val
+argc = list_length(args)
+val
+asz0 = size1_of_int1(argc)
+//
+val
+(pfgc, pfarr | p0) =
+array_ptr_alloc<string> (asz0)
+//
+val ((*void*)) = loop(args, p0, nerr)
+//
+val ((*void*)) = (
+//
+if
+nerr = 0
+then let
+//
+val
+(pfarr,fpf|argv) =
+$UN.ptr1_vtake{@[string][n]}(p0)
+//
+val () = patsopt_main(argc, !argv)
+//
+prval ((*returned*)) = fpf(pfarr)
+//
+in
+  // nothing
+end // end of [then]
+else ((*void*)) // end of [else]
+//
+) (* end of [if] *)
+//
+val () = array_ptr_free(pfgc, pfarr | p0)
+//
+in
+  nerr
+end // end of [patsopt_main_list]
+
+(* ****** ****** *)
 //
 extern
 fun
-patsopt_tcats_d3eclist
+patsopt_tcats_d3eclist_exn
   (stadyn: int, inp: string): d3eclist
+extern
+fun
+patsopt_tcats_d3eclist_opt
+  (stadyn: int, inp: string): Option_vt(d3eclist)
 //
+(* ****** ****** *)
+
 implement
-patsopt_tcats_d3eclist
+patsopt_tcats_d3eclist_exn
   (stadyn, inp) = let
 //
 val fil = $FIL.filename_string
@@ -173,26 +291,50 @@ end // end of [patsopt_tcats_d3eclst]
 
 (* ****** ****** *)
 
+local
+//
+fun
+auxexn
+(
+  exn: exn
+) : Option_vt(d3eclist) =
+(
+case+ exn of 
+//
+| exn => let
+    val p0 = $UN.castvwtp0{ptr}(exn) in None_vt()
+  end // end of [rest]
+) (* en dof [auxexn] *)
+//
+in (*in-of-local*)
+
 implement
-patsopt_ccats_string
+patsopt_tcats_d3eclist_opt
   (stadyn, inp) = let
 //
-val out = stdout_ref
-val infil = $FIL.filename_string
-//
-val
-d3cs = patsopt_tcats_d3eclist(stadyn, inp)
-//
-val hids =
-  $TYER.d3eclist_tyer_errck (d3cs)
-val ((*void*)) =
-  $CCOMP.ccomp_main (out, stadyn, infil, hids)
+(*
+val () =
+println!
+(
+  "patsopt_tcats_d3eclist_opt"
+) (* end of [val] *)
+*)
 //
 in
 //
-  CCATSRESstdout("patsopt_ccats_string: ...")
+try let
 //
-end // end of [patsopt_ccats_string]
+val
+d3cs =
+patsopt_tcats_d3eclist_exn(stadyn, inp)
+//
+in
+  Some_vt(d3cs)
+end with exn => auxexn(exn)
+//
+end // end of [patsopt_tcats_d3eclist_opt]
+
+end // end of [local]
 
 (* ****** ****** *)
 

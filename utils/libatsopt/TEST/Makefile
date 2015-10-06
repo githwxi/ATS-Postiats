@@ -28,9 +28,7 @@ LIBGMP=-lgmp
 ######
 #
 patsopt: \
-patsopt.dats; \
-$(PATSCC) -I$(ATSRUNTIME) \
-  -o $@ $(ATSRUNTIME)/ats_prelude.c $< $(LDPATH) -latsopt $(LIBGMP)
+patsopt.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt $(LIBGMP)
 #
 ######
 

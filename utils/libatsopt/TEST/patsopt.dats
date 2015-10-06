@@ -1,32 +1,16 @@
-(* ****** ****** *)
-//
-#include
-"share/atspre_staload.hats"
-//
-(* ****** ****** *)
 (*
 //
-// HX-2015-10-02:
-// This is actually in ATS2!
+// HX-2015-10-02: this is in ATS1!
 //
 *)
-//
-extern
-fun
-patsopt_main
-  {n:pos}
-(
-  argc: int(n), argc: !argv(n)
-) : void = "ext#libatsopt_patsopt_main"
-//
-extern
-fun
-libatsopt_dynloadall((*void*)): void = "ext#"
-//
+(* ****** ****** *)
+
+staload "./../SATS/libatsopt_ext.sats"
+
 (* ****** ****** *)
 
 implement
-main0 (argc, argv) =
+main (argc, argv) =
 (
 //
 if
