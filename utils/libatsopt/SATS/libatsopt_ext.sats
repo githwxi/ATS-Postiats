@@ -26,6 +26,15 @@ PATSHOME_get
 (* ****** ****** *)
 //
 fun
+pervasive_load
+(
+  PATSHOME: string, given: string
+) : void
+  = "ext#libatsopt_pervasive_load"
+//
+(* ****** ****** *)
+//
+fun
 the_prelude_load
 (
   PATSHOME: string
@@ -57,18 +66,14 @@ patsopt_main_opt
 datatype
 comarg =
 | COMARGstring of string
+//
 | COMARGfilinp of string
+//
+| COMARGprefil of string
+| COMARGpostfil of string
 //
 typedef comarglst0 = List0(comarg)
 typedef comarglst1 = List1(comarg)
-//
-(* ****** ****** *)
-//
-fun
-string2file
-(
-  content: string, nerr: &int >> int
-) : string // end-of-string2file
 //
 (* ****** ****** *)
 //

@@ -37,6 +37,11 @@ patsopt_ccomp.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt $(LIBGMP)
 
 ######
 
+patsopt_atscc2js: \
+patsopt_atscc2js.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt $(LIBGMP)
+
+######
+
 clean:: ; rm -f *~
 clean:: ; rm -f *_?ats.o
 clean:: ; rm -f *_?ats.c
@@ -46,5 +51,6 @@ clean:: ; rm -f *_?ats.c
 cleanall:: clean
 cleanall:: ; rm -f patsopt
 cleanall:: ; rm -f patsopt_ccomp
+cleanall:: ; rm -f patsopt_atscc2js
 
 ###### end of [Makefile] ######

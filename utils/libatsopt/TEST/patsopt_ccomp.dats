@@ -25,7 +25,6 @@ main (argc, argv) =
 //
 val () = libatsopt_dynloadall()
 //
-val arg0 = COMARGstring("")
 val arg1 = COMARGstring("-cc")
 val arg2 = COMARGstring("--dynamic")
 val arg3 = COMARGfilinp(HELLO_WORLD)
@@ -35,7 +34,7 @@ val arg3 = COMARGfilinp(HELLO_WORLD)
 val
 args =
 (
-  arg0 :: arg1 :: arg2 :: arg3 :: list_nil()
+  arg1 :: arg2 :: arg3 :: list_nil()
 ) : comarglst1
 //
 val nerr =

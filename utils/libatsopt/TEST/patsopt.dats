@@ -19,8 +19,15 @@ then let
 //
 val () =
   libatsopt_dynloadall()
+val opt =
+  patsopt_main_opt (argc, argv)
 in
-  patsopt_main (argc, argv)
+//
+if
+opt
+then println! ("[patsopt] exited normally!")
+else println! ("[patsopt] exited abnormally!")
+//
 end // end of [then]
 else prerrln! ("Hello from ATS2(ATS/Postiats)!")
 // end of [if]

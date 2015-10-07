@@ -793,12 +793,17 @@ in
 end // end of [fixity_load]
 
 (* ****** ****** *)
-
+//
+extern
 fun
 pervasive_load
 (
   PATSHOME: string, given: string
-) : void = {
+) : void = "ext#libatsopt_pervasive_load"
+//
+implement
+pervasive_load
+  (PATSHOME, given) = {
 //
 (*
 val () = (
