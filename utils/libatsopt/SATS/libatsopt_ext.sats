@@ -65,9 +65,10 @@ patsopt_main_opt
 //
 datatype
 comarg =
-| COMARGstring of string
 //
-| COMARGfilinp of string
+| COMARGstrlit of string
+//
+| COMARGstrinp of string
 //
 | COMARGprefil of string
 | COMARGpostfil of string

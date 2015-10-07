@@ -185,8 +185,8 @@ val
 rec theHamming
   : stream(int) = $delay
 (
-  stream_cons (1, merge2 (merge2 (theHamming2, theHamming3), theHamming5))
-) (* end of [val] *)
+  stream_cons(1, merge2(merge2(theHamming2, theHamming3), theHamming5))
+) (* end of [theHamming] *)
 
 and theHamming2
   : stream(int) = stream_map_fun<int><int> (theHamming, lam x => 2 * x)
@@ -212,7 +212,7 @@ Given two streams and an ordering (represented by a function) such that the
 two streams are listed ascendingly according to the ordering,
 #dyncode("stream_mergeq_fun") returns a stream listed ascendingly that
 represents the union of the two given streams such that any elements in the
-second stream that also occurs in the first stream are dropped.
+second stream that also occur in the first stream are dropped.
 
 ')
 

@@ -25,9 +25,9 @@ main (argc, argv) =
 //
 val () = libatsopt_dynloadall()
 //
-val arg1 = COMARGstring("-cc")
-val arg2 = COMARGstring("--dynamic")
-val arg3 = COMARGfilinp(HELLO_WORLD)
+val arg1 = COMARGstrlit("-cc")
+val arg2 = COMARGstrlit("--dynamic")
+val arg3 = COMARGstrinp(HELLO_WORLD)
 //
 #define :: list_cons
 //

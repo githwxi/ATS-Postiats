@@ -78,8 +78,8 @@ val () = libatsopt_dynloadall()
 val arg1 = COMARGprefil(PREAMBLE)
 val arg2 = COMARGpostfil(POSTAMBLE)
 //
-val arg3 = COMARGstring("--dynamic")
-val arg4 = COMARGfilinp(HELLO_WORLD)
+val arg3 = COMARGstrlit("--dynamic")
+val arg4 = COMARGstrinp(HELLO_WORLD)
 //
 #define :: list_cons
 //

@@ -363,14 +363,14 @@ case+ xs of
 | list_cons(x, xs) =>
   (
     case+ x of
-    | COMARGstring(x) => let
+    | COMARGstrlit(x) => let
         val n1 = n0+1
         val p1 = p0+sizeof<string>
         val () = $UN.ptr0_set<string>(p0, x)
       in
         loop(xs, n1, p1, prefils, postfils, res, nerr)
-      end // end of [COMARGstring]
-    | COMARGfilinp(x) => let
+      end // end of [COMARGstrlit]
+    | COMARGstrinp(x) => let
         val n1 = n0+1
         val p1 = p0+sizeof<string>
         val f0 =
@@ -383,7 +383,7 @@ case+ xs of
         val () = $UN.ptr0_set<string>(p0, f0)
       in
         loop(xs, n1, p1, prefils, postfils, res, nerr)
-      end // end of [COMARGfilinp]
+      end // end of [COMARGstrinp]
     | COMARGprefil(x) => let
         val n1 = n0
         val p1 = p0
