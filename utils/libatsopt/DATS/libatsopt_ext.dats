@@ -425,7 +425,7 @@ end // end of [unlinklst]
 val
 argc = list_length(args)
 val
-asz0 = size1_of_int1(argc)
+asz0 = size1_of_int1(argc+1)
 //
 val
 (pfgc,pfarr|p0) =
