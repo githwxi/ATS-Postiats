@@ -27,6 +27,10 @@ Here is a list of major additions and changes since the last release:
 3. Fixing a bug in ATS-extsolve (involving the s2rtdatmap generation)
 4. Fixing a minor parsing bug in CATS-parsemit
 5. Adding libatsopt, the library version of patsopt; see utils/libatsopt
+6. Adding some ifdef-guards:
+   _ATS_EXTERN_DEF_ for guarding the definition of ATSextern()
+   _ATS_STATIC_DEF_ for guarding the definition of ATSstatic()
+   _ATS_INLINE_DEF_ for guarding the definition of ATSinline()
 
 ######
 

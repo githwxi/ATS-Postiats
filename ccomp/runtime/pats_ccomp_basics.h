@@ -50,18 +50,38 @@
 /* ****** ****** */
 //
 #define ATSstruct struct
+//
+/* ****** ****** */
 /*
 #define ATStypedef typedef
 */
 //
 /* ****** ****** */
 
+#ifndef \
+_ATS_EXTERN_DEF_
 #define ATSextern() extern
-#define ATSstatic() static
+#else
+#define ATSextern() _ATS_EXTERN_DEF_
+#endif // #ifndef
 
 /* ****** ****** */
 
+#ifndef \
+_ATS_STATIC_DEF_
+#define ATSstatic() static
+#else
+#define ATSstatic() _ATS_STATIC_DEF_
+#endif // #ifndef
+
+/* ****** ****** */
+
+#ifndef \
+_ATS_INLINE_DEF_
 #define ATSinline() static inline
+#else
+#define ATSinline() _ATS_INLINE_DEF_
+#endif // #ifndef
 
 /* ****** ****** */
 //

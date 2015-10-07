@@ -91,8 +91,16 @@ libatsopt_dynloadall((*void*)): void = "ext#"
 //
 datatype
 patsoptres =
-  | PATSOPTRESstdout of string // output to stdout
-  | PATSOPTRESstderr of string // output to stderr
+PATSOPTRES of
+(
+  int(*nerr*), string(*stdout*), string(*stderr*)
+)
+//
+(* ****** ****** *)
+//
+fun
+patsoptres_main_arglst
+  {n:pos}(args: list(comarg, n)): patsoptres
 //
 (* ****** ****** *)
 

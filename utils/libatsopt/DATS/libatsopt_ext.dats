@@ -483,6 +483,94 @@ in
 end // end of [patsopt_main_arglst]
 
 (* ****** ****** *)
+
+implement
+patsoptres_main_arglst
+  (args) = let
+//
+extern
+fun
+myfree: (ptr) -> void = "mac#free"
+extern
+fun
+mydup2: (int, int) -> int = "mac#dup2"
+//
+extern
+fun
+myfileno: (FILEref) -> int = "mac#fileno"
+extern
+fun
+myopen:
+(
+  &ptr? >> ptr, &size_t? >> size_t
+) -> ptr(*FILEref*) = "mac#open_memstream"
+//
+val
+STDOUT =
+$UNISTD.STDOUT_FILENO
+val
+STDERR =
+$UNISTD.STDERR_FILENO
+//
+var p0_stdout: ptr
+var sl_stdout: size_t
+//
+var p0_stderr: ptr
+var sl_stderr: size_t
+//
+var nerr: int = 0
+//
+val
+myout =
+myopen(p0_stdout, sl_stdout)
+val () =
+if ptr_is_null(myout) then nerr := nerr + 1
+//
+val
+myerr =
+myopen(p0_stderr, sl_stderr)
+val () =
+if ptr_is_null(myerr) then nerr := nerr + 1
+//
+val
+myout2 = $UN.cast{FILEref}(myout)
+val
+myerr2 = $UN.cast{FILEref}(myerr)
+//
+val () =
+if
+nerr = 0
+then let
+//
+val ec =
+  mydup2(myfileno(myout2), STDOUT)
+//
+in
+  if ec != 0 then nerr := nerr + 1
+end // end of [then]
+//
+val () =
+if
+nerr = 0
+then let
+//
+val ec =
+  mydup2(myfileno(myerr2), STDERR)
+//
+in
+  if ec != 0 then nerr := nerr + 1
+end // end of [then]
+//
+val nerr2 = patsopt_main_arglst(args)
+//
+val str_stdout = string_copy(p0_stdout, sl_stdout)
+val str_stderr = string_copy(p0_stderr, sl_stderr)
+//
+in
+  PATSOPTRES(nerr2, str_stdout, str_stderr)
+end // end of [patsoptres_main_arglst]
+
+(* ****** ****** *)
 //
 extern
 fun
