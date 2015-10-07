@@ -38,11 +38,11 @@ args =
 ) : comarglst1
 //
 val nerr =
-  patsopt_main_list(args)
+  patsopt_main_arglst(args)
 //
 val ((*void*)) =
 if nerr > 0 then
-  prerrln! ("[patsopt_main_list] encountered errors!")
+  prerrln! ("[patsopt_main_arglst] encountered errors!")
 //
 } (* end of [main] *)
 

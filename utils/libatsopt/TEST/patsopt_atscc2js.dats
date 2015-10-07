@@ -75,32 +75,30 @@ main (argc, argv) =
 //
 val () = libatsopt_dynloadall()
 //
-val arg1 = COMARGstring("-cc")
+val arg1 = COMARGprefil(PREAMBLE)
+val arg2 = COMARGpostfil(POSTAMBLE)
 //
-val arg2 = COMARGprefil(PREAMBLE)
-val arg3 = COMARGpostfil(POSTAMBLE)
-//
-val arg4 = COMARGstring("--dynamic")
-val arg5 = COMARGfilinp(HELLO_WORLD)
+val arg3 = COMARGstring("--dynamic")
+val arg4 = COMARGfilinp(HELLO_WORLD)
 //
 #define :: list_cons
 //
 val
 args =
 (
-  arg1::arg2::arg3::arg4::arg5::list_nil()
+  arg1::arg2::arg3::arg4::list_nil()
 ) : comarglst1
 //
 val nerr =
-  patsopt_main_list(args)
+  patsopt_main_arglst(args)
 //
 val ((*void*)) =
 if nerr > 0 then
-  prerrln! ("[patsopt_main_list] encountered errors!")
+  prerrln! ("[patsopt_main_arglst] encountered errors!")
 //
 } (* end of [main] *)
 
 (* ****** ****** *)
 
-(* end of [patsopt_ccomp.dats] *)
+(* end of [patsopt_atscc2js.dats] *)
 

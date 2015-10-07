@@ -78,7 +78,7 @@ typedef comarglst1 = List1(comarg)
 (* ****** ****** *)
 //
 fun
-patsopt_main_list
+patsopt_main_arglst
   {n:pos}(args: list(comarg, n)): int
 //
 (* ****** ****** *)

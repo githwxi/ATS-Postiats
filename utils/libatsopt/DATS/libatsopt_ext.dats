@@ -339,7 +339,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-patsopt_main_list
+patsopt_main_arglst
   (args) = let
 //
 vtypedef
@@ -480,7 +480,7 @@ val () = array_ptr_free(pfgc,pfarr|p0)
 //
 in
   nerr (*number-of-errors*)
-end // end of [patsopt_main_list]
+end // end of [patsopt_main_arglst]
 
 (* ****** ****** *)
 //
