@@ -642,16 +642,19 @@ val (pfopt | filp) =
 //
 in
 //
-if filp > null then let
+if
+filp > null
+then let
   prval Some_v (pf) = pfopt
   val filr = $UN.castvwtp_trans {FILEref} @(pf | filp)
 in
   OUTCHANptr (filr)
-end else let
+end // end of [then]
+else let
   prval None_v () = pfopt
 in
   OUTCHANref (stderr_ref)
-end // end of [if]
+end // end of [else]
 //
 end // end of [outchan_make_path]
 
