@@ -33,6 +33,8 @@ STDIO = "libc/SATS/stdio.sats"
 staload
 STDLIB = "libc/SATS/stdlib.sats"
 staload
+STRING = "libc/SATS/string.sats"
+staload
 UNISTD = "libc/SATS/unistd.sats"
   
 (* ****** ****** *)
@@ -88,6 +90,22 @@ staload CCOMP = "src/pats_ccomp.sats"
 //
 (* ****** ****** *)
   
+%{^
+//
+extern
+ats_ptr_type
+patsopt_file2strptr(ats_int_type fd) ;
+//
+#ifndef \
+libatsopt_file2stropt
+#define \
+libatsopt_file2stropt(fd) patsopt_file2strptr(fd)
+#endif // #ifndef
+//
+%} // end of [%{^]
+
+(* ****** ****** *)
+
 staload "./../SATS/libatsopt_ext.sats"
 
 (* ****** ****** *)
@@ -257,9 +275,6 @@ string2file
 stadef
 fildes_v = $FCNTL.fildes_v
 //
-macdef
-SEEK_SET = $STDIO.SEEK_SET
-//
 val
 prfx = "libatsopt_string2file_"
 //
@@ -273,12 +288,15 @@ prval () =
 __assert () where {
   extern prfun __assert (): [n >= 6] void
 } (* end of [prval] *)
-prval pfstr = tmpbuf.1
+//
+prval
+pfstr = tmpbuf.1
 val
 (pfopt | fd) =
-$STDLIB.mkstemp !(tmpbuf.2) // create it!
-prval () = tmpbuf.1 := pfstr
-val tmpres = string_of_strbuf (tmpbuf)
+$STDLIB.mkstemp !(tmpbuf.2)
+prval ((*ret*)) = tmpbuf.1 := pfstr
+//
+val tmpres = string_of_strbuf(tmpbuf)
 //
 in
 //
@@ -314,8 +332,6 @@ then let
 //
   val ec = $STDIO.fflush_err(out)
   val () = if ec != 0 then nerr := nerr + 1
-  val ec = $STDIO.fseek_err(out, 0L, SEEK_SET)
-  val () = if ec != 0 then nerr := nerr + 1
 //
   prval((*void*)) = fpf (pffil)
 //
@@ -346,7 +362,7 @@ vtypedef
 res = List0_vt(string)
 //
 fun
-loop
+auxarglst
 {n:nat}
 {l:addr}
 (
@@ -356,8 +372,8 @@ loop
 , prefils: stringlst
 , postfils: stringlst
 , res: &res >> res, nerr: &int >> int
-) : intGte(0) =
-(
+) : intGte(0) = (
+//
 case+ xs of
 | list_nil() => n0
 | list_cons(x, xs) =>
@@ -368,7 +384,7 @@ case+ xs of
         val p1 = p0+sizeof<string>
         val () = $UN.ptr0_set<string>(p0, x)
       in
-        loop(xs, n1, p1, prefils, postfils, res, nerr)
+        auxarglst(xs, n1, p1, prefils, postfils, res, nerr)
       end // end of [COMARGstrlit]
     | COMARGstrinp(x) => let
         val n1 = n0+1
@@ -382,24 +398,25 @@ case+ xs of
         // end of [val]
         val () = $UN.ptr0_set<string>(p0, f0)
       in
-        loop(xs, n1, p1, prefils, postfils, res, nerr)
+        auxarglst(xs, n1, p1, prefils, postfils, res, nerr)
       end // end of [COMARGstrinp]
     | COMARGprefil(x) => let
         val n1 = n0
         val p1 = p0
         val prefils = list_cons(x, prefils)
       in
-        loop(xs, n1, p1, prefils, postfils, res, nerr)
+        auxarglst(xs, n1, p1, prefils, postfils, res, nerr)
       end // end of [COMARGprefil]
     | COMARGpostfil(x) => let
         val n1 = n0
         val p1 = p0
         val postfils = list_cons(x, postfils)
       in
-        loop(xs, n1, p1, prefils, postfils, res, nerr)
+        auxarglst(xs, n1, p1, prefils, postfils, res, nerr)
       end // end of [COMARGpostfil]
   ) (* end of [list_cons] *)
-)
+//
+) (* end of [auxarglst] *)
 //
 fun
 unlinklst
@@ -447,7 +464,8 @@ val () =
 $UN.ptr0_set<string>(p0, "patsopt")
 val
 [n:int]
-argc = loop (
+argc =
+auxarglst (
   args, 0, p1, prefils, postfils, res, nerr
 ) (* end of [val] *)
 //
@@ -490,84 +508,118 @@ patsoptres_main_arglst
 //
 extern
 fun
-myfree: (ptr) -> void = "mac#free"
-extern
-fun
-mydup2: (int, int) -> int = "mac#dup2"
+close : (int) -> int = "mac#atslib_close_err"
 //
 extern
 fun
-myfileno: (FILEref) -> int = "mac#fileno"
+mydup2
+  : (int, int) -> int(*fd*) = "mac#atslib_dup2"
 extern
 fun
-myopen:
-(
-  &ptr? >> ptr, &size_t? >> size_t
-) -> ptr(*FILEref*) = "mac#open_memstream"
+mkstemp{l:addr}
+  (tmp: !strptr(l)): int(*fd*) = "mac#atslib_mkstemp"
+//
+extern
+fun
+file2stropt: (int(*fd*)) -> stropt = "mac#libatsopt_file2stropt"
 //
 val
-STDOUT =
-$UNISTD.STDOUT_FILENO
+STDOUT = $UNISTD.STDOUT_FILENO
 val
-STDERR =
-$UNISTD.STDERR_FILENO
-//
-var p0_stdout: ptr
-var sl_stdout: size_t
-//
-var p0_stderr: ptr
-var sl_stderr: size_t
+STDERR = $UNISTD.STDERR_FILENO
 //
 var nerr: int = 0
 //
-val
-myout =
-myopen(p0_stdout, sl_stdout)
-val () =
-if ptr_is_null(myout) then nerr := nerr + 1
+val prfx1 = "libatsopt_stdout_"
+val prfx2 = "libatsopt_stderr_"
+val tmpout = sprintf ("%sXXXXXX", @(prfx1))
+val tmperr = sprintf ("%sXXXXXX", @(prfx2))
 //
 val
-myerr =
-myopen(p0_stderr, sl_stderr)
-val () =
-if ptr_is_null(myerr) then nerr := nerr + 1
+fdout =
+(
+  if nerr=0 then mkstemp(tmpout) else 0
+) : int // end of [val]
+val () = if fdout < 0 then nerr := nerr+1
 //
 val
-myout2 = $UN.cast{FILEref}(myout)
-val
-myerr2 = $UN.cast{FILEref}(myerr)
+fderr =
+(
+  if nerr=0 then mkstemp(tmperr) else 0
+) : int // end of [val]
+val () = if fderr < 0 then nerr := nerr+1
 //
 val () =
 if
-nerr = 0
+nerr=0
 then let
 //
-val ec =
-  mydup2(myfileno(myout2), STDOUT)
+val fdout2 = mydup2(fdout, STDOUT)
 //
 in
-  if ec != 0 then nerr := nerr + 1
+  if fdout2 < 0 then nerr := nerr + 1
 end // end of [then]
 //
 val () =
 if
-nerr = 0
+nerr=0
 then let
 //
-val ec =
-  mydup2(myfileno(myerr2), STDERR)
+val fderr2 = mydup2(fderr, STDERR)
 //
 in
-  if ec != 0 then nerr := nerr + 1
+  if fderr2 < 0 then nerr := nerr + 1
 end // end of [then]
 //
 val nerr2 = patsopt_main_arglst(args)
 //
-val str_stdout = string_copy(p0_stdout, sl_stdout)
-val str_stderr = string_copy(p0_stderr, sl_stderr)
+val _(*err*) =
+  if nerr = 0 then close(STDOUT) else 0
+val _(*err*) =
+  if nerr = 0 then close(STDERR) else 0
+//
+val
+strout =
+(
+  if fdout >= 0
+    then file2stropt(fdout) else stropt_none
+  // end of [if]
+) : stropt // end of [val]
+val _ = if fdout >= 0 then close(fdout) else 0
+//
+val
+strerr =
+(
+  if fderr >= 0
+    then file2stropt(fderr) else stropt_none
+  // end of [if]
+) : stropt // end of [val]
+val _ = if fderr >= 0 then close(fderr) else 0
+//
+val _(*err*) =
+  $UNISTD.unlink($UN.castvwtp1{string}(tmpout))
+val _(*err*) =
+  $UNISTD.unlink($UN.castvwtp1{string}(tmperr))
+//
+val () = strptr_free(tmpout) and () = strptr_free(tmperr)
+//
+var nerr2: int = nerr2
+//
+val strout =
+(
+  if stropt_is_some(strout)
+    then stropt_unsome(strout) else (nerr2 := nerr2+1; "")
+  // end of [if]
+) : string // end of [val]
+val strerr =
+(
+  if stropt_is_some(strerr)
+    then stropt_unsome(strerr) else (nerr2 := nerr2+1; "")
+  // end of [if]
+) : string // end of [val]
 //
 in
-  PATSOPTRES(nerr2, str_stdout, str_stderr)
+  PATSOPTRES(nerr2, strout, strerr)
 end // end of [patsoptres_main_arglst]
 
 (* ****** ****** *)

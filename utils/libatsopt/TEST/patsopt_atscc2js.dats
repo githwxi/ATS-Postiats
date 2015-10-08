@@ -89,12 +89,18 @@ args =
   arg1::arg2::arg3::arg4::list_nil()
 ) : comarglst1
 //
-val nerr =
-  patsopt_main_arglst(args)
+val
+PATSOPTRES
+  (nerr, strout, strerr) = patsoptres_main_arglst(args)
 //
-val ((*void*)) =
-if nerr > 0 then
-  prerrln! ("[patsopt_main_arglst] encountered errors!")
+(*
+val () =
+println! ("patsoptres_main_arglst: nerr = ", nerr)
+val () =
+println! ("patsoptres_main_arglst: stdout = ", stdout)
+val () =
+println! ("patsoptres_main_arglst: stderr = ", stderr)
+*)
 //
 } (* end of [main] *)
 

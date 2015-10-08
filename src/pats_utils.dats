@@ -726,39 +726,60 @@ patsopt_file2strptr
 (* ****** ****** *)
 
 local
-
+//
+// HX-2015-10-07:
+// It can be interesting to implement
+// tostrong_fprint based on open_memstream
+//
 staload
 FCNTL = "libc/SATS/fcntl.sats"
 staload
 STDIO = "libc/SATS/stdio.sats"
-macdef SEEK_SET = $STDIO.SEEK_SET
 staload
 STDLIB = "libc/SATS/stdlib.sats"
 staload
 UNISTD = "libc/SATS/unistd.sats"
-
+//
+macdef SEEK_SET = $STDIO.SEEK_SET
+//
 in (* in of [local] *)
 
 implement{a}
 tostring_fprint
   (prfx, fpr, x) = let
-  val tmp = sprintf ("%sXXXXXX", @(prfx))
-  val [m,n:int] tmp = strbuf_of_strptr (tmp)
-  prval () = __assert () where {
-    extern prfun __assert (): [n >= 6] void
-  }
-  prval pfstr = tmp.1
-  val (pfopt | fd) = $STDLIB.mkstemp !(tmp.2) // create it!
-  prval () = tmp.1 := pfstr
-  val tmp = strptr_of_strbuf (tmp)
+//
+val
+tmp0 =
+sprintf ("%sXXXXXX", @(prfx))
+val
+[m,n:int]
+tmpbuf = strbuf_of_strptr(tmp0)
+//
+prval () =
+__assert () where {
+  extern prfun __assert (): [n >= 6] void
+} (* end of [prval] *)
+//
+prval
+pfstr = tmpbuf.1
+val
+(pfopt|fd) =
+$STDLIB.mkstemp !(tmpbuf.2)
+prval ((*ret*)) = tmpbuf.1 := pfstr
+//
+val tmpstr = strptr_of_strbuf(tmpbuf)
+//
 in
 //
 if
 fd >= 0
 then let
+//
   prval
   $FCNTL.open_v_succ(pffil) = pfopt
-  val (fpf | out) =
+//
+  val
+  (fpf|out) =
   fdopen (pffil | fd, file_mode_w) where
   {
     extern
@@ -770,22 +791,23 @@ then let
     ) : (fildes_v fd -<lin,prf> void | FILEref) = "mac#fdopen"
   } (* end of [out] *)
   val () = fpr(out, x)
-  val err =
-    $STDIO.fflush_err(out)
-  // end of [val]
+//
+  val err = $STDIO.fflush_err(out)
   val err = $STDIO.fseek_err(out, 0L, SEEK_SET)
-  val res = file2strptr(pffil|fd)
-  prval () = fpf (pffil)
+//
+  val res = file2strptr(pffil | fd)
+  prval ((*returned*)) = fpf (pffil)
+//
   val err = $STDIO.fclose_err(out)
-  val err = $UNISTD.unlink($UN.castvwtp1{string}(tmp))
-  val ((*freed*)) = strptr_free(tmp)
+  val err = $UNISTD.unlink($UN.castvwtp1{string}(tmpstr))
+  val ((*freed*)) = strptr_free(tmpstr)
 in
   res (*strptr*)
 end // end of [then]
 else let
   prval
   $FCNTL.open_v_fail((*void*)) = pfopt
-  val ((*freed*)) = strptr_free(tmp) in strptr_null((*void*))
+  val ((*freed*)) = strptr_free(tmpstr) in strptr_null((*void*))
 end // end of [else]
 //
 end // end of [tostring_fprint]
