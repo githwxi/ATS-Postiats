@@ -120,7 +120,7 @@ typedef void* atstype_datcontyp ;
 /* ****** ****** */
 
 #ifdef \
-ATS_CCOMP_EXCEPTION_NONE
+_ATS_CCOMP_EXCEPTION_NONE_
 //
 // HX: should a message be issued?
 //
@@ -135,7 +135,7 @@ struct
 typedef
 atstype_exncon *atstype_exnconptr ;
 //
-#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE_]
 
 /* ****** ****** */
 /*

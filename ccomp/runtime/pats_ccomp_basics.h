@@ -59,28 +59,28 @@
 /* ****** ****** */
 
 #ifndef \
-_ATS_EXTERN_DEF_
+ATS_EXTERN_DEF__
 #define ATSextern() extern
 #else
-#define ATSextern() _ATS_EXTERN_DEF_
+#define ATSextern() ATS_EXTERN_DEF__
 #endif // #ifndef
 
 /* ****** ****** */
 
 #ifndef \
-_ATS_STATIC_DEF_
+ATS_STATIC_DEF__
 #define ATSstatic() static
 #else
-#define ATSstatic() _ATS_STATIC_DEF_
+#define ATSstatic() ATS_STATIC_DEF__
 #endif // #ifndef
 
 /* ****** ****** */
 
 #ifndef \
-_ATS_INLINE_DEF_
+ATS_INLINE_DEF__
 #define ATSinline() static inline
 #else
-#define ATSinline() _ATS_INLINE_DEF_
+#define ATSinline() ATS_INLINE_DEF__
 #endif // #ifndef
 
 /* ****** ****** */
