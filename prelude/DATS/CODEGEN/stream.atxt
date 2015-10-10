@@ -416,6 +416,64 @@ end // end of [stream_map2_cloref]
 
 #atscode_separator()
 
+implement
+{res}{x}
+stream_scan
+  (xs, ini) = let
+//
+fun aux
+(
+  xs: stream(x), ini: res
+) :<!laz> stream (res) = $delay
+(
+case+ !xs of
+| stream_nil
+    () => stream_nil ()
+  // end of [stream_nil]
+| stream_cons(x, xs) =>
+  stream_cons{res}
+    (stream_scan$fopr<res><x> (ini, x), aux (xs, ini))
+  // end of [stream_cons]
+) : stream_con(res) // end of [$delay]
+//
+in
+  aux (xs, ini)
+end // end of [stream_scan]
+
+#atscode_separator()
+
+implement
+{res}{x}
+stream_scan_fun
+  (xs, ini, f) = let
+//
+implement
+{res2}{x2}
+stream_scan$fopr
+  (ini, x) =
+  $UN.cast{res2}(f($UN.cast{res}(ini), $UN.cast{x}(x)))
+//
+in
+  stream_scan<res><x> (xs, ini)
+end // end of [stream_scan_fun]
+
+implement
+{res}{x}
+stream_scan_cloref
+  (xs, ini, f) = let
+//
+implement
+{res2}{x2}
+stream_scan$fopr
+  (ini, x) =
+  $UN.cast{res2}(f($UN.cast{res}(ini), $UN.cast{x}(x)))
+//
+in
+  stream_scan<res><x> (xs, ini)
+end // end of [stream_scan_cloref]
+
+#atscode_separator()
+
 local
 
 \#define :: stream_cons
