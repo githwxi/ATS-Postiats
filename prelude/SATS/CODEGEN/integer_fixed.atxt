@@ -55,6 +55,13 @@ stadef uint64knd = uint64_kind
 //
 #atscode_separator()
 //
+fun g0int2int_int8_int (x: int8):<> int = "mac\#%"
+fun g0int2int_int16_int (x: int16):<> int = "mac\#%"
+fun g0int2int_int32_int (x: int32):<> int = "mac\#%"
+fun g0int2int_int64_int (x: int64):<> int = "mac\#%"
+//
+#atscode_separator()
+//
 #fun_g0int_type_aop_cmp_decl("int8", "int8")\
 //
 #fun_g0int_type_aop_cmp_decl("int16", "int16")\
@@ -70,6 +77,23 @@ stadef uint64knd = uint64_kind
 #fprint_print_prerr_decl("int32", "int32")
 #fprint_print_prerr_decl("int64", "int64")
 
+#atscode_separator()
+//
+fun g0int2uint_int8_uint (x: int8):<> uint = "mac\#%"
+fun g0int2uint_int16_uint (x: int16):<> uint = "mac\#%"
+fun g0int2uint_int32_uint (x: int32):<> uint = "mac\#%"
+fun g0int2uint_int64_uint (x: int64):<> uint = "mac\#%"
+//
+fun g0uint2int_uint8_int (x: uint8):<> int = "mac\#%"
+fun g0uint2int_uint16_int (x: uint16):<> int = "mac\#%"
+fun g0uint2int_uint32_int (x: uint32):<> int = "mac\#%"
+fun g0uint2int_uint64_int (x: uint64):<> int = "mac\#%"
+//
+fun g0uint2uint_uint8_uint (x: uint8):<> uint = "mac\#%"
+fun g0uint2uint_uint16_uint (x: uint16):<> uint = "mac\#%"
+fun g0uint2uint_uint32_uint (x: uint32):<> uint = "mac\#%"
+fun g0uint2uint_uint64_uint (x: uint64):<> uint = "mac\#%"
+//
 #atscode_separator()
 //
 #fun_g0uint_type_aop_cmp_decl("uint8", "uint8")\

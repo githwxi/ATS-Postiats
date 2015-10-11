@@ -331,7 +331,8 @@ typedef sizeGte (n:int) = g1uintGte (size_kind, n)
 typedef sizeBtw (lb:int, ub:int) = g1uintBtw (size_kind, lb, ub)
 typedef sizeBtwe (lb:int, ub:int) = g1uintBtwe (size_kind, lb, ub)
 //
-tkindef ssize_kind = "atstype_ssize"
+tkindef
+ssize_kind = "atstype_ssize"
 typedef ssize0_t = g0int (ssize_kind)
 typedef ssize1_t (i:int) = g1int (ssize_kind , i) 
 //
@@ -363,7 +364,9 @@ int8_kind = "atstype_int8"
 typedef
 int8_0 = g0int (int8_kind)
 typedef
-int8_1 (i:int) = g1int (int8_kind, i)
+int8_1
+  (i:int) = g1int (int8_kind, i)
+//
 stadef int8 = int8_1 // 2nd-select
 stadef int8 = int8_0 // 1st-select
 stadef Int8 = [i:int] int8_1 (i)
@@ -373,7 +376,9 @@ uint8_kind = "atstype_uint8"
 typedef
 uint8_0 = g0uint (uint8_kind)
 typedef
-uint8_1 (i:int) = g1uint (uint8_kind, i)
+uint8_1
+  (i:int) = g1uint (uint8_kind, i)
+//
 stadef uint8 = uint8_1 // 2nd-select
 stadef uint8 = uint8_0 // 1st-select
 stadef uInt8 = [i:nat] uint8_1 (i)
@@ -385,7 +390,9 @@ int16_kind = "atstype_int16"
 typedef
 int16_0 = g0int (int16_kind)
 typedef
-int16_1 (i:int) = g1int (int16_kind, i)
+int16_1
+  (i:int) = g1int (int16_kind, i)
+//
 stadef int16 = int16_1 // 2nd-select
 stadef int16 = int16_0 // 1st-select
 stadef Int16 = [i:int] int16_1 (i)
@@ -395,7 +402,9 @@ uint16_kind = "atstype_uint16"
 typedef
 uint16_0 = g0uint (uint16_kind)
 typedef
-uint16_1 (i:int) = g1uint (uint16_kind, i)
+uint16_1
+  (i:int) = g1uint (uint16_kind, i)
+//
 stadef uint16 = uint16_1 // 2nd-select
 stadef uint16 = uint16_0 // 1st-select
 stadef uInt16 = [i:nat] uint16_1 (i)
@@ -407,7 +416,9 @@ int32_kind = "atstype_int32"
 typedef
 int32_0 = g0int (int32_kind)
 typedef
-int32_1 (i:int) = g1int (int32_kind, i)
+int32_1
+  (i:int) = g1int (int32_kind, i)
+//
 stadef int32 = int32_1 // 2nd-select
 stadef int32 = int32_0 // 1st-select
 stadef Int32 = [i:int] int32_1 (i)
@@ -417,7 +428,9 @@ uint32_kind = "atstype_uint32"
 typedef
 uint32_0 = g0uint (uint32_kind)
 typedef
-uint32_1 (i:int) = g1uint (uint32_kind, i)
+uint32_1
+  (i:int) = g1uint (uint32_kind, i)
+//
 stadef uint32 = uint32_1 // 2nd-select
 stadef uint32 = uint32_0 // 1st-select
 stadef uInt32 = [i:nat] uint32_1 (i)
@@ -429,7 +442,9 @@ int64_kind = "atstype_int64"
 typedef
 int64_0 = g0int (int64_kind)
 typedef
-int64_1 (i:int) = g1int (int64_kind, i)
+int64_1
+  (i:int) = g1int (int64_kind, i)
+//
 stadef int64 = int64_1 // 2nd-select
 stadef int64 = int64_0 // 1st-select
 stadef Int64 = [i:int] int64_1 (i)
@@ -439,11 +454,13 @@ uint64_kind = "atstype_uint64"
 typedef
 uint64_0 = g0uint (uint64_kind)
 typedef
-uint64_1 (i:int) = g1uint (uint64_kind, i)
+uint64_1
+  (i:int) = g1uint (uint64_kind, i)
+//
 stadef uint64 = uint64_1 // 2nd-select
 stadef uint64 = uint64_0 // 1st-select
 stadef uInt64 = [i:nat] uint64_1 (i)
-
+//
 (* ****** ****** *)
 //
 abst@ype

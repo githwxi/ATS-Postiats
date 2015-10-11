@@ -43,9 +43,22 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 #atscode_separator()
 
+implement
+g0int2int<int8knd,intknd> = g0int2int_int8_int
+implement
+g0int2int<int16knd,intknd> = g0int2int_int16_int
+implement
+g0int2int<int32knd,intknd> = g0int2int_int32_int
+implement
+g0int2int<int64knd,intknd> = g0int2int_int64_int
+
+#atscode_separator()
+
 %{
 //
-fun g0int_implist (
+fun
+g0int_implist
+(
   knm: string, tnm: string, tnm2: string
 ) : atext = let
 //
@@ -134,10 +147,41 @@ end // end of [g0int_implist]
 #g0int_implist("int64knd", "int64", "int64")
 //
 #atscode_separator()
+//
+implement
+g0int2uint<int8knd,uintknd> = g0int2uint_int8_uint
+implement
+g0int2uint<int16knd,uintknd> = g0int2uint_int16_uint
+implement
+g0int2uint<int32knd,uintknd> = g0int2uint_int32_uint
+implement
+g0int2uint<int64knd,uintknd> = g0int2uint_int64_uint
+//
+implement
+g0uint2int<uint8knd,intknd> = g0uint2int_uint8_int
+implement
+g0uint2int<uint16knd,intknd> = g0uint2int_uint16_int
+implement
+g0uint2int<uint32knd,intknd> = g0uint2int_uint32_int
+implement
+g0uint2int<uint64knd,intknd> = g0uint2int_uint64_int
+//
+implement
+g0uint2uint<uint8knd,uintknd> = g0uint2uint_uint8_uint
+implement
+g0uint2uint<uint16knd,uintknd> = g0uint2uint_uint16_uint
+implement
+g0uint2uint<uint32knd,uintknd> = g0uint2uint_uint32_uint
+implement
+g0uint2uint<uint64knd,uintknd> = g0uint2uint_uint64_uint
+//
+#atscode_separator()
 
 %{
 //
-fun g0uint_implist (
+fun
+g0uint_implist
+(
   knm: string, tnm: string, tnm2: string
 ) : atext = let
 //
