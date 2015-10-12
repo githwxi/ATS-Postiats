@@ -32,11 +32,11 @@ TARZXF="tar -zxf"
 #
 ######
 #
-${WGETQ} \
-${ATSLANGURL_github}/ATS-Anairiats/anairiats-${ATSVER}/${ATSPACKTGZ}
-#
 # ${WGETQ} \
 # ${ATSLANGURL_srcfg}/files/ats-lang/anairiats-${ATSVER}/${ATSPACKTGZ}
+#
+${WGETQ} \
+${ATSLANGURL_github}/ATS-Anairiats/ats-lang-anairiats-${ATSVER}/${ATSPACKTGZ}
 #
 ######
 #
