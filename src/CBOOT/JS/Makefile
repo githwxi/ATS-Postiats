@@ -4,13 +4,8 @@
 #
 ######
 #
-CC=gcc
-GCC=gcc
+CC=emcc
 CCOMP=$(CC)
-#
-# GCFLAG=-D_ATS_NGC
-# GCFLAG=-D_ATS_GCATS
-# GCFLAG=-D_ATS_GCBDW
 #
 # CFLAGS=
 # LDFLAGS=
@@ -19,37 +14,11 @@ CCOMP=$(CC)
 #
 # This is fixed:
 #
-C3NSTRINTKND=gmpknd
-#
-# [gmpknd] for CBOOT
-# [intknd] for CBOOTmin
-#
-######
-#
-LIBGMP=
-#
-ifeq ($(C3NSTRINTKND),intknd)
-LIBGMP :=
-endif
-ifeq ($(C3NSTRINTKND),gmpknd)
-LIBGMP := -lgmp
-endif
-#
-######
-#
-LIBGC=
-gcats_o=
-#
-ifeq ($(GCFLAG),-D_ATS_GCBDW)
-  LIBGC := -lgc
-endif
-ifeq ($(GCFLAG),-D_ATS_GCATS)
-  gcats_o := gcats.o
-endif
+C3NSTRINTKND=intknd
 #
 ######
 
-all:: patsopt
+all:: libatsopt.js
 
 ######
 
@@ -321,33 +290,23 @@ OBJECTSstadyn := $(OBJECTSsta) $(OBJECTSdyn)
 ######
 
 CFLAGS += -I./.. -I./../ccomp/runtime
+CFLAGS += -Wno-implicit-function-declaration
+
+######
+
+libatsopt.js: \
+pats_main_dats.o \
+$(OBJECTSstadyn) \
+prelude_libats.o \
+libc_libats.o libats_libats.o ; \
+$(CCOMP) -o libatsopt.js \
+  --preload-file ./libatsopt-prelude@/libatsopt/prelude \
 
 ######
 #
-patsopt: \
-pats_main_dats.o \
-$(OBJECTSstadyn) \
-prelude_libats.o \
-libc_libats.o libats_libats.o ; \
-$(CCOMP) -O2 -I. $(GCFLAG) -o $@ \
-  ccomp/runtime/ats_prelude.c $^ $(gcats_o) $(LDFLAGS) $(LIBGMP) $(LIBGC)
+%_sats.o: ./../%_sats.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
-######
-#
-AR=ar
-MV=mv
-#
-libatsopt: \
-pats_main_dats.o \
-$(OBJECTSstadyn) \
-prelude_libats.o \
-libc_libats.o libats_libats.o ; \
-$(AR) -r libatsopt.a $^ $(gcats_o) && $(MV) -f libatsopt.a $(PATSHOME)/utils/libatsopt/.
-#
-######
-#
-%_sats.o: %_sats.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
-%_dats.o: %_dats.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
+%_dats.o: ./../%_dats.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
 ######
 
@@ -384,7 +343,7 @@ PRELUDE_OBJECTS := \
 ######
 #
 prelude_%.o: \
-prelude/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+./../prelude/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
 prelude_libats.o: $(PRELUDE_OBJECTS) ; ld -r -o $@ $^
 #
@@ -404,15 +363,10 @@ LIBC_OBJECTS := \
   libc_sys_SATS_stat_sats.o \
   libc_sys_SATS_types_sats.o \
 
-ifeq ($(C3NSTRINTKND),gmpknd)
-LIBC_OBJECTS += \
-  libc_SATS_gmp_sats.o libc_DATS_gmp_dats.o
-endif
-
 ######
 #
 libc_%.o: \
-libc/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+./../libc/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
 libc_libats.o: $(LIBC_OBJECTS) ; ld -r -o $@ $^
 #
@@ -441,20 +395,9 @@ LIBATS_OBJECTS := \
 ######
 #
 libats_%.o: \
-libats/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+./../libats/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
 libats_libats.o: $(LIBATS_OBJECTS) ; ld -r -o $@ $^
-#
-######
-#
-gcats.o: \
-  gcats1_hats gcats1_all_cats.o ; ld -r -o $@ gcats1_all_cats.o
-#
-gcats1_hats: ; \
-  $(GCC) -E -P -o gcats1.hats -x c ./ccomp/runtime/GCATS/gcats1_master.hats
-#
-gcats1_all_cats.o: ; \
-  $(CCOMP) -O2 -I. -I./ccomp/runtime -c -o $@ -x c ./ccomp/runtime/gcats1_all.cats
 #
 ######
 
@@ -466,15 +409,6 @@ RMF=rm -f
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_sats.o
 clean:: ; $(RMF) *_dats.o
-#
-clean:: ; $(RMF) gcats1.hats
-clean:: ; $(RMF) gcats1_all_cats.o
-#
-clean:: ; $(RMF) gcats.o
-clean:: ; $(RMF) patsopt
-clean:: ; $(RMF) prelude_libats.o
-clean:: ; $(RMF) libc_libats.o
-clean:: ; $(RMF) libats_libats.o
 #
 ######
 

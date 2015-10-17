@@ -8,39 +8,27 @@
 ATSCC=$(ATSHOME)/bin/atscc
 ATSOPT=$(ATSHOME)/bin/atsopt
 #
+PATSCC=$(PATSHOME)/bin/patscc
+PATSOPT=$(PATSHOME)/bin/patsopt
+#
 ######
 
 all:: libatsopt_ext
 
 ######
 #
-# For building libatsopt with libgmp dependency
+# For building libatsopt without libgmp dependency
 #
 libatsopt:: ; \
 $(MAKE) -C $(PATSHOME)/src cleanall
-libatsopt:: ; \
-$(MAKE) -C $(PATSHOME)/src libatsopt
+libatsopt_js:: ; \
+$(MAKE) -C $(PATSHOME)/src C3NSTRINTKND=intknd libatsopt
 #
 libatsopt:: ; $(RMF) libatsopt.a
-libatsopt:: ; $(MAKE) -C $(PATSHOME)/src CBOOT
+libatsopt:: ; $(MAKE) -C $(PATSHOME)/src CBOOTmin
 #
 libatsopt:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT cleanall
 libatsopt:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt
-#
-######
-#
-# For building libatsopt without libgmp dependency
-#
-libatsopt_min:: ; \
-$(MAKE) -C $(PATSHOME)/src cleanall
-libatsopt_min:: ; \
-$(MAKE) -C $(PATSHOME)/src C3NSTRINTKND=intknd libatsopt
-#
-libatsopt_min:: ; $(RMF) libatsopt.a
-libatsopt_min:: ; $(MAKE) -C $(PATSHOME)/src CBOOTmin
-#
-libatsopt_min:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT cleanall
-libatsopt_min:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt
 #
 ######
 

@@ -8,11 +8,6 @@ ATSOPT=$(ATSHOME)/bin/atsopt
 
 ######
 
-PATSCC=$(PATSHOME)/bin/patscc
-PATSOPT=$(PATSHOME)/bin/patsopt
-
-######
-
 ATSRUNTIME=$(ATSHOME)/ccomp/runtime
 
 ######

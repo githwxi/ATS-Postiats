@@ -39,6 +39,7 @@ GCFLAG=
 # [intknd] for CBOOTmin
 #
 C3NSTRINTKND=gmpknd
+#C3NSTRINTKND=intknd
 #
 ######
 
@@ -580,10 +581,13 @@ cleanall:: ; $(RMF) patsopt
 ######
 #
 AR=ar
+MAKE=make
 #
 libatsopt: $(OBJECTS) ; \
 $(ATSCC) -DATS PATSOPT_MAIN_NONE \
   $(CFLAGS) $(GCFLAG) -c pats_main.dats && $(AR) -r libatsopt.a pats_main_dats.o $^
+#
+libatsopt_min: ; $(MAKE) C3NSTRINTKND=intknd libatsopt
 #
 cleanall:: ; $(RMF) libpatsopt.a
 #
