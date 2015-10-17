@@ -16,7 +16,7 @@ var Module = {
         
         output.innerText += cleaned + "\n";
 
-        //Scroll to the latest.
+        // Scroll to the latest.
         output.scrollTop = 1000000;
     }
 };

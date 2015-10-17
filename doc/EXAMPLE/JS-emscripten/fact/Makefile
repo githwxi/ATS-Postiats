@@ -16,10 +16,9 @@ all:: fact_dats.js
 #
 fact_dats.js: fact_dats.c ; \
 $(EMCC) \
-  -s EXPORTED_FUNCTIONS="['_ATSJS_fact_handle_keypress_']" \
-  -Wno-warn-absolute-paths \
   -I${PATSHOME} -I${PATSHOME}/ccomp/runtime \
   --pre-js fact_pre.js --post-js fact_post.js \
+  -s EXPORTED_FUNCTIONS="['_ATSJS_fact_handle_keypress_']" \
   --js-library ${PATSHOMERELOC}/contrib/HTML-emscripten/JS/HTMLdocument.js \
   -o $@ $<
 #
