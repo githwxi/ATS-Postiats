@@ -16,6 +16,10 @@ CCOMP=$(CC)
 # LDFLAGS=
 #
 ######
+
+CFLAGS += -I. -I./ccomp/runtime
+
+######
 #
 # This is fixed:
 #
@@ -317,10 +321,6 @@ OBJECTSdyn := $(patsubst %.dats, %_dats.o, $(OBJECTSdyn))
 ######
 
 OBJECTSstadyn := $(OBJECTSsta) $(OBJECTSdyn)
-
-######
-
-CFLAGS += -I./.. -I./../ccomp/runtime
 
 ######
 #

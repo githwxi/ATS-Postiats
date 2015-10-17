@@ -299,7 +299,9 @@ pats_main_dats.o \
 $(OBJECTSstadyn) \
 prelude_libats.o \
 libc_libats.o libats_libats.o ; \
-$(CCOMP) -o libatsopt.js \
+$(CCOMP) $(CFLAGS) -o $@ \
+  ./../ccomp/runtime/ats_prelude.c $^ \
+  -s EXPORTED_FUNCTIONS='["_libatsopt_patsopt_main"]' \
   --preload-file ./libatsopt-prelude@/libatsopt/prelude \
 
 ######
@@ -409,6 +411,10 @@ RMF=rm -f
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_sats.o
 clean:: ; $(RMF) *_dats.o
+#
+clean:: ; $(RMF) prelude_libats.o
+clean:: ; $(RMF) libc_libats.o
+clean:: ; $(RMF) libats_libats.o
 #
 ######
 
