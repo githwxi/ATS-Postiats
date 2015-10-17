@@ -345,7 +345,7 @@ PRELUDE_OBJECTS := \
 prelude_%.o: \
 ./../prelude/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
-prelude_libats.o: $(PRELUDE_OBJECTS) ; ld -r -o $@ $^
+prelude_libats.o: $(PRELUDE_OBJECTS) ; $(CCOMP) -o $@ $^
 #
 ######
 
@@ -368,7 +368,7 @@ LIBC_OBJECTS := \
 libc_%.o: \
 ./../libc/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
-libc_libats.o: $(LIBC_OBJECTS) ; ld -r -o $@ $^
+libc_libats.o: $(LIBC_OBJECTS) ; $(CCOMP) -o $@ $^
 #
 ######
 
@@ -397,7 +397,7 @@ LIBATS_OBJECTS := \
 libats_%.o: \
 ./../libats/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
-libats_libats.o: $(LIBATS_OBJECTS) ; ld -r -o $@ $^
+libats_libats.o: $(LIBATS_OBJECTS) ; $(CCOMP) -o $@ $^
 #
 ######
 
