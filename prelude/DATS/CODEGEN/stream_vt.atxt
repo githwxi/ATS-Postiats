@@ -35,12 +35,15 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 implement
 {a}(*tmp*)
-stream_vt2t (xs) = let
+stream_vt2t(xs) = let
 //
-fun aux (
-  xs: stream_vt a
-) : stream (a) = let
-  val xs = $UN.castvwtp0{ptr}(xs)
+fun
+aux (
+  xs: stream_vt(a)
+) :<!laz> stream(a) = let
+//
+val xs = $UN.castvwtp0{ptr}(xs)
+//
 in
 //
 $delay
@@ -51,6 +54,9 @@ let
   val xs_con = !xs
 in
   case+ xs_con of
+  | ~stream_vt_nil
+      ((*void*)) => stream_nil ()
+    // end of [stream_vt_nil]
   | @stream_vt_cons
       (x, xs1) => let
       val xs1_val = xs1
@@ -58,7 +64,6 @@ in
     in
       $UN.castvwtp0{stream_con(a)}((view@x, view@xs1 | xs_con))
     end // end of [stream_cons]
-  | ~stream_vt_nil () => stream_nil ()
 end
 )
 end // end of [aux]
@@ -85,14 +90,18 @@ in (* in-of-local *)
 
 implement
 {a}(*tmp*)
-stream2list_vt (xs) = let
+stream2list_vt(xs) = let
 //
-fun loop (
+fun
+loop (
   xs: stream_vt a
 ) :<!laz> List0_vt (a) = let
   val xs_con = !xs
 in
   case+ xs_con of
+  | ~stream_vt_nil
+      ((*void*)) => list_vt_nil()
+    // end of [stream_vt_nil]
   | @stream_vt_cons
       (x, xs1) => let
       val xs1_val = xs1
@@ -100,8 +109,7 @@ in
       val xs_con = stream2list_vt_cons (xs_con)
     in
       fold@ (xs_con); xs_con
-    end // end of [stream_cons]
-  | ~stream_vt_nil () => list_vt_nil ()
+    end // end of [stream_vt_cons]
 end // end of [loop]
 //
 in
@@ -122,41 +130,67 @@ implement
 {a}(*tmp*)
 stream_vt_drop_exn
   (xs, n) = let
+//
+fun aux
+  : $d2ctype(stream_vt_drop_exn<a>) =
+lam (xs, n) =>
+(
+//
+if
+n > 0
+then (
+//
+case+ !xs of
+| ~stream_vt_cons
+    (_, xs) => aux(xs, n-1)
+  // end of [stream_vt_cons]
+| ~stream_vt_nil
+    ((*void*)) => $raise StreamSubscriptExn()
+  // end of [stream_vt_nil]
+//
+) (* end of [then] *)
+else (xs) // end of [else]
+//
+) (* end of [lam] *)
+//
 in
-//
-if n > 0
-  then (
-  case+ !xs of
-  | ~stream_vt_nil () => $raise StreamSubscriptExn()
-  | ~stream_vt_cons (_, xs) => stream_vt_drop_exn (xs, n-1)
-  ) (* end of [then] *)
-  else (xs) // end of [else]
-// end of [if]
-//
+  aux (xs, n)
 end // end of [stream_vt_drop_exn]
 //
 implement
 {a}(*tmp*)
 stream_vt_drop_opt
   (xs, n) = let
+//
+fun aux
+  : $d2ctype(stream_vt_drop_opt<a>) =
+lam (xs, n) =>
+(
+//
+if
+n > 0
+then (
+//
+case+ !xs of
+| ~stream_vt_cons
+    (_, xs) => aux(xs, n-1)
+| ~stream_vt_nil
+    ((*void*)) => None_vt((*void*))
+//
+) (* end of [then] *)
+else Some_vt{stream_vt(a)}(xs) // [else]
+//
+) (* end of [lam] *)
+//
 in
-//
-if n > 0
-  then (
-  case+ !xs of
-  | ~stream_vt_nil () => None_vt ((*void*))
-  | ~stream_vt_cons (_, xs) => stream_vt_drop_opt (xs, n-1)
-  ) (* end of [then] *)
-  else Some_vt{stream_vt(a)}(xs) // end of [else]
-// end of [if]
-//
+  aux (xs, n)
 end // end of [stream_vt_drop_opt]
 //
 #atscode_separator()
 //
 implement
 {a}(*tmp*)
-stream_vt_head (xs) =
+stream_vt_head(xs) =
 (
 case+ !xs of
 | ~stream_vt_cons (x, xs) =>
@@ -166,7 +200,7 @@ case+ !xs of
 //
 implement
 {a}(*tmp*)
-stream_vt_tail (xs) =
+stream_vt_tail(xs) =
 (
 case+ !xs of
 | ~stream_vt_cons (x, xs) => (xs)
@@ -177,7 +211,7 @@ case+ !xs of
 
 implement
 {a}(*tmp*)
-stream_vt_uncons (xs0) =
+stream_vt_uncons(xs0) =
 (
 case+ !xs0 of
 | ~stream_vt_cons
@@ -293,9 +327,12 @@ end // end of [local]
 local
 
 fun{}
-auxfree{a:t0p} (
+auxfree
+  {a:t0p}
+(
   pred: (&a) -<cloptr> bool
-) : void = cloptr_free ($UN.castvwtp0{cloptr0}(pred))
+) : void =
+  cloptr_free ($UN.castvwtp0{cloptr0}(pred))
 
 fun{a:t0p}
 stream_vt_filter_cloptr_con
@@ -353,14 +390,14 @@ a:vt0p}{b:vt0p
 in
 //
 case+ xs_con of
-| @stream_vt_cons (x, xs) => let
+| @stream_vt_cons(x, xs) => let
     val y = stream_vt_map$fopr<a><b> (x)
     val xs = xs
     val ((*void*)) = free@ (xs_con)
   in
     stream_vt_cons{b}(y, stream_vt_map<a><b> (xs))
   end (* end of [stream_vt_con] *)
-| ~stream_vt_nil ((*void*)) => stream_vt_nil ()
+| ~stream_vt_nil((*void*)) => stream_vt_nil()
 //
 end // end of [stream_vt_map_con]
 
@@ -429,14 +466,14 @@ case+ xs1_con of
       in
         stream_vt_cons{b}(y, stream_vt_map2<a1,a2><b> (xs1, xs2))
       end // end of [stream_vt_cons]
-    | ~stream_vt_nil () => let
+    | ~stream_vt_nil() => let
         val xs1 = xs1
         val () = free@ (xs1_con)
       in
         ~xs1; stream_vt_nil ()
       end // end of [stream_vt_nil]
   end // end of [stream_vt_cons]
-| ~stream_vt_nil ((*void*)) => (~xs2; stream_vt_nil ())
+| ~stream_vt_nil((*void*)) => (~xs2; stream_vt_nil())
 //
 end // end of [stream_vt_map_con]
 

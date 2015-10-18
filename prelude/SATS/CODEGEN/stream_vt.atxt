@@ -27,9 +27,13 @@ sortdef t0p = t@ype and vt0p = vt@ype
 // HX: lazy linear streams
 //
 datavtype
-stream_vt_con (a:vt@ype+) =
-  | stream_vt_nil of ((*void*)) | stream_vt_cons of (a, stream_vt(a))
-where stream_vt (a:vt@ype) = lazy_vt (stream_vt_con(a))
+stream_vt_con
+  (a:vt@ype+) =
+  | stream_vt_nil of ((*void*))
+  | stream_vt_cons of (a, stream_vt(a))
+//
+where
+stream_vt(a:vt@ype) = lazy_vt(stream_vt_con(a))
 //
 #atscode_separator()
 
