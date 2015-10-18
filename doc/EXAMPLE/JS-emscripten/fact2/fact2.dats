@@ -16,7 +16,8 @@ fact(n:int): int = "mac#ATSJS_fact_"
 (* ****** ****** *)
 //
 implement
-fact(n) = let
+fact(n) = res where
+{
 //
 fun
 loop
@@ -29,9 +30,13 @@ loop
   // end of [if]
 ) (* end of [loop] *)
 //
-in
-  loop(n, 1)
-end // end of [fact]
+val res = loop(n, 1)
+//
+(*
+val () = println! ("fact(", n, ") = ", res)
+*)
+//
+} (* end of [fact] *)
 //
 (* ****** ****** *)
 
