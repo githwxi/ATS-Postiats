@@ -19,10 +19,10 @@ HTML_targetloc
 "$PATSHOMERELOC/contrib/HTML-emscripten"
 //
 (* ****** ****** *)
-
+//
 #define
 ATS_EXTERN_PREFIX "ATSJS_"
-
+//
 (* ****** ****** *)
 
 staload "{$HTML}/SATS/document.sats"
