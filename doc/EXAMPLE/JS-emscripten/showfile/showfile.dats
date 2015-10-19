@@ -68,7 +68,11 @@ in
 //
 case+ opt of
 | ~None_vt() => let
-    val errmsg = "[fopen] failed!"
+    val errmsg =
+    string0_append3
+      ("fopen(", fname, ") failed!")
+    // end of [val]
+    val errmsg = strptr2string(errmsg)
   in
     $delay(stream_sing<string>(errmsg))
   end // end of [None_vt]
