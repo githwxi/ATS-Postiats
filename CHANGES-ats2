@@ -31,6 +31,7 @@ Here is a list of major additions and changes since the last release:
    _ATS_EXTERN_DEF_ for guarding the definition of ATSextern()
    _ATS_STATIC_DEF_ for guarding the definition of ATSstatic()
    _ATS_INLINE_DEF_ for guarding the definition of ATSinline()
+7. Adding some examples to illustrate a way of using ATS+Emscripten
 
 ######
 
