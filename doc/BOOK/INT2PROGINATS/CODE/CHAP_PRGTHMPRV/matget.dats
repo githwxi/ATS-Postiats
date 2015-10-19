@@ -54,23 +54,30 @@ matrix_get (A, n, i, j) = A[i*n+j] // it fails to typecheck!!!
 (* ****** ****** *)
 
 extern
-prfun mul_istot{i,j:int} (): [ij:int] MUL (i, j, ij)
+prfun
+mul_istot{i,j:int} (): [ij:int] MUL (i, j, ij)
 
 extern
-prfun mul_isfun
+prfun
+mul_isfun
   {i,j:int}{ij1,ij2:int}
-  (pf1: MUL (i, j, ij1), pf2: MUL (i, j, ij2)): [ij1==ij2] void
+(
+  pf1: MUL (i, j, ij1), pf2: MUL (i, j, ij2)
+) : [ij1==ij2] void // end-of-function
 
 extern
-prfun mul_elim
+prfun
+mul_elim
   {i,j:int}{ij:int} (pf: MUL (i, j, ij)): [i*j==ij] void
 
 extern
-prfun mul_nat_nat_nat
+prfun
+mul_nat_nat_nat
   {i,j:nat}{ij:int} (pf: MUL (i, j, ij)): [ij >= 0] void
 
 extern
-prfun mul_distribute2
+prfun
+mul_distribute2
   {i1,i2:int}{j:int}{i1j,i2j:int}
   (pf1: MUL (i1, j, i1j), pf2: MUL (i2, j, i2j)): MUL (i1+i2, j, i1j+i2j)
 
@@ -88,13 +95,14 @@ matrix_get
   {m,n}{i,j}
   (A, n, i, j) = let
 //
-  val (pf_i_n | _i_n) = imul2 (i, n)
-  prval () = mul_nat_nat_nat (pf_i_n)
-  prval () = mul_gte_gte_gte{m-1-i,n} ()
-  prval () = mul_elim (pf_i_n)
+  val (pf | _in_) = imul2 (i, n)
+//
+  prval ((*void*)) = mul_elim(pf)
+  prval ((*void*)) = mul_nat_nat_nat(pf)
+  prval ((*void*)) = mul_gte_gte_gte{m-1-i,n}()
 //
 in
-  A[_i_n+j]
+  A[_in_+j]
 end // end of [matrix_get]
 
 (* ****** ****** *)
