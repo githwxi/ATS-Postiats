@@ -21,6 +21,8 @@ JNIincl=/usr/lib/jvm/java-7-openjdk-amd64/include
 #
 ######
 
+all:: \
+MyMatrix
 MyMatrix:: MyMatrix.h
 MyMatrix:: MyMatrix.class
 MyMatrix:: MyMatrix_test.class
@@ -37,6 +39,17 @@ MyMatrix_test.class: MyMatrix_test.java ; javac $<
 MyMatrix_dats.o: MyMatrix.sats MyMatrix.dats ; \
   $(PATSCC) -D_GNU_SOURCE -IIATS $(PATSHOME)/contrib -I$(JNIincl) -DATS_MEMALLOC_LIBC -fPIC -c MyMatrix.dats
 libMyMatrix_dats.so: MyMatrix_dats.o ; gcc -shared -o $@ -Wl,-soname,$@ $< -ldl -L$(PATSLIB) -latslib
+
+######
+
+regress:: ; \
+java -Djava.library.path=. MyMatrix_test
+
+######
+
+testall:: all
+testall:: regress
+testall:: cleanall
 
 ######
 
