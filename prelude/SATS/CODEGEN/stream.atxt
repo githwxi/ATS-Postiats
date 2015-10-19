@@ -41,6 +41,11 @@ fun isStreamSubscriptExn (x: !exn):<> bool = "mac\#isStreamSubscriptExn"
 *)
 //
 #atscode_separator()
+//
+fun{a:t0p}
+stream_sing(x: a):<> stream_con(a)
+//
+#atscode_separator()
 
 fun{a:t0p}
 stream2list

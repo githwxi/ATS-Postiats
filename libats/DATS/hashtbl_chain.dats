@@ -57,15 +57,16 @@ staload "libats/SATS/hashtbl_chain.sats"
 (* ****** ****** *)
 
 extern
-fun{} chain_nil
-  {key:t0p;itm:vt0p} (): chain (key, itm)
+fun{}
+chain_nil
+  {key:t0p;itm:vt0p}(): chain(key, itm)
 // end of [chain_nil]
 
 extern
 fun{
 key:t0p;itm:vt0p
 } chain_search_ref
-  (kxs: !chain (key, itm), k0: key): cPtr0(itm)
+  (kxs: !chain(key, itm), k0: key): cPtr0(itm)
 // end of [chain_search_ref]
 
 (* ****** ****** *)
@@ -74,15 +75,15 @@ extern
 fun{
 key:t0p;itm:vt0p
 } chain_insert (
-  &chain (key, INV(itm)) >> _
-, k0: key, x0: itm, res: &itm? >> opt (itm, b)
+  &chain(key, INV(itm)) >> _
+, k0: key, x0: itm, res: &itm? >> opt(itm, b)
 ) : #[b:bool] bool (b) // endfun
 
 extern
 fun{
 key:t0p;itm:vt0p
 } chain_insert_any
-  (kxs: &chain (key, itm) >> _, key, itm): void
+  (kxs: &chain(key, itm) >> _, key, itm): void
 // end of [chain_insert_any]
 
 (* ****** ****** *)
@@ -91,7 +92,7 @@ extern
 fun{
 key:t0p;itm:vt0p
 } chain_takeout (
-  &chain (key, INV(itm)) >> _, k0: key, res: &itm? >> opt (itm, b)
+  &chain(key, INV(itm)) >> _, k0: key, res: &itm? >> opt(itm, b)
 ) : #[b:bool] bool (b) // endfun
 
 (* ****** ****** *)
@@ -103,7 +104,7 @@ fun
 {env:vt0p}
 chain_foreach_env
 (
-  kxs: !chain (key, itm) >> _, env: &env >> _
+  kxs: !chain(key, itm) >> _, env: &env >> _
 ) : void // end of [chain_foreach_env]
 
 (* ****** ****** *)
@@ -112,14 +113,14 @@ extern
 fun
 {key:t0p
 ;itm:vt0p}
-chain_listize (chain (key, itm)): List_vt @(key, itm)
+chain_listize (chain(key, itm)): List_vt @(key, itm)
 
 extern
 fun
 {key:t0p
 ;itm:vt0p}
 {ki2:vt0p}
-chain_flistize (kxs: chain (key, itm)): List_vt (ki2)
+chain_flistize (kxs: chain(key, itm)): List_vt (ki2)
 
 (* ****** ****** *)
 
@@ -208,14 +209,14 @@ fun{
 key:t0p;itm:vt0p
 } chainarr_insert_any
   {m:int | m >= 1} (
-  A: !arrayptr (chain (key, itm), m), m: size_t m, k: key, x: itm
+  A: !arrayptr (chain(key, itm), m), m: size_t m, k: key, x: itm
 ) : void // end of [chainarr_insert_any]
 extern
 fun{
 key:t0p;itm:vt0p
 } chainarr_insert_chain
   {m:int | m >= 1} (
-  A: !arrayptr (chain (key, itm), m), m: size_t m, kxs: chain (key, itm)
+  A: !arrayptr (chain(key, itm), m), m: size_t m, kxs: chain(key, itm)
 ) : void // end of [chainarr_insert_chain]
 
 (* ****** ****** *)
@@ -249,10 +250,10 @@ end // end of [chainarr_insert_any]
 implement
 {key,itm}
 chainarr_insert_chain
-  {m} (A, m, kxs) = let
+  {m}(A, m, kxs) = let
 //
 vtypedef
-chain = chain (key, itm)
+chain = chain(key, itm)
 //
 fun loop
 (
@@ -285,7 +286,7 @@ datavtype hashtbl
 ) =
   {m:int | m >= 1}
   HASHTBL of (
-    arrayptr (chain (key, itm), m), size_t m, size_t
+    arrayptr (chain(key, itm), m), size_t m, size_t
   ) (* end of [HASHTBL] *)
 // end of [hashtbl]
 
@@ -301,7 +302,8 @@ implement
 hashtbl_make_nil
   (cap) = let
 //
-vtypedef chain = chain (key, itm)
+vtypedef
+chain = chain(key, itm)
 //
 prval [m:int]
   EQINT () = eqint_make_guint (cap)
@@ -312,7 +314,7 @@ val A0 = arrayptr_make_elt<ptr> (cap, p0)
 val A0 = $UN.castvwtp0{arrayptr(chain, m)}(A0)
 //
 in
-  HASHTBL (A0, cap, i2sz(0))
+  HASHTBL(A0, cap, i2sz(0))
 end // end of [hashtbl_make_nil]
 
 (* ****** ****** *)
@@ -331,7 +333,7 @@ implement{
 } hashtbl_get_capacity
   (tbl) = let
 //
-val+HASHTBL (A, cap, n) = tbl in (cap)
+val+HASHTBL(A, cap, n) = tbl in (cap)
 //
 end // end of [hashtbl_get_capacity]
 
@@ -342,7 +344,7 @@ implement
 hashtbl_search_ref
   (tbl, k) = let
 //
-val+HASHTBL (A, cap, n) = tbl
+val+HASHTBL(A, cap, n) = tbl
 //
 val h = hash_key<key> (k)
 val h = g0uint2uint_ulint_size(h)
@@ -370,7 +372,7 @@ implement
 hashtbl_insert
   (tbl, k, x, res) = let
 //
-val+@HASHTBL (A, cap, n) = tbl
+val+@HASHTBL(A, cap, n) = tbl
 //
 val h = hash_key<key> (k)
 val h = g0uint2uint_ulint_size(h)
@@ -408,7 +410,7 @@ implement
 hashtbl_insert_any
   (tbl, k, x) = let
 //
-val+@HASHTBL (A, cap, n) = tbl
+val+@HASHTBL(A, cap, n) = tbl
 //
 val h = hash_key<key> (k)
 val h = g0uint2uint_ulint_size(h)
@@ -444,7 +446,7 @@ implement
 hashtbl_takeout
   (tbl, k, res) = let
 //
-val+@HASHTBL (A, cap, n) = tbl
+val+@HASHTBL(A, cap, n) = tbl
 //
 val h = hash_key<key> (k)
 val h = g0uint2uint_ulint_size(h)
@@ -477,19 +479,19 @@ hashtbl_takeout_all
   (tbl) = let
 //
 vtypedef
-chain = chain (key, itm)
+chain = chain(key, itm)
 //
 typedef tenv = ptr
 //
 vtypedef ki = @(key, itm)
 vtypedef tenv2 = List0_vt (ki)
 //
-val+@HASHTBL (A, cap, n) = tbl
+val+@HASHTBL(A, cap, n) = tbl
 //
 local
 implement
 {a}{env}
-array_rforeach$cont (x, env) = true
+array_rforeach$cont(x, env) = true
 implement
 (a:viewtype)
 array_rforeach$fwork<a><tenv>
@@ -525,9 +527,9 @@ hashtbl_reset_capacity
   (tbl, cap2) = let
 //
 vtypedef
-chain = chain (key, itm)
+chain = chain(key, itm)
 //
-val+@HASHTBL (A0, cap0, n) = tbl
+val+@HASHTBL(A0, cap0, n) = tbl
 //
 prval [m2:int]
   EQINT () = eqint_make_guint (cap2)
@@ -578,7 +580,7 @@ implement
 hashtbl_adjust_capacity
   (tbl) = let
 //
-val+HASHTBL (A, cap, n) = tbl
+val+HASHTBL(A, cap, n) = tbl
 //
 in
 //
@@ -595,13 +597,14 @@ hashtbl_foreach_env
   (tbl, env) = let
 //
 vtypedef
-chain = chain (key, itm)
+chain = chain(key, itm)
 //
-val+HASHTBL (A, cap, _) = tbl
+val+HASHTBL(A, cap, _) = tbl
 //
 local
-implement{a}{env}
-array_foreach$cont (kxs, env) = true
+implement
+{a}{env}
+array_foreach$cont(kxs, env) = true
 implement
 array_foreach$fwork<chain><env>
   (kxs, env) =
@@ -622,9 +625,9 @@ hashtbl_listize
   (tbl) = let
 //
 vtypedef
-chain = chain (key, itm)
+chain = chain(key, itm)
 //
-val+~HASHTBL (A, cap, _) = tbl
+val+~HASHTBL(A, cap, _) = tbl
 //
 typedef tenv = ptr
 //
@@ -632,8 +635,9 @@ vtypedef ki = @(key, itm)
 vtypedef tenv2 = List0_vt (ki)
 //
 local
-implement{a}{env}
-array_rforeach$cont (x, env) = true
+implement
+{a}{env}
+array_rforeach$cont(x, env) = true
 implement
 array_rforeach$fwork<chain><tenv>
   (kxs, env) = let
@@ -665,32 +669,42 @@ hashtbl_flistize
   (tbl) = let
 //
 vtypedef
-chain = chain (key, itm)
+chain = chain(key, itm)
 //
-val+~HASHTBL (A, cap, n) = tbl
+val+~HASHTBL(A, cap, n) = tbl
 //
 typedef tenv = ptr
 //
 vtypedef tenv2 = List0_vt (ki2)
 //
 local
-implement{a}{env}
-array_rforeach$cont (x, env) = true
+//
+implement
+{a}{env}
+array_rforeach$cont(x, env) = true
 implement
 array_rforeach$fwork<chain><tenv>
   (kxs, env) = let
   val kxs = $UN.castvwtp1{chain}(kxs)
-  val kxs2 = chain_flistize<key,itm><ki2> (kxs)
-  val kxs2 = list_vt_append (kxs2, $UN.castvwtp0{tenv2}(env))
-  val () = env := $UN.castvwtp0{ptr}(kxs2)
+  val kxs2 =
+    chain_flistize<key,itm><ki2> (kxs)
+  val kxs2 =
+    list_vt_append (kxs2, $UN.castvwtp0{tenv2}(env))
+  val ((*void*)) = env := $UN.castvwtp0{ptr}(kxs2)
 in
   // nothing
 end // end of [array_rforeach$fwork]
+//
 in(* in of [local] *)
+//
 var env: ptr
-val () = env := $UN.castvwtp0{ptr}(list_vt_nil)
-val _(*cap*) = $effmask_all
+//
+val () = (env := $UN.castvwtp0{ptr}(list_vt_nil))
+//
+val _(*cap*) =
+$effmask_all
   (arrayptr_rforeach_env<chain><tenv> (A, cap, env))
+//
 end // end of [local]
 //
 val () = arrayptr_free ($UN.castvwtp0{arrayptr(ptr,0)}(A))

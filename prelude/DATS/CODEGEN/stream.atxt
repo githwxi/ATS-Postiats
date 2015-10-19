@@ -29,6 +29,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
+//
+implement
+{a}(*tmp*)
+stream_sing(x) =
+  stream_cons{a}(x, $delay(stream_nil))
+//
+#atscode_separator()
 
 implement
 {a}(*tmp*)

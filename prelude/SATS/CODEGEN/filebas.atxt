@@ -117,8 +117,8 @@ fileref_open_exn
   (path: NSH(string), fm: file_mode): FILEref = "mac\#%"
 // end of [fileref_open_exn]
 
-fun{
-} fileref_open_opt
+fun{}
+fileref_open_opt
   (path: NSH(string), fm: file_mode): Option_vt (FILEref)
 // end of [fileref_open_opt]
 
@@ -157,12 +157,12 @@ fun fileref_puts
   (out: FILEref, s: NSH(string)): void = "mac\#%"
 //
 #atscode_separator()
-
+//
 fun fileref_is_eof (fil: FILEref): bool = "mac\#%"
-
+//
 macdef
 fileref_isnot_eof (inp) = ~fileref_is_eof (,(inp))
-
+//
 #atscode_separator()
 
 typedef
