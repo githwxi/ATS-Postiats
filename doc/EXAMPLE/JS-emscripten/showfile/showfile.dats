@@ -11,6 +11,11 @@
 ATS_EXTERN_PREFIX "ATSJS_"
 //
 (* ****** ****** *)
+
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "showfile_dynload_"
+
+(* ****** ****** *)
 //
 extern
 fun
@@ -75,8 +80,10 @@ end (* end of [file2stream] *)
 
 (* ****** ****** *)
 //
+(*
 val () =
-  println! ("streamizing [DATA/showfile.html]!")
+  println! ("Streamizing [DATA/showfile.html]!")
+*)
 //
 val theStream = file2stream("DATA/showfile.html")
 val theStream_ref = ref<stream(string)>(theStream)
@@ -105,10 +112,6 @@ end // end of [fmore]
 val () = theMores.onValue{ptr}(lam(_) =<cloref1> fmore())
 *)
 //
-(* ****** ****** *)
-
-implement main0 () = ()
-
 (* ****** ****** *)
 
 (* end of [showfile.dats] *)

@@ -32,7 +32,7 @@ $(EMCC) \
   --pre-js showfile_pre.js \
   --post-js showfile_post.js \
   --preload-file DATA/showfile.html \
-  -s EXPORTED_FUNCTIONS="['_main','_ATSJS_fmore']" \
+  -s EXPORTED_FUNCTIONS="['_showfile_dynload_','_ATSJS_fmore']" \
   -o $@ $^
 #
 ######
@@ -50,5 +50,6 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) showfile_dats.js
+cleanall:: ; $(RMF) showfile_dats.data
 
 ###### end of [Makefile] ######
