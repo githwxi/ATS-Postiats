@@ -70,7 +70,8 @@ fact(n:int): int = "mac#_ATSJS_fact_"
 //
 val
 theCounts =
-scan{int,action}
+scan
+{int,action}
 (
   theClicks, 0
 , lam(y, x) =<cloref1>
