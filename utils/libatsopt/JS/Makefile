@@ -4,6 +4,11 @@
 #
 
 ######
+
+CC=emcc
+CCOMP=$(CC)
+
+######
 #
 ATSCC=$(ATSHOME)/bin/atscc
 ATSOPT=$(ATSHOME)/bin/atsopt
@@ -11,6 +16,10 @@ ATSOPT=$(ATSHOME)/bin/atsopt
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 #
+######
+
+ATSRUNTIME=$(ATSHOME)/ccomp/runtime
+
 ######
 
 all:: libatsopt_ext
@@ -21,27 +30,36 @@ all:: libatsopt_ext
 #
 libatsopt:: ; \
 $(MAKE) -C $(PATSHOME)/src cleanall
-libatsopt_js:: ; \
+libatsopt:: ; \
 $(MAKE) -C $(PATSHOME)/src C3NSTRINTKND=intknd libatsopt
 #
-libatsopt:: ; $(RMF) libatsopt.a
+libatsopt:: ; $(RMF) libatsopt.o
 libatsopt:: ; $(MAKE) -C $(PATSHOME)/src CBOOTmin
 #
-libatsopt:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT cleanall
-libatsopt:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt
+libatsopt:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT/JS cleanall
+libatsopt:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT/JS libatsopt
+#
+######
+#
+libatsopt_ext_sats.c: \
+./../SATS/libatsopt_ext.sats ; \
+$(ATSOPT) -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ --static $<
+libatsopt_ext_sats.o: libatsopt_ext_sats.c ; \
+$(CCOMP) -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
+#
+libatsopt_ext_dats.c: \
+./../DATS/libatsopt_ext.dats ; \
+$(ATSOPT) -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ --dynamic $<
+libatsopt_ext_dats.o: libatsopt_ext_dats.c ; \
+$(CCOMP) -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
+#
+######
+#
+libatsopt_ext.o: \
+libatsopt.o libatsopt_ext_sats.o libatsopt_ext_dats.o ; $(CCOMP) -o $@ $^
 #
 ######
 
-libatsopt_ext:: ; \
-  $(ATSCC) -IATS ${PATSHOME} -IATS ${ATSHOME} -I ${PATSHOME}/src -c SATS/libatsopt_ext.sats && \
-  $(AR) -r libatsopt.a libatsopt_ext_sats.o
-libatsopt_ext:: ; \
-  $(ATSCC) -IATS ${PATSHOME} -IATS ${ATSHOME} -I ${PATSHOME}/src -c DATS/libatsopt_ext.dats && \
-  $(AR) -r libatsopt.a libatsopt_ext_dats.o
-
-######
-
-AR= ar
 RMF=rm -f
 MAKE=make
 
@@ -54,6 +72,7 @@ clean:: ; $(RMF) *_?ats.o
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) libatsopt.a
+cleanall:: ; $(RMF) libatsopt.o
+cleanall:: ; $(RMF) libatsopt_ext.o
 
 ###### end of [Makefile] ######

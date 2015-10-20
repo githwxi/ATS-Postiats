@@ -293,19 +293,22 @@ CFLAGS += -I./.. -I./../ccomp/runtime
 CFLAGS += -Wno-implicit-function-declaration
 
 ######
-#
-libatsopt.o: \
+MV=mv
+######
+
+libatsopt: \
 pats_main_dats.o \
 $(OBJECTSstadyn) \
 prelude_libats.o \
 libc_libats.o libats_libats.o ; \
-$(CCOMP) $(CFLAGS) -o $@ $^
-#
+$(CCOMP) -O2 $(CFLAGS) -o libatsopt.o $^ && \
+$(MV) -f libatsopt.o $(PATSHOME)/utils/libatsopt/JS/.
+
 ######
 #
-%_sats.o: ./../%_sats.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+%_sats.o: ./../%_sats.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
 #
-%_dats.o: ./../%_dats.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+%_dats.o: ./../%_dats.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
 #
 ######
 
@@ -342,7 +345,7 @@ PRELUDE_OBJECTS := \
 ######
 #
 prelude_%.o: \
-./../prelude/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+./../prelude/%.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
 #
 prelude_libats.o : $(PRELUDE_OBJECTS) ; $(CCOMP) -o $@ $^
 #
@@ -365,7 +368,7 @@ LIBC_OBJECTS := \
 ######
 #
 libc_%.o: \
-./../libc/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+./../libc/%.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
 #
 libc_libats.o: $(LIBC_OBJECTS) ; $(CCOMP) -o $@ $^
 #
@@ -394,7 +397,7 @@ LIBATS_OBJECTS := \
 ######
 #
 libats_%.o: \
-./../libats/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+./../libats/%.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
 #
 libats_libats.o : $(LIBATS_OBJECTS) ; $(CCOMP) -o $@ $^
 #
