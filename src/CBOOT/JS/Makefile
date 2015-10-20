@@ -18,7 +18,7 @@ C3NSTRINTKND=intknd
 #
 ######
 
-all:: libatsopt.js
+all:: libatsopt.o
 
 ######
 
@@ -293,17 +293,14 @@ CFLAGS += -I./.. -I./../ccomp/runtime
 CFLAGS += -Wno-implicit-function-declaration
 
 ######
-
-libatsopt.js: \
+#
+libatsopt.o: \
 pats_main_dats.o \
 $(OBJECTSstadyn) \
 prelude_libats.o \
 libc_libats.o libats_libats.o ; \
-$(CCOMP) $(CFLAGS) -o $@ \
-  ./../ccomp/runtime/ats_prelude.c $^ \
-  -s EXPORTED_FUNCTIONS='["_libatsopt_patsopt_main"]' \
-  --preload-file ./libatsopt-prelude@/libatsopt/prelude \
-
+$(CCOMP) $(CFLAGS) -o $@ $^
+#
 ######
 #
 %_sats.o: ./../%_sats.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
@@ -347,7 +344,7 @@ PRELUDE_OBJECTS := \
 prelude_%.o: \
 ./../prelude/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
-prelude_libats.o: $(PRELUDE_OBJECTS) ; $(CCOMP) -o $@ $^
+prelude_libats.o : $(PRELUDE_OBJECTS) ; $(CCOMP) -o $@ $^
 #
 ######
 
@@ -399,7 +396,7 @@ LIBATS_OBJECTS := \
 libats_%.o: \
 ./../libats/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
-libats_libats.o: $(LIBATS_OBJECTS) ; $(CCOMP) -o $@ $^
+libats_libats.o : $(LIBATS_OBJECTS) ; $(CCOMP) -o $@ $^
 #
 ######
 
@@ -419,6 +416,7 @@ clean:: ; $(RMF) libats_libats.o
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) libatsopt.o
 
 ######
 
