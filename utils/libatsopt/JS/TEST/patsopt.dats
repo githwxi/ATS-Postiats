@@ -17,10 +17,14 @@ void
 PATSHOME_mount()
 {
 //
-EM_ASM (
+#if(JS_TYPE==NODEJS)
+EM_ASM(
   FS.mkdir('/PATSHOME');
   FS.mount(NODEFS, { root: './PATSHOME' }, '/PATSHOME');
 ); // EM_ASM
+#endif // end of [#if]
+//
+return ;
 //
 } /* PATSHOME_mount */
 
@@ -34,7 +38,7 @@ fun PATSHOME_mount(): void = "mac#"
 extern
 fun
 libatsopt_the_fixity_load
-  (PATHSOME:string): void = "ext#"
+  (PATHSOME: string): void = "ext#"
 
 (* ****** ****** *)
 

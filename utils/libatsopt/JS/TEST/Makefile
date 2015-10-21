@@ -5,6 +5,7 @@
 
 CC=emcc
 CCOMP=$(CC)
+JS_TYPE=BROWSER
 
 ######
 
@@ -24,27 +25,55 @@ CFLAGS += -Wno-implicit-function-declaration
 all:: patsopt_dats.js
 
 ######
-#
-patsopt_dats.c: patsopt.dats ; \
-$(ATSOPT) -o patsopt_dats.c --dynamic $<
-#
+
+ifeq ($(JS_TYPE),NODEJS)
 patsopt_dats.js: patsopt_dats.c ; \
-$(CCOMP) $(CFLAGS) \
+$(CCOMP) \
+  -O2 $(CFLAGS) \
   -I$(ATSHOME) \
   -I$(ATSRUNTIME) \
+  -DJS_TYPE=$(JS_TYPE) \
   --pre-js ./../setup.js \
-  -s ASSERTIONS=2 \
+  -s ASSERTIONS=1 \
   -s EXPORTED_FUNCTIONS="['_main']" \
   -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
+endif
+ifeq ($(JS_TYPE),BROWSER)
+patsopt_dats.js: patsopt_dats.c ; \
+$(CCOMP) \
+  -O2 $(CFLAGS) \
+  -I$(ATSHOME) \
+  -I$(ATSRUNTIME) \
+  -DJS_TYPE=$(JS_TYPE) \
+  --pre-js ./../setup.js \
+  --preload-file ./PATSHOME@/PATSHOME \
+  -s ASSERTIONS=1 \
+  -s ALLOW_MEMORY_GROWTH=1 \
+  -s EXPORTED_FUNCTIONS="['_main']" \
+  -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
+endif
+
+######
 #
-# patsopt_dats.js: patsopt_dats.c ; \
-# $(CCOMP) \
-#   -I$(ATSHOME) \
-#   -I$(ATSRUNTIME) \
-#   --pre-js ./../setup.js \
-#   --preload-file ./PATSHOME@/PATSHOME \
-#   -s EXPORTED_FUNCTIONS="['_main']" \
-#   -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
+ifeq ($(JS_TYPE),BROWSER)
+patsopt_ccomp.html: patsopt_ccomp_dats.c ; \
+$(CCOMP) \
+  -O2 $(CFLAGS) \
+  -I$(ATSHOME) \
+  -I$(ATSRUNTIME) \
+  -DJS_TYPE=$(JS_TYPE) \
+  --pre-js ./../setup.js \
+  --preload-file ./PATSHOME@/PATSHOME \
+  -s ASSERTIONS=1 \
+  -s ALLOW_MEMORY_GROWTH=1 \
+  -s EXPORTED_FUNCTIONS="['_main']" \
+  -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
+endif
+#
+######
+#
+%_sats.c: %.sats ; $(ATSOPT) -o $@ --static $<
+%_dats.c: %.dats ; $(ATSOPT) -o $@ --dynamic $<
 #
 ######
 
@@ -100,5 +129,9 @@ cleanall:: clean
 cleanall:: ; rm -f patsopt_dats.js
 cleanall:: ; rm -f patsopt_dats.data
 cleanall:: ; rm -f patsopt_dats.js.mem
+cleanall:: ; rm -f patsopt_ccomp.js
+cleanall:: ; rm -f patsopt_ccomp.data
+cleanall:: ; rm -f patsopt_ccomp.html
+cleanall:: ; rm -f patsopt_ccomp.html.mem
 
 ###### end of [Makefile] ######
