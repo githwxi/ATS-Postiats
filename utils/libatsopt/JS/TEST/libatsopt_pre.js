@@ -3,14 +3,25 @@
 */
 
 /* ****** ****** */
-
+//
 if
 (!Module)
 {
   Module = {};
+}
+//
+if
+(!Module['preRun'])
+{
   Module['preRun'] = [];
 }
-
+//
+if
+(!Module['postRun'])
+{
+  Module['postRun'] = [];
+}
+//
 /* ****** ****** */
 
 Module['preRun'].push
@@ -20,6 +31,13 @@ function()
   ENV.PATSHOME = '/PATSHOME';
   ENV.PATSHOMERELOC = '/PATSHOME';
 }
+);
+
+/* ****** ****** */
+
+Module['postRun'].push
+(
+  function(){return the_libatsopt_postRun();}
 );
 
 /* ****** ****** */

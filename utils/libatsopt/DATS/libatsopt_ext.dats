@@ -372,6 +372,27 @@ end // end of [string2file]
 end // end of [local]
 
 (* ****** ****** *)
+//
+implement
+patsoptres_get_nerr
+  (res) = nerr where
+{
+  val+PATSOPTRES(nerr, _, _) = res  
+}
+implement
+patsoptres_get_stdout
+  (res) = stdout where
+{
+  val+PATSOPTRES(_, stdout, _) = res  
+}
+implement
+patsoptres_get_stderr
+  (res) = stderr where
+{
+  val+PATSOPTRES(_, _, stderr) = res  
+}
+//  
+(* ****** ****** *)
 
 implement
 patsopt_main_arglst

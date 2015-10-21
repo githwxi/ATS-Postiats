@@ -119,24 +119,40 @@ libatsopt_dynloadall
 //
 (* ****** ****** *)
 //
+datatype
+patsoptres =
+PATSOPTRES of
+(
+  int(*nerr*)
+  , string(*stdout*), string(*stderr*)
+)
+//
+(* ****** ****** *)
+//
+fun
+patsoptres_get_nerr
+(
+  res: patsoptres
+) : int = "ext#libatsopt_patsoptres_get_nerr"
+fun
+patsoptres_get_stdout
+(
+  res: patsoptres
+) : string = "ext#libatsopt_patsoptres_get_stdout"
+fun
+patsoptres_get_stderr
+(
+  res: patsoptres
+) : string = "ext#libatsopt_patsoptres_get_stderr"
+//
+(* ****** ****** *)
+//
 fun
 patsopt_main_arglst
   {n:pos}
 (
   args: list(comarg, n)
 ) : int(*nerr*) = "ext#libatsopt_patsopt_main_arglst"
-//
-(* ****** ****** *)
-//
-//
-datatype
-patsoptres =
-PATSOPTRES of
-(
-  int(*nerr*), string(*stdout*), string(*stderr*)
-)
-//
-(* ****** ****** *)
 //
 fun
 patsoptres_main_arglst

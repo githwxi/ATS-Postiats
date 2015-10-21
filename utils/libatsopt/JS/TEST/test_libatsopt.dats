@@ -53,12 +53,19 @@ Module.writeStringToMemory(inp, out); return out;
 //
 } // end of [emcc_string]
 //
+function
+emcc_stringify(ptr) { return Pointer_stringify(ptr); }
+//
 %} // end of [%{^]
 //
 extern
 fun
 emcc_string
   (inp: string) : emcc_string = "mac#emcc_string"
+//
+extern
+fun
+emcc_stringify(emcc_string): string = "mac#emcc_stringify"
 //
 (* ****** ****** *)
 //
@@ -120,22 +127,63 @@ val args = _comarglst_cons(arg1, args)
 //
 (* ****** ****** *)
 //
+abstype patsoptres
+//
+extern
+fun
+patsoptres_get_nerr(patsoptres): int
+extern
+fun
+patsoptres_get_stdout(patsoptres): string
+extern
+fun
+patsoptres_get_stderr(patsoptres): string
+//
+(* ****** ****** *)
+//
+implement
+patsoptres_get_nerr(res) =
+ $extfcall(int, "_libatsopt_patsoptres_get_nerr", res)
+//
+implement
+patsoptres_get_stdout(res) =
+emcc_stringify
+(
+ $extfcall(emcc_string, "_libatsopt_patsoptres_get_stdout", res)
+)
+//
+implement
+patsoptres_get_stderr(res) =
+emcc_stringify
+(
+ $extfcall(emcc_string, "_libatsopt_patsoptres_get_stderr", res)
+)
+//
+(* ****** ****** *)
+//
 val () =
   $extfcall(void, "_libatsopt_dynloadall")
-val nerr =
-  $extfcall(emcc_int, "_libatsopt_patsopt_main_arglst", args)
+//
+val res =
+  $extfcall(patsoptres, "_libatsopt_patsoptres_main_arglst", args)
+//
+val nerr = patsoptres_get_nerr(res)
+//
+val stdout = patsoptres_get_stdout(res)
+val stderr = patsoptres_get_stderr(res)
+//
+val () = if (nerr = 0) then alert(stdout)
+val () = if (nerr > 0) then alert(stderr)
 //
 (* ****** ****** *)
 
 %{$
 //
 function
-test_libatsopt_initize()
+the_libatsopt_postRun()
 {
-  var _ = test_libatsopt_dynload()
+  jQuery(document).ready(function(){test_libatsopt_dynload();});
 }
-//
-jQuery(document).ready(function(){test_libatsopt_initize();});
 //
 %} // end of [%{$]
 

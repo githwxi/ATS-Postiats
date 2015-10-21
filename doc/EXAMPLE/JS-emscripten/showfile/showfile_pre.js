@@ -31,7 +31,6 @@ function() { return _showfile_dynload_(); };
 /* ****** ****** */
 
 Module['noInitialRun'] = true;
-Module['noExitRuntime'] = true;
 
 /* ****** ****** */
 
