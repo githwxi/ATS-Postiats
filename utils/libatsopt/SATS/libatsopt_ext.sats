@@ -59,7 +59,9 @@ patsopt_main_exn
 fun
 patsopt_main_opt
   {n:pos}
-  (argc: int(n), argv: &(@[string][n])): bool
+(
+  argc: int(n), argv: &(@[string][n])
+) : bool = "ext#libatsopt_patsopt_main_opt"
 //
 (* ****** ****** *)
 //
@@ -79,15 +81,53 @@ typedef comarglst1 = List1(comarg)
 (* ****** ****** *)
 //
 fun
-patsopt_main_arglst
-  {n:pos}(args: list(comarg, n)): int
+comarg_strlit
+  (x: string): comarg
+  = "ext#libatsopt_comarg_strlit"
+fun
+comarg_strinp
+  (x: string): comarg
+  = "ext#libatsopt_comarg_strinp"
+//
+fun
+comarg_prefil
+  (x: string): comarg
+  = "ext#libatsopt_comarg_prefil"
+fun
+comarg_postfil
+  (x: string): comarg
+  = "ext#libatsopt_comarg_postfil"
 //
 (* ****** ****** *)
 //
 fun
-libatsopt_dynloadall((*void*)): void = "ext#"
+comarglst_nil
+(
+// argumentless
+) : comarglst0 = "ext#libatsopt_comarglst_nil"
+fun
+comarglst_cons
+(
+  x: comarg, xs: comarglst0
+) : comarglst1 = "ext#libatsopt_comarglst_cons"
 //
 (* ****** ****** *)
+//
+fun
+libatsopt_dynloadall
+  ((*void*)): void = "ext#libatsopt_dynloadall"
+//
+(* ****** ****** *)
+//
+fun
+patsopt_main_arglst
+  {n:pos}
+(
+  args: list(comarg, n)
+) : int(*nerr*) = "ext#libatsopt_patsopt_main_arglst"
+//
+(* ****** ****** *)
+//
 //
 datatype
 patsoptres =
@@ -100,7 +140,10 @@ PATSOPTRES of
 //
 fun
 patsoptres_main_arglst
-  {n:pos}(args: list(comarg, n)): patsoptres
+  {n:pos}
+(
+  args: list(comarg, n)
+) : patsoptres = "ext#libatsopt_patsoptres_main_arglst"
 //
 (* ****** ****** *)
 

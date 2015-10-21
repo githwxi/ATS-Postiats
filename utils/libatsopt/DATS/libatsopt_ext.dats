@@ -110,6 +110,25 @@ staload "./../SATS/libatsopt_ext.sats"
 
 (* ****** ****** *)
 //
+implement
+comarg_strlit(x) = COMARGstrlit(x)
+implement
+comarg_strinp(x) = COMARGstrinp(x)
+//
+implement
+comarg_prefil(x) = COMARGprefil(x)
+implement
+comarg_postfil(x) = COMARGpostfil(x)
+//
+(* ****** ****** *)
+//
+implement
+comarglst_nil() = list_nil((*void*))
+implement
+comarglst_cons(x, xs) = list_cons(x, xs)
+//
+(* ****** ****** *)
+//
 %{^
 //
 extern void patsopt_PATSHOME_set() ;

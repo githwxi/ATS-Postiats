@@ -76,6 +76,30 @@ endif
 %_dats.c: %.dats ; $(ATSOPT) -o $@ --dynamic $<
 #
 ######
+#
+LIBATSOPT_EXPORTS = '_libatsopt_patsopt_main'
+LIBATSOPT_EXPORTS += , '_libatsopt_comarg_strlit'
+LIBATSOPT_EXPORTS += , '_libatsopt_comarg_strinp'
+LIBATSOPT_EXPORTS +=, '_libatsopt_comarg_prefil'
+LIBATSOPT_EXPORTS +=, '_libatsopt_comarg_postfil'
+LIBATSOPT_EXPORTS +=, '_libatsopt_comarglst_nil'
+LIBATSOPT_EXPORTS +=, '_libatsopt_comarglst_cons'
+LIBATSOPT_EXPORTS +=, '_libatsopt_patsopt_main_arglst'
+LIBATSOPT_EXPORTS +=, '_libatsopt_patsoptres_main_arglst'
+#
+libatsopt_ext.js: ; \
+$(CCOMP) \
+  -O2 $(CFLAGS) \
+  -I$(ATSHOME) \
+  -I$(ATSRUNTIME) \
+  --pre-js ./libatsopt_pre.js \
+  --preload-file ./PATSHOME@/PATSHOME \
+  -s ASSERTIONS=1 \
+  -s ALLOW_MEMORY_GROWTH=1 \
+  -s EXPORTED_FUNCTIONS="[$(LIBATSOPT_EXPORTS)]" \
+  -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
+#
+######
 
 NODEJS=nodejs
 

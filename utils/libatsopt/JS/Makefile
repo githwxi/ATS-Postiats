@@ -22,6 +22,10 @@ ATSRUNTIME=$(ATSHOME)/ccomp/runtime
 
 ######
 
+CFLAGS += -Wno-implicit-function-declaration
+
+######
+
 all:: libatsopt_ext
 
 ######
@@ -45,13 +49,15 @@ libatsopt_ext_sats.c: \
 ./../SATS/libatsopt_ext.sats ; \
 $(ATSOPT) -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ --static $<
 libatsopt_ext_sats.o: libatsopt_ext_sats.c ; \
-$(CCOMP) -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
+$(CCOMP) -O2 $(CFLAGS) \
+  -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
 #
 libatsopt_ext_dats.c: \
 ./../DATS/libatsopt_ext.dats ; \
 $(ATSOPT) -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ --dynamic $<
 libatsopt_ext_dats.o: libatsopt_ext_dats.c ; \
-$(CCOMP) -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
+$(CCOMP) -O2 $(CFLAGS) \
+  -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
 #
 ######
 #
@@ -74,5 +80,6 @@ clean:: ; $(RMF) *_?ats.o
 cleanall:: clean
 cleanall:: ; $(RMF) libatsopt.o
 cleanall:: ; $(RMF) libatsopt_ext.o
+cleanall:: ; $(RMF) libatsopt_ext.js
 
 ###### end of [Makefile] ######
