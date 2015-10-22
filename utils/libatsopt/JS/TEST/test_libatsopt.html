@@ -28,8 +28,36 @@
       <button id="patsopt-cc"> Typecheck+Compile </button>
     </div>
 
+<table>
+<tr>
+<td>
+<textarea
+ id="theExample_dats" rows="24" cols="80"
+>
+//
+// Yes, you can edit
+//
+implement
+main0 () = println! ("Hello, world!")
+//
+</textarea>
+<button
+ ID="theExample_button"
+ type="button" onclick="theExample_button_onclick()"
+>Try-it-yourself</button>
+</td>
+<td>
+<textarea
+ id="theExample_dats_c" rows="24" cols="80"
+>
+</textarea>
+</td>
+</tr>
+</table>
+
     <script src="./libatsopt_ext.js"></script>
     <script src="./test_libatsopt_dats.js"></script>
+
   </body>
 
 </html>

@@ -118,12 +118,27 @@ main0 () = println! \"Hello, world!\"\n\
 //
 (* ****** ****** *)
 //
-val arg1 = comarg_strlit("--dynamic")
-val arg2 = comarg_strinp(HELLO_WORLD)
+%{^
 //
-val args = _comarglst_nil()
-val args = _comarglst_cons(arg2, args)
-val args = _comarglst_cons(arg1, args)
+function
+theExample_dats_get_value()
+{
+  return document.getElementById("theExample_dats").value;
+}
+function
+theExample_dats_c_set_value(code)
+{
+  return document.getElementById("theExample_dats_c").value = code;
+}
+//
+%} // end of [%{^]
+//
+extern
+fun
+theExample_dats_get_value(): string = "mac#"
+extern
+fun
+theExample_dats_c_set_value(code: string): void = "mac#"
 //
 (* ****** ****** *)
 //
@@ -161,19 +176,40 @@ emcc_stringify
 //
 (* ****** ****** *)
 //
+extern
+fun
+theExample_button_onclick
+  ((*void*)): void = "mac#"
+//
+implement
+theExample_button_onclick() =
+{
+//
+val arg1 =
+  comarg_strlit("--dynamic")
+val arg2 =
+  comarg_strinp(theExample_dats_get_value())
+//
+val arglst = _comarglst_nil()
+val arglst = _comarglst_cons(arg2, arglst)
+val arglst = _comarglst_cons(arg1, arglst)
+//
+//
 val () =
   $extfcall(void, "_libatsopt_dynloadall")
 //
 val res =
-  $extfcall(patsoptres, "_libatsopt_patsoptres_main_arglst", args)
+  $extfcall(patsoptres, "_libatsopt_patsoptres_main_arglst", arglst)
 //
 val nerr = patsoptres_get_nerr(res)
 //
 val stdout = patsoptres_get_stdout(res)
 val stderr = patsoptres_get_stderr(res)
 //
-val () = if (nerr = 0) then alert(stdout)
-val () = if (nerr > 0) then alert(stderr)
+val () = if (nerr = 0) then theExample_dats_c_set_value(stdout)
+val () = if (nerr > 0) then theExample_dats_c_set_value(stderr)
+//
+}
 //
 (* ****** ****** *)
 

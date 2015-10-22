@@ -1,1 +1,0 @@
-CODEGEN/gorder_float_atxt.dats

@@ -25,8 +25,18 @@ function (str) {
 
 /* ****** ****** */
 //
-Module['postRun'] =
-function() { return _showfile_dynload_(); };
+if
+(!Module['postRun'])
+{
+  Module['postRun'] = [];
+}
+//
+/* ****** ****** */
+//
+Module['postRun'].push
+(
+function() { return _showfile_dynload_(); }
+);
 //
 /* ****** ****** */
 
