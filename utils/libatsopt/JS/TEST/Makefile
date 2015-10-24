@@ -28,11 +28,14 @@ CFLAGS += -Wno-implicit-function-declaration
 
 ######
 
-all:: patsopt_dats.js
+all::
 
 ######
 
-ifeq ($(JS_TYPE),NODEJS)
+ifeq \
+($(JS_TYPE),NODEJS)
+all:: \
+patsopt_dats.js
 patsopt_dats.js: patsopt_dats.c ; \
 $(CCOMP) \
   -O2 $(CFLAGS) \
@@ -44,8 +47,11 @@ $(CCOMP) \
   -s ALLOW_MEMORY_GROWTH=1 \
   -s EXPORTED_FUNCTIONS="['_main']" \
   -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
-endif
-ifeq ($(JS_TYPE),BROWSER)
+endif # end-of-ifeq
+ifeq \
+($(JS_TYPE),BROWSER)
+all:: \
+patsopt_dats.js
 patsopt_dats.js: patsopt_dats.c ; \
 $(CCOMP) \
   -O2 $(CFLAGS) \
@@ -58,11 +64,14 @@ $(CCOMP) \
   -s ALLOW_MEMORY_GROWTH=1 \
   -s EXPORTED_FUNCTIONS="['_main']" \
   -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
-endif
+endif # end-of-ifeq
 
 ######
 #
-ifeq ($(JS_TYPE),BROWSER)
+ifeq \
+($(JS_TYPE),BROWSER)
+all:: \
+patsopt_ccomp.html
 patsopt_ccomp.html: patsopt_ccomp_dats.c ; \
 $(CCOMP) \
   -O2 $(CFLAGS) \
@@ -75,13 +84,20 @@ $(CCOMP) \
   -s ALLOW_MEMORY_GROWTH=1 \
   -s EXPORTED_FUNCTIONS="['_main']" \
   -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
-endif
+endif # end-of-ifeq
 #
 ######
+
+ifeq \
+($(JS_TYPE),BROWSER)
+all:: test_libatsopt
+test_libatsopt:: libatsopt_ext.js
+test_libatsopt:: test_libatsopt_dats.js
+endif # end-of-ifeq
+
+######
 #
-LIBATSOPT_EXPORTS = '_main'
-#
-LIBATSOPT_EXPORTS += , '_libatsopt_dynloadall'
+LIBATSOPT_EXPORTS = '_libatsopt_dynloadall'
 #
 LIBATSOPT_EXPORTS += , '_libatsopt_patsopt_main'
 #
