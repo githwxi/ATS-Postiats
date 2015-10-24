@@ -110,14 +110,6 @@ comarg_postfil(x) = _comarg_postfil(emcc_string(x))
 //
 (* ****** ****** *)
 //
-#define
-HELLO_WORLD "\
-implement\n\
-main0 () = println! \"Hello, world!\"\n\
-"
-//
-(* ****** ****** *)
-//
 %{^
 //
 function
@@ -179,15 +171,86 @@ emcc_stringify
 extern
 fun
 theExample_button_onclick
-  ((*void*)): void = "mac#"
+  (arglst: comarglst): int
+//
+(* ****** ****** *)
 //
 implement
-theExample_button_onclick() =
+theExample_button_onclick
+  (arglst) = nerr where
 {
 //
 val () =
+$extfcall(void, "_libatsopt_dynloadall")
+//
+val
+res =
 $extfcall
-  (void, "libatsopt_ext_js_eval")
+(
+  int
+, "_libatsopt_patsopt_main_arglst", arglst
+) (* end of [val] *)
+//
+val
+nerr = res
+//
+val
+stdout =
+$extfcall
+  (string, "libatsopt_stdout_store_join")
+val
+stderr =
+$extfcall
+  (string, "libatsopt_stderr_store_join")
+//
+(*
+//
+val
+res =
+$extfcall
+(
+  patsoptres
+, "_libatsoptres_patsopt_main_arglst", arglst
+) (* end of [val] *)
+//
+val nerr = patsoptres_get_nerr(res)
+val stdout = patsoptres_get_stdout(res)
+val stderr = patsoptres_get_stderr(res)
+//
+*)
+(*
+//
+val () = 
+if nerr > 0 then
+  alert("patsopt_main_arglst: nerr="+String(nerr))
+// end of [if]
+//
+val () = 
+if nerr > 0 then
+(
+  alert("patsoptres_main_arglst: nerr="+String(nerr))
+) (* end of [if] *)
+//
+*)
+//
+val () =
+  if (nerr = 0) then theExample_dats_c_set_value(stdout)
+val () =
+  if (nerr > 0) then theExample_dats_c_set_value(stderr)
+//
+} (* end of [theExample_button_onclick] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+theExample_button_cc_onclick
+  ((*void*)): int = "mac#"
+//
+implement
+theExample_button_cc_onclick
+  () = nerr where
+{
 //
 val arg1 =
   comarg_strlit("--dynamic")
@@ -198,33 +261,50 @@ val arglst = _comarglst_nil()
 val arglst = _comarglst_cons(arg2, arglst)
 val arglst = _comarglst_cons(arg1, arglst)
 //
+val nerr = theExample_button_onclick(arglst)
 //
-val () =
-  $extfcall(void, "_libatsopt_dynloadall")
+val ((*void*)) =
+  if nerr > 0 then alert("There are errors!")
 //
-val res =
-  $extfcall(patsoptres, "_libatsopt_patsoptres_main_arglst", arglst)
+} // end of [theExample_button_cc_onclick]
 //
-val nerr = patsoptres_get_nerr(res)
+(* ****** ****** *)
 //
-val stdout = patsoptres_get_stdout(res)
-val stderr = patsoptres_get_stderr(res)
+extern
+fun
+theExample_button_tc_onclick
+  ((*void*)): int = "mac#"
 //
-val () = alert("nerr = " + String(nerr))
-val () = alert("stdout:\n" + String(stdout))
-val () = alert("stderr:\n" + String(stderr))
+implement
+theExample_button_tc_onclick
+  () = nerr where
+{
 //
-val () = if (nerr = 0) then theExample_dats_c_set_value(stdout)
-val () = if (nerr > 0) then theExample_dats_c_set_value(stderr)
+val arg0 =
+  comarg_strlit("-tc")
+val arg1 =
+  comarg_strlit("--dynamic")
+val arg2 =
+  comarg_strinp(theExample_dats_get_value())
 //
-// val ((*runtime_exit*)) = $extfcall(void, "_libatsopt_emscripten_exit")
+val arglst = _comarglst_nil()
+val arglst = _comarglst_cons(arg2, arglst)
+val arglst = _comarglst_cons(arg1, arglst)
+val arglst = _comarglst_cons(arg0, arglst)
 //
-}
+val nerr = theExample_button_onclick(arglst)
 //
+val ((*void*)) =
+  if nerr = 0 then alert("Well-typed!")
+val ((*void*)) =
+  if nerr > 0 then alert("There are errors!")
+//
+} (* end of [theExample_button_tc_onclick] *)
+
 (* ****** ****** *)
 
 %{$
-//
+/*
 function
 libatsopt_ext_js_eval()
 {
@@ -232,16 +312,11 @@ libatsopt_ext_js_eval()
   preMain();
   Module.callMain();
 }
-//
+*/
 function
 the_libatsopt_main()
 {
   jQuery(document).ready(function(){test_libatsopt_dynload();});
-}
-function
-the_libatsopt_postRun()
-{
-  // jQuery(document).ready(function(){test_libatsopt_dynload();});
 }
 //
 %} // end of [%{$]

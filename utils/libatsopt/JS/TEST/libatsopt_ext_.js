@@ -1,6 +1,6 @@
 //
 var
-libatsopt_ext_js;
+libatsopt_ext_js = "";
 //
 var _ =
 (

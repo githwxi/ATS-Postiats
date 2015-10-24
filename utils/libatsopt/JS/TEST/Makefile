@@ -41,6 +41,7 @@ $(CCOMP) \
   -DJS_TYPE=$(JS_TYPE) \
   --pre-js ./../setup.js \
   -s ASSERTIONS=1 \
+  -s ALLOW_MEMORY_GROWTH=1 \
   -s EXPORTED_FUNCTIONS="['_main']" \
   -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
 endif
@@ -129,6 +130,8 @@ NODEJS=nodejs
 ######
 #
 # For testing [patsopt_dats.js]
+#
+test_patsopt:: patsopt_dats.js
 #
 test_patsopt:: ; \
 $(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/filebas.dats 
