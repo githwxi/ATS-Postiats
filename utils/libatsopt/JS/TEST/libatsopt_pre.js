@@ -35,14 +35,24 @@ function()
 
 /* ****** ****** */
 
+/*
+Module['preRun'].push
+(
+  function(){return the_libatsopt_preRun();}
+);
 Module['postRun'].push
 (
   function(){return the_libatsopt_postRun();}
 );
+*/
 
 /* ****** ****** */
 
 Module['noInitialRun'] = true;
+
+/* ****** ****** */
+
+Module['noExitRuntime'] = true;
 
 /* ****** ****** */
 
@@ -56,4 +66,4 @@ Module['TOTAL_MEMORY'] = 256*1024*1024;
 
 /* ****** ****** */
 
-/* end of [setup.js] */
+/* end of [libatsopt_pre.js] */

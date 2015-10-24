@@ -52,6 +52,8 @@ array_v_split_at
   array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
 ) // end of [array_v_split_at]
 
+#atscode_separator()
+
 prfun
 array_v_unsplit
   {a:vt0p}

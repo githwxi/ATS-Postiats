@@ -185,6 +185,10 @@ implement
 theExample_button_onclick() =
 {
 //
+val () =
+$extfcall
+  (void, "libatsopt_ext_js_eval")
+//
 val arg1 =
   comarg_strlit("--dynamic")
 val arg2 =
@@ -206,8 +210,14 @@ val nerr = patsoptres_get_nerr(res)
 val stdout = patsoptres_get_stdout(res)
 val stderr = patsoptres_get_stderr(res)
 //
+val () = alert("nerr = " + String(nerr))
+val () = alert("stdout:\n" + String(stdout))
+val () = alert("stderr:\n" + String(stderr))
+//
 val () = if (nerr = 0) then theExample_dats_c_set_value(stdout)
 val () = if (nerr > 0) then theExample_dats_c_set_value(stderr)
+//
+// val ((*runtime_exit*)) = $extfcall(void, "_libatsopt_emscripten_exit")
 //
 }
 //
@@ -216,9 +226,22 @@ val () = if (nerr > 0) then theExample_dats_c_set_value(stderr)
 %{$
 //
 function
-the_libatsopt_postRun()
+libatsopt_ext_js_eval()
+{
+  preRun();
+  preMain();
+  Module.callMain();
+}
+//
+function
+the_libatsopt_main()
 {
   jQuery(document).ready(function(){test_libatsopt_dynload();});
+}
+function
+the_libatsopt_postRun()
+{
+  // jQuery(document).ready(function(){test_libatsopt_dynload();});
 }
 //
 %} // end of [%{$]
