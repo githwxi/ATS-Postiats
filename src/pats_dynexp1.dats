@@ -268,32 +268,43 @@ fun aux (
   e0: e1xp
 ) :<cloref1> p1at = let
 (*
-  val () = begin
-    print "p1at_make_e1xp: aux: e0 = "; print_e1xp (e0); print_newline ()
-  end // end of [val]
+//
+val () =
+println!
+  ("p1at_make_e1xp: aux: e0 = ", e0))
+//
 *)
 in
 //
 case+
 e0.e1xp_node of
 //
-| E1XPide id => p1at_ide (loc0, id)
-| E1XPint (i) => p1at_int (loc0, i:int)
-| E1XPintrep (rep) => p1at_intrep (loc0, rep)
-| E1XPchar (c) => p1at_char (loc0, c:char)
-| E1XPfloat (rep) => p1at_float (loc0, rep)
-| E1XPstring (str) => p1at_string (loc0, str)
-| E1XPv1al (v1) => p1at_make_v1al (loc0, v1)
+| E1XPide(id) => p1at_ide (loc0, id)
+//
+| E1XPint(int) => p1at_int (loc0, int)
+| E1XPintrep(rep) => p1at_intrep (loc0, rep)
+//
+| E1XPchar(chr) => p1at_char (loc0, chr)
+//
+| E1XPfloat(rep) => p1at_float (loc0, rep)
+| E1XPstring(str) => p1at_string (loc0, str)
+//
 | E1XPapp(
     e1, loc_arg, es2
   ) => let
     val p1t1 = aux (e1)
     val p1ts2 = auxlst (es2)
   in
-    p1at_app_dyn (loc0, p1t1, loc0, ~1(*npf*), p1ts2)
+    p1at_app_dyn
+      (loc0, p1t1, loc0, ~1(*npf*), p1ts2)
+    // p1at_app_dyn
   end (* end of [E1XPapp] *)
-| E1XPlist es => p1at_list (loc0, ~1(*npf*), auxlst (es))
-| E1XPnone () => p1at_empty (loc0)
+//
+| E1XPlist (es) =>
+    p1at_list (loc0, ~1(*npf*), auxlst (es))
+  // end of [E1XPlist]
+| E1XPv1al (v1) => p1at_make_v1al (loc0, v1)
+| E1XPnone ((*void*)) => p1at_empty (loc0)
 | _ (*rest*) => let
     val () =
     prerr_error1_loc (loc0)
@@ -924,31 +935,42 @@ in
 case+
 e0.e1xp_node of
 //
-| E1XPide id => d1exp_ide (loc0, id)
-| E1XPint (int) => d1exp_int (loc0, int)
-| E1XPintrep (rep) => d1exp_intrep (loc0, rep)
-| E1XPchar (c) => d1exp_char (loc0, c: char)
-| E1XPfloat (rep) => d1exp_float (loc0, rep)
-| E1XPstring (str) => d1exp_string (loc0, str)
-| E1XPv1al (v1) => d1exp_make_v1al (loc0, v1)
+| E1XPide(id) => d1exp_ide (loc0, id)
 //
-| E1XPapp(
+| E1XPint(int) => d1exp_int (loc0, int)
+| E1XPintrep(rep) => d1exp_intrep (loc0, rep)
+//
+| E1XPchar(chr) => d1exp_char (loc0, chr)
+//
+| E1XPfloat(rep) => d1exp_float (loc0, rep)
+//
+| E1XPstring(str) => d1exp_string (loc0, str)
+//
+| E1XPapp
+  (
     e1, loc_arg, es2
   ) => let
     val d1e1 = aux (e1)
     val d1es2 = auxlst (es2)
   in
-    d1exp_app_dyn(loc0, d1e1, loc0, ~1(*npf*), d1es2)
+    d1exp_app_dyn
+      (loc0, d1e1, loc0, ~1(*npf*), d1es2)
+    // d1exp_app_dyn
   end // end of [E1XPapp]
 //
-| E1XPlist(es) =>
-  d1exp_list(loc0, ~1(*npf*), auxlst(es))
+| E1XPlist(es) => let
+    val d1es = auxlst(es)
+  in
+    d1exp_list(loc0, ~1(*npf*), d1es)
+  end // end of [E1XPlist]
 //
-| E1XPnone((*void*)) => d1exp_empty (loc0)
+| E1XPv1al(v1) => d1exp_make_v1al (loc0, v1)
+//
+| E1XPnone((*void*)) => d1exp_empty (loc0) // HX: ?
 //
 | _ (*rest-of-e1xp*) => let
     val () =
-    prerr_error1_loc (loc0)
+    prerr_error1_loc(loc0)
     val () = prerr ": the expression ["
     val () = prerr_e1xp (e0)
     val () = prerrln! "] cannot be translated into a legal dynamic expression."

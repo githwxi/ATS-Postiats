@@ -601,6 +601,25 @@ s1qua_vars (loc, ids, s1te) = '{
 (* ****** ****** *)
 
 implement
+s1exp_make_v1al
+  (loc0, v0) = let
+in
+//
+case+ v0 of
+//
+| V1ALint(i) => s1exp_int (loc0, i)
+//
+| V1ALchar(c) => s1exp_char (loc0, c)
+//
+| V1ALstring(str) => s1exp_string (loc0, str)
+//
+| _(*unsupported*) => s1exp_err (loc0)
+//
+end // end of [s1exp_make_v1al]
+
+(* ****** ****** *)
+
+implement
 s1exp_make_e1xp (loc0, e0) = let
 //
 fun aux (
@@ -619,24 +638,30 @@ in
       s1exp_app (loc0, aux e1, loc_arg, auxlst es2)
     // end of [E1XPapp]
 //
-  | E1XPide ide => s1exp_ide (loc0, ide)
+  | E1XPide(id) => s1exp_ide (loc0, id)
 //
-  | E1XPint (int) => s1exp_int (loc0, int)
-  | E1XPintrep (rep) => s1exp_intrep (loc0, rep)
+  | E1XPint(int) => s1exp_int (loc0, int)
+  | E1XPintrep(rep) => s1exp_intrep (loc0, rep)
 //
-  | E1XPchar (chr) => s1exp_char (loc0, chr)
+  | E1XPchar(chr) => s1exp_char (loc0, chr)
 //
-  | E1XPfloat (rep) => s1exp_float (loc0, rep)
+  | E1XPfloat(rep) => s1exp_float (loc0, rep)
 //
-  | E1XPstring (str) => s1exp_string (loc0, str)
+  | E1XPstring(str) => s1exp_string (loc0, str)
 //
-  | E1XPlist (es) => s1exp_list (loc0, auxlst (es))
+  | E1XPv1al(v1) => s1exp_make_v1al (loc0, v1)
+//
+  | E1XPlist(es) => s1exp_list (loc0, auxlst (es))
 //
   | _ (*rest-of-E1XP*) =>
-      s1exp_err (loc0) where {
-      val () = prerr_error1_loc (loc0)
-      val () = prerr ": the expression cannot be transated into a legal static expression."
-      val () = prerr_newline ()
+      s1exp_err(loc0) where
+    {
+      val () =
+      prerr_error1_loc (loc0)
+      val () =
+      prerrln! (
+        ": the expression cannot be translated into a legal static expression."
+      ) (* end of [val] *)
     } (* end of [rest-of-E1XP] *)
 end (* end of [aux] *)
 //

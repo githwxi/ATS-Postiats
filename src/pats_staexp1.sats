@@ -650,10 +650,12 @@ fun fprint_s1qua : fprint_type (s1qua)
 fun fprint_s1qualst : fprint_type (s1qualst)
 
 (* ****** ****** *)
-
+//
+fun s1exp_make_v1al (loc: location, v: v1al): s1exp
 fun s1exp_make_e1xp (loc: location, e: e1xp): s1exp
+//
 fun e1xp_make_s1exp (loc: location, s1e: s1exp): e1xp
-
+//
 (* ****** ****** *)
 
 fun wths1explst_is_none (wths1es: wths1explst): bool
