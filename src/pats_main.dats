@@ -1833,6 +1833,7 @@ case+ key of
     val () = debug_flag_set (1) // in pats_basics
   } // end of [--debug] // more informative error messages
 | "--debug2" => {
+    val () = debug_flag_set (1)
     val () = $GLOB.the_DEBUGATS_dbgflag_set (1)
   } // end of [--debug2] // debugging info in generated code
 //
