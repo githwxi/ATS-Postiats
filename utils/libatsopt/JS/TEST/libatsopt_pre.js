@@ -110,7 +110,9 @@ function()
 //
 /* ****** ****** */
 
+/*
 Module['noInitialRun'] = true;
+*/
 
 /* ****** ****** */
 

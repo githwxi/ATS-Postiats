@@ -28,10 +28,13 @@ Here is a list of major additions and changes since the last release:
 4. Fixing a minor parsing bug in CATS-parsemit
 5. Adding libatsopt, the library version of patsopt; see utils/libatsopt
 6. Adding some ifdef-guards:
-   _ATS_EXTERN_DEF_ for guarding the definition of ATSextern()
-   _ATS_STATIC_DEF_ for guarding the definition of ATSstatic()
-   _ATS_INLINE_DEF_ for guarding the definition of ATSinline()
+   ATS_EXTERN_DEF__ for guarding the definition of ATSextern()
+   ATS_STATIC_DEF__ for guarding the definition of ATSstatic()
+   ATS_INLINE_DEF__ for guarding the definition of ATSinline()
 7. Adding some examples to illustrate a way of using ATS+Emscripten
+8. Supporting evaluated expressions (of the form %(...)) in statics
+9. Generally improving libatscc2js and libatscc2erl
+10. With libatsopt(JS), patsopt can now run entirely inside the browser.
 
 ######
 

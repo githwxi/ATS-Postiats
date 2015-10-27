@@ -13,11 +13,13 @@ ATSCC=$(ATSHOME)/bin/atscc
 ATSOPT=$(ATSHOME)/bin/atsopt
 
 ######
-
+#
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
+#
 ATSCC2JS=$(PATSHOME)/bin/atscc2js
-
+LIBATSCC2JS=${PATSHOMERELOC}/contrib/libatscc/libatscc2js
+#
 ######
 
 ATSRUNTIME=$(ATSHOME)/ccomp/runtime
@@ -31,7 +33,7 @@ CFLAGS += -Wno-implicit-function-declaration
 all::
 
 ######
-
+#
 ifeq \
 ($(JS_TYPE),NODEJS)
 all:: \
@@ -48,24 +50,7 @@ $(CCOMP) \
   -s EXPORTED_FUNCTIONS="['_main']" \
   -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
 endif # end-of-ifeq
-ifeq \
-($(JS_TYPE),BROWSER)
-all:: \
-patsopt_dats.js
-patsopt_dats.js: patsopt_dats.c ; \
-$(CCOMP) \
-  -O2 $(CFLAGS) \
-  -I$(ATSHOME) \
-  -I$(ATSRUNTIME) \
-  -DJS_TYPE=$(JS_TYPE) \
-  --pre-js ./../setup.js \
-  --preload-file ./PATSHOME@/PATSHOME \
-  -s ASSERTIONS=1 \
-  -s ALLOW_MEMORY_GROWTH=1 \
-  -s EXPORTED_FUNCTIONS="['_main']" \
-  -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
-endif # end-of-ifeq
-
+#
 ######
 #
 ifeq \
@@ -93,6 +78,15 @@ ifeq \
 all:: test_libatsopt
 test_libatsopt:: libatsopt_ext.js
 test_libatsopt:: test_libatsopt_dats.js
+endif # end-of-ifeq
+
+######
+
+ifeq \
+($(JS_TYPE),BROWSER)
+all:: wktest_libatsopt
+wktest_libatsopt:: libatsopt_ext_worker.js
+wktest_libatsopt:: wktest_libatsopt_dats.js
 endif # end-of-ifeq
 
 ######
@@ -125,7 +119,22 @@ $(CCOMP) \
   -s ASSERTIONS=1 \
   -s ALLOW_MEMORY_GROWTH=1 \
   -s EXPORTED_FUNCTIONS="[$(LIBATSOPT_EXPORTS)]" \
-  -O2 $(CFLAGS) -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
+  -O2 $(CFLAGS) -o $@ $(ATSRUNTIME)/ats_prelude.c ./../libatsopt_ext.o
+#
+libatsopt_ext_worker.js: \
+libatsopt_pre.js \
+libatsopt_worker_dats.js ; \
+$(CCOMP) \
+  -I$(ATSHOME) \
+  -I$(ATSRUNTIME) \
+  --pre-js ./libatsopt_pre.js \
+  --pre-js ${LIBATSCC2JS}/libatscc2js_all.js \
+  --post-js ./libatsopt_worker_dats.js \
+  --preload-file ./PATSHOME@/PATSHOME \
+  -s ASSERTIONS=1 \
+  -s ALLOW_MEMORY_GROWTH=1 \
+  -s EXPORTED_FUNCTIONS="[$(LIBATSOPT_EXPORTS)]" \
+  -O2 $(CFLAGS) -o $@ $(ATSRUNTIME)/ats_prelude.c ./../libatsopt_ext.o
 #
 ######
 
@@ -134,6 +143,18 @@ test_libatsopt.dats; $(PATSOPT) -o $@ -d $<
 test_libatsopt_dats.js: \
 test_libatsopt_dats.c; $(ATSCC2JS) -o $@ -i $<
 
+######
+#
+libatsopt_worker_dats.c: \
+libatsopt_worker.dats; $(PATSOPT) -o $@ -d $<
+libatsopt_worker_dats.js: \
+libatsopt_worker_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+wktest_libatsopt_dats.c: \
+wktest_libatsopt.dats; $(PATSOPT) -o $@ -d $<
+wktest_libatsopt_dats.js: \
+wktest_libatsopt_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
 ######
 #
 %_sats.c: %.sats ; $(ATSOPT) -o $@ --static $<
@@ -190,18 +211,28 @@ clean:: ; rm -f *_?ats.o
 clean:: ; rm -f *_?ats.c
 
 ######
-
+#
 cleanall:: clean
+#
 cleanall:: ; rm -f patsopt_dats.js
 cleanall:: ; rm -f patsopt_dats.data
 cleanall:: ; rm -f patsopt_dats.js.mem
+#
 cleanall:: ; rm -f patsopt_ccomp.js
 cleanall:: ; rm -f patsopt_ccomp.data
 cleanall:: ; rm -f patsopt_ccomp.html
 cleanall:: ; rm -f patsopt_ccomp.html.mem
+#
 cleanall:: ; rm -f libatsopt_ext.js
 cleanall:: ; rm -f libatsopt_ext.data
 cleanall:: ; rm -f libatsopt_ext.js.mem
 cleanall:: ; rm -f test_libatsopt_dats.js
-
+#
+cleanall:: ; rm -f libatsopt_worker_dats.js
+#
+cleanall:: ; rm -f libatsopt_ext_worker.js
+cleanall:: ; rm -f libatsopt_ext_worker.data
+cleanall:: ; rm -f libatsopt_ext_worker.js.mem
+cleanall:: ; rm -f wktest_libatsopt_dats.js
+#
 ###### end of [Makefile] ######

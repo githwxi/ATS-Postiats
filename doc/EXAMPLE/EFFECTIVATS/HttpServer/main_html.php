@@ -335,7 +335,7 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
 
 <p>
-The implementation of [myserver_process_request] reads into a
+The implementation of [myserver_process_request] reads from a
 buffer whatever is sent by the client; it generates an HTML page
 containing the content of the buffer plus a time stamp and then
 sends the page to the client.

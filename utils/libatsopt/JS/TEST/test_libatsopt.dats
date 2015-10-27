@@ -27,16 +27,16 @@ abstype emcc_string
 
 (* ****** ****** *)
 
-abstype comarg
-abstype comarglst
+abstype emcc_comarg
+abstype emcc_comarglst
 
 (* ****** ****** *)
 
 extern
-fun comarg_strlit(string): comarg
-and comarg_strinp(string): comarg
-and comarg_prefil(string): comarg
-and comarg_postfil(string): comarg
+fun comarg_strlit(string): emcc_comarg
+and comarg_strinp(string): emcc_comarg
+and comarg_prefil(string): emcc_comarg
+and comarg_postfil(string): emcc_comarg
 
 (* ****** ****** *)
 //
@@ -72,29 +72,31 @@ emcc_stringify(emcc_string): string = "mac#emcc_stringify"
 extern
 fun
 _comarg_strlit
-  (emcc_string): comarg
+  (emcc_string): emcc_comarg
   = "mac#_libatsopt_comarg_strlit"
 and
 _comarg_strinp
-  (emcc_string): comarg
+  (emcc_string): emcc_comarg
   = "mac#_libatsopt_comarg_strinp"
 and
 _comarg_prefil
-  (emcc_string): comarg
+  (emcc_string): emcc_comarg
   = "mac#_libatsopt_comarg_prefil"
 and
 _comarg_postfil
-  (emcc_string): comarg
+  (emcc_string): emcc_comarg
   = "mac#_libatsopt_comarg_postfil"
 //
 extern
 fun
 _comarglst_nil
-  ((*void*)): comarglst
+  ((*void*)): emcc_comarglst
   = "mac#_libatsopt_comarglst_nil"
 and
 _comarglst_cons
-  (comarg, comarglst): comarglst
+(
+  emcc_comarg, emcc_comarglst
+) : emcc_comarglst
   = "mac#_libatsopt_comarglst_cons"
 //
 (* ****** ****** *)
@@ -171,7 +173,7 @@ emcc_stringify
 extern
 fun
 theExample_button_onclick
-  (arglst: comarglst): int
+  (arglst: emcc_comarglst): int
 //
 (* ****** ****** *)
 //

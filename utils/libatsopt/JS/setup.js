@@ -9,6 +9,7 @@ if
 {
   Module = {};
   Module['preRun'] = [];
+  Module['postRun'] = [];
 }
 
 /* ****** ****** */

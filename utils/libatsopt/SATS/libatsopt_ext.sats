@@ -124,7 +124,7 @@ patsoptres =
 PATSOPTRES of
 (
   int(*nerr*)
-  , string(*stdout*), string(*stderr*)
+, string(*stdout*), string(*stderr*)
 )
 //
 (* ****** ****** *)
