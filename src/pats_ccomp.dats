@@ -456,9 +456,9 @@ primval_tmpltvarmat
 (* ****** ****** *)
 
 implement
-primval_err
-  (loc, hse) = primval_make_node (loc, hse, PMVerr ())
-// end of [primval_err]
+primval_error
+  (loc, hse) = primval_make_node (loc, hse, PMVerror((*error*)))
+// end of [primval_error]
 
 (* ****** ****** *)
 

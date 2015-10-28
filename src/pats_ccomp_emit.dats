@@ -1129,15 +1129,19 @@ case+ pmv0.primval_node of
 | PMVfunlab _ => emit_primval_funlab (out, pmv0)
 | PMVcfunlab _ => emit_primval_cfunlab (out, pmv0)
 //
-| PMVlamfix (knd, pmv) => emit_primval (out, pmv)
+| PMVlamfix(knd, pmv) => emit_primval (out, pmv)
 //
-| PMVerr ((*void*)) => emit_primval_err (out, pmv0)
+| PMVerror ((*error*)) => emit_primval_err (out, pmv0)
 //
 | _ (*rest*) => let
 (*
-    val () = prerr_interror_loc (loc0)
-    val () = prerrln! (": emit_primval: pmv0 = ", pmv0)
-    val ((*exit*)) = assertloc (false)
+    val () =
+    prerr_interror_loc (loc0)
+    val () =
+    prerrln!
+      (": emit_primval: pmv0 = ", pmv0)
+    // end of [val]
+    val () = assertloc (false) // code exits
 *)
   in
     fprint_primval (out, pmv0)
