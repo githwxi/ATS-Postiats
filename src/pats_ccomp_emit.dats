@@ -1079,11 +1079,13 @@ implement
 emit_primval
   (out, pmv0) = let
 //
-val loc0 = pmv0.primval_loc
+val
+loc0 = pmv0.primval_loc
 //
 in
 //
 case+ pmv0.primval_node of
+//
 | PMVtmp _ => emit_primval_tmp (out, pmv0)
 | PMVtmpref _ => emit_primval_tmpref (out, pmv0)
 | PMVarg _ => emit_primval_arg (out, pmv0)
@@ -1155,8 +1157,11 @@ implement
 emit_primvalist
   (out, pmvs) = let
 //
-fun loop (
-  out: FILEref, pmvs: primvalist, i: int
+fun
+loop
+(
+  out: FILEref
+, pmvs: primvalist, i: int
 ) : void = let
 in
 //
@@ -1164,13 +1169,14 @@ case+ pmvs of
 | list_cons
     (pmv, pmvs) => let
     val () =
-      if i > 0 then emit_text (out, ", ")
-    // end of [val]
+    if i > 0
+      then emit_text (out, ", ")
+    // end of [if]
     val () = emit_primval (out, pmv)
   in
     loop (out, pmvs, i+1)
   end // end of [list_cons]
-| list_nil () => ()
+| list_nil((*void*)) => ()
 //
 end // end of [loop]
 //
