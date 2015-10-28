@@ -178,7 +178,7 @@ add_bool1_bool0
   {b1:bool}
 (
   b1: bool b1, b2: bool
-) :<> [b2:bool] bool (b1 || b2) = "mac\#%"
+) :<> [b2:bool] bool(b1 || b2) = "mac\#%"
 overload + with add_bool1_bool0 of 10
 
 fun
@@ -186,13 +186,13 @@ add_bool0_bool1
   {b2:bool}
 (
   b1: bool, b2: bool b2
-) :<> [b1:bool] bool (b1 || b2) = "mac\#%"
+) :<> [b1:bool] bool(b1 || b2) = "mac\#%"
 overload + with add_bool0_bool1 of 10
 
 fun
 add_bool1_bool1
   {b1,b2:bool}
-  (b1: bool b1, b2: bool b2):<> bool (b1 || b2) = "mac\#%"
+  (b1: bool b1, b2: bool b2):<> bool(b1 || b2) = "mac\#%"
 overload + with add_bool1_bool1 of 20
 
 #atscode_separator()
@@ -202,7 +202,7 @@ mul_bool1_bool0
   {b1:bool}
 (
   b1: bool b1, b2: bool
-) :<> [b2:bool] bool (b1 && b2) = "mac\#%"
+) :<> [b2:bool] bool(b1 && b2) = "mac\#%"
 overload * with mul_bool1_bool0 of 10
 
 fun
@@ -210,15 +210,22 @@ mul_bool0_bool1
   {b2:bool}
 (
   b1: bool, b2: bool b2
-) :<> [b1:bool] bool (b1 && b2) = "mac\#%"
+) :<> [b1:bool] bool(b1 && b2) = "mac\#%"
 overload * with mul_bool0_bool1 of 10
 
 fun
 mul_bool1_bool1
   {b1,b2:bool}
-  (b1: bool b1, b2: bool b2):<> bool (b1 && b2) = "mac\#%"
+  (b1: bool b1, b2: bool b2):<> bool(b1 && b2) = "mac\#%"
 overload * with mul_bool1_bool1 of 20
 
+#atscode_separator()
+//
+fun
+xor_bool1_bool1
+  {b1,b2:bool}
+  (b1: bool b1, b2: bool b2):<> bool((b1)==(~b2)) = "mac\#%"
+//
 #atscode_separator()
 
 %{

@@ -9,6 +9,11 @@
 //
 (* ****** ****** *)
 
+overload xor with xor_bool0_bool0 of 0
+overload xor with xor_bool1_bool1 of 20
+
+(* ****** ****** *)
+
 val () = {
 //
   val () = assertloc (true && true)
@@ -30,6 +35,11 @@ val () = {
   val () = assertloc (true * false = false)
   val () = assertloc (false * true = false)
   val () = assertloc (false * false = false)
+//
+  val () = assertloc (xor(true, false) = true)
+  val () = assertloc (xor(false, true) = true)
+  val () = assertloc (xor(true, true) = false)
+  val () = assertloc (xor(false, false) = false)
 //
   val () = assertloc (false < true)
   val () = assertloc (false <= true)
@@ -58,12 +68,26 @@ val () = {
 (* ****** ****** *)
 
 val () = {
+//
+val true0 = (true: bool)
+val false0 = (false: bool)
+//
+val () = assertloc (true * true0)
+val () = assertloc (true0 * true)
+val () = assertloc (true + false0)
+val () = assertloc (true0 + false)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () = {
   val out = stdout_ref
   val () = fprint (out, true)
   val () = fprint_newline (out)
   val () = fprint (out, false)
   val () = fprint_newline (out)
-} // end of [val]
+} (* end of [val] *)
 
 (* ****** ****** *)
 
