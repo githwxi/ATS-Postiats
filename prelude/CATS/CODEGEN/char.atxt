@@ -91,6 +91,10 @@ atspre_uchar2int
 \#define atspre_schar2int0 atspre_schar2int
 \#define atspre_uchar2int0 atspre_uchar2int
 //
+\#define atspre_char2int1 atspre_char2int
+\#define atspre_schar2int1 atspre_schar2int
+\#define atspre_uchar2int1 atspre_uchar2int
+//
 #atscode_separator_for_C()
 //
 ATSinline()

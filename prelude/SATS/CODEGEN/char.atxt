@@ -171,14 +171,30 @@ overload g1ofg0 with g1ofg0_char // index-inducing
 #atscode_separator()
 //
 castfn
-char2schar1 {c:int} (c: char (c)):<> schar (c)
+char2schar1
+  {c:int}(c: char (c)):<> schar (c)
 castfn
-schar2char1 {c:int} (c: schar (c)):<> char (c)
+schar2char1
+  {c:int}(c: schar (c)):<> char (c)
 //
 castfn
-char2uchar1 {c:int} (c: char (c)):<> uchar (i2u8(c))
+char2uchar1
+  {c:int}(c: char (c)):<> uchar (i2u8(c))
 castfn
-uchar2char1 {c:int} (c: uchar (c)):<> char (u2i8(c))
+uchar2char1
+  {c:int}(c: uchar (c)):<> char (u2i8(c))
+//
+#atscode_separator()
+//
+fun
+char2int1
+  {c:int}(c: char (c)):<> int (c) = "mac\#%"
+fun
+schar2int1
+  {c:int}(c: schar (c)):<> int (c) = "mac\#%"
+fun
+uchar2int1
+  {c:int}(c: uchar (c)):<> int (c) = "mac\#%"
 //
 #atscode_separator()
 //
