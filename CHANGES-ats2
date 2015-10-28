@@ -1,3 +1,5 @@
+######
+
 0.2.4
 
 This is the 27th release of ATS2, the successor of the
@@ -35,6 +37,7 @@ Here is a list of major additions and changes since the last release:
 8. Supporting evaluated expressions (of the form %(...)) in statics
 9. Generally improving libatscc2js and libatscc2erl
 10. With libatsopt(JS), patsopt can now run entirely inside the browser.
+11. Adding char2int1 and fixing add_bool_bool and mul_bool_bool
 
 ######
 
