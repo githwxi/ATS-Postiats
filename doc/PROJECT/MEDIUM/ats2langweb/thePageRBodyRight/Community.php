@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-10-28:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/K1C4bSp82OI"
+>ATS2-0.2.4 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-09-22:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/vO0h2ezMV3E"
