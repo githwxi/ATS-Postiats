@@ -10,6 +10,10 @@
 # as it is not supported on freeBSD
 #
 ######
+
+MAKE=make -j4
+
+######
 #
 all: \
   config.mk \
@@ -51,9 +55,8 @@ LDFLAGS=
 ######
 #
 src2_patsopt: ; \
-make -j4 -C src/CBOOT \
-  CCOMP=$(CCOMP) GCFLAG=$(GCFLAG) \
-  CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS) patsopt
+$(MAKE) -C src/CBOOT \
+  CCOMP=$(CCOMP) GCFLAG=$(GCFLAG) LDFLAGS=$(LDFLAGS) patsopt
 #
 bin2_patsopt: src2_patsopt ; cp -f src/CBOOT/patsopt bin/patsopt
 #
