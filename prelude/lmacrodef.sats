@@ -51,13 +51,14 @@ macdef :=* (x, a) = let val v = ,(x) in ,(x) := v * ,(a) end
 macdef :=/ (x, a) = let val v = ,(x) in ,(x) := v / ,(a) end
 //
 (* ****** ****** *)
-
 (*
-
 //
 // HX-2012-08:
 //
 // this example makes use of recursive macrodef
+//
+*)
+(*
 //
 local
 
@@ -73,7 +74,7 @@ else y // end of [if]
 //
 ) // end of [auxlist]
 
-in // in of [local]
+in (* in of [local] *)
 
 macdef
 print_mac (x) =
@@ -90,7 +91,7 @@ println_mac (x) =
 ) // end of [println_mac]
 
 end // end of [local]
-
+//
 *)
 
 (* ****** ****** *)
