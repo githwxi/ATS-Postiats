@@ -9,7 +9,7 @@ style="margin-top:8px;padding:8px;"
 ATS-2015-10-29:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/ppvsAqwe2Ag"
->ATS books in pdf</a><br>
+>ATS books in pdf format</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
