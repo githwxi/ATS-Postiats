@@ -19,6 +19,7 @@ basic understanding of programming and possibly some programming skills.
 </tr>
 <tr><td>
 Links:
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/PDF/main.pdf">pdf</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/book1.html">html</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/book1.html">htmltoc</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/INT2PROGINATS-BOOK-onechunk.html">htmlone</a>
@@ -26,6 +27,7 @@ Links:
 </td></tr>
 <tr><td>
 Backup Links:
+<a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/PDF/main.pdf">pdf</a>
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/HTML/book1.html">html</a>
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/book1.html">htmltoc</a>
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/HTML/INT2PROGINATS-BOOK-onechunk.html">htmlone</a>
@@ -50,6 +52,7 @@ gained from the tutorial alone.
 </td></tr>
 <tr><td>
 Links:
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/PDF/main.pdf">pdf</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/book1.html">html</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/book1.html">htmltoc</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-onechunk.html">htmlone</a>
@@ -57,6 +60,7 @@ Links:
 </td></tr>
 <tr><td>
 Backup Links:
+<a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/PDF/main.pdf">pdf</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/HTML/book1.html">html</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/book1.html">htmltoc</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-onechunk.html">htmlone</a>
