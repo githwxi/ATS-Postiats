@@ -645,7 +645,7 @@ and primval_node =
   | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
   | PMVtmpltvarmat of (d2var, t2mpmarglst, tmpvarmat) // for matched template variables
 //
-  | PMVerr of ()
+  | PMVerror of ()
 // end of [primval_node]
 
 and primlab_node =
@@ -1011,7 +1011,7 @@ fun primval_tmpltvarmat
 
 (* ****** ****** *)
 
-fun primval_err (loc: loc_t, hse: hisexp): primval
+fun primval_error (loc: loc_t, hse: hisexp): primval
 
 (* ****** ****** *)
 

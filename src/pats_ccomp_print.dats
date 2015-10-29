@@ -603,7 +603,7 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVerr () => prstr "PMVerr()"
+| PMVerror((*error*)) => prstr "PMVerror()"
 //
 end // end of [fprint_primval]
 
