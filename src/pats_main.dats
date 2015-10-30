@@ -443,20 +443,29 @@ in
 //
 fprintln! (out, "Usage: ", cmdname, " <command> ... <command>\n");
 fprintln! (out, "where a <command> is of one of the following forms:\n");
+//
 fprintln! (out, "  -h (for printing out this help usage)");
 fprintln! (out, "  --help (for printing out this help usage)");
+//
 fprintln! (out, "  -v (for printing out the version)");
 fprintln! (out, "  --version (for printing out the version)");
+//
 fprintln! (out, "  -s filenames (for compiling (many) static <filenames>)");
 fprintln! (out, "  --static filenames (for compiling (many) static <filenames>)");
+//
 fprintln! (out, "  -d filenames (for compiling (many) dynamic <filenames>)");
 fprintln! (out, "  --dynamic filenames (for compiling (many) dynamic <filenames>)");
+//
 fprintln! (out, "  -o filename (output into <filename>)");
 fprintln! (out, "  --output filename (output into <filename>)");
 fprintln! (out, "  --output-w filename (output-write into <filename>)");
 fprintln! (out, "  --output-a filename (output-append into <filename>)");
+//
+fprintln! (out, "  -cc (for compiling into C)");
 fprintln! (out, "  -tc (for typechecking only)");
+fprintln! (out, "  --compile (for compiling into C)");
 fprintln! (out, "  --typecheck (for typechecking only)");
+//
 (*
 fprintln! (out, "  -dep (for generating information on file dependencices)");
 *)
@@ -465,15 +474,22 @@ fprintln! (out, "  --depgen (for generating information on file dependencices)")
 fprintln! (out, "  -tag (for generating tagging information on syntactic entities)");
 *)
 fprintln! (out, "  --taggen (for generating tagging information on syntactic entities)");
+//
 fprintln! (out, "  --gline (for generating line pragma information in target code)");
+//
 fprintln! (out, "  --debug (for enabling the generation of more informative error messages)");
 fprintln! (out, "  --debug2 (for enabling the generation of debugging information in target code)");
+//
 fprintln! (out, "  --pkgreloc (for generating a script to help relocate packages in need)");
+//
 fprintln! (out, "  --codegen-2 (for outputing code generated from level-2 syntax)");
 fprintln! (out, "  --jsonize-2 (for outputing code in JSON based on level-2 syntax)");
+//
 fprintln! (out, "  --tlcalopt-disable (for disabling tail-call optimization)");
+//
 fprintln! (out, "  --constraint-export (for exporting constraints in JSON format)");
 fprintln! (out, "  --constraint-ignore (for entirely ignoring constraint-solving)");
+//
 fprint_newline (out);
 //
 end // end of [patsopt_usage]
@@ -1733,6 +1749,7 @@ case+ key of
   in
   end // end of [-d]
 //
+| "-cc" => (state.typecheckflag := 0)
 | "-tc" => (state.typecheckflag := 1)
 //
 | "-dep" => (state.depgen := 1) | "-tag" => (state.taggen := 1)
@@ -1823,6 +1840,7 @@ case+ key of
     val () = state.waitkind := WTKinput_dyn
   } // end of [--dynamic]
 //
+| "--compile" => (state.typecheckflag := 0)
 | "--typecheck" => (state.typecheckflag := 1)
 //
 | "--gline" => {

@@ -79,12 +79,20 @@ ATS2 (ATS/Postiats).
 It is for printing out the version of #command("atsopt").
 
 <li>
+#uemph("-cc"): It is a shorthand for #uemph("--compile").
+<li>
+#uemph("--compile"):
+This flag indicates that a call to the ATS-compiler is to perform
+typechecking and then translate ATS (source) code into C (target) code
+(after typechecking passes).  This option is turned on by default.
+
+<li>
 #uemph("-tc"): It is a shorthand for #uemph("--typecheck").
 <li>
 #uemph("--typeckeck"):
-This flag indicates that a call to the ATS-compiler is only required to
-perform typechecking and it should not attempt to translate ATS (source)
-code into C (target) code.
+This flag indicates that a call to the ATS-compiler is only required
+to perform typechecking and it should not attempt to translate ATS
+(source) code into C (target) code.
 
 <li>
 #uemph("--gline"):
