@@ -26,10 +26,22 @@
 
 <div>
 <button
- ID="theExample_patsopt"
+ id="theExample_patsopt"
  type="button" onclick="theExample_patsopt_onclick()"
 >Patsopt</button>
-<input id="theExample_patsopt_optstr" type="text" value="--typecheck -d"></input>
+<input id="theExample_patsopt_optstr" type="text" value="--typecheck -d" size=24></input>
+<input
+ id="theExample_atscc2js_box" type="checkbox"
+></input>
+<button
+ id="theExample_atscc2js_command" type="button"
+>Atscc2js</button>
+<input
+ id="theExample_evaluate_box" type="checkbox"
+></input>
+<button
+ id="theExample_evaluate_command" type="button"
+>Evaluate</button>
 </div>
 
 <table>
@@ -76,6 +88,21 @@ val () = println! ("fact(", N, ") = ", fact(N))
 </td>
 <td width="10%"></td>
 </tr>
+<tr>
+<td width="10%"></td>
+<td>
+</td>
+<td align="right">
+<input
+ id="theExample_patsopt_output" type="checkbox"
+>Patsopt-out</input>
+<input
+ id="theExample_atscc2js_output" type="checkbox"
+>Atscc2js-out</input>
+</td>
+<td width="10%"></td>
+</tr>
+
 </table>
 
 <script src="./libatsopt_ext_worker.js"></script>

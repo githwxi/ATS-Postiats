@@ -172,12 +172,6 @@ Patsoptaas_submenu_table_mouseout()
 function
 Patsoptaas_submenu_table_mouseover(i0)
 {
-/*
-  if(i0 >= 1)
-  {
-    alert("Patsoptaas_submenu_table_mouseover("+i0+")");
-  }
-*/
   theTopmenuTimeout_clear(/*void*/); return;
 }
 //
@@ -276,7 +270,6 @@ if (files.length > 0)
 {
   freader.readAsText(files[0]);
 } else {
-alert("File_loadfile_input_onchange:2");
   Patsoptaas_thePatsopt_source_set2
   (
     "ERROR(File_loadfile): no file is choosen!!!"

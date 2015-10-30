@@ -246,11 +246,11 @@ fpost(nerr: int): void =
 (
 case+ nerr of
 //
-| 0 => alert("Patsopt succeeded!")
+| 0 => alert("Patsopt finished normally!")
 //
-| 1 => alert("Patsopt yielded an error!")
+| 1 => alert("Patsopt encountered an error!")
 //
-| _ when nerr >= 2 => alert("Patsopt yielded some errors!")
+| _ when nerr >= 2 => alert("Patsopt encountered some errors!")
 //
 | _ => ((*unused*))
 ) (* end of [fpost] *)
