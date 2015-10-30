@@ -44,9 +44,11 @@ UN =
 "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
-
+//
 staload "./pats_jsonize.sats"
-
+staload
+_(*anon*) = "./pats_jsonize.dats"
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
@@ -68,10 +70,10 @@ staload "./pats_constraint3.sats"
 #define cons list_cons
 
 (* ****** ****** *)
-
+//
 macdef
 jsonize_loc (x) = jsonize_location (,(x))
-
+//
 (* ****** ****** *)
 
 (*
@@ -213,10 +215,10 @@ end // end of [jsonize_s3itm]
 //
 implement
 jsonize_s3itmlst
-  (s3is) = jsonize_list_fun (s3is, jsonize_s3itm)
+  (s3is) = jsonize_list_fun<s3itm>(s3is, jsonize_s3itm)
 implement
 jsonize_s3itmlstlst
-  (s3iss) = jsonize_list_fun (s3iss, jsonize_s3itmlst)
+  (s3iss) = jsonize_list_fun<s3itmlst>(s3iss, jsonize_s3itmlst)
 //
 (* ****** ****** *)
 
@@ -309,7 +311,9 @@ val c3t0 = auxmain (c3t0)
 in
 //
 jsonval_labval3
-  ("c3nstr_loc", loc0, "c3nstr_kind", ctk0, "c3nstr_node", c3t0)
+(
+  "c3nstr_loc", loc0, "c3nstr_kind", ctk0, "c3nstr_node", c3t0
+) (* jsonval_labval3 *) 
 //
 end // end of [jsonize_c3nstr]
 
@@ -317,7 +321,7 @@ end // end of [jsonize_c3nstr]
 
 implement
 jsonize_c3nstropt
-  (opt) = jsonize_option_fun (opt, jsonize_c3nstr)
+  (opt) = jsonize_option_fun<c3nstr>(opt, jsonize_c3nstr)
 // end of [jsonize_c3nstropt]
 
 (* ****** ****** *)
@@ -441,10 +445,10 @@ val s2vs = s2varset_vt_listize_free (s2vs)
 //
 val
 jsv_s2cs =
-jsonize_list_fun{s2cst}($UN.linlst2lst(s2cs), jsonize_s2cst_long)
+jsonize_list_fun<s2cst>($UN.linlst2lst(s2cs), jsonize_s2cst_long)
 val
 jsv_s2vs =
-jsonize_list_fun{s2var}($UN.linlst2lst(s2vs), jsonize_s2var_long)
+jsonize_list_fun<s2var>($UN.linlst2lst(s2vs), jsonize_s2var_long)
 //
 val
 s2tds =
@@ -453,7 +457,7 @@ c3nstr_get_s2rtdatlst
 //
 val
 jsv_s2tds =
-jsonize_list_fun{s2rtdat}($UN.linlst2lst(s2tds), jsonize_s2rtdat_long)
+jsonize_list_fun<s2rtdat>($UN.linlst2lst(s2tds), jsonize_s2rtdat_long)
 //
 val () = list_vt_free (s2cs)
 val () = list_vt_free (s2vs)

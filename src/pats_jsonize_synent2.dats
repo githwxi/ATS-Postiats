@@ -64,9 +64,12 @@ staload
 SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_jsonize.sats"
-
+//
+staload
+_(*anon*) = "./pats_jsonize.dats"
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
@@ -230,7 +233,7 @@ implement
 jsonize_s2cstlst
   (s2cs) =
 (
-  jsonize_list_fun (s2cs, jsonize_s2cst)
+  jsonize_list_fun<s2cst>(s2cs, jsonize_s2cst)
 ) (* end of [jsonize_s2cstlst] *)
 
 (* ****** ****** *)
@@ -245,7 +248,7 @@ val stamp =
   jsonize_stamp(s2rtdat_get_stamp(s2td))
 //
 val sconlst=
-jsonize_list_fun{s2cst}
+jsonize_list_fun<s2cst>
   (s2rtdat_get_sconlst(s2td), jsonize_s2cst_long)
 //
 in
@@ -361,7 +364,7 @@ implement
 jsonize_d2conlst
   (d2cs) =
 (
-  jsonize_list_fun (d2cs, jsonize_d2con)
+  jsonize_list_fun<d2con>(d2cs, jsonize_d2con)
 ) (* end of [jsonize_d2conlst] *)
 
 (* ****** ****** *)
@@ -824,7 +827,7 @@ implement
 jsonize_d2cstlst
   (d2cs) =
 (
-  jsonize_list_fun (d2cs, jsonize_d2cst)
+  jsonize_list_fun<d2cst>(d2cs, jsonize_d2cst)
 ) (* end of [jsonize_d2cstlst] *)
 
 (* ****** ****** *)
@@ -1044,14 +1047,14 @@ implement
 jsonize_p2atlst
   (p2ts) =
 (
-  jsonize_list_fun (p2ts, jsonize_p2at)
+  jsonize_list_fun<p2at>(p2ts, jsonize_p2at)
 ) // end of [jsonize_p2atlst]
 
 implement
 jsonize_p2atopt
   (p2topt) =
 (
-  jsonize_option_fun (p2topt, jsonize_p2at)
+  jsonize_option_fun<p2at>(p2topt, jsonize_p2at)
 ) // end of [jsonize_p2atopt]
 
 (* ****** ****** *)
@@ -1084,7 +1087,7 @@ implement
 jsonize_labp2atlst
   (lp2ts) =
 (
-  jsonize_list_fun (lp2ts, jsonize_labp2at)
+  jsonize_list_fun<labp2at>(lp2ts, jsonize_labp2at)
 ) // end of [jsonize_labp2atlst]
 
 (* ****** ****** *)
@@ -1307,7 +1310,7 @@ implement
 jsonize_d2explst
   (d2es) =
 (
-  jsonize_list_fun (d2es, jsonize_d2exp)
+  jsonize_list_fun<d2exp>(d2es, jsonize_d2exp)
 ) // end of [jsonize_d2explst]
 
 (* ****** ****** *)
@@ -1340,7 +1343,7 @@ implement
 jsonize_labd2explst
   (ld2es) =
 (
-  jsonize_list_fun (ld2es, jsonize_labd2exp)
+  jsonize_list_fun<labd2exp>(ld2es, jsonize_labd2exp)
 ) // end of [jsonize_labd2explst]
 
 (* ****** ****** *)
@@ -1377,7 +1380,7 @@ implement
 jsonize_d2exparglst
   (d2as) =
 (
-  jsonize_list_fun (d2as, jsonize_d2exparg)
+  jsonize_list_fun<d2exparg>(d2as, jsonize_d2exparg)
 ) // end of [jsonize_d2exparglst]
 
 (* ****** ****** *)
@@ -1421,7 +1424,7 @@ implement
 jsonize_d2lablst
   (d2ls) =
 (
-  jsonize_list_fun (d2ls, jsonize_d2lab)
+  jsonize_list_fun<d2lab>(d2ls, jsonize_d2lab)
 ) // end of [jsonize_d2lablst]
 
 (* ****** ****** *)
@@ -1445,9 +1448,9 @@ end // end of [jsonize_gm2at]
 
 implement
 jsonize_gm2atlst
-  (c2ls) =
+  (gm2ts) =
 (
-  jsonize_list_fun (c2ls, jsonize_gm2at)
+  jsonize_list_fun<gm2at>(gm2ts, jsonize_gm2at)
 ) // end of [jsonize_gm2atlst]
 
 (* ****** ****** *)
@@ -1483,7 +1486,7 @@ implement
 jsonize_c2laulst
   (c2ls) =
 (
-  jsonize_list_fun (c2ls, jsonize_c2lau)
+  jsonize_list_fun<c2lau>(c2ls, jsonize_c2lau)
 ) // end of [jsonize_c2laulst]
 
 (* ****** ****** *)
@@ -1520,7 +1523,7 @@ d2c0.d2ecl_node of
       jsonize_symbol(id.i0de_sym)
     val pval = jsonval_int (pval)
     val opt =
-      jsonize_option_fun (opt, jsonize_d2itm)
+      jsonize_option_fun<d2itm>(opt, jsonize_d2itm)
     // end of [val]
   in
     jsonval_conarg3 ("D2Coverload", sym, pval, opt)
@@ -1657,7 +1660,7 @@ end // end of [jsonize_d2ecl]
 //
 implement
 jsonize_d2eclist (d2cs) =
-  jsonize_list_fun (d2cs, jsonize_d2ecl)
+  jsonize_list_fun<d2ecl>(d2cs, jsonize_d2ecl)
 //
 (* ****** ****** *)
 
@@ -1719,7 +1722,7 @@ implement
 jsonize_f2undeclst
   (f2ds) =
 (
-  jsonize_list_fun (f2ds, jsonize_f2undec)
+  jsonize_list_fun<f2undec>(f2ds, jsonize_f2undec)
 ) // end of [jsonize_f2undeclst]
 
 (* ****** ****** *)
@@ -1749,7 +1752,7 @@ implement
 jsonize_v2aldeclst
   (v2ds) =
 (
-  jsonize_list_fun (v2ds, jsonize_v2aldec)
+  jsonize_list_fun<v2aldec>(v2ds, jsonize_v2aldec)
 ) // end of [jsonize_v2aldeclst]
 
 (* ****** ****** *)
@@ -1781,27 +1784,27 @@ val d2vars =
   d2varset_vt_listize_free (d2vars)
 //
 val jsv_s2cs =
-  jsonize_list_fun{s2cst}($UN.linlst2lst(s2cs), jsonize_s2cst_long)
+  jsonize_list_fun<s2cst>($UN.linlst2lst(s2cs), jsonize_s2cst_long)
 val () = list_vt_free (s2cs)
 //
 val jsv_s2vs =
-  jsonize_list_fun{s2var}($UN.linlst2lst(s2vs), jsonize_s2var_long)
+  jsonize_list_fun<s2var>($UN.linlst2lst(s2vs), jsonize_s2var_long)
 val () = list_vt_free (s2vs)
 //
 val jsv_s2Vs =
-  jsonize_list_fun{s2Var}($UN.linlst2lst(s2Vs), jsonize_s2Var_long)
+  jsonize_list_fun<s2Var>($UN.linlst2lst(s2Vs), jsonize_s2Var_long)
 val () = list_vt_free (s2Vs)
 //
 val jsv_d2cons =
-  jsonize_list_fun{d2con}($UN.linlst2lst(d2cons), jsonize_d2con_long)
+  jsonize_list_fun<d2con>($UN.linlst2lst(d2cons), jsonize_d2con_long)
 val () = list_vt_free (d2cons)
 //
 val jsv_d2csts =
-  jsonize_list_fun{d2cst}($UN.linlst2lst(d2csts), jsonize_d2cst_long)
+  jsonize_list_fun<d2cst>($UN.linlst2lst(d2csts), jsonize_d2cst_long)
 val () = list_vt_free (d2csts)
 //
 val jsv_d2vars =
-  jsonize_list_fun{d2var}($UN.linlst2lst(d2vars), jsonize_d2var_long)
+  jsonize_list_fun<d2var>($UN.linlst2lst(d2vars), jsonize_d2var_long)
 val () = list_vt_free (d2vars)
 //
 val jsv_d2cls = jsonize_d2eclist(d2cls)

@@ -265,17 +265,17 @@ fun jsonize_label : jsonize_ftype (label)
 fun jsonize_ignored{a:type} (x: a): jsonval
 
 (* ****** ****** *)
-
-fun
-jsonize_list_fun{a:type}
-  (xs: List (a), f: jsonize_ftype (a)): jsonval
+//
+fun{a:t@ype}
+jsonize_list_fun
+  (xs: List0 (a), f: jsonize_ftype (a)): jsonval
 // end of [jsonize_list_fun]
-
-fun
-jsonize_option_fun{a:type}
+//
+fun{a:t@ype}
+jsonize_option_fun
   (xs: Option (a), f: jsonize_ftype (a)): jsonval
 // end of [jsonize_option_fun]
-
+//
 (* ****** ****** *)
 
 (* end of [pats_jsonize.sats] *)

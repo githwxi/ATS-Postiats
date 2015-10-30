@@ -24,18 +24,13 @@
 <body>
 <h1>For testing libatsopt_worker</h1>
 
-<center>
 <div>
 <button
- ID="theExample_patsopt_tc"
- type="button" onclick="theExample_button_tc_onclick()"
->Typecheck</button>
-<button
- ID="theExample_patsopt_cc"
- type="button" onclick="theExample_button_cc_onclick()"
->Typecheck+Compile</button>
+ ID="theExample_patsopt"
+ type="button" onclick="theExample_patsopt_onclick()"
+>Patsopt</button>
+<input id="theExample_patsopt_optstr" type="text" value="--typecheck -d"></input>
 </div>
-</center>
 
 <table>
 <tr>
@@ -52,7 +47,7 @@
 //
 extern
 fun
-fact(n: int): int
+fact{n:nat}(n: int(n)): int
 //
 implement
 fact(n) =
@@ -83,6 +78,7 @@ val () = println! ("fact(", N, ") = ", fact(N))
 </tr>
 </table>
 
+<script src="./libatsopt_ext_worker.js"></script>
 <script src="./wktest_libatsopt_dats.js"></script>
 
 </body>
