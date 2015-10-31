@@ -111,12 +111,21 @@ theExample_patsopt_getarg
   ((*void*)) = let
 //
 val
-code = theExample_dats_get_value()
+arglst = list_nil((*void*))
 //
 val
-comarg = COMARGstrinp(code)
+comarg =
+COMARGstrinp
+  (theExample_dats_get_value())
 val
-arglst = list_nil((*void*))
+arglst = list_cons(comarg, arglst)
+//
+val
+comarg =
+COMARGprefil
+(
+  "#include \"share/atspre_staload.hats\""
+)
 val
 arglst = list_cons(comarg, arglst)
 //

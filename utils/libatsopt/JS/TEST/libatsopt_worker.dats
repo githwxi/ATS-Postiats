@@ -208,7 +208,7 @@ in
 case+ args of
 | list0_nil() =>
     PATSOPTRES(0, "", "")
-  // list_nil
+  // list0_nil
 | list0_cons _ => let
     val
     args = emcc_comarglst(args)
@@ -226,7 +226,7 @@ case+ args of
     // end of [val]
   in
     PATSOPTRES(un_emcc_int(nerr), stdout, stderr)
-  end // end of [list_cons]
+  end // end of [list0_cons]
 //
 end (* end of [my_patsoptres_main_arglst] *)
 //
