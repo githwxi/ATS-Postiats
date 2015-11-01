@@ -149,39 +149,63 @@ stadef <> = neq_int_int // HX: backward compatibility
 //
 (* ****** ****** *)
 //
-stacst abs_int : (int) -> int
+stacst
+abs_int
+  : (int) -> int
+//
 stadef abs = abs_int
-stadef absrel_int_int
+//
+stadef
+absrel_int_int
   (x: int, v: int): bool =
   (x >= 0 && x == v) || (x <= 0 && ~x == v)
+//
 stadef absrel = absrel_int_int
 //
-stacst sgn_int : (int) -> int
+stacst
+sgn_int
+  : (int) -> int
+//
 stadef sgn = sgn_int
-stadef sgnrel_int_int
+//
+stadef
+sgnrel_int_int
   (x: int, v: int): bool =
   (x > 0 && v==1) || (x==0 && v==0) || (x < 0 && v==(~1))
+//
 stadef sgnrel = sgnrel_int_int
 //
-stacst max_int_int : (int, int) -> int
+stacst
+max_int_int
+  : (int, int) -> int
 stadef max = max_int_int
-stacst min_int_int : (int, int) -> int
+//
+stacst
+min_int_int
+  : (int, int) -> int
 stadef min = min_int_int
-stadef maxrel_int_int_int
+//
+stadef
+maxrel_int_int_int
   (x: int, y: int, v: int): bool =
   (x >= y && x == v) || (x <= y && y == v)
+//
 stadef maxrel = maxrel_int_int_int
-stadef minrel_int_int_int
+//
+stadef
+minrel_int_int_int
   (x: int, y: int, v: int): bool =
   (x >= y && y == v) || (x <= y && x == v)
 stadef minrel = minrel_int_int_int
 //
-stadef nsub (x:int, y:int) = max (x-y, 0)
+stadef
+nsub (x:int, y:int) = max (x-y, 0)
 //
 stadef
 ndivrel_int_int_int // HX: y > 0
   (x: int, y: int, q: int): bool =
   (q * y <= x) && (x < q * y + y)
+//
 stadef ndivrel = ndivrel_int_int_int
 //
 stadef
@@ -194,7 +218,7 @@ idivrel_int_int_int
   x <  0 && y > 0 && ndivrel_int_int_int (~x,  y, ~q)
 ) || (
   x <  0 && y < 0 && ndivrel_int_int_int (~x, ~y,  q)
-) // end of [idivrel_int_int_int]
+) (* end of [idivrel_int_int_int] *)
 //
 stadef idivrel = idivrel_int_int_int
 //
@@ -202,20 +226,25 @@ stadef
 divmodrel_int_int_int_int
   (x: int, y: int, q: int, r: int) : bool =
   (0 <= r && r < y && x == q*y + r)
+//
 stadef divmodrel = divmodrel_int_int_int_int
 //
 (* ****** ****** *)
-
+//
 stacst
 ifint_bool_int_int
   : (bool, int, int) -> int
+//
 stadef ifint = ifint_bool_int_int
+//
 stadef
 ifintrel_bool_int_int_int
-  (b:bool, x:int, y:int, r:int): bool =
-  (b && r==x) || (~b && r==y)
-// end of [ifintrel]
-
+(
+  b:bool, x:int, y:int, r:int
+) : bool = (b && r==x) || (~b && r==y)
+//
+stadef ifintrel = ifintrel_bool_int_int_int
+//
 (* ****** ****** *)
 
 stadef
