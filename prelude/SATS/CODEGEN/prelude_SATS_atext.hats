@@ -22,15 +22,14 @@ fprint_print_prerr_decl
   (tnm1: string, tnm2: string): atext = let
 //
 val ent = sprintf ("\
-fun fprint_%s
-  : fprint_type (%s) = \"mac#%%\"
-overload fprint with fprint_%s
-fun print_%s (x: %s): void = \"mac#%%\"
-fun prerr_%s (x: %s): void = \"mac#%%\"
+fun print_%s (%s): void = \"mac#%%\"
+fun prerr_%s (%s): void = \"mac#%%\"
+fun fprint_%s : fprint_type (%s) = \"mac#%%\"
 overload print with print_%s
 overload prerr with prerr_%s
+overload fprint with fprint_%s
 ", @(
- tnm1, tnm2, tnm1, tnm1, tnm2, tnm1, tnm2, tnm1, tnm1
+ tnm1, tnm2, tnm1, tnm2, tnm1, tnm2, tnm1, tnm1, tnm1
 )
 ) // end of [sprintf] // end of [val]
 //
