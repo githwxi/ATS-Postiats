@@ -70,7 +70,11 @@ atslib_clearerr(p) clearerr(((FILE*)p))
 
 #atscode_separator_for_C()
 //
+\#define atslib_fflush fflush
+\#define atslib_fflush0 atslib_fflush
+\#define atslib_fflush1 atslib_fflush
 \#define atslib_fflush0_exn atslib_fflush_exn
+\#define atslib_fflush1_exn atslib_fflush_exn
 //
 \#define atslib_fflush_all() atslib_fclose_exn((FILE*)0)
 \#define atslib_fflush_stdout() atslib_fclose_exn(stdout)

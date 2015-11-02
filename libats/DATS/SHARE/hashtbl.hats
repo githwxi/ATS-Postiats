@@ -56,7 +56,12 @@ equal_key_key = gequal_val_val<key>
 //
 implement
 hash_key<string> (str) =
+  string_hash_multiplier (31UL, 618033989UL, str)
+(*
+implement
+hash_key<string> (str) =
   string_hash_multiplier (31UL, 61803398875UL, str)
+*)
 //
 (* ****** ****** *)
 

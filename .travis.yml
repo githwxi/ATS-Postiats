@@ -1,8 +1,16 @@
 os:
   - osx
   - linux
-sudo: required
-#sudo: false
+sudo: false
+addons:
+  apt:
+    packages:
+    - libgc-dev
+    - libgmp-dev
+    - libgtk-3-dev
+    - libev-dev
+    - libjson0-dev
+    - libjansson-dev
 before_install:
   - date
   - cd ${HOME}
