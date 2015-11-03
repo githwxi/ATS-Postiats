@@ -6,10 +6,26 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-11-03:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/77NVS0vITz4"
+>Running Atscc2js in the browser</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-10-28:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/K1C4bSp82OI"
 >ATS2-0.2.4 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+ATS-2015-10-24:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/7sPhq63X8-4"
+>Running Patsopt in the browser</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
@@ -138,6 +154,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-04-23:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/WDPiTEkZDZQ"
@@ -153,8 +171,6 @@ ATS-2015-04-07:<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-03-22:<br>
 <a
