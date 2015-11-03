@@ -282,4 +282,4 @@ the_libatsopt_main()
 
 (* ****** ****** *)
 
-(* end of [test_libatsopt.dats] *)
+(* end of [wktest_libatsopt.dats] *)
