@@ -225,7 +225,7 @@ fprint_list0
 fun{a:t0p}
 fprint_list0_sep
 (
-  out: FILEref, xs: list0(INV(a)), sep: NSH(string)
+  out: FILEref, xs: list0(INV(a)), sep: string
 ) : void // end of [fprint_list0_sep]
 //
 overload fprint with fprint_list0
@@ -240,18 +240,21 @@ list0_insert_at_exn
 ) :<!exn> list0(a) // endfun
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
 list0_remove_at_exn
   (SHR(list0(INV(a))), int):<!exn> list0(a)
 // end of [list0_remove_at_exn]
-
+//
 fun{a:t0p}
 list0_takeout_at_exn
 (
   xs: SHR(list0(INV(a))), i: int, x: &a? >> a
 ) :<!exnwrt> list0(a) // end-of-function
-
+//
+overload remove_at with list0_remove_at_exn
+overload takeout_at with list0_takeout_at_exn
+//
 (* ****** ****** *)
 //
 fun{a:t0p}
@@ -287,6 +290,8 @@ macdef list0_revapp = list_reverse_append
 fun{a:t0p}
 list0_concat
   (xss: NSH(list0(list0(INV(a))))):<> list0(a)
+//
+overload concat with list0_concat
 //
 (* ****** ****** *)
 
@@ -381,11 +386,12 @@ a:t0p}{res:t0p
 *)
 //
 (* ****** ****** *)
-
+//
 fun
 {a:t0p}
-list0_exists (xs: list0(INV(a)), p: cfun(a, bool)): bool
-
+list0_exists
+  (xs: list0(INV(a)), p: cfun(a, bool)): bool
+//
 fun
 {a1,a2:t0p}
 list0_exists2
@@ -394,13 +400,14 @@ list0_exists2
 , xs2: list0(INV(a2))
 , pred: cfun2(a1, a2, bool)
 ) : bool // end of [list0_exists2]
-
+//
 (* ****** ****** *)
-
+//
 fun
 {a:t0p}
-list0_forall (xs: list0(INV(a)), p: cfun(a, bool)): bool
-
+list0_forall
+  (xs: list0(INV(a)), p: cfun(a, bool)): bool
+//
 fun
 {a1,a2:t0p}
 list0_forall2 (
@@ -416,14 +423,15 @@ list0_forall2_eq
 , xs2: list0(INV(a2))
 , p: cfun2(a1, a2, bool), sgn: &int? >> int
 ) : bool // end of [list0_forall2_eq]
-
+//
 (* ****** ****** *)
 
 fun
 {a:t0p}
 list0_equal
 (
-  xs1: list0(INV(a)), xs2: list0(a), eqfn: cfun2(a, a, bool)
+  xs1: list0(INV(a))
+, xs2: list0(INV(a)), eqfn: cfun2(a, a, bool)
 ) : bool // end of [list0_equal]
 
 (* ****** ****** *)
@@ -436,37 +444,44 @@ list0_find_exn
 fun
 {a:t0p}
 list0_find_opt
-  (xs: list0(INV(a)), p: cfun(a, bool)): Option_vt (a)
+  (xs: list0(INV(a)), p: cfun(a, bool)): Option_vt(a)
 //
 (* ****** ****** *)
 //
 fun{
 a,b:t0p
 } list0_assoc_exn
-  (xys: list0 @(INV(a), b), x0: a, eq: cfun(a, a, bool)): (b)
+(
+  list0 @(INV(a), b), x0: a, eq: cfun(a, a, bool)
+) : (b) // end-of-function
 fun{
 a,b:t0p
 } list0_assoc_opt
-  (xys: list0 @(INV(a), b), x0: a, eq: cfun(a, a, bool)): Option_vt (b)
+(
+  list0 @(INV(a), b), x0: a, eq: cfun(a, a, bool)
+) : Option_vt (b) // end-of-function
 //
 (* ****** ****** *)
-
+//
 fun{a:t0p}
 list0_filter
-  (xs: list0(INV(a)), pred: cfun(a, bool)): list0(a)
-// end of [list0_filter]
-
+  (list0(INV(a)), pred: cfun(a, bool)): list0(a)
+//
 (* ****** ****** *)
 //
 fun{
 a:t0p}{b:t0p
 } list0_map
-  (xs: list0(INV(a)), fopr: cfun(a, b)): list0(b)
+(
+  xs: list0(INV(a)), fopr: cfun(a, b)
+) : list0(b) // end-of-function
 //
 fun{
 a:t0p}{b:t0p
 } list0_mapopt
-  (xs: list0(INV(a)), fopr: cfun(a, Option_vt(b))): list0(b)
+(
+  xs: list0(INV(a)), fopr: cfun(a, Option_vt(b))
+) : list0(b) // end-of-function
 //
 (* ****** ****** *)
 //
@@ -474,36 +489,41 @@ fun{a:t0p}
 list0_mapcons
   (x0: a, xss: list0(list0(INV(a)))): list0(list0(a))
 //
+overload * with list0_mapcons
+//
 (* ****** ****** *)
-
+//
 fun{
 a:t0p}{b:t0p
 } list0_imap
   (xs: list0(INV(a)), fopr: cfun2(int, a, b)): list0(b)
-
+//
 (* ****** ****** *)
 
 fun{
 a1,a2:t0p}{b:t0p
-} list0_map2 (
-  list0(INV(a1)), list0(INV(a2)), fopr: cfun2(a1, a2, b)
+} list0_map2
+(
+  xs: list0(INV(a1)), ys: list0(INV(a2)), fopr: cfun2(a1, a2, b)
 ) : list0(b) // end of [list0_map2]
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
 list0_tabulate
   (n: int, fopr: cfun(int, a)): list0(a)
 fun{a:t0p}
 list0_tabulate_opt
-  (n: int, fopr: cfun(int, Option_vt (a))): list0(a)
-
+  (n: int, fopr: cfun(int, Option_vt(a))): list0(a)
+//
 (* ****** ****** *)
 //
 fun
 {x,y:t0p}
 list0_zip
-  (list0(INV(x)), list0(INV(y))):<> list0 @(x, y)
+(
+  list0(INV(x)), list0(INV(y))
+) :<> list0 @(x, y) // end-of-fun
 //
 (*
 fun{
@@ -518,12 +538,20 @@ macdef list0_zipwith = list0_map2
 fun
 {x,y:t0p}
 list0_cross
-  (list0(INV(x)), list0(INV(y))):<> list0 @(x, y)
+(
+  list0(INV(x)), list0(INV(y))
+) :<> list0 @(x, y) // end-of-fun
+//
+overload * with list0_cross
+//
+(* ****** ****** *)
 //
 fun{
 x,y:t0p}{z:t0p
 } list0_crosswith
-  (list0(INV(x)), list0(INV(y)), fopr: cfun2(x, y, z)): list0(z)
+(
+  list0(INV(x)), list0(INV(y)), fopr: cfun2(x, y, z)
+) : list0(z) // end of [list0_crosswith]
 //
 (* ****** ****** *)
 

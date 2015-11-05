@@ -3,7 +3,7 @@
 ;;
 ;; Install: add the following to your .emacs
 ;;
-;; (require 'ats2-flymake)
+;; (require 'flymake-ats2)
 ;;
 ;; The ATSHOME environment variable may need to be set from within emacs:
 ;;
@@ -21,27 +21,27 @@
 
 (require 'flymake)
 
-(defvar ats2-flymake-command
+(defvar flymake-ats2-command
   "patscc"
   "Command used to check an ATS2 file for errors")
 
-(defvar ats2-flymake-command-options
+(defvar flymake-ats2-command-options
   "-tcats"
   "Options passed to the command used to check a file for errors")
 
-(defun ats2-flymake-init ()
+(defun flymake-ats2-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
                        'flymake-create-temp-inplace))
 	 (local-file  (file-relative-name
                        temp-file
                        (file-name-directory buffer-file-name))))
-    (list ats2-flymake-command
-          (list ats2-flymake-command-options local-file))))
+    (list flymake-ats2-command
+          (list flymake-ats2-command-options local-file))))
 
-;; List of file extensions that trigger ats2-flymake.
-(push '(".+\\.sats$" ats2-flymake-init flymake-simple-cleanup) flymake-allowed-file-name-masks)
-(push '(".+\\.dats$" ats2-flymake-init flymake-simple-cleanup) flymake-allowed-file-name-masks)
-(push '(".+\\.hats$" ats2-flymake-init flymake-simple-cleanup) flymake-allowed-file-name-masks)
+;; List of file extensions that trigger flymake-ats2.
+(push '(".+\\.sats$" flymake-ats2-init flymake-simple-cleanup) flymake-allowed-file-name-masks)
+(push '(".+\\.dats$" flymake-ats2-init flymake-simple-cleanup) flymake-allowed-file-name-masks)
+(push '(".+\\.hats$" flymake-ats2-init flymake-simple-cleanup) flymake-allowed-file-name-masks)
 
 ;; Regular expressions for detecting and reporting errors.
 (push '("^\\(syntax error\\): *\\([^ ]+\\):.*line=\\([0-9]+\\).*$" 2 3 nil 1)
@@ -49,7 +49,7 @@
 (push '("^\\(.+.dats\\|.+.sats\\|.+.hats\\):.*line=\\([0-9]+\\).*\\(error.+\\)$" 1 2 nil 3)
       flymake-err-line-patterns)
 
-(defun ats2-flymake-load ()
+(defun flymake-ats2-load ()
   (flymake-mode t)
 
   ;; Utility key bindings for navigating errors reported by flymake.
@@ -64,6 +64,6 @@
     (setq flymake-check-was-interrupted t))
   (ad-activate 'flymake-post-syntax-check))
 
-(add-hook 'ats2-mode-hook 'ats2-flymake-load)
+(add-hook 'ats2-mode-hook 'flymake-ats2-load)
 
-(provide 'ats2-flymake)
+(provide 'flymake-ats2)
