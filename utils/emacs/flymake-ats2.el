@@ -66,4 +66,5 @@
 
 (add-hook 'ats2-mode-hook 'flymake-ats2-load)
 
-(provide 'flymake-ats2)
+(provide 'ats2-flymake)
+;;; flymake-ats2.el ends here
