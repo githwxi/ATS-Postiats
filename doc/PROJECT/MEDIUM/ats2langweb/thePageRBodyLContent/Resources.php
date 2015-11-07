@@ -64,6 +64,18 @@ Atscc2php
 
 <hr></hr>
 
+<h2><a id="Try_ATS_in_browser">Try ATS in your browser</a></h2>
+<p>
+Patsopt is the command for compiling ATS source code into C, and
+Atscc2js is the command for compiling C code generated from ATS source
+into JS. Both of the commands are available in client-side JS, allowing
+one to try ATS entirely inside the browser one is using. Please follow this
+<a href="http://ats-lang.github.io/EXPERIMENT/patsopt-atscc2js-trial/index.html">link</a>
+to get started.
+</p>
+
+<hr></hr>
+
 <h2><a id="Learn_ATS_by_puzzles">Learn ATS by Solving Math Puzzles</a></h2>
 
 <p>
