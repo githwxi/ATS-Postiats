@@ -22,7 +22,10 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. With libatscc2js(JS), Atscc2js can now run entirely inside the browser.
+1. With libatscc2js(JS), Atscc2js can now run entirely inside the
+   browser.
+2. Patsopt(JS) and Atscc2js(JS) have been combined to allow one to
+   try ATS entirely in one's browser (running only client-side JS).
 
 ######
 
