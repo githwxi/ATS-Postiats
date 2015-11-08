@@ -20,8 +20,8 @@ Readers-and-Writers
 
 In general, ATS shines much more brightly in contexts where dynamic testing
 becomes more difficult to perform and/or control.  In this article, I
-present in ATS an implementation of the classical Readers-and-Writers
-problem in concurrent programming.
+present in ATS an implementation of the classic Readers-and-Writers problem
+in concurrent programming.
 
 <h2>
 Description of the Problem 
