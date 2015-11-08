@@ -36,7 +36,7 @@ documentation on both ATS1 and ATS2 can be properly generated.
 </li>
 <li>
 <u>Pats2xhtml</u>
-is a tool implemented in ATS1 for converting ATS2 source code (in the plain text format)
+is a tool implemented in ATS1 for converting ATS2 source (in the plain text format)
 into a version in the XHTML format where a modest form of syntax-highlighting is applied.
 Please click
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/list_dats.html">here</a>
@@ -66,7 +66,7 @@ Atscc2php
 
 <h2><a id="Try_ATS_in_browser">Try ATS in your browser</a></h2>
 <p>
-Patsopt is the command for compiling ATS source code into C, and
+Patsopt is the command for compiling ATS source into C, and
 Atscc2js is the command for compiling C code generated from ATS source
 into JS. Both of the commands are available in client-side JS, allowing
 one to try ATS entirely inside the browser one is using. Please follow this
