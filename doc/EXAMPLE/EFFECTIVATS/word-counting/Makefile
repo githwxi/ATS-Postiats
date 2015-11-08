@@ -72,7 +72,7 @@ main.exe: \
   $(ATSCC) \
   -IATS $(PATSHOME) -IATS $(ATSHOME) \
   -I$(PATSHOME)/src -D_ATS_GCATS -o $@ $< \
-  -L$(PATSHOME)/libatsynmark -latsynmark -latsdoc
+  -L$(PATSHOME)/utils/libatsynmark -latsynmark -latsdoc
 
 main_atxt.dats: \
   main.atxt; $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt

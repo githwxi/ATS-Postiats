@@ -4,10 +4,12 @@
 // for writing EFFECTIVATS series
 //
 (* ****** ****** *)
-
-dynload "libatsdoc/dynloadall.dats"
-dynload "libatsynmark/dynloadall.dats"
-
+//
+dynload
+"libatsdoc/dynloadall.dats"
+dynload
+"utils/libatsynmark/dynloadall.dats"
+//
 (* ****** ****** *)
 //
 staload
@@ -43,7 +45,7 @@ patscode_style
 local
 //
 staload
-"libatsynmark/SATS/libatsynmark.sats"
+"utils/libatsynmark/SATS/libatsynmark.sats"
 //
 in (* in of [local] *)
 
