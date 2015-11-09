@@ -102,7 +102,8 @@ ATS/utils/emacs
 (* ****** ****** *)
 //
 #packfilename("ats2-mode.el")
-#packfilename("ats2-flymake.el")
+#packfilename("flymake-ats2.el")
+#packfilename("flycheck-ats2.el")
 //
 (* ****** ****** *)
 

@@ -150,6 +150,7 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("monad_list.dats")
 #packfilename("monad_maybe.dats")
 #packfilename("monad_state.dats")
 
