@@ -110,6 +110,7 @@ RMF=rm -f
 #make2_entry("fib_memo", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make2_entry("fourslot", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("hanoi", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("monad_list", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("monad_maybe", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("monad_state", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("morse_enum", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")

@@ -139,10 +139,11 @@ The function #dyncode("fact") is written in such a style as somewhat a direct
 translation of the following C code:
 
 #atscode('\
-int fact (int n) {
+int
+fact (int n) {
   int res = 1 ;
   while (n > 0) { res = n * res; n = n - 1; } ;
-  return res ;
+  return (res) ;
 }
 ')
 

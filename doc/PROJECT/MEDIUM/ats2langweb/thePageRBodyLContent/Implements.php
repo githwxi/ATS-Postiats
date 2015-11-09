@@ -67,7 +67,7 @@ It is nearly entirely written in ATS itself, consisting of 100K+ lines
 of source code. When compared to ATS/Geizella, another previous
 implementation of ATS, ATS/Anairiats is significantly more efficient, and
 it issues in general more informative messages for identifying program
-errors. ATS/Postiats is now often referred to as ATS1, and it is
+errors. ATS/Anairiats is now often referred to as ATS1, and it is
 currently being actively used for the purpose of developing ATS/Postiats,
 that is, ATS2.
 </p>

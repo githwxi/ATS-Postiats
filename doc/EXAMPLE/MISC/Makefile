@@ -124,6 +124,14 @@ clean:: ; $(RMF) hanoi_dats.o
 clean:: ; $(RMF) hanoi_dats.c
 cleanall:: ; $(RMF) hanoi hanoi.exe
 
+all:: monad_list
+monad_list: monad_list.exe
+monad_list.exe: monad_list_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+monad_list_dats.c: monad_list.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output monad_list_dats.c --dynamic monad_list.dats
+clean:: ; $(RMF) monad_list_dats.o
+clean:: ; $(RMF) monad_list_dats.c
+cleanall:: ; $(RMF) monad_list monad_list.exe
+
 all:: monad_maybe
 monad_maybe: monad_maybe.exe
 monad_maybe.exe: monad_maybe_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

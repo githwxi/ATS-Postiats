@@ -72,10 +72,13 @@ end // end of [monad_bind]
 
 implement
 {a1,a2}{b}
-monad_bind2 (xs, ys, f) = let
+monad_bind2
+  (xs, ys, f) = let
 //
 implement
-list_crosswith$fopr<a1,a2><list0(b)> (x, y) = f (x, y)
+list_crosswith$fopr<a1,a2><list0(b)>
+  (x, y) = f (x, y)
+//
 val xss =
   list_crosswith<a1,a2><list0(b)> (g1ofg0(xs), g1ofg0(ys))
 val res = list_concat<b> ($UN.castvwtp1{List(List(b))}(xss))
@@ -86,10 +89,11 @@ in
 end // end of [monad_bind2]
 
 (* ****** ****** *)
-
+//
 implement{a}
-monad_return (x) = list0_cons{a}(x, list0_nil)
-
+monad_return
+  (x) = list0_cons{a}(x, list0_nil)
+//
 (* ****** ****** *)
 
 implement{a} monad_list_list (xs) = (xs)

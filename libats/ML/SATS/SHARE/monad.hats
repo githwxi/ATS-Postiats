@@ -48,43 +48,48 @@ fun
 {b:t0p}
 monad_bind
 (
-  monad (a), cfun (a, monad (b))
-) : monad (b) // end-of-function
+  monad(a), cfun(a, monad(b))
+) : monad(b) // end-of-function
 
 fun
-{a1,a2:t0p}
-{b:t0p}
+{a1
+,a2:t0p
+}{b:t0p}
 monad_bind2
 (
-  monad (a1), monad(a2), cfun (a1, a2, monad (b))
-) : monad (b) // end-of-function
+  monad(a1), monad(a2), cfun(a1, a2, monad(b))
+) : monad(b) // end-of-function
 
 fun
-{a1,a2,a3:t0p}
-{b:t0p}
+{a1
+,a2
+,a3:t0p
+}{b:t0p}
 monad_bind3
 (
-  monad (a1), monad(a2), monad (a3), cfun (a1, a2, a3, monad (b))
-) : monad (b) // end-of-function
+  monad(a1), monad(a2), monad(a3), cfun(a1, a2, a3, monad(b))
+) : monad(b) // end-of-function
 
 (* ****** ****** *)
 
-fun{a:t0p} monad_return (x: a): monad (a)
+fun{a:t0p}
+monad_return (x: a): monad(a)
 
 (* ****** ****** *)
 
-fun{
-} monad_unit (): monad (unit)
+fun{} monad_unit (): monad(unit)
 
 (* ****** ****** *)
 //
-fun{a:t0p}
-monad_nil (): monad (list0 (a))
-fun{a:t0p}
+fun
+{a:t0p}
+monad_nil (): monad(list0(a))
+fun
+{a:t0p}
 monad_cons
 (
-  monad (INV(a)), monad (list0 (a))
-) : monad (list0 (a)) // end-of-fun
+  monad(INV(a)), monad (list0(a))
+) : monad(list0(a)) // end-of-fun
 //
 (* ****** ****** *)
 
@@ -92,38 +97,41 @@ fun
 {a1,a2:t0p}
 monad_seq
 (
-  m1: monad (INV(a1)), m2: monad (INV(a2))
-): monad (a2) // end of [monad_seq]
+  m1: monad(INV(a1)), m2: monad(INV(a2))
+): monad(a2) // end of [monad_seq]
 
 (* ****** ****** *)
 
 fun{a:t0p}
-monad_join (monad (monad (INV(a)))): monad (a)
+monad_join (monad(monad(INV(a)))): monad(a)
 
 (* ****** ****** *)
 
 fun
 {a:t0p}
 {b:t0p}
-monad_fmap (cfun (a, b), monad (a)): monad (b)
+monad_fmap (cfun(a, b), monad(a)): monad(b)
 
 (* ****** ****** *)
 
 fun
 {a:t0p}
 {b:t0p}
-monad_liftm (cfun (a, b), monad (a)): monad (b)
+monad_liftm (cfun(a, b), monad(a)): monad(b)
 fun
-{a1,a2:t0p}
-{b:t0p}
+{a1
+,a2:t0p
+}{b:t0p}
 monad_liftm2
-  (cfun (a1, a2, b), monad (a1), monad (a2)): monad (b)
+  (cfun(a1, a2, b), monad(a1), monad(a2)): monad(b)
 // end of [monad_liftm2]
 fun
-{a1,a2,a3:t0p}
-{b:t0p}
+{a1
+,a2
+,a3:t0p
+}{b:t0p}
 monad_liftm3
-  (cfun (a1, a2, a3, b), monad (a1), monad (a2), monad (a3)): monad (b)
+  (cfun(a1, a2, a3, b), monad(a1), monad(a2), monad(a3)): monad(b)
 // end of [monad_liftm3]
 
 (* ****** ****** *)
@@ -132,21 +140,21 @@ fun
 {a:t0p}
 {b:t0p}
 monad_mapm
-  (cfun (a, b), list0 (monad (a))): monad (list0 (b))
+  (cfun(a, b), list0(monad(a))): monad(list0(b))
 //
 fun
 {a:t0p}
 {b:t0p}
-monad_mapm_(cfun (a, monad (b)), list0 (a)): monad (unit)
+monad_mapm_(cfun(a, monad(b)), list0(a)): monad(unit)
 //
 (* ****** ****** *)
 //
 fun{a:t0p}
 monad_seqlist
-  (list0 (monad (INV(a)))): monad (list0 (a))
+  (list0(monad(INV(a)))): monad(list0(a))
 //
 fun{a:t0p}
-monad_seqlist_(list0 (monad (INV(a)))): monad (unit)
+monad_seqlist_(list0(monad(INV(a)))): monad(unit)
 //
 (* ****** ****** *)
 
