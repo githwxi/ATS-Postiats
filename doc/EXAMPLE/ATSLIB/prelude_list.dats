@@ -19,7 +19,7 @@ val+cons (x, xs) = xs
 val () = assertloc (x = x0)
 val+cons (x, xs) = xs
 val () = assertloc (x = x1)
-val+nil () = xs
+val+nil() = xs
 } (* end of [val] *)
 
 (* ****** ****** *)
@@ -137,7 +137,16 @@ list_find$pred<int> (x) = x mod 2 = 1
 val () = assertloc (1 = list_find_exn<int> (xs))
 val () = assertloc (3 = list_find_exn<int> (rxs))
 //
-} (* end of [main] *)
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () = {
+//
+val xs = $list{int}(0, 1, 2, 3, 4)
+val () = assertloc(xs = list_insert_at(list_remove_at(xs, 2), 2, 2))
+//
+} (* end of [val] *)
 
 (* ****** ****** *)
 
