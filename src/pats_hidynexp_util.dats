@@ -394,12 +394,14 @@ end // end of [local]
 
 local
 
-fun hidexplst_is_value
+fun
+hidexplst_is_value
   (xs: hidexplst): bool =
   list_forall_fun (xs, hidexp_is_value)
 // end of [hidexplst_is_value]
 
-fun labhidexplst_is_value
+fun
+labhidexplst_is_value
   (lxs: labhidexplst): bool = let
 //
 fun ftest (lx: labhidexp) = let
@@ -410,6 +412,44 @@ in
   list_forall_fun (lxs, ftest)
 end // end of [labhidexplst_is_value]
 
+fun
+hidecl_is_value
+  (hid0: hidecl): bool = let
+in
+//
+case+
+hid0.hidecl_node
+of // case+
+| HIDnone() => true
+//
+| HIDlist(hids) =>
+    hideclist_is_value(hids)
+//
+| HIDfundecs _ => true
+| HIDvaldecs
+    (_, hvds) => hivaldecs_is_value(hvds)
+  // end of [HIDvaldecs]
+//
+| _(*rest-of-hidecl*) => false
+//
+end // end of [hidecl_is_value]
+
+and
+hideclist_is_value
+  (hids: hideclist): bool =
+  list_forall_fun(hids, hidecl_is_value)
+// end of [hideclist_is_value]
+
+and
+hivaldec_is_value
+  (hvd: hivaldec): bool =
+  hidexp_is_value(hvd.hivaldec_def)
+//
+and
+hivaldecs_is_value
+  (hvds: hivaldeclst): bool =
+  list_forall_fun(hvds, hivaldec_is_value)
+
 in (* in of [local] *)
 
 implement
@@ -418,7 +458,8 @@ hidexp_is_value
 in
 //
 case+
-  hde0.hidexp_node of
+hde0.hidexp_node
+of // case+
 //
   | HDEvar _ => true
   | HDEcst _ => true
@@ -438,7 +479,10 @@ case+
   | HDEtmpcst _ => true
   | HDEtmpvar _ => true
 //
-  | _ => false
+  | HDElet(hids, hde) =>
+    if hideclist_is_value(hids) then hidexp_is_value(hde) else false
+//
+  | _ (*rest-of-hidexp*) => false
 //
 end // end of [hidexp_is_value]
 
