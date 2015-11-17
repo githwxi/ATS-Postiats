@@ -218,19 +218,26 @@ fun loop
   {n1:nat} .<n1>. (
   p1: ptr, p2: ptr
 ) :<> int = let
-  val c1 = $UN.ptr0_get<char>(p1)
-  val c2 = $UN.ptr0_get<char>(p2)
+//
+val c1 = $UN.ptr0_get<char>(p1)
+val c2 = $UN.ptr0_get<char>(p2)
+//
 in
 //
-if c1 != CNUL then let
+if
+c1 != CNUL
+then let
   prval () =
-    __assert () where {
+  __assert () where
+  {
       extern praxi __assert (): [n1 > 0] void
-  } // end of [prval]
+  } (* end of [prval] *)
 in
-  if c2 != CNUL then
-    loop {n1-1} (ptr_succ<char>(p1), ptr_succ<char>(p2))
-  else 1(*gt*) // end of [if]
+  if c2 != CNUL
+    then (
+      loop {n1-1} (ptr_succ<char>(p1), ptr_succ<char>(p2))
+    ) else 1(*gt*) // end of [else]
+  // end of [if]
 end else (
   if c2 != CNUL then ~1(*lt*) else 0(*eq*)
 ) (* end of [if] *)
@@ -245,8 +252,8 @@ end // end of [strlencmp]
 
 implement
 {}(*tmp*)
-string_make_list (cs) =
-  string_make_listlen (cs, list_length (cs))
+string_make_list(cs) =
+  string_make_listlen(cs, list_length(cs))
 // end of [string_make_list]
 
 implement
@@ -285,38 +292,47 @@ end // end of [string_make_listlen]
 
 implement
 {}(*tmp*)
-string_make_rlist (cs) =
-  string_make_rlistlen (cs, list_length (cs))
+string_make_rlist(cs) =
+  string_make_rlistlen(cs, list_length(cs))
 // end of [string_make_rlist]
 
 implement
 {}(*tmp*)
 string_make_rlistlen
-  {n} (cs, n) = let
+  {n}(cs, n) = let
 //
-prval () = lemma_list_param (cs)
+prval() = lemma_list_param (cs)
 //
 fun loop
   {n:nat} .<n>.
 (
-  cs: list (char, n), n: int n, p: ptr
+  cs: list(char, n), n: int n, p: ptr
 ) :<!wrt> ptr = let
 in
-  if n > 0 then let
-    val p1 = ptr_pred<char>(p)
-    val+list_cons (c, cs) = cs
-    val () = $UN.ptr0_set<char>(p1, c)
-  in
-    loop (cs, n-1, p1)
-  end else p // end of [if]
+//
+if
+n > 0
+then let
+  val p1 = ptr_pred<char>(p)
+  val+list_cons (c, cs) = cs
+  val () = $UN.ptr0_set<char>(p1, c)
+in
+  loop (cs, n-1, p1)
+end // end of [then]
+else (p) // end of [else]
+//
 end // end of [loop]
 //
 val n1 = n + 1
+//
 val (pf, pfgc | p0) =
   $effmask_wrt (malloc_gc(i2sz(n1)))
+//
 val p1 = ptr_add<char>(p0, n)
+//
 val () =
   $effmask_wrt ($UN.ptr0_set<char>(p1, CNUL))
+//
 val p0 = $effmask_wrt (loop (cs, n, p1))
 //
 in
