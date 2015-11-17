@@ -107,8 +107,13 @@ ATS/ccomp/runtime
 #packfilename("pats_ccomp_instrset.h")
 //
 #packfilename("pats_ccomp_memalloc.h")
+//
 #packfilename("pats_ccomp_memalloc_libc.h")
+//
 #packfilename("pats_ccomp_memalloc_gcbdw.h")
+//
+#packfilename("pats_ccomp_memalloc_user.h")
+#packfilename("pats_ccomp_memalloc_user2.h")
 //
 #packfilename("pats_ccomp_memalloca.h")
 //
