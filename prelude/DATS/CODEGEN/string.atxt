@@ -65,7 +65,8 @@ end // end of [string_sing]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 string_is_empty
   {n} (str) = let
   val p = string2ptr(str)
@@ -82,7 +83,8 @@ end // end of [string_isnot_empty]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 string_is_atend_size{n}{i}
   (str, i) = let
   val p_i = add_ptr_bsz (string2ptr(str), i)
@@ -90,34 +92,40 @@ in
   $UN.cast{bool(n==i)}($UN.ptr1_get<char>(p_i) = CNUL)
 end // end of [string_is_atend_size]
 
-implement{tk}
+implement
+{tk}(*tmp*)
 string_is_atend_gint (str, i) =
   string_is_atend_size (str, g1int2uint(i))
 // end of [string_is_atend_gint]
-implement{tk}
+implement
+{tk}(*tmp*)
 string_is_atend_guint (str, i) =
   string_is_atend_size (str, g1uint2uint(i))
 // end of [string_is_atend_guint]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 string_get_at_size (str, i) =
   $UN.ptr1_get<charNZ>(string2ptr(str) + i)
 // end of [string_get_at_size]
 
-implement{tk}
+implement
+{tk}(*tmp*)
 string_get_at_gint (str, i) =
   string_get_at_size (str, g1int2uint (i))
 // end of [string_get_at_gint]
-implement{tk}
+implement
+{tk}(*tmp*)
 string_get_at_guint (str, i) =
   string_get_at_size (str, g1uint2uint (i))
 // end of [string_get_at_guint]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 string_test_at_size
   {n}{i} (str, i) = let
 //
@@ -130,33 +138,65 @@ in
   __cast ($UN.ptr1_get<char>(string2ptr(str) + i))
 end // end of [string_test_at_size]
 
-implement{tk}
+implement
+{tk}(*tmp*)
 string_test_at_gint (str, i) =
-  string_test_at_size (str, g1int2uint (i))
+  string_test_at_size (str, g1int2uint(i))
 // end of [string_test_at_gint]
-implement{tk}
+implement
+{tk}(*tmp*)
 string_test_at_guint (str, i) =
-  string_test_at_size (str, g1uint2uint (i))
+  string_test_at_size (str, g1uint2uint(i))
 // end of [string_test_at_guint]
 
 #atscode_separator()
 
-implement{
-} strintcmp
-  {n1,n2} (x1, n2) = let
+implement
+{}(*tmp*)
+strcmp(x1, x2) = let
 //
-prval () = lemma_string_param (x1)
+extern
+fun
+__strcmp
+(
+  x1: string, x2: string
+) :<> int = "mac\#atspre_strcmp"
+//
+in
+  __strcmp(x1, x2)
+end // end of [let] // end of [strcmp]
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+strintcmp
+  {n1,n2}(x1, n2) = let
+//
+prval() =
+  lemma_string_param (x1)
 //
 fun loop
   {n2:nat} .<n2>.
-  (p1: ptr, n2: int n2):<> int = let
+(
+  p1: ptr, n2: int n2
+) :<> int = let
+//
   val c = $UN.ptr0_get<char>(p1)
+//
 in
-  if c != CNUL then (
-    if n2 > 0 then loop (ptr_succ<char>(p1), n2-1) else 1(*gt*)
-  ) else (
-    if n2 > 0 then ~1(*lt*) else 0(*eq*)
-  ) // end of [if]
+//
+if
+c != CNUL
+then (
+  if n2 > 0
+    then loop (ptr_succ<char>(p1), n2-1)
+    else 1(*gt*)
+  // end of [if]
+) else (
+  if n2 > 0 then ~1(*lt*) else 0(*eq*)
+) (* end of [else] *)
+//
 end // end of [loop]
 //
 in
@@ -165,9 +205,10 @@ end // end of [strintcmp]
 
 #atscode_separator()
 
-implement{
-} strlencmp
-  {n1,n2} (x1, x2) = let
+implement
+{}(*tmp*)
+strlencmp
+  {n1,n2}(x1, x2) = let
 //
 prval () = lemma_string_param (x1)
 prval () = lemma_string_param (x2)
@@ -202,13 +243,15 @@ end // end of [strlencmp]
 
 #atscode_separator()
 
-implement{
-} string_make_list (cs) =
+implement
+{}(*tmp*)
+string_make_list (cs) =
   string_make_listlen (cs, list_length (cs))
 // end of [string_make_list]
 
-implement{
-} string_make_listlen
+implement
+{}(*tmp*)
+string_make_listlen
   {n} (cs, n) = let
 //
 prval () = lemma_list_param (cs)
@@ -240,13 +283,15 @@ end // end of [string_make_listlen]
 
 #atscode_separator()
 
-implement{
-} string_make_rlist (cs) =
+implement
+{}(*tmp*)
+string_make_rlist (cs) =
   string_make_rlistlen (cs, list_length (cs))
 // end of [string_make_rlist]
 
-implement{
-} string_make_rlistlen
+implement
+{}(*tmp*)
+string_make_rlistlen
   {n} (cs, n) = let
 //
 prval () = lemma_list_param (cs)
@@ -280,8 +325,9 @@ end // end of [string_make_rlistlen]
 
 #atscode_separator()
 
-implement{
-} string_make_substring
+implement
+{}(*tmp*)
+string_make_substring
   {n}{st,ln}
   (str, st, ln) = $effmask_wrt let
 //
@@ -298,36 +344,48 @@ end // end of [string_make_substring]
 
 #atscode_separator()
 //
-implement{}
+implement
+{}(*tmp*)
 string_head
-  (str) = $UN.ptr0_get<charNZ> (string2ptr(str))
-implement{}
+  (str) = $UN.ptr0_get<charNZ>(string2ptr(str))
+implement
+{}(*tmp*)
 string_tail{n}
-  (str) = $UN.cast{string(n-1)}(ptr_succ<char> (string2ptr(str)))
+  (str) =
+(
+  $UN.cast{string(n-1)}(ptr_succ<char>(string2ptr(str)))
+)
 //
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 string0_length
-  (str) = string1_length<> (g1ofg0(str))
+  (str) = string1_length<>(g1ofg0(str))
 // end of [string0_length]
 
-implement{}
+implement
+{}(*tmp*)
 string1_length
   {n} (str) =
-  __strlen (str) where {
-  extern fun __strlen (str: string n):<> size_t (n) = "mac\#atspre_strlen"
+  __strlen (str) where
+{
+  extern
+  fun
+  __strlen (string(n)):<> size_t(n) = "mac\#atspre_strlen"
 } // end of [where] // end of [string1_length]
 
 #atscode_separator()
 //
-implement{}
+implement
+{}(*tmp*)
 string0_nlength
   (str1, n2) =
   string1_nlength<> (g1ofg0(str1), g1ofg0(n2))
 // end of [string0_nlength]
 //
-implement{}
+implement
+{}(*tmp*)
 string1_nlength
   (str1, n2) = let
 //
@@ -335,22 +393,25 @@ fun
 loop{n1,n2,r:nat} .<n1>.
 (
   str1: string(n1), n2: size_t(n2), r: size_t(r)
-) :<> size_t(min(n1,n2)+r) =
-(
+) :<> size_t(min(n1,n2)+r) = (
+//
 if
 (n2 > 0)
-then let
-in
+then (
 //
 if
 isneqz(str1)
-  then loop (str1.tail(), pred(n2), succ(r)) else (r)
+then loop(str1.tail(), pred(n2), succ(r)) else (r)
 //
-end // end of [then]
+) (* end of [then] *)
 else (r) // end of [else]
-)
 //
-prval () = lemma_string_param(str1) and () = lemma_g1uint_param(n2)
+) (* end of [loop] *)
+//
+prval () =
+  lemma_string_param(str1)
+//
+prval () = lemma_g1uint_param(n2)
 //
 in
   loop (str1, n2, i2sz(0))
@@ -358,7 +419,8 @@ end // end of [string1_nlength]
 //
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 string0_copy
   (str) = let
 //
@@ -370,7 +432,8 @@ in
   strnptr2strptr (str2)
 end // end of [string0_copy]
 
-implement{}
+implement
+{}(*tmp*)
 string1_copy
   {n} (str) = let
 //
@@ -385,8 +448,9 @@ end // end of [string1_copy]
 
 #atscode_separator()
 
-implement{
-} strchr {n} (str, c0) = let
+implement
+{}(*tmp*)
+strchr{n}(str, c0) = let
 //
 prval () = lemma_string_param (str)
 extern fun __strchr (string, int):<> ptr = "mac\#atspre_strchr"
@@ -398,8 +462,9 @@ in
   if p1 > the_null_ptr then __sub (p1, p0) else i2ssz(~1)
 end // end of [strchr]
 
-implement{
-} strrchr {n} (str, c0) = let
+implement
+{}(*tmp*)
+strrchr{n}(str, c0) = let
 //
 prval () = lemma_string_param (str)
 extern fun __strrchr (string, int):<> ptr = "mac\#atspre_strrchr"
@@ -413,8 +478,9 @@ end // end of [strrchr]
 
 #atscode_separator()
 
-implement{
-} strstr {n}
+implement
+{}(*tmp*)
+strstr{n}
   (haystack, needle) = let
 //
 prval () = lemma_string_param (haystack)
@@ -429,23 +495,31 @@ end // end of [strstr]
 
 #atscode_separator()
 
-implement{
-} strspn {n}
+implement
+{}(*tmp*)
+strspn{n}
   (str, accept) = let
 //
-prval () = lemma_string_param (str)
-extern fun __strspn (string, string):<> sizeLte (n) = "mac\#atspre_strspn"
+prval() = lemma_string_param (str)
+//
+extern
+fun
+__strspn (string, string):<> sizeLte (n) = "mac\#atspre_strspn"
 //
 in
   __strspn (str, accept)
 end // end of [strspn]
 
-implement{
-} strcspn {n}
+implement
+{}(*tmp*)
+strcspn{n}
   (str, reject) = let
 //
-prval () = lemma_string_param (str)
-extern fun __strcspn (string, string):<> sizeLte (n) = "mac\#atspre_strcspn"
+prval() = lemma_string_param (str)
+//
+extern
+fun
+__strcspn (string, string):<> sizeLte (n) = "mac\#atspre_strcspn"
 //
 in
   __strcspn (str, reject)
@@ -453,19 +527,22 @@ end // end of [strcspn]
 
 #atscode_separator()
 
-implement{}
-string_index {n}
-  (str, c) = $UN.cast{ssizeBtw(~1,n)}(strchr (str, c))
+implement
+{}(*tmp*)
+string_index
+  {n}(str, c) = $UN.cast{ssizeBtw(~1,n)}(strchr (str, c))
 // end of [string_index]
 
-implement{}
-string_rindex {n}
-  (str, c) = $UN.cast{ssizeBtw(~1,n)}(strrchr (str, c))
+implement
+{}(*tmp*)
+string_rindex
+  {n}(str, c) = $UN.cast{ssizeBtw(~1,n)}(strrchr (str, c))
 // end of [string_rindex]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 string0_append
   (x1, x2) = let
 //
@@ -478,7 +555,8 @@ in
   strnptr2strptr (x12)
 end // end of [string0_append]
 
-implement{}
+implement
+{}(*tmp*)
 string1_append
   {n1,n2} (x1, x2) = let
 //
@@ -496,7 +574,8 @@ end // end of [string1_append]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 string0_append3
   (x1, x2, x3) = let
 //
@@ -509,7 +588,8 @@ stringarr_concat<>
 //
 end // end of [string0_append3]
 
-implement{}
+implement
+{}(*tmp*)
 string0_append4
   (x1, x2, x3, x4) = let
 //
@@ -522,7 +602,8 @@ stringarr_concat<>
 //
 end // end of [string0_append4]
 
-implement{}
+implement
+{}(*tmp*)
 string0_append5
   (x1, x2, x3, x4, x5) = let
 //
@@ -535,7 +616,8 @@ stringarr_concat<>
 //
 end // end of [string0_append5]
 
-implement{}
+implement
+{}(*tmp*)
 string0_append6
   (x1, x2, x3, x4, x5, x6) = let
 //
@@ -550,7 +632,8 @@ end // end of [string0_append6]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 stringarr_concat (xs, asz) = let
 //
 fun loop
@@ -601,7 +684,8 @@ end // end of [stringarr_concat]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 stringlst_concat (xs) = let
 //
 val n = list_length (xs)
@@ -617,7 +701,8 @@ end // end of [stringlst_concat]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 string_explode
   {n} (x) = let
 //
@@ -664,7 +749,8 @@ end // end of [string_explode]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 string_tabulate {n} (n) = let
 //
 prval () = lemma_g1uint_param (n)
@@ -743,17 +829,20 @@ end // end of [string_iforall]
 
 #atscode_separator()
 
-implement{env}
+implement
+{env}
 string_foreach$cont (c, env) = true
 implement{env}
 string_foreach$fwork (c, env) = ((*void*))
 
-implement{}
+implement
+{}(*tmp*)
 string_foreach (str) = let
   var env: void = () in string_foreach_env (str, env)
 end // end of [string_foreach]
 
-implement{env}
+implement
+{env}
 string_foreach_env
   {n} (str, env) = let
 //
@@ -782,12 +871,15 @@ end // end of [string_foreach_env]
 
 #atscode_separator()
 
-implement{env}
+implement
+{env}
 string_rforeach$cont (c, env) = true
-implement{env}
+implement
+{env}
 string_rforeach$fwork (c, env) = ((*void*))
 
-implement{}
+implement
+{}(*tmp*)
 string_rforeach (str) = let
   var env: void = () in string_rforeach_env (str, env)
 end // end of [string_rforeach]
@@ -844,21 +936,24 @@ stropt_none () = $UN.cast{stropt(~1)} (the_null_ptr)
 
 #atscode_separator()
 
-implement{
-} stropt_is_none {n} (x) = (
+implement
+{}(*tmp*)
+stropt_is_none{n}(x) = (
   $UN.cast{bool(n < 0)} (ptr0_is_null ($UN.cast2ptr (x)))
 ) // end of [stropt_is_none]
 
-implement{
-} stropt_is_some {n} (x) =
+implement
+{}(*tmp*)
+stropt_is_some{n}(x) =
 (
   $UN.cast{bool(n>=0)} (ptr0_isnot_null ($UN.cast2ptr (x)))
 ) // end of [stropt_is_some]
 
 #atscode_separator()
 
-implement{
-} stropt_length (x) = let
+implement
+{}(*tmp*)
+stropt_length (x) = let
   prval () = lemma_stropt_param (x)
 in
   if stropt_is_some (x) then
