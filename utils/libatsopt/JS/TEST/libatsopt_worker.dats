@@ -236,15 +236,16 @@ local
 //
 implement
 {a}{b}
-rpc_server_cont(chp, f) = chanpos_close(chp)
+rpc_server_cont
+  (chp, f) = chanpos0_close(chp)
 //
 in
 //
 val
-chp = $UN.cast{chanpos}(0)
+chp = $UN.cast{chanpos()}(0)
 //
 val () =
-chanpos_send
+chanpos0_send
 ( chp, 0
 , lam(chp) =>
   rpc_server<comarglst><patsoptres>

@@ -179,7 +179,7 @@ theExample_patsopt_arglst
 //
 val
 chn =
-channeg_new_file
+channeg0_new_file
 (
   "./libatsopt_ext_worker.js"
 ) (* end of [val] *)
@@ -189,20 +189,20 @@ val () = alert("Worker is ready!")
 *)
 //
 val () =
-channeg_send{int}
+channeg0_send{int}
 (
 chn
 ,
 lam(chn, res) =>
 // theWorker is ready
-channeg_recv{comarglst1}
+channeg0_recv{comarglst1}
 (
 chn
 ,
 args
 ,
 lam(chn) =>
-channeg_send{patsoptres}
+channeg0_send{patsoptres}
 (
 chn
 ,
@@ -212,7 +212,7 @@ val
 res =
 chmsg_parse<patsoptres>(res)
 //
-val () = channeg_close(chn)
+val () = channeg0_close(chn)
 //
 val+
 PATSOPTRES
