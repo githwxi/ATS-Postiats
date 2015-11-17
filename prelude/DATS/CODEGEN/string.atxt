@@ -702,18 +702,26 @@ end // end of [stringarr_concat]
 
 implement
 {}(*tmp*)
-stringlst_concat (xs) = let
+stringlst_concat
+  (xs) = res where
+{
 //
-val n = list_length (xs)
-prval () = lemma_list_param (xs)
-prval [n:int] EQINT() = eqint_make_gint (n)
+val n = list_length(xs)
+//
+prval() = lemma_list_param(xs)
+//
+prval
+[n:int] EQINT() = eqint_make_gint(n)
+//
 val xs2 = arrayptr_make_list (n, xs)
-val res = stringarr_concat ($UN.castvwtp1{arrayref(string,n)}(xs2), i2sz(n))
-val () = arrayptr_free (xs2)
 //
-in
-  res
-end // end of [stringlst_concat]
+val res =
+stringarr_concat
+  ($UN.castvwtp1{arrayref(string,n)}(xs2), i2sz(n))
+//
+val ((*freed*)) = arrayptr_free{string}(xs2)
+//
+} (* end of [stringlst_concat] *)
 
 #atscode_separator()
 
@@ -736,9 +744,11 @@ fun loop
 in
 //
 if c != CNUL then let
-  prval () = __assert () where {
+  prval () =
+  __assert () where
+  {
     extern praxi __assert (): [n > 0] void
-  }
+  } (* prval *)
   val () = res :=
     list_vt_cons{charNZ}{0}(c, _)
   val+list_vt_cons (_, res1) = res
@@ -747,9 +757,11 @@ if c != CNUL then let
 in
   fold@ (res)
 end else let
-  prval () = __assert () where {
+  prval () =
+  __assert () where
+  {
     extern praxi __assert (): [n == 0] void
-  } // end of [prval]
+  } (* [prval] *)
 in
   res := list_vt_nil ()
 end // end of [if]
@@ -810,8 +822,12 @@ loop
   val c0 = $UN.ptr0_get<char>(p)
 in
 //
-if c0 = CNUL then true else
-  (if string_forall$pred(c0) then loop(ptr0_succ<char>(p)) else false)
+if
+c0 = CNUL
+then true else
+(
+  if string_forall$pred(c0) then loop(ptr0_succ<char>(p)) else false
+) (* end of [if] *)
 //
 end // end of [loop]
 //
@@ -834,8 +850,12 @@ loop
   val c0 = $UN.ptr0_get<char>(p)
 in
 //
-if c0 = CNUL then true else
-  (if string_iforall$pred(i, c0) then loop(i+1, ptr0_succ<char>(p)) else false)
+if
+c0 = CNUL
+then true else
+(
+  if string_iforall$pred(i, c0) then loop(i+1, ptr0_succ<char>(p)) else false
+) (* end of [if] *)
 //
 end // end of [loop]
 //
@@ -847,14 +867,14 @@ end // end of [string_iforall]
 
 implement
 {env}
-string_foreach$cont (c, env) = true
+string_foreach$cont(c, env) = true
 implement{env}
-string_foreach$fwork (c, env) = ((*void*))
+string_foreach$fwork(c, env) = ((*void*))
 
 implement
 {}(*tmp*)
-string_foreach (str) = let
-  var env: void = () in string_foreach_env (str, env)
+string_foreach(str) = let
+  var env: void = () in string_foreach_env(str, env)
 end // end of [string_foreach]
 
 implement
@@ -867,12 +887,14 @@ fun loop (
 ) : ptr = let
   val c = $UN.ptr0_get<char> (p)
   val cont = (
-    if c != CNUL then string_foreach$cont<env> (c, env) else false
+    if c != CNUL
+      then string_foreach$cont<env> (c, env) else false
+    // end of [if]
   ) : bool // end of [val]
 in
   if cont then let
     val () =
-      string_foreach$fwork<env> (c, env) in loop (ptr_succ<char> (p), env)
+      string_foreach$fwork<env> (c, env) in loop(ptr_succ<char> (p), env)
     // end of [val]
   end else (p) // end of [if]
 end // end of [fun]
@@ -896,8 +918,8 @@ string_rforeach$fwork (c, env) = ((*void*))
 
 implement
 {}(*tmp*)
-string_rforeach (str) = let
-  var env: void = () in string_rforeach_env (str, env)
+string_rforeach(str) = let
+  var env: void = () in string_rforeach_env(str, env)
 end // end of [string_rforeach]
 
 implement
@@ -956,14 +978,14 @@ implement
 {}(*tmp*)
 stropt_is_none{n}(x) =
 (
-  $UN.cast{bool(n < 0)}(ptr0_is_null ($UN.cast2ptr (x)))
+  $UN.cast{bool(n < 0)}(ptr0_is_null($UN.cast2ptr(x)))
 ) // end of [stropt_is_none]
 
 implement
 {}(*tmp*)
 stropt_is_some{n}(x) =
 (
-  $UN.cast{bool(n>=0)}(ptr0_isnot_null ($UN.cast2ptr (x)))
+  $UN.cast{bool(n>=0)}(ptr0_isnot_null($UN.cast2ptr(x)))
 ) // end of [stropt_is_some]
 
 #atscode_separator()
@@ -971,11 +993,15 @@ stropt_is_some{n}(x) =
 implement
 {}(*tmp*)
 stropt_length (x) = let
-  prval () = lemma_stropt_param (x)
+//
+prval() = lemma_stropt_param(x)
+//
 in
-  if stropt_is_some (x) then
-    g1uint2int (string1_length (stropt_unsome(x)))
-  else i2ssz(~1) // end of [if]
+//
+if
+stropt_is_some(x)
+then g1uint2int(string1_length(stropt_unsome(x))) else i2ssz(~1)
+//
 end // end of [stropt_length]
 
 #atscode_separator()
