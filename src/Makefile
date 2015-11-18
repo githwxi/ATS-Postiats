@@ -1354,10 +1354,11 @@ RMF=rm -f
 WCL=wc -l
 
 ######
-
-srclines:: ; $(WCL) pats_main.dats $(SOURCES)
-liblines:: ; $(WCL) ../prelude/*.sats ../prelude/?ATS/*.?ats ../libc/?ATS/*.?ats ../libats/?ATS/*.?ats
-
+#
+srclines:: ; $(WCL)   pats_main.dats $(SOURCES)
+#
+liblines:: ; $(WCL)   ../prelude/*.sats   ../prelude/?ATS/*.?ats   ../libc/?ATS/*.?ats   ../libats/?ATS/*.?ats ../libats/?ATS/SHARE/*.?ats
+#
 ######
 
 clean:: ; $(RMF) $(DIR)/*~
