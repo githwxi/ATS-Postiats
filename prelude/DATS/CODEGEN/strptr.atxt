@@ -47,56 +47,66 @@ overload + with add_ptr_bsz
 
 #atscode_separator()
 
-implement{}
-strptr_is_null (str) = (strptr2ptr (str) = nullp)
-implement{}
-strptr_isnot_null (str) = (strptr2ptr (str) > nullp)
+implement
+{}(*tmp*)
+strptr_is_null(str) = (strptr2ptr (str) = nullp)
+implement
+{}(*tmp*)
+strptr_isnot_null(str) = (strptr2ptr (str) > nullp)
 
 #atscode_separator()
 
-implement{}
-strptr_is_empty (str) = let
-  val p = strptr2ptr (str) in $UN.ptr1_get<char>(p) = CNUL
+implement
+{}(*tmp*)
+strptr_is_empty(str) = let
+  val p = strptr2ptr(str) in $UN.ptr1_get<char>(p) = CNUL
 end // end of [strptr_is_empty]
-implement{}
-strptr_isnot_empty (str) = let
-  val p = strptr2ptr (str) in $UN.ptr1_get<char>(p) != CNUL
+implement
+{}(*tmp*)
+strptr_isnot_empty(str) = let
+  val p = strptr2ptr(str) in $UN.ptr1_get<char>(p) != CNUL
 end // end of [strptr_isnot_empty]
 
 #atscode_separator()
-
-implement{}
-strnptr_get_at_size (str, i) =
-  $UN.ptr0_get<charNZ>(strnptr2ptr(str) + i)
+//
+implement
+{}(*tmp*)
+strnptr_get_at_size(str, i) =
+  $UN.ptr0_get<charNZ>(strnptr2ptr(str)+i)
 // end of [strnptr_get_at_size]
-
-implement{tk}
-strnptr_get_at_gint (str, i) =
-  strnptr_get_at_size (str, g1int2uint (i))
+//
+implement
+{tk}(*tmp*)
+strnptr_get_at_gint(str, i) =
+  strnptr_get_at_size(str, g1int2uint(i))
 // end of [strnptr_get_at_gint]
-implement{tk}
-strnptr_get_at_guint (str, i) =
-  strnptr_get_at_size (str, g1uint2uint (i))
+implement
+{tk}(*tmp*)
+strnptr_get_at_guint(str, i) =
+  strnptr_get_at_size(str, g1uint2uint(i))
 // end of [strnptr_get_at_guint]
-
+//
 #atscode_separator()
-
-implement{}
-strnptr_set_at_size (str, i, c) =
-  $UN.ptr0_set<charNZ>(strnptr2ptr(str) + i, c)
+//
+implement
+{}(*tmp*)
+strnptr_set_at_size(str, i, c) =
+  $UN.ptr0_set<charNZ>(strnptr2ptr(str)+i, c)
 // end of [strnptr_set_at_size]
-
-implement{tk}
-strnptr_set_at_gint (str, i, c) =
-  strnptr_set_at_size (str, g1int2uint (i), c)
+//
+implement
+{tk}(*tmp*)
+strnptr_set_at_gint(str, i, c) =
+  strnptr_set_at_size (str, g1int2uint(i), c)
 // end of [strnptr_set_at_gint]
-implement{tk}
-strnptr_set_at_guint (str, i, c) =
-  strnptr_set_at_size (str, g1uint2uint (i), c)
+implement
+{tk}(*tmp*)
+strnptr_set_at_guint(str, i, c) =
+  strnptr_set_at_size(str, g1uint2uint(i), c)
 // end of [strnptr_set_at_guint]
-
+//
 #atscode_separator()
-
+\
 %{
 fun
 fun_strptr_cmp_decl
@@ -107,12 +117,17 @@ val fopr_d = (
   | "lt" => "<" | "lte" => "<="
   | "gt" => ">" | "gte" => ">="
   | "eq" => "=" | "neq" => "!="
-  | _ => opr
+  | _(*rest*) => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent =
+sprintf ("\
 implement
-%s_strptr_strptr (x1, x2) = (compare_strptr_strptr (x1, x2) %s 0)\
+%s_strptr_strptr
+  (x1, x2) =
+(
+  compare_strptr_strptr(x1, x2) %s 0
+)\
 ", @(
  opr, fopr_d
 )
@@ -122,13 +137,14 @@ in
 end // end of [fun_char_cmp0_decl]
 %}\
 \
+//
 #fun_strptr_cmp_decl("lt")
 #fun_strptr_cmp_decl("lte")
 #fun_strptr_cmp_decl("gt")
 #fun_strptr_cmp_decl("gte")
 #fun_strptr_cmp_decl("eq")
 #fun_strptr_cmp_decl("neq")
-
+//
 #atscode_separator()
 
 (*
@@ -143,14 +159,17 @@ prerr_strptr (x) = fprint_strptr (stderr_ref, x)
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strnptr_is_null (str) = (strnptr2ptr (str) = nullp)
-implement{}
+implement
+{}(*tmp*)
 strnptr_isnot_null (str) = (strnptr2ptr (str) > nullp)
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strptr_length(x) = let
   val isnot = ptr_isnot_null(strptr2ptr(x))
 in
@@ -161,7 +180,8 @@ if isnot
 //
 end // end of [strptr_length]
 
-implement{}
+implement
+{}(*tmp*)
 strnptr_length(x) = let
   prval () = lemma_strnptr_param (x)
   val isnot = ptr_isnot_null(strnptr2ptr(x))
@@ -175,7 +195,8 @@ end // end of [strnptr_length]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strptr0_copy(x) = let
   val isnot = ptr_isnot_null(strptr2ptr(x))
 in
@@ -185,12 +206,14 @@ if isnot
 //
 end // end of [strptr0_copy]
 
-implement{}
+implement
+{}(*tmp*)
 strptr1_copy(x) = string0_copy($UN.strptr2string(x))
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strnptr_copy
   {n}(x) = x2 where
 {
@@ -202,7 +225,8 @@ strnptr_copy
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strptr_append
   (x1, x2) = let
 //
@@ -232,7 +256,8 @@ end // end of [strptr_append]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strptrlst_free (xs) = let
 //
 fun loop
@@ -252,7 +277,8 @@ end // end of [strptrlst_free]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strptrlst_concat (xs) = let
 //
 prval () = lemma_list_vt_param (xs)
@@ -333,7 +359,7 @@ end // end of [strnptr_foreach]
 implement
 {env}(*tmp*)
 strnptr_foreach_env
-  {n} (str, env) = let
+  {n}(str, env) = let
 //
 fun loop
 (
@@ -387,8 +413,13 @@ strnptr_rforeach$cont (c, env) = true
 
 implement
 {}(*tmp*)
-strnptr_rforeach (str) = let
-  var env: void = () in strnptr_rforeach_env<void> (str, env)
+strnptr_rforeach
+  (str) = let
+//
+var env: void = ()
+//
+in
+  strnptr_rforeach_env<void> (str, env)
 end // end of [strnptr_rforeach]
 
 #atscode_separator()
@@ -396,7 +427,7 @@ end // end of [strnptr_rforeach]
 implement
 {env}(*tmp*)
 strnptr_rforeach_env
-  {n} (str, env) = let
+  {n}(str, env) = let
 //
 fun loop
 (
