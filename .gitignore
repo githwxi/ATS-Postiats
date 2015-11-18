@@ -59,7 +59,13 @@ src/CBOOT/Makefile
 src/CBOOT/pats*.?ats
 
 #
-# Syntax-highlighting
+# Patsopt as a library
+#
+
+utils/libatsopt/JS/TEST/PATSHOME
+
+#
+# For syntax-highlighting
 #
 
 utils/atsynmark/HTML
@@ -285,6 +291,7 @@ doc/PROJECT/MEDIUM/UTFPL0/.depend
 
 doc/BOOK/INT2PROGINATS/preface
 doc/BOOK/INT2PROGINATS/preface.db
+doc/BOOK/INT2PROGINATS/PDF/main.pdf
 doc/BOOK/INT2PROGINATS/*_atxt.txt
 doc/BOOK/INT2PROGINATS/*_atxt.dats
 doc/BOOK/INT2PROGINATS/CHAP_*/main.db
@@ -295,6 +302,7 @@ doc/BOOK/INT2PROGINATS/CHAP_*/main.db
 
 doc/BOOK/ATS2TUTORIAL/preface
 doc/BOOK/ATS2TUTORIAL/preface.db
+doc/BOOK/ATS2TUTORIAL/PDF/main.pdf
 doc/BOOK/ATS2TUTORIAL/CHAP_*/main.db
 doc/BOOK/ATS2TUTORIAL/CHAP_*/*_atxt.txt
 doc/BOOK/ATS2TUTORIAL/CHAP_*/*_atxt.dats
