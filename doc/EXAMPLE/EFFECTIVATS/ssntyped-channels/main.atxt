@@ -1,0 +1,30 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-ssntyped-channels</title>
+#patscode_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Session-typed Channels
+</h1>
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}
