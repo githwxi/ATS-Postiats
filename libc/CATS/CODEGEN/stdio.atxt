@@ -192,6 +192,11 @@ atslib_ferror(p) ferror(((FILE*)p))
 
 #atscode_separator_for_C()
 
+\#define atslib_remove remove
+\#define atslib_rename rename
+
+#atscode_separator_for_C()
+
 \#define atslib_rewind rewind
 \#define atslib_rewind0 atslib_rewind
 \#define atslib_rewind1 atslib_rewind
