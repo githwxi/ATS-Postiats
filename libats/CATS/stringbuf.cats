@@ -50,6 +50,28 @@
 
 /* ****** ****** */
 
+/*
+extern
+fun _stringbuf_pow2min
+  (sizeGte(1), size_t): sizeGte(1) = "ext#%"
+implement
+_stringbuf_pow2min (s1, s2) =
+  if s1 >= s2
+    then s1 else _stringbuf_pow2min (s1+s1, s2)
+  // end of [if]
+*/
+extern
+atstype_size
+atslib__stringbuf_pow2min
+(
+  atstype_size s1, atstype_size s2
+)
+{
+  while (s1 < s2) { s1 = s1 + s1 ; } ; return s1 ; 
+} // end of [atslib__stringbuf_pow2min]
+
+/* ****** ****** */
+
 extern
 atstype_int
 atslib_stringbuf_insert_snprintf
