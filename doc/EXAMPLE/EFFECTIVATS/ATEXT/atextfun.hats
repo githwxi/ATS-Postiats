@@ -17,6 +17,10 @@ staload
 //
 (* ****** ****** *)
 
+#include "utils/atsdoc/HATS/xhtmlatxt.hats"
+
+(* ****** ****** *)
+
 fun
 patscode_style
   ((*void*)): atext = atext_strcst("\

@@ -6,7 +6,9 @@
 <html>
 
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-ssntyped-channels</title>
 #patscode_style()
 </head>
@@ -17,6 +19,67 @@
 Effective ATS:<br>
 Session-typed Channels
 </h1>
+
+<p>
+In this article, I present a brief introduction to session types.
+</p>
+
+<p>
+In broad terms, a (dyadic) session is an interaction between two
+concurrently running programs, and a session type is a form of type for
+specifying (or classifying) sessions. As an example, let us assume that two
+programs P and Q are connected with a bidirectional channel. From the
+perspective of P, the channel may be specified by a term sequence of the
+following form:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+typedef P_ssn = chsnd(int)::chsnd(int)::chrcv(bool)::chnil
+')</pre>
+
+<p>
+which means that an integer is to be sent, another integer is to be
+sent, a boolean is to be received, and finally the channel is to be
+closed.  Clearly, from the perspective of Q, the channel should be
+specified by the following term sequence:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+typedef Q_ssn = chrcv(int)::chrcv(int)::chsnd(bool)::chnil
+')</pre>
+
+<p>
+which means precisely the dual of what the previous term sequence
+does.  We may think of P as a client who sends two integers to the
+server Q and then receives from Q either true or false depending on
+whether or not the first sent integer is less than the second one.
+</p>
+
+<p>
+There are two endpoints in a channel: a positive end and a negative end.
+We assume that the end held by the server is positive and the end held by
+the client is negative. We introduce two abstract types #stacode("chanpos")
+and #stacode("channeg") for positive channels and negative channels, respectively,
+where a positive (negative) channel refers to the positive (negative) end of
+a channel:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+abstype chanpos(ssn:type)
+abstype channeg(ssn:type)
+')</pre>
+
+For instance, the end of the channel held by P is assigned the
+type #stacode("channeg(Q_ssn)") (not #stacode("channeg(P_ssn)")) and
+the end of the channel held by Q is assigned the type #stacode("chanpos(Q_ssn)").
+So the interpretation of a session type is given based on the view of the
+positive end (that is, the server).
 
 <hr size="2">
 
