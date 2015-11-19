@@ -167,6 +167,18 @@ val () = fprint_newline (out)
 } (* end of [val] *)
 
 (* ****** ****** *)
+//
+val () = assertloc (strcmp("a", "a") = 0)
+val () = assertloc (strcmp("b", "b") = 0)
+val () = assertloc (strcmp("b", "a") > 0)
+val () = assertloc (strcmp("a", "b") < 0)
+//
+val () = assertloc (compare("a", "a") =  0)
+val () = assertloc (compare("b", "b") =  0)
+val () = assertloc (compare("b", "a") =  1)
+val () = assertloc (compare("a", "b") = ~1)
+//
+(* ****** ****** *)
 
 val () =
 {

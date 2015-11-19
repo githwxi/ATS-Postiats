@@ -57,7 +57,9 @@ cleanall:: ; $(RMF) quicksort_list_vt
 
 ######
 #
-PATS2XHTML=$(PATSHOMEQ)/bin/pats2xhtml
+PATS2XHTML=\
+$(PATSHOMEQ)/bin/pats2xhtml
+#
 %_sats.html: %.sats ; $(PATS2XHTML) -o $@ -s $<
 %_dats.html: %.dats ; $(PATS2XHTML) -o $@ -d $<
 #

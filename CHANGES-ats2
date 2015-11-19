@@ -28,6 +28,7 @@ Here is a list of major additions and changes since the last release:
    try ATS entirely in one's browser (running only client-side JS).
 3. Treating the following form as a value: let ... in aValue end
    (where aValue is assumed to be a value).
+4. WebWorker-based support for session types in libatscc2js/Worker/channel
 
 ######
 

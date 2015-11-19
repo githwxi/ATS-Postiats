@@ -71,6 +71,16 @@ atspre_lxor_int_int
 #atscode_separator_for_C()
 
 ATSinline()
+atstype_int
+atspre_int2sgn
+  (atstype_int x)
+{
+  return ((x < 0) ? -1 : ((x > 0) ? 1 : 0)) ;
+} /* [atspre_int2sgn] */
+
+#atscode_separator_for_C()
+
+ATSinline()
 atsvoid_t0ype
 atspre_cloptr_free
 (

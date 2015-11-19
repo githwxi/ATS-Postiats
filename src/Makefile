@@ -589,7 +589,7 @@ $(ATSCC) -DATS PATSOPT_MAIN_NONE \
 #
 libatsopt_min: ; $(MAKE) C3NSTRINTKND=intknd libatsopt
 #
-cleanall:: ; $(RMF) libpatsopt.a
+cleanall:: ; $(RMF) libatsopt.a
 #
 ######
 #
@@ -1354,10 +1354,11 @@ RMF=rm -f
 WCL=wc -l
 
 ######
-
-srclines:: ; $(WCL) pats_main.dats $(SOURCES)
-liblines:: ; $(WCL) ../prelude/*.sats ../prelude/?ATS/*.?ats ../libc/?ATS/*.?ats ../libats/?ATS/*.?ats
-
+#
+srclines:: ; $(WCL)   pats_main.dats $(SOURCES)
+#
+liblines:: ; $(WCL)   ../prelude/*.sats   ../prelude/?ATS/*.?ats   ../libc/?ATS/*.?ats   ../libats/?ATS/*.?ats ../libats/?ATS/SHARE/*.?ats
+#
 ######
 
 clean:: ; $(RMF) $(DIR)/*~
