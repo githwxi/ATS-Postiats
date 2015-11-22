@@ -25,13 +25,12 @@ In this article, I present a brief introduction to session types.
 </p>
 
 <p>
-In broad terms, a (dyadic) session is an interaction between two
-concurrently running programs, and a session type is a form of type for
-specifying (or classifying) sessions. As an example, let us assume that two
-programs P and Q are connected with a bidirectional channel. From the
-perspective of P, the channel may be specified by a term sequence of the
-following form:
-</p>
+In broad terms, a (dyadic) session is a sequence of interactions between
+two concurrently running processes, and a session type is a form of type
+for specifying (or classifying) such interactions. As an example, let us
+assume that two processes P and Q are connected via a bidirectional
+channel. From the perspective of P, the channel may be specified by a term
+sequence of the following form: </p>
 
 <pre
 class="patsyntax">
@@ -60,12 +59,12 @@ whether or not the first sent integer is less than the second one.
 </p>
 
 <p>
-There are two endpoints in a channel: a positive end and a negative end.
-We assume that the end held by the server is positive and the end held by
-the client is negative. We introduce two abstract types #stacode("chanpos")
-and #stacode("channeg") for positive channels and negative channels, respectively,
-where a positive (negative) channel refers to the positive (negative) end of
-a channel:
+There are two endpoints in a channel: a positive end and a negative end;
+the end held by the server is positive and the end held by the client is
+negative. We introduce two abstract types #stacode("chanpos") and
+#stacode("channeg") for positive channels and negative channels,
+respectively, where a positive (negative) channel refers to the positive
+(negative) end of a channel:
 </p>
 
 <pre
@@ -75,11 +74,77 @@ abstype chanpos(ssn:type)
 abstype channeg(ssn:type)
 ')</pre>
 
+<p>
 For instance, the end of the channel held by P is assigned the
 type #stacode("channeg(Q_ssn)") (not #stacode("channeg(P_ssn)")) and
 the end of the channel held by Q is assigned the type #stacode("chanpos(Q_ssn)").
 So the interpretation of a session type is given based on the view of the
 positive end (that is, the server).
+</p>
+
+<p>
+The functions for sending values on channels are given the following types:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+chanpos_send
+  {a:vt0p}{ss:type}
+(
+  chp: !chanpos(chsnd(a)::ss) >> chanpos(ss), x: a
+) : void = "mac#%" // end-of-function
+//
+fun
+channeg_recv
+  {a:vt0p}{ss:type}
+(
+  chn: !channeg(chrcv(a)::ss) >> channeg(ss), x: a
+) : void = "mac#%" // end-of-function
+//
+overload channel_send with chanpos_send
+overload channel_send with channeg_recv
+//
+')</pre>
+
+<p>
+Note that #dyncode("chanpos_send") is for sending a value on a positive
+channel while #dyncode("channeg_recv") is for sending a value on a
+negative channel. For convenience, the symbol #dyncode("channel_send") is
+overloaded with both of these functions.
+</p>
+
+<p>
+The functions for receiving values on channels are given the following types:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+chanpos_recv
+  {a:vt0p}{ss:type}
+  (!chanpos(chrcv(a)::ss) >> chanpos(ss)): a = "mac#%"
+//
+fun
+channeg_send
+  {a:vt0p}{ss:type}
+  (!channeg(chsnd(a)::ss) >> channeg(ss)): a = "mac#%"
+//
+overload channel_recv with chanpos_recv
+overload channel_recv with channeg_send
+//
+')</pre>
+
+<p>
+Note that #dyncode("chanpos_recv") is for receiving a value on a positive
+channel while #dyncode("channeg_send") is for receiving a value on a
+negative channel. For convenience, the symbol #dyncode("channel_recv") is
+overloaded with both of these functions.
+</p>
 
 <hr size="2">
 
