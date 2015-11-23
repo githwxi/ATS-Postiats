@@ -24,6 +24,10 @@ Session-typed Channels
 In this article, I present a brief introduction to session types.
 </p>
 
+<h2>
+Basics on session-typed channels
+</h2>
+
 <p>
 In broad terms, a (dyadic) session is a sequence of interactions between
 two concurrently running processes, and a session type is a form of type
@@ -95,14 +99,14 @@ chanpos_send
   {a:vt0p}{ss:type}
 (
   chp: !chanpos(chsnd(a)::ss) >> chanpos(ss), x: a
-) : void = "mac#%" // end-of-function
+) : void // end-of-function
 //
 fun
 channeg_recv
   {a:vt0p}{ss:type}
 (
   chn: !channeg(chrcv(a)::ss) >> channeg(ss), x: a
-) : void = "mac#%" // end-of-function
+) : void // end-of-function
 //
 overload channel_send with chanpos_send
 overload channel_send with channeg_recv
@@ -127,12 +131,12 @@ class="patsyntax">
 fun
 chanpos_recv
   {a:vt0p}{ss:type}
-  (!chanpos(chrcv(a)::ss) >> chanpos(ss)): a = "mac#%"
+  (!chanpos(chrcv(a)::ss) >> chanpos(ss)): a
 //
 fun
 channeg_send
   {a:vt0p}{ss:type}
-  (!channeg(chsnd(a)::ss) >> channeg(ss)): a = "mac#%"
+  (!channeg(chsnd(a)::ss) >> channeg(ss)): a
 //
 overload channel_recv with chanpos_recv
 overload channel_recv with channeg_send
@@ -146,12 +150,44 @@ negative channel. For convenience, the symbol #dyncode("channel_recv") is
 overloaded with both of these functions.
 </p>
 
+<p>
+The functions for closing channels are given the following types:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+chanpos_nil_wait (chp: chanpos(chnil)): void
+fun
+channeg_nil_close (chn: channeg(chnil)): void
+//
+overload channel_close with chanpos_nil_wait
+overload channel_close with channeg_nil_close
+//
+')</pre>
+
+<p>
+Note that #dyncode("chanpos_nil_wait") is for closing a positive
+channel while #dyncode("channeg_nil_close") is for closing a negative
+channel. For convenience, the symbol #dyncode("channel_close") is
+overloaded with both of these functions.
+</p>
+
+<p>
+The programs for the processes P and Q can be implemented as follows:
+</p>
+
 <pre
 class="patsyntax">
 #pats2xhtml_dats('\
+(* ****** ****** *)
+
 fun
 P (
-  chn: channeg(Q_ssn), i1: int, i2: int
+  i1: int, i2: int
+, chn: channeg(Q_ssn)
 ) : bool = lt where
 {
   val () = channel_send(chn, i1)
@@ -172,7 +208,33 @@ Q (
   val () = channel_send(chp, i1 < i2)
   val () = channel_close(chp)
 }
+
+(* ****** ****** *)
 ')</pre>
+
+<p>
+But how a channel can be created in the first place? The answer
+to this question depends on the underlying support for distributed
+programming. For instance, we may be able to introduce the following
+function #dyncode("channel_create") for creating a channel:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+fun
+channeg_create{ss:type}
+  (fserv: chanpos(ss) -<lincloptr1> void): channeg(ss)
+')</pre>
+
+The basic idea here is to spawn a thread (by executing the linear
+closure-function #dyncode("fserv")) that works on the postive end of
+the newly created channel and then returns the negative end of the
+channel to the caller.
+</p>
+
+<h2>
+Session-typed channels based on web-workers
+</h2>
 
 <hr size="2">
 

@@ -7,11 +7,17 @@ staload
 "{$LIBATSCC2ERL}/Session/SATS/basis.sats"
 //
 (* ****** ****** *)
-
+//
+(*
+typedef
+P_ssn =
+chsnd(int)::chsnd(int)::chrcv(bool)::chnil
+*)
+//
 typedef
 Q_ssn =
 chrcv(int)::chrcv(int)::chsnd(bool)::chnil
-
+//
 (* ****** ****** *)
 
 fun
