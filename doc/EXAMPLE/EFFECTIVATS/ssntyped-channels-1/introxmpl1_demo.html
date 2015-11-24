@@ -30,24 +30,37 @@
 <table>
 
 <tr>
+<td colspan="2">
+<p>
+A channel connects the browser with a worker.
+</p>
+</td>
+</tr>
+
+<tr>
 <td align="right">
 <button
- ID="Start"
- type="button"
- style="vertical-align:top;width:100%;"
+ ID="Start" type="button"
 >Start!</button></td>
 <td>
+<span ID="Start_output"></span>
 </td>
 </tr>
 
 <tr>
-<td align="right">
-<button
- ID="Arg1_button" type="button"
->Arg1</button></td>
+<td align="right">Arg1:</td>
 <td>
 <input
- ID="Arg1_input" type="text" maxlength="8"
+ ID="theArg1_input" type="text" maxlength="8"
+></input>
+</td>
+</tr>
+
+<tr>
+<td align="right">Arg2:</td>
+<td>
+<input
+ ID="theArg2_input" type="text" maxlength="8"
 ></input>
 </td>
 </tr>
@@ -55,21 +68,21 @@
 <tr>
 <td align="right">
 <button
- ID="Arg2_button" type="button"
->Arg2</button></td>
+ ID="theResult" type="button"
+>Result</button></td>
 <td>
 <input
- ID="Arg2_input" type="text" maxlength="8"
+ ID="theResult_output" type="text" maxlength="8"
 ></input>
 </td>
 </tr>
 
 <tr>
-<td align="right">Result:</td>
-<td>
-<input
- ID="theResult" type="text" maxlength="8"
-></input>
+<td colspan="2">
+<p>
+Clicking 'Start' to start a new session<br>
+Clicking 'Result to see the result of 'Arg1 < Arg2'<br>
+</p>
 </td>
 </tr>
 
@@ -77,7 +90,7 @@
 
 </center>
 
-<script src="./introxmpl1_demo_dats.js"></script>
+<script src="./introxmpl1_client_dats.js"></script>
 
 </body>
 

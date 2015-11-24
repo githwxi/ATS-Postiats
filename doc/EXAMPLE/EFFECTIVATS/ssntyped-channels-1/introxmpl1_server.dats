@@ -28,11 +28,11 @@ staload
 staload
 "{$LIBATSCC2JS}/DATS/Worker/channel.dats"
 #include
-"{$LIBATSCC2JS}/DATS/Worker/channeg.dats"
+"{$LIBATSCC2JS}/DATS/Worker/chanpos.dats"
 //
 (* ****** ****** *)
 
-staload "./introxmpl1_prot.sats" // for protocol
+staload "./introxmpl1_prtcl.sats" // for protocol
 
 (* ****** ****** *)
 
@@ -68,6 +68,14 @@ val () =
 val ((*void*)) = Q($UN.castvwtp0{chanpos(Q_ssn)}(0))
 //
 } (* end of [val] *)
+
+(* ****** ****** *)
+
+%{$
+//
+theWorker_start();
+//
+%} // end of [%{$]
 
 (* ****** ****** *)
 

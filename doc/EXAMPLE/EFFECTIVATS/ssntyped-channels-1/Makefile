@@ -18,8 +18,10 @@ all:: main.html
 
 ######
 #
-demo:: introxmpl1_client_dats.js
-demo:: introxmpl1_server_dats_.js
+all_demo:: \
+introxmpl1_client_dats.js
+all_demo:: \
+introxmpl1_server_dats_.js
 #
 ######
 #

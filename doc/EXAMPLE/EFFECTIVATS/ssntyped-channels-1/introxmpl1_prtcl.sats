@@ -19,4 +19,4 @@ chrcv(int)::chrcv(int)::chsnd(bool)::chnil
 //
 (* ****** ****** *)
 
-(* end of [introxmpl1_prot.sats] *)
+(* end of [introxmpl1_prtcl.sats] *)
