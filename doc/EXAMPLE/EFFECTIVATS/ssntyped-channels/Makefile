@@ -18,13 +18,23 @@ all:: main.html
 
 ######
 #
-# all:: sstest_client_dats.js
-# all:: sstest_server_dats_.js
+demo:: introxmpl1_client_dats.js
+demo:: introxmpl1_server_dats_.js
 #
 ######
 #
-sstest_client_dats.c: sstest_client.dats; $(PATSOPT) -o $@ -d $<
-sstest_client_dats.js: sstest_client_dats.c; $(ATSCC2JS) -o $@ -i $<
+introxmpl1_client_dats.c: \
+  introxmpl1_client.dats; $(PATSOPT) -o $@ -d $<
+introxmpl1_client_dats.js: \
+  introxmpl1_client_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+introxmpl1_server_dats.c: \
+  introxmpl1_server.dats; $(PATSOPT) -o $@ -d $<
+introxmpl1_server_dats.js: \
+  introxmpl1_server_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+introxmpl1_server_dats_.js: \
+  introxmpl1_server_dats.js; $(CAT) $(LIBATCC2JS)/libatscc2js_all.js $< > $@
 #
 ######
 #
@@ -59,8 +69,8 @@ cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 cleanall:: ; $(RMF) *_?ats.html
 #
-cleanall:: ; $(RMF) sstest_client_dats.js
-cleanall:: ; $(RMF) sstest_server_dats.js
-cleanall:: ; $(RMF) sstest_server_dats_.js
+cleanall:: ; $(RMF) introxmpl1_client_dats.js
+cleanall:: ; $(RMF) introxmpl1_server_dats.js
+cleanall:: ; $(RMF) introxmpl1_server_dats_.js
 #
 ###### end of [Makefile] ######

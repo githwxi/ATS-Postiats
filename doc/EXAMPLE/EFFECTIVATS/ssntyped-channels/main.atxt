@@ -280,9 +280,6 @@ channeg_nil = channeg(chnil)
 fun chanpos1_close(chanpos_nil): void
 fun channeg1_close(channeg_nil): void
 //
-overload channel1_close with chanpos1_close
-overload channel1_close with channeg1_close
-//
 ')</pre>
 
 Clearly, everything is standard here, and there is really no surprise at all.
@@ -364,6 +361,8 @@ as follows:
 <pre
 class="patsyntax">
 #pats2xhtml_dats('\
+(* ****** ****** *)
+
 fun
 P (
   i1: int, i2: int
@@ -417,6 +416,8 @@ chanpos1_recv
 )
 //
 ) (* end of [Q] *)
+
+(* ****** ****** *)
 ')</pre>
 
 Note that #dyncode("chmsg_parse") is a function template for
