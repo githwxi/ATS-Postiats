@@ -9,7 +9,7 @@
 <meta
  http-equiv="content-type"
  content="text/html; charset=UTF-8" />
-<title>EFFECTIVATS-ssntyped-channels</title>
+<title>EFFECTIVATS-ssntyped-channels-introduction</title>
 #patscode_style()
 </head>
 
@@ -17,7 +17,8 @@
 
 <h1>
 Effective ATS:<br>
-Session-typed Channels
+Session-typed Channels:<br>
+A Brief Introduction
 </h1>
 
 <p>
@@ -74,8 +75,8 @@ respectively, where a positive (negative) channel refers to the positive
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
-abstype chanpos(ssn:type)
-abstype channeg(ssn:type)
+absvtype chanpos(ssn:type) // absvtype means linear abstype in ATS
+absvtype channeg(ssn:type) // absvtype means linear abstype in ATS
 ')</pre>
 
 <p>
@@ -87,7 +88,7 @@ positive end (that is, the server).
 </p>
 
 <p>
-The functions for sending values on channels are given the following types:
+The functions for sending data on channels are given the following types:
 </p>
 
 <pre
@@ -121,7 +122,7 @@ overloaded with both of these functions.
 </p>
 
 <p>
-The functions for receiving values on channels are given the following types:
+The functions for receiving data on channels are given the following types:
 </p>
 
 <pre
@@ -173,6 +174,16 @@ Note that #dyncode("chanpos_nil_wait") is for closing a positive
 channel while #dyncode("channeg_nil_close") is for closing a negative
 channel. For convenience, the symbol #dyncode("channel_close") is
 overloaded with both of these functions.
+</p>
+
+<p>
+The functions for sending and receiving can be based
+on either synchronous or asynchronous communication. Calling these
+functions may result in the caller to be blocked. For instance,
+calling #dyncode("channpos_recv") blocks the caller if there is no
+value available for the call to return. For asynchronous communication,
+calling #dyncode("channpos_send") may block the caller if there is no
+more room available for buffering.
 </p>
 
 <p>
@@ -235,6 +246,184 @@ channel to the caller.
 <h2>
 Session-typed channels based on web-workers
 </h2>
+
+<p>
+In the rest of this article, I will give a concrete presentation of
+session-typed channels that are implemented based on web-workers.  For
+those who are not yet familiar with web-workers, it can be a good idea
+to first study some programming examples involving them before reading
+on. Essentially, a web-worker is a thread running in the background
+that can communicate with the browser via message-passing.  The ATS
+code presented as follows is intended to be compiled into JS code (via
+Patsopt and Atscc2js) for running in the browser (client) and a
+web-worker (server). As JS (or, more precisely, its run-time) is
+single-threaded, we cannot support a function (e.g.,
+#dyncode("chanpos_recv")) that may block its caller indefinitely. We
+address this issue by building an interface for programming
+session-typed channels that is of CPS-style (where CPS stands for
+continuation-passing style).
+</p>
+
+<p>
+Let us first see the types assigned to the function for closing
+channels:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+vtypedef
+chanpos_nil = chanpos(chnil)
+vtypedef
+channeg_nil = channeg(chnil)
+//
+fun chanpos1_close(chanpos_nil): void
+fun channeg1_close(channeg_nil): void
+//
+overload channel1_close with chanpos1_close
+overload channel1_close with channeg1_close
+//
+')</pre>
+
+Clearly, everything is standard here, and there is really no surprise at all.
+
+</p>
+
+<p>
+
+Let us next see the types assigned to the functions for sending and receiving
+on channels:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+typedef
+chpcont0(ss:type) = (chanpos(ss)) -<cloref1> void
+typedef
+chncont0(ss:type) = (channeg(ss)) -<cloref1> void
+//
+typedef
+chpcont1(ss:type, a:t0p) = (chanpos(ss), a) -<cloref1> void
+typedef
+chncont1(ss:type, a:t0p) = (channeg(ss), a) -<cloref1> void
+//
+typedef chpcont0_nil = chpcont0(chnil)
+typedef chncont0_nil = chncont0(chnil)
+//
+fun
+chanpos1_send
+  {a:t0p}{ss:type}
+(
+  chanpos(chsnd(a)::ss), x0: a, k0: chpcont0(ss)
+) : void // end-of-fun
+//
+fun
+chanpos1_recv
+  {a:t0p}{ss:type}
+(
+  chanpos(chrcv(a)::ss), k0: chpcont1(ss, chmsg(a))
+) : void // end-of-fun
+//
+fun
+channeg1_recv
+  {a:t0p}{ss:type}
+(
+  channeg(chrcv(a)::ss), x0: a, k0: chncont0(ss)
+) : void // end-of-fun
+//
+fun
+channeg1_send
+  {a:t0p}{ss:type}
+(
+  channeg(chsnd(a)::ss), k0: chncont1(ss, chmsg(a))
+) : void // end-of-fun
+//
+')</pre>
+
+Given a type T, the type #stacode("chmsg(T)") is for the marshalled
+representation of a value of the type T. The type assigned to the
+function #dyncode("chanpos1_send") indicates that the function takes
+three arguments: a positive channel, a value (to be sent), and a
+continuation; the channel is passed to the continuation after the
+value is sent onto the channel. Also, the type assigned to the
+function #dyncode("chanpos1_recv") indicates that the function takes
+two arguments: a positive channel and a continuation; the channel and
+the marshalled representation of a value are passed to the
+continutation after the representation is received. The types assigned
+to the functions #dyncode("channeg1_send") and
+#dyncode("channeg1_recv") can be explained similarly.
+
+</p>
+
+<p>
+
+The above functions #dyncode("P") and #dyncode("Q") can now be implemented
+as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+fun
+P (
+  i1: int, i2: int
+, chn: channeg(Q_ssn)
+) : void = (
+//
+channeg1_recv
+( chn, i1
+, lam(chn) =>
+  channeg1_recv
+  ( chn, i2
+  , lam(chn) =>
+    channeg1_send
+    ( chn
+    , lam(chn, lt) => let
+      val lt = chmsg_parse<bool>(lt)
+      (*
+      // Some code for processing [lt]
+      *)
+      in
+        channeg1_close(chn)
+      end
+    )
+  ) 
+)
+//
+) (* end of [P] *)
+
+(* ****** ****** *)
+
+fun
+Q (
+  chp: chanpos(Q_ssn)
+) : void = (
+//
+chanpos1_recv
+( chp
+, lam(chp, i1) => let
+  val i1 = chmsg_parse<int>(i1) in
+  chanpos1_recv
+  ( chp
+  , lam(chp, i2) => let
+    val i2 = chmsg_parse<int>(i2) in
+    chanpos1_send
+    ( chp, i1 < i2
+    , lam(chp) => chanpos1_close(chp)
+    )
+    end // end-of-let // end-of-lam
+  )
+  end // end-of-let // end-of-lam
+)
+//
+) (* end of [Q] *)
+')</pre>
+
+Note that #dyncode("chmsg_parse") is a function template for
+unmarshalling: It is called to turn the marshalled representation of a
+value into the value itself.
+
+</p>
 
 <hr size="2">
 
