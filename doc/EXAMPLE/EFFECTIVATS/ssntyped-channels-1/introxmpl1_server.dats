@@ -1,9 +1,12 @@
 (* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0
-
+//
+#define
+ATS_MAINATSFLAG 1
+#define
+ATS_DYNLOADNAME "theWorker_start"
+//
 (* ****** ****** *)
-  
+
 #include
 "share/atspre_define.hats"
 #include
@@ -56,6 +59,15 @@ chanpos1_recv
 )
 //
 ) (* end of [Q] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val ((*void*)) = Q($UN.castvwtp0{chanpos(Q_ssn)}(0))
+//
+} (* end of [val] *)
 
 (* ****** ****** *)
 
