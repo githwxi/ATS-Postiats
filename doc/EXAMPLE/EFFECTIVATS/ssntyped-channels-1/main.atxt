@@ -172,8 +172,11 @@ overload channel_close with channeg_nil_close
 <p>
 Note that #dyncode("chanpos_nil_wait") is for closing a positive
 channel while #dyncode("channeg_nil_close") is for closing a negative
-channel. For convenience, the symbol #dyncode("channel_close") is
-overloaded with both of these functions.
+channel. More specifically, a call to #dyncode("chanpos_nil_wait") on
+(the positive end of) a channel waits until a message sent by a call
+to #dyncode("channeg_nil_close") on (the negative end of) the same
+channel arrives.  For convenience, the symbol #dyncode("channel_close")
+is overloaded with both of these functions.
 </p>
 
 <p>
