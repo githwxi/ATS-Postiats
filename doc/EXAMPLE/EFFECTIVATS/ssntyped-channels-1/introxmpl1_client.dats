@@ -276,6 +276,7 @@ fun
 fwork1(x: action): void =
 (
 case+ x of
+//
 | Start() => let
     val () =
     Start_reset((*void*))
