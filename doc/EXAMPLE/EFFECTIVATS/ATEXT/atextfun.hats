@@ -45,6 +45,14 @@ patscode_style
 ") (* end of [patscode_style] *)
 
 (* ****** ****** *)
+//
+fun
+filename
+(
+  x: string
+) : atext = xmltagging("tt", x)
+//
+(* ****** ****** *)
 
 local
 //

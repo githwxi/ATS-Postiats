@@ -53,6 +53,16 @@ main.html: main.exe ; ./main.exe > $@
 #
 ######
 
+upload_main: \
+  main.html ; scp $^ \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-1/.
+upload_dats_js: \
+  introxmpl1_client_dats.js \
+  introxmpl1_server_dats_.js ; scp $^ \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-1/.
+
+######
+
 CAT=cat
 RMF=rm -f
 

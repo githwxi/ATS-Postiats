@@ -426,6 +426,32 @@ value into the value itself.
 
 </p>
 
+<p>
+A simple demo based on the code for #dyncode("P") and #dyncode("Q") is
+available <a href="./introxmpl1_demo.html">on-line</a>. The entire
+code for this demo is contained in four files of the following names:
+
+<pre>
+introxmpl1_demo.html
+introxmpl1_prctl.sats
+introxmpl1_client.dats
+introxmpl1_server.dats
+</pre>
+
+In the file #filename("introxmpl1_prctl.sats"), the protocol for
+communincations between the client (browser) and the server
+(web-worker) is formally represented as a session type. As can be
+expected, this file is statically loaded in both
+#filename("introxmpl1_client.dats") and
+#filename("introxmpl1_server.dats").  The client code (in
+#filename("introxmpl1_client.dats")) is based on the code for
+#dyncode("P") but contains various significant modifications, and it makes
+use of Bacon.js in its handling GUI issues. On the other hand, the
+server code (in #filename("introxmpl1_client.dats")) is directly based
+on the code for #dyncode("Q") with virtually no modifications.
+
+</p>
+
 <hr size="2">
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.

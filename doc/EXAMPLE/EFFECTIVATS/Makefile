@@ -257,4 +257,18 @@ upload_Sierpinski-3angle:: ; \
 
 ######
 
+upload_ssntyped-channels-1:: ; \
+  $(SCP) \
+  ssntyped-channels-1/index.html \
+  ssntyped-channels-1/Makefile \
+  ssntyped-channels-1/introxmpl0.dats \
+  ssntyped-channels-1/introxmpl1.dats \
+  ssntyped-channels-1/introxmpl1_demo.html \
+  ssntyped-channels-1/introxmpl1_prtcl.sats \
+  ssntyped-channels-1/introxmpl1_client.dats \
+  ssntyped-channels-1/introxmpl1_server.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-1
+
+######
+
 ###### end of [Makefile] ######

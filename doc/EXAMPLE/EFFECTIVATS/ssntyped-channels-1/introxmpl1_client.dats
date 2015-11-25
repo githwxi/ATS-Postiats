@@ -241,8 +241,7 @@ fun
 fwork1(x: action): void =
 (
 case+ x of
-| theResult() =>
-  $extfcall(void, "theAction_fwork0_run")
+| theResult() => theAction_fwork0_run()
 | _(*rest-of-action*) => alert("The action is ignored!")
 )
 val fwork1 = lam(x) =<cloref1> fwork1(x)
@@ -278,10 +277,12 @@ fwork1(x: action): void =
 (
 case+ x of
 | Start() => let
-    val () = Start_reset()
-    val () = Start_output("Session is on!")
+    val () =
+    Start_reset((*void*))
+    val () =
+    Start_output("Session is on!")
   in
-    $extfcall(void, "theAction_fwork0_run")
+    theAction_fwork0_run((*void*))
   end // end of [Start]
 //
 | _(*rest-of-action*) => alert("The action is ignored!")
