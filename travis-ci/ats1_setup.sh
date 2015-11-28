@@ -36,7 +36,7 @@ ${WGETQ} \
 ${ATSLANGURL_github}/ATS-Anairiats/${ATSPACKTGZ}
 #
 # ${WGETQ} \
-# ${ATSLANGURL_srcfg}/files/ats-lang/anairiats-${ATSVER}/${ATSPACKTGZ}
+# ${ATSLANGURL_srcfg}/files/ats-lang/anairiats-latest/${ATSPACKTGZ}
 #
 ######
 #

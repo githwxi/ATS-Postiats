@@ -1,0 +1,68 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-ssntyped-channels-introduction</title>
+#patscode_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Session-typed Channels:<br>
+Let us combine sessions together!
+</h1>
+
+<p>
+In this article, I present several session combinators
+for combining existing sessions together to form new sessions. In
+this regard, session combinators are similar to parsing combinators.
+</p>
+
+<h2>
+Joining Sessions : ssappend
+</h2>
+
+Given two session types #stacode("ss1") and #stacode("ss2"),
+#stacode("ssappend(ss1, ss2)") is a session type for specifying a session
+that is the concatenation of a session specified by #stacode("ss1")
+and another one specified by #stacode("ss2").
+
+<h2>
+Selective Session : sschoose
+</h2>
+
+<h2>
+Client-Optional Session : ssoption_conj
+</h2>
+
+<h2>
+Server-Optional Session : ssoption_disj
+</h2>
+
+<h2>
+Client-Repeated Session : ssrepeat_conj
+</h2>
+
+<h2>
+Server-Repeated Session : ssrepeat_disj
+</h2>
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}
