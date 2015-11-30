@@ -14,10 +14,6 @@ ATS_DYNLOADNAME "theWorker_start"
   
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
-
-(* ****** ****** *)
-
 staload
 UN = "prelude/SATS/unsafe.sats"
 

@@ -31,6 +31,21 @@ main.html: main.exe ; ./main.exe > $@
 #
 ######
 #
+multest_client_dats.c: \
+  multest_client.dats; $(PATSOPT) -o $@ -d $<
+multest_client_dats.js: \
+  multest_client_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+multest_server_dats.c: \
+  multest_server.dats; $(PATSOPT) -o $@ -d $<
+multest_server_dats.js: \
+  multest_server_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+multest_server_dats_.js: \
+  multest_server_dats.js; $(CAT) $(LIBATCC2JS)/libatscc2js_all.js $< > $@
+#
+######
+#
 upload_main: \
   main.html ; scp $^ \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-1/.
@@ -54,5 +69,8 @@ cleanall:: clean
 cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 cleanall:: ; $(RMF) *_?ats.html
+#
+cleanall:: ; $(RMF) multest_server_dats.js
+cleanall:: ; $(RMF) multest_server_dats_.js
 #
 ###### end of [Makefile] ######

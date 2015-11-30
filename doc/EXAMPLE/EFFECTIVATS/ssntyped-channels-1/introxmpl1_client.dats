@@ -14,10 +14,6 @@ ATS_DYNLOADNAME "introxmpl1_client_initize"
   
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
-
-(* ****** ****** *)
-
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)

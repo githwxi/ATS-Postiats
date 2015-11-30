@@ -60,7 +60,7 @@ _stringbuf_pow2min (s1, s2) =
     then s1 else _stringbuf_pow2min (s1+s1, s2)
   // end of [if]
 */
-extern
+ATSinline()
 atstype_size
 atslib__stringbuf_pow2min
 (

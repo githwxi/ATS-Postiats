@@ -38,7 +38,12 @@ ss_test_loop = ssrepeat_conj(ss_test_one)
 (* ****** ****** *)
 
 typedef
-ss_multest = ssappend(ss_pass_try, ss_test_loop)
+ss_test_loop_opt = ssoption_disj(ss_test_loop)
+
+(* ****** ****** *)
+
+typedef
+ss_multest = ssappend(ss_pass_try, ss_test_loop_opt)
 
 (* ****** ****** *)
 
