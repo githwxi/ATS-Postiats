@@ -333,7 +333,9 @@ end // end of [i2mpdec_tr]
 (* ****** ****** *)
 
 implement
-f2undec_tr (d2c0) = let
+f2undec_tr
+  (d2c0) = d3e_def where
+{
 //
   val opt = d2c0.f2undec_ann
 //
@@ -362,9 +364,9 @@ f2undec_tr (d2c0) = let
 //
   val ((*void*)) = trans3_env_pop_and_add_main(pf0 | d2v_loc)
 //
-in
-  d3e_def
-end // end of [f2undec_tr]
+} (* end of [f2undec_tr] *)
+
+(* ****** ****** *)
 
 local
 
