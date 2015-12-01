@@ -3,8 +3,12 @@
 #include
 "share/atspre_define.hats"
 //
+(* ****** ****** *)
+//
 staload
 "{$LIBATSCC2JS}/SATS/Worker/channel.sats"
+staload
+"{$LIBATSCC2JS}/SATS/Worker/channel_session.sats"
 //
 (* ****** ****** *)
 
@@ -45,6 +49,14 @@ ss_test_loop_opt = ssoption_disj(ss_test_loop)
 typedef
 ss_multest = ssappend(ss_pass_try, ss_test_loop_opt)
 
+(* ****** ****** *)
+//
+fun
+chanpos_session_multest() : chanpos_session(ss_multest)
+//
+fun
+channeg_session_multest() : channeg_session(ss_multest)
+//
 (* ****** ****** *)
 
 (* end of [multest_prtcl.sats] *)

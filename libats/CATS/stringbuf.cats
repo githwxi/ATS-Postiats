@@ -53,7 +53,7 @@
 /*
 extern
 fun _stringbuf_pow2min
-  (sizeGte(1), size_t): sizeGte(1) = "ext#%"
+  (sizeGte(1), size_t): sizeGte(1) = "mac#%"
 implement
 _stringbuf_pow2min (s1, s2) =
   if s1 >= s2

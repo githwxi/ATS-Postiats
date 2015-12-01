@@ -1179,6 +1179,21 @@ trans3_env_add_svarlst (s2vs) =
   list_app_fun<s2var> (s2vs, trans3_env_add_svar)
 // end of [trans3_env_add_svarlst]
 
+(* ****** ****** *)
+
+implement
+trans3_env_add_squa
+  (s2q) = () where {
+  val () = trans3_env_add_svarlst (s2q.s2qua_svs)
+} // end of [trans3_env_add_svar]
+
+implement
+trans3_env_add_squalst (s2qs) =
+  list_app_fun<s2qua> (s2qs, trans3_env_add_squa)
+// end of [trans3_env_add_squalst]
+
+(* ****** ****** *)
+
 implement
 trans3_env_add_sp2at
   (sp2t) = (

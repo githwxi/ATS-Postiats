@@ -307,6 +307,9 @@ fun trans3_env_push (): (trans3_env_push_v | void)
 fun trans3_env_add_svar (s2v: s2var): void
 fun trans3_env_add_svarlst (s2vs: s2varlst): void
 
+fun trans3_env_add_squa (s2q: s2qua): void
+fun trans3_env_add_squalst (s2qs: s2qualst): void
+
 fun trans3_env_add_sp2at (sp2t: sp2at): void
 
 fun trans3_env_add_sVar (s2V: s2Var): void
