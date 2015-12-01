@@ -557,6 +557,7 @@ d3exp_set_type
 (* ****** ****** *)
 
 fun d3exp_is_prf (d3e: d3exp): bool
+fun d3exp_isnot_prf (d3e: d3exp): bool
 
 (* ****** ****** *)
 //
