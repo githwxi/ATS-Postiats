@@ -543,12 +543,15 @@ and prv3ardec = '{
 and prv3ardeclst = List (prv3ardec)
 
 (* ****** ****** *)
-
-fun d3exp_get_type (d3e: d3exp): s2exp
-fun d3explst_get_type (d3es: d3explst): s2explst
-
-fun d3exp_set_type
-  (d3e: d3exp, s2f: s2exp): void = "patsopt_d3exp_set_type"
+//
+fun
+d3exp_get_type (d3e: d3exp): s2exp
+fun
+d3explst_get_type (d3es: d3explst): s2explst
+//
+fun
+d3exp_set_type
+  (d3e: d3exp, s2f: s2exp): void = "ext#patsopt_d3exp_set_type"
 // end of [d3exp_set_type]
 
 (* ****** ****** *)
@@ -556,14 +559,16 @@ fun d3exp_set_type
 fun d3exp_is_prf (d3e: d3exp): bool
 
 (* ****** ****** *)
-
-fun print_d3exp (d3e: d3exp): void
-overload print with print_d3exp
-fun prerr_d3exp (d3e: d3exp): void
-overload prerr with prerr_d3exp
+//
+fun print_d3exp(d3e: d3exp): void
+fun prerr_d3exp(d3e: d3exp): void
 fun fprint_d3exp : fprint_type (d3exp)
 fun fprint_d3explst : fprint_type (d3explst)
-
+//
+overload print with print_d3exp
+overload prerr with prerr_d3exp
+overload fprint with fprint_d3exp
+//
 (* ****** ****** *)
 
 fun d3exp_var

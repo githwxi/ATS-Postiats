@@ -530,42 +530,53 @@ case+ d2lv of
 //
 | D2LVALvar_mut
     (d2v, d2ls) => let
-    val d3ls = d2lablst_trup (d2ls)
-    val-Some (s2l) = d2var_get_addr (d2v)
-    val d3e_r = d2exp_trup (d2e_r)
-    val () = d3exp_open_and_add (d3e_r)
-    var s2rt: s2exp
-    val d3e_r =
-      s2addr_assgn_deref (loc0, s2l, d3ls, d3e_r, s2rt)
+//
+    val-
+    Some(s2l) =
+      d2var_get_addr(d2v)
     // end of [val]
-    val () = auxerr_wrt_if (loc0)
+//
+    val d3ls  = d2lablst_trup(d2ls)
+//
+    var s2rt  : s2exp
+    val d3e_r = d2exp_trup(d2e_r)
+    val ()    = d3exp_open_and_add(d3e_r)
+    val d3e_r =
+      s2addr_assgn_deref(loc0, s2l, d3ls, d3e_r, s2rt)
+    // end of [val]
+    val ((*void*)) =
+      if not(d3exp_is_prf(d3e_r)) then auxerr_wrt_if(loc0)
+    // end of [val]
   in
-    d3exp_assgn_var (loc0, d2v, s2rt, d3ls, d3e_r)
+    d3exp_assgn_var(loc0, d2v, s2rt, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]
 //
 | D2LVALvar_lin
     (d2v, d2ls) => let
     val loc_l = d2e_l.d2exp_loc
-    val d3ls = d2lablst_trup (d2ls)
+    val d3ls  = d2lablst_trup (d2ls)
     val d3e_r = d2exp_trup (d2e_r)
-    val () = d3exp_open_and_add (d3e_r)
+    val ()    = d3exp_open_and_add (d3e_r)
     val s2e_r = d3exp_get_type (d3e_r)
-    val opt = d2var_get_type (d2v)
-    val s2rt = (
+    val opt   = d2var_get_type (d2v)
+    val s2rt  =
+    (
       case+ opt of
       | Some (s2e) => s2e
-      | None ((*void*)) => s2exp_void_t0ype ()
+      | None ((*void*)) => s2exp_void_t0ype()
     ) : s2exp // end of [val]
-    val () = d2var_assgn_lin (loc_l, d2v, d3ls, s2e_r)
+    val () =
+      d2var_assgn_lin(loc_l, d2v, d3ls, s2e_r)
+    // end of [val]
   in
-    d3exp_assgn_var (loc0, d2v, s2rt, d3ls, d3e_r)
+    d3exp_assgn_var(loc0, d2v, s2rt, d3ls, d3e_r)
   end // end of [D2LVALvar_lin]
 //
 | D2LVALderef
     (d2e_l, d2ls) => let
-    val () = auxerr_wrt_if (loc0)
+    val () = auxerr_wrt_if(loc0)
   in
-    d2exp_trup_assgn_deref (loc0, d2e_l, d2ls, d2e_r)
+    d2exp_trup_assgn_deref(loc0, d2e_l, d2ls, d2e_r)
   end // end of [D2LVALd2ref]
 //
 | D2LVALviewat _ => d2exp_trup_viewat_assgn (d2e0)
