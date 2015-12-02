@@ -37,7 +37,7 @@
 #define ATS_DYNLOADFLAG 0
   
 (* ****** ****** *)
-  
+
 staload
 UN = "prelude/SATS/unsafe.sats"
 
@@ -50,6 +50,39 @@ staload "libats/ML/SATS/array0.sats"
 staload "libats/ML/SATS/hashtblref.sats"
 //
 staload "libats/ML/SATS/gvalue.sats"
+//
+(* ****** ****** *)
+//
+staload _ = "prelude/DATS/basics.dats"
+//
+staload _ = "prelude/DATS/integer.dats"
+staload _ = "prelude/DATS/pointer.dats"
+//
+staload _ = "prelude/DATS/string.dats"
+//
+staload _ = "prelude/DATS/list.dats"
+staload _ = "prelude/DATS/list_vt.dats"
+//
+staload _ = "prelude/DATS/array.dats"
+staload _ = "prelude/DATS/arrayptr.dats"
+staload _ = "prelude/DATS/arrayref.dats"
+//
+staload _ = "prelude/DATS/gorder.dats"
+staload _ = "prelude/DATS/gnumber.dats"
+//
+staload _(*UN*) = "prelude/DATS/unsafe.dats"
+//
+(* ****** ****** *)
+//
+staload _(*anon*) = "libats/DATS/qlist.dats"
+//
+staload _(*anon*) = "libats/DATS/hashfun.dats"
+staload _(*anon*) = "libats/DATS/linmap_list.dats"
+staload _(*anon*) = "libats/DATS/hashtbl_chain.dats"
+//
+staload _(*anon*) = "libats/ML/DATS/list0.dats"
+staload _(*anon*) = "libats/ML/DATS/array0.dats"
+staload _(*anon*) = "libats/ML/DATS/hashtblref.dats"
 //
 (* ****** ****** *)
 //
@@ -137,13 +170,6 @@ fprint_val<gvalue> = fprint_gvalue
 (* ****** ****** *)
 
 local
-//
-staload _(*anon*) = "libats/DATS/qlist.dats"
-//
-staload _(*anon*) = "libats/DATS/hashfun.dats"
-staload _(*anon*) = "libats/DATS/linmap_list.dats"
-staload _(*anon*) = "libats/DATS/hashtbl_chain.dats"
-staload _(*anon*) = "libats/ML/DATS/hashtblref.dats"
 //
 typedef key = string
 typedef itm = gvalue
