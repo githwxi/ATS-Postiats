@@ -44,15 +44,6 @@ staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 //
-// HX: for maps of elements of type (a)
-//
-abstype
-hashtbl_type(key:t@ype, itm:t0ype) = ptr
-typedef
-hashtbl(key:t0p, itm:t0p) = hashtbl_type(key, itm)
-//
-(* ****** ****** *)
-//
 fun{
 key:t0p
 } hash_key (x: key):<> ulint

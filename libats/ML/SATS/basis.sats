@@ -138,5 +138,46 @@ typedef substrarr = substrarr_type
 *)
 //
 (* ****** ****** *)
+//
+// HX: for maps of elements of type (a)
+//
+abstype
+hashtbl_type(key:t@ype, itm:t0ype) = ptr
+typedef
+hashtbl(key:t0p, itm:t0p) = hashtbl_type(key, itm)
+//
+(* ****** ****** *)
+//
+// HX-2015-12-01:
+// G-values for generic programming
+//
+(* ****** ****** *)
+//
+datatype gvalue =
+//
+  | GVnil of ()
+//
+  | GVint of (int)
+//
+  | GVbool of (bool)
+  | GVchar of (char)
+//
+  | GVfloat of (double)
+//
+  | GVstring of (string)
+//
+  | GVlist of (list0(gvalue))
+//
+  | GVarray of (array0(gvalue))
+//
+  | GVhashtbl of (hashtbl(string, gvalue))
+//
+(* ****** ****** *)
+
+typedef gvlist = list0(gvalue)
+typedef gvarray = array0(gvalue)
+typedef gvhashtbl = hashtbl(string, gvalue)
+
+(* ****** ****** *)
 
 (* end of [basis.sats] *)

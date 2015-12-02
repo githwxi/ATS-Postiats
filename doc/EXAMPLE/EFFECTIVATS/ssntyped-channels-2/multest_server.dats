@@ -181,8 +181,13 @@ implement
 {}(*tmp*)
 f_ss_test_one(state) = let
 //
-val arg1 = 0
-val arg2 = 0
+#define N 100
+#define d2i double2int
+//
+val
+arg1 = d2i(N*JSmath_random())
+val
+arg2 = d2i(N*JSmath_random())
 //
 val ss1 = 
   chanpos1_session_send_cloref<int>
@@ -260,3 +265,32 @@ theWorker_start();
 (* ****** ****** *)
 
 (* end of [multest_server.dats] *)
+
+////
+
+datatype state =
+  | test_arg1 of (int)
+  | test_arg2 of (int)
+  | pass_result of (bool)
+  | answer_result of (bool)
+  
+  state$get$test_arg1 : state -> gvalue
+  state$set$test_arg1 : (state, int) -> void
+  state$exch$test_arg1 : (state, int) -> gvalue
+
+  overload .test_arg1 with state$get$test_arg1
+  overload .test_arg1 with state$set$test_arg1
+
+val-GVint(arg1) = state.test_arg1()
+val-GVint(arg2) = state.test_arg2()
+val-GVbool(res) = state.pass_result()
+val-GVbool(res) = state.answer_result()
+  
+extern fun state_get_test_arg1: (state) -> int
+extern fun state_get_test_arg2: (state) -> int
+//
+extern fun state_get_pass_result: (state) -> bool
+extern fun state_set_pass_result: (state, bool) -> void
+//
+extern fun state_get_answer_result: (state) -> bool
+extern fun state_set_answer_result: (state, bool) -> void
