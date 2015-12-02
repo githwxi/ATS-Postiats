@@ -130,6 +130,15 @@ fprint_hashtbl$mapto (out: FILEref): void // default: fprint("->")
 (* ****** ****** *)
 //
 fun{
+key,itm:t@ype
+} fprint_hashtbl_sep_mapto
+(
+  out: FILEref, tbl: hashtbl(key, itm), sep: string, mapto: string
+) : void // end of [fprint_hashtbl_sep_mapto]
+//
+(* ****** ****** *)
+//
+fun{
 key,itm:t0p
 } hashtbl_foreach
   (tbl: hashtbl(key, itm)): void

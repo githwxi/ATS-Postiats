@@ -43,6 +43,10 @@ staload HT =
 //
 (* ****** ****** *)
 
+staload "libats/ML/SATS/basis.sats"
+
+(* ****** ****** *)
+
 staload "libats/ML/SATS/list0.sats"
 
 (* ****** ****** *)
@@ -274,6 +278,22 @@ implement{}
 fprint_hashtbl$sep (out) = fprint (out, "; ")
 implement{}
 fprint_hashtbl$mapto (out) = fprint (out, "->")
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+fprint_hashtbl_sep_mapto
+  (out, tbl, sep, mapto) = let
+//
+implement
+fprint_hashtbl$sep<> (out) = fprint (out, sep)
+implement
+fprint_hashtbl$mapto<> (out) = fprint (out, mapto)
+//
+in
+  fprint_hashtbl<key,itm>(out, tbl)
+end // end of [fprint_hashtbl_sep_mapto]
 
 (* ****** ****** *)
 

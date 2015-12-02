@@ -38,13 +38,19 @@
   
 (* ****** ****** *)
   
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 staload "libats/ML/SATS/basis.sats"
+//
+staload "libats/ML/SATS/list0.sats"
+staload "libats/ML/SATS/array0.sats"
+staload "libats/ML/SATS/hashtblref.sats"
+//
 staload "libats/ML/SATS/gvalue.sats"
-
+//
 (* ****** ****** *)
 //
 implement
@@ -83,6 +89,45 @@ case+ gv0 of
 | GVhashtbl(kxs) => fprint! (out, "GVhashtbl(", kxs, ")")
 //
 end // end of [fprint_gvalue]
+
+(* ****** ****** *)
+
+implement
+fprint_gvlist
+  (out, xs) = let
+//
+implement
+fprint_val<gvalue> = fprint_gvalue
+//
+in
+  fprint_list0_sep<gvalue>(out, xs, ", ")
+end // end of [fprint_gvlist]
+
+(* ****** ****** *)
+
+implement
+fprint_gvarray
+  (out, xs) = let
+//
+implement
+fprint_val<gvalue> = fprint_gvalue
+//
+in
+  fprint_array0_sep<gvalue>(out, xs, ", ")
+end // end of [fprint_gvarray]
+
+(* ****** ****** *)
+
+implement
+fprint_gvhashtbl
+  (out, kxs) = let
+//
+implement
+fprint_val<gvalue> = fprint_gvalue
+//
+in
+  fprint_hashtbl_sep_mapto<string,gvalue>(out, kxs, "; ", "->")
+end // end of [fprint_gvhashtbl]
 
 (* ****** ****** *)
 
