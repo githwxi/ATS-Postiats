@@ -185,6 +185,25 @@ end // end of [hashtbl_remove]
 
 implement
 {key,itm}
+hashtbl_exchange
+  (tbl, k0, x0) = let
+//
+val p_x1 =
+  hashtbl_search_ref<key,itm>(tbl, k0)
+//
+val p_x1 = cptr2ptr(p_x1)
+//
+in
+//
+if isneqz(p_x1)
+  then ($UN.ptr1_exch<itm>(p_x1, x0); true) else false
+//
+end // end of [hashtbl_exchange]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 fprint_hashtbl
   (out, tbl) = let
 //

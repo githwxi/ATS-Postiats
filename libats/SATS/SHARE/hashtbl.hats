@@ -142,6 +142,14 @@ key:t0p;itm:t0p
 
 fun{
 key:t0p;itm:vt0p
+} hashtbl_exchange
+  (tbl: !hashtbl (key, INV(itm)), k0: key, x0: &itm >> _): bool
+// end of [hashtbl_exchange]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
 } hashtbl_takeout_all
   (tbl: !hashtbl (key, INV(itm))): List0_vt @(key, itm)
 // end of [hashtbl_takeout_all]
