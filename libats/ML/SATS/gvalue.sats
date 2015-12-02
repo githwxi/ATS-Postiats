@@ -73,5 +73,34 @@ overload fprint with fprint_gvarray of 10
 overload fprint with fprint_gvhashtbl of 10
 //
 (* ****** ****** *)
+//
+fun
+gvhashtbl_make_nil
+  (cap: intGte(1)): gvhashtbl
+//
+(* ****** ****** *)
+//
+fun
+gvhashtbl_get_atkey
+  (gvhashtbl, k: string): gvalue
+fun
+gvhashtbl_set_atkey
+  (gvhashtbl, k: string, x: gvalue): void
+//
+fun
+gvhashtbl_exch_atkey
+  (gvhashtbl, k: string, x: gvalue): gvalue
+//
+(* ****** ****** *)
+//
+overload [] with gvhashtbl_get_atkey
+overload [] with gvhashtbl_set_atkey
+//
+(*
+overload .get with gvhashtbl_get_atkey
+overload .set with gvhashtbl_set_atkey
+*)
+//
+(* ****** ****** *)
 
 (* end of [gvalue.sats] *)

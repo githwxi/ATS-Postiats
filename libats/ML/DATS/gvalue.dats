@@ -136,4 +136,63 @@ fprint_val<gvalue> = fprint_gvalue
 
 (* ****** ****** *)
 
+local
+//
+staload _(*anon*) = "libats/DATS/qlist.dats"
+//
+staload _(*anon*) = "libats/DATS/hashfun.dats"
+staload _(*anon*) = "libats/DATS/linmap_list.dats"
+staload _(*anon*) = "libats/DATS/hashtbl_chain.dats"
+staload _(*anon*) = "libats/ML/DATS/hashtblref.dats"
+//
+typedef key = string
+typedef itm = gvalue
+//
+in (* in-of-local *)
+
+implement
+gvhashtbl_make_nil
+  (cap) = let
+(*
+val () =
+  println! ("ghashtbl_make_nil")
+*)
+in
+  hashtbl_make_nil<key,itm>(i2sz(cap))
+end // end of [ghashtbl_make_nil]
+
+implement
+gvhashtbl_get_atkey
+  (tbl, k0) = let
+//
+val cp = hashtbl_search_ref(tbl, k0)
+//
+in
+  if isneqz(cp) then $UN.cptr_get(cp) else GVnil()
+end // end of [gvhashtbl_get_atkey]
+
+implement
+gvhashtbl_set_atkey
+  (tbl, k0, x0) = let
+//
+val opt = hashtbl_insert(tbl, k0, x0)
+//
+in
+  case+ opt of ~None_vt() => () | ~Some_vt _ => ()
+end // end of [gvhashtbl_set_atkey]
+
+implement
+gvhashtbl_exch_atkey
+  (tbl, k0, x0) = let
+//
+val opt = hashtbl_insert(tbl, k0, x0)
+//
+in
+  case+ opt of ~None_vt() => GVnil() | ~Some_vt x1 => x1
+end // end of [gvhashtbl_set_atkey]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [gvalue.dats] *)
