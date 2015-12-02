@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-12-02:<br>
+<a
+ href="http://www.stackbuilders.com/news/specific-endpoints"
+>Specific Endpoints</a><br>
+by <a href="http://www.stackbuilders.com/news/author/eric-c-jones">Eric Jones</a>
+
+<hr></hr>
+
 ATS-2015-11-06:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/XPcUBz_iRzI"
