@@ -134,9 +134,13 @@ end // end of [word_get]
 local
 //
 staload
+"libats/ML/SATS/basis.sats"
+//
+staload
 HT = "libats/ML/SATS/hashtblref.sats"
 //
-assume wcmap_type = $HT.hashtbl (string, int)
+assume
+wcmap_type = hashtbl(string, int)
 //
 in (* in of [local] *)
 

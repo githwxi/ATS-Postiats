@@ -44,6 +44,12 @@ staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 //
+typedef
+hashtbl // introduced in [basis.sats]
+(key:t@ype, itm:t@ype) = hashtbl(key, itm)
+//
+(* ****** ****** *)
+//
 fun{
 key:t0p
 } hash_key (x: key):<> ulint

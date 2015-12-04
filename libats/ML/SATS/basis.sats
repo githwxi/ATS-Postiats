@@ -142,7 +142,9 @@ typedef substrarr = substrarr_type
 // HX: for maps of elements of type (a)
 //
 abstype
-hashtbl_type(key:t@ype, itm:t0ype) = ptr
+hashtbl_type
+  (key:t@ype, itm:t@ype) = ptr
+//
 typedef
 hashtbl(key:t0p, itm:t0p) = hashtbl_type(key, itm)
 //
