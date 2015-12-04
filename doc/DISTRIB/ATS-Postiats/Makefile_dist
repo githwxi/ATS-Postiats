@@ -39,7 +39,7 @@ config.mk : configure ; @echo "Please execute './configure'." ; exit 1 ;
 ######
 
 src_patsopt: ; $(MAKE) -j4 -C src patsopt
-bin_patsopt: src_patsopt ; cp -f src/patsopt bin/patsopt
+bin_patsopt: src_patsopt ; $(CPF) src/patsopt bin/patsopt
 
 ######
 #
@@ -59,12 +59,12 @@ src2_patsopt: ; \
 $(MAKEJ4) -C src/CBOOT \
   CCOMP=$(CCOMP) GCFLAG=$(GCFLAG) LDFLAGS=$(LDFLAGS) patsopt
 #
-bin2_patsopt: src2_patsopt ; cp -f src/CBOOT/patsopt bin/patsopt
+bin2_patsopt: src2_patsopt ; $(CPF) src/CBOOT/patsopt bin/patsopt
 #
 ######
 
 utl_atscc: ; $(MAKE) -C utils/atscc patscc
-bin_patscc: utl_atscc ; cp -f utils/atscc/patscc bin/patscc
+bin_patscc: utl_atscc ; $(CPF) utils/atscc/patscc bin/patscc
 
 ######
 
@@ -147,6 +147,7 @@ install_files_5: ; \
 
 ######
 
+CPF=cp -f
 RMF=rm -f
 RMRF=rm -rf
 
