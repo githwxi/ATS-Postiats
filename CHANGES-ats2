@@ -30,8 +30,9 @@ Here is a list of major additions and changes since the last release:
    (where aValue is assumed to be a value).
 4. WebWorker-based support for session types in libatscc2js/Worker/channel
 5. Fixing the handling of decarg of a function template declaration
-6. Fixing a bug in tracking the  of assignment: assigning a proof term does
-   not genereate any effect. Please see: d2exp_trup_assgn:D2LVALvar_mut
+6. Fixing a bug in effect-tracking of assignment: assigning a proof term
+   does not genereate any effect. Please see: d2exp_trup_assgn:D2LVALvar_mut
+7. Adding libats/ML/gvalue
 
 ######
 

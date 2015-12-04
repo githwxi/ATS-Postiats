@@ -74,39 +74,39 @@ overload fprint with fprint_gvhashtbl of 10
 //
 (* ****** ****** *)
 //
-fun gvalue_nil(): gvalue = "mac#%"
+fun gvalue_nil(): gvalue
 //
-fun gvalue_int(int): gvalue = "mac#%"
+fun gvalue_int(int): gvalue
 //
-fun gvalue_bool(bool): gvalue = "mac#%"
+fun gvalue_bool(bool): gvalue
 //
-fun gvalue_float(double): gvalue = "mac#%"
-fun gvalue_string(string): gvalue = "mac#%"
+fun gvalue_float(double): gvalue
+fun gvalue_string(string): gvalue
 //
 (* ****** ****** *)
 //
 fun
 gvarray_make_nil
-  (asz: intGte(0)): gvarray = "mac#%"
+  (asz: intGte(0)): gvarray
 //
 (* ****** ****** *)
 //
 fun
 gvhashtbl_make_nil
-  (cap: intGte(1)): gvhashtbl = "mac#%"
+  (cap: intGte(1)): gvhashtbl
 //
 (* ****** ****** *)
 //
 fun
 gvhashtbl_get_atkey
-  (gvhashtbl, k: string): gvalue = "mac#%"
+  (gvhashtbl, k: string): gvalue
 fun
 gvhashtbl_set_atkey
-  (gvhashtbl, k: string, x: gvalue): void = "mac#%"
+  (gvhashtbl, k: string, x: gvalue): void
 //
 fun
 gvhashtbl_exch_atkey
-  (gvhashtbl, k: string, x: gvalue): gvalue = "mac#%"
+  (gvhashtbl, k: string, x: gvalue): gvalue
 //
 (* ****** ****** *)
 //
