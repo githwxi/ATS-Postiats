@@ -168,6 +168,15 @@ implement
 fprint_val<gvalue> = fprint_gvalue
 
 (* ****** ****** *)
+//
+implement
+gvarray_make_nil
+  (asz) =
+(
+  array0_make_elt(i2sz(asz), GVnil())
+)
+//
+(* ****** ****** *)
 
 local
 //

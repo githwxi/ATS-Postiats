@@ -53,6 +53,8 @@ extern fun state_new(): state
 //
 extern fun state_get_test_arg1: (state) -> int
 extern fun state_get_test_arg2: (state) -> int
+extern fun state_set_test_arg1: (state, int) -> void
+extern fun state_set_test_arg2: (state, int) -> void
 //
 extern fun state_get_pass_result: (state) -> bool
 extern fun state_set_pass_result: (state, bool) -> void
@@ -97,15 +99,28 @@ f_ss_pass(state) = let
 val
 pass = ref{string}("")
 //
-fun pass_check(x: string): bool =
+fun
+pass_check
+  (x: string): bool =
   if x = "AboveTopSecret" then true else false
+fun
+pass_check2
+(
+  x: string
+) : bool = passed where
+{
+  val passed = pass_check(x)
+  val ((*void*)) =
+    if passed then state_set_pass_result(state, true)
+  // end of [val]
+} (* end of [pass_check2] *)
 //
 typedef str = string
 //
 val ss1 =
   chanpos1_session_recv_cloref<str>(lam(x) => pass[] := x)
 val ss2 =
-  chanpos1_session_send_cloref<bool>(lam() => pass_check(pass[]))
+  chanpos1_session_send_cloref<bool>(lam() => pass_check2(pass[]))
 //
 in
   ss1 :: ss2 :: chanpos1_session_nil()
@@ -119,6 +134,9 @@ f_ss_pass_try(state) = let
 //
 val mtry = 3
 val ntry = ref{int}(0)
+//
+val ((*void*)) =
+  state_set_pass_result(state, false)
 //
 val ss_pass = f_ss_pass(state)
 //
@@ -144,10 +162,29 @@ val res = ref{int}(0)
 val arg1 = state_get_test_arg1(state)
 val arg2 = state_get_test_arg2(state)
 //
+fun
+answer_check
+(
+  ans: int
+) : bool =
+  if (ans = arg1*arg2) then true else false
+//
+fun
+answer_check2
+(
+  ans: int
+) : bool = passed where
+{
+  val passed = answer_check(ans)
+  val ((*void*)) =
+    if passed then state_set_answer_result(state, true)
+  // end of [val]
+}
+//
 val ss1 =
   chanpos1_session_recv_cloref<int>(lam(x) => res[] := x)
 val ss2 =
-  chanpos1_session_send_cloref<bool>(lam() => res[] = arg1*arg2)
+  chanpos1_session_send_cloref<bool>(lam() => answer_check(res[]))
 //
 in
   ss1 :: ss2 :: chanpos1_session_nil()  
@@ -161,6 +198,9 @@ f_ss_answer_try(state) = let
 //
 val mtry = 3
 val ntry = ref{int}(0)
+//
+val ((*void*)) =
+  state_set_answer_result(state, false)
 //
 val ss_answer = f_ss_answer(state)
 //
@@ -189,12 +229,13 @@ arg1 = d2i(N*JSmath_random())
 val
 arg2 = d2i(N*JSmath_random())
 //
+val () = state_set_test_arg1(state, arg1)
+val () = state_set_test_arg1(state, arg2)
+//
 val ss1 = 
-  chanpos1_session_send_cloref<int>
-    (lam((*void*)) => arg1)
+  chanpos1_session_send_cloref<int>(lam((*void*)) => arg1)
 val ss2 = 
-  chanpos1_session_send_cloref<int>
-    (lam((*void*)) => arg2)
+  chanpos1_session_send_cloref<int>(lam((*void*)) => arg2)
 //
 in
   ss1 :: ss2 :: f_ss_answer_try(state)
@@ -245,14 +286,13 @@ end // end of [f_ss_multest]
 
 (* ****** ****** *)
 
-(*
 val () =
 {
 //
-val ((*void*)) = multest_server($UN.castvwtp0{chanpos(ss_multest)}(0))
+val ((*void*)) =
+  chanpos1_session_run_close(chanpos_session_multest())
 //
 } (* end of [val] *)
-*)
 
 (* ****** ****** *)
 
@@ -265,32 +305,3 @@ theWorker_start();
 (* ****** ****** *)
 
 (* end of [multest_server.dats] *)
-
-////
-
-datatype state =
-  | test_arg1 of (int)
-  | test_arg2 of (int)
-  | pass_result of (bool)
-  | answer_result of (bool)
-  
-  state$get$test_arg1 : state -> gvalue
-  state$set$test_arg1 : (state, int) -> void
-  state$exch$test_arg1 : (state, int) -> gvalue
-
-  overload .test_arg1 with state$get$test_arg1
-  overload .test_arg1 with state$set$test_arg1
-
-val-GVint(arg1) = state.test_arg1()
-val-GVint(arg2) = state.test_arg2()
-val-GVbool(res) = state.pass_result()
-val-GVbool(res) = state.answer_result()
-  
-extern fun state_get_test_arg1: (state) -> int
-extern fun state_get_test_arg2: (state) -> int
-//
-extern fun state_get_pass_result: (state) -> bool
-extern fun state_set_pass_result: (state, bool) -> void
-//
-extern fun state_get_answer_result: (state) -> bool
-extern fun state_set_answer_result: (state, bool) -> void

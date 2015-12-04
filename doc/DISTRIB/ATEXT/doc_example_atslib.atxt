@@ -268,6 +268,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libats_ML_gvalue.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_ML_filebas.dats")
 #packfilename("libats_ML_intrange.dats")
 

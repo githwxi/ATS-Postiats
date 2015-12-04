@@ -35,6 +35,8 @@ staload "{$PATSLIBATS}/ML/SATS/matrix0.sats"
 staload "{$PATSLIBATS}/ML/SATS/string.sats"
 staload "{$PATSLIBATS}/ML/SATS/strarr.sats"
 //
+staload "{$PATSLIBATS}/ML/SATS/gvalue.sats"
+//
 staload "{$PATSLIBATS}/ML/SATS/filebas.sats"
 staload "{$PATSLIBATS}/ML/SATS/intrange.sats"
 //
