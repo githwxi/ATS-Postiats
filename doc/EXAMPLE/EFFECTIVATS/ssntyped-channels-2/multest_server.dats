@@ -51,6 +51,9 @@ extern fun state_new(): state
 
 (* ****** ****** *)
 //
+extern fun state_get_uid: (state) -> string
+extern fun state_set_uid: (state, string) -> void
+//
 extern fun state_get_test_arg1: (state) -> int
 extern fun state_get_test_arg2: (state) -> int
 extern fun state_set_test_arg1: (state, int) -> void
@@ -273,15 +276,20 @@ end // end of [f_ss_test_loop_opt]
 (* ****** ****** *)
 
 implement
-chanpos_session_multest() = let
+chanpos_session_multest
+  ((*void*)) = let
 //
 val state = state_new()
+//
+val ss0 =
+  chanpos1_session_recv_cloref<string>
+    (lam(uid) => state_set_uid(state, uid))
 //
 val ss_pass_try = f_ss_pass_try(state)
 val ss_test_loop_opt = f_ss_test_loop_opt(state)
 //
 in
-  chanpos1_session_append(ss_pass_try, ss_test_loop_opt)
+  ss0 :: chanpos1_session_append(ss_pass_try, ss_test_loop_opt)
 end // end of [f_ss_multest]
 
 (* ****** ****** *)

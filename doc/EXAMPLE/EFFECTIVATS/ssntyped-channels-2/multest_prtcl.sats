@@ -47,7 +47,8 @@ ss_test_loop_opt = ssoption_disj(ss_test_loop)
 (* ****** ****** *)
 
 typedef
-ss_multest = ssappend(ss_pass_try, ss_test_loop_opt)
+ss_multest =
+chrcv(string) :: ssappend(ss_pass_try, ss_test_loop_opt)
 
 (* ****** ****** *)
 //
