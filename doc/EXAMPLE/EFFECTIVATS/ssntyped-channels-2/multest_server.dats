@@ -267,7 +267,9 @@ val ss_test_loop = f_ss_test_loop(state)
 implement
 chanpos1_option_disj$choose<>
   ((*void*)) =
-  if state_get_pass_result(state) then 0 else 1
+(
+if state_get_pass_result(state) then 0 else 1
+)
 //
 in
   chanpos1_session_option_disj(ss_test_loop)
