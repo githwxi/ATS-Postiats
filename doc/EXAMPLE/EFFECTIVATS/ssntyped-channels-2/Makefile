@@ -17,6 +17,11 @@ LIBATCC2JS=$(PATSHOMERELOC)/contrib/libatscc/libatscc2js
 all:: main.html
 
 ######
+
+all_demo:: multest_client_dats.js
+all_demo:: multest_server_dats_.js
+
+######
 #
 main.exe: \
   main_atxt.dats ; \

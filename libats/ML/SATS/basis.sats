@@ -168,6 +168,8 @@ datatype gvalue =
 //
   | GVstring of (string)
 //
+  | {a:type} GVboxed of (a)
+//
   | GVlist of (list0(gvalue))
 //
   | GVarray of (array0(gvalue))

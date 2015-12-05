@@ -115,6 +115,10 @@ case+ gv0 of
 | GVfloat(x) => fprint! (out, "GVfloat(", x, ")")
 | GVstring(x) => fprint! (out, "GVstring(", x, ")")
 //
+| GVboxed(x) =>
+    fprint! (out, "GVboxed(", $UN.cast{ptr}(x), ")")
+  // end of [GVboxed]
+//
 | GVlist(xs) => fprint! (out, "GVlist(", xs, ")")
 //
 | GVarray(xs) => fprint! (out, "GVarray(", xs, ")")
