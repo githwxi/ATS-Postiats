@@ -49,7 +49,7 @@ ss_multest = ssappend(ss_pass_try, ss_test_loop_opt)
 
 (* ****** ****** *)
 
-typedef ss_multest2 = chrcv(int) :: ss_multest
+typedef ss_multest2 = chrcv(string) :: ss_multest
 
 (* ****** ****** *)
 

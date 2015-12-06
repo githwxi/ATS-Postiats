@@ -555,7 +555,7 @@ fclient_multest2
   chn: channeg(ss_multest2), kx0: chncont0_nil
 ) : void =
 (
-  channeg1_recv(chn, 0, lam(chn) => fclient_multest(chn, kx0))
+  channeg1_recv(chn, "userid", lam(chn) => fclient_multest(chn, kx0))
 )
 //
 (* ****** ****** *)

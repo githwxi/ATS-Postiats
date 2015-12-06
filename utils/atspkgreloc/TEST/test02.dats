@@ -14,14 +14,15 @@ ATS_PACKNAME "atspkgreloc_test02"
 (* ****** ****** *)
 //
 #define
-PATSCONTRIB "http://ats-lang.sourceforge.net/LIBRARY/contrib"
+PATSCONTRIB
+"http://ats-lang.sourceforge.net/LIBRARY/contrib"
 //
 (* ****** ****** *)
 //
 #require
 "{$PATSCONTRIB}/libgmp/CATS/gmp.cats"
 //
-#require(*HX-2014-05-01: this one is required by others*)
+#require // HX-2014-05-01: it is required by others
 "{$PATSCONTRIB}/libats-hwxi/intinf/SATS/intinf_vt.sats"
 //
 (* ****** ****** *)

@@ -202,10 +202,14 @@ f_ss_answer_try(state) = let
 val mtry = 3
 val ntry = ref{int}(0)
 //
-val ((*void*)) =
-  state_set_answer_result(state, false)
-//
 val ss_answer = f_ss_answer(state)
+//
+implement
+chanpos1_repeat_disj$init<>() =
+{
+  val () = ntry[] := 0
+  val () = state_set_answer_result(state, false)
+}
 //
 implement
 chanpos1_repeat_disj$choose<>() =
@@ -277,8 +281,12 @@ end // end of [f_ss_test_loop_opt]
 
 (* ****** ****** *)
 
+extern
+fun
+chanpos_session_multest2(): chanpos_session(ss_multest2)
+
 implement
-chanpos_session_multest
+chanpos_session_multest2
   ((*void*)) = let
 //
 val state = state_new()
@@ -292,7 +300,7 @@ val ss_test_loop_opt = f_ss_test_loop_opt(state)
 //
 in
   ss0 :: chanpos1_session_append(ss_pass_try, ss_test_loop_opt)
-end // end of [f_ss_multest]
+end // end of [chanpos_session_multest2]
 
 (* ****** ****** *)
 
@@ -300,7 +308,7 @@ val () =
 {
 //
 val ((*void*)) =
-  chanpos1_session_run_close(chanpos_session_multest())
+  chanpos1_session_run_close(chanpos_session_multest2())
 //
 } (* end of [val] *)
 
