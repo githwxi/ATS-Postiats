@@ -85,7 +85,8 @@ end // end of [list0_make_elt]
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 list0_make_intrange_lr
   (l, r) = let
   val d = (
@@ -95,7 +96,10 @@ in
   $effmask_exn (list0_make_intrange_lrd (l, r, d))
 end // end of [list0_make_intrange_lr]
 
-implement{}
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
 list0_make_intrange_lrd
   (l, r, d) = let
 //
@@ -170,64 +174,71 @@ list0_make_arrpsz
 // end of [list0_make_arrpsz]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
-print_list0 (xs) = fprint_list0<a> (stdout_ref, xs)
+print_list0(xs) = fprint_list0<a> (stdout_ref, xs)
 implement
 {a}(*tmp*)
-prerr_list0 (xs) = fprint_list0<a> (stderr_ref, xs)
-
+prerr_list0(xs) = fprint_list0<a> (stderr_ref, xs)
+//
 implement
 {a}(*tmp*)
-fprint_list0 (out, xs) = fprint_list<a> (out, g1ofg0(xs))
-
+fprint_list0(out, xs) = fprint_list<a> (out, g1ofg0(xs))
+//
 implement
 {a}(*tmp*)
-fprint_list0_sep (out, xs, sep) = let
+fprint_list0_sep
+  (out, xs, sep) = let
   val xs = g1ofg0(xs) in fprint_list_sep<a> (out, xs, sep)
 end // end of [fprint_list0_sep]
-
+//
 (* ****** ****** *)
-
+//
 (*
 //
-// HX: they have been declared as macros:
+// HX: these have been declared as macros:
 //
 implement
 {a}(*tmp*)
 list0_sing (x) = list0_cons{a}(x, list0_nil)
 implement
 {a}(*tmp*)
-list0_pair (x1, x2) = list0_cons{a}(x1, list0_cons{a}(x2, list0_nil))
+list0_pair (x1, x2) =
+  list0_cons{a}(x1, list0_cons{a}(x2, list0_nil))
+//
 *)
-
+//
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-list0_is_nil (xs) = (
-  case+ xs of
-  | list0_cons _ => false | list0_nil () => true
-) // end of [list0_is_nil]
+list0_is_nil(xs) = (
+//
+case+ xs of
+| list0_cons _ => false | list0_nil() => true
+//
+) (* end of [list0_is_nil] *)
 
 implement
 {a}(*tmp*)
-list0_is_cons (xs) = (
-  case+ xs of
-  | list0_cons _ => true | list0_nil () => false
-) // end of [list0_is_cons]
+list0_is_cons(xs) = (
+//
+case+ xs of
+| list0_cons _ => true | list0_nil() => false
+//
+) (* end of [list0_is_cons] *)
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
-list0_is_empty (xs) = list0_is_nil<a> (xs)
-
+list0_is_empty(xs) = list0_is_nil<a> (xs)
+//
 implement
 {a}(*tmp*)
-list0_isnot_empty (xs) = list0_is_cons<a> (xs)
-
+list0_isnot_empty(xs) = list0_is_cons<a> (xs)
+//
 (* ****** ****** *)
 
 implement
@@ -235,9 +246,14 @@ implement
 list0_head_exn
   (xs) = let
 in
-  case+ xs of
-  | list0_cons (x, _) => x
-  | list0_nil _ => $raise ListSubscriptExn()
+//
+case+ xs of
+| list0_cons
+    (x, _) => (x)
+  // list0_cons
+| list0_nil _ =>
+    $raise ListSubscriptExn()
+  // list0_nil
 end // end of [list0_head_exn]
 
 implement
@@ -247,8 +263,8 @@ list0_head_opt
 in
 //
 case+ xs of
-| list0_nil () => None_vt()
-| list0_cons (x, _) => Some_vt{a}(x)
+| list0_nil() => None_vt()
+| list0_cons(x, _) => Some_vt{a}(x)
 //
 end // end of [list0_head_opt]
 
@@ -259,9 +275,15 @@ implement
 list0_tail_exn
   (xs) = let
 in
-  case+ xs of
-  | list0_cons (_, xs) => xs
-  | list0_nil _ => $raise ListSubscriptExn()
+//
+case+ xs of
+| list0_cons
+    (_, xs) => (xs)
+  // list0_cons
+| list0_nil _ =>
+    $raise ListSubscriptExn()
+  // list0_nil
+//
 end // end of [list0_tail_exn]
 
 implement
@@ -271,8 +293,8 @@ list0_tail_opt
 in
 //
 case+ xs of
-| list0_nil () => None_vt()
-| list0_cons (_, xs) => Some_vt{list0(a)}(xs)
+| list0_nil() => None_vt()
+| list0_cons(_, xs) => Some_vt{list0(a)}(xs)
 //
 end // end of [list0_tail_opt]
 
@@ -339,9 +361,12 @@ list0_nth_exn
 val i = g1ofg0_int (i)
 //
 in
-  if i >= 0 then
-    loop<a> (xs, i) else $raise ListSubscriptExn()
-  // end of [if]
+//
+if
+i >= 0
+then loop<a> (xs, i)
+else $raise ListSubscriptExn()
+//
 end // end of [list0_nth_exn]
 
 implement
@@ -353,11 +378,14 @@ val i = g1ofg0(i)
 //
 in
 //
-if i >= 0 then (
-  $effmask_exn (
-    try Some_vt{a}(loop<a> (xs, i)) with ~ListSubscriptExn() => None_vt()
-  ) // end of [$effmask_exn]
-) else None_vt () // end of [if]
+if
+i >= 0
+then (
+$effmask_exn
+(
+  try Some_vt{a}(loop<a>(xs, i)) with ~ListSubscriptExn() => None_vt()
+) (* $effmask_exn *)
+) else None_vt((*void*))
 //
 end // end of [list0_nth_opt]
 
@@ -382,28 +410,33 @@ fun aux {i:nat} .<i>. (
 ) :<!exn> list0 a = let
 in
 //
-if i > 0 then
-(
-  case+ xs of
-  | list0_cons (x, xs) =>
-    (
-      list0_cons{a}(x, aux (xs, i-1, x0))
-    )
-  | list0_nil () => $raise ListSubscriptExn()
+if
+i > 0
+then (
+//
+case+ xs of
+| list0_cons
+    (x, xs) =>
+  (
+    list0_cons{a}(x, aux (xs, i-1, x0))
+  )
+| list0_nil() => $raise ListSubscriptExn()
+//
 ) else (
   list0_cons{a}(x0, xs)
 ) (* end of [if] *)
 //
 end // end of [aux]
 //
-val i = g1ofg0_int (i)
+val i = g1ofg0_int(i)
 //
 in
-  if i >= 0 then
-    aux (xs, i, x0)
-  else
-    $raise IllegalArgExn("list0_insert_at_exn:i")
-  // end of [if]
+//
+if
+i >= 0
+then aux (xs, i, x0)
+else $raise IllegalArgExn("list0_insert_at_exn:i")
+//
 end // end of [list0_insert_at_exn]
 
 (* ****** ****** *)
