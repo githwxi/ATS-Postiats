@@ -174,6 +174,40 @@ fprint_val<gvalue> = fprint_gvalue
 (* ****** ****** *)
 //
 implement
+gvalue_nil() = GVnil()
+//
+implement
+gvalue_int(x) = GVint(x)
+//
+implement
+gvalue_bool(x) = GVbool(x)
+implement
+gvalue_char(x) = GVchar(x)
+//
+implement
+gvalue_float(x) = GVfloat(x)
+implement
+gvalue_string(x) = GVstring(x)
+//
+(* ****** ****** *)
+
+implement
+gvalue_boxed(x) = GVboxed(x)
+
+(* ****** ****** *)
+//
+implement
+gvalue_list(xs) = GVlist(xs)
+//
+implement
+gvalue_array(xs) = GVarray(xs)
+//
+implement
+gvalue_hashtbl(kxs) = GVhashtbl(kxs)
+//
+(* ****** ****** *)
+//
+implement
 gvarray_make_nil
   (asz) =
 (

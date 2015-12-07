@@ -79,9 +79,20 @@ fun gvalue_nil(): gvalue
 fun gvalue_int(int): gvalue
 //
 fun gvalue_bool(bool): gvalue
+fun gvalue_char(char): gvalue
 //
 fun gvalue_float(double): gvalue
 fun gvalue_string(string): gvalue
+//
+fun gvalue_boxed{a:type}(a): gvalue
+//
+(* ****** ****** *)
+//
+fun gvalue_list(xs: gvlist): gvalue
+//
+fun gvalue_array(xs: gvarray): gvalue
+//
+fun gvalue_hashtbl(kxs: gvhashtbl): gvalue
 //
 (* ****** ****** *)
 //
