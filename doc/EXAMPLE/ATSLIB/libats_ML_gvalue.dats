@@ -45,8 +45,8 @@ val-GVbool(false) = state["passwd_passed"]
 (* ****** ****** *)
 //
 val () =
-  state["passwd_fcheck"] :=
-  GVcloref1(lam(x) => let val-GVstring(x)=x in GVbool(x="AboveTopSecret") end)
+state["passwd_fcheck"] :=
+  GVfunclo_clo(lam(x) => let val-GVstring(x)=x in GVbool(x="AboveTopSecret") end)
 //
 (* ****** ****** *)
 

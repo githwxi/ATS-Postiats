@@ -176,9 +176,8 @@ datatype gvalue =
 //
   | GVhashtbl of (gvhashtbl)
 //
-  | GVcloref0 of (() -<cloref1> gvalue)
-  | GVcloref1 of ((gvalue) -<cloref1> gvalue)
-  | GVcloref2 of ((gvalue, gvalue) -<cloref1> gvalue)
+  | GVfunclo_fun of ((gvalue) -<fun1> gvalue)
+  | GVfunclo_clo of ((gvalue) -<cloref1> gvalue)
 //
 where
 gvlist = list0(gvalue)
