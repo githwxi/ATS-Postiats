@@ -125,6 +125,9 @@ case+ gv0 of
 //
 | GVhashtbl(kxs) => fprint! (out, "GVhashtbl(", kxs, ")")
 //
+| GVfunclo_fun _ => fprint! (out, "GVfunclo_fun(", "...", ")")
+| GVfunclo_clo _ => fprint! (out, "GVfunclo_clo(", "...", ")")
+//
 end // end of [fprint_gvalue]
 
 (* ****** ****** *)
