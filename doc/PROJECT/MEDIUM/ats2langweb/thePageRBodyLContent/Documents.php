@@ -20,19 +20,19 @@ basic understanding of programming and possibly some programming skills.
 <tr><td>
 Links:
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/PDF/main.pdf">pdf</a>
-<a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/PDF/main_epub.pdf">epub</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/book1.html">html</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/book1.html">htmltoc</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/INT2PROGINATS-BOOK-onechunk.html">htmlone</a>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/PDF/main_epub.pdf">epub</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/CODE/INT2PROGINATS-CODE.html">code</a>
 </td></tr>
 <tr><td>
 Backup Links:
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/PDF/main.pdf">pdf</a>
-<a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/PDF/main_epub.pdf">epub</a>
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/HTML/book1.html">html</a>
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/book1.html">htmltoc</a>
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/HTML/INT2PROGINATS-BOOK-onechunk.html">htmlone</a>
+<a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/PDF/main_epub.pdf">epub</a>
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/CODE/INT2PROGINATS-CODE.html">code</a>
 </td></tr>
 <tr height="8px"><td></td></tr>
@@ -58,6 +58,7 @@ Links:
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/book1.html">html</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/book1.html">htmltoc</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-BOOK-onechunk.html">htmlone</a>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/PDF/main_epub.pdf">epub</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/CODE/ATS2TUTORIAL-CODE.html">code</a>
 </td></tr>
 <tr><td>
@@ -66,6 +67,7 @@ Backup Links:
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/HTML/book1.html">html</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/book1.html">htmltoc</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-BOOK-onechunk.html">htmlone</a>
+<a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/PDF/main_epub.pdf">epub</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/CODE/ATS2TUTORIAL-CODE.html">code</a>
 </td></tr>
 <tr height="8px"><td></td></tr>

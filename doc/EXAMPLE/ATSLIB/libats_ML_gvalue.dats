@@ -43,8 +43,14 @@ val-GVint(2) = state["test_arg2"]
 val-GVbool(false) = state["passwd_passed"]
 //
 (* ****** ****** *)
+//
+val () =
+  state["passwd_fcheck"] :=
+  GVcloref1(lam(x) => let val-GVstring(x)=x in GVbool(x="AboveTopSecret") end)
+//
+(* ****** ****** *)
 
-implement main0 () = ()
+implement main0() = ((*void*))
 
 (* ****** ****** *)
 

@@ -170,18 +170,23 @@ datatype gvalue =
 //
   | {a:type} GVboxed of (a)
 //
-  | GVlist of (list0(gvalue))
+  | GVlist of (gvlist)
 //
-  | GVarray of (array0(gvalue))
+  | GVarray of (gvarray)
 //
-  | GVhashtbl of (hashtbl(string, gvalue))
+  | GVhashtbl of (gvhashtbl)
 //
-(* ****** ****** *)
-
-typedef gvlist = list0(gvalue)
-typedef gvarray = array0(gvalue)
-typedef gvhashtbl = hashtbl(string, gvalue)
-
+  | GVcloref0 of (() -<cloref1> gvalue)
+  | GVcloref1 of ((gvalue) -<cloref1> gvalue)
+  | GVcloref2 of ((gvalue, gvalue) -<cloref1> gvalue)
+//
+where
+gvlist = list0(gvalue)
+and
+gvarray = array0(gvalue)
+and
+gvhashtbl = hashtbl(string, gvalue)
+//
 (* ****** ****** *)
 
 (* end of [basis.sats] *)
