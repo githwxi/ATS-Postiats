@@ -28,6 +28,8 @@ staload
 //
 staload
 "{$LIBATSCC2JS}/SATS/Worker/channel_session.sats"
+staload
+"{$LIBATSCC2JS}/SATS/Worker/channel_session2.sats"
 //
 (* ****** ****** *)
 //
@@ -35,6 +37,8 @@ staload
 "{$LIBATSCC2JS}/DATS/Worker/chanpos.dats"
 #include
 "{$LIBATSCC2JS}/DATS/Worker/chanpos_session.dats"
+#include
+"{$LIBATSCC2JS}/DATS/Worker/chanpos_session2.dats"
 //
 (* ****** ****** *)
 
@@ -154,9 +158,6 @@ f_ss_test_one(state) : chanpos_session(ss_test_one)
 extern
 fun{}
 f_ss_test_loop(state) : chanpos_session(ss_test_loop)
-extern
-fun{}
-f_ss_test_loop_opt(state) : chanpos_session(ss_test_loop_opt)
 //
 (* ****** ****** *)
 
@@ -332,29 +333,16 @@ in
 end // end of [f_ss_test_loop]
 
 (* ****** ****** *)
-
-implement
-{}(*tmp*)
-f_ss_test_loop_opt(state) = let
-//
-implement
-chanpos1_option_disj$choose<>
-  ((*void*)) =
-  if state_get_pass_result(state) then 1 else 0
-//
-in
-  chanpos1_session_option_disj(f_ss_test_loop(state))
-end // end of [f_ss_test_loop_opt]
-
-(* ****** ****** *)
 //
 extern
 fun
 chanpos_session_multest2
-  ((*void*)): chanpos_session(ss_multest2)
+  ((*void*))
+: chanpos_session(ss_multest2)
 //
 implement
-chanpos_session_multest2() = let
+chanpos_session_multest2
+  ((*void*)) = let
 //
 val state = state_new()
 //
@@ -363,10 +351,14 @@ val ss0 =
     (lam(uid) => state_set_uid(state, uid))
 //
 val ss_pass_try = f_ss_pass_try(state)
-val ss_test_loop_opt = f_ss_test_loop_opt(state)
+val ss_test_loop = f_ss_test_loop(state)
+//
+implement
+chanpos1_session_guardby$guard<>
+  ((*void*)) = state_get_pass_result(state)
 //
 in
-  ss0 :: chanpos1_session_append(ss_pass_try, ss_test_loop_opt)
+  ss0 :: chanpos1_session_guardby(ss_test_loop, ss_pass_try)
 end // end of [chanpos_session_multest2]
 //
 (* ****** ****** *)
