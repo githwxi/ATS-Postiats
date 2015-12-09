@@ -9,7 +9,7 @@
 <meta
  http-equiv="content-type"
  content="text/html; charset=UTF-8" />
-<title>EFFECTIVATS-ssntyped-channels-introduction</title>
+<title>EFFECTIVATS-ssntyped-channels-session-combinators</title>
 #patscode_style()
 </head>
 
@@ -23,21 +23,238 @@ Let us combine sessions together!
 
 <p>
 In this article, I present several session combinators
-for combining existing sessions together to form new sessions. In
-this regard, session combinators are similar to parsing combinators.
+for combining existing sessions together to form new sessions.
+In this regard, session combinators are similar to parsing combinators.
 </p>
 
 <h2>
-Joining Sessions : ssappend
+Sessions as closure-functions
 </h2>
 
-Given two session types #stacode("ss1") and #stacode("ss2"),
-#stacode("ssappend(ss1, ss2)") is a session type for specifying a session
-that is the concatenation of a session specified by #stacode("ss1")
-and another one specified by #stacode("ss2").
+<p>
+Let us first introduce two abstract types as follows:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+abstype chanpos_session(ss:type)
+abstype channeg_session(ss:type)
+//
+')</pre>
+
+<p>
+The abstract types #stacode("chanpos_session") and
+#stacode("channeg_session") are actually defined as
+#stacode("chanpos_nullify") and #stacode("channeg_nullify"),
+respectively:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+typedef
+chanpos_nullify(ss:type) =
+  (chanpos(ss), chpcont0_nil) -<cloref1> void
+typedef
+channeg_nullify(ss:type) =
+  (channeg(ss), chncont0_nil) -<cloref1> void
+//
+')</pre>
+
+<p> A server-session of the type #stacode("chanpos_session(ss)") takes
+as its two arguments a positive channel of the type
+#stacode("chanpos(ss)") and a continuation; it turns the positive
+channel into one of the type #stacode("chanpos(chnil)") and then
+passes it to the continuation. The meaning of a client-session of the
+type #stacode("channeg_session(ss)") can be similarly construed.  </p>
+
+<p>
+Let us now recall the implementation of the server process in a
+<a href=""./../ssntyped-channels-1/index.html">previous article</a> 
+on session-typed channels:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+typedef
+Q_ssn =
+chrcv(int)::chrcv(int)::chsnd(bool)::chnil
+//
+fun
+Q (
+  chp: chanpos(Q_ssn)
+) : void = (
+//
+chanpos1_recv
+( chp
+, lam(chp, i1) => let
+  val i1 = chmsg_parse<int>(i1) in
+  chanpos1_recv
+  ( chp
+  , lam(chp, i2) => let
+    val i2 = chmsg_parse<int>(i2) in
+    chanpos1_send
+    ( chp, i1 < i2
+    , lam(chp) => chanpos1_close(chp)
+    )
+    end // end-of-let // end-of-lam
+  )
+  end // end-of-let // end-of-lam
+)
+//
+) (* end of [Q] *)
+')</pre>
+
+<p>
+A server-session corresponding to #dyncode("Q") can be implemented
+as follows by making use of certain session combinators:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+overload :: with chanpos1_session_cons
+//
+fun
+Q_session(): chanpos_session(Q_ssn) = let
+//
+val i1_ref = ref{int}(0)
+val i2_ref = ref{int}(0)
+//
+val ss1 =
+  chanpos1_session_recv_cloref<int>(lam(i) => i1_ref[] := i)
+val ss2 =
+  chanpos1_session_recv_cloref<int>(lam(i) => i2_ref[] := i)
+val ss3 =
+  chanpos1_session_send_cloref<bool>(lam() => i1_ref[] < i2_ref[])
+//
+in
+  ss1 :: ss2 :: ss3 :: chanpos1_session_nil()
+end // end of [Q_session]
+//
+')</pre>
+
+<p>
+The session combinator #dyncode("chanpos1_session_send_cloref") is
+called to form a single-action session which only sends a message on
+a given positive channel before passing the channel to a continuation.
+Note that I may also refer to such a session as a singleton session.
+Similarly, the session combinator #dyncode("chanpos1_session_recv_cloref")
+is called to form a single-action session which only receives a
+message on a given positive channel before passing the channel to a
+continuation.
+</p>
+
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun{
+a:t@ype
+} chanpos1_session_send_cloref
+  (cfun0(a)): chanpos_session(chsnd(a)::chnil)
+fun{
+a:t@ype
+} chanpos1_session_recv_cloref
+  (cfun1(a, void)): chanpos_session(chrcv(a)::chnil)
+//
+')</pre>
+
+<p>
+The session combinators #dyncode("chanpos1_session_nil") and
+#dyncode("chanpos1_session_cons") should remind one of the standard
+list constructors:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+chanpos1_session_nil(): chanpos_session(chnil)
+//
+fun{}
+chanpos1_session_cons
+  {a:type}{ss:type}
+(
+  chanpos_session(chcons(a, chnil)), chanpos_session(ss)
+) : chanpos_session(a::ss)
+//
+')</pre>
+
+<p>
+As indicated by the types,
+#dyncode("chanpos1_session_nil") is called to form an empty session and
+#dyncode("chanpos1_session_cons") is called to combine a singleton session with
+a (general) session.
+</p>
+
+<p>
+A client-session #dyncode("P_session") corresponding to the
+server-session #dyncode("Q_session") is implemented as follows:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+fun
+P_session
+(
+// argless
+) : channeg_session(Q_ssn) = let
+//
+fun
+theResult_process
+  (lt: bool): void = let
+  val () = Start_output("Session over!")
+in
+  theResult_set(if lt then "true" else "false")
+end // end of [theResult_process]
+//
+val ss1 =
+  channeg1_session_recv_cloref<int>(lam() => theArg1_get())
+val ss2 =
+  channeg1_session_recv_cloref<int>(lam() => theArg2_get())
+val ss3 =
+  channeg1_session_send_cloref<bool>(lam(lt) => theResult_process(lt))
+//
+in
+  ss1 :: ss2 :: ss3 :: channeg1_session_nil((*void*))
+end // end of [P_session]
+//
+')</pre>
+
+<p>
+However, the session constructed by calling #dyncode("P_session") is
+not suitable for being use directly as it ignores the need for handling
+GUI issues.
+</p>
 
 <h2>
-Selective Session : sschoose
+Joining Sessions: ssappend
+</h2>
+
+<p>
+Given two session types #stacode("ss1") and #stacode("ss2"),
+#stacode("ssappend(ss1, ss2)") is a session type for specifying a session
+that is the concatenation of one specified by #stacode("ss1")
+and another one specified by #stacode("ss2").
+</p>
+
+<h2>
+Client-selected Session : sschoose_conj
+</h2>
+
+<h2>
+Server-selected Session : sschoose_disj
 </h2>
 
 <h2>

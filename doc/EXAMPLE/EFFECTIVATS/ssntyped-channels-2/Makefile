@@ -17,10 +17,15 @@ LIBATCC2JS=$(PATSHOMERELOC)/contrib/libatscc/libatscc2js
 all:: main.html
 
 ######
-
+#
+all_demo:: \
+introxmpl1_client_dats.js
+all_demo:: \
+introxmpl1_server_dats_.js
+#
 all_demo:: multest_client_dats.js
 all_demo:: multest_server_dats_.js
-
+#
 ######
 #
 main.exe: \
@@ -33,6 +38,21 @@ main.exe: \
 main_atxt.dats: \
   main.atxt; $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
 main.html: main.exe ; ./main.exe > $@
+#
+######
+#
+introxmpl1_client_dats.c: \
+  introxmpl1_client.dats; $(PATSOPT) -o $@ -d $<
+introxmpl1_client_dats.js: \
+  introxmpl1_client_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+introxmpl1_server_dats.c: \
+  introxmpl1_server.dats; $(PATSOPT) -o $@ -d $<
+introxmpl1_server_dats.js: \
+  introxmpl1_server_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+introxmpl1_server_dats_.js: \
+  introxmpl1_server_dats.js; $(CAT) $(LIBATCC2JS)/libatscc2js_all.js $< > $@
 #
 ######
 #

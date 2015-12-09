@@ -244,7 +244,7 @@ val fwork1 = lam(x) =<cloref1> fwork1(x)
 //
 in
   $extfcall(void, "theAction_fwork01_set", fwork0, fwork1)
-end // end of [P1]
+end // end of [P]
 //
 and
 theResult_process
