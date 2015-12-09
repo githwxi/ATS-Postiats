@@ -41,21 +41,6 @@ main.html: main.exe ; ./main.exe > $@
 #
 ######
 #
-introxmpl1_client_dats.c: \
-  introxmpl1_client.dats; $(PATSOPT) -o $@ -d $<
-introxmpl1_client_dats.js: \
-  introxmpl1_client_dats.c; $(ATSCC2JS) -o $@ -i $<
-#
-introxmpl1_server_dats.c: \
-  introxmpl1_server.dats; $(PATSOPT) -o $@ -d $<
-introxmpl1_server_dats.js: \
-  introxmpl1_server_dats.c; $(ATSCC2JS) -o $@ -i $<
-#
-introxmpl1_server_dats_.js: \
-  introxmpl1_server_dats.js; $(CAT) $(LIBATCC2JS)/libatscc2js_all.js $< > $@
-#
-######
-#
 multest_client_dats.c: \
   multest_client.dats; $(PATSOPT) -o $@ -d $<
 multest_client_dats.js: \
@@ -68,6 +53,21 @@ multest_server_dats.js: \
 #
 multest_server_dats_.js: \
   multest_server_dats.js; $(CAT) $(LIBATCC2JS)/libatscc2js_all.js $< > $@
+#
+######
+#
+introxmpl1_client_dats.c: \
+  introxmpl1_client.dats; $(PATSOPT) -o $@ -d $<
+introxmpl1_client_dats.js: \
+  introxmpl1_client_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+introxmpl1_server_dats.c: \
+  introxmpl1_server.dats; $(PATSOPT) -o $@ -d $<
+introxmpl1_server_dats.js: \
+  introxmpl1_server_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+introxmpl1_server_dats_.js: \
+  introxmpl1_server_dats.js; $(CAT) $(LIBATCC2JS)/libatscc2js_all.js $< > $@
 #
 ######
 #
@@ -95,7 +95,12 @@ cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 cleanall:: ; $(RMF) *_?ats.html
 #
+cleanall:: ; $(RMF) multest_client_dats.js
 cleanall:: ; $(RMF) multest_server_dats.js
 cleanall:: ; $(RMF) multest_server_dats_.js
+#
+cleanall:: ; $(RMF) introxmpl1_client_dats.js
+cleanall:: ; $(RMF) introxmpl1_server_dats.js
+cleanall:: ; $(RMF) introxmpl1_server_dats_.js
 #
 ###### end of [Makefile] ######

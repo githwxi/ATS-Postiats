@@ -196,10 +196,11 @@ As indicated by the types,
 a (general) session.
 </p>
 
-<p>
-A client-session #dyncode("P_session") corresponding to the
-server-session #dyncode("Q_session") is implemented as follows:
-</p>
+<p> Please study the code in #filename("introxmpl1_server.dats") to
+see how the session constructed by calling #dyncode("Q_session") can
+be executed. The following code implements a client-session
+#dyncode("P_session") that corresponds to the server-session
+#dyncode("Q_session"): </p>
 
 <pre
 class="patsyntax">
@@ -234,8 +235,26 @@ end // end of [P_session]
 
 <p>
 However, the session constructed by calling #dyncode("P_session") is
-not suitable for being use directly as it ignores the need for handling
-GUI issues.
+not suitable for being used directly as it ignores GUI issues. Please
+study the code in #filename("introxmpl1_client.dats") for details on
+handling GUI issues.
+</p>
+
+<p>
+A simple demo based on the code for #dyncode("P_session") and
+#dyncode("Q_session") is available
+<a href="./introxmpl1.html">on-line</a>. The entirety of the code
+for this demo can be found in four files of the following names:
+
+<pre>
+introxmpl1.html
+introxmpl1_prctl.sats
+introxmpl1_client.dats
+introxmpl1_server.dats
+</pre>
+
+I strongly encourage the reader to use the provided Makefile to build
+the demo on his/her own.
 </p>
 
 <h2>
