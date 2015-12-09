@@ -307,8 +307,10 @@ end // end of [chanpos_session_multest2]
 val () =
 {
 //
+val chn = $UN.castvwtp0{chanpos(ss_multest2)}(0)
+//
 val ((*void*)) =
-  chanpos1_session_run_close(chanpos_session_multest2())
+  chanpos1_session_run_close(chanpos_session_multest2(), chn)
 //
 } (* end of [val] *)
 
