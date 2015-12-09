@@ -73,7 +73,12 @@ introxmpl1_server_dats_.js: \
 #
 upload_main: \
   main.html ; scp $^ \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-1/.
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-2/.
+#
+upload_dats_js: \
+  introxmpl1_client_dats.js \
+  introxmpl1_server_dats_.js ; scp $^ \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-2/.
 #
 ######
 

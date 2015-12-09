@@ -28,7 +28,7 @@ In this regard, session combinators are similar to parsing combinators.
 </p>
 
 <h2>
-Sessions as closure-functions
+Sessions as closure-functions in CPS-style
 </h2>
 
 <p>
@@ -73,7 +73,7 @@ type #stacode("channeg_session(ss)") can be similarly construed.  </p>
 
 <p>
 Let us now recall the implementation of the server process in a
-<a href=""./../ssntyped-channels-1/index.html">previous article</a> 
+<a href="./../ssntyped-channels-1/index.html">previous article</a> 
 on session-typed channels:
 </p>
 
@@ -190,11 +190,9 @@ chanpos1_session_cons
 ')</pre>
 
 <p>
-As indicated by the types,
-#dyncode("chanpos1_session_nil") is called to form an empty session and
-#dyncode("chanpos1_session_cons") is called to combine a singleton session with
-a (general) session.
-</p>
+As indicated by the types, #dyncode("chanpos1_session_nil") is
+called to form an empty session and #dyncode("chanpos1_session_cons")
+to combine a singleton session with a (general) session.  </p>
 
 <p> Please study the code in #filename("introxmpl1_server.dats") to
 see how the session constructed by calling #dyncode("Q_session") can
@@ -263,33 +261,70 @@ Joining Sessions: ssappend
 
 <p>
 Given two session types #stacode("ss1") and #stacode("ss2"),
-#stacode("ssappend(ss1, ss2)") is a session type for specifying a session
-that is the concatenation of one specified by #stacode("ss1")
-and another one specified by #stacode("ss2").
+#stacode("ssappend(ss1, ss2)") is a session type for specifying a
+session that is the concatenation of one specified by #stacode("ss1")
+and another one by #stacode("ss2"). The following functions
+#dyncode("chanpos1_session_append") and
+#dyncode("channeg1_session_append") can be called to join
+server-sessions and client-sessions, respectively:
 </p>
 
-<h2>
-Client-selected Session : sschoose_conj
-</h2>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun{}
+chanpos1_session_append
+  {ss1,ss2:type}
+(
+  ssp1: chanpos_session(ss1)
+, ssp2: chanpos_session(ss2)
+) : chanpos_session(ssappend(ss1, ss2))
+//
+fun{}
+channeg1_session_append
+  {ss1,ss2:type}
+(
+  ssn1: channeg_session(ss1)
+, ssn2: channeg_session(ss2)
+) : channeg_session(ssappend(ss1, ss2))
+//
+')</pre>
 
 <h2>
 Server-selected Session : sschoose_disj
 </h2>
 
 <h2>
-Client-Optional Session : ssoption_conj
+Client-selected Session : sschoose_conj
 </h2>
 
 <h2>
 Server-Optional Session : ssoption_disj
 </h2>
 
+<p>
+Given a session type #stacode("ss"), the session type
+#stacode("ssoption_disj(ss)") is essentially the same as
+#stacode("sschoose_disj(ss, chnil)").
+</p>
+
 <h2>
-Client-Repeated Session : ssrepeat_conj
+Client-Optional Session : ssoption_conj
 </h2>
+
+<p>
+Given a session type #stacode("ss"), the session type
+#stacode("ssoption_conj(ss)") is essentially the same as
+#stacode("sschoose_conj(ss, chnil)").
+</p>
 
 <h2>
 Server-Repeated Session : ssrepeat_disj
+</h2>
+
+<h2>
+Client-Repeated Session : ssrepeat_conj
 </h2>
 
 <hr size="2">

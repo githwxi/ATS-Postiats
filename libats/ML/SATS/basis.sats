@@ -161,14 +161,14 @@ datatype gvalue =
 //
   | GVint of (int)
 //
+  | GVptr of (ptr)
+//
   | GVbool of (bool)
   | GVchar of (char)
 //
   | GVfloat of (double)
 //
   | GVstring of (string)
-//
-  | {a:type} GVboxed of (a)
 //
   | GVlist of (gvlist)
 //

@@ -271,4 +271,20 @@ upload_ssntyped-channels-1:: ; \
 
 ######
 
+upload_ssntyped-channels-2:: ; \
+  $(SCP) \
+  ssntyped-channels-2/index.html \
+  ssntyped-channels-2/Makefile \
+  ssntyped-channels-2/multest.html \
+  ssntyped-channels-2/multest_prtcl.sats \
+  ssntyped-channels-2/multest_client.dats \
+  ssntyped-channels-2/multest_server.dats \
+  ssntyped-channels-2/introxmpl1.html \
+  ssntyped-channels-2/introxmpl1_prtcl.sats \
+  ssntyped-channels-2/introxmpl1_client.dats \
+  ssntyped-channels-2/introxmpl1_server.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-2
+
+######
+
 ###### end of [Makefile] ######

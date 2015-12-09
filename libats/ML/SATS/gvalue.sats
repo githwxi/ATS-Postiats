@@ -78,13 +78,13 @@ fun gvalue_nil(): gvalue
 //
 fun gvalue_int(int): gvalue
 //
+fun gvalue_ptr(ptr): gvalue
+//
 fun gvalue_bool(bool): gvalue
 fun gvalue_char(char): gvalue
 //
 fun gvalue_float(double): gvalue
 fun gvalue_string(string): gvalue
-//
-fun gvalue_boxed{a:type}(a): gvalue
 //
 (* ****** ****** *)
 //

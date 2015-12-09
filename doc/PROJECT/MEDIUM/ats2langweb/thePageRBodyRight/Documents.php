@@ -5,6 +5,22 @@ style="margin-top:8px;padding:8px;"
 <h2 style="display:inline;">What is new?</h2>
 
 <hr></hr>
+
+ATS-2015-12-09:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/wH4IZnOkZow"
+>Session Combinators</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+  
+ATS-2015-11-24:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/BpMDJrD22ck"
+>Session-Typed Channels</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
   
 ATS-2015-10-29:<br>
 <a
@@ -67,6 +83,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-03-07:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
@@ -75,8 +93,6 @@ Section "Genericity of template implementations" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-02-10:<br>
 <a

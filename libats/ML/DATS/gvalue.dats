@@ -105,19 +105,18 @@ fprint_gvalue
 in
 //
 case+ gv0 of
+//
 | GVnil() => fprint! (out, "GVnil(", ")")
 //
 | GVint(i) => fprint! (out, "GVint(", i, ")")
+//
+| GVptr(p) => fprint! (out, "GVptr(", p, ")")
 //
 | GVbool(b) => fprint! (out, "GVbool(", b, ")")
 | GVchar(c) => fprint! (out, "GVchar(", c, ")")
 //
 | GVfloat(x) => fprint! (out, "GVfloat(", x, ")")
 | GVstring(x) => fprint! (out, "GVstring(", x, ")")
-//
-| GVboxed(x) =>
-    fprint! (out, "GVboxed(", $UN.cast{ptr}(x), ")")
-  // end of [GVboxed]
 //
 | GVlist(xs) => fprint! (out, "GVlist(", xs, ")")
 //
@@ -180,7 +179,10 @@ implement
 gvalue_nil() = GVnil()
 //
 implement
-gvalue_int(x) = GVint(x)
+gvalue_int(i) = GVint(i)
+//
+implement
+gvalue_ptr(p) = GVptr(p)
 //
 implement
 gvalue_bool(x) = GVbool(x)
@@ -192,11 +194,6 @@ gvalue_float(x) = GVfloat(x)
 implement
 gvalue_string(x) = GVstring(x)
 //
-(* ****** ****** *)
-
-implement
-gvalue_boxed(x) = GVboxed(x)
-
 (* ****** ****** *)
 //
 implement
