@@ -295,9 +295,25 @@ channeg1_session_append
 Server-selected Session : sschoose_disj
 </h2>
 
+<p>
+Given two session types #stacode("ss0") and #stacode("ss1") the
+session type #stacode("sschoose_disj(ss0,ss1)") is for classifying a
+session that can behave like one classified by either #stacode("ss0")
+or #stacode("ss1"); the choice as to whether it is classified by
+#stacode("ss0") or #stacode("ss1") is determined by the server.
+</p>
+
 <h2>
 Client-selected Session : sschoose_conj
 </h2>
+
+<p>
+Given two session types #stacode("ss0") and #stacode("ss1") the
+session type #stacode("sschoose_conj(ss0,ss1)") is for classifying a
+session that can behave like one classified by either #stacode("ss0")
+or #stacode("ss1"); the choice as to whether it is classified by
+#stacode("ss0") or #stacode("ss1") is determined by the client.
+</p>
 
 <h2>
 Server-Optional Session : ssoption_disj
@@ -323,9 +339,23 @@ Given a session type #stacode("ss"), the session type
 Server-Repeated Session : ssrepeat_disj
 </h2>
 
+<p>
+Given a session type #stacode("ss"), the session type
+#stacode("ssrepeat_disj(ss)") is for classifying one that repeats a
+session classified by #stacode("ss"); the choice is made by the
+server as to whether repetition should continue.
+</p>
+
 <h2>
 Client-Repeated Session : ssrepeat_conj
 </h2>
+
+<p>
+Given a session type #stacode("ss"), the session type
+#stacode("ssrepeat_conj(ss)") is for classifying one that repeats a
+session classified by #stacode("ss"); the choice is made by the
+client as to whether repetition should continue.
+</p>
 
 <hr size="2">
 
