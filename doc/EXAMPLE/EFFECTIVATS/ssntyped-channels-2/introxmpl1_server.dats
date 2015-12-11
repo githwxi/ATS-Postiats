@@ -51,11 +51,11 @@ val i1_ref = ref{int}(0)
 val i2_ref = ref{int}(0)
 //
 val ss1 =
-  chanpos1_session_recv_cloref<int>(lam(i) => i1_ref[] := i)
+  chanpos1_session_recv<int>(lam(i) => i1_ref[] := i)
 val ss2 =
-  chanpos1_session_recv_cloref<int>(lam(i) => i2_ref[] := i)
+  chanpos1_session_recv<int>(lam(i) => i2_ref[] := i)
 val ss3 =
-  chanpos1_session_send_cloref<bool>(lam() => i1_ref[] < i2_ref[])
+  chanpos1_session_send<bool>(lam() => i1_ref[] < i2_ref[])
 //
 in
   ss1 :: ss2 :: ss3 :: chanpos1_session_nil()

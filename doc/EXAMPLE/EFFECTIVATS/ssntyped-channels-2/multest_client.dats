@@ -34,9 +34,15 @@ staload UN = "prelude/SATS/unsafe.sats"
 staload
 "{$LIBATSCC2JS}/SATS/Worker/channel.sats"
 staload
+"{$LIBATSCC2JS}/SATS/Worker/channel_session.sats"
+//
+staload
 "{$LIBATSCC2JS}/DATS/Worker/channel.dats"
+//
 #include
 "{$LIBATSCC2JS}/DATS/Worker/channeg.dats"
+#include
+"{$LIBATSCC2JS}/DATS/Worker/channeg_session.dats"
 //
 (* ****** ****** *)
 
@@ -194,58 +200,78 @@ passwd_get()
 (* ****** ****** *)
 
 fun
-fclient_pass
+channeg1_session_thunkify
+  {ss:type}
 (
-  chn: channeg(ss_pass)
-, kx0: chncont0_nil, ryn: ref(bool)
-) : void = let
+  ssn: channeg_session(ss), cont1: cfun1(click, void)
+) : channeg_session(ss) = (
 //
-val
-cont0 =
-llam() =<lincloptr1> let
+channeg1_session_encode
+(
+lam(chn, kx0) => let
 //
-val pass = passwd_get()
+  val
+  cont0 =
+  $UN.castvwtp0{int}
+  (
+    llam() =<lincloptr1>
+      channeg1_session_run(ssn, chn, kx0)
+    // end of [llam]
+  )
 //
 in
-//
-channeg1_recv
-( chn, pass
-, lam(chn) =>
-  channeg1_send
-  ( chn
-  , lam(chn, yn) => let
-      val yn = chmsg_parse<bool>(yn)
-    in
-      ryn[] := yn; kx0(chn)
-    end // end of [lam]
-  ) (* channeg1_send *)
+  $extfcall(void, "theClicks_cont01_set", cont0, cont1)
+end // end of [lam]
 )
 //
-end // end of [llam]
+) // end of [channeg1_session_thunkify]
+
+(* ****** ****** *)
+
+macdef :: = channeg1_session_cons
+
+(* ****** ****** *)
+
+fun
+f_ss_pass
+  (passed: ref(bool)) = let
 //
-val
-cont0 = $UN.castvwtp0{JSobj}(cont0)
+typedef str = string
+//
+val ss1 =
+  channeg1_session_recv<str>(lam() => passwd_get())
+val ss2 =
+  channeg1_session_send<bool>(lam(yn) => passed[] := yn)
+//
+in
+  ss1 :: ss2 :: channeg1_session_nil()
+end // end of [f_ss_pass]
+
+(* ****** ****** *)
+
+fun
+f_ss_pass_
+  (passed: ref(bool)) = let
 //
 fun
 cont1(x: click): void =
 (
 case+ x of
-| Passwd() => theClicks_cont0_run() | _ => ()
+| Passwd() => theClicks_cont0_run()
+| _(*rest-of-action*) => alert("The action is ignored!")
 )
 //
-val cont1 = $UN.cast{JSobj}(lam(x) =<cloref1> cont1(x))
-//
 in
-  $extfcall(void, "theClicks_cont01_set", cont0, cont1)
-end // end of [fclient_pass]
+  channeg1_session_thunkify(f_ss_pass(passed), lam(x) =<cloref1> cont1(x))
+end // end of [f_ss_pass_]
 
 (* ****** ****** *)
 
 fun
-fclient_pass_try
+f_ss_pass_try
 (
-  chn: channeg(ss_pass_try), kx0: chncont0_nil
-) : void = let
+// argumentless
+): channeg_session(ss_pass_try) = let
 //
 val rn0 = ref{int}(0)
 val ryn = ref{bool}(false)
@@ -260,19 +286,36 @@ val () = rn0[] := n0 + 1
 in
 //
 case+ tag of
-| 0 => ()
-| _ => if n0 > 0 then alert("Please try again!")
+| 0 =>
+  (
+    // nothing
+  )
+| _ =>
+  (
+    if n0 > 0 then alert("Please try again!")
+  )
 //
 end // end of [channeg1_repeat_disj$fwork_tag]
 //
 in
 //
-channeg1_repeat_disj<>
-( chn
-, kx0, lam(chn, kx0) => fclient_pass(chn, kx0, ryn)
-)
+channeg1_session_repeat_disj(f_ss_pass_(ryn))
 //
-end (* end of [fclient_pass_try] *)
+end (* end of [f_ss_pass_try] *)
+
+(* ****** ****** *)
+
+fun
+f_ss_login
+(
+) : channeg_session(ss_login) =
+  ss0 :: f_ss_pass_try() where
+{
+//
+val ss0 = 
+  channeg1_session_recv<string>(lam() => "userid")
+//
+} (* end of [f_ss_login] *)
 
 (* ****** ****** *)
 //
@@ -329,64 +372,55 @@ answer_output_set(resp)
 (* ****** ****** *)
 //
 fun
-fclient_answer
-(
-  chn: channeg(ss_answer)
-, kx0: chncont0_nil, ryn: ref(bool)
-) : void = let
+f_ss_answer
+  (ryn: ref(bool)) = let
 //
-val
-cont0 =
-llam() =<lincloptr1> let
-//
-val
-answer =
-  parseInt(answer_input_get())
+val ss1 =
+  channeg1_session_recv<int>
+    (lam() => parseInt(answer_input_get()))
+val ss2 =
+  channeg1_session_send<bool>(lam(yn) => ryn[] := yn)
 //
 in
+  ss1 :: ss2 :: channeg1_session_nil()
+end // end of [f_ss_answer]
 //
-channeg1_recv
-( chn, answer
-, lam(chn) =>
-  channeg1_send
-  ( chn
-  , lam(chn, yn) => let
-      val yn = chmsg_parse<bool>(yn)
-    in
-      ryn[] := yn; kx0(chn)
-    end // end of [lam]
-  ) (* channeg1_send *)
-)
-//
-end // end of [llam]
-//
-val
-cont0 = $UN.castvwtp0{JSobj}(cont0)
+(* ****** ****** *)
+
+fun
+f_ss_answer_
+  (ryn: ref(bool)) = let
 //
 fun
 cont1(x: click): void =
 (
 case+ x of
-| Answer() => theClicks_cont0_run() | _ => ()
+| Answer() => theClicks_cont0_run()
+| _(*rest-of-action*) => alert("The action is ignored!")
 )
 //
-val cont1 = $UN.cast{JSobj}(lam(x) =<cloref1> cont1(x))
-//
 in
-  $extfcall(void, "theClicks_cont01_set", cont0, cont1)
-end // end of [fclient_answer]
+  channeg1_session_thunkify(f_ss_answer(ryn), lam(x) =<cloref1> cont1(x))
+end // end of [f_ss_answer_]
 
 (* ****** ****** *)
 
 fun
-fclient_answer_try
+f_ss_answer_try
 (
-  chn: channeg(ss_answer_try), kx0: chncont0_nil
-) : void = let
+// argumentless
+) : channeg_session(ss_answer_try) = let
 //
 val rn0 = ref{int}(0)
 val ryn = ref{bool}(false)
 //
+implement
+channeg1_repeat_disj$init<>
+  () =
+{
+  val () = rn0[] := 0
+  val () = ryn[] := false
+}
 implement
 channeg1_repeat_disj$fwork_tag<>
   (tag) = let
@@ -402,72 +436,68 @@ if n0 > 0
 in
 //
 case+ tag of
-| 0 => ()
-| _ => if n0 > 0 then alert("Please try again!")
+| 0 =>
+  (
+    // nothing
+  )
+| _ =>
+  (
+    if n0 > 0 then alert("Please try again!")
+  )
 //
 end // end of [channeg1_repeat_disj$fwork]
 //
 in
 //
-channeg1_repeat_disj<>
-( chn
-, kx0, lam(chn, kx0) => fclient_answer(chn, kx0, ryn)
-)
+channeg1_session_repeat_disj(f_ss_answer_(ryn))
 //
-end (* end of [fclient_answer_try] *)
+end (* end of [f_ss_answer_try] *)
 
 (* ****** ****** *)
 
 fun
-fclient_test_one
+f_ss_test_one
 (
-  chn: channeg(ss_test_one), kx0: chncont0_nil
-) : void = let
+// argumentless
+) : channeg_session(ss_test_one) = let
 //
 (*
 val () = console_log("fclient_test_one")
 *)
 //
+val i1 = ref{int}(0)
+val i2 = ref{int}(0)
+//
+val ss1 =
+  channeg1_session_send(lam(x) => i1[] := x)
+val ss2 =
+  channeg1_session_send(lam(x) => i2[] := x)
+//
+fun
+show_question(): void =
+multest_input_set
+  (String(i1[]) + " * " + String(i2[]) + " = ?")
+//
+val ss_rest =
+channeg1_session_initize
+  (lam() => show_question(), f_ss_answer_try())
+//
 in
+  ss1 :: ss2 :: ss_rest
+end // end of [f_ss_test_one]
 //
-channeg1_send
-( chn
-, lam(chn, arg1) => let
-  val arg1 =
-    chmsg_parse<int>(arg1)
-  in
-    channeg1_send
-    ( chn
-    , lam(chn, arg2) => let
-      val arg2 =
-        chmsg_parse<int>(arg2)
-      val () =
-        multest_input_set
-        (
-          String(arg1) + " * " + String(arg2) + " = ?"
-        ) (* multest_input_set *)
-      in
-        fclient_answer_try(chn, kx0)
-      end
-    )
-  end // end of [lam]
-)
-//
-end // end of [fclient_test_one]
-
 (* ****** ****** *)
 
 fun
-fclient_test_loop
+f_ss_test_loop
 (
-  chn: channeg(ss_test_loop), kx0: chncont0_nil
-) : void = let
+// argumentless
+): channeg_session(ss_test_loop) = let
 //
 val flag = ref{int}(0)
 //
 implement
-channeg1_repeat_conj$choose<>
-  () = if flag[] > 0 then 1 else 0
+channeg1_repeat_conj$choose<>() = if flag[] > 0 then 1 else 0
 //
 fun
 cont1(x: click) =
@@ -493,20 +523,16 @@ channeg1_repeat_conj$spawn<>
 //
 in
 //
-channeg1_repeat_conj
-(
-  chn, kx0, lam(chn, kx0) => fclient_test_one(chn, kx0)
-)
+channeg1_session_repeat_conj(f_ss_test_one())
 //
-end // end of [fclient_test_loop]
-
+end // end of [f_ss_test_loop]
+//
 (* ****** ****** *)
 
 fun
-fclient_test_loop_opt
+f_ss_test_loop_opt
 (
-  chn: channeg(ss_test_loop_opt), kx0: chncont0_nil
-) : void = let
+) : channeg_session(ss_test_loop_opt) = let
 //
 implement
 channeg1_option_disj$fwork_tag<>
@@ -519,45 +545,25 @@ case+ tag of
 //
 in
 //
-channeg1_option_disj<>
-(
-  chn, kx0, lam(chn, kx0) => fclient_test_loop(chn, kx0)
-)
+channeg1_session_option_disj(f_ss_test_loop())
 //
-end // end of [fclient_test_loop_opt]
+end // end of [f_ss_test_loop_opt]
 
 (* ****** ****** *)
 
 fun
-fclient_multest
+f_ss_multest
 (
-  chn: channeg(ss_multest), kx0: chncont0_nil
-) : void = let
+) : channeg_session(ss_multest) = let
 //
 val user = userid_get((*void*))
 //
 in
 //
-channeg1_append
-(
-  chn, kx0
-, lam(chn, kx0) => fclient_pass_try(chn, kx0)
-, lam(chn, kx0) => fclient_test_loop_opt(chn, kx0)
-) (* end of [channeg1_append] *)
+channeg1_session_append(f_ss_login(), f_ss_test_loop_opt())
 //
 end // end of [fclient_multest]
 
-(* ****** ****** *)
-//
-fun
-fclient_multest2
-(
-  chn: channeg(ss_multest2), kx0: chncont0_nil
-) : void =
-(
-  channeg1_recv(chn, "userid", lam(chn) => fclient_multest(chn, kx0))
-)
-//
 (* ****** ****** *)
 //
 implement
@@ -573,7 +579,7 @@ val () = alert("chn = " + String(chn))
 *)
 //
 val
-chn = $UN.castvwtp0{channeg(ss_multest2)}(chn)
+chn = $UN.castvwtp0{channeg(ss_multest)}(chn)
 //
 val
 kx0 =
@@ -589,7 +595,7 @@ end // end of [val]
 val
 cont0 =
 llam () =<lincloptr1>
-  fclient_multest2(chn, kx0)
+  channeg1_session_run(f_ss_multest(), chn, kx0)
 //
 val
 cont0 = $UN.castvwtp0{JSobj}(cont0)
@@ -601,7 +607,9 @@ case+ x of
 | Login() =>
   theClicks_cont0_run() where
   {
-    val () = alert("Please send password!")
+    val () =
+      alert("Try the password: multest")
+    // end of [val]
   }
 | _(*rest*) => ((*other-events-are-ignored*))
 )

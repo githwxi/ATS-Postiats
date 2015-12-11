@@ -20,6 +20,11 @@ ss_pass_try = ssrepeat_disj(ss_pass)
 (* ****** ****** *)
 
 typedef
+ss_login = chrcv(string) :: ss_pass_try
+
+(* ****** ****** *)
+
+typedef
 ss_answer =
 chrcv(int)::chsnd(bool)::chnil
 
@@ -45,11 +50,7 @@ ss_test_loop_opt = ssoption_disj(ss_test_loop)
 (* ****** ****** *)
 
 typedef
-ss_multest = ssappend(ss_pass_try, ss_test_loop_opt)
-
-(* ****** ****** *)
-
-typedef ss_multest2 = chrcv(string) :: ss_multest
+ss_multest = ssappend(ss_login, ss_test_loop_opt)
 
 (* ****** ****** *)
 

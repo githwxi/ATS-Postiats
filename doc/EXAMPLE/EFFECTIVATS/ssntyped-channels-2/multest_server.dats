@@ -55,13 +55,6 @@ fserver_multest
   chp: chanpos(ss_multest), kx0: chpcont0_nil
 ) : void // end of [fserver_multest]
 //
-extern
-fun
-fserver_multest2
-(
-  chp: chanpos(ss_multest2), kx0: chpcont0_nil
-) : void // end of [fserver_multest2]
-//
 (* ****** ****** *)
 
 abstype state_type = ptr
@@ -147,6 +140,10 @@ f_ss_pass_try(state) : chanpos_session(ss_pass_try)
 //
 extern
 fun{}
+f_ss_login(state): chanpos_session(ss_login)
+//
+extern
+fun{}
 f_ss_answer(state) : chanpos_session(ss_answer)
 extern
 fun{}
@@ -182,7 +179,7 @@ pass_check
 val
 passed = 
 (
-  if x = "AboveTopSecret" then true else false
+  if x = "multest" then true else false
 ) : bool
 //
 val ((*void*)) =
@@ -193,9 +190,9 @@ val ((*void*)) =
 typedef str = string
 //
 val ss1 =
-  chanpos1_session_recv_cloref<str>(lam(x) => pass[] := x)
+  chanpos1_session_recv<str>(lam(x) => pass[] := x)
 val ss2 =
-  chanpos1_session_send_cloref<bool>(lam() => pass_check(pass[]))
+  chanpos1_session_send<bool>(lam() => pass_check(pass[]))
 //
 in
   ss1 :: ss2 :: chanpos1_session_nil()
@@ -232,6 +229,21 @@ end // end of [f_ss_pass_try]
 
 implement
 {}(*tmp*)
+f_ss_login
+  (state) =
+  ss0 :: f_ss_pass_try(state) where
+{
+//
+val ss0 =
+  chanpos1_session_recv<string>
+    (lam(uid) => state_set_uid(state, uid))
+//
+} (* end of [f_ss_login] *)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
 f_ss_answer
   (state) = let
 //
@@ -250,9 +262,9 @@ val () = if a0 then state_set_answer_result(state, true)
 } (* end of [answer_check] *)
 //
 val ss1 =
-  chanpos1_session_recv_cloref<int>(lam(x) => r0[] := x)
+  chanpos1_session_recv<int>(lam(x) => r0[] := x)
 val ss2 =
-  chanpos1_session_send_cloref<bool>(lam() => answer_check(r0[]))
+  chanpos1_session_send<bool>(lam() => answer_check(r0[]))
 //
 in
   ss1 :: ss2 :: chanpos1_session_nil()  
@@ -312,9 +324,9 @@ arg2_gen(): int = i2 where
 }  
 //
 val ss1 = 
-  chanpos1_session_send_cloref<int>(lam((*void*)) => arg1_gen())
+  chanpos1_session_send<int>(lam((*void*)) => arg1_gen())
 val ss2 = 
-  chanpos1_session_send_cloref<int>(lam((*void*)) => arg2_gen())
+  chanpos1_session_send<int>(lam((*void*)) => arg2_gen())
 //
 in
   ss1 :: ss2 :: f_ss_answer_try(state)
@@ -336,21 +348,17 @@ end // end of [f_ss_test_loop]
 //
 extern
 fun
-chanpos_session_multest2
+chanpos_session_multest
   ((*void*))
-: chanpos_session(ss_multest2)
+: chanpos_session(ss_multest)
 //
 implement
-chanpos_session_multest2
+chanpos_session_multest
   ((*void*)) = let
 //
 val state = state_new()
 //
-val ss0 =
-  chanpos1_session_recv_cloref<string>
-    (lam(uid) => state_set_uid(state, uid))
-//
-val ss_pass_try = f_ss_pass_try(state)
+val ss_login = f_ss_login(state)
 val ss_test_loop = f_ss_test_loop(state)
 //
 implement
@@ -358,18 +366,18 @@ chanpos1_session_guardby$guard<>
   ((*void*)) = state_get_pass_result(state)
 //
 in
-  ss0 :: chanpos1_session_guardby(ss_test_loop, ss_pass_try)
-end // end of [chanpos_session_multest2]
+  chanpos1_session_guardby(ss_test_loop, ss_login)
+end // end of [chanpos_session_multest]
 //
 (* ****** ****** *)
 
 val () =
 {
 //
-val chn = $UN.castvwtp0{chanpos(ss_multest2)}(0)
+val chn = $UN.castvwtp0{chanpos(ss_multest)}(0)
 //
 val ((*void*)) =
-  chanpos1_session_run_close(chanpos_session_multest2(), chn)
+  chanpos1_session_run_close(chanpos_session_multest(), chn)
 //
 } (* end of [val] *)
 

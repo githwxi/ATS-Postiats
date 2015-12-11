@@ -189,11 +189,11 @@ in
 end // end of [theResult_process]
 //
 val ss1 =
-  channeg1_session_recv_cloref<int>(lam() => theArg1_get())
+  channeg1_session_recv<int>(lam() => theArg1_get())
 val ss2 =
-  channeg1_session_recv_cloref<int>(lam() => theArg2_get())
+  channeg1_session_recv<int>(lam() => theArg2_get())
 val ss3 =
-  channeg1_session_send_cloref<bool>(lam(lt) => theResult_process(lt))
+  channeg1_session_send<bool>(lam(lt) => theResult_process(lt))
 //
 in
   ss1 :: ss2 :: ss3 :: channeg1_session_nil((*void*))
