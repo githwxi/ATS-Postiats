@@ -318,6 +318,33 @@ val ss0 =
 } (* end of [f_ss_login] *)
 
 (* ****** ****** *)
+
+fun
+f_ss_login_
+(
+) : channeg_session(ss_login) = let
+//
+fun
+cont1(x: click): void =
+(
+case+ x of
+| Login() =>
+  theClicks_cont0_run() where
+  {
+    val () =
+      alert("Try the password: multest")
+    // end of [val]
+  }
+| _(*rest*) => ((*other-events-are-ignored*))
+)
+//
+in
+//
+channeg1_session_thunkify(f_ss_login(), lam(x) =<cloref1> cont1(x))
+//
+end // end of [f_ss_login_]
+
+(* ****** ****** *)
 //
 extern
 fun
@@ -447,9 +474,22 @@ case+ tag of
 //
 end // end of [channeg1_repeat_disj$fwork]
 //
+fun
+fwork_aft
+(
+// argless
+) : void =
+if
+ryn[]
+then alert("You got it right!")
+else alert("Sorry, you got it wrong!")
+//
 in
 //
-channeg1_session_repeat_disj(f_ss_answer_(ryn))
+channeg1_session_finalize
+(
+  channeg1_session_repeat_disj(f_ss_answer_(ryn)), lam() => fwork_aft()
+)
 //
 end (* end of [f_ss_answer_try] *)
 
@@ -560,7 +600,7 @@ val user = userid_get((*void*))
 //
 in
 //
-channeg1_session_append(f_ss_login(), f_ss_test_loop_opt())
+channeg1_session_append(f_ss_login_(), f_ss_test_loop_opt())
 //
 end // end of [fclient_multest]
 
@@ -573,13 +613,9 @@ val
 chn =
 channeg0_new_file
   ("./multest_server_dats_.js")
-//
-(*
-val () = alert("chn = " + String(chn))
-*)
-//
 val
-chn = $UN.castvwtp0{channeg(ss_multest)}(chn)
+chn =
+$UN.castvwtp0{channeg(ss_multest)}(chn)
 //
 val
 kx0 =
@@ -592,32 +628,8 @@ in
   theSession_loop_initize((*void*))
 end // end of [val]
 //
-val
-cont0 =
-llam () =<lincloptr1>
-  channeg1_session_run(f_ss_multest(), chn, kx0)
-//
-val
-cont0 = $UN.castvwtp0{JSobj}(cont0)
-//
-fun
-cont1(x: click): void =
-(
-case+ x of
-| Login() =>
-  theClicks_cont0_run() where
-  {
-    val () =
-      alert("Try the password: multest")
-    // end of [val]
-  }
-| _(*rest*) => ((*other-events-are-ignored*))
-)
-val cont1 =
-  $UN.cast{JSobj}(lam(x) =<cloref1> cont1(x))
-//
 in
-  $extfcall(void, "theClicks_cont01_set", cont0, cont1)
+  channeg1_session_run(f_ss_multest(), chn, kx0)
 end // end of [val]
 
 (* ****** ****** *)

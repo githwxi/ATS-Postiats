@@ -271,6 +271,7 @@ val a0 = (x = i1 * i2)
 val () =
   if a0 then state.answer_result(true)
 // end of [val]
+//
 } (* end of [answer_check] *)
 //
 val ss1 =
