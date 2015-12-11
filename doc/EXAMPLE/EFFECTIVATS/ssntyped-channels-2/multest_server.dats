@@ -81,6 +81,17 @@ extern fun state_set_pass_result: (state, bool) -> void
 extern fun state_get_answer_result: (state) -> bool
 extern fun state_set_answer_result: (state, bool) -> void
 //
+overload .uid with state_get_uid
+overload .uid with state_set_uid
+overload .test_arg1 with state_get_test_arg1
+overload .test_arg1 with state_set_test_arg1
+overload .test_arg2 with state_get_test_arg2
+overload .test_arg2 with state_set_test_arg2
+overload .pass_result with state_get_pass_result
+overload .pass_result with state_set_pass_result
+overload .answer_result with state_get_answer_result
+overload .answer_result with state_set_answer_result
+//
 (* ****** ****** *)
 
 local
@@ -183,7 +194,7 @@ passed =
 ) : bool
 //
 val ((*void*)) =
-  if passed then state_set_pass_result(state, true)
+  if passed then state.pass_result(true)
 //
 } (* pass-check *)
 //
@@ -208,7 +219,7 @@ val mtry = 3
 val ntry = ref{int}(0)
 //
 val ((*void*)) =
-  state_set_pass_result(state, false)
+  state.pass_result(false)
 //
 implement
 chanpos1_repeat_disj$choose<>() = let
@@ -216,7 +227,7 @@ chanpos1_repeat_disj$choose<>() = let
   val () = ntry[] := n0 + 1
 in
 //
-if state_get_pass_result(state)
+if state.pass_result()
   then 0 else (if (n0 >= mtry) then 0 else 1)
 //
 end // end of [chanpos1_repeat_disj$choose]
@@ -235,8 +246,7 @@ f_ss_login
 {
 //
 val ss0 =
-  chanpos1_session_recv<string>
-    (lam(uid) => state_set_uid(state, uid))
+  chanpos1_session_recv<string>(lam(uid) => state.uid(uid))
 //
 } (* end of [f_ss_login] *)
 
@@ -254,11 +264,13 @@ answer_check
   (x: int): bool = a0 where
 {
 //
-val i1 = state_get_test_arg1(state)
-val i2 = state_get_test_arg2(state)
+val i1 = state.test_arg1()
+val i2 = state.test_arg2()
 //
 val a0 = (x = i1 * i2)
-val () = if a0 then state_set_answer_result(state, true)
+val () =
+  if a0 then state.answer_result(true)
+// end of [val]
 } (* end of [answer_check] *)
 //
 val ss1 =
@@ -283,7 +295,9 @@ implement
 chanpos1_repeat_disj$init<>() =
 {
   val () = ntry[] := 0
-  val () = state_set_answer_result(state, false)
+  val () =
+    state.answer_result(false)
+  // end of [val]
 }
 //
 implement
@@ -291,7 +305,7 @@ chanpos1_repeat_disj$choose<>
   ((*void*)) = let
   val n0 = ntry[]
   val () = ntry[] := n0 + 1
-  val b0 = state_get_answer_result(state)
+  val b0 = state.answer_result()
 in
   if b0 then 0 else (if (n0 >= mtry) then 0 else 1)
 end // end of [chanpos1_repeat_disj$choose]
@@ -312,15 +326,19 @@ f_ss_test_one(state) = let
 fun
 arg1_gen(): int = i1 where
 {
-  val i1 = d2i(N*JSmath_random())
-  val () = state_set_test_arg1(state, i1)
+  val i1 =
+    d2i(N*JSmath_random())
+  // end of [val]
+  val () = state.test_arg1(i1)
 }  
 //
 fun
 arg2_gen(): int = i2 where
 {
-  val i2 = d2i(N*JSmath_random())
-  val () = state_set_test_arg2(state, i2)
+  val i2 =
+    d2i(N*JSmath_random())
+  // end of [val]
+  val () = state.test_arg2(i2)
 }  
 //
 val ss1 = 
@@ -363,7 +381,7 @@ val ss_test_loop = f_ss_test_loop(state)
 //
 implement
 chanpos1_session_guardby$guard<>
-  ((*void*)) = state_get_pass_result(state)
+  ((*void*)) = state.pass_result()
 //
 in
   chanpos1_session_guardby(ss_test_loop, ss_login)

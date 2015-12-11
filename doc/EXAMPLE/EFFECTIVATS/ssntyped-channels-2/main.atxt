@@ -262,7 +262,7 @@ the demo on his/her own.
 Various Session Combinators
 </h2>
 
-I mention some commonly used session combinators as follows.
+Some commonly used session combinators are briefly mentioned as follows.
 
 <h3>
 Joining Sessions: ssappend
