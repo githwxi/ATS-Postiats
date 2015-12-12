@@ -25,6 +25,7 @@
 <!ENTITY chap_funsetmap SYSTEM "CHAP_FUNSETMAP/main.db">
 <!ENTITY chap_exception SYSTEM "CHAP_EXCEPTION/main.db">
 <!ENTITY chap_reference SYSTEM "CHAP_REFERENCE/main.db">
+<!ENTITY chap_tuprec_1 SYSTEM "CHAP_TUPREC_1/main.db">
 <!ENTITY chap_arrayref SYSTEM "CHAP_ARRAYREF/main.db">
 <!ENTITY chap_arrszref SYSTEM "CHAP_ARRSZREF/main.db">
 <!ENTITY chap_matrixref SYSTEM "CHAP_MATRIXREF/main.db">
@@ -70,6 +71,7 @@ To Jinning, Zoe, and Chloe
 &chap_funsetmap;
 &chap_exception;
 &chap_reference;
+&chap_tuprec_1;
 &chap_arrayref;
 &chap_arrszref;
 &chap_matrixref;

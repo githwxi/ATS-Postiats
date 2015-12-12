@@ -179,7 +179,14 @@ CHAP_REFERENCE:: ; \
 clean:: ; make -C CHAP_REFERENCE -f ../Makefile_chap clean
 
 ######
-
+#
+allchap:: \
+CHAP_TUPREC_1
+CHAP_TUPREC_1:: ; \
+  make -C CHAP_TUPREC_1 -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_TUPREC_1 -f ../Makefile_chap clean
+#
+######
 allchap:: \
 CHAP_ARRAYREF
 CHAP_ARRAYREF:: ; \

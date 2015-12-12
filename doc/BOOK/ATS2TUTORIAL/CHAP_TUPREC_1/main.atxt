@@ -1,0 +1,92 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_TUPREC_1/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="boxed_tuprec">
+#title("Boxed Tuples and Records")
+
+#para("\
+
+A #emphasis("boxed") tuple/record is really a pointer to
+some location in memory where a flat tuple/record is stored.
+Often the word #emphasis("unboxed") is also used to describe a
+flat tuple/record.
+
+")
+
+#para("\
+
+In the following code,
+the types #stacode("abc_tup")
+and #stacode("abc_rec") are for boxed tuples and records, respectively:
+
+#atscode("\
+typedef abc_tup = '(int, int, string) // for tuples
+typedef abc_rec = '{a=int, b=int, c=string} // for records
+")
+
+Note that a tuple is just a special record in the sense that the
+labels in the tuple are fixed to be ranging from 0 to n-1, where n is
+the tuple length. In the case of #stacode("abc_tup"), the three
+associated labels are 0, 1, and 2. Note that #dyncode("'(")
+and #dyncode("'{") are special symbols in ATS and there should be
+no space after the single quote.
+
+")
+
+#para("\
+
+The following code demonstrates how tuples and records can be created
+and their components (fields) taken out:
+
+#atscode("\
+//
+val x_tup = '(0, 1, \"2\") : abc_tup
+val x_rec = '{a=0, b=1, c=\"2\"} : abc_rec
+//
+val ((*void*)) = assertloc(x_tup.0 = x_rec.a)
+val ((*void*)) = assertloc(x_tup.1 = x_rec.b)
+val ((*void*)) = assertloc(x_tup.2 = x_rec.c)
+//
+")
+
+")
+
+#para("\
+
+Please find #mycodelink("chap_tuprec_1.dats", "on-line") the entirety of the
+code used in this chapter plus some testing code.\
+
+")#comment("para")
+
+</chapter><!--"boxed_tuprec"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_list.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}
