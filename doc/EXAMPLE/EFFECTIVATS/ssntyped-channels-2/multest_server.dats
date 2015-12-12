@@ -143,28 +143,28 @@ end // end of [local]
 (* ****** ****** *)
 //
 extern
-fun{}
+fun
 f_ss_pass(state) : chanpos_session(ss_pass)
 extern
-fun{}
+fun
 f_ss_pass_try(state) : chanpos_session(ss_pass_try)
 //
 extern
-fun{}
+fun
 f_ss_login(state): chanpos_session(ss_login)
 //
 extern
-fun{}
+fun
 f_ss_answer(state) : chanpos_session(ss_answer)
 extern
-fun{}
+fun
 f_ss_answer_try(state) : chanpos_session(ss_answer_try)
 //
 extern
-fun{}
+fun
 f_ss_test_one(state) : chanpos_session(ss_test_one)
 extern
-fun{}
+fun
 f_ss_test_loop(state) : chanpos_session(ss_test_loop)
 //
 (* ****** ****** *)
@@ -174,7 +174,6 @@ overload :: with chanpos1_session_cons
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
 f_ss_pass(state) = let
 //
 val
@@ -212,7 +211,6 @@ end // end of [f_ss_pass]
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
 f_ss_pass_try(state) = let
 //
 val mtry = 3
@@ -239,7 +237,6 @@ end // end of [f_ss_pass_try]
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
 f_ss_login
   (state) =
   ss0 :: f_ss_pass_try(state) where
@@ -253,7 +250,6 @@ val ss0 =
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
 f_ss_answer
   (state) = let
 //
@@ -286,7 +282,6 @@ end // end of [f_ss_answer]
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
 f_ss_answer_try(state) = let
 //
 val mtry = 3
@@ -318,7 +313,6 @@ end // end of [f_ss_answer_try]
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
 f_ss_test_one(state) = let
 //
 #define N 100
@@ -354,7 +348,6 @@ end // end of [f_ss_test_one]
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
 f_ss_test_loop(state) = let
 //
 val ss_test_one = f_ss_test_one(state)

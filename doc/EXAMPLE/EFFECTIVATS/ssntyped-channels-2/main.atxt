@@ -371,11 +371,10 @@ A Service for Multiplication Test
 </h2>
 
 <p>
-As an example making use of session combinators, I present as follows
-the construction of a service for testing one's ability to do multiplication
-mentally.  Please click <a href="./multest.html">here</a> to give the
-service a try.
-</p>
+As an example for demonstrating certain typical use of session
+combinators, I present as follows the construction of a service for
+testing one's ability to do multiplication mentally.  Please click <a
+href="./multest.html">here</a> to give the service a try.  </p>
 
 <h3>
 Login Session
@@ -504,6 +503,148 @@ ss_test_loop_opt = ssoption_disj(ss_test_loop)
 Essentially, the overall session starts with the login session
 described above; whether the session for repeated tests follows
 depends on whether the login session succeeds or fails.
+</p>
+
+<h3>
+Implementing State-carrying Sessions
+</h3>
+
+<p>
+A state-carrying session carries a state represented as a (possibly
+extensible) record with mutable fields, and the carried state is meant
+to be updated during the execution of the session. Let us see a concrete
+example given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+extern
+fun
+f_ss_pass
+  (state: state)
+: chanpos_session(ss_pass)
+//
+implement
+f_ss_pass
+  (state) = let
+//
+val
+pass = ref{string}("")
+//
+fun
+pass_check
+(
+  x: string
+) : bool = passed where
+{
+//
+val
+passed = 
+(
+  if x = "multest" then true else false
+) : bool
+//
+val ((*void*)) =
+  if passed then state.pass_result(true)
+//
+} (* pass-check *)
+//
+typedef str = string
+//
+val ss1 =
+  chanpos1_session_recv<str>(lam(x) => pass[] := x)
+val ss2 =
+  chanpos1_session_send<bool>(lam() => pass_check(pass[]))
+//
+in
+  ss1 :: ss2 :: chanpos1_session_nil()
+end // end of [f_ss_pass]
+')</pre>
+
+Applying to a state (which is just a reference to a record), the
+function #dyncode("f_ss_pass") returns a state-carrying server-session
+classified by the session type #stacode("ss_pass").  Note that
+#dyncode("pass_check") sets the field #dyncode("pass_result") of the
+carried state to #dyncode("true") if the received password passes
+checking.
+</p>
+
+<p>
+The following function #dyncode("f_ss_pass_try") builds on the top of #dyncode("f_ss_pass"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+extern
+fun
+f_ss_pass_try
+  (state: state)
+: chanpos_session(ss_pass_try)
+implement
+f_ss_pass_try
+  (state) = let
+//
+val mtry = 3
+val ntry = ref{int}(0)
+//
+val ((*void*)) =
+  state.pass_result(false)
+//
+implement
+chanpos1_repeat_disj$choose<>() = let
+  val n0 = ntry[]
+  val () = ntry[] := n0 + 1
+in
+//
+if state.pass_result()
+  then 0 else (if (n0 >= mtry) then 0 else 1)
+//
+end // end of [chanpos1_repeat_disj$choose]
+//
+in
+  chanpos1_session_repeat_disj(f_ss_pass(state))
+end // end of [f_ss_pass_try]
+')</pre>
+
+The session returned by a call to #dyncode("f_ss_pass_try") allows the
+client to try at most 3 times to supply a valid password. Note that
+the function template #dyncode("chanpos1_repeat_disj$choose") is
+called inside the session combinator
+#dyncode("chanpos1_session_repeat_disj") to determine whether the given
+session needs to be repeated.
+</p>
+
+
+<p>
+The entire code for this <a href="./multest.html">demo</a> can be found
+in four files of the following names:
+
+<pre>
+multest.html
+multest_prctl.sats // protocol
+multest_client.dats // client-session
+multest_server.dats // server-session
+</pre>
+
+The implementation of server-session in
+#filename("multest_server.dats") is largely straightforward while the
+implementation of client-session in #filename("multest_client.dats")
+is more involved due to the need for handling certain GUI issues.  For
+those interested in studying session types and session combinators
+in more depth, the following links should be helpful:
+
+<ul>
+<li>
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libatscc/libatscc2js/SATS/Worker">Interface</a>
+</li>
+<li>
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libatscc/libatscc2js/DATS/Worker">Implementation</a>
+</li>
+</ul>
+
+Naturally, one should expect that session combinators can be further lifted to higher forms of
+combinators (e.g., those for combining services together conveniently).
+
 </p>
 
 <hr size="2">

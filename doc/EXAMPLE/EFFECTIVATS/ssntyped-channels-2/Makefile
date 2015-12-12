@@ -76,6 +76,8 @@ upload_main: \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-2/.
 #
 upload_dats_js: \
+  multest_client_dats.js \
+  multest_server_dats_.js \
   introxmpl1_client_dats.js \
   introxmpl1_server_dats_.js ; scp $^ \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-2/.
