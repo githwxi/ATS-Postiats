@@ -146,7 +146,9 @@ datatype lexsym =
   | LS_LAM of () // for lam@
   | LS_LLAM of () // for llam@
 //
-  | LS_REF of () // for ref@
+(*
+  | LS_REF of () // 'ref@' is removed
+*)
 //
   | LS_PROP of () // for prop+ and prop-
   | LS_TYPE of () // for type+ and type-
@@ -273,7 +275,9 @@ val () = insert (ptbl, "lam", LS_LAM)
 val () = insert (ptbl, "llam", LS_LLAM)
 val () = insert (ptbl, "fix", LS_FIX)
 //
-val () = insert (ptbl, "ref", LS_REF)
+(*
+val () = insert (ptbl, "ref", LS_REF) // 'ref@' removed
+*)
 //
 val () = insert (ptbl, "prop", LS_PROP)
 val () = insert (ptbl, "type", LS_TYPE)
@@ -2215,10 +2219,12 @@ fun lexing_FIX
 //
 (* ****** ****** *)
 
+(*
 fun lexing_REF
 (
   buf: &lexbuf, pos: &position
 ) : token = lexing_postfix (buf, pos, REF, REFAT, '@')
+*)
 
 (* ****** ****** *)
 //
@@ -2389,9 +2395,11 @@ case+ sym of
     val () = strptr_free (mystr) in lexing_FIX (buf, pos)
   end // end of [LS_FIX]
 //
+(*
 | LS_REF () => let
     val () = strptr_free (mystr) in lexing_REF (buf, pos)
   end // end of [LS_REF]
+*)
 //
 | _ (*rest*) => let
     val tnode =

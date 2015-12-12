@@ -63,6 +63,84 @@ val () = x_rec_r->a := 100 // *OKAY*: x_rec_r.a is a left-value
 
 (* ****** ****** *)
 
+abstype myrec = ptr  
+
+(* ****** ****** *)
+//
+extern
+fun{}
+myrec_make
+(
+  a: int, b: int, c: string
+) : myrec // end-of-function
+//
+extern
+fun{}
+myrec_get_a : myrec -> int
+extern
+fun{}
+myrec_set_a : (myrec, int) -> void
+extern
+fun{}
+myrec_get_b : myrec -> int
+extern
+fun{}
+myrec_set_b : (myrec, int) -> void
+extern
+fun{}
+myrec_get_c : myrec -> string
+//
+overload .a with myrec_get_a
+overload .a with myrec_set_a
+overload .b with myrec_get_b
+overload .b with myrec_set_b
+overload .c with myrec_get_c
+//
+(* ****** ****** *)
+
+local
+//
+assume myrec = abc_rec_r
+//
+in (* in-of-local *)
+//
+implement
+{}(*tmp*)
+myrec_make
+  (a, b, c) = ref(@{a=a, b=b, c=c})
+//
+implement{} myrec_get_a(x) = x->a
+implement{} myrec_set_a(x, a) = x->a := a
+//
+implement{} myrec_get_b(x) = x->b
+implement{} myrec_set_b(x, b) = x->b := b
+//
+implement{} myrec_get_c(x) = x->c
+(*
+//
+// there is no update for the c-field:
+//
+implement{} myrec_set_a(x, c) = x->c := c
+*)
+//
+end // end of [local]
+
+(* ****** ****** *)
+//
+val x_abc = myrec_make(0, 1, "2")
+//
+val ((*void*)) = assertloc(x_abc.a() = 0)
+val ((*void*)) = assertloc(x_abc.b() = 1)
+val ((*void*)) = assertloc(x_abc.c() = "2")
+//
+val ((*void*)) = x_abc.a(100)
+val ((*void*)) = assertloc(x_abc.a() = 100)
+//
+val ((*void*)) = x_abc.b(100)
+val ((*void*)) = assertloc(x_abc.b() = 100)
+//
+(* ****** ****** *)
+
 implement main0 () = {}
 
 (* ****** ****** *)

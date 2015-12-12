@@ -38,12 +38,12 @@ abc_rec = '{a=int, b=int, c=string} // for records
 ")
 
 Note that a tuple is just a special record in the sense that the
-labels in the tuple are fixed to be ranging from 0 to n-1, where n is
-the tuple length. In the case of #stacode("abc_tup"), the three
-associated labels are 0, 1, and 2. Note that #dyncode("'(") and
-#dyncode("'{") are special symbols in ATS and there should be no space
-after the single quote. If the use of these special symbols is to be
-avoided, then one can declare the types #stacode("abc_tup") and
+labels in the tuple are fixed to be ranging from 0 to n-1, inclusive,
+where n is the tuple length. In the case of #stacode("abc_tup"), the
+three associated labels are 0, 1, and 2. Note that #dyncode("'(") and
+#dyncode("'{") are special symbols in ATS and there is no space
+allowed after the single quote. If the use of these special symbols is
+to be avoided, then one can declare the types #stacode("abc_tup") and
 #stacode("abc_rec") as follows in a slightly different syntax:
 
 #atscode("\
@@ -139,6 +139,10 @@ val () = x_rec_r->a := 100 // *OKAY*: x_rec_r.a is a left-value
 //
 ")
 
+")
+
+#para("\
+  
 ")
 
 #para("\

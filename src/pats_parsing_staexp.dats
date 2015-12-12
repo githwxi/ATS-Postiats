@@ -189,7 +189,7 @@ val tok =
 //
 val loc = tok.token_loc
 //
-macdef incby1 () = tokbuf_incby1 (buf)
+macdef incby1() = tokbuf_incby1 (buf)
 //
 in
 //
@@ -197,46 +197,58 @@ case+
 tok.token_node
 of // case+
 //
-| T_IDENT_alp (x) => let
-    val () = incby1 () in i0de_make_string (loc, x)
+| T_IDENT_alp(x) =>
+  let
+    val () = incby1() in i0de_make_string(loc, x)
   end
-| T_IDENT_sym (x) => let
-    val () = incby1 () in i0de_make_string (loc, x)
-  end
-//
-| T_AT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_AT)
-  end
-| T_BANG () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_BANG)
-  end
-| T_LT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_LT)
-  end
-| T_GT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_GT)
+| T_IDENT_sym(x) =>
+  let
+    val () = incby1() in i0de_make_string(loc, x)
   end
 //
-| T_BACKSLASH () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_BACKSLASH)
+| T_AT() =>
+  let
+    val () = incby1() in i0de_make_sym(loc, symbol_AT)
   end
-| T_TILDE () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_TILDE)
-  end
-//
-| T_MINUSGT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_MINUSGT)
+| T_BANG() => let
+    val () = incby1() in i0de_make_sym(loc, symbol_BANG)
   end
 //
-| T_REFAT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_REFAT)
+| T_LT() => let
+    val () = incby1() in i0de_make_sym(loc, symbol_LT)
   end
+| T_GT() => let
+    val () = incby1() in i0de_make_sym(loc, symbol_GT)
+  end
+//
+| T_TILDE() => let
+    val () = incby1() in i0de_make_sym(loc, symbol_TILDE)
+  end
+//
+| T_MINUSGT() => let
+    val () = incby1() in i0de_make_sym(loc, symbol_MINUSGT)
+  end
+//
+| T_BACKSLASH() => let
+    val () = incby1() in i0de_make_sym(loc, symbol_BACKSLASH)
+  end
+//
+(*
+//
+// HX-2015-12-10:
+// 'ref@' is removed
+//
+| T_REFAT() => let
+    val () = incby1() in i0de_make_sym(loc, symbol_REFAT)
+  end // end of [T_REFAT]
+*)
 //
 | _ (*rest*) => let
-    val () = err := err + 1
-    val () = the_parerrlst_add_ifnbt (bt, loc, PE_si0de)
-  in
-    synent_null ()
+    val () =
+      err := err + 1
+    val () =
+      the_parerrlst_add_ifnbt(bt, loc, PE_si0de) in synent_null()
+    // end of [val]
   end // end of [_]
 //
 end // end of [p_si0de]

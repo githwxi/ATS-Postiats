@@ -147,9 +147,14 @@ token_node =
   | T_OF of () // of
   | T_OP of () // op // HX: taken from ML
   | T_REC of () // rec
-  | T_REFAT of () // ref@
-  | T_SCASE of () // scase
-  | T_SIF of () // sif for static if
+//
+(*
+  | T_REFAT of () // HX-2015-12-10: 'ref@' removed
+*)
+//
+  | T_SIF of () // static if
+  | T_SCASE of () // static case
+//
   | T_SORTDEF of () // sortdef
   | T_STACST of () // stacst
   | T_STADEF of () // stadef
@@ -385,7 +390,14 @@ val MACDEF  : tnode
 val MACRODEF : tnode
 
 val REF : tnode
+
+(*
+//
 val REFAT : tnode
+//
+// HX-2015-12-10: 'ref@' removed
+//
+*)
 
 val TKINDEF : tnode
 
