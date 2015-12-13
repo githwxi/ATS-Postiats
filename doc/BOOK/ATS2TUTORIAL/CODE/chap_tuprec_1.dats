@@ -136,8 +136,13 @@ val ((*void*)) = assertloc(x_abc.c() = "2")
 val ((*void*)) = x_abc.a(100)
 val ((*void*)) = assertloc(x_abc.a() = 100)
 //
-val ((*void*)) = x_abc.b(100)
-val ((*void*)) = assertloc(x_abc.b() = 100)
+val ((*void*)) = x_abc.b(101)
+val ((*void*)) = assertloc(x_abc.b() = 101)
+//
+(*
+val ((*void*)) = x_abc.c("102")
+val ((*void*)) = assertloc(x_abc.c() = "102")
+*)
 //
 (* ****** ****** *)
 

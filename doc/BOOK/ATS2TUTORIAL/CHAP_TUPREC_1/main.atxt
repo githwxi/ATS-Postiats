@@ -102,8 +102,10 @@ declcared for flat tuples and records, respectively:
 
 #atscode("\
 //
-typedef abc_tup_r = ref(abc_tup_) // for tuples
-typedef abc_rec_r = ref(abc_rec_) // for records
+typedef
+abc_tup_ = @(int, int, string)
+typedef
+abc_rec_ = @{a=int, b=int, c=string}
 //
 ")
 
@@ -142,13 +144,120 @@ val () = x_rec_r->a := 100 // *OKAY*: x_rec_r.a is a left-value
 ")
 
 #para("\
-  
+
+If we want to have records of a type where certain fields are
+read-only while the others may be updated, we can do this by making
+use of the support for abstract types in ATS.  In the following
+example, #stacode("myrec") is declared to be abstract; there are three
+fields associated with #stacode("myrec") that are of the names
+#dyncode("a"), #dyncode("b"), and #dyncode("c"); the first two may be
+updated while the third one is read-only:
+
+#atscode("\
+(* ****** ****** *)
+
+abstype myrec = ptr  
+
+(* ****** ****** *)
+//
+extern
+fun{}
+myrec_make
+(
+  a: int, b: int, c: string
+) : myrec // end-of-function
+//
+extern
+fun{}
+myrec_get_a : myrec -> int
+extern
+fun{}
+myrec_set_a : (myrec, int) -> void
+extern
+fun{}
+myrec_get_b : myrec -> int
+extern
+fun{}
+myrec_set_b : (myrec, int) -> void
+extern
+fun{}
+myrec_get_c : myrec -> string
+//
+overload .a with myrec_get_a
+overload .a with myrec_set_a
+overload .b with myrec_get_b
+overload .b with myrec_set_b
+overload .c with myrec_get_c
+//
+(* ****** ****** *)
+
+local
+//
+assume myrec = abc_rec_r
+//
+in (* in-of-local *)
+//
+implement
+{}(*tmp*)
+myrec_make
+  (a, b, c) = ref(@{a=a, b=b, c=c})
+//
+implement{} myrec_get_a(x) = x->a
+implement{} myrec_set_a(x, a) = x->a := a
+//
+implement{} myrec_get_b(x) = x->b
+implement{} myrec_set_b(x, b) = x->b := b
+//
+implement{} myrec_get_c(x) = x->c
+(*
+//
+// there is no update for the c-field:
+//
+implement{} myrec_set_a(x, c) = x->c := c
+*)
+//
+end // end of [local]
+
+(* ****** ****** *)
+")
+
+Following is some code that creates a
+record of the type #stacode("myrec") and then
+accesses and updates certain fields of the
+created record:
+
+#atscode("\
+//
+val x_abc = myrec_make(0, 1, \"2\")
+//
+val ((*void*)) = assertloc(x_abc.a() = 0)
+val ((*void*)) = assertloc(x_abc.b() = 1)
+val ((*void*)) = assertloc(x_abc.c() = \"2\")
+//
+val ((*void*)) = x_abc.a(100)
+val ((*void*)) = assertloc(x_abc.a() = 100)
+//
+val ((*void*)) = x_abc.b(101)
+val ((*void*)) = assertloc(x_abc.b() = 101)
+//
+(*
+val ((*void*)) = x_abc.c(\"102\") // *ERROR*: unsupported
+*)
+//
+")
+
+While this example (#stacode("myrec")) demonstrates an approach
+to constructing records containing both read-only fields and fields that
+can be updated, this approach does seem a bit too verbose. One
+possibilty is to develop meta-programming support so as to greatly
+reduce the verbosity (due to the need for boilerplate code).
+
 ")
 
 #para("\
 
-Please find #mycodelink("chap_tuprec_1.dats", "on-line") the entirety of the
-code used in this chapter plus some testing code.\
+Please find #mycodelink("chap_tuprec_1.dats", "on-line") the
+entirety of the code used in this chapter plus some testing code.\
 
 ")#comment("para")
 
