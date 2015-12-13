@@ -11,7 +11,7 @@ ATS-2015-12-13:<br>
  href="https://groups.google.com/forum/#!topic/ats-lang-users/GoCw5--amAM"
 >ATS2TUTORIAL</a>:
 <br>
-Chapter "Linearly Typed Lists" is added.<br>
+Chapter "Boxed Tuples and Records" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 ATS-2015-12-09:<br>
