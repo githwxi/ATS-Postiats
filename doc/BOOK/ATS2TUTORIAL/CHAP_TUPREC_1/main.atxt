@@ -103,9 +103,9 @@ declcared for flat tuples and records, respectively:
 #atscode("\
 //
 typedef
-abc_tup_ = @(int, int, string)
+abc_tup_ = @(int, int, string) // for tuples
 typedef
-abc_rec_ = @{a=int, b=int, c=string}
+abc_rec_ = @{a=int, b=int, c=string} // for records
 //
 ")
 
