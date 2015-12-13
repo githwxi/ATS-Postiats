@@ -14,6 +14,8 @@ ATS-2015-12-13:<br>
 Chapter "Boxed Tuples and Records" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
+<hr></hr>
+
 ATS-2015-12-09:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/wH4IZnOkZow"
@@ -82,6 +84,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-03-11:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
@@ -90,8 +94,6 @@ Section "Template-based support for late-binding" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-03-07:<br>
 <a

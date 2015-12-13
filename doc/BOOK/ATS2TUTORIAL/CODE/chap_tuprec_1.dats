@@ -19,6 +19,11 @@ abc_tup = $tup(int, int, string) // for tuples
 typedef
 abc_rec = $rec{a=int, b=int, c=string} // for records
 
+typedef
+abc_tup = $tuple(int, int, string) // for tuples
+typedef
+abc_rec = $record{a=int, b=int, c=string} // for records
+
 (* ****** ****** *)
 //
 val x_tup = '(0, 1, "2") : abc_tup
