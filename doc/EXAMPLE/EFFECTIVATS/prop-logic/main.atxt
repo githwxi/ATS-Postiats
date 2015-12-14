@@ -9,7 +9,7 @@
 <meta
  http-equiv="content-type"
  content="text/html; charset=UTF-8" />
-<title>EFFECTIVATS-ssntyped-channels-introduction</title>
+<title>EFFECTIVATS-prop-logic</title>
 #patscode_style()
 </head>
 
@@ -17,445 +17,138 @@
 
 <h1>
 Effective ATS:<br>
-Session-typed Channels:<br>
-A Brief Introduction
+Encoding Propositional Logic
 </h1>
 
 <p>
-In this article, I present a brief introduction to session types.
+In this article, I present a direct encoding of propositional
+logic in ATS, illustrating through examples a simple form of
+formalized theorem-proving.
 </p>
 
 <h2>
-Basics on session-typed channels
+Encoding Truth Values
 </h2>
 
 <p>
-In broad terms, a (dyadic) session is a sequence of interactions between
-two concurrently running processes, and a session type is a form of type
-for specifying (or classifying) such interactions. As an example, let us
-assume that two processes P and Q are connected via a bidirectional
-channel. From the perspective of P, the channel may be specified by a term
-sequence of the following form: </p>
+The truth values are
+encoded as abstract props #stacode("PTRUE") and #stacode("PFALSE"):
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
-typedef P_ssn = chsnd(int)::chsnd(int)::chrcv(bool)::chnil
+absprop PTRUE // for true
+absprop PFALSE // for false
 ')</pre>
 
-<p>
-which means that an integer is to be sent, another integer is to be
-sent, a boolean is to be received, and finally the channel is to be
-closed.  Clearly, from the perspective of Q, the channel should be
-specified by the following term sequence:
-</p>
+There is one introduction rule but no elimimation rule for #dyncode("true"):
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
-typedef Q_ssn = chrcv(int)::chrcv(int)::chsnd(bool)::chnil
+praxi true_intr((*void*)): PTRUE
 ')</pre>
 
-<p>
-which means precisely the dual of what the previous term sequence
-does.  We may think of P as a client who sends two integers to the
-server Q and then receives from Q either true or false depending on
-whether or not the first sent integer is less than the second one.
-</p>
-
-<p>
-There are two endpoints in a channel: a positive end and a negative end;
-the end held by the server is positive and the end held by the client is
-negative. We introduce two abstract types #stacode("chanpos") and
-#stacode("channeg") for positive channels and negative channels,
-respectively, where a positive (negative) channel refers to the positive
-(negative) end of a channel:
-</p>
+There is no introduction rule but one elimimation rule for #dyncode("false"):
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
-absvtype chanpos(ssn:type) // absvtype means linear abstype in ATS
-absvtype channeg(ssn:type) // absvtype means linear abstype in ATS
+praxi false_elim{A:prop}(pf: PFALSE): A
 ')</pre>
 
-<p>
-For instance, the end of the channel held by P is assigned the
-type #stacode("channeg(Q_ssn)") (not #stacode("channeg(P_ssn)")) and
-the end of the channel held by Q is assigned the type #stacode("chanpos(Q_ssn)").
-So the interpretation of a session type is given based on the view of the
-positive end (that is, the server).
-</p>
-
-<p>
-The functions for sending data on channels are given the following types:
-</p>
-
-<pre
-class="patsyntax">
-#pats2xhtml_sats('\
-//
-fun
-chanpos_send
-  {a:vt0p}{ss:type}
-(
-  chp: !chanpos(chsnd(a)::ss) >> chanpos(ss), x: a
-) : void // end-of-function
-//
-fun
-channeg_recv
-  {a:vt0p}{ss:type}
-(
-  chn: !channeg(chrcv(a)::ss) >> channeg(ss), x: a
-) : void // end-of-function
-//
-overload channel_send with chanpos_send
-overload channel_send with channeg_recv
-//
-')</pre>
-
-<p>
-Note that #dyncode("chanpos_send") is for sending a value on a positive
-channel while #dyncode("channeg_recv") is for sending a value on a
-negative channel. For convenience, the symbol #dyncode("channel_send") is
-overloaded with both of these functions.
-</p>
-
-<p>
-The functions for receiving data sent on channels are given the following types:
-</p>
-
-<pre
-class="patsyntax">
-#pats2xhtml_sats('\
-//
-fun
-chanpos_recv
-  {a:vt0p}{ss:type}
-  (!chanpos(chrcv(a)::ss) >> chanpos(ss)): a
-//
-fun
-channeg_send
-  {a:vt0p}{ss:type}
-  (!channeg(chsnd(a)::ss) >> channeg(ss)): a
-//
-overload channel_recv with chanpos_recv
-overload channel_recv with channeg_send
-//
-')</pre>
-
-<p>
-Note that #dyncode("chanpos_recv") is for receiving a value on a positive
-channel while #dyncode("channeg_send") is for receiving a value on a
-negative channel. For convenience, the symbol #dyncode("channel_recv") is
-overloaded with both of these functions.
-</p>
-
-<p>
-The functions for closing channels are given the following types:
-</p>
-
-<pre
-class="patsyntax">
-#pats2xhtml_sats('\
-//
-fun
-chanpos_nil_wait (chp: chanpos(chnil)): void
-fun
-channeg_nil_close (chn: channeg(chnil)): void
-//
-overload channel_close with chanpos_nil_wait
-overload channel_close with channeg_nil_close
-//
-')</pre>
-
-<p>
-Note that #dyncode("chanpos_nil_wait") is for closing a positive
-channel while #dyncode("channeg_nil_close") is for closing a negative
-channel. More specifically, a call to #dyncode("chanpos_nil_wait") on
-(the positive end of) a channel waits until a message sent by a call
-to #dyncode("channeg_nil_close") on (the negative end of) the same
-channel arrives.  For convenience, the symbol #dyncode("channel_close")
-is overloaded with both of these functions.
-</p>
-
-<p>
-The functions for sending and receiving can be based
-on either synchronous or asynchronous communication. Calling these
-functions may result in the caller to be blocked. For instance,
-calling #dyncode("channpos_recv") blocks the caller if there is no
-value available for the call to return. For asynchronous communication,
-calling #dyncode("channpos_send") may block the caller if there is no
-more room available for buffering.
-</p>
-
-<p>
-The programs for the processes P and Q can be implemented as follows:
-</p>
-
-<pre
-class="patsyntax">
-#pats2xhtml_dats('\
-(* ****** ****** *)
-
-fun
-P (
-  i1: int, i2: int
-, chn: channeg(Q_ssn)
-) : bool = lt where
-{
-  val () = channel_send(chn, i1)
-  val () = channel_send(chn, i2)
-  val lt = channel_recv(chn)
-  val () = channel_close(chn)
-}
-
-(* ****** ****** *)
-
-fun
-Q (
-  chp: chanpos(Q_ssn)
-) : void =
-{
-  val i1 = channel_recv(chp)
-  val i2 = channel_recv(chp)
-  val () = channel_send(chp, i1 < i2)
-  val () = channel_close(chp)
-}
-
-(* ****** ****** *)
-')</pre>
-
-<p>
-But how a channel can be created in the first place? The answer
-to this question depends on the underlying support for distributed
-programming. For instance, we may be able to introduce the following
-function #dyncode("channel_create") for creating a channel:
-
-<pre
-class="patsyntax">
-#pats2xhtml_sats('\
-fun
-channeg_create{ss:type}
-  (fserv: chanpos(ss) -<lincloptr1> void): channeg(ss)
-')</pre>
-
-The basic idea here is to spawn a thread (by executing the linear
-closure-function #dyncode("fserv")) that works on the postive end of
-the newly created channel and then returns the negative end of the
-channel to the caller.
+Clearly, the rule #dyncode("false_elim") states that any proposition can be
+derived from a proof of #dyncode("false").
 </p>
 
 <h2>
-Session-typed channels based on web-workers
+Encoding Negation
 </h2>
 
 <p>
-In the rest of this article, I will give a concrete presentation of
-session-typed channels that are implemented based on web-workers.  For
-those who are not yet familiar with web-workers, it can be a good idea
-to first study some programming examples involving them before reading
-on. Essentially, a web-worker is a thread running in the background
-that can communicate with the browser via message-passing.  The ATS
-code presented as follows is intended to be compiled into JS code (via
-Patsopt and Atscc2js) for running in the browser (client) and a
-web-worker (server). As JS (or, more precisely, its run-time) is
-single-threaded, we cannot support a function (e.g.,
-#dyncode("chanpos_recv")) that may block its caller indefinitely. We
-address this issue by building an interface for programming
-session-typed channels that is of CPS-style (where CPS stands for
-continuation-passing style).
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+absprop PNEG(A: prop) // for negation
+propdef ~(A: prop) = PNEG(A) // shorthand
+')</pre>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+praxi neg_intr{A:prop}(pf: A -> PFALSE): ~A
+praxi neg_elim{A:prop}(pf1: A, pf2: ~A): PFALSE
+')</pre>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+praxi neg_elim2{A:prop}{B:prop}(pf1: A, pf2: ~A): B
+')</pre>
+
 </p>
 
+<h2>
+Encoding Conjunction
+</h2>
+
+
 <p>
-Let us first see the types assigned to the functions for closing
-channels:
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
 //
-vtypedef
-chanpos_nil = chanpos(chnil)
-vtypedef
-channeg_nil = channeg(chnil)
+absprop
+PCONJ(A: prop, B: prop)
+propdef &&(A: prop, B: prop) = PCONJ(A, B)
 //
-fun chanpos1_close(chanpos_nil): void
-fun channeg1_close(channeg_nil): void
+praxi
+conj_intr
+  {A,B:prop} : (A, B) -> A && B
+//
+praxi
+conj_elim_l{A,B:prop} : (A && B) -> A
+praxi
+conj_elim_r{A,B:prop} : (A && B) -> B
 //
 ')</pre>
 
-Clearly, everything is standard here, and there is really no surprise at all.
-
 </p>
 
-<p>
 
-Let us next see the types assigned to the functions for sending and receiving
-on channels:
+<h2>
+Encoding Disjunction
+</h2>
+
+<p>
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
+dataprop
+PDISJ(A: prop, B: prop) =
+  | disj_intr_l(A, B) of (A)
+  | disj_intr_r(A, B) of (B)
 //
-typedef
-chpcont0(ss:type) = (chanpos(ss)) -<cloref1> void
-typedef
-chncont0(ss:type) = (channeg(ss)) -<cloref1> void
+propdef ||(A: prop, B: prop) = PDISJ(A, B)
 //
-typedef
-chpcont1(ss:type, a:t0p) = (chanpos(ss), a) -<cloref1> void
-typedef
-chncont1(ss:type, a:t0p) = (channeg(ss), a) -<cloref1> void
-//
-typedef chpcont0_nil = chpcont0(chnil)
-typedef chncont0_nil = chncont0(chnil)
-//
-fun
-chanpos1_send
-  {a:t0p}{ss:type}
-(
-  chanpos(chsnd(a)::ss), x0: a, k0: chpcont0(ss)
-) : void // end-of-fun
-//
-fun
-chanpos1_recv
-  {a:t0p}{ss:type}
-(
-  chanpos(chrcv(a)::ss), k0: chpcont1(ss, chmsg(a))
-) : void // end-of-fun
-//
-fun
-channeg1_recv
-  {a:t0p}{ss:type}
-(
-  channeg(chrcv(a)::ss), x0: a, k0: chncont0(ss)
-) : void // end-of-fun
-//
-fun
-channeg1_send
-  {a:t0p}{ss:type}
-(
-  channeg(chsnd(a)::ss), k0: chncont1(ss, chmsg(a))
-) : void // end-of-fun
+prfun
+disj_elim{A,B:prop}{C:prop}
+  (fpf1: A -> C, fpf2: B -> C, pf3: A || B): C
 //
 ')</pre>
 
-Given a type T, the type #stacode("chmsg(T)") is for the marshalled
-representation of a value of the type T. The type assigned to the
-function #dyncode("chanpos1_send") indicates that the function takes
-three arguments: a positive channel, a value (to be sent), and a
-continuation; the channel is passed to the continuation after the
-value is sent onto the channel. Also, the type assigned to the
-function #dyncode("chanpos1_recv") indicates that the function takes
-two arguments: a positive channel and a continuation; the channel and
-the marshalled representation of a value are passed to the
-continutation after the representation is received. The types assigned
-to the functions #dyncode("channeg1_send") and
-#dyncode("channeg1_recv") can be explained similarly.
-
 </p>
 
-<p>
+<h2>
+Encoding Implication
+</h2>
 
-The above functions #dyncode("P") and #dyncode("Q") can now be implemented
-as follows:
-
-<pre
-class="patsyntax">
-#pats2xhtml_dats('\
-(* ****** ****** *)
-
-fun
-P (
-  i1: int, i2: int
-, chn: channeg(Q_ssn)
-) : void = (
-//
-channeg1_recv
-( chn, i1
-, lam(chn) =>
-  channeg1_recv
-  ( chn, i2
-  , lam(chn) =>
-    channeg1_send
-    ( chn
-    , lam(chn, lt) => let
-      val lt = chmsg_parse<bool>(lt)
-      (*
-      // Some code for processing [lt]
-      *)
-      in
-        channeg1_close(chn)
-      end
-    )
-  ) 
-)
-//
-) (* end of [P] *)
-
-(* ****** ****** *)
-
-fun
-Q (
-  chp: chanpos(Q_ssn)
-) : void = (
-//
-chanpos1_recv
-( chp
-, lam(chp, i1) => let
-  val i1 = chmsg_parse<int>(i1) in
-  chanpos1_recv
-  ( chp
-  , lam(chp, i2) => let
-    val i2 = chmsg_parse<int>(i2) in
-    chanpos1_send
-    ( chp, i1 < i2
-    , lam(chp) => chanpos1_close(chp)
-    )
-    end // end-of-let // end-of-lam
-  )
-  end // end-of-let // end-of-lam
-)
-//
-) (* end of [Q] *)
-
-(* ****** ****** *)
-')</pre>
-
-Note that #dyncode("chmsg_parse") is a function template for
-unmarshalling: It is called to turn the marshalled representation of a
-value into the value itself.
-
-</p>
-
-<p>
-A simple demo based on the code for #dyncode("P") and #dyncode("Q") is
-available <a href="./introxmpl1.html">on-line</a>. The entirety of the
-code for this demo can be found in four files of the following names:
-
-<pre>
-introxmpl1.html
-introxmpl1_prctl.sats
-introxmpl1_client.dats
-introxmpl1_server.dats
-</pre>
-
-In the file #filename("introxmpl1_prctl.sats"), the protocol for
-communincations between the client (browser) and the server
-(web-worker) is formally represented as a session type. As can be
-expected, this file is statically loaded in both
-#filename("introxmpl1_client.dats") and
-#filename("introxmpl1_server.dats").  The client code (in
-#filename("introxmpl1_client.dats")) is based on the code for
-#dyncode("P") but contains various significant modifications, and it
-makes use of Bacon.js in its handling GUI issues. On the other hand,
-the server code (in #filename("introxmpl1_client.dats")) is directly
-based on the code for #dyncode("Q") with virtually no modifications. I
-strongly encourage the reader to use the provided Makefile to build
-the demo on his/her own.
-
-</p>
+<h2>
+Encoding Equivalence
+</h2>
 
 <hr size="2">
 
