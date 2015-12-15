@@ -1206,16 +1206,24 @@ in '{
 implement
 d0atcon_make
   (qua, id, ind, arg) = let
-  val loc_hd = (case+ qua of
-    | list_cons (x, _) => x.q0marg_loc
-    | list_nil () => id.i0de_loc
-  ) : location
-  val loc = (case+ arg of
-    | Some s0e => loc_hd + s0e.s0exp_loc
-    | None () => begin case+ ind of
+//
+val
+loc_hd = (
+  case+ qua of
+  | list_nil() => id.i0de_loc
+  | list_cons(x, _) => x.q0marg_loc
+) : location
+//
+val loc = (
+  case+ arg of
+  | Some s0e => loc_hd + s0e.s0exp_loc
+  | None () =>
+    (
+      case+ ind of
       | Some s0e => loc_hd + s0e.s0exp_loc | _ => loc_hd
-      end // end of [None]
-  ) : location // end of [val]
+    ) (* end of [None] *)
+) : location // end of [val]
+//
 in '{
   d0atcon_loc= loc
 , d0atcon_sym= id.i0de_sym

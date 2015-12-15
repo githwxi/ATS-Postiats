@@ -59,7 +59,7 @@ propdef ||(A: prop, B: prop) = PDISJ(A, B)
 //
 prfun
 disj_elim{A,B:prop}{C:prop}
-  (fpf1: A -> C, fpf2: B -> C, pf3: A || B): C
+  (pf0: A || B, fpf1: A -> C, fpf2: B -> C): C
 //
 (* ****** ****** *)
 //

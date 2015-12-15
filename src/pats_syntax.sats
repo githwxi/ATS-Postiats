@@ -1012,13 +1012,19 @@ d0atcon = '{
 , d0atcon_qua= q0marglst
 , d0atcon_arg= s0expopt
 , d0atcon_ind= s0expopt
-} // end of [d0atcon]
+} (* end of [d0atcon] *)
 
-typedef d0atconlst = List (d0atcon)
+typedef
+d0atconlst = List(d0atcon)
 
-fun d0atcon_make (
-  qua: q0marglst, id: i0de, ind: s0expopt, arg: s0expopt
+fun
+d0atcon_make
+(
+  qua: q0marglst
+, id: i0de, ind: s0expopt, arg: s0expopt
 ) : d0atcon // end of [d0atcon_make]
+
+(* ****** ****** *)
 
 typedef
 d0atdec = '{
@@ -1028,11 +1034,14 @@ d0atdec = '{
 , d0atdec_sym= symbol
 , d0atdec_arg= a0msrtlst
 , d0atdec_con= d0atconlst
-} // end of [d0atdec]
+} (* end of [d0atdec] *)
 
-typedef d0atdeclst = List d0atdec
+typedef
+d0atdeclst = List(d0atdec)
 
-fun d0atdec_make (
+fun
+d0atdec_make
+(
   id: i0de, arg: a0msrtlst, con: d0atconlst
 ) : d0atdec // end of [d0atdec_make]
 

@@ -1032,15 +1032,32 @@ d0atconlst_mark
 in
 //
 case+ ds of
-| list_cons (d, ds) => let
+//
+| list_nil() => ()
+//
+| list_cons
+    (d, ds) => let
+    val loc = d.d0atcon_loc
+    val isprf = $BAS.test_prfkind(knd)
+    val symrk = (
+      if isprf then SMprfexp else SMdynexp
+    ) : synmark // end of [val]
+//
     val () =
-      q0marglst_mark (d.d0atcon_qua, res)
-    val () = s0expopt_mark (d.d0atcon_arg, res)
-    val () = s0expopt_mark (d.d0atcon_ind, res)
+      psynmark_ins_beg (symrk, loc, res)
+//
+    val () =
+      q0marglst_mark(d.d0atcon_qua, res)
+    // end of [val]
+//
+    val () = s0expopt_mark(d.d0atcon_ind, res)
+    val () = s0expopt_mark(d.d0atcon_arg, res)
+//
+    val () = psynmark_ins_end (symrk, loc, res)
+//
   in
     d0atconlst_mark (knd, ds, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [d0atconlst_mark]
 
@@ -1051,8 +1068,14 @@ in
 //
 case+ ds of
 | list_cons (d, ds) => let
+    val sm = SMstaexp()
+    val loc = d.d0atdec_loc
+    val () = psynmark_ins_beg (sm, loc, res)
+(*
     val () = a0msrtlst_mark (d.d0atdec_arg, res)
+*)
     val () = d0atconlst_mark (knd, d.d0atdec_con, res)
+    val () = psynmark_ins_end (sm, loc, res)
   in
     d0atdeclst_mark (knd, ds, res)
   end // end of [list_cons]
@@ -1413,13 +1436,9 @@ case+ d0c0.d0ecl_node of
     (decs) => e0xndeclst_mark (decs, res)
 | $SYN.D0Cdatdecs
     (knd, decs, defs) => let
-    val isprf = $BAS.test_prfkind (knd)
-    val sm = (
-      if isprf then SMprfexp else SMdynexp
-    ) : synmark // end of [val]
-    val () = psynmark_ins_beg (sm, loc0, res)
-    val () = d0atdeclst_mark (knd, decs, res)
-    val () = psynmark_ins_end (sm, loc0, res)
+    val () =
+      d0atdeclst_mark (knd, decs, res)
+    // end of [val]
     val () = s0expdeflst_mark (defs, res)
   in
     // nothing
