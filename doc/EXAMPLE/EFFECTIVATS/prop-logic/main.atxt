@@ -41,7 +41,7 @@ absprop PTRUE // for true
 absprop PFALSE // for false
 ')</pre>
 
-There is one introduction rule but no elimimation rule for #dyncode("true"):
+There is one introduction rule but no elimimation rule for #stacode("true"):
 
 <pre
 class="patsyntax">
@@ -49,7 +49,7 @@ class="patsyntax">
 praxi true_intr((*void*)): PTRUE
 ')</pre>
 
-There is no introduction rule but one elimimation rule for #dyncode("false"):
+There is no introduction rule but one elimimation rule for #stacode("false"):
 
 <pre
 class="patsyntax">
@@ -58,7 +58,7 @@ praxi false_elim{A:prop}(pf: PFALSE): A
 ')</pre>
 
 Clearly, the rule #dyncode("false_elim") states that any proposition can be
-derived from a proof of #dyncode("false").
+derived from a proof of #stacode("false").
 </p>
 
 <h2>
@@ -66,6 +66,8 @@ Encoding Negation
 </h2>
 
 <p>
+Given a proposition #stacode("A"), we use #stacode("PNEG(A)") for
+the negation of #stacode("A"):
 
 <pre
 class="patsyntax">
@@ -74,17 +76,41 @@ absprop PNEG(A: prop) // for negation
 propdef ~(A: prop) = PNEG(A) // shorthand
 ')</pre>
 
-<pre
-class="patsyntax">
-#pats2xhtml_sats('\
-praxi neg_intr{A:prop}(pf: A -> PFALSE): ~A
-praxi neg_elim{A:prop}(pf1: A, pf2: ~A): PFALSE
-')</pre>
+For convenience, #stacode("~A") can be written for #stacode("PNEG(A)").
+There is one introduction rule and one elimination rule for negation:
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
-praxi neg_elim2{A:prop}{B:prop}(pf1: A, pf2: ~A): B
+praxi neg_intr{A:prop}(fpf: A -> PFALSE): ~A
+praxi neg_elim{A:prop}(pf1: A, pf2: ~A): PFALSE
+')</pre>
+
+Essentially, #dyncode("neg_intr") means that #stacode("~A") is
+derivable if any proof of #stacode("A") can be used to build a proof
+of #stacode("false"). As for elimination of negation,
+#dyncode("neg_elim") states that a proof of #stacode("false") can be
+built on the top of a proof of #stacode("A") and a proof of
+#stacode("~A").
+
+</p>
+
+<p>
+
+By combining #dyncode("neg_elim") and #dyncode("false_elim"), we
+obtain the following rule stating that any proposition #stacode("B")
+can be derived from a proof of #stacode("A") and a proof of
+#stacode("~A"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+prfun
+neg_elim2
+  {A:prop}{B:prop}
+  (pf1: A, pf2: ~A): B = false_elim(neg_elim(pf1, pf2))
+//
 ')</pre>
 
 </p>
@@ -93,16 +119,19 @@ praxi neg_elim2{A:prop}{B:prop}(pf1: A, pf2: ~A): B
 Encoding Conjunction
 </h2>
 
-
 <p>
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
-//
 absprop
 PCONJ(A: prop, B: prop)
 propdef &&(A: prop, B: prop) = PCONJ(A, B)
+')</pre>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
 //
 praxi
 conj_intr
@@ -146,9 +175,64 @@ disj_elim{A,B:prop}{C:prop}
 Encoding Implication
 </h2>
 
+<p>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+absprop
+PIMPL(A: prop, B: prop)
+//
+infixr (->) ->>
+propdef ->>(A: prop, B: prop) = PIMPL(A, B)
+//
+')</pre>
+</p>
+
+<p>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+praxi
+impl_intr{A,B:prop}(pf: A -> B): A ->> B
+//
+praxi
+impl_elim{A,B:prop}(pf1: A ->> B, pf2: A): B
+//
+')</pre>
+</p>
+
 <h2>
 Encoding Equivalence
 </h2>
+
+<p>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+absprop
+PEQUIV(A: prop, B: prop)
+propdef == (A: prop, B: prop) = PEQUIV(A, B)
+')</pre>
+</p>
+
+<p>
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+praxi
+equiv_intr
+  {A,B:prop}(A ->> B, B ->> A): A == B
+//
+praxi
+equiv_elim_l{A,B:prop}(pf: A == B): A ->> B
+praxi
+equiv_elim_r{A,B:prop}(pf: A == B): B ->> A
+//
+')</pre>
+</p>
 
 <hr size="2">
 

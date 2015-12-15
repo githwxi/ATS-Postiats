@@ -8,8 +8,7 @@ style="margin-top:8px;padding:8px;"
 
 ATS-2015-12-13:<br>
 <a
- href="https://groups.google.com/forum/#!topic/ats-lang-users/GoCw5--amAM"
->ATS2TUTORIAL</a>:
+ href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
 <br>
 Chapter "Boxed Tuples and Records" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
