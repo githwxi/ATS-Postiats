@@ -1067,7 +1067,11 @@ d0atdeclst_mark
 in
 //
 case+ ds of
-| list_cons (d, ds) => let
+//
+| list_nil() => ()
+//
+| list_cons
+    (d, ds) => let
     val sm = SMstaexp()
     val loc = d.d0atdec_loc
     val () = psynmark_ins_beg (sm, loc, res)
@@ -1079,7 +1083,6 @@ case+ ds of
   in
     d0atdeclst_mark (knd, ds, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [d0atdeclst_mark]
 
