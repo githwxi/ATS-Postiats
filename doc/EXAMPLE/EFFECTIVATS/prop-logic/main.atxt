@@ -367,7 +367,7 @@ The Law of Double Negation
 The law of double negation can be encoded as follows:
 <pre
 class="patsyntax">
-#pats2xhtml_sats('praxi LDN{A:prop}(pf: A): ~~A')
+#pats2xhtml_sats('praxi LDN{A:prop}(~(~A)): A')
 </pre>
 </p>
 
@@ -379,7 +379,7 @@ The Law of Excluded Middle
 The law of excluded middle can be encoded as follows:
 <pre
 class="patsyntax">
-#pats2xhtml_sats('praxi LEM{A:prop}(): A || ~~A')
+#pats2xhtml_sats('praxi LEM{A:prop}((*void*)): A || ~(~A)')
 </pre>
 </p>
 

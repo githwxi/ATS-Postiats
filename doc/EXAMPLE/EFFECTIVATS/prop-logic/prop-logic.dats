@@ -93,5 +93,10 @@ impl_intr(
 )
 
 (* ****** ****** *)
+//
+prfn LEM_{A:prop}(): A || ~A =
+  LDN(neg_intr(lam pfn => neg_elim(pfn, disj_intr_r(neg_intr(lam pf => neg_elim(pfn, disj_intr_l(pf)))))))
+//
+(* ****** ****** *)
 
 (* end of [prop-logic.dats] *)

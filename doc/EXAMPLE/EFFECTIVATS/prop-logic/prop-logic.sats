@@ -23,11 +23,11 @@ propdef ~(A: prop) = PNEG(A) // shorthand
 (* ****** ****** *)
 
 praxi neg_intr{A:prop}(pf: A -> PFALSE): ~A
-praxi neg_elim{A:prop}(pf1: A, pf2: ~A): PFALSE
+praxi neg_elim{A:prop}(pf1: ~A, pf2: A): PFALSE
 
 (* ****** ****** *)
 
-prfun neg_elim2{A:prop}{B:prop}(pf1: A, pf2: ~A): B
+prfun neg_elim2{A:prop}{B:prop}(pf1: ~A, pf2: A): B
 
 (* ****** ****** *)
 //
@@ -96,6 +96,11 @@ equiv_elim_l{A,B:prop}(pf: A == B): A ->> B
 praxi
 equiv_elim_r{A,B:prop}(pf: A == B): B ->> A
 //
+(* ****** ****** *)
+
+praxi LDN{A:prop}(~(~A)): A
+praxi LEM{A:prop}((*void*)): A || ~A
+
 (* ****** ****** *)
 
 (* end of [prop-logic.sats] *)
