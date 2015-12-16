@@ -7,8 +7,16 @@
 all::
 
 all:: \
-mergesort
-mergesort:: ; make -C mergesort all
+file-copying
+file-copying:: ; make -C file-copying all
+
+all:: \
+loop-as-tailrec
+loop-as-tailrec:: ; make -C loop-as-tailrec all
+
+all:: \
+word-counting
+word-counting:: ; make -C word-counting all
 
 all:: \
 stack-array
@@ -19,16 +27,12 @@ queue-sllist2
 queue-sllist2:: ; make -C queue-sllist2 all
 
 all:: \
-loop-as-tailrec
-loop-as-tailrec:: ; make -C loop-as-tailrec all
+mergesort
+mergesort:: ; make -C mergesort all
 
 all:: \
-file-copying
-file-copying:: ; make -C file-copying all
-
-all:: \
-word-counting
-word-counting:: ; make -C word-counting all
+sorting-linear-lists
+sorting-linear-lists:: ; make -C sorting-linear-lists all
 
 all:: \
 DiningPhil
@@ -55,30 +59,37 @@ HttpServer
 HttpServer:: ; make -C HttpServer all
 
 all:: \
-sorting-linear-lists
-sorting-linear-lists:: ; make -C sorting-linear-lists all
-
-all:: \
 Sierpinski-3angle
 Sierpinski-3angle:: ; make -C Sierpinski-3angle all
+
+all:: \
+ssntyped-channels-1
+ssntyped-channels-1:: ; make -C ssntyped-channels-1 all
+
+all:: \
+ssntyped-channels-2
+ssntyped-channels-2:: ; make -C ssntyped-channels-2 all
 
 ######
 
 cleanall::
-cleanall:: ; make -C mergesort cleanall
+cleanall:: ; make -C file-copying cleanall
+cleanall:: ; make -C prop-logic cleanall
+cleanall:: ; make -C loop-as-tailrec cleanall
+cleanall:: ; make -C word-counting cleanall
 cleanall:: ; make -C stack-array cleanall
 cleanall:: ; make -C queue-sllist2 cleanall
-cleanall:: ; make -C loop-as-tailrec cleanall
-cleanall:: ; make -C file-copying cleanall
-cleanall:: ; make -C word-counting cleanall
+cleanall:: ; make -C mergesort cleanall
+cleanall:: ; make -C sorting-linear-lists cleanall
 cleanall:: ; make -C DiningPhil cleanall
 cleanall:: ; make -C DiningPhil2 cleanall
 cleanall:: ; make -C Producer-Consumer cleanall
 cleanall:: ; make -C Readers-and-Writers cleanall
 cleanall:: ; make -C IPC-redis cleanall
 cleanall:: ; make -C HttpServer cleanall
-cleanall:: ; make -C sorting-linear-lists cleanall
 cleanall:: ; make -C Sierpinski-3angle cleanall
+cleanall:: ; make -C ssntyped-channels-1 cleanall
+cleanall:: ; make -C ssntyped-channels-2 cleanall
 
 ######
 
@@ -98,6 +109,8 @@ uploadall::upload_Readers-and-Writers
 uploadall::upload_IPC-redis
 uploadall::upload_HttpServer
 uploadall::upload_Sierpinski-3angle
+uploadall::upload_ssntyped-channels-1
+uploadall::upload_ssntyped-channels-2
 
 ######
 
@@ -117,6 +130,14 @@ upload_file-copying:: ; \
   file-copying/index.html \
   file-copying/Makefile file-copying/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/file-copying/
+
+######
+
+upload_prop-logic:: ; \
+  $(SCP) \
+  prop-logic/index.html \
+  prop-logic/Makefile prop-logic/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/prop-logic/
 
 ######
 

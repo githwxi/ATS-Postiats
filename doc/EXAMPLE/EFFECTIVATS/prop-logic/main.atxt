@@ -23,7 +23,9 @@ Encoding Propositional Logic
 <p>
 In this article, I present a direct encoding of propositional
 logic in ATS, illustrating through examples a simple form of
-formalized theorem-proving.
+formalized theorem-proving. For the entirety of the code used
+in this presentation, please see the files #filename("prop-logic.sats")
+and #filename("prop-logic.dats").
 </p>
 
 <h2>
@@ -131,8 +133,9 @@ PCONJ(A: prop, B: prop)
 propdef &&(A: prop, B: prop) = PCONJ(A, B) // shorthand
 ')</pre>
 
-There are one introduction rule and two elimination rules associated with
-conjunction:
+For convenience, #stacode("A && B") can be written for
+#stacode("PCONJ(A, B)").  There are one introduction rule and two
+elimination rules associated with conjunction:
 
 <pre
 class="patsyntax">
@@ -169,6 +172,8 @@ Encoding Disjunction
 </h2>
 
 <p>
+Given two propositions #stacode("A") and #stacode("B"), we use #stacode("PDISJ(A, B)") for
+the disjunction of #stacode("A") and #stacode("B"):
 
 <pre
 class="patsyntax">
@@ -180,10 +185,71 @@ PDISJ(A: prop, B: prop) =
 //
 propdef ||(A: prop, B: prop) = PDISJ(A, B)
 //
-prfun
-disj_elim{A,B:prop}{C:prop}
-  (pf0: A || B, fpf1: A -> C, fpf2: B -> C): C
+')</pre>
+
+For convenience, #stacode("A || B") can be written for
+#stacode("PDISJ(A, B)").  As an example, a proof is given below
+showing that disjunction is commutative:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 //
+prfn
+disj_commute
+  {A,B:prop}(pf0: A || B): B || A =
+  case+ pf0 of
+  | disj_intr_l(pf0_l) => disj_intr_r(pf0_l)
+  | disj_intr_r(pf0_r) => disj_intr_l(pf0_r)
+//
+')</pre>
+
+The two constructors #dyncode("disj_intr_l") and
+#dyncode("disj_intr_r") associated with #stacode("PDISJ") correspond
+to the two introduction rules associated with disjunction, and the
+following function #dyncode("disj_elim") encodes the elimination rule
+associated with disjunction:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+prfn
+disj_elim{A,B:prop}{C:prop}
+  (pf0: A || B, fpf1: A -> C, fpf2: B -> C): C =
+  case+ pf0 of
+  | disj_intr_l(pf0_l) => fpf1(pf0_l)
+  | disj_intr_r(pf0_r) => fpf2(pf0_r)
+//
+')</pre>
+
+As another example, the following code implements a proof function
+showing that conjunction can be distributed over disjunction:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+prfn
+conj_disj_distribute
+  {A,B,C:prop}
+(
+  pf0: A && (B || C)
+) : (A && B) || (A && C) = let
+//
+val pf0_l = conj_elim_l(pf0)
+val pf0_r = conj_elim_r(pf0)
+//
+in
+//
+case+ pf0_r of
+| disj_intr_l(pf0_rl) =>
+    disj_intr_l(conj_intr(pf0_l, pf0_rl))
+  // end of [disj_intr_l]
+| disj_intr_r(pf0_rr) =>
+    disj_intr_r(conj_intr(pf0_l, pf0_rr))
+  // end of [disj_intr_r]
+//
+end // end of [conj_disj_distribute]
 ')</pre>
 
 </p>
@@ -193,6 +259,10 @@ Encoding Implication
 </h2>
 
 <p>
+Given two propositions #stacode("A")
+and #stacode("B"), we use #stacode("PIMPL(A, B)") for
+the implication of #stacode("B") from #stacode("A"):
+
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
@@ -204,9 +274,11 @@ infixr (->) ->>
 propdef ->>(A: prop, B: prop) = PIMPL(A, B)
 //
 ')</pre>
-</p>
 
-<p>
+For convenience, #stacode("A <tt>-&gt;&gt;</tt> B") can be written
+for #stacode("PIMPL(A, B)").  There is one introduction rule and one
+elimination rule for implication:
+
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
@@ -218,6 +290,36 @@ praxi
 impl_elim{A,B:prop}(pf1: A ->> B, pf2: A): B
 //
 ')</pre>
+
+Essentially, #stacode("A") implying #stacode("B") is interpreted as a
+function of the type #stacode("A <tt>-&gt;</tt> B").\
+
+</p>
+
+<p>
+As an example, a proof
+#stacode("(A <tt>-&gt;&gt;</tt> (B <tt>-&gt;&gt;</tt> C)) <tt>-&gt;&gt;</tt> ((A <tt>-&gt;&gt;</tt> B) <tt>-&gt;&gt;</tt> (A <tt>-&gt;&gt;</tt> C))") is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+prfn
+Subst{A,B,C:prop}
+(
+// argless
+) : (A ->> (B ->> C)) ->> ((A ->> B) ->> (A ->> C)) =
+impl_intr(
+  lam pf1 =>
+  impl_intr(
+    lam pf2 =>
+    impl_intr(
+      lam pf3 =>
+      impl_elim(impl_elim(pf1, pf3), impl_elim(pf2, pf3))
+    )
+  )
+)
+')</pre>
+
 </p>
 
 <h2>
@@ -225,6 +327,10 @@ Encoding Equivalence
 </h2>
 
 <p>
+Given two propositions #stacode("A")
+and #stacode("B"), we use #stacode("PEQUIV(A, B)") for the
+(propositional) equivalence between #stacode("A") and #stacode("B"):
+
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
@@ -232,9 +338,11 @@ absprop
 PEQUIV(A: prop, B: prop)
 propdef == (A: prop, B: prop) = PEQUIV(A, B)
 ')</pre>
-</p>
 
-<p>
+For convenience, #stacode("A == B") can be written for
+#stacode("PEQUIV(A, B)").  There is one introduction rule and two
+elimination rules for propositional equivalence:
+
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
@@ -250,6 +358,31 @@ equiv_elim_r{A,B:prop}(pf: A == B): B ->> A
 //
 ')</pre>
 </p>
+
+<h2>
+The Law of Double Negation
+</h2>
+
+<p>
+The law of double negation can be encoded as follows:
+<pre
+class="patsyntax">
+#pats2xhtml_sats('praxi LDN{A:prop}(pf: A): ~~A')
+</pre>
+</p>
+
+<h2>
+The Law of Excluded Middle
+</h2>
+
+<p>
+The law of excluded middle can be encoded as follows:
+<pre
+class="patsyntax">
+#pats2xhtml_sats('praxi LEM{A:prop}(): A || ~~A')
+</pre>
+</p>
+
 
 <hr size="2">
 
