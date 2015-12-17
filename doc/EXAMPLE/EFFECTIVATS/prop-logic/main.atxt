@@ -43,7 +43,7 @@ absprop PTRUE // for true
 absprop PFALSE // for false
 ')</pre>
 
-There is one introduction rule but no elimimation rule for #stacode("true"):
+There is one introduction rule but no elimination rule for #stacode("true"):
 
 <pre
 class="patsyntax">
@@ -51,7 +51,7 @@ class="patsyntax">
 praxi true_intr((*void*)): PTRUE
 ')</pre>
 
-There is no introduction rule but one elimimation rule for #stacode("false"):
+There is no introduction rule but one elimination rule for #stacode("false"):
 
 <pre
 class="patsyntax">
@@ -85,15 +85,15 @@ There is one introduction rule and one elimination rule for negation:
 class="patsyntax">
 #pats2xhtml_sats('\
 praxi neg_intr{A:prop}(fpf: A -> PFALSE): ~A
-praxi neg_elim{A:prop}(pf1: A, pf2: ~A): PFALSE
+praxi neg_elim{A:prop}(pf1: ~A, pf2: A): PFALSE
 ')</pre>
 
 Essentially, #dyncode("neg_intr") means that #stacode("~A") is
 derivable if any proof of #stacode("A") can be used to build a proof
 of #stacode("false"). As for elimination of negation,
 #dyncode("neg_elim") states that a proof of #stacode("false") can be
-built on the top of a proof of #stacode("A") and a proof of
-#stacode("~A").
+built on the top of a proof of #stacode("~A") and a proof of
+#stacode("A").
 
 </p>
 
@@ -379,10 +379,26 @@ The Law of Excluded Middle
 The law of excluded middle can be encoded as follows:
 <pre
 class="patsyntax">
-#pats2xhtml_sats('praxi LEM{A:prop}((*void*)): A || ~(~A)')
+#pats2xhtml_sats('praxi LEM{A:prop}((*void*)): A || ~A')
 </pre>
 </p>
 
+<h2>
+Peirce's Law
+</h2>
+
+<p>
+Peirce's law can be encoded as follows:
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+praxi
+Peirce{P,Q:prop}((*void*)): ((P ->> Q) ->> P) ->> P
+')</pre>
+
+This law of Peirce is equivalent to LEM, and it can be seen as a
+variant of LEM expressed only in terms of the implicative logic
+connective.  </p>
 
 <hr size="2">
 

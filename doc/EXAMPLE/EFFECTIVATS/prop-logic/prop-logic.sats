@@ -102,5 +102,10 @@ praxi LDN{A:prop}(~(~A)): A
 praxi LEM{A:prop}((*void*)): A || ~A
 
 (* ****** ****** *)
+//
+praxi
+Peirce{P,Q:prop}((*void*)): ((P ->> Q) ->> P) ->> P
+//
+(* ****** ****** *)
 
 (* end of [prop-logic.sats] *)
