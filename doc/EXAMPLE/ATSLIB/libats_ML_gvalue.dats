@@ -30,11 +30,21 @@ val () =
 val () =
   state["test_arg2"] := GVint(2)
 //
+val-1 = GVint_uncons(state["test_arg1"])
+val-2 = GVint_uncons(state["test_arg2"])
+(*
+val-3 = GVint_uncons(state["test_arg3"])
+*)
+//
 (* ****** ****** *)
 //
 val () =
   state["passwd_passed"] := GVbool(false)
 //
+(* ****** ****** *)
+
+val-false = GVbool_uncons(state["passwd_passed"])
+
 (* ****** ****** *)
 //
 val-GVint(1) = state["test_arg1"]

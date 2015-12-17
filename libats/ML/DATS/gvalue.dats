@@ -276,28 +276,5 @@ gvhashtbl_listize1(tbl) = hashtbl_listize1<key,itm>(tbl)
 end // end of [local]
 
 (* ****** ****** *)
-//
-implement
-un_gvhashtbl_atkey_int
-  (tbl, key) = GVint_uncons(tbl[key])
-implement
-un_gvhashtbl_atkey_ptr
-  (tbl, key) = GVptr_uncons(tbl[key])
-//
-implement
-un_gvhashtbl_atkey_bool
-  (tbl, key) = GVbool_uncons(tbl[key])
-implement
-un_gvhashtbl_atkey_char
-  (tbl, key) = GVchar_uncons(tbl[key])
-//
-implement
-un_gvhashtbl_atkey_float
-  (tbl, key) = GVfloat_uncons(tbl[key])
-implement
-un_gvhashtbl_atkey_string
-  (tbl, key) = GVstring_uncons(tbl[key])
-//
-(* ****** ****** *)
 
 (* end of [gvalue.dats] *)

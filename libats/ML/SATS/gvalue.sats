@@ -123,6 +123,45 @@ of // case+
 ) : string // end of [GVstring_uncons]
 
 (* ****** ****** *)
+
+macdef
+GVlist_uncons(x0) =
+(
+case+
+,(x0)
+of // case+
+| GVlist(xs) => xs
+| _(*non-string*) =>
+  let val () = assertloc(false) in exit(1) end
+) : gvlist // end of [GVlist_uncons]
+
+(* ****** ****** *)
+
+macdef
+GVarray_uncons(x0) =
+(
+case+
+,(x0)
+of // case+
+| GVarray(xs) => xs
+| _(*non-string*) =>
+  let val () = assertloc(false) in exit(1) end
+) : gvarray // end of [GVarray_uncons]
+
+(* ****** ****** *)
+
+macdef
+GVhashtbl_uncons(x0) =
+(
+case+
+,(x0)
+of // case+
+| GVhashtbl(kxs) => kxs
+| _(*non-string*) =>
+  let val () = assertloc(false) in exit(1) end
+) : gvhashtbl // end of [GVhashtbl_uncons]
+
+(* ****** ****** *)
 //
 fun
 print_gvalue : gvalue -> void
@@ -207,39 +246,6 @@ overload .set with gvhashtbl_set_atkey
 //
 fun
 gvhashtbl_listize1(gvhashtbl): list0 @(string, gvalue)
-//
-(* ****** ****** *)
-//
-fun
-un_gvhashtbl_atkey_int
-  (tbl: gvhashtbl, key: string): int
-fun
-un_gvhashtbl_atkey_ptr
-  (tbl: gvhashtbl, key: string): ptr
-//
-fun
-un_gvhashtbl_atkey_bool
-  (tbl: gvhashtbl, key: string): bool
-fun
-un_gvhashtbl_atkey_char
-  (tbl: gvhashtbl, key: string): char
-//
-fun
-un_gvhashtbl_atkey_float
-  (tbl: gvhashtbl, key: string): double
-//
-fun
-un_gvhashtbl_atkey_string
-  (tbl: gvhashtbl, key: string): string
-//
-overload .int with un_gvhashtbl_atkey_int
-overload .ptr with un_gvhashtbl_atkey_ptr
-//
-overload .bool with un_gvhashtbl_atkey_bool
-overload .char with un_gvhashtbl_atkey_char
-//
-overload .float with un_gvhashtbl_atkey_float
-overload .string with un_gvhashtbl_atkey_string
 //
 (* ****** ****** *)
 
