@@ -281,6 +281,17 @@ implement
 un_gvhashtbl_atkey_int
   (tbl, key) = GVint_uncons(tbl[key])
 implement
+un_gvhashtbl_atkey_ptr
+  (tbl, key) = GVptr_uncons(tbl[key])
+//
+implement
+un_gvhashtbl_atkey_bool
+  (tbl, key) = GVbool_uncons(tbl[key])
+implement
+un_gvhashtbl_atkey_char
+  (tbl, key) = GVchar_uncons(tbl[key])
+//
+implement
 un_gvhashtbl_atkey_float
   (tbl, key) = GVfloat_uncons(tbl[key])
 implement
