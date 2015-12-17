@@ -49,6 +49,41 @@ typedef NSH(a:type) = a // for commenting purpose
 *)
 
 (* ****** ****** *)
+
+macdef
+GVint_uncons(x0) =
+(
+case+
+,(x0)
+of // case+
+| GVint(i) => i
+| _(*non-int*) =>
+  let val () = assertloc(false) in exit(1) end
+) : int // end of [GVint_uncons]
+
+macdef
+GVfloat_uncons(x0) =
+(
+case+
+,(x0)
+of // case+
+| GVfloat(f) => f
+| _(*non-float*) =>
+  let val () = assertloc(false) in exit(1) end
+) : double // end of [GVfloat_uncons]
+
+macdef
+GVstring_uncons(x0) =
+(
+case+
+,(x0)
+of // case+
+| GVstring(s) => s
+| _(*non-string*) =>
+  let val () = assertloc(false) in exit(1) end
+) : string // end of [GVstring_uncons]
+
+(* ****** ****** *)
 //
 fun
 print_gvalue : gvalue -> void
@@ -128,6 +163,29 @@ overload [] with gvhashtbl_set_atkey
 overload .get with gvhashtbl_get_atkey
 overload .set with gvhashtbl_set_atkey
 *)
+//
+(* ****** ****** *)
+//
+fun
+gvhashtbl_listize1(gvhashtbl): list0 @(string, gvalue)
+//
+(* ****** ****** *)
+//
+fun
+un_gvhashtbl_atkey_int
+  (tbl: gvhashtbl, key: string): int
+//
+fun
+un_gvhashtbl_atkey_float
+  (tbl: gvhashtbl, key: string): double
+//
+fun
+un_gvhashtbl_atkey_string
+  (tbl: gvhashtbl, key: string): string
+//
+overload .int with un_gvhashtbl_atkey_int
+overload .float with un_gvhashtbl_atkey_float
+overload .string with un_gvhashtbl_atkey_string
 //
 (* ****** ****** *)
 

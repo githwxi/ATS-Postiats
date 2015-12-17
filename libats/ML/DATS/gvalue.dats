@@ -261,11 +261,32 @@ gvhashtbl_exch_atkey
 val opt = hashtbl_insert(tbl, k0, x0)
 //
 in
-  case+ opt of ~None_vt() => GVnil() | ~Some_vt x1 => x1
+//
+case+ opt of ~None_vt() => GVnil() | ~Some_vt(x1) => x1
+//
 end // end of [gvhashtbl_set_atkey]
+
+(* ****** ****** *)
+//
+implement
+gvhashtbl_listize1(tbl) = hashtbl_listize1<key,itm>(tbl)
+//
+(* ****** ****** *)
 
 end // end of [local]
 
+(* ****** ****** *)
+//
+implement
+un_gvhashtbl_atkey_int
+  (tbl, key) = GVint_uncons(tbl[key])
+implement
+un_gvhashtbl_atkey_float
+  (tbl, key) = GVfloat_uncons(tbl[key])
+implement
+un_gvhashtbl_atkey_string
+  (tbl, key) = GVstring_uncons(tbl[key])
+//
 (* ****** ****** *)
 
 (* end of [gvalue.dats] *)
