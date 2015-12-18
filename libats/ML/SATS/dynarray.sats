@@ -88,6 +88,18 @@ dynarray_get_capacity
 //
 (* ****** ****** *)
 //
+fun{a:t0p}
+dynarray_get_at_exn
+  (DA: dynarray(a), i: size_t): (a)
+fun{a:t0p}
+dynarray_set_at_exn
+  (DA: dynarray(a), i: size_t, x: a): void
+//
+overload [] with dynarray_get_at_exn
+overload [] with dynarray_set_at_exn
+//
+(* ****** ****** *)
+//
 fun{a:vt0p}
 dynarray_insert_atbeg
   (DA: dynarray(a), x0: a): Option_vt(a)

@@ -64,6 +64,9 @@ staload _ = "prelude/DATS/string.dats"
 staload _ = "prelude/DATS/list.dats"
 staload _ = "prelude/DATS/list_vt.dats"
 //
+staload _ = "prelude/DATS/option.dats"
+staload _ = "prelude/DATS/option_vt.dats"
+//
 staload _ = "prelude/DATS/array.dats"
 staload _ = "prelude/DATS/arrayptr.dats"
 staload _ = "prelude/DATS/arrayref.dats"

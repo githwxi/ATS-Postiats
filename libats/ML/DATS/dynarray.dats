@@ -134,6 +134,34 @@ prval () = $UN.cast2void(DA)
 
 implement
 {a}(*tmp*)
+dynarray_get_at_exn
+  (DA, i) = x0 where
+{
+//
+val DA = dynarray_decode(DA)
+val x0 =
+  $DA.dynarray_get_at_exn<a> (DA, i)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_get_at_exn] *)
+
+implement
+{a}(*tmp*)
+dynarray_set_at_exn
+  (DA, i, x0) = () where
+{
+//
+val DA = dynarray_decode(DA)
+val () =
+  $DA.dynarray_set_at_exn<a> (DA, i, x0)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_set_at_exn] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 dynarray_insert_atbeg
   (DA, x0) = opt where
 {

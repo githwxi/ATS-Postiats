@@ -124,7 +124,7 @@ overload [] with dynarray_set_at_exn
 //
 fun{a:vt0p}
 dynarray_getref_at
-  (DA: !RD(dynarray(INV(a))), i: size_t):<> cPtr0 (a)
+  (DA: !RD(dynarray(INV(a))), i: size_t):<> cPtr0(a)
 //
 (* ****** ****** *)
 

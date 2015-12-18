@@ -237,6 +237,18 @@ overload .insend with gvdynarr_insert_atend
 (* ****** ****** *)
 //
 fun
+gvdynarr_get_at
+  (gvdynarr, i: intGte(0)): gvalue
+fun
+gvdynarr_set_at
+  (gvdynarr, i: intGte(0), x: gvalue): void
+//
+overload [] with gvdynarr_get_at
+overload [] with gvdynarr_set_at
+//
+(* ****** ****** *)
+//
+fun
 gvdynarr_listize0(gvdynarr): list0(gvalue)
 fun
 gvdynarr_listize1(gvdynarr): list0(gvalue)
