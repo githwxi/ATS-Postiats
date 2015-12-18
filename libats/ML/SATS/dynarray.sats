@@ -101,6 +101,12 @@ overload [] with dynarray_set_at_exn
 (* ****** ****** *)
 //
 fun{a:vt0p}
+dynarray_getref_at
+  (DA: dynarray(a), i: size_t): cPtr0(a)
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
 dynarray_insert_atbeg
   (DA: dynarray(a), x0: a): Option_vt(a)
 //

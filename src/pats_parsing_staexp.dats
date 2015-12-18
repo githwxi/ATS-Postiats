@@ -73,11 +73,15 @@ fun
 s0exp_list12
 (
   t_beg: token, ent2: s0explst12, t_end: token
-) : s0exp =
-  case+ ent2 of
-  | ~LIST12one (xs) => s0exp_list (t_beg, (l2l)xs, t_end)
-  | ~LIST12two (xs1, xs2) => s0exp_list2 (t_beg, (l2l)xs1, (l2l)xs2, t_end)
-// end of [s0exp_list12]
+) : s0exp = (
+//
+case+ ent2 of
+| ~LIST12one(xs) =>
+    s0exp_list(t_beg, (l2l)xs, t_end)
+| ~LIST12two(xs1, xs2) =>
+    s0exp_list2(t_beg, (l2l)xs1, (l2l)xs2, t_end)
+//
+) (* end of [s0exp_list12] *)
 
 (* ****** ****** *)
 
@@ -86,17 +90,18 @@ s0exp_tytup12
 (
   knd: int
 , t_beg: token, ent2: s0explst12, t_end: token
-) : s0exp =
-(
-  case+ ent2 of
-  | ~LIST12one (xs) =>
-      s0exp_tytup (knd, t_beg, ~1, (l2l)xs, t_end)
-  | ~LIST12two (xs1, xs2) => let
-      val npf = list_vt_length (xs1)
-      val xs12 = list_vt_append (xs1, xs2)
-    in
-      s0exp_tytup (knd, t_beg, npf, (l2l)xs12, t_end)
-    end
+) : s0exp = (
+//
+case+ ent2 of
+| ~LIST12one(xs) =>
+    s0exp_tytup(knd, t_beg, ~1, (l2l)xs, t_end)
+| ~LIST12two(xs1, xs2) => let
+    val npf = list_vt_length (xs1)
+    val xs12 = list_vt_append (xs1, xs2)
+  in
+    s0exp_tytup(knd, t_beg, npf, (l2l)xs12, t_end)
+  end // end of [LIST12two]
+//
 ) (* end of [s0exp_tytup12] *)
 
 (* ****** ****** *)
@@ -106,17 +111,18 @@ s0exp_tyrec12
 (
   knd: int
 , t_beg: token, ent2: labs0explst12, t_end: token
-) : s0exp =
-(
-  case+ ent2 of
-  | ~LIST12one (xs) =>
-      s0exp_tyrec (knd, t_beg, ~1, (l2l)xs, t_end)
-  | ~LIST12two (xs1, xs2) => let
-      val npf = list_vt_length (xs1)
-      val xs12 = list_vt_append (xs1, xs2)
-    in
-      s0exp_tyrec (knd, t_beg, npf, (l2l)xs12, t_end)
-    end
+) : s0exp = (
+//
+case+ ent2 of
+| ~LIST12one(xs) =>
+    s0exp_tyrec(knd, t_beg, ~1, (l2l)xs, t_end)
+| ~LIST12two(xs1, xs2) => let
+    val npf = list_vt_length (xs1)
+    val xs12 = list_vt_append (xs1, xs2)
+  in
+    s0exp_tyrec(knd, t_beg, npf, (l2l)xs12, t_end)
+  end // end of [LIST12two]
+//
 ) (* end of [s0exp_tyrec12] *)
 
 (* ****** ****** *)
@@ -126,17 +132,18 @@ s0exp_tyrec12_ext
 (
   name: string
 , t_beg: token, ent2: labs0explst12, t_end: token
-) : s0exp =
-(
-  case+ ent2 of
-  | ~LIST12one (xs) =>
-      s0exp_tyrec_ext (name, t_beg, ~1, (l2l)xs, t_end)
-  | ~LIST12two (xs1, xs2) => let
-      val npf = list_vt_length (xs1)
-      val xs12 = list_vt_append (xs1, xs2)
-    in
-      s0exp_tyrec_ext (name, t_beg, npf, (l2l)xs12, t_end)
-    end
+) : s0exp = (
+//
+case+ ent2 of
+| ~LIST12one(xs) =>
+    s0exp_tyrec_ext(name, t_beg, ~1, (l2l)xs, t_end)
+| ~LIST12two(xs1, xs2) => let
+    val npf = list_vt_length (xs1)
+    val xs12 = list_vt_append (xs1, xs2)
+  in
+    s0exp_tyrec_ext(name, t_beg, npf, (l2l)xs12, t_end)
+  end // end of [LIST12two]
+//
 ) (* end of [s0exp_tyrec12_ext] *)
 
 (* ****** ****** *)

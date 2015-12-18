@@ -140,7 +140,7 @@ dynarray_get_at_exn
 //
 val DA = dynarray_decode(DA)
 val x0 =
-  $DA.dynarray_get_at_exn<a> (DA, i)
+  $DA.dynarray_get_at_exn<a>(DA, i)
 prval () = $UN.cast2void(DA)
 //
 } (* end of [dynarray_get_at_exn] *)
@@ -153,10 +153,25 @@ dynarray_set_at_exn
 //
 val DA = dynarray_decode(DA)
 val () =
-  $DA.dynarray_set_at_exn<a> (DA, i, x0)
+  $DA.dynarray_set_at_exn<a>(DA, i, x0)
 prval () = $UN.cast2void(DA)
 //
 } (* end of [dynarray_set_at_exn] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+dynarray_getref_at
+  (DA, i) = p0 where
+{
+//
+val DA = dynarray_decode(DA)
+val p0 =
+  $DA.dynarray_getref_at<a>(DA, i)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_getref_at] *)
 
 (* ****** ****** *)
 
@@ -235,5 +250,3 @@ prval () = $UN.cast2void(DA)
 (* ****** ****** *)
 
 (* end of [dynarray.dats] *)
-
-

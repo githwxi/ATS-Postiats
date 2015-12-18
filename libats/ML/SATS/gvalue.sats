@@ -225,18 +225,6 @@ gvdynarr_make_nil
 (* ****** ****** *)
 //
 fun
-gvdynarr_insert_atbeg
-  (gvdynarr, x: gvalue): void
-fun
-gvdynarr_insert_atend
-  (gvdynarr, x: gvalue): void
-//
-overload .insbeg with gvdynarr_insert_atbeg
-overload .insend with gvdynarr_insert_atend
-//
-(* ****** ****** *)
-//
-fun
 gvdynarr_get_at
   (gvdynarr, i: intGte(0)): gvalue
 fun
@@ -245,6 +233,18 @@ gvdynarr_set_at
 //
 overload [] with gvdynarr_get_at
 overload [] with gvdynarr_set_at
+//
+(* ****** ****** *)
+//
+fun
+gvdynarr_insert_atbeg
+  (gvdynarr, x: gvalue): void
+fun
+gvdynarr_insert_atend
+  (gvdynarr, x: gvalue): void
+//
+overload .insbeg with gvdynarr_insert_atbeg
+overload .insend with gvdynarr_insert_atend
 //
 (* ****** ****** *)
 //

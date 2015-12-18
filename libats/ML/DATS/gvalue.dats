@@ -260,6 +260,36 @@ end // end of [gvdynarr_make_nil]
 (* ****** ****** *)
 
 implement
+gvdynarr_get_at
+  (DA, i) = let
+//
+val p0 =
+  dynarray_getref_at(DA, i2sz(i))
+//
+in
+//
+if isneqz(p0)
+  then $UN.cptr_get<elt>(p0) else GVnil()
+//
+end // end of [gvdynarr_get_at]
+
+implement
+gvdynarr_set_at
+  (DA, i, x) = let
+//
+val p0 =
+  dynarray_getref_at(DA, i2sz(i))
+//
+in
+//
+if isneqz(p0)
+  then $UN.cptr_set<elt>(p0, x) else ((*void*))
+//
+end // end of [gvdynarr_set_at]
+
+(* ****** ****** *)
+
+implement
 gvdynarr_insert_atbeg
   (DA, x0) = let
 //
@@ -271,7 +301,9 @@ in
 case+ opt of
 | ~None_vt() => ()
 | ~Some_vt(x0) =>
-  let val () = assertloc(false) in (*void*) end
+  (
+    let val () = assertloc(false) in (*void*) end
+  ) (* end of [Some_vt] *)
 //  
 end // end of [gvdynarr_insert_atbeg]
 
