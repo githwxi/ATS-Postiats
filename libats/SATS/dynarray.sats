@@ -208,9 +208,16 @@ dynarray_takeoutseq_at
 
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun{a:t@ype}
 dynarray_removeseq_at
   (DA: !dynarray(INV(a)), st: size_t, ln: size_t):<!wrt> size_t
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+dynarray_listize0(DA: !dynarray(INV(a))): List0_vt(a)
+fun{a:t@ype}
+dynarray_listize1(DA: !dynarray(INV(a))): List0_vt(a)
 //
 (* ****** ****** *)
 

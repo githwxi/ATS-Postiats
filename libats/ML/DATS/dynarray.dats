@@ -44,6 +44,7 @@ DA = "libats/SATS/dynarray.sats"
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/list0.sats"
 
 (* ****** ****** *)
 
@@ -54,13 +55,73 @@ staload "libats/ML/SATS/dynarray.sats"
 extern
 castfn
 dynarray_encode
-  {a:vt@ype}($DA.dynarray(a)): dynarray(a)
+  {a:vt@ype}
+  ($DA.dynarray(a)): dynarray(a)
 //
 extern
 castfn
 dynarray_decode
-  {a:vt@ype}(DA: dynarray(a)): $DA.dynarray(a)
+  {a:vt@ype}
+  (DA: dynarray(a)): $DA.dynarray(a)
 //
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+dynarray_make_nil
+  (cap) = let
+//
+val DA =
+  $DA.dynarray_make_nil(cap)
+//
+in
+  dynarray_encode(DA)
+end // end of [dynarray_make_nil]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+dynarray_insert_atbeg
+  (DA, x0) = opt where
+{
+//
+val DA = dynarray_decode(DA)
+val opt =
+  $DA.dynarray_insert_atbeg_opt<a> (DA, x0)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_insert_atbeg] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+dynarray_insert_atend
+  (DA, x0) = opt where
+{
+//
+val DA = dynarray_decode(DA)
+val opt =
+  $DA.dynarray_insert_atend_opt<a> (DA, x0)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_insert_atend] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+dynarray_insert_at
+  (DA, i, x0) = opt where
+{
+//
+val DA = dynarray_decode(DA)
+val opt = $DA.dynarray_insert_at_opt<a> (DA, i, x0)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_insert_at] *)
+
 (* ****** ****** *)
 
 implement
@@ -88,6 +149,21 @@ val () = $DA.fprint_dynarray_sep<a> (out, DA, sep)
 prval () = $UN.cast2void(DA)
 //
 } (* end of [fprint_dynarray_sep] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+dynarray_listize1
+  (DA) =
+  list0_of_list_vt(xs) where
+{
+//
+val DA = dynarray_decode(DA)
+val xs = $DA.dynarray_listize1(DA)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_listize1] *)
 
 (* ****** ****** *)
 

@@ -60,6 +60,33 @@ stadef dynarray = dynarray_type
 
 (* ****** ****** *)
 //
+fun{a:vt0p}
+dynarray_make_nil
+  (cap: sizeGte(1)): dynarray(a)
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+dynarray_insert_atbeg
+  (DA: dynarray(a), x0: a): Option_vt(a)
+//
+fun{a:vt0p}
+dynarray_insert_atend
+  (DA: dynarray(a), x0: a): Option_vt(a)
+//
+(* ****** ****** *)
+//
+overload .insbeg with dynarray_insert_atbeg
+overload .insend with dynarray_insert_atend
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+dynarray_insert_at
+  (DA: dynarray(a), i: size_t, x0: a): Option_vt(a)
+//
+(* ****** ****** *)
+//
 (*
 fun{}
 fprint_array$sep(out: FILEref): void
@@ -70,6 +97,11 @@ fprint_dynarray
 fun{a:vt0p}
 fprint_dynarray_sep
   (out: FILEref, DA: dynarray(a), sep: string): void
+//
+(* ****** ****** *)
+//
+fun{a:t@ype}
+dynarray_listize1(DA: dynarray(a)): list0(a)
 //
 (* ****** ****** *)
 

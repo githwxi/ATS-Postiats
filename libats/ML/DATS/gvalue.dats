@@ -236,6 +236,32 @@ gvarray_make_nil
 (* ****** ****** *)
 
 local
+
+typedef elt = gvalue
+
+in (* in-of-local *)
+
+implement
+gvdynarr_make_nil
+  (cap) = let
+(*
+val () =
+  println! ("gvdynarr_make_nil")
+*)
+in
+//
+dynarray_make_nil<elt>(i2sz(cap))
+//
+end // end of [gvdynarr_make_nil]
+
+implement
+gvdynarr_listize1(DA) = dynarray_listize1<elt>(DA)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
 //
 typedef key = string
 typedef itm = gvalue
@@ -247,11 +273,11 @@ gvhashtbl_make_nil
   (cap) = let
 (*
 val () =
-  println! ("ghashtbl_make_nil")
+  println! ("gvhashtbl_make_nil")
 *)
 in
   hashtbl_make_nil<key,itm>(i2sz(cap))
-end // end of [ghashtbl_make_nil]
+end // end of [gvhashtbl_make_nil]
 
 implement
 gvhashtbl_get_atkey

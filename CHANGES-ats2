@@ -33,9 +33,10 @@ Here is a list of major additions and changes since the last release:
 6. Fixing a bug in effect-tracking of assignment: assigning a proof term
    should not genereate any effect. Please see: d2exp_trup_assgn:D2LVALvar_mut
 7. Adding libats/ML/gvalue
-8. Adding an ATS2TUTORIAL-chapter on boxed tuples and records.
-9. Removing the once planned support for flattened references (ref@)
+8. Adding libats/ML/dynarray
+9. Adding an ATS2TUTORIAL-chapter on boxed tuples and records.
 10. Adding an article in EFFECTIVATS on encoding propositional logic
+11. Removing the once planned support for flattened references (ref@)
 
 ######
 

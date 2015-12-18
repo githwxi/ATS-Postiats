@@ -219,6 +219,17 @@ gvarray_make_nil
 (* ****** ****** *)
 //
 fun
+gvdynarr_make_nil
+  (cap: intGte(1)): gvdynarr
+//
+(* ****** ****** *)
+//
+fun
+gvdynarr_listize1(gvdynarr): list0(gvalue)
+//
+(* ****** ****** *)
+//
+fun
 gvhashtbl_make_nil
   (cap: intGte(1)): gvhashtbl
 //

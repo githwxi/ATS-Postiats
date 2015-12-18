@@ -464,6 +464,51 @@ end // end of [dynarray_removeseq_at]
 
 implement
 {a}(*tmp*)
+dynarray_listize0
+  (DA) = xs where
+{
+//
+var asz: size_t?
+val (pf, fpf | p0) =
+  dynarray_get_array(DA, asz)
+//
+prval () =
+  lemma_array_v_param(pf)
+//
+val xs =
+  array_copy_to_list_vt<a>(!p0, asz)
+//
+prval ((*returned*)) = $UN.cast2void((pf, fpf | p0))
+//
+val+@DYNARRAY(A,m,n)=DA; val()=(n := i2sz(0)); prval()=fold@(DA)
+//
+} // end of [dynarray_listize0]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+dynarray_listize1
+  (DA) = xs where
+{
+//
+var asz: size_t?
+val (pf, fpf | p0) =
+  dynarray_get_array(DA, asz)
+//
+prval () =
+  lemma_array_v_param(pf)
+//
+val xs = array_copy_to_list_vt<a>(!p0, asz)
+//
+prval ((*returned*)) = fpf(pf)
+//
+} // end of [dynarray_listize1]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 dynarray_reset_capacity
   (DA, m2) = let
 //
