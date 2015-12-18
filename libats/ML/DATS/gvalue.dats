@@ -254,10 +254,48 @@ dynarray_make_nil<elt>(i2sz(cap))
 //
 end // end of [gvdynarr_make_nil]
 
+(* ****** ****** *)
+
+implement
+gvdynarr_insert_atbeg
+  (DA, x0) = let
+//
+val opt =
+  dynarray_insert_atbeg<elt>(DA, x0)
+//
+in
+//
+case+ opt of
+| ~None_vt() => ()
+| ~Some_vt(x0) =>
+  let val () = assertloc(false) in (*void*) end
+//  
+end // end of [gvdynarr_insert_atbeg]
+
+implement
+gvdynarr_insert_atend
+  (DA, x0) = let
+//
+val opt =
+  dynarray_insert_atend<elt>(DA, x0)
+//
+in
+//
+case+ opt of
+| ~None_vt() => ()
+| ~Some_vt(x0) =>
+  let val () = assertloc(false) in (*void*) end
+//  
+end // end of [gvdynarr_insert_atend]
+
+(* ****** ****** *)
+
 implement
 gvdynarr_listize0(DA) = dynarray_listize0<elt>(DA)
 implement
 gvdynarr_listize1(DA) = dynarray_listize1<elt>(DA)
+
+(* ****** ****** *)
 
 end // end of [local]
 

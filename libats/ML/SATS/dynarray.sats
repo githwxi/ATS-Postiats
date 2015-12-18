@@ -66,6 +66,28 @@ dynarray_make_nil
 //
 (* ****** ****** *)
 //
+(*
+fun{}
+fprint_array$sep(out: FILEref): void
+*)
+fun{a:vt0p}
+fprint_dynarray
+  (out: FILEref, DA: dynarray(a)): void
+fun{a:vt0p}
+fprint_dynarray_sep
+  (out: FILEref, DA: dynarray(a), sep: string): void
+//
+(* ****** ****** *)
+//
+fun{}
+dynarray_get_size
+  {a:vt0p}(DA: dynarray(a)): size_t
+fun{}
+dynarray_get_capacity
+  {a:vt0p}(DA: dynarray(a)): size_t
+//
+(* ****** ****** *)
+//
 fun{a:vt0p}
 dynarray_insert_atbeg
   (DA: dynarray(a), x0: a): Option_vt(a)
@@ -84,19 +106,6 @@ overload .insend with dynarray_insert_atend
 fun{a:vt0p}
 dynarray_insert_at
   (DA: dynarray(a), i: size_t, x0: a): Option_vt(a)
-//
-(* ****** ****** *)
-//
-(*
-fun{}
-fprint_array$sep(out: FILEref): void
-*)
-fun{a:vt0p}
-fprint_dynarray
-  (out: FILEref, DA: dynarray(a)): void
-fun{a:vt0p}
-fprint_dynarray_sep
-  (out: FILEref, DA: dynarray(a), sep: string): void
 //
 (* ****** ****** *)
 //

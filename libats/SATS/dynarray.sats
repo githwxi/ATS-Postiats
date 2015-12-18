@@ -83,10 +83,10 @@ fprint_dynarray_sep
 //
 fun{}
 dynarray_get_size
-  {a:vt0p} (DA: !RD(dynarray(INV(a)))): size_t
+  {a:vt0p}(DA: !RD(dynarray(INV(a)))): size_t
 fun{}
 dynarray_get_capacity
-  {a:vt0p} (DA: !RD(dynarray(INV(a)))): size_t
+  {a:vt0p}(DA: !RD(dynarray(INV(a)))): size_t
 //
 (* ****** ****** *)
 

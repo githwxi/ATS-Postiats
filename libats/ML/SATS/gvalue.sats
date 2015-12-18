@@ -225,6 +225,18 @@ gvdynarr_make_nil
 (* ****** ****** *)
 //
 fun
+gvdynarr_insert_atbeg
+  (gvdynarr, x: gvalue): void
+fun
+gvdynarr_insert_atend
+  (gvdynarr, x: gvalue): void
+//
+overload .insbeg with gvdynarr_insert_atbeg
+overload .insend with gvdynarr_insert_atend
+//
+(* ****** ****** *)
+//
+fun
 gvdynarr_listize0(gvdynarr): list0(gvalue)
 fun
 gvdynarr_listize1(gvdynarr): list0(gvalue)

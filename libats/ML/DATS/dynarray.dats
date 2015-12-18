@@ -82,6 +82,58 @@ end // end of [dynarray_make_nil]
 
 implement
 {a}(*tmp*)
+fprint_dynarray
+  (out, DA) =
+{
+//
+val DA = dynarray_decode(DA)
+val () = $DA.fprint_dynarray<a> (out, DA)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [fprint_dynarray] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+fprint_dynarray_sep
+  (out, DA, sep) =
+{
+//
+val DA = dynarray_decode(DA)
+val () = $DA.fprint_dynarray_sep<a> (out, DA, sep)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [fprint_dynarray_sep] *)
+
+(* ****** ****** *)
+
+implement{}
+dynarray_get_size
+  (DA) = asz where
+{
+//
+val DA = dynarray_decode(DA)
+val asz = $DA.dynarray_get_size<> (DA)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_get_size] *)
+
+implement{}
+dynarray_get_capacity
+  (DA) = cap where
+{
+//
+val DA = dynarray_decode(DA)
+val cap = $DA.dynarray_get_capacity<> (DA)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_get_capacity] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 dynarray_insert_atbeg
   (DA, x0) = opt where
 {
@@ -121,34 +173,6 @@ val opt = $DA.dynarray_insert_at_opt<a> (DA, i, x0)
 prval () = $UN.cast2void(DA)
 //
 } (* end of [dynarray_insert_at] *)
-
-(* ****** ****** *)
-
-implement
-{a}(*tmp*)
-fprint_dynarray
-  (out, DA) =
-{
-//
-val DA = dynarray_decode(DA)
-val () = $DA.fprint_dynarray<a> (out, DA)
-prval () = $UN.cast2void(DA)
-//
-} (* end of [fprint_dynarray] *)
-
-(* ****** ****** *)
-
-implement
-{a}(*tmp*)
-fprint_dynarray_sep
-  (out, DA, sep) =
-{
-//
-val DA = dynarray_decode(DA)
-val () = $DA.fprint_dynarray_sep<a> (out, DA, sep)
-prval () = $UN.cast2void(DA)
-//
-} (* end of [fprint_dynarray_sep] *)
 
 (* ****** ****** *)
 
