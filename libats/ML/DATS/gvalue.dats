@@ -255,6 +255,8 @@ dynarray_make_nil<elt>(i2sz(cap))
 end // end of [gvdynarr_make_nil]
 
 implement
+gvdynarr_listize0(DA) = dynarray_listize0<elt>(DA)
+implement
 gvdynarr_listize1(DA) = dynarray_listize1<elt>(DA)
 
 end // end of [local]

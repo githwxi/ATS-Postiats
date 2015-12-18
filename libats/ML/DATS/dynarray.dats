@@ -154,6 +154,21 @@ prval () = $UN.cast2void(DA)
 
 implement
 {a}(*tmp*)
+dynarray_listize0
+  (DA) =
+  list0_of_list_vt(xs) where
+{
+//
+val DA = dynarray_decode(DA)
+val xs = $DA.dynarray_listize0(DA)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_listize0] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 dynarray_listize1
   (DA) =
   list0_of_list_vt(xs) where
@@ -168,4 +183,5 @@ prval () = $UN.cast2void(DA)
 (* ****** ****** *)
 
 (* end of [dynarray.dats] *)
+
 

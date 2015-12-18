@@ -101,6 +101,8 @@ fprint_dynarray_sep
 (* ****** ****** *)
 //
 fun{a:t@ype}
+dynarray_listize0(DA: dynarray(a)): list0(a)
+fun{a:t@ype}
 dynarray_listize1(DA: dynarray(a)): list0(a)
 //
 (* ****** ****** *)

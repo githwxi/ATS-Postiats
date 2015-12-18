@@ -225,6 +225,8 @@ gvdynarr_make_nil
 (* ****** ****** *)
 //
 fun
+gvdynarr_listize0(gvdynarr): list0(gvalue)
+fun
 gvdynarr_listize1(gvdynarr): list0(gvalue)
 //
 (* ****** ****** *)
