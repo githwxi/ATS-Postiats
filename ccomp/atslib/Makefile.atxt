@@ -207,7 +207,15 @@ atslib:: atslib_libats_ML
 #make_entry("libats/ML", "matrix0.dats")
 #make_entry("libats/ML", "string.dats")
 #make_entry("libats/ML", "strarr.dats")
+
+######
+
 #make_entry("libats/ML", "gvalue.dats")
+
+######
+
+#make_entry("libats/ML", "dynarray.dats")
+#make_entry("libats/ML", "hashtblref.dats")
 
 ######
 

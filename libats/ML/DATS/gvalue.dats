@@ -77,12 +77,15 @@ staload _(*UN*) = "prelude/DATS/unsafe.dats"
 //
 staload _(*anon*) = "libats/DATS/qlist.dats"
 //
+staload _(*anon*) = "libats/DATS/dynarray.dats"
+//
 staload _(*anon*) = "libats/DATS/hashfun.dats"
 staload _(*anon*) = "libats/DATS/linmap_list.dats"
 staload _(*anon*) = "libats/DATS/hashtbl_chain.dats"
 //
 staload _(*anon*) = "libats/ML/DATS/list0.dats"
 staload _(*anon*) = "libats/ML/DATS/array0.dats"
+staload _(*anon*) = "libats/ML/DATS/dynarray.dats"
 staload _(*anon*) = "libats/ML/DATS/hashtblref.dats"
 //
 (* ****** ****** *)
