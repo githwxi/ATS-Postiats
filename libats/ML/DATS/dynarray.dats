@@ -212,10 +212,61 @@ dynarray_insert_at
 {
 //
 val DA = dynarray_decode(DA)
-val opt = $DA.dynarray_insert_at_opt<a> (DA, i, x0)
+//
+val opt =
+  $DA.dynarray_insert_at_opt<a> (DA, i, x0)
+//
 prval () = $UN.cast2void(DA)
 //
 } (* end of [dynarray_insert_at] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+dynarray_takeout_atbeg
+  (DA) = opt where
+{
+//
+val DA = dynarray_decode(DA)
+//
+val opt =
+  $DA.dynarray_takeout_atbeg_opt<a> (DA)
+//
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_takeout_atbeg] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+dynarray_takeout_atend
+  (DA) = opt where
+{
+//
+val DA = dynarray_decode(DA)
+//
+val opt =
+  $DA.dynarray_takeout_atend_opt<a> (DA)
+//
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_takeout_atend] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+dynarray_takeout_at
+  (DA, i) = opt where
+{
+//
+val DA = dynarray_decode(DA)
+val opt = $DA.dynarray_takeout_at_opt<a> (DA, i)
+prval () = $UN.cast2void(DA)
+//
+} (* end of [dynarray_takeout_at] *)
 
 (* ****** ****** *)
 

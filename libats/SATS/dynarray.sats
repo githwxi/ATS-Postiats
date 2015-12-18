@@ -146,14 +146,18 @@ dynarray_insert_at_opt
 (* ****** ****** *)
 //
 fun{a:vt0p}
-dynarray_insert_atbeg_exn (DA: !dynarray(INV(a)), x: a): void
+dynarray_insert_atbeg_exn
+  (DA: !dynarray(INV(a)), x: a): void
 fun{a:vt0p}
-dynarray_insert_atbeg_opt (DA: !dynarray(INV(a)), x: a): Option_vt(a)
+dynarray_insert_atbeg_opt
+  (DA: !dynarray(INV(a)), x: a): Option_vt(a)
 //
 fun{a:vt0p}
-dynarray_insert_atend_exn (DA: !dynarray(INV(a)), x: a): void
+dynarray_insert_atend_exn
+  (DA: !dynarray(INV(a)), x: a): void
 fun{a:vt0p}
-dynarray_insert_atend_opt (DA: !dynarray(INV(a)), x: a): Option_vt(a)
+dynarray_insert_atend_opt
+ (DA: !dynarray(INV(a)), x: a): Option_vt(a)
 //
 (* ****** ****** *)
 
@@ -162,7 +166,7 @@ dynarray_insertseq_at
   {n2:int}
 (
   DA: !dynarray(INV(a)), i: size_t
-, xs: &array(a, n2) >> arrayopt(a, n2, b), n2: size_t (n2)
+, xs: &array(a, n2) >> arrayopt(a, n2, b), n2: size_t(n2)
 ) : #[b:bool] bool(b) // end-of-fun
 
 (* ****** ****** *)

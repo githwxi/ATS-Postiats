@@ -123,7 +123,24 @@ overload .insend with dynarray_insert_atend
 //
 fun{a:vt0p}
 dynarray_insert_at
-  (DA: dynarray(a), i: size_t, x0: a): Option_vt(a)
+(
+  DA: dynarray(a), i: size_t, x0: a
+) : Option_vt(a) // end-of-function
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+dynarray_takeout_atbeg
+  (DA: dynarray(INV(a))): Option_vt(a)
+fun{a:vt0p}
+dynarray_takeout_atend
+  (DA: dynarray(INV(a))): Option_vt(a)
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+dynarray_takeout_at
+  (DA: dynarray(a), i: size_t): Option_vt(a)
 //
 (* ****** ****** *)
 //
