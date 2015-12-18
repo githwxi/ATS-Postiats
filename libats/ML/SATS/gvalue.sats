@@ -179,10 +179,13 @@ fprint_gvlist : fprint_type(gvlist)
 fun
 fprint_gvarray : fprint_type(gvarray)
 fun
+fprint_gvdynarr : fprint_type(gvdynarr)
+fun
 fprint_gvhashtbl : fprint_type(gvhashtbl)
 //
 overload fprint with fprint_gvlist of 10
 overload fprint with fprint_gvarray of 10
+overload fprint with fprint_gvdynarr of 10
 overload fprint with fprint_gvhashtbl of 10
 //
 (* ****** ****** *)

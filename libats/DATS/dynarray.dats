@@ -192,16 +192,22 @@ end else let
   prval () = fold@ (DA)
   val recap = dynarray$recapacitize ()
 in
-  if recap > 0 then let
-    val _(*true*) = dynarray_reset_capacity<a> (DA, m+m)
-  in
-    dynarray_insert_at (DA, i, x, res)
-  end else let
-    val () = res := x
-    prval () = opt_some{a}(res)
-  in
-    true
-  end // end of [if]
+//
+if
+recap > 0
+then let
+  val _(*true*) =
+  dynarray_reset_capacity<a>(DA, m+m)
+in
+  dynarray_insert_at<a>(DA, i, x, res)
+end // end of [then]
+else let
+  val () = res := x
+  prval () = opt_some{a}(res)
+in
+  true
+end // end of [else]
+//
 end // end of [if]
 //
 end else let
@@ -221,14 +227,14 @@ implement
 dynarray_insert_atbeg_exn
   (DA, x) = let
 in
-  dynarray_insert_at_exn (DA, i2sz(0), x)
+  dynarray_insert_at_exn<a>(DA, i2sz(0), x)
 end // end of [dynarray_insert_atbeg_exn]
 implement
 {a}(*tmp*)
 dynarray_insert_atbeg_opt
   (DA, x) = let
 in
-  dynarray_insert_at_opt (DA, i2sz(0), x)
+  dynarray_insert_at_opt<a>(DA, i2sz(0), x)
 end // end of [dynarray_insert_atbeg_opt]
 
 (* ****** ****** *)
@@ -241,7 +247,7 @@ dynarray_insert_atend_exn
 val+DYNARRAY (_, _, n) = DA
 //
 in
-  dynarray_insert_at_exn (DA, n, x)
+  dynarray_insert_at_exn<a>(DA, n, x)
 end // end of [dynarray_insert_atend_exn]
 //
 implement
@@ -252,7 +258,7 @@ dynarray_insert_atend_opt
 val+DYNARRAY (_, _, n) = DA
 //
 in
-  dynarray_insert_at_opt (DA, n, x)
+  dynarray_insert_at_opt<a>(DA, n, x)
 end // end of [dynarray_insert_atend_opt]
 //
 (* ****** ****** *)
@@ -292,31 +298,37 @@ if n + n2 <= m then let
   val () = n := n+n2
   prval () = fold@ (DA)
   prval () =
-  __assert (xs) where {
-    extern praxi __assert {n:int} (xs: &array(a, n) >> arrayopt (a, n, false)): void
+  __assert (xs) where
+  {
+    extern
+    praxi
+    __assert
+      {n:int}
+      (xs: &array(a, n) >> arrayopt (a, n, false)): void
+    // praxi
   } (* end of [prval] *)
 in
   false
 end else let
   val m = m and n = n
   prval () = fold@ (DA)
-  val recap = dynarray$recapacitize ()
+  val recap = dynarray$recapacitize<>()
 in
 //
 if recap > 0 then let
   val m2 = pow2min (m+m, n+n2)
-  val _(*true*) = dynarray_reset_capacity (DA, m2)
+  val _(*true*) = dynarray_reset_capacity<a>(DA, m2)
 in
-  dynarray_insertseq_at (DA, i, xs, n2)
+  dynarray_insertseq_at<a>(DA, i, xs, n2)
 end else let
-  prval () = arrayopt_some (xs) in true
+  prval () = arrayopt_some{a}(xs) in true
 end (* end of [if] *)
 //
 end // end of [if]
 //
 end else let
   prval () = fold@ (DA)
-  prval () = arrayopt_some (xs) in true
+  prval () = arrayopt_some{a}(xs) in true
 end // end of [if]
 //
 end // end of [dynarray_insertseq_at]
@@ -361,7 +373,7 @@ implement
 dynarray_takeout_atbeg_exn
   (DA) = let
 in
-  dynarray_takeout_at_exn (DA, i2sz(0))
+  dynarray_takeout_at_exn<a>(DA, i2sz(0))
 end // end of [dynarray_takeout_atbeg_exn]
 //
 implement
@@ -369,7 +381,7 @@ implement
 dynarray_takeout_atbeg_opt
   (DA) = let
 in
-  dynarray_takeout_at_opt (DA, i2sz(0))
+  dynarray_takeout_at_opt<a>(DA, i2sz(0))
 end // end of [dynarray_takeout_atbeg_opt]
 
 (* ****** ****** *)
@@ -378,12 +390,16 @@ implement
 {a}(*tmp*)
 dynarray_takeout_atend_exn
   (DA) = let
-  val+DYNARRAY (_, _, n) = DA
+//
+val+DYNARRAY (_, _, n) = DA
+//
 in
 //
-if n > 0 then
-  dynarray_takeout_at_exn (DA, pred(n))
-else let
+if
+n > 0
+then (
+  dynarray_takeout_at_exn<a>(DA, pred(n))
+) else let
   var res: a?
   val () = prerr "exit(ATSLIB): [dynarray_takeout_atend_exn] failed."
   val () = exit_void (1)
@@ -397,9 +413,14 @@ implement
 {a}(*tmp*)
 dynarray_takeout_atend_opt
   (DA) = let
-  val+DYNARRAY (_, _, n) = DA
+//
+val+DYNARRAY (_, _, n) = DA
+//
 in
-  if n > 0 then dynarray_takeout_at_opt (DA, pred(n)) else None_vt{a}()
+//
+if n > 0
+  then dynarray_takeout_at_opt<a>(DA, pred(n)) else None_vt{a}()
+//
 end // end of [dynarray_takeout_atend_opt]
 
 (* ****** ****** *)
@@ -459,8 +480,12 @@ val ptr = memcpy
   arrayptr2ptr(A2), arrayptr2ptr(A), n*sizeof<a>
 ) (* end of [val] *)
 //
-extern castfn __cast {n:int} (arrayptr (a, n)):<> arrayptr (a?, n)
-extern castfn __cast2 {n:int} (arrayptr (a?, n)):<> arrayptr (a, n)
+extern
+castfn
+__cast{n:int}(arrayptr (a, n)):<> arrayptr (a?, n)
+extern
+castfn
+__cast2{n:int} (arrayptr (a?, n)):<> arrayptr (a, n)
 //
 val A1 = __cast(A)
 val A2 = __cast2(A2)
@@ -469,6 +494,7 @@ val () = arrayptr_free (A1)
 //
 val () = A := A2
 val () = m := m2
+//
 prval () = fold@ (DA)
 //
 in
@@ -506,9 +532,15 @@ prval
 pf, fpf
 ) = __assert (p0) where
 {
+//
 extern
-praxi __assert
-  {l:addr} (p: ptr l): vtakeout0 (array_v (a, l, n))
+praxi
+__assert
+  {l:addr}
+(
+  p: ptr(l)
+) : vtakeout0 (array_v (a, l, n))
+//
 } (* end of [prval] *)
 //
 implement
@@ -533,7 +565,7 @@ end // end of [local]
 
 implement
 {}(*tmp*)
-dynarray_free (DA) = let
+dynarray_free(DA) = let
   var n: size_t
   val A = dynarray_getfree_arrayptr (DA, n)
 in
@@ -544,15 +576,17 @@ end (* end of [dynarray_free] *)
 
 implement
 {a}(*tmp*)
-fprint_dynarray (out, DA) = let
+fprint_dynarray(out, DA) = let
 //
 var n: size_t
+//
 val
-(pf, fpf | p) = dynarray_get_array (DA, n)
+(pf, fpf | p0) =
+  dynarray_get_array(DA, n)
 //
-val ((*void*)) = fprint_array (out, !p, n)
+val ((*void*)) = fprint_array<a> (out, !p0, n)
 //
-prval ((*void*)) = fpf (pf)
+prval ((*returned*)) = fpf(pf)
 //
 in
   // nothing
@@ -562,14 +596,30 @@ end (* end of [fprint_dynarray] *)
 
 implement
 {a}(*tmp*)
+fprint_dynarray_sep
+  (out, DA, sep) = let
+//
+implement
+fprint_array$sep<>
+  (out) = fprint_string(out, sep)
+//
+in
+  fprint_dynarray<a>(out, DA)
+end // end of [fprint_dynarray_sep]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 dynarray_get_at_exn
   (DA, i) = let
 //
-val pi = dynarray_getref_at (DA, i)
+val pi = dynarray_getref_at<a>(DA, i)
 //
 in
 //
-if cptr2ptr(pi) > 0 then $UN.cptr_get (pi) else $raise ArraySubscriptExn()
+if cptr2ptr(pi) > 0
+  then $UN.cptr_get<a>(pi) else $raise ArraySubscriptExn()
 //
 end // end of [dynarray_get_at_exn]
 
@@ -578,11 +628,12 @@ implement
 dynarray_set_at_exn
   (DA, i, x) = let
 //
-val pi = dynarray_getref_at (DA, i)
+val pi = dynarray_getref_at<a>(DA, i)
 //
 in
 //
-if cptr2ptr(pi) > 0 then $UN.cptr_set (pi, x) else $raise ArraySubscriptExn()
+if cptr2ptr(pi) > 0
+  then $UN.cptr_set<a>(pi, x) else $raise ArraySubscriptExn()
 //
 end // end of [dynarray_set_at_exn]
 
@@ -594,7 +645,8 @@ dynarray_insert_at_exn
   (DA, i, x) = let
 //
 var res: a?
-val ans = dynarray_insert_at (DA, i, x, res)
+val ans =
+  dynarray_insert_at<a>(DA, i, x, res)
 //
 in
 //
@@ -625,12 +677,12 @@ dynarray_insert_at_opt
   (DA, i, x) = let
 //
 var res: a?
-val ans = dynarray_insert_at (DA, i, x, res)
+//
+val ans =
+  dynarray_insert_at<a>(DA, i, x, res)
 //
 in
-//
-option_vt_make_opt<a> (ans, res)
-//
+  option_vt_make_opt<a>(ans, res)
 end (* end of [dynarray_insert_at_opt] *)
 
 (* ****** ****** *)
@@ -641,11 +693,14 @@ dynarray_takeout_at_exn
   (DA, i) = let
 //
 var res: a?
-val ans = dynarray_takeout_at (DA, i, res)
+//
+val ans = dynarray_takeout_at<a>(DA, i, res)
 //
 in
 //
-if ans then let
+if
+ans
+then let
 //
 prval () = opt_unsome{a}(res)
 //
@@ -674,12 +729,10 @@ dynarray_takeout_at_opt
   (DA, i) = let
 //
 var res: a?
-val ans = dynarray_takeout_at (DA, i, res)
+val ans = dynarray_takeout_at<a>(DA, i, res)
 //
 in
-//
-option_vt_make_opt<a> (ans, res)
-//
+  option_vt_make_opt<a>(ans, res)
 end // end of [dynarray_takeout_at_opt]
 
 (* ****** ****** *)

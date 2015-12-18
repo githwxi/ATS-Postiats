@@ -68,12 +68,17 @@ dynarray_free
 // end of [dynarray_free]
 
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
 fprint_dynarray
   (out: FILEref, DA: !dynarray(INV(a))): void
 // end of [fprint_dynarray]
-
+//
+fun{a:vt0p}
+fprint_dynarray_sep
+  (out: FILEref, DA: !dynarray(INV(a)), sep: string): void
+// end of [fprint_dynarray_sep]
+//
 (* ****** ****** *)
 //
 fun{}

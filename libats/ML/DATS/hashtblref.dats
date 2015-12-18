@@ -108,12 +108,15 @@ extern
 castfn
 hashtbl_encode
   {key,itm:t0p}
-  ($HT.hashtbl (key, INV(itm))): hashtbl (key, itm)
+(
+  $HT.hashtbl(key, INV(itm))
+) : hashtbl(key, itm)
+//
 extern
 castfn
 hashtbl_decode
   {key,itm:t0p}
-  (hashtbl (key, INV(itm))): $HT.hashtbl (key, itm)
+  (hashtbl(key, INV(itm))): $HT.hashtbl(key, itm)
 //
 (* ****** ****** *)
 

@@ -47,6 +47,7 @@ staload "libats/ML/SATS/basis.sats"
 //
 staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/array0.sats"
+staload "libats/ML/SATS/dynarray.sats"
 staload "libats/ML/SATS/hashtblref.sats"
 //
 staload "libats/ML/SATS/gvalue.sats"
@@ -122,6 +123,8 @@ case+ gv0 of
 //
 | GVarray(xs) => fprint! (out, "GVarray(", xs, ")")
 //
+| GVdynarr(xs) => fprint! (out, "GVdynarr(", xs, ")")
+//
 | GVhashtbl(kxs) => fprint! (out, "GVhashtbl(", kxs, ")")
 //
 | GVfunclo_fun _ => fprint! (out, "GVfunclo_fun(", "...", ")")
@@ -154,6 +157,19 @@ fprint_val<gvalue> = fprint_gvalue
 in
   fprint_array0_sep<gvalue>(out, xs, ", ")
 end // end of [fprint_gvarray]
+
+(* ****** ****** *)
+
+implement
+fprint_gvdynarr
+  (out, xs) = let
+//
+implement
+fprint_val<gvalue> = fprint_gvalue
+//
+in
+  fprint_dynarray_sep<gvalue>(out, xs, ", ")
+end // end of [fprint_gvdynarr]
 
 (* ****** ****** *)
 
