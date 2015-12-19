@@ -196,6 +196,8 @@ fun gvalue_int(int): gvalue
 //
 fun gvalue_ptr(ptr): gvalue
 //
+fun gvalue_ref(gvref): gvalue
+//
 fun gvalue_bool(bool): gvalue
 fun gvalue_char(char): gvalue
 //
@@ -209,6 +211,12 @@ fun gvalue_list(xs: gvlist): gvalue
 fun gvalue_array(xs: gvarray): gvalue
 //
 fun gvalue_hashtbl(kxs: gvhashtbl): gvalue
+//
+(* ****** ****** *)
+//
+fun
+gvref_make_elt
+  (x0: gvalue): gvref
 //
 (* ****** ****** *)
 //

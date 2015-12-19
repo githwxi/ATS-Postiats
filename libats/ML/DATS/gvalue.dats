@@ -61,6 +61,8 @@ staload _ = "prelude/DATS/pointer.dats"
 //
 staload _ = "prelude/DATS/string.dats"
 //
+staload _ = "prelude/DATS/reference.dats"
+//
 staload _ = "prelude/DATS/list.dats"
 staload _ = "prelude/DATS/list_vt.dats"
 //
@@ -125,13 +127,15 @@ case+ gv0 of
 | GVfloat(x) => fprint! (out, "GVfloat(", x, ")")
 | GVstring(x) => fprint! (out, "GVstring(", x, ")")
 //
+| GVref(r) => fprint! (out, "GVref(", "...", ")")
+//
 | GVlist(xs) => fprint! (out, "GVlist(", xs, ")")
 //
-| GVarray(xs) => fprint! (out, "GVarray(", xs, ")")
+| GVarray(xs) => fprint! (out, "GVarray(", "...", ")")
 //
-| GVdynarr(xs) => fprint! (out, "GVdynarr(", xs, ")")
+| GVdynarr(xs) => fprint! (out, "GVdynarr(", "...", ")")
 //
-| GVhashtbl(kxs) => fprint! (out, "GVhashtbl(", kxs, ")")
+| GVhashtbl(kxs) => fprint! (out, "GVhashtbl(", "...", ")")
 //
 | GVfunclo_fun _ => fprint! (out, "GVfunclo_fun(", "...", ")")
 | GVfunclo_clo _ => fprint! (out, "GVfunclo_clo(", "...", ")")
@@ -219,6 +223,9 @@ gvalue_string(x) = GVstring(x)
 (* ****** ****** *)
 //
 implement
+gvalue_ref(r) = GVref(r)
+//
+implement
 gvalue_list(xs) = GVlist(xs)
 //
 implement
@@ -226,6 +233,12 @@ gvalue_array(xs) = GVarray(xs)
 //
 implement
 gvalue_hashtbl(kxs) = GVhashtbl(kxs)
+//
+(* ****** ****** *)
+//
+implement
+gvref_make_elt
+  (x0) = ref_make_elt<gvalue>(x0)
 //
 (* ****** ****** *)
 //

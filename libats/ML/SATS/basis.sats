@@ -178,6 +178,8 @@ datatype gvalue =
 //
   | GVstring of (string)
 //
+  | GVref of (gvref)
+//
   | GVlist of (gvlist)
 //
   | GVarray of (gvarray)
@@ -190,6 +192,8 @@ datatype gvalue =
   | GVfunclo_clo of ((gvalue) -<cloref1> gvalue)
 //
 where
+gvref = ref(gvalue)
+and
 gvlist = list0(gvalue)
 and
 gvarray = array0(gvalue)
