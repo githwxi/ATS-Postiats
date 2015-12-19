@@ -266,4 +266,9 @@ dynarray_getfree2_arrayptr
 
 (* ****** ****** *)
 
+overload .size with dynarray_get_size
+overload .capacity with dynarray_get_capacity
+
+(* ****** ****** *)
+
 (* end of [dynarray.sats] *)

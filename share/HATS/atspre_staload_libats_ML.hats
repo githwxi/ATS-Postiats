@@ -68,6 +68,12 @@ staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/funset.dats"
 //
 (* ****** ****** *)
 //
+staload "{$PATSLIBATS}/ML/SATS/dynarray.sats"
+staload _(*anon*) = "{$PATSLIBATS}/DATS/dynarray.dats"
+staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/dynarray.dats"
+//
+(* ****** ****** *)
+//
 staload "{$PATSLIBATS}/ML/SATS/hashtblref.sats"
 //
 staload _(*anon*) = "{$PATSLIBATS}/DATS/hashfun.dats"

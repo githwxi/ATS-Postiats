@@ -151,4 +151,14 @@ dynarray_listize1(DA: dynarray(a)): list0(a)
 //
 (* ****** ****** *)
 
+overload .size with dynarray_get_size
+overload .capacity with dynarray_get_capacity
+
+(* ****** ****** *)
+
+overload .listize0 with dynarray_listize0
+overload .listize1 with dynarray_listize1
+
+(* ****** ****** *)
+
 (* end of [dynarray.sats] *)
