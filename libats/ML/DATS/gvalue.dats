@@ -400,6 +400,69 @@ case+ opt of ~None_vt() => GVnil() | ~Some_vt(x1) => x1
 end // end of [gvhashtbl_set_atkey]
 
 (* ****** ****** *)
+
+implement
+gvhashtbl_pop_atkey
+  (tbl, k) = let
+(*
+//
+val () =
+  println! (gvhashtbl_pop_atkey)
+//
+*)
+//
+in
+//
+case+ tbl[k] of
+| GVnil() => GVnil()
+| GVlist(xs) =>
+  (
+    case+ xs of
+    | list0_nil() => GVnil()
+    | list0_cons(x, xs) =>
+        (tbl[k] := GVlist(xs); x)
+      // end of [list0_cons]
+  )
+| _(*non-list*) => let
+    val () =
+    prerrln!
+      ("gvhashtbl_pop_atkey")
+    // end of [val]
+    val () = assertloc(false) in GVnil(*void*)
+  end // end of [_]
+//
+end // end of [gvhashtbl_push_atkey]
+
+(* ****** ****** *)
+
+implement
+gvhashtbl_push_atkey
+  (tbl, k, x) = let
+(*
+//
+val () =
+  println! (gvhashtbl_push_atkey)
+//
+*)
+//
+in
+//
+case+ tbl[k] of
+| GVnil() =>
+  tbl[k] := GVlist(list0_sing(x))
+| GVlist(xs) =>
+  tbl[k] := GVlist(list0_cons(x, xs))
+| _(*non-list*) => let
+    val () =
+    prerrln!
+      ("gvhashtbl_push_atkey")
+    // end of [val]
+    val () = assertloc(false) in (*void*)
+  end // end of [_]
+//
+end // end of [gvhashtbl_push_atkey]
+
+(* ****** ****** *)
 //
 implement
 gvhashtbl_listize1(tbl) = hashtbl_listize1<key,itm>(tbl)

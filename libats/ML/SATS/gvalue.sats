@@ -196,8 +196,6 @@ fun gvalue_int(int): gvalue
 //
 fun gvalue_ptr(ptr): gvalue
 //
-fun gvalue_ref(gvref): gvalue
-//
 fun gvalue_bool(bool): gvalue
 fun gvalue_char(char): gvalue
 //
@@ -205,6 +203,8 @@ fun gvalue_float(double): gvalue
 fun gvalue_string(string): gvalue
 //
 (* ****** ****** *)
+//
+fun gvalue_ref(gvref): gvalue
 //
 fun gvalue_list(xs: gvlist): gvalue
 //
@@ -289,6 +289,15 @@ overload [] with gvhashtbl_set_atkey
 overload .get with gvhashtbl_get_atkey
 overload .set with gvhashtbl_set_atkey
 *)
+//
+(* ****** ****** *)
+//
+fun
+gvhashtbl_pop_atkey
+  (gvhashtbl, k: string): gvalue
+fun
+gvhashtbl_push_atkey
+  (gvhashtbl, k: string, x: gvalue): void
 //
 (* ****** ****** *)
 //
