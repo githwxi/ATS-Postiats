@@ -104,7 +104,12 @@ overload g1ofg0 with g1ofg0_string // index-inducing
 #atscode_separator()
 
 fun{}
-string_sing (c: charNZ):<!wrt> strnptr (1)
+string_char (str: string):<> char
+
+#atscode_separator()
+
+fun{}
+string_sing (chr: charNZ):<!wrt> strnptr (1)
 
 #atscode_separator()
 //
