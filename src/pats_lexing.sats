@@ -389,9 +389,9 @@ val LLAMAT : tnode
 val MACDEF  : tnode
 val MACRODEF : tnode
 
-val REF : tnode
-
 (*
+//
+val REF : tnode
 //
 val REFAT : tnode
 //
