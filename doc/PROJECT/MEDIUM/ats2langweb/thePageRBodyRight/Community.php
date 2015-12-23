@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-12-22:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/jpzFc4a9M48"
+>ATS2-0.2.5 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-12-02:<br>
 <a
  href="http://www.stackbuilders.com/news/specific-endpoints"
