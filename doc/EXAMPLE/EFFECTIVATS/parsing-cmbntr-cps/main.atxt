@@ -17,22 +17,71 @@
 
 <h1>
 Effective ATS:<br>
-Combinators for Implementing Parsers in CPS-style
+Combinators for Parsing in CPS-style
 </h1>
 
 <p>
-In this article, I present a brief introduction to parsing combinators that
-are designed to facilitate parser implementation in CPS-style.  </p>
+In this article, I present a brief introduction to parsing combinators
+that are designed to facilitate parser implementation in CPS-style. This
+is also an occassion for me to advocate the use of abstract types in
+programming via a concrete case.
+</p>
 
 <h2>
+Parsers of CPS-style
 </h2>
+
+<p>
+Let us first take a look at the following two type definitions:
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
-
+//
+typedef
+parcont
+  (a:t@ype) = (a, parinp) -<cloref1> parout
+//
+typedef
+parinp_nullify
+  (a:t@ype) = (parinp, parcont(a)) -<cloref1> parout
+//
 ')</pre>
 
+The types #stacode("parinp") and #stacode("parout") are abstract at
+this stage. Intuitively, #stacode("parinp") is meant to be the type for
+the parsing input and #stacode("parout") the type for the parsing output.
+Given a type T, the type #stacode("parcont(T)") is for a continuation of a
+parser that is supposed to return a value of the type T; the type
+#stacode("parinp_nullify(T)") is for a parser of CPS-style that parses
+some input into a value of the type T and then passes the value and
+the remaining input to a continuation of the type #stacode("parcont(T)").
+
+</p>
+
+<p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+extern
+castfn
+kparser_encode
+  {a:t@ype}(parinp_nullify(a)): kparser(a)
+//
+extern
+castfn
+kparser_decode{a:t@ype}(kparser(a)): parinp_nullify(a)
+//
+')</pre>
+
+</p>
+
+
+<h2>
+Parsing Combinators
+</h2>
 
 <hr size="2">
 
