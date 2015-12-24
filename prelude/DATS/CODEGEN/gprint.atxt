@@ -96,7 +96,8 @@ gprint_list$sep () = gprint_string ", "
 
 implement
 {a}(*tmp*)
-gprint_list (xs) = let
+gprint_list
+  (xs) = let
 //
 typedef tenv = int
 //
@@ -180,7 +181,8 @@ gprint_array$sep () = gprint_string ", "
 
 implement
 {a}(*tmp*)
-gprint_array (A, n) = let
+gprint_array
+  (A, n) = let
 //
 typedef tenv = size_t
 //

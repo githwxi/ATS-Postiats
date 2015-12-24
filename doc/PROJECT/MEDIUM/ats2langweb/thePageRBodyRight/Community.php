@@ -154,6 +154,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-05-22:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/Q54YTXt8u1g"
@@ -161,8 +163,6 @@ ATS-2015-05-22:<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-05-16:<br>
 <a

@@ -1,4 +1,13 @@
 (* ****** ****** *)
+(*
+//
+// For use in Effiective ATS
+//
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+//
+*)
+(* ****** ****** *)
 //
 #define
 ATS_MAINATSFLAG 1

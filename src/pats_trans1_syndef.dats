@@ -200,7 +200,10 @@ auxpr
 , d1es: d1explst, sym: symbol
 ) : d1exp = let
 (*
-val () = println! ("auxpr: d1es = ", d1es)
+//
+val () =
+println! ("auxpr: d1es = ", d1es)
+//
 *)
 val dq = $SYN.d0ynq_none (loc0)
 val fid = d1exp_dqid (loc0, dq, sym)
@@ -217,13 +220,17 @@ auxprln
 , d1es: d1explst, sym: symbol, sym2: symbol
 ) : d1exp = let
 (*
-val () = println! ("auxprln: d1es = ", d1es)
+//
+val () =
+println! ("auxprln: d1es = ", d1es)
+//
 *)
 val d1e1_res = auxpr (loc0, d1es, sym)
 //
 val dq = $SYN.d0ynq_none (loc0)
 val fid2 = d1exp_dqid (loc0, dq, sym2)
-val d1e2_res = d1exp_app_dyn (loc0, fid2, loc0, ~1(*npf*), list_nil)
+val d1e2_res =
+  d1exp_app_dyn (loc0, fid2, loc0, ~1(*npf*), list_nil)
 //
 in
   d1exp_seq (loc0, list_pair (d1e1_res, d1e2_res))
@@ -238,7 +245,10 @@ auxfpr
 , d1es: d1explst, sym: symbol
 ) : d1exp = let
 (*
-val () = println! ("auxfpr: d1es = ", d1es)
+//
+val () =
+println! ("auxfpr: d1es = ", d1es)
+//
 *)
 in
 //
@@ -262,8 +272,12 @@ auxfprln
 , d1es: d1explst, sym: symbol, sym2: symbol
 ) : d1exp = let
 (*
+//
 val out = stdout_ref
-val () = fprintln! (out, "auxfprln: d1es = ", d1es)
+//
+val () =
+fprintln! (out, "auxfprln: d1es = ", d1es)
+//
 *)
 in
 //
@@ -292,11 +306,14 @@ end (* end of [auxfprln] *)
 
 in (* in of [local] *)
 
+(* ****** ****** *)
+//
 fun
 fsyndef_PRINT
 (
   loc0: location, d1es: d1explst
 ) : d1exp = auxpr (loc0, d1es, symbol_PRINT)
+//
 fun fsyndef_PRINTLN
 (
   loc0: location, d1es: d1explst
@@ -304,7 +321,7 @@ fun fsyndef_PRINTLN
 (
   auxprln (loc0, d1es, symbol_PRINT, symbol_PRINT_NEWLINE)
 ) (* end of [fsyndef_PRINTLN] *)
-
+//
 (* ****** ****** *)
 
 fun
@@ -402,7 +419,14 @@ end // end of [local]
 in (* in of [local] *)
 
 implement
-syndef_search_all (id) = let
+syndef_search_all
+  (id) = let
+//
+(*
+val () =
+println! ("syndef_search_all")
+*)
+//
 in
 //
 case+ 0 of
@@ -424,7 +448,7 @@ case+ 0 of
 | _ when id = symbol_FPRINT => Some_vt (fsyndef_FPRINT)
 | _ when id = symbol_FPRINTLN => Some_vt (fsyndef_FPRINTLN)
 //
-| _ => None_vt ()
+| _ (* unsupported idext *) => None_vt ()
 //
 end // end of [syndef_search_all]
 

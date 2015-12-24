@@ -1,4 +1,15 @@
 (* ****** ****** *)
+
+(*
+//
+// For use in Effiective ATS
+//
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+//
+*)
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_define.hats"
