@@ -31,6 +31,32 @@ staload
 "{$LIBATSHWXI}/teaching/kparcomb/DATS/kparcomb.dats"
 //
 (* ****** ****** *)
+//
+datatype token =
+  | TOKeof of ()
+  | TOKint of int
+  | TOKident of string
+  | TOKspchr of char
+//
+(* ****** ****** *)
+//
+extern
+fun
+fprint_token : fprint_type(token)
+overload fprint with fprint_token
+//
+implement
+fprint_token
+  (out, tok) =
+(
+case+ tok of
+| TOKeof() => fprint! (out, "TOKeof()")
+| TOKint(x) => fprint! (out, "TOKint(", x, ")")
+| TOKident(x) => fprint! (out, "TOKident(", x, ")")
+| TOKspchr(x) => fprint! (out, "TOKspchr(", x, ")")
+)
+//
+(* ****** ****** *)
 
 stadef kp = kparser
 
@@ -139,32 +165,6 @@ val kp_spchr = kp_char
 //
 (* ****** ****** *)
 //
-datatype token =
-  | TOKeof of ()
-  | TOKint of int
-  | TOKident of string
-  | TOKspchr of char
-//
-(* ****** ****** *)
-//
-extern
-fun
-fprint_token : fprint_type(token)
-overload fprint with fprint_token
-//
-implement
-fprint_token
-  (out, tok) =
-(
-case+ tok of
-| TOKeof() => fprint! (out, "TOKeof()")
-| TOKint(x) => fprint! (out, "TOKint(", x, ")")
-| TOKident(x) => fprint! (out, "TOKident(", x, ")")
-| TOKspchr(x) => fprint! (out, "TOKspchr(", x, ")")
-)
-//
-(* ****** ****** *)
-//
 val
 kp_TOKeof =
 kparser_seq1wth(kp_eof, lam(x) => TOKeof())
@@ -192,35 +192,32 @@ kparser_alter
 //
 (* ****** ****** *)
 
+assume parout_vtype = stream_con(token)
+
+(* ****** ****** *)
+
 fun
 tokenizer
 (
   cs: List0(char)
-) : void = let
-//
-typedef
-charlst = List0(char)
-//
-val cs_ref = ref<charlst>(cs)
-//
-val out = stdout_ref
-val kont =
-lam(cs: charlst, tok: token) =<cloref1>
-  let val () = fprintln! (out, "token = ", tok) in cs_ref[] := cs end
+) : stream(token) = let
 //
 val
-kp_token =
-  kparser_decode(kp_token)
-//
-fun
-loop(): void = let
-  val cs = cs_ref[]
-in
-  case+ cs of nil() => () | cons _ => (kp_token(cs, kont); loop())
-end // end of [loop]
+kp_token = kparser_decode(kp_token)
 //
 in
-  loop()
+//
+$delay
+(
+//
+case+ cs of
+| nil() =>
+  stream_nil()
+| cons _ =>
+  kp_token(cs, lam(inp, tok) => stream_cons(tok, tokenizer(inp)))
+//
+) : stream_con(token)
+//
 end // end of [tokenizer]
 
 (* ****** ****** *)
@@ -234,9 +231,26 @@ println!
   ("Hello from [tokenizer]!")
 //
 val inp = stdin_ref
-val cs0 = fileref_get_file_charlst(inp)
+val out = stdout_ref
 //
-val ((*void*)) = tokenizer(list_vt2t(cs0))
+val cs0 =
+  fileref_get_file_charlst(inp)
+//
+val toks = tokenizer(list_vt2t(cs0))
+//
+fun
+loop
+(
+  toks: stream(token)
+) : void =
+(
+case+ !toks of
+| stream_nil() => ()
+| stream_cons(tok, toks) =>
+    (fprintln! (out, "token = ", tok); loop(toks))
+)
+//
+val () = loop(toks)
 //
 } (* end of [main0] *)
 
