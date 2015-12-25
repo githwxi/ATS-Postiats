@@ -152,7 +152,7 @@ kparser_fmap
 //
 val
 kp_ident =
-kparser_join2wth
+kparser_fmap2
 ( kp_alpha
 , kparser_repeat0(kp_alnum)
 , lam(c, cs) => charlst2str(cons(c, cs))
@@ -256,12 +256,12 @@ kp_TOKident =
 kparser_fmap(kp_ident, lam(x) => TOKident(x))
 //
 val
-kp_TOKcomment =
-kparser_fmap(kp_comment, lam(x) => TOKcomment())
-//
-val
 kp_TOKspchr =
 kparser_fmap(kp_spchr, lam(x) => TOKspchr(x))
+//
+val
+kp_TOKcomment =
+kparser_fmap(kp_comment, lam(x) => TOKcomment())
 //
 (* ****** ****** *)
 //
