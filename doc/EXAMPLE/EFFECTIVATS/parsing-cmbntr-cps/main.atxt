@@ -83,6 +83,100 @@ kparser_decode{a:t@ype}(kparser(a)): parinp_nullify(a)
 Parsing Combinators
 </h2>
 
+<p>
+Generally speaking, parsing combinators are functions designed
+for constructing parsers. While a parsing combinator is often called
+on some existing parsers to construct a new parser, it is not uncommon
+to see one that takes as its arguments values that are not parsers.
+I present as follows some common parsing combinators.
+</p>
+
+<p>
+Two combinators
+#dyncode("kparser_fail") and #dyncode("kparser_just")
+are given the following types:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a:t@ype}
+kparser_fail(): kparser(a)
+//
+fun
+{a:t@ype}
+kparser_just(x: a): kparser(a)
+//
+')</pre>
+
+Calling #dyncode("kparser_fail") simply raises an exception.
+Given a value, #dyncode("kparser_just") simply returns the value
+without consuming any input.
+
+</p>
+
+<p>
+Given a parser and a predicate,
+the combinator #dyncode("kparser_satisfy") constructs
+another parser that only returns if the value returned
+by the given parser satisfies the predicate:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a:t@ype}
+kparser_satisfy
+(
+  kparser(a), test: cfun1(a, bool)
+) : kparser(a) // end-of-fun
+//
+')</pre>
+</p>
+
+<p>
+Given a parser and a function, the combinator #dyncode("kparser_fmap")
+constructs another parser that returns a value obtained from applying
+the given function to the value returned by the given parser:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a:t@ype}
+{b:t@ype}
+kparser_fmap
+(
+  kp: kparser(a), fmap: cfun1(a, b)
+) : kparser(b) // end-of-fun
+//
+')</pre>
+</p>
+
+<p>
+Given two parsers, the combinator #dyncode("kparser_join")
+constructs a new parser that essentially calls the two parsers
+consecutively and then combines the values returned by them to form
+a tuple:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a1
+,a2:t@ype}
+kparser_join
+(
+  kp1: kparser(a1), kp2: kparser(a2)
+) : kparser(@(a1, a2)) // end-of-fun
+//
+')</pre>
+</p>
+
 <hr size="2">
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.

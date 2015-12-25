@@ -85,8 +85,9 @@ lam(inp, kont) =>
 
 (* ****** ****** *)
 
-val
-kp_char =
+implement
+{}(*tmp*)
+kparser_char() =
 kparser_encode
   {char}(
 //
@@ -97,31 +98,16 @@ lam(inp, kont) =>
   | nil() => $raise ParFailExn(*void*)
 )
 //
-) (* kparser_encode *)
+) (* kparser_char *)
 
 (* ****** ****** *)
 //
-fun
-kp_litchar(c0: char) =
-  kparser_satisfy(kp_char, lam(c1) => c0 = c1)
-//
-(* ****** ****** *)
-//
 val
-kp_alpha =
-  kparser_satisfy(kp_char, lam(c) => isalpha(c))
-//
-(* ****** ****** *)
-//
+kp_alpha = kparser_alpha()
 val
-kp_alnum =
-  kparser_satisfy(kp_char, lam(c) => isalnum(c))
-//
-(* ****** ****** *)
-//
+kp_alnum = kparser_alnum()
 val
-kp_digit =
-  kparser_satisfy(kp_char, lam(c) => isdigit(c))
+kp_digit = kparser_digit()
 //
 (* ****** ****** *)
 //
@@ -172,7 +158,7 @@ kparser_join2wth
 , lam(c, cs) => charlst2str(cons(c, cs))
 )
 //
-val kp_spchr = kp_char
+val kp_spchr = kparser_char<>((*void*))
 //
 (* ****** ****** *)
 
@@ -249,12 +235,12 @@ case+ cs of
 val
 kp_comment_rest =
 kparser_encode{int}
-  (lam(inp, kont) => aux1(0, inp, kont))
+(
+lam(inp, kont) => aux1(0, inp, kont)
+)
 //
 in
-//
-kp_litchar('\(') >> (kp_litchar('*') >> kp_comment_rest)
-//
+  kparser_literal("(*") >> kp_comment_rest
 end // end of [val]
 
 (* ****** ****** *)
