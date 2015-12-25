@@ -33,7 +33,7 @@ main.html: main.exe ; ./main.exe > $@
 
 tokenizer: \
 tokenizer.dats; \
-$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -o $@ $< -latslib -lgc
+$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -O2 -o $@ $< -latslib -lgc
 
 ######
 #

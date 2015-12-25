@@ -142,6 +142,9 @@ strnptr2string
 
 (* ****** ****** *)
 //
+typedef charlst = List0(char)
+//
+(* ****** ****** *)
 val
 kp_int =
 kparser_fmap
@@ -152,7 +155,7 @@ kparser_fmap
 //
 val
 kp_ident =
-kparser_fmap2
+kparser_fmap2<char,charlst><string>
 ( kp_alpha
 , kparser_repeat0(kp_alnum)
 , lam(c, cs) => charlst2str(cons(c, cs))
