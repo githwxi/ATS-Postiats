@@ -77,8 +77,7 @@ kparser_encode
 lam(inp, kont) =>
 (
   case+ inp of
-  | nil() => kont(0, inp)
-  | cons(c, inp2) => $raise ParFailExn(*void*)
+  | nil() => kont(0, inp) | cons(c, inp2) => $raise ParFailExn()
 )
 //
 ) (* kparser_encode *)
@@ -94,8 +93,7 @@ kparser_encode
 lam(inp, kont) =>
 (
   case+ inp of
-  | cons(c, inp2) => kont(c, inp2)
-  | nil() => $raise ParFailExn(*void*)
+  | cons(c, inp2) => kont(c, inp2) | nil() => $raise ParFailExn()
 )
 //
 ) (* kparser_char *)
@@ -113,10 +111,10 @@ kp_digit = kparser_digit()
 //
 extern
 fun
-charlst2int : List1(char) -> int
+charlst2int : List0(char) -> int
 extern
 fun
-charlst2str : List1(char) -> string
+charlst2str : List0(char) -> string
 //
 (* ****** ****** *)
 
@@ -145,20 +143,19 @@ strnptr2string
 typedef charlst = List0(char)
 //
 (* ****** ****** *)
+//
 val
 kp_int =
-kparser_fmap
+kparser_fmap<charlst><int>
 (
-  kparser_repeat1(kp_digit)
-, lam(cs) => charlst2int(cs)
+  kparser_repeat1(kp_digit), lam(cs) => charlst2int(cs)
 )
 //
 val
-kp_ident =
+kp_ident = // parsing identifiers
 kparser_fmap2<char,charlst><string>
 ( kp_alpha
-, kparser_repeat0(kp_alnum)
-, lam(c, cs) => charlst2str(cons(c, cs))
+, kparser_repeat0(kp_alnum), lam(c, cs) => charlst2str(cons(c, cs))
 )
 //
 val kp_spchr = kparser_char<>((*void*))

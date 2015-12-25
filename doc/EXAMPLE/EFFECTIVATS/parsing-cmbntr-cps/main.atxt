@@ -58,7 +58,7 @@ input into a value of the type T and then passes the value and the
 remaining input to a continuation of the type #stacode("parcont(T)").
 If a parser of the type #stacode("parinp_nullify(T)") cannot turn
 the given parsing input into a value of the type T, then a raised exception
-is issued as a result.
+#dyncode("ParFailExn()") is issued as the parsing result.
 </p>
 
 <p>
@@ -369,6 +369,10 @@ end // end of [kparser_literal]
 (* ****** ****** *)
 ')</pre>
 
+Given a character #dyncode("ch"), #dyncode("kparser_litchar(ch)")
+returns a parser for recognizing the character. Given a string
+#dyncode("str"), #dyncode("kparser_literal(str)") returns a parser for
+recognizing the sequence of the characters contained in the string.
 </p>
 
 <p>
@@ -390,10 +394,87 @@ Parsing Combinators in Action
 </h2>
 
 <p>
-I hereby implement a tokenizer to turn a sequence of characters into
-tokens, presenting a concrete case of parsing combinators in action.  Note
-that the entirety of the code for this example can be found in the file
-#filename("tokenizer.dats").  </p>
+In the rest of this article, I briefly mention a tokenizer that turns a
+sequence of characters into tokens, showing a concrete case of parsing
+combinators in action.
+</p>
+
+<p>
+Assume that #stacode("parinp") equals #stacode("charlst") (which is defined
+as #stacode("List0(char)")). That is, parsing input is just a list of
+characters. Then the combinator #dyncode("kparser_char") can be implemented
+as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+assume
+parinp_type = List0(char)
+//
+implement
+{}(*tmp*)
+kparser_char() =
+kparser_encode
+  {char}(
+//
+lam(inp, kont) =>
+(
+  case+ inp of
+  | cons(c, inp2) => kont(c, inp2) | nil() => $raise ParFailExn()
+)
+//
+) (* kparser_char *)
+//
+')</pre>
+</p>
+
+<p>
+Assume that a legal integer token consists of a non-empty sequence of
+digits. Then a parser for integer tokens can be implement as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+val
+kp_digit = kparser_digit<>()
+//
+val
+kp_int =
+kparser_fmap<charlst><int>
+(
+  kparser_repeat1(kp_digit), lam(cs) => charlst2int(cs)
+)
+//
+')</pre>
+</p>
+
+<p>
+Assume that a legal identifier token consists of a letter followed by a
+(possibly empty) sequence of letters or digits. Then a parser for
+identifiers can be implement as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+val
+kp_alnum = kparser_alnum<>()
+//
+val
+kp_ident = // parsing identifiers
+kparser_fmap2<char,charlst><string>
+( kp_alpha
+, kparser_repeat0(kp_alnum), lam(c, cs) => charlst2str(cons(c, cs))
+)
+//
+')</pre>
+
+Please find the entirety of the code for this example in the file
+#filename("tokenizer.dats").
+
+</p>
 
 <hr size="2">
 
