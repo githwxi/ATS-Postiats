@@ -665,41 +665,48 @@ eval0dexpopt (x) = eval0_d2expopt (loc0, ctx, env, ,(x))
 //
 in
 //
-case+ d2e0.d2exp_node of
+case+
+d2e0.d2exp_node
+of // case+
 //
-| D2Evar (d2v) => m2v where {
+| D2Evar(d2v) =>
+    m2v where {
     val m2v = eval0_d2var (loc0, ctx, d2v)
-  } // end of [D2Evar]
+  } (* end of [D2Evar] *)
 //
-| D2Eint (i) => M2Vint (i)
-| D2Echar (c) => M2Vchar (c)
-| D2Estring (s) => M2Vstring (s)
-| D2Efloat (rep) => M2Vfloat (rep)
+| D2Eint(i) => M2Vint (i)
+| D2Echar(c) => M2Vchar (c)
+| D2Efloat(rep) => M2Vfloat(rep)
+| D2Estring(str) => M2Vstring(str)
 //
-| D2Ei0nt (x) => let
+| D2Ei0nt(x) => let
     val-$LEX.T_INT
       (base, rep, sfx) = x.token_node
     // end of [val]
   in
     M2Vint (int_of_llint ($UT.llint_make_string (rep)))
   end // end of [D2Ei0nt]
-| D2Ec0har (x) => let
+| D2Ec0har(x) => let
     val-$LEX.T_CHAR
       (c) = x.token_node in M2Vchar (c)
     // end of [val]
   end // end of [D2Ec0har]
-| D2Ef0loat (x) => let
+| D2Ef0loat(x) => let
     val-$LEX.T_FLOAT
       (bas, rep, sfx) = x.token_node in M2Vfloat (rep)
     // end of [val]
   end // end of [D2Ef0loat]
-| D2Es0tring (x) => let
+| D2Es0tring(x) => let
     val-$LEX.T_STRING (s) = x.token_node in M2Vstring (s)
   end // end of [D2Es0tring]
 //
+| D2Esing(d2e) => eval0dexp(d2e)
+//
 | D2Eapplst
     (d2e, d2as) => (
-  case+ d2e.d2exp_node of
+  case+
+  d2e.d2exp_node
+  of // case+
   | D2Emac (d2m) => (
       // expanding a macro in long form
       eval0_app_mac_long (loc0, d2m, ctx, env, d2as)
