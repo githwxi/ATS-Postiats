@@ -8,6 +8,14 @@ style="margin-top:8px;padding:8px;"
 
 ATS-2015-12-15:<br>
 <a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/-Y07qSjOmFg"
+>Parsing Combinators of CPS-style</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+ATS-2015-12-15:<br>
+<a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/sd2aqsyhcp4"
 >Encoding Propositional Logic</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
@@ -73,6 +81,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-03-12:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
@@ -90,8 +100,6 @@ Chapter "From genericity to late-binding" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-03-11:<br>
 <a

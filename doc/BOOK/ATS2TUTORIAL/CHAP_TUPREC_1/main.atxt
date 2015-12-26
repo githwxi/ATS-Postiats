@@ -50,7 +50,7 @@ to be avoided, then one can declare the types #stacode("abc_tup") and
 typedef
 abc_tup = $tup(int, int, string) // for tuples
 typedef
-abc_rec = $ref{a=int, b=int, c=string} // for records
+abc_rec = $rec{a=int, b=int, c=string} // for records
 ")
 
 Also, the keywords

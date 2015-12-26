@@ -110,7 +110,8 @@ TARZVCF=tar zvcf
 
 ######
 #
-PACKNAME=ATS2-Postiats-include-0.2.5
+PACKNAME=ATS2-Postiats-include-0.2.6
+# PACKNAME=ATS2-Postiats-include-0.2.5
 # PACKNAME=ATS2-Postiats-include-0.2.4
 # PACKNAME=ATS2-Postiats-include-0.2.3
 # PACKNAME=ATS2-Postiats-include-0.2.2
