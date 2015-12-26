@@ -531,7 +531,11 @@ sequence of characters starting with #dyncode("(*") and ending with
 #dyncode("*)"), and embedded comments are allowed. I suggest that the
 reader pay close attention to the implementation of #dyncode("kp_comment")
 in #filename("tokenizer.dats"), which is not based on parsing combinators.
-Instead, #dyncode("kp_comment") is implemented in a direct style.  </p>
+Instead, #dyncode("kp_comment") is implemented in a direct style.  Parsing
+combinators can often help implement elegant parsers but not always.  There
+is really no point sticking to parsing combinators if one can find a
+simpler and/or cleaner solution otherwise.
+</p>
 
 <p>
 A tokenizer is implemented as follows that turns a list of characters into
