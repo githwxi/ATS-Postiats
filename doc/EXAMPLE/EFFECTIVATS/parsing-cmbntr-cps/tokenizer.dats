@@ -33,11 +33,11 @@ staload
 (* ****** ****** *)
 //
 datatype token =
-  | TOKeof of ()
-  | TOKint of int
-  | TOKident of string
-  | TOKspchr of char
-  | TOKcomment of ()
+  | TOKeof of () // end-of-file
+  | TOKint of int // integer
+  | TOKident of string // identifier
+  | TOKspchr of char // special char
+  | TOKcomment of () // comment
 //
 (* ****** ****** *)
 //
@@ -248,9 +248,11 @@ end // end of [val]
 val
 kp_TOKeof =
 kparser_fmap(kp_eof, lam(x) => TOKeof())
+//
 val
 kp_TOKint =
 kparser_fmap(kp_int, lam(x) => TOKint(x))
+//
 val
 kp_TOKident =
 kparser_fmap(kp_ident, lam(x) => TOKident(x))
@@ -285,7 +287,7 @@ parout_type = stream_con(token)
 fun
 tokenizer
 (
-  cs: List0(char)
+cs: List0(char)
 ) : stream(token) = let
 //
 val

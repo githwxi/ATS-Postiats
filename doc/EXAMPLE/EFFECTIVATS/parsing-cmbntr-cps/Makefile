@@ -30,11 +30,17 @@ main_atxt.dats: \
 main.html: main.exe ; ./main.exe > $@
 #
 ######
-
+#
 tokenizer: \
 tokenizer.dats; \
-$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -O2 -o $@ $< -latslib -lgc
-
+$(PATSCC) \
+  -D_GNU_SOURCE \
+  -DATS_MEMALLOC_GCBDW -O2 -o $@ $< -latslib -lgc
+#
+######
+#
+regress: tokenizer; $(CAT) tokenizer.dats | ./tokenizer
+#
 ######
 #
 upload_main: \

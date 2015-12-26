@@ -460,7 +460,9 @@ class="patsyntax">
 #pats2xhtml_dats('\
 //
 val
-kp_alnum = kparser_alnum<>()
+kp_alpha = kparser_alpha<>()
+val
+kp_alnum = Kparser_alnum<>()
 //
 val
 kp_ident = // parsing identifiers
@@ -470,10 +472,109 @@ kparser_fmap2<char,charlst><string>
 )
 //
 ')</pre>
+</p>
 
+<p>
+The datatype #stacode("token") is declared for tokens as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+datatype token =
+  | TOKeof of () // the end
+  | TOKint of int // integer
+  | TOKident of string // identifier
+  | TOKspchr of char // special char
+  | TOKcomment of () // comment
+//
+')</pre>
+
+The parser #dyncode("kp_token")
+for turning sequences of characters into tokens
+is implemented below:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+val
+kp_TOKeof =
+kparser_fmap(kp_eof, lam(x) => TOKeof())
+//
+val
+kp_TOKint =
+kparser_fmap(kp_int, lam(x) => TOKint(x))
+//
+val
+kp_TOKident =
+kparser_fmap(kp_ident, lam(x) => TOKident(x))
+//
+val
+kp_TOKspchr =
+kparser_fmap(kp_spchr, lam(x) => TOKspchr(x))
+//
+val
+kp_TOKcomment =
+kparser_fmap(kp_comment, lam(x) => TOKcomment())
+//
+val
+kp_token =
+kp_TOKint || kp_TOKident ||
+kp_TOKcomment || kp_TOKspchr || kp_TOKeof
+//
+')</pre>
+
+Note that #dyncode("kp_eof"), #dyncode("kp_spchr") and
+#dyncode("kp_comment") are not presented here. A comment
+starts with #dyncode("(*") and ends with #dyncode("*)"), and
+embedded comments are allowed. I suggest that the reader pay
+close attention to the implementation of #dyncode("kp_comment")
+in #filename("tokenizer.dats"), which is not based on parsing combinators.
+Instead, #dyncode("kp_comment") is implemented in a direct style.
+</p>
+
+<p>
+A tokenizer is implemented as follows that turns a list of characters into
+a (lazy) stream of tokens:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+assume
+parout_type = stream_con(token)
+//
+fun
+tokenizer
+(
+cs: List0(char)
+) : stream(token) = let
+//
+val
+kp_token = kparser_decode(kp_token)
+//
+in
+//
+$delay
+(
+//
+case+ cs of
+| nil() =>
+  stream_nil()
+| cons _ =>
+  kp_token(cs, lam(tok, inp) => stream_cons(tok, tokenizer(inp)))
+//
+) : stream_con(token)
+//
+end // end of [tokenizer]
+//
+')</pre>
+</p>
+
+<p>
 Please find the entirety of the code for this example in the file
 #filename("tokenizer.dats").
-
 </p>
 
 <hr size="2">
