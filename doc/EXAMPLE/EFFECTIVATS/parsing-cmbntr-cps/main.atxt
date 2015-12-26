@@ -575,7 +575,7 @@ end // end of [tokenizer]
 <p>
 Please find the entirety of the code for this example in the file
 #filename("tokenizer.dats"). A good exercise to solidify one's
-understanding of parsing combinators is to implement a parser for
+understanding of parsing combinators is to simply implement a parser for
 arithmetic expressions based on the tokenizer presented here.  </p>
 
 <hr size="2">
