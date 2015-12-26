@@ -526,13 +526,12 @@ kp_TOKcomment || kp_TOKspchr || kp_TOKeof
 ')</pre>
 
 Note that #dyncode("kp_eof"), #dyncode("kp_spchr") and
-#dyncode("kp_comment") are not presented here. A comment
-starts with #dyncode("(*") and ends with #dyncode("*)"), and
-embedded comments are allowed. I suggest that the reader pay
-close attention to the implementation of #dyncode("kp_comment")
+#dyncode("kp_comment") are not presented here. A comment consisits of a
+sequence of characters starting with #dyncode("(*") and ending with
+#dyncode("*)"), and embedded comments are allowed. I suggest that the
+reader pay close attention to the implementation of #dyncode("kp_comment")
 in #filename("tokenizer.dats"), which is not based on parsing combinators.
-Instead, #dyncode("kp_comment") is implemented in a direct style.
-</p>
+Instead, #dyncode("kp_comment") is implemented in a direct style.  </p>
 
 <p>
 A tokenizer is implemented as follows that turns a list of characters into
