@@ -369,11 +369,10 @@ end // end of [kparser_literal]
 (* ****** ****** *)
 ')</pre>
 
-Given a character #dyncode("ch"), #dyncode("kparser_litchar(ch)")
-returns a parser for recognizing the character. Given a string
-#dyncode("str"), #dyncode("kparser_literal(str)") returns a parser for
-recognizing the sequence of the characters contained in the string.
-</p>
+Given a character #dyncode("ch"), #dyncode("kparser_litchar(ch)") returns a
+parser for recognizing the character. Given a string #dyncode("str"),
+#dyncode("kparser_literal(str)") returns a parser for recognizing the
+sequence of the characters contained in the string #dyncode("str").  </p>
 
 <p>
 For those interested in studying parsing combinators in more depth, the
@@ -394,10 +393,9 @@ Parsing Combinators in Action
 </h2>
 
 <p>
-In the rest of this article, I briefly mention a tokenizer that turns a
-sequence of characters into tokens, showing a concrete case of parsing
-combinators in action.
-</p>
+In the rest of this article, I briefly mention the implementation of a
+tokenizer that turns a sequence of characters into tokens, showing a
+concrete case of parsing combinators in action.  </p>
 
 <p>
 Assume that #stacode("parinp") equals #stacode("charlst") (which is defined
