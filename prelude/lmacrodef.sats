@@ -51,6 +51,16 @@ macdef :=* (x, a) = let val v = ,(x) in ,(x) := v * ,(a) end
 macdef :=/ (x, a) = let val v = ,(x) in ,(x) := v / ,(a) end
 //
 (* ****** ****** *)
+//
+macdef
+println(x) = (print(,(x)); print_newline())
+macdef
+prerrln(x) = (prerr(,(x)); prerr_newline())
+//
+macdef
+fprintln(out, x) = (fprint(,(out), ,(x)); fprint_newline(,(out)))
+//
+(* ****** ****** *)
 (*
 //
 // HX-2012-08:
@@ -87,7 +97,7 @@ macdef
 println_mac (x) =
 ,(
   if islist! (x)
-    then auxlist (x, `(print_newline())) else `(println ,(x))
+    then auxlist (x, `(print_newline())) else `(print ,(x); print_newline())
   // end of [if]
 ) (* end of [println_mac] *)
 

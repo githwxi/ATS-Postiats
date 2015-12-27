@@ -36,7 +36,7 @@
 #include "prelude/params.hats"
 
 (* ****** ****** *)
-
+//
 (*
 ** HX: short form
 *)
@@ -44,21 +44,21 @@
 // [orelse] and [andalso] are declared as infix ops
 //
 macdef
-orelse (x, y) = (if ,(x) then true else ,(y)): bool
+orelse(x, y) = (if ,(x) then true else ,(y)): bool
 macdef
-andalso (x, y) = (if ,(x) then ,(y) else false): bool
+andalso(x, y) = (if ,(x) then ,(y) else false): bool
 //
 (* ****** ****** *)
 
-macdef assign (lv, rv) = ,(lv) := ,(rv)
+macdef assign(lv, rv) = ,(lv) := ,(rv)
 
 (* ****** ****** *)
 
-macdef exitloc (x) = exit_errmsg (,(x), $mylocation)
+macdef exitloc(x) = exit_errmsg (,(x), $mylocation)
 
 (* ****** ****** *)
 
-macdef assertloc (x) = assert_errmsg (,(x), $mylocation)
+macdef assertloc(x) = assert_errmsg (,(x), $mylocation)
 
 (* ****** ****** *)
 //
@@ -71,20 +71,20 @@ assertmsgloc
 //
 (* ****** ****** *)
 
-macdef ignoret (x) = let val x = ,(x) in (*nothing*) end
+macdef ignoret(x) = let val x = ,(x) in (*nothing*) end
 
 (* ****** ****** *)
 
-macdef foldret (x) = let val x = ,(x) in fold@ (x); x end
+macdef foldret(x) = let val x = ,(x) in fold@ (x); x end
 
 (* ****** ****** *)
 //
-macdef showtype (x) = $showtype ,(x)
+macdef showtype(x) = $showtype ,(x)
 //
-macdef showview (x) = pridentity_v ($showtype ,(x))
+macdef showview(x) = pridentity_v ($showtype ,(x))
 //
-macdef showvtype (x) = pridentity_vt ($showtype ,(x))
-macdef showviewtype (x) = pridentity_vt ($showtype ,(x))
+macdef showvtype(x) = pridentity_vt ($showtype ,(x))
+macdef showviewtype(x) = pridentity_vt ($showtype ,(x))
 //
 (* ****** ****** *)
 
