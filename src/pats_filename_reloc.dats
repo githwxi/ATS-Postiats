@@ -151,12 +151,14 @@ case+ 0 of
     val opt2 = $TRENV1.the_e1xpenv_find (key2)
   in
     case+ opt2 of
-    | ~Some_vt (e) => (
+    | ~None_vt() =>
+        pkgsrcname_get_gurl0 (given, ngurl)
+      // end of [None_vt]
+    | ~Some_vt(e) => (
         case+ e.e1xp_node of
-        | $S1E.E1XPstring (x) => __copy_string (x)
-        | _ (*non-E1XPstring*) => pkgsrcname_get_gurl0 (given, ngurl)
+        | $S1E.E1XPstring(x) => __copy_string(x)
+        | _ (*non-E1XPstring*) => pkgsrcname_get_gurl0(given, ngurl)
       ) (* end of [Some_vt] *)
-    | ~None_vt ((*void*)) => pkgsrcname_get_gurl0 (given, ngurl)
   end // end of [variable]
 //
 | _ (*nonvariable*) => pkgsrcname_get_gurl0 (given, ngurl)
@@ -196,12 +198,14 @@ case+ 0 of
     val opt2 = $TRENV1.the_e1xpenv_find (key2)
   in
     case+ opt2 of
+    | ~None_vt () =>
+        pkgsrcname_get_gurl1 (given, ngurl)
+      // end of [None_vt]
     | ~Some_vt (e) => (
         case+ e.e1xp_node of
         | $S1E.E1XPstring (x) => __copy_string (x)
         | _ (*non-E1XPstring*) => pkgsrcname_get_gurl1 (given, ngurl)
       ) (* end of [Some_vt] *)
-    | ~None_vt ((*void*)) => pkgsrcname_get_gurl1 (given, ngurl)
   end // end of [variable]
 //
 | _ (*nonvariable*) => pkgsrcname_get_gurl1 (given, ngurl)
@@ -222,7 +226,7 @@ val () =
 println! ("pkgsrcname_eval: given = ", given)
 *)
 //
-val p0 = $UN.cast2ptr (given)
+val p0 = $UN.cast2ptr(given)
 val c0 = $UN.ptr0_get<char> (p0)
 //
 fun char_isalnum_ (c: char): bool =
@@ -257,17 +261,19 @@ case+ c0 of
     val opt = $TRENV1.the_e1xpenv_find (key)
   in
     case+ opt of
+    | ~None_vt () => given
     | ~Some_vt (e) => (
         case+ e.e1xp_node of
         | $S1E.E1XPstring (x) => let
             val pn = add_ptr_int (p1, nk)
-            val given2 = sprintf("%s%s", @(x, $UN.cast{string}(pn)))
+            val given2 =
+              sprintf("%s%s", @(x, $UN.cast{string}(pn)))
+            // end of [val]
           in
             string_of_strptr (given2)
           end (* end of [E1XPstring] *)
         | _ (*non-E1XPstring*) => given
       ) (* end of [Some_vt] *)
-    | ~None_vt ((*void*)) => given
   end // end of [variable]
 | _ (*nonvariable*) => given
 //
