@@ -28,7 +28,7 @@ staload
 "{$LIBATSHWXI}/teaching/kparcomb/SATS/kparcomb.sats"
 //
 #include
-"{$LIBATSHWXI}/teaching/kparcomb/DATS/kparcomb.dats"
+"{$LIBATSHWXI}/teaching/kparcomb/HATS/kparcomb.hats"
 //
 (* ****** ****** *)
 //
