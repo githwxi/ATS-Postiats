@@ -24,9 +24,6 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-staload
-"{$LIBATSHWXI}/teaching/kparcomb/SATS/kparcomb.sats"
-//
 #include
 "{$LIBATSHWXI}/teaching/kparcomb/HATS/kparcomb.hats"
 //
@@ -86,7 +83,8 @@ lam(inp, kont) =>
 
 implement
 {}(*tmp*)
-kparser_char() =
+kparser_char
+  ((*void*)) =
 kparser_encode
   {char}(
 //

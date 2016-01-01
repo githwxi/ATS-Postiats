@@ -380,10 +380,7 @@ following links should be helpful:
 
 <ul>
 <li>
-<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libats-/hwxi/teaching/kparcomb/SATS/kparcomb.sats">Interface</a>
-</li>
-<li>
-<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libats-/hwxi/teaching/kparcomb/HATS/kparcomb.hats">Implementation</a>
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libats-/hwxi/teaching/kparcomb/HATS/kparcomb.hats">Interface and Implementation</a>
 </li>
 </ul>
 </p>
@@ -412,7 +409,8 @@ parinp_type = List0(char)
 //
 implement
 {}(*tmp*)
-kparser_char() =
+kparser_char
+  ((*void*)) =
 kparser_encode
   {char}(
 //

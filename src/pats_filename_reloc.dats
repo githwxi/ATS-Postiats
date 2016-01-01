@@ -213,70 +213,106 @@ case+ 0 of
 end // end of [pkgsrcname_get2_gurl1]
 
 (* ****** ****** *)
-
+//
 extern
 fun
-pkgsrcname_eval (given: string): string
+pkgsrcname_eval(given: string): string
+//
 implement
 pkgsrcname_eval
   (given) = let
 //
-(*
-val () =
-println! ("pkgsrcname_eval: given = ", given)
-*)
+#define NDEPTH 100
 //
-val p0 = $UN.cast2ptr(given)
-val c0 = $UN.ptr0_get<char> (p0)
-//
-fun char_isalnum_ (c: char): bool =
+fun isalnum_ (c: char): bool =
   if char_isalnum(c) then true else (c = '_')
 //
-fun auxtrav1
+fun
+auxtrav
 (
-  p: ptr, n: int
+  p0: ptr, n: int
 ) : int = let
-  val c = $UN.ptr0_get<char> (p)
+  val c0 = $UN.ptr0_get<char>(p0)
 in
-  if char_isalnum_(c)
-    then auxtrav1 (add_ptr_int (p, 1), n+1) else (n)
-  // end of [if]
-end (* end of [auxtrav1] *)
 //
+if
+isalnum_(c0)
+then
+(
+  auxtrav(add_ptr_int(p0, 1), n+1)
+) else (n) // end of [if]
+//
+end (* end of [auxtrav] *)
+//
+fun
+auxeval0
+(
+  given: string, ndepth: int
+) : string =
+(
+  if ndepth < NDEPTH
+    then auxeval1(given, ndepth) else given
+) (* end of [auxeval0] *)
+//
+and
+auxeval1
+(
+  given: string, ndepth: int
+) : string = let
+//
+val p0 = $UN.cast2ptr(given)
+val c0 = $UN.ptr0_get<char>(p0)
+//
+(*
+val () =
+println!
+  ("pkgsrcname_eval: auxeval1: given = ", given)
+*)
 in
 //
 case+ c0 of
 | _ when
     c0 = '$' => let
-    val p1 = add_ptr_int (p0, 1)
-    val nk = auxtrav1 (p1, 0(*n*))
-    val start = $UN.cast2size(1)
-    val length = $UN.cast2size(nk)
-    val key = __make_substring (given, start, length)
+    val p1 = add_ptr_int(p0, 1)
+    val nk = auxtrav(p1, 0(*n*))
+    val st0 = $UN.cast2size(1)
+    val len = $UN.cast2size(nk)
+    val key =
+      __make_substring (given, st0, len)
+    // end of [val]
     val key = string_of_strptr (key)
 (*
-    val () = println! ("pkgsrcname_eval: key = ", key)
+    val () =
+    println!
+      ("pkgsrcname_eval: auxeval1: key = ", key)
+    // end of [val]
 *)
     val key = $SYM.symbol_make_string (key)
     val opt = $TRENV1.the_e1xpenv_find (key)
   in
     case+ opt of
-    | ~None_vt () => given
-    | ~Some_vt (e) => (
+    | ~None_vt() => given
+    | ~Some_vt(e) =>
+      (
         case+ e.e1xp_node of
-        | $S1E.E1XPstring (x) => let
-            val pn = add_ptr_int (p1, nk)
-            val given2 =
-              sprintf("%s%s", @(x, $UN.cast{string}(pn)))
-            // end of [val]
+        | $S1E.E1XPstring(x) => let
+            val
+            pnk = add_ptr_int(p1, nk)
+            val
+            given2 =
+            sprintf("%s%s", @(x, $UN.cast{string}(pnk)))
           in
-            string_of_strptr (given2)
+            auxeval0(string_of_strptr(given2), ndepth+1)
           end (* end of [E1XPstring] *)
         | _ (*non-E1XPstring*) => given
       ) (* end of [Some_vt] *)
   end // end of [variable]
 | _ (*nonvariable*) => given
 //
+end // end of [auxeval1]
+//
+in
+  auxeval0(given, 0(*ndepth*))
 end // end of [pkgsrcname_eval]
 
 (* ****** ****** *)
