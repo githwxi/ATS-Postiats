@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-12-31:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/2bN4YbOEVAI"
+>Dataview for linear C-strings</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-12-15:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/-Y07qSjOmFg"

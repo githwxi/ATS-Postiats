@@ -1202,7 +1202,7 @@ implement
 emit_primval_argref
   (out, pmv0) = let
 //
-val-PMVargref (n) = pmv0.primval_node
+val-PMVargref(n) = pmv0.primval_node
 //
 in
   emit_funarg (out, n)
@@ -1214,7 +1214,7 @@ implement
 emit_primval_argenv
   (out, pmv0) = let
 //
-val-PMVargenv (nenv) = pmv0.primval_node
+val-PMVargenv(nenv) = pmv0.primval_node
 //
 in
   fprintf (out, "env%i", @(nenv))
@@ -1572,6 +1572,11 @@ end // end of [emit_primval_err]
 
 (* ****** ****** *)
 
+#if(0)
+//
+// HX-2016-01-01:
+// It is commented out as it is not in use
+//
 implement
 emit_funtype_arg_res
 (
@@ -1588,6 +1593,7 @@ val ((*closing*)) = emit_RPAREN (out)
 in
   // nothing
 end // end of [emit_funtype_arg_res]
+#endif // #if(0)
 
 (* ****** ****** *)
 

@@ -2136,21 +2136,23 @@ fun emit_tmpdeclst (out: FILEref, tmps: tmpvarlst): void
 abstype hitype_type
 typedef hitype = hitype_type
 typedef hitypelst = List (hitype)
-
+//
 fun print_hitype (hit: hitype): void
-overload print with print_hitype
 fun prerr_hitype (hit: hitype): void
-overload prerr with prerr_hitype
 fun fprint_hitype : fprint_type (hitype)
 fun fprint_hitypelst : fprint_type (hitypelst)
+//
+overload print with print_hitype
+overload prerr with prerr_hitype
 overload fprint with fprint_hitype
 overload fprint with fprint_hitypelst
-
+//
 (* ****** ****** *)
 //
 // HX: flag=0/1: flatten/regular
 //
-fun hisexp_typize (flag: int, hse: hisexp): hitype
+fun
+hisexp_typize(flag: int, hse: hisexp): hitype
 //
 (* ****** ****** *)
 
@@ -2167,9 +2169,11 @@ fun emit_hisexp_sel (out: FILEref, hse: hisexp): void
 
 (* ****** ****** *)
 
+(*
 fun emit_funtype_arg_res
   (out: FILEref, _arg: hisexplst, _res: hisexp): void
 // end of [emit_funtype_arg_res]
+*)
 
 (* ****** ****** *)
 

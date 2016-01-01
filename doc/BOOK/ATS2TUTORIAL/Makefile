@@ -272,6 +272,14 @@ clean:: ; make -C CHAP_CLOPTR -f ../Makefile_chap clean
 ######
 
 allchap:: \
+CHAP_STKCLO
+CHAP_STKCLO:: ; \
+  make -C CHAP_STKCLO -f ../Makefile_chap main.db
+clean:: ; make -C CHAP_STKCLO -f ../Makefile_chap clean
+
+######
+
+allchap:: \
 CHAP_CODEGEN2
 CHAP_CODEGEN2:: ; \
   make -C CHAP_CODEGEN2 -f ../Makefile_chap main.db

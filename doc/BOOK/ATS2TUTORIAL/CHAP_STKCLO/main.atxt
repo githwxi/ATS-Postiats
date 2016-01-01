@@ -1,0 +1,132 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../ATEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from [CHAP_STKCLO/main.atxt].\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="stkclo">
+#title("Stack-allocated Closure-Functions")
+
+<!-- ****** ****** -->
+
+#para("\
+
+Higher-order functions are a very convenient programming feature for
+supporting certain forms of code reuse. Often a function passed as an
+argument to a higher-order function call is a closure-function created on
+heap at run-time, and it is most likely of no more use after the call. If
+the closure-function is linear, then it needs to be freed explicitly by the
+programmer (or a type-error would occur during typechecking).  If the
+closure-function is non-linear, then its memory should be reclaimed through
+garbage-collection (GC) (or the memory is leaked).
+
+")#comment("para")
+
+#para("\
+
+Creating heap-allocated closure-functions implies the need for dynamic
+memory allocation (DMA). In a restricted environment (e.g., one for
+embedded programming), DMA may not (fully) supported. One option for
+constructing a closure-function in the absence of support for DMA is to
+store it in the stack-frame of the calling function, and there is special
+systax in ATS for doing so.
+
+")#comment("para")
+
+#para("\
+
+#atscode('\
+//
+fun
+{res:t@ype}
+ifold{n:nat}
+(
+  n: int(n)
+, fopr: (res, natLt(n)) -<cloref1> res, ini: res
+) : res = let
+//
+fun
+loop
+{i:nat | i <= n} .<n-i>.
+  (i: int(i), res: res): res =
+  if i < n then loop(i+1, fopr(res, i)) else res
+//
+in
+  loop(0, ini)
+end // end of [ifold]
+//
+')
+
+#atscode('\
+fun
+dotprod
+  {n:nat}
+(
+  n: int(n)
+, A: arrayref(double, n), B: arrayref(double, n)
+) : double =
+(
+  ifold<double>(n, lam(res, i) => res + A[i]*B[i], 0.0)
+)
+')
+
+#atscode('\
+//
+fun
+dotprod
+  {n:nat}
+(
+  n: int(n)
+, A: arrayref(double, n), B: arrayref(double, n)
+) : double = let
+//
+var
+fopr =
+lam@(i: natLt(n), res: double): double => res + A[i]*B[i]
+//
+in
+  ifold<double>(n, $UNSAFE.cast(addr@fopr), 0.0)
+end // end of [dotprod]
+//
+')
+
+")#comment("para")
+
+#para("\
+
+Please find #mycodelink("chap_stkclo.dats", "on-line") the entirety of the
+code used in this chapter plus some testing code.\
+
+")#comment("para")
+
+<!-- ****** ****** -->
+
+</chapter><!--"stkclo"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [chap_stkclo.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_stkclo.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} (* end of [main] *)
+%}

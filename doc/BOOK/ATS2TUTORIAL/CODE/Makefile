@@ -230,6 +230,15 @@ cleanall:: ; $(RMF) chap_cloptr
 ######
 #
 all:: \
+chap_stkclo
+chap_stkclo: \
+  chap_stkclo.dats ; $(PATSCC2) -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
+regress:: chap_stkclo; ./$<
+cleanall:: ; $(RMF) chap_stkclo
+#
+######
+#
+all:: \
 chap_stream_vt
 chap_stream_vt: \
   chap_stream_vt.dats ; $(PATSCC2) -DATS_MEMALLOC_GCBDW -o $@ $< -lgc

@@ -398,28 +398,35 @@ val-S2Efun (
 //
 in
 //
-if flag > 0 then let
-  val hses_arg =
-    s2explst_npf_tyer (loc0, npf, s2es_arg)
-  val hse_res = s2exp_tyer_shallow (loc0, s2e_res)
+if
+flag > 0
+then let
+//
+val
+hses_arg =
+s2explst_npf_tyer(loc0, npf, s2es_arg)
+//
+val hse_res = s2exp_tyer_shallow(loc0, s2e_res)
+//
 in
   hisexp_fun (fc, hses_arg, hse_res)
-end else (
+end // end of [then]
+else (
   case+ fc of
-  | FUNCLOfun () => hisexp_funptr
-  | FUNCLOclo (knd) =>
+  | FUNCLOfun() => hisexp_funptr
+  | FUNCLOclo(knd) =>
       if knd = 0 then hisexp_clotyp else hisexp_cloptr
     // end of [FUNCLOclo]
-) (* end of [if] *)
+) (* end of [else] *)
 //
 end // end of [s2exp_tyer_fun]
 
 (* ****** ****** *)
-
+//
 implement
 s2exp_tyer_datconptr
   (loc0, flag, s2e0) = hisexp_datconptr
-
+//
 (* ****** ****** *)
 
 implement
