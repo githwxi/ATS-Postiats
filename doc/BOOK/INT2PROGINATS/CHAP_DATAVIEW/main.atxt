@@ -472,7 +472,7 @@ strbuf_v(addr, int) =
     strbuf_v_cons(l, n+1) of (charNZ @ l, strbuf_v(l+sizeof(char), n))
 ')
 
-Let define a linear type #stacode("strptr") as follows:
+Let us define a linear type #stacode("strptr") as follows:
 
 #atscode('\
 vtypedef strptr(l:addr, n:int) = (strbuf_v(l, n) | ptr(l))
