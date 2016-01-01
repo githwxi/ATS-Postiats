@@ -1234,8 +1234,9 @@ Suppose we generalize #dyncode("sqrsum") to the following function
 integers ranging from 1 to n that are multiples of a given number d:
 
 #atscode("\
-fun sqrmodsum (n: int, d: int): int =
-  ifold (n, lam (res, x) => if x mod d then res + x * x else res, 0)
+fun sqrmodsum
+  (n: int, d: int): int =
+  ifold (n, lam (res, x) => if x mod d = 0 then res + x * x else res, 0)
 // end of [sqrmodsum]
 ")
 
