@@ -390,9 +390,9 @@ case+ d2es of
     (d2e, d2es) => let
     val hse = d2env_get_type (d2e)
   in
-    list_cons (hse, aux (d2es, hses))
-  end (* end of [list_cons] *)
-| list_nil () => hses
+    list_cons(hse, aux (d2es, hses))
+  end // end of [list_cons]
+| list_nil((*void*)) => hses
 //
 end (* end of [aux] *)
 //
@@ -400,7 +400,7 @@ val opt = funlab_get_funent (flab)
 val d2es =
 (
 case+ opt of
-| Some (fent) => funent_eval_d2envlst (fent) | None () => list_nil ()
+| Some(fent) => funent_eval_d2envlst(fent) | None() => list_nil()
 ) : d2envlst // end of [val]
 //
 val hses = funlab_get_type_arg (flab)

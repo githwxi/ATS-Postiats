@@ -530,9 +530,17 @@ hisexp_fun
 (
   funclo, arg, res
 ) = let
-  val node = HSEfun (funclo, arg, res)
+//
+val node = HSEfun(funclo, arg, res)
+//
 in
-  hisexp_make_node(HITNAM_FUNPTR, node)
+//
+case+ funclo of
+| FUNCLOfun() =>
+    hisexp_make_node(HITNAM_FUNPTR, node)
+| FUNCLOclo(knd) =>
+    hisexp_make_node(HITNAM_CLOPTR, node)
+//
 end // end of [hisexp_fun]
 
 (* ****** ****** *)

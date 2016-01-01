@@ -1294,11 +1294,16 @@ println! ("aux: hse0 = ", hse0)
 val
 HITNAM(knd, fin, name) = hse0.hisexp_name
 //
+(*
+val () = println! ("aux: fin = ", fin)
+val () = println! ("aux: name = ", name)
+*)
+//
 in
 //
 case+
 hse0.hisexp_node
-of // case+
+of (* case+ *)
 //
 | _ when
     (fin > 0) => HITnmd (name)

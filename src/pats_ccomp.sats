@@ -2170,6 +2170,10 @@ fun emit_hisexp_sel (out: FILEref, hse: hisexp): void
 (* ****** ****** *)
 
 (*
+//
+// HX-2016-01-01:
+// It is commented out as it is no in use
+//
 fun emit_funtype_arg_res
   (out: FILEref, _arg: hisexplst, _res: hisexp): void
 // end of [emit_funtype_arg_res]

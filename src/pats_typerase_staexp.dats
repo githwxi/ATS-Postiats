@@ -392,7 +392,18 @@ implement
 s2exp_tyer_fun
   (loc0, flag, s2e0) = let
 //
-val-S2Efun (
+(*
+val () =
+println!
+  ("s2exp_tyer_fun: flag = ", flag)
+val () =
+println!
+  ("s2exp_tyer_fun: s2e0 = ", s2e0)
+*)
+//
+val-
+S2Efun
+(
   fc, lin, s2fe, npf, s2es_arg, s2e_res
 ) = s2e0.s2exp_node
 //
