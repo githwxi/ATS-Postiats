@@ -85,6 +85,9 @@ HITNAM_FUNPTR =
 val
 HITNAM_CLOPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_cloptr")
+val
+HITNAM_CLOTYP =
+  HITNAM (0(*non*), 1(*fin*), "atstype_clotyp")
 //
 val
 HITNAM_ARRPTR =
@@ -539,7 +542,10 @@ case+ funclo of
 | FUNCLOfun() =>
     hisexp_make_node(HITNAM_FUNPTR, node)
 | FUNCLOclo(knd) =>
-    hisexp_make_node(HITNAM_CLOPTR, node)
+    if knd = 0
+      then hisexp_make_node(HITNAM_CLOTYP, node)
+      else hisexp_make_node(HITNAM_CLOPTR, node)
+    // end of [if]
 //
 end // end of [hisexp_fun]
 
