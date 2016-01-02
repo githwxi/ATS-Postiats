@@ -41,7 +41,10 @@ systax in ATS for doing so.
 
 ")#comment("para")
 
-#para("\
+#para('\
+
+Let us see a concrete example of stack-allocated closure.
+The following code implements a higher-order function template:
 
 #atscode('\
 //
@@ -65,18 +68,33 @@ end // end of [ifold]
 //
 ')
 
+Essentially, #dyncode("ifold(n, fopr, ini)") evaluates the expression
+#dyncode("fopr(...fopr(fopr(ini, 0), 1)..., n-1)").  For instance, the
+function #dyncode("dotprod") for computing the dot product (or inner
+product) of two vectors can be implemented with a call to #dyncode("ifold"):
+
 #atscode('\
+//
+typedef res = double
+//
 fun
 dotprod
   {n:nat}
 (
   n: int(n)
-, A: arrayref(double, n), B: arrayref(double, n)
-) : double =
+, A: arrayref(res, n)
+, B: arrayref(res, n)
+) : res =
 (
-  ifold<double>(n, lam(res, i) => res + A[i]*B[i], 0.0)
+  ifold<res>(n, lam(res, i) => res + A[i]*B[i], 0.0)
 )
+//
 ')
+
+The second argument passed to the call to #dyncode("ifold") is a
+closure created on heap at run-time, and it is of no more use
+after the call returns. The function #dyncode("dotprod") can also be
+implemented as follows:
 
 #atscode('\
 //
@@ -85,20 +103,92 @@ dotprod
   {n:nat}
 (
   n: int(n)
-, A: arrayref(double, n), B: arrayref(double, n)
-) : double = let
+, A: arrayref(res, n)
+, B: arrayref(res, n)
+) : res = let
 //
 var
 fopr =
-lam@(i: natLt(n), res: double): double => res + A[i]*B[i]
+lam@(res: res, i: natLt(n)): res => res + A[i]*B[i]
 //
 in
-  ifold<double>(n, $UNSAFE.cast(addr@fopr), 0.0)
+  ifold<res>(n, $UNSAFE.cast(addr@fopr), 0.0)
 end // end of [dotprod]
 //
 ')
 
-")#comment("para")
+The keyword #keycode("lam@") (instead of #keycode("lam")) initiates the
+creation of an unboxed closure at a given location. In the above case, the
+variable #dyncode("fopr") is located in the stack-frame of
+#dyncode("dotprod"), and the created closure is stored in the memory
+reserved for #dyncode("fopr"). It is the obligation of the compiler of ATS
+to make sure that the memory is large enough for storing the closure. The
+call to the (unsafe) cast turns the address of #dyncode("fopr") into a
+boxed closure so that it can be passed to #dyncode("ifold").
+
+')#comment("para")
+
+#para('\
+
+In order to remove the unsafe cast in the implementation of
+#dyncode("dotprod"), we need to implement a slight variant
+of #dyncode("ifold") as follows:
+
+#atscode('\
+//
+fun
+{res:t@ype}
+ifold_{n:nat}
+(
+  n: int(n)
+, fopr: &(res, natLt(n)) -<clo1> res, ini: res
+) : res = let
+//
+fun
+loop
+{i:nat | i <= n} .<n-i>.
+(
+  i: int(i)
+, fopr: &(res, natLt(n)) -<clo1> res, res: res
+) : res =
+  if i < n
+    then loop(i+1, fopr, fopr(res, i)) else res
+  // end of [if]
+//
+in
+  loop(0, fopr, ini)
+end // end of [ifold_]
+//
+(* ****** ****** *)
+//
+fun
+dotprod_
+  {n:nat}
+(
+  n: int(n)
+, A: arrayref(res, n)
+, B: arrayref(res, n)
+) : res = let
+//
+var
+fopr =
+lam@(res: res, i: natLt(n)): res => res + A[i]*B[i]
+//
+in
+  ifold_<res>(n, fopr, 0.0)
+end // end of [dotprod_]
+//
+')
+
+Note that the second argument of #dyncode("ifold_") is call-by-reference.
+The anotated arrow #dyncode("-&lt;clo1&gt;") is used to form function types
+for unboxed closures. So only a left value (representing some unboxed
+closure) can be passed as the second argument to a call to
+#dyncode("ifold_"), and what is really passed at run-time is the address of
+the left value. The function #dyncode("dotprod") can be safely implemented
+as #dyncode("dotprod_") with a call to #dyncode("ifold_").
+
+')#comment("para")
 
 #para("\
 
