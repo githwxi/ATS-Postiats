@@ -6,6 +6,15 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2015-12-31:<br>
+<a
+ href="http://www.metasepi.org/en/posts/2015-12-31-yuku-kuru.html"
+>Metasepi's Year 2015</a><br>
+by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
+
+<hr></hr>
+
 ATS-2015-12-22:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/jpzFc4a9M48"

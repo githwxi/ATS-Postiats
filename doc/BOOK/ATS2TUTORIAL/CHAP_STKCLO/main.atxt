@@ -13,7 +13,7 @@ by [atsdoc] from [CHAP_STKCLO/main.atxt].\n\
 Time of Generation: #timestamp()\
 ")
 <chapter id="stkclo">
-#title("Stack-allocated Closure-Functions")
+#title("Stack-Allocated Closure-Functions")
 
 <!-- ****** ****** -->
 
