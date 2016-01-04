@@ -1,0 +1,9818 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>A Tutorial on Programming Features in ATS</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><META
+NAME="KEYWORD"
+CONTENT="ATS"><META
+NAME="KEYWORD"
+CONTENT="Programming"><META
+NAME="KEYWORD"
+CONTENT="Theorem-Proving"><META
+NAME="KEYWORD"
+CONTENT="Programmer-centric"><META
+NAME="KEYWORD"
+CONTENT="Verification"><META
+NAME="KEYWORD"
+CONTENT="Dependent Types"><META
+NAME="KEYWORD"
+CONTENT="Linear Types"><LINK
+REL="STYLESHEET"
+TYPE="text/css"
+HREF="./assets/ATS2TUTORIAL-BOOK.css"></HEAD
+><BODY
+CLASS="book"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="BOOK"
+><A
+NAME="ATS2TUTORIAL"
+></A
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="title"
+><A
+NAME="AEN2"
+>A Tutorial on Programming Features in ATS</A
+></H1
+><H2
+CLASS="subtitle"
+></H2
+><H3
+CLASS="author"
+><A
+NAME="AEN6"
+></A
+>Hongwei Xi</H3
+><DIV
+CLASS="affiliation"
+><DIV
+CLASS="address"
+><P
+CLASS="address"
+><CODE
+CLASS="email"
+>&#60;<A
+HREF="mailto:gmhwxiATgmailDOTcom"
+>gmhwxiATgmailDOTcom</A
+>&#62;</CODE
+></P
+></DIV
+></DIV
+><P
+CLASS="copyright"
+>Copyright &copy; 2010-201? Hongwei Xi</P
+><DIV
+><DIV
+CLASS="abstract"
+><P
+></P
+><A
+NAME="AEN14"
+></A
+><P
+>&#13;</P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="legalnotice"
+><P
+></P
+><A
+NAME="AEN19"
+></A
+><P
+>&#13;All rights are reserved. Permission is granted to print this document for personal use.
+</P
+><P
+></P
+></DIV
+><HR></DIV
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="#AEN29"
+>Preface</A
+></DT
+><DT
+>I. <A
+HREF="#basic_tutorial_topics"
+>Basic Tutorial Topics</A
+></DT
+><DD
+><DL
+><DT
+>1. <A
+HREF="#syntax-coloring"
+>Syntax-Coloring for ATS code</A
+></DT
+><DT
+>2. <A
+HREF="#filename-extensions"
+>Filename Extensions</A
+></DT
+><DT
+>3. <A
+HREF="#file-inclusion"
+>File Inclusion inside ATS Code</A
+></DT
+><DT
+>4. <A
+HREF="#fixity"
+>Fixity Declarations</A
+></DT
+><DT
+>5. <A
+HREF="#staload"
+>Static Load</A
+></DT
+><DT
+>6. <A
+HREF="#dynload"
+>Dynamic Load</A
+></DT
+><DT
+>7. <A
+HREF="#bracket-overload"
+>Bracket Overloading</A
+></DT
+><DT
+>8. <A
+HREF="#dot-overload"
+>Dot-Symbol Overloading</A
+></DT
+><DT
+>9. <A
+HREF="#recursion"
+>Recursion</A
+></DT
+><DT
+>10. <A
+HREF="#datatypes"
+>Datatypes</A
+></DT
+><DT
+>11. <A
+HREF="#funlist"
+>Functional Lists</A
+></DT
+><DT
+>12. <A
+HREF="#funsetmap"
+>Functional Sets and Maps</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="#funsetmap_set"
+>Functional Sets</A
+></DT
+><DT
+><A
+HREF="#funsetmap_map"
+>Functional Maps</A
+></DT
+></DL
+></DD
+><DT
+>13. <A
+HREF="#exceptions"
+>Exceptions</A
+></DT
+><DT
+>14. <A
+HREF="#reference"
+>References</A
+></DT
+><DT
+>15. <A
+HREF="#boxed_tuprec"
+>Boxed Tuples and Records</A
+></DT
+><DT
+>16. <A
+HREF="#arrayref"
+>Persistent Arrays</A
+></DT
+><DT
+>17. <A
+HREF="#arrszref"
+>Persistent Arrays-with-size</A
+></DT
+><DT
+>18. <A
+HREF="#matrixref"
+>Persistent Matrices</A
+></DT
+><DT
+>19. <A
+HREF="#mtrxszref"
+>Persistent Matrices-with-size</A
+></DT
+><DT
+>20. <A
+HREF="#hashtable"
+>Persistent Hashtables</A
+></DT
+><DT
+>21. <A
+HREF="#Tail-Recursion"
+>Tail-Recursion</A
+></DT
+><DT
+>22. <A
+HREF="#hordfun"
+>Higher-Order Functions</A
+></DT
+><DT
+>23. <A
+HREF="#stream-based-lazy-evaluation"
+>Stream-Based Lazy Evaluation</A
+></DT
+><DT
+>24. <A
+HREF="#linlist"
+>Linearly Typed Lists</A
+></DT
+></DL
+></DD
+><DT
+>II. <A
+HREF="#advanced_tutorial_topics"
+>Advanced Tutorial Topics</A
+></DT
+><DD
+><DL
+><DT
+>25. <A
+HREF="#extvar-declaration"
+>Extvar-Declaration</A
+></DT
+><DT
+>26. <A
+HREF="#cloptr"
+>Linear Closure-Functions</A
+></DT
+><DT
+>27. <A
+HREF="#stkclo"
+>Stack-Allocated Closure-Functions</A
+></DT
+><DT
+>28. <A
+HREF="#codegen2"
+>Automatic Code Generation</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="#codegen2_datcon"
+>Generating a datcon-function</A
+></DT
+><DT
+><A
+HREF="#codegen2_datcontag"
+>Generating a datcontag-function</A
+></DT
+><DT
+><A
+HREF="#codegen2_fprint"
+>Generating a fprint-function</A
+></DT
+></DL
+></DD
+></DL
+></DD
+></DL
+></DIV
+><DIV
+CLASS="preface"
+><HR><H1
+><A
+NAME="AEN29"
+></A
+>Preface</H1
+><P
+>&#13;This tutorial covers a variety of issues that a programmer typically
+encounters when programming in ATS. It is written mostly in the style of
+learn-by-examples. Although it is possible to learn programming in ATS by
+studying the tutorial (if the reader is familiar with ML and C), I consider
+the book <A
+HREF="http://www.ats-lang.org/DOCUMENT/INTPROGINATS/HTML/book1.html"
+TARGET="_top"
+>Introduction to Programming in ATS</A
+> a far more approriate source
+for someone to acquire a view of ATS in a coherent and systematic manner.
+Of course, there will also be considerable amount of overlapping between
+these two books.  The primary purpose of the tutorial is to bring more
+insights into a rich set of programming features in ATS and also
+demonstrate through concrete examples that these features can be made of
+effective use in the construction of high-quality programs.
+</P
+></DIV
+><DIV
+CLASS="PART"
+><A
+NAME="basic_tutorial_topics"
+></A
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="title"
+>I. Basic Tutorial Topics</H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+>1. <A
+HREF="#syntax-coloring"
+>Syntax-Coloring for ATS code</A
+></DT
+><DT
+>2. <A
+HREF="#filename-extensions"
+>Filename Extensions</A
+></DT
+><DT
+>3. <A
+HREF="#file-inclusion"
+>File Inclusion inside ATS Code</A
+></DT
+><DT
+>4. <A
+HREF="#fixity"
+>Fixity Declarations</A
+></DT
+><DT
+>5. <A
+HREF="#staload"
+>Static Load</A
+></DT
+><DT
+>6. <A
+HREF="#dynload"
+>Dynamic Load</A
+></DT
+><DT
+>7. <A
+HREF="#bracket-overload"
+>Bracket Overloading</A
+></DT
+><DT
+>8. <A
+HREF="#dot-overload"
+>Dot-Symbol Overloading</A
+></DT
+><DT
+>9. <A
+HREF="#recursion"
+>Recursion</A
+></DT
+><DT
+>10. <A
+HREF="#datatypes"
+>Datatypes</A
+></DT
+><DT
+>11. <A
+HREF="#funlist"
+>Functional Lists</A
+></DT
+><DT
+>12. <A
+HREF="#funsetmap"
+>Functional Sets and Maps</A
+></DT
+><DT
+>13. <A
+HREF="#exceptions"
+>Exceptions</A
+></DT
+><DT
+>14. <A
+HREF="#reference"
+>References</A
+></DT
+><DT
+>15. <A
+HREF="#boxed_tuprec"
+>Boxed Tuples and Records</A
+></DT
+><DT
+>16. <A
+HREF="#arrayref"
+>Persistent Arrays</A
+></DT
+><DT
+>17. <A
+HREF="#arrszref"
+>Persistent Arrays-with-size</A
+></DT
+><DT
+>18. <A
+HREF="#matrixref"
+>Persistent Matrices</A
+></DT
+><DT
+>19. <A
+HREF="#mtrxszref"
+>Persistent Matrices-with-size</A
+></DT
+><DT
+>20. <A
+HREF="#hashtable"
+>Persistent Hashtables</A
+></DT
+><DT
+>21. <A
+HREF="#Tail-Recursion"
+>Tail-Recursion</A
+></DT
+><DT
+>22. <A
+HREF="#hordfun"
+>Higher-Order Functions</A
+></DT
+><DT
+>23. <A
+HREF="#stream-based-lazy-evaluation"
+>Stream-Based Lazy Evaluation</A
+></DT
+><DT
+>24. <A
+HREF="#linlist"
+>Linearly Typed Lists</A
+></DT
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="syntax-coloring"
+></A
+>Chapter 1. Syntax-Coloring for ATS code</H1
+><P
+>&#13;The syntax of ATS is highly involved, which can be a daunting obstacle for
+beginners trying to read and write ATS code. In order to alleviate this
+problem, I may employ colors to differentiate various syntactical entities
+in ATS code.  The convention I adopt for coloring ATS syntax is given as
+follows:
+</P
+><P
+></P
+><UL
+><LI
+><P
+>&#13;The keywords in ATS are all colored
+<SPAN
+CLASS="color: BLACK; style: BOLD"
+><SPAN
+CLASS="phrase"
+>black</SPAN
+></SPAN
+>
+(and possibly written in bold face).
+</P
+></LI
+><LI
+><P
+>&#13;The comments in ATS are all colored
+<SPAN
+CLASS="#787878\; stype NORMAL"
+><SPAN
+CLASS="phrase"
+>gray</SPAN
+></SPAN
+>.
+</P
+></LI
+><LI
+><P
+>&#13;The code in the statics of ATS is colored
+<SPAN
+CLASS="BLUE; stype NORMAL"
+><SPAN
+CLASS="phrase"
+>blue</SPAN
+></SPAN
+>.
+</P
+></LI
+><LI
+><P
+>&#13;The code in the dynamics of ATS is colored
+<SPAN
+CLASS="#E80000; stype NORMAL"
+><SPAN
+CLASS="phrase"
+>red</SPAN
+></SPAN
+>
+unless it represents proofs, for which the color
+<SPAN
+CLASS="#009000; stype NORMAL"
+><SPAN
+CLASS="phrase"
+>dark green</SPAN
+></SPAN
+>
+is used.
+</P
+></LI
+><LI
+><P
+>&#13;The external code (in C) is colored
+<SPAN
+CLASS="#A52A2A; stype NORMAL"
+><SPAN
+CLASS="phrase"
+>deep brown</SPAN
+></SPAN
+>.
+</P
+></LI
+></UL
+><P
+>&#13;Please find an example of ATS code
+<A
+HREF="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/CODE/fact_dats.html"
+TARGET="_top"
+>on-line</A
+>
+that involves all of the syntax-coloring mentioned above.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="filename-extensions"
+></A
+>Chapter 2. Filename Extensions</H1
+><P
+>&#13;In ATS, the filename extensions <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>.sats</I
+></SPAN
+> and <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>.dats</I
+></SPAN
+>
+are reserved to indicate static and dynamic files, respectively. As these
+two extensions have some special meaning attached to them, which can be
+interpreted by the command <B
+CLASS="command"
+>atscc</B
+>, they should not be replaced
+arbitrarily.
+</P
+><P
+>&#13;A static file may contain sort definitions, datasort declarations, static
+definitions, abstract type declarations, exception declarations, datatype
+declarations, macro definitions, interfaces for dynamic values and
+functions, etc.  In terms of functionality, a static file in ATS is
+somewhat similar to a header file (with the extension <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>.h</I
+></SPAN
+>) in C
+or an interface file (with the extension <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>.mli</I
+></SPAN
+>) in OCaml.
+</P
+><P
+>&#13;A dynamic file may contain everything in a static file. In addition, it may
+also contain definitions for dynamic values and functions. However,
+interfaces for functions and values in a dynamic file should follow the
+keyword <FONT
+COLOR="RED"
+>extern</FONT
+>, which on the other hand should not be present when
+such interfaces are declared in a static file. For instance, the following
+syntax declares interfaces (or types) in a static file for a value named
+<FONT
+COLOR="RED"
+>pi</FONT
+> and a function named <FONT
+COLOR="RED"
+>area_of_circle</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN71"
+></A
+><PRE
+CLASS="programlisting"
+>val pi : double
+fun area_of_circle (radius: double): double
+</PRE
+><P
+></P
+></DIV
+>
+
+
+When the same interfaces are declared in a <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>dynamic</I
+></SPAN
+> file, the
+following slightly different syntax should be used:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN74"
+></A
+><PRE
+CLASS="programlisting"
+>extern val pi : double
+extern fun area_of_circle (radius: double): double
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Please note that a static file is essentially a special case of a dynamic
+file. It is entirely possible to replace a static file with a dynamic one.
+
+</P
+><P
+>&#13;As a convention, we often use the filename extension <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>.cats</I
+></SPAN
+> to
+indicate that a file contains some C code that is supposed to be combined
+with ATS code in certain manner. There is also the filename extension
+<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>.hats</I
+></SPAN
+>, which we occassionally use for a file that should be
+included in ATS code stored in another file.  However, the use of these two
+filename extensions are not mandatory, that is, they can be replaced if
+needed or wanted.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="file-inclusion"
+></A
+>Chapter 3. File Inclusion inside ATS Code</H1
+><P
+>&#13;As is in C, file inclusion inside ATS code is done through the use of the
+directive <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>#include</I
+></SPAN
+>. For instance, the following line
+indicates that a file named <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>foobar</I
+></SPAN
+> is included, that is, this
+line is to be replaced with the content of the file <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>foobar</I
+></SPAN
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN85"
+></A
+><PRE
+CLASS="programlisting"
+>#include "foobar.hats"
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that the included file is parsed according to the syntax for statics
+or dynamics depending on whether the file is included in a static or
+dynamic file.  As a convention, the name of an included file often ends
+with the extension <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>.hats</I
+></SPAN
+>.
+</P
+><P
+>&#13;A common use of file inclusion is to keep some constants, flags or
+parameters being defined consistently across a set of files. For instance,
+the file <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/params.hats"
+TARGET="_top"
+>prelude/params.hats</A
+> serves
+such a purpose.  File inclusion can also be used to emulate (in a limited
+but rather useful manner) functors supported in languages such as SML and
+OCaml.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="fixity"
+></A
+>Chapter 4. Fixity Declarations</H1
+><P
+>&#13;Given a function <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>f</I
+></SPAN
+>, the standard syntax for applying
+<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>f</I
+></SPAN
+> to an argument <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>v</I
+></SPAN
+> is <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>f(v)</I
+></SPAN
+>; for two
+arguments <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>v1</I
+></SPAN
+> and <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>v2</I
+></SPAN
+>, the syntax is
+<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>f(v1, v2)</I
+></SPAN
+>. Also, it is allowed in ATS to use infix notation
+for a binary function application, and prefix/postifix notation for a unary
+function application.
+</P
+><P
+>&#13;Each identifier in ATS can be assigned one of the following fixities:
+<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>prefix</I
+></SPAN
+>, <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>infix</I
+></SPAN
+> and <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>postfix</I
+></SPAN
+>.  The
+fixity declarations for many commonly used identifiers can be found in
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/fixity.ats"
+TARGET="_top"
+>prelude/fixity.ats</A
+>.  Often, the
+name <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>operator</I
+></SPAN
+> is used to refer to an identifier that is
+assigned a fixity. For instance, the following syntax declares that
+<FONT
+COLOR="RED"
+>+</FONT
+> and <FONT
+COLOR="RED"
+>-</FONT
+> are infix operators of a precedence value
+equal to 50:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN108"
+></A
+><PRE
+CLASS="programlisting"
+>infixl 50 + -
+</PRE
+><P
+></P
+></DIV
+>
+
+
+After this declaration, we can write an expression like <FONT
+COLOR="RED"
+>1 + 2 -
+3</FONT
+>, which is parsed into <FONT
+COLOR="RED"
+>-(+(1, 2), 3)</FONT
+> in terms of the
+standard syntax for function application.
+</P
+><P
+>&#13;The keyword <FONT
+COLOR="RED"
+>infixl</FONT
+> indicates that the declared infix operators
+are left-associative. For right-associative and non-associative infix
+operators, please use the keywords <FONT
+COLOR="RED"
+>infixr</FONT
+> and
+<FONT
+COLOR="RED"
+>infix</FONT
+>, respectively. If the precedence value is omitted in a
+fixity declaration, it is assumed to be equal to 0.
+</P
+><P
+>&#13;We can also use the following syntax to declare that <FONT
+COLOR="RED"
+>iadd</FONT
+>,
+<FONT
+COLOR="RED"
+>fadd</FONT
+>, <FONT
+COLOR="RED"
+>padd</FONT
+> and <FONT
+COLOR="RED"
+>uadd</FONT
+> are
+left-associative infix operators with a precedence value equal to that of
+the operator <FONT
+COLOR="RED"
+>+</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN122"
+></A
+><PRE
+CLASS="programlisting"
+>infixl (+) iadd fadd padd uadd
+</PRE
+><P
+></P
+></DIV
+>
+
+
+This is useful as it is difficult in practice to remember the precedence
+values of (a large collection of) declared operators. Sometimes, we may
+need to specify that the precedence value of one operator in relation to
+that of another one. For instance, the following syntax declares that
+<FONT
+COLOR="RED"
+>opr2</FONT
+> is a left-associative infix operator and its precedence
+value is that of <FONT
+COLOR="RED"
+>opr1</FONT
+> plus 10:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN126"
+></A
+><PRE
+CLASS="programlisting"
+>infixl (opr1 + 10) opr2
+</PRE
+><P
+></P
+></DIV
+>
+
+
+If the plus sign (+) is changed to the minus sign (-), then the precedence
+value of <FONT
+COLOR="RED"
+>opr2</FONT
+> is that of <FONT
+COLOR="RED"
+>opr1</FONT
+> minus 10.
+</P
+><P
+>&#13;We can also turn an identifier <FONT
+COLOR="RED"
+>opr</FONT
+> into a non-associative infix
+operator (of precedence value 0) by putting the backslash symbol
+(<FONT
+COLOR="RED"
+>\</FONT
+>) in front of it. For instance, the expression
+<FONT
+COLOR="RED"
+>exp1 \opr exp2</FONT
+> stands for <FONT
+COLOR="RED"
+>opr (exp1, exp2)</FONT
+>,
+where <FONT
+COLOR="RED"
+>exp1</FONT
+> and <FONT
+COLOR="RED"
+>exp2</FONT
+> refer to some expressions,
+either static or dynamic.
+</P
+><P
+>&#13;The syntax for declaring (unary) prefix and postfix operators are
+similar. For instance, the following syntax declares that <FONT
+COLOR="RED"
+>~</FONT
+> and
+<FONT
+COLOR="RED"
+>?</FONT
+> are prefix and postfix operators of precedence values 61 and 69,
+respectively:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN140"
+></A
+><PRE
+CLASS="programlisting"
+>prefix 61 ~
+postfix 69 ?
+</PRE
+><P
+></P
+></DIV
+>
+
+
+As an example, a postfix operator is involved in the following 3-line
+program:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN142"
+></A
+><PRE
+CLASS="programlisting"
+>postfix (imul + 10) !!
+extern fun !! (x: int): int
+implement !! (x) = if x &#62;= 2 then x * (x - 2)!! else 1
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;For a given occurrence of an operator, we can deprive it of its assigned
+fixity status by simply putting the keyword <FONT
+COLOR="RED"
+>op</FONT
+> in front of
+it. For instance <FONT
+COLOR="RED"
+>1 + 2 - 3</FONT
+> can be writen as <FONT
+COLOR="RED"
+>op- (op+
+(1, 2), 3)</FONT
+>.  It is also possible to (permanently) deprive an operator of
+its assigned fixity status.  For instance, the following syntax does so to
+the operators <FONT
+COLOR="RED"
+>iadd</FONT
+>, <FONT
+COLOR="RED"
+>fadd</FONT
+>, <FONT
+COLOR="RED"
+>padd</FONT
+> and
+<FONT
+COLOR="RED"
+>uadd</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN152"
+></A
+><PRE
+CLASS="programlisting"
+>nonfix iadd fadd padd uadd</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that <FONT
+COLOR="RED"
+>nonfix</FONT
+> is a keyword in ATS.
+
+</P
+><P
+>&#13;Lastly, please note that each fixity declaration is only effective within
+its own legal scope.
+
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="staload"
+></A
+>Chapter 5. Static Load</H1
+><P
+>&#13;In ATS, static load (or staload for short) refers to the creation
+of a namespace populated with the declared names in a loaded package.
+</P
+><P
+>&#13;Suppose that a file named <TT
+CLASS="filename"
+>foo.sats</TT
+> contains the
+following code:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN161"
+></A
+><PRE
+CLASS="programlisting"
+>//
+datatype
+aDatatype =
+| A | B of (int, int)
+//
+val aValue: int
+fun aFunction: int -&#62; int
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The following staload-declaration introduces a namespace
+<FONT
+COLOR="RED"
+>FOO</FONT
+> for the names declared in <TT
+CLASS="filename"
+>foo.sats</TT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN165"
+></A
+><PRE
+CLASS="programlisting"
+>staload FOO = "foo.sats"
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The prefix <FONT
+COLOR="RED"
+>$FOO.</FONT
+> needs to be attached to a name in the
+namespace <FONT
+COLOR="RED"
+>FOO</FONT
+> in order for it to be referenced. For instance,
+the names available in the namespace <FONT
+COLOR="RED"
+>FOO</FONT
+> are all referenced in
+the following code:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN170"
+></A
+><PRE
+CLASS="programlisting"
+>val a: $FOO.aDatatype = $FOO.A()
+val b: $FOO.aDatatype = $FOO.B(0, $FOO.aFunction($FOO.aValue))
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;If the file <TT
+CLASS="filename"
+>foo.sats</TT
+> is staloaded as follows for the second
+time:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN174"
+></A
+><PRE
+CLASS="programlisting"
+>staload FOO2 = "foo.sats"
+</PRE
+><P
+></P
+></DIV
+>
+
+
+then <TT
+CLASS="filename"
+>foo.sats</TT
+> is not actually loaded by the compiler. Instead,
+<FONT
+COLOR="RED"
+>FOO2</FONT
+> is simply made to be an alias of <FONT
+COLOR="RED"
+>FOO</FONT
+>.
+
+</P
+><P
+>&#13;It is also allowed for <TT
+CLASS="filename"
+>foo.sats</TT
+> to be staloaded as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN181"
+></A
+><PRE
+CLASS="programlisting"
+>staload "foo.sats"
+</PRE
+><P
+></P
+></DIV
+>
+
+
+In this case, the namespace for the names declared in <TT
+CLASS="filename"
+>foo.sats</TT
+>
+is opened. For instance, the following code shows that these names can now
+be referenced directly:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN184"
+></A
+><PRE
+CLASS="programlisting"
+>val a: aDatatype = A()
+val b: aDatatype = B(0, aFunction(aValue))
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;Let us suppose that we have the following sequence of declarations:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN187"
+></A
+><PRE
+CLASS="programlisting"
+>val aValue = 0
+staload "foo.sats"
+val anotheValue = aValue + 1
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Does the second occurrence of <FONT
+COLOR="RED"
+>aValue</FONT
+> refer to the one
+introduced in the first declaration, or it refers to the one declared
+inside <TT
+CLASS="filename"
+>foo.sats</TT
+>? The answer may be a bit surprising: It refers
+to the one introduced in the first declaration as a binding for the
+occurrence of a name is resolved in ATS by searching first through the
+available names delcared in the same file.
+
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="dynload"
+></A
+>Chapter 6. Dynamic Load</H1
+><P
+>&#13;In ATS, dynamic load (or dynload for short) refers to some form of
+initialization of a loaded package.
+</P
+><P
+>&#13;Suppose that a file named <TT
+CLASS="filename"
+>foo.dats</TT
+> contains the following
+code:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN196"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val x = 1000
+val y = x + x // = 2000
+val z = y * y // = 4000000
+//
+extern
+fun sum_x_y_z (): int
+//
+implement sum_x_y_z () = x + y + z
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Clearly, the names x, y, and z must be bound to some values before a call
+to the function <FONT
+COLOR="RED"
+>sum_x_y_z</FONT
+> can be evaluated.  In order to create
+such bindings, some form of initialization is required.  Let us further
+suppose that a file named <TT
+CLASS="filename"
+>foo2.dats</TT
+> contains the following
+code:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN200"
+></A
+><PRE
+CLASS="programlisting"
+>&#13;staload "./foo.dats"
+dynload "./foo.dats" // for initialization
+
+implement
+main0 () =
+{
+val () = assertloc (4003000 = sum_x_y_z())
+} (* end of [main0] *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+We can now generate an executable file <TT
+CLASS="filename"
+>mytest</TT
+> by issuing
+the following command-line:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN203"
+></A
+><PRE
+CLASS="programlisting"
+>&#13;<B
+CLASS="command"
+>atscc</B
+> -o mytest foo.dats foo2.dats
+</PRE
+><P
+></P
+></DIV
+>
+
+Note that <B
+CLASS="command"
+>atscc</B
+> may need to be changed to
+<B
+CLASS="command"
+>patscc</B
+>.
+
+</P
+><P
+>&#13;The line starting with the keyword <FONT
+COLOR="RED"
+>dynload</FONT
+> is referred to as a
+dynload-declaration. If it is deleted from the file <TT
+CLASS="filename"
+>foo2.dats</TT
+>,
+then executing the above command-line leads to link-time reporting of
+undefined reference to a variable of certain name ending with the string
+<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>__dynloadflag</I
+></SPAN
+>. The dynload-declaration for
+<TT
+CLASS="filename"
+>foo.dats</TT
+> introduces this special variable and then makes a
+call to a special function associated with <TT
+CLASS="filename"
+>foo.dats</TT
+> for the
+purpose of performing some form of initialization. This special function
+is referred as a dynload-function (for <TT
+CLASS="filename"
+>foo.dats</TT
+>), which is
+always idempotent.
+
+</P
+><P
+>&#13;There is also a dynload-function generated for <TT
+CLASS="filename"
+>foo2.dats</TT
+>.
+As the function <FONT
+COLOR="RED"
+>main0</FONT
+>, a variant of the special function
+<FONT
+COLOR="RED"
+>main</FONT
+>, is implemented in <TT
+CLASS="filename"
+>foo2.dats</TT
+>, the
+dynload-function for <TT
+CLASS="filename"
+>foo2.dats</TT
+> is automatically called inside
+the body of the <FONT
+COLOR="RED"
+>main</FONT
+> function.
+
+</P
+><P
+>&#13;If there is a reason to suppress the generation of a dynload-function, one
+can set the value of the flag <FONT
+COLOR="RED"
+>ATS_DYNLOADFLAG</FONT
+> to 0. For
+instance, no dynload-function for <TT
+CLASS="filename"
+>foo.dats</TT
+> is generated if the
+following line is added into <TT
+CLASS="filename"
+>foo.dats</TT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN226"
+></A
+><PRE
+CLASS="programlisting"
+>#define ATS_DYNLOADFLAG 0
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Of course, skipping proper initialization for <TT
+CLASS="filename"
+>foo.dats</TT
+> means
+that an erroneous result is expected if the function <FONT
+COLOR="RED"
+>sum_x_y_z</FONT
+>
+is ever called.
+
+</P
+><P
+>&#13;If there is a reason to call the dynload-function for
+<TT
+CLASS="filename"
+>foo2.dats</TT
+> explicitly, one can introduce an alias for it and then
+call the alias. For instance, if the following line is added to
+<TT
+CLASS="filename"
+>foo2.dats</TT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN233"
+></A
+><PRE
+CLASS="programlisting"
+>#define ATS_DYNLOADNAME "foo2_dynload"
+</PRE
+><P
+></P
+></DIV
+>
+
+
+then the dynload-function for <TT
+CLASS="filename"
+>foo2.dats</TT
+> is given an alias
+<FONT
+COLOR="RED"
+>foo2_dynload</FONT
+>.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/CHAP_DYNLOAD/."
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="bracket-overload"
+></A
+>Chapter 7. Bracket Overloading</H1
+><P
+>&#13;In many programming languages, bracket-notation is commonly associated
+with array subscripting. For instance, <FONT
+COLOR="RED"
+>A[i]</FONT
+> is a left-value
+in C that refers to array-cell <FONT
+COLOR="RED"
+>i</FONT
+> in the array referred to by
+<FONT
+COLOR="RED"
+>A</FONT
+>.  There is support in ATS for overloading brackets with
+multiple function names so that bracket-notation can be employed to call
+these functions, resulting in code that reads like some form of subscripting.
+It is expected that this style of calling functions can, sometimes, make
+the code written in ATS more easily accessible.
+</P
+><P
+>&#13;Let us now see a simple example of bracket-notation in overloading.
+In the followng code, a linear abstract type <FONT
+COLOR="RED"
+>lock</FONT
+> is
+introduced together with two functions:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN247"
+></A
+><PRE
+CLASS="programlisting"
+>//
+absvtype lock(a:vt@ype)
+//
+extern
+fun{a:vt0p} lock_acquire(!lock(a)): a
+extern
+fun{a:vt0p} lock_release(!lock(a), a): void
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+As one can imagine, <FONT
+COLOR="RED"
+>lock_acquire</FONT
+> is called to obtain the value
+stored in a given lock while <FONT
+COLOR="RED"
+>lock_release</FONT
+> is called to return a
+value to a given lock.
+</P
+><P
+>&#13;Suppose that we now introduce the following overloading declarations:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN252"
+></A
+><PRE
+CLASS="programlisting"
+>//
+overload [] with lock_acquire
+overload [] with lock_release
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+With these declarations, the following code typechecks:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN254"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val
+mylock = $extval(lock(int), "mylock")
+//
+val x0 = mylock[] // = lock_acquire (mylock)
+val () = mylock[] := x0 // = lock_release (mylock, x0)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that the bracket-notation in any assigement is only allowed to
+refer to a function that returns the void-value. In the above example, the
+function <FONT
+COLOR="RED"
+>lock_release</FONT
+> returns the void-value.
+</P
+><P
+>&#13;In ATS, bracket-notation is already overloaded with functions performing
+list-subscripting, array-subscripting and matrix-subscripting, and it can
+also be used to access and update a given reference.
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_brktoverld.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code presented in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="dot-overload"
+></A
+>Chapter 8. Dot-Symbol Overloading</H1
+><P
+>&#13;In many programming languages, the so-called dot-notation is commonly
+associated with selecting a field from a given tuple-value, record-value or
+object-value.  In ATS, field selection can be done through either pattern
+matching or the use of dot-notation. For example, the following code
+constructs a flat tuple and also a boxed one, and then uses dot-notation to
+select their components:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN263"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val tup_flat = @("a", "b")
+val tup_boxed = $tup("a", "b")
+//
+val-"a" = tup_flat.0 and "b" = tup_flat.1
+val-"a" = tup_boxed.0 and "b" = tup_boxed.1
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+There is support in ATS for overloading a specified dot-symbol with
+multiple function names so that dot-notation can be employed to call these
+functions, resulting in code that reads like field selection from tuples or
+records. This style of calling functions can, sometimes, make the code
+written in ATS more easily accessible, and it is especially so when
+ATS interacts with languages that support object-oriented programming.
+</P
+><P
+>&#13;As an example of dot-notation in overloading, let us introduce a non-linear
+abstract type <FONT
+COLOR="RED"
+>point</FONT
+> for points in a 2-dimensional space and also
+declare some associated functions:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN267"
+></A
+><PRE
+CLASS="programlisting"
+>//
+abstype point = ptr // boxed
+//
+extern
+fun
+point_make
+  (x: double, y: double): point
+//
+extern
+fun point_get_x (p: point): double
+and point_get_y (p: point): double
+//
+extern
+fun point_set_x (p: point, x: double): void
+and point_set_y (p: point, x: double): void
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+For getting the x-coordinate and y-coordinate of a given point, the
+functions <FONT
+COLOR="RED"
+>point_get_x</FONT
+> and <FONT
+COLOR="RED"
+>point_get_y</FONT
+> can be
+called, respectively.  For setting the x-coordinate and y-coordinate of a
+given point, the functions <FONT
+COLOR="RED"
+>point_set_x</FONT
+> and
+<FONT
+COLOR="RED"
+>point_set_y</FONT
+> can be called, respectively. By introducing two
+dot-symbols <FONT
+COLOR="RED"
+>.x</FONT
+> and <FONT
+COLOR="RED"
+>.y</FONT
+> and then overloading them
+with certain function names as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN275"
+></A
+><PRE
+CLASS="programlisting"
+>symintr .x .y
+overload .x with point_get_x
+overload .x with point_set_x
+overload .y with point_get_y
+overload .y with point_set_y
+</PRE
+><P
+></P
+></DIV
+>
+
+
+we can use dot-notation to call the corresponding get-functions and
+set-functions as is shown in the following code:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN277"
+></A
+><PRE
+CLASS="programlisting"
+>val p0 = point_make (1.0, ~1.0)
+val x0 = p0.x() // point_get_x (p0)
+and y0 = p0.y() // point_get_y (p0)
+val () = p0.x := y0 // point_set_x (p0, y0)
+and () = p0.y := x0 // point_set_y (p0, x0)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that writing <FONT
+COLOR="RED"
+>p0.x</FONT
+> for <FONT
+COLOR="RED"
+>p0.x()</FONT
+> is currently not
+supported.  The dot-notation in any assigement is only allowed to refer to
+a function that returns the void-value. In the above example, both
+<FONT
+COLOR="RED"
+>point_set_x</FONT
+> and <FONT
+COLOR="RED"
+>point_set_y</FONT
+> return the void-value.
+
+</P
+><P
+>&#13;Let us introduce a linear abstract type <FONT
+COLOR="RED"
+>counter</FONT
+> for counter
+objects and a few functions associated with it:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN285"
+></A
+><PRE
+CLASS="programlisting"
+>//
+absvtype counter = ptr
+//
+extern
+fun counter_make (): counter
+extern
+fun counter_free (counter): void
+//
+extern
+fun counter_get (cntr: !counter): int
+extern
+fun counter_incby (cntr: !counter, n: int): void
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+As can be expected, the functions <FONT
+COLOR="RED"
+>counter_make</FONT
+> and
+<FONT
+COLOR="RED"
+>counter_free</FONT
+> are for creating and destroying a counter object,
+respectively. The function <FONT
+COLOR="RED"
+>counter_get</FONT
+> returns the current
+count stored in a give counter, and the function <FONT
+COLOR="RED"
+>counter_incby</FONT
+>
+increase that count by a given integer value.
+
+</P
+><P
+>&#13;Let us introduce the following overloading declarations:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN292"
+></A
+><PRE
+CLASS="programlisting"
+>//
+overload .get with counter_get
+overload .incby with counter_incby
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+As is expected, one can now call <FONT
+COLOR="RED"
+>counter_get</FONT
+> as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN295"
+></A
+><PRE
+CLASS="programlisting"
+>val n0 = c0.get() // = counter_get(c0)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Similarly, one can call <FONT
+COLOR="RED"
+>counter_incby</FONT
+> as follows to increase
+the count stored in <FONT
+COLOR="RED"
+>c0</FONT
+> by 1:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN299"
+></A
+><PRE
+CLASS="programlisting"
+>val () = c0.incby(1) // = counter_incby(c0, 1)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+If we revisit the previous example involving (non-linear) points, then
+we can see that the following code also typechecks:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN301"
+></A
+><PRE
+CLASS="programlisting"
+>val p0 = point_make (1.0, ~1.0)
+val x0 = p0.x() // point_get_x (p0)
+and y0 = p0.y() // point_get_y (p0)
+val () = p0.x(y0) // point_set_x (p0, y0)
+and () = p0.y(x0) // point_set_y (p0, x0)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+I may use the phrase <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>functional dot-notation</I
+></SPAN
+> to refer to
+this form of dot-notation so as to differentiate it from the general form of
+dot-notation.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_dotoverld.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code presented in this chapter plus some testing code.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="recursion"
+></A
+>Chapter 9. Recursion</H1
+><P
+>&#13;The notion of recursion is ubiquitous in ATS.  For instance, there are
+recursively defined sorts (datasorts) and types (datatypes) in the statics,
+and there are also recursively defined functions in the dynamics.
+Literally, the word <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>recurse</I
+></SPAN
+> means "go back". When an entity is
+defined recursively, it means that the entity being defined can appear in
+its own definition. In the following presentation, I will show several ways
+to define (or implement) recursive functions and non-recursive functions,
+where the latter is just a special case of the former.
+</P
+><P
+>&#13;The keyword <FONT
+COLOR="RED"
+>fun</FONT
+> can be used to initiate the definition of
+a recursive function. For instance, following is the definition of a
+recursive function:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN312"
+></A
+><PRE
+CLASS="programlisting"
+>fun
+fact(x: int): int =
+  if x &#62; 0 then x * fact(x-1) else 1
+(* end of [fact] *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+A non-recursive function is a special kind of recursive function that
+does make use of itself in its own definition. So one can certainly use
+<FONT
+COLOR="RED"
+>fun</FONT
+> to initiate the definition of a non-recursive function.
+However, if there is a need to indicate explicitly that a non-recursive is being
+defined, then one can use the keyword <FONT
+COLOR="RED"
+>fn</FONT
+> to do so. For
+instance, the definiton of a non-recursive function is given as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN316"
+></A
+><PRE
+CLASS="programlisting"
+>fn square(x: int): int = x * x
+</PRE
+><P
+></P
+></DIV
+>
+
+
+which is directly translated by the compiler into the following binding
+between a name and a lambda-expression:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN318"
+></A
+><PRE
+CLASS="programlisting"
+>val square = lam (x: int): int =&#62; x * x
+</PRE
+><P
+></P
+></DIV
+>
+
+
+As another example, please note that the two occurrences of the
+symbol <FONT
+COLOR="RED"
+>fact</FONT
+> in the following code refer to two distinct
+functions:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN321"
+></A
+><PRE
+CLASS="programlisting"
+>fn
+fact(x: int): int =
+  if x &#62; 0 then x * fact(x-1) else 1
+(* end of [fact] *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+While the first <FONT
+COLOR="RED"
+>fact</FONT
+> (to the left of the equality symbol)
+refers to the (non-recursive) function being defined, the second one is
+supposed to have been declared previously.
+
+</P
+><P
+>&#13;A recursive function can also be defined as a recursive value. For
+instance, the recursive function <FONT
+COLOR="RED"
+>fact</FONT
+> defined above can
+be defined as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN326"
+></A
+><PRE
+CLASS="programlisting"
+>val
+rec
+fact : int -&#62; int =
+lam (x) =&#62;
+  if x &#62; 0 then x * fact(x-1) else 1
+(* end of [fact] *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where the keyword <FONT
+COLOR="RED"
+>rec</FONT
+> indicates that <FONT
+COLOR="RED"
+>fact</FONT
+> is
+defined recursively, that is, it is allowed to appear in its own
+definition. In fact, the former definition of <FONT
+COLOR="RED"
+>fact</FONT
+> is directly
+translated into the latter one by the compiler. Of course, one may
+also use a reference to implement recursion:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN331"
+></A
+><PRE
+CLASS="programlisting"
+>val
+fact = ref&#60;int-&#62;int&#62;($UNSAFE.cast(0))
+val () =
+!fact :=
+(
+  lam (x:int):int =&#62; if x &#62; 0 then x * !fact(x-1) else 1
+) (* end of [val] *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+But this is definitely not a style I would like to advocate.
+For the sake of completion, I present yet another way to define
+<FONT
+COLOR="RED"
+>fact</FONT
+> as a fixed-point expression:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN334"
+></A
+><PRE
+CLASS="programlisting"
+>val
+fact =
+fix f(x: int): int =&#62;
+  if x &#62; 0 then x * f(x-1) else 1
+(* end of [fact] *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Of course, if one wants to, then one can always replace a lambda-expression
+with a fixed-point expression (or simply fix-expression for short). For instance,
+<FONT
+COLOR="RED"
+>lambda(x:int):int =&#62; x+x</FONT
+> can be written as <FONT
+COLOR="RED"
+>fix _(x:int):int =&#62; x+x</FONT
+>.
+
+</P
+><P
+>&#13;For defining mutually recursive functions, one can simply use the
+keyword <FONT
+COLOR="RED"
+>and</FONT
+> to concatenate function definitions. For instance,
+the following code defines two functions <FONT
+COLOR="RED"
+>isevn</FONT
+> and <FONT
+COLOR="RED"
+>isodd</FONT
+>
+mutually recursively:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN342"
+></A
+><PRE
+CLASS="programlisting"
+>fun
+isevn(x: int): bool =
+  if x &#62; 0 then isodd(x-1) else true
+and
+isodd(x: int): bool =
+  if x &#62; 0 then isevn(x-1) else false
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The code, as one may have guessed, is translated by the compiler into the
+following form (for defining two mutually recursive values):
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN344"
+></A
+><PRE
+CLASS="programlisting"
+>val
+rec
+isevn : int -&#62; bool =
+  lam (x) =&#62; if x &#62; 0 then isodd(x-1) else true
+and
+isodd : int -&#62; bool =
+  lam (x) =&#62; if x &#62; 0 then isevn(x-1) else false
+</PRE
+><P
+></P
+></DIV
+>
+
+
+One can certainly use the keyword <FONT
+COLOR="RED"
+>and</FONT
+> to concatenate
+definitions of non-recursive functions, but doing so is probably just a
+curiosity (instead of a meaningful practice).
+</P
+><P
+>&#13;Even at this point, I have not presented all of the possible ways to define
+functions in ATS. For instance, one can also define stack-allocated
+closure-functions in ATS, which may be either recursive or non-recursive.
+I plan to introduce such functions elsewhere in this tutorial.
+
+</P
+><P
+>&#13;Often, the interface (that is, type) for a function is declared at one
+place and its definition (or implementation) is given at another place.
+For instance, one may first introduce the following declaration:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN349"
+></A
+><PRE
+CLASS="programlisting"
+>extern fun fact (x: int): int
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Later, one can implement <FONT
+COLOR="RED"
+>fact</FONT
+> according to the above declaration:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN352"
+></A
+><PRE
+CLASS="programlisting"
+>implement
+fact (x) =
+  if x &#62; 0 then x * fact(x-1) else 1
+// end of [fact]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+When <FONT
+COLOR="RED"
+>implement</FONT
+> is used to initiate the definition of a
+function, any previously declared symbols (including the one that is
+being defined) can appear in the definition. If it is desirable, one
+may replace <FONT
+COLOR="RED"
+>implement</FONT
+> with <FONT
+COLOR="RED"
+>implmnt</FONT
+>.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_recursion.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="datatypes"
+></A
+>Chapter 10. Datatypes</H1
+><P
+>&#13;Datatypes are a form of user-defined types for classifying data (or
+values). The support for datatypes and pattern matching in ATS is primarily
+adopted from ML.
+
+</P
+><P
+>&#13;The following code declares a datatype of the name <FONT
+COLOR="RED"
+>weekday</FONT
+> for
+values representing weekdays:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN364"
+></A
+><PRE
+CLASS="programlisting"
+>datatype weekday =
+  | Monday | Tuesday | Wednesday | Thursday | Friday
+</PRE
+><P
+></P
+></DIV
+>
+
+
+There are five data constructors associated with <FONT
+COLOR="RED"
+>weekday</FONT
+>, which
+are
+<FONT
+COLOR="RED"
+>Monday</FONT
+>,
+<FONT
+COLOR="RED"
+>Tuesday</FONT
+>,
+<FONT
+COLOR="RED"
+>Wednesday</FONT
+>,
+<FONT
+COLOR="RED"
+>Thursday</FONT
+>, and
+<FONT
+COLOR="RED"
+>Friday</FONT
+>.
+All of these data constructors are nullary,
+that is, they take no arguments to
+form values (of the type <FONT
+COLOR="RED"
+>weekday</FONT
+>).
+</P
+><P
+>&#13;Each nullary constructor is represented as a small integer
+(e.g., one that is less than 1024). One can use the following
+function <FONT
+COLOR="RED"
+>weekday2int</FONT
+> to find out the integers reprsenting
+the constructors associated with <FONT
+COLOR="RED"
+>weekday</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN376"
+></A
+><PRE
+CLASS="programlisting"
+>//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun
+weekday2int
+  (wd: weekday): int = $UN.cast{int}($UN.cast{intptr}(wd))
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The small integer representing a nullary constructor is often referred to
+as the tag of the constructor.
+
+In this case,
+the tags for
+<FONT
+COLOR="RED"
+>Monday</FONT
+>,
+<FONT
+COLOR="RED"
+>Tuesday</FONT
+>,
+<FONT
+COLOR="RED"
+>Wednesday</FONT
+>,
+<FONT
+COLOR="RED"
+>Thursday</FONT
+>, and
+<FONT
+COLOR="RED"
+>Friday</FONT
+>
+are 0, 1, 2, 3, and 4, respectively.
+</P
+><P
+>&#13;Given a nullary constructor <FONT
+COLOR="RED"
+>foo</FONT
+>, both <FONT
+COLOR="RED"
+>foo</FONT
+> and
+<FONT
+COLOR="RED"
+>foo()</FONT
+> can be used to refer the value constructed by
+<FONT
+COLOR="RED"
+>foo</FONT
+>.  However, only <FONT
+COLOR="RED"
+>foo()</FONT
+> can be used as the
+pattern that matches this value. For instance, the following function tests
+whether a given value of the type <FONT
+COLOR="RED"
+>weekday</FONT
+> is formed with the
+constructor <FONT
+COLOR="RED"
+>Friday</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN391"
+></A
+><PRE
+CLASS="programlisting"
+>fun
+isFriday(x: weekday): bool =
+  case+ x of Friday() =&#62; true | _ =&#62; false
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that the pattern <FONT
+COLOR="RED"
+>Friday()</FONT
+> cannot be replaced
+with <FONT
+COLOR="RED"
+>Friday</FONT
+> as the latter is treated as a variable when
+used as a pattern. On the other hand, both of the following
+assertions hold at run-time as <FONT
+COLOR="RED"
+>Friday</FONT
+> and <FONT
+COLOR="RED"
+>Friday()</FONT
+>
+refer to the same value:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN397"
+></A
+><PRE
+CLASS="programlisting"
+>val () = assertloc (isFriday(Friday))
+val () = assertloc (isFriday(Friday()))
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;If there is only one constructor associated with a datatype, then
+there is no tag in the representation for values of this datatype.
+
+</P
+><P
+>&#13;A datatype is list-like if there are two data constructors associated with
+it such that one is nullary (nil-like) and the other is non-nullary
+(cons-like). For instance, the datatype <FONT
+COLOR="RED"
+>ab</FONT
+> declared as follows
+is list-like:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN402"
+></A
+><PRE
+CLASS="programlisting"
+>datatype ab = A of () | B of (bool)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The values of a list-like datatype are represented in a special way.  Given
+a value of the datatype; if it is constructed with the nil-like
+constructor, then it is represented as the null-pointer; if it is
+constructed with the cons-like constructor, then it is reprenstend as a
+heap-allocated tuple containing all of the arguments passed to the
+constructor.
+
+In the above case, the value <FONT
+COLOR="RED"
+>A()</FONT
+> is represented as the null
+pointer, and the value <FONT
+COLOR="RED"
+>B(b)</FONT
+> for each boolean <FONT
+COLOR="RED"
+>b</FONT
+> is
+represented as a heap-allocated singleton tuple containing the only
+component <FONT
+COLOR="RED"
+>b</FONT
+>. This description can be readily verified with
+the following code:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN408"
+></A
+><PRE
+CLASS="programlisting"
+>val () = assertloc (iseqz($UN.cast{ptr}(A())))
+val () = assertloc (true = $UN.ptr0_get&#60;bool&#62;($UN.cast{ptr}(B(true))))
+val () = assertloc (false = $UN.ptr0_get&#60;bool&#62;($UN.cast{ptr}(B(false))))
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;The following declaration introduces a datatype of the name <FONT
+COLOR="RED"
+>abc</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN412"
+></A
+><PRE
+CLASS="programlisting"
+>datatype abc =
+  | A of () | B of (bool) | C of (int, double)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The three constructors associated with <FONT
+COLOR="RED"
+>abc</FONT
+> are <FONT
+COLOR="RED"
+>A</FONT
+>,
+<FONT
+COLOR="RED"
+>B</FONT
+>, and <FONT
+COLOR="RED"
+>C</FONT
+>; <FONT
+COLOR="RED"
+>A</FONT
+> is nullary; <FONT
+COLOR="RED"
+>B</FONT
+>
+is unary, taking a boolean to form a value (of the type <FONT
+COLOR="RED"
+>abc</FONT
+>);
+<FONT
+COLOR="RED"
+>C</FONT
+> is binary, taking an integer and a float (of double precision)
+to form a value (of the type <FONT
+COLOR="RED"
+>abc</FONT
+>).
+
+</P
+><P
+>&#13;In a general case, if a data constructor is n-ary for some positive n, then
+each value it constructs is a heap-allocated tuple of n+1 components, where
+the first one is the tag assigned to the constructor and the rest are the
+arguments passed to the constructor.  For instance, the following function
+can be called to find out the tags assigned to the constructors associated
+with <FONT
+COLOR="RED"
+>abc</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN425"
+></A
+><PRE
+CLASS="programlisting"
+>fun
+abc2tag
+(x: abc): int = let
+  val p = $UN.cast{intptr}(x)
+in
+//
+case+ 0 of
+| _ when p &#60; 1024 =&#62; $UN.cast{int}(p)
+| _ (*heap-allocated*) =&#62; $UN.ptr0_get&#60;int&#62;($UN.cast{ptr}(p))
+//
+end // end of [abc2tag]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+In this case, the tags assigned to <FONT
+COLOR="RED"
+>A</FONT
+>, <FONT
+COLOR="RED"
+>B</FONT
+>, and
+<FONT
+COLOR="RED"
+>C</FONT
+> are 0, 1, and 2, respectively.
+
+</P
+><P
+>&#13;Datatypes can be defined recursively. As an example,
+the following declaration introduces a recursively defined datatype
+<FONT
+COLOR="RED"
+>intexp</FONT
+> (for representing arithemetic integer expressions):
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN432"
+></A
+><PRE
+CLASS="programlisting"
+>datatype
+intexp =
+| Int of int
+| Neg of (intexp)
+| Add of (intexp, intexp)
+| Sub of (intexp, intexp)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+For instance, <FONT
+COLOR="RED"
+>(1+2)-3</FONT
+>
+can be represented as <FONT
+COLOR="RED"
+>Sub(Add(Int(1), Int(2)), Int(3))</FONT
+>.
+As another example, the following code introduces two mutually recursively
+defined datatypes <FONT
+COLOR="RED"
+>intexp</FONT
+> and <FONT
+COLOR="RED"
+>boolexp</FONT
+>
+(for integer expressions and boolean expressions, respectively):
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN438"
+></A
+><PRE
+CLASS="programlisting"
+>datatype
+intexp =
+| Int of int
+| Neg of (intexp)
+| Add of (intexp, intexp)
+| Sub of (intexp, intexp)
+| IfThenElse of (boolexp, intexp, intexp)
+
+and
+boolexp =
+| Bool of bool // constant
+| Not of (boolexp) // negation
+| Less of (intexp, intexp) // Less(x, y): x &#60; y
+| LessEq of (intexp, intexp) // LessEq(x, y): x &#60;= y
+| Conj of (boolexp, boolexp) // Conj(x, y): x /\ y
+| Disj of (boolexp, boolexp) // Disj(x, y): x \/ y
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The code below implements two mutually recursive functions
+<FONT
+COLOR="RED"
+>eval_intexp</FONT
+> and <FONT
+COLOR="RED"
+>eval_boolexp</FONT
+> for evaluating integer
+expressions and boolean expressions, respectively:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN442"
+></A
+><PRE
+CLASS="programlisting"
+>//
+symintr eval
+//
+extern
+fun eval_intexp : intexp -&#62; int
+extern
+fun eval_boolexp : boolexp -&#62; bool
+//
+overload eval with eval_intexp
+overload eval with eval_boolexp
+//
+(* ****** ****** *)
+//
+implement
+eval_intexp
+  (e0) = (
+//
+case+ e0 of
+| Int (i) =&#62; i
+| Neg (e) =&#62; ~eval(e)
+| Add (e1, e2) =&#62; eval(e1) + eval(e2)
+| Sub (e1, e2) =&#62; eval(e1) - eval(e2)
+| IfThenElse
+    (e_test, e_then, e_else) =&#62;
+    if eval(e_test) then eval(e_then) else eval(e_else)
+//
+) (* end of [eval_intexp] *)
+//
+implement
+eval_boolexp
+  (e0) = (
+//
+case+ e0 of
+| Bool (b) =&#62; b
+| Not (e) =&#62; ~eval(e)
+| Less (e1, e2) =&#62; eval(e1) &#60; eval(e2)
+| LessEq (e1, e2) =&#62; eval(e1) &#60;= eval(e2)
+| Conj (e1, e2) =&#62; eval(e1) &#38;&#38; eval(e2)
+| Disj (e1, e2) =&#62; eval(e1) || eval(e2)
+//
+) (* end of [eval_boolexp] *)
+//
+(* ****** ****** *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The datatypes presented in this chapter are simple datatypes.
+Other more advanced forms of datatypes include polymorphic datatypes,
+dependent datatypes, and linear datatypes, which will be covered
+elsewhere.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_datatypes.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter plus some code for testing.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="funlist"
+></A
+>Chapter 11. Functional Lists</H1
+><P
+>&#13;A functional list is just a singly-linked list that is immutable
+after its construction. The following datatype declaration introduces
+a type <FONT
+COLOR="RED"
+>list</FONT
+> for functional lists:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN450"
+></A
+><PRE
+CLASS="programlisting"
+>//
+datatype
+list(a:t@ype, int) =
+| list_nil(a, 0) of ()
+| {n:nat}
+  list_cons(a, n+1) of (a, list(a, n))
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given a type T and an integer N, the type <FONT
+COLOR="RED"
+>list(T,N)</FONT
+> is for a
+list of length N that contains elements of type T.  The interfaces for
+various functions on functional lists can be found in the SATS file
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/list.sats"
+TARGET="_top"
+>prelude/SATS/list.sats</A
+>, which
+is automatically loaded by <B
+CLASS="command"
+>atsopt</B
+>.
+</P
+><P
+>&#13;There are various functions in ATSLIB for list construction. In practice, a
+list is usually built by making direct use of the constructors
+<FONT
+COLOR="RED"
+>list_nil</FONT
+> and <FONT
+COLOR="RED"
+>list_cons</FONT
+>. For instance, the following
+function <FONT
+COLOR="RED"
+>fromto</FONT
+> builds a list of integers between two given ones:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN459"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+fromto
+{m,n:int | m &#60;= n}
+(
+  m: int(m), n: int(n)
+) : list(int, n-m) =
+  if m &#60; n then list_cons(m, fromto(m+1, n)) else list_nil()
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Traversing a list is commonly done by making use of pattern matching.  For
+instance, the following code implements a function for computing the length
+of a given list:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN461"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a:t@ype}
+list_length
+  {n:nat}
+(
+  xs: list(a, n)
+) : int(n) = let
+//
+fun
+loop
+{i,j:nat}
+(
+  xs: list(a, i), j: int(j)
+) : int(i+j) =
+(
+case+ xs of
+| list_nil () =&#62; j
+| list_cons (_, xs) =&#62; loop(xs, j+1)
+)
+//
+in
+  loop (xs, 0)
+end // end of [list_length]
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given a non-empty list xs, <FONT
+COLOR="RED"
+>xs.head()</FONT
+> and <FONT
+COLOR="RED"
+>xs.tail()</FONT
+>
+refer to the head and tail of xs, respectively, where <FONT
+COLOR="RED"
+>.head()</FONT
+> and
+<FONT
+COLOR="RED"
+>.tail()</FONT
+> are overloaded dot-symbols. For instance, the function
+<FONT
+COLOR="RED"
+>list_foldleft</FONT
+> for folding a given list from the left can be
+implemented as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN468"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a,b:t@ype}
+list_foldleft
+  {n:nat}
+(
+  f: (a, b) -&#62; a, ini: a, xs: list(b, n)
+) : a =
+  if iseqz(xs)
+    then ini else list_foldleft(f, f(ini, xs.head()), xs.tail())
+  // end of [if]
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+And the function
+<FONT
+COLOR="RED"
+>list_foldright</FONT
+> for folding a given list from the right can be
+implemented as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN471"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a,b:t@ype}
+list_foldright
+  {n:nat}
+(
+  f: (a, b) -&#62; b, xs: list(a, n), snk: b
+) : b =
+  if iseqz(xs)
+    then snk else f(xs.head(), list_foldright(f, xs.tail(), snk))
+  // end of [if]
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that <FONT
+COLOR="RED"
+>list_foldleft</FONT
+> is tail-recursive but <FONT
+COLOR="RED"
+>list_foldright</FONT
+>
+is not.
+</P
+><P
+>&#13;As an application of <FONT
+COLOR="RED"
+>list_foldleft</FONT
+>, the following code
+implements a function for reversing a given list:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN477"
+></A
+><PRE
+CLASS="programlisting"
+>fun
+{a:t@ype}
+list_reverse
+(
+  xs: List0(a)
+) : List0(a) =
+(
+list_foldleft&#60;List0(a),a&#62;
+  (lam (xs, x) =&#62; list_cons(x, xs), list_nil, xs)
+)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where the type constructor <FONT
+COLOR="RED"
+>List0</FONT
+> is for lists of
+unspecified length:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN480"
+></A
+><PRE
+CLASS="programlisting"
+>typedef List0(a:t@ype) = [n:nat] list (a, n)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Clearly, <FONT
+COLOR="RED"
+>list_reverse</FONT
+> is length-preserving, that is, it always
+returns a list of the same length as its input. Unfortunately, this
+invariant is not captured in the above implementation of
+<FONT
+COLOR="RED"
+>list_reverse</FONT
+> based on <FONT
+COLOR="RED"
+>list_foldleft</FONT
+>. For the
+purpose of comparison, another implementation of <FONT
+COLOR="RED"
+>list_reverse</FONT
+> is
+given as follows that captures the invariant of <FONT
+COLOR="RED"
+>list_reverse</FONT
+>
+being length-preserving:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN487"
+></A
+><PRE
+CLASS="programlisting"
+>fun
+{a:t@ype}
+list_reverse
+  {n:nat}
+(
+  xs: list(a, n)
+) : list(a, n) = let
+//
+fun
+loop{i,j:nat}
+(
+  xs: list(a, i), ys: list(a, j)
+) : list(a, i+j) =
+  case+ xs of
+  | list_nil () =&#62; ys
+  | list_cons (x, xs) =&#62; loop (xs, list_cons (x, ys))
+//
+in
+  loop (xs, list_nil)
+end // end of [list_reverse]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;As an application of <FONT
+COLOR="RED"
+>list_foldright</FONT
+>, the following code
+implements a function for concatenating two given lists:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN491"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a:t@ype}
+list_append
+(
+  xs: List0(a), ys: List0(a)
+) : List0(a) =
+  list_foldright&#60;a, List0(a)&#62;(lam (x, xs) =&#62; list_cons(x, xs), ys, xs)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The type assigned to <FONT
+COLOR="RED"
+>list_append</FONT
+> states that this function
+takes two lists as its arguments and returns one of unspecified length.
+For the purpose of comparison, another implementation of <FONT
+COLOR="RED"
+>list_append</FONT
+>
+is given as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN495"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a:t@ype}
+list_append
+  {m,n:nat}
+(
+  xs: list(a,m), ys: list(a,n)
+) : list(a,m+n) =
+(
+case+ xs of
+| list_nil () =&#62; ys
+| list_cons (x, xs) =&#62; list_cons (x, list_append (xs, ys))
+)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where the type assigned to <FONT
+COLOR="RED"
+>list_append</FONT
+> states that this
+function takes two lists of length m and n, respectively, and returns
+another list of length m+n.
+
+</P
+><P
+>&#13;One may think of a functional list as a representation for the finite
+mapping that maps each natural number i less than the length of the list to
+element i in the list. The following function <FONT
+COLOR="RED"
+>list_get_at</FONT
+> is
+for accessing a list element at a given position:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN500"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a:t@ype}
+list_get_at
+  {n:nat}
+(
+  xs: list(a, n), i: natLt(n)
+) : a =
+  if i &#62; 0 then list_get_at(xs.tail(), i-1) else xs.head()
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+This function can be called through the use of the bracket
+notation. In other words, <FONT
+COLOR="RED"
+>xs[i]</FONT
+> is automatically interpreted
+as <FONT
+COLOR="RED"
+>list_get_at(xs, i)</FONT
+> whenever xs and i are a list and an integer,
+respectively. Note that the time-complexity of <FONT
+COLOR="RED"
+>list_get_at(xs,
+i)</FONT
+> is O(i). If one uses <FONT
+COLOR="RED"
+>list_get_at</FONT
+> frequently when handling
+lists, then it is almost always a sure sign of poor programming style.
+
+</P
+><P
+>&#13;There is no destructive update on a functional list as it is immutable.
+The following function <FONT
+COLOR="RED"
+>list_set_at</FONT
+> can be called to construct
+a list that differs from a given one only at a given position:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN508"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a:t@ype}
+list_set_at
+  {n:nat}
+(
+  xs: list(a, n), i: natLt(n), x0: a
+) : list(a, n) =
+  if i &#62; 0
+    then list_cons(xs.head(), list_set_at(xs.tail(), i-1, x0))
+    else list_cons(x0, xs.tail())
+  // end of [if]
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+While it is fine to call <FONT
+COLOR="RED"
+>list_set_at</FONT
+> occasionally, a need to
+do so repeatedly often indicates that another data structure should probably
+be chosen in place of functional list.
+</P
+><P
+>&#13;Functional lists are by far the most widely used data structure
+in functional programming. However, one should not attempt to use a
+functional list like an array as doing so is inefficient both time-wise and
+memory-wise.
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_list.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter plus some testing code.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="funsetmap"
+></A
+>Chapter 12. Functional Sets and Maps</H1
+><P
+>&#13;Both (finite) sets and (finite) maps are commonly used data structures.
+Functional sets and maps are immutable after their construction.  Insertion
+into or removal from a functional set/map results in the construction of a
+new set/map while the original is kept intact. Usually the newly
+constructed set/map and the original one share a lot of underlying
+representation. Note that a functional set/map cannot be safely freed
+explicitly and the memory for representing it can only be reclaimed through
+garbage collection (GC).
+
+</P
+><DIV
+CLASS="sect1"
+><HR><H2
+CLASS="sect1"
+><A
+NAME="funsetmap_set"
+>Functional Sets</A
+></H2
+><P
+>&#13;Suppose that a set is needed for collecting values of type
+<FONT
+COLOR="RED"
+>elt_t</FONT
+>. The following code essentially sets up an interface for
+creating and operating on such a set based on a balanced-tree
+implementation in ATSLIB/libats:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN521"
+></A
+><PRE
+CLASS="programlisting"
+>&#13;local
+//
+typedef elt = elt_t
+//
+staload
+FS = "libats/ML/SATS/funset.sats"
+implement
+$FS.compare_elt_elt&#60;elt&#62;(x, y) = compare(x, y)
+//
+in (* in-of-local *)
+
+#include "libats/ML/HATS/myfunset.hats"
+
+end // end of [local]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/libats/ML/HATS/myfunset.hats"
+TARGET="_top"
+>on-line</A
+> the
+HATS file mentioned in the code, which is just a convenience wrapper made
+to simplify programming with functional sets. Note that it is assumed here
+that there is a comparison function on values of the type <FONT
+COLOR="RED"
+>elt_t</FONT
+>
+that overloads the symbol <FONT
+COLOR="RED"
+>compare</FONT
+>. If this is not the case, one
+needs to implement such a function.
+
+</P
+><P
+>&#13;Assume that <FONT
+COLOR="RED"
+>elt_t</FONT
+> is <FONT
+COLOR="RED"
+>int</FONT
+>. The following line
+of code creates a functional set (of integers) containing no elements:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN529"
+></A
+><PRE
+CLASS="programlisting"
+>val myset = myfunset_nil()
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The function for inserting an element into a given set is assigned the
+following type:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN531"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun myfunset_insert(xs: &#38;myset &#62;&#62; _, x0: elt): bool
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.insert</FONT
+> is overloaded with the function
+<FONT
+COLOR="RED"
+>myfunset_insert</FONT
+>. Note that the first argument of
+<FONT
+COLOR="RED"
+>myfunset_insert</FONT
+> is call-by-reference. If the given element is
+inserted into the given set, then the newly created set is stored into the
+call-by-reference argument and <FONT
+COLOR="RED"
+>false</FONT
+> is returned (to indicate
+no error).  Otherwise, <FONT
+COLOR="RED"
+>true</FONT
+> is returned (to indicate a
+failure). The following few lines of code shows how insertion can be
+operated on a functional set:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN538"
+></A
+><PRE
+CLASS="programlisting"
+>//
+var myset = myset
+//
+val-false = myset.insert(0) // inserted
+val-(true) = myset.insert(0) // not actually inserted
+val-false = myset.insert(1) // inserted
+val-(true) = myset.insert(1) // not actually inserted
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The first line in the above code may seem puzzling:
+Its sole purpose is to create a left-value to be passed as the first
+argument to <FONT
+COLOR="RED"
+>myfunset_insert</FONT
+>.
+
+During the course of debugging, one may want to print out the values
+contained in a given set:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN541"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val () = fprintln! (stdout_ref, "myset = ", myset)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where the symbol <FONT
+COLOR="RED"
+>fprint</FONT
+> is overloaded with
+<FONT
+COLOR="RED"
+>fprint_myset</FONT
+>. The function for removing an element from a
+given set is assigned the following type:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN545"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun myfunset_remove(xs: &#38;myset &#62;&#62; _, x0: elt): bool
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.remove</FONT
+> is overloaded with the function
+<FONT
+COLOR="RED"
+>myfunset_remove</FONT
+>. Note that the first argument of
+<FONT
+COLOR="RED"
+>myfunset_remove</FONT
+> is call-by-reference. If the given element is
+removed from the given set, then the newly created set is stored into the
+call-by-reference argument and <FONT
+COLOR="RED"
+>true</FONT
+> is returned.  Otherwise,
+<FONT
+COLOR="RED"
+>false</FONT
+> is returned.  The following few lines of code shows how
+removal can be operated on a functional set:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN552"
+></A
+><PRE
+CLASS="programlisting"
+>val-true = myset.remove(0) // removed
+val-false = myset.remove(0) // not actually removed
+val-true = myset.remove(1) // removed
+val-false = myset.remove(1) // not actually removed
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;Various common set operations can be found in
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/libats/ML/HATS/myfunset.hats"
+TARGET="_top"
+>libats/ML/HATS/myfunset.hats</A
+>.  By following the types assigned to these
+operations, one should have no difficulty in figuring out how they are
+supposed to be called.  Please find the entirety of the code used in this
+section <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_funsetmap_set.dats"
+TARGET="_top"
+>on-line</A
+>.
+
+</P
+></DIV
+><DIV
+CLASS="sect1"
+><HR><H2
+CLASS="sect1"
+><A
+NAME="funsetmap_map"
+>Functional Maps</A
+></H2
+><P
+>&#13;Suppose that a map is needed for mapping keys of type
+<FONT
+COLOR="RED"
+>key_t</FONT
+> to items of type <FONT
+COLOR="RED"
+>itm_t</FONT
+>. The following code
+essentially sets up an interface for creating and operating on such a map
+based on a balanced-tree implementation in ATSLIB/libats:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN562"
+></A
+><PRE
+CLASS="programlisting"
+>local
+//
+typedef
+key = key_t and itm = itm_t
+//
+staload
+FM = "libats/ML/SATS/funmap.sats"
+implement
+$FM.compare_key_key&#60;key&#62;(x, y) = compare(x, y)
+//
+in (* in-of-local *)
+
+#include "libats/ML/HATS/myfunmap.hats"
+
+end // end of [local]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/libats/ML/HATS/myfunmap.hats"
+TARGET="_top"
+>on-line</A
+> the
+HATS file mentioned in the code, which is just a convenience wrapper made
+to simplify programming with functional maps. Note that it is assumed here
+that there is a comparison function on values of the type <FONT
+COLOR="RED"
+>key_t</FONT
+>
+that overloads the symbol <FONT
+COLOR="RED"
+>compare</FONT
+>. If this is not the case, one
+needs to implement such a function.
+
+</P
+><P
+>&#13;Assume that <FONT
+COLOR="RED"
+>key_t</FONT
+> is <FONT
+COLOR="RED"
+>string</FONT
+> and <FONT
+COLOR="RED"
+>itm_t</FONT
+>
+is <FONT
+COLOR="RED"
+>int</FONT
+>. The following line of code creates an empty functional map:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN572"
+></A
+><PRE
+CLASS="programlisting"
+>val mymap = myfunmap_nil()
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The following few lines insert some key/item pairs into
+<FONT
+COLOR="RED"
+>mymap</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN575"
+></A
+><PRE
+CLASS="programlisting"
+>//
+var mymap = mymap
+//
+val-~None_vt() = mymap.insert("a", 0)
+val-~Some_vt(0) = mymap.insert("a", 1)
+//
+val-~None_vt() = mymap.insert("b", 1)
+val-~Some_vt(1) = mymap.insert("b", 2)
+//
+val-~None_vt() = mymap.insert("c", 2)
+val-~Some_vt(2) = mymap.insert("c", 3)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.insert</FONT
+> is overloaded with a function of the
+name <FONT
+COLOR="RED"
+>myfunmap_insert</FONT
+>.  The first line in the above code may
+seem puzzling: Its sole purpose is to create a left-value to be passed as
+the first argument to <FONT
+COLOR="RED"
+>myfunmap_insert</FONT
+>.  Given a key and an
+item, <FONT
+COLOR="RED"
+>mymap.insert</FONT
+> inserts the key/item pair into
+<FONT
+COLOR="RED"
+>mymap</FONT
+>.  If the key is in the domain of the map represented by
+<FONT
+COLOR="RED"
+>mymap</FONT
+> before insertion, then the original item associated with
+the key is returned. Otherwise, no item is returned. As can be expected,
+the size of <FONT
+COLOR="RED"
+>mymap</FONT
+> is 3 at this point:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN584"
+></A
+><PRE
+CLASS="programlisting"
+>val () = assertloc (mymap.size() = 3)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.size</FONT
+> is overloaded with a function of the name
+<FONT
+COLOR="RED"
+>myfunmap_size</FONT
+>, which returns the number of key/item pairs
+stored in a given map.  During the course of debugging, one may want to
+print out the key/item pairs in a given map:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN588"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val () = fprintln! (stdout_ref, "mymap = ", mymap)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where the symbol <FONT
+COLOR="RED"
+>fprint</FONT
+> is overloaded with
+<FONT
+COLOR="RED"
+>fprint_mymap</FONT
+>. The next two lines of code show how search with a
+given key operates on a map:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN592"
+></A
+><PRE
+CLASS="programlisting"
+>val-~None_vt() = mymap.search("")
+val-~Some_vt(1) = mymap.search("a")
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.search</FONT
+> is overloaded with a function of the
+name <FONT
+COLOR="RED"
+>myfunmap_search</FONT
+>, which returns the item associated with a
+given key if it is found. The next few lines of code remove some key/item
+pairs from <FONT
+COLOR="RED"
+>mymap</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN597"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val-true = mymap.remove("a")
+val-false = mymap.remove("a")
+//
+val-~Some_vt(2) = mymap.takeout("b")
+val-~Some_vt(3) = mymap.takeout("c")
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.remove</FONT
+> is overloaded with a function of the
+name <FONT
+COLOR="RED"
+>myfunmap_remove</FONT
+> for removing a key/item pair of a given
+key. If a key/item pair is removed, then the function returns
+true. Otherwise, it returns false to indicates that no key/item pair of the
+given key is stored in the map being operated on.  The dot-symbol
+<FONT
+COLOR="RED"
+>.takeout</FONT
+> is overloaded with a function of the name
+<FONT
+COLOR="RED"
+>myfunmap_takeout</FONT
+>, which is similar to <FONT
+COLOR="RED"
+>myfunmap_remove</FONT
+>
+excepting for returning the removed item.
+
+</P
+><P
+>&#13;Various common map operations can be found in
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/libats/ML/HATS/myfunmap.hats"
+TARGET="_top"
+>libats/ML/HATS/myfunmap.hats</A
+>.  By following the types assigned to these
+operations, one should have no difficulty in figuring out how they are
+supposed to be called. Please find the entirety of the code used in this
+section <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_funsetmap_map.dats"
+TARGET="_top"
+>on-line</A
+>.
+
+</P
+></DIV
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="exceptions"
+></A
+>Chapter 13. Exceptions</H1
+><P
+>&#13;
+While exceptions can be very useful in practice, it is also very common to
+see code that misuses exceptions.
+
+</P
+><P
+>&#13;Generally speaking, there are exceptions that are meant to be raised but
+not captured for the purpose of aborting program execution, and there are
+also exceptions (often declared locally) that are meant to be raised and
+then captured so as to change the flow of program execution.  For instance,
+the exception <FONT
+COLOR="RED"
+>ArraySubscriptExn</FONT
+> is raised when out-of-bounds
+array subscripting is detected at run-time.  Once it is raised,
+<FONT
+COLOR="RED"
+>ArraySubscriptExn</FONT
+> is usually not meant to be captured.  While
+there is certainly nothing preventing a programer from writing code that
+captures a raised <FONT
+COLOR="RED"
+>ArraySubscriptExn</FONT
+>, a major concern is that
+reasoning can become greatly complicated on code that does so.  In the
+following presentation, I will soley focus on exceptions that are meant to
+be raised and then captured.
+
+</P
+><P
+>&#13;Let us now take a look at the following code that implements a function
+for finding the rightmost element in a list that satisfies a given predicate:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN615"
+></A
+><PRE
+CLASS="programlisting"
+>extern
+fun{a:t@ype}
+list_find_rightmost
+  (List (a), (a) -&#60;cloref1&#62; bool): Option_vt (a)
+//
+implement{a}
+list_find_rightmost
+  (xs, pred) = let
+//
+fun aux
+(
+  xs: List(a)
+) : Option_vt (a) =
+  case+ xs of
+  | nil () =&#62; None_vt ()
+  | cons (x, xs) =&#62; let
+      val res = aux (xs)
+    in
+      case+ res of
+      | Some_vt _ =&#62; res
+      | ~None_vt () =&#62;
+          if pred (x) then Some_vt (x) else None_vt ()
+        // end of [None]
+    end (* end of [cons] *)
+//
+in
+  aux (xs)
+end // end of [list_find_rightmost]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Suppose that <FONT
+COLOR="RED"
+>list_find_rightmost</FONT
+> is called on a list xs of
+length N (for some large natural number N) and a predicate pred. The
+evaluation of this call leads to a call to the inner function
+<FONT
+COLOR="RED"
+>aux</FONT
+>, which in turn generates N additional recursive calls to
+<FONT
+COLOR="RED"
+>aux</FONT
+>. Assume that only the last element of xs satisfies the
+predicate pred. Then there are still N-1 call frames for <FONT
+COLOR="RED"
+>aux</FONT
+> on
+the call stack when the rightmost element satisfying the given predicate is
+found, and these frames need to be unwinded <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>one-by-one</I
+></SPAN
+> before
+the found element can be returned to the original call to
+<FONT
+COLOR="RED"
+>list_find_rightmost</FONT
+>. This form of inefficiency is eliminated in
+the following exception-based implementation of
+<FONT
+COLOR="RED"
+>list_find_rightmost</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN624"
+></A
+><PRE
+CLASS="programlisting"
+>&#13;implement{a}
+list_find_rightmost
+  (xs, pred) = let
+//
+exception Found of (a)
+//
+fun aux
+(
+  xs: List(a)
+) : void =
+  case+ xs of
+  | nil () =&#62; ()
+  | cons (x, xs) =&#62; let
+      val () = aux (xs)
+    in
+      if pred (x) then $raise Found(x) else ()
+    end (* end of [cons] *)
+//
+in
+//
+try let
+  val () = aux (xs)
+in
+  None_vt ()
+end with
+  | ~Found(x) =&#62; Some_vt (x)
+//
+end // end of [list_find_rightmost]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+When a try-with-expression is evaluated, a label is created for the portion
+of the call stack needed to evaluate the clauses (often referred to as
+exception-handlers) following the keyword <FONT
+COLOR="RED"
+>with</FONT
+>, and this label
+is then pushed onto a designated global stack.  When an exception is
+raised, the labels on the global stack are tried one-by-one until the
+raised exception is captured by an exception-handler (that is, the value
+representing the exception matches the pattern guard of the
+exception-handler) or the current program evaluation aborts. The above
+exception-based implementation of <FONT
+COLOR="RED"
+>list_find_rightmost</FONT
+> uses a
+raised exception to carry the element found during a recursive call to
+<FONT
+COLOR="RED"
+>aux</FONT
+> so that this element can be returned in a single jump to
+the original call to <FONT
+COLOR="RED"
+>list_find_rightmost</FONT
+>, bypassing all the
+intermediate call frames (for recursive calls to <FONT
+COLOR="RED"
+>aux</FONT
+>) on the
+call stack. In general, the range between the point where an exception
+is raised and the point where the raised exception is captured should span
+multiple call frames. If not, then the use of exception may be questionable.
+
+</P
+><P
+>&#13;The implementation of the run-time support for exceptions in ATS makes use
+of the function <FONT
+COLOR="RED"
+>alloca</FONT
+> declared in <TT
+CLASS="filename"
+>alloca.h</TT
+> and
+the functions <FONT
+COLOR="RED"
+>setjmp</FONT
+> and <FONT
+COLOR="RED"
+>longjmp</FONT
+> declared in
+<TT
+CLASS="filename"
+>setjmp.h</TT
+>. If <B
+CLASS="command"
+>gcc</B
+> or <B
+CLASS="command"
+>clang</B
+> is used to
+compile the C code generated from ATS source, one can pass the flag
+-D_GNU_SOURCE so as to make sure that the header file <TT
+CLASS="filename"
+>alloca.h</TT
+>
+is properly included.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_exception.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="reference"
+></A
+>Chapter 14. References</H1
+><P
+>&#13;A reference is a singleton array, that is, an array of size 1.  It is
+persistent in the sense that the (heap-allocated) memory for storing the
+content of a reference cannot be freed manually in a type-safe
+manner. Instead, it can only be reclaimed through garbage collection (GC).
+
+</P
+><P
+>&#13;Given a viewtype VT, the type for references to values of viewtype VT is
+<FONT
+COLOR="RED"
+>ref</FONT
+>(VT). For convenience, the type constructor <FONT
+COLOR="RED"
+>ref</FONT
+>
+is declared to be abstract in ATS. However, it can be defined as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN648"
+></A
+><PRE
+CLASS="programlisting"
+>typedef ref (a:vt@ype) = [l:addr] (vbox (a @ l) | ptr l)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The interfaces for various functions on references can be found in
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/reference.sats"
+TARGET="_top"
+>prelude/SATS/reference.sats</A
+>.
+</P
+><P
+>For creating a reference, the function template <FONT
+COLOR="RED"
+>ref_make_elt</FONT
+> of
+the following interface can be called:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN653"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:vt@ype} ref_make_elt (x: a):&#60;!wrt&#62; ref a
+</PRE
+><P
+></P
+></DIV
+>
+
+
+It is also allowed to use the shorthand <FONT
+COLOR="RED"
+>ref</FONT
+> for
+<FONT
+COLOR="RED"
+>ref_make_elt</FONT
+>.  Note that the symbol <FONT
+COLOR="RED"
+>!wrt</FONT
+> indicates
+that the so-called <FONT
+COLOR="RED"
+>wrt</FONT
+>-effect may occur when
+<FONT
+COLOR="RED"
+>ref_make_elt</FONT
+> is called.
+
+</P
+><P
+>&#13;For reading from and writing through a reference, the function
+templates <FONT
+COLOR="RED"
+>ref_get_elt</FONT
+> and <FONT
+COLOR="RED"
+>ref_set_elt</FONT
+> can be used,
+respectively, which are assigned the following types:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN663"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t@ype} ref_get_elt (r: ref a):&#60;!ref&#62; a
+fun{a:t@ype} ref_set_elt (r: ref a, x: a):&#60;!refwrt&#62; void
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that the symbol <FONT
+COLOR="RED"
+>!ref</FONT
+> indicates that the so-called
+ref-effect may occur when <FONT
+COLOR="RED"
+>ref_get_elt</FONT
+> is evaluated. Similarly,
+<FONT
+COLOR="RED"
+>!refwrt</FONT
+> means both ref-effect and wrt-effect may occur when
+<FONT
+COLOR="RED"
+>ref_set_elt</FONT
+>.  Given a reference <FONT
+COLOR="RED"
+>r</FONT
+> and a value
+<FONT
+COLOR="RED"
+>v</FONT
+>, <FONT
+COLOR="RED"
+>ref_get_elt(r)</FONT
+> and <FONT
+COLOR="RED"
+>ref_set_elt(r, v)</FONT
+>
+can be written as <FONT
+COLOR="RED"
+>!r</FONT
+> and <FONT
+COLOR="RED"
+>!r := v</FONT
+>, respectively, and
+can also be written as <FONT
+COLOR="RED"
+>r[]</FONT
+> and <FONT
+COLOR="RED"
+>r[] := v</FONT
+>,
+respectively, in terms of bracket-notation.
+</P
+><P
+>&#13;A reference is typically employed to record some form of persistent state.
+For instance, following is such an example:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN678"
+></A
+><PRE
+CLASS="programlisting"
+>local
+//
+#define BUFSZ 128
+//
+val count = ref&#60;int&#62; (0)
+//
+in (* in of [local] *)
+
+fun genNewName
+  (prfx: string): string = let
+  val n = !count
+  val () = !count := n + 1
+  var res = @[byte][BUFSZ]((*void*))
+  val err =
+  $extfcall (
+    int, "snprintf", addr@res, BUFSZ, "%s%i", prfx, n
+  ) (* end of [$extfcall] *)
+in
+  strptr2string(string0_copy($UNSAFE.cast{string}(addr@res)))
+end // end of [genNewName]
+
+end // end of [local]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The function <FONT
+COLOR="RED"
+>genNewName</FONT
+> is called to generate fresh names. As
+the integer content of the reference <FONT
+COLOR="RED"
+>count</FONT
+> is updated whenever
+a call to <FONT
+COLOR="RED"
+>genNewName</FONT
+> is made, each name returned by
+<FONT
+COLOR="RED"
+>genNewName</FONT
+> is guaranteed to have not been generated
+before. Note that the use of <FONT
+COLOR="RED"
+>$extfcall</FONT
+> is for making a direct
+call to the function <FONT
+COLOR="RED"
+>snprintf</FONT
+> in C.
+
+</P
+><P
+>&#13;<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>Misuse of References</I
+></SPAN
+>
+References are commonly misused in practice. The following program is often
+written by a beginner of functional programming who has already learned
+(some) imperative programming:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN688"
+></A
+><PRE
+CLASS="programlisting"
+>fun fact
+  (n: int): int = let
+  val res = ref&#60;int&#62; (1)
+  fun loop (n: int):&#60;cloref1&#62; void =
+    if n &#62; 0 then (!res := n * !res; loop(n-1)) else ()
+  val () = loop (n)
+in
+  !res
+end // end of [fact]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The function <FONT
+COLOR="RED"
+>fact</FONT
+> is written in such a style as somewhat a direct
+translation of the following C code:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN691"
+></A
+><PRE
+CLASS="programlisting"
+>int
+fact (int n) {
+  int res = 1 ;
+  while (n &#62; 0) { res = n * res; n = n - 1; } ;
+  return (res) ;
+}
+</PRE
+><P
+></P
+></DIV
+>
+
+
+In the ATS implementation of <FONT
+COLOR="RED"
+>fact</FONT
+>, <FONT
+COLOR="RED"
+>res</FONT
+> is a
+heap-allocated reference and it becomes garbage (waiting to be reclaimed by
+the GC) after a call to <FONT
+COLOR="RED"
+>fact</FONT
+> returns.  On the other hand, the
+variable <FONT
+COLOR="RED"
+>res</FONT
+> in the C implementation of <FONT
+COLOR="RED"
+>fact</FONT
+> is
+stack-allocated (or it can even be mapped to a machine register), and there
+is no generated garbage after a call to <FONT
+COLOR="RED"
+>fact</FONT
+> returns. A proper
+translation of the C implementation in ATS can actually be given as
+follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN699"
+></A
+><PRE
+CLASS="programlisting"
+>fun fact
+  (n: int): int = let
+  fun loop (n: int, res: int): int =
+    if n &#62; 0 then loop (n-1, n * res) else res
+  // end of [loop]
+in
+  loop (n, 1)
+end // end of [fact]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+which makes no use of references at all.
+
+</P
+><P
+>&#13;Unless strong justification can be given, making extensive use of
+(dynamically created) references is often a sure sign of poor coding style.
+
+</P
+><P
+>&#13;<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>Statically Allocated References</I
+></SPAN
+>
+Creating a reference by calling <FONT
+COLOR="RED"
+>ref_make_elt</FONT
+> involves dynamic
+memory allocation. If this is not desirable or even acceptable, it is
+possible to only employ statically allocated memory in a reference creation
+as is shown below:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN705"
+></A
+><PRE
+CLASS="programlisting"
+>var myvar: int = 0
+val myref = ref_make_viewptr (view@(myvar) | addr@(myvar))
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The function <FONT
+COLOR="RED"
+>ref_make_viewptr</FONT
+> takes a pointer and a proof of
+some at-view associated with the pointer and returns a reference after
+consuming the proof. As <FONT
+COLOR="RED"
+>ref_make_viewptr</FONT
+> is a cast-function, it
+causes no run-time overhead. In the above code, <FONT
+COLOR="RED"
+>myvar</FONT
+> is
+statically allocated and it is no longer available after its at-view proof
+is consumed by <FONT
+COLOR="RED"
+>ref_make_viewptr</FONT
+>. It should be interesting to
+observe that both <FONT
+COLOR="RED"
+>myvar</FONT
+> and <FONT
+COLOR="RED"
+>myref</FONT
+> are just the same
+pointer in C but they are the reification of fundamentally different
+concepts in ATS: the former is a linear variable while the latter is a
+non-linear reference.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_reference.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="boxed_tuprec"
+></A
+>Chapter 15. Boxed Tuples and Records</H1
+><P
+>&#13;A <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>boxed</I
+></SPAN
+> tuple/record is just a reference to
+some location in memory where a flat tuple/record is stored.
+Often the word <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>unboxed</I
+></SPAN
+> is also used to describe a
+flat tuple/record.
+
+</P
+><P
+>&#13;In the following code,
+the types <FONT
+COLOR="RED"
+>abc_tup</FONT
+>
+and <FONT
+COLOR="RED"
+>abc_rec</FONT
+> are for boxed tuples and records, respectively:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN723"
+></A
+><PRE
+CLASS="programlisting"
+>typedef
+abc_tup = '(int, int, string) // for tuples
+typedef
+abc_rec = '{a=int, b=int, c=string} // for records
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that a tuple is just a special record in the sense that the
+labels in the tuple are fixed to be ranging from 0 to n-1, inclusive,
+where n is the tuple length. In the case of <FONT
+COLOR="RED"
+>abc_tup</FONT
+>, the
+three associated labels are 0, 1, and 2. Note that <FONT
+COLOR="RED"
+>'(</FONT
+> and
+<FONT
+COLOR="RED"
+>'{</FONT
+> are special symbols in ATS and there is no space
+allowed after the single quote. If the use of these special symbols is
+to be avoided, then one can declare the types <FONT
+COLOR="RED"
+>abc_tup</FONT
+> and
+<FONT
+COLOR="RED"
+>abc_rec</FONT
+> as follows in a slightly different syntax:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN730"
+></A
+><PRE
+CLASS="programlisting"
+>typedef
+abc_tup = $tup(int, int, string) // for tuples
+typedef
+abc_rec = $rec{a=int, b=int, c=string} // for records
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Also, the keywords
+<FONT
+COLOR="RED"
+>$tup</FONT
+> and <FONT
+COLOR="RED"
+>$rec</FONT
+> can be replaced with
+<FONT
+COLOR="RED"
+>$tuple</FONT
+> and <FONT
+COLOR="RED"
+>$record</FONT
+>, respectively.
+
+</P
+><P
+>&#13;The following code demonstrates how tuples and records can be created
+and their components (i.e., fields) taken out:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN737"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val x_tup = '(0, 1, "2") : abc_tup
+val x_rec = '{a=0, b=1, c="2"} : abc_rec
+//
+val ((*void*)) = assertloc(x_tup.0 = x_rec.a)
+val ((*void*)) = assertloc(x_tup.1 = x_rec.b)
+val ((*void*)) = assertloc(x_tup.2 = x_rec.c)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;It should be noted that both <FONT
+COLOR="RED"
+>x_tup</FONT
+> and <FONT
+COLOR="RED"
+>x_rec</FONT
+>
+are immutable. If one tries to typecheck the following code, then he
+or she should see error messages reporting that <FONT
+COLOR="RED"
+>x_tup.0</FONT
+>
+and <FONT
+COLOR="RED"
+>x_rec.a</FONT
+> are non-left-values:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN744"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val () = x_tup.0 := 100 // *ERROR*: x_tup.0 not a left-value
+val () = x_rec.a := 100 // *ERROR*: x_tup.0 not a left-value
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;In order to have a tuple/record with mutable fields, we can just
+literally create a reference to a flat tuple/record. In the following
+code, the types <FONT
+COLOR="RED"
+>abc_tup_</FONT
+> and <FONT
+COLOR="RED"
+>abc_rec_</FONT
+> are
+declcared for flat tuples and records, respectively:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN749"
+></A
+><PRE
+CLASS="programlisting"
+>//
+typedef
+abc_tup_ = @(int, int, string) // for tuples
+typedef
+abc_rec_ = @{a=int, b=int, c=string} // for records
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+and the types <FONT
+COLOR="RED"
+>abc_tup_r</FONT
+> and <FONT
+COLOR="RED"
+>abc_rec_r</FONT
+> are for
+references to tuples and records classified by <FONT
+COLOR="RED"
+>abc_tup_</FONT
+>
+and <FONT
+COLOR="RED"
+>abc_rec_</FONT
+>, respetively:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN755"
+></A
+><PRE
+CLASS="programlisting"
+>//
+typedef abc_tup_r = ref(abc_tup_) // for tuples
+typedef abc_rec_r = ref(abc_rec_) // for records
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The code below demonstrates how tuples and records with mutable fields
+can be created and their fields accessed and updated.
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN757"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val x_tup_r = ref&#60;abc_tup_&#62;(@(0, 1, "2"))
+val x_rec_r = ref&#60;abc_rec_&#62;(@{a=0, b=1, c="2"})
+//
+(* ****** ****** *)
+//
+val () = assertloc(x_tup_r-&#62;0 = x_rec_r-&#62;a)
+val () = assertloc(x_tup_r-&#62;1 = x_rec_r-&#62;b)
+val () = assertloc(x_tup_r-&#62;2 = x_rec_r-&#62;c)
+//
+(* ****** ****** *)
+//
+val () = x_tup_r-&#62;0 := 100 // *OKAY*: x_tup_r.0 is a left-value
+val () = x_rec_r-&#62;a := 100 // *OKAY*: x_rec_r.a is a left-value
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;If we want to have records of a type where certain fields are
+read-only while the others may be updated, we can do this by making
+use of the support for abstract types in ATS.  In the following
+example, <FONT
+COLOR="RED"
+>myrec</FONT
+> is declared to be abstract; there are three
+fields associated with <FONT
+COLOR="RED"
+>myrec</FONT
+> that are of the names
+<FONT
+COLOR="RED"
+>a</FONT
+>, <FONT
+COLOR="RED"
+>b</FONT
+>, and <FONT
+COLOR="RED"
+>c</FONT
+>; the first two may be
+updated while the third one is read-only:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN765"
+></A
+><PRE
+CLASS="programlisting"
+>(* ****** ****** *)
+
+abstype myrec = ptr  
+
+(* ****** ****** *)
+//
+extern
+fun{}
+myrec_make
+(
+  a: int, b: int, c: string
+) : myrec // end-of-function
+//
+extern
+fun{}
+myrec_get_a : myrec -&#62; int
+extern
+fun{}
+myrec_set_a : (myrec, int) -&#62; void
+extern
+fun{}
+myrec_get_b : myrec -&#62; int
+extern
+fun{}
+myrec_set_b : (myrec, int) -&#62; void
+extern
+fun{}
+myrec_get_c : myrec -&#62; string
+//
+overload .a with myrec_get_a
+overload .a with myrec_set_a
+overload .b with myrec_get_b
+overload .b with myrec_set_b
+overload .c with myrec_get_c
+//
+(* ****** ****** *)
+
+local
+//
+assume myrec = abc_rec_r
+//
+in (* in-of-local *)
+//
+implement
+{}(*tmp*)
+myrec_make
+  (a, b, c) = ref(@{a=a, b=b, c=c})
+//
+implement{} myrec_get_a(x) = x-&#62;a
+implement{} myrec_set_a(x, a) = x-&#62;a := a
+//
+implement{} myrec_get_b(x) = x-&#62;b
+implement{} myrec_set_b(x, b) = x-&#62;b := b
+//
+implement{} myrec_get_c(x) = x-&#62;c
+(*
+//
+// there is no update for the c-field:
+//
+implement{} myrec_set_a(x, c) = x-&#62;c := c
+*)
+//
+end // end of [local]
+
+(* ****** ****** *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Following is some code that creates a
+record of the type <FONT
+COLOR="RED"
+>myrec</FONT
+> and then
+accesses and updates certain fields of the
+created record:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN768"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val x_abc = myrec_make(0, 1, "2")
+//
+val ((*void*)) = assertloc(x_abc.a() = 0)
+val ((*void*)) = assertloc(x_abc.b() = 1)
+val ((*void*)) = assertloc(x_abc.c() = "2")
+//
+val ((*void*)) = x_abc.a(100)
+val ((*void*)) = assertloc(x_abc.a() = 100)
+//
+val ((*void*)) = x_abc.b(101)
+val ((*void*)) = assertloc(x_abc.b() = 101)
+//
+(*
+val ((*void*)) = x_abc.c("102") // *ERROR*: unsupported
+*)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+While this example (<FONT
+COLOR="RED"
+>myrec</FONT
+>) demonstrates an approach
+to constructing records containing both read-only fields and fields that
+can be updated, this approach does seem a bit too verbose. One
+possibilty is to develop meta-programming support so as to greatly
+reduce the verbosity (due to the need for boilerplate code).
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_tuprec_1.dats"
+TARGET="_top"
+>on-line</A
+> the
+entirety of the code used in this chapter plus some testing code.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="arrayref"
+></A
+>Chapter 16. Persistent Arrays</H1
+><P
+>&#13;A persistent array of size n is just n heap-allocated cells (or references)
+in a row.  It is persistent in the sense that the memory allocated for the
+array cannot be freed manually. Instead, it can only be safely reclaimed
+through garbage collection (GC).
+</P
+><P
+>&#13;Given a viewtype VT, the type for persistent arrays containing N values of
+viewtype VT is <FONT
+COLOR="RED"
+>arrayref(VT, N)</FONT
+>.  Note that arrays in ATS are
+the same as those in C: There is no size information attached to them. The
+interfaces for various functions on persistent arrays can be found in
+the SATS file
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/arrayref.sats"
+TARGET="_top"
+>prelude/SATS/arrayref.sats</A
+>,
+which is automatically loaded by <B
+CLASS="command"
+>atsopt</B
+>.
+
+</P
+><P
+>&#13;There are various functions in ATSLIB for array creation. For instance, the
+following two are commonly used:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN781"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t@ype}
+arrayref_make_elt
+  {n:nat} (asz: size_t n, elt: a):&#60;!wrt&#62; arrayref (a, n)
+// end of [arrayref_make_elt]
+
+fun{a:t@ype}
+arrayref_make_listlen
+  {n:int} (xs: list (a, n), n: int n):&#60;!wrt&#62; arrayref (a, n)
+// end of [arrayref_make_listlen]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Applied to a size and an element, <FONT
+COLOR="RED"
+>arrayref_make_elt</FONT
+> returns an
+array of the given size in which each cell is initialized with the given
+element.  Applied to a list of elements and the length of the list,
+<FONT
+COLOR="RED"
+>arrayref_make_listlen</FONT
+> returns an array of size equal to the
+given length in which each cell is initialized with the corresponding
+element in the given list.
+</P
+><P
+>&#13;For reading from and writing to an array, the function templates
+<FONT
+COLOR="RED"
+>arrayref_get_at</FONT
+> and <FONT
+COLOR="RED"
+>arrayref_set_at</FONT
+> can be used,
+respectively, which are assigned the following interfaces:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN788"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t@ype}
+arrayref_get_at
+  {n:int} (A: arrayref (a, n), i: sizeLt (n)):&#60;!ref&#62; a
+
+fun{a:t@ype}
+arrayref_set_at
+  {n:int} (A: arrayref (a, n), i: sizeLt (n), x: a):&#60;!ref&#62; void
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given an array <FONT
+COLOR="RED"
+>A</FONT
+>, an index <FONT
+COLOR="RED"
+>i</FONT
+> and a value
+<FONT
+COLOR="RED"
+>v</FONT
+>, <FONT
+COLOR="RED"
+>arrayref_get_at(A, i)</FONT
+> and
+<FONT
+COLOR="RED"
+>arrayref_set_at(A, i, v)</FONT
+> can be written as <FONT
+COLOR="RED"
+>A[i]</FONT
+>
+and <FONT
+COLOR="RED"
+>A[i] := v</FONT
+>, respectively.
+</P
+><P
+>&#13;
+As an example, the following function template reverses the content of a
+given array:
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN798"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t@ype}
+arrayref_reverse{n:nat}
+(
+  A: arrayref (a, n), n: size_t (n)
+) : void = let
+//
+fun loop
+  {i: nat | i &#60;= n} .&#60;n-i&#62;.
+(
+  A: arrayref (a, n), n: size_t n, i: size_t i
+) : void = let
+  val n2 = half (n)
+in
+  if i &#60; n2 then let
+    val tmp = A[i]
+    val ni = pred(n)-i
+  in
+    A[i] := A[ni]; A[ni] := tmp; loop (A, n, succ(i))
+  end else () // end of [if]
+end // end of [loop]
+//
+in
+  loop (A, n, i2sz(0))
+end // end of [arrayref_reverse]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;If the test <FONT
+COLOR="RED"
+>i &#60; n2</FONT
+> is changed to <FONT
+COLOR="RED"
+>i &#60;= n2</FONT
+>, a type-error
+is to be reported. Why? The reason is that <FONT
+COLOR="RED"
+>A[n-1-i]</FONT
+> becomes
+out-of-bounds array subscripting in the case where <FONT
+COLOR="RED"
+>n</FONT
+> and
+<FONT
+COLOR="RED"
+>i</FONT
+> both equal zero. Given that it is very unlikely to encounter a
+case where an array of size 0 is involved, a bug like this, if not detected
+early, can be buried so scarily deep!
+</P
+><P
+>&#13;The careful reader may have already noticed that the sort <FONT
+COLOR="RED"
+>t@ype</FONT
+>
+is assigned to the template parameter <FONT
+COLOR="RED"
+>a</FONT
+>. In other words, the
+above implementation of <FONT
+COLOR="RED"
+>arrayref_reverse</FONT
+> cannot handle a case
+where the values stored in a given array are of some linear type. The
+reason for choosing the sort <FONT
+COLOR="RED"
+>t@ype</FONT
+> is that both
+<FONT
+COLOR="RED"
+>arrayref_get_at</FONT
+> and <FONT
+COLOR="RED"
+>arrayref_set_at</FONT
+> can only be
+applied to an array containing values of a nonlinear type. In the following
+implementation, the template parameter is given the sort <FONT
+COLOR="RED"
+>vt@ype</FONT
+>
+so that an array containing linear values, that is, values of some linear
+type can be handled:
+</P
+><DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN814"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:vt@ype}
+arrayref_reverse{n:nat}
+(
+  A: arrayref (a, n), n: size_t (n)
+) : void = let
+//
+fun loop
+  {i: nat | i &#60;= n} .&#60;n-i&#62;.
+(
+  A: arrayref (a, n), n: size_t n, i: size_t i
+) : void = let
+  val n2 = half (n)
+in
+  if i &#60; n2 then let
+    val () = arrayref_interchange (A, i, pred(n)-i) in loop (A, n, succ(i))
+  end else () // end of [if]
+end // end of [loop]
+//
+in
+  loop (A, n, i2sz(0))
+end // end of [arrayref_reverse]
+</PRE
+><P
+></P
+></DIV
+><P
+>&#13;
+The interface for the function template <FONT
+COLOR="RED"
+>arrayref_interchange</FONT
+> is
+given below:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN818"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:vt@ype}
+arrayref_interchange{n:int}
+  (A: arrayref (a, n), i: sizeLt n, j: sizeLt n):&#60;!ref&#62; void
+// end of [arrayref_interchange]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that <FONT
+COLOR="RED"
+>arrayref_interchange</FONT
+> can not be implemented in terms
+of <FONT
+COLOR="RED"
+>arrayref_get_at</FONT
+> and <FONT
+COLOR="RED"
+>arrayref_set_at</FONT
+> (unless some
+form of type-unsafe code is employed).
+</P
+><P
+>&#13;There are various functions available for traversing an array from left to
+right or from right to left. Also, the following two functions can be conveniently
+called to traverse an array from left to right:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN824"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun{a:t0p}
+arrayref_head{n:pos} (A: arrayref (a, n)): (a) // A[0]
+fun{a:t0p}
+arrayref_tail{n:pos} (A: arrayref (a, n)): arrayref (a, n-1)
+//
+overload .head with arrayref_head
+overload .tail with arrayref_tail
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+For instance, the fold-left function for arrays can be implemented
+as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN826"
+></A
+><PRE
+CLASS="programlisting"
+>&#13;fun{a,b:t@ype}
+arrayref_foldleft{n:int}
+(
+  f: (a, b) -&#62; a, x: a, A: arrayref (b, n), n: size_t(n)
+) : a =
+(
+if n &#62; 0
+  then arrayref_foldleft&#60;a,b&#62; (f, f (x, A.head()), A.tail(), pred(n))
+  else x
+// end of [if]
+) (* end of [arrayref_foldleft] *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+As can be expected, <FONT
+COLOR="RED"
+>A.head</FONT
+> and <FONT
+COLOR="RED"
+>A.tail</FONT
+> translate
+into <FONT
+COLOR="RED"
+>A[0]</FONT
+> and <FONT
+COLOR="RED"
+>ptr_succ&#60;T&#62;(p0)</FONT
+>, respectively, where T
+is the type for the elements stored in A and p0 is the starting address of
+A.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_arrayref.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="arrszref"
+></A
+>Chapter 17. Persistent Arrays-with-size</H1
+><P
+>&#13;I use the name <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>array-with-size</I
+></SPAN
+> to refer to a persistent
+array with attached size information.  Given a viewtype VT, the type for an
+array-with-size that contains N values of viewtype VT is
+<FONT
+COLOR="RED"
+>arrszref(VT, N)</FONT
+>. Essentially, such a value is a boxed pair of
+two components of types <FONT
+COLOR="RED"
+>arrayref(VT, N)</FONT
+> and
+<FONT
+COLOR="RED"
+>size_t(N)</FONT
+>. The interfaces for various functions on persistent
+arrays-with-size can be found in
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/arrayref.sats"
+TARGET="_top"
+>prelude/SATS/arrayref.sats</A
+>.
+
+</P
+><P
+>&#13;For creating an array-with-size, the following functions
+<FONT
+COLOR="RED"
+>arrszref_make_arrpsz</FONT
+> and <FONT
+COLOR="RED"
+>arrszref_make_arrayref</FONT
+> can
+be called:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN845"
+></A
+><PRE
+CLASS="programlisting"
+>fun{}
+arrszref_make_arrpsz
+  {a:vt0p}{n:int} (arrpsz (INV(a), n)): arrszref(a)
+fun{}
+arrszref_make_arrayref
+  {a:vt0p}{n:int} (arrayref (a, n), size_t(n)): arrszref(a)
+// end of [arrszref_make_arrayref]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+As an example, the following code creates an array-with-size containing
+all the decimal digits:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN847"
+></A
+><PRE
+CLASS="programlisting"
+>val DIGITS = (arrszref)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that <FONT
+COLOR="RED"
+>arrszref</FONT
+> is overloaded with
+<FONT
+COLOR="RED"
+>arrszref_make_arrpsz</FONT
+>.
+
+</P
+><P
+>&#13;For reading from and writing to an array-with-size, the function templates
+<FONT
+COLOR="RED"
+>arrszref_get_at</FONT
+> and <FONT
+COLOR="RED"
+>arrszref_set_at</FONT
+> can be used,
+respectively, which are assigned the following interfaces:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN854"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t@ype}
+arrszref_get_at (A: arrszref (a), i: size_t): (a)
+fun{a:t@ype}
+arrszref_set_at (A: arrszref (a), i: size_t, x: a): void
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given an array-with-size A, an index i and a value v,
+<FONT
+COLOR="RED"
+>arrszref_get_at(A, i)</FONT
+> and <FONT
+COLOR="RED"
+>arrszref_set_at(A, i, v)</FONT
+>
+can be written as <FONT
+COLOR="RED"
+>A[i]</FONT
+> and <FONT
+COLOR="RED"
+>A[i] := v</FONT
+>,
+respectively. Notice that array-bounds checking is performed at run-time
+whenever <FONT
+COLOR="RED"
+>arrszref_get_at</FONT
+> or <FONT
+COLOR="RED"
+>arrszref_set_at</FONT
+> is
+called, and the exception <FONT
+COLOR="RED"
+>ArraySubscriptExn</FONT
+> is raised in case
+of out-of-bounds array access being detected.
+
+</P
+><P
+>&#13;As a simple example, the following code implements a function that
+reverses the content of the array inside a given array-with-size:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN864"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t@ype}
+arrszref_reverse
+(
+  A: arrszref (a)
+) : void = let
+//
+val n = A.size()
+val n2 = half (n)
+//
+fun loop
+  (i: size_t): void = let
+in
+  if i &#60; n2 then let
+    val tmp = A[i]
+    val ni = pred(n)-i
+  in
+    A[i] := A[ni]; A[ni] := tmp; loop (succ(i))
+  end else () // end of [if]
+end // end of [loop]
+//
+in
+  loop (i2sz(0))
+end // end of [arrszref_reverse]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;Arrays-with-size can be a good choice over arrays in a prototype
+implementation as it is often more demanding to program with arrays. Also,
+for programmers who are yet to become familiar with dependent types, it is
+definitely easier to work with arrays-with-size than arrays. When
+programming in ATS, I often start out with arrays-with-size and then
+replace them with arrays when I can see clear benefits from doing so.
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_arrszref.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="matrixref"
+></A
+>Chapter 18. Persistent Matrices</H1
+><P
+>&#13;A persistent matrix of dimension m by n is just a persistent array of size
+m*n. Like in C, the representation of a matrix in ATS is row-major. In
+other words, element (i, j) in a matrix of dimension m by n is element
+i*n+j in the underlying array that represents the matrix.
+
+</P
+><P
+>&#13;Given a viewtype VT and two integers M and N, the type
+<FONT
+COLOR="RED"
+>matrixref(VT, M, N)</FONT
+> is for persistent matrices of dimension M
+by N that contain elements of the viewtype VT.  There is no dimension
+information attached to matrixref-values explicitly. The interfaces for various
+functions on persistent matrices can be found in the SATS file
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/matrixref.sats"
+TARGET="_top"
+>prelude/SATS/matrixref.sats</A
+>, which is automatically loaded by
+<B
+CLASS="command"
+>atsopt</B
+>.
+
+</P
+><P
+>&#13;The following function is commonly used to create a matrixref-value:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN877"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t0p}
+matrixref_make_elt{m,n:int}
+  (m: size_t m, n: size_t n, x0: a):&#60;!wrt&#62; matrixref (a, m, n)
+// end of [matrixref_make_elt]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given two sizes m and n plus an element x0,
+<FONT
+COLOR="RED"
+>matrixref_make_elt</FONT
+> returns a matrix of dimension m by n
+in which each cell is initialized with the element x0.
+</P
+><P
+>&#13;Also, the following cast function can be called to turn an array into
+a matrix:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN881"
+></A
+><PRE
+CLASS="programlisting"
+>castfn
+arrayref2matrixref
+  {a:vt0p}{m,n:nat} (A: arrayref (a, m*n)):&#60;&#62; matrixref (a, m, n)
+// end of [arrayref2matrixref]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;For accessing and updating the content of a matrix-cell, the following
+two functions <FONT
+COLOR="RED"
+>matrixref_get_at</FONT
+> and <FONT
+COLOR="RED"
+>matrixref_set_at</FONT
+>
+can be called:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN886"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun{a:t0p}
+matrixref_get_at
+  {m,n:int}
+(
+  A: matrixref (a, m, n), i: sizeLt(m), n: size_t(n), j: sizeLt(n)
+) :&#60;!ref&#62; (a) // end of [matrixref_get_at]
+//
+fun{a:t0p}
+matrixref_set_at
+  {m,n:int}
+(
+  A: matrixref (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
+) :&#60;!refwrt&#62; void // end of [matrixref_set_at]
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that it is not enough to just supply the coordinates of a
+matrix-cell in order to access it; the column dimension of the matrix
+needs to be supplied as well.
+
+</P
+><P
+>&#13;In the following presentation, I give an implementation of a function that
+turns a given square matrix into its transpose:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN889"
+></A
+><PRE
+CLASS="programlisting"
+>//
+extern
+fun{a:t0p}
+matrixref_transpose
+  {n:nat}
+(
+  M: matrixref (a, n, n), n: size_t (n)
+) : void // end of [matrixref_transpose]
+//
+implement{a}
+matrixref_transpose
+  {n} (M, n) = let
+//
+macdef
+mget (i, j) =
+  matrixref_get_at (M, ,(i), n, ,(j))
+macdef
+mset (i, j, x) =
+  matrixref_set_at (M, ,(i), n, ,(j), ,(x))
+//
+fun loop
+  {i,j:nat |
+   i &#60; j; j &#60;= n
+  } .&#60;n-i,n-j&#62;. 
+(
+  i: size_t (i), j: size_t (j)
+) : void =
+  if j &#60; n then let
+    val x = mget(i, j)
+    val () = mset(i, j, mget(j, i))
+    val () = mset(j, i, x)
+  in
+    loop (i, j+1)
+  end else let
+    val i1 = succ (i)
+  in
+    if i1 &#60; n then loop (i1, succ(i1)) else ()
+  end // end of [if]
+//
+in
+  if n &#62; 0 then loop (i2sz(0), i2sz(1)) else ()
+end // end of [matrixref_transpose]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_matrixref.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="mtrxszref"
+></A
+>Chapter 19. Persistent Matrices-with-size</H1
+><P
+>&#13;I use the name <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>matrix-with-size</I
+></SPAN
+> to refer to a persistent
+matrix with attached dimension information (that is, number of rows and
+number of columns).  Given a viewtype VT, the type for a matrix-with-size
+that contains M rows and N columns of elements of viewtype VT is
+<FONT
+COLOR="RED"
+>mtrxszref(VT, M, N)</FONT
+>. Essentially, such a value is a boxed
+record of three components of types <FONT
+COLOR="RED"
+>arrayref(VT, N)</FONT
+>,
+<FONT
+COLOR="RED"
+>size_t(M)</FONT
+> and <FONT
+COLOR="RED"
+>size_t(N)</FONT
+>. The interfaces for various
+functions on persistent matrices-with-size can be found in
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/matrixref.sats"
+TARGET="_top"
+>prelude/SATS/matrixref.sats</A
+>.
+
+</P
+><P
+>&#13;The following function is commonly used to create a matrix-with-size:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN903"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t0p}
+mtrxszref_make_elt (m: size_t, n: size_t, x0: a): mtrxref (a)
+// end of [mtrxszref_make_elt]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given two sizes m and n plus an element x0, <FONT
+COLOR="RED"
+>mtrxszref_make_elt</FONT
+>
+returns a matrix-with-size of the dimension m by n in which each matrix-cell
+is initialized with the given element x0.
+</P
+><P
+>&#13;For accessing and updating the content of a matrix-cell, the following
+two functions <FONT
+COLOR="RED"
+>mtrxszref_get_at</FONT
+> and <FONT
+COLOR="RED"
+>mtrxszref_set_at</FONT
+>
+can be called:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN909"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t0p}
+mtrxszref_get_at (M: mtrxszref(a), i: size_t, j: size_t): (a)
+fun{a:t0p}
+mtrxszref_set_at (M: mtrxszref(a), i: size_t, j: size_t, x: a): void
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given a matrix-with-size M, two indices i and j, and a value v,
+<FONT
+COLOR="RED"
+>mtrxszref_get_at(M, i, j)</FONT
+> and <FONT
+COLOR="RED"
+>mtrxszref_set_at(M, i,
+j, v)</FONT
+> can be written as <FONT
+COLOR="RED"
+>M[i,j]</FONT
+> and <FONT
+COLOR="RED"
+>M[i,j] := v</FONT
+>,
+respectively. Notice that matrix-bounds checking is performed at run-time
+whenever <FONT
+COLOR="RED"
+>mtrxszref_get_at</FONT
+> or <FONT
+COLOR="RED"
+>mtrxszref_set_at</FONT
+> is
+called, and the exception <FONT
+COLOR="RED"
+>MatrixSubscriptExn</FONT
+> is raised in case
+of out-of-bounds matrix access being detected.
+
+</P
+><P
+>&#13;As a simple example, the following code implements a function that
+transpose the content of the matrix inside a given matrix-with-size:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN919"
+></A
+><PRE
+CLASS="programlisting"
+>//
+extern
+fun{a:t0p}
+mtrxszref_transpose (M: mtrxszref (a)): void
+//
+implement{a}
+mtrxszref_transpose
+  (M) = let
+//
+val n = M.nrow()
+//
+val ((*void*)) = assertloc (M.nrow() = M.ncol())
+//
+fun loop
+(
+  i: size_t, j: size_t
+) : void =
+  if j &#60; n then let
+    val x = M[i,j]
+    val () = M[i,j] := M[j,i]
+    val () = M[j,i] := x
+  in
+    loop (i, succ(j))
+  end else let
+    val i1 = succ (i)
+  in
+    if i1 &#60; n then loop (i1, succ(i1)) else ()
+  end // end of [if]
+//
+in
+  if n &#62; 0 then loop (i2sz(0), i2sz(1)) else ()
+end // end of [mtrxszref_transpose]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;Like arrays-with-size, matrices-with-size are easier to program with than
+dependently typed matrices. However, the latter can not only lead to more
+effective error detection at compile-time but also more efficent code
+execution at run-time. For someone programming in ATS, it is quite
+reasonable to start out with matrices-with-size and then replace them with
+matrices when there are clear benefits from doing so.
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_mtrxszref.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="hashtable"
+></A
+>Chapter 20. Persistent Hashtables</H1
+><P
+>&#13;Hashtables are commonly used to implement finite maps. In ATSLIB/libats,
+there are hashtable implementations based on linear chaining and linear
+probing. There is also support for linear hashtables as well as persistent
+hashtables. The linear ones can be safely freed by the programmer, and the
+persistent ones (which are directly based on linear ones) can only be
+safely reclaimed through garbage collection (GC). In this chapter, I show
+how persistent hashtables can be created and operated on.
+</P
+><P
+>&#13;Suppose that a map is needed for mapping keys of type
+<FONT
+COLOR="RED"
+>key_t</FONT
+> to items of type <FONT
+COLOR="RED"
+>itm_t</FONT
+>. The following code
+essentially sets up an interface for creating and operating on such a map
+based on a hashtable implementation in ATSLIB/libats:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN930"
+></A
+><PRE
+CLASS="programlisting"
+>local
+
+typedef
+key = key_t and itm = itm_t
+
+in (* in-of-local *)
+
+#include "libats/ML/HATS/myhashtblref.hats"
+
+end // end of [local]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/libats/ML/HATS/myhashtblref.hats"
+TARGET="_top"
+>on-line</A
+>
+the HATS file mentioned in the code, which is just a convenience wrapper
+made to simplify programming with hashtables.
+
+</P
+><P
+>&#13;Assume that <FONT
+COLOR="RED"
+>key_t</FONT
+> is <FONT
+COLOR="RED"
+>string</FONT
+> and <FONT
+COLOR="RED"
+>itm_t</FONT
+>
+is <FONT
+COLOR="RED"
+>int</FONT
+>. The following line of code creates a hashtable with its
+initial capacity set to be 1000:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN938"
+></A
+><PRE
+CLASS="programlisting"
+>val mymap = myhashtbl_make_nil(1000)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that the capacity in this case is the size of the array associated
+with the created hashtable. The underlying hashtable implementation is
+based on linear chaining, and this hashtable can store up to 5000 (5*1000)
+items without need for resizing. When resizing is indeed needed, it is done
+automatically. The following few lines insert some key/item pairs into
+<FONT
+COLOR="RED"
+>mymap</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN941"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val-~None_vt() = mymap.insert("a", 0)
+val-~Some_vt(0) = mymap.insert("a", 1)
+//
+val-~None_vt() = mymap.insert("b", 1)
+val-~Some_vt(1) = mymap.insert("b", 2)
+//
+val-~None_vt() = mymap.insert("c", 2)
+val-~Some_vt(2) = mymap.insert("c", 3)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.insert</FONT
+> is overloaded with a function of the
+name <FONT
+COLOR="RED"
+>myhashtbl_insert</FONT
+>. Given a key and an item,
+<FONT
+COLOR="RED"
+>mymap.insert</FONT
+> inserts the key/item pair into <FONT
+COLOR="RED"
+>mymap</FONT
+>.
+If the key is in the domain of the map represented by <FONT
+COLOR="RED"
+>mymap</FONT
+>
+before insertion, then the original item associated with the key is
+returned. Otherwise, no item is returned. As can be expected, the size
+of <FONT
+COLOR="RED"
+>mymap</FONT
+> is 3 at this point:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN949"
+></A
+><PRE
+CLASS="programlisting"
+>val () = assertloc (mymap.size() = 3)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.size</FONT
+> is overloaded with a function of the name
+<FONT
+COLOR="RED"
+>myhashtbl_get_size</FONT
+>, which returns the number of key/item pairs
+stored in a given hashtable.  During the course of debugging, one may want
+to print out the key/item pairs in a given hashtable:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN953"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val () =
+  fprintln! (stdout_ref, "mymap = ", mymap)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where the symbol <FONT
+COLOR="RED"
+>fprint</FONT
+> is overloaded with
+<FONT
+COLOR="RED"
+>fprint_myhashtbl</FONT
+>. The next two lines of code show how search
+with a given key operates on a hashtable:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN957"
+></A
+><PRE
+CLASS="programlisting"
+>val-~None_vt() = mymap.search("")
+val-~Some_vt(1) = mymap.search("a")
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.search</FONT
+> is overloaded with a function of the
+name <FONT
+COLOR="RED"
+>myhashtbl_search</FONT
+>, which returns the item associated with a
+given key if it is found. The next few lines of code remove some key/item
+pairs from <FONT
+COLOR="RED"
+>mymap</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN962"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val-true = mymap.remove("a")
+val-false = mymap.remove("a")
+//
+val-~Some_vt(2) = mymap.takeout("b")
+val-~Some_vt(3) = mymap.takeout("c")
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.remove</FONT
+> is overloaded with a function of the
+name <FONT
+COLOR="RED"
+>myhashtbl_remove</FONT
+> for removing a key/item pair of a given
+key. If a key/item pair is removed, then the function returns
+true. Otherwise, it returns false to indicates that no key/item pair of the
+given key is stored in the hashtable being operated on.  The dot-symbol
+<FONT
+COLOR="RED"
+>.takeout</FONT
+> is overloaded with a function of the name
+<FONT
+COLOR="RED"
+>myhashtbl_takeout</FONT
+>, which is similar to
+<FONT
+COLOR="RED"
+>myhashtbl_remove</FONT
+> excepting for returning the removed item.
+The next few lines of code make use of several less commonly used functions
+on hashtables:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN969"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val () = mymap.insert_any("a", 0)
+val () = mymap.insert_any("b", 1)
+val () = mymap.insert_any("c", 2)
+val kxs = mymap.listize1((*void*))
+val ((*void*)) = fprintln! (stdout_ref, "kxs = ", kxs)
+val kxs = mymap.takeout_all((*void*))
+val ((*void*)) = fprintln! (stdout_ref, "kxs = ", kxs)
+//
+val () = assertloc (mymap.size() = 0)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The dot-symbol <FONT
+COLOR="RED"
+>.insert_any</FONT
+> is overloaded with a function of the
+name <FONT
+COLOR="RED"
+>myhashtbl_insert_any</FONT
+>, which <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>always</I
+></SPAN
+> inserts a
+given key/item pair regardless whether the key is already in use. One
+should really avoid using this function or only call it when it is
+absolutely sure that the given key is not already in use for otherwise the
+involved hashtable would be corrupted.  The dot-symbols
+<FONT
+COLOR="RED"
+>.listize1</FONT
+> and <FONT
+COLOR="RED"
+>.takeout_all</FONT
+> are overloaded with two
+functions of the names <FONT
+COLOR="RED"
+>myhashtbl_listize1</FONT
+> and
+<FONT
+COLOR="RED"
+>myhashtbl_takeout_all</FONT
+>, respectively. Both of them return a list
+consisting of all the key/item pairs in a given hashtable; the former keeps
+the hashtable unchanged while the latter empties it. Last, I present as follows the
+interface for an iterator going over all the key/item pairs in a given hashtable:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN978"
+></A
+><PRE
+CLASS="programlisting"
+>//
+extern
+fun
+myhashtbl_foreach_cloref
+(
+  tbl: myhashtbl
+, fwork: (key, &#38;(itm) &#62;&#62; _) -&#60;cloref1&#62; void
+) : void // end-of-function
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+As an example, the following code prints out all the key/item
+pairs in a given hashtable:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN980"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val () =
+myhashtbl_foreach_cloref
+(
+  mymap
+, lam (k, x) =&#62; fprintln! (stdout_ref, "k=", k, " and ", "x=", x)
+) (* myhashtbl_foreach_cloref *)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;Please find the entirety of the code used in this chapter
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_hashtable.dats"
+TARGET="_top"
+>on-line</A
+>. Also, there is a
+hashtable-based implementation of symbol table available
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_hashtable2.dats"
+TARGET="_top"
+>on-line</A
+>.
+
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="Tail-Recursion"
+></A
+>Chapter 21. Tail-Recursion</H1
+><P
+>&#13;Please see
+<A
+HREF="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/loop-as-tailrec/main.html"
+TARGET="_top"
+>&#13;this article
+</A
+> for a detailed explanation on tail-recursion and the
+support in ATS for turning tail-recursive calls into local jumps.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="hordfun"
+></A
+>Chapter 22. Higher-Order Functions</H1
+><P
+>&#13;A higher-order function is one that takes another function as its argument.
+
+Let us use BT to range over base types such as <FONT
+COLOR="RED"
+>int</FONT
+>,
+<FONT
+COLOR="RED"
+>bool</FONT
+>, <FONT
+COLOR="RED"
+>char</FONT
+>, <FONT
+COLOR="RED"
+>double</FONT
+> and
+<FONT
+COLOR="RED"
+>string</FONT
+>.  A simple type T is formed according to the following
+inductive definition:
+
+</P
+><P
+></P
+><UL
+><LI
+><P
+>BT is a simple type.</P
+></LI
+><LI
+><P
+>(T<SUB
+>1</SUB
+>, ..., T<SUB
+>n</SUB
+>) -&#62; T<SUB
+>0</SUB
+> is a simple type if
+T<SUB
+>0</SUB
+>, T<SUB
+>1</SUB
+>, ... T<SUB
+>n</SUB
+> are simple types.
+</P
+></LI
+></UL
+><P
+>&#13;Let <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>order</I
+></SPAN
+> be a function from simple types to natural numbers
+defined as follows:
+
+</P
+><P
+></P
+><UL
+><LI
+><P
+><SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>order</I
+></SPAN
+>(BT) = 0
+</P
+></LI
+><LI
+><P
+><SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>order</I
+></SPAN
+>((T<SUB
+>1</SUB
+>, ..., T<SUB
+>n</SUB
+>) -&#62; T<SUB
+>0</SUB
+>) = 
+<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>max</I
+></SPAN
+>(<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>order</I
+></SPAN
+>(T<SUB
+>0</SUB
+>), 1 + <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>order</I
+></SPAN
+>(T<SUB
+>1</SUB
+>), ..., 1 + <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>order</I
+></SPAN
+>(T<SUB
+>n</SUB
+>))
+</P
+></LI
+></UL
+><P
+>&#13;Given a function f of some simple type T, let us say that f is a
+<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>n</I
+></SPAN
+>th-order function if <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>order</I
+></SPAN
+>(T) =
+<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>n</I
+></SPAN
+>. For instance, a function of the type (int, int) -&#62; int
+is 1st-order, and a function of the type int -&#62; (int -&#62; int) is also
+1st-order, and a function of the type ((int -&#62; int), int) -&#62; int is
+2nd-order.  In practice, most functions are 1st-order and most higher-order
+functions are 2nd-order.
+
+</P
+><P
+>&#13;As an example, let us implement as follows a 2nd-order function
+<FONT
+COLOR="RED"
+>find_root</FONT
+> that takes as its only argument a function f from
+integers to integers and searches for a root of f by enumeration:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1033"
+></A
+><PRE
+CLASS="programlisting"
+>fn find_root
+(
+  f: int -&#60;cloref1&#62; int
+) : int = let
+//
+fun loop
+(
+  f: int -&#60;cloref1&#62; int, n: int
+) : int =
+  if f (n) = 0 then n else (
+    if n &#60;= 0 then loop (f, ~n + 1) else loop (f, ~n)
+  ) // end of [else] // end of [if]
+in
+  loop (f, 0)
+end // end of [find_root]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The function <FONT
+COLOR="RED"
+>find_root</FONT
+> computes the values of f at 0, 1, -1, 2,
+-2, etc. until it finds the first integer n in this sequence that satisfies
+f(n) = 0.
+
+</P
+><P
+>&#13;As another example, let us implement as follows the famous Newton-Raphson's
+method for finding roots of functions on reals:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1037"
+></A
+><PRE
+CLASS="programlisting"
+>typedef
+fdouble = double -&#60;cloref1&#62; double
+//
+macdef epsilon = 1E-6 (* precision *)
+//
+// [f1] is the derivative of [f]
+//
+fun
+newton_raphson
+(
+  f: fdouble, f1: fdouble, x0: double
+) : double = let
+  fun loop (
+    f: fdouble, f1: fdouble, x0: double
+  ) : double = let
+    val y0 = f x0
+  in
+    if abs (y0 / x0) &#60; epsilon then x0 else
+      let val y1 = f1 x0 in loop (f, f1, x0 - y0 / y1) end
+    // end of [if]
+  end // end of [loop]
+in
+  loop (f, f1, x0)
+end // end of [newton_raphson]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+With <FONT
+COLOR="RED"
+>newton_raphson</FONT
+>, both the square root function and the
+cubic root function can be readily implemented as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1040"
+></A
+><PRE
+CLASS="programlisting"
+>// square root function
+fn sqrt (c: double): double =
+  newton_raphson (lam x =&#62; x * x - c, lam x =&#62; 2.0 * x, 1.0)
+// cubic root function
+fn cbrt (c: double): double =
+  newton_raphson (lam x =&#62; x * x * x - c, lam x =&#62; 3.0 * x * x, 1.0)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;Higher-order functions can be of great use in supporting a form of code
+sharing that is both common and flexible. As function arguments are often
+represented as heap-allocated closures that can only be reclaimed through
+garbage collection (GC), higher-order functions are used infrequently, if
+at all, in a setting where GC is not present. In ATS, linear closures,
+which can be freed explictly in a safe manner, are available to support
+higher-order functions in the absence of GC, making it possible to employ
+higher-order functions extensively in systems programming (where GC is
+unavailable or simply disallowed). The details on linear closures are to be
+given elsewhere.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_hordfun.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="stream-based-lazy-evaluation"
+></A
+>Chapter 23. Stream-Based Lazy Evaluation</H1
+><P
+>&#13;While the core of ATS is based on call-by-value evaluation, there is also
+direct support in ATS for lazy (that is, call-by-need) evaluation.
+
+</P
+><P
+>&#13;There is a special language construct <FONT
+COLOR="RED"
+>$delay</FONT
+> for delaying or
+suspending the evaluation of an expression (by forming a thunk), and there
+is also a special function <FONT
+COLOR="RED"
+>lazy_force</FONT
+> for resuming a suspended
+evaluation (represented by a thunk).  The abstract type constructor
+<FONT
+COLOR="RED"
+>lazy</FONT
+> of the sort <FONT
+COLOR="RED"
+>(t@ype) =&#62; type</FONT
+> forms a (boxed)
+type when applied to a type. Given an expression exp of type T, the value
+<FONT
+COLOR="RED"
+>$delay(exp)</FONT
+> of the type <FONT
+COLOR="RED"
+>lazy(T)</FONT
+> represents the
+suspended evaluation of exp. Given a value V of the type
+<FONT
+COLOR="RED"
+>lazy(T)</FONT
+> for some type T, calling <FONT
+COLOR="RED"
+>lazy_force</FONT
+> on V
+resumes the suspended evaluation represented by V. If the call returns,
+then the returned value is of type T. The interface for the function
+template <FONT
+COLOR="RED"
+>lazy_force</FONT
+> is given as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1058"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t@ype} lazy_force (lazyval: lazy(a)):&#60;!laz&#62; a
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where the symbol <FONT
+COLOR="RED"
+>!laz</FONT
+> indicates a form of effect associated
+with lazy-evaluation. Note that the special prefix operator <FONT
+COLOR="RED"
+>!</FONT
+>
+in ATS is overloaded with <FONT
+COLOR="RED"
+>lazy_force</FONT
+>.
+
+</P
+><P
+>&#13;In <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/stream.sats"
+TARGET="_top"
+>prelude/SATS/stream.sats</A
+>,
+the following types <FONT
+COLOR="RED"
+>stream_con</FONT
+> and <FONT
+COLOR="RED"
+>stream</FONT
+> are declared
+mutually recursively for representing lazy streams:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1067"
+></A
+><PRE
+CLASS="programlisting"
+>datatype
+stream_con (a:t@ype+) =
+  | stream_nil of ((*void*)) | stream_cons of (a, stream(a))
+where stream (a:t@ype) = lazy (stream_con(a))
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Also, a number of common functions on streams are declared in
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/stream.sats"
+TARGET="_top"
+>prelude/SATS/stream.sats</A
+> and
+implemented in <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/DATS/stream.dats"
+TARGET="_top"
+>prelude/DATS/stream.dats</A
+>.
+
+</P
+><P
+>&#13;The following code gives a standard implementation of the sieve of
+Eratosthenes:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1072"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+from (n: int): stream (int) =
+  $delay (stream_cons (n, from (n+1)))
+//
+fun sieve
+(
+  ns: stream(int)
+) :&#60;!laz&#62; stream(int) = $delay let
+//
+// [val-] means no warning message from the compiler
+//
+  val-stream_cons(n, ns) = !ns
+in
+  stream_cons (n, sieve (stream_filter_cloref&#60;int&#62; (ns, lam x =&#62; x mod n &#62; 0)))
+end // end of [$delay let] // end of [sieve]
+//
+val thePrimes = sieve(from(2))
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+A stream is constructed consisting of all the integers starting from
+2; the first element of the stream is kept and all the multiples of
+this element are removed from the tail of the stream; this process is
+then repeated on the tail of the stream recursively. Clearly, the
+final stream thus generated consists of all the prime numbers ordered
+ascendingly.
+
+</P
+><P
+>&#13;The function template <FONT
+COLOR="RED"
+>stream_filter_cloref</FONT
+> is of the following
+interface:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1076"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t@ype}
+stream_filter_cloref
+  (xs: stream(a), pred: a -&#60;cloref&#62; bool):&#60;!laz&#62; stream(a)
+// end of [stream_filter_cloref]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given a stream and a predicate, <FONT
+COLOR="RED"
+>stream_filter_cloref</FONT
+>
+generates another stream consisting of all the elements in the given stream
+that satisfy the given predicate.
+</P
+><P
+>&#13;Let us see another example of lazy evaluation.  The follow code
+demonstrates an interesting approach to computing the Fibonacci numbers:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1080"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val _0_ = $UNSAFE.cast{int64}(0)
+val _1_ = $UNSAFE.cast{int64}(1)
+//
+val // the following values are defined mutually recursively
+rec theFibs_0
+  : stream(int64) = $delay (stream_cons(_0_, theFibs_1)) // fib0, fib1, ...
+and theFibs_1
+  : stream(int64) = $delay (stream_cons(_1_, theFibs_2)) // fib1, fib2, ...
+and theFibs_2
+  : stream(int64) = // fib2, fib3, fib4, ...
+(
+  stream_map2_fun&#60;int64,int64&#62;&#60;int64&#62; (theFibs_0, theFibs_1, lam (x, y) =&#62; x + y)
+) (* end of [val/and/and] *)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The function template <FONT
+COLOR="RED"
+>stream_map2_fun</FONT
+> is assigned the following
+interface:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1083"
+></A
+><PRE
+CLASS="programlisting"
+>fun{
+a1,a2:t0p}{b:t0p
+} stream_map2_cloref
+(
+  xs1: stream (a1), xs2: stream (a2), f: (a1, a2) -&#60;fun&#62; b
+) :&#60;!laz&#62; stream (b) // end of [stream_map2_cloref]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given two streams xs1 and xs2 and a binary function f,
+<FONT
+COLOR="RED"
+>stream_map2_fun</FONT
+> forms a stream xs such that xs[n] (that is,
+element n in xs), if exists, equals f(xs1[n], xs2[n]), where n ranges over
+natural numbers.
+
+</P
+><P
+>&#13;Let us see yet another example of lazy evaluation.
+A Hamming number is a positive natural number whose prime factors can
+contain only 2, 3 and 5.  The following code shows a straightforward way to
+generate a stream consisting of all the Hamming numbers:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1087"
+></A
+><PRE
+CLASS="programlisting"
+>//
+val
+compare_int_int =
+  lam (x1: int, x2: int): int =&#60;fun&#62; compare(x1, x2)
+//
+macdef
+merge2 (xs1, xs2) =
+  stream_mergeq_fun&#60;int&#62; (,(xs1), ,(xs2), compare_int_int)
+//
+val
+rec theHamming
+  : stream(int) = $delay
+(
+  stream_cons(1, merge2(merge2(theHamming2, theHamming3), theHamming5))
+) (* end of [theHamming] *)
+
+and theHamming2
+  : stream(int) = stream_map_fun&#60;int&#62;&#60;int&#62; (theHamming, lam x =&#62; 2 * x)
+and theHamming3
+  : stream(int) = stream_map_fun&#60;int&#62;&#60;int&#62; (theHamming, lam x =&#62; 3 * x)
+and theHamming5
+  : stream(int) = stream_map_fun&#60;int&#62;&#60;int&#62; (theHamming, lam x =&#62; 5 * x)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The function template <FONT
+COLOR="RED"
+>stream_mergeq_fun</FONT
+> is given the following
+interface:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1090"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t0p}
+stream_mergeq_fun
+(
+  xs1: stream (a), xs2: stream (a), (a, a) -&#60;fun&#62; int
+) :&#60;!laz&#62; stream (a) // end of [stream_mergeq_fun]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given two streams and an ordering (represented by a function) such that the
+two streams are listed ascendingly according to the ordering,
+<FONT
+COLOR="RED"
+>stream_mergeq_fun</FONT
+> returns a stream listed ascendingly that
+represents the union of the two given streams such that any elements in the
+second stream that also occur in the first stream are dropped.
+
+</P
+><P
+>&#13;With stream-based lazy evaluation, an illusion of infinite data can be
+readily created. This illusion is given a simple programming interface plus
+automatic support for memoization, enabling a programming style that can
+often be both elegant and intriguing.
+
+</P
+><P
+>&#13;In general, it is difficult to estimate the time-complexity and
+space-complexity of a program based on lazy evaluation. This is regarded as
+a serious weakness. With linear stream-based lazy evalution, this weakness
+can essentially be removed.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_stream.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="linlist"
+></A
+>Chapter 24. Linearly Typed Lists</H1
+><P
+>&#13;A linearly typed list in ATS is also referred to as a linear list, which
+essentially corresponds to a singly-linked list in C. The following linear
+datatype declaration introduces a linear type <FONT
+COLOR="RED"
+>list_vt</FONT
+> for
+linear lists:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1101"
+></A
+><PRE
+CLASS="programlisting"
+>//
+datavtype
+list_vt(a:vt@ype, int) =
+| list_vt_nil(a, 0) of ()
+| {n:nat}
+  list_vt_cons(a, n+1) of (a, list_vt(a, n))
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that the keyword <FONT
+COLOR="RED"
+>datavtype</FONT
+> can also be written as
+<FONT
+COLOR="RED"
+>dataviewtype</FONT
+>. Given a (possibly linear) type T and an integer
+N, the type <FONT
+COLOR="RED"
+>list_vt(T,N)</FONT
+> is for a list of length N that
+contains elements of type T.  The interfaces for various functions on
+linear lists can be found in the SATS file
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/list_vt.sats"
+TARGET="_top"
+>prelude/SATS/list_vt.sats</A
+>,
+which is automatically loaded by <B
+CLASS="command"
+>atsopt</B
+>.
+</P
+><P
+>&#13;The following function <FONT
+COLOR="RED"
+>list_vt_length</FONT
+> shows a typical way of
+handling a linear list in a read-only situation:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1110"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a:vt@ype}
+list_vt_length
+  (xs: !list_vt(a, n)): int(n) =
+(
+case+ xs of
+| list_vt_nil() =&#62; 0
+| list_vt_cons(x, xs2) =&#62; 1 + list_vt_length&#60;a&#62; (xs2)
+)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+When <FONT
+COLOR="RED"
+>xs</FONT
+> is matched with the pattern <FONT
+COLOR="RED"
+>list_vt_nil()</FONT
+>,
+the type of <FONT
+COLOR="RED"
+>xs</FONT
+> is <FONT
+COLOR="RED"
+>list_vt(a, 0)</FONT
+>.  When
+<FONT
+COLOR="RED"
+>xs</FONT
+> is matched with the pattern <FONT
+COLOR="RED"
+>list_vt_cons(x, xs2)</FONT
+>,
+the type of <FONT
+COLOR="RED"
+>xs</FONT
+> is <FONT
+COLOR="RED"
+>list_vt(a, N+1)</FONT
+> for some natural
+number N and the types of <FONT
+COLOR="RED"
+>x</FONT
+> and <FONT
+COLOR="RED"
+>xs2</FONT
+> are
+<FONT
+COLOR="RED"
+>a</FONT
+> and <FONT
+COLOR="RED"
+>list_vt(a, N)</FONT
+>, respectively. Note that both
+<FONT
+COLOR="RED"
+>x</FONT
+> and <FONT
+COLOR="RED"
+>xs2</FONT
+> are names for values, and their types are
+required to stay unchanged.
+
+</P
+><P
+>&#13;The following function <FONT
+COLOR="RED"
+>list_vt_foreach</FONT
+> shows a typical way of
+modifying elements stored in a linear list:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1128"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a:vt@ype}
+list_vt_foreach
+(
+  xs: !list_vt(a, n)
+, fwork: (&#38;(a) &#62;&#62; _) -&#60;cloref1&#62; void
+) : void =
+(
+case+ xs of
+| list_vt_nil() =&#62; ()
+| @list_vt_cons(x, xs2) =&#62; (fwork(x); list_vt_foreach&#60;a&#62; (xs2, fwork); fold@(xs))
+)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+When <FONT
+COLOR="RED"
+>xs</FONT
+> is matched with the pattern
+<FONT
+COLOR="RED"
+>@list_vt_cons(x,xs2)</FONT
+>, the type of <FONT
+COLOR="RED"
+>xs</FONT
+> is
+<FONT
+COLOR="RED"
+>list_vt(a, N+1)</FONT
+> for some natural number N and the types of
+<FONT
+COLOR="RED"
+>x</FONT
+> and <FONT
+COLOR="RED"
+>xs2</FONT
+> are <FONT
+COLOR="RED"
+>a</FONT
+> and
+<FONT
+COLOR="RED"
+>list_vt(a, N)</FONT
+>, respectively. Note that both <FONT
+COLOR="RED"
+>x</FONT
+> and
+<FONT
+COLOR="RED"
+>xs2</FONT
+> are variables (that are a form of left-values).  At the
+beginning of the body following the pattern
+<FONT
+COLOR="RED"
+>@list_vt_cons(x,xs2)</FONT
+>, the type of <FONT
+COLOR="RED"
+>xs</FONT
+> is assumed to
+be <FONT
+COLOR="RED"
+>list_vt_cons_unfold(L0, L1, L2)</FONT
+>, which is a viewtype for
+a list-node created by a call to <FONT
+COLOR="RED"
+>list_vt_cons</FONT
+> such that the
+node is located at L0 and the two arguments of <FONT
+COLOR="RED"
+>list_vt_cons</FONT
+> are
+located at L1 and L2 while the proofs for the at-views associated with L1
+and L2 are put in the store for currently available proofs. Therefore,
+as left-values, <FONT
+COLOR="RED"
+>x</FONT
+> and <FONT
+COLOR="RED"
+>xs2</FONT
+> have addresses L1 and L2,
+respectively, and the views of the proofs associated with L1 and L2 are
+<FONT
+COLOR="RED"
+>a@L1</FONT
+> and <FONT
+COLOR="RED"
+>list_vt_cons(a, N)@L2</FONT
+>, respectively.
+The application <FONT
+COLOR="RED"
+>fold@(xs)</FONT
+> turns <FONT
+COLOR="RED"
+>xs</FONT
+> into a value
+of the type <FONT
+COLOR="RED"
+>list_vt(a, N+1)</FONT
+> while consuming the proofs
+associated with L1 and L2. Notice that the type of <FONT
+COLOR="RED"
+>xs</FONT
+> can be
+different from the original one assigned to it after folding. The following
+example shows a case as such:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1153"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a:vt@ype}
+list_vt_append
+  {m,n:nat}
+(
+  xs: list_vt(a, m), ys: list_vt(a, n)
+) : list_vt(a, m+n) = let
+//
+fun
+loop{m:nat}
+(
+  xs: &#38;list_vt(a, m) &#62;&#62; list_vt(a, m+n), ys: list_vt(a, n)
+) : void =
+(
+case+ xs of
+| ~list_vt_nil() =&#62; (xs := ys)
+| @list_vt_cons(x, xs2) =&#62; (loop(xs2, ys); fold@(xs))
+)
+//
+in
+  case+ xs of
+  | ~list_vt_nil () =&#62; ys
+  | @list_vt_cons (x, xs2) =&#62; (loop(xs2, ys); fold@(xs); xs)
+end // end of [list_vt_append]
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The meaning of the symbol <FONT
+COLOR="RED"
+>~</FONT
+> in front of a pattern is to be
+explained below. The implementation of <FONT
+COLOR="RED"
+>list_vt_append</FONT
+> exactly
+corresponds to the standard implementaion of concatenating two
+singly-linked lists in C: Let xs and ys be two given lists; if xs is empty,
+then ys is returned; otherwise, the last node in xs is located and ys is
+stored in the field of the node reserved for the next node.
+
+</P
+><P
+>&#13;The following function <FONT
+COLOR="RED"
+>list_vt_free</FONT
+> frees a given linear
+list containing non-linear elements:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1159"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{a:vt@ype}
+list_vt_free
+  {n:nat}
+(
+  xs: list_vt(a?, n)
+) : void =
+(
+case+ xs of
+| ~list_vt_nil() =&#62; ()
+| ~list_vt_cons(x, xs2) =&#62; list_vt_free&#60;a&#62; (xs2)
+)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+When <FONT
+COLOR="RED"
+>xs</FONT
+> is matched with the pattern <FONT
+COLOR="RED"
+>~list_vt_nil()</FONT
+>,
+the type of <FONT
+COLOR="RED"
+>xs</FONT
+> changes to a special one indicating that
+<FONT
+COLOR="RED"
+>xs</FONT
+> is no longer available for subsequent use.  When
+<FONT
+COLOR="RED"
+>xs</FONT
+> is matched with the pattern
+<FONT
+COLOR="RED"
+>~list_vt_cons(x,xs2)</FONT
+>, the type of <FONT
+COLOR="RED"
+>xs</FONT
+> changes again
+to a special one indicating that <FONT
+COLOR="RED"
+>xs</FONT
+> is no longer available for
+subsequent use. In the latter case, the two values representing the head
+and tail of the list referred to as <FONT
+COLOR="RED"
+>xs</FONT
+> can be subsequently
+referred to as <FONT
+COLOR="RED"
+>x</FONT
+> and <FONT
+COLOR="RED"
+>xs2</FONT
+>, respectively. So what is
+really freed here is the memory for the first list-node in the list
+referred to as <FONT
+COLOR="RED"
+>xs</FONT
+>.
+
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_list_vt.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter plus some testing code.
+</P
+></DIV
+></DIV
+><DIV
+CLASS="PART"
+><A
+NAME="advanced_tutorial_topics"
+></A
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="title"
+>II. Advanced Tutorial Topics</H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+>25. <A
+HREF="#extvar-declaration"
+>Extvar-Declaration</A
+></DT
+><DT
+>26. <A
+HREF="#cloptr"
+>Linear Closure-Functions</A
+></DT
+><DT
+>27. <A
+HREF="#stkclo"
+>Stack-Allocated Closure-Functions</A
+></DT
+><DT
+>28. <A
+HREF="#codegen2"
+>Automatic Code Generation</A
+></DT
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="extvar-declaration"
+></A
+>Chapter 25. Extvar-Declaration</H1
+><P
+>&#13;ATS puts great emphasis on interacting with other programming
+languages.
+
+</P
+><P
+>&#13;Suppose that I have in some C code a (global) integer variable of the name
+<FONT
+COLOR="RED"
+>foo</FONT
+> and I want to increase in some ATS code the value stored in
+<FONT
+COLOR="RED"
+>foo</FONT
+> by 1. This can be done as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1183"
+></A
+><PRE
+CLASS="programlisting"
+>val x0 = $extval(int, "foo") // get the value of foo
+val p_foo = $extval(ptr, "&#38;foo") // get the address of foo
+val () = $UNSAFE.ptr_set&#60;int&#62; (p_foo, x0 + 1) // update foo
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where the address-of operator (&#38;) in C is needed for taking the address
+of <FONT
+COLOR="RED"
+>foo</FONT
+>. If I want to interact in ATS with a language that does
+not support the address-of operator (e.g., JavaScript and Python), then I
+can do it as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1186"
+></A
+><PRE
+CLASS="programlisting"
+>extvar "foo" = x0 + 1
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where the keyword <FONT
+COLOR="RED"
+>extvar</FONT
+> indicates that the string following it
+refers to an external variable (or left-value) that should be updated with
+the value of the expression on the right-hand side of the equality symbol
+following the string. Of course, this works for languages like C that do
+support the address-of operator as well. This so-called extvar-declaration
+can also be written as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1189"
+></A
+><PRE
+CLASS="programlisting"
+>extern var "foo" = x0 + 1
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where <FONT
+COLOR="RED"
+>extvar</FONT
+> expands into <FONT
+COLOR="RED"
+>extern var</FONT
+>.
+
+</P
+><P
+>&#13;As for another example, let us suppose that <FONT
+COLOR="RED"
+>foo2</FONT
+> is a record
+variable that contains two integer fields named <FONT
+COLOR="RED"
+>first</FONT
+> and
+<FONT
+COLOR="RED"
+>second</FONT
+>. Then the following code assigns integers 1 and 2 to
+these two fields of <FONT
+COLOR="RED"
+>foo2</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1198"
+></A
+><PRE
+CLASS="programlisting"
+>extvar "foo2.first" = 1
+extvar "foo2.second" = 2
+</PRE
+><P
+></P
+></DIV
+>
+
+
+By its very nature, the feature of extvar-declaration is inherently
+unsafe, and it should only be used with caution.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_extvar.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code presented in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="cloptr"
+></A
+>Chapter 26. Linear Closure-Functions</H1
+><P
+>&#13;
+A closure-function is a boxed record that contains a pointer to an envless
+function plus bindings that map certain names in the body of the envless
+function to values. In practice, a function argument of a higher-order
+function is often a closure-function (instead of an envless function). For
+instance, the following higher-order function <FONT
+COLOR="RED"
+>list_map_cloref</FONT
+>
+takes a closure-function as its second argument:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1206"
+></A
+><PRE
+CLASS="programlisting"
+>fun{
+a:t@ype}{b:t@ype
+} list_map_cloref{n:int}
+  (xs: list (a, n), f: (a) -&#60;cloref&#62; b): list_vt (b, n)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;Closure-functions can be either linear or non-linear, and linear ones can
+be explicitly freed in a safe manner. The keyword
+<FONT
+COLOR="RED"
+>-&#60;cloref&#62;</FONT
+> is used to form a type for non-linear
+closure-functions. As a variant of <FONT
+COLOR="RED"
+>list_map_cloref</FONT
+>, the
+following higher-order function <FONT
+COLOR="RED"
+>list_map_cloptr</FONT
+> takes a linear
+closure-function as its second argument:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1212"
+></A
+><PRE
+CLASS="programlisting"
+>fun{
+a:t@ype}{b:t@ype
+} list_map_cloptr{n:int}
+  (xs: list (a, n), f: !(a) -&#60;cloptr&#62; b): list_vt (b, n)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+As can be easily guessed, the keyword <FONT
+COLOR="RED"
+>-&#60;cloptr&#62;</FONT
+> is used
+to form a type for linear closure-functions.  Note that the symbol
+<FONT
+COLOR="RED"
+>!</FONT
+> indicates that the second argument is still available after
+a call to <FONT
+COLOR="RED"
+>list_map_cloptr</FONT
+> returns.
+
+</P
+><P
+>&#13;A typical example making use of <FONT
+COLOR="RED"
+>list_map_cloptr</FONT
+> is given as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1219"
+></A
+><PRE
+CLASS="programlisting"
+>fun foo{n:int}
+(
+  x0: int, xs: list (int, n)
+) : list_vt (int, n) = res where
+{
+//
+val f = lam (x) =&#60;cloptr&#62; x0 + x
+val res = list_map_cloptr (xs, f)
+val () = cloptr_free ($UNSAFE.cast{cloptr(void)}(f))
+//
+} (* end of [foo] *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that a linear closure is first created in the body of the function
+<FONT
+COLOR="RED"
+>foo</FONT
+>, and it is explicitly freed after its use. The function
+<FONT
+COLOR="RED"
+>cloptr_free</FONT
+> is given the following interface:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1223"
+></A
+><PRE
+CLASS="programlisting"
+>fun cloptr_free {a:t0p} (pclo: cloptr (a)): void
+</PRE
+><P
+></P
+></DIV
+>
+
+
+where <FONT
+COLOR="RED"
+>cloptr</FONT
+> is abstract. The cast
+<FONT
+COLOR="RED"
+>$UNSAFE.cast{cloptr(void)}(f)</FONT
+> can certainly be replaced with
+something safer but it would make programming more curbersome.
+
+</P
+><P
+>&#13;There is also some interesting interaction between currying and linear
+closure-functions. In functional programming, currying means turning a
+function taking multiple arguments simutaneously into a corresponding one
+that takes these arguments sequentially. For instance, the function
+<FONT
+COLOR="RED"
+>acker2</FONT
+> in the following code is a curried version of the
+function <FONT
+COLOR="RED"
+>acker</FONT
+>, which implements the famous Ackermann function
+(that is recursive but not primitive recursive):
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1230"
+></A
+><PRE
+CLASS="programlisting"
+>fun
+acker(m:int, n:int): int =
+(
+  case+ (m, n) of
+  | (0, _) =&#62; n + 1
+  | (m, 0) =&#62; acker (m-1, 1)
+  | (_, _) =&#62; acker (m-1, acker (m, n-1))
+) (* end of [acker] *)
+
+fun acker2 (m:int) (n:int): int = acker (m, n)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Suppose that we apply <FONT
+COLOR="RED"
+>acker2</FONT
+> to two integers 3 and 4:
+<FONT
+COLOR="RED"
+>acker2(3)(4)</FONT
+>; the application <FONT
+COLOR="RED"
+>acker2(3)</FONT
+> evaluates
+to a (non-linear) closure-function; the application of this
+closure-function to 4 evaluates to <FONT
+COLOR="RED"
+>acker(3,4)</FONT
+>, which further
+evaluates to the integer 125. Note that the closure-function generated from
+evaluating <FONT
+COLOR="RED"
+>acker2(3)</FONT
+> becomes a heap-allocated value that is no
+longer accessible after the evaluation of <FONT
+COLOR="RED"
+>acker2(3)(4)</FONT
+>
+finishes, and the memory for such a value can only to be safely reclaimed
+through garbage collection (GC).
+
+</P
+><P
+>&#13;It is also possible to define a curried version of <FONT
+COLOR="RED"
+>acker</FONT
+> as
+follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1240"
+></A
+><PRE
+CLASS="programlisting"
+>fun acker3 (m:int) = lam (n:int): int =&#60;cloptr1&#62; acker (m, n)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+While the evaluation of <FONT
+COLOR="RED"
+>acker3(3)(4)</FONT
+> yields the same result as
+<FONT
+COLOR="RED"
+>acker2(3)(4)</FONT
+>, the compiler of ATS (ATS/Postiats) inserts code
+that automatically frees the linear closure-function generated from evaluating
+<FONT
+COLOR="RED"
+>acker3(3)</FONT
+> after the evaluation of <FONT
+COLOR="RED"
+>acker3(3)(4)</FONT
+> finishes.
+
+</P
+><P
+>&#13;In ATS1, linear closure-functions play a pivotal role in supporting
+programming with higher-order functions in the absence of GC. Due to
+advanced support for templates in ATS2, the role played by linear
+closure-functions in ATS1 is greatly diminished. However, if
+closure-functions need to be stored in a data structure but GC is
+unavailable or undesirable, then using linear closure-functions can lead to
+a solution that avoids the risk of generatig memory leaks at run-time.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_cloptr.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="stkclo"
+></A
+>Chapter 27. Stack-Allocated Closure-Functions</H1
+><P
+>&#13;Higher-order functions are a very convenient programming feature for
+supporting certain forms of code reuse. Often a function passed as an
+argument to a higher-order function call is a closure-function created on
+heap at run-time, and it is most likely of no more use after the call. If
+the closure-function is linear, then it needs to be freed explicitly by the
+programmer (or a type-error would occur during typechecking).  If the
+closure-function is non-linear, then its memory should be reclaimed through
+garbage-collection (GC) (or the memory is leaked).
+
+</P
+><P
+>&#13;Creating heap-allocated closure-functions implies the need for dynamic
+memory allocation (DMA). In a restricted environment (e.g., one for
+embedded programming), DMA may not be (fully) supported. One option for
+constructing a closure-function in the absence of support for DMA is to
+store it in the stack-frame of the calling function, and there is special
+systax in ATS for doing so.
+
+</P
+><P
+>&#13;Let us see a concrete example of stack-allocated closure.
+The following code implements a higher-order function template:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1254"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{res:t@ype}
+ifold{n:nat}
+(
+  n: int(n)
+, fopr: (res, natLt(n)) -&#60;cloref1&#62; res, ini: res
+) : res = let
+//
+fun
+loop
+{i:nat | i &#60;= n} .&#60;n-i&#62;.
+  (i: int(i), res: res): res =
+  if i &#60; n then loop(i+1, fopr(res, i)) else res
+//
+in
+  loop(0, ini)
+end // end of [ifold]
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Essentially, <FONT
+COLOR="RED"
+>ifold(n, fopr, ini)</FONT
+> evaluates the expression
+<FONT
+COLOR="RED"
+>fopr(...fopr(fopr(ini, 0), 1)..., n-1)</FONT
+>.  For instance, the
+function <FONT
+COLOR="RED"
+>dotprod</FONT
+> for computing the dot product (or inner
+product) of two vectors can be implemented with a call to <FONT
+COLOR="RED"
+>ifold</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1260"
+></A
+><PRE
+CLASS="programlisting"
+>//
+typedef res = double
+//
+fun
+dotprod
+  {n:nat}
+(
+  n: int(n)
+, A: arrayref(res, n)
+, B: arrayref(res, n)
+) : res =
+(
+  ifold&#60;res&#62;(n, lam(res, i) =&#62; res + A[i]*B[i], 0.0)
+)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The second argument passed to the call to <FONT
+COLOR="RED"
+>ifold</FONT
+> is a
+closure created on heap at run-time, and it is of no more use
+after the call returns. The function <FONT
+COLOR="RED"
+>dotprod</FONT
+> can also be
+implemented as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1264"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+dotprod
+  {n:nat}
+(
+  n: int(n)
+, A: arrayref(res, n)
+, B: arrayref(res, n)
+) : res = let
+//
+var
+fopr =
+lam@(res: res, i: natLt(n)): res =&#62; res + A[i]*B[i]
+//
+in
+  ifold&#60;res&#62;(n, $UNSAFE.cast(addr@fopr), 0.0)
+end // end of [dotprod]
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The keyword <FONT
+COLOR="RED"
+>lam@</FONT
+> (instead of <FONT
+COLOR="RED"
+>lam</FONT
+>) initiates the
+creation of an unboxed closure at a given location. In the above case, the
+variable <FONT
+COLOR="RED"
+>fopr</FONT
+> is located in the stack-frame of
+<FONT
+COLOR="RED"
+>dotprod</FONT
+>, and the created closure is stored in the memory
+reserved for <FONT
+COLOR="RED"
+>fopr</FONT
+>. It is the obligation of the compiler of ATS
+to make sure that the memory is large enough for storing the closure. The
+call to the (unsafe) cast turns the address of <FONT
+COLOR="RED"
+>fopr</FONT
+> into a
+boxed closure so that it can be passed to <FONT
+COLOR="RED"
+>ifold</FONT
+>.
+
+</P
+><P
+>&#13;In order to remove the (unsafe) cast in the implementation of
+<FONT
+COLOR="RED"
+>dotprod</FONT
+>, we need to implement a slight variant
+of <FONT
+COLOR="RED"
+>ifold</FONT
+> as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1276"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+{res:t@ype}
+ifold_{n:nat}
+(
+  n: int(n)
+, fopr: &#38;(res, natLt(n)) -&#60;clo1&#62; res, ini: res
+) : res = let
+//
+fun
+loop
+{i:nat | i &#60;= n} .&#60;n-i&#62;.
+(
+  i: int(i)
+, fopr: &#38;(res, natLt(n)) -&#60;clo1&#62; res, res: res
+) : res =
+  if i &#60; n
+    then loop(i+1, fopr, fopr(res, i)) else res
+  // end of [if]
+//
+in
+  loop(0, fopr, ini)
+end // end of [ifold_]
+//
+(* ****** ****** *)
+//
+fun
+dotprod_
+  {n:nat}
+(
+  n: int(n)
+, A: arrayref(res, n)
+, B: arrayref(res, n)
+) : res = let
+//
+var
+fopr =
+lam@(res: res, i: natLt(n)): res =&#62; res + A[i]*B[i]
+//
+in
+  ifold_&#60;res&#62;(n, fopr, 0.0)
+end // end of [dotprod_]
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that the second argument of <FONT
+COLOR="RED"
+>ifold_</FONT
+> is call-by-reference.
+The anotated arrow <FONT
+COLOR="RED"
+>-&#60;clo1&#62;</FONT
+> is used to form function types
+for unboxed closures. So only a left value (representing some unboxed
+closure) can be passed as the second argument to a call to
+<FONT
+COLOR="RED"
+>ifold_</FONT
+>, and what is really passed at run-time is the address of
+the left value. The function <FONT
+COLOR="RED"
+>dotprod</FONT
+> can be safely implemented
+as <FONT
+COLOR="RED"
+>dotprod_</FONT
+> with a call to <FONT
+COLOR="RED"
+>ifold_</FONT
+>.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_stkclo.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of the
+code used in this chapter plus some testing code.
+</P
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="codegen2"
+></A
+>Chapter 28. Automatic Code Generation</H1
+><P
+>&#13;In practice, one often encounters a need to write boilerplate code or code
+that tends to follow certain clearly recognizable patterns. It is commonly
+seen that meta-programming (of various forms) is employed to automatically
+generate such code, thus not only increasing programming productivity but
+also potentially eliminating bugs that would otherwise be introduced due to
+manual code construction.
+
+</P
+><P
+>&#13;In the following presentation, I am to show that the ATS compiler can be
+directed to generate the code for certain functions on values of a declared
+datatype. Following is the datatype used for illustration:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1290"
+></A
+><PRE
+CLASS="programlisting"
+>//
+datatype expr =
+  | Int of int
+  | Var of string
+  | Add of (expr, expr)
+  | Sub of (expr, expr)
+  | Mul of (expr, expr)
+  | Div of (expr, expr)
+  | Ifgtz of (expr, expr, expr) // if expr &#62; 0 then ... else ...
+  | Ifgtez of (expr, expr, expr) // if expr &#62;= 0 then ... else ...
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+which is for some kind of abstract syntax trees representing arithmetic
+expressions.
+
+</P
+><DIV
+CLASS="sect1"
+><HR><H2
+CLASS="sect1"
+><A
+NAME="codegen2_datcon"
+>Generating a datcon-function</A
+></H2
+><P
+>&#13;Given a datatype, its datcon-function is the one that takes a value of the
+datatype and then returns a string representing the name of the (outmost)
+constructor in the construction of the value.  We can use the following
+directive to indicate (to the ATS compiler) that the datcon-function for
+the datatype <FONT
+COLOR="RED"
+>expr</FONT
+> needs to be generated:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1296"
+></A
+><PRE
+CLASS="programlisting"
+>#codegen2("datcon", expr)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+By default, the name of the generated function is <FONT
+COLOR="RED"
+>datcon_expr</FONT
+>.
+If a different name is needed, it can be supplied as the third argument of
+the <FONT
+COLOR="RED"
+>#codegen2</FONT
+>-directive. For instance, the following directive
+indicates that the generated function is of the given name
+<FONT
+COLOR="RED"
+>my_datcon_expr</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1301"
+></A
+><PRE
+CLASS="programlisting"
+>#codegen2("datcon", expr, my_datcon_expr)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Assume that a file of the name <TT
+CLASS="filename"
+>expr.dats</TT
+> contains the
+following directive (as a toplevel declaration):
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1304"
+></A
+><PRE
+CLASS="programlisting"
+>#codegen2("datcon", expr)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+and the definition for <FONT
+COLOR="RED"
+>expr</FONT
+> is accessible at the point where
+the <FONT
+COLOR="RED"
+>codegen2</FONT
+>-directive is declared. By executing the
+following command-line:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1308"
+></A
+><PRE
+CLASS="programlisting"
+>&#13;<B
+CLASS="command"
+>patscc</B
+> --codegen-2 -d expr.dats
+</PRE
+><P
+></P
+></DIV
+>
+
+we can see some output of ATS code that implements <FONT
+COLOR="RED"
+>datcon_expr</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1312"
+></A
+><PRE
+CLASS="programlisting"
+>(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+datcon_expr
+  (arg0) =
+(
+case+ arg0 of
+| Int _ =&#62; "Int"
+| Var _ =&#62; "Var"
+| Add _ =&#62; "Add"
+| Sub _ =&#62; "Sub"
+| Mul _ =&#62; "Mul"
+| Div _ =&#62; "Div"
+| Ifgtz _ =&#62; "Ifgtz"
+| Ifgtez _ =&#62; "Ifgtez"
+)
+//
+(* ****** ****** *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+If the output needs to be stored in a file of the name
+<FONT
+COLOR="RED"
+>fprint_expr.hats</FONT
+>, we can issue the following command-line:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1315"
+></A
+><PRE
+CLASS="programlisting"
+>&#13;<B
+CLASS="command"
+>patscc</B
+> -o fprint_expr.hats --codegen-2 -d expr.dats
+</PRE
+><P
+></P
+></DIV
+>
+
+Note that the funtion template <FONT
+COLOR="RED"
+>datcon_expr</FONT
+> is required to be
+declared somewhere in order for the generated code to be compiled properly:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1319"
+></A
+><PRE
+CLASS="programlisting"
+>fun{} datcon_expr : (expr) -&#62; string // a function template
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_codegen2"
+TARGET="_top"
+>on-line</A
+> the entirety of this
+presented example plus a Makefile (for illustrating the code generation
+process).
+</P
+></DIV
+><DIV
+CLASS="sect1"
+><HR><H2
+CLASS="sect1"
+><A
+NAME="codegen2_datcontag"
+>Generating a datcontag-function</A
+></H2
+><P
+>&#13;A datcontag-function is very similar to a datcon-function.  Given a
+datatype, its datcontag-function is the one that takes a value of the
+datatype and then returns the tag (which is a small integer) assigned to
+the (outmost) constructor in the construction of the value.  We can use the
+following directive to indicate (to the ATS compiler) that the
+datcontag-function for the datatype <FONT
+COLOR="RED"
+>expr</FONT
+> needs to be generated:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1327"
+></A
+><PRE
+CLASS="programlisting"
+>#codegen2("datcontag", expr)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+By default, the name of the generated function is
+<FONT
+COLOR="RED"
+>datcontag_expr</FONT
+>.  If a different name is needed, it can be
+supplied as the third argument of the <FONT
+COLOR="RED"
+>#codegen2</FONT
+>-directive. For
+instance, the following directive indicates that the generated function is
+of the given name <FONT
+COLOR="RED"
+>my_datcontag_expr</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1332"
+></A
+><PRE
+CLASS="programlisting"
+>#codegen2("datcontag", expr, my_datcontag_expr)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The following ATS code is expected to be generated that implements
+<FONT
+COLOR="RED"
+>datcontag_expr</FONT
+>:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1335"
+></A
+><PRE
+CLASS="programlisting"
+>(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+datcontag_expr
+  (arg0) =
+(
+case+ arg0 of
+| Int _ =&#62; 0
+| Var _ =&#62; 1
+| Add _ =&#62; 2
+| Sub _ =&#62; 3
+| Mul _ =&#62; 4
+| Div _ =&#62; 5
+| Ifgtz _ =&#62; 6
+| Ifgtez _ =&#62; 7
+)
+//
+(* ****** ****** *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that the funtion template <FONT
+COLOR="RED"
+>datcontag_expr</FONT
+> is required to be
+declared somewhere in order for the generated code to be compiled properly:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1338"
+></A
+><PRE
+CLASS="programlisting"
+>fun{} datcontag_expr : (expr) -&#62; intGte(0) // a function template
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_codegen2"
+TARGET="_top"
+>on-line</A
+>
+the entirety of this presented example plus a Makefile (for illustrating
+the code generation process).
+</P
+></DIV
+><DIV
+CLASS="sect1"
+><HR><H2
+CLASS="sect1"
+><A
+NAME="codegen2_fprint"
+>Generating a fprint-function</A
+></H2
+><P
+>&#13;A fprint-function takes a file-handle (of the type <FONT
+COLOR="RED"
+>FILEref</FONT
+>) and
+a value and then outputs a text representation of the value to the
+file-handle.  Given a datatype, one is often in need of a function that can
+output certain kind of text representation for values of this datatype. For
+instance, such a function can be of great use in debugging.
+
+</P
+><P
+>&#13;Let us first declare a function template <FONT
+COLOR="RED"
+>fprint_expr</FONT
+> as
+follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1348"
+></A
+><PRE
+CLASS="programlisting"
+>fun{} fprint_expr : (FILEref, expr) -&#62; void // a function template
+</PRE
+><P
+></P
+></DIV
+>
+
+
+We can then use the directive below to indicate (to the ATS compiler) that
+the fprint-function for the datatype <FONT
+COLOR="RED"
+>expr</FONT
+> needs to be generated:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1351"
+></A
+><PRE
+CLASS="programlisting"
+>#codegen2("fprint", expr, fprint_expr)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The third argument of the <FONT
+COLOR="RED"
+>codegen2</FONT
+>-directive can be omitted
+in this case as it coincides with the default. The generated code that
+implements <FONT
+COLOR="RED"
+>fprint_expr</FONT
+> is listed as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1355"
+></A
+><PRE
+CLASS="programlisting"
+>(* ****** ****** *)
+//
+extern
+fun{}
+fprint_expr$Int: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Var: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Add: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Sub: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Mul: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Div: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtz: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtez: $d2ctype(fprint_expr&#60;&#62;)
+//
+(* ****** ****** *)
+//
+implement{}
+fprint_expr
+  (out, arg0) =
+(
+case+ arg0 of
+| Int _ =&#62; fprint_expr$Int&#60;&#62;(out, arg0)
+| Var _ =&#62; fprint_expr$Var&#60;&#62;(out, arg0)
+| Add _ =&#62; fprint_expr$Add&#60;&#62;(out, arg0)
+| Sub _ =&#62; fprint_expr$Sub&#60;&#62;(out, arg0)
+| Mul _ =&#62; fprint_expr$Mul&#60;&#62;(out, arg0)
+| Div _ =&#62; fprint_expr$Div&#60;&#62;(out, arg0)
+| Ifgtz _ =&#62; fprint_expr$Ifgtz&#60;&#62;(out, arg0)
+| Ifgtez _ =&#62; fprint_expr$Ifgtez&#60;&#62;(out, arg0)
+)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_expr$sep: (FILEref) -&#62; void
+implement{}
+fprint_expr$sep(out) = fprint(out, ",")
+//
+extern
+fun{}
+fprint_expr$lpar: (FILEref) -&#62; void
+implement{}
+fprint_expr$lpar(out) = fprint(out, "(")
+//
+extern
+fun{}
+fprint_expr$rpar: (FILEref) -&#62; void
+implement{}
+fprint_expr$rpar(out) = fprint(out, ")")
+//
+extern
+fun{a:t0p}
+fprint_expr$carg: (FILEref, INV(a)) -&#62; void
+implement{a}
+fprint_expr$carg(out, arg) = fprint_val&#60;a&#62;(out, arg)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_expr$Int$con: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Int$lpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Int$rpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Int$arg1: $d2ctype(fprint_expr&#60;&#62;)
+//
+implement{}
+fprint_expr$Int(out, arg0) = 
+{
+//
+val () = fprint_expr$Int$con&#60;&#62;(out, arg0)
+val () = fprint_expr$Int$lpar&#60;&#62;(out, arg0)
+val () = fprint_expr$Int$arg1&#60;&#62;(out, arg0)
+val () = fprint_expr$Int$rpar&#60;&#62;(out, arg0)
+//
+}
+implement{}
+fprint_expr$Int$con(out, _) = fprint(out, "Int")
+implement{}
+fprint_expr$Int$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Int$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Int$arg1(out, arg0) =
+  let val-Int(arg1) = arg0 in fprint_expr$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_expr$Var$con: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Var$lpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Var$rpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Var$arg1: $d2ctype(fprint_expr&#60;&#62;)
+//
+implement{}
+fprint_expr$Var(out, arg0) = 
+{
+//
+val () = fprint_expr$Var$con&#60;&#62;(out, arg0)
+val () = fprint_expr$Var$lpar&#60;&#62;(out, arg0)
+val () = fprint_expr$Var$arg1&#60;&#62;(out, arg0)
+val () = fprint_expr$Var$rpar&#60;&#62;(out, arg0)
+//
+}
+implement{}
+fprint_expr$Var$con(out, _) = fprint(out, "Var")
+implement{}
+fprint_expr$Var$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Var$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Var$arg1(out, arg0) =
+  let val-Var(arg1) = arg0 in fprint_expr$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_expr$Add$con: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Add$lpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Add$rpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Add$sep1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Add$arg1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Add$arg2: $d2ctype(fprint_expr&#60;&#62;)
+//
+implement{}
+fprint_expr$Add(out, arg0) = 
+{
+//
+val () = fprint_expr$Add$con&#60;&#62;(out, arg0)
+val () = fprint_expr$Add$lpar&#60;&#62;(out, arg0)
+val () = fprint_expr$Add$arg1&#60;&#62;(out, arg0)
+val () = fprint_expr$Add$sep1&#60;&#62;(out, arg0)
+val () = fprint_expr$Add$arg2&#60;&#62;(out, arg0)
+val () = fprint_expr$Add$rpar&#60;&#62;(out, arg0)
+//
+}
+implement{}
+fprint_expr$Add$con(out, _) = fprint(out, "Add")
+implement{}
+fprint_expr$Add$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Add$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Add$sep1(out, _) = fprint_expr$sep&#60;&#62;(out)
+implement{}
+fprint_expr$Add$arg1(out, arg0) =
+  let val-Add(arg1, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Add$arg2(out, arg0) =
+  let val-Add(_, arg2) = arg0 in fprint_expr$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr$Sub$con: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Sub$lpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Sub$rpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Sub$sep1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Sub$arg1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Sub$arg2: $d2ctype(fprint_expr&#60;&#62;)
+//
+implement{}
+fprint_expr$Sub(out, arg0) = 
+{
+//
+val () = fprint_expr$Sub$con&#60;&#62;(out, arg0)
+val () = fprint_expr$Sub$lpar&#60;&#62;(out, arg0)
+val () = fprint_expr$Sub$arg1&#60;&#62;(out, arg0)
+val () = fprint_expr$Sub$sep1&#60;&#62;(out, arg0)
+val () = fprint_expr$Sub$arg2&#60;&#62;(out, arg0)
+val () = fprint_expr$Sub$rpar&#60;&#62;(out, arg0)
+//
+}
+implement{}
+fprint_expr$Sub$con(out, _) = fprint(out, "Sub")
+implement{}
+fprint_expr$Sub$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Sub$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Sub$sep1(out, _) = fprint_expr$sep&#60;&#62;(out)
+implement{}
+fprint_expr$Sub$arg1(out, arg0) =
+  let val-Sub(arg1, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Sub$arg2(out, arg0) =
+  let val-Sub(_, arg2) = arg0 in fprint_expr$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr$Mul$con: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Mul$lpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Mul$rpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Mul$sep1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Mul$arg1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Mul$arg2: $d2ctype(fprint_expr&#60;&#62;)
+//
+implement{}
+fprint_expr$Mul(out, arg0) = 
+{
+//
+val () = fprint_expr$Mul$con&#60;&#62;(out, arg0)
+val () = fprint_expr$Mul$lpar&#60;&#62;(out, arg0)
+val () = fprint_expr$Mul$arg1&#60;&#62;(out, arg0)
+val () = fprint_expr$Mul$sep1&#60;&#62;(out, arg0)
+val () = fprint_expr$Mul$arg2&#60;&#62;(out, arg0)
+val () = fprint_expr$Mul$rpar&#60;&#62;(out, arg0)
+//
+}
+implement{}
+fprint_expr$Mul$con(out, _) = fprint(out, "Mul")
+implement{}
+fprint_expr$Mul$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Mul$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Mul$sep1(out, _) = fprint_expr$sep&#60;&#62;(out)
+implement{}
+fprint_expr$Mul$arg1(out, arg0) =
+  let val-Mul(arg1, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Mul$arg2(out, arg0) =
+  let val-Mul(_, arg2) = arg0 in fprint_expr$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr$Div$con: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Div$lpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Div$rpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Div$sep1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Div$arg1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Div$arg2: $d2ctype(fprint_expr&#60;&#62;)
+//
+implement{}
+fprint_expr$Div(out, arg0) = 
+{
+//
+val () = fprint_expr$Div$con&#60;&#62;(out, arg0)
+val () = fprint_expr$Div$lpar&#60;&#62;(out, arg0)
+val () = fprint_expr$Div$arg1&#60;&#62;(out, arg0)
+val () = fprint_expr$Div$sep1&#60;&#62;(out, arg0)
+val () = fprint_expr$Div$arg2&#60;&#62;(out, arg0)
+val () = fprint_expr$Div$rpar&#60;&#62;(out, arg0)
+//
+}
+implement{}
+fprint_expr$Div$con(out, _) = fprint(out, "Div")
+implement{}
+fprint_expr$Div$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Div$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Div$sep1(out, _) = fprint_expr$sep&#60;&#62;(out)
+implement{}
+fprint_expr$Div$arg1(out, arg0) =
+  let val-Div(arg1, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Div$arg2(out, arg0) =
+  let val-Div(_, arg2) = arg0 in fprint_expr$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr$Ifgtz$con: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtz$lpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtz$rpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtz$sep1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtz$sep2: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtz$arg1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtz$arg2: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtz$arg3: $d2ctype(fprint_expr&#60;&#62;)
+//
+implement{}
+fprint_expr$Ifgtz(out, arg0) = 
+{
+//
+val () = fprint_expr$Ifgtz$con&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtz$lpar&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtz$arg1&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtz$sep1&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtz$arg2&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtz$sep2&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtz$arg3&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtz$rpar&#60;&#62;(out, arg0)
+//
+}
+implement{}
+fprint_expr$Ifgtz$con(out, _) = fprint(out, "Ifgtz")
+implement{}
+fprint_expr$Ifgtz$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Ifgtz$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Ifgtz$sep1(out, _) = fprint_expr$sep&#60;&#62;(out)
+implement{}
+fprint_expr$Ifgtz$sep2(out, _) = fprint_expr$sep&#60;&#62;(out)
+implement{}
+fprint_expr$Ifgtz$arg1(out, arg0) =
+  let val-Ifgtz(arg1, _, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Ifgtz$arg2(out, arg0) =
+  let val-Ifgtz(_, arg2, _) = arg0 in fprint_expr$carg(out, arg2) end
+implement{}
+fprint_expr$Ifgtz$arg3(out, arg0) =
+  let val-Ifgtz(_, _, arg3) = arg0 in fprint_expr$carg(out, arg3) end
+//
+extern
+fun{}
+fprint_expr$Ifgtez$con: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtez$lpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtez$rpar: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtez$sep1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtez$sep2: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtez$arg1: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtez$arg2: $d2ctype(fprint_expr&#60;&#62;)
+extern
+fun{}
+fprint_expr$Ifgtez$arg3: $d2ctype(fprint_expr&#60;&#62;)
+//
+implement{}
+fprint_expr$Ifgtez(out, arg0) = 
+{
+//
+val () = fprint_expr$Ifgtez$con&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtez$lpar&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtez$arg1&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtez$sep1&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtez$arg2&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtez$sep2&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtez$arg3&#60;&#62;(out, arg0)
+val () = fprint_expr$Ifgtez$rpar&#60;&#62;(out, arg0)
+//
+}
+implement{}
+fprint_expr$Ifgtez$con(out, _) = fprint(out, "Ifgtez")
+implement{}
+fprint_expr$Ifgtez$lpar(out, _) = fprint_expr$lpar(out)
+implement{}
+fprint_expr$Ifgtez$rpar(out, _) = fprint_expr$rpar(out)
+implement{}
+fprint_expr$Ifgtez$sep1(out, _) = fprint_expr$sep&#60;&#62;(out)
+implement{}
+fprint_expr$Ifgtez$sep2(out, _) = fprint_expr$sep&#60;&#62;(out)
+implement{}
+fprint_expr$Ifgtez$arg1(out, arg0) =
+  let val-Ifgtez(arg1, _, _) = arg0 in fprint_expr$carg(out, arg1) end
+implement{}
+fprint_expr$Ifgtez$arg2(out, arg0) =
+  let val-Ifgtez(_, arg2, _) = arg0 in fprint_expr$carg(out, arg2) end
+implement{}
+fprint_expr$Ifgtez$arg3(out, arg0) =
+  let val-Ifgtez(_, _, arg3) = arg0 in fprint_expr$carg(out, arg3) end
+//
+(* ****** ****** *)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+The code for <FONT
+COLOR="RED"
+>fprint_expr</FONT
+> is entirely template-based. This style
+makes the code extremely flexible for adaption through template re-mplementation.
+As the datatype <FONT
+COLOR="RED"
+>expr</FONT
+> is recursively defined, the following template
+implementation needs to be added in order to make <FONT
+COLOR="RED"
+>fprint_expr</FONT
+> work:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1360"
+></A
+><PRE
+CLASS="programlisting"
+>implement fprint_expr$card&#60;expr&#62; = fprint_expr
+</PRE
+><P
+></P
+></DIV
+>
+
+
+For instance,
+applying <FONT
+COLOR="RED"
+>fprint_expr</FONT
+>
+to the expression <FONT
+COLOR="RED"
+>Add(Int(10),Mul(Int(1),Int(2)))</FONT
+>
+outputs the same text representation.
+
+As an example of adaptation, let us add the following template implementations:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1364"
+></A
+><PRE
+CLASS="programlisting"
+>implement
+fprint_expr$Add$con&#60;&#62; (_, _) = ()
+implement
+fprint_expr$Add$sep1&#60;&#62; (out, _) = fprint! (out, "+")
+</PRE
+><P
+></P
+></DIV
+>
+
+
+When <FONT
+COLOR="RED"
+>fprint_expr</FONT
+> is applied to the expression
+<FONT
+COLOR="RED"
+>Add(Int(10),Mul(Int(1),Int(2)))</FONT
+> this time, the output is
+expected to read <FONT
+COLOR="RED"
+>(Int(10)+Mul(Int(1),Int(2)))</FONT
+>.
+
+</P
+><P
+>&#13;After proper adaptation is done, one can introduce a (non-template)
+function as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1370"
+></A
+><PRE
+CLASS="programlisting"
+>//
+extern
+fun
+my_fprint_expr(FILEref, expr): void
+implement
+my_fprint_expr (out, x) = fprint_expr&#60;&#62; (out, x)
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+In this way, only one instance of <FONT
+COLOR="RED"
+>fprint_expr</FONT
+> is compiled even
+if repeated calls to <FONT
+COLOR="RED"
+>my_fprint_expr</FONT
+> are made.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_codegen2"
+TARGET="_top"
+>on-line</A
+>
+the entirety of this presented example plus a Makefile (for illustrating
+the code generation process).
+</P
+></DIV
+></DIV
+></DIV
+></DIV
+></BODY
+></HTML
+>
