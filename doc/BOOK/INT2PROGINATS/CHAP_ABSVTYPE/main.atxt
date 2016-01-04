@@ -1163,7 +1163,7 @@ assumption that #dyncode("queue_isnil") and #dyncode("queue_isful") have
 the assigned interface. I refer to this form of program verification as
 being #emphasis("programmer-centric") because its correctness is not
 formally established in an objective manner. I myself find that
-programmer-centric programm verification is very flexible and effective in
+programmer-centric program verification is very flexible and effective in
 practice.  If we believe that constructing informal mathematical proofs can
 help one check whether the proven statements are valid, then it is only
 natural to believe that programmer-centric program verification can also
