@@ -299,6 +299,11 @@ HREF="#codegen2_fprint"
 ></DT
 ></DL
 ></DD
+><DT
+>29. <A
+HREF="#linear-stream-based-lazy-evaluation"
+>Linear Stream-Based Lazy Evaluation</A
+></DT
 ></DL
 ></DD
 ></DL
@@ -7994,6 +7999,11 @@ HREF="#stkclo"
 HREF="#codegen2"
 >Automatic Code Generation</A
 ></DT
+><DT
+>29. <A
+HREF="#linear-stream-based-lazy-evaluation"
+>Linear Stream-Based Lazy Evaluation</A
+></DT
 ></DL
 ></DIV
 ></DIV
@@ -9810,6 +9820,314 @@ the entirety of this presented example plus a Makefile (for illustrating
 the code generation process).
 </P
 ></DIV
+></DIV
+><DIV
+CLASS="chapter"
+><HR><H1
+><A
+NAME="linear-stream-based-lazy-evaluation"
+></A
+>Chapter 29. Linear Stream-Based Lazy Evaluation</H1
+><P
+>&#13;In ATS, there is also support for lazy evaluation based on linear
+streams. As far as I can tell, linear stream-based lazy evaluation is
+currently a unique language feature of ATS.
+
+</P
+><P
+>&#13;In practice, it is most likely that (non-linear) stream-based lazy
+evaluation requires the support of garbage collection (GC). As the behavior
+of GC can in general be very difficult to predict, lazy evaluation may not
+be suitable in a setting where great precision in control is needed.  With
+linear stream-based lazy evaluation, the need for GC to reclaim values
+representing streams is eliminated as such values can be explicitly freed
+in a safe manner.
+</P
+><P
+>&#13;There is a special language construct <FONT
+COLOR="RED"
+>$ldelay</FONT
+> for delaying or
+suspending the evaluation of an expression (by forming a linear thunk), and
+there are also a pair of special functions <FONT
+COLOR="RED"
+>lazy_vt_force</FONT
+> and
+<FONT
+COLOR="RED"
+>lazy_vt_free</FONT
+> for resuming and freeing, respectively, a
+suspended evaluation (represented by a linear thunk).  Unlike
+<FONT
+COLOR="RED"
+>delay</FONT
+>, <FONT
+COLOR="RED"
+>$ldelay</FONT
+> applies to two expressions to
+form a linear lazy stream; the first expression is the one whose evaluation
+is suspended; the second expression is the one whose evaluation results in
+all the linear values contained in the first expression being freed.
+
+</P
+><P
+>&#13;The abstract type constructor <FONT
+COLOR="RED"
+>lazy_vt</FONT
+> of the sort
+<FONT
+COLOR="RED"
+>(vt@ype) =&#62; vtype</FONT
+> forms a (boxed) viewtype when applied to a
+viewtype.  Given two expressions exp1 of some type T and exp2 of the type
+<FONT
+COLOR="RED"
+>void</FONT
+>, the value <FONT
+COLOR="RED"
+>$ldelay(exp1, exp2)</FONT
+> is of the type
+<FONT
+COLOR="RED"
+>lazy_vt(T)</FONT
+>; calling <FONT
+COLOR="RED"
+>lazy_vt_force</FONT
+> on
+<FONT
+COLOR="RED"
+>$ldelay(exp1, exp2)</FONT
+> resumes the suspended evaluation of exp1;
+calling <FONT
+COLOR="RED"
+>lazy_vt_free</FONT
+> on <FONT
+COLOR="RED"
+>$ldelay(exp1, exp2)</FONT
+>
+initiates the evaluation of exp2 (to free linear values contained in exp1).
+
+</P
+><P
+>&#13;The interface for the
+function template <FONT
+COLOR="RED"
+>lazy_vt_force</FONT
+> is given as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1398"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:vt@ype} lazy_vt_force (lazyval: lazy_vt(a)): (a)
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that the special prefix operator <FONT
+COLOR="RED"
+>!</FONT
+> in ATS is overloaded
+with <FONT
+COLOR="RED"
+>lazy_vt_force</FONT
+>.
+</P
+><P
+>&#13;The interface for the
+function <FONT
+COLOR="RED"
+>lazy_vt_free</FONT
+> is given as follows:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1404"
+></A
+><PRE
+CLASS="programlisting"
+>fun lazy_vt_free {a:vt@ype} (lazyval: lazy_vt(a)): void
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Note that the special prefix operator <FONT
+COLOR="RED"
+>~</FONT
+> in ATS is overloaded
+with <FONT
+COLOR="RED"
+>lazy_vt_free</FONT
+>.
+</P
+><P
+>&#13;In <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/stream_vt.sats"
+TARGET="_top"
+>prelude/SATS/stream_vt.sats</A
+>,
+the following viewtypes <FONT
+COLOR="RED"
+>stream_vt_con</FONT
+> and
+<FONT
+COLOR="RED"
+>stream_vt</FONT
+> are declared mutually recursively for representing
+linear lazy streams:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1412"
+></A
+><PRE
+CLASS="programlisting"
+>datavtype
+stream_vt_con (a:vt@ype+) =
+  | stream_vt_nil of ((*void*)) | stream_vt_cons of (a, stream_vt(a))
+where stream_vt (a:vt@ype) = lazy_vt (stream_vt_con(a))
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Also, a number of common functions on linear streams are declared in
+<A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/SATS/stream_vt.sats"
+TARGET="_top"
+>prelude/SATS/stream_vt.sats</A
+> and
+implemented in <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats/prelude/DATS/stream_vt.dats"
+TARGET="_top"
+>prelude/DATS/stream_vt.dats</A
+>.
+
+</P
+><P
+>&#13;The following code gives an implementation of the sieve
+of Eratosthenes in which a linear stream of all the prime numbers is
+constructed:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1417"
+></A
+><PRE
+CLASS="programlisting"
+>//
+fun
+from (n: int): stream_vt (int) =
+  $ldelay (stream_vt_cons (n, from (n+1)))
+//
+fun sieve
+(
+  ns: stream_vt(int)
+) : stream_vt(int) = $ldelay
+(
+let
+//
+// [val-] means no warning message from the compiler
+//
+  val ns_con = !ns
+  val-@stream_vt_cons(n, ns1) = ns_con
+  val n = n
+  val ns1_ = ns1
+  val ((*void*)) = ns1 := sieve (stream_vt_filter_cloptr&#60;int&#62; (ns1_, lam x =&#62; x mod n &#62; 0))
+  prval ((*void*)) = fold@(ns_con)
+in
+  ns_con
+end // end of [let]
+,
+~ns // [ns] is freed
+) (* end of [$ldelay] *) // end of [sieve]
+//
+val thePrimes = sieve(from(2))
+//
+</PRE
+><P
+></P
+></DIV
+>
+
+
+</P
+><P
+>&#13;The function template <FONT
+COLOR="RED"
+>stream_vt_filter_cloptr</FONT
+> is given
+the following interface:
+
+<DIV
+CLASS="informalexample"
+><P
+></P
+><A
+NAME="AEN1421"
+></A
+><PRE
+CLASS="programlisting"
+>fun{a:t0p}
+stream_vt_filter_cloptr
+  (xs: stream_vt (a), pred: (&#38;a) -&#60;cloptr&#62; bool): stream_vt (a)
+// end of [stream_vt_filter_cloptr]
+</PRE
+><P
+></P
+></DIV
+>
+
+
+Given a stream xs and a predicate pred, <FONT
+COLOR="RED"
+>stream_vt_filter_cloptr</FONT
+>
+returns another stream consisting of all the elements in the stream xs
+satisfying the predicate pred.  Note that both xs and pred are consumed by
+the call to <FONT
+COLOR="RED"
+>stream_vt_filter_cloptr</FONT
+>.
+
+</P
+><P
+>&#13;Please find <A
+HREF="https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2TUTORIAL/CODE/chap_stream_vt.dats"
+TARGET="_top"
+>on-line</A
+> the entirety of
+the code used in this chapter. One can readily use a tool like
+<A
+HREF="http://www.valgrind.org"
+TARGET="_top"
+>valgrind</A
+> to verify that the
+implementation given above leaks no memory.
+
+</P
 ></DIV
 ></DIV
 ></DIV

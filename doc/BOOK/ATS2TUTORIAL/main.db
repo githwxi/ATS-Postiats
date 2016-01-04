@@ -38,7 +38,7 @@
 <!ENTITY chap_extvar SYSTEM "CHAP_EXTVAR/main.db">
 <!ENTITY chap_cloptr SYSTEM "CHAP_CLOPTR/main.db">
 <!ENTITY chap_stkclo SYSTEM "CHAP_STKCLO/main.db">
-<!ENTITY chap_stream_vt SYSTEM "CHAP_CODEGEN2/main.db">
+<!ENTITY chap_codegen2 SYSTEM "CHAP_CODEGEN2/main.db">
 <!ENTITY chap_stream_vt SYSTEM "CHAP_STREAM_VT/main.db">
 ]>
 <book id="ATS2TUTORIAL" lang="en">
@@ -89,6 +89,7 @@ To Jinning, Zoe, and Chloe
 &chap_extvar;
 &chap_cloptr;
 &chap_stkclo;
+&chap_codegen2;
 &chap_stream_vt;
 </part><!--"advanced_tutorial_topics"-->
 

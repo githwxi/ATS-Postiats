@@ -334,10 +334,12 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) *_atxt_dats.c
+clean:: ; $(RMF) HTML/htmltoc_dats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) preface.db
 cleanall:: ; $(RMF) PDF/main.pdf
 cleanall:: ; $(RMF) TEMP/chap_*.dats
+cleanall:: ; $(RMF) HTML/htmltoc.exe
 
 ###### end of [Makefile] ######
