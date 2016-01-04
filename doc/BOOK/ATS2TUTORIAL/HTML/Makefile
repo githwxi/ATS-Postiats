@@ -42,10 +42,11 @@ clean:: ; $(RMF) *_?ats.o
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) htmltoc
+cleanall:: ; $(RMF) htmltoc.exe
 cleanall:: ; $(RMF) HTMLTOC/p*.html
 cleanall:: ; $(RMF) HTMLTOC/f*.html
 cleanall:: ; $(RMF) HTMLTOC/c*.html
+cleanall:: ; $(RMF) HTMLTOC/x*.html
 cleanall:: ; $(RMF) HTMLTOC/book1.html
 
 ###### end of [Makefile] ######
