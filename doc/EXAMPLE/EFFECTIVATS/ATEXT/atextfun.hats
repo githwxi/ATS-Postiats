@@ -55,6 +55,14 @@ para
 (* ****** ****** *)
 //
 fun
+command
+(
+  x: string
+) : atext = xmltagging("em", x)
+//
+(* ****** ****** *)
+//
+fun
 filename
 (
   x: string

@@ -63,6 +63,10 @@ Sierpinski-3angle
 Sierpinski-3angle:: ; make -C Sierpinski-3angle all
 
 all:: \
+PwTP-bool-vs-prop
+PwTP-bool-vs-prop:: ; make -C PwTP-bool-vs-prop all
+
+all:: \
 parsing-cmbntr-cps
 parsing-cmbntr-cps:: ; make -C parsing-cmbntr-cps all
 
@@ -92,6 +96,7 @@ cleanall:: ; make -C Readers-and-Writers cleanall
 cleanall:: ; make -C IPC-redis cleanall
 cleanall:: ; make -C HttpServer cleanall
 cleanall:: ; make -C Sierpinski-3angle cleanall
+cleanall:: ; make -C PwTP-bool-vs-prop cleanall
 cleanall:: ; make -C parsing-cmbntr-cps cleanall
 cleanall:: ; make -C ssntyped-channels-1 cleanall
 cleanall:: ; make -C ssntyped-channels-2 cleanall
@@ -114,6 +119,7 @@ uploadall::upload_Readers-and-Writers
 uploadall::upload_IPC-redis
 uploadall::upload_HttpServer
 uploadall::upload_Sierpinski-3angle
+uploadall::upload_PwTP-bool-vs-prop
 uploadall::upload_parsing-cmbntr-cps
 uploadall::upload_ssntyped-channels-1
 uploadall::upload_ssntyped-channels-2
@@ -281,6 +287,15 @@ upload_Sierpinski-3angle:: ; \
   Sierpinski-3angle/Sierpinski-3angle-part.dats \
   Sierpinski-3angle/Sierpinski-3angle-final.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Sierpinski-3angle
+
+######
+
+upload_PwTP-bool-vs-prop:: ; \
+  $(SCP) \
+  PwTP-bool-vs-prop/index.html \
+  PwTP-bool-vs-prop/Makefile \
+  PwTP-bool-vs-prop/bool-vs-prop.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/PwTP-bool-vs-prop
 
 ######
 

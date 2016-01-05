@@ -223,6 +223,14 @@ on the natural number #stacode("n") always equals the value of fib defined on
 
 #para('\
 
+The style of theorem-proving in the implementation of
+#dyncode("f_fib_p") is often labeled as being explicit as it makes
+explicit use of proofs. There is another style of theorem-proving
+supported in ATS that may be labeled as being implicit (due to its
+making no use of explicit proofs). For instance, the following code
+gives another verified implementaion of the fib function, where
+theorem-proving is done implicitly:
+
 <pre
 class="patsyntax">
 #pats2xhtml_dats('\
@@ -244,11 +252,12 @@ prval() =
 //
 fun
 loop
-{ i:nat | i < n}
+{ i:nat | i < n }
 { r0,r1:int
-| fib_b(i,r0);fib_b(i+1,r1) }
+| fib_b(i,r0); fib_b(i+1,r1) }
 (
-  i: int(i), r0: int(r0), r1: int(r1)
+  i: int(i)
+, r0: int(r0), r1: int(r1)
 ) : [r:int | fib_b(n,r)] int(r) = let
 //
 prval() =
@@ -266,6 +275,51 @@ in
 end // end of [f_fib_b]
 //
 ')</pre>
+
+Applying the keyword #dyncode("$solver_assert") to a proof indicates
+the need to turn the prop of the proof into a static boolean term (of
+the same meaning) and then add the term as an assumption (to be used
+by the underlying constraint-solver for solving the subsequent constraints
+generated in the same scope).
+
+The first and second calls to #dyncode("$solver_assert") add
+#stacode("fib_b(0, 0)") and #stacode("fib_b(1, 1)"), respectively.
+The third one adds the following assumption:
+
+<pre
+class="patsyntax"
+style="color:#0000F0;"
+>
+{r0,r1:int} fib_b(i, r0)&&fib_b(i+1, r1) ->> fib_b(i+2, r0+r1)
+</pre>
+
+which states that the conjunction of #stacode("fib_b(i, r0)") and
+#stacode("fib_b(i+1, r1)") implies #stacode("fib_b(i+2, r0+r1)") for
+every pair integers #stacode("r0") and #stacode("r1"). Please note that
+#stacode("i") is not quantified here.
+
+')#comment("para")
+
+#para('\
+
+Currently, the constraints generated from typechecking the
+implementation of #dyncode("f_fib_b") cannot be solved by the built-in
+constraint-solver of ATS/Postiats. One option is to first export these
+constraints and then invoke the command #command("patsolve_z3") to
+solve them, where patsolve_z3 is a utility for employing <a
+href="https://github.com/Z3Prover/z3">Z3</a> to solve constraints generated
+from typechecking ATS source. Please find more details in the
+#filename("Makefile") available on-line.
+
+')#comment("para")
+
+#para('\
+
+Which style of theorem-proving is preferred: explicit or implicit?  It
+really depends on what needs to be proven. My personal opinion is to
+use the latter for "easy" stuff while the former for more "difficult"
+stuff. I strongly encourage a non-expert to first try theorem-proving of
+explicit style.
 
 ')#comment("para")
 
