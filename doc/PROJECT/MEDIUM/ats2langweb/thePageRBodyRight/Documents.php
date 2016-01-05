@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2016-01-05:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/q-SnbyHKDFw"
+>Two styles of theorem-proving in ATS</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2016-01-01:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
