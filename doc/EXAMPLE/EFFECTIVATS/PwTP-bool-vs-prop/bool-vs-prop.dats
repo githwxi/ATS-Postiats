@@ -11,4 +11,4 @@ infixr (->) ->>
 
 (* ****** ****** *)
 
-(* end of [prop-vs-bool.dats] *)
+(* end of [bool-vs-prop.dats] *)
