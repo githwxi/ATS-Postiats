@@ -23,15 +23,16 @@ Two Styles of Theorem-Proving in ATS
 #para('\
 
 In this article, I present two styles of theorem-proving in ATS,
-illustrating through concrete examples the key difference between the
-two sorts #stacode("bool") and #stacode("prop").  For the entirety of
-the code used in this presentation, please see the file
-#filename("bool-vs-prop.dats").\
+illustrating through concrete examples the key relation between the
+two fundamentally different sorts #stacode("bool") and
+#stacode("prop").  For the entirety of the code used in this
+presentation, please see the file #filename("bool-vs-prop.dats").\
 
 ')
 
 #para('\
 
+Let us start with an example.
 A function #dyncode("fib") can be specified as follows for computing
 Fibonacci numbers:
 
@@ -111,7 +112,7 @@ fib_p(int, int) =
 ')</pre>
 
 Note that #stacode("fib_p") is a prop constructor, where prop means
-#emphasis("type for proofs").  Given two static integers terms
+#emphasis("type for proofs").  Given two static integer terms
 #stacode("N") and #stacode("R"), #stacode("fib_p") forms the prop
 #stacode("fib_p(N, R)"), which basically means that #stacode("fib(N)")
 equals #stacode("R").
@@ -130,7 +131,7 @@ stacst fib_b : (int, int) -> bool
 //
 ')</pre>
 
-Given two static integers terms #stacode("N") and #stacode("R"), the
+Given two static integer terms #stacode("N") and #stacode("R"), the
 prop #stacode("fib_p(N, R)") corresponds to the boolean term
 #stacode("fib_b(N, R)").  The three proof constructors associated with
 #stacode("fib_p") correspond to the following proof functions:
@@ -213,11 +214,11 @@ end // end of [f_fib_p]
 ')</pre>
 
 The interface assigned to #dyncode("f_fib_p") indicates that
-#dyncode("f_fib_p") takes a natural number #stacode("n") to return
-an integer #stacode("r") pair with a proof of the prop #stacode("fib_p(n, r)").
+#dyncode("f_fib_p") takes a natural number #dyncode("n") to return
+an integer #dyncode("r") pair with a proof of the prop #stacode("fib_p(n, r)").
 In other words, the integer returned from a call to #dyncode("f_fib_p")
-on the natural number #stacode("n") always equals the value of fib defined on
-#stacode("n").
+on the natural number #dyncode("n") always equals the value of fib defined on
+the number.
 
 ')#comment("para")
 
@@ -295,8 +296,8 @@ style="color:#0000F0;"
 
 which states that the conjunction of #stacode("fib_b(i, r0)") and
 #stacode("fib_b(i+1, r1)") implies #stacode("fib_b(i+2, r0+r1)") for
-every pair integers #stacode("r0") and #stacode("r1"). Please note that
-#stacode("i") is not quantified here.
+every pair of integers #stacode("r0") and #stacode("r1"). Please note that
+#stacode("i") is a free variable and it is not quantified here.
 
 ')#comment("para")
 
