@@ -47,6 +47,14 @@ patscode_style
 (* ****** ****** *)
 //
 fun
+para
+(
+  x: string
+) : atext = xmltagging("p", x)
+//
+(* ****** ****** *)
+//
+fun
 filename
 (
   x: string

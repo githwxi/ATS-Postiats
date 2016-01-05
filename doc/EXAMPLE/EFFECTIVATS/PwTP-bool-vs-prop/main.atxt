@@ -20,11 +20,254 @@ Effective ATS:<br>
 Two Styles of Theorem-Proving in ATS
 </h1>
 
-<p> In this article, I present two styles of theorem-proving in ATS,
+#para('\
+
+In this article, I present two styles of theorem-proving in ATS,
 illustrating through concrete examples the key difference between the
 two sorts #stacode("bool") and #stacode("prop").  For the entirety of
 the code used in this presentation, please see the file
-#filename("bool-vs-prop.dats").  </p>
+#filename("bool-vs-prop.dats").\
+
+')
+
+#para('\
+
+A function #dyncode("fib") can be specified as follows for computing
+Fibonacci numbers:
+
+<pre
+class="patsyntax"
+style="color:#0000F0;"
+>
+fib(0)   = 0
+fib(1)   = 1
+fib(n+2) = fib(n) + fib(n+1) for n >= 0
+</pre>
+
+The following code gives a direct implementation of this specified function in ATS:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+fun
+fib (
+  n: int
+) : int =
+  if n >= 2 then fib (n-2) + fib (n-1) else n
+// end of [fib]
+')</pre>
+
+Clearly, this is a terribly inefficient implementation of exponential time-complexity. An implementation of fib in C is given as follows that is of linear time-complexity:
+
+<pre
+class="patsyntax"
+style="color:#000000;"
+>
+int
+fibc (int n) {
+  int tmp, f0 = 0, f1 = 1 ;
+  while (n-- > 0) { tmp = f1 ; f1 = f0 + f1 ; f0 = tmp ; } ; return f0 ;
+} // end of [fibc]
+</pre>
+
+If translated into ATS, the function fibc can essentially be implemented as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+fun
+fibc (
+  n: int
+) : int = let
+  fun loop (n: int, f0: int, f1: int) =
+    if n > 0 then loop (n-1, f1, f0+f1) else f0
+  // end of [loop]
+in
+  loop (n, 0, 1)
+end // end of [fibc]
+')</pre>
+
+There is obviously a logic gap between the defintion of fib and its implementation as is embodied in fibc.
+
+')#comment("para")
+
+#para('\
+
+In ATS, an implementation of fib can be given that completely bridges
+this gap.  In order to do so, the specification of fib needs to be
+encoded into ATS, which is fulfilled by the declaration of the following dataprop:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+dataprop
+fib_p(int, int) =
+| fib_p_bas0(0, 0) of ()
+| fib_p_bas1(1, 1) of ()
+| {n:nat}{r0,r1:int}
+  fib_p_ind2(n+2, r0+r1) of (fib_p(n, r0), fib_p(n+1, r1))
+//
+')</pre>
+
+Note that #stacode("fib_p") is a prop constructor, where prop means
+#emphasis("type for proofs").  Given two static integers terms
+#stacode("N") and #stacode("R"), #stacode("fib_p") forms the prop
+#stacode("fib_p(N, R)"), which basically means that #stacode("fib(N)")
+equals #stacode("R").
+
+')#comment("para")
+
+#para('\
+
+There is a predicate #stacode("fib_b") corresponding to #stacode("fib_p"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+stacst fib_b : (int, int) -> bool
+//
+')</pre>
+
+Given two static integers terms #stacode("N") and #stacode("R"), the
+prop #stacode("fib_p(N, R)") corresponds to the boolean term
+#stacode("fib_b(N, R)").  The three proof constructors associated with
+#stacode("fib_p") correspond to the following proof functions:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+// Note: unit_p is the unit prop
+//
+extern
+praxi
+fib_b_bas0() : [fib_b(0, 0)] unit_p
+extern
+praxi
+fib_b_bas1() : [fib_b(1, 1)] unit_p
+extern
+praxi
+fib_b_ind2
+{n:nat}{r0,r1:int}():
+  [fib_b(n, r0)&&fib_b(n+1, r1) ->> fib_b(n+2, r0+r1)] unit_p
+//
+')</pre>
+
+The syntax for the interface assigned to
+#dyncode("fib_b_ind2") may need some explanation here: It basically states
+#dyncode("fib_b_ind2") being a proof function that asserts
+the conjunction of #stacode("fib_b(n, r0)") and #stacode("fib_b(n+1, r1)")
+implying #stacode("fib_b(n+2, r0+r1)") for any natural number #stacode("n")
+and integers #stacode("r0") and #stacode("r1").
+
+')#comment("para")
+
+#para('\
+
+The following code gives a verified implementation of the fib function
+specified above:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+extern
+fun
+f_fib_p
+  {n:nat}
+  (n: int(n)): [r:int] (fib_p(n, r) | int(r))
+//
+implement
+f_fib_p{n}(n) = let
+//
+fun
+loop
+{ i:nat
+| i < n }
+{ r0,r1:int }
+(
+  pf0: fib_p(i, r0)
+, pf1: fib_p(i+1, r1)
+| i: int(i)
+, r0: int(r0), r1: int(r1)
+) : [r:int]
+  (fib_p(n,r) | int(r)) = let
+//
+in
+//
+if i+1 < n
+  then loop(pf1, fib_p_ind2(pf0, pf1) | i+1, r1, r0+r1)
+  else (pf1 | r1)
+//
+end // end of [loop]
+//
+prval pf0 = fib_p_bas0()
+prval pf1 = fib_p_bas1()
+//
+in
+  if n >= 1 then loop(pf0, pf1 | 0, 0, 1) else (pf0 | 0)
+end // end of [f_fib_p]
+//
+')</pre>
+
+The interface assigned to #dyncode("f_fib_p") indicates that
+#dyncode("f_fib_p") takes a natural number #stacode("n") to return
+an integer #stacode("r") pair with a proof of the prop #stacode("fib_p(n, r)").
+In other words, the integer returned from a call to #dyncode("f_fib_p")
+on the natural number #stacode("n") always equals the value of fib defined on
+#stacode("n").
+
+')#comment("para")
+
+#para('\
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+extern
+fun
+f_fib_b
+  {n:nat}
+  (n: int(n))
+: [r:int] (fib_b(n, r) && int(r))
+//
+implement
+f_fib_b{n}(n) = let
+//
+prval() =
+  $solver_assert(fib_b_bas0)
+prval() =
+  $solver_assert(fib_b_bas1)
+//
+fun
+loop
+{ i:nat | i < n}
+{ r0,r1:int
+| fib_b(i,r0);fib_b(i+1,r1) }
+(
+  i: int(i), r0: int(r0), r1: int(r1)
+) : [r:int | fib_b(n,r)] int(r) = let
+//
+prval() =
+  $solver_assert(fib_b_ind2{i})
+//
+in
+//
+if i+1 < n
+  then loop(i+1, r1, r0+r1) else r1
+//
+end // end of [loop]
+//
+in
+  if n >= 1 then loop(0, 0, 1) else 0
+end // end of [f_fib_b]
+//
+')</pre>
+
+')#comment("para")
 
 <hr size="2">
 

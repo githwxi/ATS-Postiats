@@ -8,6 +8,7 @@ ATSDOC=$(ATSHOME)/bin/atsdoc
 #
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
+PATSOLVE=$(PATSHOME)/bin/patsolve_z3
 #
 ATSCC2JS=$(PATSHOME)/bin/atscc2js
 LIBATCC2JS=$(PATSHOMERELOC)/contrib/libatscc/libatscc2js
@@ -36,10 +37,6 @@ upload_main: \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/PwTP-bool-vs-prop/.
 #
 ######
-#
-PATSCC=$(PATSHOME)/bin/patscc
-PATSOPT=$(PATSHOME)/bin/patsopt
-PATSOLVE=$(PATSHOME)/bin/patsolve_z3
 #
 bool-vs-prop: \
 bool-vs-prop.dats ; \

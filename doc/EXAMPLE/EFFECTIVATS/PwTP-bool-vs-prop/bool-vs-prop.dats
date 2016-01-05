@@ -30,13 +30,13 @@ fib_p(int, int) =
 stacst fib_b : (int, int) -> bool
 //
 extern
-prfun
+praxi
 fib_b_bas0() : [fib_b(0, 0)] unit_p
 extern
-prfun
+praxi
 fib_b_bas1() : [fib_b(1, 1)] unit_p
 extern
-prfun
+praxi
 fib_b_ind2
 {n:nat}{r0,r1:int}():
   [fib_b(n, r0)&&fib_b(n+1, r1) ->> fib_b(n+2, r0+r1)] unit_p
