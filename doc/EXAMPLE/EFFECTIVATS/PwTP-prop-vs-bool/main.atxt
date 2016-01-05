@@ -1,0 +1,38 @@
+%{
+#include "./../ATEXT/atextfun.hats"
+%}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-PwTP-bool-vs-prop</title>
+#patscode_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Two Styles of Theorem-Proving in ATS
+</h1>
+
+<p> In this article, I present two styles of theorem-proving in ATS,
+illustrating through concrete examples the key difference between the
+two sorts #stacode("bool") and #stacode("prop").  For the entirety of
+the code used in this presentation, please see the file
+#filename("bool-vs-prop.dats").  </p>
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}
