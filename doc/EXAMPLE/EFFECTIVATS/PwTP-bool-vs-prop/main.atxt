@@ -131,10 +131,10 @@ stacst fib_b : (int, int) -> bool
 //
 ')</pre>
 
-Given two static integer terms #stacode("N") and #stacode("R"), the
-prop #stacode("fib_p(N, R)") corresponds to the boolean term
-#stacode("fib_b(N, R)").  The three proof constructors associated with
-#stacode("fib_p") correspond to the following proof functions:
+Given two static integer terms #stacode("N") and #stacode("R"),
+the boolean term #stacode("fib_b(N, R)") corresponds to the prop
+#stacode("fib_p(N, R)"). Also, the following three proof functions
+correspond to the three proof constructors associated with #stacode("fib_p"):
 
 <pre
 class="patsyntax">
@@ -308,9 +308,9 @@ implementation of #dyncode("f_fib_b") cannot be solved by the built-in
 constraint-solver of ATS/Postiats. One option is to first export these
 constraints and then invoke the command #command("patsolve_z3") to
 solve them, where patsolve_z3 is a utility for employing <a
-href="https://github.com/Z3Prover/z3">Z3</a> to solve constraints generated
-from typechecking ATS source. Please find more details in the
-#filename("Makefile") available on-line.
+href="https://github.com/Z3Prover/z3">Z3</a> to solve constraints
+generated from typechecking ATS source. Please find more details in
+the provided #filename("Makefile").
 
 ')#comment("para")
 
