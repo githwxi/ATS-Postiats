@@ -92,8 +92,10 @@ f_fib_b
 implement
 f_fib_b{n}(n) = let
 //
-prval() = $solver_assert(fib_b_bas0)
-prval() = $solver_assert(fib_b_bas1)
+prval() =
+  $solver_assert(fib_b_bas0)
+prval() =
+  $solver_assert(fib_b_bas1)
 //
 fun
 loop
