@@ -621,9 +621,10 @@ val () = ins ("#elifndef", T_SRPELIFNDEF)
 val () = ins ("#else", T_SRPELSE)
 val () = ins ("#endif", T_SRPENDIF)
 //
-val () = ins ("#print", T_SRPPRINT)
-//
 val () = ins ("#error", T_SRPERROR)
+//
+val () = ins ("#prerr", T_SRPPRERR) // outpui to stderr
+val () = ins ("#print", T_SRPPRINT) // output to stdout
 //
 val () = ins ("#assert", T_SRPASSERT)
 //

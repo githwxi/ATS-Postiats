@@ -204,6 +204,7 @@ fprint_token
   | T_SRPENDIF () => fprintf (out, "SRPENDIF()", @())
 //
   | T_SRPERROR () => fprintf (out, "SRPERROR()", @())
+  | T_SRPPRERR () => fprintf (out, "SRPPRERR()", @())
   | T_SRPPRINT () => fprintf (out, "SRPPRINT()", @())
 //
   | T_SRPASSERT () => fprintf (out, "SRPASSERT()", @())

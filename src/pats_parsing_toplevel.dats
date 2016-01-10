@@ -94,19 +94,25 @@ tok.token_node of
 | T_SYMELIM () => tok
 //
 | T_EXTERN () => tok
+//
 | T_LOCAL () => tok
+//
 | T_STALOAD () => tok
 | T_DYNLOAD () => tok
 //
-| T_SRPASSERT () => tok
 | T_SRPERROR () => tok
+| T_SRPPRERR () => tok
 | T_SRPPRINT () => tok
+//
+| T_SRPASSERT () => tok
+//
+| T_SRPUNDEF () => tok
 | T_SRPDEFINE () => tok
+//
 | T_SRPIF () => tok
 | T_SRPIFDEF () => tok
 | T_SRPIFNDEF () => tok
 | T_SRPINCLUDE () => tok
-| T_SRPUNDEF () => tok
 //
 | _ => let
     val () = tokbuf_incby1 (buf) in pskip_tokbuf (buf)

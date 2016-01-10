@@ -69,11 +69,16 @@ fun the_trans1errlst_add (x: trans1err): void
 fun the_trans1errlst_finalize (): void // cleanup all the errors
 
 (* ****** ****** *)
-
+//
+fun
+do_e0xpact_assert
+  (loc: location, v: v1al): void
+//
 fun do_e0xpact_prerr (v: v1al): void
+fun do_e0xpact_print (v: v1al): void
+//
 fun do_e0xpact_error (loc: location, v: v1al): void
-fun do_e0xpact_assert (loc: location, v: v1al): void
-
+//
 (* ****** ****** *)
 
 fun e0xp_tr (x: e0xp): e1xp

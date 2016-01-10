@@ -2616,18 +2616,30 @@ in (* in of [local] *)
 implement
 d0ecl_fixity
   (tok, prec, ids) = let
-  val-T_FIXITY (knd) = tok.token_node
-  val fxty = (case+ knd of
-    | FXK_infix () => F0XTYinf (prec, $FIX.ASSOCnon ())
-    | FXK_infixl () => F0XTYinf (prec, $FIX.ASSOClft ())
-    | FXK_infixr () => F0XTYinf (prec, $FIX.ASSOCrgt ())
-    | FXK_prefix () => F0XTYpre (prec)
-    | FXK_postfix () => F0XTYpos (prec)
-  ) : f0xty // end of [val]
-  val loc = (case+ ids of
-    | list_cons (id, ids) => loop (tok, id, ids)
-    | list_nil () => tok.token_loc
-  ) : location // end of [val]
+//
+val-
+T_FIXITY(knd) = tok.token_node
+//
+val fxty =
+( case+ knd of
+  | FXK_infix() =>
+    F0XTYinf(prec, $FIX.ASSOCnon())
+  | FXK_infixl() =>
+    F0XTYinf(prec, $FIX.ASSOClft())
+  | FXK_infixr() =>
+    F0XTYinf(prec, $FIX.ASSOCrgt())
+//
+  | FXK_prefix() => F0XTYpre (prec)
+  | FXK_postfix() => F0XTYpos (prec)
+//
+) : f0xty // end of [val]
+//
+val loc =
+( case+ ids of
+  | list_cons (id, ids) => loop (tok, id, ids)
+  | list_nil () => tok.token_loc
+) : location // end of [val]
+//
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cfixity (fxty, ids)
 } end // end of [d0ecl_infix]
@@ -2714,8 +2726,10 @@ implement
 d0ecl_e0xpdef
   (tok, ent2, ent3) = let
   val loc = tok.token_loc
-  val loc = (case+ ent3 of
-    | Some x => loc + x.e0xp_loc | None () => loc + ent2.i0de_loc
+  val loc = (
+    case+ ent3 of
+    | Some x => loc + x.e0xp_loc
+    | None() => loc + ent2.i0de_loc
   ) : location // end of [val]
   val def = (case+ ent3 of
     | Some x => let
@@ -2730,8 +2744,11 @@ in '{
   d0ecl_loc= loc, d0ecl_node= D0Ce0xpdef (ent2.i0de_sym, def)
 } end // end of [d0ecl_e0xpdef]
 
+(* ****** ****** *)
+
 implement
-d0ecl_e0xpundef (tok, ent2) = let
+d0ecl_e0xpundef
+  (tok, ent2) = let
   val loc = tok.token_loc + ent2.i0de_loc
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Ce0xpundef (ent2.i0de_sym)
@@ -2740,37 +2757,58 @@ in '{
 (* ****** ****** *)
 
 implement
-d0ecl_e0xpact_print
+d0ecl_e0xpact_assert
   (tok, ent2) = let
 //
-val loc = tok.token_loc + ent2.e0xp_loc
+val loc =
+  tok.token_loc + ent2.e0xp_loc
 //
 in '{
   d0ecl_loc= loc
-, d0ecl_node= D0Ce0xpact (E0XPACTprint, ent2)
-} end // end of [d0ecl_e0xpact_print]
+, d0ecl_node= D0Ce0xpact(E0XPACTassert, ent2)
+} end // end of [d0ecl_e0xpact_assert]
+
+(* ****** ****** *)
 
 implement
 d0ecl_e0xpact_error
   (tok, ent2) = let
 //
-val loc = tok.token_loc + ent2.e0xp_loc
+val loc =
+  tok.token_loc + ent2.e0xp_loc
 //
 in '{
   d0ecl_loc= loc
-, d0ecl_node= D0Ce0xpact (E0XPACTerror, ent2)
+, d0ecl_node= D0Ce0xpact(E0XPACTerror, ent2)
 } end // end of [d0ecl_e0xpact_error]
 
+(* ****** ****** *)
+
 implement
-d0ecl_e0xpact_assert
+d0ecl_e0xpact_prerr
   (tok, ent2) = let
 //
-val loc = tok.token_loc + ent2.e0xp_loc
+val loc =
+  tok.token_loc + ent2.e0xp_loc
 //
 in '{
   d0ecl_loc= loc
-, d0ecl_node= D0Ce0xpact (E0XPACTassert, ent2)
-} end // end of [d0ecl_e0xpact_assert]
+, d0ecl_node= D0Ce0xpact(E0XPACTprerr, ent2)
+} end // end of [d0ecl_e0xpact_prerr]
+
+(* ****** ****** *)
+
+implement
+d0ecl_e0xpact_print
+  (tok, ent2) = let
+//
+val loc =
+  tok.token_loc + ent2.e0xp_loc
+//
+in '{
+  d0ecl_loc= loc
+, d0ecl_node= D0Ce0xpact(E0XPACTprint, ent2)
+} end // end of [d0ecl_e0xpact_print]
 
 (* ****** ****** *)
 

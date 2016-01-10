@@ -17,6 +17,7 @@ programming but it does expect the reader to have already acquired
 basic understanding of programming and possibly some programming skills.
 </td>
 </tr>
+<tr height="8px"><td></td></tr>
 <tr><td>
 Links:
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/PDF/main.pdf">pdf</a>
@@ -36,6 +37,14 @@ Backup Links:
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/CODE/INT2PROGINATS-CODE.html">code</a>
 </td></tr>
 <tr height="8px"><td></td></tr>
+<tr><td>
+Translation in Chinese: (TBA)
+</td></tr>
+<tr><td>
+Translation in Japanese:
+<a href="http://jats-ug.metasepi.org/doc/ATS2/INT2PROGINATS/.">html</a>
+</td></tr>
+<tr height="8px"><td></td></tr>
 </table>
 
 <hr></hr>
@@ -52,6 +61,7 @@ and C, it is possible to learn programming in ATS by simply studying the
 tutorial. However, a coherent and systematic view of ATS is diffcult to be
 gained from the tutorial alone.
 </td></tr>
+<tr height="8px"><td></td></tr>
 <tr><td>
 Links:
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/PDF/main.pdf">pdf</a>
@@ -69,6 +79,14 @@ Backup Links:
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-BOOK-onechunk.html">htmlone</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/PDF/main_epub.pdf">e-pdf</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/CODE/ATS2TUTORIAL-CODE.html">code</a>
+</td></tr>
+<tr height="8px"><td></td></tr>
+<tr><td>
+Translation in Chinese: (TBA)
+</td></tr>
+<tr><td>
+Translation in Japanese:
+<a href="http://jats-ug.metasepi.org/doc/ATS2/ATS2TUTORIAL/.">html</a>
 </td></tr>
 <tr height="8px"><td></td></tr>
 </table>

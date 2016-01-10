@@ -233,9 +233,12 @@ fprint_e0xpactkind
   (out, x) = (
 //
 case+ x of
-| E0XPACTprint () => fprint_string (out, "E0XPACTprint")
+| E0XPACTassert
+    ((*void*)) => fprint_string (out, "E0XPACTassert")
+//
 | E0XPACTerror () => fprint_string (out, "E0XPACTerror")
-| E0XPACTassert () => fprint_string (out, "E0XPACTassert")
+| E0XPACTprerr () => fprint_string (out, "E0XPACTprint")
+| E0XPACTprint () => fprint_string (out, "E0XPACTprint")
 //
 ) (* end of [fprint_e0xpactkind] *)
 

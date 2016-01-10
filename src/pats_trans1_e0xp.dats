@@ -88,17 +88,39 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
+local
+
+fun
+do_e0xpact_fprint
+(
+  out: FILEref, v0: v1al
+) : void =
+(
+//
+case+ v0 of
+//
+| V1ALint i => fprint(out, i)
+//
+| V1ALchar c => fprint(out, c)
+//
+| V1ALfloat f => fprint(out, f)
+//
+| V1ALstring s => fprint(out, s)
+//
+| V1ALerr () => let
+    val () = assertloc(false) in (*deadcode*)
+  end (* end of [V1ALerr] *)
+//
+) (* end of [do_e0xpact_fprint] *)
+
+in (* in-of-local *)
+
 implement
-do_e0xpact_prerr
-  (v) = case+ v of
-  | V1ALint i => prerr i
-  | V1ALchar c => prerr c
-  | V1ALstring s => prerr s
-  | V1ALfloat f => prerr f
-  | V1ALerr () => let
-      val () = assertloc (false) in (*deadcode*)
-    end (* end of [V1ALerr] *)
-// end of [do_e0xpact_prerr]
+do_e0xpact_prerr(v) = do_e0xpact_fprint(stderr_ref, v)
+implement
+do_e0xpact_print(v) = do_e0xpact_fprint(stdout_ref, v)
+
+end // end of [local]
 
 (* ****** ****** *)
 
