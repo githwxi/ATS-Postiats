@@ -796,10 +796,10 @@ d0ecl
   | SYMELIM s0ymseq
   | SRPUNDEF i0de
   | SRPDEFINE i0de e0xpopt
-  | SRPASSERT e0xp
   | SRPERROR e0xp
   | SRPPRERR e0xp
   | SRPPRINT e0xp
+  | SRPASSERT e0xp
   | DATASORT d0atsrtdecseq
   | STA s0tacstseq
 (*
@@ -917,15 +917,6 @@ case+ tok.token_node of
     // end of [if]
   end // end of [#define]
 //
-| T_SRPASSERT () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_e0xp (buf, bt, err)
-  in
-    if err = err0
-    then d0ecl_e0xpact_assert(tok, ent2) else synent_null()
-  end
-//
 | T_SRPERROR () => let
     val bt = 0
     val () = incby1 ()
@@ -954,13 +945,22 @@ case+ tok.token_node of
     // end of [if]
   end
 //
+| T_SRPASSERT () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_e0xp (buf, bt, err)
+  in
+    if err = err0
+      then d0ecl_e0xpact_assert(tok, ent2) else synent_null()
+    // end of [if]
+  end
+//
 | T_SRPREQUIRE () => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_s0tring (buf, bt, err)
   in
-    if err = err0
-      then d0ecl_require (tok, ent2) else synent_null()
+    if err = err0 then d0ecl_require (tok, ent2) else synent_null()
     // end of [if]
   end // end of [T_SRPREQUIRE]
 //
