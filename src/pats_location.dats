@@ -159,13 +159,17 @@ position_incby_count
 assume
 location_type =
 '{
-  filename= filename // file name
+//
+  filename=
+  filename // file name
+//
 , beg_ntot= lint // beginning char position
 , beg_nrow= int
 , beg_ncol= int
 , end_ntot= lint // finishing char position
 , end_nrow= int
 , end_ncol= int
+//
 } (* end of [location_type] *)
 
 (* ****** ****** *)
@@ -188,14 +192,17 @@ location_end_ntot (loc) = loc.end_ntot
 (* ****** ****** *)
 
 implement
-location_get_filename (loc) = loc.filename
+location_get_filename(loc) = loc.filename
 
 (* ****** ****** *)
 //
 implement
-print_location (loc) = fprint_location (stdout_ref, loc)
+print_location
+  (loc) = fprint_location(stdout_ref, loc)
+//
 implement
-prerr_location (loc) = fprint_location (stderr_ref, loc)
+prerr_location
+  (loc) = fprint_location(stderr_ref, loc)
 //
 (* ****** ****** *)
 

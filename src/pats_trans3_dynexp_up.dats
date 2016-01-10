@@ -151,7 +151,8 @@ fun
 d2exp_trup_arg_body
 (
   loc0: loc_t
-, fc0: funclo, lin: int, npf: int, p2ts: p2atlst, d2e: d2exp
+, fc0: funclo
+, lin: int, npf: int, p2ts: p2atlst, d2e: d2exp
 ) : (s2exp, p3atlst, d3exp)
 
 (* ****** ****** *)
@@ -165,41 +166,55 @@ d2exp_trup_letwhere
 (* ****** ****** *)
 
 extern
-fun d2exp_trup_lam_dyn (d2e0: d2exp): d3exp
+fun
+d2exp_trup_lam_dyn (d2e0: d2exp): d3exp
 extern
-fun d2exp_trup_laminit_dyn (d2e0: d2exp): d3exp
+fun
+d2exp_trup_laminit_dyn (d2e0: d2exp): d3exp
 extern
-fun d2exp_trup_lam_sta (d2e0: d2exp): d3exp
+fun
+d2exp_trup_lam_sta (d2e0: d2exp): d3exp
 extern
-fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
+fun
+d2exp_trup_lam_met (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
-extern fun d2exp_trup_fix (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_fix (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
-extern fun d2exp_trup_delay (d2e0: d2exp): d3exp
-extern fun d2exp_trup_ldelay (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_delay (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_ldelay (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
-extern fun d2exp_trup_for (d2e0: d2exp): d3exp
-extern fun d2exp_trup_while (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_for (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_while (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
-extern fun d2exp_trup_trywith (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_trywith (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
-extern fun d2exp_trup_mac (d2e0: d2exp): d3exp
-extern fun d2exp_trup_macsyn (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_mac (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_macsyn (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
   
-extern fun d2exp_trup_solassert (d2e0: d2exp): d3exp
-extern fun d2exp_trup_solverify (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_solassert (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_solverify (d2e0: d2exp): d3exp
   
 (* ****** ****** *)
 
