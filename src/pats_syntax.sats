@@ -1377,19 +1377,26 @@ loopi0nv_make
 datatype
 d0ecl_node =
 //
-  | D0Cfixity of (f0xty, i0delst)
+  | D0Cfixity of
+      (f0xty, i0delst) // prefix, infix, postfix
+    // D0Cfixity
   | D0Cnonfix of (i0delst) // absolving fixity status
 //
   | D0Csymintr of (i0delst) // symbols for overloading
   | D0Csymelim of (i0delst) // eliminating overloading symbols
   | D0Coverload of (i0de, dqi0de, int(*pval*)) // overloading
 //
-  | D0Ce0xpdef of (symbol, e0xpopt)
-  | D0Ce0xpundef of (symbol) (* undefinition *)
+  | D0Ce0xpdef of
+      (symbol, e0xpopt) // HX: #define
+    // D0Ce0xpdef
+  | D0Ce0xpundef of (symbol) // HX: #undef
 //
-  | D0Ce0xpact of (e0xpactkind, e0xp) // HX: assert, error, prerr, print, ...
+  | D0Ce0xpact of
+      (e0xpactkind, e0xp) // HX: assert, error, prerr, print, ...
+    // D0Ce0xpact
 //
-  | D0Ccodegen of (int(*level*), e0xplst)
+  | D0Cpragma of (e0xplst) // #pragma(CATEGORY, ...)
+  | D0Ccodegen of (int(*level*), e0xplst) // #codegen2, #codegen3
 //
   | D0Cdatsrts of d0atsrtdeclst (* datasorts *)
   | D0Csrtdefs of s0rtdeflst (* sort definition *)
@@ -1406,7 +1413,9 @@ d0ecl_node =
   | D0Cexndecs of (e0xndeclst)
   | D0Cdatdecs of (int(*knd*), d0atdeclst, s0expdeflst)
 //
-  | D0Cclassdec of (i0de, s0expopt) // class declaration
+  | D0Cclassdec of
+      (i0de, s0expopt) // class declaration
+    // D0Cclassdec
 //
   | D0Cextype of (string, s0exp) // externally named types
   | D0Cextype of (int(*knd*), string, s0exp) // externally named structs
@@ -2175,7 +2184,12 @@ fun d0ecl_e0xpact_print (_1: token, _2: e0xp): d0ecl
 //
 (* ****** ****** *)
 //
-fun d0ecl_codegen2
+fun
+d0ecl_pragma
+  (tok_beg: token, xs: e0xplst, tok_end: token): d0ecl
+//
+fun
+d0ecl_codegen2
   (tok_beg: token, xs: e0xplst, tok_end: token): d0ecl
 //
 (* ****** ****** *)

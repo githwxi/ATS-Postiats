@@ -243,6 +243,7 @@ d1ecl_node =
   | D1Ce1xpdef of (symbol, e1xp) // HX: #define
   | D1Ce1xpundef of (symbol, e1xp) // HX: #undef
 //
+  | D1Cpragma of (e1xplst) // HX: meta-programming
   | D1Ccodegen of (int(*kind*), e1xplst) // HX: meta-programming
 //
   | D1Cdatsrts of d1atsrtdeclst // datasorts
@@ -981,6 +982,8 @@ d1ecl_e1xpundef(loc: location, id: symbol, def: e1xp): d1ecl
 //
 (* ****** ****** *)
 //
+fun
+d1ecl_pragma(loc: location, e1xps: e1xplst): d1ecl
 fun
 d1ecl_codegen(loc: location, knd: int, xs: e1xplst): d1ecl
 //

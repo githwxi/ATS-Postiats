@@ -888,7 +888,8 @@ case+ d1c0.d1ecl_node of
     val () = prstr ")"
   } // end of [D1Coverload]
 //
-| D1Ce1xpdef (id, def) =>
+| D1Ce1xpdef
+    (id, def) =>
   {
     val () = prstr "D1Ce1xpdef("
     val () = $SYM.fprint_symbol (out, id)
@@ -903,13 +904,20 @@ case+ d1c0.d1ecl_node of
     val () = prstr ")"
   }
 //
+| D1Cpragma(xs) =>
+  {
+    val () =
+    prstr "D1Cpragma("
+    val () = $UT.fprintlst (out, xs, ", ", fprint_e1xp)
+    val () = prstr (")")  
+  }
 | D1Ccodegen
     (knd, xs) => {
     val () =
     prstr "D1Ccodegen("
-    val () = (
-      fprint_int (out, knd); prstr ","; fprint_string (out, "...")
-    ) (* end of [val] *)
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, xs, ", ", fprint_e1xp)
     val () = prstr (")")
   } (* end of [D1Ccodegen] *)
 //

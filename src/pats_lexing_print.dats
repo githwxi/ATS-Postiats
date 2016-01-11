@@ -215,8 +215,9 @@ fprint_token
   | T_SRPINCLUDE () => fprintf (out, "SRPINCLUDE()", @())
   | T_SRPREQUIRE () => fprintf (out, "SRPREQUIRE()", @())
 //
+  | T_SRPPRAGMA () => fprintf (out, "SRPPRAGMA()", @())
   | T_SRPCODEGEN2 () => fprintf (out, "SRPCODEGEN2()", @())
-  | T_SRPCODEGEN3 () => fprintf (out, "SRPCODEGEN2()", @())
+  | T_SRPCODEGEN3 () => fprintf (out, "SRPCODEGEN3()", @())
 //
   | T_IDENT_alp (x) => fprintf (out, "IDENT_alp(%s)", @(x))
   | T_IDENT_sym (x) => fprintf (out, "IDENT_sym(%s)", @(x))

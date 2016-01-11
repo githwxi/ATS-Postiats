@@ -1078,9 +1078,18 @@ case+ d0c0.d0ecl_node of
     d1ecl_none (loc0)
   end // end of [D0Ce0xpact]
 //
+| D0Cpragma
+    (e0xps) => let
+    val
+    e1xps =
+    e0xplst_tr(e0xps)
+  in
+    d1ecl_pragma(loc0, e1xps)
+  end // end of [D0Cpragma]
 | D0Ccodegen
     (knd, e0xps) => let
-    val e1xps = e0xplst_tr (e0xps)
+    val
+    e1xps = e0xplst_tr(e0xps)
   in
     d1ecl_codegen(loc0, knd, e1xps)
   end // end of [D0Ccodegen]

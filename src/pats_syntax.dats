@@ -2813,6 +2813,20 @@ in '{
 (* ****** ****** *)
 
 implement
+d0ecl_pragma
+(
+  tok1, xs, tok2
+) = let
+//
+val loc = tok1.token_loc + tok2.token_loc
+//
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cpragma (xs)
+} end // end of [d0ecl_pragma]
+
+(* ****** ****** *)
+
+implement
 d0ecl_codegen2
 (
   tok1, xs, tok2

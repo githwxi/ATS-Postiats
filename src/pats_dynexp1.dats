@@ -1118,82 +1118,88 @@ v1ardec_make
 } (* end of [v1ardec_make] *)
 
 (* ****** ****** *)
-
+//
 extern
-fun d1ecl_make_node
-  (loc: location, node: d1ecl_node): d1ecl
+fun
+d1ecl_make_node
+(
+  loc: location, node: d1ecl_node
+) : d1ecl // end-of-function
 implement
 d1ecl_make_node
   (loc, node) = '{
   d1ecl_loc= loc, d1ecl_node= node
 }
-
+//
+(* ****** ****** *)
+//
+implement
+d1ecl_none
+  (loc) = d1ecl_make_node(loc, D1Cnone())
+//
+implement
+d1ecl_list
+  (loc, ds) = d1ecl_make_node(loc, D1Clist(ds))
+//
 (* ****** ****** *)
 
 implement
-d1ecl_none (loc) =
-  d1ecl_make_node (loc, D1Cnone ())
-
-implement
-d1ecl_list (loc, ds) =
-  d1ecl_make_node (loc, D1Clist (ds))
-
-(* ****** ****** *)
-
-implement
-d1ecl_packname (opt) =
-  d1ecl_make_node ($LOC.location_dummy, D1Cpackname (opt))
+d1ecl_packname(opt) =
+  d1ecl_make_node ($LOC.location_dummy, D1Cpackname(opt))
 // end of [d1ecl_packname]
 
 (* ****** ****** *)
-
+//
 implement
-d1ecl_symintr (loc, ids) =
-  d1ecl_make_node (loc, D1Csymintr (ids))
-
+d1ecl_symintr(loc, ids) =
+  d1ecl_make_node(loc, D1Csymintr(ids))
+//
 implement
-d1ecl_symelim (loc, ids) =
-  d1ecl_make_node (loc, D1Csymelim (ids))
-
+d1ecl_symelim(loc, ids) =
+  d1ecl_make_node(loc, D1Csymelim (ids))
+//
 implement
-d1ecl_overload (loc, id, qid, pval) =
-  d1ecl_make_node (loc, D1Coverload (id, qid, pval))
-
+d1ecl_overload(loc, id, qid, pval) =
+  d1ecl_make_node(loc, D1Coverload (id, qid, pval))
+//
 (* ****** ****** *)
 //
 implement
-d1ecl_e1xpdef (loc, id, def) =
-  d1ecl_make_node (loc, D1Ce1xpdef (id, def))
+d1ecl_e1xpdef(loc, id, def) =
+  d1ecl_make_node(loc, D1Ce1xpdef (id, def))
 implement
-d1ecl_e1xpundef (loc, id, def) =
-  d1ecl_make_node (loc, D1Ce1xpundef (id, def))
+d1ecl_e1xpundef(loc, id, def) =
+  d1ecl_make_node(loc, D1Ce1xpundef (id, def))
 //
 (* ****** ****** *)
+//
+implement
+d1ecl_pragma(loc, e1xps) =
+  d1ecl_make_node(loc, D1Cpragma (e1xps))
 //
 implement
 d1ecl_codegen(loc, knd, xs) =
-  d1ecl_make_node (loc, D1Ccodegen (knd, xs))
+  d1ecl_make_node(loc, D1Ccodegen (knd, xs))
 //
 (* ****** ****** *)
 //
 implement
-d1ecl_datsrts (loc, xs) =
-  d1ecl_make_node (loc, D1Cdatsrts (xs))
+d1ecl_datsrts
+  (loc, xs) = d1ecl_make_node(loc, D1Cdatsrts(xs))
 //
 implement
-d1ecl_srtdefs (loc, xs) =
-  d1ecl_make_node (loc, D1Csrtdefs (xs))
+d1ecl_srtdefs
+  (loc, xs) = d1ecl_make_node(loc, D1Csrtdefs(xs))
 //
 (* ****** ****** *)
-
+//
 implement
-d1ecl_stacsts (loc, xs) =
-  d1ecl_make_node (loc, D1Cstacsts (xs))
-
+d1ecl_stacsts
+  (loc, xs) = d1ecl_make_node(loc, D1Cstacsts(xs))
 implement
-d1ecl_stacons (loc, knd, xs) =
-  d1ecl_make_node (loc, D1Cstacons (knd, xs))
-
+d1ecl_stacons
+  (loc, knd, xs) = d1ecl_make_node(loc, D1Cstacons(knd, xs))
+//
 (* ****** ****** *)
 
 (*
@@ -1206,39 +1212,40 @@ d1ecl_stavars (loc, xs) =
 *)
 
 (* ****** ****** *)
-
+//
 implement
-d1ecl_tkindef (loc, x) =
+d1ecl_tkindef(loc, x) =
   d1ecl_make_node (loc, D1Ctkindef (x))
-
+//
 (* ****** ****** *)
-
+//
 implement
-d1ecl_sexpdefs (loc, knd, xs) =
-  d1ecl_make_node (loc, D1Csexpdefs (knd, xs))
-
+d1ecl_sexpdefs(loc, knd, xs) =
+  d1ecl_make_node(loc, D1Csexpdefs (knd, xs))
+//
 implement
-d1ecl_saspdec (loc, x) =
+d1ecl_saspdec(loc, x) =
   d1ecl_make_node (loc, D1Csaspdec (x))
-
+//
 (* ****** ****** *)
-
+//
 implement
 d1ecl_datdecs
   (loc, knd, _datdec, _sexpdef) =
-  d1ecl_make_node (loc, D1Cdatdecs (knd, _datdec, _sexpdef))
+  d1ecl_make_node(loc, D1Cdatdecs(knd, _datdec, _sexpdef))
 // end of [d1ecl_datdec]
-
+//
 implement
-d1ecl_exndecs (loc, d1cs) =
-  d1ecl_make_node (loc, D1Cexndecs (d1cs))
-
+d1ecl_exndecs(loc, d1cs) =
+  d1ecl_make_node (loc, D1Cexndecs(d1cs))
+// end of [d1ecl_exndecs]
+//
 (* ****** ****** *)
-
+//
 implement
 d1ecl_classdec (loc, id, sup) =
-  d1ecl_make_node (loc, D1Cclassdec (id, sup))
-
+  d1ecl_make_node(loc, D1Cclassdec(id, sup))
+//
 (* ****** ****** *)
 
 implement

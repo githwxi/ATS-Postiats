@@ -964,6 +964,20 @@ case+ tok.token_node of
     // end of [if]
   end // end of [T_SRPREQUIRE]
 //
+| T_SRPPRAGMA
+    ((*void*)) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err)
+    val ent3 =
+      pif_fun (buf, bt, err, p_e0xpseq, err0)
+    // end of [val]
+    val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
+  in
+    if err = err0
+      then d0ecl_pragma(ent2, ent3, ent4) else synent_null()
+    // end of [if]
+  end // end of [T_SRPCODEGEN2]
 //
 | T_SRPCODEGEN2
     ((*void*)) => let
@@ -976,7 +990,7 @@ case+ tok.token_node of
     val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
   in
     if err = err0
-      then d0ecl_codegen2 (ent2, ent3, ent4) else synent_null()
+      then d0ecl_codegen2(ent2, ent3, ent4) else synent_null()
     // end of [if]
   end // end of [T_SRPCODEGEN2]
 //

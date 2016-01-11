@@ -634,6 +634,7 @@ val () = ins ("#define", T_SRPDEFINE)
 val () = ins ("#include", T_SRPINCLUDE)
 val () = ins ("#require", T_SRPREQUIRE)
 //
+val () = ins ("#pragma", T_SRPPRAGMA) // HX: general pragma
 val () = ins ("#codegen2", T_SRPCODEGEN2) // for level-2 codegen
 val () = ins ("#codegen3", T_SRPCODEGEN3) // for level-3 codegen
 //

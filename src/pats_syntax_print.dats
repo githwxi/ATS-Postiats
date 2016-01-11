@@ -1232,7 +1232,9 @@ prstr (str) =
 //
 in
 //
-case+ x.d0ecl_node of
+case+
+x.d0ecl_node
+of // case+
 //
 | D0Cfixity
     (fxty, ids) => {
@@ -1242,25 +1244,28 @@ case+ x.d0ecl_node of
     val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
     val () = prstr ")"
   }
-| D0Cnonfix (ids) => {
+| D0Cnonfix(ids) => {
     val () = prstr "D0Cnonfix("
     val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
     val () = prstr ")"
   }
 //
-| D0Csymintr (ids) => {
+| D0Csymintr(ids) => {
     val () = prstr "D0Csymintr("
     val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
     val () = prstr ")"
   }
-| D0Csymelim (ids) => {
+| D0Csymelim(ids) => {
     val () = prstr "D0Csymelim("
     val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
     val () = prstr ")"
   }
 | D0Coverload
-    (id, qid, pval) => {
-    val () = prstr "D0Coverload("
+    (id, qid, pval) =>
+  {
+    val () =
+      prstr "D0Coverload("
+    // end of [val]
     val () = fprint_i0de (out, id)
     val () = prstr "; "
     val () = fprint_dqi0de (out, qid)
@@ -1269,21 +1274,27 @@ case+ x.d0ecl_node of
     val ((*closing*)) = prstr ")"
   } // end of [D0Coverload]
 //
-| D0Ce0xpdef
-    (id, def) => {
-    val () = prstr "D0Ce0xpdef("
+| D0Ce0xpdef(id, def) =>
+  {
+    val () =
+      prstr "D0Ce0xpdef("
+    // end of [val]
     val () = fprint_symbol (out, id)
     val () = prstr ", "
     val () = $UT.fprintopt<e0xp> (out, def, fprint_e0xp)
     val ((*closing*)) = prstr ")"
   }
-| D0Ce0xpundef (id) => {
-    val () = prstr "D0Ce0xpundef("
-    val () = fprint_symbol (out, id)
+| D0Ce0xpundef(idsym) =>
+  {
+    val () =
+      prstr "D0Ce0xpundef("
+    // end of [val]
+    val () = fprint_symbol (out, idsym)
     val ((*closing*)) = prstr ")"
   }
 //
-| D0Ce0xpact (knd, act) => {
+| D0Ce0xpact(knd, act) =>
+  {
     val () = prstr "D0Ce0xpact("
     val () = fprint_e0xpactkind (out, knd)
     val () = prstr "; "
@@ -1291,12 +1302,19 @@ case+ x.d0ecl_node of
     val ((*closing*)) = prstr ")"
   }
 //
-| D0Ccodegen
-    (knd, xs) => {
+| D0Cpragma(xs) =>
+  {
+    val () = prstr "D0Cpragma("
+    val () = $UT.fprintlst<e0xp> (out, xs, ", ", fprint_e0xp)
+    val ((*closing*)) = prstr ")"
+  } (* end of [D0Cpragma] *)
+//
+| D0Ccodegen(knd, xs) =>
+  {
     val () = prstr "D0Ccodegen("
     val () = fprint_int (out, knd)
     val () = prstr "; "
-    val () = fprint_string (out, "...")
+    val () = $UT.fprintlst<e0xp> (out, xs, ", ", fprint_e0xp)
     val ((*closing*)) = prstr ")"
   } (* end of [D0Ccodegen] *)
 //
