@@ -2821,7 +2821,7 @@ d0ecl_pragma
 val loc = tok1.token_loc + tok2.token_loc
 //
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cpragma (xs)
+  d0ecl_loc= loc, d0ecl_node= D0Cpragma(xs)
 } end // end of [d0ecl_pragma]
 
 (* ****** ****** *)
@@ -2835,8 +2835,20 @@ d0ecl_codegen2
 val loc = tok1.token_loc + tok2.token_loc
 //
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Ccodegen (2(*knd*), xs)
+  d0ecl_loc= loc, d0ecl_node= D0Ccodegen(2(*knd*), xs)
 } end // end of [d0ecl_codegen2]
+
+implement
+d0ecl_codegen3
+(
+  tok1, xs, tok2
+) = let
+//
+val loc = tok1.token_loc + tok2.token_loc
+//
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Ccodegen(3(*knd*), xs)
+} end // end of [d0ecl_codegen3]
 
 (* ****** ****** *)
 

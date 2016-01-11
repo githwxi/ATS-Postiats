@@ -1118,6 +1118,23 @@ of // case+
 //
 | D2Cextcode _ => prstr "D2Cextcode(...)"
 //
+| D2Cpragma(xs) =>
+  {
+    val () =
+    prstr "D2Cpragma("
+    val () = $UT.fprintlst (out, xs, ", ", fprint_e1xp)
+    val () = prstr (")")  
+  }
+| D2Ccodegen
+    (knd, xs) => {
+    val () =
+    prstr "D2Ccodegen("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, xs, ", ", fprint_e1xp)
+    val () = prstr (")")
+  } (* end of [D2Ccodegen] *)
+//
 | D2Cdatdecs
    (knd, s2cs) => {
     val () = prstr "D2Cdatdecs("

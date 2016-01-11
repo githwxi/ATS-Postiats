@@ -757,7 +757,8 @@ d2ecl_node =
       (i0de, int(*pval*), d2itmopt) // [None] indicates error
     // end of [D2Coverload]
 //
-  | D2Ccodegen of (int(*knd*), e1xplst)
+  | D2Cpragma of (e1xplst) // HX: #pragma ...
+  | D2Ccodegen of (int(*knd*), e1xplst) // HX: #codegen ...
 //
   | D2Cstacsts of s2cstlst // for [stacst] declarations
   | D2Cstacons of
@@ -1784,6 +1785,9 @@ d2ecl_overload
 //
 (* ****** ****** *)
 //
+fun
+d2ecl_pragma
+  (loc: location, e1xps: e1xplst): d2ecl
 fun
 d2ecl_codegen
   (loc: location, knd: int, e1xps: e1xplst): d2ecl

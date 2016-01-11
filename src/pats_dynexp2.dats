@@ -1095,33 +1095,40 @@ prv2ardec_make (
 } // end of [prv2ardec_make]
 
 (* ****** ****** *)
-
+//
 extern
-fun d2ecl_make_node
-  (loc: location, node: d2ecl_node): d2ecl
+fun
+d2ecl_make_node
+(
+  loc: location, node: d2ecl_node
+) : d2ecl // end-of-function
 implement
 d2ecl_make_node
   (loc, node) = '{
   d2ecl_loc= loc, d2ecl_node= node
 }
-
+//
 (* ****** ****** *)
-
+//
 implement
-d2ecl_none (loc) = d2ecl_make_node (loc, D2Cnone ())
-
+d2ecl_none(loc) =
+  d2ecl_make_node (loc, D2Cnone())
+//
 implement
-d2ecl_list (loc, xs) = d2ecl_make_node (loc, D2Clist (xs))
-
+d2ecl_list(loc, xs) =
+  d2ecl_make_node (loc, D2Clist(xs))
+//
 (* ****** ****** *)
 
 implement
 d2ecl_symintr
-  (loc, ids) = d2ecl_make_node (loc, D2Csymintr (ids))
+  (loc, ids) =
+  d2ecl_make_node (loc, D2Csymintr (ids))
 // end of [d2ecl_symintr]
 implement
 d2ecl_symelim
-  (loc, ids) = d2ecl_make_node (loc, D2Csymelim (ids))
+  (loc, ids) =
+  d2ecl_make_node (loc, D2Csymelim (ids))
 // end of [d2ecl_symelim]
 
 (* ****** ****** *)
@@ -1130,10 +1137,15 @@ implement
 d2ecl_overload
 (
   loc, id, pval, def
-) = d2ecl_make_node (loc, D2Coverload (id, pval, def))
+) = d2ecl_make_node(loc, D2Coverload(id, pval, def))
 // end of [d2ecl_overload]
 
 (* ****** ****** *)
+//
+implement
+d2ecl_pragma
+  (loc, e1xps) =
+  d2ecl_make_node(loc, D2Cpragma(e1xps))
 //
 implement
 d2ecl_codegen

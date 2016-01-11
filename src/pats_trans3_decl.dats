@@ -141,16 +141,21 @@ val loc0 = d2c0.d2ecl_loc
 val d3c0 = (
 case+ d2c0.d2ecl_node of
 //
-| D2Cnone () => d3ecl_none (loc0)
-| D2Clist (d2cs) =>
+| D2Cnone() => d3ecl_none (loc0)
+//
+| D2Clist(d2cs) =>
+  (
     d3ecl_list(loc0, d2eclist_tr(d2cs))
-  // end of [D2Clist]
+  ) (*D2Clist*)
 //
 | D2Csymintr _ => d3ecl_none (loc0)
 | D2Csymelim _ => d3ecl_none (loc0)
 //
-| D2Coverload (id, _, _) => d3ecl_none (loc0)
+| D2Coverload
+    (id, _, _) => d3ecl_none (loc0)
+  // D2Coverload
 //
+| D2Cpragma _ => d3ecl_none (loc0)
 | D2Ccodegen _ => d3ecl_none (loc0)
 //
 | D2Cstacsts _ => d3ecl_none (loc0)

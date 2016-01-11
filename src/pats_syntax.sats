@@ -2191,6 +2191,9 @@ d0ecl_pragma
 fun
 d0ecl_codegen2
   (tok_beg: token, xs: e0xplst, tok_end: token): d0ecl
+fun
+d0ecl_codegen3
+  (tok_beg: token, xs: e0xplst, tok_end: token): d0ecl
 //
 (* ****** ****** *)
 //
