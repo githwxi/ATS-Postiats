@@ -180,10 +180,12 @@ LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 #define LINUX_targetloc "$PATSHOMERELOC/contrib/linux"
 //
 (* ****** ****** *)
-
+//
+// For exporting constraints for solving externally
+//
 #define EXTSOLVE_sourceloc "$ATSLANGWEBLIB/contrib/extsolve"
 #define EXTSOLVE_targetloc "$PATSHOMERELOC/contrib/extsolve"
-
+//
 (* ****** ****** *)
 
 (* end of [atspre_define_pkgreloc.hats] *)
