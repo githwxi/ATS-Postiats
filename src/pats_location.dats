@@ -214,17 +214,6 @@ prerr_location
 (* ****** ****** *)
 
 implement
-fprint_location
-  (out, loc) = let
-  val fname = loc.filename
-in
-  $FIL.fprint_filename_full (out, fname);
-  fprint_string (out, ": "); fprint_locrange (out, loc)
-end (* end of [fprint_location] *)
-
-(* ****** ****** *)
-
-implement
 fprint_locrange
   (out, loc) = () where {
 //
@@ -251,12 +240,33 @@ val () = fprint_string (out, ")")
 (* ****** ****** *)
 
 implement
+fprint_location
+  (out, loc) = let
+(*
+val () = println! ("fprint_location")
+*)
+in
+//
+fprint_locpragma(out, loc.locpragma);
+$FIL.fprint_filename_full (out, loc.filename);
+fprint_string (out, ": "); fprint_locrange (out, loc)
+//
+end (* end of [fprint_location] *)
+
+(* ****** ****** *)
+
+implement
 fprint2_location
   (out, loc) = let
-  val fname = loc.filename
+(*
+val () = println! ("fprint2_location")
+*)
 in
-  $FIL.fprint2_filename_full (out, fname); 
-  fprint_string (out, ": "); fprint_locrange (out, loc)
+//
+fprint_locpragma(out, loc.locpragma);
+$FIL.fprint2_filename_full (out, loc.filename); 
+fprint_string (out, ": "); fprint_locrange (out, loc)
+//
 end (* end of [fprint2_location] *)
 
 (* ****** ****** *)
@@ -490,7 +500,24 @@ the_location_pragma_push
   val () = !the_locpragmalst := list_cons(x0, xs)
 //
 } (* end of [the_location_pragma_push] *)
+
+(* ****** ****** *)
+
+implement
+fprint_locpragma(out, x) =
+(
 //
+case+ x of
+| LOCPRAGMA0() => ()
+| LOCPRAGMA1(loc) =>
+  fprint! (out, "#locpragma(", loc, "): ")
+| LOCPRAGMA2(fil, loc) =>
+  fprint! (out, "#locpragma(", fil, ": ", loc, "): ")
+//
+) (* end of [fprint_locpragma] *)
+
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)

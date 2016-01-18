@@ -196,7 +196,7 @@ fun the_location_pragma_push((*void*)): void
 fun the_location_pragma_get(): locpragma
 fun the_location_pragma_set(x: locpragma): void
 //
-fun fprint_location_pragma(out: FILEref, loc: location): void
+fun fprint_locpragma(out: FILEref, loc: locpragma): void
 //
 (* ****** ****** *)
 
