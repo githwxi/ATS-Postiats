@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2016-01-15:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/dr2F9iHE_h4"
+>Paper on ATS Foundation</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2015-12-31:<br>
 <a
  href="http://www.metasepi.org/en/posts/2015-12-31-yuku-kuru.html"
@@ -147,6 +155,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-06-09:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/j4ekLh2j6Zw"
@@ -154,8 +164,6 @@ ATS-2015-06-09:<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-06-06:<br>
 <a

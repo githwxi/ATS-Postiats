@@ -9,6 +9,55 @@ class="thePageRBodyLContent"
 <td>
 <h2
 style="margin-bottom:0px">
+<a id="ATSfound">ATS</a>:</h2>
+<h3 style="margin-top:2px">
+An approach to practical programming with theorem-proving</h3>
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td>
+<em>Abstract</em>:
+The framework Pure Type System (PTS) offers a simple and general
+approach to designing and formalizing type systems. However, in the
+presence of dependent types, there often exist certain acute problems
+that make it difficult for PTS to directly accommodate many common
+realistic programming features such as general recursion, recursive
+types, effects (e.g., exceptions, references, input/output), etc. In
+this paper, Applied Type System (ATS) is presented as a framework
+for designing and formalizing type systems in support of practical
+programming with advanced types (including dependent types). In
+particular, it is demonstrated that ATS can readily accommodate a
+paradigm referred to as programming with theorem-proving (PwTP) in
+which programs and proofs are constructed in a syntactically
+intertwined manner, yielding a practical approach to internalizing
+constraint-solving needed during type-checking. The key salient
+feature of ATS lies in a complete separation between statics, where
+types are formed and reasoned about, and dynamics, where programs are
+constructed and evaluated. With this separation, it is no longer
+possible for a program to occur in a type as is otherwise allowed in
+PTS.  The paper contains not only a formal development of ATS
+but also some examples taken from <u>ATS</u>, a programming language
+with a type system rooted in ATS, in support of using ATS as a
+framework to form type systems for practical programming.
+</td>
+</tr>
+<tr><td>
+Links:
+<a href="MYDATA/ATSfoundation.pdf">pdf</a>
+</td></tr>
+<tr height="8px"><td></td></tr>
+</table>
+
+<hr></hr>
+
+<table>
+<tr>
+<td>
+<h2
+style="margin-bottom:0px">
 <a id="Dependent_ML">Dependent ML</a>:</h2>
 <h3 style="margin-top:2px">
 An approach to practical programming with dependent types</h3>
@@ -36,41 +85,6 @@ presence of effects such as references and exceptions.
 <tr><td>
 Links:
 <a href="MYDATA/DML-jfp07.pdf">pdf</a>
-</td></tr>
-<tr height="8px"><td></td></tr>
-</table>
-
-<hr></hr>
-
-<table>
-<tr>
-<td>
-<h2>
-<a id="Xanadu-lics2000">Imperative Programming with Dependent Types</a>
-</h2>
-</td>
-</tr>
-</table>
-
-<table>
-<tr>
-<td>
-<em>Abstract</em>:
-This paper enriches imperative programming with a form of dependent
-types. It starts with some motivations for the enrichment as well as some
-major obstacles that need to be overcome. The design of a source-level
-dependently typed imperative programming language of the name
-<em>Xanadu</em> is presented, together with a formalization of both static and
-dynamic semantics for Xanadu.  In addition, the type soundness for Xanadu is
-established and various realistic programming examples in support of the
-practicality of Xanadu are given. It is claimed that the language design of
-Xanadu is novel and it can serve as an informative example to demonstrate a
-means for combining imperative programming with dependent types.
-</td>
-</tr>
-<tr><td>
-Links:
-<a href="MYDATA/Xanadu-lics00.pdf">pdf</a>
 </td></tr>
 <tr height="8px"><td></td></tr>
 </table>
@@ -115,7 +129,9 @@ Links:
 <table>
 <tr>
 <td>
-<h2><a id="Applied_Type_System">Applied Type System</a></h2>
+<h2>
+<a id="Xanadu-lics2000">Imperative Programming with Dependent Types</a>
+</h2>
 </td>
 </tr>
 </table>
@@ -124,28 +140,21 @@ Links:
 <tr>
 <td>
 <em>Abstract</em>:
-The framework Pure Type System (PTS) offers a simple and general
-approach to designing and formalizing type systems. However, in the
-presence of dependent types, there often exist some acute problems that
-make it difficult for PTS to accommodate many common realistic programming
-features such as general recursion, recursive types, effects (e.g.,
-exceptions, references, input/output), etc. In this paper, we propose a new
-framework Applied Type System (ATS) to allow for designing and formalizing
-type systems that can readily support common realistic programming
-features. The key salient feature of ATS lies in a complete separation of
-statics, in which types are formed and reasoned about, from dynamics, in
-which programs are constructed and evaluated. With this separation, it is
-no longer possible for a program to occur in a type as is otherwise allowed
-in PTS. We outline a formal development of ATS, establishing various (meta)
-properties of applied type systems. In addition, we provide some examples
-taken from ATS, a programming language with its type system rooted in ATS,
-to demonstrate the expressiveness and flexibility of ATS as a framework for
-type system design and formalization in support of practical programming.
+This paper enriches imperative programming with a form of dependent
+types. It starts with some motivations for the enrichment as well as some
+major obstacles that need to be overcome. The design of a source-level
+dependently typed imperative programming language of the name
+<em>Xanadu</em> is presented, together with a formalization of both static and
+dynamic semantics for Xanadu.  In addition, the type soundness for Xanadu is
+established and various realistic programming examples in support of the
+practicality of Xanadu are given. It is claimed that the language design of
+Xanadu is novel and it can serve as an informative example to demonstrate a
+means for combining imperative programming with dependent types.
 </td>
 </tr>
 <tr><td>
 Links:
-<a href="MYDATA/ATS-types03.pdf">pdf</a>
+<a href="MYDATA/Xanadu-lics00.pdf">pdf</a>
 </td></tr>
 <tr height="8px"><td></td></tr>
 </table>
@@ -155,7 +164,7 @@ Links:
 <table>
 <tr>
 <td>
-<h2><a id="Combining_PwTP">Combining Programming with Theorem-Proving</a></h2>
+<h2><a id="CPwTP-icfp05">Combining Programming with Theorem-Proving</a></h2>
 </td>
 </tr>
 </table>
