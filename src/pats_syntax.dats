@@ -2818,11 +2818,98 @@ d0ecl_pragma
   tok1, xs, tok2
 ) = let
 //
+val () = d0ecl_pragma_process(xs)
+//
 val loc = tok1.token_loc + tok2.token_loc
 //
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cpragma(xs)
 } end // end of [d0ecl_pragma]
+
+(* ****** ****** *)
+
+local
+
+typedef
+locpragma = $LOC.locpragma
+
+fun
+e0xp_is_location
+  (e0: e0xp): bool = let
+//
+val cat =
+(
+case+ e0.e0xp_node of
+| E0XPide(id) =>
+  $SYM.symbol_get_name(id)
+| E0XPstring(tok) => str where
+  {
+    val-$LEX.T_STRING(str) = tok.token_node
+  }
+| _(*rest-of-e0xp*) => ""
+) : string // end of [val]
+//
+in
+  if cat = "location" then true else false
+end // end of [e0xp_is_location]
+
+fun
+e2s(e0: e0xp): string =
+(
+case+ e0.e0xp_node of
+| E0XPide(id) =>
+  $SYM.symbol_get_name(id)
+| E0XPstring(tok) => str where
+  {
+    val-$LEX.T_STRING(str) = tok.token_node
+  }
+| _(*rest-of-e0xp*) => "??????"
+)
+
+fun
+locpragma_process0
+  (xs: e0xplst): locpragma =
+(
+case+ xs of
+| list_nil() => $LOC.locpragma0_make()
+| list_cons(x1, xs) => locpragma_process1 (x1, xs)
+)
+
+and
+locpragma_process1
+  (x1: e0xp, xs: e0xplst): locpragma =
+(
+case+ xs of
+| list_nil() => $LOC.locpragma1_make(e2s(x1))
+| list_cons(x2, xs) => $LOC.locpragma2_make(e2s(x1), e2s(x2))
+)
+
+in (* in-of-local *)
+
+implement
+d0ecl_pragma_process
+  (xs) = let
+(*
+val () = println! ("d0ecl_pragma_process")
+*)
+in
+//
+case+ xs of
+| list_nil() => ()
+| list_cons(x, xs) =>
+  (
+    case+ 0 of
+    | _ when
+        e0xp_is_location(x) =>
+      (
+        $LOC.the_location_pragma_set(locpragma_process0(xs))
+      )
+    | _ => ((*nothing*))
+  ) (* end of [list_cons] *)
+//
+end // end of [d0ecl_pragma_process]
+
+end // end of [local]
 
 (* ****** ****** *)
 

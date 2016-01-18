@@ -186,7 +186,16 @@ locpragma_type = ptr
 typedef
 locpragma = locpragma_type
 //
+fun locpragma0_make(): locpragma
+fun locpragma1_make(loc: string): locpragma
+fun locpragma2_make(fil: string, loc: string): locpragma
+//
+fun the_location_pragma_pop((*void*)): void
+fun the_location_pragma_push((*void*)): void
+//
 fun the_location_pragma_get(): locpragma
+fun the_location_pragma_set(x: locpragma): void
+//
 fun fprint_location_pragma(out: FILEref, loc: location): void
 //
 (* ****** ****** *)

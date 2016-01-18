@@ -163,10 +163,14 @@ val ((*void*)) =
 //
 val (pf|()) =
   $FIL.the_filenamelst_push(fil)
+val () =
+  $LOC.the_location_pragma_push()
 val d0cs_res =
   parse_from_tokbuf_toplevel(stadyn, buf)
 val ((*void*)) =
-  $FIL.the_filenamelst_pop(pf | (*none*))
+  $FIL.the_filenamelst_pop(pf|(*none*))
+val () =
+  $LOC.the_location_pragma_pop((*void*))
 //
 val ((*void*)) = tokbuf_uninitize (buf)
 //

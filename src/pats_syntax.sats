@@ -2186,7 +2186,16 @@ fun d0ecl_e0xpact_print (_1: token, _2: e0xp): d0ecl
 //
 fun
 d0ecl_pragma
-  (tok_beg: token, xs: e0xplst, tok_end: token): d0ecl
+(
+  tok_beg: token
+, e0xplst: e0xplst
+, tok_end: token
+) : d0ecl // end-of-fun
+//
+fun
+d0ecl_pragma_process(xs: e0xplst): void
+//
+(* ****** ****** *)
 //
 fun
 d0ecl_codegen2

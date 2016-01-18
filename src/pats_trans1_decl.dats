@@ -620,7 +620,9 @@ case+ opt of
   end // end of [None_vt]
 ) : filename // end of [val]
 //
-val d0cs = $PAR.parse_from_filename_toplevel2 (stadyn, fil)
+val
+d0cs =
+$PAR.parse_from_filename_toplevel2(stadyn, fil)
 //
 val (
   pfpush | isexi
@@ -767,12 +769,22 @@ fun auxload
   fil: filename, ldflag: &int >> int
 ) : d1eclist = let
 //
-val pname =
+val
+pname =
   $FIL.filename_get_partname (fil)
-val isdats = string_suffix_is_dats (pname)
 //
-val flag = (if isdats then 1(*dyn*) else 0(*sta*)): int
-val d0cs = $PAR.parse_from_filename_toplevel2 (flag, fil)
+val
+isdats = string_suffix_is_dats (pname)
+//
+val
+flag =
+(
+  if isdats then 1(*dyn*) else 0(*sta*)
+) : int // end of [val]
+//
+val
+d0cs =
+$PAR.parse_from_filename_toplevel2(flag, fil)
 //
 val (pfsave | ()) = the_trans1_env_save ()
 //
