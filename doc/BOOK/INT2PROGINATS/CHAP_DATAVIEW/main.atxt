@@ -590,8 +590,9 @@ in
 end // end of [strptr_length]  
 ')
 
-Clearly, the implemented function of #dyncode("strptr_length") computes the
-length of a given C-string.
+Clearly,
+the implemented function #dyncode("strptr_length")
+computes the length of a given C-string.
 
 ')#comment("para")
 
