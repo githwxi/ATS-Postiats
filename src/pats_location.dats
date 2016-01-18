@@ -389,10 +389,13 @@ implement
 fprint_line_pragma
   (out, loc) = let
 //
-val line = loc.beg_nrow
+val
+line = loc.beg_nrow
 //
 val () =
-  if line >= 0 then let
+if
+line >= 0
+then let
   val () = fprint_string (out, "#line ")
   val () = fprint_int (out, line+1) // counting from 1
   val () = fprint_string (out, " \"")
@@ -400,7 +403,8 @@ val () =
   val () = fprint_string (out, "\"\n")
 in
   // nothing
-end else let
+end // end of [then]
+else let
 (*
 //
 // HX-2010-11-02: this is another possibility:
@@ -409,7 +413,7 @@ end else let
 *)
 in
   // nothing
-end // end of [if]
+end // end of [else]
 //
 in
   // nothing

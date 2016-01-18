@@ -131,41 +131,43 @@ fun filename_is_sats (fil: filename): bool
 fun filename_is_dats (fil: filename): bool
 
 (* ****** ****** *)
-
-fun filename_get_current (): filename
-
+//
+fun filename_get_current((*void*)): filename
+//
 (* ****** ****** *)
-
+//
 absview
 the_filenamelst_push_v
-
+//
 fun the_filenamelst_pop
   (pf: the_filenamelst_push_v | (*none*)): void
-
+//
 fun the_filenamelst_push
   (fil: filename): (the_filenamelst_push_v | void)
 // end of [the_filenamelst_push]
-
+//
 fun the_filenamelst_push_check
   (fil: filename): (the_filenamelst_push_v | bool)
 // end of [the_filenamelst_push_check]
-
+//
 fun the_filenamelst_ppop (): void 
 fun the_filenamelst_ppush (fil: filename): void
-
+//
 fun fprint_the_filenamelst (out: FILEref): void
-
+//
 (* ****** ****** *)
-
-typedef path = string
-
+//
+typedef
+path = string
+//
 fun path_normalize (s0: NSHARED(path)): path
 fun path_normalize_vt (s0: NSHARED(path)): Strptr1
-
+//
 (* ****** ****** *)
-
-absview the_pathlst_push_v
-
+//
+absview
+the_pathlst_push_v
+//
 (* ****** ****** *)
 //
 fun
