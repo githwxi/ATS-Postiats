@@ -27,6 +27,7 @@ Here is a list of major additions and changes since the last release:
 3. Allowing recursive evaluation of a file path: pkgsrcname_eval
 4: Adding a section on linear C-strings in INT2PROGINATS
 5: Adding an ATS2TUTORIAL-chapter on stack-allocated closure-functions
+6: Adding support for #pragma(location, ...) (referred to as locpragma)
 
 ######
 
