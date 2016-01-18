@@ -431,11 +431,12 @@ value into the value itself.
 
 <p>
 A simple demo based on the code for #dyncode("P") and #dyncode("Q") is
-available <a href="./introxmpl1.html">on-line</a>. The entirety of the
-code for this demo can be found in four files of the following names:
+available <a href="./introxmpl1_demo.html">on-line</a>. The entirety
+of the code for this demo can be found in four files of the following
+names:
 
 <pre>
-introxmpl1.html
+introxmpl1_demo.html
 introxmpl1_prctl.sats
 introxmpl1_client.dats
 introxmpl1_server.dats
