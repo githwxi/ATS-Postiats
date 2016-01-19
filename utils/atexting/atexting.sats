@@ -33,6 +33,36 @@
 
 (* ****** ****** *)
 //
+#include
+"share/atspre_define.hats"
+//
+(* ****** ****** *)
+//
+staload
+DA =
+"libats/SATS/dynarray.sats"
+//
+stadef dynarray = $DA.dynarray
+//
+(* ****** ****** *)
+//
+staload
+SBF =
+"libats/SATS/stringbuf.sats"
+//
+stadef stringbuf = $SBF.stringbuf
+//
+(* ****** ****** *)
+//
+staload
+CS0 =
+"{$LIBATSHWXI}\
+/cstream/SATS/cstream.sats"
+//
+vtypedef cstream = $CS0.cstream
+//
+(* ****** ****** *)
+//
 abstype
 filename_type = ptr
 typedef
@@ -121,6 +151,66 @@ location_make_fil_pos_pos
 //
 fun
 location_combine (loc1: loc_t, loc2: loc_t): loc_t
+//
+(* ****** ****** *)
+//
+vtypedef
+_lexbuf_vt0ype =
+@{
+//
+lexbuf_ntot= int
+,
+lexbuf_nrow= int
+,
+lexbuf_ncol= int
+,
+//
+lexbuf_nspace= int
+//
+,
+//
+lexbuf_cstream= cstream
+//
+,
+lexbuf_nback= int
+,
+lexbuf_stringbuf= stringbuf
+//
+} // end of [_lexbuf_vt0ype]
+
+(* ****** ****** *)
+//
+absvt@ype
+lexbuf_vt0ype = _lexbuf_vt0ype
+//
+vtypedef lexbuf = lexbuf_vt0ype
+//
+(* ****** ****** *)
+//
+datatype
+token_node =
+//
+| TOKide of (string)
+//
+| TOKsym of (string)
+//
+| TOKnewline of ()
+//
+| TOKfuncall of (string, tokenlst)
+//
+| TOKextcode of (string)
+//
+where
+token = $rec{
+  token_loc= loc_t
+, token_node= token_node
+} (* end of [token] *)
+//
+and tokenlst = List0(token)
+//
+(* ****** ****** *)
+//
+typedef tnode = token_node
 //
 (* ****** ****** *)
 
