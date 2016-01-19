@@ -28,6 +28,7 @@ SOURCES_DATS += \
   atexting_main.dats \
   atexting_fname.dats \
   atexting_posloc.dats \
+  atexting_global.dats \
 
 ######
 

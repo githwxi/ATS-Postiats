@@ -51,9 +51,12 @@ fprint_filename : fprint_type(fil_t)
 overload fprint with fprint_filename
 //
 (* ****** ****** *)
-
+//
 fun the_filename_get((*void*)): fil_t
-
+//
+fun the_filename_pop((*void*)): fil_t
+fun the_filename_push(fil: fil_t): void
+//
 (* ****** ****** *)
 //
 typedef
