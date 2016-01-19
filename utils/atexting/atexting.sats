@@ -39,6 +39,8 @@ typedef
 filename = filename_type
 typedef fil_t = filename
 //
+val filename_dummy : fil_t
+//
 fun
 fprint_filename : fprint_type(fil_t)
 //
@@ -85,11 +87,18 @@ typedef
 location = location_type
 typedef loc_t = location
 //
+val location_dummy : loc_t
+//
 fun
 fprint_location : fprint_type(loc_t)
 //
 overload fprint with fprint_location
 //
+fun
+fprint_locrange : fprint_type(loc_t)
+//
+(* ****** ****** *)
+
 (* ****** ****** *)
 
 (* end of [atexting.sats] *)

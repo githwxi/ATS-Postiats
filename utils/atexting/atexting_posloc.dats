@@ -101,4 +101,67 @@ else ((*void*))
   
 (* ****** ****** *)
 
+assume
+location_type =
+$rec{
+  fil= fil_t
+, beg_ntot= int // beginning char position
+, beg_nrow= int
+, beg_ncol= int
+, end_ntot= int // finishing char position
+, end_nrow= int
+, end_ncol= int
+} (* end of [location_type] *)
+
+(* ****** ****** *)
+
+implement
+location_dummy =
+'{
+  fil= filename_dummy
+, beg_ntot= ~1, beg_nrow= ~1
+, beg_ncol= ~1, end_ntot= ~1
+, end_nrow= ~1, end_ncol= ~1
+} (* end of [location_dummy] *)
+
+(* ****** ****** *)
+
+implement
+fprint_location
+  (out, loc) = let
+//
+val fil = loc.fil
+val ((*void*)) = fprint_filename(out, fil)
+//
+in
+  fprint_string(out, ": "); fprint_locrange(out, loc)
+end (* end of [fprint_location] *)
+
+(* ****** ****** *)
+
+implement
+fprint_locrange
+  (out, loc) = () where
+{
+//
+val () =
+fprint!
+( out
+, loc.beg_ntot+1
+, "(line=", loc.beg_nrow+1, ", offs=", loc.beg_ncol+1, ")"
+)
+//
+val () = fprint_string (out, " -- ")
+//
+val () =
+fprint!
+( out
+, loc.end_ntot+1
+, "(line=", loc.end_nrow+1, ", offs=", loc.end_ncol+1, ")"
+)
+//
+} (* end of [fprint_locrange] *)
+
+(* ****** ****** *)
+
 (* end of [atexting_posloc.sats] *)
