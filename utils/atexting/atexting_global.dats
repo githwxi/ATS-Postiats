@@ -10,11 +10,13 @@ staload "./atexting.sats"
 //
 typedef T = fil_t
 //
-#include "{$LIBATSHWXI}/globals/HATS/gstacklst.hats"
+#include"\
+{$LIBATSHWXI}\
+/globals/HATS/gstacklst.hats"
 //
 implement
 the_filename_get
-  ((*Void*)) = get_top_exn()
+  ((*void*)) = get_top_exn()
 //
 implement
 the_filename_pop() = pop_exn()
