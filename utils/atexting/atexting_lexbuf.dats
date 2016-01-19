@@ -114,4 +114,24 @@ $SBF.stringbuf_free (buf.lexbuf_stringbuf)
 
 (* ****** ****** *)
 
+implement
+lexbuf_get_position
+  (buf, pos) = () where
+{
+  val () = pos.pos_ntot := buf.lexbuf_ntot
+  val () = pos.pos_nrow := buf.lexbuf_nrow
+  val () = pos.pos_ncol := buf.lexbuf_ncol
+}
+
+implement
+lexbuf_set_position
+  (buf, pos) = () where
+{
+  val () = buf.lexbuf_ntot := pos.pos_ntot
+  val () = buf.lexbuf_nrow := pos.pos_nrow
+  val () = buf.lexbuf_ncol := pos.pos_ncol
+}
+
+(* ****** ****** *)
+
 (* end of [atexting_lexbuf.dats] *)

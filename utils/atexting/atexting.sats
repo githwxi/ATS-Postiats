@@ -238,5 +238,14 @@ lexbuf_initize_fileref
 fun lexbuf_uninitize (buf: &lexbuf >> _?): void
 
 (* ****** ****** *)
+//
+fun
+lexbuf_get_position
+  (buf: &RD(lexbuf), pos: &position? >> _): void
+//
+fun
+lexbuf_set_position
+  (buf: &lexbuf >> _, pos0: &RD(position)): void
+(* ****** ****** *)
 
 (* end of [atexting.sats] *)
