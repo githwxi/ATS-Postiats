@@ -45,7 +45,7 @@ staload "./atexting.sats"
 //
 extern
 fun{}
-fprint_token_node
+fprint_token_node_
   : (FILEref, tnode) -> void
 //
 (* ****** ****** *)
@@ -55,7 +55,7 @@ CODEGEN2
 #then
 #codegen2
 ( "fprint"
-, token_node, fprint_token_node
+, token_node, fprint_token_node_
 )
 #else
 //
@@ -66,7 +66,7 @@ implement
 fprint_val<token> = fprint_token
 //
 implement{}
-fprint_token_node$TOKfuncall$arg2
+fprint_token_node_$TOKfuncall$arg2
   (out, arg0) = let
   val-TOKfuncall(_, arg2) = arg0
 in
@@ -75,7 +75,7 @@ end // end of [fprint_token_node$TOKfuncall$arg2]
 //
 implement
 fprint_token(out, x0) =
-  fprint_token_node<>(out, x0.token_node)
+  fprint_token_node_<>(out, x0.token_node)
 //
 implement
 fprint_tokenlst

@@ -57,10 +57,11 @@ testall:: all
 testall:: cleanall
 
 ######
-
+#
 cleanall:: ; $(RMF) MYPORTDIR/*
-cleanall:: ; $(RMF) atexting_token_fprint.hats
-
+#
+# cleanall:: ; $(RMF) atexting_token_fprint.hats
+#
 ######
 
 ###### end of [Makefile] ######
