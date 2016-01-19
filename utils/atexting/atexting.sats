@@ -47,6 +47,10 @@ fprint_filename : fprint_type(fil_t)
 overload fprint with fprint_filename
 //
 (* ****** ****** *)
+
+fun the_filename_get((*void*)): fil_t
+
+(* ****** ****** *)
 //
 typedef
 position =
@@ -98,7 +102,19 @@ fun
 fprint_locrange : fprint_type(loc_t)
 //
 (* ****** ****** *)
-
+//
+fun
+location_make_pos_pos
+  (pos1: &position, pos2: &position): loc_t
+fun
+location_make_fil_pos_pos
+  (fil: fil_t, pos1: &position, pos2: &position): loc_t
+//
+(* ****** ****** *)
+//
+fun
+location_combine (loc1: loc_t, loc2: loc_t): loc_t
+//
 (* ****** ****** *)
 
 (* end of [atexting.sats] *)

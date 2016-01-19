@@ -164,4 +164,104 @@ fprint!
 
 (* ****** ****** *)
 
+implement
+location_make_pos_pos
+  (pos1, pos2) = (
+//
+location_make_fil_pos_pos
+  (the_filename_get(), pos1, pos2)
+//
+) (* end of [location_make_pos_pos] *)
+
+(* ****** ****** *)
+
+implement
+location_make_fil_pos_pos
+(
+  fil, pos1, pos2
+) = $rec{
+//
+  fil= fil
+, beg_ntot= pos1.pos_ntot
+, beg_nrow= pos1.pos_nrow
+, beg_ncol= pos1.pos_ncol
+, end_ntot= pos2.pos_ntot
+, end_nrow= pos2.pos_nrow
+, end_ncol= pos2.pos_ncol
+//
+} (* end of [location_make_fil_pos_pos] *)
+
+(* ****** ****** *)
+
+local
+
+fun
+is_none
+(
+  loc: loc_t
+) : bool = (loc.beg_ntot < 0)
+
+fun
+auxmain
+(
+  loc1: loc_t, loc2: loc_t
+) : loc_t = let
+//
+  var beg_ntot: int
+  var beg_nrow: int and beg_ncol: int
+  var end_ntot: int
+  var end_nrow: int and end_ncol: int
+//
+  val () =
+  if loc1.beg_ntot <= loc2.beg_ntot
+    then begin
+      beg_ntot := loc1.beg_ntot;
+      beg_nrow := loc1.beg_nrow; beg_ncol := loc1.beg_ncol
+    end // end of [then]
+    else begin
+      beg_ntot := loc2.beg_ntot;
+      beg_nrow := loc2.beg_nrow; beg_ncol := loc2.beg_ncol
+    end // end of [else]
+  // end of [if]
+//
+  val () =
+  if loc1.end_ntot >= loc2.end_ntot
+    then begin
+      end_ntot := loc1.end_ntot; 
+      end_nrow := loc1.end_nrow; end_ncol := loc1.end_ncol
+    end // end of [then]
+    else begin
+      end_ntot := loc2.end_ntot; 
+      end_nrow := loc2.end_nrow; end_ncol := loc2.end_ncol
+    end // end of [else]
+  // end of [if]
+//
+in
+//
+$rec{
+  fil= loc1.fil
+, beg_ntot= beg_ntot, beg_nrow= beg_nrow, beg_ncol= beg_ncol
+, end_ntot= end_ntot, end_nrow= end_nrow, end_ncol= end_ncol
+} (* $rec *)
+//
+end // end of [auxmain]
+
+in (* in of [local] *)
+
+implement
+location_combine
+  (loc1, loc2) =
+(
+  case+ 0 of
+  | _ when
+      is_none (loc1) => loc2
+  | _ when
+      is_none (loc2) => loc1
+  | _ => auxmain (loc1, loc2)
+) (* end of [location_combine] *)
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [atexting_posloc.sats] *)
