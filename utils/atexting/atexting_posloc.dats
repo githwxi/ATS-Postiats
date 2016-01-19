@@ -65,4 +65,34 @@ val () = pos.pos_ncol := pos.pos_ncol + n
 
 (* ****** ****** *)
 
+implement
+position_decby_n(pos, n) =
+{
+//
+val () = pos.pos_ntot := pos.pos_ntot - n
+val () = pos.pos_ncol := pos.pos_ncol - n
+//
+} (* end of [position_decby_n] *)
+
+(* ****** ****** *)
+
+implement
+position_incby_char
+  (pos, c) = (
+//
+if
+c >= 0
+then
+(
+  if c = '\n'
+    then position_byrow(pos)
+    else position_incby_1(pos)
+  // end of [if]
+) (* then *)
+else ((*void*))
+//
+) (* position_incby_char *)
+  
+(* ****** ****** *)
+
 (* end of [atexting_posloc.sats] *)

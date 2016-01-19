@@ -65,11 +65,18 @@ overload fprint with fprint_position
 fun position_byrow(&position >> _): void
 //
 fun position_incby_1(&position >> _): void
-fun position_incby_n(&position >> _, n: int): void
+fun position_incby_n(&position >> _, n: intGte(0)): void
+fun position_decby_n(&position >> _, n: intGte(0)): void
 //
 overload .incby with position_incby_1
 overload .incby with position_incby_n
 //
+overload .decby with position_decby_n
+//
+(* ****** ****** *)
+
+fun position_incby_char(&position >> _, c: int): void
+
 (* ****** ****** *)
 //
 abstype
