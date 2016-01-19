@@ -32,57 +32,37 @@
 (* Start time: January, 2016 *)
 
 (* ****** ****** *)
-//
-abstype
-filename_type = ptr
-typedef
-filename = filename_type
-typedef fil_t = filename
-//
-fun
-fprint_filename : fprint_type(fil_t)
-//
-overload fprint with fprint_filename
-//
-(* ****** ****** *)
-//
-typedef
-position =
-@{
-, pos_ntot= int
-, pos_nrow= int
-, pos_ncol= int
-} (* end of [position] *)
-//
-fun
-fprint_position
-(
-  out: FILEref, pos: &position
-) : void // end-of-function
-//
-overload fprint with fprint_position
-//
-fun position_byrow(&position >> _): void
-//
-fun position_incby_1(&position >> _): void
-fun position_incby_n(&position >> _, n: int): void
-//
-overload .incby with position_incby_1
-overload .incby with position_incby_n
-//
-(* ****** ****** *)
-//
-abstype
-location_type = ptr
-typedef
-location = location_type
-typedef loc_t = location
-//
-fun
-fprint_location : fprint_type(loc_t)
-//
-overload fprint with fprint_location
-//
+
+staload "./atexting.sats"
+
 (* ****** ****** *)
 
-(* end of [atexting.sats] *)
+implement
+position_byrow(pos) =
+{
+//
+val () = pos.pos_ntot := pos.pos_ntot + 1
+val () = pos.pos_ncol := 0 (* beginning *)
+val () = pos.pos_nrow := pos.pos_nrow + 1
+//
+} (* end of [position_byrow] *)
+
+(* ****** ****** *)
+//
+implement
+position_incby_1
+  (pos) = pos.incby(1)
+//
+implement
+position_incby_n
+  (pos, n) = () where
+{
+//
+val () = pos.pos_ntot := pos.pos_ntot + n
+val () = pos.pos_ncol := pos.pos_ncol + n
+//
+} (* end of [position_incby_n] *)
+
+(* ****** ****** *)
+
+(* end of [atexting_posloc.sats] *)
