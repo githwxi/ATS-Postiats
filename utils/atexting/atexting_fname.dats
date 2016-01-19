@@ -33,92 +33,45 @@
 
 (* ****** ****** *)
 //
-abstype
-filename_type = ptr
-typedef
-filename = filename_type
-typedef fil_t = filename
-//
-val filename_dummy : fil_t
-val filename_stdin : fil_t
-//
-fun
-filename_make(path: string): fil_t
-//
-fun
-fprint_filename : fprint_type(fil_t)
-//
-overload fprint with fprint_filename
+#include
+"share\
+/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-fun the_filename_get((*void*)): fil_t
+staload "./atexting.sats"
 
 (* ****** ****** *)
 //
-typedef
-position =
-@{
-, pos_ntot= int
-, pos_nrow= int
-, pos_ncol= int
-} (* end of [position] *)
+datatype
+filename = FNAME of (string)
 //
-fun
-fprint_position
-(
-  out: FILEref, pos: &position
-) : void // end-of-function
-//
-overload fprint with fprint_position
-//
-fun position_byrow(&position >> _): void
-//
-fun position_incby_1(&position >> _): void
-fun position_incby_n(&position >> _, n: intGte(0)): void
-fun position_decby_n(&position >> _, n: intGte(0)): void
-//
-overload .incby with position_incby_1
-overload .incby with position_incby_n
-//
-overload .decby with position_decby_n
+assume filename_type = filename
 //
 (* ****** ****** *)
 
-fun position_incby_char(&position >> _, c: int): void
+implement
+filename_dummy = FNAME ("")
+implement
+filename_stdin = FNAME ("__STDIN__")
 
 (* ****** ****** *)
-//
-abstype
-location_type = ptr
-typedef
-location = location_type
-typedef loc_t = location
-//
-val location_dummy : loc_t
-//
-fun
-fprint_location : fprint_type(loc_t)
-//
-overload fprint with fprint_location
-//
-fun
-fprint_locrange : fprint_type(loc_t)
-//
-(* ****** ****** *)
-//
-fun
-location_make_pos_pos
-  (pos1: &position, pos2: &position): loc_t
-fun
-location_make_fil_pos_pos
-  (fil: fil_t, pos1: &position, pos2: &position): loc_t
-//
-(* ****** ****** *)
-//
-fun
-location_combine (loc1: loc_t, loc2: loc_t): loc_t
-//
+
+implement
+filename_make(path) = FNAME(path)
+
 (* ****** ****** *)
 
-(* end of [atexting.sats] *)
+implement
+fprint_filename
+  (out, fil) = let
+//
+val+FNAME (fname) = fil
+//
+in
+  fprint_string (out, fname)
+end // end of [fprint_filename]
+
+(* ****** ****** *)
+
+(* end of [atexting_fname.dats] *)
