@@ -32,61 +32,70 @@
 (* Start time: January, 2016 *)
 
 (* ****** ****** *)
+
+(*
+#define ATS_DYNLOADFLAG 0
+*)
+
+(* ****** ****** *)
 //
 #include
-"share\
-/atspre_staload.hats"
-//
-(* ****** ****** *)
-
-staload "./atexting.sats"
-
-(* ****** ****** *)
-//
-extern
-fun{}
-fprint_token_node_
-  : (FILEref, tnode) -> void
-//
-(* ****** ****** *)
-
-#ifdef
-CODEGEN2
-#then
-#codegen2
-( "fprint"
-, token_node, fprint_token_node_
-)
-#else
-//
+"share/atspre_define.hats"
 #include
-"./atexting_token_fprint.hats"
+"share/atspre_staload.hats"
 //
-implement
-fprint_val<token> = fprint_token
-//
-implement{}
-fprint_token_node_$TOKfuncall$arg2
-  (out, arg0) = let
-  val-TOKfuncall(_, arg2) = arg0
-in
-  fprint_list_sep<token>(out, arg2, ", ")
-end // end of [fprint_token_node$TOKfuncall$arg2]
-//
-implement
-fprint_token(out, x0) =
-  fprint_token_node_<>(out, x0.token_node)
-//
-implement
-fprint_tnode
-  (out, node) = fprint_token_node_<>(out, node)
-//
-implement
-fprint_tokenlst
-  (out, xs) = fprint_list_sep<token>(out, xs, ", ")
-//
-#endif // #ifdef
+(* ****** ****** *)
+
+%{^
+#define \
+atstyarr_field_undef(fname) fname[]
+%} // end of [%{]
 
 (* ****** ****** *)
 
-(* end of [atexting_token.dats] *)
+local
+#include"{$LIBATSHWXI}/cstream/DATS/cstream.dats"
+in (*in-of-local *)
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+#include"{$LIBATSHWXI}/cstream/DATS/cstream_fun.dats"
+in (*in-of-local *)
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+#include"{$LIBATSHWXI}/cstream/DATS/cstream_cloref.dats"
+in (*in-of-local *)
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+#include"{$LIBATSHWXI}/cstream/DATS/cstream_string.dats"
+in (*in-of-local *)
+end // end of [local]
+
+local
+#include"{$LIBATSHWXI}/cstream/DATS/cstream_strptr.dats"
+in (*in-of-local *)
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+#include"{$LIBATSHWXI}/cstream/DATS/cstream_fileref.dats"
+in (*in-of-local *)
+end // end of [local]
+
+local
+#include"{$LIBATSHWXI}/cstream/DATS/cstream_fileptr.dats"
+in (*in-of-local *)
+end // end of [local]
+
+(* ****** ****** *)
+
+(* end of [atexting_mylib.dats] *)

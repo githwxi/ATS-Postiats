@@ -33,60 +33,85 @@
 
 (* ****** ****** *)
 //
+//
+#include
+"share\
+/atspre_define.hats"
 #include
 "share\
 /atspre_staload.hats"
 //
 (* ****** ****** *)
 
+staload UN = $UNSAFE
+
+(* ****** ****** *)
+
 staload "./atexting.sats"
 
 (* ****** ****** *)
 //
-extern
-fun{}
-fprint_token_node_
-  : (FILEref, tnode) -> void
+staload _ =
+"libats/DATS/stringbuf.dats"
+//
+staload _ =
+"{$LIBATSHWXI}/cstream/DATS/cstream.dats"
 //
 (* ****** ****** *)
 
-#ifdef
-CODEGEN2
-#then
-#codegen2
-( "fprint"
-, token_node, fprint_token_node_
-)
-#else
-//
-#include
-"./atexting_token_fprint.hats"
-//
-implement
-fprint_val<token> = fprint_token
-//
-implement{}
-fprint_token_node_$TOKfuncall$arg2
-  (out, arg0) = let
-  val-TOKfuncall(_, arg2) = arg0
-in
-  fprint_list_sep<token>(out, arg2, ", ")
-end // end of [fprint_token_node$TOKfuncall$arg2]
-//
-implement
-fprint_token(out, x0) =
-  fprint_token_node_<>(out, x0.token_node)
-//
-implement
-fprint_tnode
-  (out, node) = fprint_token_node_<>(out, node)
-//
-implement
-fprint_tokenlst
-  (out, xs) = fprint_list_sep<token>(out, xs, ", ")
-//
-#endif // #ifdef
+%{^
+#define \
+atstyarr_field_undef(fname) fname[]
+%} // end of [%{]
 
 (* ****** ****** *)
 
-(* end of [atexting_token.dats] *)
+assume
+lexbuf_vt0ype = _lexbuf_vt0ype
+
+(* ****** ****** *)
+
+implement
+lexbuf_initize_fileref
+  (buf, inp) = () where
+{
+//
+#define BUFCAP 1024
+//
+val
+cs0 =
+$CS0.cstream_make_fileref(inp)
+val
+sbf =
+$SBF.stringbuf_make_nil(i2sz(BUFCAP))
+//
+val () = buf.lexbuf_ntot := 0
+val () = buf.lexbuf_nrow := 0
+val () = buf.lexbuf_ncol := 0
+//
+val () = buf.lexbuf_nspace := 0
+//
+val () = buf.lexbuf_cstream := cs0
+//
+val () = buf.lexbuf_nback := 0
+val () = buf.lexbuf_stringbuf := sbf
+//
+} (* end of [lexbuf_initize_fileref] *)
+
+(* ****** ****** *)
+
+implement
+lexbuf_uninitize
+  (buf) = () where
+{
+//
+val () =
+$CS0.cstream_free (buf.lexbuf_cstream)
+val () =
+$SBF.stringbuf_free (buf.lexbuf_stringbuf)
+//
+} (* end of [lexbuf_uninitize] *)
+
+(* ****** ****** *)
+
+(* end of [atexting_lexbuf.dats] *)

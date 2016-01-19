@@ -42,12 +42,17 @@
 staload "./atexting.sats"
 
 (* ****** ****** *)
-
+//
+dynload "./atexting_mylib.dats"
+//
 dynload "./atexting_fname.dats"
 dynload "./atexting_posloc.dats"
-dynload "./atexting_global.dats"
+//
 dynload "./atexting_token.dats"
-
+dynload "./atexting_lexbuf.dats"
+//
+dynload "./atexting_global.dats"
+//
 (* ****** ****** *)
 
 implement

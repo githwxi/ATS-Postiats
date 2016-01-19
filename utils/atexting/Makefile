@@ -26,10 +26,12 @@ SOURCES_SATS += \
 
 SOURCES_DATS += \
   atexting_main.dats \
+  atexting_mylib.dats \
   atexting_fname.dats \
   atexting_posloc.dats \
-  atexting_global.dats \
   atexting_token.dats \
+  atexting_lexbuf.dats \
+  atexting_global.dats \
 
 ######
 #

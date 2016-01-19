@@ -32,6 +32,11 @@
 (* Start time: January, 2016 *)
 
 (* ****** ****** *)
+
+#define
+ATS_PACKNAME "ATEXTING"
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_define.hats"
@@ -154,6 +159,44 @@ location_combine (loc1: loc_t, loc2: loc_t): loc_t
 //
 (* ****** ****** *)
 //
+datatype
+token_node =
+//
+| TOKide of (string)
+//
+| TOKsym of (string)
+//
+| TOKnewline of ()
+//
+| TOKfuncall of (string, tokenlst)
+//
+| TOKextcode of (string)
+//
+where
+token = $rec{
+  token_loc= loc_t
+, token_node= token_node
+} (* end of [token] *)
+//
+and tokenlst = List0(token)
+//
+(* ****** ****** *)
+//
+typedef tnode = token_node
+//
+(* ****** ****** *)
+//
+fun
+fprint_token : fprint_type(token)
+fun
+fprint_tnode : fprint_type(tnode)
+fun
+fprint_tokenlst : fprint_type(tokenlst)
+//
+overload fprint with fprint_token
+//
+(* ****** ****** *)
+//
 vtypedef
 _lexbuf_vt0ype =
 @{
@@ -186,41 +229,14 @@ lexbuf_vt0ype = _lexbuf_vt0ype
 vtypedef lexbuf = lexbuf_vt0ype
 //
 (* ****** ****** *)
-//
-datatype
-token_node =
-//
-| TOKide of (string)
-//
-| TOKsym of (string)
-//
-| TOKnewline of ()
-//
-| TOKfuncall of (string, tokenlst)
-//
-| TOKextcode of (string)
-//
-where
-token = $rec{
-  token_loc= loc_t
-, token_node= token_node
-} (* end of [token] *)
-//
-and tokenlst = List0(token)
+fun
+lexbuf_initize_fileref
+  (buf: &lexbuf? >> _, inp: FILEref): void
 //
 (* ****** ****** *)
-//
-typedef tnode = token_node
-//
-(* ****** ****** *)
-//
-fun
-fprint_token : fprint_type(token)
-fun
-fprint_tokenlst : fprint_type(tokenlst)
-//
-overload fprint with fprint_token
-//
+
+fun lexbuf_uninitize (buf: &lexbuf >> _?): void
+
 (* ****** ****** *)
 
 (* end of [atexting.sats] *)
