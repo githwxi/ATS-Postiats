@@ -25,11 +25,12 @@ SOURCES_SATS += \
   atexting.sats \
 
 SOURCES_DATS += \
+  atexting_main.dats \
   atexting_posloc.dats \
 
 ######
 
-MYTARGET=calc
+MYTARGET=atexing
 
 ######
 #

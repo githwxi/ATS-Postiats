@@ -43,62 +43,18 @@ staload "./atexting.sats"
 
 (* ****** ****** *)
 
+dynload "./atexting_posloc.dats"
+
+(* ****** ****** *)
+
 implement
-position_byrow(pos) =
+main0() = () where
 {
 //
-val () = pos.pos_ntot := pos.pos_ntot + 1
-val () = pos.pos_ncol := 0 (* beginning *)
-val () = pos.pos_nrow := pos.pos_nrow + 1
+val () = println! ("Hello from [atexting]!")
 //
-} (* end of [position_byrow] *)
-
-(* ****** ****** *)
-//
-implement
-position_incby_1
-  (pos) = pos.incby(1)
-//
-implement
-position_incby_n
-  (pos, n) = () where
-{
-//
-val () = pos.pos_ntot := pos.pos_ntot + n
-val () = pos.pos_ncol := pos.pos_ncol + n
-//
-} (* end of [position_incby_n] *)
+} (* end of [main0] *)
 
 (* ****** ****** *)
 
-implement
-position_decby_n(pos, n) =
-{
-//
-val () = pos.pos_ntot := pos.pos_ntot - n
-val () = pos.pos_ncol := pos.pos_ncol - n
-//
-} (* end of [position_decby_n] *)
-
-(* ****** ****** *)
-
-implement
-position_incby_char
-  (pos, c) = (
-//
-if
-c >= 0
-then
-(
-  if c = '\n'
-    then position_byrow(pos)
-    else position_incby_1(pos)
-  // end of [if]
-) (* then *)
-else ((*void*))
-//
-) (* position_incby_char *)
-  
-(* ****** ****** *)
-
-(* end of [atexting_posloc.sats] *)
+(* end of [atexting_main.sats] *)
