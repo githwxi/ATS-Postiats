@@ -29,6 +29,7 @@ SOURCES_DATS += \
   atexting_fname.dats \
   atexting_posloc.dats \
   atexting_global.dats \
+  atexting_token.dats \
 
 ######
 
@@ -39,6 +40,12 @@ MYTARGET=atexing
 MYPORTDIR=MYPORTDIR
 #
 #MYPORTCPP=MYPORTCPP
+#
+######
+#
+atexting_token_fprint.hats: \
+atexting.sats atexting_token.dats; \
+$(PATSOPT) -DATS CODEGEN2 --codegen-2 -o $@ -d atexting_token.dats
 #
 ######
 

@@ -264,4 +264,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [atexting_posloc.sats] *)
+(* end of [atexting_posloc.dats] *)

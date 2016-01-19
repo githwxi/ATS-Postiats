@@ -213,5 +213,14 @@ and tokenlst = List0(token)
 typedef tnode = token_node
 //
 (* ****** ****** *)
+//
+fun
+fprint_token : fprint_type(token)
+fun
+fprint_tokenlst : fprint_type(tokenlst)
+//
+overload fprint with fprint_token
+//
+(* ****** ****** *)
 
 (* end of [atexting.sats] *)

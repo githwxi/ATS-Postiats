@@ -161,6 +161,8 @@ of // case+
     // end of [if]
   ) (* D2Ccodegen *)
 //
+| D2Clist(d2cs) => auxlst (d2cs)
+//
 | D2Clocal(_, d2cs_body) => auxlst (d2cs_body)
 //
 | _(*rest-of-d2ecl*) => ()

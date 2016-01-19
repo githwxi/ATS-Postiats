@@ -46,6 +46,7 @@ staload "./atexting.sats"
 dynload "./atexting_fname.dats"
 dynload "./atexting_posloc.dats"
 dynload "./atexting_global.dats"
+dynload "./atexting_token.dats"
 
 (* ****** ****** *)
 
