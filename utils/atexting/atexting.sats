@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2014 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2016 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -29,40 +29,32 @@
 
 (* Author: Hongwei Xi *)
 (* Authoremail: gmhwxiATgmailDOTcom *)
-(* Start time: May, 2014 *)
+(* Start time: January, 2016 *)
 
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0
+abstype
+filename_type = ptr
+typedef
+filename = filename_type
+typedef fil_t = filename
 
 (* ****** ****** *)
-//
-#include
-"share/atspre_define.hats"
-#include
-"share/atspre_staload.hats"
-//
-(* ****** ****** *)
 
-%{^
-#define \
-atstyarr_field_undef(fname) fname[]
-%} // end of [%{]
+abstype
+position_type = ptr
+typedef
+position = position_type
+typedef pos_t = position
 
 (* ****** ****** *)
-//
-local
-#include
-"{$LIBATSHWXI}/cstream/DATS/cstream.dats"
-in (*in-of-local *)
-end // end of [local]
-//
-local
-#include
-"{$LIBATSHWXI}/cstream/DATS/cstream_fileref.dats"
-in (*in-of-local *)
-end // end of [local]
-//
+
+abstype
+location_type = ptr
+typedef
+location = location_type
+typedef loc_t = location
+
 (* ****** ****** *)
 
-(* end of [atspkgreloc_wget_lib.dats] *)
+(* end of [atexting.sats] *)
