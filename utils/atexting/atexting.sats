@@ -162,11 +162,13 @@ location_combine (loc1: loc_t, loc2: loc_t): loc_t
 datatype
 token_node =
 //
+| TOKint of (int)
+//
 | TOKide of (string)
 //
 | TOKsym of (string)
 //
-| TOKnewline of ()
+| TOKtext of (string)
 //
 | TOKfuncall of (string, tokenlst)
 //

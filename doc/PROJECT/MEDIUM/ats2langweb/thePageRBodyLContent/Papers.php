@@ -26,22 +26,23 @@ presence of dependent types, there often exist certain acute problems
 that make it difficult for PTS to directly accommodate many common
 realistic programming features such as general recursion, recursive
 types, effects (e.g., exceptions, references, input/output), etc. In
-this paper, Applied Type System (ATS) is presented as a framework
-for designing and formalizing type systems in support of practical
-programming with advanced types (including dependent types). In
-particular, it is demonstrated that ATS can readily accommodate a
-paradigm referred to as programming with theorem-proving (PwTP) in
-which programs and proofs are constructed in a syntactically
+this paper, Applied Type System (<b>ATS</b>) is presented as a
+framework for designing and formalizing type systems in support of
+practical programming with advanced types (including dependent
+types). In particular, it is demonstrated that <b>ATS</b> can readily
+accommodate a paradigm referred to as programming with theorem-proving
+(PwTP) in which programs and proofs are constructed in a syntactically
 intertwined manner, yielding a practical approach to internalizing
 constraint-solving needed during type-checking. The key salient
-feature of ATS lies in a complete separation between statics, where
-types are formed and reasoned about, and dynamics, where programs are
-constructed and evaluated. With this separation, it is no longer
-possible for a program to occur in a type as is otherwise allowed in
-PTS.  The paper contains not only a formal development of ATS
-but also some examples taken from <u>ATS</u>, a programming language
-with a type system rooted in ATS, in support of using ATS as a
-framework to form type systems for practical programming.
+feature of <b>ATS</b> lies in a complete separation between statics,
+where types are formed and reasoned about, and dynamics, where
+programs are constructed and evaluated. With this separation, it is no
+longer possible for a program to occur in a type as is otherwise
+allowed in PTS.  The paper contains not only a formal development of
+<b>ATS</b> (of minimalist style) but also some examples taken from
+<u>ATS</u>, a programming language with a type system rooted in
+<b>ATS</b>, in support of employing <b>ATS</b> as a framework to
+formulate advanced type systems for practical programming.
 </td>
 </tr>
 <tr><td>
