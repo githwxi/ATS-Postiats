@@ -186,6 +186,12 @@ typedef tnode = token_node
 //
 (* ****** ****** *)
 //
+fun token_get_loc(token): loc_t
+//
+fun token_make(loc_t, tnode): token
+//
+(* ****** ****** *)
+//
 fun
 fprint_token : fprint_type(token)
 fun
@@ -231,21 +237,76 @@ vtypedef lexbuf = lexbuf_vt0ype
 (* ****** ****** *)
 fun
 lexbuf_initize_fileref
-  (buf: &lexbuf? >> _, inp: FILEref): void
+(
+  buf: &lexbuf? >> _, inp: FILEref
+) : void // end-of-function
 //
 (* ****** ****** *)
 
-fun lexbuf_uninitize (buf: &lexbuf >> _?): void
+fun
+lexbuf_uninitize(buf: &lexbuf >> _?): void
 
 (* ****** ****** *)
 //
 fun
 lexbuf_get_position
-  (buf: &RD(lexbuf), pos: &position? >> _): void
+(
+  buf: &RD(lexbuf), pos: &position? >> _
+) : void // end-of-function
 //
 fun
 lexbuf_set_position
-  (buf: &lexbuf >> _, pos0: &RD(position)): void
+(
+  buf: &lexbuf >> _, pos0: &RD(position)
+) : void // end-of-function
+
+(* ****** ****** *)
+//
+fun
+lexbuf_set_nback(buf: &lexbuf, nb: int): void
+fun
+lexbuf_incby_nback(buf: &lexbuf, nb: int): void
+//
+(* ****** ****** *)
+//
+fun
+lexbuf_get_nspace (buf: &lexbuf): int
+fun
+lexbuf_set_nspace (buf: &lexbuf, n: int): void
+//
+(* ****** ****** *)
+//
+fun
+lexbuf_remove
+  (buf: &lexbuf >> _, nchr: intGte(0)): void
+//
+fun lexbuf_remove_all (buf: &lexbuf >> _): void
+//
+(* ****** ****** *)
+//
+fun
+lexbuf_takeout
+  (buf: &lexbuf >> _, nchr: intGte(0)): Strptr1
+//
+(* ****** ****** *)
+
+fun lexbuf_get_char (buf: &lexbuf >> _): int
+
+(* ****** ****** *)
+
+fun lexbuf_get_token_any (buf: &lexbuf >> _): token
+fun lexbuf_get_token_skip (buf: &lexbuf >> _): token
+
+(* ****** ****** *)
+//
+fun
+lexbufpos_get_location(buf: &lexbuf, pos: &position) : loc_t
+//
+fun
+lexbuf_getbyrow_location(buf: &lexbuf): loc_t
+fun
+lexbuf_getincby_location(buf: &lexbuf, nchr: intGte(0)): loc_t
+//
 (* ****** ****** *)
 
 (* end of [atexting.sats] *)

@@ -33,71 +33,88 @@
 
 (* ****** ****** *)
 //
+//
+#include
+"share\
+/atspre_define.hats"
 #include
 "share\
 /atspre_staload.hats"
 //
 (* ****** ****** *)
 
+staload UN = $UNSAFE
+
+(* ****** ****** *)
+
 staload "./atexting.sats"
 
 (* ****** ****** *)
 
-implement
-token_get_loc(tok) = tok.token_loc
+macdef ENDL = char2int0('\n')
 
 (* ****** ****** *)
-//
-implement
-token_make(loc, node) =
-  $rec{ token_loc= loc, token_node= node }
-//
-(* ****** ****** *)
-//
-extern
-fun{}
-fprint_token_node_
-  : (FILEref, tnode) -> void
-//
-(* ****** ****** *)
 
-#ifdef
-CODEGEN2
-#then
-#codegen2
-( "fprint"
-, token_node, fprint_token_node_
-)
-#else
+fun
+BLANK_test
+(
+  i: int
+) : bool = let
 //
-#include
-"./atexting_token_fprint.hats"
+val c = int2char0 (i)
 //
-implement
-fprint_val<token> = fprint_token
-//
-implement{}
-fprint_token_node_$TOKfuncall$arg2
-  (out, arg0) = let
-  val-TOKfuncall(_, arg2) = arg0
 in
-  fprint_list_sep<token>(out, arg2, ", ")
-end // end of [fprint_token_node$TOKfuncall$arg2]
-//
-implement
-fprint_token(out, x0) =
-  fprint_token_node_<>(out, x0.token_node)
-//
-implement
-fprint_tnode
-  (out, node) = fprint_token_node_<>(out, node)
-//
-implement
-fprint_tokenlst
-  (out, xs) = fprint_list_sep<token>(out, xs, ", ")
-//
-#endif // #ifdef
+  case+ 0 of
+  | _ when c = ' ' => true
+  | _ when c = '\t' => true
+  | _ (*rest-of-chars*) => false
+end // end of [BLANK_test]
 
 (* ****** ****** *)
 
-(* end of [atexting_token.dats] *)
+fun
+IDENTFST_test
+(
+  i: int
+) : bool = let
+//
+val c = int2char0(i)
+//
+in
+//
+if
+isalpha(c)
+then true
+else (
+  if c = '_' then true else false
+) (* end of [else] *)
+// end of [if]
+//
+end (* end of [IDENTFST_test] *)
+
+(* ****** ****** *)
+
+fun
+IDENTRST_test
+(
+  i: int
+) : bool = let
+//
+val c = int2char0(i)
+//
+in
+//
+case+ 0 of
+| _ when
+    isalnum(c) => true
+  // end of [isalnum]
+//
+| _ when c = '_' => true
+//
+| _ (*rest-of-char*) => false
+//
+end (* end of [IDENTRST_test] *)
+
+(* ****** ****** *)
+
+(* end of [atexting_lexing.dats] *)
