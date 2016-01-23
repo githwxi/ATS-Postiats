@@ -220,23 +220,32 @@ a:vt0p
 (
   A: matrixref (a, m, n), m: size_t m, n: size_t n
 ) : void // end of [matrixref_foreach]
+//
 fun{
 a:vt0p}{env:vt0p
 } matrixref_foreach_env{m,n:int}
 (
   A: matrixref (a, m, n), m: size_t m, n: size_t n, env: &(env) >> _
 ) : void // end of [matrixref_foreach_env]
-
+//
+fun{
+a:vt0p
+} matrixref_foreach_cloref{m,n:int}
+(
+  A: matrixref(a, m, n), m: size_t(m), n: size_t(n), fwork: (&(a) >> _) -<cloref1> void 
+) : void // end of [mtrxszref_foreach_cloref]
+//
 #atscode_separator()
 //
 // mtrxszref: a reference to a matrix with size information attached
 //
 #atscode_separator()
-
+//
 abstype // in-variant
-mtrxszref_vt0ype_type (a: vt@ype) = ptr
+mtrxszref_vt0ype_type(a:vt@ype) = ptr
+//
 stadef mtrxszref = mtrxszref_vt0ype_type
-
+//
 #atscode_separator()
 
 fun{}

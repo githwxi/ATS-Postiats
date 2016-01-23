@@ -168,6 +168,28 @@ end // end of [matrixref_foreach_env]
 
 #atscode_separator()
 
+implement
+{a}(*tmp*)
+matrixref_foreach_cloref
+  (A, m, n, fwork) = let
+//
+implement
+{a2}{env}
+matrix_foreach$fwork
+  (x, env) = let
+  val (pf, fpf | p) = $UN.ptr_vtake{a}(addr@x)
+  val ((*void*)) = fwork(!p)
+  prval ((*void*)) = fpf(pf)
+in
+  // nothing
+end // end of [matrix_foreach$work]
+//
+in
+  matrixref_foreach(A, m, n)
+end // end of [matrixref_foreach_cloref]
+
+#atscode_separator()
+
 local
 //
 datatype
