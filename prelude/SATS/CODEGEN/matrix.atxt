@@ -59,59 +59,86 @@ MatrixSubscriptExn of ((*void*))
 #atscode_separator()
 //
 praxi
-lemma_matrix_param{a:vt0p}
-  {l:addr}{m,n:int} (M: &matrix(INV(a), m, n)): [m >= 0; n >= 0] void
+lemma_matrix_param
+  {a:vt0p}
+  {l:addr}{m,n:int}
+(
+  M: &matrix(INV(a), m, n)
+) : [m >= 0; n >= 0] void
 //
 praxi
-lemma_matrix_v_param{a:vt0p}
-  {l:addr}{m,n:int} (pf: !matrix_v (INV(a), l, m, n)): [m >= 0; n >= 0] void
+lemma_matrix_v_param
+  {a:vt0p}
+  {l:addr}{m,n:int}
+(
+  pf0: !matrix_v(INV(a), l, m, n)
+) : [m >= 0; n >= 0] void // end-of-fun
 //
 #atscode_separator()
 //
 praxi
 array2matrix_v
-  {a:vt0p}{l:addr}{m,n:int}
-  (pf: array_v (INV(a), l, m * n)) : matrix_v (a, l, m, n)
+  {a:vt0p}
+  {l:addr}{m,n:int}
+(
+  pf0:
+  array_v(INV(a), l, m*n)
+) : matrix_v (a, l, m(*nrow*), n(*ncol*))
 praxi
 matrix2array_v
-  {a:vt0p}{l:addr}{m,n:int}
-  (pf: matrix_v (INV(a), l, m, n)) : array_v (a, l, m * n)
+  {a:vt0p}
+  {l:addr}{m,n:int}
+  (pf0: matrix_v(INV(a), l, m, n)): array_v (a, l, m*n)
 //
 #atscode_separator()
 //
-// HX: ATS matrices is of row-major style
+// HX: row-major style
 //
 absview
-matrow_view (a:viewt@ype+, l:addr, m:int, n:int)
+matrow_view
+(
+  a:vt@ype+
+, l:addr, m:int, n:int
+)
+//
 stadef matrow_v = matrow_view
+//
 absview
-matcol_view (a:viewt@ype+, l:addr, m:int, n:int)
+matcol_view
+(
+  a:vt@ype+
+, l:addr, m:int, n:int
+)
+//
 stadef matcol_v = matcol_view
 //
 #atscode_separator()
-
+//
 fun{a:vt0p}
 matrix_getref_at_int
   {m,n:int}
 (
   M: &RD(matrix (INV(a), m, n))
 , i: natLt (m), n: int n, j: natLt (n)
-) :<> cPtr1 (a) // endfun
-
+) :<> cPtr1 (a) // end-of-function
+//
 fun{a:vt0p}
 matrix_getref_at_size
   {m,n:int}
 (
   M: &RD(matrix (INV(a), m, n))
 , i: sizeLt (m), n: size_t n, j: sizeLt (n)
-) :<> cPtr1 (a) // endfun
-
+) :<> cPtr1 (a) // end-of-function
+//
 symintr matrix_getref_at
-overload matrix_getref_at with matrix_getref_at_int
-overload matrix_getref_at with matrix_getref_at_size
-
+//
+overload
+matrix_getref_at with matrix_getref_at_int
+overload
+matrix_getref_at with matrix_getref_at_size
+//
 #atscode_separator()
-
+//
 fun{a:t0p}
 matrix_get_at_int
   {m,n:int}
@@ -119,52 +146,62 @@ matrix_get_at_int
   M: &RD(matrix (INV(a), m, n))
 , i: natLt (m), n: int n, j: natLt (n)
 ) :<> (a) // endfun
+//
 overload [] with matrix_get_at_int
-
+//
 fun{a:t0p}
 matrix_get_at_size
   {m,n:int}
 (
-  M: &RD(matrix (INV(a), m, n))
-, i: sizeLt (m), n: size_t n, j: sizeLt (n)
+  M: &RD(matrix(INV(a), m, n))
+, i: sizeLt (m), n: size_t n, j: sizeLt(n)
 ) :<> (a) // endfun
+//
 overload [] with matrix_get_at_size
-
+//
 symintr matrix_get_at
-overload matrix_get_at with matrix_get_at_int of 0
-overload matrix_get_at with matrix_get_at_size of 0
-
+//
+overload
+matrix_get_at with matrix_get_at_int of 0
+overload
+matrix_get_at with matrix_get_at_size of 0
+//
 #atscode_separator()
-
+//
 fun{a:t0p}
 matrix_set_at_int
   {m,n:int}
 (
-  M: &matrix (INV(a), m, n)
+  M: &matrix(INV(a), m, n)
 , i: natLt (m), n: int n, j: natLt (n), x: a
-) :<!wrt> void // endfun
+) :<!wrt> void // end-of-function
+//
 overload [] with matrix_set_at_int
-
+//
 fun{a:t0p}
 matrix_set_at_size
   {m,n:int}
 (
-  M: &matrix (INV(a), m, n)
+  M: &matrix(INV(a), m, n)
 , i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
-) :<!wrt> void // endfun
+) :<!wrt> void // end-of-function
+//
 overload [] with matrix_set_at_size
-
+//
 symintr matrix_set_at
-overload matrix_set_at with matrix_set_at_int of 0
-overload matrix_set_at with matrix_set_at_size of 0
-
+//
+overload
+matrix_set_at with matrix_set_at_int of 0
+overload
+matrix_set_at with matrix_set_at_size of 0
+//
 #atscode_separator()
 
 fun{a:vt0p}
 matrix_exch_at_int
   {m,n:int}
 (
-  M: &matrix (INV(a), m, n)
+  M: &matrix(INV(a), m, n)
 , i: natLt (m), n: int n, j: natLt (n), x: &a>>a
 ) :<!wrt> void // endfun
 
@@ -172,7 +209,7 @@ fun{a:vt0p}
 matrix_exch_at_size
   {m,n:int}
 (
-  M: &matrix (INV(a), m, n)
+  M: &matrix(INV(a), m, n)
 , i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
 ) :<!wrt> void // endfun
 
@@ -189,58 +226,68 @@ matrix_ptr_alloc
   row: size_t m, col: size_t n
 ) :<!wrt> [l:agz]
 (
-  matrix_v (a?, l, m, n), mfree_gc_v (l) | ptr l
+  matrix_v(a?, l, m, n), mfree_gc_v (l) | ptr l
 ) // end of [matrix_ptr_alloc]
 
 fun{}
 matrix_ptr_free
   {a:vt0p}{l:addr}{m,n:int}
 (
-  matrix_v (a?, l, m, n), mfree_gc_v (l) | ptr l
+  matrix_v(a?, l, m, n), mfree_gc_v l | ptr l
 ) :<!wrt> void // end of [matrix_ptr_free]
 
 #atscode_separator()
-
+//
 fun{a:vt0p}
-matrix_tabulate$fopr (i: size_t, j: size_t): (a)
+matrix_tabulate$fopr
+  (i: size_t, j: size_t): (a)
+//
 fun{a:vt0p}
 matrix_ptr_tabulate
-  {m,n:int} (row: size_t m, col: size_t n)
-  : [l:addr] (matrix_v (a, l, m, n), mfree_gc_v (l) | ptr l)
-// end of [matrixptr_tabulate]
-
+  {m,n:int}
+(
+  nrow: size_t m, ncol: size_t n
+) : [l:addr]
+(
+  matrix_v (a, l, m, n), mfree_gc_v (l) | ptr(l)
+) (* end of [matrixptr_tabulate] *)
+//
 #atscode_separator()
 //
-fun{
-} fprint_matrix$sep1 (out: FILEref): void // col separation
-fun{
-} fprint_matrix$sep2 (out: FILEref): void // row separation
+fun{}
+fprint_matrix$sep1(out: FILEref): void // col sep
+fun{}
+fprint_matrix$sep2(out: FILEref): void // row sep
 //
 fun{a:vt0p}
-fprint_matrix_int{m,n:int}
+fprint_matrix_int
+  {m,n:int}
 (
   out: FILEref
-, M: &matrix (INV(a), m, n), m: int (m), n: int (n)
+, mat: &matrix(INV(a), m, n), m: int(m), n: int(n)
 ) : void // end of [fprint_matrix_int]
 fun{a:vt0p}
-fprint_matrix_size{m,n:int}
+fprint_matrix_size
+  {m,n:int}
 (
   out: FILEref
-, M: &matrix (INV(a), m, n), m: size_t (m), n: size_t (n)
+, mat: &matrix(INV(a), m, n), m: size_t(m), n: size_t(n)
 ) : void // end of [fprint_matrix_size]
 //
 symintr fprint_matrix
+//
 overload fprint_matrix with fprint_matrix_int
 overload fprint_matrix with fprint_matrix_size
-overload fprint with fprint_matrix
 //
 #atscode_separator()
 
 fun{a:vt0p}
-fprint_matrix_sep{m,n:int}
+fprint_matrix_sep
+  {m,n:int}
 (
   out: FILEref
-, M: &matrix (INV(a), m, n), m: size_t (m), n: size_t (n)
+, M: &matrix(INV(a), m, n)
+, m: size_t(m), n: size_t(n)
 , sep1: NSH(string), sep2: NSH(string)
 ) : void // end of [fprint_matrix_sep]
 
@@ -250,14 +297,18 @@ fun{a:vt0p}
 matrix_ptr_takeout_elt
   {l0:addr}
   {m,n:int}
-  {i,j:nat | i < m; j < n} (
-  pfmat: matrix_v (INV(a), l0, m, n)
-| base: ptr l0, i: size_t i, n: size_t n, j: size_t j
-) :<> [l:addr] (
+  {i,j:nat | i < m; j < n}
+(
+  pfm: matrix_v(INV(a), l0, m, n)
+| base: ptr(l0)
+, i: size_t(i), n: size_t(n), j: size_t(j)
+) :<>
+[l:addr]
+(
   a @ l
 , a @ l -<lin,prf> matrix_v (a, l0, m, n)
 | ptr (l)
-) // end of [matrix_ptr_takeout_elt]
+) (* end of [matrix_ptr_takeout_elt] *)
 
 fun{a:vt0p}
 matrix_ptr_takeout_row
@@ -265,13 +316,15 @@ matrix_ptr_takeout_row
   {m,n:int}
   {i:int | i < m}
 (
-  pfmat: matrix_v (INV(a), l0, m, n)
-| base: ptr l0, i: size_t i, n: size_t n
-) :<> [l:addr] (
-  matrow_v (a, l, m, n)
-, matrow_v (a, l, m, n) -<lin,prf> matrix_v (a, l0, m, n)
+  pfm: matrix_v(INV(a), l0, m, n)
+| base: ptr(l0), i: size_t(i), n: size_t(n)
+) :<>
+[l:addr]
+(
+  matrow_v(a, l, m, n)
+, matrow_v(a, l, m, n) -<lin,prf> matrix_v(a, l0, m, n)
 | ptr (l)
-) // end of [matrix_ptr_takeout_row]
+) (* end of [matrix_ptr_takeout_row] *)
 
 fun{a:vt0p}
 matrix_ptr_takeout_col
@@ -279,67 +332,74 @@ matrix_ptr_takeout_col
   {m,n:int}
   {i:int | i < m}
 (
-  pfmat: matrix_v (INV(a), l0, m, n)
-| base: ptr l0, i: size_t i, n: size_t n
-) :<> [l:addr] (
-  matcol_v (a, l, m, n)
-, matcol_v (a, l, m, n) -<lin,prf> matrix_v (a, l0, m, n)
+  pfm: matrix_v(INV(a), l0, m, n)
+| base: ptr l0, i: size_t(i), n: size_t(n)
+) :<>
+[l:addr]
+(
+  matcol_v(a, l, m, n)
+, matcol_v(a, l, m, n) -<lin,prf> matrix_v(a, l0, m, n)
 | ptr (l)
-) // end of [matrix_ptr_takeout_col]
+) (* end of [matrix_ptr_takeout_col] *)
 
 #atscode_separator()
-
+//
+fun{}
+matrix_foreach$rowsep(): void
 fun{
 a:vt0p}{env:vt0p
-} matrix_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+} matrix_foreach$fwork
+  (x: &a >> _, env: &(env) >> _): void
 fun{
 a:vt0p
 } matrix_foreach{m,n:int}
 (
-  A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n
+  M: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n
 ) : void // end of [matrix_foreach]
 fun{
 a:vt0p}{env:vt0p
 } matrix_foreach_env{m,n:int}
 (
-  A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
+  M: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
 ) : void // end of [matrix_foreach_env]
-
+//
 #atscode_separator()
-
+//
 fun{
 a:vt0p}{env:vt0p
 } matrix_foreachrow$fwork{n:int}
 (
-  row: &array (INV(a), n) >> _, n: size_t n, env: &(env) >> _
+  row: &array(INV(a), n) >> _, n: size_t n, env: &(env) >> _
 ) : void // end of [matrix_foreachrow$fwork]
-
+//
 fun{
 a:vt0p
 } matrix_foreachrow{m,n:int}
 (
-  A: &matrix(INV(a), m, n) >> _, m: size_t (m), n: size_t (n)
+  M: &matrix(INV(a), m, n) >> _, m: size_t (m), n: size_t (n)
 ) : void // end of [matrix_foreachrow]
+//
 fun{
 a:vt0p}{env:vt0p
 } matrix_foreachrow_env{m,n:int}
 (
-  A: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
+  M: &matrix(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
 ) : void // end of [matrix_foreachrow_env]
-
+//
 #atscode_separator()
-
+//
 fun{a:vt0p}
 matrix_initize$init
   (i: size_t, j: size_t, x: &a? >> a): void
+//
 fun{a:vt0p}
 matrix_initize{m,n:int}
 (
-  A: &matrix (a?, m, n) >> matrix (a, m, n), row: size_t m, col: size_t n
+  M: &matrix (a?, m, n) >> matrix (a, m, n), row: size_t m, col: size_t n
 ) : void // end of [matrix_initize]
-
+//
 macdef matrix_initialize = matrix_initize
-
+//
 #atscode_separator()
 
 fun
@@ -353,8 +413,8 @@ fun
 matrix_mapto
   {m,n:int}
 (
-  A: &matrix (INV(a), m, n)
-, B: &matrix (b?, m, n) >> matrix (b, m, n)
+  A: &matrix(INV(a), m, n)
+, B: &matrix(b?, m, n) >> matrix(b, m, n)
 , m: size_t m, n: size_t n
 ) : void // end of [matrix_mapto]
 
@@ -371,9 +431,9 @@ fun
 matrix_map2to
   {m,n:int}
 (
-  A: &matrix (INV(a), m, n)
-, B: &matrix (INV(b),  m, n)
-, C: &matrix (c?, m, n) >> matrix (c, m, n)
+  A: &matrix(INV(a), m, n)
+, B: &matrix(INV(b),  m, n)
+, C: &matrix(c?, m, n) >> matrix(c, m, n)
 , m: size_t m, n: size_t n
 ) : void // end of [matrix_map2to]
 
