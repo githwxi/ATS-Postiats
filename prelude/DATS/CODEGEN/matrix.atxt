@@ -291,6 +291,53 @@ end // end of [matrix_foreach_env]
 #atscode_separator()
 
 implement{a}
+matrix_foreachrow
+  (A, m, n) = let
+//
+var env: void = ()
+//
+in
+  matrix_foreachrow_env<a><void> (A, m, n, env)
+end // end of [matrix_foreachrow]
+
+implement
+{a}{env}
+matrix_foreachrow_env
+  {m,n}(M, m, n, env) = let
+//
+prval () = lemma_matrix_param(M)
+//
+fun
+loop
+(
+  p: ptr, i: sizeLte(m), env: &env >> _
+) : void = (
+//
+if
+i < m
+then let
+//
+val
+(pf, fpf | p) =
+$UN.ptr_vtake{@[a][n]}(p)
+val () =
+  matrix_foreachrow$fwork<a><env>(!p, n, env)
+prval ((*void*)) = fpf(pf)
+//
+in
+  loop(ptr_add<a>(p, n), succ(i), env)
+end // end of [then]
+else () // end of [else]
+//
+) (* end of [loop] *)
+//
+in
+  loop(addr@M, i2sz(0), env)
+end // end of [matrix_foreachrow_env]
+
+#atscode_separator()
+
+implement{a}
 matrix_initize
   (M, m, n) = let
 //
