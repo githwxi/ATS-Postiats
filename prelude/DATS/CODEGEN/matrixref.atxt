@@ -127,7 +127,7 @@ matrixref_copy
 val A = $UN.cast{arrayref(a,m*n)}(M)
 //
 in
-  $UN.castvwtp0{matrixptr(a,m,n)}(arrayref_copy<a> (A, m*n))
+  $UN.castvwtp0{matrixptr(a,m,n)}(arrayref_copy<a>(A, m*n))
 end // end of [matrixref_copy]
 
 #atscode_separator()
@@ -136,13 +136,13 @@ implement{a}
 matrixref_tabulate
   (nrow, ncol) =
 (
-  matrixptr_refize (matrixptr_tabulate<a> (nrow, ncol))
+  matrixptr_refize (matrixptr_tabulate<a>(nrow, ncol))
 ) (* end of [matrixref_tabulate] *)
 
 implement{a}
 matrixref_tabulate_cloref
   (nrow, ncol, f) =
-  matrixptr_refize (matrixptr_tabulate_cloref<a> (nrow, ncol, f))
+  matrixptr_refize (matrixptr_tabulate_cloref<a>(nrow, ncol, f))
 // end of [matrixref_tabulate_cloref]
 
 #atscode_separator()
@@ -185,7 +185,7 @@ in
 end // end of [matrix_foreach$work]
 //
 in
-  matrixref_foreach(A, m, n)
+  matrixref_foreach<a>(A, m, n)
 end // end of [matrixref_foreach_cloref]
 
 #atscode_separator()
