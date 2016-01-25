@@ -155,7 +155,9 @@ lexbuf_remove
   (buf, nchr) =
 {
 //
-val nchr = i2sz(nchr)
+val
+nchr = i2sz(nchr)
+//
 val () =
 $SBF.stringbuf_remove (buf.lexbuf_stringbuf, nchr)
 //
@@ -173,6 +175,7 @@ lexbuf_remove_all
 {
 //
 val () = lexbuf_set_nback (buf, 0)
+//
 val () =
 $SBF.stringbuf_remove_all (buf.lexbuf_stringbuf)
 //
