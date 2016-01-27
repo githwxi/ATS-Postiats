@@ -57,7 +57,7 @@ maintained at [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
 
 * The Compiler (ATS/Postiats):
   [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
-* The Source for Libraries (ATSLIB/{prelude,libc,libats}):
+* The source for Libraries (ATSLIB/{prelude,libc,libats}):
   [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
-* The Object code for Libraries (ATSLIB/{prelude,libc,libats}):
+* The object code for Libraries (ATSLIB/{prelude,libc,libats}):
   [LGPLv2.1](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-lgpl-2.1.txt)
