@@ -39,4 +39,17 @@ good use of ATS2 without any need for compiled library (libatslib.a). Also,
 GC support in ATS1 is now removed; if needed, third-party GC (e.g., Bohem-GC)
 can be readily employed.
 
+######
+#
+# Licenses for ATS2 (Compiler + Libraries)
+#
+######
+
+* The Compiler (ATS/Postiats):
+  [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
+* The source for Libraries (ATSLIB/{prelude,libc,libats}):
+  [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
+* The object code for Libraries (ATSLIB/{prelude,libc,libats}):
+  [LGPLv2.1](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-lgpl-2.1.txt)
+
 ###### end of [README] ######
