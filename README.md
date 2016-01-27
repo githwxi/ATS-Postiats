@@ -53,9 +53,11 @@ ATS-users are encouraged to share what they have learned on the
 contains over 45 articles with content.  A list of article stubs is
 maintained at [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
 
-## License
+## Licenses for the Compiler and the Libraries
 
 * The Compiler (ATS/Postiats):
   [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
-* The Libraries (ATSLIB/{prelude,libc,libats}):
+* The Source code for Libraries (ATSLIB/{prelude,libc,libats}):
   [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
+* The Object code for Libraries (ATSLIB/{prelude,libc,libats}):
+  [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-lgpl-2.1.txt)
