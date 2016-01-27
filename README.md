@@ -61,3 +61,5 @@ maintained at [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
   [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
 * The object code for Libraries (ATSLIB/{prelude,libc,libats}):
   [LGPLv2.1](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-lgpl-2.1.txt)
+* There is a separate release under the BSD license for the C header files of the
+  Libraries, which one can freely insert into the C code generated from ATS source code.
