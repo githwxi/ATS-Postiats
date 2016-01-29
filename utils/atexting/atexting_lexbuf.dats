@@ -215,7 +215,8 @@ val nb = g1ofg0(buf.lexbuf_nback)
 //
 in
 //
-if nb <= 0
+if
+nb <= 0
 then let
   val i =
     $CS0.cstream_get_char(buf.lexbuf_cstream)
@@ -249,10 +250,17 @@ lexbuf_getbyrow_location
 {
 //
 var pos: position
-val () = lexbuf_get_position (buf, pos)
-val () = position_byrow (pos) // by-1-row
-val loc = lexbufpos_get_location (buf, pos)
-val () = lexbuf_set_position (buf, pos)
+//
+val () =
+  lexbuf_get_position (buf, pos)
+//
+val () =
+  position_byrow (pos) // by-1-row
+//
+val loc =
+  lexbufpos_get_location (buf, pos)
+//
+val () = lexbuf_set_position(buf, pos)
 //
 } (* end of [lexbuf_getbyrow_location] *)
 
@@ -268,12 +276,12 @@ var pos: position
 val () =
   lexbuf_get_position (buf, pos)
 //
-val () = position_incby_n (pos, nchr)
+val () = position_incby_n(pos, nchr)
 //
 val loc =
   lexbufpos_get_location (buf, pos)
 //
-val () = lexbuf_set_position (buf, pos)
+val () = lexbuf_set_position(buf, pos)
 //
 } (* end of [lexbuf_getincby_location] *)
 
@@ -282,12 +290,15 @@ val () = lexbuf_set_position (buf, pos)
 implement
 lexbufpos_get_location
   (buf, pos2) = let
-  var pos1: position
-  val ((*void*)) =
-    lexbuf_get_position (buf, pos1)
-  // end of [val]
+//
+var
+pos1: position
+val ((*void*)) =
+  lexbuf_get_position(buf, pos1)
+// end of [val]
+//
 in
-  location_make_pos_pos (pos1, pos2)
+  location_make_pos_pos(pos1, pos2)
 end // end of [lexbufpos_get_location]
 
 (* ****** ****** *)

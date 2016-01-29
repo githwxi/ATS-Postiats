@@ -35,9 +35,10 @@ main.exe: \
   -I$(PATSHOME)/src -D_ATS_GCATS -o $@ $< \
   -L$(PATSHOME)/utils/libatsynmark -latsynmark -latsdoc
 #
+main.html: main.exe ; ./main.exe > $@
+#
 main_atxt.dats: \
   main.atxt; $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
-main.html: main.exe ; ./main.exe > $@
 #
 ######
 #

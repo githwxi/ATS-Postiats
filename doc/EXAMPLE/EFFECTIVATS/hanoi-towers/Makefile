@@ -18,13 +18,6 @@ all:: main.html
 
 ######
 #
-all_demo:: \
-introxmpl1_client_dats.js
-all_demo:: \
-introxmpl1_server_dats_.js
-#
-######
-#
 main.exe: \
   main_atxt.dats ; \
   $(ATSCC) \
@@ -38,30 +31,16 @@ main_atxt.dats: \
   main.atxt; $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
 #
 ######
-#
-introxmpl1_client_dats.c: \
-  introxmpl1_client.dats; $(PATSOPT) -o $@ -d $<
-introxmpl1_client_dats.js: \
-  introxmpl1_client_dats.c; $(ATSCC2JS) -o $@ -i $<
-#
-introxmpl1_server_dats.c: \
-  introxmpl1_server.dats; $(PATSOPT) -o $@ -d $<
-introxmpl1_server_dats.js: \
-  introxmpl1_server_dats.c; $(ATSCC2JS) -o $@ -i $<
-#
-introxmpl1_server_dats_.js: \
-  introxmpl1_server_dats.js; $(CAT) $(LIBATCC2JS)/libatscc2js_all.js $< > $@
-#
+
+HanoiTowers-1: HanoiTowers-1.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+HanoiTowers-2: HanoiTowers-2.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+HanoiTowers-3: HanoiTowers-3.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
 ######
 #
 upload_main: \
   main.html ; scp $^ \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-1/.
-#
-upload_dats_js: \
-  introxmpl1_client_dats.js \
-  introxmpl1_server_dats_.js ; scp $^ \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-1/.
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/hanoi-towers/.
 #
 ######
 
@@ -83,8 +62,8 @@ cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 cleanall:: ; $(RMF) *_?ats.html
 #
-cleanall:: ; $(RMF) introxmpl1_client_dats.js
-cleanall:: ; $(RMF) introxmpl1_server_dats.js
-cleanall:: ; $(RMF) introxmpl1_server_dats_.js
+cleanall:: ; $(RMF) HanoiTowers-1
+cleanall:: ; $(RMF) HanoiTowers-2
+cleanall:: ; $(RMF) HanoiTowers-3
 #
 ###### end of [Makefile] ######

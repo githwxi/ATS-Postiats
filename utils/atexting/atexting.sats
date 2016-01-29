@@ -162,7 +162,9 @@ location_combine (loc1: loc_t, loc2: loc_t): loc_t
 datatype
 token_node =
 //
-| TOKint of (int)
+| TOKeof of ()
+//
+| TOKint of (string)
 //
 | TOKide of (string)
 //
@@ -308,6 +310,11 @@ fun
 lexbuf_getbyrow_location(buf: &lexbuf): loc_t
 fun
 lexbuf_getincby_location(buf: &lexbuf, nchr: intGte(0)): loc_t
+//
+(* ****** ****** *)
+//
+fun
+lexing_IDENT_alp(buf: &lexbuf): token
 //
 (* ****** ****** *)
 

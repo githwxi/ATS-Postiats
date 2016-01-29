@@ -71,6 +71,18 @@ in
 end // end of [BLANK_test]
 
 (* ****** ****** *)
+//
+fun
+DIGIT_test
+(
+  i: int
+) : bool =
+(
+if isdigit(i)
+  then true else false
+)
+//
+(* ****** ****** *)
 
 fun
 IDENTFST_test
@@ -114,6 +126,159 @@ case+ 0 of
 | _ (*rest-of-char*) => false
 //
 end (* end of [IDENTRST_test] *)
+
+(* ****** ****** *)
+
+local
+//
+#define
+SYMBOLIC "%&+-./:=@~`^|*!$#?<>"
+//
+in (* in-of-local *)
+//
+fun
+SYMBOLIC_test
+  (c: int): bool =
+  strchr (SYMBOLIC, int2char0(c)) >= 0
+//
+end // end of [local]
+
+(* ****** ****** *)
+//
+fun SIGN_test
+  (c: int): bool = let
+//
+val c = int2char0(c) in (c = '+' || c = '-')
+//
+end // end of [SIGN_test]
+//
+(* ****** ****** *)
+//
+extern
+fun
+ftesting_one
+(
+  buf: &lexbuf >> _, f: int -> bool
+) : intGte(0) // end of [ftesting_one]
+//
+implement
+ftesting_one
+  (buf, f) = let
+//
+val i = lexbuf_get_char(buf)
+//
+in
+//
+if (
+i > 0
+) then (
+  if f(i) then 1 else (lexbuf_incby_nback(buf, 1); 0)
+) else (0)
+//
+end // end of [ftesting_one]
+//
+(* ****** ****** *)
+//
+extern
+fun
+ftesting_opt
+(
+  buf: &lexbuf >> _, f: int -> bool
+) : intGte(0) // end of [ftesting_opt]
+//
+implement
+ftesting_opt
+  (buf, f) = let
+//
+val i = lexbuf_get_char (buf)
+//
+in
+//
+if (
+i > 0
+) then (
+  if f(i) then 1 else (lexbuf_incby_nback(buf, 1); 0)
+) else (0)
+//
+end // end of [ftesting_opt]
+//
+(* ****** ****** *)
+//
+extern
+fun
+ftesting_seq0
+(
+  buf: &lexbuf >> _, f: int -> bool
+) : intGte(0) // end-of-fun
+//
+implement
+ftesting_seq0
+  (buf, f) = let
+//
+fun loop
+(
+  buf: &lexbuf >> _, nchr: intGte(0)
+) : intGte(0) = let
+//
+val i = lexbuf_get_char(buf)
+//
+in
+//
+if (
+i > 0
+) then (
+//
+if f(i)
+  then
+    loop (buf, succ(nchr))
+  // end of [then]
+  else let
+    val () = lexbuf_incby_nback (buf, 1) in nchr
+  end // end of [else]
+//
+) else (nchr)
+//
+end // end of [loop]
+//
+in
+  loop (buf, 0)
+end // end of [ftesting_seq0]
+//
+(* ****** ****** *)
+//
+fun
+testing_digitseq0
+(
+  buf: &lexbuf >> _
+) : intGte(0) =
+  ftesting_seq0 (buf, DIGIT_test)
+//
+(* ****** ****** *)
+//
+fun
+testing_identrstseq0
+(
+  buf: &lexbuf >> _
+) : intGte(0) =
+  ftesting_seq0 (buf, IDENTRST_test)
+//
+(* ****** ****** *)
+//
+implement
+lexing_IDENT_alp
+  (buf) = let
+//
+val nchr =
+  testing_identrstseq0 (buf)
+val nchr1 = succ(nchr)
+val name = lexbuf_takeout (buf, nchr1)
+val name = strptr2string (name)
+//
+val loc = lexbuf_getincby_location (buf, nchr1)
+//
+in
+  token_make (loc, TOKide(name))
+end // end of [lexing_IDENT_alp]
 
 (* ****** ****** *)
 
