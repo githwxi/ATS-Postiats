@@ -10,19 +10,15 @@
 "share/HATS/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
-
+//
 abstype pole(n:int) = ptr
-
-(* ****** ****** *)
 //
 extern
 fun
 pole_make{n:nat}
 (
   string, ndisk: int(n)
-) : pole(n) // end-of-fun
-//
-(* ****** ****** *)
+) : pole(n) // end-of-function
 //
 extern
 fun
@@ -30,6 +26,15 @@ move_1{p1,p2:nat | p1 > 0}
 (
   P1: pole(p1), P2: pole(p2)
 ) : (pole(p1-1), pole(p2+1))
+//
+extern
+fun
+move_n{n:nat}
+{p1,p2,p3:nat | p1 >= n}
+(
+  n: int(n)
+, P1: pole(p1), P2: pole(p2), P3: pole(p3)
+) : (pole(p1-n), pole(p2+n), pole(p3))
 //
 (* ****** ****** *)
 
@@ -40,7 +45,7 @@ pole_(n:int) =
 Pole of
 (
   string, list(int, n)
-) (* pole_ *)
+) (* end of [pole_] *)
 
 assume pole(n:int) = pole_(n)
 
@@ -72,17 +77,6 @@ end // end of [move_1]
 
 end // end of [local]
 
-(* ****** ****** *)
-//
-extern
-fun
-move_n{n:nat}
-{p1,p2,p3:nat | p1 >= n}
-(
-  n: int(n)
-, P1: pole(p1), P2: pole(p2), P3: pole(p3)
-) : (pole(p1-n), pole(p2+n), pole(p3))
-//
 (* ****** ****** *)
 
 implement

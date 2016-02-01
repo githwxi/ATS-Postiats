@@ -18,16 +18,16 @@
 abst@ype bit = int
 
 extern
-castfn bit2int (i: bit): natLt(2)
+castfn bit2int(i: bit): natLt(2)
 extern
-castfn int2bit (i: natLt(2)): bit
+castfn int2bit(i: natLt(2)): bit
 
 extern
 fun{} not_bit (i: bit): bit
 overload not with not_bit
 
 implement{}
-not_bit (i) = int2bit (1 - bit2int (i))
+not_bit (i) = int2bit (1-bit2int(i))
 
 (* ****** ****** *)
 
@@ -61,9 +61,9 @@ implement{}
 data_free (A) = arrayptr_free (A)
 
 implement{a}
-data_read (A, i, j) = A[2 * bit2int (i) + bit2int (j)]
+data_read (A, i, j) = A[2 * bit2int(i) + bit2int(j)]
 implement{a}
-data_write (A, i, j, x) = A[2 * bit2int (i) + bit2int (j)] := x
+data_write (A, i, j, x) = A[2 * bit2int(i) + bit2int(j)] := x
 
 end // end of [local]
 

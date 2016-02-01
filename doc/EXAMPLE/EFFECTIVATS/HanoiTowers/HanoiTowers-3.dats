@@ -10,10 +10,8 @@
 "share/HATS/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
-
+//
 absvtype pole(n:int) = ptr
-
-(* ****** ****** *)
 //
 extern
 fun
@@ -36,17 +34,29 @@ move_1{p1,p2:nat|p1 > 0}
 , P2: !pole(p2) >> pole(p2+1)
 ) : void // end-of-function
 //
+extern
+fun
+move_n{n:nat}
+{p1,p2,p3:nat | p1 >= n}
+(
+  n: int(n)
+, P1: !pole(p1) >> pole(p1-n), P2: !pole(p2) >> pole(p2+n), P3: !pole(p3)
+) : void // end-of-function
+//
 (* ****** ****** *)
 
 local
 //
 datavtype
 pole_(n:int) =
-Pole(n) of (string, list_vt(int, n))
+Pole(n) of
+(
+  string, list_vt(int, n)
+) (* end of [pole_] *)
 //
 assume pole(n:int) = pole_(n)
 //
-in
+in (* in-of-local *)
 
 (* ****** ****** *)
 
@@ -87,17 +97,6 @@ end // end of [move_1]
 
 end // end of [local]
   
-(* ****** ****** *)
-//
-extern
-fun
-move_n{n:nat}
-{p1,p2,p3:nat | p1 >= n}
-(
-  n: int(n)
-, P1: !pole(p1) >> pole(p1-n), P2: !pole(p2) >> pole(p2+n), P3: !pole(p3)
-) : void // end-of-function
-//
 (* ****** ****** *)
 
 implement

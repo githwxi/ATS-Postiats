@@ -12,16 +12,16 @@
 (* ****** ****** *)
 //
 datatype
-pole =
-Pole of
+pole = Pole of
 (
   string(*name*), ref(list0(int))
-) (* Pole *)
+) (* end of [Pole] *)
 //
 (* ****** ****** *)
 
 extern
-fun move_1(P1: pole, P2: pole): void
+fun
+move_1(P1: pole, P2: pole): void
 
 (* ****** ****** *)
 
