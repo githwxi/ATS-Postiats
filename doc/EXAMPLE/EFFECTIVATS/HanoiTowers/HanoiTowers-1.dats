@@ -48,8 +48,6 @@ move_n
   n: int, P1: pole, P2: pole, P3: pole
 ) : void
 //
-(* ****** ****** *)
-
 implement
 move_n
 (
@@ -65,7 +63,7 @@ if n > 0 then
 }
 //
 ) (* end of [move_n] *)
-
+//
 (* ****** ****** *)
 //
 val disks = list0_make_intrange(1, 5)

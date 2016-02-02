@@ -36,14 +36,15 @@ What is Hanoi Towers?
 The puzzle <u>Hanoi Towers</u> can be described as follows:
 
 #para("\
+
 Given three poles: Pole 1, Pole 2 and Pole 3, there are 64 disks of
 distinct sizes stacked on Pole 1 such that no disk is stacked on one
 of a lesser size, and both Pole 2 and Pole 3 are empty.  The player is
-asked to the task of
-moving all the disks from Pole 1 to Pole 2 (while using Pole 3
-as a spare): Only one disk can be moved from one pole to another each
-time and no disk is ever allowed to be stacked on another one of less
-size during the entire process of moving.\
+asked to the task of moving all the disks from Pole 1 to Pole 2 (while
+using Pole 3 as a spare): Only one disk can be moved from one pole to
+another one each time and no disk is ever allowed to be stacked on
+another one of less size during the entire process of moving.\
+
 ")
 
 #para("\
@@ -55,6 +56,12 @@ accomplish the aforementioned task.
 A Solution of Imperative Style
 </h2>
 
+#para('\
+
+First, let us see a straightforward solution of imperative style to
+the Hanoi Towers puzzle. A datatype #stacode("pole") is declared as
+follows for representing poles:
+
 <pre
 class="patsyntax">
 #pats2xhtml_dats('\
@@ -64,6 +71,20 @@ pole = Pole of
   string(*name*), ref(list0(int))(*disks*)
 ) (* end of [Pole] *)
 ')</pre>
+
+Note that the disks stacked on a pole is represented as a list of
+integers. As a disk may be moved from one pole to another one, a
+reference to a list of integers is contained in the representation of
+a pole so that the content of the reference can be updated to reflect
+the actual disks stacked on the pole.\
+
+')
+
+#para('\
+
+In the following code, the function
+#dyncode("move_1") is called to move a single disk from
+one pole to another one:
 
 <pre
 class="patsyntax">
@@ -89,15 +110,105 @@ end // end of [move_1]
 //
 ')</pre>
 
+The function #dyncode("move_n") for moving multiple disks from one
+pole to another one (while using the third one as a spare) can be
+implemented based on #dyncode("move_1") as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+extern
+fun
+move_n
+(
+  n: int
+, P1: pole, P2: pole, P3: pole
+) : void
+//
+implement
+move_n
+(
+  n, P1, P2, P3
+) = (
+//
+if n > 0 then
+{
+  val n1 = n - 1
+  val () = move_n(n1, P1, P3, P2)
+  val () = move_1(P1, P2)
+  val () = move_n(n1, P3, P2, P1)
+}
+//
+) (* end of [move_n] *)
+//
+')</pre>
+
+')
+
+#para('\
+
+It is easy to see that #dyncode("move_n"), when applied
+a natural number N and 3 distinct poles, makes 2<sup>N</sup>-1 calls
+to #dyncode("move_1") before it returns.
+
+')
+
 <h2>
 A Solution of Functional Style
 </h2>
+
+#para('\
+
+A serious issue with the above solution (of imperative style)
+is that pattern matching
+involved in the following val-declaration (appearing in the body of
+#dyncode("move_1")) is not guaranteed (solely based on typechecking)
+to succeed:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+val-cons0(x, xs) = !r1
+')</pre>
+
+While the use of a reference in the type #stacode("pole") makes it
+straightforward to implement #dyncode("move_1"), reasoning about the
+implementation of #dyncode("move_1") is greatly complicated.
+
+')#comment("para")
+
+#para('\
+
+Let us see as follows a solution of functional style to the Hanoi
+Towers puzzle that rules out (based on typechecking) the possiblity of
+pattern matching failure at run-time.
+
+')#comment("para")
+
+#para('\
+
+Given an integer N, the type #stacode("pole(N)") is for a pole on
+which N disks are stacked:
 
 <pre
 class="patsyntax">
 #pats2xhtml_dats('\
 //
 abstype pole(n:int) = ptr
+//
+')</pre>
+
+')#comment("para")
+
+#para('\
+
+The functions #dyncode("move_1") and #dyncode("move_n") are given the
+following types to reflect their functional nature:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 //
 extern
 fun
@@ -116,6 +227,19 @@ move_n{n:nat}
 ) : (pole(p1-n), pole(p2+n), pole(p3))
 //
 ')</pre>
+
+Note that the type assigned to #stacode("move_1") indicates that
+#stacode("move_1") is of functional style: Given two poles holds
+P1 and P2 disks such that P1 is positive, #stacode("move_1") returns
+two (new) poles holding P1-1 and P2+1 disks. Similarly, #stacode("move_n")
+is also of functional style.
+
+')
+
+#para('\
+
+The functions #dyncode("move_1") and #dyncode("move_n") of functional
+style are implemented as follows:
 
 <pre
 class="patsyntax">
@@ -137,7 +261,7 @@ implement
 move_1(P1, P2) = let
 //
   val Pole(n1, r1) = P1
-  val+list_cons(x, xs) = r1
+  val+list_cons(x, xs) = r1 // no failure!
   val Pole(n2, r2) = P2
 //
   val () =
@@ -151,11 +275,9 @@ in
 end // end of [move_1]
 
 end // end of [local]
-')</pre>
 
-<pre
-class="patsyntax">
-#pats2xhtml_dats('\
+(* ****** ****** *)
+
 implement
 move_n
 (
@@ -178,6 +300,12 @@ else (P1, P2, P3)
 //
 ) (* end of [move_n] *)
 ')</pre>
+
+Note that the keyword #dyncode("val+") indicates the need to verify
+(based on typechecking) the exhaustiveness of pattern matching involved
+in the val-declaration it introduces.
+
+')
 
 <h2>
 A Solution of Linear Functional Style
