@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2016-02-04:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/Xb7IIkMe984"
+>Imperative vs. Functional vs. Linear Functional</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2016-01-05:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/q-SnbyHKDFw"
@@ -88,6 +96,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-03-31:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
@@ -96,8 +106,6 @@ Chapter "Linearly Typed Lists" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-03-19:<br>
 <a

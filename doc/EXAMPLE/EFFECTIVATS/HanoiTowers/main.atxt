@@ -33,7 +33,8 @@ and linear types in programming.
 <h2>
 What is Hanoi Towers?
 </h2>
-The puzzle <u>Hanoi Towers</u> can be described as follows:
+It is a puzzle!
+The <u>Hanoi Towers</u> puzzle can be described as follows:
 
 #para("\
 
@@ -160,11 +161,10 @@ A Solution of Functional Style
 
 #para('\
 
-A serious issue with the above solution (of imperative style)
-is that pattern matching
-involved in the following val-declaration (appearing in the body of
-#dyncode("move_1")) is not guaranteed (solely based on typechecking)
-to succeed:
+A serious issue with the above solution (of imperative style) is that
+pattern matching involved in the following val-declaration (appearing
+inside the body of #dyncode("move_1")) is not guaranteed (solely based
+on typechecking) to succeed:
 
 <pre
 class="patsyntax">
@@ -174,15 +174,16 @@ val-cons0(x, xs) = !r1
 
 While the use of a reference in the type #stacode("pole") makes it
 straightforward to implement #dyncode("move_1"), reasoning about the
-implementation of #dyncode("move_1") is greatly complicated.
+implementation of #dyncode("move_1") is greatly complicated (largely
+due to the involvement of a global state).
 
 ')#comment("para")
 
 #para('\
 
 Let us see as follows a solution of functional style to the Hanoi
-Towers puzzle that rules out (based on typechecking) the possiblity of
-pattern matching failure at run-time.
+Towers puzzle that rules out (solely based on typechecking) the
+possiblity of pattern matching failure at run-time.
 
 ')#comment("para")
 
@@ -212,7 +213,8 @@ class="patsyntax">
 //
 extern
 fun
-move_1{p1,p2:nat | p1 > 0}
+move_1
+{p1,p2:nat|p1 > 0}
 (
   P1: pole(p1), P2: pole(p2)
 ) : (pole(p1-1), pole(p2+1))
@@ -220,7 +222,7 @@ move_1{p1,p2:nat | p1 > 0}
 extern
 fun
 move_n{n:nat}
-{p1,p2,p3:nat | p1 >= n}
+{p1,p2,p3:nat|p1 >= n}
 (
   n: int(n)
 , P1: pole(p1), P2: pole(p2), P3: pole(p3)
@@ -228,10 +230,10 @@ move_n{n:nat}
 //
 ')</pre>
 
-Note that the type assigned to #stacode("move_1") indicates that
-#stacode("move_1") is of functional style: Given two poles holds
-P1 and P2 disks such that P1 is positive, #stacode("move_1") returns
-two (new) poles holding P1-1 and P2+1 disks. Similarly, #stacode("move_n")
+Note that the type assigned to #dyncode("move_1") indicates that
+#dyncode("move_1") is of functional style: Given two poles holding
+P1 and P2 disks such that P1 is positive, #dyncode("move_1") returns
+two (new) poles holding P1-1 and P2+1 disks. Similarly, #dyncode("move_n")
 is also of functional style.
 
 ')
@@ -279,10 +281,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-move_n
-(
-  n, P1, P2, P3
-) = (
+move_n(n, P1, P2, P3) = (
 //
 if
 n > 0
@@ -302,14 +301,39 @@ else (P1, P2, P3)
 ')</pre>
 
 Note that the keyword #dyncode("val+") indicates the need to verify
-(based on typechecking) the exhaustiveness of pattern matching involved
-in the val-declaration it introduces.
+(based on typechecking) the exhaustiveness of pattern matching
+involved in the val-declaration it introduces.
 
 ')
+
+#para('\
+
+With no involvement of a global state, reasoning about the functional
+version of #dyncode("move_1") and #dyncode("move_n") is greatly
+simplified. And this is often claimed as a strong selling point for
+functional programming.
+
+')#comment("para")
 
 <h2>
 A Solution of Linear Functional Style
 </h2>
+
+#para('\
+
+While functional programming can greatly simplify reasoning, it is
+often wasteful in terms of memory usage. For instance, each call to
+the above functional version of #dyncode("move_1") builds two new
+poles; the two poles passed as arguments are of no more use after the
+call returns. Fortunately, one can turn to what I refer to as linear
+functional programming in ATS to reduce or even eliminate this kind of
+waste.
+
+')#comment("para")
+
+#para('\
+
+Let us first declare #stacode("pole") is decared as a linear type:
 
 <pre
 class="patsyntax">
@@ -317,9 +341,19 @@ class="patsyntax">
 //
 absvtype pole(n:int) = ptr
 //
+')</pre>
+
+Unlike a non-linear type, a value of a linear type can be modified.
+The types for the linear functional version of #stacode("move_1") and
+#stacode("move_n") are declared as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
 extern
 fun
-move_1{p1,p2:nat|p1 > 0}
+move_1
+{p1,p2:nat|p1 > 0}
 (
   P1: !pole(p1) >> pole(p1-1)
 , P2: !pole(p2) >> pole(p2+1)
@@ -328,13 +362,26 @@ move_1{p1,p2:nat|p1 > 0}
 extern
 fun
 move_n{n:nat}
-{p1,p2,p3:nat | p1 >= n}
+{p1,p2,p3:nat|p1 >= n}
 (
   n: int(n)
 , P1: !pole(p1) >> pole(p1-n), P2: !pole(p2) >> pole(p2+n), P3: !pole(p3)
 ) : void // end-of-function
 //
 ')</pre>
+
+Based on the type of #stacode("move_1"), it is clear that calling the
+function on two given poles #dyncode("P1") and #dyncode("P2") changes
+the types of these two poles to reflect that fact that #dyncode("P1")
+contains one fewer disk after the call and #dyncode("P2") one more
+disk. The type assigned to #dyncode("move_n") can be interpreted similarly.\
+
+')#comment("para")
+
+#para('\
+
+The functions #dyncode("move_1") and #dyncode("move_n") of linear functional
+style are implemented as follows:
 
 <pre
 class="patsyntax">
@@ -371,16 +418,11 @@ in
 end // end of [move_1]
 
 end // end of [local]
-')</pre>
 
-<pre
-class="patsyntax">
-#pats2xhtml_dats('\
+(* ****** ****** *)
+
 implement
-move_n
-(
-  n, P1, P2, P3
-) = (
+move_n(n, P1, P2, P3) = (
 //
 if
 n > 0
@@ -397,6 +439,34 @@ else () // end of [else]
 //
 ) (* end of [move_n] *)
 ')</pre>
+
+Note that a pole now contains a linear list.
+In contrast to the (non-linear) functional version of #dyncode("move_1"),
+the linear functional version of #dyncode("move_1") returns two new poles
+that are built by modifying the two poles passed as arguments: There is no
+waste in this case as the original poles are no longer in existence after
+the call to #dyncode("move_1") is returned.
+
+')#comment("para")
+
+#para('\
+
+For the entirety of the three presented solutions to the Hanoi Towers puzzle,
+please visit the following files:
+
+<ul>
+<li>#filename("HanoiTowers-1.dats")
+<li>#filename("HanoiTowers-2.dats")
+<li>#filename("HanoiTowers-3.dats")
+</ul>
+
+There is also a Makefile available for testing.
+By comparing the solution of linear functional style with the one of
+imperative style, I hope that one can readily see the progress being made:
+the former is not only simpler and cleaner to reason about than the latter
+but also more efficient both time-wise and memory-wise.
+
+')#comment("para")
 
 <hr size="2">
 

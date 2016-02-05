@@ -15,6 +15,10 @@ loop-as-tailrec
 loop-as-tailrec:: ; make -C loop-as-tailrec all
 
 all:: \
+HanoiTowers
+HanoiTowers:: ; make -C HanoiTowers all
+
+all:: \
 word-counting
 word-counting:: ; make -C word-counting all
 
@@ -84,6 +88,7 @@ cleanall::
 cleanall:: ; make -C file-copying cleanall
 cleanall:: ; make -C prop-logic cleanall
 cleanall:: ; make -C loop-as-tailrec cleanall
+cleanall:: ; make -C HanoiTowers cleanall
 cleanall:: ; make -C word-counting cleanall
 cleanall:: ; make -C stack-array cleanall
 cleanall:: ; make -C queue-sllist2 cleanall
@@ -174,6 +179,14 @@ upload_queue-sllist2:: ; \
   queue-sllist2/index.html \
   queue-sllist2/Makefile queue-sllist2/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/queue-sllist2/
+
+######
+
+upload_HanoiTowers:: ; \
+  $(SCP) \
+  HanoiTowers/index.html \
+  HanoiTowers/Makefile HanoiTowers/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/HanoiTowers/
 
 ######
 
