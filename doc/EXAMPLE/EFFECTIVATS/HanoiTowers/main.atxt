@@ -41,10 +41,11 @@ The <u>Hanoi Towers</u> puzzle can be described as follows:
 Given three poles: Pole 1, Pole 2 and Pole 3, there are 64 disks of
 distinct sizes stacked on Pole 1 such that no disk is stacked on one
 of a lesser size, and both Pole 2 and Pole 3 are empty.  The player is
-asked to the task of moving all the disks from Pole 1 to Pole 2 (while
-using Pole 3 as a spare): Only one disk can be moved from one pole to
-another one each time and no disk is ever allowed to be stacked on
-another one of less size during the entire process of moving.\
+asked to finish the task of moving all the disks from Pole 1 to Pole 2
+(while using Pole 3 as a spare): Only one disk can be moved from one
+pole to another one at any time and no disk is ever allowed to be
+stacked on another one of a lesser size during the entire process of
+disk-moving.\
 
 ")
 

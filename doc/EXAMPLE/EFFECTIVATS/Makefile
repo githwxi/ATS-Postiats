@@ -55,12 +55,12 @@ Readers-and-Writers
 Readers-and-Writers:: ; make -C Readers-and-Writers all
 
 all:: \
-IPC-redis
-IPC-redis:: ; make -C IPC-redis all
+IPC-hiredis
+IPC-hiredis:: ; make -C IPC-hiredis all
 
 all:: \
-HttpServer
-HttpServer:: ; make -C HttpServer all
+http-server
+http-server:: ; make -C http-server all
 
 all:: \
 Sierpinski-3angle
@@ -98,8 +98,8 @@ cleanall:: ; make -C DiningPhil cleanall
 cleanall:: ; make -C DiningPhil2 cleanall
 cleanall:: ; make -C Producer-Consumer cleanall
 cleanall:: ; make -C Readers-and-Writers cleanall
-cleanall:: ; make -C IPC-redis cleanall
-cleanall:: ; make -C HttpServer cleanall
+cleanall:: ; make -C IPC-hiredis cleanall
+cleanall:: ; make -C http-server cleanall
 cleanall:: ; make -C Sierpinski-3angle cleanall
 cleanall:: ; make -C PwTP-bool-vs-prop cleanall
 cleanall:: ; make -C parsing-cmbntr-cps cleanall
@@ -121,8 +121,8 @@ uploadall::upload_DiningPhil
 uploadall::upload_DiningPhil2
 uploadall::upload_Producer-Consumer
 uploadall::upload_Readers-and-Writers
-uploadall::upload_IPC-redis
-uploadall::upload_HttpServer
+uploadall::upload_IPC-hiredis
+uploadall::upload_http-server
 uploadall::upload_Sierpinski-3angle
 uploadall::upload_PwTP-bool-vs-prop
 uploadall::upload_parsing-cmbntr-cps
@@ -267,28 +267,28 @@ upload_Readers-and-Writers:: ; \
 
 ######
 
-upload_IPC-redis:: ; \
+upload_IPC-hiredis:: ; \
   $(SCP) \
-  IPC-redis/index.html \
-  IPC-redis/Makefile \
-  IPC-redis/mylib.dats \
-  IPC-redis/msgchan.sats \
-  IPC-redis/msgchan.dats \
-  IPC-redis/params.hats \
-  IPC-redis/redisContextSetup.dats \
-  IPC-redis/test_up.dats \
-  IPC-redis/test_dn.dats \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/IPC-redis/
+  IPC-hiredis/index.html \
+  IPC-hiredis/Makefile \
+  IPC-hiredis/mylib.dats \
+  IPC-hiredis/msgchan.sats \
+  IPC-hiredis/msgchan.dats \
+  IPC-hiredis/params.hats \
+  IPC-hiredis/redisContextSetup.dats \
+  IPC-hiredis/test_up.dats \
+  IPC-hiredis/test_dn.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/IPC-hiredis/
 
 ######
 
-upload_HttpServer:: ; \
+upload_http-server:: ; \
   $(SCP) \
-  HttpServer/index.html \
-  HttpServer/Makefile \
-  HttpServer/myserver.dats \
-  HttpServer/myserver2.dats \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/HttpServer
+  http-server/index.html \
+  http-server/Makefile \
+  http-server/myserver.dats \
+  http-server/myserver2.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/http-server
 
 ######
 
