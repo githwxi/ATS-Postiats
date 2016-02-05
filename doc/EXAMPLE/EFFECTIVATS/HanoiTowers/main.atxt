@@ -333,7 +333,7 @@ waste.
 
 #para('\
 
-Let us first declare #stacode("pole") is decared as a linear type:
+Let us first declare #stacode("pole") as a linear type:
 
 <pre
 class="patsyntax">

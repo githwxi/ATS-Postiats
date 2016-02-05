@@ -28,6 +28,7 @@ Here is a list of major additions and changes since the last release:
 4: Adding a section on linear C-strings in INT2PROGINATS
 5: Adding an ATS2TUTORIAL-chapter on stack-allocated closure-functions
 6: Adding support for #pragma(location, ...) (referred to as locpragma)
+7. Adding an article in EFFECTIVATS on imperative vs. functional vs. linear functional
 
 ######
 
