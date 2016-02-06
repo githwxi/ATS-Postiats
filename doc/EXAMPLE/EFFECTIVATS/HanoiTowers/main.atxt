@@ -49,10 +49,14 @@ disk-moving.\
 
 ")
 
-#para("\
-It will soon be clear that 2<sup>64</sup>-1 moves are needed in order to
-accomplish the aforementioned task.
-")
+#para('\
+
+It will soon be clear that 2<sup>64</sup>-1 moves are needed in order
+to accomplish the aforementioned task.
+Please click <a href="./HanoiTowers_txt.html">here</a> to see a simple
+demo where there are 8 disks initially stacked on Pole 1.
+
+')#comment("para")
 
 <h2>
 A Solution of Imperative Style
@@ -345,8 +349,8 @@ absvtype pole(n:int) = ptr
 ')</pre>
 
 Unlike a non-linear type, a value of a linear type can be modified.
-The types for the linear functional version of #stacode("move_1") and
-#stacode("move_n") are declared as follows:
+The types for the linear functional version of #dyncode("move_1") and
+#dyncode("move_n") are declared as follows:
 
 <pre
 class="patsyntax">
@@ -371,7 +375,7 @@ move_n{n:nat}
 //
 ')</pre>
 
-Based on the type of #stacode("move_1"), it is clear that calling the
+Based on the type of #dyncode("move_1"), it is clear that calling the
 function on two given poles #dyncode("P1") and #dyncode("P2") changes
 the types of these two poles to reflect that fact that #dyncode("P1")
 contains one fewer disk after the call and #dyncode("P2") one more

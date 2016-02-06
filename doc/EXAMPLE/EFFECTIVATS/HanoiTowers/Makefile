@@ -37,9 +37,20 @@ HanoiTowers-2: HanoiTowers-2.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 HanoiTowers-3: HanoiTowers-3.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
+
+HanoiTowers_txt_dats.c: \
+  HanoiTowers_txt.dats; $(PATSOPT) -o $@ -d $<
+HanoiTowers_txt_dats.js: \
+  HanoiTowers_txt_dats.c; $(ATSCC2JS) -o $@ -i $<
+
+######
 #
 upload_main: \
   main.html ; scp $^ \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/HanoiTowers/.
+#
+upload_dats_js: \
+  HanoiTowers_txt_dats.js ; scp $^ \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/HanoiTowers/.
 #
 ######
@@ -65,5 +76,6 @@ cleanall:: ; $(RMF) *_?ats.html
 cleanall:: ; $(RMF) HanoiTowers-1
 cleanall:: ; $(RMF) HanoiTowers-2
 cleanall:: ; $(RMF) HanoiTowers-3
+cleanall:: ; $(RMF) HanoiTowers_txt_dats.js
 #
 ###### end of [Makefile] ######

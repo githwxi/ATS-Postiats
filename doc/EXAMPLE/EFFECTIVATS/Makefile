@@ -185,7 +185,11 @@ upload_queue-sllist2:: ; \
 upload_HanoiTowers:: ; \
   $(SCP) \
   HanoiTowers/index.html \
-  HanoiTowers/Makefile HanoiTowers/*.?ats \
+  HanoiTowers/Makefile \
+  HanoiTowers/HanoiTowers-1.dats \
+  HanoiTowers/HanoiTowers-2.dats \
+  HanoiTowers/HanoiTowers-3.dats \
+  HanoiTowers/HanoiTowers_txt.html \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/HanoiTowers/
 
 ######
