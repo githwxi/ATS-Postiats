@@ -364,19 +364,7 @@ end // end of [play_hanoitowers_demo]
 
 %{$
 //
-function
-play2_hanoitowers_demo()
-{
-//
-var _/*void*/ = play_hanoitowers_demo();
-//
-// setTimeout(play2_hanoitowers_demo, 2500);
-//
-return;
-//
-} // end of [draw2_sierpinski_demo]
-//
-jQuery(document).ready(function(){ HanoiTowers_txt__dynload(); play2_hanoitowers_demo(); });
+jQuery(document).ready(function(){ HanoiTowers_txt__dynload(); play_hanoitowers_demo(); });
 //
 %} // end of [%{$]
 
