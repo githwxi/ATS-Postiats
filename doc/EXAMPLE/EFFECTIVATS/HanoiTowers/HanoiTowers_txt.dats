@@ -143,7 +143,10 @@ draw_disk
 val () = assertloc(prad >= rad)
 //
 in
-  draw_hline(x0+prad-rad+1, x0+prad+rad-1, y0)
+//
+draw_hline
+  (x0+prad-rad+1, x0+prad+rad-1, y0)
+//
 end // end of [draw_disk]
 //
 (* ****** ****** *)
@@ -207,8 +210,10 @@ draw_poles
 //
 val x0 = theXX0
 val y0 = theYY0
+//
 val ht0 = theHt0
 val wd0 = theWd0
+//
 val prad = theRad
 //
 val () = draw_pole(x0, y0, ht0, prad, P1)
