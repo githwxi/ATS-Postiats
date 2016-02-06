@@ -34,7 +34,7 @@ val () = matrix_set_at_int (!p, 1, n, 1, 11)
 //
 val out = stdout_ref
 val () = fprint (out, "!p = ")
-val () = fprint (out, !p, (m)sz, (n)sz)
+val () = fprint_matrix (out, !p, (m)sz, (n)sz)
 val () = fprint_newline (out)
 //
 val ((*void*)) = matrix_ptr_free (pfmat, pfgc | p)
