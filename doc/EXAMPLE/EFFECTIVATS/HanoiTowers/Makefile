@@ -15,6 +15,7 @@ LIBATCC2JS=$(PATSHOMERELOC)/contrib/libatscc/libatscc2js
 ######
 
 all:: main.html
+all:: HanoiTowers_txt_dats.js
 
 ######
 #

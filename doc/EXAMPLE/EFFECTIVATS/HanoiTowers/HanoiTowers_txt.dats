@@ -357,14 +357,18 @@ val () = theCanvas_draw((*void*))
 val () = theCanvas_display((*void*))
 //
 in
-  setTimeout(lam() => move_n(theLevel, theP1, theP2, theP3, lam(P1, P2, P3) => alert("The puzzle is solved!")), 2000)
+//
+setTimeout
+(
+  lam() => move_n(theLevel, theP1, theP2, theP3, lam(P1, P2, P3) => alert("The puzzle is solved!")), 1500
+) (* setTimeout *)
 end // end of [play_hanoitowers_demo]
 
 (* ****** ****** *)
 
 %{$
 //
-jQuery(document).ready(function(){ HanoiTowers_txt__dynload(); play_hanoitowers_demo(); });
+jQuery(document).ready(function(){ HanoiTowers_txt__dynload(); play_hanoitowers_demo(); }); // HX: starting here!
 //
 %} // end of [%{$]
 
