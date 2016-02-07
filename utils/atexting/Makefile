@@ -42,7 +42,7 @@ $(PATSOPT) -DATS CODEGEN2 --codegen-2 -o $@ -d atexting_token.dats
 #
 ######
 
-MYTARGET=atexing
+MYTARGET=atexting
 
 ######
 #
