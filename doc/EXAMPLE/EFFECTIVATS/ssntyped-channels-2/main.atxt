@@ -470,7 +470,7 @@ typedef
 ss_test_loop = ssrepeat_conj(ss_test_one)
 ')</pre>
 
-Notice that the client decides wether a fresh round of test should
+Notice that the client decides whether a fresh round of test should
 take place.
 </p>
 
