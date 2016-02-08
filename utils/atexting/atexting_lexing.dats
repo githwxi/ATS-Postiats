@@ -375,7 +375,23 @@ lexing_BSLASH
 val i = lexbuf_get_char(buf)
 //
 val _ = lexbuf_remove(buf, 2)
-val loc = lexbuf_getincby_location(buf, 2)
+//
+var pos: position
+val () =
+lexbuf_get_position(buf, pos)
+//
+val () = position_incby_1(pos)
+val () =
+(
+  if EOL_test(i)
+    then position_byrow(pos)
+    else position_incby_1(pos)
+) (* end of [if] *)
+//
+val loc =
+lexbufpos_get_location (buf, pos)
+//
+val () = lexbuf_set_position(buf, pos)
 //
 in
   token_make(loc, TOKbslash(i))
@@ -486,7 +502,7 @@ case+ 0 of
 | _ when
     EOL_test(i0) => let
     val _ = lexbuf_remove(buf, 1)
-    val loc = lexbuf_getincby_location(buf, 1) in token_make(loc, TOKeol())
+    val loc = lexbuf_getbyrow_location(buf) in token_make(loc, TOKeol())
   end // end of [EOF]
 | _ when
     EOF_test(i0) => let
@@ -534,6 +550,9 @@ loop_tokenizing
 ) : void = let
 //
 val
+out = stdout_ref
+//
+val
 tok =
 lexbuf_get_token_any(buf)
 //
@@ -543,10 +562,17 @@ case+
 tok.token_node
 of // case+
 | TOKeof() => ()
-| _(*rest*) =>
-  (
-    fprintln!(stdout_ref, tok); loop_tokenizing(buf)
-  ) (* end of [rest] *)
+| _(*rest*) => let
+//
+    val () =
+    fprintln!
+      (out, tok.token_loc)
+    // end of [val]
+    val () = fprintln!(out, tok)
+//
+  in
+    loop_tokenizing(buf)
+  end (* end of [rest] *)
 //
 end // end of [loop]
 
