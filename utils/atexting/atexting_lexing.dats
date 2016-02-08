@@ -83,6 +83,20 @@ if isdigit(i)
 )
 //
 (* ****** ****** *)
+//
+fun
+DQUOTE_test
+(
+  i: int
+) : bool = if int2char0(i) = '"' then true else false
+//
+fun
+SQUOTE_test
+(
+  i: int
+) : bool = if int2char0(i) = '\'' then true else false
+//
+(* ****** ****** *)
 
 fun
 IDENTFST_test
@@ -254,6 +268,13 @@ testing_blankseq0
 (* ****** ****** *)
 //
 fun
+testing_dquoteseq0
+  (buf: &lexbuf): intGte(0) =
+  ftesting_seq0 (buf, DQUOTE_test)
+//
+(* ****** ****** *)
+//
+fun
 testing_digitseq0
 (
   buf: &lexbuf >> _
@@ -298,22 +319,90 @@ end // end of [lexing_SPACE]
 //
 (* ****** ****** *)
 //
+extern
+fun
+lexing_SQUOTE
+  (buf: &lexbuf >> _): token
+//
+implement
+lexing_SQUOTE
+  (buf) = let
+//
+val loc = lexbuf_getincby_location(buf, 1)
+//
+in
+  token_make(loc, TOKsquote())
+end // end of [lexing_SQUOTE]
+//
+(* ****** ****** *)
+//
+extern
+fun
+lexing_DQUOTE
+  (buf: &lexbuf >> _): token
+//
+implement
+lexing_DQUOTE
+  (buf) = let
+//
+val nchr =
+  testing_blankseq0(buf)
+//
+val nchr1 = nchr + 1
+//
+val dquote =
+  lexbuf_takeout(buf, nchr1)
+val dquote = strptr2string(dquote)
+//
+val loc = lexbuf_getincby_location(buf, nchr1)
+//
+in
+  token_make(loc, TOKdquote(dquote))
+end // end of [lexing_DQUOTE]
+//
+(* ****** ****** *)
+//
+implement
+lexing_INTEGER
+  (buf) = let
+//
+val nchr =
+  testing_digitseq0(buf)
+//
+val nchr1 = succ(nchr)
+//
+val int =
+  lexbuf_takeout(buf, nchr1)
+val int = strptr2string(int)
+//
+val loc = lexbuf_getincby_location(buf, nchr1)
+//
+in
+  token_make(loc, TOKint(int))
+end // end of [lexing_INTEGER]
+//
+(* ****** ****** *)
+//
 implement
 lexing_IDENT_alp
   (buf) = let
 //
 val nchr =
-  testing_identrstseq0 (buf)
+  testing_identrstseq0(buf)
+//
 val nchr1 = succ(nchr)
-val name = lexbuf_takeout (buf, nchr1)
-val name = strptr2string (name)
+//
+val ide =
+  lexbuf_takeout(buf, nchr1)
+//
+val ide = strptr2string(ide)
 //
 val loc = lexbuf_getincby_location(buf, nchr1)
 //
 in
-  token_make(loc, TOKide(name))
+  token_make(loc, TOKide(ide))
 end // end of [lexing_IDENT_alp]
-
+//
 (* ****** ****** *)
 
 local
@@ -334,7 +423,15 @@ case+ 0 of
     BLANK_test(i0) => lexing_SPACE(buf)
 //
 | _ when
-    IDENTFST_test (i0) => lexing_IDENT_alp(buf)
+    SQUOTE_test(i0) => lexing_SQUOTE(buf)
+| _ when
+    DQUOTE_test(i0) => lexing_DQUOTE(buf)
+//
+| _ when
+    DIGIT_test(i0) => lexing_INTEGER(buf)
+//
+| _ when
+    IDENTFST_test(i0) => lexing_IDENT_alp(buf)
 //
 | _ (*rest*) => let
     val loc =

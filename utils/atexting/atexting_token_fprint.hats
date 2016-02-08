@@ -14,13 +14,25 @@ fun{}
 fprint_token_node_$TOKsym: $d2ctype(fprint_token_node_<>)
 extern
 fun{}
-fprint_token_node_$TOKtext: $d2ctype(fprint_token_node_<>)
-extern
-fun{}
 fprint_token_node_$TOKspchr: $d2ctype(fprint_token_node_<>)
 extern
 fun{}
+fprint_token_node_$TOKsquote: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKdquote: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKcode_beg: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKcode_end: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
 fprint_token_node_$TOKspace: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKnewline: $d2ctype(fprint_token_node_<>)
 //
 (* ****** ****** *)
 //
@@ -33,9 +45,13 @@ case+ arg0 of
 | TOKint _ => fprint_token_node_$TOKint<>(out, arg0)
 | TOKide _ => fprint_token_node_$TOKide<>(out, arg0)
 | TOKsym _ => fprint_token_node_$TOKsym<>(out, arg0)
-| TOKtext _ => fprint_token_node_$TOKtext<>(out, arg0)
 | TOKspchr _ => fprint_token_node_$TOKspchr<>(out, arg0)
+| TOKsquote _ => fprint_token_node_$TOKsquote<>(out, arg0)
+| TOKdquote _ => fprint_token_node_$TOKdquote<>(out, arg0)
+| TOKcode_beg _ => fprint_token_node_$TOKcode_beg<>(out, arg0)
+| TOKcode_end _ => fprint_token_node_$TOKcode_end<>(out, arg0)
 | TOKspace _ => fprint_token_node_$TOKspace<>(out, arg0)
+| TOKnewline _ => fprint_token_node_$TOKnewline<>(out, arg0)
 )
 //
 (* ****** ****** *)
@@ -193,39 +209,6 @@ fprint_token_node_$TOKsym$arg1(out, arg0) =
 //
 extern
 fun{}
-fprint_token_node_$TOKtext$con: $d2ctype(fprint_token_node_<>)
-extern
-fun{}
-fprint_token_node_$TOKtext$lpar: $d2ctype(fprint_token_node_<>)
-extern
-fun{}
-fprint_token_node_$TOKtext$rpar: $d2ctype(fprint_token_node_<>)
-extern
-fun{}
-fprint_token_node_$TOKtext$arg1: $d2ctype(fprint_token_node_<>)
-//
-implement{}
-fprint_token_node_$TOKtext(out, arg0) = 
-{
-//
-val () = fprint_token_node_$TOKtext$con<>(out, arg0)
-val () = fprint_token_node_$TOKtext$lpar<>(out, arg0)
-val () = fprint_token_node_$TOKtext$arg1<>(out, arg0)
-val () = fprint_token_node_$TOKtext$rpar<>(out, arg0)
-//
-}
-implement{}
-fprint_token_node_$TOKtext$con(out, _) = fprint(out, "TOKtext")
-implement{}
-fprint_token_node_$TOKtext$lpar(out, _) = fprint_token_node_$lpar(out)
-implement{}
-fprint_token_node_$TOKtext$rpar(out, _) = fprint_token_node_$rpar(out)
-implement{}
-fprint_token_node_$TOKtext$arg1(out, arg0) =
-  let val-TOKtext(arg1) = arg0 in fprint_token_node_$carg(out, arg1) end
-//
-extern
-fun{}
 fprint_token_node_$TOKspchr$con: $d2ctype(fprint_token_node_<>)
 extern
 fun{}
@@ -259,6 +242,131 @@ fprint_token_node_$TOKspchr$arg1(out, arg0) =
 //
 extern
 fun{}
+fprint_token_node_$TOKsquote$con: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKsquote$lpar: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKsquote$rpar: $d2ctype(fprint_token_node_<>)
+//
+implement{}
+fprint_token_node_$TOKsquote(out, arg0) = 
+{
+//
+val () = fprint_token_node_$TOKsquote$con<>(out, arg0)
+val () = fprint_token_node_$TOKsquote$lpar<>(out, arg0)
+val () = fprint_token_node_$TOKsquote$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_token_node_$TOKsquote$con(out, _) = fprint(out, "TOKsquote")
+implement{}
+fprint_token_node_$TOKsquote$lpar(out, _) = fprint_token_node_$lpar(out)
+implement{}
+fprint_token_node_$TOKsquote$rpar(out, _) = fprint_token_node_$rpar(out)
+//
+extern
+fun{}
+fprint_token_node_$TOKdquote$con: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKdquote$lpar: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKdquote$rpar: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKdquote$arg1: $d2ctype(fprint_token_node_<>)
+//
+implement{}
+fprint_token_node_$TOKdquote(out, arg0) = 
+{
+//
+val () = fprint_token_node_$TOKdquote$con<>(out, arg0)
+val () = fprint_token_node_$TOKdquote$lpar<>(out, arg0)
+val () = fprint_token_node_$TOKdquote$arg1<>(out, arg0)
+val () = fprint_token_node_$TOKdquote$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_token_node_$TOKdquote$con(out, _) = fprint(out, "TOKdquote")
+implement{}
+fprint_token_node_$TOKdquote$lpar(out, _) = fprint_token_node_$lpar(out)
+implement{}
+fprint_token_node_$TOKdquote$rpar(out, _) = fprint_token_node_$rpar(out)
+implement{}
+fprint_token_node_$TOKdquote$arg1(out, arg0) =
+  let val-TOKdquote(arg1) = arg0 in fprint_token_node_$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_token_node_$TOKcode_beg$con: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKcode_beg$lpar: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKcode_beg$rpar: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKcode_beg$arg1: $d2ctype(fprint_token_node_<>)
+//
+implement{}
+fprint_token_node_$TOKcode_beg(out, arg0) = 
+{
+//
+val () = fprint_token_node_$TOKcode_beg$con<>(out, arg0)
+val () = fprint_token_node_$TOKcode_beg$lpar<>(out, arg0)
+val () = fprint_token_node_$TOKcode_beg$arg1<>(out, arg0)
+val () = fprint_token_node_$TOKcode_beg$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_token_node_$TOKcode_beg$con(out, _) = fprint(out, "TOKcode_beg")
+implement{}
+fprint_token_node_$TOKcode_beg$lpar(out, _) = fprint_token_node_$lpar(out)
+implement{}
+fprint_token_node_$TOKcode_beg$rpar(out, _) = fprint_token_node_$rpar(out)
+implement{}
+fprint_token_node_$TOKcode_beg$arg1(out, arg0) =
+  let val-TOKcode_beg(arg1) = arg0 in fprint_token_node_$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_token_node_$TOKcode_end$con: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKcode_end$lpar: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKcode_end$rpar: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKcode_end$arg1: $d2ctype(fprint_token_node_<>)
+//
+implement{}
+fprint_token_node_$TOKcode_end(out, arg0) = 
+{
+//
+val () = fprint_token_node_$TOKcode_end$con<>(out, arg0)
+val () = fprint_token_node_$TOKcode_end$lpar<>(out, arg0)
+val () = fprint_token_node_$TOKcode_end$arg1<>(out, arg0)
+val () = fprint_token_node_$TOKcode_end$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_token_node_$TOKcode_end$con(out, _) = fprint(out, "TOKcode_end")
+implement{}
+fprint_token_node_$TOKcode_end$lpar(out, _) = fprint_token_node_$lpar(out)
+implement{}
+fprint_token_node_$TOKcode_end$rpar(out, _) = fprint_token_node_$rpar(out)
+implement{}
+fprint_token_node_$TOKcode_end$arg1(out, arg0) =
+  let val-TOKcode_end(arg1) = arg0 in fprint_token_node_$carg(out, arg1) end
+//
+extern
+fun{}
 fprint_token_node_$TOKspace$con: $d2ctype(fprint_token_node_<>)
 extern
 fun{}
@@ -289,5 +397,31 @@ fprint_token_node_$TOKspace$rpar(out, _) = fprint_token_node_$rpar(out)
 implement{}
 fprint_token_node_$TOKspace$arg1(out, arg0) =
   let val-TOKspace(arg1) = arg0 in fprint_token_node_$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_token_node_$TOKnewline$con: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKnewline$lpar: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKnewline$rpar: $d2ctype(fprint_token_node_<>)
+//
+implement{}
+fprint_token_node_$TOKnewline(out, arg0) = 
+{
+//
+val () = fprint_token_node_$TOKnewline$con<>(out, arg0)
+val () = fprint_token_node_$TOKnewline$lpar<>(out, arg0)
+val () = fprint_token_node_$TOKnewline$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_token_node_$TOKnewline$con(out, _) = fprint(out, "TOKnewline")
+implement{}
+fprint_token_node_$TOKnewline$lpar(out, _) = fprint_token_node_$lpar(out)
+implement{}
+fprint_token_node_$TOKnewline$rpar(out, _) = fprint_token_node_$rpar(out)
 //
 (* ****** ****** *)

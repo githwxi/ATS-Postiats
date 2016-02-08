@@ -170,11 +170,16 @@ token_node =
 //
 | TOKsym of (string)
 //
-| TOKtext of (string)
-//
 | TOKspchr of (int)
 //
+| TOKsquote of ()
+| TOKdquote of (string)
+//
+| TOKcode_beg of (string)
+| TOKcode_end of (string)
+//
 | TOKspace of (string)
+| TOKnewline of ((*void*))
 //
 where
 token = $rec{
@@ -312,6 +317,9 @@ fun
 lexbuf_getincby_location(buf: &lexbuf, nchr: intGte(0)): loc_t
 //
 (* ****** ****** *)
+//
+fun
+lexing_INTEGER(buf: &lexbuf): token
 //
 fun
 lexing_IDENT_alp(buf: &lexbuf): token
