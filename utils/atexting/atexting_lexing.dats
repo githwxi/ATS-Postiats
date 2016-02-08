@@ -80,6 +80,19 @@ in
 end // end of [SPACE_test]
 
 (* ****** ****** *)
+
+fun
+SHARP_test
+(
+  i: int
+) : bool =
+(
+//
+if int2char0(i) = '#' then true else false
+//
+) (* SHARP_test *)
+
+(* ****** ****** *)
 //
 fun
 BSLASH_test
@@ -298,9 +311,16 @@ end // end of [ftesting_seq0]
 (* ****** ****** *)
 //
 fun
-testing_blankseq0
+testing_spaceseq0
   (buf: &lexbuf): intGte(0) =
   ftesting_seq0 (buf, SPACE_test)
+//
+(* ****** ****** *)
+//
+fun
+testing_sharpseq0
+  (buf: &lexbuf): intGte(0) =
+  ftesting_seq0 (buf, SHARP_test)
 //
 (* ****** ****** *)
 //
@@ -339,9 +359,10 @@ lexing_SPACE
   (buf) = let
 //
 val nchr =
-  testing_blankseq0(buf)
+  testing_spaceseq0(buf)
 //
 val nchr1 = nchr + 1
+//
 val () = lexbuf_set_nspace(buf, nchr1)
 //
 val space =
@@ -358,19 +379,27 @@ end // end of [lexing_SPACE]
 //
 extern
 fun
-lexing_SQUOTE
+lexing_SHARP
   (buf: &lexbuf >> _): token
 //
 implement
-lexing_SQUOTE
+lexing_SHARP
   (buf) = let
 //
-val _ = lexbuf_remove(buf, 1)
-val loc = lexbuf_getincby_location(buf, 1)
+val nchr =
+  testing_sharpseq0(buf)
+//
+val nchr1 = nchr + 1
+//
+val sharp =
+  lexbuf_takeout(buf, nchr1)
+val sharp = strptr2string(sharp)
+//
+val loc = lexbuf_getincby_location(buf, nchr1)
 //
 in
-  token_make(loc, TOKsquote())
-end // end of [lexing_SQUOTE]
+  token_make(loc, TOKsharp(sharp))
+end // end of [lexing_SHARP]
 //
 (* ****** ****** *)
 //
@@ -407,6 +436,24 @@ val () = lexbuf_set_position(buf, pos)
 in
   token_make(loc, TOKbslash(i))
 end // end of [lexing_BSLASH]
+//
+(* ****** ****** *)
+//
+extern
+fun
+lexing_SQUOTE
+  (buf: &lexbuf >> _): token
+//
+implement
+lexing_SQUOTE
+  (buf) = let
+//
+val _ = lexbuf_remove(buf, 1)
+val loc = lexbuf_getincby_location(buf, 1)
+//
+in
+  token_make(loc, TOKsquote())
+end // end of [lexing_SQUOTE]
 //
 (* ****** ****** *)
 //
@@ -551,6 +598,9 @@ case+ 0 of
 //
 | _ when
     BSLASH_test(i0) => lexing_BSLASH(buf)
+//
+| _ when
+    SHARP_test(i0) => lexing_SHARP(buf)
 //
 | _ when
     SQUOTE_test(i0) => lexing_SQUOTE(buf)

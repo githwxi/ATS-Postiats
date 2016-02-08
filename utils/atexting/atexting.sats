@@ -174,6 +174,8 @@ token_node =
 //
 | TOKspace of (string)
 //
+| TOKsharp of (string)
+//
 | TOKsquote of ()
 | TOKdquote of (string)
 //
@@ -220,8 +222,8 @@ lexbuf_ntot= int
 lexbuf_nrow= int
 ,
 lexbuf_ncol= int
-,
 //
+,
 lexbuf_nspace= int
 //
 ,
@@ -330,6 +332,24 @@ lexing_IDENT_alp(buf: &lexbuf): token
 //
 fun
 test_tokenizing_fileref(inp: FILEref): void
+//
+(* ****** ****** *)
+
+vtypedef
+_tokbuf_vt0ype =
+@{
+//
+  tokbuf_tkbf= dynarray(token)
+, tokbuf_ntok= size_t, tokbuf_lxbf= lexbuf
+//
+} (* end of [_tokbuf_vt0ype] *)
+
+(* ****** ****** *)
+//
+absvt@ype
+tokbuf_vt0ype = _tokbuf_vt0ype
+//
+vtypedef tokbuf = tokbuf_vt0ype
 //
 (* ****** ****** *)
 
