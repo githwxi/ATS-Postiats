@@ -172,9 +172,9 @@ token_node =
 //
 | TOKtext of (string)
 //
-| TOKfuncall of (string, tokenlst)
+| TOKspchr of (int)
 //
-| TOKextcode of (string)
+| TOKspace of (string)
 //
 where
 token = $rec{

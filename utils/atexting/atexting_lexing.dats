@@ -247,6 +247,13 @@ end // end of [ftesting_seq0]
 (* ****** ****** *)
 //
 fun
+testing_blankseq0
+  (buf: &lexbuf): intGte(0) =
+  ftesting_seq0 (buf, BLANK_test)
+//
+(* ****** ****** *)
+//
+fun
 testing_digitseq0
 (
   buf: &lexbuf >> _
@@ -264,6 +271,33 @@ testing_identrstseq0
 //
 (* ****** ****** *)
 //
+extern
+fun
+lexing_SPACE
+  (buf: &lexbuf >> _): token
+//
+implement
+lexing_SPACE
+  (buf) = let
+//
+val nchr =
+  testing_blankseq0(buf)
+//
+val nchr1 = nchr + 1
+val () = lexbuf_set_nspace(buf, nchr1)
+//
+val space =
+  lexbuf_takeout(buf, nchr1)
+val space = strptr2string(space)
+//
+val loc = lexbuf_getincby_location(buf, nchr1)
+//
+in
+  token_make(loc, TOKspace(space))
+end // end of [lexing_SPACE]
+//
+(* ****** ****** *)
+//
 implement
 lexing_IDENT_alp
   (buf) = let
@@ -274,11 +308,62 @@ val nchr1 = succ(nchr)
 val name = lexbuf_takeout (buf, nchr1)
 val name = strptr2string (name)
 //
-val loc = lexbuf_getincby_location (buf, nchr1)
+val loc = lexbuf_getincby_location(buf, nchr1)
 //
 in
-  token_make (loc, TOKide(name))
+  token_make(loc, TOKide(name))
 end // end of [lexing_IDENT_alp]
+
+(* ****** ****** *)
+
+local
+//
+fun
+get_token_any
+(
+  buf: &lexbuf >> _
+) : token = let
+//
+val i0 = lexbuf_get_char(buf)
+//
+in
+//
+case+ 0 of
+//
+| _ when
+    BLANK_test(i0) => lexing_SPACE(buf)
+//
+| _ when
+    IDENTFST_test (i0) => lexing_IDENT_alp(buf)
+//
+| _ (*rest*) => let
+    val loc =
+    lexbuf_getincby_location(buf, 1) in token_make(loc, TOKspchr(i0))
+  end // end of [rest]
+//
+end // end of [get_token_any]
+
+in (* in-of-local *)
+
+implement
+lexbuf_get_token_any
+  (buf) = let
+//
+val tok = get_token_any (buf)
+//
+in
+//
+case+
+tok.token_node of
+//
+| TOKspace _ => tok
+| _ (*non-SPACES*) => let
+    val () = lexbuf_set_nspace (buf, 0) in tok
+  end // end of [non-SPACES]
+//
+end // end of [lexbuf_get_token_any]
+
+end // end of [local]
 
 (* ****** ****** *)
 
