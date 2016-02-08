@@ -245,6 +245,13 @@ lexbuf_vt0ype = _lexbuf_vt0ype
 vtypedef lexbuf = lexbuf_vt0ype
 //
 (* ****** ****** *)
+//
+fun
+lexbuf_initize_string
+(
+  buf: &lexbuf? >> _, inp: string
+) : void // end-of-function
+//
 fun
 lexbuf_initize_fileref
 (
@@ -350,6 +357,75 @@ absvt@ype
 tokbuf_vt0ype = _tokbuf_vt0ype
 //
 vtypedef tokbuf = tokbuf_vt0ype
+//
+(* ****** ****** *)
+//
+fun
+tokbuf_initize_string
+  (buf: &tokbuf? >> _, inp: string): void
+fun
+tokbuf_initize_fileref
+  (buf: &tokbuf? >> _, inp: FILEref): void
+//
+(* ****** ****** *)
+
+fun tokbuf_reset (buf: &tokbuf >> _): void
+
+(* ****** ****** *)
+
+fun tokbuf_uninitize (buf: &tokbuf >> _?): void
+
+(* ****** ****** *)
+//
+fun
+tokbuf_get_ntok (buf: &tokbuf >> _): size_t
+fun
+tokbuf_set_ntok (buf: &tokbuf >> _, ntok: size_t): void
+//
+(* ****** ****** *)
+
+fun
+tokbuf_incby_1 (buf: &tokbuf >> _): void
+fun
+tokbuf_incby_n (buf: &tokbuf >> _, n: size_t): void
+
+(* ****** ****** *)
+//
+fun
+tokbuf_get_token (buf: &tokbuf >> _): token
+fun
+tokbuf_get_token_any (buf: &tokbuf >> _): token
+//
+fun
+tokbuf_getinc_token (buf: &tokbuf >> _): token
+//
+(* ****** ****** *)
+//
+fun
+tokbuf_get_location (buf: &tokbuf >> _): loc_t
+//
+(* ****** ****** *)
+//
+datatype
+atext_node =
+//
+| TEXTtoken of token
+//
+| TEXTsquote of (atextlst)
+| TEXTdquote of (atextlst)
+//
+| TEXTextcode of (atextlst)
+//
+| TEXTdefname of (string(*name*))
+| TEXTfuncall of (string(*name*), atextlst(*arg*))
+//
+where
+atext = $rec{
+  atext_loc= loc_t
+, atext_node= atext_node
+} (* end of [atext] *)
+//
+and atextlst = List0(atext)
 //
 (* ****** ****** *)
 

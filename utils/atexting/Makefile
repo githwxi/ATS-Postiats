@@ -32,6 +32,7 @@ SOURCES_DATS += \
   atexting_token.dats \
   atexting_lexbuf.dats \
   atexting_lexing.dats \
+  atexting_tokbuf.dats \
   atexting_global.dats \
 
 ######

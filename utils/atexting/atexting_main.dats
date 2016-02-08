@@ -52,6 +52,8 @@ dynload "./atexting_token.dats"
 dynload "./atexting_lexbuf.dats"
 dynload "./atexting_lexing.dats"
 //
+dynload "./atexting_tokbuf.dats"
+//
 dynload "./atexting_global.dats"
 //
 (* ****** ****** *)
