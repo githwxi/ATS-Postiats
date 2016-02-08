@@ -163,23 +163,22 @@ datatype
 token_node =
 //
 | TOKeof of ()
+| TOKeol of ()
 //
 | TOKint of (string)
 //
 | TOKide of (string)
 //
-| TOKsym of (string)
-//
 | TOKspchr of (int)
+| TOKbslash of (int)
+//
+| TOKspace of (string)
 //
 | TOKsquote of ()
 | TOKdquote of (string)
 //
 | TOKcode_beg of (string)
 | TOKcode_end of (string)
-//
-| TOKspace of (string)
-| TOKnewline of ((*void*))
 //
 where
 token = $rec{
@@ -298,14 +297,15 @@ lexbuf_takeout
   (buf: &lexbuf >> _, nchr: intGte(0)): Strptr1
 //
 (* ****** ****** *)
-
-fun lexbuf_get_char (buf: &lexbuf >> _): int
-
+//
+fun
+lexbuf_get_char (buf: &lexbuf >> _): int
+//
 (* ****** ****** *)
-
-fun lexbuf_get_token_any (buf: &lexbuf >> _): token
-fun lexbuf_get_token_skip (buf: &lexbuf >> _): token
-
+//
+fun
+lexbuf_get_token_any (buf: &lexbuf >> _): token
+//
 (* ****** ****** *)
 //
 fun
@@ -323,6 +323,13 @@ lexing_INTEGER(buf: &lexbuf): token
 //
 fun
 lexing_IDENT_alp(buf: &lexbuf): token
+//
+(* ****** ****** *)
+//
+// HX-2016-02-07: for testing purpose
+//
+fun
+test_tokenizing_fileref(inp: FILEref): void
 //
 (* ****** ****** *)
 

@@ -60,7 +60,11 @@ implement
 main0() = () where
 {
 //
-val () = println! ("Hello from [atexting]!")
+val () =
+  println!("Hello from [atexting]!")
+//
+val () =
+  test_tokenizing_fileref(stdin_ref)
 //
 } (* end of [main0] *)
 

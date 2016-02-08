@@ -76,6 +76,13 @@ CODEGEN2
 implement
 fprint_val<token> = fprint_token
 //
+implement{}
+fprint_token_node_$TOKspchr$arg1(out, arg0) =
+  let val-TOKspchr(arg1) = arg0 in fprint(out, int2char0(arg1)) end
+implement{}
+fprint_token_node_$TOKbslash$arg1(out, arg0) =
+  let val-TOKbslash(arg1) = arg0 in fprint(out, int2char0(arg1)) end
+//
 implement
 fprint_token(out, x0) =
   fprint_token_node_<>(out, x0.token_node)

@@ -51,12 +51,21 @@ staload "./atexting.sats"
 
 (* ****** ****** *)
 
-macdef ENDL = char2int0('\n')
+macdef EOL = char2int0('\n')
 
+(* ****** ****** *)
+//
+fun
+EOF_test(i: int) =
+  if i >= 0 then false else true
+fun
+EOL_test(i: int) =
+  if i = EOL then true else false
+//
 (* ****** ****** *)
 
 fun
-BLANK_test
+SPACE_test
 (
   i: int
 ) : bool = let
@@ -68,33 +77,48 @@ in
   | _ when c = ' ' => true
   | _ when c = '\t' => true
   | _ (*rest-of-chars*) => false
-end // end of [BLANK_test]
+end // end of [SPACE_test]
 
+(* ****** ****** *)
+//
+fun
+BSLASH_test
+(
+  i: int
+) : bool =
+(
+//
+if int2char0(i) = '\\' then true else false
+//
+) (* BSLASH_test *)
+//
+(* ****** ****** *)
+//
+fun
+SQUOTE_test
+(
+  i: int
+) : bool =
+(
+if int2char0(i) = '\'' then true else false
+)
+//
+fun
+DQUOTE_test
+(
+  i: int
+) : bool =
+(
+  if int2char0(i) = '"' then true else false
+)
+//
 (* ****** ****** *)
 //
 fun
 DIGIT_test
 (
   i: int
-) : bool =
-(
-if isdigit(i)
-  then true else false
-)
-//
-(* ****** ****** *)
-//
-fun
-DQUOTE_test
-(
-  i: int
-) : bool = if int2char0(i) = '"' then true else false
-//
-fun
-SQUOTE_test
-(
-  i: int
-) : bool = if int2char0(i) = '\'' then true else false
+) : bool = if isdigit(i) then true else false
 //
 (* ****** ****** *)
 
@@ -142,7 +166,18 @@ case+ 0 of
 end (* end of [IDENTRST_test] *)
 
 (* ****** ****** *)
-
+(*
+//
+fun SIGN_test
+  (c: int): bool = let
+//
+val c = int2char0(c) in (c = '+' || c = '-')
+//
+end // end of [SIGN_test]
+//
+*)
+(* ****** ****** *)
+(*
 local
 //
 #define
@@ -156,16 +191,7 @@ SYMBOLIC_test
   strchr (SYMBOLIC, int2char0(c)) >= 0
 //
 end // end of [local]
-
-(* ****** ****** *)
-//
-fun SIGN_test
-  (c: int): bool = let
-//
-val c = int2char0(c) in (c = '+' || c = '-')
-//
-end // end of [SIGN_test]
-//
+*)
 (* ****** ****** *)
 //
 extern
@@ -263,7 +289,7 @@ end // end of [ftesting_seq0]
 fun
 testing_blankseq0
   (buf: &lexbuf): intGte(0) =
-  ftesting_seq0 (buf, BLANK_test)
+  ftesting_seq0 (buf, SPACE_test)
 //
 (* ****** ****** *)
 //
@@ -328,11 +354,32 @@ implement
 lexing_SQUOTE
   (buf) = let
 //
+val _ = lexbuf_remove(buf, 1)
 val loc = lexbuf_getincby_location(buf, 1)
 //
 in
   token_make(loc, TOKsquote())
 end // end of [lexing_SQUOTE]
+//
+(* ****** ****** *)
+//
+extern
+fun
+lexing_BSLASH
+  (buf: &lexbuf >> _): token
+//
+implement
+lexing_BSLASH
+  (buf) = let
+//
+val i = lexbuf_get_char(buf)
+//
+val _ = lexbuf_remove(buf, 2)
+val loc = lexbuf_getincby_location(buf, 2)
+//
+in
+  token_make(loc, TOKbslash(i))
+end // end of [lexing_BSLASH]
 //
 (* ****** ****** *)
 //
@@ -346,7 +393,7 @@ lexing_DQUOTE
   (buf) = let
 //
 val nchr =
-  testing_blankseq0(buf)
+  testing_dquoteseq0(buf)
 //
 val nchr1 = nchr + 1
 //
@@ -420,7 +467,10 @@ in
 case+ 0 of
 //
 | _ when
-    BLANK_test(i0) => lexing_SPACE(buf)
+    SPACE_test(i0) => lexing_SPACE(buf)
+//
+| _ when
+    BSLASH_test(i0) => lexing_BSLASH(buf)
 //
 | _ when
     SQUOTE_test(i0) => lexing_SQUOTE(buf)
@@ -433,9 +483,20 @@ case+ 0 of
 | _ when
     IDENTFST_test(i0) => lexing_IDENT_alp(buf)
 //
+| _ when
+    EOL_test(i0) => let
+    val _ = lexbuf_remove(buf, 1)
+    val loc = lexbuf_getincby_location(buf, 1) in token_make(loc, TOKeol())
+  end // end of [EOF]
+| _ when
+    EOF_test(i0) => let
+    val _ = lexbuf_remove(buf, 1)
+    val loc = lexbuf_getincby_location(buf, 1) in token_make(loc, TOKeof())
+  end // end of [EOF]
+//
 | _ (*rest*) => let
-    val loc =
-    lexbuf_getincby_location(buf, 1) in token_make(loc, TOKspchr(i0))
+    val _ = lexbuf_remove(buf, 1)
+    val loc = lexbuf_getincby_location(buf, 1) in token_make(loc, TOKspchr(i0))
   end // end of [rest]
 //
 end // end of [get_token_any]
@@ -454,11 +515,64 @@ case+
 tok.token_node of
 //
 | TOKspace _ => tok
-| _ (*non-SPACES*) => let
+| _ (*non-SPACE*) => let
     val () = lexbuf_set_nspace (buf, 0) in tok
-  end // end of [non-SPACES]
+  end // end of [non-SPACE]
 //
 end // end of [lexbuf_get_token_any]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun
+loop_tokenizing
+(
+  buf: &lexbuf >> _
+) : void = let
+//
+val
+tok =
+lexbuf_get_token_any(buf)
+//
+in
+//
+case+
+tok.token_node
+of // case+
+| TOKeof() => ()
+| _(*rest*) =>
+  (
+    fprintln!(stdout_ref, tok); loop_tokenizing(buf)
+  ) (* end of [rest] *)
+//
+end // end of [loop]
+
+in (* in-of-local *)
+
+implement
+test_tokenizing_fileref
+  (inp) = let
+//
+var buf: lexbuf
+val ((*void*)) =
+  lexbuf_initize_fileref(buf, inp)
+//
+val ((*void*)) =
+  the_filename_push(filename_stdin)
+//
+val ((*void*)) = loop_tokenizing(buf)
+//
+val _(*stdin*) = the_filename_pop()
+
+//
+val ((*void*)) = lexbuf_uninitize(buf)
+//
+in
+  // nothing
+end // end of [test_tokenizing_fileref]
 
 end // end of [local]
 
