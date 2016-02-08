@@ -115,6 +115,17 @@ DQUOTE_test
 (* ****** ****** *)
 //
 fun
+PERCENT_test
+(
+  i: int
+) : bool =
+(
+  if int2char0(i) = '%' then true else false
+)
+//
+(* ****** ****** *)
+//
+fun
 DIGIT_test
 (
   i: int
@@ -425,6 +436,59 @@ end // end of [lexing_DQUOTE]
 //
 (* ****** ****** *)
 //
+extern
+fun
+lexing_PERCENT
+  (buf: &lexbuf >> _): token
+//
+implement
+lexing_PERCENT
+  (buf) = let
+//
+val i =
+lexbuf_get_char(buf)
+//
+val c = int2char0(i)
+//
+in
+//
+case+ c of
+//
+| '}' => let
+    val cend =
+      lexbuf_takeout(buf, 2)
+    val cend = strptr2string(cend)
+    val loc0 =
+      lexbuf_getincby_location(buf, 2)
+    // end of [val]
+  in
+    token_make(loc0, TOKcode_end(cend))
+  end // end of [%{]
+//
+| '\{' => let
+    val cbeg =
+      lexbuf_takeout(buf, 2)
+    val cbeg = strptr2string(cbeg)
+    val loc0 =
+      lexbuf_getincby_location(buf, 2)
+    // end of [val]
+  in
+    token_make(loc0, TOKcode_beg(cbeg))
+  end // end of [%{]
+//
+| _(*rest*) => let
+    val () = lexbuf_remove(buf, 1)
+    val loc0 =
+      lexbuf_getincby_location(buf, 1)
+    // end of [val]
+  in
+    token_make(loc0, TOKspchr(char2int0('%')))
+  end // end of [make]
+//
+end // end of [lexing_PERCENT]
+//
+(* ****** ****** *)
+//
 implement
 lexing_INTEGER
   (buf) = let
@@ -492,6 +556,9 @@ case+ 0 of
     SQUOTE_test(i0) => lexing_SQUOTE(buf)
 | _ when
     DQUOTE_test(i0) => lexing_DQUOTE(buf)
+//
+| _ when
+    PERCENT_test(i0) => lexing_PERCENT(buf)
 //
 | _ when
     DIGIT_test(i0) => lexing_INTEGER(buf)
@@ -564,11 +631,12 @@ of // case+
 | TOKeof() => ()
 | _(*rest*) => let
 //
+(*
     val () =
-    fprintln!
-      (out, tok.token_loc)
-    // end of [val]
-    val () = fprintln!(out, tok)
+    fprintln! (out, tok.token_loc)
+*)
+//
+    val () = fprintln!(out, "tok = ", tok)
 //
   in
     loop_tokenizing(buf)
