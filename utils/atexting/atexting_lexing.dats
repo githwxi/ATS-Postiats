@@ -581,7 +581,7 @@ end // end of [lexing_IDENT_alp]
 local
 //
 fun
-get_token_any
+get_token
 (
   buf: &lexbuf >> _
 ) : token = let
@@ -636,10 +636,10 @@ end // end of [get_token_any]
 in (* in-of-local *)
 
 implement
-lexbuf_get_token_any
+lexbuf_get_token
   (buf) = let
 //
-val tok = get_token_any (buf)
+val tok = get_token (buf)
 //
 in
 //

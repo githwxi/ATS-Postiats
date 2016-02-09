@@ -155,7 +155,7 @@ then $UN.cptr_get<token>(ptok)
 else let
 //
 val tok =
-  lexbuf_get_token_any(buf.tokbuf_lxbf)
+  lexbuf_get_token(buf.tokbuf_lxbf)
 //
 val ((*void*)) =
   $DA.dynarray_insert_atend_exn(buf.tokbuf_tkbf, tok)
@@ -165,33 +165,6 @@ in
 end // end of [else]
 //
 end // end of [tokbuf_get_token]
-
-(* ****** ****** *)
-
-implement
-tokbuf_get_token_any
-  (buf) = let
-//
-val ntok = buf.tokbuf_ntok
-val ptok =
-  $DA.dynarray_getref_at(buf.tokbuf_tkbf, ntok)
-//
-in
-//
-if
-isneqz(ptok)
-then $UN.cptr_get<token>(ptok)
-else let
-//
-val tok = lexbuf_get_token_any(buf.tokbuf_lxbf)
-val ((*void*)) =
-  $DA.dynarray_insert_atend_exn(buf.tokbuf_tkbf, tok)
-//
-in
-  tok
-end // end of [else]
-//
-end // end of [tokbuf_get_token_any]
 
 (* ****** ****** *)
 

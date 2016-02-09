@@ -319,7 +319,7 @@ lexbuf_get_char (buf: &lexbuf >> _): int
 (* ****** ****** *)
 //
 fun
-lexbuf_get_token_any (buf: &lexbuf >> _): token
+lexbuf_get_token (buf: &lexbuf >> _): token
 //
 (* ****** ****** *)
 //
@@ -392,8 +392,6 @@ tokbuf_incby_n (buf: &tokbuf >> _, n: size_t): void
 //
 fun
 tokbuf_get_token (buf: &tokbuf >> _): token
-fun
-tokbuf_get_token_any (buf: &tokbuf >> _): token
 //
 fun
 tokbuf_getinc_token (buf: &tokbuf >> _): token
@@ -443,6 +441,51 @@ fprint_atextlst : fprint_type(atextlst)
 //
 overload fprint with fprint_atext
 overload fprint with fprint_atextlst
+//
+(* ****** ****** *)
+//
+datatype
+parerr_node =
+//
+| PARERR_LPAREN
+| PARERR_RPAREN
+//
+typedef
+parerr = $rec{
+  parerr_loc= loc_t, parerr_node= parerr_node
+} (* end of [parerr] *)
+//
+typedef parerrlst = list0(parerr)
+//
+(* ****** ****** *)
+//
+fun
+parerr_make
+  (loc: loc_t, node: parerr_node): parerr
+//
+(* ****** ****** *)
+//
+fun fprint_parerr : fprint_type(parerr)
+fun fprint_parerrlst : fprint_type(parerrlst)
+//
+overload fprint with fprint_parerr
+overload fprint with fprint_parerrlst
+//
+(* ****** ****** *)
+//
+fun
+the_parerrlst_clear (): void
+//
+fun
+the_parerrlst_insert (parerr): void
+fun
+the_parerrlst_insert2(loc_t, parerr_node): void
+//
+fun
+the_parerrlst_pop_all ((*void*)): List0_vt(parerr)
+//
+fun
+the_parerrlst_print_free ((*void*)): int(*nerr*)
 //
 (* ****** ****** *)
 //
