@@ -43,6 +43,8 @@
 (* ****** ****** *)
 //
 staload
+"libats/ML/SATS/basis.sats"
+staload
 "libats/ML/SATS/list0.sats"
 //
 (* ****** ****** *)
@@ -56,47 +58,30 @@ staload "./atexting.sats"
 (* ****** ****** *)
 //
 fun
-token_is_COMMA
-  (tok: token): bool =
+token_is_spchr
+  (tok: token, c: char): bool =
 (
 //
 case+
 tok.token_node of
-| TOKspchr(i) => (int2char0(i) = ',') | _ => false
+| TOKspchr(i) => (int2char0(i) = c) | _ => false
 //
 ) (* token_is_COMMA *)
 //
 fun
-token_is_RPAREN
-  (tok: token): bool =
-(
-//
-case+
-tok.token_node of
-| TOKspchr(i) => (int2char0(i) = ')') | _ => false
-//
-) (* token_is_LPAREN *)
-fun
-token_is_LPAREN
-  (tok: token): bool =
-(
-//
-case+
-tok.token_node of
-| TOKspchr(i) => (int2char0(i) = '\(') | _ => false
-//
-) (* token_is_LPAREN *)
+token_is_COMMA
+  (tok: token): bool = token_is_spchr(tok, ',')
 //
 fun
 token_is_SEMICOLON
-  (tok: token): bool =
-(
+  (tok: token): bool = token_is_spchr(tok, ';')
 //
-case+
-tok.token_node of
-| TOKspchr(i) => (int2char0(i) = ';') | _ => false
-//
-) (* token_is_COMMA *)
+fun
+token_is_RPAREN
+  (tok: token): bool = token_is_spchr(tok, ')')
+fun
+token_is_LPAREN
+  (tok: token): bool = token_is_spchr(tok, '\(')
 //
 (* ****** ****** *)
 //
@@ -117,12 +102,14 @@ in
 case+
 tok.token_node
 of // case+
+//
 | TOKspace _ => let
     val () =
     tokbuf_incby_1(buf)
   in 
     tokbuf_get2_token(buf)
   end // end of [TOKspace]
+//
 | TOKbslash(i)
   when int2char0(i) = '\n' => let
     val () =
@@ -130,17 +117,10 @@ of // case+
   in 
     tokbuf_get2_token(buf)
   end // end of [TOKspace]
+//
 | _(* rest-of-token *) => tok
 //
 end // end of [tokbuf_get2_token]
-//
-(* ****** ****** *)
-//
-datatype parenv =
-  | PARENV_SQUOTE of ()
-  | PARENV_DQUOTE of (int)
-  | PARENV_FUNARG of ()
-  | PARENV_EXTCODE of ()
 //
 (* ****** ****** *)
 //
@@ -156,12 +136,44 @@ parsing_funarg(buf: &tokbuf >> _): atextlst
 //
 extern
 fun
-parsing_atextseq_comma(buf: &tokbuf >> _): atextlst
+parsing_RPAREN(buf: &tokbuf >> _): bool
+//
+extern
+fun
+parsing_commatextseq(buf: &tokbuf >> _): atextlst
+//
+extern
+fun
+parsing_atextseq_rparen(buf: &tokbuf >> _): atextlst
 //
 (* ****** ****** *)
 
 implement
-parsing_atextseq_comma
+parsing_RPAREN
+  (buf) = let
+//
+macdef
+incby1(buf) =
+  tokbuf_incby_1(,(buf))
+//
+val tok = tokbuf_get2_token(buf)
+//
+in
+//
+case+
+tok.token_node
+of // case+
+| _ when
+    token_is_RPAREN(tok) =>
+    let val () = incby1(buf) in true end
+| _ (*non-RPAREN*) => false
+//
+end // end of [parsing_RPAREN]
+
+(* ****** ****** *)
+
+implement
+parsing_commatextseq
   (buf) = let
 //
 macdef
@@ -196,7 +208,38 @@ val xs = loop(buf, list_vt_nil())
 //
 in
   list0_of_list_vt(list_vt_reverse(xs))
-end // end of [parsing_atextseq_comma]
+end // end of [parsing_commatextseq]
+
+(* ****** ****** *)
+
+implement
+parsing_atextseq_rparen
+  (buf) = let
+//
+macdef
+incby1(buf) =
+  tokbuf_incby_1(,(buf))
+//
+val tok = tokbuf_get2_token(buf)
+//
+in
+//
+case+
+tok.token_node
+of // case+
+| _ when
+    token_is_RPAREN(tok) =>
+    (incby1(buf); list0_nil())
+  // end of [RPAREN]
+| _ (*non-RPAREN*) =>
+    list0_cons(x0, xs) where
+  {
+    val x0 = parsing_atext(buf)
+    val xs = parsing_commatextseq(buf)
+    val yn = parsing_RPAREN(buf)
+  } (* end of [non-empty] *)
+//
+end // end of [parsing_atextseq_rparen]
 
 (* ****** ****** *)
 
