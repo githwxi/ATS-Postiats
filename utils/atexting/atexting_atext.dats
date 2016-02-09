@@ -39,20 +39,28 @@
 //
 (* ****** ****** *)
 
+staload UN = $UNSAFE
+
+(* ****** ****** *)
+
 staload "./atexting.sats"
 
 (* ****** ****** *)
 //
 implement
-atext_make(loc, node) =
-  $rec{ atext_loc= loc, atext_node= node }
+atext_make
+(
+  loc, node
+) = $rec{
+  atext_loc= loc, atext_node= node
+} (* $rec *)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
 fprint_atext_node_
-  : (FILEref, tnode) -> void
+  : (FILEref, atext_node) -> void
 //
 (* ****** ****** *)
 
@@ -69,7 +77,11 @@ CODEGEN2
 "./atexting_atext_fprint.hats"
 //
 implement
+fprint_val<token> = fprint_token
+implement
 fprint_val<atext> = fprint_atext
+implement
+fprint_val<atextlst> = fprint_atextlst
 //
 implement
 fprint_atext(out, x0) =
@@ -77,7 +89,8 @@ fprint_atext(out, x0) =
 //
 implement
 fprint_atextlst
-  (out, xs) = fprint_list_sep<atext>(out, xs, ", ")
+  (out, xs) =
+  fprint_list_sep<atext>(out, $UN.cast{List0(atext)}(xs), ", ")
 //
 #endif // #ifdef
 

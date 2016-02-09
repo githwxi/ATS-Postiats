@@ -49,6 +49,8 @@ dynload "./atexting_fname.dats"
 dynload "./atexting_posloc.dats"
 //
 dynload "./atexting_token.dats"
+dynload "./atexting_atext.dats"
+//
 dynload "./atexting_lexbuf.dats"
 dynload "./atexting_lexing.dats"
 //

@@ -39,6 +39,10 @@
 //
 (* ****** ****** *)
 
+staload UN = $UNSAFE
+
+(* ****** ****** *)
+
 staload "./atexting.sats"
 
 (* ****** ****** *)
@@ -93,7 +97,8 @@ fprint_tnode
 //
 implement
 fprint_tokenlst
-  (out, xs) = fprint_list_sep<token>(out, xs, ", ")
+  (out, xs) =
+  fprint_list_sep<token>(out, $UN.cast{List0(token)}(xs), ", ")
 //
 #endif // #ifdef
 

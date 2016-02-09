@@ -44,6 +44,11 @@ ATS_PACKNAME "ATEXTING"
 (* ****** ****** *)
 //
 staload
+"libats/ML/SATS/basis.sats"
+//
+(* ****** ****** *)
+//
+staload
 DA =
 "libats/SATS/dynarray.sats"
 //
@@ -188,7 +193,7 @@ token = $rec{
 , token_node= token_node
 } (* end of [token] *)
 //
-and tokenlst = List0(token)
+and tokenlst = list0(token)
 //
 (* ****** ****** *)
 //
@@ -210,6 +215,7 @@ fun
 fprint_tokenlst : fprint_type(tokenlst)
 //
 overload fprint with fprint_token
+overload fprint with fprint_tokenlst
 //
 (* ****** ****** *)
 //
@@ -418,12 +424,25 @@ atext = $rec{
 , atext_node= atext_node
 } (* end of [atext] *)
 //
-and atextlst = List0(atext)
+and atextlst = list0(atext)
 //
 (* ****** ****** *)
 //
 fun
-atext_make_node(loc_t, atext_node): atext
+atext_make
+(
+  loc: loc_t, node: atext_node
+) : atext // end-of-function
+//
+(* ****** ****** *)
+//
+fun
+fprint_atext : fprint_type(atext)
+fun
+fprint_atextlst : fprint_type(atextlst)
+//
+overload fprint with fprint_atext
+overload fprint with fprint_atextlst
 //
 (* ****** ****** *)
 //
