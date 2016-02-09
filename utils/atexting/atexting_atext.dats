@@ -43,37 +43,44 @@ staload "./atexting.sats"
 
 (* ****** ****** *)
 //
-dynload "./atexting_mylib.dats"
-//
-dynload "./atexting_fname.dats"
-dynload "./atexting_posloc.dats"
-//
-dynload "./atexting_token.dats"
-dynload "./atexting_lexbuf.dats"
-dynload "./atexting_lexing.dats"
-//
-dynload "./atexting_tokbuf.dats"
-//
-dynload "./atexting_global.dats"
-//
-(* ****** ****** *)
-
-dynload "./atexting_mytest.dats"
-
-(* ****** ****** *)
-
 implement
-main0() = () where
-{
+atext_make(loc, node) =
+  $rec{ atext_loc= loc, atext_node= node }
 //
-val () =
-  println!("Hello from [atexting]!")
+(* ****** ****** *)
 //
-val () =
-  test_tokenizing_fileref(stdin_ref)
+extern
+fun{}
+fprint_atext_node_
+  : (FILEref, tnode) -> void
 //
-} (* end of [main0] *)
+(* ****** ****** *)
+
+#ifdef
+CODEGEN2
+#then
+#codegen2
+( "fprint"
+, atext_node, fprint_atext_node_
+)
+#else
+//
+#include
+"./atexting_atext_fprint.hats"
+//
+implement
+fprint_val<atext> = fprint_atext
+//
+implement
+fprint_atext(out, x0) =
+  fprint_atext_node_<>(out, x0.atext_node)
+//
+implement
+fprint_atextlst
+  (out, xs) = fprint_list_sep<atext>(out, xs, ", ")
+//
+#endif // #ifdef
 
 (* ****** ****** *)
 
-(* end of [atexting_main.sats] *)
+(* end of [atexting_atext.dats] *)

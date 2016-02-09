@@ -334,13 +334,6 @@ fun
 lexing_IDENT_alp(buf: &lexbuf): token
 //
 (* ****** ****** *)
-//
-// HX-2016-02-07: for testing purpose
-//
-fun
-test_tokenizing_fileref(inp: FILEref): void
-//
-(* ****** ****** *)
 
 vtypedef
 _tokbuf_vt0ype =
@@ -426,6 +419,20 @@ atext = $rec{
 } (* end of [atext] *)
 //
 and atextlst = List0(atext)
+//
+(* ****** ****** *)
+//
+fun
+atext_make_node(loc_t, atext_node): atext
+//
+(* ****** ****** *)
+//
+// HX-2016-02-07: for testing purpose
+//
+(* ****** ****** *)
+//
+fun
+test_tokenizing_fileref(inp: FILEref): void
 //
 (* ****** ****** *)
 
