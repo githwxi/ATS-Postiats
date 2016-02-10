@@ -670,5 +670,45 @@ sort_make {xs,ys:ilist}
   (pf1: ISORD ys, pf2: PERMUTE (xs, ys)): SORT (xs, ys)
 //
 (* ****** ****** *)
+//
+// HX-2016-02-09:
+// static functions
+// for external solvers (such as Z3)
+//
+(* ****** ****** *)
+//
+stacst
+ilist_head : (ilist) -> int
+stacst
+ilist_tail : (ilist) -> ilist
+//
+stacst
+ilist_take : (ilist, int) -> ilist
+stacst
+ilist_drop : (ilist, int) -> ilist
+//
+(* ****** ****** *)
+//
+stacst
+ilist_get_at : (ilist, int) -> int
+stacst
+ilist_set_at : (ilist, int, int) -> ilist
+//
+(* ****** ****** *)
+
+stacst ilist_length : (ilist) -> int
+
+(* ****** ****** *)
+//
+stacst
+ilist_append : (ilist, ilist) -> ilist
+//
+stacst
+ilist_revapp : (ilist, ilist) -> ilist
+stacst ilist_reverse : (ilist) -> ilist
+//
+stacst ilist_snoc : (ilist, int) -> ilist
+//
+(* ****** ****** *)
 
 (* end of [ilist_prf.sats] *)
