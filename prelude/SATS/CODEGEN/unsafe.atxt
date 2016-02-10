@@ -39,6 +39,9 @@ praxi
 prop_assert{b:bool}((*void*)): [b] void
 //
 praxi
+proof_assert{proof:prop}((*void*)): proof
+//
+praxi
 eqint_assert{i1,i2:int}((*void*)): EQINT(i1,i2)
 praxi
 eqaddr_assert{l1,l2:addr}((*void*)): EQADDR(l1,l2)
@@ -93,7 +96,7 @@ castfn cast2uintptr {a:t0p} (x: INV(a)):<> uintptr
 //
 #atscode_separator()
 
-praxi cast2void {a:vt0p} (x: INV(a)):<prf> void
+praxi cast2void{a:vt0p}(x: INV(a)):<prf> void
 
 #atscode_separator()
 //

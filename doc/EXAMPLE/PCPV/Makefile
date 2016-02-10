@@ -10,7 +10,12 @@
 ######
 
 PATSHOMEQ="$(PATSHOME)"
+
+######
+
+PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
+PATSOLVE=$(PATSHOME)/bin/patsolve_z3
 
 ######
 
@@ -18,13 +23,25 @@ all::
 
 ######
 
-all:: bsearch_arr
-bsearch_arr: bsearch_arr.dats ; $(PATSOPT) --typecheck --dynamic bsearch_arr.dats
+all:: \
+bsearch_arr
+bsearch_arr: \
+bsearch_arr.dats ; \
+$(PATSOPT) --typecheck --dynamic bsearch_arr.dats
 
 ######
 
-all:: quicksort_lst
-quicksort_lst: quicksort_lst.dats ; $(PATSOPT) --typecheck --dynamic quicksort_lst.dats
+all:: \
+quicksort_lst
+quicksort_lst: \
+quicksort_lst.dats ; \
+$(PATSOPT) --typecheck --dynamic quicksort_lst.dats
+
+######
+
+mergesort_lst:: \
+mergesort_lst.dats; \
+$(PATSOPT) -tc --constraint-export -d $< | $(PATSOLVE) -i
 
 ######
 

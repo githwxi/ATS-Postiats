@@ -577,16 +577,16 @@ absprop LTB
 // end of [LTB]
 //
 prfun
-ltb_istot {xs:ilist} (): [x:int] LTB (x, xs)
+ltb_istot {xs:ilist} (): [x:int] LTB(x, xs)
 //
-prfun ltb_nil {x:int} (): LTB (x, ilist_nil)
+prfun ltb_nil {x:int} (): LTB(x, ilist_nil)
 //
 prfun
 ltb_cons
   {x0:int}
   {x:int | x0 < x}
   {xs:ilist}
-  (pf: LTB (x0, xs)): LTB (x0, ilist_cons (x, xs))
+  (pf: LTB(x0, xs)): LTB(x0, ilist_cons(x, xs))
 // end of [ltb_cons]
 //
 prfun
@@ -594,11 +594,11 @@ ltb_cons_elim
   {x0:int}
   {x:int}
   {xs:ilist}
-  (pf: LTB (x0, ilist_cons (x, xs))): [x0 < x] LTB (x0, xs)
+  (pf: LTB(x0, ilist_cons(x, xs))): [x0 < x] LTB(x0, xs)
 // end of [ltb_cons_elim]
 //
 prfun ltb_dec
-  {x1:int}{x2:int | x2 <= x1}{xs:ilist} (pf: LTB (x1, xs)): LTB (x2, xs)
+  {x1:int}{x2:int | x2 <= x1}{xs:ilist} (pf: LTB(x1, xs)): LTB(x2, xs)
 // end of [ltb_dec]
 //
 (* ****** ****** *)
@@ -608,15 +608,15 @@ absprop LTEB
 // end of [LTEB]
 //
 prfun
-lteb_istot {xs:ilist} (): [x:int] LTEB (x, xs)
+lteb_istot {xs:ilist} (): [x:int] LTEB(x, xs)
 //
-prfun lteb_nil {x:int} (): LTEB (x, ilist_nil)
+prfun lteb_nil {x:int} (): LTEB(x, ilist_nil)
 //
 prfun lteb_cons
   {x0:int}
   {x:int | x0 <= x}
   {xs:ilist}
-  (pf: LTEB (x0, xs)): LTEB (x0, ilist_cons (x, xs))
+  (pf: LTEB(x0, xs)): LTEB(x0, ilist_cons(x, xs))
 // end of [lteb_cons]
 //
 prfun
@@ -624,20 +624,20 @@ lteb_cons_elim
   {x0:int}
   {x:int}
   {xs:ilist}
-  (pf: LTEB (x0, ilist_cons (x, xs))): [x0 <= x] LTEB (x0, xs)
+  (pf: LTEB(x0, ilist_cons(x, xs))): [x0 <= x] LTEB(x0, xs)
 // end of [lteb_cons_elim]
 //
 prfun lteb_dec
-  {x1:int}{x2:int | x2 <= x1}{xs:ilist} (pf: LTEB (x1, xs)): LTEB (x2, xs)
+  {x1:int}{x2:int | x2 <= x1}{xs:ilist}(pf: LTEB(x1, xs)): LTEB(x2, xs)
 // end of [lteb_dec]
 //
 (* ****** ****** *)
 
 dataprop
 ISORD (ilist) =
-  | ISORDnil (ilist_nil) of ()
+  | ISORDnil(ilist_nil) of ()
   | {x:int} {xs:ilist}
-    ISORDcons (ilist_cons (x, xs)) of (ISORD xs, LTEB (x, xs))
+    ISORDcons(ilist_cons(x, xs)) of (ISORD(xs), LTEB(x, xs))
 // end of [ISORD]
 
 (* ****** ****** *)
@@ -645,13 +645,13 @@ ISORD (ilist) =
 prfun
 lemma_ltb_permute{x:int}
   {xs1,xs2:ilist}
-  (pf1: LTB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTB (x, xs2)
+  (pf1: LTB(x, xs1), pf2: PERMUTE(xs1, xs2)): LTB(x, xs2)
 // end of [lemma_ltb_permute]
 
 prfun
 lemma_lteb_permute{x:int}
   {xs1,xs2:ilist}
-  (pf1: LTEB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTEB (x, xs2)
+  (pf1: LTEB(x, xs1), pf2: PERMUTE(xs1, xs2)): LTEB(x, xs2)
 // end of [lemma_lteb_permute]
 
 (* ****** ****** *)
@@ -695,19 +695,55 @@ stacst
 ilist_set_at : (ilist, int, int) -> ilist
 //
 (* ****** ****** *)
-
-stacst ilist_length : (ilist) -> int
-
+//
+stacst
+ilist_length : (ilist) -> int
+//
+praxi
+lemma_length_f2p
+  {xs:ilist}(): LENGTH(xs, ilist_length(xs))
+//
+praxi
+lemma_length_p2b
+  {xs:ilist}{n:int}
+  (pf: LENGTH(xs, n)): [ilist_length(xs)==n] unit_p
+//
 (* ****** ****** *)
 //
 stacst
 ilist_append : (ilist, ilist) -> ilist
 //
+praxi
+lemma_append_f2p
+{xs,ys:ilist}
+(
+// argumentless
+) : APPEND(xs,ys,ilist_append(xs, ys))
+//
+praxi
+lemma_append_p2b
+  {xs,ys,zs:ilist}
+(
+  pf: APPEND(xs, ys, zs)
+) : [ilist_append(xs, ys) == zs] unit_p
+//
+(* ****** ****** *)
+//
 stacst
 ilist_revapp : (ilist, ilist) -> ilist
 stacst ilist_reverse : (ilist) -> ilist
 //
-stacst ilist_snoc : (ilist, int) -> ilist
+(* ****** ****** *)
+//
+stacst
+ilist_snoc : (ilist, int) -> ilist
+//
+(* ****** ****** *)
+//
+stacst
+ilist_isord : (ilist) -> bool
+//
+stacst ilist_sort : (ilist) -> ilist
 //
 (* ****** ****** *)
 
