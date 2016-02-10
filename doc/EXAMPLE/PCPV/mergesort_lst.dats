@@ -80,7 +80,9 @@ merge
 //
 fun
 msort
-{xs:ilist}
+{ xs:ilist
+| ilist_length(xs)>=0
+} .<ilist_length(xs)>.
 (
   xs: gflist(a, xs)
 , n0: int(ilist_length(xs))
@@ -90,13 +92,14 @@ msort
 if
 n0 >= 2
 then let
-  val n1 = half(n0)
-  val (xs1, xs2) = split(xs, n1)
 //
-  stadef n0 =
-  ilist_length(xs)
-  stadef n1 = n0 / 2
-  stadef n2 = n0 - n1
+  val n1 = half(n0)
+//
+  stadef n0 = ilist_length(xs)
+//
+  prval
+  [n1:int]
+  EQINT() = eqint_make_gint(n1)
 //
   stadef xs1 = ilist_take(xs, n1)
   stadef xs2 = ilist_drop(xs, n1)
@@ -109,12 +112,14 @@ then let
   prval
   EQINT() =
   $UN.eqint_assert
-  {n2,ilist_length(xs2)}((*void*))
+  {n0-n1,ilist_length(xs2)}((*void*))
   prval
   ILISTEQ() =
   $UN.proof_assert{ILISTEQ(xs,xs12)}()
   prval
   ILISTEQ() = lemma_ilist_merge_sort{xs1,xs2}()
+//
+  val (xs1, xs2) = split(xs, n1)
 //
 in
   merge(msort(xs1, n1), msort(xs2, n0-n1))
