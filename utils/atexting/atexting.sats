@@ -198,6 +198,7 @@ and tokenlst = list0(token)
 (* ****** ****** *)
 //
 typedef tnode = token_node
+typedef tokenopt = Option(token)
 //
 (* ****** ****** *)
 //
@@ -413,8 +414,9 @@ atext_node =
 //
 | TEXTextcode of (atextlst)
 //
+| TEXTfuncall of (token(*name*), atextlst(*arg*))
+//
 | TEXTdefname of (string(*name*))
-| TEXTfuncall of (string(*name*), atextlst(*arg*))
 //
 where
 atext = $rec{
@@ -424,6 +426,10 @@ atext = $rec{
 //
 and atextlst = list0(atext)
 //
+(* ****** ****** *)
+
+typedef atextopt = Option(atext)
+
 (* ****** ****** *)
 //
 fun

@@ -490,7 +490,7 @@ lemma_nth_insert
 dataprop
 UPDATE (
   yi: int, ilist, int, ilist
-) =
+) = // UPDATE
   | {x0:int}{xs:ilist}
     UPDATEbas (
       yi, ilist_cons (x0, xs), 0, ilist_cons (yi, xs)
@@ -506,7 +506,11 @@ UPDATE (
 // INTERCHANGE (xs, i, j, ys) means:
 // ys[i]=xs[j]; ys[j]=xs[i]; ys[k]=xs[k] for k != i or j
 //
-absprop INTERCHANGE (xs:ilist, i:int, j:int, ys:ilist)
+absprop
+INTERCHANGE
+(
+  xs:ilist, i:int, j:int, ys:ilist
+) (* INTERCHANGE *)
 
 (* ****** ****** *)
 
@@ -528,7 +532,10 @@ lemma_interchange_symm
 // [ys] is a permutation of [xs]
 //
 absprop
-PERMUTE (xs1:ilist, xs2:ilist)
+PERMUTE
+(
+  xs1:ilist, xs2:ilist
+) (* PERMUTE *)
 //
 prfun
 permute_refl {xs:ilist} (): PERMUTE (xs, xs)
@@ -564,61 +571,66 @@ lemma_interchange_permute
 // end of [lemma_interchange_permute]
 
 (* ****** ****** *)
-
+//
 absprop LTB
   (x: int, xs: ilist) // [x] is a strict lower bound for [xs]
 // end of [LTB]
-
-prfun ltb_istot {xs:ilist} (): [x:int] LTB (x, xs)
-
+//
+prfun
+ltb_istot {xs:ilist} (): [x:int] LTB (x, xs)
+//
 prfun ltb_nil {x:int} (): LTB (x, ilist_nil)
-
-prfun ltb_cons
+//
+prfun
+ltb_cons
   {x0:int}
   {x:int | x0 < x}
   {xs:ilist}
   (pf: LTB (x0, xs)): LTB (x0, ilist_cons (x, xs))
 // end of [ltb_cons]
-
-prfun ltb_cons_elim
+//
+prfun
+ltb_cons_elim
   {x0:int}
   {x:int}
   {xs:ilist}
   (pf: LTB (x0, ilist_cons (x, xs))): [x0 < x] LTB (x0, xs)
 // end of [ltb_cons_elim]
-
+//
 prfun ltb_dec
   {x1:int}{x2:int | x2 <= x1}{xs:ilist} (pf: LTB (x1, xs)): LTB (x2, xs)
 // end of [ltb_dec]
-
+//
 (* ****** ****** *)
-
+//
 absprop LTEB
   (x: int, xs: ilist) // [x] is a lower bound for [xs]
 // end of [LTEB]
-
-prfun lteb_istot {xs:ilist} (): [x:int] LTEB (x, xs)
-
+//
+prfun
+lteb_istot {xs:ilist} (): [x:int] LTEB (x, xs)
+//
 prfun lteb_nil {x:int} (): LTEB (x, ilist_nil)
-
+//
 prfun lteb_cons
   {x0:int}
   {x:int | x0 <= x}
   {xs:ilist}
   (pf: LTEB (x0, xs)): LTEB (x0, ilist_cons (x, xs))
 // end of [lteb_cons]
-
-prfun lteb_cons_elim
+//
+prfun
+lteb_cons_elim
   {x0:int}
   {x:int}
   {xs:ilist}
   (pf: LTEB (x0, ilist_cons (x, xs))): [x0 <= x] LTEB (x0, xs)
 // end of [lteb_cons_elim]
-
+//
 prfun lteb_dec
   {x1:int}{x2:int | x2 <= x1}{xs:ilist} (pf: LTEB (x1, xs)): LTEB (x2, xs)
 // end of [lteb_dec]
-
+//
 (* ****** ****** *)
 
 dataprop
@@ -631,13 +643,15 @@ ISORD (ilist) =
 (* ****** ****** *)
 
 prfun
-lemma_ltb_permute {x:int}
-  {xs1,xs2:ilist} (pf1: LTB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTB (x, xs2)
+lemma_ltb_permute{x:int}
+  {xs1,xs2:ilist}
+  (pf1: LTB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTB (x, xs2)
 // end of [lemma_ltb_permute]
 
 prfun
-lemma_lteb_permute {x:int}
-  {xs1,xs2:ilist} (pf1: LTEB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTEB (x, xs2)
+lemma_lteb_permute{x:int}
+  {xs1,xs2:ilist}
+  (pf1: LTEB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTEB (x, xs2)
 // end of [lemma_lteb_permute]
 
 (* ****** ****** *)
@@ -646,7 +660,7 @@ lemma_lteb_permute {x:int}
 // [ys] is a sorted version of [xs]
 //
 absprop
-SORT (xs: ilist, ys: ilist)
+SORT (xs:ilist, ys:ilist)
 //
 prfun
 sort_elim {xs,ys:ilist}

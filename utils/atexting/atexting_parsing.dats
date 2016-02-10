@@ -56,6 +56,10 @@ staload UN = $UNSAFE
 staload "./atexting.sats"
 
 (* ****** ****** *)
+
+overload + with location_combine
+
+(* ****** ****** *)
 //
 fun
 token_is_spchr
@@ -130,13 +134,23 @@ parsing_atext(buf: &tokbuf >> _): atext
 //
 extern
 fun
-parsing_funarg(buf: &tokbuf >> _): atextlst
+parsing_sharp
+(
+  tok0: token, buf: &tokbuf >> _
+) : atext // end-of-function
+//
+extern
+fun
+parsing_funcall
+(
+  tok0: token, tok1: token, buf: &tokbuf >> _
+) : atext // end-of-function
 //
 (* ****** ****** *)
 //
 extern
 fun
-parsing_RPAREN(buf: &tokbuf >> _): bool
+parsing_rparen(buf: &tokbuf >> _): tokenopt
 //
 extern
 fun
@@ -144,12 +158,118 @@ parsing_commatextseq(buf: &tokbuf >> _): atextlst
 //
 extern
 fun
-parsing_atextseq_rparen(buf: &tokbuf >> _): atextlst
+parsing_atextseq_rparen
+  (buf: &tokbuf >> _, rparen: &tokenopt? >> _): atextlst
 //
 (* ****** ****** *)
 
 implement
-parsing_RPAREN
+parsing_sharp
+  (tok0, buf) = let
+//
+macdef
+incby1(buf) =
+  tokbuf_incby_1(,(buf))
+//
+val
+x0 = tokbuf_get2_token(buf)
+//
+in
+//
+case+
+x0.token_node
+of // case+
+//
+| TOKide _ => let
+    val () = incby1(buf)
+  in
+    parsing_funcall(tok0, x0, buf)
+  end // end of [TOKide]
+//
+| _(*non-ident*) =>
+  (
+    atext_make(tok0.token_loc, TEXTtoken(tok0))
+  ) (* non-ident *)
+//
+end // end of [parsing_sharp]
+
+(* ****** ****** *)
+
+implement
+parsing_funcall
+  (tok0, tok1, buf) = let
+//
+macdef
+incby1(buf) =
+  tokbuf_incby_1(,(buf))
+//
+val
+x0 = tokbuf_get2_token(buf)
+//
+in
+//
+case+
+x0.token_node
+of // case+
+| _ when
+    token_is_LPAREN(x0) => let
+    val () = incby1(buf)
+    var rparen: tokenopt
+    val xs = parsing_atextseq_rparen(buf, rparen)
+    val loc = tok1.token_loc
+    val loc =
+    (
+//
+      case+ rparen of
+//
+      | Some(tok) => tok.token_loc
+//
+      | None((*err*)) => aux(loc, xs) where
+        {
+          fun
+          aux
+          (
+            loc: loc_t, xs: atextlst
+          ) : loc_t =
+          (
+            case+ xs of
+            | list0_nil() => loc
+            | list0_cons(x, xs) => aux2(x, xs)
+          )
+          and
+          aux2
+          (
+            x: atext, xs: atextlst
+          ) : loc_t =
+          (
+            case+ xs of
+            | list0_nil() => x.atext_loc
+            | list0_cons(x, xs) => aux2(x, xs)
+          )
+        } (* end of [None] *)
+//
+    ) (* end of [val] *)
+//
+    val loc = tok0.token_loc + loc
+//
+  in
+    atext_make(loc, TEXTfuncall(tok1, xs))
+  end // end of [LPAREN]
+//
+| _(*non-LPAREN*) => let
+    val xs = list0_nil()
+    val loc = tok1.token_loc
+    val loc = tok0.token_loc + loc
+  in
+    atext_make(loc, TEXTfuncall(tok1, xs))
+  end // end of [non-LPAREN]
+//
+end // end of [parsing_funcall]
+
+(* ****** ****** *)
+
+implement
+parsing_rparen
   (buf) = let
 //
 macdef
@@ -165,10 +285,10 @@ tok.token_node
 of // case+
 | _ when
     token_is_RPAREN(tok) =>
-    let val () = incby1(buf) in true end
-| _ (*non-RPAREN*) => false
+    let val () = incby1(buf) in Some(tok) end
+| _ (*non-RPAREN*) => None((*void*))
 //
-end // end of [parsing_RPAREN]
+end // end of [parsing_rparen]
 
 (* ****** ****** *)
 
@@ -214,7 +334,7 @@ end // end of [parsing_commatextseq]
 
 implement
 parsing_atextseq_rparen
-  (buf) = let
+  (buf, rparen) = let
 //
 macdef
 incby1(buf) =
@@ -228,15 +348,17 @@ case+
 tok.token_node
 of // case+
 | _ when
-    token_is_RPAREN(tok) =>
-    (incby1(buf); list0_nil())
-  // end of [RPAREN]
+    token_is_RPAREN(tok) => let
+    val () = incby1(buf)
+  in
+    rparen := Some(tok); list0_nil()
+  end // end of [RPAREN]
 | _ (*non-RPAREN*) =>
     list0_cons(x0, xs) where
   {
     val x0 = parsing_atext(buf)
     val xs = parsing_commatextseq(buf)
-    val yn = parsing_RPAREN(buf)
+    val () = (rparen := parsing_rparen(buf))
   } (* end of [non-empty] *)
 //
 end // end of [parsing_atextseq_rparen]
