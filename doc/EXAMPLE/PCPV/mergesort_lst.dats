@@ -137,7 +137,7 @@ prval unit_p() = lemma_length_p2b(pf)
 //
 in
   msort(xs, n0)
-end // end of [msort]
+end // end of [mergesort_lst]
 
 (* ****** ****** *)
 

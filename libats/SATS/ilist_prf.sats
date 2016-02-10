@@ -200,6 +200,7 @@ append_sing
 // end of [append_sing]
 
 (* ****** ****** *)
+
 (*
 // HX-2012-12-13: proven
 *)
@@ -701,12 +702,17 @@ ilist_length : (ilist) -> int
 //
 praxi
 lemma_length_f2p
-  {xs:ilist}(): LENGTH(xs, ilist_length(xs))
+{xs:ilist}
+(
+// argumentless
+) : LENGTH(xs, ilist_length(xs))
 //
 praxi
 lemma_length_p2b
-  {xs:ilist}{n:int}
-  (pf: LENGTH(xs, n)): [ilist_length(xs)==n] unit_p
+{xs:ilist}{n:int}
+(
+  pf: LENGTH(xs, n)
+) : [ilist_length(xs) == n] unit_p
 //
 (* ****** ****** *)
 //
@@ -728,10 +734,46 @@ lemma_append_p2b
 ) : [ilist_append(xs, ys) == zs] unit_p
 //
 (* ****** ****** *)
+
+prfun
+lemma_append_length_eq
+{xs,ys:ilist}
+(
+// argumentless
+) :
+[
+  ilist_length(ilist_append(xs,ys))
+==
+  ilist_length(xs)+ilist_length(ys)
+] void // end of [lemma_append_length_eq]
+
+(* ****** ****** *)
 //
 stacst
 ilist_revapp : (ilist, ilist) -> ilist
+//
 stacst ilist_reverse : (ilist) -> ilist
+//
+(* ****** ****** *)
+//
+prfun
+lemma_revapp_append_eq
+{xs,ys:ilist}
+(
+// argumentless
+) :
+ILISTEQ
+(
+  ilist_revapp(xs, ys)
+, ilist_append(ilist_reverse(xs), ys)
+) (* ILISTEQ *) // lemma_revapp_append_eq
+//
+prfun
+lemma_reverse_reverse_eq
+{xs:ilist}
+(
+// argumentless
+) : ILISTEQ(xs, ilist_reverse(ilist_reverse(xs)))
 //
 (* ****** ****** *)
 //

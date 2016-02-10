@@ -57,6 +57,12 @@ atext_make
 //
 (* ****** ****** *)
 //
+implement
+atext_make_token(tok) =
+  atext_make(tok.token_loc, TEXTtoken(tok))
+//
+(* ****** ****** *)
+//
 extern
 fun{}
 fprint_atext_node_

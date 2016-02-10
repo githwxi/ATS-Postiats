@@ -98,8 +98,8 @@ implement
 tokbuf_get2_token
   (buf) = let
 //
-val tok =
-  tokbuf_get_token(buf)
+val
+tok = tokbuf_get_token(buf)
 //
 in
 //
@@ -130,7 +130,12 @@ end // end of [tokbuf_get2_token]
 //
 extern
 fun
-parsing_atext(buf: &tokbuf >> _): atext
+parsing_atext0
+  (buf: &tokbuf >> _): atext
+extern
+fun
+parsing_atext1
+  (buf: &tokbuf >> _): atext
 //
 extern
 fun
@@ -158,9 +163,61 @@ parsing_commatextseq(buf: &tokbuf >> _): atextlst
 //
 extern
 fun
-parsing_atextseq_rparen
+parsing_atext1seq_rparen
   (buf: &tokbuf >> _, rparen: &tokenopt? >> _): atextlst
 //
+(* ****** ****** *)
+
+local
+
+fun
+parsing_atext
+(
+  tok0: token, buf: &tokbuf >> _
+) : atext = (
+//
+case+
+tok0.token_node
+of // case+
+//
+| TOKsharp _ => parsing_sharp(tok0, buf)
+//
+| _ (*rest-of-token*) => atext_make_token(tok0)
+//
+) (* end of [parsing_atext] *)
+
+in (* in-of-local *)
+
+implement
+parsing_atext0
+  (buf) = let
+//
+val
+tok0 =
+tokbuf_get_token(buf)
+//
+val () = tokbuf_incby_1(buf)
+//
+in
+  parsing_atext(tok0, buf)
+end // end of [parsing_atext0]
+
+implement
+parsing_atext1
+  (buf) = let
+//
+val
+tok0 =
+tokbuf_get2_token(buf)
+//
+val () = tokbuf_incby_1(buf)
+//
+in
+  parsing_atext(tok0, buf)
+end // end of [parsing_atext1]
+
+end // end of [local]
+
 (* ****** ****** *)
 
 implement
@@ -171,8 +228,7 @@ macdef
 incby1(buf) =
   tokbuf_incby_1(,(buf))
 //
-val
-x0 = tokbuf_get2_token(buf)
+val x0 = tokbuf_get2_token(buf)
 //
 in
 //
@@ -203,8 +259,7 @@ macdef
 incby1(buf) =
   tokbuf_incby_1(,(buf))
 //
-val
-x0 = tokbuf_get2_token(buf)
+val x0 = tokbuf_get2_token(buf)
 //
 in
 //
@@ -215,7 +270,7 @@ of // case+
     token_is_LPAREN(x0) => let
     val () = incby1(buf)
     var rparen: tokenopt
-    val xs = parsing_atextseq_rparen(buf, rparen)
+    val xs = parsing_atext1seq_rparen(buf, rparen)
     val loc = tok1.token_loc
     val loc =
     (
@@ -316,7 +371,7 @@ case+ tok of
 | _ when
     token_is_COMMA(tok) => let
     val () = incby1(buf)
-    val x0 = parsing_atext(buf)
+    val x0 = parsing_atext1(buf)
   in
     loop(buf, list_vt_cons(x0, xs))
   end // end of [_ when ...]
@@ -333,7 +388,7 @@ end // end of [parsing_commatextseq]
 (* ****** ****** *)
 
 implement
-parsing_atextseq_rparen
+parsing_atext1seq_rparen
   (buf, rparen) = let
 //
 macdef
@@ -356,7 +411,7 @@ of // case+
 | _ (*non-RPAREN*) =>
     list0_cons(x0, xs) where
   {
-    val x0 = parsing_atext(buf)
+    val x0 = parsing_atext1(buf)
     val xs = parsing_commatextseq(buf)
     val () = (rparen := parsing_rparen(buf))
   } (* end of [non-empty] *)

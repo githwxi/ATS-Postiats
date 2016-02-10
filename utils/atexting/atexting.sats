@@ -438,6 +438,9 @@ atext_make
   loc: loc_t, node: atext_node
 ) : atext // end-of-function
 //
+fun
+atext_make_token(tok: token): atext
+//
 (* ****** ****** *)
 //
 fun
