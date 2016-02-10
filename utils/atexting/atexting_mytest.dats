@@ -168,13 +168,69 @@ val ((*void*)) =
 val ((*void*)) = loop_tokenizing(buf)
 //
 val _(*stdin*) = the_filename_pop()
-
 //
 val ((*void*)) = tokbuf_uninitize(buf)
 //
 in
   // nothing
 end // end of [test_tokenizing_fileref]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun
+loop_atextizing
+(
+  buf: &tokbuf >> _
+) : void = let
+//
+val
+out = stdout_ref
+//
+val
+txt = parsing_atext0(buf)
+//
+in
+//
+case+
+txt.atext_node
+of // case+
+//
+| TEXTtoken(tok)
+  when token_is_eof(tok) => ()
+//
+| _(*non-TOKeof*) => let
+    val () =
+    fprintln!(out, "txt = ", txt) in loop_atextizing(buf)
+  end // end of [non-TOKeof]
+//
+end // end of [loop_atextizing]
+
+in (* in-of-local *)
+
+implement
+test_atextizing_fileref
+  (inp) = let
+//
+var buf: tokbuf
+val ((*void*)) =
+  tokbuf_initize_fileref(buf, inp)
+//
+val ((*void*)) =
+  the_filename_push(filename_stdin)
+//
+val ((*void*)) = loop_atextizing(buf)
+//
+val _(*stdin*) = the_filename_pop()
+//
+val ((*void*)) = tokbuf_uninitize(buf)
+//
+in
+  // nothing
+end // end of [test_atextizing_fileref]
 
 end // end of [local]
 

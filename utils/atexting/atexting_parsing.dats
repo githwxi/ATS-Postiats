@@ -98,8 +98,8 @@ implement
 tokbuf_get2_token
   (buf) = let
 //
-val tok =
-  tokbuf_get_token(buf)
+val
+tok = tokbuf_get_token(buf)
 //
 in
 //
@@ -130,10 +130,6 @@ end // end of [tokbuf_get2_token]
 //
 extern
 fun
-parsing_atext(buf: &tokbuf >> _): atext
-//
-extern
-fun
 parsing_sharp
 (
   tok0: token, buf: &tokbuf >> _
@@ -141,12 +137,22 @@ parsing_sharp
 //
 extern
 fun
+parsing_squote
+  (tok0: token, buf: &tokbuf >> _) : atext
+//
+extern
+fun
+parsing_dquote
+  (tok0: token, buf: &tokbuf >> _) : atext
+//
+(* ****** ****** *)
+//
+extern
+fun
 parsing_funcall
 (
   tok0: token, tok1: token, buf: &tokbuf >> _
 ) : atext // end-of-function
-//
-(* ****** ****** *)
 //
 extern
 fun
@@ -158,9 +164,64 @@ parsing_commatextseq(buf: &tokbuf >> _): atextlst
 //
 extern
 fun
-parsing_atextseq_rparen
+parsing_atext1seq_rparen
   (buf: &tokbuf >> _, rparen: &tokenopt? >> _): atextlst
 //
+(* ****** ****** *)
+
+local
+
+fun
+parsing_atext
+(
+  tok0: token, buf: &tokbuf >> _
+) : atext = (
+//
+case+
+tok0.token_node
+of // case+
+//
+| TOKsharp _ => parsing_sharp(tok0, buf)
+//
+| TOKsquote _ => parsing_squote(tok0, buf)
+| TOKdquote _ => parsing_dquote(tok0, buf)
+//
+| _ (*rest-of-token*) => atext_make_token(tok0)
+//
+) (* end of [parsing_atext] *)
+
+in (* in-of-local *)
+
+implement
+parsing_atext0
+  (buf) = let
+//
+val
+tok0 =
+tokbuf_get_token(buf)
+//
+val () = tokbuf_incby_1(buf)
+//
+in
+  parsing_atext(tok0, buf)
+end // end of [parsing_atext0]
+
+implement
+parsing_atext1
+  (buf) = let
+//
+val
+tok0 =
+tokbuf_get2_token(buf)
+//
+val () = tokbuf_incby_1(buf)
+//
+in
+  parsing_atext(tok0, buf)
+end // end of [parsing_atext1]
+
+end // end of [local]
+
 (* ****** ****** *)
 
 implement
@@ -171,8 +232,7 @@ macdef
 incby1(buf) =
   tokbuf_incby_1(,(buf))
 //
-val
-x0 = tokbuf_get2_token(buf)
+val x0 = tokbuf_get2_token(buf)
 //
 in
 //
@@ -203,8 +263,7 @@ macdef
 incby1(buf) =
   tokbuf_incby_1(,(buf))
 //
-val
-x0 = tokbuf_get2_token(buf)
+val x0 = tokbuf_get2_token(buf)
 //
 in
 //
@@ -215,7 +274,7 @@ of // case+
     token_is_LPAREN(x0) => let
     val () = incby1(buf)
     var rparen: tokenopt
-    val xs = parsing_atextseq_rparen(buf, rparen)
+    val xs = parsing_atext1seq_rparen(buf, rparen)
     val loc = tok1.token_loc
     val loc =
     (
@@ -316,7 +375,7 @@ case+ tok of
 | _ when
     token_is_COMMA(tok) => let
     val () = incby1(buf)
-    val x0 = parsing_atext(buf)
+    val x0 = parsing_atext1(buf)
   in
     loop(buf, list_vt_cons(x0, xs))
   end // end of [_ when ...]
@@ -333,7 +392,7 @@ end // end of [parsing_commatextseq]
 (* ****** ****** *)
 
 implement
-parsing_atextseq_rparen
+parsing_atext1seq_rparen
   (buf, rparen) = let
 //
 macdef
@@ -356,12 +415,174 @@ of // case+
 | _ (*non-RPAREN*) =>
     list0_cons(x0, xs) where
   {
-    val x0 = parsing_atext(buf)
+    val x0 = parsing_atext1(buf)
     val xs = parsing_commatextseq(buf)
     val () = (rparen := parsing_rparen(buf))
   } (* end of [non-empty] *)
 //
 end // end of [parsing_atextseq_rparen]
+
+(* ****** ****** *)
+
+implement
+parsing_squote
+  (tok0, buf) = let
+//
+fun
+loop
+(
+  buf: &tokbuf >> _
+, txts: List0_vt(atext)
+) : atext = let
+//
+val tok1 = tokbuf_get_token(buf)
+//
+in
+//
+case+
+tok1.token_node
+of // case+
+//
+| TOKsquote() => let
+    val () =
+      tokbuf_incby_1(buf)
+    val loc =
+      tok0.token_loc + tok1.token_loc
+    // end of [val]
+    val txts =
+      list0_of_list_vt(list_vt_reverse(txts))
+    // end of [val]
+  in
+    atext_make(loc, TEXTsquote(txts))
+  end // TOKsquote
+//
+| TOKeof((*void*)) => let
+    val () =
+      tokbuf_incby_1(buf)
+    val loc =
+      tok0.token_loc + tok1.token_loc
+    // end of [val]
+    val txts =
+      list0_of_list_vt(list_vt_reverse(txts))
+    // end of [val]
+  in
+    atext_make(loc, TEXTsquote(txts))
+  end // end of [TOKeof]
+//
+| TOKdquote _ => let
+    val () =
+      tokbuf_incby_1(buf)
+    // end of [val]
+    val txt = atext_make_token(tok1)
+    val txts = cons_vt(txt, txts) in loop(buf, txts)
+  end // end of [TOKdquote]
+//
+| _ (*non-TOKsquote*) =>
+  let
+    val txt = parsing_atext0(buf)
+    val txts = cons_vt(txt, txts) in loop(buf, txts)
+  end // end of [non-TOKsquote]
+//
+end // end of [loop]
+//
+in
+  loop(buf, nil_vt)
+end // end of [parsing_squote]
+
+(* ****** ****** *)
+
+local
+
+fun
+dquote_eq
+(
+  x: token, y: token
+) : bool = let
+//
+val-TOKdquote(xs) = x.token_node
+val-TOKdquote(ys) = y.token_node
+//
+in
+  if xs = ys then true else false
+end // end of [dquote_eq]
+
+in (* in-of-local *)
+
+implement
+parsing_dquote
+  (tok0, buf) = let
+//
+fun
+loop
+(
+  buf: &tokbuf >> _
+, txts: List0_vt(atext)
+) : atext = let
+//
+val tok1 = tokbuf_get_token(buf)
+//
+in
+//
+case+
+tok1.token_node
+of // case+
+| TOKdquote _ when
+  dquote_eq(tok0, tok1) =>
+  let
+    val () =
+      tokbuf_incby_1(buf)
+    val loc =
+      tok0.token_loc + tok1.token_loc
+    // end of [val]
+    val txts =
+      list0_of_list_vt(list_vt_reverse(txts))
+    // end of [val]
+  in
+    atext_make(loc, TEXTdquote(txts))
+  end // TOKdquote_eq
+//
+| TOKeof((*void*)) => let
+    val () =
+      tokbuf_incby_1(buf)
+    val loc =
+      tok0.token_loc + tok1.token_loc
+    // end of [val]
+    val txts =
+      list0_of_list_vt(list_vt_reverse(txts))
+    // end of [val]
+  in
+    atext_make(loc, TEXTdquote(txts))
+  end // end of [TOKeof]
+//
+| TOKsquote _ => let
+    val () =
+      tokbuf_incby_1(buf)
+    // end of [val]
+    val txt = atext_make_token(tok1)
+    val txts = cons_vt(txt, txts) in loop(buf, txts)
+  end // end of [TOKsquote]
+//
+| TOKdquote _ => let
+    val () =
+      tokbuf_incby_1(buf)
+    // end of [val]
+    val txt = atext_make_token(tok1)
+    val txts = cons_vt(txt, txts) in loop(buf, txts)
+  end // end of [TOKdquote]
+//
+| _ (*non-TOKdquote_eq*) =>
+  let
+    val txt = parsing_atext0(buf)
+    val txts = cons_vt(txt, txts) in loop(buf, txts)
+  end // end of [non-TOKdquote_eq]
+//
+end // end of [loop]
+//
+in
+  loop(buf, nil_vt)
+end // end of [parsing_dquote]
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -207,6 +207,10 @@ fun token_get_loc(token): loc_t
 fun token_make(loc_t, tnode): token
 //
 (* ****** ****** *)
+
+fun token_is_eof(tok: token): bool
+
+(* ****** ****** *)
 //
 fun
 fprint_token : fprint_type(token)
@@ -438,6 +442,9 @@ atext_make
   loc: loc_t, node: atext_node
 ) : atext // end-of-function
 //
+fun
+atext_make_token(tok: token): atext
+//
 (* ****** ****** *)
 //
 fun
@@ -447,6 +454,13 @@ fprint_atextlst : fprint_type(atextlst)
 //
 overload fprint with fprint_atext
 overload fprint with fprint_atextlst
+//
+(* ****** ****** *)
+//
+fun
+parsing_atext0(buf: &tokbuf >> _): atext
+fun
+parsing_atext1(buf: &tokbuf >> _): atext
 //
 (* ****** ****** *)
 //
@@ -501,6 +515,9 @@ the_parerrlst_print_free ((*void*)): int(*nerr*)
 //
 fun
 test_tokenizing_fileref(inp: FILEref): void
+//
+fun
+test_atextizing_fileref(inp: FILEref): void
 //
 (* ****** ****** *)
 

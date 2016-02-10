@@ -57,6 +57,16 @@ token_make(loc, node) =
   $rec{ token_loc= loc, token_node= node }
 //
 (* ****** ****** *)
+
+implement
+token_is_eof(tok) = (
+//
+case+
+tok.token_node of TOKeof() => true | _ => false
+//
+) (* end of [token_is_eof] *)
+
+(* ****** ****** *)
 //
 extern
 fun{}

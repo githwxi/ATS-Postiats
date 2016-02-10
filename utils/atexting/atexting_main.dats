@@ -60,6 +60,10 @@ dynload "./atexting_global.dats"
 //
 (* ****** ****** *)
 
+dynload "./atexting_parsing.dats"
+
+(* ****** ****** *)
+
 dynload "./atexting_mytest.dats"
 
 (* ****** ****** *)
@@ -71,8 +75,13 @@ main0() = () where
 val () =
   println!("Hello from [atexting]!")
 //
+(*
 val () =
   test_tokenizing_fileref(stdin_ref)
+*)
+//
+val () =
+  test_atextizing_fileref(stdin_ref)
 //
 } (* end of [main0] *)
 
