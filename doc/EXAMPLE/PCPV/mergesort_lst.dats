@@ -22,6 +22,15 @@ typedef
 cmp(a:t@ype) = cmpval_fun (a)
 //
 (* ****** ****** *)
+//
+extern
+praxi
+lemma_ilist_sort_lt2
+{ xs:ilist
+| ilist_length(xs) < 2
+} : () -> ILISTEQ(xs, ilist_sort(xs))
+//
+(* ****** ****** *)
 
 extern
 fun{a:t@ype}
@@ -113,8 +122,7 @@ end // [then]
 else (xs) where
 {
   prval
-  ILISTEQ() =
-  $UN.proof_assert{ILISTEQ(xs,ilist_sort(xs))}()
+  ILISTEQ() = lemma_ilist_sort_lt2{xs}((*void*))
 } (* end of [else] *)
 //
 ) (* end of [msort] *)
