@@ -48,13 +48,14 @@ can be readily employed.
 * The Compiler (ATS/Postiats):
   [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
 * The source for Libraries (ATSLIB/{prelude,libc,libats}):
-  [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt),
-  with the following special exception: If other files instantiate templates from
+  [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt).
+* The object code for Libraries (ATSLIB/{prelude,libc,libats}):
+  [LGPLv2.1](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-lgpl-2.1.txt).
+* As a special exception for Libraries, if other files instantiate templates from
   this unit, or you link this unit with other files to produce an executable, this
   unit does not by itself cause the resulting executable to be covered by the GPLv3.
-* The object code for Libraries (ATSLIB/{prelude,libc,libats}):
-  [LGPLv2.1](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-lgpl-2.1.txt),
-  with the special exception for allowing static linking to the object code iteself.
+  However, this exception does not invalidate any other reasons that may result in
+  the executable file being covered by the GPLv3.
 * There is a separate release under the BSD license for the C header files of the
   Libraries, which one can freely insert into the C code generated from ATS source code.
 
