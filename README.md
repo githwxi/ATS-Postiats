@@ -58,7 +58,10 @@ maintained at [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
 * The Compiler (ATS/Postiats):
   [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
 * The source for Libraries (ATSLIB/{prelude,libc,libats}):
-  [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
+  [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt),
+  with the following special exception: If other files instantiate templates from
+  this unit, or you link this unit with other files to produce an executable, this
+  unit does not by itself cause the resulting executable to be covered by the GPLv3.
 * The object code for Libraries (ATSLIB/{prelude,libc,libats}):
   [LGPLv2.1](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-lgpl-2.1.txt),
   with the exception for allowing static linking to the object code iteself.
