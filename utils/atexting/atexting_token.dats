@@ -46,25 +46,58 @@ staload UN = $UNSAFE
 staload "./atexting.sats"
 
 (* ****** ****** *)
-
+//
 implement
-token_get_loc(tok) = tok.token_loc
-
+token_get_loc
+  (tok) = tok.token_loc
+//
 (* ****** ****** *)
 //
 implement
-token_make(loc, node) =
-  $rec{ token_loc= loc, token_node= node }
+token_make
+  (loc, node) =
+$rec{
+  token_loc= loc, token_node= node
+} (* token_make *)
 //
 (* ****** ****** *)
 
 implement
-token_is_eof(tok) = (
+token_is_eof(tok) =
+(
 //
 case+
-tok.token_node of TOKeof() => true | _ => false
+tok.token_node of
+| TOKeof() => true
+| _(*non-eof*) => false
 //
 ) (* end of [token_is_eof] *)
+
+(* ****** ****** *)
+
+implement
+token_is_cbeg
+  (tok) = (
+//
+case+
+tok.token_node of
+| TOKcode_beg _ =>
+  location_is_atbeg(tok.token_loc)
+| _ (*non-code-beg*) => false
+//
+) (* end of [token_is_cbeg] *)
+
+implement
+token_is_cend(tok) =
+(
+//
+case+
+tok.token_node of
+| TOKcode_end _ =>
+  location_is_atbeg(tok.token_loc)
+| _ (*non-code-end*) => false
+//
+) (* end of [token_is_cend] *)
 
 (* ****** ****** *)
 //

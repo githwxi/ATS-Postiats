@@ -46,6 +46,21 @@ int fprintf (FILE *stream, const char *format, ...) ;
 
 /* ****** ****** */
 
+#ifdef memcpy
+//
+// HX: [memcpy] is a macro on MACOS
+//
+#else
+//
+// in [string.h]
+//
+extern
+void *memcpy(void *dest, const void *src, size_t n) ;
+//
+#endif // memcpy
+
+/* ****** ****** */
+
 ATSinline()
 ats_void_type
 atspre_strbuf_bytes_trans (ats_ptr_type p) {

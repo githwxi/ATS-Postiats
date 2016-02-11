@@ -163,6 +163,12 @@ fprint!
 } (* end of [fprint_locrange] *)
 
 (* ****** ****** *)
+//
+implement
+location_is_atbeg
+  (loc) = (loc.beg_ncol = 0)
+//  
+(* ****** ****** *)
 
 implement
 location_make_pos_pos

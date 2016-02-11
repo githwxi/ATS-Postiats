@@ -151,6 +151,11 @@ fprint_locrange : fprint_type(loc_t)
 (* ****** ****** *)
 //
 fun
+location_is_atbeg(loc: loc_t): bool
+//
+(* ****** ****** *)
+//
+fun
 location_make_pos_pos
   (pos1: &position, pos2: &position): loc_t
 fun
@@ -212,8 +217,8 @@ fun token_is_eof(tok: token): bool
 
 (* ****** ****** *)
 
-fun token_is_code_beg(tok: token): bool
-fun token_is_code_end(tok: token): bool
+fun token_is_cbeg(tok: token): bool
+fun token_is_cend(tok: token): bool
 
 (* ****** ****** *)
 //
