@@ -42,11 +42,30 @@ int fprintf (FILE *stream, const char *format, ...) ;
 
 /* ****** ****** */
 
+#ifdef memset
+//
+// HX: [memset] is a macro on MACOS
+//
+#else
+//
 extern
 void *memset(void *s, int c, size_t n);
+//
+#endif // ifndef
+
+/* ****** ****** */
+
+#ifdef memcpy
+//
+// HX: [memcpy] is a macro on MACOS
+//
+#else
+//
 extern
 void *memcpy(void *dest, const void *src, size_t n) ;
 // in [string.h]
+//
+#endif // ifndef
 
 /* ****** ****** */
 
