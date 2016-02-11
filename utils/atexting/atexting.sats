@@ -211,6 +211,11 @@ fun token_make(loc_t, tnode): token
 fun token_is_eof(tok: token): bool
 
 (* ****** ****** *)
+
+fun token_is_code_beg(tok: token): bool
+fun token_is_code_end(tok: token): bool
+
+(* ****** ****** *)
 //
 fun
 fprint_token : fprint_type(token)

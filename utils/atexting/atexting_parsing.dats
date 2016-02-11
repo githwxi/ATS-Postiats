@@ -114,13 +114,20 @@ of // case+
     tokbuf_get2_token(buf)
   end // end of [TOKspace]
 //
+| TOKeol((*void*)) => let
+    val () =
+    tokbuf_incby_1(buf)
+  in 
+    tokbuf_get2_token(buf)
+  end // end of [TOKeol]
+//
 | TOKbslash(i)
   when int2char0(i) = '\n' => let
     val () =
     tokbuf_incby_1(buf)
   in 
     tokbuf_get2_token(buf)
-  end // end of [TOKspace]
+  end // end of [TOKbslash\n]
 //
 | _(* rest-of-token *) => tok
 //

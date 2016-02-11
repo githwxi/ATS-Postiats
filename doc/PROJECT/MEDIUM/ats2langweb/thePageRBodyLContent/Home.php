@@ -126,7 +126,7 @@ software.
 
 <hr></hr>
 
-<h2><a id="Suggestion_on_learning_ATS">Suggesion on learning ATS</a></h2>
+<h2><a id="Suggestion_on_learning_ATS">Suggestion on learning ATS</a></h2>
 
 <p>
 ATS is feature-rich (like C++). Prior knowledge of functional programming
