@@ -9,6 +9,8 @@ ATSDOC=$(ATSHOME)/bin/atsdoc
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 #
+PATSOLVE=$(PATSHOME)/bin/patsolve_z3
+#
 ATSCC2JS=$(PATSHOME)/bin/atscc2js
 LIBATCC2JS=$(PATSHOMERELOC)/contrib/libatscc/libatscc2js
 #
@@ -36,6 +38,11 @@ main_atxt.dats: \
 HanoiTowers-1: HanoiTowers-1.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 HanoiTowers-2: HanoiTowers-2.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 HanoiTowers-3: HanoiTowers-3.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
+HanoiTowers-4:: \
+HanoiTowers-4.dats; $(PATSOPT) -tc --constraint-export -d $< | $(PATSOLVE) -i
 
 ######
 
