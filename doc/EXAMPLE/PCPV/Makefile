@@ -39,6 +39,12 @@ $(PATSOPT) --typecheck --dynamic quicksort_lst.dats
 
 ######
 
+insort_lst:: \
+insort_lst.dats; \
+$(PATSOPT) -tc --constraint-export -d $< | $(PATSOLVE) -i
+
+######
+
 mergesort_lst:: \
 mergesort_lst.dats; \
 $(PATSOPT) -tc --constraint-export -d $< | $(PATSOLVE) -i
