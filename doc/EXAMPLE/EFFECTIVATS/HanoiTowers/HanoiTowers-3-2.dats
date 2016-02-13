@@ -20,7 +20,7 @@ staload
 //
 (* ****** ****** *)
 
-abstype pole(ilist)
+absvtype pole(ilist)
 
 (* ****** ****** *)
 
@@ -30,8 +30,9 @@ move_1
 { p1,p2:ilist
 | ilist_length(p1) > 0
 } (
-  P1: pole(p1), P2: pole(p2)
-) : (pole(ilist_tail(p1)), pole(ilist_cons(ilist_head(p1), p2)))
+  P1: !pole(p1) >> pole(ilist_tail(p1))
+, P2: !pole(p2) >> pole(ilist_cons(ilist_head(p1), p2))
+) : void // end of [move_1]
 
 (* ****** ****** *)
 
@@ -43,15 +44,17 @@ move_n
 | ilist_length(p1) >= n
 } (
   n: int(n)
-, P1: pole(p1), P2: pole(p2), P3: pole(p3)
-) : (pole(ilist_drop(p1, n)), pole(ilist_append(ilist_take(p1, n), p2)), pole(p3))
+, P1: !pole(p1) >> pole(ilist_drop(p1, n))
+, P2: !pole(p2) >> pole(ilist_append(ilist_take(p1, n), p2))
+, P3: !pole(p3) >> pole(p3)
+) : void // end of [move_n]
 
 (* ****** ****** *)
 //
 extern
 praxi
 ilist_length_nat
-{xs:ilist}((*void*)):[ilist_length(xs)>=0] unit_p
+{xs:ilist}():[ilist_length(xs)>=0] unit_p
 //
 extern
 praxi
@@ -91,8 +94,12 @@ move_n
 {n}{p1,p2,p3}
 (n, P1, P2, P3) = let
 //
-prval () =
-$solver_assert(ilist_length_nat)
+prval
+unit_p() = ilist_length_nat{p1}()
+prval
+unit_p() = ilist_length_nat{p2}()
+prval
+unit_p() = ilist_length_nat{p3}()
 //
 in
 //
@@ -130,12 +137,12 @@ $UNSAFE.proof_assert
 (ilist_append(p1_take_n,p2)
 ,ilist_append(p1_take_n_1,ilist_cons(ilist_head(p1_drop_n_1),p2)))}()
 //
-val (P1, P3, P2) = move_n(n-1, P1, P3, P2)
-val (P1, P2)     = move_1(P1, P2)
-val (P3, P2, P1) = move_n(n-1, P3, P2, P1)
+val () = move_n(n-1, P1, P3, P2)
+val () = move_1(P1, P2)
+val () = move_n(n-1, P3, P2, P1)
 //
 in
-  (P1, P2, P3)
+  // nothing
 end // end of [then]
 else let
 //
@@ -145,11 +152,11 @@ prval
 ILISTEQ() = $UNSAFE.proof_assert{ILISTEQ(p2,ilist_append(ilist_take(p1,0),p2))}()
 //
 in
-  (P1, P2, P3)
+  // nothing
 end // end of [else]
 //
 end (* end of [move_n] *)
 
 (* ****** ****** *)
 
-(* end of [HanoiTowers-4.dats] *)
+(* end of [HanoiTowers-3-2.dats] *)

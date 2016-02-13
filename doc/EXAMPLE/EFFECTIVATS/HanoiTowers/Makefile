@@ -41,8 +41,10 @@ HanoiTowers-3: HanoiTowers-3.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 
-HanoiTowers-4:: \
-HanoiTowers-4.dats; $(PATSOPT) -tc --constraint-export -d $< | $(PATSOLVE) -i
+HanoiTowers-2-2:: \
+HanoiTowers-2-2.dats; $(PATSOPT) -tc --constraint-export -d $< | $(PATSOLVE) -i
+HanoiTowers-3-2:: \
+HanoiTowers-3-2.dats; $(PATSOPT) -tc --constraint-export -d $< | $(PATSOLVE) -i
 
 ######
 
