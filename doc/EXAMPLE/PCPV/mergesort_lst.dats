@@ -19,7 +19,9 @@ staload "libats/SATS/gflist.sats"
 (* ****** ****** *)
 //
 typedef
-cmp(a:t@ype) = cmpval_fun (a)
+compare (a:t@ype) =
+  {x1,x2:int} (stamped_t (a, x1), stamped_t (a, x2)) -> int (x1-x2)
+typedef cmp (a:t@ype) = compare (a)
 //
 (* ****** ****** *)
 //
