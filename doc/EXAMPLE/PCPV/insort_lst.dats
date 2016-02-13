@@ -62,7 +62,7 @@ implement
 insort_lst{xs:ilist}
   (xs, cmp) = let
 //
-// HX: 
+// HX: motivating the need to export theorem-proving
 //
 in
 //
