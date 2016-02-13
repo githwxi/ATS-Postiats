@@ -50,6 +50,20 @@ move_n
 //
 extern
 praxi
+ilist_take_0{xs:ilist}
+(
+// argumentless
+) :ILISTEQ(ilist_take(xs,0),ilist_nil())
+//
+extern
+praxi
+ilist_drop_0
+  {xs:ilist}():ILISTEQ(xs,ilist_drop(xs,0))
+//
+(* ****** ****** *)
+//
+extern
+praxi
 ilist_length_nat
 {xs:ilist}():[ilist_length(xs)>=0] unit_p
 //
@@ -73,7 +87,12 @@ praxi
 ilist_length_append
 {xs,ys:ilist}
 (
+// argumentless
 ) : [ilist_length(ilist_append(xs,ys))==ilist_length(xs)+ilist_length(ys)] unit_p
+//
+extern
+praxi
+ilist_append_nil{xs:ilist}():ILISTEQ(xs, ilist_append(ilist_nil(), xs))
 //
 extern
 praxi
@@ -143,10 +162,9 @@ in
 end // end of [then]
 else let
 //
-prval
-ILISTEQ() = $UNSAFE.proof_assert{ILISTEQ(p1,ilist_drop(p1,0))}()
-prval
-ILISTEQ() = $UNSAFE.proof_assert{ILISTEQ(p2,ilist_append(ilist_take(p1,0),p2))}()
+prval ILISTEQ() = ilist_take_0{p1}()
+prval ILISTEQ() = ilist_drop_0{p1}()
+prval ILISTEQ() = ilist_append_nil{p2}()
 //
 in
   (P1, P2, P3)
