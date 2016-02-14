@@ -82,7 +82,7 @@ token_is_cbeg
 case+
 tok.token_node of
 | TOKcode_beg _ =>
-  location_is_atbeg(tok.token_loc)
+  location_is_atlnbeg(tok.token_loc)
 | _ (*non-code-beg*) => false
 //
 ) (* end of [token_is_cbeg] *)
@@ -94,11 +94,17 @@ token_is_cend(tok) =
 case+
 tok.token_node of
 | TOKcode_end _ =>
-  location_is_atbeg(tok.token_loc)
+  location_is_atlnbeg(tok.token_loc)
 | _ (*non-code-end*) => false
 //
 ) (* end of [token_is_cend] *)
 
+(* ****** ****** *)
+//
+implement
+token_is_atlnbeg(tok) =
+  location_is_atlnbeg(tok.token_loc)
+//
 (* ****** ****** *)
 //
 extern

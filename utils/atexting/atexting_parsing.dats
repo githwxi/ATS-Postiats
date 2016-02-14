@@ -152,6 +152,11 @@ fun
 parsing_dquote
   (tok0: token, buf: &tokbuf >> _) : atext
 //
+extern
+fun
+parsing_extcode
+  (tok0: token, buf: &tokbuf >> _) : atext
+//
 (* ****** ****** *)
 //
 extern
@@ -192,6 +197,8 @@ of // case+
 //
 | TOKsquote _ => parsing_squote(tok0, buf)
 | TOKdquote _ => parsing_dquote(tok0, buf)
+//
+| TOKcode_beg _ => parsing_extcode(tok0, buf)
 //
 | _ (*rest-of-token*) => atext_make_token(tok0)
 //
@@ -282,15 +289,15 @@ of // case+
     val () = incby1(buf)
     var rparen: tokenopt
     val xs = parsing_atext1seq_rparen(buf, rparen)
-    val loc = tok1.token_loc
-    val loc =
+    val loc1 = tok1.token_loc
+    val loc2 =
     (
 //
       case+ rparen of
 //
       | Some(tok) => tok.token_loc
 //
-      | None((*err*)) => aux(loc, xs) where
+      | None((*err*)) => loc2 where
         {
           fun
           aux
@@ -312,11 +319,16 @@ of // case+
             | list0_nil() => x.atext_loc
             | list0_cons(x, xs) => aux2(x, xs)
           )
+          val loc2 = aux(loc1, xs)
+          val loc2_end = location_rightmost(loc2)
+          val ((*void*)) =
+          the_parerrlst_insert2(loc2_end, PARERR_FUNARG(x0.token_loc))
+          // end of [val]
         } (* end of [None] *)
 //
     ) (* end of [val] *)
 //
-    val loc = tok0.token_loc + loc
+    val loc = tok0.token_loc + loc2
 //
   in
     atext_make(loc, TEXTfuncall(tok1, xs))
@@ -472,6 +484,10 @@ of // case+
     val txts =
       list0_of_list_vt(list_vt_reverse(txts))
     // end of [val]
+    val () =
+    the_parerrlst_insert2
+      (tok1.token_loc, PARERR_SQUOTE(tok0.token_loc))
+    // end of [val]
   in
     atext_make(loc, TEXTsquote(txts))
   end // end of [TOKeof]
@@ -557,6 +573,10 @@ of // case+
     val txts =
       list0_of_list_vt(list_vt_reverse(txts))
     // end of [val]
+    val () =
+    the_parerrlst_insert2
+      (tok1.token_loc, PARERR_DQUOTE(tok0.token_loc))
+    // end of [val]
   in
     atext_make(loc, TEXTdquote(txts))
   end // end of [TOKeof]
@@ -586,10 +606,106 @@ of // case+
 end // end of [loop]
 //
 in
-  loop(buf, nil_vt)
+  loop(buf, list_vt_nil())
 end // end of [parsing_dquote]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+parsing_extcode
+  (tok0, buf) = let
+//
+fun
+loop
+(
+  buf: &tokbuf >> _
+, txts: List0_vt(atext)
+) : atext = let
+//
+val tok1 = tokbuf_get_token(buf)
+//
+in
+//
+case+
+tok1.token_node
+of // case+
+//
+| TOKcode_end _ when
+  token_is_atlnbeg(tok1) => let
+    val () =
+      tokbuf_incby_1(buf)
+    val loc =
+      tok0.token_loc + tok1.token_loc
+    // end of [val]
+    val txts =
+      list0_of_list_vt(list_vt_reverse(txts))
+    // end of [val]
+  in
+    atext_make(loc, TEXTextcode(txts))
+  end // TOKcode_end
+//
+| TOKeof((*void*)) => let
+    val () =
+      tokbuf_incby_1(buf)
+    val loc =
+      tok0.token_loc + tok1.token_loc
+    // end of [val]
+    val txts =
+      list0_of_list_vt(list_vt_reverse(txts))
+    // end of [val]
+    val () =
+    the_parerrlst_insert2
+      (tok1.token_loc, PARERR_EXTCODE(tok0.token_loc))
+    // end of [val]
+  in
+    atext_make(loc, TEXTextcode(txts))
+  end // end of [TOKeof]
+//
+| TOKsharp _ => let
+    val () =
+      tokbuf_incby_1(buf)
+    // end of [val]
+    val txt = atext_make_token(tok1)
+    val txts = cons_vt(txt, txts) in loop(buf, txts)
+  end // end of [TOKsharp]
+//
+| TOKsquote _ => let
+    val () =
+      tokbuf_incby_1(buf)
+    // end of [val]
+    val txt = atext_make_token(tok1)
+    val txts = cons_vt(txt, txts) in loop(buf, txts)
+  end // end of [TOKsquote]
+//
+| TOKdquote _ => let
+    val () =
+      tokbuf_incby_1(buf)
+    // end of [val]
+    val txt = atext_make_token(tok1)
+    val txts = cons_vt(txt, txts) in loop(buf, txts)
+  end // end of [TOKdquote]
+//
+| TOKcode_beg _ => let
+    val () =
+      tokbuf_incby_1(buf)
+    // end of [val]
+    val txt = atext_make_token(tok1)
+    val txts = cons_vt(txt, txts) in loop(buf, txts)
+  end // end of [TOKcode_beg]
+//
+| _ (*non-TOKcode_end*) =>
+  let
+    val txt = parsing_atext0(buf)
+    val txts = cons_vt(txt, txts) in loop(buf, txts)
+  end // end of [non-TOKcode_end]
+//
+end // end of [loop]
+//
+in
+  loop(buf, list_vt_nil())
+end // end of [parsing_extcode]
 
 (* ****** ****** *)
 

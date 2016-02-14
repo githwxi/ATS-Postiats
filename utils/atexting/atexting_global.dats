@@ -37,7 +37,8 @@ staload
 FIL = {
 //
 #include
-"share/atspre_define.hats"
+"share/\
+atspre_define.hats"
 //
 staload "./atexting.sats"
 //
@@ -55,6 +56,37 @@ implement
 the_filename_pop() = pop_exn()
 implement
 the_filename_push(fil) = push(fil)
+//
+} (* end of [staload] *)
+
+(* ****** ****** *)
+
+staload
+PARERR = {
+//
+#include
+"share/\
+atspre_define.hats"
+//
+staload "./atexting.sats"
+//
+typedef T = parerr
+//
+#include"\
+{$LIBATSHWXI}\
+/globals/HATS/gstacklst.hats"
+//
+(* ****** ****** *)
+//
+implement
+the_parerrlst_insert(err) = push(err)
+//
+(* ****** ****** *)
+//
+implement
+the_parerrlst_pop_all((*void*)) = pop_all()
+//
+(* ****** ****** *)
 //
 } (* end of [staload] *)
 

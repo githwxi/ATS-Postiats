@@ -228,6 +228,8 @@ val _(*stdin*) = the_filename_pop()
 //
 val ((*void*)) = tokbuf_uninitize(buf)
 //
+val _(*nerror*) = the_parerrlst_print_free()
+//
 in
   // nothing
 end // end of [test_atextizing_fileref]

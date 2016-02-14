@@ -35,58 +35,103 @@
 //
 #include
 "share\
+/atspre_define.hats"
+#include
+"share\
 /atspre_staload.hats"
 //
+(* ****** ****** *)
+//
+staload
+"libats/ML/SATS/basis.sats"
+staload
+"libats/ML/SATS/list0.sats"
+//
+(* ****** ****** *)
+
+staload UN = $UNSAFE
+
 (* ****** ****** *)
 
 staload "./atexting.sats"
 
 (* ****** ****** *)
 //
-dynload "./atexting_mylib.dats"
-//
-dynload "./atexting_fname.dats"
-dynload "./atexting_posloc.dats"
-//
-dynload "./atexting_token.dats"
-dynload "./atexting_atext.dats"
-//
-dynload "./atexting_parerr.dats"
-//
-dynload "./atexting_lexbuf.dats"
-dynload "./atexting_lexing.dats"
-//
-dynload "./atexting_tokbuf.dats"
-//
-dynload "./atexting_global.dats"
+implement
+parerr_make
+  (loc, node) = '{
+  parerr_loc=loc, parerr_node=node
+} (* end of [parerr_make] *)
 //
 (* ****** ****** *)
-
-dynload "./atexting_parsing.dats"
-
-(* ****** ****** *)
-
-dynload "./atexting_mytest.dats"
-
+//
+implement
+the_parerrlst_insert2
+  (loc, node) =
+(
+  the_parerrlst_insert(parerr_make(loc, node))
+) (* the_parerrlst_insert2 *)
+//
 (* ****** ****** *)
 
 implement
-main0() = () where
+the_parerrlst_print_free
+  ((*void*)) = let
+//
+val out = stderr_ref
+//
+fun
+auxlst
+(
+  xs: List_vt(parerr), n: int
+) : int =
+(
+case+ xs of
+| ~list_vt_nil() => n
+| ~list_vt_cons(x, xs) =>
+  (
+    fprint_parerr(out, x); auxlst(xs, n+1)
+  )
+) (* end of [auxlst] *)
+//
+in
+//
+  auxlst(the_parerrlst_pop_all(), 0(*nerr*))
+//
+end // end of [the_parerrlst_print_free]
+//
+(* ****** ****** *)
+//
+extern
+fun
+fprint_parerr_node: fprint_type(parerr_node)
+//
+(* ****** ****** *)
+//
+implement
+fprint_parerr(out, x0) =
 {
+  val () = fprint(out, x0.parerr_loc)
+  val () = fprint_parerr_node(out, x0.parerr_node)
+}
 //
-val () =
-  println!("Hello from [atexting]!")
+implement
+fprint_parerr_node
+  (out, node) = let
+in
 //
-(*
-val () =
-  test_tokenizing_fileref(stdin_ref)
-*)
+case+ node of
+| PARERR_SQUOTE(loc0) =>
+    fprintln! (out, ": the single-quote at (", loc0, ") is not closed.")
+| PARERR_DQUOTE(loc0) =>
+    fprintln! (out, ": the double-quote at (", loc0, ") is not closed.")
+| PARERR_FUNARG(loc0) =>
+    fprintln! (out, ": the funarg starting at (", loc0, ") is not closed.")
+| PARERR_EXTCODE(loc0) =>
+    fprintln! (out, ": the ext-code starting at (", loc0, ") is not closed.")
 //
-val () =
-  test_atextizing_fileref(stdin_ref)
+end // end of [fprint_parerr_node]
 //
-} (* end of [main0] *)
-
 (* ****** ****** *)
 
-(* end of [atexting_main.sats] *)
+(* end of [atexting_parerr.dats] *)

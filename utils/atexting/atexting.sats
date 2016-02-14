@@ -151,7 +151,7 @@ fprint_locrange : fprint_type(loc_t)
 (* ****** ****** *)
 //
 fun
-location_is_atbeg(loc: loc_t): bool
+location_is_atlnbeg(loc: loc_t): bool
 //
 (* ****** ****** *)
 //
@@ -162,6 +162,11 @@ fun
 location_make_fil_pos_pos
   (fil: fil_t, pos1: &position, pos2: &position): loc_t
 //
+(* ****** ****** *)
+
+fun location_leftmost(loc0: loc_t): loc_t
+fun location_rightmost(loc0: loc_t): loc_t
+
 (* ****** ****** *)
 //
 fun
@@ -219,6 +224,10 @@ fun token_is_eof(tok: token): bool
 
 fun token_is_cbeg(tok: token): bool
 fun token_is_cend(tok: token): bool
+
+(* ****** ****** *)
+
+fun token_is_atlnbeg(tok: token): bool
 
 (* ****** ****** *)
 //
@@ -477,8 +486,10 @@ parsing_atext1(buf: &tokbuf >> _): atext
 datatype
 parerr_node =
 //
-| PARERR_LPAREN
-| PARERR_RPAREN
+| PARERR_SQUOTE of loc_t
+| PARERR_DQUOTE of loc_t
+| PARERR_FUNARG of loc_t
+| PARERR_EXTCODE of loc_t
 //
 typedef
 parerr = $rec{

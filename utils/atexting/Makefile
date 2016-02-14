@@ -31,6 +31,7 @@ SOURCES_DATS += \
   atexting_posloc.dats \
   atexting_token.dats \
   atexting_atext.dats \
+  atexting_parerr.dats \
   atexting_lexbuf.dats \
   atexting_lexing.dats \
   atexting_tokbuf.dats \
