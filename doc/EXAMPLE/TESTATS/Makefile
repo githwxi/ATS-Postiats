@@ -334,6 +334,12 @@ codegen2.dats; $(PATSOPT) --output-a $@ --codegen-2 -d codegen2.dats
 cleanall:: ; $(RMF) codegen2_out.dats
 #
 ######
+#
+all:: \
+s2rt_float
+s2rt_float: s2rt_float.dats; $(PATSOPT) --typecheck -d $<
+#
+######
 
 testall:: all
 testall:: regress

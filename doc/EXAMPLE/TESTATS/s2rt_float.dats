@@ -91,6 +91,7 @@ myfloat_sqrt
 {x:float | x >= 0.0}(myfloat(x)): myfloat(sqrt(x))
 //
 (* ****** ****** *)
+(*
 //
 #define
 PI 3.1415926536
@@ -100,6 +101,7 @@ val PI_ =
 //
 val PI_sqrt = myfloat_sqrt(PI_)
 //
+*)
 (* ****** ****** *)
 
 (* end of [s2rt_float.dats] *)
