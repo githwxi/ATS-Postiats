@@ -762,4 +762,22 @@ end // end of [parsing_toplevel]
 
 (* ****** ****** *)
 
+implement
+parsing_from_fileref
+  (infil) = txtlst where
+{
+//
+var buf: tokbuf
+//
+val ((*void*)) =
+tokbuf_initize_fileref(buf, infil)
+//
+val txtlst = parsing_toplevel(buf)
+//
+val ((*void*)) = tokbuf_uninitize(buf)
+//
+} (* end of [parsing_from_fileref] *)
+
+(* ****** ****** *)
+
 (* end of [atexting_parsing.dats] *)

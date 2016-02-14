@@ -538,6 +538,11 @@ parsing_toplevel(buf: &tokbuf >> _): atextlst
 //
 (* ****** ****** *)
 //
+fun
+parsing_from_fileref(infil: FILEref): atextlst
+//
+(* ****** ****** *)
+//
 // HX-2016-02-07: for testing purpose
 //
 (* ****** ****** *)
