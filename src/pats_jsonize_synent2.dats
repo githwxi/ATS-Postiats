@@ -438,6 +438,8 @@ case+ s2e0.s2exp_node of
     jsonval_conarg1 ("S2Eint", jsonval_int (i))
 | S2Eintinf (i) =>
     jsonval_conarg1 ("S2Eintinf", jsonval_intinf (i))
+| S2Efloat (x) =>
+    jsonval_conarg1 ("S2Efloat", jsonval_string (x))
 //
 | S2Ecst (s2c) =>
     jsonval_conarg1 ("S2Ecst", jsonize_s2cst (s2c))
