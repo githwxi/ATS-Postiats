@@ -6,6 +6,11 @@
 
 (* ****** ****** *)
 //
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
 stacst
 add_float_float : (float, float) -> float
 stacst
@@ -55,7 +60,7 @@ stadef sqrt = sqrt_float
 (* ****** ****** *)
 //
 abst@ype
-float_float_t0ype(float) = float
+float_float_t0ype(float) = double
 //
 stadef myfloat = float_float_t0ype
 //
@@ -84,6 +89,16 @@ extern
 fun
 myfloat_sqrt
 {x:float | x >= 0.0}(myfloat(x)): myfloat(sqrt(x))
+//
+(* ****** ****** *)
+//
+#define
+PI 3.1415926536
+//
+val PI_ =
+  $UN.cast{myfloat(PI)}(PI)
+//
+val PI_sqrt = myfloat_sqrt(PI_)
 //
 (* ****** ****** *)
 
