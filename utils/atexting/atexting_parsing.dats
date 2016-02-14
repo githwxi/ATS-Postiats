@@ -709,4 +709,57 @@ end // end of [parsing_extcode]
 
 (* ****** ****** *)
 
+implement
+parsing_toplevel
+  (buf) = let
+//
+vtypedef
+res_vt = List0_vt(atext)
+//
+fun
+loop
+(
+  buf: &tokbuf >> _, txts: res_vt
+) : atextlst = let
+//
+val
+txt = parsing_atext0(buf)
+//
+in
+//
+case+
+txt.atext_node
+of // case+
+//
+| TEXTtoken(tok)
+  when token_is_eof(tok) =>
+  list0_of_list_vt(list_vt_reverse(txts))
+//
+| _(*non-TEXTtoken_eof*) => let
+    val txts = list_vt_cons(txt, txts) in loop(buf, txts)
+  end // end of [non-TEXTtoken_eof]
+//
+end // end of [loop]
+//
+val () = the_parerrlst_clear()
+//
+val txts = loop(buf, list_vt_nil((*txts*)))
+//
+val nerr = the_parerrlst_length()
+val ((*void*)) =
+if nerr >= 2
+then fprintln!(stderr_ref, "There are some parsing errors:")
+else (
+  if nerr >= 1
+  then fprintln!(stderr_ref, "There exists a parsing error:")
+) (* end of [if] *)
+//
+val _(*nerr*) = the_parerrlst_print_free()
+//
+in
+  txts
+end // end of [parsing_toplevel]
+
+(* ****** ****** *)
+
 (* end of [atexting_parsing.dats] *)

@@ -476,13 +476,6 @@ overload fprint with fprint_atextlst
 //
 (* ****** ****** *)
 //
-fun
-parsing_atext0(buf: &tokbuf >> _): atext
-fun
-parsing_atext1(buf: &tokbuf >> _): atext
-//
-(* ****** ****** *)
-//
 datatype
 parerr_node =
 //
@@ -515,18 +508,33 @@ overload fprint with fprint_parerrlst
 (* ****** ****** *)
 //
 fun
-the_parerrlst_clear (): void
+the_parerrlst_clear(): void
 //
 fun
-the_parerrlst_insert (parerr): void
+the_parerrlst_length(): intGte(0)
+//
+fun
+the_parerrlst_insert(parerr): void
 fun
 the_parerrlst_insert2(loc_t, parerr_node): void
 //
 fun
-the_parerrlst_pop_all ((*void*)): List0_vt(parerr)
+the_parerrlst_pop_all((*void*)): List0_vt(parerr)
 //
 fun
-the_parerrlst_print_free ((*void*)): int(*nerr*)
+the_parerrlst_print_free((*void*)): int(*nerr*)
+//
+(* ****** ****** *)
+//
+fun
+parsing_atext0(buf: &tokbuf >> _): atext
+fun
+parsing_atext1(buf: &tokbuf >> _): atext
+//
+(* ****** ****** *)
+//
+fun
+parsing_toplevel(buf: &tokbuf >> _): atextlst
 //
 (* ****** ****** *)
 //

@@ -72,9 +72,23 @@ staload "./atexting.sats"
 //
 typedef T = parerr
 //
+staload
+"prelude/DATS/list_vt.dats"
+//
 #include"\
 {$LIBATSHWXI}\
 /globals/HATS/gstacklst.hats"
+//
+(* ****** ****** *)
+//
+implement
+the_parerrlst_clear() =
+  list_vt_free<T>(pop_all((*void*)))
+//
+(* ****** ****** *)
+//
+implement
+the_parerrlst_length() = get_size()
 //
 (* ****** ****** *)
 //
