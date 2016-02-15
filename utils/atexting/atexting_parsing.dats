@@ -634,7 +634,7 @@ of // case+
       list0_of_list_vt(list_vt_reverse(txts))
     // end of [val]
   in
-    atext_make(loc, TEXTdquote(txts))
+    atext_make(loc, TEXTdquote(tok0, txts))
   end // TOKdquote_eq
 //
 | TOKeof((*void*)) => let
@@ -651,7 +651,7 @@ of // case+
       (tok1.token_loc, PARERR_DQUOTE(tok0.token_loc))
     // end of [val]
   in
-    atext_make(loc, TEXTdquote(txts))
+    atext_make(loc, TEXTdquote(tok0, txts))
   end // end of [TOKeof]
 //
 | TOKsquote _ => let
@@ -716,7 +716,7 @@ of // case+
       list0_of_list_vt(list_vt_reverse(txts))
     // end of [val]
   in
-    atext_make(loc, TEXTextcode(txts))
+    atext_make(loc, TEXTextcode(tok0, txts, tok1))
   end // TOKcode_end
 //
 | TOKeof((*void*)) => let
@@ -733,7 +733,7 @@ of // case+
       (tok1.token_loc, PARERR_EXTCODE(tok0.token_loc))
     // end of [val]
   in
-    atext_make(loc, TEXTextcode(txts))
+    atext_make(loc, TEXTextcode(tok0, txts, tok1))
   end // end of [TOKeof]
 //
 | TOKsharp _ => let
@@ -833,6 +833,22 @@ val _(*nerr*) = the_parerrlst_print_free()
 in
   txts
 end // end of [parsing_toplevel]
+
+(* ****** ****** *)
+
+implement
+parsing_from_stdin
+  ((*void*)) = xs where
+{
+//
+val () =
+  the_filename_push(filename_stdin)
+//
+val xs = parsing_from_fileref(stdin_ref)
+//
+val _(*fname*) = the_filename_pop()
+//
+} (* end of [parsing_from_stdin] *)
 
 (* ****** ****** *)
 

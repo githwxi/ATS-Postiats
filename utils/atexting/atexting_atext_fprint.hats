@@ -139,7 +139,13 @@ fun{}
 fprint_atext_node_$TEXTdquote$rpar: $d2ctype(fprint_atext_node_<>)
 extern
 fun{}
+fprint_atext_node_$TEXTdquote$sep1: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
 fprint_atext_node_$TEXTdquote$arg1: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTdquote$arg2: $d2ctype(fprint_atext_node_<>)
 //
 implement{}
 fprint_atext_node_$TEXTdquote(out, arg0) = 
@@ -148,6 +154,8 @@ fprint_atext_node_$TEXTdquote(out, arg0) =
 val () = fprint_atext_node_$TEXTdquote$con<>(out, arg0)
 val () = fprint_atext_node_$TEXTdquote$lpar<>(out, arg0)
 val () = fprint_atext_node_$TEXTdquote$arg1<>(out, arg0)
+val () = fprint_atext_node_$TEXTdquote$sep1<>(out, arg0)
+val () = fprint_atext_node_$TEXTdquote$arg2<>(out, arg0)
 val () = fprint_atext_node_$TEXTdquote$rpar<>(out, arg0)
 //
 }
@@ -158,8 +166,13 @@ fprint_atext_node_$TEXTdquote$lpar(out, _) = fprint_atext_node_$lpar(out)
 implement{}
 fprint_atext_node_$TEXTdquote$rpar(out, _) = fprint_atext_node_$rpar(out)
 implement{}
+fprint_atext_node_$TEXTdquote$sep1(out, _) = fprint_atext_node_$sep<>(out)
+implement{}
 fprint_atext_node_$TEXTdquote$arg1(out, arg0) =
-  let val-TEXTdquote(arg1) = arg0 in fprint_atext_node_$carg(out, arg1) end
+  let val-TEXTdquote(arg1, _) = arg0 in fprint_atext_node_$carg(out, arg1) end
+implement{}
+fprint_atext_node_$TEXTdquote$arg2(out, arg0) =
+  let val-TEXTdquote(_, arg2) = arg0 in fprint_atext_node_$carg(out, arg2) end
 //
 extern
 fun{}
@@ -172,7 +185,19 @@ fun{}
 fprint_atext_node_$TEXTextcode$rpar: $d2ctype(fprint_atext_node_<>)
 extern
 fun{}
+fprint_atext_node_$TEXTextcode$sep1: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTextcode$sep2: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
 fprint_atext_node_$TEXTextcode$arg1: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTextcode$arg2: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTextcode$arg3: $d2ctype(fprint_atext_node_<>)
 //
 implement{}
 fprint_atext_node_$TEXTextcode(out, arg0) = 
@@ -181,6 +206,10 @@ fprint_atext_node_$TEXTextcode(out, arg0) =
 val () = fprint_atext_node_$TEXTextcode$con<>(out, arg0)
 val () = fprint_atext_node_$TEXTextcode$lpar<>(out, arg0)
 val () = fprint_atext_node_$TEXTextcode$arg1<>(out, arg0)
+val () = fprint_atext_node_$TEXTextcode$sep1<>(out, arg0)
+val () = fprint_atext_node_$TEXTextcode$arg2<>(out, arg0)
+val () = fprint_atext_node_$TEXTextcode$sep2<>(out, arg0)
+val () = fprint_atext_node_$TEXTextcode$arg3<>(out, arg0)
 val () = fprint_atext_node_$TEXTextcode$rpar<>(out, arg0)
 //
 }
@@ -191,8 +220,18 @@ fprint_atext_node_$TEXTextcode$lpar(out, _) = fprint_atext_node_$lpar(out)
 implement{}
 fprint_atext_node_$TEXTextcode$rpar(out, _) = fprint_atext_node_$rpar(out)
 implement{}
+fprint_atext_node_$TEXTextcode$sep1(out, _) = fprint_atext_node_$sep<>(out)
+implement{}
+fprint_atext_node_$TEXTextcode$sep2(out, _) = fprint_atext_node_$sep<>(out)
+implement{}
 fprint_atext_node_$TEXTextcode$arg1(out, arg0) =
-  let val-TEXTextcode(arg1) = arg0 in fprint_atext_node_$carg(out, arg1) end
+  let val-TEXTextcode(arg1, _, _) = arg0 in fprint_atext_node_$carg(out, arg1) end
+implement{}
+fprint_atext_node_$TEXTextcode$arg2(out, arg0) =
+  let val-TEXTextcode(_, arg2, _) = arg0 in fprint_atext_node_$carg(out, arg2) end
+implement{}
+fprint_atext_node_$TEXTextcode$arg3(out, arg0) =
+  let val-TEXTextcode(_, _, arg3) = arg0 in fprint_atext_node_$carg(out, arg3) end
 //
 extern
 fun{}

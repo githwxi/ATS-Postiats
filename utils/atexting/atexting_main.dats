@@ -66,6 +66,10 @@ dynload "./atexting_parsing.dats"
 
 (* ****** ****** *)
 
+dynload "./atexting_topeval.dats"
+
+(* ****** ****** *)
+
 dynload "./atexting_mytest.dats"
 
 (* ****** ****** *)
@@ -75,19 +79,24 @@ main0() = () where
 {
 //
 val () =
-  println!("Hello from [atexting]!")
-//
-(*
-val () =
-  test_tokenizing_fileref(stdin_ref)
-*)
+println!("Hello from [atexting]!")
 //
 (*
 val () = the_nsharp_set(2)
 *)
 //
-val () =
-  test_atextizing_fileref(stdin_ref)
+(*
+val () = test_tokenizing_fileref(inp)
+*)
+//
+(*
+val () = test_atextizing_fileref(inp)
+*)
+//
+val out = stdout_ref
+val txts = parsing_from_stdin((*void*))
+//
+val ((*void*)) = atextlst_topeval(out, txts)
 //
 } (* end of [main0] *)
 

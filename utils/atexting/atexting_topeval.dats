@@ -51,6 +51,76 @@ staload UN = $UNSAFE
 staload "./atexting.sats"
 
 (* ****** ****** *)
+
+local
+
+fun
+is_escaped
+  (c0: int): bool = let
+  val c0 = int2char0(c0)
+in
+//
+case+ c0 of
+| 'n' => true
+| 't' => true
+| 'f' => true
+| 'b' => true
+| 'v' => true
+| '0' => true
+| '\\' => true
+| '\n' => true
+| _(*rest-of-char*) => false
+//
+end // end of [is_escaped]
+
+in (* in-of-local *)
+
+implement
+token_topeval
+  (out, x0) = let
+(*
+// HX: token_topeval
+*)
+in
+//
+case+
+x0.token_node
+of // case+
+//
+| TOKide(ide) => fprint(out, ide)
+| TOKint(rep) => fprint(out, rep)
+//
+| TOKspace(cs) => fprint(out, cs)
+| TOKsharp(cs) => fprint(out, cs)
+//
+| TOKsquote() => fprint(out, "'")
+| TOKdquote(cs) => fprint(out, cs)
+//
+| TOKspchr(c) =>
+    fprint_char(out, int2char0(c))
+  // TOKspchr
+| TOKbslash(c) => let
+    val isesp = is_escaped(c)
+    val ((*void*)) =
+    if isesp
+      then fprint_char(out, '\\')
+    // end of [val]
+  in
+    fprint_char(out, int2char0(c))
+  end // TOKbslash
+//
+| TOKcode_beg _ => fprint(out, "%{")
+| TOKcode_end _ => fprint(out, "%}")
+//
+| TOKeol((*void*)) => fprint_newline(out)
+//
+| TOKeof((*void*)) => ((*end-of-file*))
+//
+end // end of [token_topeval]
+
+end // end of [local]
+
+(* ****** ****** *)
 //
 implement
 tokenlst_topeval
@@ -64,6 +134,65 @@ case+ xs of
   ) (* end of [list0_cons] *)
 )
 //
+(* ****** ****** *)
+  
+implement
+atext_topeval
+  (out, x0) = let
+(*
+// HX: atext_topeval
+*)
+in
+//
+case+
+x0.atext_node
+of // case+
+//
+| TEXTtoken(tok) =>
+  {
+    val () = token_topeval(out, tok)
+  } (* end of [TEXTtoken] *)
+//
+| TEXTsquote(xs) =>
+  {
+    val () = fprint(out, "'")
+    val () = atextlst_topeval(out, xs)
+    val () = fprint(out, "'")
+  }
+//
+| TEXTdquote(tok, xs) =>
+  {
+    val () = token_topeval(out, tok)
+    val () = atextlst_topeval(out, xs)
+    val () = token_topeval(out, tok)
+  }
+//
+| TEXTextcode
+    (tok_beg, toklst, tok_end) =>
+  {
+    val () = token_topeval(out, tok_beg)
+    val () = atextlst_topeval(out, toklst)
+    val () = token_topeval(out, tok_end)
+  }
+//
+| TEXTdefname(tok, name) =>
+  {
+    val () = token_topeval(out, tok)
+    val () = token_topeval(out, name)
+  }
+//
+| TEXTfuncall(tok0, tok1, arglst) =>
+  {
+    val () = token_topeval(out, tok0)
+    val () = token_topeval(out, tok1)
+    val () = fprint(out, "(")
+    val () = atextlst_topeval(out, arglst)
+    val () = fprint(out, ")")
+  } (* end of [TEXTfuncall] *)
+
+//
+end // end of [atext_topeval]
+  
 (* ****** ****** *)
 //
 implement

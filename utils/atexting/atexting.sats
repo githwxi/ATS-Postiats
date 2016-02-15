@@ -177,8 +177,8 @@ location_combine (loc1: loc_t, loc2: loc_t): loc_t
 datatype
 token_node =
 //
-| TOKeof of ()
 | TOKeol of ()
+| TOKeof of ()
 //
 | TOKint of (string)
 //
@@ -440,9 +440,9 @@ atext_node =
 | TEXTtoken of token
 //
 | TEXTsquote of (atextlst)
-| TEXTdquote of (atextlst)
+| TEXTdquote of (token(*dquote*), atextlst)
 //
-| TEXTextcode of (atextlst)
+| TEXTextcode of (token(*beg*), atextlst, token(*end*))
 //
 | TEXTdefname of (token(*sharp*), token(*name*))
 //
@@ -559,6 +559,9 @@ fun
 parsing_toplevel(buf: &tokbuf >> _): atextlst
 //
 (* ****** ****** *)
+//
+fun
+parsing_from_stdin((*void*)): atextlst
 //
 fun
 parsing_from_fileref(infil: FILEref): atextlst
