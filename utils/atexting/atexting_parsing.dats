@@ -193,12 +193,14 @@ case+
 tok0.token_node
 of // case+
 //
-| TOKsharp _ => parsing_sharp(tok0, buf)
-//
 | TOKsquote _ => parsing_squote(tok0, buf)
 | TOKdquote _ => parsing_dquote(tok0, buf)
 //
-| TOKcode_beg _ => parsing_extcode(tok0, buf)
+| TOKsharp _ when
+  token_is_nsharp(tok0) => parsing_sharp(tok0, buf)
+//
+| TOKcode_beg _ when
+  token_is_atlnbeg(tok0) => parsing_extcode(tok0, buf)
 //
 | _ (*rest-of-token*) => atext_make_token(tok0)
 //
@@ -235,6 +237,34 @@ in
 end // end of [parsing_atext1]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+parsing_atext_top
+  (buf) = let
+//
+val
+tok0 =
+tokbuf_get_token(buf)
+//
+val () = tokbuf_incby_1(buf)
+//
+in
+//
+case+
+tok0.token_node
+of // case+
+//
+| TOKsharp _ when
+  token_is_nsharp(tok0) => parsing_sharp(tok0, buf)
+//
+| TOKcode_beg _ when
+  token_is_atlnbeg(tok0) => parsing_extcode(tok0, buf)
+//
+| _ (*rest-of-token*) => atext_make_token(tok0)
+//
+end (* end of [parsing_atext_top] *)
 
 (* ****** ****** *)
 
@@ -723,7 +753,8 @@ loop
 ) : atextlst = let
 //
 val
-txt = parsing_atext0(buf)
+txt =
+parsing_atext_top(buf)
 //
 in
 //

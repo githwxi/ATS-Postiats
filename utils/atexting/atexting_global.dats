@@ -32,6 +32,31 @@
 (* Start time: January, 2016 *)
 
 (* ****** ****** *)
+//
+#include
+"share\
+/atspre_staload.hats"
+//
+(* ****** ****** *)
+
+staload "./atexting.sats"
+
+(* ****** ****** *)
+
+local
+//
+val the_nsharp_ref = ref<int>(0)
+//
+in (* in-of-local *)
+//
+implement
+the_nsharp_get() = the_nsharp_ref[]
+implement
+the_nsharp_set(ns) = the_nsharp_ref[] := ns
+//
+end // end of [local]
+
+(* ****** ****** *)
 
 staload
 FIL = {

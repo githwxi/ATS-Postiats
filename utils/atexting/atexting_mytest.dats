@@ -191,7 +191,7 @@ val
 out = stdout_ref
 //
 val
-txt = parsing_atext0(buf)
+txt = parsing_atext_top(buf)
 //
 in
 //

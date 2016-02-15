@@ -76,7 +76,21 @@ tok.token_node of
 (* ****** ****** *)
 
 implement
-token_is_cbeg
+token_is_nsharp
+  (tok) = (
+//
+case+
+tok.token_node of
+| TOKsharp(ns) =>
+  length(ns) >= the_nsharp_get((*void*))
+| _ (*non-code-beg*) => false
+//
+) (* end of [token_is_nsharp] *)
+
+(* ****** ****** *)
+
+implement
+token_is_code_beg
   (tok) = (
 //
 case+
@@ -85,10 +99,10 @@ tok.token_node of
   location_is_atlnbeg(tok.token_loc)
 | _ (*non-code-beg*) => false
 //
-) (* end of [token_is_cbeg] *)
+) (* end of [token_is_code_beg] *)
 
 implement
-token_is_cend(tok) =
+token_is_code_end(tok) =
 (
 //
 case+
@@ -97,7 +111,7 @@ tok.token_node of
   location_is_atlnbeg(tok.token_loc)
 | _ (*non-code-end*) => false
 //
-) (* end of [token_is_cend] *)
+) (* end of [token_is_code_end] *)
 
 (* ****** ****** *)
 //

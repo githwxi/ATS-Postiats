@@ -221,9 +221,16 @@ fun token_make(loc_t, tnode): token
 fun token_is_eof(tok: token): bool
 
 (* ****** ****** *)
+//
+fun the_nsharp_get((*void*)): int
+fun the_nsharp_set(nsharp: int): void
+//
+fun token_is_nsharp(tok: token): bool
+//
+(* ****** ****** *)
 
-fun token_is_cbeg(tok: token): bool
-fun token_is_cend(tok: token): bool
+fun token_is_code_beg(tok: token): bool
+fun token_is_code_end(tok: token): bool
 
 (* ****** ****** *)
 
@@ -530,6 +537,9 @@ fun
 parsing_atext0(buf: &tokbuf >> _): atext
 fun
 parsing_atext1(buf: &tokbuf >> _): atext
+//
+fun
+parsing_atext_top(buf: &tokbuf >> _): atext
 //
 (* ****** ****** *)
 //
