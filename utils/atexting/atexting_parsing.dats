@@ -91,6 +91,47 @@ token_is_LPAREN
 //
 extern
 fun
+tokbuf_get1_token
+  (buf: &tokbuf >> _): token
+//
+implement
+tokbuf_get1_token
+  (buf) = let
+//
+val
+tok = tokbuf_get_token(buf)
+//
+in
+//
+case+
+tok.token_node
+of // case+
+//
+(*
+| TOKspace _ => let
+    val () =
+    tokbuf_incby_1(buf)
+  in 
+    tokbuf_get1_token(buf)
+  end // end of [TOKspace]
+*)
+//
+| TOKbslash(i)
+  when int2char0(i) = '\n' => let
+    val () =
+    tokbuf_incby_1(buf)
+  in 
+    tokbuf_get1_token(buf)
+  end // end of [TOKbslash\n]
+//
+| _(* rest-of-token *) => tok
+//
+end // end of [tokbuf_get1_token]
+//
+(* ****** ****** *)
+//
+extern
+fun
 tokbuf_get2_token
   (buf: &tokbuf >> _): token
 //
@@ -307,7 +348,7 @@ macdef
 incby1(buf) =
   tokbuf_incby_1(,(buf))
 //
-val x0 = tokbuf_get2_token(buf)
+val x0 = tokbuf_get1_token(buf)
 //
 in
 //
