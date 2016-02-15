@@ -37,6 +37,7 @@ SOURCES_DATS += \
   atexting_tokbuf.dats \
   atexting_global.dats \
   atexting_parsing.dats \
+  atexting_topeval.dats \
   atexting_mytest.dats \
 
 ######

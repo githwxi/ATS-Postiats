@@ -483,6 +483,18 @@ overload fprint with fprint_atextlst
 //
 (* ****** ****** *)
 //
+fun
+token_topeval(out: FILEref, tok: token): void
+fun
+tokenlst_topeval(out: FILEref, toks: tokenlst): void
+//
+fun
+atext_topeval(out: FILEref, txt: atext): void
+fun
+atextlst_topeval(out: FILEref, txts: atextlst): void
+//
+(* ****** ****** *)
+//
 datatype
 parerr_node =
 //
