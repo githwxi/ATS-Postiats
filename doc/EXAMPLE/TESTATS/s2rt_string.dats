@@ -1,6 +1,6 @@
 (*
 ** Simple code
-** involving the float sort
+** involving the string sort
 ** HX-2016-02-14
 *)
 
