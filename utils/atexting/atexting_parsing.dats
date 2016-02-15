@@ -402,15 +402,17 @@ of // case+
     val loc = tok0.token_loc + loc2
 //
   in
-    atext_make(loc, TEXTfuncall(tok1, xs))
+    atext_make
+      (loc, TEXTfuncall(tok0, tok1, xs))
+    // atext_make
   end // end of [LPAREN]
 //
 | _(*non-LPAREN*) => let
-    val xs = list0_nil()
-    val loc = tok1.token_loc
-    val loc = tok0.token_loc + loc
+    val loc =
+      tok0.token_loc+tok1.token_loc
+    // end of [val]
   in
-    atext_make(loc, TEXTfuncall(tok1, xs))
+    atext_make(loc, TEXTdefname(tok0, tok1))
   end // end of [non-LPAREN]
 //
 end // end of [parsing_funcall]

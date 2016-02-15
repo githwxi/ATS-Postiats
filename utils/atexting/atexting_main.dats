@@ -82,6 +82,10 @@ val () =
   test_tokenizing_fileref(stdin_ref)
 *)
 //
+(*
+val () = the_nsharp_set(2)
+*)
+//
 val () =
   test_atextizing_fileref(stdin_ref)
 //

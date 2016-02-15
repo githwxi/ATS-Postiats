@@ -444,9 +444,9 @@ atext_node =
 //
 | TEXTextcode of (atextlst)
 //
-| TEXTfuncall of (token(*name*), atextlst(*arg*))
+| TEXTdefname of (token(*sharp*), token(*name*))
 //
-| TEXTdefname of (string(*name*))
+| TEXTfuncall of (token(*sharp*), token(*name*), atextlst(*arg*))
 //
 where
 atext = $rec{
