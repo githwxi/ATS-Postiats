@@ -70,6 +70,10 @@ dynload "./atexting_topeval.dats"
 
 (* ****** ****** *)
 
+dynload "./atexting_stringify.dats"
+
+(* ****** ****** *)
+
 dynload "./atexting_mytest.dats"
 
 (* ****** ****** *)

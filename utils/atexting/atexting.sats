@@ -437,7 +437,11 @@ tokbuf_get_location (buf: &tokbuf >> _): loc_t
 datatype
 atext_node =
 //
+| TEXTnil of ()
+//
 | TEXTtoken of token
+//
+| TEXTstring of (string)
 //
 | TEXTsquote of (atextlst)
 | TEXTdquote of (token(*dquote*), atextlst)
@@ -471,6 +475,9 @@ atext_make
 fun
 atext_make_token(tok: token): atext
 //
+fun
+atext_make_string(loc_t, string): atext
+//
 (* ****** ****** *)
 //
 fun
@@ -484,9 +491,14 @@ overload fprint with fprint_atextlst
 (* ****** ****** *)
 //
 fun
-token_topeval(out: FILEref, tok: token): void
+atext_stringify(txt: atext): string
 fun
-tokenlst_topeval(out: FILEref, toks: tokenlst): void
+atextlst_stringify(txts: atextlst): string
+//
+(* ****** ****** *)
+//
+fun
+token_topeval(out: FILEref, tok: token): void
 //
 fun
 atext_topeval(out: FILEref, txt: atext): void

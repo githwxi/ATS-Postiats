@@ -52,8 +52,6 @@ staload "./atexting.sats"
 
 (* ****** ****** *)
 
-local
-
 fun
 is_escaped
   (c0: int): bool = let
@@ -73,7 +71,7 @@ case+ c0 of
 //
 end // end of [is_escaped]
 
-in (* in-of-local *)
+(* ****** ****** *)
 
 implement
 token_topeval
@@ -100,11 +98,13 @@ of // case+
     fprint_char(out, int2char0(c))
   // TOKspchr
 | TOKbslash(c) => let
+(*
     val isesp = is_escaped(c)
     val ((*void*)) =
     if isesp
       then fprint_char(out, '\\')
     // end of [val]
+*)
   in
     fprint_char(out, int2char0(c))
   end // TOKbslash
@@ -118,24 +118,8 @@ of // case+
 //
 end // end of [token_topeval]
 
-end // end of [local]
+(* ****** ****** *)
 
-(* ****** ****** *)
-//
-implement
-tokenlst_topeval
-  (out, xs) =
-(
-case+ xs of
-| list0_nil() => ()
-| list0_cons(x, xs) =>
-  (
-    token_topeval(out, x); tokenlst_topeval(out, xs)
-  ) (* end of [list0_cons] *)
-)
-//
-(* ****** ****** *)
-  
 implement
 atext_topeval
   (out, x0) = let
@@ -148,10 +132,17 @@ case+
 x0.atext_node
 of // case+
 //
+| TEXTnil() => ()
+//
 | TEXTtoken(tok) =>
   {
     val () = token_topeval(out, tok)
   } (* end of [TEXTtoken] *)
+//
+| TEXTstring(str) =>
+  {
+    val () = fprint_string(out, str)
+  } (* end of [TEXTstring0] *)
 //
 | TEXTsquote(xs) =>
   {
@@ -168,10 +159,10 @@ of // case+
   }
 //
 | TEXTextcode
-    (tok_beg, toklst, tok_end) =>
+    (tok_beg, txtlst, tok_end) =>
   {
     val () = token_topeval(out, tok_beg)
-    val () = atextlst_topeval(out, toklst)
+    val () = atextlst_topeval(out, txtlst)
     val () = token_topeval(out, tok_end)
   }
 //
@@ -189,7 +180,6 @@ of // case+
     val () = atextlst_topeval(out, arglst)
     val () = fprint(out, ")")
   } (* end of [TEXTfuncall] *)
-
 //
 end // end of [atext_topeval]
   

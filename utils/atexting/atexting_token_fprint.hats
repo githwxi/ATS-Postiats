@@ -2,10 +2,10 @@
 //
 extern
 fun{}
-fprint_token_node_$TOKeof: $d2ctype(fprint_token_node_<>)
+fprint_token_node_$TOKeol: $d2ctype(fprint_token_node_<>)
 extern
 fun{}
-fprint_token_node_$TOKeol: $d2ctype(fprint_token_node_<>)
+fprint_token_node_$TOKeof: $d2ctype(fprint_token_node_<>)
 extern
 fun{}
 fprint_token_node_$TOKint: $d2ctype(fprint_token_node_<>)
@@ -44,8 +44,8 @@ fprint_token_node_
   (out, arg0) =
 (
 case+ arg0 of
-| TOKeof _ => fprint_token_node_$TOKeof<>(out, arg0)
 | TOKeol _ => fprint_token_node_$TOKeol<>(out, arg0)
+| TOKeof _ => fprint_token_node_$TOKeof<>(out, arg0)
 | TOKint _ => fprint_token_node_$TOKint<>(out, arg0)
 | TOKide _ => fprint_token_node_$TOKide<>(out, arg0)
 | TOKspchr _ => fprint_token_node_$TOKspchr<>(out, arg0)
@@ -88,32 +88,6 @@ fprint_token_node_$carg(out, arg) = fprint_val<a>(out, arg)
 //
 extern
 fun{}
-fprint_token_node_$TOKeof$con: $d2ctype(fprint_token_node_<>)
-extern
-fun{}
-fprint_token_node_$TOKeof$lpar: $d2ctype(fprint_token_node_<>)
-extern
-fun{}
-fprint_token_node_$TOKeof$rpar: $d2ctype(fprint_token_node_<>)
-//
-implement{}
-fprint_token_node_$TOKeof(out, arg0) = 
-{
-//
-val () = fprint_token_node_$TOKeof$con<>(out, arg0)
-val () = fprint_token_node_$TOKeof$lpar<>(out, arg0)
-val () = fprint_token_node_$TOKeof$rpar<>(out, arg0)
-//
-}
-implement{}
-fprint_token_node_$TOKeof$con(out, _) = fprint(out, "TOKeof")
-implement{}
-fprint_token_node_$TOKeof$lpar(out, _) = fprint_token_node_$lpar(out)
-implement{}
-fprint_token_node_$TOKeof$rpar(out, _) = fprint_token_node_$rpar(out)
-//
-extern
-fun{}
 fprint_token_node_$TOKeol$con: $d2ctype(fprint_token_node_<>)
 extern
 fun{}
@@ -137,6 +111,32 @@ implement{}
 fprint_token_node_$TOKeol$lpar(out, _) = fprint_token_node_$lpar(out)
 implement{}
 fprint_token_node_$TOKeol$rpar(out, _) = fprint_token_node_$rpar(out)
+//
+extern
+fun{}
+fprint_token_node_$TOKeof$con: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKeof$lpar: $d2ctype(fprint_token_node_<>)
+extern
+fun{}
+fprint_token_node_$TOKeof$rpar: $d2ctype(fprint_token_node_<>)
+//
+implement{}
+fprint_token_node_$TOKeof(out, arg0) = 
+{
+//
+val () = fprint_token_node_$TOKeof$con<>(out, arg0)
+val () = fprint_token_node_$TOKeof$lpar<>(out, arg0)
+val () = fprint_token_node_$TOKeof$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_token_node_$TOKeof$con(out, _) = fprint(out, "TOKeof")
+implement{}
+fprint_token_node_$TOKeof$lpar(out, _) = fprint_token_node_$lpar(out)
+implement{}
+fprint_token_node_$TOKeof$rpar(out, _) = fprint_token_node_$rpar(out)
 //
 extern
 fun{}

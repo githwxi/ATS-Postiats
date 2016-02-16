@@ -58,8 +58,18 @@ atext_make
 (* ****** ****** *)
 //
 implement
-atext_make_token(tok) =
-  atext_make(tok.token_loc, TEXTtoken(tok))
+atext_make_token
+  (tok) = let
+  val loc = tok.token_loc
+in
+  atext_make(loc, TEXTtoken(tok))
+end // end of [atext_make_token]
+//
+(* ****** ****** *)
+implement
+atext_make_string
+  (loc, str) =
+  atext_make(loc, TEXTstring(str))
 //
 (* ****** ****** *)
 //
