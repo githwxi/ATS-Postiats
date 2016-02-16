@@ -837,22 +837,6 @@ end // end of [parsing_toplevel]
 (* ****** ****** *)
 
 implement
-parsing_from_stdin
-  ((*void*)) = xs where
-{
-//
-val () =
-  the_filename_push(filename_stdin)
-//
-val xs = parsing_from_fileref(stdin_ref)
-//
-val _(*fname*) = the_filename_pop()
-//
-} (* end of [parsing_from_stdin] *)
-
-(* ****** ****** *)
-
-implement
 parsing_from_fileref
   (infil) = txtlst where
 {
@@ -867,6 +851,51 @@ val txtlst = parsing_toplevel(buf)
 val ((*void*)) = tokbuf_uninitize(buf)
 //
 } (* end of [parsing_from_fileref] *)
+
+(* ****** ****** *)
+
+implement
+parsing_from_stdin
+  ((*void*)) = txtlst where
+{
+//
+val () =
+  the_filename_push(filename_stdin)
+//
+val txtlst = parsing_from_fileref(stdin_ref)
+//
+val _(*fname*) = the_filename_pop()
+//
+} (* end of [parsing_from_stdin] *)
+
+(* ****** ****** *)
+
+implement
+parsing_from_filename
+  (path) = let
+//
+val opt =
+  fileref_open_opt(path, file_mode_w)
+//
+in
+//
+case+ opt of
+| ~None_vt() =>
+    list0_nil()
+| ~Some_vt(infil) =>
+    txtlst where
+  {
+    val fname =
+      filename_make(path)
+    val ((*void*)) =
+      the_filename_push(fname)
+    val txtlst =
+      parsing_from_fileref(infil)
+    val _(*fname*) = the_filename_pop()
+    val ((*void*)) = fileref_close(infil)
+  } (* end of [Some_vt] *)
+//
+end // end of [parsing_from_filename]
 
 (* ****** ****** *)
 

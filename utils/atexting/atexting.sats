@@ -561,10 +561,10 @@ parsing_toplevel(buf: &tokbuf >> _): atextlst
 (* ****** ****** *)
 //
 fun
-parsing_from_stdin((*void*)): atextlst
-//
-fun
 parsing_from_fileref(infil: FILEref): atextlst
+//
+fun parsing_from_stdin((*void*)): atextlst
+fun parsing_from_filename(path: string): atextlst
 //
 (* ****** ****** *)
 //
