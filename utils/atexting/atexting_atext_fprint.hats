@@ -11,6 +11,9 @@ fun{}
 fprint_atext_node_$TEXTstring: $d2ctype(fprint_atext_node_<>)
 extern
 fun{}
+fprint_atext_node_$TEXTerrmsg: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
 fprint_atext_node_$TEXTsquote: $d2ctype(fprint_atext_node_<>)
 extern
 fun{}
@@ -35,6 +38,7 @@ case+ arg0 of
 | TEXTnil _ => fprint_atext_node_$TEXTnil<>(out, arg0)
 | TEXTtoken _ => fprint_atext_node_$TEXTtoken<>(out, arg0)
 | TEXTstring _ => fprint_atext_node_$TEXTstring<>(out, arg0)
+| TEXTerrmsg _ => fprint_atext_node_$TEXTerrmsg<>(out, arg0)
 | TEXTsquote _ => fprint_atext_node_$TEXTsquote<>(out, arg0)
 | TEXTdquote _ => fprint_atext_node_$TEXTdquote<>(out, arg0)
 | TEXTextcode _ => fprint_atext_node_$TEXTextcode<>(out, arg0)
@@ -161,6 +165,39 @@ fprint_atext_node_$TEXTstring$rpar(out, _) = fprint_atext_node_$rpar(out)
 implement{}
 fprint_atext_node_$TEXTstring$arg1(out, arg0) =
   let val-TEXTstring(arg1) = arg0 in fprint_atext_node_$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_atext_node_$TEXTerrmsg$con: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTerrmsg$lpar: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTerrmsg$rpar: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTerrmsg$arg1: $d2ctype(fprint_atext_node_<>)
+//
+implement{}
+fprint_atext_node_$TEXTerrmsg(out, arg0) = 
+{
+//
+val () = fprint_atext_node_$TEXTerrmsg$con<>(out, arg0)
+val () = fprint_atext_node_$TEXTerrmsg$lpar<>(out, arg0)
+val () = fprint_atext_node_$TEXTerrmsg$arg1<>(out, arg0)
+val () = fprint_atext_node_$TEXTerrmsg$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_atext_node_$TEXTerrmsg$con(out, _) = fprint(out, "TEXTerrmsg")
+implement{}
+fprint_atext_node_$TEXTerrmsg$lpar(out, _) = fprint_atext_node_$lpar(out)
+implement{}
+fprint_atext_node_$TEXTerrmsg$rpar(out, _) = fprint_atext_node_$rpar(out)
+implement{}
+fprint_atext_node_$TEXTerrmsg$arg1(out, arg0) =
+  let val-TEXTerrmsg(arg1) = arg0 in fprint_atext_node_$carg(out, arg1) end
 //
 extern
 fun{}

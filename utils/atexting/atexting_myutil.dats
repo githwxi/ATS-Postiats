@@ -35,76 +35,52 @@
 //
 #include
 "share\
+/atspre_define.hats"
+#include
+"share\
 /atspre_staload.hats"
 //
+(* ****** ****** *)
+
+staload "libc/SATS/time.sats"
+
+(* ****** ****** *)
+
+staload UN = $UNSAFE
+
 (* ****** ****** *)
 
 staload "./atexting.sats"
 
 (* ****** ****** *)
-//
-dynload "./atexting_mylib.dats"
-//
-dynload "./atexting_fname.dats"
-dynload "./atexting_posloc.dats"
-//
-dynload "./atexting_token.dats"
-dynload "./atexting_atext.dats"
-//
-dynload "./atexting_parerr.dats"
-//
-dynload "./atexting_lexbuf.dats"
-dynload "./atexting_lexing.dats"
-//
-dynload "./atexting_tokbuf.dats"
-//
-dynload "./atexting_global.dats"
-//
-(* ****** ****** *)
 
-dynload "./atexting_parsing.dats"
+local
 
-(* ****** ****** *)
-
-dynload "./atexting_topeval.dats"
-
-(* ****** ****** *)
-
-dynload "./atexting_stringify.dats"
-
-(* ****** ****** *)
-
-dynload "./atexting_myutil.dats"
-dynload "./atexting_mytest.dats"
-
-(* ****** ****** *)
-
-implement
-main0() = () where
+fun
+mytime() =
+  str2 where
 {
 //
-val () =
-println!("Hello from [atexting]!")
+var t_now
+  : time_t = time_get()
 //
-(*
-val () = the_nsharp_set(2)
-*)
+val (fpf | str) = ctime(t_now)
 //
-(*
-val () = test_tokenizing_fileref(inp)
-*)
+val str2 =
+(
+if isneqz(str)
+  then strptr2string(strptr1_copy(str)) else ""
+// end of [if]
+) : string // end of [val]
 //
-(*
-val () = test_atextizing_fileref(inp)
-*)
+prval ((*void*)) = fpf(str)
 //
-val out = stdout_ref
-val txts = parsing_from_stdin((*void*))
-//
-val ((*void*)) = atextlst_topeval(out, txts)
-//
-} (* end of [main0] *)
+} (* end of [mytime] *)
+
+in (* in-of-local *)
+
+end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [atexting_main.sats] *)
+(* end of [atexting_myutil.dats] *)

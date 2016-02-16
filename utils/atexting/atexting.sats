@@ -443,6 +443,8 @@ atext_node =
 //
 | TEXTstring of (string)
 //
+| TEXTerrmsg of (string)
+//
 | TEXTsquote of (atextlst)
 | TEXTdquote of (token(*dquote*), atextlst)
 //
@@ -490,6 +492,8 @@ overload fprint with fprint_atextlst
 //
 (* ****** ****** *)
 //
+fun
+token_stringify(tok: token): string
 fun
 atext_stringify(txt: atext): string
 fun
@@ -573,10 +577,27 @@ parsing_toplevel(buf: &tokbuf >> _): atextlst
 (* ****** ****** *)
 //
 fun
+parsing_from_stdin((*void*)): atextlst
+fun
+parsing_from_filename(path: string): atextlst
+//
+fun
 parsing_from_fileref(infil: FILEref): atextlst
 //
-fun parsing_from_stdin((*void*)): atextlst
-fun parsing_from_filename(path: string): atextlst
+(* ****** ****** *)
+//
+datatype
+atextdef =
+| TEXTDEFnil of ()
+| TEXTDEFval of (atext)
+| TEXTDEFfun of
+    ((atextlst) -<cloref1> atext)
+  // TEXTDEFfun
+//
+(* ****** ****** *)
+//
+fun
+the_atextdef_search(name: string): atextdef
 //
 (* ****** ****** *)
 //
@@ -585,10 +606,10 @@ fun parsing_from_filename(path: string): atextlst
 (* ****** ****** *)
 //
 fun
-test_tokenizing_fileref(inp: FILEref): void
+test_tokenizing_fileref(infil: FILEref): void
 //
 fun
-test_atextizing_fileref(inp: FILEref): void
+test_atextizing_fileref(infil: FILEref): void
 //
 (* ****** ****** *)
 

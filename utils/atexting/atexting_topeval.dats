@@ -142,7 +142,12 @@ of // case+
 | TEXTstring(str) =>
   {
     val () = fprint_string(out, str)
-  } (* end of [TEXTstring0] *)
+  } (* end of [TEXTstring] *)
+//
+| TEXTerrmsg(msg) =>
+  {
+    val () = fprint_string(out, msg)
+  } (* end of [TEXTerrmsg] *)
 //
 | TEXTsquote(xs) =>
   {
@@ -172,7 +177,8 @@ of // case+
     val () = token_topeval(out, name)
   }
 //
-| TEXTfuncall(tok0, tok1, arglst) =>
+| TEXTfuncall
+    (tok0, tok1, arglst) =>
   {
     val () = token_topeval(out, tok0)
     val () = token_topeval(out, tok1)
