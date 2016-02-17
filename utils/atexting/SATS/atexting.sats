@@ -623,6 +623,10 @@ fun
 the_atextdef_insert
   (name: string, def0: atextdef): void
 //
+fun
+the_atextdef_insert_strfun
+  (name: string, fstr: (atextlst) -> string): void
+//
 (* ****** ****** *)
 //
 // HX-2016-02-07: for testing purpose

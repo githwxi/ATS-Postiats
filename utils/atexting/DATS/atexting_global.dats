@@ -209,6 +209,22 @@ case opt of
 //
 end // end of [the_atextdef_insert]
 
+implement
+the_atextdef_insert_strfun
+  (name, fstr) = (
+//
+the_atextdef_insert
+( name
+, TEXTDEFfun
+  (
+    lam(loc, xs) =>
+      atext_make_string(loc, fstr(xs))
+    // end of [lam]
+  )
+) (* the_atextdef_insert *)
+//
+) (* the_atextdef_insert_strfun *)
+
 end // end of [local]
 
 } (* end of [staload] *)

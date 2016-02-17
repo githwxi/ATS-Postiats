@@ -73,6 +73,10 @@ prelude_string1_length = string1_length
 //
 macdef
 prelude_string0_append = string0_append
+macdef
+prelude_string0_append3 = string0_append3
+macdef
+prelude_string0_append4 = string0_append4
 //
 macdef
 prelude_stringlst_concat = stringlst_concat
@@ -170,13 +174,45 @@ end // end of [string_make_substring]
 
 (* ****** ****** *)
 
-implement{
-} string_append
+implement
+{}(*tmp*)
+string_append
   (str1, str2) = let
-  val res = $effmask_wrt (prelude_string0_append (str1, str2))
+//
+val res =
+  $effmask_wrt(prelude_string0_append(str1, str2))
+//
 in
   strptr2string (res)
 end // end of [string_append]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+string_append3
+  (str1, str2, str3) = let
+//
+val res =
+  $effmask_wrt(prelude_string0_append3(str1, str2, str3))
+//
+in
+  strptr2string (res)
+end // end of [string_append3]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+string_append4
+  (str1, str2, str3, str4) = let
+//
+val res =
+  $effmask_wrt(prelude_string0_append4(str1, str2, str3, str4))
+//
+in
+  strptr2string (res)
+end // end of [string_append4]
 
 (* ****** ****** *)
 

@@ -30,7 +30,10 @@ HX-2014-09: it must be the last one!
 <h1>Drawing Sierpinski Triangles</h1>
 
 %{
-fun theDrawingString() = "\"theDrawingString\""
+fun
+theDrawingString
+  (loc: loc_t): atext =
+  atext_make_string(loc, "\"theDrawingString\"")
 %}
 
 <center><pre id=#theDrawingString()></pre></center>

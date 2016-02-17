@@ -42,6 +42,16 @@
 staload
 "libats/ML/SATS/basis.sats"
 //
+staload
+"libats/ML/SATS/list0.sats"
+staload _ =
+"libats/ML/DATS/list0.dats"
+//
+staload
+"libats/ML/SATS/string.sats"
+staload _ =
+"libats/ML/DATS/string.dats"
+//
 (* ****** ****** *)
 
 staload UN = $UNSAFE
@@ -77,14 +87,20 @@ of // case+
 //
 | TEXTDEFval(txt) => txt
 //
-| TEXTDEFnil() =>
-  (
-    atext_make_errmsg(loc, "##undefined(...)")
-  )
-| TEXTDEFfun _ =>
-  (
-    atext_make_errmsg(loc, "##ill-defined(...)")
-  )
+| TEXTDEFnil() => let
+    val errmsg =
+      string_append3("##undefined(", name, ")")
+    // end of [val]
+  in
+    atext_make_errmsg(loc, errmsg)
+  end // end of [TEXTDEFnil]
+| TEXTDEFfun _ => let
+    val errmsg =
+      string_append3("##ill-defined(", name, ")")
+    // end of [val]
+  in
+    atext_make_errmsg(loc, errmsg)
+  end // end of [TEXTDEFfun]
 //
 end // end of [atext_defname_eval]
 
@@ -113,14 +129,20 @@ def0
 of // case+
 | TEXTDEFfun(ftxt) => ftxt(loc, args)
 //
-| TEXTDEFnil() =>
-  (
-    atext_make_errmsg(loc, "##undefined(...)")
-  )
-| TEXTDEFval _ =>
-  (
-    atext_make_errmsg(loc, "##ill-defined(...)")
-  )
+| TEXTDEFnil() => let
+    val errmsg =
+      string_append3("##undefined(", name, ")")
+    // end of [val]
+  in
+    atext_make_errmsg(loc, errmsg)
+  end // end of [TEXTDEFnil]
+| TEXTDEFval _ => let
+    val errmsg =
+      string_append3("##ill-defined(", name, ")")
+    // end of [val]
+  in
+    atext_make_errmsg(loc, errmsg)
+  end // end of [TEXTDEFval]
 //
 end // end of [atext_defname_eval]
 

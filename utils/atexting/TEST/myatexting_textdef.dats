@@ -104,7 +104,7 @@ end // end of [local]
 local
 
 fun
-fp64
+__fp64__
 (
   loc: loc_t, xs: atextlst
 ) : atext = let
@@ -124,7 +124,8 @@ atext_make_string(loc, stringlst_concat(strlst))
 //
 end // end of [fp64]
 
-val def0 = TEXTDEFfun(lam(loc, xs) => fp64(loc, xs))
+val
+def0 = TEXTDEFfun(lam(loc, xs) => __fp64__(loc, xs))
 
 in (* in-of-local *)
 

@@ -74,36 +74,50 @@ fun{
 
 (* ****** ****** *)
 
-fun{
-} string_make_list (cs: list0 (char)):<> string
-fun{
-} string_make_rlist (cs: list0 (char)):<> string
+fun{}
+string_make_list(cs: list0(char)):<> string
+fun{}
+string_make_rlist(cs: list0(char)):<> string
 
 (* ****** ****** *)
 
-fun{
-} string_make_substring
-  (x: NSH(string), st: size_t, ln: size_t):<> string
-// end of [string_make_substring]
+fun{}
+string_make_substring
+(
+  x0: NSH(string), start: size_t, len: size_t
+) :<> string // end-of-function
 
 (* ****** ****** *)
 
-fun{
-} string_append
+fun{}
+string_append
   (x1: NSH(string), x2: NSH(string)):<> string
 overload + with string_append of 0
 
 (* ****** ****** *)
-
-fun{
-} stringlst_concat (xs: list0 (string)):<> string
-
+//
+fun{}
+string_append3
+(
+  x1: NSH(string), x2: NSH(string), x3: NSH(string)
+) :<> string // end of [string_append3]
+fun{}
+string_append4
+(
+  x1: NSH(string), x2: NSH(string), x3: NSH(string), x5: NSH(string)
+) :<> string // end of [string_append3]
+//
+(* ****** ****** *)
+//
+fun{}
+stringlst_concat (xs: list0 (string)):<> string
+//
 (* ****** ****** *)
 
-fun{
-} string_explode (x: string):<> list0 (char)
-fun{
-} string_implode (cs: list0 (char)):<> string
+fun{}
+string_explode (x: string):<> list0 (char)
+fun{}
+string_implode (cs: list0 (char)):<> string
 
 (* ****** ****** *)
 //
