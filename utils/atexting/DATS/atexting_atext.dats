@@ -105,7 +105,7 @@ CODEGEN2
 #else
 //
 #include
-"./fprint_atext.hats"
+"./atexting_fprint_atext.hats"
 //
 implement
 fprint_val<token> = fprint_token

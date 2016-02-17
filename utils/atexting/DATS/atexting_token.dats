@@ -139,7 +139,7 @@ CODEGEN2
 #else
 //
 #include
-"./fprint_token.hats"
+"./atexting_fprint_token.hats"
 //
 implement
 fprint_val<token> = fprint_token
