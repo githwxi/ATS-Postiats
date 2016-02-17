@@ -35,136 +35,104 @@
 //
 #include
 "share\
+/atspre_define.hats"
+#include
+"share\
 /atspre_staload.hats"
+//
+(* ****** ****** *)
+//
+staload
+"libats/ML/SATS/basis.sats"
+staload
+"libats/ML/SATS/list0.sats"
 //
 (* ****** ****** *)
 
 staload UN = $UNSAFE
 
 (* ****** ****** *)
-
-staload "./atexting.sats"
-
-(* ****** ****** *)
 //
-implement
-token_get_loc
-  (tok) = tok.token_loc
+staload
+"./../SATS/atexting.sats"
 //
 (* ****** ****** *)
 //
 implement
-token_make
+parerr_make
+  (loc, node) = '{
+  parerr_loc=loc, parerr_node=node
+} (* end of [parerr_make] *)
+//
+(* ****** ****** *)
+//
+implement
+the_parerrlst_insert2
   (loc, node) =
-$rec{
-  token_loc= loc, token_node= node
-} (* token_make *)
-//
-(* ****** ****** *)
-
-implement
-token_is_eof(tok) =
 (
+  the_parerrlst_insert(parerr_make(loc, node))
+) (* the_parerrlst_insert2 *)
 //
-case+
-tok.token_node of
-| TOKeof() => true
-| _(*non-eof*) => false
-//
-) (* end of [token_is_eof] *)
-
 (* ****** ****** *)
 
 implement
-token_is_nsharp
-  (tok) = (
+the_parerrlst_print_free
+  ((*void*)) = let
 //
-case+
-tok.token_node of
-| TOKsharp(ns) =>
-  length(ns) >= the_nsharp_get((*void*))
-| _ (*non-code-beg*) => false
+val out = stderr_ref
 //
-) (* end of [token_is_nsharp] *)
-
-(* ****** ****** *)
-
-implement
-token_is_code_beg
-  (tok) = (
-//
-case+
-tok.token_node of
-| TOKcode_beg _ =>
-  location_is_atlnbeg(tok.token_loc)
-| _ (*non-code-beg*) => false
-//
-) (* end of [token_is_code_beg] *)
-
-implement
-token_is_code_end(tok) =
+fun
+auxlst
 (
+  xs: List_vt(parerr), n: int
+) : int =
+(
+case+ xs of
+| ~list_vt_nil() => n
+| ~list_vt_cons(x, xs) =>
+  (
+    fprint_parerr(out, x); auxlst(xs, n+1)
+  )
+) (* end of [auxlst] *)
 //
-case+
-tok.token_node of
-| TOKcode_end _ =>
-  location_is_atlnbeg(tok.token_loc)
-| _ (*non-code-end*) => false
+in
 //
-) (* end of [token_is_code_end] *)
-
-(* ****** ****** *)
+  auxlst(the_parerrlst_pop_all(), 0(*nerr*))
 //
-implement
-token_is_atlnbeg(tok) =
-  location_is_atlnbeg(tok.token_loc)
+end // end of [the_parerrlst_print_free]
 //
 (* ****** ****** *)
 //
 extern
-fun{}
-fprint_token_node_
-  : (FILEref, tnode) -> void
+fun
+fprint_parerr_node: fprint_type(parerr_node)
+//
+(* ****** ****** *)
+//
+implement
+fprint_parerr(out, x0) =
+{
+  val () = fprint(out, x0.parerr_loc)
+  val () = fprint_parerr_node(out, x0.parerr_node)
+}
+//
+implement
+fprint_parerr_node
+  (out, node) = let
+in
+//
+case+ node of
+| PARERR_SQUOTE(loc0) =>
+    fprintln! (out, ": the single-quote at (", loc0, ") is not closed.")
+| PARERR_DQUOTE(loc0) =>
+    fprintln! (out, ": the double-quote at (", loc0, ") is not closed.")
+| PARERR_FUNARG(loc0) =>
+    fprintln! (out, ": the funarg starting at (", loc0, ") is not closed.")
+| PARERR_EXTCODE(loc0) =>
+    fprintln! (out, ": the ext-code starting at (", loc0, ") is not closed.")
+//
+end // end of [fprint_parerr_node]
 //
 (* ****** ****** *)
 
-#ifdef
-CODEGEN2
-#then
-#codegen2
-( "fprint"
-, token_node, fprint_token_node_
-)
-#else
-//
-#include
-"./atexting_token_fprint.hats"
-//
-implement
-fprint_val<token> = fprint_token
-//
-implement{}
-fprint_token_node_$TOKspchr$arg1(out, arg0) =
-  let val-TOKspchr(arg1) = arg0 in fprint(out, int2char0(arg1)) end
-implement{}
-fprint_token_node_$TOKbslash$arg1(out, arg0) =
-  let val-TOKbslash(arg1) = arg0 in fprint(out, int2char0(arg1)) end
-//
-implement
-fprint_token(out, x0) =
-  fprint_token_node_<>(out, x0.token_node)
-//
-implement
-fprint_tnode
-  (out, node) = fprint_token_node_<>(out, node)
-//
-implement
-fprint_tokenlst
-  (out, xs) =
-  fprint_list_sep<token>(out, $UN.cast{List0(token)}(xs), ", ")
-//
-#endif // #ifdef
-
-(* ****** ****** *)
-
-(* end of [atexting_token.dats] *)
+(* end of [atexting_parerr.dats] *)

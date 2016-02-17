@@ -35,103 +35,44 @@
 //
 #include
 "share\
-/atspre_define.hats"
-#include
-"share\
 /atspre_staload.hats"
 //
 (* ****** ****** *)
 //
 staload
-"libats/ML/SATS/basis.sats"
-staload
-"libats/ML/SATS/list0.sats"
-//
-(* ****** ****** *)
-
-staload UN = $UNSAFE
-
-(* ****** ****** *)
-
-staload "./atexting.sats"
-
-(* ****** ****** *)
-//
-implement
-parerr_make
-  (loc, node) = '{
-  parerr_loc=loc, parerr_node=node
-} (* end of [parerr_make] *)
+"./../SATS/atexting.sats"
 //
 (* ****** ****** *)
 //
-implement
-the_parerrlst_insert2
-  (loc, node) =
-(
-  the_parerrlst_insert(parerr_make(loc, node))
-) (* the_parerrlst_insert2 *)
+datatype
+filename = FNAME of (string)
+//
+assume filename_type = filename
 //
 (* ****** ****** *)
 
 implement
-the_parerrlst_print_free
-  ((*void*)) = let
+filename_dummy = FNAME ("")
+implement
+filename_stdin = FNAME ("__STDIN__")
+
+(* ****** ****** *)
+
+implement
+filename_make(path) = FNAME(path)
+
+(* ****** ****** *)
+
+implement
+fprint_filename
+  (out, fil) = let
 //
-val out = stderr_ref
-//
-fun
-auxlst
-(
-  xs: List_vt(parerr), n: int
-) : int =
-(
-case+ xs of
-| ~list_vt_nil() => n
-| ~list_vt_cons(x, xs) =>
-  (
-    fprint_parerr(out, x); auxlst(xs, n+1)
-  )
-) (* end of [auxlst] *)
+val+FNAME (fname) = fil
 //
 in
-//
-  auxlst(the_parerrlst_pop_all(), 0(*nerr*))
-//
-end // end of [the_parerrlst_print_free]
-//
-(* ****** ****** *)
-//
-extern
-fun
-fprint_parerr_node: fprint_type(parerr_node)
-//
-(* ****** ****** *)
-//
-implement
-fprint_parerr(out, x0) =
-{
-  val () = fprint(out, x0.parerr_loc)
-  val () = fprint_parerr_node(out, x0.parerr_node)
-}
-//
-implement
-fprint_parerr_node
-  (out, node) = let
-in
-//
-case+ node of
-| PARERR_SQUOTE(loc0) =>
-    fprintln! (out, ": the single-quote at (", loc0, ") is not closed.")
-| PARERR_DQUOTE(loc0) =>
-    fprintln! (out, ": the double-quote at (", loc0, ") is not closed.")
-| PARERR_FUNARG(loc0) =>
-    fprintln! (out, ": the funarg starting at (", loc0, ") is not closed.")
-| PARERR_EXTCODE(loc0) =>
-    fprintln! (out, ": the ext-code starting at (", loc0, ") is not closed.")
-//
-end // end of [fprint_parerr_node]
-//
+  fprint_string (out, fname)
+end // end of [fprint_filename]
+
 (* ****** ****** *)
 
-(* end of [atexting_parerr.dats] *)
+(* end of [atexting_fname.dats] *)

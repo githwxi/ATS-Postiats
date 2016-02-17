@@ -45,9 +45,10 @@
 staload UN = $UNSAFE
 
 (* ****** ****** *)
-
-staload "./atexting.sats"
-
+//
+staload
+"./../SATS/atexting.sats"
+//
 (* ****** ****** *)
 
 macdef EOL = char2int0('\n')

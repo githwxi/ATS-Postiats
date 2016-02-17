@@ -35,43 +35,104 @@
 //
 #include
 "share\
+/atspre_define.hats"
+//
+#include
+"share\
 /atspre_staload.hats"
 //
-(* ****** ****** *)
-
-staload "./atexting.sats"
-
-(* ****** ****** *)
-//
-datatype
-filename = FNAME of (string)
-//
-assume filename_type = filename
+#include
+"share\
+/HATS/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
-implement
-filename_dummy = FNAME ("")
-implement
-filename_stdin = FNAME ("__STDIN__")
+staload "libc/SATS/time.sats"
 
 (* ****** ****** *)
 
-implement
-filename_make(path) = FNAME(path)
+staload UN = $UNSAFE
 
 (* ****** ****** *)
-
-implement
-fprint_filename
-  (out, fil) = let
 //
-val+FNAME (fname) = fil
+staload
+"utils/atexting/SATS/atexting.sats"
+//
+(* ****** ****** *)
+
+local
+
+fun
+mytime() =
+  str2 where
+{
+//
+var t_now
+  : time_t = time_get()
+//
+val (fpf | str) = ctime(t_now)
+//
+val str2 =
+(
+if
+isneqz(str)
+then strptr2string(strptr1_copy(str))
+else "__mytime()__"
+// end of [if]
+) : string // end of [val]
+//
+prval ((*void*)) = fpf(str)
+//
+} (* end of [mytime] *)
+
+val
+def0 =
+TEXTDEFfun
+(
+lam(loc, _) =>
+  atext_make_string(loc, mytime())
+) (* TEXTDEFfun *)
+
+in (* in-of-local *)
+
+val () = the_atextdef_insert("mytime", def0)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun
+fp64
+(
+  loc: loc_t, xs: atextlst
+) : atext = let
+//
+val-cons0(x, xs) = xs
+val rep = atext_strngfy(x)
+//
+val strlst =
+$list{string}
+  ("$UN.cast{double(", rep, ")}(", rep, ")")
+//
+val strlst = g0ofg1(strlst)
 //
 in
-  fprint_string (out, fname)
-end // end of [fprint_filename]
+//
+atext_make_string(loc, stringlst_concat(strlst))
+//
+end // end of [fp64]
+
+val def0 = TEXTDEFfun(lam(loc, xs) => fp64(loc, xs))
+
+in (* in-of-local *)
+
+val () = the_atextdef_insert("fp64", def0)
+val () = the_atextdef_insert("float64", def0)
+
+end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [atexting_fname.dats] *)
+(* end of [atexting_myutil.dats] *)

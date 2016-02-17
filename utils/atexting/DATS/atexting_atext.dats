@@ -39,72 +39,92 @@
 //
 (* ****** ****** *)
 
-staload "./atexting.sats"
+staload UN = $UNSAFE
 
 (* ****** ****** *)
 //
-dynload "./atexting_mylib.dats"
-//
-dynload "./atexting_fname.dats"
-dynload "./atexting_posloc.dats"
-//
-dynload "./atexting_token.dats"
-dynload "./atexting_atext.dats"
-//
-dynload "./atexting_parerr.dats"
-//
-dynload "./atexting_lexbuf.dats"
-dynload "./atexting_lexing.dats"
-//
-dynload "./atexting_tokbuf.dats"
-//
-dynload "./atexting_global.dats"
+staload
+"./../SATS/atexting.sats"
 //
 (* ****** ****** *)
-
-dynload "./atexting_parsing.dats"
-
-(* ****** ****** *)
-
-dynload "./atexting_topeval.dats"
-
-(* ****** ****** *)
-
-dynload "./atexting_stringify.dats"
-
-(* ****** ****** *)
-
-dynload "./atexting_myutil.dats"
-dynload "./atexting_mytest.dats"
-
-(* ****** ****** *)
-
+//
 implement
-main0() = () where
-{
+atext_make
+(
+  loc, node
+) = $rec{
+  atext_loc= loc, atext_node= node
+} (* $rec *)
 //
-val () =
-println!("Hello from [atexting]!")
+(* ****** ****** *)
 //
-(*
-val () = the_nsharp_set(2)
-*)
+implement
+atext_make_nil
+(
+  loc
+) = atext_make(loc, TEXTnil())
 //
-(*
-val () = test_tokenizing_fileref(inp)
-*)
+(* ****** ****** *)
 //
-(*
-val () = test_atextizing_fileref(inp)
-*)
+implement
+atext_make_token
+  (tok) = let
+  val loc = tok.token_loc
+in
+  atext_make(loc, TEXTtoken(tok))
+end // end of [atext_make_token]
 //
-val out = stdout_ref
-val txts = parsing_from_stdin((*void*))
+(* ****** ****** *)
 //
-val ((*void*)) = atextlst_topeval(out, txts)
+implement
+atext_make_string
+  (loc, str) =
+  atext_make(loc, TEXTstring(str))
 //
-} (* end of [main0] *)
+implement
+atext_make_errmsg
+  (loc, msg) =
+  atext_make(loc, TEXTerrmsg(msg))
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_atext_node_
+  : (FILEref, atext_node) -> void
+//
+(* ****** ****** *)
+
+#ifdef
+CODEGEN2
+#then
+#codegen2
+( "fprint"
+, atext_node, fprint_atext_node_
+)
+#else
+//
+#include
+"./fprint_atext.hats"
+//
+implement
+fprint_val<token> = fprint_token
+implement
+fprint_val<atext> = fprint_atext
+implement
+fprint_val<atextlst> = fprint_atextlst
+//
+implement
+fprint_atext(out, x0) =
+  fprint_atext_node_<>(out, x0.atext_node)
+//
+implement
+fprint_atextlst
+  (out, xs) =
+  fprint_list_sep<atext>(out, $UN.cast{List0(atext)}(xs), ", ")
+//
+#endif // #ifdef
 
 (* ****** ****** *)
 
-(* end of [atexting_main.sats] *)
+(* end of [atexting_atext.dats] *)

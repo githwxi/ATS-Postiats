@@ -47,9 +47,10 @@ staload
 staload UN = $UNSAFE
 
 (* ****** ****** *)
-
-staload "./atexting.sats"
-
+//
+staload
+"./../SATS/atexting.sats"
+//
 (* ****** ****** *)
 
 fun
@@ -99,14 +100,17 @@ of // case+
   // TOKspchr
 | TOKbslash(c) => let
 (*
-    val isesp = is_escaped(c)
+    val isesp =
+      is_escaped(c)
+    // end of [val]
     val ((*void*)) =
     if isesp
       then fprint_char(out, '\\')
     // end of [val]
 *)
+    val c = int2char0(c)
   in
-    fprint_char(out, int2char0(c))
+    if (c != '\n') then fprint_char(out, c)
   end // TOKbslash
 //
 | TOKcode_beg _ => fprint(out, "%{")
@@ -171,12 +175,22 @@ of // case+
     val () = token_topeval(out, tok_end)
   }
 //
+(*
 | TEXTdefname(tok, name) =>
   {
     val () = token_topeval(out, tok)
     val () = token_topeval(out, name)
   }
+*)
+| TEXTdefname _ =>
+  {
+    val x1 =
+      atext_defname_eval(x0)
+    // end of [val]
+    val () = atext_topeval(out, x1)
+  } (* end of [TEXTfuncall] *)
 //
+(*
 | TEXTfuncall
     (tok0, tok1, arglst) =>
   {
@@ -185,6 +199,14 @@ of // case+
     val () = fprint(out, "(")
     val () = atextlst_topeval(out, arglst)
     val () = fprint(out, ")")
+  } (* end of [TEXTfuncall] *)
+*)
+| TEXTfuncall _ =>
+  {
+    val x1 =
+      atext_funcall_eval(x0)
+    // end of [val]
+    val () = atext_topeval(out, x1)
   } (* end of [TEXTfuncall] *)
 //
 end // end of [atext_topeval]

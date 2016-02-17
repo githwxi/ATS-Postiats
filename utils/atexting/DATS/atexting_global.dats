@@ -38,9 +38,10 @@
 /atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "./atexting.sats"
-
+//
+staload
+"./../SATS/atexting.sats"
+//
 (* ****** ****** *)
 
 local
@@ -65,7 +66,8 @@ FIL = {
 "share/\
 atspre_define.hats"
 //
-staload "./atexting.sats"
+staload
+"./../SATS/atexting.sats"
 //
 typedef T = fil_t
 //
@@ -93,7 +95,8 @@ PARERR = {
 "share/\
 atspre_define.hats"
 //
-staload "./atexting.sats"
+staload
+"./../SATS/atexting.sats"
 //
 typedef T = parerr
 //
@@ -127,6 +130,87 @@ the_parerrlst_pop_all((*void*)) = pop_all()
 //
 (* ****** ****** *)
 //
+} (* end of [staload] *)
+
+(* ****** ****** *)
+
+staload
+TEXTDEF = {
+
+(* ****** ****** *)
+//
+staload
+"./../SATS/atexting.sats"
+//
+(* ****** ****** *)
+
+local
+
+typedef
+key = string and itm = atextdef
+
+implement
+fprint_val<atextdef> = fprint_atextdef
+
+in (* in-of-local *)
+//
+#include
+"libats/ML/HATS/myhashtblref.hats"
+//
+end // end of [local]
+
+implement
+fprint_atextdef
+  (out, def0) = (
+//
+case+ def0 of
+| TEXTDEFnil() => fprint(out, "TEXTDEFnil()")
+| TEXTDEFval _ => fprint(out, "TEXTDEFval(...)")
+| TEXTDEFfun _ => fprint(out, "TEXTDEFfun(...)")
+//
+) (* end of [fprint_atextdef] *)
+
+local
+//
+val
+the_atextdef_map =
+  myhashtbl_make_nil(1024)
+//
+in (* in-of-local *)
+
+implement
+the_atextdef_search
+  (name) = let
+//
+val
+opt =
+the_atextdef_map.search(name)
+//
+in
+//
+case+ opt of
+| ~Some_vt(def0) => def0
+| ~None_vt((*void*)) => TEXTDEFnil()
+//
+end // end of [the_atextdef_search]
+
+implement
+the_atextdef_insert
+  (name, def0) = let
+//
+val
+opt =
+the_atextdef_map.insert(name, def0)
+//
+in
+//
+case opt of
+| ~None_vt() => () | ~Some_vt _ => ()
+//
+end // end of [the_atextdef_insert]
+
+end // end of [local]
+
 } (* end of [staload] *)
 
 (* ****** ****** *)

@@ -42,41 +42,90 @@
 staload UN = $UNSAFE
 
 (* ****** ****** *)
-
-staload "./atexting.sats"
-
+//
+staload
+"./../SATS/atexting.sats"
+//
 (* ****** ****** *)
 //
 implement
-atext_make
+token_get_loc
+  (tok) = tok.token_loc
+//
+(* ****** ****** *)
+//
+implement
+token_make
+  (loc, node) =
+$rec{
+  token_loc= loc, token_node= node
+} (* token_make *)
+//
+(* ****** ****** *)
+
+implement
+token_is_eof(tok) =
 (
-  loc, node
-) = $rec{
-  atext_loc= loc, atext_node= node
-} (* $rec *)
 //
+case+
+tok.token_node of
+| TOKeof() => true
+| _(*non-eof*) => false
+//
+) (* end of [token_is_eof] *)
+
+(* ****** ****** *)
+
+implement
+token_is_nsharp
+  (tok) = (
+//
+case+
+tok.token_node of
+| TOKsharp(ns) =>
+  length(ns) >= the_nsharp_get((*void*))
+| _ (*non-code-beg*) => false
+//
+) (* end of [token_is_nsharp] *)
+
+(* ****** ****** *)
+
+implement
+token_is_code_beg
+  (tok) = (
+//
+case+
+tok.token_node of
+| TOKcode_beg _ =>
+  location_is_atlnbeg(tok.token_loc)
+| _ (*non-code-beg*) => false
+//
+) (* end of [token_is_code_beg] *)
+
+implement
+token_is_code_end(tok) =
+(
+//
+case+
+tok.token_node of
+| TOKcode_end _ =>
+  location_is_atlnbeg(tok.token_loc)
+| _ (*non-code-end*) => false
+//
+) (* end of [token_is_code_end] *)
+
 (* ****** ****** *)
 //
 implement
-atext_make_token
-  (tok) = let
-  val loc = tok.token_loc
-in
-  atext_make(loc, TEXTtoken(tok))
-end // end of [atext_make_token]
-//
-(* ****** ****** *)
-implement
-atext_make_string
-  (loc, str) =
-  atext_make(loc, TEXTstring(str))
+token_is_atlnbeg(tok) =
+  location_is_atlnbeg(tok.token_loc)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-fprint_atext_node_
-  : (FILEref, atext_node) -> void
+fprint_token_node_
+  : (FILEref, tnode) -> void
 //
 (* ****** ****** *)
 
@@ -85,31 +134,38 @@ CODEGEN2
 #then
 #codegen2
 ( "fprint"
-, atext_node, fprint_atext_node_
+, token_node, fprint_token_node_
 )
 #else
 //
 #include
-"./atexting_atext_fprint.hats"
+"./fprint_token.hats"
 //
 implement
 fprint_val<token> = fprint_token
-implement
-fprint_val<atext> = fprint_atext
-implement
-fprint_val<atextlst> = fprint_atextlst
+//
+implement{}
+fprint_token_node_$TOKspchr$arg1(out, arg0) =
+  let val-TOKspchr(arg1) = arg0 in fprint(out, int2char0(arg1)) end
+implement{}
+fprint_token_node_$TOKbslash$arg1(out, arg0) =
+  let val-TOKbslash(arg1) = arg0 in fprint(out, int2char0(arg1)) end
 //
 implement
-fprint_atext(out, x0) =
-  fprint_atext_node_<>(out, x0.atext_node)
+fprint_token(out, x0) =
+  fprint_token_node_<>(out, x0.token_node)
 //
 implement
-fprint_atextlst
+fprint_tnode
+  (out, node) = fprint_token_node_<>(out, node)
+//
+implement
+fprint_tokenlst
   (out, xs) =
-  fprint_list_sep<atext>(out, $UN.cast{List0(atext)}(xs), ", ")
+  fprint_list_sep<token>(out, $UN.cast{List0(token)}(xs), ", ")
 //
 #endif // #ifdef
 
 (* ****** ****** *)
 
-(* end of [atexting_atext.dats] *)
+(* end of [atexting_token.dats] *)

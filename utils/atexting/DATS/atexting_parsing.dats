@@ -52,9 +52,10 @@ staload
 staload UN = $UNSAFE
 
 (* ****** ****** *)
-
-staload "./atexting.sats"
-
+//
+staload
+"./../SATS/atexting.sats"
+//
 (* ****** ****** *)
 
 overload + with location_combine

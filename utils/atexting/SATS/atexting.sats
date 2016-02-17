@@ -475,10 +475,16 @@ atext_make
 ) : atext // end-of-function
 //
 fun
+atext_make_nil(loc_t): atext
+//
+fun
 atext_make_token(tok: token): atext
 //
 fun
-atext_make_string(loc_t, string): atext
+atext_make_string(loc_t, str: string): atext
+//
+fun
+atext_make_errmsg(loc_t, msg: string): atext
 //
 (* ****** ****** *)
 //
@@ -493,11 +499,11 @@ overload fprint with fprint_atextlst
 (* ****** ****** *)
 //
 fun
-token_stringify(tok: token): string
+token_strngfy(tok: token): string
 fun
-atext_stringify(txt: atext): string
+atext_strngfy(txt: atext): string
 fun
-atextlst_stringify(txts: atextlst): string
+atextlst_strngfy(txts: atextlst): string
 //
 (* ****** ****** *)
 //
@@ -591,13 +597,31 @@ atextdef =
 | TEXTDEFnil of ()
 | TEXTDEFval of (atext)
 | TEXTDEFfun of
-    ((atextlst) -<cloref1> atext)
+    ((loc_t, atextlst) -<cloref1> atext)
   // TEXTDEFfun
 //
 (* ****** ****** *)
 //
 fun
-the_atextdef_search(name: string): atextdef
+fprint_atextdef
+  (FILEref, def0: atextdef): void
+//
+(* ****** ****** *)
+//
+fun
+atext_defname_eval(txt: atext): atext
+fun
+atext_funcall_eval(txt: atext): atext
+//  
+(* ****** ****** *)
+//
+fun
+the_atextdef_search
+  (name: string): atextdef
+//
+fun
+the_atextdef_insert
+  (name: string, def0: atextdef): void
 //
 (* ****** ****** *)
 //

@@ -38,9 +38,10 @@
 /atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "./atexting.sats"
-
+//
+staload
+"./../SATS/atexting.sats"
+//
 (* ****** ****** *)
 
 implement
