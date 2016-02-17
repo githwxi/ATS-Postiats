@@ -8,17 +8,32 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
-all:: DATS_C
+all:: atexting
 
 ######
-
+#
+MYLIB_DATS=atexting_mylib.dats
+INCLUDE_ALL=atexting_include_all.dats
+#
+MYLIB_DATS_C=./CATS/atexting_mylib_dats.c
+#
+######
+#
+CFLAGS :=
+CFLAGS += -O2
+CFLAGS += -DATS_MEMALLOC_GCBDW
+#
+######
+#
+atexting: \
+$(INCLUDE_ALL) \
+$(MYLIB_DATS_C); \
+$(PATSCC) $(CFLAGS) -o $@ $< $(MYLIB_DATS_C) -lgc
+#
 DATS_C:: \
-atexting_mylib.dats; \
-$(PATSOPT) -o ./CATS/atexting_mylib_dats.c --dynamic $<
-DATS_C:: \
-atexting_include_all.dats; \
-$(PATSOPT) -o ./CATS/atexting_include_all_dats.c --dynamic $<
-
+$(MYLIB_DATS_C)
+$(MYLIB_DATS_C): $(MYLIB_DATS); $(PATSOPT) -o $@ -d $<
+#
 ######
 #
 testall:: all
@@ -30,7 +45,12 @@ RMF=rm -f
 
 ######
 
+clean:: ; $(RMF) *_dats.c
+
+######
+
+cleanall:: clean
+cleanall:: ; $(RMF) ./atexting
 cleanall:: ; $(RMF) ./CATS/atexting_mylib_dats.c
-cleanall:: ; $(RMF) ./CATS/atexting_include_all_dats.c
 
 ###### end of [Makefile] ######
