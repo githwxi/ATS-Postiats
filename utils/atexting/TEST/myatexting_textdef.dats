@@ -63,7 +63,7 @@ staload
 local
 
 fun
-mytime() =
+__ctime__() =
   str2 where
 {
 //
@@ -77,25 +77,25 @@ val str2 =
 if
 isneqz(str)
 then strptr2string(strptr1_copy(str))
-else "__mytime()__"
+else "__ctime()__"
 // end of [if]
 ) : string // end of [val]
 //
 prval ((*void*)) = fpf(str)
 //
-} (* end of [mytime] *)
+} (* end of [__ctime__] *)
 
 val
 def0 =
 TEXTDEFfun
 (
 lam(loc, _) =>
-  atext_make_string(loc, mytime())
+  atext_make_string(loc, __ctime__())
 ) (* TEXTDEFfun *)
 
 in (* in-of-local *)
 
-val () = the_atextdef_insert("mytime", def0)
+val () = the_atextdef_insert("ctime", def0)
 
 end // end of [local]
 
