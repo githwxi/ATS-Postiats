@@ -245,8 +245,8 @@ ATSfunclo_clo(pmv, targs, tres) ((tres(*)targs)(((ATStyclo()*)pmv)->cfun))
 #define ATSCKpat_con1(pmv, tag) \
   ((pmv)>=(void*)ATS_DATACONMAX && ((ATStysum()*)(pmv))->contag==tag)
 //
-#define ATSCKpat_exn0(pmv, d2c) ((pmv)==(void*)(&(d2c)))
-#define ATSCKpat_exn1(pmv, d2c) (((ATStyexn()*)(pmv))->exntag==(&(d2c))->exntag)
+#define ATSCKpat_exn0(pmv, d2con) ((pmv)==(void*)(&(d2con)))
+#define ATSCKpat_exn1(pmv, d2con) (((ATStyexn()*)(pmv))->exntag==(&(d2con))->exntag)
 //
 /* ****** ****** */
 //
@@ -294,13 +294,13 @@ ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))
 //
 /* ****** ****** */
 //
-#define ATSINSmove_exn0(tmp, d2c) (tmp = &(d2c))
+#define ATSINSmove_exn0(tmp, d2con) (tmp = &(d2con))
 //
 #define ATSINSmove_exn1_beg()
 #define ATSINSmove_exn1_end()
 #define ATSINSmove_exn1_new(tmp, tyexn) (tmp = ATS_MALLOC(sizeof(tyexn)))
-#define ATSINSstore_exn1_tag(tmp, d2c) (((ATStyexn()*)tmp)->exntag = (&(d2c))->exntag)
-#define ATSINSstore_exn1_msg(tmp, d2c) (((ATStyexn()*)tmp)->exnmsg = (&(d2c))->exnmsg)
+#define ATSINSstore_exn1_tag(tmp, d2con) (((ATStyexn()*)tmp)->exntag = (&(d2con))->exntag)
+#define ATSINSstore_exn1_msg(tmp, d2con) (((ATStyexn()*)tmp)->exnmsg = (&(d2con))->exnmsg)
 //
 /* ****** ****** */
 //
@@ -350,7 +350,7 @@ ATSINSmove_con0(tmp, tag) (tmp = ((void*)tag))
 /* ****** ****** */
 
 #define ATSINSextvar_assign(var, pmv) var = (pmv)
-#define ATSINSdyncst_valbind(d2c, pmv) d2c = (pmv)
+#define ATSINSdyncst_valbind(d2cst, pmv) d2cst = (pmv)
 
 /* ****** ****** */
 

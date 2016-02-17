@@ -1,86 +1,36 @@
 #
-# A Simple Makefile
-#
-
-######
-
-include \
-$(PATSHOME)/share/atsmake-pre.mk
-
-######
-
-CFLAGS += -O2
-
-######
-
-LDFLAGS :=
-
-######
-
-PATSCCOMP = $(CC) -D_XOPEN_SOURCE
-
-######
-
-SOURCES_SATS += \
-  atexting.sats \
-
-SOURCES_DATS += \
-  atexting_main.dats \
-  atexting_mylib.dats \
-  atexting_fname.dats \
-  atexting_posloc.dats \
-  atexting_token.dats \
-  atexting_atext.dats \
-  atexting_parerr.dats \
-  atexting_lexbuf.dats \
-  atexting_lexing.dats \
-  atexting_tokbuf.dats \
-  atexting_global.dats \
-  atexting_textdef.dats \
-  atexting_parsing.dats \
-  atexting_topeval.dats \
-  atexting_stringify.dats \
-  atexting_myutil.dats \
-  atexting_mytest.dats \
-
-######
-#
-atexting_token_fprint.hats: \
-atexting.sats atexting_token.dats; \
-$(PATSOPT) -DATS CODEGEN2 --codegen-2 -o $@ -d atexting_token.dats
-#
-######
-#
-atexting_atext_fprint.hats: \
-atexting.sats atexting_atext.dats; \
-$(PATSOPT) -DATS CODEGEN2 --codegen-2 -o $@ -d atexting_atext.dats
+# A simple Makefile
 #
 ######
 
-MYTARGET=atexting
-
-######
-#
-MYPORTDIR=MYPORTDIR
-#
-#MYPORTCPP=MYPORTCPP
-#
-######
-
-include $(PATSHOME)/share/atsmake-post.mk
+PATSCC=$(PATSHOME)/bin/patscc
+PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
+all:: DATS_C
+
+######
+
+DATS_C:: \
+atexting_mylib.dats; \
+$(PATSOPT) -o ./CATS/atexting_mylib_dats.c --dynamic $<
+DATS_C:: \
+atexting_include_all.dats; \
+$(PATSOPT) -o ./CATS/atexting_include_all_dats.c --dynamic $<
+
+######
+#
 testall:: all
 testall:: cleanall
+#
+######
+
+RMF=rm -f
 
 ######
-#
-cleanall:: ; $(RMF) MYPORTDIR/*
-#
-# cleanall:: ; $(RMF) atexting_token_fprint.hats
-# cleanall:: ; $(RMF) atexting_atext_fprint.hats
-#
-######
+
+cleanall:: ; $(RMF) ./CATS/atexting_mylib_dats.c
+cleanall:: ; $(RMF) ./CATS/atexting_include_all_dats.c
 
 ###### end of [Makefile] ######
