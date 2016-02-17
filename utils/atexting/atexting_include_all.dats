@@ -53,9 +53,7 @@ implement
 main0() = () where
 {
 //
-(*
 val () = the_nsharp_set(2)
-*)
 //
 val () =
 println!("Hello from [atexting]!")
