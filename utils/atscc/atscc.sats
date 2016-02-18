@@ -61,10 +61,12 @@ datatype commarg =
 // end of [commarg]
 
 (* ****** ****** *)
-
-typedef commarglst = List0 (commarg)
-vtypedef commarglst_vt = List0_vt (commarg)
-
+//
+typedef
+commarglst = List0(commarg)
+vtypedef
+commarglst_vt = List0_vt(commarg)
+//
 (* ****** ****** *)
 //
 fun

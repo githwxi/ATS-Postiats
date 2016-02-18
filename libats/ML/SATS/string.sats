@@ -47,20 +47,20 @@ typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
 
-fun{
-} itoa (x: int):<> string
+fun{}
+itoa (x: int):<> string
 
 (* ****** ****** *)
 
-fun{
-} string_sing (c: charNZ):<> string
+fun{}
+string_sing (c: charNZ):<> string
 
 (* ****** ****** *)
 
-fun{
-} string_is_empty (NSH(string)):<> bool
-fun{
-} string_isnot_empty (NSH(string)):<> bool
+fun{}
+string_is_empty (NSH(string)):<> bool
+fun{}
+string_isnot_empty (NSH(string)):<> bool
   
 (* ****** ****** *)
 
@@ -69,8 +69,8 @@ overload isneqz with string_isnot_empty
 
 (* ****** ****** *)
 
-fun{
-} string_copy (x: NSH(string)):<> string
+fun{}
+string_copy (x: NSH(string)):<> string
 
 (* ****** ****** *)
 
@@ -104,13 +104,25 @@ string_append3
 fun{}
 string_append4
 (
-  x1: NSH(string), x2: NSH(string), x3: NSH(string), x5: NSH(string)
-) :<> string // end of [string_append3]
+  x1: NSH(string), x2: NSH(string), x3: NSH(string), x4: NSH(string)
+) :<> string // end of [string_append4]
+fun{}
+string_append5
+(
+  x1: NSH(string), x2: NSH(string)
+, x3: NSH(string), x4: NSH(string), x5: NSH(string)
+) :<> string // end of [string_append5]
+fun{}
+string_append6
+(
+  x1: NSH(string), x2: NSH(string), x3: NSH(string)
+, x4: NSH(string), x5: NSH(string), x6: NSH(string)
+) :<> string // end of [string_append6]
 //
 (* ****** ****** *)
 //
 fun{}
-stringlst_concat (xs: list0 (string)):<> string
+stringlst_concat(xs: list0 (string)):<> string
 //
 (* ****** ****** *)
 

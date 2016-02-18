@@ -58,25 +58,25 @@ staload _(*anon*) = "./atscc_util.dats"
 typedef ca = commarg
 
 (* ****** ****** *)
-
+//
 macdef
-unsome (opt) = stropt_unsome (,(opt))
+unsome(opt) = stropt_unsome(,(opt))
 macdef
-issome (opt) = stropt_is_some (,(opt))
-
+issome(opt) = stropt_is_some(,(opt))
+//
+(* ****** ****** *)
+//
+macdef
+isfilsats(name) = filename_test_ext(,(name), "sats")
+macdef
+isfildats(name) = filename_test_ext(,(name), "dats")
+macdef
+isfilhats(name) = filename_test_ext(,(name), "hats")
+//
 (* ****** ****** *)
 
-macdef
-isfilsats (name) = filename_test_ext (,(name), "sats")
-macdef
-isfildats (name) = filename_test_ext (,(name), "dats")
-macdef
-isfilhats (name) = filename_test_ext (,(name), "hats")
-
-(* ****** ****** *)
-
-fun{
-} argv_getopt_at
+fun{}
+argv_getopt_at
   {n:int}{i:nat}
 (
   n: int n, argv: !argv(n), i: int i
@@ -164,7 +164,7 @@ in
 end // end of [if]
 ) : string // end of [val]
 //
-prval () = fpf (base) and () = fpf2 (ext)
+prval () = fpf(base) and () = fpf2(ext)
 //
 in
   res

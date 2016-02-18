@@ -77,6 +77,10 @@ macdef
 prelude_string0_append3 = string0_append3
 macdef
 prelude_string0_append4 = string0_append4
+macdef
+prelude_string0_append5 = string0_append5
+macdef
+prelude_string0_append6 = string0_append6
 //
 macdef
 prelude_stringlst_concat = stringlst_concat
@@ -108,49 +112,81 @@ castvwtp_trans = $UN.castvwtp0 // former name
 
 (* ****** ****** *)
 
-implement{
-} itoa (int) =
-  $effmask_wrt(strptr2string(g0int2string_int(int)))
+implement
+{}(*tmp*)
+itoa(int) =
+$effmask_wrt
+  (strptr2string(g0int2string_int(int)))
 // end of [iota]
 
 (* ****** ****** *)
 //
-implement{
-} string_sing (c) =
-  strnptr2string ($effmask_wrt(prelude_string_sing (c)))
+implement
+{}(*tmp*)
+string_sing(c) =
+strnptr2string
+  ($effmask_wrt(prelude_string_sing (c)))
 //
 (* ****** ****** *)
 //
-implement{
-} string_is_empty (str) =
-  prelude_string_is_empty (g1ofg0(str))
-implement{
-} string_isnot_empty (str) =
-  prelude_string_isnot_empty (g1ofg0(str))
+implement
+{}(*tmp*)
+string_is_empty
+  (str) =
+(
+  prelude_string_is_empty(g1ofg0(str))
+)
+implement
+{}(*tmp*)
+string_isnot_empty
+  (str) =
+(
+  prelude_string_isnot_empty(g1ofg0(str))
+)
 //
 (* ****** ****** *)
 
-implement{
-} string_copy (str) =
-  strptr2string ($effmask_wrt(prelude_string0_copy (str)))
-// end of [string_copy]
+implement
+{}(*tmp*)
+string_copy
+  (str) = (
+//
+strptr2string
+  ($effmask_wrt(prelude_string0_copy(str)))
+//
+) // end of [string_copy]
 
 (* ****** ****** *)
 //
-implement{
-} string_make_list (cs) = let
-  val cs = $UN.cast{list0(charNZ)}(cs)
-  val str = $effmask_wrt(prelude_string_make_list (g1ofg0_list(cs)))
+implement{}
+string_make_list
+  (cs) = let
+//
+val cs =
+$UN.cast{list0(charNZ)}(cs)
+//
+val str =
+$effmask_wrt
+  (prelude_string_make_list (g1ofg0_list(cs)))
+//
 in
   strnptr2string (str)
 end // end of [string_make_list]
 //
-implement{
-} string_make_rlist (cs) = let
-  val cs = $UN.cast{list0(charNZ)}(cs)
-  val str = $effmask_wrt(prelude_string_make_rlist (g1ofg0_list(cs)))
+implement
+{}(*tmp*)
+string_make_rlist
+  (cs) = let
+//
+val cs =
+$UN.cast{list0(charNZ)}(cs)
+//
+val str =
+$effmask_wrt
+  (prelude_string_make_rlist(g1ofg0_list(cs)))
+//
 in
-  strnptr2string (str)
+  strnptr2string(str)
 end // end of [string_make_rlist]
 //
 (* ****** ****** *)
@@ -160,13 +196,18 @@ implement{
   (x, st, ln) = let
 //
 val x = g1ofg0_string(x)
-val st = g1ofg0_uint(st) and ln = g1ofg0_uint(ln)
+val st = g1ofg0_uint(st)
+and ln = g1ofg0_uint(ln)
 val lnx = prelude_string1_length (x)
 //
 val st = min (st, lnx)
 //
-val substr =
-$effmask_wrt(prelude_string_make_substring (x, st, min (ln, lnx-st)))
+val
+substr =
+$effmask_wrt
+(
+  prelude_string_make_substring (x, st, min (ln, lnx-st))
+) (* end of [val] *)
 //
 in
   $UN.castvwtp0{string}(substr)
@@ -180,10 +221,11 @@ string_append
   (str1, str2) = let
 //
 val res =
-  $effmask_wrt(prelude_string0_append(str1, str2))
+$effmask_wrt
+  (prelude_string0_append(str1, str2))
 //
 in
-  strptr2string (res)
+  strptr2string(res)
 end // end of [string_append]
 
 (* ****** ****** *)
@@ -191,13 +233,16 @@ end // end of [string_append]
 implement
 {}(*tmp*)
 string_append3
-  (str1, str2, str3) = let
+(
+  str1, str2, str3
+) = let
 //
 val res =
-  $effmask_wrt(prelude_string0_append3(str1, str2, str3))
+$effmask_wrt
+  (prelude_string0_append3(str1, str2, str3))
 //
 in
-  strptr2string (res)
+  strptr2string(res)
 end // end of [string_append3]
 
 (* ****** ****** *)
@@ -205,14 +250,57 @@ end // end of [string_append3]
 implement
 {}(*tmp*)
 string_append4
-  (str1, str2, str3, str4) = let
+(
+  str1, str2
+, str3, str4
+) = let
 //
 val res =
-  $effmask_wrt(prelude_string0_append4(str1, str2, str3, str4))
+$effmask_wrt
+  (prelude_string0_append4(str1, str2, str3, str4))
 //
 in
-  strptr2string (res)
+  strptr2string(res)
 end // end of [string_append4]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+string_append5
+(
+  str1, str2
+, str3, str4, str5) = let
+//
+val res =
+$effmask_wrt
+(
+  prelude_string0_append5(str1, str2, str3, str4, str5)
+) (* end of [val] *)
+//
+in
+  strptr2string(res)
+end // end of [string_append5]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+string_append6
+(
+  str1, str2, str3
+, str4, str5, str6
+) = let
+//
+val res =
+$effmask_wrt
+(
+  prelude_string0_append6(str1, str2, str3, str4, str5, str6)
+) (* end of [val] *)
+//
+in
+  strptr2string(res)
+end // end of [string_append6]
 
 (* ****** ****** *)
 

@@ -629,15 +629,32 @@ the_atextdef_insert_fstring
 //
 (* ****** ****** *)
 //
-// HX-2016-02-07: for testing purpose
+// For command-lines
+//
+(* ****** ****** *)
+//
+datatype
+commarg =
+//
+  | CAhelp of string
+//
+  | CAnsharp of (string, Option(int))
+//
+  | CAinpfil of (string, Option(string))
+//
+  | CAoutfil of (string, Option(string))
+//
+(* ****** ****** *)
+//
+typedef
+commarglst = list0(commarg)
 //
 (* ****** ****** *)
 //
 fun
-test_tokenizing_fileref(infil: FILEref): void
-//
-fun
-test_atextizing_fileref(infil: FILEref): void
+commarglst_parse
+  {n:nat}
+  (n: int(n), argv: !argv(n)): commarglst
 //
 (* ****** ****** *)
 

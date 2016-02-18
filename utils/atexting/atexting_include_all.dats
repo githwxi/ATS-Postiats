@@ -44,10 +44,14 @@ local #include "./DATS/atexting_topeval.dats" in (*nothing*) end
 //
 staload
 "libc/SATS/stdio.sats"  
+//
+staload
+"libats/ML/SATS/basis.sats"  
 //  
 (* ****** ****** *)
 
-datatype outchan =
+datatype
+outchan =
   | OUTCHANptr of FILEref
   | OUTCHANref of FILEref
 // end of [OUTCHAN]
@@ -63,7 +67,7 @@ case+ x0 of
 | OUTCHANref(filr) => filr
 | OUTCHANptr(filp) => filp
 //
-) // end of [outchan_get_fileref]
+) // outchan_get_fileref
 
 (* ****** ****** *)
 
@@ -74,22 +78,6 @@ outchan_close(x0: outchan): void =
   | OUTCHANref(filr) => ()
   | OUTCHANptr(filp) => fclose0_exn(filp)
 ) (* end of [outchan_close] *)
-
-(* ****** ****** *)
-//
-datatype
-commarg =
-//
-  | CAhelp of ()
-//
-  | CAinput of ()
-//
-  | CAoutput of stropt
-//
-  | CAnsharp of (string)
-//
-(* ****** ****** *)
-
 
 (* ****** ****** *)
 
