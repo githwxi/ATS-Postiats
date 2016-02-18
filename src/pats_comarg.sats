@@ -36,47 +36,58 @@
 datatype
 comarg = COMARGkey of (int, string)
 
-viewtypedef
-comarglst (n:int) = list_vt (comarg, n)
+vtypedef
+comarglst(n:int) = list_vt(comarg, n)
 
 (* ****** ****** *)
 //
 fun
-comarg_parse (s: string):<> comarg
+comarg_parse(s: string):<> comarg
 //
 fun
-comarglst_parse{n:nat}
-  (argc: int n, argv: &(@[string][n])):<> list_vt (comarg, n)
-// end of [comarglst_parse]
+comarglst_parse
+  {n:nat}
+(
+  argc: int(n)
+, argv: &(@[string][n])
+) :<> list_vt(comarg, n) // endfun
+//
+(* ****** ****** *)
+//
+fun
+comarg_warning(str: string): void
 //
 (* ****** ****** *)
 
-fun comarg_warning (str: string): void
+fun is_DATS_flag(s: string): bool
+fun is_IATS_flag(s: string): bool
 
 (* ****** ****** *)
 
-fun is_DATS_flag (s: string): bool
-fun is_IATS_flag (s: string): bool
-
-(* ****** ****** *)
-
-fun DATS_extract (s: string): Stropt
-fun IATS_extract (s: string): Stropt
+fun DATS_extract(s: string): Stropt
+fun IATS_extract(s: string): Stropt
 
 (* ****** ****** *)
 //
-// HX: for processing command-line flag: -DATSXYZ=def or -DATS XYZ=def
+// HX:
+// For processing command-line
+// flag: -DATSXYZ=def or -DATS XYZ=def
 //
-fun process_DATS_def (def: string): void
+fun
+process_DATS_def(def: string): void
 //
-// HX: for processing command-line inclusion path : -IATSpath or -IATS path
+// HX:
+// For processing command-line
+// inclusion path: -IATSpath or -IATS path
 //
-fun process_IATS_dir (dir: string): void
-
+fun
+process_IATS_dir(dir: string): void
+//
 (* ****** ****** *)
-
-fun process_ATSPKGRELOCROOT ((*void*)): void
-
+//
+fun
+process_ATSPKGRELOCROOT((*void*)): void
+//
 (* ****** ****** *)
 
 (* end of [pats_comarg.sats] *)

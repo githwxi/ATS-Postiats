@@ -127,7 +127,9 @@ in
 case+
 def0
 of // case+
-| TEXTDEFfun(ftxt) => ftxt(loc, args)
+| TEXTDEFfun
+    (ftxt) => ftxt(loc, args)
+  // TEXTDEFfun
 //
 | TEXTDEFnil() => let
     val errmsg =
@@ -148,4 +150,4 @@ end // end of [atext_defname_eval]
 
 (* ****** ****** *)
 
-(* end of [atexting_topeval.dats] *)
+(* end of [atexting_textdef.dats] *)

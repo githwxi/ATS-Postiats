@@ -41,7 +41,68 @@ local #include "./DATS/atexting_strngfy.dats" in (*nothing*) end
 local #include "./DATS/atexting_topeval.dats" in (*nothing*) end
 //
 (* ****** ****** *)
+//
+staload
+"libc/SATS/stdio.sats"  
+//  
+(* ****** ****** *)
 
+datatype outchan =
+  | OUTCHANptr of FILEref
+  | OUTCHANref of FILEref
+// end of [OUTCHAN]
+
+(* ****** ****** *)
+
+fun
+outchan_get_fileref
+  (x0: outchan): FILEref =
+(
+//
+case+ x0 of
+| OUTCHANref(filr) => filr
+| OUTCHANptr(filp) => filp
+//
+) // end of [outchan_get_fileref]
+
+(* ****** ****** *)
+
+fun
+outchan_close(x0: outchan): void =
+(
+  case+ x0 of
+  | OUTCHANref(filr) => ()
+  | OUTCHANptr(filp) => fclose0_exn(filp)
+) (* end of [outchan_close] *)
+
+(* ****** ****** *)
+//
+datatype
+commarg =
+//
+  | CAhelp of ()
+//
+  | CAinput of ()
+//
+  | CAoutput of stropt
+//
+  | CAnsharp of (string)
+//
+(* ****** ****** *)
+
+
+(* ****** ****** *)
+
+#ifdef
+MAIN_NONE
+#then
+//
+// HX:
+// the [main] is
+// to be implemented
+//
+#else
+//
 local
 //
 staload
@@ -66,6 +127,8 @@ val ((*void*)) = atextlst_topeval(out, txts)
 } (* end of [main0] *)
 
 end // end of [local]
+//
+#endif // #ifdef(MAIN_NONE)
 
 (* ****** ****** *)
 

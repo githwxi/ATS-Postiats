@@ -210,7 +210,7 @@ case opt of
 end // end of [the_atextdef_insert]
 
 implement
-the_atextdef_insert_strfun
+the_atextdef_insert_fstring
   (name, fstr) = (
 //
 the_atextdef_insert
@@ -223,7 +223,7 @@ the_atextdef_insert
   )
 ) (* the_atextdef_insert *)
 //
-) (* the_atextdef_insert_strfun *)
+) (* the_atextdef_insert_fstring *)
 
 end // end of [local]
 

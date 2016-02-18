@@ -155,16 +155,16 @@ commarg =
 
 (* ****** ****** *)
 //
-typedef commarglst = List0 (commarg)
+typedef commarglst = List0(commarg)
 //
-vtypedef commarglst_vt = List0_vt (commarg)
+vtypedef commarglst_vt = List0_vt(commarg)
 //
 (* ****** ****** *)
 
 macdef
-unsome (opt) = stropt_unsome (,(opt))
+unsome(opt) = stropt_unsome(,(opt))
 macdef
-issome (opt) = stropt_is_some (,(opt))
+issome(opt) = stropt_is_some(,(opt))
 
 (* ****** ****** *)
 
@@ -187,8 +187,6 @@ fun jsonlst2arr_cmdline
 (* ****** ****** *)
 
 local
-
-typedef ca = commarg
 
 fun aux0
   {n:int}
@@ -241,7 +239,7 @@ case+ 0 of
 //
 | _ => let
     val res =
-      list_vt_cons{ca}(CAgitem(str0), res)
+      list_vt_cons{commarg}(CAgitem(str0), res)
     // end of [val]
   in
     aux0 (n, argv, i+1, res)
@@ -261,7 +259,7 @@ aux1_help
 , res: commarglst_vt
 ) : commarglst_vt = let
   val res =
-    list_vt_cons{ca}(CAhelp(), res)
+    list_vt_cons{commarg}(CAhelp(), res)
   // end of [val]
 in
   aux0 (n, argv, i+1, res)
@@ -279,7 +277,7 @@ aux1_input
 , res: commarglst_vt
 ) : commarglst_vt = let
   val res =
-    list_vt_cons{ca}(CAinput(), res)
+    list_vt_cons{commarg}(CAinput(), res)
   // end of [val]
 in
   aux0 (n, argv, i+1, res)
@@ -296,10 +294,15 @@ aux1_output
 , i: int i
 , res: commarglst_vt
 ) : commarglst_vt = let
-  val opt = argv_getopt_at (n, argv, i)
-  val res = list_vt_cons{ca}(CAoutput(opt), res)
+//
+val opt =
+  argv_getopt_at (n, argv, i)
+//
+val res =
+  list_vt_cons{commarg}(CAoutput(opt), res)
+//
 in
-  if i < n then aux0 (n, argv, i+1, res) else res
+  if i < n then aux0(n, argv, i+1, res) else res
 end // end of [aux1_output]
 
 and
@@ -313,10 +316,14 @@ aux1_delim
 , i: int i
 , res: commarglst_vt
 ) : commarglst_vt = let
-  val opt = argv_getopt_at (n, argv, i)
-  val res = list_vt_cons{ca}(CAdelim(opt), res)
+//
+val opt =
+  argv_getopt_at(n, argv, i)
+val res =
+  list_vt_cons{commarg}(CAdelim(opt), res)
+//
 in
-  if i < n then aux0 (n, argv, i+1, res) else res
+  if i < n then aux0(n, argv, i+1, res) else res
 end // end of [aux1_delim]
 
 in (* in of [local] *)
@@ -328,9 +335,11 @@ jsonlst2arr_cmdline
 prval (
 ) = lemma_argv_param (argv)
 //
-val res = list_vt_nil{ca}()
-val res = aux0 (argc, argv, 0, res)
-val res = list_vt_reverse (res)
+val res =
+  list_vt_nil{commarg}()
+//
+val res = aux0(argc, argv, 0, res)
+val res = list_vt_reverse(res)
 //
 in
   list_vt2t(res)
@@ -339,12 +348,15 @@ end // end of [jsonlst2arr_cmdline]
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 extern
-fun jsonlst2arr_exec
+fun
+jsonlst2arr_exec
 (
-  out: stropt, inplst: stringlst_vt, delim: stropt
+  out: stropt
+, inplst: stringlst_vt, delim: stropt
 ) : void // end of [jsonlst2arr_exec]
+//
 implement
 jsonlst2arr_exec
 (
@@ -353,41 +365,60 @@ jsonlst2arr_exec
 //
 var flag: int = 0
 var out2: FILEref = stdout_ref
-val ()  =
-(
-if issome (out) then let
+val ()  = (
+//
+if
+issome(out)
+then let
 //
 val opt =
   fileref_open_opt (unsome(out), file_mode_w)
 //
 in
-  case+ opt of
-  | ~Some_vt (x) => (flag := 1; out2 := x)
-  | ~None_vt ((*void*)) => out2 := stderr_ref
-end else () // end of [if]
+//
+case+ opt of
+| ~Some_vt (x) => (flag := 1; out2 := x)
+| ~None_vt ((*void*)) => out2 := stderr_ref
+//
+end // end of [then]
+else () // end of [else]
+//
 ) : void // end of [val]
 //
-val out2 = out2
-val delim2 = (
-  if issome (delim) then unsome(delim) else ""
+val
+out2 = out2
+//
+val
+delim2 = (
+//
+if issome(delim) then unsome(delim) else ""
+//
 ) : string // end of [val]
 //
-fun auxlst
-  (inplst: stringlst_vt, n: int): int = let
+fun
+auxlst
+(
+  inplst: stringlst_vt, n: int
+) : int = let
+//
 in
 //
 case+ inplst of
+//
 | ~list_vt_cons
     (inp, inplst) => let
-    val opt = fileref_open_opt (inp, file_mode_r)
+    val opt =
+      fileref_open_opt (inp, file_mode_r)
+    // end of [val]
   in
     case+ opt of
     | ~Some_vt (x) => let
-        val n = jsonlst2arr_main (out2, x, delim2, n) in auxlst (inplst, n)
+        val n = jsonlst2arr_main(out2, x, delim2, n) in auxlst (inplst, n)
       end // end of [Some_vt]
     | ~None_vt ((*void*)) => auxlst (inplst, n)
   end // end of [list_vt_cons] 
-| ~list_vt_nil ((*void*)) => (n)
+//
+| ~list_vt_nil((*void*)) => (n)
 //
 end // end of [auxlst]
 //
@@ -396,24 +427,26 @@ val () = fprint (out2, "[\n")
 val nent = (
 case+ inplst of
 | list_vt_cons _ => auxlst (inplst, 0)
-| ~list_vt_nil () =>
-    jsonlst2arr_main (out2, stdin_ref, delim2, 0)
+| ~list_vt_nil() =>
+    jsonlst2arr_main(out2, stdin_ref, delim2, 0)
+  // end of [list_vt_nil]
 ) : int // end of [val]
 //
 val () = fprint (out2, "]\n")
 //
-val () = if flag > 0 then fileref_close (out2)
+val () = if flag > 0 then fileref_close(out2)
 //
 in
   // nothing
 end // end of [jsonlst2arr_exec]
-
+//
 (* ****** ****** *)
-
+//
 extern
-fun jsonlst2arr_proc
+fun
+jsonlst2arr_proc
   (arg0: string, cas: commarglst): void
-
+//
 (* ****** ****** *)
 
 typedef

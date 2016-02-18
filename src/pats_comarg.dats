@@ -183,29 +183,35 @@ string_extract
 (
   s: string, k: size_t
 ) : Stropt = let
-  val s = string1_of_string (s)
-  val n = string1_length (s)
-  val k = size1_of_size (k)
+  val s =
+    string1_of_string(s)
+  // end of [val]
+  val k = size1_of_size(k)
+  val n = string1_length(s)
 in
-  if n > k then let
-    val sub =
-      string_make_substring (s, k, n-k)
-    val sub = string_of_strbuf (sub)
+//
+if n > k
+  then let
+    val
+    sub =
+    string_make_substring(s,k,n-k)
+    val sub = string_of_strbuf(sub)
   in
     stropt_some (sub)
-  end else
-    stropt_none (*void*)
-  // end of [if]
+  end // end of [then]
+  else stropt_none (*void*)
+//
 end // [string_extract]
 
 in (* in-of-local *)
 //
 implement
 DATS_extract
-  (str: string) = string_extract (str, 5)
+  (str: string) = string_extract(str, 5)
+//
 implement
 IATS_extract
-  (str: string) = string_extract (str, 5)
+  (str: string) = string_extract(str, 5)
 //
 end // end of [local]
 
@@ -269,16 +275,18 @@ end (* end of [process_IATS_dir] *)
 (* ****** ****** *)
 
 local
-
+//
 extern
 fun
-getenv (name: string): Stropt = "getenv"
-
+getenv
+(
+  name: string
+) : Stropt = "ext#getenv"
+//
 in (* in-of-local *)
 
 implement
-process_ATSPKGRELOCROOT
- ((*void*)) = let
+process_ATSPKGRELOCROOT() = let
 //
 val
 opt =
@@ -302,13 +310,13 @@ val def = (
 //
 if
 issome
-then stropt_unsome (opt)
+then stropt_unsome(opt)
 else let
 //
 val
-user = getenv ("USER")
+user = getenv("USER")
 val
-issome = stropt_is_some (user)
+issome = stropt_is_some(user)
 val
 user = (
 //

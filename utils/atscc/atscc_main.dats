@@ -135,12 +135,11 @@ case+ 0 of
 end // end of [string_tabulate$fwork]
 //
 in
-  strnptr2string (string_tabulate(len))
+  strnptr2string(string_tabulate(len))
 end else let
 //
 val sfx = g1ofg0(sfx)
-val nsfx = string1_length (sfx)
-val len = nb+nsfx
+val len = nb+string1_length(sfx)
 //
 implement
 string_tabulate$fopr<>
@@ -161,7 +160,7 @@ case+ 0 of
 end // end of [string_tabulate$fwork]
 //
 in
-  strnptr2string (string_tabulate(len))
+  strnptr2string(string_tabulate(len))
 end // end of [if]
 ) : string // end of [val]
 //

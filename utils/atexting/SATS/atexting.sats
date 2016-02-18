@@ -624,7 +624,7 @@ the_atextdef_insert
   (name: string, def0: atextdef): void
 //
 fun
-the_atextdef_insert_strfun
+the_atextdef_insert_fstring
   (name: string, fstr: (atextlst) -> string): void
 //
 (* ****** ****** *)
