@@ -41,7 +41,7 @@ who would like to help develop ATS2. For someone who just wants to program
 in ATS2, please install the current release of ATS2, which can be found at
 the following site:
 [https://sourceforge.net/projects/ats2-lang/](https://sourceforge.net/projects/ats2-lang/).
-There are also pre-compiled debian packages for ATS available on-line.
+There are also pre-compiled debian packages for ATS2 available on-line.
 
 ## Developing ATS2
 
