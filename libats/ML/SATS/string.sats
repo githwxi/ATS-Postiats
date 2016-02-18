@@ -68,9 +68,17 @@ overload iseqz with string_is_empty
 overload isneqz with string_isnot_empty
 
 (* ****** ****** *)
+//
+fun{}
+string_is_prefix
+(
+  str1: string, str2: string
+) :<> bool // string_is_prefix
+//
+(* ****** ****** *)
 
 fun{}
-string_copy (x: NSH(string)):<> string
+string_copy(x: NSH(string)):<> string
 
 (* ****** ****** *)
 

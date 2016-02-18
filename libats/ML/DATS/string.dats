@@ -148,6 +148,48 @@ string_isnot_empty
 
 implement
 {}(*tmp*)
+string_is_prefix
+(
+  str1, str2
+) = let
+//
+#define NUL '\000'
+//
+fun
+loop
+(
+  p1: ptr, p2: ptr
+) : bool = let
+//
+val c1 =
+  $UN.ptr0_get<char>(p1)
+//
+in
+//
+if
+(c1 != NUL)
+then let
+  val c2 = $UN.ptr0_get<char>(p2)
+in
+//
+if
+c1 = c2
+  then loop(ptr_succ<char>(p1), ptr_succ<char>(p2))
+  else false
+//
+end // end of [then]
+else (true) // end of [else]
+//
+end // end of [loop]
+//
+in
+  $effmask_all(loop(string2ptr(str1), string2ptr(str1)))
+end // end of [string_is_prefix]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
 string_copy
   (str) = (
 //
@@ -313,18 +355,29 @@ end // end of [stringlst_concat]
 
 (* ****** ****** *)
 
-implement{
-} string_explode (str) = let
-  val str = g1ofg0_string (str)
-  val res = $effmask_wrt (prelude_string_explode (str))
+implement
+{}(*tmp*)
+string_explode
+  (str) = let
+//
+val
+str =
+g1ofg0_string(str)
+//
+val
+res =
+$effmask_wrt
+  (prelude_string_explode(str))
+//
 in
-  list0_of_list_vt (res)
+  list0_of_list_vt(res)
 end // end of [string_explode]
 
 (* ****** ****** *)
 
-implement{
-} string_implode (cs) = string_make_list (cs)
+implement
+{}(*tmp*)
+string_implode(cs) = string_make_list(cs)
 
 (* ****** ****** *)
 
@@ -335,10 +388,10 @@ string_tabulate
 val n = g1ofg0_uint(n)
 //
 implement
-string_tabulate$fopr<> (i) = f (i)
+string_tabulate$fopr<> (i) = f(i)
 //
 in
-  strnptr2string(prelude_string_tabulate (n))
+  strnptr2string(prelude_string_tabulate(n))
 end // end of [string_tabulate]
 
 (* ****** ****** *)

@@ -638,7 +638,7 @@ commarg =
 //
   | CAhelp of string
 //
-  | CAnsharp of (string, Option(int))
+  | CAnsharp of (string, Option(string))
 //
   | CAinpfil of (string, Option(string))
 //
