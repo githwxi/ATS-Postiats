@@ -876,7 +876,7 @@ parsing_from_filename
   (path) = let
 //
 val opt =
-  fileref_open_opt(path, file_mode_w)
+  fileref_open_opt(path, file_mode_r)
 //
 in
 //
