@@ -76,9 +76,11 @@ case+ x0 of
 fun
 outchan_close(x0: outchan): void =
 (
-  case+ x0 of
-  | OUTCHANref(filr) => ()
-  | OUTCHANptr(filp) => fclose0_exn(filp)
+//
+case+ x0 of
+| OUTCHANref(filr) => ()
+| OUTCHANptr(filp) => fclose0_exn(filp)
+//
 ) (* end of [outchan_close] *)
 
 (* ****** ****** *)
@@ -97,6 +99,18 @@ local
 //
 staload
 "./SATS/atexting.sats"
+//
+typedef
+cmdstate = @{
+//
+comarg0= commarg
+//
+, inpfil=filename
+//
+, outmode= fmode
+, outchan= outchan
+//
+} (* end of [cmdstate] *)
 //
 in (* in-of-local *)
 

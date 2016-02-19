@@ -609,6 +609,7 @@ fmode = [m:file_mode] file_mode (m)
 
 typedef
 cmdstate = @{
+//
   comarg0= comarg
 //
 , PATSHOME= string
