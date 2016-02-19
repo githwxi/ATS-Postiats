@@ -46,6 +46,10 @@
 //
 (* ****** ****** *)
 
+#include "libc/DATS/stdio.dats"
+
+(* ****** ****** *)
+
 %{^
 #define \
 atstyarr_field_undef(fname) fname[]

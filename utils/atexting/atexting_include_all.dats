@@ -181,17 +181,28 @@ process_commarg_outfil
 , opt: option0(string)
 , state: &cmdstate >> _
 ) : void = let
+//
+val () =
+  outchan_close(state.outchan)
+// end of [val]
+//
 in
 //
 case+ opt of
-| None0() => ()
+| None0() =>
+  (
+    state.outchan := OUTCHANref(stdout_ref)
+  ) (* None0 *)
 | Some0(path) => let
     val opt =
       fileref_open_opt(path, state.outmode)
     // end of [val]
   in
     case+ opt of
-    | ~None_vt() => ()
+    | ~None_vt() =>
+      (
+        state.outchan := OUTCHANref(stderr_ref)
+      )
     | ~Some_vt(filr) => state.outchan := OUTCHANref(filr)
   end // end of [val]
 //
@@ -231,14 +242,23 @@ val () =
 println!("Hello from [atexting]!")
 //
 val out = stdout_ref
-//
 val args = commarglst_parse(argc, argv)
 val _(*void*) = fprintln! (out, "args = ", args)
 //
+val-
+list0_cons
+  (arg0, args) = args
 //
-val txts = parsing_from_stdin((*void*))
+var
+state: cmdstate
+val () =
+state.comarg0 := arg0
+val () =
+state.outmode := file_mode_w
+val () =
+state.outchan := OUTCHANref(stdout_ref)
 //
-val ((*void*)) = atextlst_topeval(out, txts)
+val () = process_commarglst(args, state)
 //
 } (* end of [main0] *)
 
