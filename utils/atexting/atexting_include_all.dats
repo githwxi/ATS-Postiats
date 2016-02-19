@@ -217,7 +217,10 @@ process_commarglst
 in
 //
 case+ xs of
-| list0_nil() => ()
+//
+| list0_nil() =>
+  process_commarglst_final(state)
+//
 | list0_cons(x, xs) => let
     val () =
     process_commarg(x, state)
@@ -227,6 +230,18 @@ case+ xs of
 //
 end // end of [process_commarglst]
 //
+and
+process_commarglst_final
+(
+  state: &cmdstate >> _
+) : void = let
+//
+val () = outchan_close(state.outchan)
+//
+in
+  // nothing
+end // end of [process_commarglst_final]
+
 in (* in-of-local *)
 
 implement
