@@ -26,6 +26,13 @@ atexting_fprint_atext.hats: atexting_atext.dats; \
 $(PATSOPT) -DATS CODEGEN2 --codegen-2 -o $@ -d atexting_atext.dats
 #
 ######
+#
+all:: \
+atexting_fprint_commarg.hats
+atexting_fprint_commarg.hats: atexting_commarg.dats; \
+$(PATSOPT) -DATS CODEGEN2 --codegen-2 -o $@ -d atexting_commarg.dats
+#
+######
 
 RMF=rm -f
 

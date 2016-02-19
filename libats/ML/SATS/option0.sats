@@ -75,32 +75,40 @@ a:t0p
 } option0_some (x: a):<> option0 (a)
 //
 (* ****** ****** *)
-
+//
 fun{}
-option0_is_none {a:t0p} (x: option0 a):<> bool
+option0_is_none
+  {a:t0p}(x: option0 a):<> bool
+//
 overload iseqz with option0_is_none
-
+//
 fun{}
-option0_is_some {a:t0p} (x: option0 a):<> bool
+option0_is_some
+  {a:t0p}(x: option0 a):<> bool
+//
 overload isneqz with option0_is_some
-
+//
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-option0_unsome_exn (opt: option0 (a)):<!exn> a
-
+option0_unsome_exn(opt: option0 (a)):<!exn> a
+//
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-fprint_option0 (out: FILEref, opt: option0 (a)): void
+fprint_option0
+(
+  out: FILEref, opt: option0(a)
+) : void // end-of-function
+//
 overload fprint with fprint_option0
-
+//
 (* ****** ****** *)
 //
 fun{
 a:t0p}{b:t0p
 } option0_map
-  (xs: option0 (INV(a)), f: cfun (a, b)): option0 (b)
+  (xs: option0(INV(a)), f: cfun(a, b)): option0(b)
 //
 (* ****** ****** *)
 

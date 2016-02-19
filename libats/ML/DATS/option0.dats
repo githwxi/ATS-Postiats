@@ -42,39 +42,43 @@ staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/option0.sats"
 
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+option0_some(x) = Some0{a}(x)
+//
+implement{}
+option0_none ((*void*)) = None0((*void*))
+//
+(* ****** ****** *)
+
+implement{}
+option0_is_some(opt) =
+(
+//
+case+ opt of
+| Some0 _ => true | None0 _ => false
+//
+) // end of [option0_is_some]
+
+implement{}
+option0_is_none(opt) =
+(
+//
+case+ opt of
+| Some0 _ => false | None0 _ => true
+//
+) // end of [option0_is_none]
+
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
-option0_some (x) = Some0{a}(x)
-implement{
-} option0_none ((*void*)) = None0((*void*))
-
-(* ****** ****** *)
-
-implement{}
-option0_is_some (opt) =
-  case+ opt of Some0 _ => true | None0 _ => false
-// end of [option0_is_some]
-
-implement{}
-option0_is_none (opt) =
-  case+ opt of Some0 _ => false | None0 _ => true
-// end of [option0_is_none]
-
-(* ****** ****** *)
-
-implement{a}
 option0_unsome_exn (opt) =
-  case+ opt of
-  | Some0 (x) => x | None0 ( ) => $raise NotSomeExn()
-// end of [option0_unsome_exn]
-
-(* ****** ****** *)
-
-implement{a}
-fprint_option0
-  (out, opt) = fprint_option (out, g1ofg0_option(opt))
-// end of [fprint_option0]
+(
+case+ opt of
+| Some0(x) => x | None0() => $raise NotSomeExn()
+) // end of [option0_unsome_exn]
 
 (* ****** ****** *)
 
@@ -83,8 +87,22 @@ implement
 option0_map (opt, f) =
 (
 case+ opt of
-| Some0 (x) => Some0{b}(f(x)) | None0 () => None0 ()
+| Some0(x) => Some0{b}(f(x)) | None0() => None0()
 ) (* end of [option0_map] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+fprint_option0
+  (out, opt) =
+  fprint_option(out, g1ofg0_option(opt))
+// end of [fprint_option0]
+
+(* ****** ****** *)
+
+implement(a)
+fprint_val<option0(a)> = fprint_option0
 
 (* ****** ****** *)
 

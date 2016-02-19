@@ -40,6 +40,8 @@ local #include "./DATS/atexting_parsing.dats" in (*nothing*) end
 local #include "./DATS/atexting_strngfy.dats" in (*nothing*) end
 local #include "./DATS/atexting_topeval.dats" in (*nothing*) end
 //
+local #include "./DATS/atexting_commarg.dats" in (*nothing*) end
+//
 (* ****** ****** *)
 //
 staload

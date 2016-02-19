@@ -638,16 +638,28 @@ commarg =
 //
   | CAhelp of string
 //
-  | CAnsharp of (string, Option(string))
+  | CAgitem of string
 //
-  | CAinpfil of (string, Option(string))
+  | CAnsharp of (string, option0(string))
 //
-  | CAoutfil of (string, Option(string))
+  | CAinpfil of (string, option0(string))
+//
+  | CAoutfil of (string, option0(string))
 //
 (* ****** ****** *)
 //
 typedef
 commarglst = list0(commarg)
+//
+(* ****** ****** *)
+//
+fun
+fprint_commarg : fprint_type(commarg)
+fun
+fprint_commarglst : fprint_type(commarglst)
+//
+overload fprint with fprint_commarg
+overload fprint with fprint_commarglst
 //
 (* ****** ****** *)
 //
