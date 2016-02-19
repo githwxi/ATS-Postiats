@@ -101,7 +101,10 @@ staload
 in (* in-of-local *)
 
 implement
-main0() = () where
+main0{n}
+(
+  argc, argv
+) = ((*void*)) where
 {
 //
 val () = the_nsharp_set(2)
@@ -110,6 +113,11 @@ val () =
 println!("Hello from [atexting]!")
 //
 val out = stdout_ref
+//
+val args = commarglst_parse(argc, argv)
+val _(*void*) = fprintln! (out, "args = ", args)
+//
+//
 val txts = parsing_from_stdin((*void*))
 //
 val ((*void*)) = atextlst_topeval(out, txts)

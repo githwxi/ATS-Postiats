@@ -183,7 +183,7 @@ else (true) // end of [else]
 end // end of [loop]
 //
 in
-  $effmask_all(loop(string2ptr(str1), string2ptr(str1)))
+  $effmask_all(loop(string2ptr(str1), string2ptr(str2)))
 end // end of [string_is_prefix]
 
 (* ****** ****** *)
