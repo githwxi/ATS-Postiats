@@ -2,6 +2,10 @@
 <!--
 ##ctime()\
 -->
+
+#define PI 3.1416
+val PI = ##mydouble(PI)
+
 <html>
 <head>
 <title>DrawSierpinski</title>

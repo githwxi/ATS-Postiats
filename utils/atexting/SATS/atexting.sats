@@ -665,7 +665,7 @@ overload fprint with fprint_commarglst
 //
 fun
 commarglst_parse
-  {n:nat}
+  {n:int | n > 0}
   (n: int(n), argv: !argv(n)): commarglst
 //
 (* ****** ****** *)

@@ -338,8 +338,11 @@ in
   aux(i+1, argv, res)  
 end // end of [aux_outfil_eq]
 //
+val
+arg0 = CAgitem(argv[0])
+//
 val res =
-  aux(0, argv, list_vt_nil(*void*))
+  aux(1, argv, list_vt_sing(arg0))
 //
 in
   list0_of_list_vt(list_vt_reverse(res))

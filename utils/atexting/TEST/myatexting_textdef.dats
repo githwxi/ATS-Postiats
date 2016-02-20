@@ -104,7 +104,7 @@ end // end of [local]
 local
 
 fun
-__fp64__
+__float__
 (
   loc: loc_t, xs: atextlst
 ) : atext = let
@@ -112,25 +112,25 @@ __fp64__
 val-cons0(x, xs) = xs
 val rep = atext_strngfy(x)
 //
-val strlst =
+val strs =
 $list{string}
   ("$UN.cast{double(", rep, ")}(", rep, ")")
 //
-val strlst = g0ofg1(strlst)
+val strs = g0ofg1(strs)
 //
 in
 //
-atext_make_string(loc, stringlst_concat(strlst))
+atext_make_string(loc, stringlst_concat(strs))
 //
 end // end of [fp64]
 
 val
-def0 = TEXTDEFfun(lam(loc, xs) => __fp64__(loc, xs))
+def0 =
+TEXTDEFfun(lam(loc, xs) => __float__(loc, xs))
 
 in (* in-of-local *)
 
-val () = the_atextdef_insert("fp64", def0)
-val () = the_atextdef_insert("float64", def0)
+val () = the_atextdef_insert("mydouble", def0)
 
 end // end of [local]
 

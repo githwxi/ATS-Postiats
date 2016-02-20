@@ -110,7 +110,7 @@ staload
 typedef
 cmdstate = @{
 //
-comarg0= commarg
+cmdname= commarg
 //
 (*
 , inpfil=filename
@@ -120,7 +120,24 @@ comarg0= commarg
 , outchan= outchan
 //
 } (* end of [cmdstate] *)
+
+(* ****** ****** *)
+
+fun
+atexting_usage
+(
+  out: FILEref, arg0: commarg
+) : void = let
 //
+val-CAgitem(cmd) = arg0
+//
+in
+//
+fprintln! (out, "Usage: ", cmd, " <command> ... <command>\n");
+fprintln! (out, "where a <command> is of one of the following forms:\n");
+//
+end // end of [atexting_usage]
+
 fun
 process_commarg
 (
@@ -130,8 +147,23 @@ process_commarg
 in
 //
 case+ x0 of
-| CAhelp _ => ()
-| CAgitem _ => ()
+//
+| CAhelp _ =>
+  atexting_usage
+  (
+    stderr_ref, state.cmdname
+  ) (* CAhelp *)
+//
+| CAgitem(arg) =>
+  {
+    val () =
+    fprintln!
+    ( stderr_ref
+    , "warning(atexting): "
+    , "unrecognized arg: ", arg
+    ) (* end of [val] *)
+  }
+//
 | CAnsharp(_, opt) => let
     val ns =
     (
@@ -258,7 +290,9 @@ println!("Hello from [atexting]!")
 //
 val out = stdout_ref
 val args = commarglst_parse(argc, argv)
+(*
 val _(*void*) = fprintln! (out, "args = ", args)
+*)
 //
 val-
 list0_cons
@@ -267,7 +301,7 @@ list0_cons
 var
 state: cmdstate
 val () =
-state.comarg0 := arg0
+state.cmdname := arg0
 val () =
 state.outmode := file_mode_w
 val () =
