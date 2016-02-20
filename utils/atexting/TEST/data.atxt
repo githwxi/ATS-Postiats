@@ -30,11 +30,15 @@ val _PIlit_ = ##litstring('"3.1416"')
 //
 (* ****** ****** *)
 //
-##sats2xhtml("fun sats2xhtml : (atextlst) -> void")
+##patsyntax()\
+//
+##sats2xhtml("\
+fun sats2xhtml : (atextlst) -> void\
+")
 //
 ##dats2xhtml("\
 extern
-fun dats2xhtml : (atextlst) -> void
+fun dats2xhtml : (atextlst) -> void\
 ")
 //
 (* ****** ****** *)

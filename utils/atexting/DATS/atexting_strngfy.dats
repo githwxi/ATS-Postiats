@@ -99,10 +99,10 @@ of // case+
   // end of [if]
 //
 | TOKbslash(c0) =>
-  if c0 > 0
+  if (c0 > 0 && c0 != '\n')
     then (
       string_sing($UN.cast{charNZ}(c0))
-    ) else ""
+    ) else ("")
   // end of [if]
 //
 | TOKspace(bs) => bs
@@ -281,12 +281,12 @@ of // case+
   // end of [if]
 //
 | TOKbslash(c0) =>
-  if c0 > 0
+  if (c0 > 0 && c0 != '\n')
     then let
       val c0 = $UN.cast{charNZ}(c0)
     in
       stringbuf_insert_char(sbf, c0)
-    end else 0
+    end else (0)
   // end of [if]
 //
 | TOKspace(bs) => stringbuf_insert_string(sbf, bs)

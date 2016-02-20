@@ -31,11 +31,15 @@ MYTARGET=test
 
 ######
 
-include $(PATSHOME)/share/atsmake-post.mk
+include \
+$(PATSHOME)/share/atsmake-post.mk
 
 ######
 
 ATSHOMEQ="$(ATSHOME)"
+
+######
+
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
