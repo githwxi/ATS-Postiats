@@ -9,6 +9,15 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 #
+LDFLAGS :=
+LDFLAGS := -L$(ATSHOME)/ccomp/lib
+LDFLAGS += -L$(ATSHOME)/ccomp/lib64
+LDFLAGS += -L$(PATSHOME)/utils/libatsynmark
+#
+ATSRUNTIME=$(ATSHOME)/ccomp/runtime
+#
+######
+#
 ATEXTING_MYLIB=\
 $(PATSHOME)/utils/atexting/atexting_mylib.dats
 #
@@ -20,8 +29,10 @@ all:: myatexting
 #
 myatexting: \
 myatexting.dats ; \
-$(PATSCC) -O2 -o $@ $< \
-  $(ATEXTING_MYLIB) -DATS_MEMALLOC_GCBDW -lgc
+$(PATSCC) -O2 -o $@ \
+  -D_ATS_GCBDW -DATS_MEMALLOC_GCBDW \
+  $(ATSRUNTIME)/ats_prelude.c myatexting.dats \
+  $(ATEXTING_MYLIB) $(LDFLAGS) -latsynmark -lats -lgc
 #
 ######
 #

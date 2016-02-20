@@ -43,10 +43,6 @@
 //
 #include
 "share/HATS\
-/atslib_staload_libc.hats"
-//
-#include
-"share/HATS\
 /atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
@@ -54,125 +50,59 @@
 staload UN = $UNSAFE
 
 (* ****** ****** *)
-
-staload $TIME // opening TIME
-
-(* ****** ****** *)
 //
 staload
 "utils/atexting/SATS/atexting.sats"
 //
 (* ****** ****** *)
-
-local
-
-fun
-__ctime__() =
-  str2 where
-{
 //
-var t_now
-  : time_t = time_get()
+extern fun
+string_pats2xhtmlize_bground
+  (stadyn: int, code: string): string =
+  "ext#libatsynmark_string_pats2xhtmlize_bground"
 //
-val (fpf | str) = ctime(t_now)
+extern fun
+string_pats2xhtmlize_embedded
+  (stadyn: int, code: string): string =
+  "ext#libatsynmark_string_pats2xhtmlize_embedded"
 //
-val str2 =
-(
-if
-isneqz(str)
-then strptr2string(strptr1_copy(str))
-else "__ctime()__"
-// end of [if]
-) : string // end of [val]
-//
-prval ((*void*)) = fpf(str)
-//
-} (* end of [__ctime__] *)
-
-val
-def0 =
-TEXTDEFfun
-(
-lam(loc, _) =>
-  atext_make_string(loc, __ctime__())
-) (* TEXTDEFfun *)
-
-in (* in-of-local *)
-
-val () = the_atextdef_insert("ctime", def0)
-
-end // end of [local]
-
 (* ****** ****** *)
 
 local
 
 fun
-__float__
+__ats2xhtml__
 (
-  loc: loc_t, xs: atextlst
-) : atext = let
+  stadyn: int, xs: atextlst
+) : string = let
 //
-val-cons0(x, xs) = xs
-val rep = atext_strngfy(x)
+val-
+cons0(x0, _) = xs
 //
-val strs =
-$list{string}
-  ("$UN.cast{litdouble(", rep, ")}(", rep, ")")
-//
-val strs = g0ofg1(strs)
+val code = atext_strngfy(x0)
+(*
+val ((*void*)) =
+  fprintln! (stdout_ref, "code =\n", code)
+*)
+val xhtml =
+  string_pats2xhtmlize_embedded(stadyn, code)
 //
 in
-//
-atext_make_string(loc, stringlst_concat(strs))
-//
-end // end of [fp64]
-
-val
-def0 =
-TEXTDEFfun(lam(loc, xs) => __float__(loc, xs))
+  xhtml
+end // end of [__ats2xhtml__]
 
 in (* in-of-local *)
-
-val () = the_atextdef_insert("litdouble", def0)
-
+//
+val () =
+the_atextdef_insert_fstring
+  ("sats2xhtml", lam(xs) => __ats2xhtml__(0, xs))
+//
+val () =
+the_atextdef_insert_fstring
+  ("dats2xhtml", lam(xs) => __ats2xhtml__(1, xs))
+//
 end // end of [local]
 
 (* ****** ****** *)
 
-local
-
-fun
-__string__
-(
-  loc: loc_t, xs: atextlst
-) : atext = let
-//
-val-cons0(x, xs) = xs
-val rep = atext_strngfy(x)
-//
-val strs =
-$list{string}
-  ("$UN.cast{litstring(", rep, ")}(", rep, ")")
-//
-val strs = g0ofg1(strs)
-//
-in
-//
-atext_make_string(loc, stringlst_concat(strs))
-//
-end // end of [fp64]
-
-val
-def0 =
-TEXTDEFfun(lam(loc, xs) => __string__(loc, xs))
-
-in (* in-of-local *)
-
-val () = the_atextdef_insert("litstring", def0)
-
-end // end of [local]
-
-(* ****** ****** *)
-
-(* end of [atexting_textdef_pre.dats] *)
+(* end of [atexting_textdef_xhtml.dats] *)

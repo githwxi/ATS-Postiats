@@ -29,5 +29,14 @@ val _PI2_ = ##litdouble("PI+PI")
 val _PIlit_ = ##litstring('"3.1416"')
 //
 (* ****** ****** *)
+//
+##sats2xhtml("fun sats2xhtml : (atextlst) -> void")
+//
+##dats2xhtml("\
+extern
+fun dats2xhtml : (atextlst) -> void
+")
+//
+(* ****** ****** *)
 
 (* end of [data.atxt] *)

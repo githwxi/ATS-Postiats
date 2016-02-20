@@ -11,6 +11,15 @@
 
 (* ****** ****** *)
 //
+// HX-2016-02-20:
+//
+#define
+ATS_DYNLOADFLAG 0 // manual dynloading
+#define
+ATS_DYNLOADFUN_NAME "libatsynmark_dynloadall"
+//
+(* ****** ****** *)
+//
 dynload "src/pats_error.dats"
 dynload "src/pats_utils.dats"
 dynload "src/pats_basics.dats"

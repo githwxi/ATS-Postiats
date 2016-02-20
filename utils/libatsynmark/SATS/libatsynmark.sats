@@ -56,7 +56,7 @@ libatsynmark_filename_set_current (name: string): void
 //
 (* ****** ****** *)
 //
-absviewtype lexbufobj
+absvtype lexbufobj
 //
 fun lexbufobj_make_string (inp: string): lexbufobj
 fun lexbufobj_make_charlst_vt (inp: charlst_vt): lexbufobj
@@ -99,7 +99,7 @@ fun lexbufobj_get_tokenlst (lbf: !lexbufobj): tokenlst_vt
 
 (* ****** ****** *)
 //
-absviewtype tokbufobj
+absvtype tokbufobj
 //
 fun tokbufobj_make_lexbufobj (lbf: lexbufobj): tokbufobj
 //
@@ -303,28 +303,47 @@ charlst_psynmarklstlst_process
 (* ****** ****** *)
 //
 fun
-lexbufobj_level1_psynmarkize(stadyn: int, lbf: lexbufobj): psynmarklstlst_vt
+lexbufobj_level1_psynmarkize
+  (stadyn: int, lbf: lexbufobj): psynmarklstlst_vt
 //
 (* ****** ****** *)
 //
 fun{}
-string_pats2xhtmlize (stadyn: int, code: string): strptr1
+string_pats2xhtmlize (stadyn: int, code: string): Strptr1
 fun{}
-charlst_pats2xhtmlize (stadyn: int, code: charlst): strptr1
+charlst_pats2xhtmlize (stadyn: int, code: charlst): Strptr1
 //
 (* ****** ****** *)
 //
 fun
-string_pats2xhtmlize_bground (stadyn: int, code: string): strptr1
+string_pats2xhtmlize_bground
+(
+  stadyn: int, code: string
+) : Strptr1 =
+  "ext#libatsynmark_string_pats2xhtmlize_bground"
+//
 fun
-charlst_pats2xhtmlize_bground (stadyn: int, code: charlst): strptr1
+charlst_pats2xhtmlize_bground
+(
+  stadyn: int, code: charlst
+) : Strptr1 =
+  "ext#libatsynmark_charlst_pats2xhtmlize_bground"
 //
 (* ****** ****** *)
 //
 fun
-string_pats2xhtmlize_embedded (stadyn: int, code: string): strptr1
+string_pats2xhtmlize_embedded
+(
+  stadyn: int, code: string
+) : Strptr1 =
+  "ext#libatsynmark_string_pats2xhtmlize_embedded"
+//
 fun
-charlst_pats2xhtmlize_embedded (stadyn: int, code: charlst): strptr1
+charlst_pats2xhtmlize_embedded
+(
+  stadyn: int, code: charlst
+) : Strptr1 =
+  "ext#libatsynmark_charlst_pats2xhtmlize_embedded"
 // 
 (* ****** ****** *)
 //
