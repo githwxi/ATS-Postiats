@@ -10,7 +10,8 @@
 (* ****** ****** *)
 //
 #include
-"./myatexting_textdef.dats"
+"utils/atexting\
+/DATS/SHARE/atexting_textdef_pre.dats"
 //
 (* ****** ****** *)
 

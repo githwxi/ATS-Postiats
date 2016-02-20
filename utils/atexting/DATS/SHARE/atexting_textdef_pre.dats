@@ -114,7 +114,7 @@ val rep = atext_strngfy(x)
 //
 val strs =
 $list{string}
-  ("$UN.cast{double(", rep, ")}(", rep, ")")
+  ("$UN.cast{litdouble(", rep, ")}(", rep, ")")
 //
 val strs = g0ofg1(strs)
 //
@@ -130,10 +130,45 @@ TEXTDEFfun(lam(loc, xs) => __float__(loc, xs))
 
 in (* in-of-local *)
 
-val () = the_atextdef_insert("mydouble", def0)
+val () = the_atextdef_insert("litdouble", def0)
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [myatexting_textdef.dats] *)
+local
+
+fun
+__string__
+(
+  loc: loc_t, xs: atextlst
+) : atext = let
+//
+val-cons0(x, xs) = xs
+val rep = atext_strngfy(x)
+//
+val strs =
+$list{string}
+  ("$UN.cast{litstring(", rep, ")}(", rep, ")")
+//
+val strs = g0ofg1(strs)
+//
+in
+//
+atext_make_string(loc, stringlst_concat(strs))
+//
+end // end of [fp64]
+
+val
+def0 =
+TEXTDEFfun(lam(loc, xs) => __string__(loc, xs))
+
+in (* in-of-local *)
+
+val () = the_atextdef_insert("litstring", def0)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+(* end of [atexting_textdef_pre.dats] *)

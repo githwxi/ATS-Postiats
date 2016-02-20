@@ -138,6 +138,8 @@ fprintln! (out, "where a <command> is of one of the following forms:\n");
 //
 end // end of [atexting_usage]
 
+(* ****** ****** *)
+
 fun
 process_commarg
 (
@@ -282,11 +284,15 @@ main0{n}
   argc, argv
 ) = ((*void*)) where
 {
+(*
+//val () =
+println!
+("Hello from [atexting]!")
+//
+*)
+//
 //
 val () = the_nsharp_set(2)
-//
-val () =
-println!("Hello from [atexting]!")
 //
 val out = stdout_ref
 val args = commarglst_parse(argc, argv)

@@ -24,6 +24,12 @@ $(PATSCC) -O2 -o $@ $< \
   $(ATEXTING_MYLIB) -DATS_MEMALLOC_GCBDW -lgc
 #
 ######
+#
+regress:: \
+data.atxt ; \
+./myatexting -o data_atxt.dats -i $<
+#
+######
 
 RMF=rm -f
 
@@ -36,5 +42,6 @@ clean:: ; $(RMF) *_dats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) myatexting
+cleanall:: ; $(RMF) data_atxt.dats
 
 ###### end of [Makefile] ######

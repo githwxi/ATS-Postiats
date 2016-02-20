@@ -36,21 +36,9 @@
 #include
 "share\
 /atspre_staload.hats"
-//
-(* ****** ****** *)
-//
-staload
-"libats/ML/SATS/basis.sats"
-//
-staload
-"libats/ML/SATS/list0.sats"
-staload _ =
-"libats/ML/DATS/list0.dats"
-//
-staload
-"libats/ML/SATS/string.sats"
-staload _ =
-"libats/ML/DATS/string.dats"
+#include
+"share/HATS\
+/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
@@ -58,8 +46,7 @@ staload UN = $UNSAFE
 
 (* ****** ****** *)
 //
-staload
-"./../SATS/atexting.sats"
+staload "./../SATS/atexting.sats"
 //
 (* ****** ****** *)
 
