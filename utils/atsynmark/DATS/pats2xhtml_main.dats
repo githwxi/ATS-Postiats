@@ -6,26 +6,27 @@
 *)
 
 (* ****** ****** *)
-
+//
 staload
 STDIO = "libc/SATS/stdio.sats"
-
+//
 (* ****** ****** *)
-
+//
 staload
 SYM = "src/pats_symbol.sats"
 staload
 FIL = "src/pats_filename.sats"
-
+//
 (* ****** ****** *)
 
 staload "./../SATS/pats2xhtml.sats"
 
 (* ****** ****** *)
-
+//
 implement
-fileref2charlst (fil) = char_list_vt_make_file (fil)
-
+fileref2charlst
+  (fil) = char_list_vt_make_file (fil)
+//
 (* ****** ****** *)
 
 (*
@@ -549,6 +550,7 @@ end // end of [process_cmdline2_COMARGkey2]
 
 (* ****** ****** *)
 //
+(*
 dynload "src/pats_global.dats"
 dynload "src/pats_errmsg.dats"
 dynload "src/pats_effect.dats"
@@ -564,6 +566,7 @@ dynload "src/pats_e1xpval.dats"
 dynload "src/pats_e1xpval_error.dats"
 dynload "src/pats_trans1_e0xp.dats"
 dynload "src/pats_trans1_error.dats"
+*)
 //
 (* ****** ****** *)
 //
@@ -579,7 +582,7 @@ dynload
 (* ****** ****** *)
 
 implement
-main (argc, argv) = let
+main(argc, argv) = let
 //
 val arglst = comarglst_parse (argc, argv)
 val+~list_vt_cons (arg0, arglst) = arglst

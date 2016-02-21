@@ -33,51 +33,54 @@ CBOOT:: ; $(CPF) pats2xhtml_sats.c CBOOT
 CBOOT:: ; $(CPF) pats2xhtml_*_dats.c CBOOT
 
 ######
-
-OBJECTS := \
-  pats_utils_sats.o \
-  pats_utils_dats.o \
-  pats_global_sats.o \
-  pats_global_dats.o \
-  pats_errmsg_sats.o \
-  pats_errmsg_dats.o \
-  pats_comarg_sats.o \
-  pats_comarg_dats.o \
-  pats_symbol_sats.o \
-  pats_symbol_dats.o \
-  pats_filename_sats.o \
-  pats_filename_dats.o \
-  pats_intinf_sats.o \
-  pats_effect_sats.o \
-  pats_effect_dats.o \
-  pats_symmap_sats.o \
-  pats_symmap_dats.o \
-  pats_symenv_sats.o \
-  pats_symenv_dats.o \
-  pats_staexp1_sats.o \
-  pats_staexp1_dats.o \
-  pats_staexp1_print_dats.o \
-  pats_dynexp1_sats.o \
-  pats_dynexp1_dats.o \
-  pats_dynexp1_print_dats.o \
-  pats_trans1_sats.o \
-  pats_trans1_env_sats.o \
-  pats_trans1_env_dats.o \
-  pats_e1xpval_sats.o \
-  pats_e1xpval_dats.o \
-  pats_e1xpval_error_dats.o \
-  pats_trans1_e0xp_dats.o \
-  pats_trans1_error_dats.o \
-  pats2xhtml_sats.o \
-  pats2xhtml_level1_dats.o \
-
+#
+# OBJECTS := \
+#   pats_utils_sats.o \
+#   pats_utils_dats.o \
+#   pats_global_sats.o \
+#   pats_global_dats.o \
+#   pats_errmsg_sats.o \
+#   pats_errmsg_dats.o \
+#   pats_comarg_sats.o \
+#   pats_comarg_dats.o \
+#   pats_symbol_sats.o \
+#   pats_symbol_dats.o \
+#   pats_filename_sats.o \
+#   pats_filename_dats.o \
+#   pats_intinf_sats.o \
+#   pats_effect_sats.o \
+#   pats_effect_dats.o \
+#   pats_symmap_sats.o \
+#   pats_symmap_dats.o \
+#   pats_symenv_sats.o \
+#   pats_symenv_dats.o \
+#   pats_staexp1_sats.o \
+#   pats_staexp1_dats.o \
+#   pats_staexp1_print_dats.o \
+#   pats_dynexp1_sats.o \
+#   pats_dynexp1_dats.o \
+#   pats_dynexp1_print_dats.o \
+#   pats_trans1_sats.o \
+#   pats_trans1_env_sats.o \
+#   pats_trans1_env_dats.o \
+#   pats_e1xpval_sats.o \
+#   pats_e1xpval_dats.o \
+#   pats_e1xpval_error_dats.o \
+#   pats_trans1_e0xp_dats.o \
+#   pats_trans1_error_dats.o \
+#   pats2xhtml_sats.o \
+#   pats2xhtml_level1_dats.o \
+#
 ######
-
-%_sats.o: \
-  $(PATSHOME)/src/%.sats; $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
-%_dats.o: \
-  $(PATSHOME)/src/%.dats; $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
-
+#
+# %_sats.o: \
+#   $(PATSHOME)/src/%.sats; \
+#   $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
+#
+# %_dats.o: \
+#   $(PATSHOME)/src/%.dats; \
+#   $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
+#
 ######
 ##
 pats2xhtml_sats.o: \
@@ -87,10 +90,19 @@ pats2xhtml_level1_dats.o: \
   DATS/pats2xhtml_level1.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 ##
 ######
+#
+LDPATH :=
+LDPATH += -L$(PATSHOME)/utils/libatsopt
+LDPATH += -L$(PATSHOME)/utils/libatsynmark
+#
+######
 ##
 pats2xhtml: \
-  DATS/pats2xhtml_main.dats $(OBJECTS) ; \
-  $(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $< $(OBJECTS) -L $(PATSHOME)/utils/libatsynmark -latsynmark -lgmp
+  SATS/pats2xhtml.sats \
+  DATS/pats2xhtml_main.dats \
+  DATS/pats2xhtml_level1.dats ; \
+  $(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $^ \
+  $(OBJECTS) $(LDPATH) -latsynmark -latsopt -lats -lgmp
 ##
 cleanall:: ; $(RMF) pats2xhtml
 ##
