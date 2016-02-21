@@ -138,6 +138,8 @@ of // case+
 | TEXTstring(str) => str
 | TEXTerrmsg(msg) => msg
 //
+| TEXTlist(txts) => atextlst_strngfy(txts)
+//
 | TEXTsquote(txts) => atextlst_strngfy(txts)
 | TEXTdquote(_, txts) => atextlst_strngfy(txts)
 //
@@ -179,6 +181,11 @@ of // case+
   ignoret(
     stringbuf_insert_string(sbf, msg)
   ) (* TEXTerrmsg *)
+//
+| TEXTlist(txts) =>
+  {
+    val ((*void*)) = auxlst(txts, sbf)
+  }
 //
 | TEXTsquote(txts) =>
   {

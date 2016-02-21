@@ -445,6 +445,8 @@ atext_node =
 //
 | TEXTerrmsg of (string)
 //
+| TEXTlist of (atextlst)
+//
 | TEXTsquote of (atextlst)
 | TEXTdquote of (token(*dquote*), atextlst)
 //

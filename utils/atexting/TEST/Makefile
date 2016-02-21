@@ -15,6 +15,8 @@ LDPATH += -L$(ATSHOME)/ccomp/lib64
 LDPATH += -L$(PATSHOME)/utils/libatsopt
 LDPATH += -L$(PATSHOME)/utils/libatsynmark
 #
+LIBRARY = -latsynmark -latsopt -lats -lgmp -lgc
+#
 ATSRUNTIME=$(ATSHOME)/ccomp/runtime
 #
 ######
@@ -31,9 +33,10 @@ all:: myatexting
 myatexting: \
 myatexting.dats ; \
 $(PATSCC) -O2 -o $@ \
-  -D_ATS_GCBDW -DATS_MEMALLOC_GCBDW \
+  -D_ATS_GCBDW \
+  -DATS_MEMALLOC_GCBDW \
   myatexting.dats $(ATEXTING_MYLIB) \
-  $(ATSRUNTIME)/ats_prelude.c $(LDPATH) -latsynmark -latsopt -lats -lgmp -lgc
+  $(ATSRUNTIME)/ats_prelude.c $(LDPATH) $(LIBRARY)
 #
 ######
 #

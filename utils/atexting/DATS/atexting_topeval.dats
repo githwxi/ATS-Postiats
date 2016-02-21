@@ -153,6 +153,11 @@ of // case+
     val () = fprint_string(out, msg)
   } (* end of [TEXTerrmsg] *)
 //
+| TEXTlist(xs) =>
+  {
+    val () = atextlst_topeval(out, xs)
+  }
+//
 | TEXTsquote(xs) =>
   {
     val () = fprint(out, "'")
