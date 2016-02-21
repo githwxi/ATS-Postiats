@@ -58,9 +58,9 @@ script:
   - make -C ${PATSHOME}/doc -f Makefile_test testall > testall_doc.log 2>&1
   - tail -100 testall_doc.log
   # Building some utilities
-  - make -C utils/libatsopt
+  # make -C utils/libatsopt
   - make -C utils/libatsynmark
-  - make -C utils/atsynmark
+  # make -C utils/atsynmark
   # make -C utils/atstagging
   - make -C utils/packeditall
 after_script:
