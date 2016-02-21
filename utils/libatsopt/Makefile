@@ -10,6 +10,7 @@ ATSOPT=$(ATSHOME)/bin/atsopt
 #
 ######
 
+all:: libatsopt
 all:: libatsopt_ext
 
 ######
