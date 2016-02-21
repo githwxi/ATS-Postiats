@@ -687,12 +687,16 @@ extern
 ats_ssize_type
 atslib_fildes_read_all_err
 (
-  ats_int_type fd, ats_ref_type buf, ats_size_type ntot
+  ats_int_type fd
+, ats_ref_type buf
+, ats_size_type ntot
 ) ; // end of [atslib_fildes_read_all_err]
 //
 ats_ptr_type
 patsopt_file2strptr
-  (ats_int_type fd) {
+(
+  ats_int_type fd
+) {
   int err = 0 ;
   int nerr = 0 ;
   char* sbp = (char*)0 ;
@@ -715,12 +719,13 @@ patsopt_file2strptr
   }
   if (err < 0) { nerr += 1 ; }
 //
-  if (nerr == 0) {
+  if (nerr==0) {
     sbp[ofs_end] = '\0'; return sbp ;
   }
 //
-  if (sbp) free (sbp) ; return NULL ;
+  if (sbp) free(sbp) ; return (NULL) ;
 } // end of [patsopt_file2strptr]
+//
 %} // end of [%{$]
 
 (* ****** ****** *)

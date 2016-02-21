@@ -24,19 +24,33 @@ ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
+
+INPATH :=
+INPATH += -I$(PATSHOME)/src
+INPATH += -IATS $(PATSHOME) -IATS $(ATSHOME)
+
+LDPATH :=
+LDPATH += -L$(PATSHOME)/utils/libatsopt
+LDPATH += -L$(PATSHOME)/utils/libatsynmark
+
+LIBRARY :=
+LIBRARY := -latsynmark -latsdoc -latsopt -lats -lgmp
+
+######
 #
 main.exe: \
 main_atxt.dats ; \
 $(ATSCC) \
-  -D_ATS_GCATS -I$(PATSHOME)/src \
-  -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ $< \
-  -L$(PATSHOME)/utils/libatsynmark -latsynmark -latsdoc
+  -D_ATS_GCATS \
+  $(INPATH) -o $@ $< $(LDPATH) $(LIBRARY)
 #
 main_atxt.dats: main.atxt; \
 $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
 #
+######
+
 main.html: main.exe ; ./main.exe > $@
-#
+
 ######
 
 upload_main: \

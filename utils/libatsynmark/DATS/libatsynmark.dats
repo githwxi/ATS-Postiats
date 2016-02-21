@@ -30,13 +30,6 @@ STDIO = "libc/SATS/stdio.sats"
 staload "./../SATS/libatsynmark.sats"
 
 (* ****** ****** *)
-//
-// HX: a placeholder-implementation
-//
-implement
-$FIL.pkgsrcname_relocatize (given, ngurl) = given
-
-(* ****** ****** *)
 
 implement
 libatsynmark_filename_set_current
@@ -152,7 +145,14 @@ token_is_extcode (x) =
 (* ****** ****** *)
 
 implement
-token_is_keyword (x) = let
+token_is_keyword
+  (x) = let
+//
+(*
+** HX-2016-02-22:
+** token_is_keyword
+*)
+//
 in
 //
 case+

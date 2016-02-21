@@ -24,19 +24,33 @@ all_demo:: \
 introxmpl1_server_dats_.js
 #
 ######
+
+INPATH :=
+INPATH += -I$(PATSHOME)/src
+INPATH += -IATS $(PATSHOME) -IATS $(ATSHOME)
+
+LDPATH :=
+LDPATH += -L$(PATSHOME)/utils/libatsopt
+LDPATH += -L$(PATSHOME)/utils/libatsynmark
+
+LIBRARY :=
+LIBRARY := -latsynmark -latsdoc -latsopt -lats -lgmp
+
+######
 #
 main.exe: \
-  main_atxt.dats ; \
-  $(ATSCC) \
-  -IATS $(PATSHOME) -IATS $(ATSHOME) \
-  -I$(PATSHOME)/src -D_ATS_GCATS -o $@ $< \
-  -L$(PATSHOME)/utils/libatsynmark -latsynmark -latsdoc
+main_atxt.dats ; \
+$(ATSCC) \
+  -D_ATS_GCATS \
+  $(INPATH) -o $@ $< $(LDPATH) $(LIBRARY)
 #
+main_atxt.dats: main.atxt; \
+$(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
+#
+######
+
 main.html: main.exe ; ./main.exe > $@
-#
-main_atxt.dats: \
-  main.atxt; $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
-#
+
 ######
 #
 introxmpl1_client_dats.c: \

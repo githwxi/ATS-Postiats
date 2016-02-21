@@ -122,10 +122,11 @@ SOURCES = \
   pats_parsing_toplevel.dats \
 
 ######
-
-OBJECTS := $(patsubst %.sats, %_sats.o, $(SOURCES))
-OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
-
+#
+OBJECTS :=
+# OBJECTS := $(patsubst %.sats, %_sats.o, $(SOURCES))
+# OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
+#
 ######
 
 libatsynmark:: $(OBJECTS)
@@ -135,6 +136,7 @@ libatsynmark:: $(OBJECTS)
 %_sats.o: \
 $(PATSHOME)/src/%.sats ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
+#
 %_dats.o: \
 $(PATSHOME)/src/%.dats ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@

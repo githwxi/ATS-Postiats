@@ -249,10 +249,11 @@ local
 fun
 aux_prefils
 (
-  out: FILEref, xs: List(string), nerr: &int >> int
+  out: FILEref
+, xs0: List(string), nerr: &int >> int
 ) : void =
 (
-case+ xs of
+case+ xs0 of
 | list_nil() => ()
 | list_cons(x, xs) =>
   {
@@ -262,15 +263,18 @@ case+ xs of
     val ec = $STDIO.fputs_err(x, out)
     val () = if ec < 0 then nerr := nerr + 1
   } (* end of [list_cons] *)
-)
+) (* end of [aux_prefils] *)
+
+(* ****** ****** *)
 
 fun
 aux_postfils
 (
-  out: FILEref, xs: List(string), nerr: &int >> int
+  out: FILEref
+, xs0: List(string), nerr: &int >> int
 ) : void =
 (
-case+ xs of
+case+ xs0 of
 | list_nil() => ()
 | list_cons(x, xs) =>
   {
@@ -280,7 +284,7 @@ case+ xs of
     val ec = $STDIO.fputs_err(x, out)
     val () = if ec < 0 then nerr := nerr + 1
   } (* end of [list_cons] *)
-)
+) (* end of [aux_postfils] *)
 
 in (* in-of-local *)
 

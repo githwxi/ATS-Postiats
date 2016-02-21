@@ -23,17 +23,17 @@ LIBGMP=-lgmp
 ######
 #
 patsopt: \
-patsopt.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt $(LIBGMP)
+patsopt.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt -lats $(LIBGMP)
 #
 ######
 
 patsopt_ccomp: \
-patsopt_ccomp.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt $(LIBGMP)
+patsopt_ccomp.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt -lats $(LIBGMP)
 
 ######
 
 patsopt_atscc2js: \
-patsopt_atscc2js.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt $(LIBGMP)
+patsopt_atscc2js.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt -lats $(LIBGMP)
 
 ######
 
