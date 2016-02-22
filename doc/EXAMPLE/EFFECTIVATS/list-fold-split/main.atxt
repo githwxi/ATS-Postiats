@@ -18,13 +18,54 @@ A list-folding combinator
 <pre
 class="patsyntax">
 ##sats2xhtml("\
-fun{a,b:t@ype}
+fun
+{a,b:t@ype}
 list_fold_split
 (
   xs: List(a)
 , fopr: (b, b) -<cloref1> b
 , sink0: b, fsink1: (a) -<cloref1> b
 ) : b // end-of-function
+")</pre>
+
+<pre
+class="patsyntax">
+##dats2xhtml("\
+implement
+{a,b}(*tmp*)
+list_fold_split
+  (xs, fopr, sink0, fsink1) = let
+//
+fun
+aux
+{ n1,n2:nat
+| n1 >= n2 } .<n2>.
+(
+  xs: list(a, n1), n2: int(n2)
+) : b =
+(
+if
+(n2 >= 2)
+then let
+  val n21 = half(n2)
+in
+  fopr(aux(xs, n21), aux(list_drop(xs, n21), n2-n21))
+end // end of [then]
+else (
+//
+case+ xs of
+| list_nil() => sink0
+| list_cons(x, _) => fsink1(x)
+//
+) (* end of [else] *)
+//
+) (* end of [aux] *)
+//
+prval () = lemma_list_param(xs)
+//
+in
+  aux(xs, length(xs))
+end // end of [list_fold_split]
 ")</pre>
 
 <hr size="2">

@@ -5,7 +5,7 @@
 (* ****** ****** *)
 (*
 //
-// For use in Effiective ATS
+// For use in Effective ATS
 //
 // Author: Hongwei Xi
 // Authoremail: gmhwxiATgmailDOTcom

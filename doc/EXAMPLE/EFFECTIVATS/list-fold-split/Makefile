@@ -28,6 +28,10 @@ upload_main: \
 
 ######
 
+list-fold-split: list-fold-split.dats; $(PATSCC2) -o $@ $<
+
+######
+
 RMF=rm -f
 
 ######
