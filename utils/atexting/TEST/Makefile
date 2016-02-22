@@ -32,12 +32,15 @@ all:: myatexting
 #
 myatexting: \
 myatexting.dats ; \
-$(PATSCC) -O2 -o $@ \
+$(PATSCC) -verbose -O2 -o $@ \
   -D_ATS_GCBDW \
   -DATS_MEMALLOC_GCBDW \
   myatexting.dats $(ATEXTING_MYLIB) \
   $(ATSRUNTIME)/ats_prelude.c $(LDPATH) $(LIBRARY)
 #
+######
+
+
 ######
 #
 regress:: \

@@ -177,7 +177,7 @@ DATS/libatsynmark_pats2xhtml_embedded.dats ; \
 libatsynmark:: \
 dynloadall_dats.o
 dynloadall_dats.o: dynloadall.dats; \
-$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
+  $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsynmark.a $@
 #
 ######
 
