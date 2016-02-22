@@ -29,7 +29,20 @@ upload_main: \
 
 ######
 
+list-fold-left: list-fold-left.dats; $(PATSCC2) -o $@ $<
+list-fold-right: list-fold-right.dats; $(PATSCC2) -o $@ $<
 list-fold-split: list-fold-split.dats; $(PATSCC2) -o $@ $<
+
+######
+
+regress:: list-fold-left; ./$<
+regress:: list-fold-right; ./$<
+regress:: list-fold-split; ./$<
+
+######
+
+testall:: regress
+testall:: cleanall
 
 ######
 
@@ -44,6 +57,8 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) main.html
+cleanall:: ; $(RMF) list-fold-left
+cleanall:: ; $(RMF) list-fold-right
 cleanall:: ; $(RMF) list-fold-split
 
 ######
