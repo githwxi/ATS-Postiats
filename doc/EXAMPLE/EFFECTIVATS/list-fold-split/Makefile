@@ -9,7 +9,8 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
-PATSCC2=$(PATSCC) -DATS_MEMALLOC_LIBC -O2
+PATSCC2=$(PATSCC) \
+-D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2
 
 ######
 
@@ -37,12 +38,13 @@ RMF=rm -f
 ######
 
 clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.c
 
 ######
 
 cleanall:: clean
 cleanall:: ; $(RMF) main.html
-cleanall:: ; $(RMF) *_?ats.html
+cleanall:: ; $(RMF) list-fold-split
 
 ######
 
