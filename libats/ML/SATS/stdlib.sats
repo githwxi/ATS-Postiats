@@ -46,17 +46,28 @@ typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
-
-fun{} getenv_exn (name: NSH(string)): string
-fun{} getenv_opt (name: NSH(string)): option0 (string)
-
+//
+fun{}
+getenv_exn (name: NSH(string)): string
+//
+fun{}
+getenv_opt (name: NSH(string)): option0 (string)
+//
 (* ****** ****** *)
-
-fun{} setenv_exn
+//
+fun{}
+setenv_exn
   (name: NSH(string), value: NSH(string), overwrite: int): void
-fun{} setenv_err
+//
+fun{}
+setenv_err
   (name: NSH(string), value: NSH(string), overwrite: int): int(*err*)
-
+//
+(* ****** ****** *)
+//
+fun{}
+randint{n:pos}(n: int(n)): [r:nat | r < n] int(r)
+//
 (* ****** ****** *)
 
 (* end of [stdlib.sats] *)

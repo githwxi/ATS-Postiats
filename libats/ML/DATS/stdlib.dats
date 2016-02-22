@@ -32,6 +32,11 @@
 (* Start time: June, 2013 *)
 
 (* ****** ****** *)
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
 
 staload
 STDLIB = "libc/SATS/stdlib.sats"
@@ -86,7 +91,8 @@ end // end of [getenv_opt]
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 setenv_exn
   (name, value, ow) = let
 //
@@ -94,19 +100,31 @@ val err = $STDLIB.setenv (name, value, ow)
 //
 in
 //
-if err < 0 then let
-  val () = prerrln! "exit(ATS): [setenv_exn]: variable: [" name "] cannot be set."
+if
+err < 0
+then let
+//
+val () =
+prerrln! "exit(ATS): [setenv_exn]: variable: [" name "] cannot be set."
+//
 in
   exit (1)
 end else () // end of [if]
 //
 end // end of [setenv_err]
 
-implement{}
+implement
+{}(*tmp*)
 setenv_err
   (name, value, ow) = $STDLIB.setenv (name, value, ow)
 // end of [setenv_err]
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+randint(n) = $UN.cast($UN.cast2int($STDLIB.random()) % n)
+//
 (* ****** ****** *)
 
 (* end of [stdlib.dats] *)

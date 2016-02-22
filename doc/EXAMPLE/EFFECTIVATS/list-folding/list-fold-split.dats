@@ -129,8 +129,6 @@ assertloc(fact(10) = 1*2*3*4*5*6*7*8*9*10)
 //
 val () = srandom($UN.cast2uint(time()))
 //
-fun
-randint(n: intGte(1)): int = $UN.cast2int(random()) % 10
 val xs = list_vt2t(list_tabulate_fun<int>(10, lam(_) => randint(10)))
 //
 val () = println! ("xs = ", xs)
