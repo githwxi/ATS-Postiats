@@ -67,8 +67,8 @@ lemma_insord_sort
 
 implement
 {a}(*tmp*)
-insort_lst{xs:ilist}
-  (xs, cmp) = let
+insort_lst
+{xs}(xs, cmp) = let
 //
 // HX: motivating the need to export theorem-proving
 //

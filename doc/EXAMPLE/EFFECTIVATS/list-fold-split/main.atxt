@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-sorting-linear-lists</title>
+##patsyntax()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+A list-folding combinator
+</h1>
+
+<pre
+class="patsyntax">
+##sats2xhtml("\
+fun{a,b:t@ype}
+list_fold_split
+(
+  xs: List(a)
+, fopr: (b, b) -<cloref1> b
+, sink0: b, fsink1: (a) -<cloref1> b
+) : b // end-of-function
+")</pre>
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+</body>
+</html>
