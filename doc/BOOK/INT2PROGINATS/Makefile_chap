@@ -21,12 +21,10 @@ all:: main.db clean
 #
 main: \
 main_atxt.dats; \
-$(ATSCC) \
-  -D_ATS_GCATS -I$(PATSHOME)/src \
-  -IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ) -o $@ main_atxt.dats \
-  -L$(PATSHOME)/utils/libatsynmark -latsynmark -latsdoc
+$(ATSCC) -D_ATS_GCATS -o $@ main_atxt.dats -latsdoc
 #
-main_atxt.dats: main.atxt; $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
+main_atxt.dats: main.atxt; \
+$(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
 #
 main.db: main ; ./main > $@
 #

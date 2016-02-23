@@ -11,16 +11,14 @@
 *)
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/unsafe.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
 staload TIME = "libc/SATS/time.sats"
-
-(* ****** ****** *)
-
-dynload "utils/libatsynmark/dynloadall.dats"
 
 (* ****** ****** *)
 
@@ -200,41 +198,6 @@ in
   atext_strptr (res)
 end // end of [ulink]
       
-(* ****** ****** *)
-
-local
-//
-staload
-"utils/libatsynmark/SATS/libatsynmark.sats"
-//
-in (* in of [local] *)
-
-fun
-pats2xhtml_sats
-  (x: string): atext = let
-  val [l:addr]
-  str = string_pats2xhtmlize_bground (0, x)
-  prval () = addr_is_gtez {l} ()
-in
-  if strptr_is_null (str) then let
-    prval () = strptr_free_null (str) in atext_nil ()
-  end else atext_strptr (str) // end of [if]
-end // end of [pats2xhtml_sats]
-
-fun
-pats2xhtml_dats
-  (x: string): atext = let
-  val [l:addr]
-  str = string_pats2xhtmlize_bground (1, x)
-  prval () = addr_is_gtez {l} ()
-in
-  if strptr_is_null (str) then let
-    prval () = strptr_free_null (str) in atext_nil ()
-  end else atext_strptr (str) // end of [if]
-end // end of [pats2xhtml_dats]
-
-end // end of [local]
-
 (* ****** ****** *)
 //
 #define
