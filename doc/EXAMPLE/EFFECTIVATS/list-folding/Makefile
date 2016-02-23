@@ -25,19 +25,19 @@ main.html: main.atxt ; $(MYATEXTING) -o $@ -i $<
 upload_main: \
   main.html ; \
   scp main.html \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/sorting-linear-lists/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/list-folding/
 
 ######
 
-list-fold-left: list-fold-left.dats; $(PATSCC2) -o $@ $<
-list-fold-right: list-fold-right.dats; $(PATSCC2) -o $@ $<
-list-fold-split: list-fold-split.dats; $(PATSCC2) -o $@ $<
+list_fold_left: list_fold_left.dats; $(PATSCC2) -o $@ $<
+list_fold_right: list_fold_right.dats; $(PATSCC2) -o $@ $<
+list_fold_split: list_fold_split.dats; $(PATSCC2) -o $@ $<
 
 ######
 
-regress:: list-fold-left; ./$<
-regress:: list-fold-right; ./$<
-regress:: list-fold-split; ./$<
+regress:: list_fold_left; ./$<
+regress:: list_fold_right; ./$<
+regress:: list_fold_split; ./$<
 
 ######
 
@@ -57,9 +57,9 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) main.html
-cleanall:: ; $(RMF) list-fold-left
-cleanall:: ; $(RMF) list-fold-right
-cleanall:: ; $(RMF) list-fold-split
+cleanall:: ; $(RMF) list_fold_left
+cleanall:: ; $(RMF) list_fold_right
+cleanall:: ; $(RMF) list_fold_split
 
 ######
 

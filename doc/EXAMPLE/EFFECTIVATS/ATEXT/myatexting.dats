@@ -42,6 +42,12 @@ __tagging__
 //
 val-cons0(x0, _) = xs0
 //
+val x0 =
+atext_make_string
+(
+  x0.atext_loc, atext_strngfy(x0)
+)
+//
 val t_beg =
   atext_make_string(loc, t_beg)
 val t_end =
@@ -90,6 +96,28 @@ the_atextdef_insert
   (
     lam(loc, xs) =>
     __tagging__(loc, "<em>", "</em>", xs)
+  ) (* TEXTDEFfun *)
+) (* the_atextdef_insert *)
+
+(* ****** ****** *)
+
+val () =
+the_atextdef_insert
+( "sub"
+, TEXTDEFfun
+  (
+    lam(loc, xs) =>
+    __tagging__(loc, "<sub>", "</sub>", xs)
+  ) (* TEXTDEFfun *)
+) (* the_atextdef_insert *)
+
+val () =
+the_atextdef_insert
+( "sup"
+, TEXTDEFfun
+  (
+    lam(loc, xs) =>
+    __tagging__(loc, "<sup>", "</sup>", xs)
   ) (* TEXTDEFfun *)
 ) (* the_atextdef_insert *)
 

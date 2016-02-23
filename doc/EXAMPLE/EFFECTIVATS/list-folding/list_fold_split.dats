@@ -138,4 +138,4 @@ val () = println! ("xs(sorted) = ", mergesort<int>(xs))
 
 (* ****** ****** *)
 
-(* end of [list-fold-split.dats] *)
+(* end of [list_fold_split.dats] *)

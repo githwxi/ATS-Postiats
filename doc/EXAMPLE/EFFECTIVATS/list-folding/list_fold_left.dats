@@ -41,7 +41,9 @@ auxmain
 //
 case+ xs of
 | list_nil() => init
-| list_cons(x, xs) => auxmain(fopr(init, x), xs)
+| list_cons(x, xs) =>
+    auxmain(fopr(init, x), xs)
+  // end of [list_cons]
 //
 ) (* auxmain *)
 //
@@ -52,13 +54,47 @@ in
 end // end of [list_fold_left]
 
 (* ****** ****** *)
+
+fun
+{a:t@ype}
+list_length
+(
+  xs: List(a)
+) : int =
+(
+//
+list_fold_left<a,int>
+  (xs, 0, lam(xs, x) => xs + 1)
+//
+) (* list_length *)
+
+fun
+{a:t@ype}
+list_reverse
+(
+  xs: List(a)
+) : List0(a) =
+(
+//
+list_fold_left<a,List0(a)>
+  (xs, list_nil(), lam(xs, x) => list_cons(x, xs))
+//
+) (* list_reverse *)
+
+(* ****** ****** *)
 //
 val
 fact =
 lam
 {n:nat}(n: int(n)) =>
 list_fold_left<int,int>
-(list_vt2t(list_make_intrange(0, n)), 1, lam(r, x) => r*(x+1))
+(
+  list_vt2t(xs)
+, 1, lam(r, x) => r*(x+1)
+) where
+{
+  val xs = list_make_intrange(0, n)
+}
 //
 (* ****** ****** *)
 
@@ -66,11 +102,10 @@ implement
 main0((*void*)) =
 {
 //
-val () =
-assertloc(fact(10) = 1*2*3*4*5*6*7*8*9*10)
+val () = assertloc(fact(10) = 1*2*3*4*5*6*7*8*9*10)
 //
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [list-fold-left.dats] *)
+(* end of [list_fold_left.dats] *)

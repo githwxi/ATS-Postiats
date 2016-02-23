@@ -12,8 +12,170 @@
 
 <h1>
 Effective ATS:<br>
-List-folding combinators
+List-folding Combinators
 </h1>
+
+##para('\
+A list-folding combinator is a (higher-order) function that
+traverses a given list to process the elements contained in the
+list. In this very light article (based on a lecture of mine on
+introductory functional programming), I present some code implementing
+several list-folding combinators while touching upon a bit the issue
+of library design in ATS.\
+')##comment("para")
+
+
+<h2>List_fold_left</h2>
+
+##para("""\
+
+The function ##dyncode("list_fold_left") of the following
+interface folds a given list from left to right:
+
+<pre
+class="patsyntax">
+##sats2xhtml("\
+fun
+{a,b:t@ype}
+list_fold_left
+(
+  xs: List(a)
+, init: b, fopr: (b, a) -<cloref1> b
+) : b // end-of-function
+")</pre>
+
+Applied to a list of n elements (x##sub("1"), ..., x##sub("n")),
+##dyncode("list_fold_left") essentially returns the value of the
+followng (informal) expression: ##dyncode("fopr(...fopr(init,
+x##sub("1")), ..., x##sub("n"))").  The following code gives a typical
+implementation of ##dyncode("list_fold_left"):
+
+<pre
+class="patsyntax">
+##dats2xhtml("\
+implement
+{a,b}(*tmp*)
+list_fold_left
+  (xs, init, fopr) = let
+//
+fun
+auxmain
+{n:nat} .<n>.
+(
+  init: b, xs: list(a, n)
+) : b = (
+//
+case+ xs of
+| list_nil() => init
+| list_cons(x, xs) =>
+    auxmain(fopr(init, x), xs)
+  // end of [list_cons]
+//
+) (* auxmain *)
+//
+prval () = lemma_list_param(xs)
+//
+in
+  auxmain(init, xs)
+end // end of [list_fold_left]
+")</pre>
+
+Note that ##dyncode("auxmain") is tail-recursive.
+
+""")
+
+##para("""\
+
+As an example, the list-length function can be
+implemented with a direct call to ##dyncode("list_fold_left"):
+
+<pre
+class="patsyntax">
+##dats2xhtml("\
+fun
+{a:t@ype}
+list_length
+(
+  xs: List(a)
+) : int =
+(
+//
+list_fold_left<a,int>
+  (xs, 0, lam(xs, x) => xs + 1)
+//
+) (* list_length *)
+")</pre>
+
+However, it should be noted that this implementation
+of ##dyncode("list_length") cannot be assigned the following
+interface:
+
+<pre
+class="patsyntax">
+##sats2xhtml("\
+fun
+{a:t@ype}
+list_length{n:nat}(list(a, n)): int(n)
+")</pre>
+
+In order to do so, a more accurate interface needs to be given to
+##dyncode("list_fold_left").
+
+<br></br>
+
+As another example, the list-reverse function can be implemented
+with a direct call to ##dyncode("list_fold_left") as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml("\
+fun
+{a:t@ype}
+list_reverse
+(
+  xs: List(a)
+) : List0(a) =
+(
+//
+list_fold_left<a,List0(a)>
+  (xs, list_nil(), lam(xs, x) => list_cons(x, xs))
+//
+) (* list_reverse *)
+")</pre>
+
+Note that the type constructor ##stacode("List0") is defined as follows:
+
+<pre
+class="patsyntax">
+##sats2xhtml("\
+typedef List0(a:t@ype) = [n:nat] List(a)
+")</pre>
+
+
+""")
+
+<h2>List_fold_right</h2>
+
+##para("""\
+
+The function ##dyncode("list_fold_right") of the following
+interface folds a given list from right to left:
+
+<pre
+class="patsyntax">
+##sats2xhtml("\
+fun
+{a,b:t@ype}
+list_fold_right
+(
+  xs: List(a)
+, fopr: (a, b) -<cloref1> b, sink: b
+) : b // end-of-function
+")</pre>
+
+""")
+
+<h2>List_fold_split</h2>
 
 <pre
 class="patsyntax">

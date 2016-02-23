@@ -7,8 +7,16 @@
 all::
 
 all:: \
+prop-logic
+prop-logic:: ; make -C prop-logic all
+
+all:: \
 file-copying
 file-copying:: ; make -C file-copying all
+
+all:: \
+list-folding
+list-folding:: ; make -C list-folding all
 
 all:: \
 loop-as-tailrec
@@ -85,8 +93,9 @@ ssntyped-channels-2:: ; make -C ssntyped-channels-2 all
 ######
 
 cleanall::
-cleanall:: ; make -C file-copying cleanall
 cleanall:: ; make -C prop-logic cleanall
+cleanall:: ; make -C file-copying cleanall
+cleanall:: ; make -C list-folding cleanall
 cleanall:: ; make -C loop-as-tailrec cleanall
 cleanall:: ; make -C HanoiTowers cleanall
 cleanall:: ; make -C word-counting cleanall
@@ -110,7 +119,9 @@ cleanall:: ; make -C ssntyped-channels-2 cleanall
 
 uploadall::
 uploadall::upload_index
+uploadall::upload_prop-logic
 uploadall::upload_file-copying
+uploadall::upload_list-folding
 uploadall::upload_loop-as-tailrec
 uploadall::upload_word-counting
 uploadall::upload_stack-array
@@ -142,6 +153,14 @@ upload_index:: ; \
 
 ######
 
+upload_prop-logic:: ; \
+  $(SCP) \
+  prop-logic/index.html \
+  prop-logic/Makefile prop-logic/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/prop-logic/
+
+######
+
 upload_file-copying:: ; \
   $(SCP) \
   file-copying/index.html \
@@ -150,11 +169,11 @@ upload_file-copying:: ; \
 
 ######
 
-upload_prop-logic:: ; \
+upload_list-folding:: ; \
   $(SCP) \
-  prop-logic/index.html \
-  prop-logic/Makefile prop-logic/*.?ats \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/prop-logic/
+  list-folding/index.html \
+  list-folding/Makefile list-folding/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/list-folding/
 
 ######
 
