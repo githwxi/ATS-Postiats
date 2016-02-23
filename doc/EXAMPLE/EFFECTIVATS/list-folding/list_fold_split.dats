@@ -75,15 +75,39 @@ val
 fact =
 lam{n:nat}(n: int(n)) =>
 list_fold_split<int,int>
-(list_vt2t(list_make_intrange(0, n)), lam(r1, r2) => r1*r2, 1, lam(x) => x+1)
+(
+  list_vt2t(xs)
+, lam(r1, r2) => r1*r2, 1, lam(x) => x+1
+) where
+{
+  val xs = list_make_intrange(0, n)
+}
 //
+(* ****** ****** *)
+
+fun
+{a:t@ype}
+list_reverse
+(
+  xs: List(a)
+) : List0(a) =
+(
+//
+list_fold_split<a,List0(a)>
+( xs
+, lam(xs, ys) => list_append(ys, xs)
+, list_nil, lam(x) => list_cons(x, list_nil)
+) (* list_fold_split *)
+//
+) (* list_reverse *)
+
 (* ****** ****** *)
 
 local
 //
-fun
-{a:t@ype}
-merge
+fun{
+a:t@ype
+} merge
 (
   xs0: list0(a)
 , ys0: list0(a)
@@ -108,7 +132,10 @@ fun
 {a:t@ype}
 mergesort(xs: List(a)) =
 list_fold_split<a,list0(a)>
-  (xs, lam(xs, ys) => merge(xs, ys), list0_nil(), lam(x) => list0_sing(x))
+( xs
+, lam(xs, ys) => merge<a>(xs, ys)
+, list0_nil(), lam(x) => list0_sing(x)
+)
 //
 end // end of [local]
 
