@@ -5,7 +5,8 @@
 (* ****** ****** *)
 (*
 **
-** Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+** Author: Hongwei Xi
+** Authoremail: gmhwxi AT gmail DOT com
 ** Time: January, 2013
 **
 *)
@@ -16,18 +17,21 @@ staload _ = "prelude/DATS/list_vt.dats"
 staload _ = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/unsafe.dats"
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*anon*) = "prelude/DATS/unsafe.dats"
+//
 (* ****** ****** *)
-
+//
 staload TIME = "libc/SATS/time.sats"
-
+//
 (* ****** ****** *)
-
-staload "libatsdoc/SATS/libatsdoc_atext.sats"
-
+//
+staload
+"libatsdoc/SATS/libatsdoc_atext.sats"
+//
 (* ****** ****** *)
 
 local
@@ -37,16 +41,23 @@ and COMMENTcls = atext_strcst("-->")
 //
 in
 
-fun comment (x: string): atext =
-  atext_apptxt3 (COMMENTopn, atext_strsub(x), COMMENTcls)
-// end of [comment]
+fun
+comment
+(
+  x0: string
+) : atext = (
+//
+atext_apptxt3
+  (COMMENTopn, atext_strsub(x0), COMMENTcls)
+//
+) // end of [comment]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-fun ignoretxt (x: atext): atext = atext_nil ()
-fun ignorestr (x: string): atext = atext_nil ()
+fun ignoretxt (x: atext): atext = atext_nil()
+fun ignorestr (x: string): atext = atext_nil()
 
 (* ****** ****** *)
 
@@ -170,8 +181,14 @@ val _cls =
 // end of [val]
 in
 //
-fun atscode
-  (x: string): atext = atext_appstr3 (_opn, x, _cls)
+fun
+atscode
+(
+  x0: string
+) : atext =
+(
+  atext_appstr3 (_opn, x0, _cls)
+) (* end of [atscode] *)
 //
 fun atscodefil
   (path: string): atext = let
@@ -182,6 +199,44 @@ in
   atext_apptxt3 (_opn, _code, _cls)
 end // end of [atscodefil]
 //
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+val _end = "\"\"\")"
+val _beg = "###sats2xhtml(\"\"\"\\\n"
+
+in (* in-of-local *)
+
+fun
+sats2xhtml
+(
+  x0: string
+) : atext =
+(
+  atext_appstr3 (_beg, x0, _end)
+) (* end of [sats2xhtml] *)
+
+end // end of [local]
+
+local
+
+val _end = "\"\"\")"
+val _beg = "###dats2xhtml(\"\"\"\\\n"
+
+in (* in-of-local *)
+
+fun
+dats2xhtml
+(
+  x0: string
+) : atext =
+(
+  atext_appstr3 (_beg, x0, _end)
+) (* end of [dats2xhtml] *)
+
 end // end of [local]
 
 (* ****** ****** *)

@@ -337,6 +337,7 @@ clean:: ; $(RMF) *_atxt_dats.c
 clean:: ; $(RMF) HTML/htmltoc_dats.c
 
 cleanall:: clean
+cleanall:: ; $(RMF) preface
 cleanall:: ; $(RMF) preface.db
 cleanall:: ; $(RMF) PDF/main.pdf
 cleanall:: ; $(RMF) TEMP/chap_*.dats
