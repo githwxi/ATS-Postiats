@@ -174,7 +174,7 @@ list_fold_right
 ")</pre>
 
 Applied to a list of n elements (x##sub(1), ..., x##sub(n)),
-##dyncode("list_fold_left") essentially returns the value of the
+##dyncode("list_fold_right") essentially returns the value of the
 followng (informal) expression: ##dyncode("fopr(x##sub(1),...fopr(x##sub(n), sink)...)").
 The following code gives a typical implementation of ##dyncode("list_fold_right"):
 
@@ -234,7 +234,7 @@ list_fold_right<a,int>
 
 Compared to the implementation of ##dyncode("list_length") based on
 ##dyncode("list_fold_left"), this one is much less attractive as it is
-not tail-recursive (and thus may cause a call-stack overflow when
+not tail-recursive and thus may cause a call-stack overflow when
 applied to a long list (for instance, one containing 1 million
 elements).
 
@@ -453,6 +453,22 @@ O(n##sup(2))-time, it is still unacceptably poor as reversing a list
 can be readily given a tail-recursive implementation of O(n)-time.
 
 """)##comment("para")
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+list_fold_left.dats
+list_fold_right.dats
+list_fold_split.dats
+</pre>
+
+In addition, there is an accompanying ##filename("Makefile") for compiling
+and testing the code.\
+
+""")
 
 <hr size="2">
 
