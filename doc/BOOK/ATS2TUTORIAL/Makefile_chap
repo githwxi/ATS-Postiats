@@ -16,10 +16,10 @@ all:: main.db clean
 
 ######
 #
-main: main_atxt.dats \
+main: main_atxt.dats ; \
 $(ATSCC) -D_ATS_GCATS -o $@ main_atxt.dats -latsdoc
 #
-main_atxt.dats: main.atxt \
+main_atxt.dats: main.atxt ; \
 $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
 #
 main.db: main ; ./main > $@
