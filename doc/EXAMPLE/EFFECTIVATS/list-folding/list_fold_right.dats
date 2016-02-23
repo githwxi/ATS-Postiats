@@ -52,6 +52,54 @@ in
 end // end of [list_fold_right]
 
 (* ****** ****** *)
+
+fun
+{a:t@ype}
+list_length
+(
+  xs: List(a)
+) : int =
+(
+//
+list_fold_right<a,int>
+  (xs, lam(x, xs) => xs + 1, 0)
+//
+) (* list_length *)
+
+fun
+{a:t@ype}
+list_append
+(
+  xs: List(a), ys: List(a)
+) : List0(a) = let
+//
+prval () = lemma_list_param(ys)
+//
+in
+//
+list_fold_right<a,List0(a)>
+  (xs, lam(x, xs) => list_cons(x, xs), ys)
+//
+end (* list_append *)
+
+fun
+{a:t@ype}
+list_reverse
+(
+  xs: List(a)
+) : List0(a) =
+(
+//
+list_fold_right<a,List0(a)>
+( xs
+, lam(x, xs) =>
+  list_append<a>(xs, list_cons(x, list_nil()))
+, list_nil((*void*))
+) (* end of [list_fold_right] *)
+//
+) (* list_reverse *)
+
+(* ****** ****** *)
 //
 val
 fact =
