@@ -132,7 +132,10 @@ fun
 {a:t@ype}
 mergesort(xs: List(a)) =
 list_fold_split<a,list0(a)>
-  (xs, lam(xs, ys) => merge(xs, ys), list0_nil(), lam(x) => list0_sing(x))
+( xs
+, lam(xs, ys) => merge<a>(xs, ys)
+, list0_nil(), lam(x) => list0_sing(x)
+)
 //
 end // end of [local]
 
