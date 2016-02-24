@@ -77,6 +77,13 @@ end // end of [atext_make_token]
 (* ****** ****** *)
 //
 implement
+atext_make_list
+  (loc, txts) =
+  atext_make(loc, TEXTlist(txts))
+//
+(* ****** ****** *)
+//
+implement
 atext_make_string
   (loc, str) =
   atext_make(loc, TEXTstring(str))

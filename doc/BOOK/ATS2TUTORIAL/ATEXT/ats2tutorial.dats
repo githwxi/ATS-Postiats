@@ -173,22 +173,16 @@ informalexample (x) = xmltagging ("informalexample", ,(x))
 
 local
 //
+val _cls ="\
+]]></programlisting></informalexample>\n\
+" // end of [val]
 val _opn = "\
 <informalexample><programlisting><![CDATA[\
 " // end of [val]
-val _cls =
-  "]]></programlisting></informalexample>\n"
-// end of [val]
 in
 //
-fun
-atscode
-(
-  x0: string
-) : atext =
-(
-  atext_appstr3 (_opn, x0, _cls)
-) (* end of [atscode] *)
+fun atscode
+  (x: string): atext = atext_appstr3 (_opn, x, _cls)
 //
 fun atscodefil
   (path: string): atext = let
@@ -204,39 +198,65 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
-val _end = "\"\"\")"
-val _beg = "###sats2xhtml(\"\"\"\\\n"
-
-in (* in-of-local *)
-
+//
+val _cls = "\
+\"\"\")]]></programlisting></informalexample>\n\
+" // end of [val]
+val _opn = "\
+<informalexample><programlisting><![CDATA[##sats2xhtml_docbook(\"\"\"\
+" // end of [val]
+in
+//
 fun
 sats2xhtml
 (
   x0: string
 ) : atext =
 (
-  atext_appstr3 (_beg, x0, _end)
+  atext_appstr3 (_opn, x0, _cls)
 ) (* end of [sats2xhtml] *)
-
+//
+fun sats2xhtml_fil
+  (path: string): atext = let
+  val _opn = atext_strcst(_opn)
+  val _code = atext_filepath (path)
+  val _cls = atext_strcst(_cls)
+in
+  atext_apptxt3 (_opn, _code, _cls)
+end // end of [sats2xhtml_fil]
+//
 end // end of [local]
 
+(* ****** ****** *)
+
 local
-
-val _end = "\"\"\")"
-val _beg = "###dats2xhtml(\"\"\"\\\n"
-
-in (* in-of-local *)
-
+//
+val _cls = "\
+\"\"\")]]></programlisting></informalexample>\n\
+" // end of [val]
+val _opn = "\
+<informalexample><programlisting><![CDATA[##dats2xhtml_docbook(\"\"\"\
+" // end of [val]
+in
+//
 fun
 dats2xhtml
 (
   x0: string
 ) : atext =
 (
-  atext_appstr3 (_beg, x0, _end)
+  atext_appstr3 (_opn, x0, _cls)
 ) (* end of [dats2xhtml] *)
-
+//
+fun dats2xhtml_fil
+  (path: string): atext = let
+  val _opn = atext_strcst(_opn)
+  val _code = atext_filepath (path)
+  val _cls = atext_strcst(_cls)
+in
+  atext_apptxt3 (_opn, _code, _cls)
+end // end of [dats2xhtml_fil]
+//
 end // end of [local]
 
 (* ****** ****** *)

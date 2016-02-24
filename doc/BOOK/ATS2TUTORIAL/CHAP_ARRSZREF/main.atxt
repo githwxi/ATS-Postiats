@@ -34,7 +34,7 @@ For creating an array-with-size, the following functions
 #dyncode("arrszref_make_arrpsz") and #dyncode("arrszref_make_arrayref") can
 be called:
 
-#atscode('\
+#sats2xhtml('\
 fun{}
 arrszref_make_arrpsz
   {a:vt0p}{n:int} (arrpsz (INV(a), n)): arrszref(a)
@@ -47,7 +47,7 @@ arrszref_make_arrayref
 As an example, the following code creates an array-with-size containing
 all the decimal digits:
 
-#atscode('\
+#dats2xhtml('\
 val DIGITS = (arrszref)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 ')
 
@@ -62,7 +62,7 @@ For reading from and writing to an array-with-size, the function templates
 #dyncode("arrszref_get_at") and #dyncode("arrszref_set_at") can be used,
 respectively, which are assigned the following interfaces:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t@ype}
 arrszref_get_at (A: arrszref (a), i: size_t): (a)
 fun{a:t@ype}
@@ -84,7 +84,7 @@ of out-of-bounds array access being detected.
 As a simple example, the following code implements a function that
 reverses the content of the array inside a given array-with-size:
 
-#atscode('\
+#dats2xhtml('\
 fun{a:t@ype}
 arrszref_reverse
 (

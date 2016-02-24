@@ -418,6 +418,8 @@ fun
 tokbuf_incby_1 (buf: &tokbuf >> _): void
 fun
 tokbuf_incby_n (buf: &tokbuf >> _, n: size_t): void
+fun
+tokbuf_decby_n (buf: &tokbuf >> _, n: size_t): void
 
 (* ****** ****** *)
 //
@@ -440,6 +442,10 @@ atext_node =
 | TEXTnil of ()
 //
 | TEXTtoken of token
+//
+(*
+| TEXTchar of (char)
+*)
 //
 | TEXTstring of (string)
 //
@@ -481,6 +487,9 @@ atext_make_nil(loc_t): atext
 //
 fun
 atext_make_token(tok: token): atext
+//
+fun
+atext_make_list(loc_t, xs: atextlst): atext
 //
 fun
 atext_make_string(loc_t, str: string): atext

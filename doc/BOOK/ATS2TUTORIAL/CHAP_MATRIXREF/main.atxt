@@ -41,7 +41,7 @@ functions on persistent matrices can be found in the SATS file
 
 The following function is commonly used to create a matrixref-value:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t0p}
 matrixref_make_elt{m,n:int}
   (m: size_t m, n: size_t n, x0: a):<!wrt> matrixref (a, m, n)
@@ -59,7 +59,7 @@ in which each cell is initialized with the element x0.\
 Also, the following cast function can be called to turn an array into
 a matrix:
 
-#atscode('\
+#sats2xhtml('\
 castfn
 arrayref2matrixref
   {a:vt0p}{m,n:nat} (A: arrayref (a, m*n)):<> matrixref (a, m, n)
@@ -74,7 +74,7 @@ For accessing and updating the content of a matrix-cell, the following
 two functions #dyncode("matrixref_get_at") and #dyncode("matrixref_set_at")
 can be called:
 
-#atscode('\
+#sats2xhtml('\
 //
 fun{a:t0p}
 matrixref_get_at
@@ -103,7 +103,7 @@ needs to be supplied as well.
 In the following presentation, I give an implementation of a function that
 turns a given square matrix into its transpose:
 
-#atscode('\
+#dats2xhtml('\
 //
 extern
 fun{a:t0p}

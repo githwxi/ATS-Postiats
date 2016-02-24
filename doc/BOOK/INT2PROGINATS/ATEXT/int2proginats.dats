@@ -164,12 +164,12 @@ informalexample (x) = xmltagging ("informalexample", ,(x))
 
 local
 //
+val _cls ="\
+]]></programlisting></informalexample>\n\
+" // end of [val]
 val _opn = "\
 <informalexample><programlisting><![CDATA[\
 " // end of [val]
-val _cls =
-  "]]></programlisting></informalexample>\n"
-// end of [val]
 in
 //
 fun atscode

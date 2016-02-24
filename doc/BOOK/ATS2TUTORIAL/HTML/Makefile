@@ -23,6 +23,18 @@ htmltoc:: htmltoc.exe; ./$< book1.html
 htmltoc.exe: htmltoc.dats; $(PATSCC) -o $@ $<
 
 ######
+
+synhilit:: synhilit.exe; ./$< c*.html
+synhilit:: synhilit.exe; ./$< f*.html
+synhilit:: synhilit.exe; ./$< p*.html
+synhilit:: synhilit.exe; ./$< x*.html
+synhilit:: synhilit.exe; ./$< book1.html
+
+######
+
+synhilit.exe: synhilit.dats; $(PATSCC) -o $@ $<
+
+######
 #
 upload:: \
 upload_html
@@ -43,6 +55,7 @@ clean:: ; $(RMF) *_?ats.o
 
 cleanall:: clean
 cleanall:: ; $(RMF) htmltoc.exe
+cleanall:: ; $(RMF) synhilit.exe
 cleanall:: ; $(RMF) HTMLTOC/p*.html
 cleanall:: ; $(RMF) HTMLTOC/f*.html
 cleanall:: ; $(RMF) HTMLTOC/c*.html

@@ -30,7 +30,7 @@ In the following code,
 the types #stacode("abc_tup")
 and #stacode("abc_rec") are for boxed tuples and records, respectively:
 
-#atscode("\
+#sats2xhtml("\
 typedef
 abc_tup = '(int, int, string) // for tuples
 typedef
@@ -46,7 +46,7 @@ allowed after the single quote. If the use of these special symbols is
 to be avoided, then one can declare the types #stacode("abc_tup") and
 #stacode("abc_rec") as follows in a slightly different syntax:
 
-#atscode("\
+#sats2xhtml("\
 typedef
 abc_tup = $tup(int, int, string) // for tuples
 typedef
@@ -64,7 +64,7 @@ Also, the keywords
 The following code demonstrates how tuples and records can be created
 and their components (i.e., fields) taken out:
 
-#atscode("\
+#dats2xhtml("\
 //
 val x_tup = '(0, 1, \"2\") : abc_tup
 val x_rec = '{a=0, b=1, c=\"2\"} : abc_rec
@@ -84,7 +84,7 @@ are immutable. If one tries to typecheck the following code, then he
 or she should see error messages reporting that #dyncode("x_tup.0")
 and #dyncode("x_rec.a") are non-left-values:
 
-#atscode("\
+#dats2xhtml("\
 //
 val () = x_tup.0 := 100 // *ERROR*: x_tup.0 not a left-value
 val () = x_rec.a := 100 // *ERROR*: x_tup.0 not a left-value
@@ -100,7 +100,7 @@ literally create a reference to a flat tuple/record. In the following
 code, the types #stacode("abc_tup_") and #stacode("abc_rec_") are
 declcared for flat tuples and records, respectively:
 
-#atscode("\
+#sats2xhtml("\
 //
 typedef
 abc_tup_ = @(int, int, string) // for tuples
@@ -113,7 +113,7 @@ and the types #stacode("abc_tup_r") and #stacode("abc_rec_r") are for
 references to tuples and records classified by #stacode("abc_tup_")
 and #stacode("abc_rec_"), respetively:
 
-#atscode("\
+#sats2xhtml("\
 //
 typedef abc_tup_r = ref(abc_tup_) // for tuples
 typedef abc_rec_r = ref(abc_rec_) // for records
@@ -123,7 +123,7 @@ typedef abc_rec_r = ref(abc_rec_) // for records
 The code below demonstrates how tuples and records with mutable fields
 can be created and their fields accessed and updated.
 
-#atscode("\
+#dats2xhtml("\
 //
 val x_tup_r = ref<abc_tup_>(@(0, 1, \"2\"))
 val x_rec_r = ref<abc_rec_>(@{a=0, b=1, c=\"2\"})
@@ -153,7 +153,7 @@ fields associated with #stacode("myrec") that are of the names
 #dyncode("a"), #dyncode("b"), and #dyncode("c"); the first two may be
 updated while the third one is read-only:
 
-#atscode("\
+#dats2xhtml("\
 (* ****** ****** *)
 
 abstype myrec = ptr  
@@ -226,7 +226,7 @@ record of the type #stacode("myrec") and then
 accesses and updates certain fields of the
 created record:
 
-#atscode("\
+#dats2xhtml("\
 //
 val x_abc = myrec_make(0, 1, \"2\")
 //

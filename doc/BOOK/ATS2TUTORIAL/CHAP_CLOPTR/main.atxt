@@ -26,14 +26,14 @@ function is often a closure-function (instead of an envless function). For
 instance, the following higher-order function #dyncode("list_map_cloref")
 takes a closure-function as its second argument:
 
-#atscode('\
+#sats2xhtml('\
 fun{
 a:t@ype}{b:t@ype
 } list_map_cloref{n:int}
   (xs: list (a, n), f: (a) -<cloref> b): list_vt (b, n)
 ')
 
-")
+")#comment("para")
 
 #para("\
 
@@ -44,7 +44,7 @@ closure-functions. As a variant of #dyncode("list_map_cloref"), the
 following higher-order function #dyncode("list_map_cloptr") takes a linear
 closure-function as its second argument:
 
-#atscode('\
+#sats2xhtml('\
 fun{
 a:t@ype}{b:t@ype
 } list_map_cloptr{n:int}
@@ -56,13 +56,13 @@ to form a type for linear closure-functions.  Note that the symbol
 #keycode("!") indicates that the second argument is still available after
 a call to #dyncode("list_map_cloptr") returns.
 
-")
+")#comment("para")
 
 #para('\
 
 A typical example making use of #dyncode("list_map_cloptr") is given as follows:
 
-#atscode('\
+#dats2xhtml('\
 fun foo{n:int}
 (
   x0: int, xs: list (int, n)
@@ -80,7 +80,7 @@ Note that a linear closure is first created in the body of the function
 #dyncode("foo"), and it is explicitly freed after its use. The function
 #dyncode("cloptr_free") is given the following interface:
 
-#atscode('\
+#sats2xhtml('\
 fun cloptr_free {a:t0p} (pclo: cloptr (a)): void
 ')
 
@@ -88,7 +88,7 @@ where #stacode("cloptr") is abstract. The cast
 #dyncode("$UNSAFE.cast{cloptr(void)}(f)") can certainly be replaced with
 something safer but it would make programming more curbersome.
 
-')
+')#comment("para")
 
 #para('\
 
@@ -100,7 +100,7 @@ that takes these arguments sequentially. For instance, the function
 function #dyncode("acker"), which implements the famous Ackermann function
 (that is recursive but not primitive recursive):
 
-#atscode('\
+#dats2xhtml('\
 fun
 acker(m:int, n:int): int =
 (
@@ -123,14 +123,14 @@ longer accessible after the evaluation of #dyncode("acker2(3)(4)")
 finishes, and the memory for such a value can only to be safely reclaimed
 through garbage collection (GC).
 
-')
+')#comment("para")
 
 #para('\
 
 It is also possible to define a curried version of #dyncode("acker") as
 follows:
 
-#atscode('\
+#dats2xhtml('\
 fun acker3 (m:int) = lam (n:int): int =<cloptr1> acker (m, n)
 ')
 
@@ -139,7 +139,7 @@ While the evaluation of #dyncode("acker3(3)(4)") yields the same result as
 that automatically frees the linear closure-function generated from evaluating
 #dyncode("acker3(3)") after the evaluation of #dyncode("acker3(3)(4)") finishes.
 
-')
+')#comment("para")
 
 #para("\
 
@@ -151,7 +151,7 @@ closure-functions need to be stored in a data structure but GC is
 unavailable or undesirable, then using linear closure-functions can lead to
 a solution that avoids the risk of generatig memory leaks at run-time.
 
-")
+")#comment("para")
 
 #para("\
 

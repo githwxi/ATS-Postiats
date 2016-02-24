@@ -133,10 +133,36 @@ tokbuf_set_ntok(buf, ntok) = buf.tokbuf_ntok := ntok
 //
 implement
 tokbuf_incby_1
-  (buf) = buf.tokbuf_ntok := succ(buf.tokbuf_ntok)
+  (buf) =
+(
+buf.tokbuf_ntok :=
+  succ(buf.tokbuf_ntok)
+)
+//
 implement
 tokbuf_incby_n
-  (buf, n) = buf.tokbuf_ntok := buf.tokbuf_ntok + n
+  (buf, n) = let
+//
+val n0 = buf.tokbuf_ntok
+//
+in
+  buf.tokbuf_ntok := n0 + n
+end // tokbuf_incby_n
+//
+implement
+tokbuf_decby_n
+  (buf, n) = let
+//
+val n0 = buf.tokbuf_ntok
+//
+in
+//
+if
+(n0 >= n)
+then buf.tokbuf_ntok := n0 - n
+else buf.tokbuf_ntok := i2sz(0)
+//
+end // end of [tokbuf_decby_n]
 //
 (* ****** ****** *)
 

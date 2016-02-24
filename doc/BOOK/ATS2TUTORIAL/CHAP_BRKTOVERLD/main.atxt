@@ -34,7 +34,7 @@ Let us now see a simple example of bracket-notation in overloading.
 In the followng code, a linear abstract type #dyncode("lock") is
 introduced together with two functions:
 
-#atscode('\
+#dats2xhtml('\
 //
 absvtype lock(a:vt@ype)
 //
@@ -43,7 +43,7 @@ fun{a:vt0p} lock_acquire(!lock(a)): a
 extern
 fun{a:vt0p} lock_release(!lock(a), a): void
 //
-')#comment("atscode")
+')#comment("dats2xhtml")
 
 As one can imagine, #dyncode("lock_acquire") is called to obtain the value
 stored in a given lock while #dyncode("lock_release") is called to return a
@@ -55,16 +55,16 @@ value to a given lock.\
 
 Suppose that we now introduce the following overloading declarations:
 
-#atscode('\
+#sats2xhtml('\
 //
 overload [] with lock_acquire
 overload [] with lock_release
 //
-')#comment("atscode")
+')#comment("sats2xhtml")
 
 With these declarations, the following code typechecks:
 
-#atscode('\
+#dats2xhtml('\
 //
 val
 mylock = $extval(lock(int), "mylock")
@@ -72,7 +72,7 @@ mylock = $extval(lock(int), "mylock")
 val x0 = mylock[] // = lock_acquire (mylock)
 val () = mylock[] := x0 // = lock_release (mylock, x0)
 //
-')#comment("atscode")
+')#comment("dats2xhtml")
 
 Note that the bracket-notation in any assigement is only allowed to
 refer to a function that returns the void-value. In the above example, the

@@ -41,7 +41,7 @@ which is automatically loaded by #command("atsopt").
 There are various functions in ATSLIB for array creation. For instance, the
 following two are commonly used:
 
-#atscode("\
+#sats2xhtml("\
 fun{a:t@ype}
 arrayref_make_elt
   {n:nat} (asz: size_t n, elt: a):<!wrt> arrayref (a, n)
@@ -68,7 +68,7 @@ For reading from and writing to an array, the function templates
 #dyncode("arrayref_get_at") and #dyncode("arrayref_set_at") can be used,
 respectively, which are assigned the following interfaces:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t@ype}
 arrayref_get_at
   {n:int} (A: arrayref (a, n), i: sizeLt (n)):<!ref> a
@@ -90,7 +90,7 @@ and #dyncode("A[i] := v"), respectively.\
 As an example, the following function template reverses the content of a
 given array:\
 
-#atscode_extract('\
+#dats2xhtml('\
 fun{a:t@ype}
 arrayref_reverse{n:nat}
 (
@@ -145,7 +145,7 @@ type can be handled:\
 
 ")
 
-#atscode_extract('\
+#dats2xhtml('\
 fun{a:vt@ype}
 arrayref_reverse{n:nat}
 (
@@ -174,7 +174,7 @@ end // end of [arrayref_reverse]
 The interface for the function template #dyncode("arrayref_interchange") is
 given below:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:vt@ype}
 arrayref_interchange{n:int}
   (A: arrayref (a, n), i: sizeLt n, j: sizeLt n):<!ref> void
@@ -193,7 +193,7 @@ There are various functions available for traversing an array from left to
 right or from right to left. Also, the following two functions can be conveniently
 called to traverse an array from left to right:
 
-#atscode('\
+#sats2xhtml('\
 //
 fun{a:t0p}
 arrayref_head{n:pos} (A: arrayref (a, n)): (a) // A[0]
@@ -208,7 +208,7 @@ overload .tail with arrayref_tail
 For instance, the fold-left function for arrays can be implemented
 as follows:
 
-#atscode_extract('
+#dats2xhtml('\
 fun{a,b:t@ype}
 arrayref_foldleft{n:int}
 (

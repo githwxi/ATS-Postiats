@@ -1,5 +1,5 @@
 (*
-** For generating HTMLTOC
+** Syntax-hiliting ATS code
 *)
 
 (* ****** ****** *)
@@ -26,17 +26,21 @@ STDLIB = "libc/SATS/stdlib.sats"
 typedef charptr = $extype"char*"
 
 (* ****** ****** *)
+//
+#define MVF "mv -f"
+//
+#define
+MYATEXTING "./../ATEXT/bin/myatexting"
+//
+(* ****** ****** *)
 
 fun
-fsed
+process_one
 (
   inp: string
 ) : void = let
 //
 var buf = @[byte][BUFSZ]()
-//
-val CAT = "cat"
-val SED = "sed"
 //
 val inp = $UN.cast{charptr}(inp)
 val bufp = $UN.cast{charptr}(addr@buf)
@@ -45,18 +49,34 @@ val script = "\
 s/'><\\/BODY'/'><SCRIPT SRC=\".\\/assets\\/ATS2TUTORIAL-BOOK.js\"><\\/SCRIPT><\\/BODY'/\
 " // end of [val]
 //
-val _(*int*) =
-$extfcall(int
+val
+_(*int*) =
+$extfcall
+( int
 , "snprintf"
-, bufp, BUFSZ, "%s %s | %s %s > HTMLTOC/%s"
-, CAT, inp, SED, script, inp)
+, bufp, BUFSZ, "%s %s %s.bak", MVF, inp, inp
+) (* $extfcall *)
+val () =
+  fprintln! (stdout_ref, $UN.cast{string}(bufp))
+val () =
+  ignoret($STDLIB.system($UN.cast{string}(bufp)))
 //
-val ((*void*)) =
-  fprintln! (stdout_ref, "fsed: command = ", $UN.cast{string}(bufp))
+val
+_(*int*) =
+$extfcall
+( int
+, "snprintf"
+, bufp, BUFSZ, "%s --output %s --input %s.bak"
+, MYATEXTING, inp, inp
+) (* $extfcall *)
+val () =
+  fprintln! (stdout_ref, $UN.cast{string}(bufp))
+val () =
+  ignoret($STDLIB.system($UN.cast{string}(bufp)))
 //
 in
-  ignoret($STDLIB.system($UN.cast{string}(bufp)))
-end // end of [fsed]
+  // nothing
+end // end of [process_one]
 
 (* ****** ****** *)
 
@@ -70,7 +90,7 @@ val argv1 =
 ptr_succ<string> ($UN.castvwtp1{ptr}(argv))
 //
 implement(env)
-array_foreach$fwork<string><env> (x, env) = fsed(x)
+array_foreach$fwork<string><env> (x, env) = process_one(x)
 //
 in
   ignoret(arrayref_foreach($UN.castvwtp1{arrayref(string,n-1)}(argv1), i2sz(argc-1)))
@@ -78,4 +98,4 @@ end (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [htmltoc.dats] *)
+(* end of [synhilit.dats] *)

@@ -121,10 +121,12 @@ val-
 cons0(x0, _) = xs
 //
 val code = atext_strngfy(x0)
+//
 (*
 val ((*void*)) =
   fprintln! (stdout_ref, "code =\n", code)
 *)
+//
 val xhtml =
   string_pats2xhtmlize_bground(stadyn, code)
 //
@@ -134,13 +136,35 @@ end // end of [__ats2xhtml__]
 
 in (* in-of-local *)
 //
-val () =
-the_atextdef_insert_fstring
-  ("sats2xhtml", lam(xs) => __ats2xhtml__(0, xs))
+fun
+sats2xhtml
+(
+  loc: loc_t, xs: atextlst
+) : atext =
+(
+  atext_make_string(loc, __ats2xhtml__(0, xs))
+)
+//
+fun
+dats2xhtml
+(
+  loc: loc_t, xs: atextlst
+) : atext =
+(
+  atext_make_string(loc, __ats2xhtml__(1, xs))
+)
 //
 val () =
-the_atextdef_insert_fstring
-  ("dats2xhtml", lam(xs) => __ats2xhtml__(1, xs))
+the_atextdef_insert
+( "sats2xhtml"
+, TEXTDEFfun(lam(loc, xs) => sats2xhtml(loc, xs))
+) (* the_atextdef_insert *)
+//
+val () =
+the_atextdef_insert
+( "dats2xhtml"
+, TEXTDEFfun(lam(loc, xs) => dats2xhtml(loc, xs))
+) (* the_atextdef_insert *)
 //
 end // end of [local]
 

@@ -31,7 +31,7 @@ adopted from ML.
 The following code declares a datatype of the name #stacode("weekday") for
 values representing weekdays:
 
-#atscode('\
+#sats2xhtml('\
 datatype weekday =
   | Monday | Tuesday | Wednesday | Thursday | Friday
 ')
@@ -56,7 +56,7 @@ Each nullary constructor is represented as a small integer
 function #dyncode("weekday2int") to find out the integers reprsenting
 the constructors associated with #stacode("weekday"):
 
-#atscode('\
+#dats2xhtml('\
 //
 staload UN = "prelude/SATS/unsafe.sats"
 //
@@ -88,7 +88,7 @@ pattern that matches this value. For instance, the following function tests
 whether a given value of the type #stacode("weekday") is formed with the
 constructor #dyncode("Friday"):
 
-#atscode('\
+#dats2xhtml('\
 fun
 isFriday(x: weekday): bool =
   case+ x of Friday() => true | _ => false
@@ -100,7 +100,7 @@ used as a pattern. On the other hand, both of the following
 assertions hold at run-time as #dyncode("Friday") and #dyncode("Friday()")
 refer to the same value:
 
-#atscode('\
+#dats2xhtml('\
 val () = assertloc (isFriday(Friday))
 val () = assertloc (isFriday(Friday()))
 ')
@@ -121,7 +121,7 @@ it such that one is nullary (nil-like) and the other is non-nullary
 (cons-like). For instance, the datatype #stacode("ab") declared as follows
 is list-like:
 
-#atscode('\
+#sats2xhtml('\
 datatype ab = A of () | B of (bool)
 ')
 
@@ -138,7 +138,7 @@ represented as a heap-allocated singleton tuple containing the only
 component #dyncode("b"). This description can be readily verified with
 the following code:
 
-#atscode('\
+#dats2xhtml('\
 val () = assertloc (iseqz($UN.cast{ptr}(A())))
 val () = assertloc (true = $UN.ptr0_get<bool>($UN.cast{ptr}(B(true))))
 val () = assertloc (false = $UN.ptr0_get<bool>($UN.cast{ptr}(B(false))))
@@ -150,7 +150,7 @@ val () = assertloc (false = $UN.ptr0_get<bool>($UN.cast{ptr}(B(false))))
 
 The following declaration introduces a datatype of the name #stacode("abc"):
 
-#atscode('\
+#sats2xhtml('\
 datatype abc =
   | A of () | B of (bool) | C of (int, double)
 ')
@@ -172,7 +172,7 @@ arguments passed to the constructor.  For instance, the following function
 can be called to find out the tags assigned to the constructors associated
 with #stacode("abc"):
 
-#atscode('\
+#dats2xhtml('\
 fun
 abc2tag
 (x: abc): int = let
@@ -197,7 +197,7 @@ Datatypes can be defined recursively. As an example,
 the following declaration introduces a recursively defined datatype
 #stacode("intexp") (for representing arithemetic integer expressions):
 
-#atscode('\
+#sats2xhtml('\
 datatype
 intexp =
 | Int of int
@@ -212,7 +212,7 @@ As another example, the following code introduces two mutually recursively
 defined datatypes #stacode("intexp") and #stacode("boolexp")
 (for integer expressions and boolean expressions, respectively):
 
-#atscode('\
+#sats2xhtml('\
 datatype
 intexp =
 | Int of int
@@ -235,7 +235,7 @@ The code below implements two mutually recursive functions
 #dyncode("eval_intexp") and #dyncode("eval_boolexp") for evaluating integer
 expressions and boolean expressions, respectively:
 
-#atscode('\
+#dats2xhtml('\
 //
 symintr eval
 //

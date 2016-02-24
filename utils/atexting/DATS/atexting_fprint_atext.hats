@@ -5,9 +5,6 @@ fun{}
 fprint_atext_node_$TEXTnil: $d2ctype(fprint_atext_node_<>)
 extern
 fun{}
-fprint_atext_node_$TEXTlist: $d2ctype(fprint_atext_node_<>)
-extern
-fun{}
 fprint_atext_node_$TEXTtoken: $d2ctype(fprint_atext_node_<>)
 extern
 fun{}
@@ -15,6 +12,9 @@ fprint_atext_node_$TEXTstring: $d2ctype(fprint_atext_node_<>)
 extern
 fun{}
 fprint_atext_node_$TEXTerrmsg: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTlist: $d2ctype(fprint_atext_node_<>)
 extern
 fun{}
 fprint_atext_node_$TEXTsquote: $d2ctype(fprint_atext_node_<>)
@@ -39,10 +39,10 @@ fprint_atext_node_
 (
 case+ arg0 of
 | TEXTnil _ => fprint_atext_node_$TEXTnil<>(out, arg0)
-| TEXTlist _ => fprint_atext_node_$TEXTlist<>(out, arg0)
 | TEXTtoken _ => fprint_atext_node_$TEXTtoken<>(out, arg0)
 | TEXTstring _ => fprint_atext_node_$TEXTstring<>(out, arg0)
 | TEXTerrmsg _ => fprint_atext_node_$TEXTerrmsg<>(out, arg0)
+| TEXTlist _ => fprint_atext_node_$TEXTlist<>(out, arg0)
 | TEXTsquote _ => fprint_atext_node_$TEXTsquote<>(out, arg0)
 | TEXTdquote _ => fprint_atext_node_$TEXTdquote<>(out, arg0)
 | TEXTextcode _ => fprint_atext_node_$TEXTextcode<>(out, arg0)
@@ -103,39 +103,6 @@ implement{}
 fprint_atext_node_$TEXTnil$lpar(out, _) = fprint_atext_node_$lpar(out)
 implement{}
 fprint_atext_node_$TEXTnil$rpar(out, _) = fprint_atext_node_$rpar(out)
-//
-extern
-fun{}
-fprint_atext_node_$TEXTlist$con: $d2ctype(fprint_atext_node_<>)
-extern
-fun{}
-fprint_atext_node_$TEXTlist$lpar: $d2ctype(fprint_atext_node_<>)
-extern
-fun{}
-fprint_atext_node_$TEXTlist$rpar: $d2ctype(fprint_atext_node_<>)
-extern
-fun{}
-fprint_atext_node_$TEXTlist$arg1: $d2ctype(fprint_atext_node_<>)
-//
-implement{}
-fprint_atext_node_$TEXTlist(out, arg0) = 
-{
-//
-val () = fprint_atext_node_$TEXTlist$con<>(out, arg0)
-val () = fprint_atext_node_$TEXTlist$lpar<>(out, arg0)
-val () = fprint_atext_node_$TEXTlist$arg1<>(out, arg0)
-val () = fprint_atext_node_$TEXTlist$rpar<>(out, arg0)
-//
-}
-implement{}
-fprint_atext_node_$TEXTlist$con(out, _) = fprint(out, "TEXTlist")
-implement{}
-fprint_atext_node_$TEXTlist$lpar(out, _) = fprint_atext_node_$lpar(out)
-implement{}
-fprint_atext_node_$TEXTlist$rpar(out, _) = fprint_atext_node_$rpar(out)
-implement{}
-fprint_atext_node_$TEXTlist$arg1(out, arg0) =
-  let val-TEXTlist(arg1) = arg0 in fprint_atext_node_$carg(out, arg1) end
 //
 extern
 fun{}
@@ -235,6 +202,39 @@ fprint_atext_node_$TEXTerrmsg$rpar(out, _) = fprint_atext_node_$rpar(out)
 implement{}
 fprint_atext_node_$TEXTerrmsg$arg1(out, arg0) =
   let val-TEXTerrmsg(arg1) = arg0 in fprint_atext_node_$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_atext_node_$TEXTlist$con: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTlist$lpar: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTlist$rpar: $d2ctype(fprint_atext_node_<>)
+extern
+fun{}
+fprint_atext_node_$TEXTlist$arg1: $d2ctype(fprint_atext_node_<>)
+//
+implement{}
+fprint_atext_node_$TEXTlist(out, arg0) = 
+{
+//
+val () = fprint_atext_node_$TEXTlist$con<>(out, arg0)
+val () = fprint_atext_node_$TEXTlist$lpar<>(out, arg0)
+val () = fprint_atext_node_$TEXTlist$arg1<>(out, arg0)
+val () = fprint_atext_node_$TEXTlist$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_atext_node_$TEXTlist$con(out, _) = fprint(out, "TEXTlist")
+implement{}
+fprint_atext_node_$TEXTlist$lpar(out, _) = fprint_atext_node_$lpar(out)
+implement{}
+fprint_atext_node_$TEXTlist$rpar(out, _) = fprint_atext_node_$rpar(out)
+implement{}
+fprint_atext_node_$TEXTlist$arg1(out, arg0) =
+  let val-TEXTlist(arg1) = arg0 in fprint_atext_node_$carg(out, arg1) end
 //
 extern
 fun{}

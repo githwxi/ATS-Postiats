@@ -133,7 +133,10 @@ of // case+
 //
 | TEXTnil() => ""
 //
-| TEXTtoken(tok) => token_strngfy(tok)
+| TEXTtoken(tok) =>
+    token_strngfy(tok)
+  // end-of-TEXTtoken
+//
 //
 | TEXTstring(str) => str
 | TEXTerrmsg(msg) => msg

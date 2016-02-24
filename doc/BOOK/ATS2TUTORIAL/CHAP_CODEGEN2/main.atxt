@@ -32,7 +32,7 @@ In the following presentation, I am to show that the ATS compiler can be
 directed to generate the code for certain functions on values of a declared
 datatype. Following is the datatype used for illustration:
 
-#atscode('\
+#sats2xhtml('\
 //
 datatype expr =
   | Int of int
@@ -63,7 +63,7 @@ constructor in the construction of the value.  We can use the following
 directive to indicate (to the ATS compiler) that the datcon-function for
 the datatype #stacode("expr") needs to be generated:
 
-#atscode('\
+#sats2xhtml('\
 \#codegen2("datcon", expr)
 ')
 
@@ -73,14 +73,14 @@ the #dyncode("\#codegen2")-directive. For instance, the following directive
 indicates that the generated function is of the given name
 #dyncode("my_datcon_expr"):
 
-#atscode('\
+#sats2xhtml('\
 \#codegen2("datcon", expr, my_datcon_expr)
 ')
 
 Assume that a file of the name #filename("expr.dats") contains the
 following directive (as a toplevel declaration):
 
-#atscode('\
+#sats2xhtml('\
 \#codegen2("datcon", expr)
 ')
 
@@ -94,7 +94,7 @@ following command-line:
 
 we can see some output of ATS code that implements #dyncode("datcon_expr"):
 
-#atscode('\
+#dats2xhtml('\
 (* ****** ****** *)
 //
 implement
@@ -126,7 +126,7 @@ If the output needs to be stored in a file of the name
 Note that the funtion template #dyncode("datcon_expr") is required to be
 declared somewhere in order for the generated code to be compiled properly:
 
-#atscode('\
+#sats2xhtml('\
 fun{} datcon_expr : (expr) -> string // a function template
 ')
 
@@ -155,7 +155,7 @@ the (outmost) constructor in the construction of the value.  We can use the
 following directive to indicate (to the ATS compiler) that the
 datcontag-function for the datatype #stacode("expr") needs to be generated:
 
-#atscode('\
+#sats2xhtml('\
 \#codegen2("datcontag", expr)
 ')
 
@@ -165,14 +165,14 @@ supplied as the third argument of the #dyncode("\#codegen2")-directive. For
 instance, the following directive indicates that the generated function is
 of the given name #dyncode("my_datcontag_expr"):
 
-#atscode('\
+#sats2xhtml('\
 \#codegen2("datcontag", expr, my_datcontag_expr)
 ')
 
 The following ATS code is expected to be generated that implements
 #dyncode("datcontag_expr"):
 
-#atscode('\
+#dats2xhtml('\
 (* ****** ****** *)
 //
 implement
@@ -197,7 +197,7 @@ case+ arg0 of
 Note that the funtion template #dyncode("datcontag_expr") is required to be
 declared somewhere in order for the generated code to be compiled properly:
 
-#atscode('\
+#sats2xhtml('\
 fun{} datcontag_expr : (expr) -> intGte(0) // a function template
 ')
 
@@ -232,14 +232,14 @@ instance, such a function can be of great use in debugging.
 Let us first declare a function template #dyncode("fprint_expr") as
 follows:
 
-#atscode('\
+#sats2xhtml('\
 fun{} fprint_expr : (FILEref, expr) -> void // a function template
 ')
 
 We can then use the directive below to indicate (to the ATS compiler) that
 the fprint-function for the datatype #stacode("expr") needs to be generated:
 
-#atscode('\
+#sats2xhtml('\
 \#codegen2("fprint", expr, fprint_expr)
 ')
 
@@ -247,7 +247,7 @@ The third argument of the #dyncode("codegen2")-directive can be omitted
 in this case as it coincides with the default. The generated code that
 implements #dyncode("fprint_expr") is listed as follows:
 
-#atscode('\
+#dats2xhtml('\
 (* ****** ****** *)
 //
 extern
@@ -696,7 +696,7 @@ makes the code extremely flexible for adaption through template re-mplementation
 As the datatype #stacode('expr') is recursively defined, the following template
 implementation needs to be added in order to make #dyncode("fprint_expr") work:
 
-#atscode('\
+#dats2xhtml('\
 implement fprint_expr$card<expr> = fprint_expr
 ')
 
@@ -707,7 +707,7 @@ outputs the same text representation.
 
 As an example of adaptation, let us add the following template implementations:
 
-#atscode('\
+#dats2xhtml('\
 implement
 fprint_expr$Add$con<> (_, _) = ()
 implement
@@ -725,7 +725,7 @@ expected to read #dyncode("(Int(10)+Mul(Int(1),Int(2)))").
 After proper adaptation is done, one can introduce a (non-template)
 function as follows:
 
-#atscode('\
+#dats2xhtml('\
 //
 extern
 fun

@@ -33,7 +33,7 @@ functions on persistent matrices-with-size can be found in
 
 The following function is commonly used to create a matrix-with-size:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t0p}
 mtrxszref_make_elt (m: size_t, n: size_t, x0: a): mtrxref (a)
 // end of [mtrxszref_make_elt]
@@ -51,7 +51,7 @@ For accessing and updating the content of a matrix-cell, the following
 two functions #dyncode("mtrxszref_get_at") and #dyncode("mtrxszref_set_at")
 can be called:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t0p}
 mtrxszref_get_at (M: mtrxszref(a), i: size_t, j: size_t): (a)
 fun{a:t0p}
@@ -73,7 +73,7 @@ of out-of-bounds matrix access being detected.
 As a simple example, the following code implements a function that
 transpose the content of the matrix inside a given matrix-with-size:
 
-#atscode('\
+#dats2xhtml('\
 //
 extern
 fun{a:t0p}
