@@ -46,7 +46,7 @@ systax in ATS for doing so.
 Let us see a concrete example of stack-allocated closure.
 The following code implements a higher-order function template:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {res:t@ype}
@@ -73,7 +73,7 @@ Essentially, #dyncode("ifold(n, fopr, ini)") evaluates the expression
 function #dyncode("dotprod") for computing the dot product (or inner
 product) of two vectors can be implemented with a call to #dyncode("ifold"):
 
-#atscode('\
+#dats2xhtml('\
 //
 typedef res = double
 //
@@ -96,7 +96,7 @@ closure created on heap at run-time, and it is of no more use
 after the call returns. The function #dyncode("dotprod") can also be
 implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 dotprod
@@ -134,7 +134,7 @@ In order to remove the (unsafe) cast in the implementation of
 #dyncode("dotprod"), we need to implement a slight variant
 of #dyncode("ifold") as follows:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {res:t@ype}

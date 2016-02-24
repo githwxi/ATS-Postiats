@@ -28,7 +28,7 @@ initialization of a loaded package.\
 Suppose that a file named #filename('foo.dats') contains the following
 code:
 
-#atscode('\
+#dats2xhtml('\
 //
 val x = 1000
 val y = x + x // = 2000
@@ -47,7 +47,7 @@ such bindings, some form of initialization is required.  Let us further
 suppose that a file named #filename('foo2.dats') contains the following
 code:
 
-#atscode('\
+#dats2xhtml('\
 
 staload "./foo.dats"
 dynload "./foo.dats" // for initialization
@@ -104,7 +104,7 @@ can set the value of the flag #dyncode("ATS_DYNLOADFLAG") to 0. For
 instance, no dynload-function for #filename("foo.dats") is generated if the
 following line is added into #filename("foo.dats"):
 
-#atscode('\
+#dats2xhtml('\
 \#define ATS_DYNLOADFLAG 0
 ')
 
@@ -121,7 +121,7 @@ If there is a reason to call the dynload-function for
 call the alias. For instance, if the following line is added to
 #filename("foo2.dats"):
 
-#atscode('\
+#dats2xhtml('\
 \#define ATS_DYNLOADNAME "foo2_dynload"
 ')
 

@@ -45,7 +45,7 @@ such interfaces are declared in a static file. For instance, the following
 syntax declares interfaces (or types) in a static file for a value named
 #dyncode("pi") and a function named #dyncode("area_of_circle"):
 
-#atscode("\
+#sats2xhtml("\
 val pi : double
 fun area_of_circle (radius: double): double
 ")
@@ -53,7 +53,7 @@ fun area_of_circle (radius: double): double
 When the same interfaces are declared in a #emphasis("dynamic") file, the
 following slightly different syntax should be used:
 
-#atscode("\
+#dats2xhtml("\
 extern val pi : double
 extern fun area_of_circle (radius: double): double
 ")

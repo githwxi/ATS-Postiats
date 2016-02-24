@@ -21,7 +21,7 @@ directive #emphasis("\\\#include"). For instance, the following line
 indicates that a file named #emphasis("foobar") is included, that is, this
 line is to be replaced with the content of the file #emphasis("foobar"):
 
-#atscode('\
+#dats2xhtml('\
 \#include "foobar.hats"
 ')
 

@@ -1419,6 +1419,7 @@ d0ecl_node =
 //
   | D0Cextype of (string, s0exp) // externally named types
   | D0Cextype of (int(*knd*), string, s0exp) // externally named structs
+//
   | D0Cextvar of (string, d0exp) // externally named left-values
 //
   | D0Cextcode of

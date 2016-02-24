@@ -28,7 +28,7 @@ of a namespace populated with the declared names in a loaded package.\
 Suppose that a file named #filename('foo.sats') contains the
 following code:
 
-#atscode('\
+#sats2xhtml('\
 //
 datatype
 aDatatype =
@@ -42,7 +42,7 @@ fun aFunction: int -> int
 The following staload-declaration introduces a namespace
 #dyncode("FOO") for the names declared in #filename('foo.sats'):
 
-#atscode('\
+#sats2xhtml('\
 staload FOO = "foo.sats"
 ')
 
@@ -51,7 +51,7 @@ namespace #dyncode('FOO') in order for it to be referenced. For instance,
 the names available in the namespace #dyncode("FOO") are all referenced in
 the following code:
 
-#atscode('\
+#dats2xhtml('\
 val a: $FOO.aDatatype = $FOO.A()
 val b: $FOO.aDatatype = $FOO.B(0, $FOO.aFunction($FOO.aValue))
 ')
@@ -63,7 +63,7 @@ val b: $FOO.aDatatype = $FOO.B(0, $FOO.aFunction($FOO.aValue))
 If the file #filename('foo.sats') is staloaded as follows for the second
 time:
 
-#atscode('\
+#sats2xhtml('\
 staload FOO2 = "foo.sats"
 ')
 
@@ -76,7 +76,7 @@ then #filename('foo.sats') is not actually loaded by the compiler. Instead,
 
 It is also allowed for #filename('foo.sats') to be staloaded as follows:
 
-#atscode('\
+#sats2xhtml('\
 staload "foo.sats"
 ')
 
@@ -84,7 +84,7 @@ In this case, the namespace for the names declared in #filename('foo.sats')
 is opened. For instance, the following code shows that these names can now
 be referenced directly:
 
-#atscode('\
+#dats2xhtml('\
 val a: aDatatype = A()
 val b: aDatatype = B(0, aFunction(aValue))
 ')
@@ -96,7 +96,7 @@ val b: aDatatype = B(0, aFunction(aValue))
 
 Let us suppose that we have the following sequence of declarations:
 
-#atscode('\
+#dats2xhtml('\
 val aValue = 0
 staload "foo.sats"
 val anotheValue = aValue + 1

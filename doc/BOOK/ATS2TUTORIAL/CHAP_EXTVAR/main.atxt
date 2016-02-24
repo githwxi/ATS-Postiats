@@ -29,7 +29,7 @@ Suppose that I have in some C code a (global) integer variable of the name
 #dyncode("foo") and I want to increase in some ATS code the value stored in
 #dyncode("foo") by 1. This can be done as follows:
 
-#atscode('\
+#dats2xhtml('\
 val x0 = $extval(int, "foo") // get the value of foo
 val p_foo = $extval(ptr, "&foo") // get the address of foo
 val () = $UNSAFE.ptr_set<int> (p_foo, x0 + 1) // update foo
@@ -40,7 +40,7 @@ of #dyncode("foo"). If I want to interact in ATS with a language that does
 not support the address-of operator (e.g., JavaScript and Python), then I
 can do it as follows:
 
-#atscode('\
+#dats2xhtml('\
 extvar "foo" = x0 + 1
 ')
 
@@ -51,7 +51,7 @@ following the string. Of course, this works for languages like C that do
 support the address-of operator as well. This so-called extvar-declaration
 can also be written as follows:
 
-#atscode('\
+#dats2xhtml('\
 extern var "foo" = x0 + 1
 ')
 
@@ -66,7 +66,7 @@ variable that contains two integer fields named #dyncode("first") and
 #dyncode("second"). Then the following code assigns integers 1 and 2 to
 these two fields of #dyncode("foo2"):
 
-#atscode('\
+#dats2xhtml('\
 extvar "foo2.first" = 1
 extvar "foo2.second" = 2
 ')

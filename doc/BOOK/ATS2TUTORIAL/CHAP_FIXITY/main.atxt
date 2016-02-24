@@ -36,7 +36,7 @@ assigned a fixity. For instance, the following syntax declares that
 #dyncode("+") and #dyncode("-") are infix operators of a precedence value
 equal to 50:
 
-#atscode("\
+#sats2xhtml("\
 infixl 50 + -
 ")
 
@@ -63,7 +63,7 @@ We can also use the following syntax to declare that #dyncode("iadd"),
 left-associative infix operators with a precedence value equal to that of
 the operator #dyncode("+"):
 
-#atscode("\
+#sats2xhtml("\
 infixl (+) iadd fadd padd uadd
 ")
 
@@ -74,7 +74,7 @@ that of another one. For instance, the following syntax declares that
 #dyncode("opr2") is a left-associative infix operator and its precedence
 value is that of #dyncode("opr1") plus 10:
 
-#atscode("\
+#sats2xhtml("\
 infixl (opr1 + 10) opr2
 ")
 
@@ -101,7 +101,7 @@ similar. For instance, the following syntax declares that #dyncode("~") and
 #dyncode("?") are prefix and postfix operators of precedence values 61 and 69,
 respectively:
 
-#atscode("\
+#sats2xhtml("\
 prefix 61 ~
 postfix 69 ?
 ")
@@ -109,7 +109,7 @@ postfix 69 ?
 As an example, a postfix operator is involved in the following 3-line
 program:
 
-#atscode('\
+#dats2xhtml('\
 postfix (imul + 10) !!
 extern fun !! (x: int): int
 implement !! (x) = if x >= 2 then x * (x - 2)!! else 1
@@ -127,7 +127,7 @@ its assigned fixity status.  For instance, the following syntax does so to
 the operators #dyncode("iadd"), #dyncode("fadd"), #dyncode("padd") and
 #dyncode("uadd"):
 
-#atscode('nonfix iadd fadd padd uadd')
+#sats2xhtml('nonfix iadd fadd padd uadd')
 
 Note that #dyncode("nonfix") is a keyword in ATS.
 

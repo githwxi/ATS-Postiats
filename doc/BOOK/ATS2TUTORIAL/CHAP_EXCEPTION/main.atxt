@@ -47,7 +47,7 @@ be raised and then captured.
 Let us now take a look at the following code that implements a function
 for finding the rightmost element in a list that satisfies a given predicate:
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun{a:t@ype}
 list_find_rightmost
@@ -91,7 +91,7 @@ the found element can be returned to the original call to
 the following exception-based implementation of
 #dyncode("list_find_rightmost"):
 
-#atscode('
+#dats2xhtml('\
 implement{a}
 list_find_rightmost
   (xs, pred) = let

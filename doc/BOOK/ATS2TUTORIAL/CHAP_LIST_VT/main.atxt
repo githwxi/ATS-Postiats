@@ -22,7 +22,7 @@ essentially corresponds to a singly-linked list in C. The following linear
 datatype declaration introduces a linear type #stacode("list_vt") for
 linear lists:
 
-#atscode('\
+#sats2xhtml('\
 //
 datavtype
 list_vt(a:vt@ype, int) =
@@ -47,7 +47,7 @@ which is automatically loaded by #command("atsopt").\
 The following function #dyncode("list_vt_length") shows a typical way of
 handling a linear list in a read-only situation:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {a:vt@ype}
@@ -77,7 +77,7 @@ required to stay unchanged.
 The following function #dyncode("list_vt_foreach") shows a typical way of
 modifying elements stored in a linear list:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {a:vt@ype}
@@ -116,7 +116,7 @@ associated with L1 and L2. Notice that the type of #dyncode("xs") can be
 different from the original one assigned to it after folding. The following
 example shows a case as such:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {a:vt@ype}
@@ -159,7 +159,7 @@ stored in the field of the node reserved for the next node.
 The following function #dyncode("list_vt_free") frees a given linear
 list containing non-linear elements:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {a:vt@ype}

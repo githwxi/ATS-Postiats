@@ -39,7 +39,7 @@ resumes the suspended evaluation represented by V. If the call returns,
 then the returned value is of type T. The interface for the function
 template #dyncode("lazy_force") is given as follows:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t@ype} lazy_force (lazyval: lazy(a)):<!laz> a
 ')
 
@@ -55,7 +55,7 @@ In #myatscodelink("prelude/SATS/stream.sats", "prelude/SATS/stream.sats"),
 the following types #stacode("stream_con") and #stacode("stream") are declared
 mutually recursively for representing lazy streams:
 
-#atscode("\
+#sats2xhtml("\
 datatype
 stream_con (a:t@ype+) =
   | stream_nil of ((*void*)) | stream_cons of (a, stream(a))
@@ -73,7 +73,7 @@ implemented in #myatscodelink("prelude/DATS/stream.dats", "prelude/DATS/stream.d
 The following code gives a standard implementation of the sieve of
 Eratosthenes:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 from (n: int): stream (int) =
@@ -109,7 +109,7 @@ ascendingly.
 The function template #dyncode("stream_filter_cloref") is of the following
 interface:
 
-#atscode("\
+#sats2xhtml("\
 fun{a:t@ype}
 stream_filter_cloref
   (xs: stream(a), pred: a -<cloref> bool):<!laz> stream(a)
@@ -127,7 +127,7 @@ that satisfy the given predicate.\
 Let us see another example of lazy evaluation.  The follow code
 demonstrates an interesting approach to computing the Fibonacci numbers:
 
-#atscode('\
+#dats2xhtml('\
 //
 val _0_ = $UNSAFE.cast{int64}(0)
 val _1_ = $UNSAFE.cast{int64}(1)
@@ -148,7 +148,7 @@ and theFibs_2
 The function template #dyncode("stream_map2_fun") is assigned the following
 interface:
 
-#atscode("\
+#sats2xhtml("\
 fun{
 a1,a2:t0p}{b:t0p
 } stream_map2_cloref
@@ -171,7 +171,7 @@ A Hamming number is a positive natural number whose prime factors can
 contain only 2, 3 and 5.  The following code shows a straightforward way to
 generate a stream consisting of all the Hamming numbers:
 
-#atscode('\
+#dats2xhtml('\
 //
 val
 compare_int_int =
@@ -200,7 +200,7 @@ and theHamming5
 The function template #dyncode("stream_mergeq_fun") is given the following
 interface:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t0p}
 stream_mergeq_fun
 (

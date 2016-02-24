@@ -31,8 +31,9 @@ Given a viewtype VT, the type for references to values of viewtype VT is
 #stacode("ref")(VT). For convenience, the type constructor #stacode("ref")
 is declared to be abstract in ATS. However, it can be defined as follows:
 
-#atscode('\
-typedef ref (a:vt@ype) = [l:addr] (vbox (a @ l) | ptr l)
+#sats2xhtml('\
+typedef
+ref(a:vt@ype) = [l:addr] (vbox(a @ l) | ptr l)
 ')
 
 The interfaces for various functions on references can be found in
@@ -44,8 +45,8 @@ The interfaces for various functions on references can be found in
 For creating a reference, the function template #dyncode("ref_make_elt") of
 the following interface can be called:
 
-#atscode('\
-fun{a:vt@ype} ref_make_elt (x: a):<!wrt> ref a
+#sats2xhtml('\
+fun{a:vt@ype} ref_make_elt (x: a):<!wrt> ref(a)
 ')
 
 It is also allowed to use the shorthand #dyncode("ref") for
@@ -61,7 +62,7 @@ For reading from and writing through a reference, the function
 templates #dyncode("ref_get_elt") and #dyncode("ref_set_elt") can be used,
 respectively, which are assigned the following types:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t@ype} ref_get_elt (r: ref a):<!ref> a
 fun{a:t@ype} ref_set_elt (r: ref a, x: a):<!refwrt> void
 ')
@@ -82,7 +83,7 @@ respectively, in terms of bracket-notation.\
 A reference is typically employed to record some form of persistent state.
 For instance, following is such an example:
 
-#atscode_extract('\
+#dats2xhtml('\
 local
 //
 \#define BUFSZ 128
@@ -123,7 +124,7 @@ References are commonly misused in practice. The following program is often
 written by a beginner of functional programming who has already learned
 (some) imperative programming:
 
-#atscode_extract('\
+#dats2xhtml('\
 fun fact
   (n: int): int = let
   val res = ref<int> (1)
@@ -139,12 +140,14 @@ The function #dyncode("fact") is written in such a style as somewhat a direct
 translation of the following C code:
 
 #atscode('\
+//
 int
 fact (int n) {
   int res = 1 ;
   while (n > 0) { res = n * res; n = n - 1; } ;
   return (res) ;
 }
+//
 ')
 
 In the ATS implementation of #dyncode("fact"), #dyncode("res") is a
@@ -156,7 +159,7 @@ is no generated garbage after a call to #dyncode("fact") returns. A proper
 translation of the C implementation in ATS can actually be given as
 follows:
 
-#atscode_extract('\
+#dats2xhtml('\
 fun fact
   (n: int): int = let
   fun loop (n: int, res: int): int =
@@ -186,7 +189,7 @@ memory allocation. If this is not desirable or even acceptable, it is
 possible to only employ statically allocated memory in a reference creation
 as is shown below:
 
-#atscode_extract('\
+#dats2xhtml('\
 var myvar: int = 0
 val myref = ref_make_viewptr (view@(myvar) | addr@(myvar))
 ')

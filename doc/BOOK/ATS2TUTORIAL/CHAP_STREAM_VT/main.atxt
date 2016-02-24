@@ -68,7 +68,7 @@ initiates the evaluation of exp2 (to free linear values contained in exp1).
 The interface for the
 function template #dyncode("lazy_vt_force") is given as follows:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:vt@ype} lazy_vt_force (lazyval: lazy_vt(a)): (a)
 ')
 
@@ -82,7 +82,7 @@ with #dyncode("lazy_vt_force").\
 The interface for the
 function #dyncode("lazy_vt_free") is given as follows:
 
-#atscode('\
+#sats2xhtml('\
 fun lazy_vt_free {a:vt@ype} (lazyval: lazy_vt(a)): void
 ')
 
@@ -98,7 +98,7 @@ the following viewtypes #stacode("stream_vt_con") and
 #stacode("stream_vt") are declared mutually recursively for representing
 linear lazy streams:
 
-#atscode("\
+#sats2xhtml("\
 datavtype
 stream_vt_con (a:vt@ype+) =
   | stream_vt_nil of ((*void*)) | stream_vt_cons of (a, stream_vt(a))
@@ -117,7 +117,7 @@ The following code gives an implementation of the sieve
 of Eratosthenes in which a linear stream of all the prime numbers is
 constructed:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 from (n: int): stream_vt (int) =
@@ -156,7 +156,7 @@ val thePrimes = sieve(from(2))
 The function template #dyncode("stream_vt_filter_cloptr") is given
 the following interface:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t0p}
 stream_vt_filter_cloptr
   (xs: stream_vt (a), pred: (&a) -<cloptr> bool): stream_vt (a)
@@ -168,7 +168,7 @@ returns another stream consisting of all the elements in the stream xs
 satisfying the predicate pred.  Note that both xs and pred are consumed by
 the call to #dyncode("stream_vt_filter_cloptr").
 
-')
+')#comment("para")
 
 #para('\
 

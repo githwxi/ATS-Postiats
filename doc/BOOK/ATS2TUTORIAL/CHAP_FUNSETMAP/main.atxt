@@ -39,8 +39,7 @@ Suppose that a set is needed for collecting values of type
 creating and operating on such a set based on a balanced-tree
 implementation in ATSLIB/libats:
 
-#atscode('\
-
+#dats2xhtml('\
 local
 //
 typedef elt = elt_t
@@ -71,14 +70,14 @@ needs to implement such a function.
 Assume that #stacode("elt_t") is #stacode("int"). The following line
 of code creates a functional set (of integers) containing no elements:
 
-#atscode('\
+#dats2xhtml('\
 val myset = myfunset_nil()
 ')
 
 The function for inserting an element into a given set is assigned the
 following type:
 
-#atscode('\
+#sats2xhtml('\
 //
 fun myfunset_insert(xs: &myset >> _, x0: elt): bool
 //
@@ -93,7 +92,7 @@ no error).  Otherwise, #dyncode("true") is returned (to indicate a
 failure). The following few lines of code shows how insertion can be
 operated on a functional set:
 
-#atscode('\
+#dats2xhtml('\
 //
 var myset = myset
 //
@@ -111,7 +110,7 @@ argument to #dyncode("myfunset_insert").
 During the course of debugging, one may want to print out the values
 contained in a given set:
 
-#atscode('\
+#dats2xhtml('\
 //
 val () = fprintln! (stdout_ref, "myset = ", myset)
 //
@@ -121,7 +120,7 @@ where the symbol #dyncode("fprint") is overloaded with
 #dyncode("fprint_myset"). The function for removing an element from a
 given set is assigned the following type:
 
-#atscode('\
+#sats2xhtml('\
 //
 fun myfunset_remove(xs: &myset >> _, x0: elt): bool
 //
@@ -135,7 +134,7 @@ call-by-reference argument and #dyncode("true") is returned.  Otherwise,
 #dyncode("false") is returned.  The following few lines of code shows how
 removal can be operated on a functional set:
 
-#atscode('\
+#dats2xhtml('\
 val-true = myset.remove(0) // removed
 val-false = myset.remove(0) // not actually removed
 val-true = myset.remove(1) // removed
@@ -168,7 +167,7 @@ Suppose that a map is needed for mapping keys of type
 essentially sets up an interface for creating and operating on such a map
 based on a balanced-tree implementation in ATSLIB/libats:
 
-#atscode('\
+#dats2xhtml('\
 local
 //
 typedef
@@ -200,14 +199,14 @@ needs to implement such a function.
 Assume that #stacode("key_t") is #stacode("string") and #stacode("itm_t")
 is #stacode("int"). The following line of code creates an empty functional map:
 
-#atscode('\
+#dats2xhtml('\
 val mymap = myfunmap_nil()
 ')
 
 The following few lines insert some key/item pairs into
 #dyncode("mymap"):
 
-#atscode('\
+#dats2xhtml('\
 //
 var mymap = mymap
 //
@@ -232,7 +231,7 @@ item, #dyncode("mymap.insert") inserts the key/item pair into
 the key is returned. Otherwise, no item is returned. As can be expected,
 the size of #dyncode("mymap") is 3 at this point:
 
-#atscode('\
+#dats2xhtml('\
 val () = assertloc (mymap.size() = 3)
 ')
 
@@ -241,7 +240,7 @@ The dot-symbol #dyncode(".size") is overloaded with a function of the name
 stored in a given map.  During the course of debugging, one may want to
 print out the key/item pairs in a given map:
 
-#atscode('\
+#dats2xhtml('\
 //
 val () = fprintln! (stdout_ref, "mymap = ", mymap)
 //
@@ -251,7 +250,7 @@ where the symbol #dyncode("fprint") is overloaded with
 #dyncode("fprint_mymap"). The next two lines of code show how search with a
 given key operates on a map:
 
-#atscode('\
+#dats2xhtml('\
 val-~None_vt() = mymap.search("")
 val-~Some_vt(1) = mymap.search("a")
 ')
@@ -261,7 +260,7 @@ name #dyncode("myfunmap_search"), which returns the item associated with a
 given key if it is found. The next few lines of code remove some key/item
 pairs from #dyncode("mymap"):
 
-#atscode('\
+#dats2xhtml('\
 //
 val-true = mymap.remove("a")
 val-false = mymap.remove("a")

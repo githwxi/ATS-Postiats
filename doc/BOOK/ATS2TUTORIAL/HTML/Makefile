@@ -56,6 +56,7 @@ clean:: ; $(RMF) *_?ats.o
 cleanall:: clean
 cleanall:: ; $(RMF) htmltoc.exe
 cleanall:: ; $(RMF) synhilit.exe
+cleanall:: ; $(RMF) ./*.html.bak
 cleanall:: ; $(RMF) HTMLTOC/p*.html
 cleanall:: ; $(RMF) HTMLTOC/f*.html
 cleanall:: ; $(RMF) HTMLTOC/c*.html

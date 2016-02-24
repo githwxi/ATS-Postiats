@@ -39,6 +39,7 @@ case+ sm of
 | SMnone () => prstr "SMnone"
 | SMcomment () => prstr "SMcomment"
 | SMkeyword () => prstr "SMkeyword"
+//
 | SMextcode () => prstr "SMextcode"
 //
 | SMneuexp () => prstr "SMneuexp"
@@ -1448,6 +1449,35 @@ case+ d0c0.d0ecl_node of
   in
     // nothing
   end // end of [D0Cdatdecs]
+//
+| $SYN.D0Cextype
+    (name, def) =>
+  {
+    val ((*void*)) =
+    psynmark_ins_beg(SMextcode, loc0, res)
+    val ((*void*)) = s0exp_mark (def, res)
+    val ((*void*)) =
+    psynmark_ins_end(SMextcode, loc0, res)
+  }
+| $SYN.D0Cextype
+    (knd, name, def) =>
+  {
+    val ((*void*)) =
+    psynmark_ins_beg(SMextcode, loc0, res)
+    val ((*void*)) = s0exp_mark (def, res)
+    val ((*void*)) =
+    psynmark_ins_end(SMextcode, loc0, res)
+  }
+//
+| $SYN.D0Cextvar
+    (name, def) =>
+  {
+    val ((*void*)) =
+    psynmark_ins_beg(SMextcode, loc0, res)
+    val ((*void*)) = d0exp_mark (def, res)
+    val ((*void*)) =
+    psynmark_ins_end(SMextcode, loc0, res)
+  }
 //
 | $SYN.D0Cextcode _ =>
     psynmark_ins_begend (SMextcode, loc0, res)

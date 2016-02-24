@@ -21,7 +21,7 @@ A functional list is just a singly-linked list that is immutable
 after its construction. The following datatype declaration introduces
 a type #stacode("list") for functional lists:
 
-#atscode('\
+#sats2xhtml('\
 //
 datatype
 list(a:t@ype, int) =
@@ -46,7 +46,7 @@ list is usually built by making direct use of the constructors
 #dyncode('list_nil') and #dyncode('list_cons'). For instance, the following
 function #dyncode("fromto") builds a list of integers between two given ones:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 fromto
@@ -62,7 +62,7 @@ Traversing a list is commonly done by making use of pattern matching.  For
 instance, the following code implements a function for computing the length
 of a given list:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {a:t@ype}
@@ -96,7 +96,7 @@ refer to the head and tail of xs, respectively, where #dyncode(".head()") and
 #dyncode("list_foldleft") for folding a given list from the left can be
 implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {a,b:t@ype}
@@ -115,7 +115,7 @@ And the function
 #dyncode("list_foldright") for folding a given list from the right can be
 implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {a,b:t@ype}
@@ -140,7 +140,7 @@ is not.\
 As an application of #dyncode("list_foldleft"), the following code
 implements a function for reversing a given list:
 
-#atscode('\
+#dats2xhtml('\
 fun
 {a:t@ype}
 list_reverse
@@ -156,7 +156,7 @@ list_foldleft<List0(a),a>
 where the type constructor #stacode("List0") is for lists of
 unspecified length:
 
-#atscode('\
+#sats2xhtml('\
 typedef List0(a:t@ype) = [n:nat] list (a, n)
 ')
 
@@ -168,7 +168,7 @@ purpose of comparison, another implementation of #dyncode("list_reverse") is
 given as follows that captures the invariant of #dyncode("list_reverse")
 being length-preserving:
 
-#atscode('\
+#dats2xhtml('\
 fun
 {a:t@ype}
 list_reverse
@@ -198,7 +198,7 @@ end // end of [list_reverse]
 As an application of #dyncode("list_foldright"), the following code
 implements a function for concatenating two given lists:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {a:t@ype}
@@ -215,7 +215,7 @@ takes two lists as its arguments and returns one of unspecified length.
 For the purpose of comparison, another implementation of #dyncode("list_append")
 is given as follows:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {a:t@ype}
@@ -245,7 +245,7 @@ mapping that maps each natural number i less than the length of the list to
 element i in the list. The following function #dyncode("list_get_at") is
 for accessing a list element at a given position:
 
-#atscode("\
+#dats2xhtml("\
 //
 fun
 {a:t@ype}
@@ -273,7 +273,7 @@ There is no destructive update on a functional list as it is immutable.
 The following function #dyncode("list_set_at") can be called to construct
 a list that differs from a given one only at a given position:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
 {a:t@ype}
