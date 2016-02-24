@@ -23,6 +23,9 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Adding some basic functions into libats/ML/stdlib
+2. Atexting is functioning; it has been used to syntax-hilite ATS code
+   in docbook.
+3. Refactoring libatsynmark to make it directly dependent on libatsopt
 
 ######
 
