@@ -97,7 +97,7 @@ As an example, let us implement as follows a 2nd-order function
 #dyncode("find_root") that takes as its only argument a function f from
 integers to integers and searches for a root of f by enumeration:
 
-#atscode_extract("\
+#dats2xhtml("\
 fn find_root
 (
   f: int -<cloref1> int
@@ -126,7 +126,7 @@ f(n) = 0.
 As another example, let us implement as follows the famous Newton-Raphson's
 method for finding roots of functions on reals:
 
-#atscode_extract("\
+#dats2xhtml("\
 typedef
 fdouble = double -<cloref1> double
 //
@@ -156,7 +156,7 @@ end // end of [newton_raphson]
 With #dyncode("newton_raphson"), both the square root function and the
 cubic root function can be readily implemented as follows:
 
-#atscode_extract("\
+#dats2xhtml("\
 // square root function
 fn sqrt (c: double): double =
   newton_raphson (lam x => x * x - c, lam x => 2.0 * x, 1.0)

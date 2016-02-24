@@ -34,7 +34,7 @@ Suppose that a map is needed for mapping keys of type
 essentially sets up an interface for creating and operating on such a map
 based on a hashtable implementation in ATSLIB/libats:
 
-#atscode('\
+#dats2xhtml('\
 local
 
 typedef
@@ -59,7 +59,7 @@ Assume that #stacode("key_t") is #stacode("string") and #stacode("itm_t")
 is #stacode("int"). The following line of code creates a hashtable with its
 initial capacity set to be 1000:
 
-#atscode('\
+#dats2xhtml('\
 val mymap = myhashtbl_make_nil(1000)
 ')
 
@@ -70,7 +70,7 @@ items without need for resizing. When resizing is indeed needed, it is done
 automatically. The following few lines insert some key/item pairs into
 #dyncode("mymap"):
 
-#atscode('\
+#dats2xhtml('\
 //
 val-~None_vt() = mymap.insert("a", 0)
 val-~Some_vt(0) = mymap.insert("a", 1)
@@ -91,7 +91,7 @@ before insertion, then the original item associated with the key is
 returned. Otherwise, no item is returned. As can be expected, the size
 of #dyncode("mymap") is 3 at this point:
 
-#atscode('\
+#dats2xhtml('\
 val () = assertloc (mymap.size() = 3)
 ')
 
@@ -100,7 +100,7 @@ The dot-symbol #dyncode(".size") is overloaded with a function of the name
 stored in a given hashtable.  During the course of debugging, one may want
 to print out the key/item pairs in a given hashtable:
 
-#atscode('\
+#dats2xhtml('\
 //
 val () =
   fprintln! (stdout_ref, "mymap = ", mymap)
@@ -111,7 +111,7 @@ where the symbol #dyncode("fprint") is overloaded with
 #dyncode("fprint_myhashtbl"). The next two lines of code show how search
 with a given key operates on a hashtable:
 
-#atscode('\
+#dats2xhtml('\
 val-~None_vt() = mymap.search("")
 val-~Some_vt(1) = mymap.search("a")
 ')
@@ -121,7 +121,7 @@ name #dyncode("myhashtbl_search"), which returns the item associated with a
 given key if it is found. The next few lines of code remove some key/item
 pairs from #dyncode("mymap"):
 
-#atscode('\
+#dats2xhtml('\
 //
 val-true = mymap.remove("a")
 val-false = mymap.remove("a")
@@ -142,7 +142,7 @@ given key is stored in the hashtable being operated on.  The dot-symbol
 The next few lines of code make use of several less commonly used functions
 on hashtables:
 
-#atscode('\
+#dats2xhtml('\
 //
 val () = mymap.insert_any("a", 0)
 val () = mymap.insert_any("b", 1)
@@ -169,7 +169,7 @@ consisting of all the key/item pairs in a given hashtable; the former keeps
 the hashtable unchanged while the latter empties it. Last, I present as follows the
 interface for an iterator going over all the key/item pairs in a given hashtable:
 
-#atscode('\
+#dats2xhtml('\
 //
 extern
 fun
@@ -184,7 +184,7 @@ myhashtbl_foreach_cloref
 As an example, the following code prints out all the key/item
 pairs in a given hashtable:
 
-#atscode('\
+#dats2xhtml('\
 //
 val () =
 myhashtbl_foreach_cloref

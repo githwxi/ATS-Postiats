@@ -35,7 +35,7 @@ The following function is commonly used to create a matrix-with-size:
 
 #sats2xhtml('\
 fun{a:t0p}
-mtrxszref_make_elt (m: size_t, n: size_t, x0: a): mtrxref (a)
+mtrxszref_make_elt (m: size_t, n: size_t, x0: a): mtrxref(a)
 // end of [mtrxszref_make_elt]
 ')
 
@@ -77,7 +77,7 @@ transpose the content of the matrix inside a given matrix-with-size:
 //
 extern
 fun{a:t0p}
-mtrxszref_transpose (M: mtrxszref (a)): void
+mtrxszref_transpose (M: mtrxszref(a)): void
 //
 implement{a}
 mtrxszref_transpose
@@ -96,15 +96,15 @@ fun loop
     val () = M[i,j] := M[j,i]
     val () = M[j,i] := x
   in
-    loop (i, succ(j))
+    loop(i, succ(j))
   end else let
     val i1 = succ (i)
   in
-    if i1 < n then loop (i1, succ(i1)) else ()
+    if i1 < n then loop(i1, succ(i1)) else ()
   end // end of [if]
 //
 in
-  if n > 0 then loop (i2sz(0), i2sz(1)) else ()
+  if n > 0 then loop(i2sz(0), i2sz(1)) else ()
 end // end of [mtrxszref_transpose]
 ')
 

@@ -44,12 +44,12 @@ following two are commonly used:
 #sats2xhtml("\
 fun{a:t@ype}
 arrayref_make_elt
-  {n:nat} (asz: size_t n, elt: a):<!wrt> arrayref (a, n)
+  {n:nat} (asz: size_t n, elt: a):<!wrt> arrayref(a, n)
 // end of [arrayref_make_elt]
 
 fun{a:t@ype}
 arrayref_make_listlen
-  {n:int} (xs: list (a, n), n: int n):<!wrt> arrayref (a, n)
+  {n:int} (xs: list(a, n), n: int n):<!wrt> arrayref(a, n)
 // end of [arrayref_make_listlen]
 ")
 
@@ -71,11 +71,11 @@ respectively, which are assigned the following interfaces:
 #sats2xhtml('\
 fun{a:t@ype}
 arrayref_get_at
-  {n:int} (A: arrayref (a, n), i: sizeLt (n)):<!ref> a
+  {n:int} (A: arrayref(a, n), i: sizeLt (n)):<!ref> a
 
 fun{a:t@ype}
 arrayref_set_at
-  {n:int} (A: arrayref (a, n), i: sizeLt (n), x: a):<!ref> void
+  {n:int} (A: arrayref(a, n), i: sizeLt (n), x: a):<!ref> void
 ')
 
 Given an array #dyncode("A"), an index #dyncode("i") and a value
@@ -94,13 +94,13 @@ given array:\
 fun{a:t@ype}
 arrayref_reverse{n:nat}
 (
-  A: arrayref (a, n), n: size_t (n)
+  A: arrayref(a, n), n: size_t(n)
 ) : void = let
 //
 fun loop
   {i: nat | i <= n} .<n-i>.
 (
-  A: arrayref (a, n), n: size_t n, i: size_t i
+  A: arrayref(a, n), n: size_t n, i: size_t i
 ) : void = let
   val n2 = half (n)
 in
@@ -108,12 +108,12 @@ in
     val tmp = A[i]
     val ni = pred(n)-i
   in
-    A[i] := A[ni]; A[ni] := tmp; loop (A, n, succ(i))
+    A[i] := A[ni]; A[ni] := tmp; loop(A, n, succ(i))
   end else () // end of [if]
 end // end of [loop]
 //
 in
-  loop (A, n, i2sz(0))
+  loop(A, n, i2sz(0))
 end // end of [arrayref_reverse]
 ')
 
@@ -149,23 +149,23 @@ type can be handled:\
 fun{a:vt@ype}
 arrayref_reverse{n:nat}
 (
-  A: arrayref (a, n), n: size_t (n)
+  A: arrayref(a, n), n: size_t(n)
 ) : void = let
 //
 fun loop
   {i: nat | i <= n} .<n-i>.
 (
-  A: arrayref (a, n), n: size_t n, i: size_t i
+  A: arrayref(a, n), n: size_t n, i: size_t i
 ) : void = let
   val n2 = half (n)
 in
   if i < n2 then let
-    val () = arrayref_interchange (A, i, pred(n)-i) in loop (A, n, succ(i))
+    val () = arrayref_interchange(A, i, pred(n)-i) in loop(A, n, succ(i))
   end else () // end of [if]
 end // end of [loop]
 //
 in
-  loop (A, n, i2sz(0))
+  loop(A, n, i2sz(0))
 end // end of [arrayref_reverse]
 ')
 
@@ -177,7 +177,7 @@ given below:
 #sats2xhtml('\
 fun{a:vt@ype}
 arrayref_interchange{n:int}
-  (A: arrayref (a, n), i: sizeLt n, j: sizeLt n):<!ref> void
+  (A: arrayref(a, n), i: sizeLt n, j: sizeLt n):<!ref> void
 // end of [arrayref_interchange]
 ')
 
@@ -196,9 +196,9 @@ called to traverse an array from left to right:
 #sats2xhtml('\
 //
 fun{a:t0p}
-arrayref_head{n:pos} (A: arrayref (a, n)): (a) // A[0]
+arrayref_head{n:pos} (A: arrayref(a, n)): (a) // A[0]
 fun{a:t0p}
-arrayref_tail{n:pos} (A: arrayref (a, n)): arrayref (a, n-1)
+arrayref_tail{n:pos} (A: arrayref(a, n)): arrayref(a, n-1)
 //
 overload .head with arrayref_head
 overload .tail with arrayref_tail
@@ -212,7 +212,7 @@ as follows:
 fun{a,b:t@ype}
 arrayref_foldleft{n:int}
 (
-  f: (a, b) -> a, x: a, A: arrayref (b, n), n: size_t(n)
+  f: (a, b) -> a, x: a, A: arrayref(b, n), n: size_t(n)
 ) : a =
 (
 if n > 0

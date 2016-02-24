@@ -37,10 +37,10 @@ be called:
 #sats2xhtml('\
 fun{}
 arrszref_make_arrpsz
-  {a:vt0p}{n:int} (arrpsz (INV(a), n)): arrszref(a)
+  {a:vt0p}{n:int} (arrpsz(INV(a), n)): arrszref(a)
 fun{}
 arrszref_make_arrayref
-  {a:vt0p}{n:int} (arrayref (a, n), size_t(n)): arrszref(a)
+  {a:vt0p}{n:int} (arrayref(a, n), size_t(n)): arrszref(a)
 // end of [arrszref_make_arrayref]
 ')
 
@@ -48,13 +48,13 @@ As an example, the following code creates an array-with-size containing
 all the decimal digits:
 
 #dats2xhtml('\
-val DIGITS = (arrszref)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+val DIGITS =
+  (arrszref)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 ')
 
-Note that #dyncode("arrszref") is overloaded with
-#dyncode("arrszref_make_arrpsz").
+Note that #dyncode("arrszref") is overloaded with #dyncode("arrszref_make_arrpsz").
 
-')
+')#comment("para")
 
 #para('\
 
@@ -64,9 +64,9 @@ respectively, which are assigned the following interfaces:
 
 #sats2xhtml('\
 fun{a:t@ype}
-arrszref_get_at (A: arrszref (a), i: size_t): (a)
+arrszref_get_at (A: arrszref(a), i: size_t): (a)
 fun{a:t@ype}
-arrszref_set_at (A: arrszref (a), i: size_t, x: a): void
+arrszref_set_at (A: arrszref(a), i: size_t, x: a): void
 ')
 
 Given an array-with-size A, an index i and a value v,
@@ -88,7 +88,7 @@ reverses the content of the array inside a given array-with-size:
 fun{a:t@ype}
 arrszref_reverse
 (
-  A: arrszref (a)
+  A: arrszref(a)
 ) : void = let
 //
 val n = A.size()
