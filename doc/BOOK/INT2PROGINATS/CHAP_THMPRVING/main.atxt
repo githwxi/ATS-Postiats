@@ -51,7 +51,7 @@ prop-type or just a prop. A dataprop can be declared in a manner that is
 mostly similar to the declaration of a datatype. For instance, a prop
 construct #stacode("FIB") is introduced in the following dataprop declaration:
 
-#atscode("\
+#sats2xhtml("\
 dataprop
 FIB(int, int) =
   | FIB0(0, 0) of () // [of ()] can be dropped
@@ -128,8 +128,9 @@ only if fib(n) equals r. For instance, the proof value
 As another example of dataprop, the following declaration introduces a prop
 constructor #stacode("MUL") together with three associated proof constructors:
 
-#atscode("\
-dataprop MUL(int, int, int) =
+#sats2xhtml("\
+dataprop
+MUL(int, int, int) =
   | {n:int} MULbas(0, n, 0) of ()
   | {m:nat}{n:int}{p:int}
     MULind(m+1, n, p+n) of MUL(m, n, p)
@@ -207,7 +208,7 @@ peculiar to those who have never tried it before.
 As a simple introductory example, let us first construct a proof
 function in ATS/LF that is given the following interface:
 
-#atscode("\
+#sats2xhtml("\
 prfun mul_istot {m,n:int} (): [p:int] MUL(m, n, p)
 ")
 
@@ -224,7 +225,7 @@ and p are related according to the structurally inductively defined
 relation #stacode("MUL"). The following code gives an implementation of
 #dyncode("mul_istot"):
 
-#atscode("\
+#dats2xhtml("\
 primplement
 mul_istot{m,n}() = let
 //
@@ -263,7 +264,7 @@ to the rule encoded by #dyncode("MULneg").\
 As another example of theorem-proving in ATS/LF, a proof function of
 the name #dyncode("mul_isfun") is given as follows:
 
-#atscode("\
+#dats2xhtml("\
 prfn mul_isfun
   {m,n:int}{p1,p2:int}
 (
@@ -341,7 +342,7 @@ equation holds
 for m, n1 and n2 ranging over integers. A direct encoding of the equation
 is given by the following (proof) function interface:
 
-#atscode("\
+#sats2xhtml("\
 //
 prfun
 mul_distribute
@@ -354,7 +355,7 @@ Plainly speaking, the encoding states that the product of m and (n1+n2) is
 p1+p2 if the product of m and n1 is p1 and the product of m and n2 is p2.
 An implementation of #dyncode("mul_distribute") is given as follows:
 
-#atscode("\
+#dats2xhtml("\
 primplement
 mul_distribute
 {m,n1,n2}{p1,p2}
@@ -420,7 +421,7 @@ holds
 for m and n ranging over integers. A direct encoding of this equation
 is given by the following (proof) function interface:
 
-#atscode("\
+#sats2xhtml("\
 //
 prfun
 mul_commute{m,n:int}{p:int}(MUL(m, n, p)): MUL(n, m, p)
@@ -429,7 +430,7 @@ mul_commute{m,n:int}{p:int}(MUL(m, n, p)): MUL(n, m, p)
 
 An implementation of #dyncode("mul_commute") is given as follows:
 
-#atscode("\
+#dats2xhtml("\
 primplmnt
 mul_commute
   {m,n}{p}(pf0) = let
@@ -463,7 +464,7 @@ end // end of [mul_commute]
 
 where the following proof functions are called:
 
-#atscode("\
+#sats2xhtml("\
 //
 prfun
 mul_nx0_0{n:int}(): MUL(n, 0, 0) // n * 0 = 0
@@ -504,7 +505,7 @@ h are the size and height, respectively, of a given binary tree. To
 represent binary trees in the statics, we first declare a datasort as
 follows:
 
-#atscode("\
+#sats2xhtml("\
 datasort tree = E of () | B of (tree, tree)
 ")
 
@@ -522,20 +523,22 @@ B are really just tree skeletons carrying no data.\
 We now declare two dataprops as follows for capturing the notion of
 size and height of trees:
 
-#atscode("\
+#sats2xhtml("\
+//
 dataprop
 SZ (tree, int) =
   | SZE (E (), 0) of ()
   | {tl,tr:tree}{sl,sr:nat}
     SZB (B (tl, tr), 1+sl+sr) of (SZ (tl, sl), SZ (tr, sr))
 // end of [SZ]
-
+//
 dataprop
 HT (tree, int) =
   | HTE (E (), 0) of ()
   | {tl,tr:tree}{hl,hr:nat}
     HTB (B (tl, tr), 1+max(hl,hr)) of (HT (tl, hl), HT (tr, hr))
 // end of [HT]
+//
 ")
 
 Given a tree t and an integer s, SZ(t, s) encodes the relation that the
@@ -547,7 +550,7 @@ encodes the relation that the height of t equals h.
 As the power function (of base 2) is not available in the statics of ATS,
 we declare a dataprop as follows to capture it:
 
-#atscode("\
+#sats2xhtml("\
 dataprop
 POW2 (int, int) =
   | POW2bas (0, 1)
@@ -565,7 +568,7 @@ interface encodes the theorem stating that s is strictly less than
 2<superscript>h</superscript> if s and h are the size and height of a
 given binary tree:
 
-#atscode("\
+#sats2xhtml("\
 prfun
 lemma_tree_size_height
   {t:tree}{s,h:nat}{p:int}
@@ -581,7 +584,7 @@ Let us now construct an implementation of this proof function as follows.
 We first establish some elementary properties on the power function
 (of base 2):
 
-#atscode("\
+#dats2xhtml("\
 prfun
 pow2_istot
   {h:nat} .<h>. (): [p:int] POW2 (h, p) =
@@ -622,7 +625,7 @@ establishes that the power function is increasing.\
 The function #dyncode("lemma_tree_size_height") can be implemented
 as follows:
 
-#atscode("\
+#dats2xhtml("\
 primplement
 lemma_tree_size_height
   (pf1, pf2, pf3) = let
@@ -695,7 +698,7 @@ left one minus the size of the right one is either 0 or 1.  Formally, we
 can declare the following dataprop #dyncode("isBraun") to capture the notion
 of Braun trees:
 
-#atscode("\
+#sats2xhtml("\
 dataprop
 isBraun (tree) =
   | isBraunE (E) of ()
@@ -712,8 +715,9 @@ isBraun (tree) =
 We first prove that there exists a Braun tree of any given size.
 This property can be encoded as follows in ATS:
 
-#atscode("\
-prfun lemma_existence {n:nat} (): [t:tree] (isBraun (t), SZ (t, n))
+#sats2xhtml("\
+prfun
+lemma_existence{n:nat}(): [t:tree] (isBraun (t), SZ (t, n))
 ")
 
 Literally, the type assigned to #dyncode("lemma_existence") means that there
@@ -721,7 +725,7 @@ exists a tree t for any given natural number n such that t is a Braun tree
 and the size of t is n. The following code gives an implementation of
 #dyncode("lemma_existence"):
 
-#atscode("\
+#dats2xhtml("\
 primplement
 lemma_existence
   {n}((*void*)) = let
@@ -759,7 +763,7 @@ introducing a name and a static term of the sort #keycode("t@ype")).
 Next we show that two Braun trees of the same size are identical. This
 property can be encoded as follows:
 
-#atscode("\
+#sats2xhtml("\
 prfun
 lemma_unicity
   {n:nat}{t1,t2:tree}
@@ -771,7 +775,7 @@ lemma_unicity
 where #stacode("EQ") is a prop-constructor introduced by the following
 dataprop declaration:
 
-#atscode("\
+#sats2xhtml("\
 dataprop EQ (tree, tree) =
   | EQE (E, E) of ()
   | {t1l,t1r:tree}{t2l,t2r:tree}
@@ -783,7 +787,7 @@ Clearly, #stacode("EQ") is the inductively defined equality on trees.
 An implementation of the proof function #dyncode("lemma_unicity") is presented
 as follows:
 
-#atscode("\
+#dats2xhtml("\
 primplement
 lemma_unicity
   (pf1, pf2, pf3, pf4) = let
@@ -819,7 +823,7 @@ end // end of [lemma_unicity]
 Note that the proof function #dyncode("SZ_istot") in this implementation of
 #dyncode("lemma_unicity") is given the following interface:
 
-#atscode("\
+#sats2xhtml("\
 prfun
 SZ_istot{t:tree}{n1,n2:int}
   (pf1: SZ (t, n1), pf2: SZ (t, n2)): [n1==n2] void
@@ -848,7 +852,7 @@ and t2 are the same; by the definition of tree equality (encoded by
 As a comparison, the following code gives another implementation of
 #dyncode("lemma_unicity") that is of a different (and rather unusual) style:
 
-#atscode("\
+#dats2xhtml("\
 primplement
 lemma_unicity
   (pf1, pf2, pf3, pf4) = let
@@ -957,7 +961,7 @@ this proof still holds if the number 2 is replaced with another prime number.
 The primary argument in the above informal proof can be encoded in
 ATS as follows:
 
-#atscode('\
+#dats2xhtml('\
 //
 extern
 prfun
@@ -1005,7 +1009,7 @@ Given two integers m and p, #dyncode("MOD0(m,p)") means that m equals the
 product of p and q for some natural number q. This meaning is encoded into
 the following two proof functions:
 
-#atscode("\
+#sats2xhtml("\
 //
 prfun
 lemma_MOD0_intr{m,p,q:nat | m==p*q}(): MOD0(m, p)
@@ -1017,7 +1021,7 @@ lemma_MOD0_elim{m,p:int}(MOD0(m, p)): [q:nat] EQINT(m, p*q)
 
 where #dyncode("EQINT") is a dataprop declared as follows:
 
-#atscode('\
+#sats2xhtml('\
 dataprop EQINT(int, int) = {x:int} EQINT(x, x)
 ')
 
@@ -1025,7 +1029,7 @@ Given two integers x and y, #dyncode("EQINT(x, y)") simply means that
 x equals y.  Also, the function #dyncode("eqint_make") is assgined the
 interface below:
 
-#atscode('\
+#sats2xhtml('\
 prfun eqint_make{x,y:int | x == y}((*void*)): EQINT (x, y)
 ')
 
@@ -1033,7 +1037,7 @@ Given an integer p, #dyncode("PRIME(p)") means that p is a prime number.
 The following two proof functions are called in the above implementation
 of #dyncode("mylemma_main"):
 
-#atscode('\
+#sats2xhtml('\
 //
 prfun lemma_PRIME_param{p:int}(PRIME(p)): [p >= 2] void
 //

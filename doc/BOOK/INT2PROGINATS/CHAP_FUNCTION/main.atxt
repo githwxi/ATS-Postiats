@@ -138,11 +138,11 @@ fn area_of_ring
 // end of [area_of_ring]
 ")
 
-Given that the subtraction and multiplication functions (on floating point
-numbers) are of the type #dyncode("(double, double) -> double") and
-#dyncode("square") is of the type #dyncode("(double) -> double"), it is a
-simple routine to verify that the body of #dyncode("area_of_ring") can be
-assigned the type #dyncode("double").\
+Note that the subtraction and multiplication functions
+are of the type #dyncode("(double, double) -> double")
+and #dyncode("square") is of the type #dyncode("(double) ->
+double"). It is thus a simple routine to verify that the body of
+#dyncode("area_of_ring") can be assigned the type #dyncode("double").\
 
 ")#comment("para")
 
@@ -328,7 +328,10 @@ where n is a given integer. This can be readily done by implementing the
 following recursive function #dyncode("sum1"):
 
 #dats2xhtml("\
-fun sum1 (n: int): int = if n >= 1 then sum1 (n-1) + n else 0
+fun sum1
+  (n: int): int =
+  if n >= 1 then sum1 (n-1) + n else 0
+// end of [sum1]
 ")
 
 To find out the sum of all the integers ranging from #dyncode("1") to
@@ -346,7 +349,10 @@ recursive function #dyncode("sum2") that sums up all the integers in a
 given range:
 
 #dats2xhtml("\
-fun sum2 (m: int, n: int): int = if m <= n then m + sum2 (m+1, n) else 0
+fun sum2
+  (m: int, n: int): int =
+  if m <= n then m + sum2 (m+1, n) else 0
+// end of [sum2]
 ")
 
 This time, we call #dyncode("sum2 (1, n)") in order to find out the sum of
@@ -370,14 +376,18 @@ according to this strategy:
 #dats2xhtml("\
 fun sum3
   (m: int, n: int): int =
-  if m <= n then let
-    val mn2 = (m+n)/2 in sum3 (m, mn2-1) + mn2 + sum3 (mn2+1, n)
-  end else 0 // end of [if]
+  if m <= n
+    then let
+      val mn2 = (m+n)/2
+    in
+      sum3 (m, mn2-1) + mn2 + sum3 (mn2+1, n)
+    end // end of [then]
+    else 0 // end of [else]
 // end of [sum3]
 ")
 
 It should be noted that the division involved in the expression
-#dyncode("(m+n)/2 ") is integer division for which rounding is done by
+#dyncode("(m+n)/2") is integer division for which rounding is done by
 truncation.\
 
 ")#comment("para")
@@ -396,7 +406,10 @@ evaluating one to a non-recursive function.  Let #dyncode("fib") be the
 following defined function for computing the Fibonacci numbers:
 
 #dats2xhtml("\
-fun fib(n: int): int = if n >= 2 then fib(n-1) + fib(n-2) else n
+fun fib
+  (n: int): int =
+  if n >= 2 then fib(n-1) + fib(n-2) else n
+// end of [fib]
 ")
 
 Suppose that we are to evaluate #dyncode("fib(2)") under some environment

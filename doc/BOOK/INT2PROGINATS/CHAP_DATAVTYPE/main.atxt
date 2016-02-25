@@ -41,13 +41,15 @@ then the memory allocated for storing it can be efficiently reclaimed.  The
 dataviewtype #stacode("option_vt") for linear optional values is declared as
 follows:
 
-#atscode('\
+#sats2xhtml('\
+//
 datavtype
 option_vt (a:t@ype+, bool) =
   | Some_vt (a, true) of a | None_vt (a, false) of ()
 // end of [option_vt]
-
-vtypedef Option_vt (a:t@ype) = [b:bool] option_vt (a, b)
+//
+vtypedef Option_vt (a:t@ype) = [b:bool] option_vt(a, b)
+//
 ')
 
 Note that #keycode("datavtype") is just the short version of
@@ -57,7 +59,7 @@ data constructors #dyncode("Some_vt") and #dyncode("None_vt") associated
 with it. In the following example, #dyncode("find_rightmost") tries to find
 the rightmost element in a list that satisfies a given predicate:
 
-#atscode('\
+#dats2xhtml('\
 fun{a:t@ype}
 find_rightmost
   {n:nat} .<n>.
@@ -92,7 +94,7 @@ As another example, the following function template
 #dyncode("list_optcons") tries to construct a new list with its head
 element extracted from a given optional value:
 
-#atscode('\
+#dats2xhtml('\
 fn{a:t@ype}
 list_optcons
   {b:bool}{n:nat}
@@ -129,7 +131,7 @@ The following declaration introduces a linear datatype #stacode("list_vt"),
 which forms a boxed type (of the sort #stacode("viewtype")) when applied to
 a type and an integer:
 
-#atscode('\
+#sats2xhtml('\
 datavtype
 list_vt (a:t@ype+, int) =
   | list_vt_nil (a, 0) of ()
@@ -164,7 +166,7 @@ available proofs.
 The following function template #dyncode("length") computes the length of a
 given linear list:
 
-#atscode('\
+#dats2xhtml('\
 fn{
 a:t@ype
 } length{n:nat}
@@ -203,7 +205,7 @@ For instance, we may want to double the value of each integer stores in a
 linear integer list. The following code implements a function named
 #dyncode("list_vt_2x") that does precisely this:
 
-#atscode('\
+#dats2xhtml('\
 fun
 list_vt_2x{n:nat}
   (xs: !list_vt (int, n) >> _): void =
@@ -244,7 +246,7 @@ Let us now see an example where linear list-nodes are explicitly freed:
 
 ')
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } list_vt_free
@@ -285,7 +287,7 @@ implementation of #dyncode("list_vt_free"):
 
 ')
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } list_vt_free
@@ -345,7 +347,7 @@ id="linear-list-reversing">
 The following code implements a function #dyncode("reverse") that turns a
 given linear list into its reverse:
 
-#atscode('\
+#dats2xhtml('\
 fn{
 a:t@ype
 } reverse{n:nat}
@@ -396,7 +398,7 @@ id="linear-list-appending">
 The following code implements a function #dyncode("append") that
 concatenates two given linear lists into one:
 
-#atscode('\
+#dats2xhtml('\
 fn{
 a:t@ype
 } append{m,n:nat}
@@ -450,7 +452,7 @@ This is also a good place for me to mention a closely related issue
 involving (functional) list construction and tail-recursion. Following is a
 typical implementation of functioal list concatenation:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } append1{m,n:nat}
@@ -471,7 +473,7 @@ manner, thus eliminating the concern of potential stack overflow. For
 instance, the following implementation of #dyncode("append2") returns the
 concatenation of two given functional lists while being tail-recursive:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } append2{m,n:nat}
@@ -573,17 +575,18 @@ capable of enforcing great precision in practical programming.
 Let us first introduce a type definition and an interface for a function
 template that compares elements in lists to be sorted:
 
-#atscode('\
+#sats2xhtml('\
 //
 typedef cmp (a:t@ype) = (&a, &a) -> int
 //
-fun{a:t@ype} compare (x: &a, y: &a, cmp: cmp (a)): int
+fun{a:t@ype}
+compare (x: &a, y: &a, cmp: cmp(a)): int
 //
 ')
 
 The interface for merge-sort is given as follows:
 
-#atscode('\
+#sats2xhtml('\
 fun{
 a:t@ype
 } mergeSort{n:nat}
@@ -606,7 +609,7 @@ follows does not involve any memory allocation or deallocation.
 
 The function template for merging two sorted lists into one is given as follows:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } merge{m,n:nat} .<m+n>.
@@ -656,7 +659,7 @@ eliminated.
 
 The next function template is for splitting a given linear lists into two:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } split{n,k:nat | k <= n} .<n-k>.
@@ -684,7 +687,7 @@ The following function template #dyncode("msort") takes a linear list, its
 length and a comparsion function, and it returns a sorted version of the
 given linear list:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } msort{n:nat} .<n>.
@@ -717,7 +720,7 @@ the list when each recursive call to #dyncode("msort") is made.
 Finally, #dyncode("mergeSort") can be implemented with a call to
 #dyncode("msort"):
 
-#atscode('\
+#dats2xhtml('\
 implement{a}
 mergeSort (xs, cmp) = msort<a> (xs, length (xs), cmp)
 ')
@@ -750,7 +753,7 @@ id="example_insertionSort_lin">
 I present a standard implementation of insertion sort on linear lists in
 this section.  The interface for insertion sort is given as follows:
 
-#atscode('\
+#sats2xhtml('\
 fun{
 a:t@ype
 } insertionSort{n:nat}
@@ -770,7 +773,7 @@ the list to form a sorted list.
 The following code implements a function #dyncode("insord") that inserts a
 given list-node into a sorted linear list to form another sorted linear list:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } insord
@@ -830,7 +833,7 @@ bound to p1 and p2 can be accessed and updated.
 The function template #dyncode("insertionSort") can now be readily
 implemented based #dyncode("insord"):
 
-#atscode('\
+#dats2xhtml('\
 implement{a}
 insertionSort
   (xs, cmp) = let
@@ -868,7 +871,7 @@ lists.  For instance, we may implement #dyncode("msort") (which is called
 by #dyncode("mergeSort")) as follows by taking advantage of the efficiency
 of #dyncode("insertionSort") on short lists:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } msort{n:nat} .<n>.
@@ -922,9 +925,12 @@ lists. While list-based quick-sort may not be a preferred sorting method in
 practice, its implementation is nonetheless interesting.
 The interface for quick-sort is given as follows:
 
-#atscode('\
+#sats2xhtml('\
+//
 fun{a:t@ype}
-quickSort{n:nat} (xs: list_vt (a, n), cmp: cmp a): list_vt (a, n)
+quickSort{n:nat}
+  (xs: list_vt (a, n), cmp: cmp a): list_vt (a, n)
+//
 ')
 
 Like the implementation of #dyncode("mergeSort") and
@@ -938,7 +944,7 @@ given as follows makes no use of memory allocation and deallocation.
 The following code implements a function #dyncode("takeout_node_at") that
 takes out a node from a linear list at a given position:
 
-#atscode('\
+#dats2xhtml('\
 fun{a:t@ype}
 takeout_node_at
   {n:int}{k:nat | k < n}
@@ -984,7 +990,7 @@ A key step in quick-sort lies in partitioning a linear list based on a
 given pivot. This step is fulfilled by the following code that implements a
 function template named #dyncode("partition"):
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } partition{n,r1,r2:nat}
@@ -1032,7 +1038,7 @@ res1 and res2 is quite an interesting aspect of this implementation.
 By making use of #dyncode("takeout_node_at") and #dyncode("partition"),
 we can readily implement #dyncode("quickSort") as follows:
 
-#atscode('\
+#dats2xhtml('\
 implement
 {a}(*tmp*)
 quickSort
@@ -1118,12 +1124,15 @@ binary search trees, further illustrating some use of dataviewtypes. Let us
 first declare as follows a dataviewtype #stacode("bstree_vt") for linear
 binary (search) trees:
 
-#atscode('\
+#sats2xhtml('\
 datavtype
-bstree_vt (a:t@ype+, int) =
+bstree_vt
+(
+  a:t@ype+, int
+) = // bstree_vt
   | bstree_vt_nil (a, 0) of ()
   | {n1,n2:nat}
-    bstree_vt_cons (a, n1+n2+1) of (bstree_vt (a, n1), a, bstree_vt (a, n2))
+    bstree_vt_cons (a, n1+n2+1) of (bstree_vt(a, n1), a, bstree_vt(a, n2))
 // end of [bstree_vt]
 ')
 
@@ -1140,7 +1149,7 @@ hand is a node whose left and right children are both empty.  As a simple
 example, the following function template #dyncode("size") computes the size
 of a given tree:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } size{n:nat} .<n>.
@@ -1154,7 +1163,7 @@ a:t@ype
 // end of [size]
 ')
 
-')
+')#comment("para")
 
 #para('\
 
@@ -1165,7 +1174,7 @@ ordering), then we can locate the least element in the tree that satisfies
 the predicate P by employing so-called binary search as is demonstrated in
 the following implementation of #dyncode("search"):
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } search
@@ -1202,7 +1211,7 @@ O(log(n)) (assuming that #dyncode("P") is O(1)).
 Let us next see some code implementing an operation that inserts a given
 element into a binary search tree:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } insert{n:nat} .<n>.
@@ -1242,7 +1251,7 @@ root position the new node containing the inserted element. The following
 function template #dyncode("insertRT") is implemented to perform a standard
 root-insertion operation:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } insertRT{n:nat} .<n>.
@@ -1295,7 +1304,7 @@ To further illustrate tree rotations, I present as follows
 two function templates #dyncode("lrotate") and #dyncode("rrotate"), which
 implement the left and right tree rotations, respectively:
 
-#atscode('\
+#dats2xhtml('\
 fn{
 a:t@ype
 } lrotate
@@ -1354,7 +1363,7 @@ The function template #dyncode("insertRT") for root-insertion can now be
 implemented as follows by making direct use of #dyncode("lrotate") and
 #dyncode("rrotate"):
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } insertRT {n:nat} .<n>.
@@ -1438,7 +1447,7 @@ to the previous declaration of datatype #stacode("rbtree") except the
 keyword #keycode("datavtype") being now used instead of the keyword
 #keycode("datatype"):
 
-#atscode('\
+#sats2xhtml('\
 \#define BLK 0; \#define RED 1
 sortdef clr = {c:int | 0 <= c; c <= 1}
 
@@ -1463,7 +1472,7 @@ At the first sight, the following function template #dyncode("insfix_l") is
 greatly more involved that a previous version of the same name (for
 manipulating functional red-black trees):
 
-#atscode('\
+#dats2xhtml('\
 fn{
 a:t@ype
 } insfix_l // right rotation
@@ -1525,7 +1534,7 @@ relation between a tree being rotated and the one obtained from applying
 The very same statement can be made about the following function template
 #dyncode("insfix_r"), which is precisely a mirror image of #dyncode("insfix_l"):
 
-#atscode('\
+#dats2xhtml('\
 fn{
 a:t@ype
 } insfix_r // left rotation
@@ -1586,7 +1595,7 @@ As can be expected, the following function template
 #dyncode("rbtree_insert") is essentially a direct translation of the one of
 the same name for inserting an element into a functional red-black tree:
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun{a:t@ype}
 rbtree_insert

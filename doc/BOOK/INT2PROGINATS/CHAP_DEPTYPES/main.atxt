@@ -214,7 +214,7 @@ sort. For instance, the following subset sorts are defined in the file
 #myatscodelink("prelude/basics_pre.sats", "basics_pre.sats"), which is
 automatically loaded by the ATS compiler:
 
-#atscode("\
+#sats2xhtml("\
 sortdef nat = {a: int | a >= 0} // for natural numbers
 sortdef pos = {a: int | a >= 1}  // for positive numbers
 sortdef neg = {a: int | a <= ~1}  // for negative numbers
@@ -228,7 +228,7 @@ sortdef nat4 = {a: nat | a < 4} // for 0, 1, 2, 3
 Note that predicates can be sequenced together with the semicolon
 symbol (;) to form a conjunction:
 
-#atscode("\
+#sats2xhtml("\
 sortdef nat2 = {a: int | 0 <= a; a < 2} // for 0, 1
 sortdef nat3 = {a: int | 0 <= a; a < 3} // for 0, 1, 2
 sortdef sgn = { i:int | ~1 <= i; i <= 1 } // for ~1, 0, 1
@@ -237,7 +237,7 @@ sortdef sgn = { i:int | ~1 <= i; i <= 1 } // for ~1, 0, 1
 It is also possible to define the subset sorts #emphasis("nat2")
 and #emphasis("nat3") as follows:
 
-#atscode("\
+#sats2xhtml("\
 sortdef nat2 = {a: int | a == 0 || a == 1} // for 0, 1
 sortdef nat3 = {a: int | 0 <= a && a <= 2} // for 0, 1, 2
 ")
@@ -255,7 +255,7 @@ to employ both universal and existential quantification over static
 variables. For instance, the type #stacode("Int") in ATS is defined as
 follows:
 
-#atscode("\
+#sats2xhtml("\
 typedef Int = [a:int] int (a) // for unspecified integers
 ")
 
@@ -269,7 +269,7 @@ like #stacode("Int") is often referred to as an existentially quantified
 type.  As another example, the type #stacode("Nat") in ATS is defined as
 follows:
 
-#atscode("\
+#sats2xhtml("\
 typedef Nat = [a:int | a >= 0] int (a) // for natural numbers
 ")
 
@@ -282,7 +282,7 @@ Therefore, each value of the type #stacode("Nat") can be assigned the type
 natural number. This means that the type #stacode("Nat") is for natural
 numbers. The definition of #stacode("Nat") can also be given as follows:
 
-#atscode("\
+#sats2xhtml("\
 typedef Nat = [a:nat] int (a) // for natural numbers
 ")
 
@@ -331,7 +331,7 @@ where the syntax #stacode("{i:nat}") automatically expands into
 #stacode("{i:int | i >= 0}").  I list as follows the interfaces for some
 commonly used functions on integers:
 
-#atscode("\
+#sats2xhtml("\
 fun g1int_neg {i:int} (int i): int (~i) // negation
 fun g1int_add {i,j:int} (int i, int j): int (i+j) // addition
 fun g1int_sub {i,j:int} (int i, int j): int (i-j) // subtraction
@@ -373,8 +373,8 @@ does a dependently typed interface for the factorial function look like?
 After seeing the above examples, it is only natural for one to expect
 something along the following line of thought:
 
-#atscode("\
-fun g1int_fact {i:nat} (i: int i): int (fact (i))
+#sats2xhtml("\
+fun g1int_fact{i:nat}(i: int(i)): int (fact(i))
 ")
 
 where #emphasis("fact") is a static version of the factorial function. The
@@ -410,10 +410,13 @@ Typechecking in ATS involves generating and solving constraints.
 As an example, the code below implements the well-known factorial
 function:
 
-#atscode("\
+#dats2xhtml("\
 fun
 fact{n:nat}
-  (x: int n): [r:nat] int r = if x > 0 then x * fact (x-1) else 1
+(
+  x: int(n)
+) : [r:nat] int r =
+  if x > 0 then x * fact (x-1) else 1
 // end of [fact]
 ")
 
@@ -505,29 +508,31 @@ length n. Note that #stacode("string") also refers to a non-dependent type
 for strings of unspecified length, which is basically equivalent to the
 type #stacode("String") defined as follows:
 
-#atscode("\
+#sats2xhtml("\
 typedef String = [n:nat] string (n)
 ")
 
 The following two functions are commonly used for traversing a given string:
 
-#atscode("\
+#sats2xhtml("\
+//
 fun string_is_atend
   {n:int}{i:nat | i <= n}
   (str: string (n), i: size_t (i)): bool (i==n)
 // end of [string_is_atend]
-
+//
 fun string_isnot_atend
   {n:int}{i:nat | i <= n}
   (str: string (n), i: size_t (i)): bool (i < n)
 // end of [string_isnot_atend]
+//
 ")
 
 Obviously, either one of them can be implemented based on the other. As an
 example, the following code implements a function that computes the length
 of a given string:
 
-#atscode("\
+#dats2xhtml("\
 fun
 string_length
   {n:nat} (
@@ -556,18 +561,20 @@ programming with dependent types.\
 The following two functions are for accessing and updating characters
 stored in strings:
 
-#atscode("\
-typedef charNZ = [c:int | c != '\\\\000'] char (c)
-
+#sats2xhtml("\
+//
+typedef charNZ = [c:int | c != 0] char(c)
+//
 fun
-string_get_at{n:int}
-  {i:nat | i < n} (str: string n, i: size_t i): charNZ
+string_get_at
+  {n:int}{i:nat | i < n}(str: string n, i: size_t i): charNZ
 overload [] with string_get_at
-
+//
 fun
-string_set_char_at{n:int}
-  {i:nat | i < n} (str: string n, i: size_t i, c: charNZ): void
+string_set_char_at
+  {n:int}{i:nat | i < n}(str: string n, i: size_t i, c: charNZ): void
 overload [] with string_set_char_at
+//
 ")
 
 The type constructor #stacode("char") is of the sort
@@ -578,7 +585,7 @@ characters. The following defined function #dyncode("string_find")
 traverses a string from left to right to check whether a given character
 occurs in the string:
 
-#atscode("\
+#dats2xhtml("\
 //
 typedef
 sizeLt (n:int) = [i:nat | i < n] size_t (i)
@@ -622,7 +629,7 @@ at the position in the string is fetched by calling
 #dyncode("string_get_at"). These two function calls are merged into one in
 the following implementation:
 
-#atscode("\
+#dats2xhtml("\
 //
 // This implementation does the same as [string_find]
 // but should be more efficient.
@@ -642,10 +649,12 @@ loop{i:nat | i <= n}
   typedef res = sizeLt (n)
   val c = string_test_at (str, i)
 in
-  if c != '\\\\000' then
+  if c != '\\\\\\\\000' then
   (
-    if (c0 = c) then Some{res}(i) else loop (str, c0, succ(i))
-  ) else None ((*void*)) // end of [if]
+    if (c0 = c)
+      then Some{res}(i) else loop(str, c0, succ(i))
+    // end of [if]
+  ) else None((*void*)) // end of [if]
 end // end of [loop]
 //
 in
@@ -656,13 +665,13 @@ end // end of [string_find2]
 The interface for the function #dyncode("string_test_at") is given as
 follows:
 
-#atscode("\
+#sats2xhtml("\
 fun
 string_test_at
   {n:int}{i:nat | i <= n}
 (
   str: string (n), i: size_t (i)
-) : [c:char | (c != NUL && i < n) || (c == NUL && i >= n)] char c
+) : [c:char | (c != NUL && i < n) || (c == NUL && i >= n)] char(c)
 // end of [string_test_at]
 ")
 
@@ -701,9 +710,9 @@ The following interface is for a function template
 #dyncode("array_make_elt") that can be called to create an array (with no
 size information attached to it):
 
-#atscode("\
+#sats2xhtml("\
 fun{a:t@ype}
-array_make_elt{n:int} (asz: size_t n, elt: a): arrayref (a, n)
+array_make_elt{n:int} (asz: size_t(n), elt: a): arrayref(a, n)
 ")
 
 Given a static integer I, the type #stacode("size_t(I)") is a singleton
@@ -711,16 +720,18 @@ type for a value of the type size_t in C that represents the integer equal
 to I. The function templates for reading from and writing to an array cell
 have the following interfaces:
 
-#atscode("\
+#sats2xhtml("\
+//
 fun{a:t@ype}
 arrayref_get_at
-  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i): a
+  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i): (a)
 overload [] with arrayref_get_at
-
+//
 fun{a:t@ype}
 arrayref_set_at
   {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i, x: a): void
 overload [] with arrayref_set_at
+//
 ")
 
 Note that these two function templates do not incur any run-time
@@ -736,7 +747,7 @@ As a convincing example of practical programming with dependent types, the
 following code implements the standard binary search algorithm on an ordered
 array:
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t@ype
 } bsearch_arr{n:nat}
@@ -813,7 +824,7 @@ the following example, a singleton metric #stacode("n") is supplied to
 verify that the recursive function #dyncode("fact") is terminating, where
 #stacode("n") is the value of the integer argument of #dyncode("fact"):
 
-#atscode("\
+#dats2xhtml("\
 fun fact {n:nat} .<n>.
   (x: int n): int = if x > 0 then x * fact (x-1) else 1
 // end of [fact]
@@ -831,7 +842,7 @@ strictly less that the initial metric attached to the function.
 A more difficult and also more interesting example is given as follows,
 where the MacCarthy's 91-function is implemented:
 
-#atscode("\
+#dats2xhtml("\
 fun f91 {i:int} .<max(101-i,0)>. (x: int i)
   : [j:int | (i < 101 && j==91) || (i >= 101 && j==i-10)] int (j) =
   if x >= 101 then x-10 else f91 (f91 (x+11))
@@ -850,7 +861,7 @@ this metric suffices for verifying the termination of #dyncode("f91").\
 As another example, the following code implements the Ackermann's function,
 which is well-known for being recursive but not primitive recursive:
 
-#atscode("\
+#dats2xhtml("\
 fun acker
   {m,n:nat} .<m,n>.
   (x: int m, y: int n): Nat =
@@ -877,7 +888,7 @@ Termination-checking for mutually recursive functions is similar.  In the
 following example, #dyncode("isevn") and #dyncode("isodd") are defined
 mutually recursively:
 
-#atscode("\
+#dats2xhtml("\
 fun isevn
   {n:nat} .<2*n>.
   (n: int n) : bool =
@@ -913,7 +924,7 @@ Given an integer x >= 0, the integer square root of x is the greatest
 integer i satisfying i * i <= x.  An implementation of the integer square
 root function is given as follows based on the method of binary search:
 
-#atscode("\
+#dats2xhtml("\
 fun
 isqrt
 (
@@ -994,7 +1005,7 @@ dependent function type, we have to modify its body as certain errors are
 otherwise reported during typechecking. The following code we obtain after
 proper modification does pass typechecking:
 
-#atscode("\
+#dats2xhtml("\
 fun
 isqrt
 {x:nat}

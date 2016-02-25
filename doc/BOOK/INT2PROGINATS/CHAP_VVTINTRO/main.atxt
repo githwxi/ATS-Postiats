@@ -63,12 +63,14 @@ are often referred to as at-views.  As an example, the following function
 templates #dyncode("ptr_get0") and #dyncode("ptr_set0"), which reads and
 writes through a given pointer, are assigned types containing at-views:
 
-#atscode('\
+#sats2xhtml('\
+//
 fun{a:t@ype}
 ptr_get0 {l:addr} (pf: a @ l | p: ptr l): (a @ l | a)
-
+//
 fun{a:t@ype}
 ptr_set0 {l:addr} (pf: a? @ l | p: ptr l, x: a): (a @ l | void)
+//
 ')
 
 ')
@@ -132,7 +134,7 @@ memory location at L is assumed to be uninitialized when
 As an example, a function template #dyncode("swap0") is implemented as follows
 for swapping memory contents at two given locations:
 
-#atscode('\
+#dats2xhtml('\
 fn{a:t@ype}
 swap0 {l1,l2:addr}
 (
@@ -166,12 +168,14 @@ such administrative code.
 The function templates #dyncode("ptr_get1") and #dyncode("ptr_set1") are
 given the following interfaces:
 
-#atscode('\
+#sats2xhtml('\
+//
 fun{a:t@ype}
 ptr_get1 {l:addr} (pf: !a @ l >> a @ l | p: ptr l): a
-
+//
 fun{a:t@ype}
 ptr_set1 {l:addr} (pf: !a? @ l >> a @ l | p: ptr l, x: a): void
+//
 ')
 
 Clearly, for each type T, the function
@@ -209,7 +213,7 @@ V1 and V2 are the same, !V1 >> V2 can simply be written as !V1.  As an
 example, a function template #dyncode("swap1") for swapping the contents at
 two given memory locations is implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 fn{a:t@ype}
 swap1 {l1,l2:addr} (
   pf1: !a@l1, pf2: !a@l2 | p1: ptr l1, p2: ptr l2
@@ -231,7 +235,7 @@ above implementation of #dyncode("swap0").
 
 A further simplied implementation of #dyncode("swap1") is given as follows:
 
-#atscode('\
+#dats2xhtml('\
 fn{a:t@ype}
 swap1{l1,l2:addr}
 (
@@ -292,7 +296,7 @@ pointer and the latter to viewtypes for linear values of unspecified size.
 For example, #stacode("tptr") is defined as follows that takes a type and an
 address to form a viewtype (of the sort #stacode("viewtype")):
 
-#atscode('\
+#sats2xhtml('\
 vtypedef tptr (a:t@ype, l:addr) = (a @ l | ptr l)
 ')
 
@@ -303,8 +307,7 @@ stating that the pointer points to an integer (representing the count),
 then the following defined function #dyncode("getinc") returns the current
 count of a given counter after increasing it by 1:\
 
-#atscode('\
-
+#dats2xhtml('\
 fn getinc
   {l:addr}{n:nat}
 (
@@ -314,14 +317,13 @@ fn getinc
   val () = ptr_set1<int(n+1)> (cnt.0 | cnt.1, n+1)
 } (* end of [getinc] *)
 ')
-
 ')
 
 #para('\
 
 A particularly interesting example of a viewtype is the following one:
 
-#atscode('\
+#sats2xhtml('\
 vtypedef cloptr
   (a:t@ype, b:t@ype, l:addr) =
   [env:t@ype] (((&env, a) -> b, env) @ l | ptr l)
@@ -341,7 +343,7 @@ of the left-value.  I will cover the issue of call-by-reference elsewhere
 in more details.  The following piece of code demonstrates a pointer to a
 closure function being called on a given argument:\
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype}{b:t@ype
 } cloptr_app {l:addr}
@@ -426,7 +428,7 @@ left-value and what is actually passed is the address of the left-value
 defined function #dyncode("swap2") makes essential use of
 call-by-reference:
 
-#atscode('\
+#dats2xhtml('\
 fn{
 a:t@ype
 } swap2 (
@@ -441,7 +443,7 @@ function argument indicates that the argument needs to be passed according
 to the call-by-reference strategy. The following code implements
 #dyncode("swap1") based on #dyncode("swap2"):
 
-#atscode('\
+#dats2xhtml('\
 fn{
 a:t@ype
 } swap1{l1,l2:addr}
@@ -467,7 +469,7 @@ call-by-reference. For instance, the following code implements a function
 that takes two arrays of doubles to compute their dot product (also knowns
 as inner product):
 
-#atscode('\
+#dats2xhtml('\
 fun dotprod 
 (
   A: &(@[double][3])
@@ -506,7 +508,7 @@ local variables are declared:
 
 ')
 
-#atscode('\
+#dats2xhtml('\
 fn foo (): void = let
   var x0: int // view@(x0): int? @ x0
   val () = x0 := 0 // view@(x0): int(0) @ x0
@@ -551,7 +553,7 @@ The following code gives an implementation of the factorial function:
 
 ')
 
-#atscode('\
+#dats2xhtml('\
 fn fact{n:nat}
   (n: int (n)): int = let
   fun loop{n:nat}{l:addr} .<n>.
@@ -595,7 +597,7 @@ allocates two arrays of doubles in the frame of the function
 #dyncode("main0") and then passes them to #dyncode("dotprod") to compute
 their dot product:
 
-#atscode('\
+#dats2xhtml('\
 implement
 main0 () =
 {
@@ -634,7 +636,7 @@ function. For instance, the following code implements a function named
 #dyncode("foo") that stores a flat closure-function in a stack-allocated
 variable named #dyncode("bar"):
 
-#atscode('\
+#dats2xhtml('\
 fun foo
 (
   x: int, y: int
@@ -652,7 +654,7 @@ flat closure-function. For the sake of completeness, I present another example
 as follows to show that a recursive closure-function can also be stored in
 a stack-allocated variable:
 
-#atscode('\
+#dats2xhtml('\
 fun foo2
 (
   x: int, y: int
@@ -699,7 +701,7 @@ The following code implements a higher-order function
 #dyncode("list_map_cloptr") which takes a linear closure-function
 as its second argument:
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype}{b:vt@ype
 } list_map_cloptr{n:int}
@@ -728,7 +730,7 @@ after #dyncode("list_map_cloptr") returns.\
 Let us now see some concrete code in which a linear closure-function is
 created, called, and finally freed:
 
-#atscode('\
+#dats2xhtml('\
 implement
 main0 () =
 {
@@ -757,7 +759,7 @@ val ((*freed*)) = list_vt_free (ys)
 The function #dyncode("cloptr_free") is given the following
 interface:
 
-#atscode('\
+#sats2xhtml('\
 fun cloptr_free{a:t0p}(pclo: cloptr (a)):<!wrt> void
 ')
 

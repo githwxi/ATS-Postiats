@@ -68,7 +68,7 @@ circumvent the need for handling nonlinear constraints directly.
 
 A function template #dyncode("list_concat") is implemented as follows:
 
-#atscode("\
+#dats2xhtml("\
 //
 // [list_concat] does typecheck in ATS2
 // [list_concat] does not typecheck in ATS1
@@ -87,7 +87,7 @@ a:t@ype
 
 where the interface for #dyncode("list_append") is given below:
 
-#atscode("\
+#sats2xhtml("\
 fun{
 a:t@ype
 } list_append {n1,n2:nat}
@@ -111,7 +111,7 @@ constraint solver as it contains nonlinear integer terms (e.g.,
 circumvent) the limitation, we can make use of theorem-proving. Another
 implementation of #dyncode("list_concat") is given as follows:
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t@ype
 } list_concat{m,n:nat}
@@ -159,13 +159,12 @@ Internally, a matrix of the dimension m by n is represented as an array
 of the size m*n. For matrix subscripting, we need to implement a function
 template of the following interface:
 
-#atscode("\
-extern
+#sats2xhtml("\
 fun{
 a:t@ype
 } matrix_get
   {m,n:int}{i,j:nat | i < m; j < n}
-  (A: arrayref (a, m*n), col: int n, i: int i, j: int j): a
+  (A: arrayref (a, m*n), col: int n, i: int i, j: int j): (a)
 // end of [matrix_get]
 ")
 
@@ -175,18 +174,18 @@ in the array that represents the matrix, where i and j are natural numbers
 less than m and n, respectively. However, the following implementation
 fails to pass typechecking:
 
-#atscode("\
+#dats2xhtml("\
 implement
 {a}(*tmp*)
 matrix_get (A, n, i, j) = A[i*n+j] // it fails to typecheck!!!
-")#comment("para")
+")
 
 The simple reason for this failure is due to the ATS constraint solver not
 being able to automatically verify that i*n+j is a natural number strictly
 less than m*n. An implementation of #dyncode("matrix_get") that typechecks
 can be given as follows:
 
-#atscode("\
+#dats2xhtml("\
 implement
 {a}(*tmp*)
 matrix_get
@@ -207,7 +206,7 @@ end // end of [matrix_get]
 where the functions called in the body of #dyncode("matrix_get")
 are assigned the following interfaces:
 
-#atscode("\
+#sats2xhtml("\
 //
 fun
 imul2{i,j:int}
@@ -266,7 +265,7 @@ The integer addition function can be assigned the following
 its two integer arguments:
 
 #atscode("\
-{i,j:int} (int (i), int (j)) -> int (i+j)
+{i,j:int} (int(i), int(j)) -> int(i+j)
 ")
 
 This type gives a full specification of integer addition as the only
@@ -275,9 +274,7 @@ function. However, the factorial function, which yields the product of the
 first n positive integers when applied to a natural number n, cannot be
 given the following type:
 
-#atscode("\
-{n:nat} int (n) -> int (fact(n))
-")
+#atscode("{n:nat} int(n) -> int(fact(n))")
 
 as #stacode("fact"), which refers to the factorial function, does not exist in
 the statics of ATS. Evidently, a highly interesting and relevant question is
@@ -300,7 +297,7 @@ fact(n) = n * fact(n-1) (for all n > 0)
 Naturally, these equations can be encoded by the constructors associated
 with the dataprop #stacode("FACT") declared as follows:
 
-#atscode("\
+#sats2xhtml("\
 dataprop
 FACT(int, int) =
   | FACTbas(0, 1)
@@ -322,7 +319,7 @@ returns a proof and an integer such that the proof attests to the integer
 being equal to #dyncode("fact(n)"). For instance, the following defined
 function #dyncode("ifact") is assigned this type:
 
-#atscode("\
+#dats2xhtml("\
 //
 fun
 ifact
@@ -381,7 +378,7 @@ algorithmically. For instance, we may want to have a verified
 implementation of factorial that is also tail-recursive. This can be done
 as follows:
 
-#atscode("\
+#dats2xhtml("\
 fun
 ifact2
 {n:nat} .<>.
@@ -409,7 +406,7 @@ defined as a call to the inner function #dyncode("loop") that is clearly
 tail-recursive.  If we erase types and proofs, the function #dyncode("ifact2")
 is essentially defined as follows:
 
-#atscode("\
+#dats2xhtml("\
 fun ifact2 (n) = let
   fun loop (n, i, r) =
     if n - i > 0 then let
@@ -456,7 +453,7 @@ pow (x, n) = x * pow (x, n-1) (for all n > 0)
 
 A direct implementation of this definition is given as follows:
 
-#atscode("\
+#dats2xhtml("\
 fun ipow {n:nat} .<n>.
   (x: int, n: int n): int = if n > 0 then x * ipow (x, n-1) else 1
 // end of [ipow]
@@ -465,7 +462,7 @@ fun ipow {n:nat} .<n>.
 which is of time-complexity O(n) (assuming multiplication is O(1)). A
 more efficient implmentation can be given as follows:
 
-#atscode("\
+#dats2xhtml("\
 fun
 ifastpow
 {n:nat} .<n>.
@@ -502,7 +499,7 @@ Handling generic data properly in a verified implementation often requires some
 finesse with the type system of ATS. Let us first introduce an abstract type
 constructor #stacode("ELT") as follows:
 
-#atscode("\
+#sats2xhtml("\
 sortdef elt = int // [elt] is just an alias for [int]
 abst@ype ELT(a:t@ype, x:elt) = a // [x] is an imaginary stamp
 ")
@@ -513,7 +510,7 @@ The stamps are imaginary and they are solely used for the purpose of
 specification. Let us next introduce an abstract prop-type #stacode("MUL") and
 a function template #dyncode("mul_elt_elt"):
 
-#atscode("\
+#sats2xhtml("\
 //
 absprop MUL(elt, elt, elt) // abstract mul relation
 //
@@ -530,7 +527,7 @@ declared in #myatscodelink("prelude/SATS/arith_prf.sats", "arith_prf.sats"). To
 state that the encoded multiplication is associative, we can introduce the
 following proof function:
 
-#atscode("\
+#sats2xhtml("\
 praxi
 mul_assoc
 {x,y,z:elt}{xy,yz:elt}{xy_z,x_yz:elt}
@@ -548,7 +545,7 @@ a form of axiom, which is not expected to be implemented.
 The abstract power function can be readily specified in terms of the
 abstract prop-type #stacode("MUL"):
 
-#atscode("\
+#sats2xhtml("\
 dataprop
 POW (
   elt(*base*), int(*exp*), elt(*res*)
@@ -563,7 +560,7 @@ POW (
 As can be expected, generic fast exponentiation is given the following
 interface:
 
-#atscode("\
+#sats2xhtml("\
 fun{a:t@ype}
 fastpow_elt_int{x:elt}{n:nat}
   (x: ELT(a, x), n: int n): [p:elt] (POW(x, n, p) | ELT(a, p))
@@ -576,7 +573,7 @@ fastpow_elt_int{x:elt}{n:nat}
 With the preparation done above, a straightforward implementation of
 #dyncode("fastpow_elt_int") can now be presented as follows:
 
-#atscode("\
+#dats2xhtml("\
 implement
 {a}(*tmp*)
 fastpow_elt_int
@@ -621,7 +618,7 @@ tail-recursive.  The function template #dyncode("mulunit"), which is called to
 produce a unit for the underlying multiplication, is assigned the following
 interface:
 
-#atscode("\
+#sats2xhtml("\
 fun{a:t@ype} mulunit (): ELT(a, 1(*stamp*))
 ")
 
@@ -632,7 +629,7 @@ reader give it a try first to implement #dyncode("lemma") before taking a
 look at the given implementation. Note that the following axioms are needed
 to implement #dyncode("lemma"):
 
-#atscode("\
+#sats2xhtml("\
 //
 praxi
 mul_istot // MUL is total
