@@ -20,8 +20,8 @@ A list-folding combinator is a (higher-order) function that
 traverses a given list to process the elements contained in the
 list. In this very light article (based on a lecture of mine on
 introductory functional programming), I present some code implementing
-several list-folding combinators while touching upon a bit the issue
-of library design in ATS.\
+3 list-folding combinators as well as several examples making use
+of these combinators.\
 ')##comment("para")
 
 
@@ -295,6 +295,53 @@ programmer who writes this kind of code is surely in need of
 solidifying his/her own understanding of the call-by-value semantics.\
 
 """)##comment("para")
+
+##para("""\
+
+The following code implements based on ##dyncode("list_fold_right") a
+function searching for the rightmost element satisfying a given prediate
+in a given list:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+fun
+{a:t@ype}
+list_find_rightmost
+(
+  xs: List(a), p: (a) -<cloref1> bool
+) : Option(a) = let
+//
+exception Found of (a)
+//
+in
+//
+try let
+//
+val _ =
+list_fold_right<a,int>
+( xs
+, lam(x, xs) =>
+  if p(x) then $raise(Found(x)) else (0)
+, 0(*nominal*)
+)
+//
+in
+  None((*void*))
+end with ~Found(x) => Some(x)
+//
+end (* end of [list_find_rightmost] *)
+""")</pre>
+
+Note that the ##dyncode("fopr") argument passed to
+##dyncode("list_fold_right") in this case is a function that raises an
+exception carrying the element being processed if the element
+satsifies the given property. As the type ##stacode("void") may cause
+difficulty for the generated C code to be compiled properly, the type
+##stacode("int") is chosen instead for the result returned by the call
+to ##dyncode("list_fold_right").
+
+""")
 
 <h2>List_fold_split</h2>
 

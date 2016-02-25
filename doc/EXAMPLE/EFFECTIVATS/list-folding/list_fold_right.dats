@@ -100,6 +100,35 @@ list_fold_right<a,List0(a)>
 ) (* list_reverse *)
 
 (* ****** ****** *)
+
+fun
+{a:t@ype}
+list_find_rightmost
+(
+  xs: List(a), p: (a) -<cloref1> bool
+) : Option(a) = let
+//
+exception Found of (a)
+//
+in
+//
+try let
+//
+val _ =
+list_fold_right<a,int>
+( xs
+, lam(x, xs) =>
+  if p(x) then $raise(Found(x)) else (0)
+, 0(*nominal*)
+)
+//
+in
+  None((*void*))
+end with ~Found(x) => Some(x)
+//
+end (* end of [list_find_rightmost] *)
+
+(* ****** ****** *)
 //
 val
 fact =
