@@ -36,16 +36,14 @@ evaluation of an expression never terminates, then the expression is also
 effectul. For instance, let us define a function #dyncode("loop") as
 follows:
 
-#atscode("\
+#dats2xhtml("\
 fun loop (): void = loop ()
 ")
 
 Then the expression #dyncode("loop()") can be distinguished from
 any values in the following context:
 
-#atscode('\
-let val _ = [] in print ("Terminated") end
-')
+#atscode('let val _ = [] in print ("Terminated") end')
 
 If the hole #dyncode("[]") in the context is replaced with
 #dyncode("loop()"), then the evaluation of the resulting expression
@@ -90,7 +88,7 @@ The type #stacode("exn") is predefined in ATS. One may think of
 always be declared. For instance, two exception constructors are declared
 as follows:
 
-#atscode("\
+#sats2xhtml("\
 exception FatalError0 of ()
 exception FatalError1 of (string)
 ")
@@ -103,10 +101,10 @@ to proper arguments. For instance, #dyncode("FatalError0()") and
 simply exceptions). In the following program, a function for integer
 division is implemented:
 
-#atscode("\
+#dats2xhtml("\
 exception DivisionByZero of ()
 fun divexn (x: int, y: int): int =
-  if y != 0 then then x / y else $raise DivisionByZero()
+  if y != 0 then x / y else $raise DivisionByZero()
 // end of [divexn]
 ")
 
@@ -150,11 +148,11 @@ Let us now see an example that involves raising and capturing an
 exception. In the following program, three functions are defined to compute
 the product of the integers in a given list:
 
-#atscode("\
+#dats2xhtml("\
 fun listprod1
 (
   xs: list0 (int)
-): int =
+) : int =
 (
   case+ xs of
   | list0_nil () => 1
@@ -284,7 +282,7 @@ straightforward to prove that Braun trees are balanced.\
 
 A polymorphic datatype is declared as follows for representing binary trees:
 
-#atscode("\
+#sats2xhtml("\
 datatype tree (a:t@ype) =
   | tree_nil of ((*void*))
   | tree_cons of (a, tree(a)(*left*), tree(a)(*right*))
@@ -294,7 +292,7 @@ datatype tree (a:t@ype) =
 The following defined function #dyncode("brauntest0") tests whether a
 given binary tree is a Braun tree:
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t@ype
 } size (t: tree a): int = case+ t of
@@ -331,7 +329,7 @@ time-complexity of the function #dyncode("brauntest0") is O(n(log(n))).\
 In the following program, the defined function #dyncode("brauntest1") also
 tests whether a given binary tree is a Braun tree:
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t@ype
 } brauntest1
@@ -386,7 +384,7 @@ mechanism. For instance, the use of exception in the following example may
 seem interesting but it actually leads to very inefficient code:
 
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } list0_length
@@ -419,7 +417,7 @@ element.  Given a type T, a reference for storing a value of the type T is
 given the type ref(T).  The following simple program makes use of all the
 essential functionalities on references:
 
-#atscode("\
+#dats2xhtml("\
 val intr = ref<int> (0) // create a ref and init. it with 0
 val () = !intr := !intr + 1 // increase the integer at [intr] by 1
 ")
@@ -447,7 +445,7 @@ also possible to read from and write to a reference by using the function
 templates #dyncode("ref_get_elt") and #dyncode("ref_set_elt") of the following
 interfaces, respectively:
 
-#atscode("\
+#sats2xhtml("\
 fun{a:t@ype} ref_get_elt (r: ref a): a // !r
 fun{a:t@ype} ref_set_elt (r: ref a, x: a): void // !r := x
 ")
@@ -464,7 +462,7 @@ programs. For example, the following defined function #dyncode("sumup") is
 such an example, which sums up all the integers between 1 and a given
 integer, inclusive:
 
-#atscode("\
+#dats2xhtml("\
 fun sumup
   (n: int): int = let
   val i = ref<int> (1)
@@ -514,7 +512,7 @@ Let us see as follows the implementation of a counter-like object in the
 style of object-oriented programming (OOP).  The type #stacode("counter")
 for counters is defined as follows:
 
-#atscode("\
+#sats2xhtml("\
 typedef
 counter = '{
   get= () -<cloref1> int
@@ -530,7 +528,7 @@ of the counter to 0. The following defined function #dyncode("newCounter")
 is for creating a counter object (represented as a boxed record of closure
 functions):
 
-#atscode("\
+#dats2xhtml("\
 fun newCounter
 (
 // argumentless
@@ -615,7 +613,7 @@ which is automatically loaded by <command>atsopt</command>. For instance,
 three function templates and one polymorphic function on arrays are
 depicted by the following interfaces:
 
-#atscode("\
+#sats2xhtml("\
 //
 fun{a:t@ype} // template
 arrszref_make_elt
@@ -667,7 +665,7 @@ In the following program, the function template
 #dyncode("insertion_sort") implements the standard insertion sort on
 arrays:
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t@ype
 } insertion_sort
@@ -766,7 +764,7 @@ n is 3:
 Let us first define a function as follows for printing out an array
 of integers:
 
-#atscode('
+#dats2xhtml('
 fun print_intarray
   (A: arrszref (int)): void = let
   val asz = g0uint2int_size_int(A.size())
@@ -788,7 +786,7 @@ end // end of [print_intarray]
 We next implement two functions #dyncode("lrotate") and #dyncode("rrotate")
 for rearranging the elements in a given integer array:
 
-#atscode("\
+#dats2xhtml("\
 fun lrotate (
   A: arrszref int, i: int, j: int
 ) : void = let
@@ -831,8 +829,7 @@ Given a natural number n, the following defined function
 ranging from 1 to n, inclusive while arranging the output according to
 the lexicographic ordering on integer sequences.
 
-#atscode("\
-
+#dats2xhtml("\
 fun permute
   (n: int): void = let
 //
@@ -943,21 +940,23 @@ which is automatically loaded by <command>atsopt</command>. For instance,
 three function templates and two polymorphic functions on matrices are
 depicted by the following interfaces:
 
-#atscode("\
+#sats2xhtml("\
+//
 fun{a:t@ype}
 mtrxszref_make_elt // template
   (row: size_t, col: size_t, x: a): mtrxszref (a)
-
+//
 fun mtrxszref_get_nrow{a:t@ype} (M: mtrxszref a): size_t // polyfun
 fun mtrxszref_get_ncol{a:t@ype} (M: mtrxszref a): size_t // polyfun
-
+//
 fun{a:t@ype}
 mtrxszref_get_elt_at // template
   (M: mtrxszref a, i: size_t, j: size_t): a // M[i,j]
 fun{a:t@ype}
 mtrxszref_set_elt_at // template
   (M: mtrxszref a, i: size_t, j: size_t, x: a): void // M[i,j] := x
-")
+//
+")#comment("...")
 
 ")#comment("para")
 
@@ -987,7 +986,7 @@ these functions.\
 Let us now take a look at an example. The following defined function
 #dyncode("mtrxszref_transpose") turns a given matrix into its transpose:
 
-#atscode("\
+#dats2xhtml("\
 fun{a:t@ype}
 mtrxszref_transpose
   (M: mtrxszref a): void = let
@@ -1150,7 +1149,7 @@ automatically loaded by <command>atsopt</command>. For instance, the
 functions for opening and closing file handles have the following
 interfaces:\
 
-#atscode("\
+#sats2xhtml("\
 fun fileref_open_exn
 (
   path: string, fm: file_mode
@@ -1165,9 +1164,9 @@ The following function is an optional version of
 returned by a call to #dyncode("fileref_open_opt") to see if a file handle
 is actually obtained.\
 
-#atscode("\
+#sats2xhtml("\
 fun fileref_open_opt
-  (path: string, fm: file_mode) : Option_vt (FILEref)
+  (path: string, fm: file_mode) : Option_vt(FILEref)
 ")
 
 ")
@@ -1252,7 +1251,7 @@ As an example, the following short program opens a file handle, outputs the
 string \"Hello, world!\" plus a newline into the stream associated with the
 file handle and then closes the file handle:
 
-#atscode('\
+#dats2xhtml('\
 implement
 main0 () =
 {
@@ -1277,8 +1276,8 @@ for overloading in ATS.\
 
 Another common I/O function is given the following interface:
 
-#atscode("\
-fun fileref_get_line_string (fil: FILEref): Strptr1
+#sats2xhtml("\
+fun fileref_get_line_string(fil: FILEref): Strptr1
 ")
 
 The function #dyncode("fileref_get_line_string") reads a line from the
@@ -1289,7 +1288,7 @@ an example, the following short program echos onto the standard output each
 line read from the standard input:
 
 
-#atscode('\
+#dats2xhtml('\
 implement
 main0 (
 // argumentless

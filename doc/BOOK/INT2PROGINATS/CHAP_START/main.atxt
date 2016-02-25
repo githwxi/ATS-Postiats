@@ -35,10 +35,12 @@ id="a_running_program"
 The following example is a program in ATS that prints out (onto the
 console) the string "Hello, world!" plus a newline before it terminates:
 
-#atscode('\
+#dats2xhtml('\
+//
 val _ = print ("Hello, world!\\\n")
-
+//
 implement main0 () = () // a dummy for [main]
+//
 ')
 
 The keyword #dyncode("val") initiates a binding between the variable
@@ -58,7 +60,7 @@ counterpart of the same name in C or Java.  The keyword
 interface has already been declared elsewhere. Following is the declared
 interface for #dyncode("main0") in ATS:
 
-#atscode("\
+#sats2xhtml("\
 fun main0 (): void
 ")
 
@@ -106,7 +108,7 @@ The following code template, which is available
 #mycodelink("CHAP_START/mytest.dats", "on-line"), is designed for constructing a
 single-file program in ATS:
 
-#atscode('\
+#dats2xhtml('\
 (*
 **
 ** A template for single-file ATS programs

@@ -67,7 +67,7 @@ the function can be implemented in ATS and called in C or vice versa.\
 
 In the following code, we see that two functions are declared:
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun fact (n: int): int
 extern
@@ -91,7 +91,7 @@ above declaration is equivalent to writing #keycode("ext\#fact2").
 
 Let us assume that #dyncode("fact") can be implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 implement fact (n) = fact2 (n, 1)
 ')
 
@@ -115,7 +115,7 @@ fact2_in_c (int n, int res)
 It is also allowed to implement #dyncode("fact2") in ATS
 directly as is shown below:
 
-#atscode('\
+#dats2xhtml('\
 implement
 fact2 (n, res) = if n > 0 then fact2 (n-1, n*res) else res
 ')
@@ -137,7 +137,7 @@ issued to indicate that #dyncode("fact2_in_c") is implemented repeatedly.\
 
 One can also declare #dyncode("fact2") as follows:
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun fact2 (n: int, res: int): int = "mac\#fact2_in_c"
 ')
@@ -154,7 +154,7 @@ may not even have a prototype. This style of declaration naturally expects
 
 It is also allowed to use #keycode("sta\#") in place of #keycode("mac\#"):
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun fact2 (n: int, res: int): int = "sta\#fact2_in_c"
 ')
@@ -169,13 +169,13 @@ then #dyncode("fact2_in_c") is treated like a static function in C.\
 For the sake of completeness, I mention as follows another way of declaring
 a static function:
 
-#atscode('\
+#dats2xhtml('\
 static fun fact2 (n: int, res: int): int
 ')
 
 This style of declaration is automatically translated into the following one:
 
-#atscode('\
+#dats2xhtml('\
 extern fun fact2 (n: int, res: int): int = "sta\#"
 ')
 
@@ -206,7 +206,7 @@ then this type can be referred to in ATS as
 #stacode('$extype"some_type_in_c"'). For instance, type definitions are
 introduced in the following code for some external types in C:
 
-#atscode('\
+#sats2xhtml('\
 typedef Cint = $extype"int"
 typedef Clint = $extype"long int"
 typedef Cllint = $extype"long long int"
@@ -219,7 +219,7 @@ where T is a type in ATS assigned to this value.  For instance, macro
 definitions are introduced in the following code for some external values
 in C:
 
-#atscode('\
+#sats2xhtml('\
 macdef NULL = $extval(ptr, "0")
 macdef stdin_ref = $extval(FILEref, "stdin")
 macdef stdout_ref = $extval(FILEref, "stdout")
@@ -228,7 +228,7 @@ macdef stdout_ref = $extval(FILEref, "stdout")
 External values can also be formed to refer to functions in C as done
 in the following code:
 
-#atscode('\
+#sats2xhtml('\
 macdef atoi = $extval(string -> int, "atoi")
 macdef atol = $extval(string -> lint, "atol")
 macdef atof = $extval(string -> double, "atof")
@@ -255,21 +255,23 @@ Just like including assembly code inside C code, it is straightforward to
 include C code inside ATS code. For instance, the example appearing at the
 beginning of this chapter can be written as follows in a single file:
 
-#atscode('\
+#dats2xhtml('\
+//
 extern
 fun fact (n: int): int
 extern
 fun fact2 (n: int, res: int): int = "ext\#fact2_in_c"
-
+//
 implement fact (n) = fact2 (n, 1)
-
-%{
+//
+\%{
 int
 fact2_in_c (int n, int res)
 {
   while (n > 0) { res *= n ; n -= 1 ; } ; return res ;
 }
-%}
+\%}
+//
 ')#comment("atscode")
 
 For C code to appear inside ATS code, it needs to enclosed by the symbols
@@ -308,7 +310,7 @@ id="calling_external_functions">
 It is straightforward to make calls to external functions in ATS.
 For instance, the following code demonstrates a typical way to do so:
 
-#atscode('\
+#dats2xhtml('\
 local
 extern
 fun __fprintf
@@ -333,7 +335,7 @@ There is also built-in support for calling external functions in ATS directly.
 For instance, the following code does essentially the same as the code
 presented above:
 
-#atscode('\
+#dats2xhtml('\
 val N = 12
 val _ = $extfcall(int, "fprintf", stdout_ref, "fact(%i) = %i\\\\n", N, fact(N))
 ')
@@ -386,7 +388,7 @@ Suppose that we want to implement a function for comparing two given
 strings according to the standard lexicographic ordering. Let us name
 the function #dyncode("strcmp") and give it the following interface:
 
-#atscode('\
+#sats2xhtml('\
 fun strcmp (str1: string, str2: string): int
 ')
 
@@ -395,8 +397,7 @@ Given two strings #dyncode("str1") and #dyncode("str2"),
 #dyncode("str1") is greater than, less than, and equal to #dyncode("str2"),
 respectively. An implementation of #dyncode("strcmp") is given as follows:
 
-#atscode('\
-
+#dats2xhtml('\
 staload
 UN = "prelude/SATS/unsafe.sats"
 
@@ -490,7 +491,7 @@ Suppose we want a function for copying into a given array the elements
 stored in a list. Let us name the function #dyncode("array_copy_from_list")
 and give it the following interface:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t@ype}
 array_copy_from_list (A: array0(a), xs: list0(a)): void
 ')
@@ -509,7 +510,7 @@ called.  Following is an implementation of #dyncode("array_copy_from_list")
 in ATS that makes use of an unsafe function (#dyncode("ptr0_set")) declared
 in #myatscodelink("prelude/SATS/unsafe.sats", "unsafe.sats"):
 
-#atscode('\
+#dats2xhtml('\
 staload
 UN = "prelude/SATS/unsafe.sats"
 
@@ -570,10 +571,9 @@ use in C directly. In the following example, a typedef of the name
 #stacode("int_and_string") is expected to be declared in the generated C
 code for values that are assigned the type #stacode("(int, string)") in ATS:
 
-#atscode('\
+#dats2xhtml('\
 extern
-typedef
-"int_and_string" = (int, string)
+typedef "int_and_string" = (int, string)
 ')
 
 Essentially, #stacode("int_and_string") is defined in C as follows:
@@ -595,7 +595,7 @@ For instance, let us try to construct a value of the form
 #dyncode("cons2") is a data constructor associated with the following
 declared datatype #stacode("abc"):
 
-#atscode('\
+#sats2xhtml('\
 datatype abc =
   | cons1 of int | cons2 of (int, double)
 ')
@@ -616,7 +616,7 @@ In the following declaration,
 the type #stacode("cons2_pstruct(int, double)") in ATS
 is exported to C under the name #stacode("cons2_node"):
 
-#atscode('\
+#dats2xhtml('\
 extern
 vtypedef "cons2_node" = cons2_pstruct(int, double)
 ')
@@ -663,7 +663,7 @@ second constructors associated with the datatype #stacode("abc").
 By assigning an interface to #dyncode("cons2_make") in ATS, we can readily
 check whether #dyncode("cons2_make") behaves as expected:
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun cons2_make (int, double): abc = "mac#"
 val-cons2 (1, 2.34) = cons2_make (1, 2.34)
@@ -708,12 +708,14 @@ much memory is needed for each list-node. In the following code, the type
 #stacode("list_node") in ATS is for boxed list-nodes, and this type is
 exported to C under the same name:
 
-#atscode('\
+#dats2xhtml('\
 //
 vtypedef
-list_node = list_cons_pstruct(int,ptr) // [list_node] for boxed nodes
+list_node =
+list_cons_pstruct(int,ptr) // [list_node] for boxed nodes
 //
-extern vtypedef "list_node" = list_node // exporting [list_node] to C
+extern
+vtypedef "list_node" = list_node // exporting [list_node] to C
 //
 ')
 
@@ -722,8 +724,11 @@ typedef #stacode("list_node_") in C for unboxed list-nodes. So the
 following type #stacode("list_node_") in ATS is precisely what we want
 (for unboxed list-nodes):
 
-#atscode('\
-typedef list_node_ = $extype"list_node_" // [list_node_] for unboxed nodes
+#dats2xhtml('\
+//
+typedef
+list_node_ = $extype"list_node_" // [list_node_] for unboxed nodes
+//
 ')#comment("atscode")
 
 ')
@@ -733,7 +738,7 @@ typedef list_node_ = $extype"list_node_" // [list_node_] for unboxed nodes
 The following code statically allocates an array of list-nodes and then
 initialize these nodes, turning the array into a list:
 
-#atscode('\
+#dats2xhtml('\
 local
 
 \#define N 10

@@ -132,9 +132,7 @@ variable, and the expression #dyncode("1+2"):\
 
 ")
 
-<informalexample><programlisting>
-val x = 1 + 2
-</programlisting></informalexample>
+#dats2xhtml('val x = 1 + 2')
 
 #para("\
 
@@ -152,10 +150,10 @@ first line:\
 
 ")
 
-<informalexample><programlisting>
+#dats2xhtml('\
 val PI = 3.14 and radius = 10.0
 val area = PI * radius * radius
-</programlisting></informalexample>
+')
 
 #para("\
 
@@ -165,9 +163,9 @@ at run-time. However, it is guaranteed that the third binding is finalized
 after the first two are done. To see this issue from a different angle, we
 can try to typecheck the following code:
 
-<informalexample><programlisting>
+#dats2xhtml('\
 val x = 0 and y = x + 1
-</programlisting></informalexample>
+')
 
 The error message reported in this case indicates that the name (or dynamic
 identifier) #dyncode("x") in the expression #dyncode("x + 1") is unbound.
@@ -194,11 +192,11 @@ file. The bindings introduced in the following example between the keywords
 
 ")
 
-<informalexample><programlisting>
+#dats2xhtml('\
 val area = let
   val PI = 3.14 and radius = 10.0 in PI * radius * radius
 end // end of [let]
-</programlisting></informalexample>
+')
 
 #para("\
 
@@ -208,12 +206,12 @@ example can also be written in the following style:\
 
 ")
 
-<informalexample><programlisting>
+#dats2xhtml('\
 val area =
   PI * radius * radius where {
   val PI = 3.14 and radius = 10.0 // simultaneous bindings
 } // end of [where] // end of [val]
-</programlisting></informalexample>
+')
 
 #para("\
 
@@ -233,17 +231,17 @@ depend on the taste of the programmer.\
 The following example demonstrates an alternative approach to introducing
 local bindings:
 
-<informalexample><programlisting>
+#dats2xhtml('\
 local
 
 val PI = 3.14 and radius = 10.0
 
-in (* in of [local] *)
+in (* in-of-local *)
 
 val area = PI * radius * radius
 
 end // end of [local]
-</programlisting></informalexample>
+')
 
 where the bindings introduced between the keywords #dyncode("local") and
 #dyncode("in") are effective until the keyword #dyncode("end") is
@@ -270,11 +268,11 @@ expression to values. This collection of bindings, which is just a finite
 mapping, is often referred to as an environment (for evaluation). For
 instance, suppose that we want to evaluate the following expression:
 
-<informalexample><programlisting>
+#atscode('\
 let
   val PI = 3.14 and radius2 = 10.0 * 10.0 in PI * radius2
 end
-</programlisting></informalexample>
+')
 
 We start with the empty environment ENV0; we evaluate #dyncode("3.14") to
 itself and #dyncode("10.0 * 10.0") to #dyncode("100.0") under the
@@ -536,20 +534,20 @@ In the following example, we first construct a tuple of length 3 and then
 introduce bindings between 3 names and all of the 3 components of the
 tuple:
 
-<informalexample><programlisting>
+#dats2xhtml("\
 val xyz = ('A', 1, 2.0)
 val x = xyz.0 and y = xyz.1 and z = xyz.2
-</programlisting></informalexample>
+")
 
 Note that the constructed tuple can be assigned the tuple type
 #stacode("(char, int, double)"). Another method for selecting components in
 a given tuple is based on pattern matching, which is employed in the
 following example:
 
-<informalexample><programlisting>
+#dats2xhtml("\
 val xyz = ('A', 1, 2.0)
 val (x, y, z) = xyz // x = 'A'; y = 1; z = 2.0
-</programlisting></informalexample>
+")
 
 Note that #dyncode("(x, y, z)") is a pattern that can match any tuples of
 exact 3 components. I will say more about pattern matching elsewhere.
@@ -575,10 +573,10 @@ any place where a pointer can. Using boxed tuples is rather similar to
 using unboxed ones. For instance, the meaning of the following code should
 be evident:
 
-<informalexample><programlisting>
+#dats2xhtml("\
 val xyz = '( 'A', 1, 2.0 )
 val x = xyz.0 and y = xyz.1 and z = xyz.2
-</programlisting></informalexample>
+")
 
 Note that a space is needed between #dyncode("'(") and #dyncode("'A'")
 for otherwise the current parser (for ATS/Postiats) would be confused.\
@@ -609,9 +607,10 @@ record is chosen by the programmer (instead of being fixed). Similarly, a
 record type is just like a tuple type.  For instance, a record type
 #stacode("point2D") is defined as follows:
 
-<informalexample><programlisting>
-typedef point2D = @{ x= double, y= double }
-</programlisting></informalexample>
+#sats2xhtml('\
+typedef
+point2D = @{ x= double, y= double }
+')
 
 where #dyncode("x") and #dyncode("y") are the names of the two fields in
 a record value of this type. We also refer to a field in a record as a
@@ -620,25 +619,26 @@ type is for flat/native/unboxed records. A value of the type
 #stacode("point2D") is constructed as follows and given the name
 #dyncode("theOrigin"):
 
-<informalexample><programlisting>
+#dats2xhtml('\
 val theOrigin = @{ x= 0.0, y= 0.0 } : point2D
-</programlisting></informalexample>
+')
+
 ")
 
 #para("\
 We can use the standard dot notation to extract out a selected component in
 a record, and this is shown in the next line of code:
 
-<informalexample><programlisting>
+#dats2xhtml('\
 val theOrigin_x = theOrigin.x and theOrigin_y = theOrigin.y
-</programlisting></informalexample>
+')
 
 Alternatively, we can use pattern matching for doing component extraction
 as is done in the next line of code:
 
-<informalexample><programlisting>
+#dats2xhtml('\
 val @{ x= theOrigin_x, y= theOrigin_y } = theOrigin
-</programlisting></informalexample>
+')
 
 In this case, the names #dyncode("theOrigin_x") and
 #dyncode("theOrigin_y") are bound to the components in
@@ -647,10 +647,10 @@ respectively. If we only need to extract out a selected few of components
 (instead of all the available ones), we can make use of the following
 kind of patterns:
 
-<informalexample><programlisting>
+#dats2xhtml('\
 val @{ x= theOrigin_x, ... } = theOrigin // the x-component only 
 val @{ y= theOrigin_y, ... } = theOrigin // the y-component only 
-</programlisting></informalexample>
+')
 
 If you find all this syntax for component extraction to be confusing, then
 I suggest that you stick to the dot notation. I myself rarely use pattern
@@ -675,9 +675,9 @@ followed immediately by a left curly brace.\
 A conditional expression consists of a test and two branches. For instance,
 the following expression is conditional:
 
-<informalexample><programlisting>
+#atscode('\
 if (x >= 0) then x else ~x
-</programlisting></informalexample>
+')
 
 where #dyncode("if"), #dyncode("then") and #dyncode("else") are keywords
 in ATS. In a conditional expression, the expression following
@@ -707,15 +707,15 @@ we continue to evaluate the else-branch.  ")
 It is also allowed to form a conditional expression where the else-branch
 is missing or truncated. For instance, we can form an expression as follows:
 
-<informalexample><programlisting>
+#atscode('\
 if (x >= 0) then print(x)
-</programlisting></informalexample>
+')
 
 which is equivalent to the following conditional expression:
 
-<informalexample><programlisting>
+#atscode('\
 if (x >= 0) then print(x) else ()
-</programlisting></informalexample>
+')
 
 Note that #dyncode("()") stands for the void value (of the type
 #stacode("void")). If a type can be assigned to a conditional expression
@@ -742,35 +742,35 @@ the type of the sequence expression being formed.  Evaluating a sequence of
 more expressions is analogous to evaluating a sequence of two. The
 following example is a sequence expression:
  
-<informalexample><programlisting>
+#atscode("\
 (print 'H'; print 'e'; print 'l'; print 'l'; print 'o')
-</programlisting></informalexample>
+")
 
 Evaluating this sequence expression prints out (onto the console) the
 5-letter string \"Hello\". Instead of parentheses, we can also use the
 keywords #dyncode("begin") and #dyncode("end") to form a sequence
 expression:
 
-<informalexample><programlisting>
+#atscode("\
 begin
   print 'H'; print 'e'; print 'l'; print 'l'; print 'o'
 end // end of [begin]
-</programlisting></informalexample>
+")
 
 If we like, we may also add a semicolon immediately after the last
 expression in a sequence as long as the last expression is of the type
 #dyncode("void"). For instance, the above example can also be written as
 follows:
 
-<informalexample><programlisting>
+#atscode("\
 begin
   print 'H'; print 'e'; print 'l'; print 'l'; print 'o';
 end // end of [begin]
-</programlisting></informalexample>
+")
 
 I also want to point out the following style of sequencing:
 
-<informalexample><programlisting>
+#atscode("\
 let
   val () = print 'H'
   val () = print 'e'
@@ -780,7 +780,7 @@ let
 in
   // nothing
 end // end of [let]
-</programlisting></informalexample>
+")
 
 which is quite common in functional programming.\
 ")

@@ -50,11 +50,14 @@ id="function_templates">
 A function template is a code template that implements a function.
 In the following code, two functions are defined to swap values:
 
-#atscode("\
+#dats2xhtml("\
+//
 typedef charint = (char, int)
 typedef intchar = (int, char)
+//
 fun swap_char_int (xy: charint): intchar = (xy.1, xy.0)
 fun swap_int_char (xy: intchar): charint = (xy.1, xy.0)
+//
 ")
 
 If types are ignored, the bodies of #dyncode("swap_char_int") and
@@ -63,12 +66,15 @@ code duplication, we can first implement a function template
 #dyncode("swap") as follows and then implement #dyncode("swap_char_int")
 and #dyncode("swap_int_char") based on #dyncode("swap"):
 
-#atscode("\
+#dats2xhtml("\
+//
 fun{
 a,b:t@ype
 } swap (xy: (a, b)): (b, a) = (xy.1, xy.0)
+//
 fun swap_char_int (xy: charint): intchar = swap<char,int> (xy)
 fun swap_int_char (xy: intchar): charint = swap<int,char> (xy)
+//
 ")
 
 It should be noted that a function template is not a first-class value in
@@ -95,7 +101,7 @@ the parameters #stacode("a") and #stacode("b") are replaced with
 A different style of implementation of #dyncode("swap") is given
 as follows:
 
-#atscode("\
+#dats2xhtml("\
 fun{a:t@ype}{b:t@ype} swap2 (xy: (a, b)): (b, a) = (xy.1, xy.0)
 ")
 
@@ -103,7 +109,7 @@ where the template parameters are given sequentially (instead of
 simultaneously). The following code shows how #dyncode("swap2") can be
 instantiated to form instances:
 
-#atscode("\
+#dats2xhtml("\
 fun swap_char_int (xy: charint): intchar = swap2<char><int> (xy)
 fun swap_int_char (xy: intchar): charint = swap2<int><char> (xy)
 ")
@@ -118,21 +124,23 @@ no space is allowed between #dyncode("&gt;") and #dyncode("&lt;").\
 As another example, a higher-order function template for composing
 (closure) functions is given as follows:
 
-#atscode("\
+#dats2xhtml("\
+//
 typedef
 cfun (t1:t@ype, t2:t@ype) = t1 -<cloref1> t2
-
+//
 fun{
 a,b,c:t@ype
 } compose (
   f: cfun (a, b), g: cfun (b, c)
 ) :<cloref1> cfun (a, c) = lam x => g(f(x))
-
+//
 val inc_by_1 = lam (x:int): int =<cloref> x+1
 val mul_by_2 = lam (x:int): int =<cloref> x*2
-
+//
 val f_2x_1 = compose<int,int,int> (mul_by_2, inc_by_1)
 val f_2x_2 = compose<int,int,int> (inc_by_1, mul_by_2)
+//
 ")
 
 It should be clear that the value #dyncode("f_2x_1") represents the
@@ -177,7 +185,7 @@ However, the former is a first-class value in ATS while the latter is not.
 As an example, the following defined function #dyncode("swap_boxed") is
 polymorphic:
 
-#atscode("\
+#dats2xhtml("\
 fun swap_boxed{a,b:type} (xy: (a, b)): (b, a) = (xy.1, xy.0)
 ")
 
@@ -185,7 +193,7 @@ The type variables #stacode("a") and #stacode("b") are often referred as
 static arguments while #dyncode("xy") is a dynamic argument. For example,
 the following code makes use of the polymorphic function #dyncode("swap_boxed"):
 
-#atscode('\
+#dats2xhtml('\
 val AB = (box("A"), box("B"))
 val BA1 = swap_boxed{boxstr,boxstr} (AB)
 val BA2 = swap_boxed (AB) // omitting type arguments may be fine
@@ -221,7 +229,7 @@ expected by the programmer.\
 It is also possible to pass static arguments sequentially as is
 shown in the following style of implementation of a polymorphic function:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun swap2_boxed{a:type}{b:type} (xy: (a, b)): (b, a) = (xy.1, xy.0)
 //
@@ -254,7 +262,7 @@ extremely common in practice.
 #para("\
 The first kind is depicted in the following example:
 
-#atscode("\
+#dats2xhtml("\
 fun swap_boxed{a,b:t@ype} (xy: (a, b)): (b, a) = (xy.1, xy.0)
 ")
 
@@ -274,7 +282,7 @@ is for types of unspecified size.
 #para("\
 The second kind is depicted in the following example:
 
-#atscode("\
+#dats2xhtml("\
 fun{a,b:type} swap_boxed (xy: (a, b)): (b, a) = (xy.1, xy.0)
 ")
 
@@ -313,7 +321,7 @@ id="polymorphic_datatypes">
 Code sharing also applies to datatype declarations. For instance, a
 commonly used polymorphic datatype #stacode("list0") is declared as follows:
 
-#atscode("\
+#sats2xhtml("\
 datatype
 list0 (a:t@ype) =
   | list0_nil (a) of () | list0_cons (a) of (a, list0 a)
@@ -330,9 +338,10 @@ availability of polymorphic datatypes. As an example, a function template
 #dyncode("list0_length") is implemented as follows for computing the length
 of any given list:
 
-#atscode("\
+#dats2xhtml("\
 fun{a:t@ype}
-list0_length (xs: list0 a): int =
+list0_length
+  (xs: list0 a): int =
 (
   case+ xs of
   | list0_cons (_, xs) => 1 + list0_length<a> (xs) | list0_nil () => 0
@@ -354,7 +363,7 @@ occur.
 Another commonly used polymorphic datatype #stacode("option0") is declared as
 follows:
 
-#atscode("\
+#sats2xhtml("\
 datatype
 option0 (a:t@ype) =
   | option0_none (a) of () | option0_some (a) of a
@@ -366,7 +375,7 @@ error-handling. Suppose that we are to implement a function doing integer
 division and we want to make sure that the function returns even if it is
 called in a case where the divisor equals 0. This can be done as follows:
 
-#atscode("\
+#dats2xhtml("\
 fun divopt
 (
   x: int, y: int
@@ -380,7 +389,7 @@ division has been done normally or an error of divsion-by-zero has
 occurred. A realistic use of #stacode("option0") is shown in the following
 implementation of #dyncode("list0_last"):
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t@ype
 } list0_last
@@ -446,7 +455,7 @@ Given two lists xs and ys of the type #stacode("list0(T)") for some type T,
 #dyncode("list0_append(xs, ys)") returns a list that is the concatenation
 of xs and ys:
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t@ype
 } list0_append
@@ -481,7 +490,7 @@ Given two lists xs and ys of the type #stacode("list0(T)") for some type T,
 #dyncode("list0_reverse_append(xs, ys)") returns a list that is the
 concatenation of the reverse of xs and ys:
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t@ype
 } list0_reverse_append
@@ -514,7 +523,7 @@ Reversing: #dyncode("list0_reverse")
 Given a list xs, #dyncode("list0_reverse(xs)") returns the
 reverse of xs:
 
-#atscode("\
+#dats2xhtml("\
 fun{a:t@ype}
 list0_reverse
   (xs: list0 a): list0 a = list0_reverse_append<a> (xs, list0_nil)
@@ -535,7 +544,7 @@ Given a list xs of the type #stacode("list0(T1)") for some type T1 and a
 closure function f of the type T1 -&lt;cloref1&gt; T2 for some type T2,
 #dyncode("list0_map(xs, f)") returns a list ys of the type #stacode("list0(T2)"):
 
-#atscode("\
+#dats2xhtml("\
 fun
 {a:t@ype}
 {b:t@ype}
@@ -571,7 +580,7 @@ value of the expression f(... f(f(ini, xs[0]), xs[1]) ..., xs[n-1]), where
 n is the length of xs and xs[i] refers to element i in xs for each i &lt; n.
 The following implementation of #dyncode("list0_foldleft") is tail-recursive:
 
-#atscode('\
+#dats2xhtml('\
 fun
 {a:t@ype}
 {b:t@ype}
@@ -603,7 +612,7 @@ value of the expression f(xs[0], f(xs[1], f(... f(xs[n-1], res) ...))), where
 n is the length of xs and xs[i] refers to element i in xs for each i &lt; n.
 The following implementation of #dyncode("list0_foldright") is not tail-recursive:
 
-#atscode('\
+#dats2xhtml('\
 fun
 {a:t@ype}
 {b:t@ype}
@@ -635,7 +644,7 @@ and #stacode("list0(T2)") for some types T1 and T2, respectively,
 #dyncode("list0_zip(xs, ys)") returns a list zs of the type
 #stacode("list0(@(T1, T2))"):
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a,b:t@ype
 } list0_zip
@@ -679,7 +688,7 @@ function f of the type (T1, T2) -&lt;cloref1&gt; T3 for some type T3,
 #dyncode("list0_zipwith(xs, ys, f)") returns a list zs of the type
 #stacode("list0(T3)"):
 
-#atscode("\
+#dats2xhtml("\
 fun
 {a,b:t@ype}
 {c:t@ype}
@@ -735,7 +744,7 @@ style of implementation of mergesort on lists.
 First, let us introduce abbreviations
 for the list constructors #dyncode("list0_nil") and #dyncode("list0_cons"):
 
-#atscode("\
+#dats2xhtml("\
 \#define :: list0_cons // writing [::] for list0_cons
 \#define cons0 list0_cons // writing [cons0] for list0_cons
 \#define nil0 list0_nil // writing [nil0] for list0_nil
@@ -746,7 +755,7 @@ For instance, the list consisting of the first 5 natural numbers can be
 constructed as follows:
 
 #atscode("\
-cons0 (0, cons0 (1, 2 :: 3 :: 4 :: nil0 ()))
+cons0(0, cons0(1, 2 :: 3 :: 4 :: nil0((*void*))))
 ")
 
 In practice, there is of course no point in mixing #dyncode("cons0")
@@ -759,10 +768,11 @@ with #dyncode("::").
 We next implement a function template #dyncode("merge") to merge two given
 ordered lists into a single ordered one:
 
-#atscode("\
+#dats2xhtml("\
+//
 typedef
 lte (a:t@ype) = (a, a) -> bool
-
+//
 fun{
 a:t@ype
 } merge (
@@ -782,6 +792,7 @@ a:t@ype
     ) // end of [cons0]
   | nil0 () => ys
 ) (* end of [merge] *)
+//
 ")
 
 For instance, suppose that the two given lists are (1, 3, 4, 8) and (2, 5,
@@ -800,7 +811,7 @@ means the same as #dyncode("lte(x, y)").\
 The following function template #dyncode("mergesort") implements the
 standard mergesort algorithm:
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t@ype
 } mergesort

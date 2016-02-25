@@ -47,14 +47,14 @@ implementation of the function or value should possess. For instance, the
 following code defines a function #dyncode("fact") for computing the
 factorial of a given integer:
 
-#atscode('\
+#dats2xhtml('\
 fun fact (x: int): int = if x > 0 then x * fact (x-1) else 1
 ')
 
 It is also possible to first declare an interface for #dyncode("fact") as
 follows:
 
-#atscode('\
+#dats2xhtml('\
 extern fun fact (x: int): int
 ')
 
@@ -62,7 +62,7 @@ where #keycode("extern") is a keyword in ATS that initiates the declaration
 of an interface. Alternative ways to declare an interface for #dyncode("fact")
 are given as follows:
 
-#atscode('\
+#dats2xhtml('\
 extern fun fact : (int) -> int
 extern val fact : (int) -> int
 ')
@@ -113,7 +113,7 @@ fact(n) = n * fact (n-1) for each natural number n > 0
 An implementation for #dyncode("fact") as the following one can be given at
 any point where the declared interface for #dyncode("fact") is accessible:
 
-#atscode('\
+#dats2xhtml('\
 implement fact (x) = if x > 0 then x * fact (x-1) else 1
 ')
 
@@ -121,7 +121,7 @@ The keyword #keycode("implement") is for initiating an implementation of a
 function or value whose interface is already declared. It is fairly common
 to see the following style of coding, usually, by a beginning ATS programmer:
 
-#atscode('\
+#dats2xhtml('\
 implement fact (x: int): int = if x > 0 then x * fact (x-1) else 1
 ')
 
@@ -137,14 +137,14 @@ synthesized by the typechecker.\
 As an example of an interface for a value, #dyncode("fact10") is declared
 as follows to be a value of the type #stacode("int"):
 
-#atscode('\
+#dats2xhtml('\
 extern val fact10 : int
 ')
 
 The following implementation for #dyncode("fact10") can be given at any
 point where the declared interface for #dyncode("fact10") is accessible:
 
-#atscode('\
+#dats2xhtml('\
 implement fact10 = fact (10)
 ')
 
@@ -155,7 +155,7 @@ implement fact10 = fact (10)
 As another example, the following code declares an interface for a
 polymorphic function named #dyncode("swap_boxed"):
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun swap_boxed{a,b:type} (xy: (a, b)): (b, a)
 ')
@@ -163,7 +163,7 @@ fun swap_boxed{a,b:type} (xy: (a, b)): (b, a)
 Note that both type variables #stacode("a") and #stacode("b") are boxed.
 An implementation for #dyncode("swap_boxed") is given as follows:
 
-#atscode('\
+#dats2xhtml('\
 implement swap_boxed{a,b} (xy) = (xy.1, xy.0)
 ')
 
@@ -180,7 +180,7 @@ case.\
 As yet another example, the following code declares an interface for a
 function template named #dyncode("swap_tmplt"):
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun{a,b:t@ype} swap_tmplt (xy: (a, b)): (b, a)
 ')
@@ -190,7 +190,7 @@ sort #stacode("t@ype"), indicating that they can be of any size.
 
 An implementation for #dyncode("swap_tmplt") is given as follows:
 
-#atscode('\
+#dats2xhtml('\
 implement{a,b} swap_tmplt (xy) = (xy.1, xy.0)
 ')
 
@@ -240,7 +240,7 @@ famous for being recursive but not primitive recursive.  In a static file
 named #filename("acker.sats") (or any other legal filename), we can declare
 the following function interface:
 
-#atscode('\
+#sats2xhtml('\
 fun acker (m: int, n: int): int
 ')
 
@@ -249,7 +249,7 @@ declaring an interface for either a function or a value in a static file.
 Then in a dynamic file named #filename("acker.dats") (or any other legal
 filename), we can give the following implementation:
 
-#atscode('\
+#dats2xhtml('\
 staload "acker.sats"
 
 implement
@@ -276,7 +276,7 @@ will cover elsewhere.\
 It is also possible to give the following implementation for the declared
 function #dyncode("acker"):
 
-#atscode('\
+#dats2xhtml('\
 staload ACKER = "acker.sats"
 
 implement $ACKER.acker
@@ -306,7 +306,7 @@ declared entity can be readily tracked down.\
 In another file named #filename("test_acker.dats"), let us
 write the following code:
 
-#atscode('\
+#dats2xhtml('\
 //
 \#include
 "share/atspre_staload.hats"
@@ -332,7 +332,7 @@ implemented in the file. In this case, there is only a function implemented
 in #filename("acker.dats"). If we include the following line somewhere
 inside #filename("acker.dats"):
 
-#atscode('\
+#dats2xhtml('\
 \#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
 ')
 
@@ -378,7 +378,7 @@ employed by the <command>make</command> utility.\
 If we want to, we can also merge #filename("acker.sats") and
 #filename("acker.dats") into a single filename of the following content:
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun acker (m: int, m: int): int
 
@@ -394,7 +394,7 @@ acker (m, n) =
 Suppose that this single file is given the name #filename("acker3.dats").
 Then the testing code can be written as follows:
 
-#atscode('\
+#dats2xhtml('\
 //
 \#include
 "share/atspre_staload.hats"
@@ -433,7 +433,7 @@ Interfaces for function templates are mostly similar to those for
 functions.  For example, the following syntax declares an interface in a
 dynamic file for a function template of the name #dyncode("list0_fold_left"):
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun{
 a:t0p}{b:t0p
@@ -452,7 +452,7 @@ function template is also mostly similar to implementing one for a
 function. The above interface for #dyncode("list0_fold_left") is given an
 implementation in the following code:
 
-#atscode('\
+#dats2xhtml('\
 implement{a}{b}
 list0_fold_left
   (xs, f, init) = let
@@ -477,7 +477,7 @@ keyword #dyncode("implement"), and they cannot be omitted.  Template
 parameters can also be passed sequentially as is shown in the following
 short example:
 
-#atscode("\
+#dats2xhtml("\
 extern
 fun
 {a,b:t0p}{c:t0p}
@@ -513,7 +513,7 @@ give an implementation for a fixed instance of the template. For instance,
 the following interface is for a function template of the name
 #dyncode("eq_elt_elt"):
 
-#atscode("\
+#sats2xhtml("\
 fun{a:t0p}
 eq_elt_elt (x: a, y: a): bool // a generic equality
 ")
@@ -523,7 +523,7 @@ equality test for values of a type T depends on T.  Two specific template
 implementations are given as follows for the instances
 #dyncode("eq_elt_elt&lt;int&gt;") and #dyncode("eq_elt_elt&lt;double&gt;"):
 
-#atscode("\
+#dats2xhtml("\
 implement eq_elt_elt<int> (x, y) = g0int_eq (x, y)
 implement eq_elt_elt<double> (x, y) = g0float_eq (x, y)
 ")
@@ -532,7 +532,7 @@ where #dyncode("eq_int_int") and #dyncode("eq_double_double") are equality
 functions for values of the type #stacode("int") and #stacode("double"),
 respectively. It is also possible to give the implementations as follows:
 
-#atscode("\
+#dats2xhtml("\
 implement eq_elt_elt<int> (x, y) = (x = y)
 implement eq_elt_elt<double> (x, y) = (x = y)
 ")
@@ -549,7 +549,7 @@ Let us now see a typical use of specific template implementation.  The
 following defined function template #dyncode("listeq") implements an
 equality function on lists:
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t0p
 } listeq
@@ -586,7 +586,7 @@ instance is called.\
 As a comparison, the following defined function template
 #dyncode("listeqf") also implements equality test on two given lists:
 
-#atscode("\
+#dats2xhtml("\
 fun{
 a:t0p
 } listeqf
@@ -648,7 +648,7 @@ funtionalities on finite sets of integers. We first declare an abstract
 type #stacode("intset") as follows for values representing finite sets of
 integers:
 
-#atscode("\
+#sats2xhtml("\
 abstype intset // a boxed abstract type
 ")
 
@@ -659,7 +659,7 @@ for introducing unboxed abstract types, which will be explained elsewhere.
 We next present an interface for each function or value that we want to
 implement in the package:
 
-#atscode("\
+#sats2xhtml("\
 // empty set
 val intset_empty : intset
 
@@ -711,7 +711,7 @@ is contained in a file named #filename("intset.dats"), which is available
 construct values of an abstract type, we need to concretize it temporarily
 by using the following form of declaration:
 
-#atscode("\
+#dats2xhtml("\
 assume intset = list0 (int)
 ")
 
@@ -730,7 +730,7 @@ The rest of implementation in #stacode("intset") is all standard.  For
 instance, the union operation on two given sets of integers is implemented
 as follows:
 
-#atscode("\
+#dats2xhtml("\
 implement
 intset_union
   (xs1, xs2) = (
@@ -783,7 +783,7 @@ collection (GC). Instead, we follow an alternative approach by declaring
 #stacode("rat") as an unboxed abstract type. Therefore, a declaration like
 the following one is expected:
 
-#atscode("\
+#sats2xhtml("\
 abst@ype rat
 ")
 
@@ -796,7 +796,7 @@ where a declaration of this form can be of great importance, and this is a
 topic I will cover elsewhere. For now, let us declare an unboxed abstract
 type as follows:
 
-#atscode("\
+#sats2xhtml("\
 abst@ype rat = (int, int)
 ")
 
@@ -812,7 +812,7 @@ The following code is contained in a file named
 #filename("ratmod.sats"), which is available
 #mycodelink("CHAP_MODULARITY/ratmod.sats", "on-line").
 
-#atscode("\
+#sats2xhtml("\
 exception Denominator
 exception DivisionByZero
 
@@ -834,7 +834,7 @@ value representing the rational number. The following implementation of
 #filename("ratmod.dats"), which is also available
 #mycodelink("CHAP_MODULARITY/ratmod.dats", "on-line").
 
-#atscode("\
+#dats2xhtml("\
 implement
 rat_make_int_int (p, q) = let
   fun make (
@@ -859,7 +859,7 @@ divisor is 1, and p<subscript>1</subscript>/q<subscript>1</subscript>
 equals p/q. With #dyncode("rat_make_int_int"), it is straightforward to
 implement as follows the arithmetic operations on rational numbers:
 
-#atscode("\
+#dats2xhtml("\
 implement ratneg (x) = (~x.0, x.1)
 
 implement
@@ -916,7 +916,7 @@ numbers that can address the aforementioned limitation follows the idea of
 functors in the programming language Standard ML (SML). Let us first
 introduce a type definition as follows:
 
-#atscode("\
+#sats2xhtml("\
 typedef
 intmod (a:t@ype) = '{
   ofint= int -> a
@@ -937,8 +937,8 @@ supposed to represent a module of integer operations on integers
 represented by values of the type T. Similarly, let us introduce another
 type definition as follows:
 
-#atscode("\
-abst@ype rat (a:t@ype) = (a, a)
+#sats2xhtml("\
+abst@ype rat(a:t@ype) = (a, a)
 
 typedef
 ratmod (a:t@ype) = '{
@@ -960,8 +960,9 @@ represent a module of rational operations on rationals represented by
 values of the type #stacode("rat(T)"). The function we need to implement can
 now be given the following interface:
 
-#atscode("\
-fun{a:t@ype} ratmod_make_intmod (int: intmod a): ratmod a
+#sats2xhtml("\
+fun{a:t@ype}
+ratmod_make_intmod (int: intmod a): ratmod a
 ")
 
 If applied to a given module of integer operations,
@@ -973,7 +974,7 @@ functor in SML.  In the following code, let us implement two modules
 which integers are represented as values of the types #stacode("int") and
 #stacode("double"), respectively:
 
-#atscode('\
+#dats2xhtml('\
 staload M = "libc/SATS/math.sats"
 
 val ratmod_int = let
