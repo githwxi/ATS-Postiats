@@ -13,7 +13,13 @@ abstype
 funarray_t0ype_int_type(a:t@ype+, n:int)
 //
 typedef
-funarray(a:t0p, n:int) = funarray_t0ype_int_type(a, n)
+funarray
+(
+  a:t0p, n:int
+) = funarray_t0ype_int_type(a, n)
+//
+typedef
+funarray(a:t0p) = [n:int] funarray(a, n)
 //
 (* ****** ****** *)
 //
@@ -77,6 +83,22 @@ funarray_remove_r{n:pos}
 (
   A: &funarray(INV(a), n) >> funarray(a, n-1), n: int(n)
 ) : a = "mac#%" // end of [funarray_remove_r]
+//
+(* ****** ****** *)
+//
+fun{
+x:t0p
+} funarray_foreach (xs: funarray(INV(x))): void
+fun{
+x:t0p}{env:vt0p
+} funarray_foreach_env (xs: funarray(INV(x)), env: &(env) >> _): void
+//
+fun{
+x:t0p}{env:vt0p
+} funarray_foreach$cont (x: x, env: &env): bool
+fun{
+x:t0p}{env:vt0p
+} funarray_foreach$fwork (x: x, env: &(env) >> _): void
 //
 (* ****** ****** *)
 

@@ -321,4 +321,18 @@ end // end of [funarray_remove_r]
 
 (* ****** ****** *)
 
+implement
+{x}{env}
+funarray_foreach$cont(x, env) = true
+
+(* ****** ****** *)
+
+implement
+{x}(*tmp*)
+funarray_foreach(A) = let
+  var env: void = () in funarray_foreach_env<x><void>(A, env)
+end // end of [funarray_foreach]
+
+(* ****** ****** *)
+
 (* end of [funarray.dats] *)
