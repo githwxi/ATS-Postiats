@@ -46,7 +46,7 @@ list_fold_left
 
 Applied to a list of n elements (x##sub(1), ..., x##sub(n)),
 ##dyncode("list_fold_left") essentially returns the value of the
-followng (informal) expression: ##dyncode("fopr(...fopr(init,
+following (informal) expression: ##dyncode("fopr(...fopr(init,
 x##sub(1)), ..., x##sub(n))").  The following code gives a typical
 implementation of ##dyncode("list_fold_left"):
 
