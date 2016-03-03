@@ -355,6 +355,7 @@ The types for the linear functional version of #dyncode("move_1") and
 <pre
 class="patsyntax">
 #pats2xhtml_dats('\
+//
 extern
 fun
 move_1
@@ -377,7 +378,7 @@ move_n{n:nat}
 
 Based on the type of #dyncode("move_1"), it is clear that calling the
 function on two given poles #dyncode("P1") and #dyncode("P2") changes
-the types of these two poles to reflect that fact that #dyncode("P1")
+the types of these two poles to reflect the fact that #dyncode("P1")
 contains one fewer disk after the call and #dyncode("P2") one more
 disk. The type assigned to #dyncode("move_n") can be interpreted similarly.\
 

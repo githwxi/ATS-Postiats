@@ -60,8 +60,10 @@ staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/stdlib.dats"
 (* ****** ****** *)
 //
 staload "{$PATSLIBATS}/ML/SATS/funmap.sats"
-//
 staload "{$PATSLIBATS}/ML/SATS/funset.sats"
+//
+staload _ = "{$PATSLIBATS}/DATS/funmap_avltree.dats"
+staload _ = "{$PATSLIBATS}/DATS/funset_avltree.dats"
 //
 staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/funmap.dats"
 staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/funset.dats"
