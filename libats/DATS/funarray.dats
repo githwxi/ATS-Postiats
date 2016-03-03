@@ -64,6 +64,24 @@ funarray_t0ype_int_type
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
+funarray_is_nil(A) =
+(
+case+ A of
+| E _ => true | B _ => false
+)
+implement
+{}(*tmp*)
+funarray_isnot_nil(A) =
+(
+case+ A of
+| E _ => false | B _ => true
+)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
 funarray_make_nil((*void*)) = E(*void*)
 
 (* ****** ****** *)
@@ -142,10 +160,10 @@ then let
 in
   if i > i2 + i2
     then let
-      val+B(_, tl, _) = t0 in get_at (tl, i2)
+      val+B(_, tl, _) = t0 in get_at(tl, i2)
     end // end of [then]
     else let
-      val+B(_, _, tr) = t0 in get_at (tr, i2-1)
+      val+B(_, _, tr) = t0 in get_at(tr, i2-1)
     end // end of [else]
 end // end of [then]
 else let
@@ -332,6 +350,83 @@ implement
 funarray_foreach(A) = let
   var env: void = () in funarray_foreach_env<x><void>(A, env)
 end // end of [funarray_foreach]
+
+(* ****** ****** *)
+
+local
+//
+staload
+Q = "libats/SATS/qlist.sats"
+//
+in (* in of [local] *)
+
+implement
+{a}{env}
+funarray_foreach_env
+  (A, env) = let
+//
+sortdef
+two = {i:nat | i < 2}
+//
+typedef
+elt = [n:pos] funarray(a, n)
+//
+vtypedef
+qstruct(n:int) = $Q.qstruct(elt, n)
+//
+fun
+ins{n:nat}
+(
+  ts: &qstruct(n) >> qstruct(n+i), t0: funarray(a)
+) : #[i:two] int(i) =
+(
+  if funarray_isnot_nil(t0)
+    then let val () = $Q.qstruct_insert(ts, t0) in 1 end
+    else 0
+) (* end of [ins] *)
+//
+fun
+aux{n:nat}
+(
+  n: int(n)
+, ts: &qstruct(n) >> qstruct(0)
+, env: &env >> _
+) : void = (
+//
+if
+n > 0
+then let
+//
+val t =
+$Q.qstruct_takeout(ts)
+//
+val+B(x, t_l, t_r) = t
+//
+val i_l = ins(ts, t_l)
+val i_r = ins(ts, t_r)
+//
+val ((*void*)) =
+  funarray_foreach$fwork(x, env)
+//
+in
+  aux(n-1+i_l+i_r, ts, env)
+end // end of [then]
+else () // end of [else]
+//
+) (* end of [aux] *)
+//
+var ts: $Q.qstruct?
+val () = $Q.qstruct_initize(ts)
+//
+val i0 = ins(ts, A)
+val () = aux(i0, ts, env)
+prval () = $Q.qstruct_uninitize(ts)
+//
+in
+  // nothing
+end // end of [funarray_foreach_env]
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -30,9 +30,20 @@ lemma_funarray_param
 //
 (* ****** ****** *)
 //
-fun
+fun{}
+funarray_is_nil
+  {a:t0p}{n:int}
+  (funarray(a, n)):<> bool(n==0)
+fun{}
+funarray_isnot_nil
+  {a:t0p}{n:int}
+  (funarray(a, n)):<> bool(n > 0)
+//
+(* ****** ****** *)
+//
+fun{}
 funarray_make_nil
-  {a:t0p}((*void*)): funarray(a, 0) = "mac#%"
+  {a:t0p}((*void*)):<> funarray(a, 0) = "mac#%"
 //
 (* ****** ****** *)
 //
