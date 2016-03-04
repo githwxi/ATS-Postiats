@@ -261,7 +261,7 @@ RMF=rm -f
 
 ######
 
-#make2_entry("libats_funarray", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_funarray_braunt", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 

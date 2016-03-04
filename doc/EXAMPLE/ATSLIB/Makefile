@@ -602,13 +602,13 @@ cleanall:: ; $(RMF) libats_funmset_listord.exe
 
 ######
 
-all:: libats_funarray
-libats_funarray: libats_funarray.exe
-libats_funarray.exe: libats_funarray_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-libats_funarray_dats.c: libats_funarray.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_funarray_dats.c --dynamic libats_funarray.dats
-clean:: ; $(RMF) libats_funarray_dats.o
-clean:: ; $(RMF) libats_funarray_dats.c
-cleanall:: ; $(RMF) libats_funarray.exe
+all:: libats_funarray_braunt
+libats_funarray_braunt: libats_funarray_braunt.exe
+libats_funarray_braunt.exe: libats_funarray_braunt_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_funarray_braunt_dats.c: libats_funarray_braunt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_funarray_braunt_dats.c --dynamic libats_funarray_braunt.dats
+clean:: ; $(RMF) libats_funarray_braunt_dats.o
+clean:: ; $(RMF) libats_funarray_braunt_dats.c
+cleanall:: ; $(RMF) libats_funarray_braunt.exe
 
 
 ######

@@ -5,7 +5,8 @@
 (* ****** ****** *)
 //
 #define
-ATS_PACKNAME "ATSLIB.libats.funarray"
+ATS_PACKNAME
+"ATSLIB.libats.funarray"
 //
 (* ****** ****** *)
 //

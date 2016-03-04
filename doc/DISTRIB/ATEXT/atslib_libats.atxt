@@ -193,6 +193,10 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/funarray.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/fundeque_fngtree.sats")
 
 (* ****** ****** *)
@@ -335,6 +339,10 @@ The ATSLIB/libats library\
 (* ****** ****** *)
 
 #packfilename("DATS/funmset_listord.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/funarray_braun.dats")
 
 (* ****** ****** *)
 
