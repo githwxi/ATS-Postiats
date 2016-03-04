@@ -1714,36 +1714,48 @@ end // end of [list_crosswith]
 
 implement
 {x}(*tmp*)
-list_foreach (xs) = let
-  var env: void = () in list_foreach_env<x><void> (xs, env)
+list_foreach
+  (xs) = let
+//
+var env: void = ()
+//
+in
+//
+list_foreach_env<x><void>(xs, env)
+//
 end // end of [list_foreach]
+
+#atscode_separator()
 
 implement
 {x}{env}
 list_foreach_env
   (xs, env) = let
 //
-prval () = lemma_list_param (xs)
+prval () = lemma_list_param(xs)
 //
-fun loop
-  {n:nat} .<n>. (
+fun
+loop
+{n:nat} .<n>.
+(
   xs: list (x, n), env: &env
 ) : void = let
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val test =
       list_foreach$cont<x><env> (x, env)
     // end of [val]
   in
     if test then let
-      val () = list_foreach$fwork<x><env> (x, env)
+      val () =
+      list_foreach$fwork<x><env> (x, env)
     in
       loop (xs, env)
     end else () // end of [if]
   end // end of [list_cons]
-| list_nil ((*void*)) => ()
 //
 end // end of [loop]
 //
@@ -1889,21 +1901,21 @@ fun loop
 (
   i: int i, xs: list (x, n), env: &env
 ) : intBtwe(i,n+i) =
-  case+ xs of
-  | list_cons
-      (x, xs) => let
-      val test =
-        list_iforeach$cont<x><env> (i, x, env)
-      // end of [test]
+(
+case+ xs of
+| list_nil() => (i)
+| list_cons(x, xs) => let
+    val test =
+      list_iforeach$cont<x><env> (i, x, env)
+    // end of [test]
+  in
+    if test then let
+      val () = list_iforeach$fwork<x><env> (i, x, env)
     in
-      if test then let
-        val () = list_iforeach$fwork<x><env> (i, x, env)
-      in
-        loop (succ(i), xs, env)
-      end else (i) // end of [if]
-    end // end of [list_cons]
-  | list_nil () => (i) // number of processed elements
-// end of [loop]
+      loop (succ(i), xs, env)
+    end else (i) // end of [if]
+  end // end of [list_cons]
+) (* end of [loop] *)
 //
 in
   loop (0, xs, env)
@@ -1932,13 +1944,15 @@ fun loop
 , xs: list (x, n-i)
 , f: (!v | natLt(n), x, !vt) -<fun,fe> void
 , env: !vt
-) :<fe> int n =
-  case+ xs of
-  | list_cons (x, xs) => let
-      val () = f (pfv | i, x, env) in loop (pfv | i+1, xs, f, env)
-    end // end of [list_cons]
-  | list_nil () => i // = size(xs)
-// end of [loop]
+) :<fe> int n = (
+//
+case+ xs of
+| list_nil() => i
+| list_cons(x, xs) => let
+    val () = f (pfv | i, x, env) in loop (pfv | i+1, xs, f, env)
+  end // end of [list_cons]
+) (* end of [loop] *)
+//
 in
   loop (pfv | 0, xs, f, env)
 end // end of [list_iforeach_funenv]
@@ -1970,22 +1984,26 @@ fun loop
 in
 //
 case+ xs of
-| list_cons (x, xs) => (
+| list_nil() => i // the number of processed elements
+| list_cons(x, xs) => (
   case+ ys of
-  | list_cons (y, ys) => let
+  | list_nil() => (i)
+  | list_cons(y, ys) => let
       val test =
         list_iforeach2$cont<x,y><env> (i, x, y, env)
       // end of [val]
     in
-      if test then let
-        val () = list_iforeach2$fwork<x,y><env> (i, x, y, env)
-      in
-        loop (succ(i), xs, ys, env)
-      end else (i) // end of [if]
+      if test
+        then let
+          val ((*void*)) =
+            list_iforeach2$fwork<x,y><env> (i, x, y, env)
+          // end of [val]
+        in
+          loop(succ(i), xs, ys, env)
+        end // end of [then]
+        else (i) // end of [else]
     end // end of [list_cons]
-  | list_nil () => i // the number of processed elements
-  ) // end of [list_cons]
-| list_nil () => i // the number of processed elements
+  ) (* end of [list_cons] *)
 //
 end // end of [loop]
 //
@@ -1997,13 +2015,14 @@ end // end of [list_iforeach2_env]
 
 implement
 {x,y}{env}
-list_iforeach2$cont (i, x, y, env) = true
+list_iforeach2$cont(i, x, y, env) = true
 
 #atscode_separator()
 
 implement
 {res}{x}
-list_foldleft (xs, ini) = let
+list_foldleft
+  (xs, ini) = let
 //
 prval () = lemma_list_param (xs)
 //
@@ -2041,8 +2060,8 @@ fun aux
   xs: list (x, n), acc: res
 ) : res =
   case+ xs of
-  | list_nil () => acc
-  | list_cons (x, xs) =>
+  | list_nil() => acc
+  | list_cons(x, xs) =>
       list_foldright$fopr<x><res> (x, aux (xs, acc))
     // end of [list_cons]
 // end of [aux]

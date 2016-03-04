@@ -120,7 +120,8 @@ x:t0p
 } funarray_foreach(xs: funarray(INV(x))): void
 fun{
 x:t0p}{env:vt0p
-} funarray_foreach_env(xs: funarray(INV(x)), env: &(env) >> _): void
+} funarray_foreach_env
+  (xs: funarray(INV(x)), env: &(env) >> _): void
 //
 fun{
 x:t0p}{env:vt0p
