@@ -82,6 +82,9 @@ case+ A of
 
 implement
 {}(*tmp*)
+funarray_nil((*void*)) = E(*void*)
+implement
+{}(*tmp*)
 funarray_make_nil((*void*)) = E(*void*)
 
 (* ****** ****** *)
@@ -338,25 +341,62 @@ in
 end // end of [funarray_remove_r]
 
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+fprint_funarray$sep
+  (out) = fprint_string(out, ", ")
+//
+(* ****** ****** *)
 
 implement
-{x}{env}
-funarray_foreach$cont(x, env) = true
+{a}(*tmp*)
+fprint_funarray
+  (out, A) = let
+//
+typedef tenv = int
+//
+var env: tenv = (0)
+//
+implement(a2)
+funarray_foreach$fwork<a2><tenv>
+  (x, env) = () where
+{
+//
+val () =
+if env > 0
+  then fprint_funarray$sep<>(out)
+// end of [val]
+//
+val () = env := env + 1
+val () = fprint_val<a>(out, $UN.cast{a}(x))
+//
+} (* end of [funarray_foreach$fwork] *)
+//
+in
+  funarray_foreach_env<a><tenv>(A, env)
+end // end of [fprint_funarray]
 
 (* ****** ****** *)
 
 implement
-{x}(*tmp*)
-funarray_foreach(A) = let
-  var env: void = () in funarray_foreach_env<x><void>(A, env)
+{a}(*tmp*)
+funarray_foreach
+  (A) = let
+//
+var env: void = ()
+//
+in
+//
+funarray_foreach_env<a><void>(A, env)
+//
 end // end of [funarray_foreach]
 
 (* ****** ****** *)
 
 local
 //
-staload
-Q = "libats/SATS/qlist.sats"
+staload Q = "libats/SATS/qlist.sats"
 //
 in (* in of [local] *)
 
@@ -402,14 +442,29 @@ $Q.qstruct_takeout(ts)
 //
 val+B(x, t_l, t_r) = t
 //
-val i_l = ins(ts, t_l)
-val i_r = ins(ts, t_r)
-//
-val ((*void*)) =
-  funarray_foreach$fwork(x, env)
+val test =
+  funarray_foreach$cont<a><env>(x, env)
+// end of [val]
 //
 in
+//
+if
+test
+then let
+  val i_l = ins(ts, t_l)
+  val i_r = ins(ts, t_r)
+  val ((*void*)) =
+    funarray_foreach$fwork<a><env>(x, env)
+  // end of [val]
+in
   aux(n-1+i_l+i_r, ts, env)
+end // end of [then]
+else let
+  // HX-2016-03: preparing for exit
+in
+  list_vt_free($Q.qstruct_takeout_list(ts))
+end // end of [else]
+//
 end // end of [then]
 else () // end of [else]
 //
@@ -428,6 +483,12 @@ end // end of [funarray_foreach_env]
 
 end // end of [local]
 
+(* ****** ****** *)
+//
+implement
+{a}{env}(*tmp*)
+funarray_foreach$cont(x, env) = (true)
+//
 (* ****** ****** *)
 
 (* end of [funarray.dats] *)

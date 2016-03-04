@@ -133,16 +133,17 @@ fun{a:vt0p}
 qlist_takeout_opt (q: !qlist (INV(a)) >> _):<!wrt> Option_vt(a)
 
 (* ****** ****** *)
-
+//
 (*
 ** HX: this operation is O(1)
 *)
+//
 fun{
 } qlist_takeout_list
   {a:vt0p}{n:int}
   (q: !qlist (INV(a), n) >> qlist (a, 0)):<!wrt> list_vt (a, n)
 // end of [qlist_takeout_list]
-
+//
 (* ****** ****** *)
 //
 fun{
@@ -216,13 +217,17 @@ qstruct_takeout{n:pos}
   (q: &qstruct (INV(a), n) >> qstruct (a, n-1)):<!wrt> (a)
 //
 (* ****** ****** *)
-
+//
+(*
+** HX: this operation is O(1)
+*)
+//
 fun{}
 qstruct_takeout_list
   {a:vt0p}{n:int}
   (q: &qstruct (INV(a), n) >> qstruct (a, 0)):<!wrt> list_vt (a, n)
 // end of [qstruct_takeout_list]
-
+//
 (* ****** ****** *)
 //
 // HX: ngc-functions do not make use of malloc/free

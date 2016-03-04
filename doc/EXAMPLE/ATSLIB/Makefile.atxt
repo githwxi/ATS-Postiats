@@ -261,6 +261,10 @@ RMF=rm -f
 
 ######
 
+#make2_entry("libats_funarray", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
+######
+
 #make2_entry("libats_fundeque_fngtree", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make2_entry("libats_funralist_nested", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
