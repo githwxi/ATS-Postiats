@@ -190,6 +190,13 @@ overload matrixptr_exch_at with matrixptr_exch_at_size
 //
 #atscode_separator()
 
+fun matrixptr_free
+  {a:t0p}{l:addr}{m,n:int}
+  (A: matrixptr(INV(a), l, m, n)):<!wrt> void = "mac\#%"
+// end of [matrixptr_free]
+
+#atscode_separator()
+
 (*
 fprint_matrix$sep1 // col separation
 fprint_matrix$sep2 // row separation
@@ -210,12 +217,40 @@ fprint_matrixptr_sep{m,n:int}
 ) : void // end of [fprint_matrixptr_sep]
 
 #atscode_separator()
-
-fun matrixptr_free
-  {a:t0p}{l:addr}{m,n:int}
-  (A: matrixptr(INV(a), l, m, n)):<!wrt> void = "mac\#%"
-// end of [matrixptr_free]
-
+//
+(*
+fun{a:vt0p}
+matrix_initize$init (i: size_t, x: &a >> a?): void
+*)
+fun{a:vt0p}
+matrixptr_initize
+  {l:addr}{m,n:int}
+(
+  M: !matrixptr(a?, l, m, n) >> matrixptr(a, l, m, n), m: size_t(m), n: size_t(n)
+) : void // end of [matrixptr_initize]
+//
+macdef
+matrixptr_initialize = matrixptr_initize
+//
+#atscode_separator()
+//
+(*
+fun{a:vt0p}
+matrix_uninitize$clear
+  (i: size_t, j: size_t, x: &a >> a?): void
+*)
+fun{a:vt0p}
+matrixptr_uninitize
+  {l:addr}{m,n:int}
+(
+  M: !matrixptr(INV(a), l, m, n) >> matrixptr(a?, l, m, n), m: size_t(m), n: size_t(n)
+) : void // end of [matrixptr_uninitize]
+//
+macdef
+matrixptr_uninitialize = matrixptr_uninitize
+//
+#atscode_separator()
+//
 (*
 fun{a:vt0p}
 matrix_uninitize$clear
@@ -225,9 +260,10 @@ fun{
 a:vt0p
 } matrixptr_freelin
   {l:addr}{m,n:int}
-  (A: matrixptr(INV(a), l, m, n)):<!wrt> void = "mac\#%"
-// end of [matrixptr_freelin]
-
+(
+  A: matrixptr(INV(a), l, m, n), m: size_t(m), n: size_t(n)
+) : void = "mac#%" // end-of-function
+//
 #atscode_separator()
 //
 (*
@@ -243,7 +279,7 @@ matrixptr_tabulate_cloref
   {m,n:int}
 (
   nrow: size_t m, ncol: size_t n, f: (sizeLt(m), sizeLt(n)) -<cloref> a
-) : matrixptr (a, m, n) // end-of-fun
+) : matrixptr (a, m, n) // end-of-function
 //
 #atscode_separator()
 

@@ -708,7 +708,7 @@ lemma_length_f2p
 ) : LENGTH(xs, ilist_length(xs))
 //
 praxi
-lemma_length_p2b
+lemma_length_p2f
 {xs:ilist}{n:int}
 (
   pf: LENGTH(xs, n)
@@ -727,7 +727,7 @@ lemma_append_f2p
 ) : APPEND(xs,ys,ilist_append(xs, ys))
 //
 praxi
-lemma_append_p2b
+lemma_append_p2f
   {xs,ys,zs:ilist}
 (
   pf: APPEND(xs, ys, zs)
