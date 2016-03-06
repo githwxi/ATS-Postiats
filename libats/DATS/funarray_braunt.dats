@@ -137,7 +137,7 @@ case+ t0 of
 prval() = lemma_funarray_param(A)
 //
 in
-  size(A)
+  $effmask_all(size(A))
 end // end of [funarray_size]
 //
 (* ****** ****** *)
@@ -175,7 +175,7 @@ end // end of [else]
 ) (* end of [get_at] *)
 //
 in
-  get_at(A, i)
+  $effmask_all(get_at(A, i))
 end // end of [funarray_get_at]
 
 (* ****** ****** *)
@@ -230,8 +230,8 @@ ins_l
 ) :<> bt(a, n+1) =
 (
 case+ t0 of
-| E () => B (x0, E (), E ())
-| B (x, tl, tr) => B (x0, ins_l (tr, x), tl)
+| E() => B(x0, E(), E())
+| B(x, tl, tr) => B(x0, ins_l (tr, x), tl)
 ) (* end of [ins_l] *)
 //
 prval() = lemma_funarray_param(A)
@@ -266,7 +266,7 @@ in
     else B(x, tl, ins_r (tr, n2-1, x0))
   // end of [if]
 end // end of [then]
-else B (x0, E (), E ())
+else B(x0, E(), E())
 //
 ) (* end of [ins_r] *)
 //
@@ -316,7 +316,7 @@ rem_r
   t0: &bt(a, n) >> bt(a, n-1), n: int n
 ) : a = let
 //
-val n2 = half(n); val+ B (x, tl, tr) = t0
+val n2 = half(n); val+B(x, tl, tr) = t0
 //
 in
 //

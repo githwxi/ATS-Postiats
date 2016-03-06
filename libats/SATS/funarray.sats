@@ -28,7 +28,7 @@ funarray(a:t0p) = [n:int] funarray(a, n)
 praxi
 lemma_funarray_param
   {a:t0p}{n:int}
-  (A: funarray(INV(a), n)): [n >= 0] void
+  (A: funarray(a, n)): [n >= 0] void
 //
 (* ****** ****** *)
 //
@@ -54,14 +54,14 @@ funarray_make_nil
 //
 fun
 {a:t0p}
-funarray_size{n:int}(A: funarray(INV(a), n)): int(n)
+funarray_size{n:int}(A: funarray(INV(a), n)):<> int(n)
 //
 (* ****** ****** *)
 //
 fun
 {a:t0p}
 funarray_get_at{n:int}
-  (A: funarray(INV(a), n), i: natLt(n)): (a)
+  (A: funarray(INV(a), n), i: natLt(n)):<> (a)
 //
 fun
 {a:t0p}
