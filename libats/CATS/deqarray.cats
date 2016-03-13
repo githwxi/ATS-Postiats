@@ -234,6 +234,12 @@ atslib_deqarray_is_full__tsz
   atslib_deqarray_struct *p_deq ;
   p_deq = (atslib_deqarray_struct*)p ;
 //
+/*
+  fprintf (
+    stdout
+  , "atslib_deqarray_is_full__tsz: tsz = %lu\n", tsz
+  ) ; // fprintf
+*/
   void *p_frnt = p_deq->deqarray_frnt ;
   void *p_rear = p_deq->deqarray_rear ;
 //
