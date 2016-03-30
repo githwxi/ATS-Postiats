@@ -11,6 +11,7 @@
  content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-PwTP-bool-vs-prop</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -328,6 +329,7 @@ explicit style.
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
+#patspage_script()
 </body>
 </html>
 

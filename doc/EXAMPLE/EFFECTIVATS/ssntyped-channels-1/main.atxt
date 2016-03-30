@@ -11,6 +11,7 @@
  content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-ssntyped-channels-introduction</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -462,6 +463,7 @@ the demo on his/her own.
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
+#patspage_script()
 </body>
 </html>
 

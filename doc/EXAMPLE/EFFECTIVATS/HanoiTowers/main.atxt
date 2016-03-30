@@ -11,6 +11,7 @@
  content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-hanoi-towers</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -478,6 +479,7 @@ but also more efficient both time-wise and memory-wise.
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
+#patspage_script()
 </body>
 </html>
 
