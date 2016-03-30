@@ -10,6 +10,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-queue-sllist2</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -318,6 +319,7 @@ entirety of the above presented code plus some code for testing.
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
+#patspage_script()
 </body>
 </html>
 

@@ -10,6 +10,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-file-copying</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -306,6 +307,7 @@ implementation of file-copying based on [fcopy3] in fcopy3.dats, where
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
+#patspage_script()
 </body>
 </html>
 

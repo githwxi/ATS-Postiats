@@ -10,6 +10,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-sorting-linear-lists</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -456,6 +457,7 @@ which is largly parallel to the presented implementation of merge-sort.
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
+#patspage_script()
 </body>
 </html>
 

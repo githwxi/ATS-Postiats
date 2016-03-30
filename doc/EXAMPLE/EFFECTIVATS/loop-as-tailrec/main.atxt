@@ -10,6 +10,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-loop-as-tailrec</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -380,6 +381,7 @@ whereas the function [isodd] is not.
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
+#patspage_script()
 </body>
 </html>
 

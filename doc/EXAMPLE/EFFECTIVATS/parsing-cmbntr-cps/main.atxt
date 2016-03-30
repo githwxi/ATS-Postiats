@@ -11,6 +11,7 @@
  content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-parsing-cmbntr-cps</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -582,6 +583,7 @@ parser for arithmetic expressions based on the tokenizer presented here.
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
+#patspage_script()
 </body>
 </html>
 

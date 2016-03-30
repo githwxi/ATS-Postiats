@@ -9,6 +9,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-DiningPhil</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -202,6 +203,7 @@ use the command [kill] to remove all of the deadlocked processes.
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
+#patspage_script()
 </body>
 </html>
 

@@ -9,6 +9,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-DiningPhil2</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -207,6 +208,7 @@ running the simulation for a while.
 
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 
+#patspage_script()
 </body>
 </html>
 
