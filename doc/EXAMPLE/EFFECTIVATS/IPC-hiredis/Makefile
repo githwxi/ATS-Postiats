@@ -89,7 +89,7 @@ main.html: main.exe ; ./main.exe > $@
 upload_main: \
   main.html ; \
   scp main.html \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/IPC-redis/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/IPC-hiredis/
 
 ######
 

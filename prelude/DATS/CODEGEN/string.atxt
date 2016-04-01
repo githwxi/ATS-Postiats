@@ -850,6 +850,20 @@ end // end of [string_tabulate]
 
 implement
 {}(*tmp*)
+string_tabulate_cloref
+  {n}(n, fopr) = let
+//
+implement
+string_tabulate$fopr<>(i) = fopr($UN.cast{sizeLt(n)}(i))
+//
+in
+  string_tabulate<>(n)
+end // end of [string_tabulate_cloref]
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
 string_forall
   (str) = let
 //

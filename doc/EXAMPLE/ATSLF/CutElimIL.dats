@@ -36,8 +36,8 @@ dataparasort iota = (* sort for individuals *)
 nonfix land; nonfix lor
 
 datasort form  = (* sort for formulas *)
-  | land of (form, form) // conjunction
   | lor of (form, form) // disjunction
+  | land of (form, form) // conjunction
   | limp of (form, form) // implication
 (*
   // Note the use of higher-order abstract syntax

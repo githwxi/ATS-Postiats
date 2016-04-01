@@ -39,7 +39,7 @@ main.html: main_html.php; $(PHP) -f $< > $@
 upload_main: \
   main.html ; \
   scp main.html \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/HttpServer/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/http-server/
 
 ######
 

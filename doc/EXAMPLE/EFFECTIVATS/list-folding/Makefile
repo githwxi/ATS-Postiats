@@ -18,6 +18,7 @@ MYATEXTING=./../ATEXT/bin/myatexting
 
 ######
 
+all:: main.html
 main.html: main.atxt ; $(MYATEXTING) -o $@ -i $<
 
 ######
