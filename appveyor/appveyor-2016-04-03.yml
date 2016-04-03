@@ -1,0 +1,58 @@
+platform:
+    - x64
+
+environment:
+    global:
+        CYG_MIRROR: http://cygwin.mirror.constant.com
+        ATS1VER: 0.2.12
+        ATS1PACK: ats-lang-anairiats-0.2.12
+        ATS1PACKTGZ: ats-lang-anairiats-0.2.12.tgz
+        ATS1LANGURL: http://sourceforge.net/projects/ats-lang
+        ATS1PACKURL: http://sourceforge.net/projects/ats-lang/files/ats-lang/anairiats-0.2.12/ats-lang-anairiats-0.2.12.tgz
+        ATSHOME: /tmp/ats-lang-anairiats-0.2.12
+        ATSHOMERELOC: ATS-0.2.12
+        PATSHOME: /tmp/ATS-Postiats
+        PATSHOMERELOC: /tmp/ATS-Postiats-contrib
+
+    matrix:
+        -   CYG_ARCH: x86
+            CYG_ROOT: C:/cygwin
+            CYG_CACHE: C:/cygwin/var/cache/setup
+        -   CYG_ARCH: x86_64
+            CYG_ROOT: C:/cygwin64
+            CYG_CACHE: C:/cygwin64/var/cache/setup
+
+init:
+    - 'echo System architecture: %PLATFORM%'
+    - 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
+    - 'echo Build folder is: %APPVEYOR_BUILD_FOLDER%'
+
+install:
+    - 'echo Setup Cygwin dependencies'
+    - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName setup.exe'
+    - 'setup.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P make -P autoconf -P automake -P gcc-core -P libtool -P intltool -P pkg-config -P git -P wget -P libgc-devel -P libgmp-devel > NUL'
+    - 'echo Checking the Cygwin setup'
+    - '%CYG_ROOT%/bin/bash -lc "cygcheck -dc cygwin"'
+    - 'echo Setup Cygwin dependencies is finished!'
+    - 'echo Build ATS1(with GC support)'
+    - '%CYG_ROOT%/bin/bash -lc "wget -q -P /tmp %ATS1PACKURL%"'
+    - '%CYG_ROOT%/bin/bash -lc "tar -C /tmp -zxvf /tmp/%ATS1PACKTGZ%"'
+    - '%CYG_ROOT%/bin/bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure&&make all"'
+    - 'echo Build ATS1(with GC support) is finished!'
+    - 'echo Download ATS2... (needed to use symlink.)'
+    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && git clone https://github.com/githwxi/ATS-Postiats.git"'
+    - '%CYG_ROOT%/bin/bash -lc "cd $PATSHOME && git checkout %APPVEYOR_REPO_COMMIT%"'
+    - 'echo Download ATS2-contrib...'
+    - '%CYG_ROOT%/bin/bash -lc "cd /tmp && git clone https://github.com/githwxi/ATS-Postiats-contrib.git"'
+
+build_script:
+    - cmd: 'echo Cygwin root is: %CYG_ROOT%'
+    - cmd: 'echo Build folder is: %APPVEYOR_BUILD_FOLDER%'
+    - cmd: 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
+    - cmd: 'echo Repo build commit is: %APPVEYOR_REPO_COMMIT%'
+    - cmd: 'echo Build ATS2...'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $PATSHOME; exec 0</dev/null; make -f codegen/Makefile_atslib"'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $PATSHOME; exec 0</dev/null; make -f Makefile_devl src_depend"'
+    - cmd: '%CYG_ROOT%/bin/bash -lc "cd $PATSHOME; exec 0</dev/null; make -f Makefile_devl"'
+
+test: off

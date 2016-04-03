@@ -95,15 +95,24 @@ val () =
 val ab = alphabet
 //
 implement{}
-string_tabulate$fopr (i) = let
+string_tabulate$fopr(i) = let
   val c = int2char0 (char2int0('A') + g0u2i(i))
 in
   $UN.cast{charNZ}(c) // HX: [c] cannot be NUL
 end // end of [string_tabulate$fwork]
 //
-val ab2 = string_tabulate (i2sz(26))
-val ((*void*)) = assertloc (ab = $UN.castvwtp1{string}(ab2))
+val ab2 =
+  string_tabulate(i2sz(26))
+val ((*void*)) =
+  assertloc (ab = $UN.castvwtp1{string}(ab2))
 val ((*void*)) = strnptr_free (ab2)
+//
+val ab3 =
+string_tabulate_cloref
+  (i2sz(26), lam(i) => $UN.cast{charNZ}('A'+sz2i(i)))
+//
+val ((*void*)) = assertloc (ab = $UN.castvwtp1{string}(ab3))
+val ((*void*)) = strnptr_free (ab3)
 //
 } // end of [val]
 
