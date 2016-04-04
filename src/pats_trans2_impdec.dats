@@ -789,8 +789,10 @@ end // end of [aux_tmparg]
 fun
 auxerr_tmparg
   (d1c0: d1ecl): void = let
-  val () = prerr_error2_loc (d1c0.d1ecl_loc)
-  val () = filprerr_ifdebug "i1mpdec_tr_main"
+  val () =
+  prerr_error2_loc (d1c0.d1ecl_loc)
+  val () =
+  filprerr_ifdebug "i1mpdec_tr_main"
   val () = prerr ": the redundantly provided template arguments are ignored."
   val () = prerr_newline ((*void*))
 in
@@ -800,8 +802,10 @@ end // end of [auxerr_tmparg]
 fun
 auxerr_nontop
   (d1c0: d1ecl): void = let
-  val () = prerr_error2_loc (d1c0.d1ecl_loc)
-  val () = filprerr_ifdebug "i1mpdec_tr_main"
+  val () =
+  prerr_error2_loc (d1c0.d1ecl_loc)
+  val () =
+  filprerr_ifdebug "i1mpdec_tr_main"
   val () = prerr ": the implementation should be at the top-level but it is not."
   val () = prerr_newline ((*void*))
 in

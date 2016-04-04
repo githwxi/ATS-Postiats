@@ -244,6 +244,30 @@ end // end of [hashtbl_foreach]
 
 implement
 {key,itm}
+hashtbl_foreach_cloref
+  (tbl, fwork) = let
+//
+implement
+{key,itm}{env}
+hashtbl_foreach$fwork
+  (k, x, env) = let
+//
+typedef
+fwork_t =
+  (key, &itm >> _) -<cloref1> void
+//
+in
+  $UN.cast{fwork_t}(fwork)(k, x)
+end // end of [hashtbl_foreach$fwork]
+//
+in
+  hashtbl_foreach<key,itm>(tbl)
+end // end of [hashtbl_foreach_cloref]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 hashtbl_listize
   (tbl) = let
 //
