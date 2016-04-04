@@ -342,7 +342,7 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
-#packfilename("DATS/funarray_braun.dats")
+#packfilename("DATS/funarray_braunt.dats")
 
 (* ****** ****** *)
 
