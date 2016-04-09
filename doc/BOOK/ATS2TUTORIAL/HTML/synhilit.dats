@@ -45,10 +45,6 @@ var buf = @[byte][BUFSZ]()
 val inp = $UN.cast{charptr}(inp)
 val bufp = $UN.cast{charptr}(addr@buf)
 //
-val script = "\
-s/'><\\/BODY'/'><SCRIPT SRC=\".\\/assets\\/ATS2TUTORIAL-BOOK.js\"><\\/SCRIPT><\\/BODY'/\
-" // end of [val]
-//
 val
 _(*int*) =
 $extfcall

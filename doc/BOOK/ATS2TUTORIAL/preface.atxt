@@ -16,7 +16,7 @@ Time of Generation: #timestamp()\
 #title("Preface")
 ")
 #langchin("
-#title("序言")
+#title("引言")
 ")
 
 #para('\
@@ -39,7 +39,7 @@ effective use in the construction of high-quality programs.\
 
 </preface>
 
-#comment(" end of [main.atxt] ")
+#comment(" end of [preface.atxt] ")
 
 %{
 implement main () = fprint_filsub (stdout_ref, "preface_atxt.txt")

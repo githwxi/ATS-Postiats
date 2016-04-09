@@ -82,7 +82,8 @@ Backup Links:
 </td></tr>
 <tr height="8px"><td></td></tr>
 <tr><td>
-Translation in Chinese: (TBA)
+Translation in Chinese:
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/ATS2TUTORIAL-chinese/HTML/HTMLTOC/book1.html">html</a>
 </td></tr>
 <tr><td>
 Translation in Japanese:

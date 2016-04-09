@@ -179,6 +179,7 @@ val _cls ="\
 val _opn = "\
 <informalexample><programlisting><![CDATA[\
 " // end of [val]
+//
 in
 //
 fun atscode
@@ -205,6 +206,7 @@ val _cls = "\
 val _opn = "\
 <informalexample><programlisting><![CDATA[##sats2xhtml_docbook(\"\"\"\
 " // end of [val]
+//
 in
 //
 fun
@@ -237,6 +239,7 @@ val _cls = "\
 val _opn = "\
 <informalexample><programlisting><![CDATA[##dats2xhtml_docbook(\"\"\"\
 " // end of [val]
+//
 in
 //
 fun
