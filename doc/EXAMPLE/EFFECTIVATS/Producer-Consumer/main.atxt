@@ -530,7 +530,9 @@ if ans
     // to some conditional variables
   )
   else let
-    val () = SharedResource_wait (SR, R)
+    val () =
+      SharedResource_wait (SR, R)
+    // end of [val]
   in
     SharedResource_process2 (SR, R)
   end // end of [else]
