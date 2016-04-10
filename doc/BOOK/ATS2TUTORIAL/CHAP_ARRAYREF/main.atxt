@@ -20,7 +20,7 @@ Time of Generation: #timestamp()\
 A persistent array of size n is just n heap-allocated cells (or references)
 in a row.  It is persistent in the sense that the memory allocated for the
 array cannot be freed manually. Instead, it can only be safely reclaimed
-through garbage collection (GC).\
+through systematic garbage collection (GC).\
 
 ")
 
