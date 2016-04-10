@@ -118,16 +118,23 @@ argv_get_at
 *)
 
 #atscode_separator()
-
+//
 implement{}
-assertexn_bool0 (b) = if not(b) then $raise AssertExn()
+assertexn_bool0 (b) =
+  if not(b) then $raise AssertExn()
+//
 implement{}
-assertexn_bool1 (b) = if not(b) then $raise AssertExn()
-
+assertexn_bool1 (b) =
+  if not(b) then $raise AssertExn()
+//
 #atscode_separator()
 
-implement{a} gidentity (x) = x
-implement{a} gidentity_vt (x) = x
+implement
+{a}(*tmp*)
+gidentity (x) = (x)
+implement
+{a}(*tmp*)
+gidentity_vt (x) = (x)
 
 #atscode_separator()
 
