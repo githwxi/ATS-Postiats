@@ -55,6 +55,13 @@ stream2list
 #atscode_separator()
 
 fun{a:t0p}
+stream_head_exn(xs: stream(INV(a))):<!laz> (a)
+fun{a:t0p}
+stream_tail_exn(xs: stream(INV(a))):<!laz> stream(a)
+
+#atscode_separator()
+
+fun{a:t0p}
 stream_nth_exn
   (xs: stream(INV(a)), n: intGte(0)):<!laz> (a)
 // end of [stream_nth_exn]
@@ -62,6 +69,13 @@ fun{a:t0p}
 stream_nth_opt
   (xs: stream(INV(a)), n: intGte(0)):<!laz> Option_vt(a)
 // end of [stream_nth_opt]
+
+#atscode_separator()
+
+fun{a:t0p}
+stream_get_at_exn
+  (xs: stream(INV(a)), n: intGte(0)):<!laz> (a)
+// end of [stream_get_at_exn]
 
 #atscode_separator()
 
@@ -286,6 +300,11 @@ fprint_stream
 #atscode_separator()
 
 overload [] with stream_nth_exn
+
+#atscode_separator()
+
+overload .head with stream_head_exn
+overload .tail with stream_tail_exn
 
 #atscode_separator()
 
