@@ -69,6 +69,13 @@ div_float_float
 //
 extern
 fun{}
+int2float
+  {i:int}(i: int(i)): float(i2f(i))
+//
+(* ****** ****** *)
+//
+extern
+fun{}
 abs_float:
   {x:float} (float(x)) -<fun> float(abs(x))
 //
@@ -78,6 +85,22 @@ extern
 fun{}
 sqrt_float:
   {x:float | x >= i2f(0)} (float(x)) -<fun> float(sqrt(x))
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+print_float0(float0): void
+extern
+fun{}
+prerr_float0(float0): void
+extern
+fun{}
+fprint_float0(FILEref, float0): void
+//
+overload print with print_float0
+overload prerr with prerr_float0
+overload fprint with fprint_float0
 //
 (* ****** ****** *)
 

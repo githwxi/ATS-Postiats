@@ -33,13 +33,6 @@
 //
 extern
 fun{}
-int2real
-  {i:int}(i: int(i)): real(i2r(i))
-//
-(* ****** ****** *)
-//
-extern
-fun{}
 neg_real:
   {x:real} (real(x)) -<fun> real(~x)
 //
@@ -76,6 +69,13 @@ div_real_real
 //
 extern
 fun{}
+int2real
+  {i:int}(i: int(i)): real(i2r(i))
+//
+(* ****** ****** *)
+//
+extern
+fun{}
 abs_real:
   {x:real} (real(x)) -<fun> real(abs(x))
 //
@@ -85,6 +85,22 @@ extern
 fun{}
 sqrt_real:
   {x:real | x >= i2r(0)} (real(x)) -<fun> real(sqrt(x))
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+print_real0(real0): void
+extern
+fun{}
+prerr_real0(real0): void
+extern
+fun{}
+fprint_real0(FILEref, real0): void
+//
+overload print with print_real0
+overload prerr with prerr_real0
+overload fprint with fprint_real0
 //
 (* ****** ****** *)
 

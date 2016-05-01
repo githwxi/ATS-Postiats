@@ -47,6 +47,10 @@ real_real_t0ype(real) = double
 typedef real(r:real) = real_real_t0ype(r)
 //
 (* ****** ****** *)
+
+typedef real0 = [r:real] real_real_t0ype(r)
+
+(* ****** ****** *)
 //
 #include "./SHARE/real.dats"
 //
@@ -94,6 +98,21 @@ abs_real(r) = g0float_abs(r)
 implement
 {}(*tmp*)
 sqrt_real(r) = $M.sqrt_double(r)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+print_real0(r) = fprint_real0(stdout_ref, r)
+implement
+{}(*tmp*)
+prerr_real0(r) = fprint_real0(stderr_ref, r)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+fprint_real0(out, r) = fprint_double(out, r)
 
 (* ****** ****** *)
 

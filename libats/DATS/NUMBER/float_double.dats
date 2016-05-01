@@ -45,7 +45,11 @@ abst@ype
 float_float_t0ype(float) = double
 //
 typedef float(f:float) = float_float_t0ype(f)
-//
+
+(* ****** ****** *)
+
+typedef float0 = [f:float] float_float_t0ype(f)
+
 (* ****** ****** *)
 //
 #include "./SHARE/float.dats"
@@ -77,16 +81,39 @@ implement
 div_float_float(x, y) = g0float_div(x, y)
 //
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+int2float(i) =
+  g0int2float_int_double(i)
+//
+(* ****** ****** *)
+
 
 implement
 {}(*tmp*)
-abs_float(r) = g0float_abs(r)
+abs_float(x) = g0float_abs(x)
 
 (* ****** ****** *)
 
 implement
 {}(*tmp*)
-sqrt_float(r) = $M.sqrt_double(r)
+sqrt_float(x) = $M.sqrt_double(x)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+print_float0(x) = fprint_float0(stdout_ref, x)
+implement
+{}(*tmp*)
+prerr_float0(x) = fprint_float0(stderr_ref, x)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+fprint_float0(out, x) = fprint_double(out, x)
 
 (* ****** ****** *)
 
