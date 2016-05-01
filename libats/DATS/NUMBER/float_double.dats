@@ -31,54 +31,63 @@
 //
 (* ****** ****** *)
 //
-extern
-fun{}
-neg_real:
-  {x:real} (real(x)) -<fun> real(~x)
+staload
+M = "libc/SATS/math.sats"
 //
 (* ****** ****** *)
 //
-extern
-fun{}
-add_real_real
-  {x,y:real}(real(x), real(y)):<> real(x+y)
+staload
+"libats/SATS/NUMBER/float.sats"
 //
 (* ****** ****** *)
 //
-extern
-fun{}
-add_real_real
-  {x,y:real}(real(x), real(y)):<> real(x+y)
+abst@ype
+float_float_t0ype(float) = double
 //
-extern
-fun{}
-sub_real_real
-  {x,y:real}(real(x), real(y)):<> real(x-y)
-//
-extern
-fun{}
-mul_real_real
-  {x,y:real}(real(x), real(y)):<> real(x*y)
-//
-extern
-fun{}
-div_real_real
-  {x,y:real}(real(x), real(y)):<> real(x/y)
+typedef float(f:float) = float_float_t0ype(f)
 //
 (* ****** ****** *)
 //
-extern
-fun{}
-abs_real:
-  {x:real} (real(x)) -<fun> real(abs(x))
-//
-(* ****** ****** *)
-//
-extern
-fun{}
-sqrt_real:
-  {x:real | x >= i2r(0)} (real(x)) -<fun> real(sqrt(x))
+#include "./SHARE/float.dats"
 //
 (* ****** ****** *)
 
-(* end of [real.sats] *)
+assume
+float_float_t0ype(r:float) = double
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+neg_float(r) = ~r
+
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+add_float_float(x, y) = g0float_add(x, y)
+implement
+{}(*tmp*)
+sub_float_float(x, y) = g0float_sub(x, y)
+implement
+{}(*tmp*)
+mul_float_float(x, y) = g0float_mul(x, y)
+implement
+{}(*tmp*)
+div_float_float(x, y) = g0float_div(x, y)
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+abs_float(r) = g0float_abs(r)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+sqrt_float(r) = $M.sqrt_double(r)
+
+(* ****** ****** *)
+
+(* end of [float_double.sats] *)

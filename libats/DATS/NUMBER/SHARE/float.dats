@@ -33,52 +33,52 @@
 //
 extern
 fun{}
-neg_real:
-  {x:real} (real(x)) -<fun> real(~x)
+neg_float:
+  {x:float} (float(x)) -<fun> float(~x)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-add_real_real
-  {x,y:real}(real(x), real(y)):<> real(x+y)
+add_float_float
+  {x,y:float}(float(x), float(y)):<> float(x+y)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-add_real_real
-  {x,y:real}(real(x), real(y)):<> real(x+y)
+add_float_float
+  {x,y:float}(float(x), float(y)):<> float(x+y)
 //
 extern
 fun{}
-sub_real_real
-  {x,y:real}(real(x), real(y)):<> real(x-y)
+sub_float_float
+  {x,y:float}(float(x), float(y)):<> float(x-y)
 //
 extern
 fun{}
-mul_real_real
-  {x,y:real}(real(x), real(y)):<> real(x*y)
+mul_float_float
+  {x,y:float}(float(x), float(y)):<> float(x*y)
 //
 extern
 fun{}
-div_real_real
-  {x,y:real}(real(x), real(y)):<> real(x/y)
+div_float_float
+  {x,y:float}(float(x), float(y)):<> float(x/y)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-abs_real:
-  {x:real} (real(x)) -<fun> real(abs(x))
+abs_float:
+  {x:float} (float(x)) -<fun> float(abs(x))
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-sqrt_real:
-  {x:real | x >= i2r(0)} (real(x)) -<fun> real(sqrt(x))
+sqrt_float:
+  {x:float | x >= i2f(0)} (float(x)) -<fun> float(sqrt(x))
 //
 (* ****** ****** *)
 
-(* end of [real.sats] *)
+(* end of [float.sats] *)
