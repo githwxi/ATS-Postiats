@@ -77,6 +77,13 @@ implement
 div_real_real(x, y) = g0float_div(x, y)
 //
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+int2real(i) =
+  g0int2float_int_double(i)
+//
+(* ****** ****** *)
 
 implement
 {}(*tmp*)

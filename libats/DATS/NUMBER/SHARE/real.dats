@@ -33,6 +33,13 @@
 //
 extern
 fun{}
+int2real
+  {i:int}(i: int(i)): real(i2r(i))
+//
+(* ****** ****** *)
+//
+extern
+fun{}
 neg_real:
   {x:real} (real(x)) -<fun> real(~x)
 //

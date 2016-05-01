@@ -106,6 +106,4 @@ stadef sqrt = sqrt_real
 //
 (* ****** ****** *)
 
-(* ****** ****** *)
-
 (* end of [real.sats] *)
