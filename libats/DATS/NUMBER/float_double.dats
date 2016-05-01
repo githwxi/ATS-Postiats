@@ -37,6 +37,12 @@ M = "libc/SATS/math.sats"
 (* ****** ****** *)
 //
 staload
+UN =
+"prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+staload
 "libats/SATS/NUMBER/float.sats"
 //
 (* ****** ****** *)
@@ -63,7 +69,7 @@ float_float_t0ype(r:float) = double
 
 implement
 {}(*tmp*)
-neg_float(r) = ~r
+neg_float(r) = g0float_neg_double(r)
 
 (* ****** ****** *)
 //
@@ -84,11 +90,37 @@ div_float_float(x, y) = g0float_div(x, y)
 //
 implement
 {}(*tmp*)
+lt_float_float(x, y) = $UN.cast(g0float_lt(x, y))
+implement
+{}(*tmp*)
+lte_float_float(x, y) = $UN.cast(g0float_lte(x, y))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+gt_float_float(x, y) = $UN.cast(g0float_gt(x, y))
+implement
+{}(*tmp*)
+gte_float_float(x, y) = $UN.cast(g0float_gte(x, y))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+eq_float_float(x, y) = $UN.cast(g0float_eq(x, y))
+implement
+{}(*tmp*)
+neq_float_float(x, y) = $UN.cast(g0float_neq(x, y))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
 int2float(i) =
   g0int2float_int_double(i)
 //
 (* ****** ****** *)
-
 
 implement
 {}(*tmp*)

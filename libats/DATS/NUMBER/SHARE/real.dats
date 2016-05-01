@@ -34,36 +34,86 @@
 extern
 fun{}
 neg_real:
-  {x:real} (real(x)) -<fun> real(~x)
+  {x:real}
+  (real(x)) -<fun> real(~x)
+//
+overload ~ with neg_real
+overload neg with neg_real
 //
 (* ****** ****** *)
 //
 extern
 fun{}
 add_real_real
-  {x,y:real}(real(x), real(y)):<> real(x+y)
-//
-(* ****** ****** *)
-//
-extern
-fun{}
-add_real_real
-  {x,y:real}(real(x), real(y)):<> real(x+y)
+  {x,y:real}
+  (real(x), real(y)):<> real(x+y)
 //
 extern
 fun{}
 sub_real_real
-  {x,y:real}(real(x), real(y)):<> real(x-y)
+  {x,y:real}
+  (real(x), real(y)):<> real(x-y)
 //
 extern
 fun{}
 mul_real_real
-  {x,y:real}(real(x), real(y)):<> real(x*y)
+  {x,y:real}
+  (real(x), real(y)):<> real(x*y)
 //
 extern
 fun{}
 div_real_real
-  {x,y:real}(real(x), real(y)):<> real(x/y)
+  {x,y:real}
+  (real(x), real(y)):<> real(x/y)
+//
+overload + with add_real_real
+overload - with sub_real_real
+overload * with mul_real_real
+overload / with div_real_real
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+lt_real_real
+  {x,y:real}
+  (real(x), real(y)):<> bool(x < y)
+extern
+fun{}
+lte_real_real
+  {x,y:real}
+  (real(x), real(y)):<> bool(x <= y)
+//
+extern
+fun{}
+gt_real_real
+  {x,y:real}
+  (real(x), real(y)):<> bool(x > y)
+extern
+fun{}
+gte_real_real
+  {x,y:real}
+  (real(x), real(y)):<> bool(x >= y)
+//
+extern
+fun{}
+eq_real_real
+  {x,y:real}
+  (real(x), real(y)):<> bool(x == y)
+extern
+fun{}
+neq_real_real
+  {x,y:real}
+  (real(x), real(y)):<> bool(x != y)
+//
+overload < with lt_real_real
+overload <= with lte_real_real
+//
+overload > with gt_real_real
+overload >= with gte_real_real
+//
+overload = with eq_real_real
+overload != with neq_real_real
 //
 (* ****** ****** *)
 //
@@ -79,12 +129,16 @@ fun{}
 abs_real:
   {x:real} (real(x)) -<fun> real(abs(x))
 //
+overload abs with abs_real
+//
 (* ****** ****** *)
 //
 extern
 fun{}
 sqrt_real:
   {x:real | x >= i2r(0)} (real(x)) -<fun> real(sqrt(x))
+//
+overload sqrt with sqrt_real
 //
 (* ****** ****** *)
 //

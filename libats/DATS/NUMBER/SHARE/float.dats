@@ -34,36 +34,83 @@
 extern
 fun{}
 neg_float:
-  {x:float} (float(x)) -<fun> float(~x)
+  {x:float}
+  (float(x)) -<fun> float(~x)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
 add_float_float
-  {x,y:float}(float(x), float(y)):<> float(x+y)
-//
-(* ****** ****** *)
-//
-extern
-fun{}
-add_float_float
-  {x,y:float}(float(x), float(y)):<> float(x+y)
+  {x,y:float}
+  (float(x), float(y)):<> float(x+y)
 //
 extern
 fun{}
 sub_float_float
-  {x,y:float}(float(x), float(y)):<> float(x-y)
+  {x,y:float}
+  (float(x), float(y)):<> float(x-y)
 //
 extern
 fun{}
 mul_float_float
-  {x,y:float}(float(x), float(y)):<> float(x*y)
+  {x,y:float}
+  (float(x), float(y)):<> float(x*y)
 //
 extern
 fun{}
 div_float_float
-  {x,y:float}(float(x), float(y)):<> float(x/y)
+  {x,y:float}
+  (float(x), float(y)):<> float(x/y)
+//
+overload + with add_float_float
+overload - with sub_float_float
+overload * with mul_float_float
+overload / with div_float_float
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+lt_float_float
+  {x,y:float}
+  (float(x), float(y)):<> bool(x < y)
+extern
+fun{}
+lte_float_float
+  {x,y:float}
+  (float(x), float(y)):<> bool(x <= y)
+//
+extern
+fun{}
+gt_float_float
+  {x,y:float}
+  (float(x), float(y)):<> bool(x > y)
+extern
+fun{}
+gte_float_float
+  {x,y:float}
+  (float(x), float(y)):<> bool(x >= y)
+//
+extern
+fun{}
+eq_float_float
+  {x,y:float}
+  (float(x), float(y)):<> bool(x == y)
+extern
+fun{}
+neq_float_float
+  {x,y:float}
+  (float(x), float(y)):<> bool(x != y)
+//
+overload < with lt_float_float
+overload <= with lte_float_float
+//
+overload > with gt_float_float
+overload >= with gte_float_float
+//
+overload = with eq_float_float
+overload != with neq_float_float
 //
 (* ****** ****** *)
 //

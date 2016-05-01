@@ -37,6 +37,12 @@ M = "libc/SATS/math.sats"
 (* ****** ****** *)
 //
 staload
+UN =
+"prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+staload
 "libats/SATS/NUMBER/real.sats"
 //
 (* ****** ****** *)
@@ -55,15 +61,15 @@ typedef real0 = [r:real] real_real_t0ype(r)
 #include "./SHARE/real.dats"
 //
 (* ****** ****** *)
-
+//
 assume
 real_real_t0ype(r:real) = double
-
+//
 (* ****** ****** *)
 
 implement
 {}(*tmp*)
-neg_real(r) = ~r
+neg_real(x) = g0float_neg_double(x)
 
 (* ****** ****** *)
 //
@@ -79,6 +85,33 @@ mul_real_real(x, y) = g0float_mul(x, y)
 implement
 {}(*tmp*)
 div_real_real(x, y) = g0float_div(x, y)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+lt_real_real(x, y) = $UN.cast(g0float_lt(x, y))
+implement
+{}(*tmp*)
+lte_real_real(x, y) = $UN.cast(g0float_lte(x, y))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+gt_real_real(x, y) = $UN.cast(g0float_gt(x, y))
+implement
+{}(*tmp*)
+gte_real_real(x, y) = $UN.cast(g0float_gte(x, y))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+eq_real_real(x, y) = $UN.cast(g0float_eq(x, y))
+implement
+{}(*tmp*)
+neq_real_real(x, y) = $UN.cast(g0float_neq(x, y))
 //
 (* ****** ****** *)
 //
