@@ -32,6 +32,11 @@
 (* ****** ****** *)
 //
 staload
+M = "libc/SATS/math.sats"
+//
+(* ****** ****** *)
+//
+staload
 "libats/SATS/NUMBER/real.sats"
 //
 (* ****** ****** *)
@@ -45,6 +50,44 @@ typedef real(r:real) = real_real_t0ype(r)
 //
 #include "./SHARE/real.dats"
 //
+(* ****** ****** *)
+
+assume
+real_real_t0ype(r:real) = double
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+neg_real(r) = ~r
+
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+add_real_real(x, y) = g0float_add(x, y)
+implement
+{}(*tmp*)
+sub_real_real(x, y) = g0float_sub(x, y)
+implement
+{}(*tmp*)
+mul_real_real(x, y) = g0float_mul(x, y)
+implement
+{}(*tmp*)
+div_real_real(x, y) = g0float_div(x, y)
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+abs_real(r) = g0float_abs(r)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+sqrt_real(r) = $M.sqrt_double(r)
+
 (* ****** ****** *)
 
 (* end of [real_double.sats] *)
