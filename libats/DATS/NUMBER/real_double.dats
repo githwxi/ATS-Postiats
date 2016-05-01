@@ -31,81 +31,20 @@
 //
 (* ****** ****** *)
 //
-datasort real = //
-// abstract sort for real numbers
+staload
+"libats/SATS/NUMBER/real.sats"
 //
 (* ****** ****** *)
 //
-stacst
-neg_real: real -> real
-stadef ~ = neg_real
+abst@ype
+real_real_t0ype(real) = double
+//
+typedef real(r:real) = real_real_t0ype(r)
 //
 (* ****** ****** *)
 //
-stacst
-add_real_real:
-  (real, real) -> real
-stacst
-sub_real_real:
-  (real, real) -> real
-stacst
-mul_real_real:
-  (real, real) -> real
-stacst
-div_real_real:
-  (real, real) -> real
-//
-stadef + = add_real_real
-stadef - = sub_real_real
-stadef * = mul_real_real
-stadef / = div_real_real
-//
-(* ****** ****** *)
-//
-stacst
-lt_real_real:
-  (real, real) -> bool
-stacst
-lte_real_real:
-  (real, real) -> bool
-stacst
-gt_real_real:
-  (real, real) -> bool
-stacst
-gte_real_real:
-  (real, real) -> bool
-stacst
-eq_real_real:
-  (real, real) -> bool
-stacst
-neq_real_real:
-  (real, real) -> bool
-//
-stadef < = lt_real_real
-stadef <= = lte_real_real
-stadef > = gt_real_real
-stadef >= = gte_real_real
-stadef == = eq_real_real
-stadef != = neq_real_real
+#include "./SHARE/real.dats"
 //
 (* ****** ****** *)
 
-stacst
-int2real : int -> real
-stadef i2r = int2real
-
-(* ****** ****** *)
-//
-stacst
-abs_real: real -> real
-stadef abs = abs_real
-//
-stacst
-sqrt_real: real -> real
-stadef sqrt = sqrt_real
-//
-(* ****** ****** *)
-
-(* ****** ****** *)
-
-(* end of [real.sats] *)
+(* end of [real_double.sats] *)

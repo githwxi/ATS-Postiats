@@ -31,81 +31,54 @@
 //
 (* ****** ****** *)
 //
-datasort real = //
-// abstract sort for real numbers
+extern
+fun{}
+neg_real:
+  {x:real} (real(x)) -<fun> real(~x)
 //
 (* ****** ****** *)
 //
-stacst
-neg_real: real -> real
-stadef ~ = neg_real
+extern
+fun{}
+add_real_real
+  {x,y:real}(real(x), real(y)):<> real(x+y)
 //
 (* ****** ****** *)
 //
-stacst
-add_real_real:
-  (real, real) -> real
-stacst
-sub_real_real:
-  (real, real) -> real
-stacst
-mul_real_real:
-  (real, real) -> real
-stacst
-div_real_real:
-  (real, real) -> real
+extern
+fun{}
+add_real_real
+  {x,y:real}(real(x), real(y)):<> real(x+y)
 //
-stadef + = add_real_real
-stadef - = sub_real_real
-stadef * = mul_real_real
-stadef / = div_real_real
+extern
+fun{}
+sub_real_real
+  {x,y:real}(real(x), real(y)):<> real(x-y)
+//
+extern
+fun{}
+mul_real_real
+  {x,y:real}(real(x), real(y)):<> real(x*y)
+//
+extern
+fun{}
+div_real_real
+  {x,y:real}(real(x), real(y)):<> real(x/y)
 //
 (* ****** ****** *)
 //
-stacst
-lt_real_real:
-  (real, real) -> bool
-stacst
-lte_real_real:
-  (real, real) -> bool
-stacst
-gt_real_real:
-  (real, real) -> bool
-stacst
-gte_real_real:
-  (real, real) -> bool
-stacst
-eq_real_real:
-  (real, real) -> bool
-stacst
-neq_real_real:
-  (real, real) -> bool
+extern
+fun{}
+abs_real:
+  {x:real} (real(x)) -<fun> real(abs(x))
 //
-stadef < = lt_real_real
-stadef <= = lte_real_real
-stadef > = gt_real_real
-stadef >= = gte_real_real
-stadef == = eq_real_real
-stadef != = neq_real_real
+(* ****** ****** *)
+//
+extern
+fun{}
+sqrt_real:
+  {x:real | x >= i2r(0)} (real(x)) -<fun> real(sqrt(x))
 //
 (* ****** ****** *)
 
-stacst
-int2real : int -> real
-stadef i2r = int2real
-
-(* ****** ****** *)
-//
-stacst
-abs_real: real -> real
-stadef abs = abs_real
-//
-stacst
-sqrt_real: real -> real
-stadef sqrt = sqrt_real
-//
-(* ****** ****** *)
-
-(* ****** ****** *)
-
-(* end of [real.sats] *)
+(* end of [real_double.sats] *)

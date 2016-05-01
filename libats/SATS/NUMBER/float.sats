@@ -97,7 +97,7 @@ stadef abs = abs_float
 //
 stacst
 sqrt_float: float -> float
-stadef sqrt = abs_float
+stadef sqrt = sqrt_float
 //
 (* ****** ****** *)
 
