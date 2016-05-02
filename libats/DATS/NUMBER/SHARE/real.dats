@@ -75,6 +75,38 @@ overload / with div_real_real
 //
 extern
 fun{}
+add_int_real
+  {i:int;x:real}
+  (int(i), real(x)):<> real(i2r(i)+x)
+extern
+fun{}
+add_real_int
+  {x:real;i:int}
+  (real(x), int(i)):<> real(x+i2r(i))
+//
+extern
+fun{}
+mul_int_real
+  {i:int;x:real}
+  (int(i), real(x)):<> real(i2r(i)*x)
+//
+extern
+fun{}
+div_real_int
+  {x:real;i:int}
+  (real(x), int(i)):<> real(x/i2r(i))
+//
+(* ****** ****** *)
+
+overload + with add_int_real
+overload + with add_real_int
+overload * with mul_int_real
+overload / with div_real_int
+
+(* ****** ****** *)
+//
+extern
+fun{}
 lt_real_real
   {x,y:real}
   (real(x), real(y)):<> bool(x < y)
@@ -119,8 +151,52 @@ overload != with neq_real_real
 //
 extern
 fun{}
+lt_real_int
+  {x:real;i:int}
+  (real(x), int(i)):<> bool(x < i2r(i))
+extern
+fun{}
+lte_real_int
+  {x:real;i:int}
+  (real(x), int(i)):<> bool(x <= i2r(i))
+//
+extern
+fun{}
+gt_real_int
+  {x:real;i:int}
+  (real(x), int(i)):<> bool(x > i2r(i))
+extern
+fun{}
+gte_real_int
+  {x:real;i:int}
+  (real(x), int(i)):<> bool(x >= i2r(i))
+//
+extern
+fun{}
+eq_real_int
+  {x:real;i:int}
+  (real(x), int(i)):<> bool(x == i2r(i))
+extern
+fun{}
+neq_real_int
+  {x:real;i:int}
+  (real(x), int(i)):<> bool(x != i2r(i))
+//
+overload < with lt_real_int
+overload <= with lte_real_int
+//
+overload > with gt_real_int
+overload >= with gte_real_int
+//
+overload = with eq_real_int
+overload != with neq_real_int
+//
+(* ****** ****** *)
+//
+extern
+fun{}
 int2real
-  {i:int}(i: int(i)): real(i2r(i))
+  {i:int}(i: int(i)):<> real(i2r(i))
 //
 (* ****** ****** *)
 //

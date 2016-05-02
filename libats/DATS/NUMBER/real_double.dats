@@ -90,6 +90,22 @@ div_real_real(x, y) = g0float_div(x, y)
 //
 implement
 {}(*tmp*)
+add_int_real(i, x) = add_real_real(int2real(i), x)
+implement
+{}(*tmp*)
+add_real_int(x, i) = add_real_real(x, int2real(i))
+//
+implement
+{}(*tmp*)
+mul_int_real(i, x) = mul_real_real(int2real(i), x)
+implement
+{}(*tmp*)
+div_real_int(x, i) = div_real_real(x, int2real(i))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
 lt_real_real(x, y) = $UN.cast(g0float_lt(x, y))
 implement
 {}(*tmp*)
@@ -112,6 +128,33 @@ eq_real_real(x, y) = $UN.cast(g0float_eq(x, y))
 implement
 {}(*tmp*)
 neq_real_real(x, y) = $UN.cast(g0float_neq(x, y))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+lt_real_int(x, i) = $UN.cast(g0float_lt(x, int2real(i)))
+implement
+{}(*tmp*)
+lte_real_int(x, i) = $UN.cast(g0float_lte(x, int2real(i)))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+gt_real_int(x, i) = $UN.cast(g0float_gt(x, int2real(i)))
+implement
+{}(*tmp*)
+gte_real_int(x, i) = $UN.cast(g0float_gte(x, int2real(i)))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+eq_real_int(x, i) = $UN.cast(g0float_eq(x, int2real(i)))
+implement
+{}(*tmp*)
+neq_real_int(x, i) = $UN.cast(g0float_neq(x, int2real(i)))
 //
 (* ****** ****** *)
 //
