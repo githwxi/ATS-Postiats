@@ -192,4 +192,4 @@ fprint_real0(out, r) = fprint_double(out, r)
 
 (* ****** ****** *)
 
-(* end of [real_double.sats] *)
+(* end of [real_double.dats] *)

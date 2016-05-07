@@ -89,10 +89,42 @@ stadef == = eq_real_real
 stadef != = neq_real_real
 //
 (* ****** ****** *)
+//
+stacst
+lt_real_int:
+  (real, int) -> bool
+stacst
+lte_real_int:
+  (real, int) -> bool
+stacst
+gt_real_int:
+  (real, int) -> bool
+stacst
+gte_real_int:
+  (real, int) -> bool
+stacst
+eq_real_int:
+  (real, int) -> bool
+stacst
+neq_real_int:
+  (real, int) -> bool
+//
+stadef < = lt_real_int
+stadef <= = lte_real_int
+stadef > = gt_real_int
+stadef >= = gte_real_int
+stadef == = eq_real_int
+stadef != = neq_real_int
+//
+(* ****** ****** *)
 
 stacst
 int2real : int -> real
 stadef i2r = int2real
+
+stacst
+float2real : float -> real
+stadef f2r = float2real
 
 (* ****** ****** *)
 //
@@ -103,6 +135,9 @@ stadef abs = abs_real
 stacst
 sqrt_real: real -> real
 stadef sqrt = sqrt_real
+stacst
+cbrt_real: real -> real
+stadef cbrt = cbrt_real
 //
 (* ****** ****** *)
 
