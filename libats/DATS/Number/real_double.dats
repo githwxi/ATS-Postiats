@@ -43,7 +43,7 @@ UN =
 (* ****** ****** *)
 //
 staload
-"libats/SATS/NUMBER/real.sats"
+"libats/SATS/Number/real.sats"
 //
 (* ****** ****** *)
 //
