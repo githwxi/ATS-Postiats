@@ -11,6 +11,7 @@ addons:
     - libev-dev
     - libjson0-dev
     - libjansson-dev
+    - docbook-utils
 before_install:
   - date
   - cd ${HOME}
