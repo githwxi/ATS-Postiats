@@ -67,8 +67,11 @@ script:
   - cp utils/libatsopt/libatsopt.a ${ATSHOME}/ccomp/lib
   - make -C utils/libatsynmark
   - cp utils/libatsynmark/libatsynmark.a ${ATSHOME}/ccomp/lib
-  # make -C utils/atsynmark
+  - make -C utils/atsynmark
   # make -C utils/atstagging
   - make -C utils/packeditall
+  # Building books
+  - make -C doc/BOOK/INT2PROGINATS
+  - make -C doc/BOOK/ATS2TUTORIAL
 after_script:
   - date
