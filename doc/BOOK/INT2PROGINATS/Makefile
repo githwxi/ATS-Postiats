@@ -20,6 +20,8 @@ PATSHOMEQ="$(PATSHOME)"
 all::
 all:: html
 all:: htmltoc
+all:: myatexting
+all:: synhilit
 
 ######
 
@@ -48,6 +50,10 @@ jw -b html --parser $(JADE) --dsl $(DSL) --output HTML/ main.db
 #
 htmltoc: ; $(MAKE) -C HTML -f Makefile htmltoc
 #
+myatexting: ; make -C ATEXT
+#
+synhilit: ; make -C HTML synhilit
+#
 ######
 
 main.db:: allchap
@@ -57,7 +63,7 @@ main.db:: preface.db
 #
 preface.exe: \
 preface_atxt.dats; \
-$(ATSCC) -D_ATS_GCATS -o $@ preface_atxt.dats -latsdoc
+$(ATSCC) -D_ATS_NGC -o $@ preface_atxt.dats -latsdoc
 #
 preface_atxt.dats: \
 preface.atxt; $(ATSDOC) --outcode $@ -i preface.atxt > preface_atxt.txt
@@ -250,8 +256,12 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) *_atxt_dats.c
+clean:: ; make -C ATEXT clean
+clean:: ; make -C HTML clean
 
 cleanall:: clean
 cleanall:: ; $(RMF) preface.db
+cleanall:: ; make -C ATEXT cleanall
+cleanall:: ; make -C HTML cleanall
 
 ###### end of [Makefile] ######
