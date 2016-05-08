@@ -256,9 +256,12 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) *_atxt_dats.c
+clean:: ; make -C ATEXT clean
+clean:: ; make -C HTML clean
 
 cleanall:: clean
 cleanall:: ; $(RMF) preface.db
 cleanall:: ; make -C ATEXT cleanall
+cleanall:: ; make -C HTML cleanall
 
 ###### end of [Makefile] ######
