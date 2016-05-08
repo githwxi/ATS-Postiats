@@ -58,7 +58,7 @@ main.db:: preface.db
 ######
 
 preface.exe: preface_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ preface_atxt.dats -latsdoc
+	$(ATSCC) -D_ATS_NGC -o $@ preface_atxt.dats -latsdoc
 preface_atxt.dats: preface.atxt
 	$(ATSDOC) --outcode $@ -i preface.atxt > preface_atxt.txt
 preface.db:: preface.exe ; ./$< > $@
