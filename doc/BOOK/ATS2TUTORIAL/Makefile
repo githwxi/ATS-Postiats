@@ -16,7 +16,6 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 all::
 all:: html
 all:: htmltoc
-all:: myatexting
 all:: synhilit
 
 ######
@@ -44,11 +43,12 @@ DSL=./mydocbook.dsl
 html: main.db ; \
 jw -b html --parser $(JADE) --dsl $(DSL) --output HTML/ main.db
 #
-htmltoc: ; $(MAKE) -C HTML -f Makefile htmltoc
+htmltoc: ; \
+$(MAKE) -C HTML -f Makefile htmltoc
 #
-myatexting: ; make -C ATEXT
-#
-synhilit: ; make -C HTML synhilit
+synhilit: \
+myatexting; make -C HTML synhilit
+myatexting: ; make -C ATEXT myatexting
 #
 ######
 
