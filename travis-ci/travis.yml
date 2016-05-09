@@ -72,7 +72,7 @@ script:
   # make -C utils/atstagging
   - make -C utils/packeditall
   # Building books
-  - make -C doc/BOOK/INT2PROGINATS
   - make -C doc/BOOK/ATS2TUTORIAL
+  - make -C doc/BOOK/INT2PROGINATS
 after_script:
   - date
