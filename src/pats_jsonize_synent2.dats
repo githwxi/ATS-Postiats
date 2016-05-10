@@ -1139,6 +1139,33 @@ d2e0.d2exp_node of
 //
 | D2Eempty ((*void*)) => jsonval_conarg0 ("D2Eempty")
 //
+| D2Eextval(s2e, name) => let
+    val s2e = jsonize0_s2exp(s2e)
+    val name = jsonval_string(name)
+  in
+    jsonval_conarg2("D2Eextval", s2e, name)
+  end // end of [D2Eextval]
+| D2Eextfcall
+    (s2e, name, d2es_arg) => let
+    val s2e = jsonize0_s2exp(s2e)
+    val name = jsonval_string(name)
+    val d2es_arg = jsonize_d2explst(d2es_arg)
+  in
+    jsonval_conarg3("D2Eextfcall", s2e, name, d2es_arg)
+  end // end of [D2Eextfcall]
+| D2Eextmcall
+    (s2e, obj, name, d2es_arg) => let
+//
+    val s2e = jsonize0_s2exp(s2e)
+//
+    val obj = jsonize_d2exp(obj)
+    val name = jsonval_string(name)
+    val d2es_arg = jsonize_d2explst(d2es_arg)
+//
+  in
+    jsonval_conarg4("D2Eextmcall", s2e, obj, name, d2es_arg)
+  end // end of [D2Eextmcall]
+//
 | D2Elet
     (d2cs, d2e_body) => let
     val d2cs = jsonize_d2eclist (d2cs)
