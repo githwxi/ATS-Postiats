@@ -385,7 +385,7 @@ list_reverse{n:nat} .<>. // defined non-recursively
 
 Given a list xs of the type #stacode("list(T1, I)") for some type T1 and
 integer I and a closure function f of the type #stacode("T1 -&lt;cloref1&gt; T2")
-for some T2, #dyncode("list_map(xs)") returns a list ys of the type #stacode("list(T2, I))":
+for some T2, #dyncode("list_map(xs)") returns a list ys of the type #stacode("list(T2, I)"):
 
 #dats2xhtml("\
 fun{

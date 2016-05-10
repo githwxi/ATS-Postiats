@@ -28,6 +28,7 @@ then
   brew install libev
   brew install json-c
   brew install jansson
+  brew install docbook
   brew install caskroom/cask/brew-cask
   brew cask install xquartz
 #

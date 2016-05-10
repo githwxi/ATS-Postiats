@@ -16,6 +16,7 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 all::
 all:: html
 all:: htmltoc
+all:: synhilit
 
 ######
 
@@ -42,7 +43,12 @@ DSL=./mydocbook.dsl
 html: main.db ; \
 jw -b html --parser $(JADE) --dsl $(DSL) --output HTML/ main.db
 #
-htmltoc: ; $(MAKE) -C HTML -f Makefile htmltoc
+htmltoc: ; \
+$(MAKE) -C HTML -f Makefile htmltoc
+#
+synhilit: \
+myatexting; make -C HTML synhilit
+myatexting: ; make -C ATEXT myatexting
 #
 ######
 
@@ -52,7 +58,7 @@ main.db:: preface.db
 ######
 
 preface.exe: preface_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ preface_atxt.dats -latsdoc
+	$(ATSCC) -D_ATS_NGC -o $@ preface_atxt.dats -latsdoc
 preface_atxt.dats: preface.atxt
 	$(ATSDOC) --outcode $@ -i preface.atxt > preface_atxt.txt
 preface.db:: preface.exe ; ./$< > $@
@@ -335,6 +341,8 @@ clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) *_atxt_dats.c
 clean:: ; $(RMF) HTML/htmltoc_dats.c
+clean:: ; make -C ATEXT clean
+clean:: ; make -C HTML clean
 
 cleanall:: clean
 cleanall:: ; $(RMF) preface
@@ -342,5 +350,7 @@ cleanall:: ; $(RMF) preface.db
 cleanall:: ; $(RMF) PDF/main.pdf
 cleanall:: ; $(RMF) TEMP/chap_*.dats
 cleanall:: ; $(RMF) HTML/htmltoc.exe
+cleanall:: ; make -C ATEXT cleanall
+cleanall:: ; make -C HTML cleanall
 
 ###### end of [Makefile] ######
