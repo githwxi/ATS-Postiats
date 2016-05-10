@@ -203,7 +203,8 @@ int2real
 extern
 fun{}
 abs_real:
-  {x:real} (real(x)) -<fun> real(abs(x))
+  {x:real}
+  (real(x)) -<fun> real(abs(x))
 //
 overload abs with abs_real
 //
@@ -212,9 +213,28 @@ overload abs with abs_real
 extern
 fun{}
 sqrt_real:
-  {x:real | x >= i2r(0)} (real(x)) -<fun> real(sqrt(x))
+  {x:real | x >= i2r(0)}
+  (real(x)) -<fun> real(sqrt(x))
 //
 overload sqrt with sqrt_real
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+sin_real{x:real}(real(x)):<> real(sin(x))
+extern
+fun{}
+cos_real{x:real}(real(x)):<> real(cos(x))
+extern
+fun{}
+tan_real{x:real}(real(x)):<> real(tan(x))
+extern
+fun{}
+cot_real{x:real}(real(x)):<> real(cot(x))
+//
+overload sin with sin_real; overload cos with cos_real
+overload tan with tan_real; overload cot with cot_real
 //
 (* ****** ****** *)
 //

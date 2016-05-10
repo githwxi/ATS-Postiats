@@ -176,6 +176,19 @@ implement
 sqrt_real(r) = $M.sqrt_double(r)
 
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+sin_real(x) = $M.sin(x)
+implement
+{}(*tmp*)
+cos_real(x) = $M.cos(x)
+//
+implement
+{}(*tmp*)
+tan_real(x) = $M.tan(x)
+//
+(* ****** ****** *)
 
 implement
 {}(*tmp*)

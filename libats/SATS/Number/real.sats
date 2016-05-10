@@ -140,5 +140,19 @@ cbrt_real: real -> real
 stadef cbrt = cbrt_real
 //
 (* ****** ****** *)
+//
+stacst
+sin_real: real -> real // sine
+stacst
+cos_real: real -> real // cosine
+stacst
+tan_real: real -> real // tangent
+stacst
+cot_real: real -> real // cotangent
+//
+stadef sin = sin_real and cos = cos_real
+stadef tan = tan_real and cot = cot_real
+//
+(* ****** ****** *)
 
 (* end of [real.sats] *)
