@@ -791,6 +791,35 @@ end // end of [jsonize_s0tring]
 
 (* ****** ****** *)
 //
+extern
+fun
+jsonize_dcstextdef(ext: dcstextdef): jsonval
+//
+implement
+jsonize_dcstextdef
+  (ext) = let
+(*
+//
+val () =
+  println! ("jsonize_dcstextdef")
+//
+*)
+in
+//
+case+ ext of
+| $SYN.DCSTEXTDEFnone(knd) =>
+    jsonval_conarg1("DCSTEXTDEFnone", jsonval_int(knd))
+| $SYN.DCSTEXTDEFsome_ext(name) =>
+    jsonval_conarg1("DCSTEXTDEFsome_ext", jsonval_string(name))
+| $SYN.DCSTEXTDEFsome_mac(name) =>
+    jsonval_conarg1("DCSTEXTDEFsome_mac", jsonval_string(name))
+| $SYN.DCSTEXTDEFsome_sta(name) =>
+    jsonval_conarg1("DCSTEXTDEFsome_sta", jsonval_string(name))
+//
+end // end of [jsonize_dcstextdef]
+
+(* ****** ****** *)
+//
 implement
 jsonize_d2cst
   (d2c) = let
@@ -798,8 +827,16 @@ jsonize_d2cst
 val stamp =
   jsonize_stamp(d2cst_get_stamp(d2c))
 //
+val extdef = 
+  jsonize_dcstextdef(d2cst_get_extdef(d2c))
+//
 in
-  jsonval_labval1 ("d2cst_stamp", stamp)
+//
+jsonval_labval2
+(
+  "d2cst_stamp", stamp, "d2cst_extdef", extdef
+) (* jsonval_labval2 *)
+//
 end // end of [jsonize_d2cst]
 //
 // HX-2014-09-08:
