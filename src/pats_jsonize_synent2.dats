@@ -827,15 +827,9 @@ jsonize_d2cst
 val stamp =
   jsonize_stamp(d2cst_get_stamp(d2c))
 //
-val extdef = 
-  jsonize_dcstextdef(d2cst_get_extdef(d2c))
-//
 in
 //
-jsonval_labval2
-(
-  "d2cst_stamp", stamp, "d2cst_extdef", extdef
-) (* jsonval_labval2 *)
+  jsonval_labval1("d2cst_stamp", stamp)
 //
 end // end of [jsonize_d2cst]
 //
@@ -849,17 +843,23 @@ jsonize_d2cst_long
 //
 val sym =
   jsonize_symbol (d2cst_get_sym (d2c))
+//
 val type =
   jsonize0_s2exp (d2cst_get_type (d2c))
+//
+val extdef = 
+  jsonize_dcstextdef(d2cst_get_extdef(d2c))
+//
 val stamp =
   jsonize_stamp (d2cst_get_stamp (d2c))
 //
 in
 //
-jsonval_labval3
+jsonval_labval4
 (
   "d2cst_sym", sym
 , "d2cst_type", type
+, "d2cst_extdef", extdef
 , "d2cst_stamp", stamp
 )
 //
