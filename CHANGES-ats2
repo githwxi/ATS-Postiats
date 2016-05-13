@@ -26,6 +26,10 @@ Here is a list of major additions and changes since the last release:
 2. Atexting is functioning; it has been used to syntax-hilite ATS code
    in docbook.
 3. Refactoring libatsynmark to make it directly dependent on libatsopt
+4. Automatically building libatsopt and libatsynmark when testing (travis-ci)
+5. Automatically building INT2PROGINATS and ATS2TUTORIAL (thanks to Kiwamu Okabe)
+6. Fixing bug-2016-05-13 (reported by paul7)
+   See BUGs/bug-2016-05-13.dats (it involves empty list of matching d2explst)
 
 ######
 
