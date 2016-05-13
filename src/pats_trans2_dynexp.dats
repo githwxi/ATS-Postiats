@@ -1124,11 +1124,37 @@ end // end of [auxerr]
 //
 val loc = c1l.c1lau_loc
 val p1t = c1l.c1lau_pat
-val p1ts = (case+ p1t.p1at_node of
+val p1ts =
+(
+  case+
+  p1t.p1at_node of
   | P1Tlist (_(*npf*), p1ts) => p1ts | _ => list_sing (p1t)
 ) : p1atlst // end of [val]
 val p2ts = p1atlst_tr (p1ts)
-val n1 = list_length (p2ts)
+val np2ts = list_length (p2ts)
+//
+// HX-2016-05-13:
+// See bug-2016-05-13.dats
+// Fixing a bug with empty match p2atlst
+//
+val p2ts = (
+//
+if
+np2ts > 0
+then p2ts
+else let
+//
+val p2t0 = p2at_any(loc)
+//
+in
+  list_cons(p2t0, list_nil())
+end // end of [if]
+//
+) : p2atlst
+//
+val np2ts =
+  (if np2ts > 0 then np2ts else 1): int
+//
 (*
 val () =
 (
@@ -1136,23 +1162,31 @@ val () =
 ) // end of [val]
 *)
 //
-val () = if n != n1 then auxerr (c1l, n, n1)
+val () =
+if n != np2ts then
+  auxerr(c1l, n, np2ts)
+// end of [ifthen]
 //
-val (pfenv | ()) = the_trans2_env_push ()
+val (pfenv | ()) =
+  the_trans2_env_push()
+//
 val () = let
-  val s2vs = $UT.lstord2list (p2atlst_svs_union p2ts)
+  val s2vs = $UT.lstord2list(p2atlst_svs_union(p2ts))
 in
   the_s2expenv_add_svarlst (s2vs)
 end // end of [val]
 val () = let
-  val d2vs = $UT.lstord2list (p2atlst_dvs_union p2ts)
+  val d2vs = $UT.lstord2list (p2atlst_dvs_union(p2ts))
 in
   the_d2expenv_add_dvarlst (d2vs)
 end // end of [val]
 //
+val gua = c1l.c1lau_gua
 val gua =
-  l2l (list_map_fun (c1l.c1lau_gua, gm1at_tr))
+  l2l (list_map_fun(gua, gm1at_tr))
+//
 val body = d1exp_tr (c1l.c1lau_body)
+//
 val () = the_trans2_env_pop (pfenv | (*none*))
 //
 in
@@ -1580,10 +1614,32 @@ d1e0.d1exp_node of
   (
     knd, r1es, d1es, c1ls
   ) => let
-    val r2es = i1nvresstate_tr (r1es)
+    val r2es =
+      i1nvresstate_tr (r1es)
     val d2es = d1explst_tr (d1es)
     val ntup = list_length (d2es)
+//
+// HX-2016-05-13:
+// See bug-2016-05-13.dats
+// Fixing a bug with empty match d2explst
+//
+    val d2es =
+    (
+      if ntup > 0
+        then d2es
+        else let
+          val d2e0 = d2exp_empty(loc0)
+        in
+          list_cons(d2e0, list_nil(*none*))
+        end // end of [if]
+    ) : d2explst
+    val ntup =
+    (
+      if (ntup > 0) then ntup else 1
+    ) : intGte(1) // end of [val]
+//
     val c2ls = c1laulst_tr (ntup, c1ls)
+//
   in
     d2exp_casehead (loc0, knd, r2es, d2es, c2ls)
   end // end of [D1Ecasehead]

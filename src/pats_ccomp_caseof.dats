@@ -92,9 +92,9 @@ val pmvs = hidexplst_ccompv (env, res, hdes)
 val fail =
 (
 case+ knd of
-| CK_case_pos () => PTCKNTnone ()
-| CK_case () => PTCKNTcaseof_fail (loc0)
-| CK_case_neg () => PTCKNTcaseof_fail (loc0)
+| CK_case_pos() => PTCKNTnone()
+| CK_case_neg() => PTCKNTcaseof_fail(loc0)
+| CK_case((*none*)) => PTCKNTcaseof_fail(loc0)
 ) : patckont // end of [val]
 //
 val lvl0 = the_d2varlev_get ()

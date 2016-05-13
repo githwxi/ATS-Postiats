@@ -299,11 +299,14 @@ typedef patcomplstlst = List (patcomplst)
 vtypedef patcomplst_vt = List_vt (patcomp)
 
 (* ****** ****** *)
-
+//
 extern
-fun fprint_patcomp (out: FILEref, x: patcomp): void
+fun
+fprint_patcomp
+  (out: FILEref, x: patcomp): void
+//
 overload fprint with fprint_patcomp
-
+//
 (* ****** ****** *)
 
 implement
@@ -481,16 +484,30 @@ patcomplst_find_guafail
 implement
 patcomplst_find_guafail
   (xs) = let
+//
+(*
+val
+out = stdout_ref
+val () =
+fprintln!
+( out,
+  "patcomplst_find_guafail: xs = ", xs
+) (* end of [val] *)
+*)
+//
 in
 //
 case+ xs of
 //
-| list_cons(x, xs) =>
-  (
-    case x of
-    | PTCMPtmplabgua (_, kntr) => !kntr
+| list_cons(x, xs) => let
+(*
+    val () = fprintln!(out, "x = ", x)
+*)
+  in
+    case+ x of
+    | PTCMPtmplabgua(_, kntr) => !kntr
     | _ => patcomplst_find_guafail (xs)
-  ) (* end of [list_cons] *)
+  end (* end of [list_cons] *)
 //
 | list_nil((*void*)) => PTCKNTnone ()
 //

@@ -221,6 +221,13 @@ cleanall:: ; $(RMF) bug-2015-08-04
 
 ######
 
+all:: \
+bug-2016-05-13
+bug-2016-05-13: bug-2016-05-13.dats; $(PATSCC) -o $@ $<
+cleanall:: ; $(RMF) bug-2016-05-13
+
+######
+
 RMF=rm -f
 
 ######

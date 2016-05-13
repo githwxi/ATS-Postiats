@@ -294,14 +294,14 @@ in
   case+ lhips of
   | list_cons
       (lhip, lhips) => let
-      val LABHIPAT (lab, hip) = lhip
+      val+LABHIPAT(lab, hip) = lhip
       val () =
-        aux (env, res, fail, narg, lab, hip, pmv0, hse_sum)
+        aux(env, res, fail, narg, lab, hip, pmv0, hse_sum)
       // end of [val]
     in
-      auxlst (env, res, fail, narg+1, lhips, pmv0, hse_sum)
+      auxlst(env, res, fail, narg+1, lhips, pmv0, hse_sum)
     end // end of [list_cons]
-  | list_nil () => ()
+  | list_nil((*void*)) => ()
 end // end of [auxlst]
 
 in (* in of [local] *)
@@ -324,11 +324,11 @@ val () =
 //
 val-HIPcon
   (pck, d2c, hse_sum, lhips) = hip0.hipat_node
-val (
-) = hipatck_ccomp_con (env, res, fail, loc0, d2c, pmv0)
+val () =
+  hipatck_ccomp_con(env, res, fail, loc0, d2c, pmv0)
 //
 in
-  auxlst (env, res, fail, 0(*narg*), lhips, pmv0, hse_sum)
+  auxlst(env, res, fail, 0(*narg*), lhips, pmv0, hse_sum)
 end // end of [hipatck_ccomp_sum]
 
 end // end of [local]
@@ -583,9 +583,13 @@ case+ 0 of
 | _ when
     d2var_is_mutabl (d2v) => let
     val hse = hipat_get_type (hip)
-    val pmv = primval_selcon (loc, hse, pmv0, hse_sum, lab)
+//
+    val pmv =
+      primval_selcon (loc, hse, pmv0, hse_sum, lab)
     val pmv_ref = primval_ptrof (loc, hisexp_typtr, pmv)
+//
     val () = ccompenv_add_vbindmapenvall (env, d2v, pmv_ref)
+//
   in
     // nothing
   end // end of [_]
@@ -906,12 +910,12 @@ in
 case+ pmvs of
 | ~list_vt_cons
     (pmv, pmvs) => let
-    val+list_cons (hip, hips) = hips
-    val () = himatch_ccomp (env, res, lvl0, hip, pmv)
+    val+list_cons(hip, hips) = hips
+    val () = himatch_ccomp(env, res, lvl0, hip, pmv)
   in
-    auxmatch (env, res, lvl0, hips, pmvs)
+    auxmatch(env, res, lvl0, hips, pmvs)
   end // end of [list_vt_cons]
-| ~list_vt_nil () => ()
+| ~list_vt_nil((*nond*)) => ()
 //
 end // end of [auxmatch]
 //
