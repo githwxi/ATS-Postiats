@@ -237,6 +237,11 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/Number/real.sats")
+#packfilename("SATS/Number/float.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/SHARE/hashtbl.hats")
 
 (* ****** ****** *)
@@ -378,6 +383,13 @@ The ATSLIB/libats library\
 
 #packfilename("DATS/lindeque_dllist.dats")
 #packfilename("DATS/linralist_nested.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/Number/SHARE/real.dats")
+#packfilename("DATS/Number/real_double.dats")
+#packfilename("DATS/Number/float_double.dats")
+#packfilename("DATS/Number/SHARE/float.dats")
 
 (* ****** ****** *)
 
