@@ -342,7 +342,7 @@ jsonize_d2con_long
 //
 val sym =
   jsonize_symbol (d2con_get_sym (d2c))
-val type =
+val _type =
   jsonize0_s2exp (d2con_get_type (d2c))
 val stamp =
   jsonize_stamp (d2con_get_stamp (d2c))
@@ -352,7 +352,7 @@ in
 jsonval_labval3
 (
   "d2con_sym", sym
-, "d2con_type", type
+, "d2con_type", _type
 , "d2con_stamp", stamp
 )
 //
@@ -844,7 +844,7 @@ jsonize_d2cst_long
 val sym =
   jsonize_symbol (d2cst_get_sym (d2c))
 //
-val type =
+val _type =
   jsonize0_s2exp (d2cst_get_type (d2c))
 //
 val extdef = 
@@ -858,7 +858,7 @@ in
 jsonval_labval4
 (
   "d2cst_sym", sym
-, "d2cst_type", type
+, "d2cst_type", _type
 , "d2cst_extdef", extdef
 , "d2cst_stamp", stamp
 )
@@ -969,6 +969,11 @@ extern fun jsonize_f2undeclst : jsonize_ftype (f2undeclst)
 
 extern fun jsonize_v2aldec : jsonize_ftype (v2aldec)
 extern fun jsonize_v2aldeclst : jsonize_ftype (v2aldeclst)
+
+(* ****** ****** *)
+
+extern fun jsonize_v2ardec : jsonize_ftype (v2ardec)
+extern fun jsonize_v2ardeclst : jsonize_ftype (v2ardeclst)
 
 (* ****** ****** *)
 
@@ -1704,6 +1709,12 @@ d2c0.d2ecl_node of
     jsonval_conarg2 ("D2Cvaldecs", knd, v2ds)
   end // end of [D2Cvaldecs]
 //
+| D2Cvardecs(v2ds) => let
+    val v2ds = jsonize_v2ardeclst (v2ds)
+  in
+    jsonval_conarg1 ("D2Cvardecs", v2ds)
+  end // end of [D2Cvardecs]
+//
 | D2Cinclude
     (knd, d2cs) => let
     val knd = jsonval_int (knd)
@@ -1837,14 +1848,46 @@ jsonval_labval4
 //
 end // end of [json_v2aldec]
 
-(* ****** ****** *)
-
 implement
 jsonize_v2aldeclst
   (v2ds) =
 (
   jsonize_list_fun<v2aldec>(v2ds, jsonize_v2aldec)
 ) // end of [jsonize_v2aldeclst]
+
+(* ****** ****** *)
+
+implement
+jsonize_v2ardec
+  (v2d) = let
+//
+val loc = jsonize_loc(v2d.v2ardec_loc)
+val knd = jsonval_int(v2d.v2ardec_knd)
+//
+val svar = jsonize_s2var(v2d.v2ardec_svar)
+val dvar = jsonize_d2var(v2d.v2ardec_dvar)
+//
+val init = jsonize_d2expopt(v2d.v2ardec_init)
+//
+val _type = jsonize0_s2expopt(v2d.v2ardec_type)
+//
+in
+//
+jsonval_labval6
+(
+  "v2ardec_loc", loc, "v2ardec_knd", knd
+, "v2ardec_svar", svar, "v2ardec_dvar", dvar
+, "v2ardec_init", init, "v2ardec_type", _type
+) (* jsonval_labval6 *)
+//
+end // end of [jsonize_v2ardec]
+
+implement
+jsonize_v2ardeclst
+  (v2ds) =
+(
+  jsonize_list_fun<v2ardec>(v2ds, jsonize_v2ardec)
+) // end of [jsonize_v2ardeclst]
 
 (* ****** ****** *)
 
