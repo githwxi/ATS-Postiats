@@ -573,7 +573,7 @@ all:: patsopt
 # link order matters to GNU ld
 # please keep the order '$(LIBATS) $(LIBGMP)' as libats depends on libgmp
 #
-patsopt: $(OBJECTS) ; \
+patsopt: pats_main.dats $(OBJECTS) ; \
 $(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main.dats $(OBJECTS) $(LIBATS) $(LIBGMP)
 #
 cleanall:: ; $(RMF) patsopt
