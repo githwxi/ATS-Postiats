@@ -871,7 +871,7 @@ and d2exp_node =
   | D2Eifhead of // dynamic conditional
       (i2nvresstate, d2exp, d2exp, d2expopt)
   | D2Esifhead of // static conditional
-      (i2nvresstate, s2exp, d2exp, d2exp)
+      (i2nvresstate, s2exp, d2exp, d2exp(*else*))
 //
   | D2Ecasehead of
     ( // dynamic case-expression
