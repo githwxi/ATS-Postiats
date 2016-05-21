@@ -124,6 +124,12 @@ ifhead: \
 ifhead.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: ifhead ; ./$<
 cleanall:: ; $(RMF) ifhead
+all:: \
+casehead
+casehead: \
+casehead.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: casehead ; ./$<
+cleanall:: ; $(RMF) casehead
 
 ######
 
