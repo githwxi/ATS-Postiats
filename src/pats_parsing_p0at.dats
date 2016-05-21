@@ -560,12 +560,13 @@ case+ tok.token_node of
 end // end of [p_p0at]
 
 (* ****** ****** *)
-
+//
 (*
 f0arg1 ::=
   | atmp0at | LBRACE s0quaseq RBRACE
   | DOTLT s0expseq GTDOT | DOTLTGTDOT
 *)
+//
 implement
 p_f0arg1
   (buf, bt, err) = let
@@ -576,7 +577,9 @@ p_f0arg1
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node
+of // case+
 | _ when
     ptest_fun (
     buf, p_atmp0at, ent
@@ -591,7 +594,7 @@ case+ tok.token_node of
       f0arg_sta1 (tok, ent2, ent3) else tokbuf_set_ntok_null (buf, n0)
     // end of [if]
   end
-| T_DOTLT () => let
+| T_DOTLT() => let
     val bt = 0
     val () = incby1 ()
     val ent2 = pstar_fun0_COMMA {s0exp} (buf, bt, p_s0exp)
@@ -603,7 +606,7 @@ case+ tok.token_node of
       val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
     end (* end of [if] *)
   end
-| T_DOTLTGTDOT () => let
+| T_DOTLTGTDOT() => let
     val () = incby1 () in f0arg_met_nil (tok)
   end // end of [T_DOTLTGTDOT]
 | _ => let
@@ -647,57 +650,77 @@ case+ tok.token_node of
 end // end of [p_f0arg2]
 
 (* ****** ****** *)
-
+//
 (*
 gm0at
   : d0exp  { $$ = gm0at_make_none ($1) ; }
   | d0exp AS p0at  { $$ = gm0at_make_some ($1, $3) ; }
 ; /* gm0at */
 *)
-
-fun p_gm0at (
+//
+fun
+p_gm0at
+(
   buf: &tokbuf, bt: int, err: &int
 ) : gm0at = let
   val err0 = err
   val ent1 = p_d0exp (buf, bt, err)
 in
 //
-if err = err0 then let
-  val ent2 = ptokentopt_fun {p0at} (buf, is_AS, p_p0at)
+if
+err = err0
+then let
+  val ent2 =
+    ptokentopt_fun{p0at}(buf, is_AS, p_p0at)
+  // end of [val]
 in
   gm0at_make (ent1, (t2t)ent2)
 end else let
   val tok = tokbuf_get_token (buf)
-  val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_gm0at)
+  val ((*void*)) =
+    the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_gm0at)
+  // end of [val]
 in
   synent_null ((*okay*)) // HX: [err] is already set
 end // end of [if]
 end // end of [p_gm0at]
 
-fun p_gm0atseq (
+fun
+p_gm0atseq
+(
   buf: &tokbuf, bt: int, err: &int
 ) : gm0atlst =
   l2l (pstar_fun1_AND (buf, bt, err, p_gm0at))
 // end of [p_gm0atseq]
 
-fun p_guap0at (
+fun
+p_guap0at
+(
   buf: &tokbuf, bt: int, err: &int
 ) : guap0at = let
   val err0 = err
   val ent1 = p_p0at (buf, bt, err)
 in
 //
-if err = err0 then let
-  val ent2 = ptokentopt_fun {gm0atlst} (buf, is_WHEN, p_gm0atseq)
+if
+err = err0
+then let
+  val ent2 =
+    ptokentopt_fun{gm0atlst}(buf, is_WHEN, p_gm0atseq)
+  // end of [val]
 in
   guap0at_make (ent1, (t2t)ent2)
 end else let
   val tok = tokbuf_get_token (buf)
-  val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_guap0at)
+  val ((*void*)) =
+    the_parerrlst_add_ifnbt(bt, tok.token_loc, PE_guap0at)
+  // end of [val]
 in
   synent_null ((*okay*)) // HX: [err] is already set
 end // end of [if]
 end // end of [p_guap0at]
+
+(* ****** ****** *)
 
 (*
 c0lau
@@ -746,13 +769,14 @@ end // end of [if]
 end // end of [p_c0lau]
 
 (* ****** ****** *)
-
+//
 (*
 sp0at ::= sqi0de LPAREN s0argseq RPAREN
 *)
-
+//
 fun
-p_sp0at (
+p_sp0at
+(
   buf: &tokbuf, bt: int, err: &int
 ) : sp0at = let
   val err0 = err
@@ -775,27 +799,29 @@ in
   sp0at_cstr(ent1, ent3, ent4)
 end // end of [then]
 else let
-  val () = list_vt_free (ent3)
+  val () = list_vt_free(ent3)
   val tok = tokbuf_get_token(buf)
   val () =
-    the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_sc0lau)
+    the_parerrlst_add_ifnbt(bt, tok.token_loc, PE_sc0lau)
   // end of [val]
 in
-  tokbuf_set_ntok_null (buf, n0)
+  tokbuf_set_ntok_null(buf, n0)
 end (* end of [if] *)
 //
 end // end of [p_sp0at]
 
-fun p_sc0lau (
+fun
+p_sc0lau
+(
   buf: &tokbuf, bt: int, err: &int
 ) : sc0lau = let
   val err0 = err
-  val+~SYNENT3 (ent1, ent2, ent3) =
-    pseq3_fun (buf, bt, err, p_sp0at, p_EQGT, p_d0exp)
+  val+~SYNENT3(ent1, ent2, ent3) =
+    pseq3_fun(buf, bt, err, p_sp0at, p_EQGT, p_d0exp)
   // end of [val]
 in
   if err = err0 then
-    sc0lau_make (ent1, ent3) else synent_null ((*okay*))
+    sc0lau_make (ent1, ent3) else synent_null((*okay*))
   // end of [if]
 end // end of [p_sc0lau]
 

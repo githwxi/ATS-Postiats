@@ -2139,7 +2139,7 @@ d0exp  :: =
   | sifhead   s0exp  THEN d0exp  ELSE d0exp  // done!
   | casehead  d0exp1 OF c0lauseq  // done!
   | scasehead s0exp  OF sc0lauseq // done!
-  | ifcasehd  i0fclseq
+  | ifcasehd  i0fclseq            // HX-2016-05-21: added
   | lamkind   f0arg1seq colons0expopt funarrow d0exp // done!
   | fixkind   di0de f0arg1seq colons0expopt funarrow d0exp // done!
   | whilehead atmd0exp d0exp // done!
@@ -2409,6 +2409,12 @@ of // case+
 end // end of [p_d0exp_tok]
 //
 (* ****** ****** *)
+
+(*
+//
+// HX-2016-05-21: supporting for ifcase!
+//
+*)
 
 local
 

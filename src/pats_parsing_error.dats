@@ -362,12 +362,12 @@ case+ node of
 | PE_labp0at () => SN (x, "labp0at")
 | PE_p0at_as () => SN (x, "p0at_as")
 //
+| PE_i0fcl () => SN (x, "i0fcl")
+//
 | PE_gm0at () => SN (x, "gm0at")
 | PE_guap0at () => SN (x, "guap0at")
 | PE_c0lau () => SN (x, "c0lau")
 | PE_sc0lau () => SN (x, "sc0lau")
-//
-| PE_i0fcl () => SN (x, "i0fcl")
 //
 | PE_di0de () => SN (x, "di0de")
 | PE_d0ynq () => SN (x, "d0ynq")

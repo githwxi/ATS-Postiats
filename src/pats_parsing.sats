@@ -150,12 +150,12 @@ parerr_node =
   | PE_labp0at
   | PE_p0at_as
 //
+  | PE_i0fcl // for ifcase-clauses
+//
   | PE_gm0at
   | PE_guap0at
   | PE_c0lau // for case-clauses
   | PE_sc0lau // for scase-clauses
-//
-  | PE_i0fcl // for ifcase-clauses
 //
   | PE_d0exp
   | PE_d0exp0
