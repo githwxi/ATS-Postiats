@@ -7,6 +7,12 @@
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
+//
+fun
+foo{i:nat}
+  (x: int(i), y: int(i+1)): void = ()
+//
+(* ****** ****** *)
 
 implement
 main0 () = () where
@@ -23,11 +29,14 @@ if: [i:nat]
 (
   x: int(i), y: int(i+1)
 ) => (i >= 1)
-  then (x := i; y := x+1) else (x := 0; y := 1)
+  then (x := i; y := x+1)
+  else (x := 10; y := 11)
 //
 ) : void // end of [val]
 //
-val () = println! ("y = ", y)
+val () = foo(x, y)
+//
+val () = println! ("x = ", x, " and y = ", y)
 //
 } (* end of [main0] *)
 
