@@ -15,7 +15,7 @@ main0 () = () where
 var x: int
 var y: int
 //
-val i = (0: intGte(0))
+val i = (1: intGte(0))
 //
 val () = (
 //
