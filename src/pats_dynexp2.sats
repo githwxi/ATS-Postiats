@@ -873,6 +873,8 @@ and d2exp_node =
   | D2Esifhead of // static conditional
       (i2nvresstate, s2exp, d2exp, d2exp(*else*))
 //
+  | D2Eifcasehd of (i2nvresstate, i2fclist)
+//
   | D2Ecasehead of
     ( // dynamic case-expression
       caskind, i2nvresstate, d2explst, c2laulst
@@ -1029,10 +1031,21 @@ loopi2nv = '{
 (* ****** ****** *)
 
 and
+i2fcl = '{
+//
+  i2fcl_loc= location
+, i2fcl_test= d2exp, i2fcl_body= d2exp
+//
+} (* end of [i2fcl] *)
+
+and i2fclist = List(i2fcl)
+
+(* ****** ****** *)
+
+and
 gm2at = '{
   gm2at_loc= location
-, gm2at_exp= d2exp
-, gm2at_pat= p2atopt
+, gm2at_exp= d2exp, gm2at_pat= p2atopt
 } // end of [gm2at]
 
 and gm2atlst = List (gm2at)
@@ -1351,16 +1364,25 @@ d2exp_app_sta_dyn
 
 (* ****** ****** *)
 
-fun d2exp_ifhead (
+fun
+d2exp_ifhead (
   loc: location
-, res: i2nvresstate, _cond: d2exp, _then: d2exp, _else: d2expopt
+, res: i2nvresstate
+, _cond: d2exp, _then: d2exp, _else: d2expopt
 ) : d2exp // end of [d2exp_ifhead]
 
-fun d2exp_sifhead (
+fun
+d2exp_sifhead (
   loc: location
-, res: i2nvresstate, _cond: s2exp, _then: d2exp, _else: d2exp
+, res: i2nvresstate, cond: s2exp, _then: d2exp, _else: d2exp
 ) : d2exp // end of [d2exp_sifhead]
 
+(* ****** ****** *)
+//
+fun
+d2exp_ifcasehd
+  (loc: location, res: i2nvresstate, ifcls: i2fclist): d2exp
+//
 (* ****** ****** *)
 
 fun
@@ -1679,12 +1701,22 @@ loopi2nv_make
 
 (* ****** ****** *)
 
-fun gm2at_make
+fun
+i2fcl_make
+(
+  loc: location, test: d2exp, body: d2exp
+) : i2fcl // end of [i2fcl_make]
+
+(* ****** ****** *)
+
+fun
+gm2at_make
 (
   loc: location, d2e: d2exp, p2topt: p2atopt
 ) : gm2at // end of [gm2at_make]
 
-fun c2lau_make
+fun
+c2lau_make
 (
   loc: location
 , p2ts: p2atlst

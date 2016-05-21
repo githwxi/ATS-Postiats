@@ -1079,6 +1079,27 @@ end // end of [loopi1nv_tr]
 (* ****** ****** *)
 
 fun
+i1fcl_tr
+  (ifcl: i1fcl): i2fcl = let
+  val test = d1exp_tr(ifcl.i1fcl_test)
+  val body = d1exp_tr(ifcl.i1fcl_body)
+in
+  i2fcl_make(ifcl.i1fcl_loc, test, body)
+end // end of [i1fcl_tr]
+
+fun
+i1fclist_tr
+  (xs: i1fclist): i2fclist =
+(
+  case+ xs of
+  | list_cons (x, xs) =>
+      list_cons (i1fcl_tr(x), i1fclist_tr(xs))
+  | list_nil () => list_nil ()
+) (* end of [i1fclist_tr] *)
+
+(* ****** ****** *)
+
+fun
 gm1at_tr
 (
   gm1t: gm1at
@@ -1104,14 +1125,16 @@ end // end of [gm1at_tr]
 (* ****** ****** *)
 
 fun
-c1lau_tr {n:nat}
+c1lau_tr{n:nat}
   (n: int n, c1l: c1lau): c2lau = let
 //
 fun auxerr
 (
   c1l: c1lau, n: int, n1: int
 ) : void = let
-  val () = prerr_error2_loc (c1l.c1lau_loc)
+  val () =
+    prerr_error2_loc (c1l.c1lau_loc)
+  // end of [val]
   val () = filprerr_ifdebug ("c1lau_tr")
   val () = prerr ": this clause should contain "
   val () = prerr_string (if n >= n1 then "more" else "fewer")
@@ -1609,6 +1632,16 @@ d1e0.d1exp_node of
   in
     d2exp_sifhead (loc0, r2es, _cond, _then, _else)
   end // end of [D1Eifhead]
+//
+| D1Eifcasehd
+    (r1es, ifcls) => let
+    val r2es =
+      i1nvresstate_tr(r1es)
+    // end of [val]
+    val ifcls = i1fclist_tr (ifcls)
+  in
+    d2exp_ifcasehd (loc0, r2es, ifcls)
+  end // end of [D1Eifcasehd]
 //
 | D1Ecasehead
   (

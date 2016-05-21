@@ -1692,7 +1692,7 @@ and i0fcl = '{
 , i0fcl_body= d0exp
 } (* end of [ifcl0] *)
 
-and i0fclist = List i0fcl
+and i0fclist = List(i0fcl)
 
 (* ****** ****** *)
 

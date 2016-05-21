@@ -293,6 +293,15 @@ d2exparglst_app : synent_app (d2exparglst)
 //
 extern
 fun{}
+i2fcl_app : synent_app (i2fcl)
+extern
+fun{}
+i2fclist_app : synent_app (i2fclist)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
 gm2at_app : synent_app (gm2at)
 extern
 fun{}
@@ -620,8 +629,11 @@ d2e0.d2exp_node of
 | D2Esifhead
     (invres, _test, _then, _else) =>
   (
-    s2exp_app (_test, env); d2exp_app (_then, env); d2exp_app (_else, env);
+    s2exp_app (_test, env);
+    d2exp_app (_then, env); d2exp_app (_else, env);
   ) (* end of [D2Esifhead] *)
+//
+| D2Eifcasehd(invres, ifcls) => i2fclist_app (ifcls, env)
 //
 | D2Ecasehead
     (knd, invres, d2es, c2ls) =>
@@ -863,6 +875,22 @@ implement
 {}(*tmp*)
 d2exparglst_app
   (xs, env) = synentlst_app (xs,env, d2exparg_app)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+i2fcl_app
+  (ifcl, env) =
+{
+  val () = d2exp_app (ifcl.i2fcl_test, env)
+  val () = d2exp_app (ifcl.i2fcl_body, env)
+} (* end of [i2fcl_app] *)
+//
+implement
+{}(*tmp*)
+i2fclist_app
+  (xs, env) = synentlst_app (xs, env, i2fcl_app)
 //
 (* ****** ****** *)
 //

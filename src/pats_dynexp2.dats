@@ -559,6 +559,13 @@ d2exp_sifhead (
 (* ****** ****** *)
 
 implement
+d2exp_ifcasehd (
+  loc, r2es, ifcls
+) = d2exp_make_node(loc, D2Eifcasehd(r2es, ifcls))
+
+(* ****** ****** *)
+
+implement
 d2exp_casehead (
   loc, knd, inv, d2es, c2ls
 ) = d2exp_make_node (
@@ -568,7 +575,7 @@ d2exp_casehead (
 implement
 d2exp_scasehead (
   loc, inv, s2f, sc2ls
-) = d2exp_make_node (loc, D2Escasehead (inv, s2f, sc2ls))
+) = d2exp_make_node(loc, D2Escasehead (inv, s2f, sc2ls))
 
 (* ****** ****** *)
 //
@@ -997,6 +1004,15 @@ loopi2nv_make (
 , loopi2nv_met= met
 , loopi2nv_res= res
 } // end of [loopi2nv_make]
+
+(* ****** ****** *)
+
+implement
+i2fcl_make
+  (loc, test, body) = '{
+  i2fcl_loc= loc
+, i2fcl_test= test, i2fcl_body= body
+} (* end of [i2fcl_make] *)
 
 (* ****** ****** *)
 

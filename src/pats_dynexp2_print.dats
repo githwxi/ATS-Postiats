@@ -602,6 +602,13 @@ d2e0.d2exp_node of
     val () = prstr ")"
   } (* end of [D2Esifhead] *)
 //
+| D2Eifcasehd
+    (invres, ifcls) => {
+    val () = prstr "D2Eifcasehd("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
 | D2Ecasehead _ => {
     val () = prstr "D2Ecasehead("
     val () = fprint_string (out, "...")

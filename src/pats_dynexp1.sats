@@ -468,14 +468,17 @@ and labd1explst = List (labd1exp)
 
 (* ****** ****** *)
 
-and d1lab = '{
-  d1lab_loc= location, d1lab_node= d1lab_node
+and
+d1lab = '{
+  d1lab_loc= location
+, d1lab_node= d1lab_node
 }
 and d1lablst = List (d1lab)
 
 (* ****** ****** *)
 
-and i1fcl = '{
+and
+i1fcl = '{
 //
   i1fcl_loc= location
 //
@@ -483,19 +486,22 @@ and i1fcl = '{
 //
 } (* end of [i1fcl] *)
 
-and i1fclist = List (i1fcl)
+and i1fclist = List(i1fcl)
 
 (* ****** ****** *)
 
-and gm1at = '{
-  gm1at_loc= location, gm1at_exp= d1exp, gm1at_pat= p1atopt
+and
+gm1at = '{
+  gm1at_loc= location
+, gm1at_exp= d1exp, gm1at_pat= p1atopt
 } // end of [gm1at]
 
-and gm1atlst = List gm1at
+and gm1atlst = List(gm1at)
 
 (* ****** ****** *)
 
-and c1lau = '{
+and
+c1lau = '{
   c1lau_loc= location
 , c1lau_pat= p1at
 , c1lau_gua= gm1atlst
@@ -504,11 +510,12 @@ and c1lau = '{
 , c1lau_body= d1exp
 } // end of [c1lau]
 
-and c1laulst = List c1lau
+and c1laulst = List(c1lau)
 
 (* ****** ****** *)
 
-and sc1lau = '{
+and
+sc1lau = '{
   sc1lau_loc= location
 , sc1lau_pat= sp1at
 , sc1lau_body= d1exp
@@ -518,7 +525,8 @@ and sc1laulst = List sc1lau
 
 (* ****** ****** *)
 
-and m1acdef = '{
+and
+m1acdef = '{
   m1acdef_loc= location
 , m1acdef_sym= symbol
 , m1acdef_arg= m1acarglst
@@ -529,7 +537,8 @@ and m1acdeflst = List m1acdef
 
 (* ****** ****** *)
 
-and f1undec = '{
+and
+f1undec = '{
   f1undec_loc= location
 , f1undec_sym= symbol
 , f1undec_sym_loc= location
@@ -541,7 +550,8 @@ and f1undeclst = List f1undec
 
 (* ****** ****** *)
 
-and v1aldec = '{
+and
+v1aldec = '{
   v1aldec_loc= location
 , v1aldec_pat= p1at
 , v1aldec_def= d1exp
@@ -552,7 +562,8 @@ and v1aldeclst = List (v1aldec)
 
 (* ****** ****** *)
 
-and v1ardec = '{
+and
+v1ardec = '{
   v1ardec_loc= location
 , v1ardec_knd= int (* knd=0/1:var/ptr *)
 , v1ardec_sym= symbol
@@ -566,7 +577,8 @@ and v1ardeclst = List v1ardec
 
 (* ****** ****** *)
 
-and i1mpdec = '{
+and
+i1mpdec = '{
   i1mpdec_loc= location
 , i1mpdec_qid= impqi0de
 , i1mpdec_tmparg= t1mpmarglst
