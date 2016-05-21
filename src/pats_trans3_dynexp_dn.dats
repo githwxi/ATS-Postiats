@@ -602,8 +602,7 @@ val ((*void*)) = option_vt_free (os2p_cond)
 val ((*void*)) =
   lstaftc3nstr_process (lsaft, invres)
 //
-val ((*void*)) = lstaftc3nstr_finalize (lsaft)
-//
+val () = lstaftc3nstr_finalize (lsaft)
 val ((*void*)) = i2nvresstate_update (loc0, invres)
 //
 in
@@ -664,8 +663,7 @@ val ((*void*)) = lstaftc3nstr_update(lsaft, ctr_else)
 val ((*void*)) =
   lstaftc3nstr_process (lsaft, invres)
 //
-val ((*void*)) = lstaftc3nstr_finalize (lsaft)
-//
+val () = lstaftc3nstr_finalize (lsaft)
 val ((*void*)) = i2nvresstate_update (loc0, invres)
 //
 in
@@ -826,12 +824,14 @@ var lsaft = lstaftc3nstr_initize (lsbis)
 val ifcls =
 (
 //
-case+ :
-(
+case+
+: (
   lsaft: lstaftc3nstr
 ) =>
 ifcls of
-| list_nil() => list_nil()
+| list_nil() =>
+    list_nil((*void*))
+  // end of [list_nil]
 | list_cons(x0, xs) =>
   (
     auxlist1_check
@@ -844,8 +844,7 @@ ifcls of
 val ((*void*)) =
   lstaftc3nstr_process (lsaft, invres)
 //
-val ((*void*)) = lstaftc3nstr_finalize (lsaft)
-//
+val () = lstaftc3nstr_finalize (lsaft)
 val ((*void*)) = i2nvresstate_update (loc0, invres)
 //
 in
