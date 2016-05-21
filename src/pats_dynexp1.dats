@@ -416,8 +416,19 @@ loopi1nv_nil
   val met = None ()
   val arg = list_nil ()
 in
-  loopi1nv_make (loc, qua, met, arg, i1nvresstate_nil)
+//
+loopi1nv_make
+  (loc, qua, met, arg, i1nvresstate_nil)
+//
 end // end of [loopi1nv_nil]
+
+(* ****** ****** *)
+
+implement
+i1fcl_make
+  (loc, test, body) = '{
+  i1fcl_loc= loc, i1fcl_test= test, i1fcl_body= body
+} (* end of [i1fcl_make] *)
 
 (* ****** ****** *)
 
@@ -625,6 +636,16 @@ d1exp_sifhead
   (loc, inv, _cond, _then, _else) =
   d1exp_make (loc, D1Esifhead (inv, _cond, _then, _else))
 // end of [d1exp_sifhead]
+
+(* ****** ****** *)
+
+implement
+d1exp_ifcasehd
+  (loc, inv, ifcls) =
+  d1exp_make (loc, D1Eifcasehd (inv, ifcls))
+// end of [d1exp_ifcasehd]
+
+(* ****** ****** *)
 
 implement
 d1exp_casehead

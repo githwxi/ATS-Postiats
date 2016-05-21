@@ -25,4 +25,8 @@ ifcase
 //
 (* ****** ****** *)
 
+implement main0() = assertloc(acker(3,3) = 61)
+
+(* ****** ****** *)
+
 (* end of [ifcase] *)

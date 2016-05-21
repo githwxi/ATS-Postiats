@@ -443,12 +443,29 @@ end // end of [loopi0nv_tr]
 
 (* ****** ****** *)
 
+fn i0fcl_tr
+  (ifcl: i0fcl): i1fcl = let
+//
+  val test = d0exp_tr(ifcl.i0fcl_test)
+  val body = d0exp_tr(ifcl.i0fcl_body)
+//
+in
+  i1fcl_make(ifcl.i0fcl_loc, test, body)
+end // of [i0fcl_tr]
+
+fn i0fclist_tr
+  (ifcls: i0fclist): i1fclist =
+  list_of_list_vt(list_map_fun<i0fcl>(ifcls, i0fcl_tr))
+// end of [i0fclist_tr]
+
+(* ****** ****** *)
+
 fn gm0at_tr
   (gm0t: gm0at): gm1at = let
-  val d1e = d0exp_tr gm0t.gm0at_exp
+  val d1e = d0exp_tr(gm0t.gm0at_exp)
   val opt = (
     case+ gm0t.gm0at_pat of
-    | Some p0t => Some (p0at_tr p0t) | None () => None ()
+    | Some p0t => Some(p0at_tr p0t) | None() => None()
   ) : p1atopt // end of [val]
 in
   gm1at_make (gm0t.gm0at_loc, d1e, opt)
@@ -456,7 +473,7 @@ end // end of [gm0at_tr]
 
 fn gm0atlst_tr
   (gm0ts: gm0atlst): gm1atlst =
-  list_of_list_vt(list_map_fun (gm0ts, gm0at_tr))
+  list_of_list_vt(list_map_fun<gm0at>(gm0ts, gm0at_tr))
 // end of [gm0atlst_tr]
 
 (* ****** ****** *)
@@ -476,13 +493,16 @@ val body = d0exp_tr (c0l.c0lau_body)
 //
 in
 //
-c1lau_make (loc, p1t, gua, c0l.c0lau_seq, c0l.c0lau_neg, body)
+c1lau_make
+(
+  loc, p1t, gua, c0l.c0lau_seq, c0l.c0lau_neg, body
+) (* c1lau_make *)
 //
 end // end of [c0lau_tr]
 
 fn c0laulst_tr
   (c0ls: c0laulst): c1laulst =
-  list_of_list_vt(list_map_fun (c0ls, c0lau_tr))
+  list_of_list_vt(list_map_fun<c0lau>(c0ls, c0lau_tr))
 // end of [c0laulst_tr]
 
 fn sc0lau_tr
@@ -495,7 +515,7 @@ end // end of [sc0lau_tr]
 
 fn sc0laulst_tr
   (sc0ls: sc0laulst): sc1laulst =
-  list_of_list_vt(list_map_fun (sc0ls, sc0lau_tr))
+  list_of_list_vt(list_map_fun<sc0lau>(sc0ls, sc0lau_tr))
 // end of [sc0laulst_tr]
 
 (* ****** ****** *)
@@ -722,14 +742,20 @@ case+ d0e0.d0exp_node of
     FXITMatm (d1e_sif)        
   end // end of [D0Esifhead]
 //
-(*
-| D0Eifcasehd _ => ...
-*)
+| D0Eifcasehd
+    (ifhd, ifcls) => let
+    val i0nv = ifhd.ifhead_inv
+    val i1nv = i0nvresstate_tr(i0nv)
+    val ifcls = i0fclist_tr (ifcls)
+    val d1e_ifcase = d1exp_ifcasehd(loc0, i1nv, ifcls)
+  in
+    FXITMatm (d1e_ifcase)
+  end // end of [D0Eifcasehd]
 //
 | D0Ecasehead
     (hd, d0e, c0ls) => let
     val tok = hd.casehead_tok
-    val-T_CASE (knd) = tok.token_node
+    val-T_CASE(knd) = tok.token_node
     val i0nv = hd.casehead_inv
     val i1nv = i0nvresstate_tr (i0nv)
     val d1e = d0exp_tr (d0e)
@@ -1013,7 +1039,7 @@ case+ d0e0.d0exp_node of
 | D0Esolassert(d0e) => FXITMatm(d1exp_solassert(loc0, d0exp_tr(d0e)))
 | D0Esolverify(s0e) => FXITMatm(d1exp_solverify(loc0, s0exp_tr(s0e)))
 //
-// (*
+(*
 | _ => let
     val () =
     prerr_interror_loc (loc0)
@@ -1023,7 +1049,7 @@ case+ d0e0.d0exp_node of
     ) (* end of [fprintln!] *)
     val () = assertloc (false) in $ERR.abort_interr((*deadcode*))
   end // end of [_]
-// *)
+*)
 //
 end (* end of [aux_item] *)
 //

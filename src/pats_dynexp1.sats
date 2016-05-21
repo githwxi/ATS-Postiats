@@ -360,7 +360,10 @@ and d1exp_node =
   | D1Eifhead of
       (i1nvresstate, d1exp, d1exp, d1expopt)
   | D1Esifhead of
-      (i1nvresstate, s1exp, d1exp, d1exp) // HX: no dangling else-branch
+      (i1nvresstate, s1exp, d1exp, d1exp(*else*))
+//
+  | D1Eifcasehd of (i1nvresstate, i1fclist) // for ifcase-expressions
+//
   | D1Ecasehead of (* case-expression *)
       (caskind, i1nvresstate, d1explst, c1laulst)
   | D1Escasehead of (i1nvresstate, s1exp, sc1laulst)
@@ -469,6 +472,18 @@ and d1lab = '{
   d1lab_loc= location, d1lab_node= d1lab_node
 }
 and d1lablst = List (d1lab)
+
+(* ****** ****** *)
+
+and i1fcl = '{
+//
+  i1fcl_loc= location
+//
+, i1fcl_test= d1exp, i1fcl_body= d1exp
+//
+} (* end of [i1fcl] *)
+
+and i1fclist = List (i1fcl)
 
 (* ****** ****** *)
 
@@ -662,30 +677,41 @@ fun d1exp_list
 //
 (* ****** ****** *)
 
-fun d1exp_ifhead (
+fun
+d1exp_ifhead (
   loc: location
 , inv: i1nvresstate
 , _cond: d1exp
-, _then: d1exp
-, _else: d1expopt
+, _then: d1exp, _else: d1expopt
 ) : d1exp // end of [d1exp_if]
 
-fun d1exp_sifhead (
+fun
+d1exp_sifhead (
   loc: location
 , inv: i1nvresstate
-, _cond: s1exp
-, _then: d1exp
-, _else: d1exp
+, _cond: s1exp, _then: d1exp, _else: d1exp
 ) : d1exp // end of [d1exp_if]
 
-fun d1exp_casehead (
+(* ****** ****** *)
+
+fun
+d1exp_ifcasehd
+(
+    loc: location, inv: i1nvresstate, ifcls: i1fclist
+) : d1exp // end of [d1exp_ifcasehd]
+
+(* ****** ****** *)
+
+fun
+d1exp_casehead (
   loc: location
 , knd: caskind
 , inv: i1nvresstate
 , d1es: d1explst, c1las: c1laulst
 ) : d1exp // end of [d1exp_casehead]
 
-fun d1exp_scasehead (
+fun
+d1exp_scasehead (
   loc: location
 , inv: i1nvresstate
 , s1e: s1exp, c1las: sc1laulst
@@ -792,7 +818,9 @@ fun d1exp_delay (loc: location, knd: int, d1e: d1exp): d1exp
 
 (* ****** ****** *)
 
-fun d1exp_trywith (
+fun
+d1exp_trywith
+(
   loc: location, inv: i1nvresstate, d1e: d1exp, handler: c1laulst
 ) : d1exp // end of [d1exp_trywith]
 
@@ -888,6 +916,14 @@ fun d1lab_ind (loc: location, ind: d1explst): d1lab
 
 fun fprint_d1lab : fprint_type (d1lab)
 
+(* ****** ****** *)
+//
+fun
+i1fcl_make
+(
+  loc: location, test: d1exp, body: d1exp
+) : i1fcl // end of [i1fcl_make]
+//
 (* ****** ****** *)
 
 fun gm1at_make

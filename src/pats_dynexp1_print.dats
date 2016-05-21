@@ -476,6 +476,13 @@ case+ d1e0.d1exp_node of
     val () = fprint_d1exp (out, _else)
     val () = prstr ")"
   }
+//
+| D1Eifcasehd _ => {
+    val () = prstr "D1Eifcasehd("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
 | D1Ecasehead _ => {
     val () = prstr "D1Ecasehead("
     val () = prstr "..."
