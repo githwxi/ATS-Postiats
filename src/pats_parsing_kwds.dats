@@ -53,6 +53,15 @@ staload "./pats_parsing.sats"
 (* ****** ****** *)
 
 implement
+is_AS (x) = case+ x of
+  | T_AS () => true | _ => false
+implement
+p_AS (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_AS, PE_AS)
+
+(* ****** ****** *)
+
+implement
 is_AND (x) = case+ x of
   | T_AND () => true | _ => false
 implement
@@ -61,6 +70,8 @@ p_AND (buf, bt, err) =
 implement
 p_AND_test (buf) = ptoken_test_fun (buf, is_AND)
 
+(* ****** ****** *)
+
 implement
 is_END (x) = case+ x of
   | T_END () => true | _ => false
@@ -68,26 +79,7 @@ implement
 p_END (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_END, PE_END)
 
-implement
-is_THEN (x) = case+ x of
-  | T_THEN () => true | _ => false
-implement
-p_THEN (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_THEN, PE_THEN)
-
-implement
-is_ELSE (x) = case+ x of
-  | T_ELSE () => true | _ => false
-implement
-p_ELSE (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_ELSE, PE_ELSE)
-
-implement
-is_AS (x) = case+ x of
-  | T_AS () => true | _ => false
-implement
-p_AS (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_AS, PE_AS)
+(* ****** ****** *)
 
 implement
 is_OF (x) = case+ x of
@@ -103,6 +95,8 @@ implement
 p_IN (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_IN, PE_IN)
 
+(* ****** ****** *)
+
 implement
 is_IF (x) = case+ x of
   | T_IF () => true | _ => false
@@ -115,6 +109,8 @@ is_SIF (x) = case+ x of
 implement
 p_SIF (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_SIF, PE_SIF)
+
+(* ****** ****** *)
 
 implement
 is_CASE (x) = case+ x of
@@ -129,6 +125,33 @@ implement
 p_SCASE (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_SCASE, PE_SCASE)
 
+(* ****** ****** *)
+
+implement
+is_IFCASE (x) = case+ x of
+  | T_IFCASE () => true | _ => false
+implement
+p_IFCASE (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_IFCASE, PE_IFCASE)
+
+(* ****** ****** *)
+
+implement
+is_THEN (x) = case+ x of
+  | T_THEN () => true | _ => false
+implement
+p_THEN (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_THEN, PE_THEN)
+
+implement
+is_ELSE (x) = case+ x of
+  | T_ELSE () => true | _ => false
+implement
+p_ELSE (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_ELSE, PE_ELSE)
+
+(* ****** ****** *)
+
 implement
 is_REC (x) = case+ x of
   | T_REC () => true | _ => false
@@ -137,6 +160,8 @@ p_REC (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_REC, PE_REC)
 implement
 p_REC_test (buf) = ptoken_test_fun (buf, is_REC)
+
+(* ****** ****** *)
 
 implement
 is_WITH (x) = case+ x of

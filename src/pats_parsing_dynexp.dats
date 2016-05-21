@@ -1934,6 +1934,29 @@ end // end of [p_sifhead]
 (* ****** ****** *)
 
 (*
+ifhead: IFCASE [i0nvresstate EQGT]
+*)
+fun
+p_ifcasehd
+(
+  buf: &tokbuf, bt: int, err: &int
+) : ifhead = let
+//
+val err0 = err
+//
+var tok: token
+val res =
+  ptokhead_fun(buf, bt, err, is_IFCASE, tok)
+//
+in
+  if err = err0
+    then ifhead_make(tok, res) else synent_null()
+  // end of [if]
+end // end of [p_ifcasehd]
+
+(* ****** ****** *)
+
+(*
 casehead: CASE [i0nvresstate EQGT]
 *)
 fun
@@ -2116,6 +2139,7 @@ d0exp  :: =
   | sifhead   s0exp  THEN d0exp  ELSE d0exp  // done!
   | casehead  d0exp1 OF c0lauseq  // done!
   | scasehead s0exp  OF sc0lauseq // done!
+  | ifcasehd  i0fclseq
   | lamkind   f0arg1seq colons0expopt funarrow d0exp // done!
   | fixkind   di0de f0arg1seq colons0expopt funarrow d0exp // done!
   | whilehead atmd0exp d0exp // done!
@@ -2241,6 +2265,22 @@ of // case+
       else synent_null((*void*))
     // end of [if]
   end
+//
+| _ when
+    ptest_fun (
+    buf, p_ifcasehd, ent
+  ) => let
+    val bt = 0
+    val ent1 =
+      synent_decode{ifhead}(ent)
+    // end of [val]
+    val ent2 = p_i0fclseq (buf, bt, err)
+  in
+    if err = err0
+      then d0exp_ifcasehd(ent1, ent2) else synent_null((*void*))
+    // end of [if]
+  end // for [IFCASE]
+//
 | T_LAM (knd) => let
     val bt = 0
     val () = incby1 ()
@@ -2368,6 +2408,42 @@ of // case+
 //
 end // end of [p_d0exp_tok]
 //
+(* ****** ****** *)
+
+local
+
+fun
+p_i0fcl (
+  buf: &tokbuf, bt: int, err: &int
+) : i0fcl = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_d0exp0(buf, bt, err)
+  val ent2 = pif_fun (buf, bt, err, p_EQGT, err0)
+  val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
+in
+//
+if err = err0 then
+  i0fcl_make (ent1, ent3)
+else let
+  val tok = tokbuf_get_token (buf)
+  val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_i0fcl)
+in
+  tokbuf_set_ntok_null (buf, n0)
+end // end of [if]
+//
+end // end of [p_i0fcl]
+
+in (* in-of-local *)
+
+implement
+p_i0fclseq
+  (buf, bt, err) = let
+  val _ = p_BAR_test (buf) in l2l(pstar_fun0_BAR (buf, bt, p_i0fcl))
+end // end of [p_i0fclseq]
+
+end // end of [local]
+
 (* ****** ****** *)
 
 (* end of [pats_parsing_dynexp.dats] *)

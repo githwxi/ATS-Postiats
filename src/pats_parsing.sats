@@ -47,17 +47,26 @@ staload "./pats_syntax.sats"
 datatype
 parerr_node =
 //
-  | PE_AND
-  | PE_END
   | PE_AS
-  | PE_OF
-  | PE_IN
+//
+  | PE_AND
+//
+  | PE_END
+//
+  | PE_IN | PE_OF 
+//
   | PE_IF | PE_SIF
   | PE_CASE | PE_SCASE
+//
+  | PE_IFCASE
+//
   | PE_THEN
   | PE_ELSE
+//
   | PE_REC
+//
   | PE_WHEN
+//
   | PE_WITH
 //
   | PE_FOR
@@ -140,9 +149,13 @@ parerr_node =
   | PE_atmp0at
   | PE_labp0at
   | PE_p0at_as
+//
   | PE_gm0at
   | PE_guap0at
-  | PE_c0lau
+  | PE_c0lau // for case-clauses
+  | PE_sc0lau // for scase-clauses
+//
+  | PE_i0fcl // for ifcase-clauses
 //
   | PE_d0exp
   | PE_d0exp0
@@ -251,6 +264,9 @@ fun p_CASE : parser (token)
 fun is_CASE (x: tnode): bool
 fun p_SCASE : parser (token)
 fun is_SCASE (x: tnode): bool
+
+fun p_IFCASE : parser (token)
+fun is_IFCASE  (x: tnode): bool
 
 fun p_REC : parser (token)
 fun is_REC (x: tnode): bool
@@ -662,7 +678,7 @@ fun p_f0arg1 : parser (f0arg)
 fun p_f0arg2 : parser (f0arg)
 
 (* ****** ****** *)
-
+//
 fun p_d0exp : parser (d0exp)
 fun p_di0de : parser (i0de) // dynamic identifier
 fun p_d0ynq : parser (d0ynq) // dynamic qualifier
@@ -675,9 +691,13 @@ fun p_eqd0expopt : parser (d0expopt) // EQ d0exp
 //
 fun p_d0expsemiseq : parser (d0explst)
 //
+(* ****** ****** *)
+//
+fun p_i0fclseq : parser (i0fclist)
+//
 fun p_c0lauseq : parser (c0laulst) // pattern-matching clauses
 fun p_sc0lauseq : parser (sc0laulst) // static pattern-matching clauses
-
+//
 (* ****** ****** *)
 
 fun p_S0Ed2ctype : parser (d0exp)

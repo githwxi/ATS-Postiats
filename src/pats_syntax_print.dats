@@ -939,11 +939,11 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
-| D0Elist (npf, xs) => {
+| D0Elist (npf, d0es) => {
     val () = prstr "D0Elist("
     val () = fprint_int (out, npf)
     val () = prstr "; "
-    val () = fprint_d0explst (out, xs)
+    val () = fprint_d0explst (out, d0es)
     val () = prstr ")"
   }
 //
@@ -968,7 +968,15 @@ case+ x.d0exp_node of
     val () = prstr "; "
     val () = fprint_d0exp (out, _else)
     val () = prstr ")"
+  } (* end of [D0Esifhead] *)
+//
+| D0Eifcasehd _ =>
+  {
+    val () = prstr "D0Eifcasehd("
+    val () = prstr "..."
+    val () = prstr ")"
   }
+//
 | D0Ecasehead _ => {
     val () = prstr "D0Ecasehead("
     val () = prstr "..."
@@ -980,25 +988,7 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
-| D0Etup (knd, npf, xs) => {
-    val () = prstr "D0Etup("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
-    val () = fprint_int (out, npf)
-    val () = prstr "; "
-    val () = fprint_d0explst (out, xs)
-    val () = prstr ")"
-  }
-| D0Erec (knd, npf, xs) => {
-    val () = prstr "D0Erec("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
-    val () = fprint_int (out, npf)
-    val () = prstr "; "
-    val () = $UT.fprintlst (out, xs, ", ", fprint_labd0exp)
-    val () = prstr ")"
-  }
-| D0Elst (lin, elt, d0e) => {
+| D0Elst(lin, elt, d0e) => {
     val () = prstr "D0Elst("
     val () = fprint_int (out, lin)
     val () = prstr "; "
@@ -1007,9 +997,29 @@ case+ x.d0exp_node of
     val () = fprint_d0exp (out, d0e)
     val () = prstr ")"
   }
-| D0Eseq (xs) => {
+| D0Etup(knd, npf, d0es) => {
+    val () = prstr "D0Etup("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_d0explst (out, d0es)
+    val () = prstr ")"
+  }
+| D0Erec(knd, npf, ld0es) => {
+    val () = prstr "D0Erec("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () =
+      $UT.fprintlst (out, ld0es, ", ", fprint_labd0exp)
+    // end of [val]
+    val () = prstr ")"
+  }
+| D0Eseq (d0es) => {
     val () = prstr "D0Eseq("
-    val () = $UT.fprintlst (out, xs, "; ", fprint_d0exp)
+    val () = $UT.fprintlst (out, d0es, "; ", fprint_d0exp)
     val () = prstr ")"
   }
 //

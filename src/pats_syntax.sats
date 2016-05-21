@@ -1519,7 +1519,10 @@ and d0exp_node =
   | D0Elist of (int(*npf*), d0explst)
 //
   | D0Eifhead of (ifhead, d0exp, d0exp, d0expopt)
-  | D0Esifhead of (sifhead, s0exp, d0exp, d0exp) // HX: no dangling else-branch
+  | D0Esifhead of (sifhead, s0exp, d0exp, d0exp(*else*))
+//
+  | D0Eifcasehd of (ifhead, i0fclist(*ifcase-claues*))
+//
   | D0Ecasehead of (casehead, d0exp, c0laulst)
   | D0Escasehead of (scasehead, s0exp, sc0laulst)
 //
@@ -1646,27 +1649,32 @@ and guap0at = '{
 
 (* ****** ****** *)
 
-and ifhead = '{
+and
+ifhead = '{
   ifhead_tok= token, ifhead_inv= i0nvresstate
 } // end of [ifhead]
 
-and sifhead = '{
+and
+sifhead = '{
   sifhead_tok= token, sifhead_inv= i0nvresstate
 } // end of [sifhead]
 
 (* ****** ****** *)
 
-and casehead = '{
+and
+casehead = '{
   casehead_tok= token, casehead_inv= i0nvresstate
 } // end of [casehead]
 
-and scasehead = '{
+and
+scasehead = '{
   scasehead_tok= token, scasehead_inv= i0nvresstate
 } // end of [scasehead]
 
 (* ****** ****** *)
 
-and loophead = '{
+and
+loophead = '{
   loophead_tok= token, loophead_inv= loopi0nvopt
 } // end of [lookhead]
 
@@ -1675,6 +1683,16 @@ and loophead = '{
 and tryhead = '{
   tryhead_tok= token, tryhead_inv= i0nvresstate
 } // end of [tryhead]
+
+(* ****** ****** *)
+
+and i0fcl = '{
+  i0fcl_loc= location
+, i0fcl_test= d0exp
+, i0fcl_body= d0exp
+} (* end of [ifcl0] *)
+
+and i0fclist = List i0fcl
 
 (* ****** ****** *)
 
@@ -1853,12 +1871,16 @@ fun d0exp_list (
 //
 fun
 d0exp_ifhead (
-  hd: ifhead, _cond: d0exp, _then: d0exp, _else: d0expopt
+  hd: ifhead, cond: d0exp, _then: d0exp, _else: d0expopt
 ) : d0exp // end of [d0exp_ifhead]
 fun
 d0exp_sifhead (
-  hd: sifhead, _cond: s0exp, _then: d0exp, _else: d0exp
+  hd: sifhead, cond: s0exp, _then: d0exp, _else: d0exp
 ) : d0exp // end of [d0exp_sifhead]
+//
+(* ****** ****** *)
+//
+fun d0exp_ifcasehd (ifhd: ifhead, ifcls: i0fclist): d0exp
 //
 (* ****** ****** *)
 //
@@ -2100,6 +2122,10 @@ fun loophead_make_some
 fun tryhead_make
   (t_try: token, invopt: Option (i0nvresstate)): tryhead
 // end of [tryhead_make]
+
+(* ****** ****** *)
+
+fun i0fcl_make (test: d0exp, body: d0exp): i0fcl
 
 (* ****** ****** *)
 

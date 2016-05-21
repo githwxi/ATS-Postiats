@@ -722,6 +722,10 @@ case+ d0e0.d0exp_node of
     FXITMatm (d1e_sif)        
   end // end of [D0Esifhead]
 //
+(*
+| D0Eifcasehd _ => ...
+*)
+//
 | D0Ecasehead
     (hd, d0e, c0ls) => let
     val tok = hd.casehead_tok
@@ -1009,7 +1013,7 @@ case+ d0e0.d0exp_node of
 | D0Esolassert(d0e) => FXITMatm(d1exp_solassert(loc0, d0exp_tr(d0e)))
 | D0Esolverify(s0e) => FXITMatm(d1exp_solverify(loc0, s0exp_tr(s0e)))
 //
-(*
+// (*
 | _ => let
     val () =
     prerr_interror_loc (loc0)
@@ -1019,7 +1023,7 @@ case+ d0e0.d0exp_node of
     ) (* end of [fprintln!] *)
     val () = assertloc (false) in $ERR.abort_interr((*deadcode*))
   end // end of [_]
-*)
+// *)
 //
 end (* end of [aux_item] *)
 //

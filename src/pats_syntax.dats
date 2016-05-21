@@ -1999,6 +1999,24 @@ in '{
 (* ****** ****** *)
 
 implement
+d0exp_ifcasehd
+  (ifhd, ifcls) = let
+  val tok =
+    ifhd.ifhead_tok
+  // end of [val]
+  val loc = tok.token_loc
+  val opt = list_last_opt<i0fcl> (ifcls)
+  val loc = (
+    case+ opt of
+    | ~Some_vt x => (loc + x.i0fcl_loc) | ~None_vt() => loc
+  ) : location // end of [val]
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eifcasehd (ifhd, ifcls)
+} end // end of [d0exp_ifcasehd]
+
+(* ****** ****** *)
+
+implement
 d0exp_casehead (
   hd, d0e, t_of, c0ls
 ) : d0exp = let
@@ -2456,6 +2474,8 @@ in '{
   guap0at_loc= loc, guap0at_pat= p0t, guap0at_gua= xs
 } end // end of [guap0at_make_some]
 
+(* ****** ****** *)
+
 implement
 c0lau_make
   (gp0t, seq, neg, body) = let
@@ -2483,6 +2503,21 @@ sc0lau_make (sp0t, d0e) = let
 in '{
   sc0lau_loc= loc, sc0lau_pat= sp0t, sc0lau_body= d0e
 } end // end of [sc0lau_make]
+
+(* ****** ****** *)
+
+implement
+i0fcl_make
+  (test, body) = let
+//
+val loc =
+  test.d0exp_loc + body.d0exp_loc
+//
+in '{
+  i0fcl_loc= loc
+, i0fcl_test= test
+, i0fcl_body= body
+} end // end of [i0fcl_make]
 
 (* ****** ****** *)
 

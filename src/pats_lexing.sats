@@ -133,7 +133,10 @@ token_node =
   | T_FOR of () // for
   | T_FORSTAR of () // for*
   | T_FUN of (funkind) // fn, fnx, fun, prfn and prfun
+//
   | T_IF of () // (dynamic) if
+  | T_IFCASE of () // (dynamic) ifcase
+//
   | T_IMPLEMENT of
       (int) // 0/1/2: implmnt/implement/primplmnt
   | T_IMPORT of () // import (for packages)

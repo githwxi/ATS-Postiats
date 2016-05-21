@@ -447,6 +447,8 @@ val () = ins ("if", T_IF)
 val () = ins ("then", T_THEN)
 val () = ins ("else", T_ELSE)
 //
+val () = ins ("ifcase", T_IFCASE)
+//
 val () = ins ("in", T_IN)
 //
 val () = ins ("infix", INFIX)

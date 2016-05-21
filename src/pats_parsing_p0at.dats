@@ -731,11 +731,15 @@ fun p_c0lau (
   val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
 in
 //
-if err = err0 then
-  c0lau_make (ent1, seq, neg, ent3)
+if
+err = err0
+then
+  c0lau_make(ent1, seq, neg, ent3)
 else let
   val tok = tokbuf_get_token (buf)
-  val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_c0lau)  
+  val ((*void*)) =
+    the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_c0lau)
+  // end of [val]
 in
   tokbuf_set_ntok_null (buf, n0)
 end // end of [if]
@@ -762,11 +766,24 @@ p_sp0at (
   ) : List_vt (s0arg)
   val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
 in
-  if err = err0 then
-    sp0at_cstr (ent1, (l2l)ent3, ent4)
-  else let
-    val () = list_vt_free (ent3) in tokbuf_set_ntok_null (buf, n0)
-  end (* end of [if] *)
+//
+if
+err = err0
+then let
+  val ent3 = (l2l)ent3
+in
+  sp0at_cstr(ent1, ent3, ent4)
+end // end of [then]
+else let
+  val () = list_vt_free (ent3)
+  val tok = tokbuf_get_token(buf)
+  val () =
+    the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_sc0lau)
+  // end of [val]
+in
+  tokbuf_set_ntok_null (buf, n0)
+end (* end of [if] *)
+//
 end // end of [p_sp0at]
 
 fun p_sc0lau (
