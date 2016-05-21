@@ -12,15 +12,18 @@ implement
 main0 () = () where
 {
 //
-val x = 0
+var x: int
 var y: int
+//
+val i = (0: intGte(0))
 //
 val () = (
 //
-if :(
-  y: intGte(0)
-) => (x >= 0)
-  then y := x + 1 else y := 0
+if: [i:nat]
+(
+  x: int(i), y: int(i+1)
+) => (i >= 1)
+  then (x := i; y := x+1) else (x := 0; y := 1)
 //
 ) : void // end of [val]
 //
