@@ -380,7 +380,13 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Elst (lin, s2e, d3es) => {
+| D3Eifcase _ => {
+    val () = prstr "D3Eifcase(...)"
+  } (* [D3Eifcase] *)
+//
+| D3Elst (
+    lin, s2e, d3es
+  ) => {
     val () = prstr "D3Elst("
     val () = fprint_int (out, lin)
     val () = prstr "; "

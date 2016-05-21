@@ -328,6 +328,8 @@ and d3exp_node =
       s2exp(*static-value*), sc3laulst(*static-clauses*)
     ) (* end of [D3Escase] *)
 //
+  | D3Eifcase of (int(*else*), i3fclist)
+//
   | D3Elst of (* list expression *)
       (int(*lin*), s2exp(*elt*), d3explst)
   | D3Etup of (* tuple expression *)
@@ -453,6 +455,17 @@ and d3lab = '{
 } (* end of [d3lab] *)
 
 and d3lablst = List (d3lab)
+
+(* ****** ****** *)
+
+and i3fcl = '{
+//
+  i3fcl_loc= location
+, i3fcl_test= d3exp, i3fcl_body= d3exp
+//
+} (* end of [i3fcl] *)
+
+and i3fclist = List(i3fcl)
 
 (* ****** ****** *)
 
@@ -736,6 +749,15 @@ d3exp_sif (
 ) : d3exp // end of [d3exp_sif]
 //
 (* ****** ****** *)
+
+fun
+d3exp_ifcase
+(
+  loc: location
+, s2e_if: s2exp, knd: int, ifcls: i3fclist
+) : d3exp // end of [d3exp_ifcase]
+
+(* ****** ****** *)
 //
 fun
 d3exp_case (
@@ -991,6 +1013,14 @@ fun d3lab_ind (loc: location, ind: d3explst): d3lab
 fun d3lab_set_overld_app
   (d3l: d3lab, opt: d3expopt): void = "patsopt_d3lab_set_overld_app"
 // end of [d3lab_set_overld_app]
+
+(* ****** ****** *)
+
+fun
+i3fcl_make
+(
+  loc: location, test: d3exp, body: d3exp
+) : i3fcl // end of [i3fcl_make]
 
 (* ****** ****** *)
 

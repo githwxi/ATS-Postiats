@@ -606,9 +606,11 @@ val opt =
 //
 val knd = (if opt then 1 else 0): int
 //
+(*
 val () =
 println!
   ("d2exp_ifcasehd: knd = ", knd)
+*)
 //
 in
 //

@@ -659,6 +659,17 @@ d3exp_sif (
 (* ****** ****** *)
 
 implement
+d3exp_ifcase (
+  loc, s2e_if, knd, ifcls
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e_if
+, d3exp_node= D3Eifcase (knd, ifcls)
+} // end of [d3exp_ifcase]
+
+(* ****** ****** *)
+
+implement
 d3exp_case (
   loc, s2e_case, casknd, d3es, c3ls
 ) = let
@@ -1094,6 +1105,17 @@ d3lab_ind
 , d3lab_overld= None(*void*)
 , d3lab_overld_app= None(*void*)
 } (* end of [d3lab_ind] *)
+
+(* ****** ****** *)
+
+implement
+i3fcl_make
+(
+  loc, test, body
+) = '{
+  i3fcl_loc= loc
+, i3fcl_test= test, i3fcl_body= body
+} (* end of [i3fcl_make] *)
 
 (* ****** ****** *)
 
