@@ -389,6 +389,24 @@ of // case+
     d2exp_trdn_sifhead (d2e0, s2f_sif)
   end // end of [D2Esifhead]
 //
+| D2Eifcasehd
+    (knd, _, _) => let
+    val
+    s2e_if =
+    (
+      if knd = 0
+        then
+        s2exp_void_t0ype()
+        else
+        s2exp_Var_make_srt(loc0, s2rt_t0ype)
+      // end of [if]
+    ) : s2exp // end of [val]
+    val
+    s2f_if = s2exp2hnf_cast(s2e_if)
+  in
+    d2exp_trdn_ifcasehd (d2e0, s2f_if)
+  end // end of [D2Eifhead]
+//
 | D2Ecasehead _ => let
     val
     s2e_case =
@@ -579,13 +597,13 @@ of // case+
 | D2Esolassert _ => d2exp_trup_solassert (d2e0)
 | D2Esolverify _ => d2exp_trup_solverify (d2e0)
 //
-| D2Eerrexp () => d3exp_errexp (loc0) // : [s2exp_t0ype_err]
+| D2Eerrexp((*error*)) => d3exp_errexp (loc0) // : [s2exp_t0ype_err]
 //
 | _(*unspported*) => let
     val () = prerr_interror_loc(loc0)
     val () = prerrln! (": d2exp_trup: d2e0 = ", d2e0)
   in
-    exitloc (1)
+    exitloc(1)
   end // end of [_(*unsupported*)]
 //
 ) : d3exp // end of [val]

@@ -633,7 +633,8 @@ d2e0.d2exp_node of
     d2exp_app (_then, env); d2exp_app (_else, env);
   ) (* end of [D2Esifhead] *)
 //
-| D2Eifcasehd(invres, ifcls) => i2fclist_app (ifcls, env)
+| D2Eifcasehd
+    (knd, invres, ifcls) => i2fclist_app (ifcls, env)
 //
 | D2Ecasehead
     (knd, invres, d2es, c2ls) =>

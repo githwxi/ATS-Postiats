@@ -653,6 +653,21 @@ in
 end // end of [d2exp_trdn_sifhead]
 
 (* ****** ****** *)
+//
+implement
+d2exp_trdn_ifcasehd
+  (d2e0, s2f_if) = let
+//
+val loc0 = d2e0.d2exp_loc
+//
+val () = prerr_interror_loc(loc0)
+val () = prerrln! (": d2exp_ifcasehd_trdn: d2e0 = ", d2e0)
+//
+in
+  exitloc(1)
+end // end of [d2exp_trdn_ifcasehd]
+//
+(* ****** ****** *)
 
 implement
 d2exp_trdn_letwhere

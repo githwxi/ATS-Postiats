@@ -493,16 +493,25 @@ fun d2explst_trup (d2es: d2explst): d3explst
 
 (* ****** ****** *)
 
-fun d2exp_trdn (d2e: d2exp, s2e: s2exp): d3exp
-fun d2explst_trdn_elt (d2es: d2explst, s2e: s2exp): d3explst
-fun d2expopt_trdn_elt (od2e: d2expopt, s2e: s2exp): d3expopt
+fun
+d2exp_trdn (d2e: d2exp, s2e: s2exp): d3exp
+fun
+d2explst_trdn_elt (d2es: d2explst, s2e: s2exp): d3explst
+fun
+d2expopt_trdn_elt (od2e: d2expopt, s2e: s2exp): d3expopt
 
 (* ****** ****** *)
 //
-fun d2exp_trdn_rest (d2e: d2exp, s2f: s2hnf): d3exp
+fun
+d2exp_trdn_rest (d2e: d2exp, s2f: s2hnf): d3exp
 //
-fun d2exp_trdn_ifhead (d2e: d2exp, s2f: s2hnf): d3exp
-fun d2exp_trdn_sifhead (d2e: d2exp, s2f: s2hnf): d3exp
+fun
+d2exp_trdn_ifhead (d2e: d2exp, s2f: s2hnf): d3exp
+fun
+d2exp_trdn_sifhead (d2e: d2exp, s2f: s2hnf): d3exp
+//
+fun
+d2exp_trdn_ifcasehd (d2e: d2exp, s2f: s2hnf): d3exp
 //
 fun
 c2laulst_trdn{n:nat}
