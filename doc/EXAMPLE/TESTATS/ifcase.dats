@@ -25,7 +25,42 @@ ifcase
 //
 (* ****** ****** *)
 
-implement main0() = assertloc(acker(3,3) = 61)
+val () = assertloc(acker(3,3) = 61)
+
+(* ****** ****** *)
+//
+fun
+foo{i:nat}
+  (x: int(i), y: int(i+1)): void = ()
+//
+(* ****** ****** *)
+
+implement
+main0 () = () where
+{
+//
+var x: int
+var y: int
+//
+val i = (2: intGte(0))
+//
+val () = (
+//
+ifcase: [i:nat]
+(
+  x: int(i), y: int(i+1)
+) =>
+  | i = 0 => (x := i; y := x+1)
+  | i = 1 => (x := i; y := x+1)
+  | _(*i >= 1*) => (x := 10; y := 11)
+//
+) : void // end of [val]
+//
+val () = foo(x, y)
+//
+val () = println! ("x = ", x, " and y = ", y)
+//
+} (* end of [main0] *)
 
 (* ****** ****** *)
 
