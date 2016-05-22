@@ -5,15 +5,18 @@
 // 
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 //
 fun
 acker
+{m,n:nat}
+.<m,n>.
 (
-m: intGte(0),
-n: intGte(0)
+  m: int(m)
+, n: int(n)
 ) : intGte(0) =
 (
 ifcase
