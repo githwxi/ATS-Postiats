@@ -119,6 +119,15 @@ cleanall:: ; $(RMF) funargpat
 ######
 
 all:: \
+ifcase
+ifcase: \
+ifcase.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: ifcase ; ./$<
+cleanall:: ; $(RMF) ifcase
+
+######
+
+all:: \
 ifhead
 ifhead: \
 ifhead.dats ; $(PATSCC2) -cleanaft -o $@ $<

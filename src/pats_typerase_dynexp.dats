@@ -752,6 +752,51 @@ d3e0.d3exp_node of
     hidexp_sif (loc0, hse0, s2e_cond, hde_then, hde_else)
   end // end of [D3Esif]
 //
+| D3Eifcase
+    (knd, ifcls) => let
+  //
+    fun
+    auxlst
+    (
+      x0: i3fcl, xs: i3fclist
+    ) :<cloref1> hidexp =
+    (
+      case+ xs of
+      | list_nil() =>
+        (
+        if knd > 0
+          then (
+            d3exp_tyer(x0.i3fcl_body)
+          ) else let
+            val hde_cond =
+              d3exp_tyer(x0.i3fcl_test)
+            val hde_then =
+              d3exp_tyer(x0.i3fcl_body)
+            val hde_else = hidexp_empty(loc0, hse0)
+          in
+            hidexp_if(loc0, hse0, hde_cond, hde_then, hde_else)
+          end // end of [else]
+        // end of [if]
+        ) (* end of [list_nil *)
+      | list_cons(x, xs) => let
+          val hde_cond =
+            d3exp_tyer(x0.i3fcl_test)
+          val hde_then =
+            d3exp_tyer(x0.i3fcl_body)
+          val hde_else = auxlst(x, xs)
+        in
+          hidexp_if(loc0, hse0, hde_cond, hde_then, hde_else)
+        end // end of [list_cons]
+    ) (* end of [auxlst] *)
+  //
+  in
+    case+ ifcls of
+    | list_nil() =>
+        hidexp_empty (loc0, hse0)
+      // list_nil
+    | list_cons(x0, xs) => auxlst (x0, xs)
+  end // end of [D3Eifcase]
+//
 | D3Ecase (
     knd, d3es, c3ls
   ) => let

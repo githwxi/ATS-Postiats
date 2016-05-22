@@ -565,17 +565,17 @@ end // end of [val]
 val ((*void*)) =
   lstaftc3nstr_update(lsaft, ctr_then)
 //
-val ((*void*)) = lstbefitmlst_restore_type(lsbis)
+val () = lstbefitmlst_restore_type(lsbis)
 //
 val d2e_else = (
   case+ od2e_else of
   | Some d2e_else => d2e_else
   | None ((*void*)) => let
       val loc_else =
-        $LOC.location_rightmost (loc_then)
+        $LOC.location_rightmost(loc_then)
       // end of [val]
     in
-      d2exp_empty (loc_else)
+      d2exp_empty(loc_else)
     end // end of [None]
 ) : d2exp // end of [val]
 val loc_else = d2e_else.d2exp_loc
@@ -640,9 +640,9 @@ in
   d3e_then
 end // end of [val]
 val ((*void*)) =
-  lstaftc3nstr_update (lsaft, ctr_then)
+  lstaftc3nstr_update(lsaft, ctr_then)
 //
-val ((*void*)) = lstbefitmlst_restore_type (lsbis)
+val () = lstbefitmlst_restore_type(lsbis)
 //
 val loc_else = d2e_then.d2exp_loc
 val ctr_else = c3nstroptref_make_none (loc_else)
@@ -728,7 +728,7 @@ case+ os2p_conj of
 ) (* end of [f_conjtest_test] *)
 //
 fun
-auxlist1_check
+auxlst1_check
 (
   x0: i2fcl
 , xs: i2fclist
@@ -775,6 +775,7 @@ val () =
   , $UN.castvwtp1{s2expopt}{s2expopt_vt}(os2p_test2)
   ) (* trans3_env_hypadd_propopt *)
 val d3e_body = d2exp_trdn(d2e_body, s2e_if)
+//
 val ((*void*)) = trans3_env_add_cnstr_ref(ctr)
 val ((*void*)) = trans3_env_pop_and_add_main(pfpush | loc)
 //
@@ -787,23 +788,27 @@ in
 //
 case+ xs of
 | list_nil() => let
-    val () = option_vt_free(os2p_conj)
-    val () = option_vt_free(os2p_test)
+    val () =
+      option_vt_free(os2p_conj)
+    val () =
+      option_vt_free(os2p_test)
   in
     list_cons(ifcl, list_nil((*void*)))
   end // end of [list_nil]
-| list_cons(x, xs) => let
+| list_cons(x, xs) =>
+  list_cons(ifcl, ifcls_rest) where
+  {
     val os2p_conj2 =
       f_conjtest_conj(os2p_conj, os2p_test)
     // end of [val]
-    val ((*void*)) = lstbefitmlst_restore_type(lsbis)
+    val () = lstbefitmlst_restore_type(lsbis)
     val ifcls_rest =
-      auxlist1_check(x, xs, s2e_if, os2p_conj2, lsbis, lsaft)
-  in
-    list_cons(ifcl, ifcls_rest)
-  end // end of [list_cons]
+      auxlst1_check
+        (x, xs, s2e_if, os2p_conj2, lsbis, lsaft)
+      // auxlst1_check
+  } (* end of [list_cons] *)
 //
-end // end of [auxlist1]
+end // end of [auxlst1_check]
 //
 in (* in-of-local *)
 
@@ -834,9 +839,9 @@ ifcls of
   // end of [list_nil]
 | list_cons(x0, xs) =>
   (
-    auxlist1_check
+    auxlst1_check
       (x0, xs, s2e0, None_vt(*conj*), lsbis, lsaft)
-    // auxlist1_check
+    // auxlst1_check
   ) (* end of [list_cons] *)
 //
 ) : i3fclist // end of [val]
