@@ -240,9 +240,12 @@ doc/DISTRIB/ATS-Postiats/libc/gdbm/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libc/gdbm/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/?ATS/Number/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/?ATS/Number/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ATS1/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ATS1/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/contrib/*
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
