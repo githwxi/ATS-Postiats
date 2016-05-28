@@ -1,16 +1,16 @@
 #
 # CMakeLists.txt for patsopt
 #
-# cd BUILD; cmake ..; cd ..
+# cd CMKBLD; cmake ..; cd ..
 #
-# make -j8 -C BUILD -f Makefile
-# The file [BUILD/patsopt] is to be generated
+# make -j8 -C CMKBLD -f Makefile
+# The file [CMKBLD/patsopt] is to be generated
 #
 
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
 
 #
-# Poject Name: postiats
+# Poject: Postiats
 #
 PROJECT (POSTIATS C)
 

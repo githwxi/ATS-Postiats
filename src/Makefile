@@ -595,9 +595,9 @@ cleanall:: ; $(RMF) libatsopt.a
 #
 # for building patsopt through CMake
 #
-BUILD/init: ; cd BUILD; cmake ..; cd ..
-BUILD/clean: ; make -C BUILD -f Makefile clean
-BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
+CMKBLD/init: ; cd CMKBLD; cmake ..; cd ..
+CMKBLD/clean: ; make -C CMKBLD -f Makefile clean
+CMKBLD/patsopt: ; make -C CMKBLD -j8 -f Makefile patsopt
 #
 ######
 #
