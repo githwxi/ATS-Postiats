@@ -24,6 +24,7 @@ Here is a list of major additions and changes since the last release:
 
 1. Adding support for ifcase-expressions. Please see
    https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/TESTATS/ifcase.dats
+2. atscc2py/libatscc2py changes to atscc2py3/libatscc2py3
 
 ######
 
