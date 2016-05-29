@@ -144,6 +144,10 @@ LIBATSCC2ERL_targetloc
 "$PATSHOMERELOC/contrib/libatscc/libatscc2erl"
 //
 #define
+LIBATSCC2SCM_targetloc
+"$PATSHOMERELOC/contrib/libatscc/libatscc2scm"
+//
+#define
 LIBATSCC2PHP_targetloc
 "$PATSHOMERELOC/contrib/libatscc/libatscc2php"
 //
