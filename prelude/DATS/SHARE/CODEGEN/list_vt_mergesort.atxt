@@ -58,9 +58,9 @@ insord
 {l0,l1,l2:addr}{n:nat} .<n>.
 (
   pf1: a @ l1
-, pf2: list_vt (a, 0)? @ l2
-| xs0: &list_vt (a, n) >> list_vt (a, n+1)
-, nx0: list_vt_cons_unfold (l0, l1, l2), p1: ptr (l1), p2: ptr (l2)
+, pf2: list_vt(a, 0)? @ l2
+| xs0: &list_vt(a, n) >> list_vt(a, n+1)
+, nx0: list_vt_cons_unfold(l0, l1, l2), p1: ptr(l1), p2: ptr(l2)
 ) :<!wrt> void = let
 in
 //
@@ -182,15 +182,15 @@ case+ xs1 of
         // end of [val]
       in
         if sgn <= 0 then let
-          prval () = fold@{a}(xs2)
             val () = res := xs1
+          prval () = fold@{a}(xs2)
             val () = merge (xs11, xs2, xs11)
           prval () = fold@{a}(res)
         in
           // nothing
         end else let
-          prval () = fold@{a}(xs1)
             val () = res := xs2
+          prval () = fold@{a}(xs1)
             val () = merge (xs1, xs21, xs21)
           prval () = fold@{a}(res)
         in
