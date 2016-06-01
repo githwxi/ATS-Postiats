@@ -183,16 +183,18 @@ case+ xs1 of
       in
         if sgn <= 0 then let
           prval () = fold@{a}(xs2)
-          val () = merge (xs11, xs2, xs11)
-          prval () = fold@{a}(xs1)
+            val () = res := xs1
+            val () = merge (xs11, xs2, xs11)
+          prval () = fold@{a}(res)
         in
-          res := xs1
+          // nothing
         end else let
           prval () = fold@{a}(xs1)
-          val () = merge (xs1, xs21, xs21)
-          prval () = fold@{a}(xs2)
+            val () = res := xs2
+            val () = merge (xs1, xs21, xs21)
+          prval () = fold@{a}(res)
         in
-          res := xs2
+          // nothing
         end // end of [if]
       end // end of [list_vt_cons]
     | ~list_vt_nil () => (fold@ (xs1); res := xs1)
