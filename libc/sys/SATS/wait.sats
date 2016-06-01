@@ -85,34 +85,40 @@ fun WIFSIGNALED{s:int}
 (* ****** ****** *)
 
 absprop
-WIFSTOPPED_p (s:int, b:bool)
+WIFSTOPPED_p(s:int, b:bool)
 
 fun WSTOPSIG{s:int}
 (
   pf: WIFSTOPPED_p (s, true) | status: int s
 ) : int = "mac#%" // end of [WSTOPSIG]
 
-fun WIFSTOPPED {s:int}
-  (status: int s): [b:bool] (WIFSTOPPED_p (s, b) | bool b) = "mac#%"
+fun
+WIFSTOPPED
+  {s:int}(status: int s)
+: [b:bool] (WIFSTOPPED_p(s, b) | bool b) = "mac#%"
 // end of [WIFSTOPPED]
-
-(* ****** ****** *)
-
-absprop
-WIFCONTINUED_p (s:int, b:bool)
-
-fun WIFCONTINUED {s:int}
-  (status: int s): [b:bool] (WIFCONTINUED_p (s, b) | bool b) = "mac#%"
-// end of [WIFCONTINUED]
 
 (* ****** ****** *)
 
 absprop
 WCOREDUMP_p (s:int, b:bool)
 
-fun WCOREDUMP {s:int}
-  (status: int s): [b:bool] (WCOREDUMP_p (s, b) | bool b) = "mac#%"
+fun
+WCOREDUMP
+  {s:int}(status: int s)
+: [b:bool] (WCOREDUMP_p(s, b) | bool(b)) = "mac#%"
 // end of [WCOREDUMP]
+
+(* ****** ****** *)
+
+absprop
+WIFCONTINUED_p(s:int, b:bool)
+
+fun
+WIFCONTINUED
+  {s:int}(status: int s)
+: [b:bool] (WIFCONTINUED_p(s, b) | bool b) = "mac#%"
+// end of [WIFCONTINUED]
 
 (* ****** ****** *)
 //
