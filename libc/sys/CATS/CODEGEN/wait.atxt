@@ -37,8 +37,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 //
 #atscode_separator_for_C()
 //
-#define atslib_wait_void() wait((int*)0)
-#define atslib_wait_status(x) wait((int*)x)
+\#define atslib_wait_void() wait((int*)0)
+\#define atslib_wait_status(x) wait((int*)x)
 //
 #atscode_separator_for_C()
 
