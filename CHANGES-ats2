@@ -26,6 +26,7 @@ Here is a list of major additions and changes since the last release:
    https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/TESTATS/ifcase.dats
 2. atscc2py/libatscc2py changes to atscc2py3/libatscc2py3
 3. atscc2scm/libatscc2scm starts to be functional (but it is still a long way to go!)
+4. Adding support for jsonizing S2Ewithtype (wths2explst)
 
 ######
 
