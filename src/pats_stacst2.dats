@@ -1323,19 +1323,19 @@ s2e.s2exp_node of
 //
 | S2Ecst (s2c) => (
     case+ 0 of
-    | _ when s2cstref_equ_cst (the_effnil, s2c) => s2eff_effset (effset_nil)
-    | _ when s2cstref_equ_cst (the_effall, s2c) => s2eff_effset (effset_all)
-    | _ when s2cstref_equ_cst (the_effntm, s2c) => s2eff_effset (effset_ntm)
-    | _ when s2cstref_equ_cst (the_effexn, s2c) => s2eff_effset (effset_exn)
-    | _ when s2cstref_equ_cst (the_effref, s2c) => s2eff_effset (effset_ref)
-    | _ when s2cstref_equ_cst (the_effwrt, s2c) => s2eff_effset (effset_wrt)
+    | _ when s2cstref_equ_cst(the_effnil, s2c) => s2eff_effset(effset_nil)
+    | _ when s2cstref_equ_cst(the_effall, s2c) => s2eff_effset(effset_all)
+    | _ when s2cstref_equ_cst(the_effntm, s2c) => s2eff_effset(effset_ntm)
+    | _ when s2cstref_equ_cst(the_effexn, s2c) => s2eff_effset(effset_exn)
+    | _ when s2cstref_equ_cst(the_effref, s2c) => s2eff_effset(effset_ref)
+    | _ when s2cstref_equ_cst(the_effwrt, s2c) => s2eff_effset(effset_wrt)
     | _ => s2fe
   ) // end of [S2Ecst]
 | S2Evar (s2v) => s2fe
 | S2EVar (s2v) => s2fe
 | S2Eeff (s2fe) => s2fe
 | _ => let
-    val s2e = s2exp_err (s2rt_eff) in s2eff_exp (s2e)
+    val s2e = s2exp_errexp(s2rt_eff) in s2eff_exp(s2e)
   end // end of [_]
 //
 end (* end of [aux] *)
@@ -1344,7 +1344,7 @@ in
 //
 case+ s2fe of
 | S2EFFset _ => s2fe
-| S2EFFexp (s2e) => aux (s2fe, s2e)
+| S2EFFexp(s2e) => aux (s2fe, s2e)
 | S2EFFadd _ => s2fe
 //
 end // end of [s2eff_make_s2exp]

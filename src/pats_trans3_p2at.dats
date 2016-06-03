@@ -1436,8 +1436,8 @@ case+ s2vs1 of
       val () = if
         not(ismat) then {
         val () = err := err + 1
-        val () = auxerr1 (loc0, s2v1, s2v2)
-        val () = s2e1 := s2exp_err (s2t2) // for [s2v2]
+        val () = auxerr1(loc0, s2v1, s2v2)
+        val () = s2e1 := s2exp_errexp(s2t2) // for [s2v2]
       } // end of [val]
       val () = stasub_add (sub, s2v2, s2e1)
     in

@@ -344,7 +344,7 @@ case+ s2e0.s2exp_node of
     val () = prstr ")"
   }
 //
-| S2Eerr () => prstr "S2Eerr()"
+| S2Eerrexp((*void*)) => prstr "S2Eerrexp()"
 //
 (*
 | _ => prstr "S2E...(...)"

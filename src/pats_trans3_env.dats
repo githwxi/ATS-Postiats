@@ -343,8 +343,7 @@ case+ s2vs of
       end else let
         val () = err := err + 1
         val () = auxerr2 (locarg, s2t1, s2t2)
-        val s2e = s2exp_err (s2t1)
-        val () = stasub_add (sub, s2v, s2e)
+        val () = stasub_add (sub, s2v, s2exp_errexp(s2t1))
       in
         loop (sub, locarg, s2vs, s2es, err)
       end (* end of [if] *)

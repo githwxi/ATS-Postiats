@@ -544,9 +544,9 @@ of // case+
     jsonval_conarg2("S2Etop", jsonval_int(knd), s2e)
   end // end of [S2Etop]
 //
-| S2Eerr((*void*)) => jsonval_conarg0("S2Eerr")
+| S2Eerrexp((*void*)) => jsonval_conarg0("S2Eerr")
 //
-| _(*rest-of-s2exp*) => jsonval_conarg0("S2Eignored")
+| _(* rest-of-s2exp *) => jsonval_conarg0("S2Eignored")
 //
 end // end of [auxmain]
 //

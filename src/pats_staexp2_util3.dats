@@ -163,7 +163,7 @@ of // case+
     aux_s2exp (s2e, fvs); aux_wths2explst (ws2es, fvs)
   ) (* end of [S2Ewthtype] *)
 //
-| S2Eerr((*void*)) => ()
+| S2Eerrexp((*void*)) => ()
 //
 end // end of [aux_s2exp]
 
@@ -227,18 +227,14 @@ aux_s2Var
 (
   s2V: s2Var, fvs: &s2varset_vt
 ) : void = let
-  val opt = s2Var_get_link s2V
+  val opt = s2Var_get_link(s2V)
 in
   case+ opt of
-  | Some s2e =>
-      aux_s2exp (s2e, fvs)
-    // end of [Some]
+  | Some s2e => aux_s2exp (s2e, fvs)
   | None () => let
-      val s2e =
-        s2exp_err(s2Var_get_srt(s2V))
-      // end of [val]
+      val s2t = s2Var_get_srt(s2V)
     in
-      s2Var_set_link (s2V, Some (s2e))
+      s2Var_set_link(s2V, Some(s2exp_errexp(s2t)))
     end // end of [None]
 end // end of [aux_s2Var]
 
@@ -553,37 +549,42 @@ case+ s2e.s2exp_node of
   } // end of [S2Eapp]
 //
 | S2Elam (s2vs, s2e) => f_s2exp (s2e)
-| S2Efun (
+//
+| S2Efun
+  (
     fc,  lin, s2fe, npf, s2es_arg, s2e_res
-  ) => (f_s2eff (s2fe); f_s2explst (s2es_arg); f_s2exp (s2e_res))
+  ) => (
+    f_s2eff(s2fe); f_s2explst(s2es_arg); f_s2exp(s2e_res)
+  ) (* end of [S2Efun] *)
 | S2Emetfun
     (opt, s2es, s2e) => (f_s2explst (s2es); f_s2exp (s2e))
   // end of [S2Emetfun]
 //
 | S2Emetdec
-    (s2es1, s2es2) => (f_s2explst (s2es1); f_s2explst (s2es2))
+    (s2es1, s2es2) => (f_s2explst(s2es1); f_s2explst(s2es2))
   // end of [S2Emetdec]
 //
-| S2Etop (_(*knd*), s2e) => f_s2exp (s2e)
-| S2Ewithout (s2e) => f_s2exp (s2e) // taken out by [view@]
+| S2Etop(_(*knd*), s2e) => f_s2exp (s2e)
+| S2Ewithout(s2e) => f_s2exp (s2e) // taken out by [view@]
 //
-| S2Etyarr (
+| S2Etyarr
+  (
     s2e_elt, s2es_dim
   ) => (f_s2exp (s2e_elt); f_s2explst (s2es_dim))
-| S2Etyrec (knd, npf, ls2es) => f_labs2explst (ls2es)
+| S2Etyrec(knd, npf, ls2es) => f_labs2explst (ls2es)
 //
-| S2Einvar (s2e) => f_s2exp (s2e)
+| S2Einvar(s2e) => f_s2exp (s2e)
 //
-| S2Erefarg (_, s2e) => f_s2exp (s2e)
+| S2Erefarg(_, s2e) => f_s2exp (s2e)
 //
-| S2Eexi (s2vs, s2ps, s2e) => (f_s2explst (s2ps); f_s2exp (s2e))
-| S2Euni (s2vs, s2ps, s2e) => (f_s2explst (s2ps); f_s2exp (s2e))
+| S2Eexi(s2vs, s2ps, s2e) => (f_s2explst(s2ps); f_s2exp(s2e))
+| S2Euni(s2vs, s2ps, s2e) => (f_s2explst(s2ps); f_s2exp(s2e))
 //
 | S2Evararg s2e => f_s2exp (s2e)
 //
-| S2Ewthtype (s2e, ws2es) => (f_s2exp (s2e); f_wths2explst (ws2es))
+| S2Ewthtype(s2e, ws2es) => (f_s2exp(s2e); f_wths2explst(ws2es))
 //
-| S2Eerr ((*void*)) => ()
+| S2Eerrexp((*void*)) => ((*void*))
 //
 end // end of [aux2_s2exp]
 
@@ -602,9 +603,11 @@ aux2_s2explstlst
 (* ****** ****** *)
 
 implement
-aux2_s2eff (
-  s2V0, s2fe, ans, s2cs, s2vs, s2Vs
-) = let
+aux2_s2eff
+  (s2V0, s2fe, ans, s2cs, s2vs, s2Vs) = let
+(*
+  val () = println! ("aux2_s2eff: s2V0 = ", s2V0)
+*)
 in
 //
 case+ s2fe of
@@ -614,8 +617,10 @@ case+ s2fe of
 | S2EFFadd (s2fe1, s2fe2) => let
     val () =
       aux2_s2eff (s2V0, s2fe1, ans, s2cs, s2vs, s2Vs)
+    // end of [val]
     val () =
       aux2_s2eff (s2V0, s2fe2, ans, s2cs, s2vs, s2Vs)
+    // end of [val]
   in
     // nothing
   end // end of [S2EFFadd]

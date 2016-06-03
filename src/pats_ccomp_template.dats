@@ -147,12 +147,11 @@ case+ env of
       s2f
     end // end of [if]
   ) // end of [IMPENVcons]
-| IMPENVnil () => let
+| IMPENVnil
+    ((*void*)) => let
     prval () = fold@ (env)
-    val s2t = s2var_get_srt (s2v)
-    val s2e = s2exp_err (s2t)
   in
-    s2exp2hnf_cast (s2e)
+    s2exp2hnf_cast(s2exp_errexp(s2var_get_srt(s2v)))
   end // end of [IMPENVnil]
 //
 end // end of [impenv_find]
@@ -202,7 +201,7 @@ s2hnf_is_err
   val s2e = s2hnf2exp (s2f)
 in
 //
-case+ s2e.s2exp_node of S2Eerr () => true | _ => false
+case+ s2e.s2exp_node of S2Eerrexp() => true | _ => false
 //
 end // end of [s2hnf_is_err]
 
@@ -223,25 +222,30 @@ impenv_make_svarlst (s2vs) = let
 in
 //
 case+ s2vs of
+| list_nil
+    ((*void*)) => IMPENVnil()
+  // end of [list_nil]
 | list_cons
     (s2v, s2vs) => let
     val s2t =
       s2var_get_srt (s2v)
     // end of [val]
-    val s2e = s2exp_err (s2t)
-    val s2f = s2exp2hnf_cast (s2e)
-    val env = impenv_make_svarlst (s2vs)
+    val s2e = s2exp_errexp(s2t)
+    val s2f = s2exp2hnf_cast(s2e)
+    val env = impenv_make_svarlst(s2vs)
   in
-    IMPENVcons (s2v, s2f, env)
+    IMPENVcons(s2v, s2f, env)
   end // end of [list_cons]
-| list_nil () => IMPENVnil ()
 //
 end // end of [impenv_make_svarlst]
 
 (* ****** ****** *)
-
+//
 extern
-fun impenv_free (env: impenv): void
+fun
+impenv_free
+  (env: impenv): void
+//
 implement
 impenv_free (env) = let
 in
@@ -250,7 +254,7 @@ case+ env of
 | ~IMPENVcons (_, _, env) => impenv_free (env) | ~IMPENVnil () => ()
 //
 end // end of [impenv_free]
-
+//
 (* ****** ****** *)
 //
 extern

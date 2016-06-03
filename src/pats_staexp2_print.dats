@@ -553,7 +553,7 @@ case+ x.s2exp_node of
     val ((*closing*)) = prstr ")"
   } (* end of [S2Ewthtype] *)
 //
-| S2Eerr () => prstr "S2Eerr()"
+| S2Eerrexp((*void*)) => prstr "S2Eerrexp()"
 //
 (*
 | _ => prstr "S2E...(...)"

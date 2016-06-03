@@ -435,7 +435,7 @@ case+ s2e0.s2exp_node of
 //
 | S2Ewthtype _ => s2e0
 //
-| S2Eerr () => s2e0
+| S2Eerrexp((*void*)) => s2e0
 //
 (*
 | _ => let

@@ -164,8 +164,8 @@ fn appf (
   val loc = _fun.s1exp_loc + loc_arg
   val xs_arg = (
     case+ _arg.s1exp_node of
-    | S1Elist (npf, s1es) => s1es // HX: should npf <= 0 be enforced?
-    | _ => list_sing (_arg)
+    | S1Elist(npf, s1es) => s1es // HX: should npf <= 0 be enforced?
+    | _ (* non-S1Elist *) => list_sing (_arg)
   ) : s1explst // end of [val]
   val s1e_app = s1exp_app (loc, _fun, loc_arg, xs_arg)
 in

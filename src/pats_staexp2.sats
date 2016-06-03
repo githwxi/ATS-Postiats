@@ -532,7 +532,7 @@ s2exp_node =
 //
   | S2Ewthtype of (s2exp, wths2explst) // the result part of a fun type
 //
-  | S2Eerr of () // HX: placeholder for indicating error or something else
+  | S2Eerrexp of () // HX: placeholder for indicating error or something else
 //
 // end of [s2exp_node]
 
@@ -1227,7 +1227,7 @@ fun s2exp_wthtype (_res: s2exp, _with: wths2explst): s2exp
 
 (* ****** ****** *)
 
-fun s2exp_err (s2t: s2rt): s2exp // HX: error indication
+fun s2exp_errexp (s2t: s2rt): s2exp // HX: error indication
 fun s2exp_s2rt_err (): s2exp // HX: s2exp_err (s2rt_err ())
 fun s2exp_t0ype_err (): s2exp // HX: s2exp_err (s2rt_t0ype)
 

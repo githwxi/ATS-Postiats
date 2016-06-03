@@ -144,7 +144,7 @@ case+ ctxtopt of
 | None ((*void*)) => let
     val (
     ) = auxerr_context
-      (loc0, s2e_elt, d3ls) in s2exp_err (s2rt_view)
+      (loc0, s2e_elt, d3ls) in s2exp_errexp(s2rt_view)
   end // end of [None]
 //
 end // end of [auxmain]
@@ -158,10 +158,10 @@ s2addr_viewat_deref
 in
 //
 case+ opt of
-| ~Some_vt (pfobj) =>
-    auxmain (loc0, pfobj, d3ls)
-| ~None_vt () => let
-    val () = auxerr_pfobj (loc0, s2l) in s2exp_err (s2rt_view)
+| ~Some_vt(pfobj) =>
+    auxmain(loc0, pfobj, d3ls)
+| ~None_vt((*void*)) => let
+    val () = auxerr_pfobj(loc0, s2l) in s2exp_errexp(s2rt_view)
   end (* end of [None_vt] *)
 end // end of [s2addr_viewat_deref]
 

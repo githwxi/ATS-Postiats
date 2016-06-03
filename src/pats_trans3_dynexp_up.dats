@@ -512,7 +512,7 @@ of // case+
             case+ opt of
             | ~Some_vt(s2i) => (s2i_asz := s2i)
             | ~None_vt((*void*)) =>
-                let val s2i = s2exp_err(s2rt_int) in s2i_asz := s2i end
+                let val s2i = s2exp_errexp(s2rt_int) in s2i_asz := s2i end
               // end of [None_vt]
           end // end of [let] // end of [val]
         } (* end of [Some] *)

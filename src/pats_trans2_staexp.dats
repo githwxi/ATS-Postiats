@@ -681,7 +681,10 @@ val () = (
 val test = s2rt_ltmat1 (s2e.s2exp_srt, s2t)
 //
 in
-  if test then s2e else let
+//
+if test
+  then s2e
+  else let
     val () = prerr_error2_loc (x.0)
     val () = filprerr_ifdebug "s1exp_app_wind"
     val () = prerr ": the static expression is of the sort ["
@@ -689,8 +692,9 @@ in
     val () = prerrln! ("] but it is expectecd to be of the sort [", s2t, "].")
     val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
   in
-    s2exp_err (s2t)
-  end // end of [if]
+    s2exp_errexp(s2t)
+  end // end of [else]
+//
 end // end of [s2exp_app_wind]
 //
 fun auxlst (
@@ -728,8 +732,8 @@ case+ xs of
       ) = prerrln! (
         ": arity mismatch: more static arguments are needed."
       ) (* end of [val] *)
-      val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
-      val s2e = s2exp_err (s2t) // HX: a placeholder for continuing
+      val () = the_trans2errlst_add(T2E_s1exp_trup(s1e0))
+      val s2e = s2exp_errexp(s2t) // HX: a placeholder for continuing
     in
       list_cons (s2e, auxlst (s1e0, xs, s2ts))
     end // end of [list_cons]
@@ -749,22 +753,25 @@ in
 case+ xss of
 | ~list_vt_cons
     (xs, xss) => (
-    if s2rt_is_fun (s2t) then let
-      val-S2RTfun (s2ts, s2t) = s2t
-      var err: int = 0
-      val s2es = auxlst (s1e0, xs, s2ts)
-      val s2e = s2exp_app_srt (s2t, s2e, s2es)
-    in
-      loop (s1e0, s2t, xss, s2e)
-    end else let
-      val () = list_vt_free (xss)
-      val () = prerr_error2_loc (s1e0.s1exp_loc)
-      val () = filprerr_ifdebug "s1exp_app_wind"
-      val () = prerrln! ": the static term is overly applied."
-      val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
-    in
-      s2exp_err (s2t)
-    end // end of [if]
+    if s2rt_is_fun(s2t)
+      then let
+        val-S2RTfun (s2ts, s2t) = s2t
+        var err: int = 0
+        val s2es = auxlst (s1e0, xs, s2ts)
+        val s2e = s2exp_app_srt (s2t, s2e, s2es)
+      in
+        loop (s1e0, s2t, xss, s2e)
+      end // end of [then]
+      else let
+        val () = list_vt_free (xss)
+        val () = prerr_error2_loc (s1e0.s1exp_loc)
+        val () = filprerr_ifdebug "s1exp_app_wind"
+        val () = prerrln! ": the static term is overly applied."
+        val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+      in
+        s2exp_errexp(s2t)
+      end // end of [else]
+    // end of [if]
   ) // end of [list_cons]
 | ~list_vt_nil () => s2e
 //
@@ -1239,29 +1246,26 @@ loop (
   | ~list_vt_cons (x, xs) => let
       val s2t_fun = s2e_fun.s2exp_srt
     in
-      if s2rt_is_fun (s2t_fun) then let
-        val-S2RTfun (s2ts_arg, s2t_res) = s2t_fun
-        var serr: int = 0
-        val s2es_arg = s1explst_trdn_err (x.1, s2ts_arg, serr)
+      if s2rt_is_fun(s2t_fun) then let
+        val-S2RTfun(s2ts_arg, s2t_res) = s2t_fun
+        var serr:int = 0
+        val s2es_arg = s1explst_trdn_err(x.1, s2ts_arg, serr)
       in
         case+ 0 of
         | _ when serr = 0 => let
-            val s2e_fun = s2exp_app_srt (s2t_res, s2e_fun, s2es_arg)
+            val s2e_fun = s2exp_app_srt(s2t_res, s2e_fun, s2es_arg)
           in
             loop (s1e0, loc, s2e_fun, xs)
           end // end of [_ when serr = 0]
         | _ => let
             val () = list_vt_free (xs)
-            val () = auxerr1 (s1e0, loc + x.0, serr)
-          in
-            s2exp_err (s2t_res)
+            val () =
+              auxerr1(s1e0, loc + x.0, serr) in s2exp_errexp(s2t_res)
           end // end of [_ when err != 0]
         // end of [case]
       end else let
         val () = list_vt_free (xs)
-        val () = auxerr2 (s1e0, loc, s2e_fun)
-      in
-        s2exp_err (s2t_fun)
+        val () = auxerr2 (s1e0, loc, s2e_fun) in s2exp_errexp(s2t_fun)
       end // end of [if]
     end (* end of [list_cons] *)
   | ~list_vt_nil _ => s2e_fun
@@ -2112,18 +2116,23 @@ s2exp_trdn
   val s2t_new = s2e.s2exp_srt
   val test = s2rt_ltmat1 (s2t_new, s2t)
 in
-  if test then s2e else let
+//
+if test
+  then s2e
+  else let
     val () =
       prerr_error2_loc (loc0)
     val () =
       filprerr_ifdebug "s2exp_trdn" // for debugging
+    // end of [val]
     val () = prerr ": the static expression is of the sort ["
     val () = prerr_s2rt (s2t_new)
     val () = prerrln! ("] but it is expectecd to be of the sort [", s2t, "].")
     val () = the_trans2errlst_add (T2E_s2exp_trdn (loc0, s2e, s2t))
   in
-    s2exp_err (s2t)
-  end (* end of [if] *)
+    s2exp_errexp(s2t)
+  end (* end of [else] *)
+//
 end // end of [s2exp_trdn]
 
 implement
@@ -2152,7 +2161,7 @@ case+ (s1e.s1exp_node, s2t) of
     in
       s2exp_extype_srt (s2t, name, (l2l)s2ess)
     end else let
-      val () = auxerr (s1e, s2t) in s2exp_err (s2t)
+      val () = auxerr (s1e, s2t) in s2exp_errexp(s2t)
     end // end of [if]
 //
 | (_, _) => let
@@ -2185,19 +2194,21 @@ s1exp_trdn_impred (s1e) = let
 //
 in
 //
-if isimp then s2e else let
-  val () = prerr_error2_loc (s1e.s1exp_loc)
-  val () = filprerr_ifdebug "s1exp_trdn_impred"
-  val () =
-    prerr ": the static expression needs to be impredicative"
-  val () = (
-    prerr " but is assigned the sort ["; prerr_s2rt (s2t); prerr "]."
-  ) // end of [val]
-  val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_s1exp_trdn_impred (s1e))
-in
-  s2exp_err (s2t)
-end (* end of [if] *)
+if isimp
+  then s2e
+  else let
+    val () = prerr_error2_loc (s1e.s1exp_loc)
+    val () = filprerr_ifdebug "s1exp_trdn_impred"
+    val () =
+      prerr ": the static expression needs to be impredicative"
+    val () = (
+      prerr " but is assigned the sort ["; prerr_s2rt (s2t); prerr "]."
+    ) (* end of [val] *)
+    val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_s1exp_trdn_impred (s1e))
+  in
+    s2exp_errexp(s2t)
+  end (* end of [else] *)
 //
 end // end of [s1exp_trdn_impred]
 
@@ -2714,15 +2725,17 @@ case+ (
       | list_nil () => list_nil ()
       | list_cons (s2vs, _) => s2vs
     ) : s2varlst // end of [val]
-    val sgn = list_length_compare (s2vs, s2ts)
+    val sgn =
+      list_length_compare(s2vs, s2ts)
+    // end of [val]
     val s2es = (
       if sgn = 0 then let
-        val s2es = list_map_fun (s2vs, s2exp_var)
+        val s2es = list_map_fun(s2vs, s2exp_var)
       in
         (l2l)s2es
       end else let // sgn < 0
         val () = auxerr2 (d1c, id)
-        val s2es = list_map_fun (s2ts, s2exp_err)
+        val s2es = list_map_fun(s2ts, s2exp_errexp)
       in
         (l2l)s2es // HX: placeholder for continuing
       end // end of [if]

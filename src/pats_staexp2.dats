@@ -168,16 +168,16 @@ val s2e_pat = s2exp_cstapp(s2c, s2fs)
 in '{
   sp2at_loc= loc
 , sp2at_exp= s2e_pat
-, sp2at_node = SP2Tcon (s2c, s2vs)
+, sp2at_node = SP2Tcon(s2c, s2vs)
 } end // end of [sp2at_con]
 
 implement
 sp2at_err (loc) = let
-  val s2t_pat = s2rt_err ()
-  val s2e_pat = s2exp_err (s2t_pat)
+  val s2t_pat = s2rt_err()
+  val s2e_pat = s2exp_errexp(s2t_pat)
 in '{
   sp2at_loc= loc
-, sp2at_exp= s2e_pat, sp2at_node= SP2Terr ()
+, sp2at_exp= s2e_pat, sp2at_node= SP2Terr()
 } end // end of [sp2at_err]
 
 (* ****** ****** *)
@@ -563,17 +563,17 @@ s2exp_wthtype
 } // end of [s2exp_wthtype]
 
 (* ****** ****** *)
-
+//
 implement
-s2exp_err (s2t) = '{
-  s2exp_srt= s2t, s2exp_node= S2Eerr ()
-} // end of [s2exp_err]
-
+s2exp_errexp(s2t) = '{
+  s2exp_srt= s2t, s2exp_node= S2Eerrexp()
+} (* end of [s2exp_err] *)
+//
 implement
-s2exp_s2rt_err () = s2exp_err (s2rt_err ())
+s2exp_s2rt_err() = s2exp_errexp(s2rt_err())
 implement
-s2exp_t0ype_err () = s2exp_err (s2rt_t0ype)
-
+s2exp_t0ype_err() = s2exp_errexp(s2rt_t0ype)
+//
 (* ****** ****** *)
 
 implement

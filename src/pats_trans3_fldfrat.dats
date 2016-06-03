@@ -115,7 +115,11 @@ fun auxfind
 in
 //
 case+ s2ls of
-| list_cons (s2l, s2ls) => let
+| list_nil
+    ((*void*)) => list_nil()
+  // end of [list_nil]
+| list_cons
+    (s2l, s2ls) => let
 (*
     val () =
       println! ("auxfind: s2l = ", s2l)
@@ -124,7 +128,7 @@ case+ s2ls of
     val opt = pfobj_search_atview (s2l)
     val s2e_elt = (
       case+ opt of
-      | ~Some_vt (pfobj) => let
+      | ~Some_vt(pfobj) => let
           val+~PFOBJ
           (
             d2v, s2e_ctx, s2e_elt, _(*s2l*)
@@ -138,17 +142,16 @@ case+ s2ls of
           val s2e = s2exp_hrepl (s2e_ctx, s2e_out)
           val () = d2var_set_type (d2v, Some(s2e))
 *)
-          val () = d2var_set_type (d2v, None(*void*))
+          val () = d2var_set_type(d2v, None(*void*))
         in
           s2e_elt
         end // end of [Some_vt]
-      | ~None_vt ((*void*)) => s2exp_err (s2rt_t0ype)
+      | ~None_vt ((*void*)) => s2exp_errexp(s2rt_t0ype)
     ) : s2exp // end of [val]
     val s2es_elt = auxfind (loc0, s2ls)
   in
     list_cons (s2e_elt, s2es_elt)
   end // end of [list_cons]
-| list_nil () => list_nil ()
 //
 end // end of [auxfind]
 

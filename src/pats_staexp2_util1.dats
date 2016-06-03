@@ -822,7 +822,9 @@ case+ opt of
     // end of [val]
     val () = if isfound then flag := flag + 1
   in
-    if ~isfound then s2e0 else s2exp_err (s2e0.s2exp_srt)
+    if ~isfound
+      then s2e0 else s2exp_errexp(s2e0.s2exp_srt)
+    // end of [if]
   end // end of [None]
 //
 end // end of [s2Var_subst_flag]
@@ -990,7 +992,8 @@ case+ s2e0.s2exp_node of
         (s2t0, fc, lin, s2fe, npf, s2es_arg, s2e_res) in s2e_res
     end else s2e0 // end of [if]
   end // end of [S2Efun]
-| S2Emetfun (opt(*stamp*), s2es_met, s2e_body) => let
+| S2Emetfun
+    (opt(*stamp*), s2es_met, s2e_body) => let
     val f0 = flag    
     val s2es_met = s2explst_subst_flag (sub, s2es_met, flag)
     val s2e_body = s2exp_subst_flag (sub, s2e_body, flag)
@@ -1000,7 +1003,7 @@ case+ s2e0.s2exp_node of
     end else s2e0 // end of [if]
   end // end of [S2Emetfun]
 //
-| S2Emetdec (s2es1, s2es2) => let
+| S2Emetdec(s2es1, s2es2) => let
     val f0 = flag
     val s2es1 = s2explst_subst_flag (sub, s2es1, flag)
     val s2es2 = s2explst_subst_flag (sub, s2es2, flag)
@@ -1008,20 +1011,20 @@ case+ s2e0.s2exp_node of
     if flag > f0 then s2exp_metdec (s2es1, s2es2) else s2e0
   end // end of [S2Emetdec]
 //
-| S2Etop (knd, s2e) => let
+| S2Etop(knd, s2e) => let
     val f0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
   in
     if flag > f0 then s2exp_top_srt (s2t0, knd, s2e) else s2e0
   end // end of [S2Etop]
-| S2Ewithout (s2e) => let
+| S2Ewithout(s2e) => let
     val f0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
   in
     if flag > f0 then s2exp_without (s2e) else s2e0
   end // end of [S2Ewithout]
 //
-| S2Etyarr (s2e_elt, s2es_int) => let
+| S2Etyarr(s2e_elt, s2es_int) => let
     val f0 = flag
     val s2e_elt = s2exp_subst_flag (sub, s2e_elt, flag)
     val s2es_int = s2explst_subst_flag (sub, s2es_int, flag)
@@ -1031,7 +1034,7 @@ case+ s2e0.s2exp_node of
     end else s2e0
   end // end of [S2Etyarr]
 //
-| S2Etyrec (knd, npf, ls2es) => let
+| S2Etyrec(knd, npf, ls2es) => let
     val f0 = flag
     val ls2es = labs2explst_subst_flag (sub, ls2es, flag)
   in
@@ -1042,35 +1045,35 @@ case+ s2e0.s2exp_node of
     end else s2e0 // end of [if]
   end // end of [S2Etyrec]
 //
-| S2Einvar (s2e) => let
+| S2Einvar(s2e) => let
     val f0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
   in
     if flag > f0 then s2exp_invar (s2e) else s2e0
   end // end of [S2Etyvarknd]
 //
-| S2Erefarg (knd, s2e) => let
+| S2Erefarg(knd, s2e) => let
     val f0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
   in
     if flag > f0 then s2exp_refarg (knd, s2e) else s2e0
   end // end of [S2Erefarg]
 //
-| S2Eexi (s2vs, s2ps, s2e) =>
+| S2Eexi(s2vs, s2ps, s2e) =>
     s2exp_subst_flag_exiuni (0(*exi*), sub, s2e0, flag, s2vs, s2ps, s2e)
   // end of [S2Eexi]
-| S2Euni (s2vs, s2ps, s2e) =>
+| S2Euni(s2vs, s2ps, s2e) =>
     s2exp_subst_flag_exiuni (1(*uni*), sub, s2e0, flag, s2vs, s2ps, s2e)
   // end of [S2Euni]
 //
-| S2Evararg (s2e) => let
+| S2Evararg(s2e) => let
     val f0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
   in
     if flag > f0 then s2exp_vararg (s2e) else s2e0
   end // end of [S2Evararg]
 //
-| S2Ewthtype (s2e, ws2es) => let
+| S2Ewthtype(s2e, ws2es) => let
     val f0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
     val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
@@ -1078,7 +1081,7 @@ case+ s2e0.s2exp_node of
     if flag > f0 then s2exp_wthtype (s2e, ws2es) else s2e0
   end // end of [S2Ewth]
 //
-| S2Eerr ((*void*)) => s2e0
+| S2Eerrexp((*void*)) => s2e0
 // end of [case]
 end // end of [s2exp_subst_flag]
 
