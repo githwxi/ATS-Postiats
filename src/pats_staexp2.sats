@@ -556,9 +556,9 @@ and labs2exp = SLABELED of (label, Option(string), s2exp)
 
 and wths2explst =
   | WTHS2EXPLSTnil of ()
+  | WTHS2EXPLSTcons_none of wths2explst
   | WTHS2EXPLSTcons_invar of (int(*refval*), s2exp, wths2explst)
   | WTHS2EXPLSTcons_trans of (int(*refval*), s2exp, wths2explst)
-  | WTHS2EXPLSTcons_none of wths2explst
 // end of [wths2explst]
 
 where

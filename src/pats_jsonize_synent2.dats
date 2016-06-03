@@ -101,7 +101,8 @@ jsonize_loc (x) = jsonize_location (,(x))
 (* ****** ****** *)
 
 extern
-fun jsonize_s2rtbas: jsonize_ftype (s2rtbas)
+fun
+jsonize_s2rtbas: jsonize_ftype (s2rtbas)
 
 (* ****** ****** *)
 
@@ -457,6 +458,12 @@ of // case+
 | S2EVar(s2V) =>
     jsonval_conarg1("S2EVar", jsonize_s2Var(s2V))
 //
+| S2Eat(s2elt, s2addr) => let
+    val s2elt = jsonize_s2exp(flag, s2elt)
+    val s2addr = jsonize_s2exp(flag, s2addr)
+  in
+    jsonval_conarg2("S2Eat", s2elt, s2addr)
+  end // end of [S2Eat]
 | S2Esizeof(s2e) =>
     jsonval_conarg1("S2Esizeof", jsonize_s2exp(flag, s2e))
 //
@@ -492,8 +499,21 @@ of // case+
     val s2es1 = jsonize_s2explst(flag, s2es1)
     and s2es2 = jsonize_s2explst(flag, s2es2)
   in
-    jsonval_conarg2("S2Emetdec", s2es1(*met*), s2es2(*bound*))
+    jsonval_conarg2
+      ("S2Emetdec", s2es1(*met*), s2es2(*bound*))
+    // jsonval_conarg2
   end // end of [S2Emetdec]
+//
+| S2Etop(knd, s2e) =>  let
+    val knd = jsonval_int(knd)
+    val s2e = jsonize_s2exp(flag, s2e)
+  in
+    jsonval_conarg2("S2Etop", knd, s2e)
+  end // end of [S2Etop]
+//
+| S2Ewithout(s2e) =>
+    jsonval_conarg1("S2Ewithout", jsonize_s2exp(flag, s2e))
+  // end of [S2Ewithout]
 //
 | S2Etyarr
     (_elt, _dim) => let
@@ -515,7 +535,7 @@ of // case+
   end // end of [S2Etyrec]
 //
 | S2Einvar(s2e) =>
-    jsonval_conarg1("S2Einvar", jsonize_s2exp (flag, s2e))
+    jsonval_conarg1("S2Einvar", jsonize_s2exp(flag, s2e))
 //
 | S2Eexi
   (
@@ -538,13 +558,25 @@ of // case+
     jsonval_conarg3("S2Euni", s2vs, s2ps, s2e_body)
   end // end of [S2Euni]
 //
-| S2Etop(knd, s2e) =>  let
+| S2Erefarg(knd, s2e) => let
+    val knd = jsonval_int(knd)
     val s2e = jsonize_s2exp(flag, s2e)
   in
-    jsonval_conarg2("S2Etop", jsonval_int(knd), s2e)
-  end // end of [S2Etop]
+    jsonval_conarg2("S2Erefarg", knd, s2e)
+  end // end of [S2Erefarg]
 //
-| S2Eerrexp((*void*)) => jsonval_conarg0("S2Eerr")
+| S2Evararg(s2e) =>
+    jsonval_conarg1("S2Evararg", jsonize_s2exp(flag, s2e))
+  // end of [val]
+//
+| S2Ewthtype(s2e, ws2es) => let
+    val s2e = jsonize_s2exp(flag, s2e)
+    val ws2es = jsonize_wths2explst(flag, ws2es)
+  in
+    jsonval_conarg2("S2Ewthtype", s2e, ws2es)
+  end // end of [S2Ewths2explst]
+//
+| S2Eerrexp((*void*)) => jsonval_conarg0("S2Eerrexp")
 //
 | _(* rest-of-s2exp *) => jsonval_conarg0("S2Eignored")
 //
@@ -632,6 +664,49 @@ case+ ls2es of
 in
   JSONlist (auxlst (flag, ls2es))
 end // end of [jsonize_labs2explst]
+
+(* ****** ****** *)
+
+implement
+jsonize_wths2explst
+(
+  flag, ws2es
+) = auxlst(flag, ws2es) where
+{
+//
+fun
+auxlst
+(
+  flag: int, ws2es: wths2explst
+) : jsonval =
+//
+case+ ws2es of
+| WTHS2EXPLSTnil() =>
+    jsonval_conarg0("WTHS2EXPLSTnil")
+  // WTHS2EXPLSTnil
+| WTHS2EXPLSTcons_none
+    (ws2es) =>
+    jsonval_conarg1
+      ("WTHS2EXPLSTcons_none", auxlst(flag, ws2es))
+  // WTHS2EXPLSTcons_none
+| WTHS2EXPLSTcons_invar
+    (knd, s2e, ws2es) => let
+    val knd = jsonval_int(knd)
+    val s2e = jsonize_s2exp(flag, s2e)
+  in
+    jsonval_conarg3
+      ("WTHS2EXPLSTcons_invar", knd, s2e, auxlst(flag, ws2es))
+  end // end of [WTHS2EXPLSTcons_invar]
+| WTHS2EXPLSTcons_trans
+    (knd, s2e, ws2es) => let
+    val knd = jsonval_int(knd)
+    val s2e = jsonize_s2exp(flag, s2e)
+  in
+    jsonval_conarg3
+      ("WTHS2EXPLSTcons_trans", knd, s2e, auxlst(flag, ws2es))
+  end // end of [WTHS2EXPLSTcons_trans]
+//
+} (* end of [jsonize_wths2explst] *)
 
 (* ****** ****** *)
 
@@ -793,7 +868,8 @@ end // end of [jsonize_s0tring]
 //
 extern
 fun
-jsonize_dcstextdef(ext: dcstextdef): jsonval
+jsonize_dcstextdef
+  (ext:dcstextdef): jsonval
 //
 implement
 jsonize_dcstextdef
@@ -1379,7 +1455,7 @@ d2e0.d2exp_node of
     jsonval_conarg2 ("D2Eann_funclo", jsv1, jsv2)
   end // end of [D2Eann_funclo]
 //
-| D2Eerrexp ((*void*)) => jsonval_conarg0 ("D2Eerrexp")
+| D2Eerrexp ((*void*)) => jsonval_conarg0("D2Eerrexp")
 //
 | _ (*rest*) => let
     val () = prerrln!
