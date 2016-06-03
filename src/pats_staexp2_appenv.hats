@@ -141,18 +141,18 @@ s2e0.s2exp_node of
 | S2Efloat _ => ()
 | S2Estring _ => ()
 //
-| S2Ecst (s2c) => s2cst_app (s2c, env)
+| S2Ecst(s2c) => s2cst_app(s2c, env)
 //
 | S2Eextype
-   (name, s2ess) => s2explstlst_app (s2ess, env)
+   (name, s2ess) => s2explstlst_app(s2ess, env)
 | S2Eextkind
-   (name, s2ess) => s2explstlst_app (s2ess, env)
+   (name, s2ess) => s2explstlst_app(s2ess, env)
 //
-| S2Evar (s2v) => s2var_app (s2v, env)
+| S2Evar(s2v) => s2var_app(s2v, env)
 //
-| S2EVar (s2V) => s2Var_app (s2V, env)
+| S2EVar(s2V) => s2Var_app(s2V, env)
 //
-| S2Ehole (s2hole) => ()
+| S2Ehole(s2hole) => ()
 //
 | S2Edatcontyp
     (d2c, s2es) => let

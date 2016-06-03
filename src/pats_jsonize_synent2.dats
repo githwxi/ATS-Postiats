@@ -981,7 +981,7 @@ jsonval_labval2
   "d2var_sym", sym, "d2var_stamp", stamp
 )
 //
-end // end of [jsonize_d2cst_long]
+end // end of [jsonize_d2var_long]
 
 (* ****** ****** *)
 
