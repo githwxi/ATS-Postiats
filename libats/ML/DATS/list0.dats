@@ -107,7 +107,8 @@ typedef res = list0 (int)
 //
 fun loop1 // d > 0
 (
-  l: int, r: int, d: int, res: &ptr? >> res
+  l: int, r: int
+, d: int, res: &ptr? >> res
 ) : void = let
 in
 //
@@ -127,7 +128,8 @@ end // end of [loop1]
 //
 fun loop2 // d < 0
 (
-  l: int, r: int, d: int, res: &ptr? >> res
+  l: int, r: int
+, d: int, res: &ptr? >> res
 ) : void = let
 in
 //
@@ -147,7 +149,8 @@ end // end of [loop2]
 //
 in
 //
-$effmask_all (
+$effmask_all
+(
 if d > 0 then (
   if l < r then let
     var res: ptr? // uninitialized
@@ -159,9 +162,10 @@ if d > 0 then (
     val () = loop2 (l, r, d, res) in res
   end else list0_nil ()
 ) else (
-  $raise IllegalArgExn("list0_make_intrange_lrd:d")
+  $raise
+  IllegalArgExn("list0_make_intrange_lrd:d")
 ) // end of [if]
-) // end of [$effmask_all]
+) (* end of [$effmask_all] *)
 //
 end // end of [list0_make_intrange_lrd]
 
@@ -170,28 +174,42 @@ end // end of [list0_make_intrange_lrd]
 implement
 {a}(*tmp*)
 list0_make_arrpsz
-  (psz) = list0_of_list_vt (list_make_arrpsz (psz))
+  (psz) =
+  list0_of_list_vt(list_make_arrpsz(psz))
 // end of [list0_make_arrpsz]
 
 (* ****** ****** *)
 //
 implement
 {a}(*tmp*)
-print_list0(xs) = fprint_list0<a> (stdout_ref, xs)
+print_list0
+  (xs) = fprint_list0<a> (stdout_ref, xs)
 implement
 {a}(*tmp*)
-prerr_list0(xs) = fprint_list0<a> (stderr_ref, xs)
+prerr_list0
+  (xs) = fprint_list0<a> (stderr_ref, xs)
 //
 implement
 {a}(*tmp*)
-fprint_list0(out, xs) = fprint_list<a> (out, g1ofg0(xs))
+fprint_list0
+  (out, xs) = fprint_list<a> (out, g1ofg0(xs))
 //
 implement
 {a}(*tmp*)
 fprint_list0_sep
-  (out, xs, sep) = let
-  val xs = g1ofg0(xs) in fprint_list_sep<a> (out, xs, sep)
-end // end of [fprint_list0_sep]
+  (out, xs, sep) =
+(
+  fprint_list_sep<a> (out, g1ofg0(xs), sep)
+) (* end of [fprint_list0_sep] *)
+//
+implement
+{a}(*tmp*)
+fprint_listlist0_sep
+  (out, xss, sep1, sep2) =
+(
+  fprint_listlist_sep<a>
+    (out, $UN.cast{List(List(a))}(xss), sep1, sep2)
+) (* end of [fprint_listlist0_sep] *)
 //
 (* ****** ****** *)
 //

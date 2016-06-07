@@ -232,6 +232,16 @@ overload fprint with fprint_list0
 overload fprint with fprint_list0_sep
 //
 (* ****** ****** *)
+//
+fun{a:t0p}
+fprint_listlist0_sep
+( out: FILEref
+, xss: list0(list0(INV(a))), sep1: string, sep2: string
+) : void // end of [fprint_list0_sep]
+//
+overload fprint with fprint_listlist0_sep
+//
+(* ****** ****** *)
 
 fun{a:t0p}
 list0_insert_at_exn

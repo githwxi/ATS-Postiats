@@ -12,6 +12,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 
 (* ****** ****** *)
@@ -61,10 +62,14 @@ val () = assertloc (xs[4] = "e")
 val () =
 {
 //
-val out = stdout_ref
-val xs = (list0)$arrpsz{string}("a", "b", "c", "d", "e")
+val xs =
+  list0 (
+    $arrpsz{string}("a", "b", "c", "d", "e")
+  ) (* list0 *)
+//
 val xsxs = list0_append (xs, xs)
-val () = assertloc (length (xsxs) = 2 * length (xs))
+val ((*void*)) =
+  assertloc (length (xsxs) = 2 * length (xs))
 //
 } (* end of [val] *)
 
@@ -76,9 +81,14 @@ val () =
 #define N 10
 //
 val i = N / 2
-val xs = list0_make_intrange (0, N)
-val ys = list0_insert_at_exn (list0_remove_at_exn (xs, i), i, xs[i])
-val iseq = list0_equal<int> (xs, ys, lam (x, y) => x = y)
+val xs =
+  list0_make_intrange (0, N)
+val ys =
+  list0_insert_at_exn
+    (list0_remove_at_exn (xs, i), i, xs[i])
+  // list0_insert_at_exn
+val iseq =
+  list0_equal<int> (xs, ys, lam (x, y) => x = y)
 val () = assertloc (iseq)
 //
 } (* end of [val] *)
@@ -135,6 +145,27 @@ val xs_sorted = list0_mergesort (xs, lam (x, y) => compare (x, y))
 val () = fprintln! (out, "xs_sorted = ", xs_sorted)
 val xs_sorted = list0_quicksort (xs, lam (x, y) => compare (x, y))
 val () = fprintln! (out, "xs_sorted = ", xs_sorted)
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+  val xs = g0ofg1($list{int}(0,1,2,3,4))
+  val xsxs = g0ofg1($list{list0(int)}(xs, xs))
+//
+  val out = stdout_ref
+//
+  val ((*void*)) =
+    fprintln! (out, "xs = ", xs)
+//
+  val ((*void*)) =
+  (
+    fprint! (out, "xsxs = ");
+    fprint_listlist0_sep(out, xsxs, "; ", ", "); fprintln!(out)
+  ) (* end of [val] *)
+//
 } (* end of [val] *)
 
 (* ****** ****** *)
