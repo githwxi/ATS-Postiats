@@ -274,6 +274,8 @@ implement symbol_ADDR = symbol_make_string "addr"
 implement symbol_CHAR = symbol_make_string "char"
 *)
 //
+implement symbol_REAL = symbol_make_string "real"
+//
 implement symbol_FLOAT = symbol_make_string "float"
 implement symbol_STRING = symbol_make_string "string"
 //

@@ -31,8 +31,10 @@
 //
 (* ****** ****** *)
 //
+(*
 datasort real = //
 // abstract sort for real numbers
+*)
 //
 (* ****** ****** *)
 //

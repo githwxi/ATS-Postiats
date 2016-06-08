@@ -273,12 +273,14 @@ fun fprint_s2rtlst : fprint_type (s2rtlst)
 // pre-defined predicative sorts
 //
 val s2rt_int : s2rt // integers
-val s2rt_bool : s2rt // booleans
 val s2rt_addr : s2rt // addresses
+val s2rt_bool : s2rt // booleans
 //
 (*
 val s2rt_char : s2rt // = s2rt_int
 *)
+//
+val s2rt_real : s2rt // real numbers
 //
 val s2rt_float : s2rt // floating-point
 val s2rt_string : s2rt // string constants
