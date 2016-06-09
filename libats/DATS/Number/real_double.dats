@@ -97,6 +97,13 @@ add_real_int(x, i) = add_real_real(x, int2real(i))
 //
 implement
 {}(*tmp*)
+sub_int_real(i, x) = sub_real_real(int2real(i), x)
+implement
+{}(*tmp*)
+sub_real_int(x, i) = sub_real_real(x, int2real(i))
+//
+implement
+{}(*tmp*)
 mul_int_real(i, x) = mul_real_real(int2real(i), x)
 implement
 {}(*tmp*)

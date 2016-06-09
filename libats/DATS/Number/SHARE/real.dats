@@ -86,6 +86,17 @@ add_real_int
 //
 extern
 fun{}
+sub_int_real
+  {i:int;x:real}
+  (int(i), real(x)):<> real(i2r(i)-x)
+extern
+fun{}
+sub_real_int
+  {x:real;i:int}
+  (real(x), int(i)):<> real(x-i2r(i))
+//
+extern
+fun{}
 mul_int_real
   {i:int;x:real}
   (int(i), real(x)):<> real(i2r(i)*x)
@@ -97,12 +108,15 @@ div_real_int
   (real(x), int(i)):<> real(x/i2r(i))
 //
 (* ****** ****** *)
-
+//
 overload + with add_int_real
 overload + with add_real_int
+overload - with sub_int_real
+overload - with sub_real_int
+//
 overload * with mul_int_real
 overload / with div_real_int
-
+//
 (* ****** ****** *)
 //
 extern

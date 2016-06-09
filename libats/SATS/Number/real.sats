@@ -32,6 +32,8 @@
 (* ****** ****** *)
 //
 (*
+// HX:
+// it is built-in
 datasort real = //
 // abstract sort for real numbers
 *)
@@ -45,22 +47,44 @@ stadef ~ = neg_real
 (* ****** ****** *)
 //
 stacst
-add_real_real:
-  (real, real) -> real
+add_real_real
+  : (real, real) -> real
 stacst
-sub_real_real:
-  (real, real) -> real
+sub_real_real
+  : (real, real) -> real
 stacst
-mul_real_real:
-  (real, real) -> real
+mul_real_real
+  : (real, real) -> real
 stacst
-div_real_real:
-  (real, real) -> real
+div_real_real
+  : (real, real) -> real
 //
 stadef + = add_real_real
 stadef - = sub_real_real
 stadef * = mul_real_real
 stadef / = div_real_real
+//
+(* ****** ****** *)
+//
+stacst
+add_int_real: (int, real) -> real
+stacst
+add_real_int: (real, int) -> real
+stacst
+sub_int_real: (int, real) -> real
+stacst
+sub_real_int: (real, int) -> real
+stacst
+mul_int_real: (int, real) -> real
+stacst
+div_real_int: (real, int) -> real
+//
+stadef + = add_int_real
+stadef + = add_real_int
+stadef + = sub_int_real
+stadef + = sub_real_int
+stadef * = mul_int_real
+stadef / = div_real_int
 //
 (* ****** ****** *)
 //
@@ -140,6 +164,16 @@ stadef sqrt = sqrt_real
 stacst
 cbrt_real: real -> real
 stadef cbrt = cbrt_real
+//
+(* ****** ****** *)
+//
+praxi
+lemma_sqrt_def
+  {x:real|x >= 0}(): [x==sqrt(x)*sqrt(x)] unit_p
+//
+praxi
+lemma_cbrt_def
+  {x:real}((*void*)): [x==cbrt(x)*cbrt(x)*cbrt(x)] unit_p
 //
 (* ****** ****** *)
 //
