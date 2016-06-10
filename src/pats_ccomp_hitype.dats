@@ -1699,9 +1699,9 @@ case+ hit of
     val () =
     emit_text (out, "ATSstruct {\n")
     val () =
-    emit_text (out, "int exntag ;\n")
+    emit_text (out, "atstype_int exntag ;\n")
     val () =
-    emit_text (out, "char *exnmsg ;")
+    emit_text (out, "atstype_string exnmsg ;")
     val () = auxfldlst (out, lhits, 1)
     val ((*closing*)) = emit_text (out, "\n}")
   } (* end of [HITtyexn] *)

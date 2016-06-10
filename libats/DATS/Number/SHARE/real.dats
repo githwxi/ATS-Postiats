@@ -210,7 +210,14 @@ overload != with neq_real_int
 extern
 fun{}
 int2real
-  {i:int}(i: int(i)):<> real(i2r(i))
+  {i:int}(x: int(i)):<> real(i2r(i))
+//
+(*
+extern
+fun{}
+double2real
+  {f:float}(x: double(f)):<> real(f2r(f))
+*)
 //
 (* ****** ****** *)
 //

@@ -149,6 +149,12 @@ int2real : int -> real
 stadef i2r = int2real
 
 stacst
+intint2real : (int, int) -> real
+stadef ii2r = intint2real
+
+(* ****** ****** *)
+
+stacst
 float2real : float -> real
 stadef f2r = float2real
 

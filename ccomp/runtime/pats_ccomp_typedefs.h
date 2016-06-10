@@ -40,7 +40,11 @@
 
 /* ****** ****** */
 
-struct atstype_struct ; /* of indefinite size */
+/*
+** HX:
+** of indefinite size
+*/
+struct atstype_struct ;
 
 /* ****** ****** */
 
@@ -126,10 +130,10 @@ _ATS_CCOMP_EXCEPTION_NONE_
 //
 #else
 //
-typedef
-struct
+typedef struct
 {
-  int exntag ; char *exnmsg ;
+  atstype_int exntag ;
+  atstype_string exnmsg ;
 } atstype_exncon ;
 //
 typedef
