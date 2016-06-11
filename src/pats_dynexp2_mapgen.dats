@@ -154,11 +154,19 @@ implement
 d2cst_app
   (d2c, env) = let
 //
+val s2e =
+  d2cst_get_type(d2c)
+val ((*void*)) =
+  s2exp_app(s2e, env)
+//
 val env2 =
   $UN.castvwtp1{myenv}(env)
 val+MYENV
   (_, _, _, _, !p_d2cs, _) = env2
-val ((*void*)) = !p_d2cs := d2cstset_vt_add(!p_d2cs, d2c)
+//
+val ((*void*)) =
+  !p_d2cs := d2cstset_vt_add(!p_d2cs, d2c)
+//
 prval ((*void*)) = fold@ (env2)
 prval ((*void*)) = $UN.castvwtp0{void}(env2)
 //
@@ -174,7 +182,10 @@ val env2 =
   $UN.castvwtp1{myenv}(env)
 val+MYENV
   (_, _, _, _, _, !p_d2vs) = env2
-val ((*void*)) = !p_d2vs := d2varset_vt_add(!p_d2vs, d2v)
+//
+val ((*void*)) =
+  !p_d2vs := d2varset_vt_add(!p_d2vs, d2v)
+//
 prval ((*void*)) = fold@ (env2)
 prval ((*void*)) = $UN.castvwtp0{void}(env2)
 //

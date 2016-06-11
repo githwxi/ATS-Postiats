@@ -226,6 +226,7 @@ implement
 d2cstdecs_app
   (d2cs, env) = let
 //
+(*
 fun
 auxlst
 (
@@ -242,8 +243,8 @@ case+ d2cs of
     s2exp_app(s2e, env); auxlst(d2cs, env)
   end (* end of [list_cons] *)
 ) (* end of [auxlst] *)
-//
 val () = auxlst(d2cs, env)
+*)
 val () = d2cstlst_app(d2cs, env)
 //
 in
