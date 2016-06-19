@@ -344,6 +344,7 @@ praxi __vfree_exn (x: exn):<> void // for freeing nullary exception-con
 datatype unit = unit of ()
 dataprop unit_p = unit_p of ()
 dataview unit_v = unit_v of ()
+//
 prfun unit_v_elim (pf: unit_v): void
 //
 (* ****** ****** *)

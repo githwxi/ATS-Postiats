@@ -387,15 +387,16 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
-    val () = emit_text (out, "ATSINSmove(")
+    val () =
+    emit_text (out, "ATSINSmove(")
     val () = emit_tmpvar (out, x.1)
     val () = emit_text (out, ", ")
     val () = emit_tmprimval (out, x.0)
-    val () = emit_text (out, ") ;")
+    val () = emit_text (out, ") ; ")
   in
     auxlst (out, i+1, xs)
   end // end of [list_cons]
-| list_nil () => ()
+| list_nil((*void*)) => ((*void*))
 //
 end // end of [auxlst]
 //
