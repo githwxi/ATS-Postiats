@@ -61,22 +61,23 @@
 (* ****** ****** *)
 //
 absvtype
-qlist_vtype (a:vt@ype+, n:int) = ptr
+qlist_vtype(a:vt@ype+, n:int) = ptr
 //
 vtypedef
-qlist (a:vt0p, n:int) = qlist_vtype (a, n)
+qlist(a:vt0p, n:int) = qlist_vtype (a, n)
 //
 vtypedef
-qlist (a:vt0p) = [n:int] qlist_vtype (a, n)
+qlist(a:vt0p) = [n:int] qlist_vtype (a, n)
 //
 vtypedef
-qlist0 (a:vt0p) = [n:int | n >= 0] qlist (a, n)
+qlist0(a:vt0p) = [n:int | n >= 0] qlist (a, n)
 //
 (* ****** ****** *)
 
 praxi
 lemma_qlist_param
-  {a:vt0p}{n:int} (q: !qlist (INV(a), n)): [n>=0] void
+  {a:vt0p}{n:int}
+  (q: !qlist(INV(a), n)): [n >= 0] void
 // end of [lemma_qlist_param]
 
 (* ****** ****** *)
@@ -138,8 +139,8 @@ qlist_takeout_opt (q: !qlist (INV(a)) >> _):<!wrt> Option_vt(a)
 ** HX: this operation is O(1)
 *)
 //
-fun{
-} qlist_takeout_list
+fun{}
+qlist_takeout_list
   {a:vt0p}{n:int}
   (q: !qlist (INV(a), n) >> qlist (a, 0)):<!wrt> list_vt (a, n)
 // end of [qlist_takeout_list]
@@ -177,8 +178,8 @@ qstruct0 (a:vt0p) = [n:nat] qstruct (a, n)
 //
 (* ****** ****** *)
 
-fun{
-} qstruct_initize
+fun{}
+qstruct_initize
   {a:vt0p} (q: &qstruct? >> qstruct (a, 0)):<!wrt> void
 // end of [qstruct_initize]
 
