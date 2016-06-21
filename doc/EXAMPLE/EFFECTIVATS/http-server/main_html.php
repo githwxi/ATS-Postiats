@@ -129,7 +129,7 @@ atslangweb_pats2xhtmlize_dynamic($mycode);
 
 <p>
 Basically, [myserver] implements a server; it does some form of
-initializating by calling [myserver_init] and then starts a loop for
+initialization by calling [myserver_init] and then starts a loop for
 handling requests by calling [myserver_loop]. The function
 [myserver_waitfor_request] is supposed to be blocked until a request
 is available, and the function [myserver_process_request] processes a
