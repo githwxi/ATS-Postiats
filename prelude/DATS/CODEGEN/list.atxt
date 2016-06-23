@@ -1786,6 +1786,47 @@ in
   $effmask_all (loop (xs))
 end // end of [list_foreach_fun]
 
+#atscode_separator()
+//
+implement
+{x}(*tmp*)
+list_foreach_clo
+  (xs, f) =
+(
+$effmask_all
+  (list_foreach_cloref<x>(xs, $UN.cast(addr@f)))
+) (* list_foreach_clo *)
+implement
+{x}(*tmp*)
+list_foreach_vclo
+  (pf | xs, f) =
+(
+$effmask_all
+  (list_foreach_cloref<x>(xs, $UN.cast(addr@f)))
+) (* list_foreach_vclo *)
+//
+#atscode_separator()
+
+implement
+{x}(*tmp*)
+list_foreach_cloptr
+  (xs, f) =
+(
+$effmask_all
+  (list_foreach_cloref<x>(xs, $UN.castvwtp1(f)))
+) (* list_foreach_cloptr *)
+
+implement
+{x}(*tmp*)
+list_foreach_vcloptr
+  (pf | xs, f) =
+(
+$effmask_all
+  (list_foreach_cloref<x>(xs, $UN.castvwtp1(f)))
+) (* list_foreach_vcloptr *)
+
+#atscode_separator()
+
 implement
 {x}(*tmp*)
 list_foreach_cloref
