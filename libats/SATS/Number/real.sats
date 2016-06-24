@@ -65,7 +65,18 @@ stadef * = mul_real_real
 stadef / = div_real_real
 //
 (* ****** ****** *)
+
+stacst
+int2real : int -> real
+stadef i2r = int2real
+
+stacst
+intint2real : (int, int) -> real
+stadef ii2r = intint2real
+
+(* ****** ****** *)
 //
+(*
 stacst
 add_int_real: (int, real) -> real
 stacst
@@ -78,6 +89,34 @@ stacst
 mul_int_real: (int, real) -> real
 stacst
 div_real_int: (real, int) -> real
+*)
+//
+stadef
+add_int_real
+  (i: int, x: real) =
+  add_real_real(i2r(i), x)
+stadef
+add_real_int
+  (x: real, i: int) =
+  add_real_real(x, i2r(i))
+//
+stadef
+sub_int_real
+  (i: int, x: real) =
+  sub_real_real(i2r(i), x)
+stadef
+sub_real_int
+  (x: real, i: int) =
+  sub_real_real(x, i2r(i))
+//
+stadef
+mul_int_real
+  (i: int, x: real) =
+  mul_real_real(i2r(i), x)
+stadef
+div_real_int
+  (x: real, i: int) =
+  div_real_real(x, i2r(i))
 //
 stadef + = add_int_real
 stadef + = add_real_int
@@ -116,24 +155,30 @@ stadef != = neq_real_real
 //
 (* ****** ****** *)
 //
-stacst
-lt_real_int:
-  (real, int) -> bool
-stacst
-lte_real_int:
-  (real, int) -> bool
-stacst
-gt_real_int:
-  (real, int) -> bool
-stacst
-gte_real_int:
-  (real, int) -> bool
-stacst
-eq_real_int:
-  (real, int) -> bool
-stacst
-neq_real_int:
-  (real, int) -> bool
+stadef
+lt_real_int
+  (x: real, i: int) =
+  lt_real_real(x, i2r(i))
+stadef
+lte_real_int
+  (x: real, i: int) =
+  lte_real_real(x, i2r(i))
+stadef
+gt_real_int
+  (x: real, i: int) =
+  gt_real_real(x, i2r(i))
+stadef
+gte_real_int
+  (x: real, i: int) =
+  gte_real_real(x, i2r(i))
+stadef
+eq_real_int
+  (x: real, i: int) =
+  eq_real_real(x, i2r(i))
+stadef
+neq_real_int
+  (x: real, i: int) =
+  neq_real_real(x, i2r(i))
 //
 stadef < = lt_real_int
 stadef <= = lte_real_int
@@ -142,16 +187,6 @@ stadef >= = gte_real_int
 stadef == = eq_real_int
 stadef != = neq_real_int
 //
-(* ****** ****** *)
-
-stacst
-int2real : int -> real
-stadef i2r = int2real
-
-stacst
-intint2real : (int, int) -> real
-stadef ii2r = intint2real
-
 (* ****** ****** *)
 
 stacst
