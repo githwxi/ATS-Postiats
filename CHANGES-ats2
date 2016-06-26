@@ -33,6 +33,7 @@ Here is a list of major additions and changes since the last release:
    command patsolve_smt2 turns ATS constraints in json format into those in smt-lib2
    format, which can then be solved with z3, cvc4, etc. In particular, constraints on
    reals can be handled in this way.
+8. Fixing a bug involving record compilation (please see: doc/BUGS/bug-2016-06-26.dats)
 
 ######
 

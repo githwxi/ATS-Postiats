@@ -1,6 +1,12 @@
 (* ****** ****** *)
 //
-// Reported by AR-2016-06-26
+// Reported by
+// AR-2016-06-26
+//
+(* ****** ****** *)
+//
+// HX-2016-06-26:
+// fixed by removing a call to d3exp_set_type
 //
 (* ****** ****** *)
 //
