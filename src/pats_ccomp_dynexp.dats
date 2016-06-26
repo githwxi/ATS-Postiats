@@ -461,10 +461,14 @@ case+ hdes of
     (hde, hdes) => let
     val pmv =
       hidexp_ccomp (env, res, hde)
-    val () = pmvs := list_vt_cons {..}{0} (pmv, ?)
+    // end of [val]
+    val () =
+    (
+      pmvs := list_vt_cons {..}{0} (pmv, ?)
+    ) (* end of [val] *)
     val list_vt_cons (_, !p_pmvs) = pmvs
     val () = loop (env, res, hdes, !p_pmvs)
-    val () = fold@ (pmvs)
+    prval ((*folded*)) = fold@ (pmvs)
   in
     // nothing
   end // end of [list_cons]
@@ -505,7 +509,7 @@ case+ hdes of
     val () = pmvs := list_vt_cons {..}{0} (pmv, ?)
     val list_vt_cons (_, !p_pmvs) = pmvs
     val () = loop (env, res, hdes, !p_pmvs)
-    val () = fold@ (pmvs)
+    prval ((*folded*)) = fold@ (pmvs)
   in
     // nothing
   end // end of [list_cons]
@@ -527,33 +531,59 @@ end // end of [hidexplst_ccompv]
 (* ****** ****** *)
 
 extern
-fun labhidexplst_ccomp
-  (env: !ccompenv, res: !instrseq, lhdes: labhidexplst): labprimvalist
-// end of [labhidexplst_ccomp]
+fun
+labhidexplst_ccomp
+(
+  env: !ccompenv, res: !instrseq, lhdes: labhidexplst
+) : labprimvalist // end of [labhidexplst_ccomp]
 
 implement
 labhidexplst_ccomp
   (env, res, lhdes) = let
 //
-fun loop (
+fun
+loop
+(
   env: !ccompenv
 , res: !instrseq
 , lhdes: labhidexplst
 , lpmvs: &labprimvalist_vt? >> labprimvalist_vt
 ) : void = let
+//
+(*
+val () =
+println! ("labhidexplst_ccomp: loop")
+*)
+//
 in
 //
 case+ lhdes of
 | list_cons
     (lhde, lhdes) => let
-    val LABHIDEXP (lab, hde) = lhde
+//
+    val LABHIDEXP(lab, hde) = lhde
+//
+(*
+    val () =
+      println! ("loop: hde = ", hde)
+    // end of [val]
+    val () =
+      println! ("loop: hde.type = ", hde.hidexp_type)
+    // end of [val]
+*)
+//
     val pmv =
       hidexp_ccomp (env, res, hde)
+    // end of [val]
+//
     val lpmv = LABPRIMVAL (lab, pmv)
-    val () = lpmvs := list_vt_cons {..}{0} (lpmv, ?)
-    val list_vt_cons (_, !p_lpmvs) = lpmvs
+    val () =
+    (
+      lpmvs := list_vt_cons{..}{0}(lpmv, ?)
+    ) (* end of [val] *)
+    val+list_vt_cons(_, !p_lpmvs) = lpmvs
     val () = loop (env, res, lhdes, !p_lpmvs)
-    val () = fold@ (lpmvs)
+    prval ((*folded*)) = fold@ (lpmvs)
   in
     // nothing
   end // end of [list_cons]

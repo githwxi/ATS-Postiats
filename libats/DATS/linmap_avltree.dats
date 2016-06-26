@@ -32,28 +32,36 @@
 (* Start time: December, 2012 *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.linmap_avltree"
-#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
-
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.linmap_avltree"
+//
+#define ATS_DYNLOADFLAG 0 // no dynloading
+//
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
-
-staload "libats/SATS/linmap_avltree.sats"
-
+//
+staload
+"libats/SATS/linmap_avltree.sats"
+//
 (* ****** ****** *)
-
-#include "./SHARE/linmap.hats" // code reuse
-#include "./SHARE/linmap_node.hats" // code reuse
-
+//
+#include
+"./SHARE/linmap.hats" // code reuse
+#include
+"./SHARE/linmap_node.hats" // code reuse
+//
 (* ****** ****** *)
-
-stadef mytkind = $extkind"atslib_linmap_avltree"
-
+//
+stadef
+mytkind = $extkind"atslib_linmap_avltree"
+//
 (* ****** ****** *)
 //
 // HX: maximal height difference of two siblings
@@ -63,7 +71,7 @@ stadef mytkind = $extkind"atslib_linmap_avltree"
 #define HTDF_1 (HTDF-1)
 //
 (* ****** ****** *)
-
+//
 datavtype avltree
 (
   key: t@ype, itm:vt@ype+, int(*height*)
@@ -77,42 +85,51 @@ datavtype avltree
     )
   | E (key, itm, 0) of ((*void*))
 // end of [datavtype avltree]
-
+//
 (* ****** ****** *)
-
-vtypedef avltree
-  (key:t0p, itm:vt0p) = [h:nat] avltree (key, itm, h)
-// end of [avltree]
-
-vtypedef avltree_inc
+//
+vtypedef
+avltree(
+  key:t0p, itm:vt0p
+) = [h:nat] avltree(key, itm, h)
+//
+vtypedef
+avltree_inc
   (key:t0p, itm:vt0p, h:int) =
   [h1:nat | h <= h1; h1 <= h+1] avltree (key, itm, h1)
-// end of [avltree_inc]
-
-vtypedef avltree_dec
+//
+vtypedef
+avltree_dec
   (key:t0p, itm:vt0p, h:int) =
   [h1:nat | h1 <= h; h <= h1+1] avltree (key, itm, h1)
-// end of [avltree_dec]
-
+//
 (* ****** ****** *)
-
+//
 assume
-map_vtype (key:t0p, itm: vt0p) = avltree (key, itm)
-// end of [map_vtype]
-
+map_vtype
+(
+  key:t0p, itm: vt0p
+) = avltree (key, itm)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+linmap_nil() = E()
+implement
+{}(*tmp*)
+linmap_make_nil() = E()
+//
 (* ****** ****** *)
 
-implement{} linmap_nil () = E ()
-implement{} linmap_make_nil () = E ()
-
-(* ****** ****** *)
-
-implement{}
+implement
+{}(*tmp*)
 linmap_is_nil (map) =
   case+ map of E _ => true | B _ => false
 // end of [linmap_is_nil]
 
-implement{}
+implement
+{}(*tmp*)
 linmap_isnot_nil (map) =
   case+ map of B _ => true | E _ => false
 // end of [linmap_isnot_nil]
@@ -236,20 +253,22 @@ case+ ,(t) of
 ) // end of [avlht]
 
 (* ****** ****** *)
-
-fn{
-key:t0p;itm:vt0p
-} avltree_height{h:int}
+//
+fn
+{key:t0p
+;itm:vt0p}
+avltree_height{h:int}
   (t: !avltree (key, itm, h)):<> int (h) = avlht(t)
-
+//
 (* ****** ****** *)
 
 (*
 ** left rotation for restoring height invariant
 *)
-fn{
-key:t0p;itm:vt0p
-} avltree_lrotate
+fn
+{key:t0p
+;itm:vt0p}
+avltree_lrotate
   {hl,hr:nat | hl+HTDF1 == hr}
   {l,l_h,l_k,l_x,l_tl,l_tr:addr}
 (
@@ -306,9 +325,10 @@ end // end of [avltree_lrotate]
 (*
 ** right rotation for restoring height invariant
 *)
-fn{
-key:t0p;itm:vt0p
-} avltree_rrotate
+fn
+{key:t0p
+;itm:vt0p}
+avltree_rrotate
   {hl,hr:nat | hl == hr+HTDF1}
   {l,l_h,l_k,l_x,l_tl,l_tr:addr}
 (
@@ -758,8 +778,9 @@ end // end of [linmap_flistize]
 //
 (* ****** ****** *)
 
-implement{
-} mynode_null{key,itm} () =
+implement
+{}(*tmp*)
+mynode_null{key,itm} () =
   $UN.castvwtp0{mynode(key,itm,null)}(the_null_ptr)
 // end of [mynode_null]
 

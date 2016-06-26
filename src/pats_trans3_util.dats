@@ -380,31 +380,45 @@ fun
 aux .<>. (
   d3e1: d3exp, s2f2: s2hnf
 ) : d3exp = let
-  val loc = d3e1.d3exp_loc
-  val s2e1 = d3e1.d3exp_type
-  val s2f1 = s2exp2hnf (s2e1)
-  val s2e1 = s2hnf2exp (s2f1)
-  val s2e2 = s2hnf2exp (s2f2)
+//
+val loc = d3e1.d3exp_loc
+val s2e1 = d3e1.d3exp_type
+val s2f1 = s2exp2hnf (s2e1)
+val s2e1 = s2hnf2exp (s2f1)
+val s2e2 = s2hnf2exp (s2f2)
+//
 (*
-  val () = (
-    println! ("d3exp_trdn: aux: s2e1 = ", s2e1);
-    println! ("d3exp_trdn: aux: s2e2 = ", s2e2);
-  ) // end of [val]
+val () =
+println!
+  ("d3exp_trdn: aux: s2e1 = ", s2e1)
+// end of [val]
+val () =
+println!
+  ("d3exp_trdn: aux: s2e2 = ", s2e2)
+// end of [val]
 *)
-  val err = $SOL.s2hnf_tyleq_solve (loc, s2f1, s2f2)
-  val () =
-  if (err != 0) then let
-    val () = prerr_error3_loc (loc)
-    val () = filprerr_ifdebug "d3exp_trdn"
-    val () = prerr ": the dynamic expression cannot be assigned the type ["
-    val () = prerr_s2exp (s2e2)
-    val () = prerr "]."
-    val () = prerr_newline ()
-    val () = prerr_the_staerrlst ()
-  in
-    the_trans3errlst_add (T3E_d3exp_trdn (d3e1, s2e2))
-  end // end of [if] // end of [val]
-  val () = d3exp_set_type (d3e1, s2e2)
+//
+val err =
+  $SOL.s2hnf_tyleq_solve(loc, s2f1, s2f2)
+// end of [val]
+val () =
+if (err != 0) then let
+  val () = prerr_error3_loc (loc)
+  val () = filprerr_ifdebug "d3exp_trdn"
+  val () = prerr ": the dynamic expression cannot be assigned the type ["
+  val () = prerr_s2exp (s2e2)
+  val () = prerr "]."
+  val () = prerr_newline ()
+  val () = prerr_the_staerrlst ()
+//
+in
+  the_trans3errlst_add(T3E_d3exp_trdn (d3e1, s2e2))
+end // end of [if] // end of [val]
+//
+(*
+val () = d3exp_set_type(d3e1, s2e2)
+*)
+//
 in
   d3e1
 end // end of [_]

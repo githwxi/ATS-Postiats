@@ -673,31 +673,33 @@ d3e0.d3exp_node of
 | D3Eempty () => hidexp_empty (loc0, hse0)
 //
 | D3Eextval (name) =>
-    hidexp_extval (loc0, hse0, name)
+    hidexp_extval(loc0, hse0, name)
+  // end of [D3Eextval]
+//
 | D3Eextfcall
     (_fun, _arg) => let
-    val _arg = d3explst_tyer (_arg)
+    val _arg = d3explst_tyer(_arg)
   in
-    hidexp_extfcall (loc0, hse0, _fun, _arg)
+    hidexp_extfcall(loc0, hse0, _fun, _arg)
   end // end of [D3Eextfcall]
 | D3Eextmcall
     (_obj, _mtd, _arg) => let
     val _obj = d3exp_tyer (_obj)
     val _arg = d3explst_tyer (_arg)
   in
-    hidexp_extmcall (loc0, hse0, _obj, _mtd, _arg)
+    hidexp_extmcall(loc0, hse0, _obj, _mtd, _arg)
   end // end of [D3Eextmcall]
 //
 | D3Econ (
     d2c, npf, d3es
   ) => let
     val lhdes =
-      d3explst_npf_tyer_labize (npf, d3es)
+      d3explst_npf_tyer_labize(npf, d3es)
     // end of [val]
-    val lhses = labhidexplst_get_type (lhdes)
-    val hse_sum = hisexp_tysum (d2c, lhses)
+    val lhses = labhidexplst_get_type(lhdes)
+    val hse_sum = hisexp_tysum(d2c, lhses)
   in
-    hidexp_con (loc0, hse0, d2c, hse_sum, lhdes)
+    hidexp_con(loc0, hse0, d2c, hse_sum, lhdes)
   end // end of [D3Econ]
 //
 | D3Etmpcst(d2c, t2mas) =>

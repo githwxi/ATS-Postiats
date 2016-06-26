@@ -228,6 +228,14 @@ cleanall:: ; $(RMF) bug-2016-05-13
 
 ######
 
+all:: \
+bug-2016-06-26
+bug-2016-06-26: \
+bug-2016-06-26.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+cleanall:: ; $(RMF) bug-2016-06-26
+
+######
+
 RMF=rm -f
 
 ######

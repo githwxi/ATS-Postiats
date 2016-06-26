@@ -75,6 +75,16 @@ intint2real : (int, int) -> real
 stadef ii2r = intint2real
 
 (* ****** ****** *)
+
+stacst
+sgn_real : real -> int
+
+(* ****** ****** *)
+
+stacst
+floor_real : real -> int
+
+(* ****** ****** *)
 //
 (*
 stacst

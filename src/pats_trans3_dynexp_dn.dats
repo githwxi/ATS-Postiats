@@ -174,31 +174,39 @@ d2exp_trdn
 //
 (*
 val loc0 = d2e0.d2exp_loc
-val () = println! ("d2exp_trdn: d2e0 = ", d2e0)
-val () = println! ("d2exp_trdn: loc0 = ", loc0)
-val () = println! ("d2exp_trdn: s2e0(bef) = ", s2e0)
+//
+val () =
+  println! ("d2exp_trdn: d2e0 = ", d2e0)
+val () =
+  println! ("d2exp_trdn: loc0 = ", loc0)
+val () =
+  println! ("d2exp_trdn: s2e0(bef) = ", s2e0)
+//
 *)
 //
-val s2f0 = s2exp2hnf (s2e0)
-val s2e0 = s2hnf2exp (s2f0)
+val s2f0 = s2exp2hnf(s2e0)
+val s2e0 = s2hnf2exp(s2f0)
 //
 (*
-val () = println! ("d2exp_trdn: s2e0(aft) = ", s2e0)
+val () =
+  println! ("d2exp_trdn: s2e0(aft) = ", s2e0)
 *)
 //
 in
 //
-case+ d2e0.d2exp_node of
+case+
+d2e0.d2exp_node
+of // case+
 //
 | D2Etop _ =>
-    d2exp_trdn_top (d2e0, s2f0)
+    d2exp_trdn_top(d2e0, s2f0)
   // end of [D2Etop]
 //
 | D2Elet (d2cs, d2e) =>
-    d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
+    d2exp_trdn_letwhere(d2e0, s2f0, d2cs, d2e)
   // end of [D2Elet]
 | D2Ewhere (d2e, d2cs) =>
-    d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
+    d2exp_trdn_letwhere(d2e0, s2f0, d2cs, d2e)
   // end of [D2Ewhere]
 //
 | D2Eapplst
@@ -211,49 +219,52 @@ case+ d2e0.d2exp_node of
     ) // end of [val]
 *)
   in
-    case+ _fun.d2exp_node of
+    case+
+    _fun.d2exp_node
+    of // case+
     | D2Emac d2m => let
 (*
-        val () = (
-          println! ("d2exp_trdn: D2Eapplst: D2Emac(bef): d2e0 = ", d2e0)
-        ) // end of [val]
+        val () =
+        println!
+          ("d2exp_trdn: D2Eapplst: D2Emac(bef): d2e0 = ", d2e0)
+        // end of [val]
 *)
         val d2e0 =
-          $MAC.dmacro_eval_app_short (loc0, d2m, _arg)
+          $MAC.dmacro_eval_app_short(loc0, d2m, _arg)
         // end of [val]
 (*
         val () = (
           println! ("d2exp_trdn: D2Eapplst: D2Emac(aft): loc0 = ", loc0);
           println! ("d2exp_trdn: D2Eapplst: D2Emac(aft): d2e0 = ", d2e0);
-        ) // end of [val]
+        ) (* end of [val] *)
 *)
       in
-        d2exp_trdn (d2e0, s2e0)
+        d2exp_trdn(d2e0, s2e0)
       end // end of [D2Emac]
-    | _ => d2exp_trdn_rest (d2e0, s2f0)
+    | _ => d2exp_trdn_rest(d2e0, s2f0)
   end // end of [D2Eapplst]
 //
 | D2Eifhead _ =>
-    d2exp_trdn_ifhead (d2e0, s2f0)
+    d2exp_trdn_ifhead(d2e0, s2f0)
   // end of [D2Eifhead]
 | D2Esifhead _ =>
-    d2exp_trdn_sifhead (d2e0, s2f0)
+    d2exp_trdn_sifhead(d2e0, s2f0)
   // end of [D2Esifhead]
 //
 | D2Ecasehead _ =>
-    d2exp_trdn_casehead (d2e0, s2f0)
+    d2exp_trdn_casehead(d2e0, s2f0)
   // end of [D2Ecasehead]
 | D2Escasehead _ =>
-    d2exp_trdn_scasehead (d2e0, s2f0)
+    d2exp_trdn_scasehead(d2e0, s2f0)
   // end of [D2Escasehead]
 //
-| D2Esing (d2e) => d2exp_trdn (d2e, s2e0)
+| D2Esing (d2e) => d2exp_trdn(d2e, s2e0)
 //
 | D2Elist
     (npf, d2es) => let
     val loc0 = d2e0.d2exp_loc
     val d2e0 =
-      d2exp_tup_flt (loc0, npf, d2es) in d2exp_trdn (d2e0, s2e0)
+      d2exp_tup_flt(loc0, npf, d2es) in d2exp_trdn(d2e0, s2e0)
     // end of [val]
   end // end of [D2Elist]
 //
@@ -266,21 +277,21 @@ case+ d2e0.d2exp_node of
 | D2Eshowtype
     (d2e) => d3e where
   {
-    val d3e = d2exp_trdn (d2e, s2e0)
-    val ((*void*)) = fshowtype_d3exp_dn (d3e)
+    val d3e = d2exp_trdn(d2e, s2e0)
+    val ((*void*)) = fshowtype_d3exp_dn(d3e)
   } (* end of [D2Eshowtype] *)
 //
-| D2Eexist _ => d2exp_trdn_exist (d2e0, s2f0)
+| D2Eexist _ => d2exp_trdn_exist(d2e0, s2f0)
 //
-| D2Elam_dyn _ => d2exp_trdn_lam_dyn (d2e0, s2f0)
+| D2Elam_dyn _ => d2exp_trdn_lam_dyn(d2e0, s2f0)
 //
-| D2Elam_sta (s2vs, _, _)
-    when list_is_nil (s2vs) => d2exp_trdn_lam_sta_nil (d2e0, s2f0)
+| D2Elam_sta(s2vs, _, _)
+    when list_is_nil(s2vs) => d2exp_trdn_lam_sta_nil(d2e0, s2f0)
   // end of [D2Elam_sta_nil]
 //
-| D2Etrywith _ => d2exp_trdn_trywith (d2e0, s2f0)
+| D2Etrywith _ => d2exp_trdn_trywith(d2e0, s2f0)
 //
-| _ (*rest-of-d2exp*) => d2exp_trdn_rest (d2e0, s2f0)
+| _ (*rest-of-d2exp*) => d2exp_trdn_rest(d2e0, s2f0)
 //
 end // end of [d2exp_trdn]
 
@@ -289,34 +300,50 @@ end // end of [d2exp_trdn]
 implement
 d2exp_trdn_rest
   (d2e0, s2f0) = let
-(*
-val () = println! ("d2exp_trdn_rest: d2e0 = ", d2e0)
-val () = println! ("d2exp_trdn_rest: loc0 = ", d2e0.d2exp_loc)
-val () = println! ("d2exp_trdn_rest: s2f0 = ", s2f0)
-*)
-val loc0 = d2e0.d2exp_loc
-val s2e0 = s2hnf2exp (s2f0)
-val d3e0 = d2exp_trup (d2e0)
 //
-val iswth = s2exp_is_wthtype (s2e0)
+(*
+val () =
+println! ("d2exp_trdn_rest: d2e0 = ", d2e0)
+val () =
+println! ("d2exp_trdn_rest: loc0 = ", d2e0.d2exp_loc)
+val () =
+println! ("d2exp_trdn_rest: s2f0 = ", s2f0)
+*)
+//
+val loc0 = d2e0.d2exp_loc
+val s2e0 = s2hnf2exp(s2f0)
+val d3e0 = d2exp_trup(d2e0)
+//
+val iswth = s2exp_is_wthtype(s2e0)
 //
 val s2e0 = (
-  if iswth then let
-    val () = d3exp_open_and_add (d3e0)
-  in
-    s2exp_wthtype_instantiate (loc0, s2e0)
-  end else begin
-    s2e0 // HX: [s2e0] does not carry a state type
-  end // end of [if]
+//
+if
+iswth
+then let
+//
+val () =
+  d3exp_open_and_add(d3e0)
+// end of [val]
+in
+  s2exp_wthtype_instantiate(loc0, s2e0)
+end // end of [then]
+else s2e0 // HX: not carrying a state type
+//
 ) : s2exp // end of [val]
 (*
-val () = println! ("d2exp_trdn_rest: s2e0 = ", s2e0)
+//
+val () =
+println!
+  ("d2exp_trdn_rest: s2e0 = ", s2e0)
+//
 *)
 //
-val () = if iswth then funarg_d2vfin_check (loc0)
+val () =
+  if iswth then funarg_d2vfin_check(loc0)
 //
 in
-  d3exp_trdn (d3e0, s2e0)
+  d3exp_trdn(d3e0, s2e0)
 end // end of [d2exp_trdn_rest]
 
 (* ****** ****** *)
@@ -1005,22 +1032,26 @@ case+
     val () = $SOL.pfarity_equal_solve_err (loc0, npf, npf1, err)
     val () =
     if err != 0 then {
-      val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_tup (d2e0, s2e0))
+      val () =
+        prerr_the_staerrlst ()
+      val () =
+        the_trans3errlst_add(T3E_d2exp_trdn_tup(d2e0, s2e0))
     } (* end of [if] *) // end of [val]
 //
     var serr: int = 0
     val d3es = auxtup (d2es, ls2es, serr)
     val () =
     if (serr != 0) then {
-      val () = auxerrlen (loc0, serr)
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_tup (d2e0, s2e0))
+      val () =
+        auxerrlen (loc0, serr)
+      val () =
+        the_trans3errlst_add(T3E_d2exp_trdn_tup(d2e0, s2e0))
     } (* end of [if] *) // end of [val]
 //
   in
-    d3exp_tup (loc0, s2e0, knd, npf, d3es)
+    d3exp_tup(loc0, s2e0, knd, npf, d3es)
   end // end of [S2Etyrec]
-| _ (*non-S2Etyrec*) => d2exp_trdn_rest (d2e0, s2f0)
+| _ (*non-S2Etyrec*) => d2exp_trdn_rest(d2e0, s2f0)
 //
 end // end of [d2exp_trdn_tup]
 
@@ -1035,29 +1066,38 @@ val s2e0 = s2hnf2exp (s2f0)
 in
 //
 case+
-  s2e0.s2exp_node of
+s2e0.s2exp_node
+of // case+
 //
 | S2Etyrec (
     knd1, npf1, ls2es
   ) => let
     var err: int = 0
-    val () = $SOL.boxity_equal_solve_err (loc0, knd, knd1, err)
-    val () = $SOL.pfarity_equal_solve_err (loc0, npf, npf1, err)
-    val () = if err != 0 then {
-      val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_rec (d2e0, s2e0))
+    val () =
+      $SOL.boxity_equal_solve_err(loc0, knd, knd1, err)
+    val () =
+      $SOL.pfarity_equal_solve_err(loc0, npf, npf1, err)
+    val () =
+    if err != 0 then {
+      val () =
+        prerr_the_staerrlst ()
+      val () =
+        the_trans3errlst_add(T3E_d2exp_trdn_rec(d2e0, s2e0))
     } // end of [if] // end of [val]
     var serr: int = 0
     val ld3es = auxrec (ld2es, ls2es, serr)
-    val () = if (serr != 0) then {
-      val () = auxerrlen (loc0, serr)
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_tup (d2e0, s2e0))
+    val () =
+    if (serr != 0) then {
+      val () =
+        auxerrlen (loc0, serr)
+      val () =
+        the_trans3errlst_add(T3E_d2exp_trdn_rec(d2e0, s2e0))
     } // end of [if] // end of [val]
 //
   in
-    d3exp_rec (loc0, s2e0, knd, npf, ld3es)
+    d3exp_rec(loc0, s2e0, knd, npf, ld3es)
   end // end of [S2Etyrec]
-| _ (* non-S2Etyrec *) => d2exp_trdn_rest (d2e0, s2f0)
+| _ (* non-S2Etyrec *) => d2exp_trdn_rest(d2e0, s2f0)
 //
 end // end of [d2exp_trdn_rec]
 
@@ -1066,7 +1106,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-d2exp_trdn_seq (d2e0, s2f0) = let
+d2exp_trdn_seq
+  (d2e0, s2f0) = let
 //
 val loc0 = d2e0.d2exp_loc
 val-D2Eseq (d2es) = d2e0.d2exp_node
