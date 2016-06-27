@@ -58,11 +58,12 @@ val cap1 = succ (cap)
 //
 val A = arrayptr_make_uninitized<a> (cap1)
 //
-val (pfat, pfgc | p) = ptr_alloc<deqarray_tsize> ()
+val (pfat,pfgc|p) = ptr_alloc<deqarray_tsize> ()
 //
-val (pfngc | deq) = deqarray_make_ngc__tsz (pfat | p, A, cap, sizeof<a>)
+val (pfngc | deq) =
+  deqarray_make_ngc__tsz{a}(pfat | p,A,cap,sizeof<a>)
 //
-prval ((*void*)) = mfree_gcngc_v_nullify (pfgc, pfngc)
+prval ((*freed*)) = mfree_gcngc_v_nullify(pfgc, pfngc)
 //
 } // end of [deqarray_make_cap]
 
@@ -71,21 +72,31 @@ prval ((*void*)) = mfree_gcngc_v_nullify (pfgc, pfngc)
 local
 //
 extern
-fun deqarray_get_size__tsz{a:vt0p}
-  {m,n:int} (deq: !deqarray (a, m, n), sizeof_t(a)):<> size_t(n) = "mac#%"
+fun
+deqarray_get_size__tsz
+  {a:vt0p}{m,n:int}
+(
+  deq: !deqarray(a, m, n), tsz: sizeof_t(a)
+) :<> size_t(n) = "mac#%" // end-of-function
 extern
-fun deqarray_get_capacity__tsz{a:vt0p}
-  {m,n:int} (deq: !deqarray (a, m, n), sizeof_t(a)):<> size_t(m) = "mac#%"
+fun
+deqarray_get_capacity__tsz
+  {a:vt0p}{m,n:int}
+(
+  deq: !deqarray(a, m, n), tsz: sizeof_t(a)
+) :<> size_t(m) = "mac#%" // end-of-function
 //
 in (* in of [local] *)
-
+//
 implement
 {a}(*tmp*)
-deqarray_get_size (deq) = deqarray_get_size__tsz (deq, sizeof<a>)
+deqarray_get_size
+  (deq) = deqarray_get_size__tsz{a}(deq, sizeof<a>)
 implement
 {a}(*tmp*)
-deqarray_get_capacity (deq) = deqarray_get_capacity__tsz (deq, sizeof<a>)
-
+deqarray_get_capacity
+  (deq) = deqarray_get_capacity__tsz{a}(deq, sizeof<a>)
+//
 end // end of [local]
 
 (* ****** ****** *)
@@ -103,30 +114,36 @@ deqarray_get_ptrend{a:vt0p}
 //
 extern
 fun
-deqarray_get_ptrfrnt{a:vt0p}
-  {m,n:int} (deq: !deqarray (a, m, n)):<> Ptr1 = "mac#%"
+deqarray_get_ptrfrnt
+  {a:vt0p}{m,n:int}
+  (deq: !deqarray (a, m, n)):<> Ptr1 = "mac#%"
 extern
 fun
-deqarray_set_ptrfrnt{a:vt0p}
-  {m,n:int} (deq: !deqarray (a, m, n), p: ptr):<!wrt> void = "mac#%"
+deqarray_set_ptrfrnt
+  {a:vt0p}{m,n:int}
+  (deq: !deqarray (a, m, n), p: ptr):<!wrt> void = "mac#%"
 //
 extern
 fun
-deqarray_get_ptrrear{a:vt0p}
-  {m,n:int} (deq: !deqarray (a, m, n)):<> Ptr1 = "mac#%"
+deqarray_get_ptrrear
+  {a:vt0p}{m,n:int}
+  (deq: !deqarray (a, m, n)):<> Ptr1 = "mac#%"
 extern
 fun
-deqarray_set_ptrrear{a:vt0p}
-  {m,n:int} (deq: !deqarray (a, m, n), p: ptr):<!wrt> void = "mac#%"
+deqarray_set_ptrrear
+  {a:vt0p}{m,n:int}
+  (deq: !deqarray (a, m, n), p: ptr):<!wrt> void = "mac#%"
 //
 (* ****** ****** *)
 //
 extern
 fun{a:vt0p}
-deqarray_ptr_succ{m,n:int} (deq: !deqarray (INV(a), m, n), p: ptr):<> ptr
+deqarray_ptr_succ
+  {m,n:int}(deq: !deqarray (INV(a), m, n), p: ptr):<> ptr
 extern
 fun{a:vt0p}
-deqarray_ptr_pred{m,n:int} (deq: !deqarray (INV(a), m, n), p: ptr):<> ptr
+deqarray_ptr_pred
+  {m,n:int}(deq: !deqarray (INV(a), m, n), p: ptr):<> ptr
 //
 (* ****** ****** *)
 
@@ -136,21 +153,27 @@ extern
 fun
 deqarray_ptr_succ__tsz
   {a:vt0p}{m,n:int}
-  (deq: !deqarray (INV(a), m, n), p: ptr, sizeof_t(a)):<> ptr = "mac#%"
+(
+  deq: !deqarray(INV(a), m, n), p: ptr, sizeof_t(a)
+) :<> ptr = "mac#%" // end-of-function
 extern
 fun
 deqarray_ptr_pred__tsz
   {a:vt0p}{m,n:int}
-  (deq: !deqarray (INV(a), m, n), p: ptr, sizeof_t(a)):<> ptr = "mac#%"
+(
+  deq: !deqarray(INV(a), m, n), p: ptr, sizeof_t(a)
+) :<> ptr = "mac#%" // end-of-function
 //
 in (* in of [local] *)
 
 implement
 {a}(*tmp*)
-deqarray_ptr_succ (deq, p) = deqarray_ptr_succ__tsz (deq, p, sizeof<a>)
+deqarray_ptr_succ
+  (deq, p) = deqarray_ptr_succ__tsz{a}(deq, p, sizeof<a>)
 implement
 {a}(*tmp*)
-deqarray_ptr_pred (deq, p) = deqarray_ptr_pred__tsz (deq, p, sizeof<a>)
+deqarray_ptr_pred
+  (deq, p) = deqarray_ptr_pred__tsz{a}(deq, p, sizeof<a>)
 
 end // end of [local]
 
@@ -171,7 +194,7 @@ in (* in of [local] *)
 implement
 {a}(*tmp*)
 deqarray_is_full (deq) =
-  deqarray_is_full__tsz (deq, sizeof<a>)
+  deqarray_is_full__tsz{a}(deq, sizeof<a>)
 implement
 {a}(*tmp*)
 deqarray_isnot_full (deq) = let
@@ -179,7 +202,7 @@ deqarray_isnot_full (deq) = let
 prval () = lemma_deqarray_param (deq)
 //
 in
-  not(deqarray_is_full__tsz (deq, sizeof<a>))
+  not(deqarray_is_full__tsz{a}(deq, sizeof<a>))
 end // end of [deqarray_isnot_full]
 
 end // end of [local]
