@@ -549,13 +549,14 @@ end // end of [tmpvarlst_reset_alias]
 *)
 
 (* ****** ****** *)
-
+//
 extern
 fun
 funent_funlablst_update
 (
   env: !ccompenv, fls: funlablst
 ) : funlablst_vt // end-of-fun
+//
 implement
 funent_funlablst_update (env, fls) = let
 //
@@ -670,7 +671,7 @@ in
 //
 case+ opt of
 | Some (d2c) =>
-    ccompenv_add_tmpcstmat (env, TMPCSTMATsome2 (d2c, tmparg2, flab2))
+    ccompenv_add_tmpcstmat(env, TMPCSTMATsome2(d2c, tmparg2, flab2))
 | None () => ()
 //
 end // end of [val]
@@ -681,7 +682,7 @@ in
 //
 case+ opt of
 | Some (d2v) => (
-    ccompenv_add_tmpvarmat (env, TMPVARMATsome2 (d2v, tmparg2, flab2))
+    ccompenv_add_tmpvarmat(env, TMPVARMATsome2(d2v, tmparg2, flab2))
   ) (* end of [Some] *)
 | None ((*void*)) => ()
 //
@@ -731,7 +732,8 @@ val () = fprintln! (out, "funent_subst: d2es2 = ", $UN.linlst2lst{d2env}(d2es2))
 val () = fprintln! (out, "funent_subst: vbmap2 = ", vbmap2)
 *)
 //
-val fent2 =
+val
+fent2 =
 funent_make (
   loc, flab2
 , imparg, tmparg, None(*tmpsub*), tmpret2

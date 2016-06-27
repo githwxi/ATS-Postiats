@@ -904,11 +904,11 @@ in
 //
 case+ 0 of
 | _ when
-    d2cst_is_sizeof (d2c) => let
-    val-list_cons (t2ma, _) = t2mas
+    d2cst_is_sizeof(d2c) => let
+    val-list_cons(t2ma, _) = t2mas
     val tloc = t2ma.t2mpmarg_loc
-    val-list_cons (targ, _) = t2ma.t2mpmarg_arg
-    val hselt = $TYER.s2exp_tyer_shallow (tloc, targ)
+    val-list_cons(targ, _) = t2ma.t2mpmarg_arg
+    val hselt = $TYER.s2exp_tyer_shallow(tloc, targ)
   in
     primval_make_sizeof (loc0, hselt)
   end // ...

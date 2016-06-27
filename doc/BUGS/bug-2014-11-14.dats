@@ -12,7 +12,10 @@
 (* ****** ****** *)
 
 (*
-** Status: NOT FIXED YET
+//
+** Status: HX-2016-06-27: circumvented:
+** [fnx] is treated as [fun] for introducing function templates!!!
+//
 *)
 
 (* ****** ****** *)

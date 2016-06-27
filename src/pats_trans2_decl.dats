@@ -52,11 +52,13 @@ staload GLOB = "./pats_global.sats"
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans2_decl"
-
+//
+implement
+prerr_FILENAME<> () = prerr "pats_trans2_decl"
+//
 (* ****** ****** *)
 //
 staload
@@ -2464,11 +2466,28 @@ case+ d1c0.d1ecl_node of
 //
 | D1Cfundecs
   (
-    funknd, decarg, f1ds
+    fk0, decarg, f1ds
   ) => let
 //
     val
-    istmp = list_is_cons (decarg)
+    istmp = list_is_cons(decarg)
+    val
+    ismtr = funkind_is_mutailrec(fk0)
+//
+    val () =
+    if (ismtr && istmp)
+      then let
+        val () = prerr_warning2_loc(loc0)
+      in
+        prerrln! (": [fnx] is treated as [fun] for introducing function templates!")
+      end (* end of [then] *)
+//
+    val
+    fk0 =
+    (
+      if ismtr && istmp then FK_fun() else fk0
+    ) : funkind // end of [val]
+//
     val () = if istmp then the_tmplev_inc ()
 //
     val (pfenv | ()) = the_trans2_env_push ()
@@ -2486,17 +2505,17 @@ case+ d1c0.d1ecl_node of
     // end of [val]
 //
     val f2ds =
-      f1undeclst_tr (funknd, s2qs, f1ds)
+      f1undeclst_tr (fk0, s2qs, f1ds)
     // end of [val]
 //
     val () = if istmp then the_tmplev_dec ()
 //
     val () = the_trans2_env_pop (pfenv | (*none*))
 //
-    val () = the_d2expenv_add_fundeclst (funknd, f2ds)
+    val () = the_d2expenv_add_fundeclst (fk0, f2ds)
 //
   in
-    d2ecl_fundecs (loc0, funknd, s2qs, f2ds)
+    d2ecl_fundecs (loc0, fk0, s2qs, f2ds)
   end // end of [D1Cfundecs]
 //
 | D1Cvaldecs

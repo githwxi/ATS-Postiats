@@ -1494,7 +1494,7 @@ implement
 emit_funent_fnxdeclst
   (out, fent0) = let
 //
-val fls = funent_get_fnxlablst (fent0)
+val fls = funent_get_fnxlablst(fent0)
 //
 val () = (
 case+ fls of

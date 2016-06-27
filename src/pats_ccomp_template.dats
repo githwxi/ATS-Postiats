@@ -1011,11 +1011,14 @@ val () =
 ) // end of [val]
 *)
 //
-val sub = tmpsub2stasub (tsub)
+val
+sub = tmpsub2stasub(tsub)
+val
+sfx = funlab_incget_ncopy(flab)
 //
-val sfx = funlab_incget_ncopy (flab)
+val
+flab2 = funlab_subst (sub, flab)
 //
-val flab2 = funlab_subst (sub, flab)
 val () = funlab_set_suffix (flab2, sfx)
 val () = the_funlablst_add (flab2)
 //
@@ -1025,7 +1028,10 @@ val (pfpush|()) = ccompenv_push (env)
 //
 val () = ccompenv_add_tmpsub (env, tsub)
 val () = ccompenv_inc_tmprecdepth (env)
-val fent2 = funent_subst (env, sub, flab2, fent, sfx)
+//
+val
+fent2 = funent_subst(env, sub, flab2, fent, sfx)
+//
 val () = ccompenv_dec_tmprecdepth (env)
 //
 val ((*popped*)) = ccompenv_pop (pfpush | env)
@@ -1059,13 +1065,12 @@ ccomp_tmpcstmat
 (*
 val () =
 (
-  print ("ccomp_tmpcstmat: d2c = ");
-  print_d2cst (d2c); print_newline ();
-  print ("ccomp_tmpcstmat: t2mas = ");
-  fpprint_t2mpmarglst (stdout_ref, t2mas);
-  print_newline ();
-  print ("ccomp_tmpcstmat: mat = ");
-  fprint_tmpcstmat (stdout_ref, mat); print_newline ();
+  print("ccomp_tmpcstmat: d2c = ");
+  fprint_d2cst(stdout_ref, d2c); print_newline();
+  print("ccomp_tmpcstmat: mat = ");
+  fprint_tmpcstmat(stdout_ref, mat); print_newline();
+  print("ccomp_tmpcstmat: t2mas = ");
+  fpprint_t2mpmarglst(stdout_ref, t2mas); print_newline();
 ) // end of [val]
 *)
 //
@@ -1108,7 +1113,8 @@ end // end of [ccomp_tmpcstmat_some]
 (* ****** ****** *)
 
 extern
-fun ccomp_tmpvarmat_some
+fun
+ccomp_tmpvarmat_some
 (
   env: !ccompenv
 , loc0: location, hse0: hisexp, d2v: d2var, t2mas: t2mpmarglst, mat: tmpvarmat
@@ -1124,12 +1130,11 @@ ccomp_tmpvarmat
 val () =
 (
   print ("ccomp_tmpvarmat: d2v = ");
-  print_d2var (d2v); print_newline ();
-  print ("ccomp_tmpvarmat: t2mas = ");
-  fpprint_t2mpmarglst (stdout_ref, t2mas);
-  print_newline ();
+  fprint_d2var(stdout_ref, d2v); print_newline ();
   print ("ccomp_tmpvarmat: mat = ");
   fprint_tmpvarmat (stdout_ref, mat); print_newline ();
+  print ("ccomp_tmpvarmat: t2mas = ");
+  fpprint_t2mpmarglst (stdout_ref, t2mas); print_newline ();
 ) // end of [val]
 *)
 //
@@ -1137,13 +1142,15 @@ in
 //
 case+ mat of
 | TMPVARMATsome _ =>
+  (
     ccomp_tmpvarmat_some
       (env, loc0, hse0, d2v, t2mas, mat)
     // end of [ccomp_tmpvarmat_some]
-  // end of [TMPVARMATsome]
+  ) // end of [TMPVARMATsome]
 | TMPVARMATsome2
     (d2c, s2ess, flab) =>
     primval_make2_funlab (loc0, hse0, flab)
+  // end of [TMPVARMATsome2]
 | TMPVARMATnone() =>
     primval_tmpltvarmat (loc0, hse0, d2v, t2mas, mat)
   // end of [TMPVARMATnone]
@@ -1158,8 +1165,8 @@ val-TMPVARMATsome
   (hfd, tsub, _(*knd*)) = mat
 //
 val opt = hifundec_get_funlabopt (hfd)
-val () =
-(
+val () = (
+//
 case+ opt of
 | None _ => let
     val-Some
@@ -1172,7 +1179,9 @@ case+ opt of
     hifundeclst_ccomp (env, 0(*lvl0*), knd, decarg, hfds)
   end // end of [None]
 | Some _ => ((*void*))
-)
+//
+) (* end of [val] *)
+//
 val-Some(flab) = hifundec_get_funlabopt (hfd)
 //
 in
