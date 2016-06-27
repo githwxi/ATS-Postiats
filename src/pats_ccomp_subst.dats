@@ -46,11 +46,14 @@ UN = "prelude/SATS/unsafe.sats"
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_ccomp_subst"
-
+//
+implement
+prerr_FILENAME<>
+  ((*void*)) = prerr "pats_ccomp_subst"
+//
 (* ****** ****** *)
 
 staload ERR = "./pats_error.sats"
@@ -136,8 +139,10 @@ t2mpmarglst_subst
 //
 (*
 val out = stdout_ref
-val () = fprintln! (out, "t2mpmarglst_subst: sub = ", sub)
-val () = fprintln! (out, "t2mpmarglst_subst: t2mas = <", t2mas, ">")
+val () =
+fprintln! (out, "t2mpmarglst_subst: sub = ", sub)
+val () =
+fprintln! (out, "t2mpmarglst_subst: t2mas = <", t2mas, ">")
 *)
 //
 in
@@ -360,25 +365,26 @@ typedef
 instrlst0 = ccomp_instrlst_type
 //
 extern
-fun instrlst0_subst
-(
-  env: !ccompenv
+fun
+instrlst0_subst
+( env: !ccompenv
 , map: !tmpmap, sub: !stasub, inss: instrlst0, sfx: int
 ) : instrlst0 // [instrlst0_subst]
 //
 (* ****** ****** *)
-
+//
 extern
-fun primval_lamfix_subst
+fun
+primval_lamfix_subst
   (env: !ccompenv, sub: !stasub, pmv: primval): primval
 // end of [primval_lamfix_subst]
-
+//
 (* ****** ****** *)
 
 extern
-fun ccompenv_add_fundecsloc_subst
-(
-  env: !ccompenv
+fun
+ccompenv_add_fundecsloc_subst
+( env: !ccompenv
 , sub: !stasub, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : void // end of [ccompenv_add_fundecsloc_subst]
 

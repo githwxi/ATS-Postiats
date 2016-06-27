@@ -12,7 +12,7 @@
 (* ****** ****** *)
 
 (*
-** Status: It is fixed by HX-2014-11-14
+** Status: NOT FIXED YET
 *)
 
 (* ****** ****** *)

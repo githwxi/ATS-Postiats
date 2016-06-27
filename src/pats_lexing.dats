@@ -886,7 +886,9 @@ testing_fexponent_bin
 (
   buf: &lexbuf, pos: &position
 ) : int = let
-  val i = lexbufpos_get_char (buf, pos)
+//
+val i = lexbufpos_get_char (buf, pos)
+//
 in
 //
 if
@@ -930,7 +932,9 @@ testing_deciexp
 (
   buf: &lexbuf, pos: &position
 ) : int = let  
-  val i = lexbufpos_get_char (buf, pos)
+//
+val i = lexbufpos_get_char (buf, pos)
+//
 in
 //
 if
@@ -979,7 +983,9 @@ testing_hexiexp
 (
   buf: &lexbuf, pos: &position
 ) : int = let  
-  val i = lexbufpos_get_char (buf, pos)
+//
+val i = lexbufpos_get_char (buf, pos)
+//
 in
 //
 if

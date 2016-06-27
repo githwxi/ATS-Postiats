@@ -1434,12 +1434,14 @@ in
 end // end of [emit_funent_funbody]
 
 (* ****** ****** *)
-
+//
 extern
-fun emit_funent_fnxdeclst (out: FILEref, fent0: funent): void
+fun
+emit_funent_fnxdeclst (out: FILEref, fent0: funent): void
 extern
-fun emit_funent_fnxbodylst (out: FILEref, fent0: funent): void
-
+fun
+emit_funent_fnxbodylst (out: FILEref, fent0: funent): void
+//
 (* ****** ****** *)
 
 local
@@ -1617,13 +1619,21 @@ implement
 emit_funent_implmnt
   (out, fent) = let
 (*
-val () = fprintln! (stdout_ref, "emit_funent_implmnt: fent = ", fent)
+val () =
+fprintln!
+( stdout_ref
+, "emit_funent_implmnt: fent = ", fent
+)
 *)
 val loc0 = funent_get_loc (fent)
 val flab = funent_get_lab (fent)
 val d2es = funent_eval_d2envlst (fent)
 (*
-val () = fprintln! (stdout_ref, "emit_funent_implmnt: d2es = ", d2es)
+val () =
+fprintln!
+( stdout_ref
+, "emit_funent_implmnt: d2es = ", d2es
+)
 *)
 val () = emit_text (out, "/*\n")
 val () = $LOC.fprint_location (out, loc0)
@@ -1706,6 +1716,7 @@ val () = emit_text (out, "] */\n")
 val () = funent_varbindmap_uninitize (fent)
 //
 in
+  // nothing
 end // end of [emit_funent_implmnt]
 
 end // end of [local]
