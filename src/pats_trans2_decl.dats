@@ -2479,7 +2479,7 @@ case+ d1c0.d1ecl_node of
       then let
         val () = prerr_warning2_loc(loc0)
       in
-        prerrln! (": [fnx] is treated as [fun] for introducing function templates!")
+        prerrln! (": [fnx] is treated as [fun] for initiating function templates!")
       end (* end of [then] *)
 //
     val
