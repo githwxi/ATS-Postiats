@@ -361,7 +361,8 @@ end // end of [emit_instr_fcall]
 
 local
 
-fun aux1
+fun
+aux1
 (
   out: FILEref
 , ntl: int, pmv: primval, i: int
@@ -386,7 +387,8 @@ in
   // nothing
 end // end of [aux1]
 
-fun aux1lst
+fun
+aux1lst
 (
   out: FILEref
 , ntl: int, pmvs: primvalist, i: int
@@ -404,7 +406,8 @@ case+ pmvs of
 //
 end // end of [aux1lst]
 
-fun aux2
+fun
+aux2
 (
   out: FILEref
 , ntl: int, pmv: primval, i: int
@@ -433,7 +436,8 @@ in
   // nothing
 end // end of [aux2]
 
-fun aux2lst
+fun
+aux2lst
 (
   out: FILEref
 , ntl: int, pmvs: primvalist, i: int
@@ -451,7 +455,8 @@ case+ pmvs of
 //
 end // end of [aux2lst]
 
-fun auxgoto
+fun
+auxgoto
 (
   out: FILEref, flab: funlab
 ) : void = let

@@ -2474,23 +2474,20 @@ case+ d1c0.d1ecl_node of
     val
     ismtr = funkind_is_mutailrec(fk0)
 //
+    var fk0: funkind = fk0
+//
     val () =
-    if (ismtr && istmp)
+    if (istmp && ismtr)
       then let
+        val () = fk0 := FK_fun()
         val () = prerr_warning2_loc(loc0)
       in
         prerrln! (": [fnx] is treated as [fun] for initiating function templates!")
       end (* end of [then] *)
 //
-    val
-    fk0 =
-    (
-      if ismtr && istmp then FK_fun() else fk0
-    ) : funkind // end of [val]
+    val () = if istmp then the_tmplev_inc()
 //
-    val () = if istmp then the_tmplev_inc ()
-//
-    val (pfenv | ()) = the_trans2_env_push ()
+    val (pfenv | ()) = the_trans2_env_push()
 //
     val
     tmplev = the_tmplev_get()

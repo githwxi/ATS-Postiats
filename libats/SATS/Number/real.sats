@@ -130,8 +130,8 @@ div_real_int
 //
 stadef + = add_int_real
 stadef + = add_real_int
-stadef + = sub_int_real
-stadef + = sub_real_int
+stadef - = sub_int_real
+stadef - = sub_real_int
 stadef * = mul_int_real
 stadef / = div_real_int
 //

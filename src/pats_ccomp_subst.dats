@@ -1838,14 +1838,35 @@ case+ hfds of
 //
 end // end of [auxmain]
 
-fun auxfnxset
+fun
+auxfnxset
 (
   fls: funlablst
 ) : void = let
 //
-  val-list_cons (fl0, _) = fls
-  val-Some (fent) = funlab_get_funent (fl0)
-  val () = funent_set_fnxlablst (fent, fls)
+val-
+list_cons
+  (fl0, _) = fls
+//
+val-
+Some(fent0) =
+  funlab_get_funent(fl0)
+//
+val ((*void*)) =
+  funent_set_fnxlablst(fent0, fls)
+//
+fun
+fwork
+(
+  fl: funlab
+) : void = let
+  val-Some(fent) = funlab_get_funent(fl)
+in
+  tmpvar_inc_tailcal(funent_get_tmpret(fent))
+end // end of [fwork]
+//
+val ((*void*)) = list_foreach_fun<funlab>(fls, fwork)
+//
 in
   // nothing
 end // end of [auxfnxset]

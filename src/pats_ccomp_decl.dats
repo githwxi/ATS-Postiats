@@ -574,12 +574,13 @@ case+ hfds of
     val
     tmparg = list_nil(*s2ess*) // matching all?
     val
-    prolog = list_sing (instr_funlab (loc, flab))
+    prolog = list_sing(instr_funlab (loc, flab))
 //
     val fent =
     hidexp_ccomp_funlab_arg_body
     (
-      env, flab, imparg, tmparg, prolog, loc, hips_arg, hde_body
+      env, flab
+    , imparg, tmparg, prolog, loc, hips_arg, hde_body
     ) // end of [fcall] // end of [val]
 //
     val () =

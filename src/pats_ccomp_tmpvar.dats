@@ -96,49 +96,48 @@ tmpvar_make
 } end // end of [tmpvar_make]
 
 (* ****** ****** *)
-
+//
 implement
-tmpvar_get_loc (tmp) = tmp.tmpvar_loc
-
+tmpvar_get_loc(tmp) = tmp.tmpvar_loc
+//
 implement
-tmpvar_get_type (tmp) = tmp.tmpvar_type
-
+tmpvar_get_type(tmp) = tmp.tmpvar_type
+//
 implement
-tmpvar_isref (tmp) = tmp.tmpvar_ref > 0
+tmpvar_isref(tmp) = tmp.tmpvar_ref > 0
 implement
-tmpvar_isret (tmp) = tmp.tmpvar_ret > 0
-
+tmpvar_isret(tmp) = tmp.tmpvar_ret > 0
+//
 implement
-tmpvar_get_topknd (tmp) = tmp.tmpvar_topknd
-
+tmpvar_get_topknd(tmp) = tmp.tmpvar_topknd
+//
 implement
-tmpvar_get_origin (tmp) =
-  $UN.cast{tmpvaropt} (tmp.tmpvar_origin)
+tmpvar_get_origin(tmp) =
+  $UN.cast{tmpvaropt}(tmp.tmpvar_origin)
 // end of [tmpvar_get_origin]
-
-implement
-tmpvar_get_suffix (tmp) = tmp.tmpvar_suffix
-
+//
 implement
 tmpvar_get_stamp (tmp) = tmp.tmpvar_stamp
-
+implement
+tmpvar_get_suffix(tmp) = tmp.tmpvar_suffix
+//
 (* ****** ****** *)
-
+//
 implement
 tmpvar_get_tailcal (tmp) = tmp.tmpvar_ret
-
+//
 (* ****** ****** *)
-
+//
 implement
 eq_tmpvar_tmpvar (tmp1, tmp2) =
   $STMP.eq_stamp_stamp (tmp1.tmpvar_stamp, tmp2.tmpvar_stamp)
 // end of [eq_tmpvar_tmpvar]
-
+//
 implement
 compare_tmpvar_tmpvar (tmp1, tmp2) =
   $STMP.compare_stamp_stamp (tmp1.tmpvar_stamp, tmp2.tmpvar_stamp)
 // end of [compare_tmpvar_tmpvar]
-
+//
 (* ****** ****** *)
 
 end // end of [local]
