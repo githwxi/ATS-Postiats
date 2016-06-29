@@ -111,6 +111,187 @@ overload fprint with fprint_s0exp
 
 (* ****** ****** *)
 
+local
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*anon*) = "prelude/DATS/unsafe.dats"
+//
+fun
+extprfx_add
+(
+  sym: symbol, pext: Ptr1
+) : string = let
+//
+val ext2 =
+  $UN.cast{string}(pext+1)
+val ext2 = (
+  if string_is_empty(ext2)
+    then symbol_get_name (sym) else ext2
+  // end of [if]
+) : string // end of [val]
+//
+val opt =
+  the_EXTERN_PREFIX_get()
+// end of [val]
+val
+issome = stropt_is_some(opt)
+//
+in
+//
+if
+issome
+then let
+  val prfx =
+    stropt_unsome(opt)
+  val prfxext2 =
+    sprintf ("%s%s", @(prfx, ext2))
+  // end of [val]
+in
+  string_of_strptr(prfxext2)
+end // end of [then]
+else let
+(*
+// HX-2015-05:
+// Should a warning/error be reported?
+*)
+  val prfxext2 =
+    sprintf ("__ATS_EXTERN_PREFIX__%s", @(ext2))
+  // end of [val]
+in
+  string_of_strptr(prfxext2)
+end // end of [else]
+//
+end // end of [extprfx_add]
+
+in (* in of [local] *)
+
+implement
+proc_extdef
+  (sym, ext) = let
+//
+#define NUL '\000'
+//
+fun isemp
+  (p: Ptr1): bool = $UN.ptrget<char> (p) = NUL
+fun isperc
+  (p: Ptr1): bool = $UN.ptrget<char> (p) = '%'
+//
+val pext = $UN.cast2Ptr1 (ext)
+//
+in
+//
+case+ 0 of
+| _ when isemp(pext) => symbol_get_name(sym)
+| _ when isperc(pext) => extprfx_add(sym, pext)
+| _ (*non-special*) => ext // HX: no processing
+//
+end // end of [proc_extdef]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+extern
+fun
+ismac
+(
+  ext: string, ext_new: &string
+) : bool = "patsopt_extnam_ismac"
+extern
+fun
+issta
+(
+  ext: string, ext_new: &string
+) : bool = "patsopt_extnam_issta"
+extern
+fun
+isext
+(
+  ext: string, ext_new: &string
+) : bool = "patsopt_extnam_isext"
+//
+in (* in of [local] *)
+
+implement
+scstextdef_tr
+  (s0c, sym, extopt) = let
+//
+(*
+//
+val () =
+  print ("scstextdef_tr: sym = ...")
+val () =
+  print ("scstextdef_tr: extopt = ...")
+//
+*)
+//
+macdef f(x) =
+  proc_extdef(sym, ,(x))
+//
+in
+//
+case+ extopt of
+//
+| None () => SCSTEXTDEFnone()
+//
+| Some (s0) => let
+    val-$LEX.T_STRING(ext) = s0.token_node
+    var ext2: string = (ext) // removing mac#, ext#, sta#
+  in
+    case+ 0 of
+    | _ when
+        isext(ext, ext2) => SCSTEXTDEFsome(f(ext2))
+    | _ (* rest-of-case *) => SCSTEXTDEFsome(f(ext2)) // no (recognized) prefix
+  end // end of [_ when ...]
+//
+end // end of [scstextdef_tr]
+
+implement
+dcstextdef_tr
+  (d0c, sym, extopt) = let
+//
+(*
+//
+val () =
+  print ("dcstextdef_tr: sym = ...")
+val () =
+  print ("dcstextdef_tr: extopt = ...")
+//
+*)
+//
+macdef f(x) =
+  proc_extdef(sym, ,(x))
+//
+in
+//
+case+ extopt of
+//
+| None () => DCSTEXTDEFnone(1) // extern
+//
+| Some (s0) => let
+    val-$LEX.T_STRING(ext) = s0.token_node
+    var ext2: string = (ext) // removing mac#, ext#, sta#
+  in
+    case+ 0 of
+    | _ when
+        ismac(ext, ext2) => DCSTEXTDEFsome_mac(f(ext2))
+    | _ when
+        issta(ext, ext2) => DCSTEXTDEFsome_sta(f(ext2))
+    | _ when
+        isext(ext, ext2) => DCSTEXTDEFsome_ext(f(ext2))
+    | _ (* rest-of-case *) => DCSTEXTDEFsome_ext(f(ext2)) // no (recognized) prefix
+  end // end of [_ when ...]
+//
+end // end of [dcstextdef_tr]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 s0arg_tr (x) = let
   val res = s0rtopt_tr (x.s0arg_srt)
@@ -669,12 +850,13 @@ end // end of [m0acarglst_tr]
 (* ****** ****** *)
 
 implement
-d0atcon_tr (d0c) = let
+d0atcon_tr(d0c) = let
 //
 val sym = d0c.d0atcon_sym
 val qua = d0c.d0atcon_qua
 val qua = q0marglst_tr (qua)
 (*
+//
 val () =
 (
   print "d0atcon_tr: id = ";
@@ -682,17 +864,27 @@ val () =
   print "d0atcon_tr: qua = ";
   fprint_q1marglst (stdout_ref, qua); print_newline ();
 ) (* end of [val] *)
+//
 *)
 var npf0: int = ~1 // HX: default
 val arg = (
-  case+ d0c.d0atcon_arg of
-  | Some s0e => let
-      val s1e = s0exp_tr s0e in
-      case+ s1e.s1exp_node of
-      | S1Elist (npf, s1es) => (npf0 := npf; s1es)
-      | _ => list_cons (s1e, list_nil ())
-    end // end of [Some]
-  | None () => list_nil ()
+//
+case+
+d0c.d0atcon_arg
+of // case+
+//
+| Some s0e => let
+    val s1e = s0exp_tr s0e
+  in
+    case+
+    s1e.s1exp_node
+    of // case+
+    | S1Elist(npf, s1es) => (npf0 := npf; s1es)
+    | _ (* non-S1Elist *) => list_cons(s1e, list_nil())
+  end // end of [Some]
+//
+| None((*void*)) => list_nil()
+//
 ) : s1explst
 //
 val ind = d0c.d0atcon_ind
@@ -703,8 +895,12 @@ val ind = (
         case+ s0e.s0exp_node of
         | S0Elist (s0es) => s0explst_tr (s0es)
         | _(*non-S0Elist*) => let
-            val () = prerr_interror ()
-            val () = prerrln! (": d0atcon_tr: index is required to be a list.")
+            val () =
+              prerr_interror()
+            // end of [val]
+            val () =
+              prerrln!(": d0atcon_tr: index is required to be a list.")
+            // end of [val]
           in
             $ERR.abort_interr{s1explst}((*reachable*))
           end // end of [_]
@@ -716,150 +912,8 @@ val ind = (
 ) : s1explstopt // end of [val]
 //
 in
-  d1atcon_make (d0c.d0atcon_loc, sym, qua, npf0, arg, ind)
+  d1atcon_make(d0c.d0atcon_loc, sym, qua, npf0, arg, ind)
 end // end of [d0atcon_tr]
-
-(* ****** ****** *)
-//
-extern
-fun
-proc_extdef
-(
-  d0c: d0cstdec, sym: symbol, ext: string
-) : string // end of [proc_extdef]
-//
-(* ****** ****** *)
-
-local
-
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/unsafe.dats"
-
-fun
-extprfx_add
-(
-  d0c: d0cstdec
-, sym: symbol, pext: Ptr1
-) : string = let
-//
-val ext2 =
-  $UN.cast{string}(pext+1)
-val ext2 = (
-  if string_is_empty(ext2)
-    then symbol_get_name (sym) else ext2
-  // end of [if]
-) : string // end of [val]
-//
-val opt =
-  the_EXTERN_PREFIX_get()
-// end of [val]
-val
-issome = stropt_is_some(opt)
-//
-in
-//
-if
-issome
-then let
-  val prfx =
-    stropt_unsome(opt)
-  val prfxext2 =
-    sprintf ("%s%s", @(prfx, ext2))
-  // end of [val]
-in
-  string_of_strptr(prfxext2)
-end // end of [then]
-else let
-(*
-// HX-2015-05:
-// Should a warning/error be reported?
-*)
-  val prfxext2 =
-    sprintf ("__ATS_EXTERN_PREFIX__%s", @(ext2))
-  // end of [val]
-in
-  string_of_strptr(prfxext2)
-end // end of [else]
-//
-end // end of [extprfx_add]
-
-in (* in of [local] *)
-
-implement
-proc_extdef
-  (d0c, sym, ext) = let
-//
-#define NUL '\000'
-//
-fun isemp
-  (p: Ptr1): bool = $UN.ptrget<char> (p) = NUL
-fun isperc
-  (p: Ptr1): bool = $UN.ptrget<char> (p) = '%'
-//
-val pext = $UN.cast2Ptr1 (ext)
-//
-in
-//
-case+ 0 of
-| _ when isemp (pext) => symbol_get_name (sym)
-| _ when isperc (pext) => extprfx_add (d0c, sym, pext)
-| _ (*non-special*) => ext // HX: no processing
-//
-end // end of [proc_extdef]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-local
-//
-extern
-fun ismac
-  (ext: string, ext_new: &string): bool = "patsopt_extnam_ismac"
-extern
-fun issta
-  (ext: string, ext_new: &string): bool = "patsopt_extnam_issta"
-extern
-fun isext
-  (ext: string, ext_new: &string): bool = "patsopt_extnam_isext"
-//
-in (* in of [local] *)
-
-implement
-dcstextdef_tr
-  (d0c, sym, extopt) = let
-//
-(*
-//
-val () =
-  print ("dcstextdef_tr: sym = ...")
-val () =
-  print ("dcstextdef_tr: extopt = ...")
-//
-*)
-//
-macdef f (x) = proc_extdef (d0c, sym, ,(x))
-//
-in
-//
-case+ extopt of
-//
-| None () => DCSTEXTDEFnone (1) // extern
-//
-| Some (s0) => let
-    val-$LEX.T_STRING (ext) = s0.token_node
-    var ext2: string = (ext) // removing mac#, ext#, sta#
-  in
-    case+ 0 of
-    | _ when ismac (ext, ext2) => DCSTEXTDEFsome_mac (f(ext2))
-    | _ when issta (ext, ext2) => DCSTEXTDEFsome_sta (f(ext2))
-    | _ when isext (ext, ext2) => DCSTEXTDEFsome_ext (f(ext2))
-    | _ => DCSTEXTDEFsome_ext (f(ext2)) // no (recognized) prefix
-  end // end of [_ when ...]
-//
-end // end of [dcstextdef_tr]
-
-end // end of [local]
 
 (* ****** ****** *)
 

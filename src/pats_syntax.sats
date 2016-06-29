@@ -907,6 +907,12 @@ fun s0rtdef_make (id: i0de, s0te: s0rtext): s0rtdef
 
 (* ****** ****** *)
 //
+datatype
+scstextdef =
+  | SCSTEXTDEFnone of ()
+  | SCSTEXTDEFsome of string
+// end of [scstextdef]
+//
 typedef
 s0tacst = '{
   s0tacst_loc= loc_t
@@ -914,7 +920,8 @@ s0tacst = '{
 , s0tacst_arg= a0msrtlst
 , s0tacst_res= s0rt
 , s0tacst_extopt= s0tringopt
-} // end of [s0tacst]
+} (* end of [s0tacst] *)
+//
 typedef s0tacstlst = List s0tacst
 //
 fun
@@ -1062,7 +1069,7 @@ d0atdec_make
 ) : d0atdec // end of [d0atdec_make]
 
 (* ****** ****** *)
-
+//
 datatype
 dcstextdef =
   | DCSTEXTDEFnone of (int) // 0/1 static/extern
@@ -1070,15 +1077,15 @@ dcstextdef =
   | DCSTEXTDEFsome_mac of string // macro
   | DCSTEXTDEFsome_sta of string // static
 // end of [dcstextdef]
-
+//
 fun dcstextdef_sta (sym: symbol): dcstextdef
-
+//
 fun dcstextdef_is_ext (x: dcstextdef):<> bool
 fun dcstextdef_is_mac (x: dcstextdef):<> bool
 fun dcstextdef_is_sta (x: dcstextdef):<> bool
-
+//
 fun dcstextdef_is_mainats (x: dcstextdef):<> bool
-
+//
 (* ****** ****** *)
 
 typedef

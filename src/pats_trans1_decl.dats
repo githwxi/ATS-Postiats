@@ -257,12 +257,21 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-s0tacst_tr (d) = let
-  val fil = $FIL.filename_get_current ()
-  val arg = a0msrtlst_tr (d.s0tacst_arg)
-  val res: s1rt = s0rt_tr (d.s0tacst_res)
+s0tacst_tr
+  (d0c) = let
+  val loc = d0c.s0tacst_loc
+  val sym = d0c.s0tacst_sym
+  val fil = $FIL.filename_get_current()
+  val arg = a0msrtlst_tr(d0c.s0tacst_arg)
+  val res: s1rt = s0rt_tr(d0c.s0tacst_res)
+  val extdef =
+    scstextdef_tr(d0c, sym, d0c.s0tacst_extopt)
+  // end of [val]
 in
-  s1tacst_make (d.s0tacst_loc, fil, d.s0tacst_sym, arg, res)
+//
+s1tacst_make
+  (loc, fil, d0c.s0tacst_sym, arg, res, extdef)
+//
 end // end of [s0tacst_tr]
 
 (* ****** ****** *)
@@ -1508,16 +1517,15 @@ end // end of [local]
 %{$
 
 ats_bool_type
-patsopt_extnam_ismac (
+patsopt_extnam_ismac
+(
   ats_ptr_type ext, ats_ptr_type ext_new
 ) {
   int sgn ;
   char* p ; int len ; 
-/*
-  sgn = strncmp ((char*)ext, "#", 1) ;
-  if (sgn) sgn = strncmp ((char*)ext, "mac#", 4) ;
-*/
-  sgn = strncmp ((char*)ext, "mac#", 4) ;
+//
+  sgn =
+  strncmp((char*)ext, "mac#", 4) ;
 //
   if (sgn == 0) {
     p = strchr ((char*)ext, '#') ;
@@ -1529,12 +1537,14 @@ patsopt_extnam_ismac (
 } // end of [patsopt_extnam_ismac]
 
 ats_bool_type
-patsopt_extnam_issta (
+patsopt_extnam_issta
+(
   ats_ptr_type ext, ats_ptr_type ext_new
 ) {
   int sgn ;
   char* p ; int len ; 
-  sgn = strncmp ((char*)ext, "sta#", 4) ;
+  sgn =
+  strncmp((char*)ext, "sta#", 4) ;
   if (sgn == 0) {
     p = strchr ((char*)ext, '#') ;
     len = strlen (p) ;
@@ -1545,12 +1555,14 @@ patsopt_extnam_issta (
 } // end of [patsopt_extnam_issta]
 
 ats_bool_type
-patsopt_extnam_isext (
+patsopt_extnam_isext
+(
   ats_ptr_type ext, ats_ptr_type ext_new
 ) {
   int sgn ;
   char* p ; int len ; 
-  sgn = strncmp ((char*)ext, "ext#", 4) ;
+  sgn =
+  strncmp((char*)ext, "ext#", 4) ;
   if (sgn == 0) {
     p = strchr ((char*)ext, '#') ;
     len = strlen (p) ;

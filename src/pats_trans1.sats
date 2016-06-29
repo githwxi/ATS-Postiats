@@ -64,10 +64,32 @@ trans1err =
 // end of [trans1err]
 
 (* ****** ****** *)
-
-fun the_trans1errlst_add (x: trans1err): void
-fun the_trans1errlst_finalize (): void // cleanup all the errors
-
+//
+fun
+the_trans1errlst_add (x: trans1err): void
+fun
+the_trans1errlst_finalize((*void*)): void // cleanup all the errors
+//
+(* ****** ****** *)
+//
+fun
+proc_extdef
+(
+  sym: symbol, ext: string
+) : string // end of [proc_extdef]
+//
+fun
+scstextdef_tr
+(
+  s0c: s0tacst, sym: symbol, extopt: s0tringopt
+) : scstextdef // end of [scstextdef_tr]
+//
+fun
+dcstextdef_tr
+(
+  d0c: d0cstdec, sym: symbol, extopt: s0tringopt
+) : dcstextdef // end of [dcstextdef_tr]
+//
 (* ****** ****** *)
 //
 fun
@@ -148,21 +170,23 @@ fun d0ecl_nonfix_tr (ids: i0delst): void
 fun d0atsrtdec_tr (d: d0atsrtdec): d1atsrtdec
 
 (* ****** ****** *)
-
+//
 fun s0rtdef_tr (x: s0rtdef): s1rtdef
-
+//
 fun s0tacst_tr (x: s0tacst): s1tacst
 fun s0tacon_tr (x: s0tacon): s1tacon
-
+//
 (*
 fun s0tavar_tr (x: s0tavar): s1tavar // HX: removed
 *)
-
+//
+(* ****** ****** *)
+//
 fun t0kindef_tr (x: t0kindef): t1kindef
-
+//
 fun s0expdef_tr (x: s0expdef): s1expdef
 fun s0aspdec_tr (x: s0aspdec): s1aspdec
-
+//
 (* ****** ****** *)
 
 fun q0marg_tr (x: q0marg): q1marg
@@ -180,14 +204,6 @@ fun d0atcon_tr (d: d0atcon): d1atcon
 fun d0atdec_tr (d: d0atdec): d1atdec
 fun e0xndec_tr (d: e0xndec): e1xndec
 
-(* ****** ****** *)
-//
-fun
-dcstextdef_tr
-(
-  d0c: d0cstdec, sym: symbol, extopt: s0tringopt
-) : dcstextdef // end of [dcstextdef_tr]
-//
 (* ****** ****** *)
 
 fun a0typ_tr (x: a0typ): s1exp

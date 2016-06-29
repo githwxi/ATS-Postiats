@@ -73,6 +73,7 @@ typedef s0taq = $SYN.s0taq
 typedef sqi0de = $SYN.sqi0de
 typedef l0ab = $SYN.l0ab
 typedef l0abeled(a:type) = $SYN.l0abeled (a)
+typedef scstextdef = $SYN.scstextdef
 typedef dcstextdef = $SYN.dcstextdef
 *)
 staload "./pats_syntax.sats"
@@ -742,28 +743,33 @@ fun s1rtdef_make (loc: location, sym: symbol, s0te: s1rtext): s1rtdef
 fun fprint_s1rtdef : fprint_type (s1rtdef)
 
 (* ****** ****** *)
-
+//
 typedef
 s1tacst = '{
 //
 // static constant declaration
 //
   s1tacst_loc= loc_t
+//
 , s1tacst_sym= symbol
 , s1tacst_fil= filename
+//
 , s1tacst_arg= a1msrtlst, s1tacst_res= s1rt
-} // end of [s1tacst]
-
+//
+, s1tacst_extdef= scstextdef
+} (* end of [s1tacst] *)
+//
 typedef s1tacstlst = List s1tacst
-
+//
 fun
 s1tacst_make (
   loc: location
-, fil: filename, sym: symbol, arg: a1msrtlst, res: s1rt
+, fil: filename, sym: symbol
+, arg: a1msrtlst, res: s1rt, extdef: scstextdef
 ) : s1tacst // end of [s1tacst_make]
-
+//
 fun fprint_s1tacst : fprint_type (s1tacst)
-
+//
 (* ****** ****** *)
 
 typedef
