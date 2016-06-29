@@ -25,16 +25,19 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("December, 2012")
 
 #atscode_separator()
-
+//
 implement
-fprint_tup$beg<> (out) = fprint_string (out, "(")
+fprint_tup$beg<>
+  (out) = fprint_string(out, "(")
 implement
-fprint_tup$end<> (out) = fprint_string (out, ")")
+fprint_tup$end<>
+  (out) = fprint_string(out, ")")
 implement
-fprint_tup$sep<> (out) = fprint_string (out, ", ")
-
+fprint_tup$sep<>
+  (out) = fprint_string(out, ", ")
+//
 #atscode_separator()
-
+//
 implement
 {a0,a1}
 fprint_tupval2
@@ -47,13 +50,14 @@ fprint_tupval2
 in
   // nothing
 end // end of [fprint_tupval2]
-
+//
 implement
 (a0,a1)
-fprint_val<tup(a0,a1)> (out, x) = fprint_tupval2<a0,a1> (out, x)
-
+fprint_val<tup(a0,a1)>
+  (out, x) = fprint_tupval2<a0,a1> (out, x)
+//
 #atscode_separator()
-
+//
 implement
 {a0,a1,a2}
 fprint_tupval3
@@ -68,13 +72,14 @@ fprint_tupval3
 in
   // nothing
 end // end of [fprint_tupval3]
-
+//
 implement
 (a0,a1,a2)
-fprint_val<tup(a0,a1,a2)> (out, x) = fprint_tupval3<a0,a1,a2> (out, x)
-
+fprint_val<tup(a0,a1,a2)>
+  (out, x) = fprint_tupval3<a0,a1,a2> (out, x)
+//
 #atscode_separator()
-
+//
 implement
 {a0,a1,a2,a3}
 fprint_tupval4
@@ -91,13 +96,14 @@ fprint_tupval4
 in
   // nothing
 end // end of [fprint_tupval4]
-
+//
 implement
 (a0,a1,a2,a3)
-fprint_val<tup(a0,a1,a2,a3)> (out, x) = fprint_tupval4<a0,a1,a2,a3> (out, x)
-
+fprint_val<tup(a0,a1,a2,a3)>
+  (out, x) = fprint_tupval4<a0,a1,a2,a3> (out, x)
+//
 #atscode_separator()
-
+//
 implement
 {a0,a1}
 fprint_tupref2
@@ -110,13 +116,14 @@ fprint_tupref2
 in
   // nothing
 end // end of [fprint_tupref2]
-
+//
 implement
 (a0,a1)
-fprint_ref<tup(a0,a1)> (out, x) = fprint_tupref2<a0,a1> (out, x)
-
+fprint_ref<tup(a0,a1)>
+  (out, x) = fprint_tupref2<a0,a1> (out, x)
+//
 #atscode_separator()
-
+//
 implement
 {a0,a1,a2}
 fprint_tupref3
@@ -134,10 +141,11 @@ end // end of [fprint_tupref3]
 
 implement
 (a0,a1,a2)
-fprint_ref<tup(a0,a1,a2)> (out, x) = fprint_tupref3<a0,a1,a2> (out, x)
-
+fprint_ref<tup(a0,a1,a2)>
+  (out, x) = fprint_tupref3<a0,a1,a2> (out, x)
+//
 #atscode_separator()
-
+//
 implement
 {a0,a1,a2,a3}
 fprint_tupref4
@@ -154,11 +162,89 @@ fprint_tupref4
 in
   // nothing
 end // end of [fprint_tupref4]
-
+//
 implement
 (a0,a1,a2,a3)
-fprint_ref<tup(a0,a1,a2,a3)> (out, x) = fprint_tupref4<a0,a1,a2,a3> (out, x)
-
+fprint_ref<tup(a0,a1,a2,a3)>
+  (out, x) = fprint_tupref4<a0,a1,a2,a3> (out, x)
+//
+#atscode_separator()
+//
+implement
+fprint_tupbox$beg<>
+  (out) = fprint_string(out, "$tup(")
+//
+implement
+fprint_tupbox$end<> (out) = fprint_string(out, ")")
+implement
+fprint_tupbox$sep<> (out) = fprint_string(out, ", ")
+//
+#atscode_separator()
+//
+implement
+{a0,a1}
+fprint_tupbox2
+  (out, x) = let
+  val () = fprint_tupbox$beg<> (out)
+  val () = fprint_val<a0> (out, x.0)
+  val () = fprint_tupbox$sep<> (out)
+  val () = fprint_val<a1> (out, x.1)
+  val () = fprint_tupbox$end<> (out)
+in
+  // nothing
+end // end of [fprint_tupbox2]
+//
+implement
+(a0,a1)
+fprint_val<tupbox(a0,a1)>
+  (out, x) = fprint_tupbox2<a0,a1> (out, x)
+//
+#atscode_separator()
+//
+implement
+{a0,a1,a2}
+fprint_tupbox3
+  (out, x) = let
+  val () = fprint_tupbox$beg<> (out)
+  val () = fprint_val<a0> (out, x.0)
+  val () = fprint_tupbox$sep<> (out)
+  val () = fprint_val<a1> (out, x.1)
+  val () = fprint_tupbox$sep<> (out)
+  val () = fprint_val<a2> (out, x.2)
+  val () = fprint_tupbox$end<> (out)
+in
+  // nothing
+end // end of [fprint_tupbox3]
+//
+implement
+(a0,a1,a2)
+fprint_val<tupbox(a0,a1,a2)>
+  (out, x) = fprint_tupbox3<a0,a1,a2> (out, x)
+//
+#atscode_separator()
+//
+implement
+{a0,a1,a2,a3}
+fprint_tupbox4
+  (out, x) = let
+  val () = fprint_tupbox$beg<> (out)
+  val () = fprint_val<a0> (out, x.0)
+  val () = fprint_tupbox$sep<> (out)
+  val () = fprint_val<a1> (out, x.1)
+  val () = fprint_tupbox$sep<> (out)
+  val () = fprint_val<a2> (out, x.2)
+  val () = fprint_tupbox$sep<> (out)
+  val () = fprint_val<a3> (out, x.3)
+  val () = fprint_tupbox$end<> (out)
+in
+  // nothing
+end // end of [fprint_tupbox4]
+//
+implement
+(a0,a1,a2,a3)
+fprint_val<tupbox(a0,a1,a2,a3)>
+  (out, x) = fprint_tupbox4<a0,a1,a2,a3> (out, x)
+//
 #atscode_separator()
 
 implement
