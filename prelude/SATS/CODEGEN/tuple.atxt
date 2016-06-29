@@ -48,6 +48,8 @@ stadef tup = tup4
 //
 #atscode_separator()
 //
+typedef tupbox1
+  (a0:t0p) = $tup(a0)
 typedef tupbox2
   (a0:t0p, a1:t0p) = $tup(a0, a1)
 typedef tupbox3
@@ -55,6 +57,7 @@ typedef tupbox3
 typedef tupbox4
   (a0:t0p, a1:t0p, a2:t0p, a3:t0p) = $tup(a0, a1, a2, a3)
 //
+stadef tupbox = tupbox1
 stadef tupbox = tupbox2
 stadef tupbox = tupbox3
 stadef tupbox = tupbox4
@@ -97,6 +100,9 @@ fun{} fprint_tupbox$sep (out: FILEref): void
 
 #atscode_separator()
 
+fun{
+a0:t0p
+} fprint_tupbox1 (out: FILEref, x: $tup(a0)): void
 fun{
 a0,a1:t0p
 } fprint_tupbox2 (out: FILEref, x: $tup(a0, a1)): void

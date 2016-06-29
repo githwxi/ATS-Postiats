@@ -182,6 +182,23 @@ fprint_tupbox$sep<> (out) = fprint_string(out, ", ")
 #atscode_separator()
 //
 implement
+{a0}
+fprint_tupbox1
+  (out, x) = let
+  val () = fprint_tupbox$beg<> (out)
+  val () = fprint_val<a0> (out, x.0)
+  val () = fprint_tupbox$end<> (out)
+in
+  // nothing
+end // end of [fprint_tupbox1]
+//
+implement(a0)
+fprint_val<tupbox(a0)>
+  (out, x) = fprint_tupbox1<a0> (out, x)
+//
+#atscode_separator()
+//
+implement
 {a0,a1}
 fprint_tupbox2
   (out, x) = let
@@ -194,8 +211,7 @@ in
   // nothing
 end // end of [fprint_tupbox2]
 //
-implement
-(a0,a1)
+implement(a0,a1)
 fprint_val<tupbox(a0,a1)>
   (out, x) = fprint_tupbox2<a0,a1> (out, x)
 //
@@ -216,8 +232,7 @@ in
   // nothing
 end // end of [fprint_tupbox3]
 //
-implement
-(a0,a1,a2)
+implement(a0,a1,a2)
 fprint_val<tupbox(a0,a1,a2)>
   (out, x) = fprint_tupbox3<a0,a1,a2> (out, x)
 //
@@ -240,8 +255,7 @@ in
   // nothing
 end // end of [fprint_tupbox4]
 //
-implement
-(a0,a1,a2,a3)
+implement(a0,a1,a2,a3)
 fprint_val<tupbox(a0,a1,a2,a3)>
   (out, x) = fprint_tupbox4<a0,a1,a2,a3> (out, x)
 //
