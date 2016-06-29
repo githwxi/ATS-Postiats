@@ -53,7 +53,6 @@ val () = println! ("isevn(101) = ", isevn(101))
 //
 (* ****** ****** *)
 //
-(*
 fnx{}
 foobar
   (x: int): int =
@@ -64,7 +63,6 @@ and foobar2 (x: int, y: int): int = y
 //
 val x = foobar(0)
 val () = println! "foobar(0) = " x
-*)
 //
 (* ****** ****** *)
 

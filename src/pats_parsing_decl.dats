@@ -158,7 +158,7 @@ end // end of [p_s0taconseq]
 (* ****** ****** *)
 
 (*
-s0tacst ::= si0de a0msrtseq COLON s0rt
+s0tacst ::= si0de a0msrtseq COLON s0rt extnamopt
 *)
 fun
 p_s0tacst (
@@ -179,10 +179,11 @@ val ent3 =
   pif_fun (buf, bt, err, p_COLON, err0)
 // end of [val]
 val ent4 = pif_fun (buf, bt, err, p_s0rt, err0)
+val ent5 = pif_fun (buf, bt, err, p_extnamopt, err0)
 //
 in
   if err = err0
-    then s0tacst_make (ent1, (l2l)ent2, ent4)
+    then s0tacst_make (ent1, (l2l)ent2, ent4, ent5)
     else let
       val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, ntok0)
     end // end of [else]

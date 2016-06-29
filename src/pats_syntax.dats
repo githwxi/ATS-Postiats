@@ -1104,18 +1104,24 @@ in '{
 } end // end of [s0tacon_make_some_some]
 
 (* ****** ****** *)
-
+//
 implement
 s0tacst_make
-  (id, arg, s0t) = let
+(
+  id, arg, s0t, extopt
+) = let
   val loc = id.i0de_loc + s0t.s0rt_loc
 in '{
+//
   s0tacst_loc= loc
 , s0tacst_sym= id.i0de_sym
 , s0tacst_arg= arg
 , s0tacst_res= s0t
+//
+, s0tacst_extopt= extopt
+//
 } end // end of [s0tacst_make]
-
+//
 (* ****** ****** *)
 
 (*

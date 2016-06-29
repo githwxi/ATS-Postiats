@@ -41,23 +41,25 @@ datasort real = //
 (* ****** ****** *)
 //
 stacst
-neg_real: real -> real
+neg_real
+  : real -> real = "ext#"
+//
 stadef ~ = neg_real
 //
 (* ****** ****** *)
 //
 stacst
-add_real_real
-  : (real, real) -> real
+add_real_real:
+  (real, real) -> real = "ext#"
 stacst
-sub_real_real
-  : (real, real) -> real
+sub_real_real:
+  (real, real) -> real = "ext#"
 stacst
-mul_real_real
-  : (real, real) -> real
+mul_real_real:
+  (real, real) -> real = "ext#"
 stacst
-div_real_real
-  : (real, real) -> real
+div_real_real:
+  (real, real) -> real = "ext#"
 //
 stadef + = add_real_real
 stadef - = sub_real_real
@@ -65,25 +67,27 @@ stadef * = mul_real_real
 stadef / = div_real_real
 //
 (* ****** ****** *)
-
+//
 stacst
-int2real : int -> real
+int2real:
+  int -> real = "ext#"
+stacst
+intint2real:
+  (int, int) -> real = "ext#"
+//
 stadef i2r = int2real
-
-stacst
-intint2real : (int, int) -> real
 stadef ii2r = intint2real
-
+//
 (* ****** ****** *)
-
+//
 stacst
-sgn_real : real -> int
-
+sgn_real : real -> int = "ext#"
+//
 (* ****** ****** *)
-
+//
 stacst
-floor_real : real -> int
-
+floor_real : real -> int = "ext#"
+//
 (* ****** ****** *)
 //
 (*
@@ -139,22 +143,22 @@ stadef / = div_real_int
 //
 stacst
 lt_real_real:
-  (real, real) -> bool
+  (real, real) -> bool = "ext#"
 stacst
 lte_real_real:
-  (real, real) -> bool
+  (real, real) -> bool = "ext#"
 stacst
 gt_real_real:
-  (real, real) -> bool
+  (real, real) -> bool = "ext#"
 stacst
 gte_real_real:
-  (real, real) -> bool
+  (real, real) -> bool = "ext#"
 stacst
 eq_real_real:
-  (real, real) -> bool
+  (real, real) -> bool = "ext#"
 stacst
 neq_real_real:
-  (real, real) -> bool
+  (real, real) -> bool = "ext#"
 //
 stadef < = lt_real_real
 stadef <= = lte_real_real
@@ -200,20 +204,26 @@ stadef != = neq_real_int
 (* ****** ****** *)
 
 stacst
-float2real : float -> real
+float2real:
+float -> real = "ext#"
 stadef f2r = float2real
 
 (* ****** ****** *)
 //
 stacst
-abs_real: real -> real
+abs_real:
+  real -> real = "ext#"
+//
 stadef abs = abs_real
 //
 stacst
-sqrt_real: real -> real
-stadef sqrt = sqrt_real
+sqrt_real:
+  real -> real = "ext#"
 stacst
-cbrt_real: real -> real
+cbrt_real:
+  real -> real = "ext#"
+//
+stadef sqrt = sqrt_real
 stadef cbrt = cbrt_real
 //
 (* ****** ****** *)
@@ -229,13 +239,13 @@ lemma_cbrt_def
 (* ****** ****** *)
 //
 stacst
-sin_real: real -> real // sine
+sin_real: real -> real = "ext#"
 stacst
-cos_real: real -> real // cosine
+cos_real: real -> real = "ext#"
 stacst
-tan_real: real -> real // tangent
+tan_real: real -> real = "ext#"
 stacst
-cot_real: real -> real // cotangent
+cot_real: real -> real = "ext#"
 //
 stadef sin = sin_real and cos = cos_real
 stadef tan = tan_real and cot = cot_real

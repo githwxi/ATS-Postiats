@@ -46,35 +46,59 @@
 // HX:
 // some built-in static boolean constants
 //
-stacst true_bool : bool and false_bool : bool
-stadef true = true_bool and false = false_bool
+stacst
+true_bool : bool = "ext#"
+stacst
+false_bool : bool = "ext#"
 //
-stacst neg_bool
-  : bool -> bool (* boolean negation *)
+stadef
+true = true_bool and false = false_bool
+//
+// HX: boolean negation
+//
+stacst
+neg_bool
+  : bool -> bool = "ext#"
+//
 stadef ~ = neg_bool // overloaded
 stadef not = neg_bool // overloaded
 //
-stacst add_bool_bool
-  : (bool, bool) -> bool (* disjunction *)
-stacst mul_bool_bool
-  : (bool, bool) -> bool (* conjunction *)
+// HX: disjunction
+//
+stacst
+add_bool_bool
+  : (bool, bool) -> bool = "ext#"
+//
+// HX: disjunction
+//
+stacst
+mul_bool_bool
+  : (bool, bool) -> bool = "ext#"
+//
 stadef + = add_bool_bool and * = mul_bool_bool
 stadef || = add_bool_bool and && = mul_bool_bool
 //
-stacst lt_bool_bool : (bool, bool) -> bool
-stacst lte_bool_bool : (bool, bool) -> bool
-stacst gt_bool_bool : (bool, bool) -> bool
-stacst gte_bool_bool : (bool, bool) -> bool
-stadef < = lt_bool_bool
-stadef <= = lte_bool_bool
-stadef > = gt_bool_bool
-stadef >= = gte_bool_bool
+stacst lt_bool_bool
+  : (bool, bool) -> bool = "ext#"
+stacst lte_bool_bool
+  : (bool, bool) -> bool = "ext#"
 //
-stacst eq_bool_bool : (bool, bool) -> bool
-stacst neq_bool_bool : (bool, bool) -> bool
+stacst gt_bool_bool
+  : (bool, bool) -> bool = "ext#"
+stacst gte_bool_bool
+  : (bool, bool) -> bool = "ext#"
+//
+stadef < = lt_bool_bool and <= = lte_bool_bool
+stadef > = gt_bool_bool and >= = gte_bool_bool
+//
+stacst eq_bool_bool
+  : (bool, bool) -> bool = "ext#"
+stacst neq_bool_bool
+  : (bool, bool) -> bool = "ext#"
+//
 stadef == = eq_bool_bool
 stadef != = neq_bool_bool
-stadef <> = neq_bool_bool // backward compatibility // deprecated
+stadef <> = neq_bool_bool (* for backward compatibility *)
 //
 (* ****** ****** *)
 
@@ -83,45 +107,54 @@ stadef <> = neq_bool_bool // backward compatibility // deprecated
 // HX-2012-06-12: removed
 //
 stacst
-eq_char_char : (char, char) -> bool
+eq_char_char
+  : (char, char) -> bool = "ext#"
 stacst
-neq_char_char : (char, char) -> bool
+neq_char_char
+  : (char, char) -> bool = "ext#"
 //
 stadef == = eq_char_char
 stadef != = neq_char_char
-stadef <> = neq_char_char // backward compatibility // deprecated
+stadef <> = neq_char_char (* for backward compatibility *)
 //
 *)
 
 (* ****** ****** *)
 //
-stacst neg_int : (int) -> int
+stacst
+neg_int
+  : (int) -> int = "ext#"
+//
 stadef ~ = neg_int // overloaded
 //
 stacst
-add_int_int : (int, int) -> int
+add_int_int
+  : (int, int) -> int = "ext#"
 stacst
-sub_int_int : (int, int) -> int
+sub_int_int
+  : (int, int) -> int = "ext#"
 stacst
-mul_int_int : (int, int) -> int
+mul_int_int
+  : (int, int) -> int = "ext#"
 stacst
-div_int_int : (int, int) -> int
+div_int_int
+  : (int, int) -> int = "ext#"
 //
-stadef + = add_int_int
-stadef - = sub_int_int
-stadef * = mul_int_int
-stadef / = div_int_int
+stadef + = add_int_int and - = sub_int_int
+stadef * = mul_int_int and / = div_int_int
 //
 // HX: ndiv: divisor is positive
 // HX: idiv: alias for div_int_int
 //
 stacst
-ndiv_int_int : (int, int) -> int
+ndiv_int_int
+  : (int, int) -> int = "ext#"
 stacst
-idiv_int_int : (int, int) -> int
+idiv_int_int
+  : (int, int) -> int = "ext#"
 //
-stadef ndiv = ndiv_int_int
-stadef idiv = idiv_int_int
+stadef ndiv = ndiv_int_int // divided by nat
+stadef idiv = idiv_int_int // divided by int
 //
 stadef
 nmod_int_int
@@ -135,68 +168,74 @@ stadef % (*adopted from C*) = nmod_int_int
 //
 (* ****** ****** *)
 //
-stacst lt_int_int : (int, int) -> bool
-stacst lte_int_int : (int, int) -> bool
-stacst gt_int_int : (int, int) -> bool
-stacst gte_int_int : (int, int) -> bool
+stacst lt_int_int
+  : (int, int) -> bool = "ext#"
+stacst lte_int_int
+  : (int, int) -> bool = "ext#"
+//
+stacst gt_int_int
+  : (int, int) -> bool = "ext#"
+stacst gte_int_int
+  : (int, int) -> bool = "ext#"
+//
 stadef < = lt_int_int and <= = lte_int_int
 stadef > = gt_int_int and >= = gte_int_int
 //
-stacst eq_int_int : (int, int) -> bool
-stacst neq_int_int : (int, int) -> bool
+stacst eq_int_int
+  : (int, int) -> bool = "ext#"
+stacst neq_int_int
+  : (int, int) -> bool = "ext#"
+//
 stadef == = eq_int_int
 stadef != = neq_int_int
-stadef <> = neq_int_int // HX: backward compatibility
+stadef <> = neq_int_int (* for backward compatibility *)
 //
 (* ****** ****** *)
 //
 stacst
 abs_int
-  : (int) -> int
-//
-stadef abs = abs_int
+  : (int) -> int = "ext#"
 //
 stadef
 absrel_int_int
   (x: int, v: int): bool =
   (x >= 0 && x == v) || (x <= 0 && ~x == v)
 //
+stadef abs = abs_int
 stadef absrel = absrel_int_int
 //
 stacst
 sgn_int
-  : (int) -> int
-//
-stadef sgn = sgn_int
+  : (int) -> int = "ext#"
 //
 stadef
 sgnrel_int_int
   (x: int, v: int): bool =
   (x > 0 && v==1) || (x==0 && v==0) || (x < 0 && v==(~1))
 //
+stadef sgn = sgn_int
 stadef sgnrel = sgnrel_int_int
 //
 stacst
 max_int_int
-  : (int, int) -> int
-stadef max = max_int_int
-//
+  : (int, int) -> int = "ext#"
 stacst
 min_int_int
-  : (int, int) -> int
-stadef min = min_int_int
+  : (int, int) -> int = "ext#"
 //
 stadef
 maxrel_int_int_int
   (x: int, y: int, v: int): bool =
   (x >= y && x == v) || (x <= y && y == v)
 //
-stadef maxrel = maxrel_int_int_int
-//
 stadef
 minrel_int_int_int
   (x: int, y: int, v: int): bool =
   (x >= y && y == v) || (x <= y && x == v)
+//
+stadef max = max_int_int
+stadef min = min_int_int
+stadef maxrel = maxrel_int_int_int
 stadef minrel = minrel_int_int_int
 //
 stadef
@@ -234,9 +273,7 @@ stadef divmodrel = divmodrel_int_int_int_int
 //
 stacst
 ifint_bool_int_int
-  : (bool, int, int) -> int
-//
-stadef ifint = ifint_bool_int_int
+  : (bool, int, int) -> int = "ext#"
 //
 stadef
 ifintrel_bool_int_int_int
@@ -244,6 +281,7 @@ ifintrel_bool_int_int_int
   b:bool, x:int, y:int, r:int
 ) : bool = (b && r==x) || (~b && r==y)
 //
+stadef ifint = ifint_bool_int_int
 stadef ifintrel = ifintrel_bool_int_int_int
 //
 (* ****** ****** *)
@@ -259,8 +297,11 @@ stadef b2i = bool2int and i2b = int2bool
 ** HX: [char] = [int8]
 ** HX-2012-06-12: removed
 //
-stacst int_of_char: char -> int
-stacst char_of_int : int -> char
+stacst
+int_of_char: char -> int = "ext#"
+stacst
+char_of_int : int -> char = "ext#"
+//
 stadef c2i = int_of_char and i2c = char_of_int
 //
 *)
@@ -270,8 +311,8 @@ stadef c2i = int_of_char and i2c = char_of_int
 (*
 ** HX: pointer <-> integer
 *)
-stacst int_of_addr: addr -> int
-stacst addr_of_int: int -> addr
+stacst int_of_addr: addr -> int = "ext#"
+stacst addr_of_int: int -> addr = "ext#"
 stadef a2i = int_of_addr and i2a = addr_of_int
 
 (* ****** ****** *)
@@ -296,62 +337,81 @@ stadef pow2_32 = 0x100000000
 stadef pow2_64 = 0x10000000000000000
 
 (* ****** ****** *)
-
-stacst null_addr : addr
-stadef null = null_addr
-stadef NULL = null_addr
-
-stacst add_addr_int : (addr, int) -> addr
-stacst sub_addr_int : (addr, int) -> addr
-stacst sub_addr_addr : (addr, addr) -> int
+//
+stacst
+null_addr : addr = "ext#"
+stadef
+null = null_addr and NULL = null_addr
+//
+stacst add_addr_int
+  : (addr, int) -> addr = "ext#"
+stacst sub_addr_int
+  : (addr, int) -> addr = "ext#"
+stacst sub_addr_addr
+  : (addr, addr) -> int = "ext#"
+//
 stadef + = add_addr_int
 stadef - = sub_addr_int
 stadef - = sub_addr_addr
-
-stacst lt_addr_addr : (addr, addr) -> bool
-stacst lte_addr_addr : (addr, addr) -> bool
+//
+(* ****** ****** *)
+//
+stacst lt_addr_addr
+  : (addr, addr) -> bool = "ext#"
+stacst lte_addr_addr
+  : (addr, addr) -> bool = "ext#"
+//
 stadef < = lt_addr_addr
 stadef <= = lte_addr_addr
-
-stacst gt_addr_addr : (addr, addr) -> bool
-stacst gte_addr_addr : (addr, addr) -> bool
+//
+stacst gt_addr_addr
+  : (addr, addr) -> bool = "ext#"
+stacst gte_addr_addr
+  : (addr, addr) -> bool = "ext#"
+//
 stadef > = gt_addr_addr
 stadef >= = gte_addr_addr
-
-stacst eq_addr_addr : (addr, addr) -> bool
-stacst neq_addr_addr : (addr, addr) -> bool
+//
+stacst eq_addr_addr
+  : (addr, addr) -> bool = "ext#"
+stacst neq_addr_addr
+  : (addr, addr) -> bool = "ext#"
+//
 stadef == = eq_addr_addr
-stadef != = neq_addr_addr and <> = neq_addr_addr
-
+stadef != = neq_addr_addr
+stadef <> = neq_addr_addr (* for backward compatibility *)
+//
 (* ****** ****** *)
 //
 // HX-2013-09:
 // for supporting inheritance in OOP
 //
-stacst lte_cls_cls : (cls, cls) -> bool
-stacst gte_cls_cls : (cls, cls) -> bool
-stadef <= = lte_cls_cls
-stadef >= = gte_cls_cls
+stacst
+lte_cls_cls : (cls, cls) -> bool = "ext#"
+stacst
+gte_cls_cls : (cls, cls) -> bool = "ext#"
+//
+stadef <= = lte_cls_cls and >= = gte_cls_cls
 //
 stadef
 lterel_cls_cls
 (
   c1: cls, c2: cls, lterel_cls_cls_res: bool
-) : bool = lterel_cls_cls_res
+) : bool = lterel_cls_cls_res // end-of-stadef
 stadef
 gterel_cls_cls
 (
   c1: cls, c2: cls, gterel_cls_cls_res: bool
-) : bool = gterel_cls_cls_res
+) : bool = gterel_cls_cls_res // end-of-stadef
 //
 (* ****** ****** *)
 //
 // HX: this is a special constant!
 //
 stacst
-sizeof_t0ype_int : t@ype -> int
+sizeof_t0ype_int : t@ype -> int = "ext#"
 stadef
-sizeof (a:viewt@ype): int = sizeof_t0ype_int (a?)
+sizeof(a:viewt@ype): int = sizeof_t0ype_int (a?)
 //
 (* ****** ****** *)
 
