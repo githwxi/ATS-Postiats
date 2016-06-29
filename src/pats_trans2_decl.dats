@@ -547,7 +547,8 @@ s1tacstlst_tr
 
 (* ****** ****** *)
 
-fun s1tacon_tr
+fun
+s1tacon_tr
 (
   s2t_res: s2rt, d0: s1tacon
 ) : s2cst = let
@@ -567,20 +568,29 @@ argvars = l2l
 //
 val
 s2t_fun = let
+//
   fun aux (
-    s2t_res: s2rt, xss: List (syms2rtlst)
+    s2t_res: s2rt, xss: List(syms2rtlst)
   ) : s2rt =
+  (
     case+ xss of
     | list_cons
         (xs, xss) => let
-        val s2ts_arg =
-          list_map_fun<syms2rt><s2rt> (xs, lam x =<0> x.1)
-        val s2t_res = s2rt_fun ((l2l)s2ts_arg, s2t_res)
+//
+        val
+        s2ts_arg = l2l
+        (
+          list_map_fun<syms2rt><s2rt>
+            (xs, lam (x) =<fun0> x.1)
+        ) (* s2ts_arg *)
+//
+        val s2t0_res = s2rt_fun(s2ts_arg, s2t_res)
+//
       in
-        aux (s2t_res, xss)
+        aux(s2t0_res, xss)
       end (* end of [list_cons] *)
     | list_nil((*void*)) => s2t_res
-  // end of [aux]
+  ) (* end of [aux] *)
 in
   aux(s2t_res, argvars)
 end : s2rt // end of [val]
@@ -600,8 +610,8 @@ val (pfenv|()) =
 val s2vss = let
   fun f1(x: syms2rt): s2var =
     if x.0 = $SYM.symbol_empty
-      then s2var_make_srt (x.1)
-      else s2var_make_id_srt (x.0, x.1)
+      then s2var_make_srt(x.1)
+      else s2var_make_id_srt(x.0, x.1)
     // end of [if]
   fun f2
   (
@@ -630,9 +640,9 @@ val def = let
     case+ s2vss of
     | list_cons
         (s2vs, s2vss) => let
-        val-S2RTfun (_, s2t1_fun) = s2t_fun
-        val s2e = aux (s2t1_fun, s2vss, s2e)
-        val s2e_lam = s2exp_lam_srt (s2t_fun, s2vs, s2e)
+        val-S2RTfun(_, s2t1_fun) = s2t_fun
+        val s2e = aux(s2t1_fun, s2vss, s2e)
+        val s2e_lam = s2exp_lam_srt(s2t_fun, s2vs, s2e)
       in
         s2e_lam
       end // end of [list_cons]
@@ -687,22 +697,25 @@ fun
 auxlst
 (
   s2t: s2rt, ds: s1taconlst
-) : s2cstlst =
-(
-  case+ ds of
-  | list_cons
-      (d, ds) => let
-      val s2c = s1tacon_tr(s2t, d)
-    in
-      list_cons (s2c, auxlst(s2t, ds))
-    end // end of [list_cons]
-  | list_nil((*void*)) => list_nil()
+) : s2cstlst = (
+//
+case+ ds of
+| list_cons
+    (d, ds) => let
+    val s2c =
+      s1tacon_tr(s2t, d)
+    // end of [val]
+  in
+    list_cons
+      (s2c, auxlst(s2t, ds))
+    // list_cons
+  end // end of [list_cons]
+| list_nil((*void*)) => list_nil()
+//
 ) (* end of [aux] *)
 //
-val s2t_res = s2rt_impred(knd)
-//
 in
-  auxlst (s2t_res, ds)
+  auxlst(s2rt_impred(knd), ds)
 end // end of [s1taconlst_tr]
 
 (* ****** ****** *)
