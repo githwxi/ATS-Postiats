@@ -1155,16 +1155,22 @@ d0cstdeclst_mark
 in
 //
 case+ ds of
-| list_cons (d, ds) => let
-    val () =
-      d0cstarglst_mark (d.d0cstdec_arg, res)
-    val () =
-      e0fftaglstopt_mark (d.d0cstdec_eff, res)
-    val () = s0exp_mark (d.d0cstdec_res, res)
+| list_nil
+    ((*void*)) => ()
+  // list_nil
+| list_cons
+    (d0, ds) => let
+    val arg = d0.d0cstdec_arg
+    val eff = d0.d0cstdec_eff
+    val ((*void*)) =
+      d0cstarglst_mark(arg, res)
+    val ((*void*)) =
+      e0fftaglstopt_mark(eff, res)
+    val ((*void*)) =
+      s0exp_mark(d0.d0cstdec_res, res)
   in
     d0cstdeclst_mark (ds, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [d0cstdclst_mark]
 

@@ -11,15 +11,21 @@ all:: test01
 all:: test02
 
 ######
-
-test01: test01.dats
-	$(ATSCC) -I$(PATSHOME)/src -IATS $(PATSHOME) -o $@ $< -L $(PATSHOME)/libatsynmark -latsynmark
+#
+test01: test01.dats ; \
+$(ATSCC) -I$(PATSHOME)/src -IATS $(PATSHOME) -o $@ $< \
+  -L $(PATSHOME)/utils/libatsynmark -latsynmark -L $(PATSHOME)/utils/libatsopt -latsopt -lgmp
+#
 cleanall:: ; $(RMF) test01
-
-test02: test02.dats
-	$(ATSCC) -I$(PATSHOME)/src -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ $< -L $(PATSHOME)/libatsynmark -latsynmark
+#
+######
+#
+test02: test02.dats ; \
+$(ATSCC) -I$(PATSHOME)/src -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ $< \
+  -L $(PATSHOME)/utils/libatsynmark -latsynmark -L $(PATSHOME)/utils/libatsopt -latsopt -lgmp
+#
 cleanall:: ; $(RMF) test02
-
+#
 ######
 
 RMF=rm -f

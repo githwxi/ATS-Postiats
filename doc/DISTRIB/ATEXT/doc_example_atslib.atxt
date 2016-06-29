@@ -234,6 +234,8 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 #packfilename("libats_funmset_listord.dats")
 
+#packfilename("libats_funarray_braunt.dats")
+
 #packfilename("libats_fundeque_fngtree.dats")
 #packfilename("libats_funralist_nested.dats")
 
