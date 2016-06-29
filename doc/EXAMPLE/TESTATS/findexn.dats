@@ -3,7 +3,8 @@
 //
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
 //
 // Start time: November, 2013
 //
