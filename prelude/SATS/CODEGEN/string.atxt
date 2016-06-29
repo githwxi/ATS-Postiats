@@ -59,10 +59,14 @@ stringBtwe
   (m:int, n:int) = [k:int | m <= k; k <= n] string (k)
 //
 #atscode_separator()
-
-typedef stringlst = List0 (string)
-vtypedef stringlst_vt = List0_vt (string)
-
+//
+typedef stringlst = List0(string)
+vtypedef stringlst_vt = List0_vt(string)
+//
+#atscode_separator()
+//
+typedef stringopt = Option(string)
+//
 #atscode_separator()
 
 dataprop

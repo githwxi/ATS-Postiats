@@ -194,12 +194,22 @@ val sym =
   jsonize_symbol(s2cst_get_sym(s2c))
 //
 val s2t =
-  jsonize_s2rt (s2cst_get_srt (s2c))
+  jsonize_s2rt(s2cst_get_srt(s2c))
 val stamp =
-  jsonize_stamp (s2cst_get_stamp (s2c))
+  jsonize_stamp(s2cst_get_stamp(s2c))
+//
+val extdef = let
+  val opt = s2cst_get_extdef(s2c)
+in
+//
+case+ opt of
+| $SYN.SCSTEXTDEFnone() => jsonval_none()
+| $SYN.SCSTEXTDEFsome(name) => jsonval_some(jsonval_string(name))
+//
+end // end of [extdef]
 //
 val supcls = 
-  jsonize0_s2explst (s2cst_get_supcls (s2c))
+  jsonize0_s2explst(s2cst_get_supcls(s2c))
 //
 val
 dconlstopt = let
@@ -217,11 +227,12 @@ end // end of [val]
 //
 in
 //
-jsonval_labval5
+jsonval_labval6
 (
   "s2cst_sym", sym
 , "s2cst_srt", s2t
 , "s2cst_stamp", stamp
+, "s2cst_extdef", extdef
 , "s2cst_supcls", supcls
 , "s2cst_dconlst", dconlstopt
 )

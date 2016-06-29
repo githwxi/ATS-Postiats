@@ -80,12 +80,18 @@ staload "./pats_dynexp2.sats"
 typedef
 d2cst_struct = @{
   d2cst_sym= symbol
-, d2cst_loc= location // the location of declaration
-, d2cst_fil= filename // the filename of declaration
+//
+, d2cst_loc= location
+//
+, d2cst_fil= filename
+//
 , d2cst_kind= dcstkind
+//
 , d2cst_decarg= s2qualst // template arg
-, d2cst_artylst= List (int) // arity
-, d2cst_type= s2exp // assigned type
+//
+, d2cst_artylst= List(int) // arity
+//
+, d2cst_type= s2exp // HX: assigned type
 //
 , d2cst_hisexp= hisexpopt // type erasure
 , d2cst_funlab= funlabopt // function label
@@ -94,9 +100,13 @@ d2cst_struct = @{
 , d2cst_skexp= s2kexp // skeleton of the assigned type
 *)
 , d2cst_def= d2expopt // definition
-, d2cst_pack= Stropt // for ATS_PACKNAME
+//
+, d2cst_pack= Stropt  // for ATS_PACKNAME
+//
+, d2cst_stamp= stamp  // stamp for unicity
+//
 , d2cst_extdef= dcstextdef // external dcst definition
-, d2cst_stamp= stamp // stamp for unicity
+//
 } (* end of [d2cst_struct] *)
 
 (* ****** ****** *)
@@ -142,8 +152,9 @@ val () = p->d2cst_skexp := s2kexp_make_s2exp (typ)
 *)
 val () = p->d2cst_def := None
 val () = p->d2cst_pack := pack
-val () = p->d2cst_extdef := extdef
 val () = p->d2cst_stamp := stamp
+//
+val () = p->d2cst_extdef := extdef
 //
 in (* in of [let] *)
 //

@@ -534,6 +534,10 @@ s2cst_make
 , None(*void*) // s2cstdef
 ) (* end of [s2cst_make] *)
 //
+val () =
+s2cst_set_extdef
+  (s2c0, d0.s1tacst_extdef)
+//
 in
   the_s2expenv_add_scst(s2c0); s2c0
 end // end of [s1tacst_tr]
@@ -542,7 +546,7 @@ fun
 s1tacstlst_tr
   (ds: s1tacstlst): s2cstlst =
 (
-  list_of_list_vt (list_map_fun (ds, s1tacst_tr))
+  list_of_list_vt(list_map_fun(ds, s1tacst_tr))
 ) (* end of [s1tacstlst_tr] *)
 
 (* ****** ****** *)

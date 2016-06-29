@@ -125,6 +125,8 @@ s2cst_struct = @{
 //
 , s2cst_stamp= stamp // stamp for unicity
 //
+, s2cst_extdef= scstextdef // external scst definition
+//
 } (* end of [s2cst_struct] *)
 
 (* ****** ****** *)
@@ -171,16 +173,18 @@ val () = p->s2cst_isabs := isabs
 val () = p->s2cst_iscon := iscon
 val () = p->s2cst_isrec := isrec
 val () = p->s2cst_isasp := isasp
-val () = p->s2cst_iscpy := s2cstopt_encode (None)
+val () = p->s2cst_iscpy := s2cstopt_encode(None)
 val () = p->s2cst_islst := islst
-val () = p->s2cst_arylst := s2rt_get_arylst (s2t)
+val () = p->s2cst_arylst := s2rt_get_arylst(s2t)
 val () = p->s2cst_argsrtss := argsrtss
 val () = p->s2cst_dconlst := None ()
-val () = p->s2cst_sup := s2cstlst_encode (list_nil)
+val () = p->s2cst_sup := s2cstlst_encode(list_nil)
 val () = p->s2cst_supcls := list_nil ()
-val () = p->s2cst_sVarset := s2Varset_nil ()
+val () = p->s2cst_sVarset := s2Varset_nil()
 val () = p->s2cst_dstag := (~1) // datasort
 val () = p->s2cst_stamp := stamp // unicity
+//
+val () = p->s2cst_extdef := $SYN.SCSTEXTDEFnone(*void*)
 //
 in // in of [let]
 //
@@ -192,140 +196,184 @@ end // end of [s2cst_make]
 
 implement
 s2cst_get_sym (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_sym
+  val (vbox(pf)|p) =
+   ref_get_view_ptr (s2c) in p->s2cst_sym
 end // end of [s2cst_get_sym]
 
 implement
 s2cst_get_loc (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_loc
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_loc
 end // end of [s2cst_get_loc]
 
 implement
 s2cst_get_fil (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_fil
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_fil
 end // end of [s2cst_get_fil]
 
 implement
 s2cst_get_srt (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_srt
+  val (vbox pf | p) =
+    ref_get_view_ptr (s2c) in p->s2cst_srt
 end // end of [s2cst_get_srt]
 
 implement
 s2cst_get_def (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_def
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_def
+  // end of [val]
 end // end of [s2cst_def_get]
 implement
-s2cst_set_def (s2c, opt) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_def := opt
+s2cst_set_def(s2c, opt) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_def := opt
 end // end of [s2cst_def_set]
 
 implement
 s2cst_get_pack (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_pack
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_pack
 end // end of [s2cst_get_pack]
 
 implement
 s2cst_get_isabs (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_isabs
+  val (vbox pf | p) =
+    ref_get_view_ptr (s2c) in p->s2cst_isabs
 end // end of [s2cst_get_isabs]
 
 implement
 s2cst_get_iscon (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_iscon
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_iscon
 end // end of [s2cst_get_iscon]
 
 implement
 s2cst_get_isrec (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_isrec
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_isrec
 end // end of [s2cst_get_isrec]
 
 implement
 s2cst_get_isasp (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_isasp
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_isasp
 end // end of [s2cst_get_isasp]
 implement
 s2cst_set_isasp (s2c, isasp) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_isasp := isasp
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_isasp := isasp
 end // end of [s2cst_set_isasp]
 
 implement
 s2cst_get_argsrtss (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_argsrtss
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_argsrtss
 end // end of [s2cst_get_argsrtss]
 
 implement
 s2cst_get_islst (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_islst
+  val (vbox pf | p) =
+    ref_get_view_ptr (s2c) in p->s2cst_islst
+  // end of [val]
 end // end of [s2cst_get_islst]
 implement
-s2cst_set_islst (s2c, islst) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_islst := islst
+s2cst_set_islst(s2c, islst) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr (s2c) in p->s2cst_islst := islst
+  // end of [val]
 end // end of [s2cst_set_islst]
 
 implement
-s2cst_get_dconlst (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_dconlst
+s2cst_get_dconlst(s2c) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in p->s2cst_dconlst
+  // end of [val]
 end // end of [s2cst_get_dconlst]
 implement
-s2cst_set_dconlst (s2c, d2cs) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_dconlst := d2cs
+s2cst_set_dconlst(s2c, d2cs) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in p->s2cst_dconlst := d2cs
+  // end of [va]
 end // end of [s2cst_set_dconlst]
 
 implement
 s2cst_get_sup (s2c) = let
-  val (vbox pf | p) =
-    ref_get_view_ptr (s2c) in s2cstlst_decode (p->s2cst_sup)
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in s2cstlst_decode(p->s2cst_sup)
+  // end of [val]
 end // end of [s2cst_sup_get]
 implement
-s2cst_add_sup (s2c, sup) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c)
-  val sups = s2cstlst_decode (p->s2cst_sup)
-  val sups = s2cstlst_encode (list_cons (sup, sups))
+s2cst_add_sup(s2c, sup) = let
+//
+  val (vbox(pf)|p) = ref_get_view_ptr(s2c)
+//
+  val sups = s2cstlst_decode(p->s2cst_sup)
+  val sups = s2cstlst_encode(list_cons(sup, sups))
+//
 in
   p->s2cst_sup := sups
 end // end of [s2cst_sup_add]
 
 implement
-s2cst_get_supcls (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_supcls
+s2cst_get_supcls(s2c) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in p->s2cst_supcls
+  // end of [val]
 end // end of [s2cst_get_supcls]
 implement
-s2cst_add_supcls (s2c, sup) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c)
+s2cst_add_supcls(s2c, sup) = let
+  val (vbox(pf)|p) = ref_get_view_ptr(s2c)
 in
-  p->s2cst_supcls := list_cons (sup, p->s2cst_supcls)
+  p->s2cst_supcls := list_cons(sup, p->s2cst_supcls)
 end // end of [s2cst_supcls_add]
 
 implement
-s2cst_get_sVarset (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_sVarset
+s2cst_get_sVarset(s2c) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in p->s2cst_sVarset
 end // end of [s2cst_get_sVarset]
 implement
-s2cst_set_sVarset (s2c, s2Vs) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_sVarset := s2Vs
+s2cst_set_sVarset(s2c, s2Vs) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in p->s2cst_sVarset := s2Vs
 end // end of [s2cst_set_sVarset]
 
 implement
-s2cst_get_dstag (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_dstag
+s2cst_get_dstag(s2c) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in p->s2cst_dstag
 end // end of [s2cst_get_dstag]
 implement
-s2cst_set_dstag (s2c, tag) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_dstag := tag
+s2cst_set_dstag(s2c, tag) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in p->s2cst_dstag := tag
 end (* end of [s2cst_set_dstag] *)
 
 implement
-s2cst_get_stamp (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_stamp
+s2cst_get_stamp(s2c) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in p->s2cst_stamp
 end // end of [s2cst_get_stamp]
+
+implement
+s2cst_get_extdef(s2c) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in p->s2cst_extdef
+end // end of [s2cst_get_extdef]
+implement
+s2cst_set_extdef(s2c, xdef) = let
+  val (vbox(pf)|p) =
+    ref_get_view_ptr(s2c) in p->s2cst_extdef := xdef
+end (* end of [s2cst_set_extdef] *)
 
 end // end of [local]
 
 (* ****** ****** *)
 
 implement
-s2cst_get_name (s2c) =
-  $SYM.symbol_get_name (s2cst_get_sym (s2c))
+s2cst_get_name(s2c) =
+  $SYM.symbol_get_name(s2cst_get_sym(s2c))
 // end of [s2cst_get_name]
 
 (* ****** ****** *)
@@ -333,21 +381,27 @@ s2cst_get_name (s2c) =
 implement
 s2cst_make_dat
 (
-  id, loc, s2tss_arg, s2t_res, argsrtss
+  id0, loc, s2tss_arg, s2t_res, argsrtss
 ) = let
 //
 fun aux (
   xs: s2rtlstlst, s2t: s2rt
-) : s2rt = case+ xs of
-  | list_cons (x, xs) => s2rt_fun (x, aux (xs, s2t))
-  | list_nil () => s2t
-// end of [aux]
-val s2t_fun = aux (s2tss_arg, s2t_res)
+) : s2rt =
+(
+  case+ xs of
+  | list_cons
+      (x, xs) => s2rt_fun(x, aux(xs, s2t))
+    // list_cons
+  | list_nil((*void*)) => s2t
+) (* end of [aux] *)
+//
+val s2t_fun = aux(s2tss_arg, s2t_res)
 //
 in
 //
-s2cst_make (
-  id // name
+s2cst_make
+(
+  id0 // name
 , loc // location
 , $FIL.filename_dummy
 , s2t_fun // sort
@@ -357,7 +411,7 @@ s2cst_make (
 , false // isasp
 , None () // islst
 , argsrtss // argsortlstlst
-, None () // definition
+, None() // definition
 ) (* end of [s2cst_make] *)
 //
 end // end of [s2cst_make_dat]

@@ -73,6 +73,8 @@ typedef c0har = $SYN.c0har
 typedef f0loat = $SYN.f0loat
 typedef s0tring = $SYN.s0tring
 //
+typedef scstextdef = $SYN.scstextdef
+//
 typedef sl0abeled (a:type) = $SYN.sl0abeled (a)
 //
 (* ****** ****** *)
@@ -686,6 +688,11 @@ fun s2cst_set_dstag (x: s2cst, tag: int): void
 
 fun s2cst_get_stamp (x: s2cst): stamp
 
+(* ****** ****** *)
+//
+fun s2cst_get_extdef(x: s2cst): scstextdef
+fun s2cst_set_extdef(x: s2cst, xdef: scstextdef): void
+//
 (* ****** ****** *)
 
 fun lt_s2cst_s2cst (x1: s2cst, x2: s2cst):<> bool
