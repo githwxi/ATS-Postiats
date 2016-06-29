@@ -35,7 +35,7 @@ Here is a list of major additions and changes since the last release:
    reals can be handled in this way.
 8. Fixing a bug involving tuple/record compilation (see: doc/BUGS/bug-2016-06-26.dats)
 9. Circumventing a bug involving templates initiated with fnx (see: bug-2014-11-14.dats)
-10. Adding fprint_tupbox for boxed tuples of length 1, 2, 3, and 4.
+10. Adding tupbox(...) and fprint_tupbox(...) for boxed tuples of length 1, 2, 3, and 4
 
 ######
 

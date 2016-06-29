@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.2.8</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.2.8:
+</H2>
+
+<pre>
+
+This is the 31st release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Adding support for ifcase-expressions. Please see
+   https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/TESTATS/ifcase.dats
+2. atscc2py/libatscc2py changes to atscc2py3/libatscc2py3
+3. atscc2scm/libatscc2scm starts to be functional (but it is still a long way to go!)
+4. Adding support for jsonizing S2Ewithtype (wths2explst); some fixing for d2cst decl
+5. Improving patsolve_z3 to handle constraints on real numbers
+6. Improving libatscc in general; adding support for pygame in libatscc2py3
+7. Adding ATS-extsolve-smt2 based on the pilot work by Will Blair and Hanwen Wu; the
+   command patsolve_smt2 turns ATS constraints in json format into those in smt-lib2
+   format, which can then be solved with z3, cvc4, etc. In particular, constraints on
+   reals can be handled in this way.
+8. Fixing a bug involving tuple/record compilation (see: doc/BUGS/bug-2016-06-26.dats)
+9. Circumventing a bug involving templates initiated with fnx (see: bug-2014-11-14.dats)
+10. Adding tupbox(...) and fprint_tupbox(...) for boxed tuples of length 1, 2, 3, and 4
+
+</pre>
+
+</body><!--body-->
+</html><!--html-->
