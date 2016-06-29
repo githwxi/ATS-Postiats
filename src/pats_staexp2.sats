@@ -611,31 +611,32 @@ fun prerr_s2qualst (xs: s2qualst): void
 fun fprint_s2qualst : fprint_type (s2qualst)
 //
 (* ****** ****** *)
-
+//
 fun
-s2cst_make (
+s2cst_make
+(
   id: symbol
 , loc: location
 , fil: filename
 , s2t: s2rt // the sort
-, isabs: Option (s2expopt)
+, isabs: Option(s2expopt)
 , iscon: bool
 , isrec: bool
 , isasp: bool
-, islst: Option @(d2con(*nil*), d2con(*cons*))
-, argsrtss: List (syms2rtlst) // HX: containing info on arg variances
-, def: s2expopt
+, islst: Option@(d2con(*nil*), d2con(*cons*))
+, argsrtss: List(syms2rtlst) // HX: containing info on arg variances
+, s2cstdef: s2expopt
 ) : s2cst // end of [s2cst_make]
-
+//
 fun
-s2cst_make_dat (
+s2cst_make_dat
+(
   id: symbol
 , loc: location
-, s2ts_arg: s2rtlstlst
-, s2t_res: s2rt
-, argsrtss: List (syms2rtlst) // HX: containing info on arg variances
+, s2ts_arg: s2rtlstlst, s2t_res: s2rt
+, argsrtss: List(syms2rtlst) // HX: containing info on arg variances
 ) : s2cst // end of [s2cst_make_dat]
-
+//
 (* ****** ****** *)
 
 fun s2cst_get_sym (x: s2cst): symbol
