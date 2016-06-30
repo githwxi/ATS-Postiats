@@ -47,19 +47,19 @@ staload "./basis.sats"
 (* ****** ****** *)
 
 fun{a:t0p}
-monad_maybe_none (): monad (a)
+monad_maybe_none(): monad(a)
 fun{a:t0p}
-monad_maybe_some (x: a): monad (a)
+monad_maybe_some(x0: a): monad(a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-monad_maybe_optize (m: monad (a)): Option (a)
+monad_maybe_optize(m: monad(a)): Option(a)
 
 (* ****** ****** *)
 //
 fun{a:t0p}
-fprint_monad (out: FILEref, m: monad (INV(a))): void
+fprint_monad(out: FILEref, m: monad(INV(a))): void
 overload fprint with fprint_monad
 //
 (* ****** ****** *)
