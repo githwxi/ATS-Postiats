@@ -51,6 +51,7 @@ bin/atscc2scm
 bin/atscc2php
 bin/patsolve
 bin/patsolve_z3
+bin/patsolve_smt2
 
 #
 # Boostrapping

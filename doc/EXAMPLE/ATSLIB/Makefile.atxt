@@ -136,11 +136,11 @@ RMF=rm -f
 
 ######
 
-#make_entry("prelude_intrange")
+#make_entry("prelude_checkast")
 
 ######
 
-#make_entry("prelude_checkast")
+#make2_entry("prelude_intrange", "-DATS_MEMALLOC_LIBC", "")
 
 ######
 

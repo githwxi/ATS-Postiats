@@ -230,6 +230,45 @@ end // end of [intrange2_foreach]
 
 #atscode_separator()
 
+implement
+{}(*tmp*)
+streamize_intrange_l
+  (m) = aux0(m) where
+{
+//
+vtypedef res_vt = stream_vt(int)
+//
+fun aux0
+(
+  m: int
+) : res_vt = $ldelay(stream_vt_cons(m, aux0(m+1)))
+//
+} (* end of [streamize_intrange_l] *)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+streamize_intrange_lr
+  (m, n) = aux0(m) where
+{
+//
+vtypedef res_vt = stream_vt(int)
+//
+fun aux0
+(
+  m: int
+) : res_vt = $ldelay
+(
+  if m < n
+    then stream_vt_cons(m, aux0(m+1)) else stream_vt_nil()
+  // end of [if]
+) : stream_vt_con(int) // [aux0]
+//
+} (* end of [streamize_intrange_lr] *)
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
