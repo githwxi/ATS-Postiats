@@ -35,11 +35,9 @@ stream_vt_con
 where
 stream_vt(a:vt@ype) = lazy_vt(stream_vt_con(a))
 //
-#atscode_separator()
-
 vtypedef
 streamopt_vt (a:vt0p) = Option_vt(stream_vt(a))
-
+//
 #atscode_separator()
 //
 // HX-2014-04-07:

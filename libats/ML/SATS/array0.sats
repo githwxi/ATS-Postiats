@@ -205,7 +205,8 @@ fun{}
 fprint_array$sep (out: FILEref): void
 *)
 fun{a:vt0p}
-fprint_array0 (out: FILEref, A: array0 (a)): void
+fprint_array0
+  (out: FILEref, A: array0 (a)): void
 fun{a:vt0p}
 fprint_array0_sep
   (out: FILEref, A: array0 (a), sep: string): void
@@ -213,48 +214,42 @@ fprint_array0_sep
 (* ****** ****** *)
 
 fun{a:t0p}
-array0_copy (A: array0 (a)):<!refwrt> array0 (a)
+array0_copy(A: array0 (a)):<!refwrt> array0(a)
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
 array0_append
-  (A1: array0 (a), A2: array0 (a)):<!refwrt> array0 (a)
+  (array0 (a), array0 (a)):<!refwrt> array0(a)
 // end of [array0_append]
-
+//
 (* ****** ****** *)
-
+//
 fun{
 a:vt0p}{b:vt0p
 } array0_map
-  (A: array0 (a), f: (&a) -<cloref1> b): array0 (b)
+  (A: array0 (a), f: (&a) -<cloref1> b): array0(b)
 // end of [array0_map]
-
-fun{
-a:vt0p}{b:vt0p
-} array0_mapopt
-  (A: array0 (a), f: (&a) -<cloref1> Option_vt (b)): array0 (b)
-// end of [array0_mapopt]
-
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
 array0_tabulate
-  (asz: size_t, f: (size_t) -<cloref1> a): array0 (a)
+  (asz: size_t, f: (size_t) -<cloref1> a): array0(a)
 // end of [array0_tabulate]
 
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
 array0_foreach
   (A: array0 (a), f: (&a >> _) -<cloref1> void): void
 // end of [array0_foreach]
-
+//
 fun{a:vt0p}
 array0_iforeach
   (A: array0 (a), f: (size_t, &a >> _) -<cloref1> void): void
 // end of [array0_iforeach]
-
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
@@ -274,7 +269,7 @@ array0_find_exn
 
 fun{a:vt0p}
 array0_find_opt
-  (A: array0 (a), p: (&a) -<cloref1> bool): option0 (size_t)
+  (A: array0 (a), p: (&a) -<cloref1> bool): option0(size_t)
 // end of [array0_find_opt]
 
 (* ****** ****** *)

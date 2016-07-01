@@ -343,9 +343,11 @@ val (pf1box | p1) = arrayref_get_viewptr (A1)
 and (pf2box | p2) = arrayref_get_viewptr (A2)
 //
 extern
-praxi unbox : {v:view} vbox (v) -<prf> (v, v -<lin,prf> void)
+praxi unbox
+  : {v:view} vbox(v) -<prf> (v, v -<lin,prf> void)
 //
-prval (pf1, fpf1) = unbox (pf1box) and (pf2, fpf2) = unbox (pf2box)
+prval (pf1, fpf1) = unbox (pf1box)
+prval (pf2, fpf2) = unbox (pf2box)
 //
 val asz = asz1 + asz2
 val (pfarr, pfgc | q) = array_ptr_alloc<a> (asz)

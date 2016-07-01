@@ -33,13 +33,19 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 \#if(0)
 //
-// HX: these decls are available in [basic_dyn.sats]
+// HX:
+// these declarations
+// are available in [basic_dyn.sats]
 //
-datatype // t@ype+: covariant
-list_t0ype_int_type (a:t@ype+, int) =
-  | {n:int | n >= 0}
-    list_cons (a, n+1) of (a, list_t0ype_int_type (a, n))
+datatype
+list_t0ype_int_type
+  (a:t@ype+, int) =
+//
+// t@ype+: covariant
+//
   | list_nil (a, 0) of ((*void*))
+  | {n:int | n >= 0}
+    list_cons (a, n+1) of (a, list_t0ype_int_type(a, n))
 // end of [list_t0ype_int_type]
 //
 stadef list = list_t0ype_int_type
