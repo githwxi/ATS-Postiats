@@ -24,16 +24,24 @@ sortdef t0p = t@ype and vt0p = vt@ype
 
 #atscode_separator()
 //
-// HX: lazy linear streams
+\#if(0)
+//
+// HX: linear lazy streams
+// It is declared in [basics_dyn]
 //
 datavtype
 stream_vt_con
   (a:vt@ype+) =
+//
+// vt@ype+: covariant
+//
   | stream_vt_nil of ((*void*))
   | stream_vt_cons of (a, stream_vt(a))
 //
 where
 stream_vt(a:vt@ype) = lazy_vt(stream_vt_con(a))
+//
+\#endif // [\#if(0)]
 //
 vtypedef
 streamopt_vt (a:vt0p) = Option_vt(stream_vt(a))
