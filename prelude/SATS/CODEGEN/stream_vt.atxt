@@ -99,17 +99,20 @@ fun{a:t0p}
 stream_vt_length(stream_vt(INV(a))):<!wrt> intGte(0)
 //
 #atscode_separator()
-
+//
+fun{a:vt0p}
+stream_vt_foreach
+  (xs: stream_vt(INV(a))): void
+fun{
+a:vt0p}{env:vt0p
+} stream_vt_foreach_env
+  (xs: stream_vt(INV(a)), &env >> _): void
+//
 fun{
 a:vt0p}{env:vt0p
 } stream_vt_foreach$fwork
   (x: &a >> a?!, env: &env >> _): void // lin-cleared
-fun{a:vt0p}
-stream_vt_foreach (xs: stream_vt (INV(a))): void
-fun{
-a:vt0p}{env:vt0p
-} stream_vt_foreach_env (xs: stream_vt (INV(a)), &env >> _): void
-
+//
 #atscode_separator()
 //
 fun{a:vt0p}
@@ -148,11 +151,15 @@ a:vt0p}{b:vt0p
 fun{
 a:vt0p}{b:vt0p
 } stream_vt_map_fun
-  (xs: stream_vt(INV(a)), f: (&a >> a?!) -<fun> b): stream_vt(b)
+(
+  xs: stream_vt(INV(a)), fopr: (&a >> a?!) -<fun> b
+) : stream_vt(b) // end-of-function
 fun{
 a:vt0p}{b:vt0p
 } stream_vt_map_cloptr
-  (xs: stream_vt(INV(a)), f: (&a >> a?!) -<cloptr> b): stream_vt(b)
+(
+  xs: stream_vt(INV(a)), fopr: (&a >> a?!) -<cloptr> b
+) : stream_vt(b) // end-of-function
 //
 #atscode_separator()
 //
@@ -173,7 +180,7 @@ a1,a2:t0p}{b:vt0p
 (
   xs1: stream_vt(INV(a1))
 , xs2: stream_vt(INV(a2))
-, f: (&a1 >> _, &a2 >> _) -<fun> b
+, fopr: (&a1 >> _, &a2 >> _) -<fun> b
 ) : stream_vt(b) // end of [stream_vt_map2_fun]
 fun{
 a1,a2:t0p}{b:vt0p
@@ -181,7 +188,7 @@ a1,a2:t0p}{b:vt0p
 (
   xs1: stream_vt(INV(a1))
 , xs2: stream_vt(INV(a2))
-, f: (&a1 >> _, &a2 >> _) -<cloptr> b
+, fopr: (&a1 >> _, &a2 >> _) -<cloptr> b
 ) : stream_vt(b) // end of [stream_vt_map2_cloptr]
 //
 #atscode_separator()
@@ -191,6 +198,20 @@ stream_vt_tabulate((*void*)): stream_vt(a)
 fun{a:vt0p}
 stream_vt_tabulate$fopr(idx: intGte(0)): (a)
 
+#atscode_separator()
+//
+// HX-2016-07-01:
+// [stream_vt_fprint] calls [fprint_val]
+//
+fun{}
+stream_vt_fprint$beg(out: FILEref): void
+fun{}
+stream_vt_fprint$end(out: FILEref): void
+fun{}
+stream_vt_fprint$sep(out: FILEref): void
+fun{a:t0p}
+stream_vt_fprint(stream_vt(INV(a)), out: FILEref, n: int): void
+//
 #atscode_separator()
 //
 absvtype

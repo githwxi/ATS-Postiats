@@ -55,7 +55,7 @@ let
 in
   case+ xs_con of
   | ~stream_vt_nil
-      ((*void*)) => stream_nil ()
+      ((*void*)) => stream_nil(*void*)
     // end of [stream_vt_nil]
   | @stream_vt_cons
       (x, xs1) => let
@@ -238,7 +238,7 @@ fun
 loop
 (
   xs: stream_vt(a), n: intGte(0)
-) : void =
+) : intGte(0) =
 (
   case+ !xs of
   | ~stream_vt_nil() => n
@@ -246,7 +246,7 @@ loop
 ) (* end of [loop] *)
 //
 in
-  loop(xs0)
+  $effmask_all(loop(xs0, 0))
 end // end of [stream_vt_length]
 
 #atscode_separator()
@@ -564,6 +564,77 @@ fun aux (i: intGte(0)): stream_vt (a) =
 //
 } (* end of [stream_vt_tabulate] *)
 
+#atscode_separator()
+//
+implement
+{a}(*tmp*)
+stream_vt_fprint
+  (xs, out, n) = let
+//
+fun
+loop1
+(
+  xs: stream_vt(a), i: int
+) : void = (
+//
+case+ !xs of
+| ~stream_vt_nil() => ()
+| ~stream_vt_cons(x, xs) =>
+  (
+    (if i > 0 then stream_vt_fprint$sep<>(out)); fprint_val<a>(out, x); loop1(xs, i+1)
+  ) (* end of [stream_vt_cons] *)
+//
+) (* end of [loop1] *)
+//
+fun
+loop2
+(
+  xs: stream_vt(a), i: int
+) : void = (
+//
+if (
+i < n
+) then (
+//
+case+ !xs of
+| ~stream_vt_nil() => ()
+| ~stream_vt_cons(x, xs) =>
+  (
+    (if i > 0 then stream_vt_fprint$sep<>(out)); fprint_val<a>(out, x); loop2(xs, i+1)
+  ) (* end of [stream_vt_cons] *)
+//
+) else ~(xs) // end of [if]
+//
+)
+(* end of [loop2] *)
+//
+val () =
+  stream_vt_fprint$beg(out)
+//
+val () =
+(
+  if n < 0
+    then loop1(xs, 0(*i*)) else loop2(xs, 0(*i*))
+  // end of [val]
+) : void // end of [val]
+//
+val () =
+  stream_vt_fprint$end(out)
+//
+in
+  // nothing
+end // end of [stream_vt_fprint]
+//
+implement
+{}(*tmp*)
+stream_vt_fprint$beg(out) = fprint_string(out, "(")
+implement
+{}(*tmp*)
+stream_vt_fprint$end(out) = fprint_string(out, ")")
+implement
+{}(*tmp*)
+stream_vt_fprint$sep(out) = fprint_string(out, ", ")
+//
 #atscode_separator()
 
 local

@@ -210,6 +210,40 @@ val () = strptr_free (res)
 } // end of [val]
 
 (* ****** ****** *)
+//
+val () = let
+//
+val cs0 = streamize_string_char(alphabet)
+//
+in 
+//
+assertloc
+(
+  stream_vt_length(cs0) = sz2i(length(alphabet))
+) (* assertloc *)
+//
+end // end of [val]
+//
+(* ****** ****** *)
+//
+val () = let
+//
+val out = stdout_ref
+val cs0 = streamize_string_char(alphabet)
+in
+  fprint(out, "stream_vt_fprint(cs0, out, 10) = ");
+  stream_vt_fprint<char>(cs0, out, 10); fprint_newline(out)
+end // end of [let]
+val () = let
+//
+val out = stdout_ref
+val cs0 = streamize_string_char(alphabet)
+in
+  fprint(out, "stream_vt_fprint(cs0, out, ~1) = ");
+  stream_vt_fprint<char>(cs0, out, ~1); fprint_newline(out)
+end // end of [let]
+//
+(* ****** ****** *)
 
 implement main0 () = ()
 
