@@ -209,5 +209,24 @@ filprerr_ifdebug (x) =
   prerrf_ifdebug (": [%s]: %s", @(#FILENAME, ,(x)))
 //
 (* ****** ****** *)
+//
+#define
+PATS_MAJOR_VERSION 0
+#define
+PATS_MINOR_VERSION 2
+#define
+PATS_MICRO_VERSION 9
+//
+// HX-2011-04-27: this is supported in Postiats:
+//
+macdef
+PATS_fVER(MAJOR, MINOR, MICRO) =
+  (1000 * (1000 * ,(MAJOR) + ,(MINOR)) + ,(MICRO))
+//
+macdef
+PATS_VERSION() =
+  PATS_fVER(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
+//
+(* ****** ****** *)
 
 (* end of [pats_basics.sats] *)

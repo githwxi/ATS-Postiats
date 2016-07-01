@@ -24,12 +24,23 @@ sortdef t0p = t@ype
 
 #atscode_separator()
 //
+\#if(0)
+//
 // HX: lazy streams
+// It is declared in [basics_dyn]
 //
 datatype
-stream_con (a:t@ype+) =
-  | stream_nil of ((*void*)) | stream_cons of (a, stream(a))
+stream_con
+  (a:t@ype+) =
+//
+// t@ype+: covariant
+//
+  | stream_nil of ((*void*))
+  | stream_cons of (a, stream(a))
+//
 where stream (a:t@ype) = lazy (stream_con(a))
+//
+\#endif // [\#if(0)]
 //
 #atscode_separator()
 //

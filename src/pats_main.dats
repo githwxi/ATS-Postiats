@@ -526,34 +526,28 @@ HX: VERSION-0.2.0 released on Tuesday, June 9, 2015
 HX: VERSION-0.2.1 released on Sunday, July 12, 2015
 HX: VERSION-0.2.2 released on Saturday, August 29, 2015
 HX: VERSION-0.2.3 released on Tuesday, September 22, 2015
+HX: VERSION-0.2.3 released on Wednesday, October 28, 2015
+HX: VERSION-0.2.3 released on Tuesday, Decemember 22, 2015
+HX: VERSION-0.2.6 released on Saturday, February 6, 2016)
+HX: VERSION-0.2.7 released on Saturday, May 14, 2016)
+HX: VERSION-0.2.8 released on Wednesday, June 29, 2016)
 //
 *)
 //
+(* ****** ****** *)
+//
 #define
-PATS_MAJOR_VERSION 0
-#define
-PATS_MINOR_VERSION 2
-#define
-PATS_MICRO_VERSION 9
+PATS_COPYRIGHT
+"Copyright (c) 2011-2016 Hongwei Xi"
 //
-#define PATS_COPYRIGHT "Copyright (c) 2011-2016 Hongwei Xi"
-//
-(*
-//
-// HX-2011-04-27: this is supported in Postiats:
-//
-#define PATS_fVER
-  (MAJOR, MINOR, MICRO) %(1000 * (1000 * MAJOR + MINOR) + MICRO)
-#define PATS_VERSION
-  PATS_fVER (PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
-// end of [PATS_VERSION]
-*)
+(* ****** ****** *)
 //
 extern
 fun
 patsopt_version
-  (out: FILEref): void =
-  "ext#libatsopt_patsopt_version"
+(
+  out: FILEref
+) : void = "ext#libatsopt_patsopt_version"
 //
 implement
 patsopt_version(out) =

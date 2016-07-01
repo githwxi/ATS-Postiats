@@ -60,7 +60,7 @@ in
   | @stream_vt_cons
       (x, xs1) => let
       val xs1_val = xs1
-      val () = xs1 := aux (xs1_val)
+      val ((*void*)) = (xs1 := aux (xs1_val))
     in
       $UN.castvwtp0{stream_con(a)}((view@x, view@xs1 | xs_con))
     end // end of [stream_cons]
@@ -76,7 +76,8 @@ end // end of [stream_vt2t]
 
 local
 //
-// HX-2012: casting stream_vt_cons to list_cons
+// HX-2012:
+// casting stream_vt_cons to list_cons
 //
 extern
 castfn
@@ -104,9 +105,11 @@ in
     // end of [stream_vt_nil]
   | @stream_vt_cons
       (x, xs1) => let
-      val xs1_val = xs1
-      val () = xs1 := loop (xs1_val)
-      val xs_con = stream2list_vt_cons (xs_con)
+      val xs1_ = xs1
+      val xs_con =
+        stream2list_vt_cons(xs_con)
+      // end of [val]
+      val ((*void*)) = (xs1 := loop(xs1_))
     in
       fold@ (xs_con); xs_con
     end // end of [stream_vt_cons]
@@ -247,12 +250,13 @@ case+ xs_con of
 | @stream_vt_cons
     (x, xs1) => let
     val xs1 = xs1
-    val () = stream_vt_foreach$fwork<a> (x, env)
-    val () = free@ {a} (xs_con)
+    val ((*void*)) =
+      stream_vt_foreach$fwork<a> (x, env)
+    val ((*freed*)) = free@{a}(xs_con)
   in
     stream_vt_foreach<a> (xs1)
   end // end of [stream_vt_cons]
-| ~stream_vt_nil () => ()
+| ~stream_vt_nil((*void*)) => ()
 //
 end // end of [stream_vt_foreach_env]
 
@@ -295,9 +299,11 @@ in (* in of [local] *)
 
 implement
 {a}(*tmp*)
-stream_vt_filter (xs) =
-  $ldelay (stream_vt_filter_con<a> (xs), ~xs)
-// end of [stream_vt_filter]
+stream_vt_filter
+  (xs) = $ldelay
+(
+  stream_vt_filter_con<a> (xs), ~(xs)
+) (* end of [stream_vt_filter] *)
 
 implement
 {a}(*tmp*)
@@ -317,7 +323,7 @@ in
 end // end of [stream_vt_filter$pred]
 //
 in
-  stream_vt_filter (xs)
+  stream_vt_filter<a>(xs)
 end // end of [stream_vt_filter_fun]
 
 end // end of [local]
@@ -325,7 +331,7 @@ end // end of [local]
 #atscode_separator()
 
 local
-
+//
 fun{}
 auxfree
   {a:t0p}
@@ -333,7 +339,7 @@ auxfree
   pred: (&a) -<cloptr> bool
 ) : void =
   cloptr_free ($UN.castvwtp0{cloptr0}(pred))
-
+//
 fun{a:t0p}
 stream_vt_filter_cloptr_con
 (
@@ -363,7 +369,7 @@ case+ xs of
     let val () = auxfree(pred) in stream_vt_nil(*void*) end
 //
 end (* end of [stream_vt_filter_cloptr_con] *)
-
+//
 in (* in of [local] *)
 
 implement
@@ -389,9 +395,14 @@ a:vt0p}{b:vt0p
   val xs_con = !xs
 in
 //
-case+ xs_con of
-| @stream_vt_cons(x, xs) => let
-    val y = stream_vt_map$fopr<a><b> (x)
+case+
+xs_con
+of // case+
+//
+| @stream_vt_cons
+    (x, xs) => let
+    val y =
+    stream_vt_map$fopr<a><b> (x)
     val xs = xs
     val ((*void*)) = free@ (xs_con)
   in
@@ -402,11 +413,12 @@ case+ xs_con of
 end // end of [stream_vt_map_con]
 
 in (* in of [local] *)
-
+//
 implement
 {a}{b}(*tmp*)
-stream_vt_map (xs) = $ldelay (stream_vt_map_con<a><b> (xs), ~xs)
-
+stream_vt_map (xs) =
+  $ldelay (stream_vt_map_con<a><b> (xs), ~xs)
+//
 end // end of [local]
 
 #atscode_separator()
@@ -418,19 +430,21 @@ stream_vt_map_fun
 //
 implement
 {a2}{b2}
-stream_vt_map$fopr (x) = let
-  prval () = __assert (x) where
+stream_vt_map$fopr
+  (x) = res where
+{
+//
+  prval () = __assert(x) where
   {
-    extern praxi __assert (x: &a2 >> a2?!): void
+    extern praxi __assert(x: &a2 >> a2?!): void
   }
   val (
     pf, fpf | p_x
   ) = $UN.ptr0_vtake{a}(addr@x)
   val res = $UN.castvwtp0{b2}(f(!p_x))
   prval () = $UN.castview0{void}(@(fpf, pf))
-in
-  res
-end (* end of [stream_vt_map$fopr] *)
+//
+} (* end of [stream_vt_map$fopr] *)
 //
 in
   stream_vt_map<a><b> (xs)
