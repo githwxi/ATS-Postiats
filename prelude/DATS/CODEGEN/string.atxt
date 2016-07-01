@@ -1017,6 +1017,40 @@ end // end of [string_rforeach_env]
 
 #atscode_separator()
 
+implement
+{}(*tmp*)
+streamize_string_char
+  (str) = let
+//
+typedef elt = charNZ
+//
+fun
+auxmain
+(
+  p: ptr
+) : stream_vt(elt) = $ldelay(
+//
+let
+//
+val c0 = $UN.ptr0_get<Char>(p)
+//
+in
+//
+if
+isneqz(c0)
+then (
+  stream_vt_cons(c0, auxmain(ptr0_succ<Char>(p)))
+) else stream_vt_nil((*void*))
+//
+end : stream_vt_con(elt) // end of [let]
+) (* end of [auxmain] *)
+//
+in
+  auxmain(string2ptr(str))
+end // end of [streamize_string_char]
+
+#atscode_separator()
+
 (*
 //
 // HX-2013-03: it is now defined as a macro

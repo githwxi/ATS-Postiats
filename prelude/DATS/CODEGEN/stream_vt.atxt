@@ -232,6 +232,27 @@ case+ !xs0 of
 
 implement
 {a}(*tmp*)
+stream_vt_length(xs0) = let
+//
+fun
+loop
+(
+  xs: stream_vt(a), n: intGte(0)
+) : void =
+(
+  case+ !xs of
+  | ~stream_vt_nil() => n
+  | ~stream_vt_cons(_, xs) => loop(xs, n+1)
+) (* end of [loop] *)
+//
+in
+  loop(xs0)
+end // end of [stream_vt_length]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 stream_vt_foreach
   (xs) = let
   var env: void = ()

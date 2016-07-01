@@ -140,7 +140,7 @@ typedef substrarr = substrarr_type
 (* ****** ****** *)
 //
 abstype
-dynarray_type (a:vt@ype) = ptr
+dynarray_type(a:vt@ype) = ptr
 //
 typedef
 dynarray(a:vt@ype) = dynarray_type(a)
