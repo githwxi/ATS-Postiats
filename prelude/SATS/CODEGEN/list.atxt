@@ -902,8 +902,16 @@ a:t0p
 } list_quicksort_fun
   {n:int} (
   xs: list (INV(a), n), cmp: cmpval (a)
-) :<!wrt> list_vt (a, n) // end of [list_quicksort_fun]
+) :<!wrt> list_vt (a, n) // end-of-function
 
+#atscode_separator()
+//
+fun{a:t0p}
+streamize_list_elt(List(a)):<!wrt> stream_vt(a)
+//
+fun{a:t0p}
+streamize_list_choose2(List(a)):<!wrt> stream_vt(@(a, a))
+//
 #atscode_separator()
 //
 // overloading for certain symbols

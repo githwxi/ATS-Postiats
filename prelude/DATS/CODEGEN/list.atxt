@@ -2223,6 +2223,63 @@ end // end of [list_quicksort_fun]
 
 #atscode_separator()
 
+implement
+{a}(*tmp*)
+streamize_list_elt
+  (xs) = let
+//
+fun
+auxmain
+(
+  xs: List(a)
+) : stream_vt(a) = $ldelay
+(
+  case+ xs of
+  | list_nil() => stream_vt_nil()
+  | list_cons(x, xs) => stream_vt_cons(x, auxmain(xs))
+) : stream_vt_con(a) // $ldelay
+//
+in
+  $effmask_all(auxmain(xs))
+end // end of [streamize_list_elt]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+streamize_list_choose2
+  (xs) = let
+//
+typedef a2 = @(a, a)
+//
+fun
+auxmain
+(
+  xs: List(a)
+) : stream_vt(a2) = $ldelay
+(
+  case+ xs of
+  | list_nil() => stream_vt_nil()
+  | list_cons(x, xs) => !(auxmain2(x, xs))
+) : stream_vt_con(@(a, a)) // $ldelay
+//
+and
+auxmain2
+(
+  x0: a, xs: List(a)
+) : stream_vt(a2) = $ldelay
+(
+  case+ xs of
+  | list_nil() => !(auxmain(xs))
+  | list_cons(x, xs) => stream_vt_cons((x0, x), auxmain2(x0, xs))
+) : stream_vt_con(@(a, a)) // $ldelay
+//
+in
+  $effmask_all(auxmain(xs))
+end // end of [streamize_list_choose2]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
