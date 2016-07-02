@@ -157,6 +157,17 @@ val () = fprintln! (out, "xs_sorted = ", xs_sorted)
 
 (* ****** ****** *)
 
+val () = {
+//
+val xs = g0ofg1($list{int}(0,1,2))
+val () = xs.foreach_choose()(lam(x, y) => println!(x, "/", y))
+val () = xs.foreach_xprod(xs)(lam(x, y) => println!(x, "/", y))
+val () = xs.iforeach_xprod(xs)(lam(i, x, j, y) => println!(i, ":", x, "/", j, ":", y))
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 val () =
 {
 //

@@ -633,6 +633,16 @@ list0_foreach_choose2
 (
   list0(INV(x)), fwork: cfun2(x, x, void)
 ) : void // end-of-function
+fun
+{x:t0p}
+list0_foreach_choose2_method
+(
+  list0(INV(x))) (fwork: cfun2(x, x, void)
+) : void // end-of-function
+//
+overload .foreach_choose with list0_foreach_choose2_method
+//
+(* ****** ****** *)
 //
 fun{
 x,y:t0p
@@ -640,12 +650,28 @@ x,y:t0p
 (
   list0(INV(x)), list0(INV(y)), fwork: cfun2(x, y, void)
 ) : void // end-of-function
+fun
+{x,y:t0p}
+list0_foreach_xprod2_method
+(
+  list0(INV(x)), list0(INV(y))) (fwork: cfun2(x, y, void)
+) : void // end-of-function
+//
 fun{
 x,y:t0p
 } list0_iforeach_xprod2
 (
   list0(INV(x)), list0(INV(y)), fwork: cfun4(intGte(0), x, intGte(0), y, void)
 ) : void // end-of-function
+fun
+{x,y:t0p}
+list0_iforeach_xprod2_method
+(
+  list0(INV(x)), list0(INV(y))) (fwork: cfun4(intGte(0), x, intGte(0), y, void)
+) : void // end-of-function
+//
+overload .foreach_xprod with list0_foreach_xprod2_method
+overload .iforeach_xprod with list0_iforeach_xprod2_method
 //
 (* ****** ****** *)
 

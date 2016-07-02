@@ -1414,20 +1414,30 @@ list0_foreach_choose2
 fnx
 loop(xs: list0(x)): void =
 (
-  case+ xs of
-  | list0_nil() => ()
-  | list0_cons(x, xs) => loop2(x, xs)
+case+ xs of
+| list0_nil() => ()
+| list0_cons
+    (x, xs) => loop2(x, xs, xs)
+  // end of [list0_cons]
 )
 and
-loop2(x0: x, xs: list0(x)): void =
+loop2
 (
-  case+ xs of
-  | list0_nil() => loop(xs)
-  | list0_cons(x, xs) => (fwork(x0, x); loop2(x0, xs))
+  x0: x, xs: list0(x), ys: list0(x)
+) : void =
+(
+case+ ys of
+| list0_nil() => loop(xs)
+| list0_cons(y, ys) => (fwork(x0, y); loop2(x0, xs, ys))
 )
 //
 } (* end of [list0_foreach_choose2] *)
-
+//
+implement
+{x}(*tmp*)
+list0_foreach_choose2_method(xs) =
+  lam(fwork) => list0_foreach_choose2<x>(xs, fwork)
+//
 (* ****** ****** *)
 
 implement
@@ -1441,11 +1451,9 @@ list0_foreach_xprod2
 fnx
 loop(xs: list0(x)): void =
 (
-  case+ xs of
-  | list0_nil() => ()
-  | list0_cons
-      (x, xs) => loop2(x, xs, ys0)
-    // end of [list_cons]
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) => loop2(x, xs, ys0)
 )
 and
 loop2
@@ -1453,13 +1461,19 @@ loop2
   x0: x, xs: list0(x), ys: list0(y)
 ) : void =
 (
-  case+ ys of
-  | list0_nil() => loop(xs)
-  | list0_cons(y, ys) => (fwork(x0, y); loop2(x0, xs, ys))
+case+ ys of
+| list0_nil() => loop(xs)
+| list0_cons(y, ys) => (fwork(x0, y); loop2(x0, xs, ys))
 )
 //
 } (* end of [list0_foreach_xprod2] *)
-
+//
+implement
+{x,y}(*tmp*)
+list0_foreach_xprod2_method
+  (xs, ys) =
+  lam(fwork) => list0_foreach_xprod2<x,y>(xs, ys, fwork)
+//
 (* ****** ****** *)
 
 implement
@@ -1478,11 +1492,11 @@ loop
   i: int, xs: list0(x)
 ) : void =
 (
-  case+ xs of
-  | list0_nil() => ()
-  | list0_cons
-      (x, xs) => loop2(i, x, xs, 0, ys0)
-    // end of [list_cons]
+case+ xs of
+| list0_nil() => ()
+| list0_cons
+    (x, xs) => loop2(i, x, xs, 0, ys0)
+  // end of [list_cons]
 )
 and
 loop2
@@ -1490,15 +1504,21 @@ loop2
   i0: int, x0: x, xs: list0(x), j: int, ys: list0(y)
 ) : void =
 (
-  case+ ys of
-  | list0_nil() => loop(i0+1, xs)
-  | list0_cons(y, ys) =>
-      (fwork(i0, x0, j, y); loop2(i0, x0, xs, j+1, ys))
-    // end of [list0_cons]
+case+ ys of
+| list0_nil() => loop(i0+1, xs)
+| list0_cons(y, ys) =>
+    (fwork(i0, x0, j, y); loop2(i0, x0, xs, j+1, ys))
+  // end of [list0_cons]
 )
 //
 } (* end of [list0_iforeach_xprod2] *)
-
+//
+implement
+{x,y}(*tmp*)
+list0_iforeach_xprod2_method
+  (xs, ys) =
+  lam(fwork) => list0_iforeach_xprod2<x,y>(xs, ys, fwork)
+//
 (* ****** ****** *)
 
 implement
