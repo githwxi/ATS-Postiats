@@ -559,10 +559,40 @@ stream_vt_tabulate
 ) = aux (0) where
 {
 //
-fun aux (i: intGte(0)): stream_vt (a) =
-  $ldelay (stream_vt_cons{a}(stream_vt_tabulate$fopr<a> (i), aux (i+1)))
+fun aux
+(
+i : intGte(0)
+) : stream_vt(a) =
+(
+  $ldelay(
+    stream_vt_cons{a}(stream_vt_tabulate$fopr<a>(i), aux(i+1))
+  ) (* $ldelay *)
+) (* end of [aux] *)
 //
 } (* end of [stream_vt_tabulate] *)
+
+#atscode_separator()
+
+implement
+{env}{a}
+stream_vt_unfold
+(
+  st0, fopr
+) = aux(st0) where
+{
+//
+fun aux
+(
+  st: env
+) : stream_vt(a) = $ldelay
+(
+let
+  var st = st;
+  val x0 = fopr(st) in stream_vt_cons{a}(x0, aux(st))
+end // end of [aux]
+)
+//
+} (* end of [stream_vt_unfold] *)
 
 #atscode_separator()
 //

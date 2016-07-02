@@ -29,7 +29,7 @@ end // end of [from]
 val () =
 {
 //
-val ns = from (0)
+val ns = from(0)
 //
 val nns =
   stream_vt_map_fun<int><int> (ns, lam x => x * x)
@@ -47,8 +47,13 @@ val () = assertloc (nn = 100 * 100)
 val () =
 {
 //
-val ns1 = from (1)
-val ns2 = from (2)
+val ns1 =
+  stream_vt_unfold<int><int>
+    (1, lam(st) => let val n = st in st := n+1; n end)
+val ns2 =
+  stream_vt_unfold<int><int>
+    (2, lam(st) => let val n = st in st := n+1; n end)
+//
 val nns =
   stream_vt_map2_fun<int,int><int> (ns1, ns2, lam (x1, x2) => x1 * x2)
 //
