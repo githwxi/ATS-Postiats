@@ -626,6 +626,28 @@ x,y:t0p}{z:t0p
 ) : list0(z) // end of [list0_crosswith]
 //
 (* ****** ****** *)
+//
+fun
+{x:t0p}
+list0_foreach_choose2
+(
+  list0(INV(x)), fwork: cfun2(x, x, void)
+) : void // end-of-function
+//
+fun{
+x,y:t0p
+} list0_foreach_xprod2
+(
+  list0(INV(x)), list0(INV(y)), fwork: cfun2(x, y, void)
+) : void // end-of-function
+fun{
+x,y:t0p
+} list0_iforeach_xprod2
+(
+  list0(INV(x)), list0(INV(y)), fwork: cfun4(intGte(0), x, intGte(0), y, void)
+) : void // end-of-function
+//
+(* ****** ****** *)
 
 fun{a:t0p}
 list0_quicksort

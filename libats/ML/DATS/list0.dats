@@ -1404,13 +1404,111 @@ end // end of [list0_crosswith]
 (* ****** ****** *)
 
 implement
+{x}(*tmp*)
+list0_foreach_choose2
+(
+  xs, fwork
+) = loop(xs) where
+{
+//
+fnx
+loop(xs: list0(x)): void =
+(
+  case+ xs of
+  | list0_nil() => ()
+  | list0_cons(x, xs) => loop2(x, xs)
+)
+and
+loop2(x0: x, xs: list0(x)): void =
+(
+  case+ xs of
+  | list0_nil() => loop(xs)
+  | list0_cons(x, xs) => (fwork(x0, x); loop2(x0, xs))
+)
+//
+} (* end of [list0_foreach_choose2] *)
+
+(* ****** ****** *)
+
+implement
+{x,y}(*tmp*)
+list0_foreach_xprod2
+(
+  xs0, ys0, fwork
+) = loop(xs0) where
+{
+//
+fnx
+loop(xs: list0(x)): void =
+(
+  case+ xs of
+  | list0_nil() => ()
+  | list0_cons
+      (x, xs) => loop2(x, xs, ys0)
+    // end of [list_cons]
+)
+and
+loop2
+(
+  x0: x, xs: list0(x), ys: list0(y)
+) : void =
+(
+  case+ ys of
+  | list0_nil() => loop(xs)
+  | list0_cons(y, ys) => (fwork(x0, y); loop2(x0, xs, ys))
+)
+//
+} (* end of [list0_foreach_xprod2] *)
+
+(* ****** ****** *)
+
+implement
+{x,y}(*tmp*)
+list0_iforeach_xprod2
+(
+  xs0, ys0, fwork
+) = loop(0, xs0) where
+{
+//
+typedef int = intGte(0)
+//
+fnx
+loop
+(
+  i: int, xs: list0(x)
+) : void =
+(
+  case+ xs of
+  | list0_nil() => ()
+  | list0_cons
+      (x, xs) => loop2(i, x, xs, 0, ys0)
+    // end of [list_cons]
+)
+and
+loop2
+(
+  i0: int, x0: x, xs: list0(x), j: int, ys: list0(y)
+) : void =
+(
+  case+ ys of
+  | list0_nil() => loop(i0+1, xs)
+  | list0_cons(y, ys) =>
+      (fwork(i0, x0, j, y); loop2(i0, x0, xs, j+1, ys))
+    // end of [list0_cons]
+)
+//
+} (* end of [list0_iforeach_xprod2] *)
+
+(* ****** ****** *)
+
+implement
 {a}(*tmp*)
-list0_quicksort (xs, cmp) = let
+list0_quicksort(xs, cmp) = let
 //
 implement
-list_quicksort$cmp<a> (x, y) = cmp (x, y)
+list_quicksort$cmp<a> (x, y) = cmp(x, y)
 //
-val ys = $effmask_wrt (list_quicksort<a> (g1ofg0(xs)))
+val ys = $effmask_wrt (list_quicksort<a>(g1ofg0(xs)))
 //
 in
   list0_of_list_vt (ys)
@@ -1420,12 +1518,12 @@ end // end of [list0_quicksort]
 
 implement
 {a}(*tmp*)
-list0_mergesort (xs, cmp) = let
+list0_mergesort(xs, cmp) = let
 //
 implement
-list_mergesort$cmp<a> (x, y) = cmp (x, y)
+list_mergesort$cmp<a> (x, y) = cmp(x, y)
 //
-val ys = $effmask_wrt (list_mergesort<a> (g1ofg0(xs)))
+val ys = $effmask_wrt (list_mergesort<a>(g1ofg0(xs)))
 //
 in
   list0_of_list_vt (ys)
