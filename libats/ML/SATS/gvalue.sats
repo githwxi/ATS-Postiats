@@ -186,7 +186,7 @@ fprint_gvhashtbl : fprint_type(gvhashtbl)
 overload fprint with fprint_gvlist of 10
 overload fprint with fprint_gvarray of 10
 overload fprint with fprint_gvdynarr of 10
-overload fprint with fprint_gvhashtbl of 10
+overload fprint with fprint_gvhashtbl of 20
 //
 (* ****** ****** *)
 //
@@ -282,12 +282,12 @@ gvhashtbl_exch_atkey
 //
 (* ****** ****** *)
 //
-overload [] with gvhashtbl_get_atkey
-overload [] with gvhashtbl_set_atkey
+overload [] with gvhashtbl_get_atkey of 20
+overload [] with gvhashtbl_set_atkey of 20
 //
 (*
-overload .get with gvhashtbl_get_atkey
-overload .set with gvhashtbl_set_atkey
+overload .get with gvhashtbl_get_atkey of 20
+overload .set with gvhashtbl_set_atkey of 20
 *)
 //
 (* ****** ****** *)
@@ -298,6 +298,24 @@ gvhashtbl_pop_atkey
 fun
 gvhashtbl_push_atkey
   (gvhashtbl, k: string, x: gvalue): void
+//
+(* ****** ****** *)
+//
+fun
+gvhashtbl_foreach_cloref
+(
+  tbl: gvhashtbl
+, fwork: (string, &gvalue >> _) -<cloref1> void
+) : void // end of [gvhashtbl_foreach_cloref]
+//
+fun
+gvhashtbl_foreach_method
+(
+  tbl: gvhashtbl
+)
+(
+  fwork: (string, &gvalue >> _) -<cloref1> void
+) : void // end of [gvhashtbl_foreach_method]
 //
 (* ****** ****** *)
 //

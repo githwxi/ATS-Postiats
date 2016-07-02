@@ -96,13 +96,24 @@ Translation in Japanese:
 
 <h2><a id="EFF2ATSPROGEX">Effective ATS Programming through Examples</a></h2>
 
-<p>
+<table>
+<tr><td>
 Please find
 <a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/">on-line</a>
 (<a href="http://ats-lang.github.io/EXAMPLE/EFFECTIVATS/">backup</a>)
 various (short) programs in ATS plus detailed explanation that are written
 for the purpose of advocating effective programming in ATS.
-</p>
+</td></tr>
+<tr height="8px"><td></td></tr>
+<tr><td>
+Translation in Chinese: (TBA)
+</td></tr>
+<tr><td>
+Translation in Japanese:
+<a href="https://github.com/jats-ug/translate/blob/master/Manual/EffectiveATS.md">html</a>
+</td></tr>
+<tr height="8px"><td></td></tr>
+</table>
 
 <hr></hr>
 

@@ -465,6 +465,17 @@ end // end of [gvhashtbl_push_atkey]
 (* ****** ****** *)
 //
 implement
+gvhashtbl_foreach_cloref
+  (tbl, fwork) =
+  hashtbl_foreach_cloref<key,itm>(tbl, fwork)
+//
+implement
+gvhashtbl_foreach_method(tbl) =
+  lam (fwork) => hashtbl_foreach_cloref<key,itm>(tbl, fwork)
+//
+(* ****** ****** *)
+//
+implement
 gvhashtbl_listize1(tbl) = hashtbl_listize1<key,itm>(tbl)
 //
 (* ****** ****** *)

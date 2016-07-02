@@ -71,10 +71,10 @@ if
 n >= 0
 then let
   val xs =
-    $effmask_wrt (list_make_elt (n, x))
+    $effmask_wrt(list_make_elt<a>(n, x))
   // end of [val]
 in
-  list0_of_list_vt (xs)
+  list0_of_list_vt{a}(xs)
 end // end of [then]
 else let
 in
@@ -93,7 +93,7 @@ list0_make_intrange_lr
     if l <= r then 1 else ~1
   ) : int // end of [val]
 in
-  $effmask_exn (list0_make_intrange_lrd (l, r, d))
+  $effmask_exn(list0_make_intrange_lrd(l, r, d))
 end // end of [list0_make_intrange_lr]
 
 (* ****** ****** *)
@@ -170,14 +170,14 @@ if d > 0 then (
 end // end of [list0_make_intrange_lrd]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 list0_make_arrpsz
   (psz) =
-  list0_of_list_vt(list_make_arrpsz(psz))
+  list0_of_list_vt{a}(list_make_arrpsz(psz))
 // end of [list0_make_arrpsz]
-
+//
 (* ****** ****** *)
 //
 implement
@@ -328,7 +328,7 @@ val xs = g1ofg0_list(xs)
 in
 //
 case+ xs of
-| list_cons _ => list_last (xs)
+| list_cons _ => list_last<a>(xs)
 | list_nil () => $raise ListSubscriptExn()
 //
 end // end of [list0_last_exn]
@@ -376,7 +376,7 @@ implement
 list0_nth_exn
   (xs, i) = let
 //
-val i = g1ofg0_int (i)
+val i = g1ofg0_int(i)
 //
 in
 //
@@ -423,7 +423,9 @@ implement
 list0_insert_at_exn
   (xs, i, x0) = let
 //
-fun aux {i:nat} .<i>. (
+fun
+aux {i:nat} .<i>.
+(
   xs: list0 a, i: int i, x0: a
 ) :<!exn> list0 a = let
 in
@@ -541,8 +543,8 @@ end // end of [local]
 //
 implement
 {a}(*tmp*)
-list0_length(xs) =
-  list_length<a> (g1ofg0(xs))
+list0_length
+  (xs) = list_length<a>(g1ofg0(xs))
 //
 (* ****** ****** *)
 
@@ -594,7 +596,7 @@ list0_concat
   (xss) = let
   typedef xss = List(List(a))
   val ys =
-    $effmask_wrt (list_concat<a> ($UN.cast{xss}(xss)))
+    $effmask_wrt (list_concat<a>($UN.cast{xss}(xss)))
   // end of [val]
 in
   list0_of_list_vt (ys)
@@ -613,7 +615,7 @@ val xs = g1ofg0_list (xs)
 in
   if i >= 0 then let
     val res =
-      $effmask_wrt (list_take_exn (xs, i))
+      $effmask_wrt (list_take_exn<a>(xs, i))
     // end of [val]
   in
     list0_of_list_vt (res)
@@ -634,7 +636,7 @@ val xs = g1ofg0_list (xs)
 //
 in
   if i >= 0 then
-    list0_of_list (list_drop_exn (xs, i))
+    list0_of_list (list_drop_exn<a>(xs, i))
   else
     $raise (IllegalArgExn"list0_drop_exn:i")
   // end of [if]
@@ -645,38 +647,60 @@ end // end of [list0_drop_exn]
 implement
 {a}(*tmp*)
 list0_app
-  (xs, f) = list0_foreach (xs, f)
+  (xs, f) = list0_foreach<a>(xs, f)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+list0_foreach
+(
+  xs, fwork
+) = loop(xs) where
+{
+//
+fun
+loop(xs: list0(a)): void =
+(
+  case+ xs of
+  | list0_nil() => ()
+  | list0_cons(x, xs) => (fwork(x); loop(xs))
+)
+//
+} (* end of [list0_foreach] *)
+//
+implement
+{a}(*tmp*)
+list0_foreach_method(xs) = lam(f) => list0_foreach<a>(xs, f)
 //
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-list0_foreach (xs, f) = let
-in
+list0_iforeach
+  (xs, fwork) = let
+//
+fun
+loop
+(
+  i0: intGte(0), xs: list0(a)
+) : intGte(0) =
+(
   case+ xs of
-  | list0_cons (x, xs) =>
-      (f (x); list0_foreach (xs, f))
-  | list0_nil () => ()
-end // end of [list0_foreach]
-
-(* ****** ****** *)
-
+  | list0_nil() => i0
+  | list0_cons(x, xs) =>
+      (fwork(i0, x); loop (i0+1, xs))
+    // end of [list0_cons]
+) (* end of [loop] *)
+//
+in
+  loop (0, xs)
+end // end of [list0_iforeach]
+//
 implement
 {a}(*tmp*)
-list0_iforeach
-  (xs, f) = let
-  fun loop (
-    i: int, xs: list0 (a), f: cfun2 (int, a, void)
-  ) : int =
-    case+ xs of
-    | list0_cons (x, xs) =>
-        (f (i, x); loop (i+1, xs, f))
-    | list0_nil () => i
-  // end of [loop]
-in
-  loop (0, xs, f)
-end // end of [list0_iforeach]
-
+list0_iforeach_method(xs) = lam(f) => list0_iforeach<a>(xs, f)
+//
 (* ****** ****** *)
 
 implement
@@ -691,121 +715,230 @@ end // end of [list0_foreach2]
 implement
 {a1,a2}
 list0_foreach2_eq
-  (xs1, xs2, f, sgn) = let
-in
+(
+  xs1, xs2, fwork, sgn
+) = loop(xs1, xs2, sgn) where
+{
+//
+fun
+loop
+(
+  xs1: list0(a1)
+, xs2: list0(a2)
+, sgn: &int? >> int
+) : void =
+(
   case+ xs1 of
-  | list0_cons (x1, xs1) => (
+  | list0_nil() => (
     case+ xs2 of
-    | list0_cons (x2, xs2) =>
-        (f (x1, x2); list0_foreach2_eq (xs1, xs2, f, sgn))
+    | list0_nil() => (sgn := 0)
+    | list0_cons _ => (sgn := ~1)
+    )
+  | list0_cons(x1, xs1) => (
+    case+ xs2 of
     | list0_nil () => (sgn := 1)
+    | list0_cons(x2, xs2) =>
+        (fwork(x1, x2); loop(xs1, xs2, sgn))
     )
-  | list0_nil () => (
-    case+ xs2 of
-    | list0_cons _ => (sgn := ~1) | list0_nil () => (sgn := 0)
-    )
-end // end of [list0_foreach2_eq]
+)
+//
+} (* end of [list0_foreach2_eq] *)
 
 (* ****** ****** *)
 
 implement
-{a}{res}
-list0_foldleft (xs, ini, f) = let
-in
+{res}{a}
+list0_foldleft
+  (xs, ini, fopr) = let
+//
+fun
+loop
+(
+  xs: list0(a), res: res
+) : res =
+(
   case+ xs of
-  | list0_cons (x, xs) => let
-      val ini = f (ini, x) in list0_foldleft (xs, ini, f)
-    end // end of [list0_cons]
-  | list0_nil () => ini
-end // end of [list0_foldleft]
-
-implement
-{a}{res}
-list0_ifoldleft
-  (xs, ini, f) = let
-  fun loop (
-    i: int, xs: list0 (a), ini: res, f: cfun3 (res, int, a, res)
-  ) : res =
-    case+ xs of
-    | list0_cons (x, xs) => let
-        val init = f (ini, i, x) in loop (i+1, xs, ini, f)
-      end // end of [list0_cons]
-    | list0_nil () => ini
-  // end of [loop]
+  | list0_nil () => res
+  | list0_cons(x, xs) => loop(xs, fopr(res, x))
+)
 in
-  loop (0, xs, ini, f)
-end // end of [list0_ifoldleft]
-
+  loop(xs, ini)
+end // end of [list0_foldleft]
+//
+implement
+{res}{a}
+list0_foldleft_method(xs, _) =
+  lam(ini, f) => list0_foldleft<res><a>(xs, ini, f)
+//
 (* ****** ****** *)
 
 implement
-{a1,a2}{res}
-list0_foldleft2
-  (xs1, xs2, ini, f) = let
+{res}{a}
+list0_ifoldleft
+  (xs, ini, fopr) = let
+//
+fun
+loop
+(
+  i: int, xs: list0 (a), res: res
+) : res =
+(
+  case+ xs of
+  | list0_nil () => res
+  | list0_cons(x, xs) => loop(i+1, xs, fopr(res, i, x))
+) (* end of [loop] *)
 in
+  loop (0, xs, ini)
+end // end of [list0_ifoldleft]
+//
+implement
+{res}{a}
+list0_ifoldleft_method(xs, _) =
+(
+  lam(ini, fopr) =>
+    list0_ifoldleft<res><a>(xs, ini, fopr)
+  // end of [lam
+)
+//
+(* ****** ****** *)
+
+implement
+{res}{a1,a2}
+list0_foldleft2
+(
+  xs1, xs2, ini, fopr
+) = loop(xs1, xs2, ini) where
+{
+//
+fun
+loop
+(
+  xs1: list0(a1)
+, xs2: list0(a2), res: res
+) : res =
+(
   case+ xs1 of
-  | list0_cons (x1, xs1) => (
+  | list0_nil() => res
+  | list0_cons(x1, xs1) => (
     case+ xs2 of
-    | list0_cons (x2, xs2) => let
-        val init = f (ini, x1, x2) in list0_foldleft2 (xs1, xs2, ini, f)
-      end // end of [list0_cons]
-    | list0_nil () => ini
+    | list0_nil() => res
+    | list0_cons (x2, xs2) =>
+      (
+        loop(xs1, xs2, fopr(res, x1, x2))
+      ) // end of [list0_cons]
     )
-  | list0_nil () => ini
-end // end of [list0_foldleft2]
+) (* end of [loop] *)
+//
+} (* end of [list0_foldleft2] *)
 
 (* ****** ****** *)
 
 implement
 {a}{res}
 list0_foldright
-  (xs, f, snk) = let
-in
+(
+  xs, fopr, snk
+) = loop(xs) where
+{
+//
+fun
+loop(xs: list0(a)): res =
   case+ xs of
-  | list0_cons (x, xs) =>
-      f (x, list0_foldright (xs, f, snk))
-  | list0_nil () => snk
-end // end of [list0_foldright]
-
+  | list0_nil() => snk
+  | list0_cons (x, xs) => fopr(x, loop(xs))
+//
+} (* end of [list0_foldright] *)
+//
+implement
+{a}{res}
+list0_foldright_method(xs, _) =
+  lam(f, snk) => list0_foldright<a><res>(xs, f, snk)
+//
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-list0_exists (xs, p) = let
-in
-  case+ xs of
-  | list0_cons (x, xs) =>
-      if p (x) then true else list0_exists (xs, p)
-  | list0_nil () => false
-end // end of [list0_exists]
+list0_exists
+(
+  xs, pred
+) = loop(xs) where
+{
+//
+fun
+loop(xs: list0(a)): bool =
+(
+case+ xs of
+| list0_nil() => false
+| list0_cons (x, xs) =>
+    if pred(x) then true else loop(xs)
+  // list0_cons
+) (* end of [loop] *)
+//
+} (* end of [list0_exists] *)
+//
+implement
+{a}(*tmp*)
+list0_exists_method(xs) =
+  lam(p) => list0_exists<a>(xs, p)
+//
+(* ****** ****** *)
 
 implement
 {a1,a2}
 list0_exists2
-  (xs1, xs2, p) = let
-in
+(
+  xs1, xs2, pred
+) = let
+//
+fun
+loop
+(
+  xs1: list0(a1)
+, xs2: list0(a2)
+) : bool =
+(
   case+ xs1 of
-  | list0_cons (x1, xs1) => (
+  | list0_nil() => false
+  | list0_cons(x1, xs1) => (
     case+ xs2 of
-    | list0_cons (x2, xs2) =>
-        if p (x1, x2) then true else list0_exists2 (xs1, xs2, p)
-    | list0_nil () => false
+    | list0_nil() => false
+    | list0_cons(x2, xs2) =>
+        if pred(x1, x2) then true else loop(xs1, xs2)
+      // end of [list_cons]
     )
-  | list0_nil () => false
+) (* end of [loop] *)
+//
+in
+  loop(xs1, xs2)
 end // end of [list0_exists2]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-list0_forall (xs, p) = let
-in
+list0_forall
+(
+  xs, pred
+) = loop(xs) where
+{
+//
+fun
+loop(xs: list0(a)): bool =
+(
   case+ xs of
-  | list0_cons (x, xs) =>
-      if p (x) then list0_forall (xs, p) else false
-  | list0_nil () => true
-end // end of [list0_forall]
-
+  | list0_nil() => true
+  | list0_cons(x, xs) =>
+      if pred(x) then loop(xs) else false
+    // list0_cons
+) (* end of [loop] *)
+//
+} (* end of [list0_forall] *)
+//
+implement
+{a}(*tmp*)
+list0_forall_method(xs) =
+  lam(p) => list0_forall<a> (xs, p)
+//
 (* ****** ****** *)
 
 implement
@@ -820,102 +953,173 @@ end // end of [list0_forall2]
 implement
 {a1,a2}
 list0_forall2_eq
-  (xs1, xs2, p, sgn) = let
-in
+(
+  xs1, xs2, pred, sgn
+) = loop(xs1, xs2, sgn) where
+{
+//
+fun
+loop
+(
+  xs1: list0(a1)
+, xs2: list0(a2)
+, sgn: &int? >> _
+) : bool =
+(
   case+ xs1 of
-  | list0_cons (x1, xs1) => (
+  | list0_nil() => (
     case+ xs2 of
+    | list0_nil() => (sgn := 0; true)
+    | list0_cons _ => (sgn := ~1; true)
+    )
+  | list0_cons(x1, xs1) => (
+    case+ xs2 of
+    | list0_nil() => (sgn := 1; true)
     | list0_cons (x2, xs2) =>
-        if p (x1, x2) then
-          list0_forall2_eq (xs1, xs2, p, sgn) else (sgn := 0; false)
+      (
+        if pred (x1, x2)
+          then loop(xs1, xs2, sgn) else (sgn := 0; false)
         // end of [if]
-    | list0_nil () => (sgn := 1; true)
+      ) (* end of [list0_cons] *)
     )
-  | list0_nil () => (
-    case+ xs2 of
-    | list0_cons _ => (sgn := ~1; true) | list0_nil () => (sgn := 0; true)
-    )
-end // end of [list0_forall2_eq]
+)
+} (* end of [list0_forall2_eq] *)
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
 list0_equal
-  (xs1, xs2, eqfn) =
-  case+ (xs1, xs2) of
-  | (list0_cons (x1, xs1),
-     list0_cons (x2, xs2)) =>
-      if eqfn (x1, x2) then list0_equal (xs1, xs2, eqfn) else false
-  | (list0_nil (), list0_nil ()) => true
-  | (_, _) => false
-// end of [list0_equal]
+(
+  xs1, xs2, eqfn
+) = loop(xs1, xs2) where
+{
+//
+fun
+loop
+(
+  xs1: list0(a), xs2: list0(a)
+) : bool =
+(
+  case+ xs1 of
+  | list0_nil() => (
+    case+ xs2 of
+    | list0_nil() => true
+    | list0_cons _ => false
+    )
+  | list0_cons(x1, xs1) => (
+    case+ xs2 of
+    | list0_nil() => false
+    | list0_cons(x2, xs2) =>
+        if eqfn (x1, x2) then loop(xs1, xs2) else false
+      // end of [list0_cons]
+    )
+) (* end of [loop] *)
+//
+} (* end of [list0_equal] *)
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
 list0_find_exn
-  (xs, p) = let
-in
+(
+  xs, pred
+) = loop(xs) where
+{
 //
+fun
+loop(xs: list0(a)): a =
+(
 case+ xs of
-| list0_cons
-    (x, xs) =>
-    if p (x) then x else list0_find_exn (xs, p)
-| list0_nil ((*void*)) => $raise NotFoundExn()
+| list0_nil() =>
+    $raise NotFoundExn()
+  // list0_nil
+| list0_cons(x, xs) =>
+    if pred(x) then x else loop(xs)
+  // list0_cons
+)
 //
-end // end of [list0_find_exn]
+} (* end of [list0_find_exn] *)
+
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
 list0_find_opt
-  (xs, p) = let
-in
+(
+  xs, pred
+) = loop(xs) where
+{
+//
+fun
+loop
+(
+  xs: list0(a)
+) : Option_vt(a) =
 //
 case+ xs of
-| list0_cons (x, xs) =>
+| list0_nil() =>
+    None_vt(*void*)
+  // list0_nil
+| list0_cons(x, xs) =>
   (
-    if p (x) then Some_vt{a}(x) else list0_find_opt (xs, p)
+    if pred(x) then Some_vt{a}(x) else loop(xs)
   ) (* end of [list_cons] *)
-| list0_nil ((*void*)) => None_vt ()
 //
-end // end of [list0_find_opt]
+} (* end of [list0_find_opt] *)
 
 (* ****** ****** *)
 
 implement
 {a,b}(*tmp*)
 list0_assoc_exn
-  (xys, x0, eq) = let
-in
+(
+  xys, x0, eq
+) = loop(xys, x0, eq) where
+{
+//
+fun
+loop:
+$d2ctype (
+list0_assoc_exn<a,b>
+) = lam(xys, x0, eq) =>
 //
 case+ xys of
-| list0_cons
-    (xy, xys) =>
-    if eq (x0, xy.0)
-      then xy.1 else list0_assoc_exn<a,b> (xys, x0, eq)
-    // end of [if]
-| list0_nil ((*void*)) => $raise NotFoundExn()
+| list0_nil() => $raise NotFoundExn()
+| list0_cons(xy, xys) =>
+    if eq (x0, xy.0) then xy.1 else loop(xys, x0, eq)
+  // end of [list0_cons]
 //
-end // end of [list0_assoc_exn]
+} (* end of [list0_assoc_exn] *)
+
+(* ****** ****** *)
 
 implement
 {a,b}(*tmp*)
 list0_assoc_opt
-  (xys, x0, eq) = let
-in
+(
+  xys, x0, eq
+) = loop(xys, x0, eq) where
+{
+fun
+loop:
+$d2ctype(
+list0_assoc_opt<a,b>
+) = lam(xys, x0, eq) =>
 //
 case+ xys of
-| list0_cons (xy, xys) =>
+| list0_nil() =>
+    None_vt(*void*)
+  // list0_nil
+| list0_cons(xy, xys) =>
   (
     if eq (x0, xy.0)
-      then Some_vt{b}(xy.1) else list0_assoc_opt<a,b> (xys, x0, eq)
+      then Some_vt{b}(xy.1) else loop(xys, x0, eq)
     // end of [if]
   ) (* end of [list_cons] *)
-| list0_nil ((*void*)) => None_vt ()
 //
-end // end of [list0_assoc_opt]
+} (* end of [list0_assoc_opt] *)
 
 (* ****** ****** *)
 
@@ -1077,6 +1281,7 @@ list0_filter
 implement{a2}
 list_filter$pred
   (x) = p ($UN.cast{a}(x))
+//
 val ys = list_filter<a> (g1ofg0(xs))
 //
 in
@@ -1151,22 +1356,30 @@ val res = list0_of_list_vt (res)
 
 implement
 {x,y}
-list0_zip (xs, ys) = let
-  val xs = g1ofg0(xs) and ys = g1ofg0(ys)
-  val xys = $effmask_wrt (list_zip<x,y> (xs, ys))
+list0_zip
+  (xs, ys) = let
+//
+  val xs = g1ofg0(xs)
+  and ys = g1ofg0(ys)
+  val xys = $effmask_wrt(list_zip<x,y> (xs, ys))
+//
 in
-  list0_of_list_vt (xys)
+  list0_of_list_vt{(x,y)}(xys)
 end // end of [list0_zip]
 
 (* ****** ****** *)
 
 implement
 {x,y}
-list0_cross (xs, ys) = let
-  val xs = g1ofg0(xs) and ys = g1ofg0(ys)
-  val xys = $effmask_wrt (list_cross<x,y> (xs, ys))
+list0_cross
+  (xs, ys) = let
+//
+  val xs = g1ofg0(xs)
+  and ys = g1ofg0(ys)
+  val xys = $effmask_wrt(list_cross<x,y> (xs, ys))
+//
 in
-  list0_of_list_vt (xys)
+  list0_of_list_vt{(x,y)}(xys)
 end // end of [list0_cross]
 
 (* ****** ****** *)

@@ -48,15 +48,17 @@ implement
 {x}(*tmp*)
 list_make_elt
   {n} (n, x) = let
-  fun loop
-    {i:nat | i <= n} .<i>.
-  (
-    i: int i, x: x, res: list_vt (x, n-i)
-  ) :<> list_vt (x, n) = (
-    if i > 0 then
-      loop (pred(i), x, list_vt_cons (x, res)) else res
-    // end of [if]
-  ) // end of [loop]
+//
+fun loop
+  {i:nat | i <= n} .<i>.
+(
+  i: int i, x: x, res: list_vt (x, n-i)
+) :<> list_vt (x, n) = (
+  if i > 0 then
+    loop (pred(i), x, list_vt_cons (x, res)) else res
+  // end of [if]
+) // end of [loop]
+//
 in
   loop (n, x, list_vt_nil ())
 end // end of [list_make_elt]
