@@ -908,6 +908,33 @@ list0_exists_method(xs) =
 (* ****** ****** *)
 
 implement
+{a}(*tmp*)
+list0_iexists
+(
+  xs, pred
+) = loop(0, xs) where
+{
+//
+fun
+loop(i: intGte(0), xs: list0(a)): bool =
+(
+  case+ xs of
+  | list0_nil() => false
+  | list0_cons(x, xs) =>
+      if pred(i, x) then true else loop(i+1, xs)
+    // list0_cons
+) (* end of [loop] *)
+//
+} (* end of [list0_iexists] *)
+//
+implement
+{a}(*tmp*)
+list0_iexists_method(xs) =
+  lam(p) => list0_iexists<a> (xs, p)
+//
+(* ****** ****** *)
+
+implement
 {a1,a2}
 list0_exists2
 (

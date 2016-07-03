@@ -472,6 +472,24 @@ overload .exists with list0_exists_method
 (* ****** ****** *)
 //
 fun
+{a:t0p}
+list0_iexists
+(
+  xs: list0(INV(a)), pred: cfun(intGte(0), a, bool)
+) : bool // end of [list0_iexists]
+//
+fun
+{a:t0p}
+list0_iexists_method
+(
+  xs: list0(INV(a))) (pred: cfun(intGte(0), a, bool)
+) : bool // end of [list0_iexists_method]
+//
+overload .iexists with list0_iexists_method
+//
+(* ****** ****** *)
+//
+fun
 {a1,a2:t0p}
 list0_exists2
 (
