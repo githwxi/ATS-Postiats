@@ -71,63 +71,75 @@ arrayopt_v
 // end of [arrayopt_v]
 
 #atscode_separator()
-
+//
 exception
 ArraySubscriptExn of ()
+//
 (*
-fun ArraySubscriptExn ():<> exn = "mac\#%ArraySubscriptExn_make"
-fun isArraySubscriptExn (x: !exn):<> bool = "mac\#%isArraySubscriptExn"
+fun
+ArraySubscriptExn():<> exn = "mac\#%ArraySubscriptExn_make"
+fun
+isArraySubscriptExn(x: !exn):<> bool = "mac\#%isArraySubscriptExn"
+//
 macdef
 ifArraySubscriptExn
   {tres}(exn, body) =
 (
 let val x = ,(exn) in
 (
-if isArraySubscriptExn(x)
-  then
-    let prval () = __vfree_exn (x) in ,(body) end
-  else $raise (x)
+//
+if
+isArraySubscriptExn(x)
+then (
+  let prval () = __vfree_exn (x) in ,(body) end
+) else $raise (x)
+//
 ) : tres // end of [if]
 end (* end of [let] *)
 ) // end of [ifArraySubscriptExn]
 *)
-
+//
 #atscode_separator()
-
+//
 praxi
-lemma_array_param{a:vt0p}
-  {l:addr}{n:int} (A: &(@[INV(a)][n])): [n >= 0] void
+lemma_array_param
+  {a:vt0p}{l:addr}{n:int}
+  (A: &(@[INV(a)][n])): [n >= 0] void
 // end of [lemma_array_param]
+//
 praxi
-lemma_array_v_param{a:vt0p}
-  {l:addr}{n:int} (pf: !array_v (INV(a), l, n)): [n >= 0] void
+lemma_array_v_param
+  {a:vt0p}{l:addr}{n:int}
+  (pf: !array_v (INV(a), l, n)): [n >= 0] void
 // end of [lemma_array_v_param]
-
+//
 #atscode_separator()
-
+//
 praxi
 array_v_nil :
   {a:vt0p}{l:addr} () -<prf> array_v (a, l, 0)
+//
 praxi
 array_v_unnil :
   {a:vt0p}{l:addr} array_v (a, l, 0) -<prf> void
-
+//
 prfun
 array_v_unnil_nil :
   {a1,a2:vt0p}{l:addr} array_v (a1, l, 0) -<prf> array_v (a2, l, 0)
 // end of [array_v_unnil_nil]
-
+//
 #atscode_separator()
-
+//
 praxi
 array_v_cons :
-  {a:vt0p}{l:addr}{n:int}
-  (a @ l, array_v (INV(a), l+sizeof(a), n)) -<prf> array_v (a, l, n+1)
+{a:vt0p}{l:addr}{n:int}
+(a @ l, array_v (INV(a), l+sizeof(a), n)) -<prf> array_v (a, l, n+1)
+//
 praxi
 array_v_uncons :
-  {a:vt0p}{l:addr}{n:int | n > 0}
-  array_v (INV(a), l, n) -<prf> (a @ l, array_v (a, l+sizeof(a), n-1))
-
+{a:vt0p}{l:addr}{n:int | n > 0}
+array_v (INV(a), l, n) -<prf> (a @ l, array_v (a, l+sizeof(a), n-1))
+//
 #atscode_separator()
 
 prfun
@@ -144,41 +156,47 @@ array_getref_at
   {n:int} (A: &RD(@[INV(a)][n]), i: sizeLt n):<> cPtr1(a)
 //
 #atscode_separator()
-
+//
 fun{
 a:t0p}{tk:tk
 } array_get_at_gint
-  {n:int} (A: &RD(@[INV(a)][n]), i: g1intLt (tk, n)):<> a
-overload [] with array_get_at_gint of 0
-
+  {n:int}
+  (A: &RD(@[INV(a)][n]), i: g1intLt(tk, n)):<> a
+//
 fun{
 a:t0p}{tk:tk
 } array_get_at_guint
-  {n:int} (A: &RD(@[INV(a)][n]), i: g1uintLt (tk, n)):<> a
+  {n:int}
+  (A: &RD(@[INV(a)][n]), i: g1uintLt(tk, n)):<> a
+//
+overload [] with array_get_at_gint of 0
 overload [] with array_get_at_guint of 0
-
+//
 symintr array_get_at
 overload array_get_at with array_get_at_gint of 0
 overload array_get_at with array_get_at_guint of 0
-
+//
 #atscode_separator()
-
+//
 fun{
 a:t0p}{tk:tk
 } array_set_at_gint
-  {n:int} (A: &(@[INV(a)][n]), i: g1intLt (tk, n), x: a):<!wrt> void
-overload [] with array_set_at_gint of 0
-
+  {n:int}
+  (A: &(@[INV(a)][n]), i: g1intLt(tk, n), x: a):<!wrt> void
+//
 fun{
 a:t0p}{tk:tk
 } array_set_at_guint
-  {n:int} (A: &(@[INV(a)][n]), i: g1uintLt (tk, n), x: a):<!wrt> void
+  {n:int}
+  (A: &(@[INV(a)][n]), i: g1uintLt(tk, n), x: a):<!wrt> void
+//
+overload [] with array_set_at_gint of 0
 overload [] with array_set_at_guint of 0
-
+//
 symintr array_set_at
 overload array_set_at with array_set_at_gint of 0
 overload array_set_at with array_set_at_guint of 0
-
+//
 #atscode_separator()
 
 fun{
@@ -206,13 +224,14 @@ array_subreverse
  {i,j:int |
   0 <= i; i <= j; j <= n}
 (
-  A: &(@[INV(a)][n]), i: size_t (i), j: size_t (j)
+  A: &(@[INV(a)][n]), i: size_t(i), j: size_t(j)
 ) :<!wrt> void // end of [array_subreverse]
 
 #atscode_separator()
 
 fun{a:vt0p}
-array_interchange{n:int}
+array_interchange
+  {n:int}
 (
   A: &(@[INV(a)][n]), i: sizeLt (n), j: sizeLt (n)
 ) :<!wrt> void // end of [array_interchange]
@@ -220,7 +239,8 @@ array_interchange{n:int}
 #atscode_separator()
 
 fun{a:vt0p}
-array_subcirculate{n:int}
+array_subcirculate
+  {n:int}
 (
   A: &(@[INV(a)][n]), i: sizeLt (n), j: sizeLt (n)
 ) :<!wrt> void // end of [array_subcirculate]
@@ -236,7 +256,7 @@ array_ptr_takeout
   a @ (l+i*sizeof(a))
 , a @ (l+i*sizeof(a)) -<lin,prf> array_v (a, l, n)
 | ptr (l+i*sizeof(a))
-) // end of [array_ptr_takeout]
+) (* end of [array_ptr_takeout] *)
 
 #atscode_separator()
 
@@ -300,19 +320,19 @@ array_copy{n:int}
 ) :<!wrt> void // end of [array_copy]
 
 #atscode_separator()
-
+//
 fun{a:t0p}
 array_copy_from_list{n:int}
 (
   A: &(@[a?][n]) >> @[a][n], xs: list (INV(a), n)
 ) :<!wrt> void // end of [array_copy_from_list]
-
+//
 fun{a:vt0p}
 array_copy_from_list_vt{n:int}
 (
   A: &(@[a?][n]) >> @[a][n], xs: list_vt (INV(a), n)
 ) :<!wrt> void // end of [array_copy_from_list_vt]
-
+//
 #atscode_separator()
 
 fun{a:vt0p}
@@ -324,29 +344,30 @@ array_copy_to_list_vt{n:int}
 macdef array2list = array_copy_to_list_vt
 
 #atscode_separator()
-
+//
 fun{a:vt0p}
 array_tabulate$fopr (i: size_t): (a)
+//
 fun{a:vt0p}
 array_ptr_tabulate
   {n:int} (asz: size_t n)
   : [l:addr] (array_v (a, l, n), mfree_gc_v (l) | ptr l)
 // end of [arrayptr_tabulate]
-
+//
 #atscode_separator()
 //
 fun{
 a:vt0p
 } array_foreach{n:int}
 (
-  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t(n)
 ) : sizeLte (n) // end of [array_foreach]
 //
 fun{
 a:vt0p}{env:vt0p
 } array_foreach_env{n:int}
 (
-  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n, env: &(env) >> _
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t(n), env: &(env) >> _
 ) : sizeLte (n) // end of [array_foreach_env]
 //
 fun{
@@ -358,7 +379,8 @@ a:vt0p}{env:vt0p
 //
 #atscode_separator()
 //
-fun{a:vt0p}
+fun
+{a:vt0p}
 array_foreach_funenv
   {v:view}
   {vt:vtype}
@@ -391,28 +413,32 @@ array_foreach_funenv_tsz
 //
 #atscode_separator()
 //
-fun{a:vt0p}
+fun
+{a:vt0p}
 array_foreach_fun
   {n:int}{fe:eff}
 (
   &(@[INV(a)][n]) >> @[a][n]
 , size_t (n), (&a >> _) -<fun,fe> void
 ) :<fe> void // end of [array_foreach_fun]
-fun{a:vt0p}
+fun
+{a:vt0p}
 array_foreach_clo
   {n:int}{fe:eff}
 (
   A: &(@[INV(a)][n]) >> @[a][n]
 , asz: size_t (n), f: &(&a >> _) -<clo,fe> void
 ) :<fe> void // end of [array_foreach_clo]
-fun{a:vt0p}
+fun
+{a:vt0p}
 array_foreach_cloptr
   {n:int}{fe:eff}
 (
   A: &(@[INV(a)][n]) >> @[a][n]
 , asz: size_t n, f: (&a >> _) -<cloptr,fe> void
 ) :<fe> void // end of [array_foreach_cloptr]
-fun{a:vt0p}
+fun
+{a:vt0p}
 array_foreach_cloref
   {n:int}{fe:eff}
 (
@@ -422,7 +448,8 @@ array_foreach_cloref
 //
 #atscode_separator()
 //
-fun{a:vt0p}
+fun
+{a:vt0p}
 array_foreach_vclo
   {v:view}{n:int}{fe:eff}
 (
@@ -430,7 +457,8 @@ array_foreach_vclo
 | A: &(@[INV(a)][n]) >> @[a][n]
 , asz: size_t n, f: &(!v | &a >> _) -<clo,fe> void
 ) :<fe> void // end of [array_foreach_vclo]
-fun{a:vt0p}
+fun
+{a:vt0p}
 array_foreach_vcloptr
   {v:view}{n:int}{fe:eff}
 (
