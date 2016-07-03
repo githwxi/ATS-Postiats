@@ -17,10 +17,6 @@
 "share/HATS/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
-
-#define N 8
-
-(* ****** ****** *)
 //
 extern
 fun{a:vt0p}
@@ -73,13 +69,17 @@ stream_vt_map_method
 //
 (* ****** ****** *)
 
-macdef * = cross_stream_vt_list_vt
+macdef sing = stream_vt_make_sing
+macdef intrange = list_make_intrange
+overload * with cross_stream_vt_list_vt
 
 (* ****** ****** *)
 //
+#define N 8
+//
 implement
 main0((*void*)) =
-((fix f(n: int): stream_vt(list0(int)) => if(n > 0)then((f(n-1)*list_make_intrange(0,N)).filter()(lam(xsy)=>let val(xs, y)=xsy in $effmask_all(xs.iforall()(lam(i, x) => x != y && abs(x-y) != i+1))end)).map()(lam(xs_y) => let val (xs, y)=xs_y in cons0(y, xs) end)else stream_vt_make_sing(nil0()))(N)).foreach()(lam(xs)=>((xs).rforeach()(lam(x)=>((N).foreach()(lam(i)=>print_string(ifval(i=x," Q", " .")));println!()));println!()))
+((fix f(n:int):stream_vt(list0(int))=>if(n > 0)then((f(n-1)*intrange(0,N)).filter()(lam(xsy)=>let val(xs,y)=xsy in $effmask_all(xs.iforall()(lam(i,x)=>(x != y && abs(x-y) != i+1)))end)).map()(lam(xs_y)=>let val (xs, y)=xs_y in cons0(y,xs) end)else(sing(nil0())))(N)).foreach()(lam(xs)=>((xs).rforeach()(lam(x)=>((N).foreach()(lam(i)=>print_string(ifval(i=x," Q"," .")));println!()));println!()))
 //
 (* ****** ****** *)
 
