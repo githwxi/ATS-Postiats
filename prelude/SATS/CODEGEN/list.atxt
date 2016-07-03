@@ -427,17 +427,25 @@ x:t0p
 // end of [list_split_at]
 
 #atscode_separator()
-
+//
 fun{x:t0p}
-list_exists (xs: List (INV(x))):<> bool
-fun{x:t0p} list_exists$pred (x):<> bool
-
+list_exists$pred(x: x):<> bool
+fun{x:t0p}
+list_exists(xs: List(INV(x))):<> bool
+fun{x:t0p}
+list_exists_cloref
+  (xs: List(INV(x)), pred: (x) -<cloref> bool):<> bool
+//
 #atscode_separator()
-
+//
 fun{x:t0p}
-list_forall (xs: List (INV(x))):<> bool
-fun{x:t0p} list_forall$pred (x):<> bool
-
+list_forall$pred(x: x):<> bool
+fun{x:t0p}
+list_forall(xs: List(INV(x))):<> bool
+fun{x:t0p}
+list_forall_cloref
+  (xs: List(INV(x)), pred: (x) -<cloref> bool):<> bool
+//
 #atscode_separator()
 
 fun{x:t0p}
