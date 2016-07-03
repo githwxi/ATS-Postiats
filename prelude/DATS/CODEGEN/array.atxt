@@ -86,7 +86,8 @@ end // end of [array_exch_at_guint]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_subreverse
   (A, i, j) = let
 //
@@ -119,7 +120,8 @@ end // end of [array_subreverse]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_interchange
   (A, i, j) = let
 //
@@ -147,7 +149,8 @@ end // end of [array_interchange]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_subcirculate
   (A, i, j) = let
 //
@@ -183,7 +186,8 @@ end // end of [array_subcirculate]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_ptr_takeout
   {l}{n}{i}(pf | p, i) = let
   prval(pf, fpf) =
@@ -195,34 +199,45 @@ end // end of [array_ptr_takeout]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_ptr_alloc
-  {n} (asz) = let
-  val [l:addr] (
-    pf, pfgc | p
-  ) = malloc_gc (asz * sizeof<a>)
-  prval pf =
-    __assert (pf) where {
-    extern praxi __assert
-      (pf: b0ytes (n*sizeof(a)) @ l): array_v (a?, l, n)
-    // end of [__assert]
-  } // end of [where] // end of [prval]
+  {n}(asz) = let
+//
+val
+[l:addr]
+(
+  pf, pfgc | p
+) = malloc_gc (asz * sizeof<a>)
+prval pf =
+__assert (pf) where
+{
+extern praxi __assert
+  (pf: b0ytes (n*sizeof(a)) @ l): array_v (a?, l, n)
+// end of [__assert]
+} // end of [where] // end of [prval]
+//
 in
   (pf, pfgc | p)
 end // end of [array_ptr_alloc]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 array_ptr_free
   {a}{l}{n}
   (pf, pfgc | p) = let
-  prval pf =
-    __assert (pf) where {
-    extern praxi __assert
-      (pf: array_v (a?, l, n)): b0ytes (n*sizeof(a)) @ l
-    // end of [__assert]
-  } // end of [where] // end of [prval]
+//
+prval pf =
+__assert (pf) where
+{
+//
+extern praxi __assert
+  (pf: array_v (a?, l, n)): b0ytes (n*sizeof(a)) @ l
+// end of [__assert]
+} // end of [where] // end of [prval]
+//
 in
   mfree_gc (pf, pfgc | p)
 end // end of [array_ptr_free]
@@ -415,31 +430,33 @@ array_copy_to_list_vt
 //
 prval() = lemma_array_param(A)
 //
-fun loop
-  {l:addr}{n:nat} .<n>. (
+fun
+loop
+{l:addr}{n:nat} .<n>.
+(
   pf: !array_v (a, l, n) >> array_v (a?!, l, n)
-| p0: ptr l, n: size_t n, res: &ptr? >> list_vt (a, n)
+| p0: ptr l, nz: size_t n, res: &ptr? >> list_vt (a, n)
 ) :<!wrt> void = (
-  if n > 0 then let
-    prval
-    (pf1, pf2) = array_v_uncons(pf)
-    val () =
-      res := list_vt_cons{a}{0}(!p0, _)
-    // end of [val]
-    val+list_vt_cons (_, res1) = res
-    val () = loop(pf2 | ptr1_succ<a> (p0), pred(n), res1)
-    prval () = (pf := array_v_cons(pf1, pf2))
-    prval () = fold@ (res)
-  in
-    // nothing
-  end else let
-    prval () =
-      pf :=
-      array_v_unnil_nil(pf)
-    // end of [prval]
-  in
-    res := list_vt_nil((*void*))
-  end // end of [if]
+//
+if
+nz > 0
+then let
+  prval
+  (pf1, pf2) = array_v_uncons(pf)
+  val () =
+    res := list_vt_cons{a}{0}(!p0, _)
+  // end of [val]
+  val+list_vt_cons (_, res1) = res
+  val () = loop(pf2 | ptr1_succ<a> (p0), pred(nz), res1)
+  prval () = (pf := array_v_cons(pf1, pf2))
+  prval () = fold@ (res)
+in
+  // nothing
+end else let
+  prval () =
+    pf := array_v_unnil_nil(pf) in res := list_vt_nil(*void*)
+  // end of [prval]
+end // end of [if]
 ) (* end of [loop] *)
 //
 var res: ptr
@@ -465,13 +482,14 @@ array_foreach_env
 //
 prval() = lemma_array_param(A)
 //
-fun loop
-  {l:addr}
-  {n:nat | n <= n0} .<n>.
+fun
+loop
+{l:addr}
+{n:nat | n <= n0} .<n>.
 (
   pf: !array_v (a, l, n)
-| p0: ptr l, n: size_t n, env: &env
-) : sizeLte (n0) = let
+| p0: ptr l, nz: size_t n, env: &env
+) : sizeLte(n0) = let
 //
 (*
 val () =
@@ -480,7 +498,9 @@ println! ("array_foreach_env: loop")
 //
 in
 //
-if n > 0 then let
+if
+(nz > 0)
+then let
   prval
   (
     pf1, pf2
@@ -491,27 +511,27 @@ if n > 0 then let
 in
   if cont then let
     val () =
-      array_foreach$fwork<a><env> (!p0, env)
+      array_foreach$fwork<a><env>(!p0, env)
     // end of [val]
     val res =
-      loop(pf2 | ptr1_succ<a> (p0), pred(n), env)
+      loop(pf2 | ptr1_succ<a>(p0), pred(nz), env)
     // end of [val]
     prval () = (pf := array_v_cons(pf1, pf2))
   in
     res
   end else let
-    prval () = pf := array_v_cons(pf1, pf2) in (n)
+    prval () = pf := array_v_cons(pf1, pf2) in (nz)
   end (* end of [if] *)
-end else n(*0*) // end of [if]
+end else nz(*0*) // end of [if]
 //
 end // end of [loop]
 //
 val p0 = addr@(A)
 //
-val n0 = loop (view@(A) | p0, asz, env)
+val nz = loop (view@(A) | p0, asz, env)
 //
 in
-  asz - n0
+  asz - nz
 end // end of [array_foreach_env]
 
 #atscode_separator()
@@ -606,13 +626,15 @@ array_foreach2_env
 //
 prval() = lemma_array_param(A1)
 //
-fun loop
-  {l1,l2:addr}
-  {n:nat | n <= n0} .<n>. (
-  pf1: !array_v (a1, l1, n)
-, pf2: !array_v (a2, l2, n)
-| p1: ptr l1, p2: ptr l2, n: size_t n, env: &env
-) : sizeLte (n0) = let
+fun
+loop
+{l1,l2:addr}
+{n:nat | n <= n0} .<n>.
+(
+  pf1: !array_v(a1, l1, n)
+, pf2: !array_v(a2, l2, n)
+| p1: ptr l1, p2: ptr l2, nz: size_t n, env: &env
+) : sizeLte(n0) = let
 //
 (*
 //
@@ -622,33 +644,42 @@ println! ("array_foreach2_env: loop")
 *)
 //
 in
-  if n > 0 then let
-    prval (pf11, pf12) = array_v_uncons(pf1)
-    prval (pf21, pf22) = array_v_uncons(pf2)
-    val cont = array_foreach2$cont<a1,a2><env> (!p1, !p2, env)
+//
+if
+(nz > 0)
+then let
+  prval
+  (pf11, pf12) = array_v_uncons(pf1)
+  prval
+  (pf21, pf22) = array_v_uncons(pf2)
+  val cont =
+    array_foreach2$cont<a1,a2><env>(!p1, !p2, env)
+  // end of [val]
+in
+  if cont then let
+    val () =
+      array_foreach2$fwork<a1,a2><env> (!p1, !p2, env)
+    val res =
+      loop (
+        pf12, pf22
+      | ptr1_succ<a1>(p1), ptr1_succ<a2>(p2), pred(nz), env
+      ) (* loop *)
+    prval () = pf1 := array_v_cons (pf11, pf12)
+    prval () = pf2 := array_v_cons (pf21, pf22)
   in
-    if cont then let
-      val () = array_foreach2$fwork<a1,a2><env> (!p1, !p2, env)
-      val res = loop (
-        pf12, pf22 | ptr1_succ<a1> (p1), ptr1_succ<a2> (p2), pred(n), env
-      ) // end of [val]
-      prval () = pf1 := array_v_cons (pf11, pf12)
-      prval () = pf2 := array_v_cons (pf21, pf22)
-    in
-      res
-    end else let
-      prval () = pf1 := array_v_cons (pf11, pf12)
-      prval () = pf2 := array_v_cons (pf21, pf22) in n
-    end (* end of [if] *)
-  end else n(*0*)
+    res
+  end else let
+    prval () = pf1 := array_v_cons (pf11, pf12)
+    prval () = pf2 := array_v_cons (pf21, pf22) in (nz)
+  end (* end of [if] *)
+end else nz(*0*)
+//
 end // end of [loop]
 //
-val p1_beg = addr@(A1)
-val p2_beg = addr@(A2)
-val n = loop (view@(A1), view@(A2) | p1_beg, p2_beg, asz, env)
+val nz = loop (view@(A1), view@(A2) | addr@(A1), addr@(A2), asz, env)
 //
 in
-  asz - n
+  asz - nz
 end // end of [array_foreach2_env]
 
 #atscode_separator()
@@ -680,11 +711,13 @@ array_iforeach_env
 //
 prval() = lemma_array_param(A)
 //
-fun loop
-  {l:addr}
-  {n:nat | n <= n0} .<n>. (
+fun
+loop
+{l:addr}
+{n:nat | n <= n0} .<n>.
+(
   pf: !array_v (a, l, n)
-| i: size_t, p: ptr l, n: size_t n, env: &env
+| p0: ptr l, nz: size_t n, i0: size_t, env: &env
 ) : sizeLte (n0) = let
 //
 (*
@@ -694,30 +727,37 @@ println! ("array_iforeach_env: loop")
 //
 in
 //
-if n > 0 then let
+if
+(nz > 0)
+then let
   prval (
     pf1, pf2
   ) = array_v_uncons (pf)
-  val cont = array_iforeach$cont<a><env> (i, !p, env)
+  val cont =
+    array_iforeach$cont<a><env>(i0, !p0, env)
+  // end of [val
 in
   if cont then let
-    val () = array_iforeach$fwork<a><env> (i, !p, env)
-    val res = loop (pf2 | succ(i), ptr1_succ<a> (p), pred(n), env)
-    prval () = pf := array_v_cons (pf1, pf2)
+    val () =
+      array_iforeach$fwork<a><env>(i0, !p0, env)
+    val res =
+      loop (pf2 | ptr1_succ<a>(p0), pred(nz), succ(i0), env)
+    prval () = pf := array_v_cons{a}(pf1, pf2)
   in
     res
   end else let
-    prval () = pf := array_v_cons (pf1, pf2) in (n)
+    prval () = pf := array_v_cons (pf1, pf2) in (nz)
   end (* end of [if] *)
-end else n(*0*)
+end // end of [then]
+else nz(*0*) // end of [else]
 //
 end // end of [loop]
 //
-val p_beg = addr@(A)
-val n = loop (view@(A) | g0int2uint(0), p_beg, asz, env)
+val p0 = addr@(A)
+val nz = loop(view@(A) | p0, asz, g0int2uint(0), env)
 //
 in
-  asz - n
+  asz - nz
 end // end of [array_iforeach_env]
 
 #atscode_separator()
@@ -748,12 +788,13 @@ array_rforeach_env
 //
 prval() = lemma_array_param(A)
 //
-fun loop
-  {l:addr}
-  {n:nat | n <= n0} .<n>.
+fun
+loop
+{l:addr}
+{n:nat | n <= n0} .<n>.
 (
   pf: !array_v (a, l, n)
-| pz: ptr (l+n*sizeof(a)), n: size_t n, env: &env
+| pz: ptr (l+n*sizeof(a)), nz: size_t n, env: &env
 ) : sizeLte (n0) = let
 //
 (*
@@ -766,27 +807,27 @@ println! ("array_rforeach_env: loop")
 in
 //
 if
-(n > 0)
+(nz > 0)
 then let
   prval
   (
     pf1, pf2
   ) = array_v_unextend (pf)
   val p1 = ptr1_pred<a> (pz)
-  val (pf2 | p1) = viewptr_match (pf2 | p1)
-  val cont = array_rforeach$cont<a><env> (!p1, env)
+  val (pf2 | p1) = viewptr_match(pf2 | p1)
+  val cont = array_rforeach$cont<a><env>(!p1, env)
 in
   if cont then let
     val () =
-    array_rforeach$fwork<a><env> (!p1, env)
-    val res = loop (pf1 | p1, pred(n), env)
+    array_rforeach$fwork<a><env>(!p1, env)
+    val res = loop(pf1 | p1, pred(nz), env)
     prval () = pf := array_v_extend (pf1, pf2)
   in
     res
   end else let
-    prval () = pf := array_v_extend (pf1, pf2) in n
+    prval () = pf := array_v_extend{a}(pf1, pf2) in nz
   end (* end of [if] *)
-end else n(*0*) // end of [if]
+end else nz(*0*) // end of [if]
 //
 end // end of [loop]
 //
@@ -823,15 +864,25 @@ fun loop
   {l:addr}{n:nat} .<n>.
 (
   pf: !V (a?, l, n) >> V (a, l, n)
-| p0: ptr l, n: size_t n, i: size_t
+| p0: ptr l, nz: size_t n, i0: size_t
 ) : void =
 (
-if n > 0 then let
+if
+(nz > 0)
+then let
+//
   prval
   (pf1, pf2) = array_v_uncons(pf)
-  val () = array_initize$init<a> (i, !p0)
-  val () = loop (pf2 | ptr1_succ<a> (p0), pred(n), succ(i))
+//
+  val () =
+    array_initize$init<a> (i0, !p0)
+  // end of [val]
+  val () =
+    loop(pf2 | ptr1_succ<a> (p0), pred(nz), succ(i0))
+  // end of [val]
+//
   prval () = pf := array_v_cons{a}(pf1, pf2)
+//
 in
   // nothing
 end else let
@@ -1100,7 +1151,9 @@ array_uninitize
 fun loop
   {l:addr}{n:nat} .<n>.
 (
-  pf: !array_v (a, l, n) >> array_v (a?, l, n) | p0: ptr l, n: size_t n, i: size_t
+  pf: !array_v(a, l, n)
+        >> array_v(a?, l, n)
+| p0: ptr l, nz: size_t n, i0: size_t
 ) : void = let
 //
 (*
@@ -1111,13 +1164,19 @@ println! ("array_uninitize: loop")
 in
 //
 if
-(n > 0)
+(nz > 0)
 then let
+//
   prval
   (pf1, pf2) = array_v_uncons(pf)
-  val () = array_uninitize$clear<a> (i, !p0)
-  val () = loop (pf2 | ptr_succ<a> (p0), pred(n), succ(i))
+//
+  val () =
+    array_uninitize$clear<a> (i0, !p0)
+  val () =
+    loop (pf2 | ptr_succ<a> (p0), pred(nz), succ(i0))
+//
   prval () = (pf := array_v_cons(pf1, pf2))
+//
 in
   // nothing
 end else let
@@ -1251,10 +1310,11 @@ array_permute
 //
 prval() = lemma_array_param(A)
 //
-fun loop
-  {l:addr}{n:nat} .<n>.
+fun
+loop
+{l:addr}{n:nat} .<n>.
 (
-  pf: !array_v (a, l, n) | p0: ptr l, n: size_t n
+  pf: !array_v(a, l, n) | p0: ptr l, nz: size_t n
 ) : void = let
 //
 (*
@@ -1265,9 +1325,9 @@ val () =
 in
 //
 if
-(n >= 2)
+(nz >= 2)
 then let
-  val i = array_permute$randint<> (n)
+  val i = array_permute$randint<>(nz)
   prval(pf1, pf2) = array_v_uncons(pf)
 //
   val () =
@@ -1275,12 +1335,12 @@ then let
   $UN.ptr0_exch<a>
     (ptr0_add_guint<a>(p0, i), !p0)
   // end of [if]
-  val () = loop (pf2 | ptr1_succ<a> (p0), pred(n))
+  val () = loop (pf2 | ptr1_succ<a>(p0), pred(nz))
 //
   prval((*returned*)) = pf := array_v_cons(pf1, pf2)
 in
   // nothing
-end else () // end of [if]
+end else ((*void*)) // end of [if]
 //
 end // end of [loop]
 //
