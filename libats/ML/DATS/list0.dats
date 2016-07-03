@@ -674,6 +674,30 @@ implement
 list0_foreach_method(xs) = lam(f) => list0_foreach<a>(xs, f)
 //
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+list0_rforeach
+(
+  xs, fwork
+) = aux0(xs) where
+{
+//
+fun
+aux0(xs: list0(a)): void =
+(
+  case+ xs of
+  | list0_nil() => ()
+  | list0_cons(x, xs) => (aux0(xs); fwork(x))
+)
+//
+} (* end of [list0_rforeach] *)
+//
+implement
+{a}(*tmp*)
+list0_rforeach_method(xs) = lam(f) => list0_rforeach<a>(xs, f)
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
@@ -938,6 +962,33 @@ implement
 {a}(*tmp*)
 list0_forall_method(xs) =
   lam(p) => list0_forall<a> (xs, p)
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_iforall
+(
+  xs, pred
+) = loop(0, xs) where
+{
+//
+fun
+loop(i: intGte(0), xs: list0(a)): bool =
+(
+  case+ xs of
+  | list0_nil() => true
+  | list0_cons(x, xs) =>
+      if pred(i, x) then loop(i+1, xs) else false
+    // list0_cons
+) (* end of [loop] *)
+//
+} (* end of [list0_iforall] *)
+//
+implement
+{a}(*tmp*)
+list0_iforall_method(xs) =
+  lam(p) => list0_iforall<a> (xs, p)
 //
 (* ****** ****** *)
 

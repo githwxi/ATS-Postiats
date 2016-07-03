@@ -363,13 +363,20 @@ p2at_trdn_arg_refarg_err
 (
   p2t0: p2at, s2e0: s2exp
 ) : p3at = let
-  val loc0 = p2t0.p2at_loc
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": the pattern is expected to be a variable."
-  val () = prerr_newline ()
+//
+  val
+  loc0 = p2t0.p2at_loc
+//
+  val () =
+  prerr_error3_loc(loc0)
+//
+  val () =
+  prerrln! (": the pattern is expected to be a variable.")
+//
   val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+//
 in
-  p3at_errpat (loc0, s2e0)
+  p3at_errpat(loc0, s2e0)
 end // end of [p2at_trdn_arg_refarg_err]
 
 in (* in-of-local *)
@@ -389,15 +396,19 @@ println!
 *)
 in
 //
-case+ s2e0.s2exp_node of
+case+
+s2e0.s2exp_node
+of // case+
 | S2Erefarg _ => (
-  case+ p2t0.p2at_node of
+  case+
+  p2t0.p2at_node of
   | P2Tvar _ =>
-      p2at_trdn_arg_refarg_var (p2t0, s2e0)
+      p2at_trdn_arg_refarg_var(p2t0, s2e0)
   | _ (*non-P2Tvar*) =>
-      p2at_trdn_arg_refarg_err (p2t0, s2e0)
-  )
-| _ (*non-S2Erefarg*) => p2at_trdn (p2t0, s2e0)
+      p2at_trdn_arg_refarg_err(p2t0, s2e0)
+  ) (* S2Erefarg *)
+//
+| _ (*non-S2Erefarg*) => p2at_trdn(p2t0, s2e0)
 //
 end // end of [p2at_trdn_arg]
 

@@ -48,6 +48,14 @@ streamopt_vt (a:vt0p) = Option_vt(stream_vt(a))
 //
 #atscode_separator()
 //
+fun
+{a:vt0p}
+stream_vt_make_nil():<> stream_vt(a)
+fun{a:t0p}
+stream_vt_make_sing(x: a):<> stream_vt(a)
+//
+#atscode_separator()
+//
 // HX-2014-04-07:
 // this is a regular function
 // instead of a cast function
@@ -113,6 +121,12 @@ a:vt0p}{env:vt0p
 } stream_vt_foreach$fwork
   (x: &a >> a?!, env: &env >> _): void // lin-cleared
 //
+fun{a:vt0p}
+stream_vt_foreach_cloptr
+(
+  stream_vt(INV(a)), fwork: (&a >> a?!) -<cloptr1> void
+) : void // end of [stream_vt_foreach_cloptr]
+//
 #atscode_separator()
 //
 fun{a:vt0p}
@@ -158,7 +172,7 @@ fun{
 a:vt0p}{b:vt0p
 } stream_vt_map_cloptr
 (
-  xs: stream_vt(INV(a)), fopr: (&a >> a?!) -<cloptr> b
+  xs: stream_vt(INV(a)), fopr: (&a >> a?!) -<cloptr1> b
 ) : stream_vt(b) // end-of-function
 //
 #atscode_separator()
@@ -188,7 +202,7 @@ a1,a2:t0p}{b:vt0p
 (
   xs1: stream_vt(INV(a1))
 , xs2: stream_vt(INV(a2))
-, fopr: (&a1 >> _, &a2 >> _) -<cloptr> b
+, fopr: (&a1 >> _, &a2 >> _) -<cloptr1> b
 ) : stream_vt(b) // end of [stream_vt_map2_cloptr]
 //
 #atscode_separator()
@@ -209,6 +223,24 @@ stream_vt_unfold
   st0: env, fopr: (&env >> _) -<cloref1> a
 ) : stream_vt(a) // end of [stream_vt_unfold]
 
+fun
+{env:t0p}{a:t0p}
+stream_vt_unfold_opt
+(
+  st0: env, fopr: (&env >> _) -<cloref1> Option_vt(a)
+) : stream_vt(a) // end of [stream_vt_unfold_opt]
+
+#atscode_separator()
+//
+fun
+{x,y:t0p}
+cross_stream_vt_list
+  (xs: stream_vt(INV(x)), ys: List(INV(y))): stream_vt(@(x, y))
+fun
+{x,y:t0p}
+cross_stream_vt_list_vt
+  (xs: stream_vt(INV(x)), ys: List_vt(INV(y))): stream_vt(@(x, y))
+//
 #atscode_separator()
 //
 // HX-2016-07-01:

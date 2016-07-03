@@ -343,6 +343,22 @@ overload .foreach with list0_foreach_method
 (* ****** ****** *)
 //
 fun{a:t0p}
+list0_rforeach
+(
+  xs: list0(INV(a)), fwork: cfun(a, void)
+) : void // end of [list0_rforeach]
+//
+fun{a:t0p}
+list0_rforeach_method
+(
+  xs: list0(INV(a))) (fwork: cfun(a, void)
+) : void // end of [list0_rforeach_method]
+//
+overload .rforeach with list0_rforeach_method
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
 list0_iforeach
 (
   list0(INV(a)), fwork: cfun2(intGte(0), a, void)
@@ -477,6 +493,24 @@ list0_forall_method
   (xs: list0(INV(a))) (pred: cfun(a, bool)): bool
 //
 overload .forall with list0_forall_method
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+list0_iforall
+(
+  xs: list0(INV(a)), pred: cfun(intGte(0), a, bool)
+) : bool // end of [list0_iforall]
+//
+fun
+{a:t0p}
+list0_iforall_method
+(
+  xs: list0(INV(a))) (pred: cfun(intGte(0), a, bool)
+) : bool // end of [list0_iforall_method]
+//
+overload .iforall with list0_iforall_method
 //
 (* ****** ****** *)
 //
