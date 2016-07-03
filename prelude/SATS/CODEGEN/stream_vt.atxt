@@ -92,19 +92,30 @@ stream_vt_drop_opt
 //
 fun{a:t0p}
 stream_vt_head
-  (xs: stream_vt(INV(a))):<!exnwrt> (a)
+  (stream_vt(INV(a))):<!exnwrt> (a)
 fun{a:t0p}
 stream_vt_tail
-  (xs: stream_vt(INV(a))):<!exnwrt> stream_vt(a)
+  (stream_vt(INV(a))):<!exnwrt> stream_vt(a)
 //
 fun{a:vt0p}
 stream_vt_uncons
-  (xs: &stream_vt(INV(a)) >> stream_vt(a)):<!exnwrt> (a)
+  (xs: &stream_vt(INV(a)) >> _):<!exnwrt> (a)
 //
 #atscode_separator()
 //
 fun{a:t0p}
-stream_vt_length(stream_vt(INV(a))):<!wrt> intGte(0)
+stream_vt_length
+  (xs: stream_vt(INV(a))):<!wrt> intGte(0)
+//
+#atscode_separator()
+//
+fun{a:vt0p}
+stream_vt_append
+  (stream_vt(INV(a)), stream_vt(a)): stream_vt(a)
+//
+fun{a:vt0p}
+stream_vt_concat
+  (xss: stream_vt(stream_vt(INV(a)))): stream_vt(a)
 //
 #atscode_separator()
 //

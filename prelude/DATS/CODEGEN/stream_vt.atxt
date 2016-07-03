@@ -271,6 +271,82 @@ end // end of [stream_vt_length]
 
 implement
 {a}(*tmp*)
+stream_vt_append
+  (xs, ys) =
+  auxmain(xs, ys) where
+{
+//
+fun
+auxmain:
+$d2ctype
+(
+stream_vt_append<a>
+) =
+lam(xs, ys) => $ldelay(
+//
+let
+//
+val xs_con = !xs
+//
+in
+//
+case+ xs_con of
+| ~stream_vt_nil() => !ys
+| @stream_vt_cons(x, xs) => let
+    val () =
+    (
+      xs := auxmain(xs, ys)
+    ) (* end of [val] *)
+    prval () = fold@{a}(xs_con) in xs_con
+  end // end of [stream_vt_cons]
+//
+end : stream_vt_con(a) // end-of-let
+,
+(~(xs); ~(ys))
+//
+) (* end of [auxmain] *)
+//
+} (* end of [stream_vt_append] *)
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+stream_vt_concat
+  (xss) =
+  auxmain(xss) where {
+//
+vtypedef
+stream1_vt = stream_vt(a)
+vtypedef
+stream2_vt = stream_vt(stream1_vt)
+//
+fun
+auxmain
+(
+  xss: stream2_vt
+) : stream1_vt = $ldelay
+(
+(
+  case+ !xss of
+  | ~stream_vt_nil
+       () => stream_vt_nil()
+    // end of [stream_vt_nil]
+  | ~stream_vt_cons
+       (xs, xss) =>
+      !(stream_vt_append<a>(xs, auxmain(xss)))
+    // end of [stream_vt_cons]
+) : stream_vt_con(a)
+,
+  ~(xss)
+)
+//
+} (* end of [stream_vt_concat] *)
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 stream_vt_foreach
   (xs) = let
   var env: void = ()

@@ -172,6 +172,14 @@ clean:: ; $(RMF) passwdgen_dats.o
 clean:: ; $(RMF) passwdgen_dats.c
 cleanall:: ; $(RMF) passwdgen passwdgen.exe
 
+all:: queens_comb
+queens_comb: queens_comb.exe
+queens_comb.exe: queens_comb_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+queens_comb_dats.c: queens_comb.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_comb_dats.c --dynamic queens_comb.dats
+clean:: ; $(RMF) queens_comb_dats.o
+clean:: ; $(RMF) queens_comb_dats.c
+cleanall:: ; $(RMF) queens_comb queens_comb.exe
+
 all:: queens_lazy
 queens_lazy: queens_lazy.exe
 queens_lazy.exe: queens_lazy_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -188,13 +196,13 @@ clean:: ; $(RMF) queens_loop_dats.o
 clean:: ; $(RMF) queens_loop_dats.c
 cleanall:: ; $(RMF) queens_loop queens_loop.exe
 
-all:: queens_cmbntr
-queens_cmbntr: queens_cmbntr.exe
-queens_cmbntr.exe: queens_cmbntr_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-queens_cmbntr_dats.c: queens_cmbntr.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_cmbntr_dats.c --dynamic queens_cmbntr.dats
-clean:: ; $(RMF) queens_cmbntr_dats.o
-clean:: ; $(RMF) queens_cmbntr_dats.c
-cleanall:: ; $(RMF) queens_cmbntr queens_cmbntr.exe
+all:: queens_lincomb
+queens_lincomb: queens_lincomb.exe
+queens_lincomb.exe: queens_lincomb_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+queens_lincomb_dats.c: queens_lincomb.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_lincomb_dats.c --dynamic queens_lincomb.dats
+clean:: ; $(RMF) queens_lincomb_dats.o
+clean:: ; $(RMF) queens_lincomb_dats.c
+cleanall:: ; $(RMF) queens_lincomb queens_lincomb.exe
 
 all:: randerlin
 randerlin: randerlin.exe

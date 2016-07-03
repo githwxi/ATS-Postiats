@@ -83,4 +83,4 @@ main0((*void*)) =
 //
 (* ****** ****** *)
 
-(* end of [queens_cmbntr] *)
+(* end of [queens_comb] *)
