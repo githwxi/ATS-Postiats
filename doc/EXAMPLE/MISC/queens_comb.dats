@@ -79,7 +79,7 @@ overload * with cross_stream_vt_list_vt
 //
 implement
 main0((*void*)) =
-((fix f(n:int):stream_vt(list0(int))=>if(n > 0)then((f(n-1)*intrange(0,N)).filter()(lam(xsy)=>let val(xs,y)=xsy in $effmask_all(xs.iforall()(lam(i,x)=>(x != y && abs(x-y) != i+1)))end)).map()(lam(xs_y)=>let val (xs, y)=xs_y in cons0(y,xs) end)else(sing(nil0())))(N)).foreach()(lam(xs)=>((xs).rforeach()(lam(x)=>((N).foreach()(lam(i)=>print_string(ifval(i=x," Q"," .")));println!()));println!()))
+((fix f(n:int):stream_vt(list0(int))=>if(n)>0then((f(n-1)*intrange(0,N)).filter()(lam(xsy)=>let val(xs,y)=xsy in $effmask_all(xs.iforall()(lam(i,x)=>((x)!=y&&abs(x-y)!=i+1)))end)).map()(lam(xsy)=>let val (xs,y)=xsy in cons0(y,xs) end)else(sing(nil0)))N).foreach()(lam(xs)=>((xs).rforeach()(lam(x)=>(N.foreach()(lam(i)=>print_string(ifval(i=x," Q"," .")));println!()));println!()))
 //
 (* ****** ****** *)
 
