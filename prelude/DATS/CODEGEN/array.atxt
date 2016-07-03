@@ -39,7 +39,10 @@ implement
 {a}(*tmp*)
 array_getref_at
   (A, i) = let
-  val p = ptr0_add_guint<a> (addr@(A), i) in $UN.cast{cPtr1(a)}(p)
+//
+val p =
+  ptr0_add_guint<a> (addr@(A), i) in $UN.cast{cPtr1(a)}(p)
+//
 end // end of [array_getref_at]
 
 #atscode_separator()
@@ -119,15 +122,23 @@ end // end of [array_subreverse]
 implement{a}
 array_interchange
   (A, i, j) = let
+//
+(*
+val () =
+  println! ("array_interchange")
+*)
+//
 in
 //
 if i != j then let
-  val p = addr@(A)
-  val pi = ptr0_add_guint<a> (p, i)
-  val pj = g1ofg0_ptr (ptr0_add_guint<a> (p, j))
+  val p0 = addr@(A)
+  val pi = ptr0_add_guint<a> (p0, i)
+  val pj =
+    g1ofg0_ptr(ptr0_add_guint<a> (p0, j))
+  // end of [val]
   val (pf, fpf | pj) = $UN.ptr_vtake{a}(pj)
   val () = $UN.ptr0_exch<a> (pi, !pj)
-  prval () = fpf (pf)
+  prval ((*returned*)) = fpf(pf)
 in
   // nothing
 end else () // end of [if]
@@ -333,7 +344,7 @@ fun loop
   {l:addr}{n:nat} .<n>.
 (
   pf: !array_v (a?, l, n) >> array_v (a, l, n)
-| p: ptr l, xs: list (a, n)
+| p0: ptr l, xs: list (a, n)
 ) :<!wrt> void = (
   case+ xs of
   | list_nil() => let
@@ -344,8 +355,8 @@ fun loop
   | list_cons(x, xs) => let
       prval
       (pf1, pf2) = array_v_uncons(pf)
-      val () = !p := x
-      val () = loop (pf2 | ptr1_succ<a> (p), xs)
+      val () = !p0 := x
+      val () = loop (pf2 | ptr1_succ<a> (p0), xs)
       prval () = (pf := array_v_cons(pf1, pf2))
     in
       // nothing
@@ -461,6 +472,12 @@ fun loop
   pf: !array_v (a, l, n)
 | p0: ptr l, n: size_t n, env: &env
 ) : sizeLte (n0) = let
+//
+(*
+val () =
+println! ("array_foreach_env: loop")
+*)
+//
 in
 //
 if n > 0 then let
@@ -596,6 +613,14 @@ fun loop
 , pf2: !array_v (a2, l2, n)
 | p1: ptr l1, p2: ptr l2, n: size_t n, env: &env
 ) : sizeLte (n0) = let
+//
+(*
+//
+val () =
+println! ("array_foreach2_env: loop")
+//
+*)
+//
 in
   if n > 0 then let
     prval (pf11, pf12) = array_v_uncons(pf1)
@@ -661,6 +686,12 @@ fun loop
   pf: !array_v (a, l, n)
 | i: size_t, p: ptr l, n: size_t n, env: &env
 ) : sizeLte (n0) = let
+//
+(*
+val () =
+println! ("array_iforeach_env: loop")
+*)
+//
 in
 //
 if n > 0 then let
@@ -722,8 +753,16 @@ fun loop
   {n:nat | n <= n0} .<n>.
 (
   pf: !array_v (a, l, n)
-| p: ptr (l+n*sizeof(a)), n: size_t n, env: &env
+| pz: ptr (l+n*sizeof(a)), n: size_t n, env: &env
 ) : sizeLte (n0) = let
+//
+(*
+//
+val () =
+println! ("array_rforeach_env: loop")
+//
+*)
+//
 in
 //
 if
@@ -733,12 +772,13 @@ then let
   (
     pf1, pf2
   ) = array_v_unextend (pf)
-  val p1 = ptr1_pred<a> (p)
+  val p1 = ptr1_pred<a> (pz)
   val (pf2 | p1) = viewptr_match (pf2 | p1)
   val cont = array_rforeach$cont<a><env> (!p1, env)
 in
   if cont then let
-    val () = array_rforeach$fwork<a><env> (!p1, env)
+    val () =
+    array_rforeach$fwork<a><env> (!p1, env)
     val res = loop (pf1 | p1, pred(n), env)
     prval () = pf := array_v_extend (pf1, pf2)
   in
@@ -746,16 +786,17 @@ in
   end else let
     prval () = pf := array_v_extend (pf1, pf2) in n
   end (* end of [if] *)
-end else n (*0*) // end of [if]
+end else n(*0*) // end of [if]
 //
 end // end of [loop]
 //
-val p_end =
+val pz =
   ptr1_add_guint<a> (addr@(A), asz)
-val n = loop (view@(A) | p_end, asz, env)
+//
+val n0 = loop (view@(A) | pz, asz, env)
 //
 in
-  asz - n
+  asz - n0
 end // end of [array_rforeach_env]
 
 #atscode_separator()
@@ -782,18 +823,19 @@ fun loop
   {l:addr}{n:nat} .<n>.
 (
   pf: !V (a?, l, n) >> V (a, l, n)
-| p: ptr l, n: size_t n, i: size_t
+| p0: ptr l, n: size_t n, i: size_t
 ) : void =
 (
 if n > 0 then let
-  prval (pf1, pf2) = array_v_uncons (pf)
-  val () = array_initize$init<a> (i, !p)
-  val () = loop (pf2 | ptr1_succ<a> (p), pred(n), succ(i))
+  prval
+  (pf1, pf2) = array_v_uncons(pf)
+  val () = array_initize$init<a> (i, !p0)
+  val () = loop (pf2 | ptr1_succ<a> (p0), pred(n), succ(i))
   prval () = pf := array_v_cons{a}(pf1, pf2)
 in
   // nothing
 end else let
-  prval () = pf := array_v_unnil_nil (pf)
+  prval () = pf := array_v_unnil_nil(pf)
 in
   // nothing
 end // end of [if]
@@ -802,7 +844,7 @@ end // end of [if]
 prval() = lemma_g1uint_param(asz)
 //
 in
-  loop (view@ (A) | addr@ (A), asz, g0int2uint(0))
+  loop (view@ (A) | addr@(A), asz, g0int2uint(0))
 end // end of [array_initize]
 
 #atscode_separator()
@@ -830,27 +872,41 @@ typedef list1 = listGte (a, 1)
 //
 fun loop
 (
-  p: ptr, p1: ptr, xs: list0
+  p0: ptr, p1: ptr, xs: list0
 ) : void = let
+//
+(*
+//
+val () =
+println!
+  ("array_initize_list: loop")
+//
+*)
+//
 in
 //
-if p < p1 then let
+if (
+p0 < p1
+) then let
   val xs =
     $UN.cast{list1}(xs)
-  val+list_cons (x, xs) = xs
-  val () = $UN.ptr0_set<a> (p, x)
-  val p = ptr_succ<a> (p)
+  // end of [val]
+  val+list_cons(x, xs) = xs
+  val () =
+    $UN.ptr0_set<a> (p0, x)
+  // end of [val]
+  val p0 = ptr_succ<a> (p0)
 in
-  loop (p, p1, xs)
+  loop (p0, p1, xs)
 end else () // end of [if]
 //
 end // end of [loop]
 //
 prval() = lemma_list_param(xs)
 //
-val p = addr@(A)
-val p1 = ptr_add<a> (p, asz)
-val () = $effmask_all(loop (p, p1, xs))
+val p0 = addr@(A)
+val p1 = ptr_add<a> (p0, asz)
+val () = $effmask_all(loop (p0, p1, xs))
 //
 prval() =
 __assert(A) where
@@ -877,18 +933,28 @@ typedef list1 = listGte (a, 1)
 //
 fun loop
 (
-  p: ptr, p0: ptr, xs: list0
+  pz: ptr, p0: ptr, xs: list0
 ) : void = let
+//
+(*
+//
+val () =
+println!
+  ("array_initize_rlist: loop")
+//
+*)
+//
 in
 //
-if p > p0 then let
+if pz > p0 then let
   val xs =
     $UN.cast{list1}(xs)
-  val+list_cons (x, xs) = xs
-  val p = ptr_pred<a> (p)
-  val () = $UN.ptr0_set<a> (p, x)
+  // end of [val]
+  val+list_cons(x, xs) = xs
+  val pz = ptr_pred<a> (pz)
+  val () = $UN.ptr0_set<a> (pz, x)
 in
-  loop (p, p0, xs)
+  loop (pz, p0, xs)
 end else () // end of [if]
 //
 end // end of [loop]
@@ -896,8 +962,8 @@ end // end of [loop]
 prval() = lemma_list_param(xs)
 //
 val p0 = addr@(A)
-val p = ptr_add<a> (p0, asz)
-val () = $effmask_all(loop (p, p0, xs))
+val pz = ptr_add<a> (p0, asz)
+val () = $effmask_all(loop(pz, p0, xs))
 //
 prval() =
 __assert(A) where
@@ -922,18 +988,26 @@ vtypedef list1 = listGte_vt (a, 1)
 //
 fun loop
 (
-  p: ptr, p1: ptr, xs: list0
+  p0: ptr, p1: ptr, xs: list0
 ) : void = let
+//
+(*
+val () =
+println!
+  ("array_initize_list_vt: loop")
+*)
+//
 in
 //
-if p < p1 then let
+if p0 < p1 then let
   val xs =
     $UN.castvwtp0{list1}(xs)
+  // end of [val]
   val+~list_vt_cons (x, xs) = xs
-  val () = $UN.ptr0_set<a> (p, x)
-  val p = ptr_succ<a> (p)
+  val () = $UN.ptr0_set<a> (p0, x)
+  val p0 = ptr_succ<a> (p0)
 in
-  loop (p, p1, xs)
+  loop (p0, p1, xs)
 end else let
   prval () = $UN.cast2void (xs) in (*nothing*)
 end // end of [if]
@@ -942,9 +1016,9 @@ end // end of [loop]
 //
 prval () = lemma_list_vt_param (xs)
 //
-val p = addr@(A)
-val p1 = ptr_add<a> (p, asz)
-val () = $effmask_all(loop (p, p1, xs))
+val p0 = addr@(A)
+val p1 = ptr_add<a> (p0, asz)
+val () = $effmask_all(loop(p0, p1, xs))
 //
 prval() =
 __assert(A) where
@@ -971,29 +1045,37 @@ vtypedef list1 = listGte_vt (a, 1)
 //
 fun loop
 (
-  p: ptr, p0: ptr, xs: list0
+  pz: ptr, p0: ptr, xs: list0
 ) : void = let
+//
+(*
+val () =
+println!
+  ("array_initize_rlist_vt: loop")
+*)
+//
 in
 //
-if p > p0 then let
+if pz > p0 then let
   val xs =
     $UN.castvwtp0{list1}(xs)
-  val+~list_vt_cons (x, xs) = xs
-  val p = ptr_pred<a> (p)
-  val () = $UN.ptr0_set<a> (p, x)
+  // end of [val]
+  val+~list_vt_cons(x, xs) = xs
+  val pz = ptr_pred<a> (pz)
+  val () = $UN.ptr0_set<a> (pz, x)
 in
-  loop (p, p0, xs)
+  loop (pz, p0, xs)
 end else let
   prval () = $UN.cast2void (xs) in (*nothing*)
 end // end of [if]
 //
 end // end of [loop]
 //
-prval () = lemma_list_vt_param (xs)
+prval() = lemma_list_vt_param(xs)
 //
 val p0 = addr@(A)
-val p = ptr_add<a> (p0, asz)
-val () = $effmask_all(loop (p, p0, xs))
+val pz = ptr_add<a> (p0, asz)
+val () = $effmask_all(loop(pz, p0, xs))
 //
 prval() =
 __assert(A) where
@@ -1018,21 +1100,28 @@ array_uninitize
 fun loop
   {l:addr}{n:nat} .<n>.
 (
-  pf: !array_v (a, l, n) >> array_v (a?, l, n) | p: ptr l, n: size_t n, i: size_t
+  pf: !array_v (a, l, n) >> array_v (a?, l, n) | p0: ptr l, n: size_t n, i: size_t
 ) : void = let
+//
+(*
+val () =
+println! ("array_uninitize: loop")
+*)
+//
 in
 //
 if
 (n > 0)
 then let
-  prval (pf1, pf2) = array_v_uncons (pf)
-  val () = array_uninitize$clear<a> (i, !p)
-  val () = loop (pf2 | ptr_succ<a> (p), pred (n), succ (i))
-  prval () = pf := array_v_cons (pf1, pf2)
+  prval
+  (pf1, pf2) = array_v_uncons(pf)
+  val () = array_uninitize$clear<a> (i, !p0)
+  val () = loop (pf2 | ptr_succ<a> (p0), pred(n), succ(i))
+  prval () = (pf := array_v_cons(pf1, pf2))
 in
   // nothing
 end else let
-  prval () = pf := array_v_unnil_nil {a,a?} (pf)
+  prval () = pf := array_v_unnil_nil{a,a?}(pf)
 in
   // nothing
 end // end of [if]
@@ -1043,7 +1132,7 @@ prval() = lemma_array_param(A)
 //
 prval pf = view@ (A)
 //
-val () = loop (pf | addr@ (A), asz, i2sz(0))
+val () = loop (pf | addr@(A), asz, i2sz(0))
 //
 prval () = view@ (A) := pf
 //
@@ -1165,8 +1254,14 @@ prval() = lemma_array_param(A)
 fun loop
   {l:addr}{n:nat} .<n>.
 (
-  pf: !array_v (a, l, n) | p: ptr l, n: size_t n
+  pf: !array_v (a, l, n) | p0: ptr l, n: size_t n
 ) : void = let
+//
+(*
+val () =
+  println! ("array_permute: loop")
+*)
+//
 in
 //
 if
@@ -1176,10 +1271,11 @@ then let
   prval(pf1, pf2) = array_v_uncons(pf)
 //
   val () =
-  if i > 0
-    then $UN.ptr0_exch<a> (ptr0_add_guint<a> (p, i), !p)
+  if i > 0 then
+  $UN.ptr0_exch<a>
+    (ptr0_add_guint<a>(p0, i), !p0)
   // end of [if]
-  val () = loop (pf2 | ptr1_succ<a> (p), pred (n))
+  val () = loop (pf2 | ptr1_succ<a> (p0), pred(n))
 //
   prval((*returned*)) = pf := array_v_cons(pf1, pf2)
 in
