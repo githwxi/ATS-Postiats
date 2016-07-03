@@ -60,7 +60,12 @@ lam@
 ) : bool =<clo> x0 != x && abs(x0-x) != i+1
 //
 in
-  list0_iforall($UNSAFE.castvwtp1{list0(int)}(xs), $UNSAFE.cast(addr@pred))
+//
+list0_iforall
+(
+  $UNSAFE.castvwtp1{list0(int)}(xs), $UNSAFE.cast(addr@pred)
+) (* list0_iforall *)
+//
 end // end of [test]
 //
 fun
@@ -75,7 +80,10 @@ if
 x0 < N
 then (
   if test(x0, xs)
-    then stream_vt_cons(cons_vt(x0, list_vt_copy(xs)), extend(x0+1, xs))
+    then
+    stream_vt_cons(
+      cons_vt(x0, list_vt_copy(xs)), extend(x0+1, xs)
+    ) (* stream_vt_cons *)
     else !(extend(x0+1, xs))
   // end of [if]
 ) else
@@ -94,7 +102,8 @@ if
 then (
 //
 stream_vt_concat(
-  stream_vt_map_fun<stream0_vt><stream1_vt>(qsolve(n-1), lam(xs) => $effmask_all(extend(0, xs)))
+  stream_vt_map_fun<stream0_vt><stream1_vt>
+    (qsolve(n-1), lam(xs) => $effmask_all(extend(0, xs)))
 ) (* stream_vt_concat *)
 //
 ) (* end of [then] *)
