@@ -112,7 +112,7 @@ fn btree_left
   end // end of [val]
 in
   pair_get_snd (t {X} (e, b))
-end // end of [left_child_tree]
+end // end of [btree_left]
 
 fn btree_right
   (t: btree_f):<> btree_f = let
@@ -127,7 +127,7 @@ fn btree_right
   end // end of [val]
 in
   pair_get_snd (t {X} (e, b))
-end // end of [right_child_tree]
+end // end of [btree_right]
 
 (* ****** ****** *)
 
