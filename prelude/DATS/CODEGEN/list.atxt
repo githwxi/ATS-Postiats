@@ -2160,7 +2160,8 @@ end // end of [list_foldleft]
 
 implement
 {x}{res}
-list_foldright (xs, snk) = let
+list_foldright
+  (xs, snk) = let
 //
 prval() = lemma_list_param(xs)
 //
