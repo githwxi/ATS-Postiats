@@ -166,6 +166,8 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 #packfilename("queens_lazy.dats")
 #packfilename("queens_loop.dats")
+#packfilename("queens_comb.dats")
+#packfilename("queens_lincomb.dats")
 
 (* ****** ****** *)
 
