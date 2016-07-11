@@ -268,14 +268,14 @@ array_ptr_alloc
 ) :<!wrt> [l:agz]
 (
   array_v (a?, l, n), mfree_gc_v (l) | ptr l
-) // end of [array_ptr_alloc]
+) (* end of [array_ptr_alloc] *)
 
 fun{}
 array_ptr_free
   {a:vt0p}{l:addr}{n:int}
 (
   array_v (a?, l, n), mfree_gc_v (l) | ptr l
-) :<!wrt> void // end of [array_ptr_free]
+) :<!wrt> void // end-of-function
 
 #atscode_separator()
 //
@@ -346,12 +346,14 @@ macdef array2list = array_copy_to_list_vt
 #atscode_separator()
 //
 fun{a:vt0p}
-array_tabulate$fopr (i: size_t): (a)
+array_tabulate$fopr(i: size_t): (a)
 //
 fun{a:vt0p}
 array_ptr_tabulate
-  {n:int} (asz: size_t n)
-  : [l:addr] (array_v (a, l, n), mfree_gc_v (l) | ptr l)
+  {n:int}
+(
+  asz: size_t(n)
+) : [l:addr] (array_v(a, l, n), mfree_gc_v(l) | ptr(l))
 // end of [arrayptr_tabulate]
 //
 #atscode_separator()
@@ -361,14 +363,14 @@ a:vt0p
 } array_foreach{n:int}
 (
   A: &(@[INV(a)][n]) >> @[a][n], asz: size_t(n)
-) : sizeLte (n) // end of [array_foreach]
+) : sizeLte(n) // end of [array_foreach]
 //
 fun{
 a:vt0p}{env:vt0p
 } array_foreach_env{n:int}
 (
   A: &(@[INV(a)][n]) >> @[a][n], asz: size_t(n), env: &(env) >> _
-) : sizeLte (n) // end of [array_foreach_env]
+) : sizeLte(n) // end of [array_foreach_env]
 //
 fun{
 a:vt0p}{env:vt0p
@@ -477,7 +479,7 @@ a1,a2:vt0p
   A1: &(@[INV(a1)][n]) >> @[a1][n]
 , A2: &(@[INV(a2)][n]) >> @[a2][n]
 , asz: size_t (n)
-) : sizeLte (n) // end of [array_foreach2]
+) : sizeLte(n) // end of [array_foreach2]
 //
 fun{
 a1,a2:vt0p}{env:vt0p
@@ -488,7 +490,7 @@ a1,a2:vt0p}{env:vt0p
 , A2: &(@[INV(a2)][n]) >> @[a2][n]
 , asz:size_t (n)
 , env: &(env) >> env
-) : sizeLte (n) // end of [array_foreach2_env]
+) : sizeLte(n) // end of [array_foreach2_env]
 //
 fun{
 a1,a2:vt0p}{env:vt0p
@@ -503,24 +505,26 @@ a1,a2:vt0p}{env:vt0p
 
 fun{
 a:vt0p
-} array_iforeach{n:int}
+} array_iforeach
+  {n:int}
 (
   A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n
-) : sizeLte (n) // end of [array_iforeach]
+) : sizeLte(n) // end of [array_iforeach]
 //
 fun{
 a:vt0p}{env:vt0p
-} array_iforeach_env{n:int}
+} array_iforeach_env
+  {n:int}
 (
   A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n, env: &(env) >> _
-) : sizeLte (n) // end of [array_iforeach_env]
+) : sizeLte(n) // end of [array_iforeach_env]
 //
 fun{
 a:vt0p}{env:vt0p
-} array_iforeach$cont (i: size_t, x: &a, env: &env): bool
+} array_iforeach$cont(i: size_t, x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} array_iforeach$fwork (i: size_t, x: &a >> _, env: &(env) >> _): void
+} array_iforeach$fwork(i: size_t, x: &a >> _, env: &(env) >> _): void
 //
 #atscode_separator()
 
@@ -528,29 +532,29 @@ fun{
 a:vt0p
 } array_rforeach{n:int}
 (
-  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n
-) : sizeLte (n) // end of [array_rforeach]
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t(n)
+) : sizeLte(n) // end of [array_rforeach]
 //
 fun{
 a:vt0p}{env:vt0p
 } array_rforeach_env{n:int}
 (
-  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n, env: &(env) >> _
-) : sizeLte (n) // end of [array_rforeach_env]
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t(n), env: &(env) >> _
+) : sizeLte(n) // end of [array_rforeach_env]
 //
 fun{
 a:vt0p}{env:vt0p
-} array_rforeach$cont (x: &a, env: &env): bool
+} array_rforeach$cont(x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} array_rforeach$fwork (x: &a >> _, env: &(env) >> _): void
+} array_rforeach$fwork(x: &a >> _, env: &(env) >> _): void
 //
 #atscode_separator()
 //
 fun{a:vt0p}
 array_initize{n:int}
 (
-  A: &(@[a?][n]) >> @[a][n], asz: size_t n
+  A: &(@[a?][n]) >> @[a][n], asz: size_t(n)
 ) : void // end of [array_initize]
 //
 fun{a:vt0p}
@@ -561,7 +565,7 @@ array_initize$init (i: size_t, x: &a? >> a): void
 fun{a:t0p}
 array_initize_elt{n:int}
 (
-  A: &(@[a?][n]) >> @[a][n], asz: size_t n, elt: a
+  A: &(@[a?][n]) >> @[a][n], asz: size_t n, elt: (a)
 ) :<!wrt> void // end of [array_initize_elt]
 
 #atscode_separator()
@@ -569,12 +573,12 @@ array_initize_elt{n:int}
 fun{a:t0p}
 array_initize_list{n:int}
 (
-  A: &(@[a?][n]) >> @[a][n], asz: int n, xs: list (INV(a), n)
+  A: &(@[a?][n]) >> @[a][n], asz: int n, xs: list(INV(a), n)
 ) :<!wrt> void // end of [array_initize_list]
 fun{a:t0p}
 array_initize_rlist{n:int}
 (
-  A: &(@[a?][n]) >> @[a][n], asz: int n, xs: list (INV(a), n)
+  A: &(@[a?][n]) >> @[a][n], asz: int n, xs: list(INV(a), n)
 ) :<!wrt> void // end of [array_initize_rlist]
 
 #atscode_separator()
@@ -582,66 +586,82 @@ array_initize_rlist{n:int}
 fun{a:vt0p}
 array_initize_list_vt{n:int}
 (
-  A: &(@[a?][n]) >> @[a][n], asz: int n, xs: list_vt (INV(a), n)
+  A: &(@[a?][n]) >> @[a][n], asz: int n, xs: list_vt(INV(a), n)
 ) :<!wrt> void // end of [array_initize_list_vt]
 fun{a:vt0p}
 array_initize_rlist_vt{n:int}
 (
-  A: &(@[a?][n]) >> @[a][n], asz: int n, xs: list_vt (INV(a), n)
+  A: &(@[a?][n]) >> @[a][n], asz: int n, xs: list_vt(INV(a), n)
 ) :<!wrt> void // end of [array_initize_rlist_vt]
 
 #atscode_separator()
 //
-fun{a:vt0p}
-array_uninitize{n:int}
+fun
+{a:vt0p}
+array_uninitize
+  {n:int}
 (
   A: &(@[INV(a)][n]) >> @[a?][n], asz: size_t n
 ) : void // end of [array_uninitize]
 //
 fun{a:vt0p}
-array_uninitize$clear (i: size_t, x: &a >> a?): void
+array_uninitize$clear(i: size_t, x: &a >> a?): void
 //
 #atscode_separator()
-//
-fun{a:vt0p}
-array_bsearch
-  {n:int} (A: &RD(@[a][n]), n: size_t (n)):<> sizeLte (n)
 //
 fun{a:vt0p}
 array_bsearch$ford (x: &RD(a)):<> int
 //
-fun{a:vt0p}
-array_bsearch_fun{n:int}
+fun
+{a:vt0p}
+array_bsearch
+  {n:int}
+  (A: &RD(@[a][n]), n: size_t(n)):<> sizeLte(n)
+//
+fun
+{a:vt0p}
+array_bsearch_fun
+  {n:int}
 (
-  A: &RD(@[a][n]), asz: size_t (n), key: &RD(a), cmp: cmpref (a)
-) :<> sizeLte (n) // end of [array_bsearch_fun]
+//
+  A: &RD(@[a][n]), asz: size_t(n), key: &RD(a), cmp: cmpref(a)
+//
+) :<> sizeLte(n) // end of [array_bsearch_fun]
 //
 #atscode_separator()
-
+//
 (*
 ** HX: this one is based on [bsearch] in [stdlib]
 *)
-fun{a:vt0p}
-array_bsearch_stdlib{n:int}
+fun
+{a:vt0p}
+array_bsearch_stdlib
+  {n:int}
 (
-  A: &RD(@[a][n]), asz: size_t (n), key: &RD(a), cmp: cmpref (a)
+  A: &RD(@[a][n]), asz: size_t (n), key: &RD(a), cmp: cmpref(a)
 ) :<> Ptr0 (* found/~found : ~null/null *)
-
+//
 #atscode_separator()
 //
+fun
+{a:vt0p}
+array_quicksort
+  {n:int}
+(
+  A: &(@[INV(a)][n]) >> @[a][n], n: size_t n
+) :<!wrt> void // end-of-function
 fun{a:vt0p}
-array_quicksort{n:int}
-  (A: &(@[INV(a)][n]) >> @[a][n], n: size_t n):<!wrt> void
-fun{a:vt0p}
-array_quicksort$cmp (x1: &RD(a), x2: &RD(a)):<> int(*sgn*)
+array_quicksort$cmp(x1: &RD(a), x2: &RD(a)):<> int(*sgn*)
 //
 #atscode_separator()
 
 (*
 ** HX: this one is based on [qsort] in [stdlib]
 *)
-fun{a:vt0p}
-array_quicksort_stdlib{n:int}
+fun
+{a:vt0p}
+array_quicksort_stdlib
+  {n:int}
 (
   A: &(@[INV(a)][n]) >> @[a][n], n: size_t n, cmp: cmpref (a)
 ) :<!wrt> void // end of [array_quicksort_stdlib]
@@ -659,7 +679,7 @@ a:vt0p}{b:vt0p
 //
 fun{
 a:vt0p}{b:vt0p
-} array_mapto$fwork (x: &a, y: &b? >> b) : void
+} array_mapto$fwork(x: &a, y: &b? >> b): void
 //
 #atscode_separator()
 //
@@ -675,13 +695,13 @@ a,b:vt0p}{c:vt0p
 //
 fun{
 a,b:vt0p}{c:vt0p
-} array_map2to$fwork (x: &a, y: &b, z: &c? >> c) : void
+} array_map2to$fwork(x: &a, y: &b, z: &c? >> c): void
 //
 #atscode_separator()
 //
 fun{a:vt0p}
 array_permute{n:int}
-  (A: &(@[INV(a)][n]) >> @[a][n], n: size_t n): void
+  (A: &(@[INV(a)][n]) >> @[a][n], n: size_t(n)): void
 //
 fun{}
 array_permute$randint {n:int | n > 0} (size_t n): sizeLt (n)

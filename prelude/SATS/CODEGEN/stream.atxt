@@ -54,8 +54,15 @@ fun isStreamSubscriptExn (x: !exn):<> bool = "mac\#isStreamSubscriptExn"
 #atscode_separator()
 //
 fun{a:t0p}
-stream_sing(x: a):<> stream_con(a)
+stream_sing(a):<> stream_con(a)
 //
+#atscode_separator()
+
+fun{a:t0p}
+stream_make_nil(): stream(a)
+fun{a:t0p}
+stream_make_sing(x: a): stream(a)
+
 #atscode_separator()
 
 fun{a:t0p}
@@ -63,6 +70,11 @@ stream2list
   (xs: stream(INV(a))):<!laz> List0_vt(a)
 // end of [stream2list]
 
+#atscode_separator()
+//
+fun{a:t0p}
+stream_length(stream(INV(a))):<!laz> intGte(0)
+//
 #atscode_separator()
 
 fun{a:t0p}
@@ -313,10 +325,12 @@ fprint_stream
 overload [] with stream_nth_exn
 
 #atscode_separator()
-
+//
 overload .head with stream_head_exn
 overload .tail with stream_tail_exn
-
+//
+overload length with stream_length
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

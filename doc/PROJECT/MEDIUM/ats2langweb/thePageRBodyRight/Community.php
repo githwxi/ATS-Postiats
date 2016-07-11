@@ -6,6 +6,15 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2016-07-10:<br>
+<a
+ href="http://www.slideshare.net/master_q/realtime-os-system-state-captured-by-ats-language"
+>Slides on capturing state transition in ATS</a><br>
+by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
+
+<hr></hr>
+
 ATS-2016-06-29:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/b54Ulg1xGjo"

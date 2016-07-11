@@ -141,7 +141,7 @@ stream_vt_foreach_cloptr
 #atscode_separator()
 //
 fun{a:vt0p}
-stream_vt_filter$pred (x: &a):<> bool
+stream_vt_filter$pred(x: &a):<> bool
 fun{a:t0p}
 stream_vt_filter
   (xs: stream_vt(INV(a))): stream_vt(a)
