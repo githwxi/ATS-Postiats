@@ -271,6 +271,53 @@ end // end of [stream_vt_length]
 
 implement
 {a}(*tmp*)
+stream_vt_nth_exn
+  (xs, n) =
+  loop(xs, n) where
+{
+//
+fun
+loop:
+$d2ctype
+(
+  stream_vt_nth_exn<a>
+) = lam(xs, n) =>
+(
+  case+ !xs of
+  | ~stream_vt_nil() =>
+      $raise StreamSubscriptExn()
+  | ~stream_vt_cons(x, xs) =>
+      if n = 0 then (~xs; x) else loop(xs, pred(n))
+) (* end of [loop] *)
+//
+} (* end of [stream_vt_nth_exn] *)
+
+implement
+{a}(*tmp*)
+stream_vt_nth_opt
+  (xs, n) =
+  loop(xs, n) where
+{
+//
+fun
+loop:
+$d2ctype
+(
+  stream_vt_nth_opt<a>
+) = lam(xs, n) =>
+(
+  case+ !xs of
+  | ~stream_vt_nil() => None_vt()
+  | ~stream_vt_cons(x, xs) =>
+      if n = 0 then (~xs; Some_vt(x)) else loop(xs, pred(n))
+) (* end of [loop] *)
+//
+} (* end of [stream_vt_nth_opt] *)
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 stream_vt_append
   (xs, ys) =
   auxmain(xs, ys) where

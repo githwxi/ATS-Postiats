@@ -11,6 +11,8 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 PATSCC2=$(PATSCC) \
 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2
+PATSCC3=$(PATSCC) \
+-D_GNU_SOURCE -DATS_MEMALLOC_USER -O2
 
 ######
 
@@ -31,7 +33,7 @@ upload_main: \
 ######
 
 Fibonacci: Fibonacci.dats; $(PATSCC2) -o $@ $<
-Fibonacci_vt: Fibonacci_vt.dats; $(PATSCC2) -o $@ $<
+Fibonacci_vt: Fibonacci_vt.dats; $(PATSCC3) -o $@ $<
 
 ######
 

@@ -109,6 +109,15 @@ stream_vt_length
 //
 #atscode_separator()
 //
+fun{a:t0p}
+stream_vt_nth_exn
+  (xs: stream_vt(INV(a)), n: intGte(0)):<!exnwrt> (a)
+fun{a:t0p}
+stream_vt_nth_opt
+  (xs: stream_vt(INV(a)), n: intGte(0)):<!wrt> Option_vt(a)
+//
+#atscode_separator()
+//
 fun{a:vt0p}
 stream_vt_append
   (stream_vt(INV(a)), stream_vt(a)): stream_vt(a)

@@ -21,7 +21,10 @@ fn fibseq() =
 (* ****** ****** *)
 //
 implement
-main0() = fprint_stream(stdout_ref, fibseq(), 10)
+main0() =
+(
+  fprint_stream(stdout_ref, fibseq(), 10); fprint_newline(stdout_ref)
+)
 //
 (* ****** ****** *)
 
