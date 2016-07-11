@@ -30,7 +30,10 @@ qsolve{n}(n) =
 if
 n = 0
 then
-$ldelay(stream_vt_cons(list_vt_nil, stream_vt_make_nil()))
+$ldelay
+(
+  stream_vt_cons(list_vt_nil, stream_vt_make_nil())
+) (* end of [then] *)
 else let
 //
 fun
@@ -71,13 +74,12 @@ list_vt_free(xs)
 //
 )  (* end of [extend] *)
 //
-val xsss =
-stream_vt_map_fun<list_vt(int,n-1)><stream_vt(list_vt(int,n))>
-  (qsolve(n-1), lam(xs) =<0> $effmask_all(extend(0, xs)))
-//
 in
 //
-stream_vt_concat<list_vt(int, n)>(xsss)
+stream_vt_concat<list_vt(int, n)>
+(
+  stream_vt_map_fun<list_vt(int,n-1)><stream_vt(list_vt(int,n))>(qsolve(n-1), lam(xs) =<0> $effmask_all(extend(0, xs)))
+) (* end of [stream_vt_concat] *)
 //
 end // end of [else]
 //

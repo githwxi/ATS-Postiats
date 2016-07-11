@@ -226,6 +226,13 @@ fun
 stream_vt_tabulate$fopr(idx: intGte(0)): (a)
 
 #atscode_separator()
+//
+fun
+{a:vt0p}
+stream_vt_labelize
+  (stream_vt(INV(a))): stream_vt(@(intGte(0), a))
+//
+#atscode_separator()
 
 fun
 {env:t0p}{a:t0p}

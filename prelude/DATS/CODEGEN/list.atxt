@@ -25,13 +25,16 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("Feburary, 2012")
 
 #atscode_separator()
-
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/unsafe.dats"
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*anon*) = "prelude/DATS/unsafe.dats"
+//
 #atscode_separator()
 
-abstype List0_(a:t@ype+) = List0(a)
+abstype
+List0_(a:t@ype+) = List0(a)
 
 #atscode_separator()
 
@@ -991,23 +994,44 @@ list_equal
 {
 fun
 loop :
-$d2ctype(list_equal<x>) = lam(xs1, xs2) =>
+$d2ctype
+(
+  list_equal<x>
+) = lam(xs1, xs2) =>
 //
 case+ xs1 of
 | list_nil((*void*)) =>
   (
     case+ xs2 of
-    | list_nil _ => true | list_cons _ => false
+    | list_nil _ => true
+    | list_cons _ => false
   ) // end of [list_nil]
 | list_cons(x1, xs1) =>
   (
     case+ xs2 of
     | list_nil() => false
-    | list_cons(x2, xs2) =>
-        if list_equal$eqfn<x> (x1, x2) then loop(xs1, xs2) else false
-  ) // end of [list_cons]
+    | list_cons(x2, xs2) => let
+        val test =
+          list_equal$eqfn<x> (x1, x2)
+        // end of [val]
+      in
+        if test then loop(xs1, xs2) else false
+      end // end of [list_cons]
+  ) (* end of [list_cons] *)
 //
 } (* end of [list_equal] *)
+
+implement
+{x}(*tmp*)
+list_equal_cloref
+  (xs1, xs2, eqfn) =
+  list_equal<x>(xs1, xs2) where
+{
+//
+implement{y}
+list_equal$eqfn(x1, x2) = eqfn($UN.cast(x1), $UN.cast(x2))
+//
+} (* end of [list_equal_cloref] *)
 
 #atscode_separator()
 

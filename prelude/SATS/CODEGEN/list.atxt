@@ -447,12 +447,15 @@ list_forall_cloref
   (xs: List(INV(x)), pred: (x) -<cloref> bool):<> bool
 //
 #atscode_separator()
-
+//
 fun{x:t0p}
-list_equal$eqfn (x, x):<> bool
+list_equal$eqfn(x1: x, x2: x):<> bool
 fun{x:t0p}
-list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
-
+list_equal(xs1: List(INV(x)), xs2: List(x)):<> bool
+fun{x:t0p}
+list_equal_cloref
+  (List(INV(x)), List(x), eqfn: (x, x) -<cloref> bool):<> bool
+//
 #atscode_separator()
 //
 fun{
