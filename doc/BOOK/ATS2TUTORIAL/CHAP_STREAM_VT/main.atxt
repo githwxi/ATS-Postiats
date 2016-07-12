@@ -163,10 +163,11 @@ stream_vt_filter_cloptr
 // end of [stream_vt_filter_cloptr]
 ')
 
-Given a stream xs and a predicate pred, #dyncode("stream_vt_filter_cloptr")
-returns another stream consisting of all the elements in the stream xs
-satisfying the predicate pred.  Note that both xs and pred are consumed by
-the call to #dyncode("stream_vt_filter_cloptr").
+Given a stream #dyncode("xs") and a predicate #dyncode("pred"), the
+function #dyncode("stream_vt_filter_cloptr") returns another stream
+consisting of all the elements in the stream #dyncode("xs") satisfying
+the predicate #dyncode("pred").  Note that both xs and pred are
+consumed by the call to #dyncode("stream_vt_filter_cloptr").
 
 ')#comment("para")
 

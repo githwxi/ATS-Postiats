@@ -8,31 +8,72 @@
 *)
 
 (* ****** ****** *)
+
+%{^
+
+#define \
+NM 100
+int used[NM];
+typedef
+struct{ void* _[3]; } block_t;
+block_t smem[NM];
+
+void
+atsruntime_mfree_user(void *p) {
+/*
+  fprintf(stderr, "atsruntime_mfree_user: p = %p\n", p);  
+*/
+  void *p0 = &smem[0];
+  used[((char*)p - (char*)p0)/sizeof(block_t)] = 0;
+}
+
+void*
+atsruntime_malloc_user(size_t bsz) {
+/*
+  fprintf(stderr, "atsruntime_malloc_user: bsz = %d\n", (int)bsz);  
+*/
+  int i;
+  for (i = 0; i < NM; i += 1)
+  {
+    if (used[i] == 0) { used[i] = 1; return &smem[i]; }
+  }
+  return 0;
+}
+
+%} // end of [%{^]
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_staload.hats"
+//
+(* ****** ****** *)
+//
+extern
+fun
+qsolve_vt
+{n:nat}
+(
+  n: int(n)
+) : stream_vt(list_vt(int, n))
 //
 (* ****** ****** *)
 
 #define N 8
 
 (* ****** ****** *)
-//
-extern
-fun
-qsolve{n:nat}(n: int(n)): stream_vt(list_vt(int, n))
-//
-(* ****** ****** *)
 
 implement
-qsolve{n}(n) =
+qsolve_vt{n}(n) =
 (
 if
 n = 0
 then
 $ldelay
+stream_vt_cons
 (
-  stream_vt_cons(list_vt_nil, stream_vt_make_nil())
+  list_vt_nil
+, stream_vt_make_nil()
 ) (* end of [then] *)
 else let
 //
@@ -49,54 +90,66 @@ test
 case+ xs of
 | list_vt_nil() => true
 | list_vt_cons(x1, xs) =>
-    if (x != x1 && abs(x-x1) != i) then test(x, i+1, xs) else false
+    if (x != x1 && abs(x-x1) != i)
+      then test(x, i+1, xs) else false
   // end of [list_cons]
 )
 //
 fun
 extend
+{x:nat | x <= N} .<N-x>.
 (
-  x: int, xs: list_vt(int, n-1)
-) :<!laz> stream_vt(list_vt(int, n)) = $ldelay
+  x: int(x), xs: list_vt(int, n-1)
+) :<!wrt> stream_vt(list_vt(int, n)) = $ldelay
 (
 //
 (
 if x < N then (
   if test(x, 1, xs)
-    then stream_vt_cons(list_vt_cons(x, list_vt_copy(xs)), extend(x+1, xs)) else !(extend(x+1, xs))
+    then
+    stream_vt_cons
+    (
+      list_vt_cons(x, list_vt_copy(xs))
+    , extend(x+1, xs)
+    )
+    else !(extend(x+1, xs))
   // end of [if]
 ) else (list_vt_free(xs); stream_vt_nil(*void*))
 ) : stream_vt_con(list_vt(int, n))
 //
 ,
 //
-list_vt_free(xs)
+list_vt_free(xs) // it is called when the stream is freed
 //
 )  (* end of [extend] *)
 //
 in
 //
-stream_vt_concat<list_vt(int, n)>
+stream_vt_concat
 (
-  stream_vt_map_fun<list_vt(int,n-1)><stream_vt(list_vt(int,n))>(qsolve(n-1), lam(xs) =<0> $effmask_all(extend(0, xs)))
+  stream_vt_map_fun(qsolve_vt(n-1), lam(xs) => extend(0, xs))
 ) (* end of [stream_vt_concat] *)
 //
 end // end of [else]
 //
-) (* end of [qsolve] *)
+) (* end of [qsolve_vt] *)
 
 (* ****** ****** *)
 //
 implement
 main0() =
 {
-  val xss = stream2list_vt(qsolve(N))
+  val nsol = loop(qsolve_vt(N)) where
+  { 
+    fun
+    loop(xs: stream_vt(List_vt(int))): int =
+      (case+ !xs of ~stream_vt_nil() => 0 | ~stream_vt_cons(xs, xss) => (list_vt_free(xs); 1 + loop(xss)))
+  }
   val ((*void*)) =
-    println! ("The number of solutions equals ", length(xss))
+    println! ("The number of solutions equals ", nsol)
   // end of [val]
-  val ((*void*)) = list_vt_freelin_fun(xss, lam(xs) =<1> list_vt_free(xs))
 }
 //
 (* ****** ****** *)
 
-(* end of [QueensPuzzle.dats] *)
+(* end of [QueensPuzzle_vt.dats] *)

@@ -21,11 +21,421 @@ would like to present a few short examples in this artice that
 can demonstrate a typical use of linear streams in the construction of
 memory-clean programs. Note that a program being memory-clean means
 that the program must free every byte of memory allocated during its
-execution at the point when it terminates. It should be clear soon that
+execution at the point when it terminates. It should be soon clear that
 the presented memory-clean programs also have a very small memory
 footprint, making them suitable to run on devices where memory is extremely
-limited (e.g., Arduio Uno).
+limited (e.g., Arduino Uno).
 ')##comment("para")
+
+<h2>A stream of Fibonacci numbers</h2>
+
+##para('\
+
+A (functional) stream of Fibonacci numbers can be constructed
+by calling the following function ##dyncode("fibseq"):
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+//
+fn fibseq() =
+  (fix f(n0:int, n1:int): stream(int) => $delay(stream_cons(n0, f(n1, n0+n1))))(0, 1)
+//
+""")</pre>
+
+For someone who may not be familiar with streams in ATS, please find
+a chapter on <em>stream-based lazy evaluation</em> in
+this <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/book1.html">tutorial</a>
+on programming features in ATS.
+
+')##comment("para")
+
+##para('\
+
+Given a stream ##dyncode("xs") and a natural number ##dyncode("n"),
+the function ##dyncode("stream_nth_exn") returns element ##dyncode("n") in ##dyncode("xs")
+(or it raises an exception if there is no such an element in ##dyncode("xs")).
+As an example, the value of the 10th Fibonacci number can be computed as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+val fib10 = stream_nth_exn(fibseq(), 10)
+""")</pre>
+
+After ##dyncode("stream_nth_exn") returns, the stream returned by
+##dyncode("fibseq()") is in an expanded form that contains at least
+element 0, element 1, ..., element 10. In order to compute element
+##dyncode("n") in the stream, we need memory of size proportional to
+##dyncode("n").
+
+')
+
+<h2>A linear stream of Fibonacci numbers</h2>
+
+##para('\
+
+A linear stream of Fibonacci numbers can be constructed
+by calling the following function ##dyncode("fibseq_vt"):
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+//
+fn fibseq_vt()  =
+  (fix f(n0:int, n1: int): stream_vt(int) => $ldelay(stream_vt_cons(n0, f(n1, n0+n1))))(0, 1)
+//
+""")</pre>
+
+For someone who may not be familiar with streams in ATS, please find
+a chapter on <em>linear stream-based lazy evaluation</em> in
+this <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/book1.html">tutorial</a>
+on programming features in ATS.
+
+')##comment("para")
+
+##para('\
+
+Given a stream ##dyncode("xs") and a natural number ##dyncode("n"),
+the function ##dyncode("stream_vt_nth_exn") returns element ##dyncode("n") in ##dyncode("xs")
+(or it raises an exception if there is no such an element in ##dyncode("xs")).
+As an example, the value of the 10th Fibonacci number can be computed as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+val fib10 = stream_vt_nth_exn(fibseq_vt(), 10)
+""")</pre>
+
+After ##dyncode("stream_vt_nth_exn") returns, the linear stream returned by
+##dyncode("fibseq_vt()") is completely freed. In order to compute element
+##dyncode("n") in the linear stream, we only need memory of size O(1). In general,
+a node in a linear stream is freed before the next node is generated, implying
+that only one node is present during the processing of the linear stream. For instance,
+the function ##dyncode("stream_vt_nth_exn") can be implemented as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+fun
+{a:t@ype}
+stream_vt_nth_exn
+(
+  xs: stream_vt(a), n: intGte(0)
+) = loop(xs, n) where
+{
+//
+fun
+loop{n:nat} .<n>.
+(
+  xs: stream_vt(a), n: int(n)
+) : a =
+(
+  case+ !xs of
+  | ~stream_vt_nil() =>
+      $raise StreamSubscriptExn()
+  | ~stream_vt_cons(x, xs) =>
+      if n = 0 then (~xs; x) else loop(xs, pred(n))
+) (* end of [loop] *)
+//
+} (* end of [stream_vt_nth_exn] *)
+""")</pre>
+
+A linear stream is represented as a linear thunk (that is, a nullary
+closure-function); the thunk evaluates to either a null node
+(indicating the end of the stream) or a non-null node containing both
+an element and another thunk (for subsequent use), and it then frees
+itself. Therefore, processing the linear stream constructed by a call
+to ##dyncode("fibseq_vt") only needs memory for storing one node and
+two thunks; each node contains one value of the type ##stacode("int")
+and one pointer; each thunk contains two values of the type
+##stacode("int") and one pointer. In order to test that this is indeed
+the case, we implement the following two functions in C for freeing and
+allocating memory:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+\%{^
+//
+#define NM 3
+//
+int used[NM];
+//
+typedef
+struct{ void* _[2]; } block_t;
+block_t smem[NM];
+//
+void
+atsruntime_mfree_user(void *p) {
+  void *p0 = &smem[0];
+  used[((char*)p - (char*)p0)/sizeof(block_t)] = 0;
+}
+//
+void*
+atsruntime_malloc_user(size_t bsz) {
+  int i;
+  for (i = 0; i < NM; i += 1)
+  {
+    if (used[i] == 0) { used[i] = 1; return &smem[i]; }
+  }
+  return 0;
+}
+//
+\%} // end of [%{^]
+""")</pre>
+
+By passing the compilation flag ##command("-DATS_MEMALLOC_USER") to
+##command("atscc"), one can generate C code from ATS source that makes
+use of the functions ##dyncode("atsruntime_mfree_user") and
+##dyncode("atsruntime_malloc_user") for freeing and allocating memory,
+respectively.
+
+')
+
+<h2>A stream-based solution to the eight-queen puzzle</h2>
+
+##para("\
+
+The eight-queen puzzle asks a player to find one
+way to put 8 queen pieces on a chess board such that there exists
+no piece that can capture another one.
+
+")##comment("para")
+
+##para('\
+
+Let us use an integer list of length n for a (partial) chess board
+consisting of the first n rows such that there is a queen piece on
+each row; each integer in the list represents the column number of the
+queen piece on the corresponding row.  The following declaration
+introduces a function ##dyncode("qsolve") that takes a given natural
+number n and returns a stream of lists containing all the possible
+ways to put n queen pieces on the first n rows of a chess board such
+that none of the pieces can capture another one:
+<pre
+class="patsyntax">
+##sats2xhtml("""\
+//
+fun qsolve{n:nat}(int(n)): stream(list(int, n))
+//
+""")</pre>
+Clearly, calling ##dyncode("qsolve")
+on 8 returns all of the solutions to the eight-queen puzzle.
+
+')##comment("para")
+
+##para('\
+
+An implementation of ##dyncode("qsolve") is given a follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+//
+#define N 8
+//
+implement
+qsolve{n}(n) =
+(
+if
+n = 0
+then
+(
+  stream_make_sing(list_nil)
+) (* end of [then] *)
+else let
+//
+fun
+test
+{ i:int
+| 0 < i; i <= n
+} .<n-i>.
+(
+  x: int
+, i: int(i), xs: list(int, n-i)
+) :<> bool =
+(
+case+ xs of
+| list_nil() => true
+| list_cons(x1, xs) =>
+    if (x != x1 && abs(x-x1) != i)
+      then test(x, i+1, xs) else false
+  // end of [list_cons]
+)
+//
+fun
+extend
+{x:nat | x <= N} .<N-x>.
+(
+  x: int(x), xs: list(int, n-1)
+) :<> stream(list(int, n)) = $delay
+(
+//
+if x < N then (
+  if test(x, 1, xs)
+    then (
+      stream_cons(list_cons(x, xs), extend(x+1, xs))
+    ) else !(extend(x+1, xs))
+  // end of [if]
+) else stream_nil(*void*)
+//
+) (* end of [extend] *)
+//
+in
+//
+stream_concat
+(
+  stream_map_fun(qsolve(n-1), lam(xs) => extend(0, xs))
+) (* end of [stream_concat] *)
+//
+end // end of [else]
+//
+) (* end of [qsolve] *)
+//
+""")</pre>
+
+The function ##dyncode("test") checks whether a given row can be added
+to a (partial) solution (to form another solution containing one more
+row).  Given a (partial) solution, the function ##dyncode("extend")
+returns a stream of lists containing all of the valid solutions that
+extend the given one with one more row. Note that calling the function
+##dyncode("stream_map_fun") returns a stream of elements, where each
+element is a stream of lists such that each list represents a
+(partial) solution to the eight-queen puzzle, and calling the function
+##dyncode("stream_concat") on the stream of streams returned by
+##dyncode("stream_map_fun") yields a streams of lists containing all
+the possible ways to put n queen pieces on the first n rows such that
+none of the queens can capture another one.
+
+')##comment("para")
+
+<h2>A linear stream-based solution to the eight-queen puzzle</h2>
+
+##para("""\
+
+We declare the interface for a linear version of
+##dyncode("qsolve") as follows:
+
+<pre
+class="patsyntax">
+##sats2xhtml("""\
+//
+fun qsolve_vt{n:nat}(int(n)): stream_vt(list_vt(int, n))
+//
+""")</pre>
+
+Given a natural number n, ##dyncode("qsolve_vt") returns a linear
+stream of linear lists containing all the (partial) solutions to
+putting n queen pieces on the first n rows (of a chess board) such
+that none of the pieces can capture another one.
+
+""")##comment("para")
+
+##para("""\
+
+The following implementation of ##dyncode("qsolve_vt")
+is largely parallel to the above one for ##dyncode("qsolve"):
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+//
+#define N 8
+//
+implement
+qsolve{n}(n) =
+(
+if
+n = 0
+then
+$ldelay
+stream_vt_cons
+(
+  list_vt_nil
+, stream_vt_make_nil()
+) (* end of [then] *)
+else let
+//
+fun
+test
+{ i:int
+| 0 < i; i <= n
+} .<n-i>.
+(
+  x: int
+, i: int(i), xs: !list_vt(int, n-i)
+) :<> bool =
+(
+case+ xs of
+| list_vt_nil() => true
+| list_vt_cons(x1, xs) =>
+    if (x != x1 && abs(x-x1) != i)
+      then test(x, i+1, xs) else false
+  // end of [list_cons]
+)
+//
+fun
+extend
+{x:nat | x <= N} .<N-x>.
+(
+  x: int(x), xs: list_vt(int, n-1)
+) :<!wrt> stream_vt(list_vt(int, n)) = $ldelay
+(
+//
+(
+if x < N then (
+  if test(x, 1, xs)
+    then
+    stream_vt_cons
+    (
+      list_vt_cons(x, list_vt_copy(xs))
+    , extend(x+1, xs)
+    )
+    else !(extend(x+1, xs))
+  // end of [if]
+) else (list_vt_free(xs); stream_vt_nil(*void*))
+) : stream_vt_con(list_vt(int, n))
+//
+,
+//
+list_vt_free(xs) // it is called when the stream is freed
+//
+)  (* end of [extend] *)
+//
+in
+//
+stream_vt_concat
+(
+  stream_vt_map_fun(qsolve(n-1), lam(xs) => extend(0, xs))
+) (* end of [stream_vt_concat] *)
+//
+end // end of [else]
+//
+) (* end of [qsolve_vt] *)
+//
+""")</pre>
+
+""")##comment("para")
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+Fibonacci.dats
+Fibonacci_vt.dats
+QueensPuzzle.dats
+QueensPuzzle_vt.dats
+</pre>
+
+In addition, there is an accompanying ##filename("Makefile") for compiling
+and testing the code.\
+
+""")
 
 <hr size="2">
 

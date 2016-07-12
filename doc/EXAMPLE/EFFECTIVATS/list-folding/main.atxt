@@ -503,6 +503,8 @@ can be readily given a tail-recursive implementation of O(n)-time.
 
 """)##comment("para")
 
+<h2>Compiling and Testing</h2>
+
 ##para("""\
 
 Please find in the following files the entirety of the code presented

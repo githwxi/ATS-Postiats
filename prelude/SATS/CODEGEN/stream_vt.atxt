@@ -186,7 +186,7 @@ fun{
 a:vt0p}{b:vt0p
 } stream_vt_map_fun
 (
-  xs: stream_vt(INV(a)), fopr: (&a >> a?!) -<fun> b
+  xs: stream_vt(INV(a)), fopr: (&a >> a?!) -<fun1> b
 ) : stream_vt(b) // end-of-function
 fun{
 a:vt0p}{b:vt0p

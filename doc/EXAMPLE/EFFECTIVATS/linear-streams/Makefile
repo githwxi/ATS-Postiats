@@ -38,7 +38,7 @@ Fibonacci_vt: Fibonacci_vt.dats; $(PATSCC3) -o $@ $<
 ######
 
 QueensPuzzle: QueensPuzzle.dats; $(PATSCC2) -o $@ $<
-QueensPuzzle_vt: QueensPuzzle_vt.dats; $(PATSCC2) -o $@ $<
+QueensPuzzle_vt: QueensPuzzle_vt.dats; $(PATSCC3) -o $@ $<
 
 ######
 
@@ -48,7 +48,7 @@ regress:: Fibonacci_vt; ./$<
 ######
 
 regress:: QueensPuzzle; ./$<
-regress:: QueensPuzzle_vt; ./$<
+regress:: QueensPuzzle_vt; valgrind ./$<
 
 ######
 
