@@ -14,6 +14,8 @@
 #define \
 NM 100
 int used[NM];
+int nused = 0;
+int nused_max = 0;
 typedef
 struct{ void* _[3]; } block_t;
 block_t smem[NM];
@@ -22,20 +24,27 @@ void
 atsruntime_mfree_user(void *p) {
 /*
   fprintf(stderr, "atsruntime_mfree_user: p = %p\n", p);  
+  fprintf(stderr, "atsruntime_malloc_user: nused = %d\n", nused);
+  fprintf(stderr, "atsruntime_malloc_user: nused_max = %d\n", nused_max);
 */
   void *p0 = &smem[0];
-  used[((char*)p - (char*)p0)/sizeof(block_t)] = 0;
+  used[((char*)p - (char*)p0)/sizeof(block_t)] = 0; nused--;
 }
 
 void*
 atsruntime_malloc_user(size_t bsz) {
 /*
-  fprintf(stderr, "atsruntime_malloc_user: bsz = %d\n", (int)bsz);  
+  fprintf(stderr, "atsruntime_malloc_user: bsz = %lu\n", bsz);  
+  fprintf(stderr, "atsruntime_malloc_user: nused = %d\n", nused);
+  fprintf(stderr, "atsruntime_malloc_user: nused_max = %d\n", nused_max);
 */
   int i;
   for (i = 0; i < NM; i += 1)
   {
-    if (used[i] == 0) { used[i] = 1; return &smem[i]; }
+    if (used[i] == 0)
+    {
+      used[i] = 1; nused++; if (nused > nused_max) nused_max++; return &smem[i];
+    }
   }
   return 0;
 }

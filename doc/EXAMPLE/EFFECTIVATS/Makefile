@@ -114,6 +114,7 @@ cleanall:: ; make -C PwTP-bool-vs-prop cleanall
 cleanall:: ; make -C parsing-cmbntr-cps cleanall
 cleanall:: ; make -C ssntyped-channels-1 cleanall
 cleanall:: ; make -C ssntyped-channels-2 cleanall
+cleanall:: ; make -C linear-streams cleanall
 
 ######
 
@@ -371,6 +372,14 @@ upload_ssntyped-channels-2:: ; \
   ssntyped-channels-2/introxmpl1_client.dats \
   ssntyped-channels-2/introxmpl1_server.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-2
+
+######
+
+upload_linear-streams:: ; \
+  $(SCP) \
+  linear-streams/index.html \
+  linear-streams/Makefile linear-streams/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/linear-streams/
 
 ######
 

@@ -416,6 +416,13 @@ end // end of [else]
 //
 """)</pre>
 
+While it is difficult to analyze <em>statically</em> how many
+bytes of memory are needed in order to process all the elements in the
+stream returned by ##dyncode("qsolve_vt(8)"), we can readily obtain an
+estimate of this number experimentally. For instance, some data
+gathered at run-time indicate that 97 blocks of memory is adequate, where
+each block consists of 3 consecutive words.
+
 """)##comment("para")
 
 <h2>Compiling and Testing</h2>

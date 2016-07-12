@@ -28,7 +28,7 @@ main.html: main.atxt ; $(MYATEXTING) -o $@ -i $<
 upload_main: \
   main.html ; \
   scp main.html \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/QueensPuzzle_vt/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/linear-streams/
 
 ######
 
