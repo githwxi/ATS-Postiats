@@ -87,7 +87,7 @@ fn fibseq_vt()  =
 //
 """)</pre>
 
-For someone who may not be familiar with streams in ATS, please find
+For someone who may not be familiar with linear streams in ATS, please find
 a chapter on <em>linear stream-based lazy evaluation</em> in
 this <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/book1.html">tutorial</a>
 on programming features in ATS.
@@ -96,7 +96,7 @@ on programming features in ATS.
 
 ##para('\
 
-Given a stream ##dyncode("xs") and a natural number ##dyncode("n"),
+Given a linear stream ##dyncode("xs") and a natural number ##dyncode("n"),
 the function ##dyncode("stream_vt_nth_exn") returns element ##dyncode("n") in ##dyncode("xs")
 (or it raises an exception if there is no such an element in ##dyncode("xs")).
 As an example, the value of the 10th Fibonacci number can be computed as follows:
@@ -189,7 +189,10 @@ By passing the compilation flag ##command("-DATS_MEMALLOC_USER") to
 ##command("atscc"), one can generate C code from ATS source that makes
 use of the functions ##dyncode("atsruntime_mfree_user") and
 ##dyncode("atsruntime_malloc_user") for freeing and allocating memory,
-respectively.
+respectively. A simple experiment can confirm that only 3 blocks of
+memory is needed for processing the linear stream returned by
+##dyncode("fibseq_vt()"), where each block consists of two consecutive
+words.
 
 ')
 
@@ -212,7 +215,7 @@ queen piece on the corresponding row.  The following declaration
 introduces a function ##dyncode("qsolve") that takes a given natural
 number n and returns a stream of lists containing all the possible
 ways to put n queen pieces on the first n rows of a chess board such
-that none of the pieces can capture another one:
+that no piece can capture another one:
 <pre
 class="patsyntax">
 ##sats2xhtml("""\
@@ -304,9 +307,9 @@ extend the given one with one more row. Note that calling the function
 element is a stream of lists such that each list represents a
 (partial) solution to the eight-queen puzzle, and calling the function
 ##dyncode("stream_concat") on the stream of streams returned by
-##dyncode("stream_map_fun") yields a streams of lists containing all
+##dyncode("stream_map_fun") yields a stream of lists containing all
 the possible ways to put n queen pieces on the first n rows such that
-none of the queens can capture another one.
+no piece can capture another one.
 
 ')##comment("para")
 
@@ -328,7 +331,7 @@ fun qsolve_vt{n:nat}(int(n)): stream_vt(list_vt(int, n))
 Given a natural number n, ##dyncode("qsolve_vt") returns a linear
 stream of linear lists containing all the (partial) solutions to
 putting n queen pieces on the first n rows (of a chess board) such
-that none of the pieces can capture another one.
+that no piece can capture another one.
 
 """)##comment("para")
 
