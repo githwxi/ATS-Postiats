@@ -55,6 +55,9 @@ stream_vt_make_nil():<> stream_vt(a)
 fun{a:t0p}
 stream_vt_make_sing(x: a):<> stream_vt(a)
 //
+fun{a:t0p}
+stream_vt_make_con(stream_vt_con(a)):<> stream_vt(a)
+//
 #atscode_separator()
 //
 // HX-2014-04-07:

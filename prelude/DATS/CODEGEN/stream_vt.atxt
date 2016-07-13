@@ -37,14 +37,28 @@ stream_vt_make_nil
 //
 implement
 {a}(*tmp*)
-stream_vt_make_sing
-  (x) = (
+stream_vt_make_sing(x) =
+(
 //
-  $ldelay(
-    stream_vt_cons{a}(x, $ldelay(stream_vt_nil))
-  ) (* $ldelay *)
+$ldelay
+(
+stream_vt_cons(x, $ldelay(stream_vt_nil))
+) (* $ldelay *)
 //
 ) (* stream_vt_make_sing *)
+//
+implement
+{a}(*tmp*)
+stream_vt_make_con(xs_con) =
+(
+//
+$ldelay
+(
+  xs_con
+, $effmask_wrt(stream_vt_con_free<a>(xs_con))
+)
+//
+) (* end of [stream_vt_make_con] *)
 //
 #atscode_separator()
 //
