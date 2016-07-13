@@ -72,7 +72,8 @@ fibc (int n) {
 } // end of [fibc]
 </pre>
 
-If translated into ATS, the function fibc can essentially be implemented as follows:
+If translated into ATS, the function fibc can essentially be
+implemented as follows:
 
 <pre
 class="patsyntax">
@@ -89,7 +90,8 @@ in
 end // end of [fibc]
 ')</pre>
 
-There is obviously a logic gap between the defintion of fib and its implementation as is embodied in fibc.
+There is obviously a logic gap between the definition of fib and its
+implementation as is embodied in fibc.
 
 ')#comment("para")
 
@@ -216,7 +218,7 @@ end // end of [f_fib_p]
 
 The interface assigned to #dyncode("f_fib_p") indicates that
 #dyncode("f_fib_p") takes a natural number #dyncode("n") to return
-an integer #dyncode("r") pair with a proof of the prop #stacode("fib_p(n, r)").
+an integer #dyncode("r") paired with a proof of the prop #stacode("fib_p(n, r)").
 In other words, the integer returned from a call to #dyncode("f_fib_p")
 on the natural number #dyncode("n") always equals the value of fib defined on
 the number.

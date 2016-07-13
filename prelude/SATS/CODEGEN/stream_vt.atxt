@@ -39,12 +39,13 @@ stream_vt_con
   | stream_vt_cons of (a, stream_vt(a))
 //
 where
-stream_vt(a:vt@ype) = lazy_vt(stream_vt_con(a))
+stream_vt
+  (a:vt@ype) = lazy_vt(stream_vt_con(a))
 //
 \#endif // [\#if(0)]
 //
 vtypedef
-streamopt_vt (a:vt0p) = Option_vt(stream_vt(a))
+streamopt_vt(a:vt0p) = Option_vt(stream_vt(a))
 //
 #atscode_separator()
 //
@@ -75,6 +76,8 @@ stream2list_vt
 
 fun{a:t0p}
 stream_vt_free (xs: stream_vt a):<!wrt> void
+fun{a:t0p}
+stream_vt_con_free (xs: stream_vt_con(a)):<!wrt> void
 
 #atscode_separator()
 //
@@ -100,6 +103,9 @@ stream_vt_tail
 fun{a:vt0p}
 stream_vt_uncons
   (xs: &stream_vt(INV(a)) >> _):<!exnwrt> (a)
+fun{a:vt0p}
+stream_vt_uncons_opt
+  (xs: &stream_vt(INV(a)) >> _):<!exnwrt> Option_vt(a)
 //
 #atscode_separator()
 //
