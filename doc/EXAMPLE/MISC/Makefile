@@ -156,6 +156,14 @@ clean:: ; $(RMF) morse_enum_dats.o
 clean:: ; $(RMF) morse_enum_dats.c
 cleanall:: ; $(RMF) morse_enum morse_enum.exe
 
+all:: memoization
+memoization: memoization.exe
+memoization.exe: memoization_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+memoization_dats.c: memoization.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output memoization_dats.c --dynamic memoization.dats
+clean:: ; $(RMF) memoization_dats.o
+clean:: ; $(RMF) memoization_dats.c
+cleanall:: ; $(RMF) memoization memoization.exe
+
 all:: mysendmailist
 mysendmailist: mysendmailist.exe
 mysendmailist.exe: mysendmailist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -172,14 +180,6 @@ clean:: ; $(RMF) passwdgen_dats.o
 clean:: ; $(RMF) passwdgen_dats.c
 cleanall:: ; $(RMF) passwdgen passwdgen.exe
 
-all:: queens_comb
-queens_comb: queens_comb.exe
-queens_comb.exe: queens_comb_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-queens_comb_dats.c: queens_comb.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_comb_dats.c --dynamic queens_comb.dats
-clean:: ; $(RMF) queens_comb_dats.o
-clean:: ; $(RMF) queens_comb_dats.c
-cleanall:: ; $(RMF) queens_comb queens_comb.exe
-
 all:: queens_lazy
 queens_lazy: queens_lazy.exe
 queens_lazy.exe: queens_lazy_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -195,6 +195,14 @@ queens_loop_dats.c: queens_loop.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --
 clean:: ; $(RMF) queens_loop_dats.o
 clean:: ; $(RMF) queens_loop_dats.c
 cleanall:: ; $(RMF) queens_loop queens_loop.exe
+
+all:: queens_comb
+queens_comb: queens_comb.exe
+queens_comb.exe: queens_comb_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+queens_comb_dats.c: queens_comb.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_comb_dats.c --dynamic queens_comb.dats
+clean:: ; $(RMF) queens_comb_dats.o
+clean:: ; $(RMF) queens_comb_dats.c
+cleanall:: ; $(RMF) queens_comb queens_comb.exe
 
 all:: queens_lincomb
 queens_lincomb: queens_lincomb.exe

@@ -114,6 +114,7 @@ RMF=rm -f
 #make2_entry("monad_maybe", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("monad_state", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("morse_enum", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("memoization", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("mysendmailist", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("passwdgen", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("queens_lazy", "-DATS_MEMALLOC_LIBC", "")
