@@ -40,7 +40,7 @@ implement
 {}(*tmp*)
 fib(n) =
 if n >= 2
-  then fib_rec(n-1) + fib_rec(n-2) else n
+  then (fib_rec(n-1) + fib_rec(n-2)) % 1000000 else n
 // end of [if]
 //
 (* ****** ****** *)
@@ -106,7 +106,7 @@ fib_memo = memo<int,int>(lam(n) => fib(n))
 implement
 main0() =
 {
-  val N = 10
+  val N = 1000
   val () = println! ("fib(", N, ") = ", fib(N))
 }
 
