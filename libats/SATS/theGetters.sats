@@ -45,6 +45,15 @@ ATS_PACKNAME "ATSLIB.libats.theGetters"
 //
 (* ****** ****** *)
 //
+// HX: it is to be implemented!
+//
+fun
+{a:vt0p}
+the_get_elt
+  (&a? >> opt(a,b)): #[b:bool] bool(b)
+//
+(* ****** ****** *)
+//
 exception
 Exception_the_get_elt_exn of ((*void*))
 //
@@ -54,12 +63,6 @@ fun{}
 the_getall_asz_hint((*void*)): sizeGte(1)
 //
 (* ****** ****** *)
-//
-fun{a:vt0p}
-the_get_elt
-(
-  x: &a? >> opt(a,b)
-) : #[b:bool] bool(b)
 //
 fun{a:vt0p}
 the_getall_list(): List0_vt(a)
