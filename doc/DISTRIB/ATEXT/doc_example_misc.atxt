@@ -146,6 +146,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("memoization.dats")
+
+(* ****** ****** *)
+
 #packfilename("morse_enum.dats")
 
 (* ****** ****** *)
