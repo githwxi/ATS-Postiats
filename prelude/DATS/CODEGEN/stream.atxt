@@ -735,13 +735,12 @@ end // end of [stream_tabulate_cloref]
 #atscode_separator()
 
 implement
-{a}{env}
-stream_foreach$cont (x, env) = true
-
-implement
 {a}(*tmp*)
-stream_foreach (xs) = let
-  var env: void = () in stream_foreach_env<a><void> (xs, env)
+stream_foreach
+  (xs) = let
+  var env: void = ()
+in
+  stream_foreach_env<a><void>(xs, env)
 end // end of [stream_foreach]
 
 implement
@@ -779,6 +778,9 @@ case+ !xs of
 in
   loop (xs, env)
 end (* end of [stream_foreach_env] *)
+
+implement(a,env)
+stream_foreach$cont<a><env>(x0, env) = true(*cont*)
 
 #atscode_separator()
 

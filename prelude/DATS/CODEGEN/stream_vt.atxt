@@ -485,6 +485,9 @@ in
   loop(xs, env)
 end // end of [stream_vt_foreach_env]
 
+implement(a,env)
+stream_vt_foreach$cont<a><env>(x0, env) = true(*cont*)
+
 #atscode_separator()
 
 implement
