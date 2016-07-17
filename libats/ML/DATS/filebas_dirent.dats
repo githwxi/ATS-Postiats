@@ -145,11 +145,11 @@ end // end of [then]
 else let
   prval() = $DIR.DIRptr_free_null(dirp)
 in
-  list0_nil((*void*)*)
+  list0_nil((*void*))
 end // end of [else]
 //
 end // end of [dirname_get_fnamelst]
 
 (* ****** ****** *)
 
-(* end of [dirent.dats] *)
+(* end of [filebas_dirent.dats] *)
