@@ -166,20 +166,22 @@ fun closedir_exn (dirp: DIRptr1):<!exnwrt> void = "ext#%"
 
 (* ****** ****** *)
 
-fun readdir
+fun
+readdir
 (
   dirp: !DIRptr1
 ) :<!refwrt> [l:addr]
 (
-  option_v (vtakeout0 (dirent@l), l > null) | ptr (l)
+  option_v(vtakeout0 (dirent@l), l > null) | ptr (l)
 ) = "mac#%" // end of [readdir]
 
 (* ****** ****** *)
 
-fun readdir_r
+fun
+readdir_r
 (
   dirp: !DIRptr1
-, ent: &dirent? >> opt (dirent, l > null)
+, ent0: &dirent? >> opt (dirent, l > null)
 , result: &ptr? >> ptr(l)
 ) :<!wrt> #[l:addr;i:int | i >= 0] int(i) = "mac#%"
 
@@ -196,33 +198,37 @@ int scandir
 , int (*compar)(const struct dirent **, const struct dirent**)
 ) ;
 */
-fun scandir
+fun
+scandir
 (
   dirp: NSH(string)
-, namelst: &(ptr?) >> ptr(*direntpp*)
+, names: &(ptr?) >> ptr(*direntpp*)
 , filter: (&dirent) -> int
 , compar: (&ptr(*direntp*), &ptr(*direntp*)) -> int
-) : int = "mac#%" // endfun
-
-fun alphasort // POSIX-2008
+) : int = "mac#%" // end-of-function
+//
+fun
+alphasort // POSIX-2008
   (entp1: &ptr, entp2: &ptr):<> int = "mac#%"
-fun versionsort // GNU-extension
+fun
+versionsort // GNU-extension
   (entp1: &ptr, entp2: &ptr):<> int = "mac#%"
-
+//
 (* ****** ****** *)
-
-fun rewinddir (dirp: !DIRptr1): void = "mac#%"
-
+//
+fun
+rewinddir (dirp: !DIRptr1): void = "mac#%"
+//
 (* ****** ****** *)
-
+//
+fun telldir (dirp: !DIRptr1): off_t = "mac#%"
+//
+(* ****** ****** *)
+//
 fun seekdir
   (dirp: !DIRptr1, off: off_t): void = "mac#%"
 // end of [seekdir]
-
-(* ****** ****** *)
-
-fun telldir (dirp: !DIRptr1): off_t = "mac#%"
-
+//
 (* ****** ****** *)
 
 (* end of [dirent.sats] *)

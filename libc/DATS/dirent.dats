@@ -143,22 +143,32 @@ val ofs = $extfcall
 , $extval (int, "d_name")
 )
 //
-val bsz = ofs + i2sz(dirent$PC_NAME_MAX()+1)
-val [l:addr] (pf, pfgc | p) = malloc_gc (bsz)
-prval pf = $UN.castview0{(dirent?)@l}(pf)
+val bsz =
+  ofs + i2sz(dirent$PC_NAME_MAX()+1)
+//
+val
+[l:addr](pf, pfgc | p) = malloc_gc(bsz)
+//
+prval(pf) =
+  $UN.castview0{(dirent?)@l}(pf)
 var res: ptr
 val err = readdir_r (dirp, !p, res)
 //
 in
 //
-if res > 0 then
-  $UN.castvwtp0{Direntp1}@(pf, pfgc | p)
+if
+res > 0
+then (
+//
+$UN.castvwtp0{Direntp1}@(pf, pfgc | p)
+//
+) (* end of [then] *)
 else let
-  prval () = opt_clear{dirent}(!p)
-  val () = ptr_free{dirent?}(pfgc, pf | p)
+  prval() = opt_clear{dirent}(!p)
+  val ((*freed*)) = ptr_free{dirent?}(pfgc, pf | p)
 in
   $UN.castvwtp0{Direntp0}(the_null_ptr)
-end (* end of [if] *)
+end (* end of [else] *)
 //
 end // end of [readdir_r_gc]
 

@@ -59,28 +59,30 @@ fun fileref_open_opt
 *)
 
 (* ****** ****** *)
-
+//
 fun
-fileref_get_line_charlst (filr: FILEref): charlst0
-
+fileref_get_line_charlst(filr: FILEref): charlst0
+//
 (*
 ** HX: for handling files of "tiny" size
 *)
 fun
-fileref_get_lines_charlstlst (filr: FILEref): list0 (charlst0)
-
+fileref_get_lines_charlstlst(filr: FILEref): list0(charlst0)
+//
 (* ****** ****** *)
-
-fun fileref_get_line_string (filr: FILEref): string
-
+//
+fun
+fileref_get_line_string(filr: FILEref): string
+//
 (*
 ** HX: for handling files of "tiny" size
 *)
-fun fileref_get_lines_stringlst (filr: FILEref): stringlst0
-
+fun
+fileref_get_lines_stringlst(filr: FILEref): stringlst0
+//
 (* ****** ****** *)
 
-fun dirname_get_fnamelst (dirname: string): list0 (string)
+fun dirname_get_fnamelst (dirname: string): list0(string)
 
 (* ****** ****** *)
 

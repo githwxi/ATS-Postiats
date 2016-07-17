@@ -76,7 +76,7 @@ implement
 dirname_get_fnamelst
   (dirname) = let
 //
-vtypedef res = $QUE.qstruct0 (string)
+vtypedef res = $QUE.qstruct0(string)
 //
 fun loop
 (
@@ -86,42 +86,67 @@ fun loop
 var ent: dirent?
 var result: ptr?
 //
-val err = $DIR.readdir_r (dirp, ent, result)
+val err = $DIR.readdir_r(dirp, ent, result)
 //
 in
 //
-if result > 0 then let
-  prval () = opt_unsome{dirent}(ent)
-  val d_name = $DIR.dirent_get_d_name_gc (ent)
-  val () = $QUE.qstruct_insert (res, strptr2string(d_name))
+if
+result > 0
+then let
+//
+  prval() = opt_unsome{dirent}(ent)
+//
+  val d_name =
+    $DIR.dirent_get_d_name_gc(ent)
+  val ((*inserted*)) =
+    $QUE.qstruct_insert(res, strptr2string(d_name))
+//
 in
   loop (dirp, res)
-end else let
-  prval () = opt_unnone{dirent}(ent)
+end // end of [then]
+else let
+  prval() = opt_unnone{dirent}(ent)
 in
   // nothing
-end // end of [if]
+end // end of [else]
 //
 end // end of [loop]
 //
-val dirp = $DIR.opendir (dirname)
+val dirp = $DIR.opendir(dirname)
 //
 in
 //
-if $DIR.DIRptr2ptr(dirp) > 0 then let
+if
+$DIR.DIRptr2ptr(dirp) > 0
+then let
   var res: $QUE.qstruct
-  val () = $QUE.qstruct_initize{string}(res)
-  val () = loop (dirp, res)
-  val res2 = $QUE.qstruct_takeout_list (res)
-  prval () = $QUE.qstruct_uninitize{string}(res)
+//
+  val () =
+  $QUE.qstruct_initize{string}(res)
+//
+  val () = loop(dirp, res)
+//
   val () = $DIR.closedir_exn (dirp)
+//
+  val
+  res2 =
+    $QUE.qstruct_takeout_list(res)
+  // val
+//
+  prval() =
+  $QUE.qstruct_uninitize{string}(res)
+  // prval
+//
 in
-  g0ofg1_list_vt (res2)  
-end else let
-  prval () = $DIR.DIRptr_free_null (dirp)
+//
+g0ofg1_list_vt(res2)
+//
+end // end of [then]
+else let
+  prval() = $DIR.DIRptr_free_null(dirp)
 in
-  list0_nil(*void*)
-end // end of [if]
+  list0_nil((*void*)*)
+end // end of [else]
 //
 end // end of [dirname_get_fnamelst]
 
