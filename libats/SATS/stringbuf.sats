@@ -54,10 +54,20 @@ vtypedef stringbuf = stringbuf_vtype
 fun{} stringbuf$recapacitize ((*void*)): int
 //
 (* ****** ****** *)
-
+//
+(*
 fun{}
 stringbuf_make_nil (cap: sizeGte(1)): stringbuf
-
+*)
+//
+fun{}
+stringbuf_make_nil_int(cap: intGte(1)): stringbuf
+fun{}
+stringbuf_make_nil_size(cap: sizeGte(1)): stringbuf
+//
+overload stringbuf_make_nil with stringbuf_make_nil_int
+overload stringbuf_make_nil with stringbuf_make_nil_size
+//
 (* ****** ****** *)
 
 fun{}

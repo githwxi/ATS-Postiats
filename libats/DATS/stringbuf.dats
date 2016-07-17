@@ -93,23 +93,31 @@ STRINGBUF of (arrayptr(char, m+1), ptr(*cur*), size_t(m))
 assume stringbuf_vtype = stringbuf
 
 (* ****** ****** *)
-
+//
 implement
 {}(*tmp*)
-stringbuf_make_nil
+stringbuf_make_nil_int
+  (cap) =
+  stringbuf_make_nil_size(i2sz(cap))
+//
+implement
+{}(*tmp*)
+stringbuf_make_nil_size
   (cap) = (sbf) where
 {
 //
-prval [m:int] EQINT() = g1uint_get_index (cap)
+prval
+[m:int]
+EQINT() = g1uint_get_index(cap)
 //
-val A = arrayptr_make_uninitized<char> (succ(cap))
+val A = arrayptr_make_uninitized<char>(succ(cap))
 //
-val p_A = ptrcast (A)
+val p_A = ptrcast(A)
 //
-val sbf = STRINGBUF ($UN.castvwtp0{arrayptr(char,m+1)}(A), p_A, cap)
+val sbf = STRINGBUF($UN.castvwtp0{arrayptr(char,m+1)}(A), p_A, cap)
 //
-} // end of [stringbuf_make_cap]
-
+} (* end of [stringbuf_make_cap] *)
+//
 (* ****** ****** *)
 
 implement

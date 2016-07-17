@@ -139,12 +139,16 @@ stream_vt_concat
 //
 fun{a:vt0p}
 stream_vt_foreach
-  (xs: stream_vt(INV(a))): void
+  (stream_vt(INV(a))): stream_vt_con(a)
 fun{
 a:vt0p}{env:vt0p
 } stream_vt_foreach_env
-  (xs: stream_vt(INV(a)), &env >> _): void
+  (stream_vt(INV(a)), env: &env >> _): stream_vt_con(a)
 //
+fun{
+a:vt0p}{env:vt0p
+} stream_vt_foreach$cont
+  (x: &a, env: &env >> _): bool
 fun{
 a:vt0p}{env:vt0p
 } stream_vt_foreach$fwork
