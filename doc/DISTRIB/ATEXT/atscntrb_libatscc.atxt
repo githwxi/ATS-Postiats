@@ -158,12 +158,21 @@ ATSCNTRB/libatscc\
 
 #packfilename("libatscc2js/CATS/basics_cats.js")
 #packfilename("libatscc2js/CATS/integer_cats.js")
+#packfilename("libatscc2js/CATS/bool_cats.js")
 #packfilename("libatscc2js/CATS/float_cats.js")
 #packfilename("libatscc2js/CATS/string_cats.js")
+#packfilename("libatscc2js/CATS/gvalue_cats.js")
 #packfilename("libatscc2js/CATS/JSmath_cats.js")
 #packfilename("libatscc2js/CATS/JSdate_cats.js")
 #packfilename("libatscc2js/CATS/JSarray_cats.js")
 #packfilename("libatscc2js/CATS/JSglobal_cats.js")
+
+#packfilename("libatscc2js/CATS/PRINT/print_store_cats.js")
+
+#packfilename("libatscc2js/CATS/Ajax/Ajax_cats.js")
+#packfilename("libatscc2js/CATS/Bacon.js/baconjs_cats.js")
+
+#packfilename("libatscc2js/CATS/HTML/canvas-2d/canvas2d_cats.js")
 
 (* ****** ****** *)
 
@@ -371,7 +380,7 @@ ATSCNTRB/libatscc\
 (* ****** ****** *)
 
 #packfilename("libatscc2py3/DATS/print.dats")
-#packfilename("libatscc2py3/DATS/interange.dats")
+#packfilename("libatscc2py3/DATS/intrange.dats")
 
 (* ****** ****** *)
 

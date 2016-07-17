@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2016-07-15:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/IDen4z1NXBw"
+>Atscc2clj: from ATS to Clojure!</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2016-07-10:<br>
 <a
  href="http://www.slideshare.net/master_q/realtime-os-system-state-captured-by-ats-language"
@@ -142,6 +150,8 @@ at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
 
+<!--
+
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/lK9WrvIT5i8"
 >Support for $d2ctype is added</a><br>
@@ -163,8 +173,6 @@ ATS-2015-08-29:<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 ATS-2015-08-07:<br>
 <a

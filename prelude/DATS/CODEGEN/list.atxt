@@ -952,6 +952,35 @@ end // end of [list_exists_cloref]
 
 implement
 {x}(*tmp*)
+list_iexists_cloref
+  {n}(xs, pred) = let
+//
+prval() = lemma_list_param(xs)
+//
+fun
+loop
+{ i,j:nat
+| i+j == n
+} .<n-i>.
+(
+  i: int(i), xs: list(x, j)
+) :<> bool =
+(
+  case+ xs of
+  | list_nil() => false
+  | list_cons(x, xs) =>
+      if pred(i, x) then true else loop(i+1, xs)
+    // end of [list_cons]
+)
+//
+in
+  loop(0, xs)
+end // end of [list_iexists_cloref]
+
+#atscode_separator()
+
+implement
+{x}(*tmp*)
 list_forall
   (xs) = loop(xs) where
 {
@@ -967,6 +996,8 @@ case+ xs of
 //
 } (* end of [list_forall] *)
 
+#atscode_separator()
+
 implement
 {x}(*tmp*)
 list_forall_cloref
@@ -978,6 +1009,35 @@ list_forall$pred<x2>(x2) = pred($UN.cast{x}(x2))
 in
   list_forall<x> (xs)
 end // end of [list_forall_cloref]
+
+#atscode_separator()
+
+implement
+{x}(*tmp*)
+list_iforall_cloref
+  {n}(xs, pred) = let
+//
+prval() = lemma_list_param(xs)
+//
+fun
+loop
+{ i,j:nat
+| i+j == n
+} .<n-i>.
+(
+  i: int(i), xs: list(x, j)
+) :<> bool =
+(
+  case+ xs of
+  | list_nil() => true
+  | list_cons(x, xs) =>
+      if pred(i, x) then loop(i+1, xs) else false
+    // end of [list_cons]
+)
+//
+in
+  loop(0, xs)
+end // end of [list_iforall_cloref]
 
 #atscode_separator()
 
@@ -2017,7 +2077,7 @@ list_foreach2$cont (x, y, env) = true
 
 implement
 {x}(*tmp*)
-list_iforeach (xs) = let
+list_iforeach(xs) = let
   var env: void = () in list_iforeach_env<x><void> (xs, env)
 end // end of [list_iforeach]
 
@@ -2059,7 +2119,34 @@ end // end of [list_iforeach_env]
 
 implement
 {x}{env}(*tmp*)
-list_iforeach$cont (i, x, env) = true
+list_iforeach$cont(i, x, env) = true
+
+#atscode_separator()
+
+implement
+{x}(*tmp*)
+list_iforeach_cloref
+  {n}(xs, fwork) = let
+//
+prval() = lemma_list_param(xs)
+//
+fun
+loop
+{
+  i,j:nat
+| i+j == n
+} .<n-i>.
+(
+  i: int(i), xs: list(x, j)
+) : void =
+//
+case+ xs of
+| list_nil () => ()
+| list_cons (x, xs) => (fwork (i, x); loop (i+1, xs))
+//
+in
+  loop (0, xs)
+end // end of [list_iforeach_cloref]
 
 #atscode_separator()
 
@@ -2067,28 +2154,34 @@ implement
 {x}(*tmp*)
 list_iforeach_funenv
   {v}{vt}{n}{fe}
-  (pfv | xs, f, env) = let
+(
+  pfv | xs, fwork, env
+) = let
 //
 prval() = lemma_list_param(xs)
 //
-fun loop
-  {i:nat | i <= n} .<n-i>. (
+fun
+loop
+{ i:nat
+| i <= n
+} .<n-i>.
+(
   pfv: !v
 | i: int i
 , xs: list (x, n-i)
-, f: (!v | natLt(n), x, !vt) -<fun,fe> void
+, fwork: (!v | natLt(n), x, !vt) -<fun,fe> void
 , env: !vt
 ) :<fe> int n = (
 //
 case+ xs of
 | list_nil() => i
 | list_cons(x, xs) => let
-    val () = f (pfv | i, x, env) in loop (pfv | i+1, xs, f, env)
+    val () = fwork (pfv | i, x, env) in loop (pfv | i+1, xs, fwork, env)
   end // end of [list_cons]
 ) (* end of [loop] *)
 //
 in
-  loop (pfv | 0, xs, f, env)
+  loop (pfv | 0, xs, fwork, env)
 end // end of [list_iforeach_funenv]
 
 #atscode_separator()
