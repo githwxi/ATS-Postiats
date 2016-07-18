@@ -60,6 +60,17 @@ overload .repeat with int_repeat_cloref
 (* ****** ****** *)
 //
 fun{}
+int_forall_cloref
+  (n: int, f: cfun1 (int, bool)): bool
+fun{}
+int_forall_method
+  (n: int) (f: cfun1 (int, bool)): bool
+//
+overload .forall with int_forall_method
+//
+(* ****** ****** *)
+//
+fun{}
 int_foreach_cloref
   (n: int, f: cfun1 (int, void)): void
 fun{}
@@ -79,6 +90,17 @@ int_foldleft_method
   (int, TYPE(res))(ini: res, f: cfun2 (res, int, res)): res
 //
 overload .foldleft with int_foldleft_method
+//
+(* ****** ****** *)
+//
+fun{}
+intrange_forall_cloref
+  (l: int, r: int, f: cfun1 (int, bool)): bool
+fun{}
+intrange_forall_method
+  (lr: @(int, int)) (f: cfun1 (int, bool)): bool
+//
+overload .forall with intrange_forall_method
 //
 (* ****** ****** *)
 //

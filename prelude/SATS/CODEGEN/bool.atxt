@@ -77,25 +77,33 @@ typedef boolLte (b: bool) = [a: bool | a <= b] bool (a)
 typedef boolGte (b: bool) = [a: bool | a >= b] bool (a)
 
 #atscode_separator()
-
-fun neg_bool0
+//
+fun
+neg_bool0
   (b: bool):<> bool = "mac\#%"
+//
 overload ~ with neg_bool0 of 0
 overload not with neg_bool0 of 0
-
-#atscode_separator()
-
-fun add_bool0_bool0
-  (b1: bool, b2: bool):<> bool = "mac\#%"
-overload + with add_bool0_bool0 of 0
-fun mul_bool0_bool0
-  (b1: bool, b2: bool):<> bool = "mac\#%"
-overload * with mul_bool0_bool0 of 0
-
+//
 #atscode_separator()
 //
-fun xor_bool0_bool0
+fun
+add_bool0_bool0
   (b1: bool, b2: bool):<> bool = "mac\#%"
+fun
+mul_bool0_bool0
+  (b1: bool, b2: bool):<> bool = "mac\#%"
+//
+overload + with add_bool0_bool0 of 0
+overload * with mul_bool0_bool0 of 0
+//
+#atscode_separator()
+//
+fun
+xor_bool0_bool0
+  (b1: bool, b2: bool):<> bool = "mac\#%"
+//
+overload xor with xor_bool0_bool0 of 0
 //
 #atscode_separator()
 
@@ -113,8 +121,11 @@ val fopr_d = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
-fun %s_bool0_bool0
+val
+ent =
+sprintf ("\
+fun
+%s_bool0_bool0
   (b1: bool, b2: bool):<> bool = \"mac#%%\"
 overload %s with %s_bool0_bool0 of 0\
 ", @(
@@ -226,6 +237,8 @@ xor_bool1_bool1
   {b1,b2:bool}
   (b1: bool b1, b2: bool b2):<> bool((b1)==(~b2)) = "mac\#%"
 //
+overload xor with xor_bool1_bool1 of 20
+//
 #atscode_separator()
 
 %{
@@ -249,7 +262,9 @@ val fopr_d = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val
+ent =
+sprintf ("\
 fun
 %s_bool1_bool1 {b1,b2:bool}
   (b1: bool (b1), b2: bool (b2)) :<> bool (b1 %s b2) = \"mac#%%\"

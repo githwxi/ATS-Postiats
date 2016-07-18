@@ -161,7 +161,7 @@ infixl ( && ) andalso land
 (* ****** ****** *)
 
 infixl 20 ||
-infixl ( || ) orelse lor lxor
+infixl ( || ) xor orelse lor lxor
 
 (* ****** ****** *)
 

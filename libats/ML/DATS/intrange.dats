@@ -76,6 +76,19 @@ end // end of [int_repeat_cloref]
 //
 implement
 {}(*tmp*)
+int_forall_cloref
+  (n, f) =
+  intrange_forall_cloref<> (0, n, f)
+//
+implement
+{}(*tmp*)
+int_forall_method
+  (n) = lam(f) => int_forall_cloref (n, f)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
 int_foreach_cloref
   (n, f) =
   intrange_foreach_cloref<> (0, n, f)
@@ -98,6 +111,36 @@ implement
 int_foldleft_method
   (n, tres) =
   lam(ini, f) => int_foldleft_cloref (n, ini, f)
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+intrange_forall_cloref
+  (l, r, f) = let
+//
+fun
+loop
+(
+  l: int, r: int
+, f: cfun1(int, bool)
+) : bool = (
+//
+if l < r
+  then (
+    if f(l) then loop(l+1, r, f) else false
+  ) else true
+//
+) (* end of [loop] *)
+//
+in
+  loop (l, r, f)
+end // end of [intrange_forall_cloref]
+//
+implement
+{}(*tmp*)
+intrange_forall_method
+  ( @(l, r) ) = lam(f) => intrange_forall_cloref (l, r, f)
 //
 (* ****** ****** *)
 
