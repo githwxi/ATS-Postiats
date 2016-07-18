@@ -152,4 +152,33 @@ end // end of [dirname_get_fnamelst]
 
 (* ****** ****** *)
 
+implement
+streamize_dirname_fname
+  (dirname) = let
+//
+val
+dirp = $DIR.opendir(dirname)
+//
+val ents =
+(
+if
+$DIR.DIRptr2ptr(dirp) > 0
+then $DIR.streamize_DIRptr_dirent<>(dirp)
+else let
+  prval() = $DIR.DIRptr_free_null(dirp) in stream_vt_make_nil()
+end // end of [else]
+) : stream_vt(dirent)
+//
+in
+//
+stream_vt_map_cloptr
+(
+  ents
+, lam(ent) => strptr2string($DIR.dirent_get_d_name_gc(ent))
+) (* end of [stream_vt_map_cloptr] *)
+//
+end // end of [streamize_dirname_fname]
+
+(* ****** ****** *)
+
 (* end of [filebas_dirent.dats] *)

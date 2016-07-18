@@ -81,9 +81,11 @@ fun
 fileref_get_lines_stringlst(filr: FILEref): stringlst0
 //
 (* ****** ****** *)
-
-fun dirname_get_fnamelst (dirname: string): list0(string)
-
+//
+fun dirname_get_fnamelst(dirname: string): list0(string)
+//
+fun streamize_dirname_fname(dirname: string): stream_vt(string)
+//
 (* ****** ****** *)
 
 (* end of [filebas.sats] *)
