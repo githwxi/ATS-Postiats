@@ -62,10 +62,23 @@ string_char(str) =
 
 implement
 {}(*tmp*)
+string_nil() = let
+//
+val (pfat, pfgc | p0) = malloc_gc(i2sz(1))
+val ((*void*)) = $UN.ptr0_set<char> (p0, '\000')
+//
+in
+  $UN.castvwtp0{strnptr(0)}((pfat, pfgc | p0))
+end // end of [string_nil]
+
+implement
+{}(*tmp*)
 string_sing(chr) = let
-  val (pfat, pfgc | p0) = malloc_gc(i2sz(2))
-  val ((*void*)) = $UN.ptr0_set<char> (p0, chr)
-  val ((*void*)) = $UN.ptr0_set_at<char> (p0, 1, '\000')
+//
+val (pfat, pfgc | p0) = malloc_gc(i2sz(2))
+val ((*void*)) = $UN.ptr0_set<char> (p0, chr)
+val ((*void*)) = $UN.ptr0_set_at<char> (p0, 1, '\000')
+//
 in
   $UN.castvwtp0{strnptr(1)}((pfat, pfgc | p0))
 end // end of [string_sing]

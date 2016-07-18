@@ -198,9 +198,11 @@ uchar2int1
 //
 #atscode_separator()
 //
-fun char1_iseqz
+fun
+char1_iseqz
   {c:int}(c: char(c)):<> bool(c == 0) = "mac\#%"
-fun char1_isneqz
+fun
+char1_isneqz
   {c:int}(c: char(c)):<> bool(c != 0) = "mac\#%"
 //
 overload iseqz with char1_iseqz of 10

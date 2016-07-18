@@ -230,5 +230,14 @@ fun seekdir
 // end of [seekdir]
 //
 (* ****** ****** *)
+//
+// HX-2016-07-17: Extension
+//
+(* ****** ****** *)
+//
+fun{}
+streamize_DIRptr_dirent(DIRptr1): stream_vt(dirent)
+//
+(* ****** ****** *)
 
 (* end of [dirent.sats] *)

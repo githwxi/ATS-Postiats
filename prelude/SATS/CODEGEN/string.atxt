@@ -111,10 +111,12 @@ fun{}
 string_char (str: string):<> char
 
 #atscode_separator()
-
+//
 fun{}
-string_sing (chr: charNZ):<!wrt> strnptr (1)
-
+string_nil ((*void*)):<!wrt> strnptr(0)
+fun{}
+string_sing (chr: charNZ):<!wrt> strnptr(1)
+//
 #atscode_separator()
 //
 fun{
