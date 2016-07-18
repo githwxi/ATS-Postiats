@@ -662,6 +662,62 @@ end : stream_vt_con(a) // end of [let]
 #atscode_separator()
 
 implement
+{a}(*tmp*)
+stream_vt_filterlin
+  (xs) = auxmain(xs) where
+{
+//
+fun
+auxmain
+(
+xs: stream_vt(a)
+) : stream_vt(a) = $ldelay
+(
+//
+let
+  val xs_con = !xs
+in
+//
+case+ xs_con of
+| ~stream_vt_nil
+    ((*_*)) => stream_vt_nil()
+  // end of [stream_vt_nil]
+| @stream_vt_cons
+    (x, xs1) => let
+    val test =
+      stream_vt_filterlin$pred<a>(x)
+    // end of [val]
+  in
+    if test
+      then let
+        val () =
+        xs1 := auxmain(xs1)
+      in
+        fold@{a}(xs_con); xs_con
+      end // end of [then]
+      else let
+        val () =
+          stream_vt_filterlin$clear<a>(x)
+        // end of [val]
+      in
+        let val xs1 = xs1 in free@{a}(xs_con); !(auxmain(xs1)) end
+      end // end of [else]
+    // end of [if]
+  end // end of [stream_vt_cons]
+//
+end : stream_vt_con(a) // end of [let]
+//
+,
+//
+~(xs) // called when the stream is freed
+//
+) (* end of auxmain *)
+//
+} (* end of [stream_vt_filterlin] *)
+
+#atscode_separator()
+
+implement
 {a}{b}(*tmp*)
 stream_vt_map(xs) = let
 //
