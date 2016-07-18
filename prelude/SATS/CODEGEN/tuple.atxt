@@ -117,6 +117,46 @@ a0,a1,a2,a3:t0p
 
 fun{
 a0,a1:t0p
+} tupval2_equal
+  (x: @(a0, a1), y: @(a0, a1)):<> bool
+// end of [tupval2_equal]
+
+fun{
+a0,a1,a2:t0p
+} tupval3_equal
+  (x: @(a0, a1, a2), y: @(a0, a1, a2)):<> bool
+// end of [tupval3_equal]
+
+fun{
+a0,a1,a2,a3:t0p
+} tupval4_equal
+  (x: @(a0, a1, a2, a3), y: @(a0, a1, a2, a3)):<> bool
+// end of [tupval4_equal]
+
+#atscode_separator()
+
+fun{
+a0,a1:vt0p
+} tupref2_equal
+  (x: &(a0, a1), y: &(a0, a1)):<> bool
+// end of [tupref2_equal]
+
+fun{
+a0,a1,a2:vt0p
+} tupref3_equal
+  (x: &(a0, a1, a2), y: &(a0, a1, a2)):<> bool
+// end of [tupref3_equal]
+
+fun{
+a0,a1,a2,a3:vt0p
+} tupref4_equal
+  (x: &(a0, a1, a2, a3), y: &(a0, a1, a2, a3)):<> bool
+// end of [tupref4_equal]
+
+#atscode_separator()
+
+fun{
+a0,a1:t0p
 } tupval2_compare
   (x: @(a0, a1), y: @(a0, a1)):<> int
 // end of [tupval2_compare]
