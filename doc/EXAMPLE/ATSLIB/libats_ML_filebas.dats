@@ -90,6 +90,27 @@ val () = fprintln! (out, "fnames(..) = ", fnames)
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val out = stdout_ref
+//
+val fnames =
+  streamize_dirname_fname (".")
+//
+val ((*void*)) = stream_vt_fprint(fnames, out, 10)
+val ((*void*)) = fprint_newline(out)
+//
+val fnames =
+  streamize_dirname_fname ("..")
+//
+val ((*void*)) = stream_vt_fprint(fnames, out, 10)
+val ((*void*)) = fprint_newline(out)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

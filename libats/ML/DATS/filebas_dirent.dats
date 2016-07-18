@@ -38,13 +38,16 @@
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
+staload _(*UN*) = "prelude/DATS/unsafe.dats"
+
 
 (* ****** ****** *)
 
 staload _(*INT*) = "prelude/DATS/integer.dats"
 staload _(*STRING*) = "prelude/DATS/string.dats"
 staload _(*STRING*) = "prelude/DATS/strptr.dats"
-staload _(*UNSAFE*) = "prelude/DATS/unsafe.dats"
+staload _(*STREAM*) = "prelude/DATS/stream.dats"
+staload _(*STREAM*) = "prelude/DATS/stream_vt.dats"
 
 (* ****** ****** *)
 //
