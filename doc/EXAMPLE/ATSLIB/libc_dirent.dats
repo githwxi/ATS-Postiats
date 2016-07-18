@@ -170,7 +170,29 @@ val () = arrayptr_freelin ($UN.castvwtp0{arrayptr(ptr, n)}(namelst), asz)
 //
 val () = println! ("[namelst] is properly freed.")
 //
-} // end of [val]
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val dirp = opendir_exn (".")
+//
+val ents = streamize_DIRptr_dirent(dirp)
+//
+val names =
+stream_vt_map_cloptr<dirent><Strptr1>(ents, lam(x) => dirent_get_d_name_gc(x))
+//
+val ((*void*)) =
+stream_vt_foreach_cloptr
+(
+  names
+, lam(x) =>
+  let val x = x in println! ("streamize: ", $UN.strptr2string(x)); strptr_free(x) end
+) (* stream_vt_foreach_cloptr *)
+//
+} (* end of [val] *)
 
 (* ****** ****** *)
 
