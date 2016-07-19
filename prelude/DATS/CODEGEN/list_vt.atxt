@@ -1230,6 +1230,38 @@ list_vt_iforeach$cont (i, x, env) = true
 
 #atscode_separator()
 
+implement
+{a}(*tmp*)
+streamize_list_vt_elt
+  (xs) = let
+//
+fun
+auxmain
+(
+  xs: List_vt(a)
+) : stream_vt(a) = $ldelay
+(
+//
+(
+case+ xs of
+| ~list_vt_nil
+    () => stream_vt_nil()
+| ~list_vt_cons
+    (x, xs) =>
+    stream_vt_cons(x, auxmain(xs))
+) : stream_vt_con(a)
+//
+,
+//
+list_vt_free(xs)
+) (* end of [auxmain] *)
+//
+in
+  $effmask_all(auxmain(xs))
+end (* end of [streamize_list_vt_elt] *)
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

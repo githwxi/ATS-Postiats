@@ -83,6 +83,13 @@ fun{a:t0p}
 stream_vt_con_free (xs: stream_vt_con(a)):<!wrt> void
 
 #atscode_separator()
+
+fun{a:t0p}
+stream_vt_take
+  (xs: stream_vt(INV(a)), n: intGte(0)): List0_vt(a)
+// end of [stream_vt_take]
+
+#atscode_separator()
 //
 fun{a:t0p}
 stream_vt_drop_exn

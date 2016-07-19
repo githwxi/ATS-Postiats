@@ -169,6 +169,51 @@ stream_vt_con_free
 ) (* stream_vt_con_free *)
 //
 #atscode_separator()
+
+implement
+{a}(*tmp*)
+stream_vt_take
+  (xs, n) = let
+//
+fun
+loop
+(
+  xs: stream_vt(a)
+, rem: int, res: &ptr? >> List0_vt(a)
+) : void =
+(
+if
+(rem > 0)
+then (
+case+ !xs of
+| ~stream_vt_nil
+    () =>
+  (
+    res := list_vt_nil()
+  )
+| ~stream_vt_cons
+    (x, xs) => () where
+  {
+    val () =
+    res :=
+    list_vt_cons{a}{0}(x, _)
+    val+
+    list_vt_cons(_, res1) = res
+    val () = loop(xs, rem-1, res1)
+//
+    prval ((*folded*)) = fold@(res)
+//
+  } (* end of [stream_vt_cons] *)
+) else (
+  stream_vt_free(xs); res := list_vt_nil()
+) (* end of [if] *)
+) (* end of [loop] *)
+//
+in
+  let var res: ptr in loop(xs, n, res); res end
+end // end of [stream_vt_take]
+
+#atscode_separator()
 //
 implement
 {a}(*tmp*)
