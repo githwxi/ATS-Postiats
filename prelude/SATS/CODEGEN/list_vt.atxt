@@ -512,7 +512,7 @@ overload isneqz with list_vt_is_cons
 //
 overload length with list_vt_length
 //
-overload copy with list_vt_free
+overload copy with list_vt_copy
 overload free with list_vt_free
 //
 overload print with print_list_vt
