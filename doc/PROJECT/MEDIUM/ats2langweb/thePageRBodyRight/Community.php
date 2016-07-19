@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2016-07-18:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/hCINvUoyWao"
+>ATS2-0.2.9 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2016-07-15:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/IDen4z1NXBw"
@@ -134,6 +142,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/3XXa-18GLOc"
 >Slides for learning ATS/LF</a><br>
@@ -149,8 +159,6 @@ by <a href="http://www.masterq.net">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
-
-<!--
 
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/lK9WrvIT5i8"

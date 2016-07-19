@@ -9,8 +9,9 @@
 //
 (* ****** ****** *)
 
-overload xor with xor_bool0_bool0 of 0
-overload xor with xor_bool1_bool1 of 20
+nonfix xor
+overload xor with xor_bool0_bool0 of 100
+overload xor with xor_bool1_bool1 of 120
 
 (* ****** ****** *)
 
