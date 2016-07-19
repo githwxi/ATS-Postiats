@@ -102,17 +102,49 @@ ATSCNTRB/libatscc\
 (* ****** ****** *)
 
 #packfilename("basics.sats")
+
 #packfilename("SATS/list.sats")
+#packfilename("SATS/option.sats")
 #packfilename("SATS/stream.sats")
+
+#packfilename("SATS/gvalue.sats")
+
 #packfilename("SATS/intrange.sats")
+#packfilename("SATS/reference.sats")
+
 #packfilename("SATS/arrayref.sats")
 #packfilename("SATS/matrixref.sats")
+#packfilename("SATS/gmatrixref.sats")
+
+#packfilename("SATS/slistref.sats")
+#packfilename("SATS/qlistref.sats")
+
+#packfilename("SATS/funarray.sats")
+
+#packfilename("SATS/ML/list0.sats")
+#packfilename("SATS/ML/array0.sats")
 
 (* ****** ****** *)
 
+#packfilename("DATS/basics.dats")
+
 #packfilename("DATS/list.dats")
+#packfilename("DATS/option.dats")
 #packfilename("DATS/stream.dats")
+
 #packfilename("DATS/intrange.dats")
+
+#packfilename("DATS/arrayref.dats")
+#packfilename("DATS/matrixref.dats")
+#packfilename("DATS/gmatrixref.dats")
+
+#packfilename("DATS/slistref.dats")
+#packfilename("DATS/qlistref.dats")
+
+#packfilename("DATS/funarray.dats")
+
+#packfilename("DATS/ML/list0.dats")
+#packfilename("DATS/ML/array0.dats")
 
 (* ****** ****** *)
 //
@@ -132,6 +164,10 @@ ATSCNTRB/libatscc\
 
 (* ****** ****** *)
 
+#packfilename("libatscc2js/SATS/gvalue.sats")
+
+(* ****** ****** *)
+
 #packfilename("libatscc2js/SATS/print.sats")
 #packfilename("libatscc2js/SATS/filebas.sats")
 
@@ -147,12 +183,20 @@ ATSCNTRB/libatscc\
 #packfilename("libatscc2js/SATS/list.sats")
 #packfilename("libatscc2js/SATS/option.sats")
 #packfilename("libatscc2js/SATS/stream.sats")
+
 #packfilename("libatscc2js/SATS/intrange.sats")
+#packfilename("libatscc2js/SATS/reference.sats")
+
 #packfilename("libatscc2js/SATS/arrayref.sats")
+#packfilename("libatscc2js/SATS/matrixref.sats")
+
 #packfilename("libatscc2js/SATS/slistref.sats")
 #packfilename("libatscc2js/SATS/qlistref.sats")
-#packfilename("libatscc2js/SATS/matrixref.sats")
-#packfilename("libatscc2js/SATS/reference.sats")
+
+#packfilename("libatscc2js/SATS/funarray.sats")
+
+#packfilename("libatscc2js/SATS/ML/list0.sats")
+#packfilename("libatscc2js/SATS/ML/array0.sats")
 
 (* ****** ****** *)
 
@@ -182,13 +226,21 @@ ATSCNTRB/libatscc\
 (* ****** ****** *)
 
 #packfilename("libatscc2js/DATS/list.dats")
+#packfilename("libatscc2js/DATS/option.dats")
 #packfilename("libatscc2js/DATS/stream.dats")
 #packfilename("libatscc2js/DATS/intrange.dats")
+#packfilename("libatscc2js/DATS/reference.dats")
+
 #packfilename("libatscc2js/DATS/arrayref.dats")
+#packfilename("libatscc2js/DATS/matrixref.dats")
+
 #packfilename("libatscc2js/DATS/slistref.dats")
 #packfilename("libatscc2js/DATS/qlistref.dats")
-#packfilename("libatscc2js/DATS/matrixref.dats")
-#packfilename("libatscc2js/DATS/reference.dats")
+
+#packfilename("libatscc2js/DATS/funarray.dats")
+
+#packfilename("libatscc2js/DATS/ML/list0.dats")
+#packfilename("libatscc2js/DATS/ML/array0.dats")
 
 (* ****** ****** *)
 //
