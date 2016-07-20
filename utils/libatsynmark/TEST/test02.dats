@@ -25,7 +25,8 @@ dynload "./../dynloadall.dats"
 
 (* ****** ****** *)
 
-fun fileref_get_tokenlst
+fun
+fileref_get_tokenlst
   (inp: FILEref): tokenlst_vt = let
 //
 val cs = char_list_vt_make_file (inp)
@@ -43,7 +44,8 @@ end // end of [fileref_get_tokenlst]
 (* ****** ****** *)
 
 implement
-main (argc, argv) = let
+main( argc
+    , argv ) = let
 //
 fun loop (
   xs: psynmarklst_vt
@@ -70,15 +72,19 @@ val () = (
     | "-d" => stadyn := 1
     | "--static" => stadyn := 0
     | "--dynamic" => stadyn := 1
-    | _ => ()
+    | _ (* rest *) => ((*void*))
   ) // end of [if]
 ) : void // end of [val]
 //
 val inp = stdin_ref
-val toks = fileref_get_tokenlst (inp)
-val psms = listize_token2psynmark (toks)
-val () = list_vt_free (toks)
-val () = loop (psms)
+//
+val toks =
+  fileref_get_tokenlst (inp)
+val psms =
+  listize_token2psynmark (toks)
+//
+val ((*void*)) = list_vt_free (toks)
+val ((*void*)) = loop (psms)
 //
 in
   // nothing

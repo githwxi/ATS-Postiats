@@ -20,7 +20,8 @@ dynload "./../dynloadall.dats"
 
 (* ****** ****** *)
 
-fun fileref_get_tokenlst
+fun
+fileref_get_tokenlst
   (inp: FILEref): tokenlst_vt = let
 //
 val cs = char_list_vt_make_file (inp)
