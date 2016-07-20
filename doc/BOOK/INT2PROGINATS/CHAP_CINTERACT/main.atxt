@@ -667,9 +667,13 @@ By assigning an interface to #dyncode("cons2_make") in ATS, we can readily
 check whether #dyncode("cons2_make") behaves as expected:
 
 #dats2xhtml('\
+//
 extern
-fun cons2_make (int, double): abc = "mac#"
-val-cons2 (1, 2.34) = cons2_make (1, 2.34)
+fun
+cons2_make(int, double): abc = "mac#"
+//
+val-cons2(1, 2.34) = cons2_make(1, 2.34)
+//
 ')
 
 ')
