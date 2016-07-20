@@ -4,91 +4,113 @@
 
 ######
 
-all::
+allup::
 
-all:: \
+allup :: \
 prop-logic
-prop-logic:: ; make -C prop-logic all
+prop-logic:: ; \
+make -C prop-logic all upload_main
 
-all:: \
+allup :: \
 file-copying
-file-copying:: ; make -C file-copying all
+file-copying:: ; \
+make -C file-copying all upload_main
 
-all:: \
+allup :: \
 list-folding
-list-folding:: ; make -C list-folding all
+list-folding:: ; \
+make -C list-folding all upload_main
 
-all:: \
+allup :: \
 loop-as-tailrec
-loop-as-tailrec:: ; make -C loop-as-tailrec all
+loop-as-tailrec:: ; \
+make -C loop-as-tailrec all upload_main
 
-all:: \
+allup :: \
 HanoiTowers
-HanoiTowers:: ; make -C HanoiTowers all
+HanoiTowers:: ; \
+make -C HanoiTowers all upload_main
 
-all:: \
+allup :: \
 word-counting
-word-counting:: ; make -C word-counting all
+word-counting:: ; \
+make -C word-counting all upload_main
 
-all:: \
+allup :: \
 stack-array
-stack-array:: ; make -C stack-array all
+stack-array:: ; \
+make -C stack-array all upload_main
 
-all:: \
+allup :: \
 queue-sllist2
-queue-sllist2:: ; make -C queue-sllist2 all
+queue-sllist2:: ; \
+make -C queue-sllist2 all upload_main
 
-all:: \
+allup :: \
 mergesort
 mergesort:: ; make -C mergesort all
 
-all:: \
+allup :: \
 sorting-linear-lists
-sorting-linear-lists:: ; make -C sorting-linear-lists all
+sorting-linear-lists:: ; \
+make -C sorting-linear-lists all upload_main
 
-all:: \
+allup :: \
 DiningPhil
-DiningPhil:: ; make -C DiningPhil all
+DiningPhil:: ; \
+make -C DiningPhil all upload_main
 
-all:: \
+allup :: \
 DiningPhil2
-DiningPhil2:: ; make -C DiningPhil2 all
+DiningPhil2:: ; \
+make -C DiningPhil2 all upload_main
 
-all:: \
+allup :: \
 Producer-Consumer
-Producer-Consumer:: ; make -C Producer-Consumer all
+Producer-Consumer:: ; \
+make -C Producer-Consumer all upload_main
 
-all:: \
+allup :: \
 Readers-and-Writers
-Readers-and-Writers:: ; make -C Readers-and-Writers all
+Readers-and-Writers:: ; \
+make -C Readers-and-Writers all upload_main
 
-all:: \
+allup :: \
 IPC-hiredis
 IPC-hiredis:: ; make -C IPC-hiredis all
 
-all:: \
+allup :: \
 http-server
 http-server:: ; make -C http-server all
 
-all:: \
+allup :: \
 Sierpinski-3angle
-Sierpinski-3angle:: ; make -C Sierpinski-3angle all
+Sierpinski-3angle:: ; \
+make -C Sierpinski-3angle all upload_main
 
-all:: \
+allup :: \
 PwTP-bool-vs-prop
-PwTP-bool-vs-prop:: ; make -C PwTP-bool-vs-prop all
+PwTP-bool-vs-prop:: ; \
+make -C PwTP-bool-vs-prop all upload_main
 
-all:: \
+allup :: \
 parsing-cmbntr-cps
-parsing-cmbntr-cps:: ; make -C parsing-cmbntr-cps all
+parsing-cmbntr-cps:: ; \
+make -C parsing-cmbntr-cps all upload_main
 
-all:: \
+allup :: \
 ssntyped-channels-1
-ssntyped-channels-1:: ; make -C ssntyped-channels-1 all
+ssntyped-channels-1:: ; \
+make -C ssntyped-channels-1 all upload_main
 
-all:: \
+allup :: \
 ssntyped-channels-2
-ssntyped-channels-2:: ; make -C ssntyped-channels-2 all
+ssntyped-channels-2:: ; \
+make -C ssntyped-channels-2 all upload_main
+
+allup :: \
+linear-streams
+linear-streams:: ; make -C linear-streams all upload_main
 
 ######
 
@@ -140,6 +162,7 @@ uploadall::upload_PwTP-bool-vs-prop
 uploadall::upload_parsing-cmbntr-cps
 uploadall::upload_ssntyped-channels-1
 uploadall::upload_ssntyped-channels-2
+uploadall::upload_linear-streams
 
 ######
 

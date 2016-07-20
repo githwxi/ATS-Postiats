@@ -305,8 +305,9 @@ implementation of file-copying based on [fcopy3] in fcopy3.dats, where
 
 <hr size="2">
 
+<p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
-
+</p>
 #patspage_script()
 </body>
 </html>

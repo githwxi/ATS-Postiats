@@ -365,7 +365,9 @@ of a http-server that is essentially equivalent to the one given above.
 
 <hr size="2">
 
+<p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
 
 </body>
 </html>

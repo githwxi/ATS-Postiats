@@ -51,51 +51,53 @@ class="patsyntax">
 #pats2xhtml_sats('\
 //
 absvtype
-buffer_vtype (a:vt@ype+, m:int, n: int) = ptr
+buffer_vtype(a:vt@ype+, m:int, n: int) = ptr
 //
 vtypedef
-buffer (a:vt0p) = [m,n:int] buffer_vtype (a, m, n)
+buffer(a:vt0p) = [m,n:int] buffer_vtype(a, m, n)
 vtypedef
-buffer (a:vt0p, m:int, n:int) = buffer_vtype (a, m, n)
+buffer(a:vt0p, m:int, n:int) = buffer_vtype(a, m, n)
 //
 ')</pre>
 
-Given a type T and two integers M and N, the type [buffer(T, M, N)] is for
-a buffer of capacity M in which N elements of the type T are stored.  The
-following lemma can be used to establish the property that M >= N and N >=
-0 (for the purpose of constraint-solving):
+Given a type T and two integers M and N, the type
+#stacode("buffer(T, M, N)") is for a buffer of capacity M in which N
+elements of the type T are stored.  The following lemma can be used to
+establish the property that M >= N and N >= 0 (for the purpose of
+constraint-solving):
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
 praxi
 lemma_buffer_param{a:vt0p}
-  {m,n:int}(!buffer (INV(a), m, n)): [m >= n; n >= 0] void
+  {m,n:int}(!buffer(INV(a), m, n)): [m >= n; n >= 0] void
 ')</pre>
 
-The function [buffer_make_nil] can be called to create a linear buffer of a
+The function #dyncode("buffer_make_nil") can be called to create a linear buffer of a
 given capacity that contains no elements:
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
 fun{a:vt0p}
-buffer_make_nil{m:pos} (cap: int m): buffer (a, m, 0)
+buffer_make_nil{m:pos} (cap: int m): buffer(a, m, 0)
 ')</pre>
 
-The functions [buffer_isnil] and [buffer_isful] can be called to test
-whether a given buffer is empty and full, respectively:
+The functions #dyncode("buffer_isnil") and #dyncode("buffer_isful")
+can be called to test whether a given buffer is empty and full,
+respectively:
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
 fun buffer_isnil{a:vt0p}
-  {m,n:int} (!buffer (INV(a), m, n)): bool (n==0)
+  {m,n:int} (!buffer(INV(a), m, n)): bool(n==0)
 fun buffer_isful{a:vt0p}
-  {m,n:int} (!buffer (INV(a), m, n)): bool (m==n)
+  {m,n:int} (!buffer(INV(a), m, n)): bool(m==n)
 ')</pre>
 
-The function [buffer_insert] is for inserting an element into
+The function #dyncode("buffer_insert") is for inserting an element into
 a buffer that is not full:
 
 <pre
@@ -104,11 +106,11 @@ class="patsyntax">
 fun{a:vt0p}
 buffer_insert{m,n:int | n < m}
 (
-  !buffer (INV(a), m, n) >> buffer (a, m, n+1), x: a
+  !buffer(INV(a), m, n) >> buffer(a, m, n+1), x: a
 ) : void // end of [buffer_insert]
 ')</pre>
 
-The function [buffer_insert] is for taking out an element from
+The function #dyncode("buffer_insert") is for taking out an element from
 a buffer that is not empty:
 
 <pre
@@ -116,7 +118,7 @@ class="patsyntax">
 #pats2xhtml_sats('\
 fun{a:vt0p}
 buffer_takeout{m,n:int | n > 0}
-  (buf: !buffer (INV(a), m, n) >> buffer (a, m, n-1)): (a)
+  (buf: !buffer(INV(a), m, n) >> buffer(a, m, n-1)): (a)
 ')</pre>
 
 <h2>
@@ -138,31 +140,32 @@ class="patsyntax">
 #pats2xhtml_sats('\
 //
 abstype
-sbuffer_type (a:vt@ype) = ptr
+sbuffer_type(a:vt@ype) = ptr
 //
-typedef sbuffer (a:vt0p) = sbuffer_type (a)
+typedef sbuffer(a:vt0p) = sbuffer_type(a)
 //
 ')</pre>
 
-Please note that [sbuffer] is a non-linear type. This means that a shared
-buffer cannot be freed explicitly after its creation. It is also possible
-to make [sbuffer] a reference-counted linear type so that a shared buffer
-can be freed. The interested reader is encouraged to give this alternative
-design a try, which should only lead to slightly more involved implementation.
+Please note that #stacode("sbuffer") is a non-linear type. This means
+that a shared buffer cannot be freed explicitly after its creation. It
+is also possible to make #stacode("sbuffer") a reference-counted
+linear type so that a shared buffer can be freed. The interested
+reader is encouraged to give this alternative design a try, which
+should only lead to slightly more involved implementation.
 
 <p>
 
-Given a linear buffer, [sbuffer_make_buffer] turns it into a shared buffer
-(by wrapping a protection mechanism around it):
+Given a linear buffer, #dyncode("sbuffer_make_buffer") turns it into a
+shared buffer (by wrapping a protection mechanism around it):
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
 fun{a:vt0p}
-sbuffer_make_buffer (buffer(a)): sbuffer (a)
+sbuffer_make_buffer (buffer(a)): sbuffer(a)
 ')</pre>
 
-The function [sbuffer_insert] inserts an element into
+The function #dyncode("sbuffer_insert") inserts an element into
 a shared buffer:
 
 <pre
@@ -172,12 +175,12 @@ fun{a:vt0p}
 sbuffer_insert (sbuffer(a), x: a): void // called by producer
 ')</pre>
 
-Note that a call to [sbuffer_insert] may be blocked due to the linear
+Note that a call to #dyncode("sbuffer_insert") may be blocked due to the linear
 buffer inside the shared buffer being full.
 
 <p>
 
-The function [sbuffer_takeout] takes out an element from
+The function #dyncode("sbuffer_takeout") takes out an element from
 a shared buffer:
 
 <pre
@@ -187,8 +190,8 @@ fun{a:vt0p}
 sbuffer_takeout (sbuf: sbuffer(a)): (a) // called by consumer
 ')</pre>
 
-Note that a call to [sbuffer_takeout] may be blocked due to the linear
-buffer inside the shared buffer being empty.
+Note that a call to #dyncode("sbuffer_takeout") may be blocked due to
+the linear buffer inside the shared buffer being empty.
 
 <h2>
 Implementation of Shared Buffer
@@ -198,17 +201,18 @@ The linear buffer inside a shared buffer is protected by a mutex.
 
 <p>
 
-The function [sbuffer_acquire] is for acquiring the linear buffer inside a
-given shared buffer:
+The function #dyncode("sbuffer_acquire") is for acquiring the linear
+buffer inside a given shared buffer:
 
 <pre
 class="patsyntax">
 #pats2xhtml_sats('\
-fun sbuffer_acquire{a:vt0p} (sbuf: sbuffer(a)): buffer (a)
+fun sbuffer_acquire{a:vt0p} (sbuf: sbuffer(a)): buffer(a)
 ')</pre>
 
-The function [sbuffer_release] is for releasing a linear buffer (to the
-same shared buffer from which the linear buffer was previously acquired):
+The function #dyncode("sbuffer_release") is for releasing a linear
+buffer (to the same shared buffer from which the linear buffer was
+previously acquired):
 
 <pre
 class="patsyntax">
@@ -226,25 +230,28 @@ class="patsyntax">
 fun{a:vt0p}
 sbuffer_insert2 (sbuffer(a), !buffer(INV(a)) >> _, x: a): void
 fun{a:vt0p}
-sbuffer_takeout2 (sbf: sbuffer(a), buf: !buffer (INV(a)) >> _): (a)
+sbuffer_takeout2 (sbf: sbuffer(a), buf: !buffer(INV(a)) >> _): (a)
 ')</pre>
 
-A call to the function [sbuffer_insert2] tries to insert an element into a
-given linear buffer. In the case where the linear buffer is full, the
-caller is blocked to wait on some conditional variable until it is notified
-that the linear buffer is no longer full.
+A call to the function #dyncode("sbuffer_insert2") tries to insert an
+element into a given linear buffer. In the case where the linear
+buffer is full, the caller is blocked to wait on some conditional
+variable until it is notified that the linear buffer is no longer
+full.
 
 <p>
 
-A call to the function [sbuffer_takeout2] tries to take out an element from
-a given linear buffer. In the case where the linear buffer is empty, the
-caller is blocked to wait on some conditional variable until it is notified
-that the linear buffer is no longer empty.
+A call to the function #dyncode("sbuffer_takeout2") tries to take out
+an element from a given linear buffer. In the case where the linear
+buffer is empty, the caller is blocked to wait on some conditional
+variable until it is notified that the linear buffer is no longer
+empty.
 
 <p>
 
-It is straightforward to implement [sbuffer_insert] and [sbuffer_takeout]
-based on [sbuffer_insert2] and [sbuffer_takeout2], respectively:
+It is straightforward to implement #dyncode("sbuffer_insert") and
+#dyncode("sbuffer_takeout") based on #dyncode("sbuffer_insert2") and
+#dyncode("sbuffer_takeout2"), respectively:
 
 <pre
 class="patsyntax">
@@ -292,26 +299,26 @@ sbuffer_signal_isful{a:vt0p}{m,n:int} (sbuf: sbuffer(a)): void
 //
 ')</pre>
 
-The type assigned to the function [sbuffer_wait_isnil] means that its
-caller must have possession of a linear buffer when calling it and the
-caller should still have possession of the linear buffer, which may be
-empty, when the call returns. The reason for the linear buffer being still
-empty at the moment when a call to [sbuffer_wait_isnil] returns is
-that other callers (consumers) may have gained access to the linear buffer
-earlier.
+The type assigned to the function #dyncode("sbuffer_wait_isnil") means
+that its caller must have possession of a linear buffer when calling
+it and the caller should still have possession of the linear buffer,
+which may be empty, when the call returns. The reason for the linear
+buffer being still empty at the moment when a call to
+#dyncode("sbuffer_wait_isnil") returns is that other callers
+(consumers) may have gained access to the linear buffer earlier.
 
 <p>
 
-The type assigned to the function [sbuffer_wait_isful] can be
+The type assigned to the function #dyncode("sbuffer_wait_isful") can be
 explained similarly.
 
 <p>
 
 <h4>
-Implementing [sbuffer_insert2]
+Implementing #dyncode("sbuffer_insert2")
 </h4>
 
-An implementation of [sbuffer_insert2] is given as follows:
+An implementation of #dyncode("sbuffer_insert2") is given as follows:
 
 <pre
 class="patsyntax">
@@ -351,7 +358,7 @@ condition of buffer being empty. If this is not done, then a deadlock may
 occur as the consumers waiting on the CV can never be awakened.
 
 <h4>
-Implementing [sbuffer_takeout2]
+Implementing #dyncode("sbuffer_takeout2")
 </h4>
 
 <pre
@@ -362,6 +369,7 @@ sbuffer_takeout2
   (sbuf, buf) = let
 //
 val isnil = buffer_isnil (buf)
+//
 prval () = lemma_buffer_param (buf)
 //
 in
@@ -394,9 +402,9 @@ Summary of the Remaining Implementation
 </h4>
 
 The remaining implementation of the producer-consumer problem can be
-readily done in C (based on pthread support for mutexes and conditional
-variables). For instance, [sbuffer] can be represented as a pointer to
-a value of the following struct type:
+readily done in C (based on pthread support for mutexes and
+conditional variables). For instance, #stacode("sbuffer") can be
+represented as a pointer to a value of the following struct type:
 
 <pre>
 struct
@@ -427,7 +435,8 @@ of the implementation of the producer-consumer problem presented above.
 
 <p>
 
-Suppose we have a linear type [Resource] for values that we want to share:
+Suppose we have a linear type #stacode("Resource") for values that we
+want to share:
 
 <pre
 class="patsyntax">
@@ -435,9 +444,9 @@ class="patsyntax">
 absvtype Resource
 ')</pre>
 
-Let us introduce a (non-linear) type [SharedResource] for values that are
-formed by wrapping some kind of protection mechnism around linear values of
-the type [Resource]:
+Let us introduce a (non-linear) type #stacode("SharedResource") for
+values that are formed by wrapping some kind of protection mechnism
+around linear values of the type #stacode("Resource"):
 
 <pre
 class="patsyntax">
@@ -473,7 +482,7 @@ class="patsyntax">
 fun Resource_process (R: !Resource >> _): bool
 ')</pre>
 
-If a call to [Resource_process] returns true, then the resource has been
+If a call to #dyncode("Resource_process") returns true, then the resource has been
 processed properly. Otherwise, it is an indication that the state of the
 resource needs to be changed before it is suitable for processing.
 
@@ -487,12 +496,12 @@ class="patsyntax">
 fun SharedResource_process (SR: SharedResource): void
 ')</pre>
 
-When called on a shared resource, [SharedResource_process] tries to process
-the linear resource inside it by calling [Resource_process].
+When called on a shared resource, #dyncode("SharedResource_process") tries to process
+the linear resource inside it by calling #dyncode("Resource_process").
 
 <p>
 
-An implementation of [SharedResource_process] is sketched as follows:
+An implementation of #dyncode("SharedResource_process") is sketched as follows:
 
 <pre
 class="patsyntax">
@@ -541,9 +550,9 @@ end // end of [SharedResource_process2]
 //
 ')</pre>
 
-A call to [SharedResource_wait] puts the caller on the waiting-list
+A call to #dyncode("SharedResource_wait") puts the caller on the waiting-list
 of some conditional variable to avoid busy-waiting. Whenever the condition
-needed for [Resource_process] to do proper processing is met, a signal should
+needed for #dyncode("Resource_process") to do proper processing is met, a signal should
 be sent to the conditional variable (by another caller).
 
 <p>
@@ -553,8 +562,9 @@ presented in this section.
 
 <hr size="2">
 
+<p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
-
+</p>
 #patspage_script()
 </body>
 </html>
