@@ -406,11 +406,14 @@ UN = "prelude/SATS/unsafe.sats"
 implement
 strcmp (str1, str2) = let
 //
-fun loop
-  (p1: ptr, p2: ptr): int = let
+fun
+loop
+(
+  p1: ptr, p2: ptr
+) : int = let
 //
-val c1 = $UN.ptr0_get<uchar> (p1)
-val c2 = $UN.ptr0_get<uchar> (p2)
+val c1 = $UN.ptr0_get<uchar>(p1)
+val c2 = $UN.ptr0_get<uchar>(p2)
 //
 in
   case+ 0 of
@@ -419,7 +422,7 @@ in
   | _ (* c1 = c2 *) =>
     (
       if $UN.cast{int}(c1) = 0
-        then 0 else loop (ptr0_succ<uchar> (p1), ptr0_succ<uchar> (p2))
+        then 0 else loop (ptr0_succ<uchar>(p1), ptr0_succ<uchar>(p2))
       // end of [if]
     )
 end (* end of [loop] *)
@@ -432,15 +435,15 @@ end (* end of [strcmp] *)
 For a programmer familar with C, the above implementation of
 #dyncode("strcmp") should be easily accessible.  There are a variety of
 unsafe functions declared in #myatscodelink("prelude/SATS/unsafe.sats",
-"unsafe.sats"). Given a type T and a pointer p, #dyncode("ptr0_get&lt;T&gt;
-(p)") fetches the value of the type T stored at the location to which p
+"unsafe.sats"). Given a type T and a pointer p, #dyncode("ptr0_get&lt;T&gt;(p)")
+fetches the value of the type T stored at the location to which p
 points.  Note that #dyncode("ptr0_get") is inherently unsafe as there is
 simply no guarantee that p actually points to a valid memory location where
 a value of the type T is stored.  The function #dyncode("cast"), which is
 also inherently unsafe, casts the type of a given value into any chosen
 type.  The function template #dyncode("ptr0_succ"), which is declared in
 #myatscodelink("prelude/SATS/pointer.sats", "pointer.sats"), is
-type-safe. Given a type T, #dyncode("ptr0_succ&lt;T&gt; (p)") returns the
+type-safe. Given a type T, #dyncode("ptr0_succ&lt;T&gt;(p)") returns the
 pointer that is n bytes after p, where n equals the size of T.
 
 ")
@@ -523,13 +526,13 @@ array_copy_from_list
 //
 fun loop
 (
-  p: ptr, xs: list0 (a)
+  p: ptr, xs: list0(a)
 ) : void =
 (
 case+ xs of
-| list0_nil () => ()
-| list0_cons (x, xs) => let
-    val () = $UN.ptr0_set<a> (p, x) in loop (ptr0_succ<a> (p), xs)
+| list0_nil() => ()
+| list0_cons(x, xs) => let
+    val () = $UN.ptr0_set<a>(p, x) in loop (ptr0_succ<a>(p), xs)
   end // end of [list0_cons]
 ) (* end of [loop] *)
 //

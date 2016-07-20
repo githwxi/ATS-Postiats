@@ -19,15 +19,19 @@ staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/array0.sats"
 
 (* ****** ****** *)
-
+//
 extern
 fun{a:t@ype}
-array_copy_from_list (A: array0(a), xs: list0(a)): void
-
+array_copy_from_list
+(
+  A: array0(a), xs: list0(a)
+) : void // end-of-function
+//
 (* ****** ****** *)
 
 implement{a}
-array_copy_from_list (A, xs) = let
+array_copy_from_list
+  (A, xs) = let
 //
 fun loop
 (
@@ -37,12 +41,12 @@ fun loop
 case+ xs of
 | list0_nil () => ()
 | list0_cons (x, xs) => let
-    val () = $UN.ptr0_set<a> (p, x) in loop (ptr0_succ<a> (p), xs)
+    val () = $UN.ptr0_set<a>(p, x) in loop(ptr0_succ<a>(p), xs)
   end // end of [list0_cons]
 ) (* end of [loop] *)
 //
 in
-  loop (array0_get_ref(A), xs)
+  loop(array0_get_ref(A), xs)
 end // end of [array_copy_from_list]
 
 (* ****** ****** *)

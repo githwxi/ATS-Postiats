@@ -9,10 +9,9 @@ class="thePageRBodyLContent"
 <p>
 <u>ATSPRE</u>
 is also referred to as <u>ATSLIB/prelude</u>.
-The implementation code of <u>ATSPRE</u> is nearly all template
-(so that it can be used by the compiler (ATS/Postiats)
-to generate C code rather than itself be directly compiled into object code).
-</p>
+The implementation code of <u>ATSPRE</u> is nearly entirely
+template-based (to be used by the compiler (ATS/Postiats) for
+generating C code).  </p>
 
 <ul>
 <li>
@@ -396,15 +395,14 @@ essentially consists of an API for calling libc-functions in ATS.
 <p>
 
 <u>ATSLIB/libats</u>
-consists of various data structures implemented in ATS
-(or, more precisely, ATS2). The implementation code is primarily
-template-based (so that it can be used by the compiler (ATS/Postiats)
-to generate C code rather than itself be directly compiled into object
-code).  Often a data structure is given a functional implementation as
-well as a linear implementation in ATSLIB/libats, where the former
-requires the availability of garbage collection (GC) for automatic
-memory management while the latter relies on linear types to ensure
-the safety of manual memory management.
+consists of various data structures implemented in ATS (or, more
+precisely, ATS2). The implementation code is nearly entirely
+template-based (to be used by the compiler (ATS/Postiats) for
+generating C code).  Often a data structure is given a functional
+implementation as well as a linear implementation in ATSLIB/libats,
+where the former requires the availability of garbage collection (GC)
+for automatic memory management while the latter relies on linear
+types to ensure the safety of manual memory management.
 
 </p>
 
