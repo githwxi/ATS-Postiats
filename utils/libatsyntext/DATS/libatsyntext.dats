@@ -1,9 +1,10 @@
 (*
 **
-** Some utility functions
-** for manipulating the syntax of ATS2
+** Some utility functions for
+** manipulating the syntax of ATS2
 **
-** Contributed by Hongwei Xi (gmhwxiATgmailDOTcom)
+** Contributed by
+** Hongwei Xi (gmhwxiATgmailDOTcom)
 **
 ** Start Time: July, 2016
 **
