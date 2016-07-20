@@ -5,6 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-linear-streams</title>
 ##patsyntax()
+##thePage_style()
 </head>
 
 <body>
@@ -448,8 +449,9 @@ and testing the code.\
 """)
 
 <hr size="2">
-
+<p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
-
+</p>
+##thePage_script()
 </body>
 </html>

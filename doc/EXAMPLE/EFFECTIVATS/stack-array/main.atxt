@@ -1,10 +1,8 @@
+<!DOCTYPE html>
 %{
 #include "./../ATEXT/atextfun.hats"
 %}
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -53,12 +51,12 @@ vtypedef
 stkarray (a:vt0p) = [m,n:int] stkarray_vtype (a, m, n)
 ")</pre>
 
-Given a type T, an integer M and another integer N, the type [stkarray(T,
-M, N)] is for an array-based stack such that (1) the elements stored in the
-stack are of type T, (2) the capacity of the stack is M, and (3) the
-current size of the stack is N.  Clearly, M >= N and N >= 0 holds, and this
-property is encoded into the type of the following proof function
-[lemma_stkarray_param]:
+Given a type T, an integer M and another integer N, the type
+#stacode("stkarray(T, M, N)") is for an array-based stack such that
+(1) the elements stored in the stack are of type T, (2) the capacity
+of the stack is M, and (3) the current size of the stack is N.
+Clearly, M >= N and N >= 0 holds, and this property is encoded into
+the type of the following proof function #dyncode("lemma_stkarray_param"):
   
 <pre
 class="patsyntax">
@@ -88,10 +86,11 @@ stkarray_free{a:vt0p}{m:int} (stkarray (a, m, 0)):<!wrt> void
 //
 ")</pre>
 
-Given a size M, [stkarray_make_cap] creates an empty stack of capacity M.
-As linear elements stored in a stack are leaked after the stack is freed,
-the type of [stkarray_free] indicates that the function can only be applied
-to a stack containing no elements.
+Given a size M, #dyncode("stkarray_make_cap") creates an empty stack
+of capacity M.  As linear elements stored in a stack are leaked after
+the stack is freed, the type of #dyncode("stkarray_free") indicates
+that the function can only be applied to a stack containing no
+elements.
 
 <p>
 
@@ -108,10 +107,10 @@ stkarray_insert
 ) :<!wrt> void // endfun
 ")</pre>
 
-Note that [stkarray_insert] can only be called on a stack if its current
-size is strictly less than its capacity. The type of [stkarray_insert]
-states that the size of a stack argument is increased by 1 after an
-element is inserted into it.
+Note that #dyncode("stkarray_insert") can only be called on a stack if
+its current size is strictly less than its capacity. The type of
+#dyncode("stkarray_insert") states that the size of a stack argument
+is increased by 1 after an element is inserted into it.
 
 <p>
 
@@ -127,9 +126,10 @@ stkarray_takeout
 // end of [stkarray_takeout]
 ")</pre>
 
-Note that [stkarray_takeout] can only be called on a stack if its current
-size is positive. The type of [stkarray_takeout] states that the size of a
-stack is decreased by 1 after an element is taken out of it.
+Note that #dyncode("stkarray_takeout") can only be called on a stack
+if its current size is positive. The type of
+#dyncode("stkarray_takeout") states that the size of a stack is
+decreased by 1 after an element is taken out of it.
 
 <h2>
 Implementation of Array-Based Stacks
@@ -147,15 +147,16 @@ struct {
 } atslib_stkarray_struct ;
 </pre>
 
-The pointers [stkarray_beg] and [stkarray_end] point to the beginning and
-end of the base array while the pointer [stkarray_cur] points the top of
-the current stack. Note that the beginning of the base array is the bottom
-of the represented stack.
+The pointers #dyncode("stkarray_beg") and #dyncode("stkarray_end")
+point to the beginning and end of the base array while the pointer
+#dyncode("stkarray_cur") points the top of the current stack. Note
+that the beginning of the base array is the bottom of the represented
+stack.
 
 <p>
 
 Let us introduce the folllowing two functions for getting and setting
-the pointer [stkarray_cur]:
+the pointer #dyncode("stkarray_cur"):
 
 <pre
 class="patsyntax">
@@ -169,8 +170,9 @@ stkarray_set_ptrcur{a:vt0p}
 ')</pre>
 
 As can be expected, these two functions are to be implemented in C
-directly. The following implementation of [stkarray_insert] makes use of
-these two functions as well as an unsafe function of the name [ptr0_set]:
+directly. The following implementation of #dyncode("stkarray_insert")
+makes use of these two functions as well as an unsafe function of the
+name #dyncode("ptr0_set"):
 
 <pre
 class="patsyntax">
@@ -194,23 +196,25 @@ in
 end // end of [stkarray_insert]
 ")</pre>
 
-Note that [ptr0_set] writes a value (its 2nd argument) to a given memory
-location (its 1st argument) without requiring a proof (of some at-view)
-associated with the location. In other words, [ptr0_set] performs a memory
-update precisely in the same way as it is done in C. Also note that a proof
-function [__assert] is introduced so as to make it possible for the
-implementation to pass typechecking. The keyword [praxi] means that the
-introduced proof function should be treated as an assertion and no
-implementation for it is expected.
+Note that #dyncode("ptr0_set") writes a value (its 2nd argument) to a
+given memory location (its 1st argument) without requiring a proof (of
+some at-view) associated with the location. In other words,
+#dyncode("ptr0_set") performs a memory update precisely in the same
+way as it is done in C. Also note that a proof function
+#dyncode("__assert") is introduced so as to make it possible for the
+implementation to pass typechecking. The keyword #keycode("praxi")
+means that the introduced proof function should be treated as an
+assertion and no implementation for it is expected.
 
 <p>
 
-The following implementation of [stkarray_takeout] makes use of [ptr0_get],
-which reads through a given pointer without requiring a proof (of some
-at-view) associated with the location. Also, just like in the
-implementation of [stkarray_insert], a proof function is asserted for the
-sole purpose of making the implementation of [stkarray_takeout] pass
-typechecking.
+The following implementation of #dyncode("stkarray_takeout") makes use
+of #dyncode("ptr0_get"), which reads through a given pointer without
+requiring a proof (of some at-view) associated with the
+location. Also, just like in the implementation of
+#dyncode("stkarray_insert"), a proof function is asserted for the sole
+purpose of making the implementation of #dyncode("stkarray_takeout")
+pass typechecking.
 
 <pre
 class="patsyntax">
@@ -234,8 +238,8 @@ extern praxi __assert (!stkarray (a, m, n) >> stkarray (a, m, n-1)): void
 } // end of [stkarray_takeout]
 ")</pre>
 
-The C code implementing [stkarray_get_ptrcur] and [stkarray_set_ptrcur] is
-given below:
+The C code implementing #dyncode("stkarray_get_ptrcur") and
+#dyncode("stkarray_set_ptrcur") is given below:
 
 <pre>
 ATSinline()
@@ -255,9 +259,10 @@ atslib_stkarray_set_ptrcur
 } // end of [atslib_stkarray_set_ptrcur]
 </pre>
 
-The C-names for [stkarray_get_ptrcur] and [stkarray_set_ptrcur] are
-chosen to be [atslib_stkarray_get_ptrcur] and [atslib_stkarray_set_ptrcur],
-respectively.
+The C-names for #dyncode("stkarray_get_ptrcur") and
+#dyncode("stkarray_set_ptrcur") are chosen to be
+#dyncode("atslib_stkarray_get_ptrcur") and
+#dyncode("atslib_stkarray_set_ptrcur"), respectively.
 
 <p>
 
@@ -272,9 +277,10 @@ For more on array-based stack implementation, please see:
 Some Stack-Functions of Convenience 
 </h2>
 
-If a caller attempts to insert an element into a stack that happens to be
-full, we may require that the element be returned to the caller. The
-following function [stkarray_insert_opt] does this precisely:
+If a caller attempts to insert an element into a stack that happens to
+be full, we may require that the element be returned to the
+caller. The following function #dyncode("stkarray_insert_opt") does
+this precisely:
 
 <pre
 class="patsyntax">
@@ -298,10 +304,11 @@ end else Some_vt{a}(x0)
 end // end of [stkarray_insert_opt]
 ")</pre>
 
-Similarly, a caller may attempt to take an element out of a stack that
-happens to be empty. The following function [stkarray_takeout_opt] returns
-an optional value so that its caller can tell whether an element has
-actually been taken out of a given stack:
+Similarly, a caller may attempt to take an element out of a stack
+that happens to be empty. The following function
+#dyncode("stkarray_takeout_opt") returns an optional value so that its
+caller can tell whether an element has actually been taken out of a
+given stack:
 
 <pre
 class="patsyntax">
@@ -331,8 +338,9 @@ written in the postfix-notation is coded.
 
 <hr size="2">
 
+<p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
-
+</p>
 #patspage_script()
 </body>
 </html>

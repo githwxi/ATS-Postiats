@@ -23,22 +23,23 @@ Sorting Linear Lists
 In this article, I present an implementation of merge-sort for sorting
 linear lists. While quick-sort is often preferred over merge-sort for
 sorting arrays, the latter is likely to be the chosen one for sorting
-lists. When employed to sort an array, a serious weakness of merge-sort
-lies in its need for additional memory (proportional to the size of the
-array) in order to perform merging operations. This weakness does not exist
-when merge-sort is called to sort lists. Some strengths of merge-sort
-include its being a stable sorting algorithm and its (worst-case)
-time-complexity being O(n(log(n)).
+lists. When employed to sort an array, a serious weakness of
+merge-sort lies in its need for additional memory (proportional to the
+size of the array) in order to perform merging operations. This
+weakness does not exist when merge-sort is called to sort lists. Some
+strengths of merge-sort include its being a stable sorting algorithm
+and its (worst-case) time-complexity being O(n(log(n)).
 
 <h2>
 An abstract interface for linear lists
 </h2>
 
-In ATS, [list_vt] is declared as a dataviewtype (that is, linear datatype)
-for singly-linked lists.  However, I do not want to make direct use of
-[list_vt] here as I intend to give an implementation of merge-sort for
-sorting abstract linear lists. So I first introduce an abstract interface
-for linear lists to be used in this implementation.
+In ATS, #stacode("list_vt") is declared as a dataviewtype (that is,
+linear datatype) for singly-linked lists.  However, I do not want to
+make direct use of #stacode("list_vt") here as I intend to give an
+implementation of merge-sort for sorting abstract linear lists. So I
+first introduce an abstract interface for linear lists to be used in
+this implementation.
 
 <p>
 
@@ -51,11 +52,11 @@ absvtype mynode(l:addr) = ptr(l)
 absvtype mylist(l:addr, n:int) = ptr(l)
 ')</pre>
 
-Given a non-null address L , the type [mynode(L)] is for a list-node
-located L. Given a non-null address L and an integer N, the type
-[mylist(L, N)] is for a list of length N whose first node is located at L.
-Some properties on the parameters of [mylist] are captured by the following
-two proof functions:
+Given a non-null address L , the type #stacode("mynode(L)") is for a
+list-node located L. Given a non-null address L and an integer N, the
+type #stacode("mylist(L, N)") is for a list of length N whose first
+node is located at L.  Some properties on the parameters of
+#stacode("mylist") are captured by the following two proof functions:
 
 <pre
 class="patsyntax">
@@ -92,11 +93,11 @@ mylist_cons
 //
 ')</pre>
 
-It is clear that [mylist_cons] needs to perform some assignments so as to
+It is clear that #dyncode("mylist_cons") needs to perform some assignments so as to
 connect a given node (its first argument) to a given list (its second
 argument). Sometimes, a given node and a given list are already connected,
 requiring no assignments to be performed.  The following proof funtion
-[_mylist_cons] is introduced precisely for handling such a case:
+#dyncode("_mylist_cons") is introduced precisely for handling such a case:
 
 <pre
 class="patsyntax">
@@ -111,7 +112,7 @@ _mylist_cons
 //
 ')</pre>
 
-Also, [mylist_cons2] is introduced as a variant of [mylist_cons]:
+Also, #dyncode("mylist_cons2") is introduced as a variant of #dyncode("mylist_cons"):
 
 <pre
 class="patsyntax">
@@ -124,7 +125,7 @@ mylist_cons2
 //
 ')</pre>
 
-The deconstructors for [mylist], which do the opposite of what the
+The deconstructors for #stacode("mylist"), which do the opposite of what the
 constructors do, are declared as follows:
 
 <pre
@@ -145,9 +146,10 @@ mylist_uncons
 //
 ')</pre>
 
-The meaning of [mylist_unnil] and [mylist_uncons] can be readily
-inferred from the types assigned to them. As a variant of [mylist_uncons],
-[mylist_uncons2] is given as follows:
+The meaning of #dyncode("mylist_unnil") and #dyncode("mylist_uncons")
+can be readily inferred from the types assigned to them. As a variant
+of #dyncode("mylist_uncons"), #dyncode("mylist_uncons2") is given as
+follows:
 
 <pre
 class="patsyntax">
@@ -161,9 +163,9 @@ mylist_uncons2
 //
 ')</pre>
 
-To see how the constructors and deconstructors for [mylist] can be used,
-let us implement a function template [mylist_length] for computing the
-length of a given list:
+To see how the constructors and deconstructors for #stacode("mylist")
+can be used, let us implement a function template
+#dyncode("mylist_length") for computing the length of a given list:
 
 <pre
 class="patsyntax">
@@ -174,12 +176,14 @@ mylist_length{n:int} (xs: !mylist(n)): int(n)
 //
 ')</pre>
 
-As the implementation for [mylist_cons] and [mylist_uncons] can be made
-available only after a concrete representation of [mylist] is chosen,
-functions that call either [mylist_cons] or [mylist_uncons] may not be
-properly compiled. Therefore, it is important to declare [mylist_length] as
-a function template (so that only its instances need to be compiled). An
-implementation of [mylist_length] is given as follows:
+As the implementation for #dyncode("mylist_cons") and
+#dyncode("mylist_uncons") can be made available only after a concrete
+representation of #stacode("mylist") is chosen, functions that call
+either #dyncode("mylist_cons") or #dyncode("mylist_uncons") may not be
+properly compiled. Therefore, it is important to declare
+#dyncode("mylist_length") as a function template (so that only its
+instances need to be compiled). An implementation of
+#dyncode("mylist_length") is given as follows:
 
 <pre
 class="patsyntax">
@@ -211,7 +215,8 @@ in
 end // end of [mylist_length]
 ')</pre>
 
-Note that the symbol [isneqz] is overloaded with the following function:
+Note that the symbol #dyncode("isneqz") is overloaded with the
+following function:
 
 <pre
 class="patsyntax">
@@ -222,15 +227,15 @@ mylist_isnot_nil
   (xs: !mylist(l,n)): bool(n > 0) = "mac\#atspre_ptr_isnot_null"
 ')</pre>
 
-Please find in mylist.dats the entirety of the presented abstract interface
-for linear lists.
+Please find in #filename("mylist.dats") the entirety of the presented
+abstract interface for linear lists.
 
 <h2>
 Merge-sort for sorting abstract linear lists
 </h2>
 
 The following
-function template [mylist_mergesort] performs
+function template #dyncode("mylist_mergesort") performs
 merge-sort on mylist-values (representing linear lists):
 
 <pre
@@ -240,7 +245,7 @@ fun{}
 mylist_mergesort{n:int} (xs: mylist(n)): mylist(n)
 ')</pre>
 
-And an implementation of [mylist_mergesort] is given below:
+And an implementation of #dyncode("mylist_mergesort") is given below:
 
 <pre
 class="patsyntax">
@@ -257,7 +262,7 @@ in
 end // end of [mylist_mergesort]
 ')</pre>
 
-where [mylist_msort] is declared to be of the following type:
+where #dyncode("mylist_msort") is declared to be of the following type:
 
 <pre
 class="patsyntax">
@@ -267,7 +272,7 @@ mylist_msort{n:int}
   (xs: mylist(n), n: int(n)): mylist(n)
 ')</pre>
 
-The code implements [mylist_msort] is given as follows:
+The code implements #dyncode("mylist_msort") is given as follows:
 
 <pre
 class="patsyntax">
@@ -296,12 +301,12 @@ if n >= 2
 end // end of [mylist_msort]
 ')</pre>
 
-where [mylist_split] splits a list into two and
-[mylist_merge] merges two sorted lists into one.
+where #dyncode("mylist_split") splits a list into two and
+#dyncode("mylist_merge") merges two sorted lists into one.
 
 <p>
 
-The function template [mylist_split] is declared
+The function template #dyncode("mylist_split") is declared
 as follows:
 
 <pre
@@ -315,7 +320,7 @@ mylist_split
 //
 ')</pre>
 
-And the following code implements [mylist_split]:
+And the following code implements #dyncode("mylist_split"):
 
 <pre
 class="patsyntax">
@@ -343,7 +348,7 @@ end // end of [mylist_split]
 
 <p>
 
-The function template [mylist_merge] is declared
+The function template #dyncode("mylist_merge") is declared
 as follows:
 
 <pre
@@ -357,7 +362,7 @@ mylist_merge
 //
 ')</pre>
 
-And the following code implements [mylist_merge]:
+And the following code implements #dyncode("mylist_merge"):
 
 <pre
 class="patsyntax">
@@ -405,36 +410,40 @@ end // end of [else]
 end // end of [mylist_merge]
 ')</pre>
 
-Note that [compare_mynode_mynode] is a function template
+Note that #dyncode("compare_mynode_mynode") is a function template
 for comparing values stored in two given list-nodes.
 
 <p>
 
-I want to point out that neither [merge_split] nor [mylist_merge] is
-currently implemented as a tail-recursive function. This is primarily for
-the sake of giving a more accessible presentation.  However, it should be
-an interesting and rewarding exercise to re-implement both [merge_split]
-and [mylist_merge] as tail-recursive functions.
+I want to point out that neither #dyncode("merge_split") nor
+#dyncode("mylist_merge") is currently implemented as a tail-recursive
+function. This is primarily for the sake of giving a more accessible
+presentation.  However, it should be an interesting and rewarding
+exercise to re-implement both #dyncode("merge_split") and
+#dyncode("mylist_merge") as tail-recursive functions.
 
 <p>
 
-Please find in mylist_mergesort.dats the entirety of the presented
-implementation of merge-sort for sorting abstract linear lists.
+Please find in #filename("mylist_mergesort.dats") the entirety of the
+presented implementation of merge-sort for sorting abstract linear
+lists.
 
 <h2>
 Merge-sort for sorting singly-linked lists
 </h2>
 
 In order to merge-sort lists of a concrete representation, we need to
-implement [mylist_cons] and [mylist_uncons] based on that representation.
-Also, we need to implement [compare_mynode_mynode] base on the
-corresponding representaton for list-nodes.
+implement #dyncode("mylist_cons") and #dyncode("mylist_uncons") based
+on that representation.  Also, we need to implement
+#dyncode("compare_mynode_mynode") base on the corresponding
+representaton for list-nodes.
 
 <p>
 
-Please see mergesort_list_vt.dats for a case where [mylist] is interpreted
-as [list_vt].  Also, please see mergesort_sllist.dats where [mylist] is
-interpreted as [sllist].
+Please see #filename("mergesort_list_vt.dats") for a case where
+#stacode("mylist") is interpreted as #stacode("list_vt").  Also,
+please see #filename("mergesort_sllist.dats") where #stacode("mylist")
+is interpreted as #stacode("sllist").
 
 <h2>
 A side note for quick-sort on singly-linked lists
@@ -455,8 +464,9 @@ which is largly parallel to the presented implementation of merge-sort.
 
 <hr size="2">
 
+<p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
-
+</p>
 #patspage_script()
 </body>
 </html>

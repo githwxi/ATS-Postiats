@@ -63,7 +63,7 @@ patspage_style
 
   body {
     margin: 0 auto;
-    width: 50%;
+    width: 66%;
     font-family: \"Lato\", sans-serif;
     font-weight: 400;
     font-size: 15pt;
@@ -225,7 +225,15 @@ fun
 filename
 (
   x: string
+) : atext = xmltagging("u", x)
+//
+(*
+fun
+filename
+(
+  x: string
 ) : atext = xmltagging("tt", x)
+*)
 //
 (* ****** ****** *)
 

@@ -34,7 +34,7 @@ include
 
 <h1>
 Effective ATS:<br>
-Drawing Sierpinski triangles
+Drawing Sierpinski Triangles
 </h1>
 
 <p>
@@ -44,7 +44,7 @@ an occasion for me to advocate refinement-based programming.
 </p>
 
 <h2>
-Setup for animation
+Setup for Animation
 </h2>
 
 The following code implements a typical setup for doing animation:
@@ -163,7 +163,7 @@ yellow, alternately. The entirety of the code presented so far is stored in
 </p>
 
 <h2>
-Drawing Sierpinski triangles
+Drawing Sierpinski Triangles
 </h2>
 
 <p>

@@ -103,7 +103,8 @@ in (* in-of-local *)
 val () =
 the_atextdef_insert
 (
-  "patsyntax", TEXTDEFfun(lam(loc, xs) => __patsyntax__(loc, xs)))
+  "patsyntax", TEXTDEFfun(lam(loc, xs) => __patsyntax__(loc, xs))
+) (* the_atextdef_insert *)
 //
 end // end of [local]
 
