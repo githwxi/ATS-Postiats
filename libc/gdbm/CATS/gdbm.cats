@@ -66,7 +66,10 @@ atslib_gdbm_errno_get () { return gdbm_errno ; }
 #define atslib_gdbm_export gdbm_export
 #define atslib_gdbm_import gdbm_import
 
-#define atslib_gdbm_strerror gdbm_strerror
+/* ****** ****** */
+
+#define \
+atslib_gdbm_strerror(ec) ((char*)gdbm_strerror(ec))
 
 /* ****** ****** */
 
@@ -77,6 +80,7 @@ atslib_gdbm_errno_get () { return gdbm_errno ; }
 
 #ifdef GDBM_GETDBNAME
 ATSinline()
+atstype_string
 gdbm_getdbname
 (
   atstype_ptr dbf
