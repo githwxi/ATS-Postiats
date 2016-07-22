@@ -43,4 +43,9 @@ fun dats2xhtml : (atextlst) -> void\
 //
 (* ****** ****** *)
 
+##int_foreach(i, 3, "<li>(##i)</li>##eol()")
+##int_foreach(i, 3, "##int_foreach(j, ##i, "<li>(##j, ##i)</li>")##eol()")
+
+(* ****** ****** *)
+
 (* end of [data.atxt] *)

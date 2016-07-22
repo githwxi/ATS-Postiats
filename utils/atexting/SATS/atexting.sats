@@ -497,6 +497,11 @@ atext_make_string(loc_t, str: string): atext
 fun
 atext_make_errmsg(loc_t, msg: string): atext
 //
+fun
+atext_make_squote(loc_t, xs: atextlst): atext
+fun
+atext_make_dquote(loc_t, token, xs: atextlst): atext
+//
 (* ****** ****** *)
 //
 fun
@@ -505,7 +510,7 @@ fun
 fprint_atextlst : fprint_type(atextlst)
 //
 overload fprint with fprint_atext
-overload fprint with fprint_atextlst
+overload fprint with fprint_atextlst of 10
 //
 (* ****** ****** *)
 //
@@ -620,23 +625,68 @@ fprint_atextdef
 (* ****** ****** *)
 //
 fun
+atext_eval(txt: atext): atext
+fun
+atextlst_eval(txts: atextlst): atextlst
+//
+fun
 atext_defname_eval(txt: atext): atext
 fun
 atext_funcall_eval(txt: atext): atext
 //  
 (* ****** ****** *)
 //
+// HX-2016-07-21:
+// Only map-search
+//
 fun
 the_atextdef_search
   (name: string): atextdef
 //
-fun
-the_atextdef_insert
-  (name: string, def0: atextdef): void
+// HX-2016-07-21:
+// (stack+map)-search
 //
 fun
-the_atextdef_insert_fstring
-  (name: string, fstr: (atextlst) -> string): void
+the_atextdef_search2
+  (name: string): atextdef
+//
+(* ****** ****** *)
+//
+absview
+the_atextstk_v(int)
+//
+fun
+the_atextstk_pop1
+(
+  the_atextstk_v(1) | (*void*)
+) : void
+fun
+the_atextstk_push1
+(
+  k0: string, itm: atextdef
+) : (the_atextstk_v(1) | void)
+//
+fun
+the_atextstk_search
+  (name: string): atextdef
+//
+(* ****** ****** *)
+//
+fun
+the_atextmap_insert
+  (k0: string, def: atextdef) : void
+//
+fun
+the_atextmap_insert_fstring
+  (k0: string, fstr: (atextlst) -> string): void
+//
+(* ****** ****** *)
+//
+fun
+the_atextmap_remove(k0: string): void
+//
+fun
+the_atextmap_search(k0: string): atextdef
 //
 (* ****** ****** *)
 //

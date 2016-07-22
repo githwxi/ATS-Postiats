@@ -66,6 +66,25 @@ staload
 
 local
 
+val
+def0 =
+TEXTDEFfun
+(
+lam(loc, _) =>
+  atext_make_string(loc, "\n")
+) (* TEXTDEFfun *)
+
+in (* in-of-local *)
+
+val () = the_atextmap_insert("eol", def0)
+val () = the_atextmap_insert("newline", def0)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
 fun
 __ctime__() =
   str2 where
@@ -99,7 +118,7 @@ lam(loc, _) =>
 
 in (* in-of-local *)
 
-val () = the_atextdef_insert("ctime", def0)
+val () = the_atextmap_insert("ctime", def0)
 
 end // end of [local]
 
@@ -113,12 +132,16 @@ __float__
   loc: loc_t, xs: atextlst
 ) : atext = let
 //
-val-cons0(x, xs) = xs
+val-
+cons0(x, xs) = xs
+//
 val rep = atext_strngfy(x)
 //
 val strs =
 $list{string}
-  ("$UN.cast{litdouble(", rep, ")}(", rep, ")")
+(
+  "$UN.cast{litdouble(", rep, ")}(", rep, ")"
+) (* end of [val] *)
 //
 val strs = g0ofg1(strs)
 //
@@ -126,7 +149,7 @@ in
 //
 atext_make_string(loc, stringlst_concat(strs))
 //
-end // end of [fp64]
+end // end of [__float__]
 
 val
 def0 =
@@ -134,7 +157,7 @@ TEXTDEFfun(lam(loc, xs) => __float__(loc, xs))
 
 in (* in-of-local *)
 
-val () = the_atextdef_insert("litdouble", def0)
+val () = the_atextmap_insert("litdouble", def0)
 
 end // end of [local]
 
@@ -161,7 +184,7 @@ in
 //
 atext_make_string(loc, stringlst_concat(strs))
 //
-end // end of [fp64]
+end // end of [__string__]
 
 val
 def0 =
@@ -169,7 +192,7 @@ TEXTDEFfun(lam(loc, xs) => __string__(loc, xs))
 
 in (* in-of-local *)
 
-val () = the_atextdef_insert("litstring", def0)
+val () = the_atextmap_insert("litstring", def0)
 
 end // end of [local]
 

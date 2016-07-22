@@ -292,7 +292,8 @@ println!
 *)
 //
 //
-val () = the_nsharp_set(2)
+val () =
+  the_nsharp_set(2)
 //
 val out = stdout_ref
 val args = commarglst_parse(argc, argv)

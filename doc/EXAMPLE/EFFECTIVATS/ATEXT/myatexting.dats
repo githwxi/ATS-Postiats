@@ -37,10 +37,12 @@ __tagging__
   loc: loc_t
 , t_beg: string
 , t_end: string
-, xs0: atextlst
+, txtlst: atextlst
 ) : atext = let
 //
-val-cons0(x0, _) = xs0
+val-
+cons0
+(x0, _) = txtlst
 //
 val x0 =
 atext_make_string
@@ -48,14 +50,16 @@ atext_make_string
   x0.atext_loc, atext_strngfy(x0)
 )
 //
-val t_beg =
-  atext_make_string(loc, t_beg)
-val t_end =
-  atext_make_string(loc, t_end)
+val
+t_beg =
+atext_make_string(loc, t_beg)
+val
+t_end =
+atext_make_string(loc, t_end)
 //
 val
 txtlst =
-  $list{atext}(t_beg, x0, t_end)
+$list{atext}(t_beg, x0, t_end)
 //
 in
   atext_make(loc, TEXTlist(g0ofg1(txtlst)))
@@ -66,84 +70,84 @@ in (* in-of-local *)
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "para"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<p>", "</p>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "filename"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<tt>", "</tt>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "command"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<em>", "</em>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "sub"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<sub>", "</sub>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "sup"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<sup>", "</sup>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "stacode"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<span style=\"color: #0000F0;\">", "</span>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "dyncode"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<span style=\"color: #F00000;\">", "</span>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
@@ -312,12 +316,12 @@ atext_make_string
 in (* in-of-local *)
 //
 val () =
-the_atextdef_insert
+the_atextmap_insert
 (
   "thePage_style", TEXTDEFfun(lam(loc, xs) => __thePage_style__(loc, xs))
 )
 val () =
-the_atextdef_insert
+the_atextmap_insert
 (
   "thePage_script", TEXTDEFfun(lam(loc, xs) => __thePage_script__(loc, xs))
 )
@@ -337,7 +341,7 @@ TEXTDEFfun
 
 in (* in-of-local *)
 
-val () = the_atextdef_insert("comment", def0)
+val () = the_atextmap_insert("comment", def0)
 
 end // end of [local]
 

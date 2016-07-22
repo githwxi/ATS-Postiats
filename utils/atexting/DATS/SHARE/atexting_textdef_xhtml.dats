@@ -56,12 +56,14 @@ staload
 //
 (* ****** ****** *)
 //
-extern fun
+extern
+fun
 string_pats2xhtmlize_bground
   (stadyn: int, code: string): string =
   "ext#libatsynmark_string_pats2xhtmlize_bground"
 //
-extern fun
+extern
+fun
 string_pats2xhtmlize_embedded
   (stadyn: int, code: string): string =
   "ext#libatsynmark_string_pats2xhtmlize_embedded"
@@ -101,10 +103,13 @@ atext_make_string
 in (* in-of-local *)
 //
 val () =
-the_atextdef_insert
+the_atextmap_insert
 (
-  "patsyntax", TEXTDEFfun(lam(loc, xs) => __patsyntax__(loc, xs))
-) (* the_atextdef_insert *)
+  "patsyntax"
+, TEXTDEFfun(
+    lam(loc, xs) => __patsyntax__(loc, xs)
+  ) (* TEXTDEFfun *)
+) (* the_atextmap_insert *)
 //
 end // end of [local]
 
@@ -156,16 +161,16 @@ dats2xhtml
 )
 //
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "sats2xhtml"
 , TEXTDEFfun(lam(loc, xs) => sats2xhtml(loc, xs))
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 //
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "dats2xhtml"
 , TEXTDEFfun(lam(loc, xs) => dats2xhtml(loc, xs))
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 //
 end // end of [local]
 

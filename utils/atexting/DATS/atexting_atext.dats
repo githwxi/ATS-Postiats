@@ -95,6 +95,17 @@ atext_make_errmsg
 //
 (* ****** ****** *)
 //
+implement
+atext_make_squote
+  (loc, txts) =
+  atext_make(loc, TEXTsquote(txts))
+implement
+atext_make_dquote
+  (loc, tok, txts) =
+  atext_make(loc, TEXTdquote(tok, txts))
+//
+(* ****** ****** *)
+//
 extern
 fun{}
 fprint_atext_node_

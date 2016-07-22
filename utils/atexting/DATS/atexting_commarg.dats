@@ -225,10 +225,24 @@ case+ 0 of
     is_output_eq(arg) =>
     aux_outfil_eq(i, argv, res)
 //
+| _ when
+    (arg = "-h") => let
+    val res =
+    cons_vt(CAhelp(arg), res)
+  in
+    aux(i+1, argv, res)
+  end // end of [rest-of-kind]
+| _ when
+    (arg = "--help") => let
+    val res =
+    cons_vt(CAhelp(arg), res)
+  in
+    aux(i+1, argv, res)
+  end // end of [rest-of-kind]    
+//
 | _(* rest *) => let
     val res =
-    list_vt_cons
-      (CAgitem(arg), res)
+    cons_vt(CAgitem(arg), res)
     // end of [val]
   in
     aux(i+1, argv, res)

@@ -51,6 +51,68 @@ staload "./../SATS/atexting.sats"
 (* ****** ****** *)
 
 implement
+atext_eval
+  (x0) =
+(
+//
+case+
+x0.atext_node
+of // case+
+| TEXTnil() => x0
+//
+| TEXTtoken _ => x0
+//
+(*
+| TEXTchar of (char)
+*)
+//
+| TEXTstring _ => x0
+//
+| TEXTerrmsg _ => x0
+//
+| TEXTlist(xs) => let
+    val loc = x0.atext_loc
+  in
+    atext_make_list(loc, atextlst_eval(xs))
+  end // end of [TEXTlist]
+//
+| TEXTsquote(xs) => let
+    val loc = x0.atext_loc
+  in
+    atext_make_squote(loc, atextlst_eval(xs))
+  end // end of [TEXTsquote]
+| TEXTdquote(tok, xs) => let
+    val loc = x0.atext_loc
+  in
+    atext_make_dquote(loc, tok, atextlst_eval(xs))
+  end // end of [TEXTsquote]
+//
+| TEXTextcode _ => x0
+//
+| TEXTdefname _ => atext_defname_eval(x0)
+//
+| TEXTfuncall _ => atext_funcall_eval(x0)
+//
+) (* end of [atext_eval] *)
+
+(* ****** ****** *)
+
+implement
+atextlst_eval
+  (xs) = let
+//
+val xs = g1ofg0(xs)
+//
+in
+//
+list0_of_list_vt
+  (list_map_fun<atext><atext>(xs, atext_eval))
+//
+end // end of [atextlst_eval]
+  
+(* ****** ****** *)
+
+implement
 atext_defname_eval
   (x0) = let
 //
@@ -63,8 +125,11 @@ TEXTdefname
 val
 name = token_strngfy(tok1)
 //
+// HX-2016-07-21:
+// search2: (stack+map)-search
+//
 val
-def0 = the_atextdef_search(name)
+def0 = the_atextdef_search2(name)
 //
 in
 //

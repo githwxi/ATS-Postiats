@@ -323,84 +323,84 @@ in (* in-of-local *)
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "para"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<p>", "</p>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "filename"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<tt>", "</tt>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "command"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<em>", "</em>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "sub"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<sub>", "</sub>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "sup"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<sup>", "</sup>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "stacode"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<span style=\"color: #0000F0;\">", "</span>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "dyncode"
 , TEXTDEFfun
   (
     lam(loc, xs) =>
     __tagging__(loc, "<span style=\"color: #F00000;\">", "</span>", xs)
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
@@ -419,14 +419,14 @@ TEXTDEFfun
 
 in (* in-of-local *)
 
-val () = the_atextdef_insert("comment", def0)
+val () = the_atextmap_insert("comment", def0)
 
 end // end of [local]
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "sats2xhtml_docbook"
 , TEXTDEFfun
   (
@@ -442,12 +442,12 @@ the_atextdef_insert
       // atext_make_list
     end // end of [lam]
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 
 val () =
-the_atextdef_insert
+the_atextmap_insert
 ( "dats2xhtml_docbook"
 , TEXTDEFfun
   (
@@ -463,7 +463,7 @@ the_atextdef_insert
       // atext_make_list
     end // end of [lam]
   ) (* TEXTDEFfun *)
-) (* the_atextdef_insert *)
+) (* the_atextmap_insert *)
 
 (* ****** ****** *)
 

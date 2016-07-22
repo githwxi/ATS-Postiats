@@ -17,11 +17,16 @@
 "utils/atexting\
 /DATS/SHARE/atexting_textdef_xhtml.dats"
 //
+#include
+"utils/atexting\
+/DATS/SHARE/atexting_textdef_foreach.dats"
+//
 (* ****** ****** *)
 //
 extern
 fun
 libatsynmark_dynloadall(): void = "ext#"
+//
 val () = libatsynmark_dynloadall((*void*))
 //
 (* ****** ****** *)
