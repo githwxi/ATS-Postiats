@@ -488,8 +488,8 @@ symintr ptrcast (* for functions taking the address of a boxed val *)
 //
 symintr copy free length
 //
-symintr print prerr fprint
-symintr println prerrln fprintln
+symintr print prerr fprint gprint
+symintr println prerrln fprintln gprintln
 //
 (*
 //
