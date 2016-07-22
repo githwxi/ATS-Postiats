@@ -2016,14 +2016,16 @@ d1e0.d1exp_node of
 //
 | D1Esolassert(d1e) =>
     d2exp_solassert(loc0, d1exp_tr(d1e))
+  // end of [D1Esolassert]
 | D1Esolverify(s1e) =>
     d2exp_solverify(loc0, s1exp_trdn(s1e, s2rt_prop))
+  // end of [D1Esolverify]
 //
-| D1Eerrexp () => d2exp_errexp (loc0)
+| D1Eerrexp((*void*)) => d2exp_errexp (loc0)
 //
 | D1Eidextapp
     (id, d1es) => let
-    val () = prerr_error2_loc (loc0)
+    val () = prerr_error2_loc(loc0)
     val () = prerr ": the external id ["
     val () = $SYM.prerr_symbol (id)
     val () = prerr "] cannot be handled."
@@ -2034,7 +2036,7 @@ d1e0.d1exp_node of
   end // end of [_]
 //
 | D1Esexparg _ => let
-    val () = prerr_error2_loc (loc0)
+    val () = prerr_error2_loc(loc0)
     val () = prerr ": this form of expression is only allowed to occur as an argument."
     val () = prerr_newline ((*void*))
     val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))

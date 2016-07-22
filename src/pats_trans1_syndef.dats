@@ -84,38 +84,54 @@ local
 
 (* ****** ****** *)
 
-fun fsyndef_CAR (
+fun
+fsyndef_CAR
+(
   loc0: location, d1es: d1explst
 ) : d1exp = d1exp_macfun (loc0, symbol_CAR, d1es)
-fun fsyndef_CDR (
+fun
+fsyndef_CDR
+(
   loc0: location, d1es: d1explst
 ) : d1exp = d1exp_macfun (loc0, symbol_CDR, d1es)
 
-fun fsyndef_ISNIL (
+fun
+fsyndef_ISNIL
+(
   loc0: location, d1es: d1explst
 ) : d1exp = d1exp_macfun (loc0, symbol_ISNIL, d1es)
-fun fsyndef_ISCONS (
+fun
+fsyndef_ISCONS
+(
   loc0: location, d1es: d1explst
 ) : d1exp = d1exp_macfun (loc0, symbol_ISCONS, d1es)
-fun fsyndef_ISLIST (
+fun
+fsyndef_ISLIST
+(
   loc0: location, d1es: d1explst
 ) : d1exp = d1exp_macfun (loc0, symbol_ISLIST, d1es)
 
 (* ****** ****** *)
 //
 val symbol_PRINT = $SYM.symbol_make_string "print"
-val symbol_PRINT_NEWLINE = $SYM.symbol_make_string "print_newline"
 val symbol_PRINTLN = $SYM.symbol_make_string "println"
+val symbol_PRINT_NEWLINE = $SYM.symbol_make_string "print_newline"
 //
 val symbol_PRERR = $SYM.symbol_make_string "prerr"
-val symbol_PRERR_NEWLINE = $SYM.symbol_make_string "prerr_newline"
 val symbol_PRERRLN = $SYM.symbol_make_string "prerrln"
+val symbol_PRERR_NEWLINE = $SYM.symbol_make_string "prerr_newline"
 //
 (* ****** ****** *)
 
 val symbol_FPRINT = $SYM.symbol_make_string "fprint"
 val symbol_FPRINT_NEWLINE = $SYM.symbol_make_string "fprint_newline"
 val symbol_FPRINTLN = $SYM.symbol_make_string "fprintln"
+
+(* ****** ****** *)
+
+val symbol_GPRINT = $SYM.symbol_make_string "gprint"
+val symbol_GPRINTLN = $SYM.symbol_make_string "gprintln"
+val symbol_GPRINT_NEWLINE = $SYM.symbol_make_string "gprint_newline"
 
 (* ****** ****** *)
 
@@ -314,7 +330,8 @@ fsyndef_PRINT
   loc0: location, d1es: d1explst
 ) : d1exp = auxpr (loc0, d1es, symbol_PRINT)
 //
-fun fsyndef_PRINTLN
+fun
+fsyndef_PRINTLN
 (
   loc0: location, d1es: d1explst
 ) : d1exp =
@@ -412,6 +429,25 @@ case+ d1es of
 //
 end (* end of [fsyndef_FPRINTLN] *)
 
+(* ****** ****** *)
+//
+fun
+fsyndef_GPRINT
+(
+  loc0: location, d1es: d1explst
+) : d1exp = auxpr (loc0, d1es, symbol_GPRINT)
+//
+fun
+fsyndef_GPRINTLN
+(
+  loc0: location, d1es: d1explst
+) : d1exp =
+(
+  auxprln (loc0, d1es, symbol_GPRINT, symbol_GPRINT_NEWLINE)
+) (* end of [fsyndef_GPRINTLN] *)
+//
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -447,6 +483,9 @@ case+ 0 of
 //
 | _ when id = symbol_FPRINT => Some_vt (fsyndef_FPRINT)
 | _ when id = symbol_FPRINTLN => Some_vt (fsyndef_FPRINTLN)
+//
+| _ when id = symbol_GPRINT => Some_vt (fsyndef_GPRINT)
+| _ when id = symbol_GPRINTLN => Some_vt (fsyndef_GPRINTLN)
 //
 | _ (* unsupported idext *) => None_vt ()
 //
