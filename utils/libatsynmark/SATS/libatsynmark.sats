@@ -74,7 +74,7 @@ LEX = "src/pats_lexing.sats"
 //
 typedef token = $LEX.token
 typedef tokenlst = List0(token)
-viewtypedef tokenlst_vt = List0_vt(token)
+vtypedef tokenlst_vt = List0_vt(token)
 //
 (* ****** ****** *)
 //
@@ -123,31 +123,32 @@ typedef p0at = $SYN.p0at
 typedef d0ecl = $SYN.d0ecl
 //
 (* ****** ****** *)
-
-fun test_symbol_p0at (sym: symbol, p0t: p0at): bool
-
+//
+fun
+test_symbol_p0at (sym: symbol, p0t: p0at): bool
+//
+fun
+test_symbol_d0ecl (sym: symbol, d0c: d0ecl): bool
+//
 (* ****** ****** *)
-
-fun test_symbol_d0ecl (sym: symbol, d0c: d0ecl): bool
-
-(* ****** ****** *)
-
+//
 datatype
 d0eclrep =
   | D0ECLREPsing of (d0ecl, charlst)
   | D0ECLREPinclude of (d0ecl, charlst, d0eclreplst)
   | D0ECLREPguadecl of (guad0eclrep)
-
+//
 and guad0eclrep =
   | GUAD0ECLREPone of (d0eclreplst)
   | GUAD0ECLREPtwo of (d0eclreplst, d0eclreplst)
   | GUAD0ECLREPcons of (d0eclreplst, guad0eclrep)
-
+//
 where d0eclreplst = List0(d0eclrep)
-
+//
 (* ****** ****** *)
 
-fun charlst_declitemize
+fun
+charlst_declitemize
   (stadyn: int, inp: charlst_vt): d0eclreplst
 // end of [charlst_declitemize]
 

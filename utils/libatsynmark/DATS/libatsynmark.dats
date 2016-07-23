@@ -621,83 +621,85 @@ end // end of [test_symbol_p0at]
 
 local
 
-fun s0taconlst_test
+fun
+s0taconlst_test
 (
-  sym: symbol, xs: $SYN.s0taconlst
+  sym: symbol
+, xs0: $SYN.s0taconlst
 ) : bool = let
 in
 //
-case+ xs of
-| list_cons
-    (x, xs) => let
+case+ xs0 of
+| list_nil() => false
+| list_cons(x, xs) => let
     val sym1 = x.s0tacon_sym
   in
     if sym = sym1
-      then true else s0taconlst_test (sym, xs)
+      then true else s0taconlst_test(sym, xs)
     // end of [if]
   end // end of [list_cons]
-| list_nil () => false
 //
 end // end of [s0taconlst_test]
 
-fun s0expdeflst_test
+fun
+s0expdeflst_test
 (
-  sym: symbol, xs: $SYN.s0expdeflst
+  sym: symbol
+, xs0: $SYN.s0expdeflst
 ) : bool = let
 in
 //
-case+ xs of
-| list_cons
-    (x, xs) => let
+case+ xs0 of
+| list_nil() => false
+| list_cons(x, xs) => let
     val sym1 = x.s0expdef_sym
   in
     if sym = sym1
       then true else s0expdeflst_test (sym, xs)
     // end of [if]
   end // end of [list_cons]
-| list_nil () => false
 //
 end // end of [s0expdeflst_test]
 
-fun e0xndeclst_test
+fun
+e0xndeclst_test
 (
-  sym: symbol, xs: $SYN.e0xndeclst
+  sym: symbol, xs0: $SYN.e0xndeclst
 ) : bool = let
 in
 //
-case+ xs of
-| list_cons
-    (x, xs) => let
+case+ xs0 of
+| list_nil() => false
+| list_cons(x, xs) => let
     val sym1 = x.e0xndec_sym
   in
     if sym = sym1
-      then true else e0xndeclst_test (sym, xs)
+      then true else e0xndeclst_test(sym, xs)
     // end of [if]
   end // end of [list_cons]
-| list_nil () => false
 //
 end // end of [e0xndeclst_test]
 
-fun d0atdeclst_test
+fun
+d0atdeclst_test
 (
   sym: symbol
-, xs1: $SYN.d0atdeclst
-, xs2: $SYN.s0expdeflst
+, xs1: $SYN.d0atdeclst, xs2: $SYN.s0expdeflst
 ) : bool = let
 //
 fun loop1
 (
-  sym: symbol, xs: $SYN.d0atdeclst
+  sym: symbol, xs0: $SYN.d0atdeclst
 ) : bool = let
 in
 //
-case+ xs of
-| list_cons
-    (x, xs) =>
+case+ xs0 of
+| list_nil() => false
+| list_cons(x, xs) =>
   (
-    if sym = x.d0atdec_sym then true else loop1 (sym, xs)
-  )
-| list_nil () => false
+    if sym = x.d0atdec_sym
+      then true else loop1(sym, xs)
+  ) (* end of [list_cons] *)
 //
 end // end of [loop1]
 //
@@ -705,79 +707,80 @@ in
   loop1 (sym, xs1)
 end // end of [d0atdeclst_test]
 
-fun d0cstdeclst_test
+fun
+d0cstdeclst_test
 (
-  sym: symbol, xs: $SYN.d0cstdeclst
+  sym: symbol, xs0: $SYN.d0cstdeclst
 ) : bool = let
 in
 //
-case+ xs of
+case+ xs0 of
 | list_cons
     (x, xs) => let
     val sym1 = x.d0cstdec_sym
   in
     if sym = sym1
-      then true else d0cstdeclst_test (sym, xs)
+      then true else d0cstdeclst_test(sym, xs)
     // end of [if]
   end // end of [list_cons]
 | list_nil () => false
 //
 end // end of [d0cstdeclst_test]
 
-fun m0acdeflst_test
+fun
+m0acdeflst_test
 (
-  sym: symbol, xs: $SYN.m0acdeflst
+  sym: symbol, xs0: $SYN.m0acdeflst
 ) : bool = let
 in
 //
-case+ xs of
-| list_cons
-    (x, xs) => let
+case+ xs0 of
+| list_nil() => false
+| list_cons(x, xs) => let
     val sym1 = x.m0acdef_sym
   in
     if sym = sym1
       then true else m0acdeflst_test (sym, xs)
     // end of [if]
   end // end of [list_cons]
-| list_nil () => false
 //
 end // end of [m0acdeflst_test]
 
-fun f0undeclst_test
+fun
+f0undeclst_test
 (
-  sym: symbol, xs: $SYN.f0undeclst
+  sym: symbol, xs0: $SYN.f0undeclst
 ) : bool = let
 in
 //
-case+ xs of
-| list_cons
-    (x, xs) => let
+case+ xs0 of
+| list_nil() => false
+| list_cons(x, xs) => let
     val sym1 = x.f0undec_sym
   in
     if sym = sym1
       then true else f0undeclst_test (sym, xs)
     // end of [if]
   end // end of [list_cons]
-| list_nil () => false
 //
 end // end of [f0undeclst_test]
 
-fun v0aldeclst_test
+fun
+v0aldeclst_test
 (
-  sym: symbol, xs: $SYN.v0aldeclst
+  sym: symbol, xs0: $SYN.v0aldeclst
 ) : bool = let
 in
 //
-case+ xs of
-| list_cons
-    (x, xs) => let
+case+ xs0 of
+| list_nil() => false
+| list_cons(x, xs) => let
     val p0t = x.v0aldec_pat
   in
     if test_symbol_p0at (sym, p0t)
       then true else v0aldeclst_test (sym, xs)
     // end of [if]
   end // end of [list_cons]
-| list_nil () => false
 //
 end // end of [f0undeclst_test]
 
@@ -802,20 +805,19 @@ case+ d0c.d0ecl_node of
     (_, xs) => s0expdeflst_test (sym, xs)
 //
 | $SYN.D0Cexndecs
-    (xs) => e0xndeclst_test (sym, xs)
+    (xs0) => e0xndeclst_test (sym, xs0)
+//
 | $SYN.D0Cdatdecs
     (knd, xs1, xs2) => d0atdeclst_test (sym, xs1, xs2)
 //
 | $SYN.D0Cdcstdecs
     (_, _, _, xs) => d0cstdeclst_test (sym, xs)
-| $SYN.D0Cmacdefs
-    (_, _, xs) => m0acdeflst_test (sym, xs)
-| $SYN.D0Cfundecs
-    (_, _, xs) => f0undeclst_test (sym, xs)
-  // end of [D0Cfundecs]
-| $SYN.D0Cvaldecs
-    (_, _, xs) => v0aldeclst_test (sym, xs)
-| _ => false
+//
+| $SYN.D0Cmacdefs(_, _, xs) => m0acdeflst_test (sym, xs)
+| $SYN.D0Cfundecs(_, _, xs) => f0undeclst_test (sym, xs)
+| $SYN.D0Cvaldecs(_, _, xs) => v0aldeclst_test (sym, xs)
+//
+| _ (* rest-of-d0ecl *) => false
 //
 end // end of [test_symbol_d0ecl]
 
@@ -1039,35 +1041,44 @@ and guad0eclrep_make
 in
 //
 case+ gnode of
-| $SYN.GD0Cone (e0xp, d0cs) => let
+| $SYN.GD0Cone
+    (e0xp, d0cs) => let
     var inp = inp
     var pos = pos
     var res: d0eclreplst
-    val () = traverse (d0cs, inp, pos, res)
+    val () =
+      traverse(d0cs, inp, pos, res)
+    // end of [val]
     val d0cs = res
-    val () = list_vt_free (inp)
+    val ((*freed*)) = list_vt_free(inp)
   in
     GUAD0ECLREPone (d0cs)
   end // end of [GD0Cone]
-| $SYN.GD0Ctwo (e0xp, d0cs1, d0cs2) => let
+| $SYN.GD0Ctwo
+    (e0xp, d0cs1, d0cs2) => let
     var inp = inp
     var pos = pos
     var res: d0eclreplst
-    val () = traverse (d0cs1, inp, pos, res)
+    val () =
+      traverse(d0cs1, inp, pos, res)
     val d0cs1 = res
-    val () = traverse (d0cs2, inp, pos, res)
+    val () =
+      traverse(d0cs2, inp, pos, res)
     val d0cs2 = res
-    val () = list_vt_free (inp)
+    val ((*freed*)) = list_vt_free (inp)
   in
     GUAD0ECLREPtwo (d0cs1, d0cs2)
   end // end of [GD0Ctwo]
-| $SYN.GD0Ccons (e0xp, d0cs1, knd, gnode2) => let
+| $SYN.GD0Ccons
+    (e0xp, d0cs1, knd, gnode2) => let
     var inp = inp
     var pos = pos
     var res: d0eclreplst
-    val () = traverse (d0cs1, inp, pos, res)
+    val () =
+      traverse (d0cs1, inp, pos, res)
     val d0cs1 = res
-    val gd0c2 = guad0eclrep_make (gnode2, inp, pos)
+    val gd0c2 =
+      guad0eclrep_make (gnode2, inp, pos)
   in
     GUAD0ECLREPcons (d0cs1, gd0c2)
   end // end of [GD0Ccons]
@@ -1083,6 +1094,10 @@ and traverse
 in
 //
 case+ d0cs of
+| list_nil
+    ((*void*)) =>
+    (res := list_nil ())
+  // list_nil
 | list_cons
     (d0c, d0cs) => let
 //
@@ -1110,15 +1125,17 @@ case+ d0cs of
   in
     // nothing
   end // end of [list_cons]
-| list_nil () => (res := list_nil ())
 //
 end (* end of [traverse] *)
 //
 var inp = inp
 var pos: lint = 0L
+//
 var res: d0eclreplst
-val () = traverse (d0cs, inp, pos, res)
-val () = list_vt_free (inp)
+val () =
+  traverse (d0cs, inp, pos, res)
+//
+val ((*freed*)) = list_vt_free (inp)
 //
 in
   res
@@ -1173,20 +1190,24 @@ and auxgua
 in
 //
 case+ gd0c of
-| GUAD0ECLREPone (d0cs) => auxlst (d0cs, sym, res)
-| GUAD0ECLREPtwo (d0cs1, d0cs2) => let
-    val res = auxlst (d0cs1, sym, res) in auxlst (d0cs2, sym, res)
-  end (* end of [GUAD0ECLREPtwo] *)
-| GUAD0ECLREPcons (d0cs1, gd0c2) => let
-    val res = auxlst (d0cs1, sym, res) in auxgua (gd0c2, sym, res)
-  end (* end of [GUAD0ECLREPcons] *)
+| GUAD0ECLREPone
+    (d0cs) => auxlst (d0cs, sym, res)
+| GUAD0ECLREPtwo
+    (d0cs1, d0cs2) =>
+  (
+    auxlst (d0cs2, sym, auxlst(d0cs1, sym, res))
+  ) // end of [GUAD0ECLREPtwo]
+| GUAD0ECLREPcons
+    (d0cs1, gd0c2) =>
+  (
+    auxgua (gd0c2, sym, auxlst(d0cs1, sym, res))
+  ) // end of [GUAD0ECLREPcons]
 //
 end // end of [auxgua]
 //
-val res = auxlst (d0cs, sym, list_vt_nil)
 //
 in
-  list_vt_reverse (res)
+  list_vt_reverse(auxlst(d0cs, sym, list_vt_nil(*void*)))
 end // end of [d0eclreplst_find_synop]
 
 (* ****** ****** *)
