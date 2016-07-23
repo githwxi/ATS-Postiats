@@ -39,7 +39,7 @@ end // end of [fileref_get_tokenlst]
 (* ****** ****** *)
 
 implement
-main () = let
+main() = let
 //
 fun loop (
   xs: tokenlst_vt

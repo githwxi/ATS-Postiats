@@ -202,7 +202,7 @@ parse_from_givename_toplevel
   (stadyn, given, filref) = let
 //
 val filopt =
-  $FIL.filenameopt_make_local (given)
+  $FIL.filenameopt_make_local(given)
 // end of [val]
 in
 //
@@ -210,7 +210,7 @@ case+ filopt of
 | ~Some_vt(fil) => let
     val () = filref := fil
     val d0cs = 
-      parse_from_filename_toplevel (stadyn, fil)
+      parse_from_filename_toplevel(stadyn, fil)
     // end of [val]
     val ((*void*)) = $FIL.the_filenamelst_ppush (fil)
   in
