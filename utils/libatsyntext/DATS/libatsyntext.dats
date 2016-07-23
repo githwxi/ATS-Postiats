@@ -39,6 +39,19 @@ parse_from_fileref_toplevel
 //
 implement
 {}(*tmp*)
+parse_from_filename_toplevel
+  (stadyn, fil) =
+  $PAR.parse_from_filename_toplevel(stadyn, fil)
+implement
+{}(*tmp*)
+parse_from_filename_toplevel2
+  (stadyn, fil) =
+  $PAR.parse_from_filename_toplevel2(stadyn, fil)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
 parse_from_givename_toplevel
   (stadyn, given, filref) =
   $PAR.parse_from_givename_toplevel(stadyn, given, filref)

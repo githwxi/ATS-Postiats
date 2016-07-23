@@ -52,19 +52,25 @@ staload SYN = "src/pats_syntax.sats"
 staload PAR = "src/pats_parsing.sats"
 //
 (* ****** ****** *)
-
-typedef d0ecl = $SYN.d0ecl
-typedef d0eclist = $SYN.d0eclist
-
+//
+staload S1EXP = "src/pats_staexp1.sats"
+staload D1EXP = "src/pats_dynexp1.sats"
+//
 (* ****** ****** *)
 //
-staload
-S2EXP = "src/pats_staexp2.sats"
-staload
-D2EXP = "src/pats_dynexp2.sats"
+staload S2EXP = "src/pats_staexp2.sats"
+staload D2EXP = "src/pats_dynexp2.sats"
 //
-typedef s2exp = $S2EXP.s2exp
-typedef d2exp = $D2EXP.d2exp
+(* ****** ****** *)
+//
+typedef d0ecl = $SYN.d0ecl
+typedef d0eclist = $SYN.d0eclist
+//
+typedef s1exp = $S1EXP.s1exp
+typedef d1exp = $D1EXP.d1exp
+//
+typedef s1exp = $S1EXP.s1exp
+typedef d1exp = $D1EXP.d1exp
 //
 (* ****** ****** *)
 //
@@ -80,14 +86,12 @@ parse_from_fileref_toplevel
 //
 (* ****** ****** *)
 //
-(*
-fun
+fun{}
 parse_from_filename_toplevel
   (stadyn: int, fil: fil_t): d0eclist
-fun
+fun{}
 parse_from_filename_toplevel2
   (stadyn: int, fil: fil_t): d0eclist
-*)
 //
 fun{}
 parse_from_givename_toplevel

@@ -828,8 +828,8 @@ val () = (
 *)
 //
 val fullname =
-  $FIL.filename_append (PATSHOME, given)
-val fullname = string_of_strptr (fullname)
+  $FIL.filename_append(PATSHOME, given)
+val fullname = string_of_strptr(fullname)
 //
 val filename =
   $FIL.filename_make (given, given, fullname)
@@ -882,18 +882,18 @@ the_prelude_load
   (PATSHOME) = {
 //
 val () =
-  the_fixity_load (PATSHOME)
+the_fixity_load(PATSHOME)
 //
 val () =
-  pervasive_load (PATSHOME, "prelude/basics_pre.sats")
+  pervasive_load(PATSHOME, "prelude/basics_pre.sats")
 val () =
-  pervasive_load (PATSHOME, "prelude/basics_sta.sats")
+  pervasive_load(PATSHOME, "prelude/basics_sta.sats")
 val () =
-  pervasive_load (PATSHOME, "prelude/basics_dyn.sats")
+  pervasive_load(PATSHOME, "prelude/basics_dyn.sats")
 val () =
-  pervasive_load (PATSHOME, "prelude/basics_gen.sats")
+  pervasive_load(PATSHOME, "prelude/basics_gen.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/macrodef.sats")
+val () = pervasive_load(PATSHOME, "prelude/macrodef.sats")
 //
 val () = stacst2_initialize () // internalizing some static consts
 val () = $CNSTR3.constraint3_initialize () // internalizing some maps
@@ -905,42 +905,43 @@ val () = $CNSTR3.constraint3_initialize () // internalizing some maps
 *)
 //
 val () =
-  pervasive_load (PATSHOME, "prelude/SATS/arith_prf.sats")
+  pervasive_load(PATSHOME, "prelude/SATS/arith_prf.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/integer.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/pointer.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/integer.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/pointer.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/bool.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/char.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/float.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/bool.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/char.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/float.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/integer_ptr.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/integer_fixed.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/integer_ptr.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/integer_fixed.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/memory.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/memory.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/string.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/strptr.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/string.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/strptr.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/tuple.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/tuple.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/reference.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/reference.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/filebas.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/intrange.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/filebas.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/intrange.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/gorder.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/gnumber.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/grandom.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/gorder.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/gnumber.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/grandom.sats")
 //
 (*
 //
 // manual loading
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/unsafe.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/unsafe.sats")
+//
 *)
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/checkast.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/checkast.sats")
 //
 (*
 //
@@ -948,34 +949,34 @@ val () = pervasive_load (PATSHOME, "prelude/SATS/checkast.sats")
 //
 *)
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/list.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/list_vt.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/list.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/list_vt.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/option.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/option_vt.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/option.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/option_vt.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/array.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/array_prf.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/arrayptr.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/arrayref.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/array.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/array_prf.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/arrayptr.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/arrayref.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/matrix.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/matrixptr.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/matrixref.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/matrix.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/matrixptr.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/matrixref.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/stream.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/stream_vt.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/stream.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/stream_vt.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/gprint.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/tostring.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/gprint.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/tostring.sats")
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/parray.sats") // null-terminated
+val () = pervasive_load(PATSHOME, "prelude/SATS/parray.sats") // null-terminated
 //
-val () = pervasive_load (PATSHOME, "prelude/SATS/extern.sats") // interfacing externs
+val () = pervasive_load(PATSHOME, "prelude/SATS/extern.sats") // interfacing externs
 //
 (*
-val () = pervasive_load (PATSHOME, "prelude/SATS/giterator.sats")
-val () = pervasive_load (PATSHOME, "prelude/SATS/fcontainer.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/giterator.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/fcontainer.sats")
 *)
 //
 } (* end of [the_prelude_load] *)
@@ -999,7 +1000,7 @@ the_prelude_load_if
 (
 //
 if flag = 0 then let
-  val () = flag := 1 in the_prelude_load (PATSHOME)
+  val () = flag := 1 in the_prelude_load(PATSHOME)
 end else () // end of [if]
 //
 ) (* end of [the_prelude_load_if] *)
@@ -1132,6 +1133,9 @@ fun loop
 in
 //
 case+ jsvs of
+| list_nil
+    ((*void*)) => ()
+  // list_nil
 | list_cons
     (jsv, jsvs) => let
     val () =
@@ -1142,7 +1146,6 @@ case+ jsvs of
   in
     loop (out, jsvs, i+1)
   end // end of [list_cons]
-| list_nil ((*void*)) => ()
 //
 end // end of [loop]
 //
@@ -1247,9 +1250,9 @@ val d1cs =
 val () =
 if
 state.ninpfile >= 2
-then
+then (
   $TRENV2.the_trans2_env_initialize ()
-// end of [if]
+) (* end of [then] *)
 //
 val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
 //
@@ -1538,12 +1541,8 @@ in
 //
 case+ arglst of
 //
-| ~list_vt_cons
-    (arg, arglst) =>
-    process_cmdline2 (state, arg, arglst)
-//
-| ~list_vt_nil ()
-    when state.ninpfile = 0 => let
+| ~list_vt_nil() when
+    state.ninpfile = 0 => let
     val stadyn =
       waitkind_get_stadyn (state.waitkind)
     // end of [val]
@@ -1593,7 +1592,9 @@ case+ arglst of
     | _ (* stadyn < 0 *) => ((*nothing*))
   end // end of [list_vt_nil when ...]
 //
-| ~list_vt_nil ((*void*)) => ()
+| ~list_vt_nil((*void*)) => ((*void*))
+//
+| ~list_vt_cons(arg, arglst) => process_cmdline2(state, arg, arglst)
 //
 end // end of [process_cmdline]
 
@@ -1624,10 +1625,10 @@ case+ arg of
     case+ arg of
     | COMARGkey
         (1, key) when nif > 0 =>
-        process_cmdline2_COMARGkey1 (state, arglst, key)
+        process_cmdline2_COMARGkey1(state, arglst, key)
     | COMARGkey
         (2, key) when nif > 0 =>
-        process_cmdline2_COMARGkey2 (state, arglst, key)
+        process_cmdline2_COMARGkey2(state, arglst, key)
     | COMARGkey (_, given) => let
 //
         val () =
@@ -1640,10 +1641,10 @@ case+ arg of
 //
         val () =
         if stadyn >= 1
-          then $GLOB.the_DYNLOADFLAG_set (1)
+          then $GLOB.the_DYNLOADFLAG_set(1)
         // end of [if]
         val d0cs =
-          parse_from_givename_toplevel (stadyn, given, state.infil)
+          parse_from_givename_toplevel(stadyn, given, state.infil)
         // end of [val]
 //
         var istrans: bool = true
@@ -1653,14 +1654,14 @@ case+ arg of
         val () = if istaggen then istrans := false
 //
         val () =
-          if isdepgen then do_depgen (state, given, d0cs)
+          if isdepgen then do_depgen(state, given, d0cs)
         // end of [val]
         val () =
-          if istaggen then do_taggen (state, given, d0cs)
+          if istaggen then do_taggen(state, given, d0cs)
         // end of [val]
 //
         val () =
-          if istrans then do_transfinal2 (state, given, d0cs)
+          if istrans then do_transfinal2(state, given, d0cs)
         // end of [val]
 //
       in
@@ -1960,13 +1961,15 @@ end : string // end of [val]
 // for the run-time and atslib
 //
 val () =
-  $FIL.the_prepathlst_push (PATSHOME)
+  $FIL.the_prepathlst_push(PATSHOME)
 //
-val () = $TRENV1.the_trans1_env_initialize ()
-val () = $TRENV2.the_trans2_env_initialize ()
+val () =
+  $TRENV1.the_trans1_env_initialize()
+val () =
+  $TRENV2.the_trans2_env_initialize()
 //
-val arglst = comarglst_parse (argc, argv)
-val+~list_vt_cons (arg0, arglst) = arglst
+val arglst = comarglst_parse(argc, argv)
+val+~list_vt_cons(arg0, arglst) = arglst
 //
 var
 state = @{
