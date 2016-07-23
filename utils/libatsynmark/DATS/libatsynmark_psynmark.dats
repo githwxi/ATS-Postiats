@@ -1102,10 +1102,16 @@ end // end of [s0expdeflst_mark]
 implement
 e0xndeclst_mark
   (ds, res) = let
+//
+(*
+val () = println! ("e0xndeclst_mark")
+*)
+//
 in
 //
 case+ ds of
-| list_cons (d, ds) => let
+| list_nil() => ()
+| list_cons(d, ds) => let
     val loc = d.e0xndec_loc
     val () =
       psynmark_ins_beg (SMdynexp, loc, res)
@@ -1117,7 +1123,6 @@ case+ ds of
   in
     // nothing
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [e0xndeclst]
 
@@ -1126,6 +1131,11 @@ end // end of [e0xndeclst]
 implement
 d0atconlst_mark
   (knd, ds, res) = let
+//
+(*
+val () = println! ("d0atconlst_mark")
+*)
+//
 in
 //
 case+ ds of
@@ -1161,6 +1171,11 @@ end // end of [d0atconlst_mark]
 implement
 d0atdeclst_mark
   (knd, ds, res) = let
+//
+(*
+val () = println! ("d0atdeclst_mark")
+*)
+//
 in
 //
 case+ ds of
@@ -1188,22 +1203,31 @@ end // end of [d0atdeclst_mark]
 implement
 a0typlst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("a0typlst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () = s0exp_mark (x.a0typ_typ, res)
   in
     a0typlst_mark (xs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [a0typlst_mark]
 
 implement
 a0typlst_npf_mark
   (npf, xs, res) = let
+//
+(*
+val () = println! ("a0typlst_npf_mark")
+*)
+//
 in
 //
 if npf > 0 then (
@@ -1222,14 +1246,21 @@ if npf > 0 then (
 //
 end // end of [a0typlst_npf_mark]
 
+(* ****** ****** *)
+
 implement
 d0cstarglst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("d0cstarglst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () = (
     case+ x.d0cstarg_node of
     | $SYN.D0CSTARGsta _ =>
@@ -1239,13 +1270,17 @@ case+ xs of
   in
     d0cstarglst_mark (xs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [d0cstarglst_mark]
 
 implement
 d0cstdeclst_mark
   (ds, res) = let
+//
+(*
+val () = println! ("d0cstdeclst_mark")
+*)
+//
 in
 //
 case+ ds of
@@ -1273,25 +1308,36 @@ end // end of [d0cstdclst_mark]
 implement
 s0arglst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("s0arglst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () = psynmark_ins_begend (SMstaexp, x.s0arg_loc, res)
   in
     s0arglst_mark (xs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [s0arglst_mark]
 
 implement
 s0vararglst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("s0vararglst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val loc = (
       case+ x of
       | $SYN.S0VARARGseq (loc, _) => loc
@@ -1302,7 +1348,6 @@ case+ xs of
   in
     s0vararglst_mark (xs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [s0vararglst_mark]
 
@@ -1311,15 +1356,20 @@ end // end of [s0vararglst_mark]
 implement
 s0marglst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("s0marglst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () = s0arglst_mark (x.s0marg_arg, res)
   in
     s0marglst_mark (xs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [s0marglst_mark]
 
@@ -1328,10 +1378,17 @@ end // end of [s0marglst_mark]
 implement
 m0acarglst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("m0acarglst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons (x, xs) => (
+| list_nil() => ()
+| list_cons(x, xs) =>
+  (
   case+ x.m0acarg_node of
   | $SYN.M0ACARGsta (s0as) => let
       val () = s0arglst_mark (s0as, res)
@@ -1345,24 +1402,29 @@ case+ xs of
       m0acarglst_mark (xs, res)
     end
   ) // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [m0acarglst_mark]
 
 implement
 m0acdeflst_mark
   (ds, res) = let
+//
+(*
+val () = println! ("m0acdeflst_mark")
+*)
+//
 in
 //
 case+ ds of
-| list_cons (d, ds) => let
+| list_nil() => ()
+| list_cons(d, ds) => let
     val () =
       m0acarglst_mark (d.m0acdef_arg, res)
+    // end of [val]
     val () = d0exp_mark (d.m0acdef_def, res)
   in
     m0acdeflst_mark (ds, res)
   end // end of [list_cons]
-| list_nil () => ()
 end // end of [m0acdeflst_mark]
 
 (* ****** ****** *)
@@ -1370,11 +1432,16 @@ end // end of [m0acdeflst_mark]
 implement
 f0arglst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("f0arglst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () = (
       case+ x.f0arg_node of
       | $SYN.F0ARGdyn (p0t) => p0at_mark (p0t, res)
@@ -1387,7 +1454,6 @@ case+ xs of
   in
     f0arglst_mark (xs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [f0arglst_mark]
 
@@ -1406,10 +1472,16 @@ witht0ype_mark
 implement
 f0undeclst_mark
   (fk, ds, res) = let
+//
+(*
+val () = println! ("f0undeclst_mark")
+*)
+//
 in
 //
 case+ ds of
-| list_cons (d, ds) => let
+| list_nil() => ()
+| list_cons(d, ds) => let
     val () =
       f0arglst_mark (d.f0undec_arg, res)
     val () =
@@ -1421,7 +1493,6 @@ case+ ds of
   in
     f0undeclst_mark (fk, ds, res)
   end // end of [list_cons]
-| list_nil () => ()
 end // end of [f0undeclst_mark]
 
 (* ****** ****** *)
@@ -1429,17 +1500,22 @@ end // end of [f0undeclst_mark]
 implement
 v0aldeclst_mark
   (vk, ds, res) = let
+//
+(*
+val () = println! ("v0aldeclst_mark")
+*)
+//
 in
 //
 case+ ds of
-| list_cons (d, ds) => let
+| list_nil() => ()
+| list_cons(d, ds) => let
     val () = p0at_mark (d.v0aldec_pat, res)
     val () = d0exp_mark (d.v0aldec_def, res)
     val () = witht0ype_mark (d.v0aldec_ann, res)
   in
     v0aldeclst_mark (vk, ds, res)
   end // end of [list_cons]
-| list_nil () => ()
 end // end of [v0aldeclst_mark]
 
 (* ****** ****** *)
@@ -1447,10 +1523,16 @@ end // end of [v0aldeclst_mark]
 implement
 v0ardeclst_mark
   (ds, res) = let
+//
+(*
+val () = println! ("v0ardeclst_mark")
+*)
+//
 in
 //
 case+ ds of
-| list_cons (d, ds) => let
+| list_nil() => ()
+| list_cons(d, ds) => let
     val () = s0expopt_mark (d.v0ardec_type, res)
     val () = (
       case+ d.v0ardec_pfat of
@@ -1462,29 +1544,37 @@ case+ ds of
   in
     v0ardeclst_mark (ds, res)
   end // end of [list_cons]
-| list_nil () => ()
 end // end of [v0ardeclst_mark]
 
 (* ****** ****** *)
 
 implement
-i0mparg_mark (x, res) =
-  case+ x of
-  | $SYN.I0MPARG_sarglst (s0as) => s0arglst_mark (s0as, res)
-  | $SYN.I0MPARG_svararglst (s0vs) => s0vararglst_mark (s0vs, res)
-// end of [i0mparg_mark]
+i0mparg_mark
+  (x, res) = (
+//
+case+ x of
+| $SYN.I0MPARG_sarglst
+    (s0as) => s0arglst_mark (s0as, res)
+| $SYN.I0MPARG_svararglst
+    (s0vs) => s0vararglst_mark (s0vs, res)
+//
+) (* end of [i0mparg_mark] *)
 
 implement
-impqi0de_mark (x, res) = let
-  val () =
-    t0mpmarglst_mark (x.impqi0de_arg, res)
-  // end of [val]
+impqi0de_mark
+  (x, res) = let
+//
+val () =
+  t0mpmarglst_mark (x.impqi0de_arg, res)
+// end of [val]
+//
 in
   // nothing
 end // end of [impqi0de_mark]
 
 implement
-i0mpdec_mark (d, res) = let
+i0mpdec_mark
+  (d, res) = let
   val () = impqi0de_mark (d.i0mpdec_qid, res)
   val () = f0arglst_mark (d.i0mpdec_arg, res)
   val () = s0expopt_mark (d.i0mpdec_res, res)
@@ -1494,24 +1584,32 @@ end // end of [i0mpdec]
 
 (* ****** ****** *)
 
-fun dcstkind_is_proof
-  (tok: $LEX.token): bool = (
+fun
+dcstkind_is_proof
+  (tok: $LEX.token): bool =
+(
   case+ tok.token_node of
   | $LEX.T_FUN (fk) => $BAS.funkind_is_proof (fk)
   | $LEX.T_VAL (vk) => $BAS.valkind_is_proof (vk)
-  | _ => false
+  | _ (*non-FUN-VAL*) => false
 ) // end of [dcstkind_is_proof]
 
 implement
 d0ecl_mark
   (d0c0, res) = let
-  val loc0 = d0c0.d0ecl_loc
-  macdef neuexploc_ins () = 
-    psynmark_ins_begend (SMneuexp, loc0, res)
-  macdef staexploc_ins () = 
-    psynmark_ins_begend (SMstaexp, loc0, res)
-  macdef dynexploc_ins () = 
-    psynmark_ins_begend (SMdynexp, loc0, res)
+//
+val loc0 = d0c0.d0ecl_loc
+//
+macdef
+neuexploc_ins () = 
+  psynmark_ins_begend (SMneuexp, loc0, res)
+macdef
+staexploc_ins () = 
+  psynmark_ins_begend (SMstaexp, loc0, res)
+macdef
+dynexploc_ins () = 
+  psynmark_ins_begend (SMdynexp, loc0, res)
+//
 in
 //
 case+ d0c0.d0ecl_node of
