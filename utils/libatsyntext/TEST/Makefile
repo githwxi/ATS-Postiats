@@ -7,7 +7,9 @@ ATSCC=$(ATSHOME)/bin/atscc
 
 ######
 
+all::
 all:: test01
+all:: test02
 
 ######
 #
@@ -19,6 +21,17 @@ $(ATSCC) \
   -L $(PATSHOME)/utils/libatsyntext -latsyntext -L $(PATSHOME)/utils/libatsopt -latsopt -lgmp
 #
 cleanall:: ; $(RMF) test01
+#
+######
+#
+test02: \
+test02.dats ; \
+$(ATSCC) \
+  -I$(PATSHOME)/src \
+  -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ $< \
+  -L $(PATSHOME)/utils/libatsyntext -latsyntext -L $(PATSHOME)/utils/libatsopt -latsopt -lgmp
+#
+cleanall:: ; $(RMF) test02
 #
 ######
 

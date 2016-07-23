@@ -35,7 +35,8 @@ implement
 libatsynmark_filename_set_current
   (name) = let
 //
-val opt = $FIL.filenameopt_make_local (name)
+val opt =
+  $FIL.filenameopt_make_local (name)
 //
 in
 //
@@ -345,7 +346,7 @@ case+
 //
 | T_EOF () => false
 //
-| _ => true
+| _ (*rest-of-token*) => true
 //
 end // end of [token_is_keyword]
 

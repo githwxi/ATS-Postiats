@@ -614,12 +614,19 @@ case+ opt of
     val srcloc = 
       $GLOB.the_PKGRELOC_get ()
     val () =
-    if srcloc = 0 then {
+    if (
+    srcloc = 0
+    ) then {
       val () =
       prerr_error1_loc (loc0)
       val () =
-      prerrln! (": the file [", given, "] is not available for inclusion.")
+      prerrln!
+      (
+        ": the file [", given, "] is not available for inclusion."
+      ) (* prerrln! *)
+//
       val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
+//
 (*
       val () = $ERR.abort{void}((*reachable*)) // HX: it is meaningful to continue
 *)
@@ -848,17 +855,24 @@ val opt = $FIL.filenameopt_make_relative (given)
 val fil =
 (
 case+ opt of
-| ~Some_vt (fil) => fil
-| ~None_vt ((*void*)) => let
+| ~Some_vt(fil) => fil
+| ~None_vt((*void*)) => let
     val srcloc =
-      $GLOB.the_PKGRELOC_get ()
+      $GLOB.the_PKGRELOC_get()
     val () =
-    if srcloc = 0 then {
+    if (
+    srcloc = 0
+    ) then {
       val () =
       prerr_error1_loc (loc0)
       val () =
-      prerrln! (": the file [", given, "] is not available for staloading.")
+      prerrln!
+      (
+        ": the file [", given, "] is not available for staloading."
+      ) (* prerrln! *)
+//
       val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
+//
 (*
       val () = $ERR.abort{void}((*reachable*)) // HX: it is meaningful to continue
 *)

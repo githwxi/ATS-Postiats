@@ -797,11 +797,13 @@ the_fixity_load
     $TRENV1.the_fxtyenv_pop (pfenv | (*none*))
   val ((*joined*)) =
     $TRENV1.the_fxtyenv_pervasive_joinwth (fxtymap)
+//
 (*
   val () = begin
     print "[fixity_load] is finished."; print_newline ()
   end // end of [val]
 *)
+//
 in
   // empty
 end // end of [fixity_load]
