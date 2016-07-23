@@ -55,6 +55,8 @@ gprint_ref (x: &INV(a)): void
 fun{}
 gprint_int (x: int): void
 fun{}
+gprint_bool (x: bool): void
+fun{}
 gprint_char (x: char): void
 fun{}
 gprint_float (x: float): void
@@ -64,6 +66,15 @@ fun{}
 gprint_string (x: string): void
 
 #atscode_separator()
+//
+overload gprint with gprint_int
+overload gprint with gprint_bool
+overload gprint with gprint_char
+overload gprint with gprint_float
+overload gprint with gprint_double
+overload gprint with gprint_string
+//
+#atscode_separator()
 
 fun{} gprint_list$beg(): void
 fun{} gprint_list$end(): void
@@ -71,7 +82,9 @@ fun{} gprint_list$sep(): void
 //
 fun{a:t0p}
 gprint_list (xs: List(a)): void
-
+//
+overload gprint with gprint_list
+//
 #atscode_separator()
 
 fun{} gprint_listlist$beg1(): void
@@ -94,19 +107,29 @@ fun{} gprint_array$sep(): void
 fun{a:t0p}
 gprint_array
   {n:int}
-  (A: &(@[INV(a)][n]), n: size_t(n)): void
-// end of [gprint_array]
+(
+  &(@[INV(a)][n]), size_t(n)
+) : void // end-of-function
+//
 fun{a:t0p}
 gprint_arrayptr
   {n:int}
-  (A: !arrayptr(INV(a), n), n: size_t(n)): void
-// end of [gprint_arrayptr]
+(
+  !arrayptr(INV(a), n), size_t(n)
+) : void // end-of-function
+//
 fun{a:t0p}
 gprint_arrayref
-  {n:int}(A: arrayref(a, n), n: size_t(n)): void
+  {n:int}
+  (arrayref(a, n), size_t(n)): void
 // end of [gprint_arrayref]
 //
-fun{a:t0p} gprint_arrszref(ASZ: arrszref(a)): void
+#atscode_separator()
+//
+fun{a:t0p}
+gprint_arrszref(ASZ: arrszref(a)): void
+//
+overload gprint with gprint_arrayref
 //
 #atscode_separator()
 
