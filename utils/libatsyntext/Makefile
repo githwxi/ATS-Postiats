@@ -84,6 +84,18 @@ $(PATSHOME)/src/%.dats ; \
 #
 ######
 #
+#
+libatsyntext:: \
+libatsyntext_sats.o
+libatsyntext_sats.o: \
+SATS/libatsyntext.sats ; \
+  $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
+libatsyntext:: \
+libatsyntext_dats.o
+libatsyntext_dats.o: \
+DATS/libatsyntext.dats ; \
+  $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
+#
 libatsyntext:: \
 dynloadall_dats.o
 dynloadall_dats.o: dynloadall.dats; \

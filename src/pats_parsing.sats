@@ -799,13 +799,13 @@ parse_from_filename_toplevel2
   (stadyn: int, fil: filename): d0eclist
 //
 (* ****** ****** *)
-
+//
 fun
 parse_from_givename_toplevel
 (
   stadyn: int, given: string, filref: &filename? >> filename
 ) : d0eclist // end of [parse_from_givename_toplevel]
-
+//
 (* ****** ****** *)
 
 (* end of [pats_parsing.sats] *)
