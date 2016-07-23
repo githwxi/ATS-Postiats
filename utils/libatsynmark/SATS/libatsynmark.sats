@@ -198,8 +198,8 @@ datatype
 psynmark = PSM of
   (lint, synmark, int(*knd*)) // knd = 0/1: beg / end
 //
-typedef psynmarklst = List (psynmark)
-viewtypedef psynmarklst_vt = List_vt (psynmark)
+typedef psynmarklst = List0(psynmark)
+vtypedef psynmarklst_vt = List0_vt(psynmark)
 //
 (* ****** ****** *)
 
@@ -272,7 +272,7 @@ psynmarklst_process
 (* ****** ****** *)
 
 vtypedef
-psynmarklstlst_vt = List_vt (psynmarklst_vt)
+psynmarklstlst_vt = List0_vt(psynmarklst_vt)
 
 (* ****** ****** *)
 //
@@ -281,33 +281,42 @@ psynmarklstlst_vt = List_vt (psynmarklst_vt)
 fun{}
 psynmarklstlst_process
 (
-  pos0: lint, psmss: &psynmarklstlst_vt, putc: putc_type
-) : void // end-of-fun
+  pos0: lint
+, psmss: &psynmarklstlst_vt, putc: putc_type
+) : void // end-of-function
 //
 (* ****** ****** *)
-
-fun fhtml_putc (c: char, putc: putc_type): int(*nerr*)
-fun fstring_putc (s: string, putc: putc_type): int(*nerr*)
-
+//
+fun
+fhtml_putc
+  (c: char, putc: putc_type): int(*nerr*)
+//
+fun
+fstring_putc
+  (s: string, putc: putc_type): int(*nerr*)
+//
 (* ****** ****** *)
 
 fun{}
 string_psynmarklstlst_process
 (
-  inp: string, psmss: psynmarklstlst_vt, putc: putc_type
-) : void // end of [string_psynmarklstlst_process]
+  inp: string
+, psmss: psynmarklstlst_vt, putc: putc_type
+) : void // end-of-function
 
 fun{}
 fileref_psynmarklstlst_process
 (
-  inp: FILEref, psmss: psynmarklstlst_vt, putc: putc_type
-) : void // end of [fileref_psynmarklstlst_process]
+  inp: FILEref
+, psmss: psynmarklstlst_vt, putc: putc_type
+) : void // end-of-function
 
 fun{}
 charlst_psynmarklstlst_process
 (
-  inp: charlst_vt, psmss: psynmarklstlst_vt, putc: putc_type
-) : void // end of [charlst_psynmarklstlst_process]
+  inp: charlst_vt
+, psmss: psynmarklstlst_vt, putc: putc_type
+) : void // end-of-function
 
 (* ****** ****** *)
 //
@@ -356,11 +365,12 @@ charlst_pats2xhtmlize_embedded
 // 
 (* ****** ****** *)
 //
-// HX:
+// HX-2012-06:
 // This one is for building ATSLIB documentation
 //
 fun
-d0eclreplst_find_synop(xs: d0eclreplst, sym: symbol): List_vt(charlst)
+d0eclreplst_find_synop
+  (xs: d0eclreplst, sym: symbol): List0_vt(charlst)
 //
 (* ****** ****** *)
 

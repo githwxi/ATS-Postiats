@@ -189,15 +189,21 @@ in
   res := list_vt_cons (psm, res)
 end // end of [psynmark_ins]
 
-fun psynmark_ins_beg (
+fun
+psynmark_ins_beg
+(
   sm: synmark, loc: location, res: &res >> res
 ) : void = psynmark_ins (sm, 0(*beg*), loc, res)
 
-fun psynmark_ins_end (
+fun
+psynmark_ins_end
+(
   sm: synmark, loc: location, res: &res >> res
 ) : void = psynmark_ins (sm, 1(*end*), loc, res)
 
-fun psynmark_ins_begend (
+fun
+psynmark_ins_begend
+(
   sm: synmark, loc: location, res: &res >> res
 ) : void = let
   val () = psynmark_ins (sm, 0(*beg*), loc, res)
@@ -209,12 +215,17 @@ end // end of [psynmark_ins_begend]
 (* ****** ****** *)
 
 implement
-listize_token2psynmark (xs) = let
+listize_token2psynmark
+  (xs) = let
 //
 fun loop (
   xs: !tokenlst_vt, res: &res >> res
 ) : void =
-  case xs of
+(
+  case+ xs of
+  | list_vt_nil
+      ((*void*)) => fold@ (xs)
+    // end of [list_vt_nil]
   | list_vt_cons
       (x, !p_xs1) => let
       val loc = token_get_loc (x)
@@ -234,8 +245,7 @@ fun loop (
     in
       // nothing
     end // end of [list_vt_cons]
-  | list_vt_nil () => fold@ (xs)
-// end of [loop]
+) (* end of [loop] *)
 //
 var res: res = list_vt_nil ()
 val () = loop (xs, res)
@@ -247,7 +257,8 @@ end // end of [listize_token2psynmark]
 (* ****** ****** *)
 
 implement
-psynmarklst_split (xs) = let
+psynmarklst_split
+  (xs) = let
 //
 vtypedef psmlst = psynmarklst_vt
 fun loop (
@@ -295,9 +306,10 @@ in
 end // end of [psynmarklst_split]
 
 (* ****** ****** *)
-
-typedef fmark_type (a:t@ype) = (a, &res >> res) -> void
-
+//
+typedef
+fmark_type(a:t@ype) = (a, &res >> res) -> void
+//
 (* ****** ****** *)
 //
 extern fun s0rt_mark : fmark_type (s0rt)
@@ -604,11 +616,14 @@ case+ p0t0.p0at_node of
     (id, loc_id, p0t) => {
     val () = psynmark_ins_begend (SMstaexp, loc_id, res)
     val () = p0at_mark (p0t, res)
-  }
+  } (* end of [$SYN.P0Trefas *)
 //
-| $SYN.P0Tlst (lin, p0ts) => p0atlst_mark (p0ts, res)
-| $SYN.P0Ttup (knd, npf, p0ts) => p0atlst_npf_mark (npf, p0ts, res)
-| $SYN.P0Trec (knd, npf, lp0ts) => labp0atlst_npf_mark (npf, lp0ts, res)
+| $SYN.P0Tlst
+    (lin, p0ts) => p0atlst_mark (p0ts, res)
+| $SYN.P0Ttup
+    (knd, npf, p0ts) => p0atlst_npf_mark (npf, p0ts, res)
+| $SYN.P0Trec
+    (knd, npf, lp0ts) => labp0atlst_npf_mark (npf, lp0ts, res)
 //
 | $SYN.P0Tfree (p0t) => p0at_mark (p0t, res)
 | $SYN.P0Tunfold (p0t) => p0at_mark (p0t, res)
@@ -629,36 +644,45 @@ implement
 p0atlst_mark
   (p0ts, res) = (
   case+ p0ts of
-  | list_cons (p0t, p0ts) => let
-      val () = p0at_mark (p0t, res) in p0atlst_mark (p0ts, res)
+  | list_nil() => ()
+  | list_cons(p0t, p0ts) => let
+      val () = p0at_mark(p0t, res) in p0atlst_mark(p0ts, res)
     end // end of [list_cons]
-  | list_nil () => ()
 ) // end of [p0atlst_mark]
 
 implement
 p0atopt_mark
   (opt, res) = (
   case+ opt of
-  | Some (p0t) => p0at_mark (p0t, res)
-  | None () => ()
+  | None() => ()
+  | Some(p0t) => p0at_mark(p0t, res)
 ) // end of [p0atopt_mark]
 
 implement
 p0atlst_npf_mark
   (npf, p0ts, res) = let
+//
+(*
+val () = println! ("p0atlst_npf_mark")
+*)
+//
 in
 //
-if npf > 0 then (
-  case+ p0ts of
-  | list_cons (p0t, p0ts) => let
-      val loc = p0t.p0at_loc
-      val () = psynmark_ins_beg (SMprfexp, loc, res)
-      val () = p0at_mark (p0t, res)
-      val () = psynmark_ins_end (SMprfexp, loc, res)
-    in
-      p0atlst_npf_mark (npf-1, p0ts, res)
-    end // end of [list_cons]
-  | list_nil () => ()
+if (
+npf > 0
+) then (
+//
+case+ p0ts of
+| list_nil() => ()
+| list_cons(p0t, p0ts) => let
+    val loc = p0t.p0at_loc
+    val () = psynmark_ins_beg (SMprfexp, loc, res)
+    val () = p0at_mark (p0t, res)
+    val () = psynmark_ins_end (SMprfexp, loc, res)
+  in
+    p0atlst_npf_mark (npf-1, p0ts, res)
+  end // end of [list_cons]
+//
 ) else p0atlst_mark (p0ts, res)
 //
 end // end of [p0atlst_npf_mark]
@@ -668,31 +692,49 @@ end // end of [p0atlst_npf_mark]
 implement
 labp0at_mark
   (lx, res) = (
-  case+ lx.labp0at_node of
-  | $SYN.LABP0ATnorm
-      (lab, p0t) => let
-      val () = psynmark_ins_begend (SMdynlab, lab.l0ab_loc, res)
-    in
-      p0at_mark (p0t, res)
-    end // end of [LABP0ATnorm]
-  | $SYN.LABP0ATomit () => ()
+//
+case+
+lx.labp0at_node
+of // case+
+| $SYN.LABP0ATomit
+    ((*void*)) => ()
+| $SYN.LABP0ATnorm
+    (lab, p0t) => let
+    val () = psynmark_ins_begend (SMdynlab, lab.l0ab_loc, res)
+  in
+    p0at_mark (p0t, res)
+  end // end of [LABP0ATnorm]
+//
 ) // end of [labp0at_mark]
 
 implement
 labp0atlst_npf_mark
   (npf, lxs, res) = let
+//
+(*
+val () = println! ("labp0atlst_npf_mark")
+*)
+//
 in
 //
 case+ lxs of
-| list_cons (lx, lxs) => let
+| list_nil
+    ((*void*)) => ()
+| list_cons
+    (lx, lxs) => let
     val loc = lx.labp0at_loc
-    val () = if npf > 0 then psynmark_ins_beg (SMprfexp, loc, res)
+    val () =
+    if npf > 0
+      then psynmark_ins_beg (SMprfexp, loc, res)
+    // end of [if]
     val () = labp0at_mark (lx, res)
-    val () = if npf > 0 then psynmark_ins_end (SMprfexp, loc, res)
+    val () =
+    if npf > 0
+      then psynmark_ins_end (SMprfexp, loc, res)
+     // end of [if]
   in
     labp0atlst_npf_mark (npf-1, lxs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [labp0atlst_npf_mark]
 
@@ -701,7 +743,13 @@ end // end of [labp0atlst_npf_mark]
 implement
 d0exp_mark
   (d0e0, res) = let
-  val loc0 = d0e0.d0exp_loc
+//
+val loc0 = d0e0.d0exp_loc
+//
+(*
+val () = println! ("d0exp_mark")
+*)
+//
 in
 //
 case+ d0e0.d0exp_node of
@@ -819,30 +867,40 @@ end // end of [d0exp_mark]
 
 implement
 d0explst_mark
-  (d0es, res) = (
+  (d0es, res) =
+(
   case+ d0es of
-  | list_cons (d0e, d0es) => let
+  | list_nil() => ()
+  | list_cons(d0e, d0es) => let
       val () = d0exp_mark (d0e, res) in d0explst_mark (d0es, res)
     end // end of [list_cons]
-  | list_nil () => ()
-) // end of [d0explst_mark]
+) (* end of [d0explst_mark] *)
 
 implement
 d0expopt_mark
-  (opt, res) = (
+  (opt, res) =
+(
   case+ opt of
-  | Some (d0e) => d0exp_mark (d0e, res)
-  | None () => ()
-) // end of [d0expopt_mark]
+  | None() => ()
+  | Some(d0e) => d0exp_mark (d0e, res)
+) (* end of [d0expopt_mark] *)
 
 implement
 d0explst_npf_mark
   (npf, d0es, res) = let
+//
+(*
+val () = println! ("d0explst_npf_mark")
+*)
+//
 in
 //
-if npf > 0 then (
+if (
+npf > 0
+) then (
   case+ d0es of
-  | list_cons (d0e, d0es) => let
+  | list_nil() => ()
+  | list_cons(d0e, d0es) => let
       val loc = d0e.d0exp_loc
       val () = psynmark_ins_beg (SMprfexp, loc, res)
       val () = d0exp_mark (d0e, res)
@@ -850,7 +908,6 @@ if npf > 0 then (
     in
       d0explst_npf_mark (npf-1, d0es, res)
     end // end of [list_cons]
-  | list_nil () => ()
 ) else d0explst_mark (d0es, res)
 //
 end // end of [d0explst_npf_mark]
@@ -860,10 +917,16 @@ end // end of [d0explst_npf_mark]
 implement
 labd0explst_npf_mark
   (npf, lxs, res) = let
+//
+(*
+val () = println! ("labd0explst_npf_mark")
+*)
+//
 in
 //
 case+ lxs of
-| list_cons (lx, lxs) => let
+| list_nil() => ()
+| list_cons(lx, lxs) => let
     val $SYN.DL0ABELED (lab, d0e) = lx
     val () = if npf > 0 then
       psynmark_ins_beg (SMprfexp, lab.l0ab_loc, res)
@@ -875,7 +938,6 @@ case+ lxs of
   in
     labd0explst_npf_mark (npf-1, lxs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [labd0explst_npf_mark]
 
@@ -884,17 +946,21 @@ end // end of [labd0explst_npf_mark]
 implement
 t0mpmarglst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("t0mpmarglst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val arg = x.t0mpmarg_arg
     val () =
       s0explst_mark (arg, res) in t0mpmarglst_mark (xs, res)
     // end of [val]
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [t0mpmarglst_mark]
 
@@ -903,16 +969,21 @@ end // end of [t0mpmarglst_mark]
 implement
 gm0atlst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("gm0atlst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () = d0exp_mark (x.gm0at_exp, res)
     val () = p0atopt_mark (x.gm0at_pat, res)
   in
     gm0atlst_mark (xs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [gm0atlst_mark]
 
@@ -931,6 +1002,11 @@ end // end of [guap0at_mark]
 implement
 c0laulst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("c0laulst_mark")
+*)
+//
 in
 //
 case+ xs of
@@ -949,16 +1025,21 @@ end // end of [c0laulst_mark]
 implement
 q0marglst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("q0marglst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val loc = x.q0marg_loc
     val () = psynmark_ins_begend (SMstaexp, loc, res)
   in
     q0marglst_mark (xs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [q0marglst_mark]
 
@@ -967,16 +1048,21 @@ end // end of [q0marglst_mark]
 implement
 a0msrtlst_mark
   (xs, res) = let
+//
+(*
+val () = println! ("a0msrtlst_mark")
+*)
+//
 in
 //
 case+ xs of
-| list_cons (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val loc = x.a0msrt_loc
-    val () = psynmark_ins_begend (SMstaexp, loc, res)
+    val () = psynmark_ins_begend(SMstaexp, loc, res)
   in
     a0msrtlst_mark (xs, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [a0msrtlst_mark]
 
@@ -985,21 +1071,29 @@ end // end of [a0msrtlst_mark]
 implement
 s0expdeflst_mark
   (ds, res) = let
+//
+(*
+val () = println! ("s0expdeflst_mark")
+*)
+//
 in
 //
 case+ ds of
-| list_cons (d, ds) => let
+| list_nil() => ()
+| list_cons(d, ds) => let
     val loc = d.s0expdef_loc
-    val () = psynmark_ins_beg (SMstaexp, loc, res)
     val () =
-      s0marglst_mark (d.s0expdef_arg, res)
+    psynmark_ins_beg(SMstaexp, loc, res)
+//
+    val () =
+      s0marglst_mark(d.s0expdef_arg, res)
     // end of [val]
     val () = s0exp_mark (d.s0expdef_def, res)
+//
     val () = psynmark_ins_end (SMstaexp, loc, res)
   in
     s0expdeflst_mark (ds, res)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [s0expdeflst_mark]
 
