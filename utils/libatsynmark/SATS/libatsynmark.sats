@@ -12,8 +12,8 @@
 
 (* ****** ****** *)
 
-typedef charlst = List (char)
-vtypedef charlst_vt = List_vt (char)
+typedef charlst = List0(char)
+vtypedef charlst_vt = List0_vt(char)
 
 (* ****** ****** *)
 //
@@ -58,45 +58,53 @@ libatsynmark_filename_set_current (name: string): void
 //
 absvtype lexbufobj
 //
-fun lexbufobj_make_string (inp: string): lexbufobj
-fun lexbufobj_make_charlst_vt (inp: charlst_vt): lexbufobj
-fun lexbufobj_make_fileref (inp: FILEref): lexbufobj
-fun lexbufobj_free (lbf: lexbufobj): void // endfun
+fun lexbufobj_free(lbf: lexbufobj): void
+//
+fun
+lexbufobj_make_string(inp: string): lexbufobj
+fun
+lexbufobj_make_charlst_vt(inp: charlst_vt): lexbufobj
+fun
+lexbufobj_make_fileref(inp: FILEref): lexbufobj
 //
 (* ****** ****** *)
-
+//
 staload
 LEX = "src/pats_lexing.sats"
+//
 typedef token = $LEX.token
-typedef tokenlst = List (token)
-viewtypedef tokenlst_vt = List_vt (token)
-
+typedef tokenlst = List0(token)
+viewtypedef tokenlst_vt = List0_vt(token)
+//
 (* ****** ****** *)
-
-fun token_get_loc (x: token): location
-
+//
+fun
+token_get_loc(x: token): location
+//
 (* ****** ****** *)
-
-fun fprint_token (out: FILEref, x: token): void
-
+//
+fun
+fprint_token (out: FILEref, x: token): void
+//
 (* ****** ****** *)
-
+//
 fun token_is_eof (x: token): bool
 fun token_is_comment (x: token): bool
 fun token_is_extcode (x: token): bool
 fun token_is_keyword (x: token): bool
-
+//
 (* ****** ****** *)
-
+//
 fun token_is_int (x: token): bool
 fun token_is_char (x: token): bool
 fun token_is_float (x: token): bool
 fun token_is_string (x: token): bool
-
+//
 (* ****** ****** *)
-
-fun lexbufobj_get_tokenlst (lbf: !lexbufobj): tokenlst_vt
-
+//
+fun
+lexbufobj_get_tokenlst(lbf: !lexbufobj): tokenlst_vt
+//
 (* ****** ****** *)
 //
 absvtype tokbufobj
@@ -107,12 +115,13 @@ fun tokbufobj_free (tbf: tokbufobj): void
 fun tokbufobj_unget_token (tbf: !tokbufobj, tok: token): void
 //
 (* ****** ****** *)
-
+//
 staload
 SYN = "src/pats_syntax.sats"
+//
 typedef p0at = $SYN.p0at
 typedef d0ecl = $SYN.d0ecl
-
+//
 (* ****** ****** *)
 
 fun test_symbol_p0at (sym: symbol, p0t: p0at): bool
@@ -134,7 +143,7 @@ and guad0eclrep =
   | GUAD0ECLREPtwo of (d0eclreplst, d0eclreplst)
   | GUAD0ECLREPcons of (d0eclreplst, guad0eclrep)
 
-where d0eclreplst = List (d0eclrep)
+where d0eclreplst = List0(d0eclrep)
 
 (* ****** ****** *)
 
