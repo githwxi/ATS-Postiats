@@ -63,14 +63,15 @@ INCLATS:=-IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ)
 all:: libatsynmark
 
 ######
-
-CBOOT:: ; $(CPF) pats_*_sats.c CBOOT
-CBOOT:: ; $(CPF) pats_*_dats.c CBOOT
+#
+# CBOOT:: ; $(CPF) pats_*_sats.c CBOOT
+# CBOOT:: ; $(CPF) pats_*_dats.c CBOOT
+#
 CBOOT:: ; $(CPF) dynloadall_dats.c CBOOT
 CBOOT:: ; $(CPF) libatsynmark_sats.c CBOOT
 CBOOT:: ; $(CPF) libatsynmark_dats.c CBOOT
 CBOOT:: ; $(CPF) libatsynmark_*_dats.c CBOOT
-
+#
 ######
 
 SOURCES = \
