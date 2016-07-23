@@ -167,7 +167,7 @@ fprint (out, "\
 val () =
 fprint (out, "\
 <script\n\
- src=\"./CLIENT/MYCODE/libatscc2js_print_store.js\">\n\
+ src=\"./CLIENT/MYCODE/libatscc2js_print_store_cats.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =

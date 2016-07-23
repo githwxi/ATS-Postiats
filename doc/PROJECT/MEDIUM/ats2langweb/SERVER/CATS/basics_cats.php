@@ -43,6 +43,8 @@ $atslangweb_patsopt_tcats_preamble = "
 #include
 \"share/atspre_define.hats\"
 #include
+\"share/atspre_staload.hats\"
+#include
 \"share/HATS/atspre_staload_libats_ML.hats\"
 " ; // end of [$atslangweb_patsopt_tcats_preamble]
 //
@@ -53,6 +55,8 @@ $atslangweb_patsopt_tcats_postamble = "" ;
 $atslangweb_patsopt_ccats_preamble = "
 #include
 \"share/atspre_define.hats\"
+#include
+\"share/atspre_staload.hats\"
 #include
 \"share/HATS/atspre_staload_libats_ML.hats\"
 " ; // end of [$atslangweb_patsopt_ccats_preamble]

@@ -95,9 +95,12 @@ pats2xhtml_comp_file
 ) = comp_res where
 {
 //
-val fname_xats_html =
+val
+fname_xats_html =
   tmpfile_make_nil ("pats2xhtml_")
-val fname_xats_stderr =
+//
+val
+fname_xats_stderr =
   tmpfile_make_nil ("pats2xhtml_")
 //
 val
