@@ -536,11 +536,17 @@ implement
 File_loadurl_input_doWork(url) = let
 //
 implement
-file_get_contents_rpc$cname<> () =
+file_get_contents_rpc$cname<>
+(
+// argumentless
+) =
+(
   "SERVER/MYCODE/atslangweb_file_get_contents.php"
+) (* file_get_contents_rpc$cname<> *)
 //
 implement
-file_get_contents_rpc$reply<> (reply) = thePatsopt_editor_set(reply)
+file_get_contents_rpc$reply<>
+  (reply) = thePatsopt_editor_set(reply)
 //
 in
   file_get_contents_rpc<> (url)

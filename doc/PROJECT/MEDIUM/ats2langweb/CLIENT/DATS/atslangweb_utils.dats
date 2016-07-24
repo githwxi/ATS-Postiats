@@ -130,18 +130,27 @@ Home_hello_reply(reply)
 %} // end of [%{^]
 //
 implement
-Home_hello_onclick () = let
+Home_hello_onclick() = let
 //
 implement
-patsopt_atscc2js_rpc$cname<> () =
-  "SERVER/MYCODE/atslangweb_patsopt_atscc2js_1_.php"
+patsopt_atscc2js_rpc$cname<>
+(
+// argumentless
+) =
+(
+"SERVER/MYCODE/atslangweb_patsopt_atscc2js_1_.php"
+) (* patsopt_atscc2js_rpc$cname<> *)
 //
 implement
-patsopt_atscc2js_rpc$reply<> (reply) = Home_hello_reply (reply)
+patsopt_atscc2js_rpc$reply<>
+  (reply) = Home_hello_reply(reply)
 //
-val mycode = Home_hello_getval ()
-val ((*void*)) = Home_hello_button_set ("Wait...")
-val ((*void*)) = patsopt_atscc2js_rpc (mycode)
+val mycode =
+  Home_hello_getval()
+val ((*void*)) =
+  Home_hello_button_set("Wait...")
+//
+val ((*void*)) = patsopt_atscc2js_rpc(mycode)
 //
 in
   // nothing
@@ -190,7 +199,7 @@ Home_listsub_reply(reply)
   if (comparr[0]===0) alert("Typechecking passed!");
   if (comparr[0] > 0) alert("Typechecking failed!");
   Home_listsub_button_set("Try-it-yourself"); // HX: change it back!
-  return;
+  return/*void*/;
 }
 //
 %} // end of [%{^]
@@ -256,24 +265,34 @@ Home_repeat_f0f1_reply(reply)
   if (comparr[0]===0) eval(comparr[1]);
   if (comparr[0] > 0) alert("Compilation failed!");
   Home_repeat_f0f1_button_set("Try-it-yourself"); // HX: change it back!
-  return;
+  return/*void*/;
 }
 //
 %} // end of [%{^]
 //
 implement
-Home_repeat_f0f1_onclick () = let
+Home_repeat_f0f1_onclick
+  ((*void*)) = let
 //
 implement
-patsopt_atscc2js_rpc$cname<> () =
+patsopt_atscc2js_rpc$cname<>
+(
+// argumentless
+) =
+(
   "SERVER/MYCODE/atslangweb_patsopt_atscc2js_1_.php"
+) (* patsopt_atscc2js_rpc$cname<> *)
 //
 implement
-patsopt_atscc2js_rpc$reply<> (reply) = Home_repeat_f0f1_reply (reply)
+patsopt_atscc2js_rpc$reply<>
+  (reply) = Home_repeat_f0f1_reply(reply)
 //
-val mycode = Home_repeat_f0f1_getval ()
-val ((*void*)) = Home_repeat_f0f1_button_set ("Wait...")
-val ((*void*)) = patsopt_atscc2js_rpc (mycode)
+val mycode =
+  Home_repeat_f0f1_getval()
+val ((*void*)) =
+  Home_repeat_f0f1_button_set("Wait...")
+//
+val ((*void*)) = patsopt_atscc2js_rpc(mycode)
 //
 in
   // nothing
