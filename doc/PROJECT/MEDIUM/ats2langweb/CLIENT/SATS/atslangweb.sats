@@ -45,6 +45,18 @@ fun{}
 patsopt_atscc2js_rpc$reply (reply: string): void = "mac#%"
 //
 (* ****** ****** *)
+//
+fun{}
+pats2xhtml_eval_rpc
+  (stadyn: int, code: string): void = "mac#%"
+//
+fun{}
+pats2xhtml_eval_rpc$cname (): string = "mac#%"
+fun{}
+pats2xhtml_eval_rpc$reply (reply: string): void = "mac#%"
+//
+//
+(* ****** ****** *)
 
 fun{}
 file_get_contents_rpc (fname: string): void = "mac#%"

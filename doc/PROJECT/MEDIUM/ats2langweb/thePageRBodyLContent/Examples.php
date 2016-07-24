@@ -12,12 +12,13 @@ include
 <h2><a id="Hello_world">Hello, world!</a></h2>
 
 <p>
-Following is a tiny program in ATS for printing out the string "Hello,
-world!" plus a newline: </p>
+Following is a tiny program in ATS for printing out
+the string "Hello, world!" plus a newline: </p>
 
 <?php
 $mycode = <<<EOT
-implement main0 () = print("Hello, world!\\n")
+implement
+main0 () = print("Hello, world!\\n")
 EOT;
 atslangweb_pats2xhtmlize_dynamic($mycode);
 ?><!--php-->
@@ -121,7 +122,7 @@ fun
 fib (
   n: int
 ) : int =
-  if n >= 2 then fib (n-2) + fib (n-1) else n
+  if n >= 2 then fib(n-2) + fib(n-1) else n
 // end of [fib]
 EOT;
 atslangweb_pats2xhtmlize_dynamic($mycode);
@@ -155,11 +156,14 @@ fun
 fibc (
   n: int
 ) : int = let
-  fun loop (n: int, f0: int, f1: int) =
-    if n > 0 then loop (n-1, f1, f0+f1) else f0
-  // end of [loop]
+//
+fun
+loop(n: int, f0: int, f1: int): int =
+  if n > 0 then loop(n-1, f1, f0+f1) else f0
+// end of [loop]
+//
 in
-  loop (n, 0, 1)
+  loop(n, 0, 1)
 end // end of [fibc]
 EOT;
 atslangweb_pats2xhtmlize_dynamic($mycode);
@@ -246,19 +250,26 @@ fun
 fibats{n:nat}
   (n: int (n))
 : [r:int] (FIB (n, r) | int r) = let
-  fun loop
-    {i:nat | i <= n}{r0,r1:int}
-  (
-    pf0: FIB (i, r0), pf1: FIB (i+1, r1)
-  | ni: int (n-i), r0: int r0, r1: int r1
-  ) : [r:int] (FIB (n, r) | int r) =
-    if (ni > 0)
-      then loop{i+1}(pf1, FIB2 (pf0, pf1) | ni - 1, r1, r0 + r1)
-      else (pf0 | r0)
-    // end of [if]
-  // end of [loop]
+//
+fun
+loop
+{i:nat | i <= n}{r0,r1:int}
+(
+  pf0: FIB(i, r0), pf1: FIB(i+1, r1)
+| n_i: int(n-i), r0: int r0, r1: int r1
+) : [r:int] (FIB(n, r) | int(r)) =
+(
+  if (n_i > 0)
+    then
+    loop{i+1}
+    (
+      pf1, FIB2(pf0, pf1) | n_i-1, r1, r0+r1
+    ) (* then *)
+    else (pf0 | r0)
+  // end of [if]
+) (* end of [loop] *)
 in
-  loop {0} (FIB0 (), FIB1 () | n, 0, 1)
+  loop{0}(FIB0(*void*), FIB1(*void*) | n, 0, 1)
 end // end of [fibats]
 EOT;
 atslangweb_pats2xhtmlize_dynamic($mycode);

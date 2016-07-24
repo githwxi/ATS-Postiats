@@ -13,24 +13,27 @@
 //
 // HX: implemented in CATS/basics_cats.php
 //
-fun fname_dats_c (fname: string): string = "mac#%"
-fun fname_dats_js (fname: string): string = "mac#%"
-fun fname_dats_php (fname: string): string = "mac#%"
+fun fname_dats_c(fname: string): string = "mac#%"
+fun fname_dats_js(fname: string): string = "mac#%"
+fun fname_dats_php(fname: string): string = "mac#%"
 //
 (* ****** ****** *)
 //
-fun exec_retval (command: string): int(*ret*) = "mac#%"
+fun exec_retval(command: string): int(*ret*) = "mac#%"
 //
 (* ****** ****** *)
 //
-absvtype tmpfile
+absvtype
+tmpfile_vtype
+vtypedef
+tmpfile = tmpfile_vtype
 //
-fun tmpfile_unlink (tmpfile): bool
+fun tmpfile_unlink(tmpfile): bool
 //
-fun tmpfile2string (fname: !tmpfile): string
+fun tmpfile2string(fname: !tmpfile): string
 //
-fun tmpfile_make_nil (pfx: string): tmpfile
-fun tmpfile_make_string (pfx: string, content: string): tmpfile
+fun tmpfile_make_nil(pfx: string): tmpfile
+fun tmpfile_make_string(pfx: string, content: string): tmpfile
 //
 (* ****** ****** *)
 //

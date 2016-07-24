@@ -31,10 +31,10 @@ rawurldecode($_REQUEST["stadyn"]);
 $mycode =
 rawurldecode($_REQUEST["mycode"]);
 $mycode_res =
-atslangweb_pats2xhtml_stadyn_code_0_($stadyn, $mycode);
+atslangweb_pats2xhtml_eval_code_0_($stadyn, $mycode);
 //
 echo json_encode($mycode_res);
 //
-/* end of [atslangweb_pats2xhtml_stadyn_0_.php] */
+/* end of [atslangweb_pats2xhtml_eval_0_.php] */
 //
 ?>
