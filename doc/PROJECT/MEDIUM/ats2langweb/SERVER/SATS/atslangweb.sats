@@ -46,23 +46,7 @@ datatype compres =
 (* ****** ****** *)
 //
 fun{}
-pats2xhtml_command (): string
-fun{}
-pats2xhtml_comp_command
-(
-  stadyn: int
-, !tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*stderr*)
-) : string // end of [pats2xhtml_comp_command]
-//
-fun{}
-pats2xhtml_comp_code (stadyn: int, code: string): compres
-fun{}
-pats2xhtml_comp_file (stadyn: int, fname: !tmpfile): compres
-//
-(* ****** ****** *)
-//
-fun{}
-patsopt_command (): string
+patsopt_command(): string
 //
 fun{}
 patsopt_tcats_command
@@ -74,9 +58,9 @@ patsopt_ccats_command
 (* ****** ****** *)
 //
 fun{}
-patsopt_tcats_code (ptext: string): compres
+patsopt_tcats_code(ptext: string): compres
 fun{}
-patsopt_tcats_file (fname: !tmpfile): compres
+patsopt_tcats_file(fname: !tmpfile): compres
 //
 (* ****** ****** *)
 //
@@ -85,12 +69,12 @@ patsopt_tcats_file (fname: !tmpfile): compres
 // the output from [patsopt-ccats]
 //
 fun{}
-patsopt_ccats_cont (fname: !tmpfile): compres
+patsopt_ccats_cont(fname: !tmpfile): compres
 //
 fun{}
-patsopt_ccats_code (ptext: string): compres
+patsopt_ccats_code(ptext: string): compres
 fun{}
-patsopt_ccats_file (fname: !tmpfile): compres
+patsopt_ccats_file(fname: !tmpfile): compres
 //
 (* ****** ****** *)
 //
@@ -106,7 +90,23 @@ atscc2js_comp_command
 (* ****** ****** *)
 //
 fun{}
-atscc2js_comp_file (fname: !tmpfile): compres
+atscc2js_comp_file(fname: !tmpfile): compres
+//
+(* ****** ****** *)
+//
+fun{}
+pats2xhtml_command(): string
+fun{}
+pats2xhtml_eval_command
+(
+  stadyn: int
+, !tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*stderr*)
+) : string // end of [pats2xhtml_eval_command]
+//
+fun{}
+pats2xhtml_eval_code(stadyn: int, code: string): compres
+fun{}
+pats2xhtml_eval_file(stadyn: int, fname: !tmpfile): compres
 //
 (* ****** ****** *)
 

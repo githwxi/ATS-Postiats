@@ -35,7 +35,7 @@ staload "./../SATS/atslangweb.sats"
 
 implement
 {}(*tmp*)
-pats2xhtml_comp_command
+pats2xhtml_eval_command
 (
   stadyn, fname_xats
 , fname_xats_html, fname_xats_stderr
@@ -48,9 +48,15 @@ val stadyn =
   if (stadyn = 0) then "--static" else "--dynamic"
 ) : string // end of [val]
 //
-val fname_xats = $UN.castvwtp1{string}(fname_xats)
-val fname_xats_html = $UN.castvwtp1{string}(fname_xats_html)
-val fname_xats_stderr = $UN.castvwtp1{string}(fname_xats_stderr)
+val
+fname_xats =
+  $UN.castvwtp1{string}(fname_xats)
+val
+fname_xats_html =
+  $UN.castvwtp1{string}(fname_xats_html)
+val
+fname_xats_stderr =
+  $UN.castvwtp1{string}(fname_xats_stderr)
 //
 in
 //
@@ -58,16 +64,17 @@ $extfcall
 (
   string, "sprintf"
 , "%s 2>%s --embedded --output %s %s %s"
-, pats2xhtml, fname_xats_stderr, fname_xats_html, stadyn, fname_xats
+, pats2xhtml
+, fname_xats_stderr, fname_xats_html, stadyn, fname_xats
 ) (* end of [$extfcall] *)
 //
-end // end of [pats2xhtml_comp_command]
+end // end of [pats2xhtml_eval_command]
 
 (* ****** ****** *)
 
 implement
 {}(*tmp*)
-pats2xhtml_comp_code
+pats2xhtml_eval_code
 (
   stadyn, ptext
 ) = comp_res where
@@ -76,38 +83,38 @@ pats2xhtml_comp_code
 val pfx = "pats2xhtml_"
 //
 val fname_xats =
-  tmpfile_make_string (pfx, ptext)
+  tmpfile_make_string(pfx, ptext)
 //
 val comp_res =
-  pats2xhtml_comp_file (stadyn, fname_xats)
+  pats2xhtml_eval_file(stadyn, fname_xats)
 //
-val unlink_ret = tmpfile_unlink (fname_xats)
+val unlink_ret = tmpfile_unlink(fname_xats)
 //
-} (* end of [pats2xhtml_comp_code] *)
+} (* pats2xhtml_eval_code *)
 
 (* ****** ****** *)
 
 implement
 {}(*tmp*)
-pats2xhtml_comp_file
+pats2xhtml_eval_file
 (
-  stadyn, fname_xats
+  flag(*stadyn*), fname_xats
 ) = comp_res where
 {
 //
 val
 fname_xats_html =
-  tmpfile_make_nil ("pats2xhtml_")
+  tmpfile_make_nil("pats2xhtml_")
 //
 val
 fname_xats_stderr =
-  tmpfile_make_nil ("pats2xhtml_")
+  tmpfile_make_nil("pats2xhtml_")
 //
 val
 command =
-pats2xhtml_comp_command
+pats2xhtml_eval_command
 (
-  stadyn, fname_xats
+  flag, fname_xats
 , fname_xats_html, fname_xats_stderr
 ) (* end of [val] *)
 //
@@ -116,31 +123,32 @@ val () = prerrln! ("command = ", command)
 *)
 //
 val
-exec_ret = exec_retval (command)
+exec_ret = exec_retval(command)
 //
 val
 comp_res = (
 //
-if exec_ret = 0
-  then let
-    val code = tmpfile2string (fname_xats_html)
-    val unlink_ret = tmpfile_unlink (fname_xats_html)
-  in
-    COMPRES0_succ (code)
-  end // end of [then]
-  else let
-    val errmsg = tmpfile2string (fname_xats_stderr)
-    val unlink_ret = tmpfile_unlink (fname_xats_html)
-  in
-    COMPRES1_fail (errmsg)
-  end (* end of [else] *)
-// end of [if]
+if (
+exec_ret = 0
+) then let
+  val code = tmpfile2string(fname_xats_html)
+  val unlink_ret = tmpfile_unlink(fname_xats_html)
+in
+  COMPRES0_succ(code)
+end // end of [then]
+else let
+  val errmsg = tmpfile2string(fname_xats_stderr)
+  val unlink_ret = tmpfile_unlink(fname_xats_html)
+in
+  COMPRES1_fail(errmsg)
+end (* end of [else] *)
+//
 ) : compres // end of [val]
 //
-val unlink_ret = tmpfile_unlink (fname_xats_stderr)
+val unlink_ret = tmpfile_unlink(fname_xats_stderr)
 //
-} (* end of [pats2xhtml_comp_file] *)
+} (* pats2xhtml_eval_file *)
 
 (* ****** ****** *)
 
-(* end of [pats2xhtml.dats] *)
+(* end of [pats2xhtml_eval.dats] *)

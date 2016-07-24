@@ -111,7 +111,7 @@ val () = prerrln! ("command = ", command)
 *)
 //
 val
-exec_ret = exec_retval (command)
+exec_ret = exec_retval(command)
 //
 val
 ccats_res = (

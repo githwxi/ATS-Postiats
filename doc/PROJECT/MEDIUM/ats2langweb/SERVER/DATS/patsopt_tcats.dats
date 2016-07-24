@@ -94,7 +94,7 @@ patsopt_tcats_command
   (fname_dats, fname_dats_log)
 //
 val
-exec_ret = exec_retval (command)
+exec_ret = exec_retval(command)
 //
 val
 tcats_res = (
