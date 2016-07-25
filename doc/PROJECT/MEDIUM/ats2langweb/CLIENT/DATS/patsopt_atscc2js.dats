@@ -41,7 +41,8 @@ implement
 patsopt_atscc2js_rpc
   (mycode) = let
 //
-val xmlhttp =
+val
+xmlhttp =
 XMLHttpRequest_new()
 //
 val ((*void*)) =

@@ -40,8 +40,9 @@ implement
 patsopt_tcats_rpc
   (mycode) = let
 //
-val xmlhttp =
-  XMLHttpRequest_new()
+val
+xmlhttp =
+XMLHttpRequest_new()
 val ((*void*)) =
 xmlhttp.onreadystatechange
 (

@@ -49,7 +49,7 @@ xmlhttp.onreadystatechange
 lam((*void*)) =>
 (
   if xmlhttp.is_ready_okay()
-    then pats2xhtml_eval_rpc$reply<> (xmlhttp.responseText())
+    then pats2xhtml_eval_rpc$reply<>(xmlhttp.responseText())
   // end of [if]
 ) (* end of [lam] *)
 )

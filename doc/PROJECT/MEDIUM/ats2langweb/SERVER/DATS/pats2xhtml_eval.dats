@@ -41,7 +41,8 @@ pats2xhtml_eval_command
 , fname_xats_html, fname_xats_stderr
 ) = let
 //
-val pats2xhtml = pats2xhtml_command<> ()
+val
+pats2xhtml = pats2xhtml_command<> ()
 //
 val stadyn =
 (
