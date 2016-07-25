@@ -99,6 +99,7 @@ thePageRBodyLHeader_Resources()
   echo "<li><a href=\"#ATS-Toolkit\">ATS Toolkit</a></li>\n";
   echo "<li><a href=\"#Try_ATS_in_browser\">Try ATS in your browser</a></li>\n";
   echo "<li><a href=\"#Learn_ATS_by_puzzles\">Learn ATS by Solving Math Puzzles</a></li>\n";
+  echo "<li><a href=\"#Pats2xhtmlization_service\">Syntax-hiliting service for ATS code</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Resources] */
