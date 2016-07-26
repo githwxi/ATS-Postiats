@@ -57,7 +57,7 @@ fun{
 a:vt0p}{b:vt0p
 } stream_vt_map_method
 (
-  xs: stream_vt(INV(a))
+  stream_vt(INV(a)), TYPE(b)
 ) : ((&a >> a?!) -<cloptr1> b) -<lincloptr1> stream_vt(b)
 //
 overload .map with stream_vt_map_method
@@ -65,7 +65,7 @@ overload .map with stream_vt_map_method
 implement
 {a}{b}
 stream_vt_map_method
-  (xs) = llam(fopr) => stream_vt_map_cloptr<a><b>(xs, fopr)
+  (xs, _) = llam(fopr) => stream_vt_map_cloptr<a><b>(xs, fopr)
 //
 (* ****** ****** *)
 
@@ -79,7 +79,7 @@ overload * with cross_stream_vt_list_vt
 //
 implement
 main0((*void*)) =
-((fix f(n:int):stream_vt(list0(int))=>if(n)>0then((f(n-1)*intrange(0,N)).filter()(lam(xsy)=>let val(xs,y)=xsy in $effmask_all(xs.iforall()(lam(i,x)=>((x)!=y&&abs(x-y)!=i+1)))end)).map()(lam(xsy)=>let val (xs,y)=xsy in cons0(y,xs) end)else(sing(nil0)))N).foreach()(lam(xs)=>((xs).rforeach()(lam(x)=>(N.foreach()(lam(i)=>print_string(ifval(i=x," Q"," .")));println!()));println!()))
+((fix f(n:int):stream_vt(list0(int))=>if(n)>0then((f(n-1)*intrange(0,N)).filter()(lam(xsy)=>let val(xs,y)=xsy in $effmask_all(xs.iforall()(lam(i,x)=>((x)!=y&&abs(x-y)!=i+1)))end)).map(TYPE{list0(int)})(lam(xsy)=>let val (xs,y)=xsy in cons0(y,xs) end)else(sing(nil0)))N).foreach()(lam(xs)=>((xs).rforeach()(lam(x)=>(N.foreach()(lam(i)=>print_string(ifval(i=x," Q"," .")));println!()));println!()))
 //
 (* ****** ****** *)
 

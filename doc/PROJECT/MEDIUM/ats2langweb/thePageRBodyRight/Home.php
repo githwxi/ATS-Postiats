@@ -63,7 +63,7 @@ width=98% margin=auto
 </td>
 <td align="right">
 <textarea
- id="hello_dats" rows="14" cols="36"
+ id="hello_dats" rows="10" cols="36"
 >
 //
 // Yes, you can edit
@@ -72,11 +72,7 @@ width=98% margin=auto
 val () = print"Hello!\n"
 //
 (* Say Hello! 3 times *)
-val () =
-repeat(3, a) where
-{
-  val a = $delay(print"Hello!")
-} (* end of [where] *)
+val () = 3*delay(print"Hello!")
 val () = print_newline((*void*))
 //
 </textarea>
