@@ -72,6 +72,11 @@ typedef d1exp = $D1EXP.d1exp
 typedef s1exp = $S1EXP.s1exp
 typedef d1exp = $D1EXP.d1exp
 //
+typedef s2exp = $S2EXP.s2exp
+typedef d2exp = $D2EXP.d2exp
+typedef d2ecl = $D2EXP.d2ecl
+typedef d2eclist = $D2EXP.d2eclist
+//
 (* ****** ****** *)
 //
 fun{}
@@ -99,6 +104,11 @@ parse_from_givename_toplevel
   stadyn: int, given: string, filref: &fil_t? >> fil_t
 ) : d0eclist // end of [parse_from_givename_toplevel]
 //
+(* ****** ****** *)
+
+fun syntext_d2ecl(d2c: d2ecl): void
+fun syntext_d2eclist(d2cs: d2eclist): void
+
 (* ****** ****** *)
 
 (* end of [libatsyntext.sats] *)

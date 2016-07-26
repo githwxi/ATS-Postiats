@@ -536,7 +536,7 @@ s2exp_node =
 //
   | S2Ewthtype of (s2exp, wths2explst) // the result part of a fun type
 //
-  | S2Eerrexp of () // HX: placeholder for indicating error or something else
+  | S2Eerrexp of ((*void*)) // HX: placeholder for indicating error or something else
 //
 // end of [s2exp_node]
 
@@ -553,7 +553,7 @@ and s2eff =
 and s2rtext = (* extended sort *)
   | S2TEsrt of s2rt
   | S2TEsub of (s2var, s2rt, s2explst)
-  | S2TEerr of ()
+  | S2TEerr of ((*void*))
 // end of [s2rtext]
 
 and labs2exp = SLABELED of (label, Option(string), s2exp)

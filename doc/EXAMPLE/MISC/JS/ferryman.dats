@@ -73,8 +73,9 @@ stateTrans01
 ) : void // end of [stateTrans01]
 
 extern
-praxi stateTrans10
-  {f,c,g,w:bool} (
+praxi
+stateTrans10
+{f,c,g,w:bool} (
   pf: !STATE1 (f, c, g, w) >> STATE0 (f, c, g, w)
 ) : void // end of [stateTrans10]
 

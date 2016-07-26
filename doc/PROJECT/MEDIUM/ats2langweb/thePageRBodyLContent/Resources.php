@@ -46,13 +46,19 @@ to see a converted example.
 Atscc2js
 </li>
 <li>
+Atscc2py3
+</li>
+<li>
+Atscc2clj
+</li>
+<li>
+Atscc2scm
+</li>
+<li>
 Atscc2erl
 </li>
 <li>
 Atscc2pl
-</li>
-<li>
-Atscc2py
 </li>
 <li>
 Atscc2php
@@ -77,7 +83,6 @@ to get started.
 <hr></hr>
 
 <h2><a id="Learn_ATS_by_puzzles">Learn ATS by Solving Math Puzzles</a></h2>
-
 <p>
 ATS is equipped with a highly expressive type system rooted
 in the framework Applied Types System, which also gives the
@@ -85,6 +90,57 @@ language its name. It is, however, non-trivial to make effective
 use of types in ATS. Please find
 <a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/projects/MEDIUM/PEULER">on-line</a>
 a tested and fun way to learn ATS by solving math puzzles.
+</p>
+
+<hr></hr>
+
+<h2><a id="Pats2xhtmlization_service">Syntax-hiliting service for ATS code</a></h2>
+<p>
+Pats2xhtmlization is a simple and free on-line service for syntax-hiliting ATS code.
+In HTML, one can use the tags
+<u>sats2xhtml</u> and <u>dats2xhtml</u> for syntax-hiliting static and dynamic ATS code, respectively:
+<pre>
+&lt;sats2xhtml&gt;
+//
+// static interface
+//
+fun factorial (n: int): int
+&lt;/sats2xhtml&gt;
+</pre><pre>
+&lt;dats2xhtml&gt;
+//
+// dynamic implementation
+//
+implement factorial(n) = if n > 0 then n*factorial(n-1) else 1
+&lt;/dats2xhtml&gt;
+</pre>
+</p>
+
+<p>
+In order to properly activate the pats2xhtmlization service,
+one needs to load in the following JS code (in addition to jQuery):
+<pre>
+&lt;script
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_all.js"&gt;
+&lt;/script&gt;
+&lt;script
+ src="https://ats-lang.github.io/LIBRARY/ats2langweb/pats2xhtmlize_dats.js"&gt;
+&lt;/script&gt;
+</pre>
+and then executes the following line in the HTML file where pats2xhtmlization
+is to take place:
+<pre>
+&lt;script&gt;
+$(document).ready(function(){pats2xhtmlize_process_all();return;});
+&lt;/script&gt;
+</pre>
+</p>
+
+<p>
+Please visit this
+<a href="http://ats-lang.github.io/EXAMPLE/PATS2XHTML/test01.html">link</a> to see a working example
+(and find its source located
+<a href="https://github.com/ats-lang/ats-lang.github.io/blob/master/EXAMPLE/PATS2XHTML/test01.html">here</a>).
 </p>
 
 <hr></hr>
