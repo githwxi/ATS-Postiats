@@ -54,6 +54,7 @@ typedef filename = $FIL.filename
 
 staload
 LOC = "./pats_location.sats"
+typedef loc_t = $LOC.location
 typedef location = $LOC.location
 
 (* ****** ****** *)
@@ -318,15 +319,15 @@ d2cstmap_insert
   {a:type}(map: &d2cstmap(a), d2v: d2cst, x: a): bool(*found*)
 //
 (* ****** ****** *)
-
+//
 fun d2var_make
   (loc: location, id: symbol): d2var
 fun d2var_make_any (loc: location): d2var
-
+//
 fun d2var_ptr_viewat_make
   (ptr: d2var, opt: d2varopt): d2var
 fun d2var_ptr_viewat_make_none (ptr: d2var): d2var
-
+//
 (* ****** ****** *)
 
 fun print_d2var (x: d2var): void
@@ -527,7 +528,7 @@ fun
 d2sym_make
 (
   loc: location
-, dq: $SYN.d0ynq, id: symbol, d2pis: d2pitmlst
+, dq0: $SYN.d0ynq, id0: symbol, d2pis: d2pitmlst
 ) : d2sym // end of [d2sym_make]
 //
 (* ****** ****** *)
@@ -621,14 +622,14 @@ p2at_node =
 
 and labp2at =
   | LABP2ATnorm of (l0ab, p2at)
-  | LABP2ATomit of (location) // for [...]
+  | LABP2ATomit of ( location ) // for [...]
 // end of [labp2at]
 
 where
 p2at = '{
-  p2at_loc= location
-, p2at_svs= lstord (s2var)
-, p2at_dvs= lstord (d2var)
+  p2at_loc= loc_t
+, p2at_svs= lstord(s2var)
+, p2at_dvs= lstord(d2var)
 , p2at_type= s2expopt // ref@ (s2expopt)
 , p2at_node= p2at_node
 } (* end of [p2at] *)
@@ -655,8 +656,8 @@ fun p2atlst_dvs_union (p2ts: p2atlst): lstord (d2var)
 fun
 p2at_make_node
 (
-  loc: location
-, svs: lstord (s2var), dvs: lstord (d2var)
+  loc: loc_t
+, svs: lstord(s2var), dvs: lstord(d2var)
 , node: p2at_node
 ) : p2at // end of [p2at_make_node]
 
@@ -667,7 +668,7 @@ fun p2at_var (loc: location, d2v: d2var): p2at
 fun
 p2at_con
 (
-  loc: location
+  loc: loc_t
 , pck: pckind
 , d2c: d2con
 , s2qs: s2qualst
@@ -676,8 +677,11 @@ p2at_con
 , darg: p2atlst
 ) : p2at // end of ...
 
-fun p2at_int (loc: location, i: int): p2at
-fun p2at_intrep (loc: location, rep: string): p2at
+(* ****** ****** *)
+//
+fun p2at_int (loc: loc_t, i: int): p2at
+fun p2at_intrep (loc: loc_t, rep: string): p2at
+//
 fun p2at_bool (loc: location, b: bool): p2at
 fun p2at_char (loc: location, c: char): p2at
 fun p2at_float (loc: location, rep: string): p2at
@@ -688,29 +692,37 @@ fun p2at_f0loat (loc: location, x: f0loat): p2at
 //
 fun p2at_empty (loc: location): p2at
 
-fun p2at_list // HX: flat tuple
-  (loc: location, npf: int, p2ts: p2atlst): p2at
+(* ****** ****** *)
+
+fun
+p2at_list // HX: flat tuple
+  (loc: loc_t, npf: int, p2ts: p2atlst): p2at
 // end of [p2at_list]
 
-fun p2at_rec (
-  loc: location, knd: int, npf: int, lp2ts: labp2atlst
+(* ****** ****** *)
+
+fun p2at_rec
+(
+  loc: loc_t, knd: int, npf: int, lp2ts: labp2atlst
 ) : p2at // end of [p2at_tup]
 
-fun p2at_lst (
-  loc: location, lin: int, p2ts: p2atlst
-) : p2at // end of [p2at_lst]
+fun p2at_lst
+  (loc: loc_t, lin: int, p2ts: p2atlst): p2at
+// end of [p2at_lst]
 
 fun p2at_refas
   (loc: location, d2v: d2var, p2t: p2at): p2at
 // end of [p2at_refas]
 
 fun p2at_exist
-  (loc: location, s2vs: s2varlst, p2t: p2at): p2at
+  (loc: loc_t, s2vs: s2varlst, p2t: p2at): p2at
 // end of [p2at_exist]
 
-fun p2at_vbox (loc: location, d2v: d2var): p2at
+fun p2at_vbox(loc: loc_t, d2v: d2var): p2at
 
-fun p2at_ann (loc: location, p2t: p2at, ann: s2exp): p2at
+fun p2at_ann
+  (loc: location, p2t: p2at, ann: s2exp): p2at
+// end of [p2at_ann]
 
 fun p2at_errpat (loc: location): p2at
 
@@ -957,7 +969,8 @@ and d2exp_node =
   | D2Esolassert of (d2exp) // $solve_assert(d2e_prf)
   | D2Esolverify of (s2exp) // $solve_verify(s2e_prop)
 //
-  | D2Eerrexp of () // HX: placeholder for indicating an error
+  | D2Eerrexp of ((*void*)) // HX: placeholder for indicating an error
+//
 // end of [d2exp_node]
 
 and d2exparg =

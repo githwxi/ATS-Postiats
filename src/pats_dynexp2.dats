@@ -1267,25 +1267,26 @@ d2ecl_extcode (loc, knd, pos, code) =
 (* ****** ****** *)
 //
 implement
-d2ecl_datdecs (loc, knd, s2cs) =
-  d2ecl_make_node (loc, D2Cdatdecs (knd, s2cs))
-//
-implement
 d2ecl_exndecs (loc, d2cs) =
  d2ecl_make_node (loc, D2Cexndecs (d2cs))
 //
-(* ****** ****** *)
-
 implement
-d2ecl_dcstdecs (loc, knd, dck, d2cs) =
-  d2ecl_make_node (loc, D2Cdcstdecs (knd, dck, d2cs))
-
+d2ecl_datdecs (loc, knd, s2cs) =
+  d2ecl_make_node (loc, D2Cdatdecs (knd, s2cs))
+//
 (* ****** ****** *)
-
+//
+implement
+d2ecl_dcstdecs
+  (loc, knd, dck, d2cs) =
+  d2ecl_make_node (loc, D2Cdcstdecs (knd, dck, d2cs))
+//
+(* ****** ****** *)
+//
 implement
 d2ecl_fundecs (loc, knd, decarg, f2ds) =
   d2ecl_make_node (loc, D2Cfundecs (knd, decarg, f2ds))
-
+//
 (* ****** ****** *)
 
 implement

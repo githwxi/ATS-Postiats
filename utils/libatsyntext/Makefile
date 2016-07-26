@@ -102,6 +102,12 @@ dynloadall_dats.o: dynloadall.dats; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
 #
 ######
+#
+libatsyntext_d2ecl_dats.o: \
+DATS/libatsyntext_d2ecl.dats ; \
+  $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
+#
+######
 
 AR=ar
 CPF=cp -f
