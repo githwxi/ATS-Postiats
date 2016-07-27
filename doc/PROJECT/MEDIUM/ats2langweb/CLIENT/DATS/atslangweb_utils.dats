@@ -112,7 +112,7 @@ Home_hello_getval()
 function
 Home_hello_button_set(name)
 {
-  document.getElementById("hello_button").innerHTML = name; return;
+  return document.getElementById("hello_button").innerHTML = name;
 }
 //
 function
@@ -124,7 +124,7 @@ Home_hello_reply(reply)
   if (comparr[0]===0) eval(comparr[1]);
   if (comparr[0] > 0) alert("Compilation failed!");
   Home_hello_button_set("Try-it-yourself"); // HX: change it back!
-  return;
+  return; // end of [Home_hello_reply]
 }
 //
 %} // end of [%{^]
@@ -187,7 +187,7 @@ Home_listsub_getval()
 function
 Home_listsub_button_set(name)
 {
-  document.getElementById("listsub_button").innerHTML = name; return;
+  return document.getElementById("listsub_button").innerHTML = name;
 }
 //
 function
@@ -253,7 +253,7 @@ Home_repeat_f0f1_getval()
 function
 Home_repeat_f0f1_button_set(name)
 {
-  document.getElementById("repeat_f0f1_button").innerHTML = name; return;
+  return document.getElementById("repeat_f0f1_button").innerHTML = name;
 }
 //
 function
@@ -297,6 +297,82 @@ val ((*void*)) = patsopt_atscc2js_rpc(mycode)
 in
   // nothing
 end (* end of [Home_repeat_f0f1_onclick] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+Home_queenpuzzle_getval
+  ((*void*)): string = "mac#"
+extern
+fun
+Home_queenpuzzle_button_set
+  (name: string): void = "mac#"
+//
+extern
+fun
+Home_queenpuzzle_reply
+  (reply: string): void = "mac#"
+//
+extern
+fun
+Home_queenpuzzle_onclick (): void = "mac#"
+//
+%{^
+//
+function
+Home_queenpuzzle_getval()
+{
+  return document.getElementById("queenpuzzle_dats").value;
+}
+//
+function
+Home_queenpuzzle_button_set(name)
+{
+  return document.getElementById("queenpuzzle_button").innerHTML = name;
+}
+//
+function
+Home_queenpuzzle_reply(reply)
+{
+  var comparr =
+    JSON.parse(decodeURIComponent(reply));
+  // end of [var]
+  if (comparr[0]===0) eval(comparr[1]);
+  if (comparr[0] > 0) alert("Compilation failed!");
+  Home_queenpuzzle_button_set("Try-it-yourself"); // HX: change it back!
+  return/*void*/;
+}
+//
+%} // end of [%{^]
+//
+implement
+Home_queenpuzzle_onclick
+  ((*void*)) = let
+//
+implement
+patsopt_atscc2js_rpc$cname<>
+(
+// argumentless
+) =
+(
+  "SERVER/MYCODE/atslangweb_patsopt_atscc2js_1_.php"
+) (* patsopt_atscc2js_rpc$cname<> *)
+//
+implement
+patsopt_atscc2js_rpc$reply<>
+  (reply) = Home_queenpuzzle_reply(reply)
+//
+val mycode =
+  Home_queenpuzzle_getval()
+val ((*void*)) =
+  Home_queenpuzzle_button_set("Wait...")
+//
+val ((*void*)) = patsopt_atscc2js_rpc(mycode)
+//
+in
+  // nothing
+end (* end of [Home_queenpuzzle_onclick] *)
 //
 (* ****** ****** *)
 

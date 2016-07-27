@@ -200,7 +200,25 @@ implement
 {res}(*tmp*)
 intrange_foldleft_method
   ( @(l, r), tres ) =
-  lam(ini, f) => intrange_foldleft_cloref<res> (l, r, ini, f)
+(
+//
+lam(ini, f) =>
+  intrange_foldleft_cloref<res> (l, r, ini, f)
+//
+) (* end of [intrange_foldleft_method] *)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+int_streamGte(n) =
+(
+fix
+aux
+(
+  n:int
+) : stream(int) => $delay(stream_cons(n, aux(n+1)))
+) (n) // end of [int_streamGte]
 //
 (* ****** ****** *)
 //
@@ -225,6 +243,32 @@ implement
 {a}(*tmp*)
 int_array_map_method
   (n, tres) = lam(f) => int_array_map_cloref<a> (n, f)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+int_stream_map_cloref
+  (n, f) = auxmain(0) where
+{
+//
+fun
+auxmain
+(
+  i: int
+) : stream(a) = $delay
+(
+if
+(i < n)
+then stream_cons(f(i), auxmain(i+1)) else stream_nil()
+) (* end of [auxmain] *)
+//
+} (* end of [int_stream_map_cloref] *)
+//
+implement
+{a}(*tmp*)
+int_stream_map_method
+  (n, tres) = lam(f) => int_stream_map_cloref<a> (n, f)
 //
 (* ****** ****** *)
 //

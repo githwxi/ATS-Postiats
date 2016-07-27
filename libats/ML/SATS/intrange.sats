@@ -127,6 +127,13 @@ overload .foldleft with intrange_foldleft_method
 //
 (* ****** ****** *)
 //
+fun{}
+int_streamGte(n: int): stream(int)
+//
+overload .streamGte with int_streamGte
+//
+(* ****** ****** *)
+//
 fun{a:t0p}
 int_list_map_cloref
   (n: intGte(0), f: cfun(int, a)): list0(a)
@@ -149,13 +156,24 @@ overload .array_map with int_array_map_method
 //
 (* ****** ****** *)
 //
+fun{a:t0p}
+int_stream_map_cloref
+  (n: intGte(0), f: cfun(int, a)): stream(a)
+fun{a:t0p}
+int_stream_map_method
+  (n: intGte(0), TYPE(a))(f: cfun(int, a)): stream(a)
+//
+overload .stream_map with int_stream_map_method
+//
+(* ****** ****** *)
+//
 fun{}
 int2_foreach_cloref
-  (n1: int, n2: int, f: cfun2 (int, int, void)): void
+  (n1: int, n2: int, f: cfun2(int, int, void)): void
 //
 fun{}
 intrange2_foreach_cloref
-  (l1: int, r1: int, l2: int, r2: int, f: cfun2 (int, int, void)): void
+  (l1: int, r1: int, l2: int, r2: int, f: cfun2(int, int, void)): void
 //
 (* ****** ****** *)
 

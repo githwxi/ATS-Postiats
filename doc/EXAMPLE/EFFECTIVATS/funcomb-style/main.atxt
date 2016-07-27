@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-funcomb-style</title>
+##patsyntax()
+##thePage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Functional Programming with Combinators
+</h1>
+
+##para('\
+A great strength in functional programming lies
+in its support for a combinator-based style of programming.
+In this article, I would like to present some examples
+that make extensive use of sequence-processing combinators,
+where a sequence may refer to either a list or a stream (that is,
+a lazy list) in ATS.
+')##comment("para")
+
+
+<h2>Compiling and Testing</h2>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+</body>
+</html>
