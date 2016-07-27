@@ -146,9 +146,12 @@ end // end of [else]
 (* ****** ****** *)
 //
 implement
-main0() =
+main0(argc, argv) =
 {
-  val nsol = loop(qsolve_vt(N)) where
+//
+  val n0 = N
+//
+  val nsol = loop(qsolve_vt(n0)) where
   { 
     fun
     loop(xs: stream_vt(List_vt(int))): int =

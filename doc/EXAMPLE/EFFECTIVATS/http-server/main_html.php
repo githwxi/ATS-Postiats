@@ -3,26 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>EFFECTIVATS-HttpServer</title>
-
-<style type="text/css">
-  .patsyntax {width:99%;margin:auto;}
-  .patsyntax {color:#808080;background-color:#E0E0E0;}
-  .patsyntax span.keyword {color:#000000;font-weight:bold;}
-  .patsyntax span.comment {color:#787878;font-style:italic;}
-  .patsyntax span.extcode {color:#A52A2A;}
-  .patsyntax span.neuexp  {color:#800080;}
-  .patsyntax span.staexp  {color:#0000F0;}
-  .patsyntax span.prfexp  {color:#603030;}
-  .patsyntax span.dynexp  {color:#F00000;}
-  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
-  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
-  .patsyntax span.dynstr  {color:#008000;font-style:normal}
-  .patsyntax span.stacstdec  {text-decoration:none;}
-  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
-  .patsyntax span.dyncstdec  {text-decoration:none;}
-  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
-  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
-</style>
+##patsyntax()
+##thePage_style()
 
 <?php
 include
@@ -364,10 +346,9 @@ of a http-server that is essentially equivalent to the one given above.
 </p>
 
 <hr size="2">
-
 <p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 </p>
-
+##thePage_script()
 </body>
 </html>

@@ -14,10 +14,16 @@ ATSCC2JS=$(PATSHOME)/bin/atscc2js
 
 ######
 
-all:: \
-main.html
-main.html: main_html.php; $(PHP) -f $< > $@
+MYATEXTING=./../ATEXT/bin/myatexting
 
+######
+#
+all:: \
+main_html
+main.html: \
+main_html.atxt ; $(MYATEXTING) -o $@ -i $<
+main_html.atxt: main_html.php; $(PHP) -f $< > $@
+#
 ######
 
 Sierpinski-3angle.js: \

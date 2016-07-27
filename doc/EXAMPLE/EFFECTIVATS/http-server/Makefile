@@ -14,6 +14,18 @@ PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 
 ######
 
+MYATEXTING=./../ATEXT/bin/myatexting
+
+######
+#
+all:: \
+main_html
+main.html: \
+main_html.atxt ; $(MYATEXTING) -o $@ -i $<
+main_html.atxt: main_html.php; $(PHP) -f $< > $@
+#
+######
+
 all:: \
 myserver
 myserver: \
@@ -29,18 +41,12 @@ myserver2: myserver2.dats ; \
 cleanall:: ; $(RMF) myserver2
 
 ######
-
-all:: \
-main.html
-main.html: main_html.php; $(PHP) -f $< > $@
-
-######
-
+#
 upload_main: \
   main.html ; \
   scp main.html \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/http-server/
-
+#
 ######
 
 RMF=rm -f
