@@ -51,8 +51,8 @@ htmltoc: ; \
 $(MAKE) -C HTML -f Makefile htmltoc
 #
 synhilit: \
-myatexting; make -C HTML synhilit
-myatexting: ; make -C ATEXT myatexting
+mytexting; make -C HTML synhilit
+mytexting: ; make -C MYTEXT mytexting
 #
 ######
 
@@ -256,12 +256,12 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) *_atxt_dats.c
-clean:: ; make -C ATEXT clean
 clean:: ; make -C HTML clean
+clean:: ; make -C MYTEXT clean
 
 cleanall:: clean
 cleanall:: ; $(RMF) preface.db
-cleanall:: ; make -C ATEXT cleanall
 cleanall:: ; make -C HTML cleanall
+cleanall:: ; make -C MYTEXT cleanall
 
 ###### end of [Makefile] ######

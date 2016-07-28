@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./ATEXT/int2proginats.dats"
+#include "./MYTEXT/int2proginats.dats"
 //
 %}\
 #comment("\n\

@@ -30,7 +30,7 @@ typedef charptr = $extype"char*"
 #define MVF "mv -f"
 //
 #define
-MYATEXTING "./../ATEXT/bin/myatexting"
+MYTEXTING "./../MYTEXT/bin/mytexting"
 //
 (* ****** ****** *)
 
@@ -67,7 +67,7 @@ $extfcall
 ( int
 , "snprintf"
 , bufp, BUFSZ, "%s --output %s --input %s.bak"
-, MYATEXTING, inp, inp
+, MYTEXTING, inp, inp
 ) (* $extfcall *)
 val () =
   fprintln! (stdout_ref, $UN.cast{string}(bufp))
