@@ -13,15 +13,14 @@ staload "./expr.sats"
 
 (* ****** ****** *)
 
-#codegen2("datcon", expr)
-#codegen2("datcontag", expr)
-#codegen2("fprint", expr, fprint_expr)
-
-(* ****** ****** *)
-
 #ifdef
 CODEGEN2
 #then
+//
+#codegen2("datcon", expr)
+#codegen2("datcontag", expr)
+#codegen2("fprint", expr, fprint_expr)
+//
 #else
 //
 #include "expr_codegen2.hats"

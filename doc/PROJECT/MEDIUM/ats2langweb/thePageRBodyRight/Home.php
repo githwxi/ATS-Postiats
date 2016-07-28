@@ -158,7 +158,7 @@ width=98% margin=auto
 <td align="right">
 <textarea
  id="repeat_f0f1_dats"
- rows="16" cols="36" wrap="off"
+ rows="12" cols="36" wrap="off"
 >
 //
 // Yes, you can edit
@@ -241,19 +241,13 @@ width=98% margin=auto
 <td align="right">
 <textarea
  id="queenpuzzle_dats"
- rows="11" cols="36" wrap="off"
+ rows="10" cols="36" wrap="off"
 >
-//
-// Yes, you can edit
 //
 (* Solving the Queen Puzzle *)
 //
-(* ****** ****** *)
-//
 #define N 8 // it can be changed
 #define NSOL 10 // it can be changed 
-//
-(* ****** ****** *)
 //
 val () =
 (((fix qsolve(n: int): stream(list0(int)) => if(n > 0)then((qsolve(n-1)*list0_make_intrange(0,N)).map(TYPE{list0(int)})(lam($tup(xs,x))=>cons0(x,xs))).filter()(lam(xs)=>let val-cons0(x0,xs) = xs in xs.iforall()(lam(i, x)=>((x0)!=x)&&(abs(x0-x)!=i+1)) end)else(stream_make_sing(nil0())))(N)).takeLte(NSOL)).iforeach()(lam(i, xs)=>(println!("Solution#", i+1, ":"); xs.rforeach()(lam(x) => ((N).foreach()(lam(i)=>(print_string(ifval(i=x," Q", " ."))));println!()));println!()))

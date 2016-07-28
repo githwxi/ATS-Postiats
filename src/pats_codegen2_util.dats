@@ -135,8 +135,7 @@ case+
 x0.e1xp_node
 of // case+
 //
-| E1XPide(name) =>
-    aux_find(name)
+| E1XPide(name) => aux_find(name)
 //
 (*
 | E1XPstring
@@ -172,6 +171,7 @@ case+ opt of
       then (fold@{s2cst}(opt); opt)
       else (free@{s2cst}(opt); None_vt())
   ) (* end of [Some_vt] *)
+//
 | ~None_vt((*void*)) => None_vt()
 //
 end // end of [codegen2_get_datype]
@@ -220,8 +220,7 @@ case+
 x0.e1xp_node
 of // case+
 //
-| E1XPide(name) =>
-    aux_find(name)
+| E1XPide(name) => aux_find(name)
 //
 (*
 | E1XPstring
