@@ -347,5 +347,5 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [myatexting.dats] *)
+(* end of [mytexting.dats] *)
 

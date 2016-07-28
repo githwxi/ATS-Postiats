@@ -44,4 +44,3 @@ effective use in the construction of high-quality programs.\
 %{
 implement main () = fprint_filsub (stdout_ref, "preface_atxt.txt")
 %}
-

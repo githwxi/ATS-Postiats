@@ -56,10 +56,10 @@ datatype TYPE(a:vt@ype) = TYPE(a) of ()
 // this mapping is fixed and should never be changed!
 //
 #define true true_bool // shorthand
-val true_bool : bool (true)  = "mac#atsbool_true" // = 1
-//
 #define false false_bool // shorthand
-val false_bool : bool (false) = "mac#atsbool_false" // = 0
+//
+val true_bool : bool(true)  = "mac#atsbool_true" // = 1
+val false_bool : bool(false) = "mac#atsbool_false" // = 0
 //
 (* ****** ****** *)
 //
@@ -69,56 +69,78 @@ prfun false_elim{X:prop | false} ((*void*)): X
 //
 (* ****** ****** *)
 //
+typedef
+equal_type(a: t@ype) = (a, a) -<fun0> bool
+typedef
+nequal_type(a: t@ype) = (a, a) -<fun0> bool
+//
+typedef
+compare_type(a: t@ype) = (a, a) -<fun0> int
+//
+(* ****** ****** *)
+//
 praxi
-lemma_subcls_reflexive{c:cls} ((*void*)): [c <= c] void
+lemma_subcls_reflexive
+  {c:cls}((*void*)): [c <= c] void
+//
 praxi
 lemma_subcls_transitive
-  {c1,c2,c3:cls | c1 <= c2; c2 <= c3} (): [c1 <= c3] void
+  {c1,c2,c3:cls | c1 <= c2; c2 <= c3}(): [c1 <= c3] void
 //
 (* ****** ****** *)
 
-praxi praxi_int{i:int} ((*void*)): int (i)
-praxi praxi_bool{b:bool} ((*void*)): bool (b)
-praxi praxi_ptr{l:addr} ((*void*)): ptr (l)
+praxi praxi_int{i:int} ((*void*)): int(i)
+praxi praxi_ptr{l:addr} ((*void*)): ptr(l)
+praxi praxi_bool{b:bool} ((*void*)): bool(b)
 
 (* ****** ****** *)
 
 dataprop
-EQINT (int, int) = {x:int} EQINT (x, x)
+EQINT(int, int) = {x:int} EQINT(x, x)
 //
-prfun eqint_make {x,y:int | x == y} (): EQINT (x, y)
+prfun
+eqint_make{x,y:int | x == y}(): EQINT(x, y)
 //
 prfun
 eqint_make_gint
-  {tk:tk}{x:int} (x: g1int (tk, x)): [y:int] EQINT (x, y)
+  {tk:tk}{x:int}(x: g1int(tk, x)): [y:int] EQINT(x, y)
 prfun
 eqint_make_guint
-  {tk:tk}{x:int} (x: g1uint (tk, x)): [y:int] EQINT (x, y)
+  {tk:tk}{x:int}(x: g1uint(tk, x)): [y:int] EQINT(x, y)
 //
 (* ****** ****** *)
 
 dataprop
-EQADDR (addr, addr) = {x:addr} EQADDR (x, x)
+EQADDR(addr, addr) = {x:addr} EQADDR(x, x)
 //
 prfun
-eqaddr_make {x,y:addr | x == y} (): EQADDR (x, y)
+eqaddr_make{x,y:addr | x == y}(): EQADDR(x, y)
 //
 prfun
-eqaddr_make_ptr {x:addr} (x: ptr (x)): [y:addr] EQADDR (x, y)
+eqaddr_make_ptr{x:addr}(x: ptr(x)): [y:addr] EQADDR(x, y)
 //
 (* ****** ****** *)
 
 dataprop
-EQBOOL (bool, bool) = {x:bool} EQBOOL (x, x)
+EQBOOL(bool, bool) = {x:bool} EQBOOL(x, x)
 //
-prfun eqbool_make {x,y:bool | x == y} (): EQBOOL (x, y)
+prfun
+eqbool_make{x,y:bool | x == y}(): EQBOOL(x, y)
 //
-prfun eqbool_make_bool {x:bool} (x: bool (x)): [y:bool] EQBOOL (x, y)
+prfun
+eqbool_make_bool{x:bool}(x: bool(x)): [y:bool] EQBOOL(x, y)
+//
+(* ****** ****** *)
+//
+dataprop
+EQTYPE(vt@ype, vt@ype) = {a:vt@ype} EQTYPE (a, a)
 //
 (* ****** ****** *)
 
-prfun prop_verify{b:bool | b} ():<prf> void
-prfun prop_verify_and_add{b:bool | b} ():<prf> [b] void
+prfun
+prop_verify{b:bool | b} ():<prf> void
+prfun
+prop_verify_and_add{b:bool | b} ():<prf> [b] void
 
 (* ****** ****** *)
 
@@ -127,31 +149,31 @@ prfun pridentity_vt{vt:viewt@ype} (x: !INV(vt)): void
 
 (* ****** ****** *)
 
-dataprop
-EQTYPE (vt@ype, vt@ype) = {a:vt@ype} EQTYPE (a, a)
-
-(* ****** ****** *)
-
 castfn
 viewptr_match
-  {a:vt0p}{l1,l2:addr | l1==l2}
-  (pf: INV(a) @ l1 | p: ptr l2):<> [l:addr | l==l1] (a @ l | ptr l)
+{a:vt0ype}{l1,l2:addr|l1==l2}
+(
+  pf: INV(a) @ l1 | p: ptr(l2)
+) :<> [l:addr | l==l1] (a @ l | ptr(l))
 // end of [viewptr_match]
 
 (* ****** ****** *)
 //
-val{a:vt@ype} sizeof : size_t (sizeof(a))
+val{
+a:vt0ype
+} sizeof : size_t(sizeof(a))
 //
 praxi
-lemma_sizeof{a:vt@ype} (): [sizeof(a) >= 0] void
+lemma_sizeof
+  {a:vt0ype}((*void*)): [sizeof(a) >= 0] void
 //
 (* ****** ****** *)
 
-praxi topize {a:t@ype} (x: !INV(a) >> a?): void
+praxi topize{a:t0ype} (x: !INV(a) >> a?): void
 
 (* ****** ****** *)
 
-castfn dataget {a:vt@ype} (x: !INV(a) >> a): a?!
+castfn dataget{a:vt0ype} (x: !INV(a) >> a): a?!
 
 (* ****** ****** *)
 //
@@ -174,7 +196,7 @@ mfree_gcngc_v_nullify
 //
 fun
 cloptr_free
-  {a:t0p} (pclo: cloptr (a)):<!wrt> void = "mac#%"
+  {a:t0p}(pclo: cloptr (a)):<!wrt> void = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -759,7 +781,16 @@ typedef FILEref = FILEref_type
 (* ****** ****** *)
 //
 typedef
+print_type(a: t0p) = (a) -> void
+typedef
+prerr_type(a: t0p) = (a) -> void
+typedef
 fprint_type(a: t0p) = (FILEref, a) -> void
+//
+typedef
+print_vtype(a: vt0p) = (!a) -> void
+typedef
+prerr_vtype(a: vt0p) = (!a) -> void
 typedef
 fprint_vtype(a: vt0p) = (FILEref, !a) -> void
 //

@@ -467,4 +467,4 @@ the_atextmap_insert
 
 (* ****** ****** *)
 
-(* end of [myatexting.dats] *)
+(* end of [mytexting.dats] *)
