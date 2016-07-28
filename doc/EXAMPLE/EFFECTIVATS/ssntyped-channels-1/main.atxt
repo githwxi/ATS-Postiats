@@ -1,8 +1,7 @@
-%{
-#include "./../ATEXT/atextfun.hats"
-%}
-
 <!DOCTYPE html>
+%{
+#include "./../MYTEXT/mytextfun.hats"
+%}
 <html>
 
 <head>

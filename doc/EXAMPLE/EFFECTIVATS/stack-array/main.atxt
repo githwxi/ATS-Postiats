@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 %{
-#include "./../ATEXT/atextfun.hats"
+#include "./../MYTEXT/mytextfun.hats"
 %}
 <html>
 

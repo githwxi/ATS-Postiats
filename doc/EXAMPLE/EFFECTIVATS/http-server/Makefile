@@ -14,14 +14,14 @@ PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 
 ######
 
-MYATEXTING=./../ATEXT/bin/myatexting
+MYTEXTING=./../MYTEXT/bin/mytexting
 
 ######
 #
 all:: \
-main_html
+main.html
 main.html: \
-main_html.atxt ; $(MYATEXTING) -o $@ -i $<
+main_html.atxt ; $(MYTEXTING) -o $@ -i $<
 main_html.atxt: main_html.php; $(PHP) -f $< > $@
 #
 ######

@@ -16,12 +16,12 @@ PATSCC3=$(PATSCC) \
 
 ######
 
-MYATEXTING=./../ATEXT/bin/myatexting
+MYTEXTING=./../MYTEXT/bin/mytexting
 
 ######
 
 all:: main.html
-main.html: main.atxt ; $(MYATEXTING) -o $@ -i $<
+main.html: main.atxt ; $(MYTEXTING) -o $@ -i $<
 
 ######
 

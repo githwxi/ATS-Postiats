@@ -1,5 +1,5 @@
 %{
-#include "./../ATEXT/atextfun.hats"
+#include "./../MYTEXT/mytextfun.hats"
 %}
 
 <!DOCTYPE html>
