@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./ATEXT/ats2tutorial.dats"
+#include "./MYTEXT/ats2tutorial.dats"
 //
 %}\
 #comment("\n\

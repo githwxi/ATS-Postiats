@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./../ATEXT/ats2tutorial.dats"
+#include "./../MYTEXT/ats2tutorial.dats"
 //
 %}\
 #comment("\n\
@@ -87,8 +87,8 @@ value of #dyncode("opr2") is that of #dyncode("opr1") minus 10.\
 
 We can also turn an identifier #dyncode("opr") into a non-associative infix
 operator (of precedence value 0) by putting the backslash symbol
-(#dyncode("\\\\")) in front of it. For instance, the expression
-#dyncode("exp1 \\\\opr exp2") stands for #dyncode("opr (exp1, exp2)"),
+(#dyncode('\\\\\\\\\\\\\\\\')) in front of it. For instance, the expression
+#dyncode("exp1 \\\\\\\\\\\\\\\\opr exp2") stands for #dyncode("opr(exp1, exp2)"),
 where #dyncode("exp1") and #dyncode("exp2") refer to some expressions,
 either static or dynamic.\
 

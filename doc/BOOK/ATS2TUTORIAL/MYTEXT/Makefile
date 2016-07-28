@@ -26,16 +26,16 @@ $(PATSHOME)/utils/atexting/atexting_mylib.dats
 #
 ######
 
-all:: myatexting
+all:: mytexting
 
 ######
 #
-myatexting: \
-myatexting.dats ; \
+mytexting: \
+mytexting.dats ; \
 $(PATSCC) -O2 -o bin/$@ \
   -D_ATS_GCBDW \
   -DATS_MEMALLOC_GCBDW \
-  myatexting.dats $(ATEXTING_MYLIB) \
+  mytexting.dats $(ATEXTING_MYLIB) \
   $(ATSRUNTIME)/ats_prelude.c $(LDPATH) $(LIBRARY)
 #
 ######
@@ -50,6 +50,6 @@ clean:: ; $(RMF) *_dats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) bin/myatexting
+cleanall:: ; $(RMF) bin/mytexting
 
 ###### end of [Makefile] ######
