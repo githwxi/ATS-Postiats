@@ -147,7 +147,7 @@ auxfun1
 val sym = s2cst_get_sym(s2dat)
 val name = $SYM.symbol_get_name(sym)
 val d2cf =
-  $UN.castvwtp0{string}(sprintf("fprint_%s", @(name)))
+  $UN.castvwtp0{string}(sprintf("fprint_%s_", @(name)))
 val d2cf = $SYM.symbol_make_string(d2cf)
 //
 in
@@ -507,7 +507,11 @@ val () =
 codegen2_emit_tmpcstdec(out, d2cf)
 val () = fprint(out, "\n")
 val () =
-fprint! (out, fname, "$", cname, "$sep", n)
+fprint!
+(
+out, fname, "$", cname, "$sep", n
+) (* fprint! *)
+//
 val () =
 fprint! (out, ": $d2ctype(", fname)
 val () = codegen2_emit_tmpcstapp(out, d2cf)

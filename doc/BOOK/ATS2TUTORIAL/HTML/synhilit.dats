@@ -30,7 +30,7 @@ typedef charptr = $extype"char*"
 #define MVF "mv -f"
 //
 #define
-MYTEXTING "./../MYTEXT/bin/myatexting"
+MYTEXTING "./../MYTEXT/bin/mytexting"
 //
 (* ****** ****** *)
 

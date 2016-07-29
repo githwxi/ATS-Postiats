@@ -120,7 +120,7 @@ val sym = s2cst_get_sym(s2dat)
 val name = $SYM.symbol_get_name(sym)
 //
 in
-  fprint! (out, "datcon_", name)
+  fprint! (out, "datcon_", name, "_")
 end // end of [auxfun0]
 //
 fun
@@ -305,7 +305,7 @@ val sym = s2cst_get_sym(s2dat)
 val name = $SYM.symbol_get_name(sym)
 //
 in
-  fprint! (out, "datcontag_", name)
+  fprint! (out, "datcontag_", name, "_")
 end // end of [auxfun0]
 //
 fun

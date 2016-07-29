@@ -16,12 +16,17 @@ datatype expr =
 //
 (* ****** ****** *)
 
-fun{} datcon_expr : (expr) -> string
-fun{} datcontag_expr : (expr) -> intGte(0)
+fun{}
+datcon_expr_ : (expr) -> string
+fun{}
+datcontag_expr_ : (expr) -> intGte(0)
 
 (* ****** ****** *)
 //
-fun{} fprint_expr : (FILEref, expr) -> void
+fun
+fprint_expr : (FILEref, expr) -> void
+fun{}
+fprint_expr_ : (FILEref, expr) -> void
 //
 (* ****** ****** *)
 
