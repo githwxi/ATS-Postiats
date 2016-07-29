@@ -12,6 +12,20 @@
 staload "./expr.sats"
 
 (* ****** ****** *)
+//
+extern
+fun
+datcon_expr : (expr) -> string
+extern
+fun
+datcontag_expr : (expr) -> int
+//
+extern
+fun
+fprint_expr
+  (out: FILEref, x: expr): void
+//
+(* ****** ****** *)
 
 #ifdef
 CODEGEN2
@@ -25,15 +39,9 @@ CODEGEN2
 //
 #include "expr_codegen2.hats"
 //
-extern
-fun
-datcon_expr : (expr) -> string
 implement
 datcon_expr(x) = datcon_expr_(x)
 //
-extern
-fun
-datcontag_expr : (expr) -> int
 implement
 datcontag_expr(x) = datcontag_expr_(x)
 //
@@ -69,11 +77,6 @@ implement
 fprint_expr_$Div$sep1<> (out, _) = fprint! (out, "/")
 *)
 //
-extern
-fun
-fprint_expr
-  (out: FILEref, x: expr): void
-//
 implement
 fprint_expr
   (out, x) = fprint_expr_<> (out, x)
@@ -84,10 +87,6 @@ overload fprint with fprint_expr
 
 (* ****** ****** *)
 
-#ifdef
-CODEGEN2
-#then
-#else
 implement
 main0 () =
 {
@@ -103,7 +102,6 @@ val () = fprintln! (stdout_ref, "datcon(E2) = ", datcon_expr(E2))
 val () = fprintln! (stdout_ref, "datcontag(E2) = ", datcontag_expr(E2))
 //
 } (* end of [main0] *)
-#endif // end of [ifdef]
 
 (* ****** ****** *)
 
