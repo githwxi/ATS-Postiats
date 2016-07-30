@@ -70,12 +70,9 @@ prfun false_elim{X:prop | false} ((*void*)): X
 (* ****** ****** *)
 //
 typedef
-equal_type(a: t@ype) = (a, a) -<fun0> bool
+compopr_type(a: t@ype) = (a, a) -<fun0> bool
 typedef
-nequal_type(a: t@ype) = (a, a) -<fun0> bool
-//
-typedef
-compare_type(a: t@ype) = (a, a) -<fun0> int
+compare_type(a: t@ype) = (a, a) -<fun0> int(*-/0/+*)
 //
 (* ****** ****** *)
 //

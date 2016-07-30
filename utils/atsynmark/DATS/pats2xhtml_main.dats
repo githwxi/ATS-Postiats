@@ -125,17 +125,19 @@ waitkind_get_stadyn
 // end of [cmdkind_get_stadyn]
 
 (* ****** ****** *)
-
-datatype OUTCHAN =
+//
+datatype outchan =
   | OUTCHANref of (FILEref) | OUTCHANptr of (FILEref)
-// end of [OUTCHAN]
-
-fun outchan_get_fileref
-  (x: OUTCHAN): FILEref = (
+// end of [outchan]
+//
+fun
+outchan_get_fileref
+  (x: outchan): FILEref =
+(
   case+ x of
   | OUTCHANref (filr) => filr | OUTCHANptr (filp) => filp
-) // end of [outchan_get_fileref]
-
+) (* end of [outchan_get_fileref] *)
+//
 (* ****** ****** *)
 
 typedef
@@ -145,7 +147,7 @@ cmdstate = @{
 , waitkind= waitkind
 // number of processed input files;
 , ninputfile= int // waiting for STDIN if it is 0
-, outchan= OUTCHAN // current output channel
+, outchan= outchan // current output channel
 , standalone= bool (* output is a stand-alone file *)
 , nerror= int // number of accumulated errors
 } // end of [cmdstate]
@@ -155,7 +157,7 @@ cmdstate = @{
 fun
 cmdstate_set_outchan
 (
-  state: &cmdstate, chan_new: OUTCHAN
+  state: &cmdstate, chan_new: outchan
 ) : void = let
 //
 val chan_old = state.outchan
@@ -588,16 +590,17 @@ val arglst = comarglst_parse (argc, argv)
 val+~list_vt_cons (arg0, arglst) = arglst
 //
 var
-state = @{
-  comarg0= arg0
-, ncomarg= 0 // counting from 0
-, waitkind= WTKnone ()
-// number of prcessed
-, ninputfile= 0 // input files
-, outchan= OUTCHANref (stdout_ref)
-, standalone= true (* standalone output *)
-, nerror= 0 // number of accumulated errors
-} : cmdstate // end of [var]
+state =
+@{
+  comarg0    = arg0
+, ncomarg    = 0 // counting from 0
+, waitkind   = WTKnone() // no wait
+// the current number of
+, ninputfile = 0 // prcessed input files
+, outchan    = OUTCHANref(stdout_ref)
+, standalone = true (* standalone output *)
+, nerror     = 0 // the number of accumulated errors
+} : cmdstate // end of [var state]
 //
 val () = process_cmdline (state, arglst)
 //

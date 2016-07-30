@@ -197,5 +197,248 @@ val () = the_atextmap_insert("litstring", def0)
 end // end of [local]
 
 (* ****** ****** *)
+//
+extern
+fun
+the_atext_outchanlst_top(): FILEref
+//
+(* ****** ****** *)
+
+local
+//
+datatype outchan =
+  | OUTCHANref of (FILEref)
+  | OUTCHANptr of (FILEref)
+//
+fun
+outchan_get_fileref
+  (x: outchan): FILEref =
+(
+  case+ x of
+  | OUTCHANref(filr) => filr
+  | OUTCHANptr(filp) => filp
+) (* end of [outchan_get_fileref] *)
+//
+typedef
+outchanlst = list0(outchan)
+//
+val
+the_outchanlst =
+  ref<outchanlst>(list0_nil())
+//
+fun
+__fopen_out__
+(
+// argumentless
+) : void = let
+  val xs = !the_outchanlst
+in
+//
+!the_outchanlst :=
+  list0_cons(OUTCHANref(stdout_ref), xs)
+// !the_outchanlst
+end // end of [__fopen_out__]
+fun
+__fopen_err__
+(
+// argumentless
+) : void = let
+  val xs = !the_outchanlst
+in
+//
+!the_outchanlst :=
+  list0_cons(OUTCHANref(stderr_ref), xs)
+// !the_outchanlst
+end // end of [__fopen_err__]
+
+(* ****** ****** *)
+
+fun
+__fclose_top__
+(
+  // argumentless
+) : void = let
+//
+val xs = !the_outchanlst
+//
+in
+//
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) => let
+    val () = !the_outchanlst := xs
+  in
+    case+ x of
+    | OUTCHANref(filr) => ()
+    | OUTCHANptr(filp) => fileref_close(filp)
+  end // end of [list0_cons]
+//
+end // end of [__fclose_top__]
+//
+fun
+__fclose_all__
+(
+  // argumentless
+) : void = let
+//
+val xs = !the_outchanlst
+val () = !the_outchanlst := list0_nil
+//
+in
+//
+auxlst(xs) where
+{
+//
+fun
+aux(x: outchan): void =
+(
+case+ x of
+| OUTCHANref(filr) => ()
+| OUTCHANptr(filp) => fileref_close(filp)
+) (* end of [aux] *)
+//
+fun
+auxlst(xs: outchanlst): void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) => (aux(x); auxlst(xs))
+) (* end of [auxlst] *)
+//
+} (* end of [where] *)
+end // end of [__fclose_all__]
+
+in (* in-of-local *)
+
+(* ****** ****** *)
+//
+implement
+the_atext_outchanlst_top
+ ((*void*)) = let
+//
+val xs = !the_outchanlst
+//
+in
+//
+case+ xs of
+| list0_nil() => stdout_ref
+| list0_cons(x, xs) => outchan_get_fileref(x)
+//
+end // end of [the_atext_outchanlst_top]
+//
+(* ****** ****** *)
+
+val () =
+the_atextmap_insert
+( "atext_fopen_out"
+, TEXTDEFfun(
+  lam(loc, xs) => (
+    __fopen_out__(); atext_make_nil(loc)
+  ) (* lam *)
+  ) (* TEXTDEFfun *)
+) (* the_atextmap_insert *)
+
+val () =
+the_atextmap_insert
+( "atext_fopen_err"
+, TEXTDEFfun(
+  lam(loc, xs) => (
+    __fopen_err__(); atext_make_nil(loc)
+  ) (* lam *)
+  ) (* TEXTDEFfun *)
+) (* the_atextmap_insert *)
+
+val () =
+the_atextmap_insert
+( "atext_fclose_top"
+, TEXTDEFfun(
+  lam(loc, xs) => (
+    __fclose_top__(); atext_make_nil(loc)
+  ) (* lam *)
+  ) (* TEXTDEFfun *)
+) (* the_atextmap_insert *)
+
+val () =
+the_atextmap_insert
+( "atext_fclose_all"
+, TEXTDEFfun(
+  lam(loc, xs) => (
+    __fclose_all__(); atext_make_nil(loc)
+  ) (* lam *)
+  ) (* TEXTDEFfun *)
+) (* the_atextmap_insert *)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+fun
+auxlst
+(
+  out: FILEref, xs: atextlst
+) : void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons
+    (x, xs) => auxlst(out, xs) where
+  {
+    val () = fprint(out, atext_strngfy(x))
+  } (* end of [list0_cons] *)
+) (* end of [auxlst] *)
+//
+fun
+__fprint__
+(
+  xs: atextlst
+) : void = let
+//
+val out =
+the_atext_outchanlst_top()
+//
+in
+  auxlst(out, xs)
+end // end of [__fprint__]
+//
+fun
+__fprintln__
+(
+  xs: atextlst
+) : void = let
+//
+val out =
+the_atext_outchanlst_top()
+//
+in
+  auxlst(out, xs); fprint_newline(out)
+end // end of [__fprintln__]
+//
+in (* in-of-local *)
+
+val () =
+the_atextmap_insert
+( "atext_fprint"
+, TEXTDEFfun(
+  lam(loc, xs) => (
+    __fprint__(xs); atext_make_nil(loc)
+  ) (* lam *)
+  ) (* TEXTDEFfun *)
+) (* the_atextmap_insert *)
+
+val () =
+the_atextmap_insert
+( "atext_fprintln"
+, TEXTDEFfun(
+  lam(loc, xs) => (
+    __fprintln__(xs); atext_make_nil(loc)
+  ) (* lam *)
+  ) (* TEXTDEFfun *)
+) (* the_atextmap_insert *)
+
+end // end of [local]
+
+(* ****** ****** *)
 
 (* end of [atexting_textdef_pre.dats] *)
