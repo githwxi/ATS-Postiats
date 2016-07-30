@@ -572,6 +572,13 @@ list0_find_opt
 //
 (* ****** ****** *)
 //
+fun
+{a:t0p}
+list0_find_index
+  (xs: list0(INV(a)), p: cfun(a, bool)): intGte(~1)
+//
+(* ****** ****** *)
+//
 fun{
 a,b:t0p
 } list0_assoc_exn

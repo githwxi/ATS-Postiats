@@ -1150,6 +1150,31 @@ case+ xs of
 (* ****** ****** *)
 
 implement
+{a}(*tmp*)
+list0_find_index
+(
+  xs, pred
+) = loop(xs, 0) where
+{
+//
+fun
+loop
+(
+  xs: list0(a), i: intGte(0)
+) : intGte(~1) =
+//
+case+ xs of
+| list0_nil() => (~1)
+| list0_cons(x, xs) =>
+  (
+    if pred(x) then (i) else loop(xs, i+1)
+  ) (* end of [list0_cons] *)
+//
+} (* end of [list0_find_index] *)
+
+(* ****** ****** *)
+
+implement
 {a,b}(*tmp*)
 list0_assoc_exn
 (

@@ -475,10 +475,10 @@ list_equal_cloref
 //
 fun{
 x:t0p
-} list_find
+} list_find{n:int}
 (
-  xs: List(INV(x)), x0: &(x)? >> opt(x, i >= 0)
-) :<!wrt> #[i:int] int(i) // end-of-function
+  xs: list(INV(x), n), x0: &(x)? >> opt(x, i >= 0)
+) :<!wrt> #[i:int | i < n] int(i) // end-of-function
 //
 fun{x:t0p} list_find$pred (x):<> bool
 //

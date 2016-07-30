@@ -106,5 +106,12 @@ end // end of [local]
 *)
 
 (* ****** ****** *)
+//
+macdef
+eqfn(x0) = lam(x) =<cloref1> (,(x0) = x)
+macdef
+cmpfn(x0) = lam(x) =<cloref1> compare(,(x0), x)
+//
+(* ****** ****** *)
 
-(* end of [lmacrodef.sats] *)
+(* end of [lmacrodef.hats] *)

@@ -1098,7 +1098,7 @@ list_equal$eqfn(x1, x2) = eqfn($UN.cast(x1), $UN.cast(x2))
 implement
 {x}(*tmp*)
 list_find
-  ([n:int]xs, x0) = let
+  {n}(xs, x0) = let
 //
 prval() = lemma_list_param(xs)
 //
@@ -1110,7 +1110,7 @@ loop
 (
   xs: list(x, n-i)
 , i: int(i), x0: &x? >> opt(x, i >= 0)
-) :<!wrt> #[i:int] int(i) =
+) :<!wrt> #[i:int | i < n] int(i) =
 (
 case+ xs of
 | list_nil() =>
