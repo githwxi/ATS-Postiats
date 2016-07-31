@@ -57,6 +57,15 @@ fun{a:t0p}
 stream_sing(a):<> stream_con(a)
 //
 #atscode_separator()
+//
+fun
+{a:t0p}
+stream_is_nil(xs: stream(a)): bool
+fun
+{a:t0p}
+stream_is_cons(xs: stream(a)): bool
+//
+#atscode_separator()
 
 fun{a:t0p}
 stream_make_nil(): stream(a)
@@ -324,6 +333,11 @@ fprint_stream
 
 overload [] with stream_nth_exn
 
+#atscode_separator()
+//
+overload iseqz with stream_is_nil
+overload isneqz with stream_is_cons
+//
 #atscode_separator()
 //
 overload .head with stream_head_exn

@@ -39,6 +39,19 @@ stream_sing(x) =
 //
 implement
 {a}(*tmp*)
+stream_is_nil(xs) =
+(
+case+ !xs of
+| stream_nil _ => true | stream_cons _ => false
+)
+implement
+{a}(*tmp*)
+stream_is_cons(xs) = not(stream_is_nil<a>(xs))
+//
+#atscode_separator()
+//
+implement
+{a}(*tmp*)
 stream_make_nil() =
   $delay(stream_nil{a}())
 //

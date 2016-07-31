@@ -45,7 +45,9 @@ staload "libats/ML/SATS/basis.sats"
 // HX-2013-08:
 // for sets of elements of type a
 //
-abstype set_type (a:t@ype+) = ptr
+abstype
+set_type (a:t@ype+) = ptr
+//
 typedef set (a:t0p) = set_type (a)
 //
 (* ****** ****** *)
@@ -81,9 +83,9 @@ overload fprint with fprint_funset
 (* ****** ****** *)
 
 fun{}
-funset_is_nil {a:t0p} (xs: set(INV(a))):<> bool
+funset_is_nil{a:t0p}(xs: set(INV(a))):<> bool
 fun{}
-funset_isnot_nil {a:t0p} (xs: set(INV(a))):<> bool
+funset_isnot_nil{a:t0p}(xs: set(INV(a))):<> bool
 
 (* ****** ****** *)
 
@@ -114,16 +116,16 @@ funset_remove
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_getmax_opt (xs: set(INV(a))): Option_vt (a)
+funset_getmax_opt (xs: set(INV(a))): Option_vt(a)
 fun{a:t0p}
-funset_getmin_opt (xs: set(INV(a))): Option_vt (a)
+funset_getmin_opt (xs: set(INV(a))): Option_vt(a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_takeoutmax_opt (xs: &set(INV(a)) >> _): Option_vt (a)
+funset_takeoutmax_opt (xs: &set(INV(a)) >> _): Option_vt(a)
 fun{a:t0p}
-funset_takeoutmin_opt (xs: &set(INV(a)) >> _): Option_vt (a)
+funset_takeoutmin_opt (xs: &set(INV(a)) >> _): Option_vt(a)
 
 (* ****** ****** *)
 
@@ -159,15 +161,17 @@ funset_is_supset (xs1: set(INV(a)), xs2: set(a)):<> bool
 //
 fun{a:t0p}
 funset_foreach (set: set(INV(a))): void
-fun{
-a:t0p}{env:vt0p
-} funset_foreach_env
+fun
+{a:t0p}
+{env:vt0p}
+funset_foreach_env
   (set: set(INV(a)), env: &(env) >> _): void
 // end of [funset_foreach_env]
 //
-fun{
-a:t0p}{env:vt0p
-} funset_foreach$fwork (x: a, env: &(env) >> _): void
+fun
+{a:t0p}
+{env:vt0p}
+funset_foreach$fwork (x: a, env: &(env) >> _): void
 //
 (* ****** ****** *)
 //
@@ -182,10 +186,55 @@ funset_tabulate_cloref
   {n:nat}(int(n), fopr: (natLt(n)) -<cloref1> a): set(a)
 //
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-funset_listize (xs: set(INV(a))):<> list0 (a)
+funset_listize (xs: set(INV(a))):<> list0(a)
+//
+fun{a:t0p}
+funset_streamize (xs: set(INV(a))):<> stream_vt(a)
+//
+(* ****** ****** *)
 
+typedef
+set_modtype
+(
+  elt:t@ype
+) = $rec{
+//
+nil = () -<> set(elt)
+,
+sing =
+$d2ctype(funset_sing<elt>)
+,
+make_list =
+$d2ctype(funset_make_list<elt>)
+,
+size = $d2ctype(funset_size<elt>)
+,
+is_nil = (set(elt)) -<> bool
+,
+isnot_nil = (set(elt)) -<> bool
+,
+insert = $d2ctype(funset_insert<elt>)
+,
+remove = $d2ctype(funset_remove<elt>)
+,
+union = $d2ctype(funset_union<elt>)
+,
+intersect = $d2ctype(funset_intersect<elt>)
+,
+listize = $d2ctype(funset_listize<elt>)
+,
+streamiize = $d2ctype(funset_streamize<elt>)
+//
+} (* end of [set_modtype] *)
+
+(* ****** ****** *)
+//
+fun
+{a:t@ype}
+funset_make_module((*void*)): set_modtype(a)
+//
 (* ****** ****** *)
 
 (* end of [funset.sats] *)

@@ -254,6 +254,35 @@ end // end of [__fopen_err__]
 (* ****** ****** *)
 
 fun
+__fopen_path__
+(
+  path: string, mode: string
+) : void = let
+//
+val xs = !the_outchanlst
+//
+val opt =
+fileref_open_opt(path, $UN.cast(mode))
+//
+in
+//
+case+ opt of
+| ~None_vt() => {
+    val () =
+    !the_outchanlst :=
+      list0_cons(OUTCHANref(stderr_ref), xs)
+    // end of [val]
+  } (* None_vt *)
+| ~Some_vt(filr) =>
+  (
+    !the_outchanlst := list0_cons(OUTCHANptr(filr), xs)
+  ) (* Some_vt *)
+//
+end // end of [__fopen_path__]
+
+(* ****** ****** *)
+
+fun
 __fclose_top__
 (
   // argumentless
@@ -345,6 +374,29 @@ the_atextmap_insert
   lam(loc, xs) => (
     __fopen_err__(); atext_make_nil(loc)
   ) (* lam *)
+  ) (* TEXTDEFfun *)
+) (* the_atextmap_insert *)
+
+val () =
+the_atextmap_insert
+( "atext_fopen_path"
+, TEXTDEFfun(
+  lam(loc, xs) => let
+    val-
+    cons0(x0, xs) = xs
+    val path = atext_strngfy(x0)
+    var xs: atextlst = xs
+    val mode =
+    (
+      case+ xs of
+      | list0_nil() => "w"
+      | list0_cons(x1, xs2) =>
+          (xs := xs2; atext_strngfy(x1))
+        // end of [list0_cons]
+    ) : string // end of [val]
+  in
+    __fopen_path__(path, mode); atext_make_nil(loc)
+  end (* lam *)
   ) (* TEXTDEFfun *)
 ) (* the_atextmap_insert *)
 

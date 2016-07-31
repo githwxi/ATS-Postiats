@@ -322,20 +322,20 @@ fun{x:vt0p}
 list_vt_separate$pred (x: &RD(x)): bool
 
 #atscode_separator()
-
+//
 fun{x:t0p}
 list_vt_filter{n:int}
-  (x: list_vt(INV(x), n)):<!wrt> listLte_vt(x, n)
+  (list_vt(INV(x), n)):<!wrt> listLte_vt(x, n)
 // end of [list_vt_filter]
-
+//
 fun{x:t0p}
 list_vt_filter$pred (x: &RD(x)):<> bool
-
+//
 #atscode_separator()
 //
 fun{x:vt0p}
-list_vt_filterlin
-  {n:int} (list_vt(INV(x), n)):<!wrt> listLte_vt(x, n)
+list_vt_filterlin{n:int}
+  (list_vt(INV(x), n)):<!wrt> listLte_vt(x, n)
 //
 fun{x:vt0p}
 list_vt_filterlin$pred (x: &RD(x)):<> bool

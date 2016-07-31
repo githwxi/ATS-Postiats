@@ -39,38 +39,37 @@
 (* ****** ****** *)
 //
 (*
-typedef elt = int/...
+typedef elt = int //...
 *)
 //
 (* ****** ****** *)
 //
-abstype
-myset_type = ptr
-//
 typedef
-myset = myset_type
+myset = set_type(elt)
+typedef
+myset_modtype = set_modtype(elt)
 //
 (* ****** ****** *)
-
+//
 extern
 fun
 myfunset_nil():<> myset
 and
 myfunset_make_nil():<> myset
-
+//
 (* ****** ****** *)
-
+//
 extern
 fun
 myfunset_sing(elt): myset
 and
 myfunset_make_sing(elt): myset
-
+//
 (* ****** ****** *)
 
 extern
 fun
-myfunset_make_list(List(elt)): myset
+myfunset_make_list(list0(elt)): myset
 
 (* ****** ****** *)
 //
@@ -85,9 +84,24 @@ overload fprint with fprint_myfunset
 //
 extern
 fun
-myfunset_size(myset): size_t
+myfunset_size(myset):<> size_t
 //
 overload .size with myfunset_size
+//
+(* ****** ****** *)
+//
+extern
+fun
+myfunset_is_nil(myset):<> bool
+extern
+fun
+myfunset_isnot_nil(myset):<> bool
+//
+overload is_nil with myfunset_is_nil
+overload isnot_nil with myfunset_isnot_nil
+//
+overload .is_nil with myfunset_is_nil
+overload .isnot_nil with myfunset_isnot_nil
 //
 (* ****** ****** *)
 //
@@ -125,18 +139,18 @@ overload .remove with myfunset_remove
 //
 extern
 fun
-myfunset_union(myset, myset): myset
+myfunset_union(myset, myset):<> myset
 and
-myfunset_union2(&myset >> _, myset): void
+myfunset_union2(&myset >> _, myset):<!wrt> void
 //
 overload union with myfunset_union
 overload .union with myfunset_union2
 //
 extern
 fun
-myfunset_intersect(myset, myset): myset
+myfunset_intersect(myset, myset):<> myset
 and
-myfunset_intersect2(&myset >> _, myset): void
+myfunset_intersect2(&myset >> _, myset):<!wrt> void
 //
 overload intersect with myfunset_intersect
 overload .intersect with myfunset_intersect2
@@ -146,10 +160,10 @@ overload .intersect with myfunset_intersect2
 extern
 fun
 myfunset_differ
-  (xs: myset, ys: myset): myset
+  (xs: myset, ys: myset):<> myset
 and
 myfunset_differ2
-  (xs: &myset >> _, ys: myset): void
+  (xs: &myset >> _, ys: myset):<!wrt> void
 //
 overload differ with myfunset_differ
 overload .differ with myfunset_differ2
@@ -157,10 +171,10 @@ overload .differ with myfunset_differ2
 extern
 fun
 myfunset_symdiff
-  (xs: myset, ys: myset): myset
+  (xs: myset, ys: myset):<> myset
 and
 myfunset_symdiff2
-  (xs: &myset >> _, ys: myset): void
+  (xs: &myset >> _, ys: myset):<!wrt> void
 //
 overload symdiff with myfunset_symdiff
 overload .symdiff with myfunset_symdiff2
@@ -169,9 +183,9 @@ overload .symdiff with myfunset_symdiff2
 //
 extern
 fun
-myfunset_equal(myset, myset): bool
+myfunset_equal(myset, myset):<> bool
 and
-myfunset_notequal(myset, myset): bool
+myfunset_notequal(myset, myset):<> bool
 //
 overload = with myfunset_equal
 overload != with myfunset_notequal
@@ -180,7 +194,7 @@ overload != with myfunset_notequal
 //
 extern
 fun
-myfunset_compare(myset, myset): int
+myfunset_compare(myset, myset):<> int
 //
 overload compare with myfunset_compare
 //
@@ -188,9 +202,9 @@ overload compare with myfunset_compare
 //
 extern
 fun
-myfunset_is_subset(myset, myset): bool
+myfunset_is_subset(myset, myset):<> bool
 and
-myfunset_is_supset(myset, myset): bool
+myfunset_is_supset(myset, myset):<> bool
 //
 (* ****** ****** *)
 //
@@ -257,10 +271,25 @@ overload .tabulate with myfunset_tabulate_method
 //
 extern
 fun
-myfunset_listize(myset): List0(elt)
+myfunset_listize(myset):<> list0(elt)
 //
 overload listize with myfunset_listize
 overload .listize with myfunset_listize
+//
+(* ****** ****** *)
+//
+extern
+fun
+myfunset_streamize(myset):<> stream_vt(elt)
+//
+overload streamize with myfunset_streamize
+overload .streamize with myfunset_streamize
+//
+(* ****** ****** *)
+//
+extern
+fun
+myfunset_make_module((*void*)): myset_modtype
 //
 (* ****** ****** *)
 
@@ -277,7 +306,6 @@ staload _ = "libats/DATS/funset_avltree.dats"
 //
 staload _(*anon*) = "libats/ML/DATS/funset.dats"
 //
-assume myset_type = set_type(elt)
 //
 in (* in-of-local *)
 
@@ -297,7 +325,7 @@ myfunset_make_sing
 //
 implement
 myfunset_make_list
-  (xs) = funset_make_list<elt>(g0ofg1(xs))
+  (xs) = funset_make_list<elt>(xs)
 //
 (* ****** ****** *)
 //
@@ -310,6 +338,13 @@ fprint_myfunset
 implement
 myfunset_size(xs) = funset_size<elt>(xs)
 //
+(* ****** ****** *)
+
+implement
+myfunset_is_nil(xs) = funset_is_nil(xs)
+implement
+myfunset_isnot_nil(xs) = funset_isnot_nil(xs)
+
 (* ****** ****** *)
 //
 implement
@@ -399,23 +434,23 @@ myfunset_foreach_method
 (* ****** ****** *)
 
 implement
-{res}(*tmp*)
+{tres}(*tmp*)
 myfunset_foldleft_cloref
-  (xs0, ini, fopr) = r0 where
+  (xs0, ini, fopr) = res where
 {
 //
-var r0
-  : res = ini
+var
+res: tres = ini
 //
-val p_r0 = addr@r0
+val p_res = addr@res
 //
 val ((*void*)) =
 myfunset_foreach_cloref
 (
   xs0
 , lam(x) =>
-  $UN.ptr0_set<res>
-  (p_r0, fopr($UN.ptr0_get<res>(p_r0), x))
+  $UN.ptr0_set<tres>
+  (p_res, fopr($UN.ptr0_get<tres>(p_res), x))
   // end of [lam]
 ) (* end of [myfunset_foreach_cloref] *)
 //
@@ -424,27 +459,42 @@ myfunset_foreach_cloref
 (* ****** ****** *)
 //
 implement
-{res}(*tmp*)
+{tres}(*tmp*)
 myfunset_foldleft_method
   (xs0, tres) =
-  lam (int, fopr) =>
-  myfunset_foldleft_cloref<res> (xs0, int, fopr)
+(
+lam (int, fopr) =>
+  myfunset_foldleft_cloref<tres> (xs0, int, fopr)
+) (* end of [myfunset_foldleft_method] *)
 //
 (* ****** ****** *)
 //
 implement
 myfunset_tabulate_cloref
-  (n, fopr) = funset_tabulate_cloref<elt>(n, fopr)
+  (n, fopr) =
+  funset_tabulate_cloref<elt>(n, fopr)
 //
 implement
-myfunset_tabulate_method
-  (n) = lam(fopr) => myfunset_tabulate_cloref(n, fopr)
+myfunset_tabulate_method(n) =
+  lam(fopr) => myfunset_tabulate_cloref(n, fopr)
 //
 (* ****** ****** *)
 //
 implement
-myfunset_listize
-  (xs) = g1ofg0_list(funset_listize<elt>(xs))
+myfunset_listize(xs) = funset_listize<elt>(xs)
+//
+(* ****** ****** *)
+//
+implement
+myfunset_streamize(xs) = funset_streamize<elt>(xs)
+//
+(* ****** ****** *)
+//
+// HX-2016-07-31:
+// creating a module(record):
+//
+implement
+myfunset_make_module() = funset_make_module<elt>()
 //
 (* ****** ****** *)
 

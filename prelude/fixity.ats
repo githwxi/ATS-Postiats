@@ -190,6 +190,10 @@ infix 0 :=+ :=- :=* :=/ // x:=a+x, x:=a-x, ...
 
 (* ****** ****** *)
 
+prefix 0 ignoret // ignoring a funcall return
+
+(* ****** ****** *)
+
 #if VERBOSE_FIXITY #then
 #print "Loading [fixity.ats] finishes!\n"
 #endif // end of [VERBOSE_FIXITY]

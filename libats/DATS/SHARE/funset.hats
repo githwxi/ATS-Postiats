@@ -175,7 +175,7 @@ end // end of [funset_equal]
 implement
 {a}(*tmp*)
 funset_is_supset
-  (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
+  (xs1, xs2) = funset_is_subset<a>(xs2, xs1)
 //
 (* ****** ****** *)
 
@@ -238,7 +238,9 @@ funset_tabulate
 //
 fun
 loop
-{i:nat | i <= n} .<n-i>.
+{ i:nat
+| i <= n
+} .<n-i>.
 (
   i: int(i), n: int(n), res: &set(a) >> _
 ) : void = (
@@ -247,8 +249,10 @@ if
 i < n
 then let
 //
-val x(*a*) = funset_tabulate$fopr<a> (i)
-val _(*bool*) = funset_insert<a> (res, x)
+val x(*a*) =
+  funset_tabulate$fopr<a> (i)
+//
+val _(*bool*) = funset_insert<a>(res, x)
 //
 in
   loop(i+1, n, res)
@@ -258,9 +262,9 @@ else () // end of [else]
 ) (* end of [loop] *)
 //
 var
-res: set(a) = funset_make_nil ()
+res: set(a) = funset_make_nil()
 //
-val ((*void*)) = loop (0, n, res)
+val ((*void*)) = loop(0, n, res)
 //
 } (* end of [funset_tabulate] *)
 
@@ -272,36 +276,45 @@ funset_listize
   (xs) = let
 //
 implement
-funset_flistize$fopr<a><a> (x) = x
+funset_flistize$fopr<a><a>(x) = x
 //
 in
-  $effmask_all (funset_flistize (xs))
+  $effmask_all(funset_flistize<a>(xs))
 end // end of [funset_listize]
 
 (* ****** ****** *)
 
 local
-
-staload Q = "libats/SATS/qlist.sats"
-
+//
+staload Q =
+"libats/SATS/qlist.sats"
+//
 in (* in of [local] *)
 
 implement
 {a}{b}(*tmp*)
-funset_flistize (xs) = let
+funset_flistize
+  (xs) = res where
+{
 //
-vtypedef tenv = $Q.qstruct (b)
+vtypedef
+tenv = $Q.qstruct(b)
 //
-implement(env)
+implement
+(env)(*tmp*)
 funset_foreach$fwork<a><env>
   (x, env) = let
 //
-val (
-  pf, fpf | p
-) = $UN.ptr_vtake{tenv}(addr@(env))
-val y = funset_flistize$fopr<a><b> (x)
-val () = $Q.qstruct_insert<b> (!p, y)
-prval () = fpf (pf)
+val
+(pf, fpf | p) =
+$UN.ptr_vtake{tenv}(addr@(env))
+//
+val y =
+  funset_flistize$fopr<a><b>(x)
+//
+val () = $Q.qstruct_insert<b>(!p, y)
+//
+prval ((*returned*)) = fpf( pf )
 //
 in
   // nothing
@@ -309,15 +322,13 @@ end (* end of [funset_foreach$fwork] *)
 //
 var env: $Q.qstruct
 val () = $Q.qstruct_initize{b}(env)
-val () = funset_foreach_env<a><tenv> (xs, env)
-val res = $Q.qstruct_takeout_list (env)
+val () = funset_foreach_env<a><tenv>(xs, env)
+val res = $Q.qstruct_takeout_list(env)
 prval () = $Q.qstruct_uninitize{b}(env)
 //
-prval () = lemma_list_vt_param (res)
+prval () = lemma_list_vt_param(res)
 //
-in
-  res
-end // end of [funset_flistize]
+} (* end of [funset_flistize] *)
 
 end // end of [local]
 

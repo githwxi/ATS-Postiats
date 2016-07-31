@@ -198,17 +198,22 @@ funset_tabulate$fopr (index: intGte(0)): (a)
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_listize (xs: set(INV(a))):<!wrt> List0_vt (a)
+funset_listize(xs: set(INV(a))):<!wrt> List0_vt(a)
 
 (* ****** ****** *)
-
+//
 fun{
 a:t0p}{b:t0p
-} funset_flistize$fopr (x: a): b
+} funset_flistize$fopr(x: a): b
 fun{
 a:t0p}{b:t0p
-} funset_flistize (xs: set(INV(a))): List0_vt (b)
-
+} funset_flistize (xs: set(INV(a))): List0_vt(b)
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+funset_streamize(xs: set(INV(a))):<!wrt> stream_vt(a)
+//
 (* ****** ****** *)
 
 (* end of [funset.hats] *)

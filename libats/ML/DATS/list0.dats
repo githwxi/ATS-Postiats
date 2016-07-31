@@ -1653,9 +1653,52 @@ in
 end // end of [list0_mergesort]
 
 (* ****** ****** *)
+//
+implement
+(a)(*tmp*)
+fprint_val<list0(a)>
+  (out, xs) =
+(
+  fprint_list0<a>(out, xs)
+)
+//
+(* ****** ****** *)
 
-implement(a)
-fprint_val<list0(a)> = fprint_list0
+implement
+(a)(*tmp*)
+gcompare_val_val<list0(a)>
+  (xs, ys) = let
+//
+fun
+auxlst
+(
+  xs: list0(a), ys: list0(a)
+) : int =
+(
+case+ xs of
+| list0_nil() =>
+  (
+    case+ ys of
+    | list0_nil() => 0
+    | list0_cons _ => ~1
+  ) (* list0_nil *)
+| list0_cons(x, xs) =>
+  (
+    case+ ys of
+    | list0_nil() => 1
+    | list0_cons(y, ys) => let
+        val sgn =
+          gcompare_val_val<a>(x, y)
+        // end of [val]
+      in
+        if sgn != 0 then sgn else auxlst(xs, ys)
+      end // end of [list0_cons]
+  ) (* list0_cons *)
+) (* end of [auxlst] *)
+//
+in
+  $effmask_all(auxlst(xs, ys))
+end (* end of [gcompare_val_val] *)
 
 (* ****** ****** *)
 

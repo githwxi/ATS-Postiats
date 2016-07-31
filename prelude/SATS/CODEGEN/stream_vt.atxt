@@ -50,6 +50,15 @@ streamopt_vt(a:vt0p) = Option_vt(stream_vt(a))
 #atscode_separator()
 //
 fun
+{a:t0p}
+stream_vt_is_nil(stream_vt(a)): bool
+fun
+{a:t0p}
+stream_vt_is_cons(stream_vt(a)): bool
+//
+#atscode_separator()
+//
+fun
 {a:vt0p}
 stream_vt_make_nil():<> stream_vt(a)
 fun{a:t0p}
@@ -141,31 +150,6 @@ stream_vt_append
 fun{a:vt0p}
 stream_vt_concat
   (xss: stream_vt(stream_vt(INV(a)))): stream_vt(a)
-//
-#atscode_separator()
-//
-fun{a:vt0p}
-stream_vt_foreach
-  (stream_vt(INV(a))): stream_vt_con(a)
-fun{
-a:vt0p}{env:vt0p
-} stream_vt_foreach_env
-  (stream_vt(INV(a)), env: &env >> _): stream_vt_con(a)
-//
-fun{
-a:vt0p}{env:vt0p
-} stream_vt_foreach$cont
-  (x: &a, env: &env >> _): bool
-fun{
-a:vt0p}{env:vt0p
-} stream_vt_foreach$fwork
-  (x: &a >> a?!, env: &env >> _): void // lin-cleared
-//
-fun{a:vt0p}
-stream_vt_foreach_cloptr
-(
-  stream_vt(INV(a)), fwork: (&a >> a?!) -<cloptr1> void
-) : void // end of [stream_vt_foreach_cloptr]
 //
 #atscode_separator()
 //
@@ -265,6 +249,41 @@ stream_vt_labelize
   (stream_vt(INV(a))): stream_vt(@(intGte(0), a))
 //
 #atscode_separator()
+//
+fun{a:vt0p}
+stream_vt_foreach
+  (stream_vt(INV(a))): stream_vt_con(a)
+fun{
+a:vt0p}{env:vt0p
+} stream_vt_foreach_env
+  (stream_vt(INV(a)), env: &env >> _): stream_vt_con(a)
+//
+fun{
+a:vt0p}{env:vt0p
+} stream_vt_foreach$cont
+  (x: &a, env: &env >> _): bool
+fun{
+a:vt0p}{env:vt0p
+} stream_vt_foreach$fwork
+  (x: &a >> a?!, env: &env >> _): void // lin-cleared
+//
+fun{a:vt0p}
+stream_vt_foreach_cloptr
+(
+  stream_vt(INV(a)), fwork: (&a >> a?!) -<cloptr1> void
+) : void // end of [stream_vt_foreach_cloptr]
+//
+#atscode_separator()
+//
+fun{
+res:vt0p
+}{a:vt0p}
+stream_vt_foldleft_cloptr
+(
+  xs: stream_vt(a), init: res, fopr: (res, &a >> a?!) -<cloptr1> res
+) : res // end of [stream_vt_foldleft_cloptr]
+//
+#atscode_separator()
 
 fun
 {env:t0p}{a:t0p}
@@ -339,6 +358,11 @@ overload ~ with streamer_vt_free
 #atscode_separator()
 
 overload [] with streamer_vt_eval_exn
+
+(* ****** ****** *)
+
+overload iseqz with stream_vt_is_nil
+overload isneqz with stream_vt_is_cons
 
 (* ****** ****** *)
 

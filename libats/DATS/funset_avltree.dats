@@ -903,7 +903,7 @@ implement
 funset_foreach_env
   (xs, env) = let
 //
-val p_env = addr@ (env)
+val p_env = addr@(env)
 //
 fun foreach
   {h:nat} .<h>.
@@ -968,7 +968,41 @@ end // end of [funset_listize]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
+funset_streamize
+  (xs) = let
+//
+fun
+auxmain{h:nat}
+(
+t0: avltree (a, h)
+) : stream_vt(a) =
+(
+//
+case+ t0 of
+//
+| E () =>
+  stream_vt_make_nil()
+//
+| B (
+    _, x, tl, tr
+  ) => stream_vt_append
+  (
+    auxmain(tl)
+  , $ldelay(stream_vt_cons{a}(x, auxmain(tr)))
+  ) (* stream_vt_append *)
+//
+) (* end of [auxmain] *)
+//
+in
+  $effmask_all(auxmain(xs))
+end // end of [funset_streamize]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 funset_avltree_height (xs) = avlht (xs)
 
 (* ****** ****** *)
