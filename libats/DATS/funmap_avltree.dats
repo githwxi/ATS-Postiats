@@ -663,8 +663,43 @@ end // end of [funmap_foreach_env]
 
 implement
 {key,itm}
-funmap_avltree_height (map) = avlht (map)
+funmap_streamize
+  (map) = let
+//
+typedef ki = @(key, itm)
+//
+fun
+auxmain{h:nat}
+(
+t0: avltree(key, itm, h)
+) : stream_vt(@(key, itm)) =
+(
+//
+case+ t0 of
+//
+| E () =>
+  stream_vt_make_nil()
+//
+| B (
+    _, k, x, tl, tr
+  ) => stream_vt_append
+  (
+    auxmain(tl)
+  , $ldelay(stream_vt_cons{ki}((k, x), auxmain(tr)))
+  ) (* stream_vt_append *)
+//
+) (* end of [auxmain] *)
+//
+in
+  $effmask_all(auxmain(map))
+end // end of [funmap_streamize]
 
+(* ****** ****** *)
+//
+implement
+{key,itm}
+funmap_avltree_height (map) = avlht (map)
+//
 (* ****** ****** *)
 
 (* end of [funmap_avltree.dats] *)

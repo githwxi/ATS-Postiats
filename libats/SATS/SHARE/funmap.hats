@@ -187,7 +187,7 @@ funmap_foreach_env
 fun{
 key,itm:t0p
 } funmap_listize
-  (xs: map(key, INV(itm))):<!wrt> List_vt @(key, itm)
+  (map: map(key, INV(itm))):<!wrt> List0_vt(@(key,itm))
 // end of [funmap_listize]
 
 (* ****** ****** *)
@@ -201,7 +201,15 @@ fun
 {key:t0p
 ;itm:t0p}
 {ki2:t0p}
-funmap_flistize(kxs: map(key, INV(itm))): List_vt(ki2)
+funmap_flistize(map: map(key, INV(itm))): List0_vt(ki2)
+//
+(* ****** ****** *)
+//
+fun
+{key:t0p
+;itm:t0p}
+funmap_streamize
+  (map: map(key, INV(itm))):<!wrt> stream_vt(@(key,itm))
 //
 (* ****** ****** *)
 

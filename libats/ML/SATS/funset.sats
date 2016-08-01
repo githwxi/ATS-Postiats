@@ -46,9 +46,12 @@ staload "libats/ML/SATS/basis.sats"
 // for sets of elements of type a
 //
 abstype
-set_type (a:t@ype+) = ptr
+set_type
+(
+  a:t@ype+
+) = ptr(*boxed*)
 //
-typedef set (a:t0p) = set_type (a)
+typedef set(a:t0p) = set_type(a)
 //
 (* ****** ****** *)
 

@@ -197,15 +197,34 @@ end // end of [atscodefil]
 end // end of [local]
 
 (* ****** ****** *)
+//
+#define PDF 0
+//
+(*
+#define HTML 1
+*)
+//
+(* ****** ****** *)
 
 local
 //
+#if
+(PDF)
+#then
+val _cls = "\
+]]></programlisting></informalexample>\n\
+" // end of [val]
+val _opn = "\
+<informalexample><programlisting><![CDATA[\
+" // end of [val]
+#else
 val _cls = "\
 \"\"\")]]></programlisting></informalexample>\n\
 " // end of [val]
 val _opn = "\
 <informalexample><programlisting><![CDATA[##sats2xhtml_docbook(\"\"\"\
 " // end of [val]
+#endif // end of [if(0)]
 //
 in
 //
@@ -233,12 +252,24 @@ end // end of [local]
 
 local
 //
+#if
+(PDF)
+#then
+val _cls = "\
+]]></programlisting></informalexample>\n\
+" // end of [val]
+val _opn = "\
+<informalexample><programlisting><![CDATA[\
+" // end of [val]
+#else
+//
 val _cls = "\
 \"\"\")]]></programlisting></informalexample>\n\
 " // end of [val]
 val _opn = "\
 <informalexample><programlisting><![CDATA[##dats2xhtml_docbook(\"\"\"\
 " // end of [val]
+#endif // end of [if(0)]
 //
 in
 //

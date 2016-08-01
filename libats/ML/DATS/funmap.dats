@@ -140,16 +140,18 @@ fprint_funmap$mapto (out) = fprint (out, "->")
 implement
 {key,itm}
 funmap_foreach_cloref
-  (tbl, fwork) = () where
+  (map, fwork) = () where
 {
 //
 var env: void = ((*void*))
 //
 implement
 (env)(*tmp*)
-$FM.funmap_foreach$fwork<key,itm><env> (k, x, env) = fwork(k, x)
+$FM.funmap_foreach$fwork<key,itm><env>
+  (k, x, env) = fwork(k, x)
 //
-val ((*void*)) = $FM.funmap_foreach_env<key,itm><void> (tbl, env)
+val ((*void*)) =
+$FM.funmap_foreach_env<key,itm><void>(map, env)
 //
 } (* end of [funmap_foreach_cloref] *)
 
@@ -159,11 +161,54 @@ implement
 {key,itm}
 funmap_listize
   (map) = let
-  val xs = $effmask_wrt ($FM.funmap_listize (map))
+//
+val xs =
+  $effmask_wrt($FM.funmap_listize(map))
+//
 in
-  list0_of_list_vt (xs)
+  list0_of_list_vt(xs)
 end // end of [funmap_listize]
 
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_streamize
+  (map) =
+(
+  $effmask_wrt($FM.funmap_streamize(map))
+) (* end of [funmap_streamize] *)
+
+(* ****** ****** *)
+//
+implement
+{key,itm}
+funmap_make_module
+  ((*void*)) = $rec
+{
+//
+nil = funmap_nil{key,itm}
+,
+size = funmap_size<key,itm>
+,
+is_nil = funmap_is_nil{key,itm}
+,
+isnot_nil = funmap_isnot_nil{key,itm}
+,
+search = funmap_search<key,itm>
+,
+insert = funmap_insert<key,itm>
+,
+remove = funmap_remove<key,itm>
+,
+takeout = funmap_takeout<key,itm>
+,
+listize = funmap_listize<key,itm>
+,
+streamiize = funmap_streamize<key,itm>
+//
+} (* end of [funmap_make_module] *)
+//
 (* ****** ****** *)
 
 (* end of [funmap.dats] *)

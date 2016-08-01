@@ -6,6 +6,8 @@
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/HATS/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
@@ -46,7 +48,7 @@ val-~Some_vt(2) = mymap.insert("c", 3)
 //
 (* ****** ****** *)
 
-val () = assertloc (mymap.size() = 3)
+val () = assertloc(mymap.size() = 3)
 
 (* ****** ****** *)
 //
@@ -67,9 +69,35 @@ val-~Some_vt(2) = mymap.takeout("b")
 val-~Some_vt(3) = mymap.takeout("c")
 //
 (* ****** ****** *)
+//
+val
+MYMAP = myfunmap_make_module()
+//
+(* ****** ****** *)
+//
+var
+mymap = (MYMAP.nil)()
+//
+val-~None_vt() = (MYMAP.insert)(mymap, "a", 0)
+val-~None_vt() = (MYMAP.insert)(mymap, "b", 1)
+val-~None_vt() = (MYMAP.insert)(mymap, "c", 2)
+//
+val-~Some_vt(0) = (MYMAP.insert)(mymap, "a", 1)
+val-~Some_vt(1) = (MYMAP.insert)(mymap, "b", 2)
+val-~Some_vt(2) = (MYMAP.insert)(mymap, "c", 3)
+//
+val () = fprintln! (stdout_ref, "mymap = ", mymap)
+//
+val-(true) = (MYMAP.remove)(mymap, "a")
+val-(true) = (MYMAP.remove)(mymap, "b")
+val-(true) = (MYMAP.remove)(mymap, "c")
+//
+val () = assertloc((MYMAP.size)(mymap) = 0)
+//
+(* ****** ****** *)
 
-implement main0 () = {}
+implement main0((*void*)) = {(*void*)}
 
 (* ****** ****** *)
 
-(* end of [chap_funsetmap.dats] *)
+(* end of [chap_funsetmap_map.dats] *)

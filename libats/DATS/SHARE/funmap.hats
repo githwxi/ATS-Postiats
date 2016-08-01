@@ -192,40 +192,46 @@ in (* in of [local] *)
 implement
 {key,itm}{ki2}
 funmap_flistize
-  (map) = let
+  (map) = res where
+{
 //
 typedef ki = @(key, itm)
 //
 vtypedef tenv = $Q.qstruct (ki2)
 //
-implement(env)
+implement
+(env)(*tmp*)
 funmap_foreach$fwork<key,itm><env>
   (k, x, env) = let
 //
-val (
-  pf, fpf | p
-) = $UN.ptr_vtake{tenv}(addr@(env))
+val
+(pf, fpf | p) =
+$UN.ptr_vtake{tenv}(addr@(env))
 //
 val ki2 =
-  funmap_flistize$fopr<key,itm><ki2> (k, x)
+funmap_flistize$fopr<key,itm><ki2>(k, x)
 //
 val () = $Q.qstruct_insert<ki2> (!p, ki2)
 //
-prval () = fpf (pf)
+prval ((*returned*)) = fpf (pf)
 //
 in
   // nothing
 end // end of [funmap_foreach$fwork]
 //
 var env: $Q.qstruct
-val () = $Q.qstruct_initize{ki2}(env)
-val () = funmap_foreach_env<key,itm><tenv> (map, env)
-val res = $Q.qstruct_takeout_list (env)
+//
+val () =
+$Q.qstruct_initize{ki2}(env)
+val () =
+funmap_foreach_env<key,itm><tenv>(map, env)
+//
+val res = $Q.qstruct_takeout_list(env)
+//
+prval () = lemma_list_vt_param(res)
 prval () = $Q.qstruct_uninitize{ki2}(env)
 //
-in
-  res
-end // end of [funmap_flistize]
+} (* end of [funmap_flistize] *)
 
 end // end of [local]
 

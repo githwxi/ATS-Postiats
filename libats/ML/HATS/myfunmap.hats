@@ -45,11 +45,10 @@ typedef itm = int/string/...
 //
 (* ****** ****** *)
 //
-abstype
-mymap_type = ptr
-//
 typedef
-mymap = mymap_type
+mymap = map(key, itm)
+typedef
+mymap_modtype = map_modtype(key, itm)
 //
 (* ****** ****** *)
 //
@@ -119,7 +118,7 @@ fun
 fprint_myfunmap
   (out: FILEref, mymap): void
 //
-overload fprint with fprint_myfunmap
+overload fprint with fprint_myfunmap of 10
 //
 (* ****** ****** *)
 //
@@ -143,9 +142,24 @@ overload .foreach with myfunmap_foreach_method
 extern
 fun
 myfunmap_listize
-  (map: mymap): List0 @(key, itm)
+  (map: mymap): list0 @(key, itm)
 //
 overload .listize with myfunmap_listize
+//
+(* ****** ****** *)
+//
+extern
+fun
+myfunmap_streamize
+  (map: mymap): stream_vt @(key, itm)
+//
+overload .streamize with myfunmap_streamize
+//
+(* ****** ****** *)
+//
+extern
+fun
+myfunmap_make_module((*void*)): mymap_modtype
 //
 (* ****** ****** *)
 
@@ -164,14 +178,18 @@ staload _ = "libats/DATS/funmap_avltree.dats"
 //
 staload _(*anon*) = "libats/ML/DATS/funmap.dats"
 //
-assume mymap_type = map_type(key, itm)
-//
 in (* in-of-local *)
 //
+(* ****** ****** *)
+//
 implement
-myfunmap_nil() = funmap_nil{key,itm}()
+myfunmap_nil
+  ((*void*)) = funmap_nil{key,itm}()
 implement
-myfunmap_make_nil() = funmap_make_nil{key,itm}()
+myfunmap_make_nil
+  ((*void*)) = funmap_make_nil{key,itm}()
+//
+(* ****** ****** *)
 //
 implement
 myfunmap_size(map) = funmap_size<key,itm>(map)
@@ -184,6 +202,8 @@ implement
 myfunmap_insert
   (map, k, x) = funmap_insert<key,itm>(map, k, x)
 //
+(* ****** ****** *)
+//
 implement
 myfunmap_remove
   (map, k) = funmap_remove<key,itm>(map, k)
@@ -195,6 +215,8 @@ implement
 fprint_myfunmap
   (out, map) = fprint_funmap<key,itm>(out, map)
 //
+(* ****** ****** *)
+//
 implement
 myfunmap_foreach_cloref
   (map, fwork) =
@@ -203,13 +225,32 @@ implement
 myfunmap_foreach_method
   (map) =
 (
-  lam(fwork) => myfunmap_foreach_cloref(map, fwork)
+lam(fwork) => myfunmap_foreach_cloref(map, fwork)
 ) (* myfunmap_foreach_method *)
+//
+(* ****** ****** *)
 //
 implement
 myfunmap_listize
-  (map) = g1ofg0_list(funmap_listize<key,itm>(map))
+  (map) = funmap_listize<key,itm>(map)
 //
+(* ****** ****** *)
+//
+implement
+myfunmap_streamize
+  (map) = funmap_streamize<key,itm>(map)
+//
+(* ****** ****** *)
+//
+// HX-2016-07-31:
+// creating a module(record):
+//
+implement
+myfunmap_make_module
+  ((*void*)) = funmap_make_module<key,itm>()
+//
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)

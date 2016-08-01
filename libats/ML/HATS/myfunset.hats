@@ -66,11 +66,19 @@ and
 myfunset_make_sing(elt): myset
 //
 (* ****** ****** *)
-
+//
 extern
 fun
-myfunset_make_list(list0(elt)): myset
-
+myfunset_make_list0(list0(elt)): myset
+extern
+fun
+myfunset_make_list1(List0(elt)): myset
+//
+overload
+myfunset_make_list with myfunset_make_list0
+overload
+myfunset_make_list with myfunset_make_list1
+//
 (* ****** ****** *)
 //
 extern
@@ -78,7 +86,7 @@ fun
 fprint_myfunset
   (out: FILEref, xs: myset): void
 //
-overload fprint with fprint_myfunset
+overload fprint with fprint_myfunset of 10
 //
 (* ****** ****** *)
 //
@@ -324,8 +332,11 @@ myfunset_make_sing
   (x) = funset_make_sing<elt>(x)
 //
 implement
-myfunset_make_list
+myfunset_make_list0
   (xs) = funset_make_list<elt>(xs)
+implement
+myfunset_make_list1
+  (xs) = funset_make_list<elt>(g0ofg1_list(xs))
 //
 (* ****** ****** *)
 //

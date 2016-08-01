@@ -145,6 +145,48 @@ val-false = myset.remove(1) // not actually removed
 
 #para('\
 
+The following function is available for generating a module
+(that is, a record) containing various operations on myset-values:
+
+#sats2xhtml('\
+//
+fun myfunset_make_module((*void*)): myset_modtype
+//
+')
+
+For instance, a module of the name #dyncode("MYSET") is
+created as follows:
+
+#dats2xhtml('\
+val MYSET = myfunset_make_module()
+')
+
+With #dyncode("MYSET"), we can create a (functional) set
+and then perform certain insertion and removal operations:
+
+#dats2xhtml('\
+//
+var myset = (MYSET.nil)()
+//
+val-false = (MYSET.insert)(myset, 0) // inserted
+val-false = (MYSET.insert)(myset, 1) // inserted
+//
+val ((*void*)) = assertloc((MYSET.size)(myset) = 2)
+//
+val-(true) = (MYSET.remove)(myset, 0) // removed
+//
+val ((*void*)) = assertloc((MYSET.size)(myset) = 1)
+//
+val-(true) = (MYSET.remove)(myset, 1) // removed
+//
+val ((*void*)) = assertloc((MYSET.size)(myset) = 0)
+//
+')
+
+')#comment("para")
+
+#para('\
+
 Various common set operations can be found in
 #myatscodelink("libats/ML/HATS/myfunset.hats",
 "libats/ML/HATS/myfunset.hats").  By following the types assigned to these
@@ -280,6 +322,49 @@ given key is stored in the map being operated on.  The dot-symbol
 excepting for returning the removed item.
 
 ")
+
+#para('\
+
+The following function is available for generating a module
+(that is, a record) containing various operations on mymap-values:
+
+#sats2xhtml('\
+//
+fun myfunmap_make_module((*void*)): mymap_modtype
+//
+')
+
+For instance, a module of the name #dyncode("MYMAP") is
+created as follows:
+
+#dats2xhtml('\
+val MYMAP = myfunmap_make_module()
+')
+
+With #dyncode("MYMAP"), we can create a (functional) map
+and then perform various insertion and removal operations:
+
+#dats2xhtml('\
+//
+var mymap = (MYMAP.nil)()
+//
+val-~None_vt() = (MYMAP.insert)(mymap, "a", 0)
+val-~None_vt() = (MYMAP.insert)(mymap, "b", 1)
+val-~None_vt() = (MYMAP.insert)(mymap, "c", 2)
+//
+val-~Some_vt(0) = (MYMAP.insert)(mymap, "a", 1)
+val-~Some_vt(1) = (MYMAP.insert)(mymap, "b", 2)
+val-~Some_vt(2) = (MYMAP.insert)(mymap, "c", 3)
+//
+val-(true) = (MYMAP.remove)(mymap, "a")
+val-(true) = (MYMAP.remove)(mymap, "b")
+val-(true) = (MYMAP.remove)(mymap, "c")
+//
+val () = assertloc((MYMAP.size)(mymap) = 0)
+//
+')
+
+')#comment("para")
 
 #para('\
 

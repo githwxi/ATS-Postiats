@@ -321,12 +321,14 @@ in
 end (* end of [funset_foreach$fwork] *)
 //
 var env: $Q.qstruct
+//
 val () = $Q.qstruct_initize{b}(env)
 val () = funset_foreach_env<a><tenv>(xs, env)
+//
 val res = $Q.qstruct_takeout_list(env)
-prval () = $Q.qstruct_uninitize{b}(env)
 //
 prval () = lemma_list_vt_param(res)
+prval () = $Q.qstruct_uninitize{b}(env)
 //
 } (* end of [funset_flistize] *)
 
