@@ -8,13 +8,13 @@
 //
 (* ****** ****** *)
 //
-#define ATS_MAINATSFLAG 1
+#define
+ATS_MAINATSFLAG 1
 //
 (* ****** ****** *)
 //
 #define
-ATS_DYNLOADNAME
-"atexting_include_all_dynload"
+ATS_DYNLOADNAME "atexting_include_all_dynload"
 //
 (* ****** ****** *)
 //
@@ -58,13 +58,13 @@ staload
 "libats/ML/SATS/basis.sats"  
 //
 (* ****** ****** *)
-
+//
 datatype
 outchan =
-  | OUTCHANptr of FILEref
-  | OUTCHANref of FILEref
+| OUTCHANptr of FILEref
+| OUTCHANref of FILEref
 // end of [OUTCHAN]
-
+//
 (* ****** ****** *)
 
 fun

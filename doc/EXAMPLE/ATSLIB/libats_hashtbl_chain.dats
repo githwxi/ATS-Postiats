@@ -63,7 +63,7 @@ val-~Some_vt(1) = hashtbl_search_opt (tbl, "a")
 val-~Some_vt(2) = hashtbl_search_opt (tbl, "b")
 val-~Some_vt(3) = hashtbl_search_opt (tbl, "c")
 //
-val true =
+val-true =
 hashtbl_reset_capacity (tbl, i2sz(10))
 val () = fprintln! (out, "tbl = ", tbl)
 val () = fprintln! (out, "size(tbl) = ", hashtbl_get_size (tbl))

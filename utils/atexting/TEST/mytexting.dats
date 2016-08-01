@@ -31,5 +31,4 @@ val () = libatsynmark_dynloadall((*void*))
 //
 (* ****** ****** *)
 
-(* end of [myatexting.dats] *)
-
+(* end of [mytexting.dats] *)

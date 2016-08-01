@@ -26,16 +26,16 @@ $(PATSHOME)/utils/atexting/atexting_mylib.dats
 #
 ######
 
-all:: myatexting
+all:: mytexting
 
 ######
 #
-myatexting: \
-myatexting.dats ; \
+mytexting: \
+mytexting.dats ; \
 $(PATSCC) -verbose -O2 -o $@ \
   -D_ATS_GCBDW \
   -DATS_MEMALLOC_GCBDW \
-  myatexting.dats $(ATEXTING_MYLIB) \
+  mytexting.dats $(ATEXTING_MYLIB) \
   $(ATSRUNTIME)/ats_prelude.c $(LDPATH) $(LIBRARY)
 #
 ######
@@ -45,7 +45,7 @@ $(PATSCC) -verbose -O2 -o $@ \
 #
 regress:: \
 data.atxt ; \
-./myatexting -o data_atxt.dats -i $<
+./mytexting -o data_atxt.dats -i $<
 #
 ######
 
@@ -59,7 +59,7 @@ clean:: ; $(RMF) *_dats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) myatexting
+cleanall:: ; $(RMF) mytexting
 cleanall:: ; $(RMF) data_atxt.dats
 
 ###### end of [Makefile] ######
