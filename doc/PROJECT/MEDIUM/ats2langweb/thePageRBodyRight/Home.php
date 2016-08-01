@@ -64,12 +64,12 @@ width=98% margin=auto
 ><!--div-->
 
 <table
- style="border-spacing: 0px;">
+ style="width: 100%; border-spacing: 0px;">
 
 <tr>
-<th width="10%"></th>
-<th></th>
-<th width="10%"></th>
+<th width="8%"></th>
+<th width="80%"></th>
+<th width="12%"></th>
 </tr>
 
 <tr>
@@ -122,12 +122,12 @@ width=98% margin=auto
 ><!--div-->
 
 <table
- style="border-spacing: 0px;">
+ style="width: 100%; border-spacing: 0px;">
 
 <tr>
-<th width="10%"></th>
-<th></th>
-<th width="10%"></th>
+<th width="8%"></th>
+<th width="80%"></th>
+<th width="12%"></th>
 </tr>
 
 <tr>
@@ -182,12 +182,12 @@ width=98% margin=auto
 ><!--div-->
 
 <table
- style="border-spacing: 0px;">
+ style="width: 100%; border-spacing: 0px;">
 
 <tr>
-<th width="10%"></th>
-<th></th>
-<th width="10%"></th>
+<th width="8%"></th>
+<th width="80%"></th>
+<th width="12%"></th>
 </tr>
 
 <tr>
@@ -280,12 +280,12 @@ width=98% margin=auto
 ><!--div-->
 
 <table
- style="border-spacing: 0px;">
+ style="width: 100%; border-spacing: 0px;">
 
 <tr>
-<th width="10%"></th>
-<th></th>
-<th width="10%"></th>
+<th width="8%"></th>
+<th width="80%"></th>
+<th width="12%"></th>
 </tr>
 
 <tr>

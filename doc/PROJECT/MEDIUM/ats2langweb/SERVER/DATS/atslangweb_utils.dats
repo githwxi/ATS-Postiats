@@ -1,6 +1,8 @@
+(* ****** ****** *)
+
 (*
 //
-// Various utilities
+// Utilities for atslangweb
 //
 *)
 
@@ -49,14 +51,24 @@ patsopt_command
 //
 (*
 implement
-patsopt_command<> () = let
-  val PATSHOME =
-    getenv("PATSHOME") where
-  {
-    extern fun getenv : string -> string = "mac#"
-  } (* end of [val] *)
+patsopt_command<>
+(
+// argumentless
+) = let
+//
+val
+PATSHOME =
+getenv("PATSHOME") where
+{
+  extern fun getenv : string -> string = "mac#"
+} (* end of [val] *)
+//
 in
-  if $UN.cast{bool}(PATSHOME) then PATSHOME . "/bin/patsopt" else "patsopt"
+//
+if
+$UN.cast{bool}(PATSHOME)
+  then PATSHOME + "/bin/patsopt" else "patsopt"
+//
 end // end of [patsopt_command]
 *)
 //
@@ -70,7 +82,8 @@ atscc2js_command() = "atscc2js"
 //
 implement
 {}(*tmp*)
-pats2xhtml_command() = "pats2xhtml"
+pats2xhtml_command
+  ((*void*)) = "pats2xhtml"
 //
 (* ****** ****** *)
 //
@@ -88,7 +101,9 @@ patsopt_tcats_code_1_
 implement
 patsopt_tcats_code_0_
   (code) =
+(
   patsopt_tcats_code<>(code)
+) (* patsopt_tcats_code_0_ *)
 //
 (* ****** ****** *)
 //

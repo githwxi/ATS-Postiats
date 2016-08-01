@@ -130,9 +130,11 @@ val ((*void*)) =
 xmlhttp.onreadystatechange
 (
 lam((*void*)) =>
-  if xmlhttp.is_ready_okay() then
-    pats2xhtmlize_do_response(srcdoc, mycode, xmlhttp.responseText())
-  // end of [if]
+if (
+xmlhttp.is_ready_okay()
+) then
+  pats2xhtmlize_do_response(srcdoc, mycode, xmlhttp.responseText())
+// end of [if]
 // end of [lam]
 ) (* xmlhttp.onreadystatechange *)
 //
@@ -192,13 +194,15 @@ pats2xhtmlize_eval
 function
 pats2xhtmlize_process_all()
 {
-  $('*').each(
-    function(){
-      if(this.tagName==='SATS2XHTML')pats2xhtmlize_process_one(0, this);
-      if(this.tagName==='DATS2XHTML')pats2xhtmlize_process_one(1, this);return;
-    } /* function */
-  ) /* end of [each] */
-}
+//
+$('*').each(
+  function() {
+    if(this.tagName==='SATS2XHTML')pats2xhtmlize_process_one(0, this);
+    if(this.tagName==='DATS2XHTML')pats2xhtmlize_process_one(1, this);return;
+  } /* function */
+) /* end of [each] */
+//
+} /* pats2xhtmlize_process_all */
 %} (* end of [%{^] *)
 
 (* ****** ****** *)
