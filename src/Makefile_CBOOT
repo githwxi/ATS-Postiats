@@ -402,6 +402,7 @@ LIBC_OBJECTS := \
   libc_SATS_unistd_sats.o \
   libc_DATS_unistd_dats.o \
   libc_sys_SATS_stat_sats.o \
+  libc_sys_SATS_wait_sats.o \
   libc_sys_SATS_types_sats.o \
 
 ifeq ($(C3NSTRINTKND),gmpknd)

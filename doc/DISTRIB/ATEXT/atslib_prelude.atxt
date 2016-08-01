@@ -108,7 +108,7 @@ The ATSLIB/prelude library\
 #packfilename("basics_dyn.sats")
 #packfilename("basics_gen.sats")
 #packfilename("macrodef.sats")
-#packfilename("lmacrodef.sats")
+#packfilename("lmacrodef.hats")
 
 (* ****** ****** *)
 

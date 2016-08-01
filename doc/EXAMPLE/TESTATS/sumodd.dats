@@ -5,10 +5,13 @@
 //
 
 (* ****** ****** *)
-
-staload "prelude/lmacrodef.sats"
+//
+staload "prelude/lmacrodef.hats"
+//
+(* ****** ****** *)
+//
 staload INT = "prelude/DATS/integer.dats"
-
+//
 (* ****** ****** *)
 
 extern

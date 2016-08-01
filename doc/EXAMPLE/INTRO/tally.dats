@@ -5,11 +5,14 @@
 //
 
 (* ****** ****** *)
-
-staload "prelude/lmacrodef.sats"
+//
+staload "prelude/lmacrodef.hats"
+//
+(* ****** ****** *)
+//
 staload INT = "prelude/DATS/integer.dats"
 staload INTRANGE = "prelude/DATS/intrange.dats"
-
+//
 (* ****** ****** *)
 
 fun tally

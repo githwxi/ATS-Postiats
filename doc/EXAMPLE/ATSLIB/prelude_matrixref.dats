@@ -8,22 +8,23 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "prelude/lmacrodef.sats"
-
+//
+staload "prelude/lmacrodef.hats"
+//
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 postfix 0 sz SZ
+//
 macdef sz (x) = i2sz ,(x)
 macdef SZ (x) = i2sz ,(x)
-
+//
 (* ****** ****** *)
 
-implement main0 () = ()
+implement main0((*void*)) = {(*void*)}
 
 (* ****** ****** *)
 

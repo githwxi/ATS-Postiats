@@ -626,6 +626,7 @@ The ATS/Postiats C-Boostrapping\
 #packfilename("libc/DATS_gmp_dats.c")
 
 #packfilename("libc/sys_SATS_stat_sats.c")
+#packfilename("libc/sys_SATS_wait_sats.c")
 #packfilename("libc/sys_SATS_types_sats.c")
 
 #packfilename("libc/CATS/errno.cats")
@@ -640,6 +641,7 @@ The ATS/Postiats C-Boostrapping\
 #packfilename("libc/CATS/gmp.cats")
 
 #packfilename("libc/sys/CATS/stat.cats")
+#packfilename("libc/sys/CATS/wait.cats")
 #packfilename("libc/sys/CATS/types.cats")
 
 (* ****** ****** *)

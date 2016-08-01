@@ -29,6 +29,7 @@ SOURCES := \
   SATS_unistd_sats.c \
   DATS_unistd_dats.c \
   sys_SATS_stat_sats.c \
+  sys_SATS_wait_sats.c \
   sys_SATS_types_sats.c \
   SATS_gmp_sats.c \
   DATS_gmp_dats.c \
@@ -61,6 +62,8 @@ DATS_unistd_dats.c: ; \
   $(ATSOPT) -o $@ --dynamic $(ATSHOME)/libc/DATS/unistd.dats
 sys_SATS_stat_sats.c: ; \
   $(ATSOPT) -o $@ --static $(ATSHOME)/libc/sys/SATS/stat.sats
+sys_SATS_wait_sats.c: ; \
+  $(ATSOPT) -o $@ --static $(ATSHOME)/libc/sys/SATS/wait.sats
 sys_SATS_types_sats.c: ; \
   $(ATSOPT) -o $@ --static $(ATSHOME)/libc/sys/SATS/types.sats
 SATS_gmp_sats.c: ; \
