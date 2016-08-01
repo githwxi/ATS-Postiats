@@ -23,11 +23,13 @@
 //
 (* ****** ****** *)
 //
+(*
 extern
 fun
 libatsynmark_dynloadall(): void = "ext#"
 //
 val () = libatsynmark_dynloadall((*void*))
+*)
 //
 (* ****** ****** *)
 
