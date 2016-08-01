@@ -3,114 +3,126 @@
 #
 
 ######
+#
+TARGET=all
+#
+# TARGET=main.html
+#
+# TARGET=all upload_main
+#
+######
 
-allup::
+all::
 
-allup :: \
+all :: \
 prop-logic
 prop-logic:: ; \
-make -C prop-logic all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 file-copying
 file-copying:: ; \
-make -C file-copying all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 list-folding
 list-folding:: ; \
-make -C list-folding all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 loop-as-tailrec
 loop-as-tailrec:: ; \
-make -C loop-as-tailrec all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 HanoiTowers
 HanoiTowers:: ; \
-make -C HanoiTowers all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 word-counting
 word-counting:: ; \
-make -C word-counting all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 stack-array
 stack-array:: ; \
-make -C stack-array all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 queue-sllist2
 queue-sllist2:: ; \
-make -C queue-sllist2 all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 mergesort
-mergesort:: ; make -C mergesort all
+mergesort:: ; \
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 sorting-linear-lists
 sorting-linear-lists:: ; \
-make -C sorting-linear-lists all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 DiningPhil
 DiningPhil:: ; \
-make -C DiningPhil all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 DiningPhil2
 DiningPhil2:: ; \
-make -C DiningPhil2 all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 Producer-Consumer
 Producer-Consumer:: ; \
-make -C Producer-Consumer all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 Readers-and-Writers
 Readers-and-Writers:: ; \
-make -C Readers-and-Writers all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 IPC-hiredis
-IPC-hiredis:: ; make -C IPC-hiredis all
+IPC-hiredis:: ; \
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 http-server
-http-server:: ; make -C http-server all
+http-server:: ; \
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 Sierpinski-3angle
 Sierpinski-3angle:: ; \
-make -C Sierpinski-3angle all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 PwTP-bool-vs-prop
 PwTP-bool-vs-prop:: ; \
-make -C PwTP-bool-vs-prop all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 parsing-cmbntr-cps
 parsing-cmbntr-cps:: ; \
-make -C parsing-cmbntr-cps all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 ssntyped-channels-1
 ssntyped-channels-1:: ; \
-make -C ssntyped-channels-1 all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 ssntyped-channels-2
 ssntyped-channels-2:: ; \
-make -C ssntyped-channels-2 all upload_main
+make -C $@ $(TARGET)
 
-allup :: \
+all :: \
 linear-streams
-linear-streams:: ; make -C linear-streams all upload_main
+linear-streams:: ; \
+make -C $@ $(TARGET)
 
 ######
 

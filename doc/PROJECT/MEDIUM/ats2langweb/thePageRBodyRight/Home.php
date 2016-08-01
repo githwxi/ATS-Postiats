@@ -63,10 +63,17 @@ following tiny ATS program is written in a style of functional programming:
 width=98% margin=auto
 ><!--div-->
 
-<table>
+<table
+ style="border-spacing: 0px;">
+
 <tr>
-<td width="10%">
-</td>
+<th width="10%"></th>
+<th></th>
+<th width="10%"></th>
+</tr>
+
+<tr>
+<td></td>
 <td align="right">
 <textarea
  id="hello_dats"
@@ -83,13 +90,21 @@ val () = 3*delay(print"Hello!")
 val () = print_newline((*void*))
 //
 </textarea>
+</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td align="right">
 <button
  ID="hello_button"
  type="button" onclick="Home_hello_onclick()"
 >Try-it-yourself</button>
 </td>
-<td width="10%"></td>
+<td></td>
 </tr>
+
 </table>
 
 </div>
@@ -106,10 +121,17 @@ detecting out-of-bounds subscripting at compile-time:
 width=98% margin=auto
 ><!--div-->
 
-<table>
+<table
+ style="border-spacing: 0px;">
+
 <tr>
-<td width="10%">
-</td>
+<th width="10%"></th>
+<th></th>
+<th width="10%"></th>
+</tr>
+
+<tr>
+<td></td>
 <td align="right">
 <textarea
  id="listsub_dats"
@@ -127,13 +149,21 @@ val x2 = xs[2] // legal
 val x3 = xs[3] // illegal
 //
 </textarea>
+</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td align="right">
 <button
  ID="listsub_button"
  type="button" onclick="Home_listsub_onclick()"
 >Try-it-yourself</button>
 </td>
-<td width="10%"></td>
+<td></td>
 </tr>
+
 </table>
 
 </div>
@@ -151,10 +181,17 @@ first-order implementation in ATS:
 width=98% margin=auto
 ><!--div-->
 
-<table>
+<table
+ style="border-spacing: 0px;">
+
 <tr>
-<td width="10%">
-</td>
+<th width="10%"></th>
+<th></th>
+<th width="10%"></th>
+</tr>
+
+<tr>
+<td></td>
 <td align="right">
 <textarea
  id="repeat_f0f1_dats"
@@ -208,13 +245,21 @@ val () =
 println! ("3^10 = ", power(3,10))
 //
 </textarea>
+</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td align="right">
 <button
  ID="repeat_f0f1_button"
  type="button" onclick="Home_repeat_f0f1_onclick()"
 >Try-it-yourself</button>
 </td>
-<td width="10%"></td>
+<td></td>
 </tr>
+
 </table>
 
 </div>
@@ -234,10 +279,17 @@ of using combinators in ATS:
 width=98% margin=auto
 ><!--div-->
 
-<table>
+<table
+ style="border-spacing: 0px;">
+
 <tr>
-<td width="10%">
-</td>
+<th width="10%"></th>
+<th></th>
+<th width="10%"></th>
+</tr>
+
+<tr>
+<td></td>
 <td align="right">
 <textarea
  id="queenpuzzle_dats"
@@ -253,13 +305,21 @@ val () =
 (((fix qsolve(n: int): stream(list0(int)) => if(n > 0)then((qsolve(n-1)*list0_make_intrange(0,N)).map(TYPE{list0(int)})(lam($tup(xs,x))=>cons0(x,xs))).filter()(lam(xs)=>let val-cons0(x0,xs) = xs in xs.iforall()(lam(i, x)=>((x0)!=x)&&(abs(x0-x)!=i+1)) end)else(stream_make_sing(nil0())))(N)).takeLte(NSOL)).iforeach()(lam(i, xs)=>(println!("Solution#", i+1, ":"); xs.rforeach()(lam(x) => ((N).foreach()(lam(i)=>(print_string(ifval(i=x," Q", " ."))));println!()));println!()))
 //
 </textarea>
+</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td align="right">
 <button
  ID="queenpuzzle_button"
  type="button" onclick="Home_queenpuzzle_onclick()"
 >Try-it-yourself</button>
 </td>
-<td width="10%"></td>
+<td></td>
 </tr>
+
 </table>
 
 <p>
