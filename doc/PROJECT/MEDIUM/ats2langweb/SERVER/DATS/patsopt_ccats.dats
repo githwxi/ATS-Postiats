@@ -37,22 +37,36 @@ implement
 {}(*tmp*)
 patsopt_ccats_command
 (
-  fname_dats, fname_dats_c, fname_dats_log
+  stadyn
+, fname_dats, fname_dats_c, fname_dats_log
 ) = let
 //
-val patsopt = patsopt_command<> ()
+val
+patsopt = patsopt_command<> ()
 //
-val fname_dats = $UN.castvwtp1{string}(fname_dats)
-val fname_dats_c = $UN.castvwtp1{string}(fname_dats_c)
-val fname_dats_log = $UN.castvwtp1{string}(fname_dats_log)
+val
+fname_dats =
+  $UN.castvwtp1{string}(fname_dats)
+val
+fname_dats_c =
+  $UN.castvwtp1{string}(fname_dats_c)
+val
+fname_dats_log =
+  $UN.castvwtp1{string}(fname_dats_log)
+//
+val
+stadyn =
+(
+  if stadyn = 0 then "--static" else "--dynamic"
+) : string // end of [val]
 //
 in
 //
 $extfcall
 (
   string, "sprintf"
-, "%s 2>%s --output %s --dynamic %s"
-, patsopt, fname_dats_log, fname_dats_c, fname_dats
+, "%s 2>%s --output %s %s %s"
+, patsopt, fname_dats_log, fname_dats_c, stadyn, fname_dats
 ) (* end of [$extfcall] *)
 //
 end // end of [patsopt_ccats_command]
@@ -72,18 +86,22 @@ patsopt_ccats_cont
 implement
 {}(*tmp*)
 patsopt_ccats_code
-  (ptext) =
+  (stadyn, ptext) =
   ccats_res where
 {
 //
 val pfx = "patsopt_ccats_"
 //
-val fname_dats =
-  tmpfile_make_string (pfx, ptext)
+val
+fname_dats =
+tmpfile_make_string(pfx, ptext)
 //
-val ccats_res = patsopt_ccats_file (fname_dats)
+val
+ccats_res =
+patsopt_ccats_file(stadyn, fname_dats)
 //
-val unlink_ret = tmpfile_unlink (fname_dats)
+val
+unlink_ret = tmpfile_unlink(fname_dats)
 //
 } (* end of [patsopt_ccats_code] *)
 
@@ -92,8 +110,9 @@ val unlink_ret = tmpfile_unlink (fname_dats)
 implement
 {}(*tmp*)
 patsopt_ccats_file
-  (fname_dats) =
-  ccats_res where
+(
+  stadyn, fname_dats
+) = ccats_res where
 {
 //
 val fname_dats_c =
@@ -104,7 +123,10 @@ val fname_dats_log =
 val
 command =
 patsopt_ccats_command
-  (fname_dats, fname_dats_c, fname_dats_log)
+(
+  stadyn
+, fname_dats, fname_dats_c, fname_dats_log
+) (* patsopt_ccats_command *)
 //
 (*
 val () = prerrln! ("command = ", command)

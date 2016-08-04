@@ -49,9 +49,12 @@ xmlhttp.onreadystatechange
 (
 lam((*void*)) =>
 (
-  if xmlhttp.is_ready_okay()
-    then patsopt_ccats_rpc$reply<> (xmlhttp.responseText())
-  // end of [if]
+if (
+xmlhttp.is_ready_okay()
+) then (
+  patsopt_ccats_rpc$reply<> (xmlhttp.responseText())
+) (* then *)
+// end of [if]
 ) (* end of [lam] *)
 )
 //

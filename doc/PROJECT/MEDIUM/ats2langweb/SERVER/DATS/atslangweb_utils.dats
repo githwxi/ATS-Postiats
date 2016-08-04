@@ -102,7 +102,7 @@ implement
 patsopt_tcats_code_0_
   (code) =
 (
-  patsopt_tcats_code<>(code)
+  patsopt_tcats_code<>(1(*dyn*), code)
 ) (* patsopt_tcats_code_0_ *)
 //
 (* ****** ****** *)
@@ -155,7 +155,7 @@ patsopt_ccats_code_1_
 implement
 patsopt_ccats_code_0_
   (code) =
-  patsopt_ccats_code<> (code)
+  patsopt_ccats_code<> (1(*dyn*), code)
 //
 (* ****** ****** *)
 //
@@ -213,7 +213,7 @@ patsopt_ccats_cont<>
   (fname) = atscc2js_comp_file<>(fname)
 //
 in
-  patsopt_ccats_code<> (code)
+  patsopt_ccats_code<> (1(*dyn*), code)
 end // end of [patsopt_atscc2js_code_0_]
 //
 (* ****** ****** *)

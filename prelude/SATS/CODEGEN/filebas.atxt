@@ -295,7 +295,7 @@ fileref_get_word$isalpha(c0: charNZ): bool
 #atscode_separator()
 //
 fun{}
-fileref_foreach (inp: FILEref): void
+fileref_foreach(inp: FILEref): void
 fun{
 env:vt0p
 } fileref_foreach_env(inp: FILEref, env: &(env) >> _): void

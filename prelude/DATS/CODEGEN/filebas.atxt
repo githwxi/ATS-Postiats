@@ -627,21 +627,24 @@ end // end of [fileref_get_lines_stringlst]
 
 implement
 {}(*tmp*)
-fileref_get_file_string (inp) = let
-//
-\#define CNUL '\000'
+fileref_get_file_string
+  (inp) = let
 //
 fun loop
 (
   inp: FILEref
-, p0: ptr, n0: size_t, p1: ptr, n1: size_t
+, p0: ptr, n0: size_t
+, p1: ptr, n1: size_t
 ) : Strptr1 = let
+//
+\#define CNUL '\000'
 //
 val nw = $extfcall (size_t, "atslib_fread", p1, 1, n1, inp)
 //
-in
+in (* in-of-let *)
 //
-if nw > 0
+if
+(nw > 0)
 then let
   val n1 = n1 - nw
   val p1 = add_ptr_bsz (p1, nw)
@@ -649,9 +652,10 @@ in
   if n1 > 0 then
     loop (inp, p0, n0, p1, n1) else loop2 (inp, p0, n0)
   // end of [if]
-end else let
+end // end of [then]
+else let
   val () = $UN.ptr0_set<char> (p1, CNUL) in $UN.castvwtp0{Strptr1}(p0)
-end // end of [if]
+end // end of [else]
 //
 end // end of [loop]
 //

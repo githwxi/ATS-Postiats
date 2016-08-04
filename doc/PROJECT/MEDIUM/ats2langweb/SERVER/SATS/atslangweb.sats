@@ -53,17 +53,25 @@ patsopt_command(): string
 //
 fun{}
 patsopt_tcats_command
-  (!tmpfile(*inp*), !tmpfile(*stderr*)): string
+(
+  stadyn: int
+, !tmpfile(*inp*), !tmpfile(*stderr*)
+) : string // end-of-function
 fun{}
 patsopt_ccats_command
-  (!tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*stderr*)): string
+(
+  stadyn: int
+, !tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*stderr*)
+) : string // end-of-function
 //
 (* ****** ****** *)
 //
 fun{}
-patsopt_tcats_code(ptext: string): compres
+patsopt_tcats_code
+  (stadyn: int, ptext: string): compres
 fun{}
-patsopt_tcats_file(fname: !tmpfile): compres
+patsopt_tcats_file
+  (stadyn: int, fname: !tmpfile): compres
 //
 (* ****** ****** *)
 //
@@ -72,17 +80,20 @@ patsopt_tcats_file(fname: !tmpfile): compres
 // the output from [patsopt-ccats]
 //
 fun{}
-patsopt_ccats_cont(fname: !tmpfile): compres
+patsopt_ccats_cont
+  (fname: !tmpfile): compres
 //
 fun{}
-patsopt_ccats_code(ptext: string): compres
+patsopt_ccats_code
+  (stadyn: int, ptext: string): compres
 fun{}
-patsopt_ccats_file(fname: !tmpfile): compres
+patsopt_ccats_file
+  (stadyn: int, fname: !tmpfile): compres
 //
 (* ****** ****** *)
 //
 fun{}
-atscc2js_command (): string
+atscc2js_command(): string
 //
 fun{}
 atscc2js_comp_command

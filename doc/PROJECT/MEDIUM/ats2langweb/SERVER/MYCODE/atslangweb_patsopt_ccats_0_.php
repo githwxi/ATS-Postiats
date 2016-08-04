@@ -27,7 +27,11 @@ rawurldecode($_REQUEST["mycode"]);
 $mycode_res =
 atslangweb_patsopt_ccats_code_0_($mycode);
 //
-echo json_encode($mycode_res);
+header(
+"Access-Control-Allow-Origin: *"
+); /* header */
+//
+echo rawurlencode(json_encode($mycode_res));
 //
 /* end of [atslangweb_patsopt_ccats_0_.php] */
 //
