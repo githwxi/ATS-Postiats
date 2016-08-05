@@ -119,6 +119,11 @@ patsopt_tcats_rpc$reply<>(reply) =
 val mycode = service_trigger_getval<>(key)
 val ((*void*)) = patsopt_tcats_rpc<>(mycode)
 //
+val ((*void*)) =
+(
+  service_trigger_prompt<>(key, "Patsopt-tc: waiting...")
+) (* end of [val] *)
+//
 } (* end of [service_trigger_patsopt_tcats] *)
 //
 (* ****** ****** *)
@@ -146,6 +151,11 @@ patsopt_ccats_rpc$reply<>(reply) =
 val mycode = service_trigger_getval<>(key)
 val ((*void*)) = patsopt_ccats_rpc<>(mycode)
 //
+val ((*void*)) =
+(
+  service_trigger_prompt<>(key, "Patsopt-cc: waiting...")
+) (* end of [val] *)
+//
 } (* end of [service_trigger_patsopt_ccats] *)
 //
 (* ****** ****** *)
@@ -172,6 +182,11 @@ patsopt_atscc2js_rpc$reply<>(reply) =
 //
 val mycode = service_trigger_getval<>(key)
 val ((*void*)) = patsopt_atscc2js_rpc<>(mycode)
+//
+val ((*void*)) =
+(
+  service_trigger_prompt<>(key, "Patsopt-cc2js: waiting...")
+) (* end of [val] *)
 //
 } (* end of [service_trigger_patsopt_atscc2js] *)
 //
