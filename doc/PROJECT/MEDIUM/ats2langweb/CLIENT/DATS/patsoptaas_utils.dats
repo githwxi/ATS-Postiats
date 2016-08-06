@@ -302,7 +302,9 @@ Patsoptaas_Compile_patsopttc_reply
   (reply)
 {
 //
-  var comparr = JSON.parse(reply);
+  var comparr =
+    JSON.parse(decodeURIComponent(reply));
+  // end of [var]
 //
   var msg0 = "Patsoptaas: [patsopt-tcats] passed!"
   var msg1 = "Patsoptaas: [patsopt-tcats] failed!"
@@ -356,7 +358,9 @@ Patsoptaas_Compile_patsoptcc_reply
   (reply)
 {
 //
-  var comparr = JSON.parse(reply);
+  var comparr =
+    JSON.parse(decodeURIComponent(reply));
+  // end of [var]
 //
   var msg0 = "Patsoptaas: [patsopt-ccats] passed!"
   var msg1 = "Patsoptaas: [patsopt-ccats] failed!"
@@ -415,7 +419,9 @@ Patsoptaas_Compile_patsopt2js_reply
   (reply)
 {
 //
-  var comparr = JSON.parse(reply);
+  var comparr =
+    JSON.parse(decodeURIComponent(reply));
+  // end of [var]
 //
   var msg0 = "Patsoptaas: [patsopt-atscc2js] passed!"
   var msg1 = "Patsoptaas: [patsopt-atscc2js] failed!"

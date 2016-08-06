@@ -1061,7 +1061,6 @@ var i, code, blob, fname;
 theTopmenuTables_hide2(0);
 //
 i = File_special_select_get();
-//
 switch(i)
 {
   case 0:
