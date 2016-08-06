@@ -412,10 +412,10 @@ case+ hde0.hidexp_node of
 | HDEsif _(*error*) => let
     val () =
     prerr_errccomp_loc(loc0)
-    val () =
-    prerrln!
-      (": [sif] is not supported after proof-erasure.")
-    // end of [val]
+    val () = prerrln!
+    (
+      ": [sif] is not supported after proof-erasure."
+    ) (* end of [println!] *)
   in
     primval_error (loc0, hse0)
   end (* end of [HDEsif] *)
@@ -423,9 +423,8 @@ case+ hde0.hidexp_node of
 | _(*unspported*) => let
     val () =
     prerr_interror_loc(loc0)
-    val () = prerrln! (": hidexp_ccomp: hde0 = ", hde0)
-  in
-    exitloc (1)
+    val () =
+    prerrln! (": hidexp_ccomp: hde0 = ", hde0) in exitloc(1)
   end // end of [_(*unsupported*)]
 //
 end // end of [let] // end of [hidexp_ccomp]

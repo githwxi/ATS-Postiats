@@ -48,10 +48,18 @@ _(*anon*) = "prelude/DATS/unsafe.dats"
 staload "./pats_basics.sats"
 //
 (* ****** ****** *)
-
+//
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+//
+implement
+prerr_FILENAME<>() = prerr "pats_ccomp_decl"
+//
+(* ****** ****** *)
+//
 staload
 GLOBAL = "./pats_global.sats"
-
+//
 (* ****** ****** *)
 //
 staload
@@ -556,7 +564,28 @@ case+ hfds of
     val d2v = hfd.hifundec_var
     val imparg = hfd.hifundec_imparg
     val hde_def = hfd.hifundec_def
+//
+// HX-2016-08-05:
+// It may be a good idea to do this check earlier!!!
+//
+    val () =
+    case+
+    hde_def.hidexp_node
+    of // case+
+    | HDElam _ => ()
+    | _(*non-HDElam*) =>
+      {
+        val () =
+        prerr_errccomp_loc(loc)
+        val () = prerrln!
+        (
+          ": non-lambda function definition is not supported."
+        ) (* end of [prerrln!] *)
+        val ((*exit*)) = exitloc(1)
+      } (* end of [non-HDElam] *)
+//
     val-HDElam(knd, hips_arg, hde_body) = hde_def.hidexp_node
+//
     val+list_cons (flab, flabs) = flabs
 //
     val () = (
@@ -942,30 +971,43 @@ fun auxfix
 (
   env: !ccompenv
 , loc0: location
-, d2c: d2cst
+, d2c0: d2cst
 , imparg: s2varlst
 , tmparg: s2explstlst
 , hde_fix: hidexp
 ) : funlab = let
 //
-val-HDEfix (knd, f_d2v, hde_def) = hde_fix.hidexp_node
+val-
+HDEfix
+(
+  knd, f_d2v, hde_def
+) = hde_fix.hidexp_node
 //
-val hse_def = hde_def.hidexp_type
-val fcopt = d2cst_get2_funclo (d2c)
+val
+fcopt =
+d2cst_get2_funclo(d2c0)
+val
+hse_def = hde_def.hidexp_type
 //
 val flab =
-  funlab_make_dcst_type (d2c, hse_def, fcopt)
-val pmv0 = primval_make_funlab (loc0, flab)
+funlab_make_dcst_type
+(
+  d2c0, hse_def, fcopt
+) (* end of [val] *)
 //
-val () = the_funlablst_add (flab)
+val pmv0 =
+  primval_make_funlab(loc0, flab)
+//
+val ((*added*)) = the_funlablst_add(flab)
 //
 // HX-2013-11-01:
 // this seems to be correct as [f_d2v] is a fix-var
 //
-val () = ccompenv_add_vbindmapenvall (env, f_d2v, pmv0)
+val ((*added*)) =
+  ccompenv_add_vbindmapenvall(env, f_d2v, pmv0)
 //
 in
-  auxlam2 (env, loc0, flab, imparg, tmparg, hde_def)
+  auxlam2(env, loc0, flab, imparg, tmparg, hde_def)
 end // end of [auxfix]
 
 (* ****** ****** *)
