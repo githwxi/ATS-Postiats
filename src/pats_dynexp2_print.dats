@@ -1162,6 +1162,12 @@ of // case+
     val () = prstr ")"
   } // end of [D2Cdcstdecs]
 //
+| D2Cimpdec _ => {
+    val () = prstr "D2Cimpdec(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Cimpdec]
+//
 | D2Cfundecs _ => {
     val () = prstr "D2Cfundecs(\n"
     val () = prstr "..."

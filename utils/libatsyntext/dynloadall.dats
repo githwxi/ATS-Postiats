@@ -23,6 +23,7 @@ ATS_DYNLOADFUN_NAME
 (* ****** ****** *)
 //
 dynload "./DATS/libatsyntext.dats"
+dynload "./DATS/libatsyntext_d2ecl.dats"
 //
 (* ****** ****** *)
 

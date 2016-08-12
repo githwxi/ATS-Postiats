@@ -103,6 +103,8 @@ dynloadall_dats.o: dynloadall.dats; \
 #
 ######
 #
+libatsyntext:: \
+libatsyntext_d2ecl_dats.o
 libatsyntext_d2ecl_dats.o: \
 DATS/libatsyntext_d2ecl.dats ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@

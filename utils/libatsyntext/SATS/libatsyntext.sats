@@ -88,7 +88,6 @@ parse_from_fileref_toplevel
   (stadyn: int, inp: FILEref): d0eclist
 // end of [parse_from_fileref_toplevel]
 //
-//
 (* ****** ****** *)
 //
 fun{}

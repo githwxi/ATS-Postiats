@@ -1654,13 +1654,13 @@ end // end of [list0_mergesort]
 
 (* ****** ****** *)
 //
+// HX: some common generic functions
+//
+(* ****** ****** *)
+//
 implement
 (a)(*tmp*)
-fprint_val<list0(a)>
-  (out, xs) =
-(
-  fprint_list0<a>(out, xs)
-)
+fprint_val<list0(a)> = fprint_list0<a>
 //
 (* ****** ****** *)
 

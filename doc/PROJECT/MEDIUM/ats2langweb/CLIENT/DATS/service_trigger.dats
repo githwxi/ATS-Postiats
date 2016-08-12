@@ -110,7 +110,7 @@ service_trigger_patsopt_tcats
 implement
 patsopt_tcats_rpc$cname<>() =
 (
-"http://www.ats-lang.org/SERVER/MYCODE/atslangweb_patsopt_tcats_0_.php"
+"https://atslangweb-postiats.rhcloud.com/SERVER/MYCODE/atslangweb_patsopt_tcats_0_.php"
 )
 implement
 patsopt_tcats_rpc$reply<>(reply) =
@@ -142,7 +142,7 @@ service_trigger_patsopt_ccats
 implement
 patsopt_ccats_rpc$cname<>() =
 (
-"http://www.ats-lang.org/SERVER/MYCODE/atslangweb_patsopt_ccats_0_.php"
+"https://atslangweb-postiats.rhcloud.com/SERVER/MYCODE/atslangweb_patsopt_ccats_0_.php"
 )
 implement
 patsopt_ccats_rpc$reply<>(reply) =
@@ -174,7 +174,7 @@ service_trigger_patsopt_cc2js
 implement
 patsopt_atscc2js_rpc$cname<>() =
 (
-"http://www.ats-lang.org/SERVER/MYCODE/atslangweb_patsopt_atscc2js_0_.php"
+"https://atslangweb-postiats.rhcloud.com/SERVER/MYCODE/atslangweb_patsopt_atscc2js_0_.php"
 )
 implement
 patsopt_atscc2js_rpc$reply<>(reply) =
@@ -206,7 +206,7 @@ service_trigger_pats2xhtml_eval
 implement
 pats2xhtml_eval_rpc$cname<>() =
 (
-"http://www.ats-lang.org/SERVER/MYCODE/atslangweb_pats2xhtml_eval_0_.php"
+"https://atslangweb-postiats.rhcloud.com/SERVER/MYCODE/atslangweb_pats2xhtml_eval_0_.php"
 )
 implement
 pats2xhtml_eval_rpc$reply<>(reply) =
