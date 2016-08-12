@@ -105,8 +105,8 @@ parse_from_givename_toplevel
 //
 (* ****** ****** *)
 
-fun syntext_d2ecl(d2c: d2ecl): void
-fun syntext_d2eclist(d2cs: d2eclist): void
+fun syntext_d2ecl(out: FILEref, d2c: d2ecl): void
+fun syntext_d2eclist(out: FILEref, d2cs: d2eclist): void
 
 (* ****** ****** *)
 

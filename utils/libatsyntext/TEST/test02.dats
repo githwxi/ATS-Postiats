@@ -133,7 +133,7 @@ val ((*joined*)) =
 val d2cs = $TRANS2.d1eclist_tr_errck(d1cs)
 //
 in
-  syntext_d2eclist(d2cs)
+  syntext_d2eclist(stdout_ref, d2cs)
 end // end of [main]
 
 (* ****** ****** *)

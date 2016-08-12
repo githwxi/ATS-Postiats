@@ -16,6 +16,16 @@ staload
 UN =
 "prelude/SATS/unsafe.sats"
 //
+staload "prelude/DATS/list.dats"
+//
+(* ****** ****** *)
+//
+staload
+LOC = "src/pats_location.sats"
+//
+overload
+fprint with $LOC.fprint_location
+//
 (* ****** ****** *)
 
 staload "src/pats_staexp2.sats"
@@ -31,16 +41,36 @@ local
 //
 fun
 aux_fundecs
-  (d2c0: d2ecl): void = ()
+(
+  out: FILEref, d2c0: d2ecl
+) : void = let
+//
+fun
+auxf2d
+(
+  out: FILEref, f2d: f2undec
+) : void =
+{
+val () = fprintln! (out, f2d.f2undec_var)
+val () = fprintln! (out, f2d.f2undec_loc)
+} (* end of [auxf2d] *)
+//
+val-
+D2Cfundecs(fk, s2qs, f2ds) = d2c0.d2ecl_node
+//
+in
+  list_foreach_cloptr(f2ds, lam f2d =<1> auxf2d(out, f2d))
+end // end of [aux_fundecs]
+
 fun
 aux_valdecs
-  (d2c0: d2ecl): void = ()
+  (out: FILEref, d2c0: d2ecl): void = ()
 //
 in (* in-of-local *)
 
 implement
 syntext_d2ecl
-  (d2c0) = let
+  (out, d2c0) = let
 //
 val () =
 println!
@@ -55,11 +85,11 @@ d2c0.d2ecl_node
 of // case+
 | D2Cnone() => ()
 | D2Clist(d2cs) =>
-    syntext_d2eclist(d2cs)
+    syntext_d2eclist(out, d2cs)
   // D2Clist
 //
-| D2Cfundecs _ => aux_fundecs(d2c0)
-| D2Cvaldecs _ => aux_valdecs(d2c0)
+| D2Cfundecs _ => aux_fundecs(out, d2c0)
+| D2Cvaldecs _ => aux_valdecs(out, d2c0)
 //
 | _(* rest-of-d2ecl *) => ((*void*))
 //
@@ -71,19 +101,19 @@ end // end of [local]
 
 implement
 syntext_d2eclist
-  (d2cs) = let
+  (out, d2cs) = let
 //
 fun
 loop
 (
   i: int, d2cs: d2eclist
-) : void =
+) :<cloref1> void =
 (
 case+ d2cs of
 | list_nil() => ()
 | list_cons(d2c, d2cs) =>
   (
-    syntext_d2ecl(d2c); loop(i+1, d2cs)
+    syntext_d2ecl(out, d2c); loop(i+1, d2cs)
   )
 ) (* end of [loop] *)
 //
