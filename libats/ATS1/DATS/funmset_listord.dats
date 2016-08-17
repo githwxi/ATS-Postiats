@@ -53,8 +53,9 @@ staload "libats/ATS1/SATS/funmset_listord.sats"
 
 (* ****** ****** *)
 //
-implement{a}
-compare_elt_elt (x1, x2, cmp) = cmp (x1, x2)
+implement
+{a}(*tmp*)
+compare_elt_elt(x1, x2, cmp) = cmp (x1, x2)
 //
 (* ****** ****** *)
 
