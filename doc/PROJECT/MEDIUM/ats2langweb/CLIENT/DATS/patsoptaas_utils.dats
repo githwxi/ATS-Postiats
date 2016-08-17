@@ -428,10 +428,23 @@ Patsoptaas_Compile_patsopt2js_reply
 //
   if(comparr[0]===0)
   {
+//
     Patsoptaas_thePatsopt_stderr_set(msg0);
     Patsoptaas_thePatsopt2js_output_set2(comparr[1]);
-    if(!Patsoptaas_Compile_stderr_flag()) alert(msg0);
-    if(Patsoptaas_Patsopt2js_eval_flag()) eval(comparr[1]);
+//
+    if(
+     !Patsoptaas_Compile_stderr_flag()
+    ) alert(msg0);
+//
+    if(Patsoptaas_Patsopt2js_eval_flag())
+    {
+      try {
+        eval(comparr[1]);
+      } catch(error) {
+        alert("ERROR!!!\n" + String(error));
+      } /* end of [try] */
+    }
+//
   }
   if(comparr[0] > 0)
   {
@@ -479,7 +492,11 @@ Patsoptaas_Evaluate_JS_onclick()
 //
   if(mycode)
   {
-    eval(mycode);
+    try {
+      eval(mycode);
+    } catch(error) {
+      alert("ERROR!!!\n" + String(error));
+    } /* end of [try] */
   } else {
     alert("There is no generated JS code yet!");
   } // end of [if]
