@@ -30,10 +30,12 @@ staload "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
-implement{
-} int2ptr (i) = cast{ptr}(cast{intptr}(i))
-implement{
-} ptr2int (p) = cast{int}(cast{intptr}(p))
+implement
+{}(*tmp*)
+int2ptr(i) = cast{ptr}(cast{intptr}(i))
+implement
+{}(*tmp*)
+ptr2int(p) = cast{int}(cast{intptr}(p))
 
 #atscode_separator()
 
@@ -103,6 +105,40 @@ ptr0_intch
 } (* end of [ptr0_intch] *)
 
 implement{a} ptr1_intch = ptr0_intch<a>
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+ptr0_getinc(p0) = let
+  val p = p0
+  val x = ptr0_get<a>(p)
+  val () = p0 := ptr_succ<a>(p) in (x)
+end // end of [ptr0_getinc]
+implement
+{a}(*tmp*)
+ptr1_getinc(p0) = let
+  val p = p0
+  val x = ptr0_get<a>(p)
+  val () = p0 := ptr_succ<a>(p) in (x)
+end // end of [ptr1_getinc]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+ptr0_setinc(p0, x) = let
+  val p = p0
+  val () = ptr0_set<a>(p, x)
+  val () = p0 := ptr_succ<a>(p) in (*void*)
+end // end of [ptr0_setinc]
+implement
+{a}(*tmp*)
+ptr1_setinc(p0, x) = let
+  val p = p0
+  val () = ptr0_set<a>(p, x)
+  val () = p0 := ptr_succ<a>(p) in (*void*)
+end // end of [ptr1_setinc]
 
 #atscode_separator()
 //

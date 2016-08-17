@@ -174,7 +174,7 @@ File_examples_load
   (Patsoptaas_File_examples_hello);
 //
 return;
-}
+} /* end of [if] */
 //
 if(fname==='fibats')
 {
@@ -183,9 +183,14 @@ File_examples_load
   (Patsoptaas_File_examples_fibats_verify);
 //
 return;
-}
+} /* end of [if] */
 //
-File_loadurl_input_doWork(fname_url);
+if(fname_url !== '')
+{
+  File_loadurl_input_doWork(fname_url); return;
+} /* end of [if] */
+//
+return;
 //
 } // end of [Patsoptaas_thePage2_initize2]
 //
