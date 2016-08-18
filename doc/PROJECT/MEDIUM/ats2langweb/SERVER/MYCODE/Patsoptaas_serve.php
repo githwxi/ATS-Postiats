@@ -120,6 +120,8 @@ body {
 <div id="thePage2">
 
 <?php $mycode = $_REQUEST["mycode"]; ?>
+<?php $mycode = rawurldecode(mycode); ?>
+<?php $mycode_fil = $_REQUEST["mycode_fil"]; ?>
 <?php $mycode_url = $_REQUEST["mycode_url"]; ?>
 <!--php-->
 
@@ -164,30 +166,39 @@ document.getElementById('File_special_select').selectedIndex = 0;
 //
 function
 Patsoptaas_thePage2_initize2
-  (fname, fname_url)
+(
+  mycode
+, mycode_fil
+, mycode_url
+) // Patsoptaas_thePage2_initize2
 {
 //
-if(fname==='hello')
+if(mycode !== '')
+{
+File_source_load(mycode); return;
+}
+//
+if(mycode_fil==='hello')
 {
 //
-File_examples_load
+File_source_load
   (Patsoptaas_File_examples_hello);
 //
 return;
 } /* end of [if] */
 //
-if(fname==='fibats')
+if(mycode_fil==='fibats')
 {
 //
-File_examples_load
+File_source_load
   (Patsoptaas_File_examples_fibats_verify);
 //
 return;
 } /* end of [if] */
 //
-if(fname_url !== '')
+if(mycode_url !== '')
 {
-  File_loadurl_input_doWork(fname_url); return;
+  File_loadurl_input_doWork(mycode_url); return;
 } /* end of [if] */
 //
 return;
@@ -276,7 +287,7 @@ if(Patsoptaas_Evaluate_canvas_flag())
 <script>
 //
 function
-File_examples_load
+File_source_load
   (mycode)
 {
   File_special_select_reset();
@@ -310,25 +321,25 @@ File_examples_onchange_index(i)
     case 0: break; // deadcode
     case 1: break; // deadcode
     case 2:
-    File_examples_load(Patsoptaas_File_examples_hello); break;
+    File_source_load(Patsoptaas_File_examples_hello); break;
     case 3:
-    File_examples_load(Patsoptaas_File_examples_factrec); break;
+    File_source_load(Patsoptaas_File_examples_factrec); break;
     case 4:
-    File_examples_load(Patsoptaas_File_examples_factiter); break;
+    File_source_load(Patsoptaas_File_examples_factiter); break;
     case 5:
-    File_examples_load(Patsoptaas_File_examples_fact_verify); break;
+    File_source_load(Patsoptaas_File_examples_fact_verify); break;
     case 6:
-    File_examples_load(Patsoptaas_File_examples_fibats_verify); break;
+    File_source_load(Patsoptaas_File_examples_fibats_verify); break;
     case 7:
-    File_examples_load(Patsoptaas_File_examples_list_append); break;
+    File_source_load(Patsoptaas_File_examples_list_append); break;
     case 8:
-    File_examples_load(Patsoptaas_File_examples_list_reverse); break;
+    File_source_load(Patsoptaas_File_examples_list_reverse); break;
     case 9:
-    File_examples_load(Patsoptaas_File_examples_list_sort_insert); break;
+    File_source_load(Patsoptaas_File_examples_list_sort_insert); break;
     case 10:
-    File_examples_load(Patsoptaas_File_examples_list_sort_quick); break;
+    File_source_load(Patsoptaas_File_examples_list_sort_quick); break;
     case 11:
-    File_examples_load(Patsoptaas_File_examples_stream_sieve); break;
+    File_source_load(Patsoptaas_File_examples_stream_sieve); break;
     default: break;
   }
 //
@@ -1389,7 +1400,7 @@ $(document).ready(Patsoptaas_thePage2_initize);
 
 <?php
   echo "<script>\n";
-  echo "\$(document).ready(function(){Patsoptaas_thePage2_initize2('".$mycode."','".$mycode_url."');});\n";
+  echo "\$(document).ready(function(){Patsoptaas_thePage2_initize2('".$mycode."','".$mycode_fil."','".$mycode_url."');});\n";
   echo "</script>\n";
 ?><!--php-->
 

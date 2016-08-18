@@ -307,7 +307,7 @@ if($theScriptKind >= 1)\n\
 echo <<<EOT\n\
 <?php\n\
   echo \"<script>\\\\n\";\n\
-  echo \"\\\\$(document).ready(function(){Patsoptaas_thePage2_initize2('\".\\$mycode.\"','\".\\$mycode_url.\"');});\\\\n\";\n\
+  echo \"\\\\$(document).ready(function(){Patsoptaas_thePage2_initize2('\".\\$mycode.\"','\".\\$mycode_fil.\"','\".\\$mycode_url.\"');});\\\\n\";\n\
   echo \"</script>\\\\n\";\n\
 ?>\n\
 EOT;\n\

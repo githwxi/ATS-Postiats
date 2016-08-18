@@ -305,7 +305,7 @@ pass typechecking. In particular, there is no proof construction at run-time.
 
 <p>
 Please click
-<a href="./SERVER/MYCODE/Patsoptaas_serve.php?mycode=fibats">here</a> if you
+<a href="./SERVER/MYCODE/Patsoptaas_serve.php?mycode_fil=fibats">here</a> if you
 are interested in compiling and running this example on-line.
 </p>
 

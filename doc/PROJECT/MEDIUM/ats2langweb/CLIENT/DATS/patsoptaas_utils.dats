@@ -331,10 +331,11 @@ patsopt_tcats_rpc$cname<> () =
   "SERVER/MYCODE/atslangweb_patsopt_tcats_0_.php"
 //
 implement
-patsopt_tcats_rpc$reply<> (reply) = Compile_patsopttc_reply (reply)
+patsopt_tcats_rpc$reply<>
+  (reply) = Compile_patsopttc_reply(reply)
 //
-val mycode = thePatsopt_source_get2 ()
-val ((*void*)) = patsopt_tcats_rpc (mycode)
+val mycode = thePatsopt_source_get2()
+val ((*void*)) = patsopt_tcats_rpc(mycode)
 //
 in
   // nothing
@@ -465,10 +466,11 @@ patsopt_atscc2js_rpc$cname<> () =
   "SERVER/MYCODE/atslangweb_patsopt_atscc2js_0_.php"
 //
 implement
-patsopt_atscc2js_rpc$reply<> (reply) = Compile_patsopt2js_reply (reply)
+patsopt_atscc2js_rpc$reply<>
+  (reply) = Compile_patsopt2js_reply(reply)
 //
-val mycode = thePatsopt_source_get2 ()
-val ((*void*)) = patsopt_atscc2js_rpc (mycode)
+val mycode = thePatsopt_source_get2()
+val ((*void*)) = patsopt_atscc2js_rpc(mycode)
 //
 in
   // nothing

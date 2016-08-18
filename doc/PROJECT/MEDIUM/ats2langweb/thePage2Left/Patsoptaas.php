@@ -73,7 +73,7 @@ if(Patsoptaas_Evaluate_canvas_flag())
 <script>
 //
 function
-File_examples_load
+File_source_load
   (mycode)
 {
   File_special_select_reset();
@@ -107,25 +107,25 @@ File_examples_onchange_index(i)
     case 0: break; // deadcode
     case 1: break; // deadcode
     case 2:
-    File_examples_load(Patsoptaas_File_examples_hello); break;
+    File_source_load(Patsoptaas_File_examples_hello); break;
     case 3:
-    File_examples_load(Patsoptaas_File_examples_factrec); break;
+    File_source_load(Patsoptaas_File_examples_factrec); break;
     case 4:
-    File_examples_load(Patsoptaas_File_examples_factiter); break;
+    File_source_load(Patsoptaas_File_examples_factiter); break;
     case 5:
-    File_examples_load(Patsoptaas_File_examples_fact_verify); break;
+    File_source_load(Patsoptaas_File_examples_fact_verify); break;
     case 6:
-    File_examples_load(Patsoptaas_File_examples_fibats_verify); break;
+    File_source_load(Patsoptaas_File_examples_fibats_verify); break;
     case 7:
-    File_examples_load(Patsoptaas_File_examples_list_append); break;
+    File_source_load(Patsoptaas_File_examples_list_append); break;
     case 8:
-    File_examples_load(Patsoptaas_File_examples_list_reverse); break;
+    File_source_load(Patsoptaas_File_examples_list_reverse); break;
     case 9:
-    File_examples_load(Patsoptaas_File_examples_list_sort_insert); break;
+    File_source_load(Patsoptaas_File_examples_list_sort_insert); break;
     case 10:
-    File_examples_load(Patsoptaas_File_examples_list_sort_quick); break;
+    File_source_load(Patsoptaas_File_examples_list_sort_quick); break;
     case 11:
-    File_examples_load(Patsoptaas_File_examples_stream_sieve); break;
+    File_source_load(Patsoptaas_File_examples_stream_sieve); break;
     default: break;
   }
 //

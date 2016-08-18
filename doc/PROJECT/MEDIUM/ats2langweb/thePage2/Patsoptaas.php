@@ -6,6 +6,10 @@ if($theScriptKind >= 1)
   echo "\n";
   echo '<?php $mycode = $_REQUEST["mycode"]; ?>';
   echo "\n";
+  echo '<?php $mycode = rawurldecode(mycode); ?>';
+  echo "\n";
+  echo '<?php $mycode_fil = $_REQUEST["mycode_fil"]; ?>';
+  echo "\n";
   echo '<?php $mycode_url = $_REQUEST["mycode_url"]; ?>';
   echo "\n";
 }
@@ -52,30 +56,39 @@ document.getElementById('File_special_select').selectedIndex = 0;
 //
 function
 Patsoptaas_thePage2_initize2
-  (fname, fname_url)
+(
+  mycode
+, mycode_fil
+, mycode_url
+) // Patsoptaas_thePage2_initize2
 {
 //
-if(fname==='hello')
+if(mycode !== '')
+{
+File_source_load(mycode); return;
+}
+//
+if(mycode_fil==='hello')
 {
 //
-File_examples_load
+File_source_load
   (Patsoptaas_File_examples_hello);
 //
 return;
 } /* end of [if] */
 //
-if(fname==='fibats')
+if(mycode_fil==='fibats')
 {
 //
-File_examples_load
+File_source_load
   (Patsoptaas_File_examples_fibats_verify);
 //
 return;
 } /* end of [if] */
 //
-if(fname_url !== '')
+if(mycode_url !== '')
 {
-  File_loadurl_input_doWork(fname_url); return;
+  File_loadurl_input_doWork(mycode_url); return;
 } /* end of [if] */
 //
 return;
