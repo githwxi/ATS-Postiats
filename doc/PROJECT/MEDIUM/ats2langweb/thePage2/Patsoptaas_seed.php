@@ -6,8 +6,6 @@ if($theScriptKind >= 1)
   echo "\n";
   echo '<?php $mycode = $_REQUEST["mycode"]; ?>';
   echo "\n";
-  echo '<?php $mycode = rawurldecode(mycode); ?>';
-  echo "\n";
   echo '<?php $mycode_fil = $_REQUEST["mycode_fil"]; ?>';
   echo "\n";
   echo '<?php $mycode_url = $_REQUEST["mycode_url"]; ?>';
@@ -65,8 +63,12 @@ Patsoptaas_thePage2_initize2
 //
 if(mycode !== '')
 {
-File_source_load(mycode); return;
-}
+//
+File_source_load
+  (decodeURIComponent(mycode));
+//
+return;
+} /* end of [if] */
 //
 if(mycode_fil==='hello')
 {
@@ -97,4 +99,4 @@ return;
 //
 </script>
 
-<?php /* end of [Patsoptaas.php] */ ?>
+<?php /* end of [Patsoptaas_seed.php] */ ?>

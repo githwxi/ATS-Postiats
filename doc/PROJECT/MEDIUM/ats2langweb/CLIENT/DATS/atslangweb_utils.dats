@@ -47,7 +47,7 @@ staload _(*anon*) = "./patsopt_atscc2js.dats"
 //
 extern
 fun
-Home_whatisnew_onclick (): void = "mac#"
+Home_whatisnew_onclick(): void = "mac#"
 //
 %{^
 //
@@ -77,7 +77,7 @@ Home_tryatsnow_onclick
 {
 window.open
 (
-  "./SERVER/MYCODE/Patsoptaas_serve.php?mycode=hello", "_blank"
+  "./SERVER/MYCODE/Patsoptaas_serve.php?mycode_fil=hello", "_blank"
 ) // end of [window.open]
 } // end of [Home_tryatsnow_onclick]
 //

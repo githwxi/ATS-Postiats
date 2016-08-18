@@ -19,22 +19,22 @@ RMF=rm -f
 ######
 #
 all:: \
-MYCODE/pats2xhtmlize_dats.js
-#
-DATS/pats2xhtmlize_dats.c: \
-DATS/pats2xhtmlize.dats; $(PATSOPT) -o $@ -d $<
-MYCODE/pats2xhtmlize_dats.js: \
-DATS/pats2xhtmlize_dats.c; $(ATSCC2JS) -o $@ -i $<
-#
-######
-#
-all:: \
 MYCODE/atslangweb_utils_dats.js
 #
 DATS/atslangweb_utils_dats.c: \
 DATS/atslangweb_utils.dats; $(PATSOPT) -o $@ -d $<
 MYCODE/atslangweb_utils_dats.js: \
 DATS/atslangweb_utils_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+######
+#
+all:: \
+MYCODE/pats2xhtmlize_dats.js
+#
+DATS/pats2xhtmlize_dats.c: \
+DATS/pats2xhtmlize.dats; $(PATSOPT) -o $@ -d $<
+MYCODE/pats2xhtmlize_dats.js: \
+DATS/pats2xhtmlize_dats.c; $(ATSCC2JS) -o $@ -i $<
 #
 ######
 #

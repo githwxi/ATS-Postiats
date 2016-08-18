@@ -1,7 +1,7 @@
 (*
 //
 // HX-2016-08-01:
-// For triggering a service
+// For triggering a pats-service
 //
 *)
 
@@ -21,7 +21,7 @@ ATS_DYNLOADFLAG 0
 #define
 ATS_EXTERN_PREFIX "atslangweb_"
 #define
-ATS_STATIC_PREFIX "_atslangweb_service_trigger__"
+ATS_STATIC_PREFIX "_atslangweb_patservice__"
 //
 (* ****** ****** *)
 //
@@ -61,49 +61,49 @@ thePreamble_atscc2js() = "\n\
 //
 extern
 fun{}
-service_trigger_getval
+patservice_getval
   (key: string): string = "mac#%"
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-service_trigger_prompt
+patservice_prompt
 (
  key: string, msg: string
 ) : void = "mac#%" // end-of-fun
 //
 implement
 {}(*tmp*)
-service_trigger_prompt(key, msg) = ()
+patservice_prompt(key, msg) = ()
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-service_trigger_do_reply
+patservice_do_reply
 (
   key: string, reply: string
 ) : void = "mac#%" // end-of-fun
 //
 implement
 {}(*tmp*)
-service_trigger_do_reply
+patservice_do_reply
   (key, reply) = () where
 {
   val () = alert("reply(" + key + ") = " + reply)
-} (* end of [service_trigger_do_reply] *)
+} (* end of [patservice_do_reply] *)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-service_trigger_patsopt_tcats
+patservice_patsopt_tcats
   (key: string): void = "mac#%"
 //
 implement
 {}(*tmp*)
-service_trigger_patsopt_tcats
+patservice_patsopt_tcats
   (key) = ((*void*)) where
 {
 //
@@ -114,28 +114,28 @@ patsopt_tcats_rpc$cname<>() =
 )
 implement
 patsopt_tcats_rpc$reply<>(reply) =
-  service_trigger_do_reply<>(key, reply)
+  patservice_do_reply<>(key, reply)
 //
-val mycode = service_trigger_getval<>(key)
+val mycode = patservice_getval<>(key)
 val ((*void*)) = patsopt_tcats_rpc<>(mycode)
 //
 val ((*void*)) =
 (
-  service_trigger_prompt<>(key, "Patsopt-tc: waiting...")
+  patservice_prompt<>(key, "Patsopt-tc: waiting...")
 ) (* end of [val] *)
 //
-} (* end of [service_trigger_patsopt_tcats] *)
+} (* end of [patservice_patsopt_tcats] *)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-service_trigger_patsopt_ccats
+patservice_patsopt_ccats
   (key: string): void = "mac#%"
 //
 implement
 {}(*tmp*)
-service_trigger_patsopt_ccats
+patservice_patsopt_ccats
   (key) = ((*void*)) where
 {
 //
@@ -146,28 +146,28 @@ patsopt_ccats_rpc$cname<>() =
 )
 implement
 patsopt_ccats_rpc$reply<>(reply) =
-  service_trigger_do_reply<>(key, reply)
+  patservice_do_reply<>(key, reply)
 //
-val mycode = service_trigger_getval<>(key)
+val mycode = patservice_getval<>(key)
 val ((*void*)) = patsopt_ccats_rpc<>(mycode)
 //
 val ((*void*)) =
 (
-  service_trigger_prompt<>(key, "Patsopt-cc: waiting...")
+  patservice_prompt<>(key, "Patsopt-cc: waiting...")
 ) (* end of [val] *)
 //
-} (* end of [service_trigger_patsopt_ccats] *)
+} (* end of [patservice_patsopt_ccats] *)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-service_trigger_patsopt_cc2js
+patservice_patsopt_cc2js
   (key: string): void = "mac#%"
 //
 implement
 {}(*tmp*)
-service_trigger_patsopt_cc2js
+patservice_patsopt_cc2js
   (key) = ((*void*)) where
 {
 //
@@ -178,28 +178,28 @@ patsopt_atscc2js_rpc$cname<>() =
 )
 implement
 patsopt_atscc2js_rpc$reply<>(reply) =
-  service_trigger_do_reply<>(key, reply)
+  patservice_do_reply<>(key, reply)
 //
-val mycode = service_trigger_getval<>(key)
+val mycode = patservice_getval<>(key)
 val ((*void*)) = patsopt_atscc2js_rpc<>(mycode)
 //
 val ((*void*)) =
 (
-  service_trigger_prompt<>(key, "Patsopt-cc2js: waiting...")
+  patservice_prompt<>(key, "Patsopt-cc2js: waiting...")
 ) (* end of [val] *)
 //
-} (* end of [service_trigger_patsopt_atscc2js] *)
+} (* end of [patservice_patsopt_atscc2js] *)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-service_trigger_pats2xhtml_eval
+patservice_pats2xhtml_eval
   (key: string): void = "mac#%"
 //
 implement
 {}(*tmp*)
-service_trigger_pats2xhtml_eval
+patservice_pats2xhtml_eval
   (key) = ((*void*)) where
 {
 //
@@ -210,13 +210,13 @@ pats2xhtml_eval_rpc$cname<>() =
 )
 implement
 pats2xhtml_eval_rpc$reply<>(reply) =
-  service_trigger_do_reply<>(key, reply)
+  patservice_do_reply<>(key, reply)
 //
-val mycode = service_trigger_getval<>(key)
+val mycode = patservice_getval<>(key)
 val ((*void*)) = pats2xhtml_eval_rpc<>(1(*dyn*), mycode)
 //
-} (* end of [service_trigger_pats2xhtml_eval] *)
+} (* end of [patservice_pats2xhtml_eval] *)
 //
 (* ****** ****** *)
 
-(* end of [service_trigger.dats] *)
+(* end of [patservice_trigger.dats] *)

@@ -1,3 +1,10 @@
+<?php
+header(
+"Access-Control-Allow-Origin: *"
+); /* header */
+?>
+<!--php-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,7 +127,6 @@ body {
 <div id="thePage2">
 
 <?php $mycode = $_REQUEST["mycode"]; ?>
-<?php $mycode = rawurldecode(mycode); ?>
 <?php $mycode_fil = $_REQUEST["mycode_fil"]; ?>
 <?php $mycode_url = $_REQUEST["mycode_url"]; ?>
 <!--php-->
@@ -175,8 +181,12 @@ Patsoptaas_thePage2_initize2
 //
 if(mycode !== '')
 {
-File_source_load(mycode); return;
-}
+//
+File_source_load
+  (decodeURIComponent(mycode));
+//
+return;
+} /* end of [if] */
 //
 if(mycode_fil==='hello')
 {

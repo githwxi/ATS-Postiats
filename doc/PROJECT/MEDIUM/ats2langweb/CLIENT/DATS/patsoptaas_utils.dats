@@ -578,5 +578,55 @@ in
 end (* end of [File_loadurl_input_doWork] *)
 //
 (* ****** ****** *)
+//
+extern
+fun
+patsoptaas_mycode_trigger
+  (mycode: string): void = "mac#"
+//
+%{^
+//
+function
+patsoptaas_mycode_trigger
+  (mycode)
+{
+//
+var
+form =
+document.createElement("form");
+//
+form.setAttribute("method", "POST");
+/*
+//
+// HX: data is already encoded
+//
+form.setAttribute
+( "enctype"
+, "application/x-www-form-urlencoded"
+); // form.setAttribute
+*/
+//
+form.setAttribute
+( "action"
+, "http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php"
+); // form.setAttribute
+//
+form.setAttribute("target", "_blank");
+//
+var
+input =
+document.createElement("input");
+//
+input.setAttribute("type", "hidden");
+input.setAttribute("name", "mycode");
+input.setAttribute("value", encodeURIComponent(mycode));
+//
+form.appendChild(input); document.body.appendChild(form); form.submit(); return;
+//
+} /* end of [patsoptaas_mycode_trigger] */
+//
+%} // end of [%{^]
+//
+(* ****** ****** *)
 
 (* end of [patsoptaas_utils.dats] *)

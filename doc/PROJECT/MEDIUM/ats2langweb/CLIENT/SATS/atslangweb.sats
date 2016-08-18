@@ -29,8 +29,6 @@ patsopt_ccats_rpc
 fun{}
 patsopt_ccats_rpc$cname(): string = "mac#%"
 fun{}
-patsopt_ccats_rpc$flags(): string = "mac#%"
-fun{}
 patsopt_ccats_rpc$reply(reply: string): void = "mac#%"
 //
 (* ****** ****** *)
@@ -57,15 +55,27 @@ pats2xhtml_eval_rpc$reply(reply: string): void = "mac#%"
 //
 //
 (* ****** ****** *)
-
+//
 fun{}
-file_get_contents_rpc(fname: string): void = "mac#%"
+file_get_contents_rpc
+  (fname: string): void = "mac#%"
 //
 fun{}
 file_get_contents_rpc$cname(): string = "mac#%"
 fun{}
 file_get_contents_rpc$reply(reply: string): void = "mac#%"
 //
+(* ****** ****** *)
+/*
+fun{}
+patsoptaas_mycode_rpc
+  (mycode: string): void = "mac#%"
+//
+fun{}
+patsoptaas_mycode_rpc$cname(): string = "mac#%"
+fun{}
+patsoptaas_mycode_rpc$reply(reply: string): void = "mac#%"
+*/
 (* ****** ****** *)
 
 (* end of [atslangweb.sats] *)

@@ -55,4 +55,4 @@ It seems that &lt;canvas&gt; is not supported by the browser!
 
 </table>
 
-<?php /* end of [Patsoptaas.php] */ ?>
+<?php /* end of [Patsoptaas_seed.php] */ ?>
