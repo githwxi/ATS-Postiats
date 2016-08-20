@@ -24,6 +24,7 @@ Here is a list of major additions and changes since the last release:
 
 1. Adding support for pats2xhtml
 2. Adding support for patsopt-tc, patsopt-cc and patsopt-ccjs
+3. Improving s2zexp_make_s2exp (in src/pats_staexp2_szexp.dats)
 
 ######
 

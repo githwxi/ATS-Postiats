@@ -43,8 +43,14 @@ atsruntime_handle_uncaughtexn
   (exn) = let
 //
 macdef
-errmsghead (
-) = prerr ("exit(ATS): uncaught exception at run-time")
+errmsghead
+(
+// argless
+) =
+prerr_string
+(
+  "exit(ATS): uncaught exception at run-time"
+) (* print_string *)
 //
 in
 //

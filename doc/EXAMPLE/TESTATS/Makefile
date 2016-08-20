@@ -365,6 +365,17 @@ s2rt_float: s2rt_float.dats; $(PATSOPT) --typecheck -d $<
 #
 ######
 
+all:: \
+undefined
+undefined: undefined_dats.c ; \
+  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+undefined_dats.c: undefined.dats ; $(PATSCC2) -ccats $<
+regress:: undefined ; ./$<
+cleanall:: ; $(RMF) undefined
+cleanall:: ; $(RMF) undefined_dats.c
+
+######
+
 testall:: all
 testall:: regress
 testall:: cleanall

@@ -70,27 +70,42 @@ macdef effless(exp) = $effmask_all(,(exp))
 macdef assign(lv, rv) = ,(lv) := ,(rv)
 
 (* ****** ****** *)
-
+//
 macdef
-exitloc(x) = exit_errmsg (,(x), $mylocation)
-
+exitloc(ecode) =
+  exit_errmsg (,(ecode), $mylocation)
+//
 (* ****** ****** *)
-
+//
 macdef
-assertloc(x) = assert_errmsg (,(x), $mylocation)
-
+assertloc(tf) =
+  assert_errmsg (,(tf), $mylocation)
+//
 (* ****** ****** *)
 //
 macdef
 assertlocmsg
-  (x, msg) = assert_errmsg2 (,(x), $mylocation, ,(msg))
+  (tf, msg) =
+  assert_errmsg2 (,(tf), $mylocation, ,(msg))
 macdef
 assertmsgloc
-  (x, msg) = assert_errmsg2 (,(x), ,(msg), $mylocation)
+  (tf, msg) =
+  assert_errmsg2 (,(tf), ,(msg), $mylocation)
+//
+(* ****** ****** *)
+//
+macdef
+undefined() = let
+//
+val () =
+assertlocmsg
+  (false, ": undefined!!!") in $raise(AssertExn)
+//
+end // end of [undefined]
 //
 (* ****** ****** *)
 
-macdef ignoret(x) = let val x = ,(x) in (*nothing*) end
+macdef ignoret(x) = let val _ = ,(x) in (*nothing*) end
 
 (* ****** ****** *)
 

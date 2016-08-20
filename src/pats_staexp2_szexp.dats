@@ -79,6 +79,7 @@ in
 case+ x of
 //
 | S2ZEprf () => prstr "S2ZEprf()"
+//
 | S2ZEptr () => prstr "S2ZEptr()"
 //
 | S2ZEcst (s2c) => {
@@ -496,8 +497,10 @@ val s2ze1 = s2zexp_linkrem (x1)
 val s2ze2 = s2zexp_linkrem (x2)
 //
 (*
-val () = println! ("s2zexp_merge_exn: s2ze1 = ", s2ze1)
-val () = println! ("s2zexp_merge_exn: s2ze2 = ", s2ze2)
+val () =
+  println! ("s2zexp_merge_exn: s2ze1 = ", s2ze1)
+val () =
+  println! ("s2zexp_merge_exn: s2ze2 = ", s2ze2)
 *)
 //
 in
@@ -507,66 +510,80 @@ case+ (s2ze1, s2ze2) of
 | (S2ZEbot (), _) => abort ()
 | (_, S2ZEbot ()) => abort ()
 //
-| (S2ZEprf (), S2ZEprf ()) => s2ze1
-| (S2ZEptr (), S2ZEptr ()) => s2ze1
+| (S2ZEprf(), S2ZEprf()) => s2ze1
 //
-| (S2ZEcst s2c1, S2ZEcst s2c2) =>
-    if s2c1 = s2c2 then s2ze1 else abort ()
-| (S2ZEvar s2v1, S2ZEvar s2v2) =>
-    if s2v1 = s2v2 then s2ze1 else abort ()
+| (S2ZEptr(), S2ZEptr()) => s2ze1
+//
+| (S2ZEcst(s2c1), S2ZEcst(s2c2)) =>
+    if s2c1 = s2c2 then s2ze1 else abort()
+| (S2ZEvar(s2v1), S2ZEvar(s2v2)) =>
+    if s2v1 = s2v2 then s2ze1 else abort()
 //
 | (S2ZEVar s2V1, _) => let
-    val () = s2Var_set_szexp (s2V1, s2ze2) in s2ze2
+    val () =
+      s2Var_set_szexp (s2V1, s2ze2) in s2ze2
+    // end of [val]
   end // end of [S2ZEVar, _]
 | (_, S2ZEVar s2V2) => let
-    val () = s2Var_set_szexp (s2V2, s2ze1) in s2ze1
+    val () =
+      s2Var_set_szexp (s2V2, s2ze1) in s2ze1
+    // end of [val]
   end // end of [_, S2ZEVar]
 //
 | (
-   S2ZEextype (name1, _arg1),
-   S2ZEextype (name2, _arg2)
+   S2ZEextype(name1, _arg1),
+   S2ZEextype(name2, _arg2)
   ) =>
     if name1 = name2 then let
-      val _arg = s2zexplstlst_merge_exn (_arg1, _arg2)
+      val _arg =
+        s2zexplstlst_merge_exn (_arg1, _arg2)
+      // end of [val]
     in
       S2ZEextype (name1, _arg)
     end else abort () // end of [if]
 | (
-   S2ZEextkind (name1, _arg1),
-   S2ZEextkind (name2, _arg2)
+   S2ZEextkind(name1, _arg1),
+   S2ZEextkind(name2, _arg2)
   ) =>
     if name1 = name2 then let
-      val _arg = s2zexplstlst_merge_exn (_arg1, _arg2)
+      val _arg =
+        s2zexplstlst_merge_exn(_arg1, _arg2)
+      // end of [val]
     in
-      S2ZEextkind (name1, _arg)
-    end else abort () // end of [if]
+      S2ZEextkind(name1, _arg)
+    end else abort() // end of [if]
 //
-| (S2ZEapp (s2ze11, s2zes12),
-   S2ZEapp (s2ze21, s2zes22)) => let
-    val s2ze = s2zexp_merge_exn (s2ze11, s2ze21)
-    val s2zes = s2zexplst_merge_exn (s2zes12, s2zes22)
+| (S2ZEapp(s2ze11, s2zes12),
+   S2ZEapp(s2ze21, s2zes22)) => let
+    val s2ze =
+      s2zexp_merge_exn(s2ze11, s2ze21)
+    val s2zes =
+      s2zexplst_merge_exn(s2zes12, s2zes22)
   in
-    S2ZEapp (s2ze, s2zes)
+    S2ZEapp(s2ze, s2zes)
   end
 //
-| (S2ZEtyarr (elt1, dim1),
-   S2ZEtyarr (elt2, dim2)) => let
-    val elt = s2zexp_merge_exn (elt1, elt2)
+| (S2ZEtyarr(elt1, dim1),
+   S2ZEtyarr(elt2, dim2)) => let
+    val elt = s2zexp_merge_exn(elt1, elt2)
   in
-    if s2explst_syneq (dim1, dim2)
-      then S2ZEtyarr (elt, dim1) else abort ()
+    if s2explst_syneq(dim1, dim2)
+      then S2ZEtyarr(elt, dim1) else abort()
     // end of [if]
   end
-| (S2ZEtyrec (knd1, ls2zes1),
-   S2ZEtyrec (knd2, ls2zes2)) =>
+| (S2ZEtyrec(knd1, ls2zes1),
+   S2ZEtyrec(knd2, ls2zes2)) =>
     if knd1 = knd2 then
-      S2ZEtyrec (knd1, labs2zexplst_merge_exn (ls2zes1, ls2zes2))
+      S2ZEtyrec
+      ( knd1
+      , labs2zexplst_merge_exn (ls2zes1, ls2zes2)
+      ) (* S2ZEtyrec *)
     else $raise S2ZEXPMERGEexn() // end of [if]
 //
 // HX-2012-06: this holds as flat closures
-| (S2ZEclo (), S2ZEclo ()) => S2ZEclo () // are inmovable
+| (S2ZEclo(), S2ZEclo()) => S2ZEclo() // are immovable
 //
-| (_, _) => abort ()
+| (_(*rest-of-s2zexp*), _(*rest-of-s2zexp*)) => abort()
 //
 end // end of [s2zexp]
 
@@ -574,15 +591,15 @@ implement
 s2zexplst_merge_exn
   (xs1, xs2) = (
   case+ (xs1, xs2) of
-  | (list_cons (x1, xs1),
-     list_cons (x2, xs2)) => let
+  | (list_cons(x1, xs1),
+     list_cons(x2, xs2)) => let
       val x12 = s2zexp_merge_exn (x1, x2)
     in
-      list_cons (x12, s2zexplst_merge_exn (xs1, xs2))
+      list_cons(x12, s2zexplst_merge_exn(xs1, xs2))
     end // end of [cons, cons]
   | (list_nil (), list_nil ()) => list_nil ()
   | (_, _) => $raise S2ZEXPMERGEexn()
-) // end of [s2zexplst_merge_exn]
+) (* end of [s2zexplst_merge_exn] *)
 
 implement
 s2zexplstlst_merge_exn
@@ -596,7 +613,7 @@ s2zexplstlst_merge_exn
     end // end of [cons, cons]
   | (list_nil (), list_nil ()) => list_nil ()
   | (_, _) => $raise S2ZEXPMERGEexn()
-) // end of [s2zexplstlst_merge_exn]
+) (* end of [s2zexplstlst_merge_exn] *)
 
 implement
 labs2zexplst_merge_exn

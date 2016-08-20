@@ -91,13 +91,11 @@ staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-#define l2l list_of_list_vt
-
-(* ****** ****** *)
-
-fn d2exp_funclopt_of_d2exp
+fun
+d2exp_funclopt_of_d2exp
 (
-  d2e0: d2exp, opt: &(fcopt_vt?) >> fcopt_vt
+  d2e0: d2exp
+, opt: &(fcopt_vt?) >> fcopt_vt
 ) : d2exp = let
 in
 //
@@ -115,9 +113,14 @@ case+
 end // end of [d2exp_funclopt_of_d2exp]
 
 viewtypedef
-s2effopt_vt = Option_vt (s2eff)
-fn d2exp_s2effopt_of_d2exp (
-  d2e0: d2exp, opt: &(s2effopt_vt?) >> s2effopt_vt
+s2effopt_vt =
+Option_vt(s2eff)
+
+fun
+d2exp_s2effopt_of_d2exp
+(
+  d2e0: d2exp
+, opt: &(s2effopt_vt?) >> s2effopt_vt
 ) : d2exp =
   case+ :(
     opt: s2effopt_vt
@@ -133,39 +136,52 @@ fn d2exp_s2effopt_of_d2exp (
 (* ****** ****** *)
 
 extern
-fun d2exp_trdn_top (d2e0: d2exp, s2f0: s2hnf): d3exp
+fun
+d2exp_trdn_top(d2e0: d2exp, s2f0: s2hnf): d3exp
 
 (* ****** ****** *)
 
 extern
-fun d2exp_trdn_tup (d2e0: d2exp, s2f0: s2hnf): d3exp
+fun
+d2exp_trdn_tup(d2e0: d2exp, s2f0: s2hnf): d3exp
 extern
-fun d2exp_trdn_rec (d2e0: d2exp, s2f0: s2hnf): d3exp
+fun
+d2exp_trdn_rec(d2e0: d2exp, s2f0: s2hnf): d3exp
 extern
-fun d2exp_trdn_seq (d2e0: d2exp, s2f0: s2hnf): d3exp
+fun
+d2exp_trdn_seq(d2e0: d2exp, s2f0: s2hnf): d3exp
 
+(* ****** ****** *)
+//
+extern
+fun
+d2exp_trdn_raise(d2e0: d2exp, s2f0: s2hnf): d3exp
+//
+extern
+fun
+d2exp_trdn_effmask(d2e0: d2exp, s2f0: s2hnf): d3exp
+//
 (* ****** ****** *)
 
 extern
-fun d2exp_trdn_effmask (d2e0: d2exp, s2f0: s2hnf): d3exp
+fun
+d2exp_trdn_exist(d2e0: d2exp, s2f0: s2hnf): d3exp
 
 (* ****** ****** *)
-
+//
 extern
-fun d2exp_trdn_exist (d2e0: d2exp, s2f0: s2hnf): d3exp
-
+fun
+d2exp_trdn_lam_dyn(d2e: d2exp, s2f0: s2hnf): d3exp
+extern
+fun
+d2exp_trdn_lam_sta_nil(d2e: d2exp, s2f0: s2hnf): d3exp
+//
 (* ****** ****** *)
-
+//
 extern
-fun d2exp_trdn_lam_dyn (d2e: d2exp, s2f: s2hnf): d3exp
-extern
-fun d2exp_trdn_lam_sta_nil (d2e: d2exp, s2f: s2hnf): d3exp
-
-(* ****** ****** *)
-
-extern
-fun d2exp_trdn_trywith (d2e0: d2exp, s2f: s2hnf): d3exp
-
+fun
+d2exp_trdn_trywith (d2e0: d2exp, s2f0: s2hnf): d3exp
+//
 (* ****** ****** *)
 
 implement
@@ -272,6 +288,8 @@ of // case+
 | D2Erec _ => d2exp_trdn_rec (d2e0, s2f0)
 | D2Eseq _ => d2exp_trdn_seq (d2e0, s2f0)
 //
+| D2Eraise _ => d2exp_trdn_raise (d2e0, s2f0)
+//
 | D2Eeffmask _ => d2exp_trdn_effmask (d2e0, s2f0)
 //
 | D2Eshowtype
@@ -358,18 +376,28 @@ d2explst_trdn_elt
   val d3es = list_map_vclo<d2exp><d3exp> {unit_v} (pfu | d2es, !p_clo)
   prval unit_v () = pfu
 in
-  l2l (d3es)
+  list_of_list_vt(d3es)
 end // end of [d2explst_trdn_elt]
 
 implement
 d2expopt_trdn_elt
   (od2e, s2f) = let
+(*
+//
+val () =
+println!
+  ("d2expopt_trdn_elt")
+//
+*)
 in
 //
 case+ od2e of
-| Some (d2e) =>
-    Some (d2exp_trdn (d2e, s2f))
-| None () => None ()
+//
+| None() => None()
+//
+| Some(d2e) =>
+    Some(d2exp_trdn(d2e, s2f))
+  // end of [Some]
 //
 end // end of [d2expopt_trdn_elt]
 
@@ -1158,20 +1186,56 @@ end // end of [d2exp_trdn_seq]
 (* ****** ****** *)
 
 implement
+d2exp_trdn_raise
+  (d2e0, s2f0) = let
+//
+val loc0 = d2e0.d2exp_loc
+//
+val-
+D2Eraise
+  (d2e_exn) = d2e0.d2exp_node
+//
+val err =
+  the_effenv_check_exn (loc0)
+// end of [val]
+val () =
+if (err > 0) then
+  the_trans3errlst_add(T3E_d2exp_trup_exn(loc0))
+// end of [if] // end of [val]
+//
+val s2e0 = s2hnf2exp (s2f0)
+//
+val s2e_exn = s2exp_exception_vtype ()
+val d3e_exn = d2exp_trdn (d2e_exn, s2e_exn)
+//
+in
+  d3exp_raise (loc0, s2e0, d3e_exn)
+end // end of [d2exp_trdn_raise]
+
+(* ****** ****** *)
+
+implement
 d2exp_trdn_effmask
   (d2e0, s2f0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val-D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
+//
+val-
+D2Eeffmask
+  (s2fe, d2e1) = d2e0.d2exp_node
 //
 val
-(pfpush | ()) = the_effenv_push_effmask (s2fe)
+(pfpush|()) =
+the_effenv_push_effmask (s2fe)
+//
 val s2e0 = s2hnf2exp (s2f0)
-val d3e = d2exp_trdn (d2e, s2e0)
-val ((*void*)) = the_effenv_pop (pfpush | (*none*))
+val d3e1 = d2exp_trdn (d2e1, s2e0)
+//
+val ((*void*)) =
+the_effenv_pop (pfpush | (*none*))
 //
 in
-  d3exp_effmask (loc0, s2fe, d3e)
+  d3exp_effmask (loc0, s2fe, d3e1)
 end // end of [d2exp_trdn_effmask]
 
 (* ****** ****** *)
@@ -1181,7 +1245,7 @@ d2exp_trdn_exist
   (d2e0, s2f0) = let
   val loc0 = d2e0.d2exp_loc
   val-D2Eexist
-    (s2a, d2e) = d2e0.d2exp_node
+    (s2a, d2e1) = d2e0.d2exp_node
   val s2e0 = s2hnf2exp (s2f0)
   var err: int = 0; var s2ps0: s2explst_vt
   val s2e_ins = (
@@ -1210,7 +1274,7 @@ d2exp_trdn_exist
   } (* end of [if] *) // end of [val]
 *)
 in
-  d2exp_trdn (d2e, s2e_ins)
+  d2exp_trdn (d2e1, s2e_ins)
 end // end of [d2exp_trdn_exist]
 
 (* ****** ****** *)
