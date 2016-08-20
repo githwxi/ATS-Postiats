@@ -357,6 +357,10 @@ exception GenerallyExn2 of (string, ptr(*data*)) // for unspecified causes
 exception IllegalArgExn of (string) // out of its domain
 //
 (* ****** ****** *)
+// indication that the function is not defined
+exception UndefindExn of ()
+macdef undefind() = $raise UndefindExn()
+(* ****** ****** *)
 
 praxi __vfree_exn (x: exn):<> void // for freeing nullary exception-con
 
