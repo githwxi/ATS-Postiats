@@ -959,8 +959,10 @@ case+ (s2en10, s2en20) of
   | _ when knd2 = 0 => let
       // [s2e0] is topized version of some type
     in
-      if s2exp_is_nonlin (s2e10) then (
-        if s2exp_tszeq (s2e10, s2e20) then () else (err := err + 1)
+      if (
+        s2exp_is_nonlin(s2e10)
+      ) then (
+        if s2exp_tszeq(s2e10, s2e20) then () else (err := err + 1)
       ) else (err := err + 1) // end of [if]
     end // end of [knd2 = 0]
   | _ (* knd2 > 0 *) => (err := err + 1)
@@ -1130,25 +1132,25 @@ case+ (s2en10, s2en20) of
 | (S2Ewthtype (s2e1, ws2es1), _) =>
   (
   case+ s2en20 of
-  | S2Ewthtype (s2e2, ws2es2) => let
+  | S2Ewthtype(s2e2, ws2es2) => let
       val () =
-        s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+        s2exp_tyleq_solve_err(loc0, s2e1, s2e2, err)
       // end of [val]
     in
-      wths2explst_tyleq_solve_err (loc0, ws2es1, ws2es2, err)
+      wths2explst_tyleq_solve_err(loc0, ws2es1, ws2es2, err)
     end // end of [S2Ewth]
   | _ => (err := err + 1)
   ) (* end of [S2Ewth, _] *)
 //
-| (S2Ewithout (s2e1), _) => (
+| (S2Ewithout(s2e1), _) => (
   case+ s2en20 of
-  | S2Ewithout (s2e2) =>
-      if ~s2exp_tszeq (s2e1, s2e2) then (err := err + 1)
+  | S2Ewithout(s2e2) =>
+      if ~s2exp_tszeq(s2e1, s2e2) then (err := err + 1)
     // end of [S2Ewithout]
-  | _ => (err := err + 1)
+  | _ (*non-S2Ewithout*) => (err := err + 1)
   )
 //
-| (_, _) when s2hnf_syneq2 (s2f10, s2f20) => ()
+| (_, _) when s2hnf_syneq2(s2f10, s2f20) => ()
 //
 | (_, _) => (err := err + 1)
 //

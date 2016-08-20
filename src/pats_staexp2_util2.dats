@@ -183,52 +183,59 @@ fun s2exp_hnfize_app
 implement
 s2exp_topize_flag
   (knd, s2e0, flag) = let
-  val s2t0 = s2e0.s2exp_srt
+//
+val s2t0 = s2e0.s2exp_srt
+//
 in
 //
 case+ 0 of
 | _ when
-    s2rt_is_prf (s2t0) => let
-    val () = flag := flag + 1 in s2exp_unit_prop ()
+    s2rt_is_prf(s2t0) => let
+    val () = flag := flag+1 in s2exp_unit_prop()
   end // end of [_ when ...]
 | _ (*isprf=false*) => let
     val isdone =
     (
-      if knd > 0 (*typization*) then
-        (if s2exp_is_lin (s2e0) then false else true)
-      else false // end of [if]
+      if knd > 0 (*typization*)
+      then (
+        if s2exp_is_lin(s2e0) then false else true
+      ) else false // end of [else]
     ) : bool // end of [val]
     val s2e0 = s2exp_hnfize_flag (s2e0, flag)
   in
-    if isdone then
-      s2e0 // there is no need for any change
+    if isdone
+    then s2e0 // no change
     else let
-      val () = flag := flag + 1
+      val () = flag := flag+1
     in
-      case+ s2e0.s2exp_node of
-      | S2Etop (_, s2e) =>
-          s2exp_topize_flag (knd, s2e, flag)
-      | S2Etyarr (s2e_elt, dim) => let
+      case+
+      s2e0.s2exp_node
+      of (* case+ *)
+      | S2Etop(_, s2e) =>
+          s2exp_topize_flag(knd, s2e, flag)
+        // end of [S2Etop]
+      | S2Etyarr
+          (s2e_elt, dim) => let
           val s2e_elt = s2exp_top (knd, s2e_elt)
         in
           s2exp_tyarr_srt (s2rt_t0ype, s2e_elt, dim)
         end // end of [S2Etyarr]
       | S2Etyrec
           (recknd, npf, ls2es) => let
-          val isboxed = tyreckind_is_boxed (recknd)
+          val isboxed = tyreckind_is_boxed(recknd)
         in
           if isboxed
             then s2exp_ptr_type ()
             else let
-              val ls2es = labs2explst_top (knd, ls2es)
+              val ls2es = labs2explst_top(knd, ls2es)
             in
-              s2exp_tyrec_srt (s2rt_t0ype, recknd, npf, ls2es)
+              s2exp_tyrec_srt(s2rt_t0ype, recknd, npf, ls2es)
             end // end of [else]
           // end of [if]
         end // end of [S2Etyrec]
       | _ when // HX: this seems adequate
-          s2rt_is_boxed (s2t0) => s2exp_ptr_type ()
-      | _ => s2exp_top_srt (s2rt_t0ype, knd, s2e0)
+          s2rt_is_boxed(s2t0) => s2exp_ptr_type()
+      | _ => s2exp_top_srt(s2rt_t0ype, knd, s2e0)
     end (* end of [if] *)
   end // end of [_]
 //

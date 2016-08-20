@@ -273,7 +273,10 @@ auxck_tszeq
   loc0: loc_t
 , s2e1: s2exp, s2e2: s2exp
 ) : void = let
-  val tszeq = s2exp_tszeq (s2e1, s2e2)
+//
+val
+tszeq = s2exp_tszeq (s2e1, s2e2)
+//
 in
 //
 if ~tszeq then let

@@ -101,7 +101,7 @@ in
   | TYRECKINDflt0 _ => true
   | TYRECKINDflt1 _ => true
   | TYRECKINDflt_ext _ => true
-  | _ => false
+  | _ (*non-flted*) => false
 end // end of [tyreckind_is_flt]
 
 implement
