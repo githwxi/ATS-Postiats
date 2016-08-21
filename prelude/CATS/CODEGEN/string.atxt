@@ -1,10 +1,19 @@
 %{
-#define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt.hats"
+//
+#define
+ATSCODEFORMAT "txt"
+//
+#if(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"string.cats"
-val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
+val
+_thisfilename = atext_strcst"string.cats"
+val ((*void*)) =
+theAtextMap_insert_str("thisfilename", _thisfilename)
 %}\
 \
 #atscode_banner_for_C()
@@ -13,17 +22,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 /*
-** Source:
-** $PATSHOME/prelude/CATS/CODEGEN/string.atxt
-** Time of generation: #timestamp()
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("April, 2012")
 */
 
 #atscode_separator_for_C()
 
 /*
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("April, 2012")
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/string.atxt
+** Time of generation: #timestamp()
 */
 
 #atscode_separator_for_C()

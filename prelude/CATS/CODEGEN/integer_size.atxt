@@ -4,7 +4,10 @@
 ATSCODEFORMAT "txt"
 //
 #if(ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt.hats"
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
 #endif // end of [ATSCCODEFORMAT]
 //
 #include "prelude_CATS_atext.hats"

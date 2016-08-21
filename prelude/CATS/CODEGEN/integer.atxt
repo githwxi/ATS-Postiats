@@ -40,54 +40,28 @@ theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 //
-\#define atspre_g0int2int_int_int(x) ((atstype_int)(x))
-\#define atspre_g0int2int_int_lint(x) ((atstype_lint)(x))
-\#define atspre_g0int2int_int_llint(x) ((atstype_llint)(x))
-\#define atspre_g1int2int_int_int atspre_g0int2int_int_int
-\#define atspre_g1int2int_int_lint atspre_g0int2int_int_lint
-\#define atspre_g1int2int_int_llint atspre_g0int2int_int_llint
-//
-\#define atspre_g0int2int_lint_int(x) ((atstype_int)(x))
-\#define atspre_g0int2int_lint_lint(x) ((atstype_lint)(x))
-\#define atspre_g0int2int_lint_llint(x) ((atstype_llint)(x))
-\#define atspre_g1int2int_lint_int atspre_g0int2int_lint_int
-\#define atspre_g1int2int_lint_lint atspre_g0int2int_lint_lint
-\#define atspre_g1int2int_lint_llint atspre_g0int2int_lint_llint
+\#define \\
+atspre_g0int2int_int_int(x) ((atstype_int)(x))
+\#define \\
+atspre_g1int2int_int_int(x) atspre_g0int2int_int_int(x)
 //
 #atscode_separator_for_C()
 //
-\#define atspre_g0int2uint_int_uint(x) ((atstype_uint)(x))
-\#define atspre_g0int2uint_int_ulint(x) ((atstype_ulint)(x))
-\#define atspre_g0int2uint_int_ullint(x) ((atstype_ullint)(x))
-\#define atspre_g1int2uint_int_uint atspre_g0int2uint_int_uint
-\#define atspre_g1int2uint_int_ulint atspre_g0int2uint_int_ulint
-\#define atspre_g1int2uint_int_ullint atspre_g0int2uint_int_ullint
-//
-\#define atspre_g0int2uint_lint_ulint(x) ((atstype_ulint)(x))
-\#define atspre_g0int2uint_lint_ullint(x) ((atstype_ullint)(x))
-\#define atspre_g1int2uint_lint_ulint atspre_g0int2uint_lint_ulint
-\#define atspre_g1int2uint_lint_ullint atspre_g0int2uint_lint_ullint
-//
-\#define atspre_g0int2uint_llint_ullint(x) ((atstype_ullint)(x))
-\#define atspre_g1int2uint_llint_ullint atspre_g0int2uint_llint_ullint
+\#define \\
+atspre_g0int2uint_int_uint(x) ((atstype_uint)(x))
+\#define \\
+atspre_g1int2uint_int_uint(x) atspre_g0int2uint_int_uint(x)
 //
 #atscode_separator_for_C()
 //
 \#define atspre_g0uint2int_uint_int(x) ((atstype_int)(x))
-\#define atspre_g0uint2int_uint_lint(x) ((atstype_lint)(x))
-\#define atspre_g0uint2int_uint_llint(x) ((atstype_llint)(x))
-\#define atspre_g1uint2int_uint_int atspre_g0uint2int_uint_int
-\#define atspre_g1uint2int_uint_lint atspre_g0uint2int_uint_lint
-\#define atspre_g1uint2int_uint_llint atspre_g0uint2int_uint_llint
 //
 #atscode_separator_for_C()
 //
-\#define atspre_g0uint2uint_uint_uint(x) (x)
-\#define atspre_g0uint2uint_uint_ulint(x) ((atstype_ulint)(x))
-\#define atspre_g0uint2uint_uint_ullint(x) ((atstype_ullint)(x))
-\#define atspre_g1uint2uint_uint_uint atspre_g0uint2uint_uint_uint
-\#define atspre_g1uint2uint_uint_ulint atspre_g0uint2uint_uint_ulint
-\#define atspre_g1uint2uint_uint_ullint atspre_g0uint2uint_uint_ullint
+\#define \\
+atspre_g0uint2uint_uint_uint(x) (x)
+\#define \\
+atspre_g1uint2uint_uint_uint(x) atspre_g0uint2uint_uint_uint(x)
 //
 #atscode_separator_for_C()
 //

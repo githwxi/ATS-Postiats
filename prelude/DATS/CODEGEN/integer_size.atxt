@@ -1,0 +1,62 @@
+%{
+#define
+ATSCODEFORMAT "txt"
+//
+#if(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
+#endif // end of [ATSCCODEFORMAT]
+//
+#include "prelude_DATS_atext.hats"
+//
+val
+_thisfilename = atext_strcst"integer_size.dats"
+val ((*void*)) =
+theAtextMap_insert_str("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_GPL()
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("May, 2012")
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/integer_size.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+\#define
+ATS_DYNLOADFLAG 0 // no dynloading
+
+#atscode_separator()
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+#atscode_separator()
+//
+implement
+g0int2int<intknd,ssizeknd> = g0int2int_int_ssize
+//
+implement
+g1int2int<intknd,ssizeknd> = g1int2int_int_ssize
+//
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "integer_size_atxt.txt")
+%}\
