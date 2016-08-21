@@ -69,22 +69,23 @@ all::
 
 #make_entry("integer")
 #make_entry("pointer")
-#make_entry("memory")
+
+#make_entry("arith_prf")
+#make_entry("integer_long")
+#make_entry("integer_size")
+#make_entry("integer_short")
 
 #make_entry("bool")
 #make_entry("char")
 #make_entry("float")
 #make_entry("string")
 #make_entry("strptr")
-
-#make_entry("tuple")
-
-#make_entry("reference")
-
-#make_entry("arith_prf")
-
 #make_entry("integer_ptr")
 #make_entry("integer_fixed")
+
+#make_entry("tuple")
+#make_entry("memory")
+#make_entry("reference")
 
 #make_entry("unsafe")
 #make_entry("checkast")

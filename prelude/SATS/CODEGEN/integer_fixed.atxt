@@ -1,18 +1,32 @@
 %{
 //
-#define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#define
+ATSCODEFORMAT "txt"
+//
+#if(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"integer_fixed.sats"
-val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 //
 #include "prelude_SATS_atext.hats"
+//
+val
+_thisfilename = atext_strcst"integer_fixed.sats"
+val ((*void*)) =
+theAtextMap_insert_str ("thisfilename", _thisfilename)
 //
 %}\
 \
 #atscode_banner()
 #atscode_copyright_GPL()
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("January, 2013")
 
 #atscode_separator()
 
@@ -23,23 +37,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 *)
 
 #atscode_separator()
-
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("January, 2013")
-
-#atscode_separator()
 //
 // HX: for unindexed integer types
 //
 #atscode_separator()
 
 sortdef tk = tkind
-
-#atscode_separator()
-
-typedef SHR(a:t@ype) = a // for commenting purpose
-typedef NSH(a:t@ype) = a // for commenting purpose
 
 #atscode_separator()
 //
@@ -62,13 +65,13 @@ fun g0int2int_int64_int (x: int64):<> int = "mac\#%"
 //
 #atscode_separator()
 //
-#fun_g0int_type_aop_cmp_decl("int8", "int8")\
+#g0int_type_aop_cmp_decl("int8", "int8")\
 //
-#fun_g0int_type_aop_cmp_decl("int16", "int16")\
+#g0int_type_aop_cmp_decl("int16", "int16")\
 //
-#fun_g0int_type_aop_cmp_decl("int32", "int32")\
+#g0int_type_aop_cmp_decl("int32", "int32")\
 //
-#fun_g0int_type_aop_cmp_decl("int64", "int64")\
+#g0int_type_aop_cmp_decl("int64", "int64")\
 //
 #atscode_separator()
 
@@ -96,13 +99,13 @@ fun g0uint2uint_uint64_uint (x: uint64):<> uint = "mac\#%"
 //
 #atscode_separator()
 //
-#fun_g0uint_type_aop_cmp_decl("uint8", "uint8")\
+#g0uint_type_aop_cmp_decl("uint8", "uint8")\
 //
-#fun_g0uint_type_aop_cmp_decl("uint16", "uint16")\
+#g0uint_type_aop_cmp_decl("uint16", "uint16")\
 //
-#fun_g0uint_type_aop_cmp_decl("uint32", "uint32")\
+#g0uint_type_aop_cmp_decl("uint32", "uint32")\
 //
-#fun_g0uint_type_aop_cmp_decl("uint64", "uint64")\
+#g0uint_type_aop_cmp_decl("uint64", "uint64")\
 //
 #atscode_separator()
 
@@ -113,23 +116,23 @@ fun g0uint2uint_uint64_uint (x: uint64):<> uint = "mac\#%"
 
 #atscode_separator()
 //
-#fun_g1int_type_aop_cmp_decl("int8", "int8")\
+#g1int_type_aop_cmp_decl("int8", "int8")\
 //
-#fun_g1int_type_aop_cmp_decl("int16", "int16")\
+#g1int_type_aop_cmp_decl("int16", "int16")\
 //
-#fun_g1int_type_aop_cmp_decl("int32", "int32")\
+#g1int_type_aop_cmp_decl("int32", "int32")\
 //
-#fun_g1int_type_aop_cmp_decl("int64", "int64")\
+#g1int_type_aop_cmp_decl("int64", "int64")\
 //
 #atscode_separator()
 //
-#fun_g1uint_type_aop_cmp_decl("uint8", "uint8")\
+#g1uint_type_aop_cmp_decl("uint8", "uint8")\
 //
-#fun_g1uint_type_aop_cmp_decl("uint16", "uint16")\
+#g1uint_type_aop_cmp_decl("uint16", "uint16")\
 //
-#fun_g1uint_type_aop_cmp_decl("uint32", "uint32")\
+#g1uint_type_aop_cmp_decl("uint32", "uint32")\
 //
-#fun_g1uint_type_aop_cmp_decl("uint64", "uint64")\
+#g1uint_type_aop_cmp_decl("uint64", "uint64")\
 //
 #atscode_separator()
 

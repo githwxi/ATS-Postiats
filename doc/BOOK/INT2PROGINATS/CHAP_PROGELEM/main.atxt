@@ -355,12 +355,12 @@ floating point numbers (of double precision), respectively.\
 
 #para("\
 
-In the current implementation of ATS (Postiats), a program in ATS is first
-compiled into one in C (conforming to the C99 standard), which can then be
-compiled to object code by a compiler for C such as gcc. In the compilation
-from ATS to C, the type #dyncode("int") in ATS is translated to the type of
-the same name in C. Similarly, the type #dyncode("double") in ATS is
-translated to the type of the same name in C.\
+In the current implementation of ATS (Postiats),
+a program in ATS is first compiled into one in C (conforming to the
+C99 standard), which can then be compiled to object code by a compiler
+for C such as gcc. In the compilation from ATS to C, each of the types
+#dyncode("int"), #dyncode("double") and #dyncode("void") in ATS is
+translated to the type of the same name in C.
 
 ")
 
@@ -466,16 +466,6 @@ can be treated as the type #stacode("lint") and vice versa.\
 #stacode("string"):
 This type is for strings, and its translation in C is the type for
 pointers. I will explain this translation elsewhere.\
-")
-</listitem>
-
-<listitem>
-#para("\
-#stacode("void"):
-This type is for the void value, and its translation in C is the type of
-the same name. It should be noted that the void value is unspecified in
-ATS. I often say that a function returns no value if it returns the void
-value, and vice versa.\
 ")
 </listitem>
 

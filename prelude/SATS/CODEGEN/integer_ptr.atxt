@@ -1,13 +1,21 @@
 %{
 //
-#define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#define
+ATSCODEFORMAT "txt"
+//
+#if(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"integer_ptr.sats"
-val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 //
 #include "prelude_SATS_atext.hats"
+//
+val
+_thisfilename = atext_strcst"integer_ptr.sats"
+val ((*void*)) =
+theAtextMap_insert_str ("thisfilename", _thisfilename)
 //
 %}\
 \
@@ -16,17 +24,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("January, 2013")
+
+#atscode_separator()
+
 (*
 ** Source:
 ** $PATSHOME/prelude/SATS/CODEGEN/integer_ptr.atxt
 ** Time of generation: #timestamp()
 *)
-
-#atscode_separator()
-
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("January, 2013")
 
 #atscode_separator()
 //
@@ -67,7 +75,7 @@ fun g1uint2uint_ulint_uintptr{u:int}(ulint(u)):<> uintptr(u) = "mac\#%"
 //
 #atscode_separator()
 //
-#fun_g0int_type_aop_cmp_decl("intptr", "intptr")\
+#g0int_type_aop_cmp_decl("intptr", "intptr")\
 //
 #atscode_separator()
 //
@@ -75,7 +83,7 @@ fun g1uint2uint_ulint_uintptr{u:int}(ulint(u)):<> uintptr(u) = "mac\#%"
 //
 #atscode_separator()
 //
-#fun_g0uint_type_aop_cmp_decl("uintptr", "uintptr")\
+#g0uint_type_aop_cmp_decl("uintptr", "uintptr")\
 //
 #atscode_separator()
 //
@@ -83,11 +91,11 @@ fun g1uint2uint_ulint_uintptr{u:int}(ulint(u)):<> uintptr(u) = "mac\#%"
 //
 #atscode_separator()
 //
-#fun_g1int_type_aop_cmp_decl("intptr", "intptr")\
+#g1int_type_aop_cmp_decl("intptr", "intptr")\
 //
 #atscode_separator()
 //
-#fun_g1uint_type_aop_cmp_decl("uintptr", "uintptr")\
+#g1uint_type_aop_cmp_decl("uintptr", "uintptr")\
 //
 #atscode_separator()
 //

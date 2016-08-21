@@ -59,23 +59,24 @@ all::
 
 #make_entry("basics")
 
-#make_entry("pointer")
 #make_entry("integer")
+#make_entry("pointer")
+
+#make_entry("integer_size")
+#make_entry("integer_short")
 
 #make_entry("bool")
 #make_entry("char")
 #make_entry("float")
-
 #make_entry("integer_ptr")
 #make_entry("integer_fixed")
-
-#make_entry("memory")
 
 #make_entry("string")
 #make_entry("strptr")
 
-#make_entry("fprintf")
+#make_entry("memory")
 
+#make_entry("fprintf")
 #make_entry("filebas")
 
 #make_entry("list")

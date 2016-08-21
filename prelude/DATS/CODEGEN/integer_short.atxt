@@ -1,5 +1,4 @@
 %{
-//
 #define
 ATSCODEFORMAT "txt"
 //
@@ -13,7 +12,8 @@ ATSCODEFORMAT "txt"
 #include "prelude_DATS_atext.hats"
 //
 val
-_thisfilename = atext_strcst"integer_ptr.dats"
+_thisfilename =
+atext_strcst"integer_short.dats"
 val ((*void*)) =
 theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
@@ -31,7 +31,7 @@ theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/DATS/CODEGEN/integer_ptr.atxt
+** $PATSHOME/prelude/DATS/CODEGEN/integer_short.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -45,24 +45,24 @@ ATS_DYNLOADFLAG 0 // no dynloading
 staload UN = "prelude/SATS/unsafe.sats"
 //
 #atscode_separator()
-
+//
 implement
-g0int2int<intknd,intptrknd> = g0int2int_int_intptr
+g0int2int<sintknd,intknd> = g0int2int_sint_int
 implement
-g0int2int<lintknd,intptrknd> = g0int2int_lint_intptr
-
-#atscode_separator()
-
-implement
-g0uint2uint<uintknd,uintptrknd> = g0uint2uint_uint_uintptr
-implement
-g0uint2uint<ulintknd,uintptrknd> = g0uint2uint_ulint_uintptr
-
+g0int2uint<sintknd,uintknd> = g0int2uint_sint_uint
+//
 #atscode_separator()
 //
-#g0int_implist("intptrknd", "intptr", "intptr")
+implement
+g0uint2int<usintknd,intknd> = g0uint2int_usint_int
+implement
+g0uint2uint<usintknd,uintknd> = g0uint2uint_usint_uint
 //
-#g0uint_implist("uintptrknd", "uintptr", "uintptr")
+#atscode_separator()
+//
+#g0int_implist("sintknd", "sint", "sint")
+//
+#g0uint_implist("usintknd", "usint", "usint")
 //
 #atscode_separator()
 
@@ -71,5 +71,5 @@ g0uint2uint<ulintknd,uintptrknd> = g0uint2uint_ulint_uintptr
 %{
 implement
 main (argc, argv) =
-  fprint_filsub (stdout_ref, "integer_ptr_atxt.txt")
+  fprint_filsub (stdout_ref, "integer_short_atxt.txt")
 %}\

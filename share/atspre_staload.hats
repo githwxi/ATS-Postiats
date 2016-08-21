@@ -24,19 +24,28 @@ staload _ = "{$PATSPRE}/DATS/basics.dats"
 //
 (* ****** ****** *)
 //
+staload _ = "{$PATSPRE}/DATS/integer.dats"
 staload _ = "{$PATSPRE}/DATS/pointer.dats"
 //
 (* ****** ****** *)
 //
-staload _ = "{$PATSPRE}/DATS/integer.dats"
-staload _ = "{$PATSPRE}/DATS/integer_ptr.dats"
-staload _ = "{$PATSPRE}/DATS/integer_fixed.dats"
+staload _ = "{$PATSPRE}/DATS/integer_long.dats"
+staload _ = "{$PATSPRE}/DATS/integer_size.dats"
+staload _ = "{$PATSPRE}/DATS/integer_short.dats"
 //
 (* ****** ****** *)
 //
 staload _ = "{$PATSPRE}/DATS/char.dats"
+//
 staload _ = "{$PATSPRE}/DATS/bool.dats"
+//
 staload _ = "{$PATSPRE}/DATS/float.dats"
+//
+staload _ = "{$PATSPRE}/DATS/string.dats"
+staload _ = "{$PATSPRE}/DATS/strptr.dats"
+//
+staload _ = "{$PATSPRE}/DATS/integer_ptr.dats"
+staload _ = "{$PATSPRE}/DATS/integer_fixed.dats"
 //
 (* ****** ****** *)
 
@@ -45,14 +54,6 @@ staload _ = "{$PATSPRE}/DATS/tuple.dats"
 (* ****** ****** *)
 
 staload _ = "{$PATSPRE}/DATS/memory.dats"
-
-(* ****** ****** *)
-
-staload _ = "{$PATSPRE}/DATS/string.dats"
-staload _ = "{$PATSPRE}/DATS/strptr.dats"
-
-(* ****** ****** *)
-
 staload _ = "{$PATSPRE}/DATS/reference.dats"
 
 (* ****** ****** *)

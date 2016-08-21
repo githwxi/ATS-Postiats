@@ -33,6 +33,15 @@ clean:: ; $(RMF) basics_atxt.exe
 cleanall:: ; $(RMF) basics.cats
 
 
+all:: integer.cats
+integer.cats: integer_atxt.exe ; ./$< > $@
+integer_atxt.exe: integer_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ integer_atxt.dats -latsdoc
+integer_atxt.dats: integer.atxt
+	$(ATSDOC) --outcode $@ -i integer.atxt > integer_atxt.txt
+clean:: ; $(RMF) integer_atxt.exe
+cleanall:: ; $(RMF) integer.cats
+
 all:: pointer.cats
 pointer.cats: pointer_atxt.exe ; ./$< > $@
 pointer_atxt.exe: pointer_atxt.dats
@@ -42,14 +51,24 @@ pointer_atxt.dats: pointer.atxt
 clean:: ; $(RMF) pointer_atxt.exe
 cleanall:: ; $(RMF) pointer.cats
 
-all:: integer.cats
-integer.cats: integer_atxt.exe ; ./$< > $@
-integer_atxt.exe: integer_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ integer_atxt.dats -latsdoc
-integer_atxt.dats: integer.atxt
-	$(ATSDOC) --outcode $@ -i integer.atxt > integer_atxt.txt
-clean:: ; $(RMF) integer_atxt.exe
-cleanall:: ; $(RMF) integer.cats
+
+all:: integer_size.cats
+integer_size.cats: integer_size_atxt.exe ; ./$< > $@
+integer_size_atxt.exe: integer_size_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ integer_size_atxt.dats -latsdoc
+integer_size_atxt.dats: integer_size.atxt
+	$(ATSDOC) --outcode $@ -i integer_size.atxt > integer_size_atxt.txt
+clean:: ; $(RMF) integer_size_atxt.exe
+cleanall:: ; $(RMF) integer_size.cats
+
+all:: integer_short.cats
+integer_short.cats: integer_short_atxt.exe ; ./$< > $@
+integer_short_atxt.exe: integer_short_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ integer_short_atxt.dats -latsdoc
+integer_short_atxt.dats: integer_short.atxt
+	$(ATSDOC) --outcode $@ -i integer_short.atxt > integer_short_atxt.txt
+clean:: ; $(RMF) integer_short_atxt.exe
+cleanall:: ; $(RMF) integer_short.cats
 
 
 all:: bool.cats
@@ -79,7 +98,6 @@ float_atxt.dats: float.atxt
 clean:: ; $(RMF) float_atxt.exe
 cleanall:: ; $(RMF) float.cats
 
-
 all:: integer_ptr.cats
 integer_ptr.cats: integer_ptr_atxt.exe ; ./$< > $@
 integer_ptr_atxt.exe: integer_ptr_atxt.dats
@@ -97,16 +115,6 @@ integer_fixed_atxt.dats: integer_fixed.atxt
 	$(ATSDOC) --outcode $@ -i integer_fixed.atxt > integer_fixed_atxt.txt
 clean:: ; $(RMF) integer_fixed_atxt.exe
 cleanall:: ; $(RMF) integer_fixed.cats
-
-
-all:: memory.cats
-memory.cats: memory_atxt.exe ; ./$< > $@
-memory_atxt.exe: memory_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ memory_atxt.dats -latsdoc
-memory_atxt.dats: memory.atxt
-	$(ATSDOC) --outcode $@ -i memory.atxt > memory_atxt.txt
-clean:: ; $(RMF) memory_atxt.exe
-cleanall:: ; $(RMF) memory.cats
 
 
 all:: string.cats
@@ -128,6 +136,16 @@ clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.cats
 
 
+all:: memory.cats
+memory.cats: memory_atxt.exe ; ./$< > $@
+memory_atxt.exe: memory_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ memory_atxt.dats -latsdoc
+memory_atxt.dats: memory.atxt
+	$(ATSDOC) --outcode $@ -i memory.atxt > memory_atxt.txt
+clean:: ; $(RMF) memory_atxt.exe
+cleanall:: ; $(RMF) memory.cats
+
+
 all:: fprintf.cats
 fprintf.cats: fprintf_atxt.exe ; ./$< > $@
 fprintf_atxt.exe: fprintf_atxt.dats
@@ -136,7 +154,6 @@ fprintf_atxt.dats: fprintf.atxt
 	$(ATSDOC) --outcode $@ -i fprintf.atxt > fprintf_atxt.txt
 clean:: ; $(RMF) fprintf_atxt.exe
 cleanall:: ; $(RMF) fprintf.cats
-
 
 all:: filebas.cats
 filebas.cats: filebas_atxt.exe ; ./$< > $@

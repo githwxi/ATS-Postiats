@@ -904,25 +904,28 @@ val () = $CNSTR3.constraint3_initialize () // internalizing some maps
 //
 *)
 //
-val () =
-  pervasive_load(PATSHOME, "prelude/SATS/arith_prf.sats")
-//
 val () = pervasive_load(PATSHOME, "prelude/SATS/integer.sats")
 val () = pervasive_load(PATSHOME, "prelude/SATS/pointer.sats")
+//
+val () = pervasive_load(PATSHOME, "prelude/SATS/arith_prf.sats")
+//
+val () = pervasive_load(PATSHOME, "prelude/SATS/integer_long.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/integer_size.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/integer_short.sats")
 //
 val () = pervasive_load(PATSHOME, "prelude/SATS/bool.sats")
 val () = pervasive_load(PATSHOME, "prelude/SATS/char.sats")
 val () = pervasive_load(PATSHOME, "prelude/SATS/float.sats")
 //
-val () = pervasive_load(PATSHOME, "prelude/SATS/integer_ptr.sats")
-val () = pervasive_load(PATSHOME, "prelude/SATS/integer_fixed.sats")
-//
-val () = pervasive_load(PATSHOME, "prelude/SATS/memory.sats")
-//
 val () = pervasive_load(PATSHOME, "prelude/SATS/string.sats")
 val () = pervasive_load(PATSHOME, "prelude/SATS/strptr.sats")
 //
+val () = pervasive_load(PATSHOME, "prelude/SATS/integer_ptr.sats")
+val () = pervasive_load(PATSHOME, "prelude/SATS/integer_fixed.sats")
+//
 val () = pervasive_load(PATSHOME, "prelude/SATS/tuple.sats")
+//
+val () = pervasive_load(PATSHOME, "prelude/SATS/memory.sats")
 //
 val () = pervasive_load(PATSHOME, "prelude/SATS/reference.sats")
 //

@@ -85,11 +85,36 @@ lemma_subcls_transitive
   {c1,c2,c3:cls | c1 <= c2; c2 <= c3}(): [c1 <= c3] void
 //
 (* ****** ****** *)
-
-praxi praxi_int{i:int} ((*void*)): int(i)
-praxi praxi_ptr{l:addr} ((*void*)): ptr(l)
-praxi praxi_bool{b:bool} ((*void*)): bool(b)
-
+//
+praxi
+praxi_int{i:int} ((*void*)): int(i)
+//
+dataprop
+MUL_prop
+(
+  int, int, int
+) = // MUL_prop
+  | {n:int}
+    MULbas (0, n, 0)
+  | {m:nat}{n:int}{p:int}
+    MULind (m+1, n, p+n) of MUL_prop (m, n, p)
+  | {m:pos}{n:int}{p:int}
+    MULneg (~(m), n, ~(p)) of MUL_prop (m, n, p)
+//
+propdef MUL(m:int, n:int, mn:int) = MUL_prop(m, n, mn)
+//
+(* ****** ****** *)
+//
+// HX-2010-12-30: 
+//
+absprop
+DIVMOD (
+  x:int, y: int, q: int, r: int // x = q * y + r
+) // end of [DIVMOD]
+//
+propdef DIV (x:int, y:int, q:int) = [r:int] DIVMOD(x, y, q, r)
+propdef MOD (x:int, y:int, r:int) = [q:int] DIVMOD(x, y, q, r)
+//
 (* ****** ****** *)
 
 dataprop
@@ -105,6 +130,11 @@ prfun
 eqint_make_guint
   {tk:tk}{x:int}(x: g1uint(tk, x)): [y:int] EQINT(x, y)
 //
+(* ****** ****** *)
+
+praxi praxi_ptr{l:addr} ((*void*)): ptr(l)
+praxi praxi_bool{b:bool} ((*void*)): bool(b)
+
 (* ****** ****** *)
 
 dataprop

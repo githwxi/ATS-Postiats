@@ -125,6 +125,10 @@ val () = emit_text (out, "#include \"prelude/CATS/integer.cats\"\n")
 //
 val () = emit_text (out, "#include \"prelude/CATS/pointer.cats\"\n")
 //
+val () = emit_text (out, "#include \"prelude/CATS/integer_long.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/integer_size.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/integer_short.cats\"\n")
+//
 val () = emit_text (out, "#include \"prelude/CATS/bool.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/char.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/float.cats\"\n")
