@@ -670,7 +670,7 @@ val () = res := list_cons(fopr("div", tnm1, tnm2), res)
 val () = res := list_cons(fopr("mod", tnm1, tnm2), res)
 (*
 val () =
-res := list_cons(fopr("nmod", tnm1, tnm2), res) // skipped
+res := list_cons(fopr("nmod", tnm1, tnm2), res) // HX: skipped
 *)
 //
 val () = res := list_cons(fopr("lt", tnm1, tnm2), res)

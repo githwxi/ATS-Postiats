@@ -64,6 +64,59 @@ atspre_g0uint2int_uint_ssize(x) ((atstype_ssize)(x))
 atspre_g1uint2int_uint_ssize(x) atspre_g0uint2int_uint_ssize(x)
 //
 #atscode_separator_for_C()
+//
+\#define \\
+atspre_g0int2uint_lint_size(x) ((atstype_size)(x))
+\#define \\
+atspre_g1int2uint_lint_size(x) atspre_g0int2uint_lint_size(x)
+\#define \\
+atspre_g0uint2uint_ulint_size(x) ((atstype_size)(x))
+\#define \\
+atspre_g1uint2uint_ulint_size(x) atspre_g0uint2uint_ulint_size(x)
+//
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0int2int_lint_ssize(ssz) ((atstype_ssize)(ssz))
+\#define \\
+atspre_g1int2int_lint_ssize(ssz) atspre_g0int2int_lint_ssize(ssz)
+//
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0uint2int_size_int(sz) ((atstype_int)(sz))
+\#define \\
+atspre_g1uint2int_size_int(sz) atspre_g0uint2int_size_int(sz)
+//
+\#define \\
+atspre_g0uint2uint_size_uint(sz) ((atstype_uint)(sz))
+\#define \\
+atspre_g1uint2uint_size_uint(sz) atspre_g0uint2uint_size_uint(sz)
+//
+\#define \\
+atspre_g0uint2uint_size_size(sz) ((atstype_size)(sz))
+\#define \\
+atspre_g1uint2uint_size_size(sz) atspre_g0uint2uint_size_size(sz)
+//
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0int2int_ssize_int(ssz) ((atstype_int)(ssz))
+\#define \\
+atspre_g1int2int_ssize_int(ssz) atspre_g0int2int_ssize_int(ssz)
+//
+\#define \\
+atspre_g0int2uint_ssize_uint(ssz) ((atstype_uint)(ssz))
+\#define \\
+atspre_g1int2uint_ssize_uint(ssz) atspre_g0int2uint_ssize_uint(ssz)
+//
+\#define \\
+atspre_g0int2int_ssize_ssize(ssz) ((atstype_ssize)(ssz))
+\#define \\
+atspre_g1int2int_ssize_ssize(ssz) atspre_g0int2int_ssize_ssize(ssz)
+//
+#atscode_separator_for_C()
+//
 \#define \\
 atspre_g0uint2int_size_ssize(sz) ((atstype_ssize)(sz))
 \#define \\

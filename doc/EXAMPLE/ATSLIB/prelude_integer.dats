@@ -1,5 +1,6 @@
 (*
-** for testing [prelude/float]
+** For testing
+** [prelude/integer]
 *)
 
 (* ****** ****** *)

@@ -105,6 +105,13 @@ in
   atext_concatxt(list_of_list_vt(list_reverse(res)))
 end // end of [g0int_implist]
 //
+fun
+g0sint_implist
+(
+  knm: string
+, tnm: string, tnm2: string
+) : atext = g0int_implist(knm, tnm, tnm2)
+//
 (* ****** ****** *)
 //
 fun
@@ -232,9 +239,6 @@ val () = res := list_cons(fopr"sub", res)
 val () = res := list_cons(fopr"mul", res)
 val () = res := list_cons(fopr"div", res)
 val () = res := list_cons(fopr"mod", res)
-(*
-val () = res := list_cons(fopr"nmod", res) // HX: skipped
-*)
 //
 val () = res := list_cons(fopr"lsl", res)
 val () = res := list_cons(fopr"lsr", res)
@@ -308,9 +312,11 @@ val () = res := list_cons(fopr"sub", res)
 val () = res := list_cons(fopr"mul", res)
 val () = res := list_cons(fopr"div", res)
 val () = res := list_cons(fopr"mod", res)
+//
 (*
-val () = res := list_cons(fopr"nmod", res) // HX: skipped
+val () = res := list_cons(fopr"mod", res) // HX: skipped
 *)
+//
 val () = res := list_cons(fopr"isgtz", res)
 val () = res := list_cons(fopr"iseqz", res)
 val () = res := list_cons(fopr"isneqz", res)
@@ -330,6 +336,13 @@ val () = res := list_cons(fopr"min", res)
 in
   atext_concatxt(list_of_list_vt(list_reverse(res)))
 end // end of [g1uint_implist]
+//
+fun
+g1sint_implist
+(
+  knm: string
+, tnm: string, tnm2: string
+) : atext = g1int_implist(knm, tnm, tnm2)
 //
 (* ****** ****** *)
 

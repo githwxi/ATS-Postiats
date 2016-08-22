@@ -55,28 +55,40 @@ fun g0int2int_int_ssize(int):<> ssize_t = "mac\#%"
 fun g0uint2int_uint_ssize(uint):<> ssize_t = "mac\#%"
 //
 #atscode_separator()
-
-fun g0uint2int_size_ssize(size_t):<> ssize_t = "mac\#%"
-fun g0int2uint_ssize_size(ssize_t):<> size_t = "mac\#%"
-
+//
+fun g0int2uint_lint_size(lint):<> size_t = "mac\#%"
+fun g0uint2uint_ulint_size(ulint):<> size_t = "mac\#%"
+//
+fun g0int2int_lint_ssize(lint):<> ssize_t = "mac\#%"
+fun g0uint2int_ulint_ssize(ulint):<> ssize_t = "mac\#%"
+//
 #atscode_separator()
 //
 fun g0uint2int_size_int(size_t):<> int = "mac\#%"
+fun g0uint2int_size_lint(size_t):<> lint = "mac\#%"
+fun g0uint2int_size_llint(size_t):<> llint = "mac\#%"
+//
+fun g0uint2int_size_ssize(size_t):<> ssize_t = "mac\#%"
 //
 fun g0uint2uint_size_uint(size_t):<> uint = "mac\#%"
 fun g0uint2uint_size_ulint(size_t):<> ulint = "mac\#%"
 fun g0uint2uint_size_ullint(size_t):<> ullint = "mac\#%"
 //
-fun g0uint2uint_size_size(size_t):<> size_t = "mac\#%"
+fun g0uint2uint_size_size(sz: size_t):<> size_t = "mac\#%"
 //
 #atscode_separator()
 //
-fun g0int2int_ssize_int(x: ssize_t):<> int = "mac\#%"
+fun g0int2int_ssize_int(ssize_t):<> int = "mac\#%"
+fun g0int2int_ssize_lint(ssize_t):<> lint = "mac\#%"
+fun g0int2int_ssize_llint(ssize_t):<> llint = "mac\#%"
 //
-fun g0int2int_ssize_lint(x: ssize_t):<> lint = "mac\#%"
-fun g0int2int_ssize_llint(x: ssize_t):<> llint = "mac\#%"
+fun g0int2int_ssize_ssize(ssize_t):<> ssize_t = "mac\#%"
 //
-fun g0int2int_ssize_ssize(x: ssize_t):<> ssize_t = "mac\#%"
+fun g0int2uint_ssize_uint(ssize_t):<> uint = "mac\#%"
+fun g0int2uint_ssize_ulint(ssize_t):<> ulint = "mac\#%"
+fun g0int2uint_ssize_ullint(ssize_t):<> ullint = "mac\#%"
+//
+fun g0int2uint_ssize_size(ssz: ssize_t):<> size_t = "mac\#%"
 //
 #atscode_separator()
 //
@@ -101,34 +113,53 @@ fun g0string2int_ssize(rep: NSH(string)):<> ssize_t = "mac\#%"
 #atscode_separator()
 //
 fun
-g1int2uint_int_size
-  {i:nat}(int(i)):<> size_t(i) = "mac\#%"
+g1int2uint_int_size:
+g1int2uint_type(intknd, sizeknd) = "mac#\%"
 fun
-g1uint2uint_uint_size
-  {i:int}(uint(i)):<> size_t(i) = "mac\#%"
+g1uint2uint_uint_size:
+g1uint2uint_type(uintknd, sizeknd) = "mac#\%"
 //
 fun
-g1int2int_int_ssize
-  {i:int}(int(i)):<> ssize_t(i) = "mac\#%"
+g1int2int_int_ssize:
+g1int2int_type(intknd, ssizeknd) = "mac#\%"
 fun
-g1uint2int_uint_ssize
-  {i:int}(uint(i)):<> ssize_t(i) = "mac\#%"
+g1uint2int_uint_ssize:
+g1uint2int_type(uintknd, ssizeknd) = "mac#\%"
 //
 #atscode_separator()
 //
 fun
-g1uint2int_size_int
-  {i:int}(size_t(i)):<> int(i) = "mac\#%"
+g1uint2int_size_int:
+g1uint2int_type(sizeknd, intknd) = "mac#\%"
 fun
-g1uint2uint_size_uint
-  {i:int}(size_t(i)):<> uint(i) = "mac\#%"
+g1uint2uint_size_uint:
+g1uint2uint_type(sizeknd, uintknd) = "mac#\%"
 //
 fun
-g1int2int_ssize_int
-  {i:int}(ssize_t(i)):<> int(i) = "mac\#%"
+g1uint2uint_size_size:
+g1uint2uint_type(sizeknd, sizeknd) = "mac#\%"
+//
+#atscode_separator()
+//
 fun
-g1int2uint_ssize_uint
-  {i:nat}(ssize_t(i)):<> uint(i) = "mac\#%"
+g1int2int_ssize_int:
+g1int2int_type(ssizeknd, intknd) = "mac#\%"
+fun
+g1int2uint_ssize_uint:
+g1int2uint_type(ssizeknd, uintknd) = "mac#\%"
+//
+fun
+g1int2int_ssize_ssize:
+g1int2int_type(ssizeknd, ssizeknd) = "mac#\%"
+//
+#atscode_separator()
+//
+fun
+g1uint2int_size_ssize:
+g1uint2int_type(sizeknd, ssizeknd) = "mac#\%"
+fun
+g1int2uint_ssize_size:
+g1int2uint_type(ssizeknd, sizeknd) = "mac#\%"
 //
 #atscode_separator()
 //

@@ -60,6 +60,7 @@ fun g0int2int_lint_int(lint):<> int = "mac\#%"
 fun g0int2int_lint_lint(lint):<> lint = "mac\#%"
 fun g0int2int_lint_llint(lint):<> llint = "mac\#%"
 //
+fun g0int2uint_lint_uint(lint):<> uint = "mac\#%"
 fun g0int2uint_lint_ulint(lint):<> ulint = "mac\#%"
 fun g0int2uint_lint_ullint(lint):<> ullint = "mac#%"
 //
@@ -67,7 +68,9 @@ fun g0int2uint_lint_ullint(lint):<> ullint = "mac#%"
 //
 fun g0uint2int_ulint_int(ulint):<> int = "mac\#%"
 fun g0uint2int_ulint_lint(ulint):<> lint = "mac\#%"
+fun g0uint2int_ulint_llint(ulint):<> llint = "mac\#%"
 //
+fun g0uint2uint_ulint_uint(ulint):<> uint = "mac\#%"
 fun g0uint2uint_ulint_ulint(ulint):<> ulint = "mac\#%"
 fun g0uint2uint_ulint_ullint(ulint):<> ullint = "mac\#%"
 //
@@ -80,18 +83,23 @@ fun g0int2uint_int_ullint(int):<> ullint = "mac\#%"
 fun g0uint2uint_uint_ullint(uint):<> ullint = "mac\#%"
 //
 #atscode_separator()
-
-fun g0int2uint_llint_ullint(llint):<> ullint = "mac\#%"
-fun g0uint2int_ullint_llint(ullint):<> llint = "mac\#%"
-
-#atscode_separator()
 //
 fun g0int2int_llint_int(llint):<> int = "mac\#%"
+fun g0int2int_llint_lint(llint):<> lint = "mac\#%"
 fun g0int2int_llint_llint(llint):<> llint = "mac\#%"
 //
-fun g0uint2int_ulint_int(ulint):<> int = "mac\#%"
+fun g0int2uint_llint_uint(llint):<> uint = "mac\#%"
+fun g0int2uint_llint_ulint(llint):<> ulint = "mac\#%"
+fun g0int2uint_llint_ullint(llint):<> ullint = "mac\#%"
+//
+#atscode_separator()
+//
+fun g0uint2int_ullint_int(ullint):<> int = "mac\#%"
+fun g0uint2int_ullint_lint(ullint):<> lint = "mac\#%"
+fun g0uint2int_ullint_llint(ullint):<> llint = "mac\#%"
 //
 fun g0uint2uint_ullint_uint(ullint):<> uint = "mac\#%"
+fun g0uint2uint_ullint_ulint(ullint):<> ulint = "mac\#%"
 fun g0uint2uint_ullint_ullint(ullint):<> ullint = "mac\#%"
 //
 #atscode_separator()
@@ -151,27 +159,27 @@ g0string2uint_ullint(rep: NSH(string)):<> ullint = "mac\#%"
 #atscode_separator()
 //
 fun
-g1int2int_int_lint
-  {i:int}(int(i)):<> lint(i) = "mac\#%"
+g1int2int_int_lint:
+g1int2int_type(intknd, lintknd) = "mac\#%"
 fun
-g1int2int_int_llint
-  {i:int}(int(i)):<> llint(i) = "mac\#%"
+g1int2int_int_llint:
+g1int2int_type(intknd, llintknd) = "mac\#%"
 //
 fun
-g1int2int_lint_lint
-  {i:int}(lint(i)):<> lint(i) = "mac\#%"
+g1int2int_lint_lint:
+g1int2int_type(lintknd, lintknd) = "mac\#%"
 fun
-g1int2int_lint_llint
-  {i:int}(lint(i)):<> llint(i) = "mac\#%"
+g1int2int_lint_llint:
+g1int2int_type(lintknd, llintknd) = "mac\#%"
 //
 #atscode_separator()
 //
 fun
-g1int2uint_int_ulint
-  {i:nat}(int(i)):<> ulint(i) = "mac\#%"
+g1int2uint_int_ulint:
+g1int2uint_type(intknd, ulintknd) = "mac\#%"
 fun
-g1int2uint_int_ullint
-  {i:nat}(int(i)):<> ullint(i) = "mac\#%"
+g1int2uint_int_ullint:
+g1int2uint_type(intknd, ullintknd) = "mac\#%"
 //
 #atscode_separator()
 //

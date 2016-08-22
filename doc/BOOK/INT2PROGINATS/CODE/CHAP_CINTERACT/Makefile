@@ -19,6 +19,10 @@ ATSCCFLAGS=-O2
 
 ######
 
+all::
+
+######
+
 distclean:: cleanall
 
 ######

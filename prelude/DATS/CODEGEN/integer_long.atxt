@@ -52,9 +52,9 @@ implement
 g1int2int<intknd,lintknd> = g1int2int_int_lint
 //
 implement
-g0int2int<intknd,llintknd> = g0int2int_int_llint
+g0uint2int<uintknd,lintknd> = g0uint2int_uint_lint
 implement
-g1int2int<intknd,llintknd> = g1int2int_int_llint
+g1uint2int<uintknd,lintknd> = g1uint2int_uint_lint
 //
 #atscode_separator()
 //
@@ -64,14 +64,62 @@ implement
 g1int2uint<intknd,ulintknd> = g1int2uint_int_ulint
 //
 implement
+g0uint2uint<uintknd,ulintknd> = g0uint2uint_uint_ulint
+implement
+g1uint2uint<uintknd,ulintknd> = g1uint2uint_uint_ulint
+//
+#atscode_separator()
+//
+implement
+g0int2int<intknd,llintknd> = g0int2int_int_llint
+implement
+g1int2int<intknd,llintknd> = g1int2int_int_llint
+//
+implement
+g0uint2int<uintknd,llintknd> = g0uint2int_uint_llint
+implement
+g1uint2int<uintknd,llintknd> = g1uint2int_uint_llint
+//
+#atscode_separator()
+//
+implement
 g0int2uint<intknd,ullintknd> = g0int2uint_int_ullint
 implement
 g1int2uint<intknd,ullintknd> = g1int2uint_int_ullint
 //
 implement
+g0uint2uint<uintknd,ullintknd> = g0uint2uint_uint_ullint
+implement
+g1uint2uint<uintknd,ullintknd> = g1uint2uint_uint_ullint
+//
+#atscode_separator()
+//
+implement
+g0int2int<lintknd,lintknd> = g0int2int_lint_lint
+implement
+g0int2int<lintknd,llintknd> = g0int2int_lint_llint
+//
+implement
 g0int2uint<lintknd,ulintknd> = g0int2uint_lint_ulint
 implement
 g0int2uint<lintknd,ullintknd> = g0int2uint_lint_ullint
+//
+#atscode_separator()
+//
+implement
+g0uint2int<ulintknd,lintknd> = g0uint2int_ulint_lint
+implement
+g0uint2int<ulintknd,llintknd> = g0uint2int_ulint_llint
+//
+implement
+g0uint2uint<ulintknd,ulintknd> = g0uint2uint_ulint_ulint
+implement
+g0uint2uint<ulintknd,ullintknd> = g0uint2uint_ulint_ullint
+//
+#atscode_separator()
+//
+implement
+g0int2int<llintknd,llintknd> = g0int2int_llint_llint
 //
 implement
 g0int2uint<llintknd,ullintknd> = g0int2uint_llint_ullint
@@ -79,24 +127,10 @@ g0int2uint<llintknd,ullintknd> = g0int2uint_llint_ullint
 #atscode_separator()
 //
 implement
-g0uint2int<uintknd,lintknd> = g0uint2int_uint_lint
-implement
-g1uint2int<uintknd,lintknd> = g1uint2int_uint_lint
+g0uint2int<ullintknd,llintknd> = g0uint2int_ullint_llint
 //
 implement
-g0uint2int<uintknd,llintknd> = g0uint2int_uint_llint
-implement
-g1uint2int<uintknd,llintknd> = g1uint2int_uint_llint
-//
-implement
-g0uint2uint<uintknd,ulintknd> = g0uint2uint_uint_ulint
-implement
-g1uint2uint<uintknd,ulintknd> = g1uint2uint_uint_ulint
-//
-implement
-g0uint2uint<uintknd,ullintknd> = g0uint2uint_uint_ullint
-implement
-g1uint2uint<uintknd,ullintknd> = g1uint2uint_uint_ullint
+g0uint2uint<ullintknd,ullintknd> = g0uint2uint_ullint_ullint
 //
 #atscode_separator()
 //

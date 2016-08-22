@@ -73,6 +73,18 @@ atspre_g1uint2int_usint_sint(x) atspre_g0uint2int_sint_usint(x)
 //
 #atscode_separator_for_C()
 //
+\#define \\
+atspre_g0int2int_sint_int(x) ((atstype_int)(x))
+\#define \\
+atspre_g1int2int_sint_int(x) atspre_g0int2int_sint_int(x)
+//
+\#define \\
+atspre_g0uint2uint_usint_uint(x) ((atstype_uint)(x))
+\#define \\
+atspre_g1uint2uint_usint_uint(x) atspre_g0uint2uint_usint_uint(x)
+//
+#atscode_separator_for_C()
+//
 #g0int_implist("sint")\
 //
 #g1int_implist("sint")\

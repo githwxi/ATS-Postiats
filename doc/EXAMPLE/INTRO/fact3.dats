@@ -6,13 +6,8 @@
 
 (* ****** ****** *)
 //
-staload "prelude/DATS/integer.dats"
-staload "prelude/DATS/pointer.dats"
-staload "prelude/DATS/array.dats"
-staload "prelude/DATS/arrayptr.dats"
-staload "prelude/DATS/arrayref.dats"
-//
-staload _UN = "prelude/DATS/unsafe.dats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -29,7 +24,7 @@ array_foreach$fwork<a><tenv> (x, env) = env := env * (x+1)
 //
 var env: tenv = 1
 //
-val _ = arrayptr_foreach_env<a><tenv> (A, g1int2uint (n), env)
+val _ = arrayptr_foreach_env<a><tenv> (A, g1int2uint(n), env)
 //
 val () = arrayptr_free (A)
 //

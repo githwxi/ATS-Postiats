@@ -6,6 +6,8 @@
 //
 staload
 "prelude/DATS/integer.dats"
+staload
+"prelude/DATS/integer_long.dats"
 //
 (* ****** ****** *)
 

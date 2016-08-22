@@ -1054,14 +1054,30 @@ overload g1ofg0 with g1ofg0_uint // index-inducing
 //
 #atscode_separator()
 //
+typedef
+g1int2int_type
+  (k1:tk, k2:tk) = 
+  {i:int}
+  (g1int(k1, i)) -<fun0> g1int(k2, i)
+typedef
+g1int2uint_type
+  (k1:tk, k2:tk) =
+  {i:nat}
+  (g1int(k1, i)) -<fun0> g1uint(k2, i)
+//
 fun{
 k1,k2:tk
-} g1int2uint // i2u
-  {i:nat}(g1int(k1, i)):<> g1uint(k2, i)
+} g1int2int : g1int2int_type(k1, k2)
+fun{
+k1,k2:tk
+} g1int2uint : g1int2uint_type(k1, k2)
 //
 fun
-g1int2uint_int_uint
-  {i:nat}(i0: int(i)):<> uint(i) = "mac\#%"
+g1int2int_int_int:
+g1int2int_type(intknd, intknd) = "mac\#%"
+fun
+g1int2uint_int_uint:
+g1int2uint_type(intknd, uintknd) = "mac\#%"
 //
 #atscode_separator()
 //
@@ -1070,8 +1086,8 @@ g1uint2int_type
   (k1:tk, k2:tk) = 
   {u:int}
 (
-  g1uint (k1, u)
-) -<fun0> [u>=0] g1int (k2, u)
+  g1uint(k1, u)
+) -<fun0> [u>=0] g1int(k2, u)
 typedef
 g1uint2uint_type
   (k1:tk, k2:tk) =
