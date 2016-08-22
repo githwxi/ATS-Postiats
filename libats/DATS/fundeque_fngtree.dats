@@ -54,8 +54,15 @@ ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
 
 staload
 UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload
 _(*anon*) = "prelude/DATS/integer.dats"
+staload
+_(*anon*) = "prelude/DATS/integer_long.dats"
+staload
+_(*anon*) = "prelude/DATS/integer_size.dats"
 
 (* ****** ****** *)
 //

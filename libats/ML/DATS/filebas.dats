@@ -37,11 +37,18 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/integer.dats"
+staload
+_(*anon*) = "prelude/DATS/integer.dats"
+staload
+_(*anon*) = "prelude/DATS/integer_size.dats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/filebas.dats"
 
 (* ****** ****** *)

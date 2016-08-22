@@ -128,12 +128,20 @@ atslib:: atslib_prelude
 
 ######
 
+#make_entry("prelude", "integer.dats")
+#make_entry("prelude", "pointer.dats")
+
+#make_entry("prelude", "integer_long.dats")
+#make_entry("prelude", "integer_size.dats")
+#make_entry("prelude", "integer_short.dats")
+
 #make_entry("prelude", "bool.dats")
 #make_entry("prelude", "char.dats")
-#make_entry("prelude", "integer.dats")
 #make_entry("prelude", "float.dats")
 #make_entry("prelude", "string.dats")
 #make_entry("prelude", "strptr.dats")
+#make_entry("prelude", "integer_ptr.dats")
+#make_entry("prelude", "integer_fixed.dats")
 
 ######
 

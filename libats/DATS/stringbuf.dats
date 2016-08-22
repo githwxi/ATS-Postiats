@@ -41,6 +41,12 @@
 //
 staload
 _ = "prelude/DATS/integer.dats"
+staload
+_ = "prelude/DATS/integer_long.dats"
+staload
+_ = "prelude/DATS/integer_size.dats"
+//
+(* ****** ****** *)
 //
 staload
 _ = "prelude/DATS/array.dats"
