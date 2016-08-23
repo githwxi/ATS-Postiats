@@ -381,6 +381,7 @@ The ATS/Postiats (ATS2) Compiler\
 #packfilename("pats_codegen2.sats")
 #packfilename("pats_codegen2.dats")
 #packfilename("pats_codegen2_util.dats")
+#packfilename("pats_codegen2_absrec.dats")
 #packfilename("pats_codegen2_datype.dats")
 #packfilename("pats_codegen2_fprint.dats")
 
