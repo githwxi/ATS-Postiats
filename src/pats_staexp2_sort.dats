@@ -336,13 +336,15 @@ s2rt_is_float
   (s2t) = (
 //
 case+ s2t of
-| S2RTbas(s2tb) => (
-  case+ s2tb of
-  | S2RTBASpre (sym) =>
-      sym = $SYM.symbol_FLOAT
-  | _ (*non-S2RTBASpre*) => false
-  ) // end of [S2RTbas]
-  | _ (*non-S2RTbas*) => false
+| S2RTbas(s2tb) =>
+  (
+    case+ s2tb of
+    | S2RTBASpre(sym) =>
+        sym = $SYM.symbol_FLOAT
+      (* S2RTBASpre *)
+    | _ (*non-S2RTBASpre*) => false
+  ) (* [S2RTbas] *)
+| _ (*non-S2RTbas*) => false
 //
 ) // end of [s2rt_is_float]
 
@@ -352,11 +354,12 @@ implement
 s2rt_is_dat(s2t) =
 (
 case+ s2t of
-| S2RTbas(s2tb) => (
-  case+ s2tb of
-  | S2RTBASdef( _ ) => true | _ => false
+| S2RTbas(s2tb) =>
+  (
+    case+ s2tb of
+    | S2RTBASdef( _ ) => true | _ => false
   ) (* end of [S2RTbas] *)
-| _ (*non-S2RTbas*) => false // end of [S2RTbas]
+| _ (*non-S2RTbas*) => false
 ) // end of [s2rt_is_dat]
 
 (* ****** ****** *)
@@ -373,7 +376,7 @@ s2rt_is_prf(s2t) =
 case+ s2t of
 | S2RTbas s2tb => (
   case+ s2tb of
-  | S2RTBASimp(knd, _) => test_prfkind (knd) | _ => false
+  | S2RTBASimp(knd, _) => test_prfkind(knd) | _ => false
   ) // end of [S2RTbas]
 | _ (*non-S2RTbas*) => false // end of [_]
 ) // end of [s2rt_is_prf]
@@ -413,7 +416,7 @@ case+ s2t of
   | S2RTBASimp(knd, _) => test_fltkind(knd) | _ => false
   ) // end of [S2RTbas]
 | _ (*non-S2RTbas*) => false // end of [_]
-) // end of [s2rt_is_flat]
+) (* end of [s2rt_is_flat] *)
 
 implement
 s2rt_is_boxed(s2t) =
@@ -424,7 +427,7 @@ case+ s2t of
   | S2RTBASimp(knd, _) => test_boxkind(knd) | _ => false
   ) // end of [S2RTbas]
 | _ (*non-S2RTbas*) => false // end of [_]
-) // end of [s2rt_is_boxed]
+) (* end of [s2rt_is_boxed] *)
 
 (* ****** ****** *)
 
@@ -437,7 +440,7 @@ case+ s2t of
   | S2RTBASimp(knd, _) => test_prgmkind(knd) | _ => false
   ) // end of [S2RTbas]
 | _ (*non-S2RTbas*) => false // end of [_]
-) // end of [s2rt_is_prgm]
+) (* end of [s2rt_is_prgm] *)
 
 (* ****** ****** *)
 
@@ -476,40 +479,46 @@ local
 fun
 s2rt_test_fun
 (
-  s2t: s2rt, f: s2rt -> bool
+  s2t: s2rt, ft: s2rt -> bool
 ): bool = (
   case+ s2t of
-  | S2RTfun (_, s2t) => s2rt_test_fun (s2t, f) | _ => f (s2t)
+  | S2RTfun(_, s2t) =>
+      s2rt_test_fun(s2t, ft)
+    // end of [S2RTfun]
+  | _ (*non-S2RTfun*) => ft(s2t)
 ) // end of [s2rt_test_fun]
 
 in (* in-of-local *)
-
+//
 implement
 s2rt_is_lin_fun
-  (s2t) = s2rt_test_fun (s2t, s2rt_is_lin)
-// end of [s2rt_is_lin_fun]
-
+  (s2t) = s2rt_test_fun(s2t, s2rt_is_lin)
+//
 implement
 s2rt_is_boxed_fun
-  (s2t) = s2rt_test_fun (s2t, s2rt_is_boxed)
-// end of [s2rt_is_boxed_fun]
-
+  (s2t) = s2rt_test_fun(s2t, s2rt_is_boxed)
+//
 implement
 s2rt_is_tkind_fun
-  (s2t) = s2rt_test_fun (s2t, s2rt_is_tkind)
-// end of [s2rt_is_tkind_fun]
-
+  (s2t) = s2rt_test_fun(s2t, s2rt_is_tkind)
+//
 end // end of [local]
 
 (* ****** ****** *)
 
 implement
-s2rt_get_pol (s2t) = case+ s2t of
-  | S2RTbas (s2tb) => (case+ s2tb of
-    | S2RTBASimp (knd, _) => test_polkind (knd) | _ => 0
-    ) // end of [S2RTbas]
-  | _ => 0 // polarity is neutral
-// end of [s2rt_get_pol]
+s2rt_get_pol(s2t) =
+(
+//
+case+ s2t of
+| S2RTbas(s2tb) =>
+  (
+  case+ s2tb of
+  | S2RTBASimp(knd, _) => test_polkind(knd) | _ => 0
+  ) (* end of [S2RTbas] *)
+| _ (* non-S2RTbas *) => 0 // 0: polarity is neutral
+//
+) (* end of [s2rt_get_pol] *)
 
 (* ****** ****** *)
 
