@@ -61,10 +61,18 @@ datcontag_test_e1xp(name: e1xp): bool
 //
 fun fprint_test_e1xp(name: e1xp): bool
 //
+fun absrec_test_e1xp(name: e1xp): bool
+//
 (* ****** ****** *)
 //
 fun
 codegen2_get_s2cst
+  (name: e1xp): Option_vt(s2cst)
+//
+(* ****** ****** *)
+//
+fun
+codegen2_get_tydef
   (name: e1xp): Option_vt(s2cst)
 fun
 codegen2_get_datype
@@ -117,11 +125,21 @@ codegen2_datcontag
 (* ****** ****** *)
 //
 (*
-#codegen2(fprint, [datatype])
+#codegen2(fprint, [datatype], <fprint_name>)
 *)
 //
 fun
 codegen2_fprint
+  (out: FILEref, d2c0: d2ecl, xs: e1xplst): void
+//
+(* ****** ****** *)
+//
+(*
+#codegen2(absrec, [rectype], <rectype_name>)
+*)
+//
+fun
+codegen2_absrec
   (out: FILEref, d2c0: d2ecl, xs: e1xplst): void
 //
 (* ****** ****** *)

@@ -34,24 +34,26 @@
 (* ****** ****** *)
 //
 staload
-ATSPRE = "./pats_atspre.dats"
+ATSPRE =
+"./pats_atspre.dats"
+//
+(* ****** ****** *)
+//
+staload
+UNSAFE =
+"prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+staload
+LOC = "./pats_location.sats"
+//
+macdef
+location_combine = $LOC.location_combine
 //
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
 staload UT = "./pats_utils.sats"
-
-(* ****** ****** *)
-
-staload LOC = "./pats_location.sats"
-macdef location_combine = $LOC.location_combine
-
-(* ****** ****** *)
-
 staload LEX = "./pats_lexing.sats"
 
 (* ****** ****** *)
@@ -64,10 +66,13 @@ staload "./pats_dynexp2.sats"
 #include "./pats_basics.hats"
 
 (* ****** ****** *)
-
+//
+macdef
+list_sing(x) =
+list_cons(,(x), list_nil)
+//
 #define l2l list_of_list_vt
-macdef list_sing (x) = list_cons (,(x), list_nil)
-
+//
 (* ****** ****** *)
 
 implement
@@ -268,8 +273,8 @@ p2at_rec
       | list_nil () => list_vt_nil ()
     // end of [aux]
   } // end of [val]
-  val svs = p2atlst_svs_union ($UN.castvwtp1(p2ts))
-  val dvs = p2atlst_dvs_union ($UN.castvwtp1(p2ts))
+  val svs = p2atlst_svs_union ($UNSAFE.castvwtp1(p2ts))
+  val dvs = p2atlst_dvs_union ($UNSAFE.castvwtp1(p2ts))
   val () = list_vt_free (p2ts)
 in
   p2at_make_node (loc, svs, dvs, P2Trec (knd, npf, lp2ts))

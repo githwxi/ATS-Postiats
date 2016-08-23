@@ -295,11 +295,11 @@ stamp_vt{a:vt@ype}(x: a):<> stamped_vt(a)
 
 castfn
 unstamp_t
-  {a:t@ype}{x:int} (x: stamped_t (INV(a), x)):<> a
+  {a:t@ype}{x:int}(x: stamped_t(INV(a), x)):<> a
 // end of [unstamp_t]
 castfn
 unstamp_vt
-  {a:vt@ype}{x:int} (x: stamped_vt (INV(a), x)):<> a
+  {a:vt@ype}{x:int}(x: stamped_vt(INV(a), x)):<> a
 // end of [unstamp_vt]
 
 (* ****** ****** *)
@@ -307,25 +307,27 @@ unstamp_vt
 castfn
 stamped_t2vt
   {a:t@ype}{x:int}
-  (x: stamped_t(INV(a), x)):<> stamped_vt (a, x)
+  (x: stamped_t(INV(a), x)):<> stamped_vt(a, x)
 // end of [stamped_t2vt]
 //
 castfn
 stamped_vt2t
   {a:t@ype}{x:int}
-  (x: stamped_vt(INV(a), x)):<> stamped_t (a, x)
+  (x: stamped_vt(INV(a), x)):<> stamped_t(a, x)
 // end of [stamped_vt2t]
 //
 fun{a:t@ype}
 stamped_vt2t_ref{x:int}
-  (x: &stamped_vt(INV(a), x)):<> stamped_t (a, x)
+  (x: &stamped_vt(INV(a), x)):<> stamped_t(a, x)
 //
 (* ****** ****** *)
 //
 praxi
-vcopyenv_v_decode{v:view} (x: vcopyenv_v (v)): vtakeout0 (v)
+vcopyenv_v_decode
+  {v:view}(x: vcopyenv_v(v)): vtakeout0(v)
 castfn
-vcopyenv_vt_decode{vt:vt0p} (x: vcopyenv_vt (vt)): vttakeout0 (vt)
+vcopyenv_vt_decode
+  {vt:vt0p}(x: vcopyenv_vt(vt)): vttakeout0(vt)
 //
 overload decode with vcopyenv_v_decode
 overload decode with vcopyenv_vt_decode
@@ -335,13 +337,15 @@ overload decode with vcopyenv_vt_decode
 // HX: the_null_ptr = (void*)0
 //
 val
-the_null_ptr : ptr (null) = "mac#atsptr_null"
+the_null_ptr
+  : ptr(null) = "mac#atsptr_null"
 //
 (* ****** ****** *)
-
+//
 praxi
-lemma_addr_param{l:addr} (): [l >= null] void
-
+lemma_addr_param
+  {l:addr}((*void*)): [l >= null] void
+//
 (* ****** ****** *)
 
 praxi

@@ -28,39 +28,39 @@
 (* ****** ****** *)
 (*
 **
-** A functional concatenable deque implementation based on finger-trees.
-** Please see the JFP paper by Hinze and Paterson on finger-trees for more
+** A functional concatenable deque implementation
+** based on finger-trees. Please see the JFP paper
+** by Hinze and Paterson on finger-trees for more
 ** details on this interesting data structure.
 **
-** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Contributed by Robbie Harwood (rharwood AT cs DOT bu DOT edu)
+** Contributed by Hongwei Xi (hwxiATcsDOTbuDOTedu)
+** Contributed by Robbie Harwood (rharwoodATcsDOTbuDOTedu)
 **
 ** Time: November, 2010
 **
 *)
 (* ****** ****** *)
 (*
-** Ported to ATS2 by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+** Ported to ATS2
+** by Hongwei Xi (gmhwxiATgmailDOTcom)
 ** Time: May, 2012
 *)
 (* ****** ****** *)
-
+//
 #define
-ATS_PACKNAME "ATSLIB.libats.fundeque_fngtree"
+ATS_PACKNAME
+"ATSLIB.libats.fundeque_fngtree"
 #define
-ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
-
+ATS_DYNLOADFLAG 0 // no dynamic loading
+//
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
 staload
 _(*anon*) = "prelude/DATS/integer.dats"
-staload
-_(*anon*) = "prelude/DATS/integer_long.dats"
 staload
 _(*anon*) = "prelude/DATS/integer_size.dats"
 

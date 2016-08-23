@@ -47,13 +47,17 @@ overload datcontag with datcontag_weekday
 (* ****** ****** *)
 //
 extern
-fun{}
+fun
 fprint_weekday
   (FILEref, wday: weekday): void
-//
 overload fprint with fprint_weekday
 //
-#codegen2(fprint, weekday, fprint_weekday)
+extern
+fun{}
+fprint_weekday_
+  (FILEref, wday: weekday): void
+//
+#codegen2(fprint, weekday, fprint_weekday_)
 //
 (* ****** ****** *)
 

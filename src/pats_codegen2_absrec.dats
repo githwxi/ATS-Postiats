@@ -29,7 +29,7 @@
 //
 // Author: Hongwei Xi
 // Authoremail: gmhwxiATgmailDOTcom
-// Start Time: August, 2015
+// Start Time: August, 2016
 //
 (* ****** ****** *)
 //
@@ -41,16 +41,19 @@ fprint with $LOC.fprint_location
 //
 (* ****** ****** *)
 //
-staload
-S1E = "./pats_staexp1.sats"
+staload SYM = "./pats_symbol.sats"
+//
+(* ****** ****** *)
+//
+staload S1E = "./pats_staexp1.sats"
 //
 overload fprint with $S1E.fprint_e1xp
 //
 (* ****** ****** *)
-
+//
 staload "./pats_staexp2.sats"
 staload "./pats_dynexp2.sats"
-
+//
 (* ****** ****** *)
 
 staload "./pats_codegen2.sats"
@@ -68,133 +71,86 @@ auxerr_nil
 val loc0 = d2c0.d2ecl_loc
 //
 val () = fprint! (out, "(*\n")
-val () = fprint! (out, loc0, ": error(codegen2): #codegen2()\n")
-val () = fprint! (out, "*)\n")
+//
+val () =
+fprint! (
+  out, loc0
+, ": error(codegen2): absrec: no spec on typedef is given\n"
+) (* end of [val] *)
+//
+val () = fprintln! (out, "*)")
 //
 } (* end of [auxerr_nil] *)
 
 fun
-auxerr_cons
+auxerr_s2cst
 (
-  out: FILEref
-, d2c0: d2ecl, x: e1xp
-) : void =  {
+  out: FILEref, d2c0: d2ecl
+) : void = {
 //
 val loc0 = d2c0.d2ecl_loc
 //
 val () = fprint! (out, "(*\n")
-val () = fprint! (out, loc0, ": error(codegen2): #codegen2(", x, ", ...)\n")
-val () = fprint! (out, "*)\n")
 //
-} (* end of [auxerr_cons] *)
+val () =
+fprint! (
+  out, loc0
+, ": error(codegen2): absrec: no typedef of the given spec\n"
+) (* end of [val] *)
+//
+val () = fprintln! (out, "*)")
+//
+} (* end of [auxerr_s2cst] *)
+
+fun
+aux_tydef
+(
+  out: FILEref
+, d2c0: d2ecl
+, s2def: s2cst, xs: e1xplst
+) : void = let
+//
+// (*
+val () =
+println! (
+//
+"aux_tydef: s2def = ", s2def
+//
+) (* println! *)
+// *)
+//
+in
+  // nothing
+end (* end of [aux_tydef] *)
 
 in (* in-of-local *)
 
 implement
-codegen2_process
-  (out, d2c0) = let
+codegen2_absrec
+  (out, d2c0, xs) = let
 //
-(*
 val () =
 println!
-  ("codegen2_process: d2c0 = ", d2c0)
-*)
-//
-macdef datcon_test = datcon_test_e1xp
-macdef datcontag_test = datcontag_test_e1xp
-//
-macdef fprint_test = fprint_test_e1xp
-//
-macdef absrec_test = absrec_test_e1xp
-//
-val-D2Ccodegen(knd, xs) = d2c0.d2ecl_node
+  ("codegen2_absrec: d2c0 = ", d2c0)
 //
 in
 //
 case+ xs of
+| list_nil() => 
+    auxerr_nil(out, d2c0)
+  // end of [list_nil]
+| list_cons(x, xs) => let
+    val opt = codegen2_get_tydef(x)
+  in
+    case+ opt of
+    | ~None_vt() => auxerr_s2cst(out, d2c0)
+    | ~Some_vt(s2c) => aux_tydef(out, d2c0, s2c, xs)
+  end // end of [list_cons]
 //
-| list_cons
-    (x, xs) =>
-  (
-  case+ x of
-//
-  | _ when
-      datcon_test(x) =>
-      codegen2_datcon(out, d2c0, xs)
-  | _ when
-      datcontag_test(x) =>
-      codegen2_datcontag(out, d2c0, xs)
-//
-  | _ when
-      fprint_test(x) =>
-      codegen2_fprint(out, d2c0, xs)
-//
-  | _ when
-      absrec_test(x) =>
-      codegen2_absrec(out, d2c0, xs)
-//
-  | _ (*unrecognized*) => auxerr_cons(out, d2c0, x)
-//
-  ) (* list_cons *)
-//
-| list_nil((*void*)) => auxerr_nil(out, d2c0)
-//
-end // end of [codegen2_process]
+end // end of [codegen2_absrec]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-implement
-d2eclist_codegen_out
-  (out, d2cs) = let
-//
-(*
-val () =
-  println! ("d2eclist_codegen_out")
-*)
-//
-fun
-aux
-(
-  d2c0: d2ecl
-) :<cloref1> void =
-(
-case+
-d2c0.d2ecl_node
-of // case+
-| D2Ccodegen
-    (knd, _) =>
-  (
-    if knd <= 2
-      then codegen2_process(out, d2c0) else ()
-    // end of [if]
-  ) (* D2Ccodegen *)
-//
-| D2Clist(d2cs) => auxlst (d2cs)
-//
-| D2Clocal(_, d2cs_body) => auxlst (d2cs_body)
-//
-| _(*rest-of-d2ecl*) => ()
-)
-//
-and
-auxlst
-(
-  d2cs: d2eclist
-) :<cloref1> void =
-(
-//
-case+ d2cs of
-| list_nil() => ()
-| list_cons(d2c, d2cs) => (aux(d2c); auxlst(d2cs))
-//
-) (* end of [auxlst] *)
-//
-in
-  auxlst (d2cs)
-end // end of [d2eclist_codegen_out]
-
-(* ****** ****** *)
-
-(* end of [pats_codegen2.dats] *)
+(* end of [pats_codegen2_absrec.dats] *)

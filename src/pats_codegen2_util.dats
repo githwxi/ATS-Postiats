@@ -85,6 +85,9 @@ datcontag_test_e1xp(x0) = aux_test(x0, "datcontag")
 implement
 fprint_test_e1xp(x0) = aux_test(x0, "fprint")
 //
+implement
+absrec_test_e1xp(x0) = aux_test(x0, "absrec")
+//
 end // end of [local]
 
 (* ****** ****** *)
@@ -153,6 +156,28 @@ of // case+
 end // end of [codegen2_get_s2cst]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+codegen2_get_tydef
+  (x0) = let
+//
+val opt = codegen2_get_s2cst(x0)
+//
+in
+//
+case+ opt of
+| Some_vt(s2c) =>
+  (
+    if s2cst_is_tydef(s2c)
+      then (fold@{s2cst}(opt); opt)
+      else (free@{s2cst}(opt); None_vt())
+  ) (* end of [Some_vt] *)
+//
+| ~None_vt((*void*)) => None_vt()
+//
+end // end of [codegen2_get_tydef]
 
 (* ****** ****** *)
 

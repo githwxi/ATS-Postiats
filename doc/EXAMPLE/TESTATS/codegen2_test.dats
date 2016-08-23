@@ -28,7 +28,7 @@ fprint_abc$carg<abc>
 //
 (* ****** ****** *)
 //
-fun{}
+fun
 print_weekday
   (x: weekday) =
   fprint_weekday(stdout_ref, x)
@@ -38,17 +38,22 @@ overload print with print_weekday
 (* ****** ****** *)
 
 implement
-fprint_weekday$lpar<>(out) = fprint(out, "[")
+fprint_weekday_$lpar<>(out) = fprint(out, "[")
 implement
-fprint_weekday$rpar<>(out) = fprint(out, "]")
+fprint_weekday_$rpar<>(out) = fprint(out, "]")
 
 (* ****** ****** *)
 
 implement
-fprint_weekday$Monday$con<>(out, _) = fprint(out, "Mon")
+fprint_weekday_$Monday$con<>(out, _) = fprint(out, "Mon")
 implement
-fprint_weekday$Wednesday$con<>(out, _) = fprint(out, "Wed")
+fprint_weekday_$Wednesday$con<>(out, _) = fprint(out, "Wed")
 
+(* ****** ****** *)
+//
+implement
+fprint_weekday(out, wday) = fprint_weekday_(out, wday)
+//
 (* ****** ****** *)
 
 implement main0() =

@@ -81,7 +81,7 @@ val ((*void*)) = assertloc(x_tup.2 = x_rec.c)
 
 It should be noted that both #dyncode("x_tup") and #dyncode("x_rec")
 are immutable. If one tries to typecheck the following code, then he
-or she should see error messages reporting that #dyncode("x_tup.0")
+or she should see some error messages reporting that #dyncode("x_tup.0")
 and #dyncode("x_rec.a") are non-left-values:
 
 #dats2xhtml("\

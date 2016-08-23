@@ -217,6 +217,7 @@ SOURCES := \
   pats_codegen2.sats \
   pats_codegen2.dats \
   pats_codegen2_util.dats \
+  pats_codegen2_absrec.dats \
   pats_codegen2_datype.dats \
   pats_codegen2_fprint.dats \
   pats_jsonize_synent2.sats \
@@ -464,6 +465,7 @@ OBJECTS := \
   pats_codegen2_sats.o \
   pats_codegen2_dats.o \
   pats_codegen2_util_dats.o \
+  pats_codegen2_absrec_dats.o \
   pats_codegen2_datype_dats.o \
   pats_codegen2_fprint_dats.o \
   pats_jsonize_synent2_sats.o \
@@ -573,7 +575,7 @@ all:: patsopt
 # link order matters to GNU ld
 # please keep the order '$(LIBATS) $(LIBGMP)' as libats depends on libgmp
 #
-patsopt: pats_main.dats $(OBJECTS) ; \
+patsopt: $(OBJECTS) ; \
 $(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main.dats $(OBJECTS) $(LIBATS) $(LIBGMP)
 #
 cleanall:: ; $(RMF) patsopt
@@ -589,15 +591,15 @@ $(ATSCC) -DATS PATSOPT_MAIN_NONE \
 #
 libatsopt_min: ; $(MAKE) C3NSTRINTKND=intknd libatsopt
 #
-cleanall:: ; $(RMF) libatsopt.a
+cleanall:: ; $(RMF) libpatsopt.a
 #
 ######
 #
 # for building patsopt through CMake
 #
-CMKBLD/init: ; cd CMKBLD; cmake ..; cd ..
-CMKBLD/clean: ; make -C CMKBLD -f Makefile clean
-CMKBLD/patsopt: ; make -C CMKBLD -j8 -f Makefile patsopt
+BUILD/init: ; cd BUILD; cmake ..; cd ..
+BUILD/clean: ; make -C BUILD -f Makefile clean
+BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
 #
 ######
 #
@@ -1041,6 +1043,9 @@ pats_codegen2_dats.o: pats_codegen2_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 pats_codegen2_util_dats.c: pats_codegen2_util.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_codegen2_util_dats.o: pats_codegen2_util_dats.c; $(ATSCC) $(CFLAGS) -c $<
+
+pats_codegen2_absrec_dats.c: pats_codegen2_absrec.dats; $(ATSCC) $(DATSCC) -cc $<
+pats_codegen2_absrec_dats.o: pats_codegen2_absrec_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 pats_codegen2_datype_dats.c: pats_codegen2_datype.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_codegen2_datype_dats.o: pats_codegen2_datype_dats.c; $(ATSCC) $(CFLAGS) -c $<

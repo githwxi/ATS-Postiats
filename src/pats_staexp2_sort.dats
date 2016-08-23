@@ -332,26 +332,31 @@ case+ s2t of
 (* ****** ****** *)
 
 implement
-s2rt_is_float (s2t) =
-(
+s2rt_is_float
+  (s2t) = (
+//
 case+ s2t of
-| S2RTbas s2tb => (
+| S2RTbas(s2tb) => (
   case+ s2tb of
-  | S2RTBASpre (sym) => sym = $SYM.symbol_FLOAT | _ => false
+  | S2RTBASpre (sym) =>
+      sym = $SYM.symbol_FLOAT
+  | _ (*non-S2RTBASpre*) => false
   ) // end of [S2RTbas]
-  | _ => false
+  | _ (*non-S2RTbas*) => false
+//
 ) // end of [s2rt_is_float]
 
 (* ****** ****** *)
 
 implement
-s2rt_is_dat (s2t) =
+s2rt_is_dat(s2t) =
 (
 case+ s2t of
-| S2RTbas s2tb => (
-  case+ s2tb of S2RTBASdef _ => true | _ => false
-  ) // end of [S2RTbas]
-| _ => false // end of [S2RTbas]
+| S2RTbas(s2tb) => (
+  case+ s2tb of
+  | S2RTBASdef( _ ) => true | _ => false
+  ) (* end of [S2RTbas] *)
+| _ (*non-S2RTbas*) => false // end of [S2RTbas]
 ) // end of [s2rt_is_dat]
 
 (* ****** ****** *)
@@ -368,9 +373,9 @@ s2rt_is_prf(s2t) =
 case+ s2t of
 | S2RTbas s2tb => (
   case+ s2tb of
-  | S2RTBASimp (knd, _) => test_prfkind (knd) | _ => false
+  | S2RTBASimp(knd, _) => test_prfkind (knd) | _ => false
   ) // end of [S2RTbas]
-| _ => false // end of [_]
+| _ (*non-S2RTbas*) => false // end of [_]
 ) // end of [s2rt_is_prf]
 
 (* ****** ****** *)
@@ -381,9 +386,9 @@ s2rt_is_lin(s2t) =
 case+ s2t of
 | S2RTbas s2tb => (
   case+ s2tb of
-  | S2RTBASimp (knd, _) => test_linkind(knd) | _ => false
+  | S2RTBASimp(knd, _) => test_linkind(knd) | _ => false
   ) // end of [S2RTbas]
-| _ => false // end of [_]
+| _ (*non-S2RTbas*) => false // end of [_]
 ) // end of [s2rt_is_lin]
 
 implement
@@ -392,9 +397,9 @@ s2rt_is_nonlin(s2t) =
 case+ s2t of
 | S2RTbas s2tb => (
   case+ s2tb of
-  | S2RTBASimp (knd, _) => not(test_linkind(knd)) | _ => false
+  | S2RTBASimp(knd, _) => not(test_linkind(knd)) | _ => false
   ) // end of [S2RTbas]
-| _ => false // end of [_]
+| _ (*non-S2RTbas*) => false // end of [_]
 ) // end of [s2rt_is_nonlin]
 
 (* ****** ****** *)
@@ -405,9 +410,9 @@ s2rt_is_flat(s2t) =
 case+ s2t of
 | S2RTbas s2tb => (
   case+ s2tb of
-  | S2RTBASimp (knd, _) => test_fltkind (knd) | _ => false
+  | S2RTBASimp(knd, _) => test_fltkind(knd) | _ => false
   ) // end of [S2RTbas]
-| _ => false // end of [_]
+| _ (*non-S2RTbas*) => false // end of [_]
 ) // end of [s2rt_is_flat]
 
 implement
@@ -416,9 +421,9 @@ s2rt_is_boxed(s2t) =
 case+ s2t of
 | S2RTbas s2tb => (
   case+ s2tb of
-  | S2RTBASimp (knd, _) => test_boxkind (knd) | _ => false
+  | S2RTBASimp(knd, _) => test_boxkind(knd) | _ => false
   ) // end of [S2RTbas]
-| _ => false // end of [_]
+| _ (*non-S2RTbas*) => false // end of [_]
 ) // end of [s2rt_is_boxed]
 
 (* ****** ****** *)
@@ -429,37 +434,39 @@ s2rt_is_prgm(s2t) =
 case+ s2t of
 | S2RTbas s2tb => (
   case+ s2tb of
-  | S2RTBASimp (knd, _) => test_prgmkind (knd) | _ => false
+  | S2RTBASimp(knd, _) => test_prgmkind(knd) | _ => false
   ) // end of [S2RTbas]
-| _ => false // end of [_]
+| _ (*non-S2RTbas*) => false // end of [_]
 ) // end of [s2rt_is_prgm]
 
 (* ****** ****** *)
 
 implement
-s2rt_is_impred(s2t) =
-(
+s2rt_is_impred
+  (s2t) = (
+//
 case+ s2t of
 | S2RTbas s2tb => (
   case+ s2tb of S2RTBASimp _ => true | _ => false
   ) // end of [S2RTbas]
-| _ => false // end of [_]
-) // end of [s2rt_is_impred]
+| _ (*non-S2RTbas*) => false // end of [_]
+//
+) (* end of [s2rt_is_impred] *)
 
 (* ****** ****** *)
 
 implement
-s2rt_is_tkind (s2t) =
+s2rt_is_tkind(s2t) =
 (
 case+ s2t of
 | S2RTbas s2tb => (
   case+ s2tb of
-  | S2RTBASpre (sym) => (
-      $SYM.eq_symbol_symbol (sym, $SYM.symbol_TKIND)
-    )
-  | _ => false
+  | S2RTBASpre(sym) => (
+      $SYM.eq_symbol_symbol(sym, $SYM.symbol_TKIND)
+    ) (* S2RTBASpre *)
+  | _ (*non-S2RTBASpre*) => false
   ) // end of [S2ETbas]
-| _ => false // end of [_]
+| _ (*non-S2RTbas*) => false // end of [_]
 ) // end of [s2rt_is_tkind]
 
 (* ****** ****** *)
