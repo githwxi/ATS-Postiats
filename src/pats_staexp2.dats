@@ -48,8 +48,7 @@ UN =
 staload
 STMP = "./pats_stamp.sats"
 //
-macdef
-eq_stamp_stamp = $STMP.eq_stamp_stamp
+overload = with $STMP.eq_stamp_stamp
 //
 (* ****** ****** *)
 //
@@ -121,11 +120,11 @@ tyreckind_is_nameless(knd) =
 (
 //
 case+ knd of
-| TYRECKINDbox () => true
-| TYRECKINDbox_lin () => true
-| TYRECKINDflt0 () => true
-| TYRECKINDflt1 (stmp) => false
-| TYRECKINDflt_ext (name) => false
+| TYRECKINDbox() => true
+| TYRECKINDbox_lin() => true
+| TYRECKINDflt0() => true
+| TYRECKINDflt1(stmp) => false
+| TYRECKINDflt_ext(name) => false
 //
 ) (* end of [tyreckind_is_nameless] *)
 
@@ -146,18 +145,20 @@ of // case+
    TYRECKINDbox_lin()) => true
 | (TYRECKINDflt0(),
    TYRECKINDflt0()) => true
-| (TYRECKINDflt1(s1),
-   TYRECKINDflt1(s2)) => eq_stamp_stamp (s1, s2)
+| (TYRECKINDflt1(stmp1),
+   TYRECKINDflt1(stmp2)) => stmp1 = stmp2
 | (TYRECKINDflt_ext(name1),
    TYRECKINDflt_ext(name2)) => name1 = name2
-| (_, _) => false
+| (_(*rest*), _(*rest*)) => false
 //
 end // end of [eq_tyreckind_tyreckind]
 
 implement
 neq_tyreckind_tyreckind
-  (knd1, knd2) = not(eq_tyreckind_tyreckind (knd1, knd2))
-// end of [neq_tyreckind_tyreckind]
+  (knd1, knd2) =
+(
+  not(eq_tyreckind_tyreckind (knd1, knd2))
+) // end of [neq_tyreckind_tyreckind]
 
 (* ****** ****** *)
 
