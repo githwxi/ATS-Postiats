@@ -188,7 +188,7 @@ val () = p->s2cst_extdef := $SYN.SCSTEXTDEFnone(*void*)
 //
 in // in of [let]
 //
-ref_make_view_ptr (pfat | p)
+ref_make_view_ptr(pfat | p)
 //
 end // end of [s2cst_make]
 
@@ -295,14 +295,14 @@ implement
 s2cst_get_isasp(s2c) = let
 //
 val (vbox(pf)|p) =
-  ref_get_view_ptr (s2c) in p->s2cst_isasp
+  ref_get_view_ptr(s2c) in p->s2cst_isasp
 //
 end // end of [s2cst_get_isasp]
 implement
 s2cst_set_isasp(s2c, isasp) = let
 //
 val (vbox(pf)|p) =
-  ref_get_view_ptr (s2c) in p->s2cst_isasp := isasp
+  ref_get_view_ptr(s2c) in p->s2cst_isasp := isasp
 //
 end // end of [s2cst_set_isasp]
 
@@ -312,7 +312,7 @@ implement
 s2cst_get_argsrtss(s2c) = let
 //
 val (vbox(pf)|p) =
-  ref_get_view_ptr (s2c) in p->s2cst_argsrtss
+  ref_get_view_ptr(s2c) in p->s2cst_argsrtss
 //
 end // end of [s2cst_get_argsrtss]
 
@@ -322,14 +322,14 @@ implement
 s2cst_get_islst(s2c) = let
 //
 val (vbox pf | p) =
-  ref_get_view_ptr (s2c) in p->s2cst_islst
+  ref_get_view_ptr(s2c) in p->s2cst_islst
 //
 end // end of [s2cst_get_islst]
 implement
 s2cst_set_islst(s2c, islst) = let
 //
 val (vbox(pf)|p) =
-  ref_get_view_ptr (s2c) in p->s2cst_islst := islst
+  ref_get_view_ptr(s2c) in p->s2cst_islst := islst
 //
 end // end of [s2cst_set_islst]
 
