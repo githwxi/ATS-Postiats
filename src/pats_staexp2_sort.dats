@@ -34,31 +34,38 @@
 (* ****** ****** *)
 //
 staload
-ATSPRE = "./pats_atspre.dats"
+ATSPRE =
+"./pats_atspre.dats"
 //
 (* ****** ****** *)
 
-staload "./pats_basics.sats"
+staload
+"./pats_basics.sats"
 
 (* ****** ****** *)
-
-staload SYM = "./pats_symbol.sats"
+//
+staload
+SYM = "./pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
-
+//
 (* ****** ****** *)
-
-staload STMP = "./pats_stamp.sats"
+//
+staload
+STMP = "./pats_stamp.sats"
+//
 typedef stamp = $STMP.stamp
 overload compare with $STMP.compare_stamp_stamp
-
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
-
-fun prerr_interror (): void = prerr "INTERROR(pats_staexp2_sort)"
-
+//
+fun
+prerr_interror(): void =
+  prerr "INTERROR(pats_staexp2_sort)"
+//
 (* ****** ****** *)
 
 typedef
@@ -72,29 +79,38 @@ s2rtdat_struct = @{
 
 local
 
-assume s2rtdat_type = ref (s2rtdat_struct)
+assume
+s2rtdat_type = ref(s2rtdat_struct)
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
 s2rtdat_make (id) = let
 //
-  val stamp = $STMP.s2rtdat_stamp_make ()
-  val (pfgc, pfat | p) = ptr_alloc<s2rtdat_struct> ()
-  prval () = free_gc_elim (pfgc)
+val
+stamp =
+$STMP.s2rtdat_stamp_make()
 //
-  val () = p->s2rtdat_sym := id
-  val () = p->s2rtdat_sconlst := list_nil ()
-  val () = p->s2rtdat_stamp := stamp
+val (pfgc, pfat | p) = ptr_alloc<s2rtdat_struct> ()
+//
+prval () = free_gc_elim (pfgc)
+//
+val () = p->s2rtdat_sym := id
+val () = p->s2rtdat_sconlst := list_nil()
+val () = p->s2rtdat_stamp := stamp
 //
 in // in of [let]
   ref_make_view_ptr (pfat | p)
 end // end of [s2rtdat_make]
 
+(* ****** ****** *)
+
 implement
 s2rtdat_get_sym (s2td) = let
   val (vbox pf | p) = ref_get_view_ptr(s2td) in p->s2rtdat_sym
 end // end of [s2rtdat_get_sym]
+
+(* ****** ****** *)
 
 implement
 s2rtdat_get_sconlst (s2td) = let
@@ -105,10 +121,14 @@ s2rtdat_set_sconlst (s2td, s2cs) = let
   val (vbox pf | p) = ref_get_view_ptr(s2td) in p->s2rtdat_sconlst := s2cs
 end // end of [s2rtdat_set_sconlst]
 
+(* ****** ****** *)
+
 implement
 s2rtdat_get_stamp (s2td) = let
   val (vbox pf | p) = ref_get_view_ptr(s2td) in p->s2rtdat_stamp
 end // end of [s2rtdat_get_stamp]
+
+(* ****** ****** *)
 
 end // end of [local]
 

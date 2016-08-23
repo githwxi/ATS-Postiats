@@ -23,13 +23,16 @@ b= getref(@(int, string))
 extern
 fun{}
 myrec_get_a: myrec_t -<> int
+overload .a with myrec_get_a
 extern
 fun{}
 myrec_set_a: (myrec_t, int) -<!wrt> void
+overload .a with myrec_set_a
 //
 extern
 fun{}
-myrec_getref_b: (myrec_t) -> vtakeoutptr(@(int, string))
+myrec_getref_b: (myrec_t) -<> vtakeoutptr(@(int, string))
+overload .b with myrec_getref_b
 //
 *)
 

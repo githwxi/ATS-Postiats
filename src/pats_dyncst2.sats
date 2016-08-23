@@ -59,7 +59,7 @@ fun d2cst_is_sizeof (d2c: d2cst): bool // sizeof-template
 
 (* ****** ****** *)
 
-fun dyncst2_initialize (): void
+fun dyncst2_initialize ((*void*)): void
 
 (* ****** ****** *)
 
