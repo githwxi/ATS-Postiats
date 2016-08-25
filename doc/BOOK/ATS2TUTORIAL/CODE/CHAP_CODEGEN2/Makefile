@@ -23,12 +23,6 @@ regress:: expr; ./expr
 cleanall:: ; rm -f expr
 #
 ######
-#
-testall:: all
-testall:: regress
-testall:: cleanall
-#
-######
 
 expr: \
 expr.sats expr.dats; \
@@ -38,6 +32,16 @@ expr_codegen2.hats: \
 expr.sats expr.dats; \
 $(PATSOPT) -DATS CODEGEN2 --codegen-2 -o $@ -d expr.dats
 
+######
+
+absrec: ; $(PATSOPT) -tc --codegen-2 -d absrec.dats
+
+######
+#
+testall:: all
+testall:: regress
+testall:: cleanall
+#
 ######
 
 RMF=rm -f

@@ -379,44 +379,52 @@ p_asnameopt
 // labs0exp ::= l0ab [AS string] EQ s0exp
 //
 typedef foo =
-$extype_struct "foo_struct" of {
+$extype_struct
+"foo_struct" of
+{
   in_ as "in" = int // the C-name of the field is "in"
-} // end of [foo]
+} (* end of [foo] *)
 *)
 implement
 p_labs0exp (
   buf, bt, err
 ) = let
   val err0 = err
-  val tok = tokbuf_get_token (buf)
-  val ent1 = p_l0ab (buf, bt, err)
+  val tok =
+    tokbuf_get_token(buf)
+  // end of [val]
+  val ent1 = p_l0ab(buf, bt, err)
   val ent2 =
-    pif_fun (buf, bt, err, p_asnameopt, err0)
+    pif_fun(buf, bt, err, p_asnameopt, err0)
   // end of [val]
   val bt = 0
-  val ent3 = pif_fun (buf, bt, err, p_EQ, err0)
-  val ent4 = pif_fun (buf, bt, err, p_s0exp, err0)
+  val ent3 = pif_fun(buf, bt, err, p_EQ, err0)
+  val ent4 = pif_fun(buf, bt, err, p_s0exp, err0)
 in
 //
 if (err = err0) then
-  labs0exp_make (ent1, ent2, ent4)
+  labs0exp_make(ent1, ent2, ent4)
 else let
-  val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_labs0exp)
+  val () =
+    the_parerrlst_add_ifnbt(bt, tok.token_loc, PE_labs0exp)
+  // end of [val]
 in
-  synent_null ()
+  synent_null((*void*))
 end (* end of [if] *)
 //
 end // end of [p_labs0exp]
 
 (* ****** ****** *)
-
+//
 (*
 s0arrdim
   | LBRACKET s0expseq RBRACKET
 *)
+//
 fun
-p_s0arrdim (
- buf: &tokbuf, bt: int, err: &int
+p_s0arrdim
+(
+  buf: &tokbuf, bt: int, err: &int
 ) : s0arrdim = let
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
@@ -424,19 +432,20 @@ p_s0arrdim (
   val bt = 0
   val ent2 = (
     if err = err0
-      then pstar_fun0_COMMA{s0exp}(buf, bt, p_s0exp)
-      else list_vt_nil((*void*))
+      then (
+        pstar_fun0_COMMA{s0exp}(buf, bt, p_s0exp)
+      ) else list_vt_nil((*void*))
     // end of [if]
-  ) : s0explst_vt
-  val ent3 = pif_fun (buf, bt, err, p_RBRACKET, err0)
+  ) : s0explst_vt // end-of-val
+  val ent3 = pif_fun(buf, bt, err, p_RBRACKET, err0)
 in
   if err = err0 then
-    s0arrdim_make (ent1, (l2l)ent2, ent3)
+    s0arrdim_make(ent1, (l2l)ent2, ent3)
   else let
-    val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+    val () = list_vt_free(ent2) in tokbuf_set_ntok_null(buf, n0)
   end // end of [if]
 end (* end of [s0arrdim_make] *)
-
+//
 (* ****** ****** *)
 
 (*

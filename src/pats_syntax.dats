@@ -1016,7 +1016,7 @@ in '{
 
 implement
 labs0exp_make
-  (lab, name, s0e) = SL0ABELED (lab, name, s0e)
+  (lab, name, s0e) = SL0ABELED(lab, name, s0e)
 // end of [labs0exp_make]
 
 (* ****** ****** *)

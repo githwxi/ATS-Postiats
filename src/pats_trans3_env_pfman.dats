@@ -392,25 +392,34 @@ d2var_search_labsexplst
   (d2v, s2l, ls2es, res) =
   case+ ls2es of
   | list_cons (ls2e, ls2es) => let
-      val SLABELED (l, name, s2e) = ls2e
-      val opt = d2var_search_sexp (d2v, s2l, s2e, res)
+      val
+      SLABELED(l, name, s2e) = ls2e
+      val opt =
+        d2var_search_sexp(d2v, s2l, s2e, res)
+      // end of [val]
     in
       case+ opt of
-      | ~Some_vt (s2e_ctx) => let
-          val ls2e_ctx = SLABELED (l, name, s2e_ctx)
-        in
-          Some_vt (list_cons (ls2e_ctx, ls2es))
-        end // en dof [Some_vt]
-      | ~None_vt () => let
+      | ~None_vt() => let
            val opt =
-             d2var_search_labsexplst (d2v, s2l, ls2es, res)
-           // end of [val]
+           (
+             d2var_search_labsexplst
+               (d2v, s2l, ls2es, res)
+             // d2var_search_labsexplst
+           ) (* end of [val] *)
          in
            case+ opt of
-           | ~Some_vt (ls2es_ctx) =>
-               Some_vt (list_cons (ls2e, ls2es_ctx))
-           | ~None_vt () => None_vt ()
+           | ~None_vt
+               ((*void*)) => None_vt()
+             // end of [None_vt]
+           | ~Some_vt(ls2es_ctx) =>
+               Some_vt (list_cons(ls2e, ls2es_ctx))
+             // end of [Some_vt]
          end // end of [None_vt]
+      | ~Some_vt(s2e_ctx) =>
+         (
+
+          Some_vt(list_cons(SLABELED(l, name, s2e_ctx), ls2es))
+         ) (* en dof [Some_vt] *)
       // end of [case]
     end // end of [list_cons]
   | list_nil () => None_vt ()
@@ -418,30 +427,39 @@ d2var_search_labsexplst
 
 implement
 d2var_search_sexp_at
-  (d2v, s2l, s2e, res) = let
-  val-S2Eat (s2e1, s2e2) = s2e.s2exp_node
-  val iseq = s2exp_syneq (s2l, s2e2)
+(
+  d2v, s2l, s2e, res
+) = let
+//
+val-
+S2Eat(s2e1,s2e2) = s2e.s2exp_node
+//
+val iseq = s2exp_syneq(s2l, s2e2)
+//
 in
 //
-if iseq then let
+if
+iseq
+then let
   val () = res := s2e1
   val s2t1 = s2e1.s2exp_srt
-  val s2h1 = s2hole_make_srt (s2t1)
-  val s2e1 = s2exp_hole (s2h1)
-  val s2e_ctx = s2exp_at (s2e1, s2e2)
+  val s2h1 = s2hole_make_srt(s2t1)
+  val s2e1 = s2exp_hole(s2h1)
+  val s2e_ctx = s2exp_at(s2e1, s2e2)
 in
-  Some_vt (s2e_ctx)
+  Some_vt(s2e_ctx)
 end else let
   val opt =
-    d2var_search_sexp (d2v, s2l, s2e1, res)
+    d2var_search_sexp
+      (d2v, s2l, s2e1, res)
+    // d2var_search_sexp
   // end of [opt]
 in
 //
 case+ opt of
-| ~Some_vt s2e_ctx =>
-    Some_vt (s2exp_at (s2e_ctx, s2e2))
+| ~None_vt() => None_vt(*void*)
+| ~Some_vt(s2e_ctx) => Some_vt(s2exp_at(s2e_ctx, s2e2))
   // end of [Some_vt]
-| ~None_vt () => None_vt ()
 //
 end // end of [if]
 //
@@ -449,40 +467,62 @@ end // end of [d2var_search_sexp_at]
 
 implement
 d2var_search_sexp_tyrec
-  (d2v, s2l, s2e, res) = let
-  val-S2Etyrec (knd, npf, ls2es) = s2e.s2exp_node
-  var res2: labs2explst = list_nil ()
-  val opt = d2var_search_labsexplst (d2v, s2l, ls2es, res)
+(
+  d2v, s2l, s2e, res
+) = let
+//
+val-
+S2Etyrec(knd, npf, ls2es) = s2e.s2exp_node
+//
+var res2: labs2explst = list_nil()
+val opt = d2var_search_labsexplst(d2v, s2l, ls2es, res)
+//
 in
 //
 case+ opt of
+| ~None_vt
+    ((*void*)) => None_vt ()
+  // end of [None_vt]
 | ~Some_vt
     (ls2es_ctx) => let
     val s2t = s2e.s2exp_srt
   in
-    Some_vt (s2exp_tyrec_srt (s2t, knd, npf, ls2es_ctx))
+    Some_vt(s2exp_tyrec_srt(s2t, knd, npf, ls2es_ctx))
   end // end of [Some_vt]
-| ~None_vt () => None_vt ()
 //
 end // end of [d2var_search_sexp_tyrec]
 
 implement
-pfobj_search_atview (s2l0) = let
+pfobj_search_atview
+  (s2l0) = let
+//
 (*
 val () = (
   println! ("pfobj_search_atview: s2l0 = ", s2l0)
 ) (* end of [val] *)
 *)
-fun loop (
-  xs: !d2varmrklst, s2l0: s2exp, res: &s2exp
+//
+fun
+loop (
+  xs: !d2varmrklst
+, s2l0: s2exp, res: &s2exp
 ) : Option_vt @(d2var, s2exp) = let
+//
+(*
+val () =
+println!
+  ("pfobj_search_atview: loop")
+*)
+//
 in
 //
 case+ xs of
 //
 | D2VMRKLSTcons
     (d2v, !p_xs) => let
-    val opt = d2var_search (d2v, s2l0, res)
+    val opt =
+      d2var_search(d2v, s2l0, res)
+    // end of [val]
   in
     case+ opt of
     | ~Some_vt
@@ -491,7 +531,9 @@ case+ xs of
         fold@ (xs); Some_vt @(d2v, s2e_ctx)
       ) // end of [Some_vt]
     | ~None_vt () => let
-        val opt = loop (!p_xs, s2l0, res) in fold@ (xs); opt
+        val opt =
+          loop(!p_xs, s2l0, res) in fold@(xs); opt
+      // end of [val]
       end // end of [None]
   end // end of [D2VMARKLSTcons]
 //
@@ -501,11 +543,13 @@ case+ xs of
 | D2VMRKLSTmark
     (knd, !p_xs) => (
     if knd > 0 then let
-      val opt = loop (!p_xs, s2l0, res) in fold@ (xs); opt
+      val opt =
+        loop (!p_xs, s2l0, res) in fold@ (xs); opt
+      // end of [val]
     end else (fold@ (xs); None_vt ())
   ) (* end of [D2VMARKLSTmark] *)
 //
-| D2VMRKLSTnil () => (fold@ (xs); None_vt ())
+| D2VMRKLSTnil((*void*)) => (fold@ (xs); None_vt())
 //
 end // end of [loop]
 //
@@ -522,10 +566,14 @@ prval ((*void*)) = fpf (pf)
 in
 //
 case+ opt of
-| ~Some_vt (x) => let
-    val obj = PFOBJ (x.0, x.1, res, s2l0) in Some_vt (obj)
+//
+| ~None_vt
+    ((*void*)) => None_vt()
+  // end of [None_vt]
+//
+| ~Some_vt(x) => let
+    val obj = PFOBJ(x.0, x.1, res, s2l0) in Some_vt(obj)
   end // end of [Some_vt]
-| ~None_vt () => None_vt ()
 //
 end // end of [pfobj_search_atview]
 

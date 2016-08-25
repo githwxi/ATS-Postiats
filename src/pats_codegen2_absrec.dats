@@ -61,29 +61,29 @@ staload "./pats_codegen2.sats"
 (* ****** ****** *)
 //
 datatype
-absrecfd =
+absrecfld =
 //
-  | ABSRECFDget of s2exp
-  | ABSRECFDset of s2exp
-  | ABSRECFDgetset of s2exp
+  | ABSRECFLDget of s2exp
+  | ABSRECFLDset of s2exp
+  | ABSRECFLDgetset of s2exp
 //
-  | ABSRECFDexch of s2exp
+  | ABSRECFLDexch of s2exp
 //
-  | ABSRECFDvtget of s2exp
+  | ABSRECFLDvtget of s2exp
 //
-  | ABSRECFDgetref of s2exp
+  | ABSRECFLDgetref of s2exp
 //
-  | ABSRECFDunknown of s2exp
+  | ABSRECFLDunknown of s2exp
 //
 (* ****** ****** *)
 //
 extern
 fun
-absrecfd_of_s2exp
-  (s2e0: s2exp): absrecfd
+absrecfld_of_s2exp
+  (s2e0: s2exp): absrecfld
 //
 implement
-absrecfd_of_s2exp
+absrecfld_of_s2exp
   (s2e0) = let
 //
 macdef
@@ -109,7 +109,7 @@ s2e0.s2exp_node of
 | S2Eapp
   (
     s2e1, list_nil()
-  ) => ABSRECFDunknown(s2e0)
+  ) => ABSRECFLDunknown(s2e0)
 | S2Eapp
   (
     s2e1, list_cons(s2e2, _)
@@ -127,36 +127,39 @@ s2e0.s2exp_node of
         case+ 0 of
 //
         | _ when
-            is_get(name) => ABSRECFDget(s2e2)
+            is_get(name) => ABSRECFLDget(s2e2)
         | _ when
-            is_set(name) => ABSRECFDset(s2e2)
+            is_set(name) => ABSRECFLDset(s2e2)
         | _ when
-            is_getset(name) => ABSRECFDgetset(s2e2)
+            is_getset(name) => ABSRECFLDgetset(s2e2)
 //
         | _ when
-            is_exch(name) => ABSRECFDexch(s2e2)
-        | _ when
-            is_vtget(name) => ABSRECFDvtget(s2e2)
-        | _ when
-            is_getref(name) => ABSRECFDvtget(s2e2)
+            is_exch(name) => ABSRECFLDexch(s2e2)
 //
-        | _(* unrecognized *) => ABSRECFDunknown(s2e0)
+        | _ when
+            is_vtget(name) => ABSRECFLDvtget(s2e2)
+//
+        | _ when
+            is_getref(name) => ABSRECFLDvtget(s2e2)
+//
+        | _(* unrecognized *) => ABSRECFLDunknown(s2e0)
 //
       end (* end of [S2Ecst] *)
-    | _(*non-S2Ecst*) => ABSRECFDunknown(s2e0)
+    | _(*non-S2Ecst*) => ABSRECFLDunknown(s2e0)
   )
-| _(*non-S2Eapp*) => ABSRECFDunknown(s2e0)
+| _(*non-S2Eapp*) => ABSRECFLDunknown(s2e0)
 //
-end // end of [absrecfd_of_s2exp]
+end // end of [absrecfld_of_s2exp]
 //
 (* ****** ****** *)
 //
 extern
 fun
-emit_absrecfd
+emit_absrecfld
 (
-  out: FILEref, tnm: string, fd: absrecfd
-) : void // end of [emit_absrecfd]
+  out: FILEref
+, tnm: string, fld: absrecfld
+) : void // end of [emit_absrecfld]
 //
 (* ****** ****** *)
 //
@@ -276,8 +279,10 @@ val opt = s2cst_get_tyrec(s2c0)
 in
 //
 case+ opt of
-| ~None_vt() => auxerr_s2cst_tyrec(out, d2c0, s2c0)
-| ~Some_vt(s2e_def) => aux_tydef_tyrec(out, d2c0, s2c0, s2e_def, xs)
+| ~None_vt() =>
+    auxerr_s2cst_tyrec(out, d2c0, s2c0)
+| ~Some_vt(s2e_def) =>
+    aux_tydef_tyrec(out, d2c0, s2c0, s2e_def, xs)
 //
 end (* end of [aux_tydef] *)
 
@@ -295,6 +300,9 @@ println!
 (
   "aux_tydef_tyrec: s2e_def = ", s2e_def
 ) (* println! *)
+//
+val-
+S2Etyrec(knd, npf, ls2es) = s2e_def.s2exp_node
 //
 in
   // nothing

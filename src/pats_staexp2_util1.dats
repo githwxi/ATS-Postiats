@@ -224,8 +224,9 @@ if npf > 0 then let
 in
   aux (npf-1, lin, xs)
 end else let
-  val-list_cons (x, xs) = xs
-  val SLABELED (_, _, s2e) = x
+  val-
+  list_cons(x, xs) = xs
+  val SLABELED(_, _, s2e) = x
   val s2t = s2e.s2exp_srt
 (*
   val () = (println! ("aux: s2t = ", s2t)
@@ -275,15 +276,22 @@ fun aux
 in
 //
 case+ s2es of
+//
+| list_nil
+    ((*void*)) => list_nil()
+  // list_nil
+//
 | list_cons
     (s2e, s2es) => let
-    val lab = $LAB.label_make_int (i)
-    val ls2e = SLABELED (lab, None(*name*), s2e)
-    val ls2es = aux (i+1, s2es)
+    val lab =
+      $LAB.label_make_int(i)
+    // end of [val]
+    val ls2e = SLABELED(lab, None(*name*), s2e)
+    val ls2es = aux(i+1, s2es)
   in
-    list_cons (ls2e, ls2es)
-  end
-| list_nil () => list_nil ()
+    list_cons(ls2e, ls2es)
+  end // end of [list_cons]
+//
 end // end of [aux]
 //
 val ls2es = aux (0, s2es)
@@ -309,18 +317,27 @@ fun aux01
 in
 //
 case+ ls2es of
+| list_nil
+    ((*void*)) => ()
+  // end of [list_nil]
 | list_cons
     (ls2e, ls2es) => let
-    val SLABELED (_, _, s2e) = ls2e
+//
+    val
+    SLABELED
+      (_, _, s2e) = ls2e
+    // SLABELED
+//
     val s2t = s2e.s2exp_srt
-    val () = if s2rt_is_lin (s2t) then (lin := lin+1)
-    val () = if s2rt_is_prf (s2t)
+    val () =
+    if s2rt_is_lin (s2t) then (lin := lin+1)
+    val () =
+    if s2rt_is_prf (s2t)
       then (prf := prf+1) else (if i >= npf then prgm := prgm+1)
     // end of [if] // end of [val]
   in
     aux01 (i+1, npf, ls2es, lin, prf, prgm)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [aux01]
 //
@@ -350,7 +367,8 @@ end // end of [s2exp_tyrec]
 (* ****** ****** *)
 
 implement
-s2cst_select_locs2explstlst (s2cs, xss) = let
+s2cst_select_locs2explstlst
+  (s2cs, xss) = let
 //
   fun test1 (
     xs: locs2explst, s2ts: s2rtlst
@@ -447,18 +465,26 @@ s2exp_is_without (s2e) =
 implement
 labs2explst_is_without
   (xs) = (
-  case+ xs of
-  | list_cons (x, xs) => let
-      val SLABELED (_, _, s2e) = x in
-      if s2exp_is_without (s2e) then labs2explst_is_without (xs) else false
-    end // end of [list_cons]
-  | list_nil () => true // end of [list_nil]
-) // end of [labs2explst_is_without]
+//
+case+ xs of
+| list_nil() => true
+| list_cons(x, xs) => let
+    val
+    SLABELED(_, _, s2e) = x
+  in
+    if s2exp_is_without(s2e)
+      then labs2explst_is_without(xs) else false
+    // end of [if]
+  end // end of [list_cons]
+) (* end of [labs2explst_is_without] *)
 
 (* ****** ****** *)
 
 extern
-fun labs2explst_is_lin2 (xs: labs2explst): bool
+fun
+labs2explst_is_lin2(xs: labs2explst): bool
+
+(* ****** ****** *)
 
 implement
 s2exp_is_lin2
@@ -467,16 +493,20 @@ s2exp_is_lin2
   val islin = s2exp_is_lin (s2e)
 in
 //
-if islin then (
-case+ s2e.s2exp_node of
-| S2Eat (s2e1, _) =>
-    if s2exp_is_without (s2e1) then false else true
+if
+islin
+then (
+case+
+s2e.s2exp_node
+of (* case+ *)
+| S2Eat(s2e1, _) =>
+    if s2exp_is_without(s2e1) then false else true
 | S2Etyrec
     (knd, npf, ls2es) =>
   (
-    if tyreckind_is_boxed (knd) then true else labs2explst_is_lin2 (ls2es)
+    if tyreckind_is_boxed(knd) then true else labs2explst_is_lin2(ls2es)
   ) // end of [S2Etyrec]
-| _ => true
+| _ (*rest-of-s2exp*) => true
 ) else false // end of [if]
 //
 end // end of [s2exp_is_lin2]
@@ -484,30 +514,43 @@ end // end of [s2exp_is_lin2]
 implement
 labs2explst_is_lin2
   (xs) = (
-  case+ xs of
-  | list_cons (x, xs) => let
-      val SLABELED (_, _, s2e) = x in
-      if s2exp_is_lin2 (s2e) then true else labs2explst_is_lin2 (xs)
-    end // end of [list_cons]
-  | list_nil () => false // end of [list_nil]
-) // end of [labs2explst_is_lin2]
+//
+case+ xs of
+| list_nil() => false
+| list_cons (x, xs) => let
+    val
+    SLABELED(_, _, s2e) = x
+  in
+    if s2exp_is_lin2 (s2e) then true else labs2explst_is_lin2 (xs)
+  end // end of [list_cons]
+) (* end of [labs2explst_is_lin2] *)
 
 (* ****** ****** *)
 
 implement
-s2hnf_get_head (s2f) = let
-  fun loop (s2e: s2exp): s2exp =
-    case+ s2e.s2exp_node of S2Eapp (s2e, _) => loop s2e | _ => s2e
-  // end of [loop]
-  val s2e = s2hnf2exp (s2f)
+s2hnf_get_head
+  (s2f) = let
+//
+fun
+loop(s2e: s2exp): s2exp =
+(
+case+
+s2e.s2exp_node
+of (* case+ *)
+| S2Eapp(s2e, _) => loop s2e | _ => s2e
+) (* end of [loop] *)
+//
+val s2e = s2hnf2exp(s2f)
+//
 in
-  s2exp2hnf_cast (loop (s2e))
+  s2exp2hnf_cast(loop(s2e))
 end // end of [s2hnf_get_head]
 
 (* ****** ****** *)
 
 implement
-s2hnf_is_abscon (s2f) = let
+s2hnf_is_abscon
+  (s2f) = let
 //
 fun loop (
   s2e: s2exp
@@ -1120,88 +1163,113 @@ s2explstlst_subst_flag
 implement
 labs2explst_subst_flag
   (sub, ls2es0, flag) =
+(
   case+ ls2es0 of
+  | list_nil
+     ((*void*)) => list_nil()
+    // end of [list_nil]
   | list_cons
       (ls2e, ls2es) => let
-      val SLABELED (l, name, s2e) = ls2e
+      val SLABELED(l, name, s2e) = ls2e
       val f0 = flag
       val s2e = s2exp_subst_flag (sub, s2e, flag)
       val ls2es = labs2explst_subst_flag (sub, ls2es, flag)
     in
       if flag > f0 then let
-        val ls2e = SLABELED (l, name, s2e) in list_cons (ls2e, ls2es)
+        val ls2e = SLABELED(l, name, s2e) in list_cons(ls2e, ls2es)
       end else ls2es0 // end of [if]
     end // end of [LABS2EXPLSTcons]
-  | list_nil ((*void*)) => list_nil ()
-// end of [labs2explst_subst_flag]
+) (* end of [labs2explst_subst_flag] *)
 
 (* ****** ****** *)
 
 implement
 wths2explst_subst_flag
   (sub, ws2es0, flag) =
-  case+ ws2es0 of
-  | WTHS2EXPLSTnil () => WTHS2EXPLSTnil ()
-  | WTHS2EXPLSTcons_invar
-      (knd, s2e, ws2es) => let
-      val f0 = flag
-      val s2e = s2exp_subst_flag (sub, s2e, flag)
-      val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
-    in
-      if flag > f0
-        then WTHS2EXPLSTcons_invar (knd, s2e, ws2es) else ws2es0
-      // end of [if]
-    end // end of [WTHS2EXPLSTcons_invar]
-  | WTHS2EXPLSTcons_trans
-      (knd, s2e, ws2es) => let
-      val f0 = flag
-      val s2e = s2exp_subst_flag (sub, s2e, flag)
-      val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
-    in
-      if flag > f0
-        then WTHS2EXPLSTcons_trans (knd, s2e, ws2es) else ws2es0
-      // end of [if]
-    end // end of [WTHS2EXPLSTcons_trans]
-  | WTHS2EXPLSTcons_none (ws2es) => let
-      val f0 = flag
-      val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
-    in
-      if flag > f0
-        then WTHS2EXPLSTcons_none (ws2es) else ws2es0
-      // end of [if]
-    end // end of [WTHS2EXPLSTcons_none]
-// end of [wths2explst_subst_flag]
+(
+//
+case+ ws2es0 of
+| WTHS2EXPLSTnil
+    ((*void*)) => WTHS2EXPLSTnil()
+  // end of [WTHS2EXPLSTnil]
+| WTHS2EXPLSTcons_invar
+    (knd, s2e, ws2es) => let
+    val f0 = flag
+    val s2e =
+      s2exp_subst_flag(sub, s2e, flag)
+    val ws2es =
+      wths2explst_subst_flag(sub, ws2es, flag)
+  in
+    if flag > f0
+      then WTHS2EXPLSTcons_invar(knd, s2e, ws2es) else ws2es0
+    // end of [if]
+  end // end of [WTHS2EXPLSTcons_invar]
+| WTHS2EXPLSTcons_trans
+    (knd, s2e, ws2es) => let
+    val f0 = flag
+    val s2e =
+      s2exp_subst_flag(sub, s2e, flag)
+    val ws2es =
+      wths2explst_subst_flag(sub, ws2es, flag)
+  in
+    if flag > f0
+      then WTHS2EXPLSTcons_trans(knd, s2e, ws2es) else ws2es0
+    // end of [if]
+  end // end of [WTHS2EXPLSTcons_trans]
+| WTHS2EXPLSTcons_none (ws2es) => let
+    val f0 = flag
+    val ws2es =
+      wths2explst_subst_flag(sub, ws2es, flag)
+    // end of [val]
+  in
+    if flag > f0 then WTHS2EXPLSTcons_none(ws2es) else ws2es0
+  end // end of [WTHS2EXPLSTcons_none]
+//
+) (* end of [wths2explst_subst_flag] *)
 
 (* ****** ****** *)
 
 implement
 s2lab_subst_flag
-  (sub, s2l0, flag) = (
-  case+ s2l0 of
-  | S2LABlab _ => s2l0
-  | S2LABind (s2es) => let
-      val f0 = flag
-      val s2es =
-        s2explst_subst_flag (sub, s2es, flag)
-      // end of [val]
-    in
-      if flag > f0 then S2LABind (s2es) else s2l0
-    end // end of [S2LABind]
-) // end of [s2lab_subst_flag]
+(
+  sub, s2l0, flag
+) = (
+//
+case+ s2l0 of
+| S2LABlab _ => s2l0
+| S2LABind(s2es) => let
+    val f0 = flag
+    val s2es =
+      s2explst_subst_flag (sub, s2es, flag)
+    // end of [val]
+  in
+    if flag > f0 then S2LABind (s2es) else s2l0
+  end // end of [S2LABind]
+//
+) (* end of [s2lab_subst_flag] *)
 
 implement
 s2lablst_subst_flag
-  (sub, s2ls0, flag) = (
-  case+ s2ls0 of
-  | list_cons (s2l, s2ls) => let
-      val f0 = flag
-      val s2l = s2lab_subst_flag (sub, s2l, flag)
-      val s2ls = s2lablst_subst_flag (sub, s2ls, flag)
-    in
-      if flag > f0 then list_cons (s2l, s2ls) else s2ls0
-    end // end of [list_cons]
-  | list_nil () => list_nil ()
-) // end of [s2lablst_subst_flag]
+(
+  sub, s2ls0, flag
+) = (
+//
+case+ s2ls0 of
+| list_nil
+    ((*void*)) => list_nil()
+  // end of [list_nil]
+| list_cons
+    (s2l, s2ls) => let
+    val f0 = flag
+    val s2l =
+      s2lab_subst_flag(sub, s2l, flag)
+    val s2ls =
+      s2lablst_subst_flag(sub, s2ls, flag)
+  in
+    if flag > f0 then list_cons(s2l, s2ls) else s2ls0
+  end // end of [list_cons]
+//
+) (* end of [s2lablst_subst_flag] *)
 
 (* ****** ****** *)
 
