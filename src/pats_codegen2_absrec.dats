@@ -198,7 +198,7 @@ case+ fld of
     fprint!
       (out, "overload ", ".", l0, " with ", tnm, "_get_", l0, "\n")
     // end of [fprint!]
-    val () = fprint_newline(out)
+    val ((*void*)) = fprint_newline(out)
   }
 //
 | ABSRECFLDset(s2e) =>
@@ -210,7 +210,7 @@ case+ fld of
     fprint!
       (out, "overload ", ".", l0, " with ", tnm, "_set_", l0, "\n")
     // end of [fprint!]
-    val () = fprint_newline(out)
+    val ((*void*)) = fprint_newline(out)
   }
 //
 | ABSRECFLDexch(s2e) =>
@@ -218,7 +218,7 @@ case+ fld of
     val () = fprint!(out, "fun{}\n")
     val () = fprint!(out, tnm, "_exch_", l0)
     val () = fprint!(out, ": (", tnm, ", ", s2e, ") -<ref> ", s2e, "\n")
-    val () = fprint_newline(out)
+    val ((*void*)) = fprint_newline(out)
   }
 //
 | _(*rest-of-absrecfld*) => ()
