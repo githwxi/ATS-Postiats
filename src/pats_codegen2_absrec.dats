@@ -34,6 +34,14 @@
 (* ****** ****** *)
 //
 staload
+LAB = "./pats_label.sats"
+//
+overload
+fprint with $LAB.fprint_label
+//
+(* ****** ****** *)
+//
+staload
 LOC = "./pats_location.sats"
 //
 overload
@@ -155,11 +163,94 @@ end // end of [absrecfld_of_s2exp]
 //
 extern
 fun
-emit_absrecfld
+emit_tyrecfld
 (
   out: FILEref
-, tnm: string, fld: absrecfld
-) : void // end of [emit_absrecfld]
+, tnm: string, ls2e: labs2exp
+) : void // end of [emit_tyrecfld]
+//
+implement
+emit_tyrecfld
+(
+  out, tnm, ls2e
+) = let
+//
+val
+SLABELED(l0, _, s2e) = ls2e
+//
+val
+fld = absrecfld_of_s2exp(s2e)
+//
+fun
+auxproc
+(
+  fld: absrecfld
+) :<cloref1> void =
+(
+case+ fld of
+//
+| ABSRECFLDget(s2e) =>
+  {
+    val () = fprint!(out, "fun{}\n")
+    val () = fprint!(out, tnm, "_get_", l0)
+    val () = fprint!(out, ": (", tnm, ") -<> (", s2e, ")\n")
+    val () =
+    fprint!
+      (out, "overload ", ".", l0, " with ", tnm, "_get_", l0, "\n")
+    // end of [fprint!]
+    val () = fprint_newline(out)
+  }
+//
+| ABSRECFLDset(s2e) =>
+  {
+    val () = fprint!(out, "fun{}\n")
+    val () = fprint!(out, tnm, "_set_", l0)
+    val () = fprint!(out, ": (", tnm, ", ", s2e, ") -<ref> void\n")
+    val () =
+    fprint!
+      (out, "overload ", ".", l0, " with ", tnm, "_set_", l0, "\n")
+    // end of [fprint!]
+    val () = fprint_newline(out)
+  }
+//
+| ABSRECFLDexch(s2e) =>
+  {
+    val () = fprint!(out, "fun{}\n")
+    val () = fprint!(out, tnm, "_exch_", l0)
+    val () = fprint!(out, ": (", tnm, ", ", s2e, ") -<ref> ", s2e, "\n")
+    val () = fprint_newline(out)
+  }
+//
+| _(*rest-of-absrecfld*) => ()
+//
+)
+//
+in
+//
+  auxproc(fld)
+//
+end (* end of [emit_tyrecfld] *)
+//
+extern
+fun
+emit_tyrecfldlst
+(
+  out: FILEref
+, tnm: string, ls2es: labs2explst
+) : void // end of [emit_tyrecfldlst]
+//
+implement
+emit_tyrecfldlst
+  (out, tnm, ls2es) =
+(
+case+ ls2es of
+| list_nil() => ()
+| list_cons(ls2e, ls2es) =>
+  {
+    val () = emit_tyrecfld(out, tnm, ls2e)
+    val () = emit_tyrecfldlst(out, tnm, ls2es)
+  } (* end of [list_cons] *)
+)
 //
 (* ****** ****** *)
 //
@@ -301,11 +392,13 @@ println!
   "aux_tydef_tyrec: s2e_def = ", s2e_def
 ) (* println! *)
 //
+val tnm = "myrec"
+//
 val-
 S2Etyrec(knd, npf, ls2es) = s2e_def.s2exp_node
 //
 in
-  // nothing
+  emit_tyrecfldlst(out, tnm, ls2es)
 end // end of [aux_tydef_tyrec]
 
 in (* in-of-local *)

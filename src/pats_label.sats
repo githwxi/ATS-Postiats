@@ -32,60 +32,77 @@
 // Start Time: March, 2011
 //
 (* ****** ****** *)
-
+//
 staload
 SYM = "./pats_symbol.sats"
+//
 typedef symbol = $SYM.symbol
-
+//
 (* ****** ****** *)
 
 abstype label_type
 typedef label = label_type
 
 (* ****** ****** *)
-
-fun label_make_int (i: int): label
-fun label_make_sym (sym: symbol): label
-fun label_make_string (str: string): label
-
+//
+fun
+label_make_int(i: int): label
+fun
+label_make_sym(sym: symbol): label
+fun
+label_make_string(str: string): label
+//
+(* ****** ****** *)
+//
+fun label_is_int(l: label): bool
+fun label_get_int(l: label): Option_vt(int)
+//
+(* ****** ****** *)
+//
+fun label_is_sym(l: label): bool
+fun label_get_sym(l: label): Option_vt(symbol)
+//
 (* ****** ****** *)
 
-fun label_is_int (l: label): bool
-fun label_get_int (l: label): Option_vt (int)
+fun label_dotize(l: label): symbol
 
 (* ****** ****** *)
-
-fun label_is_sym (l: label): bool
-fun label_get_sym (l: label): Option_vt (symbol)
-
-(* ****** ****** *)
-
-fun label_dotize (l: label): symbol
-
-(* ****** ****** *)
-
-fun eq_label_label (l1: label, l2: label):<> bool
+//
+fun
+eq_label_label
+  (l1: label, l2: label):<> bool
+fun
+neq_label_label
+  (l1: label, l2: label):<> bool
+//
 overload = with eq_label_label
-fun neq_label_label (l1: label, l2: label):<> bool
 overload != with neq_label_label
-
+//
 (* ****** ****** *)
-
-fun compare_label_label (l1: label, l2: label):<> Sgn
+//
+fun
+compare_label_label
+  (l1: label, l2: label):<> Sgn
+//
 overload compare with compare_label_label
-
+//
 (* ****** ****** *)
 
 fun tostring_label (l: label): string
 
 (* ****** ****** *)
-
-fun print_label (l: label): void
+//
+fun
+print_label(l: label): void
+fun
+prerr_label(l: label): void
+//
 overload print with print_label
-fun prerr_label (l: label): void
 overload prerr with prerr_label
-fun fprint_label (out: FILEref, x: label): void
-
+//
+fun
+fprint_label(out: FILEref, x: label): void
+//
 (* ****** ****** *)
 
 datatype
