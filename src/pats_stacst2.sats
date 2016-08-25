@@ -38,21 +38,25 @@ staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
-abstype s2cstref_type // boxed type
+abstype s2cstref_type // boxed
 typedef s2cstref = s2cstref_type
 
 (* ****** ****** *)
-
-fun s2cstref_make (name: string): s2cstref
-
+//
+fun s2cstref_make(name: string): s2cstref
+//
 (* ****** ****** *)
-
-fun s2cstref_get_cst (r: s2cstref): s2cst
-fun s2cstref_get_exp (r: s2cstref, arg: Option_vt s2explst): s2exp
-fun s2cstref_unget_exp (r: s2cstref, s2e: s2exp): Option_vt (s2explst)
-fun s2cstref_equ_cst (r: s2cstref, s2c: s2cst): bool
-fun s2cstref_equ_exp (r: s2cstref, s2e: s2exp): bool
-
+//
+fun s2cstref_get_cst(s2cr: s2cstref): s2cst
+//
+fun s2cstref_get_exp
+   (s2cr: s2cstref, arg: Option_vt(s2explst)): s2exp
+fun s2cstref_unget_exp
+   (s2cr: s2cstref, s2e: s2exp): Option_vt(s2explst)
+//
+fun s2cstref_equ_cst(s2cr: s2cstref, s2c: s2cst): bool
+fun s2cstref_equ_exp(s2cr: s2cstref, s2e: s2exp): bool
+//
 (* ****** ****** *)
 //
 val the_true_bool : s2cstref
@@ -223,16 +227,16 @@ val the_bottom_vt0ype_exi: s2cstref // = [a:vt@ype | false] (a)
 
 (* ****** ****** *)
 //
-fun s2exp_bool
-  (b: bool): s2exp (* static boolean terms *)
-// end of [s2exp_bool]
+// HX: static boolean terms
 //
-fun s2exp_bool_t0ype (): s2exp // bool0
-fun s2exp_bool_bool_t0ype (b: bool): s2exp // bool1(b)
+fun s2exp_bool(b: bool): s2exp
 //
-fun s2exp_bool_index_t0ype (ind: s2exp): s2exp // bool1(ind)
+fun s2exp_bool_t0ype((*void*)): s2exp // bool0
+fun s2exp_bool_bool_t0ype(b: bool): s2exp // bool1(b)
 //
-fun un_s2exp_bool_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
+fun s2exp_bool_index_t0ype(ind: s2exp): s2exp // bool1(ind)
+//
+fun un_s2exp_bool_index_t0ype(s2f: s2hnf): Option_vt (s2exp)
 //
 (* ****** ****** *)
 //

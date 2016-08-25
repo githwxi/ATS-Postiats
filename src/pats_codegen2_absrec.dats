@@ -59,6 +59,138 @@ staload "./pats_dynexp2.sats"
 staload "./pats_codegen2.sats"
 
 (* ****** ****** *)
+//
+datatype
+absrecfd =
+//
+  | ABSRECFDget of s2exp
+  | ABSRECFDset of s2exp
+  | ABSRECFDgetset of s2exp
+//
+  | ABSRECFDexch of s2exp
+//
+  | ABSRECFDvtget of s2exp
+//
+  | ABSRECFDgetref of s2exp
+//
+  | ABSRECFDunknown of s2exp
+//
+(* ****** ****** *)
+//
+extern
+fun
+absrecfd_of_s2exp
+  (s2e0: s2exp): absrecfd
+//
+implement
+absrecfd_of_s2exp
+  (s2e0) = let
+//
+macdef
+is_get(name) = (,(name) = "get")
+macdef
+is_set(name) =  (,(name) = "set")
+macdef
+is_getset(name) = (,(name) = "getset")
+//
+macdef
+is_exch(name) = (,(name) = "exch")
+//
+macdef
+is_vtget(name) = (,(name) = "vtget")
+//
+macdef
+is_getref(name) = (,(name) = "getref")
+//
+in
+//
+case+
+s2e0.s2exp_node of
+| S2Eapp
+  (
+    s2e1, list_nil()
+  ) => ABSRECFDunknown(s2e0)
+| S2Eapp
+  (
+    s2e1, list_cons(s2e2, _)
+  ) => (
+    case+
+    s2e1.s2exp_node
+    of // case+
+    | S2Ecst(s2c1) => let
+        val sym =
+          s2cst_get_sym(s2c1)
+        val name =
+          $SYM.symbol_get_name(sym)
+        // end of [val]
+      in
+        case+ 0 of
+//
+        | _ when
+            is_get(name) => ABSRECFDget(s2e2)
+        | _ when
+            is_set(name) => ABSRECFDset(s2e2)
+        | _ when
+            is_getset(name) => ABSRECFDgetset(s2e2)
+//
+        | _ when
+            is_exch(name) => ABSRECFDexch(s2e2)
+        | _ when
+            is_vtget(name) => ABSRECFDvtget(s2e2)
+        | _ when
+            is_getref(name) => ABSRECFDvtget(s2e2)
+//
+        | _(* unrecognized *) => ABSRECFDunknown(s2e0)
+//
+      end (* end of [S2Ecst] *)
+    | _(*non-S2Ecst*) => ABSRECFDunknown(s2e0)
+  )
+| _(*non-S2Eapp*) => ABSRECFDunknown(s2e0)
+//
+end // end of [absrecfd_of_s2exp]
+//
+(* ****** ****** *)
+//
+extern
+fun
+emit_absrecfd
+(
+  out: FILEref, tnm: string, fd: absrecfd
+) : void // end of [emit_absrecfd]
+//
+(* ****** ****** *)
+//
+extern
+fun
+s2cst_get_tyrec
+  (s2c0: s2cst): s2expopt_vt
+//
+implement
+s2cst_get_tyrec
+  (s2c0) = let
+//
+fun
+auxget
+(
+  s2e0: s2exp
+) : s2expopt_vt =
+(
+case+
+s2e0.s2exp_node
+of // case+
+| S2Etyrec _ => Some_vt(s2e0)
+| S2Euni(s2vs, s2ps, s2e_body) => auxget(s2e_body)
+| _(*rest-of-s2exp*) => None_vt(*void*)
+)
+//
+val-
+Some(s2e0) = s2cst_get_def(s2c0)
+//
+in
+  auxget(s2e0)
+end // end of [s2cst_get_tyrec]
+
+(* ****** ****** *)
 
 local
 
@@ -103,25 +235,70 @@ val () = fprintln! (out, "*)")
 } (* end of [auxerr_s2cst] *)
 
 fun
+auxerr_s2cst_tyrec
+(
+  out: FILEref, d2c0: d2ecl, s2c: s2cst
+) : void = {
+//
+val loc0 = d2c0.d2ecl_loc
+//
+val () = fprint! (out, "(*\n")
+//
+val () =
+fprint! (
+  out, loc0
+, ": error(codegen2): absrec: [", s2c, "] does not refer to a record\n"
+) (* end of [val] *)
+//
+val () = fprintln! (out, "*)")
+//
+} (* end of [auxerr_s2cst_tyrec] *)
+
+fun
 aux_tydef
 (
   out: FILEref
 , d2c0: d2ecl
-, s2def: s2cst, xs: e1xplst
+, s2c0: s2cst, xs: e1xplst
 ) : void = let
 //
 // (*
 val () =
 println! (
 //
-"aux_tydef: s2def = ", s2def
+"aux_tydef: s2c0 = ", s2c0
 //
 ) (* println! *)
 // *)
 //
+val opt = s2cst_get_tyrec(s2c0)
+//
+in
+//
+case+ opt of
+| ~None_vt() => auxerr_s2cst_tyrec(out, d2c0, s2c0)
+| ~Some_vt(s2e_def) => aux_tydef_tyrec(out, d2c0, s2c0, s2e_def, xs)
+//
+end (* end of [aux_tydef] *)
+
+and
+aux_tydef_tyrec
+(
+  out: FILEref
+, d0c0: d2ecl
+, s2c0: s2cst
+, s2e_def: s2exp, xs: e1xplst
+) : void = let
+//
+val () =
+println!
+(
+  "aux_tydef_tyrec: s2e_def = ", s2e_def
+) (* println! *)
+//
 in
   // nothing
-end (* end of [aux_tydef] *)
+end // end of [aux_tydef_tyrec]
 
 in (* in-of-local *)
 
