@@ -53,9 +53,7 @@ staload SYM = "./pats_symbol.sats"
 //
 (* ****** ****** *)
 //
-staload S1E = "./pats_staexp1.sats"
-//
-overload fprint with $S1E.fprint_e1xp
+staload "./pats_staexp1.sats"
 //
 (* ****** ****** *)
 //
@@ -65,6 +63,15 @@ staload "./pats_dynexp2.sats"
 (* ****** ****** *)
 
 staload "./pats_codegen2.sats"
+
+(* ****** ****** *)
+
+fun
+s2cst_get_name
+  (s2c: s2cst): string =
+(
+  $SYM.symbol_get_name(s2cst_get_sym(s2c))
+) (* end of [s2cst_get_name] *)
 
 (* ****** ****** *)
 //
@@ -126,11 +133,7 @@ s2e0.s2exp_node of
     s2e1.s2exp_node
     of // case+
     | S2Ecst(s2c1) => let
-        val sym =
-          s2cst_get_sym(s2c1)
-        val name =
-          $SYM.symbol_get_name(sym)
-        // end of [val]
+        val name = s2cst_get_name(s2c1)
       in
         case+ 0 of
 //
@@ -166,17 +169,18 @@ fun
 emit_tyrecfld
 (
   out: FILEref
-, tnm: string, ls2e: labs2exp
+, s2c0: s2cst, tnm: string, ls2e: labs2exp
 ) : void // end of [emit_tyrecfld]
 //
 implement
 emit_tyrecfld
 (
-  out, tnm, ls2e
+  out, s2c0, tnm, ls2e
 ) = let
 //
 val
-SLABELED(l0, _, s2e) = ls2e
+SLABELED
+  (l0, _, s2e) = ls2e
 //
 val
 fld = absrecfld_of_s2exp(s2e)
@@ -236,21 +240,24 @@ fun
 emit_tyrecfldlst
 (
   out: FILEref
-, tnm: string, ls2es: labs2explst
+, s2c0: s2cst, tnm: string, ls2es: labs2explst
 ) : void // end of [emit_tyrecfldlst]
 //
 implement
 emit_tyrecfldlst
-  (out, tnm, ls2es) =
 (
+  out, s2c0, tnm, ls2es
+) = (
+//
 case+ ls2es of
 | list_nil() => ()
 | list_cons(ls2e, ls2es) =>
   {
-    val () = emit_tyrecfld(out, tnm, ls2e)
-    val () = emit_tyrecfldlst(out, tnm, ls2es)
+    val () = emit_tyrecfld(out, s2c0, tnm, ls2e)
+    val () = emit_tyrecfldlst(out, s2c0, tnm, ls2es)
   } (* end of [list_cons] *)
-)
+//
+) (* end of [emit_tyrecfldlst] *)
 //
 (* ****** ****** *)
 //
@@ -372,8 +379,8 @@ in
 case+ opt of
 | ~None_vt() =>
     auxerr_s2cst_tyrec(out, d2c0, s2c0)
-| ~Some_vt(s2e_def) =>
-    aux_tydef_tyrec(out, d2c0, s2c0, s2e_def, xs)
+| ~Some_vt(s2e_rec) =>
+    aux_tydef_tyrec(out, d2c0, s2c0, s2e_rec, xs)
 //
 end (* end of [aux_tydef] *)
 
@@ -383,22 +390,42 @@ aux_tydef_tyrec
   out: FILEref
 , d0c0: d2ecl
 , s2c0: s2cst
-, s2e_def: s2exp, xs: e1xplst
+, s2e_rec: s2exp, xs: e1xplst
 ) : void = let
 //
 val () =
 println!
 (
-  "aux_tydef_tyrec: s2e_def = ", s2e_def
+  "aux_tydef_tyrec: s2e_rec = ", s2e_rec
 ) (* println! *)
 //
-val tnm = "myrec"
+val tnm =
+(
+//
+case+ xs of
+| list_nil() =>
+    s2cst_get_name(s2c0)
+  // list_nil
+| list_cons(x0, _) =>
+  (
+    case+
+    x0.e1xp_node
+    of // case+
+    | E1XPide(id) =>
+        $SYM.symbol_get_name(id)
+      // E1XPide
+    | E1XPstring(name) => name
+    | _(*unrecogized*) => s2cst_get_name(s2c0)
+  )
+//
+) : string // end of [val]
 //
 val-
-S2Etyrec(knd, npf, ls2es) = s2e_def.s2exp_node
+S2Etyrec
+  (knd, npf, ls2es) = s2e_rec.s2exp_node
 //
 in
-  emit_tyrecfldlst(out, tnm, ls2es)
+  emit_tyrecfldlst(out, s2c0, tnm, ls2es)
 end // end of [aux_tydef_tyrec]
 
 in (* in-of-local *)

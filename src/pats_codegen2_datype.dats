@@ -86,10 +86,11 @@ fun
 auxerr_cons
 (
   out: FILEref
-, d2c0: d2ecl, x: e1xp
+, d2c0: d2ecl, x0: e1xp
 ) : void =  {
 //
-val loc0 = d2c0.d2ecl_loc
+val
+loc0 = d2c0.d2ecl_loc
 //
 val () = fprint! (out, "(*\n")
 //
@@ -133,9 +134,9 @@ case+
 x0.e1xp_node
 of // case+
 | $S1E.E1XPide(sym) =>
-    $SYM.fprint_symbol (out, sym)
+    $SYM.fprint_symbol(out, sym)
   // end of [E1XPide]
-| $S1E.E1XPstring(name) => fprint (out, name)
+| $S1E.E1XPstring(name) => fprint(out, name)
 | _(*rest-of-e1xp*) => auxfun0((*void*))
 )
 //

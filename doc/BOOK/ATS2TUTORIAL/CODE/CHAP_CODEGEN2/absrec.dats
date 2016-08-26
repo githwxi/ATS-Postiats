@@ -32,7 +32,7 @@ d= getref(VT0)
 //
 (* ****** ****** *)
 
-#codegen2(absrec, myrec_t, myrec)
+#codegen2(absrec, myrec_t)
 
 (* ****** ****** *)
 
