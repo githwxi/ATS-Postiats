@@ -181,6 +181,13 @@ atspre_neq_ptr_intz
 
 #atscode_separator_for_C()
 //
+\#define atspre_aptr_null() atsptr_null
+//
+\#define atspre_aptr_is_null atspre_ptr_is_null
+\#define atspre_aptr_isnot_null atspre_ptr_isnot_null
+//
+#atscode_separator_for_C()
+//
 \#define atspre_cptr_null() atsptr_null
 //
 \#define atspre_cptr_is_null atspre_ptr_is_null

@@ -526,16 +526,30 @@ aptr_getfree_elt{l:agz}(aptr(a, l)):<!wrt> (a)
 //
 fun
 {a:t0p}
-aptr_get_elt{l:agz}(ap: !aptr(INV(a), l)):<!wrt> a
+aptr_get_elt{l:agz}(ap: !aptr(INV(a), l)):<!wrt> (a)
 fun
 {a:t0p}
-aptr_set_elt{l:agz}(ap: !aptr(INV(a), l) >> _, x: a):<!wrt> void
+aptr_set_elt
+  {l:agz}(ap: !aptr(INV(a), l) >> _, x: a):<!wrt> void
 fun
 {a:t0p}
-aptr_exch_elt{l:agz}(ap: !aptr(INV(a), l) >> _, x: &(a)>>_):<!wrt> void
+aptr_exch_elt
+  {l:agz}(ap: !aptr(INV(a), l) >> _, x: &(a)>>_):<!wrt> void
 //
 overload [] with aptr_get_elt
 overload [] with aptr_set_elt
+//
+#atscode_separator()
+//
+fun aptr_null{a:vt0p}():<> aptr(a, null) = "mac\#%"
+//
+fun aptr_is_null
+  {a:vt0p}{l:addr}(p: !aptr(INV(a), l)):<> bool(l==null) = "mac\#%"
+fun aptr_isnot_null
+  {a:vt0p}{l:addr}(p: !aptr(INV(a), l)):<> bool(l > null) = "mac\#%"
+//
+overload iseqz with aptr_is_null
+overload isneqz with aptr_isnot_null
 //
 #atscode_separator()
 //
