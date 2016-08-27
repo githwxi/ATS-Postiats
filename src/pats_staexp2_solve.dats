@@ -256,23 +256,27 @@ end // end of [s2Var_s2exp_srtck_err]
 (* ****** ****** *)
 
 extern
-fun s2hnf_tyleq_solve_lbs_err (
+fun
+s2hnf_tyleq_solve_lbs_err (
   loc0: location, lbs: s2VarBoundlst, s2f: s2hnf, err: &int
 ) : void // end of [s2hnf_tyleq_solve_lbs_err]
 extern
-fun s2hnf_tyleq_solve_ubs_err (
+fun
+s2hnf_tyleq_solve_ubs_err (
   loc0: location, s2f: s2hnf, ubs: s2VarBoundlst, err: &int
 ) : void // end of [s2hnf_tyleq_solve_ubs_err]
 
 (* ****** ****** *)
 
 extern
-fun s2hnf_equal_solve_lVar_err (
+fun
+s2hnf_equal_solve_lVar_err (
   loc: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
 ) : void // end of [s2hnf_equal_solve_lVar_err]
 extern
-fun s2hnf_equal_solve_lVar_err_nck (
+fun
+s2hnf_equal_solve_lVar_err_nck (
   loc: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
 ) : void // end of [s2hnf_equal_solve_lVar_err_nck]
@@ -813,7 +817,8 @@ end // end of [wths2explst_equal_solve_err]
 (* ****** ****** *)
 
 extern
-fun s2hnf_tyleq_solve_lVar_err (
+fun
+s2hnf_tyleq_solve_lVar_err (
   loc: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
 ) : void // end of [s2hnf_tyleq_solve_lVar_err]
@@ -840,7 +845,8 @@ in
 end // end of [s2hnf_tyleq_solve_lVar_err]
 
 extern
-fun s2hnf_tyleq_solve_rVar_err (
+fun
+s2hnf_tyleq_solve_rVar_err (
   loc: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V2: s2Var, err: &int
 ) : void // end of [s2hnf_tyleq_solve_rVar_err]
@@ -943,7 +949,7 @@ case+ (s2en10, s2en20) of
     s2hnf_tyleq_solve_lVar_err (loc0, s2f10, s2f20, s2V1, err)
   // end of [S2EVar, _]
 //
-| (S2Etop (knd1, s2e1), _) => (
+| (S2Etop(knd1, s2e1), _) => (
   case+ s2en20 of
   | S2Etop (knd2, s2e2) => (
       if knd1 >= knd2 then let
@@ -954,7 +960,7 @@ case+ (s2en10, s2en20) of
     ) // end of [S2Etop]
   | _ => (err := err + 1)
   ) // end of [S2Etop, _]
-| (_, S2Etop (knd2, s2e2)) => (
+| (_, S2Etop(knd2, s2e2)) => (
   case+ 0 of
   | _ when knd2 = 0 => let
       // [s2e0] is topized version of some type

@@ -482,10 +482,13 @@ fun labs2zexplst_merge_exn
 
 (* ****** ****** *)
 
-fun s2zexp_linkrem
+fun
+s2zexp_linkrem
   (x: s2zexp): s2zexp = case+ x of
   | S2ZEVar (s2V) => s2Var_get_szexp (s2V) | _ => x
 // end of [s2zexp_linkrem]
+
+(* ****** ****** *)
 
 implement
 s2zexp_merge_exn
@@ -685,12 +688,14 @@ in
   s2zexp_syneq (s2ze1, s2ze2)
 end // end of [s2hnf_tszeq]
 
+(* ****** ****** *)
+//
 implement
 s2exp_tszeq(s2e1, s2e2) =
 (
   s2hnf_tszeq(s2exp2hnf(s2e1), s2exp2hnf(s2e2))
-) // end of [s2exp_tszeq]
-
+) (* end of [s2exp_tszeq] *)
+//
 (* ****** ****** *)
 
 (* end of [pats_staexp2_szexp.dats] *)

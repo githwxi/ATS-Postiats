@@ -566,8 +566,8 @@ fun auxerr2
 val d2vfin = d2var_get_finknd (d2v)
 (*
 val () = (
-  print "d2vfin_check_some: d2v = "; print_d2var (d2v); print_newline ();
-  print "d2vfin_check_some: d2vfin = "; print_d2vfin (d2vfin); print_newline ();
+  print "d2vfin_check_some: d2v = "; print_d2var(d2v); print_newline();
+  print "d2vfin_check_some: d2vfin = "; print_d2vfin(d2vfin); print_newline();
 ) (* end of [val] *)
 *)
 in
@@ -579,7 +579,7 @@ case+ d2vfin of
     val () = if islin then auxerr2 (loc0, d2v, s2e)
     val linval = d2var_get_linval (d2v)
   in
-    if linval >= 0 then d2var_set_type (d2v, None ())
+    if linval >= 0 then d2var_set_type(d2v, None ())
   end // end of [D2VFINnone]
 //
 | D2VFINsome
@@ -592,7 +592,7 @@ case+ d2vfin of
     val ((*void*)) = trans3_env_pop_and_add (pfpush | loc0, knd)
   in
     d2var_set_type (d2v, Some s2e_fin)
-  end // end of [D2VFINsome_lvar]
+  end // end of [D2VFINsome]
 //
 | D2VFINsome_lvar
     (s2e_fin) => let
@@ -604,21 +604,28 @@ case+ d2vfin of
       case+
       s2e.s2exp_node
       of // case+
-      | S2Eat(s2at, s2l) => let
-          val isnonlin = s2exp_is_nonlin (s2at)
+      | S2Eat(s2at, s2l) =>
+        let
+          val isnonlin = s2exp_is_nonlin(s2at)
         in
-          if isnonlin then s2exp_at (s2exp_topize_0 (s2at), s2l) else s2e
+          if isnonlin then s2exp_at(s2exp_topize_0(s2at), s2l) else s2e
         end // end of [S2Eat]
       | _ (* non-S2Eat *) => let
           val () = assertloc (false) in s2e // HX: this should be deadcode!
         end // end of [_]
     ) : s2exp // end of [val]
 //
+(*
+    val () = println! ("d2vfin_check_some: D2VFINsome_lvar: s2e = ", s2e)
+*)
+//
     val err =
-    $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_fin)
-    val () = if err > 0 then auxerr1 (loc0, d2v, s2e, s2e_fin)
-    val knd = C3TKsome_lvar (d2v, s2e_fin, s2e)
-    val ((*void*)) = trans3_env_pop_and_add (pfpush | loc0, knd)
+    $SOL.s2exp_tyleq_solve(loc0, s2e, s2e_fin)
+    val () =
+    if err > 0 then auxerr1(loc0, d2v, s2e, s2e_fin)
+//
+    val knd = C3TKsome_lvar(d2v, s2e_fin, s2e)
+    val ((*void*)) = trans3_env_pop_and_add(pfpush | loc0, knd)
 //
   in
     d2var_set_type (d2v, Some (s2e_fin))

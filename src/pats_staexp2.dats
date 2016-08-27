@@ -460,7 +460,7 @@ implement
 s2exp_tyarr
   (s2e_elt, dim) = let
   val s2t = (
-    if s2exp_is_lin (s2e_elt) then s2rt_vt0ype else s2rt_t0ype
+    if s2exp_is_lin(s2e_elt) then s2rt_vt0ype else s2rt_t0ype
   ) : s2rt // end of [val
 in
   s2exp_tyarr_srt (s2t, s2e_elt, dim)
@@ -585,24 +585,24 @@ s2exp_t0ype_err() = s2exp_errexp(s2rt_t0ype)
 implement
 s2exp_refeq
   (s2e1, s2e2) = (
-  $UN.cast2ptr (s2e1) = $UN.cast2ptr (s2e2)
+  $UN.cast2ptr(s2e1) = $UN.cast2ptr(s2e2)
 ) // end of [s2exp_refeq]
 
 (* ****** ****** *)
 
 implement
 s2exp_is_prf
-  (s2e) = s2rt_is_prf (s2e.s2exp_srt)
+  (s2e) = s2rt_is_prf(s2e.s2exp_srt)
 // end of [s2exp_is_prf]
 implement
-s2exp_is_nonprf (s2e) = not (s2exp_is_prf (s2e))
+s2exp_is_nonprf(s2e) = not(s2exp_is_prf(s2e))
 
 implement
 s2exp_is_lin
-  (s2e) = s2rt_is_lin (s2e.s2exp_srt)
+  (s2e) = s2rt_is_lin(s2e.s2exp_srt)
 // end of [s2exp_is_lin]
 implement
-s2exp_is_nonlin (s2e) = not (s2exp_is_lin (s2e))
+s2exp_is_nonlin(s2e) = not(s2exp_is_lin(s2e))
 
 implement
 s2exp_is_boxed

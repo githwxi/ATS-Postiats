@@ -349,16 +349,19 @@ case+ ctxtopt of
 | Some(ctxt) =>
     d3e_r where {
 //
-    val () = d3exp_open_and_add (d3e_r)
-    val s2e_sel2 = d3exp_get_type (d3e_r)
+    val () = d3exp_open_and_add(d3e_r)
+    val s2e_sel2 = d3exp_get_type(d3e_r)
 //
-    val () = auxck_tszeq (loc0, s2e_sel, s2e_sel2)
+    val () = auxck_tszeq(loc0, s2e_sel, s2e_sel2)
 //
     val () = d2var_inc_linval (d2vw)
 //
-    val s2e_elt = s2ctxt_hrepl (ctxt, s2e_sel2)
-    val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
-    val () = d2var_set_type (d2vw, Some (s2e))
+    val
+    s2e_elt = s2ctxt_hrepl(ctxt, s2e_sel2)
+//
+    val s2e0 = s2exp_hrepl(s2e_ctx, s2e_elt)
+//
+    val ((*void*)) = d2var_set_type (d2vw, Some(s2e0))
 //
   } (* end of [Some] *)
 //
