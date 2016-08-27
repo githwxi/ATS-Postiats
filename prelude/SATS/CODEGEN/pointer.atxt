@@ -513,7 +513,7 @@ stadef aPtr0 (a:vt0p) = [l:addr] aptr (a, l)
 stadef aPtr1 (a:vt0p) = [l:addr | l > null] aptr (a, l)
 //
 castfn
-aptr2ptr{a:vt0p}{l:addr} (ap: !aptr (a, l)):<> ptr (l)
+aptr2ptr{a:vt0p}{l:addr}(ap: !aptr(INV(a), l)):<> ptr(l)
 //
 #atscode_separator()
 //
@@ -544,9 +544,9 @@ overload [] with aptr_set_elt
 fun aptr_null{a:vt0p}():<> aptr(a, null) = "mac\#%"
 //
 fun aptr_is_null
-  {a:vt0p}{l:addr}(p: !aptr(INV(a), l)):<> bool(l==null) = "mac\#%"
+  {a:vt0p}{l:addr}(ap: !aptr(INV(a), l)):<> bool(l==null) = "mac\#%"
 fun aptr_isnot_null
-  {a:vt0p}{l:addr}(p: !aptr(INV(a), l)):<> bool(l > null) = "mac\#%"
+  {a:vt0p}{l:addr}(ap: !aptr(INV(a), l)):<> bool(l > null) = "mac\#%"
 //
 overload iseqz with aptr_is_null
 overload isneqz with aptr_isnot_null

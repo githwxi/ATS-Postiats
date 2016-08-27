@@ -73,17 +73,32 @@ overload carrayptr with carrayptr_arrayptr
 // repeatedly for otherwise safety may be potentially compromised.
 //
 absview
-minus_viewt0ype_view_view (vt1: vt0p, v2: view) = vt1
+minus_viewt0ype_view_view(vt1: vt0p, v2: view) = vt1
 viewdef
 minus(vt1: vt0p, v2: view) = minus_viewt0ype_view_view(vt1, v2)
 //
-praxi minus_addback
-  {vt1:vt0p}{v2:view} (pf1: minus (vt1, v2), pf2: v2 | x: !vt1): void
+praxi
+minus_addback
+  {vt1:vt0p}{v2:view}
+  (pf1: minus (vt1, v2), pf2: v2 | x: !vt1): void
 //
 #atscode_separator()
-
-vtypedef vtget0 (vt1:vt0p, vt2: vt0p) = (minus (vt1, vt2) | vt2)
-
+//
+vtypedef
+vtget0(vt1:vt0p, vt2: vt0p) = (minus (vt1, vt2) | vt2)
+//
+#atscode_separator()
+//
+// HX-2016-08:
+// It is implemented in [pointer.dats]
+//
+fun
+{a:vt0p}
+aptr_vtget_elt
+  {l:agz}(ap: !aptr(INV(a), l)):<!wrt> vtget0(aptr(a, l), a)
+//
+overload vtget with aptr_vtget_elt
+//
 #atscode_separator()
 
 castfn
