@@ -108,11 +108,12 @@ overload ptrcast with direntp2ptr
 (* ****** ****** *)
 
 castfn
-direntp_get_viewptr{l:agz}
+direntp_get_viewptr
+  {l:agz}
 (
   x: !direntp l
 ) :<> (
-  dirent @ l, minus (direntp l, dirent @ l) | ptr l
+  dirent @ l, minus_v(direntp l, dirent @ l) | ptr(l)
 ) // end of [direntp_get_viewptr]
 
 praxi
