@@ -173,7 +173,8 @@ labs2explst_hnfize_flag
 (* ****** ****** *)
 
 extern
-fun s2exp_hnfize_app
+fun
+s2exp_hnfize_app
 (
   s2e0: s2exp, s2e_fun: s2exp, s2es_arg: s2explst, flag: &int >> int
 ) : s2exp // [s2exp_hnfize_app]
@@ -419,9 +420,10 @@ case+ s2e0.s2exp_node of
 //
 | S2Einvar _ => s2exp_invar_flag (s2e0, flag)
 //
+(*
 | S2Eexi _=> s2e0
 | S2Euni _=> s2e0
-(*
+*)
 | S2Eexi (s2vs, s2ps, s2e_scope) => let
     val flag0 = flag
     val s2e_scope = s2exp_hnfize_flag (s2e_scope, flag)
@@ -434,7 +436,6 @@ case+ s2e0.s2exp_node of
   in
     if flag > flag0 then s2exp_uni (s2vs, s2ps, s2e_scope) else s2e0
   end // end of [S2Euni]
-*)
 //
 | S2Erefarg _ => s2e0
 //

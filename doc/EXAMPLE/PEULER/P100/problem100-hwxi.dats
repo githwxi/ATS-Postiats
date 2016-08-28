@@ -28,10 +28,11 @@
 //
 (* ****** ****** *)
 //
-staload UN = "prelude/SATS/unsafe.sats"
+#include
+"share/atspre_staload.hats"
 //
-staload INT = "prelude/DATS/integer.dats"
-staload FLOAT = "prelude/DATS/float.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 

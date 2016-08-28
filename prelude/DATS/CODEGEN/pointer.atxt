@@ -167,26 +167,33 @@ aptr_exch_elt(ap, x0) =
 //
 #atscode_separator()
 //
+//
 implement
 {a}(*tmp*)
 aptr_vtget0_elt
-  {l}(ap) = let
+  {l}(ap) = x0 where
+{
 //
-val x0 = $UN.ptr1_get<a>(aptr2ptr(ap))
+val x0 =
+  $UN.ptr1_get<a>(aptr2ptr(ap))
 //
-in
-  $UN.castvwtp0{vtget0(aptr(a, l), a)}(x0)
-end // end of [aptr_vtget0_elt]
+prval () = $UN.castvwtp2void(ap)
+//
+} (* end of [aptr_vtget0_elt] *)
 //
 implement
 {a}(*tmp*)
 aptr_vtget1_elt
   {l}(ap) = let
 //
-val x0 = $UN.ptr1_get<a>(aptr2ptr(ap))
+val x0 =
+  $UN.ptr1_get<a>(aptr2ptr(ap))
+//
+vtypedef
+res_vt = (minus_v(aptr(a,l),a) | a)
 //
 in
-  $UN.castvwtp0{vtget1(aptr(a, l), a)}(x0)
+  $UN.castvwtp0{res_vt}(x0)
 end // end of [aptr_vtget1_elt]
 //
 #atscode_separator()
