@@ -398,7 +398,8 @@ a:viewt@ype
 fun{
 a:viewt@ype
 } list_vt_append
-  {m,n:int | m > 0} (
+  {m,n:int | m > 0}
+(
   xs: !list_vt (a, m) >> list_vt (a, m+n)
 , ys: list_vt (a, n)
 ) : void = let

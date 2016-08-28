@@ -346,17 +346,24 @@ fun s2rt_is_dat (x: s2rt): bool
 //
 fun s2rt_is_fun (x: s2rt): bool
 fun s2rt_is_prf (x: s2rt): bool // is proof?
+//
 fun s2rt_is_lin (x: s2rt): bool
 fun s2rt_is_nonlin (x: s2rt): bool
+//
 fun s2rt_is_flat (x: s2rt): bool // is flat?
 fun s2rt_is_boxed (x: s2rt): bool // is boxed?
+//
+fun s2rt_is_tkind (x: s2rt): bool // is tkind?
+//
 fun s2rt_is_prgm (x: s2rt): bool // is program?
 fun s2rt_is_impred (x: s2rt): bool // is impredicative?
-fun s2rt_is_tkind (x: s2rt): bool // is tkind?
 //
 fun s2rt_is_lin_fun (x: s2rt): bool // is (... ->) linear?
 fun s2rt_is_boxed_fun (x: s2rt): bool // is (... ->) boxed?
 fun s2rt_is_tkind_fun (x: s2rt): bool // is (... ->) tkind?
+//
+fun s2rt_is_prgm_fun (x: s2rt): bool // is (... ->) program?
+fun s2rt_is_impred_fun (x: s2rt): bool // is (... ->) impred?
 //
 (* ****** ****** *)
 

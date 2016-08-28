@@ -452,6 +452,22 @@ case+ s2t of
 (* ****** ****** *)
 
 implement
+s2rt_is_tkind(s2t) =
+(
+case+ s2t of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASpre(sym) => (
+      $SYM.eq_symbol_symbol(sym, $SYM.symbol_TKIND)
+    ) (* S2RTBASpre *)
+  | _ (*non-S2RTBASpre*) => false
+  ) // end of [S2ETbas]
+| _ (*non-S2RTbas*) => false // end of [_]
+) // end of [s2rt_is_tkind]
+
+(* ****** ****** *)
+
+implement
 s2rt_is_prgm(s2t) =
 (
 case+ s2t of
@@ -475,22 +491,6 @@ case+ s2t of
 | _ (*non-S2RTbas*) => false // end of [_]
 //
 ) (* end of [s2rt_is_impred] *)
-
-(* ****** ****** *)
-
-implement
-s2rt_is_tkind(s2t) =
-(
-case+ s2t of
-| S2RTbas s2tb => (
-  case+ s2tb of
-  | S2RTBASpre(sym) => (
-      $SYM.eq_symbol_symbol(sym, $SYM.symbol_TKIND)
-    ) (* S2RTBASpre *)
-  | _ (*non-S2RTBASpre*) => false
-  ) // end of [S2ETbas]
-| _ (*non-S2RTbas*) => false // end of [_]
-) // end of [s2rt_is_tkind]
 
 (* ****** ****** *)
 
@@ -521,6 +521,13 @@ s2rt_is_boxed_fun
 implement
 s2rt_is_tkind_fun
   (s2t) = s2rt_test_fun(s2t, s2rt_is_tkind)
+//
+implement
+s2rt_is_prgm_fun
+  (s2t) = s2rt_test_fun(s2t, s2rt_is_prgm)
+implement
+s2rt_is_impred_fun
+  (s2t) = s2rt_test_fun(s2t, s2rt_is_impred)
 //
 end // end of [local]
 

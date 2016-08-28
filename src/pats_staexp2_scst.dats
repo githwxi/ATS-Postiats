@@ -565,7 +565,7 @@ s2cst_is_tydef(s2c) =
 (
 //
 if s2cst_is_def(s2c)
-  then s2rt_is_prgm(s2cst_get_srt(s2c)) else false
+  then s2rt_is_prgm_fun(s2cst_get_srt(s2c)) else false
 //
 ) (* end of [s2cst_is_tydef] *)
 

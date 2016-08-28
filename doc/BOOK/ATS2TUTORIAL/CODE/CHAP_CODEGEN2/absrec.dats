@@ -14,15 +14,28 @@ absvt0ype VT0
 
 (* ****** ****** *)
 
+vtypedef
+myarr_t (
+  a:vt0p
+, l:addr, n:int
+) = [l > null]
+$rec
+{
+a= get(int(n))
+,
+b= vtget(arrayptr(a, n))
+}
+
 typedef
-myrec_t =
+myrec_t
+(l: addr) = [l > null]
 $rec{
 //
 a= get(T0)
 ,
 a= set(T0)
 ,
-b= getset(double)
+b= get(int -<0,!exn> double)
 ,
 c= exch(VT0)
 ,
@@ -32,7 +45,8 @@ d= getref(VT0)
 //
 (* ****** ****** *)
 
-#codegen2(absrec, myrec_t)
+#codegen2(absrec, myarr_t, myarr$)
+#codegen2(absrec, myrec_t, myrec$)
 
 (* ****** ****** *)
 

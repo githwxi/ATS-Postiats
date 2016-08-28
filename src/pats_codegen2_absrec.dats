@@ -197,7 +197,7 @@ case+ fld of
   {
     val () = fprint!(out, "fun{}\n")
     val () = fprint!(out, tnm, "_get_", l0)
-    val () = fprint!(out, ": (", tnm, ") -<> (", s2e, ")\n")
+    val () = fprint!(out, ": (", s2c0, ") -<> (", s2e, ")\n")
     val () =
     fprint!
       (out, "overload ", ".", l0, " with ", tnm, "_get_", l0, "\n")
@@ -209,7 +209,7 @@ case+ fld of
   {
     val () = fprint!(out, "fun{}\n")
     val () = fprint!(out, tnm, "_set_", l0)
-    val () = fprint!(out, ": (", tnm, ", ", s2e, ") -<ref> void\n")
+    val () = fprint!(out, ": (", s2c0, ", ", s2e, ") -<ref> void\n")
     val () =
     fprint!
       (out, "overload ", ".", l0, " with ", tnm, "_set_", l0, "\n")
@@ -221,7 +221,7 @@ case+ fld of
   {
     val () = fprint!(out, "fun{}\n")
     val () = fprint!(out, tnm, "_exch_", l0)
-    val () = fprint!(out, ": (", tnm, ", ", s2e, ") -<ref> ", s2e, "\n")
+    val () = fprint!(out, ": (", s2c0, ", ", s2e, ") -<ref> ", s2e, "\n")
     val ((*void*)) = fprint_newline(out)
   }
 //
@@ -274,15 +274,25 @@ fun
 auxget
 (
   s2e0: s2exp
-) : s2expopt_vt =
+) : s2expopt_vt = let
+//
+val () =
+println!
 (
+  "s2cst_get_tyrec: auxget: s2e0 = ", s2e0
+) (* end of [println!] *)
+//
+in
+//
 case+
 s2e0.s2exp_node
 of // case+
 | S2Etyrec _ => Some_vt(s2e0)
-| S2Euni(s2vs, s2ps, s2e_body) => auxget(s2e_body)
+| S2Elam(s2vs, s2e) => auxget(s2e)
+| S2Eexi(s2vs, s2ps, s2e) => auxget(s2e)
 | _(*rest-of-s2exp*) => None_vt(*void*)
-)
+//
+end // end of [auxget]
 //
 val-
 Some(s2e0) = s2cst_get_def(s2c0)

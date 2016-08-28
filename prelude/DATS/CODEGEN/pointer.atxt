@@ -169,14 +169,25 @@ aptr_exch_elt(ap, x0) =
 //
 implement
 {a}(*tmp*)
-aptr_vtget_elt
+aptr_vtget0_elt
   {l}(ap) = let
 //
 val x0 = $UN.ptr1_get<a>(aptr2ptr(ap))
 //
 in
   $UN.castvwtp0{vtget0(aptr(a, l), a)}(x0)
-end // end of [aptr_vtget_elt]
+end // end of [aptr_vtget0_elt]
+//
+implement
+{a}(*tmp*)
+aptr_vtget1_elt
+  {l}(ap) = let
+//
+val x0 = $UN.ptr1_get<a>(aptr2ptr(ap))
+//
+in
+  $UN.castvwtp0{vtget1(aptr(a, l), a)}(x0)
+end // end of [aptr_vtget1_elt]
 //
 #atscode_separator()
 

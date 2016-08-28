@@ -73,19 +73,21 @@ overload carrayptr with carrayptr_arrayptr
 // repeatedly for otherwise safety may be potentially compromised.
 //
 absview
-minus_viewt0ype_view_view(vt1: vt0p, v2: view) = vt1
+minus_vt0ype_view_view(vt1:vt@ype+, v2:view-) = vt1
 viewdef
-minus(vt1: vt0p, v2: view) = minus_viewt0ype_view_view(vt1, v2)
+minus_v(vt1:vt0p, v2:view) = minus_vt0ype_view_view(vt1, v2)
 //
 praxi
 minus_addback
   {vt1:vt0p}{v2:view}
-  (pf1: minus (vt1, v2), pf2: v2 | x: !vt1): void
+  (pf1: minus_v(vt1, v2), pf2: v2 | x: !vt1): void
 //
 #atscode_separator()
 //
 vtypedef
-vtget0(vt1:vt0p, vt2: vt0p) = (minus (vt1, vt2) | vt2)
+vtget0(vt1:vt0p, vt2:vt0p) = (vt2 -<lin,prf> vt1 | vt2)
+vtypedef
+vtget1(vt1:vt0p, vt2:vt0p) = (minus_v (vt1, vt2) | vt2)
 //
 #atscode_separator()
 //
@@ -94,10 +96,16 @@ vtget0(vt1:vt0p, vt2: vt0p) = (minus (vt1, vt2) | vt2)
 //
 fun
 {a:vt0p}
-aptr_vtget_elt
+aptr_vtget0_elt
   {l:agz}(ap: !aptr(INV(a), l)):<!wrt> vtget0(aptr(a, l), a)
 //
-overload vtget with aptr_vtget_elt
+fun
+{a:vt0p}
+aptr_vtget1_elt
+  {l:agz}(ap: !aptr(INV(a), l)):<!wrt> vtget1(aptr(a, l), a)
+//
+overload vtget0 with aptr_vtget0_elt
+overload vtget1 with aptr_vtget1_elt
 //
 #atscode_separator()
 
@@ -106,7 +114,7 @@ argv_takeout_strarr
   {n:int} (
   argv: !argv (n)
 ) :<> [l:addr] (
-  array_v (string, l, n), minus (argv n, array_v (string, l, n)) | ptr l
+  array_v(string, l, n), minus_v(argv(n), array_v(string, l, n)) | ptr(l)
 ) // end of [argv_takeout_strarr]
 
 castfn
@@ -114,7 +122,7 @@ argv_takeout_parray
   {n:int} (
   argv: !argv (n)
 ) :<> [l:addr] (
-  parray_v (string, l, n), minus (argv n, parray_v (string, l, n)) | ptr l
+  parray_v(string, l, n), minus_v(argv(n), parray_v(string, l, n)) | ptr(l)
 ) // end of [argv_takeout_parray]
 
 #atscode_separator()
