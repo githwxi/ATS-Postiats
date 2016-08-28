@@ -3,7 +3,8 @@
 #define
 ATSCODEFORMAT "txt"
 //
-#if(ATSCODEFORMAT == "txt")
+#if
+(ATSCODEFORMAT == "txt")
 //
 #include
 "utils/atsdoc/HATS/postiatsatxt.hats"
@@ -14,9 +15,8 @@ ATSCODEFORMAT "txt"
 //
 val
 _thisfilename = atext_strcst"integer_size.sats"
-//
 val ((*void*)) =
-theAtextMap_insert_str ("thisfilename", _thisfilename)
+theAtextMap_insert_str("thisfilename", _thisfilename)
 //
 %}\
 \

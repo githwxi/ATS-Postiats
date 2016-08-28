@@ -3,17 +3,20 @@
 #define
 ATSCODEFORMAT "txt"
 //
-#if(ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#if
+(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
 #endif // end of [ATSCCODEFORMAT]
 //
 #include "prelude_SATS_atext.hats"
 //
 val
 _thisfilename = atext_strcst"integer_long.sats"
-//
 val ((*void*)) =
-theAtextMap_insert_str ("thisfilename", _thisfilename)
+theAtextMap_insert_str("thisfilename", _thisfilename)
 //
 %}\
 \

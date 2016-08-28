@@ -1,10 +1,20 @@
 %{
-#define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#define
+ATSCODEFORMAT "txt"
+//
+#if
+(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"extern.sats"
-val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
+val
+_thisfilename = atext_strcst"extern.sats"
+val ((*void*)) =
+theAtextMap_insert_str("thisfilename", _thisfilename)
+//
 %}\
 \
 #atscode_banner()
@@ -91,10 +101,12 @@ minus_vt0ype_view_vt0ype(vt1, v2)
 praxi
 minus_v_addback
   {vt1:vt0p}{v2:view}
-  (minus_v(vt1, v2), v2 | x0: !vt1): void
+  (minus_v(INV(vt1), v2), v2 | !vt1): void
+//
 castfn
 minus_vt_addback
-  {vt1:vt0p}{v2:view}(v2 | minus_vt(vt1, v2)): vt1
+  {vt1:vt0p}{v2:view}
+  (pf: v2 | x0: minus_vt(INV(vt1), v2)): (vt1)
 //
 symintr minus_addback
 overload minus_addback with minus_v_addback
