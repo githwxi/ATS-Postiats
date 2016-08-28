@@ -51,6 +51,10 @@ abstype absrec_getref(vt0ype)
 //
 typedef get(a:t0ype) = absrec_get(a)
 typedef set(a:t0ype) = absrec_set(a)
+//
+// HX-2016-08-28:
+// [getset] means both [get] and [set]
+//
 typedef getset(a:t0ype) = absrec_getset(a)
 //
 typedef exch(a:vt0ype) = absrec_exch(a)
@@ -61,17 +65,28 @@ typedef getref(a:vt0ype) = absrec_getref(a)
 //
 (* ****** ****** *)
 
-// (*
+(*
+//
 typedef
-absrec_get_fun(trec: vt@ype, res: t@ype) = (!trec) -<> res
+absrec_get_ftype
+  (trec: vt@ype, res: t@ype) = (!trec) -<ref> (res)
 typedef
-absrec_set_fun(trec: vt@ype, res: t@ype) = (!trec, res) -<ref> void
+absrec_set_ftype
+  (trec: vt@ype, res: t@ype) = (!trec, res) -<ref> void
 typedef
-absrec_exch_fun(trec: vt@ype, res: t@ype) = (!trec, res) -<ref> res
+absrec_exch_ftype
+  (trec: vt@ype, res: t@ype) = (!trec, res) -<ref> (res)
+//
 typedef
-absrec_vtget_fun
-  (trec: vt@ype, res: vt@ype) = (!trec, res) -<ref> (minus(trec, res) | res)
-// *)
+absrec_vtget0_ftype
+  (trec: vt@ype, res: vt@ype) =
+  (!trec >> minus_vt(trec, res)) -<fun> res
+typedef
+absrec_vtget1_ftype
+  (trec: vt@ype, res: vt@ype) =
+  (!trec, res) -<fun> (minus_v(trec, res) | res)
+//
+*)
 
 (* ****** ****** *)
 
