@@ -352,14 +352,14 @@ of // case+
       end // end of [D2Emac]
 //
     | _ (*rest-of-d0exp*) => let
-        val opt = d2exp_get_seloverld (_fun)
+        val opt = d2exp_get_seloverld(_fun)
       in
         case+ opt of
         | None () =>
-            d2exp_trup_applst (d2e0, _fun, _arg)
+            d2exp_trup_applst(d2e0, _fun, _arg)
           // end of [None]
         | Some (d2s) =>
-            d2exp_trup_applst_seloverld (d2e0, _fun, d2s, _arg)
+            d2exp_trup_applst_seloverld(d2e0, _fun, d2s, _arg)
           // end of [Some]
       end // end of [rest-of-d0exp]
   end // end of [D2Eapplst]
@@ -437,12 +437,17 @@ of // case+
 | D2Erec _ => d2exp_trup_rec (d2e0)
 | D2Eseq _ => d2exp_trup_seq (d2e0)
 //
-| D2Eselab (d2e, d2ls) => d2exp_trup_selab (loc0, d2e, d2ls)
+| D2Eselab
+    (d2e, d2ls) =>
+    d2exp_trup_selab(loc0, d2e, d2ls)
+  // end of [D2Eselab]
 //
 | D2Eptrof _ => d2exp_trup_ptrof (d2e0)
 | D2Eviewat _ => d2exp_trup_viewat (d2e0)
 //
-| D2Ederef (d2e) => d2exp_trup_deref (loc0, d2e, list_nil)
+| D2Ederef(d2s, d2e) =>
+    d2exp_trup_deref(loc0, d2s, d2e, list_nil)
+  // end of [D2Ederef]
 //
 | D2Eassgn _ => d2exp_trup_assgn (d2e0)
 | D2Exchng _ => d2exp_trup_xchng (d2e0)

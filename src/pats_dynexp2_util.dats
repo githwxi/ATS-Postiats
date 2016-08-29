@@ -291,20 +291,26 @@ case+
 d2e0.d2exp_node
 of // case+
 //
-| D2Evar (d2v) =>
+| D2Evar(d2v) =>
   d2exp_d2var_lvalize(d2e0, d2v, list_nil)
 //
-| D2Ederef (d2e) => D2LVALderef (d2e, list_nil)
+| D2Ederef
+    (_(*!*), d2e) => D2LVALderef(d2e, list_nil)
+  // end of [D2Ederef]
 //
 | D2Eselab
-    (d2e, d2ls) => (
-  case+ d2e.d2exp_node of
-  | D2Evar (d2v) =>
-      d2exp_d2var_lvalize (d2e0, d2v, d2ls)
+  (
+    d2e, d2ls
+  ) => (
+  case+
+  d2e.d2exp_node
+  of (* case+ *)
+  | D2Evar(d2v) =>
+      d2exp_d2var_lvalize(d2e0, d2v, d2ls)
     // end of [D2Evar]
-  | D2Ederef (d2e) => D2LVALderef (d2e, d2ls)
-  | _ => D2LVALnone (d2e0)
-  ) // end of [D2Esel]
+  | D2Ederef(_(*!*), d2e) => D2LVALderef(d2e, d2ls)
+  | _ (*rest-of-d2exp*) => D2LVALnone (d2e0)
+  ) (* end of [D2Esel] *)
 //
 | D2Eviewat (d2e) => D2LVALviewat (d2e)
 //

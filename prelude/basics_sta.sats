@@ -618,56 +618,76 @@ stadef cloref = cloref_t0ype_type
 absvtype
 cloptr_vt0ype_vtype (a:t@ype) = ptr
 stadef cloptr = cloptr_vt0ype_vtype
-vtypedef cloptr0 = cloptr_vt0ype_vtype (void)
+vtypedef
+cloptr0 = cloptr_vt0ype_vtype (void)
 //
 (* ****** ****** *)
 //
 typedef
-stamped_t(a:t@ype) = [x:int] stamped_t(a, x)
+stamped_t
+  (a:t@ype) = [x:int] stamped_t(a, x)
+//
 vtypedef
-stamped_vt(a:vt@ype) = [x:int] stamped_vt(a, x)
+stamped_vt
+  (a:vt@ype) = [x:int] stamped_vt(a, x)
 //
 (* ****** ****** *)
 //
-// HX: for memory deallocation (with/without GC)
+// HX:
+// for memory deallocation
+// (with GC and without GC)
 //
 absview
-mfree_gc_addr_view (addr)
-stadef mfree_gc_v = mfree_gc_addr_view
-absview
-mfree_ngc_addr_view (addr)
-stadef mfree_ngc_v = mfree_ngc_addr_view
+mfree_gc_addr_view(addr)
+stadef
+mfree_gc_v = mfree_gc_addr_view
 //
 absview
-mfree_libc_addr_view (addr) // libc-mfree
-stadef mfree_libc_v = mfree_libc_addr_view
+mfree_ngc_addr_view(addr)
+stadef
+mfree_ngc_v = mfree_ngc_addr_view
+//
+absview
+mfree_libc_addr_view(addr) // libc-mfree
+stadef
+mfree_libc_v = mfree_libc_addr_view
 //
 (* ****** ****** *)
-
+//
 absvt@ype
 arrpsz_vt0ype_int_vt0ype
   (a:vt@ype+, n:int) = $extype"atstype_arrpsz"
-stadef arrpsz = arrpsz_vt0ype_int_vt0ype
-
+//
+stadef
+arrpsz = arrpsz_vt0ype_int_vt0ype
+//
 (* ****** ****** *)
 
 absprop // invariance
 vbox_view_prop (v:view)
-propdef vbox (v:view) = vbox_view_prop (v)
+propdef
+vbox(v:view) = vbox_view_prop(v)
 
 abstype // invariance
-ref_vt0ype_type (a:vt@ype) = ptr
-typedef ref (a:vt@ype) = ref_vt0ype_type (a)
+ref_vt0ype_type(a:vt@ype) = ptr
+typedef
+ref(a:vt@ype) = ref_vt0ype_type(a)
 
 (* ****** ****** *)
 //
-viewdef vtakeout
-  (v1: view, v2: view) = (v2, v2 -<lin,prf> v1)
-viewdef vtakeout0 (v:view) = vtakeout (void, v)
+viewdef
+vtakeout
+( v1: view
+, v2: view ) = (v2, v2 -<lin,prf> v1)
+viewdef
+vtakeout0 (v:view) = vtakeout(void, v)
 //
-vtypedef vttakeout
-  (vt1: vt@ype, vt2: vt@ype) = (vt2 -<lin,prf> vt1 | vt2)
-viewdef vttakeout0 (vt:vt@ype) = vttakeout (void, vt)
+vtypedef
+vttakeout
+( vt1:vt@ype
+, vt2:vt@ype ) = (vt2 -<lin,prf> vt1 | vt2)
+vtypedef
+vttakeout0 (vt:vt@ype) = vttakeout(void, vt)
 //
 (* ****** ****** *)
 //
@@ -696,35 +716,36 @@ vtypedef
 bottom_vt0ype_exi = [a:vt@ype | false] (a)
 
 (* ****** ****** *)
-
+//
 typedef
 cmpval_fun
   (a: t@ype) = (a, a) -<fun> int
 typedef
 cmpval_funenv
   (a: t@ype, vt: t@ype) = (a, a, !vt) -<fun> int
-stadef cmpval = cmpval_fun
-stadef cmpval = cmpval_funenv
-
+//
+stadef cmpval = cmpval_fun and cmpval = cmpval_funenv
+//
 (* ****** ****** *)
-
+//
 typedef
 cmpref_fun
   (a: vt@ype) = (&RD(a), &RD(a)) -<fun> int
 typedef
 cmpref_funenv
   (a: vt@ype, vt: vt@ype) = (&RD(a), &RD(a), !vt) -<fun> int
-stadef cmpref = cmpref_fun
-stadef cmpref = cmpref_funenv
-
+//
+stadef cmpref = cmpref_fun and cmpref = cmpref_funenv
+//
 (* ****** ****** *)
 //
 // HX: [lazy(T)] :
 // suspended evaluation of type T
 //
 abstype
-lazy_t0ype_type (t@ype+) = ptr
-typedef lazy (a:t@ype) = lazy_t0ype_type (a)
+lazy_t0ype_type(t@ype+) = ptr
+typedef
+lazy(a:t@ype) = lazy_t0ype_type(a)
 //
 (* ****** ****** *)
 //
@@ -732,8 +753,9 @@ typedef lazy (a:t@ype) = lazy_t0ype_type (a)
 // suspended computation of viewtype VT
 //
 absvtype
-lazy_vt0ype_vtype (vt@ype+) = ptr
-vtypedef lazy_vt (a: vt@ype)= lazy_vt0ype_vtype (a)
+lazy_vt0ype_vtype(vt@ype+) = ptr
+vtypedef
+lazy_vt(a:vt@ype) = lazy_vt0ype_vtype(a)
 //
 (* ****** ****** *)
 //

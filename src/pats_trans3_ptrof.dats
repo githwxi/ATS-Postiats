@@ -257,23 +257,25 @@ of // case+
       end // end of [None]
   end (* end of [D2Evar] *)
 //
-| D2Ederef(d2e) =>
-    d2exp_trup_ptrof_ptrsel (loc0, d2e, list_nil)
+| D2Ederef(_(*!*), d2e) =>
+    d2exp_trup_ptrof_ptrsel(loc0, d2e, list_nil)
   // end of [D2Ederef]
 //
-| D2Eselab
-    (d2e, d2ls) => (
-  case+ d2e.d2exp_node of
+| D2Eselab(d2e, d2ls) =>
+  (
+  case+
+  d2e.d2exp_node
+  of (* case+ *)
   | D2Evar (d2v) =>
       d2exp_trup_ptrof_varsel (loc0, d2v, d2ls)
     // end of [D2Evar]
-  | D2Ederef (d2e) =>
+  | D2Ederef(_(*!*), d2e) =>
       d2exp_trup_ptrof_ptrsel (loc0, d2e, d2ls)
     // end of [D2Ederef]
   | _ => let
       val () = auxerr_nonlval (d2e0) in d3exp_errexp (loc0)
     end // end of [_]
-  ) // end of [D2Esel]
+  ) (* end of [D2Esel] *)
 //
 (*
 | D2Esing (d2e) => aux (d2e0, d2e)

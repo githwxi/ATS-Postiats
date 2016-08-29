@@ -34,16 +34,17 @@
 (* ****** ****** *)
 //
 staload
-ATSPRE = "./pats_atspre.dats"
+ATSPRE =
+"./pats_atspre.dats"
 //
+(* ****** ****** *)
+
+staload "./pats_basics.sats"
+
 (* ****** ****** *)
 
 staload
 UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
@@ -255,7 +256,8 @@ viewtypedef d3exparglst_vt = List_vt d3exparg
 
 extern
 fun
-d3exp_trup_applst (
+d3exp_trup_applst
+(
   d2e0: d2exp, d3e_fun: d3exp, d3as: d3exparglst
 ) : d3exp // end of [d3exp_trup_applst]
 implement
@@ -394,51 +396,66 @@ val () =
 in
 //
 case+ xs of
-| ~list_vt_cons (x, xs) => (
+| ~list_vt_nil() =>
+    list_vt_nil((*void*))
+  // list_vt_nil
+| ~list_vt_cons(x, xs) =>
+  (
   case+ x.1 of
   | S2KEfun
-      (s2kes_arg, s2ke_res) => let
+    (
+      s2kes_arg, s2ke_res
+    ) => let
 (*
-      val () = (
+//
+      val
+      out = stdout_ref
+//
+      val () =
+      (
         print "auxsel_skexplst: s2kes_arg = ";
-        fprint_s2kexplst (stdout_ref, s2kes_arg); print_newline ()
-      ) // end of [val]
+        fprint_s2kexplst(out, s2kes_arg); print_newline()
+      ) (* end of [val] *)
 *)
       val ismat =
         s2kexplst_ismat (s2kes, s2kes_arg)
       // end of [val]
 (*
-      val () = (
-        print "auxsel_skexplst: ismat = "; print ismat; print_newline ()
-      )  // end of [val]
+      val () = println! ("auxsel_skexplst: ismat = ", ismat)
 *)
       val y = (x.0, s2ke_res)
       val ys = auxsel_skexplst (xs, s2kes)
     in
       if ismat then list_vt_cons (y, ys) else ys
     end // end of [list_vt_cons]
-  | _ => auxsel_skexplst (xs, s2kes)
-  ) // end of [list_vt_cons]
-| ~list_vt_nil () => list_vt_nil ()
+  | _ (*non-S2KEfun*) => auxsel_skexplst (xs, s2kes)
+  ) (* end of [list_vt_cons] *)
 //
 end // end of [auxsel_skexplst]
 
-fun auxsel_arglst (
+fun
+auxsel_arglst
+(
   xs: List_vt @(d3pitm, s2kexp)
 , d2as: d2exparglst, d3as: d3exparglst_vt
-) : (
-  d3pitmlst, d3exparglst, d2exparglst
-) = let
+) :
+( d3pitmlst
+, d3exparglst
+, d2exparglst ) = let
 //
 typedef T = (d3pitm, s2kexp)
 //
-fun auxmap
-  (xs: List_vt (T)) : d3pitmlst =
+fun
+auxmap
+(
+xs: List_vt(T)
+) : d3pitmlst =
+(
   case+ xs of
-  | ~list_vt_cons
-      (x, xs) => list_cons (x.0, auxmap xs)
-  | ~list_vt_nil () => list_nil ()
-// end of [auxmap]
+  | ~list_vt_nil() => list_nil()
+  | ~list_vt_cons(x, xs) => list_cons(x.0, auxmap(xs))
+) (* end of [auxmap] *)
+//
 in
 //
 case+ d2as of
@@ -513,26 +530,29 @@ in
   (l2l)xs
 end // end of [auxselmax]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2exp_trup_applst_sym
   (d2e0, d2s, d2as) = let
-  val t2mas = list_nil ()
+//
+val t2mas = list_nil(*void*)
+//
 in
-  d2exp_trup_applst_tmpsym (d2e0, d2s, t2mas, d2as)
+  d2exp_trup_applst_tmpsym(d2e0, d2s, t2mas, d2as)
 end // end of [d2exp_trup_applst_sym]
 
 implement
 d2exp_trup_applst_tmpsym
   (d2e0, d2s, t2mas, d2as) = let
 (*
-val () = (
+val () =
+(
   print "d2exp_trup_applst_sym: d2s = ";
   fprint_d2sym (stdout_ref, d2s); print_newline ();
   print "d2exp_trup_applst_sym: d2as = ";
   fprint_d2exparglst (stdout_ref, d2as); print_newline ();
-) // end of [val]
+) (* end of [val] *)
 *)
 val loc0 = d2e0.d2exp_loc
 val locsym = d2s.d2sym_loc
@@ -555,8 +575,9 @@ in
 //
 case+ d3pis of
 //
-| list_cons (
-    d3pi, list_nil ()
+| list_cons
+  (
+    d3pi, list_nil()
   ) => let
     val d3e_fun = d3pitm_get_dexp (d3pi)
     val d3e_fun = d3exp_trup_item (d3e_fun)
@@ -564,8 +585,10 @@ case+ d3pis of
   in
     d23exp_trup_applst (d2e0, d3e_fun, xyz.2)
   end // end of [list_sing]
-| list_cons (
-    d3pi1, list_cons (d3pi2, _)
+//
+| list_cons
+  (
+    d3pi1, list_cons(d3pi2, _)
   ) => let
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the symbol [";
@@ -582,7 +605,7 @@ case+ d3pis of
     d3exp_errexp (loc0)
   end // end of [list_cons2]
 //
-| list_nil () => let
+| list_nil((*void*)) => let
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the symbol [";
     val () = fprint_d2sym (stderr_ref, d2s)
@@ -618,7 +641,8 @@ if npf > 0
 // end of [if]
 )
 
-fun auxins2
+fun
+auxins2
 (
   d2e0: d2exp
 , d2e_rt: d2exp, d2as: d2exparglst

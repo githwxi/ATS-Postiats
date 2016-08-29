@@ -743,12 +743,13 @@ case+ d2en0 of
 | D2Eviewat (d2e) =>
     d2exp_viewat (loc0, eval1dexp (d2e))
 //
-| D2Ederef (d2e) =>
-    d2exp_deref (loc0, eval1dexp (d2e))
-| D2Eassgn (_l, _r) =>
-    d2exp_assgn (loc0, eval1dexp (_l), eval1dexp (_r))
-| D2Exchng (_l, _r) =>
-    d2exp_xchng (loc0, eval1dexp (_l), eval1dexp (_r))
+| D2Ederef(d2s, d2e) =>
+    d2exp_deref(loc0, d2s, eval1dexp(d2e))
+//
+| D2Eassgn(d2e_l, d2e_r) =>
+    d2exp_assgn(loc0, eval1dexp(d2e_l), eval1dexp(d2e_r))
+| D2Exchng(d2e_l, d2e_r) =>
+    d2exp_xchng(loc0, eval1dexp(d2e_l), eval1dexp(d2e_r))
 //
 | D2Earrsub (
     d2s, d2e, locind, ind

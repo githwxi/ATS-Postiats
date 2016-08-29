@@ -701,19 +701,20 @@ end // end of [d2exp_seq2]
 
 implement
 d2exp_deref
-  (loc, _lval) = d2exp_make_node (loc, D2Ederef (_lval))
+  (loc, d2s, lval) =
+  d2exp_make_node(loc, D2Ederef(d2s, lval))
 // end of [d2exp_assgn]  
 
 implement
 d2exp_assgn (
   loc, _left, _right
-) = d2exp_make_node (loc, D2Eassgn (_left, _right))
+) = d2exp_make_node(loc, D2Eassgn(_left, _right))
 // end of [d2exp_assgn]  
 
 implement
 d2exp_xchng (
   loc, _left, _right
-) = d2exp_make_node (loc, D2Exchng (_left, _right))
+) = d2exp_make_node(loc, D2Exchng(_left, _right))
 // end of [d2exp_xchng]  
 
 (* ****** ****** *)
@@ -756,11 +757,11 @@ d2exp_sel_dot
 
 implement
 d2exp_sel_ptr
-  (loc, d2e, d2l) = let
+  (loc, d2s, d2e, d2l) = let
   val loc2 = d2e.d2exp_loc
-  val d2e_deref = d2exp_deref (loc2, d2e)
+  val d2e_deref = d2exp_deref(loc2, d2s, d2e)
 in
-  d2exp_selab (loc, d2e_deref, list_sing (d2l))
+  d2exp_selab(loc, d2e_deref, list_sing(d2l))
 end // end of [d2exp_sel_ptr]
 
 (* ****** ****** *)

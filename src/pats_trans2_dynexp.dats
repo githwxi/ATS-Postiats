@@ -160,6 +160,94 @@ end // end of [dynspecid_of_dqid]
 (* ****** ****** *)
 
 fun
+d2sym_bang
+  (d1e0: d1exp): d2sym = let
+//
+val id =
+  $SYM.symbol_BANG
+// end of [val]
+//
+var err: int = 0
+var d2pis
+  : d2pitmlst = list_nil()
+// end of [var]
+//
+val ans = the_d2expenv_find(id)
+val () = (
+  case+ ans of
+  | ~None_vt
+      ((*void*)) => (err := err + 1)
+    // end of [None_vt]
+  | ~Some_vt(d2i) =>
+    (
+    case+ d2i of
+    | D2ITMsymdef(sym, xs) => d2pis := xs
+    | _ (*non-D2ITMsymdef*) => (err := err+1)
+    ) // end of [Some_vt]
+) (* end of [val] *)
+//
+val loc0 = d1e0.d1exp_loc
+//
+val ((*void*)) =
+  if (err > 0) then {
+    val () =
+    prerr_interror_loc(loc0)
+    val () =
+    prerrln! (": d2sym_bang: d1e0 = ", d1e0)
+  } (* end of [if] *)
+//
+in
+//
+  d2sym_make(loc0, $SYN.d0ynq_none(loc0), id, d2pis)
+//
+end // end of [d2sym_bang]
+
+fun
+d2sym_lrbrackets
+  (d1e0: d1exp): d2sym = let
+//
+val id =
+  $SYM.symbol_LRBRACKETS
+// end of [val]
+//
+var err: int = 0
+var d2pis
+  : d2pitmlst = list_nil()
+// end of [var]
+//
+val ans = the_d2expenv_find(id)
+val () = (
+  case+ ans of
+  | ~None_vt
+      ((*void*)) => (err := err + 1)
+    // end of [None_vt]
+  | ~Some_vt(d2i) =>
+    (
+    case+ d2i of
+    | D2ITMsymdef(sym, xs) => d2pis := xs
+    | _ (*non-D2ITMsymdef*) => (err := err+1)
+    ) // end of [Some_vt]
+) (* end of [val] *)
+//
+val loc0 = d1e0.d1exp_loc
+//
+val ((*void*)) =
+  if (err > 0) then {
+    val () =
+    prerr_interror_loc(loc0)
+    val () =
+    prerrln! (": d2sym_lrbrackets: d1e0 = ", d1e0)
+  } (* end of [if] *)
+//
+in
+//
+  d2sym_make(loc0, $SYN.d0ynq_none(loc0), id, d2pis)
+//
+end // end of [d2sym_lrbrackets]
+
+(* ****** ****** *)
+
+fun
 macdef_check
 (
   loc0: location
@@ -346,9 +434,14 @@ d1exp_tr_deref
   val loc0 = d1e0.d1exp_loc
 in
   case+ d1es of
-  | list_cons (
-      d1e, list_nil ()
-    ) => d2exp_deref (loc0, d1exp_tr d1e)
+  | list_cons
+    (
+      d1e, list_nil()
+    ) => let
+      val d2s = d2sym_bang(d1e)
+    in
+      d2exp_deref(loc0, d2s, d1exp_tr(d1e))
+    end // end of [list_sing]
   | _ => let
       val () = prerr_interror_loc (loc0)
       val () = prerrln! (": d1exp_tr_deref: d1e0 = ", d1e0)
@@ -812,41 +905,17 @@ end // end of [d1exp_tr_macfun]
 (* ****** ****** *)
 
 fun
-d2sym_lrbrackets
-  (d1e0: d1exp): d2sym = let
-  val loc0 = d1e0.d1exp_loc
-  val id = $SYM.symbol_LRBRACKETS
-  var err: int = 0
-  var d2pis: d2pitmlst = list_nil ()
-  val ans = the_d2expenv_find (id)
-  val () = (
-    case+ ans of
-    | ~Some_vt d2i => (
-        case+ d2i of
-        | D2ITMsymdef (sym, xs) => d2pis := xs | _ => err := err + 1
-      ) // end of [Some_vt]
-    | ~None_vt () => (err := err + 1)
-  ) // end of [val]
-  val () = if err > 0 then { // run-time checking
-    val () = prerr_interror_loc (loc0)
-    val () = (prerr ": d2sym_lrbrackets: d1e0 = "; prerr_d1exp d1e0)
-    val () = prerr_newline ()
-  } // end of [val]
-in
-  d2sym_make (loc0, $SYN.d0ynq_none (loc0), id, d2pis)
-end // end of [d2sym_lrbrackets]
-
-fun
 d1exp_tr_arrsub
 (
-  d1e0: d1exp, arr: d1exp, locind: location, ind: d1explst
+  d1e0: d1exp, arr: d1exp
+, locind: location, ind: d1explst
 ) : d2exp = let
   val loc0 = d1e0.d1exp_loc
-  val d2s = d2sym_lrbrackets (d1e0)
-  val arr = d1exp_tr (arr)
-  val ind = d1explst_tr (ind)
+  val d2s0 = d2sym_lrbrackets (d1e0)
+  val arr  = d1exp_tr (arr)
+  val ind  = d1explst_tr (ind)
 in
-  d2exp_arrsub (loc0, d2s, arr, locind, ind)
+  d2exp_arrsub(loc0, d2s0, arr, locind, ind)
 end // end of [d1exp_tr_arrsub]
 
 (* ****** ****** *)
@@ -1790,21 +1859,25 @@ d1e0.d1exp_node of
 //
 | D1Eselab
     (knd, d1e, d1l) => let
-    val d2e = d1exp_tr d1e
-    val d2l = d1lab_tr (d1l)
+    val d2e = d1exp_tr(d1e)
+    val d2l = d1lab_tr(d1l)
   in
     if knd = 0
       then ( // [.]
-      case+ d2e.d2exp_node of
+      case+
+      d2e.d2exp_node
+      of // case+
       | D2Eselab
           (d2e_root, d2ls) =>
         (
-          d2exp_sel_dot (loc0, d2e_root, l2l (list_extend (d2ls, d2l)))
+          d2exp_sel_dot(loc0, d2e_root, l2l(list_extend (d2ls, d2l)))
         ) (* end of [D2Eselab] *)
-      | _ (*non-D2Eselab*) => d2exp_sel_dot (loc0, d2e, list_sing (d2l))
-    ) else (
-      d2exp_sel_ptr (loc0, d2e, d2l) // [->]
-    ) (* end of [if] *)
+      | _ (*non-D2Eselab*) => d2exp_sel_dot(loc0, d2e, list_sing (d2l))
+    ) else let
+      val d2s = d2sym_bang(d1e)
+    in
+      d2exp_sel_ptr(loc0, d2s, d2e, d2l) // [->]
+    end (* end of [if] *)
   end (* end of [D1Eselab] *)
 //
 | D1Eraise

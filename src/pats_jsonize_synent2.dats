@@ -1380,16 +1380,18 @@ d2e0.d2exp_node of
 //
 | D2Eselab
     (d2e, d2ls) => let
-    val jsv1 = jsonize_d2exp (d2e)
-    val jsv2 = jsonize_d2lablst (d2ls)
+    val d2e = jsonize_d2exp (d2e)
+    val d2ls = jsonize_d2lablst (d2ls)
   in
-    jsonval_conarg2 ("D2Eselab", jsv1, jsv2)
+    jsonval_conarg2("D2Eselab", d2e, d2ls)
   end // end of [D2Eselab]
 //
-| D2Ederef(d2e) => let
+| D2Ederef
+    (d2s, d2e) => let
+    val d2s = jsonize_d2sym (d2s)
     val d2e = jsonize_d2exp (d2e)
   in
-    jsonval_conarg1("D2Ederef", d2e)
+    jsonval_conarg2("D2Ederef", d2s, d2e)
   end // end of [D2Ederef]
 | D2Eassgn
     (d2e_l, d2e_r) => let

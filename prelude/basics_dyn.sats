@@ -216,21 +216,34 @@ mfree_gc_v_elim
 praxi
 mfree_gcngc_v_nullify
   {l:addr} (
-  pf1: mfree_gc_v (l), pf1: mfree_ngc_v (l)
+  pf1: mfree_gc_v(l), pf1: mfree_ngc_v(l)
 ) : void // end of [mfree_gcngc_nullify_v]
 
 (* ****** ****** *)
 //
 fun
 cloptr_free
-  {a:t0p}(pclo: cloptr (a)):<!wrt> void = "mac#%"
+  {a:t0p}
+  (pclo: cloptr(a)):<!wrt> void = "mac#%"
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
-lazy_force (lazyval: lazy (a)):<!laz> a
-fun{a:vt0p}
-lazy_vt_force (lazyval: lazy_vt (a)): (a)
+fun
+{a:t0p}
+lazy_force(lazyval: lazy(INV(a))):<!laz> (a)
+//
+fun
+{a:vt0p}
+lazy_vt_force(lazyval: lazy_vt(INV(a))):<!all> (a)
+//
+(*
+//
+// HX-2016-08:
+// this is assumed internally!
+//
+overload ! with lazy_force of 0
+overload ! with lazy_vt_force of 0
+*)
 //
 (* ****** ****** *)
 //
@@ -239,8 +252,10 @@ lazy_vt_force (lazyval: lazy_vt (a)): (a)
 //
 fun
 lazy_vt_free
-  {a:vt0p} (lazyval: lazy_vt (a)):<!wrt> void = "mac#%"
-overload ~ with lazy_vt_free
+  {a:vt0p}
+  (lazyval: lazy_vt(a)):<!wrt> void = "mac#%"
+//
+overload ~ with lazy_vt_free of 0
 //
 (* ****** ****** *)
 //

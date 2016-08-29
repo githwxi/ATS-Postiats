@@ -685,12 +685,12 @@ case+ d2lv of
   in
     case+ opt of
     | Some (d2s) => let
-        val _fun = d2exp_top (loc0)
+        val _top = d2exp_top(loc0)
         val d2e0 = d2exp_get_seloverld_root (d2e_l)
         val d2a0 =
           D2EXPARGdyn (~1(*npf*), loc0, list_pair(d2e0, d2e_r))
         val d3e_sel =
-          d2exp_trup_applst_sym ((*d2e*)_fun, d2s, list_sing(d2a0))
+          d2exp_trup_applst_sym ((*d2e*)_top, d2s, list_sing(d2a0))
         // end of [val]
       in
         d3exp_trdn (d3e_sel, s2exp_void_t0ype ())

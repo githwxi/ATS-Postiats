@@ -59,7 +59,7 @@ overload prerr with $LAB.prerr_label
 
 staload
 LOC = "./pats_location.sats"
-stadef location = $LOC.location
+stadef loc_t = $LOC.location
 
 (* ****** ****** *)
 
@@ -162,12 +162,14 @@ in (* in of [local] *)
 fun
 arrbndlst_check
 (
-  loc0: location, ind: d3explst, dim: s2explst
+  loc0: loc_t, ind: d3explst, dim: s2explst
 ) : s2explst_vt = let
 //
-fun auxerr (
-  loc0: location
-, dim: s2explst, ind: d3explst, sgn: int
+fun
+auxerr
+(
+  loc0: loc_t
+, d3es_ind: d3explst, s2es_dim: s2explst, sgn: int
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the label is expected to contain "
@@ -175,11 +177,11 @@ fun auxerr (
   val () = if sgn > 0 then prerr "fewer array indexes."
   val ((*void*)) = prerr_newline ()
 in
-  the_trans3errlst_add (T3E_d3exp_arrdim (loc0, dim, ind))
+  the_trans3errlst_add(T3E_d3exp_arrdim(loc0, s2es_dim, d3es_ind))
 end // end of [auxerr] 
 //
-val nind = list_length (ind)
-val ndim = list_length (dim)
+val nind = list_length(ind)
+val ndim = list_length(dim)
 //
 fun
 auxcheck (
@@ -204,9 +206,13 @@ val sgn = nind - ndim
 in
 //
 if sgn < 0 then let
-  val () = auxerr (loc0, dim, ind, sgn) in list_vt_nil ()
+//
+val () = auxerr(loc0, ind, dim, sgn) in list_vt_nil()
+//
 end else if sgn > 0 then let
-  val () = auxerr (loc0, dim, ind, sgn) in list_vt_nil ()
+//
+val () = auxerr(loc0, ind, dim, sgn) in list_vt_nil()
+//
 end else auxcheck (ind, dim) // end of [if]
 //
 end // end of [arrbndlst_check]
@@ -259,7 +265,7 @@ case+ ls2es of
   in
     if l0 = l
       then let
-        val () = lincheck (ls2es, linrest) in s2e
+        val () = lincheck(ls2es, linrest) in s2e
       end // end of [then]
       else let
         val () =
@@ -268,12 +274,12 @@ case+ ls2es of
           if s2exp_is_lin(s2e) then linrest := linrest + 1
         ) (* end of [if] *) // end of [val]
       in
-        labfind_lincheck (l0, ls2es, linrest, err)
+        labfind_lincheck(l0, ls2es, linrest, err)
       end // end of [else]
     // end of [if]
   end // end of [list_cons]
-| list_nil () => let
-    val () = err := err + 1 in s2exp_t0ype_err ()
+| list_nil((*void*)) => let
+    val () = err := err + 1 in s2exp_t0ype_err((*void*))
   end // end of [list_nil]
 //
 end // end of [labfind_lincheck]
@@ -281,21 +287,21 @@ end // end of [labfind_lincheck]
 fun
 auxlab_sexp
 (
-  loc0: location, s2e: s2exp
-, d3l: d3lab, l0: label, linrest: &int, sharing: &int
+  loc0: loc_t, s2e: s2exp, d3l: d3lab
+, lab0: label, linrest: &int, sharing: &int
 ) : s2exp = let
 //
 val s2f = s2exp2hnf (s2e)
 //
 in
-  auxlab_shnf (loc0, s2f, d3l, l0, linrest, sharing)
+  auxlab_shnf(loc0, s2f, d3l, lab0, linrest, sharing)
 end // and [auxlab_sexp]
 
 and
 auxlab_shnf
 (
-  loc0: location, s2f: s2hnf
-, d3l: d3lab, l0: label, linrest: &int, sharing: &int
+  loc0: loc_t, s2f: s2hnf, d3l: d3lab
+, lab0: label, linrest: &int, sharing: &int
 ) : s2exp = let
 //
 val s2e = s2hnf2exp (s2f)
@@ -310,7 +316,7 @@ of // case+
     (knd, npf, ls2es) => let
     var err: int = 0
     val s2e1 =
-      labfind_lincheck (l0, ls2es, linrest, err)
+      labfind_lincheck(lab0, ls2es, linrest, err)
     val () =
       if tyreckind_is_box (knd) then sharing := sharing + 1
     val () =
@@ -319,11 +325,11 @@ of // case+
       val () = prerr ": the record-type ["
       val () = prerr_s2exp (s2e)
       val () = prerr "] is expected to contain the label ["
-      val () = $LAB.prerr_label (l0)
+      val () = $LAB.prerr_label (lab0)
       val () = prerr "] but it does not."
       val () = prerr_newline ()
     in
-      the_trans3errlst_add (T3E_s2exp_selab_labnot (loc0, s2e, l0))
+      the_trans3errlst_add (T3E_s2exp_selab_labnot(loc0, s2e, lab0))
     end // end of [if] // end of [val]
   in
     s2e1
@@ -333,7 +339,7 @@ of // case+
     val s2f = s2exp2hnf (s2e)
     val s2e = s2hnf_opn1exi_and_add (loc0, s2f)
   in
-    auxlab_sexp (loc0, s2e, d3l, l0, linrest, sharing)
+    auxlab_sexp (loc0, s2e, d3l, lab0, linrest, sharing)
   end // end of [S2Eexi]
 //
 | _ (*rest-of-s2exp*) => let
@@ -349,13 +355,13 @@ of // case+
     | Some(d2s) =>
       (s2e_sel) where
       {
-        val d2e_fun = d2exp_top (loc0)
+        val _top = d2exp_top (loc0)
         val d2e_arg = d2exp_top2 (loc0, s2e)
         val d2a_arg =
           D2EXPARGdyn(~1(*npf*), loc0, list_sing(d2e_arg))
         // end of [val]
         val d3e_sel =
-          d2exp_trup_applst_sym(d2e_fun, d2s, list_sing(d2a_arg))
+          d2exp_trup_applst_sym((*d2e*)_top, d2s, list_sing(d2a_arg))
         // end of [val]
         val s2e_sel = d3exp_get_type (d3e_sel)
         val ((*void*)) = d3lab_set_overld_app (d3l, Some(d3e_sel))
@@ -376,7 +382,7 @@ of // case+
         val () = prerr_error3_loc (loc0)
         val () =
         prerr! (
-          ": [", l0, "] cannot be found"
+          ": [", lab0, "] cannot be found"
         ) (* end of [val] *)
         val () =
         prerrln! (
@@ -393,7 +399,7 @@ end // end of [auxlab_shnf]
 fun
 auxind
 (
-  loc0: location, s2e: s2exp, ind: d3explst
+  loc0: loc_t, s2e: s2exp, ind: d3explst
 ) : (
   s2exp(*elt*), s2explst_vt(*array-bounds-checking*)
 ) = let
@@ -553,12 +559,11 @@ ctxtopt_vt = Option_vt @(s2exp, s2hole)
 
 fun
 auxlab (
-  loc0: location
-, s2f: s2hnf, l0: label
-, context: &ctxtopt_vt
+  loc0: loc_t, s2f: s2hnf
+, lab0: label, context: &ctxtopt_vt
 ) : s2exp = let
 //
-  val s2e = s2hnf2exp (s2f)
+val s2e = s2hnf2exp (s2f)
 //
 in
 //
@@ -572,7 +577,7 @@ s2e.s2exp_node of
       Option_vt @(labs2explst, s2hole)
     var context2 : res2 = None_vt ()
     var err: int = 0
-    val s2e1 = labfind_context (l0, ls2es, context2, err)
+    val s2e1 = labfind_context(lab0, ls2es, context2, err)
     val () = (
       case+ context2 of
       | ~Some_vt @(ls2es_ctx, s2h) => let
@@ -589,11 +594,11 @@ s2e.s2exp_node of
       val () = prerr ": the record-type ["
       val () = prerr_s2exp (s2e)
       val () = prerr "] is expected to contain the label ["
-      val () = $LAB.prerr_label (l0)
+      val () = $LAB.prerr_label (lab0)
       val () = prerr "] but it does not."
       val () = prerr_newline ()
     in
-      the_trans3errlst_add (T3E_s2exp_selab_labnot (loc0, s2e, l0))
+      the_trans3errlst_add (T3E_s2exp_selab_labnot (loc0, s2e, lab0))
     end // end of [val]
   in
     s2e1
@@ -613,42 +618,43 @@ s2e.s2exp_node of
 end // end of [auxlab]
 
 fun
-auxind (
-  loc0: location
-, s2f: s2hnf, ind: d3explst
-, context: &ctxtopt_vt
-, ischeck: bool
+auxind
+(
+  loc0: loc_t
+, s2f_arr: s2hnf, d3es_ind: d3explst
+, context: &ctxtopt_vt, ischeck: bool
 ) : (s2exp, s2explst_vt) = let
 //
-  val s2e = s2hnf2exp (s2f)
+val s2e_arr = s2hnf2exp(s2f_arr)
 //
 in
 //
 case+
-s2e.s2exp_node of
-| S2Etyarr (
+s2e_arr.s2exp_node
+of (* case+ *)
+| S2Etyarr
+  (
     s2e_elt, s2es_dim
   ) => let
     val s2ps = (
       if ischeck then
-        arrbndlst_check (loc0, ind, s2es_dim) else list_vt_nil
+        arrbndlst_check(loc0, d3es_ind, s2es_dim) else list_vt_nil()
       // end of [if]
     ) : s2explst_vt // end of [val]
   in
     (s2e_elt, s2ps)
   end // end of [S2Etyarr]
 | _ (*non-tyarr*) => let
-    val s2e_elt = s2exp_t0ype_err () in (s2e_elt, list_vt_nil(*s2ps*))
+    val s2e_elt = s2exp_t0ype_err() in (s2e_elt, list_vt_nil(*s2ps*))
   end // end of [_]
 //
 end // end of [auxind]
 
 fun
-auxsel (
-  s2e: s2exp
-, d3l: d3lab
-, context: &ctxtopt_vt
-, ischeck: bool
+auxsel
+(
+  s2e: s2exp, d3l: d3lab
+, context: &ctxtopt_vt, ischeck: bool
 ) : (s2exp, s2explst_vt) = let
   val loc = d3l.d3lab_loc
   val s2f = s2exp2hnf (s2e)
@@ -670,11 +676,10 @@ d3l.d3lab_node of
 end // end of [auxsel]
 
 and
-auxselist (
-  s2e: s2exp
-, d3ls: d3lablst
-, context: &ctxtopt_vt
-, ischeck: bool
+auxselist
+(
+  s2e: s2exp, d3ls: d3lablst
+, context: &ctxtopt_vt, ischeck: bool
 ) : (s2exp, s2explst_vt) = let
 in
 //
@@ -743,8 +748,9 @@ s2exp_get_dlablst_context
   (loc0, s2e, d3ls, context) = let
 //
 var
-context2
-  : ctxtopt_vt = None_vt(*void*)
+context2:
+ctxtopt_vt = None_vt(*void*)
+//
 val
 s2es2ps =
 auxselist
@@ -757,10 +763,10 @@ val () = list_vt_free (s2es2ps.1)
 val () =
 (
 case+ context2 of
-| ~None_vt () => ()
+| ~None_vt _ => ()
 | ~Some_vt @(s2e_ctx, s2h) =>
   (
-    context := Some (s2ctxt_make (s2e_ctx, s2h))
+    context := Some(s2ctxt_make (s2e_ctx, s2h))
   ) // end of [Some_vt]
 ) : void // end of [val]
 //
@@ -798,8 +804,8 @@ extern
 fun
 d2var_trup_selab
 (
-  loc0: location
-, locvar: location, d2v: d2var, d2ls: d2lablst
+  loc0: loc_t
+, locd2v: loc_t, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab]
 
 (* ****** ****** *)
@@ -808,29 +814,32 @@ extern
 fun
 d2var_trup_selab_lin
 (
-  loc0: location
-, locvar: location, d2v: d2var, d2ls: d2lablst
+  loc0: loc_t
+, locd2v: loc_t, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab_lin]
 extern
 fun
 d2var_trup_selab_mut
 (
-  loc0: location
-, locvar: location, d2v: d2var, d2ls: d2lablst
+  loc0: loc_t
+, locd2v: loc_t, d2v: d2var, d2ls: d2lablst
 ) : d3exp // end of [d2var_trup_selab_mut]
 
 (* ****** ****** *)
 
 extern
-fun d3exp_trup_selab
-  (loc0: location, d3e: d3exp, d3ls: d3lablst): d3exp
+fun
+d3exp_trup_selab
+  (loc0: loc_t, d3e: d3exp, d3ls: d3lablst): d3exp
 // end of [d3exp_trup_selab]
 
 (* ****** ****** *)
 
 implement
 d2var_trup_selab_lin
-  (loc0, loc, d2v, d2ls) = let
+(
+  loc0, locd2v, d2v, d2ls
+) = let
 (*
 val () =
 println!
@@ -840,7 +849,7 @@ println!
 *)
 val
 s2e =
-d2var_get_type_some(loc, d2v)
+d2var_get_type_some(locd2v, d2v)
 //
 val s2rt = s2e // HX: root type for selection
 val d3ls = d2lablst_trup (d2ls)
@@ -869,7 +878,8 @@ the_trans3errlst_add
 ) (* end of [val] *)
 *)
 //
-var linrest: int = 0 and sharing: int = 0
+var linrest: int = 0
+and sharing: int = 0
 //
 val s2es2ps =
   s2exp_get_dlablst_linrest_sharing (loc0, s2e, d3ls, linrest, sharing)
@@ -996,21 +1006,27 @@ local
 fun
 auxerr_linrest
 (
-  loc0: location, d3e: d3exp, d3ls: d3lablst
+  loc0: loc_t, d3e: d3exp, d3ls: d3lablst
 ) : void = let
 //
 val () = prerr_error3_loc (loc0)
 val () =
-  prerrln! (": a linear component is abandoned by field selection.")
+prerrln!
+(
+": a linear component is abandoned by field selection."
+) (* prerrln! *)
 //
 in
-  the_trans3errlst_add (T3E_d3exp_selab_linrest (loc0, d3e, d3ls))
+//
+the_trans3errlst_add
+  (T3E_d3exp_selab_linrest (loc0, d3e, d3ls))
+//
 end // end of [auxerr_linrest]
 
-fun auxfinize
+fun
+auxfinize
 (
-  loc0: location
-, s2e_sel: s2exp
+  loc0: loc_t, s2e_sel: s2exp
 , d3e0: d3exp, d3ls0: d3lablst, d3ls: d3lablst, n: intGte(0)
 ) : d3exp = let
 in
@@ -1096,13 +1112,15 @@ in
 case+
 d2rt.d2exp_node of
 //
-| D2Evar (d2v) => let
+| D2Evar(d2v) => let
     val loc = d2rt.d2exp_loc
   in
-    d2var_trup_selab (loc0, loc, d2v, d2ls)
+    d2var_trup_selab(loc0, loc, d2v, d2ls)
   end // end of [D2Evar]
 //
-| D2Ederef (d2e) => d2exp_trup_deref (loc0, d2e, d2ls)
+| D2Ederef(d2s, d2e) =>
+    d2exp_trup_deref(loc0, d2s, d2e, d2ls)
+  // end of [D2Ederef]
 //
 | _ (*rest-of-d2exp*) => let
     val d3rt = d2exp_trup (d2rt)

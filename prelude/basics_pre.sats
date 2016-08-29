@@ -468,7 +468,7 @@ symintr neg abs max min
 symintr succ pred half double
 symintr square sqrt cube cbrt pow
 //
-symintr [] // for subscripting
+symintr ! [] // deref subscript
 symintr << >> // for L/R-shifting
 //
 symintr inc dec

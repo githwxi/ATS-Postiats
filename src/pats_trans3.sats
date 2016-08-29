@@ -424,9 +424,11 @@ s2exp_get_dlablst_context_check
 
 (* ****** ****** *)
 
-fun d2exp_trup_deref
-  (loc0: loc_t, d2e: d2exp, d2ls: d2lablst): d3exp
-// end of [d2exp_trup_deref]
+fun
+d2exp_trup_deref
+(
+  loc0: loc_t, d2s: d2sym, d2e: d2exp, d2ls: d2lablst
+) : d3exp // end of [d2exp_trup_deref]
 
 fun s2addr_deref
 (
