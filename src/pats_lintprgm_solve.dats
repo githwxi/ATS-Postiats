@@ -103,17 +103,24 @@ myintveclst_split_at
 stadef iv = myintvec (a, n)
 stadef ivs = myintveclst (a, n)
 //
-fun auxbeg (
+fun
+auxbeg
+(
   ivs: ivs, i: natLt n
 , neus: &ivs, poss: &ivs, negs: &ivs
 ) : void = let
 in
 //
 case+ ivs of
-| list_vt_cons
+//
+| ~list_vt_nil() => ()
+//
+|  list_vt_cons
     (!p_iv, !p_ivs1) => let
+    val sgn =
+      myintvec_compare_at (!p_iv, i, 0)
+    // end of [val]
     val ivs1 = !p_ivs1
-    val sgn = myintvec_compare_at (!p_iv, i, 0)
   in
     if sgn > 0 then let
       val () = !p_ivs1 := poss
@@ -135,11 +142,11 @@ case+ ivs of
       auxbeg (ivs1, i, neus, poss, negs)
     end // end of [if]
   end (* end of [list_vt_cons] *)
-| ~list_vt_nil () => ()
 //
 end // end of [auxbeg]
 //
-fun auxcomb
+fun
+auxcomb
 (
 //
 // ~1/0 means contradiction/undecided
@@ -150,6 +157,11 @@ fun auxcomb
 in
 //
 case+ poss of
+//
+| list_vt_nil () => let
+    prval () = fold@ (poss) in 0(*UNDECIDED*)
+  end // end of [list_vt_nil]
+//
 | list_vt_cons
     (!p_pos, !p_poss) => let
     val iv_new =
@@ -174,15 +186,14 @@ case+ poss of
         prval () = fold@ (poss) in ~1(*CONTRADITION*)
       end // end of [if]
     end (* end of [list_vt_cons] *)
-  | list_vt_nil () => let
-      prval () = fold@ (poss) in 0(*UNDECIDED*)
-    end // end of [list_vt_nil]
 //
 end // end of [auxcomb]
 //
 // HX: [~1] is returned if contradiction is reached
 //
-fun auxcomblst (
+fun
+auxcomblst
+(
   n: int n, i: intBtw (1, n)
 , neus: &ivs, poss: &ivs, negs: ivs
 ) : int(*~1/0*) = let
@@ -224,13 +235,16 @@ end // end of [myintveclst_split_at]
 (* ****** ****** *)
 
 extern
-fun{a:t@ype}
+fun
+{a:t@ype}
 myintvec_get_index_of_absmincff
-  {n:pos} (iv: !myintvec (a, n), n: int n): intBtw (1, n)
+  {n:pos}
+  (iv: !myintvec (a, n), n: int n): intBtw (1, n)
 // end of [myintvec_get_index_of_absmincff]
-implement{a}
+implement
+{a}(*tmp*)
 myintvec_get_index_of_absmincff
-  {n} (iv, n) = let
+  {n}(iv, n) = let
 //
 viewtypedef x = myint(a)
 //
@@ -306,25 +320,35 @@ in
 end // end of [myintvec_get_index_of_absmincff]
 
 (* ****** ****** *)
-
-absviewtype indexlst (n:int)
-
+//
+absvtype indexlst(n:int)
+//
 (*
 extern
-fun fprint_indexlst
-  {n:int} (out: FILEref, xs: !indexlst n): void
+fun
+fprint_indexlst
+  {n:int}(out: FILEref, xs: !indexlst n): void
 // end of [fprint_indexlst]
 *)
-
+//
 extern
-fun indexlst_make
-  {n:pos} (xs: indexset (n), n: int n): indexlst (n)
-// end of [indexlst_make]
+fun
+indexlst_make
+  {n:pos}
+(
+  xs: indexset (n), n: int n
+) : indexlst(n) // end-of-fun
+//
 extern
-fun indexlst_choose {n:pos} (xs: &indexlst n): natLt (n)
+fun
+indexlst_free
+  {n:int}(xs: indexlst n): void
+//
 extern
-fun indexlst_free {n:int} (xs: indexlst n): void
-
+fun
+indexlst_choose
+  {n:pos}(xs: &indexlst n): natLt(n)
+//
 (* ****** ****** *)
 
 local
@@ -336,13 +360,13 @@ fn cmp (
   x1: int, x2: int
 ) :<cloref> int = compare_int_int (x1, x2)
 //
-assume indexset (n:int) = $FS.set (index(n))
-assume indexlst (n:int) = List_vt (index (n))
+assume indexset(n:int) = $FS.set(index(n))
+assume indexlst(n:int) = List_vt(index (n))
 //
-in // in of [local]
+in (* in-of-local *)
 
 implement
-indexset_nil () = $FS.funset_make_nil ()
+indexset_nil() = $FS.funset_make_nil ()
 
 implement
 indexset_is_member
@@ -350,59 +374,75 @@ indexset_is_member
 // end of [indexset_is_member]
 
 implement
-indexset_add (xs, x) = xs where {
+indexset_add
+  (xs, x) = xs where
+{
   var xs = xs
   val _(*found*) = $FS.funset_insert (xs, x, cmp)
-} // end of [indexset_add]
+} (* end of [indexset_add] *)
 
 (* ****** ****** *)
 
 implement
 indexlst_make
-  {n} (iset, n) = let
-  viewtypedef res = List_vt (index (n))
-  fun loop
-    {k:nat | k < n} .<k>. (
-    k: int k, res1: res, res2: res
-  ) :<cloref> res =
-    if k > 0 then let
-      val ismem = indexset_is_member {n} (iset, k)
-    in
-      if ismem then
-        loop (k-1, list_vt_cons (k, res1), res2)
-      else
-        loop (k-1, res1, list_vt_cons (k, res2))
-      // end of [if]
-    end else
-      list_vt_append (res1, res2)
-    (* end of [if] *)
-  // end of [loop]
+  {n}(iset, n) = let
+//
+vtypedef res = List_vt (index (n))
+//
+fun
+loop
+{k:nat | k < n} .<k>.
+(
+  k: int k, res1: res, res2: res
+) :<cloref> res =
+(
+if
+k > 0
+then let
+  val
+  ismem =
+  indexset_is_member{n}(iset, k)
 in
-  loop (n-1, list_vt_nil, list_vt_nil)
+  if ismem
+    then loop(k-1, list_vt_cons(k, res1), res2)
+    else loop(k-1, res1, list_vt_cons(k, res2))
+  // end of [if]
+end // end of [then]
+else list_vt_append(res1, res2)
+//
+) (* end of [loop] *)
+in
+  loop(n-1, list_vt_nil, list_vt_nil)
 end // end of [indexlst_make]
 
 implement
-indexlst_choose (xs) =
-  case+ xs of
-  | ~list_vt_cons (x, xs1) => (xs := xs1; x)
-  | list_vt_nil () => (fold@ (xs); 0) // HX: error indication
-// end of [indexlst_choose]
+indexlst_free(xs) = list_vt_free(xs)
 
-implement indexlst_free (xs) = list_vt_free (xs)
+implement
+indexlst_choose(xs) =
+(
+  case+ xs of
+  | ~list_vt_cons
+      (x, xs1) => (xs := xs1; x)
+  |  list_vt_nil() => (fold@(xs); 0) // HX: error indication
+) (* end of [indexlst_choose] *)
 
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 extern
-fun{a:t@ype}
+fun
+{a:t@ype}
 myintveclst_solve
-  {n:pos} (
-  iset: indexset (n), ivs: myintveclst (a, n), n: int n
+  {n:pos}
+(
+  iset: indexset(n), ivs: myintveclst(a, n), n: int(n)
 ) : Ans2(*~1/0*) // end of [myintveclst_solve]
-implement{a}
+implement
+{a}(*tmp*)
 myintveclst_solve
-  {n} (iset, ivs, n) = let
+  {n}(iset, ivs, n) = let
 (*
 val () = begin
   print "myintveclst_solve: ivs =\n"; print_myintveclst (ivs, n); print_newline ();
@@ -523,106 +563,140 @@ myintveclst_elimeq_at
 ) // end of [myintveclst_elimeq_at]
 
 (* ****** ****** *)
-
-dataviewtype
-myivlst (a:t@ype, int) =
+//
+datavtype
+myivlst(a:t@ype, int) =
   | {n:int}
-    MYIVLSTcons (a, n) of (
+    MYIVLSTnil(a, n) of ()
+  | {n:int}
+    MYIVLSTcons(a, n) of (
       int(*stamp*), myintvec (a, n), myivlst (a, n)
     ) // end of [MYIVLSTcons]
-  | {n:int} MYIVLSTmark (a, n) of myivlst (a, n)
-  | {n:int} MYIVLSTnil (a, n) of ()
+  | {n:int}
+    MYIVLSTmark(a, n) of myivlst (a, n)
 // end of [myivlst]
-
+//
 (* ****** ****** *)
-
+//
 extern
-fun{a:t@ype}
+fun
+{a:t@ype}
 myivlst_free {n:int}
   (i1vs: myivlst (a, n), n: int n): void
 // end of [myivlst_free]
-implement{a}
-myivlst_free (i1vs, n) = (
+//
+implement
+{a}(*tmp*)
+myivlst_free
+  (i1vs, n) =
+(
   case+ i1vs of
+  | ~MYIVLSTnil
+      ((*void*)) => ()
   | ~MYIVLSTcons
       (_, iv, i1vs) => let
       val () = myintvec_free (iv, n) in myivlst_free (i1vs, n)
     end // end of [MYIVLSTcons]
   | ~MYIVLSTmark (i1vs) => myivlst_free (i1vs, n)
-  | ~MYIVLSTnil () => ()
-) // end of [myivlst_free]
+) (* end of [myivlst_free] *)
+//
+(* ****** ****** *)
+
+extern
+fun
+{a:t@ype}
+myivlst_mark{n:int}
+  (i1vs: myivlst (a, n)): myivlst(a, n)
+// end of [myivlst_mark]
+implement
+{a}(*tmp*)
+myivlst_mark{n}(i1vs) = MYIVLSTmark(i1vs)
 
 (* ****** ****** *)
 
 extern
 fun{a:t@ype}
-myivlst_mark {n:int}
-  (i1vs: myivlst (a, n)): myivlst (a, n)
-// end of [myivlst_mark]
-implement{a}
-myivlst_mark
-  {n} (i1vs) = MYIVLSTmark (i1vs)
-// end of [myivlst_mark]
-
-extern
-fun{a:t@ype}
-myivlst_unmark {n:int}
-  (i1vs: myivlst (a, n), n: int n): myivlst (a, n)
+myivlst_unmark{n:int}
+  (i1vs: myivlst(a, n), n: int n): myivlst(a, n)
 // end of [myivlst_unmark]
 implement{a}
 myivlst_unmark
-  (i1vs, n) = (
-  case+ i1vs of
-  | ~MYIVLSTcons
-      (_, iv, i1vs) => let
-      val () = myintvec_free (iv, n) in myivlst_unmark (i1vs, n)
-    end // end of [MYIVEQLSTcons]
-  | ~MYIVLSTmark (i1vs) => i1vs
-  | ~MYIVLSTnil () => MYIVLSTnil ()
-) // end of [myivlst_unmark]
+  (i1vs, n) =
+(
+//
+case+ i1vs of
+| ~MYIVLSTnil
+    ((*void*)) => MYIVLSTnil()
+| ~MYIVLSTcons
+    (_, iv, i1vs) => let
+    val () = myintvec_free(iv, n) in myivlst_unmark(i1vs, n)
+  end // end of [MYIVEQLSTcons]
+| ~MYIVLSTmark(i1vs) => (i1vs)
+//
+) (* end of [myivlst_unmark] *)
 
 (* ****** ****** *)
+//
 (*
 ** HX-2012-02:
 ** this is a poorman's doubly-linked list
 ** I am somewhat fond of this design. Maybe it should
 ** be put into libats for general use.
 *)
-dataviewtype
-myiveqlst (a:t@ype, int) =
+//
+datavtype
+myiveqlst
+(
+  a:t@ype, int
+) = // myiveqlst
+  | {n:int}
+    MYIVEQLSTnil(a, n) of ()
   | {n:int}
     {i:int | 0 < i; i < n}
-    MYIVEQLSTcons (a, n) of (
+    MYIVEQLSTcons(a, n) of (
       int(*stamp*)
     , myintvec (a, n), int i(*index*)
     , ptr(*prev*)
     , myiveqlst (a, n)
     ) // end of [MYIVEQLSTcons]
   | {n:int}
-    MYIVEQLSTmark (a, n) of (ptr(*prev*), myiveqlst (a, n))
-  | {n:int} MYIVEQLSTnil (a, n) of ()
+    MYIVEQLSTmark(a, n) of (ptr(*prev*), myiveqlst (a, n))
 // end of [myiveqlst]
-
+//
 (* ****** ****** *)
-
+//
 (*
 ** HX: for the purpose of debugging
 *)
 extern
-fun{a:t@ype}
-fprint_myiveqlst {n:int} (
+fun
+{a:t@ype}
+fprint_myiveqlst
+  {n:int}
+(
   out: FILEref, xs: !myiveqlst (a, n)
 ) : void // end of [fprint_myiveqlst]
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_myiveqlst
   (out, xs) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+//
+macdef
+prstr(s) =
+fprint_string (out, ,(s))
+//
 in
 //
 case+ xs of
+| MYIVEQLSTnil
+    ((*void*)) => let
+    val () = prstr "MYIVEQLSTnil()" in fold@(xs)
+  end // end of [MYIVEQLSTnil]
 | MYIVEQLSTcons
-    (_, _, _, _, !p_xs) => {
+  (
+    _, _, _, _, !p_xs
+  ) => {
     val () = prstr "MYIVEQLSTcons("
     val () = fprint_myiveqlst (out, !p_xs)
     val () = prstr ")"
@@ -635,29 +709,37 @@ case+ xs of
     val () = prstr ")"
     prval () = fold@ (xs)
   }
-| MYIVEQLSTnil () => let
-    val () = prstr "MYIVEQLSTnil" in fold@ (xs)
-  end // end of [MYIVEQLSTnil]
 //
 end // end of [fprint_myiveqlst]
 
 (* ****** ****** *)
 
 extern
-fun{a:t@ype}
+fun
+{a:t@ype}
 myiveqlst_free {n:int}
   (i1vs: myiveqlst (a, n), n: int n): void
 // end of [myiveqlst_free]
-implement{a}
-myiveqlst_free (i1vs, n) = (
-  case+ i1vs of
-  | ~MYIVEQLSTcons
-      (_, iv, _, _, i1vs) => let
-      val () = myintvec_free (iv, n) in myiveqlst_free (i1vs, n)
-    end // end of [MYIVEQLSTcons]
-  | ~MYIVEQLSTmark (_, i1vs) => myiveqlst_free (i1vs, n)
-  | ~MYIVEQLSTnil () => ()
-) // end of [myiveqlst_free]
+implement
+{a}(*tmp*)
+myiveqlst_free
+  (i1vs, n) =
+(
+//
+case+ i1vs of
+//
+| ~MYIVEQLSTnil() => ()
+//
+| ~MYIVEQLSTcons
+    (_, iv, _, _, i1vs) =>
+  let
+    val () =
+    myintvec_free(iv, n) in myiveqlst_free(i1vs, n)
+  end // end of [MYIVEQLSTcons]
+//
+| ~MYIVEQLSTmark(_, i1vs) => myiveqlst_free(i1vs, n)
+//
+) (* end of [myiveqlst_free] *)
 
 (* ****** ****** *)
 
@@ -670,104 +752,150 @@ castfn myiveqlst2ptr
 
 fun{a:t@ype}
 myiveqlst_get_prev
-  {n:int} (x: !myiveqlst (a, n)): ptr =
-  case+ x of
-  | MYIVEQLSTcons
-      (_, _, _, !p_prev, _) => let
-      prval () = fold@ (x) in p_prev end
-    // end of [MYIVEQLSTcons]
-  | MYIVEQLSTmark (!p_prev, _) => (fold@ (x); p_prev)
-  | MYIVEQLSTnil () => (fold@ (x); null)
-// end of [myiveqlst_get_prev]
+  {n:int}
+(
+  x: !myiveqlst (a, n)
+) : ptr = (
+//
+case+ x of
+| MYIVEQLSTnil
+    ((*void*)) => (fold@ (x); null)
+| MYIVEQLSTcons
+    (_, _, _, !p_prev, _) => let
+    prval () = fold@ (x) in p_prev end
+  // end of [MYIVEQLSTcons]
+| MYIVEQLSTmark (!p_prev, _) => (fold@ (x); p_prev)
+//
+) (* end of [myiveqlst_get_prev] *)
 
 (* ****** ****** *)
-
+//
 extern
-fun{a:t@ype}
-myiveqlst_cons {n:int} (
-  stamp: int, i: intBtw (1, n)
-, iv: myintvec (a, n), i1veqs: myiveqlst (a, n)
-) : myiveqlst (a, n)
-
-implement{a}
+fun
+{a:t@ype}
 myiveqlst_cons
-  {n} (stamp, i, i1veq, i1veqs) = let
-  val p_prev =
-    myiveqlst_get_prev (i1veqs)
-  val p_prev = ptr1_of_ptr (p_prev)
-  val res = MYIVEQLSTcons (stamp, i1veq, i, null(*prev*), i1veqs)
-  val () = if p_prev > null then
-    $UN.ptrset<ptr> (p_prev, myiveqlst2ptr (res))
+  {n:int}
+(
+  stamp: int, i: intBtw(1, n)
+, i1veq: myintvec(a, n), i1veqs: myiveqlst(a, n)
+) : myiveqlst (a, n) // end-of-function
+//
+implement
+{a}(*tmp*)
+myiveqlst_cons
+(
+  stamp, i, i1veq, i1veqs
+) = res where
+{
+//
+  val
+  p_prev =
+    myiveqlst_get_prev(i1veqs)
   // end of [val]
-in
-  res
-end // end of [myiveqlst_cons]
+  val
+  p_prev = ptr1_of_ptr(p_prev)
+//
+  val res =
+  MYIVEQLSTcons
+    (stamp, i1veq, i, null(*prev*), i1veqs)
+  // end of [val]
+//
+  val () =
+  if p_prev > null then
+    $UN.ptrset<ptr> (p_prev, myiveqlst2ptr(res))
+  // end of [if] // end of [val]
+//
+} (* end of [myiveqlst_cons] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+myiveqlst_mark
+  {n:int}
+  (i1veqs: myiveqlst(a, n)): myiveqlst (a, n)
+//
+implement
+{a}(*tmp*)
+myiveqlst_mark
+  {n}(i1veqs) = res where
+{
+//
+val
+p_prev =
+myiveqlst_get_prev(i1veqs)
+val
+p_prev = ptr1_of_ptr(p_prev)
+//
+val res =
+MYIVEQLSTmark(null(*prev*), i1veqs)
+//
+val () =
+if p_prev > null then
+  $UN.ptrset<ptr> (p_prev, myiveqlst2ptr(res))
+// end of [if] // end of [val]
+//
+} (* end of [myiveqlst_mark] *)
 
 (* ****** ****** *)
-
+//
 extern
-fun{a:t@ype}
-myiveqlst_mark {n:int}
-  (i1veqs: myiveqlst (a, n)): myiveqlst (a, n)
-// end of [myiveqlst_mark]
-implement{a}
-myiveqlst_mark
-  {n} (i1veqs) = let
-  val p_prev =
-    myiveqlst_get_prev (i1veqs)
-  val p_prev = ptr1_of_ptr (p_prev)
-  val res = MYIVEQLSTmark (null(*prev*), i1veqs)
-  val () = if p_prev > null then
-    $UN.ptrset<ptr> (p_prev, myiveqlst2ptr (res))
-  // end of [val]
-in
-  res
-end // end of [myiveqlst_mark]
-
-extern
-fun{a:t@ype}
-myiveqlst_unmark {n:int}
-  (i1veqs: myiveqlst (a, n), n: int n): myiveqlst (a, n)
+fun
+{a:t@ype}
+myiveqlst_unmark
+  {n:int}
+  (i1veqs: myiveqlst(a, n), n: int n): myiveqlst(a, n)
 // end of [myiveqlst_unmark]
 implement{a}
 myiveqlst_unmark
-  (i1veqs, n) = (
-  case+ i1veqs of
-  | ~MYIVEQLSTcons
-      (_, iv, _, _, i1veqs) => let
-      val () = myintvec_free (iv, n) in myiveqlst_unmark (i1veqs, n)
-    end // end of [MYIVEQLSTcons]
-  | ~MYIVEQLSTmark (_, i1veqs) => i1veqs
-  | ~MYIVEQLSTnil () => MYIVEQLSTnil ()
-) // end of [myiveqlst_unmark]
-
+  (i1veqs, n) =
+(
+//
+case+ i1veqs of
+| ~MYIVEQLSTnil
+    ((*void*)) => MYIVEQLSTnil()
+| ~MYIVEQLSTcons
+    (_, iv, _, _, i1veqs) => let
+    val () = myintvec_free (iv, n) in myiveqlst_unmark(i1veqs, n)
+  end // end of [MYIVEQLSTcons]
+| ~MYIVEQLSTmark(_, i1veqs) => i1veqs
+//
+) (* end of [myiveqlst_unmark] *)
+//
 (* ****** ****** *)
 
 extern
-fun{a:t@ype}
+fun
+{a:t@ype}
 myiveqlst_get_last
-  {n:int} (xs: !myiveqlst (a, n)): ptr
+  {n:int}(xs: !myiveqlst (a, n)): ptr
 // end of [myiveqlst_get_last]
 
-implement{a}
-myiveqlst_get_last {n} (xs) = let
+implement
+{a}(*tmp*)
+myiveqlst_get_last
+  {n}(xs) = let
 //
 viewtypedef vt = myiveqlst (a, n)
 //
 fun loop
   (prev: ptr, xs: !vt): ptr = let
-  val pcur = $UN.castvwtp1{ptr}{vt} (xs)
+  val pcur = $UN.castvwtp1{ptr}{vt}(xs)
 in
 //
 case+ xs of
+| MYIVEQLSTnil
+    ((*void*)) =>
+    (fold@ (xs); prev)
+  // end of [MYIVEQLSTnil]
 | MYIVEQLSTcons
     (_, _, _, _, !p_xs) => let
     val res = loop (pcur, !p_xs) in fold@ (xs); res
   end // end of [MYIVEQLSTcons]
-| MYIVEQLSTmark (_, !p_xs) => let
+| MYIVEQLSTmark(_, !p_xs) => let
     val res = loop (pcur, !p_xs) in fold@ (xs); res
   end // end of [MYIVEQLSTmark]
-| MYIVEQLSTnil () => (fold@ (xs); prev)
 //
 end // end of [loop]
 //
@@ -776,16 +904,19 @@ in
 end // end of [myiveqlst_get_last]
 
 (* ****** ****** *)
-
+//
 extern
-fun{a:t@ype}
-myintvec_elimeqlst {n:int} (
+fun
+{a:t@ype}
+myintvec_elimeqlst
+  {n:int}
+(
   stamp0: int
 , iv: !myintvec (a, n), i1veqs: !myiveqlst (a, n), n: int (n)
 ) : void // end of [myintvec_elimeqlst]
-
+//
 local
-
+//
 fun{a:t@ype}
 myintvec_elimeqlst_rev {n:int} (
   stamp0: int
@@ -794,8 +925,14 @@ myintvec_elimeqlst_rev {n:int} (
 //
 val prev = (
 case+ i1veqs of
+//
+| MYIVEQLSTnil() => (fold@ (i1veqs); null)
+//
 | MYIVEQLSTcons
-    (stamp, !p_i1veq, i, prev, _) => prev where {
+  (
+    stamp, !p_i1veq, i, prev, _
+  ) => prev where
+  {
 (*
     val () = (
       print "MYIVEQLSTcons: prev = "; print prev; print_newline ()
@@ -805,16 +942,18 @@ case+ i1veqs of
       stamp0 <= stamp then myintvec_elimeq_at (iv, !p_i1veq, n, i)
     // end of [val]
     prval () = fold@ (i1veqs)
-  } // end of [MYIVEQLSTcons]
-| MYIVEQLSTmark (prev, _) => prev where {
+  } (* end of [MYIVEQLSTcons] *)
+| MYIVEQLSTmark
+    (prev, _) => prev where
+  {
 (*
     val () = (
       print "MYIVEQLSTmark: prev = "; print prev; print_newline ()
     ) // end of [val]
 *)
     prval () = fold@ (i1veqs)
-  } // end of [MYIVEQLSTmark]
-| MYIVEQLSTnil () => (fold@ (i1veqs); null)
+  } (* end of [MYIVEQLSTmark] *)
+//
 ) : ptr // end of [val]
 //
 in
@@ -831,7 +970,7 @@ if (prev > null) then {
 //
 end // end of [myintvec_elimeqlst_rev]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement{a}
 myintvec_elimeqlst
@@ -876,6 +1015,12 @@ fun loop (
 in
 //
 case+ i1vs of
+| MYIVLSTnil
+    ((*void*)) => let
+    val () = res := list_vt_nil()
+  in
+    fold@ (i1vs)
+  end // end of [MYINLSTnil]
 | MYIVLSTcons
     (stamp, !p_iv, !p_i1vs) => let
     val iv_new = myintvec_copy<a> (!p_iv, n)
@@ -893,9 +1038,6 @@ case+ i1vs of
   in
     fold@ (i1vs)
   end // end of [MYIVLSTmark]
-| MYIVLSTnil () => let
-    val () = res := list_vt_nil () in fold@ (i1vs)
-  end // end of [MYINLSTnil]
 //
 end // end of [loop]
 //
@@ -1312,21 +1454,28 @@ case+ ics1 of
 //
 end // end of [auxmain_disj]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement{a}
 icnstrlst_solve
   {n} (iset, ics, n) = let
 (*
+//
 val () = (
   print "icnstrlst_solve: ics =\n";
   fprint_icnstrlst (stdout_ref, ics, n);
   print "icnstrlst_solve: n = "; print n; print_newline ()
-) // end of [val]
+) (* end of [val] *)
+//
 *)
-var i1vs: myivlst (a, n) = MYIVLSTnil ()
-var i1veqs: myiveqlst (a, n) = MYIVEQLSTnil ()
-val ans2 = auxmain (0(*stamp*), iset, i1vs, i1veqs, n, ics)
+var
+i1vs: myivlst (a, n) = MYIVLSTnil()
+var
+i1veqs: myiveqlst (a, n) = MYIVEQLSTnil()
+//
+val ans2 =
+  auxmain (0(*stamp*), iset, i1vs, i1veqs, n, ics)
+//
 val () = myivlst_free (i1vs, n)
 val () = myiveqlst_free (i1veqs, n)
 //
