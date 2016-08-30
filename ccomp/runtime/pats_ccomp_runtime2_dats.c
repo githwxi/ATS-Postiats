@@ -41,14 +41,16 @@ dynvalist-implementation(end)
 /*
 exnconlst-declaration(beg)
 */
-#ifndef _ATS_CCOMP_EXCEPTION_NONE
+#ifndef _ATS_CCOMP_EXCEPTION_NONE_
+//
 ATSextern()
 atsvoid_t0ype
 the_atsexncon_initize
 (
   atstype_exnconptr d2c, atstype_string exnmsg
 ) ;
-#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
+//
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE_]
 /*
 exnconlst-declaration(end)
 */

@@ -63,10 +63,10 @@ token_node =
 //
   | T_AT of () // @
 //
-  | T_BACKSLASH of () // \
-  | T_BANG of () // !
   | T_BAR of () // |
+  | T_BANG of () // !
   | T_BQUOTE of () // `
+  | T_BACKSLASH of () // \
 //
   | T_COLON of () // :
   | T_COLONLT of () // :<
@@ -109,8 +109,8 @@ token_node =
 // HX: for absprop, abstype, abst@ype;
   | T_ABSTYPE of (int) //  absview, absviewtype, absviewt@ype
 //
-  | T_AND of () // and
   | T_AS of () // as // for refas-pattern
+  | T_AND of () // and
   | T_ASSUME of () // assume // for implementing abstypes
   | T_BEGIN of () // begin // opening a sequence
   | T_CASE of (caskind) // case, case-, case+, prcase
@@ -118,7 +118,6 @@ token_node =
   | T_DATASORT of () // datasort
   | T_DATATYPE of int // datatype, dataprop, dataview, dataviewtype
   | T_DO of () // [do]
-  | T_DYNLOAD of () // [dynload]
   | T_ELSE of () // [else]
   | T_END of () // the [end] keyword
   | T_EXCEPTION of () // [exception]
@@ -158,11 +157,10 @@ token_node =
   | T_SIF of () // static if
   | T_SCASE of () // static case
 //
-  | T_SORTDEF of () // sortdef
   | T_STACST of () // stacst
   | T_STADEF of () // stadef
-  | T_STALOAD of () // staload
   | T_STATIC of () // static
+  | T_SORTDEF of () // sortdef
 (*
   | T_STAVAR of () // stavar // HX: a suspended hack
 *)
@@ -256,6 +254,14 @@ token_node =
   | T_SRPDEFINE of () // #define
 //
   | T_SRPINCLUDE of () // #include
+//
+(*
+  | T_STALOAD of () // staload
+  | T_DYNLOAD of () // dynload
+*)
+  | T_SRPSTALOAD of () // #staload
+  | T_SRPDYNLOAD of () // #dynload
+//
   | T_SRPREQUIRE of () // #require
 //
   | T_SRPPRAGMA of () // #pragma

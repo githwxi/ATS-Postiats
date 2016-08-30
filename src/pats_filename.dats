@@ -1046,10 +1046,10 @@ val issome = stropt_is_some (opt)
 in
 //
 if issome then let
-  val partname = stropt_unsome (opt)
-  val fullname = partname_fullize (partname)
+  val partname = stropt_unsome(opt)
+  val fullname = partname_fullize(partname)
 in
-  Some_vt (filename_make (given, partname, fullname))
+  Some_vt (filename_make(given, partname, fullname))
 end else None_vt () // end of [if]
 //
 end // end of [filenameopt_make_local]
@@ -1089,12 +1089,17 @@ val issome = stropt_is_some (opt)
 //
 in
 //
-if issome then let
-  val partname = stropt_unsome (opt)
-  val fullname = partname_fullize (partname)
+if
+issome
+then let
+//
+val partname = stropt_unsome(opt)
+val fullname = partname_fullize(partname)
+//
 in
-  Some_vt (filename_make (given, partname, fullname))
-end else None_vt () // end of [if]
+  Some_vt(filename_make(given, partname, fullname))
+end // end of [then]
+else None_vt() // end of [else]
 //
 end // end of [filenameopt_make_relative]
 

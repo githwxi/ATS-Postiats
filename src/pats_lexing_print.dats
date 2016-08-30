@@ -91,7 +91,6 @@ fprint_token
   | T_DATASORT () => fprintf (out, "DATASORT()", @())
   | T_DATATYPE (x) => fprintf (out, "DATATYPE(%i)", @(x))
   | T_DO () => fprintf (out, "DO()", @())
-  | T_DYNLOAD () => fprintf (out, "DYNLOAD()", @())
   | T_ELSE () => fprintf (out, "ELSE()", @())
   | T_END () => fprintf (out, "END()", @())
   | T_EXCEPTION () => fprintf (out, "EXCEPTION()", @())
@@ -128,7 +127,6 @@ fprint_token
   | T_SORTDEF () => fprintf (out, "SORTDEF()", @())
   | T_STACST () => fprintf (out, "STACST()", @())
   | T_STADEF () => fprintf (out, "STADEF()", @())
-  | T_STALOAD () => fprintf (out, "STALOAD()", @())
   | T_STATIC () => fprintf (out, "STATIC()", @())
 (*
   | T_STAVAR () => fprintf (out, "STAVAR()", @())
@@ -216,6 +214,10 @@ fprint_token
   | T_SRPDEFINE () => fprintf (out, "SRPDEFINE()", @())
 //
   | T_SRPINCLUDE () => fprintf (out, "SRPINCLUDE()", @())
+//
+  | T_SRPSTALOAD () => fprintf (out, "SRPSTALOAD()", @())
+  | T_SRPDYNLOAD () => fprintf (out, "SRPDYNLOAD()", @())
+//
   | T_SRPREQUIRE () => fprintf (out, "SRPREQUIRE()", @())
 //
   | T_SRPPRAGMA () => fprintf (out, "SRPPRAGMA()", @())

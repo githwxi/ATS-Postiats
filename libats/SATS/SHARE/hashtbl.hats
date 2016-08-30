@@ -34,78 +34,89 @@
 (* ****** ****** *)
 //
 absvtype
-hashtbl_vtype (k:t@ype, i:vt@ype+) = ptr
+hashtbl_vtype
+  (k:t@ype, i:vt@ype+) = ptr
 //
-vtypedef hashtbl (k:t0p, i:vt0p) = hashtbl_vtype (k, i)
+vtypedef
+hashtbl
+  (k:t0p, i:vt0p) = hashtbl_vtype(k, i)
 //
 (* ****** ****** *)
 
 fun{key:t0p}
-hash_key (x: key):<> ulint
+hash_key(x: key):<> ulint
 fun{key:t0p}
-equal_key_key (x1: key, x2: key):<> bool
+equal_key_key(x1: key, x2: key):<> bool
 
 (* ****** ****** *)
 //
 // HX: for recapacitizing policy
 //
-fun{} hashtbl$recapacitize (): int
+fun{}
+hashtbl$recapacitize((*void*)): int
 //
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:vt0p
-} hashtbl_make_nil (cap: sizeGte(1)): hashtbl (key, itm)
+} hashtbl_make_nil
+  (cap: sizeGte(1)): hashtbl(key, itm)
 
 (* ****** ****** *)
 //
 // HX: the number of stored elements
 //
-fun{} hashtbl_get_size
-  {key:t0p;itm:vt0p} (p: !hashtbl (key, INV(itm))):<> size_t
+fun{}
+hashtbl_get_size
+  {key:t0p;itm:vt0p}
+  (tbl: !hashtbl(key, INV(itm))):<> size_t
 // end of [hashtbl_get_size]
 
 (* ****** ****** *)
 //
 // HX: the array size of the hashtable
 //
-fun{} hashtbl_get_capacity
-  {key:t0p;itm:vt0p} (p: !hashtbl (key, INV(itm))):<> sizeGte(1)
+fun{}
+hashtbl_get_capacity
+  {key:t0p;itm:vt0p}
+  (tbl: !hashtbl(key, INV(itm))):<> sizeGte(1)
 // end of [hashtbl_get_capacity]
 
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:t0p
-} hashtbl_search (
-  tbl: !hashtbl (key, INV(itm))
-, k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b)(*found*) // end of [hashtbl_search]
+} hashtbl_search
+(
+  tbl: !hashtbl(key, INV(itm))
+, key: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool(b)(*found*) // end of [hashtbl_search]
 
 fun{
 key:t0p;itm:vt0p
 } hashtbl_search_ref
-  (tbl: !hashtbl (key, INV(itm)), k0: key): cPtr0 (itm)
+  (tbl: !hashtbl(key, INV(itm)), key: key): cPtr0 (itm)
 // end of [hashtbl_search_ref]
 
 fun{
 key:t0p;itm:t0p
 } hashtbl_search_opt
-  (tbl: !hashtbl (key, INV(itm)), k0: key): Option_vt (itm)
+  (tbl: !hashtbl(key, INV(itm)), key: key): Option_vt(itm)
 // end of [hashtbl_search_opt]
 
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:vt0p
-} hashtbl_insert (
-  tbl: !hashtbl (key, INV(itm))
-, k0: key, x0: itm, res: &itm? >> opt (itm, b)
+} hashtbl_insert
+(
+  tbl: !hashtbl(key, INV(itm))
+, key: key, x0: itm, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) // endfun
 fun{
 key:t0p;itm:vt0p
 } hashtbl_insert_opt
-  (tbl: !hashtbl (key, INV(itm)), key, itm): Option_vt (itm)
+  (tbl: !hashtbl(key, INV(itm)), key, itm): Option_vt(itm)
 // end of [hashtbl_insert_opt]
 
 (* ****** ****** *)
@@ -113,21 +124,22 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:vt0p
 } hashtbl_insert_any
-  (!hashtbl (key, INV(itm)), key, itm): void
+  (!hashtbl(key, INV(itm)), key, itm): void
 // end of [hashtbl_insert_any]
 
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:vt0p
-} hashtbl_takeout (
-  tbl: !hashtbl (key, INV(itm))
-, k0: key, res: &itm? >> opt (itm, b)
+} hashtbl_takeout
+(
+  tbl: !hashtbl(key, INV(itm))
+, key: key, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) // endfun
 fun{
 key:t0p;itm:vt0p
 } hashtbl_takeout_opt
-  (!hashtbl (key, INV(itm)), key): Option_vt (itm)
+  (!hashtbl(key, INV(itm)), key): Option_vt(itm)
 // end of [hashtbl_takeout_opt]
 
 (* ****** ****** *)
@@ -135,7 +147,7 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:t0p
 } hashtbl_remove
-  (tbl: !hashtbl (key, INV(itm)), k0: key): bool
+  (tbl: !hashtbl(key, INV(itm)), key: key): bool
 // end of [hashtbl_remove]
 
 (* ****** ****** *)
@@ -143,7 +155,7 @@ key:t0p;itm:t0p
 fun{
 key:t0p;itm:vt0p
 } hashtbl_exchange
-  (tbl: !hashtbl (key, INV(itm)), k0: key, x0: &itm >> _): bool
+  (tbl: !hashtbl(key, INV(itm)), key: key, x0: &itm >> _): bool
 // end of [hashtbl_exchange]
 
 (* ****** ****** *)
@@ -151,7 +163,7 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:vt0p
 } hashtbl_takeout_all
-  (tbl: !hashtbl (key, INV(itm))): List0_vt @(key, itm)
+  (tbl: !hashtbl(key, INV(itm))): List0_vt @(key, itm)
 // end of [hashtbl_takeout_all]
 
 (* ****** ****** *)
@@ -159,21 +171,21 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:vt0p
 } hashtbl_reset_capacity
-  (tbl: !hashtbl (key, INV(itm)), cap2: sizeGte(1)): bool
+  (tbl: !hashtbl(key, INV(itm)), cap2: sizeGte(1)): bool
 // end of [hashtbl_reset_capacity]
 
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:vt0p
-} hashtbl_adjust_capacity (!hashtbl (key, INV(itm))): bool
+} hashtbl_adjust_capacity (!hashtbl(key, INV(itm))): bool
 
 (* ****** ****** *)
 //
 fun{
 key,itm:t@ype
 } fprint_hashtbl
-  (out: FILEref, tbl: !hashtbl (key, INV(itm))): void
+  (out: FILEref, tbl: !hashtbl(key, INV(itm))): void
 //
 overload fprint with fprint_hashtbl
 //
@@ -187,13 +199,13 @@ fprint_hashtbl$mapto (out: FILEref): void // default: fprint("->")
 fun
 {key:t0p
 ;itm:vt0p}
-hashtbl_foreach (tbl: !hashtbl (key, INV(itm))): void
+hashtbl_foreach (tbl: !hashtbl(key, INV(itm))): void
 fun
 {key:t0p
 ;itm:vt0p}
 {env:vt0p}
 hashtbl_foreach_env
-  (tbl: !hashtbl (key, INV(itm)), env: &env >> _): void
+  (tbl: !hashtbl(key, INV(itm)), env: &env >> _): void
 //
 fun
 {key:t0p
@@ -208,7 +220,7 @@ fun
 ;itm:vt0p}
 hashtbl_foreach_cloref
 (
-  tbl: !hashtbl (key, INV(itm)), fwork: (key, &itm >> _) -<cloref1> void
+  tbl: !hashtbl(key, INV(itm)), fwork: (key, &itm >> _) -<cloref1> void
 ) : void // end-of-function
 //
 (* ****** ****** *)
@@ -216,7 +228,7 @@ hashtbl_foreach_cloref
 fun
 {key:t0p
 ;itm:t0p}
-hashtbl_free (tbl: hashtbl (key, INV(itm))): void
+hashtbl_free (tbl: hashtbl(key, INV(itm))): void
 
 (* ****** ****** *)
 //
@@ -230,7 +242,7 @@ fun
 ;itm:vt0p}
 {ki2:vt0p}
 hashtbl_flistize
-  (tbl: hashtbl (key, INV(itm))):<!wrt> List0_vt (ki2)
+  (tbl: hashtbl(key, INV(itm))):<!wrt> List0_vt(ki2)
 //
 (* ****** ****** *)
 
@@ -238,13 +250,13 @@ fun
 {key:t0p
 ;itm:vt0p}
 hashtbl_listize
-  (tbl: hashtbl (key, INV(itm))):<!wrt> List0_vt @(key, itm)
+  (tbl: hashtbl(key, INV(itm))):<!wrt> List0_vt @(key, itm)
 // end of [hashtbl_listize]
 
 fun{
 key,itm:t0p
 } hashtbl_listize1
-  (tbl: !hashtbl (key, INV(itm))):<!wrt> List0_vt @(key, itm)
+  (tbl: !hashtbl(key, INV(itm))):<!wrt> List0_vt @(key, itm)
 // end of [hashtbl_listize1]
 
 (* ****** ****** *)

@@ -99,15 +99,20 @@ ATS_INLINE_DEF__
 //
 /* ****** ****** */
 
-#ifndef _ATS_CCOMP_EXCEPTION_NONE
+#ifndef \
+_ATS_CCOMP_EXCEPTION_NONE_
 //
 #define \
-ATSdynexn_dec(d2c) atstype_exncon d2c = { 0, "#ATSEXNCON" }
+ATSdynexn_dec(d2c) \
+atstype_exncon d2c = { 0, "__ATSEXNMSG__" }
+//
+#define \
+ATSdynexn_extdec(d2c) ATSextern() atstype_exncon d2c
+//
 #define \
 ATSdynexn_initize(d2c, exnmsg) the_atsexncon_initize(&(d2c), exnmsg)
-#define ATSdynexn_extdec(d2c) ATSextern() atstype_exncon d2c
 //
-#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE_]
 
 /* ****** ****** */
 

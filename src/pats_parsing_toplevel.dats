@@ -59,10 +59,18 @@ staload "./pats_parsing.sats"
 
 fun
 pskip_tokbuf
-  (buf: &tokbuf): token = let
-  val tok = tokbuf_get_token (buf)
+(
+  buf: &tokbuf
+) : token = let
+//
+val tok =
+  tokbuf_get_token(buf)
+//
 (*
-  val () = println! ("pskip_tokbuf: tok = ", tok)
+//
+val () =
+println! ("pskip_tokbuf: tok = ", tok)
+//
 *)
 in
 //
@@ -74,10 +82,12 @@ tok.token_node of
 | T_SORTDEF () => tok
 | T_DATASORT () => tok
 //
-| T_ABSTYPE _ => tok
 | T_ASSUME () => tok
+//
 | T_STACST () => tok
 | T_STADEF () => tok
+//
+| T_ABSTYPE _ => tok
 | T_TYPEDEF _ => tok
 | T_DATATYPE _ => tok
 | T_EXCEPTION () => tok
@@ -86,19 +96,17 @@ tok.token_node of
 | T_VAL _ => tok
 | T_VAR _ => tok
 //
-| T_IMPLEMENT (knd) => tok
+| T_IMPLEMENT _ => tok
 //
 | T_FIXITY _ => tok
 | T_NONFIX () => tok
 | T_SYMINTR () => tok
 | T_SYMELIM () => tok
 //
-| T_EXTERN () => tok
-//
 | T_LOCAL () => tok
 //
-| T_STALOAD () => tok
-| T_DYNLOAD () => tok
+| T_STATIC () => tok
+| T_EXTERN () => tok
 //
 | T_SRPERROR () => tok
 | T_SRPPRERR () => tok
@@ -112,7 +120,13 @@ tok.token_node of
 | T_SRPIF () => tok
 | T_SRPIFDEF () => tok
 | T_SRPIFNDEF () => tok
+//
 | T_SRPINCLUDE () => tok
+//
+| T_SRPSTALOAD () => tok
+| T_SRPDYNLOAD () => tok
+//
+| T_SRPREQUIRE () => tok
 //
 | _ => let
     val () = tokbuf_incby1 (buf) in pskip_tokbuf (buf)

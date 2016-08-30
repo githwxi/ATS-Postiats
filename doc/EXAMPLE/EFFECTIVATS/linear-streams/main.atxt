@@ -18,7 +18,7 @@ Linear Streams for Memory-Clean Programs
 ##para('\
 I find that linear streams are a true gem in ATS. It seems a bit
 unfortunate that this gem is largely hidden from most programmers. I
-would like to present a few short examples in this artice that
+would like to present a few short examples in this article that
 can demonstrate a typical use of linear streams in the construction of
 memory-clean programs. Note that a program being memory-clean means
 that the program must free every byte of memory allocated during its

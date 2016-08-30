@@ -34,9 +34,9 @@
 (* ****** ****** *)
 
 typedef
-fprint_type (a: t@ype) = (FILEref, a) -> void
+fprint_type(a:t@ype) = (FILEref, a) -> void
 typedef
-fprint_vtype (a: viewt@ype) = (FILEref, !a) -> void
+fprint_vtype(a:viewt@ype) = (FILEref, !a) -> void
 
 (* ****** ****** *)
 

@@ -1034,36 +1034,59 @@ case+ tok.token_node of
   end
 *)
 //
-| T_TKINDEF () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_t0kindef (buf, bt, err)
-  in
-    if err = err0 then d0ecl_tkindef (tok, ent2) else synent_null ()
-  end
 | T_STADEF () => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_s0expdefseq (buf, bt, err)
   in
     if err = err0
-      then d0ecl_sexpdefs (~1(*knd*), tok, ent2) else synent_null ()
+      then (
+        d0ecl_sexpdefs(~1(*knd*), tok, ent2)
+      ) else synent_null()
     // end of [if]
   end
-| T_TYPEDEF (knd) => let
+| T_MACDEF (knd) => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_s0expdefseq (buf, bt, err)
+    var _ent: synent?
+    val isr = ptest_fun(buf, p_REC, _ent)
+    val ent3 =
+      pstar_fun1_AND{m0acdef}(buf, bt, err, p_m0acdef)
   in
-    if err = err0 then d0ecl_sexpdefs (knd, tok, ent2) else synent_null ()
+    if err = err0
+      then d0ecl_macdefs (knd, isr, tok, (l2l)ent3)
+      else let
+        val () = list_vt_free (ent3) in synent_null ()
+      end (* end of [else] *)
+    // end of [if]
   end
+//
 | T_ASSUME () => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_s0aspdec (buf, bt, err)
   in
-    if err = err0 then d0ecl_saspdec (tok, ent2) else synent_null ()
+    if err = err0
+      then d0ecl_saspdec (tok, ent2) else synent_null ()
   end
+| T_TKINDEF () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_t0kindef (buf, bt, err)
+  in
+    if err = err0
+      then d0ecl_tkindef (tok, ent2) else synent_null ()
+  end
+//
+| T_TYPEDEF (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0expdefseq (buf, bt, err)
+  in
+    if err = err0
+      then d0ecl_sexpdefs(knd, tok, ent2) else synent_null ()
+  end
+//
 | T_EXCEPTION () => let
     val bt = 0
     val () = incby1 ()
@@ -1077,14 +1100,16 @@ case+ tok.token_node of
     val ent2 = p_d0atdecseq (buf, bt, err)
     val tok2 = tokbuf_get_token (buf)
   in
-    case+ tok2.token_node of
+    case+
+    tok2.token_node
+    of (* case+ *)
     | T_WHERE () => let
         val () = incby1 ()
         val ent4 = p_s0expdefseq (buf, bt, err)
       in
-        d0ecl_datdecs_some (knd, tok, ent2, tok2, ent4)
+        d0ecl_datdecs_some(knd, tok, ent2, tok2, ent4)
       end
-    | _ => d0ecl_datdecs_none (knd, tok, ent2)
+    | _ (*non-T_WHERE*) => d0ecl_datdecs_none (knd, tok, ent2)
   end
 //
 | T_CLASSDEC () => let
@@ -1098,22 +1123,7 @@ case+ tok.token_node of
     // end of [if]
   end
 //
-| T_MACDEF (knd) => let
-    val bt = 0
-    val () = incby1 ()
-    var _ent: synent?
-    val isr = ptest_fun (buf, p_REC, _ent)
-    val ent3 = pstar_fun1_AND {m0acdef} (buf, bt, err, p_m0acdef)
-  in
-    if err = err0
-      then d0ecl_macdefs (knd, isr, tok, (l2l)ent3)
-      else let
-        val () = list_vt_free (ent3) in synent_null ()
-      end (* end of [else] *)
-    // end of [if]
-  end
-//
-| T_STALOAD () => let
+| T_SRPSTALOAD () => let
     val bt = 0
     val () = incby1 ()
   in
@@ -1783,14 +1793,6 @@ case+ tok.token_node of
     // end of [if]
   end // end of [T_EXTVAR]
 //
-| T_DYNLOAD () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_s0tring (buf, bt, err)
-  in
-    if err = err0 then d0ecl_dynload (tok, ent2) else synent_null ()
-  end // end of [T_DYNLOAD]
-//
 | T_STATIC () => let
     val bt = 0
     val () = incby1 ()
@@ -1833,6 +1835,14 @@ case+ tok.token_node of
       then d0ecl_include (1(*dyn*), tok, ent2) else synent_null ()
     // end of [if]
   end
+//
+| T_SRPDYNLOAD () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0tring (buf, bt, err)
+  in
+    if err = err0 then d0ecl_dynload (tok, ent2) else synent_null ()
+  end // end of [T_SRPDYNLOAD]
 //
 | _ when
     ptest_fun (

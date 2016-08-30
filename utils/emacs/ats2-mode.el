@@ -291,7 +291,7 @@
     "$record" "$record_t" "$record_vt" "$tup" "$tup_t" "$tup_vt" "$tuple" "$tuple_t"
     "$tuple_vt" "$raise" "$showtype" "$myfilename" "$mylocation" "$myfunction" "#assert" "#define"
     "#elif" "#elifdef" "#elifndef" "#else" "#endif" "#error" "#if" "#ifdef"
-    "#ifndef" "#include" "#print" "#then" "#undef"))
+    "#ifndef" "#print" "#then" "#undef" "#include" "#staload" "#dynload" "#require"))
 
 (defun wrap-special-keyword (w)
   (concat "\\" w "\\>"))
