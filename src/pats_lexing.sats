@@ -357,7 +357,7 @@ val CASE_neg : tnode
 val DATATYPE : tnode
 val DATAPROP : tnode
 val DATAVIEW : tnode
-val DATAVIEWTYPE : tnode
+val DATAVTYPE : tnode
 
 val FN : tnode
 val FNX : tnode
