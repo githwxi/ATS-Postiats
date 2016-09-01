@@ -34,6 +34,13 @@
 (* ****** ****** *)
 //
 staload
+LAB = "./pats_label.sats"
+overload
+fprint with $LAB.fprint_label
+//
+(* ****** ****** *)
+//
+staload
 SYM = "./pats_symbol.sats"
 //
 overload
@@ -406,13 +413,276 @@ in
 end // end of [codegen2_emit_tmpcstdec]
 
 (* ****** ****** *)
+
+implement
+codegen2_emit_s2rt
+  (out, s2t0) = let
 //
+fun
+aux_s2rt
+(
+  s2t0: s2rt
+) :<cloref1> void =
+(
+case+ s2t0 of
+| S2RTbas
+    (s2tb) =>
+  {
+    val () = aux_s2rtbas(s2tb)
+  }
+| S2RTfun
+  (
+    s2ts_arg, s2t_res
+  ) => () where
+  {
+    val () = fprint(out, "(")
+    val () =
+      aux_s2rtlst(s2ts_arg, 0)
+    // end of [val]
+    val () = fprint(out, ") ->")
+    val () = aux_s2rt(s2t_res)
+  }
+| _(*rest-of_s2rt*) => fprint(out, s2t0)
+) (* end of [aux_s2rt] *)
+//
+and
+aux_s2rtlst
+(
+  s2ts: s2rtlst, i: int
+) :<cloref1> void =
+(
+case+ s2ts of
+| list_nil() => ()
+| list_cons(s2t, s2ts) =>
+  {
+    val () =
+    if i > 0
+      then fprint(out, ", ")
+    // end of [if]
+    val () = aux_s2rt(s2t)
+    val () = aux_s2rtlst(s2ts, i+1)
+  } (* end of [list_cons] *)
+) (* end of [aux_s2rtlst] *)
+//
+and
+aux_s2rtbas
+(
+  s2tb: s2rtbas
+) :<cloref1> void =
+(
+case+ s2tb of
+| S2RTBASpre
+    (sym) => fprint(out, sym)
+  // end of [S2RTBASpre]
+| S2RTBASimp
+    (knd, sym) => fprint(out, sym)
+  // end of [S2RTBASimp]
+| S2RTBASdef(s2td) =>
+    fprint(out, s2rtdat_get_sym(s2td))
+  // end of [S2RTBASdef]
+) (* end of [aux_s2rtbas] *)
+//
+in
+  aux_s2rt(s2t0)
+end // end of [codegen2_emit_s2rt]
+
+(* ****** ****** *)
+
+implement
+codegen2_emit_s2cst
+  (out, s2c0) = () where
+{
+  val () = fprint(out, s2cst_get_sym(s2c0))
+} (* codegen2_emit_s2cst *)
+
+implement
+codegen2_emit_s2var
+  (out, s2v0) = () where
+{
+  val () = fprint(out, s2var_get_sym(s2v0))
+} (* codegen2_emit_s2var *)
+
+(* ****** ****** *)
+//
+local
+
+fun
+aux_istup
+(
+  ls2es: labs2explst
+) : bool =
+(
+case+ ls2es of
+| list_nil() => true
+| list_cons
+    (ls2e, ls2es) => let
+    val+SLABELED(l, _, _) = ls2e
+  in
+    if $LAB.label_is_int(l) then aux_istup(ls2es) else false
+  end // end of [list_cons]
+)
+
+fun
+aux_s2exp
+(
+  out: FILEref, s2e0: s2exp
+) : void = let
+//
+(*
+val () =
+println!
+  ("aux_s2exp: s2e0 = ", s2e0)
+*)
+//
+in
+//
+case+
+s2e0.s2exp_node
+of (* case+ *)
+//
+| S2Ecst(s2c) =>
+  {
+    val () = codegen2_emit_s2cst(out, s2c)
+  }
+//
+| S2Evar(s2v) => () where
+  {
+    val () = codegen2_emit_s2var(out, s2v)
+  }
+//
+| S2Eapp(s2e_fun, s2es_arg) =>
+  {
+    val () = aux_s2exp(out, s2e_fun)
+    val () = fprint(out, "(")
+    val () = aux_s2explst(out, s2es_arg, 0)
+    val () = fprint(out, ")")
+  }
+//
+| S2Etyrec
+    (knd, npf, ls2es) => () where
+  {
+//
+    val
+    istup = aux_istup(ls2es)
+//
+    val
+    tuprec =
+    (
+      if istup then "$tup" else "$rec"
+    ) : string // end of [val]
+//
+    val
+    isflted =
+    tyreckind_is_flted(knd)
+    val () =
+    if isflted then fprint(out, "@")
+//
+    val
+    isboxed =
+    tyreckind_is_boxed(knd)
+    val () =
+    if isboxed then
+    (
+      if s2exp_is_nonlin(s2e0)
+        then fprint!(out, tuprec, "_t")
+        else fprint!(out, tuprec, "_vt")
+    ) (* end of [val] *)
+//
+    val () =
+    if istup
+      then fprint_string(out, "(")
+      else fprint_string(out, "{")
+    // end of [if]
+//
+    val () = aux_labs2explst(out, ls2es, 0)
+//
+    val () =
+    if istup
+      then fprint_string(out, ")")
+      else fprint_string(out, "}")
+    // end of [if]
+//
+  } (* end of [S2Etyrec] *)
+//
+| _ (*rest-of-s2exp*) => fprint_s2exp(out, s2e0)
+//
+end (* end of [aux_s2exp] *)
+
+and
+aux_s2explst
+(
+  out: FILEref
+, s2es: s2explst, i: int
+) : void = let
+(*
+val () =
+println! ("aux_labs2explst")
+*)
+in
+//
+case+ s2es of
+| list_nil() => ()
+| list_cons(s2e, s2es) =>
+  {
+    val () =
+    if i > 0 then fprint(out, ", ")
+    val () = aux_s2exp(out, s2e)
+    val () = aux_s2explst(out, s2es, i+1)
+  } (* end of [list_cons] *)
+//
+end // end of [aux_s2explst]
+
+and
+aux_labs2explst
+(
+  out: FILEref
+, ls2es: labs2explst, i: int
+) : void = let
+(*
+val () =
+println! ("aux_labs2explst")
+*)
+in
+//
+case+ ls2es of
+| list_nil() => ()
+| list_cons(ls2e, ls2es) =>
+  {
+//
+    val () =
+    if i > 0 then fprint(out, ", ")
+//
+    val+
+    SLABELED(l, _(*name*), s2e) = ls2e
+    val () =
+    if $LAB.label_is_sym(l) then fprint!(out, l, "=")
+//
+    val () = aux_s2exp(out, s2e)
+//
+    val () = aux_labs2explst(out, ls2es, i+1)
+  } (* end of [list_cons] *)
+//
+end // end of [aux_labs2explst]
+
+in (* in-of-local *)
+
 implement
 codegen2_emit_s2exp
   (out, s2e0) = let
+//
+(*
+val () =
+println!
+(
+"codegen2_emit_s2exp: s2e0 = ", s2e0
+) (* println! *)
+*)
+//
 in
-  fprint_s2exp(out, s2e0)
+  aux_s2exp(out, s2e0)
 end // codegen2_emit_s2exp
+
+end // end of [local]
 //
 (* ****** ****** *)
 

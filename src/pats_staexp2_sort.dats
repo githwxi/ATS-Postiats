@@ -515,6 +515,10 @@ s2rt_is_lin_fun
   (s2t) = s2rt_test_fun(s2t, s2rt_is_lin)
 //
 implement
+s2rt_is_flat_fun
+  (s2t) = s2rt_test_fun(s2t, s2rt_is_flat)
+//
+implement
 s2rt_is_boxed_fun
   (s2t) = s2rt_test_fun(s2t, s2rt_is_boxed)
 //

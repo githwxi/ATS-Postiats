@@ -75,6 +75,124 @@ s2cst_get_name
 
 (* ****** ****** *)
 //
+extern
+fun
+absrec_emit_tydef_uni
+(
+  out: FILEref, s2e0: s2exp
+) : void // end-of-function
+//
+implement
+absrec_emit_tydef_uni
+  (out, s2e0) = let
+//
+fun
+aux_s2varlst
+(
+  out: FILEref
+, s2vs: s2varlst, i: int
+) : void =
+(
+case+ s2vs of
+| list_nil() => ()
+| list_cons(s2v, s2vs) =>
+  {
+//
+    val () =
+    if i > 0
+      then fprint(out, ";")
+    // end of [if]
+    val () = let
+      val s2t = s2var_get_srt(s2v)
+    in
+      codegen2_emit_s2var(out, s2v);
+      fprint(out, ":"); codegen2_emit_s2rt(out, s2t)
+    end (* end of [val] *)
+//
+    val () = aux_s2varlst(out, s2vs, i+1)
+//
+  } (* end of [list_cons] *)
+) (* end of [aux_s2varlst] *)
+//
+in
+//
+case+
+s2e0.s2exp_node
+of (* case+ *)
+| S2Elam
+  (
+    s2vs, s2e_body
+  ) => () where
+  {
+    val () = fprint(out, "{")
+    val () = aux_s2varlst(out, s2vs, 0)
+    val () = fprint(out, "}")
+    val () = absrec_emit_tydef_uni(out, s2e_body)
+  } (* S2Elam *)
+| _(*non-S2Elam*) => ()
+//
+end // end of [absrec_emit_tydef_uni]
+//
+(* ****** ****** *)
+//
+extern
+fun
+absrec_emit_tydef_arg
+(
+  out: FILEref, s2e0: s2exp
+) : void // end-of-function
+//
+implement
+absrec_emit_tydef_arg
+  (out, s2e0) = let
+//
+fun
+aux_s2varlst
+(
+  out: FILEref
+, s2vs: s2varlst, i: int
+) : void =
+(
+case+ s2vs of
+| list_nil() => ()
+| list_cons(s2v, s2vs) =>
+  {
+//
+    val () =
+    if i > 0
+      then fprint(out, ", ")
+    // end of [if]
+    val () =
+    (
+      codegen2_emit_s2var(out, s2v)
+    ) (* end of [val] *)
+//
+    val () = aux_s2varlst(out, s2vs, i+1)
+//
+  } (* end of [list_cons] *)
+) (* end of [aux_s2varlst] *)
+//
+in
+//
+case+
+s2e0.s2exp_node
+of (* case+ *)
+| S2Elam
+  (
+    s2vs, s2e_body
+  ) => () where
+  {
+    val () = fprint(out, "(")
+    val () = aux_s2varlst(out, s2vs, 0)
+    val () = fprint(out, ")")
+    val () = absrec_emit_tydef_arg(out, s2e_body)
+  } (* S2Elam *)
+| _(*non-S2Elam*) => ()
+//
+end // end of [absrec_emit_tydef_arg]
+//
+(* ****** ****** *)
+//
 datatype
 absrecfld =
 //
@@ -84,7 +202,10 @@ absrecfld =
 //
   | ABSRECFLDexch of s2exp
 //
-  | ABSRECFLDvtget of s2exp
+(*
+  | ABSRECFLDvtget0 of s2exp
+  | ABSRECFLDvtget1 of s2exp
+*)
 //
   | ABSRECFLDgetref of s2exp
 //
@@ -111,8 +232,12 @@ is_getset(name) = (,(name) = "getset")
 macdef
 is_exch(name) = (,(name) = "exch")
 //
+(*
 macdef
-is_vtget(name) = (,(name) = "vtget")
+is_vtget0(name) = (,(name) = "vtget0")
+macdef
+is_vtget0(name) = (,(name) = "vtget1")
+*)
 //
 macdef
 is_getref(name) = (,(name) = "getref")
@@ -147,11 +272,15 @@ s2e0.s2exp_node of
         | _ when
             is_exch(name) => ABSRECFLDexch(s2e2)
 //
+(*
         | _ when
-            is_vtget(name) => ABSRECFLDvtget(s2e2)
+            is_vtget0(name) => ABSRECFLDvtget0(s2e2)
+        | _ when
+            is_vtget1(name) => ABSRECFLDvtget1(s2e2)
+*)
 //
         | _ when
-            is_getref(name) => ABSRECFLDvtget(s2e2)
+            is_getref(name) => ABSRECFLDgetref(s2e2)
 //
         | _(* unrecognized *) => ABSRECFLDunknown(s2e0)
 //
@@ -166,14 +295,13 @@ end // end of [absrecfld_of_s2exp]
 //
 extern
 fun
-emit_tyrecfld
-(
-  out: FILEref
+absrec_emit_tyrecfld
+( out: FILEref
 , s2c0: s2cst, tnm: string, ls2e: labs2exp
-) : void // end of [emit_tyrecfld]
+) : void // end of [absrec_emit_tyrecfld]
 //
 implement
-emit_tyrecfld
+absrec_emit_tyrecfld
 (
   out, s2c0, tnm, ls2e
 ) = let
@@ -189,62 +317,138 @@ fun
 auxproc
 (
   fld: absrecfld
-) :<cloref1> void =
+) :<cloref1> void = let
+//
+fun
+auxdecl
 (
+  fnm: string, s2e: s2exp
+) :<cloref1> void =
+{
+//
+val s2t0 =
+s2cst_get_srt(s2c0)
+//
+val-
+Some(s2def) =
+s2cst_get_def(s2c0)
+//
+val () =
+fprint!(out, "fun{}\n")
+//
+val () =
+fprint!
+(
+  out, tnm, fnm, "_", l0
+) (* fprint! *)
+val () =
+absrec_emit_tydef_uni(out, s2def)
+//
+val () =
+fprint!(out, " : absrec_", fnm, "_")
+//
+val
+islin = s2rt_is_lin_fun(s2t0)
+val
+isboxed = s2rt_is_boxed_fun(s2t0)
+val () =
+if
+isboxed
+then (
+//
+if ~islin
+  then fprint(out, "type") else fprint(out, "vtype")
+//
+) (* end of [then] *)
+else (
+//
+if ~islin
+  then fprint(out, "t0ype") else fprint(out, "vt0ype")
+//
+) (* end of [else] *)
+//
+val () = fprint(out, "(")
+//
+val () =
+fprint!(out, s2c0)
+val () =
+absrec_emit_tydef_arg(out, s2def)
+//
+val () =
+fprint!(out, ", ")
+val () =
+codegen2_emit_s2exp(out, s2e)
+val () =
+fprint(out, ")\n")
+//
+} (* end of [auxdecl] *)
+//
+in
+//
 case+ fld of
 //
 | ABSRECFLDget(s2e) =>
   {
-    val () = fprint!(out, "fun{}\n")
-    val () = fprint!(out, tnm, "_get_", l0)
-    val () = fprint!(out, ": (", s2c0, ") -<> (", s2e, ")\n")
+    val () = auxdecl("get", s2e)
     val () =
-    fprint!
-      (out, "overload ", ".", l0, " with ", tnm, "_get_", l0, "\n")
-    // end of [fprint!]
+    fprint!(out, "overload ", ".", l0, " with ", tnm, "get_", l0, "\n")
     val ((*void*)) = fprint_newline(out)
   }
 //
 | ABSRECFLDset(s2e) =>
   {
-    val () = fprint!(out, "fun{}\n")
-    val () = fprint!(out, tnm, "_set_", l0)
-    val () = fprint!(out, ": (", s2c0, ", ", s2e, ") -<ref> void\n")
+    val () = auxdecl("set", s2e)
     val () =
-    fprint!
-      (out, "overload ", ".", l0, " with ", tnm, "_set_", l0, "\n")
-    // end of [fprint!]
+    fprint!(out, "overload ", ".", l0, " with ", tnm, "set_", l0, "\n")
+    val ((*void*)) = fprint_newline(out)
+  }
+//
+| ABSRECFLDgetset(s2e) =>
+  {
+    val () =
+    auxdecl("get", s2e)
+    val () =
+    fprint!(out, "overload ", ".", l0, " with ", tnm, "get_", l0, "\n")
+    val () =
+    auxdecl("set", s2e)
+    val () =
+    fprint!(out, "overload ", ".", l0, " with ", tnm, "set_", l0, "\n")
     val ((*void*)) = fprint_newline(out)
   }
 //
 | ABSRECFLDexch(s2e) =>
   {
-    val () = fprint!(out, "fun{}\n")
-    val () = fprint!(out, tnm, "_exch_", l0)
-    val () = fprint!(out, ": (", s2c0, ", ", s2e, ") -<ref> ", s2e, "\n")
+    val () = auxdecl("exec", s2e)
+    val ((*void*)) = fprint_newline(out)
+  }
+//
+| ABSRECFLDgetref(s2e) =>
+  {
+    val () = auxdecl("getref", s2e)
     val ((*void*)) = fprint_newline(out)
   }
 //
 | _(*rest-of-absrecfld*) => ()
 //
-)
+end // end of [auxproc]
 //
 in
 //
   auxproc(fld)
 //
-end (* end of [emit_tyrecfld] *)
+end (* end of [absrec_emit_tyrecfld] *)
+//
+(* ****** ****** *)
 //
 extern
 fun
-emit_tyrecfldlst
-(
-  out: FILEref
+absrec_emit_tyrecfldlst
+( out: FILEref
 , s2c0: s2cst, tnm: string, ls2es: labs2explst
-) : void // end of [emit_tyrecfldlst]
+) : void // end of [absrec_emit_tyrecfldlst]
 //
 implement
-emit_tyrecfldlst
+absrec_emit_tyrecfldlst
 (
   out, s2c0, tnm, ls2es
 ) = (
@@ -253,21 +457,23 @@ case+ ls2es of
 | list_nil() => ()
 | list_cons(ls2e, ls2es) =>
   {
-    val () = emit_tyrecfld(out, s2c0, tnm, ls2e)
-    val () = emit_tyrecfldlst(out, s2c0, tnm, ls2es)
+    val () = absrec_emit_tyrecfld(out, s2c0, tnm, ls2e)
+    val () = absrec_emit_tyrecfldlst(out, s2c0, tnm, ls2es)
   } (* end of [list_cons] *)
 //
-) (* end of [emit_tyrecfldlst] *)
+) (* end of [absrec_emit_tyrecfldlst] *)
 //
 (* ****** ****** *)
 //
 extern
 fun
-s2cst_get_tyrec
-  (s2c0: s2cst): s2expopt_vt
+absrec_s2cst_get_tyrec
+(
+  s2c0: s2cst
+) : s2expopt_vt
 //
 implement
-s2cst_get_tyrec
+absrec_s2cst_get_tyrec
   (s2c0) = let
 //
 fun
@@ -276,11 +482,13 @@ auxget
   s2e0: s2exp
 ) : s2expopt_vt = let
 //
+(*
 val () =
 println!
 (
-  "s2cst_get_tyrec: auxget: s2e0 = ", s2e0
+  "absrec_s2cst_get_tyrec: auxget: s2e0 = ", s2e0
 ) (* end of [println!] *)
+*)
 //
 in
 //
@@ -289,7 +497,9 @@ s2e0.s2exp_node
 of // case+
 | S2Etyrec _ => Some_vt(s2e0)
 | S2Elam(s2vs, s2e) => auxget(s2e)
+(*
 | S2Eexi(s2vs, s2ps, s2e) => auxget(s2e)
+*)
 | _(*rest-of-s2exp*) => None_vt(*void*)
 //
 end // end of [auxget]
@@ -373,24 +583,25 @@ aux_tydef
 , s2c0: s2cst, xs: e1xplst
 ) : void = let
 //
-// (*
+(*
 val () =
 println! (
 //
-"aux_tydef: s2c0 = ", s2c0
+"codegen2_absrec: aux_tydef: s2c0 = ", s2c0
 //
 ) (* println! *)
-// *)
+*)
 //
-val opt = s2cst_get_tyrec(s2c0)
+val opt =
+  absrec_s2cst_get_tyrec(s2c0)
 //
 in
 //
 case+ opt of
 | ~None_vt() =>
     auxerr_s2cst_tyrec(out, d2c0, s2c0)
-| ~Some_vt(s2e_rec) =>
-    aux_tydef_tyrec(out, d2c0, s2c0, s2e_rec, xs)
+| ~Some_vt(s2rec) =>
+    aux_tydef_tyrec(out, d2c0, s2c0, s2rec, xs)
 //
 end (* end of [aux_tydef] *)
 
@@ -400,14 +611,16 @@ aux_tydef_tyrec
   out: FILEref
 , d0c0: d2ecl
 , s2c0: s2cst
-, s2e_rec: s2exp, xs: e1xplst
+, s2rec: s2exp, xs: e1xplst
 ) : void = let
 //
+(*
 val () =
 println!
 (
-  "aux_tydef_tyrec: s2e_rec = ", s2e_rec
+  "codegen2_absrec: aux_tydef_tyrec: s2rec = ", s2rec
 ) (* println! *)
+*)
 //
 val tnm =
 (
@@ -422,20 +635,21 @@ case+ xs of
     x0.e1xp_node
     of // case+
     | E1XPide(id) =>
-        $SYM.symbol_get_name(id)
+      $SYM.symbol_get_name(id)
       // E1XPide
     | E1XPstring(name) => name
-    | _(*unrecogized*) => s2cst_get_name(s2c0)
+    | _(*unrecogized*) =>
+      string0_append(s2cst_get_name(s2c0), "_")
   )
 //
 ) : string // end of [val]
 //
 val-
 S2Etyrec
-  (knd, npf, ls2es) = s2e_rec.s2exp_node
+  (knd, npf, ls2es) = s2rec.s2exp_node
 //
 in
-  emit_tyrecfldlst(out, s2c0, tnm, ls2es)
+  absrec_emit_tyrecfldlst(out, s2c0, tnm, ls2es)
 end // end of [aux_tydef_tyrec]
 
 in (* in-of-local *)
@@ -444,9 +658,11 @@ implement
 codegen2_absrec
   (out, d2c0, xs) = let
 //
+(*
 val () =
 println!
   ("codegen2_absrec: d2c0 = ", d2c0)
+*)
 //
 in
 //

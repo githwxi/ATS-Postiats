@@ -15,38 +15,47 @@ absvt0ype VT0
 (* ****** ****** *)
 
 vtypedef
-myarr_t (
+myarr_t
+(
   a:vt0p
 , l:addr, n:int
-) = [l > null]
-$rec
-{
+) = @{
+//
 a= get(int(n))
 ,
-b= vtget(arrayptr(a, n))
-}
+b= getref(array(a, n))
+//
+,
+_ignored_ = unit_v(*void*)
+//
+} // end of [myarr_t]
 
-typedef
+(* ****** ****** *)
+//
+(*
+vtypedef
 myrec_t
-(l: addr) = [l > null]
-$rec{
+(
+  l: addr
+) = $rec_vt{
 //
 a= get(T0)
 ,
 a= set(T0)
 ,
-b= get(int -<0,!exn> double)
+b= getset(T0)
 ,
-c= exch(VT0)
+c= exch($tup(int, VT0))
 ,
 d= getref(VT0)
 //
-} (* end of [typedef] *)
+} (* end of [vtypedef] *)
+*)
 //
 (* ****** ****** *)
 
 #codegen2(absrec, myarr_t, myarr$)
-#codegen2(absrec, myrec_t, myrec$)
+// #codegen2(absrec, myrec_t, myrec$)
 
 (* ****** ****** *)
 
