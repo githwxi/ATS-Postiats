@@ -4,32 +4,34 @@
 
 (* ****** ****** *)
 //
-staload
+#staload
 "prelude/codegen.sats"
 //
 (* ****** ****** *)
 
-abst0ype T0
-absvt0ype VT0
+abst0ype T0 = int
+absvt0ype VT0 = int
 
 (* ****** ****** *)
 
-vtypedef
+absvtype
 myarr_t
 (
   a:vt0p
 , l:addr, n:int
-) = @{
-//
-a= get(int(n))
-,
-b= getref(array(a, n))
-//
-,
-_ignored_ = unit_v(*void*)
-//
-} // end of [myarr_t]
+) (* myarr_t *)
 
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+myarr_make
+  {n:nat}(int(n)): [l:addr] myarr_t(a, l, n)
+extern
+fun
+myarr_free{a:t@ype}{l:addr}{n:nat}(myarr_t(a, l, n)): void
+//
 (* ****** ****** *)
 //
 (*
@@ -53,40 +55,60 @@ d= getref(VT0)
 *)
 //
 (* ****** ****** *)
-
-#codegen2(absrec, myarr_t, myarr$)
-// #codegen2(absrec, myrec_t, myrec$)
-
+//
+#ifdef
+CODEGEN2
+#then
+vtypedef
+myarr_t
+(
+  a:vt0p
+, l:addr, n:int
+) =
+$rec_vt{
+//
+a= get(int(n))
+,
+b= getref(array(a, n))
+//
+,
+_linear_ = unit_vt(*void*)
+//
+} // end of [myarr_t]
+#codegen2
+(
+  absrec, myarr_t, myarr$
+) (* #codegen2 *)
+#else
+//
+#include "./absrec_codegen2.hats"
+//
+#endif // ifdef(CODEGEN2)
+//
+(* ****** ****** *)
+//
+(*
+#codegen2(absrec, myrec_t, myrec$)
+*)
+//
 (* ****** ****** *)
 
-(*
+fun
+test() = () where
+{
 //
-extern
-fun{}
-myrec_get_a: myrec_t -<> int
-overload .a with myrec_get_a
-extern
-fun{}
-myrec_set_a: (myrec_t, int) -<!wrt> void
-overload .a with myrec_set_a
+val n = 10
+val A = myarr_make<int>(n)
+val n = A.a()
 //
-extern
-fun{}
-myrec_get_b: myrec_t -<> double
-overload .b with myrec_get_b
-extern
-fun{}
-myrec_set_b: (myrec_t, double) -<!wrt> void
-overload .b with myrec_set_b
+val (pf, fpf | p) = myarr$getref_b(A)
+val () = p->[0] := 0
+val () = p->[1] := 1
+prval () = fpf(pf)
 //
-extern
-fun{}
-myrec_exch_c: (myrec_t, VT0) -<!wrt> VT0
-extern
-fun{}
-myrec_getref_d: (myrec_t) -<> vtakeoutptr(VT0)
+val () = myarr_free{int}(A)
 //
-*)
+} (* end of [test] *)
 
 (* ****** ****** *)
 

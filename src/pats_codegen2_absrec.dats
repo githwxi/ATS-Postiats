@@ -334,7 +334,7 @@ Some(s2def) =
 s2cst_get_def(s2c0)
 //
 val () =
-fprint!(out, "fun{}\n")
+fprint!(out, "extern\nfun{}\n")
 //
 val () =
 fprint!
@@ -345,7 +345,7 @@ val () =
 absrec_emit_tydef_uni(out, s2def)
 //
 val () =
-fprint!(out, " : absrec_", fnm, "_")
+fprint!(out, " : absrec_", fnm, "_fun_")
 //
 val
 islin = s2rt_is_lin_fun(s2t0)

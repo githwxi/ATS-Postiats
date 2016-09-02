@@ -72,40 +72,40 @@ typedef getref(a:vt0ype) = absrec_getref(a)
 (* ****** ****** *)
 //
 typedef
-absrec_get_ftype
+absrec_get_fun_type
   (trec:type, res:t0ype) = (trec) -<ref> (res)
 typedef
-absrec_set_ftype
+absrec_set_fun_type
   (trec:type, res:t0ype) = (trec, res) -<ref> void
 typedef
-absrec_exch_ftype
+absrec_exch_fun_type
   (trec:type, res:vt0ype) = (trec, res) -<ref> (res)
 typedef
-absrec_getref_ftype
+absrec_getref_fun_type
   (trec:type, res:vt0ype) = (trec) -<ref> vtakeoutptr(res)
 //
 (* ****** ****** *)
 //
 typedef
-absrec_get_fvtype
+absrec_get_fun_vtype
   (trec:vtype, res:t0ype) = (!trec) -<fun> (res)
 typedef
-absrec_set_fvtype
+absrec_set_fun_vtype
   (trec:vtype, res:t0ype) = (!trec, res) -<0,!wrt> void
 typedef
-absrec_exch_fvtype
+absrec_exch_fun_vtype
   (trec:vtype, res:vt0ype) = (!trec, res) -<0,!wrt> (res)
 typedef
-absrec_getref_fvtype
+absrec_getref_fun_vtype
   (trec:vtype, res:vt0ype) = (!trec) -<0,!wrt> vtakeoutptr(res)
 //
 (*
 typedef
-absrec_vtget0_fvtype
+absrec_vtget0_fun_vtype
   (trec:vtype, res: vt0ype) =
   (!trec >> minus_vt(trec, res)) -<fun> res
 typedef
-absrec_vtget1_fvtype
+absrec_vtget1_fun_vtype
   (trec:vtype, res: vt0ype) =
   (!trec, res) -<fun> (minus_v(trec, res) | res)
 *)
@@ -113,31 +113,31 @@ absrec_vtget1_fvtype
 (* ****** ****** *)
 //
 typedef
-absrec_get_ft0ype
+absrec_get_fun_t0ype
   (trec:t0ype, res:t0ype) = (&trec) -<fun> (res)
 typedef
-absrec_set_ft0ype
+absrec_set_fun_t0ype
   (trec:t0ype, res:t0ype) = (&trec, res) -<0,!wrt> void
 typedef
-absrec_exch_ft0ype
+absrec_exch_fun_t0ype
   (trec:t0ype, res:vt0ype) = (&trec, res) -<0,!wrt> (res)
 typedef
-absrec_getref_ft0ype
+absrec_getref_fun_t0ype
   (trec:t0ype, res:vt0ype) = (&trec) -<0,!wrt> vtakeoutptr(res)
 //
 (* ****** ****** *)
 //
 typedef
-absrec_get_fvt0ype
+absrec_get_fun_vt0ype
   (trec:vt0ype, res:t0ype) = (&trec) -<fun> (res)
 typedef
-absrec_set_fvt0ype
+absrec_set_fun_vt0ype
   (trec:vt0ype, res:t0ype) = (&trec, res) -<0,!wrt> void
 typedef
-absrec_exch_fvt0ype
+absrec_exch_fun_vt0ype
   (trec:vt0ype, res:vt0ype) = (&trec, res) -<0,!wrt> (res)
 typedef
-absrec_getref_fvt0ype
+absrec_getref_fun_vt0ype
   (trec:vt0ype, res:vt0ype) = (&trec) -<0,!wrt> vtakeoutptr(res)
 //
 (* ****** ****** *)
