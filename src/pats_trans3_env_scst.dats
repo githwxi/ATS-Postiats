@@ -112,8 +112,8 @@ the_s2cstbindlst_bind_and_add
   end // end of [val]
 *)
   val isasp = s2cst_get_isasp (s2c)
-  val () = if
-    (isasp) then {
+  val () =
+  if (isasp) then {
     val () = prerr_warning3_loc (loc0)
     val () = prerrln! (": the static constant [", s2c, "] is not abstract at this point.")
   } // end of [if] // end of [val]

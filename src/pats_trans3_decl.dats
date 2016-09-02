@@ -886,20 +886,20 @@ in
   | Some _ => ()
   | None _ => let
       val d2cs =
-        $TRENV2.filenv_get_d2eclist (fenv)
+        $TRENV2.filenv_get_d2eclist(fenv)
       // end of [val]
-      val (pfpush | ()) = the_s2cstbindlst_push ()
+      val (pfpush|()) = the_s2cstbindlst_push()
       val d3cs = d2eclist_tr (d2cs)
-      val () = the_s2cstbindlst_pop_and_unbind (pfpush | (*none*))
-      val p = $TRENV2.filenv_getref_d3eclistopt (fenv)
-      val () = $UN.ptrset<d3eclistopt> (p, Some (d3cs))
+      val () = the_s2cstbindlst_pop_and_unbind(pfpush|(*none*))
+      val p = $TRENV2.filenv_getref_d3eclistopt(fenv)
+      val () = $UN.ptrset<d3eclistopt> (p, Some(d3cs))
     in
       // nothing
     end // end of [None]
 end // end of [val]
 //
 in
-  d3ecl_staload (loc0, idopt, fil, loadflag, fenv, loaded)
+  d3ecl_staload(loc0, idopt, fil, loadflag, fenv, loaded)
 end // end of [d2ecl_tr_staload]
 
 (* ****** ****** *)
@@ -909,19 +909,21 @@ d2ecl_tr_staloadloc
   (d2c0) = let
 //
 val loc0 = d2c0.d2ecl_loc
+//
 val-D2Cstaloadloc
   (pfil, nspace, fenv) = d2c0.d2ecl_node
-val d2cs = $TRENV2.filenv_get_d2eclist (fenv)
 //
-val (pfpush | ()) = the_s2cstbindlst_push ()
-val d3cs = d2eclist_tr (d2cs)
-val () = the_s2cstbindlst_pop_and_unbind (pfpush | (*none*))
+val d2cs = $TRENV2.filenv_get_d2eclist(fenv)
 //
-val p = $TRENV2.filenv_getref_d3eclistopt (fenv)
-val () = $UN.ptrset<d3eclistopt> (p, Some (d3cs))
+val (pfpush|()) = the_s2cstbindlst_push()
+val d3cs = d2eclist_tr(d2cs)
+val () = the_s2cstbindlst_pop_and_unbind(pfpush|(*none*))
+//
+val p0 = $TRENV2.filenv_getref_d3eclistopt(fenv)
+val () = $UN.ptrset<d3eclistopt> (p0, Some(d3cs))
 //
 in
-  d3ecl_staloadloc (loc0, pfil, nspace, fenv)
+  d3ecl_staloadloc(loc0, pfil, nspace, fenv)
 end // end of [d2ecl_tr_staloadloc]
 
 (* ****** ****** *)

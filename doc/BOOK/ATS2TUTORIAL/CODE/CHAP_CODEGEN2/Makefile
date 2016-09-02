@@ -33,13 +33,6 @@ expr.sats expr.dats; \
 $(PATSOPT) -DATS CODEGEN2 --codegen-2 -o $@ -d expr.dats
 
 ######
-
-absrec: absrec.dats; \
-$(PATSCC) -o absrec absrec.dats -DATS_MEMALLOC_LIBC
-absrec_codegen2.hats: absrec.dats; \
-$(PATSOPT) -DATS CODEGEN2 --codegen-2 -o $@ -d absrec.dats
-
-######
 #
 testall:: all
 testall:: regress
@@ -58,7 +51,5 @@ clean:: ; $(RMF) *_?ats.o
 cleanall:: clean
 cleanall:: ; $(RMF) expr
 cleanall:: ; $(RMF) expr_codegen2.hats
-cleanall:: ; $(RMF) absrec
-cleanall:: ; $(RMF) absrec_codegen2.hats
 
 ###### end of [Makefile] ######

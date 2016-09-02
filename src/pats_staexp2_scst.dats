@@ -96,7 +96,7 @@ s2cst_struct = @{
 , s2cst_def= s2expopt // definition
 , s2cst_pack= Stropt // for ATS_PACKNAME
 //
-, s2cst_isabs= Option (s2expopt) // is abstract?
+, s2cst_isabs= Option(s2expopt) // is abstract?
 , s2cst_iscon= bool // constructor?
 , s2cst_isrec= bool // is it recursive?
 , s2cst_isasp= bool // already assumed?

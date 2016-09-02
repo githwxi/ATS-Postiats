@@ -326,12 +326,10 @@ auxdecl
 ) :<cloref1> void =
 {
 //
-val s2t0 =
-s2cst_get_srt(s2c0)
-//
+val
+s2t0 = s2cst_get_srt(s2c0)
 val-
-Some(s2def) =
-s2cst_get_def(s2c0)
+Some(s2def) = s2cst_get_def(s2c0)
 //
 val () =
 fprint!(out, "extern\nfun{}\n")
@@ -484,10 +482,9 @@ auxget
 //
 (*
 val () =
-println!
-(
-  "absrec_s2cst_get_tyrec: auxget: s2e0 = ", s2e0
-) (* end of [println!] *)
+print!("absrec_s2cst_get_tyrec")
+val () =
+println!(": auxget: s2e0 = ", s2e0)
 *)
 //
 in
@@ -504,12 +501,11 @@ of // case+
 //
 end // end of [auxget]
 //
-val-
-Some(s2e0) = s2cst_get_def(s2c0)
+val-Some(s2e0) = s2cst_get_def(s2c0)
 //
 in
   auxget(s2e0)
-end // end of [s2cst_get_tyrec]
+end // end of [absrec_s2cst_get_tyrec]
 
 (* ****** ****** *)
 
