@@ -73,16 +73,16 @@ typedef getref(a:vt0ype) = absrec_getref(a)
 //
 typedef
 absrec_get_fun_type
-  (trec:type, res:t0ype) = (trec) -<ref> (res)
+  (trec:type, res:t0ype) = (trec) -<0,!ref> (res)
 typedef
 absrec_set_fun_type
-  (trec:type, res:t0ype) = (trec, res) -<ref> void
+  (trec:type, res:t0ype) = (trec, res) -<0,!refwrt> void
 typedef
 absrec_exch_fun_type
-  (trec:type, res:vt0ype) = (trec, res) -<ref> (res)
+  (trec:type, res:vt0ype) = (trec, res) -<0,!refwrt> (res)
 typedef
 absrec_getref_fun_type
-  (trec:type, res:vt0ype) = (trec) -<ref> vtakeoutptr(res)
+  (trec:type, res:vt0ype) = (trec) -<0,!ref> vtakeoutptr(res)
 //
 (* ****** ****** *)
 //
@@ -142,4 +142,4 @@ absrec_getref_fun_vt0ype
 //
 (* ****** ****** *)
 
-(* end of [codegen.sats] *)
+(* end of [codegen2.sats] *)
