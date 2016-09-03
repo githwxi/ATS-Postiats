@@ -136,7 +136,7 @@ for swapping memory contents at two given locations:
 
 #dats2xhtml('\
 fn{a:t@ype}
-swap0 {l1,l2:addr}
+swap0{l1,l2:addr}
 (
   pf1: a @ l1, pf2: a @ l2
 | p1: ptr (l1), p2: ptr (l2)
@@ -215,7 +215,8 @@ two given memory locations is implemented as follows:
 
 #dats2xhtml('\
 fn{a:t@ype}
-swap1 {l1,l2:addr} (
+swap1{l1,l2:addr}
+(
   pf1: !a@l1, pf2: !a@l2 | p1: ptr l1, p2: ptr l2
 ) : void = let
   val x = ptr_get1<a> (pf1 | p1)
