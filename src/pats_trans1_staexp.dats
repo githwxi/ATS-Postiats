@@ -650,8 +650,8 @@ of (* case+ *)
       fn f (
         body: s1exp
       ) :<cloref1> s1expitm = let
-        val loc = loc0 + body.s1exp_loc in
-        FXITMatm (s1exp_uni (loc, s1qs, body))
+        val loc1 = loc0 + body.s1exp_loc in
+        FXITMatm (s1exp_uni (loc1, s1qs, body))
       end // end of [f]
     in
       FXITMopr (loc0, FXOPRpre (uni_prec_sta, f))
@@ -664,8 +664,8 @@ of (* case+ *)
       fn f (
         body: s1exp
       ) :<cloref1> s1expitm = let
-        val loc = loc0 + body.s1exp_loc in
-        FXITMatm (s1exp_exi (loc0, knd, s1qs, body))
+        val loc1 = loc0 + body.s1exp_loc in
+        FXITMatm (s1exp_exi (loc1, knd, s1qs, body))
       end // end of [f]
     in
       FXITMopr (loc0, FXOPRpre (exi_prec_sta, f))
