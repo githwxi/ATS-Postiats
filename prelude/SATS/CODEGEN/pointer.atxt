@@ -432,17 +432,21 @@ castfn cptr_wvar{a:vt0p} (x: &a? >> a):<> cPtr1 (a) // write
 //
 #atscode_separator()
 //
-fun cptr_succ
-  {a:vt0p}{l:addr} (p: cptr (a, l)):<> cptr (a, l+sizeof(a))
-fun cptr_pred
-  {a:vt0p}{l:addr} (p: cptr (a, l)):<> cptr (a, l-sizeof(a))
+fun
+{a:vt0p}
+cptr_succ{l:addr}(cp: cptr(a, l)):<> cptr(a, l+sizeof(a))
+fun
+{a:vt0p}
+cptr_pred{l:addr}(cp: cptr(a, l)):<> cptr(a, l-sizeof(a))
 //
 #atscode_separator()
 //
-fun cptr_is_null
-  {a:vt0p}{l:addr} (p: cptr (a, l)):<> bool (l==null) = "mac\#%"
-fun cptr_isnot_null
-  {a:vt0p}{l:addr} (p: cptr (a, l)):<> bool (l > null) = "mac\#%"
+fun
+cptr_is_null
+  {a:vt0p}{l:addr}(cp: cptr(a, l)):<> bool(l==null) = "mac\#%"
+fun
+cptr_isnot_null
+  {a:vt0p}{l:addr}(cp: cptr(a, l)):<> bool(l > null) = "mac\#%"
 //
 #atscode_separator()
 

@@ -46,27 +46,34 @@
 (* ****** ****** *)
 
 #define
-ATS_PACKNAME "ATSLIB.libats.deqarray"
+ATS_PACKNAME
+"ATSLIB.libats.deqarray"
+//
+// prefix for external names
+//
 #define
-ATS_EXTERN_PREFIX "atslib_" // prefix for external names
+ATS_EXTERN_PREFIX "atslib_"
 
 (* ****** ****** *)
 
 %{#
-#include "libats/CATS/deqarray.cats"
+#include \
+"libats/CATS/deqarray.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
 //
 absvtype
-deqarray_vtype (a:vt@ype+, m:int, n:int) = ptr
+deqarray_vtype
+  (a:vt@ype+, m:int, n:int) = ptr
 //
 (* ****** ****** *)
 //
 stadef deqarray = deqarray_vtype
 //
 vtypedef
-deqarray (a:vt0p) = [m,n:int] deqarray_vtype (a, m, n)
+deqarray(a:vt0p) =
+  [m,n:int] deqarray_vtype (a, m, n)
 //
 (* ****** ****** *)
 
@@ -78,14 +85,14 @@ deqarray_tsize = $extype"atslib_deqarray_struct"
 praxi
 lemma_deqarray_param
   {a:vt0p}{m,n:int}
-  (!deqarray (INV(a), m, n)): [m >= n; n >= 0] void
+  (!deqarray(INV(a), m, n)): [m >= n; n >= 0] void
 // end of [lemma_deqarray_param]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 deqarray_make_cap
-  {m:int} (cap: size_t(m)):<!wrt> deqarray (a, m, 0)
+  {m:int} (cap: size_t(m)):<!wrt> deqarray(a, m, 0)
 // end of [deqarray_make_cap]
 
 (* ****** ****** *)
@@ -97,150 +104,167 @@ deqarray_make_ngc__tsz
 (
   deqarray_tsize? @ l
 | ptr(l), arrayptr(a?, m+1), size_t(m), sizeof_t(a)
-) :<!wrt> (mfree_ngc_v (l) | deqarray (a, m, 0)) = "mac#%"
+) :<!wrt> (mfree_ngc_v (l) | deqarray(a, m, 0)) = "mac#%"
 
 (* ****** ****** *)
 
 fun
 deqarray_free_nil
   {a:vt0p}{m:int}
-  (deq: deqarray (a, m, 0)):<!wrt> void = "mac#%"
+  (deq: deqarray(a, m, 0)):<!wrt> void = "mac#%"
 // end of [deqarray_free_nil]
 
 (* ****** ****** *)
 //
-fun{a:vt0p}
+fun
+{a:vt0p}
 deqarray_get_size
-  {m,n:int} (deq: !deqarray (INV(a), m, n)):<> size_t(n)
-fun{a:vt0p}
+  {m,n:int}
+  (deq: !deqarray(INV(a), m, n)):<> size_t(n)
+fun
+{a:vt0p}
 deqarray_get_capacity
-  {m,n:int} (deq: !deqarray (INV(a), m, n)):<> size_t(m)
+  {m,n:int}
+  (deq: !deqarray(INV(a), m, n)):<> size_t(m)
 //
 (* ****** ****** *)
 //
 fun
 deqarray_is_nil
   {a:vt0p}{m,n:int}
-  (deq: !deqarray (INV(a), m, n)):<> bool (n==0) = "mac#%"
+  (deq: !deqarray(INV(a), m, n)):<> bool(n==0) = "mac#%"
 fun
 deqarray_isnot_nil
   {a:vt0p}{m,n:int}
-  (deq: !deqarray (INV(a), m, n)):<> bool (n > 0) = "mac#%"
+  (deq: !deqarray(INV(a), m, n)):<> bool(n > 0) = "mac#%"
 //
 (* ****** ****** *)
 //
-fun{a:vt0p}
+fun
+{a:vt0p}
 deqarray_is_full{m,n:int}
-  (deq: !deqarray (INV(a), m, n)):<> bool (m==n) = "mac#%"
-fun{a:vt0p}
+  (deq: !deqarray(INV(a), m, n)):<> bool(m==n) = "mac#%"
+fun
+{a:vt0p}
 deqarray_isnot_full{m,n:int}
-  (deq: !deqarray (INV(a), m, n)):<> bool (m > n) = "mac#%"
+  (deq: !deqarray(INV(a), m, n)):<> bool(m > n) = "mac#%"
 //
 (* ****** ****** *)
-
+//
 fun{}
 fprint_deqarray$sep (out: FILEref): void
 fun{a:vt0p}
 fprint_deqarray
-  (out: FILEref, q: !deqarray (INV(a))): void
+  (out: FILEref, q: !deqarray(INV(a))): void
 fun{a:vt0p}
 fprint_deqarray_sep
-  (out: FILEref, q: !deqarray (INV(a)), sep: string): void
+  (out: FILEref, q: !deqarray(INV(a)), sep: string): void
+//
 overload fprint with fprint_deqarray
 overload fprint with fprint_deqarray_sep
-
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
 deqarray_insert_atbeg
   {m,n:int | m > n}
 (
-  deq: !deqarray (INV(a),m,n) >> deqarray (a,m,n+1), x0: a
+  deq: !deqarray(INV(a),m,n) >> deqarray(a,m,n+1), x0: a
 ) :<!wrt> void // endfun
 
 fun{a:vt0p}
 deqarray_insert_atbeg_opt
-  (deq: !deqarray (INV(a)) >> _, x0: a):<!wrt> Option_vt (a)
+  (deq: !deqarray(INV(a)) >> _, x0: a):<!wrt> Option_vt(a)
 // end of [deqarray_insert_atbeg_opt]
 
 (* ****** ****** *)
 
-fun{a:vt0p}
+fun
+{a:vt0p}
 deqarray_insert_atend
   {m,n:int | m > n}
 (
-  deq: !deqarray (INV(a),m,n) >> deqarray (a,m,n+1), x0: a
+  deq: !deqarray(INV(a),m,n) >> deqarray(a,m,n+1), x0: a
 ) :<!wrt> void // end-of-fun
 
-fun{a:vt0p}
+fun
+{a:vt0p}
 deqarray_insert_atend_opt
-  (deq: !deqarray (INV(a)) >> _, x0: a):<!wrt> Option_vt (a)
+  (deq: !deqarray(INV(a)) >> _, x0: a):<!wrt> Option_vt(a)
 // end of [deqarray_insert_atend_opt]
 
 (* ****** ****** *)
 
-fun{a:vt0p}
+fun
+{a:vt0p}
 deqarray_takeout_atbeg
   {m,n:int | n > 0}
 (
-  deq: !deqarray (INV(a),m,n) >> deqarray (a,m,n-1)
+  deq: !deqarray(INV(a),m,n) >> deqarray(a,m,n-1)
 ) :<!wrt> (a) // end-of-fun
 
-fun{a:vt0p}
+fun
+{a:vt0p}
 deqarray_takeout_atbeg_opt
-  (deq: !deqarray (INV(a)) >> _):<!wrt> Option_vt (a)
+  (deq: !deqarray(INV(a)) >> _):<!wrt> Option_vt(a)
 // end of [deqarray_takeout_atbeg_opt]
 
 (* ****** ****** *)
 
-fun{a:vt0p}
+fun
+{a:vt0p}
 deqarray_takeout_atend
   {m,n:int | n > 0}
 (
-  deq: !deqarray (INV(a),m,n) >> deqarray (a,m,n-1)
+  deq: !deqarray(INV(a),m,n) >> deqarray(a,m,n-1)
 ) :<!wrt> (a) // end-of-fun
 
-fun{a:vt0p}
+fun
+{a:vt0p}
 deqarray_takeout_atend_opt
-  (deq: !deqarray (INV(a)) >> _):<!wrt> Option_vt (a)
+  (deq: !deqarray(INV(a)) >> _):<!wrt> Option_vt(a)
 // end of [deqarray_takeout_atend_opt]
 
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 deqarray_get_at
   {m,n:int}
-  (deq: !deqarray (INV(a), m, n), i: sizeLt(n)):<> (a)
+  (deq: !deqarray(INV(a), m, n), i: sizeLt(n)):<> (a)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 deqarray_set_at
   {m,n:int}
-  (deq: !deqarray (INV(a), m, n), i: sizeLt(n), x: a):<!wrt> void
+  (deq: !deqarray(INV(a), m, n), i: sizeLt(n), x: a):<!wrt> void
 //
 (* ****** ****** *)
 //
-fun{a:vt0p}
+fun
+{a:vt0p}
 deqarray_getref_at
   {m,n:int}
-  (deq: !deqarray(INV(a), m, n), i: sizeLt(n)):<> cPtr1 (a)
+  (deq: !deqarray(INV(a), m, n), i: sizeLt(n)):<> cPtr1(a)
 //
 (* ****** ****** *)
-
-fun{
-a:vt0p}{env:vt0p
-} deqarray_foreach$cont (x: &a, env: &env): bool
-fun{
-a:vt0p}{env:vt0p
-} deqarray_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+//
 fun{
 a:vt0p
 } deqarray_foreach{m,n:int}
-  (deq: !deqarray (INV(a), m, n)): void
+  (deq: !deqarray(INV(a), m, n)): void
 fun{
 a:vt0p}{env:vt0p
 } deqarray_foreach_env{m,n:int}
-  (deq: !deqarray (INV(a), m, n), env: &(env) >> _): void
-
+  (deq: !deqarray(INV(a), m, n), env: &(env) >> _): void
+//
+fun{
+a:vt0p}{env:vt0p
+} deqarray_foreach$cont(x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
+} deqarray_foreach$fwork(x: &a >> _, env: &(env) >> _): void
+//
 (* ****** ****** *)
 
 (* end of [deqarray.sats] *)

@@ -512,74 +512,85 @@ symintr tostring tostrptr
 // for dot-notation overloading
 //
 symintr .size
-symintr .length
+symintr .len .length
 symintr .get .set .exch
 symintr .nrow .ncol
 symintr .head .tail
 symintr .next .prev
 symintr .init .last
-symintr .eval
+symintr .eval // HX: convention: using "!"
 //
 (* ****** ****** *)
 //
 // HX-2012-05-23: for template args
 //
-abstype atstkind_type (tk: tkind)
-abst@ype atstkind_t0ype (tk: tkind)
+abstype
+atstkind_type(tk: tkind)
+abst@ype
+atstkind_t0ype(tk: tkind)
 //
 typedef
-tkind_type (tk:tkind) = atstkind_type (tk)
+tkind_type(tk:tkind) = atstkind_type(tk)
 typedef
-tkind_t0ype (tk:tkind) = atstkind_t0ype (tk)
+tkind_t0ype(tk:tkind) = atstkind_t0ype(tk)
 //
 (* ****** ****** *)
-
+//
 absview // S2Eat
-at_vt0ype_addr_view (vt@ype+, addr)
-stadef @ = at_vt0ype_addr_view // HX: @ is infix
-
+at_vt0ype_addr_view(a:vt@ype+, l:addr)
+//
+viewdef @ // HX: @ is infix
+  (a:vt@ype, l:addr) = at_vt0ype_addr_view(a, l)
+//
 (* ****** ****** *)
 //
-absvt@ype
-clo_t0ype_t0ype (a: t@ype) = a
-absvt@ype
-clo_vt0ype_vt0ype (a: vt@ype) = a
+abst@ype clo_t0ype_t0ype(a:t@ype) = a
+absvt@ype clo_vt0ype_vt0ype(a:vt@ype) = a
 //
 (* ****** ****** *)
 (*
 absview
 read_view_int_int_view
   (v:view, stamp:int, n:int)
-stadef READ = read_view_int_int_view
-viewdef READ (v:view) = [s,n:int] READ (v, s, n)
+stadef
+READ = read_view_int_int_view
+viewdef
+READ (v:view) = [s,n:int] READ (v, s, n)
 stadef RD = READ
 //
 absview
 readout_view_int_view (v:view, stamp:int)
-stadef READOUT = readout_view_int_view
-viewdef READOUT (v:view) = [s:int] READOUT (v, s)
+stadef
+READOUT = readout_view_int_view
+viewdef
+READOUT (v:view) = [s:int] READOUT (v, s)
 //
 absvt@ype
 read_vt0ype_int_int_vt0ype
   (a:vt@ype, stamp:int, n:int) = a
-stadef READ = read_vt0ype_int_int_vt0ype
-vtypedef READ (a:vt@ype) = [s,n:int] READ (a, s, n)
+stadef
+READ = read_vt0ype_int_int_vt0ype
+vtypedef
+READ (a:vt@ype) = [s,n:int] READ (a, s, n)
 stadef RD = READ
 //
 absvt@ype
-readout_vt0ype_int_vt0ype (a:vt@ype, stamp: int) = a
-stadef READOUT = readout_vt0ype_int_vt0ype
-vtypedef READOUT (a:vt@ype) = [s:int] READOUT (a, s)
+readout_vt0ype_int_vt0ype
+  (a:vt@ype, stamp: int) = a
+stadef
+READOUT = readout_vt0ype_int_vt0ype
+vtypedef
+READOUT (a:vt@ype) = [s:int] READOUT (a, s)
 *)
 
 (* ****** ****** *)
 
 (*
 absvt@ype
-write_vt0ype_vt0ype (a: vt@ype) = a
+write_vt0ype_vt0ype(a: vt@ype) = a
 vtypedef
-WRITE (a:vt@ype) = write_vt0ype_vt0ype (a)
-stadef WRT = WRITE
+WRITE(a:vt@ype) = write_vt0ype_vt0ype (a)
+stadef WR = WRITE
 *)
 
 (* ****** ****** *)

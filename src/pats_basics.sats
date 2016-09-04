@@ -94,7 +94,7 @@ funkind =
   | FK_prfn // nonrec proof fun
   | FK_prfun // recursive proof fun
 //
-  | FK_praxi // proof axion
+  | FK_praxi // proof axiom
 //
   | FK_castfn // casting fun
 // end of [funkind]
@@ -150,7 +150,10 @@ fun dcstkind_is_castfn (dck: dcstkind):<> bool
 fun fprint_dcstkind : fprint_type (dcstkind)
 
 (* ****** ****** *)
-
+//
+#define CLOPTR ( 1)
+#define CLOREF (~1)
+//
 datatype
 funclo =
 //
@@ -166,8 +169,6 @@ vtypedef fcopt_vt = Option_vt (funclo)
 //
 (* ****** ****** *)
 
-#define CLOPTR ( 1)
-#define CLOREF (~1)
 macdef FUNCLOcloptr = FUNCLOclo (CLOPTR)
 macdef FUNCLOcloref = FUNCLOclo (CLOREF)
 

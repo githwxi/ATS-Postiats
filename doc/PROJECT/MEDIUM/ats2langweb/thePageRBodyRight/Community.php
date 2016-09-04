@@ -9,7 +9,7 @@ style="margin-top:8px;padding:8px;"
 ATS-2016-09-03:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/h6M6RiMdWW0"
->ATS2-0.2.9 has been released</a><br>
+>ATS2-0.2.10 has been released</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
   
 <hr></hr>
