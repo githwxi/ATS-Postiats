@@ -50,7 +50,7 @@
 (* ****** ****** *)
 
 staload
-TYPES = "libc/sys/SATS/types.sats"
+TYPES = "libc/SATS/sys/types.sats"
 typedef ino_t = $TYPES.ino_t
 typedef off_t = $TYPES.off_t
 

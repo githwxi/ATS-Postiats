@@ -27,13 +27,14 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
-// Start Time: March, 2013
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
+// Start Time: October, 2013
 //
 (* ****** ****** *)
 
 %{#
-#include "libc/CATS/fcntl.cats"
+#include "libc/CATS/sys/mman.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
@@ -43,86 +44,76 @@
 
 (* ****** ****** *)
 
-vtypedef
-RD(a:vt0p) = a // for commenting: read-only
-#define NSH(x) x // for commenting: no sharing
-#define SHR(x) x // for commenting: it is shared
+#define NSH (x) x // for commenting: no sharing
+#define SHR (x) x // for commenting: it is shared
 
 (* ****** ****** *)
 //
 staload
-TYPES =
-"libc/SATS/sys/types.sats"
+FCNTL = "libc/SATS/fcntl.sats"
 //
-typedef mode_t = $TYPES.mode_t
-//
-vtypedef
-fildes (i:int) = $TYPES.fildes (i)
-//
-vtypedef Fildes = $TYPES.Fildes
-vtypedef Fildes0 = $TYPES.Fildes0
-//
-(* ****** ****** *)
-
-praxi
-fildes_neg_elim {fd:int | fd < 0} (fd: fildes (fd)): void
-
-(* ****** ****** *)
-//
-// HX: this is just a castfn
-//
-fun fildes_get_int
-  {fd:int} (fd: !fildes (fd)):<> int (fd) = "mac#%"
-//
-fun fildes_isgtez
-  {fd:int} (fd: !fildes (fd)):<> bool (fd >= 0) = "mac#%"
+typedef mode_t = $FCNTL.mode_t
+typedef fcntlflags = $FCNTL.fcntlflags
+stadef fildes = $FCNTL.fildes
+vtypedef Fildes = $FCNTL.Fildes
 //
 (* ****** ****** *)
 //
-fun fildes_iget_int
-  (fd: int):<> [fd:int] vttakeout0 (fildes (fd)) = "ext#%"
+abst@ype protflags = int
+//
+macdef PROT_NONE = $extval (protflags, "PROT_NONE")
+macdef PROT_EXEC = $extval (protflags, "PROT_EXEC")
+macdef PROT_READ = $extval (protflags, "PROT_READ")
+macdef PROT_WRITE = $extval (protflags, "PROT_WRITE")
+//                      
+fun lor_protflags_protflags
+  : (protflags, protflags) -<> protflags = "ext#atspre_lor_int_int"
+overload lor with lor_protflags_protflags
+//
+(* ****** ****** *)
+//
+abst@ype mmapflags = int
+//
+macdef MAP_SHARED = $extval (mmapflags, "MAP_SHARED")
+macdef MAP_PRIVATE = $extval (mmapflags, "MAP_PRIVATE")
+//
+macdef MAP_ANONYMOUS = $extval (mmapflags, "MAP_ANONYMOUS")
+//
+fun lor_mmapflags_mmapflags
+  : (mmapflags, mmapflags) -<> mmapflags = "ext#atspre_lor_int_int"
+overload lor with lor_mmapflags_mmapflags
 //
 (* ****** ****** *)
 
-abst@ype fcntlflags = int
-//
-macdef O_CREAT  = $extval (fcntlflags, "O_CREAT")
-macdef O_EXCL   = $extval (fcntlflags, "O_EXCL")
-macdef O_TRUNC  = $extval (fcntlflags, "O_TRUNC")
-macdef O_APPEND = $extval (fcntlflags, "O_APPEND")
-//
-macdef O_RDWR   = $extval (fcntlflags, "O_RDWR")
-macdef O_RDONLY = $extval (fcntlflags, "O_RDONLY")
-macdef O_WRONLY = $extval (fcntlflags, "O_WRONLY")
-//
-macdef O_SYNC   = $extval (fcntlflags, "O_SYNC")
-macdef O_ASYNC  = $extval (fcntlflags, "O_ASYNC")
-//
-macdef O_NOCTTY = $extval (fcntlflags, "O_NOCTTY")
-//  
-(* ****** ****** *)
-
-fun lor_fcntlflags_fcntlflags
-  : (fcntlflags, fcntlflags) -<> fcntlflags = "ext#atspre_lor_int_int"
-overload lor with lor_fcntlflags_fcntlflags
+macdef MAP_FAILED = $extval (ptr, "MAP_FAILED") // = (void*)-1
 
 (* ****** ****** *)
 
-fun open_flags
+(*
+/*
+** Open shared memory segment
+*/
+extern
+int shm_open
 (
-  path: NSH(string), flags: fcntlflags
-) : Fildes = "mac#%" // endfun
-
-fun open_flags_mode
+  __const char *__name, int __oflag, mode_t __mode
+ ) ; // end of [shm_open]
+*)
+fun shm_open
 (
   path: NSH(string), flags: fcntlflags, mode: mode_t
 ) : Fildes = "mac#%" // endfun
 
 (* ****** ****** *)
 
-fun fcntl_getfl (fd: !Fildes0): fcntlflags = "mac#%"
-fun fcntl_setfl (fd: !Fildes0, flags: fcntlflags): int = "mac#%"
+(*
+/*
+** Remove shared memory segment
+*/
+extern int shm_unlink (__const char *__name);
+*)
+fun shm_unlink (path: NSH(string)):<!ref> intLte(0) = "mac#%"
 
 (* ****** ****** *)
 
-(* end of [fcntl.sats] *)
+(* end of [mman.sats] *)

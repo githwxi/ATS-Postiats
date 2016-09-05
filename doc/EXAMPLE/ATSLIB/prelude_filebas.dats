@@ -1,19 +1,22 @@
 (*
-** for testing [prelude/filebas]
+** For testing
+** [prelude/filebas]
 *)
 
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libc/sys/SATS/stat.sats"
-staload "libc/sys/SATS/types.sats"
+staload "libc/SATS/sys/stat.sats"
+staload "libc/SATS/sys/types.sats"
 
 (* ****** ****** *)
 //

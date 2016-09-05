@@ -55,7 +55,7 @@ typedef interr = int
 //
 staload
 TYPES =
-"libc/sys/SATS/types.sats"
+"libc/SATS/sys/types.sats"
 //
 typedef off_t = $TYPES.off_t
 //

@@ -1,0 +1,63 @@
+#__tok1$
+#__tok2$
+
+#__tok3$
+
+/*
+** Source:
+** $PATSHOME/libc/sys/CATS/CODEGEN/time.atxt
+** Time of generation: #__tok4$
+*/
+
+#__tok5$
+
+/*
+#__tok6$
+#__tok7$
+#__tok8$
+*/
+
+#__tok9$
+
+#ifndef ATSLIB_LIBC_SYS_CATS_TIME
+#define ATSLIB_LIBC_SYS_CATS_TIME
+
+#__tok10$
+
+#include <sys/time.h>
+
+#__tok11$
+
+typedef struct timeval atslib_timeval_type ;
+typedef struct timezone atslib_timezone_type ;
+
+#__tok12$
+
+#define atslib_gettimeofday_tv(tv) gettimeofday(tv, NULL)
+#define atslib_gettimeofday_tz(tz) gettimeofday(NULL, tz)
+
+#define atslib_settimeofday_tv(tv) settimeofday(tv, NULL)
+#define atslib_settimeofday_tz(tz) settimeofday(NULL, tz)
+#define atslib_settimeofday_tvtz(tv, tz) settimeofday(tv, tz)
+
+#__tok13$
+
+#define atslib_utimes utimes
+#define atslib_futimes futimes
+#define atslib_futimesat futimesat
+
+#__tok14$
+
+typedef struct itimerval ats_itimerval_type ;
+
+#define atslib_getitimer getitimer
+#define atslib_setitimer setitimer
+#define atslib_setitimer_null(which, itval) setitimer(which, itval, NULL)
+
+#__tok15$
+
+#endif // ifndef ATSLIB_LIBC_SYS_CATS_TIME
+
+#__tok16$
+
+#__tok17$

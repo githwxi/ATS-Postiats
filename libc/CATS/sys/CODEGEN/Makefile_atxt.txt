@@ -1,0 +1,51 @@
+#
+#
+# A simple Makefile
+#
+#
+
+######
+
+ATSHOMEQ="$(ATSHOME)"
+
+######
+
+ATSCC=$(ATSHOMEQ)/bin/atscc
+ATSOPT=$(ATSHOMEQ)/bin/atsopt
+ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+
+######
+#
+GCFLAG=
+#
+# GCFLAG=-D_ATS_GCATS
+#
+######
+
+all::
+
+######
+
+#__tok1$
+#__tok2$
+#__tok3$
+#__tok4$
+#__tok5$
+#__tok6$
+#__tok7$
+
+######
+
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.o *_?ats.c
+clean:: ; $(RMF) *_atxt.txt
+clean:: ; $(RMF) *_atxt.dats
+clean:: ; $(RMF) Makefile.exe
+
+cleanall:: clean
+
+###### end of [Makefile] ######

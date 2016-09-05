@@ -51,7 +51,7 @@
 (* ****** ****** *)
 //
 staload
-TYPES = "libc/sys/SATS/types.sats"
+TYPES = "libc/SATS/sys/types.sats"
 //
 typedef time_t = $TYPES.time_t
 typedef clock_t = $TYPES.clock_t

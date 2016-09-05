@@ -1,0 +1,58 @@
+#__tok1$
+#__tok2$
+
+#__tok3$
+
+/*
+** Source:
+** $PATSHOME/libc/sys/CATS/CODEGEN/socket_in.atxt
+** Time of generation: #__tok4$
+*/
+
+#__tok5$
+
+/*
+#__tok6$
+#__tok7$
+#__tok8$
+*/
+
+#__tok9$
+
+#ifndef ATSLIB_LIBC_SYS_CATS_SOCKET_IN
+#define ATSLIB_LIBC_SYS_CATS_SOCKET_IN
+
+#__tok10$
+//
+#include <sys/socket.h>
+#include <netinet/in.h>
+//
+#__tok11$
+
+#ifndef memset
+extern void *memset (void *p, int c, size_t n) ;
+#endif // ifndef(memset)
+
+/* ****** ****** */
+
+ATSinline()
+atsvoid_t0ype
+atslib_sockaddr_in_init
+(
+  atstype_ptr sa
+, sa_family_t af, in_addr_t inp, in_port_t port
+) {
+  struct sockaddr_in *sa2 = sa ;
+  (void)memset(sa2, 0, sizeof(struct sockaddr_in)) ;
+  sa2->sin_family = af ;
+  sa2->sin_addr.s_addr = inp ;
+  sa2->sin_port = port ;
+} // end of [sockaddr_in_init]
+
+#__tok12$
+
+#endif // ifndef ATSLIB_LIBC_SYS_CATS_SOCKET_IN
+
+#__tok13$
+
+#__tok14$

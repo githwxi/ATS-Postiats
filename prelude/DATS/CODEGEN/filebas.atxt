@@ -43,7 +43,7 @@ vtypedef FILEptr1 = $STDIO.FILEptr1 (*linear/nonnull*)
 
 #atscode_separator()
 
-staload STAT = "libc/sys/SATS/stat.sats"
+staload STAT = "libc/SATS/sys/stat.sats"
 
 #atscode_separator()
 

@@ -20,8 +20,8 @@ staload UNISTD = "libc/SATS/unistd.sats"
 
 (* ****** ****** *)
 
-staload "libc/sys/SATS/stat.sats"
-staload _ = "libc/sys/DATS/stat.dats"
+staload "libc/SATS/sys/stat.sats"
+staload _ = "libc/DATS/sys/stat.dats"
 
 (* ****** ****** *)
 //

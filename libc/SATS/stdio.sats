@@ -61,7 +61,7 @@ stadef rw() = file_mode_rw()
 //
 staload
 TYPES =
-"libc/sys/SATS/types.sats"
+"libc/SATS/sys/types.sats"
 //
 stadef fildes = $TYPES.fildes
 stadef fildes_v = $TYPES.fildes_v

@@ -58,9 +58,9 @@ libc_cats:: ; \
 libc_sys:: \
 libc_sys_cats
 libc_sys_cats:: ; \
-  make -C $(ROOT)/libc/sys/CATS/CODEGEN -f Makefile.gen
+  make -C $(ROOT)/libc/CATS/sys/CODEGEN -f Makefile.gen
 libc_sys_cats:: ; \
-  make -C $(ROOT)/libc/sys/CATS/CODEGEN -f Makefile all
+  make -C $(ROOT)/libc/CATS/sys/CODEGEN -f Makefile all
 #
 ######
 
