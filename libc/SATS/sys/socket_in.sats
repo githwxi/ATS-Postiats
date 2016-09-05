@@ -44,11 +44,11 @@
 
 (* ****** ****** *)
 
-staload "libc/sys/SATS/socket.sats"
+staload "libc/SATS/sys/socket.sats"
 
 (* ****** ****** *)
 
-staload IN = "libc/netinet/SATS/in.sats"
+staload IN = "libc/SATS/netinet/in.sats"
 
 (* ****** ****** *)
 //
