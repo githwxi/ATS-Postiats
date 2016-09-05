@@ -27,7 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
 // Start Time: July, 2013
 //
 (* ****** ****** *)
@@ -39,43 +40,52 @@ vtypedef dptr
   (l:addr, n:int) = dptr_addr_int_vtype (l, n)
 //
 (* ****** ****** *)
-
-viewdef dptrout
+//
+viewdef
+dptrout
   (l:addr, n:int) = dptr (l, n) -<lin,prf> void
-
+//
 (* ****** ****** *)
-
-castfn dptr2ptr
-  {l:addr} {n:int} (x: !dptr(l, n)):<> ptr (l)
+//
+castfn
+dptr2ptr{l:addr}{n:int}(x: !dptr(l, n)):<> ptr(l)
+//
 overload ptrcast with dptr2ptr
-
+//
 (* ****** ****** *)
 
 vtypedef
 datum
-  (l:addr, n:int) =
+(
+l:addr, n:int
+) = (* datum *)
 $extype_struct
 "atslib_datum_type" of { dptr= dptr(l, n), dsize= int(n) }
 // end of [datum]
 
 (* ****** ****** *)
-
+//
 vtypedef
 datum0 = [l:addr;n:int] datum (l, n)
 vtypedef // for valid data
 datum1 = [l:addr;n:int | l > null; n >= 0] datum (l, n)
-
+//
 (* ****** ****** *)
 
-fun datum_is_valid
+fun
+datum_is_valid
   {l:addr}{n:int}
-  (x: datum (l, n))
-: bool (l > null) = "mac#atslib_gdbm_datum_is_valid"
+(
+x0: datum(l, n)
+) : bool (l > null) = "mac#atslib_gdbm_datum_is_valid"
 // end of [datum_is_valid]
 
-fun datum_takeout_ptr
+fun
+datum_takeout_ptr
   {l:addr}{n:int}
-  (datum (l, n)):<> dptr (l, n) = "mac#atslib_gdbm_datum_takeout_ptr"
+(
+x0: datum(l, n)
+) :<> dptr (l, n) = "mac#atslib_gdbm_datum_takeout_ptr"
 // end of [datum_takeout_ptr]
 
 (* ****** ****** *)
@@ -90,12 +100,15 @@ datum_make0_string
   dptrout (l, n) | datum (l, n)
 ) = "mac#atslib_gdbm_datum_make0_string"
 //
-fun datum_make1_string
-  (string): datum1 = "mac#atslib_gdbm_datum_make1_string"
+fun
+datum_make1_string
+  (string): datum1
+  = "mac#atslib_gdbm_datum_make1_string"
 //
 (* ****** ****** *)
 
-fun datum_free (x: datum0): void = "mac#atslib_gdbm_datum_free"
+fun
+datum_free(datum0): void = "mac#atslib_gdbm_datum_free"
 
 (* ****** ****** *)
 

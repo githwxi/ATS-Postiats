@@ -118,20 +118,20 @@ The ATSLIB/libc library\
 #packfilename("CATS/time.cats")
 #packfilename("CATS/unistd.cats")
 
-#packfilename("sys/CATS/mman.cats")
-#packfilename("sys/CATS/socket.cats")
-#packfilename("sys/CATS/socket_in.cats")
-#packfilename("sys/CATS/stat.cats")
-#packfilename("sys/CATS/time.cats")
-#packfilename("sys/CATS/types.cats")
-#packfilename("sys/CATS/wait.cats")
+#packfilename("CATS/sys/mman.cats")
+#packfilename("CATS/sys/socket.cats")
+#packfilename("CATS/sys/socket_in.cats")
+#packfilename("CATS/sys/stat.cats")
+#packfilename("CATS/sys/time.cats")
+#packfilename("CATS/sys/types.cats")
+#packfilename("CATS/sys/wait.cats")
 
-#packfilename("arpa/CATS/inet.cats")
+#packfilename("CATS/arpa/inet.cats")
 
-#packfilename("netinet/CATS/in.cats")
+#packfilename("CATS/netinet/in.cats")
 
-#packfilename("gdbm/CATS/gdbm.cats")
-#packfilename("gdbm/CATS/datum.cats")
+#packfilename("CATS/gdbm/gdbm.cats")
+#packfilename("CATS/gdbm/datum.cats")
 
 (* ****** ****** *)
 
@@ -155,20 +155,20 @@ The ATSLIB/libc library\
 #packfilename("SATS/unistd_sysconf.sats")
 #packfilename("SATS/unistd_pathconf.sats")
 
-#packfilename("sys/SATS/mman.sats")
-#packfilename("sys/SATS/socket.sats")
-#packfilename("sys/SATS/socket_in.sats")
-#packfilename("sys/SATS/stat.sats")
-#packfilename("sys/SATS/time.sats")
-#packfilename("sys/SATS/types.sats")
-#packfilename("sys/SATS/wait.sats")
+#packfilename("SATS/sys/mman.sats")
+#packfilename("SATS/sys/socket.sats")
+#packfilename("SATS/sys/socket_in.sats")
+#packfilename("SATS/sys/stat.sats")
+#packfilename("SATS/sys/time.sats")
+#packfilename("SATS/sys/types.sats")
+#packfilename("SATS/sys/wait.sats")
 
-#packfilename("arpa/SATS/inet.sats")
+#packfilename("SATS/arpa/inet.sats")
 
-#packfilename("netinet/SATS/in.sats")
+#packfilename("SATS/netinet/in.sats")
 
-#packfilename("gdbm/SATS/gdbm.sats")
-#packfilename("gdbm/SATS/SHARE/datum.hats")
+#packfilename("SATS/gdbm/gdbm.sats")
+#packfilename("SATS/gdbm/SHARE/datum.hats")
 
 (* ****** ****** *)
 
@@ -184,14 +184,14 @@ The ATSLIB/libc library\
 #packfilename("DATS/time.dats")
 #packfilename("DATS/unistd.dats")
 
-#packfilename("sys/DATS/socket.dats")
-#packfilename("sys/DATS/socket_in.dats")
-#packfilename("sys/DATS/stat.dats")
-#packfilename("sys/DATS/types.dats")
+#packfilename("DATS/sys/socket.dats")
+#packfilename("DATS/sys/socket_in.dats")
+#packfilename("DATS/sys/stat.dats")
+#packfilename("DATS/sys/types.dats")
 
 %{
 (*
-#packfilename("gdbm/DATS/gdbm.dats")
+#packfilename("DATS/gdbm/gdbm.dats")
 *)
 %}
 
