@@ -33,15 +33,13 @@
 //
 (* ****** ****** *)
 
-%{#
-#include "libc/sys/CATS/types.cats"
-%} // end of [%{#]
-
-(* ****** ****** *)
-
 #define ATS_PACKNAME "ATSLIB.libc"
 #define ATS_DYNLOADFLAG 0 // no need for staloading at run-time
 #define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
+
+(* ****** ****** *)
+
+staload "libc/SATS/sys/types.sats"
 
 (* ****** ****** *)
 //

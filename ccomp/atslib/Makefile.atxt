@@ -164,14 +164,10 @@ atslib:: atslib_libc
 
 ######
 
-atslib:: atslib_libc_sys
-
-######
-
-#make_entry("libc/sys", "socket.dats")
-#make_entry("libc/sys", "socket_in.dats")
-#make_entry("libc/sys", "stat.dats")
-#make_entry("libc/sys", "types.dats")
+#make_entry("libc", "sys/socket.dats")
+#make_entry("libc", "sys/socket_in.dats")
+#make_entry("libc", "sys/stat.dats")
+#make_entry("libc", "sys/types.dats")
 
 ######
 
