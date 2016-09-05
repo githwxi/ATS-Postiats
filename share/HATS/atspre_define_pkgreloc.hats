@@ -31,6 +31,13 @@ ATSLANGWEBLIB "http://www.ats-lang.org/LIBRARY"
 (* ****** ****** *)
 //
 #define
+APUE_sourceloc "$ATSLANGWEBLIB/contrib/APUE"
+#define
+APUE_targetloc "$PATSHOMERELOC/contrib/APUE"
+//
+(* ****** ****** *)
+//
+#define
 PCRE_sourceloc "$ATSLANGWEBLIB/contrib/pcre"
 #define
 PCRE_targetloc "$PATSHOMERELOC/contrib/pcre"

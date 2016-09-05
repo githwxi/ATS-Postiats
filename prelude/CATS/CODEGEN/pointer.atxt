@@ -168,7 +168,7 @@ atspre_eq_ptr_intz
 } // end of [atspre_eq_ptr_intz]
 \#define atspre_eq_ptr0_intz atspre_eq_ptr_intz
 \#define atspre_eq_ptr1_intz atspre_eq_ptr_intz
-
+  
 ATSinline()
 atstype_bool
 atspre_neq_ptr_intz
@@ -193,6 +193,12 @@ atspre_neq_ptr_intz
 \#define atspre_cptr_is_null atspre_ptr_is_null
 \#define atspre_cptr_isnot_null atspre_ptr_isnot_null
 //
+#atscode_separator_for_C()
+
+\#define atspre_gt_cptr_intz atspre_gt_ptr_intz
+\#define atspre_eq_cptr_intz atspre_eq_ptr_intz
+\#define atspre_neq_cptr_intz atspre_neq_ptr_intz
+
 #atscode_separator_for_C()
 //
 \#define atspre_ptr_free atspre_mfree_gc

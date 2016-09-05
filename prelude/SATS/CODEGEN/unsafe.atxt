@@ -277,9 +277,11 @@ cptr_set(cp: cPtr1(INV(a)), x: a):<!wrt> void
 fun{a:vt0p}
 cptr_exch(cp: cPtr1(INV(a)), xr: &a >> a):<!wrt> void
 //
+(*
 overload .get with cptr_get
 overload .set with cptr_set
 overload .exch with cptr_exch
+*)
 //
 #atscode_separator()
 

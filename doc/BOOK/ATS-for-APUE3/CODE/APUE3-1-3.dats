@@ -25,25 +25,33 @@ main0 (argc, argv) =
 {
 //
 val () =
-if (argc != 2) then
-  $extfcall (void, "err_quit", "usage: ls <dirname> ")
+if
+(argc != 2)
+then
+$extfcall (void, "err_quit", "usage: ls <dirname> ")
 // end of [if] // end of [val]
 //
-val () = assertloc (argc = 2)
+val () =
+  assertloc(argc = 2)
 //
 val dp = opendir (argv[1])
 val () =
-if ptrcast(dp) = 0 then 
-  $extfcall (void, "err_sys", "can't open %s", argv[1])
+if
+ptrcast(dp) = 0
+then 
+$extfcall (void, "err_sys", "can't open %s", argv[1])
 // end of [if] // end of [val]
 //
-val () = assertloc (ptrcast(dp) > 0)
+val () =
+  assertloc (ptrcast(dp) > 0)
 //
 fun loop
 (
   dp: !DIRptr1
 ) : void = let
-  val (pfopt | p) = readdir (dp)
+//
+val (pfopt | p) = readdir(dp)
+//
 in
 //
 if p > 0
