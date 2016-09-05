@@ -38,9 +38,11 @@
 #define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
-
+//
 staload "libc/SATS/sys/types.sats"
-
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 //
 // HX-2014-04-29: it is still empty

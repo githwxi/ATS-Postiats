@@ -33,14 +33,18 @@
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libc"
-#define ATS_DYNLOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
+#define
+ATS_PACKNAME "ATSLIB.libc"
+#define
+ATS_DYNLOADFLAG 0 // no need for staloading at run-time
+#define
+ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
-
-staload "libc/SATS/sys/socket_in.sats"
-
+//
+staload
+"libc/SATS/sys/socket_in.sats"
+//
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
