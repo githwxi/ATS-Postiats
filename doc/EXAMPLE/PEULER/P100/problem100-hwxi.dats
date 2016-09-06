@@ -36,10 +36,12 @@ UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
-staload M = "libc/SATS/math.sats"
-macdef sqrt (x) = $M.sqrt (,(x))
+staload
+M = "libats/libc/SATS/math.sats"
+staload
+_(*M*) = "libats/libc/DATS/math.dats"
 //
-staload _ = "libc/DATS/math.dats"
+macdef sqrt (x) = $M.sqrt (,(x))
 //
 (* ****** ****** *)
 

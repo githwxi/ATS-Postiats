@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef ATSHOME_LIBATS_CATS_DYNARRAY
-#define ATSHOME_LIBATS_CATS_DYNARRAY
+#ifndef ATSLIB_LIBATS_CATS_DYNARRAY
+#define ATSLIB_LIBATS_CATS_DYNARRAY
 
 /* ****** ****** */
 
@@ -49,7 +49,7 @@
 
 /* ****** ****** */
 
-#endif // ifndef ATSHOME_LIBATS_CATS_DYNARRAY
+#endif // ifndef ATSLIB_LIBATS_CATS_DYNARRAY
 
 /* ****** ****** */
 

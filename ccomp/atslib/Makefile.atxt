@@ -149,28 +149,6 @@ atslib:: atslib_prelude
 
 ######
 
-atslib:: atslib_libc
-
-######
-
-#make_entry("libc", "dirent.dats")
-#make_entry("libc", "fcntl.dats")
-#make_entry("libc", "stdio.dats")
-#make_entry("libc", "stdlib.dats")
-#make_entry("libc", "string.dats")
-#make_entry("libc", "strings.dats")
-#make_entry("libc", "time.dats")
-#make_entry("libc", "unistd.dats")
-
-######
-
-#make_entry("libc", "sys/socket.dats")
-#make_entry("libc", "sys/socket_in.dats")
-#make_entry("libc", "sys/stat.dats")
-#make_entry("libc", "sys/types.dats")
-
-######
-
 atslib:: atslib_libats
 
 ######
@@ -228,6 +206,28 @@ atslib:: atslib_libats_ML
 
 ######
 
+atslib:: atslib_libats_libc
+
+######
+
+#make_entry("libats/libc", "fcntl.dats")
+#make_entry("libats/libc", "dirent.dats")
+#make_entry("libats/libc", "stdio.dats")
+#make_entry("libats/libc", "stdlib.dats")
+#make_entry("libats/libc", "string.dats")
+#make_entry("libats/libc", "strings.dats")
+#make_entry("libats/libc", "time.dats")
+#make_entry("libats/libc", "unistd.dats")
+
+######
+
+#make_entry("libats/libc", "sys/stat.dats")
+#make_entry("libats/libc", "sys/types.dats")
+#make_entry("libats/libc", "sys/socket.dats")
+#make_entry("libats/libc", "sys/socket_in.dats")
+
+######
+
 ARR=ar -r
 RMF=rm -f
 
@@ -240,7 +240,6 @@ clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 
 cleanall:: clean
-cleanall:: ; $(RMF) output/*
 cleanall:: ; $(RMF) Makefile.exe
 cleanall:: ; $(RMF) lib/libatslib.a
 

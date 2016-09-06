@@ -9,11 +9,12 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 extern
 fun{a:t0p}
-mergesort{n:nat} (xs: list (a, n)): list (a, n)
-
+mergesort{n:nat}
+  (xs: list (a, n)): list (a, n)
+//
 (* ****** ****** *)
 
 extern

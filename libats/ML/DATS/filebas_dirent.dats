@@ -62,10 +62,12 @@ staload "libats/ML/SATS/string.sats"
 staload "libats/ML/SATS/filebas.sats"
 //
 (* ****** ****** *)
-
-staload DIR = "libc/SATS/dirent.sats"
-staload _(*anon*) = "libc/DATS/dirent.dats"
-
+//
+staload
+DIR = "libats/libc/SATS/dirent.sats"
+staload
+_(*anon*) = "libats/libc/DATS/dirent.dats"
+//
 (* ****** ****** *)
 
 staload QUE = "libats/SATS/qlist.sats"

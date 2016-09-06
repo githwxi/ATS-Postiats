@@ -23,7 +23,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload STDLIB = "libc/SATS/stdlib.sats"
+staload STDLIB = "libats/libc/SATS/stdlib.sats"
 staload RANDGEN = "{$LIBATSHWXI}/testing/SATS/randgen.sats"
 
 (* ****** ****** *)

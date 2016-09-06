@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef ATSHOME_LIBATS_CATS_STRINGBUF
-#define ATSHOME_LIBATS_CATS_STRINGBUF
+#ifndef ATSLIB_LIBATS_CATS_STRINGBUF
+#define ATSLIB_LIBATS_CATS_STRINGBUF
 
 /* ****** ****** */
 
@@ -85,7 +85,7 @@ atslib_stringbuf_insert_vsnprintf
 
 /* ****** ****** */
 
-#endif // ifndef ATSHOME_LIBATS_CATS_STRINGBUF
+#endif // ifndef ATSLIB_LIBATS_CATS_STRINGBUF
 
 /* ****** ****** */
 

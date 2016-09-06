@@ -38,13 +38,16 @@
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload STDLIB = "libc/SATS/stdlib.sats"
-staload _(*anon*) = "libc/DATS/stdlib.dats"
-
+//
+staload
+STDLIB = "libats/libc/SATS/stdlib.sats"
+staload
+_(*anon*) = "libats/libc/DATS/stdlib.dats"
+//
 (* ****** ****** *)
 
 staload "./atscc.sats"

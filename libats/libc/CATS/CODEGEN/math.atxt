@@ -1,0 +1,227 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"math.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_GPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/CATS/CODEGEN/math.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_LIBATS_LIBC_CATS_MATH
+\#define ATSLIB_LIBATS_LIBC_CATS_MATH
+
+#atscode_separator_for_C()
+
+\#include <math.h>
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_isfinite_float isfinite
+\#define atslib_libc_isfinite_double isfinite
+\#define atslib_libc_isfinite_ldouble isfinite
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_isnormal_float isnormal
+\#define atslib_libc_isnormal_double isnormal
+\#define atslib_libc_isnormal_ldouble isnormal
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_isinf_float isinf
+\#define atslib_libc_isinf_double isinf
+\#define atslib_libc_isinf_ldouble isinf
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_isnan_float isnan
+\#define atslib_libc_isnan_double isnan
+\#define atslib_libc_isnan_ldouble isnan
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_fpclassify_float fpclassify
+\#define atslib_libc_fpclassify_double fpclassify
+\#define atslib_libc_fpclassify_ldouble fpclassify
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_ceil_float ceilf
+\#define atslib_libc_ceil_double ceil
+\#define atslib_libc_ceil_ldouble ceill
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_floor_float floorf
+\#define atslib_libc_floor_double floor
+\#define atslib_libc_floor_ldouble floorl
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_round_float roundf
+\#define atslib_libc_round_double round
+\#define atslib_libc_round_ldouble roundl
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_trunc_float truncf
+\#define atslib_libc_trunc_double trunc
+\#define atslib_libc_trunc_ldouble truncl
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_fmod_float fmodf
+\#define atslib_libc_fmod_double fmod
+\#define atslib_libc_fmod_ldouble fmodl
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_fmax_float fmaxf
+\#define atslib_libc_fmax_double fmax
+\#define atslib_libc_fmax_ldouble fmaxl
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_fmin_float fminf
+\#define atslib_libc_fmin_double fmin
+\#define atslib_libc_fmin_ldouble fminl
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_fdim_float fdimf
+\#define atslib_libc_fdim_double fdim
+\#define atslib_libc_fdim_ldouble fdiml
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_fma_float fmaf
+\#define atslib_libc_fma_double fma
+\#define atslib_libc_fma_ldouble fmal
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_sqrt_float sqrtf
+\#define atslib_libc_sqrt_double sqrt
+\#define atslib_libc_sqrt_ldouble sqrtl
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_cbrt_float cbrtf
+\#define atslib_libc_cbrt_double cbrt
+\#define atslib_libc_cbrt_ldouble cbrtl
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_pow_float powf
+\#define atslib_libc_pow_double pow
+\#define atslib_libc_pow_ldouble powl
+
+#atscode_separator_for_C()
+
+\#define atslib_libc_exp_float expf
+\#define atslib_libc_exp_double exp
+\#define atslib_libc_exp_ldouble expl
+
+#atscode_separator_for_C()
+//
+\#define atslib_libc_log_float logf
+\#define atslib_libc_log_double log
+\#define atslib_libc_log_ldouble logl
+//
+\#define atslib_libc_log10_float log10f
+\#define atslib_libc_log10_double log10
+\#define atslib_libc_log10_ldouble log10l
+//
+#atscode_separator_for_C()
+//
+\#define atslib_libc_sin_float sinf
+\#define atslib_libc_sin_double sin
+\#define atslib_libc_sin_ldouble sinl
+//
+\#define atslib_libc_cos_float cosf
+\#define atslib_libc_cos_double cos
+\#define atslib_libc_cos_ldouble cosl
+//
+\#define atslib_libc_tan_float tanf
+\#define atslib_libc_tan_double tan
+\#define atslib_libc_tan_ldouble tanl
+//
+#atscode_separator_for_C()
+//
+\#define atslib_libc_asin_float asinf
+\#define atslib_libc_asin_double asin
+\#define atslib_libc_asin_ldouble asinl
+//
+\#define atslib_libc_acos_float acosf
+\#define atslib_libc_acos_double acos
+\#define atslib_libc_acos_ldouble cosl
+//
+\#define atslib_libc_atan_float atanf
+\#define atslib_libc_atan_double atan
+\#define atslib_libc_atan_ldouble atanl
+//
+\#define atslib_libc_atan2_float atan2f
+\#define atslib_libc_atan2_double atan2
+\#define atslib_libc_atan2_ldouble atan2l
+//
+#atscode_separator_for_C()
+//
+\#define atslib_libc_sinh_float sinhf
+\#define atslib_libc_sinh_double sinh
+\#define atslib_libc_sinh_ldouble sinhl
+//
+\#define atslib_libc_cosh_float coshf
+\#define atslib_libc_cosh_double cosh
+\#define atslib_libc_cosh_ldouble coshl
+//
+\#define atslib_libc_tanh_float tanhf
+\#define atslib_libc_tanh_double tanh
+\#define atslib_libc_tanh_ldouble tanhl
+//
+#atscode_separator_for_C()
+
+\#define atslib_libc_asinh_float asinhf
+\#define atslib_libc_asinh_double asinh
+\#define atslib_libc_asinh_ldouble asinhl
+//
+\#define atslib_libc_acosh_float acoshf
+\#define atslib_libc_acosh_double acosh
+\#define atslib_libc_acosh_ldouble acoshl
+//
+\#define atslib_libc_atanh_float atanhf
+\#define atslib_libc_atanh_double atanh
+\#define atslib_libc_atanh_ldouble atanhl
+//
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_LIBATS_LIBC_CATS_MATH
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "math_atxt.txt")
+%}\

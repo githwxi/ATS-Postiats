@@ -172,30 +172,6 @@ RMF=rm -f
 
 ######
 
-#make2_entry("libc_dirent", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
-#make2_entry("libc_dlfcn", "", "-ldl")
-#make_entry("libc_fcntl")
-#make_entry("libc_fnmatch")
-#make2_entry("libc_malloc", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("libc_math", "", "-lm")
-#make2_entry("libc_signal", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
-#make2_entry("libc_stdio", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
-#make2_entry("libc_stdlib", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("libc_string", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
-#make2_entry("libc_strings", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("libc_time", "-DATS_MEMALLOC_LIBC", "")
-#make2_entry("libc_unistd", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
-
-######
-
-#make2_entry("libc_sys_stat", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
-
-######
-
-#make2_entry("libc_gdbm_gdbm", "-DATS_MEMALLOC_LIBC", "-lgdbm")
-
-######
-
 #make2_entry("libats_qlist", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_sllist", "-DATS_MEMALLOC_LIBC", "")
 #make2_entry("libats_dllist", "-DATS_MEMALLOC_LIBC", "")
@@ -322,6 +298,30 @@ RMF=rm -f
 
 #make2_entry("libats_ML_monad_list", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 #make2_entry("libats_ML_monad_maybe", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
+######
+
+#make_entry("libats_libc_fcntl")
+#make_entry("libats_libc_fnmatch")
+#make2_entry("libats_libc_math", "", "-lm")
+#make2_entry("libats_libc_dlfcn", "", "-ldl")
+#make2_entry("libats_libc_dirent", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_libc_malloc", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_libc_signal", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_libc_stdio", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_libc_stdlib", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_libc_string", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_libc_strings", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_libc_time", "-DATS_MEMALLOC_LIBC", "")
+#make2_entry("libats_libc_unistd", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
+######
+
+#make2_entry("libats_libc_sys_stat", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
+######
+
+#make2_entry("libats_libc_gdbm_gdbm", "-DATS_MEMALLOC_LIBC", "-lgdbm")
 
 ######
 

@@ -151,112 +151,6 @@ clean:: ; $(RMF) output/atslib_prelude_filebas_dats.o
 
 ######
 
-atslib:: atslib_libc
-
-######
-
-atslib_libc:: atslib_libc_dirent_dats
-atslib_libc_dirent_dats: output/atslib_libc_dirent_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_dirent_dats.c: ../../libc/DATS/dirent.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_dirent_dats.o: output/atslib_libc_dirent_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_dirent_dats.c
-clean:: ; $(RMF) output/atslib_libc_dirent_dats.o
-
-atslib_libc:: atslib_libc_fcntl_dats
-atslib_libc_fcntl_dats: output/atslib_libc_fcntl_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_fcntl_dats.c: ../../libc/DATS/fcntl.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_fcntl_dats.o: output/atslib_libc_fcntl_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_fcntl_dats.c
-clean:: ; $(RMF) output/atslib_libc_fcntl_dats.o
-
-atslib_libc:: atslib_libc_stdio_dats
-atslib_libc_stdio_dats: output/atslib_libc_stdio_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_stdio_dats.c: ../../libc/DATS/stdio.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_stdio_dats.o: output/atslib_libc_stdio_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_stdio_dats.c
-clean:: ; $(RMF) output/atslib_libc_stdio_dats.o
-
-atslib_libc:: atslib_libc_stdlib_dats
-atslib_libc_stdlib_dats: output/atslib_libc_stdlib_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_stdlib_dats.c: ../../libc/DATS/stdlib.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_stdlib_dats.o: output/atslib_libc_stdlib_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_stdlib_dats.c
-clean:: ; $(RMF) output/atslib_libc_stdlib_dats.o
-
-atslib_libc:: atslib_libc_string_dats
-atslib_libc_string_dats: output/atslib_libc_string_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_string_dats.c: ../../libc/DATS/string.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_string_dats.o: output/atslib_libc_string_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_string_dats.c
-clean:: ; $(RMF) output/atslib_libc_string_dats.o
-
-atslib_libc:: atslib_libc_strings_dats
-atslib_libc_strings_dats: output/atslib_libc_strings_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_strings_dats.c: ../../libc/DATS/strings.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_strings_dats.o: output/atslib_libc_strings_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_strings_dats.c
-clean:: ; $(RMF) output/atslib_libc_strings_dats.o
-
-atslib_libc:: atslib_libc_time_dats
-atslib_libc_time_dats: output/atslib_libc_time_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_time_dats.c: ../../libc/DATS/time.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_time_dats.o: output/atslib_libc_time_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_time_dats.c
-clean:: ; $(RMF) output/atslib_libc_time_dats.o
-
-atslib_libc:: atslib_libc_unistd_dats
-atslib_libc_unistd_dats: output/atslib_libc_unistd_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_unistd_dats.c: ../../libc/DATS/unistd.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_unistd_dats.o: output/atslib_libc_unistd_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_unistd_dats.c
-clean:: ; $(RMF) output/atslib_libc_unistd_dats.o
-
-
-######
-
-atslib_libc:: atslib_libc_sys/socket_dats
-atslib_libc_sys/socket_dats: output/atslib_libc_sys/socket_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_sys/socket_dats.c: ../../libc/DATS/sys/socket.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_sys/socket_dats.o: output/atslib_libc_sys/socket_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_sys/socket_dats.c
-clean:: ; $(RMF) output/atslib_libc_sys/socket_dats.o
-
-atslib_libc:: atslib_libc_sys/socket_in_dats
-atslib_libc_sys/socket_in_dats: output/atslib_libc_sys/socket_in_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_sys/socket_in_dats.c: ../../libc/DATS/sys/socket_in.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_sys/socket_in_dats.o: output/atslib_libc_sys/socket_in_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_sys/socket_in_dats.c
-clean:: ; $(RMF) output/atslib_libc_sys/socket_in_dats.o
-
-atslib_libc:: atslib_libc_sys/stat_dats
-atslib_libc_sys/stat_dats: output/atslib_libc_sys/stat_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_sys/stat_dats.c: ../../libc/DATS/sys/stat.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_sys/stat_dats.o: output/atslib_libc_sys/stat_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_sys/stat_dats.c
-clean:: ; $(RMF) output/atslib_libc_sys/stat_dats.o
-
-atslib_libc:: atslib_libc_sys/types_dats
-atslib_libc_sys/types_dats: output/atslib_libc_sys/types_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libc_sys/types_dats.c: ../../libc/DATS/sys/types.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libc_sys/types_dats.o: output/atslib_libc_sys/types_dats.c ; \
-  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libc_sys/types_dats.c
-clean:: ; $(RMF) output/atslib_libc_sys/types_dats.o
-
-
-######
-
 atslib:: atslib_libats
 
 ######
@@ -489,6 +383,112 @@ clean:: ; $(RMF) output/atslib_libats_ML_filebas_dirent_dats.o
 
 ######
 
+atslib:: atslib_libats_libc
+
+######
+
+atslib_libats_libc:: atslib_libats_libc_fcntl_dats
+atslib_libats_libc_fcntl_dats: output/atslib_libats_libc_fcntl_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_fcntl_dats.c: ../../libats/libc/DATS/fcntl.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_fcntl_dats.o: output/atslib_libats_libc_fcntl_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_fcntl_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_fcntl_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_dirent_dats
+atslib_libats_libc_dirent_dats: output/atslib_libats_libc_dirent_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_dirent_dats.c: ../../libats/libc/DATS/dirent.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_dirent_dats.o: output/atslib_libats_libc_dirent_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_dirent_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_dirent_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_stdio_dats
+atslib_libats_libc_stdio_dats: output/atslib_libats_libc_stdio_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_stdio_dats.c: ../../libats/libc/DATS/stdio.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_stdio_dats.o: output/atslib_libats_libc_stdio_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_stdio_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_stdio_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_stdlib_dats
+atslib_libats_libc_stdlib_dats: output/atslib_libats_libc_stdlib_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_stdlib_dats.c: ../../libats/libc/DATS/stdlib.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_stdlib_dats.o: output/atslib_libats_libc_stdlib_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_stdlib_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_stdlib_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_string_dats
+atslib_libats_libc_string_dats: output/atslib_libats_libc_string_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_string_dats.c: ../../libats/libc/DATS/string.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_string_dats.o: output/atslib_libats_libc_string_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_string_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_string_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_strings_dats
+atslib_libats_libc_strings_dats: output/atslib_libats_libc_strings_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_strings_dats.c: ../../libats/libc/DATS/strings.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_strings_dats.o: output/atslib_libats_libc_strings_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_strings_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_strings_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_time_dats
+atslib_libats_libc_time_dats: output/atslib_libats_libc_time_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_time_dats.c: ../../libats/libc/DATS/time.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_time_dats.o: output/atslib_libats_libc_time_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_time_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_time_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_unistd_dats
+atslib_libats_libc_unistd_dats: output/atslib_libats_libc_unistd_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_unistd_dats.c: ../../libats/libc/DATS/unistd.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_unistd_dats.o: output/atslib_libats_libc_unistd_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_unistd_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_unistd_dats.o
+
+
+######
+
+atslib_libats_libc:: atslib_libats_libc_sys/stat_dats
+atslib_libats_libc_sys/stat_dats: output/atslib_libats_libc_sys/stat_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_sys/stat_dats.c: ../../libats/libc/DATS/sys/stat.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_sys/stat_dats.o: output/atslib_libats_libc_sys/stat_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_sys/stat_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_sys/stat_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_sys/types_dats
+atslib_libats_libc_sys/types_dats: output/atslib_libats_libc_sys/types_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_sys/types_dats.c: ../../libats/libc/DATS/sys/types.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_sys/types_dats.o: output/atslib_libats_libc_sys/types_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_sys/types_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_sys/types_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_sys/socket_dats
+atslib_libats_libc_sys/socket_dats: output/atslib_libats_libc_sys/socket_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_sys/socket_dats.c: ../../libats/libc/DATS/sys/socket.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_sys/socket_dats.o: output/atslib_libats_libc_sys/socket_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_sys/socket_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_sys/socket_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_sys/socket_in_dats
+atslib_libats_libc_sys/socket_in_dats: output/atslib_libats_libc_sys/socket_in_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_sys/socket_in_dats.c: ../../libats/libc/DATS/sys/socket_in.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_sys/socket_in_dats.o: output/atslib_libats_libc_sys/socket_in_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_sys/socket_in_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_sys/socket_in_dats.o
+
+
+######
+
 ARR=ar -r
 RMF=rm -f
 
@@ -501,7 +501,6 @@ clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 
 cleanall:: clean
-cleanall:: ; $(RMF) output/*
 cleanall:: ; $(RMF) Makefile.exe
 cleanall:: ; $(RMF) lib/libatslib.a
 

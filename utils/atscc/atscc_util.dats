@@ -33,41 +33,45 @@
 
 (* ****** ****** *)
 
-staload STDLIB = "libc/SATS/stdlib.sats"
-
-(* ****** ****** *)
-
 staload "./atscc.sats"
 
 (* ****** ****** *)
-
-macdef
-unsome (opt) = stropt_unsome (,(opt))
-macdef
-issome (opt) = stropt_is_some (,(opt))
-
+//
+staload
+STDLIB =
+"libats/libc/SATS/stdlib.sats"
+//
 (* ****** ****** *)
 
 #define ATSOPT_DEFAULT "patsopt"
 
 (* ****** ****** *)
 
+macdef
+unsome(opt) = stropt_unsome(,(opt))
+macdef
+issome(opt) = stropt_is_some(,(opt))
+
+(* ****** ****** *)
+
 implement
 {}(*tmp*)
-atsopt_get () = let
+atsopt_get() = let
 //
 val def =
   $STDLIB.getenv_gc ("PATSOPT")
 //
 in
 //
-if strptr2ptr (def) > 0
-  then strptr2string (def)
-  else let
-    prval () = strptr_free_null (def)
-  in
-    ATSOPT_DEFAULT
-  end (* end of [if] *)
+if
+strptr2ptr(def) > 0
+then strptr2string(def)
+else let
+//
+prval() =
+ strptr_free_null(def) in ATSOPT_DEFAULT
+//
+end (* end of [if] *)
 // end of [if]
 //
 end // end of [atsopt_get]

@@ -17,9 +17,9 @@ PATSHOMERELOC_targetloc "$PATSHOMERELOC"
 #define
 PATSPRE_targetloc "$PATSHOME/prelude"
 #define
-PATSLIBC_targetloc "$PATSHOME/libc"
-#define
 PATSLIBATS_targetloc "$PATSHOME/libats"
+#define
+PATSLIBATSC_targetloc "$PATSHOME/libats/libc"
 //
 (* ****** ****** *)
 //

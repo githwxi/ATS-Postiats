@@ -115,7 +115,7 @@ end // end of [list0_last]
 
 (* ****** ****** *)
 
-staload "libc/SATS/stdlib.sats"
+staload "libats/libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 //

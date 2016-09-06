@@ -47,9 +47,10 @@
 staload UN = $UNSAFE
 //
 (* ****** ****** *)
-
-staload "libc/SATS/unistd.sats"
-
+//
+staload
+"libats/libc/SATS/unistd.sats"
+//
 (* ****** ****** *)
 //
 staload

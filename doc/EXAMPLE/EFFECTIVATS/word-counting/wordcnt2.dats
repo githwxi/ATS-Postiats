@@ -179,10 +179,11 @@ fun WordCounting_fileref (inp: FILEref): wcmap
 (* ****** ****** *)
 
 local
-
+//
 staload
-STDIO = "libc/SATS/stdio.sats"
-
+STDIO =
+"libats/libc/SATS/stdio.sats"
+//
 in (* in of [local] *)
 
 implement

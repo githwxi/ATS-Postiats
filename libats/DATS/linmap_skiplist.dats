@@ -1039,7 +1039,8 @@ end // end of [linmap_free_ifnil]
 
 local
 //
-staload "libc/SATS/stdlib.sats"
+staload
+"libats/libc/SATS/stdlib.sats"
 //
 staload INT = "prelude/DATS/integer.dats"
 staload FLOAT = "prelude/DATS/float.dats"

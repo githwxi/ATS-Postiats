@@ -135,7 +135,7 @@ end // end of [mtrxszref_transpose]
 
 (* ****** ****** *)
 
-staload "libc/SATS/stdlib.sats"
+staload "libats/libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 

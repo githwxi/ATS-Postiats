@@ -31,7 +31,8 @@
 //
 (* ****** ****** *)
 
-staload M = "libc/SATS/math.sats"
+staload M =
+"libats/libc/SATS/math.sats"
 
 (* ****** ****** *)
 

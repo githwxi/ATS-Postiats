@@ -17,7 +17,7 @@ _(*anon*) = "prelude/DATS/basics.dats"
 
 (* ****** ****** *)
 
-staload TM = "libc/SATS/time.sats"
+staload TM = "libats/libc/SATS/time.sats"
 
 (* ****** ****** *)
 

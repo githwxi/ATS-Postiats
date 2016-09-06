@@ -43,12 +43,12 @@ staload "./atscc_util.dats"
 
 (* ****** ****** *)
 
-staload "libc/DATS/stdlib.dats"
+dynload "./atscc_main.dats"
+dynload "./atscc_print.dats"
 
 (* ****** ****** *)
 
-dynload "./atscc_main.dats"
-dynload "./atscc_print.dats"
+staload "libats/libc/DATS/stdlib.dats"
 
 (* ****** ****** *)
 

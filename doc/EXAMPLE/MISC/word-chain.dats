@@ -277,7 +277,7 @@ end // end of [wordmap_build]
 (* ****** ****** *)
 //
 staload
-STDLIB = "libc/SATS/stdlib.sats"
+STDLIB = "libats/libc/SATS/stdlib.sats"
 //
 extern
 fun

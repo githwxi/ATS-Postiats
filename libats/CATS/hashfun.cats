@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef ATSHOME_LIBATS_CATS_HASHFUN
-#define ATSHOME_LIBATS_CATS_HASHFUN
+#ifndef ATSLIB_LIBATS_CATS_HASHFUN
+#define ATSLIB_LIBATS_CATS_HASHFUN
 
 /* ****** ****** */
 
@@ -56,7 +56,7 @@ atslib_inthash_jenkins
 
 /* ****** ****** */
 
-#endif // ifndef ATSHOME_LIBATS_CATS_HASHFUN
+#endif // ifndef ATSLIB_LIBATS_CATS_HASHFUN
 
 /* ****** ****** */
 

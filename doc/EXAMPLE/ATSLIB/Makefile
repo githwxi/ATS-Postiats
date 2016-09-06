@@ -291,135 +291,6 @@ cleanall:: ; $(RMF) prelude_tostring.exe
 
 ######
 
-all:: libc_dirent
-libc_dirent: libc_dirent.exe
-libc_dirent.exe: libc_dirent_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-libc_dirent_dats.c: libc_dirent.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_dirent_dats.c --dynamic libc_dirent.dats
-clean:: ; $(RMF) libc_dirent_dats.o
-clean:: ; $(RMF) libc_dirent_dats.c
-cleanall:: ; $(RMF) libc_dirent.exe
-
-all:: libc_dlfcn
-libc_dlfcn: libc_dlfcn.exe
-libc_dlfcn.exe: libc_dlfcn_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime  -o $@ $< -ldl
-libc_dlfcn_dats.c: libc_dlfcn.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_dlfcn_dats.c --dynamic libc_dlfcn.dats
-clean:: ; $(RMF) libc_dlfcn_dats.o
-clean:: ; $(RMF) libc_dlfcn_dats.c
-cleanall:: ; $(RMF) libc_dlfcn.exe
-
-all:: libc_fcntl
-libc_fcntl: libc_fcntl.exe
-libc_fcntl.exe: libc_fcntl_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-libc_fcntl_dats.c: libc_fcntl.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_fcntl_dats.c --dynamic libc_fcntl.dats
-clean:: ; $(RMF) libc_fcntl_dats.o
-clean:: ; $(RMF) libc_fcntl_dats.c
-cleanall:: ; $(RMF) libc_fcntl.exe
-
-all:: libc_fnmatch
-libc_fnmatch: libc_fnmatch.exe
-libc_fnmatch.exe: libc_fnmatch_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-libc_fnmatch_dats.c: libc_fnmatch.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_fnmatch_dats.c --dynamic libc_fnmatch.dats
-clean:: ; $(RMF) libc_fnmatch_dats.o
-clean:: ; $(RMF) libc_fnmatch_dats.c
-cleanall:: ; $(RMF) libc_fnmatch.exe
-
-all:: libc_malloc
-libc_malloc: libc_malloc.exe
-libc_malloc.exe: libc_malloc_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-libc_malloc_dats.c: libc_malloc.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_malloc_dats.c --dynamic libc_malloc.dats
-clean:: ; $(RMF) libc_malloc_dats.o
-clean:: ; $(RMF) libc_malloc_dats.c
-cleanall:: ; $(RMF) libc_malloc.exe
-
-all:: libc_math
-libc_math: libc_math.exe
-libc_math.exe: libc_math_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime  -o $@ $< -lm
-libc_math_dats.c: libc_math.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_math_dats.c --dynamic libc_math.dats
-clean:: ; $(RMF) libc_math_dats.o
-clean:: ; $(RMF) libc_math_dats.c
-cleanall:: ; $(RMF) libc_math.exe
-
-all:: libc_signal
-libc_signal: libc_signal.exe
-libc_signal.exe: libc_signal_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-libc_signal_dats.c: libc_signal.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_signal_dats.c --dynamic libc_signal.dats
-clean:: ; $(RMF) libc_signal_dats.o
-clean:: ; $(RMF) libc_signal_dats.c
-cleanall:: ; $(RMF) libc_signal.exe
-
-all:: libc_stdio
-libc_stdio: libc_stdio.exe
-libc_stdio.exe: libc_stdio_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-libc_stdio_dats.c: libc_stdio.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_stdio_dats.c --dynamic libc_stdio.dats
-clean:: ; $(RMF) libc_stdio_dats.o
-clean:: ; $(RMF) libc_stdio_dats.c
-cleanall:: ; $(RMF) libc_stdio.exe
-
-all:: libc_stdlib
-libc_stdlib: libc_stdlib.exe
-libc_stdlib.exe: libc_stdlib_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-libc_stdlib_dats.c: libc_stdlib.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_stdlib_dats.c --dynamic libc_stdlib.dats
-clean:: ; $(RMF) libc_stdlib_dats.o
-clean:: ; $(RMF) libc_stdlib_dats.c
-cleanall:: ; $(RMF) libc_stdlib.exe
-
-all:: libc_string
-libc_string: libc_string.exe
-libc_string.exe: libc_string_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-libc_string_dats.c: libc_string.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_string_dats.c --dynamic libc_string.dats
-clean:: ; $(RMF) libc_string_dats.o
-clean:: ; $(RMF) libc_string_dats.c
-cleanall:: ; $(RMF) libc_string.exe
-
-all:: libc_strings
-libc_strings: libc_strings.exe
-libc_strings.exe: libc_strings_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-libc_strings_dats.c: libc_strings.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_strings_dats.c --dynamic libc_strings.dats
-clean:: ; $(RMF) libc_strings_dats.o
-clean:: ; $(RMF) libc_strings_dats.c
-cleanall:: ; $(RMF) libc_strings.exe
-
-all:: libc_time
-libc_time: libc_time.exe
-libc_time.exe: libc_time_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-libc_time_dats.c: libc_time.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_time_dats.c --dynamic libc_time.dats
-clean:: ; $(RMF) libc_time_dats.o
-clean:: ; $(RMF) libc_time_dats.c
-cleanall:: ; $(RMF) libc_time.exe
-
-all:: libc_unistd
-libc_unistd: libc_unistd.exe
-libc_unistd.exe: libc_unistd_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-libc_unistd_dats.c: libc_unistd.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_unistd_dats.c --dynamic libc_unistd.dats
-clean:: ; $(RMF) libc_unistd_dats.o
-clean:: ; $(RMF) libc_unistd_dats.c
-cleanall:: ; $(RMF) libc_unistd.exe
-
-
-######
-
-all:: libc_sys_stat
-libc_sys_stat: libc_sys_stat.exe
-libc_sys_stat.exe: libc_sys_stat_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
-libc_sys_stat_dats.c: libc_sys_stat.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_sys_stat_dats.c --dynamic libc_sys_stat.dats
-clean:: ; $(RMF) libc_sys_stat_dats.o
-clean:: ; $(RMF) libc_sys_stat_dats.c
-cleanall:: ; $(RMF) libc_sys_stat.exe
-
-
-######
-
-all:: libc_gdbm_gdbm
-libc_gdbm_gdbm: libc_gdbm_gdbm.exe
-libc_gdbm_gdbm.exe: libc_gdbm_gdbm_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -lgdbm
-libc_gdbm_gdbm_dats.c: libc_gdbm_gdbm.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libc_gdbm_gdbm_dats.c --dynamic libc_gdbm_gdbm.dats
-clean:: ; $(RMF) libc_gdbm_gdbm_dats.o
-clean:: ; $(RMF) libc_gdbm_gdbm_dats.c
-cleanall:: ; $(RMF) libc_gdbm_gdbm.exe
-
-
-######
-
 all:: libats_qlist
 libats_qlist: libats_qlist.exe
 libats_qlist.exe: libats_qlist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -858,6 +729,135 @@ libats_ML_monad_maybe_dats.c: libats_ML_monad_maybe.dats ;   $(PATSOPT) -IATS$(P
 clean:: ; $(RMF) libats_ML_monad_maybe_dats.o
 clean:: ; $(RMF) libats_ML_monad_maybe_dats.c
 cleanall:: ; $(RMF) libats_ML_monad_maybe.exe
+
+
+######
+
+all:: libats_libc_fcntl
+libats_libc_fcntl: libats_libc_fcntl.exe
+libats_libc_fcntl.exe: libats_libc_fcntl_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+libats_libc_fcntl_dats.c: libats_libc_fcntl.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_fcntl_dats.c --dynamic libats_libc_fcntl.dats
+clean:: ; $(RMF) libats_libc_fcntl_dats.o
+clean:: ; $(RMF) libats_libc_fcntl_dats.c
+cleanall:: ; $(RMF) libats_libc_fcntl.exe
+
+all:: libats_libc_fnmatch
+libats_libc_fnmatch: libats_libc_fnmatch.exe
+libats_libc_fnmatch.exe: libats_libc_fnmatch_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+libats_libc_fnmatch_dats.c: libats_libc_fnmatch.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_fnmatch_dats.c --dynamic libats_libc_fnmatch.dats
+clean:: ; $(RMF) libats_libc_fnmatch_dats.o
+clean:: ; $(RMF) libats_libc_fnmatch_dats.c
+cleanall:: ; $(RMF) libats_libc_fnmatch.exe
+
+all:: libats_libc_math
+libats_libc_math: libats_libc_math.exe
+libats_libc_math.exe: libats_libc_math_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime  -o $@ $< -lm
+libats_libc_math_dats.c: libats_libc_math.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_math_dats.c --dynamic libats_libc_math.dats
+clean:: ; $(RMF) libats_libc_math_dats.o
+clean:: ; $(RMF) libats_libc_math_dats.c
+cleanall:: ; $(RMF) libats_libc_math.exe
+
+all:: libats_libc_dlfcn
+libats_libc_dlfcn: libats_libc_dlfcn.exe
+libats_libc_dlfcn.exe: libats_libc_dlfcn_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime  -o $@ $< -ldl
+libats_libc_dlfcn_dats.c: libats_libc_dlfcn.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_dlfcn_dats.c --dynamic libats_libc_dlfcn.dats
+clean:: ; $(RMF) libats_libc_dlfcn_dats.o
+clean:: ; $(RMF) libats_libc_dlfcn_dats.c
+cleanall:: ; $(RMF) libats_libc_dlfcn.exe
+
+all:: libats_libc_dirent
+libats_libc_dirent: libats_libc_dirent.exe
+libats_libc_dirent.exe: libats_libc_dirent_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_libc_dirent_dats.c: libats_libc_dirent.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_dirent_dats.c --dynamic libats_libc_dirent.dats
+clean:: ; $(RMF) libats_libc_dirent_dats.o
+clean:: ; $(RMF) libats_libc_dirent_dats.c
+cleanall:: ; $(RMF) libats_libc_dirent.exe
+
+all:: libats_libc_malloc
+libats_libc_malloc: libats_libc_malloc.exe
+libats_libc_malloc.exe: libats_libc_malloc_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_libc_malloc_dats.c: libats_libc_malloc.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_malloc_dats.c --dynamic libats_libc_malloc.dats
+clean:: ; $(RMF) libats_libc_malloc_dats.o
+clean:: ; $(RMF) libats_libc_malloc_dats.c
+cleanall:: ; $(RMF) libats_libc_malloc.exe
+
+all:: libats_libc_signal
+libats_libc_signal: libats_libc_signal.exe
+libats_libc_signal.exe: libats_libc_signal_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_libc_signal_dats.c: libats_libc_signal.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_signal_dats.c --dynamic libats_libc_signal.dats
+clean:: ; $(RMF) libats_libc_signal_dats.o
+clean:: ; $(RMF) libats_libc_signal_dats.c
+cleanall:: ; $(RMF) libats_libc_signal.exe
+
+all:: libats_libc_stdio
+libats_libc_stdio: libats_libc_stdio.exe
+libats_libc_stdio.exe: libats_libc_stdio_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_libc_stdio_dats.c: libats_libc_stdio.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_stdio_dats.c --dynamic libats_libc_stdio.dats
+clean:: ; $(RMF) libats_libc_stdio_dats.o
+clean:: ; $(RMF) libats_libc_stdio_dats.c
+cleanall:: ; $(RMF) libats_libc_stdio.exe
+
+all:: libats_libc_stdlib
+libats_libc_stdlib: libats_libc_stdlib.exe
+libats_libc_stdlib.exe: libats_libc_stdlib_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_libc_stdlib_dats.c: libats_libc_stdlib.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_stdlib_dats.c --dynamic libats_libc_stdlib.dats
+clean:: ; $(RMF) libats_libc_stdlib_dats.o
+clean:: ; $(RMF) libats_libc_stdlib_dats.c
+cleanall:: ; $(RMF) libats_libc_stdlib.exe
+
+all:: libats_libc_string
+libats_libc_string: libats_libc_string.exe
+libats_libc_string.exe: libats_libc_string_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_libc_string_dats.c: libats_libc_string.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_string_dats.c --dynamic libats_libc_string.dats
+clean:: ; $(RMF) libats_libc_string_dats.o
+clean:: ; $(RMF) libats_libc_string_dats.c
+cleanall:: ; $(RMF) libats_libc_string.exe
+
+all:: libats_libc_strings
+libats_libc_strings: libats_libc_strings.exe
+libats_libc_strings.exe: libats_libc_strings_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_libc_strings_dats.c: libats_libc_strings.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_strings_dats.c --dynamic libats_libc_strings.dats
+clean:: ; $(RMF) libats_libc_strings_dats.o
+clean:: ; $(RMF) libats_libc_strings_dats.c
+cleanall:: ; $(RMF) libats_libc_strings.exe
+
+all:: libats_libc_time
+libats_libc_time: libats_libc_time.exe
+libats_libc_time.exe: libats_libc_time_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+libats_libc_time_dats.c: libats_libc_time.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_time_dats.c --dynamic libats_libc_time.dats
+clean:: ; $(RMF) libats_libc_time_dats.o
+clean:: ; $(RMF) libats_libc_time_dats.c
+cleanall:: ; $(RMF) libats_libc_time.exe
+
+all:: libats_libc_unistd
+libats_libc_unistd: libats_libc_unistd.exe
+libats_libc_unistd.exe: libats_libc_unistd_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_libc_unistd_dats.c: libats_libc_unistd.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_unistd_dats.c --dynamic libats_libc_unistd.dats
+clean:: ; $(RMF) libats_libc_unistd_dats.o
+clean:: ; $(RMF) libats_libc_unistd_dats.c
+cleanall:: ; $(RMF) libats_libc_unistd.exe
+
+
+######
+
+all:: libats_libc_sys_stat
+libats_libc_sys_stat: libats_libc_sys_stat.exe
+libats_libc_sys_stat.exe: libats_libc_sys_stat_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_libc_sys_stat_dats.c: libats_libc_sys_stat.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_sys_stat_dats.c --dynamic libats_libc_sys_stat.dats
+clean:: ; $(RMF) libats_libc_sys_stat_dats.o
+clean:: ; $(RMF) libats_libc_sys_stat_dats.c
+cleanall:: ; $(RMF) libats_libc_sys_stat.exe
+
+
+######
+
+all:: libats_libc_gdbm_gdbm
+libats_libc_gdbm_gdbm: libats_libc_gdbm_gdbm.exe
+libats_libc_gdbm_gdbm.exe: libats_libc_gdbm_gdbm_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -lgdbm
+libats_libc_gdbm_gdbm_dats.c: libats_libc_gdbm_gdbm.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_libc_gdbm_gdbm_dats.c --dynamic libats_libc_gdbm_gdbm.dats
+clean:: ; $(RMF) libats_libc_gdbm_gdbm_dats.o
+clean:: ; $(RMF) libats_libc_gdbm_gdbm_dats.c
+cleanall:: ; $(RMF) libats_libc_gdbm_gdbm.exe
 
 
 ######

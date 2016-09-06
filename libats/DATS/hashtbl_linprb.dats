@@ -38,15 +38,15 @@
 #define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
 
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
+UN =
+"prelude/SATS/unsafe.sats"
+//
 staload
-STRING = "libc/SATS/string.sats"
-
+STRING =
+"libats/libc/SATS/string.sats"
+//
 (* ****** ****** *)
 
 staload "libats/SATS/hashfun.sats"

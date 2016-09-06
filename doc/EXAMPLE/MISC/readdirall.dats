@@ -24,13 +24,13 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libc/SATS/dirent.sats"
-staload _ = "libc/DATS/dirent.dats"
+staload "libats/SATS/dynarray.sats"
+staload _ = "libats/DATS/dynarray.dats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/dynarray.sats"
-staload _ = "libats/DATS/dynarray.dats"
+staload "libats/libc/SATS/dirent.sats"
+staload _ = "libats/libc/DATS/dirent.dats"
 
 (* ****** ****** *)
 

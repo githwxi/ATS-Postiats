@@ -174,9 +174,10 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
-staload STDIO = "libc/SATS/stdio.sats"
-
+//
+staload
+STDIO = "libats/libc/SATS/stdio.sats"
+//
 in (* in of [local] *)
 
 implement char_get () = $STDIO.getchar0 ()

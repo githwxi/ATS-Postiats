@@ -15,7 +15,8 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload STRING = "libc/SATS/string.sats"
+staload
+STRING = "libats/libc/SATS/string.sats"
 
 (* ****** ****** *)
 
@@ -42,8 +43,7 @@ myseq_merge
   {n1,n2:nat}
 (
   xs1: arrayref(a, n1)
-, xs2: arrayref(a, n2)
-, n1: int(n1), n2: int(n2)
+, xs2: arrayref(a, n2), n1: int(n1), n2: int(n2)
 ) : arrayref(a, n1+n2)
 // end of [myseq_merge]
 
@@ -53,10 +53,12 @@ implement
 {a}(*tmp*)
 myseq_split
   {n} (xs, n) = let
-  val p0 = ptrcast (xs)
-  val n2 = half (n)
-  val xs1 = $UN.cast{arrayref(a,n/2)}(p0)
-  val xs2 = $UN.cast{arrayref(a,n-n/2)}(ptr_add<a> (p0, n2))
+//
+val p0 = ptrcast (xs)
+val n2 = half (n)
+val xs1 = $UN.cast{arrayref(a,n/2)}(p0)
+val xs2 = $UN.cast{arrayref(a,n-n/2)}(ptr_add<a> (p0, n2))
+//
 in
   (xs1, xs2)
 end // end of [myseq_split]
@@ -69,8 +71,9 @@ myseq_merge
   {n1,n2} (xs10, xs20, n1, n2) = let
 //
 extern
-fun memcpy
-  : (ptr, ptr, size_t) -> ptr = "mac#atslib_memcpy"
+fun
+memcpy :
+  (ptr, ptr, size_t) -> ptr = "mac#atslib_libc_memcpy"
 //
 fun
 loop{n1,n2:nat}

@@ -194,7 +194,7 @@ end // end of [dotprod_mt]
 
 (* ****** ****** *)
 //
-staload "libc/SATS/stdlib.sats"
+staload "libats/libc/SATS/stdlib.sats"
 staload
 "{$LIBATSHWXI}/testing/SATS/randgen.sats"
 //

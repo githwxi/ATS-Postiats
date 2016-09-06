@@ -13,13 +13,15 @@ ATS_DYNLOADFLAG 0 // no dynloading
 (* ****** ****** *)
 
 local
-#include "prelude/DATS/filebas.dats"
+#include
+"prelude/DATS/filebas.dats"
 in(**)end
 
 (* ****** ****** *)
 
 local
-#include "libc/DATS/stdio.dats"
+#include
+"libats/libc/DATS/stdio.dats"
 in(**)end
 
 (* ****** ****** *)

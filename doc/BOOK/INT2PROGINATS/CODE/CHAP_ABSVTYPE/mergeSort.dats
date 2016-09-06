@@ -204,7 +204,8 @@ end // end of [mergeSort]
 
 #if (_ALLOCA != 0)
 //
-staload "libc/SATS/alloca.sats"
+staload
+"libats/libc/SATS/alloca.sats"
 //
 implement
 {a}(*tmp*)

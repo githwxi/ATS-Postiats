@@ -44,8 +44,10 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload TIME = "libc/SATS/time.sats"
-staload STDLIB = "libc/SATS/stdlib.sats"
+staload
+TIME = "libats/libc/SATS/time.sats"
+staload
+STDLIB = "libats/libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 

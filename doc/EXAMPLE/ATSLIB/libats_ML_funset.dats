@@ -64,7 +64,8 @@ val-false = funset_insert (set, 5)
 val () =
 {
 //
-staload "libc/SATS/stdlib.sats"
+staload
+"libats/libc/SATS/stdlib.sats"
 //
 val N = 100000
 //

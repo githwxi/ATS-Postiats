@@ -22,6 +22,10 @@ staload _ = "libats/ML/DATS/string.dats"
 //
 (* ****** ****** *)
 
+staload STDIO = "libats/libc/SATS/stdio.sats"
+
+(* ****** ****** *)
+
 #define nil stream_nil
 #define cons stream_cons
 #define :: stream_cons
@@ -60,10 +64,6 @@ fun morse
 in
   stream_nth_exn (stream_map_fun(from{0}(0), go), n)
 end // end of [morse]
-
-(* ****** ****** *)
-
-staload STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 

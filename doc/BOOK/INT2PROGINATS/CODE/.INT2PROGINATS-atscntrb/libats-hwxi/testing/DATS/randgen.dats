@@ -49,7 +49,7 @@ local
 
 staload
 STDLIB =
-"libc/SATS/stdlib.sats"
+"libats/libc/SATS/stdlib.sats"
 
 (*
 For seeding, please use

@@ -13,12 +13,6 @@ ROOT="."
 #
 all:: prelude
 #
-all:: libc
-all:: libc_sys
-#
-all:: libats
-all:: libats_ML
-#
 ######
 #
 prelude:: \
@@ -47,86 +41,21 @@ prelude_cats:: ; \
   make -C $(ROOT)/prelude/CATS/CODEGEN -f Makefile all
 #
 ######
-#
-libc:: \
-libc_cats
-libc_cats:: ; \
-  make -C $(ROOT)/libc/CATS/CODEGEN -f Makefile.gen
-libc_cats:: ; \
-  make -C $(ROOT)/libc/CATS/CODEGEN -f Makefile all
-#
-libc_sys:: \
-libc_sys_cats
-libc_sys_cats:: ; \
-  make -C $(ROOT)/libc/CATS/sys/CODEGEN -f Makefile.gen
-libc_sys_cats:: ; \
-  make -C $(ROOT)/libc/CATS/sys/CODEGEN -f Makefile all
-#
-######
-
-libats:: libats_sats
-#libats:: libats_dats
-#libats:: libats_cats
-
-libats_sats:
-	make -C $(ROOT)/libats/SATS/CODEGEN -f Makefile.gen
-	make -C $(ROOT)/libats/SATS/CODEGEN -f Makefile all
-libats_dats:
-	make -C $(ROOT)/libats/DATS/CODEGEN -f Makefile.gen
-	make -C $(ROOT)/libats/DATS/CODEGEN -f Makefile all
-libats_cats:
-	make -C $(ROOT)/libats/CATS/CODEGEN -f Makefile.gen
-	make -C $(ROOT)/libats/CATS/CODEGEN -f Makefile all
-
-######
-#
-libats_ML:: \
-libats_ML_sats
-libats_ML_sats:: ; \
-  make -C $(ROOT)/libats/ML/SATS/CODEGEN -f Makefile.gen
-libats_ML_sats:: ; \
-  make -C $(ROOT)/libats/ML/SATS/CODEGEN -f Makefile all
-#
-######
 
 clean:: ; \
-  make -C $(ROOT)/prelude/SATS/CODEGEN -f Makefile clean
+make -C $(ROOT)/prelude/SATS/CODEGEN -f Makefile clean
 clean:: ; \
-  make -C $(ROOT)/prelude/DATS/CODEGEN -f Makefile clean
+make -C $(ROOT)/prelude/DATS/CODEGEN -f Makefile clean
 clean:: ; \
-  make -C $(ROOT)/prelude/CATS/CODEGEN -f Makefile clean
-
-clean:: ; make -C $(ROOT)/libc/SATS/CODEGEN -f Makefile clean
-#clean:: ; make -C $(ROOT)/libc/DATS/CODEGEN -f Makefile clean
-#clean:: ; make -C $(ROOT)/libc/CATS/CODEGEN -f Makefile clean
-
-clean:: ; make -C $(ROOT)/libats/SATS/CODEGEN -f Makefile clean
-#clean:: ; make -C $(ROOT)/libats/DATS/CODEGEN -f Makefile clean
-#clean:: ; make -C $(ROOT)/libats/CATS/CODEGEN -f Makefile clean
-
-clean:: ; make -C $(ROOT)/libats/ML/SATS/CODEGEN -f Makefile clean
-#clean:: ; make -C $(ROOT)/libats/ML/DATS/CODEGEN -f Makefile clean
-#clean:: ; make -C $(ROOT)/libats/ML/CATS/CODEGEN -f Makefile clean
+make -C $(ROOT)/prelude/CATS/CODEGEN -f Makefile clean
 
 ######
 
 cleanall:: ; \
-  make -C $(ROOT)/prelude/SATS/CODEGEN -f Makefile cleanall
+make -C $(ROOT)/prelude/SATS/CODEGEN -f Makefile cleanall
 cleanall:: ; \
-  make -C $(ROOT)/prelude/DATS/CODEGEN -f Makefile cleanall
+make -C $(ROOT)/prelude/DATS/CODEGEN -f Makefile cleanall
 cleanall:: ; \
-  make -C $(ROOT)/prelude/CATS/CODEGEN -f Makefile cleanall
-
-cleanall:: ; make -C $(ROOT)/libc/SATS/CODEGEN -f Makefile cleanall
-#cleanall:: ; make -C $(ROOT)/libc/DATS/CODEGEN -f Makefile cleanall
-#cleanall:: ; make -C $(ROOT)/libc/CATS/CODEGEN -f Makefile cleanall
-
-cleanall:: ; make -C $(ROOT)/libats/SATS/CODEGEN -f Makefile cleanall
-#cleanall:: ; make -C $(ROOT)/libats/DATS/CODEGEN -f Makefile cleanall
-#cleanall:: ; make -C $(ROOT)/libats/CATS/CODEGEN -f Makefile cleanall
-
-cleanall:: ; make -C $(ROOT)/libats/ML/SATS/CODEGEN -f Makefile cleanall
-#cleanall:: ; make -C $(ROOT)/libats/ML/DATS/CODEGEN -f Makefile cleanall
-#cleanall:: ; make -C $(ROOT)/libats/ML/CATS/CODEGEN -f Makefile cleanall
+make -C $(ROOT)/prelude/CATS/CODEGEN -f Makefile cleanall
 
 ###### end of [Makefile_atslib] ######
