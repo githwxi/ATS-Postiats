@@ -381,15 +381,6 @@ ATSPRE_all_in_one
 
 <hr></hr>
 
-<h2><a id="ATSLIB_libc">ATSLIB/libc</a></h2>
-
-<p>
-<u>ATSLIB/libc</u>
-essentially consists of an API for calling libc-functions in ATS.
-</p>
-
-<hr></hr>
-
 <h2><a id="ATSLIB_libats">ATSLIB/libats</a></h2>
 
 <p>
@@ -416,6 +407,15 @@ types to ensure the safety of manual memory management.
 essentially consists of an API of ML-style for making use of various
 functional data structures implemented in <u>ATSLIB/libats</u>.
 
+</p>
+
+<hr></hr>
+
+<h2><a id="ATSLIB_libats_libc">ATSLIB/libats/libc</a></h2>
+
+<p>
+<u>ATSLIB/libats/libc</u>
+essentially consists of an API for calling libc-functions in ATS.
 </p>
 
 <hr></hr>

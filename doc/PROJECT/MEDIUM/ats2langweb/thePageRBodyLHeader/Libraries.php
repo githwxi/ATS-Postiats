@@ -23,9 +23,9 @@ libraries in ATS available to meet certain distinct needs of programmers
 <ul
  name="Libraries">
 <li><a href="#ATSPRE">ATSPRE</a></li>
-<li><a href="#ATSLIB_libc">ATSLIB/libc</a></li>
 <li><a href="#ATSLIB_libats">ATSLIB/libats</a></li>
 <li><a href="#ATSLIB_libats_ML">ATSLIB/libats/ML</a></li>
+<li><a href="#ATSLIB_libats_libc">ATSLIB/libats/libc</a></li>
 </ul>
 
 </div>

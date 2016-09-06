@@ -462,6 +462,10 @@ clean:: ; $(RMF) output/atslib_libats_libc_unistd_dats.o
 
 ######
 
+atslib:: atslib_libats_libc_sys
+
+######
+
 atslib_libats_libc_sys:: atslib_libats_libc_sys_stat_dats
 atslib_libats_libc_sys_stat_dats: output/atslib_libats_libc_sys_stat_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_libc_sys_stat_dats.c: ../../libats/libc/sys/DATS/stat.dats ; $(PATSOPT) -o $@ --dynamic $<

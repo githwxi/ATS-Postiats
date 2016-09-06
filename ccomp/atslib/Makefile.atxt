@@ -222,6 +222,10 @@ atslib:: atslib_libats_libc
 
 ######
 
+atslib:: atslib_libats_libc_sys
+
+######
+
 #make_entry("libats/libc/sys", "stat.dats")
 #make_entry("libats/libc/sys", "types.dats")
 #make_entry("libats/libc/sys", "socket.dats")
