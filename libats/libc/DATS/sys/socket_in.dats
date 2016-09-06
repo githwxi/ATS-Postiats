@@ -62,7 +62,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 %{$
 ATSextern()
 atsvoid_t0ype
-atslib_bind_in_exn
+atslib_libc_bind_in_exn
 (
   atstype_int fd, atstype_ptr addr
 ) {
@@ -74,7 +74,7 @@ atslib_bind_in_exn
   ); // end of [connent]
   if(0 > err) ATSLIBfailexit("bind");
   return;
-} // end of [atslib_bind_in_exn]
+} // end of [atslib_libc_bind_in_exn]
 %} // end of [%{]
 
 (* ****** ****** *)
@@ -82,7 +82,7 @@ atslib_bind_in_exn
 %{$
 ATSextern()
 atsvoid_t0ype
-atslib_connect_in_exn
+atslib_libc_connect_in_exn
 (
   atstype_int fd, atstype_ptr addr
 ) {
@@ -94,7 +94,7 @@ atslib_connect_in_exn
   ); // end of [connent]
   if(0 > err) ATSLIBfailexit("connect");
   return;
-} // end of [atslib_connect_in_exn]
+} // end of [atslib_libc_connect_in_exn]
 %} // end of [%{]
 
 (* ****** ****** *)

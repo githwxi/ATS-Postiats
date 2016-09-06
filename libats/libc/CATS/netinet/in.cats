@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef ATSLIB_LIBC_NETINET_IN_CATS
-#define ATSLIB_LIBC_NETINET_IN_CATS
+#ifndef ATSLIB_LIBATS_LIBC_NETINET_IN_CATS
+#define ATSLIB_LIBATS_LIBC_NETINET_IN_CATS
 
 /* ****** ****** */
 //
@@ -57,25 +57,25 @@ struct sockaddr_in sockaddr_in_struct ;
 typedef
 struct sockaddr_in6 sockaddr_in6_struct ;
 //
-#define atslib_socklen_in (sizeof(sockaddr_in_struct))
-#define atslib_socklen_in6 (sizeof(sockaddr_in6_struct))
+#define atslib_libc_socklen_in (sizeof(sockaddr_in_struct))
+#define atslib_libc_socklen_in6 (sizeof(sockaddr_in6_struct))
 //
 /* ****** ****** */
 
-#define atslib_in_port_nbo_int(nport) htons(nport)
-#define atslib_in_port_nbo_uint(nport) htons(nport)
+#define atslib_libc_in_port_nbo_int(nport) htons(nport)
+#define atslib_libc_in_port_nbo_uint(nport) htons(nport)
 
 /* ****** ****** */
 
 ATSinline()
 in_addr_t
-atslib_in_addr_hbo2nbo
+atslib_libc_in_addr_hbo2nbo
   (in_addr_t addr_hbo) { return htonl (addr_hbo) ; }
-/* end of [atslib_in_addr_hbo2nbo] */
+/* end of [atslib_libc_in_addr_hbo2nbo] */
 
 /* ****** ****** */
 
-#endif // ifndef ATSLIB_LIBC_NETINET_IN_CATS
+#endif // ifndef ATSLIB_LIBATS_LIBC_NETINET_IN_CATS
 
 /* ****** ****** */
 
