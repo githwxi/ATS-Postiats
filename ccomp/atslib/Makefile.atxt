@@ -224,7 +224,7 @@ atslib:: atslib_libats_libc
 ######
 
 #make_entry("libats/libc", "sys/stat.dats")
-#make_entry("libats/libc/sys", "types.dats")
+#make_entry("libats/libc", "sys/types.dats")
 #make_entry("libats/libc", "sys/socket.dats")
 #make_entry("libats/libc", "sys/socket_in.dats")
 

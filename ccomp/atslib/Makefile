@@ -470,9 +470,9 @@ output/atslib_libats_libc_sys_stat_dats.o: output/atslib_libats_libc_sys_stat_da
 clean:: ; $(RMF) output/atslib_libats_libc_sys_stat_dats.c
 clean:: ; $(RMF) output/atslib_libats_libc_sys_stat_dats.o
 
-atslib_libats_libc_sys:: atslib_libats_libc_sys_types_dats
+atslib_libats_libc:: atslib_libats_libc_sys_types_dats
 atslib_libats_libc_sys_types_dats: output/atslib_libats_libc_sys_types_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libats_libc_sys_types_dats.c: ../../libats/libc/sys/DATS/types.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_sys_types_dats.c: ../../libats/libc/DATS/sys/types.dats ; $(PATSOPT) -o $@ --dynamic $<
 output/atslib_libats_libc_sys_types_dats.o: output/atslib_libats_libc_sys_types_dats.c ; \
   $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
 clean:: ; $(RMF) output/atslib_libats_libc_sys_types_dats.c
