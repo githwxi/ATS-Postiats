@@ -18,7 +18,7 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload
-STDIO = "libc/SATS/stdio.sats"
+STDIO = "libats/libc/SATS/stdio.sats"
 overload ptrcast with $STDIO.FILEptr2ptr
 
 (* ****** ****** *)

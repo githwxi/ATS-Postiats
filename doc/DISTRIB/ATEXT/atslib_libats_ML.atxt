@@ -1,8 +1,10 @@
 %{
 //
-dynload "libatsdoc/dynloadall.dats"
+dynload
+"libatsdoc/dynloadall.dats"
 //
-staload "libatsdoc/SATS/libatsdoc_atext.sats"
+staload
+"libatsdoc/SATS/libatsdoc_atext.sats"
 //
 extern
 fun comment (x: string): atext
@@ -62,7 +64,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSLIB-libats files have been copied.\"\n\
+echo \"The ATSLIB-libats-ML files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\

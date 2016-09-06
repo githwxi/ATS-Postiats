@@ -11,11 +11,11 @@
 
 (* ****** ****** *)
 
-staload "libc/SATS/stdio.sats"
+staload "libats/libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 //
-staload _(*anon*) = "prelude/DATS/integer.dats"
+staload _(*INT*) = "prelude/DATS/integer.dats"
 //
 (* ****** ****** *)
 

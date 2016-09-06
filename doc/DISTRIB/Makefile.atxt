@@ -97,9 +97,9 @@ all_script::
 ######
 
 #make_entry("atslib_prelude")
-#make_entry("atslib_libc")
 #make_entry("atslib_libats")
 #make_entry("atslib_libats_ML")
+#make_entry("atslib_libats_libc")
 #make_entry("atslib_libats_ATS1")
 
 ######
@@ -114,10 +114,10 @@ all_script::
 
 ######
 
+#make_entry("doc_example_pcpv")
+#make_entry("doc_example_misc")
 #make_entry("doc_example_intro")
 #make_entry("doc_example_atslib")
-#make_entry("doc_example_misc")
-#make_entry("doc_example_pcpv")
 
 ######
 #
@@ -192,9 +192,9 @@ srcget_share:: ; \\
 srcget_share:: ; \\
   $(CPF) ../../share/HATS/atspre_define_pkgreloc.hats $(ATSDIST)/share/HATS/.
 srcget_share:: ; \\
-  $(CPF) ../../share/HATS/atslib_staload_libc.hats $(ATSDIST)/share/HATS/.
-srcget_share:: ; \\
   $(CPF) ../../share/HATS/atspre_staload_libats_ML.hats $(ATSDIST)/share/HATS/.
+srcget_share:: ; \\
+  $(CPF) ../../share/HATS/atslib_staload_libats_libc.hats $(ATSDIST)/share/HATS/.
 #
 srcget_share:: ; $(CPF) ../../share/atsmake-pre.mk $(ATSDIST)/share/.
 srcget_share:: ; $(CPF) ../../share/atsmake-post.mk $(ATSDIST)/share/.
@@ -208,12 +208,12 @@ srcget_patsrc_cboot:: SCRIPT/patsopt_src_cboot.bash ; bash $<
 
 srcget_atslib:: srcget_atslib_prelude
 srcget_atslib_prelude:: SCRIPT/atslib_prelude.bash ; bash $<
-srcget_atslib:: srcget_atslib_libc
-srcget_atslib_libc:: SCRIPT/atslib_libc.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats
 srcget_atslib_libats:: SCRIPT/atslib_libats.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_ML
 srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
+srcget_atslib:: srcget_atslib_libats_libc
+srcget_atslib_libats_libc:: SCRIPT/atslib_libats_libc.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_ATS1
 srcget_atslib_libats_ATS1:: SCRIPT/atslib_libats_ATS1.bash ; bash $<
 

@@ -46,7 +46,8 @@
 //
 (* ****** ****** *)
 
-#include "libc/DATS/stdio.dats"
+#include
+"libats/libc/DATS/stdio.dats"
 
 (* ****** ****** *)
 

@@ -244,7 +244,7 @@ json_object_get_array (struct json_object *obj)
 *)
 fun json_object_get_array
   {l:agz} (jso: !json_object(l))
-  : [l2:agez] vtget0 (json_object(l), array_list(l2)) = "mac#%"
+  : [l2:agez] vtget1(json_object(l), array_list(l2)) = "mac#%"
 // end of [json_object_get_array]
 
 (* ****** ****** *)
@@ -275,7 +275,7 @@ fun
 json_object_array_get_idx{l:agz}
 (
   jso: !json_object(l), idx: intGte(0)
-) : [l2:agez] vtget0 (json_object(l), json_object(l2)) = "mac#%"
+) : [l2:agez] vtget1(json_object(l), json_object(l2)) = "mac#%"
 // end of [json_object_array_get_idx]
 
 (* ****** ****** *)
@@ -327,7 +327,7 @@ json_object_get_object(struct json_object *obj);
 fun
 json_object_get_object
   {l:agz} (jso: !json_object(l))
-  : [l2:agez] vtget0 (json_object(l), lh_table(l2)) = "mac#%"
+  : [l2:agez] vtget1(json_object(l), lh_table(l2)) = "mac#%"
 // end of [json_object_get_object]
 
 (* ****** ****** *)
@@ -369,7 +369,7 @@ fun
 json_object_object_get{l:agz}
 (
   jso: !json_object(l), key: string
-) : [l2:agez] vtget0 (json_object(l), json_object(l2)) = "mac#%"
+) : [l2:agez] vtget1(json_object(l), json_object(l2)) = "mac#%"
 // end of [json_object_object_get]
 
 (* ****** ****** *)

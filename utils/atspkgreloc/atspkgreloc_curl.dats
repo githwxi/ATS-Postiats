@@ -41,21 +41,26 @@
 (* ****** ****** *)
 //
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 //
-(* ****** ****** *)
-
-staload
-STDLIB = "libc/SATS/stdlib.sats"
-staload
-STRING = "libc/SATS/string.sats"
-
 (* ****** ****** *)
 //
 staload
-STAT = "libc/sys/SATS/stat.sats"
+STDLIB =
+"libats/libc/SATS/stdlib.sats"
 staload
-_(*STAT*) = "libc/sys/DATS/stat.dats"
+STRING =
+"libats/libc/SATS/string.sats"
+//
+(* ****** ****** *)
+//
+staload
+STAT =
+"libats/libc/SATS/sys/stat.sats"
+staload
+_(*STAT*) =
+"libats/libc/DATS/sys/stat.dats"
 //
 typedef stat = $STAT.stat
 typedef mode_t = $STAT.mode_t

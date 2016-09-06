@@ -86,16 +86,6 @@ cleanall:: ; $(RMF) HTML/atslib_prelude.html
 cleanall:: ; $(RMF) SCRIPT/atslib_prelude.bash
 
 all_script:: \
-SCRIPT/atslib_libc.bash
-SCRIPT/atslib_libc.bash: atslib_libc_atxt.exe ; ./$< > $@
-atslib_libc_atxt.dats: ATEXT/atslib_libc.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atslib_libc_atxt.exe: atslib_libc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atslib_libc_atxt.exe
-cleanall:: ; $(RMF) HTML/atslib_libc.html
-cleanall:: ; $(RMF) SCRIPT/atslib_libc.bash
-
-all_script:: \
 SCRIPT/atslib_libats.bash
 SCRIPT/atslib_libats.bash: atslib_libats_atxt.exe ; ./$< > $@
 atslib_libats_atxt.dats: ATEXT/atslib_libats.atxt ; \
@@ -114,6 +104,16 @@ atslib_libats_ML_atxt.exe: atslib_libats_ML_atxt.dats ; $(ATSCC) $(INCLATS) $(GC
 clean:: ; $(RMF) atslib_libats_ML_atxt.exe
 cleanall:: ; $(RMF) HTML/atslib_libats_ML.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libats_ML.bash
+
+all_script:: \
+SCRIPT/atslib_libats_libc.bash
+SCRIPT/atslib_libats_libc.bash: atslib_libats_libc_atxt.exe ; ./$< > $@
+atslib_libats_libc_atxt.dats: ATEXT/atslib_libats_libc.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atslib_libats_libc_atxt.exe: atslib_libats_libc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atslib_libats_libc_atxt.exe
+cleanall:: ; $(RMF) HTML/atslib_libats_libc.html
+cleanall:: ; $(RMF) SCRIPT/atslib_libats_libc.bash
 
 all_script:: \
 SCRIPT/atslib_libats_ATS1.bash
@@ -175,6 +175,26 @@ cleanall:: ; $(RMF) SCRIPT/utils_emacs.bash
 ######
 
 all_script:: \
+SCRIPT/doc_example_pcpv.bash
+SCRIPT/doc_example_pcpv.bash: doc_example_pcpv_atxt.exe ; ./$< > $@
+doc_example_pcpv_atxt.dats: ATEXT/doc_example_pcpv.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+doc_example_pcpv_atxt.exe: doc_example_pcpv_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) doc_example_pcpv_atxt.exe
+cleanall:: ; $(RMF) HTML/doc_example_pcpv.html
+cleanall:: ; $(RMF) SCRIPT/doc_example_pcpv.bash
+
+all_script:: \
+SCRIPT/doc_example_misc.bash
+SCRIPT/doc_example_misc.bash: doc_example_misc_atxt.exe ; ./$< > $@
+doc_example_misc_atxt.dats: ATEXT/doc_example_misc.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+doc_example_misc_atxt.exe: doc_example_misc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) doc_example_misc_atxt.exe
+cleanall:: ; $(RMF) HTML/doc_example_misc.html
+cleanall:: ; $(RMF) SCRIPT/doc_example_misc.bash
+
+all_script:: \
 SCRIPT/doc_example_intro.bash
 SCRIPT/doc_example_intro.bash: doc_example_intro_atxt.exe ; ./$< > $@
 doc_example_intro_atxt.dats: ATEXT/doc_example_intro.atxt ; \
@@ -193,26 +213,6 @@ doc_example_atslib_atxt.exe: doc_example_atslib_atxt.dats ; $(ATSCC) $(INCLATS) 
 clean:: ; $(RMF) doc_example_atslib_atxt.exe
 cleanall:: ; $(RMF) HTML/doc_example_atslib.html
 cleanall:: ; $(RMF) SCRIPT/doc_example_atslib.bash
-
-all_script:: \
-SCRIPT/doc_example_misc.bash
-SCRIPT/doc_example_misc.bash: doc_example_misc_atxt.exe ; ./$< > $@
-doc_example_misc_atxt.dats: ATEXT/doc_example_misc.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-doc_example_misc_atxt.exe: doc_example_misc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) doc_example_misc_atxt.exe
-cleanall:: ; $(RMF) HTML/doc_example_misc.html
-cleanall:: ; $(RMF) SCRIPT/doc_example_misc.bash
-
-all_script:: \
-SCRIPT/doc_example_pcpv.bash
-SCRIPT/doc_example_pcpv.bash: doc_example_pcpv_atxt.exe ; ./$< > $@
-doc_example_pcpv_atxt.dats: ATEXT/doc_example_pcpv.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-doc_example_pcpv_atxt.exe: doc_example_pcpv_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) doc_example_pcpv_atxt.exe
-cleanall:: ; $(RMF) HTML/doc_example_pcpv.html
-cleanall:: ; $(RMF) SCRIPT/doc_example_pcpv.bash
 
 
 ######
@@ -459,9 +459,9 @@ srcget_share:: ; \
 srcget_share:: ; \
   $(CPF) ../../share/HATS/atspre_define_pkgreloc.hats $(ATSDIST)/share/HATS/.
 srcget_share:: ; \
-  $(CPF) ../../share/HATS/atslib_staload_libc.hats $(ATSDIST)/share/HATS/.
-srcget_share:: ; \
   $(CPF) ../../share/HATS/atspre_staload_libats_ML.hats $(ATSDIST)/share/HATS/.
+srcget_share:: ; \
+  $(CPF) ../../share/HATS/atslib_staload_libats_libc.hats $(ATSDIST)/share/HATS/.
 #
 srcget_share:: ; $(CPF) ../../share/atsmake-pre.mk $(ATSDIST)/share/.
 srcget_share:: ; $(CPF) ../../share/atsmake-post.mk $(ATSDIST)/share/.
@@ -475,12 +475,12 @@ srcget_patsrc_cboot:: SCRIPT/patsopt_src_cboot.bash ; bash $<
 
 srcget_atslib:: srcget_atslib_prelude
 srcget_atslib_prelude:: SCRIPT/atslib_prelude.bash ; bash $<
-srcget_atslib:: srcget_atslib_libc
-srcget_atslib_libc:: SCRIPT/atslib_libc.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats
 srcget_atslib_libats:: SCRIPT/atslib_libats.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_ML
 srcget_atslib_libats_ML:: SCRIPT/atslib_libats_ML.bash ; bash $<
+srcget_atslib:: srcget_atslib_libats_libc
+srcget_atslib_libats_libc:: SCRIPT/atslib_libats_libc.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_ATS1
 srcget_atslib_libats_ATS1:: SCRIPT/atslib_libats_ATS1.bash ; bash $<
 

@@ -52,10 +52,10 @@ staload
 (* ****** ****** *)
 //
 staload
-"libc/SATS/stdio.sats"  
+"libats/ML/SATS/basis.sats"  
 //
 staload
-"libats/ML/SATS/basis.sats"  
+"libats/libc/SATS/stdio.sats"  
 //
 (* ****** ****** *)
 //

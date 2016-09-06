@@ -165,30 +165,6 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
-#packfilename("libc_dirent.dats")
-#packfilename("libc_dlfcn.dats")
-#packfilename("libc_fcntl.dats")
-#packfilename("libc_fnmatch.dats")
-#packfilename("libc_malloc.dats")
-#packfilename("libc_math.dats")
-#packfilename("libc_signal.dats")
-#packfilename("libc_stdio.dats")
-#packfilename("libc_stdlib.dats")
-#packfilename("libc_string.dats")
-#packfilename("libc_strings.dats")
-#packfilename("libc_time.dats")
-#packfilename("libc_unistd.dats")
-
-(* ****** ****** *)
-
-#packfilename("libc_sys_stat.dats")
-
-(* ****** ****** *)
-
-#packfilename("libc_gdbm_gdbm.dats")
-
-(* ****** ****** *)
-
 #packfilename("libats_qlist.dats")
 #packfilename("libats_sllist.dats")
 #packfilename("libats_dllist.dats")
@@ -293,6 +269,30 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 #packfilename("libats_ML_monad_list.dats")
 #packfilename("libats_ML_monad_maybe.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_libc_math.dats")
+#packfilename("libats_libc_malloc.dats")
+#packfilename("libats_libc_dlfcn.dats")
+#packfilename("libats_libc_fcntl.dats")
+#packfilename("libats_libc_dirent.dats")
+#packfilename("libats_libc_stdio.dats")
+#packfilename("libats_libc_stdlib.dats")
+#packfilename("libats_libc_string.dats")
+#packfilename("libats_libc_strings.dats")
+#packfilename("libats_libc_time.dats")
+#packfilename("libats_libc_unistd.dats")
+#packfilename("libats_libc_signal.dats")
+#packfilename("libats_libc_fnmatch.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_libc_sys_stat.dats")
+
+(* ****** ****** *)
+
+#packfilename("libats_libc_gdbm_gdbm.dats")
 
 (* ****** ****** *)
 
