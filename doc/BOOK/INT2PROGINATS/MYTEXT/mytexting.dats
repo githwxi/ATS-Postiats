@@ -12,7 +12,7 @@ ATEXTING_targetloc
 //
 staload
 STDLIB =
-"libc/SATS/stdlib.sats"
+"libats/libc/SATS/stdlib.sats"
 //
 macdef atoi = $STDLIB.atoi
 //
