@@ -10,12 +10,14 @@
 (* ****** ****** *)
 //
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
 staload
-STDLIB = "libc/SATS/stdlib.sats"
+STDLIB =
+"libats/libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
