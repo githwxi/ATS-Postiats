@@ -23,11 +23,12 @@
 (* ****** ****** *)
 //
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
-staload "libatslex/SATS/unicode.sats"
+staload "./../SATS/unicode.sats"
 
 (* ****** ****** *)
 

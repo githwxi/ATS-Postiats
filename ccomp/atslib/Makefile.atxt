@@ -62,7 +62,8 @@ fun make_entry
 ) : atext = let
 //
 val lib2 = stringrepl (lib, '/', '_')
-val fnm2 = stringrepl (fnm, '.', '_')
+val fnm2 = stringrepl (fnm, '/', '_')
+val fnm2 = stringrepl (fnm2, '.', '_')
 val libfnm2 = sprintf ("%s_%s", @(lib2, fnm2))
 val libfnm2 = string_of_strptr (libfnm2)
 //
@@ -222,14 +223,10 @@ atslib:: atslib_libats_libc
 
 ######
 
-atslib:: atslib_libats_libc_sys
-
-######
-
-#make_entry("libats/libc/sys", "stat.dats")
+#make_entry("libats/libc", "sys/stat.dats")
 #make_entry("libats/libc/sys", "types.dats")
-#make_entry("libats/libc/sys", "socket.dats")
-#make_entry("libats/libc/sys", "socket_in.dats")
+#make_entry("libats/libc", "sys/socket.dats")
+#make_entry("libats/libc", "sys/socket_in.dats")
 
 ######
 
