@@ -211,6 +211,8 @@ atslib:: atslib_libats_libc
 
 ######
 
+#make_entry("libats/libc", "math.dats")
+#make_entry("libats/libc", "float.dats")
 #make_entry("libats/libc", "errno.dats")
 #make_entry("libats/libc", "fcntl.dats")
 #make_entry("libats/libc", "dirent.dats")

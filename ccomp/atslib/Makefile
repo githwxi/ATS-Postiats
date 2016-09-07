@@ -387,6 +387,22 @@ atslib:: atslib_libats_libc
 
 ######
 
+atslib_libats_libc:: atslib_libats_libc_math_dats
+atslib_libats_libc_math_dats: output/atslib_libats_libc_math_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_math_dats.c: ../../libats/libc/DATS/math.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_math_dats.o: output/atslib_libats_libc_math_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_math_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_math_dats.o
+
+atslib_libats_libc:: atslib_libats_libc_float_dats
+atslib_libats_libc_float_dats: output/atslib_libats_libc_float_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_libc_float_dats.c: ../../libats/libc/DATS/float.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_libc_float_dats.o: output/atslib_libats_libc_float_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_libc_float_dats.c
+clean:: ; $(RMF) output/atslib_libats_libc_float_dats.o
+
 atslib_libats_libc:: atslib_libats_libc_errno_dats
 atslib_libats_libc_errno_dats: output/atslib_libats_libc_errno_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_libc_errno_dats.c: ../../libats/libc/DATS/errno.dats ; $(PATSOPT) -o $@ --dynamic $<

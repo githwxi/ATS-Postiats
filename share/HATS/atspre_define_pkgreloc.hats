@@ -31,13 +31,6 @@ ATSLANGWEBLIB "http://www.ats-lang.org/LIBRARY"
 (* ****** ****** *)
 //
 #define
-APUE_sourceloc "$ATSLANGWEBLIB/contrib/APUE"
-#define
-APUE_targetloc "$PATSHOMERELOC/contrib/APUE"
-//
-(* ****** ****** *)
-//
-#define
 PCRE_sourceloc "$ATSLANGWEBLIB/contrib/pcre"
 #define
 PCRE_targetloc "$PATSHOMERELOC/contrib/pcre"
@@ -48,16 +41,6 @@ PCRE_targetloc "$PATSHOMERELOC/contrib/pcre"
 LIBGMP_sourceloc "$ATSLANGWEBLIB/contrib/libgmp"
 #define
 LIBGMP_targetloc "$PATSHOMERELOC/contrib/libgmp"
-//
-(* ****** ****** *)
-//
-#define
-ZLOG_targetloc "$PATSHOMERELOC/contrib/zlog"
-//
-(* ****** ****** *)
-//
-#define
-ZEROMQ_targetloc "$PATSHOMERELOC/contrib/zeromq"
 //
 (* ****** ****** *)
 //
@@ -126,6 +109,11 @@ GUROBI_targetloc "$PATSHOMERELOC/contrib/gurobi"
 (* ****** ****** *)
 //
 #define
+LIBCATS_targetloc "$PATSHOMERELOC/contrib/libcats"
+//
+(* ****** ****** *)
+//
+#define
 KERNELATS_targetloc "$PATSHOMERELOC/contrib/kernelats"
 //
 (* ****** ****** *)
@@ -160,6 +148,16 @@ LIBATSCC2CLJ_targetloc
 #define
 LIBATSCC2PHP_targetloc
 "$PATSHOMERELOC/contrib/libatscc/libatscc2php"
+//
+(* ****** ****** *)
+//
+#define
+ZLOG_targetloc "$PATSHOMERELOC/contrib/zlog"
+//
+(* ****** ****** *)
+//
+#define
+ZEROMQ_targetloc "$PATSHOMERELOC/contrib/zeromq"
 //
 (* ****** ****** *)
 //
