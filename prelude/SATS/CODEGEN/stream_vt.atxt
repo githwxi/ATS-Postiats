@@ -315,6 +315,9 @@ cross_stream_vt_list_vt
 // HX-2016-07-01:
 // [stream_vt_fprint] calls [fprint_val]
 //
+// HX-2016-09-12:
+// Note that (n < 0) means to print all the values
+//
 fun{}
 stream_vt_fprint$beg(out: FILEref): void
 fun{}
