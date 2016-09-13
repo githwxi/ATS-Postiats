@@ -21,6 +21,12 @@ LIBGMP=
 LIBGMP=-lgmp
 
 ######
+
+all:: patsopt
+all:: patsopt_ccomp
+all:: patsopt_atscc2js
+
+######
 #
 patsopt: \
 patsopt.dats; $(ATSCC) -o $@ $< $(LDPATH) -latsopt -lats $(LIBGMP)
