@@ -24,7 +24,9 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Reorganizing: libc -> libats/libc
+1. Reorganizing: libc -> libats/libc (pervasive changes!!!)
+2. FILEref-values are no longer closed automatically when embedded in
+   stream_vt (but FILEptr-values are still closed at the end)
 
 ######
 
