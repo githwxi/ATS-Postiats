@@ -6,6 +6,15 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2016-07-10:<br>
+<a
+ href="http://metasepi.org/en/posts/2016-09-17-c2ats.html"
+></a>Automatic interface generation for ATS from C<br>
+by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
+
+<hr></hr>
+
 ATS-2016-09-03:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/h6M6RiMdWW0"
