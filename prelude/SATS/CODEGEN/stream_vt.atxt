@@ -113,24 +113,24 @@ stream_vt_drop_opt
 #atscode_separator()
 //
 fun{a:t0p}
-stream_vt_head
-  (stream_vt(INV(a))):<!exnwrt> (a)
-fun{a:t0p}
-stream_vt_tail
-  (stream_vt(INV(a))):<!exnwrt> stream_vt(a)
-//
-fun{a:vt0p}
-stream_vt_uncons
-  (xs: &stream_vt(INV(a)) >> _):<!exnwrt> (a)
-fun{a:vt0p}
-stream_vt_uncons_opt
-  (xs: &stream_vt(INV(a)) >> _):<!exnwrt> Option_vt(a)
+stream_vt_length
+  (xs: stream_vt(INV(a))):<!wrt> intGte(0)
 //
 #atscode_separator()
 //
 fun{a:t0p}
-stream_vt_length
-  (xs: stream_vt(INV(a))):<!wrt> intGte(0)
+stream_vt_head_exn
+  (stream_vt(INV(a))):<!exnwrt> (a)
+fun{a:t0p}
+stream_vt_tail_exn
+  (stream_vt(INV(a))):<!exnwrt> stream_vt(a)
+//
+fun{a:vt0p}
+stream_vt_uncons_exn
+  (xs: &stream_vt(INV(a)) >> _):<!exnwrt> (a)
+fun{a:vt0p}
+stream_vt_uncons_opt
+  (xs: &stream_vt(INV(a)) >> _):<!exnwrt> Option_vt(a)
 //
 #atscode_separator()
 //
@@ -362,15 +362,19 @@ overload ~ with streamer_vt_free
 
 overload [] with streamer_vt_eval_exn
 
-(* ****** ****** *)
+#atscode_separator()
 
 overload iseqz with stream_vt_is_nil
 overload isneqz with stream_vt_is_cons
 
-(* ****** ****** *)
+#atscode_separator()
+//
+overload length with stream_vt_length
+//
+#atscode_separator()
 
-overload .head with stream_vt_head
-overload .tail with stream_vt_tail
+overload .head with stream_vt_head_exn
+overload .tail with stream_vt_tail_exn
 
 #atscode_separator()
 

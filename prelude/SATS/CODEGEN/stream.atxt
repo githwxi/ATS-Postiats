@@ -340,10 +340,12 @@ overload isneqz with stream_is_cons
 //
 #atscode_separator()
 //
+overload length with stream_length
+//
+#atscode_separator()
+//
 overload .head with stream_head_exn
 overload .tail with stream_tail_exn
-//
-overload length with stream_length
 //
 #atscode_separator()
 

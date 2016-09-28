@@ -294,28 +294,28 @@ end // end of [stream_vt_drop_opt]
 //
 implement
 {a}(*tmp*)
-stream_vt_head(xs) =
+stream_vt_head_exn(xs) =
 (
 case+ !xs of
 | ~stream_vt_cons (x, xs) =>
     let val () = stream_vt_free(xs) in x end
 | ~stream_vt_nil ((*void*)) => $raise StreamSubscriptExn()
-) (* end of [stream_vt_head] *)
+) (* end of [stream_vt_head_exn] *)
 //
 implement
 {a}(*tmp*)
-stream_vt_tail(xs) =
+stream_vt_tail_exn(xs) =
 (
 case+ !xs of
 | ~stream_vt_cons (x, xs) => (xs)
 | ~stream_vt_nil ((*void*)) => $raise StreamSubscriptExn()
-) (* end of [stream_vt_tail] *)
+) (* end of [stream_vt_tail_exn] *)
 //
 #atscode_separator()
 
 implement
 {a}(*tmp*)
-stream_vt_uncons(xs0) =
+stream_vt_uncons_exn(xs0) =
 (
 case+ !xs0 of
 | ~stream_vt_cons
@@ -327,7 +327,7 @@ case+ !xs0 of
   in
     $raise StreamSubscriptExn((*void*))
   end // end of [stream_vt_nil]
-) (* end of [stream_vt_uncons] *)
+) (* end of [stream_vt_uncons_exn] *)
 
 implement
 {a}(*tmp*)
