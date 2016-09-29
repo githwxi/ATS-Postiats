@@ -369,9 +369,9 @@ case+ tok.token_node of
 | T_DLRREC (knd) => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_LPAREN (buf, bt, err)
+    val ent2 = p_LBRACE (buf, bt, err)
     val ent3 = p_labp0atseq_BAR_labp0atseq (buf, bt, err)
-    val ent4 = p_RPAREN (buf, bt, err) // err = err0
+    val ent4 = p_RBRACE (buf, bt, err) // err = err0
   in
     if err = err0 then 
       p0at_rec12 (knd, tok, ent3, ent4)
