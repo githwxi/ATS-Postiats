@@ -10,7 +10,7 @@ ATS-2016-07-10:<br>
 <a
  href="http://metasepi.org/en/posts/2016-09-17-c2ats.html"
 >Automatic interface generation for ATS from C</a><br>
-by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+by <a href="http://masterq.metasepi-design.com">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
@@ -43,7 +43,7 @@ ATS-2016-07-10:<br>
 <a
  href="http://www.slideshare.net/master_q/realtime-os-system-state-captured-by-ats-language"
 >Slides on capturing state transition in ATS</a><br>
-by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+by <a href="http://masterq.metasepi-design.com">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
@@ -84,7 +84,7 @@ ATS-2015-12-31:<br>
 <a
  href="http://www.metasepi.org/en/posts/2015-12-31-yuku-kuru.html"
 >Metasepi's Year 2015</a><br>
-by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+by <a href="http://masterq.metasepi-design.com">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
@@ -164,7 +164,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/3XXa-18GLOc"
 >Slides for learning ATS/LF</a><br>
-by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+by <a href="http://masterq.metasepi-design.com">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
@@ -172,7 +172,7 @@ at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/HwMcg0vFGoA"
 >ATS for Arduino programming</a><br>
-by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+by <a href="http://masterq.metasepi-design.com">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
@@ -299,7 +299,7 @@ ATS-2015-03-16:<br>
 <a
  href="https://groups.google.com/forum/?fromgroups#!topic/ats-lang-users/ORqTD0KANEY"
 >Slides on learning ATS</a><br>
-by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+by <a href="http://masterq.metasepi-design.com">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
@@ -420,7 +420,7 @@ ATS-2014-12-02:<br>
 <a
  href="http://togetter.com/li/752948"
 >Zen(禅) Practice on ATS</a><br>
-by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+by <a href="http://masterq.metasepi-design.com">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
@@ -501,7 +501,7 @@ ATS-2014-10-19:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/xJmNk4oGo6A"
 >Programming Arduino in ATS</a><br>
-by <a href="http://www.masterq.net">Kiwamu Okabe</a>
+by <a href="http://masterq.metasepi-design.com">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
