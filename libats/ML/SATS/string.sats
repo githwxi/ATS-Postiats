@@ -107,10 +107,14 @@ string_append3
 (
   x1: NSH(string), x2: NSH(string), x3: NSH(string)
 ) :<> string // end of [string_append3]
+//
+(* ****** ****** *)
+//
 fun{}
 string_append4
 (
-  x1: NSH(string), x2: NSH(string), x3: NSH(string), x4: NSH(string)
+  x1: NSH(string), x2: NSH(string)
+, x3: NSH(string), x4: NSH(string)
 ) :<> string // end of [string_append4]
 fun{}
 string_append5
@@ -155,6 +159,11 @@ string_foreach(x: string, f: cfun(char, void)): void
 fun
 string_iforeach(x: string, f: cfun2(int, char, void)): void
 //
+overload .forall with string_forall_method
+overload .iforall with string_iforall_method
+//
+(* ****** ****** *)
+//
 fun{}
 string_forall_method(string)(cfun(char, bool)): bool
 fun{}
@@ -165,11 +174,8 @@ string_foreach_method(x: string)(cfun(char, void)): void
 fun{}
 string_iforeach_method(x: string)(cfun2(int, char, void)): void
 //
-overload .forall with string_forall_method
-overload .iforall with string_iforall_method
-//
 overload .foreach with string_foreach_method
-overload .foreach with string_iforeach_method
+overload .iforeach with string_iforeach_method
 //
 (* ****** ****** *)
 
