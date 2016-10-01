@@ -423,10 +423,19 @@ in
 end // end of [string_iforall]
 
 (* ****** ****** *)
+//
+implement{}
+string_forall_method
+  (cs) = lam(f) => string_forall(cs, f)
+implement{}
+string_iforall_method
+  (cs) = lam(f) => string_iforall(cs, f)
+//
+(* ****** ****** *)
 
 implement
 string_foreach
-  (str, f) = let
+  (cs, f) = let
 //
 fun
 loop
@@ -442,14 +451,14 @@ if isneqz(c)
 end // end of [loop]
 //
 in
-  loop(string2ptr(str))
+  loop(string2ptr(cs))
 end // end of [string_foreach]
 
 (* ****** ****** *)
 
 implement
 string_iforeach
-  (str, f) = let
+  (cs, f) = let
 //
 fun
 loop
@@ -465,20 +474,17 @@ if isneqz(c)
 end // end of [loop]
 //
 in
-  loop(0, string2ptr(str))
+  loop(0, string2ptr(cs))
 end // end of [string_iforeach]
 
 (* ****** ****** *)
 //
 implement{}
-string_forall_method(x) = lam(f) => string_forall(x, f)
+string_foreach_method
+  (cs) = lam(f) => string_foreach(cs, f)
 implement{}
-string_iforall_method(x) = lam(f) => string_iforall(x, f)
-//
-implement{}
-string_foreach_method(x) = lam(f) => string_foreach(x, f)
-implement{}
-string_iforeach_method(x) = lam(f) => string_iforeach(x, f)
+string_iforeach_method
+  (cs) = lam(f) => string_iforeach(cs, f)
 //
 (* ****** ****** *)
 
