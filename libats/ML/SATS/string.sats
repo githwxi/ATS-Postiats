@@ -46,27 +46,25 @@ typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
-
+//
 fun{}
 itoa (x: int):<> string
-
+//
 (* ****** ****** *)
-
+//
 fun{}
 string_sing (c: charNZ):<> string
-
+//
 (* ****** ****** *)
-
+//
 fun{}
 string_is_empty (NSH(string)):<> bool
 fun{}
 string_isnot_empty (NSH(string)):<> bool
-  
-(* ****** ****** *)
-
+//
 overload iseqz with string_is_empty
 overload isneqz with string_isnot_empty
-
+//
 (* ****** ****** *)
 //
 fun{}
@@ -76,17 +74,17 @@ string_is_prefix
 ) :<> bool // string_is_prefix
 //
 (* ****** ****** *)
-
+//
 fun{}
 string_copy(x: NSH(string)):<> string
-
+//
 (* ****** ****** *)
-
+//
 fun{}
 string_make_list(cs: list0(char)):<> string
 fun{}
 string_make_rlist(cs: list0(char)):<> string
-
+//
 (* ****** ****** *)
 
 fun{}
@@ -135,36 +133,43 @@ stringlst_concat(xs: list0 (string)):<> string
 (* ****** ****** *)
 
 fun{}
-string_explode (x: string):<> list0 (char)
+string_explode(x0: string):<> list0(char)
 fun{}
-string_implode (cs: list0 (char)):<> string
+string_implode(cs: list0(char)):<> string
 
 (* ****** ****** *)
 //
-fun string_tabulate
+fun
+string_tabulate
   (n: size_t, f: (size_t) -<cloref1> charNZ): string
 //
 (* ****** ****** *)
 //
 fun
-string_forall (x: string, f: cfun (char, bool)): bool
+string_forall(x: string, f: cfun(char, bool)): bool
 fun
-string_iforall (x: string, f: cfun2 (int, char, bool)): bool
+string_iforall(x: string, f: cfun2(int, char, bool)): bool
 //
 fun
-string_foreach (x: string, f: cfun (char, void)): void
+string_foreach(x: string, f: cfun(char, void)): void
+fun
+string_iforeach(x: string, f: cfun2(int, char, void)): void
 //
 fun{}
-string_forall_method(string)(cfun (char, bool)): bool
+string_forall_method(string)(cfun(char, bool)): bool
 fun{}
-string_iforall_method(string)(cfun2 (int, char, bool)): bool
+string_iforall_method(string)(cfun2(int, char, bool)): bool
 //
 fun{}
-string_foreach_method(x: string)(f: cfun (char, void)): void
+string_foreach_method(x: string)(cfun(char, void)): void
+fun{}
+string_iforeach_method(x: string)(cfun2(int, char, void)): void
 //
 overload .forall with string_forall_method
 overload .iforall with string_iforall_method
+//
 overload .foreach with string_foreach_method
+overload .foreach with string_iforeach_method
 //
 (* ****** ****** *)
 
