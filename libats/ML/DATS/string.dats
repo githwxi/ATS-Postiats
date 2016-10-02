@@ -99,6 +99,9 @@ prelude_string_iforall = string_iforall
 macdef
 prelude_string_foreach = string_foreach
 //
+macdef
+prelude_streamize_string_char = streamize_string_char
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
@@ -485,6 +488,12 @@ string_foreach_method
 implement{}
 string_iforeach_method
   (cs) = lam(f) => string_iforeach(cs, f)
+//
+(* ****** ****** *)
+//
+implement{}
+streamize_string_char
+  (cs) = prelude_streamize_string_char(cs)
 //
 (* ****** ****** *)
 
