@@ -152,7 +152,7 @@ stream_filter_cloref
 ) :<!laz> stream(a) // end-of-function
 //
 (* ****** ****** *)
-
+//
 fun{
 a:t0p}{b:t0p
 } stream_map
@@ -223,7 +223,6 @@ a1,a2:t0p}{b:t0p
 ) :<!laz> stream(b) // end-of-fun
 //
 #atscode_separator()
-
 //
 fun{
 res:t0p}{x:t0p
