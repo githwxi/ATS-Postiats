@@ -37,52 +37,62 @@ staload "{$PATSLIBATS}/ML/SATS/strarr.sats"
 //
 staload "{$PATSLIBATS}/ML/SATS/gvalue.sats"
 //
+staload "{$PATSLIBATS}/ML/SATS/stream.sats"
+staload "{$PATSLIBATS}/ML/SATS/stream_vt.sats"
+//
 staload "{$PATSLIBATS}/ML/SATS/filebas.sats"
 staload "{$PATSLIBATS}/ML/SATS/intrange.sats"
 //
+(* ****** ****** *)
+//
+staload _ = "{$PATSLIBATS}/ML/DATS/list0.dats"
+//
+staload _ = "{$PATSLIBATS}/ML/DATS/option0.dats"
+//
+staload _ = "{$PATSLIBATS}/ML/DATS/array0.dats"
+staload _ = "{$PATSLIBATS}/ML/DATS/matrix0.dats"
+//
+staload _ = "{$PATSLIBATS}/ML/DATS/string.dats"
+staload _ = "{$PATSLIBATS}/ML/DATS/strarr.dats"
+//
+staload _ = "{$PATSLIBATS}/ML/DATS/stream.dats"
+staload _ = "{$PATSLIBATS}/ML/DATS/stream_vt.dats"
+//
+staload _ = "{$PATSLIBATS}/ML/DATS/filebas.dats"
+staload _ = "{$PATSLIBATS}/ML/DATS/intrange.dats"
+//
+(* ****** ****** *)
+//
 staload "{$PATSLIBATS}/ML/SATS/stdlib.sats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/list0.dats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/option0.dats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/array0.dats"
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/matrix0.dats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/string.dats"
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/strarr.dats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/filebas.dats"
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/intrange.dats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/stdlib.dats"
+staload _ = "{$PATSLIBATS}/ML/DATS/stdlib.dats"
 //
 (* ****** ****** *)
 //
 staload "{$PATSLIBATS}/ML/SATS/funmap.sats"
 staload "{$PATSLIBATS}/ML/SATS/funset.sats"
 //
+staload _ = "{$PATSLIBATS}/ML/DATS/funmap.dats"
 staload _ = "{$PATSLIBATS}/DATS/funmap_avltree.dats"
-staload _ = "{$PATSLIBATS}/DATS/funset_avltree.dats"
 //
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/funmap.dats"
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/funset.dats"
+staload _ = "{$PATSLIBATS}/ML/DATS/funset.dats"
+staload _ = "{$PATSLIBATS}/DATS/funset_avltree.dats"
 //
 (* ****** ****** *)
 //
 staload "{$PATSLIBATS}/ML/SATS/dynarray.sats"
-staload _(*anon*) = "{$PATSLIBATS}/DATS/dynarray.dats"
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/dynarray.dats"
+//
+staload _ = "{$PATSLIBATS}/DATS/dynarray.dats"
+staload _ = "{$PATSLIBATS}/ML/DATS/dynarray.dats"
 //
 (* ****** ****** *)
 //
 staload "{$PATSLIBATS}/ML/SATS/hashtblref.sats"
 //
-staload _(*anon*) = "{$PATSLIBATS}/DATS/qlist.dats"
-staload _(*anon*) = "{$PATSLIBATS}/DATS/hashfun.dats"
-staload _(*anon*) = "{$PATSLIBATS}/DATS/linmap_list.dats"
-staload _(*anon*) = "{$PATSLIBATS}/DATS/hashtbl_chain.dats"
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/hashtblref.dats"
+staload _ = "{$PATSLIBATS}/DATS/qlist.dats"
+staload _ = "{$PATSLIBATS}/DATS/hashfun.dats"
+staload _ = "{$PATSLIBATS}/DATS/linmap_list.dats"
+staload _ = "{$PATSLIBATS}/DATS/hashtbl_chain.dats"
+staload _ = "{$PATSLIBATS}/ML/DATS/hashtblref.dats"
 //
 (* ****** ****** *)
 

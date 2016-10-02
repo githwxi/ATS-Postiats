@@ -48,6 +48,26 @@ staload "libats/ML/SATS/stream_vt.sats"
 (* ****** ****** *)
 //
 implement
+{a}{b}
+stream_vt_map_method
+  (xs, _) =
+(
+llam(fopr) => stream_vt_map_cloptr<a><b>(xs, fopr)
+)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+stream_vt_filter_method
+  (xs) =
+(
+  llam(pred) => stream_vt_filter_cloptr<a>(xs, pred)
+)
+//
+(* ****** ****** *)
+//
+implement
 {a}(*tmp*)
 stream_vt_foreach_method
   (xs) =

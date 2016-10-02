@@ -44,13 +44,36 @@ staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 //
+fun{
+a:vt0p}{b:vt0p
+} stream_vt_map_method
+(
+  stream_vt(INV(a)), TYPE(b)
+) :
+(
+  (&a >> a?!) -<cloptr1> b
+) -<lincloptr1> stream_vt(b)
+//
+overload .map with stream_vt_map_method
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+stream_vt_filter_method
+(
+xs: stream_vt(INV(a))
+) : ((&a)-<cloptr>bool)-<lincloptr1>stream_vt(a)
+//
+overload .filter with stream_vt_filter_method
+//
+(* ****** ****** *)
+//
 fun{a:vt0p}
 stream_vt_foreach_method
   (xs: stream_vt(INV(a))) 
 : ((&a >> a?!) -<cloptr1> void) -<lincloptr1> void
 //
-overload
-.foreach with stream_vt_foreach_method
+overload .foreach with stream_vt_foreach_method
 //
 (* ****** ****** *)
 
