@@ -250,18 +250,21 @@ res:t0p}{x:t0p
 //
 #atscode_separator()
 //
-fun{a:t0p}
+fun
+{a:t0p}
 stream_merge
   (stream(INV(a)), stream(a)) :<!laz> stream(a)
 //
 fun{a:t0p} stream_merge$cmp (x1: a, x2: a):<> int
 //
-fun{a:t0p}
+fun
+{a:t0p}
 stream_merge_fun
 (
   xs1: stream(INV(a)), xs2: stream(a), (a, a) -<fun> int
 ) :<!laz> stream(a) // end of [stream_merge_fun]
-fun{a:t0p}
+fun
+{a:t0p}
 stream_merge_cloref
 (
   xs1: stream(INV(a)), xs2: stream(a), (a, a) -<cloref> int
@@ -288,34 +291,45 @@ stream_mergeq_cloref
 //
 #atscode_separator()
 //
-fun{
-a:t0p
-} stream_tabulate (): stream(a)
-fun{
-a:t0p
-} stream_tabulate$fopr (i: intGte(0)): (a)
+fun
+{a:t0p}
+stream_tabulate((*void*)): stream(a)
+fun
+{a:t0p}
+stream_tabulate$fopr (index: intGte(0)): (a)
 //
-fun{
-a:t0p
-} stream_tabulate_fun (f: intGte(0) -> a): stream(a)
-fun{
-a:t0p
-} stream_tabulate_cloref (f: intGte(0) -> a): stream(a)
+fun
+{a:t0p}
+stream_tabulate_fun (f: intGte(0) -> a): stream(a)
+fun
+{a:t0p}
+stream_tabulate_cloref (f: intGte(0) -> a): stream(a)
 //
 #atscode_separator()
 //
-fun{a:t0p}
+fun
+{a:t0p}
 stream_foreach (xs: stream(a)): void
-fun{
-a:t0p}{env:vt0p
-} stream_foreach_env (xs: stream(a), &env >> _): void
+fun
+{a:t0p}
+{env:vt0p}
+stream_foreach_env(xs: stream(a), &env >> _): void
 //
-fun{
-a:t0p}{env:vt0p
-} stream_foreach$cont (x: a, env: &env): bool
-fun{
-a:t0p}{env:vt0p
-} stream_foreach$fwork (x: a, env: &env): void
+fun
+{a:t0p}
+{env:vt0p}
+stream_foreach$cont(x: a, env: &env): bool
+fun
+{a:t0p}
+{env:vt0p}
+stream_foreach$fwork(x: a, env: &env): void
+//
+fun{a:t0p}
+stream_foreach_fun
+  (xs: stream(a), fwork: (a) -<fun1> void): void
+fun{a:t0p}
+stream_foreach_cloref
+  (xs: stream(a), fwork: (a) -<cloref1> void): void
 //
 #atscode_separator()
 //

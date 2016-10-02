@@ -799,6 +799,42 @@ stream_foreach$cont<a><env>(x0, env) = true(*cont*)
 
 implement
 {a}(*tmp*)
+stream_foreach_fun
+  (xs, fwork) =
+  loop(xs) where
+{
+//
+fun
+loop(xs: stream(a)): void =
+(
+  case+ !xs of
+  | stream_nil() => ()
+  | stream_cons(x, xs) => (fwork(x); loop(xs))
+)
+//
+} (* end of [stream_foreach_fun] *)
+
+implement
+{a}(*tmp*)
+stream_foreach_cloref
+  (xs, fwork) =
+  loop(xs) where
+{
+//
+fun
+loop(xs: stream(a)): void =
+(
+  case+ !xs of
+  | stream_nil() => ()
+  | stream_cons(x, xs) => (fwork(x); loop(xs))
+)
+//
+} (* end of [stream_foreach_cloref] *)
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 fprint_stream
   (out, xs, n) = let
 //
