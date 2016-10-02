@@ -58,9 +58,34 @@ lam(fopr) => stream_map_cloref<a><b>(xs, fopr)
 (* ****** ****** *)
 //
 implement
+{a}{b}
+stream_imap_method
+  (xs, _) =
+(
+lam(fopr) => stream_imap_cloref<a><b>(xs, fopr)
+)
+//
+(* ****** ****** *)
+//
+implement
 {a}(*tmp*)
 stream_filter_method(xs) =
   lam(pred) => stream_filter_cloref<a>(xs, pred)
+//
+(* ****** ****** *)
+//
+implement
+{res}{x}
+stream_scan_method(xs, _) =
+  lam(res, fopr) =>
+  stream_scan_cloref<res><x>(xs, res, fopr)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+stream_foreach_method(xs) =
+  lam(fwork) => stream_foreach_cloref<a>(xs, fwork)
 //
 (* ****** ****** *)
 

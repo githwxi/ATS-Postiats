@@ -49,18 +49,50 @@ fun
 stream_map_method
 (
   stream(a), TYPE(b)
-) (fopr: (a) -<cloref> b): stream(b)
+) (fopr: (a) -<cloref> b):<!laz> stream(b)
 //
 overload .map with stream_map_method
 //
 (* ****** ****** *)
 //
 fun
+{a:t0p}{b:t0p}
+stream_imap_method
+(
+  stream(a), TYPE(b)
+) (fopr: (intGte(0), a) -<cloref> b):<!laz> stream(b)
+//
+overload .imap with stream_imap_method
+//
+(* ****** ****** *)
+//
+fun
 {a:t0p}
 stream_filter_method
-  (xs: stream(a))(pred: (a) -<cloref> bool): stream(a)
+  (xs: stream(a))
+  (pred: (a) -<cloref> bool):<!laz> stream(a)
 //
 overload .filter with stream_filter_method
+//
+(* ****** ****** *)
+//
+fun{
+res:t0p}{x:t0p
+} stream_scan_method
+(
+  stream(INV(x)), TYPE(res))(res, (res, x) -<cloref> res
+) :<!laz> stream(res) // end-of-function
+//
+overload .scan with stream_scan_method
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+stream_foreach_method
+  (xs: stream(a))(fwork: (a) -<cloref1> void): void
+//
+overload .foreach with stream_foreach_method
 //
 (* ****** ****** *)
 
