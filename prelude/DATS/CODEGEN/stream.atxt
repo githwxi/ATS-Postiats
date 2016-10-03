@@ -704,7 +704,10 @@ stream_mergeq$cmp
 
 implement
 {a}(*tmp*)
-stream_tabulate () = let
+stream_tabulate
+  ((*void*)) =
+  aux(0) where
+{
 //
 fun
 aux{n:nat}
@@ -712,22 +715,23 @@ aux{n:nat}
   n: int(n)
 ) : stream(a) = $delay
 (
-  stream_cons{a}(stream_tabulate$fopr<a> (n), aux (n+1))
-)
+stream_cons{a}
+  (stream_tabulate$fopr<a>(n), aux(n+1))
+) (* end of [aux] *)
 //
-in
-  aux (0)
-end // end of [stream_tabulate]
+} (* end of [stream_tabulate] *)
 
 #atscode_separator()
 
 implement
 {a}(*tmp*)
-stream_tabulate_fun (f) = let
+stream_tabulate_fun
+  (fopr) = let
 //
 implement
 {a2}(*tmp*)
-stream_tabulate$fopr (n) = $UN.cast{a2}(f(n))
+stream_tabulate$fopr
+  (n) = $UN.cast{a2}(fopr(n))
 //
 in
   stream_tabulate ()
@@ -735,11 +739,13 @@ end // end of [stream_tabulate_fun]
 
 implement
 {a}(*tmp*)
-stream_tabulate_cloref (f) = let
+stream_tabulate_cloref
+  (fopr) = let
 //
 implement
 {a2}(*tmp*)
-stream_tabulate$fopr (n) = $UN.cast{a2}(f(n))
+stream_tabulate$fopr
+  (n) = $UN.cast{a2}(fopr(n))
 //
 in
   stream_tabulate ()

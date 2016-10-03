@@ -62,10 +62,15 @@ fun
 {a:vt0p}
 stream_vt_make_nil():<> stream_vt(a)
 fun{a:t0p}
+stream_vt_make_cons
+  (a, stream_vt(INV(a))):<> stream_vt(a)
+//
+fun{a:t0p}
 stream_vt_make_sing(x: a):<> stream_vt(a)
 //
 fun{a:t0p}
-stream_vt_make_con(stream_vt_con(a)):<> stream_vt(a)
+stream_vt_make_con
+  (xs_con: stream_vt_con(INV(a))):<> stream_vt(a)
 //
 #atscode_separator()
 //

@@ -292,17 +292,19 @@ stream_mergeq_cloref
 //
 fun
 {a:t0p}
-stream_tabulate((*void*)): stream(a)
+stream_tabulate(): stream(a)
 fun
 {a:t0p}
-stream_tabulate$fopr (index: intGte(0)): (a)
+stream_tabulate$fopr(i: intGte(0)): (a)
 //
 fun
 {a:t0p}
-stream_tabulate_fun (f: intGte(0) -> a): stream(a)
+stream_tabulate_fun
+  (fopr: intGte(0) -> a): stream(a)
 fun
 {a:t0p}
-stream_tabulate_cloref (f: intGte(0) -> a): stream(a)
+stream_tabulate_cloref
+  (fopr: intGte(0) -<cloref1> a): stream(a)
 //
 #atscode_separator()
 //
