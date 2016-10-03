@@ -169,6 +169,17 @@ overload .stream_map with int_stream_map_method
 //
 (* ****** ****** *)
 //
+fun{a:vt0p}
+int_stream_vt_map_cloref
+  (n: intGte(0), f: cfun(int, a)): stream_vt(a)
+fun{a:vt0p}
+int_stream_vt_map_method
+  (n: intGte(0), TYPE(a))(f: cfun(int, a)): stream_vt(a)
+//
+overload .stream_vt_map with int_stream_vt_map_method
+//
+(* ****** ****** *)
+//
 fun{}
 int2_foreach_cloref
   (n1: int, n2: int, f: cfun2(int, int, void)): void

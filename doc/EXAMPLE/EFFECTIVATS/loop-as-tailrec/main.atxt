@@ -346,12 +346,12 @@ and isodd (n: int): bool =
 ")</pre>
 
 The call to [isodd] in the body of [isevn] and the call to [isevn] in the
-body of [isadd] are both tail-calls. As they are also mutually recursive
+body of [isodd] are both tail-calls. As they are also mutually recursive
 calls, they are referred to as mutually tail-recursive calls.
 
 <p>
 
-When compiling this implementation of [isevn] and [isadd], the ATS compiler
+When compiling this implementation of [isevn] and [isodd], the ATS compiler
 (ATS/Postiats) handles [isevn] and [isodd] separately and thus
 is <em>unable</em> to turn the call to [isodd] ([isevn]) in the body of
 [isevn] ([isodd]) into a local jump. In order to indicate to the compiler

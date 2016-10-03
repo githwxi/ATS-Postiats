@@ -273,6 +273,32 @@ int_stream_map_method
 (* ****** ****** *)
 //
 implement
+{a}(*tmp*)
+int_stream_vt_map_cloref
+  (n, f) = auxmain(0) where
+{
+//
+fun
+auxmain
+(
+  i: int
+) : stream_vt(a) = $ldelay
+(
+if
+(i < n)
+then stream_vt_cons(f(i), auxmain(i+1)) else stream_vt_nil()
+) : stream_vt_con(a) // [auxmain]
+//
+} (* end of [int_stream_vt_map_cloref] *)
+//
+implement
+{a}(*tmp*)
+int_stream_vt_map_method
+  (n, tres) = lam(f) => int_stream_vt_map_cloref<a> (n, f)
+//
+(* ****** ****** *)
+//
+implement
 {}(*tmp*)
 int2_foreach_cloref
   (n1, n2, f) =
