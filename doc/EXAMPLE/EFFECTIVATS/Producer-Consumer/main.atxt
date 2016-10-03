@@ -110,7 +110,7 @@ buffer_insert{m,n:int | n < m}
 ) : void // end of [buffer_insert]
 ')</pre>
 
-The function #dyncode("buffer_insert") is for taking out an element from
+The function #dyncode("buffer_takeout") is for taking out an element from
 a buffer that is not empty:
 
 <pre
