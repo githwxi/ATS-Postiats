@@ -39,9 +39,10 @@ ATS_PACKNAME "ATSLIB.libats.ML"
 ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 //
 (* ****** ****** *)
-
-staload "libats/ML/SATS/basis.sats"
-
+//
+staload
+"libats/ML/SATS/basis.sats"
+//
 (* ****** ****** *)
 //
 fun{
@@ -74,6 +75,15 @@ stream_vt_foreach_method
 : ((&a >> a?!) -<cloptr1> void) -<lincloptr1> void
 //
 overload .foreach with stream_vt_foreach_method
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+stream_vt_iforeach_method
+  (xs: stream_vt(INV(a))) 
+: ((intGte(0), &a >> a?!) -<cloptr1> void) -<lincloptr1> void
+//
+overload .iforeach with stream_vt_iforeach_method
 //
 (* ****** ****** *)
 

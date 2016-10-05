@@ -76,5 +76,15 @@ llam(fwork) => stream_vt_foreach_cloptr<a>(xs, fwork)
 )
 //
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+stream_vt_iforeach_method
+  (xs) =
+(
+llam(fwork) => stream_vt_iforeach_cloptr<a>(xs, fwork)
+)
+//
+(* ****** ****** *)
 
 (* end of [stream_vt.dats] *)

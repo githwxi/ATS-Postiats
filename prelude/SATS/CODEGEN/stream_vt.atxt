@@ -278,6 +278,12 @@ stream_vt_foreach_cloptr
   stream_vt(INV(a)), fwork: (&a >> a?!) -<cloptr1> void
 ) : void // end of [stream_vt_foreach_cloptr]
 //
+fun{a:vt0p}
+stream_vt_iforeach_cloptr
+(
+  stream_vt(INV(a)), fwork: (intGte(0), &a >> a?!) -<cloptr1> void
+) : void // end of [stream_vt_iforeach_cloptr]
+//
 #atscode_separator()
 //
 fun{
