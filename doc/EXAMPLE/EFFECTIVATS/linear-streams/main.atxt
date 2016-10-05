@@ -143,16 +143,16 @@ loop{n:nat} .<n>.
 """)</pre>
 
 A linear stream is represented as a linear thunk (that is, a nullary
-closure-function); the thunk evaluates to either a null node
-(indicating the end of the stream) or a non-null node containing both
-an element and another thunk (for subsequent use), and it then frees
-itself. Therefore, processing the linear stream constructed by a call
-to ##dyncode("fibseq_vt") only needs memory for storing one node and
-two thunks; each node contains one value of the type ##stacode("int")
-and one pointer; each thunk contains two values of the type
-##stacode("int") and one pointer. In order to test that this is indeed
-the case, we implement the following two functions in C for freeing and
-allocating memory:
+closure-function); the thunk evaluates to either a null node (indicating
+the end of the stream) or a non-null node containing both an element and
+another thunk (for subsequent use), and it then frees itself. Therefore,
+processing the linear stream constructed by a call to
+##dyncode("fibseq_vt") only needs memory for storing one node and two
+thunks; each node contains one value of the type ##stacode("int") and one
+pointer; each thunk contains two values of the type ##stacode("int") and
+one pointer. In order to test that this is indeed the case, I give as
+follows an implementation of two functions in C for freeing and allocating
+memory:
 
 <pre
 class="patsyntax">
