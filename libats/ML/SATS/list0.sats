@@ -662,16 +662,15 @@ x,y:t0p}{z:t0p
 } list0_zipwith
   (list0(INV(x)), list0(INV(y)), fopr: cfun2(x, y, z)): list0(z)
 *)
-macdef list0_zipwith = list0_map2
+macdef
+list0_zipwith = list0_map2
 //
 (* ****** ****** *)
 //
 fun
 {x,y:t0p}
 list0_cross
-(
-  list0(INV(x)), list0(INV(y))
-) :<> list0 @(x, y) // end-of-fun
+  (list0(INV(x)), list0(INV(y))) :<> list0 @(x, y)
 //
 overload * with list0_cross
 //
@@ -699,7 +698,7 @@ list0_foreach_choose2_method
   list0(INV(x))) (fwork: cfun2(x, x, void)
 ) : void // end-of-function
 //
-overload .foreach_choose with list0_foreach_choose2_method
+overload .foreach_choose2 with list0_foreach_choose2_method
 //
 (* ****** ****** *)
 //

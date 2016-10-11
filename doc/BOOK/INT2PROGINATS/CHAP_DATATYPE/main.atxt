@@ -740,7 +740,7 @@ case+ e0 of
 | IEXPadd (e1, e2) => eval_iexp (e1) + eval_iexp (e2)
 | IEXPsub (e1, e2) => eval_iexp (e1) - eval_iexp (e2)
 | IEXPmul (e1, e2) => eval_iexp (e1) * eval_iexp (e2)
-| IEXPdiv (e1, e2) => eval_iexp (e1) / eval_iexp (e1)
+| IEXPdiv (e1, e2) => eval_iexp (e1) / eval_iexp (e2)
 ) (* end of [eval_iexp] *)
 ")
 ")#comment("para")
