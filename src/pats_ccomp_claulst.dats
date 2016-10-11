@@ -258,16 +258,25 @@ fprint_matokenlst (out: FILEref, xs: matokenlst): void
 (* ****** ****** *)
 
 typedef
-patckontref = ref (patckont)
+patckontref = ref(patckont)
 
 (* ****** ****** *)
 //
 extern
 fun
-patckontref_make (): patckontref
-//
+patckontref_make
+  ((*void*)): patckontref
 implement
-patckontref_make () = ref_make_elt<patckont> (PTCKNTnone)
+patckontref_make
+  ((*void*)) = ref_make_elt<patckont>(PTCKNTnone)
+//
+extern
+fun
+patckontref_make_loc
+  (loc: location): patckontref
+implement
+patckontref_make_loc
+  (loc) = ref_make_elt<patckont>(PTCKNTcaseof_fail(loc))
 //
 (* ****** ****** *)
 
@@ -995,21 +1004,22 @@ case+ xs1 of
         (
           ptck, tpmv, tlab, opt, kntr
         ) => let
-          val rxs1 = list_vt_copy (rxs)
-          val rxs1 = list_vt_cons (PTCMPpatneg (ptck, tpmv), rxs1)
-          val pxs1 = list_vt_reverse (rxs1)
-          val ptjmp = patcomplst_subtests ($UN.linlst2lst(pxs1), xss2)
-          val ((*freed*)) = list_vt_free (pxs1)
+          val rxs1 = list_vt_copy(rxs)
+          val rxs1 = list_vt_cons(PTCMPpatneg(ptck, tpmv), rxs1)
+          val pxs1 = list_vt_reverse(rxs1)
+          val ptjmp = patcomplst_subtests($UN.linlst2lst(pxs1), xss2)
+          val ((*freed*)) = list_vt_free(pxs1)
         in
           !kntr := ptjmp
         end (* end of [PTCMPpatlparen] *)
-      | PTCMPtmplabgua (tlab, kntr) => let
-          val rxs1 = list_vt_copy (rxs)
-          val pxs1 = list_vt_reverse (rxs1)      
-          val ptjmp = patcomplst_subtests ($UN.linlst2lst(pxs1), xss2)
-          val ((*freed*)) = list_vt_free (pxs1)
+      | PTCMPtmplabgua(tlab, kntr) => let
+          val rxs1 = list_vt_copy(rxs)
+          val pxs1 = list_vt_reverse(rxs1)      
+          val ptjmp = patcomplst_subtests($UN.linlst2lst(pxs1), xss2)
+          val ((*freed*)) = list_vt_free(pxs1)
         in
-          !kntr := ptjmp
+          case+ ptjmp of // HX-2016-10-11: fixing bug-2016-10-08
+          | PTCKNTnone() => () | _(*non-PTCKNTnone*) => !kntr := ptjmp
         end (* end of [PTCMPtmplabgua] *)
       | _ (* rest-of-PTCMP *) => ((*void*))
     ) : void // end of [val]
@@ -1475,7 +1485,8 @@ case+ pmvs of
       if isnot
         then PTCMPtmplabend (tlab)
         else let
-          val kntr = patckontref_make () in PTCMPtmplabgua (tlab, kntr)
+          val loc = hicl.hiclau_loc
+          val kntr = patckontref_make_loc(loc) in PTCMPtmplabgua(tlab, kntr)
         end // end of [else]
       // end of [if]
     ) : patcomp // end of [val]
