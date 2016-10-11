@@ -512,7 +512,7 @@ case+ xs of
     | _ (*non-PTCMPtmplabgua*) => patcomplst_find_guafail(xs)
   end (* end of [list_cons] *)
 //
-| list_nil((*void*)) => PTCKNTnone ()
+| list_nil((*void*)) => PTCKNTnone(*void*)
 //
 end // end of [patcomplst_find_guafail]
 //
@@ -710,7 +710,7 @@ end // end of [patck_ismat]
 local
 
 typedef
-patcomplst1 = List1 (patcomp)
+patcomplst1 = List1(patcomp)
 
 fun
 auxlst
@@ -723,7 +723,7 @@ in
 //
 case xs10 of
 //
-| list_nil () => Some_vt (xs20)
+| list_nil() => Some_vt(xs20)
 //
 | list_cons _ =>
   (
@@ -1183,7 +1183,7 @@ auxcomplst
 in
 //
 case+ mtks of
-| list_nil () => list_vt_nil ()
+| list_nil() => list_vt_nil()
 | list_cons
     (mtk, mtks) => auxcomplst_mtk (lvl0, mtk, mtks)
   // end of [list_cons]
@@ -1424,8 +1424,10 @@ in
 case+ hips of
 | list_cons
     (hip, hips) => auxloc (hip, hips)
-| list_nil (
-  ) => $LOC.location_rightmost (hip.hipat_loc)
+  // end of [list_cons]
+| list_nil() =>
+    $LOC.location_rightmost (hip.hipat_loc)
+  // end of [list_nil]
 //
 end // end of [auxloc]
 //
@@ -1436,6 +1438,9 @@ fun auxlst
 in
 //
 case+ pmvs of
+| list_nil
+    ((*void*)) => list_nil()
+  // end of [list_nil]
 | list_cons
     (pmv, pmvs) => let
     val tpmv = TPMVnone (pmv)
@@ -1445,13 +1450,16 @@ case+ pmvs of
   in
     list_cons (mtk0, mtks)
   end // end of [list_cons]
-| list_nil () => list_nil ()
 //
 end // end of [auxlst]
 //
 in
 //
 case+ pmvs of
+//
+| list_nil
+    ((*void*)) => list_nil()
+  // end of [list_nil]
 //
 | list_cons
     (pmv, pmvs) => let
@@ -1475,8 +1483,6 @@ case+ pmvs of
   in
     list_of_list_vt (ptcmps)
   end // end of [list_cons]
-//
-| list_nil () => list_nil ()
 //
 end // end of [himatchlst_patcomp]
 
@@ -1523,6 +1529,9 @@ hiclaulst_patcomp
 in
 //
 case+ hicls of
+| list_nil
+    ((*void*)) => list_nil()
+  // end of [list_nil]
 | list_cons
     (hicl, hicls) => let
     val xs = hiclau_patcomp (lvl0, hicl, pmvs)
@@ -1530,7 +1539,6 @@ case+ hicls of
   in
     list_cons (xs, xss)
   end // end of [list_cons]
-| list_nil () => list_nil ()
 //
 end // end of [hiclaulst_patcomp]
 
@@ -1802,7 +1810,7 @@ val higs = hicl.hiclau_gua (* guard-list *)
 val () = (
 //
 case+ higs of
-| list_nil () => ()
+| list_nil() => ()
 | list_cons _ => let
     val () =
     instrseq_add_comment(res, "ibranch-guard:")
@@ -1854,7 +1862,10 @@ auxclist
 in
 //
 case+ hicls of
-| list_cons _ => let
+| list_nil
+    ((*void*)) => list_nil()
+  // end of [list_nil]
+| list_cons(_, _) => let
 //
     val+list_cons(hicl, hicls) = hicls
     val-list_cons(ptcmps, ptcmpss) = ptcmpss
@@ -1867,7 +1878,6 @@ case+ hicls of
   in
     list_cons(ibranch, ibranchs)
   end // end of [list_cons]
-| list_nil () => list_nil ()
 //
 end (* end of [auxclist] *)
 
