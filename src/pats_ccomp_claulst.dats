@@ -907,9 +907,9 @@ patcomplst_subtest
   (xs10, xs20) = let
 //
 var tmvlst
-  : tmpmovlst_vt = list_vt_nil ()
+  : tmpmovlst_vt = list_vt_nil()
 //
-val opt = auxlst (xs10, xs20, tmvlst)
+val opt = auxlst(xs10, xs20, tmvlst)
 //
 in
 //
@@ -917,18 +917,18 @@ case+
 :(
   tmvlst: tmpmovlst_vt?
 ) => opt of
-| ~None_vt () => let
-    val () = list_vt_free<tmpmov> (tmvlst)
+| ~None_vt() => let
+    val () = list_vt_free<tmpmov>(tmvlst)
   in
-    PTCKNTnone ((*void*))
+    PTCKNTnone((*void*))
   end // end of [None_vt]
-| ~Some_vt (xs2) => let
-    val () = auxmovfin (xs2, tmvlst)
-    val tmvlst = list_vt_reverse (tmvlst)
-    val tmvlst = list_of_list_vt (tmvlst)
-    val-~Some_vt(tlab) = patcomplst_find_tmplab (xs2)
+| ~Some_vt(xs2) => let
+    val () = auxmovfin(xs2, tmvlst)
+    val tmvlst = list_vt_reverse(tmvlst)
+    val tmvlst = list_of_list_vt(tmvlst)
+    val-~Some_vt(tlab) = patcomplst_find_tmplab(xs2)
   in
-    PTCKNTtmplabmov (tlab, tmvlst)
+    PTCKNTtmplabmov(tlab, tmvlst)
   end // end of [some_vt]
 //
 end // end of [patcomplst_subtest]
@@ -944,14 +944,14 @@ in
 //
 case+ xss2 of
 | list_nil
-    () => PTCKNTnone ()
+    () => PTCKNTnone()
   // end of [list_nil]
 | list_cons
     (xs2, xss2) => let
-    val ptjmp = patcomplst_subtest (xs1, xs2)
+    val ptjmp = patcomplst_subtest(xs1, xs2)
   in
     case+ ptjmp of
-    | PTCKNTnone () => patcomplst_subtests (xs1, xss2) | _ => ptjmp
+    | PTCKNTnone() => patcomplst_subtests(xs1, xss2) | _ => ptjmp
   end // end of [list_cons]
 //
 end // end of [patcomplst_subtests]
