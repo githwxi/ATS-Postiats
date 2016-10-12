@@ -371,6 +371,7 @@ ATSCNTRB/libatscc\
 
 #packfilename("libatscc2pl/SATS/list.sats")
 #packfilename("libatscc2pl/SATS/PLarray.sats")
+#packfilename("libatscc2pl/SATS/arrayref.sats")
 
 (* ****** ****** *)
 
@@ -449,6 +450,8 @@ ATSCNTRB/libatscc\
 #packfilename("libatscc2py3/DATS/slistref.dats")
 #packfilename("libatscc2py3/DATS/qlistref.dats")
 
+#packfilename("libatscc2py3/SATS/ML/list0.sats")
+#packfilename("libatscc2py3/SATS/ML/array0.sats")
 
 (* ****** ****** *)
 

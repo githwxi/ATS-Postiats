@@ -728,8 +728,8 @@ list0_iforeach_xprod2_method
   list0(INV(x)), list0(INV(y))) (fwork: cfun4(intGte(0), x, intGte(0), y, void)
 ) : void // end-of-function
 //
-overload .foreach_xprod with list0_foreach_xprod2_method
-overload .iforeach_xprod with list0_iforeach_xprod2_method
+overload .foreach_xprod2 with list0_foreach_xprod2_method
+overload .iforeach_xprod2 with list0_iforeach_xprod2_method
 //
 (* ****** ****** *)
 

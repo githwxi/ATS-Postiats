@@ -27,6 +27,10 @@ Here is a list of major additions and changes since the last release:
 1. Reorganizing: libc -> libats/libc (pervasive changes!!!)
 2. FILEref-values are no longer closed automatically when embedded in
    stream_vt (but FILEptr-values are still closed at the end)
+3. Fixing bug-2016-10-08, which was reported by Hanwen. Thanks!
+4. Significantly expanding libatscc
+5. Adding support for stream_vt in the following compilers:
+   atscc2js, atscc2py3, atscc2scm, atscc2clj, atscc2php, atscc2pl
 
 ######
 
