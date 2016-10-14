@@ -86,13 +86,14 @@ implement main0 () = myserver ()
 
 (* ****** ****** *)
 //
-staload "libc/SATS/time.sats"
-staload "libc/SATS/unistd.sats"
+staload "libats/libc/SATS/time.sats"
+staload "libats/libc/SATS/unistd.sats"
 //
-staload "libc/sys/SATS/socket.sats"
-staload "libc/arpa/SATS/inet.sats"
-staload "libc/netinet/SATS/in.sats"
-staload "libc/sys/SATS/socket_in.sats"
+staload "libats/libc/SATS/sys/socket.sats"
+staload "libats/libc/SATS/sys/socket_in.sats"
+//
+staload "libats/libc/SATS/arpa/inet.sats"
+staload "libats/libc/SATS/netinet/in.sats"
 //
 (* ****** ****** *)
 
@@ -132,11 +133,11 @@ extvar "theSockID" = sockfd
 val () =
 $extfcall
 (
-  void, "atslib_bind_exn", sockfd, addr@servaddr, socklen_in
+  void, "atslib_libc_bind_exn", sockfd, addr@servaddr, socklen_in
 ) (* end of [val] *)
 //
 val () =
-$extfcall (void, "atslib_listen_exn", sockfd, 5(*LISTENQSZ*))
+$extfcall (void, "atslib_libc_listen_exn", sockfd, 5(*LISTENQSZ*))
 //
 } (* end of [myserver_init] *)
 

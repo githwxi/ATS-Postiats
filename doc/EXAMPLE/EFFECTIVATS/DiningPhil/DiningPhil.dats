@@ -19,12 +19,12 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libc/SATS/fcntl.sats"
-staload "libc/SATS/unistd.sats"
-staload "libc/SATS/stdlib.sats"
-staload "libc/sys/SATS/stat.sats"
-staload "libc/sys/SATS/types.sats"
-staload "libc/sys/SATS/mman.sats"
+staload "libats/libc/SATS/fcntl.sats"
+staload "libats/libc/SATS/unistd.sats"
+staload "libats/libc/SATS/stdlib.sats"
+staload "libats/libc/SATS/sys/stat.sats"
+staload "libats/libc/SATS/sys/types.sats"
+staload "libats/libc/SATS/sys/mman.sats"
 
 (* ****** ****** *)
 

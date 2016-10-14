@@ -28,8 +28,8 @@ UN =
 
 (* ****** ****** *)
 //
-staload "libc/SATS/stdlib.sats"
-staload "libc/SATS/unistd.sats"
+staload "libats/libc/SATS/stdlib.sats"
+staload "libats/libc/SATS/unistd.sats"
 //
 (* ****** ****** *)
 //

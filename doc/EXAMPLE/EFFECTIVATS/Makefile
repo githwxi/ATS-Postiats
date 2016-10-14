@@ -89,10 +89,10 @@ IPC-hiredis
 IPC-hiredis:: ; \
 make -C $@ $(TARGET)
 
-all :: \
-http-server
-http-server:: ; \
-make -C $@ $(TARGET)
+# all :: \
+# http-server
+# http-server:: ; \
+# make -C $@ $(TARGET)
 
 all :: \
 Sierpinski-3angle

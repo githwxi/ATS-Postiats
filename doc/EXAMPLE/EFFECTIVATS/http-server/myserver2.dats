@@ -86,7 +86,8 @@ implement main0 () = myserver ()
 
 (* ****** ****** *)
 //
-staload "libc/SATS/time.sats"
+staload
+"libats/libc/SATS/time.sats"
 //
 staload "{$ZEROMQ}/SATS/zmq.sats"
 staload "{$ZEROMQ}/SATS/czmq.sats"
