@@ -6,7 +6,15 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
-ATS-2016-07-10:<br>
+ATS-2016-10-13:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/-9E9WJWQWbQ"
+>ATS2-0.2.11 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+  
+<hr></hr>
+
+ATS-2016-09-23:<br>
 <a
  href="http://metasepi.org/en/posts/2016-09-17-c2ats.html"
 >Automatic interface generation for ATS from C</a><br>
@@ -137,6 +145,8 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
+<!--
+
 ATS-2015-09-22:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/vO0h2ezMV3E"
@@ -158,8 +168,6 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
-<!--
 
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/3XXa-18GLOc"

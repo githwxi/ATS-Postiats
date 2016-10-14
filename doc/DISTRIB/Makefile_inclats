@@ -45,12 +45,14 @@ update:: ; \
 update:: ; \
   $(CPF) $(SRC)/prelude/CATS/*.cats $(DST)/prelude/CATS/.
 #
-update:: ; $(CPF) $(SRC)/libc/CATS/*.cats $(DST)/libc/CATS/.
-update:: ; $(CPF) $(SRC)/libc/sys/CATS/*.cats $(DST)/libc/sys/CATS/.
-update:: ; $(CPF) $(SRC)/libc/gdbm/CATS/*.cats $(DST)/libc/gdbm/CATS/.
-#
 update:: ; $(CPF) $(SRC)/libats/CATS/*.cats $(DST)/libats/CATS/.
 update:: ; $(CPF) $(SRC)/libats/ML/CATS/*.cats $(DST)/libats/ML/CATS/.
+#
+update:: ; $(CPF) $(SRC)/libats/libc/CATS/*.cats $(DST)/libats/libc/CATS/.
+update:: ; $(CPF) $(SRC)/libats/libc/CATS/sys/*.cats $(DST)/libats/libc/CATS/sys/.
+update:: ; $(CPF) $(SRC)/libats/libc/CATS/arpa/*.cats $(DST)/libats/libc/CATS/arpa/.
+update:: ; $(CPF) $(SRC)/libats/libc/CATS/netinet/*.cats $(DST)/libats/libc/CATS/netinet/.
+update:: ; $(CPF) $(SRC)/libats/libc/CATS/gdbm/*.cats $(DST)/libats/libc/CATS/gdbm/.
 #
 ######
 #
@@ -110,7 +112,8 @@ TARZVCF=tar zvcf
 
 ######
 #
-PACKNAME=ATS2-Postiats-include-0.2.10
+PACKNAME=ATS2-Postiats-include-0.2.11
+# PACKNAME=ATS2-Postiats-include-0.2.10
 # PACKNAME=ATS2-Postiats-include-0.2.9
 # PACKNAME=ATS2-Postiats-include-0.2.8
 # PACKNAME=ATS2-Postiats-include-0.2.7
