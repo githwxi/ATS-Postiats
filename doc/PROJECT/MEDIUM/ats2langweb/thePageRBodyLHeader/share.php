@@ -52,6 +52,7 @@ thePageRBodyLHeader_Community()
   echo "<li><a href=\"#ATS_wikipage\">Wiki for ATS users</a></li>\n";
   echo "<li><a href=\"#ATS_subreddit\">ATS news links at reddit</a></li>\n";
   echo "<li><a href=\"#ATS_IRC_channel\">IRC channel for ATS users</a></li>\n";
+  echo "<li><a href=\"#ATS_stackoverflow_tag\">StackOverflow tag for ATS</a></li>\n";
   echo "<li><a href=\"#ATS_QandA_forum\">Q&amp;A forum for ATS users</a></li>\n";
   echo "<li><a href=\"#ATS_devel_forum\">Discussion forum for ATS developers</a></li>\n";
   echo "<li><a href=\"#ATS_mailing_list\">Mailing-list for ATS users</a></li>\n";
