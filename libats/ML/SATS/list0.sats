@@ -293,7 +293,7 @@ list0_reverse_append
   (xs: list0(INV(a)), ys: list0(a)):<> list0(a)
 // end of [list0_reverse_append]
 
-macdef list0_revapp = list_reverse_append
+macdef list0_revapp = list0_reverse_append
 
 (* ****** ****** *)
 //
@@ -725,24 +725,35 @@ fun
 {x,y:t0p}
 list0_iforeach_xprod2_method
 (
-  list0(INV(x)), list0(INV(y))) (fwork: cfun4(intGte(0), x, intGte(0), y, void)
+  list0(INV(x)), list0(INV(y)))(fwork: cfun4(intGte(0), x, intGte(0), y, void)
 ) : void // end-of-function
 //
 overload .foreach_xprod2 with list0_foreach_xprod2_method
 overload .iforeach_xprod2 with list0_iforeach_xprod2_method
 //
 (* ****** ****** *)
+//
+fun
+{a,b:t0p}
+streamize_list0_zip
+  (list0(INV(a)), list0(INV(b))):<!wrt> stream_vt(@(a, b))
+fun
+{a,b:t0p}
+streamize_list0_cross
+  (list0(INV(a)), list0(INV(b))):<!wrt> stream_vt(@(a, b))
+//
+(* ****** ****** *)
 
 fun{a:t0p}
 list0_quicksort
-  (xs: NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
+  (NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
 // end of [list0_quicksort]
 
 (* ****** ****** *)
 
 fun{a:t0p}
 list0_mergesort
-  (xs: NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
+  (NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
 // end of [list0_mergesort]
 
 (* ****** ****** *)

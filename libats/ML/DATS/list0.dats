@@ -1620,7 +1620,23 @@ implement
 {x,y}(*tmp*)
 list0_iforeach_xprod2_method
   (xs, ys) =
-  lam(fwork) => list0_iforeach_xprod2<x,y>(xs, ys, fwork)
+(
+lam(fwork) => list0_iforeach_xprod2<x,y>(xs, ys, fwork)
+)
+//
+(* ****** ****** *)
+//
+implement
+{a,b}(*tmp*)
+streamize_list0_zip
+  (xs, ys) =
+  streamize_list_zip<a,b>(g1ofg0(xs), g1ofg0(ys))
+//
+implement
+{a,b}(*tmp*)
+streamize_list0_cross
+  (xs, ys) =
+  streamize_list_cross<a,b>(g1ofg0(xs), g1ofg0(ys))
 //
 (* ****** ****** *)
 
