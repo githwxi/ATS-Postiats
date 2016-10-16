@@ -944,10 +944,24 @@ a:t0p
 #atscode_separator()
 //
 fun{a:t0p}
-streamize_list_elt(List(a)):<!wrt> stream_vt(a)
+streamize_list_elt
+  (xs: List(INV(a))):<!wrt> stream_vt(a)
 //
 fun{a:t0p}
-streamize_list_choose2(List(a)):<!wrt> stream_vt(@(a, a))
+streamize_list_choose2
+  (xs: List(INV(a))):<!wrt> stream_vt(@(a, a))
+//
+#atscode_separator()
+//
+fun
+{a,b:t0p}
+streamize_list_zip
+  (List(INV(a)), List(INV(b))):<!wrt> stream_vt(@(a, b))
+//
+fun
+{a,b:t0p}
+streamize_list_cross
+  (List(INV(a)), List(INV(b))):<!wrt> stream_vt(@(a, b))
 //
 #atscode_separator()
 //
