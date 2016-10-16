@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2016-10-15:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/qGw-xpQVuOM"
+>A StackOverflow tag for ATS</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+  
+<hr></hr>
+
 ATS-2016-10-13:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/-9E9WJWQWbQ"
