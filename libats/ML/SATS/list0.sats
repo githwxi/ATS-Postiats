@@ -616,6 +616,25 @@ a:t0p}{b:t0p
 //
 (* ****** ****** *)
 //
+fun{
+a:t0p}{b:t0p
+} list0_map_method
+(
+  list0(INV(a)), TYPE(b))(fopr: cfun(a, b)
+) : list0(b) // end-of-function
+//
+fun{
+a:t0p}{b:t0p
+} list0_mapopt_method
+(
+  list0(INV(a)), TYPE(b))(fopr: cfun(a, Option_vt(b))
+) : list0(b) // end-of-function
+//
+overload .map with list0_map_method
+overload .mapopt with list0_mapopt_method
+//
+(* ****** ****** *)
+//
 fun{a:t0p}
 list0_mapcons
   (x0: a, xss: list0(list0(INV(a)))): list0(list0(a))

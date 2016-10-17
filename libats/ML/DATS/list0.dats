@@ -1305,6 +1305,19 @@ val res = list0_of_list_vt (res)
 } // end of [list0_mapopt]
 
 (* ****** ****** *)
+//
+implement
+{a}{b}
+list0_map_method
+  (xs, _) =
+  lam(fopr) => list0_map<a><b>(xs, fopr)
+implement
+{a}{b}
+list0_mapopt_method
+  (xs, _) =
+  lam(fopr) => list0_mapopt<a><b>(xs, fopr)
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
