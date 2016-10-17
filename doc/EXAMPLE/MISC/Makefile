@@ -124,6 +124,14 @@ clean:: ; $(RMF) hanoi_dats.o
 clean:: ; $(RMF) hanoi_dats.c
 cleanall:: ; $(RMF) hanoi hanoi.exe
 
+all:: intsqrt_cps
+intsqrt_cps: intsqrt_cps.exe
+intsqrt_cps.exe: intsqrt_cps_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+intsqrt_cps_dats.c: intsqrt_cps.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output intsqrt_cps_dats.c --dynamic intsqrt_cps.dats
+clean:: ; $(RMF) intsqrt_cps_dats.o
+clean:: ; $(RMF) intsqrt_cps_dats.c
+cleanall:: ; $(RMF) intsqrt_cps intsqrt_cps.exe
+
 all:: monad_list
 monad_list: monad_list.exe
 monad_list.exe: monad_list_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

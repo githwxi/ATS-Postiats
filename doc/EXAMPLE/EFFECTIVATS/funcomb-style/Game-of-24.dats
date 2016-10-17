@@ -46,14 +46,14 @@ solve_ones : explstlst -> explstlst
 
 extern
 fun
-choose2 : explst -> list0($tup(exp, exp, explst))
+choose2_rest : explst -> list0($tup(exp, exp, explst))
 
 (* ****** ****** *)
 
 implement
 solve_one(xs) =
 list0_concat(
-(choose2(xs)).map(TYPE{explstlst})
+(choose2_rest(xs)).map(TYPE{explstlst})
 (
 lam($tup(x1, x2, ys)) =>
   (fopr_exp_exp(x1, x2)).map(TYPE{explst})(lam x12 => cons0(x12, ys))
@@ -80,15 +80,15 @@ play24
 implement
 play24(n1, n2, n3, n4) = let
 //
-  val ns = nil0()
-  val ns = cons0(int2exp(n4), ns)
-  val ns = cons0(int2exp(n3), ns)
-  val ns = cons0(int2exp(n2), ns)
-  val ns = cons0(int2exp(n1), ns)
+val xs = nil0()
+val xs = cons0(int2exp(n4), xs)
+val xs = cons0(int2exp(n3), xs)
+val xs = cons0(int2exp(n2), xs)
+val xs = cons0(int2exp(n1), xs)
 //
-  val xss = solve_one(ns)
-  val xss = solve_ones(xss)
-  val xss = solve_ones(xss)
+val xss = solve_one(xs)
+val xss = solve_ones(xss)
+val xss = solve_ones(xss)
 //
 in
 //
