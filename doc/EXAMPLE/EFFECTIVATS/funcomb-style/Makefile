@@ -14,19 +14,20 @@ PATSCC2=$(PATSCC) \
 
 ######
 
-MYTEXTING=./../ATEXT/bin/mytexting
+MYTEXTING=./../MYTEXT/bin/mytexting
 
 ######
-
-all:: main.html
+#
+all:: \
+main.html
 main.html: main.atxt ; $(MYTEXTING) -o $@ -i $<
-
+#
 ######
 
 upload_main: \
   main.html ; \
   scp main.html \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/list-folding/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/funcomb-style/
 
 ######
 

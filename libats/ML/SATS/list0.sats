@@ -731,7 +731,7 @@ fun
 {x,y:t0p}
 list0_foreach_xprod2_method
 (
-  list0(INV(x)), list0(INV(y))) (fwork: cfun2(x, y, void)
+  list0(INV(x)), list0(INV(y)))(fwork: cfun2(x, y, void)
 ) : void // end-of-function
 //
 fun{
@@ -749,6 +749,31 @@ list0_iforeach_xprod2_method
 //
 overload .foreach_xprod2 with list0_foreach_xprod2_method
 overload .iforeach_xprod2 with list0_iforeach_xprod2_method
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+streamize_list0_elt
+  (list0(INV(a))):<!wrt> stream_vt(a)
+//
+fun{a:t0p}
+streamize_list0_choose2
+  (list0(INV(a))):<!wrt> stream_vt(@(a, a))
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+streamize_list0_nchoose
+(
+  xs: list0(INV(a)), n: intGte(0)
+) :<!wrt> stream_vt(list0(a))
+fun
+{a:t0p}
+streamize_list0_nchoose_rest
+(
+  xs: list0(INV(a)), n: intGte(0)
+) :<!wrt> stream_vt(@(list0(a), list0(a)))
 //
 (* ****** ****** *)
 //

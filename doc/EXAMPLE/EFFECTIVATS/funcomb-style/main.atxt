@@ -24,6 +24,7 @@ where a sequence may refer to either a list or a stream (that is,
 a lazy list) in ATS.
 ')##comment("para")
 
+<h2>Game-of-24</h2>
 
 <h2>Compiling and Testing</h2>
 
