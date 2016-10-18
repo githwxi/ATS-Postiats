@@ -12,17 +12,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 \
 #atscode_separator()
 
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("June, 2012")
+
+#atscode_separator()
+
 (*
 ** Source:
 ** $PATSHOME/prelude/SATS/CODEGEN/intrange.atxt
 ** Time of generation: #timestamp()
 *)
-
-#atscode_separator()
-
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("June, 2012")
 
 #atscode_separator()
 //

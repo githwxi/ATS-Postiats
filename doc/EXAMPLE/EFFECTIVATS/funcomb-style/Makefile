@@ -50,9 +50,6 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) main.html
-cleanall:: ; $(RMF) list_fold_left
-cleanall:: ; $(RMF) list_fold_right
-cleanall:: ; $(RMF) list_fold_split
 
 ######
 

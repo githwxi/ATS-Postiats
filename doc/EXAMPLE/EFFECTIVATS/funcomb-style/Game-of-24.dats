@@ -23,6 +23,17 @@ extern
 fun
 int2exp : int -> exp
 
+(* ****** ****** *)
+//
+extern
+fun
+eval_exp : exp -> double
+//
+(* ****** ****** *)
+
+extern
+fun
+exp_is_0 : (exp) -> bool
 extern
 fun
 exp_is_24 : (exp) -> bool
