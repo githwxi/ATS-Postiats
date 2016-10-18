@@ -274,7 +274,7 @@ function. However, the factorial function, which yields the product of the
 first n positive integers when applied to a natural number n, cannot be
 given the following type:
 
-#atscode("{n:nat} int(n) -> int(fact(n))")
+#atscode("{n:int | n >= 0} int(n) -> int(fact(n))")
 
 as #stacode("fact"), which refers to the factorial function, does not exist in
 the statics of ATS. Evidently, a highly interesting and relevant question is
