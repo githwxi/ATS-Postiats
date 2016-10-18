@@ -765,15 +765,14 @@ streamize_list0_choose2
 fun
 {a:t0p}
 streamize_list0_nchoose
-(
-  xs: list0(INV(a)), n: intGte(0)
-) :<!wrt> stream_vt(list0(a))
+  (list0(INV(a)), intGte(0)):<!wrt> stream_vt(list0(a))
+//
+(*
 fun
 {a:t0p}
 streamize_list0_nchoose_rest
-(
-  xs: list0(INV(a)), n: intGte(0)
-) :<!wrt> stream_vt(@(list0(a), list0(a)))
+  (list0(INV(a)), intGte(0)):<!wrt> stream_vt(@(list0(a), list0(a)))
+*)
 //
 (* ****** ****** *)
 //
