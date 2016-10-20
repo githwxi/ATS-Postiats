@@ -68,7 +68,8 @@ stream2list (xs) = let
 //
 fun loop
 (
-  xs: stream (a), res: &ptr? >> List0_vt (a)
+  xs: stream(a)
+, res: &ptr? >> List0_vt(a)
 ) : void = let
 in
   case+ !xs of
@@ -105,7 +106,8 @@ loop
 ) :<!laz> intGte(0) =
 (
 case+ !xs of
-| stream_nil() => j | stream_cons(_, xs) => loop(xs, j+1)
+| stream_nil() => j
+| stream_cons(_, xs) => loop(xs, j+1)
 )
 //
 } (* end of [stream_length] *)
@@ -118,7 +120,9 @@ stream_head_exn(xs) =
 (
 //
 case+ !xs of
-| stream_cons(x, _) => x
+| stream_cons
+    (x, _) => x
+  // stream_cons
 | stream_nil() => $raise StreamSubscriptExn()
 //
 ) // end of [stream_head_exn]
@@ -129,7 +133,9 @@ stream_tail_exn(xs) =
 (
 //
 case+ !xs of
-| stream_cons(_, xs) => xs
+| stream_cons
+    (_, xs) => xs
+  // stream_cons
 | stream_nil() => $raise StreamSubscriptExn()
 //
 ) // end of [stream_tail_exn]
