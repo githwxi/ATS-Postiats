@@ -180,6 +180,15 @@ d2exp_trdn_lam_sta_nil(d2e: d2exp, s2f0: s2hnf): d3exp
 //
 extern
 fun
+d2exp_trdn_delay (d2e0: d2exp, s2f0: s2hnf): d3exp
+extern
+fun
+d2exp_trdn_ldelay (d2e0: d2exp, s2f0: s2hnf): d3exp
+//
+(* ****** ****** *)
+//
+extern
+fun
 d2exp_trdn_trywith (d2e0: d2exp, s2f0: s2hnf): d3exp
 //
 (* ****** ****** *)
@@ -306,6 +315,9 @@ of // case+
 | D2Elam_sta(s2vs, _, _)
     when list_is_nil(s2vs) => d2exp_trdn_lam_sta_nil(d2e0, s2f0)
   // end of [D2Elam_sta_nil]
+//
+| D2Edelay _ => d2exp_trdn_delay(d2e0, s2f0)
+| D2Eldelay _ => d2exp_trdn_ldelay(d2e0, s2f0)
 //
 | D2Etrywith _ => d2exp_trdn_trywith(d2e0, s2f0)
 //
@@ -1276,6 +1288,71 @@ d2exp_trdn_exist
 in
   d2exp_trdn (d2e1, s2e_ins)
 end // end of [d2exp_trdn_exist]
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_delay
+  (d2e0, s2f0) = let
+//
+val loc0 = d2e0.d2exp_loc
+//
+val-D2Edelay(d2e) = d2e0.d2exp_node
+//
+val s2e0 = s2hnf2exp (s2f0)
+val s2eopt = un_s2exp_lazy_t0ype_type(s2f0)
+//
+in
+//
+case+
+s2eopt
+of (* case+ *)
+//
+| ~None_vt((*void*)) =>
+    d2exp_trdn_rest(d2e0, s2f0)
+  // end of [None_vt]
+| ~Some_vt(s2e) => let
+    val d3e =
+      d2exp_trdn(d2e, s2e)
+    // end of [val]
+  in
+    d3exp_delay(loc0, s2e0, d3e)
+  end // end of [Some_vt]
+//
+end // end of [d2exp_trdn_delay]
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_ldelay
+  (d2e0, s2f0) = let
+//
+val loc0 = d2e0.d2exp_loc
+//
+val-D2Eldelay(d2e, d2eopt) = d2e0.d2exp_node
+//
+val s2e0 = s2hnf2exp (s2f0)
+val s2eopt = un_s2exp_lazy_vt0ype_vtype(s2f0)
+//
+in
+//
+case+
+s2eopt
+of (* case+ *)
+//
+| ~None_vt((*void*)) =>
+    d2exp_trdn_rest(d2e0, s2f0)
+  // end of [None_vt]
+| ~Some_vt(s2e) => let
+    val d2e =
+      d2exp_ann_type(d2e.d2exp_loc, d2e, s2e)
+    // end of [val]
+    val d2e0 = d2exp_ldelay(loc0, d2e, d2eopt)
+  in
+    d2exp_trdn_rest(d2e0, s2f0) 
+  end // end of [Some_vt]
+//
+end // end of [d2exp_trdn_ldelay]
 
 (* ****** ****** *)
 

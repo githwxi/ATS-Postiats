@@ -689,9 +689,9 @@ list0_zipwith = list0_map2
 fun
 {x,y:t0p}
 list0_cross
-  (list0(INV(x)), list0(INV(y))) :<> list0 @(x, y)
+  (list0(INV(x)), list0(INV(y))):<> list0 @(x, y)
 //
-overload * with list0_cross
+overload * with list0_cross of 10
 //
 (* ****** ****** *)
 //

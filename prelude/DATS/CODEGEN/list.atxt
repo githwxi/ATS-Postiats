@@ -38,13 +38,26 @@ List0_(a:t@ype+) = List0(a)
 
 #atscode_separator()
 
-implement
-{x}(*tmp*)
-list_make_sing (x) = list_vt_cons{x}(x, list_vt_nil)
-implement
-{x}(*tmp*)
-list_make_pair (x1, x2) = list_vt_cons{x}(x1, list_vt_cons{x}(x2, list_vt_nil))
+primplmnt
+lemma_list_param(xs) =
+(
+//
+case+ xs of
+| list_nil _ => () | list_cons _ => ()
+//
+) (* lemma_list_param *)
 
+#atscode_separator()
+//
+implement
+{x}(*tmp*)
+list_make_sing(x) =
+  list_vt_cons{x}(x, list_vt_nil)
+implement
+{x}(*tmp*)
+list_make_pair(x1, x2) =
+  list_vt_cons{x}(x1, list_vt_cons{x}(x2, list_vt_nil))
+//
 #atscode_separator()
 
 implement
@@ -73,9 +86,12 @@ implement
 list_make_intrange
   {l0,r} (l0, r) = let
 //
-typedef elt = intBtw (l0, r)
-vtypedef res (l:int) = list_vt (elt, r-l)
-fun loop {
+typedef elt = intBtw(l0, r)
+vtypedef res(l:int) = list_vt(elt, r-l)
+//
+fun
+loop
+{
   l:int | l0 <= l; l <= r
 } .<r-l>. (
   l: int l, r: int r, res: &ptr? >> res (l)

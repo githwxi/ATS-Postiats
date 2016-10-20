@@ -23,6 +23,7 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Significantly expanding libatscc
+2. Improving typechecking involving $delay and $ldelay
 
 ######
 

@@ -44,11 +44,11 @@ istot{n:nat} .<n>.
 //
 sif
 n == 0
-then FIBbas0 ()
+then FIBbas0()
 else (
   sif n == 1
-    then FIBbas1 ()
-    else FIBind2 (istot{n-2}(), istot{n-1}())
+    then FIBbas1()
+    else FIBind2(istot{n-2}(), istot{n-1}())
   // end of [sif]
 ) (* end of [else] *)
 //

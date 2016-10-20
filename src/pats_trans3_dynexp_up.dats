@@ -1992,7 +1992,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-d2exp_trup_delay (d2e0) = let
+d2exp_trup_delay
+  (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
 val-D2Edelay (d2e_eval) = d2e0.d2exp_node
@@ -2026,7 +2027,8 @@ end // end of [d2exp_delay_trup]
 (* ****** ****** *)
 
 implement
-d2exp_trup_ldelay (d2e0) = let
+d2exp_trup_ldelay
+  (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
 val-D2Eldelay (d2e_eval, opt) = d2e0.d2exp_node
@@ -2051,7 +2053,7 @@ val () = lstbefitmlst_restore_type (lsbis)
 //
 val d2e_free =
 (
-case opt of Some (d2e) => d2e | None () => d2exp_empty (loc_eval)
+case opt of Some(d2e) => d2e | None() => d2exp_empty(loc_eval)
 ) : d2exp // end of [val]
 //
 val loc_free = d2e_free.d2exp_loc
