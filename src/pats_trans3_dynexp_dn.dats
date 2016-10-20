@@ -1311,13 +1311,15 @@ of (* case+ *)
 | ~None_vt((*void*)) =>
     d2exp_trdn_rest(d2e0, s2f0)
   // end of [None_vt]
-| ~Some_vt(s2e) => let
-    val d3e =
-      d2exp_trdn(d2e, s2e)
-    // end of [val]
-  in
-    d3exp_delay(loc0, s2e0, d3e)
-  end // end of [Some_vt]
+| ~Some_vt(s2e) =>
+    d2exp_trup(d2e0) where
+  {
+    val loc =
+      d2e.d2exp_loc
+    val d2e =
+      d2exp_ann_type(loc, d2e, s2e)
+    val d2e0 = d2exp_delay(loc0, d2e)
+  } (* end of [Some_vt] *)
 //
 end // end of [d2exp_trdn_delay]
 
@@ -1343,14 +1345,14 @@ of (* case+ *)
 | ~None_vt((*void*)) =>
     d2exp_trdn_rest(d2e0, s2f0)
   // end of [None_vt]
-| ~Some_vt(s2e) => let
+| ~Some_vt(s2e) =>
+    d2exp_trup(d2e0) where
+  {
     val d2e =
       d2exp_ann_type(d2e.d2exp_loc, d2e, s2e)
     // end of [val]
     val d2e0 = d2exp_ldelay(loc0, d2e, d2eopt)
-  in
-    d2exp_trdn_rest(d2e0, s2f0) 
-  end // end of [Some_vt]
+  } (* end of [Some_vt] *)
 //
 end // end of [d2exp_trdn_ldelay]
 
