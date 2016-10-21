@@ -12,17 +12,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("July, 2012")
+
+#atscode_separator()
+
 (*
 ** Source:
 ** $PATSHOME/prelude/DATS/CODEGEN/list.atxt
 ** Time of generation: #timestamp()
 *)
-
-#atscode_separator()
-
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("gmhwxiATgmailDOTcom")
-#atscode_start_time("July, 2012")
 
 #atscode_separator()
 
@@ -489,7 +489,9 @@ case+ !xss of
   // end of [stream_vt_cons]
 )
 ,
-~(xss) // HX: freeing the stream!
+(
+  ~xss
+) (* HX: freeing the stream! *)
 )
 //
 } (* end of [stream_vt_concat] *)
@@ -542,7 +544,9 @@ end // end of [let]
 //
 ,
 //
-~(xs) // HX: for freeing the stream!
+(
+  ~xs
+) (* HX: for freeing the stream! *)
 //
 ) (* end of auxmain *)
 //
@@ -683,7 +687,9 @@ end // end of [let]
 //
 ,
 //
-~(xs) // HX: for freeing the stream!
+(
+  ~xs
+) (* HX: for freeing the stream! *)
 //
 ) (* end of auxmain *)
 //
@@ -727,7 +733,9 @@ end // end of [let]
 //
 ,
 //
-~(xs) // called when the stream is freed
+(
+  ~xs
+) (* HX: for freeing the stream! *)
 //
 ) (* end of [auxmain] *)
 //
@@ -949,7 +957,9 @@ case+ !xs of
   // end of [stream_vt_cons]
 )
 ,
-~(xs) // HX: for freeing the stream!
+(
+  ~xs
+) // HX: for freeing the stream!
 ) (* end of [auxmain] *)
 //
 in

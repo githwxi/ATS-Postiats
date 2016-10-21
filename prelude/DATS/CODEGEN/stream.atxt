@@ -12,17 +12,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("July, 2012")
+
+#atscode_separator()
+
 (*
 ** Source:
 ** $PATSHOME/prelude/DATS/CODEGEN/list.atxt
 ** Time of generation: #timestamp()
 *)
-
-#atscode_separator()
-
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("gmhwxiATgmailDOTcom")
-#atscode_start_time("July, 2012")
 
 #atscode_separator()
 
@@ -185,30 +185,37 @@ implement
 stream_take_exn
   (xs, n) = let
 //
-fun loop{n:nat}
+fun
+loop{n:nat}
 (
-  xs: stream a, res: &ptr? >> list_vt (a, n-k), n: int n
+  xs: stream(a)
+, res: &ptr? >> list_vt(a, n-k), n: int(n)
 ) : #[k:nat | k <= n] int k =
-  if n > 0 then (
-    case+ !xs of
-    | stream_cons
-        (x, xs) => let
-        val () =
-        res := list_vt_cons{a}{0}(x, _)
-        val+list_vt_cons (_, res1) = res
-        val k = loop (xs, res1, pred(n))
-        prval () = fold@ (res)
-      in
-        k
-      end // end of [stream_cons]
-    | stream_nil() => let
-        val () =
-          res := list_vt_nil() in n
-        // end of [val]
-      end // end of [stream_nil]
-  ) else let
-    val () = res := list_vt_nil() in n
-  end // end of [if]
+(
+//
+if
+(n > 0)
+then (
+  case+ !xs of
+  | stream_cons
+      (x, xs) => k where
+    {
+      val () =
+      res := list_vt_cons{a}{0}(x, _)
+      val+list_vt_cons (_, res1) = res
+      val k = loop (xs, res1, pred(n))
+      prval () = fold@ (res)
+    } (* end of [stream_cons] *)
+  | stream_nil() => let
+      val () =
+        res := list_vt_nil() in n
+      // end of [val]
+    end // end of [stream_nil]
+) else (
+  let val () = res := list_vt_nil() in n end
+) (* end of [if] *)
+//
+) (* end of [loop] *)
 //
 var res: ptr // uninitialized
 val k = $effmask_all (loop (xs, res, n))
@@ -259,7 +266,7 @@ fun aux
 //
 in
 //
-  $delay (aux (xs, ys))
+  $delay(aux(xs, ys))
 //
 end // end of [stream_append]
 
@@ -267,7 +274,8 @@ end // end of [stream_append]
 
 implement
 {a}(*tmp*)
-stream_concat (xss) = let
+stream_concat
+  (xss) = let
 //
 fun aux1
 (
@@ -287,7 +295,7 @@ and aux2
   | stream_cons(x, xs) => stream_cons (x, $delay(aux2(xs, xss)))
 //
 in
-  $delay (aux1 (xss))
+  $delay(aux1(xss))
 end // end of [stream_concat]
 
 #atscode_separator()
@@ -296,7 +304,9 @@ local
 
 fun{a:t0p}
 stream_filter_con
-  (xs: stream a): stream_con(a) = let
+(
+xs: stream(a)
+) : stream_con(a) = let
 in
 //
 case+ !xs of
@@ -521,7 +531,7 @@ stream_scan
 fun aux
 (
   xs: stream(x), ini: res
-) :<!laz> stream (res) = $delay
+) :<!laz> stream(res) = $delay
 (
 case+ !xs of
 | stream_nil
@@ -532,7 +542,7 @@ case+ !xs of
   stream_cons{res}
     (stream_scan$fopr<res><x>(ini, x), aux(xs, ini))
   // end of [stream_cons]
-) : stream_con(res) // end of [$delay]
+) // end of [$delay] // end of [aux]
 //
 in
   aux (xs, ini)
