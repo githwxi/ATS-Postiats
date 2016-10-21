@@ -437,9 +437,16 @@ IDENTRST_test
 fun
 SYMBOLIC_test
   (c: char): bool = let
-  val symbolic = "%&+-./:=@~`^|*!$#?<>"
+//
+val
+symbolic = "%&+-./:=@~`^|*!?<>#"
+//
+(*
+val
+symbolic = "%&+-./:=@~`^|*!?<>#$"
+*)
 in
-  string_contains (symbolic, c)
+  string_contains(symbolic, c)
 end // end of [SYMBOLIC_test]
 
 (* ****** ****** *)

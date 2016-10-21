@@ -24,6 +24,7 @@ Here is a list of major additions and changes since the last release:
 
 1. Significantly expanding libatscc
 2. Improving typechecking involving $delay and $ldelay
+3. Changing symbolic to "%&+-./:=@~`^|*!?<>#" (that is, '$' is dropped)
 
 ######
 
