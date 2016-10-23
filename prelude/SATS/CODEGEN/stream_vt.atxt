@@ -99,9 +99,9 @@ stream_vt_con_free (xs: stream_vt_con(a)):<!wrt> void
 #atscode_separator()
 
 fun{a:t0p}
-stream_vt_take
-  (xs: stream_vt(INV(a)), n: intGte(0)): List0_vt(a)
-// end of [stream_vt_take]
+stream_vt_takeLte
+  (xs: stream_vt(INV(a)), n: intGte(0)): stream_vt(a)
+// end of [stream_vt_takeLte]
 
 #atscode_separator()
 //
@@ -167,11 +167,17 @@ stream_vt_filter_fun
 (
   xs: stream_vt(INV(a)), pred: (&a) -<fun> bool
 ) : stream_vt (a) // end of [stream_vt_filter_fun]
+//
 fun{a:t0p}
 stream_vt_filter_cloptr
 (
   xs: stream_vt(INV(a)), pred: (&a) -<cloptr> bool
 ) : stream_vt (a) // end of [stream_vt_filter_cloptr]
+fun{a:t0p}
+stream_vt_ifilter_cloptr
+(
+  xs: stream_vt(INV(a)), pred: (intGte(0), &a) -<cloptr> bool
+) : stream_vt (a) // end of [stream_vt_ifilter_cloptr]
 //
 fun{a:vt0p}
 stream_vt_filterlin
@@ -291,7 +297,7 @@ res:vt0p
 }{a:vt0p}
 stream_vt_foldleft_cloptr
 (
-  xs: stream_vt(a), init: res, fopr: (res, &a >> a?!) -<cloptr1> res
+  xs: stream_vt(INV(a)), init: res, fopr: (res, &a >> a?!) -<cloptr1> res
 ) : res // end of [stream_vt_foldleft_cloptr]
 //
 #atscode_separator()

@@ -327,20 +327,21 @@ strnptr_copy
 #atscode_separator()
 //
 fun{}
-strptr_append (x1: !Strptr0, x2: !Strptr0):<!wrt> Strptr0
+strptr_append
+  (x1: !Strptr0, x2: !Strptr0):<!wrt> Strptr0
 fun{}
-strnptr_append {n1,n2:nat}
-  (x1: !strnptr n1, x2: !strnptr n2):<!wrt> strnptr (n1+n2)
+strnptr_append{n1,n2:nat}
+  (x1: !strnptr n1, x2: !strnptr n2):<!wrt> strnptr(n1+n2)
 //
 #atscode_separator()
 
 fun{}
-strptrlst_free (xs: List_vt (Strptr0)):<!wrt> void
+strptrlst_free (xs: List_vt(Strptr0)):<!wrt> void
 
 #atscode_separator()
 
 fun{}
-strptrlst_concat (xs: List_vt (Strptr0)):<!wrt> Strptr0
+strptrlst_concat (xs: List_vt(Strptr0)):<!wrt> Strptr0
 
 #atscode_separator()
 

@@ -182,6 +182,39 @@ stream_get_at_exn(xs, n) = stream_nth_exn<a>(xs, n)
 
 implement
 {a}(*tmp*)
+stream_takeLte
+  (xs, n) = let
+//
+fun
+auxmain
+(
+  xs: stream(a)
+, n0: intGte(0)
+) : stream_vt(a) = $ldelay
+(
+if
+(n0 > 0)
+then
+(
+case+ !xs of
+| stream_nil() =>
+    stream_vt_nil()
+  // end of [stream_nil]
+| stream_cons(x, xs) =>
+    stream_vt_cons(x, auxmain(xs, n0-1))
+  // end of [stream_cons]
+)
+else stream_vt_nil()
+) (* end of [auxmain] *)
+//
+in
+  auxmain(xs, n)
+end // end of [stream_takeLte]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 stream_take_exn
   (xs, n) = let
 //

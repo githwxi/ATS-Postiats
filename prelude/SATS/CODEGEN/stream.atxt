@@ -112,12 +112,16 @@ stream_get_at_exn
 #atscode_separator()
 
 fun{a:t0p}
-stream_take_exn{n:nat}
-  (xs: stream(INV(a)), n: int n):<!laz> list_vt(a, n)
-// end of [stream_take_lte]
+stream_takeLte
+  (xs: stream(INV(a)), n: intGte(0)): stream_vt(a)
+// end of [stream_takeLte]
 
 #atscode_separator()
 
+fun{a:t0p}
+stream_take_exn{n:nat}
+  (xs: stream(INV(a)), n: int n):<!laz> list_vt(a, n)
+// end of [stream_take_exn]
 fun{a:t0p}
 stream_drop_exn
   (xs: stream(INV(a)), n: intGte(0)):<!laz> stream(a)
