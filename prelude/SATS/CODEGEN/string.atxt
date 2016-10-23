@@ -262,23 +262,31 @@ fun{
 
 fun{}
 string_make_list
-  {n:int} (cs: list(charNZ, n)):<!wrt> strnptr (n)
+  {n:int} (cs: list(charNZ, n)):<!wrt> strnptr(n)
 fun{}
 string_make_listlen
-  {n:int} (cs: list(charNZ, n), n: int n):<!wrt> strnptr (n)
+  {n:int}
+  (cs: list(charNZ, n), n: int(n)):<!wrt> strnptr(n)
 
 #atscode_separator()
 
 fun{}
 string_make_rlist
-  {n:int} (cs: list(charNZ, n)):<!wrt> strnptr (n)
+  {n:int} (cs: list(charNZ, n)):<!wrt> strnptr(n)
 // end of [string_make_rlist]
 
 fun{}
 string_make_rlistlen
-  {n:int} (cs: list(charNZ, n), n: int n):<!wrt> strnptr (n)
+  {n:int}
+  (cs: list(charNZ, n), n: int(n)):<!wrt> strnptr(n)
 // end of [string_make_rlistlen]
 
+#atscode_separator()
+//
+fun{}
+string_make_list_vt
+  {n:int} (cs: list_vt(charNZ, n)):<!wrt> strnptr(n)
+//
 #atscode_separator()
 
 fun{}

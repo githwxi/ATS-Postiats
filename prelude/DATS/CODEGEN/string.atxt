@@ -366,20 +366,35 @@ end // end of [loop]
 //
 val n1 = n + 1
 //
-val (pf, pfgc | p0) =
-  $effmask_wrt (malloc_gc(i2sz(n1)))
+val
+(pf, pfgc | p0) =
+$effmask_wrt(malloc_gc(i2sz(n1)))
 //
 val p1 = ptr_add<char>(p0, n)
-//
 val () =
-  $effmask_wrt ($UN.ptr0_set<char>(p1, CNUL))
+$effmask_wrt
+  ($UN.ptr0_set<char>(p1, CNUL))
 //
-val p0 = $effmask_wrt (loop (cs, n, p1))
+val p0 = $effmask_wrt(loop(cs, n, p1))
 //
 in
   castvwtp_trans{strnptr(n)}((pf, pfgc | p0))
 end // end of [string_make_rlistlen]
 
+#atscode_separator()
+//
+implement
+{}(*tmp*)
+string_make_list_vt
+  (cs) = str where
+{
+//
+  val str =
+  string_make_list($UN.list_vt2t(cs))
+  val ((*freed*)) = list_vt_free<char>(cs)
+//
+} (* end of [string_make_list_vt] *)
+//
 #atscode_separator()
 
 implement
