@@ -122,10 +122,17 @@ fun{a:t0p}
 stream_take_exn{n:nat}
   (xs: stream(INV(a)), n: int n):<!laz> list_vt(a, n)
 // end of [stream_take_exn]
+
+#atscode_separator()
+
 fun{a:t0p}
 stream_drop_exn
   (xs: stream(INV(a)), n: intGte(0)):<!laz> stream(a)
 // end of [stream_drop_exn]
+fun{a:t0p}
+stream_drop_opt
+  (xs: stream(INV(a)), n: intGte(0)):<!laz> Option_vt(stream(a))
+// end of [stream_drop_opt]
 
 #atscode_separator()
 //

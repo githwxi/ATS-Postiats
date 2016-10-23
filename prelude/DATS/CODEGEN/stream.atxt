@@ -269,17 +269,58 @@ implement
 {a}(*tmp*)
 stream_drop_exn
   (xs, n) = let
-in
+//
+fun
+aux:
+$d2ctype
+(
+stream_drop_exn<a>
+) =
+lam(xs, n) => 
+(
 //
 if n > 0 then
 (
   case+ !xs of
   | stream_cons
-      (_, xs) => stream_drop_exn (xs, pred(n))
+      (_, xs) => aux(xs, pred(n))
+    // stream_cons
   | stream_nil() => $raise StreamSubscriptExn()
 ) else (xs) // end of [if]
 //
+) (* end of [aux] *)
+//
+in
+  aux(xs, n)
 end // end of [stream_drop_exn]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+stream_drop_opt
+  (xs, n) = let
+fun
+aux:
+$d2ctype
+(
+stream_drop_opt<a>
+) =
+lam(xs, n) =>
+(
+//
+if n > 0 then
+(
+  case+ !xs of
+  | stream_nil() => None_vt()
+  | stream_cons(_, xs) => aux(xs, pred(n))
+) else Some_vt(xs) // end of [if]
+//
+) (* end of [aux] *)
+//
+in
+  aux(xs, n)
+end // end of [stream_drop_opt]
 
 #atscode_separator()
 
