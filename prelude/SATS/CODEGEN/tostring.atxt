@@ -65,6 +65,13 @@ fun{}
 tostrptr_char(char):<!wrt> Strptr1
 
 #atscode_separator()
+
+fun{}
+tostring_double(double):<> string
+fun{}
+tostrptr_double(double):<!wrt> Strptr1
+
+#atscode_separator()
 //
 fun
 {a:t0p}

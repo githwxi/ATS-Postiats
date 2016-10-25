@@ -30,7 +30,7 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 //
 #atscode_separator()
-
+//
 implement
 {}(*tmp*)
 tostring_int(i) = 
@@ -54,7 +54,9 @@ val _(*int*) =
   $extfcall(ssize_t, "snprintf", bufp, BSZ, "%i", i)
 //
 in
-  $UN.castvwtp0{Strptr1}(string0_copy($UN.cast{string}(bufp)))
+//
+$UN.castvwtp0{Strptr1}(string0_copy($UN.cast{string}(bufp)))
+//
 end // end of [tostrptr_int]
 //
 implement
@@ -63,7 +65,14 @@ implement
 tostrptr_val<int> = tostrptr_int
 //
 #atscode_separator()
-
+//
+implement
+tostrptr_val<lint> = g0int2string_lint
+implement
+tostrptr_val<llint> = g0int2string_llint
+//
+#atscode_separator()
+//
 implement
 {}(*tmp*)
 tostring_uint(u) = 
@@ -87,7 +96,9 @@ val _(*int*) =
   $extfcall(ssize_t, "snprintf", bufp, BSZ, "%u", u)
 //
 in
-  $UN.castvwtp0{Strptr1}(string0_copy($UN.cast{string}(bufp)))
+//
+$UN.castvwtp0{Strptr1}(string0_copy($UN.cast{string}(bufp)))
+//
 end // end of [tostrptr_uint]
 //
 implement
@@ -131,12 +142,38 @@ tostrptr_val<char> = tostrptr_char
 #atscode_separator()
 
 implement
-tostrptr_val<int> = g0int2string_int
+{}(*tmp*)
+tostring_double(i) = 
+$effmask_wrt
+(
+  strptr2string(tostrptr_double(i))
+)
 implement
-tostrptr_val<lint> = g0int2string_lint
+{}(*tmp*)
+tostrptr_double(x) = let
+//
+\#define BSZ 32
+//
+typedef
+cstring = $extype"atstype_string"
+//
+var buf = @[byte][BSZ]()
+val bufp = $UN.cast{cstring}(addr@buf)
+//
+val _(*int*) =
+  $extfcall(ssize_t, "snprintf", bufp, BSZ, "%.6f", x)
+//
+in
+//
+$UN.castvwtp0{Strptr1}(string0_copy($UN.cast{string}(bufp)))
+//
+end // end of [tostrptr_double]
+//
 implement
-tostrptr_val<llint> = g0int2string_llint
-
+tostring_val<double> = tostring_double
+implement
+tostrptr_val<double> = tostrptr_double
+//
 #atscode_separator()
 
 implement

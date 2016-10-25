@@ -60,6 +60,12 @@ end // end of [local]
 
 (* ****** ****** *)
 
+val rep = tostrptr_double(3.1416)
+val ((*void*)) = println! ("Pi = ", rep)
+val ((*freed*)) = strptr_free (rep)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)
