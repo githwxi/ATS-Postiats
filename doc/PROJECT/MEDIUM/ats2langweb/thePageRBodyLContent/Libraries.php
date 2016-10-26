@@ -48,8 +48,8 @@ macrodef
 </li>
 <li>
 lmacrodef
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/lmacrodef.sats">raw</a>)
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/lmacrodef_sats.html">html</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/lmacrodef.hats">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/prelude/HTML/lmacrodef_hats.html">html</a>)
 </li>
 
 <li>

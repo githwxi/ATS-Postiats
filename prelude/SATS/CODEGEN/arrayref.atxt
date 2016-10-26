@@ -39,7 +39,8 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 //
-// arrayref: a reference to an array with no size information attached
+// arrayref:
+// reference to an array without size attached 
 //
 #atscode_separator()
 
@@ -58,7 +59,7 @@ stadef arrayref = arrayref_vt0ype_int_type
 
 praxi
 lemma_arrayref_param
-  {a:vt0p}{n:int} (A: arrayref (a, n)): [n >= 0] void
+  {a:vt0p}{n:int} (A: arrayref(a, n)): [n >= 0] void
 // end of [lemma_arrayref_param]
 
 #atscode_separator()
@@ -67,27 +68,26 @@ castfn
 arrayref2ptr{a:vt0p}{n:int} (A: arrayref(a, n)):<> Ptr0
 
 #atscode_separator()
-
+//
 (*
 ** HX-2012-06:
 ** this function essentially passes the proof of array-view
 ** to GC (leaks it if GC is unavailable)
 *)
+//
 castfn
 arrayptr_refize
   {a:vt0p}
-  {l:addr}
-  {n:int} (
-  A: arrayptr (INV(a), l, n)
-) :<!wrt> arrayref (a, n) // end of [arrayptr_refize]
-
+  {l:addr}{n:int}
+(
+  A: arrayptr(INV(a), l, n)
+) :<!wrt> arrayref(a, n) // end of [arrayptr_refize]
+//
 castfn
 arrayref_get_viewptr
-  {a:vt0p}
-  {n:int} (
-  A: arrayref (a, n)
-) :<> [l:addr] (vbox (array_v (a, l, n)) | ptr l)
-
+  {a:vt0p}{n:int}
+  (arrayref(a, n)):<> [l:addr] (vbox(array_v(a, l, n)) | ptr(l))
+//
 #atscode_separator()
 //
 symintr arrayref
@@ -95,33 +95,36 @@ symintr arrayref
 fun
 arrayref_make_arrpsz
   {a:vt0p}{n:int}
-  (psz: arrpsz (INV(a), n)):<!wrt> arrayref (a, n) = "mac\#%"
+  (arrpsz(INV(a), n)):<!wrt> arrayref(a, n) = "mac\#%"
+//
 overload arrayref with arrayref_make_arrpsz
 //
 #atscode_separator()
 
 fun{a:t0p}
 arrayref_make_elt
-  {n:int} (asz: size_t n, x: a):<!wrt> arrayref (a, n)
+  {n:int}
+  (asz: size_t(n), x0: a):<!wrt> arrayref(a, n)
 // end of [arrayref_make_elt]
 
 #atscode_separator()
 
-fun{
-} arrayref_make_intrange
-  {l,r:int | l <= r} (l: int l, r: int r):<!wrt> arrayref (int, r-l)
+fun{}
+arrayref_make_intrange
+  {l,r:int | l <= r}
+  (l: int l, r: int r):<!wrt> arrayref(int, r-l)
 // end of [arrayref_make_intrange]
 
 #atscode_separator()
 
 fun{a:t0p}
 arrayref_make_list{n:int}
-  (asz: int n, xs: list (INV(a), n)):<!wrt> arrayref (a, n)
+  (asz: int n, xs: list(INV(a), n)):<!wrt> arrayref(a, n)
 // end of [arrayref_make_list]
 
 fun{a:t0p}
 arrayref_make_rlist{n:int}
-  (asz: int n, xs: list (INV(a), n)):<!wrt> arrayref (a, n)
+  (asz: int n, xs: list(INV(a), n)):<!wrt> arrayref(a, n)
 // end of [arrayref_make_rlist]
 
 #atscode_separator()
@@ -165,14 +168,14 @@ fun{
 a:t0p}{tk:tk
 } arrayref_set_at_gint
   {n:int}{i:nat | i < n} (
-  A: arrayref (a, n), i: g1int (tk, i), x: a
+  A: arrayref(a, n), i: g1int(tk, i), x: a
 ) :<!refwrt> void // end of [arrayref_set_at_gint]
 //
 fun{
 a:t0p}{tk:tk
 } arrayref_set_at_guint
   {n:int}{i:nat | i < n} (
-  A: arrayref (a, n), i: g1uint (tk, i), x: a
+  A: arrayref(a, n), i: g1uint(tk, i), x: a
 ) :<!refwrt> void // end of [arrayref_set_at_guint]
 //
 symintr arrayref_set_at
@@ -185,14 +188,14 @@ fun{
 a:vt0p}{tk:tk
 } arrayref_exch_at_gint
   {n:int}{i:nat | i < n} (
-  A: arrayref (a, n), i: g1int (tk, i), x: &a >> _
+  A: arrayref(a, n), i: g1int(tk, i), x: &a >> _
 ) :<!refwrt> void // end of [arrayref_exch_at_gint]
 
 fun{
 a:vt0p}{tk:tk
 } arrayref_exch_at_guint
   {n:int}{i:nat | i < n} (
-  A: arrayref (a, n), i: g1uint (tk, i), x: &a >> _
+  A: arrayref(a, n), i: g1uint(tk, i), x: &a >> _
 ) :<!refwrt> void // end of [arrayref_exch_at_guint]
 
 symintr arrayref_exch_at
@@ -203,14 +206,16 @@ overload arrayref_exch_at with arrayref_exch_at_guint of 0
 
 fun{a:vt0p}
 arrayref_interchange
-  {n:int} (A: arrayref (a, n), i: sizeLt n, j: sizeLt n):<!refwrt> void
+  {n:int}
+  (A: arrayref(a, n), i: sizeLt n, j: sizeLt n):<!refwrt> void
 // end of [arrayref_interchange]
 
 #atscode_separator()
 
 fun{a:vt0p}
 arrayref_subcirculate
-  {n:int} (A: arrayref (a, n), i: sizeLt n, j: sizeLt n):<!refwrt> void
+  {n:int}
+  (A: arrayref(a, n), i: sizeLt n, j: sizeLt n):<!refwrt> void
 // end of [arrayref_subcirculate]
 
 #atscode_separator()
@@ -222,20 +227,20 @@ fprint_array$sep (out: FILEref): void
 fun{a:vt0p}
 fprint_arrayref
   {n:int} (
-  out: FILEref, A: arrayref (INV(a), n), n: size_t n
+  out: FILEref, A: arrayref(a, n), n: size_t n
 ) : void // end of [fprint_arrayref]
 fun{a:vt0p}
 fprint_arrayref_sep
   {n:int} (
   out: FILEref
-, A: arrayref (a, n), asz: size_t n, sep: NSH(string)
+, A: arrayref(a, n), asz: size_t n, sep: NSH(string)
 ) : void // end of [fprint_arrayref_sep]
 
 #atscode_separator()
 
 fun{a:t0p}
 arrayref_copy{n:int}
-  (A: arrayref (a, n), n: size_t (n)): arrayptr (a, n)
+  (A: arrayref(a, n), n: size_t(n)): arrayptr(a, n)
 // end of [arrayref_copy]
 
 #atscode_separator()
@@ -246,11 +251,14 @@ array_tabulate$fopr (index: size_t): (a)
 *)
 fun{a:vt0p}
 arrayref_tabulate
-  {n:int} (asz: size_t n): arrayref (a, n)
+  {n:int} (asz: size_t(n)): arrayref(a, n)
 //
 fun{a:vt0p}
 arrayref_tabulate_cloref
-  {n:int} (size_t n, (sizeLt(n)) -<cloref> a): arrayref (a, n)
+  {n:int}
+(
+  asz: size_t(n), fopr: (sizeLt(n)) -<cloref> a
+) : arrayref(a, n) // end-of-function
 //
 #atscode_separator()
 
@@ -292,14 +300,14 @@ fun
 {a:vt0p}
 arrayref_iforeach{n:int}
 (
-  A: arrayref (INV(a), n), asz: size_t (n)
+  A: arrayref(a, n), asz: size_t (n)
 ) : sizeLte(n) // end of [arrayref_iforeach]
 fun
 {a:vt0p}
 {env:vt0p}
 arrayref_iforeach_env{n:int}
 (
-  A: arrayref (INV(a), n), asz: size_t (n), env: &(env)>>env
+  A: arrayref(a, n), asz: size_t (n), env: &(env)>>env
 ) : sizeLte(n) // end of [arrayref_iforeach_env]
 
 #atscode_separator()
@@ -312,13 +320,15 @@ array_rforeach$fwork (x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p
-} arrayref_rforeach{n:int} (
-  A: arrayref (a, n), asz: size_t (n)
+} arrayref_rforeach{n:int}
+(
+  A: arrayref(a, n), asz: size_t(n)
 ) : sizeLte(n) // end of [arrayref_rforeach]
 fun{
 a:vt0p}{env:vt0p
-} arrayref_rforeach_env{n:int} (
-  A: arrayref (a, n), asz: size_t (n), env: &(env)>>env
+} arrayref_rforeach_env{n:int}
+(
+  A: arrayref(a, n), asz: size_t(n), env: &(env)>>env
 ) : sizeLte(n) // end of [arrayref_rforeach_env]
 
 #atscode_separator()
@@ -330,7 +340,8 @@ arrayref_quicksort
 //
 #atscode_separator()
 //
-// arrszref: a reference to an array with size information attached
+// arrszref:
+// reference to an array with its size attached
 //
 #atscode_separator()
 
@@ -363,37 +374,38 @@ overload arrszref with arrszref_make_arrpsz
 fun{}
 arrszref_make_arrayref
   {a:vt0p}{n:int}
-  (A: SHR(arrayref(a, n)), n: size_t n):<!wrt> arrszref (a)
+  (A: SHR(arrayref(a, n)), n: size_t n):<!wrt> arrszref(a)
 // end of [arrszref_make_arrayref]
 
 #atscode_separator()
 
 fun{
-} arrszref_get_ref{a:vt0p} (A: arrszref (a)):<> Ptr1
+} arrszref_get_ref{a:vt0p} (A: arrszref(a)):<> Ptr1
 fun{
-} arrszref_get_size{a:vt0p} (A: arrszref (a)):<> size_t
+} arrszref_get_size{a:vt0p} (A: arrszref(a)):<> size_t
 
 #atscode_separator()
-
+//
 fun{}
 arrszref_get_refsize{a:vt0p}
-  (A: arrszref (a), asz: &size_t? >> size_t n):<!wrt> #[n:nat] arrayref (a, n)
-// end of [arrszref_get_refsize]
-
+(
+  A: arrszref(a), asz: &size_t? >> size_t n
+) :<!wrt> #[n:nat] arrayref(a, n) // end-of-fun
+//
 #atscode_separator()
 
 fun{a:t0p}
-arrszref_make_elt (asz: size_t, x: a):<!wrt> arrszref (a)
+arrszref_make_elt (asz: size_t, x: a):<!wrt> arrszref(a)
 // end of [arrszref_make_elt]
 
 #atscode_separator()
 
 fun{a:t0p}
-arrszref_make_list (xs: List (INV(a))):<!wrt> arrszref (a)
+arrszref_make_list (xs: List (INV(a))):<!wrt> arrszref(a)
 // end of [arrszref_make_list]
 
 fun{a:t0p}
-arrszref_make_rlist (xs: List (INV(a))):<!wrt> arrszref (a)
+arrszref_make_rlist (xs: List (INV(a))):<!wrt> arrszref(a)
 // end of [arrszref_make_rlist]
 
 #atscode_separator()
@@ -404,28 +416,28 @@ fprint_array$sep (out: FILEref): void
 *)
 fun{a:vt0p}
 fprint_arrszref
-  (out: FILEref, A: arrszref (a)): void
+  (out: FILEref, A: arrszref(a)): void
 // end of [fprint_arrszref]
 fun{a:vt0p}
 fprint_arrszref_sep (
-  out: FILEref, A: arrszref (a), sep: NSH(string)
+  out: FILEref, A: arrszref(a), sep: NSH(string)
 ) : void // end of [fprint_arrszref_sep]
 
 #atscode_separator()
 //
 fun{a:t0p}
 arrszref_get_at_size
-  (A: arrszref (a), i: size_t):<!exnref> a
+  (A: arrszref(a), i: size_t):<!exnref> a
 //
 fun{
 a:t0p}{tk:tk
 } arrszref_get_at_gint
-  (A: arrszref (a), i: g0int (tk)):<!exnref> a
+  (A: arrszref(a), i: g0int(tk)):<!exnref> a
 //
 fun{
 a:t0p}{tk:tk
 } arrszref_get_at_guint
-  (A: arrszref (a), i: g0uint (tk)):<!exnref> a
+  (A: arrszref(a), i: g0uint(tk)):<!exnref> a
 //
 symintr arrszref_get_at
 overload arrszref_get_at with arrszref_get_at_gint of 0
@@ -435,17 +447,17 @@ overload arrszref_get_at with arrszref_get_at_guint of 0
 //
 fun{a:t0p}
 arrszref_set_at_size
-  (A: arrszref (a), i: size_t, x: a):<!exnrefwrt> void
+  (A: arrszref(a), i: size_t, x: a):<!exnrefwrt> void
 //
 fun{
 a:t0p}{tk:tk
 } arrszref_set_at_gint
-  (A: arrszref (a), i: g0int (tk), x: a):<!exnrefwrt> void
+  (A: arrszref(a), i: g0int(tk), x: a):<!exnrefwrt> void
 //
 fun{
 a:t0p}{tk:tk
 } arrszref_set_at_guint
-  (A: arrszref (a), i: g0uint (tk), x: a):<!exnrefwrt> void
+  (A: arrszref(a), i: g0uint(tk), x: a):<!exnrefwrt> void
 //
 symintr arrszref_set_at
 overload arrszref_set_at with arrszref_set_at_gint of 0
@@ -455,19 +467,19 @@ overload arrszref_set_at with arrszref_set_at_guint of 0
 
 fun{a:vt0p}
 arrszref_exch_at_size
-  (A: arrszref (a), i: size_t, x: &a >> _):<!exnrefwrt> void
+  (A: arrszref(a), i: size_t, x: &a >> _):<!exnrefwrt> void
 // end of [arrszref_exch_at_size]
 
 fun{
 a:vt0p}{tk:tk
 } arrszref_exch_at_gint
-  (A: arrszref (a), i: g0int (tk), x: &a >> _):<!exnrefwrt> void
+  (A: arrszref(a), i: g0int(tk), x: &a >> _):<!exnrefwrt> void
 // end of [arrszref_exch_at_gint]
 
 fun{
 a:vt0p}{tk:tk
 } arrszref_exch_at_guint
-  (A: arrszref (a), i: g0uint (tk), x: &a >> _):<!exnrefwrt> void
+  (A: arrszref(a), i: g0uint(tk), x: &a >> _):<!exnrefwrt> void
 // end of [arrszref_exch_at_guint]
 
 symintr arrszref_exch_at
@@ -478,28 +490,42 @@ overload arrszref_exch_at with arrszref_exch_at_guint of 0
 
 fun{a:vt0p}
 arrszref_interchange
-  (A: arrszref (a), i: size_t, j: size_t):<!exnrefwrt> void
+  (A: arrszref(a), i: size_t, j: size_t):<!exnrefwrt> void
 // end of [arrszref_interchange]
 
 #atscode_separator()
 
 fun{a:vt0p}
 arrszref_subcirculate
-  (A: arrszref (a), i: size_t, j: size_t):<!exnrefwrt> void
+  (A: arrszref(a), i: size_t, j: size_t):<!exnrefwrt> void
 // end of [arrszref_subcirculate]
 
 #atscode_separator()
 //
 (*
 fun{a:vt0p}
-array_tabulate$fopr (index: size_t): (a)
+array_tabulate$fopr(size_t): (a)
 *)
 fun{a:vt0p}
-arrszref_tabulate (asz: size_t): arrszref (a)
+arrszref_tabulate(asz: size_t): arrszref(a)
 //
 fun{a:vt0p}
 arrszref_tabulate_cloref
-  {n:int} (size_t n, (sizeLt(n)) -<cloref> a): arrszref (a)
+  {n:int}
+  (size_t(n), (sizeLt(n)) -<cloref> a): arrszref(a)
+//
+#atscode_separator()
+//
+// HX: for streamization of arrays
+//
+#atscode_separator()
+//
+fun{a:t0p}
+streamize_arrszref_elt
+  (ASZ: arrszref(a)): stream_vt(a)
+fun{a:t0p}
+streamize_arrayref_elt
+  {n:int}(A: arrayref(a, n), n: size_t(n)): stream_vt(a)
 //
 #atscode_separator()
 //

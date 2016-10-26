@@ -35,7 +35,7 @@ include 'basics_dyn_sats.html';
 include 'basics_gen_sats.html';
 //
 include 'macrodef_sats.html';
-include 'lmacrodef_sats.html';
+include 'lmacrodef_hats.html';
 //
 // SATS
 //

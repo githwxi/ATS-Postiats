@@ -8,7 +8,7 @@ include './../basics_dyn.sats';
 include './../basics_gen.sats';
 //
 include './../macrodef.sats';
-include './../lmacrodef.sats';
+include './../lmacrodef.hats';
 //
 // SATS
 //

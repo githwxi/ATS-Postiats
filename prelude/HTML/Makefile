@@ -49,8 +49,8 @@ all_top:: \
 macrodef_sats.html
 macrodef_sats.html: ./../macrodef.sats; $(PATS2XHTML) -o $@ --static $<
 all_top:: \
-lmacrodef_sats.html
-lmacrodef_sats.html: ./../lmacrodef.sats; $(PATS2XHTML) -o $@ --static $<
+lmacrodef_hats.html
+lmacrodef_hats.html: ./../lmacrodef.hats; $(PATS2XHTML) -o $@ --static $<
 
 ######
 #
@@ -311,7 +311,7 @@ $(SCP) \
 fixity_ats.html \
 basics_*_sats.html \
 macrodef_sats.html \
-lmacrodef_sats.html \
+lmacrodef_hats.html \
 ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/.
 
 ######

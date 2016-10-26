@@ -979,7 +979,7 @@ in
     then let
 (*
       val () =
-        fileref_close(inp)
+        fileref_close(inp) // HX: FILEref is not freed!
       // end of [val]
 *)
     in
