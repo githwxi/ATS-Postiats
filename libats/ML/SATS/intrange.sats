@@ -134,6 +134,11 @@ int_streamGte(n: int): stream(int)
 //
 overload .streamGte with int_streamGte
 //
+fun{}
+int_streamGte_vt(n: int): stream_vt(int)
+//
+overload .streamGte_vt with int_streamGte_vt
+//
 (* ****** ****** *)
 //
 fun{a:t0p}
