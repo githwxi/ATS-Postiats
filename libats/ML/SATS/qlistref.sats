@@ -62,6 +62,12 @@ qlistref_takeout_opt(qlistref(a)):<!ref> Option_vt(a)
 //
 (* ****** ****** *)
 //
+fun
+{a:vt0p}
+qlistref_takeout_list(qlistref(a)):<!ref> List0_vt(a)
+//
+(* ****** ****** *)
+//
 overload .insert with qlistref_insert
 //
 overload .takeout with qlistref_takeout_exn

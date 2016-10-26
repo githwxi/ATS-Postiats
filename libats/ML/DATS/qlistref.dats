@@ -106,5 +106,25 @@ prval () = $UN.cast2void(q0)
 } (* end of [qlistref_takeout_opt] *)
 //
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+qlistref_takeout_list
+  (q0) = xs where
+{
+//
+val q0 = qdecode(q0)
+//
+val xs =
+$effmask_wrt
+  (qlist_takeout_list(q0))
+//
+prval () = $UN.cast2void(q0)
+//
+prval () = lemma_list_vt_param(xs)
+//
+} (* end of [qlistref_takeout_list] *)
+//
+(* ****** ****** *)
 
 (* end of [qlistref.dats] *)

@@ -7,21 +7,8 @@
 //
 #include
 "share/atspre_staload.hats"
-//
-(* ****** ****** *)
-
-staload
-UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload "libats/ML/SATS/qlistref.sats"
-
-(* ****** ****** *)
-//
-staload _(*anon*) = "libats/DATS/qlist.dats"
-//
-staload _(*anon*) = "libats/ML/DATS/qlistref.dats"
+#include
+"share/HATS/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
