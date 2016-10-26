@@ -220,6 +220,17 @@ aux
 ) : stream(int) => $delay(stream_cons(n, aux(n+1)))
 ) (n) // end of [int_streamGte]
 //
+implement
+{}(*tmp*)
+int_streamGte_vt(n) =
+(
+fix
+aux
+(
+  n:int
+) : stream_vt(int) => $ldelay(stream_vt_cons(n, aux(n+1)))
+) (n) // end of [int_streamGte_vt]
+//
 (* ****** ****** *)
 //
 implement

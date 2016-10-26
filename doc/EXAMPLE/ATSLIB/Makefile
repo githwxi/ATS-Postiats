@@ -695,6 +695,17 @@ cleanall:: ; $(RMF) libats_ML_myfunmap.exe
 
 ######
 
+all:: libats_ML_qlistref
+libats_ML_qlistref: libats_ML_qlistref.exe
+libats_ML_qlistref.exe: libats_ML_qlistref_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+libats_ML_qlistref_dats.c: libats_ML_qlistref.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output libats_ML_qlistref_dats.c --dynamic libats_ML_qlistref.dats
+clean:: ; $(RMF) libats_ML_qlistref_dats.o
+clean:: ; $(RMF) libats_ML_qlistref_dats.c
+cleanall:: ; $(RMF) libats_ML_qlistref.exe
+
+
+######
+
 all:: libats_ML_hashtblref
 libats_ML_hashtblref: libats_ML_hashtblref.exe
 libats_ML_hashtblref.exe: libats_ML_hashtblref_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
