@@ -221,10 +221,11 @@ a1,a2:t0p}{b:vt0p
   (x1: &a1 >> _, x2: &a2 >> _): b
 fun{
 a1,a2:t0p}{b:vt0p
-} stream_vt_map2 (
-  xs1: stream_vt (INV(a1))
-, xs2: stream_vt (INV(a2))
-) : stream_vt (b) // end of [stream_vt_map2]
+} stream_vt_map2
+(
+  xs1: stream_vt(INV(a1))
+, xs2: stream_vt(INV(a2))
+) : stream_vt(b) // end of [stream_vt_map2]
 //
 fun{
 a1,a2:t0p}{b:vt0p
@@ -242,6 +243,17 @@ a1,a2:t0p}{b:vt0p
 , xs2: stream_vt(INV(a2))
 , fopr: (&a1 >> _, &a2 >> _) -<cloptr1> b
 ) : stream_vt(b) // end of [stream_vt_map2_cloptr]
+//
+#atscode_separator()
+//
+fun{
+res:t0p
+}{a:vt0p}
+stream_vt_scan_cloptr
+(
+  xs: stream_vt(INV(a))
+, ini: res, fopr: (res, &a >> a?!) -<cloptr1> res
+) : stream_vt(res) // end of [stream_vt_scan_cloptr]
 //
 #atscode_separator()
 

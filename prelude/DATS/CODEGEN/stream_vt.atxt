@@ -1000,6 +1000,58 @@ end // end of [stream_vt_map2_fun]
 #atscode_separator()
 
 implement
+{res}{a}
+stream_vt_scan_cloptr
+  (xs, ini, fopr) = let
+//
+fun
+auxmain:
+$d2ctype
+(
+stream_vt_scan_cloptr<res><a>
+) =
+lam
+(
+  xs, ini, fopr
+) => $ldelay
+(
+let
+  val xs_con = !xs
+in
+//
+case+ xs_con of
+| ~stream_vt_nil
+    () => let
+  //
+    val () =
+    cloptr_free
+    (
+      $UN.castvwtp0{cloptr0}(fopr)
+    )
+  //
+  in
+    stream_vt_nil()
+  end // end of [stream_vt_nil]
+| @stream_vt_cons
+    (x, xs) => let
+    val xs = xs
+    val ini = fopr(ini, x)
+    val ((*freed*)) = free@(xs_con)
+  in
+    stream_vt_cons(ini, auxmain(xs, ini, fopr))
+  end // end of [stream_vt_cons]
+end // end of [let]
+,
+(~xs; cloptr_free($UN.castvwtp0{cloptr0}(fopr)))
+) (* end of [auxmain] *)
+//
+in
+  auxmain(xs, ini, fopr)
+end // end of [stream_vt_scan_cloptr]
+
+#atscode_separator()
+
+implement
 {a}(*tmp*)
 stream_vt_tabulate
 (
