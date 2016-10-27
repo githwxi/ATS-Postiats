@@ -1056,17 +1056,22 @@ implement
 stream_vt_tabulate
 (
 // argumentless
-) = aux (0) where
+) = auxmain(0) where
 {
 //
-fun aux
+fun
+auxmain
 (
 i : intGte(0)
 ) : stream_vt(a) =
 (
-  $ldelay(
-    stream_vt_cons{a}(stream_vt_tabulate$fopr<a>(i), aux(i+1))
-  ) (* $ldelay *)
+$ldelay
+(
+stream_vt_cons
+(
+  stream_vt_tabulate$fopr<a>(i), auxmain(i+1)
+)
+) (* $ldelay *)
 ) (* end of [aux] *)
 //
 } (* end of [stream_vt_tabulate] *)
@@ -1115,7 +1120,7 @@ stream_vt_foreach
 var env: void = ((*void*))
 //
 in
-  stream_vt_foreach_env<a><void> (xs, env)
+  stream_vt_foreach_env<a><void>(xs, env)
 end // end of [stream_vt_foreach]
 
 implement
