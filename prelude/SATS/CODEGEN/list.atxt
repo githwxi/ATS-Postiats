@@ -904,7 +904,7 @@ a:t0p
   (xs: list(INV(a), n)) :<!wrt> list_vt(a, n)
 //
 fun{a:t0p}
-list_mergesort$cmp (x1: a, x2: a):<> int (* sign *)
+list_mergesort$cmp(x1: a, x2: a):<> int (* sign *)
 //
 #atscode_separator()
 
@@ -930,7 +930,7 @@ a:t0p
   (xs: list(INV(a), n)) :<!wrt> list_vt(a, n)
 //
 fun{a:t0p}
-list_quicksort$cmp (x1: a, x2: a):<> int (* sign *)
+list_quicksort$cmp(x1: a, x2: a):<> int (* sign *)
 //
 #atscode_separator()
 

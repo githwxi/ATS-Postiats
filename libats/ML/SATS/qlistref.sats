@@ -91,6 +91,10 @@ overload iseqz with qlistref_is_nil
 overload isneqz with qlistref_isnot_nil
 //
 (* ****** ****** *)
+
+overload length with qlistref_length
+
+(* ****** ****** *)
 //
 overload .insert with qlistref_insert
 //

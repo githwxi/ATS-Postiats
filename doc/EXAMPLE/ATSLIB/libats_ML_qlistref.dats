@@ -1,6 +1,6 @@
 (*
 ** for testing
-** [libats/ML/hashtblref]
+** [libats/ML/qlistref]
 *)
 
 (* ****** ****** *)
@@ -25,8 +25,12 @@ val-~Some_vt(1) = q0.takeout_opt()
 //
 val () = q0.insert(3)
 //
+val () = assertloc(length(q0) = 2)
+//
 val-~Some_vt(2) = q0.takeout_opt()
 val-~Some_vt(3) = q0.takeout_opt()
+//
+val () = assertloc(length(q0) = 0)
 //
 } (* end of [val] *)
 

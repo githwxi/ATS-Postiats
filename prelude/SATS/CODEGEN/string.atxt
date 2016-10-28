@@ -296,6 +296,19 @@ string_make_listlen_vt
   (cs: list_vt(charNZ, n), n: int(n)):<!wrt> strnptr(n)
 //
 #atscode_separator()
+//
+fun{}
+string_make_stream
+  {n:int}(cs: stream(charNZ)):<!wrt> Strptr1
+fun{}
+string_make_stream_vt
+  {n:int}(cs: stream_vt(charNZ)):<!wrt> Strptr1
+//
+fun{}
+string_make_stream$bufsize
+   ((*void*)):<> intGte(1) // HX: the default = 16
+//
+#atscode_separator()
 
 fun{}
 string_make_substring
