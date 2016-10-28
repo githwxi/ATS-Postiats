@@ -66,12 +66,16 @@ fun
 stream_is_cons(xs: stream(a)): bool
 //
 #atscode_separator()
-
+//
 fun{a:t0p}
 stream_make_nil(): stream(a)
 fun{a:t0p}
+stream_make_cons
+  (a, stream(INV(a))):<> stream(a)
+//
+fun{a:t0p}
 stream_make_sing(x: a): stream(a)
-
+//
 #atscode_separator()
 
 fun{a:t0p}

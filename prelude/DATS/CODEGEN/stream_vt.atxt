@@ -1087,7 +1087,8 @@ vtypedef ia = @(intGte(0), a)
 fun
 auxmain
 (
-  i: intGte(0), xs: stream_vt(a)
+  i0: intGte(0)
+, xs: stream_vt(a)
 ) : stream_vt(ia) = $ldelay
 (
 (
@@ -1097,7 +1098,7 @@ case+ !xs of
   // end of [stream_vt_nil]
 | ~stream_vt_cons
     (x, xs) =>
-    stream_vt_cons((i, x), auxmain(i+1, xs))
+    stream_vt_cons((i0, x), auxmain(i0+1, xs))
   // end of [stream_vt_cons]
 )
 ,

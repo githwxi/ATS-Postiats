@@ -39,17 +39,20 @@ deque_type (elt:t@ype+, n:int) = ptr
 (* ****** ****** *)
 //
 stadef deque = deque_type
-typedef deque (a:t0p) = [n:int] deque (a, n)
-typedef Deque (a:t0p) = [n:int] deque (a, n)
+//
+typedef deque(a:t0p) = [n:int] deque(a, n)
+typedef Deque(a:t0p) = [n:int] deque(a, n)
 //
 (* ****** ****** *)
 
-prfun lemma_deque_size
-  {a:t0p}{n:int} (xs: deque (INV(a), n)): int (n)
+prfun
+lemma_deque_size
+  {a:t0p}{n:int} (xs: deque(INV(a), n)): int(n)
 // end of [lemma_deque_size]
 
-prfun lemma_deque_param
-  {a:t0p}{n:int} (xs: deque (INV(a), n)): [n >= 0] void
+prfun
+lemma_deque_param
+  {a:t0p}{n:int} (xs: deque(INV(a), n)): [n >= 0] void
 // end of [lemma_deque_param]
 
 (* ****** ****** *)
@@ -78,101 +81,106 @@ fundeque_snoc{n:int}
 
 fun{a:t0p}
 fundeque_unsnoc{n:pos}
-  (xs: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> (a)
+  (xs: &deque(INV(a), n) >> deque(a, n-1)):<!wrt> (a)
 // end of [fundeque_unsnoc]
 
 (* ****** ****** *)
-
-fun{
-} fundeque_is_nil
-  {a:t0p}{n:int} (xs: deque (INV(a), n)):<> bool (n==0)
+//
+fun{}
+fundeque_is_nil
+  {a:t0p}{n:int}(xs: deque(INV(a), n)):<> bool(n==0)
 // end of [fundeque_is_nil]
-
-fun{
-} fundeque_is_cons
-  {a:t0p}{n:int} (xs: deque (INV(a), n)):<> bool (n > 0)
+//
+fun{}
+fundeque_is_cons
+  {a:t0p}{n:int}(xs: deque(INV(a), n)):<> bool(n > 0)
 // end of [fundeque_is_cons]
-
+//
 (* ****** ****** *)
-
-fun fundeque_size
-  {a:t0p}{n:int} (xs: deque (INV(a), n)):<> size_t (n)
-// end of [fundeque_size]
-
+//
+fun
+{a:t0p}
+fundeque_size{n:int} (xs: deque(INV(a), n)):<> size_t(n)
+//
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-fundeque_get_atbeg {n:pos} (xs: deque (INV(a), n)):<> (a)
+fundeque_get_atbeg{n:pos}(xs: deque(INV(a), n)):<> (a)
 fun{a:t0p}
-fundeque_get_atbeg_opt (xs: Deque (INV(a))):<> Option_vt(a)
-
+fundeque_get_atend{n:pos}(xs: deque(INV(a), n)):<> (a)
+//
+fun{a:t0p}
+fundeque_get_atbeg_opt(xs: Deque(INV(a))):<> Option_vt(a)
+fun{a:t0p}
+fundeque_get_atend_opt(xs: Deque(INV(a))):<> Option_vt(a)
+//
 (* ****** ****** *)
-
-fun{a:t0p}
-fundeque_get_atend {n:pos} (xs: deque (INV(a), n)):<> (a)
-fun{a:t0p}
-fundeque_get_atend_opt (xs: Deque (INV(a))):<> Option_vt(a)
-
-(* ****** ****** *)
-
+//
 fun{a:t0p}
 fundeque_takeout_atbeg_opt
   (xs: &Deque (INV(a)) >> _):<!wrt> Option_vt (a)
 // end of [fundeque_takeout_atbeg_opt]
-
+//
 fun{a:t0p}
 fundeque_takeout_atend_opt
   (xs: &Deque (INV(a)) >> _):<!wrt> Option_vt (a)
 // end of [fundeque_takeout_atend_opt]
-
+//
 (* ****** ****** *)
-
-fun fundeque_append
-  {a:t0p}{n1,n2:int}
-(
-  xs1: deque (INV(a), n1), xs2: deque (a, n2)
-) :<> deque (a, n1+n2) // endfun
-
+//
+fun
+{a:t0p}
+fundeque_append
+  {n1,n2:int}
+  (deque(INV(a), n1), deque(a, n2)):<> deque(a, n1+n2)
+//
 (* ****** ****** *)
-
+//
 fun{}
-fprint_fundeque$sep (out: FILEref): void
+fprint_fundeque$sep(out: FILEref): void
 fun{a:t0p}
-fprint_fundeque
-  (out: FILEref, xs: Deque (INV(a))): void
+fprint_fundeque(out: FILEref, xs: Deque(INV(a))): void
+//
 overload fprint with fprint_fundeque
-
-(* ****** ****** *)
-//
-fun{
-a:t0p}{env:vt0p
-} fundeque_foreach$fwork (x: a, env: &env>>_): void
-//
-fun{a:t0p}
-fundeque_foreach (xs: Deque (INV(a))): void
-fun{
-a:t0p}{env:vt0p
-} fundeque_foreach_env (xs: Deque (INV(a)), env: &(env)>>_): void
 //
 (* ****** ****** *)
 //
-fun{
-a:t0p}{env:vt0p
-} fundeque_rforeach$fwork (x: a, env: &env>>_): void
+fun
+{a:t0p}
+fundeque_foreach(xs: Deque(INV(a))): void
 //
-fun{a:t0p}
-fundeque_rforeach (xs: Deque (INV(a))): void
-fun{
-a:t0p}{env:vt0p
-} fundeque_rforeach_env (xs: Deque (INV(a)), env: &(env)>>_): void
+fun
+{a:t0p}
+{env:vt0p}
+fundeque_foreach$fwork(x: a, env: &env>>_): void
+fun
+{a:t0p}
+{env:vt0p}
+fundeque_foreach_env(xs: Deque(INV(a)), env: &(env)>>_): void
 //
 (* ****** ****** *)
-
-fun{a:t0p}
+//
+fun
+{a:t0p}
+fundeque_rforeach(xs: Deque(INV(a))): void
+//
+fun
+{a:t0p}
+{env:vt0p}
+fundeque_rforeach$fwork(x: a, env: &env>>_): void
+fun
+{a:t0p}
+{env:vt0p}
+fundeque_rforeach_env(xs: Deque(INV(a)), env: &(env)>>_): void
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
 fundeque_listize
-  {n:int} (xs: deque (INV(a), n)):<!wrt> list_vt (a, n)
+  {n:int}(xs: deque(INV(a), n)):<!wrt> list_vt(a, n)
 // end of [fundeque_listize]
-
+//
 (* ****** ****** *)
 
 (* end of [fundeque.hats] *)
