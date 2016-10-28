@@ -389,11 +389,23 @@ string_make_list_vt
   (cs) = str where
 {
 //
-  val str =
-  string_make_list($UN.list_vt2t(cs))
+  val cs2 = $UN.list_vt2t(cs)
+  val str = string_make_list(cs2)
   val ((*freed*)) = list_vt_free<char>(cs)
 //
 } (* end of [string_make_list_vt] *)
+//
+implement
+{}(*tmp*)
+string_make_listlen_vt
+  (cs, n) = str where
+{
+//
+  val cs2 = $UN.list_vt2t(cs)
+  val str = string_make_listlen(cs2, n)
+  val ((*freed*)) = list_vt_free<char>(cs)
+//
+} (* end of [string_make_listlen_vt] *)
 //
 #atscode_separator()
 
