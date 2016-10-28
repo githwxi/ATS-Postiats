@@ -404,10 +404,14 @@ ftdigit_size(xd) = let
 in
 //
 case+ xd of
-| FTD1(xn1) => nsz(xn1)
-| FTD2(xn1, xn2) => nsz(xn1) + nsz(xn2)
-| FTD3(xn1, xn2, xn3) => nsz(xn1) + nsz(xn2) + nsz(xn3)
-| FTD4(xn1, xn2, xn3, xn4) => nsz(xn1) + nsz(xn2) + nsz(xn3) + nsz(xn4)
+| FTD1(xn1) =>
+    nsz(xn1)
+| FTD2(xn1, xn2) =>
+    nsz(xn1) + nsz(xn2)
+| FTD3(xn1, xn2, xn3) =>
+    nsz(xn1) + nsz(xn2) + nsz(xn3)
+| FTD4(xn1, xn2, xn3, xn4) =>
+    nsz(xn1) + nsz(xn2) + nsz(xn3) + nsz(xn4)
 //
 end // end of [ftdigit_size]
 //
@@ -440,10 +444,14 @@ ftdigit2fngtree
   (xd) = 
 (
 case+ xd of
-  | FTD1(xn1) => FTsing(xn1)
-  | FTD2(xn1, xn2) => FTdeep(FTD1(xn1), FTemp(), FTD1(xn2))
-  | FTD3(xn1, xn2, xn3) => FTdeep(FTD2(xn1, xn2), FTemp(), FTD1(xn3))
-  | FTD4(xn1, xn2, xn3, xn4) => FTdeep(FTD2(xn1, xn2), FTemp(), FTD2(xn3, xn4))
+| FTD1(xn1) =>
+    FTsing(xn1)
+| FTD2(xn1, xn2) =>
+    FTdeep(FTD1(xn1), FTemp(), FTD1(xn2))
+| FTD3(xn1, xn2, xn3) =>
+    FTdeep(FTD2(xn1, xn2), FTemp(), FTD1(xn3))
+| FTD4(xn1, xn2, xn3, xn4) =>
+    FTdeep(FTD2(xn1, xn2), FTemp(), FTD2(xn3, xn4))
 ) (* end of [ftdigit2fngtree] *)
 //
 (* ****** ****** *)
