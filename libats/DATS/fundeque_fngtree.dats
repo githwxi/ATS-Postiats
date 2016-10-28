@@ -79,16 +79,18 @@ ftnode
 (
   a:t@ype+, int(*dpth*), int(*size*)
 ) = (* ftnode *)
-  | FTN1 (a, 0, 1) of (a) // singleton
-  | {d:nat} {n1,n2:nat}
-    FTN2 (a, d+1, n1+n2) of
+  | FTN1(a, 0, 1) of (a) // singleton
+  | {d:nat}
+    {n1,n2:nat}
+    FTN2(a, d+1, n1+n2) of
     (
-      ftnode (a, d, n1), ftnode (a, d, n2)
+      ftnode(a, d, n1), ftnode(a, d, n2)
     ) // end of [FTN2]
-  | {d:nat} {n1,n2,n3:nat}
-    FTN3 (a, d+1, n1+n2+n3) of
+  | {d:nat}
+    {n1,n2,n3:nat}
+    FTN3(a, d+1, n1+n2+n3) of
     (
-      ftnode (a, d, n1), ftnode (a, d, n2), ftnode (a, d, n3)
+      ftnode(a, d, n1), ftnode(a, d, n2), ftnode(a, d, n3)
     ) // end of [FTN3]
 // end of [ftnode] // end of [datatype]
 
@@ -99,20 +101,37 @@ ftdigit
 (
   a:t@ype+, int(*dpth*), int(*size*)
 ) = (* ftdigit *)
-  | {d:nat} {n:nat}
-    FTD1 (a, d, n) of ftnode (a, d, n)
-  | {d:nat} {n1,n2:nat}
-    FTD2 (a, d, n1+n2) of (
-      ftnode (a, d, n1), ftnode (a, d, n2)
-    ) // end of [FTD2]
-  | {d:nat} {n1,n2,n3:nat}
-    FTD3 (a, d, n1+n2+n3) of (
-      ftnode (a, d, n1), ftnode (a, d, n2), ftnode (a, d, n3)
-    ) // end of [FTD3]
-  | {d:nat} {n1,n2,n3,n4:nat}
-    FTD4 (a, d, n1+n2+n3+n4) of (
-      ftnode (a, d, n1), ftnode (a, d, n2), ftnode (a, d, n3), ftnode (a, d, n4)
-    ) // end of [FTD4]
+  | {d:nat}
+    {n:nat}
+    FTD1
+    (
+      a, d, n
+    ) of ftnode(a, d, n)
+  | {d:nat}
+    {n1,n2:nat}
+    FTD2
+    (
+      a, d, n1+n2
+    ) of
+    (
+      ftnode(a, d, n1), ftnode(a, d, n2)
+    ) (* end of [FTD2] *)
+  | {d:nat}
+    {n1,n2,n3:nat}
+    FTD3
+    (
+      a, d, n1+n2+n3
+    ) of (
+      ftnode(a, d, n1), ftnode(a, d, n2), ftnode(a, d, n3)
+    ) (* end of [FTD3] *)
+  | {d:nat}
+    {n1,n2,n3,n4:nat}
+    FTD4
+    (
+      a, d, n1+n2+n3+n4
+    ) of (
+      ftnode(a, d, n1), ftnode(a, d, n2), ftnode(a, d, n3), ftnode(a, d, n4)
+    ) (* end of [FTD4] *)
 // end of [ftdigit]
 
 (* ****** ****** *)
@@ -122,22 +141,23 @@ fngtree (
   a:t@ype, int(*d*), int(*n*)
 ) = (* fngtree *)
   | {d:nat}
-    FTemp (a, d, 0) of ()
+    FTemp(a, d, 0) of ()
   | {d:nat}
     {n:int}
-    FTsing (a, d, n) of ftnode (a, d, n)
+    FTsing(a, d, n) of ftnode(a, d, n)
   | {d:nat}
     {npr,nm,nsf:nat}
-    FTdeep (a, d, npr+nm+nsf) of
+    FTdeep(a, d, npr+nm+nsf) of
     (
-      ftdigit(a, d, npr), fngtree (a, d+1, nm), ftdigit (a, d, nsf)
+      ftdigit(a, d, npr), fngtree(a, d+1, nm), ftdigit(a, d, nsf)
     ) // end of [FTdeep]
 // end of [fngtree]
 
 (* ****** ****** *)
 //
 extern
-fun{a:t0p}
+fun
+{a:t0p}
 fprint_fngtree
   {d:int}{n:int}
   (out: FILEref, xt: fngtree (INV(a), d, n)): void
@@ -146,7 +166,8 @@ fprint_fngtree
 
 local
 
-fun{a:t0p}
+fun
+{a:t0p}
 fprint_ftnode
   {d:int}{n:int}
 (
@@ -284,15 +305,17 @@ ftnode_prop_szpos
   (xn: ftnode (a, d, n)): [n > 0] void =
   case+ xn of
   | FTN1 _ => ()
-  | FTN2 (xn1, xn2) => {
-      prval () = ftnode_prop_szpos (xn1)
-      prval () = ftnode_prop_szpos (xn2)
-    } // end of [FTN2]
-  | FTN3 (xn1, xn2, xn3) => {
-      prval () = ftnode_prop_szpos (xn1)
-      prval () = ftnode_prop_szpos (xn2)
-      prval () = ftnode_prop_szpos (xn3)
-    } // end of [FTN3]
+  | FTN2(xn1, xn2) =>
+    {
+      prval () = ftnode_prop_szpos(xn1)
+      prval () = ftnode_prop_szpos(xn2)
+    } (* end of [FTN2] *)
+  | FTN3(xn1, xn2, xn3) =>
+    {
+      prval () = ftnode_prop_szpos(xn1)
+      prval () = ftnode_prop_szpos(xn2)
+      prval () = ftnode_prop_szpos(xn3)
+    } (* end of [FTN3] *)
 // end of [ftnode_prop_szpos]
 
 (* ****** ****** *)
@@ -302,12 +325,12 @@ ftdigit_prop_szpos
   {a:t0p}
   {d:int}
   {n:int} .<>.
-  (xd: ftdigit (a, d, n)): [n > 0] void =
+  (xd: ftdigit(a, d, n)): [n > 0] void =
   case+ xd of
-  | FTD1 (xn1) => ftnode_prop_szpos (xn1)
-  | FTD2 (xn1, _) => ftnode_prop_szpos (xn1)
-  | FTD3 (xn1, _, _) => ftnode_prop_szpos (xn1)
-  | FTD4 (xn1, _, _, _) => ftnode_prop_szpos (xn1)
+  | FTD1(xn1) => ftnode_prop_szpos(xn1)
+  | FTD2(xn1, _) => ftnode_prop_szpos(xn1)
+  | FTD3(xn1, _, _) => ftnode_prop_szpos(xn1)
+  | FTD4(xn1, _, _, _) => ftnode_prop_szpos(xn1)
 // end of [ftdigit_prop_szpos]
 
 (* ****** ****** *)
@@ -317,13 +340,14 @@ fngtree_prop1_sznat
   {a:t0p}
   {d:int}
   {n:int} .<>.
-  (xt: fngtree (a, d, n)): [n >= 0] void =
+  (xt: fngtree(a, d, n)): [n >= 0] void =
   case+ xt of
-  | FTemp () => ()
-  | FTsing (xn) => ftnode_prop_szpos (xn)
-  | FTdeep (pr, m, sf) => {
-      val () = ftdigit_prop_szpos (pr) and () = ftdigit_prop_szpos (sf)
-    } // end of [FTdeep]
+  | FTemp() => ()
+  | FTsing(xn) => ftnode_prop_szpos(xn)
+  | FTdeep(pr, m, sf) =>
+    {
+      val () = ftdigit_prop_szpos(pr) and () = ftdigit_prop_szpos(sf)
+    } (* end of [FTdeep] *)
 // end of [fngtree_prop1_sznat]
 
 (* ****** ****** *)
@@ -1084,7 +1108,7 @@ ftapp2
   | (FTsing xn1, _) => xn1 ++ (xna ++ (xnb ++ xt2))
   | (_, FTsing xn2) => ((xt1 ++ xna) ++ xnb) ++ xn2
   | (FTdeep (pr1, m1, sf1), FTdeep (pr2, m2, sf2)) =>
-     FTdeep (pr1, ftadd2 (m1, sf1, xna, xnb, pr2, m2), sf2)
+     FTdeep (pr1, ftadd2(m1, sf1, xna, xnb, pr2, m2), sf2)
 ) // end of [ftapp2]
 
 and
@@ -1176,7 +1200,7 @@ ftapp3
   | (FTsing xn1, _) => xn1 ++ (xna ++ (xnb ++ (xnc ++ xt2)))
   | (_, FTsing xn2) => (((xt1 ++ xna) ++ xnb) ++ xnc) ++ xn2
   | (FTdeep(pr1, m1, sf1), FTdeep (pr2, m2, sf2)) =>
-     FTdeep(pr1, ftadd3 (m1, sf1, xna, xnb, xnc, pr2, m2), sf2)
+     FTdeep(pr1, ftadd3(m1, sf1, xna, xnb, xnc, pr2, m2), sf2)
 ) // end of [ftapp3]
 
 and
@@ -1270,7 +1294,7 @@ ftapp4
   | (FTsing xn1, _) => xn1 ++ (xna ++ (xnb ++ (xnc ++ (xnd ++ xt2))))
   | (_, FTsing xn2) => ((((xt1 ++ xna) ++ xnb) ++ xnc) ++ xnd) ++ xn2
   | (FTdeep(pr1, m1, sf1), FTdeep (pr2, m2, sf2)) =>
-     FTdeep(pr1, ftadd4 (m1, sf1, xna, xnb, xnc, xnd, pr2, m2), sf2)
+     FTdeep(pr1, ftadd4(m1, sf1, xna, xnb, xnc, xnd, pr2, m2), sf2)
 ) // end of [ftapp4]
 
 and
@@ -1366,9 +1390,10 @@ __free(p: ptr):<!wrt> void = "mac#ATS_MFREE"
 
 extern
 fun
-foreach{a:t0p}{d:nat}{n:nat}
+foreach
+{a:t0p}{d:nat}{n:nat}
 (
-  xt: fngtree (a, d, n), f: ftnode (a, d) -<cloref> void
+  xt: fngtree(a, d, n), f: ftnode(a, d) -<cloref> void
 ) :<> void // end of [foreach]
 
 implement
@@ -1378,12 +1403,12 @@ foreach
 in
 //
 case+ xt of
-| FTemp () => ()
-| FTsing (xn) => fopr(xn)
-| FTdeep (pr, m, sf) => let
+| FTemp() => ()
+| FTsing(xn) => fopr(xn)
+| FTdeep(pr, m, sf) => let
 //
-    prval () = ftdigit_prop_szpos (pr)
-    prval () = ftdigit_prop_szpos (sf)
+    prval () = ftdigit_prop_szpos(pr)
+    prval () = ftdigit_prop_szpos(sf)
 //
     val () =
     ( case+ pr of
@@ -1399,16 +1424,16 @@ case+ xt of
 //
     val () =
     ( case+ m of
-      | FTemp () => ()
+      | FTemp() => ()
       | _ (*non-FTemp*) => let
           val
           fopr1 = lam
             (xn_1: ftnode(a, d+1)): void =<cloref> let
           in
             case+ xn_1 of
-            | FTN2 (xn1, xn2) =>
+            | FTN2(xn1, xn2) =>
                 (fopr(xn1); fopr(xn2))
-            | FTN3 (xn1, xn2, xn3) =>
+            | FTN3(xn1, xn2, xn3) =>
                 (fopr(xn1); fopr(xn2); fopr(xn3))
           end // end of [lam] // end of [val]
           val () = foreach(m, fopr1)
