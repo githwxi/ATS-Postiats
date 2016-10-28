@@ -720,25 +720,28 @@ fngtree_get_atend
 ) (* end of [fngtree_get_atend] *)
 //
 (* ****** ****** *)
-
+//
 assume
 deque_type
-  (a:t0p, n:int) = fngtree (a, 0(*d*), n)
-// end of [deque_type]
-
+  (a:t@ype, n:int) =
+  fngtree(a, 0(*depth*), n)
+//
 (* ****** ****** *)
 
 primplmnt
 lemma_deque_param
-  (xs) = fngtree_prop1_sznat (xs)
+  (xs) = fngtree_prop1_sznat(xs)
 // end of [lemma_deque_param]
 
 (* ****** ****** *)
-
+//
 implement
 {}(*tmp*)
-fundeque_nil () = FTemp ((*void*))
-
+fundeque_nil () = FTemp((*void*))
+implement
+{}(*tmp*)
+fundeque_make_nil () = FTemp((*void*))
+//
 (* ****** ****** *)
 
 implement
@@ -1565,7 +1568,7 @@ end // end of [rforeach]
 in (* in of [local] *)
 
 implement{a}
-fundeque_rforeach (xs) = let
+fundeque_rforeach(xs) = let
   var env: void = () in fundeque_rforeach_env<a><void>(xs, env)
 end // end of [fundeque_rforeach]
 

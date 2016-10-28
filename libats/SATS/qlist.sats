@@ -77,7 +77,7 @@ qlist0(a:vt0p) = [n:int | n >= 0] qlist(a, n)
 praxi
 lemma_qlist_param
   {a:vt0p}{n:int}
-  (q: !qlist(INV(a), n)): [n >= 0] void
+  (q0: !qlist(INV(a), n)): [n >= 0] void
 // end of [lemma_qlist_param]
 
 (* ****** ****** *)
@@ -86,26 +86,23 @@ fun{}
 qlist_make_nil{a:vt0p}():<!wrt> qlist(a, 0)
 //
 fun{}
-qlist_free_nil{a:vt0p}(q: qlist(a, 0)):<!wrt> void
+qlist_free_nil{a:vt0p}(qlist(a, 0)):<!wrt> void
 //
 (* ****** ****** *)
-
+//
+fun
+{a:vt0p}
+qlist_length
+  {n:int}(q0: !qlist(INV(a), n)):<> int(n)
+//
+(* ****** ****** *)
+//
 fun{a:vt0p}
 qlist_is_nil
-  {n:int} (q: !qlist(a, n)):<> bool (n == 0)
+  {n:int} (q0: !qlist(a, n)):<> bool (n == 0)
 fun{a:vt0p}
 qlist_isnot_nil
-  {n:int} (q: !qlist(INV(a), n)):<> bool (n > 0)
-//
-overload iseqz with qlist_is_nil
-overload isneqz with qlist_isnot_nil
-//
-(* ****** ****** *)
-
-fun{a:vt0p}
-qlist_length {n:int} (q: !qlist(INV(a), n)):<> int (n)
-//
-overload length with qlist_length
+  {n:int} (q0: !qlist(INV(a), n)):<> bool (n > 0)
 //
 (* ****** ****** *)
 //
@@ -113,29 +110,32 @@ fun{}
 fprint_qlist$sep(out: FILEref): void
 //
 fun{a:vt0p}
-fprint_qlist(out: FILEref, q: !qlist(INV(a))): void
+fprint_qlist
+  (out: FILEref, q0: !qlist(INV(a))): void
 fun{a:vt0p}
-fprint_qlist_sep(out: FILEref, q: !qlist(INV(a)), sep: string): void
-//
-overload fprint with fprint_qlist
-overload fprint with fprint_qlist_sep
+fprint_qlist_sep
+  (out: FILEref, q0: !qlist(INV(a)), sep: string): void
 //
 (* ****** ****** *)
 
 fun{a:vt0p}
 qlist_insert{n:int}
 (
-  q: !qlist(INV(a), n) >> qlist(a, n+1), x: a
+  q0: !qlist(INV(a), n) >> qlist(a, n+1), x: a
 ) :<!wrt> void // end of [qlist_insert]
 
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
 qlist_takeout{n:pos}
-  (q: !qlist(INV(a), n) >> qlist(a, n-1)):<!wrt> (a)
+(
+  q0: !qlist(INV(a), n) >> qlist(a, n-1)
+) :<!wrt> (a) // end-of-function
+//
 fun{a:vt0p}
-qlist_takeout_opt (q: !qlist(INV(a)) >> _):<!wrt> Option_vt(a)
-
+qlist_takeout_opt
+  (q0: !qlist(INV(a)) >> _):<!wrt> Option_vt(a)
+//
 (* ****** ****** *)
 //
 (*
@@ -145,24 +145,28 @@ qlist_takeout_opt (q: !qlist(INV(a)) >> _):<!wrt> Option_vt(a)
 fun{}
 qlist_takeout_list
   {a:vt0p}{n:int}
-  (q: !qlist(INV(a), n) >> qlist(a, 0)):<!wrt> list_vt(a, n)
+  (q0: !qlist(INV(a), n) >> qlist(a, 0)):<!wrt> list_vt(a, n)
 // end of [qlist_takeout_list]
 //
 (* ****** ****** *)
 //
-fun{
-a:vt0p
-} qlist_foreach (q: !qlist(INV(a))): void
-fun{
-a:vt0p}{env:vt0p
-} qlist_foreach_env (q: !qlist(INV(a)), env: &(env) >> _): void
+fun
+{a:vt0p}
+qlist_foreach (q: !qlist(INV(a))): void
+fun
+{a:vt0p}
+{env:vt0p}
+qlist_foreach_env
+  (q: !qlist(INV(a)), env: &(env) >> _): void
 //
-fun{
-a:vt0p}{env:vt0p
-} qlist_foreach$cont (x: &a, env: &env): bool
-fun{
-a:vt0p}{env:vt0p
-} qlist_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+fun
+{a:vt0p}
+{env:vt0p}
+qlist_foreach$cont (x: &a, env: &env): bool
+fun
+{a:vt0p}
+{env:vt0p}
+qlist_foreach$fwork (x: &a >> _, env: &(env) >> _): void
 //
 (* ****** ****** *)
 //
@@ -312,6 +316,20 @@ qlist_takeout_ngc (*first*)
   (q0: !qlist(INV(a), n) >> qlist(a, n-1)):<!wrt> mynode1(a)
 // end of [qlist_takeout_ngc]
 
+(* ****** ****** *)
+//
+// overloading for certain symbols
+//
+(* ****** ****** *)
+//
+overload iseqz with qlist_is_nil
+overload isneqz with qlist_isnot_nil
+//
+overload length with qlist_length
+//
+overload fprint with fprint_qlist
+overload fprint with fprint_qlist_sep
+//
 (* ****** ****** *)
 
 (* end of [qlist.sats] *)

@@ -34,7 +34,8 @@
 // HX: indexed by deque size
 //
 abstype
-deque_type (elt:t@ype+, n:int) = ptr
+deque_type
+(elt:t@ype+, n:int) = ptr
 //
 (* ****** ****** *)
 //
@@ -58,32 +59,45 @@ lemma_deque_param
 (* ****** ****** *)
 
 fun{}
-fundeque_nil{a:t0p} ():<> deque (a, 0)
+fundeque_nil{a:t0p} ():<> deque(a, 0)
+fun{}
+fundeque_make_nil{a:t0p} ():<> deque(a, 0)
 
 (* ****** ****** *)
-
-fun{a:t0p}
+//
+fun
+{a:t0p}
 fundeque_cons{n:int}
-  (x: a, xs: deque (INV(a), n)):<> deque (a, n+1)
+  (x: a, xs: deque(INV(a), n)):<> deque(a, n+1)
 // end of [fundeque_cons]
-
-fun{a:t0p}
+//
+fun
+{a:t0p}
 fundeque_uncons{n:pos}
-  (xs: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> (a)
+  (xs: &deque(INV(a), n) >> deque(a, n-1)):<!wrt> (a)
 // end of [fundeque_uncons]
-
+//
 (* ****** ****** *)
-
-fun{a:t0p}
+//
+fun
+{a:t0p}
 fundeque_snoc{n:int}
-  (xs: deque (INV(a), n), x: a):<> deque (a, n+1)
+  (xs: deque(INV(a), n), x: a):<> deque(a, n+1)
 // end of [fundeque_snoc]
-
-fun{a:t0p}
+//
+fun
+{a:t0p}
 fundeque_unsnoc{n:pos}
   (xs: &deque(INV(a), n) >> deque(a, n-1)):<!wrt> (a)
 // end of [fundeque_unsnoc]
-
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+fundeque_size
+  {n:int}(xs: deque(INV(a), n)):<> size_t(n)
+//
 (* ****** ****** *)
 //
 fun{}
@@ -100,28 +114,28 @@ fundeque_is_cons
 //
 fun
 {a:t0p}
-fundeque_size{n:int} (xs: deque(INV(a), n)):<> size_t(n)
-//
-(* ****** ****** *)
-//
-fun{a:t0p}
 fundeque_get_atbeg{n:pos}(xs: deque(INV(a), n)):<> (a)
-fun{a:t0p}
+fun
+{a:t0p}
 fundeque_get_atend{n:pos}(xs: deque(INV(a), n)):<> (a)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 fundeque_get_atbeg_opt(xs: Deque(INV(a))):<> Option_vt(a)
-fun{a:t0p}
+fun
+{a:t0p}
 fundeque_get_atend_opt(xs: Deque(INV(a))):<> Option_vt(a)
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 fundeque_takeout_atbeg_opt
   (xs: &Deque (INV(a)) >> _):<!wrt> Option_vt (a)
 // end of [fundeque_takeout_atbeg_opt]
 //
-fun{a:t0p}
+fun
+{a:t0p}
 fundeque_takeout_atend_opt
   (xs: &Deque (INV(a)) >> _):<!wrt> Option_vt (a)
 // end of [fundeque_takeout_atend_opt]
@@ -138,10 +152,10 @@ fundeque_append
 //
 fun{}
 fprint_fundeque$sep(out: FILEref): void
-fun{a:t0p}
-fprint_fundeque(out: FILEref, xs: Deque(INV(a))): void
 //
-overload fprint with fprint_fundeque
+fun{a:t0p}
+fprint_fundeque
+  (out: FILEref, xs: Deque(INV(a))): void
 //
 (* ****** ****** *)
 //
@@ -180,6 +194,28 @@ fun
 fundeque_listize
   {n:int}(xs: deque(INV(a), n)):<!wrt> list_vt(a, n)
 // end of [fundeque_listize]
+//
+(* ****** ****** *)
+//
+// overloading for certain symbols
+//
+(* ****** ****** *)
+//
+overload iseqz with fundeque_is_nil
+overload isneqz with fundeque_is_cons
+//
+(* ****** ****** *)
+//
+overload fprint with fprint_fundeque
+//
+(* ****** ****** *)
+//
+overload .size with fundeque_size
+//
+(* ****** ****** *)
+//
+overload .head with fundeque_get_atbeg
+overload .last with fundeque_get_atend
 //
 (* ****** ****** *)
 

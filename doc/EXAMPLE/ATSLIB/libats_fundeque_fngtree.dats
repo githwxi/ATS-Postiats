@@ -14,12 +14,13 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 staload
 "libats/SATS/fundeque_fngtree.sats"
 staload
-_(*anon*) = "libats/DATS/fundeque_fngtree.dats"
-
+_(*anon*) =
+"libats/DATS/fundeque_fngtree.dats"
+//
 (* ****** ****** *)
 
 val () =

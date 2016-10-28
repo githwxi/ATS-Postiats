@@ -62,13 +62,61 @@ qlist_decode
   {a:vt0p}: qlistref(a) -<> qlist(a)
 //
 (* ****** ****** *)
-
+//
 implement
 {}(*tmp*)
 qlistref_make_nil
   {a}((*void*)) =
   qencode(qlist_make_nil())
 //
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+qlistref_is_nil
+  (q0) = ans where
+{
+//
+val q0 = qdecode(q0)
+//
+val ans = qlist_is_nil<a>(q0)
+//
+prval () = $UN.cast2void(q0)
+//
+} (* end of [qlistref_is_nil] *)
+
+implement
+{a}(*tmp*)
+qlistref_isnot_nil
+  (q0) = ans where
+{
+//
+val q0 = qdecode(q0)
+//
+val ans = qlist_isnot_nil<a>(q0)
+//
+prval () = $UN.cast2void(q0)
+//
+} (* end of [qlistref_is_cons] *)  
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+qlistref_length
+  (q0) = n0 where
+{
+//
+val q0 = qdecode(q0)
+//
+val n0 = qlist_length<a>(q0)
+//
+prval () = lemma_qlist_param(q0)
+//
+prval () = $UN.cast2void(q0)
+//
+} (* end of [qlistref_length] *)  
+
 (* ****** ****** *)
 
 implement

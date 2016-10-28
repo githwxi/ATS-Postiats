@@ -524,10 +524,9 @@ symintr .eval // HX: convention: using "!"
 //
 // HX-2012-05-23: for template args
 //
-abstype
-atstkind_type(tk: tkind)
-abst@ype
-atstkind_t0ype(tk: tkind)
+abstype atstkind_type(tk: tkind)
+//
+abst@ype atstkind_t0ype(tk: tkind)
 //
 typedef
 tkind_type(tk:tkind) = atstkind_type(tk)

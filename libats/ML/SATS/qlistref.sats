@@ -46,6 +46,21 @@ qlistref_make_nil
   {a:vt0ype}((*void*)):<!wrt> qlistref(a)
 //
 (* ****** ****** *)
+
+fun
+{a:vt0p}
+qlistref_is_nil(q0: qlistref(a)): bool
+fun
+{a:vt0p}
+qlistref_isnot_nil(q0: qlistref(a)): bool
+
+(* ****** ****** *)
+
+fun
+{a:vt0p}
+qlistref_length(q0: qlistref(a)): intGte(0)
+
+(* ****** ****** *)
 //
 fun
 {a:vt0p}
@@ -68,7 +83,18 @@ qlistref_takeout_list(qlistref(a)):<!ref> List0_vt(a)
 //
 (* ****** ****** *)
 //
+// overloading for certain symbols
+//
+(* ****** ****** *)
+//
+overload iseqz with qlistref_is_nil
+overload isneqz with qlistref_isnot_nil
+//
+(* ****** ****** *)
+//
 overload .insert with qlistref_insert
+//
+(* ****** ****** *)
 //
 overload .takeout with qlistref_takeout_exn
 overload .takeout_opt with qlistref_takeout_opt
