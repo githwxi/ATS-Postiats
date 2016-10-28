@@ -25,6 +25,7 @@ Here is a list of major additions and changes since the last release:
 1. Significantly expanding libatscc
 2. Improving typechecking involving $delay and $ldelay
 3. Changing symbolic to "%&+-./:=@~`^|*!?<>#" (that is, '$' is dropped)
+4. Supporting both string_make_stream and string_make_stream_vt
 
 ######
 
