@@ -1388,7 +1388,7 @@ in
 end // end of [list0_map2]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 list0_filter
@@ -1403,7 +1403,12 @@ val ys = list_filter<a> (g1ofg0(xs))
 in
   list0_of_list_vt (ys)
 end // end of [list0_filter]
-
+//
+implement
+{a}(*tmp*)
+list0_filter_method
+  (xs) = lam(pred) => list0_filter<a>(xs, pred)
+//
 (* ****** ****** *)
 
 implement

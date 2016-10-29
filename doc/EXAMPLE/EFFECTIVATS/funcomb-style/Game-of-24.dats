@@ -105,7 +105,8 @@ in
 //
 xss.mapopt(TYPE{exp})
 (
-  lam(xs) => let val-sing0(x) = xs in if exp_is_24(x) then Some_vt(x) else None_vt() end
+  lam(xs) =>
+  let val-sing0(x) = xs in if exp_is_24(x) then Some_vt(x) else None_vt() end
 ) (* end of [mapopt] *)
 //
 end // end of [play24]

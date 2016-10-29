@@ -597,35 +597,44 @@ a,b:t0p
 fun{a:t0p}
 list0_filter
   (list0(INV(a)), pred: cfun(a, bool)): list0(a)
+fun{a:t0p}
+list0_filter_method
+  (list0(INV(a)))(pred: cfun(a, bool)): list0(a)
+//
+overload .filter with list0_filter_method
 //
 (* ****** ****** *)
 //
-fun{
-a:t0p}{b:t0p
-} list0_map
+fun
+{a:t0p}
+{b:t0p}
+list0_map
 (
   xs: list0(INV(a)), fopr: cfun(a, b)
 ) : list0(b) // end-of-function
 //
-fun{
-a:t0p}{b:t0p
-} list0_mapopt
+fun
+{a:t0p}
+{b:t0p}
+list0_mapopt
 (
   xs: list0(INV(a)), fopr: cfun(a, Option_vt(b))
 ) : list0(b) // end-of-function
 //
 (* ****** ****** *)
 //
-fun{
-a:t0p}{b:t0p
-} list0_map_method
+fun
+{a:t0p}
+{b:t0p}
+list0_map_method
 (
   list0(INV(a)), TYPE(b))(fopr: cfun(a, b)
 ) : list0(b) // end-of-function
 //
-fun{
-a:t0p}{b:t0p
-} list0_mapopt_method
+fun
+{a:t0p}
+{b:t0p}
+list0_mapopt_method
 (
   list0(INV(a)), TYPE(b))(fopr: cfun(a, Option_vt(b))
 ) : list0(b) // end-of-function

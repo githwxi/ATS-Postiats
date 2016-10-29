@@ -235,25 +235,25 @@ aux
 //
 implement
 {a}(*tmp*)
-int_list_map_cloref
+int_list0_map_cloref
   (n, f) = list0_tabulate<a> (n, f)
 //
 implement
 {a}(*tmp*)
-int_list_map_method
-  (n, tres) = lam(f) => int_list_map_cloref<a> (n, f)
+int_list0_map_method
+  (n, tres) = lam(f) => int_list0_map_cloref<a> (n, f)
 //
 (* ****** ****** *)
 //
 implement
 {a}(*tmp*)
-int_array_map_cloref
+int_array0_map_cloref
   (n, f) = array0_tabulate<a> (i2sz(n), f)
 //
 implement
 {a}(*tmp*)
-int_array_map_method
-  (n, tres) = lam(f) => int_array_map_cloref<a> (n, f)
+int_array0_map_method
+  (n, tres) = lam(f) => int_array0_map_cloref<a> (n, f)
 //
 (* ****** ****** *)
 //

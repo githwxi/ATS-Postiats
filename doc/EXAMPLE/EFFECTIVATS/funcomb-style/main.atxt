@@ -18,11 +18,116 @@ Functional Programming with Combinators
 ##para('\
 A great strength in functional programming lies
 in its support for a combinator-based style of programming.
-In this article, I would like to present some examples
-that make extensive use of sequence-processing combinators,
+In this article, I would like to present some search-based
+examples that make extensive use of sequence-processing combinators,
 where a sequence may refer to either a list or a stream (that is,
 a lazy list) in ATS.
 ')##comment("para")
+
+<h2>Depth-First Search</h2>
+
+##para('\
+Let us first see a high-level implementation of tree-based
+(instead of graph-based) depth-first search. In the following
+declaration, ##stacode("node") is introduced as an abstract type (for
+nodes in a tree being searched) and ##stacode("nodes") as a alias for
+the type ##stacode("list0(node)"), which is for lists of nodes:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+abstype node
+typedef nodes = list0(node)
+')</pre>
+
+Let us further assume the availability of
+a function of the name ##dyncode("node_get_children")
+for obtaining the children of a given node:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun
+node_get_children(nx: node): nodes
+//
+overload .children with node_get_children
+//
+')</pre>
+
+Note that the dot-notation overloading supports writing
+##dyncode("nx.children()") for ##dyncode("node_get_children(nx)").
+
+')##comment("para")
+
+##para('\
+The following declared function ##dyncode("depth_first_search")
+essentially pre-orderly lists all of the nodes in a tree (rooted at a given
+node):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun
+depth_first_search(nxs: nodes): nodes
+//
+')</pre>
+
+A specification-like implementation for ##dyncode("depth_first_search") is
+given as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+depth_first_search
+  (nxs) =
+(
+if iseqz(nxs)
+  then list0_nil()
+  else let
+    val nx0 = nxs.head()
+  in
+    list0_cons(nx0, depth_first_search(nx0.children() + nxs.tail()))
+  end // end of [else]
+) (* end of [depth_first_search] *)
+//
+')</pre>
+
+where the symbol ##dyncode("+") is overloaded with ##dyncode("list0_append")
+for concatenating two given list0-values.
+
+')##comment("para")
+
+<h2>Breadth-First Search</h2>
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun
+breadth_first_search(nxs: nodes): nodes
+//
+implement
+breadth_first_search
+  (nxs) =
+(
+if iseqz(nxs)
+  then list0_nil()
+  else let
+    val nx0 = nxs.head()
+  in
+    list0_cons(nx0, breadth_first_search(nxs.tail() + nx0.children()))
+  end // end of [else]
+) (* end of [breadth_first_search] *)
+//
+')</pre>
+
 
 <h2>Game-of-24</h2>
 
