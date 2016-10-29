@@ -15,9 +15,11 @@ staload UN = "prelude/SATS/unsafe.sats"
 staload "libats/ML/SATS/basis.sats"
 //
 staload "libats/ML/SATS/list0.sats"
+staload "libats/ML/SATS/array0.sats"
 staload "libats/ML/SATS/intrange.sats"
 //
 staload _ = "libats/ML/DATS/list0.dats"
+staload _ = "libats/ML/DATS/array0.dats"
 staload _ = "libats/ML/DATS/intrange.dats"
 //
 (* ****** ****** *)
@@ -36,7 +38,10 @@ val ((*void*)) =
 (* ****** ****** *)
 //
 val ((*void*)) =
-  println! ((10).list_map(TYPE{int})(lam(i) => i*i))
+  println! ((10).list0_map(TYPE{int})(lam(i) => i*i))
+//
+val ((*void*)) =
+  println! ((10).array0_map(TYPE{int})(lam(i) => sz2i(i*i)))
 //
 (* ****** ****** *)
 
