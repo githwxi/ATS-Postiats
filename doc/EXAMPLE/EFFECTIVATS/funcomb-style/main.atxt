@@ -16,12 +16,13 @@ Functional Programming with Combinators
 </h1>
 
 ##para('\
-A great strength in functional programming lies
-in its support for a combinator-based style of programming.
-In this article, I would like to present some search-based
-examples that make extensive use of sequence-processing combinators,
-where a sequence may refer to either a list or a stream (that is,
-a lazy list) in ATS.
+
+A great strength in functional programming lies in its support for a
+combinator-based style of programming.  In this article, I would like
+to present some code that makes extensive use of sequence-processing
+combinators, where a sequence may refer to either a list or a stream
+(that is, a lazy list) in ATS.\
+
 ')##comment("para")
 
 <h2>Depth-First Search</h2>
@@ -63,9 +64,10 @@ Note that the dot-notation overloading supports writing
 ')##comment("para")
 
 ##para('\
+
 The following declared function ##dyncode("depth_first_search")
-essentially pre-orderly lists all of the nodes in a tree (rooted at a given
-node):
+essentially pre-orderly lists all of the nodes in each tree rooted at
+one of given nodes:
 
 <pre
 class="patsyntax">
@@ -77,8 +79,8 @@ depth_first_search(nxs: nodes): nodes
 //
 ')</pre>
 
-A specification-like implementation for ##dyncode("depth_first_search") is
-given as follows:
+A specification-like implementation for
+##dyncode("depth_first_search") is given as follows:
 
 <pre
 class="patsyntax">
@@ -103,6 +105,47 @@ where the symbol ##dyncode("+") is overloaded with ##dyncode("list0_append")
 for concatenating two given list0-values.
 
 ')##comment("para")
+
+##para('\
+
+There can be some serious issues with the use of ##stacode("list0") in
+the above implementation of ##dyncode("depth_first_search"). For
+intance, calling ##dyncode("depth_first_search") on a given node, one
+generates a list containing all of the nodes in the tree rooted at the
+given node; the generated list can potentially be very long, requiring
+a great deal of memory to store.\
+
+')
+
+##para('\
+
+By replacing ##stacode("list0") with ##stacode("stream_vt") (for
+linear streams) in the definition of ##stacode("nodelst"), I give as
+follows another implementation of ##dyncode("depth_first_search"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+depth_first_search
+  (nxs) = $ldelay(
+//
+(
+case+ !nxs of
+| ~stream_vt_nil() =>
+    stream_vt_nil((*void*))
+| ~stream_vt_cons(nx0, nxs) =>
+    stream_vt_cons(nx0, depth_first_search(nx0.children() + nxs))
+)
+,
+~(nxs) // HX: for freeing the stream!
+//
+) (* end of [depth_first_search] *)
+//
+')</pre>
+
+')
 
 <h2>Breadth-First Search</h2>
 
