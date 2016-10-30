@@ -5,7 +5,7 @@ Queen-Puzzle
 (* ****** ****** *)
 //
 #include
-"./depth-first.dats"
+"./breadth-first.dats"
 //
 (* ****** ****** *)
 
@@ -40,7 +40,7 @@ list0_cons(x, list0_nil())
 //
 val
 theSolutions =
-(depth_first_search
+(breadth_first_search
  (
    sing0(list0_nil())
  )
@@ -69,4 +69,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [queen-puzzle-dfs.dats] *)
+(* end of [queen-puzzle-bfs.dats] *)

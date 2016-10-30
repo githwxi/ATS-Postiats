@@ -31,7 +31,21 @@ upload_main: \
 
 ######
 
-regress::
+queen-puzzle-bfs: \
+queen-puzzle-bfs.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
+queen-puzzle-dfs: \
+queen-puzzle-dfs.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+queen-puzzle-dfs-2: \
+queen-puzzle-dfs-2.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
+regress:: queen-puzzle-bfs; ./$<
+regress:: queen-puzzle-dfs; ./$<
+regress:: queen-puzzle-dfs-2; ./$<
 
 ######
 
@@ -48,10 +62,15 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c
 
 ######
-
+#
 cleanall:: clean
+#
 cleanall:: ; $(RMF) main.html
-
+#
+cleanall:: ; $(RMF) queen-puzzle-bfs
+cleanall:: ; $(RMF) queen-puzzle-dfs
+cleanall:: ; $(RMF) queen-puzzle-dfs-2
+#
 ######
 
 ###### end of [Makefile] ######

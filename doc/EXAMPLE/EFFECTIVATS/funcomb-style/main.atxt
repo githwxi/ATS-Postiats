@@ -27,11 +27,12 @@ a lazy list) in ATS.
 <h2>Depth-First Search</h2>
 
 ##para('\
-Let us first see a high-level implementation of tree-based
-(instead of graph-based) depth-first search. In the following
-declaration, ##stacode("node") is introduced as an abstract type (for
-nodes in a tree being searched) and ##stacode("nodes") as a alias for
-the type ##stacode("list0(node)"), which is for lists of nodes:
+
+Let us first see a high-level implementation of tree-based depth-first
+search. In the following declaration, ##stacode("node") is introduced
+as an abstract type (for nodes in a given tree to be searched) and
+##stacode("nodes") as a alias for the type ##stacode("list0(node)"),
+which is for lists of nodes:
 
 <pre
 class="patsyntax">
@@ -114,8 +115,7 @@ fun
 breadth_first_search(nxs: nodes): nodes
 //
 implement
-breadth_first_search
-  (nxs) =
+breadth_first_search(nxs) =
 (
 if iseqz(nxs)
   then list0_nil()

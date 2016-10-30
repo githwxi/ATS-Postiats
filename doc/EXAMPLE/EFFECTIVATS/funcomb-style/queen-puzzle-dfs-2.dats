@@ -5,7 +5,7 @@ Queen-Puzzle
 (* ****** ****** *)
 //
 #include
-"./depth-first.dats"
+"./depth-first-2.dats"
 //
 (* ****** ****** *)
 
@@ -27,14 +27,8 @@ test
 ) = (nx).iforall()(lam (d, j) => (i != j) && (abs(i-j) != d+1))
 //
 in
-  ((N).list0_map(TYPE{node})(lam(i) => list0_cons(i, nx))).filter()(lam nx => test(nx.head(), nx.tail()))
+  ((N).stream_vt_map(TYPE{node})(lam(i) => list0_cons(i, nx))).filter()(lam nx => $effmask_all(test(nx.head(), nx.tail())))
 end // en of [node_get_children]
-
-(* ****** ****** *)
-
-#define
-sing0(x)
-list0_cons(x, list0_nil())
 
 (* ****** ****** *)
 //
@@ -42,7 +36,7 @@ val
 theSolutions =
 (depth_first_search
  (
-   sing0(list0_nil())
+   stream_vt_make_sing(list0_nil())
  )
 ).filter()(lam nx => length(nx) = N)
 //
@@ -69,4 +63,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [queen-puzzle-dfs.dats] *)
+(* end of [queen-puzzle-dfs-2.dats] *)

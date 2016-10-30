@@ -3,15 +3,32 @@ Depth-first search
 *)
 
 (* ****** ****** *)
-
+//
+#include
+"share/atspre_define.hats"
+//
+(* ****** ****** *)
+(*
+//
+#include
+"{$LIBATSCC2JS}/staloadall.hats"
+//
+staload
+"{$LIBATSCC2JS}/SATS/print.sats"
+staload _(*anon*) =
+"{$LIBATSCC2JS}/DATS/print.dats"
+//
+*)
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 #include
 "share/HATS/atspre_staload_libats_ML.hats"
-
+//
 (* ****** ****** *)
 
-abstype node
+abstype node = ptr
 typedef nodes = list0(node)
 
 (* ****** ****** *)
