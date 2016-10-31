@@ -29,7 +29,7 @@ combinators, where a sequence may refer to either a list or a stream
 
 ##para('\
 
-Let us first see a high-level implementation of tree-based depth-first
+Let us see a high-level implementation of tree-based depth-first
 search. In the following declaration, ##stacode("node") is introduced
 as an abstract type (for nodes in a given tree to be searched) and
 ##stacode("nodes") as a alias for the type ##stacode("list0(node)"),
@@ -58,7 +58,7 @@ overload .children with node_get_children
 //
 ')</pre>
 
-Note that the dot-notation overloading supports writing
+With the dot-notation overloading, one can simply write
 ##dyncode("nx.children()") for ##dyncode("node_get_children(nx)").
 
 ')##comment("para")
@@ -108,12 +108,13 @@ for concatenating two given list0-values.
 
 ##para('\
 
-There can be some serious issues with the use of ##stacode("list0") in
-the above implementation of ##dyncode("depth_first_search"). For
-intance, calling ##dyncode("depth_first_search") on a given node, one
-generates a list containing all of the nodes in the tree rooted at the
-given node; the generated list can potentially be very long, requiring
-a great deal of memory to store.\
+The use of ##stacode("list0") in the above implementation of
+##dyncode("depth_first_search") can result in great inefficiency both
+time-wise and memory-wise. For instance, calling
+##dyncode("depth_first_search") on a given node, one generates a list
+containing all of the nodes in the tree rooted at the given node; this
+generated list can potentially be of great size, requiring long time to
+compute as well as large memory to store.\
 
 ')
 
@@ -121,7 +122,8 @@ a great deal of memory to store.\
 
 By replacing ##stacode("list0") with ##stacode("stream_vt") (for
 linear streams) in the definition of ##stacode("nodelst"), I give as
-follows another implementation of ##dyncode("depth_first_search"):
+follows another implementation of ##dyncode("depth_first_search")
+that can be seen as a close variant of the above one:
 
 <pre
 class="patsyntax">
@@ -144,6 +146,12 @@ case+ !nxs of
 ) (* end of [depth_first_search] *)
 //
 ')</pre>
+
+Due to the very nature of lazy-evaluation, each node in
+the stream returned by a call to ##dyncode("depth_first_search")
+is computed only if it is needed subsequently. For instance,
+if one only needs to find the first node in the stream satisfying
+some property, then no following nodes are ever computed.
 
 ')
 
