@@ -53,11 +53,6 @@ fun isStreamSubscriptExn (x: !exn):<> bool = "mac\#isStreamSubscriptExn"
 //
 #atscode_separator()
 //
-fun{a:t0p}
-stream_sing(a):<> stream_con(a)
-//
-#atscode_separator()
-//
 fun
 {a:t0p}
 stream_is_nil(xs: stream(a)): bool
@@ -73,6 +68,10 @@ fun{a:t0p}
 stream_make_cons
   (a, stream(INV(a))):<> stream(a)
 //
+#atscode_separator()
+//
+fun{a:t0p}
+stream_sing(a):<> stream_con(a)
 fun{a:t0p}
 stream_make_sing(x: a): stream(a)
 //

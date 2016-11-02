@@ -57,6 +57,12 @@ $ldelay(
   stream_vt_cons(x, xs), $effmask_wrt(~xs)
 )(*$ldelay*)
 //
+#atscode_separator()
+//
+implement
+{a}(*tmp*)
+stream_vt_sing(x) =
+stream_vt_cons{a}(x, stream_vt_make_nil())
 implement
 {a}(*tmp*)
 stream_vt_make_sing(x) =

@@ -17,11 +17,209 @@ Functional Programming with Combinators
 
 ##para('\
 
-A great strength in functional programming lies in its support for a
-combinator-based style of programming.  In this article, I would like
-to present some code that makes extensive use of sequence-processing
-combinators, where a sequence may refer to either a list or a stream
-(that is, a lazy list) in ATS.\
+Generally speaking (or by convention), the name combinator refers to a
+relatively small function for processing tree-like data (including
+lists). By a combinator-based style of programming, I mostly mean a
+style that puts a particular emphasis on making use of combinators in
+program construction.
+
+')##comment("para")
+
+##para('\
+
+A great strength in functional programming lies in its support for
+programming with combinators. In this article, I would like to present
+some code in this article that makes extensive use of
+sequence-processing combinators, where a sequence may refer to either
+a list or a stream (that is, a lazy list) in ATS.\
+
+')##comment("para")
+
+<h2>Listing Permutations</h2>
+
+##para('\
+
+The first example I use for illustration is about listing all the
+permutations of a given list. The following function ##dyncode("permute")
+is declared for this purpose:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{
+a:t@ype
+} permute
+  {n:nat}
+(
+xs: list(a, n)
+) : list(list(a, n), fact(n))
+//
+')</pre>
+
+Essentially, the type assigned to ##dyncode("permute") states that
+##dyncode("permute") is a function template taking a list of length ##stacode("N")
+and returning a list of length ##stacode("fact(N)") in which each element
+is a list of length ##stacode("N"), where ##stacode("fact") refers to the
+factorial function on natural numbers. Before implementing
+##dyncode("permute"), I would like to first implement the following
+declared function ##dyncode("permute0"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{
+a:t@ype
+} permute0(xs: list0(a)): list0(list0(a))
+//
+')</pre>
+
+where ##stacode("list0") is just an un-indexed version of
+##stacode("list"). Note that ##dyncode("permute") and
+##dyncode("permute0") are supposed to do the same but the latter is
+given a simplied type when compared to the former. The implementation
+of ##dyncode("permute0") given as follows can be said of typical
+combinator-based style:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+{a}(*tmp*)
+permute0(xs) =
+case+ xs of
+| nil0() => list0_sing(nil0())
+| cons0 _ =>
+  list0_concat
+  (
+    list0_map<(a, list0(a))><list0(list0(a))>
+      (choose_1_rest(xs), lam(@(x, xs)) => list0_mapcons(x, permute0(xs)))
+  )
+//
+')</pre>
+
+The function ##dyncode("list0_sing") forms a singleton list, and the
+function ##dyncode("list0_map") forms a list by applying its second
+argument, which is a closure-function, to each element in its first
+argument, which is a list.  The function ##dyncode("list0_concat")
+takes a list ##dyncode("xss") of lists and returns the concatenation
+of all of the lists in ##dyncode("xss").  As for
+##dyncode("list0_mapcons"), it takes an element and a list of lists
+and then forms another list by putting the element to the front of
+each list in the list of lists.
+
+Finally, the function ##dyncode("choose_1_rest") takes a list
+##dyncode("xs") and returns a list of pairs such that each pair
+consists of an element ##dyncode("x") and a list obtained from
+removing ##dyncode("x") from ##dyncode("xs"), where ##dyncode("x")
+ranges over all the elements in ##dyncode("xs"). Please
+find as follows an implementation of ##dyncode("choose_1_rest"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+choose_1_rest(xs: list0(INV(a))): list0(@(a, list0(a)))
+//
+implement
+{a}(*tmp*)
+choose_1_rest(xs) =
+(
+case+ xs of
+| nil0() =>
+  list0_nil()
+| cons0(x1, xs2) =>
+  list0_cons
+  (
+    (x1, xs2)
+  , list0_map<(a, list0(a))><(a, list0(a))>
+      (choose_1_rest(xs2), lam(xxs) => (xxs.0, cons0(x1, xxs.1)))
+    // list0_map
+  )
+)
+//
+')</pre>
+
+')##comment("para")
+
+
+##para('\
+
+The above implementation of ##dyncode("permute0") can be readily turned
+into the following one for ##dyncode("permute"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+implement
+{a}(*tmp*)
+permute
+{n}(xs) = let
+//
+extern
+praxi
+lemma_fact_0(): [fact(0)==1] void
+extern
+praxi
+lemma_fact_1{n:pos}(): [fact(n)==n*fact(n-1)] void
+//
+in
+//
+case+ xs of
+| nil() =>
+  mylist_sing(nil()) where
+  {
+    prval () = lemma_fact_0()
+  } (* end of [nil] *)
+| cons _ => let
+    prval () = lemma_fact_1{n}()
+  in
+  //
+  mylist_concat
+  (
+    mylist_map<(a, list(a, n-1))><list(list(a, n), fact(n-1))>
+      (mychoose_1_rest(xs), lam(@(x, xs)) => mylist_mapcons(x, permute(xs)))
+  )
+  //
+  end // end of [cons]
+//
+end // end of [permute]
+')</pre>
+
+where the involved combinators are assigned the following types:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+extern
+fun
+{a:t@ype}
+mylist_sing(x: a): list(a, 1)
+extern
+fun
+{a:t@ype}
+mylist_concat{m,n:int}(list(list(INV(a), n), m)): list(a, m*n)
+extern
+fun
+{a:t@ype}
+mylist_mapcons{m,n:int}(a, list(list(INV(a), n), m)): list(list(a, n+1), m)
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+mylist_map{n:int}(list(INV(a), n), a -<cloref1> b): list(b, n)
+extern
+fun
+{a:t@ype}
+mychoose_1_rest{n:int}(xs: list(INV(a), n)): list(@(a, list(a, n-1)), n)
+')</pre>
 
 ')##comment("para")
 
@@ -29,11 +227,12 @@ combinators, where a sequence may refer to either a list or a stream
 
 ##para('\
 
-Let us see a high-level implementation of tree-based depth-first
-search. In the following declaration, ##stacode("node") is introduced
-as an abstract type (for nodes in a given tree to be searched) and
-##stacode("nodes") as a alias for the type ##stacode("list0(node)"),
-which is for lists of nodes:
+As another example of programming with combinators, I present a
+high-level implementation of tree-based depth-first search. In the
+following declaration, ##stacode("node") is introduced as an abstract
+type (for nodes in a given tree to be searched) and ##stacode("nodes")
+as a alias for the type ##stacode("list0(node)"), which is for lists
+of nodes:
 
 <pre
 class="patsyntax">
@@ -157,6 +356,9 @@ some property, then no following nodes are ever computed.
 
 <h2>Breadth-First Search</h2>
 
+A specification-like implementation of tree-based breadth-first search
+is given as follows:
+
 <pre
 class="patsyntax">
 ##dats2xhtml('\
@@ -179,6 +381,16 @@ if iseqz(nxs)
 //
 ')</pre>
 
+While this implementation is functionally correct, its can be
+impractical. Clearly, processing one node involves evaluating the code
+##dyncode("nxs.tail() + nx0.children()"), which can be both
+time-consuming and memory-consuming as the list
+##dyncode("nxs.tail()") can exponentially long (in terms of
+tree-height). One method for addressing this issue is to replace the
+list-based sequence representation with one that can support efficient
+concatenation (for instance, one based on finger-trees). I leave it as
+an exercise for the interested reader to experiment with such a
+method.
 
 <h2>Game-of-24</h2>
 
