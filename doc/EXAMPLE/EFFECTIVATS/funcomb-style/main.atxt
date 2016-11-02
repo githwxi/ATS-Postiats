@@ -385,7 +385,7 @@ While this implementation is functionally correct, its can be
 impractical. Clearly, processing one node involves evaluating the code
 ##dyncode("nxs.tail() + nx0.children()"), which can be both
 time-consuming and memory-consuming as the list
-##dyncode("nxs.tail()") can exponentially long (in terms of
+##dyncode("nxs.tail()") can be exponentially long (in terms of
 tree-height). One method for addressing this issue is to replace the
 list-based sequence representation with one that can support efficient
 concatenation (for instance, one based on finger-trees). I leave it as

@@ -141,5 +141,30 @@ case+ xs of
 end // end of [permute]
 
 (* ****** ****** *)
+//
+// HX: Some testing code
+//
+(* ****** ****** *)
+
+implement
+main0() =
+{
+//
+val xs = $list{int}(1,2,3,4,5)
+val xss = permute0(g0ofg1(xs))
+//
+val () =
+fprintln!
+( stdout_ref
+, "Listing all the permutations of (1, 2, 3, 4, 5):"
+) (* val *)
+//
+val () = fprint_listlist0_sep(stdout_ref, xss, "\n", ",")
+//
+val () = fprint_newline(stdout_ref)
+//
+} (* end of [main0] *)
+
+(* ****** ****** *)
 
 (* end of [permute.dats] *)

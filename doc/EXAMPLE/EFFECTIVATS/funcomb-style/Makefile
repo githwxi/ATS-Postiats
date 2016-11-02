@@ -31,6 +31,11 @@ upload_main: \
 
 ######
 
+permute: \
+permute.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
 queen-puzzle-bfs: \
 queen-puzzle-bfs.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 

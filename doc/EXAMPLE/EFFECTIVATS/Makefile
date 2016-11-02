@@ -124,6 +124,11 @@ linear-streams
 linear-streams:: ; \
 make -C $@ $(TARGET)
 
+all :: \
+funcomb-style
+funcomb-style:: ; \
+make -C $@ $(TARGET)
+
 ######
 
 cleanall::
@@ -149,6 +154,7 @@ cleanall:: ; make -C parsing-cmbntr-cps cleanall
 cleanall:: ; make -C ssntyped-channels-1 cleanall
 cleanall:: ; make -C ssntyped-channels-2 cleanall
 cleanall:: ; make -C linear-streams cleanall
+cleanall:: ; make -C funcomb-style cleanall
 
 ######
 
@@ -175,6 +181,7 @@ uploadall::upload_parsing-cmbntr-cps
 uploadall::upload_ssntyped-channels-1
 uploadall::upload_ssntyped-channels-2
 uploadall::upload_linear-streams
+uploadall::upload_funcomb-style
 
 ######
 
@@ -415,6 +422,14 @@ upload_linear-streams:: ; \
   linear-streams/index.html \
   linear-streams/Makefile linear-streams/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/linear-streams/
+
+######
+
+upload_funcomb-style:: ; \
+  $(SCP) \
+  funcomb-style/index.html \
+  funcomb-style/Makefile funcomb-style/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/funcomb-style/
 
 ######
 
