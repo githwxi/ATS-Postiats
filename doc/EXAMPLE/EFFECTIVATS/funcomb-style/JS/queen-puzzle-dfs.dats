@@ -60,9 +60,6 @@ if iseqz(nxs)
 //
 (* ****** ****** *)
 
-(* end of [depth-first.dats] *)
-(* ****** ****** *)
-
 #define N 8
 
 (* ****** ****** *)

@@ -1,6 +1,6 @@
 (*
 Queen-Puzzle
-Breadth-first search
+Depth-first search
 *)
 
 (* ****** ****** *)
@@ -26,10 +26,15 @@ staload _(*anon*) =
 "{$LIBATSCC2JS}/DATS/print.dats"
 //
 (* ****** ****** *)
-
-abstype node = ptr
-typedef nodes = list0(node)
-
+//
+abstype node
+//
+vtypedef nodes = stream_vt(node)
+//
+(* ****** ****** *)
+//
+overload + with stream_vt_append
+//
 (* ****** ****** *)
 //
 extern
@@ -42,21 +47,25 @@ overload .children with node_get_children
 //
 extern
 fun
-breadth_first_search(nxs: nodes): nodes
+depth_first_search(nxs: nodes): nodes
 //
 (* ****** ****** *)
 //
 implement
-breadth_first_search(nxs) =
+depth_first_search
+  (nxs) = $ldelay(
+//
 (
-if iseqz(nxs)
-  then list0_nil()
-  else let
-    val nx0 = nxs.head()
-  in
-    list0_cons(nx0, breadth_first_search(nxs.tail() + nx0.children()))
-  end // end of [else]
-) (* end of [breadth_first_search] *)
+case+ !nxs of
+| ~stream_vt_nil() =>
+    stream_vt_nil((*void*))
+| ~stream_vt_cons(nx0, nxs) =>
+    stream_vt_cons(nx0, depth_first_search(nx0.children() + nxs))
+)
+,
+~(nxs) // HX: for freeing the stream!
+//
+) (* end of [depth_first_search] *)
 //
 (* ****** ****** *)
 
@@ -78,7 +87,7 @@ test
 ) = (nx).iforall()(lam (d, j) => (i != j) && (abs(i-j) != d+1))
 //
 in
-  ((N).list0_map(TYPE{node})(lam(i) => list0_cons(i, nx))).filter()(lam nx => test(nx.head(), nx.tail()))
+  ((N).stream_vt_map(TYPE{node})(lam(i) => list0_cons(i, nx))).filter()(lam nx => test(nx.head(), nx.tail()))
 end // en of [node_get_children]
 
 (* ****** ****** *)
@@ -91,9 +100,9 @@ list0_cons(x, list0_nil())
 //
 val
 theSolutions =
-(breadth_first_search
+(depth_first_search
  (
-   sing0(list0_nil())
+   stream_vt_make_sing(list0_nil())
  )
 ).filter()(lam nx => length(nx) = N)
 //
@@ -126,4 +135,4 @@ alert(ats2jspre_the_print_store_join());
 //
 (* ****** ****** *)
 
-(* end of [queen-puzzle-bfs.dats] *)
+(* end of [queen-puzzle-dfs-2.dats] *)
