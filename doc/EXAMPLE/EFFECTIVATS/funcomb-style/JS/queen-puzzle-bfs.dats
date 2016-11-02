@@ -5,6 +5,13 @@ Breadth-first search
 
 (* ****** ****** *)
 //
+#define
+ATS_MAINATSFLAG 1
+#define
+ATS_DYNLOADNAME "theSearch_start"
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_define.hats"
 //
@@ -111,9 +118,13 @@ val _(*int*) =
 theSolutions.iforeach()(lam(n, nx) => (println!("Solution#", n+1); print_node(nx); println!()))
 //
 (* ****** ****** *)
-
-implement main0 () = ()
-
+//
+%{$
+//
+theSearch_start();
+//
+%} // end of [%{$]
+//
 (* ****** ****** *)
 
 (* end of [queen-puzzle-bfs.dats] *)
