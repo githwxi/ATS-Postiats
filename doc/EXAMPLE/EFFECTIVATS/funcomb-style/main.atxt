@@ -39,7 +39,7 @@ a list or a stream (that is, a lazy list) in ATS.\
 
 ##para('\
 
-The first example I use for illustration is about listing all the
+The first example I use for illustration is about listing all of the
 permutations of a given list. The following function ##dyncode("permute")
 is declared for this purpose:
 
@@ -59,9 +59,9 @@ xs: list(a, n)
 ')</pre>
 
 Essentially, the type assigned to ##dyncode("permute") states that
-##dyncode("permute") is a function template taking a list of length ##stacode("N")
+##dyncode("permute") is a function taking a list of length ##stacode("N")
 and returning a list of length ##stacode("fact(N)") in which each element
-is a list of length ##stacode("N"), where ##stacode("fact") refers to the
+is itself a list of length ##stacode("N"), where ##stacode("fact") refers to the
 factorial function on natural numbers. Before implementing
 ##dyncode("permute"), I would like to first implement the following
 declared function ##dyncode("permute0"):
@@ -79,9 +79,9 @@ a:t@ype
 
 where ##stacode("list0") is just an un-indexed version of
 ##stacode("list"). Note that ##dyncode("permute") and
-##dyncode("permute0") are supposed to do the same but the latter is
-given a simplied type when compared to the former. The implementation
-of ##dyncode("permute0") given as follows can be said of typical
+##dyncode("permute0") do the same at run-time but the latter is given
+a simplied type when compared to the former. The implementation of
+##dyncode("permute0") given as follows can be said of typical
 combinator-based style:
 
 <pre
@@ -116,7 +116,7 @@ Finally, the function ##dyncode("choose_1_rest") takes a list
 ##dyncode("xs") and returns a list of pairs such that each pair
 consists of an element ##dyncode("x") and a list obtained from
 removing ##dyncode("x") from ##dyncode("xs"), where ##dyncode("x")
-ranges over all the elements in ##dyncode("xs"). Please
+ranges over all of the elements in ##dyncode("xs"). Please
 find as follows an implementation of ##dyncode("choose_1_rest"):
 
 <pre
@@ -257,7 +257,7 @@ overload .children with node_get_children
 //
 ')</pre>
 
-With the dot-notation overloading, one can simply write
+With the dot-notation overloading, one can write
 ##dyncode("nx.children()") for ##dyncode("node_get_children(nx)").
 
 ')##comment("para")
@@ -351,6 +351,10 @@ the stream returned by a call to ##dyncode("depth_first_search")
 is computed only if it is needed subsequently. For instance,
 if one only needs to find the first node in the stream satisfying
 some property, then no following nodes are ever computed.
+Additionally, linear lazy-evaluation (##stacode("stream_vt"))
+means that only the latest computed node needs to be kept at any point during
+evaluation, saving the memory that would otherwise be needed for storing
+all of the previously computed nodes.
 
 ')
 
