@@ -57,6 +57,11 @@ stream_make_nil() =
 //
 implement
 {a}(*tmp*)
+stream_make_cons
+  (x, xs) = $delay(stream_cons{a}(x, xs))
+//
+implement
+{a}(*tmp*)
 stream_make_sing(x) =
   $delay(stream_cons{a}(x, $delay(stream_nil)))
 //
