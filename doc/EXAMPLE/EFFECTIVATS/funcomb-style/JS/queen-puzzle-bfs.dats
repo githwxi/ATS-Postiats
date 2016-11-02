@@ -121,7 +121,9 @@ theSolutions.iforeach()(lam(n, nx) => (println!("Solution#", n+1); print_node(nx
 //
 %{$
 //
+ats2jspre_the_print_store_clear();
 theSearch_start();
+alert(ats2jspre_the_print_store_join());
 //
 %} // end of [%{$]
 //
