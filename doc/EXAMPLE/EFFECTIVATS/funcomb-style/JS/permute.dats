@@ -84,8 +84,7 @@ val () =
 //
 #define :: list0_cons
 //
-val xs =
-  1::2::3::4::5::nil0()
+val xs = 1::2::3::nil0()
 //
 val xss = permute0<int>(xs)
 //
