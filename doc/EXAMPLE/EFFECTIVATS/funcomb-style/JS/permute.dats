@@ -82,8 +82,12 @@ print_val<list0(a)> = print_list0<a>
 val () =
 {
 //
-val xs = $list{int}(1,2,3,4,5)
-val xss = permute0(g0ofg1(xs))
+#define :: list0_cons
+//
+val xs =
+  1::2::3::4::5::nil0()
+//
+val xss = permute0<int>(xs)
 //
 val () =
 println!
