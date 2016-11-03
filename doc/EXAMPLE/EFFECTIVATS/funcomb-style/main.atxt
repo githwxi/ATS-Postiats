@@ -400,7 +400,10 @@ method.\
 
 ')
 
+<!--
 <h2>Game-of-24</h2>
+-->
+
 <h2>Queen Puzzle</h2>
 
 ##para('\
@@ -420,10 +423,10 @@ assume node = list0(int)
 
 For each valid index ##dyncode("i"), the integer ##dyncode("xs[i]")
 stands for the column number of the queen piece on row
-##dyncode("n-1-i"), where #dyncode("n") refers to the length of
+##dyncode("n-1-i"), where ##dyncode("n") refers to the length of
 ##dyncode("xs"). More precisely, a given integer list of length
 ##dyncode("n") represents a partial configuration of chess board
-containing ##dyncode("n") queen pieces with no one attaching another.
+containing ##dyncode("n") queen pieces with no piece being able to attack another.
 As for
 ##dyncode("node_get_children"), we can implement it as follows:
 
@@ -448,9 +451,9 @@ end // end of [node_get_children]
 ')</pre>
 
 Calling ##dyncode("node_get_children") on a given node returns all the
-nodes that extends the given one with one more queen piece. A solution
+nodes that extend the given one with one more queen piece. A solution
 to the 8-queen puzzle is just a node containing 8 integers, and the
-following stream ##dyncode("theSolution") consists of all of such
+following (linear) stream ##dyncode("theSolution") consists of all of such
 nodes:
 
 <pre
@@ -474,6 +477,24 @@ to try a completed program that prints out the first two solutions to the 8-quee
 """)##comment("para")
 
 <h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+permute.dats // listing permutations
+depth-first.dats // list-based sequence representation
+depth-first-2.dats // stream-based sequence representation
+breadth-first.dats // list-based sequence representation
+queen-puzzle-dfs-2.dats // solving 8-queen puzzle with depth-first-2
+</pre>
+
+In addition, there is an accompanying ##filename("Makefile") for compiling
+and testing the code.\
+
+""")
 
 <hr size="2">
 <p>
