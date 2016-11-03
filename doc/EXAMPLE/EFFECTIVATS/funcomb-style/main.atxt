@@ -490,9 +490,9 @@ in this article:
 
 <pre>
 permute.dats // listing permutations
-depth-first.dats // list-based sequence representation
-depth-first-2.dats // stream-based sequence representation
-breadth-first.dats // list-based sequence representation
+depth-first.dats // dfs using list-based sequence representation
+depth-first-2.dats // dfs using stream-based sequence representation
+breadth-first.dats // bfs using list-based sequence representation
 queen-puzzle-dfs-2.dats // solving 8-queen puzzle with depth-first-2
 </pre>
 

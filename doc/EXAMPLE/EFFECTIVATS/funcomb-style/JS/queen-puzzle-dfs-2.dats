@@ -84,10 +84,19 @@ fn
 test
 (
   i: int, nx: node
-) = (nx).iforall()(lam (d, j) => (i != j) && (abs(i-j) != d+1))
+) =
+(
+nx
+).iforall()
+  (lam (d, j) => (i != j) && (abs(i-j) != d+1))
 //
 in
-  ((N).stream_vt_map(TYPE{node})(lam(i) => list0_cons(i, nx))).filter()(lam nx => test(nx.head(), nx.tail()))
+(
+(
+N
+).stream_vt_map(TYPE{node})
+  (lam(i) => list0_cons(i, nx))
+).filter()(lam nx => test(nx.head(), nx.tail()))
 end // end of [node_get_children]
 
 (* ****** ****** *)
@@ -100,7 +109,12 @@ list0_cons(x, list0_nil())
 //
 val
 theSolutions =
-(depth_first_search(stream_vt_make_sing(list0_nil()))).filter()(lam nx => length(nx) = N)
+(
+depth_first_search
+(
+stream_vt_make_sing(list0_nil())
+)
+).filter()(lam nx => length(nx) = N)
 //
 (* ****** ****** *)
 //
@@ -111,13 +125,18 @@ print_node
 ) : void =
 (nx).rforeach()
 (
-  lam i => ((N).foreach()(lam j => (print(ifval(i = j, "Q ", ". "):string))); println!())
+//
+lam i =>
+  ((N).foreach()(lam j => (print(ifval(i = j, "Q ", ". "):string))); println!())
+//
 )
 //
 (* ****** ****** *)
 //
 val _(*int*) =
-(theSolutions.takeLte(2)).iforeach()(lam(n, nx) => (println!("Solution#", n+1); print_node(nx); println!()))
+(
+theSolutions.takeLte(2)
+).iforeach()(lam(n, nx) => (println!("Solution#", n+1); print_node(nx); println!()))
 //
 (* ****** ****** *)
 //
