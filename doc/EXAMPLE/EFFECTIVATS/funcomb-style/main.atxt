@@ -444,6 +444,8 @@ node_get_children
 //  
 fn
 test
+// testing whether putting a queen piece
+// at position i on the next row is safe
 (
   i: int, nx: node
 ) = (nx).iforall()(lam (d, j) => (i != j) && (abs(i-j) != d+1))

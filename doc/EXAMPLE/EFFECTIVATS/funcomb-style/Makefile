@@ -72,6 +72,7 @@ cleanall:: clean
 #
 cleanall:: ; $(RMF) main.html
 #
+cleanall:: ; $(RMF) permute
 cleanall:: ; $(RMF) queen-puzzle-bfs
 cleanall:: ; $(RMF) queen-puzzle-dfs
 cleanall:: ; $(RMF) queen-puzzle-dfs-2
