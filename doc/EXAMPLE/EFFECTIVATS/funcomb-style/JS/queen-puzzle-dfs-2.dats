@@ -88,7 +88,7 @@ test
 //
 in
   ((N).stream_vt_map(TYPE{node})(lam(i) => list0_cons(i, nx))).filter()(lam nx => test(nx.head(), nx.tail()))
-end // en of [node_get_children]
+end // end of [node_get_children]
 
 (* ****** ****** *)
 
@@ -100,11 +100,7 @@ list0_cons(x, list0_nil())
 //
 val
 theSolutions =
-(depth_first_search
- (
-   stream_vt_make_sing(list0_nil())
- )
-).filter()(lam nx => length(nx) = N)
+(depth_first_search(stream_vt_make_sing(list0_nil()))).filter()(lam nx => length(nx) = N)
 //
 (* ****** ****** *)
 //
@@ -121,7 +117,7 @@ print_node
 (* ****** ****** *)
 //
 val _(*int*) =
-theSolutions.iforeach()(lam(n, nx) => (println!("Solution#", n+1); print_node(nx); println!()))
+(theSolutions.takeLte(2)).iforeach()(lam(n, nx) => (println!("Solution#", n+1); print_node(nx); println!()))
 //
 (* ****** ****** *)
 //
