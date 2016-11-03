@@ -91,7 +91,7 @@ val xss = permute0<int>(xs)
 val () =
 println!
 (
-  "Listing all the permutations of (1, 2, 3, 4, 5):"
+  "Listing all the permutations of (1, 2, 3):"
 ) (* val *)
 //
 val () =
