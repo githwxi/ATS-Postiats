@@ -43,14 +43,14 @@ implement
 choose_1_rest(xs) =
 (
 case+ xs of
-| nil0() =>
+| list0_nil() =>
   list0_nil()
-| cons0(x1, xs2) =>
+| list0_cons(x1, xs2) =>
   list0_cons
   (
     $tup(x1, xs2)
   , list0_map{$tup(a,list0(a))}{$tup(a,list0(a))}
-      (choose_1_rest(xs2), lam(xxs) => $tup(xxs.0, cons0(x1, xxs.1)))
+      (choose_1_rest(xs2), lam(xxs) => $tup(xxs.0, list0_cons(x1, xxs.1)))
     // list0_map
   )
 )
@@ -59,12 +59,16 @@ implement
 {a}(*tmp*)
 permute0(xs) =
 case+ xs of
-| nil0() => list0_sing(nil0())
-| cons0 _ =>
+| list0_nil() =>
+  list0_sing
+  (
+    list0_nil()
+  )
+| list0_cons _ =>
   list0_concat
   (
     list0_map{$tup(a,list0(a))}{list0(list0(a))}
-      (choose_1_rest(xs), lam($tup(x, xs)) => list0_map(permute0(xs), lam(xs) => cons0(x, xs)))
+      (choose_1_rest(xs), lam($tup(x, xs)) => list0_map(permute0(xs), lam(xs) => list0_cons(x, xs)))
   )
 //
 (* ****** ****** *)
