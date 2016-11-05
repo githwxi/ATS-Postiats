@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<title>EFFECTIVATS-funcomb-style</title>
+##patsyntax()
+##thePage_style()
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+</script>
+<script
+src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+</script>
+<script
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_all.js">
+</script>
+<script
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_print_store_cats.js">
+</script>
+</head>
+
+<body>
+
+<div
+ class="container-fluid"
+><!--div-->
+
+<h1>
+Effective ATS:<br>
+Functional Reactive Programming via Bacon.js
+</h1>
+
+<h2>Introduction</h2>
+
+##para('\
+
+<a href="https://baconjs.github.io/.">Bacon.js</a>
+is a small JS library for supporting functional reactive programming
+(FRP). In this article, I present some examples involving FRP via Bacon.js.
+
+')##comment("para")
+
+<h2>A Simple Counter</h2>
+
+##para('\
+
+Let me first contrast FRP with the direct style of reactive
+programming based on callbacks. This is particularly relevant for
+someone unfamiliar with FRP.
+
+')
+
+##para('\
+
+Suppose that we want to implement a counter that is associated with
+three buttons of the names: up, down and reset. One implemenation
+is given as follows, which makes direct use of three callback functions
+(that is, one for each button):
+
+')
+
+<hr size="2">
+
+<div class="row">
+<div class="col-md-12">
+<center>
+<p id="theCount_p" class="h1">00</p>
+</center>
+</div>
+</div><!--class-row-->
+
+<hr size="2">
+
+<div class="row">
+<div class="col-md-4">
+<center>
+<button
+ type="button"
+ class="btn btn-primary btn-lg"
+ onclick="theCounter_button_up_click()"
+>Up</button>
+</center>
+</div>
+<div class="col-md-4">
+<center>
+<button
+ type="button" class="btn btn-primary btn-lg"
+ onclick="theCounter_button_down_click()"
+>Down</button>
+</center>
+</div>
+<div class="col-md-4">
+<center>
+<button
+ type="button"
+ class="btn btn-primary btn-lg"
+ onclick="theCounter_button_reset_click()"
+>Reset</button>
+</center>
+</div>
+</div><!--class-row-->
+
+<hr size="2">
+
+##para('\
+
+By clicking the reset button, one resets the displayed count to 0.
+By clicking the up/down button, one increases/decreases the displayed
+count by 1. However, the count cannot go below 0 or above 99.
+
+
+')##comment("para")
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+
+<script
+ src="./JS/theCounter_callback_dats.js">
+</script>
+
+</div><!--class-containier-fluid-->
+</body>
+</html>

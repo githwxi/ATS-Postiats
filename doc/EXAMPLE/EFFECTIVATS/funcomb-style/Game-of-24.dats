@@ -57,16 +57,19 @@ solve_ones : explstlst -> explstlst
 
 extern
 fun
-choose2_rest : explst -> list0($tup(exp, exp, explst))
+choose_2_rest : explst -> list0($tup(exp, exp, explst))
 
 (* ****** ****** *)
 
 implement
 solve_one(xs) =
 list0_concat(
-(choose2_rest(xs)).map(TYPE{explstlst})
+(choose_2_rest(xs)).map(TYPE{explstlst})
 (
-lam($tup(x1, x2, ys)) =>
+lam
+(
+  $tup(x1, x2, ys)
+) =>
   (fopr_exp_exp(x1, x2)).map(TYPE{explst})(lam x12 => cons0(x12, ys))
 )
 )(*list0_concat*)
