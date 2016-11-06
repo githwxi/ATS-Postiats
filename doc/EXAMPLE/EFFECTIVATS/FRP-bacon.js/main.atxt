@@ -11,6 +11,11 @@
 <title>EFFECTIVATS-funcomb-style</title>
 ##patsyntax()
 ##thePage_style()
+<style>
+button:focus{
+  outline:none !important;
+}
+</style>
 <script
 src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
 </script>
@@ -413,7 +418,7 @@ automatically:
 
 If the Auto button is set, then pressing the Up/Down button results in
 the displayed count being increased/decreased by 1 every second until
-another button is pressed.  If the Auto button is not set then pressing
+another button is pressed.  If the Auto button is not set, then pressing
 the Up/Down button results in the displayed count being
 increased/decreased by 1 only once.\
 
@@ -432,11 +437,45 @@ class="patsyntax">
 datatype act = Up | Down | Reset | Skip
 //
 val theAuto_btn = $extval(ptr, "$(\\"#theAuto3_btn\\")")
-val theAuto_clicks = $extmcall(EStream(ptr), theAuto_btn, "asEventStream", "click")
+val theAuto_clicks =
+    $extmcall(EStream(ptr), theAuto_btn, "asEventStream", "click")
 val theAuto_clicks = theAuto_clicks.map(TYPE{act})(lam _ => Skip())
 val theAuto_toggles = scan{bool,act}(theAuto_clicks, false, lam(res, _) => ~res)
 //
 ')</pre>
+
+Note that ##dyncode("Skip") is added to the datatype ##stacode("act"),
+which indicates no change to the count maintained by the auto-counter.
+The property ##dyncode("theAuto_toggles") is a boolean property indicating
+whether the Auto button is set.
+
+')
+
+##para('\
+
+The function ##dyncode("Property_sampledBy_estream_cfun")
+in the following code constructs a stream by essentially interpreting
+each item in the stream ##dyncode("theComb_clicks") based on the
+current value of ##dyncode("theAuto_toggles"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+val theAutoComb_stream =
+  Property_sampledBy_estream_cfun
+    (theAuto_toggles, theComb_clicks, lam(x, y) => if x then Skip else y)
+//
+')</pre>
+
+An item entering
+##dyncode("theComb_clicks") is interpreted as Skip
+in ##dyncode("theAutoComb_stream") if
+if the Auto button is set. Otherwise, it is interpreted as it is.
+
+')
+
+##para('\
 
 In the following code, the call to the function
 ##dyncode("Bacon_interval") generates a stream of zeros such that a
@@ -454,27 +493,76 @@ val theTick_stream =
   Property_sampledBy_estream
     (theAuto_toggles, Bacon_interval{int}(1000(*ms*), 0))
 //
-val theTick_property = EStream_toProperty_init(theTick_stream, false)
-//
-val theTickComb_stream =
-  Property_sampledBy_estream_cfun
-    (theTick_property, theComb_clicks, lam(x, y) => if x then Skip else y)
-//
 ')</pre>
 
-Therefore, ##dyncode("theTick_stream") is a stream of booleans that
-are to be obtained by sampling ##dyncode("theAuto_toggles") at the
-interval of every 1000 milliseconds, and ##dyncode("theTick_property")
-is just ##dyncode("theTick_stream") paired with the initial value
-##dyncode("false").
+Therefore, ##dyncode("theTick_stream") is a stream of booleans
+obtained by sampling ##dyncode("theAuto_toggles") at the interval of
+every 1000 milliseconds.
 
 ')
 
 ##para('\
 
-The entirety of the implementation for this auto-counter is available
-<a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter3_baconjs.dats">on-line</a>.
+The following constructs a stream
+##dyncode("theComb2Tick_stream") by interpreting each tick
+entering
+##dyncode("theTick_stream") based on the current value of the
+property ##dyncode("theComb2_property"):
 
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+val theComb2_clicks = merge(theComb_clicks, theAuto_clicks)
+val theComb2_property = EStream_toProperty_init(theComb2_clicks, Skip)
+//
+val theComb2Tick_stream =
+  Property_sampledBy_estream_cfun
+    (theComb2_property, theTick_stream, lam(x, y) => if y then x else Skip)
+//
+')</pre>
+
+The tick is interpreted as Up, Down, or Reset if the last pressed button
+is Up, Down, or Reset, respectively. Otherwise, the tick is interpreted as
+Skip.
+
+')
+
+##para('\
+
+Finally, a property ##dyncode("theCounts") can be constructed as
+follows by scanning the stream obtained from merging
+##dyncode("theAutoComb_stream") and ##dyncode("theComb2Tick_stream"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+val
+theCounts =
+scan{int,act}
+(
+  merge
+  (
+    theAutoComb_stream
+  , theComb2Tick_stream
+  )
+, 0 (*initial*)
+, lam(res, act) =>
+  (
+    case+ act of
+    | Up() => min(res+1, 99)
+    | Down() => max(0, res-1)
+    | Reset() => (0) | Skip() => res 
+  )
+) (* end of [theCounts] *)
+//
+')</pre>
+
+The code for displaying the values in the property
+##dyncode("theCounts") is omitted.  For the entirety of this
+implementation of an auto-counter, please see the source code
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter3_baconjs.dats">on-line</a>.
 ')
 
 <hr size="2">

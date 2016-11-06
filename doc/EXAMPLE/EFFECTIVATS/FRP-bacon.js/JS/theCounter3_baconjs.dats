@@ -58,15 +58,22 @@ val theAuto_clicks = $extmcall(EStream(ptr), theAuto_btn, "asEventStream", "clic
 val theAuto_clicks = theAuto_clicks.map(TYPE{act})(lam _ => Skip())
 val theAuto_toggles = scan{bool,act}(theAuto_clicks, false, lam(res, _) => ~res)
 //
+val () =
+theAuto_toggles.onValue()
+(
+lam(tf) =>
+if tf
+then $extmcall(void, theAuto_btn, "addClass", "btn-primary")
+else $extmcall(void, theAuto_btn, "removeClass", "btn-primary")
+)
+//
+val theAutoComb_stream =
+  Property_sampledBy_estream_cfun
+    (theAuto_toggles, theComb_clicks, lam(x, y) => if x then Skip else y)
+//
 val theTick_stream =
   Property_sampledBy_estream
     (theAuto_toggles, Bacon_interval{int}(1000(*ms*), 0))
-//
-val theTick_property = EStream_toProperty_init(theTick_stream, false)
-//
-val theTickComb_stream =
-  Property_sampledBy_estream_cfun
-    (theTick_property, theComb_clicks, lam(x, y) => if x then Skip else y)
 //
 val theComb2_clicks = merge(theComb_clicks, theAuto_clicks)
 val theComb2_property = EStream_toProperty_init(theComb2_clicks, Skip)
@@ -75,21 +82,16 @@ val theComb2Tick_stream =
   Property_sampledBy_estream_cfun
     (theComb2_property, theTick_stream, lam(x, y) => if y then x else Skip)
 //
-val the_TC_CT_stream = merge(theTickComb_stream, theComb2Tick_stream)
-//
 val
 theCounts =
 scan{int,act}
 (
-  the_TC_CT_stream
+  merge(theAutoComb_stream, theComb2Tick_stream)
 , 0 // initial count
 , lam(res, act) =>
   (
     case+ act of
-    | Up() => min(res+1, 99)
-    | Down() => max(0, res-1)
-    | Skip() => res
-    | Reset() => (0) // the default
+    | Up() => min(res+1, 99) | Down() => max(0, res-1) | Skip() => res | Reset() => (0)
   )
 ) (* end of [theCounts] *)
 //
