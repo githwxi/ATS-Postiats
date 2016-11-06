@@ -421,6 +421,57 @@ increased/decreased by 1 only once.\
 
 ##para('\
 
+The following code constructs a stream ##dyncode("theAuto_clicks") of
+the type ##stacode("EStream(act)") and a property
+##dyncode("theAuto_toggles") of the type ##stacode("Property(bool)"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+datatype act = Up | Down | Reset | Skip
+//
+val theAuto_btn = $extval(ptr, "$(\\"#theAuto3_btn\\")")
+val theAuto_clicks = $extmcall(EStream(ptr), theAuto_btn, "asEventStream", "click")
+val theAuto_clicks = theAuto_clicks.map(TYPE{act})(lam _ => Skip())
+val theAuto_toggles = scan{bool,act}(theAuto_clicks, false, lam(res, _) => ~res)
+//
+')</pre>
+
+In the following code, the call to the function
+##dyncode("Bacon_interval") generates a stream of zeros such that a
+zero enters the stream every 1000 milliseconds (that is, 1 second),
+and the function ##dyncode("Property_sampledBy_estream") takes a
+property and a stream and returns another stream consisting of all the
+values in the given property sampled at each point when an item enters
+the given stream:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+val theTick_stream =
+  Property_sampledBy_estream
+    (theAuto_toggles, Bacon_interval{int}(1000(*ms*), 0))
+//
+val theTick_property = EStream_toProperty_init(theTick_stream, false)
+//
+val theTickComb_stream =
+  Property_sampledBy_estream_cfun
+    (theTick_property, theComb_clicks, lam(x, y) => if x then Skip else y)
+//
+')</pre>
+
+Therefore, ##dyncode("theTick_stream") is a stream of booleans that
+are to be obtained by sampling ##dyncode("theAuto_toggles") at the
+interval of every 1000 milliseconds, and ##dyncode("theTick_property")
+is just ##dyncode("theTick_stream") paired with the initial value
+##dyncode("false").
+
+')
+
+##para('\
+
 The entirety of the implementation for this auto-counter is available
 <a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter3_baconjs.dats">on-line</a>.
 

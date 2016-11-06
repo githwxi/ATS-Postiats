@@ -64,14 +64,16 @@ val theTick_stream =
 //
 val theTick_property = EStream_toProperty_init(theTick_stream, false)
 //
+val theTickComb_stream =
+  Property_sampledBy_estream_cfun
+    (theTick_property, theComb_clicks, lam(x, y) => if x then Skip else y)
+//
 val theComb2_clicks = merge(theComb_clicks, theAuto_clicks)
 val theComb2_property = EStream_toProperty_init(theComb2_clicks, Skip)
 //
-val theTickComb_stream =
-  Property_sampledBy_estream_cfun(theTick_property, theComb_clicks, lam(x, y) => if x then Skip else y)
-//
 val theComb2Tick_stream =
-  Property_sampledBy_estream_cfun(theComb2_property, theTick_stream, lam(x, y) => if y then x else Skip)
+  Property_sampledBy_estream_cfun
+    (theComb2_property, theTick_stream, lam(x, y) => if y then x else Skip)
 //
 val the_TC_CT_stream = merge(theTickComb_stream, theComb2Tick_stream)
 //
