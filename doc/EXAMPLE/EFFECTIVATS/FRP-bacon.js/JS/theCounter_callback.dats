@@ -41,7 +41,8 @@ theCounter_button_reset_click(): void = "mac#"
 local
 
 val
-theCount = ref{int}(0)
+theCount =
+ref{int}(0)
 
 fun
 theCount_update() =

@@ -21,6 +21,13 @@ theCounter_callback.dats; $(PATSCC) -ccats $<; $(ATSCC2JS) -o $@ -i theCounter_c
 
 ######
 
+all:: \
+theCounter2_baconjs_dats.js
+theCounter2_baconjs_dats.js: \
+theCounter2_baconjs.dats; $(PATSCC) -ccats $<; $(ATSCC2JS) -o $@ -i theCounter2_baconjs_dats.c
+
+######
+
 clean:: ; rm -f *~
 
 ######

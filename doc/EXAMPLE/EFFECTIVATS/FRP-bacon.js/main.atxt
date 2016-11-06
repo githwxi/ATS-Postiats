@@ -12,10 +12,16 @@
 src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
 </script>
 <script
-src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+</script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bacon.js/0.7.53/Bacon.min.js">
 </script>
 <script
  src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_all.js">
+</script>
+<script
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_baconjs_all.js">
 </script>
 <script
  src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_print_store_cats.js">
@@ -24,16 +30,10 @@ src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
 
 <body>
 
-<div
- class="container-fluid"
-><!--div-->
-
 <h1>
 Effective ATS:<br>
 Functional Reactive Programming via Bacon.js
 </h1>
-
-<h2>Introduction</h2>
 
 ##para('\
 
@@ -79,7 +79,7 @@ is given as follows, which makes direct use of three callback functions
 <center>
 <button
  type="button"
- class="btn btn-primary btn-lg"
+ class="btn btn-default btn-lg"
  onclick="theCounter_button_up_click()"
 >Up</button>
 </center>
@@ -87,7 +87,7 @@ is given as follows, which makes direct use of three callback functions
 <div class="col-md-4">
 <center>
 <button
- type="button" class="btn btn-primary btn-lg"
+ type="button" class="btn btn-default btn-lg"
  onclick="theCounter_button_down_click()"
 >Down</button>
 </center>
@@ -96,7 +96,7 @@ is given as follows, which makes direct use of three callback functions
 <center>
 <button
  type="button"
- class="btn btn-primary btn-lg"
+ class="btn btn-default btn-lg"
  onclick="theCounter_button_reset_click()"
 >Reset</button>
 </center>
@@ -111,8 +111,234 @@ By clicking the reset button, one resets the displayed count to 0.
 By clicking the up/down button, one increases/decreases the displayed
 count by 1. However, the count cannot go below 0 or above 99.
 
+')
+
+##para('\
+
+Such a counter can certainly be thought of as an object with an
+encapsulated state, and the callback functions are just some methods
+associated with the object.  For instance, the reference
+##dyncode("theCount") in the following (partial) implementation of a
+counter represents the state of the counter and the two functions
+are methods for updating this state:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+local
+
+val
+theCount = ref{int}(0)
+
+in (* in-of-local *)
+
+implement
+theCounter_button_up_click
+  ((*void*)) = let
+  val () =
+  theCount[] :=
+  min(theCount[]+1, 99) in theCount_update()
+end // end of [theCounter_button_up_click]
+
+implement
+theCounter_button_down_click
+  ((*void*)) = let
+  val () =
+  theCount[] :=
+  max( 0, theCount[]-1) in theCount_update()
+end // end of [theCounter_button_down_click]
+
+end // end of [local]
+//
+')</pre>
+
+Note that the function ##dyncode("theCount_update") is called
+for updating the displayed text (representing the state of the counter).
+The entirety of this callback-based counter implementation is available
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter_callback.dats">on-line</a>.
 
 ')##comment("para")
+
+##para('\
+
+In functional reactive programming (FRP), a button is modeled as a
+stream of events (to be generated when the button is clicked), and
+there are a large variety of functions in Bacon.js for creating and
+manipulating such streams of events. Note that the notion of event
+stream in Bacon.js is not the same as the notion of stream in ATS for
+supporting stream-based lazy-evaluation.
+
+')##comment("para")
+
+##para('\
+
+Given a type ##stacode("T"), the type ##stacode("EStream(T)") is for
+an event stream in which each item is a value of the type
+##stacode("T").  In the following code, three buttons in the DOM are
+first located and then turned into three event streams:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+val theUp_btn = $extval(ptr, "$(\\"#theUp_btn\\")")
+val theDown_btn = $extval(ptr, "$(\\"#theDown_btn\\")")
+val theReset_btn = $extval(ptr, "$(\\"#theReset_btn\\")")
+//
+val theUp_clicks =
+  $extmcall(EStream(ptr), theUp_btn, "asEventStream", "click")
+val theDown_clicks =
+  $extmcall(EStream(ptr), theDown_btn, "asEventStream", "click")
+val theReset_clicks =
+  $extmcall(EStream(ptr), theReset_btn, "asEventStream", "click")
+//
+')</pre>
+
+Note that the type ##stacode("EStream(ptr)") is assigned to the generated
+event streams as the items in these streams are not intended to be analyzed.
+A stream ##dyncode("theComb_clicks") of the type ##stacode("EStream(act)") is
+created as follows by merging three streams:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+datatype act = Up | Down | Reset
+//
+val theUp_clicks = theUp_clicks.map(TYPE{act})(lam _ => Up())
+val theDown_clicks = theDown_clicks.map(TYPE{act})(lam _ => Down())
+val theReset_clicks = theReset_clicks.map(TYPE{act})(lam _ => Reset())
+//
+val theComb_clicks = merge(theUp_clicks, theDown_clicks, theReset_clicks)
+//
+')</pre>
+
+where the datatype ##stacode("act") is declared for differentiating
+the items in ##dyncode("theComb_clicks"). The ##dyncode("map")
+function on an event stream applies its second argument, a
+closure-function, to each item in its first argument, which is an
+event stream. In this regard, it is similar to the ##dyncode("map") on
+a lazy-stream.
+
+')
+
+##para('\
+
+A property ##dyncode("theCounts") is created by scanning the stream
+##dyncode("theComb_clicks"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+val
+theCounts =
+scan{int,act}
+(
+  theComb_clicks
+, 0 // initial count
+, lam(res, act) =>
+  (
+    case+ act of
+    | Up() => min(res+1, 99)
+    | Down() => max(0, res-1)
+    | Reset() => 0 // the default
+  )
+) (* end of [theCounts] *)
+//
+')</pre>
+
+Given a type ##stacode("T"), a property of the type
+##stacode("Property(T)") in Bacon.js essentially refers to a value of
+the type ##stacode("T") paired with a stream of the type
+##stacode("EStream(T)"). The property ##dyncode("theCounts") is
+assigned the type ##stacode("Propert(int)") and its initial value is
+##dyncode("0"). Whenever an item enters the stream
+##dyncode("theComb_clicks"), the third argument of ##dyncode("scan"),
+which is a binary closure-function, is called on the current value
+associated with the property ##dyncode("theCounts") and the item to
+produce the next value associated with the property.
+
+')
+
+##para('\
+
+Finally, the following call to ##dyncode("onValue") in made on ##dyncode("theCounts")
+with a closure-function:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+val () =
+theCounts.onValue()
+(
+lam(count) =>
+{
+  val d0 = count%10 and d1 = count/10
+  val d0 = String(d0) and d1 = String(d1)
+  val theCount2_p = $extval(ptr, "$(\\"#theCount2_p\\")")
+  val ( (*void*) ) = $extmcall(void, theCount2_p, "text", String(d1)+String(d0))
+}
+) (* end of [val] *)
+//
+')</pre>
+
+The closure-function is first called on the initial value associated
+with the property ##dyncode("theCounts"). Whenever the next value on
+the property ##dyncode("theCounts") is available, a call to this
+closure-function is trigged on the value.
+
+')
+
+##para('\
+
+The following demo is of a counter that is implemented in the FRP-style
+outline above. The entirety of the implementation is available
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter2_baconjs.dats">on-line</a>.
+
+
+')##comment("para")
+
+<hr size="2">
+
+<div class="row">
+<div class="col-md-12">
+<center>
+<p id="theCount2_p" class="h1">00</p>
+</center>
+</div>
+</div><!--class-row-->
+
+<hr size="2">
+
+<div class="row">
+<div class="col-md-4">
+<center>
+<button
+ id="theUp_btn"
+ type="button" class="btn btn-primary btn-lg"
+>Up</button>
+</center>
+</div>
+<div class="col-md-4">
+<center>
+<button
+ id="theDown_btn"
+ type="button" class="btn btn-primary btn-lg"
+>Down</button>
+</center>
+</div>
+<div class="col-md-4">
+<center>
+<button
+ id="theReset_btn"
+ type="button" class="btn btn-primary btn-lg"
+>Reset</button>
+</center>
+</div>
+</div><!--class-row-->
 
 <hr size="2">
 <p>
@@ -123,7 +349,9 @@ This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
 <script
  src="./JS/theCounter_callback_dats.js">
 </script>
+<script
+ src="./JS/theCounter2_baconjs_dats.js">
+</script>
 
-</div><!--class-containier-fluid-->
 </body>
 </html>
