@@ -7,7 +7,11 @@ theCounter_callback
 #define
 ATS_MAINATSFLAG 1
 #define
-ATS_DYNLOADNAME "theCounter_callback_start"
+ATS_DYNLOADNAME
+"theCounter_callback_start"
+//
+#define
+ATS_STATIC_PREFIX "theCounter_callback_"
 //
 (* ****** ****** *)
 //

@@ -28,6 +28,13 @@ theCounter2_baconjs.dats; $(PATSCC) -ccats $<; $(ATSCC2JS) -o $@ -i theCounter2_
 
 ######
 
+all:: \
+theCounter3_baconjs_dats.js
+theCounter3_baconjs_dats.js: \
+theCounter3_baconjs.dats; $(PATSCC) -ccats $<; $(ATSCC2JS) -o $@ -i theCounter3_baconjs_dats.c
+
+######
+
 clean:: ; rm -f *~
 
 ######

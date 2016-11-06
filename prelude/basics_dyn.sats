@@ -353,7 +353,7 @@ overload decode with vcopyenv_vt_decode
 //
 val
 the_null_ptr
-  : ptr(null) = "mac#atsptr_null"
+  : ptr(null) = "mac#the_atsptr_null"
 //
 (* ****** ****** *)
 //
