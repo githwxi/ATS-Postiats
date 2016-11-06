@@ -37,7 +37,7 @@ staload
 
 local
 //
-datatype act = Up | Down | Skip | Reset
+datatype act = Up | Down | Reset | Skip
 //
 val theUp_btn = $extval(ptr, "$(\"#theUp3_btn\")")
 val theDown_btn = $extval(ptr, "$(\"#theDown3_btn\")")
@@ -86,12 +86,18 @@ val
 theCounts =
 scan{int,act}
 (
-  merge(theAutoComb_stream, theComb2Tick_stream)
-, 0 // initial count
+  merge
+  (
+    theAutoComb_stream
+  , theComb2Tick_stream
+  )
+, 0 (*initial*)
 , lam(res, act) =>
   (
     case+ act of
-    | Up() => min(res+1, 99) | Down() => max(0, res-1) | Skip() => res | Reset() => (0)
+    | Up() => min(res+1, 99)
+    | Down() => max(0, res-1)
+    | Reset() => (0) | Skip() => res
   )
 ) (* end of [theCounts] *)
 //

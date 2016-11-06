@@ -233,8 +233,8 @@ where the datatype ##stacode("act") is declared for differentiating
 the items in ##dyncode("theComb_clicks"). The ##dyncode("map")
 function on an event stream applies its second argument, a
 closure-function, to each item in its first argument, which is an
-event stream. In this regard, it is similar to the ##dyncode("map") on
-a lazy-stream.
+event stream. In this regard, it is similar to the ##dyncode("map")
+function on a lazy-stream.
 
 ')
 
@@ -279,8 +279,8 @@ produce the next value associated with the property.
 
 ##para('\
 
-Finally, the following call to ##dyncode("onValue") in made on ##dyncode("theCounts")
-with a closure-function:
+Finally, the following call to ##dyncode("onValue") is made on
+##dyncode("theCounts") with a closure-function:
 
 <pre
 class="patsyntax">
@@ -310,10 +310,7 @@ closure-function is trigged on the value.
 ##para('\
 
 The following demo is of a counter that is implemented in the FRP-style
-outlined above. The entirety of the implementation is available
-<a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter2_baconjs.dats">on-line</a>.
-
-')##comment("para")
+outlined above:
 
 <hr size="2">
 
@@ -356,12 +353,19 @@ outlined above. The entirety of the implementation is available
 
 <hr size="2">
 
+For the entirety of this implementation, please see the source code
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter2_baconjs.dats">on-line</a>.
+
+')##comment("para")
+
 <h2>A Simple Auto-Counter via FRP</h2>
 
 ##para('\
 
 The following demo shows an auto-counter that can change its count
 automatically:
+
+<hr size="2">
 
 <div class="row">
 <div class="col-md-12">
