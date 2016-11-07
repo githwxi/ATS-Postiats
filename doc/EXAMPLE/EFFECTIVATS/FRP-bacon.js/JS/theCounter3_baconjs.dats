@@ -56,7 +56,7 @@ val theComb_clicks = merge(theUp_clicks, theDown_clicks, theReset_clicks)
 val theAuto_btn = $extval(ptr, "$(\"#theAuto3_btn\")")
 val theAuto_clicks = $extmcall(EStream(ptr), theAuto_btn, "asEventStream", "click")
 val theAuto_clicks = theAuto_clicks.map(TYPE{act})(lam _ => Skip())
-val theAuto_toggles = scan{bool,act}(theAuto_clicks, false, lam(res, _) => ~res)
+val theAuto_toggles = scan{bool}{act}(theAuto_clicks, false, lam(res, _) => ~res)
 //
 val () =
 theAuto_toggles.onValue()
@@ -84,7 +84,7 @@ val theComb2Tick_stream =
 //
 val
 theCounts =
-scan{int,act}
+scan{int}{act}
 (
   merge
   (

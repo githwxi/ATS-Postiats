@@ -6,6 +6,22 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+ATS-2016-11-06:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/-J624PIUip4"
+>FRP in ATS via Bacon.js</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+ATS-2016-11-02:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/7KqH7uU5slY"
+>Functional Programming with Combinators</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 ATS-2016-07-12:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/CHtnGM4nJSY"

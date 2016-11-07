@@ -55,7 +55,7 @@ val theComb_clicks = merge(theUp_clicks, theDown_clicks, theReset_clicks)
 //
 val
 theCounts =
-scan{int,act}
+scan{int}{act}
 (
   theComb_clicks
 , 0 // initial count

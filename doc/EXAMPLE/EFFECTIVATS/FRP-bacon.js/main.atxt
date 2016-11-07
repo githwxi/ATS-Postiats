@@ -8,7 +8,7 @@
 <!--
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 -->
-<title>EFFECTIVATS-funcomb-style</title>
+<title>EFFECTIVATS-FRP-bacon.js</title>
 ##patsyntax()
 ##thePage_style()
 <style>
@@ -52,7 +52,10 @@ Functional Reactive Programming via Bacon.js
 
 <a href="https://baconjs.github.io/.">Bacon.js</a>
 is a small JS library for supporting functional reactive programming
-(FRP). In this article, I present some examples involving FRP via Bacon.js.
+(FRP). There is currently a fairly limited
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/blob/master/contrib/libatscc/libatscc2js/SATS/Bacon.js/baconjs.sats">API</a>
+in ATS for a subset of functions in Bacon.js.
+In this article, I would like to present some basic examples in ATS involving FRP via Bacon.js.
 
 ')##comment("para")
 
@@ -173,7 +176,7 @@ The entirety of this callback-based counter implementation is available
 
 ')##comment("para")
 
-<h2>A Simple Counter via FRP</h2>
+<h2>A Simple Counter of FRP-style</h2>
 
 ##para('\
 
@@ -249,7 +252,7 @@ class="patsyntax">
 //
 val
 theCounts =
-scan{int,act}
+scan{int}{act}
 (
   theComb_clicks
 , 0 // initial count
@@ -358,7 +361,7 @@ For the entirety of this implementation, please see the source code
 
 ')##comment("para")
 
-<h2>A Simple Auto-Counter via FRP</h2>
+<h2>A Simple Auto-Counter of FRP-style</h2>
 
 ##para('\
 
@@ -444,13 +447,13 @@ val theAuto_btn = $extval(ptr, "$(\\"#theAuto3_btn\\")")
 val theAuto_clicks =
     $extmcall(EStream(ptr), theAuto_btn, "asEventStream", "click")
 val theAuto_clicks = theAuto_clicks.map(TYPE{act})(lam _ => Skip())
-val theAuto_toggles = scan{bool,act}(theAuto_clicks, false, lam(res, _) => ~res)
+val theAuto_toggles = scan{bool}{act}(theAuto_clicks, false, lam(res, _) => ~res)
 //
 ')</pre>
 
 Note that ##dyncode("Skip") is added to the datatype ##stacode("act"),
 which indicates no change to the count maintained by the auto-counter.
-The property ##dyncode("theAuto_toggles") is a boolean property indicating
+The property ##dyncode("theAuto_toggles") is a boolean one indicating
 whether the Auto button is set.
 
 ')
@@ -475,7 +478,7 @@ val theAutoComb_stream =
 An item entering
 ##dyncode("theComb_clicks") is interpreted as Skip
 in ##dyncode("theAutoComb_stream") if
-if the Auto button is set. Otherwise, it is interpreted as it is.
+if the Auto button is set. Otherwise, it is interpreted as what it is.
 
 ')
 
@@ -507,7 +510,7 @@ every 1000 milliseconds.
 
 ##para('\
 
-The following constructs a stream
+The following code constructs a stream
 ##dyncode("theComb2Tick_stream") by interpreting each tick
 entering
 ##dyncode("theTick_stream") based on the current value of the
@@ -544,7 +547,7 @@ class="patsyntax">
 //
 val
 theCounts =
-scan{int,act}
+scan{int}{act}
 (
   merge
   (
@@ -568,6 +571,24 @@ The code for displaying the values in the property
 implementation of an auto-counter, please see the source code
 <a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter3_baconjs.dats">on-line</a>.
 ')
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+JS/theCounter_callback.dats // counter of callback-style
+JS/theCounter2_baconjs.dats // counter of FRP-style via Bacon.js
+JS/theCounter3_baconjs.dats // auto-counter of FRP-style via Bacon.js
+</pre>
+
+In addition, there is an accompanying ##filename("Makefile") for compiling
+and testing the code.\
+
+""")
 
 <hr size="2">
 <p>
