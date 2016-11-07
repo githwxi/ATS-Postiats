@@ -86,5 +86,25 @@ stream_vt_iforeach_method
 overload .iforeach with stream_vt_iforeach_method
 //
 (* ****** ****** *)
+//
+fun{
+res:vt0p
+}{a:vt0p}
+stream_vt_foldleft_method
+(
+  xs: stream_vt(INV(a)), TYPE(res)
+) : (res, (res, &a >> a?!) -<cloptr1> res) -<lincloptr1> res
+fun{
+res:vt0p
+}{a:vt0p}
+stream_vt_ifoldleft_method
+(
+  xs: stream_vt(INV(a)), TYPE(res)
+) : (res, (intGte(0), res, &a >> a?!) -<cloptr1> res) -<lincloptr1> res
+//
+overload .foldleft with stream_vt_foldleft_method
+overload .ifoldleft with stream_vt_ifoldleft_method
+//
+(* ****** ****** *)
 
 (* end of [stream_vt.sats] *)

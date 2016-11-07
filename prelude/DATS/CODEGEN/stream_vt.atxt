@@ -1279,6 +1279,43 @@ end // end of [loop]
 } (* end of [stream_vt_foldleft_cloptr] *)
 //
 #atscode_separator()
+//
+implement
+{res}{a}
+stream_vt_ifoldleft_cloptr
+  (xs, init, fopr) =
+  loop(0, xs, init, fopr) where
+{
+//
+fun
+loop
+(
+i0: Nat,
+xs: stream_vt(a), res: res,
+fopr: (Nat, res, &a >> a?!) -<cloptr1> res
+) : res = let
+  var xs_con = !xs
+in
+//
+case+
+xs_con
+of // case+
+| ~stream_vt_nil
+    () =>
+  (
+    cloptr_free($UN.castvwtp0(fopr)); res
+  ) (* end of [stream_vt_nil] *)
+| @stream_vt_cons
+    (x0, xs1) => let
+    val res = fopr(i0, res, x0)
+    val xs1 = xs1 in free@(xs_con); loop(i0+1, xs1, res, fopr)
+  end // end of [stream_vt_cons]
+//
+end // end of [loop]
+//
+} (* end of [stream_vt_ifoldleft_cloptr] *)
+//
+#atscode_separator()
 
 implement
 {env}{a}

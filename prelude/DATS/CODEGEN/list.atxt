@@ -2308,22 +2308,42 @@ prval() = lemma_list_param(xs)
 fun loop
   {n:nat} .<n>.
 (
-  xs: list (x, n), acc: res
+  xs: list (x, n), res: res
 ) : res =
   case+ xs of
-  | list_nil () => acc
+  | list_nil () => res
   | list_cons (x, xs) => let
-      val acc =
-        list_foldleft$fopr<res><x> (acc, x)
+      val res =
+        list_foldleft$fopr<res><x>(res, x)
       // end of [val]
     in
-      loop (xs, acc)
+      loop (xs, res)
     end // end of [list_cons]
 // end of [loop]
 //
 in
   loop (xs, ini)
 end // end of [list_foldleft]
+
+#atscode_separator()
+
+implement
+{res}{x}
+list_foldleft_cloref
+  (xs, ini, fopr) = let
+//
+implement
+{res2}{x2}
+list_foldleft$fopr
+  (res2, x2) =
+(
+$UN.castvwtp0{res2}
+  (fopr($UN.castvwtp0{res}(res2), $UN.cast{x}(x2)))
+)
+//
+in
+  list_foldleft<res><x>(xs, ini)
+end // end of [list_foldleft_cloref]
 
 #atscode_separator()
 
@@ -2337,18 +2357,38 @@ prval() = lemma_list_param(xs)
 fun aux
   {n:nat} .<n>.
 (
-  xs: list (x, n), acc: res
+  xs: list (x, n), res: res
 ) : res =
   case+ xs of
-  | list_nil() => acc
+  | list_nil() => res
   | list_cons(x, xs) =>
-      list_foldright$fopr<x><res> (x, aux (xs, acc))
+      list_foldright$fopr<x><res> (x, aux(xs, res))
     // end of [list_cons]
 // end of [aux]
 //
 in
   aux (xs, snk)
 end // end of [list_foldright]
+
+#atscode_separator()
+
+implement
+{x}{res}
+list_foldright_cloref
+  (xs, fopr, snk) = let
+//
+implement
+{x2}{res2}
+list_foldright$fopr
+  (x2, res2) =
+(
+$UN.castvwtp0{res2}
+  (fopr($UN.cast{x}(x2), $UN.castvwtp0{res}(res2)))
+)
+//
+in
+  list_foldright<x><res>(xs, snk)
+end // end of [list_foldright_cloref]
 
 #atscode_separator()
 

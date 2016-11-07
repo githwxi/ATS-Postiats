@@ -877,25 +877,35 @@ x,y:t0p}{env:vt0p
   (i: intGte(0), x: x, y: y, env: &(env) >> _): void
 //
 #atscode_separator()
-
+//
 fun{
 res:vt0p}{x:t0p
 } list_foldleft
   (xs: List(INV(x)), ini: res): res
 fun{
 res:vt0p}{x:t0p
-} list_foldleft$fopr (acc: res, x: x): res
-
+} list_foldleft$fopr(acc: res, x: x): res
+//
+fun{
+res:vt0p}{x:t0p
+} list_foldleft_cloref
+  (xs: List(INV(x)), ini: res, fopr: (res, x) -<cloref1> res): res
+//
 #atscode_separator()
-
+//
 fun{
 x:t0p}{res:vt0p
 } list_foldright
   (xs: List(INV(x)), snk: res): res
 fun{
 x:t0p}{res:vt0p
-} list_foldright$fopr (x: x, acc: res): res
-
+} list_foldright$fopr(x: x, acc: res): res
+//
+fun{
+x:t0p}{res:vt0p
+} list_foldright_cloref
+  (xs: List(INV(x)), fopr: (x, res) -<cloref1> res, snk: res): res
+//
 #atscode_separator()
 
 fun{

@@ -19,9 +19,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 *)
 
 #atscode_separator()
-
-sortdef t0p = t@ype and vt0p = vt@ype
-
+(*
+sortdef
+t0p = t@ype and vt0p = vt@ype
+*)
 #atscode_separator()
 //
 \#if(0)
@@ -317,6 +318,14 @@ stream_vt_foldleft_cloptr
 (
   xs: stream_vt(INV(a)), init: res, fopr: (res, &a >> a?!) -<cloptr1> res
 ) : res // end of [stream_vt_foldleft_cloptr]
+//
+fun{
+res:vt0p
+}{a:vt0p}
+stream_vt_ifoldleft_cloptr
+(
+  xs: stream_vt(INV(a)), init: res, fopr: (Nat, res, &a >> a?!) -<cloptr1> res
+) : res // end of [stream_vt_ifoldleft_cloptr]
 //
 #atscode_separator()
 

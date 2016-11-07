@@ -86,5 +86,23 @@ llam(fwork) => stream_vt_iforeach_cloptr<a>(xs, fwork)
 )
 //
 (* ****** ****** *)
+//
+implement
+{res}{a}
+stream_vt_foldleft_method
+  (xs, _(*TYPE*)) =
+(
+llam(ini, fwork) => stream_vt_foldleft_cloptr<res><a>(xs, ini, fwork)
+)
+//
+implement
+{res}{a}
+stream_vt_ifoldleft_method
+  (xs, _(*TYPE*)) =
+(
+llam(ini, fwork) => stream_vt_ifoldleft_cloptr<res><a>(xs, ini, fwork)
+)
+//
+(* ****** ****** *)
 
 (* end of [stream_vt.dats] *)
