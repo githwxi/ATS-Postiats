@@ -203,7 +203,8 @@ strptr2string
 
 (* ****** ****** *)
 //
-implement{}
+implement
+{}(*tmp*)
 string_make_list
   (cs) = let
 //
@@ -236,8 +237,9 @@ end // end of [string_make_rlist]
 //
 (* ****** ****** *)
 
-implement{
-} string_make_substring
+implement
+{}(*tmp*)
+string_make_substring
   (x, st, ln) = let
 //
 val x = g1ofg0_string(x)
@@ -349,8 +351,9 @@ end // end of [string_append6]
 
 (* ****** ****** *)
 
-implement{
-} stringlst_concat (xs) = let
+implement
+{}(*tmp*)
+stringlst_concat (xs) = let
   val res = $effmask_wrt (prelude_stringlst_concat (g1ofg0_list(xs)))
 in
   strptr2string (res)
@@ -385,13 +388,14 @@ string_implode(cs) = string_make_list(cs)
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 string_tabulate
-  (n, f) = let
+  (n, fopr) = let
 //
 val n = g1ofg0_uint(n)
 //
 implement
-string_tabulate$fopr<> (i) = f(i)
+string_tabulate$fopr<> (i) = fopr(i)
 //
 in
   strnptr2string(prelude_string_tabulate(n))
@@ -400,6 +404,7 @@ end // end of [string_tabulate]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 string_forall
   (str, f) = let
 //
@@ -413,6 +418,7 @@ in
 end // end of [string_forall]
 
 implement
+{}(*tmp*)
 string_iforall
   (str, f) = let
 //
@@ -437,6 +443,7 @@ string_iforall_method
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 string_foreach
   (cs, f) = let
 //
@@ -460,6 +467,7 @@ end // end of [string_foreach]
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 string_iforeach
   (cs, f) = let
 //
