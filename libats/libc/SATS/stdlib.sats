@@ -164,63 +164,73 @@ double atof(const char *);
 fun atof (x: NSH(string)):<> double = "mac#%"
 
 (* ****** ****** *)
-
+//
 /*
-long int strtol(const char *nptr, char **endptr, int base);
+long int
+strtol(const char *nptr, char **endptr, int base);
 */
-symintr strtol
 fun strtol0
   (nptr: string, base: intBtwe (2, 36)):<!wrt> lint = "mac#%"
-overload strtol with strtol0
 fun strtol1
   (nptr: string, endptr: &ptr? >> _, base: intBtwe (2, 36)):<!wrt> lint = "mac#%"
-overload strtol with strtol1
 fun strtol_unsafe
   (nptr: string, endptr: ptr, base: int):<!wrt> lint = "mac#%"
 // end of [strtol_unsafe]
+//
+symintr strtol
+overload strtol with strtol0
+overload strtol with strtol1
+//
 /*
-long long int strtoll(const char *nptr, char **endptr, int base);
+long long int
+strtoll(const char *nptr, char **endptr, int base);
 */
-symintr strtoll
 fun strtoll0
   (nptr: string, base: intBtwe (2, 36)):<!wrt> llint
-overload strtoll with strtoll0
 fun strtoll1
   (nptr: string, endptr: &ptr? >> _, base: intBtwe (2, 36)):<!wrt> llint
-overload strtoll with strtoll1
 fun strtoll_unsafe
   (nptr: string, endptr: ptr, base: int):<!wrt> llint
 // end of [strtoll_unsafe]
-
+//
+symintr strtoll
+overload strtoll with strtoll0
+overload strtoll with strtoll1
+//
 (* ****** ****** *)
-
+//
 /*
-unsigned long strtoul(const char *nptr, char **endptr, int base);
+unsigned long
+strtoul(const char *nptr, char **endptr, int base);
 */
-symintr strtoul
 fun strtoul0
   (nptr: string, base: intBtwe (2, 36)):<!wrt> ulint
-overload strtoul with strtoul0
 fun strtoul1
   (nptr: string, endptr: &ptr? >> _, base: intBtwe (2, 36)):<!wrt> ulint
-overload strtoul with strtoul1
 fun strtoul_unsafe
   (nptr: string, endptr: ptr, base: int):<!wrt> ulint
 // end of [strtoul_unsafe]
+//
+symintr strtoul
+overload strtoul with strtoul0
+overload strtoul with strtoul1
+//
 /*
-unsigned long long strtoull(const char *nptr, char **endptr, int base);
+unsigned long long
+strtoull(const char *nptr, char **endptr, int base);
 */
-symintr strtoull
 fun strtoull0
   (nptr: string, base: intBtwe (2, 36)):<!wrt> ullint
-overload strtoull with strtoull0
 fun strtoull1
   (nptr: string, endptr: &ptr? >> _, base: intBtwe (2, 36)):<!wrt> ullint
-overload strtoull with strtoull1
 fun strtoull_unsafe
   (nptr: string, endptr: ptr, base: int):<!wrt> ullint
 // end of [strtoull_unsafe]
-
+//
+symintr strtoull
+overload strtoull with strtoull0
+overload strtoull with strtoull1
+//
 (* ****** ****** *)
 
 /*

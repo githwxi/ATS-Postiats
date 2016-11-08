@@ -498,6 +498,36 @@ string_iforeach_method
   (cs) = lam(f) => string_iforeach(cs, f)
 //
 (* ****** ****** *)
+
+implement
+{res}(*tmp*)
+string_foldleft
+  (cs, ini, fopr) = let
+//
+fun
+loop
+(
+p0: ptr, res: res
+) : res = let
+  val c = $UN.ptr0_get<char>(p0)
+in
+//
+if isneqz(c)
+  then loop(ptr_succ<char>(p0), fopr(res, c)) else res
+//
+end // end of [loop]
+//
+in
+  loop(string2ptr(cs), ini)
+end // end of [string_foldleft]
+//
+implement
+{res}(*tmp*)
+string_foldleft_method
+  (cs, _) =
+  lam(ini,fopr) => string_foldleft<res>(cs, ini, fopr)
+//
+(* ****** ****** *)
 //
 implement{}
 streamize_string_char

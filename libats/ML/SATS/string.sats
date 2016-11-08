@@ -167,9 +167,11 @@ overload .iforall with string_iforall_method
 (* ****** ****** *)
 //
 fun{}
-string_foreach(x: string, f: cfun(char, void)): void
+string_foreach
+  (x: string, f: cfun(char, void)): void
 fun{}
-string_iforeach(x: string, f: cfun2(int, char, void)): void
+string_iforeach
+  (x: string, f: cfun2(int, char, void)): void
 //
 fun{}
 string_foreach_method(x: string)(cfun(char, void)): void
@@ -178,6 +180,19 @@ string_iforeach_method(x: string)(cfun2(int, char, void)): void
 //
 overload .foreach with string_foreach_method
 overload .iforeach with string_iforeach_method
+//
+(* ****** ****** *)
+//
+fun
+{res:vt0p}
+string_foldleft
+  (cs: string, ini: res, cfun(res, char, res)): res
+fun
+{res:vt0p}
+string_foldleft_method
+  (cs: string, TYPE(res))(ini: res, cfun(res, char, res)): res
+//
+overload .foldleft with string_foldleft_method
 //
 (* ****** ****** *)
 //

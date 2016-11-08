@@ -923,7 +923,7 @@ a:t0p
 } list_mergesort_fun
   {n:int} (
   xs: list(INV(a), n), cmp: cmpval (a)
-) :<!wrt> list_vt(a, n) // end of [list_mergesort_fun]
+) :<!wrt> list_vt(a, n) // end-of-function
 
 fun{
 a:t0p
@@ -950,6 +950,13 @@ a:t0p
   {n:int} (
   xs: list(INV(a), n), cmp: cmpval (a)
 ) :<!wrt> list_vt(a, n) // end-of-function
+
+fun{
+a:t0p
+} list_quicksort_cloref
+  {n:int} (
+  xs: list(INV(a), n), cmp: (a, a) -<cloref> int
+) :<!wrt> list_vt(a, n) // end of [list_quicksort_cloref]
 
 #atscode_separator()
 //

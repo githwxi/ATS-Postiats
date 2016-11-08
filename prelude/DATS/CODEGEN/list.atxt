@@ -12,17 +12,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
 (*
 ** Source:
 ** $PATSHOME/prelude/DATS/CODEGEN/list.atxt
 ** Time of generation: #timestamp()
 *)
-
-#atscode_separator()
-
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("gmhwxiATgmailDOTcom")
-#atscode_start_time("Feburary, 2012")
 
 #atscode_separator()
 //
@@ -2395,7 +2395,7 @@ end // end of [list_foldright_cloref]
 implement
 {a}(*tmp*)
 list_mergesort$cmp
-  (x1, x2) = gcompare_val_val<a> (x1, x2)
+  (x1, x2) = gcompare_val_val<a>(x1, x2)
 // end of [list_mergesort$cmp]
 
 implement
@@ -2403,14 +2403,17 @@ implement
 list_mergesort
   (xs) = let
 //
-val xs = list_copy<a> (xs)
-//
 implement
 list_vt_mergesort$cmp<a>
-  (x1, x2) = list_mergesort$cmp<a> (x1, x2)
+  (x1, x2) =
+  list_mergesort$cmp<a> (x1, x2)
 //
 in
-  list_vt_mergesort<a> (xs)
+//
+let val xs =
+  list_copy<a>(xs) in list_vt_mergesort<a>(xs)
+end // end of [let]
+//
 end // end of [list_mergesort]
 
 #atscode_separator()
@@ -2425,9 +2428,10 @@ implement
 list_mergesort$cmp
   (x1, x2) = let
 //
-typedef cmp2 = cmpval(a2)
+typedef
+cmp2 = cmpval(a2)
 //
-val cmp2 = $UN.cast{cmp2}(cmp) in cmp2 (x1, x2)
+val cmp2 = $UN.cast{cmp2}(cmp) in cmp2(x1, x2)
 //
 end // end of [list_mergesort$cmp]
 //
@@ -2445,9 +2449,11 @@ implement
 list_mergesort$cmp
   (x1, x2) = let
 //
-typedef cmp2 = (a2, a2) -<cloref> int
+typedef
+cmp2 = (a2, a2) -<cloref> int
 //
-val cmp2 = $UN.cast{cmp2}(cmp) in cmp2 (x1, x2)
+val cmp2 =
+  $UN.cast{cmp2}(cmp) in cmp2 (x1, x2)
 //
 end // end of [list_mergesort$cmp]
 //
@@ -2460,7 +2466,7 @@ end // end of [list_mergesort_cloref]
 implement
 {a}(*tmp*)
 list_quicksort$cmp
-  (x1, x2) = gcompare_val_val<a> (x1, x2)
+  (x1, x2) = gcompare_val_val<a>(x1, x2)
 // end of [list_quicksort$cmp]
 
 implement
@@ -2468,14 +2474,17 @@ implement
 list_quicksort
   (xs) = let
 //
-val xs = list_copy<a> (xs)
-//
 implement
 list_vt_quicksort$cmp<a>
-  (x1, x2) = list_quicksort$cmp<a> (x1, x2)
+  (x1, x2) =
+  list_quicksort$cmp<a>(x1, x2)
 //
 in
-  list_vt_quicksort<a> (xs)
+//
+let val xs =
+  list_copy<a> (xs) in list_vt_quicksort<a>(xs)
+end // end of [let]
+//
 end // end of [list_quicksort]
 
 #atscode_separator()
@@ -2490,13 +2499,37 @@ implement
 list_quicksort$cmp
   (x1, x2) = let
 //
-val cmp = $UN.cast{cmpval(a2)}(cmp) in cmp (x1, x2)
+typedef
+cmp2 = cmpval(a2)
+//
+val cmp2 = $UN.cast{cmp2}(cmp) in cmp2(x1, x2)
 //
 end // end of [list_quicksort$cmp]
 //
 in
   list_quicksort<a> (xs)
 end // end of [list_quicksort_fun]
+
+implement
+{a}(*tmp*)
+list_quicksort_cloref
+  (xs, cmp) = let
+//
+implement
+{a2}(*tmp*)
+list_quicksort$cmp
+  (x1, x2) = let
+//
+typedef
+cmp2 = (a2, a2) -<cloref> int
+//
+val cmp2 = $UN.cast{cmp2}(cmp) in cmp2(x1, x2)
+//
+end // end of [list_quicksort$cmp]
+//
+in
+  list_quicksort<a> (xs)
+end // end of [list_quicksort_cloref]
 
 #atscode_separator()
 
