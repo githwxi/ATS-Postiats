@@ -29,9 +29,9 @@ program construction.
 
 A great strength in functional programming lies in its support for
 programming with combinators. In this article, I would like to present
-some code in this article that makes extensive use of
-sequence-processing combinators, where a sequence may refer to either
-a list or a stream (that is, a lazy list) in ATS.\
+some code that makes extensive use of sequence-processing combinators,
+where a sequence may refer to either a list or a stream (that is, a
+lazy list) in ATS.\
 
 ')##comment("para")
 
@@ -153,7 +153,8 @@ case+ xs of
 
 Please click
 <a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/funcomb-style/JS/permute.dats">here</a>
-to try a completed program that prints out all the permutations of (1, 2, 3).
+to try a completed program that prints out all of the permutations of
+(1, 2, 3).
 
 ')##comment("para")
 
@@ -459,11 +460,11 @@ in
 end // end of [node_get_children]
 ')</pre>
 
-Calling ##dyncode("node_get_children") on a given node returns all the
-nodes that extend the given one with one more queen piece. A solution
-to the 8-queen puzzle is just a node containing 8 integers, and the
-following (linear) stream ##dyncode("theSolution") consists of all of such
-nodes:
+Calling ##dyncode("node_get_children") on a given node returns all of
+the nodes that extend the given one with one more queen piece. A
+solution to the 8-queen puzzle is just a node containing 8 integers,
+and the following (linear) stream ##dyncode("theSolution") consists of
+all of such nodes:
 
 <pre
 class="patsyntax"
