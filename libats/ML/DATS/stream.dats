@@ -85,7 +85,19 @@ stream_scan_method(xs, _) =
 implement
 {a}(*tmp*)
 stream_foreach_method(xs) =
-  lam(fwork) => stream_foreach_cloref<a>(xs, fwork)
+  lam(fwork) =>
+    stream_foreach_cloref<a>(xs, fwork)
+  // end of [lam]
+//
+(* ****** ****** *)
+//
+implement
+{res}{a}
+stream_foldleft_method
+  (xs, _(*TYPE*)) =
+  lam(ini, fopr) =>
+    stream_foldleft_cloref<res><a>(xs, ini, fopr)
+  // end of [lam]
 //
 (* ****** ****** *)
 

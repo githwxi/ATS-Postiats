@@ -348,6 +348,17 @@ stream_foreach_cloref
 //
 #atscode_separator()
 //
+fun{
+res:vt0p}{a:t0p
+} stream_foldleft_fun
+  (xs: stream(a), ini: res, fopr: (res, a) -<fun1> res): res
+fun{
+res:vt0p}{a:t0p
+} stream_foldleft_cloref
+  (xs: stream(a), ini: res, fopr: (res, a) -<cloref1> res): res
+//
+#atscode_separator()
+//
 fun{}
 fprint_stream$sep (out: FILEref): void
 fun{a:t0p}

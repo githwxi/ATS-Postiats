@@ -95,5 +95,14 @@ stream_foreach_method
 overload .foreach with stream_foreach_method
 //
 (* ****** ****** *)
+//
+fun{
+res:vt0p}{a:t0p
+} stream_foldleft_method
+  (stream(a), TYPE(res))(res, (res, a) -<cloref1> res): res
+//
+overload .foldleft with stream_foldleft_method
+//
+(* ****** ****** *)
 
 (* end of [stream.sats] *)

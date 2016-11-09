@@ -939,6 +939,40 @@ loop(xs: stream(a)): void =
 #atscode_separator()
 
 implement
+{res}{a}
+stream_foldleft_fun
+  (xs, ini, fopr) = let
+//
+fun
+loop(xs: stream(a), res: res): res =
+(
+  case+ !xs of
+  | stream_nil() => res
+  | stream_cons(x, xs) => loop(xs, fopr(res, x))
+)
+in
+  loop(xs, ini)
+end // end of [stream_foldleft_fun]
+
+implement
+{res}{a}
+stream_foldleft_cloref
+  (xs, ini, fopr) = let
+//
+fun
+loop(xs: stream(a), res: res): res =
+(
+  case+ !xs of
+  | stream_nil() => res
+  | stream_cons(x, xs) => loop(xs, fopr(res, x))
+)
+in
+  loop(xs, ini)
+end // end of [stream_foldleft_cloref]
+
+#atscode_separator()
+
+implement
 {a}(*tmp*)
 fprint_stream
   (out, xs, n) = let
