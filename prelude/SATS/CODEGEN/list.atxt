@@ -691,44 +691,52 @@ a:vt0p
   (n: int n, f: natLt(n) -<cloref1> a): list_vt(a, n)
 
 #atscode_separator()
-
+//
 fun{
 x,y:t0p
 } list_zip{m,n:int}
 (
-  xs: list(INV(x), m), ys: list(INV(y), n)
-) :<!wrt> list_vt((x, y), min(m,n)) // endfun
-
-fun{
-x,y:t0p}{xy:vt0p
-} list_zipwith{m,n:int}
-(
-  xs: list(INV(x), m), ys: list(INV(y), n)
-) : list_vt(xy, min(m,n)) // endfun
+  xs: list(INV(x), m)
+, ys: list(INV(y), n)
+) :<!wrt> list_vt((x, y), min(m,n))
 //
-fun{
-x,y:t0p}{xy:vt0p
-} list_zipwith$fopr (x: x, y: y): (xy)
+fun
+{x,y:t0p}
+{res:vt0p}
+list_zipwith{m,n:int}
+(
+  xs: list(INV(x), m)
+, ys: list(INV(y), n)
+) : list_vt(res, min(m,n)) // endfun
+//
+fun
+{x,y:t0p}
+{res:vt0p}
+list_zipwith$fopr (x: x, y: y): (res)
 //
 #atscode_separator()
-
+//
 fun{
 x,y:t0p
 } list_cross{m,n:int}
 (
-  xs: list(INV(x), m), ys: list(INV(y), n)
+  xs: list(INV(x), m)
+, ys: list(INV(y), n)
 ) :<!wrt> list_vt((x, y), m*n) // endfun
-
-fun{
-x,y:t0p}{xy:vt0p
-} list_crosswith{m,n:int}
-(
-  xs: list(INV(x), m), ys: list(INV(y), n)
-) : list_vt(xy, m*n) // end of [list_crosswith]
 //
-fun{
-x,y:t0p}{xy:vt0p
-} list_crosswith$fopr (x: x, y: y): (xy)
+fun
+{x,y:t0p}
+{res:vt0p}
+list_crosswith{m,n:int}
+(
+  xs: list(INV(x), m)
+, ys: list(INV(y), n)
+) : list_vt(res, m*n) // end of [list_crosswith]
+//
+fun
+{x,y:t0p}
+{res:vt0p}
+list_crosswith$fopr (x: x, y: y): (res)
 //
 #atscode_separator()
 

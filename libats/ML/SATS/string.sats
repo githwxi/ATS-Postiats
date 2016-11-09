@@ -67,6 +67,9 @@ overload isneqz with string_isnot_empty
 //
 (* ****** ****** *)
 //
+// HX-2016-11-08:
+// str1 is a prefix of str2
+//
 fun{}
 string_is_prefix
 (
