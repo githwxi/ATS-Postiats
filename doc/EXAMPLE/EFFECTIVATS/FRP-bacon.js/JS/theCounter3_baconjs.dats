@@ -111,7 +111,7 @@ lam(count) =>
   val d0 = count%10 and d1 = count/10
   val d0 = String(d0) and d1 = String(d1)
   val theCount3_p = $extfcall(ptr, "jQuery", "#theCount3_p")
-  val ( (*void*) ) = $extmcall(void, theCount3_p, "text", String(d1)+String(d0))
+  val ( (*void*) ) = $extmcall(void, theCount3_p, "text", d1+d0)
 }
 ) (* end of [val] *)
 //

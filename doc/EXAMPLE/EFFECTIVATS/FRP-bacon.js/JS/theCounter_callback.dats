@@ -55,9 +55,10 @@ theCount_update() =
   val n = theCount[]
 //
   val d0 = n%10 and d1 = n/10
+  val d0 = String(d0) and d1 = String(d1)
 //
   val theCount_p = $extval(ptr, "$(\"#theCount_p\")")
-  val ((*void*)) = $extmcall(void, theCount_p, "text", String(d1)+String(d0))
+  val ((*void*)) = $extmcall(void, theCount_p, "text", d1+d0)
 } (* end of [theCount_update] *)
 
 in (* in-of-local *)
