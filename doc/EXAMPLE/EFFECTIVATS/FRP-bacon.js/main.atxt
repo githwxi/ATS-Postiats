@@ -478,7 +478,7 @@ val theAutoComb_stream =
 An item entering
 ##dyncode("theComb_clicks") is interpreted as Skip
 in ##dyncode("theAutoComb_stream") if
-if the Auto button is set. Otherwise, it is interpreted as what it is.
+the Auto button is set. Otherwise, it is interpreted as what it is.
 
 ')
 
