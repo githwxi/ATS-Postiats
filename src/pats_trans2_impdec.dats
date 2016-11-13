@@ -561,8 +561,8 @@ auxseq (
   case+ (s1as, s2vs) of
   | (s1a :: s1as,
      s2v :: s2vs) => let
-      val s2t0 = s2var_get_srt (s2v)
-      val s2v = s1arg_trdn (s1a, s2t0)
+      val s2t = s2var_get_srt (s2v)
+      val s2v = s1arg_trdn (s1a, s2t)
       val s2vs = auxseq (s1as, s2vs, serr)
     in
       list_cons (s2v, s2vs)

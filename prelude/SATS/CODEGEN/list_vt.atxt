@@ -500,7 +500,7 @@ a:vt0p
 //
 #atscode_separator()
 //
-fun{a:t0p}
+fun{a:vt0p}
 streamize_list_vt_elt(List_vt(INV(a))):<!wrt> stream_vt(a)
 //
 #atscode_separator()

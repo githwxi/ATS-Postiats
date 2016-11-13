@@ -341,33 +341,55 @@ a:vt0p}{env:vt0p
   (x: &a >> _, env: &(env) >> _): void
 *)
 //
-fun{
-a:vt0p
-} mtrxszref_foreach(mtrxszref(a)): void
+fun
+{a:vt0p}
+mtrxszref_foreach(mtrxszref(a)): void
 fun{
 a:vt0p}{env:vt0p
 } mtrxszref_foreach_env(mtrxszref(a), &(env) >> _) : void
 //
-fun{
-a:vt0p
-} mtrxszref_foreach_cloref
-  (A: mtrxszref(a), fwork: (&(a) >> _) -<cloref1> void ): void
+fun
+{a:vt0p}
+mtrxszref_foreach_cloref
+  (M: mtrxszref(a), fwork: (&(a) >> _) -<cloref1> void ): void
 //
 #atscode_separator()
 //
 (*
-fun{a:vt0p}
-matrix_tabulate$fopr (i: size_t, j: size_t): (a)
+fun
+{a:vt0p}
+matrix_tabulate$fopr(i: size_t, j: size_t): (a)
 *)
-fun{a:vt0p}
-mtrxszref_tabulate (nrow: size_t, ncol: size_t): mtrxszref(a)
+fun
+{a:vt0p}
+mtrxszref_tabulate
+  (nrow: size_t, ncol: size_t): mtrxszref(a)
 //
-fun{a:vt0p}
+fun
+{a:vt0p}
 mtrxszref_tabulate_cloref
   {m,n:int}
 (
-  nrow: size_t m, ncol: size_t n, f: (sizeLt(m), sizeLt(n)) -<cloref> a
+  m: size_t(m), n: size_t(n), f: (sizeLt(m), sizeLt(n)) -<cloref> a
 ) : mtrxszref(a) // end-of-fun
+//
+#atscode_separator()
+//
+fun{a:t0p}
+streamize_mtrxszref_row_elt
+  (MSZ: mtrxszref(a)): stream_vt(a)
+fun{a:t0p}
+streamize_mtrxszref_col_elt
+  (MSZ: mtrxszref(a)): stream_vt(a)
+//
+fun{a:t0p}
+streamize_matrixref_row_elt
+  {m,n:int}
+  (matrixref(a, m, n), size_t(m), size_t(n)): stream_vt(a)
+fun{a:t0p}
+streamize_matrixref_col_elt
+  {m,n:int}
+  (matrixref(a, m, n), size_t(m), size_t(n)): stream_vt(a)
 //
 #atscode_separator()
 //

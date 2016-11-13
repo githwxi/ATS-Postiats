@@ -339,6 +339,17 @@ arrayref_quicksort
   {n:int}(A: arrayref(a, n), asz: size_t(n)): void
 //
 #atscode_separator()
+(*
+//
+// HX: see below
+//
+fun
+{a:t0p}
+streamize_arrayref_elt
+  {n:int}
+  (A: arrayref(a, n), asz: size_t(n)):<!wrt> stream_vt(a)
+*)
+#atscode_separator()
 //
 // arrszref:
 // reference to an array with its size attached

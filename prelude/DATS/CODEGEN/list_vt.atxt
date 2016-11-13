@@ -1238,7 +1238,7 @@ streamize_list_vt_elt
 fun
 auxmain
 (
-  xs: List_vt(a)
+xs: List_vt(a)
 ) : stream_vt(a) = $ldelay
 (
 //
@@ -1253,7 +1253,7 @@ case+ xs of
 //
 ,
 //
-list_vt_free(xs)
+list_vt_freelin<a>(xs)
 ) (* end of [auxmain] *)
 //
 in

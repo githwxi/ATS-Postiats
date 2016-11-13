@@ -637,11 +637,11 @@ streamize_arrszref_elt
 //
 var
 asz: size_t
-val A =
-  arrszref_get_refsize (ASZ, asz)
+val A0 =
+  arrszref_get_refsize{a}(ASZ, asz)
 //
 in
-  streamize_arrayref_elt<a>(A, asz)
+  streamize_arrayref_elt<a>(A0, asz)
 end // end of [streamize_arrszref_elt]
 
 #atscode_separator()
@@ -649,11 +649,11 @@ end // end of [streamize_arrszref_elt]
 implement
 {a}(*tmp*)
 streamize_arrayref_elt
-  (A, asz) =
+  (A0, asz) =
   auxmain(pa) where
 {
 //
-val pa = arrayref2ptr(A)
+val pa = arrayref2ptr(A0)
 val pz = ptr_add<a>(pa, asz)
 //
 fun

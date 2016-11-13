@@ -78,6 +78,17 @@ string_is_prefix
 //
 (* ****** ****** *)
 //
+// HX-2016-11-12:
+// str1 is a suffix of str2
+//
+fun{}
+string_is_suffix
+(
+  str1: string, str2: string
+) :<> bool // string_is_suffix
+//
+(* ****** ****** *)
+//
 fun{}
 string_copy(x: NSH(string)):<> string
 //

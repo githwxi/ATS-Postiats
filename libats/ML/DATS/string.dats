@@ -193,6 +193,34 @@ end // end of [string_is_prefix]
 
 implement
 {}(*tmp*)
+string_is_suffix
+(
+  str1, str2
+) = let
+//
+val n1 = length(str1)
+val n2 = length(str2)
+//
+in (* in-of-let *)
+//
+if
+(n1 >= n2)
+then let
+  val p1 = string2ptr(str1)
+in
+//
+$UN.cast{string}
+  (ptr_add<char>(p1, n1-n2)) = str2
+//
+end // end of [then]
+else false // end of [else]
+//
+end // end of [string_is_suffix]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
 string_copy
   (str) = (
 //

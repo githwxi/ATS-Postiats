@@ -2287,15 +2287,18 @@ end // end of [overload_tr_d2eclist]
 (* ****** ****** *)
 
 implement
-d1ecl_tr (d1c0) = let
-  val loc0 = d1c0.d1ecl_loc
+d1ecl_tr(d1c0) = let
+//
+val loc0 = d1c0.d1ecl_loc
+//
 (*
-  val () = begin
-    print "d1ecl_tr: d1c0 = "; print_d1ecl d1c0; print_newline ()
-  end // end of [val]
+val () = begin
+  print "d1ecl_tr: d1c0 = "; print_d1ecl d1c0; print_newline ()
+end // end of [val]
 *)
 //
-fun auxcheck_impdec
+fun
+auxcheck_impdec
 (
   d1c0: d1ecl, knd: int, impdec: i2mpdec
 ) : void = let
