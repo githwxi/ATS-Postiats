@@ -14,11 +14,13 @@
 <body>
 
 <h1>
-Effective ATS: Mergesort
+Effective ATS: Mergesort (top-down)
 </h1>
 
-In this article, I would like to use mergesort as a concrete example to
-demonstrate a natural style of refinement-based programming.
+In this article,
+I would like to use mergesort as a concrete example to demonstrate a
+natural style of refinement-based programming. The implementation of mergesort
+given is of the so-called top-down style.
 
 <h2>
 What is Mergesort?
@@ -303,7 +305,9 @@ modified as follows:
 class="patsyntax">
 #pats2xhtml_sats("\
 fun{a:t0p}
-mergesort{n:nat} (xs: arrayref(a, n), n: int n): arrayref(a, n)
+mergesort
+  {n:nat}
+  (xs: arrayref(a, n), n: int n): arrayref(a, n)
 ")</pre>
 
 This interface means that [mergesort] takes both an array and the size of

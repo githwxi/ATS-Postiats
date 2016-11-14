@@ -269,14 +269,14 @@ list_last_exn{n:int} (xs: list(INV(x), n)):<!exn> (x)
 fun{
 x:t0p
 } list_nth{n:int}
-  (xs: list(INV(x), n), i: natLt (n)):<> (x)
+  (list(INV(x), n), natLt(n)):<> (x)
 fun{x:t0p}
 list_nth_opt
-  (xs: List(INV(x)), i: intGte (0)):<> Option_vt(x)
+  (xs: List(INV(x)), i: intGte(0)):<> Option_vt(x)
 //
 fun{x:t0p}
 list_get_at{n:int}
-  (xs: list(INV(x), n), i: natLt (n)):<> (x)
+  (list(INV(x), n), natLt(n)):<> (x)
 fun{x:t0p}
 list_get_at_opt
   (xs: List(INV(x)), i: intGte (0)):<> Option_vt(x)
@@ -284,11 +284,11 @@ list_get_at_opt
 #atscode_separator()
 //
 fun{x:t0p}
-list_set_at{n:nat}
-  (xs: list(INV(x), n), i: natLt (n), x: x):<> list(x, n)
+list_fset_at{n:nat}
+  (list(INV(x), n), natLt(n), x):<> list(x, n)
 fun{x:t0p}
-list_exch_at{n:nat}
-  (xs: list(INV(x), n), i: natLt (n), x: x):<> (list(x, n), x)
+list_fexch_at{n:nat}
+  (list(INV(x), n), natLt(n), x):<> (list(x, n), x)
 //
 #atscode_separator()
 
