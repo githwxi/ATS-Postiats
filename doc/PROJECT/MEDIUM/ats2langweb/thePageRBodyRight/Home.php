@@ -67,14 +67,14 @@ width=98% margin=auto
  style="width: 100%; border-spacing: 0px;">
 
 <tr>
-<th width="8%"></th>
+<th width="10%"></th>
 <th width="80%"></th>
-<th width="12%"></th>
+<th width="10%"></th>
 </tr>
 
 <tr>
 <td></td>
-<td align="right">
+<td align="center">
 <textarea
  id="hello_dats"
  rows="10" cols="36" wrap="off"
@@ -96,7 +96,7 @@ val () = print_newline((*void*))
 
 <tr>
 <td></td>
-<td align="right">
+<td align="center">
 <button
  ID="hello_button"
  type="button" onclick="Home_hello_onclick()"
@@ -125,14 +125,14 @@ width=98% margin=auto
  style="width: 100%; border-spacing: 0px;">
 
 <tr>
-<th width="8%"></th>
+<th width="10%"></th>
 <th width="80%"></th>
-<th width="12%"></th>
+<th width="10%"></th>
 </tr>
 
 <tr>
 <td></td>
-<td align="right">
+<td align="center">
 <textarea
  id="listsub_dats"
  rows="11" cols="36" wrap="off"
@@ -155,7 +155,7 @@ val x3 = xs[3] // illegal
 
 <tr>
 <td></td>
-<td align="right">
+<td align="center">
 <button
  ID="listsub_button"
  type="button" onclick="Home_listsub_onclick()"
@@ -185,14 +185,14 @@ width=98% margin=auto
  style="width: 100%; border-spacing: 0px;">
 
 <tr>
-<th width="8%"></th>
+<th width="10%"></th>
 <th width="80%"></th>
-<th width="12%"></th>
+<th width="10%"></th>
 </tr>
 
 <tr>
 <td></td>
-<td align="right">
+<td align="center">
 <textarea
  id="repeat_f0f1_dats"
  rows="12" cols="36" wrap="off"
@@ -251,7 +251,7 @@ println! ("3^10 = ", power(3,10))
 
 <tr>
 <td></td>
-<td align="right">
+<td align="center">
 <button
  ID="repeat_f0f1_button"
  type="button" onclick="Home_repeat_f0f1_onclick()"
@@ -283,14 +283,14 @@ width=98% margin=auto
  style="width: 100%; border-spacing: 0px;">
 
 <tr>
-<th width="8%"></th>
+<th width="10%"></th>
 <th width="80%"></th>
-<th width="12%"></th>
+<th width="10%"></th>
 </tr>
 
 <tr>
 <td></td>
-<td align="right">
+<td align="center">
 <textarea
  id="queenpuzzle_dats"
  rows="10" cols="36" wrap="off"
@@ -311,7 +311,7 @@ val () =
 
 <tr>
 <td></td>
-<td align="right">
+<td align="center">
 <button
  ID="queenpuzzle_button"
  type="button" onclick="Home_queenpuzzle_onclick()"
