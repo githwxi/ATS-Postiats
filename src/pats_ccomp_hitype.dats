@@ -554,7 +554,8 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun hitype_hash (hit: hitype): ulint
+fun
+hitype_hash (hit: hitype): ulint
 
 local
 
@@ -1000,6 +1001,13 @@ end // end of [emit_hitype_app]
 implement
 emit_hitype
   (out, hit0) = let
+//
+(*
+val () =
+println!
+  ("emit_hitype: hit0 = ", hit0)
+*)
+//
 in
 //
 case+ hit0 of
@@ -1134,9 +1142,23 @@ loop
   out: FILEref
 , hses: hisexplst, sep: string, i: int
 ) : void = let
+//
+(*
+//
+val () =
+println!
+(
+"emit_hisexplst_sep: loop: i = ", i
+) (* println! *)
+//
+*)
+//
 in
 //
 case+ hses of
+| list_nil
+    ((*void*)) => ()
+  // list_nil
 | list_cons
     (hse, hses) => let
     val () =
@@ -1147,7 +1169,6 @@ case+ hses of
   in
     loop (out, hses, sep, i+1)
   end // end of [list_cons]
-| list_nil ((*void*)) => ()
 //
 end // end of [loop]
 //
@@ -1175,7 +1196,8 @@ in
 case+ hit of
 | HITundef _ =>
   (
-    emit_text (out, "HITundef("); fprint_hisexp (out, hse); emit_text (out, ")")
+    emit_text (out, "HITundef(");
+    fprint_hisexp (out, hse); emit_text (out, ")")
   ) // end of [HITundef]
 | _ (*non-undef*) => emit_hitype (out, hit)
 //
@@ -1227,20 +1249,59 @@ println!
   ("s2exp_typize: s2e0 = ", s2e0)
 *)
 //
+fun
+auxlst
+(
+  flag: int, s2es: s2explst
+) : hitypelst =
+(
+  case+ s2es of
+  | list_nil() =>
+    list_nil((*void*))
+  | list_cons(s2e, s2es) =>
+    list_cons
+      (s2exp_typize(flag, s2e), auxlst(flag, s2es))
+    // list_cons
+)
+//
+fun
+auxlstlst_app
+(
+  flag: int
+, hit0: hitype, s2ess: s2explstlst
+) : hitype =
+(
+  case+ s2ess of
+  | list_nil() => hit0
+  | list_cons(s2es, s2ess) => let
+      val hits_arg = auxlst(flag, s2es)
+    in
+      auxlstlst_app(flag, HITapp(hit0, hits_arg), s2ess)
+    end // end of [list_cons]
+)
+//
 in
 //
 case+
   s2e0.s2exp_node of
 //
-| S2Eextype (name, _) => HITnmd (name)
-| S2Eextkind (name, _) => HITnmd (name)
+| S2Eextype
+    (name, s2ess) => let
+    val hit0 = HITnmd(name)
+  in
+    auxlstlst_app(flag, hit0, s2ess)
+  end // end of [S2Eextype]
 //
-| S2Eat _ => hitype_error ()
+| S2Eextkind
+    (name, s2ess) => HITnmd (name)
+  // end of [S2Eextkind]
 //
 | S2EVar (s2V) =>
   (
     s2zexp_typize (flag, s2Var_get_szexp (s2V))
   ) (* end of [S2EVar] *)
+//
+| S2Eat _ => hitype_error () // HX: view is not type
 //
 | _ (*rest*) => let
     val hse0 = $TYER.s2exp_tyer_shallow ($LOC.location_dummy, s2e0)

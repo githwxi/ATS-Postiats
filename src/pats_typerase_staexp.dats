@@ -286,7 +286,7 @@ case+
 //
 | S2Ewthtype (s2e, _(*ws2es*)) => s2exp_tyer (loc0, flag, s2e)
 //
-| _ => hisexp_s2exp (s2e0)
+| _ (* rest-of-s2exp *) => hisexp_s2exp (s2e0)
 //
 end // end of [s2hnf_tyer]
 
@@ -333,9 +333,11 @@ case+
     s2vs_arg, s2e_body
   ) => let
     var sub = stasub_make_nil ()
-    val err = stasub_addlst (sub, s2vs_arg, s2es_arg)
+    val err =
+      stasub_addlst (sub, s2vs_arg, s2es_arg)
+    // end of [val]
     val s2e_body = s2exp_subst (sub, s2e_body)
-    val () = stasub_free (sub)
+    val ((*freed*)) = stasub_free (sub)
   in
     s2exp_tyer (loc0, flag, s2e_body)  
   end // end of [S2Elam]
@@ -369,10 +371,14 @@ s2exp_tyer_appcst
 in
 //
 case+ opt of
-| Some (opt2) => (
+| None () =>
+  hisexp_make_srt (s2t0)
+| Some (opt2) =>
+  (
   case+ opt2 of
   | Some (_fun) =>
-      s2exp_tyer_app2 (
+    s2exp_tyer_app2
+    (
       loc0, flag, s2t0, _fun, s2es_arg
     ) // end of [Some]
   | None () => let
@@ -382,7 +388,6 @@ case+ opt of
       hisexp_app (hse_fun, hses_arg)
     end // end of [None]
   ) (* end of [Some] *)
-| None () => hisexp_make_srt (s2t0)
 //
 end // end of [s2exp_tyer_appcst]
 
