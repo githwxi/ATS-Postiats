@@ -481,6 +481,24 @@ end // end of [d2exp_trup_cstsp]
 (* ****** ****** *)
 
 implement
+d2exp_trup_tyrep
+  (d2e0, s2e_rep) = let
+//
+val
+s2f =
+s2exp_extype_srt
+(
+  s2rt_t0ype
+, "atstype_tyrep", list_nil(*s2ess*)
+) (* s2exp_extype *)
+//
+in
+  d3exp_tyrep(d2e0.d2exp_loc, s2f, s2e_rep)
+end // end of [d2exp_trup_tyrep]
+
+(* ****** ****** *)
+
+implement
 d2exp_trup_literal
   (d2e0, d2e_lit) = let
 //

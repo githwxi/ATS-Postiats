@@ -1565,6 +1565,13 @@ d1e0.d1exp_node of
     (csp) => d2exp_cstsp (loc0, csp)
   // end of [D1Ecstsp]
 //
+| D1Etyrep
+    (s1e) =>
+    d2exp_tyrep
+      (loc0, s1exp_trdn_vt0ype(s1e))
+    // d2exp_tyrep
+  // end of [D1Etyrep]
+//
 | D1Eliteral
     (d1e) =>
     d2exp_literal(loc0, d1exp_tr(d1e))

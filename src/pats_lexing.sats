@@ -193,14 +193,15 @@ token_node =
 //
   | T_DLRARRPSZ of () // $arrpsz/$arrptrsize
 //
-  | T_DLRD2CTYPE of () // $d2ctype(foo)/foo<...>)
+  | T_DLRTYREP of () // $tyrep(SomeType)
+  | T_DLRD2CTYPE of () // $d2ctype(foo/foo<...>)
 //
   | T_DLREFFMASK of () // $effmask
   | T_DLREFFMASK_ARG of (int) // ntm(0), exn(1), ref(2), wrt(3), all(4)
 //
   | T_DLREXTERN of () // $extern
-  | T_DLREXTKIND of () // $extkind
   | T_DLREXTYPE of () // externally named type
+  | T_DLREXTKIND of () // $extkind
   | T_DLREXTYPE_STRUCT of () // externally named struct
 //
   | T_DLREXTVAL of () // externally named value

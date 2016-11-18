@@ -667,7 +667,16 @@ d3e0.d3exp_node of
 | D3Efloat (rep) =>
     hidexp_float (loc0, hse0, rep)
 //
-| D3Ecstsp (x) => hidexp_cstsp (loc0, hse0, x)
+| D3Ecstsp (x) =>
+    hidexp_cstsp (loc0, hse0, x)
+//
+| D3Etyrep (s2e) => let
+    val
+    hse =
+    s2exp_tyer_shallow(loc0, s2e)
+  in
+    hidexp_tyrep (loc0, hse0, hse)
+  end // end of [D3Etyrep]
 //
 | D3Etop () => hidexp_top (loc0, hse0)
 | D3Eempty () => hidexp_empty (loc0, hse0)
@@ -1160,14 +1169,14 @@ d3e0.d3exp_node of
     hidexp_empty(loc0, hisexp_void_t0ype((*void*)))
   // end of [D3Esolverify]
 //
-| D3Eerrexp ((*void*)) => hidexp_errexp (loc0, hse0)
+| D3Eerrexp((*void*)) => hidexp_errexp (loc0, hse0)
 //
 | _(*unspported*) => let
     val () = prerr_interror_loc(loc0)
-    val () = prerrln! (": d3exp_tyer: d3e0 = ", d3e0)
-  in
-    exitloc (1)
-  end // end of [_(*unsupported*)]
+    val () =
+      prerrln! (": d3exp_tyer: d3e0 = ", d3e0) in exitloc(1)
+    // end of [val]
+  end (*  end of [_(*unsupported*)] *)
 //
 end // end of [let] // end of [d3exp_tyer]
 

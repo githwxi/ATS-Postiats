@@ -327,6 +327,7 @@ and d1exp_node =
 //
   | D1Ecstsp of cstsp // special constants
 //
+  | D1Etyrep of s1exp // $tyrep(...)
   | D1Eliteral of d1exp // $literal: int, float, string
 //
   | D1Eextval of (s1exp (*type*), string (*name*))
@@ -621,6 +622,14 @@ fun d1exp_empty (loc: location): d1exp
 fun
 d1exp_cstsp
   (loc: location, x: cstsp): d1exp
+//
+(* ****** ****** *)
+//
+fun
+d1exp_tyrep
+  (loc: location, s1e: s1exp): d1exp
+//
+(* ****** ****** *)
 //
 fun
 d1exp_literal

@@ -970,10 +970,14 @@ end // end of [s2exp_string_index_type]
 
 (* ****** ****** *)
 
+local
+
 implement
 the_literal_float = s2cstref_make "literal_float"
 implement
 the_literal_string = s2cstref_make "literal_string"
+
+in (* in-of-local *)
 
 implement
 s2exp_literal_float
@@ -993,27 +997,37 @@ in
   s2exp_cstapp (s2c, list_sing(ind))
 end // end of [s2exp_literal_string]
 
-(* ****** ****** *)
+end // end of [local]
 
+(* ****** ****** *)
+//
 implement
 the_ptr_type = s2cstref_make "ptr_type"
+//
 implement
 s2exp_ptr_type () =
-  s2exp_cst (s2cstref_get_cst (the_ptr_type))
+  s2exp_cst(s2c) where
+{
+  val s2c = s2cstref_get_cst(the_ptr_type)
+}  
 // end of [s2exp_ptr_type]
-
+//
 (* ****** ****** *)
-
+//
 implement
 the_ptr_addr_type =
-  s2cstref_make "ptr_addr_type"
+  s2cstref_make("ptr_addr_type")
+//
 implement
 s2exp_ptr_addr_type (s2l) = let
-  val s2c = s2cstref_get_cst (the_ptr_addr_type)
+//
+val s2c =
+  s2cstref_get_cst(the_ptr_addr_type)
+//
 in
   s2exp_cstapp (s2c, list_sing (s2l))
 end // end of [s2exp_ptr_addr_type]
-
+//
 implement
 un_s2exp_ptr_addr_type
   (s2f) = let
@@ -1030,16 +1044,18 @@ case+ s2e.s2exp_node of
 | _ => None_vt ()
 //
 end // end of [un_s2exp_ptr_addr_type]
-
+//
 (* ****** ****** *)
-
+//
 implement
-the_atsvoid_t0ype = s2cstref_make "atsvoid_t0ype"
+the_atsvoid_t0ype =
+  s2cstref_make "atsvoid_t0ype"
+//
 implement
 s2exp_void_t0ype () =
   s2exp_cst (s2cstref_get_cst (the_atsvoid_t0ype))
 // end of [s2exp_void_t0ype]
-
+//
 (* ****** ****** *)
 
 implement
@@ -1056,26 +1072,31 @@ s2exp_unit_view () =
 // end of [s2exp_unit_view]
 
 (* ****** ****** *)
-
+//
 implement
 the_exception_vtype =
   s2cstref_make "exception_vtype"
+//
 implement
-s2exp_exception_vtype () =
-  s2exp_cst (s2cstref_get_cst (the_exception_vtype))
-// end of [s2exp_exception_vtype]
-
+s2exp_exception_vtype
+  ((*void*)) =
+  s2exp_cst(s2c) where
+{
+  val s2c = s2cstref_get_cst (the_exception_vtype)
+} (* end of [s2exp_exception_vtype] *)
+//
 (* ****** ****** *)
 
 implement
 the_arrpsz_vt0ype_int_vt0ype =
   s2cstref_make "arrpsz_vt0ype_int_vt0ype"
 implement
-s2exp_arrpsz_vt0ype_int_vt0ype (s2e, s2i) = let
-  val ind = s2exp_int (s2i)
-  val s2c = s2cstref_get_cst (the_arrpsz_vt0ype_int_vt0ype)
+s2exp_arrpsz_vt0ype_int_vt0ype
+  (s2e, s2i) = let
+  val ind = s2exp_int(s2i)
+  val s2c = s2cstref_get_cst(the_arrpsz_vt0ype_int_vt0ype)
 in
-  s2exp_cstapp (s2c, list_pair (s2e, ind))
+  s2exp_cstapp(s2c, list_pair(s2e, ind))
 end // end of [s2exp_list_vt0ype_int_vtype]
 
 (* ****** ****** *)
@@ -1098,40 +1119,53 @@ implement
 the_list_t0ype_int_type =
   s2cstref_make "list_t0ype_int_type"
 implement
-s2exp_list_t0ype_int_type (s2e, s2i) = let
+s2exp_list_t0ype_int_type
+  (s2e, s2i) = let
   val ind = s2exp_int (s2i)
   val s2c = s2cstref_get_cst (the_list_t0ype_int_type)
 in
-  s2exp_cstapp (s2c, list_pair (s2e,  ind))
+  s2exp_cstapp(s2c, list_pair(s2e,  ind))
 end // end of [s2exp_list_t0ype_int_type]
 
 implement
 the_list_vt0ype_int_vtype =
   s2cstref_make "list_vt0ype_int_vtype"
 implement
-s2exp_list_vt0ype_int_vtype (s2e, s2i) = let
+s2exp_list_vt0ype_int_vtype
+  (s2e, s2i) = let
   val ind = s2exp_int (s2i)
   val s2c = s2cstref_get_cst (the_list_vt0ype_int_vtype)
 in
-  s2exp_cstapp (s2c, list_pair (s2e, ind))
+  s2exp_cstapp(s2c, list_pair(s2e, ind))
 end // end of [s2exp_list_vt0ype_int_vtype]
 
 (* ****** ****** *)
-
+//
 implement
 the_vbox_view_prop =
   s2cstref_make "vbox_view_prop"
+//
 implement
-s2exp_vbox_view_prop (s2e) =  let
-  val s2c = s2cstref_get_cst (the_vbox_view_prop)
+s2exp_vbox_view_prop
+  (s2e) = let
+//
+val
+s2c =
+s2cstref_get_cst
+(
+  the_vbox_view_prop
+) (* end of [val] *)
+//
 in
-  s2exp_cstapp (s2c, list_sing (s2e))
+  s2exp_cstapp(s2c, list_sing(s2e))
 end // end of [s2exp_vbox_view_prop]
-
+//
 implement
 un_s2exp_vbox_view_prop
   (s2f) = let
-  val s2e = s2hnf2exp (s2f)
+//
+val s2e = s2hnf2exp (s2f)
+//
 in
 //
 case+ s2e.s2exp_node of
@@ -1144,17 +1178,25 @@ case+ s2e.s2exp_node of
 | _ => None_vt ()
 //
 end // end of [un_s2exp_vbox_view_prop]
-
+//
 (* ****** ****** *)
 
 implement
 the_ref_vt0ype_type =
   s2cstref_make "ref_vt0ype_type"
 implement
-s2exp_ref_vt0ype_type (s2e) = let
-  val s2c = s2cstref_get_cst (the_ref_vt0ype_type)
+s2exp_ref_vt0ype_type
+  (s2e) = let
+//
+val
+s2c =
+s2cstref_get_cst
+(
+  the_ref_vt0ype_type
+) (* end of [val] *)
+//
 in
-  s2exp_cstapp (s2c, list_sing (s2e))
+  s2exp_cstapp(s2c, list_sing (s2e))
 end // end of [s2exp_ref_vt0ype_type]
 
 implement
@@ -1175,16 +1217,25 @@ case+ s2e.s2exp_node of
 end // end of [un_s2exp_ref_vt0ype_type]
 
 (* ****** ****** *)
-
+//
 implement
 the_lazy_t0ype_type =
   s2cstref_make "lazy_t0ype_type"
 implement
-s2exp_lazy_t0ype_type (s2e) = let
-  val s2c = s2cstref_get_cst (the_lazy_t0ype_type)
+s2exp_lazy_t0ype_type
+  (s2e) = let
+//
+val
+s2c =
+s2cstref_get_cst
+(
+  the_lazy_t0ype_type
+) (* end of [val] *)
+//
 in
-  s2exp_cstapp (s2c, list_sing (s2e))
+  s2exp_cstapp(s2c, list_sing(s2e))
 end // end of [s2exp_lazy_t0ype_type]
+//
 implement
 un_s2exp_lazy_t0ype_type
   (s2f) = let
@@ -1201,35 +1252,51 @@ case+ s2e.s2exp_node of
 | _ => None_vt ()
 //
 end // end of [un_s2exp_lazy_t0ype_type]
-
+//
 (* ****** ****** *)
-
+//
 implement
 the_lazy_vt0ype_vtype =
   s2cstref_make "lazy_vt0ype_vtype"
+//
 implement
-s2exp_lazy_vt0ype_vtype (s2e) = let
-  val s2c = s2cstref_get_cst (the_lazy_vt0ype_vtype)
+s2exp_lazy_vt0ype_vtype
+  (s2e) = let
+//
+val
+s2c =
+s2cstref_get_cst
+  (the_lazy_vt0ype_vtype)
+//
 in
-  s2exp_cstapp (s2c, list_sing (s2e))
+  s2exp_cstapp(s2c, list_sing(s2e))
 end // end of [s2exp_lazy_vt0ype_vtype]
+//
 implement
 un_s2exp_lazy_vt0ype_vtype
   (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
 //
-case+ s2e.s2exp_node of
-| S2Eapp (s2e_fun, s2es_arg) 
-    when s2cstref_equ_exp (
+case+
+s2e.s2exp_node
+of // case+
+| S2Eapp
+  (
+    s2e_fun, s2es_arg
+  ) when
+    s2cstref_equ_exp
+  (
     the_lazy_vt0ype_vtype, s2e_fun
   ) => let
-    val-list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+    val-
+    list_cons
+      (s2e, _) = s2es_arg in Some_vt (s2e)
   end // end of [S2Eapp when ...]
-| _ => None_vt ()
+| _ (* non-S2Eapp *) => None_vt((*void*))
 //
 end // end of [un_s2exp_lazy_vt0ype_vtype]
-
+//
 (* ****** ****** *)
 
 implement

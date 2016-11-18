@@ -245,6 +245,12 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
+| D3Etyrep (s2e) => {
+    val () = prstr "D3Etyrep("
+    val () = fprint_s2exp (out, s2e) // $tyrep(...)
+    val () = prstr ")"
+  }
+//
 | D3Eliteral (d3e) => {
     val () = prstr "D3Eliteral("
     val () = fprint_d3exp (out, d3e) // int, float, string

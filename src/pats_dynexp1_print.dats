@@ -332,20 +332,30 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Etop () => prstr "D1Etop()"
+| D1Eempty () => prstr "D1Eempty()"
+//
 | D1Ecstsp (x) => {
     val () = prstr "D1Ecstsp("
     val () = $SYN.fprint_cstsp (out, x)
     val () = prstr ")"
   }
 //
-| D1Eliteral (d1e_lit) => {
-    val () = prstr "D1Eliteral("
-    val () = fprint_d1exp (out, d1e_lit)
-    val () = prstr ")"
-  }
+| D1Etyrep (s1e) => {
+    val () =
+    (
+      prstr "D1Etyrep(";
+      fprint_s1exp (out, s1e); prstr ")"
+    ) (* end of [val] *)
+  } (* end of [D1Etyrep] *)
 //
-| D1Etop () => prstr "D1Etop()"
-| D1Eempty () => prstr "D1Eempty()"
+| D1Eliteral (lit) => {
+    val () =
+    (
+      prstr "D1Eliteral(";
+      fprint_d1exp (out, lit); prstr ")"
+    ) (* end of [val] *)
+  } (* end of [D1Eliteral] *)
 //
 | D1Eextval
     (s1e, name) => {

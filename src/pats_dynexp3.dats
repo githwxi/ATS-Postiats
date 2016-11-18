@@ -396,11 +396,21 @@ d3exp_cstsp
 (* ****** ****** *)
 
 implement
-d3exp_literal
-  (loc, s2f, d3e) = '{
+d3exp_tyrep
+  (loc, s2f, s2e_rep) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eliteral (d3e)
+, d3exp_node= D3Etyrep (s2e_rep)
+} // end of [d3exp_tyrep]
+
+(* ****** ****** *)
+
+implement
+d3exp_literal
+  (loc, s2f, d3e_lit) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eliteral (d3e_lit)
 } // end of [d3exp_literal]
 
 (* ****** ****** *)

@@ -429,7 +429,7 @@ fun s2eff_hnfize (s2fe: s2eff): s2eff
 
 (* ****** ****** *)
 
-fun stacst2_initialize (): void
+fun stacst2_initialize ((*void*)): void
 
 (* ****** ****** *)
 

@@ -1514,6 +1514,8 @@ and d0exp_node =
 //
   | D0Ecstsp of cstsp // special constants
 //
+  | D0Etyrep of s0exp // $tyrep(...)
+//
   | D0Eliteral of (d0exp) // $literal: int, float, string
 //
   | D0Eextval of
@@ -1818,8 +1820,19 @@ fun d0exp_MYFUN (tok: token): d0exp
 
 (* ****** ****** *)
 //
-fun d0exp_literal
-  (t_beg: token, lit: d0exp, t_end: token): d0exp
+fun
+d0exp_tyrep
+(
+  t_beg: token, s0e: s0exp, t_end: token
+) : d0exp // end of [d0exp_tyrep]
+//
+(* ****** ****** *)
+//
+fun
+d0exp_literal
+(
+  t_beg: token, lit: d0exp, t_end: token
+) : d0exp // end of [d0exp_literal]
 //
 (* ****** ****** *)
 //

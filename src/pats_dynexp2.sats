@@ -845,6 +845,7 @@ and d2exp_node =
 //
   | D2Ecstsp of $SYN.cstsp // special constants
 //
+  | D2Etyrep of (s2exp) // $tyrep(...)
   | D2Eliteral of (d2exp) // $literal: int, float, string
 //
   | D2Eextval of (s2exp(*type*), string(*name*))
@@ -1274,6 +1275,14 @@ d2exp_cstsp
 (
   loc: location, cst: $SYN.cstsp
 ) : d2exp // end-of-function
+//
+(* ****** ****** *)
+//
+fun
+d2exp_tyrep
+  (loc: location, s2e: s2exp): d2exp
+//
+(* ****** ****** *)
 //
 fun
 d2exp_literal

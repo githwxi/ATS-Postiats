@@ -156,6 +156,7 @@ fprint_token
 //
   | T_DLRARRPSZ () => fprintf (out, "DLRARRPSZ()", @())
 //
+  | T_DLRTYREP () => fprintf (out, "DLRTYREP()", @())
   | T_DLRD2CTYPE () => fprintf (out, "DLRD2CTYPE()", @())
 //
   | T_DLREFFMASK () => fprintf (out, "DLREFFMASK()", @())

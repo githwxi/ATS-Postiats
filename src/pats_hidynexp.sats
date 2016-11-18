@@ -38,8 +38,8 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 //
 staload
-LOC = "./pats_location.sats"
-typedef loc_t = $LOC.location
+SYN = "./pats_syntax.sats"
+typedef cstsp = $SYN.cstsp
 //
 (* ****** ****** *)
 
@@ -315,7 +315,9 @@ and hidexp_node =
   | HDEi0nt of i0nt // integer constants
   | HDEf0loat of f0loat // floating point constants
 //
-  | HDEcstsp of ($SYN.cstsp) // special constants
+  | HDEcstsp of (cstsp) // special constants
+//
+  | HDEtyrep of (hisexp) // supporting C++ templates
 //
   | HDEtop of () // for uninitialized
   | HDEempty of () // for the void value
@@ -622,8 +624,14 @@ fun hidexp_f0loat
 (* ****** ****** *)
 
 fun hidexp_cstsp
-  (loc: loc_t, hse: hisexp, x: $SYN.cstsp): hidexp
+  (loc: loc_t, hse: hisexp, x: cstsp): hidexp
 // end of [hidexp_cstsp]
+
+(* ****** ****** *)
+
+fun hidexp_tyrep
+  (loc: loc_t, hse: hisexp, x: hisexp): hidexp
+// end of [hidexp_tyrep]
 
 (* ****** ****** *)
 
@@ -636,7 +644,8 @@ fun hidexp_ignore
 
 (* ****** ****** *)
 
-fun hidexp_castfn (
+fun hidexp_castfn
+(
   loc: loc_t, hse: hisexp, d2c: d2cst, arg: hidexp
 ) : hidexp // end of [hidexp_castfn]
 

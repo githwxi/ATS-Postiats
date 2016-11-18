@@ -331,6 +331,11 @@ fun d2exp_trup_cstsp
 
 (* ****** ****** *)
 //
+fun d2exp_trup_tyrep
+  (d2e0: d2exp, s2e_rep: s2exp): d3exp
+//
+(* ****** ****** *)
+//
 fun d2exp_trup_literal
   (d2e0: d2exp, d2e_lit: d2exp): d3exp
 //

@@ -766,6 +766,17 @@ case+ tok.token_node of
     val () = incby1 () in d0exp_MYFUN (tok)
   end
 //
+| T_DLRTYREP() => let
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_s0exp, err0)
+    val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
+  in
+    if err = err0
+      then d0exp_tyrep(tok, ent3, ent4) else synent_null()
+    // end of [if]
+  end // end of [T_DLRTYREP]
+//
 | T_DLRLITERAL
     ((*void*)) => let
     val () = incby1 ()

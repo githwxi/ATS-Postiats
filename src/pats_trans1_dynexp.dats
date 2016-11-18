@@ -551,41 +551,55 @@ in
 case+ d0e0.d0exp_node of
 //
 | D0Eide id
-    when id = BACKSLASH => d1expitm_backslash (loc0)
+    when id = BACKSLASH =>
+    d1expitm_backslash (loc0)
 | D0Eide id
-    when id = UNDERSCORE => d1expitm_underscore (loc0)
+    when id = UNDERSCORE =>
+    d1expitm_underscore (loc0)
 //
 | D0Eide id => let
     val d1e = d1exp_ide (loc0, id)
     val opt = the_fxtyenv_find (id)
   in
     case+ opt of
-    | ~Some_vt f =>
-        d1exp_make_opr (d1e, f) // HX: operator
-    | ~None_vt _ => FXITMatm (d1e) // HX: not operator
+    | ~None_vt() =>
+        FXITMatm (d1e) // HX: not operator
+      // end of [None_vt]
+    | ~Some_vt(f) =>
+        d1exp_make_opr(d1e, f) // HX: operator
+      // end of [Some_vt]
   end // end of [D0Eide]
-| D0Eopid (id) => FXITMatm (d1exp_ide (loc0, id))
-| D0Edqid (dq, id) => FXITMatm (d1exp_dqid (loc0, dq, id))
 //
-| D0Eidext id => FXITMatm (d1exp_idext (loc0, id))
+| D0Eopid (id) =>
+    FXITMatm (d1exp_ide (loc0, id))
+| D0Edqid (dq, id) =>
+    FXITMatm (d1exp_dqid (loc0, dq, id))
+//
+| D0Eidext id =>
+    FXITMatm (d1exp_idext (loc0, id))
 //
 | D0Eint x => FXITMatm (d1exp_i0nt (loc0, x))
 | D0Echar x => FXITMatm (d1exp_c0har (loc0, x))
 | D0Efloat x => FXITMatm (d1exp_f0loat (loc0, x))
 | D0Estring x => FXITMatm (d1exp_s0tring (loc0, x))
 //
-| D0Eempty () => FXITMatm (d1exp_empty (loc0))
+| D0Eempty() => FXITMatm (d1exp_empty (loc0))
 //
-| D0Ecstsp x => FXITMatm (d1exp_cstsp (loc0, x))
+| D0Ecstsp(x) => FXITMatm (d1exp_cstsp (loc0, x))
+//
+| D0Etyrep(s0e) =>
+    FXITMatm (d1exp_tyrep (loc0, s0exp_tr (s0e)))
+  // end of [D0Etyrep]
 //
 | D0Eliteral (d0e) =>
     FXITMatm (d1exp_literal (loc0, d0exp_tr (d0e)))
   // end of [D0Eliteral]
 //
 | D0Eextval (s0e, name) =>
-    FXITMatm (
-    d1exp_extval (loc0, s0exp_tr (s0e), name)
-  ) // end of [D0Eextval]
+    FXITMatm(
+      d1exp_extval(loc0, s0exp_tr(s0e), name)
+    ) (* [FXITMatm] *)
+  // end of [D0Eextval]
 //
 | D0Eextfcall
     (s0e, _fun, _arg) => let

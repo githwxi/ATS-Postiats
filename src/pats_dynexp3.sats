@@ -286,6 +286,8 @@ and d3exp_node =
 //
   | D3Ecstsp of ($SYN.cstsp)
 //
+  | D3Etyrep of (s2exp) // $tyrep(...)
+//
   | D3Eliteral of (d3exp) // $literal: int, float, string
 //
   | D3Etop of () // unspecified value
@@ -636,11 +638,17 @@ fun d3exp_cstsp
 // end of [d3exp_cstsp]
 
 (* ****** ****** *)
-
-fun d3exp_literal
+//
+fun
+d3exp_tyrep
+  (loc: location, s2f: s2exp, s2e_rep: s2exp): d3exp
+// end of [d3exp_tyrep]
+//
+fun
+d3exp_literal
   (loc: location, s2f: s2exp, d3e_lit: d3exp): d3exp
 // end of [d3exp_literal]
-
+//
 (* ****** ****** *)
 //
 fun

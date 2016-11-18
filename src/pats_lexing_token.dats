@@ -551,6 +551,7 @@ val () = ins ("$ldelay", DLRLDELAY)
 val () = ins ("$arrpsz", T_DLRARRPSZ)
 val () = ins ("$arrptrsize", T_DLRARRPSZ)
 //
+val () = ins ("$tyrep", T_DLRTYREP)
 val () = ins ("$d2ctype", T_DLRD2CTYPE)
 //
 val () = ins ("$effmask", DLREFFMASK)

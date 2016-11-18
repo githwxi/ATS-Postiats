@@ -277,6 +277,8 @@ of // case+
 //
 | D2Ecstsp(csp) => d2exp_trup_cstsp (d2e0, csp)
 //
+| D2Etyrep(s2e) => d2exp_trup_tyrep (d2e0, s2e)
+//
 | D2Eliteral(d2e) => d2exp_trup_literal (d2e0, d2e)
 //
 (*

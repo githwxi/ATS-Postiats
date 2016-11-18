@@ -378,7 +378,8 @@ fprint_d2exp
   (out, d2e0) = let
 //
 macdef
-prstr (s) = fprint_string (out, ,(s))
+prstr(s) =
+  fprint_string(out, ,(s))
 //
 in
 //
@@ -415,25 +416,37 @@ d2e0.d2exp_node of
     val () = fprint! (out, "D2Estring(", str, ")")
   } (* end of [D2Estring] *)
 //
-| D2Ei0nt (tok) => {
-    val-T_INT (
+| D2Ei0nt(tok) =>
+  {
+    val-
+    T_INT
+    (
       _(*base*), rep, _(*sfx*)
-    ) = tok.token_node
-    val () = fprint! (out, "D2Ei0nt(", rep, ")")
+    ) = tok.token_node // val-
+    val () =
+    fprint! (out, "D2Ei0nt(", rep, ")")
   } (* end of [D2Ei0nt] *)
-| D2Ec0har (tok) => {
-    val-T_CHAR (chr) = tok.token_node
-    val () = fprint! (out, "D2Ec0har(", chr, ")")
+| D2Ec0har(tok) =>
+  {
+    val-
+    T_CHAR(chr) = tok.token_node
+    val () =
+    fprint! (out, "D2Ec0har(", chr, ")")
   } (* end of [D2Ec0har] *)
 | D2Ef0loat (tok) => {
-    val-T_FLOAT (
+    val-
+    T_FLOAT
+    (
       _(*base*), rep, _(*sfx*)
-    ) = tok.token_node
-    val () = fprint! (out, "D2Ef0loat(", rep, ")")
+    ) = tok.token_node // val-
+    val () =
+    fprint! (out, "D2Ef0loat(", rep, ")")
   } (* end of [D2Ef0loat] *)
 | D2Es0tring (tok) => {
-    val-T_STRING (str) = tok.token_node
-    val () = fprint! (out, "D2Es0tring(", str, ")")
+    val-
+    T_STRING(str) = tok.token_node
+    val () =
+    fprint! (out, "D2Es0tring(", str, ")")
   } (* end of [D2Es0tring] *)
 //
 | D2Ecstsp (csp) => {
@@ -442,15 +455,19 @@ d2e0.d2exp_node of
     val () = prstr ")"
   } // end of [D2Ecstsp]
 //
+| D2Etyrep (s2e) => {
+    val () = prstr "D2Etyrep("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  } // end of [D2Etyrep]
+//
 | D2Eliteral (d2e) => {
     val () = prstr "D2Eliteral("
     val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   } // end of [D2Eliteral]
 //
-| D2Etop () => {
-    val () = prstr "D2Etop()"
-  } // end of [D2Etop]
+| D2Etop () => prstr "D2Etop()"
 | D2Etop2 (s2e) => {
     val () = prstr "D2Etop2("
     val () = fprint_s2exp (out, s2e)
