@@ -531,18 +531,36 @@ end // end of [emit_primcstsp]
 (* ****** ****** *)
 
 implement
-emit_sizeof
-  (out, hselt) = let
+emit_tyrep
+  (out, hse) = let
 //
 val () =
-  emit_text (out, "ATSPMVsizeof(")
+emit_text
+  (out, "ATSPMVtyrep(")
 //
-val () = emit_hisexp (out, hselt)
+val () = emit_hisexp (out, hse)
 //
 val ((*closing*)) = emit_RPAREN (out)
 //
 in
-end // end of [emit_sizeof]
+end // end of [emit_tyrep]
+
+(* ****** ****** *)
+
+implement
+emit_sizeof
+  (out, hse) =
+{
+//
+val () =
+emit_text
+  (out, "ATSPMVsizeof(")
+//
+val () = emit_hisexp (out, hse)
+//
+val ((*closing*)) = emit_RPAREN (out)
+//
+} (* end of [emit_sizeof] *)
 
 (* ****** ****** *)
 
@@ -1144,7 +1162,9 @@ case+ pmv0.primval_node of
 //
 | PMVcastfn _ => emit_primval_castfn (out, pmv0)
 //
-| PMVsizeof (hselt) => emit_sizeof (out, hselt)
+| PMVtyrep (hse) => emit_tyrep (out, hse)
+//
+| PMVsizeof (hse) => emit_sizeof (out, hse)
 //
 | PMVselcon _ => emit_primval_selcon (out, pmv0)
 | PMVselect _ => emit_primval_select (out, pmv0)

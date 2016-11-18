@@ -417,14 +417,20 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVsizeof (hselt) => {
-    val () = prstr "PMVsizeof("
-    val () = fprint_hisexp (out, hselt)
+| PMVcstsp (x) => {
+    val () = fprint_primcstsp (out, x)
+  }
+//
+| PMVtyrep (hse) => {
+    val () = prstr "PMVtyrep("
+    val () = fprint_hisexp (out, hse)
     val () = prstr ")"
   }
 //
-| PMVcstsp (x) => {
-    val () = fprint_primcstsp (out, x)
+| PMVsizeof (hse) => {
+    val () = prstr "PMVsizeof("
+    val () = fprint_hisexp (out, hse)
+    val () = prstr ")"
   }
 //
 | PMVtop () => prstr "PMVtop()"

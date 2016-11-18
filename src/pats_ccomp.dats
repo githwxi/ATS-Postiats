@@ -299,18 +299,24 @@ primval_f0loat
 (* ****** ****** *)
 
 implement
-primval_sizeof
-  (loc, hse, hselt) =
-  primval_make_node (loc, hse, PMVsizeof (hselt))
-// end of [primval_sizeof]
-
-(* ****** ****** *)
-
-implement
 primval_cstsp
   (loc, hse, cstsp) =
   primval_make_node (loc, hse, PMVcstsp (cstsp))
 // end of [primval_cstsp]
+
+(* ****** ****** *)
+
+implement
+primval_tyrep
+  (loc, hse0, hse) =
+  primval_make_node (loc, hse0, PMVtyrep (hse))
+// end of [primval_tyrep]
+
+implement
+primval_sizeof
+  (loc, hse0, hse) =
+  primval_make_node (loc, hse0, PMVsizeof (hse))
+// end of [primval_sizeof]
 
 (* ****** ****** *)
 

@@ -797,12 +797,20 @@ pmv0.primval_node of
     primval_castfn (loc0, hse0, d2c, pmv)
   end // end of [PMVcastfn]
 //
-| PMVsizeof (hselt) => let
-    val hselt =
-      hisexp_subst (sub, hselt)
+| PMVtyrep (hse) => let
+    val hse_sub =
+      hisexp_subst (sub, hse)
     // end of [val]
   in
-    primval_sizeof (loc0, hse0, hselt)
+    primval_tyrep (loc0, hse0, hse_sub)
+  end // end of [PMVsizeof]
+//
+| PMVsizeof (hse) => let
+    val hse_sub =
+      hisexp_subst (sub, hse)
+    // end of [val]
+  in
+    primval_sizeof (loc0, hse0, hse_sub)
   end // end of [PMVsizeof]
 //
 | PMVselcon

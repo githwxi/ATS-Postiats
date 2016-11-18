@@ -610,9 +610,11 @@ and primval_node =
   | PMVi0nt of (i0nt)
   | PMVf0loat of (f0loat)
 //
-  | PMVsizeof of (hisexp)
-//
   | PMVcstsp of (primcstsp)
+//
+  | PMVtyrep of (hisexp) // $tyrep(...)
+//
+  | PMVsizeof of (hisexp) // sizeof<...>
 //
   | PMVtop of ()
   | PMVempty of ()
@@ -893,17 +895,25 @@ fun primval_f0loat
   (loc: loc_t, hse: hisexp, tok: f0loat): primval
 
 (* ****** ****** *)
-
-fun primval_sizeof
-  (loc: loc_t, hse: hisexp, hselt: hisexp): primval
-// end of [primval_sizeof]
-
+//
+fun
+primval_cstsp
+(
+  loc: loc_t, hse: hisexp, cstsp: primcstsp
+) : primval // end of [primval_cstsp]
+//
 (* ****** ****** *)
-
-fun primval_cstsp
-  (loc: loc_t, hse: hisexp, cstsp: primcstsp): primval
-// end of [primval_cstsp]
-
+//
+fun
+primval_tyrep
+  (loc: loc_t, hse0: hisexp, hse: hisexp): primval
+// end of [primval_tyrep]
+//
+fun
+primval_sizeof
+  (loc: loc_t, hse0: hisexp, hse: hisexp): primval
+// end of [primval_sizeof]
+//
 (* ****** ****** *)
 
 fun primval_top (loc: loc_t, hse: hisexp): primval
@@ -2100,7 +2110,8 @@ fun emit_d2cstlst_extdec (out: FILEref, d2cs: d2cstlst): void
 //
 (* ****** ****** *)
 
-fun emit_sizeof (out: FILEref, hselt: hisexp): void
+fun emit_tyrep (out: FILEref, hse: hisexp): void
+fun emit_sizeof (out: FILEref, hse: hisexp): void
 
 (* ****** ****** *)
 
