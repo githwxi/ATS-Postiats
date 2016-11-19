@@ -27,6 +27,7 @@ Here is a list of major additions and changes since the last release:
 3. Changing symbolic to "%&+-./:=@~`^|*!?<>#" (that is, '$' is dropped)
 4. Supporting both string_make_stream and string_make_stream_vt
 5. Improving support for combinators in stream_vt, ML/list0 and ML/string
+6. Introducing $tyref(...) for outputing types in the generated code
 
 ######
 

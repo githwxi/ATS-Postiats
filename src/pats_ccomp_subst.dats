@@ -803,7 +803,7 @@ pmv0.primval_node of
     // end of [val]
   in
     primval_tyrep (loc0, hse0, hse_sub)
-  end // end of [PMVsizeof]
+  end // end of [PMVtyrep]
 //
 | PMVsizeof (hse) => let
     val hse_sub =
