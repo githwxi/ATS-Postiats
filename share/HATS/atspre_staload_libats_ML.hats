@@ -87,6 +87,8 @@ staload _ = "{$PATSLIBATS}/ML/DATS/dynarray.dats"
 (* ****** ****** *)
 //
 staload "{$PATSLIBATS}/ML/SATS/qlistref.sats"
+staload "{$PATSLIBATS}/ML/SATS/slistref.sats"
+//
 staload "{$PATSLIBATS}/ML/SATS/hashtblref.sats"
 //
 (* ****** ****** *)
@@ -97,6 +99,8 @@ staload _ = "{$PATSLIBATS}/DATS/linmap_list.dats"
 staload _ = "{$PATSLIBATS}/DATS/hashtbl_chain.dats"
 //
 staload _ = "{$PATSLIBATS}/ML/DATS/qlistref.dats"
+staload _ = "{$PATSLIBATS}/ML/DATS/slistref.dats"
+//
 staload _ = "{$PATSLIBATS}/ML/DATS/hashtblref.dats"
 //
 (* ****** ****** *)

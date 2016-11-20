@@ -4,17 +4,15 @@ For Effective ATS
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-#include
-"share/atspre_staload.hats"
-#include
-"share/HATS/atspre_staload_libats_ML.hats"
+staload
+"libats/ML/SATS/basis.sats"
+staload
+"libats/ML/SATS/list0.sats"
 //
 (* ****** ****** *)
 
-abstype node
-abstype nodelst
+abstype node = ptr
+typedef nodelst = list0(node)
 
 (* ****** ****** *)
 //
@@ -36,14 +34,7 @@ overload
 //
 extern
 fun{}
-process_node(nx: node): void
-//
-(* ****** ****** *)
-//
-extern
-fun{}
-streamize_nodelst
-  (nxs: nodelst): stream_vt(node)
+process_node(nx: node): bool
 //
 (* ****** ****** *)
 //
@@ -64,13 +55,6 @@ extern
 fun{}
 theStore_choose((*void*)): Option_vt(node)
 //
-(* ****** ****** *)
-
-implement
-{}(*tmp*)
-theStore_insert_lst(nxs) =
-  (streamize_nodelst(nxs)).foreach()(lam nx => theStore_insert(nx))
-
 (* ****** ****** *)
 //
 extern
@@ -97,12 +81,19 @@ in
 //
 case+ opt of
 | ~None_vt() => ()
-| ~Some_vt(nx) =>
-    search((*void*)) where
-  {
-    val () = process_node(nx)
-    val () = theStore_insert_lst(node_get_neighbors(nx))
-  } (* end of [Some_vt] *)
+| ~Some_vt(nx) => let
+    val cont = process_node(nx)
+  in
+    if cont
+      then let
+        val nxs =
+          node_get_neighbors(nx)
+        // end of [val]
+      in
+        theStore_insert_lst(nxs); search((*void*))
+      end // end of [then]
+    // end of [if]
+  end (* end of [Some_vt] *)
 //
 end (* end of [theStore_search] *)
 //
