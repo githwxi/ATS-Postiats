@@ -144,5 +144,44 @@ stream2list_vt
 end // end of [node_get_neighbors]
 
 (* ****** ****** *)
+//
+extern
+fun
+Doublets_play
+(
+  w1: string, w2: string
+) : Option_vt(list0(string))
+//
+(* ****** ****** *)
+
+implement
+main0
+(
+  argc, argv
+) = let
+//
+val () =
+assertl(argc >= 3)
+//
+val
+opt = Doublets_play(w1, w2)
+//
+in
+//
+case+ opt of
+| ~None_vt() =>
+    println!
+    (
+      "[", w1, "] and [", w2, "] are not a doublet!"
+    )
+| ~Some_vt(ws) =>
+    println!
+    (
+      "[", w1, "] and [", w2, "] does form a doublet: "
+    )
+//
+end // end of [Doublets_play]
+
+(* ****** ****** *)
 
 (* end of [Doublets.dats] *)

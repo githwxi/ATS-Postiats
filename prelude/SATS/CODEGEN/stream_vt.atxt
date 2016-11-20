@@ -178,12 +178,12 @@ stream_vt_filter_fun
 fun{a:t0p}
 stream_vt_filter_cloptr
 (
-  xs: stream_vt(INV(a)), pred: (&a) -<cloptr> bool
+  xs: stream_vt(INV(a)), pred: (&a) -<cloptr1> bool
 ) : stream_vt (a) // end of [stream_vt_filter_cloptr]
 fun{a:t0p}
 stream_vt_ifilter_cloptr
 (
-  xs: stream_vt(INV(a)), pred: (intGte(0), &a) -<cloptr> bool
+  xs: stream_vt(INV(a)), pred: (intGte(0), &a) -<cloptr1> bool
 ) : stream_vt (a) // end of [stream_vt_ifilter_cloptr]
 //
 fun{a:vt0p}

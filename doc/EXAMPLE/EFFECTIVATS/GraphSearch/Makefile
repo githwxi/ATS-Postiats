@@ -24,6 +24,11 @@ main.html: main.atxt ; $(MYTEXTING) -o $@ -i $<
 #
 ######
 
+Doublets: \
+Doublets.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
 QueenPuzzle: \
 QueenPuzzle.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
