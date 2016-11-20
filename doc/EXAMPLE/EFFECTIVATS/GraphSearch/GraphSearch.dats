@@ -20,6 +20,22 @@ abstype nodelst
 //
 extern
 fun{}
+node_mark(node): void
+extern
+fun{}
+node_unmark(node): void
+//
+extern
+fun{}
+node_is_marked(node): bool
+//
+overload
+.is_marked with node_is_marked
+//
+(* ****** ****** *)
+//
+extern
+fun{}
 process_node(nx: node): void
 //
 (* ****** ****** *)
@@ -59,18 +75,20 @@ theStore_insert_lst(nxs) =
 //
 extern
 fun{}
-GraphSearch_node(nx0: node): void
-extern
-fun{}
-GraphSearch_nodelst(nxs: nodelst): void
+GraphSearch(): void
 //
 (* ****** ****** *)
 
-local
-
+implement
+{}(*tmp*)
+GraphSearch
+  ((*void*)) = let
+//
 fun
-theStore_search
-  ((*void*)): void = let
+search
+(
+// argless
+): void = let
 //
 val
 opt = theStore_choose()
@@ -80,41 +98,17 @@ in
 case+ opt of
 | ~None_vt() => ()
 | ~Some_vt(nx) =>
-    theStore_search() where
+    search((*void*)) where
   {
     val () = process_node(nx)
     val () = theStore_insert_lst(node_get_neighbors(nx))
   } (* end of [Some_vt] *)
 //
 end (* end of [theStore_search] *)
-
-in (* in-of-local *)
-
-implement
-{}(*tmp*)
-GraphSearch_node
-  (nx0) = let
-//
-val () =
-  theStore_insert(nx0)
 //
 in
-  theStore_search((*void*))
-end // end of [GraphSearch_node]
-
-implement
-{}(*tmp*)
-GraphSearch_nodelst
-  (nxs) = let
-//
-val () =
-  theStore_insert_lst(nxs)
-//
-in
-  theStore_search((*void*))
-end // end of [GraphSearch_nodelst]
-
-end // end of [local]
+  search((*void*))
+end // end of [GraphSearch]
 
 (* ****** ****** *)
 

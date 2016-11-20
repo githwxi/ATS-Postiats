@@ -32,18 +32,26 @@ sortdef t0p = t@ype
 
 \#if(0)
 //
-// HX: these decls are available in [basic_dyn.sats]
+// HX:
+// these declarations
+// are available in [basic_dyn.sats]
 //
-stadef option = option_t0ype_bool_type
-typedef Option (a:t0p) = [b:bool] option (a, b)
+stadef
+option = option_t0ype_bool_type
+typedef
+Option (a:t0p) = [b:bool] option(a, b)
 \#endif
 
 #atscode_separator()
 
 exception NotSomeExn of ()
 (*
-fun NotSomeExn ():<> exn = "mac\#%NotSomeExn_make"
-fun isNotSomeExn (x: !exn):<> bool = "mac\#%isNotSomeExn"
+fun
+NotSomeExn
+  ():<> exn = "mac\#%NotSomeExn_make"
+fun
+isNotSomeExn
+  (x: !exn):<> bool = "mac\#%isNotSomeExn"
 macdef
 ifNotSomeExn
   {tres}(exn, body) =
@@ -64,63 +72,77 @@ end (* end of [let] *)
 castfn
 option_cast
   {a:t0p}{b:bool}
-  (opt: option (INV(a), b)):<> option (a, b)
+(
+  opt: option(INV(a), b)
+) :<> option(a, b) // end-of-fun
 //
-(* ****** ****** *)
+#atscode_separator()
 //
 castfn
 option_vt2t
   {a:t0p}{b:bool}
-  (opt: option_vt (INV(a), b)):<> option (a, b)
+(
+  opt: option_vt(INV(a), b)
+) :<> option(a, b) // end-of-fun
 castfn
 option_of_option_vt
   {a:t0p}{b:bool}
-  (opt: option_vt (INV(a), b)):<> option (a, b)
+(
+  opt: option_vt(INV(a), b)
+) :<> option(a, b) // end-of-fun
 //
 #atscode_separator()
-
+//
 fun{a:t0p}
-option_some (x: a):<> option (a, true)
+option_some
+  (x0: a):<> option(a, true)
+//
 fun{a:t0p}
-option_none ((*void*)):<> option (a, false)
-
+option_none
+  ((*void*)):<> option(a, false)
+//
 #atscode_separator()
 
 #atscode_decl_strcst('\
 fun{}
-option_is_some{a:t0p}
-  {b:bool} (opt: option (a, b)):<> bool (b)
-// end of [option_is_some]
+option_is_some
+  {a:t0p}{b:bool}
+  (opt: option(a, b)):<> bool(b)
 ')\
 
 #atscode_decl_strcst('\
 fun{}
-option_is_none{a:t0p}
-  {b:bool} (opt: option (a, b)):<> bool (~b)
-// end of [option_is_none]
+option_is_none
+  {a:t0p}{b:bool}
+  (opt: option(a, b)):<> bool(~b)
 ')\
-
-#atscode_separator()
-
-fun{a:t0p}
-option_unsome (opt: option (INV(a), true)):<> a
-
-fun{a:t0p}
-option_unsome_exn (opt: Option (INV(a))):<!exn> a
 
 #atscode_separator()
 //
 fun{a:t0p}
-option_equal$eqfn (a, a):<> bool
+option_unsome
+  (option(INV(a), true)):<> (a)
+//
+fun{a:t0p}
+option_unsome_exn
+  (opt: Option(INV(a))):<!exn> (a)
+//
+#atscode_separator()
+//
 fun{a:t0p}
 option_equal
-  (opt1: Option(a), opt2: Option(a)):<> bool
+(
+  opt1: Option(a), opt2: Option(a)
+) :<> bool // end of [option_equal]
+//
+fun{a:t0p}
+option_equal$eqfn(x1: a, x2: a):<> bool
 //
 #atscode_separator()
 //
 fun{a:t0p}
 fprint_option
-  (out: FILEref, opt: Option (INV(a))): void
+  (out: FILEref, opt: Option(INV(a))): void
 //
 overload fprint with fprint_option
 //
