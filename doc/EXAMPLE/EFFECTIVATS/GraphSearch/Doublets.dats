@@ -63,7 +63,17 @@ extern
 fun
 string_fset_at
   {n:int}
-  {i:nat | i < n}(string(n), int(i), char): string(n)
+  {i:nat | i < n}
+  (string(n), int(i), char): string(n)
+//
+implement
+string_fset_at
+  (s0, i, c) = let
+  val s1 = string1_copy(s0)
+  val () = s1[i] := ckastloc_charNZ(c)
+in
+  strnptr2string(s1)
+end // end of [string_fset_at]
 //
 (* ****** ****** *)
 
@@ -161,7 +171,10 @@ main0
 ) = let
 //
 val () =
-assertl(argc >= 3)
+assertloc(argc >= 3)
+//
+val w1 = argv[1]
+and w2 = argv[2]
 //
 val
 opt = Doublets_play(w1, w2)

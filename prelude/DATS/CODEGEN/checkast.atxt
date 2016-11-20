@@ -1,10 +1,14 @@
 %{
+//
 #define ATSCODEFORMAT "txt"
+//
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
+//
 val _thisfilename = atext_strcst"checkast.dats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
 %}\
 \
 #atscode_banner()
@@ -34,6 +38,32 @@ UN = "prelude/SATS/unsafe.sats"
 (*
 staload "prelude/SATS/checkast.sats"
 *)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+checkast_charNZ
+  (x, errmsg) = let
+//
+\#define CNUL '\000'
+//
+val x = g1ofg0_char(x)
+//
+in
+//
+if
+(
+x != CNUL
+)
+then (x)
+else let
+  val () =
+    fprint! (stderr_ref, "exit(ATS): ", errmsg) in exit(1)
+  // end of [val]
+end // end of [else]
+//
+end // end of [checkast_charNZ]
 
 #atscode_separator()
 

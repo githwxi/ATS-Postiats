@@ -429,7 +429,7 @@ string0_copy
   (xs: NSH(string)):<!wrt> Strptr1
 fun{}
 string1_copy
-  {n:int} (xs: NSH(string(n))):<!wrt> strnptr (n)
+  {n:int} (xs: NSH(string(n))):<!wrt> strnptr(n)
 //
 #atscode_separator()
 //
