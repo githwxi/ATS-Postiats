@@ -618,7 +618,8 @@ fun
 auxmain
 (
 //
-xs: stream_vt(a), pred: (&a) -<cloptr> bool
+xs: stream_vt(a),
+pred: (&a) -<cloptr1> bool
 //
 ) : stream_vt(a) = $ldelay
 (
@@ -660,7 +661,10 @@ end // end of [let]
 //
 ,
 //
-(~xs; cloptr_free($UN.castvwtp0{cloptr0}(pred)))
+(
+  ~xs;
+  cloptr_free($UN.castvwtp0{cloptr0}(pred))
+)
 //
 ) (* end of auxmain *)
 //
@@ -671,17 +675,15 @@ end // end of [let]
 implement
 {a}(*tmp*)
 stream_vt_ifilter_cloptr
-(
-  xs, pred
-) = auxmain(xs, 0, pred) where
-{
+  (xs, pred) = let
 //
 fun
 auxmain
 (
 //
-xs: stream_vt(a),
-i0: intGte(0), pred: (intGte(0), &a) -<cloptr> bool
+  i0: intGte(0)
+, xs: stream_vt(a)
+, pred: (intGte(0), &a) -<cloptr1> bool
 //
 ) : stream_vt(a) = $ldelay
 (
@@ -695,8 +697,9 @@ case+ xs_con of
     ((*_*)) => let
     val () =
     cloptr_free
-      ($UN.castvwtp0{cloptr0}(pred))
-    // end of [val]
+    (
+      $UN.castvwtp0{cloptr0}(pred)
+    ) (* cloptr_free *)
   in
     stream_vt_nil(*void*)
   end // end of [stream_vt_nil]
@@ -708,14 +711,18 @@ case+ xs_con of
       then let
         val () =
         xs1 :=
-        auxmain(xs1, i0+1, pred)
+        auxmain
+        (
+          i0+1, xs1, pred
+        ) (* end-of-val *)
       in
         fold@{a}(xs_con); xs_con
       end // end of [then]
       else let
         val xs1 = xs1
       in
-        free@{a}(xs_con); !(auxmain(xs1, i0+1, pred))
+        free@{a}(xs_con);
+        !(auxmain(i0+1, xs1, pred))
       end // end of [else]
     // end of [if]
   end // end of [stream_vt_cons]
@@ -724,11 +731,16 @@ end // end of [let]
 //
 ,
 //
-(~xs; cloptr_free($UN.castvwtp0{cloptr0}(pred)))
+(
+  ~xs;
+  cloptr_free($UN.castvwtp0{cloptr0}(pred))
+)
 //
 ) (* end of auxmain *)
 //
-} (* end of [stream_vt_ifilter_cloptr] *)
+in
+  auxmain(0, xs, pred)
+end (* end of [stream_vt_ifilter_cloptr] *)
 
 #atscode_separator()
 
