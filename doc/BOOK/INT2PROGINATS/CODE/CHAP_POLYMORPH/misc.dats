@@ -1,6 +1,7 @@
 (*
 ** Some code
-// used in the book INT2PROGINATS
+** used in the book INT2PROGINATS
+**
 *)
 
 (* ****** ****** *)

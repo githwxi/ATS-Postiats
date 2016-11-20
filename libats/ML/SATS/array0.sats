@@ -235,15 +235,19 @@ fun
 {a:vt0p}
 {b:vt0p}
 array0_map
-  (A: array0(a), fopr: (&a) -<cloref1> b): array0(b)
+(
+  A: array0(a), fopr: (&a) -<cloref1> b
+) : array0(b) // end of [array0_map]
 //
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
 array0_tabulate
-  (asz: size_t, fopr: (size_t) -<cloref1> a): array0(a)
-// end of [array0_tabulate]
-
+  {n:int}
+(
+  asz: size_t(n), fopr: (sizeLt(n)) -<cloref1> a
+) : array0(a) // end of [array0_tabulate]
+//
 (* ****** ****** *)
 //
 fun{a:vt0p}

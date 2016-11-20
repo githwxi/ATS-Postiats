@@ -125,15 +125,18 @@ in
 end // end of [mergesort]
 
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
-
-staload "libc/SATS/time.sats"
-staload "libc/SATS/stdlib.sats"
-
+//
+staload
+"libats/libc/SATS/time.sats"
+staload
+"libats/libc/SATS/stdlib.sats"
+//
 (* ****** ****** *)
 //
 #define

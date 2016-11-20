@@ -1414,20 +1414,28 @@ list0_filter_method
 implement
 {a}(*tmp*)
 list0_tabulate
-  (n, f) = let
+  {n}(n, f) = let
 //
 implement{a2}
 list_tabulate$fopr
-  (i) = $UN.castvwtp0{a2}(f(i))
+  (i) = let
+  val i =
+  $UN.cast{natLt(n)}(i)
+in
+  $UN.castvwtp0{a2}(f(i))
+end // list_tabulate$fopr
 //
-val n = g1ofg0_int (n)
+val n = g1ofg0_int(n)
 //
 in
-  if n >= 0 then
-    list0_of_list_vt (list_tabulate<a> (n))
-  else
-    $raise IllegalArgExn("list0_tabulate:n")
-  // end of [if]
+//
+if
+(n >= 0)
+then
+list0_of_list_vt(list_tabulate<a>(n))
+else
+$raise IllegalArgExn("list0_tabulate:n")
+// end of [if]
 end // end of [list0_tabulate]
 
 (* ****** ****** *)
@@ -1440,8 +1448,8 @@ list0_tabulate_opt
 //
 fun loop
 (
-  i: int
-, res: &ptr? >> List0_vt (a)
+  i: Nat
+, res: &ptr? >> List0_vt(a)
 ) : void = let
 in
 //

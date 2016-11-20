@@ -169,9 +169,10 @@ list0_zipwith
 ) // end of [list0_zipwith]
 
 (* ****** ****** *)
-
-staload "libc/SATS/stdlib.sats"
-
+//
+staload
+"libats/libc/SATS/stdlib.sats"
+//
 (* ****** ****** *)
 //
 #define

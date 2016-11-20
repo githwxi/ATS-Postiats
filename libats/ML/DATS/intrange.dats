@@ -248,7 +248,11 @@ int_list0_map_method
 implement
 {a}(*tmp*)
 int_array0_map_cloref
-  (n, f) = array0_tabulate<a> (i2sz(n), f)
+  (n, fopr) =
+(
+array0_tabulate<a>
+  (i2sz(n), lam(i) => fopr(sz2i(i)))
+)
 //
 implement
 {a}(*tmp*)
@@ -266,7 +270,7 @@ int_stream_map_cloref
 fun
 auxmain
 (
-  i: int
+  i: Nat
 ) : stream(a) = $delay
 (
 if
@@ -292,7 +296,7 @@ int_stream_vt_map_cloref
 fun
 auxmain
 (
-  i: int
+  i: Nat
 ) : stream_vt(a) = $ldelay
 (
 if

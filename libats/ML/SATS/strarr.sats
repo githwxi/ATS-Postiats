@@ -203,8 +203,10 @@ overload + with strarr_append
 
 (* ****** ****** *)
 //
-fun strarr_tabulate
-  (n: size_t, f: cfun (size_t, char)): strarr
+fun
+strarr_tabulate
+  {n:int}
+  (n: size_t(n), f: cfun (sizeLt(n), char)): strarr
 //
 (* ****** ****** *)
 //

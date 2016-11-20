@@ -655,7 +655,7 @@ overload * with list0_mapcons
 fun{
 a:t0p}{b:t0p
 } list0_imap
-  (xs: list0(INV(a)), fopr: cfun2(int, a, b)): list0(b)
+  (list0(INV(a)), fopr: cfun2(int, a, b)): list0(b)
 //
 (* ****** ****** *)
 
@@ -663,17 +663,19 @@ fun{
 a1,a2:t0p}{b:t0p
 } list0_map2
 (
-  xs: list0(INV(a1)), ys: list0(INV(a2)), fopr: cfun2(a1, a2, b)
+  list0(INV(a1)), list0(INV(a2)), fopr: cfun2(a1, a2, b)
 ) : list0(b) // end of [list0_map2]
 
 (* ****** ****** *)
 //
 fun{a:t0p}
 list0_tabulate
-  (n: int, fopr: cfun(int, a)): list0(a)
+  {n:nat}
+  (n: int(n), fopr: cfun(natLt(n), a)): list0(a)
 fun{a:t0p}
 list0_tabulate_opt
-  (n: int, fopr: cfun(int, Option_vt(a))): list0(a)
+  {n:nat}
+  (n: int(n), fopr: cfun(natLt(n), Option_vt(a))): list0(a)
 //
 (* ****** ****** *)
 //

@@ -383,7 +383,10 @@ val asz = array0_get_size (A)
 val f = $UN.cast{cfun1(ptr, b)}(f)
 //
 in
-  array0_tabulate<b> (asz, lam i => f (ptr_add<a> (p0, i)))
+//
+array0_tabulate<b>
+  (g1ofg0(asz), lam i => f (ptr_add<a> (p0, i)))
+//
 end // end of [array0_map]
 
 (* ****** ****** *)
@@ -391,11 +394,18 @@ end // end of [array0_map]
 implement
 {a}(*tmp*)
 array0_tabulate
-  (asz, f) = let
+  {n}(asz, f) = let
 //
 implement{a2}
 array_tabulate$fopr
-  (i) = $UN.castvwtp0{a2}(f(i))
+  (i) = let
+//
+  val i =
+  $UN.cast{sizeLt(n)}(i)
+//
+in
+  $UN.castvwtp0{a2}(f(i))
+end // array_tabulate$fopr
 //
 val ASZ = arrszref_tabulate<a> (asz)
 //
