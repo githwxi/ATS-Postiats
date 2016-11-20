@@ -119,4 +119,30 @@ end // end of [local]
 
 (* ****** ****** *)
 
+assume node = list0(string)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+node_get_neighbors
+  (nx0) = let
+//
+val-cons0(w, _) = nx0
+val ws = word_get_neighbors(w)
+//
+in
+//
+g0ofg1
+(
+stream2list_vt
+(
+  ws.map(TYPE{node})(lam w => cons0(w, nx0))
+) (* stream2list_vt *)
+) (* g0ofg1 *)
+//
+end // end of [node_get_neighbors]
+
+(* ****** ****** *)
+
 (* end of [Doublets.dats] *)
