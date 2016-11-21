@@ -178,7 +178,6 @@ assume node = list0(string)
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
 node_get_neighbors
   (nx0) = let
 //

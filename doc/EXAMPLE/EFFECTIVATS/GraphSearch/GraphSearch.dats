@@ -17,6 +17,12 @@ typedef nodelst = list0(node)
 (* ****** ****** *)
 //
 extern
+fun
+node_get_neighbors(nx: node): nodelst
+//
+(* ****** ****** *)
+//
+extern
 fun{}
 node_mark(node): void
 extern
@@ -35,12 +41,6 @@ overload
 extern
 fun{}
 process_node(nx: node): bool
-//
-(* ****** ****** *)
-//
-extern
-fun{}
-node_get_neighbors(nx: node): nodelst
 //
 (* ****** ****** *)
 //
