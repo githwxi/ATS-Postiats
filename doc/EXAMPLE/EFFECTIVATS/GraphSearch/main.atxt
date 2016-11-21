@@ -29,8 +29,8 @@ style of refinement-based programming.
 
 ##para('\
 
-In abstraction, a graph is a (possibly infinite) collection
-of nodes and each node is associated with a set of nodes that are
+Abstractly speaking, a graph is a (possibly infinite) collection of
+nodes and each node is associated with a set of nodes that are
 referred to as its neighbors. Let us introduce an abstract type
 ##stacode("node") for the nodes in a given graph (on which some kind
 search is to be performed):
@@ -50,6 +50,30 @@ node_get_neighbors(nx: node): nodelst
 
 Clearly, the interface assigned to ##dyncode("node_get_neighbors")
 imposes the assumption that the set of neighbors of each node is finite.
+
+')##comment("para")
+
+##para('\
+
+A common approach to searching a graph employs a store for nodes
+that are to be processed. The search is over if the store becomes
+empty. Otherwise, a node is chosen from the store to be processed
+and all of its neighbors are put into the store. Let us introduce
+a function ##dyncode("process_node") as follows for processing each
+chosen node:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{}
+process_node(nx: node): bool
+//
+')</pre>
+
+Note that a call to ##dyncode("process_node") returns a boolean value
+to indicate whether the search should continue or stop immediate.
 
 ')##comment("para")
 

@@ -18,21 +18,34 @@ PATSCC2=$(PATSCC) \
 MYTEXTING=./../MYTEXT/bin/mytexting
 
 ######
+
+all::
+regress::
+cleanall::
+
+######
 #
 all:: \
 main.html
 main.html: main.atxt ; $(MYTEXTING) -o $@ -i $<
 #
 ######
-
+#
 Doublets: \
-Doublets.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -L $(PATSLIB) -latslib
-
+Doublets.dats; \
+$(PATSCC) -DATS_MEMALLOC_LIBC \
+  -o $@ $< -L $(PATSLIB) -latslib
+#
+regress:: Doublets; ./$< clean dirty
+#
 ######
-
+#
 QueenPuzzle: \
-QueenPuzzle.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
-
+QueenPuzzle.dats; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+#
+regress:: QueenPuzzle; ./$<
+#
 ######
 
 upload_main: \
