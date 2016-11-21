@@ -431,8 +431,8 @@ string_fset_at_guint
   (s: string (n), i: g1uint(tk, i), c: charNZ):<!wrt> string(n)
 *)
 //
-symintr string_fget_at
-overload string_fget_at with string_fget_at_size of 1
+symintr string_fset_at
+overload string_fset_at with string_fset_at_size of 1
 //
 #atscode_separator()
 //
