@@ -51,6 +51,7 @@ src_patsopt: src_depend src_cleanall ; $(MAKE) -C src -f Makefile all
 ######
 #
 atslib_update:: ; $(MAKE) -C ccomp/atslib -f Makefile
+atslib_cleanall:: ; $(MAKE) -C ccomp/atslib -f Makefile clean
 #
 ######
 #

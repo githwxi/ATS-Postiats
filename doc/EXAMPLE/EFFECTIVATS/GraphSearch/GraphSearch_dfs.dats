@@ -31,7 +31,7 @@ theStore =
 slistref_make_nil{node}()
 //
 implement
-theStore_insert<>
+theSearchStore_insert<>
   (nx) = (
 //
 if
@@ -42,23 +42,23 @@ then
   slistref_insert(theStore, nx)
 )
 //
-) (* end of [theStore_insert] *)
+) (* end of [theSearchStore_insert] *)
 //
 implement
 {}(*tmp*)
-theStore_insert_lst(nxs) =
+theSearchStore_insert_lst(nxs) =
 (
 nxs
-).rforeach()(lam nx => theStore_insert(nx))
+).rforeach()(lam nx => theSearchStore_insert(nx))
 //
 implement
-theStore_choose<>
+theSearchStore_choose<>
   ((*void*)) =
   slistref_takeout_opt(theStore)
 //
 in
 //
-let val () = theStore_insert(nx0) in GraphSearch<>() end
+let val () = theSearchStore_insert(nx0) in GraphSearch<>() end
 //
 end // end of [GraphSearch_dfs]
 //

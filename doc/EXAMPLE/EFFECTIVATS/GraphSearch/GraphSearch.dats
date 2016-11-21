@@ -46,14 +46,14 @@ node_get_neighbors(nx: node): nodelst
 //
 extern
 fun{}
-theStore_insert(node): void
+theSearchStore_insert(node): void
 extern
 fun{}
-theStore_insert_lst(nodelst): void
+theSearchStore_insert_lst(nodelst): void
 //
 extern
 fun{}
-theStore_choose((*void*)): Option_vt(node)
+theSearchStore_choose((*void*)): Option_vt(node)
 //
 (* ****** ****** *)
 //
@@ -75,7 +75,7 @@ search
 ): void = let
 //
 val
-opt = theStore_choose()
+opt = theSearchStore_choose()
 //
 in
 //
@@ -90,7 +90,7 @@ case+ opt of
           node_get_neighbors(nx)
         // end of [val]
       in
-        theStore_insert_lst(nxs); search((*void*))
+        theSearchStore_insert_lst(nxs); search((*void*))
       end // end of [then]
     // end of [if]
   end (* end of [Some_vt] *)
