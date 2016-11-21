@@ -6,6 +6,7 @@
 
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
+PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 
 ######
 
@@ -25,7 +26,7 @@ main.html: main.atxt ; $(MYTEXTING) -o $@ -i $<
 ######
 
 Doublets: \
-Doublets.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+Doublets.dats; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -L $(PATSLIB) -latslib
 
 ######
 
@@ -54,6 +55,7 @@ cleanall:: clean
 #
 cleanall:: ; $(RMF) main.html
 #
+cleanall:: ; $(RMF) Doublets
 cleanall:: ; $(RMF) QueenPuzzle
 #
 ######

@@ -21,10 +21,68 @@ staload "./GraphSearch.dats"
 staload "./GraphSearch_bfs.dats"
 
 (* ****** ****** *)
+
+local
+
+typedef
+key = string and itm = int
+
+in (* in-of-local *)
+
+#include "libats/ML/HATS/myhashtblref.hats"
+
+end // end of [local]
+
+(* ****** ****** *)
 //
 extern
 fun
 theWords_map_search(string): bool
+//
+(* ****** ****** *)
+
+local
+
+val
+opt =
+fileref_open_opt
+(
+ "/usr/share/dict/words", file_mode_r
+) (* end of [val] *)
+val-~Some_vt(filr) = opt
+//
+val
+theWords =
+myhashtbl_make_nil(128*1024)
+//
+val ws =
+  streamize_fileref_line(filr)
+val () =
+(
+  ws
+).foreach()
+  (lam w =>
+     theWords.insert_any(strptr2string(w), 0)
+  )
+//
+(*
+val ((*void*)) =
+  println! ("theWords.size() = ", theWords.size())
+*)
+//
+in (* in-of-local *)
+
+implement
+theWords_map_search(w) =
+(
+case+
+theWords.search(w) of
+  | ~Some_vt _ => true | ~None_vt _ => false
+)
+
+end // end of [local]
+
+(* ****** ****** *)
 //
 extern
 fun // HX: implemented
@@ -58,15 +116,6 @@ NAB
 end // end of [char_get_rest]
 
 (* ****** ****** *)
-//
-extern
-fun{}
-string_fset_at
-  {n:int}
-  {i:nat | i < n}
-  (string(n), int(i), charNZ): string(n)
-//
-(* ****** ****** *)
 
 local
 
@@ -79,8 +128,12 @@ s0: string(n), i: int(i)
   val c = s0[i]
 in
 (
-char_get_rest($UN.cast{natLt(NAB)}(c-'a'))
-).map(TYPE{string(n)})(lam x => string_fset_at(s0, i, ckastloc_charNZ(x)))
+char_get_rest
+(
+$UN.cast{natLt(NAB)}(c-'a')
+)
+).map(TYPE{string(n)})
+  (lam x => string_fset_at(s0, i2sz(i), ckastloc_charNZ(x)))
 end // end of [string_replace_one]
 
 fun
@@ -162,7 +215,35 @@ Doublets_play
 var
 res : ptr = None
 val
-res = $UN.cast{ref(Option(list0(string)))}(res)
+res =
+$UN.cast
+{ref(Option(list0(string)))}(addr@res)
+//
+val theMarked = myhashtbl_make_nil(1024)
+//
+implement
+node_mark<>(nx) =
+{
+//
+  val-
+  cons0(w, _) = nx
+  val-~None_vt() = theMarked.insert(w, 0)
+}
+//
+implement
+node_is_marked<>(nx) = let
+//
+  val-
+  cons0(w, _) = nx
+//
+  val opt = theMarked.search(w)
+//
+in
+//
+case+ opt of
+  | ~Some_vt _ => true | ~None_vt _ => false
+//
+end // end of [node_is_marked]
 //
 implement
 process_node<>
@@ -206,7 +287,7 @@ case+ opt of
 | Some(ws) =>
     println!
     (
-      "[", w1, "] and [", w2, "] does form a doublet: "
+      "[", w1, "] and [", w2, "] does form a doublet: ", list0_reverse(ws)
     )
 //
 end // end of [Doublets_play]
