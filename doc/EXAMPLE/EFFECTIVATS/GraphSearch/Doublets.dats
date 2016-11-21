@@ -212,14 +212,12 @@ implement
 Doublets_play
   (w1, w2) = let
 //
-var
-res : ptr = None
 val
 res =
-$UN.cast
-{ref(Option(list0(string)))}(addr@res)
+ref<Option(list0(string))>(None)
 //
-val theMarked = myhashtbl_make_nil(1024)
+val
+theMarked = myhashtbl_make_nil(1024)
 //
 implement
 node_mark<>(nx) =
@@ -228,6 +226,7 @@ node_mark<>(nx) =
   val-
   cons0(w, _) = nx
   val-~None_vt() = theMarked.insert(w, 0)
+//
 }
 //
 implement

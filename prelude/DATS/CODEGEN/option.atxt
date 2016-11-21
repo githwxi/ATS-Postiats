@@ -33,6 +33,14 @@ implement{a} option_none ( ) = None ( )
 
 implement
 {}(*tmp*)
+option2bool(opt) =
+  case+ opt of Some _ => true | None _ => false
+// end of [option2bool]
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
 option_is_some (opt) =
   case+ opt of Some _ => true | None _ => false
 // end of [option_is_some]

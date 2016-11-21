@@ -102,6 +102,13 @@ option_none
   ((*void*)):<> option(a, false)
 //
 #atscode_separator()
+//
+fun{}
+option2bool
+  {a:t0p}{b:bool}
+  (opt: option(a, b)):<> bool(b)
+//
+#atscode_separator()
 
 #atscode_decl_strcst('\
 fun{}
