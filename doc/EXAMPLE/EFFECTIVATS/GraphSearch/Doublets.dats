@@ -60,20 +60,11 @@ end // end of [char_get_rest]
 (* ****** ****** *)
 //
 extern
-fun
+fun{}
 string_fset_at
   {n:int}
   {i:nat | i < n}
-  (string(n), int(i), char): string(n)
-//
-implement
-string_fset_at
-  (s0, i, c) = let
-  val s1 = string1_copy(s0)
-  val () = s1[i] := ckastloc_charNZ(c)
-in
-  strnptr2string(s1)
-end // end of [string_fset_at]
+  (string(n), int(i), charNZ): string(n)
 //
 (* ****** ****** *)
 
@@ -89,7 +80,7 @@ s0: string(n), i: int(i)
 in
 (
 char_get_rest($UN.cast{natLt(NAB)}(c-'a'))
-).map(TYPE{string(n)})(lam x => string_fset_at(s0, i, x))
+).map(TYPE{string(n)})(lam x => string_fset_at(s0, i, ckastloc_charNZ(x)))
 end // end of [string_replace_one]
 
 fun
@@ -160,8 +151,33 @@ fun
 Doublets_play
 (
   w1: string, w2: string
-) : Option_vt(list0(string))
+) : Option(list0(string))
 //
+(* ****** ****** *)
+
+implement
+Doublets_play
+  (w1, w2) = let
+//
+var
+res : ptr = None
+val
+res = $UN.cast{ref(Option(list0(string)))}(res)
+//
+implement
+process_node<>
+  (nx) = let
+  val-cons0(w, _) = nx
+in
+  if w = w2 then (res[] := Some(nx); false) else true
+end // end of [process_node]
+//
+in
+//
+let val nx0 = list0_sing(w1) in GraphSearch_bfs(nx0); res[] end
+//
+end // end of [Doublets_play]
+
 (* ****** ****** *)
 
 implement
@@ -182,12 +198,12 @@ opt = Doublets_play(w1, w2)
 in
 //
 case+ opt of
-| ~None_vt() =>
+| None() =>
     println!
     (
       "[", w1, "] and [", w2, "] are not a doublet!"
     )
-| ~Some_vt(ws) =>
+| Some(ws) =>
     println!
     (
       "[", w1, "] and [", w2, "] does form a doublet: "

@@ -652,6 +652,19 @@ in
 end // end of [string1_copy]
 
 #atscode_separator()
+//
+implement
+{}(*tmp*)
+string_fset_at_size
+  (s0, i, c) = let
+  val s1 = string1_copy(s0)
+in
+//
+let val () = s1[i] := c in strnptr2string(s1) end
+//
+end // end of [string_fset_at_size]
+//
+#atscode_separator()
 
 implement
 {}(*tmp*)

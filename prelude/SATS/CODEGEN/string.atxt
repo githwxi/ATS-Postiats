@@ -162,42 +162,20 @@ string_tail{n:pos} (str: string(n)):<> string(n-1)
 fun{}
 string_get_at_size
   {n:int}{i:nat | i < n}
-  (s: string (n), i: size_t (i)):<> charNZ
+  (s: string (n), i: size_t(i)):<> charNZ
 fun{tk:tk}
 string_get_at_gint
   {n:int}{i:nat | i < n}
-  (s: string (n), i: g1int (tk, i)):<> charNZ
+  (s: string (n), i: g1int(tk, i)):<> charNZ
 fun{tk:tk}
 string_get_at_guint
   {n:int}{i:nat | i < n}
-  (s: string (n), i: g1uint (tk, i)):<> charNZ
+  (s: string (n), i: g1uint(tk, i)):<> charNZ
 //
 symintr string_get_at
 overload string_get_at with string_get_at_size of 1
 overload string_get_at with string_get_at_gint of 0
 overload string_get_at with string_get_at_guint of 0
-//
-#atscode_separator()
-//
-(*
-//
-// HX-2016-11-13:
-// This can be done by calling
-// [string_copy] and then [strptr_set_at]
-//
-fun{}
-string_fset_at_size
-  {n:int}{i:nat | i < n}
-  (s: string(n), i: size_t(i), c: charNZ):<> string(n)
-fun{tk:tk}
-string_fset_at_gint
-  {n:int}{i:nat | i < n}
-  (s: string (n), i: g1int(tk, i), c: charNZ):<> string(n)
-fun{tk:tk}
-string_fset_at_guint
-  {n:int}{i:nat | i < n}
-  (s: string (n), i: g1uint(tk, i), c: charNZ):<> string(n)
-*)
 //
 #atscode_separator()
 
@@ -430,6 +408,31 @@ string0_copy
 fun{}
 string1_copy
   {n:int} (xs: NSH(string(n))):<!wrt> strnptr(n)
+//
+#atscode_separator()
+//
+// HX-2016-11-13:
+// This can be done by calling
+// [string_copy] and then [strptr_set_at]
+//
+fun{}
+string_fset_at_size
+  {n:int}{i:nat | i < n}
+  (s: string(n), i: size_t(i), c: charNZ):<!wrt> string(n)
+//
+(*
+fun{tk:tk}
+string_fset_at_gint
+  {n:int}{i:nat | i < n}
+  (s: string (n), i: g1int(tk, i), c: charNZ):<!wrt> string(n)
+fun{tk:tk}
+string_fset_at_guint
+  {n:int}{i:nat | i < n}
+  (s: string (n), i: g1uint(tk, i), c: charNZ):<!wrt> string(n)
+*)
+//
+symintr string_fget_at
+overload string_fget_at with string_fget_at_size of 1
 //
 #atscode_separator()
 //
