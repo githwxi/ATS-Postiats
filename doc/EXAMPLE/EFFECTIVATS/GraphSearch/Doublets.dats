@@ -285,7 +285,7 @@ case+ opt of
 | Some(ws) =>
     println!
     (
-      "[", w1, "] and [", w2, "] does form a doublet: ", list0_reverse(ws)
+      "[", w1, "] and [", w2, "] form a doublet: ", list0_reverse(ws)
     )
 //
 end // end of [Doublets_play]

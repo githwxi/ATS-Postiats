@@ -39,7 +39,12 @@ node_get_neighbors
 (N).list0_map(TYPE{node})(lam x => cons0(x, nx0))
 ).filter()
   (
-    lam nx => let val-cons0(x0, nx) = nx in nx.iforall()(lam(i, x) => x0 != x && abs(x0 - x) != i+1) end
+    lam nx =>
+    let
+      val-cons0(x0, nx) = nx
+    in
+      nx.iforall()(lam(i, x) => x0 != x && abs(x0 - x) != i+1)
+    end // end of [let] // end of [lam]
   )
 //
 (* ****** ****** *)

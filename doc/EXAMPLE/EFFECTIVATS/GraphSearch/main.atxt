@@ -73,7 +73,7 @@ process_node(nx: node): bool
 ')</pre>
 
 Note that a call to ##dyncode("process_node") returns a boolean value
-to indicate whether the search should continue or stop immediate.
+to indicate whether the search should continue or stop immediately.
 
 ')##comment("para")
 
