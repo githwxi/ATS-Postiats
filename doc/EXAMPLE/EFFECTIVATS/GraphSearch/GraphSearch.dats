@@ -35,6 +35,8 @@ extern
 fun{}
 theSearchStore_insert_lst(nodelst): void
 //
+(* ****** ****** *)
+//
 extern
 fun{}
 theSearchStore_choose((*void*)): Option_vt(node)
@@ -79,7 +81,7 @@ case+ opt of
     // end of [if]
   end (* end of [Some_vt] *)
 //
-end (* end of [theStore_search] *)
+end (* end of [search] *)
 //
 in
   search((*void*))

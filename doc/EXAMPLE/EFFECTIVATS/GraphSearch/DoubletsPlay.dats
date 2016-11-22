@@ -292,4 +292,4 @@ end // end of [Doublets_play]
 
 (* ****** ****** *)
 
-(* end of [Doublets.dats] *)
+(* end of [DoubletsPlay.dats] *)

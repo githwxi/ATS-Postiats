@@ -17,11 +17,14 @@ A Template-Based Implementation of Graph Search
 
 ##para('\
 
-ATS is a feature-rich language, and dependent types, linear types
-and embeddable templates can be seen as three of its most prominent
-features. In this article, I present a concrete example to illustrate
-that embeddable templates can play a pivotal role in support of a
-style of refinement-based programming.
+ATS is a feature-rich language, and dependent types, linear types and
+embeddable templates can be seen as three of its most prominent
+features. Note that a template being embeddable simply means that the
+template can be given an implementation inside the body of a function
+(so that any argument of this function can be referred to in the
+implementation). In this article, I present a concrete example to
+illustrate that embeddable templates can play a pivotal role in
+support of a style of refinement-based programming.
 
 ')##comment("para")
 
@@ -76,6 +79,117 @@ Note that a call to ##dyncode("process_node") returns a boolean value
 to indicate whether the search should continue or stop immediately.
 
 ')##comment("para")
+
+##para('\
+
+The following two functions are for inserting a node and a list of
+nodes into the store containing nodes that are to be processed:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{} // for inserting a node
+theSearchStore_insert(nx: node): void
+extern
+fun{} // for inserting a list of nodes
+theSearchStore_insert_lst(nxs: nodelst): void
+//
+')</pre>
+
+In addition, the following function is for choosing (based certian
+search strategy) a node from the store:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{}
+theSearchStore_choose((*void*)): Option_vt(node)
+//
+')</pre>
+
+Note that the function ##dyncode("theSearchStore_choose") returns a
+node only if the store is not empty. A generic implementation of graph
+search can now be given as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{}
+GraphSearch(): void
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+GraphSearch
+  ((*void*)) = let
+//
+fun
+search
+(
+// argless
+): void = let
+//
+val
+opt = theSearchStore_choose()
+//
+in
+//
+case+ opt of
+| ~None_vt() => ()
+| ~Some_vt(nx) => let
+    val cont = process_node(nx)
+  in
+    if cont
+      then let
+        val nxs =
+          node_get_neighbors(nx)
+        // end of [val]
+      in
+        theSearchStore_insert_lst(nxs); search((*void*))
+      end // end of [then]
+    // end of [if]
+  end (* end of [Some_vt] *)
+//
+end (* end of [search] *)
+//
+in
+  search((*void*))
+end // end of [GraphSearch]
+')</pre>
+
+This implementation (of ##dyncode("GraphSearch")) should be straightforward to follow.
+
+')##comment("para")
+
+<h2>Generic Depth-First Graph Search</h2>
+<h2>Generic Breadth-First Graph Search</h2>
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+GraphSearch.dats // generic graph search
+GraphSearch_dfs.dats // generic depth-first graph search
+GraphSearch_bfs.dats // generic breadth-first graph search
+QueenPuzzle.dats // solving 8-queen puzzle with GraphSearch_dfs
+DoubletsPlay.dats // implementing Doublets based on GraphSearch_bfs
+</pre>
+
+In addition, there is an accompanying ##filename("Makefile") for compiling
+and testing the code.\
+
+""")
 
 <hr size="2">
 <p>

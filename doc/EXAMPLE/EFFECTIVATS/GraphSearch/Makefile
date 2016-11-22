@@ -31,20 +31,20 @@ main.html: main.atxt ; $(MYTEXTING) -o $@ -i $<
 #
 ######
 #
-Doublets: \
-Doublets.dats; \
-$(PATSCC) -DATS_MEMALLOC_LIBC \
-  -o $@ $< -L $(PATSLIB) -latslib
-#
-regress:: Doublets; ./$< clean dirty
-#
-######
-#
 QueenPuzzle: \
 QueenPuzzle.dats; \
 $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 #
 regress:: QueenPuzzle; ./$<
+#
+######
+#
+DoubletsPlay: \
+DoubletsPlay.dats; \
+$(PATSCC) -DATS_MEMALLOC_LIBC \
+  -o $@ $< -L $(PATSLIB) -latslib
+#
+regress:: DoubletsPlay; ./$< clean dirty
 #
 ######
 
@@ -68,8 +68,8 @@ cleanall:: clean
 #
 cleanall:: ; $(RMF) main.html
 #
-cleanall:: ; $(RMF) Doublets
 cleanall:: ; $(RMF) QueenPuzzle
+cleanall:: ; $(RMF) DoubletsPlay
 #
 ######
 

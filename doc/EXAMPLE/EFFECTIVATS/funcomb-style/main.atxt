@@ -118,7 +118,7 @@ each list in the list of lists.
 
 Finally, the function ##dyncode("choose_1_rest") takes a list
 ##dyncode("xs") and returns a list of pairs such that each pair
-consists of an element ##dyncode("x") and a list obtained from
+consists of an element ##dyncode("x") and the list obtained from
 removing ##dyncode("x") from ##dyncode("xs"), where ##dyncode("x")
 ranges over all of the elements in ##dyncode("xs"). Please
 find as follows an implementation of ##dyncode("choose_1_rest"):
@@ -239,7 +239,7 @@ As another example of programming with combinators, I present a
 high-level implementation of tree-based depth-first search. In the
 following declaration, ##stacode("node") is introduced as an abstract
 type (for nodes in a given tree to be searched) and ##stacode("nodes")
-as a alias for the type ##stacode("list0(node)"), which is for lists
+as an alias for the type ##stacode("list0(node)"), which is for lists
 of nodes:
 
 <pre
@@ -317,7 +317,7 @@ for concatenating two given list0-values.
 
 The use of ##stacode("list0") in the above implementation of
 ##dyncode("depth_first_search") can result in great inefficiency both
-time-wise and memory-wise. For instance, calling
+time-wise and memory-wise. For instance, by calling
 ##dyncode("depth_first_search") on a given node, one generates a list
 containing all of the nodes in the tree rooted at the given node; this
 generated list can potentially be of great size, requiring long time to
@@ -379,10 +379,12 @@ class="patsyntax">
 //
 extern
 fun
-breadth_first_search(nxs: nodes): nodes
+breadth_first_search
+  (nxs: nodes): nodes
 //
 implement
-breadth_first_search(nxs) =
+breadth_first_search
+  (nxs) =
 (
 if iseqz(nxs)
   then list0_nil()
