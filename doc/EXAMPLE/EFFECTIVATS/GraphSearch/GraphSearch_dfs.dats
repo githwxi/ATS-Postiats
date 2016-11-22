@@ -30,7 +30,6 @@ node_unmark(node): void
 extern
 fun{}
 node_is_marked(node): bool
-//
 overload
 .is_marked with node_is_marked
 //
