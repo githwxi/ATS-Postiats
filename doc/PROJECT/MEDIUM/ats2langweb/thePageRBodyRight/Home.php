@@ -141,7 +141,7 @@ width=98% margin=auto
 // Yes, you can edit
 //
 (* Build a list of 3 *)
-val xs = $list(0, 1, 2)
+val xs = $list{int}(0, 1, 2)
 //
 val x0 = xs[0] // legal
 val x1 = xs[1] // legal
