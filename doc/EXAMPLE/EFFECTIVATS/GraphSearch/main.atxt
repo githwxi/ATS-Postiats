@@ -35,7 +35,7 @@ support of a style of refinement-based programming.
 Abstractly speaking, a graph is a (possibly infinite) collection of
 nodes and each node is associated with a set of nodes that are
 referred to as its neighbors. Let us introduce an abstract type
-##stacode("node") for the nodes in a given graph (on which some kind
+##stacode("node") for the nodes in a given graph (on which some kind of
 search is to be performed):
 
 <pre
@@ -53,6 +53,8 @@ node_get_neighbors(nx: node): nodelst
 
 Clearly, the interface assigned to ##dyncode("node_get_neighbors")
 imposes the assumption that the set of neighbors of each node is finite.
+Another choice is to define ##stacode("nodelst") as a linear stream
+of the type ##stacode("stream_vt(node)").
 
 ')##comment("para")
 
@@ -168,8 +170,28 @@ This implementation (of ##dyncode("GraphSearch")) should be straightforward to f
 
 ')##comment("para")
 
-<h2>Generic Depth-First Graph Search</h2>
-<h2>Generic Breadth-First Graph Search</h2>
+<h2>Generic Graph DFS</h2>
+
+##para('\
+
+<pre
+class="patsyntax">
+
+  ##dats2xhtml('\
+//
+extern
+fun{}
+GraphSearch_dfs(nx0: node): void
+//
+')</pre>
+
+')
+
+<h2>Solving 8-Queen Puzzle</h2>
+
+<h2>Generic Graph BFS</h2>
+
+<h2>Playing Doublets Game</h2>
 
 <h2>Compiling and Testing</h2>
 

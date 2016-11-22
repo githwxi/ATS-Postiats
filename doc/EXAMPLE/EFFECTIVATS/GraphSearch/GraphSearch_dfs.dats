@@ -16,8 +16,7 @@ staload
 //
 extern
 fun{}
-GraphSearch_dfs
-  (nx0: node): void
+GraphSearch_dfs(): void
 //
 (* ****** ****** *)
 //
@@ -37,18 +36,21 @@ overload
 //
 (* ****** ****** *)
 //
-implement
-{}(*tmp*)
-GraphSearch_dfs
-  (nx0) = let
+extern
+fun{}
+theSearchStore_get
+  ((*void*)): slistref(node)
 //
-val
-theStore =
-slistref_make_nil{node}()
+(* ****** ****** *)
 //
 implement
 theSearchStore_insert<>
-  (nx) = (
+  (nx) = let
+//
+val
+theStore = theSearchStore_get()
+//
+in
 //
 if
 ~(nx.is_marked())
@@ -58,7 +60,7 @@ then
   slistref_insert(theStore, nx)
 )
 //
-) (* end of [theSearchStore_insert] *)
+end (* end of [theSearchStore_insert] *)
 //
 implement
 {}(*tmp*)
@@ -69,14 +71,20 @@ nxs
 //
 implement
 theSearchStore_choose<>
-  ((*void*)) =
-  slistref_takeout_opt(theStore)
+  ((*void*)) = let
+//
+val
+theStore = theSearchStore_get()
 //
 in
+  slistref_takeout_opt(theStore)
+end // end of [theSearchStore_choose]
 //
-let val () = theSearchStore_insert(nx0) in GraphSearch<>() end
+(* ****** ****** *)
 //
-end // end of [GraphSearch_dfs]
+implement
+{}(*tmp*)
+GraphSearch_dfs() = GraphSearch<>()
 //
 (* ****** ****** *)
 

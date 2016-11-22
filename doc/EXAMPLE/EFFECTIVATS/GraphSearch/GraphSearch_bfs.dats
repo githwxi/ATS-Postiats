@@ -17,7 +17,7 @@ staload
 extern
 fun{}
 GraphSearch_bfs
-  (nx0: node): void
+  ((*void*)): void
 //
 (* ****** ****** *)
 //
@@ -37,28 +37,31 @@ overload
 //
 (* ****** ****** *)
 //
-implement
-{}(*tmp*)
-GraphSearch_bfs
-  (nx0) = let
+extern
+fun{}
+theSearchStore_get
+  ((*void*)): qlistref(node)
 //
-val
-theStore =
-qlistref_make_nil{node}()
+(* ****** ****** *)
 //
 implement
 theSearchStore_insert<>
-  (nx) = (
+  (nx) = let
+//
+val
+theStore = theSearchStore_get()
+//
+in
 //
 if
 ~(nx.is_marked())
 then
 (
-node_mark(nx);
-qlistref_insert(theStore, nx)
+  node_mark(nx);
+  qlistref_insert(theStore, nx)
 )
 //
-) (* end of [theSearchStore_insert] *)
+end (* end of [theSearchStore_insert] *)
 //
 implement
 {}(*tmp*)
@@ -69,14 +72,20 @@ nxs
 //
 implement
 theSearchStore_choose<>
-  ((*void*)) =
-  qlistref_takeout_opt(theStore)
+  ((*void*)) = let
+//
+val
+theStore = theSearchStore_get()
 //
 in
+  qlistref_takeout_opt(theStore)
+end // end of [theSearchStore_choose]
 //
-let val () = theSearchStore_insert(nx0) in GraphSearch<>() end
+(* ****** ****** *)
 //
-end // end of [GraphSearch_bfs]
+implement
+{}(*tmp*)
+GraphSearch_bfs() = GraphSearch<>()
 //
 (* ****** ****** *)
 

@@ -75,7 +75,19 @@ QueenPuzzle_solve(): void
 //
 implement
 QueenPuzzle_solve() =
-GraphSearch_dfs(list0_nil(*void*))
+  GraphSearch_dfs() where
+{
+val
+theStore =
+slistref_make_nil{node}()
+//
+val () =
+slistref_insert(theStore, nil0)
+//
+implement
+theSearchStore_get<>() = theStore
+//
+} (* end of [QueenPuzzle_solve] *)
 //
 (* ****** ****** *)
 

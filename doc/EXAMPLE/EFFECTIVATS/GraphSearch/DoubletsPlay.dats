@@ -209,7 +209,8 @@ Doublets_play
 
 implement
 Doublets_play
-  (w1, w2) = let
+  (w1, w2) = res[] where
+{
 //
 val
 res =
@@ -251,11 +252,17 @@ in
   if w = w2 then (res[] := Some(nx); false) else true
 end // end of [process_node]
 //
-in
+val
+theStore = qlistref_make_nil()
 //
-let val nx0 = list0_sing(w1) in GraphSearch_bfs(nx0); res[] end
+implement
+theSearchStore_get<>() = theStore
 //
-end // end of [Doublets_play]
+val nx = list0_sing(w1)
+val () = theSearchStore_insert(nx)
+val () = GraphSearch_bfs((*void*))
+//
+} (* end of [Doublets_play] *)
 
 (* ****** ****** *)
 
