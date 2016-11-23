@@ -406,9 +406,45 @@ tree-height). One method for addressing this issue is to replace the
 list-based sequence representation with one that can support efficient
 concatenation (for instance, one based on finger-trees). I leave it as
 an exercise for the interested reader to experiment with such a
-method.\
+method.
+
 
 ')
+
+##para('\
+
+As in the case of depth-first search, another implementation of
+##dyncode("breadth_first_search") can be given as follows where
+##stacode("list0") in the definition of ##stacode("nodelst") is
+replaced with ##stacode("stream_vt"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+breadth_first_search
+  (nxs) = $ldelay(
+//
+(
+case+ !nxs of
+| ~stream_vt_nil() =>
+    stream_vt_nil((*void*))
+| ~stream_vt_cons(nx0, nxs) =>
+    stream_vt_cons(nx0, breadth_first_search(nxs + nx0.children()))
+)
+,
+~(nxs) // HX: for freeing the stream!
+//
+) (* end of [breadth_first_search] *)
+//
+')</pre>
+
+When the objective is to find one node satisfying certain property,
+this stream-based implementation of breadth-first search can actually
+be quite attractive.
+
+')##comment("para")
 
 <!--
 <h2>Game-of-24</h2>
@@ -500,6 +536,7 @@ permute.dats // listing permutations
 depth-first.dats // dfs using list-based sequence representation
 depth-first-2.dats // dfs using stream-based sequence representation
 breadth-first.dats // bfs using list-based sequence representation
+breadth-first-2.dats // bfs using stream-based sequence representation
 queen-puzzle-dfs-2.dats // solving 8-queen puzzle with depth-first-2
 </pre>
 

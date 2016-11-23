@@ -17,8 +17,8 @@ staload UN = $UNSAFE
 
 (* ****** ****** *)
 
-staload "./GraphSearch.dats"
-staload "./GraphSearch_bfs.dats"
+staload "./../GraphSearch.dats"
+staload "./../GraphSearch_bfs.dats"
 
 (* ****** ****** *)
 
@@ -205,6 +205,8 @@ Doublets_play
   w1: string, w2: string
 ) : Option(list0(string))
 //
+(* ****** ****** *)
+
 implement
 Doublets_play
   (w1, w2) = res[] where

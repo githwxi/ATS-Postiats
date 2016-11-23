@@ -132,6 +132,10 @@ all :: \
 funcomb-style
 funcomb-style:: ; make -C $@ $(TARGET)
 
+all :: \
+GraphSearch
+GraphSearch:: ; make -C $@ $(TARGET)
+
 ######
 
 cleanall::
@@ -159,6 +163,7 @@ cleanall:: ; make -C ssntyped-channels-2 cleanall
 cleanall:: ; make -C linear-streams cleanall
 cleanall:: ; make -C FRP-bacon.js cleanall
 cleanall:: ; make -C funcomb-style cleanall
+cleanall:: ; make -C GraphSearch cleanall
 
 ######
 
@@ -187,6 +192,7 @@ uploadall::upload_ssntyped-channels-2
 uploadall::upload_linear-streams
 uploadall::upload_FRP-bacon.js
 uploadall::upload_funcomb-style
+uploadall::upload_GraphSearch
 
 ######
 
@@ -443,6 +449,14 @@ upload_funcomb-style:: ; \
   funcomb-style/index.html \
   funcomb-style/Makefile funcomb-style/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/funcomb-style/
+
+######
+
+upload_GraphSearch:: ; \
+  $(SCP) \
+  GraphSearch/index.html \
+  GraphSearch/Makefile GraphSearch/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/GraphSearch/
 
 ######
 

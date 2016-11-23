@@ -13,8 +13,8 @@ For Effective ATS
 
 (* ****** ****** *)
 
-staload "./GraphSearch.dats"
-staload "./GraphSearch_dfs.dats"
+staload "./../GraphSearch.dats"
+staload "./../GraphSearch_dfs.dats"
 
 (* ****** ****** *)
 

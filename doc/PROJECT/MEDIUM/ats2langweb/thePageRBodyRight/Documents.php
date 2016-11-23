@@ -6,7 +6,15 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
-ATS-2016-11-06:<br>
+2016-11-23:<br>Effective ATS:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/f9CARqaB4S0"
+>A Template-Based Implementation of Graph Search</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
+2016-11-06:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/-J624PIUip4"
 >FRP in ATS via Bacon.js</a><br>
@@ -14,7 +22,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2016-11-02:<br>
+2016-11-02:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/7KqH7uU5slY"
 >Functional Programming with Combinators</a><br>
@@ -22,7 +30,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2016-07-12:<br>
+2016-07-12:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/CHtnGM4nJSY"
 >Linear Streams for Memory-Clean Programs</a><br>
@@ -30,7 +38,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2016-02-04:<br>
+2016-02-04:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/Xb7IIkMe984"
 >Imperative vs. Functional vs. Linear Functional</a><br>
@@ -38,7 +46,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2016-01-05:<br>
+2016-01-05:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/q-SnbyHKDFw"
 >Two styles of theorem-proving in ATS</a><br>
@@ -46,7 +54,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2016-01-01:<br>
+2016-01-01:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
 <br>
@@ -55,7 +63,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-12-31:<br>
+2015-12-31:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/2bN4YbOEVAI"
 >Dataview for linear C-strings</a><br>
@@ -63,7 +71,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-12-15:<br>
+2015-12-15:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/-Y07qSjOmFg"
 >Parsing Combinators of CPS-style</a><br>
@@ -71,7 +79,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-12-15:<br>
+2015-12-15:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/sd2aqsyhcp4"
 >Encoding Propositional Logic</a><br>
@@ -79,7 +87,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-12-13:<br>
+2015-12-13:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
 <br>
@@ -88,7 +96,9 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-12-09:<br>
+<!--
+
+2015-12-09:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/wH4IZnOkZow"
 >Session Combinators</a><br>
@@ -96,7 +106,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
   
-ATS-2015-11-24:<br>
+2015-11-24:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/BpMDJrD22ck"
 >Session-Typed Channels</a><br>
@@ -104,9 +114,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
   
-<!--
-
-ATS-2015-10-29:<br>
+2015-10-29:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/ppvsAqwe2Ag"
 >ATS books in pdf format</a><br>
@@ -114,7 +122,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-09-20:<br>
+2015-09-20:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/RGsACNPKvL4"
 >Using codegen2-directives</a><br>
@@ -122,7 +130,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-03-31:<br>
+2015-03-31:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
 <br>
@@ -131,7 +139,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-03-19:<br>
+2015-03-19:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
 <br>
@@ -140,7 +148,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-03-12:<br>
+2015-03-12:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
 <br>
@@ -149,7 +157,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-03-11:<br>
+2015-03-11:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
 <br>
@@ -158,7 +166,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-03-11:<br>
+2015-03-11:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
 <br>
@@ -167,7 +175,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-03-07:<br>
+2015-03-07:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
 <br>
@@ -176,7 +184,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-02-10:<br>
+2015-02-10:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
 <br>
@@ -185,7 +193,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-01-20:<br>
+2015-01-20:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
 <br>
@@ -194,7 +202,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-01-16:<br>
+2015-01-16:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/HTMLTOC/INT2PROGINATS-BOOK.html>INT2PROGINATS</a>:
 <br>
@@ -203,7 +211,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-01-11:<br>
+2015-01-11:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
 <br>
@@ -212,7 +220,7 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-ATS-2015-01-07:<br>
+2015-01-07:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
 <br>
