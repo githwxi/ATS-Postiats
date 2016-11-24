@@ -39,9 +39,8 @@ val ((*void*)) =
 //
 val ((*void*)) =
   println! ((10).list0_map(TYPE{int})(lam(i) => i*i))
-//
 val ((*void*)) =
-  println! ((10).array0_map(TYPE{int})(lam(i) => sz2i(i*i)))
+  println! ((10).array0_map(TYPE{int})(lam(i) => i*i))
 //
 (* ****** ****** *)
 
