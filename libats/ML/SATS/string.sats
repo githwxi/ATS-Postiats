@@ -159,7 +159,10 @@ string_implode(cs: list0(char)):<> string
 //
 fun{}
 string_tabulate
-  (n: size_t, fopr: (size_t) -<cloref1> charNZ): string
+  {n:int}
+(
+  n0: size_t(n), fopr: (sizeLt(n)) -<cloref1> charNZ
+) : string // end of [string_tabulate]
 //
 (* ****** ****** *)
 //

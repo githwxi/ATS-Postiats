@@ -418,15 +418,16 @@ string_implode(cs) = string_make_list(cs)
 implement
 {}(*tmp*)
 string_tabulate
-  (n, fopr) = let
+  {n}(n0, fopr) = let
 //
-val n = g1ofg0_uint(n)
+val n0 = g1ofg0_uint(n0)
 //
 implement
-string_tabulate$fopr<> (i) = fopr(i)
+string_tabulate$fopr<>
+  (i) = fopr($UN.cast{sizeLt(n)}(i))
 //
 in
-  strnptr2string(prelude_string_tabulate(n))
+  strnptr2string(prelude_string_tabulate(n0))
 end // end of [string_tabulate]
 
 (* ****** ****** *)
