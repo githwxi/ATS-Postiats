@@ -501,11 +501,13 @@ of characters. Two given words ##dyncode(W1) and ##dyncode(W2) are
 many-step connected if a sequence of words beginning with
 ##dyncode(W1) and ending with ##dyncode(W2) can be found such that any
 two consecutive words in this sequence are one-step connected. The
-game Doublets basically asks the player to tell whether two given words
-are many-step connected. For instance. ##dyncode("head") and
+game Doublets basically asks the player to tell whether two given
+words are many-step connected. For instance. ##dyncode("head") and
 ##dyncode("tail") form a doublet as is shown by the sequence:
 ##dyncode(head), ##dyncode(held), ##dyncode(hell), ##dyncode(tell),
-##dyncode(tall), ##dyncode(tail).\
+##dyncode(tall), ##dyncode(tail).  One may play Doublets on-line by
+visiting this
+<a href="http://ats-lang.github.io/EXAMPLE/BUCASCS320/Doublets/Doublets.html">link</a>.
 
 """)##comment("para")
 
