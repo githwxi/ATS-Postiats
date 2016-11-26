@@ -36,7 +36,7 @@ implement
 node_get_neighbors
   (nx0) = 
 (
-(N).list0_map(TYPE{node})(lam x => cons0(x, nx0))
+(N).stream_vt_map(TYPE{node})(lam x => cons0(x, nx0))
 ).filter()
   (
     lam nx =>

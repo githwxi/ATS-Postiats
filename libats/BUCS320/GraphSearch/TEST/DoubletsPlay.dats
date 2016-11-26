@@ -186,13 +186,7 @@ val ws = word_get_neighbors(w)
 //
 in
 //
-g0ofg1
-(
-stream2list_vt
-(
-  ws.map(TYPE{node})(lam w => cons0(w, nx0))
-) (* stream2list_vt *)
-) (* g0ofg1 *)
+ws.map(TYPE{node})(lam w => cons0(w, nx0))
 //
 end // end of [node_get_neighbors]
 

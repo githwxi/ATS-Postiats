@@ -11,6 +11,8 @@ staload
 //
 staload
 "libats/ML/SATS/slistref.sats"
+staload
+"libats/ML/SATS/stream_vt.sats"
 //
 (* ****** ****** *)
 //

@@ -6,13 +6,16 @@ For Effective ATS
 //
 staload
 "libats/ML/SATS/basis.sats"
-staload
-"libats/ML/SATS/list0.sats"
 //
 (* ****** ****** *)
 
 abstype node = ptr
+
+(* ****** ****** *)
+(*
 typedef nodelst = list0(node)
+*)
+vtypedef nodelst = stream_vt(node)
 
 (* ****** ****** *)
 //

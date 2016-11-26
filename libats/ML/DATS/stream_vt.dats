@@ -75,6 +75,14 @@ stream_vt_foreach_method
 llam(fwork) => stream_vt_foreach_cloptr<a>(xs, fwork)
 )
 //
+implement
+{a}(*tmp*)
+stream_vt_rforeach_method
+  (xs) =
+(
+llam(fwork) => stream_vt_rforeach_cloptr<a>(xs, fwork)
+)
+//
 (* ****** ****** *)
 //
 implement

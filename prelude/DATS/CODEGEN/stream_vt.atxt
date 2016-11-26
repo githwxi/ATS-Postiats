@@ -1223,6 +1223,39 @@ end // end of [stream_vt_foreach_cloptr]
 
 implement
 {a}(*tmp*)
+stream_vt_rforeach_cloptr
+  (xs, fwork) = let
+//
+fun
+aux0
+(
+  xs: stream_vt(a)
+, fwork: !(&a >> a?!) -<cloptr1> void
+) : void = let
+  val xs_con = !xs
+in
+//
+case+ xs_con of
+| ~stream_vt_nil() => ()
+| @stream_vt_cons(x, xs) =>
+  (
+    aux0(xs, fwork);
+    fwork(x); free@{a?}(xs_con)
+  ) (* stream_vt_cons *)
+end // end of [let] // end of [lam]
+//
+val ((*void*)) = aux0(xs, fwork)
+//
+in
+//
+cloptr_free($UN.castvwtp0{cloptr0}(fwork))
+//
+end // end of [stream_vt_rforeach_cloptr]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 stream_vt_iforeach_cloptr
   (xs, fwork) = let
 //

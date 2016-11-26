@@ -11,6 +11,8 @@ For Effective ATS
 //
 staload
 "libats/ML/SATS/qlistref.sats"
+staload
+"libats/ML/SATS/stream_vt.sats"
 //
 (* ****** ****** *)
 //
