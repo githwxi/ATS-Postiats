@@ -174,7 +174,17 @@ end // end of [local]
 (* ****** ****** *)
 
 assume node = list0(string)
+assume nodelst = stream_vt(node)
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+theSearchStore_insert_lst(nxs) =
+(
+nxs
+).foreach()(lam nx => theSearchStore_insert(nx))
+//
 (* ****** ****** *)
 
 implement

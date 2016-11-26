@@ -58,13 +58,6 @@ then
 end (* end of [theSearchStore_insert] *)
 //
 implement
-{}(*tmp*)
-theSearchStore_insert_lst(nxs) =
-(
-nxs
-).foreach()(lam nx => theSearchStore_insert(nx))
-//
-implement
 theSearchStore_choose<>
   ((*void*)) = let
 //

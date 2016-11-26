@@ -42,6 +42,12 @@ regress:: DoubletsPlay; ./$< clean dirty
 #
 ######
 
+testall:: all
+testall:: regress
+testall:: cleanall
+
+######
+
 RMF=rm -f
 
 ######

@@ -29,7 +29,17 @@ implement node_is_marked<>(nx) = false
 (* ****** ****** *)
 
 assume node = list0(int)
+assume nodelst = stream_vt(node)
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+theSearchStore_insert_lst(nxs) =
+(
+nxs
+).rforeach()(lam nx => theSearchStore_insert(nx))
+//
 (* ****** ****** *)
 //
 implement

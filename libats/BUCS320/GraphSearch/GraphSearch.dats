@@ -10,12 +10,7 @@ staload
 (* ****** ****** *)
 
 abstype node = ptr
-
-(* ****** ****** *)
-(*
-typedef nodelst = list0(node)
-*)
-vtypedef nodelst = stream_vt(node)
+absvtype nodelst = ptr
 
 (* ****** ****** *)
 //
