@@ -68,6 +68,13 @@ prelude_fileref_get_lines_stringlst = fileref_get_lines_stringlst
 
 (* ****** ****** *)
 
+macdef
+prelude_streamize_fileref_char = streamize_fileref_char
+macdef
+prelude_streamize_fileref_line = streamize_fileref_line
+
+(* ****** ****** *)
+
 staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/option0.sats"
@@ -120,6 +127,16 @@ fileref_get_lines_stringlst (filr) =
 
 end // end of [local]
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+streamize_fileref_char(filr) = prelude_streamize_fileref_char(filr)
+implement
+{}(*tmp*)
+streamize_fileref_line(filr) =
+  $UN.castvwtp0{stream_vt(string)}(prelude_streamize_fileref_line(filr))
+//
 (* ****** ****** *)
 
 (* end of [filebas.dats] *)

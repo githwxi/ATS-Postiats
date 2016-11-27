@@ -46,6 +46,15 @@ val () =
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val () = assertloc(3.1416 = g0string2float_double("3.1416"))
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

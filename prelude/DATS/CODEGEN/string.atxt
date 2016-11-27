@@ -387,14 +387,13 @@ end // end of [string_make_rlistlen]
 implement
 {}(*tmp*)
 string_make_list_vt
-  (cs) = str where
-{
+  (cs) = let
 //
-  val cs2 = $UN.list_vt2t(cs)
-  val str = string_make_list(cs2)
-  val ((*freed*)) = list_vt_free<char>(cs)
+val n = list_vt_length(cs)
 //
-} (* end of [string_make_list_vt] *)
+in
+  string_make_listlen_vt(cs, n)
+end (* end of [string_make_list_vt] *)
 //
 implement
 {}(*tmp*)
@@ -407,6 +406,31 @@ string_make_listlen_vt
   val ((*freed*)) = list_vt_free<char>(cs)
 //
 } (* end of [string_make_listlen_vt] *)
+//
+#atscode_separator()
+//
+implement
+{}(*tmp*)
+string_make_rlist_vt
+  (cs) = let
+//
+val n = list_vt_length(cs)
+//
+in
+  string_make_rlistlen_vt(cs, n)
+end (* end of [string_make_rlist_vt] *)
+//
+implement
+{}(*tmp*)
+string_make_rlistlen_vt
+  (cs, n) = str where
+{
+//
+  val cs2 = $UN.list_vt2t(cs)
+  val str = string_make_rlistlen(cs2, n)
+  val ((*freed*)) = list_vt_free<char>(cs)
+//
+} (* end of [string_make_rlistlen_vt] *)
 //
 #atscode_separator()
 
