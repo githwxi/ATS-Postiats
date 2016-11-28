@@ -16,21 +16,6 @@ staload
 //
 extern
 fun{}
-node_mark(node): void
-extern
-fun{}
-node_unmark(node): void
-//
-extern
-fun{}
-node_is_marked(node): bool
-overload
-.is_marked with node_is_marked
-//
-(* ****** ****** *)
-//
-extern
-fun{}
 theSearchStore_get
   ((*void*)): slistref(node)
 //

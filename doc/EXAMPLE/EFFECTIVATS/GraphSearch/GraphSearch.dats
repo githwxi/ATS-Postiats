@@ -17,6 +17,21 @@ typedef nodelst = list0(node)
 (* ****** ****** *)
 //
 extern
+fun{}
+node_mark(node): void
+extern
+fun{}
+node_unmark(node): void
+//
+extern
+fun{}
+node_is_marked(node): bool
+overload
+.is_marked with node_is_marked
+//
+(* ****** ****** *)
+//
+extern
 fun
 node_get_neighbors(nx: node): nodelst
 //

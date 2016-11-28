@@ -61,9 +61,7 @@ val () =
 (
   ws
 ).foreach()
-  (lam w =>
-     theWords.insert_any(strptr2string(w), 0)
-  )
+  (lam w => theWords.insert_any(w, 0))
 //
 (*
 val ((*void*)) =
