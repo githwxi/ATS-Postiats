@@ -29,84 +29,69 @@
 
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: November, 2016 *)
+(* Start time: December, 2016 *)
 
 (* ****** ****** *)
 //
-staload "./GraphSearch.dats"
+typedef
+parinp(a:t@ype) = stream(a)
 //
 (* ****** ****** *)
 //
-staload
-"libats/ML/SATS/slistref.sats"
-staload
-"libats/ML/SATS/stream_vt.sats"
+datatype parout
+  (a:t@ype, res:t@ype) =
+  | PAROUT of (Option(res), parinp(a))
 //
 (* ****** ****** *)
 //
-extern
-fun{}
-node_mark(node): void
-extern
-fun{}
-node_unmark(node): void
+typedef
+parser(
+  a:t@ype, res:t@ype
+) = parinp(a) -<cloref1> parout(a, res)
 //
-extern
-fun{}
-node_is_marked(node): bool
-overload
-.is_marked with node_is_marked
+(* ****** ****** *)
+//
+// HX-2016-12: interface
 //
 (* ****** ****** *)
 //
 extern
-fun{}
-theSearchStore_get
-  ((*void*)): slistref(node)
+fun
+{a:t@ype}
+{t:t@ype}
+parser_fail(): parser(a, t) = "mac#%"
+//
+extern
+fun
+{a:t@ype}
+{t:t@ype}
+parser_succeed(x0: t): parser(a, t) = "mac#%"
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+parser_anyone((*void*)): parser(a, a) = "mac#%"
+//
+(* ****** ****** *)
+//
+// HX-2016-12: implementation
 //
 (* ****** ****** *)
 //
 implement
-theSearchStore_insert<>
-  (nx) = let
-//
-val
-theStore = theSearchStore_get()
-//
-in
-//
-if
-~(nx.is_marked())
-then
-(
-  node_mark(nx);
-  slistref_insert(theStore, nx)
-)
-//
-end (* end of [theSearchStore_insert] *)
-//
-implement
-theSearchStore_choose<>
-  ((*void*)) = let
-//
-val
-theStore = theSearchStore_get()
-//
-in
-  slistref_takeout_opt(theStore)
-end // end of [theSearchStore_choose]
+{a}{t}
+parser_fail() =
+  lam(inp) => PAROUT(None(), inp)
 //
 (* ****** ****** *)
 //
-(*
-extern
-fun{}
-GraphSearch_dfs(): void
 implement
-{}(*tmp*)
-GraphSearch_dfs() = GraphSearch<>()
-*)
+{a}{t}
+parser_succeed(x0) =
+  lam(inp) => PAROUT(Some(x0), inp)
 //
 (* ****** ****** *)
 
-(* end of [GraphSearch_dfs.dats] *)
+(* end of [parcomb.dats] *)
