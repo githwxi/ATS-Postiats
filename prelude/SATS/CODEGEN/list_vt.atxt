@@ -437,6 +437,12 @@ x:vt0p
 ) :<fe> void // end of [list_vt_foreach_fun]
 fun{
 x:vt0p
+} list_vt_foreach_cloref
+  {fe:eff} (
+  xs: !List_vt(INV(x)), f: (&x) -<cloref,fe> void
+) :<fe> void // end of [list_vt_foreach_cloref]
+fun{
+x:vt0p
 } list_vt_foreach_funenv
   {v:view}{vt:viewtype}{fe:eff} (
   pfv: !v

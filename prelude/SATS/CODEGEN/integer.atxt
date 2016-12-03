@@ -480,7 +480,8 @@ g1int_div_type
 (
   g1int(tk, i)
 , g1int(tk, j)
-) -<fun0> [r:int] g1int(tk, r)
+) -<fun0>
+  [r:int|r==i/j] g1int(tk, r)
 //
 fun
 {tk:tk}
@@ -1242,7 +1243,8 @@ g1uint_div_type
 (
   g1uint(tk, i)
 , g1uint(tk, j)
-) -<fun0> g1uint (tk)
+) -<fun0>
+  [r:nat | r == ndiv_int_int(i,j)] g1uint(tk, r)
 // end of [g1uint_div_type]
 //
 fun

@@ -42,7 +42,7 @@ regress:: QueenPuzzle; ./$<
 DoubletsPlay: \
 DoubletsPlay.dats; \
 $(PATSCC) -DATS_MEMALLOC_LIBC \
-  -o $@ $< -L $(PATSLIB) -latslib
+  -O2 -o $@ $< -L $(PATSLIB) -latslib
 #
 regress:: DoubletsPlay; ./$< clean dirty
 #

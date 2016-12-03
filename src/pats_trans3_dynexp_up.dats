@@ -810,7 +810,8 @@ fun auxerr
   loc0: loc_t, d2v: d2var
 ) : void = let
 //
-  val islin = d2var_is_linear (d2v)
+  val
+  islin = d2var_is_linear(d2v)
 //
   val () = prerr_error3_loc (loc0)
 //
