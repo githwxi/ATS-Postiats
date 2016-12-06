@@ -160,6 +160,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("myfixptcomb.dats")
+
+(* ****** ****** *)
+
 #packfilename("mysendmailist.dats")
 
 (* ****** ****** *)

@@ -1,8 +1,9 @@
 #!/bin/sh
 
 #
-# Author: Likai Liu (likai AT cs DOT bu DOT edu)
+# beg of [patsopt_env.sh.in]
 #
+# Author: Likai Liu (likai AT cs DOT bu DOT edu)
 # Author2: Hongwei Xi (gmhwxi AT gmail DOT com) // September, 2013
 #
 

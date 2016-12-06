@@ -46,7 +46,10 @@ dnl = checks for library functions
 dnl = checks for system services
 dnl = AC_CONFIG_FILES([file...])
 
-AC_INIT([ATS2/Postiats], [0.2.10], [gmpostiats@gmail.com])
+AC_INIT([ATS2/Postiats], [0.2.13], [gmpostiats@gmail.com])
+dnl = AC_INIT([ATS2/Postiats], [0.2.12], [gmpostiats@gmail.com])
+dnl = AC_INIT([ATS2/Postiats], [0.2.11], [gmpostiats@gmail.com])
+dnl = AC_INIT([ATS2/Postiats], [0.2.10], [gmpostiats@gmail.com])
 dnl = AC_INIT([ATS2/Postiats], [0.2.9], [gmpostiats@gmail.com])
 dnl = AC_INIT([ATS2/Postiats], [0.2.8], [gmpostiats@gmail.com])
 dnl = AC_INIT([ATS2/Postiats], [0.2.7], [gmpostiats@gmail.com])

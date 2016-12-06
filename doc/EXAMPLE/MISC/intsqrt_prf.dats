@@ -18,17 +18,17 @@ staload _ = "prelude/DATS/integer.dats"
 (* ****** ****** *)
 
 propdef
-ISQRT (x: int, n: int) =
+INTSQRT (x: int, n: int) =
   [x0,x1:nat | x0 <= x; x < x1] (MUL (n, n, x0), MUL (n+1, n+1, x1))
 // end of [SQRT]
 
 extern
-prfun ISQRT_4_lemma {x:nat} {n2:nat}
-  (pf: ISQRT (x/4, n2)): [n:int | 2*n2 <= n; n <= 2*n2+1] ISQRT (x, n)
-// end of [ISQRT_4_lemma]
+prfun INTSQRT_4_lemma {x:nat} {n2:nat}
+  (pf: INTSQRT (x/4, n2)): [n:int | 2*n2 <= n; n <= 2*n2+1] INTSQRT (x, n)
+// end of [INTSQRT_4_lemma]
 
 primplmnt
-ISQRT_4_lemma // nonrec
+INTSQRT_4_lemma // nonrec
   {x} {n2} ([x0:int,x1:int] pf) = let
   prval pf0 = pf.0 // MUL (n2, n2, x0) // x0 <= x/4
   prval pf1 = pf.1 // MUL (n2+1, n2+1, x1) // x/4 < x1
@@ -47,18 +47,18 @@ end // end of [ISORT_4_lemma]
 (* ****** ****** *)
 
 extern // 10 points
-fun isqrt {x:nat}
-  (x: int x):<> [n:nat] (ISQRT (x, n) | int n)
-// end of [isqrt]
+fun intsqrt {x:nat}
+  (x: int x):<> [n:nat] (INTSQRT (x, n) | int n)
+// end of [intsqrt]
 
-implement isqrt (x) = let
+implement intsqrt (x) = let
 //
 fun aux {x:nat}.<x>. // non-tail-recursive
-  (x: int x):<> [n:nat] (ISQRT (x, n) | int n) =
+  (x: int x):<> [n:nat] (INTSQRT (x, n) | int n) =
   if x > 0 then let
     val x4 = x \ndiv 4
     val [n2:int] (pf4 | n2) = aux (x4)
-    prval [n:int] pf = ISQRT_4_lemma {x} {n2} (pf4)
+    prval [n:int] pf = INTSQRT_4_lemma {x} {n2} (pf4)
     val n_1 = n2 + n2
     val n_2 = n_1 + 1
     val (pf_mul | x1) = g1int_mul2 (n_2, n_2)
@@ -88,18 +88,18 @@ fun aux {x:nat}.<x>. // non-tail-recursive
   end // end of [if]
 in
   aux (x)
-end // end of [isqrt]
+end // end of [intsqrt]
       
 (* ****** ****** *)
 
 implement
 main0 ((*void*)) =
 {
-  val () = assertloc ( (isqrt(1023)).1 = 31 )
-  val () = assertloc ( (isqrt(1024)).1 = 32 )
-  val () = assertloc ( (isqrt(1025)).1 = 32 )
+  val () = assertloc ( (intsqrt(1023)).1 = 31 )
+  val () = assertloc ( (intsqrt(1024)).1 = 32 )
+  val () = assertloc ( (intsqrt(1025)).1 = 32 )
 } // end of [main0]
 
 (* ****** ****** *)
 
-(* end of [isqrt.dats] *)
+(* end of [intsqrt.dats] *)

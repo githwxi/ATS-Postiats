@@ -107,7 +107,7 @@ theSearchStore_insert_lst(nxs: nodelst): void
 //
 ')</pre>
 
-In addition, the following function is for choosing (based certian
+In addition, the following function is for choosing (based certain
 search strategy) a node from the store:
 
 <pre

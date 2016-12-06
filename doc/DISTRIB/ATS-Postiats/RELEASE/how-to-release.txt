@@ -1,0 +1,55 @@
+#
+# Some key steps in releasing ATS
+#
+
+###### beg of [how-to-release.txt] ######
+
+#
+# step 1:
+#
+
+Check configure.ac to make sure that the version number is
+correct, which affects the name of the directory where the
+ATS package is installed.
+
+The following commands should be executed to update various
+configuration files
+
+cd ${PATSHOME}
+autoheader configure.ac
+aclocal
+autoconf
+./configure
+
+#
+# step 2:
+#
+
+cd ${PATSHOME}
+make -f Makefile_devl
+(cd src && make CBOOT)
+
+#
+# step 3:
+#
+
+cd ${PATSHOME}
+cd doc/DISTRIB
+#
+# Update [Makefile.atxt] with
+# the current version number of ATS
+# Then do 'make -f Makefile.gen'
+#
+make atspackaging
+make atspacktarzvcf # for ATS2-Postiats-xxx.tgz
+#
+make atscontribing
+make atscntrbtarzvcf # for ATS2-Postiats-contrib-xxx.tgz
+#
+# Update [Makefile_inclats] with
+# the current version number of ATS
+#
+make -f Makefile_inclats
+make -f Makefile_inclats tarzvcf # ATS2-Postiats-include-xxx.tgz
+#
+###### end of [how-to-release.txt] ######
