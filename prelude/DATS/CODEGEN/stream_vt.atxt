@@ -1064,7 +1064,7 @@ end // end of [let]
 ) (* end of [auxmain] *)
 //
 in
-  auxmain(xs, ini, fopr)
+  stream_vt_cons{res}(ini, auxmain(xs, ini, fopr))
 end // end of [stream_vt_scan_cloptr]
 
 #atscode_separator()

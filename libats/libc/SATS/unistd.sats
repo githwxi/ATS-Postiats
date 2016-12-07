@@ -291,17 +291,18 @@ fun pwrite{n:int}
 (* ****** ****** *)
 //
 absview
-alarm_v (n: int) // n: remaining seconds
+alarm_v(n: int) // n: remaining seconds
 //
-praxi alarm_v_elim (pf: alarm_v (0)): void
+praxi
+alarm_v_elim (pfrem: alarm_v(0)): void
 //
 fun
 alarm_set{i:int}
-  (t: uint i): (alarm_v (i) | uInt) = "mac#%"
+  (t: uint(i)): (alarm_v(i) | uInt) = "mac#%"
 // end of [alarm_set]
 fun
 alarm_cancel{i:int}
-  (pf: alarm_v (i) | (*none*)): uInt = "mac#%"
+  (pf: alarm_v(i) | (*none*)): uInt = "mac#%"
 // end of [alarm_cancel]
 //
 (* ****** ****** *)
