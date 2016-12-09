@@ -625,7 +625,7 @@ case+ !xs of
 ) // end of [$delay] // end of [auxmain]
 //
 in
-  stream_make_cons{res}(ini, auxmain(xs, ini))
+  stream_make_cons<res>(ini, auxmain(xs, ini))
 end // end of [stream_scan]
 
 #atscode_separator()
