@@ -249,6 +249,7 @@ implement
 myhashtbl_foreach_cloref
   (tbl, fwork) =
   hashtbl_foreach_cloref<key,itm>(tbl, fwork)
+//
 implement
 myhashtbl_foreach_method(tbl) =
 (
