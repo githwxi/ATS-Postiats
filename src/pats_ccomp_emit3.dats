@@ -254,19 +254,30 @@ fun auxsta
 in
 //
 case+ d2cs of
+| list_nil
+    ((*void*)) => ()
 | list_cons
     (d2c, d2cs) => let
     val () = (
     case+
       d2c.d2ecl_node of
     | $D2E.D2Cextcode
-        (knd, pos, code) => let
+        (knd, pos, code) =>
+      (
+(*
+      println! ("auxsta: pos = ", pod);
+*)
+      if
+      (pos = 0) // %{#
+      then let
         val () =
-          auxloc (out, d2c.d2ecl_loc)
-        // end of [val]
+        auxloc (
+          out, d2c.d2ecl_loc
+        ) (* end of [val] *)
       in
-        emit_text (out, code)
-      end // end of [D2Cextcode]
+        emit_text(out, code)
+      end
+      ) (* end of [D2Cextcode] *)
     | $D2E.D2Cstaload
       (
         idopt, fil, flag, fenv, loaded
@@ -285,22 +296,41 @@ case+ d2cs of
   in
     auxsta (out, d2cs)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [auxsta]
 
-fun auxdyn (
+fun auxdyn
+(
   out: FILEref, d2cs: d2eclist
 ) : void = let
 in
 //
 case+ d2cs of
+| list_nil
+    ((*void*)) => ()
 | list_cons
     (d2c, d2cs) => let
     val (
     ) = (
     case+
       d2c.d2ecl_node of
+    | $D2E.D2Cextcode
+        (knd, pos, code) =>
+      (
+(*
+      println! ("auxdyn: knd = ", knd);
+*)
+      if
+      (pos = 0) // %{#
+      then let
+        val () =
+        auxloc (
+          out, d2c.d2ecl_loc
+        ) (* end of [val] *)
+      in
+        emit_text (out, code)
+      end
+      ) (* end of [D2Cextcode] *)
     | $D2E.D2Cstaload
       (
         idopt, fil, flag, fenv, loaded
@@ -328,7 +358,6 @@ case+ d2cs of
   in
     auxdyn (out, d2cs)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [auxdyn]
 

@@ -260,5 +260,14 @@ key,itm:t0p
 // end of [hashtbl_listize1]
 
 (* ****** ****** *)
+//
+fun
+{key:t0p
+;itm:vt0p}
+streamize_hashtbl
+  (tbl: hashtbl(key, INV(itm))):<!wrt> stream_vt @(key, itm)
+// end of [streamize_hashtbl]
+//
+(* ****** ****** *)
 
 (* end of [hashtbl.hats] *)

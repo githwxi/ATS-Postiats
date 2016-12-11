@@ -643,8 +643,8 @@ array_rforeach$fwork<chain><tenv>
   (kxs, env) = let
   val kxs = $UN.castvwtp1{chain}(kxs)
   val kxs2 = chain_listize<key,itm> (kxs)
-  val kxs2 = list_vt_append (kxs2, $UN.castvwtp0{tenv2}(env))
-  val () = env := $UN.castvwtp0{ptr}(kxs2)
+  val kxs2 = list_vt_append(kxs2, $UN.castvwtp0{tenv2}(env))
+  val ((*set*)) = env := $UN.castvwtp0{ptr}(kxs2)
 in
   // nothing
 end // end of [array_rforeach$fwork]
@@ -655,7 +655,7 @@ val _(*cap*) = $effmask_all
   (arrayptr_rforeach_env<chain><tenv> (A, cap, env))
 end // end of [local]
 //
-val () = arrayptr_free ($UN.castvwtp0{arrayptr(ptr,0)}(A))
+val () = arrayptr_free($UN.castvwtp0{arrayptr(ptr,0)}(A))
 //
 in
   $UN.castvwtp0{tenv2}(env)

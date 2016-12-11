@@ -69,70 +69,76 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 local
-
+//
 vtypedef
-exndeclst_vt = List_vt (hidecl)
+exndeclst_vt = List_vt(hidecl)
 vtypedef
-saspdeclst_vt = List_vt (hidecl)
-
-val the_exndeclst =
-  ref_make_elt<exndeclst_vt> (list_vt_nil ())
-val the_saspdeclst =
-  ref_make_elt<saspdeclst_vt> (list_vt_nil ())
+saspdeclst_vt = List_vt(hidecl)
+//
+val
+the_exndeclst =
+ref_make_elt<exndeclst_vt> (list_vt_nil())
+val
+the_saspdeclst =
+ref_make_elt<saspdeclst_vt> (list_vt_nil())
 // end of [val]
-
+//
 in (* in of [local] *)
 
 implement
-the_exndeclst_add (x) = let
+the_exndeclst_add(x) = let
 //
-val (
-  vbox pf | p
-) = ref_get_view_ptr (the_exndeclst)
+val
+(
+  vbox pf | p0
+) = ref_get_view_ptr(the_exndeclst)
 //
 in
-  !p := list_vt_cons (x, !p)
+  !p0 := list_vt_cons (x, !p0)
 end // end of [the_exndeclst_add]
 
 implement
-the_exndeclst_get () = let
+the_exndeclst_get() = let
 //
 val (
-  vbox pf | p
+  vbox pf | p0
 ) = ref_get_view_ptr (the_exndeclst)
-val xs = !p
-val () = !p := list_vt_nil ()
-val xs = list_vt_reverse<hidecl> (xs)
+val xs = !p0
+val () = !p0 := list_vt_nil()
+val xs = list_vt_reverse<hidecl>(xs)
 //
 in
-  list_of_list_vt (xs)
+  list_of_list_vt(xs)
 end // end of [the_exndeclst_get]
 
 (* ****** ****** *)
 
 implement
-the_saspdeclst_add (x) = let
+the_saspdeclst_add(x) = let
 //
-val (
-  vbox pf | p
-) = ref_get_view_ptr (the_saspdeclst)
+val
+(
+  vbox pf | p0
+) = ref_get_view_ptr(the_saspdeclst)
 //
 in
-  !p := list_vt_cons (x, !p)
+  !p0 := list_vt_cons (x, !p0)
 end // end of [the_saspdeclst_add]
 
 implement
-the_saspdeclst_get () = let
+the_saspdeclst_get() = let
 //
-val (
-  vbox pf | p
-) = ref_get_view_ptr (the_saspdeclst)
-val xs = !p
-val () = !p := list_vt_nil ()
-val xs = list_vt_reverse<hidecl> (xs)
+val
+(
+  vbox pf | p0
+) = ref_get_view_ptr(the_saspdeclst)
+//
+val xs = !p0
+val () = !p0 := list_vt_nil()
+val xs = list_vt_reverse<hidecl>(xs)
 //
 in
-  list_of_list_vt (xs)
+  list_of_list_vt(xs)
 end // end of [the_saspdeclst_get]
 
 end // end of [local]
@@ -140,39 +146,42 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
+//
 vtypedef
 extypelst_vt = List_vt (hidecl)
-
-val the_extypelst =
-  ref_make_elt<extypelst_vt> (list_vt_nil ())
+//
+val
+the_extypelst =
+ref_make_elt<extypelst_vt>(list_vt_nil())
 // end of [val]
-
+//
 in (* in of [local] *)
 
 implement
-the_extypelst_add (x) = let
+the_extypelst_add(x) = let
 //
-val (
-  vbox pf | p
+val
+(
+  vbox pf | p0
 ) = ref_get_view_ptr (the_extypelst)
 //
 in
-  !p := list_vt_cons (x, !p)
+  !p0 := list_vt_cons (x, !p0)
 end // end of [the_extypelst_add]
 
 implement
 the_extypelst_get () = let
 //
-val (
-  vbox pf | p
+val
+(
+  vbox pf | p0
 ) = ref_get_view_ptr (the_extypelst)
-val xs = !p
-val () = !p := list_vt_nil ()
-val xs = list_vt_reverse<hidecl> (xs)
+val xs = !p0
+val () = !p0 := list_vt_nil()
+val xs = list_vt_reverse<hidecl>(xs)
 //
 in
-  list_of_list_vt (xs)
+  list_of_list_vt(xs)
 end // end of [the_extypelst_get]
 
 end // end of [local]
@@ -180,36 +189,39 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
+//
 vtypedef
 extcodelst_vt = List_vt (hidecl)
-
-val the_extcodelst =
-  ref_make_elt<extcodelst_vt> (list_vt_nil ())
+//
+val
+the_extcodelst =
+ref_make_elt<extcodelst_vt> (list_vt_nil())
 // end of [val]
-
+//
 in (* in of [local] *)
 
 implement
-the_extcodelst_add (x) = let
+the_extcodelst_add(x) = let
 //
-val (
-  vbox pf | p
-) = ref_get_view_ptr (the_extcodelst)
+val
+(
+  vbox pf | p0
+) = ref_get_view_ptr(the_extcodelst)
 //
 in
-  !p := list_vt_cons (x, !p)
+  !p0 := list_vt_cons(x, !p0)
 end // end of [the_extcodelst_add]
 
 implement
-the_extcodelst_get () = let
+the_extcodelst_get() = let
 //
-val (
-  vbox pf | p
-) = ref_get_view_ptr (the_extcodelst)
+val
+(
+  vbox pf | p0
+) = ref_get_view_ptr(the_extcodelst)
 //
-val xs = !p
-val () = !p := list_vt_nil ()
+val xs = !p0
+val () = !p0 := list_vt_nil()
 //
 var !p_cmp = @lam
 (
@@ -217,12 +229,12 @@ var !p_cmp = @lam
 ) : int =<clo>
   (pos1 - pos2) where
 {
-  val-HIDextcode (knd1, pos1, _) = x1.hidecl_node
-  val-HIDextcode (knd2, pos2, _) = x2.hidecl_node
+  val-HIDextcode(knd1, pos1, _) = x1.hidecl_node
+  val-HIDextcode(knd2, pos2, _) = x2.hidecl_node
 } (* end of [where] // end of [@lam] *)
 //
-val xs = list_vt_reverse (xs)
-val xs = list_vt_mergesort<hidecl> (xs, !p_cmp) // HX: stable-sorting
+val xs = list_vt_reverse(xs)
+val xs = list_vt_mergesort<hidecl>(xs, !p_cmp) // HX: stable-sorting
 //
 in
   list_of_list_vt (xs)
@@ -233,69 +245,76 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
+//
 vtypedef
-staloadlst_vt = List_vt (hidecl)
+staloadlst_vt = List_vt(hidecl)
 vtypedef
-dynloadlst_vt = List_vt (hidecl)
-
-val the_staloadlst =
-  ref_make_elt<staloadlst_vt> (list_vt_nil ())
-val the_dynloadlst =
-  ref_make_elt<dynloadlst_vt> (list_vt_nil ())
-
+dynloadlst_vt = List_vt(hidecl)
+//
+val
+the_staloadlst =
+ref_make_elt<staloadlst_vt> (list_vt_nil())
+val
+the_dynloadlst =
+ref_make_elt<dynloadlst_vt> (list_vt_nil())
+//
 in (* in of [local] *)
 
 implement
-the_staloadlst_add (x) = let
+the_staloadlst_add(x) = let
 //
-val (
-  vbox pf | p
-) = ref_get_view_ptr (the_staloadlst)
+val
+(
+  vbox pf | p0
+) = ref_get_view_ptr(the_staloadlst)
 //
 in
-  !p := list_vt_cons (x, !p)
+  !p0 := list_vt_cons(x, !p0)
 end // end of [the_staloadlst_add]
 
 implement
-the_staloadlst_get () = let
+the_staloadlst_get() = let
 //
-val (
-  vbox pf | p
-) = ref_get_view_ptr (the_staloadlst)
-val xs = !p
-val () = !p := list_vt_nil ()
-val xs = list_vt_reverse<hidecl> (xs)
+val
+(
+  vbox pf | p0
+) = ref_get_view_ptr(the_staloadlst)
+val xs = !p0
+val () = !p0 := list_vt_nil()
+val xs = list_vt_reverse<hidecl>(xs)
 //
 in
-  list_of_list_vt (xs)
+  list_of_list_vt(xs)
 end // end of [the_staloadlst_get]
 
 (* ****** ****** *)
 
 implement
-the_dynloadlst_add (x) = let
+the_dynloadlst_add(x) = let
 //
-val (
-  vbox pf | p
+val
+(
+  vbox pf | p0
 ) = ref_get_view_ptr (the_dynloadlst)
 //
 in
-  !p := list_vt_cons (x, !p)
+  !p0 := list_vt_cons (x, !p0)
 end // end of [the_dynloadlst_add]
 
 implement
-the_dynloadlst_get () = let
+the_dynloadlst_get() = let
 //
-val (
-  vbox pf | p
-) = ref_get_view_ptr (the_dynloadlst)
-val xs = !p
-val () = !p := list_vt_nil ()
-val xs = list_vt_reverse<hidecl> (xs)
+val
+(
+  vbox pf | p0
+) = ref_get_view_ptr(the_dynloadlst)
+//
+val xs = !p0
+val () = !p0 := list_vt_nil()
+val xs = list_vt_reverse<hidecl>(xs)
 //
 in
-  list_of_list_vt (xs)
+  list_of_list_vt(xs)
 end // end of [the_dynloadlst_get]
 
 end // end of [local]

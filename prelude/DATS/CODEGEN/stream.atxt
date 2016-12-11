@@ -1001,8 +1001,51 @@ in
   stream_foreach_env<a><tenv>(xs, env)
 end // end of [fprint_stream]
 
-implement{}
+implement
+{}(*tmp*)
 fprint_stream$sep (out) = fprint_string (out, ", ")
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+stream_skip_while_cloref
+  (xs0, test) = let
+//
+val p0 = addr@xs0
+//
+fun
+loop
+(
+xs: stream(a), n0: intGte(0)
+) : intGte(0) =
+(
+case+ !xs of
+| stream_nil() => n0 where
+  {
+    val () = $UN.ptr0_set<stream(a)>(p0, xs)
+  }
+| stream_cons(x1, xs2) =>
+  if test(x1) then loop(xs2, n0+1) else
+    (let val () = $UN.ptr0_set<stream(a)>(p0, xs) in n0 end)
+  // end of [if] // end of [stream_cons]
+)
+//
+in
+  loop(xs0, 0)
+end // end of [stream_skip_while_cloref]
+
+implement
+{a}(*tmp*)
+stream_skip_until_cloref
+  (xs0, test) = let
+//
+var
+test_not = lam@(x: a) =<clo1> ~test(x)
+//
+in
+  stream_skip_while_cloref<a>(xs0, $UN.cast(addr@test_not))
+end // end of [stream_skip_until_cloref]
 
 #atscode_separator()
 

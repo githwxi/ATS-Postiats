@@ -768,7 +768,8 @@ extern fun string_suffix_is_dats
 (* ****** ****** *)
 
 extern
-fun s0taload_tr
+fun
+s0taload_tr
 (
   d0c0: d0ecl
 , idopt: symbolopt, given: string
@@ -787,10 +788,10 @@ fun auxload
 //
 val
 pname =
-  $FIL.filename_get_partname (fil)
+  $FIL.filename_get_partname(fil)
 //
 val
-isdats = string_suffix_is_dats (pname)
+isdats = string_suffix_is_dats(pname)
 //
 val
 flag =
@@ -802,14 +803,17 @@ val
 d0cs =
 $PAR.parse_from_filename_toplevel2(flag, fil)
 //
-val (pfsave | ()) = the_trans1_env_save ()
+val (pfsave | ()) = the_trans1_env_save()
 //
 val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
-val d1cs = d0eclist_tr (d0cs) // HX: it is done in [fil]
-val ((*void*)) = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
-val pack = ats_packname_get ()
-val d1c_pack = d1ecl_packname (pack)
+val d1cs = d0eclist_tr(d0cs) // HX: it is done in [fil]
+//
+val ((*void*)) = $FIL.the_filenamelst_pop(pfpush | (*none*))
+//
+val pack = ats_packname_get()
+//
+val d1c_pack = d1ecl_packname(pack)
 val d1cs = list_cons{d1ecl}(d1c_pack, d1cs)
 //
 (*

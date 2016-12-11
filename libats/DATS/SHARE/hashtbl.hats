@@ -281,6 +281,13 @@ in
 end // end of [hashtbl_listize]
 
 (* ****** ****** *)
+//
+implement
+{key,itm}
+streamize_hashtbl(tbl) =
+  streamize_list_vt_elt<@(key,itm)>(hashtbl_listize(tbl))
+//
+(* ****** ****** *)
 
 local
 

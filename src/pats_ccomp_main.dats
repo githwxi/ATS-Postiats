@@ -482,10 +482,10 @@ val opt = !the_extlst
 in
 //
 case+ opt of
-| Some (xs) => xs
-| None (  ) => let
-    val xs = the_extcodelst_get ()
-    val () = !the_extlst := Some (xs)
+| Some xs => xs
+| None () => let
+    val xs = the_extcodelst_get()
+    val () = !the_extlst := Some(xs)
   in
     xs
   end // end of [None]
@@ -493,20 +493,22 @@ case+ opt of
 end // end of [the_extcodelst_get2]
 
 implement
-the_extcodelst_set2 (xs) = !the_extlst := Some (xs)
+the_extcodelst_set2(xs) = !the_extlst := Some(xs)
 
 end // end of [local]
 //
 (* ****** ****** *)
 //
 extern
-fun the_funlablst_get2 (): funlablst
+fun
+the_funlablst_get2
+  ((*void*)): funlablst
 //
 local
 //
 val
 the_flablst =
-  ref<Option(funlablst)> (None)
+  ref<Option(funlablst)>(None)
 //
 in (* in of [local] *)
 
@@ -519,13 +521,12 @@ val opt = !the_flablst
 in
 //
 case+ opt of
-| Some (xs) => xs
-| None (  ) => let
-    val xs = the_funlablst_get ()
-    val () = !the_flablst := Some (xs)
-  in
-    xs
-  end // end of [None]
+| Some xs => xs
+| None () => xs where
+  {
+    val xs = the_funlablst_get()
+    val () = !the_flablst := Some(xs)
+  } (* end of [None] *)
 //
 end // end of [the_fublablst_get2]
 
@@ -537,11 +538,11 @@ implement
 emit_the_funlablst
   (out) = let
 //
-val fls0 = the_funlablst_get2 ()
+val fls0 = the_funlablst_get2()
 //
-val () = emit_funlablst_ptype (out, fls0)
-val () = emit_funlablst_closure (out, fls0)
-val () = emit_funlablst_implmnt (out, fls0)
+val () = emit_funlablst_ptype(out, fls0)
+val () = emit_funlablst_closure(out, fls0)
+val () = emit_funlablst_implmnt(out, fls0)
 //
 in
   // nothing
@@ -553,10 +554,10 @@ implement
 emit_the_primdeclst
   (out) = let
 //
-val p =
-  the_toplevel_getref_primdeclst ()
+val p0 =
+  the_toplevel_getref_primdeclst()
 //
-val pmdlst = $UN.ptrget<primdeclst> (p)
+val pmdlst = $UN.ptrget<primdeclst>(p0)
 //
 in
   emit_primdeclst (out, pmdlst)
@@ -843,13 +844,12 @@ fun loop
 in
 //
 case+ xs of
-| list_cons
-    (x, xs) => let
+| list_nil() => ()
+| list_cons(x, xs) => let
     val () =
-      emit_staload (out, x) in loop (out, xs)
+      emit_staload (out, x) in loop(out, xs)
     // end of [val]
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [loop]
 //
@@ -857,7 +857,7 @@ val () = emit_text (out, "/*\n")
 val () = emit_text (out, "staload-prologues(beg)\n")
 val () = emit_text (out, "*/\n")
 //
-val () = loop (out, the_staloadlst_get ())
+val () = loop (out, the_staloadlst_get())
 //
 val () = emit_text (out, "/*\n")
 val () = emit_text (out, "staload-prologues(end)\n")
@@ -1102,13 +1102,13 @@ aux_main_ifopt
   out: FILEref, infil: filename
 ) : void = let
 //
-val opt = the_mainats_d2copt_get ()
+val opt = the_mainats_d2copt_get()
 //
 in
 //
 case+ opt of
-| Some (d2c) => aux_main (out, infil, d2c)
-| None () => ()
+| None() => ()
+| Some(d2c) => aux_main (out, infil, d2c)
 //
 end // end of [aux_main_ifopt]
 
@@ -1122,27 +1122,29 @@ aux_extcodelst_if
   out: FILEref, test: (int) -> bool
 ) : void = let
 //
-fun loop (
+fun
+loop
+(
   out: FILEref, test: (int) -> bool, xs: hideclist
 ) : hideclist = let
 in
 //
 case+ xs of
-| list_cons
-    (x, xs1) => let
+| list_nil() => list_nil()
+| list_cons(x, xs1) => let
     val-HIDextcode (knd, pos, _) = x.hidecl_node
   in
-    if test (pos) then let
+    if test(pos) then let
       val () = emit_extcode (out, x) in loop (out, test, xs1)
     end else xs // end of [if]
   end // end of [if]
-| list_nil () => list_nil ()
 //
 end // end of [loop]
 //
-val xs = the_extcodelst_get2 ()
+val xs = the_extcodelst_get2()
+//
 val xs2 = loop (out, test, xs)
-val () = the_extcodelst_set2 (xs2)
+val ((*set*)) = the_extcodelst_set2(xs2)
 //
 in
   // nothing
@@ -1152,7 +1154,9 @@ fun
 aux_exndeclst
   (out: FILEref): void = let
 //
-fun loop (
+fun
+loop
+(
   out: FILEref, xs: hideclist
 ) : void = let
 in
@@ -1160,22 +1164,30 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
-    val () = emit_exndec (out, x) in loop (out, xs)
+    val () = emit_exndec(out, x) in loop(out, xs)
   end // end of [list_cons]
 | list_nil () => ()
 //
 end // end of [loop]
 //
-val () = (
+val () =
+(
 emit_text (out, "/*\n");
 emit_text (out, "exnconlst-declaration(beg)\n");
 emit_text (out, "*/\n");
 ) (* end of [val] *)
 //
 val () =
-emit_text (out, "#ifndef _ATS_CCOMP_EXCEPTION_NONE_\n")
+emit_text
+(
+  out
+, "#ifndef _ATS_CCOMP_EXCEPTION_NONE_\n"
+)
 val () =
-emit_text (out, "\
+emit_text
+(
+  out
+, "\
 ATSextern()\n\
 atsvoid_t0ype\n\
 the_atsexncon_initize\n\

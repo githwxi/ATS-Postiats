@@ -54,7 +54,7 @@ node_get_neighbors(nx: node): nodelst
 
 For graph search (or graph-based search),
 one does not have to have an explicit representation of the underlying
-graph (to be search). What is really needed is a way to
+graph (to be searched). What is really needed is a way to
 locate all of the neighbors of any given node.
 Clearly, the interface assigned to ##dyncode("node_get_neighbors")
 imposes the assumption that the set of neighbors of each node is finite

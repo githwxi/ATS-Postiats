@@ -204,31 +204,46 @@ case+ hid0.hidecl_node of
 //
 | HIDfundecs
     (knd, decarg, hfds) => let
-    val lvl0 = the_d2varlev_get ()
-    val () = hifundeclst_ccomp (env, lvl0, knd, decarg, hfds)
+//
+    val
+    lvl0 = the_d2varlev_get ()
+    val ((*void*)) =
+      hifundeclst_ccomp (env, lvl0, knd, decarg, hfds)
+    // end of [val]
+//
   in
     primdec_fundecs (loc0, knd, decarg, hfds)
   end // end of [HIDfundecs]
 //
 | HIDvaldecs
     (knd, hvds) => let
-    val lvl0 = the_d2varlev_get ()
-    val inss = hivaldeclst_ccomp (env, lvl0, knd, hvds)
+    val
+    lvl0 = the_d2varlev_get()
+    val
+    inss = hivaldeclst_ccomp(env, lvl0, knd, hvds)
   in
     primdec_valdecs (loc0, knd, hvds, inss)
   end // end of [HIDvaldecs]
 | HIDvaldecs_rec
     (knd, hvds) => let
-    val lvl0 = the_d2varlev_get ()
-    val inss = hivaldeclst_ccomp_rec (env, lvl0, knd, hvds)
+//
+    val
+    lvl0 = the_d2varlev_get()
+    val
+    inss = hivaldeclst_ccomp_rec(env, lvl0, knd, hvds)
+//
   in
     primdec_valdecs_rec (loc0, knd, hvds, inss)
   end // end of [HIDvaldecs_rec]
 //
 | HIDvardecs
     (hvds) => let
-    val lvl0 = the_d2varlev_get ()
-    val inss = hivardeclst_ccomp (env, lvl0, hvds)
+//
+    val
+    lvl0 = the_d2varlev_get ()
+    val
+    inss = hivardeclst_ccomp (env, lvl0, hvds)
+//
   in
     primdec_vardecs (loc0, hvds, inss)
   end // end of [HIDvardecs]
@@ -236,12 +251,18 @@ case+ hid0.hidecl_node of
 | HIDinclude
     (knd, hids) => let
 (*
-    val () = println! ("hidecl_ccomp: HIDinclude: loc0 = ", loc0)
-    val () = println! ("hidecl_ccomp: HIDinclude: hid0 = ", hid0)
+    val () =
+    println!
+      ("hidecl_ccomp: HIDinclude: loc0 = ", loc0)
+    val () =
+    println!
+      ("hidecl_ccomp: HIDinclude: hid0 = ", hid0)
 *)
-    val pmds = hideclist_ccomp (env, hids)
+    val
+    pmds =
+    hideclist_ccomp(env, hids)
   in
-    primdec_include (loc0, knd, pmds)
+    primdec_include(loc0, knd, pmds)
   end // end of [HIDinclude]
 //
 | HIDstaload
@@ -249,11 +270,15 @@ case+ hid0.hidecl_node of
     idopt, cfil, flag, fenv, loaded
   ) => let
 (*
-    val () = println! ("hidecl_ccomp: HIDstaload: loc0 = ", loc0)
-    val () = println! ("hidecl_ccomp: HIDstaload: hid0 = ", hid0)
+    val () =
+    println!
+      ("hidecl_ccomp: HIDstaload: loc0 = ", loc0)
+    val () =
+    println!
+      ("hidecl_ccomp: HIDstaload: hid0 = ", hid0)
 *)
-    val () = the_staloadlst_add (hid0)
-    val () = ccompenv_add_staload (env, fenv)
+    val () = the_staloadlst_add(hid0)
+    val () = ccompenv_add_staload(env, fenv)
   in
     primdec_staload (loc0, hid0)
   end // end of [HIDstaload]

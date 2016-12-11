@@ -175,6 +175,14 @@ atspre_bool2string (
   return (x) ? "true" : "false" ;
 } // end of [atspre_bool2string]
 
+ATSinline()
+atstype_string
+atspre_bool_tostring (
+  atstype_bool x
+) {
+  return (x) ? "true" : "false" ;
+} // end of [atspre_bool_tostring]
+
 #atscode_separator_for_C()
 
 \#endif // ifndef ATSLIB_PRELUDE_CATS_BOOL

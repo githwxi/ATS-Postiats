@@ -1121,10 +1121,12 @@ fun lexing_COMMENT_rest
 (* ****** ****** *)
 //
 extern
-fun lexing_EXTCODE
+fun
+lexing_EXTCODE
   (buf: &lexbuf, pos: &position): token
 extern
-fun lexing_EXTCODE_knd
+fun
+lexing_EXTCODE_knd
   (buf: &lexbuf, pos: &position, knd: int): token
 //
 (* ****** ****** *)
@@ -1306,7 +1308,7 @@ val i = lexbufpos_get_char (buf, pos)
 in
 //
 if
-i >= 0
+(i >= 0)
 then let
   val c = (i2c)i
   val knd = (
@@ -1316,10 +1318,18 @@ then let
     | '$' => DYNEND // HX: dyn-end
     | _ (*dyn*) => DYNMID // HX: dyn-mid
   ) : int // end of [val]
+//
+(*
+  val () =
+  println!
+    ("lexing_EXTCODE: knd = ", knd)
+  // end of [val]
+*)
+//
   var knd: int = knd
 //
   val () =
-    if knd != DYNMID then posincby1 (pos)
+    if knd != DYNMID then posincby1(pos)
   // end of [val]
 //
   val () =
@@ -1327,20 +1337,23 @@ then let
     val i2 = lexbufpos_get_char (buf, pos)
     val c2 = (i2c)i2
   in
-    if c2 = '2' then (knd := knd + 1; posincby1 (pos))
+    if c2 = '2' then (knd := knd + 1; posincby1(pos))
   end // end of [val]
   val () =
     if knd = DYNEND then let // for $^2
     val i2 = lexbufpos_get_char (buf, pos)
     val c2 = (i2c)i2
   in
-    if c2 = '2' then (knd := knd - 1; posincby1 (pos))
+    if c2 = '2' then (knd := knd - 1; posincby1(pos))
   end // end of [val]
 //
 in
   lexing_EXTCODE_knd (buf, pos, knd)
 end // end of [then]
-else lexing_EXTCODE_knd (buf, pos, DYNMID)
+else
+(
+  lexing_EXTCODE_knd (buf, pos, DYNMID)
+) (* end of [else] *)
 //
 end // end of [lexing_EXTCODE]
 
@@ -1349,28 +1362,34 @@ end // end of [lexing_EXTCODE]
 implement
 lexing_EXTCODE_knd
   (buf, pos, knd) = let
-  val i = lexbufpos_get_char (buf, pos)
+//
+val i = lexbufpos_get_char(buf, pos)
+//
 in
 //
-if i >= 0 then let
+if
+(i >= 0)
+then let
   val c = (i2c)i in
   case+ c of
   | '%' when // HX: '%}' closes
       // external code only if it initiates a newline
-      $LOC.position_get_ncol (pos) = 0 => let
-      val res = testing_literal (buf, pos, "%}")
+      $LOC.position_get_ncol(pos) = 0 => let
+      val res = testing_literal(buf, pos, "%}")
     in
       if res >= 0 then let
-        val loc = lexbufpos_get_location (buf, pos)
-        val nchr = extcode_nskip (knd) // HX: number of skipped
-        val len = lexbufpos_diff (buf, pos) - nchr - 2u // %}: 2u
+        val loc = lexbufpos_get_location(buf, pos)
+        val nchr = extcode_nskip(knd) // HX: number of skipped
 //
-        val str = lexbuf_get_substrptr1 (buf, nchr, len)
-        val str = string_of_strptr (str)
+        val len =
+          lexbufpos_diff(buf, pos) - nchr - 2u // %}: 2u
+        val str =
+          lexbuf_get_substrptr1 (buf, nchr, len)
 //
-        val () = lexbuf_set_position (buf, pos)
+        val ((*set*)) = lexbuf_set_position (buf, pos)
+//
       in
-        token_make (loc, T_EXTCODE (knd, str))
+        token_make (loc, T_EXTCODE(knd, string_of_strptr(str)))
       end else let
         val () = posincby1 (pos) in lexing_EXTCODE_knd (buf, pos, knd)
       end // end of [if]
@@ -1378,9 +1397,12 @@ if i >= 0 then let
   | _ => let
       val () = posincbyc (pos, i) in lexing_EXTCODE_knd (buf, pos, knd)
     end // end of [_]
-end else
+end // end of [then]
+else
+(
   lexbufpos_lexerr_reset (buf, pos, LE_EXTCODE_unclose)
-// end of [if]
+) (* end of [else] *)
+//
 end // end of [lexing_EXTCODE_knd]
 
 end // end of [local]

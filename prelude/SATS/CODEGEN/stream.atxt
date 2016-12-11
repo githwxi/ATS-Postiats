@@ -367,6 +367,15 @@ fprint_stream
 //
 #atscode_separator()
 //
+fun{a:t0p}
+stream_skip_while_cloref
+  (xs: &stream(INV(a)) >> _, test: (a) -<cloref1> bool): intGte(0)
+fun{a:t0p}
+stream_skip_until_cloref
+  (xs: &stream(INV(a)) >> _, test: (a) -<cloref1> bool): intGte(0)
+//
+#atscode_separator()
+//
 // overloading for certain symbols
 //
 #atscode_separator()
