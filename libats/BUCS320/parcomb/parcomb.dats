@@ -189,6 +189,44 @@ p1: parser(a, t1), p2: parser(a, t2)
 //
 (* ****** ****** *)
 //
+extern
+fun
+{a:t@ype}
+{t:t@ype}
+parser_orelse
+(
+p1: parser(a, t), p2: parser(a, t)
+) : parser(a, t) = "mac#%" // end-of-function
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{t:t@ype}
+parser_repeat0
+  (parser(a, t)): parser(a, List0(t)) = "mac#%"
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{t:t@ype}
+parser_repeat1
+  (parser(a, t)): parser(a, List1(t)) = "mac#%"
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{t:t@ype}
+parser_lazy
+  (lp: lazy(parser(a, t))): parser(a, t) = "mac#%"
+//
+(* ****** ****** *)
+//
 // HX-2016-12: implementation
 //
 (* ****** ****** *)
@@ -466,6 +504,71 @@ case+ opt of
 //
 end // end of [parser_tup2_snd]
 
+(* ****** ****** *)
+
+implement
+{a}{t}(*tmp*)
+parser_repeat0
+  (p0) = lam(inp0) => let
+//
+fun
+auxlst
+(
+  inp: parinp(a), xs: List0_vt(t)
+) : parout(a, List0(t)) = let
+//
+val+PAROUT(opt, inp) = p0(inp)
+//
+in
+  case+ opt of
+  | None() => let
+      val xs = list_vt_reverse(xs)
+    in
+      PAROUT(Some(list_vt2t(xs)), inp)
+    end // end of [None_vt]
+  | Some(x) => auxlst(inp, list_vt_cons(x, xs))
+end // end of [auxlst]
+//
+in
+  auxlst(inp0, list_vt_nil((*void*)))
+end // end of [parse_repeat0]
+
+(* ****** ****** *)
+
+implement
+{a}{t}(*tmp*)
+parser_repeat1
+  (p0) = lam(inp0) => let
+//
+typedef ts = List1(t)
+//
+val+
+PAROUT(opt, inp1) = p0(inp0)
+//
+in
+//
+case+ opt of
+| None() =>
+    PAROUT(None{ts}(), inp0)
+  // end of [None_vt]
+| Some(x) => let
+    val+
+    PAROUT
+    (opt, inp2) =
+    parser_repeat0(p0)(inp1)
+    val-Some(xs) = opt
+  in
+    PAROUT(Some(list_cons(x, xs)), inp2)
+  end // end of [Some]
+//
+end // end of [parse_repeat1]
+
+(* ****** ****** *)
+//
+implement
+{a}{t}(*tmp*)
+parser_lazy(lp) = lam(inp0) => (!lp)(inp0)
+//
 (* ****** ****** *)
 
 (* end of [parcomb.dats] *)
