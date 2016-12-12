@@ -84,8 +84,13 @@ val () =
 myhashtbl_foreach_cloref
 (
   mymap
-, lam (k, x) => fprintln! (stdout_ref, "k=", k, " and ", "x=", x)
+, lam (k, x) =>
+  fprintln! (stdout_ref, "k=", k, " and ", "x=", x)
 ) (* myhashtbl_foreach_cloref *)
+//
+val () =
+mymap.foreach()
+  (lam(k, x) => println! ("k=", k, " and ", "x=", x))
 //
 (* ****** ****** *)
 
