@@ -22,8 +22,9 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Adding a parsing-combinator package for libatscc.
-2. ATS2-contrib/ats2cpp is significant improved. For instance, it is
+1. Adding a parsing-combinator package for libats.
+2. Adding a parsing-combinator package for libatscc.
+3. ATS2-contrib/ats2cpp is significantly improved. For instance, it is
    used in a project involving OpenCV.
 
 ######

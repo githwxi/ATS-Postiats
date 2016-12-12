@@ -25,19 +25,19 @@ fun
 {a:t@ype}
 {b:t@ype}
 list_map_fun{n:nat}
-  (xs: list(a, n), f: a -> b): list_vt(b, n)
+  (xs: list(a, n), fopr: a -> b): list_vt(b, n)
 //
 implement
 {a}{b}
-list_map_fun (xs, f) = let
+list_map_fun (xs, fopr) = let
 //
 fun
 aux{n:nat}
   (xs: list(a, n)): list_vt(b, n) =
 (
 case+ xs of
-| list_nil () => list_vt_nil ()
-| list_cons (x, xs) => list_vt_cons (f(x), aux(xs))
+| list_nil() => list_vt_nil()
+| list_cons(x, xs) => list_vt_cons(fopr(x), aux(xs))
 ) (* end of [aux] *)
 //
 in
@@ -57,7 +57,7 @@ fun
 {a:t@ype}
 {b:t@ype}
 list_map_cloref{n:nat}
-  (xs: list(a, n), f: a -<cloref1> b): list_vt(b, n)
+  (xs: list(a, n), fopr: a -<cloref1> b): list_vt(b, n)
 //
 (* ****** ****** *)
 //
@@ -81,8 +81,8 @@ aux{n:nat}
   (xs: list(a, n)): list_vt(b, n) =
 (
 case+ xs of
-| list_nil () => list_vt_nil ()
-| list_cons (x, xs) => list_vt_cons (list_map$fopr<a><b>(x), aux(xs))
+| list_nil() => list_vt_nil()
+| list_cons(x, xs) => list_vt_cons(list_map$fopr<a><b>(x), aux(xs))
 ) (* end of [aux] *)
 //
 in
@@ -93,9 +93,9 @@ end // end of [list_map]
 
 implement
 {a}{b}
-list_map_fun(xs, f) = let
+list_map_fun(xs, fopr) = let
 //
-implement list_map$fopr<a><b> (x) = f(x)
+implement list_map$fopr<a><b> (x) = fopr(x)
 //
 in
   list_map<a><b> (xs)
@@ -103,9 +103,9 @@ end // end of [list_map_fun]
 
 implement
 {a}{b}
-list_map_cloref(xs, f) = let
+list_map_cloref(xs, fopr) = let
 //
-implement list_map$fopr<a><b> (x) = f(x)
+implement list_map$fopr<a><b> (x) = fopr(x)
 //
 in
   list_map<a><b> (xs)
