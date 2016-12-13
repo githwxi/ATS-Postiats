@@ -35,6 +35,8 @@ datatype expr =
  | EXPRmul of (expr, expr)
  | EXPRdiv of (expr, expr)
 //
+typedef exprlst = list0(expr)
+//
 (* ****** ****** *)
 //
 extern
@@ -60,6 +62,42 @@ case+ x0 of
   | EXPRdiv(e1, e2) => fprint!(out, "(", e1, "/", e2, ")")
 )
 //
+(* ****** ****** *)
+//
+#define EPSILON 1E-6
+//
+extern
+fun
+eval_expr : expr -> double
+//
+extern
+fun
+expr_is_0 : expr -> bool
+extern
+fun
+expr_is_24 : expr -> bool
+//
+overload iseqz with expr_is_0
+//
+(* ****** ****** *)
+//
+extern
+fun
+arithops(x: expr, y: expr): exprlst
+//
+implement
+arithops(x, y) =
+list0_reverse(res) where
+{
+  val res = nil0()
+  val res = cons0(EXPRadd(x, y), res)
+  val res = cons0(EXPRsub(x, y), res)
+  val res = cons0(EXPRsub(y, x), res)
+  val res = cons0(EXPRmul(x, y), res)
+  val res = (if iseqz(y) then res else cons0(EXPRdiv(x, y), res)): exprlst
+  val res = (if iseqz(x) then res else cons0(EXPRdiv(y, x), res)): exprlst
+}
+
 (* ****** ****** *)
 
 assume node = list0(expr)
