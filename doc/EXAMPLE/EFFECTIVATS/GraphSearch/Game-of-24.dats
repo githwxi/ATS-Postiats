@@ -68,7 +68,8 @@ case+ x0 of
 //
 extern
 fun
-eval_expr : expr -> double
+eval_expr(expr): double
+overload ! with eval_expr
 //
 extern
 fun
@@ -78,6 +79,13 @@ fun
 expr_is_24 : expr -> bool
 //
 overload iseqz with expr_is_0
+//
+(* ****** ****** *)
+//
+implement
+expr_is_0(e) = abs(!e - 0) < EPSILON
+implement
+expr_is_24(e) = abs(!e - 24) < EPSILON
 //
 (* ****** ****** *)
 //
