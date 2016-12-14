@@ -133,7 +133,7 @@ list0_reverse(res) where
 
 (* ****** ****** *)
 
-assume node = list0(expr)
+assume node = exprlst
 
 (* ****** ****** *)
 
