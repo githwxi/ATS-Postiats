@@ -40,11 +40,11 @@ regress:: QueenPuzzle; ./$<
 #
 ######
 #
-Game-of-24: \
-Game-of-24.dats; \
+GameOf24Play: \
+GameOf24Play.dats; \
 $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 #
-regress:: Game-of-24; ./$<
+regress:: GameOf24Play; ./$<
 #
 ######
 #
@@ -78,7 +78,7 @@ cleanall:: clean
 cleanall:: ; $(RMF) main.html
 #
 cleanall:: ; $(RMF) QueenPuzzle
-cleanall:: ; $(RMF) Game-of-24
+cleanall:: ; $(RMF) GameOf24Play
 cleanall:: ; $(RMF) DoubletsPlay
 #
 ######

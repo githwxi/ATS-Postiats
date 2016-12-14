@@ -410,6 +410,33 @@ the power of embeddability offered by embeddable templates.
 
 ')##comment("para")
 
+<h2>Playing Game-of-24</h2>
+
+##para('\
+
+Given four natural numbers n1, n2, n3 and n4, one chooses two of them
+and generates a rational number r1 by applying either addition,
+subtraction, multiplication or division; one mixes r1 with the
+remaining two numbers and then chooses two of them to generate a
+rational number r2 by applying either addition, subtraction,
+multiplication or division; one then takes r2 and the last remaining
+number to generate a rational number r3 by applying addition,
+subtraction, multiplication, or division. If there exists at least one
+way to make r3 equal 24, then (n1, n2, n3, n4) is said to be a good
+quad. For instance, (10,10,4,4) is a good quad since ##dyncode("(10 *
+10 - 4) / 4 = 24") holds. Similarly, (5,7,7,11) is a good quad since
+##dyncode("( 5 - 11 / 7) * 7 = 24") holds.  Game-of-24 is a game that
+determines whether four given natural numbers are a good quad or not.\
+')
+
+##para('\
+
+Please find an implementation of Game-of-24 in
+##filename("GameOf24Play.dats") that is directly based on the generic
+graph-based depth-first search presented above.
+
+')
+
 <h2>Generic Graph BFS</h2>
 
 ##para('\
@@ -621,6 +648,7 @@ GraphSearch.dats // generic graph search
 GraphSearch_dfs.dats // generic depth-first graph search
 GraphSearch_bfs.dats // generic breadth-first graph search
 QueenPuzzle.dats // solving 8-queen puzzle with GraphSearch_dfs
+GameOf24Play.dats // solving 8-queen puzzle with GraphSearch_dfs
 DoubletsPlay.dats // implementing Doublets based on GraphSearch_bfs
 </pre>
 

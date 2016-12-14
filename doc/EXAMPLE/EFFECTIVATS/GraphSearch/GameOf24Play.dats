@@ -181,13 +181,13 @@ case+ xs of
 //
 extern
 fun
-GameOf24_play
+GameOf24Play
 (
 n1: int, n2: int, n3: int, n4: int
 ) : void // end-of-function
 //
 implement
-GameOf24_play
+GameOf24Play
 (
   n1, n2, n3, n4
 ) = let
@@ -226,16 +226,16 @@ val () =
 case+ nx of
 | list0_sing(x) =>
   if expr_is_24(x) then
-    (nsol[] := nsol[] + 1; fprintln!(stdout_ref, x))
+    (!nsol := !nsol+1; fprintln!(stdout_ref, x))
 | _(*non-sing*) => ()
 }
 //
 in
 //
 GraphSearch((*void*));
-if nsol[] = 0 then println! ("There is no solution found!")
+if !nsol = 0 then println! ("There is no solution found!")
 //
-end (* end of [GameOf24_play] *)
+end (* end of [GameOf24Play] *)
 //
 (* ****** ****** *)
 
@@ -252,27 +252,28 @@ println! ("Hello from [Game-of-24]!")
 *)
 //
 val () =
-$STDLIB.srandom($UN.cast{uint}($TIME.time()))
+$STDLIB.srandom
+  ($UN.cast{uint}($TIME.time()))
 //
 val n1 =
 (
-  if argc >= 2
-    then g0string2int(argv[1]) else randint(13)+1
+if argc >= 2
+  then g0string2int(argv[1]) else randint(13)+1
 ) : int // end of [val]
 val n2 =
 (
-  if argc >= 3
-    then g0string2int(argv[2]) else randint(13)+1
+if argc >= 3
+  then g0string2int(argv[2]) else randint(13)+1
 ) : int // end of [val]
 val n3 =
 (
-  if argc >= 4
-    then g0string2int(argv[3]) else randint(13)+1
+if argc >= 4
+  then g0string2int(argv[3]) else randint(13)+1
 ) : int // end of [val]
 val n4 =
 (
-  if argc >= 5
-    then g0string2int(argv[4]) else randint(13)+1
+if argc >= 5
+  then g0string2int(argv[4]) else randint(13)+1
 ) : int // end of [val]
 //
 val () = println! ("n1 = ", n1)
@@ -280,10 +281,10 @@ val () = println! ("n2 = ", n2)
 val () = println! ("n3 = ", n3)
 val () = println! ("n4 = ", n4)
 //
-val () = GameOf24_play(n1, n2, n3, n4)
+val () = GameOf24Play(n1, n2, n3, n4)
 //
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [Game-of-24.dats] *)
+(* end of [GameOf24Play.dats] *)
