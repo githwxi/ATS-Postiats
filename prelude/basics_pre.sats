@@ -287,7 +287,7 @@ stadef ifintrel = ifintrel_bool_int_int_int
 (* ****** ****** *)
 
 stadef
-bool2int(b: bool): int = ifint (b, 1, 0)
+bool2int(b: bool): int = ifint(b, 1, 0)
 stadef int2bool (i: int): bool = (i != 0)
 stadef b2i = bool2int and i2b = int2bool
 

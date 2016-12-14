@@ -25,6 +25,8 @@ cleanall::
 
 ######
 #
+all:: \
+QueenPuzzle
 QueenPuzzle: \
 QueenPuzzle.dats; \
 $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
@@ -33,6 +35,8 @@ regress:: QueenPuzzle; ./$<
 #
 ######
 #
+all:: \
+GameOf24Play
 GameOf24Play: \
 GameOf24Play.dats; \
 $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
@@ -41,6 +45,8 @@ regress:: GameOf24Play; ./$<
 #
 ######
 
+all:: \
+DoubletsPlay
 DoubletsPlay: \
 DoubletsPlay.dats; \
 $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -L $(PATSLIB) -latslib
