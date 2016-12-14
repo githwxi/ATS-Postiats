@@ -755,18 +755,26 @@ in
 case+ d0e0.d0exp_node of
 //
 // (*
-| $SYN.D0Eide _ => () // determined by the context
-| $SYN.D0Edqid _ => () // determined by the context
-| $SYN.D0Eopid _ => () // determined by the context
+| $SYN.D0Eide _ => () // by the context
+| $SYN.D0Edqid _ => () // by the context
+| $SYN.D0Eopid _ => () // by the context
 // *)
+//
 | $SYN.D0Estring _ =>
-    psynmark_ins_begend (SMdynstr, loc0, res)
+    psynmark_ins_begend(SMdynstr, loc0, res)
+  // end of [D0Estring]
+//
+| $SYN.D0Etyrep(s0e) =>
+  {
+    val () = s0exp_mark(s0e, res)
+  } // end of [D0Etyrep]
 //
 | $SYN.D0Eapp
-    (d0e_fun, d0e_arg) => {
-    val () = d0exp_mark (d0e_fun, res)
-    val () = d0exp_mark (d0e_arg, res)
-  } // end of [D0Eapp]
+    (d0e_fun, d0e_arg) =>
+  {
+    val () = d0exp_mark(d0e_fun, res)
+    val () = d0exp_mark(d0e_arg, res)
+  } (* end of [D0Eapp] *)
 //
 | $SYN.D0Efoldat (d0es) => d0explst_mark (d0es, res)
 | $SYN.D0Efreeat (d0es) => d0explst_mark (d0es, res)

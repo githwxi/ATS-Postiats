@@ -38,7 +38,7 @@ cleanall:: ; $(RMF) HTML/%s.html
 in
   atext_strptr (ent)
 end // end of [make_entry]
-
+//
 %}\
 #
 #
