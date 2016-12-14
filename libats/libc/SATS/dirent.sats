@@ -72,16 +72,16 @@ $extype"atslib_libats_libc_DIR_type" // = DIR
 typedef DIR = DIR_t0ype
 *)
 absvtype
-DIRptr_vtype (l:addr)  = ptr
+DIRptr_vtype(l:addr)  = ptr
 vtypedef
-DIRptr(l:addr) = DIRptr_vtype (l)
+DIRptr(l:addr) = DIRptr_vtype(l)
 vtypedef
-DIRptr0 = [l:addr | l >= null] DIRptr (l)
+DIRptr0 = [l:addr | l >= null] DIRptr(l)
 vtypedef
-DIRptr1 = [l:addr | l >  null] DIRptr (l)
+DIRptr1 = [l:addr | l >  null] DIRptr(l)
 //
-absview DIR_view (l:addr)
-viewdef DIR_v (l:addr) = DIR_view (l)
+absview DIR_view(l:addr)
+viewdef DIR_v(l:addr) = DIR_view(l)
 //
 (* ****** ****** *)
 //
@@ -109,12 +109,12 @@ typedef dirent = dirent_t0ype
 (* ****** ****** *)
 
 fun{}
-dirent$PC_NAME_MAX (): intGte(0) // HX: default=256
+dirent$PC_NAME_MAX(): intGte(0) // HX: default=256
 
 (* ****** ****** *)
 //
 absvtype
-direntp_vtype (l:addr) = ptr
+direntp_vtype(l:addr) = ptr
 vtypedef
 direntp(l:addr) = direntp_vtype(l)
 //
@@ -139,18 +139,21 @@ direntp_get_viewptr
 (
   x: !direntp l
 ) :<> (
-  dirent @ l, minus_v(direntp l, dirent @ l) | ptr(l)
+  dirent@l, minus_v(direntp l, dirent@l) | ptr(l)
 ) // end of [direntp_get_viewptr]
 
-praxi
-direntp_free_null (direntp (null)): void
-
-fun direntp_free (x: Direntp0): void = "mac#%"
-
 (* ****** ****** *)
-
-fun dirent_get_d_ino (ent: &RD(dirent)):<> ino_t = "mac#%"
-
+//
+praxi
+direntp_free_null(direntp (null)): void
+//
+fun direntp_free(x: Direntp0): void = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+dirent_get_d_ino (ent: &RD(dirent)):<> ino_t = "mac#%"
+//
 (* ****** ****** *)
 //
 fun
@@ -174,12 +177,12 @@ compare_dirent_string
   (ent: &RD(dirent), str: NSH(string)):<> int
 //
 (* ****** ****** *)
-
-fun opendir (dname: NSH(string)): DIRptr0 = "mac#%"
-fun opendir_exn (dname: NSH(string)): DIRptr1 = "ext#%"
-
+//
+fun opendir(dname: NSH(string)): DIRptr0 = "mac#%"
+fun opendir_exn(dname: NSH(string)): DIRptr1 = "ext#%"
+//
 (* ****** ****** *)
-
+//
 fun closedir{l:agz}
 (
   dirp: !DIRptr (l) >> ptr l
@@ -188,9 +191,9 @@ fun closedir{l:agz}
 (
   option_v (DIR_v (l), i < 0) | int i
 ) = "mac#%" // end of [closedir]
-
+//
 fun closedir_exn (dirp: DIRptr1):<!exnwrt> void = "ext#%"
-
+//
 (* ****** ****** *)
 
 fun

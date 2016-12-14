@@ -191,8 +191,10 @@ strftime
   char *s, size_t max, const char *format, const struct tm *tm
 ) ; // end of [strftime]
 */
-fun strftime
-  {l:addr}{m:pos} (
+fun
+strftime
+{l:addr}{m:pos}
+(
   pf: !b0ytes(m) @ l >> strbuf(m, n) @ l
 | p: ptr l, m: size_t m, fmt: string, tm: &RD(tm_struct)
 ) :<> #[n:nat | n < m] size_t n = "mac#%" // endfun
@@ -207,13 +209,15 @@ gmtime // non-reentrant
 [
   l:addr
 ] (
-  option_v (vtakeout0 (tm_struct@l), l > null) | ptr l
+  option_v(vtakeout0(tm_struct@l), l > null)
+| ptr(l)
 ) = "mac#%" // end of [gmtime]
 
 fun
 gmtime_r // reentrant-version
 (
-  tval: &RD(time_t), tm: &tm_struct? >> opt (tm_struct, l > null)
+  tval: &RD(time_t)
+, tm: &tm_struct? >> opt(tm_struct, l > null)
 ) :<> #[l:addr] ptr (l) = "mac#%" // endfun
 
 (* ****** ****** *)
@@ -226,22 +230,22 @@ localtime // non-reentrant
 [
   l:addr
 ] (
-  option_v (vtakeout0 (tm_struct@l), l > null) | ptr l
+  option_v(vtakeout0(tm_struct@l), l > null) | ptr(l)
 ) = "mac#%" // end of [localtime]
 
 fun
 localtime_r // reentrant-version
 (
-  tval: &RD(time_t), tm: &tm_struct? >> opt (tm_struct, l > null)
+  tval: &RD(time_t), tm: &tm_struct? >> opt(tm_struct, l > null)
 ) :<> #[l:addr] ptr (l) = "mac#%" // endfun
 
 (* ****** ****** *)
 
-fun tzset ():<!ref> void = "mac#%"
+fun tzset():<!ref> void = "mac#%" // endfun
 
 (* ****** ****** *)
 
-fun clock (): clock_t = "mac#%" // -1 for error
+fun clock():<!wrt> clock_t = "mac#%" // err: -1
 
 (* ****** ****** *)
 
@@ -250,7 +254,7 @@ timespec =
 $extype_struct
 "atslib_libats_libc_timespec_type" of
 {
-  tv_sec= time_t (*secs*), tv_nsec= lint (*nanosecs*)
+  tv_sec= time_t(*secs*), tv_nsec= lint(*nanosecs*)
 } // end of [extype_struct] // end of [timespec]
 
 (* ****** ****** *)
@@ -259,11 +263,11 @@ fun
 nanosleep
 (
   tms: &RD(timespec)
-, rem: &timespec? >> opt (timespec, i==0)
+, rem: &timespec? >> opt(timespec, i==0)
 ) : #[i:int | i <= 0] int(i) = "mac#%"
 
 fun
-nanosleep_null (tms: &RD(timespec)): int = "mac#%"
+nanosleep_null(tms: &RD(timespec)): int = "mac#%"
 
 (* ****** ****** *)
 //
@@ -274,14 +278,14 @@ fun
 clock_getres
 (
   id: clockid_t
-, res: &timespec? >> opt (timespec, i==0)
+, res: &timespec? >> opt(timespec, i==0)
 ) : #[i:int | i <= 0] int(i) = "mac#%"
 //
 fun
 clock_gettime
 (
   id: clockid_t
-, tms: &timespec? >> opt (timespec, i==0)
+, tms: &timespec? >> opt(timespec, i==0)
 ) : #[i:int | i <= 0] int(i) = "mac#%"
 //
 // HX: this one requires SUPERUSER previlege

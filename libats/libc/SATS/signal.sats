@@ -118,7 +118,8 @@ macdef SIG_IGN = $extval (sighandler_t, "SIG_IGN")
 macdef SIG_HOLD = $extval (sighandler_t, "SIG_HOLD")
 macdef SIG_ERR = $extval (sighandler_t, "SIG_ERR")
 //
-castfn sighandler (f: (signum_t) -<fun1> void): sighandler_t
+castfn
+sighandler(f: (signum_t) -<fun1> void): sighandler_t
 //
 (* ****** ****** *)
 //
@@ -307,7 +308,7 @@ fun sigpending
 // HX-2014-04-07:
 // 0/-1 : succ/fail // errno set
 //
-fun siginterrupt (sgn: signum_t, flag: int): int = "mac#%"
+fun siginterrupt(sgn: signum_t, flag: int): int = "mac#%"
 //
 (* ****** ****** *)
 //
