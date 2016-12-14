@@ -44,13 +44,13 @@
 
 /* ****** ****** */
 //
-#define atslib_libc_alloca(bsz) alloca(bsz)
+#define atslib_libats_libc_alloca(bsz) alloca(bsz)
 //
 /* ****** ****** */
 //
-#define atslib_libc_ptr_alloca_tsz(tsz) alloca(tsz)
+#define atslib_libats_libc_ptr_alloca_tsz(tsz) alloca(tsz)
 //
-#define atslib_libc_array_ptr_alloca_tsz(asz, tsz) alloca((asz)*(tsz))
+#define atslib_libats_libc_array_ptr_alloca_tsz(asz, tsz) alloca((asz)*(tsz))
 //
 /* ****** ****** */
 

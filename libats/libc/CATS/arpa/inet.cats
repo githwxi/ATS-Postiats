@@ -54,11 +54,11 @@
 
 /* ****** ****** */
 //
-#define atslib_libc_htons htons
-#define atslib_libc_ntohs ntohs
+#define atslib_libats_libc_htons htons
+#define atslib_libats_libc_ntohs ntohs
 //
-#define atslib_libc_htonl htonl
-#define atslib_libc_ntohl ntohl
+#define atslib_libats_libc_htonl htonl
+#define atslib_libats_libc_ntohl ntohl
 //
 /* ****** ****** */
 
@@ -71,7 +71,7 @@ inet_aton
 
 ATSinline()
 atstype_bool
-atslib_libc_inet_aton
+atslib_libats_libc_inet_aton
 (
   atstype_ptr cp, atstype_ref inp
 ) {
@@ -83,30 +83,30 @@ atslib_libc_inet_aton
 //
   return (rtn ? atsbool_true : atsbool_false) ;
 //
-} // end of [atslib_libc_inet_aton]
+} // end of [atslib_libats_libc_inet_aton]
 
 /* ****** ****** */
 
 #define \
-atslib_libc_inet_addr inet_addr
+atslib_libats_libc_inet_addr inet_addr
 #define \
-atslib_libc_inet_network inet_network
+atslib_libats_libc_inet_network inet_network
 
 /* ****** ****** */
 
 #define \
-atslib_libc_inet_makeaddr inet_makeaddr
+atslib_libats_libc_inet_makeaddr inet_makeaddr
 
 /* ****** ****** */
 
-#define atslib_libc_inet_ntoa inet_ntoa
+#define atslib_libats_libc_inet_ntoa inet_ntoa
 
 /* ****** ****** */
 
 #define \
-atslib_libc_inet4_pton(cp, inp) inet_pton(AF_INET4, cp, inp)
+atslib_libats_libc_inet4_pton(cp, inp) inet_pton(AF_INET4, cp, inp)
 #define \
-atslib_libc_inet6_pton(cp, inp) inet_pton(AF_INET6, cp, inp)
+atslib_libats_libc_inet6_pton(cp, inp) inet_pton(AF_INET6, cp, inp)
 
 /* ****** ****** */
 

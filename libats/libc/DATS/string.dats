@@ -35,9 +35,10 @@
 #define
 ATS_PACKNAME "ATSLIB.libats.libc"
 #define
-ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+ATS_DYNLOADFLAG 0 // no dynloading at run-time
 #define
-ATS_EXTERN_PREFIX "atslib_libc_" // prefix for external names
+ATS_EXTERN_PREFIX
+"atslib_libats_libc_" // prefix for external names
 //
 (* ****** ****** *)
 //
@@ -49,13 +50,13 @@ staload
 %{$
 extern
 atstype_ptr
-atslib_libc_strerror_r_gc
+atslib_libats_libc_strerror_r_gc
 (
   atstype_int errnum
 ) {
   char *p_err ;
   int bsz ;
-  int err, myeno ;
+  int myerr, myeno ;
 //
 // HX: [64] is chosen nearly randomly
 //
@@ -65,15 +66,15 @@ atslib_libc_strerror_r_gc
   while (1)
   {
     p_err = atspre_malloc_gc(bsz) ;
-    err = atslib_libc_strerror_r(errnum, p_err, bsz) ; myeno = errno ;
-    if (err==0) return p_err ;
+    myerr = atslib_libats_libc_strerror_r(errnum, p_err, bsz) ; myeno = errno ;
+    if (!myerr) return p_err ;
     if (myeno != ERANGE) break ;
     atspre_mfree_gc(p_err) ; bsz = 2 * bsz ;
   }
 //
   return p_err ;
 //
-} /* end of [atslib_libc_strerror_r_gc] */
+} /* end of [atslib_libats_libc_strerror_r_gc] */
 %}
 
 (* ****** ****** *)

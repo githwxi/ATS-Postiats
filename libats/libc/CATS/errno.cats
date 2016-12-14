@@ -61,20 +61,20 @@ typedef int errno_t ;
 /* ****** ****** */
 
 #define \
-atslib_libc_the_errno_get() (errno)
+atslib_libats_libc_the_errno_get() (errno)
 #define \
-atslib_libc_the_errno_set(x) (errno = (x))
+atslib_libats_libc_the_errno_set(x) (errno = (x))
 #define \
-atslib_libc_the_errno_reset() (errno = ENONE)
+atslib_libats_libc_the_errno_reset() (errno = ENONE)
 
 /* ****** ****** */
 
 ATSinline()
 atstype_bool
-atslib_libc_the_errno_test(errno_t x)
+atslib_libats_libc_the_errno_test(errno_t x)
 {
   return (errno==(x)) ? atsbool_true : atsbool_false ;
-} /* end of [atslib_libc_the_errno_test] */
+} /* end of [atslib_libats_libc_the_errno_test] */
 
 /* ****** ****** */
 

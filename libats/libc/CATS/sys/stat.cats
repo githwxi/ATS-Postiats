@@ -35,8 +35,10 @@
 
 /* ****** ****** */
 
-#ifndef ATSLIB_LIBATS_LIBC_CATS_SYS_STAT
-#define ATSLIB_LIBATS_LIBC_CATS_SYS_STAT
+#ifndef \
+ATSLIB_LIBATS_LIBC_CATS_SYS_STAT
+#define \
+ATSLIB_LIBATS_LIBC_CATS_SYS_STAT
 
 /* ****** ****** */
 
@@ -46,30 +48,30 @@
 
 typedef
 struct stat
-atslib_libc_stat_struct ;
+atslib_libats_libc_stat_struct ;
 
 /* ****** ****** */
 
-#define atslib_libc_umask umask
+#define atslib_libats_libc_umask umask
 
 /* ****** ****** */
 
-#define atslib_libc_chmod chmod
+#define atslib_libats_libc_chmod chmod
 
 /* ****** ****** */
 
-#define atslib_libc_mkdir mkdir
-#define atslib_libc_mkdirat mkdirat
+#define atslib_libats_libc_mkdir mkdir
+#define atslib_libats_libc_mkdirat mkdirat
 
 /* ****** ****** */
 
-#define atslib_libc_mkfifo mkfifo
+#define atslib_libats_libc_mkfifo mkfifo
 
 /* ****** ****** */
 
-#define atslib_libc_stat stat
-#define atslib_libc_fstat fstat
-#define atslib_libc_lstat lstat
+#define atslib_libats_libc_stat stat
+#define atslib_libats_libc_fstat fstat
+#define atslib_libats_libc_lstat lstat
 
 /* ****** ****** */
 

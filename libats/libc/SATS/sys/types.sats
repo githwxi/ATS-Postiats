@@ -45,7 +45,8 @@ ATS_PACKNAME "ATSLIB.libats.libc"
 //
 // HX: prefix for external names
 //
-#define ATS_EXTERN_PREFIX "atslib_libc_"
+#define
+ATS_EXTERN_PREFIX "atslib_libats_libc_"
 //
 (* ****** ****** *)
 
@@ -56,7 +57,7 @@ ATS_PACKNAME "ATSLIB.libats.libc"
 //
 abst@ype
 time_t0ype =
-$extype"atslib_libc_time_type"
+$extype"atslib_libats_libc_time_type"
 typedef time_t = time_t0ype // = its C-counterpart
 //
 (* ****** ****** *)
@@ -101,10 +102,10 @@ overload != with neq_time_time
 //
 abst@ype
 clock_t0ype =
-$extype"atslib_libc_clock_type"
+$extype"atslib_libats_libc_clock_type"
 abst@ype
 clockid_t0ype =
-$extype"atslib_libc_clockid_type"
+$extype"atslib_libats_libc_clockid_type"
 //
 typedef clock_t = clock_t0ype // = its C-counterpart
 typedef clockid_t = clockid_t0ype // = its C-counterpart
@@ -118,7 +119,7 @@ fun clock2double (t: clock_t):<> double = "mac#%"
 
 abst@ype
 mode_t0ype =
-$extype"atslib_libc_mode_type"
+$extype"atslib_libats_libc_mode_type"
 typedef mode_t = mode_t0ype // = its C-counterpart
 
 (* ****** ****** *)
@@ -155,28 +156,28 @@ overload land with land_mode_mode
 
 abst@ype
 dev_t0ype =
-$extype"atslib_libc_dev_type"
+$extype"atslib_libats_libc_dev_type"
 typedef dev_t = dev_t0ype // = its C-counterpart
 
 (* ****** ****** *)
 
 abst@ype
 ino_t0ype =
-$extype"atslib_libc_ino_type"
+$extype"atslib_libats_libc_ino_type"
 typedef ino_t = ino_t0ype // = its C-counterpart
 
 (* ****** ****** *)
 
 abst@ype
 nlink_t0ype =
-$extype"atslib_libc_nlink_type"
+$extype"atslib_libats_libc_nlink_type"
 typedef nlink_t = nlink_t0ype // = its C-counterpart
 
 (* ****** ****** *)
 
 abst@ype
 pid_t0ype =
-$extype"atslib_libc_pid_type"
+$extype"atslib_libats_libc_pid_type"
 typedef pid_t = pid_t0ype // = its C-counterpart
 castfn pid2int (x: pid_t):<> int
 castfn pid2lint (x: pid_t):<> lint
@@ -185,10 +186,10 @@ castfn pid2lint (x: pid_t):<> lint
 //
 abst@ype
 uid_t0ype =
-$extype"atslib_libc_uid_type"
+$extype"atslib_libats_libc_uid_type"
 abst@ype
 gid_t0ype =
-$extype"atslib_libc_gid_type"
+$extype"atslib_libats_libc_gid_type"
 //
 typedef uid_t = uid_t0ype // = its C-counterpart
 typedef gid_t = gid_t0ype // = its C-counterpart
@@ -197,21 +198,21 @@ typedef gid_t = gid_t0ype // = its C-counterpart
 
 abst@ype
 off_t0ype =
-$extype"atslib_libc_off_type"
+$extype"atslib_libats_libc_off_type"
 typedef off_t = off_t0ype // = its C-counterpart
 
 (* ****** ****** *)
 
 abst@ype
 blkcnt_t0ype =
-$extype"atslib_libc_blkcnt_type"
+$extype"atslib_libats_libc_blkcnt_type"
 typedef blkcnt_t = blkcnt_t0ype // = its C-counterpart
 
 (* ****** ****** *)
 
 abst@ype
 blksize_t0ype =
-$extype"atslib_libc_blksize_type"
+$extype"atslib_libats_libc_blksize_type"
 typedef blksize_t = blksize_t0ype // = its C-counterpart
 
 (* ****** ****** *)
@@ -250,19 +251,19 @@ castfn fildes_encode
 
 abst@ype
 useconds_t = // microseconds
-$extype"atslib_libc_useconds_type"
+$extype"atslib_libats_libc_useconds_type"
 castfn usec2lint (x: useconds_t):<> lint
 
 abst@ype
 suseconds_t = // microseconds
-$extype"atslib_libc_suseconds_type"
+$extype"atslib_libats_libc_suseconds_type"
 castfn susec2lint (x: suseconds_t):<> lint
 
 (* ****** ****** *)
 
 abst@ype
 pthread_t =
-$extype"atslib_libc_pthread_type"
+$extype"atslib_libats_libc_pthread_type"
 castfn pthread2lint (x: pthread_t):<> lint
 
 (* ****** ****** *)

@@ -45,7 +45,8 @@ ATS_PACKNAME "ATSLIB.libats.libc"
 //
 // HX: prefix for external names
 //
-#define ATS_EXTERN_PREFIX "atslib_libc_"
+#define
+ATS_EXTERN_PREFIX "atslib_libats_libc_"
 //
 (* ****** ****** *)
 //
@@ -226,7 +227,7 @@ typedef siginfo = siginfo_struct
 typedef
 sigaction_struct =
 $extype_struct
-"atslib_libc_sigaction_struct" of
+"atslib_libats_libc_sigaction_struct" of
 {
   sa_handler= sighandler_t
 , sa_sigaction= (int, &siginfo, ptr) -<fun1> void

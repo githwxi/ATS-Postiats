@@ -34,14 +34,14 @@
 //
 #define
 ATS_PACKNAME "ATSLIB.libats.libc.gdbm"
+//
 #define
-ATS_EXTERN_PREFIX "atslib_libc_" // prefix for external names
+ATS_EXTERN_PREFIX "atslib_libats_libc_" // prefix for external names
 //
 (* ****** ****** *)
 
 %{#
-#include \
-"libats/libc/gdbm/CATS/ndbm.cats"
+#include "libats/libc/gdbm/CATS/ndbm.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)

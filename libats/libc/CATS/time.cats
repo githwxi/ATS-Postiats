@@ -43,137 +43,159 @@
 #include <time.h>
 
 /* ****** ****** */
+//
+typedef
+time_t
+atslib_libats_libc_time_type ;
+//
+typedef
+struct tm
+atslib_libats_libc_tm_struct_type ;
+//
+/* ****** ****** */
 
-typedef time_t atslib_libc_time_type ;
-typedef struct tm atslib_libc_tm_struct_type ;
+typedef
+clock_t
+atslib_libats_libc_clock_type ;
 
 /* ****** ****** */
 
-typedef clock_t atslib_libc_clock_type ;
+typedef
+struct timespec
+atslib_libats_libc_timespec_type ;
 
 /* ****** ****** */
 
-typedef struct timespec atslib_libc_timespec_type ;
+#define \
+atslib_libats_libc_difftime difftime
 
 /* ****** ****** */
 
-#define atslib_libc_difftime difftime
-
-/* ****** ****** */
-
-#define atslib_libc_time_get() time((time_t*)0)
+#define \
+atslib_libats_libc_time_get() time((time_t*)0)
 
 ATSinline()
 atstype_bool
-atslib_libc_time_getset
+atslib_libats_libc_time_getset
 (
   atstype_ref tval
 ) {
   return (time((time_t*)tval) >= 0 ? atsbool_true : atsbool_false) ;
-} // end of [atslib_libc_time_getset]
+} // end of [atslib_libats_libc_time_getset]
 
 /* ****** ****** */
 
-#define atslib_libc_ctime ctime
-#define atslib_libc_ctime_r ctime_r
+#define \
+atslib_libats_libc_ctime ctime
+#define \
+atslib_libats_libc_ctime_r ctime_r
 
 /* ****** ****** */
 
 ATSinline()
 atstype_int
-atslib_libc_tm_get_sec
+atslib_libats_libc_tm_get_sec
   (atstype_ptr tm) {
   return ((struct tm*)tm)->tm_sec ;
-} // end of [atslib_libc_tm_get_sec]
+} // end of [atslib_libats_libc_tm_get_sec]
 
 ATSinline()
 atstype_int
-atslib_libc_tm_get_min
+atslib_libats_libc_tm_get_min
   (atstype_ptr tm) {
   return ((struct tm*)tm)->tm_min ;
-} // end of [atslib_libc_tm_get_min]
+} // end of [atslib_libats_libc_tm_get_min]
 
 ATSinline()
 atstype_int
-atslib_libc_tm_get_hour
+atslib_libats_libc_tm_get_hour
   (atstype_ptr tm) {
   return ((struct tm*)tm)->tm_hour ;
-} // end of [atslib_libc_tm_get_hour]
+} // end of [atslib_libats_libc_tm_get_hour]
 
 ATSinline()
 atstype_int
-atslib_libc_tm_get_mday
+atslib_libats_libc_tm_get_mday
   (atstype_ptr tm) {
   return ((struct tm*)tm)->tm_mday ;
-} // end of [atslib_libc_tm_get_mday]
+} // end of [atslib_libats_libc_tm_get_mday]
 
 ATSinline()
 atstype_int
-atslib_libc_tm_get_mon
+atslib_libats_libc_tm_get_mon
   (atstype_ptr tm) {
   return ((struct tm*)tm)->tm_mon ;
-} // end of [atslib_libc_tm_get_mon]
+} // end of [atslib_libats_libc_tm_get_mon]
 
 ATSinline()
 atstype_int
-atslib_libc_tm_get_year
+atslib_libats_libc_tm_get_year
   (atstype_ptr tm) {
   return ((struct tm*)tm)->tm_year ;
-} // end of [atslib_libc_tm_get_year]
+} // end of [atslib_libats_libc_tm_get_year]
 
 ATSinline()
 atstype_int
-atslib_libc_tm_get_wday
+atslib_libats_libc_tm_get_wday
   (atstype_ptr tm) {
   return ((struct tm*)tm)->tm_wday ;
-} // end of [atslib_libc_tm_get_wday]
+} // end of [atslib_libats_libc_tm_get_wday]
 
 ATSinline()
 atstype_int
-atslib_libc_tm_get_yday
+atslib_libats_libc_tm_get_yday
   (atstype_ptr tm) {
   return ((struct tm*)tm)->tm_yday ;
-} // end of [atslib_libc_tm_get_yday]
+} // end of [atslib_libats_libc_tm_get_yday]
 
 ATSinline()
 atstype_int
-atslib_libc_tm_get_isdst
+atslib_libats_libc_tm_get_isdst
   (atstype_ptr tm) {
   return ((struct tm*)tm)->tm_isdst ;
-} // end of [atslib_libc_tm_get_isdst]
+} // end of [atslib_libats_libc_tm_get_isdst]
 
 /* ****** ****** */
 
-#define atslib_libc_mktime mktime
+#define \
+atslib_libats_libc_mktime mktime
 
 /* ****** ****** */
 
-#define atslib_libc_asctime asctime
+#define \
+atslib_libats_libc_asctime asctime
 
 /* ****** ****** */
 
-#define atslib_libc_gmtime gmtime
-#define atslib_libc_gmtime_r gmtime_r
+#define \
+atslib_libats_libc_gmtime gmtime
+#define \
+atslib_libats_libc_gmtime_r gmtime_r
 
 /* ****** ****** */
 
-#define atslib_libc_localtime localtime
-#define atslib_libc_localtime_r localtime_r
+#define \
+atslib_libats_libc_localtime localtime
+#define \
+atslib_libats_libc_localtime_r localtime_r
 
 /* ****** ****** */
 
-#define atslib_libc_tzset tzset
+#define atslib_libats_libc_tzset tzset
 
 /* ****** ****** */
 
-#define atslib_libc_clock clock
+#define atslib_libats_libc_clock clock
 
-#define atslib_libc_clock_getres clock_getres
+#define \
+atslib_libats_libc_clock_getres clock_getres
 
 /* ****** ****** */
 
-#define atslib_libc_clock_gettime clock_gettime
-#define atslib_libc_clock_settime clock_settime
+#define \
+atslib_libats_libc_clock_gettime clock_gettime
+#define \
+atslib_libats_libc_clock_settime clock_settime
 
 /* ****** ****** */
 

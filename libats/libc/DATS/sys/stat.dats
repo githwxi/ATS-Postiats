@@ -33,9 +33,13 @@
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.libc"
-#define ATS_DYNLOADFLAG 0 // no need for staloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_libc_" // prefix for external names
+#define
+ATS_PACKNAME "ATSLIB.libats.libc"
+#define
+ATS_DYNLOADFLAG 0 // no dynloading at run-time
+#define
+ATS_EXTERN_PREFIX
+"atslib_libats_libc_" // prefix for external names
 
 (* ****** ****** *)
 //

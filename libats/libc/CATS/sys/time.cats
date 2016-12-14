@@ -35,8 +35,10 @@
 
 /* ****** ****** */
 
-#ifndef ATSLIB_LIBATS_LIBC_CATS_SYS_TIME
-#define ATSLIB_LIBATS_LIBC_CATS_SYS_TIME
+#ifndef \
+ATSLIB_LIBATS_LIBC_CATS_SYS_TIME
+#define \
+ATSLIB_LIBATS_LIBC_CATS_SYS_TIME
 
 /* ****** ****** */
 
@@ -46,36 +48,43 @@
 //
 typedef
 struct timeval
-atslib_libc_timeval_type ;
+atslib_libats_libc_timeval_type ;
 typedef
 struct timezone
-atslib_libc_timezone_type ;
+atslib_libats_libc_timezone_type ;
 //
 typedef
 struct itimerval
-atslib_libc_itimerval_type ;
+atslib_libats_libc_itimerval_type ;
 //
 /* ****** ****** */
 
-#define atslib_libc_gettimeofday_tv(tv) gettimeofday(tv, NULL)
-#define atslib_libc_gettimeofday_tz(tz) gettimeofday(NULL, tz)
+#define \
+atslib_libats_libc_gettimeofday_tv(tv) gettimeofday(tv, NULL)
+#define \
+atslib_libats_libc_gettimeofday_tz(tz) gettimeofday(NULL, tz)
 
-#define atslib_libc_settimeofday_tv(tv) settimeofday(tv, NULL)
-#define atslib_libc_settimeofday_tz(tz) settimeofday(NULL, tz)
-#define atslib_libc_settimeofday_tvtz(tv, tz) settimeofday(tv, tz)
+#define \
+atslib_libats_libc_settimeofday_tv(tv) settimeofday(tv, NULL)
+#define \
+atslib_libats_libc_settimeofday_tz(tz) settimeofday(NULL, tz)
+#define \
+atslib_libats_libc_settimeofday_tvtz(tv, tz) settimeofday(tv, tz)
 
 /* ****** ****** */
 
-#define atslib_libc_utimes utimes
-#define atslib_libc_futimes futimes
-#define atslib_libc_futimesat futimesat
+#define atslib_libats_libc_utimes utimes
+#define atslib_libats_libc_futimes futimes
+#define atslib_libats_libc_futimesat futimesat
 
 /* ****** ****** */
-
-#define atslib_libc_getitimer getitimer
-#define atslib_libc_setitimer setitimer
-#define atslib_libc_setitimer_null(which, itval) setitimer(which, itval, NULL)
-
+//
+#define atslib_libats_libc_getitimer getitimer
+//
+#define atslib_libats_libc_setitimer setitimer
+#define \
+atslib_libats_libc_setitimer_null(which, itval) setitimer(which, itval, NULL)
+//
 /* ****** ****** */
 
 #endif // ifndef ATSLIB_LIBATS_LIBC_CATS_SYS_TIME

@@ -44,7 +44,8 @@ ATS_PACKNAME "ATSLIB.libats.libc"
 //
 // HX: prefix for external names
 //
-#define ATS_EXTERN_PREFIX "atslib_libc_"
+#define
+ATS_EXTERN_PREFIX "atslib_libats_libc_"
 //
 (* ****** ****** *)
 
@@ -66,7 +67,7 @@ typedef off_t = $TYPES.off_t
 (*
 abst@ype
 DIR_t0ype =
-$extype"atslib_libc_DIR_type" // = DIR
+$extype"atslib_libats_libc_DIR_type" // = DIR
 //
 typedef DIR = DIR_t0ype
 *)
@@ -101,7 +102,7 @@ overload ptrcast with DIRptr2ptr
 //
 abst@ype
 dirent_t0ype =
-$extype"atslib_libc_dirent_type" // = struct dirent
+$extype"atslib_libats_libc_dirent_type"
 //
 typedef dirent = dirent_t0ype
 //

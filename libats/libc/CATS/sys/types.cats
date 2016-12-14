@@ -35,8 +35,10 @@
 
 /* ****** ****** */
 
-#ifndef ATSLIB_LIBATS_LIBC_CATS_SYS_TYPES
-#define ATSLIB_LIBATS_LIBC_CATS_SYS_TYPES
+#ifndef \
+ATSLIB_LIBATS_LIBC_CATS_SYS_TYPES
+#define \
+ATSLIB_LIBATS_LIBC_CATS_SYS_TYPES
 
 /* ****** ****** */
 
@@ -44,15 +46,15 @@
 
 /* ****** ****** */
 
-typedef mode_t atslib_libc_mode_type ;
+typedef mode_t atslib_libats_libc_mode_type ;
 
 /* ****** ****** */
 //
 // HX-2013-8:
-// [atslib_libc_time_type] is already
+// [atslib_libats_libc_time_type] is already
 // defined in [libats/libc/CATS/time.cats]
 //
-typedef time_t atslib_libc_types_time_type ;
+typedef time_t atslib_libats_libc_types_time_type ;
 //
 /* ****** ****** */
 
@@ -61,95 +63,99 @@ typedef time_t atslib_libc_types_time_type ;
 // HX-2013-05: where are they?
 // HX-2013-06: they are declared in [time.h]
 //
-typedef clock_t atslib_libc_clock_type ;
-typedef clockid_t atslib_libc_clockid_type ;
+typedef clock_t atslib_libats_libc_clock_type ;
+typedef clockid_t atslib_libats_libc_clockid_type ;
 #endif
 
 /* ****** ****** */
 
-typedef ino_t atslib_libc_ino_type ;
-typedef off_t atslib_libc_off_type ;
+typedef ino_t atslib_libats_libc_ino_type ;
+typedef off_t atslib_libats_libc_off_type ;
 
 /* ****** ****** */
 
-typedef pid_t atslib_libc_pid_type ;
-typedef uid_t atslib_libc_uid_type ;
-typedef gid_t atslib_libc_gid_type ;
+typedef pid_t atslib_libats_libc_pid_type ;
+typedef uid_t atslib_libats_libc_uid_type ;
+typedef gid_t atslib_libats_libc_gid_type ;
 
 /* ****** ****** */
 
 ATSinline()
-atslib_libc_mode_type
-atslib_libc_lor_mode_mode
+atslib_libats_libc_mode_type
+atslib_libats_libc_lor_mode_mode
 (
-  atslib_libc_mode_type m1
-, atslib_libc_mode_type m2
+  atslib_libats_libc_mode_type m1
+, atslib_libats_libc_mode_type m2
 ) {
   return (m1 | m2) ;
-} // end of [atslib_libc_lor_mode_mode]
+} // end of [atslib_libats_libc_lor_mode_mode]
 
 ATSinline()
-atslib_libc_mode_type
-atslib_libc_land_mode_mode
+atslib_libats_libc_mode_type
+atslib_libats_libc_land_mode_mode
 (
-  atslib_libc_mode_type m1
-, atslib_libc_mode_type m2
+  atslib_libats_libc_mode_type m1
+, atslib_libats_libc_mode_type m2
 ) {
   return (m1 & m2) ;
-} // end of [atslib_libc_land_mode_mode]
+} // end of [atslib_libats_libc_land_mode_mode]
 
 /* ****** ****** */
 
 ATSinline()
 atstype_bool
-atslib_libc_lt_time_time
+atslib_libats_libc_lt_time_time
 (
-  atslib_libc_types_time_type t1
-, atslib_libc_types_time_type t2
+  atslib_libats_libc_types_time_type t1
+, atslib_libats_libc_types_time_type t2
 )
 {
-  return (t1 < t2 ? atsbool_true : atsbool_false) ;
-} // end of [atslib_libc_lt_time_time]
+  return \
+  (t1 < t2 ? atsbool_true : atsbool_false) ;
+} // end of [atslib_libats_libc_lt_time_time]
 ATSinline()
 atstype_bool
-atslib_libc_lte_time_time
+atslib_libats_libc_lte_time_time
 (
-  atslib_libc_types_time_type t1
-, atslib_libc_types_time_type t2
+  atslib_libats_libc_types_time_type t1
+, atslib_libats_libc_types_time_type t2
 )
 {
-  return (t1 <= t2 ? atsbool_true : atsbool_false) ;
-} // end of [atslib_libc_lte_time_time]
+  return \
+  (t1 <= t2 ? atsbool_true : atsbool_false) ;
+} // end of [atslib_libats_libc_lte_time_time]
 
 /* ****** ****** */
 
 #define \
-atslib_libc_gt_time_time(t1, t2) atslib_libc_lt_time_time(t2, t1)
+atslib_libats_libc_gt_time_time(t1, t2) \
+  atslib_libats_libc_lt_time_time(t2, t1)
 #define \
-atslib_libc_gte_time_time(t1, t2) atslib_libc_lte_time_time(t2, t1)
+atslib_libats_libc_gte_time_time(t1, t2) \
+  atslib_libats_libc_lte_time_time(t2, t1)
 
 /* ****** ****** */
 
 ATSinline()
 atstype_bool
-atslib_libc_eq_time_time
+atslib_libats_libc_eq_time_time
 (
-  atslib_libc_types_time_type t1
-, atslib_libc_types_time_type t2
+  atslib_libats_libc_types_time_type t1
+, atslib_libats_libc_types_time_type t2
 )
 {
   return (t1 == t2 ? atsbool_true : atsbool_false) ;
-} // end of [atslib_libc_eq_time_time]
+} // end of [atslib_libats_libc_eq_time_time]
 ATSinline()
 atstype_bool
-atslib_libc_neq_time_time
+atslib_libats_libc_neq_time_time
 (
-  atslib_libc_types_time_type t1
-, atslib_libc_types_time_type t2
+  atslib_libats_libc_types_time_type t1
+, atslib_libats_libc_types_time_type t2
 )
 {
   return (t1 != t2 ? atsbool_true : atsbool_false) ;
-} // end of [atslib_libc_neq_time_time]
+} // end of [atslib_libats_libc_neq_time_time]
 
 /* ****** ****** */
 

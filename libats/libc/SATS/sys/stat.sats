@@ -45,7 +45,8 @@ ATS_PACKNAME "ATSLIB.libats.libc"
 //
 // HX: prefix for external names
 //
-#define ATS_EXTERN_PREFIX "atslib_libc_"
+#define
+ATS_EXTERN_PREFIX "atslib_libats_libc_"
 //
 (* ****** ****** *)
 
@@ -85,7 +86,8 @@ vtypedef Fildes0 = $TYPES.Fildes0
 //
 typedef
 stat_struct =
-$extype_struct"atslib_libc_stat_struct" of
+$extype_struct
+"atslib_libats_libc_stat_struct" of
 {
   st_dev= dev_t // device
 , st_ino= ino_t // 32-bit file serial number

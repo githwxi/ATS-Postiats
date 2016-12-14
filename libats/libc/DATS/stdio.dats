@@ -36,9 +36,10 @@
 #define
 ATS_PACKNAME "ATSLIB.libats.libc"
 #define
-ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+ATS_DYNLOADFLAG 0 // no dynloading at run-time
 #define
-ATS_EXTERN_PREFIX "atslib_libc_" // prefix for external names
+ATS_EXTERN_PREFIX
+"atslib_libats_libc_" // prefix for external names
 //
 (* ****** ****** *)
 
@@ -55,7 +56,7 @@ staload "libats/libc/SATS/stdio.sats"
 %{$
 extern
 atstype_ptr
-atslib_libc_fopen_exn
+atslib_libats_libc_fopen_exn
 (
   atstype_string path
 , atstype_string mode
@@ -64,7 +65,7 @@ atslib_libc_fopen_exn
   filp = fopen ((char*)path, (char*)mode) ;
   if (!filp) ATSLIBfailexit("fopen") ; // HX: failure
   return filp ;
-} /* end of [atslib_libc_fopen_exn] */
+} /* end of [atslib_libats_libc_fopen_exn] */
 %}
 
 (* ****** ****** *)
@@ -72,13 +73,13 @@ atslib_libc_fopen_exn
 %{$
 extern
 atsvoid_t0ype
-atslib_libc_fclose_exn
+atslib_libats_libc_fclose_exn
   (atstype_ptr filp) {
   int err ;
   err = fclose ((FILE*)filp) ;
   if (0 > err) ATSLIBfailexit("fclose") ;
   return ;
-} /* end of [atslib_libc_fclose_exn] */
+} /* end of [atslib_libats_libc_fclose_exn] */
 %}
 
 (* ****** ****** *)
@@ -86,14 +87,14 @@ atslib_libc_fclose_exn
 %{$
 extern
 atsvoid_t0ype
-atslib_libc_fflush_exn
+atslib_libats_libc_fflush_exn
 (
   atstype_ptr filp
 ) {
   int err = fflush((FILE*)filp) ;
   if (0 > err) ATSLIBfailexit("fflush") ;
   return ;
-} /* end of [atslib_libc_fflush_exn] */
+} /* end of [atslib_libats_libc_fflush_exn] */
 %}
 
 (* ****** ****** *)
@@ -101,7 +102,7 @@ atslib_libc_fflush_exn
 %{$
 extern
 atsvoid_t0ype
-atslib_libc_fputc_exn
+atslib_libats_libc_fputc_exn
 (
   atstype_int c, atstype_ptr filp
 ) {
@@ -111,7 +112,7 @@ atslib_libc_fputc_exn
     ATSLIBfailexit("fputc") ; // abnormal exit
   } // end of [if]
   return ;  
-} /* end of [atslib_libc_fputc_exn] */
+} /* end of [atslib_libats_libc_fputc_exn] */
 %}
 
 (* ****** ****** *)
@@ -119,7 +120,7 @@ atslib_libc_fputc_exn
 %{$
 extern
 atsvoid_t0ype
-atslib_libc_fgets_exn
+atslib_libats_libc_fgets_exn
 (
   atstype_ptr buf0
 , atstype_int bsz0
@@ -138,7 +139,7 @@ atslib_libc_fgets_exn
     } // end of [if]
   } // end of [if]
   return ;  
-} /* end of [atslib_libc_fgets_exn] */
+} /* end of [atslib_libats_libc_fgets_exn] */
 %}
 
 (* ****** ****** *)
@@ -146,7 +147,7 @@ atslib_libc_fgets_exn
 %{$
 extern
 atstype_ptr
-atslib_libc_fgets_gc
+atslib_libats_libc_fgets_gc
 (
   atstype_int bsz0
 , atstype_ptr filp0
@@ -179,7 +180,7 @@ atslib_libc_fgets_gc
     atspre_mfree_gc(buf2) ;
   } // end of [while]
   return buf ; // HX: deadcode
-} /* end of [atslib_libc_fgets_gc] */
+} /* end of [atslib_libats_libc_fgets_gc] */
 %}
 
 (* ****** ****** *)
@@ -187,7 +188,7 @@ atslib_libc_fgets_gc
 %{$
 extern
 atsvoid_t0ype
-atslib_libc_fputs_exn
+atslib_libats_libc_fputs_exn
 (
   atstype_string str, atstype_ptr filp
 ) {
@@ -197,7 +198,7 @@ atslib_libc_fputs_exn
     ATSLIBfailexit("fputs") ; // abnormal exit
   } // end of [if]
   return ;  
-} /* end of [atslib_libc_fputs_exn] */
+} /* end of [atslib_libats_libc_fputs_exn] */
 %}
 
 (* ****** ****** *)
@@ -205,7 +206,7 @@ atslib_libc_fputs_exn
 %{$
 extern
 atsvoid_t0ype
-atslib_libc_puts_exn
+atslib_libats_libc_puts_exn
 (
   atstype_string str
 ) {
@@ -215,7 +216,7 @@ atslib_libc_puts_exn
     ATSLIBfailexit("puts") ; // abnormal exit
   } // end of [if]
   return ;  
-} /* end of [atslib_libc_puts_exn] */
+} /* end of [atslib_libats_libc_puts_exn] */
 %}
 
 (* ****** ****** *)
@@ -223,7 +224,7 @@ atslib_libc_puts_exn
 %{$
 extern
 atstype_ptr
-atslib_libc_popen_exn
+atslib_libats_libc_popen_exn
 (
   atstype_string cmd
 , atstype_string type
@@ -234,7 +235,7 @@ atslib_libc_popen_exn
     ATSLIBfailexit("popen") ; // abnormal exit
   } // end of [if]
   return filp ;
-} /* end of [atslib_libc_popen_exn] */
+} /* end of [atslib_libats_libc_popen_exn] */
 %}
 
 (* ****** ****** *)
@@ -242,7 +243,7 @@ atslib_libc_popen_exn
 %{$
 extern
 atstype_int
-atslib_libc_pclose_exn
+atslib_libats_libc_pclose_exn
 (
   atstype_ptr filp
 ) {
@@ -252,7 +253,7 @@ atslib_libc_pclose_exn
     ATSLIBfailexit("pclose") ; // abnormal exit
   } // end of [if]
   return res ;
-} /* end of [atslib_libc_pclose_exn] */
+} /* end of [atslib_libats_libc_pclose_exn] */
 %}
 
 (* ****** ****** *)
@@ -260,12 +261,12 @@ atslib_libc_pclose_exn
 %{$
 extern
 atstype_ptr
-atslib_libc_tmpfile_exn(
+atslib_libats_libc_tmpfile_exn(
 ) {
   FILE *filp = tmpfile() ;
   if (!filp) ATSLIBfailexit("tmpfile") ;
   return (filp) ;
-} /* end of [atslib_libc_tmpfile_exn] */
+} /* end of [atslib_libats_libc_tmpfile_exn] */
 %}
 
 (* ****** ****** *)

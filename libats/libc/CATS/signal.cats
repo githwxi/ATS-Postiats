@@ -43,64 +43,67 @@
 #include <signal.h>
 
 /* ****** ****** */
-
+//
 typedef int signum_t ;
-typedef void (*sighandler_t)(signum_t) ;
-
+//
+typedef
+void (*sighandler_t)(signum_t) ;
+//
 /* ****** ****** */
 
 typedef
-struct sigaction atslib_libc_sigaction_struct ;
+struct sigaction
+atslib_libats_libc_sigaction_struct ;
 
 /* ****** ****** */
 
-#define atslib_libc_signal signal
+#define atslib_libats_libc_signal signal
 
 /* ****** ****** */
 
-#define atslib_libc_sigaddset sigaddset
-#define atslib_libc_sigdelset sigdelset
-#define atslib_libc_sigemptyset sigemptyset
-#define atslib_libc_sigfillset sigfillset
+#define atslib_libats_libc_sigaddset sigaddset
+#define atslib_libats_libc_sigdelset sigdelset
+#define atslib_libats_libc_sigemptyset sigemptyset
+#define atslib_libats_libc_sigfillset sigfillset
 
 /* ****** ****** */
 
 #define \
-atslib_libc_sigaction sigaction
+atslib_libats_libc_sigaction sigaction
 #define \
-atslib_libc_sigaction_null(sgn, act) \
-atslib_libc_sigaction(sgn, act, (atslib_libc_sigaction_struct*)0)
+atslib_libats_libc_sigaction_null(sgn, act) \
+atslib_libats_libc_sigaction(sgn, act, (atslib_libats_libc_sigaction_struct*)0)
 
 /* ****** ****** */
 
-#define atslib_libc_kill kill
-#define atslib_libc_killpg killpg
-#define atslib_libc_raise raise
+#define atslib_libats_libc_kill kill
+#define atslib_libats_libc_killpg killpg
+#define atslib_libats_libc_raise raise
 
 /* ****** ****** */
 
-#define atslib_libc_sigset sigset
-#define atslib_libc_sighold sighold
-#define atslib_libc_sigignore sigignore
-#define atslib_libc_sigrelse sigrelse
+#define atslib_libats_libc_sigset sigset
+#define atslib_libats_libc_sighold sighold
+#define atslib_libats_libc_sigignore sigignore
+#define atslib_libats_libc_sigrelse sigrelse
 
 /* ****** ****** */
 
-#define atslib_libc_sigwait sigwait
+#define atslib_libats_libc_sigwait sigwait
 
 /* ****** ****** */
 
-#define atslib_libc_sigpause sigpause
-#define atslib_libc_sigsuspend sigsuspend
+#define atslib_libats_libc_sigpause sigpause
+#define atslib_libats_libc_sigsuspend sigsuspend
 
 /* ****** ****** */
 
-#define atslib_libc_sigpending sigpending
-#define atslib_libc_siginterrupt siginterrupt
+#define atslib_libats_libc_sigpending sigpending
+#define atslib_libats_libc_siginterrupt siginterrupt
 
 /* ****** ****** */
 
-#define atslib_libc_psignal psignal
+#define atslib_libats_libc_psignal psignal
 
 /* ****** ****** */
 
@@ -111,7 +114,7 @@ atslib_libc_sigaction(sgn, act, (atslib_libc_sigaction_struct*)0)
 extern
 char* strsignal (int signum) ;
 */
-#define atslib_libc_strsignal strsignal
+#define atslib_libats_libc_strsignal strsignal
 
 /* ****** ****** */
 

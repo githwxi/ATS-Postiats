@@ -51,40 +51,40 @@ ATSLIB_LIBATS_LIBC_CATS_GDBM_GDBM
 //
 ATSinline()
 gdbm_error
-atslib_libc_gdbm_errno_get
+atslib_libats_libc_gdbm_errno_get
   (/*void*/) { return gdbm_errno ; }
 //
 /* ****** ****** */
 
-#define atslib_libc_gdbm_open gdbm_open
-#define atslib_libc_gdbm_close gdbm_close
+#define atslib_libats_libc_gdbm_open gdbm_open
+#define atslib_libats_libc_gdbm_close gdbm_close
 
-#define atslib_libc_gdbm_store gdbm_store
+#define atslib_libats_libc_gdbm_store gdbm_store
 
-#define atslib_libc_gdbm_fetch gdbm_fetch
-#define atslib_libc_gdbm_exists gdbm_exists
+#define atslib_libats_libc_gdbm_fetch gdbm_fetch
+#define atslib_libats_libc_gdbm_exists gdbm_exists
 
-#define atslib_libc_gdbm_delete gdbm_delete
+#define atslib_libats_libc_gdbm_delete gdbm_delete
 
-#define atslib_libc_gdbm_nextkey gdbm_nextkey
-#define atslib_libc_gdbm_firstkey gdbm_firstkey
+#define atslib_libats_libc_gdbm_nextkey gdbm_nextkey
+#define atslib_libats_libc_gdbm_firstkey gdbm_firstkey
 
-#define atslib_libc_gdbm_sync gdbm_sync
+#define atslib_libats_libc_gdbm_sync gdbm_sync
 
-#define atslib_libc_gdbm_export gdbm_export
-#define atslib_libc_gdbm_import gdbm_import
+#define atslib_libats_libc_gdbm_export gdbm_export
+#define atslib_libats_libc_gdbm_import gdbm_import
 
-#define atslib_libc_gdbm_reorganize gdbm_reorganize
+#define atslib_libats_libc_gdbm_reorganize gdbm_reorganize
 
 /* ****** ****** */
 
 #define \
-atslib_libc_gdbm_strerror(ec) ((char*)gdbm_strerror(ec))
+atslib_libats_libc_gdbm_strerror(ec) ((char*)gdbm_strerror(ec))
 
 /* ****** ****** */
 
-#define atslib_libc_gdbm_setopt gdbm_setopt
-#define atslib_libc_gdbm_getopt gdbm_getopt
+#define atslib_libats_libc_gdbm_setopt gdbm_setopt
+#define atslib_libats_libc_gdbm_getopt gdbm_getopt
 
 /* ****** ****** */
 
@@ -93,7 +93,7 @@ GDBM_GETDBNAME
 //
 ATSinline()
 atstype_string
-atslib_libc_gdbm_getdbname
+atslib_libats_libc_gdbm_getdbname
 (
   atstype_ptr dbf
 ) {
@@ -105,13 +105,13 @@ atslib_libc_gdbm_getdbname
   , GDBM_GETDBNAME, &dbname, sizeof(void*)
   ) ; // gdbm_setopt
   if(err >= 0) return dbname ; else return (char*)0 ;
-} // end of [atslib_libc_gdbm_getdbname]
+} // end of [atslib_libats_libc_gdbm_getdbname]
 //
 #endif // end of [GDBM_GETDBNAME]
 
 /* ****** ****** */
 
-#define atslib_libc_gdbm_fdesc gdbm_fdesc
+#define atslib_libats_libc_gdbm_fdesc gdbm_fdesc
 
 /* ****** ****** */
 

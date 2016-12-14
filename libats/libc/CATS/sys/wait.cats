@@ -35,8 +35,10 @@
 
 /* ****** ****** */
 
-#ifndef ATSLIB_LIBATS_LIBC_CATS_SYS_WAIT
-#define ATSLIB_LIBATS_LIBC_CATS_SYS_WAIT
+#ifndef \
+ATSLIB_LIBATS_LIBC_CATS_SYS_WAIT
+#define \
+ATSLIB_LIBATS_LIBC_CATS_SYS_WAIT
 
 /* ****** ****** */
 //
@@ -44,8 +46,10 @@
 //
 /* ****** ****** */
 //
-#define atslib_libc_wait_void() wait((int*)0)
-#define atslib_libc_wait_status(x) wait((int*)x)
+#define \
+atslib_libats_libc_wait_void() wait((int*)0)
+#define \
+atslib_libats_libc_wait_status(x) wait((int*)x)
 //
 /* ****** ****** */
 

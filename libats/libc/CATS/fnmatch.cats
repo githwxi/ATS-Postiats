@@ -45,9 +45,9 @@
 /* ****** ****** */
 
 #define \
-atslib_libc_fnmatch_null(pat, str) fnmatch((char*)pat, (char*)str, 0)
+atslib_libats_libc_fnmatch_null(pat, str) fnmatch((char*)pat, (char*)str, 0)
 #define \
-atslib_libc_fnmatch_flags(pat, str, flags) fnmatch((char*)pat, (char*)str, flags)
+atslib_libats_libc_fnmatch_flags(pat, str, flags) fnmatch((char*)pat, (char*)str, flags)
 
 /* ****** ****** */
 

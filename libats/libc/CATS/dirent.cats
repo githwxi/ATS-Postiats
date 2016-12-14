@@ -48,66 +48,68 @@
 #include "share/H/pats_atslib.h"
 
 /* ****** ****** */
+//
+typedef DIR atslib_libats_libc_DIR_type ;
+//
+typedef
+struct dirent atslib_libats_libc_dirent_type ;
+//
+/* ****** ****** */
 
-typedef DIR atslib_libc_DIR_type ;
-typedef struct dirent atslib_libc_dirent_type ;
+#define \
+atslib_libats_libc_dirent_get_d_ino(ent) \
+(((atslib_libats_libc_dirent_type*)ent)->d_ino)
+#define \
+atslib_libats_libc_dirent_get_d_name(ent) \
+(((atslib_libats_libc_dirent_type*)ent)->d_name)
 
 /* ****** ****** */
 
 #define \
-atslib_libc_dirent_get_d_ino(ent) \
-(((atslib_libc_dirent_type*)ent)->d_ino)
-#define \
-atslib_libc_dirent_get_d_name(ent) \
-(((atslib_libc_dirent_type*)ent)->d_name)
+atslib_libats_libc_direntp_get_d_name(entp) \
+(((atslib_libats_libc_dirent_type*)entp)->d_name)
 
 /* ****** ****** */
 
 #define \
-atslib_libc_direntp_get_d_name(entp) \
-(((atslib_libc_dirent_type*)entp)->d_name)
+atslib_libats_libc_direntp_free(x) atspre_mfree_gc(x)
+
+/* ****** ****** */
+
+#define atslib_libats_libc_alphasort alphasort
+#define atslib_libats_libc_versionsort versionsort
+
+/* ****** ****** */
+
+#define atslib_libats_libc_opendir opendir
+
+/* ****** ****** */
+
+#define atslib_libats_libc_closedir closedir
 
 /* ****** ****** */
 
 #define \
-atslib_libc_direntp_free(x) atspre_mfree_gc(x)
-
-/* ****** ****** */
-
-#define atslib_libc_alphasort alphasort
-#define atslib_libc_versionsort versionsort
-
-/* ****** ****** */
-
-#define atslib_libc_opendir opendir
-
-/* ****** ****** */
-
-#define atslib_libc_closedir closedir
+atslib_libats_libc_readdir readdir
+#define \
+atslib_libats_libc_readdir_r(dirp, ent, res) \
+  readdir_r((DIR*)dirp, (struct dirent*)ent, (struct dirent**)res)
 
 /* ****** ****** */
 
 #define \
-atslib_libc_readdir readdir
-#define \
-atslib_libc_readdir_r(dirp, ent, res) \
-  readdir_r((DIR*)dirp, (atslib_libc_dirent_type*)ent, (atslib_libc_dirent_type**)res)
+atslib_libats_libc_scandir(dirp, namelst, filter, compar) \
+  scandir((char*)dirp, (struct dirent***)namelst, (void*)filter, (void*)compar)
 
 /* ****** ****** */
 
 #define \
-atslib_libc_scandir(dirp, namelst, filter, compar) \
-  scandir((char*)dirp, (atslib_libc_dirent_type***)namelst, (void*)filter, (void*)compar)
+atslib_libats_libc_rewinddir rewinddir
 
 /* ****** ****** */
 
-#define \
-atslib_libc_rewinddir rewinddir
-
-/* ****** ****** */
-
-#define atslib_libc_seekdir seekdir
-#define atslib_libc_telldir telldir
+#define atslib_libats_libc_seekdir seekdir
+#define atslib_libats_libc_telldir telldir
 
 /* ****** ****** */
 

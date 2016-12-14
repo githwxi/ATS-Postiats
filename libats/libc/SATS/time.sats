@@ -45,7 +45,8 @@ ATS_PACKNAME "ATSLIB.libats.libc"
 //
 // HX: prefix for external names
 //
-#define ATS_EXTERN_PREFIX "atslib_libc_"
+#define
+ATS_EXTERN_PREFIX "atslib_libats_libc_"
 
 (* ****** ****** *)
 
@@ -78,40 +79,41 @@ CLOCK_PROCESS_CPUTIME_ID = $extval (clockid_t, "CLOCK_PROCESS_CPUTIME_ID")
 //
 (* ****** ****** *)
 
-fun difftime
+fun
+difftime
 (
-  finish: time_t, start: time_t
+  t1: time_t
+, t2: time_t
 ) :<> double = "mac#%" // endfun
 
 (* ****** ****** *)
 //
-symintr time
-//
 fun
-time_get ():<> time_t = "mac#%"
+time_get():<!wrt> time_t = "mac#%"
 //
 fun
 time_getset
 (
-  t: &time_t? >> opt (time_t, b)
-) :<> #[b:bool] bool (b) = "mac#%"
+  t0: &time_t? >> opt(time_t, b)
+) :<!wrt> #[b:bool] bool (b) = "mac#%"
 //
+symintr time
 overload time with time_get
 overload time with time_getset
 //
 (* ****** ****** *)
-
+//
 fun ctime // non-reentrant
 (
-  t: &RD(time_t) // read-only
-) :<!ref> [l:agez] vttakeout0 (strptr l) = "mac#%" // endfun
-
+  t0: &RD(time_t) // read-only
+) :<!ref> [l:agez] vttakeout0(strptr(l)) = "mac#%"
+//
 (* ****** ****** *)
 //
 #define CTIME_BUFSZ 26
 //
 dataview
-ctime_v (m:int, addr, addr) =
+ctime_v(m:int, addr, addr) =
   | {l:addr}
     ctime_v_fail (m, l, null) of b0ytes_v (l, m)
   | {l:agz}
@@ -130,7 +132,8 @@ fun{
 
 typedef
 tm_struct =
-$extype_struct"atslib_libc_tm_struct_type" of
+$extype_struct
+"atslib_libats_libc_tm_struct_type" of
 {
   tm_sec= int // natLt(60)
 , tm_min= int // natLt(60)
@@ -244,7 +247,8 @@ fun clock (): clock_t = "mac#%" // -1 for error
 
 typedef
 timespec =
-$extype_struct"atslib_libc_timespec_type" of
+$extype_struct
+"atslib_libats_libc_timespec_type" of
 {
   tv_sec= time_t (*secs*), tv_nsec= lint (*nanosecs*)
 } // end of [extype_struct] // end of [timespec]

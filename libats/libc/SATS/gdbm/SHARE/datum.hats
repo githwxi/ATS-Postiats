@@ -60,7 +60,7 @@ datum_vtype
 l:addr, n:int
 ) = (* datum *)
 $extype_struct
-"atslib_libc_datum_type" of
+"atslib_libats_libc_datum_type" of
 { dptr= dptr(l, n), dsize= int(n) }
 // end of [datum]
 //
@@ -86,7 +86,7 @@ datum_is_valid
 (
 x0: datum(l, n)
 ) : bool (l > null)
-  = "mac#atslib_libc_gdbm_datum_is_valid"
+  = "mac#atslib_libats_libc_gdbm_datum_is_valid"
 // end of [datum_is_valid]
 
 fun
@@ -95,7 +95,7 @@ datum_takeout_ptr
 (
 x0: datum(l, n)
 ) :<> dptr (l, n)
-  = "mac#atslib_libc_gdbm_datum_takeout_ptr"
+  = "mac#atslib_libats_libc_gdbm_datum_takeout_ptr"
 // end of [datum_takeout_ptr]
 
 (* ****** ****** *)
@@ -108,18 +108,18 @@ datum_make0_string
 : [l:agz;n:nat]
 (
   dptrout (l, n) | datum (l, n)
-) = "mac#atslib_libc_gdbm_datum_make0_string"
+) = "mac#atslib_libats_libc_gdbm_datum_make0_string"
 //
 fun
 datum_make1_string
   (string): datum1
-  = "mac#atslib_libc_gdbm_datum_make1_string"
+  = "mac#atslib_libats_libc_gdbm_datum_make1_string"
 //
 (* ****** ****** *)
-
+//
 fun
-datum_free(datum0): void = "mac#atslib_libc_gdbm_datum_free"
-
+datum_free(datum0): void = "mac#atslib_libats_libc_gdbm_datum_free"
+//
 (* ****** ****** *)
 
 (* end of [datum.hats] *)

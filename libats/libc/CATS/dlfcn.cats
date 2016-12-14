@@ -45,26 +45,26 @@
 /* ****** ****** */
 
 #define \
-atslib_libc_dlopen dlopen
+atslib_libats_libc_dlopen dlopen
 
 /* ****** ****** */
 
 #define \
-atslib_libc_dlclose dlclose
+atslib_libats_libc_dlclose dlclose
 
 /* ****** ****** */
 
 #define \
-atslib_libc_dlerror dlerror
+atslib_libats_libc_dlerror dlerror
 
 /* ****** ****** */
 
-#define atslib_libc_dlsym dlsym
+#define atslib_libats_libc_dlsym dlsym
 
 /* ****** ****** */
 
-#define atslib_libc_dladdr dladdr
-#define atslib_libc_dlvsym dlvsym
+#define atslib_libats_libc_dladdr dladdr
+#define atslib_libats_libc_dlvsym dlvsym
 
 /* ****** ****** */
 

@@ -44,9 +44,10 @@
 #define
 ATS_PACKNAME "ATSLIB.libats.libc"
 #define
-ATS_DYNLOADFLAG 0 // no need for staloading at run-time
+ATS_DYNLOADFLAG 0 // no staloading at run-time
 #define
-ATS_EXTERN_PREFIX "atslib_libc_" // prefix for external names
+ATS_EXTERN_PREFIX
+"atslib_libats_libc_" // prefix for external names
 //
 (* ****** ****** *)
 //
@@ -62,7 +63,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 %{$
 ATSextern()
 atstype_int
-atslib_libc_socket_AF_type_exn
+atslib_libats_libc_socket_AF_type_exn
 (
   sa_family_t af, atstype_int tp
 ) {
@@ -71,7 +72,7 @@ atslib_libc_socket_AF_type_exn
   fildes = socket(af, tp, 0);
   if(0 > fildes) ATSLIBfailexit("socket") ; // HX: failure
   return fildes;
-} // end of [atslib_libc_socket_AF_type_exn]
+} // end of [atslib_libats_libc_socket_AF_type_exn]
 %} // end of [%{]
 
 (* ****** ****** *)
@@ -79,7 +80,7 @@ atslib_libc_socket_AF_type_exn
 %{$
 ATSextern()
 atsvoid_t0ype
-atslib_libc_bind_exn
+atslib_libats_libc_bind_exn
 (
   atstype_int fd
 , atstype_ptr addr, socklen_t addrlen
@@ -89,7 +90,7 @@ atslib_libc_bind_exn
   err = bind(fd, addr, addrlen);
   if(0 > err) ATSLIBfailexit("bind") ; // HX: failure
   return;
-} // end of [atslib_libc_bind_exn]
+} // end of [atslib_libats_libc_bind_exn]
 %} // end of [%{]
 
 (* ****** ****** *)
@@ -97,7 +98,7 @@ atslib_libc_bind_exn
 %{$
 ATSextern()
 atsvoid_t0ype
-atslib_libc_listen_exn
+atslib_libats_libc_listen_exn
 (
   atstype_int fd, atstype_int nq
 ) {
@@ -106,7 +107,7 @@ atslib_libc_listen_exn
   err = listen(fd, nq);
   if(0 > err) ATSLIBfailexit("listen") ; // HX: failure
   return;
-} // end of [atslib_libc_listen_exn]
+} // end of [atslib_libats_libc_listen_exn]
 %} // end of [%{]
 
 (* ****** ****** *)
@@ -114,7 +115,7 @@ atslib_libc_listen_exn
 %{$
 ATSextern()
 atsvoid_t0ype
-atslib_libc_connect_exn
+atslib_libats_libc_connect_exn
 (
   atstype_int fd
 , atstype_ptr addr, socklen_t addrlen
@@ -124,7 +125,7 @@ atslib_libc_connect_exn
   err = connect(fd, addr, addrlen);
   if(0 > err) ATSLIBfailexit("connect") ; // HX: failure
   return;
-} // end of [atslib_libc_connect_exn]
+} // end of [atslib_libats_libc_connect_exn]
 %} // end of [%{]
 
 (* ****** ****** *)
@@ -132,7 +133,7 @@ atslib_libc_connect_exn
 %{$
 ATSextern()
 atsvoid_t0ype
-atslib_libc_socket_close_exn
+atslib_libats_libc_socket_close_exn
 (
   atstype_int fd
 ) {
@@ -141,7 +142,7 @@ atslib_libc_socket_close_exn
   err = close(fd);
   if(0 > err) ATSLIBfailexit("socket_close") ; // HX: failure
   return;
-} // end of [atslib_libc_socket_close_exn]
+} // end of [atslib_libats_libc_socket_close_exn]
 %} // end of [%{]
 
 (* ****** ****** *)
@@ -149,7 +150,7 @@ atslib_libc_socket_close_exn
 %{$
 ATSextern()
 atsvoid_t0ype
-atslib_libc_shutdown_exn
+atslib_libats_libc_shutdown_exn
 (
   atstype_int fd, atstype_int how
 ) {
@@ -158,7 +159,7 @@ atslib_libc_shutdown_exn
   err = shutdown(fd, how);
   if(0 > err) ATSLIBfailexit("shutdown") ; // HX: failure
   return;
-} // end of [atslib_libc_shutdown_exn]
+} // end of [atslib_libats_libc_shutdown_exn]
 %} // end of [%{]
 
 (* ****** ****** *)

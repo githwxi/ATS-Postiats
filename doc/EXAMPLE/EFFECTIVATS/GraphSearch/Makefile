@@ -27,7 +27,8 @@ cleanall::
 #
 all:: \
 main.html
-main.html: main.atxt ; $(MYTEXTING) -o $@ -i $<
+main.html: \
+main.atxt ; $(MYTEXTING) -o $@ -i $<
 #
 ######
 #
@@ -36,6 +37,14 @@ QueenPuzzle.dats; \
 $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 #
 regress:: QueenPuzzle; ./$<
+#
+######
+#
+Game-of-24: \
+Game-of-24.dats; \
+$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+#
+regress:: Game-of-24; ./$<
 #
 ######
 #
@@ -69,6 +78,7 @@ cleanall:: clean
 cleanall:: ; $(RMF) main.html
 #
 cleanall:: ; $(RMF) QueenPuzzle
+cleanall:: ; $(RMF) Game-of-24
 cleanall:: ; $(RMF) DoubletsPlay
 #
 ######

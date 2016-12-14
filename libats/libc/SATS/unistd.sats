@@ -45,7 +45,7 @@ ATS_PACKNAME "ATSLIB.libats.libc"
 //
 // HX: prefix for external names
 //
-#define ATS_EXTERN_PREFIX "atslib_libc_"
+#define ATS_EXTERN_PREFIX "atslib_libats_libc_"
 //
 (* ****** ****** *)
 
@@ -140,36 +140,47 @@ execv
 {n:pos}{l:addr}
 (
   pf: !parray_v (string, l, n) | path: NSH(string), argv: ptr l
-) : intLt(0) = "mac#atslib_libc_execv"
+) : intLt(0) = "mac#atslib_libats_libc_execv"
 fun
 execv_unsafe // HX: for failure, ~1 is returned
-  (path: NSH(string), argv: ptr): intLt(0) = "mac#atslib_libc_execv"
+  (path: NSH(string), argv: ptr): intLt(0) = "mac#atslib_libats_libc_execv"
 //
 fun
 execvp
 {n:pos}{l:addr}
 (
   pf: !parray_v (string, l, n) | fname: NSH(string), argv: ptr l
-) : intLt(0) = "mac#atslib_libc_execvp"
+) : intLt(0) = "mac#atslib_libats_libc_execvp"
 fun
 execvp_unsafe // HX: for failure, ~1 is returned
-  (fname: NSH(string), argv: ptr): intLt(0) = "mac#atslib_libc_execvp"
+  (fname: NSH(string), argv: ptr): intLt(0) = "mac#atslib_libats_libc_execvp"
 //
 (* ****** ****** *)
 /*
-int execve(const char *filename, char *const argv[], char *const envp[]);
+//
+// HX: for failure, ~1 is returned
+//
+int
+execve
+(
+  const char *filename
+, char *const argv[], char *const envp[]
+) ;
 */
 fun
 execve
-{n1,n2:pos}{l1,l2:addr}
+{n1,n2:pos}
+{l1,l2:addr}
 (
-  pf1: !parray_v (string, l1, n1)
-, pf2: !parray_v (string, l2, n2)
-| fname: NSH(string), argv: ptr l1, envp: ptr l2
-) : intLt(0) = "mac#atslib_libc_execve"
+  pf1: !parray_v(string, l1, n1)
+, pf2: !parray_v(string, l2, n2)
+| fname: NSH(string), argv: ptr(l1), envp: ptr(l2)
+) : intLt(0) = "mac#atslib_libats_libc_execve"
 fun
-execve_unsafe // HX: for failure, ~1 is returned
-  (fname: NSH(string), argv: ptr, envp: ptr): intLt(0) = "mac#atslib_libc_execve"
+execve_unsafe
+(
+  fname: NSH(string), argv: ptr(*parray*), envp: ptr(*parray*)
+) : intLt(0) = "mac#atslib_libats_libc_execve"
 // end of [execve_unsafe]
 
 (* ****** ****** *)
@@ -189,25 +200,25 @@ encrypt
 fun fork ((*void*)): pid_t = "mac#%"
 
 (* ****** ****** *)
-
+//
 dataview
 getcwd_v
 (
   m:int, l:addr, addr
 ) =
-  | {l>null} {n:nat}
-    getcwd_v_succ (m, l, l) of strbuf_v (l, m, n)
-  | getcwd_v_fail (m, l, null) of b0ytes (m) @ (l)
+  | {l>null}{n:nat}
+    getcwd_v_succ(m, l, l) of strbuf_v(l, m, n)
+  | getcwd_v_fail(m, l, null) of b0ytes(m) @ (l)
 // end of [getcwd_v]
-
+//
 fun getcwd
   {m:nat} {l:addr}
 (
-  pf: !b0ytes (m) @ l >> getcwd_v (m, l, l1) | p: ptr l, m: size_t m
+  pf: !b0ytes(m)@l >> getcwd_v(m, l, l1) | p: ptr(l), m: size_t(m)
 ) : #[l1:addr] ptr (l1) = "mac#%" // end of [getcwd]
-
-fun getcwd_gc (): Strptr0 = "ext#%" // HX: this is a convenient function
-
+//
+fun getcwd_gc (): Strptr0 = "ext#%" // HX: this is a convenient wrapper
+//
 (* ****** ****** *)
 //
 /*
@@ -219,27 +230,27 @@ fun getppid ((*void*)): pid_t = "mac#%"
 //
 (* ****** ****** *)
 
-fun getuid (): uid_t = "mac#%"
-fun setuid (uid: uid_t): int = "mac#%"
-fun geteuid (): uid_t = "mac#%"
-fun seteuid (uid: uid_t): int = "mac#%"
+fun getuid(): uid_t = "mac#%"
+fun setuid(uid: uid_t): int = "mac#%"
+fun geteuid(): uid_t = "mac#%"
+fun seteuid(uid: uid_t): int = "mac#%"
 
 (* ****** ****** *)
 
-fun getgid (): gid_t = "mac#%"
-fun setgid (gid: gid_t): int = "mac#%"
-fun getegid (): gid_t = "mac#%"
-fun setegid (gid: gid_t): int = "mac#%"
+fun getgid(): gid_t = "mac#%"
+fun setgid(gid: gid_t): int = "mac#%"
+fun getegid(): gid_t = "mac#%"
+fun setegid(gid: gid_t): int = "mac#%"
         
 (* ****** ****** *)
 
-fun setreuid (ruid: uid_t, euid: uid_t): int = "mac#%"
-fun setregid (rgid: gid_t, egid: gid_t): int = "mac#%"
+fun setreuid(ruid: uid_t, euid: uid_t): int = "mac#%"
+fun setregid(rgid: gid_t, egid: gid_t): int = "mac#%"
 
 (* ****** ****** *)
 
-fun setresuid (ruid: uid_t, euid: uid_t, suid: uid_t): int = "mac#%"
-fun setresgid (rgid: gid_t, egid: gid_t, sgid: gid_t): int = "mac#%"
+fun setresuid(ruid: uid_t, euid: uid_t, suid: uid_t): int = "mac#%"
+fun setresgid(rgid: gid_t, egid: gid_t, sgid: gid_t): int = "mac#%"
           
 (* ****** ****** *)
 //
@@ -249,12 +260,15 @@ fun setfsuid(fsuid: uid_t): int = "mac#%"
 fun setfsgid(fsgid: gid_t): int = "mac#%"
 //
 (* ****** ****** *)
-
-fun getlogin (): vStrptr0 = "mac#%"
-fun getlogin_r{n:int | n >= 2}
-  (buf: &bytes(n), n: size_t n): int = "mac#%"
-fun getlogin_r_gc (): Strptr0 = "ext#%"
-
+//
+fun getlogin(): vStrptr0 = "mac#%"
+//
+fun getlogin_r
+  {n:int | n >= 2}
+  (buf: &bytes(n), size_t(n)): int = "mac#%"
+//
+fun getlogin_r_gc((*void*)): Strptr0 = "ext#%"
+//
 (* ****** ****** *)
 //
 // HX: [pause] can only returns -1
@@ -309,13 +323,12 @@ alarm_cancel{i:int}
 //
 // HX: [sleep] may be implemented using SIGARM
 //
-symintr sleep
-//
 fun sleep_int
   {i:nat} (t: int i): [j:nat | j <= i] int j = "mac#%"
 fun sleep_uint
   {i:int} (t: uint i): [j:nat | j <= i] uint j = "mac#%"
 //
+symintr sleep
 overload sleep with sleep_int
 overload sleep with sleep_uint
 //
@@ -323,13 +336,12 @@ overload sleep with sleep_uint
 //
 // HX: some systems require that the argument <= 1 million
 //
-symintr usleep
-//
 fun usleep_int // succ/fail: 0/~1
   {i:nat | i <= 1000000} (n: int i): intLte(0) = "mac#%"
 fun usleep_uint // succ/fail: 0/~1
   {i:int | i <= 1000000} (n: uint i): intLte(0) = "mac#%"
 //
+symintr usleep
 overload usleep with usleep_int
 overload usleep with usleep_uint
 //

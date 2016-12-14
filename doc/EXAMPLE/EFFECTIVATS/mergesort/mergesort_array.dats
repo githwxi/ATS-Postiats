@@ -73,7 +73,9 @@ myseq_merge
 extern
 fun
 memcpy :
-  (ptr, ptr, size_t) -> ptr = "mac#atslib_libc_memcpy"
+(
+ptr, ptr, size_t
+) -> ptr = "mac#atslib_libats_libc_memcpy"
 //
 fun
 loop{n1,n2:nat}

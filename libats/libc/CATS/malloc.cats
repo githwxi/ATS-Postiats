@@ -44,12 +44,12 @@
 
 /* ****** ****** */
 
-#define atslib_libc_mallopt mallopt
-#define atslib_libc_malloc_trim malloc_trim
-#define atslib_libc_malloc_usable_size malloc_usable_size
-#define atslib_libc_malloc_stats malloc_stats
-#define atslib_libc_malloc_get_state malloc_get_state
-#define atslib_libc_malloc_set_state malloc_set_state
+#define atslib_libats_libc_mallopt mallopt
+#define atslib_libats_libc_malloc_trim malloc_trim
+#define atslib_libats_libc_malloc_usable_size malloc_usable_size
+#define atslib_libats_libc_malloc_stats malloc_stats
+#define atslib_libats_libc_malloc_get_state malloc_get_state
+#define atslib_libats_libc_malloc_set_state malloc_set_state
 
 /* ****** ****** */
 

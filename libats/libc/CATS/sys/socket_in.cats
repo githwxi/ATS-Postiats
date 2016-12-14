@@ -35,8 +35,10 @@
 
 /* ****** ****** */
 
-#ifndef ATSLIB_LIBATS_LIBC_CATS_SYS_SOCKET_IN
-#define ATSLIB_LIBATS_LIBC_CATS_SYS_SOCKET_IN
+#ifndef \
+ATSLIB_LIBATS_LIBC_CATS_SYS_SOCKET_IN
+#define \
+ATSLIB_LIBATS_LIBC_CATS_SYS_SOCKET_IN
 
 /* ****** ****** */
 //
@@ -47,14 +49,15 @@
 //
 #ifdef memset
 #else
-extern void *memset (void *p, int c, size_t n) ;
+extern
+void *memset (void *p, int c, size_t n) ;
 #endif // ifdef(memset)
 //
 /* ****** ****** */
 
 ATSinline()
 atsvoid_t0ype
-atslib_libc_sockaddr_in_init
+atslib_libats_libc_sockaddr_in_init
 (
   atstype_ptr sa
 , sa_family_t af, in_addr_t inp, in_port_t port
@@ -64,7 +67,7 @@ atslib_libc_sockaddr_in_init
   sa2->sin_family = af ;
   sa2->sin_addr.s_addr = inp ;
   sa2->sin_port = port ;
-} // end of [atslib_libc_sockaddr_in_init]
+} // end of [atslib_libats_libc_sockaddr_in_init]
 
 /* ****** ****** */
 

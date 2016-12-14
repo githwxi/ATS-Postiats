@@ -45,36 +45,36 @@
 
 /* ****** ****** */
 
-#define atslib_libc_fildes_get_int(fd) (fd)
+#define atslib_libats_libc_fildes_get_int(fd) (fd)
 
 /* ****** ****** */
 
 ATSinline()
 atstype_bool
-atslib_libc_fildes_isgtez
+atslib_libats_libc_fildes_isgtez
   (atstype_int fd)
 {
   return (fd >= 0 ? atsbool_true : atsbool_false) ;
-} // end of [atslib_libc_fildes_isgtez]
+} // end of [atslib_libats_libc_fildes_isgtez]
 
 /* ****** ****** */
 
 #define \
-atslib_libc_fcntlflags_lor(x1, x2) ((x1)|(x2))
+atslib_libats_libc_fcntlflags_lor(x1, x2) ((x1)|(x2))
 
 /* ****** ****** */
 
 #define \
-atslib_libc_fcntl_getfl(fd) fcntl(fd, F_GETFL)
+atslib_libats_libc_fcntl_getfl(fd) fcntl(fd, F_GETFL)
 #define \
-atslib_libc_fcntl_setfl(fd, flags) fcntl(fd, F_SETFL, flags)
+atslib_libats_libc_fcntl_setfl(fd, flags) fcntl(fd, F_SETFL, flags)
 
 /* ****** ****** */
 
 #define \
-atslib_libc_open_flags(path, flags) open((char*)path, flags)
+atslib_libats_libc_open_flags(path, flags) open((char*)path, flags)
 #define \
-atslib_libc_open_flags_mode(path, flags, mode) open((char*)path, flags, mode)
+atslib_libats_libc_open_flags_mode(path, flags, mode) open((char*)path, flags, mode)
 
 /* ****** ****** */
 

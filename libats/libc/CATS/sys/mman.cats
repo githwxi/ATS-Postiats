@@ -47,8 +47,8 @@
 //
 /* ****** ****** */
 
-#define atslib_libc_shm_open shm_open
-#define atslib_libc_shm_unlink shm_unlink
+#define atslib_libats_libc_shm_open shm_open
+#define atslib_libats_libc_shm_unlink shm_unlink
 
 /* ****** ****** */
 

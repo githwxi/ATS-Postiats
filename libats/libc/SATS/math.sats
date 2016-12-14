@@ -41,8 +41,11 @@
 //
 #define
 ATS_PACKNAME "ATSLIB.libats.libc"
+//
+// HX: prefix for external names
+//
 #define
-ATS_EXTERN_PREFIX "atslib_libc_" // prefix for external names
+ATS_EXTERN_PREFIX "atslib_libats_libc_"
 //
 (* ****** ****** *)
 

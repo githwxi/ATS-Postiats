@@ -43,57 +43,58 @@ ATSLIB_LIBATS_LIBC_CATS_GDBM_DATUM
 "libats/libc/CATS/string.cats"
 //
 /* ****** ****** */
-
-typedef datum atslib_libc_datum_type ;
-
+//
+typedef
+datum atslib_libats_libc_datum_type ;
+//
 /* ****** ****** */
 
 ATSinline()
 atstype_bool
-atslib_libc_gdbm_datum_is_valid
+atslib_libats_libc_gdbm_datum_is_valid
   (datum x) { return (x.dptr != 0) ; }
-// end of [atslib_libc_gdbm_datum_is_valid]
+// end of [atslib_libats_libc_gdbm_datum_is_valid]
 
 ATSinline()
 atstype_ptr
-atslib_libc_gdbm_datum_takeout_ptr
+atslib_libats_libc_gdbm_datum_takeout_ptr
   (datum x) { return x.dptr ; }
-// end of [atslib_libc_gdbm_datum_takeout_ptr]
+// end of [atslib_libats_libc_gdbm_datum_takeout_ptr]
 
 /* ****** ****** */
 
 ATSinline()
 datum
-atslib_libc_gdbm_datum_make0_string
+atslib_libats_libc_gdbm_datum_make0_string
 (
   char *str
 ) {
   datum res ;
   res.dptr = str ;
-  res.dsize = (int)(atslib_libc_strlen(str) + 1) ; // HX: account for the trailing null char!
+  res.dsize = (int)(atslib_libats_libc_strlen(str) + 1) ; // HX: account for the trailing null char!
   return res ;
-} // end of [atslib_libc_gdbm_datum_make0_string]
+} // end of [atslib_libats_libc_gdbm_datum_make0_string]
 
 ATSinline()
 datum
-atslib_libc_gdbm_datum_make1_string
+atslib_libats_libc_gdbm_datum_make1_string
 (
   char *str
 ) {
   datum res ;
-  res.dptr = (char*)atslib_libc_strdup_gc(str) ;
-  res.dsize = (int)(atslib_libc_strlen(str) + 1) ; // HX: account for the trailing null char!
+  res.dptr = (char*)atslib_libats_libc_strdup_gc(str) ;
+  res.dsize = (int)(atslib_libats_libc_strlen(str) + 1) ; // HX: account for the trailing null char!
   return res ;
-} // end of [atslib_libc_gdbm_datum_make1_string]
+} // end of [atslib_libats_libc_gdbm_datum_make1_string]
 
 /* ****** ****** */
 
 ATSinline()
 atsvoid_t0ype
-atslib_libc_gdbm_datum_free
+atslib_libats_libc_gdbm_datum_free
   (datum x) {
   if (x.dptr) atspre_mfree_gc(x.dptr) ; return ;
-} // end of [atslib_libc_gdbm_datum_free]
+} // end of [atslib_libats_libc_gdbm_datum_free]
 
 /* ****** ****** */
 

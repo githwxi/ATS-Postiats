@@ -35,8 +35,10 @@
 
 /* ****** ****** */
 
-#ifndef ATSLIB_LIBATS_LIBC_CATS_SYS_SOCKET
-#define ATSLIB_LIBATS_LIBC_CATS_SYS_SOCKET
+#ifndef \
+ATSLIB_LIBATS_LIBC_CATS_SYS_SOCKET
+#define \
+ATSLIB_LIBATS_LIBC_CATS_SYS_SOCKET
 
 /* ****** ****** */
 //
@@ -46,77 +48,83 @@
 /* ****** ****** */
 //
 /*
+//
+// socket address family
+//
 typedef
-unsigned short int sa_family_t; // socket address family
+unsigned short int sa_family_t;
 */
+//
+// socket protocol family
+//
 typedef
-unsigned short int sp_family_t; // socket protocol family
+unsigned short int sp_family_t;
 //
 /* ****** ****** */
 
 #define \
-atslib_libc_socket_AF_type socket_AF_type
+atslib_libats_libc_socket_AF_type socket_AF_type
 #define \
-atslib_libc_socket_PF_type socket_PF_type
+atslib_libats_libc_socket_PF_type socket_PF_type
 
 /* ****** ****** */
 //
 #define \
-atslib_libc_bind_err(fd, sa, len) \
+atslib_libats_libc_bind_err(fd, sa, len) \
   bind(fd, (const struct sockaddr*)sa, len)
 //
 extern
 void
-atslib_libc_bind_exn
+atslib_libats_libc_bind_exn
 (
   int sockfd, atstype_ptr sa, socklen_t salen
-); // end of [atslib_libc_bind_exn]
+); // end of [atslib_libats_libc_bind_exn]
 //
 /* ****** ****** */
 //
 #define \
-atslib_libc_listen_err(fd, qsz) listen(fd, qsz)
+atslib_libats_libc_listen_err(fd, qsz) listen(fd, qsz)
 //
 extern
 void
-atslib_libc_listen_exn (int sockfd, int listenqsz);
+atslib_libats_libc_listen_exn(int sockfd, int listenqsz);
 //
 /* ****** ****** */
 //
 #define \
-atslib_libc_connect_err(fd, sa, len) \
+atslib_libats_libc_connect_err(fd, sa, len) \
   connect(fd, (const struct sockaddr*)sa, len)
 //
 extern
 void
-atslib_libc_connect_exn
+atslib_libats_libc_connect_exn
 (
   int sockfd, atstype_ptr sa, socklen_t salen
-); // end of [atslib_libc_connect_exn]
+); // end of [atslib_libats_libc_connect_exn]
 //
 /* ****** ****** */
 //
 #define \
-atslib_libc_accept_err(fd, sa, len) \
+atslib_libats_libc_accept_err(fd, sa, len) \
   accept(fd, (struct sockaddr*)sa, (socklen_t*)len)
 //
 #define \
-atslib_libc_accept_null_err(fd) atslib_libc_accept_err(fd, 0, 0)
+atslib_libats_libc_accept_null_err(fd) atslib_libats_libc_accept_err(fd, 0, 0)
 //
 /* ****** ****** */
 
-#define atslib_libc_socket_close(fd) close(fd)
+#define atslib_libats_libc_socket_close(fd) close(fd)
 
 /* ****** ****** */
 
-#define atslib_libc_shutdown(fd, how) shutdown(fd, how)
+#define atslib_libats_libc_shutdown(fd, how) shutdown(fd, how)
 
 /* ****** ****** */
 
 #define \
-atslib_libc_socket_read(fd, bufp, bsz) read(fd, (char*)bufp, bsz)
+atslib_libats_libc_socket_read(fd, bufp, bsz) read(fd, (char*)bufp, bsz)
 #define \
-atslib_libc_socket_write(fd, bufp, bsz) write(fd, (const char*)bufp, bsz)
+atslib_libats_libc_socket_write(fd, bufp, bsz) write(fd, (const char*)bufp, bsz)
 
 /* ****** ****** */
 

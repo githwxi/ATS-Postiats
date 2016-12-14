@@ -71,7 +71,7 @@ in
 end // end of [insertion_sort]
 
 (* ****** ****** *)
-/
+//
 staload
 UN =
 "prelude/SATS/unsafe.sats"

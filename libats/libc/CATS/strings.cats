@@ -44,16 +44,16 @@
 
 /* ****** ****** */
 
-#define atslib_libc_index_int index
-#define atslib_libc_index_char(c) index((int)c)
+#define atslib_libats_libc_index_int index
+#define atslib_libats_libc_index_char(c) index((int)c)
 
-#define atslib_libc_rindex_int rindex
-#define atslib_libc_rindex_char(c) rindex((int)c)
+#define atslib_libats_libc_rindex_int rindex
+#define atslib_libats_libc_rindex_char(c) rindex((int)c)
 
 /* ****** ****** */
 
-#define atslib_libc_strcasecmp strcasecmp
-#define atslib_libc_strncasecmp strncasecmp
+#define atslib_libats_libc_strcasecmp strcasecmp
+#define atslib_libats_libc_strncasecmp strncasecmp
 
 /* ****** ****** */
 

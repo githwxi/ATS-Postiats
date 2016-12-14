@@ -40,14 +40,20 @@
 %} // end of [%{^]
 
 (* ****** ****** *)
-
+//
 #define
 ATS_PACKNAME "ATSLIB.libats.libc"
 #define
-ATS_DYNLOADFLAG 0 // no need for staloading at run-time
+ATS_DYNLOADFLAG 0 // no dynloading at run-time
 #define
-ATS_EXTERN_PREFIX "atslib_libc_" // prefix for external names
-
+ATS_EXTERN_PREFIX
+"atslib_libats_libc_" // prefix for external names
+//
+(* ****** ****** *)
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 //
 staload
@@ -55,14 +61,10 @@ staload
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
 %{$
 ATSextern()
 atsvoid_t0ype
-atslib_libc_bind_in_exn
+atslib_libats_libc_bind_in_exn
 (
   atstype_int fd, atstype_ptr addr
 ) {
@@ -74,7 +76,7 @@ atslib_libc_bind_in_exn
   ); // end of [connent]
   if(0 > err) ATSLIBfailexit("bind");
   return;
-} // end of [atslib_libc_bind_in_exn]
+} // end of [atslib_libats_libc_bind_in_exn]
 %} // end of [%{]
 
 (* ****** ****** *)
@@ -82,7 +84,7 @@ atslib_libc_bind_in_exn
 %{$
 ATSextern()
 atsvoid_t0ype
-atslib_libc_connect_in_exn
+atslib_libats_libc_connect_in_exn
 (
   atstype_int fd, atstype_ptr addr
 ) {
@@ -94,7 +96,7 @@ atslib_libc_connect_in_exn
   ); // end of [connent]
   if(0 > err) ATSLIBfailexit("connect");
   return;
-} // end of [atslib_libc_connect_in_exn]
+} // end of [atslib_libats_libc_connect_in_exn]
 %} // end of [%{]
 
 (* ****** ****** *)

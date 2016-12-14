@@ -36,9 +36,10 @@
 #define
 ATS_PACKNAME "ATSLIB.libats.libc"
 #define
-ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+ATS_DYNLOADFLAG 0 // no dynloading at run-time
 #define
-ATS_EXTERN_PREFIX "atslib_libc_" // prefix for external names
+ATS_EXTERN_PREFIX
+"atslib_libats_libc_" // prefix for external names
 //
 (* ****** ****** *)
 //
@@ -112,7 +113,7 @@ prval () = fpf1 (str1)
 %{
 extern
 atstype_ptr
-atslib_libc_opendir_exn
+atslib_libats_libc_opendir_exn
 (
   atstype_string dname
 ) {
@@ -120,7 +121,7 @@ atslib_libc_opendir_exn
   dirp = opendir((char*)dname) ;
   if (!dirp) ATSLIBfailexit("opendir") ;
   return dirp ; // [opendir] succeeded
-} // end of [atslib_libc_opendir_exn]
+} // end of [atslib_libats_libc_opendir_exn]
 %}
 
 (* ****** ****** *)
@@ -128,14 +129,14 @@ atslib_libc_opendir_exn
 %{
 extern
 atsvoid_t0ype
-atslib_libc_closedir_exn
+atslib_libats_libc_closedir_exn
 (
   atstype_ptr dirp
 ) {
   int err = closedir((DIR*)dirp) ;
   if (err < 0) ATSLIBfailexit("closedir") ;
   return ; // [closedir] succeeded
-} // end of [atslib_libc_closedir_exn]
+} // end of [atslib_libats_libc_closedir_exn]
 %}
 
 (* ****** ****** *)
@@ -149,7 +150,7 @@ val ofs = $extfcall
 (
   Size_t
 , "offsetof"
-, $extval (int, "atslib_libc_dirent_type")
+, $extval (int, "atslib_libats_libc_dirent_type")
 , $extval (int, "d_name")
 )
 //

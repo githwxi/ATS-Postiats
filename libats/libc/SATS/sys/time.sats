@@ -45,7 +45,8 @@ ATS_PACKNAME "ATSLIB.libats.libc"
 //
 // HX: prefix for external names
 //
-#define ATS_EXTERN_PREFIX "atslib_libc_"
+#define
+ATS_EXTERN_PREFIX "atslib_libats_libc_"
 //
 (* ****** ****** *)
 //
@@ -63,7 +64,7 @@ suseconds_t = $TYPES.suseconds_t
 typedef
 timeval_struct =
 $extype_struct
-"atslib_libc_timeval_type" of
+"atslib_libats_libc_timeval_type" of
 { // = struct timeval
   tv_sec= time_t // seconds  
 , tv_usec= suseconds_t // microseconds
@@ -85,7 +86,8 @@ fun timerclear (tv: &timeval >> _):<> bool = "mac#%"
 
 typedef
 timezone_struct =
-$extype_struct"atslib_libc_timezone_type" of
+$extype_struct
+"atslib_libats_libc_timezone_type" of
 { // = struct timezone
   tz_minuteswest= int // minutes west of GMT
 , tz_dsttime= int // nonzero if DST is ever in effect
@@ -155,7 +157,7 @@ macdef ITIMER_PROF = $extval (itimerknd, "ITIMER_PROF")
 typedef
 itimerval_struct =
 $extype_struct
-"atslib_libc_itimerval_type" of
+"atslib_libats_libc_itimerval_type" of
 {
   it_interval= timeval, it_value= timeval
 } // end of [itimerval_struct] // end of [typedef]

@@ -45,7 +45,8 @@ ATS_PACKNAME "ATSLIB.libats.libc"
 //
 // HX: prefix for external names
 //
-#define ATS_EXTERN_PREFIX "atslib_libc_"
+#define
+ATS_EXTERN_PREFIX "atslib_libats_libc_"
 //
 (* ****** ****** *)
 //
@@ -92,8 +93,9 @@ stacst socklen_in : int // HX: length of [sockaddr_in]
 (*
 stadef socklen_in = sizeof (sockaddr_in_struct)
 *)
-macdef socklen_in =
-  $extval (socklen_t(socklen_in), "atslib_libc_socklen_in")
+macdef
+socklen_in =
+$extval(socklen_t(socklen_in), "atslib_libats_libc_socklen_in")
 //
 praxi socklen_lte_in (): [socklen_in <= socklen_max] void
 praxi sockaddr_in_trans {l:addr}

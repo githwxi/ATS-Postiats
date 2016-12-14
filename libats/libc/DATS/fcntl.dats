@@ -36,9 +36,10 @@
 #define
 ATS_PACKNAME "ATSLIB.libats.libc"
 #define
-ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+ATS_DYNLOADFLAG 0 // no dynloading at run-time
 #define
-ATS_EXTERN_PREFIX "atslib_libc_" // prefix for external names
+ATS_EXTERN_PREFIX
+"atslib_libats_libc_" // prefix for external names
 //
 (* ****** ****** *)
 
@@ -49,7 +50,7 @@ staload "libats/libc/SATS/fcntl.sats"
 %{$
 extern
 atstype_int
-atslib_libc_fildes_iget_int
+atslib_libats_libc_fildes_iget_int
 (
   atstype_int fd
 ) {
@@ -57,7 +58,7 @@ atslib_libc_fildes_iget_int
   flags = fcntl (fd, F_GETFD) ;
   if (flags < 0) return -1 ; // [fd2] not in use
   return fd ;
-} // end of [atslib_libc_fildes_iget_int]
+} // end of [atslib_libats_libc_fildes_iget_int]
 %}
 
 (* ****** ****** *)
