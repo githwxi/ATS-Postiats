@@ -98,14 +98,17 @@ end // end of [theSearchStore_choose]
 //
 (* ****** ****** *)
 //
-(*
 extern
 fun{}
-GraphSearch_bfs(): void
+GraphSearch_bfs
+  (store: qlistref(node)): void
 implement
 {}(*tmp*)
-GraphSearch_bfs() = GraphSearch<>()
-*)
+GraphSearch_bfs(store) =
+  GraphSearch<>() where
+{
+implement theSearchStore_get<>() = store
+} (* GraphSearch_bfs *)
 //
 (* ****** ****** *)
 

@@ -147,6 +147,10 @@ ATSloop_close(init, fini, cont) \
 #define ATSPMVextval(name) (name)
 //
 /* ****** ****** */
+
+#define ATSPMVtyrep(tyrep) tyrep
+
+/* ****** ****** */
 //
 #define ATSPMVfunlab(flab) (flab)
 //

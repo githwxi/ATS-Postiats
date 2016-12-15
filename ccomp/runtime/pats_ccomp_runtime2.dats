@@ -30,12 +30,14 @@
 #define ATS_DYNLOADFLAG 0 // HX: no dynloading
 
 (* ****** ****** *)
-
+//
 extern
-fun atsruntime_handle_uncaughtexn (exn): void = "ext#"
+fun
+atsruntime_handle_uncaughtexn (exn): void = "ext#"
 extern
-fun atsruntime_handle_uncaughtexn_rest (exn): void = "ext#"
-
+fun
+atsruntime_handle_uncaughtexn_rest (exn): void = "ext#"
+//
 (* ****** ****** *)
 
 implement

@@ -1,5 +1,5 @@
 (*
-For Effective ATS
+For testing GraphSearh_dfs
 *)
 
 (* ****** ****** *)
@@ -201,20 +201,10 @@ GameOf24Play
 //
 #define :: cons0
 //
-val
-theStore =
-slistref_make_nil{node}()
-//
 val nx =
 (
 n1::n2::n3::n4::nil0()
 ).map(TYPE{expr})(lam x => EXPRval(g0i2f(x)))
-//
-val () =
-slistref_insert(theStore, nx)
-//
-implement
-theSearchStore_get<>() = theStore // the punch line!
 //
 val
 nsol = ref<int>(0)
@@ -237,10 +227,18 @@ case+ nx of
 | _(*non-sing*) => ()
 }
 //
+val
+store =
+slistref_make_nil{node}()
+val () =
+slistref_insert(store, nx)
+//
 in
 //
-GraphSearch((*void*));
-if !nsol = 0 then println! ("There is no solution found!")
+GraphSearch_dfs(store);
+if !nsol = 0
+  then println! ("There is no solution found!")
+// end of [if]
 //
 end (* end of [GameOf24Play] *)
 //

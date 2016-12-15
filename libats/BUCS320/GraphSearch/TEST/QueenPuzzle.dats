@@ -1,5 +1,5 @@
 (*
-For Effective ATS
+For testing GraphSearh_dfs
 *)
 
 (* ****** ****** *)
@@ -81,16 +81,15 @@ QueenPuzzle_solve(): void
 //
 implement
 QueenPuzzle_solve() =
-  GraphSearch() where
 {
 val
-theStore =
+store =
 slistref_make_nil{node}()
 //
 val () =
-slistref_insert(theStore, nil0)
+slistref_insert(store, nil0)
 //
-implement theSearchStore_get<>() = theStore // the punch line!
+val () = GraphSearch_dfs(store)
 //
 } (* end of [QueenPuzzle_solve] *)
 //

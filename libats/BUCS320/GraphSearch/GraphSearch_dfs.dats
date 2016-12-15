@@ -98,14 +98,18 @@ end // end of [theSearchStore_choose]
 //
 (* ****** ****** *)
 //
-(*
 extern
 fun{}
-GraphSearch_dfs(): void
+GraphSearch_dfs
+  (store: slistref(node)): void
+//
 implement
 {}(*tmp*)
-GraphSearch_dfs() = GraphSearch<>()
-*)
+GraphSearch_dfs(store) =
+  GraphSearch<>() where
+{
+implement theSearchStore_get<>() = store
+} (* GraphSearch_dfs *)
 //
 (* ****** ****** *)
 

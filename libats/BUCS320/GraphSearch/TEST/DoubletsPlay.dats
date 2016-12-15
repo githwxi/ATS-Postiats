@@ -1,5 +1,5 @@
 (*
-For Effective ATS
+For testing GraphSearh_bfs
 *)
 
 (* ****** ****** *)
@@ -254,15 +254,15 @@ in
   if w = w2 then (res[] := Some(nx); false) else true
 end // end of [process_node]
 //
-val
-theStore = qlistref_make_nil()
-//
-implement
-theSearchStore_get<>() = theStore
-//
 val nx = list0_sing(w1)
-val () = theSearchStore_insert(nx)
-val () = GraphSearch((*void*))
+//
+val
+store =
+qlistref_make_nil()
+val () =
+qlistref_insert(store, nx)
+//
+val () = GraphSearch_bfs(store)
 //
 } (* end of [Doublets_play] *)
 
