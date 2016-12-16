@@ -85,6 +85,9 @@ clean:: ; $(RMF) atslib_prelude_atxt.exe
 cleanall:: ; $(RMF) HTML/atslib_prelude.html
 cleanall:: ; $(RMF) SCRIPT/atslib_prelude.bash
 
+
+######
+
 all_script:: \
 SCRIPT/atslib_libats.bash
 SCRIPT/atslib_libats.bash: atslib_libats_atxt.exe ; ./$< > $@
@@ -124,6 +127,16 @@ atslib_libats_ATS1_atxt.exe: atslib_libats_ATS1_atxt.dats ; $(ATSCC) $(INCLATS) 
 clean:: ; $(RMF) atslib_libats_ATS1_atxt.exe
 cleanall:: ; $(RMF) HTML/atslib_libats_ATS1.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libats_ATS1.bash
+
+all_script:: \
+SCRIPT/atslib_libats_BUCS320.bash
+SCRIPT/atslib_libats_BUCS320.bash: atslib_libats_BUCS320_atxt.exe ; ./$< > $@
+atslib_libats_BUCS320_atxt.dats: ATEXT/atslib_libats_BUCS320.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atslib_libats_BUCS320_atxt.exe: atslib_libats_BUCS320_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atslib_libats_BUCS320_atxt.exe
+cleanall:: ; $(RMF) HTML/atslib_libats_BUCS320.html
+cleanall:: ; $(RMF) SCRIPT/atslib_libats_BUCS320.bash
 
 
 ######
@@ -483,6 +496,8 @@ srcget_atslib:: srcget_atslib_libats_libc
 srcget_atslib_libats_libc:: SCRIPT/atslib_libats_libc.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_ATS1
 srcget_atslib_libats_ATS1:: SCRIPT/atslib_libats_ATS1.bash ; bash $<
+srcget_atslib:: srcget_atslib_libats_BUCS320
+srcget_atslib_libats_BUCS320:: SCRIPT/atslib_libats_BUCS320.bash ; bash $<
 
 ######
 
