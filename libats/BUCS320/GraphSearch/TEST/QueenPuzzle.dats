@@ -43,7 +43,7 @@ nxs
 (* ****** ****** *)
 //
 implement
-node_get_neighbors
+node_get_neighbors<>
   (nx0) = 
 (
 (N).stream_vt_map(TYPE{node})(lam x => cons0(x, nx0))

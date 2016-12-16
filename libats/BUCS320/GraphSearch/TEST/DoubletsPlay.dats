@@ -186,7 +186,7 @@ nxs
 (* ****** ****** *)
 
 implement
-node_get_neighbors
+node_get_neighbors<>
   (nx0) = let
 //
 val-cons0(w, _) = nx0

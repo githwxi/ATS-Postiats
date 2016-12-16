@@ -145,7 +145,7 @@ nxs
 (* ****** ****** *)
 
 implement
-node_get_neighbors
+node_get_neighbors<>
   (nx) = aux1(nx, nil0()) where
 {
 //
@@ -222,8 +222,9 @@ println!("process_node: nx = ", nx)
 val () =
 case+ nx of
 | list0_sing(x) =>
-  if expr_is_24(x) then
-    (!nsol := !nsol+1; fprintln!(stdout_ref, x))
+  if expr_is_24(x)
+    then (!nsol := !nsol+1; println!(x))
+  // end of [if]
 | _(*non-sing*) => ()
 }
 //

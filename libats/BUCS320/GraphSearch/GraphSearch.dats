@@ -32,11 +32,6 @@
 (* Start time: November, 2016 *)
 
 (* ****** ****** *)
-//
-staload
-"libats/ML/SATS/basis.sats"
-//
-(* ****** ****** *)
 
 abstype node = ptr
 absvtype nodelst = ptr
@@ -44,7 +39,7 @@ absvtype nodelst = ptr
 (* ****** ****** *)
 //
 extern
-fun
+fun{}
 node_get_neighbors(nx: node): nodelst
 //
 (* ****** ****** *)
@@ -88,22 +83,23 @@ search
 ): void = let
 //
 val
-opt = theSearchStore_choose()
+opt =
+theSearchStore_choose<>()
 //
 in
 //
 case+ opt of
 | ~None_vt() => ()
 | ~Some_vt(nx) => let
-    val cont = process_node(nx)
+    val cont = process_node<>(nx)
   in
     if cont
       then let
         val nxs =
-          node_get_neighbors(nx)
+          node_get_neighbors<>(nx)
         // end of [val]
       in
-        theSearchStore_insert_lst(nxs); search((*void*))
+        theSearchStore_insert_lst<>(nxs); search((*void*))
       end // end of [then]
     // end of [if]
   end (* end of [Some_vt] *)
