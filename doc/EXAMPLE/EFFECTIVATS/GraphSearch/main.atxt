@@ -47,7 +47,7 @@ abstype node = ptr
 typedef nodelst = list0(node)
 //
 extern
-fun
+fun{}
 node_get_neighbors(nx: node): nodelst
 //
 ')</pre>
@@ -337,6 +337,7 @@ The function
 class="patsyntax">
 ##dats2xhtml('\
 implement
+{}(*tmp*)
 node_get_neighbors
   (nx0) = 
 (

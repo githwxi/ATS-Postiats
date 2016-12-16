@@ -32,7 +32,7 @@ overload
 (* ****** ****** *)
 //
 extern
-fun
+fun{}
 node_get_neighbors(nx: node): nodelst
 //
 (* ****** ****** *)
