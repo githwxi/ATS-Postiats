@@ -64,6 +64,12 @@ upload_main: \
 
 ######
 
+testall:: all
+testall:: regress
+testall:: cleanall
+
+######
+
 RMF=rm -f
 
 ######

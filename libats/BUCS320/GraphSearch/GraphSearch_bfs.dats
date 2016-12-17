@@ -33,7 +33,7 @@
 
 (* ****** ****** *)
 //
-#include "./GraphSearch.dats"
+staload "./GraphSearch.dats"
 //
 (* ****** ****** *)
 //

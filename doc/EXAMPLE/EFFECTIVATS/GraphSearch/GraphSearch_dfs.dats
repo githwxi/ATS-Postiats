@@ -4,7 +4,7 @@ For Effective ATS
 
 (* ****** ****** *)
 //
-staload
+#include
 "./GraphSearch.dats"
 //
 (* ****** ****** *)
