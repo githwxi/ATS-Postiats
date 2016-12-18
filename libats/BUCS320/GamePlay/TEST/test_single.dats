@@ -29,4 +29,4 @@ val () = GamePlay$main_loop(S0)
 
 (* ****** ****** *)
 
-(* end of [test00_single.dats] *)
+(* end of [test_single.dats] *)

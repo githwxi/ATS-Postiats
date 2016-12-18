@@ -26,12 +26,12 @@ cleanall::
 ######
 #
 all:: \
-test00_single
-test00_single: \
-test00_single.dats; \
+test_single
+test_single: \
+test_single.dats; \
 $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 #
-regress:: test00_single; ./$<
+regress:: test_single; ./$<
 #
 ######
 
@@ -52,7 +52,7 @@ clean:: ; $(RMF) *_?ats.c
 #
 cleanall:: clean
 #
-cleanall:: ; $(RMF) test00_single
+cleanall:: ; $(RMF) test_single
 #
 ######
 
