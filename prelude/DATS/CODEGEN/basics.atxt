@@ -189,6 +189,18 @@ gcopy_ref<a> (x) = (x)
 #atscode_separator()
 //
 implement
+(a:t@ype)
+gfree_val<a> (x) = ((*void*))
+//
+(*
+implement
+(a:t@ype)
+gfree_ref<a> (x) = ((*void*))
+*)
+//
+#atscode_separator()
+//
+implement
 gequal_val_val<int> (x, y) = (x = y)
 implement
 gequal_val_val<bool> (x, y) = (x = y)

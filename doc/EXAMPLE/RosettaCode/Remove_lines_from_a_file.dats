@@ -27,13 +27,12 @@ beyond the end of the file.
 *)
 
 (* ****** ****** *)
-
-#include"share/atspre_staload.hats"
-
-(* ****** ****** *)
-
-staload "libats/libc/SATS/stdlib.sats"
-
+//
+#include
+"share/atspre_staload.hats"
+#staload
+"libats/libc/SATS/stdlib.sats"
+//
 (* ****** ****** *)
 //
 extern
