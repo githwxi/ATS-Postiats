@@ -20,6 +20,15 @@ N-stream merge
 *)
 (* ****** ****** *)
 //
+// HX-2016-12-18:
+//
+// This is a memory clean implementation:
+// Every byte of memory allocated during
+// execution of the program is freed before
+// the program exits.
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_define.hats"
 #include
@@ -46,7 +55,14 @@ val lines =
 val
 closing =
 $ldelay
-(fileref_close(inp); stream_vt_nil())
+(
+(
+fileref_close(inp);
+stream_vt_nil((*void*))
+)
+,
+fileref_close(inp)
+)
 //
 in
 //
@@ -184,7 +200,9 @@ compare($UN.castvwtp1{String}(x), $UN.castvwtp1{String}(y))
 ) (* end of [gcompare_ref_ref] *)
 //
 in
+//
 val zs = stream_merge_2<Strptr1>(xs, ys)
+//
 end // end of [local]
 //
 val ((*void*)) =
