@@ -301,14 +301,14 @@ gvhashtbl_push_atkey
 //
 (* ****** ****** *)
 //
-fun
+fun{}
 gvhashtbl_foreach_cloref
 (
   tbl: gvhashtbl
 , fwork: (string, &gvalue >> _) -<cloref1> void
 ) : void // end of [gvhashtbl_foreach_cloref]
 //
-fun
+fun{}
 gvhashtbl_foreach_method
 (
   tbl: gvhashtbl
@@ -319,7 +319,7 @@ gvhashtbl_foreach_method
 //
 (* ****** ****** *)
 //
-fun
+fun{}
 gvhashtbl_listize1(gvhashtbl): list0 @(string, gvalue)
 //
 (* ****** ****** *)

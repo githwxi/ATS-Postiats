@@ -19,10 +19,10 @@ Dining Philosophers
 </h1>
 
 The three most distinguished features of ATS are dependent types,
-linear types, and advanced templates (that support localization). In
-this article, I present an implementation of the famous problem of
-5-Dining-Philosophers by Dijkstra that makes simple but convincing use
-of linear types.
+linear types, and embeddable templates (that can be implemented inside
+the body of a function). In this article, I present an implementation
+of the famous problem of 5-Dining-Philosophers by Dijkstra that makes
+simple but convincing use of linear types.
 
 <h2>
 Description of the Problem 

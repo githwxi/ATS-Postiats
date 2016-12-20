@@ -35,6 +35,9 @@ GamePlay$main_loop
 ) : void // end of [GamePlay$main_loop]
 //
 (* ****** ****** *)
+extern
+fun{}
+GamePlay$show(state): void
 //
 extern
 fun{}
@@ -63,6 +66,19 @@ val () = println!("Game Over!")
 } (* end of [GamePlay$do_over] *)
 //
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+GamePlay$show
+  (_) = () where
+{
+//
+val () =
+prerrln!("GamePlay$input: not-yet-implemented!")
+//
+val () = exit(1){void}
+//
+} (* end of [GamePlay$show] *)
 //
 implement
 {}(*tmp*)
@@ -119,7 +135,11 @@ then
 ) (* end-of-then *)
 else loop(state) where
 {
+//
+  val () = GamePlay$show(state)
+//
   val input = GamePlay$input(state)
+//
   val state = GamePlay$update(input, state)
 } (* end-of-else *)
 //

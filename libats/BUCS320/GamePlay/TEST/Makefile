@@ -34,6 +34,16 @@ $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: test_single; ./$<
 #
 ######
+#
+all:: \
+hangman_single
+hangman_single: \
+hangman_single.dats; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+#
+regress:: hangman_single; ./$<
+#
+######
 
 testall:: all
 testall:: regress
@@ -53,6 +63,7 @@ clean:: ; $(RMF) *_?ats.c
 cleanall:: clean
 #
 cleanall:: ; $(RMF) test_single
+cleanall:: ; $(RMF) hangman_single
 #
 ######
 

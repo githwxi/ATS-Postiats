@@ -416,7 +416,9 @@ val () =
 //
 in
 //
-case+ tbl[k] of
+case+
+tbl[k]
+of // case+
 | GVnil() => GVnil()
 | GVlist(xs) =>
   (
@@ -450,7 +452,9 @@ val () =
 //
 in
 //
-case+ tbl[k] of
+case+
+tbl[k]
+of // case+
 | GVnil() =>
   tbl[k] := GVlist(list0_sing(x))
 | GVlist(xs) =>
@@ -467,18 +471,18 @@ end // end of [gvhashtbl_push_atkey]
 
 (* ****** ****** *)
 //
-implement
+implement{}
 gvhashtbl_foreach_cloref
   (tbl, fwork) =
   hashtbl_foreach_cloref<key,itm>(tbl, fwork)
 //
-implement
+implement{}
 gvhashtbl_foreach_method(tbl) =
-  lam (fwork) => hashtbl_foreach_cloref<key,itm>(tbl, fwork)
+  lam(fwork) => hashtbl_foreach_cloref<key,itm>(tbl, fwork)
 //
 (* ****** ****** *)
 //
-implement
+implement{}
 gvhashtbl_listize1(tbl) = hashtbl_listize1<key,itm>(tbl)
 //
 (* ****** ****** *)
