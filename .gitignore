@@ -93,6 +93,9 @@ utils/atscc/patscc
 # ATSLIB/prelude
 #
 
+prelude/CATS/CODEGEN/*.cats
+prelude/CATS/CODEGEN/*_atxt.txt
+prelude/CATS/CODEGEN/*_atxt.dats
 prelude/SATS/CODEGEN/*.sats
 prelude/SATS/CODEGEN/*_atxt.txt
 prelude/SATS/CODEGEN/*_atxt.dats
@@ -102,83 +105,44 @@ prelude/DATS/CODEGEN/*_atxt.dats
 prelude/DATS/SHARE/CODEGEN/*.dats
 prelude/DATS/SHARE/CODEGEN/*_atxt.txt
 prelude/DATS/SHARE/CODEGEN/*_atxt.dats
-prelude/CATS/CODEGEN/*.cats
-prelude/CATS/CODEGEN/*_atxt.txt
-prelude/CATS/CODEGEN/*_atxt.dats
 
+prelude/SATS/DOCUGEN/HTML
+prelude/SATS/DOCUGEN/DBOOK
+prelude/SATS/DOCUGEN/TRYIT
 prelude/SATS/DOCUGEN/*_atxt.txt
 prelude/SATS/DOCUGEN/*_atxt.dats
 prelude/SATS/DOCUGEN/Makefile
 prelude/SATS/DOCUGEN/Makefile2
-prelude/SATS/DOCUGEN/HTML
-prelude/SATS/DOCUGEN/DBOOK
-prelude/SATS/DOCUGEN/TRYIT
-
-#
-# ATSLIB/libc
-#
-
-libc/SATS/CODEGEN/*.sats
-libc/SATS/CODEGEN/*_atxt.txt
-libc/SATS/CODEGEN/*_atxt.dats
-libc/DATS/CODEGEN/*.dats
-libc/DATS/CODEGEN/*_atxt.txt
-libc/DATS/CODEGEN/*_atxt.dats
-libc/CATS/CODEGEN/*.cats
-libc/CATS/CODEGEN/*_atxt.txt
-libc/CATS/CODEGEN/*_atxt.dats
-
-libc/SATS/DOCUGEN/Makefile
-libc/SATS/DOCUGEN/*_atxt.txt
-libc/SATS/DOCUGEN/*_atxt.dats
-libc/SATS/DOCUGEN/HTML
-libc/SATS/DOCUGEN/TRYIT
-
-libc/sys/SATS/CODEGEN/*.sats
-libc/sys/SATS/CODEGEN/*_atxt.txt
-libc/sys/SATS/CODEGEN/*_atxt.dats
-libc/sys/DATS/CODEGEN/*.dats
-libc/sys/DATS/CODEGEN/*_atxt.txt
-libc/sys/DATS/CODEGEN/*_atxt.dats
-libc/sys/CATS/CODEGEN/*.cats
-libc/sys/CATS/CODEGEN/*_atxt.txt
-libc/sys/CATS/CODEGEN/*_atxt.dats
-
-libc/sys/SATS/DOCUGEN/Makefile
-libc/sys/SATS/DOCUGEN/*_atxt.txt
-libc/sys/SATS/DOCUGEN/*_atxt.dats
-libc/sys/SATS/DOCUGEN/HTML
-libc/sys/SATS/DOCUGEN/TRYIT
 
 #
 # ATSLIB/libats
 #
 
+libats/CATS/CODEGEN/*.cats
+libats/CATS/CODEGEN/*_atxt.txt
+libats/CATS/CODEGEN/*_atxt.dats
 libats/SATS/CODEGEN/*.sats
 libats/SATS/CODEGEN/*_atxt.txt
 libats/SATS/CODEGEN/*_atxt.dats
 libats/DATS/CODEGEN/*.dats
 libats/DATS/CODEGEN/*_atxt.txt
 libats/DATS/CODEGEN/*_atxt.dats
-libats/CATS/CODEGEN/*.cats
-libats/CATS/CODEGEN/*_atxt.txt
-libats/CATS/CODEGEN/*_atxt.dats
 
 libats/SATS/DOCUGEN/Makefile
 libats/SATS/DOCUGEN/*_atxt.txt
 libats/SATS/DOCUGEN/*_atxt.dats
-libats/SATS/DOCUGEN/HTML
-libats/SATS/DOCUGEN/TRYIT
+libats/SATS/DOCUGEN/HTML/*.html
+libats/SATS/DOCUGEN/TRYIT/*.dats
 
+libats/ML/CATS/CODEGEN/*.cats
+libats/ML/CATS/CODEGEN/*_atxt.txt
+libats/ML/CATS/CODEGEN/*_atxt.dats
 libats/ML/SATS/CODEGEN/*.sats
 libats/ML/SATS/CODEGEN/*_atxt.txt
 libats/ML/SATS/CODEGEN/*_atxt.dats
 libats/ML/DATS/CODEGEN/*.dats
 libats/ML/DATS/CODEGEN/*_atxt.txt
 libats/ML/DATS/CODEGEN/*_atxt.dats
-libats/ML/CATS/CODEGEN/*.cats
-libats/ML/CATS/CODEGEN/*_atxt.txt
-libats/ML/CATS/CODEGEN/*_atxt.dats
 
 libats/ML/SATS/DOCUGEN/*_atxt.txt
 libats/ML/SATS/DOCUGEN/*_atxt.dats
@@ -187,6 +151,38 @@ libats/ML/SATS/DOCUGEN/*_atxt.txt
 libats/ML/SATS/DOCUGEN/*_atxt.dats
 libats/ML/SATS/DOCUGEN/HTML
 libats/ML/SATS/DOCUGEN/TRYIT
+
+libats/libc/CATS/CODEGEN/*.cats
+libats/libc/CATS/CODEGEN/*_atxt.txt
+libats/libc/CATS/CODEGEN/*_atxt.dats
+libats/libc/SATS/CODEGEN/*.sats
+libats/libc/SATS/CODEGEN/*_atxt.txt
+libats/libc/SATS/CODEGEN/*_atxt.dats
+libats/libc/DATS/CODEGEN/*.dats
+libats/libc/DATS/CODEGEN/*_atxt.txt
+libats/libc/DATS/CODEGEN/*_atxt.dats
+
+libats/libc/SATS/DOCUGEN/Makefile
+libats/libc/SATS/DOCUGEN/*_atxt.txt
+libats/libc/SATS/DOCUGEN/*_atxt.dats
+libats/libc/SATS/DOCUGEN/HTML/*.html
+libats/libc/SATS/DOCUGEN/TRYIT/*.dats
+
+libats/libc/CATS/sys/CODEGEN/*.cats
+libats/libc/CATS/sys/CODEGEN/*_atxt.txt
+libats/libc/CATS/sys/CODEGEN/*_atxt.dats
+libats/libc/SATS/sys/CODEGEN/*.sats
+libats/libc/SATS/sys/CODEGEN/*_atxt.txt
+libats/libc/SATS/sys/CODEGEN/*_atxt.dats
+libats/libc/DATS/sys/CODEGEN/*.dats
+libats/libc/DATS/sys/CODEGEN/*_atxt.txt
+libats/libc/DATS/sys/CODEGEN/*_atxt.dats
+
+libats/libc/SATS/sys/DOCUGEN/Makefile
+libats/libc/SATS/sys/DOCUGEN/*_atxt.txt
+libats/libc/SATS/sys/DOCUGEN/*_atxt.dats
+libats/libc/SATS/sys/DOCUGEN/HTML/*.html
+libats/libc/SATS/sys/DOCUGEN/TRYIT/*.dats
 
 #
 # ATSLIB/libatslex
@@ -247,16 +243,17 @@ doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/sys/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/arpa/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/netinet/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/gdbm/*.?ats
-doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/gdbm/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/parcomb/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/GraphSearch/*.?ats
 doc/DISTRIB/ATS-Postiats/contrib/*
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/*.?ats
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/Makefile
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/*.?ats
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile
 #
 # ATSHOME/doc/DISTRIB/ATS-Postiats-contrib
 #

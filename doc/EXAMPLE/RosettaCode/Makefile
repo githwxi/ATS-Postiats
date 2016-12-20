@@ -14,6 +14,18 @@ all::
 ######
 #
 all:: \
+Nested_function
+Nested_function: \
+Nested_function.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+#
+regress:: \
+Nested_function; ./$<
+cleanall:: ; $(RMF) Nested_function
+#
+######
+#
+all:: \
 Remove_lines_from_a_file
 Remove_lines_from_a_file: \
 Remove_lines_from_a_file.dats ; \
@@ -32,7 +44,7 @@ Stream_Merge.dats ; \
 $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
 #
 regress:: \
-Stream_Merge; ./$< 1 7
+Stream_Merge; ./$<
 cleanall:: ; $(RMF) Stream_Merge
 #
 ######

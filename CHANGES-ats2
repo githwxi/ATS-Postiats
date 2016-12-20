@@ -27,7 +27,8 @@ Here is a list of major additions and changes since the last release:
 3. ATS2-contrib/ats2cpp is significantly improved and ready for real
    use. For instance, it is used in a project involving OpenCV.
 4. Adding libats/BUCS320/GraphSearch for teaching graph-based search.
-   There is also a version at libatscc/BUCS320/GraphSearch
+5. Adding libatscc/BUCS320/GraphSearch for:
+   atscc2js, atscc2py3, atscc2php, atscc2clj, atscc2scm, and atscc2pl
 
 ######
 
