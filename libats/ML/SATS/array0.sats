@@ -251,6 +251,49 @@ array0_tabulate
 //
 (* ****** ****** *)
 //
+(*
+** HX: raising NotFoundExn if no satisfying element is found
+*)
+fun
+{a:vt0p}
+array0_find_exn
+  (A: array0(a), p: (&a) -<cloref1> bool): size_t
+// end of [array0_find_exn]
+//
+fun
+{a:vt0p}
+array0_find_opt
+  (A: array0(a), p: (&a) -<cloref1> bool): option0(size_t)
+// end of [array0_find_opt]
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+array0_exists
+  (A: array0(a), pred: (&a) -<cloref1> bool): bool
+fun
+{a:vt0p}
+array0_exists_method
+  (A: array0(a))(pred: (&a) -<cloref1> bool): bool
+//
+overload .exists with array0_exists_method
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+array0_forall
+  (A: array0(a), pred: (&a) -<cloref1> bool): bool
+fun
+{a:vt0p}
+array0_forall_method
+  (A: array0(a))(pred: (&a) -<cloref1> bool): bool
+//
+overload .forall with array0_forall_method
+//
+(* ****** ****** *)
+//
 fun
 {a:vt0p}
 array0_foreach
@@ -296,23 +339,6 @@ array0_rforeach_method
 // end of [array0_rforeach]
 //
 overload .rforeach with array0_rforeach_method
-//
-(* ****** ****** *)
-//
-(*
-** HX: raising NotFoundExn if no satisfying element is found
-*)
-fun
-{a:vt0p}
-array0_find_exn
-  (A: array0(a), p: (&a) -<cloref1> bool): size_t
-// end of [array0_find_exn]
-//
-fun
-{a:vt0p}
-array0_find_opt
-  (A: array0(a), p: (&a) -<cloref1> bool): option0(size_t)
-// end of [array0_find_opt]
 //
 (* ****** ****** *)
 //
@@ -372,7 +398,8 @@ overload .foldright with array0_foldright_method
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 streamize_array0_elt(array0(a)):<!wrt> stream_vt(a)
 //
 (* ****** ****** *)

@@ -179,6 +179,13 @@ strnptr_isnot_null
   (x: !strnptr(l, n)):<> bool(l > null)
 //
 #atscode_separator()
+//
+praxi
+strnptr_free_null
+  {l:addr|l <= null}{n:int} (x: strnptr(l, n)):<> void
+// end of [strnptr_free_null]
+//
+#atscode_separator()
 
 %{
 fun

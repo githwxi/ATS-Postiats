@@ -63,6 +63,9 @@ extern
 fun
 state_get_bword(state): array0(bool)
 //
+overload .word with state_get_word
+overload .bword with state_get_bword
+//
 (* ****** ****** *)
 //
 implement
@@ -109,6 +112,26 @@ state_decby_ntime
 //
 (* ****** ****** *)
 //
+extern
+fun
+state_get_inputs(state): Ptr0
+extern
+fun
+state_set_inputs(state, Ptr0): void
+//
+overload .inputs with state_get_inputs
+overload .inputs with state_set_inputs
+//
+implement
+state_get_inputs(state) =
+  $UN.castvwtp0(GVptr_uncons(state["inputs"]))
+//
+implement
+state_set_inputs(state, inputs) =
+  state["inputs"] := GVptr($UN.castvwtp0(inputs))
+//
+(* ****** ****** *)
+//
 #define NTIME 6
 //
 (* ****** ****** *)
@@ -119,12 +142,155 @@ word_choose(): string = "camouflage"
 (* ****** ****** *)
 //
 implement
-{}(*tmp*)
-GamePlay$is_over
-  (state) =
+GamePlay$is_over<>
+  (state) = res where
+{
+//
+var res: bool = false
+//
+val () =
+if state.ntime() <= 0 then res := true
+//
+val () =
+if (state.bword()).forall()(lam b => b) then res := true
+//
+} (* end of [GamePlay$is_over] *)
+//
+(* ****** ****** *)
+//
+implement
+GamePlay$do_over<>
+  (state) = () where
+{
+//
+var res: bool = true
+//
+val () =
+if state.ntime() <= 0 then res := false
+//
+val () =
+  println!("------------------------------------")
+val () =
+if res then
+  println!("You suceeded in solving the puzzle!")
+val () =
+if ~(res) then
+  println!("Sorry, you failed to solve the puzzle!")
+//
+} (* end of [GamePlay$do_over] *)
+//
+(* ****** ****** *)
+
+implement
+GamePlay$show<>
+  (state) = () where
+{
+//
+val word = state.word()
+val bword = state.bword()
+val ntime = state.ntime()
+//
+(*
+val () = println! ("bword = ", bword)
+*)
+//
+val () =
+word.iforeach()
 (
-if state.ntime() > 0 then false else true
-)
+  lam(i, c) => print_char(ifval(bword[i], c, '_'))
+) (* end of [val] *)
+val () = print_newline((*void*))
+//
+val () = println!("The number of chances available: ", ntime)
+//
+} (* end of [GamePlay$show] *)
+
+(* ****** ****** *)
+//
+assume
+input_vtype = Strptr1
+//
+implement
+GamePlay$input<>
+  (state) = let
+//
+val inputs = state.inputs()
+//
+in
+//
+if
+iseqz(inputs)
+then
+(
+string0_copy("")
+) (* end-of-then *)
+else let
+//
+val
+inputs =
+$UN.castvwtp0{stream_vt(Strptr1)}(inputs)
+//
+in
+//
+case+
+!inputs
+of // case+
+| ~stream_vt_nil() =>
+  let
+    val () =
+    state.inputs(the_null_ptr) in string0_copy("")
+  end // end of [stream_vt_nil]
+| ~stream_vt_cons(input, inputs) =>
+  let
+    val () =
+    state.inputs($UN.castvwtp0(inputs)) in (input)
+  end
+end // end of [else]
+//
+end // end of [GamePlay$input]
+//
+(* ****** ****** *)
+
+implement
+GamePlay$update<>
+(
+  input, state
+) = state where
+{
+//
+val cs =
+  $UN.castvwtp1{String}(input)
+//
+val n0 = length(cs)
+val c0 = (if n0 > 0 then cs[0] else '_'): char
+val ((*freed*)) = strptr_free(input)
+//
+val word = state.word()
+val bword = state.bword()
+//
+var guess: int = 0
+val guess = $UN.cast{ref(int)}(addr@guess)
+//
+val ((*void*)) =
+word.iforeach()
+(
+  lam(i, c) =>
+  if (c0 = c)
+    then (!guess := !guess+1; bword[i] := true)
+    else ((*void*))
+  // end of [if]
+) (* end of [val] *)
+//
+val () =
+  if !guess = 0 then state_decby_ntime(state, 1)
+//
+} (* end of [GamePlay$update] *)
+
+(* ****** ****** *)
+//
+#staload "./kbstream.dats"
+//
+staload "libats/libc/SATS/signal.sats"
 //
 (* ****** ****** *)
 
@@ -132,9 +298,26 @@ implement
 main0() = () where
 {
 //
+var sigact: sigaction
+val () =
+ptr_nullize<sigaction>
+  (__assert () | sigact) where
+{
+  extern prfun __assert (): is_nullable(sigaction)
+} (* end of [val] *)
+//
+val mysighandler = lam (sgn: signum_t): void => ()
+val () = sigact.sa_handler := sighandler(mysighandler)
+//
+val () = assertloc (sigaction_null (SIGALRM, sigact) = 0)
+//
 val given = word_choose()
 val state = state_make_word(given)
-val ((*void*)) = state.ntime(NTIME)
+val ((*init*)) = state.ntime(NTIME)
+val ((*init*)) = state.inputs($UN.castvwtp0(kbstream<>(stdin_ref, 60(*secs*))))
+//
+val ((*void*)) =
+println! ("Welcome to the Hangman game!")
 //
 val ((*void*)) = GamePlay$main_loop(state)
 //

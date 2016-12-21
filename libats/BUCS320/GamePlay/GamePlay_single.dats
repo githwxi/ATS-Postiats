@@ -4,11 +4,16 @@
 
 (* ****** ****** *)
 //
-abstype input_type = ptr
-abstype state_type = ptr
+staload UN =
+"prelude/SATS/unsafe.sats"
 //
-typedef input = input_type
+(* ****** ****** *)
+//
+abstype state_type = ptr
 typedef state = state_type
+//
+absvtype input_vtype = ptr
+vtypedef input = input_vtype
 //
 (* ****** ****** *)
 //
@@ -74,7 +79,10 @@ GamePlay$show
 {
 //
 val () =
-prerrln!("GamePlay$input: not-yet-implemented!")
+prerrln!
+(
+"GamePlay$show: not-yet-implemented!"
+)
 //
 val () = exit(1){void}
 //
@@ -87,9 +95,12 @@ GamePlay$input
 {
 //
 val () =
-prerrln!("GamePlay$input: not-yet-implemented!")
+prerrln!
+(
+"GamePlay$input: not-yet-implemented!"
+) (* prerrln! *)
 //
-val res = exit(1){input}
+val res = $UN.castvwtp0{input}(exit(1){ptr})
 //
 } (* end of [GamePlay$input] *)
 //

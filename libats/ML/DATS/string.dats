@@ -509,7 +509,7 @@ loop
 in
 //
 if isneqz(c)
-  then (f(i, c); loop(i, ptr_succ<char>(p0))) else ()
+  then (f(i, c); loop(i+1, ptr_succ<char>(p0))) else ()
 //
 end // end of [loop]
 //
