@@ -380,24 +380,29 @@ in
 end // end of [array0_append]
 
 (* ****** ****** *)
-
+//
 implement
 {a}{b}
 array0_map
-  (A, f) = let
+  (A, fopr) = let
 //
 val p0 = array0_get_ref (A)
 val asz = array0_get_size (A)
 //
-val f = $UN.cast{cfun1(ptr, b)}(f)
+val fopr = $UN.cast{cfun1(ptr, b)}(fopr)
 //
 in
 //
 array0_tabulate<b>
-  (g1ofg0(asz), lam i => f (ptr_add<a> (p0, i)))
+  (g1ofg0(asz), lam i => fopr(ptr_add<a>(p0, i)))
 //
 end // end of [array0_map]
-
+//
+implement
+{a}{b}
+array0_map_method
+  (A0, _(*TYPE*)) = lam(fopr) => array0_map<a>(A0, fopr)
+//
 (* ****** ****** *)
 
 implement

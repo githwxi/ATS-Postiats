@@ -543,16 +543,17 @@ streamize_arrayref_elt
 // overloading for certain symbols
 //
 #atscode_separator()
-
+//
 overload [] with arrayref_get_at_gint of 0
-overload [] with arrayref_get_at_guint of 0
 overload [] with arrayref_set_at_gint of 0
-overload [] with arrayref_set_at_guint of 0
 overload [] with arrszref_get_at_gint of 0
-overload [] with arrszref_get_at_guint of 0
 overload [] with arrszref_set_at_gint of 0
+//
+overload [] with arrayref_get_at_guint of 0
+overload [] with arrayref_set_at_guint of 0
+overload [] with arrszref_get_at_guint of 0
 overload [] with arrszref_set_at_guint of 0
-
+//
 #atscode_separator()
 
 overload .head with arrayref_head
@@ -560,6 +561,7 @@ overload .tail with arrayref_tail
 
 #atscode_separator()
 
+overload size with arrszref_get_size
 overload .size with arrszref_get_size
 
 #atscode_separator()
