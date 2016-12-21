@@ -143,16 +143,16 @@ word_choose(): string = "camouflage"
 //
 implement
 GamePlay$is_over<>
-  (state) = res where
+  (state) = r0 where
 {
 //
-var res: bool = false
+var r0: bool = false
 //
 val () =
-if state.ntime() <= 0 then res := true
+if state.ntime() <= 0 then r0 := true
 //
 val () =
-if (state.bword()).forall()(lam b => b) then res := true
+if (state.bword()).forall()(lam b => b) then r0 := true
 //
 } (* end of [GamePlay$is_over] *)
 //
@@ -163,18 +163,22 @@ GamePlay$do_over<>
   (state) = () where
 {
 //
-var res: bool = true
+var r0: bool = true
 //
 val () =
-if state.ntime() <= 0 then res := false
+if state.ntime() <= 0 then r0 := false
 //
 val () =
-  println!("------------------------------------")
+println!("------------------------------------")
+//
 val () =
-if res then
+if r0 then
+(
+  println!(state.word());
   println!("You suceeded in solving the puzzle!")
+)
 val () =
-if ~(res) then
+if ~(r0) then
   println!("Sorry, you failed to solve the puzzle!")
 //
 } (* end of [GamePlay$do_over] *)
@@ -210,6 +214,8 @@ val () = println!("The number of chances available: ", ntime)
 assume
 input_vtype = Strptr1
 //
+#define NULL the_null_ptr
+//
 implement
 GamePlay$input<>
   (state) = let
@@ -238,13 +244,13 @@ of // case+
 | ~stream_vt_nil() =>
   let
     val () =
-    state.inputs(the_null_ptr) in string0_copy("")
+    state.inputs(NULL) in string0_copy("")
   end // end of [stream_vt_nil]
 | ~stream_vt_cons(input, inputs) =>
   let
     val () =
     state.inputs($UN.castvwtp0(inputs)) in (input)
-  end
+  end // end of [stream_vt_cons]
 end // end of [else]
 //
 end // end of [GamePlay$input]
@@ -298,18 +304,23 @@ implement
 main0() = () where
 {
 //
-var sigact: sigaction
+var
+sigact: sigaction
+//
 val () =
 ptr_nullize<sigaction>
-  (__assert () | sigact) where
+(
+  __assert__() | sigact
+) where
 {
-  extern prfun __assert (): is_nullable(sigaction)
+  extern
+  prfun __assert__(): is_nullable(sigaction)
 } (* end of [val] *)
 //
-val mysighandler = lam (sgn: signum_t): void => ()
-val () = sigact.sa_handler := sighandler(mysighandler)
+val () =
+sigact.sa_handler := sighandler(lam(sig) => ())
 //
-val () = assertloc (sigaction_null (SIGALRM, sigact) = 0)
+val () = assertloc(sigaction_null(SIGALRM, sigact) = 0)
 //
 val given = word_choose()
 val state = state_make_word(given)
