@@ -446,12 +446,14 @@ in
   if idx < asz then idx else $raise NotFoundExn()
 end // end of [array0_find_exn]
 
+(* ****** ****** *)
+
 (*
 /*
 implement
 {a}(*tmp*)
 array0_find_opt (A0, p) =
-  try Some0 (array0_find_exn<a> (A0, p)) with ~NotFoundExn() => None0 ()
+  try Some_vt(array0_find_exn<a> (A0, p)) with ~NotFoundExn() => None_vt()
 // end of [array0_find_opt]
 */
 *)

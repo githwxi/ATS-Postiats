@@ -252,19 +252,23 @@ array0_tabulate
 (* ****** ****** *)
 //
 (*
-** HX: raising NotFoundExn if no satisfying element is found
+** HX:
+** Raising NotFoundExn
+** if no satisfying element is found
 *)
 fun
 {a:vt0p}
 array0_find_exn
-  (A: array0(a), p: (&a) -<cloref1> bool): size_t
-// end of [array0_find_exn]
+(
+  A: array0(a), pred: (&a) -<cloref1> bool
+) : size_t // end of [array0_find_exn]
 //
 fun
 {a:vt0p}
 array0_find_opt
-  (A: array0(a), p: (&a) -<cloref1> bool): option0(size_t)
-// end of [array0_find_opt]
+(
+  A: array0(a), pred: (&a) -<cloref1> bool
+) : Option_vt(size_t) // end-of-function
 //
 (* ****** ****** *)
 //
