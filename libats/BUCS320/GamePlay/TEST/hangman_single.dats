@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** Hangman:
 ** A simple word game
 *)
-
 (* ****** ****** *)
 //
 #include
@@ -114,21 +114,21 @@ state_decby_ntime
 //
 extern
 fun
-state_get_inputs(state): Ptr0
+state_get_inputs(state): ptr
 extern
 fun
-state_set_inputs(state, Ptr0): void
+state_set_inputs(state, inputs: ptr): void
 //
 overload .inputs with state_get_inputs
 overload .inputs with state_set_inputs
 //
 implement
 state_get_inputs(state) =
-  $UN.castvwtp0(GVptr_uncons(state["inputs"]))
+  GVptr_uncons(state["inputs"])
 //
 implement
 state_set_inputs(state, inputs) =
-  state["inputs"] := GVptr($UN.castvwtp0(inputs))
+  state["inputs"] := GVptr(inputs)
 //
 (* ****** ****** *)
 //
