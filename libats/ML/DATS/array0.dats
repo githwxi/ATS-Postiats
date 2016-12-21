@@ -470,14 +470,16 @@ ASZ = arrszref_of_array0(A0)
 //
 var
 asz : size_t
-val A = arrszref_get_refsize(ASZ, asz)
+val A =
+  arrszref_get_refsize(ASZ, asz)
 //
 implement
 array_foreach$cont<a><bool>
   (x, env) = not(env)
 implement
 array_foreach$fwork<a><bool>
-  (x, env) = if pred(x) then env := true else ()
+  (x, env) =
+  if pred(x) then env := true else ()
 //
 in
 //
@@ -501,6 +503,47 @@ array0_exists_method(A0) =
 //
 implement
 {a}(*tmp*)
+array0_iexists
+  (A0, pred) = let
+//
+val
+ASZ = arrszref_of_array0(A0)
+//
+var
+asz : size_t
+val A =
+  arrszref_get_refsize(ASZ, asz)
+//
+implement
+array_iforeach$cont<a><bool>
+  (i, x, env) = not(env)
+implement
+array_iforeach$fwork<a><bool>
+  (i, x, env) =
+  if pred(i, x) then env := true else ()
+//
+in
+//
+env where
+{
+//
+var env:bool = false
+val _(*asz*) =
+  arrayref_iforeach_env<a><bool>(A, asz, env)
+//
+} (* end of [where] *)
+//
+end // end of [array0_iexists]
+//
+implement
+{a}(*tmp*)
+array0_iexists_method(A0) =
+  lam(pred) => array0_iexists<a>(A0, pred)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
 array0_forall
   (A0, pred) = let
 //
@@ -509,13 +552,16 @@ ASZ = arrszref_of_array0(A0)
 //
 var
 asz : size_t
-val A = arrszref_get_refsize(ASZ, asz)
+val A =
+  arrszref_get_refsize(ASZ, asz)
 //
 implement
-array_foreach$cont<a><bool>(x, env) = (env)
+array_foreach$cont<a><bool>
+  (x, env) = (env)
 implement
 array_foreach$fwork<a><bool>
-  (x, env) = if pred(x) then () else env := false
+  (x, env) =
+  if pred(x) then () else env := false
 //
 in
 //
@@ -534,6 +580,47 @@ implement
 {a}(*tmp*)
 array0_forall_method(A0) =
   lam(pred) => array0_forall<a>(A0, pred)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+array0_iforall
+  (A0, pred) = let
+//
+val
+ASZ = arrszref_of_array0(A0)
+//
+var
+asz : size_t
+val A =
+  arrszref_get_refsize(ASZ, asz)
+//
+implement
+array_iforeach$cont<a><bool>
+  (i, x, env) = (env)
+implement
+array_iforeach$fwork<a><bool>
+  (i, x, env) =
+  if pred(i, x) then () else env := false
+//
+in
+//
+env where
+{
+//
+var env:bool = true
+val _(*asz*) =
+  arrayref_iforeach_env<a><bool>(A, asz, env)
+//
+} (* end of [where] *)
+//
+end // end of [array0_iforall]
+//
+implement
+{a}(*tmp*)
+array0_iforall_method(A0) =
+  lam(pred) => array0_iforall<a>(A0, pred)
 //
 (* ****** ****** *)
 

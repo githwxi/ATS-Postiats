@@ -227,13 +227,13 @@ fprint_array$sep (out: FILEref): void
 fun{a:vt0p}
 fprint_arrayref
   {n:int} (
-  out: FILEref, A: arrayref(a, n), n: size_t n
+  out: FILEref, A: arrayref(a, n), n: size_t(n)
 ) : void // end of [fprint_arrayref]
 fun{a:vt0p}
 fprint_arrayref_sep
   {n:int} (
   out: FILEref
-, A: arrayref(a, n), asz: size_t n, sep: NSH(string)
+, A: arrayref(a, n), asz: size_t(n), sep: NSH(string)
 ) : void // end of [fprint_arrayref_sep]
 
 #atscode_separator()
@@ -300,14 +300,14 @@ fun
 {a:vt0p}
 arrayref_iforeach{n:int}
 (
-  A: arrayref(a, n), asz: size_t (n)
+  A: arrayref(a, n), asz: size_t(n)
 ) : sizeLte(n) // end of [arrayref_iforeach]
 fun
 {a:vt0p}
 {env:vt0p}
 arrayref_iforeach_env{n:int}
 (
-  A: arrayref(a, n), asz: size_t (n), env: &(env)>>env
+  A: arrayref(a, n), asz: size_t(n), env: &(env)>>env
 ) : sizeLte(n) // end of [arrayref_iforeach_env]
 
 #atscode_separator()
@@ -385,7 +385,7 @@ overload arrszref with arrszref_make_arrpsz
 fun{}
 arrszref_make_arrayref
   {a:vt0p}{n:int}
-  (A: SHR(arrayref(a, n)), n: size_t n):<!wrt> arrszref(a)
+  (A: SHR(arrayref(a, n)), n: size_t(n)):<!wrt> arrszref(a)
 // end of [arrszref_make_arrayref]
 
 #atscode_separator()
@@ -400,7 +400,7 @@ fun{
 fun{}
 arrszref_get_refsize{a:vt0p}
 (
-  A: arrszref(a), asz: &size_t? >> size_t n
+  A: arrszref(a), asz: &size_t? >> size_t(n)
 ) :<!wrt> #[n:nat] arrayref(a, n) // end-of-fun
 //
 #atscode_separator()

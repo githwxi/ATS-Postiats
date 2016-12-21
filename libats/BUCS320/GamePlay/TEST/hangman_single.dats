@@ -152,7 +152,7 @@ val () =
 if state.ntime() <= 0 then r0 := true
 //
 val () =
-if (state.bword()).forall()(lam b => b) then r0 := true
+if (state.bword()).forall()(lam(b) => b) then r0 := true
 //
 } (* end of [GamePlay$is_over] *)
 //
