@@ -4,7 +4,8 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -18,9 +19,12 @@ staload "libats/ML/SATS/list0.sats"
 staload _ = "libats/ML/DATS/list0.dats"
 
 (* ****** ****** *)
-
+//
 staload "libats/ML/SATS/filebas.sats"
-
+staload _ = "libats/ML/DATS/filebas.dats"
+staload _ = "libats/libc/DATS/dirent.dats"
+staload _ = "libats/ML/DATS/filebas_dirent.dats"
+//
 (* ****** ****** *)
 
 val () =

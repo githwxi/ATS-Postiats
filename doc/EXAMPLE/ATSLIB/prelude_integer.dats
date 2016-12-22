@@ -38,10 +38,12 @@ val () = assertloc (10 mod 4 = 2)
 val () = assertloc ((10 \nmod 5) = 0)
 val () = assertloc ((10 \nmod 7) = 3)
 //
+(*
 macdef ngcd = g1int_ngcd
 val () = assertloc ((0 \ngcd 0) = 0)
 val () = assertloc ((15 \ngcd 27) = 3)
 val () = assertloc ((24 \ngcd 60) = 12)
+*)
 //
 } // end of [val]
 
