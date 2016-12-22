@@ -106,16 +106,17 @@ fprint_option
 in
 //
 case+ opt of
-| Some (x) => {
-    val (
-    ) = fprint_string (out, "Some(")
+| Some x => {
+    val () =
+      fprint_string(out, "Some(")
+    // end of [val]
     val () = fprint_val<a> (out, x)
     val () = fprint_string (out, ")")
   } (* end of [Some] *)
-| None () => fprint_string (out, "None()")
+| None _ => fprint_string(out, "None()")
 //
 end // end of [fprint_option]
-
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

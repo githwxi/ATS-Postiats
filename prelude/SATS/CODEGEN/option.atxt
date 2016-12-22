@@ -154,8 +154,6 @@ prerr_option(opt: Option(INV(a))): void
 fun{a:t0p}
 fprint_option(FILEref, Option(INV(a))): void
 //
-overload fprint with fprint_option
-//
 #atscode_separator()
 //
 // overloading for certain symbols
