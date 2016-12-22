@@ -73,7 +73,7 @@ overload isneqz with string_isnot_empty
 fun{}
 string_is_prefix
 (
-  str1: string, str2: string
+  str1: NSH(string), str2: NSH(string)
 ) :<> bool // string_is_prefix
 //
 (* ****** ****** *)
@@ -84,13 +84,13 @@ string_is_prefix
 fun{}
 string_is_suffix
 (
-  str1: string, str2: string
+  str1: NSH(string), str2: NSH(string)
 ) :<> bool // string_is_suffix
 //
 (* ****** ****** *)
 //
 fun{}
-string_copy(x: NSH(string)):<> string
+string_copy(str: NSH(string)):<> string
 //
 (* ****** ****** *)
 //

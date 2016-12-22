@@ -29,7 +29,8 @@ Here is a list of major additions and changes since the last release:
 4. Adding libats/BUCS320/GraphSearch for teaching graph-based search.
 5. Adding libatscc/BUCS320/GraphSearch for:
    atscc2js, atscc2py3, atscc2php, atscc2clj, atscc2scm, and atscc2pl
-
+6. Re-fixing bug-2016-06-26 // see pats_trans3_util.dats for comment
+  
 ######
 
 0.2.12

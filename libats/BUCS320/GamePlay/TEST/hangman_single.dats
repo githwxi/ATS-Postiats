@@ -16,35 +16,32 @@
 
 (* ****** ****** *)
 //
-#staload"./../GamePlay_single.dats"
+#staload
+"./../GamePlay_single.dats"
 //
 (* ****** ****** *)
 //
-assume
-state_type = gvhashtbl
+assume state_type = gvhashtbl
 //
 (* ****** ****** *)
 //
 extern
 fun
 state_make_word
-  (given: string): state
+(
+  given: string
+) : state // end-of-function
 //
 (* ****** ****** *)
 
 implement
-state_make_word
-(
-  given
-) = state where
+state_make_word(given) = state where
 {
 //
 val
-state =
-gvhashtbl_make_nil(8)
+state = gvhashtbl_make_nil(8)
 //
-val () =
-state["word"] := GVstring(given)
+val () = state["word"] := GVstring(given)
 //
 val () =
 state["bword"] :=
@@ -264,11 +261,16 @@ GamePlay$update<>
 ) = state where
 {
 //
+local
 val cs =
-  $UN.castvwtp1{String}(input)
+$UN.castvwtp1{String}(input)
+in
+val c0 =
+(
+if isneqz(cs) then cs[0] else '_'
+) : char
+end // end of [local]
 //
-val n0 = length(cs)
-val c0 = (if n0 > 0 then cs[0] else '_'): char
 val ((*freed*)) = strptr_free(input)
 //
 val word = state.word()

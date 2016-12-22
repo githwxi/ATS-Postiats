@@ -483,8 +483,10 @@ symintr assert
 //
 symintr encode decode
 //
-symintr g0ofg1 g1ofg0 // casting: dpt <-> ndpt
-symintr ptrcast (* for functions taking the address of a boxed val *)
+symintr uncons unsome
+//
+symintr ptrcast (* taking the address of a boxed val *)
+symintr g0ofg1 g1ofg0 (* casting: indexed <-> un-indexed *)
 //
 symintr copy free length
 //

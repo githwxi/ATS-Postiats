@@ -114,16 +114,18 @@ string_char (str: string):<> char
 #atscode_separator()
 //
 fun{}
-string_nil ((*void*)):<!wrt> strnptr(0)
+string_nil((*void*)):<!wrt> strnptr(0)
 fun{}
-string_sing (chr: charNZ):<!wrt> strnptr(1)
+string_sing(chr: charNZ):<!wrt> strnptr(1)
 //
 #atscode_separator()
 //
-fun{
-} string_is_empty{n:int} (str: string(n)):<> bool(n==0)
-fun{
-} string_isnot_empty{n:int} (str: string(n)):<> bool(n > 0)
+fun{}
+string_is_empty
+  {n:int}(str: string(n)):<> bool(n==0)
+fun{}
+string_isnot_empty
+  {n:int}(str: string(n)):<> bool(n > 0)
 //
 #atscode_separator()
 //
@@ -330,14 +332,18 @@ string_make_substring
 // end of [string_make_substring]
 
 #atscode_separator()
-
-fun print_string (x: string): void = "mac\#%"
-fun prerr_string (x: string): void = "mac\#%"
-fun fprint_string (out: FILEref, x: string): void = "mac\#%"
-
+//
+fun
+print_string(x: string): void = "mac\#%"
+fun
+prerr_string(x: string): void = "mac\#%"
+fun
+fprint_string(out: FILEref, x: string): void = "mac\#%"
+//
 #atscode_separator()
 //
-fun fprint_substring
+fun
+fprint_substring
   {n:int}{st,ln:nat | st+ln <= n}
 (
   out: FILEref, str: string(n), st: size_t(st), ln: size_t(ln)
@@ -578,16 +584,17 @@ fun{}
 streamize_string_char(string): stream_vt(charNZ)
 //
 #atscode_separator()
-
+//
 (*
-** HX: [stropt_none] is just the null pointer
+** HX:
+** [stropt_none] is just the null pointer
 *)
-fun stropt_none (): stropt (~1) = "mac\#%"
-
+fun stropt_none((*void*)): stropt(~1) = "mac\#%"
+//
 #atscode_separator()
 //
 castfn stropt0_some(x: SHR(string)): Stropt1
-castfn stropt1_some{n:int}(x: SHR(string n)): stropt(n)
+castfn stropt1_some{n:int}(x: SHR(string(n))): stropt(n)
 //
 symintr stropt_some
 overload stropt_some with stropt0_some of 0
@@ -611,14 +618,14 @@ fun{}
 stropt_length{n:int}(opt: stropt(n)):<> ssize_t(n)
 //
 #atscode_separator()
-
+//
 fun
 print_stropt(opt: Stropt0): void = "mac\#%"
 fun
 prerr_stropt(opt: Stropt0): void = "mac\#%"
 fun
 fprint_stropt(out: FILEref, opt: Stropt0): void = "mac\#%"
-
+//
 #atscode_separator()
 //
 // overloading for certain symbols
@@ -630,15 +637,22 @@ overload
 overload
 [] with string_get_at_guint of 0
 //
-overload iseqz with string_is_empty
-overload isneqz with string_isnot_empty
-//
-overload .head with string_head
-overload .tail with string_tail
+overload
+iseqz with string_is_empty of 10
+overload
+isneqz with string_isnot_empty of 10
 //
 overload length with string_length
 //
+#atscode_separator()
+//
+overload .head with string_head of 10
+overload .tail with string_tail of 10
+//
+#atscode_separator()
+//
 overload copy with string0_copy of 0
+//
 (*
 //
 // HX: too much of a surprise!
@@ -650,10 +664,14 @@ overload print with print_string of 0
 overload prerr with prerr_string of 0
 overload fprint with fprint_string of 0
 //
+#atscode_separator()
+//
+overload unsome with stropt_unsome
+//
 overload iseqz with stropt_is_none
 overload isneqz with stropt_is_some
 //
-overload length with stropt_length
+overload length with stropt_length of 0
 //
 overload print with print_stropt of 0
 overload prerr with prerr_stropt of 0

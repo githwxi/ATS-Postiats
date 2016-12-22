@@ -148,8 +148,11 @@ option_equal$eqfn(x1: a, x2: a):<> bool
 #atscode_separator()
 //
 fun{a:t0p}
-fprint_option
-  (out: FILEref, opt: Option(INV(a))): void
+print_option(opt: Option(INV(a))): void
+fun{a:t0p}
+prerr_option(opt: Option(INV(a))): void
+fun{a:t0p}
+fprint_option(FILEref, Option(INV(a))): void
 //
 overload fprint with fprint_option
 //
@@ -162,10 +165,16 @@ overload fprint with fprint_option
 overload = with option_equal
 
 #atscode_separator()
-
+//
+overload unsome with option_unsome
+//
 overload iseqz with option_is_none
 overload isneqz with option_is_some
-
+//
+overload print with print_option of 0
+overload prerr with prerr_option of 0
+overload fprint with fprint_option of 0
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

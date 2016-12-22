@@ -79,16 +79,26 @@ case+ opt1 of
 | None () =>
   (
     case+ opt1 of None () => true | Some _ => false
-  )
+  ) (* end of [None] *)
 | Some x1 =>
   (
-    case+ opt2 of None () => false | Some x2 => option_equal$eqfn(x1, x2)
-  )
+    case+ opt2 of
+    | None () => false | Some x2 => option_equal$eqfn(x1, x2)
+  ) (* end of [Some] *)
 //
 ) (* end of [option_equal] *)
 
 #atscode_separator()
-
+//
+implement
+{a}(*tmp*)
+print_option(opt) =
+  fprint_option<a>(stdout_ref, opt)
+implement
+{a}(*tmp*)
+prerr_option(opt) =
+  fprint_option<a>(stderr_ref, opt)
+//
 implement
 {a}(*tmp*)
 fprint_option
