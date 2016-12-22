@@ -74,36 +74,44 @@ case+ opt of
 
 implement
 {a}(*tmp*)
-option0_unsome_exn (opt) =
+option0_unsome_exn
+  (opt) =
 (
+//
 case+ opt of
-| Some0(x) => x | None0() => $raise NotSomeExn()
+| Some0(x) => x | _ => $raise NotSomeExn()
+//
 ) // end of [option0_unsome_exn]
 
 (* ****** ****** *)
-
+//
 implement
 {a}{b}
-option0_map (opt, f) =
+option0_map(opt, fopr) =
 (
 case+ opt of
-| Some0(x) => Some0{b}(f(x)) | None0() => None0()
+| Some0(x) => Some0(fopr(x)) | _ => None0()
 ) (* end of [option0_map] *)
-
+//
+implement
+{a}{b}
+option0_map_method
+  (opt, _(*TYPE*)) = lam(fopr) => option0_map(opt, fopr)
+//
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
 fprint_option0
-  (out, opt) =
-  fprint_option(out, g1ofg0_option(opt))
+  (out, opt) = fprint_option<a>(out, g1ofg0_option(opt))
 // end of [fprint_option0]
 
 (* ****** ****** *)
-
-implement(a)
-fprint_val<option0(a)> = fprint_option0
-
+//
+implement
+(a)(*tmp*)
+fprint_val<option0(a)>(out, x) = fprint_option0<a>(out, x)
+//
 (* ****** ****** *)
 
 (* end of [option0.dats] *)

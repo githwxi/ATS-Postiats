@@ -108,7 +108,18 @@ overload fprint with fprint_option0
 fun{
 a:t0p}{b:t0p
 } option0_map
-  (xs: option0(INV(a)), f: cfun(a, b)): option0(b)
+(
+  opt: option0(INV(a)), fopr: cfun(a, b)
+) : option0(b) // end of [option0_map]
+//
+fun{
+a:t0p}{b:t0p
+} option0_map_method
+(
+  option0(INV(a)), TYPE(b)) (fopr: cfun(a, b)
+) : option0(b) // end of [option0_map_method]
+//
+overload .map with option0_map_method
 //
 (* ****** ****** *)
 
