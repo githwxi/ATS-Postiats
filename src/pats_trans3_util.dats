@@ -379,7 +379,8 @@ local
 fun
 aux .<>. (
   d3e1: d3exp, s2f2: s2hnf
-) : d3exp = let
+) : d3exp = d3e1 where
+{
 //
 val loc = d3e1.d3exp_loc
 val s2e1 = d3e1.d3exp_type
@@ -402,8 +403,12 @@ val err =
   $SOL.s2hnf_tyleq_solve(loc, s2f1, s2f2)
 // end of [val]
 val () =
-if (err != 0) then let
-  val () = prerr_error3_loc (loc)
+if
+(err != 0)
+then let
+  val () =
+    prerr_error3_loc(loc)
+  // end of [val]
   val () = filprerr_ifdebug "d3exp_trdn"
   val () = prerr ": the dynamic expression cannot be assigned the type ["
   val () = prerr_s2exp (s2e2)
@@ -412,16 +417,26 @@ if (err != 0) then let
   val () = prerr_the_staerrlst ()
 //
 in
-  the_trans3errlst_add(T3E_d3exp_trdn (d3e1, s2e2))
+  the_trans3errlst_add(T3E_d3exp_trdn(d3e1, s2e2))
 end // end of [if] // end of [val]
 //
-(*
-val () = d3exp_set_type(d3e1, s2e2)
-*)
+val ((*update*)) =
+(
+case+
+s2e1.s2exp_node
+of // case+
+| S2EVar _ =>
+  d3exp_set_type(d3e1, s2e2)
 //
-in
-  d3e1
-end // end of [_]
+// HX-2016-12-21:
+// Fixing bug-2016-06-26.dats
+//
+| _(*non-S2EVar*) => ((*void*))
+)
+//
+// *)
+//
+} (* end of [aux] *)
 
 in (* in of [local] *)
 

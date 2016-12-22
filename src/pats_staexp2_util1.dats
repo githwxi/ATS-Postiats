@@ -434,14 +434,18 @@ end // end of [s2cst_select_locs2explstlst]
 (* ****** ****** *)
 
 implement
-s2exp_is_nonvar (s2e) = (
-  case+ s2e.s2exp_node of | S2Evar _ => false | _ => true
-) // end of [s2exp_is_nonvar]
+s2exp_is_nonvar(s2e) =
+(
+case+
+s2e.s2exp_node
+of // case+
+| S2Evar _ => false | _(*non-S2Evar*) => true
+) (* end of [s2exp_is_nonvar] *)
 
 (* ****** ****** *)
 
 implement
-s2exp_is_wthtype (s2e) =
+s2exp_is_wthtype(s2e) =
 (
   case+ s2e.s2exp_node of
   | S2Ewthtype _ => true
@@ -450,18 +454,23 @@ s2exp_is_wthtype (s2e) =
 ) (* end of [s2exp_is_wthtype] *)
 
 (* ****** ****** *)
-
+//
 extern
-fun labs2explst_is_without (xs: labs2explst):<> bool
-
+fun
+labs2explst_is_without
+  (xs: labs2explst):<> bool
+//
 implement
-s2exp_is_without (s2e) =
-  case+ s2e.s2exp_node of
-  | S2Ewithout _ => true
-  | S2Etyrec (knd, npf, ls2es) => labs2explst_is_without (ls2es)
-  | _ => false
-// end of [s2exp_is_without]
-
+s2exp_is_without(s2e) =
+(
+case+
+s2e.s2exp_node
+of // case+
+| S2Ewithout _ => true
+| S2Etyrec(knd, npf, ls2es) => labs2explst_is_without (ls2es)
+| _ (*rest-of-s2exp*) => false
+) (* end of [s2exp_is_without] *)
+//
 implement
 labs2explst_is_without
   (xs) = (
@@ -477,15 +486,14 @@ case+ xs of
     // end of [if]
   end // end of [list_cons]
 ) (* end of [labs2explst_is_without] *)
-
+//
 (* ****** ****** *)
-
+//
 extern
 fun
-labs2explst_is_lin2(xs: labs2explst): bool
-
-(* ****** ****** *)
-
+labs2explst_is_lin2
+  (xs: labs2explst): bool
+//
 implement
 s2exp_is_lin2
   (s2e) = let
@@ -510,7 +518,7 @@ of (* case+ *)
 ) else false // end of [if]
 //
 end // end of [s2exp_is_lin2]
-
+//
 implement
 labs2explst_is_lin2
   (xs) = (
@@ -524,7 +532,7 @@ case+ xs of
     if s2exp_is_lin2 (s2e) then true else labs2explst_is_lin2 (xs)
   end // end of [list_cons]
 ) (* end of [labs2explst_is_lin2] *)
-
+//
 (* ****** ****** *)
 
 implement
