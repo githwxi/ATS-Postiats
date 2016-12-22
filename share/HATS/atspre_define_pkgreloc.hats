@@ -109,7 +109,7 @@ GUROBI_targetloc "$PATSHOMERELOC/contrib/gurobi"
 (* ****** ****** *)
 //
 #define
-LIBCATS_targetloc "$PATSHOMERELOC/contrib/libcats"
+LIBATSEXT_targetloc "$PATSHOMERELOC/libatsext"
 //
 (* ****** ****** *)
 //
