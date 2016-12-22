@@ -122,5 +122,23 @@ a:t0p}{b:t0p
 overload .map with option0_map_method
 //
 (* ****** ****** *)
+//
+fun
+{a:t0p}
+option0_filter
+(
+  opt: option0(INV(a)), pred: cfun(a, bool)
+) : option0(a) // end of [option0_map]
+//
+fun
+{a:t0p}
+option0_filter_method
+(
+  opt: option0(INV(a))) (pred: cfun(a, bool)
+) : option0(a) // end of [option0_map_method]
+//
+overload .filter with option0_filter_method
+//
+(* ****** ****** *)
 
 (* end of [option0.sats] *)

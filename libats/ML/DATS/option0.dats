@@ -99,6 +99,22 @@ option0_map_method
   (opt, _(*TYPE*)) = lam(fopr) => option0_map(opt, fopr)
 //
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+option0_filter(opt, pred) =
+(
+case+ opt of
+| None0 _ => None0()
+| Some0 x => if pred(x) then opt else None0()
+) (* end of [option0_map] *)
+//
+implement
+{a}(*tmp*)
+option0_filter_method
+  (opt) = lam(pred) => option0_filter(opt, pred)
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
