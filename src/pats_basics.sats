@@ -214,9 +214,9 @@ filprerr_ifdebug (x) =
 #define
 PATS_MAJOR_VERSION 0
 #define
-PATS_MINOR_VERSION 2
+PATS_MINOR_VERSION 3
 #define
-PATS_MICRO_VERSION 13
+PATS_MICRO_VERSION 0
 //
 // HX-2011-04-27: this is supported in Postiats:
 //
