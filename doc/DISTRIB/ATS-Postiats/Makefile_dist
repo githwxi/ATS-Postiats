@@ -18,8 +18,7 @@ MAKEJ4=make -j4
 #
 all: \
   config.mk \
-  bin2_patsopt \
-  bin_patscc \
+  bin2_patsopt bin_patscc \
   ccomp/atslib/lib/libatslib.a \
 #
 ######
