@@ -5,6 +5,17 @@
 ###### beg of [how-to-release.txt] ######
 
 #
+# step 0:
+#
+
+Please do tagging immediately before or after the release
+of a new ATS2 package
+
+git tag -a <version> -m"Tagging immediately before releasing ..."
+git tag -a <version-aft> -m"Tagging immediately after releasing ..."
+git push --tags
+
+#
 # step 1:
 #
 
