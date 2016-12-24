@@ -42,24 +42,33 @@ end // end of [local]
 
 (* ****** ****** *)
 //
-val thePage2 =
-  webox_make_name ("thePage2")
+val
+thePage2 =
+webox_make_name ("thePage2")
 //
 val () = thePage2.pheight(100)
 //
 (* ****** ****** *)
 //
-val thePage2Left =
-  webox_make_name ("thePage2Left")
-val thePage2Right =
-  webox_make_name ("thePage2Right")
+val
+thePage2Left =
+webox_make_name ("thePage2Left")
+val
+thePage2Right =
+webox_make_name ("thePage2Right")
 //
-val () = thePage2Left.pheight(100)
-val () = thePage2Right.pheight(100)
+val () =
+  thePage2Left.pheight(100)
+val () =
+  thePage2Right.pheight(100)
 //
-val () = thePage2.tabstyle(TShbox)
-val () = thePage2.percentlst ($list(15, 85))
-val () = thePage2.children(thePage2Left, thePage2Right)
+val () =
+  thePage2.tabstyle(TShbox)
+val () =
+  thePage2.pcntlst
+    ($list(PCNThard(15), PCNThard(85)))
+val () =
+  thePage2.children(thePage2Left, thePage2Right)
 //
 (* ****** ****** *)
 //
@@ -76,11 +85,16 @@ val thePage2RFooter =
   webox_make_name ("thePage2RFooter")
 *)
 //
-val () = thePage2RBody.pheight(100)
+val () =
+  thePage2RBody.pheight(100)
 //
-val () = thePage2Right.tabstyle(TSvbox)
-val () = thePage2Right.percentlst ($list(6, 94))
-val () = thePage2Right.children(thePage2RTop, thePage2RBody)
+val () =
+  thePage2Right.tabstyle(TSvbox)
+val () =
+  thePage2Right.pcntlst
+    ($list(PCNThard(6), PCNThard(94)))
+val () =
+  thePage2Right.children(thePage2RTop, thePage2RBody)
 //
 (* ****** ****** *)
 //

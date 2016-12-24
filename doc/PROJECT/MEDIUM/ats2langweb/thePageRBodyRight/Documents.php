@@ -87,8 +87,6 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-<!--
-
 2015-12-13:<br>
 <a
  href=http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/ATS2TUTORIAL-BOOK.html>ATS2TUTORIAL</a>:
@@ -228,8 +226,6 @@ Chapter "Recursion" is added.<br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
-
--->
 
 </div>
 

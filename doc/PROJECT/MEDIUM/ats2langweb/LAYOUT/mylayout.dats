@@ -21,7 +21,8 @@ staload _ = "{$LIBATSHWXI}/weboxy/DATS/weboxy.dats"
 (*
 local
 //
-val () = randcolor_initize ()
+val () =
+randcolor_initize()
 //
 val webox_make_ = webox_make<>
 //
@@ -65,7 +66,8 @@ val () = thePageRight.pheight(100)
 val () =
   thePage.tabstyle(TShbox)
 val () =
-  thePage.percentlst ($list(14, 86))
+  thePage.pcntlst
+    ($list(PCNThard(14), PCNThard(86)))
 val () =
   thePage.children (thePageLeft, thePageRight)
 //
@@ -99,7 +101,8 @@ val () = thePageRBodyRight.pheight(100)
 val () =
   thePageRBody.tabstyle (TShbox)
 val () =
-  thePageRBody.percentlst ($list(68, 32))
+  thePageRBody.pcntlst
+    ($list(PCNThard(68), PCNTsoft(32)))
 val () =
   thePageRBody.children (thePageRBodyLeft, thePageRBodyRight)
 //
@@ -247,8 +250,11 @@ fprint (out, "\
 {\n\
   font-size: 88%;\n\
   background: #d1d360;\n\
+  overflow-y: auto;\n\
   border-top-left-radius:12px;\n\
+/*
   border-bottom-left-radius:12px;\n\
+*/
 }\n\
 ") (* end of [fprint] *)
 //

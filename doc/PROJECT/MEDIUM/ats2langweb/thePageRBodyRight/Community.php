@@ -177,8 +177,6 @@ by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
 <hr></hr>
 
-<!--
-
 2015-09-22:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/vO0h2ezMV3E"
@@ -545,8 +543,6 @@ by <a href="http://masterq.metasepi-design.com">Kiwamu Okabe</a>
 at <a href="http://www.METASEPI.org">METASEPI DESIGN<a>
 
 <hr></hr>
-
--->
 
 </div>
 <?php /* end of [Community.php] */ ?>

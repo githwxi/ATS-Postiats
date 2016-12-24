@@ -754,7 +754,7 @@ Code-folding
 <td style="vertical-align:top;width:85%;">
 <div id="thePage2Right">
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
-<tr height="6%">
+<tr style="height:6%;">
 <td>
 <div id="thePage2RTop">
 <style>
@@ -1332,7 +1332,7 @@ Help_about_onclick()
 </td>
 </tr>
 
-<tr height="94%">
+<tr style="height:94%;">
 <td>
 <div id="thePage2RBody">
 <style>
