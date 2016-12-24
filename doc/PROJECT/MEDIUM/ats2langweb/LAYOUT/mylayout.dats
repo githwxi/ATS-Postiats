@@ -66,8 +66,8 @@ val () = thePageRight.pheight(100)
 val () =
   thePage.tabstyle(TShbox)
 val () =
-  thePage.pcntlst
-    ($list(PCNThard(14), PCNThard(86)))
+  thePage.pcentlst
+    ($list(PChard(14), PChard(86)))
 val () =
   thePage.children (thePageLeft, thePageRight)
 //
@@ -99,12 +99,12 @@ val () = thePageRBodyLeft.pheight(100)
 val () = thePageRBodyRight.pheight(100)
 //
 val () =
-  thePageRBody.tabstyle (TShbox)
+  thePageRBody.tabstyle(TShbox)
 val () =
-  thePageRBody.pcntlst
-    ($list(PCNThard(68), PCNTsoft(32)))
+  thePageRBody.pcentlst
+    ($list(PChard(68), PCsoft(32)))
 val () =
-  thePageRBody.children (thePageRBodyLeft, thePageRBodyRight)
+  thePageRBody.children(thePageRBodyLeft, thePageRBodyRight)
 //
 (* ****** ****** *)
 //

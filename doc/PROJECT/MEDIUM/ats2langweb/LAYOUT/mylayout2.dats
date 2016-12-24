@@ -65,8 +65,8 @@ val () =
 val () =
   thePage2.tabstyle(TShbox)
 val () =
-  thePage2.pcntlst
-    ($list(PCNThard(15), PCNThard(85)))
+  thePage2.pcentlst
+    ($list(PChard(15), PChard(85)))
 val () =
   thePage2.children(thePage2Left, thePage2Right)
 //
@@ -91,8 +91,8 @@ val () =
 val () =
   thePage2Right.tabstyle(TSvbox)
 val () =
-  thePage2Right.pcntlst
-    ($list(PCNThard(6), PCNThard(94)))
+  thePage2Right.pcentlst
+    ($list(PChard(6), PChard(94)))
 val () =
   thePage2Right.children(thePage2RTop, thePage2RBody)
 //

@@ -28,11 +28,16 @@ fun loop
   m: int, n: int, res: &res? >> res
 ) : void =
   if m < n then let
-    val () = res :=
+//
+    val () =
+      res :=
       list_vt_cons{int}{0}(m, _)
+    // end of [val]
+//
     val list_vt_cons (_, res1) = res
+//
     val () = loop (m+1, n, res1)
-    prval () = fold@ (res)
+    prval ((*folded*)) = fold@ (res)
   in
     // nothing 
   end else
@@ -40,10 +45,9 @@ fun loop
   // end of [if]
 //
 var res: res
-val () = loop (m, n, res)
 //
 in
-  res
+  let val () = loop (m, n, res) in res end
 end // end of [intrange]
 
 (* ****** ****** *)
