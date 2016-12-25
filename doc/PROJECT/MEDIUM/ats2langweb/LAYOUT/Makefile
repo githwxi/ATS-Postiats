@@ -21,7 +21,7 @@ LDFLAGS += -lgc
 all:: \
 theHome_layout
 theHome_layout: \
-theHome_layout.dats mylayout.dats; \
+theHome_layout.dats mylayout1.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
@@ -37,7 +37,7 @@ cleanall:: ; $(RMF) theHome_layout
 all:: \
 theDownloads_layout
 theDownloads_layout: \
-theDownloads_layout.dats mylayout.dats; \
+theDownloads_layout.dats mylayout1.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
@@ -53,7 +53,7 @@ cleanall:: ; $(RMF) theDownloads_layout
 all:: \
 theDocuments_layout
 theDocuments_layout: \
-theDocuments_layout.dats mylayout.dats; \
+theDocuments_layout.dats mylayout1.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
@@ -69,7 +69,7 @@ cleanall:: ; $(RMF) theDocuments_layout
 all:: \
 theLibraries_layout
 theLibraries_layout: \
-theLibraries_layout.dats mylayout.dats; \
+theLibraries_layout.dats mylayout1.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
@@ -85,7 +85,7 @@ cleanall:: ; $(RMF) theLibraries_layout
 all:: \
 theCommunity_layout
 theCommunity_layout: \
-theCommunity_layout.dats mylayout.dats; \
+theCommunity_layout.dats mylayout1.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
@@ -101,7 +101,7 @@ cleanall:: ; $(RMF) theCommunity_layout
 all:: \
 thePapers_layout
 thePapers_layout: \
-thePapers_layout.dats mylayout.dats; \
+thePapers_layout.dats mylayout1.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
@@ -117,7 +117,7 @@ cleanall:: ; $(RMF) thePapers_layout
 all:: \
 theExamples_layout
 theExamples_layout: \
-theExamples_layout.dats mylayout.dats; \
+theExamples_layout.dats mylayout1.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
@@ -133,7 +133,7 @@ cleanall:: ; $(RMF) theExamples_layout
 all:: \
 theResources_layout
 theResources_layout: \
-theResources_layout.dats mylayout.dats; \
+theResources_layout.dats mylayout1.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats
@@ -149,7 +149,7 @@ cleanall:: ; $(RMF) theResources_layout
 all:: \
 theImplements_layout
 theImplements_layout: \
-theImplements_layout.dats mylayout.dats; \
+theImplements_layout.dats mylayout1.dats; \
 $(PATSCC2) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_LIBC -o $@ $< myweboxy.dats

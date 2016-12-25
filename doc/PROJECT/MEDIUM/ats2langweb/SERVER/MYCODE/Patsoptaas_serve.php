@@ -9,7 +9,7 @@ header(
 <html>
 <head>
 <meta charset="utf-8">
-
+<title>Try-ATS-on-line</title>
 <base
  href="http://www.ats-lang.org">
 </base>

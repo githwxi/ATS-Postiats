@@ -157,6 +157,22 @@ val () = theBodyProp.children(thePage)
 (* ****** ****** *)
 
 implement
+fprint_webox_head_beg<>
+  (out) = let
+//
+val () =
+fprint (out, "\
+<meta charset=\"utf-8\">\n\
+<title>ATS-PL-SYS</title>\n\
+") (* end of [fprint] *)
+//
+in
+  // nothing
+end // end of [fprint_webox_head_beg<>]
+
+(* ****** ****** *)
+
+implement
 fprint_css_preamble<>
   (out) = let
 //
@@ -355,4 +371,4 @@ end // end of [fprint_webox_head_end]
 
 (* ****** ****** *)
 
-(* end of [mylayout.dats] *)
+(* end of [mylayout1.dats] *)

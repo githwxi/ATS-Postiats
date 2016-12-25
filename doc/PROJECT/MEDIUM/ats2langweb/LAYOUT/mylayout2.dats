@@ -107,13 +107,15 @@ val () = theBodyProp.pheight(100)
 val () = theBodyProp.children(thePage2)
 //
 (* ****** ****** *)
-
+//
 implement
 fprint_webox_head_beg<>
   (out) = let
 //
 val () =
 fprint (out, "\
+<meta charset=\"utf-8\">\n\
+<title>Try-ATS-on-line</title>\n\
 <base\n\
  href=\"http://www.ats-lang.org\">\n\
 </base>\n\

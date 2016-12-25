@@ -4,9 +4,10 @@
 *)
 
 (* ****** ****** *)
-
-#include "./mylayout2.dats"
-
+//
+#include
+"./mylayout2.dats"
+//
 (* ****** ****** *)
   
 val () =
