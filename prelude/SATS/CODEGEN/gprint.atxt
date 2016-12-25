@@ -41,6 +41,11 @@ gprint$out(): FILEref
 #atscode_separator()
 
 fun{}
+gprint_flush(): void
+
+#atscode_separator()
+
+fun{}
 gprint_newline(): void
 
 #atscode_separator()

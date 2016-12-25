@@ -14,30 +14,38 @@
 //
 (* ****** ****** *)
 //
-staload "{$LIBATSHWXI}/weboxy/SATS/weboxy.sats"
-staload _ = "{$LIBATSHWXI}/weboxy/DATS/weboxy.dats"
+#include "{$LIBATSHWXI}/weboxy/weboxy.dats"
 //
 (* ****** ****** *)
 
 (*
-local
+implement
+randcolor<>() = let
 //
-val () = randcolor_initize ()
+val M = 256
 //
-val webox_make_ = webox_make<>
+val r = randint<>(M)
+val b = randint<>(M)
+val g = randint<>(M)
 //
-in (* in-of-local *)
+val bsz = 16
+val (pf,pfgc|p) = malloc_gc (i2sz(bsz))
+val
+(
+(*void*)
+) =
+$extfcall
+(
+  void
+, "snprintf", p, bsz, "#%02x%02x%02x", i2u(r), i2u(b), i2u(g)
+) (* end of [$extfcall] *)
+//
+in
+  $UN.castvwtp0{string}((pf, pfgc | p))
+end // end of [randcolor]
 //
 implement
-{}(*tmp*)
-webox_make
-  () = wbx where
-{
-  val wbx = webox_make_ ()
-  val () = wbx.bgcolor(randcolor())
-} (* end of [webox_make] *)
-//
-end // end of [local]
+randcolor_initize<>() = srandom_with_time<>()
 *)
 
 (* ****** ****** *)
@@ -66,7 +74,7 @@ val () =
   thePage2.tabstyle(TShbox)
 val () =
   thePage2.pcentlst
-    ($list(PChard(15), PChard(85)))
+    (g0ofg1($list(PChard(15), PChard(85))))
 val () =
   thePage2.children(thePage2Left, thePage2Right)
 //
@@ -92,7 +100,7 @@ val () =
   thePage2Right.tabstyle(TSvbox)
 val () =
   thePage2Right.pcentlst
-    ($list(PChard(6), PChard(94)))
+    (g0ofg1($list(PChard(6), PChard(94))))
 val () =
   thePage2Right.children(thePage2RTop, thePage2RBody)
 //
@@ -109,11 +117,12 @@ val () = theBodyProp.children(thePage2)
 (* ****** ****** *)
 //
 implement
-fprint_webox_head_beg<>
-  (out) = let
+gprint_webox_head_beg<>
+  ((*void*)) = let
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <meta charset=\"utf-8\">\n\
 <title>Try-ATS-on-line</title>\n\
 <base\n\
@@ -123,16 +132,17 @@ fprint (out, "\
 //
 in
   // nothing
-end // end of [fprint_webox_head_beg]
+end // end of [gprint_webox_head_beg]
 
 (* ****** ****** *)
 
 implement
-fprint_webox_head_end<>
-  (out) = let
+gprint_webox_head_end<>
+  ((*void*)) = let
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <link\n\
  rel=\"icon\" type=\"image/gif\"\n\
  href=\"./MYDATA/favicon_animated.gif\">\n\
@@ -140,7 +150,7 @@ fprint (out, "\
 ") (* end of [val] *)
 //
 val () =
-fprint (out,
+gprint (
 "\
 <script\n\
  src=\"./SCRIPT/jquery-2.1.1.min.js\">\n\
@@ -148,64 +158,74 @@ fprint (out,
 ) (* end of [val] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"//cdn.jsdelivr.net/ace/1.1.7/min/ace.js\">\n\
 </script>\n\
 ") (* end of [val] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/ace-mode-ats2-by-hwwu.js\">\n\
 </script>\n\
 ") (* end of [val] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
   src=\"//cdn.jsdelivr.net/filesaver.js/0.2/FileSaver.min.js\">\n\
 </script>\n\
 ") (* end of [val] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/libatscc2js_all.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/libatscc2js_canvas2d_all.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/libatscc2js_print_store_cats.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/atslangweb_utils_dats.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/patsoptaas_utils_dats.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/patsoptaas_examples_dats.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/patsoptaas_templates_dats.js\">\n\
 </script>\n"
@@ -213,16 +233,17 @@ fprint (out, "\
 //
 in
   // nothing
-end // end of [fprint_webox_head_end]
+end // end of [gprint_webox_head_end]
 
 (* ****** ****** *)
 
 implement
-fprint_css_preamble<>
-  (out) = let
+gprint_css_preamble<>
+  ((*void*)) = let
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 html {\n\
   height: 100%;\n\
 }\n\
@@ -230,30 +251,32 @@ body {\n\
   margin: 0px;\n\
   height: 100%;\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 in
   // nothing
-end // end of [fprint_css_preamble]
+end // end of [gprint_css_preamble]
 
 (* ****** ****** *)
 
 implement
-fprint_css_postamble<>
-  (out) = let
+gprint_css_postamble<>
+  ((*void*)) = let
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 \n\
 body {\n\
   font-family: Helvetica, Arial, sans-serif;\n\
   background-color: #213449; /* dark blue */\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 // 
 (*
 val () =
-fprint (out, "\
+gprint (
+"\
 \n\
 #thePage2\n\
 {\n\
@@ -261,11 +284,12 @@ fprint (out, "\
   margin-left: auto;\n\
   margin-right: auto;\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 \n\
 #thePage2Left\n\
 {\n\
@@ -275,21 +299,22 @@ fprint (out, "\
 */\n\
   background-color: rgba(30, 87, 153, 0.750);\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 in
   // nothing
-end // end of [fprint_css_postamble]
+end // end of [gprint_css_postamble]
 
 (* ****** ****** *)
 
 implement
-fprint_webox_body_after<>
-  (out) = let
+gprint_webox_body_after<>
+  ((*void*)) = let
 //
 (*
 val () =
-fprint (out, "\
+gprint (
+"\
 <script>\n\
 (\n\
 function()\n\
@@ -308,14 +333,16 @@ jQuery('#thePage2RBody').css({height:height});\n\
 *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <script>\n\
 $(document).ready(Patsoptaas_thePage2_initize);
 </script>\n\
 ") (* end of [val] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 \n\
 <?php\n\
 if($theScriptKind >= 1)\n\
@@ -334,7 +361,7 @@ EOT;\n\
 //
 in
   // nothing
-end // end of [fprint_webox_body_after]
+end // end of [gprint_webox_body_after]
 
 (* ****** ****** *)
 

@@ -569,6 +569,12 @@ fun
 {a:t0p}
 list0_find_opt
   (xs: list0(INV(a)), p: cfun(a, bool)): Option_vt(a)
+fun
+{a:t0p}
+list0_find_opt_method
+  (xs: list0(INV(a))) (p: cfun(a, bool)): Option_vt(a)
+//
+overload .find_opt with list0_find_opt_method
 //
 (* ****** ****** *)
 //

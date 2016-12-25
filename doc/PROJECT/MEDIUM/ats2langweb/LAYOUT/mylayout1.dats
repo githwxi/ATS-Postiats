@@ -13,33 +13,40 @@
 //
 (* ****** ****** *)
 //
-staload "{$LIBATSHWXI}/weboxy/SATS/weboxy.sats"
-staload _ = "{$LIBATSHWXI}/weboxy/DATS/weboxy.dats"
+#include "{$LIBATSHWXI}/weboxy/weboxy.dats"
 //
 (* ****** ****** *)
-
+//
 (*
-local
+implement
+randcolor<>() = let
 //
-val () =
-randcolor_initize()
+val M = 256
 //
-val webox_make_ = webox_make<>
+val r = randint<>(M)
+val b = randint<>(M)
+val g = randint<>(M)
 //
-in (* in-of-local *)
+val bsz = 16
+val (pf,pfgc|p) = malloc_gc (i2sz(bsz))
+val
+(
+(*void*)
+) =
+$extfcall
+(
+  void
+, "snprintf", p, bsz, "#%02x%02x%02x", i2u(r), i2u(b), i2u(g)
+) (* end of [$extfcall] *)
+//
+in
+  $UN.castvwtp0{string}((pf, pfgc | p))
+end // end of [randcolor]
 //
 implement
-{}(*tmp*)
-webox_make
-  () = wbx where
-{
-  val wbx = webox_make_ ()
-  val () = wbx.bgcolor(randcolor())
-} (* end of [webox_make] *)
-//
-end // end of [local]
+randcolor_initize<>() = srandom_with_time<>()
 *)
-
+//
 (* ****** ****** *)
 //
 val thePage =
@@ -67,7 +74,7 @@ val () =
   thePage.tabstyle(TShbox)
 val () =
   thePage.pcentlst
-    ($list(PChard(14), PChard(86)))
+    (g0ofg1($list(PChard(14), PChard(86))))
 val () =
   thePage.children (thePageLeft, thePageRight)
 //
@@ -102,7 +109,7 @@ val () =
   thePageRBody.tabstyle(TShbox)
 val () =
   thePageRBody.pcentlst
-    ($list(PChard(68), PCsoft(32)))
+    (g0ofg1($list(PChard(68), PCsoft(32))))
 val () =
   thePageRBody.children(thePageRBodyLeft, thePageRBodyRight)
 //
@@ -157,35 +164,38 @@ val () = theBodyProp.children(thePage)
 (* ****** ****** *)
 
 implement
-fprint_webox_head_beg<>
-  (out) = let
+gprint_webox_head_beg<>
+  ((*void*)) = let
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <meta charset=\"utf-8\">\n\
 <title>ATS-PL-SYS</title>\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 in
   // nothing
-end // end of [fprint_webox_head_beg<>]
+end // end of [gprint_webox_head_beg<>]
 
 (* ****** ****** *)
 
 implement
-fprint_css_preamble<>
-  (out) = let
+gprint_css_preamble<>
+  ((*void*)) = let
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 .center {\n\
   margin-left: auto;\n\
   margin-right: auto;\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 .command_line {\n\
   width:96%;\n\
   margin:auto;\n\
@@ -194,20 +204,21 @@ fprint (out, "\
   background-color: #D0D0D0;\n\
   border-radius:6px\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 in
   // nothing
-end // end of [fprint_css_preamble]
+end // end of [gprint_css_preamble]
 
 (* ****** ****** *)
 
 implement
-fprint_css_postamble<>
-  (out) = let
+gprint_css_postamble<>
+  ((*void*)) = let
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 \n\
 body {\n\
   margin-top: 8px;\n\
@@ -217,38 +228,42 @@ body {\n\
   font-family: Helvetica, Arial, sans-serif;\n\
   background-color: #213449; /* dark blue */\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 (*
 val () =
-fprint (out, "\
+gprint (
+\"
 \n\
 #thePage {\n\
   width: 90%;\n\
   margin-left: auto;\n\
   margin-right: auto;\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 \n\
 #thePageRHeader {\n\
   text-align: center;
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 \n\
 #thePageRFooter {\n\
   text-align: center;\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 \n\
 #thePageLeft {\n\
 /*\n\
@@ -257,10 +272,11 @@ fprint (out, "\
 */\n\
   background-color: rgba(30, 87, 153, 0.750);\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 \n\
 #thePageRBodyRight\n\
 {\n\
@@ -272,10 +288,11 @@ fprint (out, "\
   border-bottom-left-radius:12px;\n\
 */
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 \n\
 .thePageRBodyLContent\n\
 {\n\
@@ -283,21 +300,22 @@ fprint (out, "\
   margin-right: 8px;\n\
   padding-top: 12px;\n\
 }\n\
-") (* end of [fprint] *)
+") (* end of [gprint] *)
 //
 in
   // nothing
-end // end of [fprint_css_postamble]
+end // end of [gprint_css_postamble]
 
 (* ****** ****** *)
 
 implement
-fprint_webox_head_end<>
-  (out) = let
+gprint_webox_head_end<>
+  ((*void*)) = let
 //
 (*
 val () =
-fprint (out, "\
+gprint (
+\"
 <link\n\
  rel=\"shortcut icon\"\n\
  href=\"./MYDATA/favicon.ico\">\n\
@@ -306,7 +324,8 @@ fprint (out, "\
 *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <link\n\
  rel=\"icon\" type=\"image/gif\"\n\
  href=\"./MYDATA/favicon_animated.gif\">\n\
@@ -314,7 +333,8 @@ fprint (out, "\
 ) (* end of [val] *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./SCRIPT/jquery-2.1.1.min.js\">\n\
 </script>\n"
@@ -322,7 +342,8 @@ fprint (out, "\
 //
 (*
 val () =
-fprint (out, "\
+gprint (
+\"
 <script\n\
  src=\"//cdn.jsdelivr.net/jquery/2.1.1/jquery.min.js\">\n\
 </script>\n"
@@ -330,44 +351,51 @@ fprint (out, "\
 *)
 //
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/libatscc2js_all.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/libatscc2js_print_store_cats.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 val () =
-fprint (out, "\
+gprint (
+"\
 <script\n\
  src=\"./CLIENT/MYCODE/atslangweb_utils_dats.js\">\n\
 </script>\n"
 ) (* end of [val] *)
 //
 val () =
-fprint (out
-, "<?php include './thePage/share.php'; ?>"
+gprint
+(
+"<?php include './thePage/share.php'; ?>"
 ) (* end of [val] *)
 val () =
-fprint (out
-, "<?php include './thePageLeft/share.php'; ?>"
+gprint
+(
+"<?php include './thePageLeft/share.php'; ?>"
 ) (* end of [val] *)
 val () =
-fprint (out
-, "<?php include './thePageRHeaderSep/share.php'; ?>"
+gprint
+(
+"<?php include './thePageRHeaderSep/share.php'; ?>"
 ) (* end of [val] *)
 val () =
-fprint (out
-, "<?php include './thePageRBodyLHeader/share.php'; ?>"
+gprint
+(
+"<?php include './thePageRBodyLHeader/share.php'; ?>"
 ) (* end of [val] *)
 //
 in
   // nothing
-end // end of [fprint_webox_head_end]
+end // end of [gprint_webox_head_end]
 
 (* ****** ****** *)
 

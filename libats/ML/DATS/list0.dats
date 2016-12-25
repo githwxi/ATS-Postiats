@@ -647,7 +647,7 @@ end // end of [list0_drop_exn]
 implement
 {a}(*tmp*)
 list0_app
-  (xs, f) = list0_foreach<a>(xs, f)
+  (xs, fopr) = list0_foreach<a>(xs, fopr)
 //
 (* ****** ****** *)
 //
@@ -671,7 +671,8 @@ loop(xs: list0(a)): void =
 //
 implement
 {a}(*tmp*)
-list0_foreach_method(xs) = lam(f) => list0_foreach<a>(xs, f)
+list0_foreach_method
+  (xs) = lam(fwork) => list0_foreach<a>(xs, fwork)
 //
 (* ****** ****** *)
 //
@@ -695,7 +696,8 @@ aux0(xs: list0(a)): void =
 //
 implement
 {a}(*tmp*)
-list0_rforeach_method(xs) = lam(f) => list0_rforeach<a>(xs, f)
+list0_rforeach_method
+  (xs) = lam(fwork) => list0_rforeach<a>(xs, fwork)
 //
 (* ****** ****** *)
 
@@ -723,17 +725,19 @@ end // end of [list0_iforeach]
 //
 implement
 {a}(*tmp*)
-list0_iforeach_method(xs) = lam(f) => list0_iforeach<a>(xs, f)
+list0_iforeach_method
+  (xs) =
+  lam(fwork) => list0_iforeach<a>(xs, fwork)
 //
 (* ****** ****** *)
 
 implement
 {a1,a2}
 list0_foreach2
-  (xs1, xs2, f) = let
+  (xs1, xs2, fwork) = let
   var sgn: int // uninitialized
 in
-  list0_foreach2_eq (xs1, xs2, f, sgn)
+  list0_foreach2_eq (xs1, xs2, fwork, sgn)
 end // end of [list0_foreach2]
 
 implement
@@ -792,7 +796,7 @@ end // end of [list0_foldleft]
 implement
 {res}{a}
 list0_foldleft_method(xs, _) =
-  lam(ini, f) => list0_foldleft<res><a>(xs, ini, f)
+  lam(ini, fopr) =>list0_foldleft<res><a>(xs, ini, fopr)
 //
 (* ****** ****** *)
 
@@ -1148,6 +1152,13 @@ case+ xs of
 } (* end of [list0_find_opt] *)
 
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+list0_find_opt_method
+  (xs) = lam(pred) => list0_find_opt<a>(xs, pred)
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
@@ -1225,38 +1236,42 @@ case+ xys of
 } (* end of [list0_assoc_opt] *)
 
 (* ****** ****** *)
-
+//
 (*
 implement
 {a}{b}
-list0_map (xs, f) = let
+list0_map
+  (xs, fopr) = let
   viewdef v = unit_v
-  viewtypedef vt = cfun (a, b)
+  viewtypedef fun_vt = cfun (a, b)
   fun app .<>.
-    (pfu: !unit_v | x: a, f: !vt): b = f (x)
+    (pfu: !unit_v | x: a, fopr: !fun_vt): b = fopr (x)
   // end of [fun]
   prval pfu = unit_v ()
-  var f = f
-  val ys = list_map_funenv<a><b> {v}{vt} (pfu | g1ofg0(xs), app, f)
-  prval () = topize (f)
-  prval unit_v () = pfu
+  var
+  fopr = fopr
+  val ys =
+  list_map_funenv<a><b> {v}{vt} (pfu | g1ofg0(xs), app, fopr)
+  prval () = topize(fopr)
+  prval unit_v((*void*)) = pfu
 in
   list0_of_list_vt (ys)
 end // end of [list0_map]
 *)
+//
 implement
 {a}{b}
-list0_map (xs, f) = let
+list0_map(xs, fopr) = let
 //
 implement
 {a2}{b2}
-list_map$fopr (x) =
-  $UN.castvwtp0{b2}(f($UN.cast{a}(x)))
+list_map$fopr(x) =
+$UN.castvwtp0{b2}(fopr($UN.cast{a}(x)))
 //
-val ys = list_map<a><b> (g1ofg0_list(xs))
+val ys = list_map<a><b>(g1ofg0_list(xs))
 //
 in
-  list0_of_list_vt (ys)
+  list0_of_list_vt{b}(ys)
 end // end of [list0_map]
 
 (* ****** ****** *)
@@ -1264,7 +1279,7 @@ end // end of [list0_map]
 implement
 {a}{b}
 list0_mapopt
-  (xs, f) = res where
+  (xs, fopr) = res where
 {
 //
 fun loop
@@ -1276,8 +1291,9 @@ in
 //
 case+ xs of
 | list0_cons
-    (x, xs) => (
-  case+ f(x) of
+    (x, xs) =>
+  (
+  case+ fopr(x) of
   | ~Some_vt y => let
       val () =
       (
@@ -1325,7 +1341,8 @@ list0_mapcons
   (x0, xss) = let
 //
 implement
-list_map$fopr<list0(a)><list0(a)> (xs) = list0_cons(x0, xs)
+list_map$fopr<list0(a)><list0(a)>
+  (xs) = list0_cons(x0, xs)
 //
 val xss = g1ofg0 (xss)
 val res = list_map<list0(a)><list0(a)> (xss)
@@ -1338,53 +1355,64 @@ end // end of [list0_mapcons]
 
 implement
 {a}{b}
-list0_imap (xs, f) = let
+list0_imap
+  (xs, fopr) = let
 //
 implement
 {a2}{b2}
-list_imap$fopr (i, x) =
-  $UN.castvwtp0{b2}(f (i, $UN.cast{a}(x)))
-val ys = list_imap<a><b> (g1ofg0_list(xs))
+list_imap$fopr(i, x) =
+let
+  val x = $UN.cast{a}(x)
+in
+  $UN.castvwtp0{b2}(fopr(i, x))
+end // end of [list_imap$fopr]
+//
+val ys = list_imap<a><b>(g1ofg0_list(xs))
 //
 in
-  list0_of_list_vt (ys)
+  list0_of_list_vt{b}(ys)
 end // end of [list0_imap]
 
 (* ****** ****** *)
-
+//
 (*
 implement
 {a1,a2}{b}
 list0_map2
-  (xs1, xs2, f) = let
-  viewdef v = unit_v
-  viewtypedef vt = cfun2 (a1, a2, b)
+  (xs1, xs2, fopr) = let
+  viewdef v0 = unit_v
+  viewtypedef fun_vt = cfun2 (a1, a2, b)
   val xs1 = g1ofg0_list(xs1)
   val xs2 = g1ofg0_list(xs2)
   fun app .<>.
-    (pfu: !unit_v | x1: a1, x2: a2, f: !vt): b = f (x1, x2)
+    (pfu: !v0 | x1: a1, x2: a2, f: !fun_vt): b = fopr(x1, x2)
   // end of [fun]
   prval pfu = unit_v ()
-  var f = f
-  val ys = list_map2_funenv<a1,a2><b> {v}{vt} (pfu | xs1, xs2, app, f)
-  prval () = topize (f)
-  prval unit_v () = pfu
+  var
+  fopr = fopr
+  val ys =
+  list_map2_funenv<a1,a2><b> {v0}{vt} (pfu | xs1, xs2, app, fopr)
+  prval () = topize(fopr)
+  prval unit_v((*void*)) = pfu
 in
   list0_of_list_vt (ys)
 end // end of [list0_map2]
 *)
+//
 implement
 {a1,a2}{b}
 list0_map2
-  (xs1, xs2, f) = let
+  (xs1, xs2, fopr) = let
 //
 implement
 {a11,a12}{b2}
-list_map2$fopr (x1, x2) =
-$UN.castvwtp0{b2}(f($UN.cast{a1}(x1), $UN.cast{a2}(x2)))
+list_map2$fopr
+  (x1, x2) =
+$UN.castvwtp0{b2}
+  (fopr($UN.cast{a1}(x1), $UN.cast{a2}(x2)))
 //
 in
-  list0_of_list_vt(list_map2<a1,a2><b> (g1ofg0(xs1), g1ofg0(xs2)))
+  list0_of_list_vt{b}(list_map2<a1,a2><b>(g1ofg0(xs1), g1ofg0(xs2)))
 end // end of [list0_map2]
 
 (* ****** ****** *)
@@ -1392,13 +1420,13 @@ end // end of [list0_map2]
 implement
 {a}(*tmp*)
 list0_filter
-  (xs, p) = let
+  (xs, pred) = let
 //
 implement{a2}
 list_filter$pred
-  (x) = p ($UN.cast{a}(x))
+  (x) = pred($UN.cast{a}(x))
 //
-val ys = list_filter<a> (g1ofg0(xs))
+val ys = list_filter<a>(g1ofg0(xs))
 //
 in
   list0_of_list_vt (ys)
@@ -1414,7 +1442,7 @@ list0_filter_method
 implement
 {a}(*tmp*)
 list0_tabulate
-  {n}(n, f) = let
+  {n}(n, fopr) = let
 //
 implement{a2}
 list_tabulate$fopr
@@ -1422,7 +1450,7 @@ list_tabulate$fopr
   val i =
   $UN.cast{natLt(n)}(i)
 in
-  $UN.castvwtp0{a2}(f(i))
+  $UN.castvwtp0{a2}(fopr(i))
 end // list_tabulate$fopr
 //
 val n = g1ofg0_int(n)
@@ -1443,7 +1471,7 @@ end // end of [list0_tabulate]
 implement
 {a}(*tmp*)
 list0_tabulate_opt
-  (n, f) = res where
+  (n, fopr) = res where
 {
 //
 fun loop
@@ -1453,24 +1481,32 @@ fun loop
 ) : void = let
 in
 //
-if n > i then
-(
-case+ f(i) of
-| ~Some_vt x => let
+if
+(n > i)
+then (
+case+ fopr(i) of
+| ~None_vt() =>
+    loop(i+1, res)
+  // end of [None_vt]
+| ~Some_vt(x) => let
+//
     val () =
     (
-    res :=
-    list_vt_cons{a}{0}(x, _)
-    )
-    val+list_vt_cons (_, res1) = res
+      res :=
+      list_vt_cons{a}{0}(x, _)
+    ) (* end of [val] *)
+//
+    val+list_vt_cons(_, res1) = res
+//
     val () = loop (i+1, res1)
-    prval () = fold@ (res)
+//
+    prval ((*folded*)) = fold@ (res)
   in
     // nothing
   end // end of [Some0]
-| ~None_vt () => loop (i+1, res)
-) else (
-  res := list_vt_nil ()
+) else
+(
+  res := list_vt_nil((*void*))
 ) (* end of [if] *)
 //
 end // end of [loop]
@@ -1516,18 +1552,19 @@ end // end of [list0_cross]
 implement
 {x,y}{z}
 list0_crosswith
-  (xs, ys, f) = let
+  (xs, ys, fopr) = let
 //
 implement
 {x2,y2}{z2}
 list_crosswith$fopr(x, y) =
-  $UN.castvwtp0{z2}(f($UN.cast{x}(x), $UN.cast{y}(y)))
+$UN.castvwtp0{z2}
+  (fopr($UN.cast{x}(x), $UN.cast{y}(y)))
 //
 val xs = g1ofg0(xs) and ys = g1ofg0(ys)
-val zs = $effmask_wrt (list_crosswith<x,y><z> (xs, ys))
+val zs = $effmask_wrt(list_crosswith<x,y><z> (xs, ys))
 //
 in
-  list0_of_list_vt (zs)
+  list0_of_list_vt{z}(zs)
 end // end of [list0_crosswith]
 
 (* ****** ****** *)
@@ -1556,8 +1593,12 @@ loop2
 ) : void =
 (
 case+ ys of
-| list0_nil() => loop(xs)
-| list0_cons(y, ys) => (fwork(x0, y); loop2(x0, xs, ys))
+| list0_nil
+    () => loop(xs)
+| list0_cons
+    (y, ys) => let
+    val () = fwork(x0, y) in loop2(x0, xs, ys)
+  end // end of [list_cons]
 )
 //
 } (* end of [list0_foreach_choose2] *)
@@ -1648,7 +1689,7 @@ list0_iforeach_xprod2_method
   (xs, ys) =
 (
 lam(fwork) => list0_iforeach_xprod2<x,y>(xs, ys, fwork)
-)
+) (* list0_iforeach_xprod2_method *)
 //
 (* ****** ****** *)
 //

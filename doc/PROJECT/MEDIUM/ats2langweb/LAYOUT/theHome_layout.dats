@@ -79,10 +79,13 @@ implement
 main0 () =
 {
 //
-val out = stdout_ref
+implement
+gprint$out<>
+(
+// argless
+) = stdout_ref
 //
-val () =
-  fprint_webox_html_all (out, theBodyProp)
+val () = gprint_webox_html_all<>(theBodyProp)
 //
 } (* end of [main0] *)
 
