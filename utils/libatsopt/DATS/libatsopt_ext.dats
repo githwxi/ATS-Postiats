@@ -5,6 +5,10 @@
 *)
 
 (* ****** ****** *)
+//
+// HX: This is ATS1!
+//
+(* ****** ****** *)
 
 #define ATS_DYNLOADFLAG 0
 

@@ -5,8 +5,13 @@
 
 CC=emcc
 CCOMP=$(CC)
-JS_TYPE=BROWSER
 
+######
+#
+#JS_TYPE=NODEJS
+#
+JS_TYPE=BROWSER
+#
 ######
 
 ATSCC=$(ATSHOME)/bin/atscc
@@ -18,7 +23,8 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 #
 ATSCC2JS=$(PATSHOME)/bin/atscc2js
-LIBATSCC2JS=${PATSHOMERELOC}/contrib/libatscc/libatscc2js
+LIBATSCC2JS_ALL_JS=\
+${PATSHOMERELOC}/contrib/libatscc/libatscc2js/output/libatscc2js_all.js
 #
 ######
 
@@ -75,7 +81,8 @@ endif # end-of-ifeq
 
 ifeq \
 ($(JS_TYPE),BROWSER)
-all:: test_libatsopt
+all:: \
+test_libatsopt
 test_libatsopt:: libatsopt_ext.js
 test_libatsopt:: test_libatsopt_dats.js
 endif # end-of-ifeq
@@ -84,7 +91,8 @@ endif # end-of-ifeq
 
 ifeq \
 ($(JS_TYPE),BROWSER)
-all:: wktest_libatsopt
+all:: \
+wktest_libatsopt
 wktest_libatsopt:: libatsopt_ext_worker.js
 wktest_libatsopt:: wktest_libatsopt_dats.js
 endif # end-of-ifeq
@@ -110,7 +118,29 @@ LIBATSOPT_EXPORTS += , '_libatsopt_patsoptres_get_stderr'
 LIBATSOPT_EXPORTS += , '_libatsopt_patsopt_main_arglst'
 LIBATSOPT_EXPORTS += , '_libatsopt_patsoptres_main_arglst'
 #
-libatsopt_ext.js: ; \
+######
+#
+test_libatsopt_dats.c: \
+  test_libatsopt.dats; $(PATSOPT) -o $@ -d $<
+test_libatsopt_dats.js: \
+  test_libatsopt_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+######
+#
+libatsopt_worker_dats.c: \
+  libatsopt_worker.dats; $(PATSOPT) -o $@ -d $<
+libatsopt_worker_dats.js: \
+  libatsopt_worker_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+wktest_libatsopt_dats.c: \
+  wktest_libatsopt.dats; $(PATSOPT) -o $@ -d $<
+wktest_libatsopt_dats.js: \
+  wktest_libatsopt_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+######
+#
+libatsopt_ext.js: \
+libatsopt_pre.js ; \
 $(CCOMP) \
   -I$(ATSHOME) \
   -I$(ATSRUNTIME) \
@@ -120,6 +150,8 @@ $(CCOMP) \
   -s ALLOW_MEMORY_GROWTH=1 \
   -s EXPORTED_FUNCTIONS="[$(LIBATSOPT_EXPORTS)]" \
   -O2 $(CFLAGS) -o $@ $(ATSRUNTIME)/ats_prelude.c ./../libatsopt_ext.o
+#
+######
 #
 libatsopt_ext_worker.js: \
 libatsopt_pre.js \
@@ -127,33 +159,15 @@ libatsopt_worker_dats.js ; \
 $(CCOMP) \
   -I$(ATSHOME) \
   -I$(ATSRUNTIME) \
+  --pre-js ./libatsopt_io.js \
   --pre-js ./libatsopt_pre.js \
-  --pre-js ${LIBATSCC2JS}/libatscc2js_all.js \
+  --pre-js ${LIBATSCC2JS_ALL_JS} \
   --post-js ./libatsopt_worker_dats.js \
   --preload-file ./PATSHOME@/PATSHOME \
   -s ASSERTIONS=1 \
   -s ALLOW_MEMORY_GROWTH=1 \
   -s EXPORTED_FUNCTIONS="[$(LIBATSOPT_EXPORTS)]" \
   -O2 $(CFLAGS) -o $@ $(ATSRUNTIME)/ats_prelude.c ./../libatsopt_ext.o
-#
-######
-
-test_libatsopt_dats.c: \
-test_libatsopt.dats; $(PATSOPT) -o $@ -d $<
-test_libatsopt_dats.js: \
-test_libatsopt_dats.c; $(ATSCC2JS) -o $@ -i $<
-
-######
-#
-libatsopt_worker_dats.c: \
-libatsopt_worker.dats; $(PATSOPT) -o $@ -d $<
-libatsopt_worker_dats.js: \
-libatsopt_worker_dats.c; $(ATSCC2JS) -o $@ -i $<
-#
-wktest_libatsopt_dats.c: \
-wktest_libatsopt.dats; $(PATSOPT) -o $@ -d $<
-wktest_libatsopt_dats.js: \
-wktest_libatsopt_dats.c; $(ATSCC2JS) -o $@ -i $<
 #
 ######
 #
@@ -166,43 +180,59 @@ NODEJS=nodejs
 
 ######
 #
-# For testing [patsopt_dats.js]
+# HX-2015:
+# For testing patsopt_dats.js
 #
-test_patsopt:: patsopt_dats.js
-#
-test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/filebas.dats 
-test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/intrange.dats 
+test_patsopt:: \
+patsopt_dats.js
 #
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/list.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/filebas.dats 
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/list_vt.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/intrange.dats 
 #
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/option.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/list.dats 
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/option_vt.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/list_vt.dats 
 #
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/array.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/option.dats 
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/arrayptr.dats 
-test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/arrayref.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/option_vt.dats 
 #
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/matrix.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/array.dats 
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/matrixptr.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/arrayptr.dats 
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/matrixref.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/arrayref.dats 
 #
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/stream.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/matrix.dats 
 test_patsopt:: ; \
-$(NODEJS) patsopt_dats.js --dynamic /PATSHOME/prelude/DATS/stream_vt.dats 
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/matrixptr.dats 
+test_patsopt:: ; \
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/matrixref.dats 
+#
+test_patsopt:: ; \
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/stream.dats 
+test_patsopt:: ; \
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/prelude/DATS/stream_vt.dats 
 #
 ######
 

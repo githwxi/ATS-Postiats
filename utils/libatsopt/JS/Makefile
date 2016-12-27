@@ -26,7 +26,8 @@ CFLAGS += -Wno-implicit-function-declaration
 
 ######
 
-all:: libatsopt_ext
+all:: libatsopt
+all:: libatsopt_ext.o
 
 ######
 #
@@ -61,8 +62,8 @@ $(CCOMP) -O2 $(CFLAGS) \
 #
 ######
 #
-libatsopt_ext.o: \
-libatsopt.o libatsopt_ext_sats.o libatsopt_ext_dats.o ; $(CCOMP) -o $@ $^
+libatsopt_ext.o: libatsopt.o \
+  libatsopt_ext_sats.o libatsopt_ext_dats.o ; $(CCOMP) -o $@ $^
 #
 ######
 

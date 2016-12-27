@@ -167,10 +167,12 @@ end // end of [t2mpmarglst_tsubst]
 (* ****** ****** *)
 //
 extern
-fun tmpvar_subst
+fun
+tmpvar_subst
   (sub: !stasub, tmp: tmpvar, sfx: int): tmpvar
 extern
-fun tmpvarlst_subst
+fun
+tmpvarlst_subst
   (sub: !stasub, tmplst: tmpvarlst, sfx: int): tmpvarlst
 //
 (* ****** ****** *)
@@ -178,13 +180,16 @@ fun tmpvarlst_subst
 local
 
 extern
-fun tmpvar_set_ref
+fun
+tmpvar_set_ref
   (tmp: tmpvar, ref: int): void  = "patsopt_tmpvar_set_ref"
 extern
-fun tmpvar_set_ret
+fun
+tmpvar_set_ret
   (tmp: tmpvar, ret: int): void  = "patsopt_tmpvar_set_ret"
 extern
-fun tmpvar_set_origin
+fun
+tmpvar_set_origin
 (
   tmp: tmpvar, opt: tmpvaropt
 ) : void  = "patsopt_tmpvar_set_origin"
@@ -349,15 +354,24 @@ vbindmap_subst
 (* ****** ****** *)
 //
 extern
-fun instr_subst
-  (env: !ccompenv, map: !tmpmap, sub: !stasub, ins: instr, sfx: int): instr
+fun
+instr_subst
+(
+  env: !ccompenv, map: !tmpmap, sub: !stasub, ins: instr, sfx: int
+) : instr // end of [instr_subst]
 extern
-fun instrlst_subst
-  (env: !ccompenv, map: !tmpmap, sub: !stasub, inss: instrlst, sfx: int): instrlst
+fun
+instrlst_subst
+(
+  env: !ccompenv, map: !tmpmap, sub: !stasub, inss: instrlst, sfx: int
+) : instrlst // end of [instrlst_subst]
 //
 extern
-fun ibranchlst_subst
-  (env: !ccompenv, map: !tmpmap, sub: !stasub, ibrs: ibranchlst, sfx: int): ibranchlst
+fun
+ibranchlst_subst
+(
+  env: !ccompenv, map: !tmpmap, sub: !stasub, ibrs: ibranchlst, sfx: int
+) : ibranchlst // end of [ibranchlst_subst]
 //
 (* ****** ****** *)
 //
@@ -1119,7 +1133,8 @@ primdec_subst
 in
 //
 case+
-  pmd0.primdec_node of
+pmd0.primdec_node
+of (* case+ *)
 //
 | PMDnone () => pmd0
 //
@@ -1304,9 +1319,13 @@ macdef fibranchlst (inss) = ibranchlst_subst (env, map, sub, ,(inss), sfx)
 in
 //
 case+
-  ins0.instr_node of
+ins0.instr_node
+of (* case+ *)
 //
 | INSfunlab _ => ins0
+| INStmplab _ => ins0
+//
+| INScomment _ => ins0
 //
 | INSmove_val
     (tmp, pmv) => let
@@ -1481,6 +1500,16 @@ case+
     (tmpvar, primval, hisexp(*tyroot*), primlablst)
   // end of [INSmove_ptrofsel]
 *)
+| INSmove_ptrofsel
+  (
+    tmp, pmv, hse_rt, pmls
+  ) => let
+    val tmp = ftmp (tmp)
+    val pmv = fpmv (pmv)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+  in
+    instr_move_ptrofsel(loc0, tmp, pmv, hse_rt, pmls)
+  end // end of [INSmove_ptrofsel]
 //
 (*
 | INSload_varofs
@@ -1664,7 +1693,10 @@ case+
     instr_closure_initize (loc0, tmpret2, flab2)
   end // end of [INSclosure_initize]
 //
-| _ (* cases-that-do-not-need-substitution *) => ins0
+| INStmpdec _ => ins0
+//
+| INSextvar(name, pmv) => instr_extvar(loc0, name, fpmv(pmv))
+| INSdcstdef(d2c0, pmv) => instr_dcstdef(loc0, d2c0, fpmv(pmv))
 //
 end // end of [instr_subst]
 
