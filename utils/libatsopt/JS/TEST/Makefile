@@ -58,26 +58,6 @@ $(CCOMP) \
 endif # end-of-ifeq
 #
 ######
-#
-ifeq \
-($(JS_TYPE),BROWSER)
-all:: \
-patsopt_ccomp.html
-patsopt_ccomp.html: patsopt_ccomp_dats.c ; \
-$(CCOMP) \
-  -O2 $(CFLAGS) \
-  -I$(ATSHOME) \
-  -I$(ATSRUNTIME) \
-  -DJS_TYPE=$(JS_TYPE) \
-  --pre-js ./../setup.js \
-  --preload-file ./PATSHOME@/PATSHOME \
-  -s ASSERTIONS=1 \
-  -s ALLOW_MEMORY_GROWTH=1 \
-  -s EXPORTED_FUNCTIONS="['_main']" \
-  -o $@ $(ATSRUNTIME)/ats_prelude.c $< ./../libatsopt_ext.o
-endif # end-of-ifeq
-#
-######
 
 ifeq \
 ($(JS_TYPE),BROWSER)
@@ -161,7 +141,7 @@ $(CCOMP) \
   -I$(ATSRUNTIME) \
   --pre-js ./libatsopt_io.js \
   --pre-js ./libatsopt_pre.js \
-  --pre-js ${LIBATSCC2JS_ALL_JS} \
+  --pre-js $(LIBATSCC2JS_ALL_JS) \
   --post-js ./libatsopt_worker_dats.js \
   --preload-file ./PATSHOME@/PATSHOME \
   -s ASSERTIONS=1 \
@@ -247,11 +227,6 @@ cleanall:: clean
 cleanall:: ; rm -f patsopt_dats.js
 cleanall:: ; rm -f patsopt_dats.data
 cleanall:: ; rm -f patsopt_dats.js.mem
-#
-cleanall:: ; rm -f patsopt_ccomp.js
-cleanall:: ; rm -f patsopt_ccomp.data
-cleanall:: ; rm -f patsopt_ccomp.html
-cleanall:: ; rm -f patsopt_ccomp.html.mem
 #
 cleanall:: ; rm -f libatsopt_ext.js
 cleanall:: ; rm -f libatsopt_ext.data

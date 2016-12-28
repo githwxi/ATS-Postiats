@@ -55,7 +55,7 @@ staload
 
 implement
 {}(*tmp*)
-ctime_r_gc (tval) = let
+ctime_r_gc(tval) = let
 //
 val bsz = g1i2u(CTIME_BUFSZ)
 val (pf, pfgc | p) = malloc_gc (bsz)
@@ -79,4 +79,4 @@ end // end of [ctime_r_gc]
 
 (* ****** ****** *)
 
-(* end of [stdlib.dats] *)
+(* end of [time.dats] *)
