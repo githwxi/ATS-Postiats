@@ -277,24 +277,33 @@ overload + with list0_append
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 list0_extend
-  (xs: NSH(list0(INV(a))), y: a):<> list0(a)
+  (xs: NSH(list0(INV(a))), y0: a):<> list0(a)
 //
 macdef list0_snoc = list0_extend
 //
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-list0_reverse (xs: list0(INV(a))):<> list0(a)
-
+mul_int_list0
+(
+  m0: intGte(0), xs: NSH(list0(INV(a)))
+) :<> list0(a) // end of [mul_int_list0]
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+list0_reverse(xs: list0(INV(a))):<> list0(a)
+//
 fun{a:t0p}
 list0_reverse_append
   (xs: list0(INV(a)), ys: list0(a)):<> list0(a)
 // end of [list0_reverse_append]
-
+//
 macdef list0_revapp = list0_reverse_append
-
+//
 (* ****** ****** *)
 //
 fun{a:t0p}

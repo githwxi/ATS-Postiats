@@ -54,7 +54,8 @@ Module.writeStringToMemory(inp, out); return out;
 } // end of [emcc_string]
 //
 function
-emcc_stringify(ptr) { return Pointer_stringify(ptr); }
+emcc_stringify(ptr)
+  { return Pointer_stringify(ptr); }
 //
 %} // end of [%{^]
 //

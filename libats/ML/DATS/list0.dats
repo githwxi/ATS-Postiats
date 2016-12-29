@@ -571,11 +571,23 @@ in
 end // end of [list0_extend]
 
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+mul_int_list0
+  (m, xs) =
+$effmask_wrt
+(
+list0_of_list_vt
+  (mul_int_list<a>(m, g1ofg0(xs)))
+) (* end of [mul_int_list0] *)
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
 list0_reverse(xs) =
-  list0_reverse_append<a> (xs, list0_nil)
+  list0_reverse_append<a>(xs, list0_nil)
 // end of [list0_reverse]
 
 implement
@@ -585,7 +597,7 @@ list0_reverse_append
   val xs = g1ofg0(xs)
   and ys = g1ofg0(ys)
 in
-  list0_of_list (list_reverse_append<a> (xs, ys))
+  list0_of_list(list_reverse_append<a>(xs, ys))
 end // end of [list0_reverse_append]
 
 (* ****** ****** *)
@@ -594,12 +606,16 @@ implement
 {a}(*tmp*)
 list0_concat
   (xss) = let
-  typedef xss = List(List(a))
-  val ys =
-    $effmask_wrt (list_concat<a>($UN.cast{xss}(xss)))
-  // end of [val]
+//
+typedef xss = List(List(a))
+//
 in
-  list0_of_list_vt (ys)
+//
+$effmask_wrt
+(
+list0_of_list_vt{a}
+  (list_concat<a>($UN.cast{xss}(xss)))
+) (* $effmask_wrt *)
 end // end of [list0_concat]
 
 (* ****** ****** *)

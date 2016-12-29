@@ -328,7 +328,8 @@ x:t0p
 
 #atscode_separator()
 //
-fun{a:t0p}
+fun
+{a:t0p}
 list_append
   {m,n:int}
 (
@@ -337,15 +338,15 @@ list_append
 //
 #atscode_separator()
 
-fun{
-a:t0p
-} list_append1_vt
+fun
+{a:t0p}
+list_append1_vt
   {i,j:int} (
   xs: list_vt(INV(a), i), ys: SHR(list(a, j))
 ) :<!wrt> list(a, i+j) // endfun
-fun{
-a:t0p
-} list_append2_vt
+fun
+{a:t0p}
+list_append2_vt
   {i,j:int} (
   xs: NSH(list(INV(a), i)), ys: list_vt(a, j)
 ) :<!wrt> list_vt(a, i+j) // endfun
@@ -360,6 +361,14 @@ x:t0p
 
 macdef list_snoc (xs, x) = list_extend (,(xs), ,(x))
 
+#atscode_separator()
+//
+fun
+{a:t0p}
+mul_int_list
+  {m,n:int | m >= 0}
+  (m: int(m), xs: list(a, n)):<!wrt> list_vt(a, m*n)
+//
 #atscode_separator()
 
 fun{x:t0p}
@@ -995,6 +1004,7 @@ streamize_list_cross
 overload = with list_equal
 //
 overload + with list_append
+overload * with mul_int_list
 //
 overload [] with list_get_at
 //
