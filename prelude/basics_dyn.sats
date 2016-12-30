@@ -690,7 +690,9 @@ symintr main0
 //
 fun
 main_void_0
-  ((*void*)): void = "ext#mainats_void_0"
+(
+  (*void*)
+) : void = "ext#mainats_void_0"
 fun
 main_argc_argv_0
   {n:int | n >= 1}
@@ -705,7 +707,9 @@ symintr main
 //
 fun
 main_void_int
-  ((*void*)): int = "ext#mainats_void_int"
+(
+  (*void*)
+) : int = "ext#mainats_void_int"
 fun
 main_argc_argv_int
   {n:int | n >= 1}

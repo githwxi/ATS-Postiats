@@ -146,7 +146,7 @@ string_append6
 (* ****** ****** *)
 //
 fun{}
-stringlst_concat(xs: list0 (string)):<> string
+stringlst_concat(xs: list0(string)):<> string
 //
 (* ****** ****** *)
 
