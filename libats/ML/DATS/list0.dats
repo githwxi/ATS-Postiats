@@ -508,7 +508,8 @@ i >= 0
 then
   auxlst<a> (xs, i, x0)
 else (
-  $raise IllegalArgExn("list0_remove_at_exn:i")
+  $raise
+  IllegalArgExn("list0_remove_at_exn:i")
 ) (* end of [else] *)
 )
 end // end of [list0_remove_at_exn]
@@ -544,30 +545,39 @@ end // end of [local]
 implement
 {a}(*tmp*)
 list0_length
-  (xs) = list_length<a>(g1ofg0(xs))
+  (xs) =
+  list_length<a>(g1ofg0(xs))
 //
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-list0_append(xs, ys) = let
+list0_append
+  (xs, ys) = let
   val xs = g1ofg0(xs)
   and ys = g1ofg0(ys)
 in
-  list0_of_list(list_append<a> (xs, ys))
+//
+list0_of_list(list_append<a>(xs, ys))
+//
 end // end of [list0_append]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-list0_extend(xs, x) = let
-  val xs = g1ofg0(xs)
-  val xs_x =
-    $effmask_wrt(list_extend<a> (xs, x))
-  // end of [val]
+list0_extend
+  (xs, x) = let
+//
+val xs = g1ofg0(xs)
+//
 in
-  list0_of_list_vt(xs_x)
+//
+$effmask_wrt
+(
+list0_of_list_vt(list_extend<a>(xs, x))
+) (* $effmask_wrt *)
+//
 end // end of [list0_extend]
 
 (* ****** ****** *)
