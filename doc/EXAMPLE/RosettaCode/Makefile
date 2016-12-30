@@ -26,6 +26,18 @@ cleanall:: ; $(RMF) Nested_function
 ######
 #
 all:: \
+Playing_cards
+Playing_cards: \
+Playing_cards.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+#
+regress:: \
+Playing_cards; ./$<
+cleanall:: ; $(RMF) Playing_cards
+#
+######
+#
+all:: \
 Remove_lines_from_a_file
 Remove_lines_from_a_file: \
 Remove_lines_from_a_file.dats ; \

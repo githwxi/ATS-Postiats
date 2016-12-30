@@ -722,12 +722,17 @@ a,b:vt0p}{c:vt0p
 //
 #atscode_separator()
 //
+(*
+HX-2016:
+Fisher–Yates shuffle
+*)
+//
 fun{a:vt0p}
 array_permute{n:int}
   (A: &(@[INV(a)][n]) >> @[a][n], n: size_t(n)): void
 //
 fun{(*void*)}
-array_permute$randint {n:int | n > 0} (size_t(n)): sizeLt(n)
+array_permute$randint{n:int | n > 0}(size_t(n)): sizeLt(n)
 //
 #atscode_separator()
 

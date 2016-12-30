@@ -55,23 +55,24 @@ atext_apptxt3
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 fun ignoretxt (x: atext): atext = atext_nil()
 fun ignorestr (x: string): atext = atext_nil()
-
+//
 (* ****** ****** *)
 
 macdef
-langeng (x) = atext_strsub ,(x)
+langeng(x) = atext_strsub(,(x))
 (*
-macdef langeng (x) = ignorestr ,(x)
+macdef
+langeng(x) = ignorestr ,(x)
 *)
 (*
 macdef
 langchin (x) = atext_strsub ,(x)
 *)
-macdef langchin (x) = ignorestr ,(x)
-
+macdef langchin(x) = ignorestr(,(x))
+//
 (* ****** ****** *)
 
 fun
@@ -79,13 +80,26 @@ timestamp
 (
 // argless
 ) : atext = let
-  var time = $TIME.time_get ()
-  val (fpf | x) = $TIME.ctime (time)
-  val x1 = sprintf ("%s", @($UN.castvwtp1{string}(x)))
-  prval () = fpf (x)
-  val x1 = string_of_strptr (x1)
+//
+var
+time =
+$TIME.time_get()
+val
+(
+fpf|x0
+) = $TIME.ctime(time)
+//
+val x1 =
+sprintf
+(
+"%s", @($UN.castvwtp1{string}(x0))
+) (* sprintf *)
+// end of [val]
+//
+prval () = fpf(x0)
+//
 in
-  atext_strcst (x1)
+  atext_strcst(string_of_strptr(x1))
 end // end of [timestamp]
 
 (* ****** ****** *)
@@ -110,64 +124,76 @@ end // end of [xmltagging]
 end // end of [local]
 
 (* ****** ****** *)
+//
+fun
+ignore(x0: string): atext = atext_nil()
+//
+fun
+ignoretxt(x0: atext): atext = atext_nil()
+//
+(* ****** ****** *)
+//
+macdef
+title(x) = xmltagging ("title", ,(x))
+//
+(* ****** ****** *)
 
-fun ignore (x: string): atext = atext_nil ()
-fun ignoretxt (x: atext): atext = atext_nil ()
+macdef
+dyncode(x) = xmltagging ("code", ,(x))
+macdef
+stacode(x) = xmltagging ("code", ,(x))
+macdef
+keycode(x) = xmltagging ("code", ,(x))
+macdef
+command(x) = xmltagging ("command", ,(x))
+macdef
+emphasis(x) = xmltagging ("emphasis", ,(x))
+macdef
+filename(x) = xmltagging ("filename", ,(x))
 
 (* ****** ****** *)
 
 macdef
-title (x) = xmltagging ("title", ,(x))
+para(x) =
+  xmltagging ("para", ,(x))
+macdef
+simplesect(x) =
+  xmltagging ("simplesect", ,(x))
 
 (* ****** ****** *)
 
 macdef
-dyncode (x) = xmltagging ("code", ,(x))
+sub(x) = xmltagging ("subscript", ,(x))
 macdef
-stacode (x) = xmltagging ("code", ,(x))
-macdef
-keycode (x) = xmltagging ("code", ,(x))
-macdef
-command (x) = xmltagging ("command", ,(x))
-macdef
-emphasis (x) = xmltagging ("emphasis", ,(x))
-macdef
-filename (x) = xmltagging ("filename", ,(x))
+sup(x) = xmltagging ("superscript", ,(x))
 
+(* ****** ****** *)
+//
+macdef
+member(x) = xmltagging ("member", ,(x))
+macdef
+simplelist(x) = xmltagging ("simplelist", ,(x))
+//
+(* ****** ****** *)
+//
+macdef
+listitem(x) =
+  xmltagging("listitem", ,(x))
+macdef
+orderedlist(x) =
+  xmltagging("orderedlist", ,(x))
+macdef
+itemizedlist(x) =
+  xmltagging("itemizedlist", ,(x))
+//
 (* ****** ****** *)
 
 macdef
-para (x) = xmltagging ("para", ,(x))
+programlisting(x) =
+  xmltagging("programlisting", ,(x))
 macdef
-simplesect (x) = xmltagging ("simplesect", ,(x))
-
-(* ****** ****** *)
-
-macdef sub (x) = xmltagging ("subscript", ,(x))
-macdef sup (x) = xmltagging ("superscript", ,(x))
-
-(* ****** ****** *)
-
-macdef
-member (x) = xmltagging ("member", ,(x))
-macdef
-simplelist (x) = xmltagging ("simplelist", ,(x))
-
-(* ****** ****** *)
-
-macdef
-listitem (x) = xmltagging ("listitem", ,(x))
-macdef
-orderedlist (x) = xmltagging ("orderedlist", ,(x))
-macdef
-itemizedlist (x) = xmltagging ("itemizedlist", ,(x))
-
-(* ****** ****** *)
-
-macdef
-programlisting (x) = xmltagging ("programlisting", ,(x))
-macdef
-informalexample (x) = xmltagging ("informalexample", ,(x))
+informalexample(x) =
+  xmltagging("informalexample", ,(x))
 
 (* ****** ****** *)
 
@@ -183,7 +209,8 @@ val _opn = "\
 in
 //
 fun atscode
-  (x: string): atext = atext_appstr3 (_opn, x, _cls)
+  (x: string): atext =
+  atext_appstr3 (_opn, x, _cls)
 //
 fun atscodefil
   (path: string): atext = let
