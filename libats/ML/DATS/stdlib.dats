@@ -51,7 +51,8 @@ staload "libats/ML/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 getenv_exn (name) = let
 //
 val str = $STDLIB.getenv_gc (name)
@@ -72,7 +73,8 @@ end // end of [getenv_exn]
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 getenv_opt (name) = let
 //
 val str = $STDLIB.getenv_gc (name)
@@ -90,7 +92,7 @@ end (* end of [if] *)
 end // end of [getenv_opt]
 
 (* ****** ****** *)
-
+//
 implement
 {}(*tmp*)
 setenv_exn
@@ -105,26 +107,92 @@ err < 0
 then let
 //
 val () =
-prerrln! "exit(ATS): [setenv_exn]: variable: [" name "] cannot be set."
+prerrln!
+(
+"exit(ATS): [setenv_exn]: variable: [")(name)("] cannot be set."
+) (* prerrln! *)
 //
 in
   exit (1)
 end else () // end of [if]
 //
-end // end of [setenv_err]
-
+end // end of [setenv_exn]
+//
 implement
 {}(*tmp*)
 setenv_err
-  (name, value, ow) = $STDLIB.setenv (name, value, ow)
+(
+  name, value, ow
+) = $STDLIB.setenv (name, value, ow)
 // end of [setenv_err]
-
+//
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-randint(n) = $UN.cast($UN.cast2int($STDLIB.random()) % n)
+randint(n) =
+  $UN.cast($UN.cast2int($STDLIB.random()) % n)
 //
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+streamize_random
+  () = auxmain() where
+{
+//
+fun
+auxmain
+(
+// argless
+) :
+stream_vt(Nat) = $ldelay
+(
+//
+let
+//
+val r = $STDLIB.random()
+val r = $UN.cast{intGte(0)}(r)
+//
+in
+//
+  stream_vt_cons(r, auxmain())
+//
+end // end of [let]
+//
+) (* end of [auxmain] *)
+//
+} (* end of [streamize_random] *)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+streamize_randint
+{n}(n) = auxmain() where
+{
+//
+fun
+auxmain
+(
+// argless
+) :
+stream_vt(natLt(n)) = $ldelay
+(
+//
+let
+//
+val r = $STDLIB.random()
+val r = $UN.cast{intGte(0)}(r)
+//
+in
+  stream_vt_cons(nmod(r, n), auxmain())
+end // end of [let]
+//
+) (* end of [auxmain] *)
+//
+} (* end of [streamize_randint] *)
+
 (* ****** ****** *)
 
 (* end of [stdlib.dats] *)

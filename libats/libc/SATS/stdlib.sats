@@ -341,16 +341,17 @@ fun srand (seed: uint):<!refwrt> void = "mac#%"
 fun rand_r (seed: &uint >> _):<> int = "mac#%"
 
 (* ****** ****** *)
+//
 /*
 long int random(void);
 */
 fun random((*void*)):<!refwrt> lint = "mac#%"
-
+//
 /*
 void srandom(unsigned int seed);
 */
 fun srandom(seed: uint):<!refwrt> void = "mac#%"
-
+//
 /*
 char
 *initstate
@@ -360,17 +361,17 @@ char
 */
 fun initstate_unsafe
 (
-  seed: uint, state: cPtr1 (char), n: sizeGte(8)
+  seed: uint, state: cPtr1(char), n: sizeGte(8)
 ) : cPtr0 (char) = "mac#%"
 // end of [initstate_unsafe]
-
+//
 /*
 char *setstate(char *state);
 */
 fun setstate_unsafe
-  (state: cPtr1 (char)):<!ref> cPtr0 (char) = "mac#%"
+  (state: cPtr1(char)):<!ref> cPtr0(char) = "mac#%"
 // end of [setstate_unsafe]
-
+//
 (* ****** ****** *)
 /*
 double drand48(void); // obsolete

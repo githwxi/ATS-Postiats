@@ -727,7 +727,7 @@ array_permute{n:int}
   (A: &(@[INV(a)][n]) >> @[a][n], n: size_t(n)): void
 //
 fun{(*void*)}
-array_permute$randint {n:int | n > 0} (size_t n): sizeLt (n)
+array_permute$randint {n:int | n > 0} (size_t(n)): sizeLt(n)
 //
 #atscode_separator()
 
