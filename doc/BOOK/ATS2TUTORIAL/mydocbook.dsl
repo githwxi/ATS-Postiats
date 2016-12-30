@@ -10,7 +10,7 @@
 <style-specification id="html" use="html-stylesheet">
 <style-specification-body> 
 
-;; customization for html
+;; html customization
 ;; (define nochunks #t)
 (define %html-ext% ".html")
 (define %stylesheet% "./assets/ATS2TUTORIAL-BOOK.css")

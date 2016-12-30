@@ -68,7 +68,8 @@ _(*int*) =
 $extfcall
 ( int
 , "snprintf"
-, bufp, BUFSZ, "%s --output %s --input %s.bak"
+, bufp, BUFSZ
+, "%s -ns 12 --output %s --input %s.bak"
 , MYTEXTING, inp, inp
 ) (* $extfcall *)
 val () =

@@ -213,7 +213,7 @@ val _cls = "\
 \"\"\")]]></programlisting></informalexample>\n\
 " // end of [val]
 val _opn = "\
-<informalexample><programlisting><![CDATA[##sats2xhtml_docbook(\"\"\"\
+<informalexample><programlisting><![CDATA[############sats2xhtml_docbook(\"\"\"\
 " // end of [val]
 #endif // end of [if(0)]
 //
@@ -258,7 +258,7 @@ val _cls = "\
 \"\"\")]]></programlisting></informalexample>\n\
 " // end of [val]
 val _opn = "\
-<informalexample><programlisting><![CDATA[##dats2xhtml_docbook(\"\"\"\
+<informalexample><programlisting><![CDATA[############dats2xhtml_docbook(\"\"\"\
 " // end of [val]
 #endif // end of [if(0)]
 //
