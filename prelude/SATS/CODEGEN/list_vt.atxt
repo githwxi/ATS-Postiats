@@ -479,7 +479,7 @@ Fisher–Yates shuffle
 //
 fun{a:t0p}
 list_vt_permute
-  {n:int}(xs: list_vt(a, n)): list_vt(a, n)
+  {n:int}(xs: list_vt(INV(a), n)): list_vt(a, n)
 //
 fun{(*void*)}
 list_vt_permute$randint{n:int | n > 0}(int(n)): natLt(n)

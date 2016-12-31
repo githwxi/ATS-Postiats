@@ -26,10 +26,22 @@ cleanall:: ; $(RMF) Nested_function
 ######
 #
 all:: \
+Penneys_game
+Penneys_game: \
+Penneys_game.dats ; \
+$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+#
+regress:: \
+Penneys_game; ./$<
+cleanall:: ; $(RMF) Penneys_game
+#
+######
+#
+all:: \
 Playing_cards
 Playing_cards: \
 Playing_cards.dats ; \
-$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< -latslib
 #
 regress:: \
 Playing_cards; ./$<

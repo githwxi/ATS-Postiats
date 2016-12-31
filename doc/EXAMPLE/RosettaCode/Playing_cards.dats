@@ -21,6 +21,8 @@ Each card must have a pip value and a suit value which constitute the unique val
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/HATS/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 //
@@ -45,7 +47,7 @@ typedef card = card_type
 //
 extern
 fun
-pip_make: intBtwe(1, 13) -> pip
+pip_make: natLt(13) -> pip
 extern
 fun
 pip_get_name: pip -> string
@@ -55,7 +57,7 @@ pip_get_value: pip -> intBtwe(1, 13)
 //
 extern
 fun
-suit_make: intBtwe(1, 4) -> suit
+suit_make: natLt(4) -> suit
 extern
 fun
 suit_get_name: suit -> string
@@ -90,7 +92,7 @@ pip_type = natLt(13)
 in (* in-of-local *)
 
 implement
-pip_make(x) = x - 1
+pip_make(x) = x
 implement
 pip_get_value(x) = x + 1
 
@@ -106,7 +108,7 @@ suit_type = natLt(4)
 in (* in-of-local *)
 
 implement
-suit_make(x) = x - 1
+suit_make(x) = x
 implement
 suit_get_value(x) = x + 1
 
@@ -159,6 +161,9 @@ card_get_suit: card -> suit
 //
 extern
 fun
+card_make: natLt(52) -> card
+extern
+fun
 card_make_suit_pip: (suit, pip) -> card
 //
 (* ****** ****** *)
@@ -180,6 +185,11 @@ overload .suit with card_get_suit
 
 (* ****** ****** *)
 
+implement
+fprint_val<card> = fprint_card
+
+(* ****** ****** *)
+
 overload fprint with fprint_pip
 overload fprint with fprint_suit
 overload fprint with fprint_card
@@ -195,10 +205,13 @@ in (* in-of-local *)
 //
 implement
 card_get_pip
-  (x) = pip_make(nmod(x, 13)+1)
+  (x) = pip_make(nmod(x, 13))
 implement
 card_get_suit
-  (x) = suit_make(ndiv(x, 13)+1)
+  (x) = suit_make(ndiv(x, 13))
+//
+implement
+card_make(xy) = xy
 //
 implement
 card_make_suit_pip(x, y) =
@@ -221,15 +234,10 @@ fprint_card(out, c) =
 //
 (* ****** ****** *)
 //
-absvtype deck_vtype(n:int)
+absvtype
+deck_vtype(n:int) = ptr
+//
 vtypedef deck(n:int) = deck_vtype(n)
-//
-(* ****** ****** *)
-//
-extern
-fun
-deck_shuffle
-  {n:nat}(!deck(n) >> _): void
 //
 (* ****** ****** *)
 //
@@ -242,6 +250,16 @@ extern
 fun
 deck_is_empty
   {n:nat}(!deck(n)): bool(n==0)
+//
+overload iseqz with deck_is_empty
+//
+(* ****** ****** *)
+//
+extern
+fun
+deck_free{n:int}(deck(n)): void
+//
+overload .free with deck_free
 //
 (* ****** ****** *)
 //
@@ -256,6 +274,17 @@ fun
 fprint_deck
   {n:nat}(FILEref, !deck(n)): void
 //
+overload fprint with fprint_deck
+//
+(* ****** ****** *)
+//
+extern
+fun
+deck_shuffle
+  {n:nat}(!deck(n) >> _): void
+//
+overload .shuffle with deck_shuffle
+//
 (* ****** ****** *)
 //
 extern
@@ -265,11 +294,165 @@ deck_takeout_top
 //
 (* ****** ****** *)
 
+local
+//
+datavtype
+deck(int) =
+| {n:nat}
+  Deck(n) of
+  (
+    int(n)
+  , list_vt(card, n)
+  ) // end of [Deck]
+//
+assume
+deck_vtype(n:int) = deck(n)
+//
+in (* in-of-local *)
+
 implement
-main0() =
+deck_get_size
+  (deck) =
+(
+let val+Deck(n, _) = deck in n end
+)
+
+implement
+deck_is_empty
+  (deck) =
+(
+let val+Deck(n, _) = deck in n = 0 end
+)
+
+(* ****** ****** *)
+//
+implement
+deck_free(deck) =
+(
+let val+~Deck(n, xs) = deck in free(xs) end
+) (* end of [deck_free] *)
+//
+(* ****** ****** *)
+
+implement
+deck_make_full
+  ((*void*)) = let
+//
+val xys =
+list_make_intrange(0, 52)
+//
+val cards =
+list_vt_mapfree_fun<natLt(52)><card>(xys, lam xy => card_make(xy))
+//
+in
+  Deck(52, cards)  
+end // end of [deck_make_full]
+
+(* ****** ****** *)
+
+implement
+fprint_deck
+  (out, deck) = let
+//
+val+Deck(n, xs) = deck
+//
+in
+//
+fprint_list_vt(out, xs)
+//
+end // end of [fprint_deck]
+
+(* ****** ****** *)
+
+implement
+deck_shuffle
+  (deck) =
+  fold@(deck) where
 {
 //
-val () = println! ("Hello from [Playing_cards]!")
+val+@Deck(n, xs) = deck
+//
+implement
+list_vt_permute$randint<>
+  (n) = randint(n)
+//
+val ((*void*)) =
+  (xs := list_vt_permute(xs))
+//
+} (* end of [deck_shuffle] *)
+
+(* ****** ****** *)
+
+implement
+deck_takeout_top
+  (deck) = let
+//
+val+@Deck(n, xs) = deck
+//
+val+
+~list_vt_cons(x0, xs_tl) = xs
+//
+val ((*void*)) = n := n - 1
+val ((*void*)) = (xs := xs_tl)
+//
+in
+  fold@(deck); x0(*top*)
+end // end of [deck_takeout_top]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+main0((*void*)) =
+{
+//
+val () =
+println!
+(
+"Hello from [Playing_cards]!"
+) (* println! *)
+//
+val out = stdout_ref
+//
+val theDeck =
+  deck_make_full((*void*))
+//
+val ((*void*)) =
+  fprintln!(out, "theDeck = ", theDeck)
+//
+val ((*void*)) =
+  theDeck.shuffle((*void*))
+//
+val ((*void*)) =
+  fprintln!(out, "theDeck = ", theDeck)
+//
+val ((*void*)) =
+  loop_deal(theDeck) where
+{
+//
+fun
+loop_deal{n:nat}
+(
+  deck: !deck(n) >> deck(0)
+) : void =
+(
+  if (
+  iseqz(deck)
+  ) then ((*void*))
+    else
+      let
+        val card =
+        deck_takeout_top(deck)
+      in
+        fprintln!(out, card); loop_deal(deck)
+      end // end of [let]
+    // end of [else]
+)
+//
+} (* end of [val] *)
+//
+val ((*freed*)) = theDeck.free()
 //
 } (* end of [main0] *)
 
