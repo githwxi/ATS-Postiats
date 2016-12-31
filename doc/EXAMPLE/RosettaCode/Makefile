@@ -14,6 +14,18 @@ all::
 ######
 #
 all:: \
+Middle_three_digits
+Middle_three_digits: \
+Middle_three_digits.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+#
+regress:: \
+Middle_three_digits; ./$<
+cleanall:: ; $(RMF) Middle_three_digits
+#
+######
+#
+all:: \
 Nested_function
 Nested_function: \
 Nested_function.dats ; \
