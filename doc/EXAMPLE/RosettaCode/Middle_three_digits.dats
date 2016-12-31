@@ -65,6 +65,7 @@ ds: list0(int), k: int
 //
 val ds =
   int2digits(x1)
+//
 val n0 = length(ds)
 //
 in
@@ -81,7 +82,10 @@ if
 (n0 % 2 = 0)
 then
 (
-println! ("Middle-three-digits(", x0, "): Even number of digits!")
+println!
+(
+"Middle-three-digits(", x0, "): Even number of digits!"
+)
 )
 else let
   val ds =

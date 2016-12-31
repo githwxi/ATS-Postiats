@@ -44,7 +44,7 @@ Penneys_game.dats ; \
 $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< -latslib
 #
 regress:: \
-Penneys_game; ./$<
+Penneys_game; ./$< HHH TTT
 cleanall:: ; $(RMF) Penneys_game
 #
 ######
@@ -80,12 +80,19 @@ Stream_Merge.dats ; \
 $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
 #
 regress:: \
-Stream_Merge; ./$<
+Stream_Merge; ./$< DATA/Stream_Merge_0.txt DATA/Stream_Merge_1.txt
+#
 cleanall:: ; $(RMF) Stream_Merge
 #
 ######
 
 RMF=rm -f
+
+######
+
+testall:: all
+testall:: regress
+testall:: cleanall
 
 ######
 
