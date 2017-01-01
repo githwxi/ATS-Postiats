@@ -124,8 +124,11 @@ val
 sockfd =
 $extfcall
 (
-  int, "socket", AF_INET, SOCK_STREAM, 0
-) (* end of [val] *)
+  int
+, "socket"
+, AF_INET, SOCK_STREAM, 0
+) (* $extfcall *)
+//
 val ((*void*)) = assertloc (sockfd >= 0)
 //
 extvar "theSockID" = sockfd
@@ -133,11 +136,17 @@ extvar "theSockID" = sockfd
 val () =
 $extfcall
 (
-  void, "atslib_libc_bind_exn", sockfd, addr@servaddr, socklen_in
-) (* end of [val] *)
+  void
+, "atslib_libats_libc_bind_exn"
+, sockfd, addr@servaddr, socklen_in
+) (* $extfcall *)
 //
 val () =
-$extfcall (void, "atslib_libc_listen_exn", sockfd, 5(*LISTENQSZ*))
+$extfcall
+(
+  void
+, "atslib_libats_libc_listen_exn", sockfd, 5(*LISTENQSZ*)
+) (* $extfcall *)
 //
 } (* end of [myserver_init] *)
 
@@ -148,7 +157,12 @@ myserver_waitfor_request
   ((*void*)) = let
 //
 val fd = $extval(int, "theSockID")
-val fd2 = $extfcall (int, "accept", fd, 0(*addr*), 0(*addrlen*))
+val fd2 =
+$extfcall
+(
+  int
+, "accept", fd, 0(*addr*), 0(*addrlen*)
+) (* $extfcall *)
 //
 in
   $UN.cast{request}(fd2)

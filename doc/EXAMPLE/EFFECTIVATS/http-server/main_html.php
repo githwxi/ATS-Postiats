@@ -237,13 +237,13 @@ $mycode = <<<EOT
 
 val
 theRespFmt = "\\
-HTTP/1.0 200 OK\\r\\n\\
-Content-type: text/html\\r\\n\\r\\n\\
+HTTP/1.0 200 OK\\\\r\\\\n\\\\
+Content-type: text/html\\\\r\\\\n\\\\r\\\\n\\\\
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset=\\"UTF-8\\">
-<meta http-equiv=\\"Content-Type\\" content=\\"text/html\\">
+<meta charset=\\\\\"UTF-8\\\\\">
+<meta http-equiv=\\\\\"Content-Type\\\\\" content=\\\\\"text/html\\\\\">
 </head>
 <body>
 <h1>
@@ -341,8 +341,9 @@ A side note
 
 <p>
 For someone interested in <a href="http://www.zeromq.org">ZMQ</a>,
-please find in the file <u>myserver2.dats</u> a ZMQ-based implementation
-of a http-server that is essentially equivalent to the one given above.
+please find a ZMQ-based implementation of a minimal http-server in the
+file <u>myserver2.dats</u> that is essentially equivalent to the one
+given above.
 </p>
 
 <hr size="2">
