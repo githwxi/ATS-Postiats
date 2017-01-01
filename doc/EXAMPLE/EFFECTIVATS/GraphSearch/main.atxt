@@ -537,7 +537,7 @@ words are many-step connected. For instance. ##dyncode("head") and
 ##dyncode(head), ##dyncode(held), ##dyncode(hell), ##dyncode(tell),
 ##dyncode(tall), ##dyncode(tail).  One may play Doublets on-line by
 visiting this
-<a href="http://ats-lang.github.io/EXAMPLE/BUCASCS320/Doublets/Doublets.html">link</a>.
+<a href="http://ats-lang.github.io/EXAMPLE/BUCS320/Doublets/Doublets.html">link</a>.
 
 """)##comment("para")
 

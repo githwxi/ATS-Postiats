@@ -66,14 +66,16 @@ upload_main: \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/queue-sllist2/
 
 ######
-
+#
+# clean: cleanats
+#
+cleanats:: ; $(RMF) main.exe
 cleanats:: ; $(RMF) *_?ats.c
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
-
+#
 ######
 
-cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 
 ######

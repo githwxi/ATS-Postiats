@@ -86,6 +86,7 @@ RMF=rm -f
 
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c
+clean:: ; $(RMF) main.exe
 clean:: ; $(RMF) main_atxt.txt
 clean:: ; $(RMF) main_atxt.dats
 
@@ -93,7 +94,6 @@ clean:: ; $(RMF) main_atxt.dats
 #
 cleanall:: clean
 #
-cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 cleanall:: ; $(RMF) *_?ats.html
 #

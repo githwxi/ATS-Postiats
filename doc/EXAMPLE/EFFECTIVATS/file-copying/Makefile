@@ -81,20 +81,18 @@ upload_main: \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/file-copying/
 
 ######
-
+#
+clean: cleanats
+#
+cleanats:: ; $(RMF) main.exe
 cleanats:: ; $(RMF) *_?ats.o
 cleanats:: ; $(RMF) *_?ats.c
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
-
-######
-
-clean: cleanats
-
+#
 ######
 
 cleanall:: cleanats
-cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 
 ######

@@ -3,167 +3,145 @@
 #
 
 ######
+
+MAKE=make
+
+######
+
+all::
+clean:: ; $(MAKE) all TARGET=clean
+cleanall:: ; $(MAKE) all TARGET=cleanall
+
+######
 #
 TARGET=all
 #
 # TARGET=main.html
-#
 # TARGET=all upload_main
 #
 ######
 
-all::
-
 all :: \
 prop-logic
 prop-logic:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 file-copying
 file-copying:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 list-folding
 list-folding:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 loop-as-tailrec
 loop-as-tailrec:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 HanoiTowers
 HanoiTowers:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 word-counting
 word-counting:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 stack-array
 stack-array:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 queue-sllist2
 queue-sllist2:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 mergesort
 mergesort:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 sorting-linear-lists
 sorting-linear-lists:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 DiningPhil
 DiningPhil:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 DiningPhil2
 DiningPhil2:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 Producer-Consumer
 Producer-Consumer:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 Readers-and-Writers
 Readers-and-Writers:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 IPC-hiredis
 IPC-hiredis:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 # all :: \
 # http-server
 # http-server:: ; \
-# make -C $@ $(TARGET)
+# $(MAKE) -C $@ $(TARGET)
 
 all :: \
 Sierpinski-3angle
 Sierpinski-3angle:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 PwTP-bool-vs-prop
 PwTP-bool-vs-prop:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 parsing-cmbntr-cps
 parsing-cmbntr-cps:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 ssntyped-channels-1
 ssntyped-channels-1:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 ssntyped-channels-2
 ssntyped-channels-2:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 linear-streams
 linear-streams:: ; \
-make -C $@ $(TARGET)
+$(MAKE) -C $@ $(TARGET)
 
 all :: \
 FRP-bacon.js
-FRP-bacon.js:: ; make -C $@ $(TARGET)
+FRP-bacon.js:: ; $(MAKE) -C $@ $(TARGET)
 
 all :: \
 funcomb-style
-funcomb-style:: ; make -C $@ $(TARGET)
+funcomb-style:: ; $(MAKE) -C $@ $(TARGET)
 
 all :: \
 GraphSearch
-GraphSearch:: ; make -C $@ $(TARGET)
-
-######
-
-cleanall::
-cleanall:: ; make -C prop-logic cleanall
-cleanall:: ; make -C file-copying cleanall
-cleanall:: ; make -C list-folding cleanall
-cleanall:: ; make -C loop-as-tailrec cleanall
-cleanall:: ; make -C HanoiTowers cleanall
-cleanall:: ; make -C word-counting cleanall
-cleanall:: ; make -C stack-array cleanall
-cleanall:: ; make -C queue-sllist2 cleanall
-cleanall:: ; make -C mergesort cleanall
-cleanall:: ; make -C sorting-linear-lists cleanall
-cleanall:: ; make -C DiningPhil cleanall
-cleanall:: ; make -C DiningPhil2 cleanall
-cleanall:: ; make -C Producer-Consumer cleanall
-cleanall:: ; make -C Readers-and-Writers cleanall
-cleanall:: ; make -C IPC-hiredis cleanall
-cleanall:: ; make -C http-server cleanall
-cleanall:: ; make -C Sierpinski-3angle cleanall
-cleanall:: ; make -C PwTP-bool-vs-prop cleanall
-cleanall:: ; make -C parsing-cmbntr-cps cleanall
-cleanall:: ; make -C ssntyped-channels-1 cleanall
-cleanall:: ; make -C ssntyped-channels-2 cleanall
-cleanall:: ; make -C linear-streams cleanall
-cleanall:: ; make -C FRP-bacon.js cleanall
-cleanall:: ; make -C funcomb-style cleanall
-cleanall:: ; make -C GraphSearch cleanall
+GraphSearch:: ; $(MAKE) -C $@ $(TARGET)
 
 ######
 

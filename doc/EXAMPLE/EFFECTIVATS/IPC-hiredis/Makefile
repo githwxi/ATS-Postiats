@@ -92,7 +92,10 @@ upload_main: \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/IPC-hiredis/
 
 ######
-
+#
+# clean: cleanats
+#
+cleanats:: ; $(RMF) main.exe
 cleanats:: ; $(RMF) mylib_dats.c
 cleanats:: ; $(RMF) msgchan_dats.c
 cleanats:: ; $(RMF) redisContextSetup_dats.c
@@ -101,10 +104,9 @@ cleanats:: ; $(RMF) test_dn_dats.c
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
 cleanats:: ; $(RMF) main_atxt_dats.c
-
+#
 ######
 
-cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 
 ###### end of [Makefile] ######

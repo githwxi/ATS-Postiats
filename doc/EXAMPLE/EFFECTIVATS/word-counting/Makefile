@@ -101,14 +101,16 @@ upload_main: \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/word-counting/
 
 ######
-
+#
+# clean: cleanats
+#
 cleanats:: ; $(RMF) *_?ats.c
+cleanats:: ; $(RMF) main.exe
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
-
+#
 ######
 
-cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 cleanall:: ; $(RMF) *_?ats.html
 

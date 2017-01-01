@@ -78,14 +78,16 @@ upload_main: \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/Producer-Consumer/
 
 ######
-
+#
+# clean: cleanats
+#
+cleanats:: ; $(RMF) main.exe
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
 cleanats:: ; $(RMF) main_atxt_dats.c
-
+#
 ######
 
-cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 
 ######
