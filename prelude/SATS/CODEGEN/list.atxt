@@ -1016,7 +1016,10 @@ streamize_list_cross
 overload = with list_equal
 //
 overload + with list_append
+//
+(*
 overload * with mul_int_list
+*)
 //
 overload [] with list_get_at
 //

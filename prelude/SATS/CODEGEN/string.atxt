@@ -509,20 +509,27 @@ overload string_append with string0_append5 of 0
 overload string_append with string0_append6 of 0
 //
 #atscode_separator()
-
+//
 fun{}
 stringarr_concat{n:int}
-  (arrayref(string, n), size_t(n)):<!wrt> Strptr1
+(
+xs: arrayref(string, n), n: size_t(n)
+) :<!wrt> Strptr1 // end of [stringarr]
+//
 fun{}
-stringlst_concat(xs: List(string)):<!wrt> Strptr1
-
+stringlst_concat(List(string)):<!wrt> Strptr1
+//
 #atscode_separator()
-
+//
+fun{}
+string_implode
+  {n:int}
+  (cs: list(charNZ, n)):<!wrt> strnptr(n)
+//
 fun{}
 string_explode
   {n:int} (x: string(n)):<!wrt> list_vt(charNZ, n)
-// end of [string_explode]
-
+//
 #atscode_separator()
 //
 fun{}

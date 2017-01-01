@@ -42,9 +42,21 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+extern
+fun
+memcpy
+( d0: ptr
+, s0: ptr
+, n0: size_t
+) :<!wrt> ptr = "mac#atspre_string_memcpy"
+// end of [memcpy]
+//
 (* ****** ****** *)
 //
 macdef
@@ -85,6 +97,8 @@ prelude_string0_append6 = string0_append6
 macdef
 prelude_stringlst_concat = stringlst_concat
 //
+macdef
+prelude_string_implode = string_implode
 macdef
 prelude_string_explode = string_explode
 //
@@ -381,12 +395,87 @@ end // end of [string_append6]
 
 implement
 {}(*tmp*)
-stringlst_concat (xs) = let
-  val res = $effmask_wrt (prelude_stringlst_concat (g1ofg0_list(xs)))
+mul_int_string
+(
+  n, x0
+) = let
+//
+val n = g1ofg0(n)
+val x0 = g1ofg0(x0)
+//
+in
+//
+if
+(n > 0)
+then let
+//
+val
+nx0 = length(x0)
+val
+(
+  pf, pfgc | p0
+) =
+$effmask_wrt
+(
+malloc_gc(n*nx0)
+)
+//
+val () =
+loop(p0, n) where
+{
+//
+val x0 =
+  string2ptr(x0)
+//
+fun
+loop
+{n:nat} .<n>.
+(
+p0: ptr, n: int(n)
+) :<> void =
+(
+if
+(n > 0)
+then let
+  val _(*p0*) =
+  $effmask_all(memcpy(p0, x0, nx0))
+in
+  loop(ptr_add<char>(p0, nx0), pred(n))
+end // end of [then]
+) (* end of [loop] *)
+//
+} (* end of [val] *)
+//
+in
+  $UN.castvwtp0{string}((pf, pfgc | p0))
+end // end of [then]
+else "" // end of [else]
+//
+end (* end of [mul_int_string] *)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+stringlst_concat
+  (xs) = let
+//
+val res =
+$effmask_wrt
+(
+  prelude_stringlst_concat(g1ofg0_list(xs))
+) (* $effmask_wrt *)
 in
   strptr2string (res)
 end // end of [stringlst_concat]
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+string_implode
+  (cs) = string_make_list<>(cs)
+//
 (* ****** ****** *)
 
 implement
@@ -406,12 +495,6 @@ $effmask_wrt
 in
   list0_of_list_vt(res)
 end // end of [string_explode]
-
-(* ****** ****** *)
-
-implement
-{}(*tmp*)
-string_implode(cs) = string_make_list(cs)
 
 (* ****** ****** *)
 

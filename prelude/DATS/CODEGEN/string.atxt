@@ -25,13 +25,16 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("April, 2012")
 
 #atscode_separator()
-
-\#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
-
+//
+//
+// HX:
+// there is no dynloading at
+\#define ATS_DYNLOADFLAG 0 // run-time
+//
 #atscode_separator()
-
+//
 staload UN = "prelude/SATS/unsafe.sats"
-
+//
 #atscode_separator()
 
 \#define CNUL '\000'
@@ -41,15 +44,21 @@ staload UN = "prelude/SATS/unsafe.sats"
 overload + with add_ptr_bsz
 
 #atscode_separator()
-
-macdef castvwtp_trans = $UN.castvwtp0 // former name
-
+//
+// HX:
+// castvwtp_trans: formerly used name
+//
+macdef castvwtp_trans = $UN.castvwtp0
+//
 #atscode_separator()
 //
 extern
 fun
 memcpy
-  (d:ptr, s:ptr, n:size_t):<!wrt> ptr = "mac\#atspre_string_memcpy"
+( d0: ptr
+, s0: ptr
+, n0: size_t
+) :<!wrt> ptr = "mac\#atspre_string_memcpy"
 // end of [memcpy]
 //
 #atscode_separator()
@@ -802,13 +811,13 @@ implement
 string1_append
   {n1,n2}(x1, x2) = let
 //
-val n1 = strlen (x1) and n2 = strlen (x2)
+val n1 = strlen(x1) and n2 = strlen(x2)
 //
 val n12 = n1 + n2
-val (pf, fpf | p) = malloc_gc (succ(n12))
+val (pf, fpf | p) = malloc_gc(succ(n12))
 //
-val p1 = memcpy (p, string2ptr(x1), n1)
-val p2 = memcpy (p + n1, string2ptr(x2), succ(n2))
+val p1 = memcpy(p, string2ptr(x1), n1)
+val p2 = memcpy(p + n1, string2ptr(x2), succ(n2))
 //
 in
   castvwtp_trans{strnptr(n1+n2)}((pf, fpf | p))
@@ -876,7 +885,8 @@ end // end of [string0_append6]
 
 implement
 {}(*tmp*)
-stringarr_concat(xs, asz) = let
+stringarr_concat
+  (xs, asz) = let
 //
 fun loop
 (
@@ -887,11 +897,11 @@ in
 if
 i > 0
 then let
-  val x = $UN.ptr0_get<string> (p1)
-  val nx: size_t = string_length (x)
-  val () = $UN.ptr0_set<size_t> (p2, nx)
+  val x = $UN.ptr0_get<string>(p1)
+  val nx: size_t = string_length(x)
+  val () = $UN.ptr0_set<size_t>(p2, nx)
 in
-  loop(ptr_succ<string> (p1), ptr_succ<size_t> (p2), pred(i), ntot+nx)
+  loop(ptr_succ<string>(p1), ptr_succ<size_t>(p2), pred(i), ntot+nx)
 end // end of [then]
 else ntot // end of [else]
 //
@@ -906,27 +916,42 @@ in
 if
 i > 0
 then let
-  val x = $UN.ptr0_get<string> (p1)
-  val nx = $UN.ptr0_get<size_t> (p2)
-  val _(*ptr*) = memcpy (pres, $UN.cast{ptr}(x), nx)
+//
+val x = $UN.ptr0_get<string>(p1)
+val nx = $UN.ptr0_get<size_t>(p2)
+val _(*ptr*) = memcpy(pres, $UN.cast{ptr}(x), nx)
+//
 in
-  loop2 (ptr_succ<string> (p1), ptr_succ<size_t> (p2), pred(i), pres+nx)
+  loop2(ptr_succ<string>(p1), ptr_succ<size_t>(p2), pred(i), pres+nx)
 end // end of [then]
-else $UN.ptr0_set<char> (pres, CNUL) // else
+else
+(
+  $UN.ptr0_set<char>(pres, CNUL)
+)
 //
 end // end of [loop2]
 //
-val p1 = $UN.cast{ptr}(xs)
-val nxs = arrayptr_make_uninitized<size_t> (asz)
-val p2 = arrayptr2ptr (nxs)
+val p1 =
+  $UN.cast{ptr}(xs)
+//
+val A0 =
+  arrayptr_make_uninitized<size_t>(asz)
+//
+val p2 = arrayptr2ptr(A0)
 //
 val ntot =
-  $effmask_all (loop (p1, p2, asz, i2sz(0)))
+  $effmask_all(loop(p1, p2, asz, i2sz(0)))
 //
-val (pf, pfgc | pres) = malloc_gc (g1ofg0(succ(ntot)))
-val ((*void*)) = $effmask_all (loop2 (p1, p2, asz, pres))
+val
+( pf
+, pfgc
+| pres
+) = malloc_gc(g1ofg0(succ(ntot)))
 //
-val ((*freed*)) = arrayptr_free (nxs)
+val ((*void*)) =
+  $effmask_all(loop2(p1, p2, asz, pres))
+//
+val ((*freed*)) = arrayptr_free{size_t?}(A0)
 //
 in
   castvwtp_trans{Strptr1}((pf, pfgc | pres))
@@ -945,65 +970,85 @@ val n = list_length(xs)
 prval() = lemma_list_param(xs)
 //
 prval
-[n:int] EQINT() = eqint_make_gint(n)
+[n:int]
+EQINT() = eqint_make_gint(n)
+typedef
+stringarr = arrayref(string,n)
 //
 val xs2 = arrayptr_make_list (n, xs)
 //
 val res =
 stringarr_concat
-  ($UN.castvwtp1{arrayref(string,n)}(xs2), i2sz(n))
+  ($UN.castvwtp1{stringarr}(xs2), i2sz(n))
 //
 val ((*freed*)) = arrayptr_free{string}(xs2)
 //
 } (* end of [stringlst_concat] *)
 
 #atscode_separator()
+//
+implement
+{}(*tmp*)
+string_implode
+  (cs) = string_make_list<>(cs)
+//
+#atscode_separator()
 
 implement
 {}(*tmp*)
 string_explode
-  {n}(x) = let
+  {n}(x0) = let
 //
-prval () = lemma_string_param (x)
+prval () = lemma_string_param(x0)
 //
-viewtypedef res(n) = list_vt (charNZ, n)
+viewtypedef res(n) = list_vt(charNZ, n)
 //
 fun loop
   {n:nat} .<n>.
 (
-  x: string n, res: &ptr? >> res(n)
+  x0: string(n)
+, res: &ptr? >> res(n)
 ) :<!wrt> void = let
-  val p = string2ptr (x)
-  val c = $UN.ptr1_get<Char> (p)
+  val p = string2ptr(x0)
+  val c = $UN.ptr1_get<Char>(p)
 in
 //
-if c != CNUL then let
-  prval () =
+if
+(c != CNUL)
+then let
+  prval() =
   __assert () where
   {
-    extern praxi __assert (): [n > 0] void
+    extern
+    praxi __assert (): [n > 0] void
   } (* prval *)
-  val () = res :=
+  val () =
+    res :=
     list_vt_cons{charNZ}{0}(c, _)
+  // end of [val]
   val+list_vt_cons (_, res1) = res
-  val x = $UN.cast{string(n-1)}(ptr1_succ<char>(p))
-  val () = loop (x, res1)
+  val x1 =
+    $UN.cast{string(n-1)}(ptr1_succ<char>(p))
+  // end of [val]
+  val ((*void*)) = loop (x1, res1)
 in
-  fold@ (res)
-end else let
-  prval () =
+  fold@(res)
+end // end of [then]
+else let
+  prval() =
   __assert () where
   {
-    extern praxi __assert (): [n == 0] void
+    extern
+    praxi __assert (): [n == 0] void
   } (* [prval] *)
 in
-  res := list_vt_nil ()
-end // end of [if]
+  res := list_vt_nil((*void*))
+end // end of [else]
 //
 end // end of [loop]
 //
 var res: ptr
-val () = $effmask_wrt (loop (x, res))
+val () = $effmask_wrt(loop(x0, res))
 //
 in
   res

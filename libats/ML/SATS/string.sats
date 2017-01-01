@@ -108,18 +108,22 @@ string_make_substring
 ) :<> string // end-of-function
 
 (* ****** ****** *)
-
+//
 fun{}
 string_append
-  (x1: NSH(string), x2: NSH(string)):<> string
+(
+  x1: NSH(string), x2: NSH(string)
+) :<> string // end of [string_append]
+//
 overload + with string_append of 0
-
+//
 (* ****** ****** *)
 //
 fun{}
 string_append3
 (
-  x1: NSH(string), x2: NSH(string), x3: NSH(string)
+  x1: NSH(string)
+, x2: NSH(string), x3: NSH(string)
 ) :<> string // end of [string_append3]
 //
 (* ****** ****** *)
@@ -133,15 +137,27 @@ string_append4
 fun{}
 string_append5
 (
-  x1: NSH(string), x2: NSH(string)
-, x3: NSH(string), x4: NSH(string), x5: NSH(string)
+  x1: NSH(string)
+, x2: NSH(string), x3: NSH(string)
+, x4: NSH(string), x5: NSH(string)
 ) :<> string // end of [string_append5]
 fun{}
 string_append6
 (
-  x1: NSH(string), x2: NSH(string), x3: NSH(string)
-, x4: NSH(string), x5: NSH(string), x6: NSH(string)
+  x1: NSH(string), x2: NSH(string)
+, x3: NSH(string), x4: NSH(string)
+, x5: NSH(string), x6: NSH(string)
 ) :<> string // end of [string_append6]
+//
+(* ****** ****** *)
+//
+fun{}
+mul_int_string
+(
+  ntime: int, x0: NSH(string)
+) :<> string // end-of-function
+//
+overload * with mul_int_string of 0
 //
 (* ****** ****** *)
 //
