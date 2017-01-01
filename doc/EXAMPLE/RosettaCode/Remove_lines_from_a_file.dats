@@ -1,10 +1,15 @@
+(* ****** ****** *)
+//
+// Author: Hongwei Xi
+// Start time: Somewhere in 2016
+//
+(* ****** ****** *)
 (*
 **
 ** RosettaCode:
 ** Remove_lines_from_a_file
 **
 *)
-
 (* ****** ****** *)
 
 (*

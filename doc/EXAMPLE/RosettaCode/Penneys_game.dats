@@ -1,3 +1,9 @@
+(* ****** ****** *)
+//
+// Author: Hongwei Xi
+// Start time: Somewhere in December, 2016
+//
+(* ****** ****** *)
 (*
 //
 Penney's game is a game where two players bet on being the first to

@@ -1,3 +1,12 @@
+//
+// HX-2016-12-18:
+//
+// This is a memory clean implementation:
+// Every byte of memory allocated during
+// execution of the program is freed before
+// the program exits.
+//
+(* ****** ****** *)
 (*
 **
 ** RosettaCode:
@@ -18,15 +27,6 @@ N-stream merge
   in a heap.
 //
 *)
-(* ****** ****** *)
-//
-// HX-2016-12-18:
-//
-// This is a memory clean implementation:
-// Every byte of memory allocated during
-// execution of the program is freed before
-// the program exits.
-//
 (* ****** ****** *)
 //
 #include

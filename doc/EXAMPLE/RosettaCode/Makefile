@@ -14,6 +14,18 @@ all::
 ######
 #
 all:: \
+Amicable_pairs
+Amicable_pairs: \
+Amicable_pairs.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+#
+regress:: \
+Amicable_pairs; ./$<
+cleanall:: ; $(RMF) Amicable_pairs
+#
+######
+#
+all:: \
 Middle_three_digits
 Middle_three_digits: \
 Middle_three_digits.dats ; \
