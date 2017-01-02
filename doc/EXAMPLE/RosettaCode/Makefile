@@ -17,7 +17,7 @@ all:: \
 Amicable_pairs
 Amicable_pairs: \
 Amicable_pairs.dats ; \
-$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 #
 regress:: \
 Amicable_pairs; ./$<
@@ -29,7 +29,7 @@ all:: \
 Middle_three_digits
 Middle_three_digits: \
 Middle_three_digits.dats ; \
-$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 #
 regress:: \
 Middle_three_digits; ./$<
@@ -41,7 +41,7 @@ all:: \
 Nested_function
 Nested_function: \
 Nested_function.dats ; \
-$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 #
 regress:: \
 Nested_function; ./$<
@@ -53,7 +53,7 @@ all:: \
 Penneys_game
 Penneys_game: \
 Penneys_game.dats ; \
-$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 #
 regress:: \
 Penneys_game; ./$< HHH TTT
@@ -65,11 +65,23 @@ all:: \
 Playing_cards
 Playing_cards: \
 Playing_cards.dats ; \
-$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 #
 regress:: \
 Playing_cards; ./$<
 cleanall:: ; $(RMF) Playing_cards
+#
+######
+#
+all:: \
+Primality_by_trial_division
+Primality_by_trial_division: \
+Primality_by_trial_division.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -lm
+#
+regress:: \
+Primality_by_trial_division; ./$<
+cleanall:: ; $(RMF) Primality_by_trial_division
 #
 ######
 #
