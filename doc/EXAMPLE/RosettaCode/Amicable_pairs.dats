@@ -105,7 +105,7 @@ auxmain
 val
 theAmicable =
 (
-stream_vt_takeLte(theNat2, 20000)
+theNat2.takeLte(20000)
 ).filter()
 (
 lam x =>
