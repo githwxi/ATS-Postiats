@@ -11,36 +11,44 @@
 //
 extern
 fun{a:t0p}
-mtrxszref_transpose (M: mtrxszref (a)): void
+mtrxszref_transpose
+  (M: mtrxszref(a)): void
 //
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 mtrxszref_transpose
   (M) = let
 //
 val n = M.nrow()
 //
-val ((*void*)) = assertloc (M.nrow() = M.ncol())
+val () = assertloc(M.nrow() = M.ncol())
 //
 fun loop
 (
-  i: size_t, j: size_t
-) : void =
-  if j < n then let
-    val x = M[i,j]
-    val () = M[j,i] := M[i,j]
-    val () = M[i,j] := x
-  in
-    loop (i, succ(j))
-  end else let
-    val i1 = succ (i)
-  in
-    if i1 < n then loop (i1, succ(i1)) else ()
-  end // end of [if]
+ i: size_t, j: size_t
+) : void = (
+//
+if
+(j < n)
+then let
+  val x = M[i,j]
+  val () = M[j,i] := M[i,j]
+  val () = M[i,j] := x
+in
+  loop (i, succ(j))
+end // end of [then]
+else let
+  val i1 = succ (i)
+in
+  if i1 < n then loop(i1, succ(i1)) else ()
+end // end of [else]
+//
+) (* end of [loop] *)
 //
 in
-  if n > 0 then loop (i2sz(0), i2sz(1)) else ()
+  if (n > 0) then loop(i2sz(0), i2sz(1)) else ()
 end // end of [mtrxszref_transpose]
 
 (* ****** ****** *)
@@ -49,7 +57,7 @@ val nrow = i2sz(5)
 val ncol = i2sz(5)
 //
 val M0 =
-mtrxszref_tabulate_cloref
+mtrxszref_tabulate_cloref<int>
   (nrow, nrow, lam (i, j) => sz2i(i)-sz2i(j))
 //
 val out = stdout_ref
