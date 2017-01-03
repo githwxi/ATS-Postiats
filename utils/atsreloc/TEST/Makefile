@@ -42,31 +42,31 @@ assignment0.dats ; $(PATSCC) -D_GNU_SOURCE -o $@ $<
 
 ######
 #
-test01-reloc: \
-test01-reloc.json ; $(ATSRELOC1) ./$<
+test01-atsreloc: \
+test01-atsreloc.json ; $(ATSRELOC1) ./$<
 #
-test01-reloc.json: ; $(PATSOPT) --atsreloc \
+test01-atsreloc.json: ; $(PATSOPT) --atsreloc \
   -DATS PATSRELOCROOT='".TEST01"' --output-w $@ -d test01.dats
 #
 ######
 #
-test02-reloc: \
-test02-reloc.json ; $(ATSRELOC1) ./$<
+test02-atsreloc: \
+test02-atsreloc.json ; $(ATSRELOC1) ./$<
 #
-test02-reloc.json: ; $(PATSOPT) --atsreloc \
+test02-atsreloc.json: ; $(PATSOPT) --atsreloc \
   -DATS PATSRELOCROOT='".TEST02"' --output-w $@ -d test02.dats
 #
 ######
 #
-test03-reloc: \
-test03-reloc.mk ; $(MAKE) -f ./$< wgetall
+test03-atsreloc: \
+test03-atsreloc.make ; $(MAKE) -f ./$< wgetall
 #
-test03-reloc.mk: ; $(PATSOPT) --atsreloc \
+test03-atsreloc.make: ; $(PATSOPT) --atsreloc \
   -DATS PATSRELOCROOT='".TEST03"' -d test03.dats | $(ATSRELOC2) --output-w $@
 #
 ######
 #
-assignment0-reloc:: ; $(PATSOPT) --atsreloc -d assignment0.dats | $(ATSRELOC1)
+assignment0-atsreloc:: ; $(PATSOPT) --atsreloc -d assignment0.dats | $(ATSRELOC1)
 #
 ######
 
@@ -90,9 +90,8 @@ cleanall:: ; $(RMF) test03
 cleanall:: ; $(RMRF) .TEST03
 cleanall:: ; $(RMF) assignment0
 cleanall:: ; $(RMRF) .CS320WEBROOT
-cleanall:: ; $(RMF) test01-reloc.json
-cleanall:: ; $(RMF) test02-reloc.json
-cleanall:: ; $(RMF) test03-reloc.mk
-cleanall:: ; $(RMF) test03-reloc.json
+cleanall:: ; $(RMF) test01-atsreloc.json
+cleanall:: ; $(RMF) test02-atsreloc.json
+cleanall:: ; $(RMF) test03-atsreloc.make
 
 ###### end of [Makefile] ######

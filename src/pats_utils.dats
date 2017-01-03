@@ -33,8 +33,10 @@
 //
 (* ****** ****** *)
 //
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/unsafe.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*UN*) = "prelude/DATS/unsafe.dats"
 //
 (* ****** ****** *)
 //
@@ -48,54 +50,56 @@ static char *patsopt_PATSHOME = (char*)0 ;
 static char *patsopt_PATSHOMERELOC = (char*)0 ;
 static char *patsopt_PATSRELOCROOT = (char*)0 ;
 //
+#define \
+patsopt_getenv(name) getenv(name)
+//
 extern
 ats_ptr_type
-patsopt_getenv_gc(ats_ptr_type);
-ATSinline()
-char *getenv_gc (const char *name)
-{
-  return (char*)(patsopt_getenv_gc((char*)name));
-}
-//
-#define patsopt_getenv(name) getenv(name)
+patsopt_getenv_gc(ats_ptr_type name);
 //
 ATSextfun()
 ats_ptr_type
-patsopt_PATSHOME_get () {
+patsopt_PATSHOME_get()
+{
   return patsopt_PATSHOME ; // optional string
 } // end of [patsopt_PATSHOME_get]
 ATSextfun()
-ats_ptr_type
-patsopt_PATSHOMERELOC_get () {
-  return patsopt_PATSHOMERELOC ; // optional string
-} // end of [patsopt_PATSHOMERELOC_get]
-//
-ATSextfun()
 ats_void_type
-patsopt_PATSHOME_set () {
-  patsopt_PATSHOME = getenv_gc("PATSHOME") ;
+patsopt_PATSHOME_set()
+{
+  patsopt_PATSHOME = patsopt_getenv_gc("PATSHOME") ;
   if (!patsopt_PATSHOME)
-    patsopt_PATSHOME = getenv_gc("ATSHOME") ;
+    patsopt_PATSHOME = patsopt_getenv_gc("ATSHOME") ;
   return ;
 } // end of [patsopt_PATSHOME_set]
+//
+ATSextfun()
+ats_ptr_type
+patsopt_PATSHOMERELOC_get()
+{
+  return patsopt_PATSHOMERELOC ; // optional string
+} // end of [patsopt_PATSHOMERELOC_get]
 ATSextfun()
 ats_void_type
-patsopt_PATSHOMERELOC_set () {
-  patsopt_PATSHOMERELOC = getenv_gc("PATSHOMERELOC") ;
+patsopt_PATSHOMERELOC_set()
+{
+  patsopt_PATSHOMERELOC = patsopt_getenv_gc("PATSHOMERELOC") ;
   if (!patsopt_PATSHOMERELOC)
-    patsopt_PATSHOMERELOC = getenv_gc("ATSHOMERELOC") ;
+    patsopt_PATSHOMERELOC = patsopt_getenv_gc("ATSHOMERELOC") ;
   return ;
 } // end of [patsopt_PATSHOMERELOC_set]
 //
 ATSextfun()
 ats_ptr_type
-patsopt_PATSRELOCROOT_get () {
+patsopt_PATSRELOCROOT_get()
+{
   return patsopt_PATSRELOCROOT ; // optional string
 } // end of [patsopt_PATSRELOCROOR_get]
 ATSextfun()
 ats_void_type
-patsopt_PATSRELOCROOT_set () {
-  patsopt_PATSRELOCROOT = getenv_gc("PATSRELOCROOT") ; return ;
+patsopt_PATSRELOCROOT_set()
+{
+  patsopt_PATSRELOCROOT = patsopt_getenv_gc("PATSRELOCROOT") ; return ;
 } // end of [patsopt_PATSRELOCROOT_set]
 //
 %} (* end of [%{^] *)

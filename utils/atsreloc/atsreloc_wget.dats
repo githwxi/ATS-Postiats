@@ -170,20 +170,20 @@ end // end of [local]
 (* ****** ****** *)
 //
 extern
-fun pkgreloc_jsonval
+fun atsreloc_jsonval
   (out: FILEref, jsv: jsonval): void
 extern
-fun pkgreloc_jsonvalist
+fun atsreloc_jsonvalist
   (out: FILEref, jsvs: jsonvalist): void
 //
 extern
-fun pkgreloc_fileref
+fun atsreloc_fileref
   (flag: int, out: FILEref, inp: FILEref): void
 //
 (* ****** ****** *)
 
 implement
-pkgreloc_jsonval
+atsreloc_jsonval
   (out, jsv) = let
 //
 fun auxmain
@@ -218,9 +218,9 @@ val ((*void*)) = fprint_newline (out)
 } (* end of [auxmain] *)
 //
 val opt1 =
-  jsonval_object_get_key (jsv, "pkgreloc_source")
+  jsonval_object_get_key (jsv, "atsreloc_source")
 val opt2 =
-  jsonval_object_get_key (jsv, "pkgreloc_target")
+  jsonval_object_get_key (jsv, "atsreloc_target")
 //
 in
 //
@@ -238,25 +238,25 @@ case+ opt1 of
   )
 | ~None_vt ((*void*)) => option_vt_free (opt2)
 //
-end // end of [pkgreloc_jsonval]
+end // end of [atsreloc_jsonval]
 
 (* ****** ****** *)
 
 implement
-pkgreloc_jsonvalist
+atsreloc_jsonvalist
   (out, jsvs) = let
 //
 implement(env)
-list_foreach$fwork<jsonval><env> (x, env) = pkgreloc_jsonval (out, x)
+list_foreach$fwork<jsonval><env> (x, env) = atsreloc_jsonval (out, x)
 //
 in
   list_foreach<jsonval> (jsvs)
-end // end of [pkgreloc_jsonvalist]
+end // end of [atsreloc_jsonvalist]
 
 (* ****** ****** *)
 
 implement
-pkgreloc_fileref
+atsreloc_fileref
   (flag, out, inp) = let
 //
 val () =
@@ -288,8 +288,8 @@ val () = fprint! (out, "#\n")
 val jsvs = jsonats_parsexnlst_fileref (inp)
 //
 in
-  pkgreloc_jsonvalist (out, jsvs)
-end // end of [pkgreloc_fileref]
+  atsreloc_jsonvalist (out, jsvs)
+end // end of [atsreloc_fileref]
 
 (* ****** ****** *)
 
@@ -430,7 +430,7 @@ in
       val out =
         outchan_get_fileref (state.outchan)
       // end of [val]
-      val () = pkgreloc_fileref (n0, out, inp)
+      val () = atsreloc_fileref (n0, out, inp)
       val ((*closed*)) = fileref_close (inp)
       val () = state.ninput := n0 + 1
       val () = state.ninput2 := state.ninput2 + 1
@@ -537,7 +537,7 @@ val n0 = state.ninput
 val out = outchan_get_fileref (state.outchan)
 //
 val ((*void*)) =
-  if state.ninput2 = 0 then pkgreloc_fileref (n0, out, stdin_ref)
+  if state.ninput2 = 0 then atsreloc_fileref (n0, out, stdin_ref)
 //
 val ((*closed*)) = outchan_close (state.outchan)
 //

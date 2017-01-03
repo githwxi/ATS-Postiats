@@ -78,60 +78,60 @@ staload _(*anon*) = "./json-c/DATS/json.dats"
 
 extern
 fun{}
-pkgreloc_dmode (): mode_t
+atsreloc_dmode (): mode_t
 implement{
-} pkgreloc_dmode () = $UN.cast{mode_t}(0755)
+} atsreloc_dmode () = $UN.cast{mode_t}(0755)
 extern
 fun{}
-pkgreloc_fmode (): mode_t
+atsreloc_fmode (): mode_t
 implement{
-} pkgreloc_fmode () = $UN.cast{mode_t}(0644)
+} atsreloc_fmode () = $UN.cast{mode_t}(0644)
 
 (* ****** ****** *)
 //
 extern
 fun{
-} pkgreloc
+} atsreloc
 (
   source: string, target: string
-) : int // end o [pkgreloc]
+) : int // end o [atsreloc]
 extern
 fun{
-} pkgreloc2
+} atsreloc2
 (
   source: string, target: string
-) : int // end o [pkgreloc2]
+) : int // end o [atsreloc2]
 //
 (* ****** ****** *)
 //
 extern
-fun pkgreloc_curl
+fun atsreloc_curl
 (
   source: string, target: string
-) : int // end o [pkgreloc_curl]
+) : int // end o [atsreloc_curl]
 //
 (* ****** ****** *)
 //
 extern
-fun pkgreloc_fileref (inp: FILEref): void
+fun atsreloc_fileref (inp: FILEref): void
 //
 (* ****** ****** *)
 
 implement{
-} pkgreloc
+} atsreloc
   (source, target) = let
 //
 var st: stat?
 val ret = $STAT.stat (target, st)
 prval ((*void*)) = opt_clear{stat}(st)
 in
-  if ret < 0 then pkgreloc2 (source, target) else (0)
-end // end of [pkgreloc]
+  if ret < 0 then atsreloc2 (source, target) else (0)
+end // end of [atsreloc]
 
 (* ****** ****** *)
 
 implement{
-} pkgreloc2
+} atsreloc2
   (source, target) = let
 //
 val target = g1ofg0(target)
@@ -148,21 +148,21 @@ if rindex >= 0 then
   val rindex = g1i2u (rindex)
   val tprefx =
     string_make_substring (target, i2sz(0), rindex)
-  val mode = pkgreloc_dmode<> ()
+  val mode = atsreloc_dmode<> ()
   val err = $STAT.mkdirp<> ($UN.strnptr2string(tprefx), mode)
   val () = err0 := err
   val ((*freed*)) = strnptr_free (tprefx)
 } (* end of [if] *) // end of [val]
 //
 in
-  if err0 >= 0 then pkgreloc_curl (source, target) else err0
-end // end of [pkgreloc2]
+  if err0 >= 0 then atsreloc_curl (source, target) else err0
+end // end of [atsreloc2]
 
 (* ****** ****** *)
 
 (*
 implement
-pkgreloc_curl
+atsreloc_curl
   (source, target) = err where
 {
 //
@@ -174,19 +174,19 @@ val ((*freed*)) = free (arglst)
 val err = $STDLIB.system ($UN.strptr2string(command))
 val ((*freed*)) = free (command)
 //
-} (* end of [pkgreloc_curl] *)
+} (* end of [atsreloc_curl] *)
 *)
 
 (* ****** ****** *)
 
 extern
-fun pkgreloc_curl2
+fun atsreloc_curl2
 (
   !CURLptr1, source: string, target: string
-) : int // end o [pkgreloc_curl2]
+) : int // end o [atsreloc_curl2]
 
 implement
-pkgreloc_curl
+atsreloc_curl
   (source, target) = let
 //
 val curl = curl_easy_init ((*void*))
@@ -196,7 +196,7 @@ in
 if ptrcast (curl) > 0
   then let
     val nerr =
-      pkgreloc_curl2 (curl, source, target)
+      atsreloc_curl2 (curl, source, target)
     val ((*void*)) = curl_easy_cleanup (curl)
   in
     nerr
@@ -205,10 +205,10 @@ if ptrcast (curl) > 0
     prval () = curl_easy_cleanup_null (curl) in ~1
   end // end of [else]
 //
-end (* end of [pkgreloc_curl] *)
+end (* end of [atsreloc_curl] *)
 
 implement
-pkgreloc_curl2
+atsreloc_curl2
   (curl, source, target) = let
 //
 var nerr: int = 0
@@ -250,7 +250,7 @@ val ((*void*)) = if knd = 0 then fileref_close (out)
 //
 in
   nerr
-end // end of [pkgreloc_curl2]
+end // end of [atsreloc_curl2]
 
 (* ****** ****** *)
 
@@ -272,9 +272,9 @@ case+ xs of
     val () = assertloc (isneqz(x))
 //
     val (fpf_s | jso_s) =
-      json_object_object_get (x, "pkgreloc_source")
+      json_object_object_get (x, "atsreloc_source")
     val (fpf_t | jso_t) =
-      json_object_object_get (x, "pkgreloc_target")
+      json_object_object_get (x, "atsreloc_target")
 //
     val () =
     if isneqz(jso_s)*isneqz(jso_t) then
@@ -285,11 +285,11 @@ case+ xs of
 //
       val source_ = $UN.strptr2string(source)
       val target_ = $UN.strptr2string(target)
-      val nerr = pkgreloc (source_, target_)
+      val nerr = atsreloc (source_, target_)
       val ((*void*)) =
-      if nerr > 0 then prerrln! ("ERROR: pkgreloc_source= ", source_)
+      if nerr > 0 then prerrln! ("ERROR: atsreloc_source= ", source_)
       val ((*void*)) =
-      if nerr > 0 then prerrln! ("ERROR: pkgreloc_target= ", target_)
+      if nerr > 0 then prerrln! ("ERROR: atsreloc_target= ", target_)
 //
       prval ((*void*)) = fpf0 (source) and ((*void*)) = fpf1 (target)
 //
@@ -308,7 +308,7 @@ end // end of [auxlst]
 in (* in-of-local *)
 
 implement
-pkgreloc_fileref
+atsreloc_fileref
   (inp) = let
 //
 val cs =
@@ -320,12 +320,12 @@ val ((*void*)) = strptr_free (cs)
 val nitm = auxlst (itms, 0)
 //
 (*
-val () = println! ("pkgreloc_fileref: nitm = ", nitm)
+val () = println! ("atsreloc_fileref: nitm = ", nitm)
 *)
 //
 in
   // nothing
-end // end of [pkgreloc_fileref]
+end // end of [atsreloc_fileref]
 
 end // end of [local]
 
@@ -353,7 +353,7 @@ if i < argc
     case+ opt of
     | ~Some_vt (inp) => let
         val () = nfil := nfil + 1
-        val () = pkgreloc_fileref (inp)
+        val () = atsreloc_fileref (inp)
         val () = fileref_close (inp)
       in
         loop (argv, i+1, nfil)
@@ -369,7 +369,7 @@ val err =
 val ((*void*)) = assertloc (err = CURLE_OK)
 //
 val ((*void*)) = loop (argv, 1, nfil)
-val ((*void*)) = if nfil = 0 then pkgreloc_fileref (stdin_ref)
+val ((*void*)) = if nfil = 0 then atsreloc_fileref (stdin_ref)
 //
 val ((*void*)) = curl_global_cleanup ((*void*))
 //

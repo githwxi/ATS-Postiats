@@ -6,11 +6,14 @@
 // HX-2014-08:
 // PATSHOME is pre-defined
 // PATSHOMERELOC is pre-defined
+// PATSHOMERELOCS is pre-defined
 //
 #define
 PATSHOME_targetloc "$PATSHOME"
 #define
 PATSHOMERELOC_targetloc "$PATSHOMERELOC"
+#define
+PATSHOMERELOCS_targetloc "$PATSHOMERELOCS"
 //
 (* ****** ****** *)
 //
