@@ -13,60 +13,60 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
-ATSRELOC=$(PATSHOME)/bin/atsreloc_curl
+ATSRELOC1=$(PATSHOME)/bin/atsreloc_curl
 ATSRELOC2=$(PATSHOME)/bin/atsreloc_wget
 
 ######
 
 test01: test01.dats ; \
-$(PATSCC) -DATS ATSRELOCROOT='\".TEST01\"' -o $@ $<
+$(PATSCC) -DATS PATSRELOCROOT='\".TEST01\"' -o $@ $<
 
 ######
 #
 test02: \
 test02.dats ; \
 $(PATSCC) -IIATS ./.TEST02 \
--DATS_MEMALLOC_LIBC -DATS ATSRELOCROOT='\".TEST02\"' -o $@ $< -lgmp
+-DATS_MEMALLOC_LIBC -DATS PATSRELOCROOT='\".TEST02\"' -o $@ $< -lgmp
 #
 ######
 #
 test03: \
 test03.dats ; \
 $(PATSCC) -IIATS ./.TEST03 \
--DATS_MEMALLOC_LIBC -DATS ATSRELOCROOT='\".TEST03\"' -o $@ $< -lpcre
+-DATS_MEMALLOC_LIBC -DATS PATSRELOCROOT='\".TEST03\"' -o $@ $< -lpcre
 #
 ######
 
-assignment0: assignment0.dats ; $(PATSCC) -D_GNU_SOURCE -o $@ $<
+assignment0: \
+assignment0.dats ; $(PATSCC) -D_GNU_SOURCE -o $@ $<
 
 ######
 #
-test01-pkgreloc: \
-test01-pkgreloc.json ; $(ATSRELOC) ./$<
-test01-pkgreloc.json: ; \
-$(PATSOPT) --pkgreloc \
--DATS ATSRELOCROOT='".TEST01"' --output-w $@ -d test01.dats
+test01-reloc: \
+test01-reloc.json ; $(ATSRELOC1) ./$<
+#
+test01-reloc.json: ; $(PATSOPT) --atsreloc \
+  -DATS PATSRELOCROOT='".TEST01"' --output-w $@ -d test01.dats
 #
 ######
 #
-test02-pkgreloc: \
-test02-pkgreloc.json ; $(ATSRELOC) ./$<
-test02-pkgreloc.json: ; \
-$(PATSOPT) --pkgreloc \
--DATS ATSRELOCROOT='".TEST02"' --output-w $@ -d test02.dats
+test02-reloc: \
+test02-reloc.json ; $(ATSRELOC1) ./$<
+#
+test02-reloc.json: ; $(PATSOPT) --atsreloc \
+  -DATS PATSRELOCROOT='".TEST02"' --output-w $@ -d test02.dats
 #
 ######
 #
-test03-pkgreloc: \
-test03-pkgreloc.mk ; $(MAKE) -f ./$< wgetall
-test03-pkgreloc.mk: ; \
-$(PATSOPT) --pkgreloc \
--DATS ATSRELOCROOT='".TEST03"' -d test03.dats | $(ATSRELOC2) --output-w $@
+test03-reloc: \
+test03-reloc.mk ; $(MAKE) -f ./$< wgetall
+#
+test03-reloc.mk: ; $(PATSOPT) --atsreloc \
+  -DATS PATSRELOCROOT='".TEST03"' -d test03.dats | $(ATSRELOC2) --output-w $@
 #
 ######
 #
-assignment0-pkgreloc:: ; \
-  $(PATSOPT) --pkgreloc -d assignment0.dats | $(ATSRELOC)
+assignment0-reloc:: ; $(PATSOPT) --atsreloc -d assignment0.dats | $(ATSRELOC1)
 #
 ######
 
@@ -90,9 +90,9 @@ cleanall:: ; $(RMF) test03
 cleanall:: ; $(RMRF) .TEST03
 cleanall:: ; $(RMF) assignment0
 cleanall:: ; $(RMRF) .CS320WEBROOT
-cleanall:: ; $(RMF) test01-pkgreloc.json
-cleanall:: ; $(RMF) test02-pkgreloc.json
-cleanall:: ; $(RMF) test03-pkgreloc.mk
-cleanall:: ; $(RMF) test03-pkgreloc.json
+cleanall:: ; $(RMF) test01-reloc.json
+cleanall:: ; $(RMF) test02-reloc.json
+cleanall:: ; $(RMF) test03-reloc.mk
+cleanall:: ; $(RMF) test03-reloc.json
 
 ###### end of [Makefile] ######

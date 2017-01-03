@@ -325,7 +325,7 @@ implement
 $FIL.pkgsrcname_relocatize
   (given, ngurl) = let
 //
-val srcd0c = $GLOB.the_PKGRELOC_get_decl ()
+val srcd0c = $GLOB.the_ATSRELOC_get_decl ()
 //
 extern
 fun PATSHOME_get (): string = "ext#patsopt_PATSHOME_get"
@@ -340,7 +340,7 @@ then let
   val ((*void*)) =
   if srcd0c > null then {
     val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
-    val () = $TRENV1.the_pkgreloc_insert (srcd0c, given)
+    val () = $TRENV1.the_atsreloc_insert (srcd0c, given)
   } (* end of [if] *) // end of [val]
 in
   given // target
@@ -371,7 +371,7 @@ else let
     val ((*freed*)) = strptr_free (gurl_s)
     val given2_s = pkgsrcname_eval (string_of_strptr(given2_s))
     val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
-    val ((*void*)) = $TRENV1.the_pkgreloc_insert2 (srcd0c, given2_s, given2_t)
+    val ((*void*)) = $TRENV1.the_atsreloc_insert2 (srcd0c, given2_s, given2_t)
   } (* end of [if] *) // end of [val]
 //
 in

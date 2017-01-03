@@ -574,19 +574,19 @@ end // end of [i0mpdec_tr]
 (* ****** ****** *)
 //
 fun
-the_PKGRELOC_set_decl
+the_ATSRELOC_set_decl
   (d0c0: d0ecl): void =
-  $GLOB.the_PKGRELOC_set_decl ($UN.cast{ptr}(d0c0))
+  $GLOB.the_ATSRELOC_set_decl ($UN.cast{ptr}(d0c0))
 //
 fun
-the_PKGRELOC_set_decl_if
+the_ATSRELOC_set_decl_if
   (d0c0: d0ecl): void = () where
 {
 //
-val srcloc = $GLOB.the_PKGRELOC_get ()
-val () = if srcloc > 0 then the_PKGRELOC_set_decl (d0c0)
+val srcloc = $GLOB.the_ATSRELOC_get ()
+val () = if srcloc > 0 then the_ATSRELOC_set_decl (d0c0)
 //
-} (* end of [the_PKGRELOC_set_decl_if] *)
+} (* end of [the_ATSRELOC_set_decl_if] *)
 //
 (* ****** ****** *)
 
@@ -603,7 +603,7 @@ i0nclude_tr
 //
 val loc0 = d0c0.d0ecl_loc
 //
-val () = the_PKGRELOC_set_decl_if (d0c0)
+val () = the_ATSRELOC_set_decl_if (d0c0)
 val opt = $FIL.filenameopt_make_relative (given)
 //
 val fil =
@@ -612,7 +612,7 @@ case+ opt of
 | ~Some_vt (fil) => fil
 | ~None_vt ((*void*)) => let
     val srcloc = 
-      $GLOB.the_PKGRELOC_get ()
+      $GLOB.the_ATSRELOC_get ()
     val () =
     if (
     srcloc = 0
@@ -853,7 +853,7 @@ val loc0 = d0c0.d0ecl_loc
 //
 val () = ldflag := 0 // HX: for ATS_STALOADFLAG
 //
-val () = the_PKGRELOC_set_decl_if (d0c0)
+val () = the_ATSRELOC_set_decl_if (d0c0)
 val opt = $FIL.filenameopt_make_relative (given)
 //
 val fil =
@@ -862,7 +862,7 @@ case+ opt of
 | ~Some_vt(fil) => fil
 | ~None_vt((*void*)) => let
     val srcloc =
-      $GLOB.the_PKGRELOC_get()
+      $GLOB.the_ATSRELOC_get()
     val () =
     if (
     srcloc = 0
@@ -939,7 +939,7 @@ implement
 r0equire_tr
   (d0c0, given) = let
 //
-val srcloc = $GLOB.the_PKGRELOC_get ()
+val srcloc = $GLOB.the_ATSRELOC_get ()
 //
 in
 //
@@ -954,7 +954,7 @@ r0equire_tr_if
 //
 val loc0 = d0c0.d0ecl_loc
 //
-val () = the_PKGRELOC_set_decl (d0c0)
+val () = the_ATSRELOC_set_decl (d0c0)
 val opt = $FIL.filenameopt_make_relative (given)
 //
 in
@@ -976,7 +976,7 @@ d0ynload_tr
   (d0c0, given) = let
 //
 val loc0 = d0c0.d0ecl_loc
-val () = the_PKGRELOC_set_decl_if (d0c0)
+val () = the_ATSRELOC_set_decl_if (d0c0)
 //
 val opt = $FIL.filenameopt_make_relative (given)
 //
@@ -986,7 +986,7 @@ case+ opt of
 | ~Some_vt (fil) => fil
 | ~None_vt ((*void*)) => let
     val srcloc =
-      $GLOB.the_PKGRELOC_get ()
+      $GLOB.the_ATSRELOC_get ()
     val () =
     if srcloc = 0 then {
       val () =

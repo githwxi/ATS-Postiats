@@ -508,7 +508,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-fprint_pkgrelocitm
+fprint_atsrelocitm
   (out, itm) = let
 //
 macdef
@@ -530,68 +530,68 @@ case+ d0c.d0ecl_node of
 in
 //
 case+ itm of
-| PKGRELOCITM
+| ATSRELOCITM
     (d0c, given) =>
   {
     val () = prstr "{\n"
-    val () = prstr "\"pkgreloc_kind\": "
+    val () = prstr "\"atsreloc_kind\": "
     val () = prstr "\""
     val () = auxpr (out, d0c)
     val () = prstr "\""
     val () = prstr "\n,\n"
-    val () = prstr "\"pkgreloc_given\": "
+    val () = prstr "\"atsreloc_given\": "
     val () = prstr "\""
     val () = fprint_string (out, given)
     val () = prstr "\""
     val () = prstr "\n}\n"
   }
-| PKGRELOCITM2
+| ATSRELOCITM2
     (d0c, source, target) =>
   {
     val () = prstr "{\n"
-    val () = prstr "\"pkgreloc_kind\": "
+    val () = prstr "\"atsreloc_kind\": "
     val () = prstr "\""
     val () = auxpr (out, d0c)
     val () = prstr "\""
     val () = prstr "\n,\n"
-    val () = prstr "\"pkgreloc_target\": "
+    val () = prstr "\"atsreloc_target\": "
     val () = prstr "\""
     val () = fprint_string (out, target)
     val () = prstr "\""
     val () = prstr "\n,\n"
-    val () = prstr "\"pkgreloc_source\": "
+    val () = prstr "\"atsreloc_source\": "
     val () = prstr "\""
     val () = fprint_string (out, source)
     val () = prstr "\""
     val () = prstr "\n}\n"  
   }
 //
-end // end of [fprint_pkgrelocitm]
+end // end of [fprint_atsrelocitm]
 
 implement
-fprint_pkgrelocitmlst
+fprint_atsrelocitmlst
   (out, xs) = let
 in
 //
 case+ xs of
 | list_nil () => ()
 | list_cons (x, xs) => (
-    fprint_pkgrelocitm (out, x); fprint_pkgrelocitmlst (out, xs)
+    fprint_atsrelocitm (out, x); fprint_atsrelocitmlst (out, xs)
   ) (* end of [list_cons] *)
 //
-end // end of [fprint_pkgrelocitmlst]
+end // end of [fprint_atsrelocitmlst]
 
 (* ****** ****** *)
 
 local
 //
 val the_itmlst =
-  ref<pkgrelocitmlst> (list_nil)
+  ref<atsrelocitmlst> (list_nil)
 //
 in (* in-of-local *)
 
 implement
-the_pkgrelocitmlst_get () = let
+the_atsrelocitmlst_get () = let
   val xs = !the_itmlst
   val () = !the_itmlst := list_nil
 in
@@ -601,7 +601,7 @@ end // end of [the_itmlst_get]
 (* ****** ******* *)
 
 implement
-the_pkgreloc_insert
+the_atsreloc_insert
   (d0c0, given) = let
 //
 val
@@ -609,22 +609,22 @@ loc0 = d0c0.d0ecl_loc
 //
 (*
 val () =
-println! ("the_pkgreloc_insert: loc0 = ", loc0)
+println! ("the_atsreloc_insert: loc0 = ", loc0)
 val () =
-println! ("the_pkgreloc_insert: given = ", given)
+println! ("the_atsreloc_insert: given = ", given)
 *)
 //
 val itm =
-PKGRELOCITM (d0c0, given)
+ATSRELOCITM (d0c0, given)
 val ((*void*)) =
 !the_itmlst := list_cons (itm, !the_itmlst)
 //
 in
   // nothing
-end // end of [the_pkgreloc_insert]
+end // end of [the_atsreloc_insert]
 
 implement
-the_pkgreloc_insert2
+the_atsreloc_insert2
   (d0c0, given_s, given_t) = let
 //
 val
@@ -633,26 +633,26 @@ loc0 = d0c0.d0ecl_loc
 (*
 val (
 ) = print
-  ("the_pkgreloc_insert: d0c0 = ")
+  ("the_atsreloc_insert: d0c0 = ")
 val () = $SYN.fprint_d0ecl (stdout_ref, d0c0)
 val () = fprint_newline (stdout_ref)
 *)
 (*
 val () =
-println! ("the_pkgreloc_insert2: ", loc0)
+println! ("the_atsreloc_insert2: ", loc0)
 val () =
-println! ("the_pkgreloc_insert2: sourceloc= ", given_s)
+println! ("the_atsreloc_insert2: sourceloc= ", given_s)
 val () =
-println! ("the_pkgreloc_insert2: targetloc= ", given_t)
+println! ("the_atsreloc_insert2: targetloc= ", given_t)
 *)
 //
 val itm =
-PKGRELOCITM2 (d0c0, given_s, given_t)
+ATSRELOCITM2 (d0c0, given_s, given_t)
 val () = !the_itmlst := list_cons (itm, !the_itmlst)
 //
 in
   // nothing
-end // end of [the_pkgreloc_insert2]
+end // end of [the_atsreloc_insert2]
 
 end // end of [local]
 

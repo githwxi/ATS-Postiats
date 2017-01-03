@@ -1472,7 +1472,7 @@ d0ecl_node =
   | D0Cstaloadloc of
       (filename(*pfil*), symbol(*nspace*), d0eclist) // HX: { ... }
 //
-  | D0Crequire of (filename(*pfil*), string(*path*)) // HX: for pkgreloc
+  | D0Crequire of (filename(*pfil*), string(*path*)) // HX: for atsreloc
 //
   | D0Cdynload of (filename(*pfil*), string(*path*)) // HX: dynloading(*initization*)
 //

@@ -40,10 +40,10 @@ fun the_PACKNAME_set_name (ns: string): void
 
 (* ****** ****** *)
 
-fun the_PKGRELOC_get (): int
-fun the_PKGRELOC_set (flag: int): void
-fun the_PKGRELOC_get_decl (): ptr
-fun the_PKGRELOC_set_decl (d0c: ptr): void
+fun the_ATSRELOC_get (): int
+fun the_ATSRELOC_set (flag: int): void
+fun the_ATSRELOC_get_decl (): ptr
+fun the_ATSRELOC_set_decl (d0c: ptr): void
 
 (* ****** ****** *)
 
