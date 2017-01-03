@@ -377,4 +377,4 @@ val ((*void*)) = curl_global_cleanup ((*void*))
 
 (* ****** ****** *)
 
-(* end of [atspkgreloc_curl.dats] *)
+(* end of [atsreloc_curl.dats] *)

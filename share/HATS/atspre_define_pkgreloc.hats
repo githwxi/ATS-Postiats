@@ -15,18 +15,20 @@ PATSHOMERELOC_targetloc "$PATSHOMERELOC"
 (* ****** ****** *)
 //
 #define
-PATSPRE_targetloc "$PATSHOME/prelude"
+ATSLANGWEB "http://www.ats-lang.org"
 #define
-PATSLIBATS_targetloc "$PATSHOME/libats"
-#define
-PATSLIBATSC_targetloc "$PATSHOME/libats/libc"
+ATSLANGWEBLIB "http://www.ats-lang.org/LIBRARY"
 //
 (* ****** ****** *)
 //
 #define
-ATSLANGWEB "http://www.ats-lang.org"
+PATSPRE_targetloc "$PATSHOME/prelude"
 #define
-ATSLANGWEBLIB "http://www.ats-lang.org/LIBRARY"
+PATSLIBATS_targetloc "$PATSHOME/libats"
+#define
+PATSLIBATSML_targetloc "$PATSHOME/libats/ML"
+#define
+PATSLIBATSLIBC_targetloc "$PATSHOME/libats/libc"
 //
 (* ****** ****** *)
 //
@@ -105,11 +107,6 @@ SDL2_targetloc "$PATSHOMERELOC/contrib/SDL2"
 //
 #define
 GUROBI_targetloc "$PATSHOMERELOC/contrib/gurobi"
-//
-(* ****** ****** *)
-//
-#define
-LIBATSEXT_targetloc "$PATSHOMERELOC/libatsext"
 //
 (* ****** ****** *)
 //
@@ -197,6 +194,11 @@ LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
 //
 #define EXTSOLVE_sourceloc "$ATSLANGWEBLIB/contrib/extsolve"
 #define EXTSOLVE_targetloc "$PATSHOMERELOC/contrib/extsolve"
+//
+(* ****** ****** *)
+//
+#define LIBATSEXT_targetloc "$PATSHOMERELOC/libatsext"
+#define LIBATSEXT_LIBC_targetloc "$PATSHOMERELOC/libatsext/libc"
 //
 (* ****** ****** *)
 

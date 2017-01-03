@@ -426,7 +426,7 @@ extern char *patsopt_PATSHOME_get () ;
 //
 extern void patsopt_PATSHOMERELOC_set () ;
 //
-extern void patsopt_ATSPKGRELOCROOT_set () ;
+extern void patsopt_PATSRELOCROOT_set () ;
 //
 %} // end of [%{^]
 
@@ -1933,7 +1933,7 @@ set () where
 { 
   extern
   fun set (): void
-    = "mac#patsopt_ATSPKGRELOCROOT_set"
+    = "mac#patsopt_PATSRELOCROOT_set"
   // end of [fun]
 } // end of [where] // end of [val]
 //
@@ -2013,9 +2013,9 @@ state = @{
 , nerror= 0 // number of accumulated errors
 } : cmdstate // end of [var]
 //
-val () = process_ATSPKGRELOCROOT ()
+val () = process_PATSRELOCROOT()
 //
-val () = process_cmdline (state, arglst)
+val () = process_cmdline(state, arglst)
 //
 // HX-2015-01-09:
 // A tool like patscc should receive an error:

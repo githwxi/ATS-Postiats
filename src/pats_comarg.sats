@@ -86,7 +86,7 @@ process_IATS_dir(dir: string): void
 (* ****** ****** *)
 //
 fun
-process_ATSPKGRELOCROOT((*void*)): void
+process_PATSRELOCROOT((*void*)): void
 //
 (* ****** ****** *)
 

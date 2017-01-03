@@ -34,20 +34,20 @@ LDFLAGS += $(shell pkg-config --libs libcurl)
 #
 ######
 
-all:: atspkgreloc_curl
-all:: atspkgreloc_wget
+all:: atsreloc_curl
+all:: atsreloc_wget
 
 ######
 
-atspkgreloc_curl: \
-atspkgreloc_curl.dats ; \
+atsreloc_curl: \
+atsreloc_curl.dats ; \
   $(PATSCC) -I . -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
 
 ######
 
-atspkgreloc_wget: \
-atspkgreloc_wget.dats \
-atspkgreloc_wget_lib.dats ; \
+atsreloc_wget: \
+atsreloc_wget.dats \
+atsreloc_wget_lib.dats ; \
   $(PATSCC) -I . -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $^ $(LDFLAGS)
 
 ######
@@ -63,8 +63,8 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) atspkgreloc_curl
-cleanall:: ; $(RMF) atspkgreloc_wget
+cleanall:: ; $(RMF) atsreloc_curl
+cleanall:: ; $(RMF) atsreloc_wget
 
 ######
 

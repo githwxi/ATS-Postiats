@@ -1,5 +1,5 @@
 (*
-** A test for atspkgreloc
+** A test for atsreloc
 *)
 (* ****** ****** *)
 //
@@ -13,7 +13,7 @@ staload UN = $UNSAFE
 (* ****** ****** *)
 
 #define
-ATS_PACKNAME "atspkgreloc_test03"
+ATS_PACKNAME "atsreloc_test03"
 
 (* ****** ****** *)
 //

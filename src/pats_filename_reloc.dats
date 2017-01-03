@@ -119,7 +119,7 @@ pkgsrcname_get_gurl1
   (given: string, ngurl: int): Strptr1
 implement
 pkgsrcname_get_gurl1
-  (given, ngurl) = __copy_string ("$ATSPKGRELOCROOT")
+  (given, ngurl) = __copy_string ("$PATSRELOCROOT")
 //
 (* ****** ****** *)
 

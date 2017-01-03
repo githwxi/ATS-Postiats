@@ -65,4 +65,4 @@ end // end of [local]
 //
 (* ****** ****** *)
 
-(* end of [atspkgreloc_wget_lib.dats] *)
+(* end of [atsreloc_wget_lib.dats] *)

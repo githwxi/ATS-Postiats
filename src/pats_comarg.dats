@@ -69,7 +69,7 @@ staload "./pats_comarg.sats"
 
 %{^
 //
-extern char* patsopt_ATSPKGRELOCROOT_get () ;
+extern char* patsopt_PATSRELOCROOT_get () ;
 //
 %} // end of [%{^]
 
@@ -286,7 +286,7 @@ getenv
 in (* in-of-local *)
 
 implement
-process_ATSPKGRELOCROOT() = let
+process_PATSRELOCROOT() = let
 //
 val
 opt =
@@ -299,7 +299,7 @@ get
 (
 // argless
 ) : Stropt =
-  "mac#patsopt_ATSPKGRELOCROOT_get"
+  "mac#patsopt_PATSRELOCROOT_get"
 // end of [extern]
 //
 } (* where *) // end of [val]
@@ -310,7 +310,10 @@ val def = (
 //
 if
 issome
-then stropt_unsome(opt)
+then
+(
+stropt_unsome(opt)
+) (* end of [then] *)
 else let
 //
 val
@@ -325,12 +328,12 @@ if issome
 //
 ) : string // end of [val]
 val
-ATSPKGRELOCROOT =
-  sprintf("/tmp/.ATSPKGRELOCROOT-%s", @(user))
+PATSRELOCROOT =
+  sprintf("/tmp/.PATSRELOCROOT-%s", @(user))
 // end of [val]
 //
 in
-  string_of_strptr(ATSPKGRELOCROOT)
+  string_of_strptr(PATSRELOCROOT)
 end // end of [else]
 //
 ) : string // end of [val]
@@ -339,18 +342,18 @@ end // end of [else]
 val () =
 println!
 (
-  "process_ATSPKGRELOCROOT: def = ", def
+  "process_PATSRELOCROOT: def = ", def
 ) (* end of [val] *)
 *)
 //
 val key =
-  $SYM.symbol_ATSPKGRELOCROOT
+  $SYM.symbol_PATSRELOCROOT
 val e1xp =
   e1xp_string ($LOC.location_dummy, def)
 //
 in
   $TRENV1.the_e1xpenv_addperv (key, e1xp)
-end // end of [process_ATSPKGRELOCROOT]
+end // end of [process_PATSRELOCROOT]
 
 end // end of [local]
 

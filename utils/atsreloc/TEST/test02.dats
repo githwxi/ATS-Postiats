@@ -1,5 +1,5 @@
 (*
-** A test for atspkgreloc
+** A test for atsreloc
 *)
 (* ****** ****** *)
 //
@@ -9,7 +9,7 @@
 (* ****** ****** *)
 
 #define
-ATS_PACKNAME "atspkgreloc_test02"
+ATS_PACKNAME "atsreloc_test02"
 
 (* ****** ****** *)
 //

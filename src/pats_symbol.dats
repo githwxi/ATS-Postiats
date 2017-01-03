@@ -328,17 +328,15 @@ implement
 symbol__STRING__ = symbol_make_string "__STRING__"
 //
 (* ****** ****** *)
-
+//
 implement
 symbol_PATSHOME = symbol_make_string "PATSHOME"
 implement
 symbol_PATSHOMERELOC = symbol_make_string "PATSHOMERELOC"
-
-(* ****** ****** *)
-
+//
 implement
-symbol_ATSPKGRELOCROOT = symbol_make_string "ATSPKGRELOCROOT"
-
+symbol_PATSRELOCROOT = symbol_make_string "PATSRELOCROOT"
+//
 (* ****** ****** *)
 
 implement

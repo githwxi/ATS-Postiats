@@ -20,8 +20,7 @@ http://www.cs.bu.edu\
 "//
 (* ****** ****** *)
 //
-#define
-ATSPKGRELOCROOT ".CS320WEBROOT"
+#define ATSRELOCROOT ".CS320WEBROOT"
 //
 (* ****** ****** *)
 //
@@ -35,7 +34,8 @@ staload "{$CS320WEBROOT}/assignments/00/assignment0.dats"
 (* ****** ****** *)
 
 implement
-triangle_test (x, y, z) =
+triangle_test
+  (x, y, z) =
 (
   if x + y > z
     then
@@ -46,7 +46,7 @@ triangle_test (x, y, z) =
       // end of [if]
     else false
   // end of [if]
-)
+) (* triangle_test *)
 
 (* ****** ****** *)
 

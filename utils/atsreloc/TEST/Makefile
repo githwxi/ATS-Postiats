@@ -13,27 +13,27 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
-ATSPKGRELOC=$(PATSHOME)/bin/atspkgreloc_curl
-ATSPKGRELOC2=$(PATSHOME)/bin/atspkgreloc_wget
+ATSRELOC=$(PATSHOME)/bin/atsreloc_curl
+ATSRELOC2=$(PATSHOME)/bin/atsreloc_wget
 
 ######
 
 test01: test01.dats ; \
-$(PATSCC) -DATS ATSPKGRELOCROOT='\".TEST01\"' -o $@ $<
+$(PATSCC) -DATS ATSRELOCROOT='\".TEST01\"' -o $@ $<
 
 ######
 #
 test02: \
 test02.dats ; \
 $(PATSCC) -IIATS ./.TEST02 \
--DATS_MEMALLOC_LIBC -DATS ATSPKGRELOCROOT='\".TEST02\"' -o $@ $< -lgmp
+-DATS_MEMALLOC_LIBC -DATS ATSRELOCROOT='\".TEST02\"' -o $@ $< -lgmp
 #
 ######
 #
 test03: \
 test03.dats ; \
 $(PATSCC) -IIATS ./.TEST03 \
--DATS_MEMALLOC_LIBC -DATS ATSPKGRELOCROOT='\".TEST03\"' -o $@ $< -lpcre
+-DATS_MEMALLOC_LIBC -DATS ATSRELOCROOT='\".TEST03\"' -o $@ $< -lpcre
 #
 ######
 
@@ -42,18 +42,18 @@ assignment0: assignment0.dats ; $(PATSCC) -D_GNU_SOURCE -o $@ $<
 ######
 #
 test01-pkgreloc: \
-test01-pkgreloc.json ; $(ATSPKGRELOC) ./$<
+test01-pkgreloc.json ; $(ATSRELOC) ./$<
 test01-pkgreloc.json: ; \
 $(PATSOPT) --pkgreloc \
--DATS ATSPKGRELOCROOT='".TEST01"' --output-w $@ -d test01.dats
+-DATS ATSRELOCROOT='".TEST01"' --output-w $@ -d test01.dats
 #
 ######
 #
 test02-pkgreloc: \
-test02-pkgreloc.json ; $(ATSPKGRELOC) ./$<
+test02-pkgreloc.json ; $(ATSRELOC) ./$<
 test02-pkgreloc.json: ; \
 $(PATSOPT) --pkgreloc \
--DATS ATSPKGRELOCROOT='".TEST02"' --output-w $@ -d test02.dats
+-DATS ATSRELOCROOT='".TEST02"' --output-w $@ -d test02.dats
 #
 ######
 #
@@ -61,12 +61,12 @@ test03-pkgreloc: \
 test03-pkgreloc.mk ; $(MAKE) -f ./$< wgetall
 test03-pkgreloc.mk: ; \
 $(PATSOPT) --pkgreloc \
--DATS ATSPKGRELOCROOT='".TEST03"' -d test03.dats | $(ATSPKGRELOC2) --output-w $@
+-DATS ATSRELOCROOT='".TEST03"' -d test03.dats | $(ATSRELOC2) --output-w $@
 #
 ######
 #
 assignment0-pkgreloc:: ; \
-  $(PATSOPT) --pkgreloc -d assignment0.dats | $(ATSPKGRELOC)
+  $(PATSOPT) --pkgreloc -d assignment0.dats | $(ATSRELOC)
 #
 ######
 

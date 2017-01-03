@@ -46,7 +46,7 @@ staload "./pats_utils.sats"
 //
 static char *patsopt_PATSHOME = (char*)0 ;
 static char *patsopt_PATSHOMERELOC = (char*)0 ;
-static char *patsopt_ATSPKGRELOCROOT = (char*)0 ;
+static char *patsopt_PATSRELOCROOT = (char*)0 ;
 //
 extern
 ats_ptr_type
@@ -89,14 +89,14 @@ patsopt_PATSHOMERELOC_set () {
 //
 ATSextfun()
 ats_ptr_type
-patsopt_ATSPKGRELOCROOT_get () {
-  return patsopt_ATSPKGRELOCROOT ; // optional string
-} // end of [patsopt_ATSPKGRELOCROOR_get]
+patsopt_PATSRELOCROOT_get () {
+  return patsopt_PATSRELOCROOT ; // optional string
+} // end of [patsopt_PATSRELOCROOR_get]
 ATSextfun()
 ats_void_type
-patsopt_ATSPKGRELOCROOT_set () {
-  patsopt_ATSPKGRELOCROOT = getenv_gc("ATSPKGRELOCROOT") ; return ;
-} // end of [patsopt_ATSPKGRELOCROOT_set]
+patsopt_PATSRELOCROOT_set () {
+  patsopt_PATSRELOCROOT = getenv_gc("PATSRELOCROOT") ; return ;
+} // end of [patsopt_PATSRELOCROOT_set]
 //
 %} (* end of [%{^] *)
 

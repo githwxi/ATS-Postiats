@@ -545,4 +545,4 @@ val ((*closed*)) = outchan_close (state.outchan)
 
 (* ****** ****** *)
 
-(* end of [atspkgreloc_wget.dats] *)
+(* end of [atsreloc_wget.dats] *)
