@@ -1,0 +1,19 @@
+######
+#
+# Note that the problems
+# come from RosettaCode.org
+#
+######
+
+For testing, please simple do
+
+make testall
+
+which should trigger the following:
+
+make myatsreloc
+
+which requires Internet access to download
+the needed library code to the directory ./PATSRELOCROOT
+
+###### end of [README] ######

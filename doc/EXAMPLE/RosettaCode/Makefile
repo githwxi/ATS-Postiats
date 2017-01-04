@@ -147,6 +147,11 @@ RMRF=rm -rf
 
 ######
 
+testall:: \
+myatsreloc
+
+######
+
 testall:: all
 testall:: regress
 testall:: cleanall
