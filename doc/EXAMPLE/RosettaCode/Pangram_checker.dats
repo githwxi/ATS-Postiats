@@ -27,7 +27,7 @@ pangram (or not) and show its use.
 (* ****** ****** *)
 //
 fun
-string_check
+letter_check
 (
 cs: string, c0: char
 ) : bool = cs.exists()(lam(c) => c0 = c)
@@ -44,7 +44,7 @@ val
 ((*void*)) = assertloc(length(alphabet) = 26)
 //
 in
-  alphabet.forall()(lam(c) => string_check(text, c) || string_check(text, toupper(c)))
+  alphabet.forall()(lam(c) => letter_check(text, c) || letter_check(text, toupper(c)))
 end // end of [Pangram_check]
 
 (* ****** ****** *)
