@@ -9,6 +9,10 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
+ATSRELOC1=$(PATSHOME)/bin/atsreloc_curl
+
+######
+
 all::
 
 ######
@@ -29,7 +33,7 @@ all:: \
 Lucas-Lehmer_test
 Lucas-Lehmer_test: \
 Lucas-Lehmer_test.dats ; \
-$(PATSCC) -O2 -IIATS $(PATSHOMERELOC)/contrib -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+$(PATSCC) -O2 -I./PATSRELOCROOT -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
 #
 regress:: \
 Lucas-Lehmer_test; ./$<
@@ -134,7 +138,12 @@ cleanall:: ; $(RMF) Stream_Merge
 #
 ######
 
+myatsreloc:: myatsreloc.dats; $(PATSOPT) --atsreloc -d $< | $(ATSRELOC1)
+
+######
+
 RMF=rm -f
+RMRF=rm -rf
 
 ######
 
@@ -149,5 +158,6 @@ clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
+cleanall:: ; $(RMRF) ./PATSRELOCROOT/*
 
 ###### end of [Makefile] ######

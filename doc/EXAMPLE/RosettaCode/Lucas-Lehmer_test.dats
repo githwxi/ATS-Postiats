@@ -63,14 +63,23 @@ M44497
 //
 (* ****** ****** *)
 //
-staload "{$LIBATSHWXI}/intinf/SATS/intinf.sats"
-staload "{$LIBATSHWXI}/intinf/SATS/intinf_vt.sats"
+#define
+LIBATSHWXI_targetloc
+"./PATSRELOCROOT/libats-hwxi"
 //
-staload _ = "{$LIBATSHWXI}/intinf/DATS/intinf_t.dats"
-staload _ = "{$LIBATSHWXI}/intinf/DATS/intinf_vt.dats"
+#staload
+"{$LIBATSHWXI}/intinf/SATS/intinf.sats"
+#staload
+"{$LIBATSHWXI}/intinf/SATS/intinf_vt.sats"
+//
+#staload _ =
+"{$LIBATSHWXI}/intinf/DATS/intinf_t.dats"
+#staload _ =
+"{$LIBATSHWXI}/intinf/DATS/intinf_vt.dats"
 //
 (* ****** ****** *)
 
+typedef N2 = intGte(2)
 typedef N3 = intGte(3)
 
 (* ****** ****** *)
@@ -169,9 +178,12 @@ theMPrimes =
 stream_vt_filter_cloptr(thePrimes, lam(p) => LucasLehmer_test(p))
 //
 val
-theMPrimes_50 = stream_vt_takeLte(theMPrimes, 50) // the first 50 of them
+theMPrimes = stream_vt_make_cons<N2>(2, theMPrimes)
 //
-val ((*void*)) = stream_vt_foreach_cloptr(theMPrimes_50, lam(p) => println! ("M", p))
+val
+theMPrimes_10 = stream_vt_takeLte(theMPrimes, 10) // the first 10 of them
+//
+val ((*void*)) = stream_vt_foreach_cloptr(theMPrimes_10, lam(p) => println! ("M", p))
 //
 } (* end of [main0] *)
 
