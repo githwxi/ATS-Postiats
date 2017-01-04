@@ -25,8 +25,7 @@ $(PATSCC) -DATS PATSRELOCROOT='\".TEST01\"' -o $@ $<
 #
 test02: \
 test02.dats ; \
-$(PATSCC) -IIATS ./.TEST02 \
--DATS_MEMALLOC_LIBC -DATS PATSRELOCROOT='\".TEST02\"' -o $@ $< -lgmp
+$(PATSCC) -IIATS ./.TEST02 -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
 #
 ######
 #
@@ -53,8 +52,7 @@ test01-atsreloc.json: ; $(PATSOPT) --atsreloc \
 test02-atsreloc: \
 test02-atsreloc.json ; $(ATSRELOC1) ./$<
 #
-test02-atsreloc.json: ; $(PATSOPT) --atsreloc \
-  -DATS PATSRELOCROOT='".TEST02"' --output-w $@ -d test02.dats
+test02-atsreloc.json: ; $(PATSOPT) --atsreloc --output-w $@ -d test02.dats
 #
 ######
 #

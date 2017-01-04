@@ -517,40 +517,83 @@ end // end of [string_tabulate]
 
 implement
 {}(*tmp*)
-string_forall
-  (str, f) = let
+string_exists
+  (str, pred) = let
 //
-val str = g1ofg0_string(str)
+val
+str = g1ofg0_string(str)
 //
 implement
-string_forall$pred<> (c) = f(c)
+string_forall$pred<> (c) = not(pred(c))
 //
 in
-  prelude_string_forall (str)
+  not(prelude_string_forall(str))
+end // end of [string_exists]
+
+implement
+{}(*tmp*)
+string_iexists
+  (str, pred) = let
+//
+val
+str = g1ofg0_string(str)
+//
+implement
+string_iforall$pred<>(i, c) = not(pred(i, c))
+//
+in
+  not(prelude_string_iforall(str))
+end // end of [string_iexists]
+
+(* ****** ****** *)
+//
+implement{}
+string_exists_method
+  (cs) = lam(pred) => string_exists(cs, pred)
+implement{}
+string_iexists_method
+  (cs) = lam(pred) => string_iexists(cs, pred)
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+string_forall
+  (str, pred) = let
+//
+val
+str = g1ofg0_string(str)
+//
+implement
+string_forall$pred<>(c) = pred(c)
+//
+in
+  prelude_string_forall(str)
 end // end of [string_forall]
 
 implement
 {}(*tmp*)
 string_iforall
-  (str, f) = let
+  (str, pred) = let
 //
-val str = g1ofg0_string(str)
+val
+str = g1ofg0_string(str)
 //
 implement
-string_iforall$pred<> (i, c) = f(i, c)
+string_iforall$pred<>(i, c) = pred(i, c)
 //
 in
-  prelude_string_iforall (str)
+  prelude_string_iforall(str)
 end // end of [string_iforall]
 
 (* ****** ****** *)
 //
 implement{}
 string_forall_method
-  (cs) = lam(f) => string_forall(cs, f)
+  (cs) = lam(pred) => string_forall(cs, pred)
 implement{}
 string_iforall_method
-  (cs) = lam(f) => string_iforall(cs, f)
+  (cs) = lam(pred) => string_iforall(cs, pred)
 //
 (* ****** ****** *)
 

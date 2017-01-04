@@ -548,8 +548,6 @@ string_forall(str: string): bool
 fun{}
 string_forall$pred(c: char): bool
 //
-#atscode_separator()
-//
 fun{}
 string_iforall(str: string): bool
 fun{}

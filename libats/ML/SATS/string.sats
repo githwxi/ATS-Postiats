@@ -183,6 +183,23 @@ string_tabulate
 (* ****** ****** *)
 //
 fun{}
+string_exists
+  (x: string, f: cfun(char, bool)): bool
+fun{}
+string_iexists
+  (x: string, f: cfun2(int, char, bool)): bool
+//
+fun{}
+string_exists_method(string)(cfun(char, bool)): bool
+fun{}
+string_iexists_method(string)(cfun2(int, char, bool)): bool
+//
+overload .exists with string_exists_method
+overload .iexists with string_iexists_method
+//
+(* ****** ****** *)
+//
+fun{}
 string_forall
   (x: string, f: cfun(char, bool)): bool
 fun{}

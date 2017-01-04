@@ -17,6 +17,9 @@ ATS_PACKNAME "atsreloc_test02"
 PATSCONTRIB
 "http://ats-lang.sourceforge.net/LIBRARY/contrib"
 //
+#define
+PATSCONTRIB_targetloc ".TEST02"
+//
 (* ****** ****** *)
 //
 #require

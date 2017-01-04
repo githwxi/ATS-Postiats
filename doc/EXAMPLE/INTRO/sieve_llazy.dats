@@ -21,9 +21,9 @@
 //
 (* ****** ****** *)
 
+#define nil stream_vt_nil
 #define :: stream_vt_cons
 #define cons stream_vt_cons
-#define nil stream_vt_nil
 
 (* ****** ****** *)
 

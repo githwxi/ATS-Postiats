@@ -216,7 +216,8 @@ end // end of [pkgsrcname_get2_gurl1]
 //
 extern
 fun
-pkgsrcname_eval(given: string): string
+pkgsrcname_eval
+  (given: string): string
 //
 implement
 pkgsrcname_eval
@@ -325,12 +326,12 @@ implement
 $FIL.pkgsrcname_relocatize
   (given, ngurl) = let
 //
-val srcd0c = $GLOB.the_ATSRELOC_get_decl ()
+val srcd0c = $GLOB.the_ATSRELOC_get_decl()
 //
 extern
-fun PATSHOME_get (): string = "ext#patsopt_PATSHOME_get"
+fun PATSHOME_get(): string = "ext#patsopt_PATSHOME_get"
 extern
-fun PATSHOMERELOC_get (): Stropt = "ext#patsopt_PATSHOMERELOC_get"
+fun PATSHOMERELOC_get(): Stropt = "ext#patsopt_PATSHOMERELOC_get"
 //
 in
 //
@@ -338,40 +339,42 @@ if
 ngurl < 0
 then let
   val ((*void*)) =
-  if srcd0c > null then {
+  if srcd0c > null then
+  {
     val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
-    val () = $TRENV1.the_atsreloc_insert (srcd0c, given)
+    val () = $TRENV1.the_atsreloc_insert(srcd0c, given)
   } (* end of [if] *) // end of [val]
 in
   given // target
 end // end of [then]
 else let
 //
-  val p0 = $UN.cast2ptr (given)
+  val p0 = $UN.cast2ptr(given)
   val p_ngurl = add_ptr_int(p0, ngurl)
   val p_ngurl = $UN.cast{string}(p_ngurl)
 //
   val dirsep = $FIL.theDirSep_get ()
 //
   val gurl_t = // target
-    pkgsrcname_get2_gurl1 (given, ngurl)
+    pkgsrcname_get2_gurl1(given, ngurl)
   val _gurl_t = $UN.castvwtp1{string}(gurl_t)
   val given2_t =
-    $UT.dirpath_append (_gurl_t, p_ngurl, dirsep)
-  val ((*freed*)) = strptr_free (gurl_t)
-  val given2_t = pkgsrcname_eval (string_of_strptr(given2_t))
+    $UT.dirpath_append(_gurl_t, p_ngurl, dirsep)
+  val ((*freed*)) = strptr_free(gurl_t)
+  val given2_t = pkgsrcname_eval(string_of_strptr(given2_t))
 //
   val () =
-  if srcd0c > null then {
+  if srcd0c > null then
+  {
     val gurl_s = // source
-      pkgsrcname_get2_gurl0 (given, ngurl)
+      pkgsrcname_get2_gurl0(given, ngurl)
     val _gurl_s = $UN.castvwtp1{string}(gurl_s)
     val given2_s =
-      $UT.dirpath_append (_gurl_s, p_ngurl, dirsep)
-    val ((*freed*)) = strptr_free (gurl_s)
-    val given2_s = pkgsrcname_eval (string_of_strptr(given2_s))
+      $UT.dirpath_append(_gurl_s, p_ngurl, dirsep)
+    val ((*freed*)) = strptr_free(gurl_s)
+    val given2_s = pkgsrcname_eval(string_of_strptr(given2_s))
     val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
-    val ((*void*)) = $TRENV1.the_atsreloc_insert2 (srcd0c, given2_s, given2_t)
+    val ((*void*)) = $TRENV1.the_atsreloc_insert2(srcd0c, given2_s, given2_t)
   } (* end of [if] *) // end of [val]
 //
 in

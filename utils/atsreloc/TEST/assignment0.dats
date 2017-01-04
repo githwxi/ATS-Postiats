@@ -20,7 +20,7 @@ http://www.cs.bu.edu\
 "//
 (* ****** ****** *)
 //
-#define ATSRELOCROOT ".CS320WEBROOT"
+#define PATSRELOCROOT ".CS320WEBROOT"
 //
 (* ****** ****** *)
 //

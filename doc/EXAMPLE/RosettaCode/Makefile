@@ -26,6 +26,18 @@ cleanall:: ; $(RMF) Amicable_pairs
 ######
 #
 all:: \
+Lucas-Lehmer_test
+Lucas-Lehmer_test: \
+Lucas-Lehmer_test.dats ; \
+$(PATSCC) -O2 -IIATS $(PATSHOMERELOC)/contrib -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+#
+regress:: \
+Lucas-Lehmer_test; ./$<
+cleanall:: ; $(RMF) Lucas-Lehmer_test
+#
+######
+#
+all:: \
 Middle_three_digits
 Middle_three_digits: \
 Middle_three_digits.dats ; \
@@ -46,6 +58,18 @@ $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: \
 Nested_function; ./$<
 cleanall:: ; $(RMF) Nested_function
+#
+######
+#
+all:: \
+Pangram_checker
+Pangram_checker: \
+Pangram_checker.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+#
+regress:: \
+Pangram_checker; ./$<
+cleanall:: ; $(RMF) Pangram_checker
 #
 ######
 #
