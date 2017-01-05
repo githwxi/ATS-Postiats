@@ -59,9 +59,13 @@ staload SYM = "./pats_symbol.sats"
 staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
-
+//
 staload S1E = "./pats_staexp1.sats"
-
+//
+typedef e1xp = $S1E.e1xp
+typedef v1al = $S1E.v1al
+overload print with $S1E.print_e1xp
+//
 (* ****** ****** *)
 
 staload TRENV1 = "./pats_trans1_env.sats"
@@ -293,6 +297,17 @@ case+ c0 of
 *)
     val key = $SYM.symbol_make_string(key)
     val opt = $TRENV1.the_e1xpenv_find(key)
+//
+(*
+    val ((*void*)) = let
+      val opt = $UN.option_vt2t{e1xp}(opt)
+    in
+      case+ opt of
+      | None() => println! ("pkgsrcname_eval: auxeval1: opt = None()")
+      | Some(e) => println! ("pkgsrcname_eval: auxeval1: opt = Some(", e, ")")
+    end // end of [let] // end of [val]
+*)
+//
   in
     case+ opt of
     | ~None_vt() =>
@@ -389,6 +404,12 @@ else let
     val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
     val ((*void*)) = $TRENV1.the_atsreloc_insert2(srcd0c, given2_s, given2_t)
   } (* end of [if] *) // end of [val]
+//
+val () =
+println!
+(
+  "$FIL.pkgsrcname_relocatize: given2_t = ", given2_t
+) (* println! *)
 //
 in
   given2_t // target

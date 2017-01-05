@@ -1071,10 +1071,11 @@ end // end of [filenameopt_make_local]
 
 implement
 filenameopt_make_relative
-  (given) = let
+  (given, given2_ref) = let
 //
-val ngurl = givename_get_ngurl (given)
-val given2 = pkgsrcname_relocatize (given, ngurl)
+val ngurl = givename_get_ngurl(given)
+val given2 = pkgsrcname_relocatize(given, ngurl)
+val ((*void*)) = (given2_ref := given2)
 //
 (*
 val () = 
@@ -1089,16 +1090,20 @@ val opt =
 (
 case+ 0 of
 | _ when
-    givename_is_relative (given2) => aux_relative (given2)
+    givename_is_relative
+    (
+      given2
+    ) => aux_relative(given2)
   // end of [_ when ...]
 | _ => let
-    val isexi = test_file_exists (given2)
+    val
+    isexi = test_file_exists(given2)
   in
-    if isexi then stropt_some (given2) else stropt_none(*void*)
+    if isexi then stropt_some(given2) else stropt_none(*void*)
   end // end of [_]
 ) : Stropt // end of [val]
 //
-val issome = stropt_is_some (opt)
+val issome = stropt_is_some(opt)
 //
 in
 //

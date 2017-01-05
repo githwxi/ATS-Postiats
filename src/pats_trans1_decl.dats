@@ -121,30 +121,38 @@ staload "./pats_e1xpval.sats"
 
 local
 
-fn prec_make_err () = prec_make_int (0)
+fn
+prec_make_err
+  ((*void*)) = prec_make_int(0)
 
-fn prec_tr_errmsg_fxty
+fn
+prec_tr_errmsg_fxty
   (opr: i0de): void = let
-  val () = prerr_error1_loc (opr.i0de_loc)
+  val () =
+  prerr_error1_loc(opr.i0de_loc)
   val () = prerrln! (": the operator [", opr.i0de_sym, "] is given no fixity")
   val () = the_trans1errlst_add (T1E_prec_tr (opr))
 in
   // nothing
 end // end of [prec_tr_errmsg_fxty]
 
-fn prec_tr_errmsg_adj
+fn
+prec_tr_errmsg_adj
   (opr: i0de): void = let
-  val () = prerr_error1_loc (opr.i0de_loc)
+  val () =
+  prerr_error1_loc(opr.i0de_loc)
   val () = prerrln! ": the operator for adjusting precedence can only be [+] or [-]."
   val () = the_trans1errlst_add (T1E_prec_tr (opr))
 in
   // nothing
 end // end of [prec_tr_errmsg_adj]
 
-fn p0rec_tr
+fn
+p0rec_tr
   (p0: p0rec): prec = let
 //
-  fun precfnd .<>.
+  fun
+  precfnd .<>.
     (id: i0de): prec = let
     val fxtyopt = the_fxtyenv_find id.i0de_sym
   in
@@ -605,10 +613,18 @@ i0nclude_tr
 ) = d1cs where
 {
 //
-val loc0 = d0c0.d0ecl_loc
+val
+loc0 = d0c0.d0ecl_loc
 //
-val () = the_ATSRELOC_set_decl_if(d0c0)
-val opt = $FIL.filenameopt_make_relative (given)
+val
+((*void*)) =
+the_ATSRELOC_set_decl_if(d0c0)
+//
+var
+given2: string (* uninitized *)
+//
+val opt =
+  $FIL.filenameopt_make_relative(given, given2)
 //
 val fil =
 (
@@ -621,15 +637,16 @@ case+ opt of
     if (
     srcloc = 0
     ) then {
+//
       val () =
       prerr_error1_loc (loc0)
-      val () =
-      prerrln!
-      (
-        ": the file [", given, "] is not available for inclusion."
-      ) (* prerrln! *)
 //
-      val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
+      val () =
+      prerrln! (": the file [", given, "] is not available for inclusion.")
+      val () =
+      prerrln! (": the file [", given2, "] is not available for inclusion.")
+//
+      val () = the_trans1errlst_add(T1E_i0nclude_tr(d0c0))
 //
 (*
       val () = $ERR.abort{void}((*reachable*)) // HX: it is meaningful to continue
@@ -853,14 +870,22 @@ s0taload_tr
   d0c0, idopt, given, ldflag, filref
 ) = let
 //
-val loc0 = d0c0.d0ecl_loc
+val
+loc0 = d0c0.d0ecl_loc
 //
-// HX-2014-06-06: no longer in use
+// HX-2014-06-06:
+// [ldflag] is no longer in use for
+val () = (ldflag := 0) // ATS_STALOADFLAG
 //
-val () = (ldflag := 0) // HX: for ATS_STALOADFLAG
+val
+((*void*)) =
+the_ATSRELOC_set_decl_if(d0c0)
 //
-val () = the_ATSRELOC_set_decl_if(d0c0)
-val opt = $FIL.filenameopt_make_relative(given)
+var
+given2: string (* uninitized *)
+//
+val opt =
+  $FIL.filenameopt_make_relative(given, given2)
 //
 val fil =
 (
@@ -876,15 +901,16 @@ case+ opt of
     if
     (srcloc = 0)
     then {
+//
       val () =
       prerr_error1_loc(loc0)
-      val () =
-      prerrln!
-      (
-        ": the file [", given, "] is not available for staloading."
-      ) (* prerrln! *)
 //
-      val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
+      val () =
+      prerrln! (": the file [", given, "] is not available for staloading.")
+      val () =
+      prerrln! (": the file [", given2, "] is not available for staloading.")
+//
+      val () = the_trans1errlst_add(T1E_s0taload_tr(d0c0))
 //
 (*
       val () = $ERR.abort{void}((*reachable*)) // HX: it is meaningful to continue
@@ -959,7 +985,7 @@ val srcloc = $GLOB.the_ATSRELOC_get ()
 in
 //
 if srcloc > 0
-  then r0equire_tr_if (d0c0, given) else $FIL.filename_dummy
+  then r0equire_tr_if(d0c0, given) else $FIL.filename_dummy
 //
 end // end of [r0equire_tr]
 
@@ -967,15 +993,43 @@ implement
 r0equire_tr_if
   (d0c0, given) = let
 //
-val loc0 = d0c0.d0ecl_loc
+val
+loc0 = d0c0.d0ecl_loc
 //
-val () = the_ATSRELOC_set_decl (d0c0)
-val opt = $FIL.filenameopt_make_relative (given)
+val
+((*void*)) =
+the_ATSRELOC_set_decl(d0c0)
+//
+var
+given2: string (* uninitized *)
+//
+val
+filopt =
+$FIL.filenameopt_make_relative(given, given2)
+//
+val
+dbgflag = $GLOB.the_DEBUGATS_dbgflag_get((*void*))
+val
+((*void*)) =
+(
+//
+// HX: generating debugging information
+//
+if
+(dbgflag > 0)
+then
+(
+prerr_error1_loc(loc0);
+prerrln! (": the file [", given2, "] is required.")
+) (* end of [if] *)
+//
+) (* end of [val] *)
 //
 in
 //
-case+ opt of
-| ~Some_vt (fil) => fil | ~None_vt ((*void*)) => $FIL.filename_dummy
+case+ filopt of
+| ~Some_vt(fil) => fil
+| ~None_vt((*void*)) => $FIL.filename_dummy(*void*)
 //
 end // end of [r0equire_tr_if]
 
@@ -990,25 +1044,42 @@ implement
 d0ynload_tr
   (d0c0, given) = let
 //
-val loc0 = d0c0.d0ecl_loc
-val () = the_ATSRELOC_set_decl_if (d0c0)
+val
+loc0 = d0c0.d0ecl_loc
 //
-val opt = $FIL.filenameopt_make_relative (given)
+val
+((*void*)) =
+the_ATSRELOC_set_decl_if(d0c0)
+//
+var
+given2: string (* uninitized *)
+//
+val opt =
+  $FIL.filenameopt_make_relative(given, given2)
 //
 in
 //
 case+ opt of
 | ~Some_vt (fil) => fil
 | ~None_vt ((*void*)) => let
-    val srcloc =
-      $GLOB.the_ATSRELOC_get ()
+//
+    val
+    srcloc =
+    $GLOB.the_ATSRELOC_get ()
+//
     val () =
     if srcloc = 0 then {
+//
       val () =
       prerr_error1_loc (loc0)
+//
       val () =
       prerrln! (": the file [", given, "] is not available for dynloading")
-      val () = the_trans1errlst_add (T1E_d0ynload_tr (d0c0))
+      val () =
+      prerrln! (": the file [", given2, "] is not available for dynloading")
+//
+      val () = the_trans1errlst_add(T1E_d0ynload_tr(d0c0))
+//
 (*
       val () = $ERR.abort{void}((*reachable*)) // HX: it is meaningful to continue
 *)

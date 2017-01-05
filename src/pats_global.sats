@@ -33,17 +33,17 @@
 //
 (* ****** ****** *)
 
-fun the_PACKNAME_get (): Stropt
-fun the_PACKNAME_set (opt: Stropt): void
-fun the_PACKNAME_set_none (): void
-fun the_PACKNAME_set_name (ns: string): void
+fun the_PACKNAME_get(): Stropt
+fun the_PACKNAME_set(opt: Stropt): void
+fun the_PACKNAME_set_none(): void
+fun the_PACKNAME_set_name(ns: string): void
 
 (* ****** ****** *)
 
-fun the_ATSRELOC_get (): int
-fun the_ATSRELOC_set (flag: int): void
-fun the_ATSRELOC_get_decl (): ptr
-fun the_ATSRELOC_set_decl (d0c: ptr): void
+fun the_ATSRELOC_get(): int
+fun the_ATSRELOC_set(flag: int): void
+fun the_ATSRELOC_get_decl(): ptr
+fun the_ATSRELOC_set_decl(d0c: ptr): void
 
 (* ****** ****** *)
 
@@ -86,11 +86,11 @@ fun the_IATS_dirlst_ppush (dir: string):<!ref> void
 //
 (* ****** ****** *)
 //
-fun the_DEBUGATS_dbgflag_get (): int
-fun the_DEBUGATS_dbgflag_set (flag: int): void
+fun the_DEBUGATS_dbgflag_get(): int
+fun the_DEBUGATS_dbgflag_set(flag: int): void
 //
-fun the_DEBUGATS_dbgline_get (): int
-fun the_DEBUGATS_dbgline_set (flag: int): void
+fun the_DEBUGATS_dbgline_get(): int
+fun the_DEBUGATS_dbgline_set(flag: int): void
 //
 (* ****** ****** *)
 //

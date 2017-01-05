@@ -141,16 +141,20 @@ and e1xplst: type = List (e1xp)
 (* ****** ****** *)
 //
 fun print_e1xp (_: e1xp): void
-overload print with print_e1xp
 fun prerr_e1xp (_: e1xp): void
-overload prerr with prerr_e1xp
 fun fprint_e1xp : fprint_type (e1xp)
 //
+overload print with print_e1xp
+overload prerr with prerr_e1xp
+overload fprint with fprint_e1xp
+//
 fun print_e1xplst (_: e1xplst): void
-overload print with print_e1xplst
 fun prerr_e1xplst (_: e1xplst): void
-overload prerr with prerr_e1xplst
 fun fprint_e1xplst : fprint_type (e1xplst)
+//
+overload print with print_e1xplst
+overload prerr with prerr_e1xplst
+overload fprint with fprint_e1xplst
 //
 (* ****** ****** *)
 //

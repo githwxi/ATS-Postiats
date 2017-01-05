@@ -198,10 +198,14 @@ fun
 pkgsrcname_relocatize (given: string, ngurl: int): string
 //
 (* ****** ****** *)
-
-fun filenameopt_make_local (name: string): filenameopt_vt
-fun filenameopt_make_relative (name: string): filenameopt_vt
-
+//
+fun
+filenameopt_make_local(name: string): filenameopt_vt
+//
+fun
+filenameopt_make_relative
+  (given: string, given2: &string? >> string): filenameopt_vt
+//
 (* ****** ****** *)
 
 (* end of [pats_filename.sats] *)
