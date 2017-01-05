@@ -949,10 +949,14 @@ end // end of [take_main]
 fun
 i0nclude_declitemize
 (
-  loc0: location, stadyn: int, path: string
+  loc0: location
+, stadyn: int, path: string
 ) : d0eclreplst = let
 //
-val filopt = $FIL.filenameopt_make_relative (path)
+var path2 : string (* uninitized *)
+//
+val filopt =
+  $FIL.filenameopt_make_relative(path, path2)
 //
 val fil = (
   case+ filopt of
@@ -960,7 +964,10 @@ val fil = (
   | ~None_vt () => let
       val () = $LOC.prerr_location (loc0)
       val () = prerr ": error(libatsynmark)"
+(*
       val () = prerrln! (": the file [", path, "] is not available for inclusion.")
+*)
+      val () = prerrln! (": the file [", path2, "] is not available for inclusion.")
       val () = $ERR.abort ()
     in
       $FIL.filename_dummy
