@@ -24,11 +24,10 @@ change.
 (* ****** ****** *)
 (*
 Output:
-
-abracadabra, rcabarabaad, (0)
-seesaw, aewsse, (2)
+abracadabra, caarbdabaar, (0)
+seesaw, wasese, (0)
 elk, lke, (0)
-grrrrrr, rrrrrgr, (5)
+grrrrrr, rrrrgrr, (5)
 up, pu, (0)
 a, a, (1)
 *)
@@ -69,16 +68,14 @@ end // end of [shuffling_score]
 
 (* ****** ****** *)
 //
-// HX-2017-01-14:
-// Based on Fishe-Yates shuffling
-//
 extern
 fun
-string_shuffle_random
-  {n:int}(cs1: string(n)): string(n)
+string_shuffle_best
+  {n:int}
+  (cs1: string(n)): string(n)
 //
 implement
-string_shuffle_random
+string_shuffle_best
   {n}(cs1) = let
 //
 prval() =
@@ -87,7 +84,8 @@ prval() =
 val n0 = length(cs1)
 //
 val cs2 = string1_copy(cs1)
-val (pf, fpf | p0) = $UN.ptr_vtake{array(char,n)}(strnptr2ptr(cs2))
+val (pf, fpf | p0) =
+  $UN.ptr_vtake{array(char,n)}(strnptr2ptr(cs2))
 //
 local
 //
@@ -101,9 +99,24 @@ end // end of [local]
 //
 prval ((*returned*)) = fpf(pf)
 //
+val n0 = sz2i(n0)
+val () =
+int2_foreach_cloref
+( n0, n0
+, lam(i, j) =>
+  let
+     val i = $UN.cast{natLt(n)}(i)
+     val j = $UN.cast{natLt(n)}(j)
+     val ci = $UN.ptr0_get_at<char>(p0, i)
+     val cj = $UN.ptr0_get_at<char>(p0, j)
+  in
+     if (i != j && cs1[i] != cj && cs1[j] != ci) then ($UN.ptr0_set_at<char>(p0, i, cj); $UN.ptr0_set_at<char>(p0, j, ci))
+  end // end of [let]
+) (* int2_foreach_cloref *)
+//
 in
   strnptr2string(cs2)
-end // end of [string_shuffle_random]
+end // end of [string_shuffle_best]
 
 (* ****** ****** *)
 
@@ -123,7 +136,7 @@ test
   cs1: string(n)
 ) : void =
 {
-val cs2 = string_shuffle_random(cs1)
+val cs2 = string_shuffle_best(cs1)
 val score = shuffling_score(cs1, cs2)
 val ((*void*)) = println! (cs1, ", ", cs2, ", ", "(", score, ")")
 } (* end of [test] *)
