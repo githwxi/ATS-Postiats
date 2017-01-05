@@ -104,13 +104,13 @@ val () =
 int2_foreach_cloref
 ( n0, n0
 , lam(i, j) =>
-  let
-     val i = $UN.cast{natLt(n)}(i)
-     val j = $UN.cast{natLt(n)}(j)
-     val ci = $UN.ptr0_get_at<char>(p0, i)
-     val cj = $UN.ptr0_get_at<char>(p0, j)
+  if i != j then let
+    val i = $UN.cast{natLt(n)}(i)
+    val j = $UN.cast{natLt(n)}(j)
+    val ci = $UN.ptr0_get_at<char>(p0, i)
+    val cj = $UN.ptr0_get_at<char>(p0, j)
   in
-     if (i != j && cs1[i] != cj && cs1[j] != ci) then ($UN.ptr0_set_at<char>(p0, i, cj); $UN.ptr0_set_at<char>(p0, j, ci))
+    if (cs1[i] != cj && cs1[j] != ci) then ($UN.ptr0_set_at<char>(p0, i, cj); $UN.ptr0_set_at<char>(p0, j, ci))
   end // end of [let]
 ) (* int2_foreach_cloref *)
 //
