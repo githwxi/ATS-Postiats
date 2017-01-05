@@ -641,8 +641,10 @@ case+ opt of
       val () =
       prerr_error1_loc (loc0)
 //
+(*
       val () =
       prerrln! (": the file [", given, "] is not available for inclusion.")
+*)
       val () =
       prerrln! (": the file [", given2, "] is not available for inclusion.")
 //
@@ -905,8 +907,10 @@ case+ opt of
       val () =
       prerr_error1_loc(loc0)
 //
+(*
       val () =
       prerrln! (": the file [", given, "] is not available for staloading.")
+*)
       val () =
       prerrln! (": the file [", given2, "] is not available for staloading.")
 //
@@ -1073,8 +1077,10 @@ case+ opt of
       val () =
       prerr_error1_loc (loc0)
 //
+(*
       val () =
       prerrln! (": the file [", given, "] is not available for dynloading")
+*)
       val () =
       prerrln! (": the file [", given2, "] is not available for dynloading")
 //

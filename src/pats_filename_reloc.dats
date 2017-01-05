@@ -377,39 +377,53 @@ in
 end // end of [then]
 else let
 //
-  val p0 = $UN.cast2ptr(given)
-  val p_ngurl = add_ptr_int(p0, ngurl)
-  val p_ngurl = $UN.cast{string}(p_ngurl)
+val p0 = $UN.cast2ptr(given)
+val p_ngurl = add_ptr_int(p0, ngurl)
+val p_ngurl = $UN.cast{string}(p_ngurl)
 //
-  val dirsep = $FIL.theDirSep_get ()
+val dirsep = $FIL.theDirSep_get ()
 //
-  val gurl_t = // target
-    pkgsrcname_get2_gurl1(given, ngurl)
-  val _gurl_t = $UN.castvwtp1{string}(gurl_t)
-  val given2_t =
-    $UT.dirpath_append(_gurl_t, p_ngurl, dirsep)
-  val ((*freed*)) = strptr_free(gurl_t)
-  val given2_t = pkgsrcname_eval(string_of_strptr(given2_t))
+val gurl_t = // target
+  pkgsrcname_get2_gurl1(given, ngurl)
 //
-  val () =
-  if srcd0c > null then
-  {
-    val gurl_s = // source
-      pkgsrcname_get2_gurl0(given, ngurl)
-    val _gurl_s = $UN.castvwtp1{string}(gurl_s)
-    val given2_s =
-      $UT.dirpath_append(_gurl_s, p_ngurl, dirsep)
-    val ((*freed*)) = strptr_free(gurl_s)
-    val given2_s = pkgsrcname_eval(string_of_strptr(given2_s))
-    val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
-    val ((*void*)) = $TRENV1.the_atsreloc_insert2(srcd0c, given2_s, given2_t)
-  } (* end of [if] *) // end of [val]
+val gurl_t_ =
+  $UN.castvwtp1{string}(gurl_t)
+val given2_t =
+  $UT.dirpath_append(gurl_t_, p_ngurl, dirsep)
 //
+val ((*freed*)) = strptr_free(gurl_t)
+//
+val given2_t = pkgsrcname_eval(string_of_strptr(given2_t))
+//
+val () =
+if
+(srcd0c > null)
+then
+{
+//
+  val gurl_s = // source
+    pkgsrcname_get2_gurl0(given, ngurl)
+//
+  val gurl_s_ =
+    $UN.castvwtp1{string}(gurl_s)
+  val given2_s =
+    $UT.dirpath_append(gurl_s_, p_ngurl, dirsep)
+//
+  val ((*freed*)) = strptr_free(gurl_s)
+//
+  val given2_s = pkgsrcname_eval(string_of_strptr(given2_s))
+//
+  val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
+  val ((*void*)) = $TRENV1.the_atsreloc_insert2(srcd0c, given2_s, given2_t)
+} (* end of [if] *) // end of [val]
+//
+(*
 val () =
 println!
 (
   "$FIL.pkgsrcname_relocatize: given2_t = ", given2_t
 ) (* println! *)
+*)
 //
 in
   given2_t // target
