@@ -30,6 +30,18 @@ cleanall:: ; $(RMF) Amicable_pairs
 ######
 #
 all:: \
+Best_shuffle
+Best_shuffle: \
+Best_shuffle.dats ; \
+$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+#
+regress:: \
+Best_shuffle; ./$<
+cleanall:: ; $(RMF) Best_shuffle
+#
+######
+#
+all:: \
 Lucas-Lehmer_test
 Lucas-Lehmer_test: \
 Lucas-Lehmer_test.dats ; \

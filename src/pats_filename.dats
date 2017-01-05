@@ -526,27 +526,29 @@ in (* in of [local] *)
 
 fun
 partname_fullize
-  (pname: string): string = let
+(
+  pname: string
+) : string = let
 //
 val isrel =
-  givename_is_relative (pname)
+  givename_is_relative(pname)
 //
 in
 //
 if
 isrel
 then let
-  val cwd = $UNISTD.getcwd0 ()
+  val cwd = $UNISTD.getcwd0()
   val fname =
-    filename_append ((p2s)cwd, pname)
+    filename_append((p2s)cwd, pname)
   // end of [val]
-  val () = strptr_free (cwd)
-  val fname_nf = path_normalize ((p2s)fname)
-  val () = strptr_free (fname)
+  val () = strptr_free(cwd)
+  val fname_nf = path_normalize((p2s)fname)
+  val () = strptr_free(fname)
 in
   fname_nf
 end // end of [then]
-else pname // HX: it is absolute
+else pname // HX: the path [pname] is absolute
 //
 end // end of [partname_fullize]
 
@@ -920,13 +922,13 @@ aux_local
 (
   given: string
 ) : Stropt = let
-  val fil = filename_get_current ()
-  val pname = filename_get_partname (fil)
+  val fil = filename_get_current()
+  val pname = filename_get_partname(fil)
 (*
   val () = println! ("aux_local: pname = ", pname)
 *)
-  val pname2 = filename_merge (pname, given)
-  val pname2_nf = path_normalize_vt ((p2s)pname2)
+  val pname2 = filename_merge(pname, given)
+  val pname2_nf = path_normalize_vt((p2s)pname2)
   val () = strptr_free (pname2)
 (*
   val () = println! ("aux_local: pname2_nf = ", pname2_nf)
@@ -951,16 +953,18 @@ aux_try
 in
 //
 case+ paths of
-| list_cons (
+| list_cons
+  (
     path, paths
   ) => aux2_try (path, paths, given)
-| list_nil () => stropt_none
+| list_nil((*void*)) => stropt_none(*void*)
 //
 end // end of [aux_try]
 
 and
 aux2_try
-  {n:nat} .<n,1>. (
+  {n:nat} .<n,1>.
+(
   path: path, paths: list (path, n), given: string
 ) : Stropt = let
   val partname =
@@ -973,10 +977,13 @@ aux2_try
 *)
 in
 //
-if isexi then (
-  stropt_of_strptr (partname)
+if
+isexi
+then
+(
+  stropt_of_strptr(partname)
 ) else let
-  val () = strptr_free (partname) in aux_try (paths, given)
+  val () = strptr_free(partname) in aux_try(paths, given)
 end // end of [if]
 //
 end // end of [aux2_try]
@@ -985,16 +992,20 @@ end // end of [aux2_try]
 
 fun
 aux_try_pathlst
-  (given: string): Stropt = let
-  val path = theCurDir_get ()
-  val paths = the_pathlst_get ()
-  val ans = // HX: search the current directory first
-    aux2_try (path, $UN.castvwtp1{pathlst}(paths), given)
-  // end of [val]
-  val () = the_pathlst_set (paths)
-in
-  ans
-end // end of [aux_try_pathlst]
+(
+  given: string
+) : Stropt = ans where
+{
+//
+val path = theCurDir_get()
+val paths = the_pathlst_get()
+//
+val (ans) = // HX: search the current directory first
+  aux2_try(path, $UN.castvwtp1{pathlst}(paths), given)
+// end of [val]
+val ((*void*)) = the_pathlst_set(paths)
+//
+} (* end of [aux_try_pathlst] *)
 
 fun
 aux_try_prepathlst
@@ -1015,17 +1026,19 @@ aux_relative
   given: string
 ) : Stropt = let
 //
-val given = (s2s)given
-val knd = givename_srchknd (given)
+val
+given = (s2s)given
+val
+(knd) = givename_srchknd(given)
 //
 in
 //
 case+ knd of
-| 0 (*local*) => aux_local (given)
+| 0 (*local*) => aux_local(given)
 | _ (*external*) => let
     val opt = aux_try_pathlst (given)
   in
-    if stropt_is_some (opt) then opt else aux_try_prepathlst (given)
+    if stropt_is_some(opt) then opt else aux_try_prepathlst(given)
   end // end of [_]
 //
 end // end of [aux_relative]

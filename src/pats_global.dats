@@ -72,23 +72,24 @@ the_PACKNAME_set_none
 
 local
 //
-val the_ATSRELOC = ref<int> (0)
-val the_ATSRELOC_decl = ref<ptr> (null)
+val the_ATSRELOC = ref<int>(0)
+val the_ATSRELOC_decl = ref<ptr>(null)
 //
 in (* in-of-local *)
 //
 implement
-the_ATSRELOC_get () = !the_ATSRELOC
+the_ATSRELOC_get() = !the_ATSRELOC
 implement
-the_ATSRELOC_set (flag) = !the_ATSRELOC := flag
+the_ATSRELOC_set(flag) = !the_ATSRELOC := flag
 //
 implement
-the_ATSRELOC_get_decl () = let
+the_ATSRELOC_get_decl() = let
   val d0c = !the_ATSRELOC_decl
   val ((*void*)) = !the_ATSRELOC_decl := null in d0c
 end // end of [the_ATSRELOC_get_decl]
+//
 implement
-the_ATSRELOC_set_decl (d0c) = !the_ATSRELOC_decl := d0c
+the_ATSRELOC_set_decl(d0c) = !the_ATSRELOC_decl := d0c
 //
 end // end of [local]
 

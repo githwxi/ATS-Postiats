@@ -119,7 +119,7 @@ val ((*cleared*)) = tokbuf_uninitize (buf)
 implement
 parse_from_stdin_toplevel
   (stadyn) =
-  parse_from_fileref_toplevel (stadyn, stdin_ref)
+  parse_from_fileref_toplevel(stadyn, stdin_ref)
 // end of [parser_from_stdin_toplevel]
 
 implement
@@ -131,7 +131,7 @@ var buf: tokbuf
 //
 val () =
 tokbuf_initize_getc
-  (buf, lam () =<cloptr1> $STDIO.fgetc0_err (inp))
+  (buf, lam () =<cloptr1> $STDIO.fgetc0_err(inp))
 //
 val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
 val () = tokbuf_uninitize (buf)
@@ -149,7 +149,7 @@ prval pfmod = file_mode_lte_r_r
 //
 val
 fname =
-  $FIL.filename_get_fullname(fil)
+$FIL.filename_get_fullname(fil)
 //
 val
 fname = $SYM.symbol_get_name(fname)

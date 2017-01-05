@@ -2153,9 +2153,9 @@ end // end of [val]
 *)
 //
 val fsymb =
-  $FIL.filename_get_fullname (fil)
-val (pflev | ()) = the_staload_level_push ()
-val ans = the_filenvmap_find (fsymb)
+  $FIL.filename_get_fullname(fil)
+val (pflev | ()) = the_staload_level_push()
+val ans = the_filenvmap_find(fsymb)
 //
 val
 fenv = (
@@ -2163,22 +2163,24 @@ case+
 :(
 loaded: int
 ) => ans of
-| ~Some_vt fenv => let
-    val () = loaded := 1 in fenv
-  end // end of [Some_vt]
-| ~None_vt _ => let
+| ~Some_vt
+  (
+    fenv
+  ) => let val () = loaded := 1 in fenv end
+  // end of [Some_vt]
+| ~None_vt() => let
     val () = loaded := 0
     val (
       pfsave | ((*void*))
-    ) = the_trans2_env_save ()
+    ) = the_trans2_env_save()
 //
-    val opt = $GLOB.the_PACKNAME_get ()
-    val d2cs = d1eclist_tr (d1cs) // HX: may set PACKNAME
-    val ((*void*)) = $GLOB.the_PACKNAME_set (opt)
+    val opt = $GLOB.the_PACKNAME_get()
+    val d2cs = d1eclist_tr(d1cs) // HX: may set PACKNAME
+    val ((*void*)) = $GLOB.the_PACKNAME_set(opt)
 //
     val (m0, m1, m2) =
-      the_trans2_env_restore (pfsave | (*none*))
-    val fenv = filenv_make (fil, m0, m1, m2, d2cs)
+      the_trans2_env_restore(pfsave | (*none*))
+    val fenv = filenv_make(fil, m0, m1, m2, d2cs)
     val ((*void*)) = the_filenvmap_add (fsymb, fenv)
   in
     fenv
