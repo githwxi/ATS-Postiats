@@ -1098,7 +1098,8 @@ end // end of [d0ynload_tr]
 
 (* ****** ****** *)
 
-fn guad0ecl_tr
+fun
+guad0ecl_tr
 (
   knd: srpifkind, gd: guad0ecl
 ) : d1eclist = let

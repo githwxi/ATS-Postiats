@@ -138,7 +138,8 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
-#packfilename("isqrt.dats")
+#packfilename("intsqrt_cps.dats")
+#packfilename("intsqrt_prf.dats")
 
 (* ****** ****** *)
 

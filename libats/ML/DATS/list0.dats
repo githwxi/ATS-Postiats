@@ -343,78 +343,104 @@ val xs = g1ofg0_list(xs)
 in
 //
 case+ xs of
-| list_nil () => None_vt()
+| list_nil() => None_vt()
 | list_cons _ => Some_vt{a}(list_last(xs))
 //
 end // end of [list0_last_opt]
 
 (* ****** ****** *)
-
-local
-
-fun{a:t0p}
-loop{i:nat} .<i>.
+//
+implement
+{a}(*tmp*)
+list0_nth_exn
+  (xs, i0) = let
+//
+fun
+loop
+{i:nat} .<i>.
 (
-  xs: list0 (a), i: int i
-) :<!exn> a = let
-in
+  xs: list0(a), i: int i
+) :<!exn> (a) =
+(
 //
 case+ xs of
 | list0_cons
     (x, xs) =>
   (
-    if i > 0 then loop<a> (xs, i-1) else x
+    if i > 0 then loop(xs, i-1) else x
   ) // end of [list0_cons]
-| list0_nil () => $raise ListSubscriptExn()
+| list0_nil() => $raise ListSubscriptExn()
 //
-end // end of [loop]
-
-in (* in of [local] *)
-
-implement
-{a}(*tmp*)
-list0_nth_exn
-  (xs, i) = let
+) (* end of [loop] *)
 //
-val i = g1ofg0_int(i)
+val i0 = g1ofg0_int(i0)
 //
 in
 //
-if
-i >= 0
-then loop<a> (xs, i)
-else $raise ListSubscriptExn()
+if i0 >= 0
+  then loop(xs, i0) else $raise ListSubscriptExn()
+// end of [if]
 //
 end // end of [list0_nth_exn]
-
+//
 implement
 {a}(*tmp*)
 list0_nth_opt
-  (xs, i) = let
-//
-val i = g1ofg0(i)
-//
-in
-//
-if
-i >= 0
-then (
+(
+  xs, i0
+) =
 $effmask_exn
 (
-  try Some_vt{a}(loop<a>(xs, i)) with ~ListSubscriptExn() => None_vt()
+try
+Some_vt{a}
+(
+  list0_nth_exn<a>(xs, i0)
+)
+with ~ListSubscriptExn((*void*)) => None_vt()
 ) (* $effmask_exn *)
-) else None_vt((*void*))
 //
-end // end of [list0_nth_opt]
-
-end // end of [local]
-
 (* ****** ****** *)
 //
 implement
 {a}(*tmp*)
 list0_get_at_exn
-  (xs, i) = list0_nth_exn (xs, i)
+  (xs, i0) = list0_nth_exn (xs, i0)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+list0_fset_at_exn
+  (xs, i0, x0) = let
+//
+fun
+loop
+{i:nat} .<i>.
+(
+  xs: list0(a), i: int i
+) :<!exn> list0(a) =
+(
+//
+case+ xs of
+| list0_cons
+    (x, xs) =>
+  (
+    if i > 0
+      then cons0(x, loop(xs, i-1)) else cons0(x0, xs)
+    // end of [if]
+  ) // end of [list0_cons]
+| list0_nil() => $raise ListSubscriptExn()
+//
+) (* end of [loop] *)
+//
+val i0 = g1ofg0(i0)
+//
+in
+//
+if i0 >= 0
+  then loop(xs, i0) else $raise ListSubscriptExn()
+//
+end // end of [list0_fset_at_exn]
 //
 (* ****** ****** *)
 
@@ -1178,6 +1204,11 @@ case+ xs of
 } (* end of [list0_find_opt] *)
 
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+list0_find_exn_method
+  (xs) = lam(pred) => list0_find_exn<a>(xs, pred)
 //
 implement
 {a}(*tmp*)

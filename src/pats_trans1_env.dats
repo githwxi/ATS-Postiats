@@ -676,37 +676,42 @@ extern
 ats_ptr_type patsopt_PATSHOME_get() ;
 extern
 ats_ptr_type patsopt_PATSHOMERELOC_get() ;
+/*
+extern
+ats_ptr_type patsopt_PATSHOMERELOCS_get() ;
+*/
 //
 %} // end of [%{^]
 
 in (* in of [local] *)
 
 implement
-the_trans1_env_initialize () =
+the_trans1_env_initialize
+  ((*void*)) =
 {
 //
-val opt = get () where
+val opt = get() where
 {
-  extern fun get (): Stropt = "mac#patsopt_PATSHOME_get"
+  extern fun get(): Stropt = "mac#patsopt_PATSHOME_get"
 } (* end of [val] *)
-val issome = stropt_is_some (opt)
+val issome = stropt_is_some(opt)
 val () =
 if issome then let
   val k = $SYM.symbol_PATSHOME
-  val x = e1xp_string ($LOC.location_dummy, stropt_unsome(opt))
+  val x = e1xp_string($LOC.location_dummy, stropt_unsome(opt))
 in
   the_e1xpenv_addperv (k, x)
 end // end of [if] // end of [val]
 //
-val opt = get () where
+val opt = get() where
 {
-  extern fun get (): Stropt = "mac#patsopt_PATSHOMERELOC_get"
+  extern fun get(): Stropt = "mac#patsopt_PATSHOMERELOC_get"
 } (* end of [val] *)
 val issome = stropt_is_some (opt)
 val () =
 if issome then let
   val k = $SYM.symbol_PATSHOMERELOC
-  val x = e1xp_string ($LOC.location_dummy, stropt_unsome(opt))
+  val x = e1xp_string($LOC.location_dummy, stropt_unsome(opt))
 in
   the_e1xpenv_addperv (k, x)
 end // end of [if] // end of [val]
