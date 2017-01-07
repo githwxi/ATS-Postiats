@@ -93,8 +93,8 @@ implement
 givename_srchknd
   (given) = let
 //
-val dir = theCurDir_get ()
-val len = string_length (dir)
+val dir = theCurDir_get()
+val len = string_length(dir)
 //
 in
 //
@@ -1034,9 +1034,13 @@ val
 in
 //
 case+ knd of
-| 0 (*local*) => aux_local(given)
+| 0 (*local*) => 
+  (
+    aux_local(given) // given = ./<path>
+  )
 | _ (*external*) => let
-    val opt = aux_try_pathlst (given)
+    val
+    opt = aux_try_pathlst(given)
   in
     if stropt_is_some(opt) then opt else aux_try_prepathlst(given)
   end // end of [_]
@@ -1053,17 +1057,19 @@ implement
 filenameopt_make_local
   (given) = let
 //
-val opt = aux_local (given)
-val issome = stropt_is_some (opt)
+val opt = aux_local(given)
+val issome = stropt_is_some(opt)
 //
 in
 //
-if issome then let
+if
+issome
+then let
   val partname = stropt_unsome(opt)
   val fullname = partname_fullize(partname)
 in
-  Some_vt (filename_make(given, partname, fullname))
-end else None_vt () // end of [if]
+  Some_vt(filename_make(given, partname, fullname))
+end else None_vt() // end of [if]
 //
 end // end of [filenameopt_make_local]
 
@@ -1095,7 +1101,7 @@ case+ 0 of
       given2
     ) => aux_relative(given2)
   // end of [_ when ...]
-| _ => let
+| _ (* given2 is absolute *) => let
     val
     isexi = test_file_exists(given2)
   in

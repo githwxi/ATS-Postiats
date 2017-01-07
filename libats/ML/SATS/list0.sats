@@ -216,6 +216,9 @@ overload [] with list0_get_at_exn
 fun{a:t0p}
 list0_fset_at_exn
   (list0(INV(a)), i0: int, x0: a):<!exn> list0(a)
+fun{a:t0p}
+list0_fset_at_opt
+  (list0(INV(a)), i0: int, x0: a):<!exn> Option_vt(list0(a))
 //
 (* ****** ****** *)
 //

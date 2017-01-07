@@ -348,7 +348,8 @@ $FIL.pkgsrcname_relocatize
   (given, ngurl) = let
 //
 val
-srcd0c = $GLOB.the_ATSRELOC_get_decl()
+srcd0c =
+$GLOB.the_ATSRELOC_get_decl()
 //
 extern
 fun
@@ -401,20 +402,21 @@ if
 then
 {
 //
-  val gurl_s = // source
-    pkgsrcname_get2_gurl0(given, ngurl)
+val gurl_s = // source
+  pkgsrcname_get2_gurl0(given, ngurl)
 //
-  val gurl_s_ =
-    $UN.castvwtp1{string}(gurl_s)
-  val given2_s =
-    $UT.dirpath_append(gurl_s_, p_ngurl, dirsep)
+val gurl_s_ =
+  $UN.castvwtp1{string}(gurl_s)
+val given2_s =
+  $UT.dirpath_append(gurl_s_, p_ngurl, dirsep)
 //
-  val ((*freed*)) = strptr_free(gurl_s)
+val ((*freed*)) = strptr_free(gurl_s)
 //
-  val given2_s = pkgsrcname_eval(string_of_strptr(given2_s))
+val given2_s = pkgsrcname_eval(string_of_strptr(given2_s))
 //
-  val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
-  val ((*void*)) = $TRENV1.the_atsreloc_insert2(srcd0c, given2_s, given2_t)
+val srcd0c = $UN.cast{$SYN.d0ecl}(srcd0c)
+val ((*void*)) = $TRENV1.the_atsreloc_insert2(srcd0c, given2_s, given2_t)
+//
 } (* end of [if] *) // end of [val]
 //
 (*

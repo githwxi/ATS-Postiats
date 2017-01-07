@@ -520,14 +520,18 @@ fprint_atsrelocitm
   (out, itm) = let
 //
 macdef
-prstr (s) = fprint_string (out, ,(s))
+prstr(s) =
+fprint_string(out, ,(s))
 //
-fun auxpr
+fun
+auxpr
 (
   out: FILEref, d0c: $SYN.d0ecl
 ) : void =
 (
-case+ d0c.d0ecl_node of
+case+
+d0c.d0ecl_node
+of (* case+ *)
 | $SYN.D0Cinclude _ => fprint (out, "include")
 | $SYN.D0Cstaload _ => fprint (out, "staload")
 | $SYN.D0Crequire _ => fprint (out, "require")
@@ -623,9 +627,9 @@ println! ("the_atsreloc_insert: given = ", given)
 *)
 //
 val itm =
-ATSRELOCITM (d0c0, given)
+ATSRELOCITM(d0c0, given)
 val ((*void*)) =
-!the_itmlst := list_cons (itm, !the_itmlst)
+!the_itmlst := list_cons(itm, !the_itmlst)
 //
 in
   // nothing

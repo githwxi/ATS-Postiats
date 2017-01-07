@@ -446,6 +446,24 @@ end // end of [list0_fset_at_exn]
 
 implement
 {a}(*tmp*)
+list0_fset_at_opt
+(
+  xs, i0, x0
+) =
+$effmask_exn
+(
+try
+Some_vt{list0(a)}
+(
+  list0_fset_at_exn<a>(xs, i0, x0)
+)
+with ~ListSubscriptExn((*void*)) => None_vt()
+) (* $effmask_exn *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 list0_insert_at_exn
   (xs, i, x0) = let
 //
