@@ -44,17 +44,37 @@ staload
 _(*UN*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
-
+//
+staload
+UTL = "./pats_utils.sats"
+staload
+_(*UTL*) = "./pats_utils.dats"
+//
+symintr
+print_stropt
+overload
+print_stropt with $UTL.print_stropt
+//
+(* ****** ****** *)
+//
 staload
 LOC = "./pats_location.sats"
+//
 staload SYM = "./pats_symbol.sats"
-typedef symbol= $SYM.symbol
+typedef symbol = $SYM.symbol
 overload = with $SYM.eq_symbol_symbol
-
+//
 (* ****** ****** *)
 
 staload "./pats_filename.sats"
 
+(* ****** ****** *)
+//
+fun
+ptr_succ_char
+  (p: ptr): ptr =
+  add_ptr_size(p, sizeof<char>)
+//
 (* ****** ****** *)
 
 local
@@ -98,7 +118,18 @@ val len = string_length(dir)
 //
 in
 //
-if strncmp(given, dir, len) = 0 then 0(*loc*) else 1(*ext*)
+if
+strncmp(given, dir, len) = 0
+then 0(*loc*)
+else
+(
+(
+if
+strncmp(given, "$PATSHOMERELOCS/", 16) = 0
+then 1
+else 2(*ext*)
+) (* end of [else] *)
+) (* end of [else] *)
 //
 end // end of [givename_srchknd]
 
@@ -121,8 +152,10 @@ fun loop
 , c0: char, c1: char
 ) : ptr = let
 //
-val c = $UN.ptr0_get<char> (p)
-val p1 = add_ptr_size (p, sizeof<char>)
+val c =
+  $UN.ptr0_get<char>(p)
+//
+val p1 = ptr_succ_char(p)
 //
 in
 //
@@ -144,12 +177,12 @@ case+ 0 of
 (*
 | _ when
     c0 = '\(' => let
-    val p = add_ptr_int (p0, 1) in loop (p, 1, c0, ')')
+    val p = ptr_succ_char(p0, 1) in loop(p, 1, c0, ')')
   end // end of [_ when ...]
 *)
 | _ when
     c0 = '\{' => let
-    val p = add_ptr_int (p0, 1) in loop (p, 1, c0, '}')
+    val p = ptr_succ_char(p0) in loop (p, 1, c0, '}')
   end // end of [_ when ...]
 | _ (*rest-of-chars*) => null
 ) : ptr // end of [val]
@@ -370,139 +403,184 @@ if
 //
 (* ****** ****** *)
 //
+implement
+print_pathlst(xs) =
+fprint_pathlst(stdout_ref, xs)
+implement
+prerr_pathlst(xs) =
+fprint_pathlst(stderr_ref, xs)
+//
+implement
+fprint_pathlst(out, xs) =
+$UTL.fprintlst(out, xs, ":", lam(out, x) => fprint_string(out, x))
+//
+(* ****** ****** *)
+//
 staload
-UNISTD =
-"libc/SATS/unistd.sats"
+UNISTD = "libc/SATS/unistd.sats"
 //
 (* ****** ****** *)
 
 implement
-path_normalize_vt (s0) = let
-  fun loop1
-    {n0,i0:nat | i0 <= n0} (
-    dirsep: char
-  , s0: string n0, n0: size_t n0, i0: size_t i0
-  , dirs: &List_vt strptr1
-  ) : void =
-    if i0 < n0 then loop2 (dirsep, s0, n0, i0, i0, dirs) else ()
-  and loop2
-    {n0,i0,i:nat | i0 < n0; i0 <= i; i <= n0} (
-    dirsep: char
-  , s0: string n0, n0: size_t n0, i0: size_t i0, i: size_t i
-  , dirs: &List_vt strptr1
-  ) : void =
-    if i < n0 then let
+path_normalize_vt
+  (s0) = let
+//
+fun
+loop1
+{n0,i0:nat | i0 <= n0}
+(
+  dirsep: char
+, s0: string n0, n0: size_t n0, i0: size_t i0
+, dirs: &List_vt strptr1
+) : void =
+(
+if i0 < n0
+  then loop2(dirsep, s0, n0, i0, i0, dirs) else ()
+)
+//
+and
+loop2
+{n0,i0,i:nat | i0 < n0; i0 <= i; i <= n0}
+(
+  dirsep: char
+, s0: string n0, n0: size_t n0, i0: size_t i0, i: size_t i
+, dirs: &List_vt strptr1
+) : void =
+(
+if
+(i < n0)
+then let
 (*
-      // empty
+  // empty
 *)
-    in
-      if s0[i] <> dirsep then
-        loop2 (dirsep, s0, n0, i0, i+1, dirs)
-      else let
-        val sbp = string_make_substring (s0, i0, i - i0 + 1)
-        val dir = strptr_of_strbuf (sbp) // this is a no-op cast
+in
+//
+if
+(s0[i] <> dirsep)
+then
+(
+  loop2 (dirsep, s0, n0, i0, i+1, dirs)
+) (* end of [then] *)
+else let
+  val sbp =
+  string_make_substring(s0, i0, i - i0 + 1)
+  val dir = strptr_of_strbuf(sbp) // this is a no-op cast
 (*
-        val () = begin
-          print "path_normalize_vt: loop2: dir = "; print dir; print_newline ()
-        end // end of [val]
-*)
-      in
-        dirs := list_vt_cons (dir, dirs); loop1 (dirsep, s0, n0, i + 1, dirs)
-      end // end of [if]
-    end else let
-      val sbp = string_make_substring (s0, i0, i - i0)
-      val dir = strptr_of_strbuf (sbp) // this is a no-op cast
-(*
-      val () = begin
-        print "path_normalize_vt: loop2: dir = "; print dir; print_newline ()
-      end // end of [val]
-*)
-    in
-      dirs := list_vt_cons (dir, dirs)
-    end // end of [if]
-  // end of [loop1] and [loop2]
-//
-  extern
-  castfn
-  p2s{l:agz}(x: !strptr(l)):<> string
-//
-  vtypedef strptrlst = List_vt (strptr1)
-//
-  fun
-  dirs_process{n:nat}
-  (
-    curdir: string, pardir: string
-  , npar: int n, dirs: strptrlst, res: strptrlst
-  ) : strptrlst = let
-  in
-    case+ dirs of
-    | ~list_vt_cons
-        (dir, dirs) => (
-        if (p2s)dir = curdir then let
-          val () = strptr_free (dir) in
-          dirs_process (curdir, pardir, npar, dirs, res)
-        end else if (p2s)dir = pardir then let
-          val () = strptr_free (dir) in
-          dirs_process (curdir, pardir, npar + 1, dirs, res)
-        end else (
-          if npar > 0 then let
-            val () = strptr_free (dir)
-          in
-            dirs_process (curdir, pardir, npar - 1, dirs, res)
-          end else begin
-            dirs_process (curdir, pardir, 0, dirs, list_vt_cons (dir, res))
-          end (* end of [if] *)
-        ) // end of [if]
-      ) (* end of [list_vt_cons] *)
-    | ~list_vt_nil () => let
-        fun
-        loop{i,j:nat}
-        (
-          pardir: string
-        , npar: int i, res: list_vt (strptr1, j)
-        ) : list_vt (strptr1, i+j) =
-          if npar > 0 then let
-            val dir =
-              string1_of_string (pardir)
-            // end of [val]
-            val n = string1_length (dir)
-            val dir = string_make_substring (dir, 0, n)
-            val dir = strptr_of_strbuf (dir)
-          in
-            loop (pardir, npar - 1, list_vt_cons (dir, res))
-          end else res
-          (* end of [if] *)
-        // end of [loop]
-      in
-        loop (pardir, npar, res)
-      end (* end of [list_vt_nil] *)
-  end // end of [dirs_process]
-//
-  val dirsep = theDirSep_get ()
-  val curdir = theCurDir_get ()
-  and pardir = theParDir_get ()
-//
-  var dirs
-    : strptrlst = list_vt_nil ()
-//
-  val s0 =
-    string1_of_string(s0)
-  // end of [val]
-  val n0 = string_length(s0)
-//
-  val () = loop1 (dirsep, s0, n0, 0, dirs)
-//
   val () =
-  dirs :=
-  dirs_process (curdir, pardir, 0, dirs, list_vt_nil)
+  (
+    print "path_normalize_vt: loop2: dir = "; print dir; print_newline ()
+  ) (* end of [val] *)
+*)
+in
+  dirs := list_vt_cons (dir, dirs); loop1 (dirsep, s0, n0, i + 1, dirs)
+end // end of [else]
 //
-  val path =
-  stringlst_concat
-    (__cast dirs) where {
-    extern castfn __cast (x: !strptrlst): List string
-  } (* end of [where] *) // end of [val]
+end // end of [then]
+else let
+  val sbp =
+  string_make_substring (s0, i0, i - i0)
+  val dir = strptr_of_strbuf (sbp) // this is a no-op cast
+(*
+  val () =
+  (
+    print "path_normalize_vt: loop2: dir = "; print dir; print_newline ()
+  ) (* end of [val] *)
+*)
+in
+  dirs := list_vt_cons (dir, dirs)
+end // end of [else]
 //
-  val () = list_vt_free_fun<strptr1> (dirs, lam x => strptr_free (x))
+) (* end of [loop1] and [loop2] *)
+//
+extern
+castfn
+p2s{l:agz}(x: !strptr(l)):<> string
+//
+vtypedef strptrlst = List_vt (strptr1)
+//
+fun
+dirs_process{n:nat}
+(
+  curdir: string, pardir: string
+, npar: int n, dirs: strptrlst, res: strptrlst
+) : strptrlst = let
+(*
+// nothing
+*)
+in
+  case+ dirs of
+  | ~list_vt_cons
+      (dir, dirs) => (
+      if (p2s)dir = curdir then let
+        val () = strptr_free (dir) in
+        dirs_process (curdir, pardir, npar, dirs, res)
+      end else if (p2s)dir = pardir then let
+        val () = strptr_free (dir) in
+        dirs_process (curdir, pardir, npar + 1, dirs, res)
+      end else (
+        if npar > 0 then let
+          val () = strptr_free (dir)
+        in
+          dirs_process (curdir, pardir, npar - 1, dirs, res)
+        end else begin
+          dirs_process (curdir, pardir, 0, dirs, list_vt_cons (dir, res))
+        end (* end of [if] *)
+      ) // end of [if]
+    ) (* end of [list_vt_cons] *)
+  | ~list_vt_nil () => let
+      fun
+      loop{i,j:nat}
+      (
+        pardir: string
+      , npar: int i, res: list_vt (strptr1, j)
+      ) : list_vt (strptr1, i+j) =
+        if npar > 0 then let
+          val dir =
+            string1_of_string (pardir)
+          // end of [val]
+          val n = string1_length (dir)
+          val dir = string_make_substring (dir, 0, n)
+          val dir = strptr_of_strbuf (dir)
+        in
+          loop (pardir, npar - 1, list_vt_cons (dir, res))
+        end else res
+        (* end of [if] *)
+      // end of [loop]
+    in
+      loop (pardir, npar, res)
+    end (* end of [list_vt_nil] *)
+end // end of [dirs_process]
+//
+val dirsep = theDirSep_get()
+val curdir = theCurDir_get()
+and pardir = theParDir_get()
+//
+var dirs
+  : strptrlst = list_vt_nil()
+//
+val s0 =
+  string1_of_string(s0)
+//
+val n0 = string_length(s0)
+//
+val () =
+  loop1 (dirsep, s0, n0, 0, dirs)
+//
+val () =
+dirs :=
+dirs_process(curdir, pardir, 0, dirs, list_vt_nil)
+//
+val path =
+stringlst_concat
+(
+  __cast (dirs)
+) where
+{
+  extern castfn __cast(x: !strptrlst): List0(string)
+} (* end of [where] *) // end of [val]
+//
+val ((*freed*)) =
+list_vt_free_fun<strptr1> (dirs, lam x => strptr_free (x))
 //
 in
   path(*strptr*)
@@ -925,7 +1003,7 @@ aux_local
   val fil = filename_get_current()
   val pname = filename_get_partname(fil)
 (*
-  val () = println! ("aux_local: pname = ", pname)
+  val () = println!("aux_local: pname = ", pname)
 *)
   val pname2 = filename_merge(pname, given)
   val pname2_nf = path_normalize_vt((p2s)pname2)
@@ -933,12 +1011,12 @@ aux_local
 (*
   val () = println! ("aux_local: pname2_nf = ", pname2_nf)
 *)
-  val isexi = test_file_exists ((p2s)pname2_nf)
+  val isexi = test_file_exists((p2s)pname2_nf)
 in
   if isexi then
-    stropt_of_strptr (pname2_nf)
+    stropt_of_strptr(pname2_nf)
   else let
-    val () = strptr_free (pname2_nf) in stropt_none(*void*)
+    val () = strptr_free(pname2_nf) in stropt_none(*void*)
   end // end of [if]
 end // end of [aux_local]
 
@@ -948,7 +1026,7 @@ fun
 aux_try
   {n:nat} .<n,0>.
 (
-  paths: list (path, n), given: string
+  paths: list(path, n), given: string
 ) : Stropt = let
 in
 //
@@ -956,7 +1034,7 @@ case+ paths of
 | list_cons
   (
     path, paths
-  ) => aux2_try (path, paths, given)
+  ) => aux2_try(path, paths, given)
 | list_nil((*void*)) => stropt_none(*void*)
 //
 end // end of [aux_try]
@@ -965,7 +1043,7 @@ and
 aux2_try
   {n:nat} .<n,1>.
 (
-  path: path, paths: list (path, n), given: string
+  path: path, paths: list(path, n), given: string
 ) : Stropt = let
   val partname =
     filename_append (path, given)
@@ -1000,8 +1078,16 @@ aux_try_pathlst
 val path = theCurDir_get()
 val paths = the_pathlst_get()
 //
-val (ans) = // HX: search the current directory first
-  aux2_try(path, $UN.castvwtp1{pathlst}(paths), given)
+val (ans) =
+//
+// HX: search the current directory first
+//
+(
+  aux2_try
+  (
+    path, $UN.castvwtp1{pathlst}(paths), given
+  ) (* aux2_try *)
+)
 // end of [val]
 val ((*void*)) = the_pathlst_set(paths)
 //
@@ -1009,14 +1095,89 @@ val ((*void*)) = the_pathlst_set(paths)
 
 fun
 aux_try_prepathlst
-  (given: string): Stropt = let
-  val paths = the_prepathlst_get ()
+(
+  given: string
+) : Stropt = ans where
+{
+  val paths = the_prepathlst_get()
   val ans =
-    aux_try ($UN.castvwtp1{pathlst}(paths), given)
+    aux_try($UN.castvwtp1{pathlst}(paths), given)
   val () = the_prepathlst_set (paths)
+} (* end of [aux_try_prepathlst] *)
+
+(* ****** ****** *)
+
+fun
+aux_relocs
+(
+  given: string
+) : Stropt = let
+//
+(*
+val () =
+println!
+(
+  "aux_relocs: given = ", given
+) (* end of [val] *)
+*)
+//
+fun
+given_get_partname
+(
+  given
+: string
+) : string = let
+//
+#define NUL '\0'
+//
+val
+sep = theDirSep_get()
+//
+fun
+loop
+(
+  p: ptr
+) :<cloref1> string = let
+//
+val c = $UN.ptr0_get<char>(p)
+//
 in
-  ans
-end // end of [aux_try_prepathlst]
+//
+// [given] should contain '/'!
+//
+if
+(c = NUL)
+then ""
+else
+(
+if c != sep
+  then loop(ptr_succ_char(p))
+  else $UN.cast{string}(ptr_succ_char(p)) 
+// end of [if]
+)
+//
+end // end of [given_get_partname]
+//
+in
+  loop($UN.cast2ptr(given))
+end // end of [given_get_partname]
+//
+val relocs =
+  the_PATSHOMERELOCS_get_pathlst()
+//
+(*
+val () =
+(
+print!
+(
+"aux_relocs: relocs = "
+); print_pathlst(relocs); println!()
+)
+*)
+//
+in
+  aux_try(relocs, given_get_partname(given))
+end // end of [aux_relocs]
 
 (* ****** ****** *)
 
@@ -1034,10 +1195,22 @@ val
 in
 //
 case+ knd of
+//
 | 0 (*local*) => 
   (
-    aux_local(given) // given = ./<path>
+    //
+    // given = "./<path>
+    //
+    aux_local(given)
   )
+| 1 (* relocs *) =>
+  (
+    //
+    // given = $PATSHOMERELOCS/<path>
+    //
+    aux_relocs(given)
+  )
+//
 | _ (*external*) => let
     val
     opt = aux_try_pathlst(given)
@@ -1133,10 +1306,236 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+//
+extern
+fun
+my_make_substring
+(
+  src: string, beg: size_t, len: size_t
+) : strptr1
+  = "mac#atspre_string_make_substring"
+//
+fun
+my_make_substring_range
+(
+  src: string, beg: size_t, fin: size_t
+) : string  = let
+  val
+  len =
+  (
+    if fin >= beg then (fin - beg) else 0
+  ) : size_t // end of [val]
+in
+  string_of_strptr(my_make_substring(src, beg, len))
+end // end of [my_make_substring_range]
+//
+(* ****** ****** *)
+//
+fun
+pathlst_test
+  {n:int}
+(
+  xs: !list_vt(path, n), x0: path
+) : bool =
+(
+case+ xs of
+| list_vt_nil
+    ((*void*)) =>
+  (fold@(xs); false)
+| list_vt_cons
+    (x_hd, !p_xs_tl) =>
+  if x0 = x_hd
+    then (fold@(xs); true)
+    else test where
+    {
+      val test =
+        pathlst_test(!p_xs_tl, x0)
+      // end of [test]
+      prval ((*folded*)) = fold@(xs)
+    }
+) (* end of [pathlst_test] *)
+//
+fun
+pathlst_insert
+(
+  xs: pathlst_vt,  x0: path
+) : pathlst_vt =
+  if pathlst_test(xs, x0) then xs else list_vt_cons(x0, xs)
+//
+(* ****** ****** *)
+//
+val
+the_PATSHOMERELOCS =
+ref<Option(pathlst)>(None())
+//
+fun
+the_PATSHOMERELOCS_split
+(
+  paths: string
+) : pathlst = let
+//
+#define NUL '\0'
+#define COLON ':'
+//
+val
+dirsep = theDirSep_get()
+//
+fun
+loop2
+(
+  p: ptr
+, i: size_t
+, res: pathlst_vt
+) :<cloref1> pathlst_vt = let
+//
+val c = $UN.ptr0_get<char>(p)
+//
+in
+//
+if
+(c = NUL)
+then res
+else
+(
+if c = COLON
+  then loop2(ptr_succ_char(p), i+1, res)
+  else loop3(ptr_succ_char(p), i, i+1, res)
+)
+//
+end (* end of [loop2] *)
+//
+and
+loop3
+(
+  p: ptr
+, i: size_t
+, j: size_t
+, res: pathlst_vt
+) :<cloref1> pathlst_vt = let
+//
+val c = $UN.ptr0_get<char>(p)
+//
+in
+//
+if
+(c = NUL)
+then let
+//
+val path =
+  my_make_substring_range(paths, i, j)
+//
+in
+  pathlst_insert(res, path)
+end // end of [then]
+else
+(
+if
+(c = COLON)
+then let
+//
+val path =
+  my_make_substring_range(paths, i, j)
+//
+in
+//
+loop2
+(
+ptr_succ_char(p), j+1, pathlst_insert(res, path)
+)
+//
+end // end of [then]
+else
+(
+  loop3(ptr_succ_char(p), i, j+1, res)
+) (* end of [else] *)
+) (* end of [else] *)
+//
+end (* end of [loop3] *)
+//
+in
+//
+list_of_list_vt
+(
+list_vt_reverse(loop2($UN.cast2ptr(paths), 0, list_vt_nil()))
+) (* list_of_list_vt *)
+//
+end // end of [the_PATSHOMERELOCS_split]
+//
+fun
+the_PATSHOMERELOCS_initize
+  (): pathlst = let
+//
+val
+paths = get() where
+{
+  extern
+  fun
+  get(
+  // argless
+  ) : Stropt =
+    "ext#patsopt_PATSHOMERELOCS_get"
+} (* end of [val] *)
+//
+(*
+val () =
+(
+print!
+(
+"the_PATSHOMERELOCS_initize: paths = "
+); print_stropt(paths); print_newline()
+)
+*)
+//
+val issome = stropt_is_some(paths)
+//
+in
+//
+if
+issome
+then paths where
+{
+  val paths = stropt_unsome(paths)
+  val paths = the_PATSHOMERELOCS_split(paths)
+  val ((*void*)) =
+    !the_PATSHOMERELOCS := Some(paths)
+  // end of [val]
+}
+else paths where
+{
+  val paths = list_nil()
+  val ((*void*)) =
+    !the_PATSHOMERELOCS := Some(paths)
+  // end of [val]
+}
+end // end of [ else]
+//
+in (* in-of-local *)
+
+implement
+the_PATSHOMERELOCS_get_pathlst
+  () = let
+//
+val
+opt = !the_PATSHOMERELOCS
+//
+in
+//
+case+ opt of
+| Some(paths) => paths
+| None((*void*)) => the_PATSHOMERELOCS_initize()
+//
+end // end of [the_PATSHOMERELOCS_get_pathlst]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 %{$
 
 ats_ptr_type
-patsopt_filename_merge (
+patsopt_filename_merge
+(
   ats_ptr_type ful, ats_ptr_type bas
 ) {
   char c, dirsep ;
@@ -1167,7 +1566,8 @@ patsopt_filename_merge (
 } // end of [patsopt_filename_merge]
 
 ats_ptr_type
-patsopt_filename_append (
+patsopt_filename_append
+(
   ats_ptr_type dir, ats_ptr_type bas
 ) {
   int n1, n2, n ;

@@ -90,11 +90,18 @@ pkginfo = @{
 local
 //
 extern
-fun __copy_string
-  : (string) -> strptr1  = "mac#atspre_string_copy"
+fun
+my_copy_string
+(
+  origin: string
+) : strptr1  = "mac#atspre_string_copy"
+//
 extern
-fun __make_substring
-  : (string, size_t, size_t) -> strptr1  = "mac#atspre_string_make_substring"
+fun
+my_make_substring
+(
+  origin: string, start: size_t, length: size_t
+) : strptr1  = "mac#atspre_string_make_substring"
 //
 in (* in-of-local *)
 
@@ -112,7 +119,7 @@ val start = $UN.cast2size(1)
 val length = $UN.cast2size(ngurl - 2)
 //
 in
-  __make_substring (given, start, length)
+  my_make_substring (given, start, length)
 end // end of [pkgsrcname_get_gurl0]
 //
 (* ****** ****** *)
@@ -123,7 +130,7 @@ pkgsrcname_get_gurl1
   (given: string, ngurl: int): Strptr1
 implement
 pkgsrcname_get_gurl1
-  (given, ngurl) = __copy_string("$PATSRELOCROOT")
+  (given, ngurl) = my_copy_string("$PATSRELOCROOT")
 //
 (* ****** ****** *)
 
@@ -147,7 +154,7 @@ case+ 0 of
     val length = $UN.cast2size(ngurl - 3)
 //
     val key =
-      __make_substring(given, start, length)
+      my_make_substring(given, start, length)
     val key2 =
       sprintf("%s_sourceloc", @($UN.castvwtp1{string}(key)))
     // end of [val]
@@ -163,7 +170,7 @@ case+ 0 of
       // end of [None_vt]
     | ~Some_vt(e) => (
         case+ e.e1xp_node of
-        | $S1E.E1XPstring(x) => __copy_string(x)
+        | $S1E.E1XPstring(x) => my_copy_string(x)
         | _ (*non-E1XPstring*) => pkgsrcname_get_gurl0(given, ngurl)
       ) (* end of [Some_vt] *)
   end // end of [variable]
@@ -192,7 +199,7 @@ case+ 0 of
     c1 = '$' => let
     val start = $UN.cast2size(2)
     val length = $UN.cast2size(ngurl - 3)
-    val key = __make_substring (given, start, length)
+    val key = my_make_substring (given, start, length)
     val key2 =
       sprintf ("%s_targetloc", @($UN.castvwtp1{string}(key)))
     // end of [val]
@@ -210,7 +217,7 @@ case+ 0 of
       // end of [None_vt]
     | ~Some_vt (e) => (
         case+ e.e1xp_node of
-        | $S1E.E1XPstring (x) => __copy_string (x)
+        | $S1E.E1XPstring (x) => my_copy_string (x)
         | _ (*non-E1XPstring*) => pkgsrcname_get_gurl1 (given, ngurl)
       ) (* end of [Some_vt] *)
   end // end of [variable]
@@ -286,7 +293,7 @@ case+ c0 of
     val st0 = $UN.cast2size(1)
     val len = $UN.cast2size(nk)
     val key =
-      __make_substring(given, st0, len)
+      my_make_substring(given, st0, len)
     // end of [val]
     val key = string_of_strptr(key)
 (*

@@ -45,15 +45,22 @@ staload "./pats_global.sats"
 #include "./pats_params.hats"
 
 (* ****** ****** *)
+//
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
+//
+(* ****** ****** *)
 
 local
-
-val the_PACKNAME = ref<Stropt> (stropt_none)
-
+//
+val
+the_PACKNAME =
+ref<Stropt>(stropt_none)
+//
 in (* in of [local] *)
 
-implement the_PACKNAME_get () = !the_PACKNAME
-
+implement
+the_PACKNAME_get() = !the_PACKNAME
 implement
 the_PACKNAME_set (opt) = !the_PACKNAME := opt
 
@@ -61,11 +68,11 @@ end // end of [local]
 
 implement
 the_PACKNAME_set_name
-  (ns) = the_PACKNAME_set (stropt_some (ns))
+  (ns) = the_PACKNAME_set(stropt_some (ns))
 // end of [the_PACKNAME_set]
 implement
 the_PACKNAME_set_none
-  ((*none*)) = the_PACKNAME_set (stropt_none)
+  ((*none*)) = the_PACKNAME_set(stropt_none)
 // end of [the_PACKNAME_set_none]
 
 (* ****** ****** *)

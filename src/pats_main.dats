@@ -428,6 +428,8 @@ extern void patsopt_PATSHOMERELOC_set () ;
 //
 extern void patsopt_PATSRELOCROOT_set () ;
 //
+extern void patsopt_PATSHOMERELOCS_set () ;
+//
 %} // end of [%{^]
 
 (* ****** ****** *)
@@ -1915,7 +1917,7 @@ val () =
 set () where
 { 
   extern
-  fun set (): void
+  fun set(): void
     = "mac#patsopt_PATSHOME_set"
   // end of [fun]
 } // end of [where] // end of [val]
@@ -1923,7 +1925,7 @@ val () =
 set () where
 {
   extern
-  fun set (): void
+  fun set(): void
     = "mac#patsopt_PATSHOMERELOC_set"
   // end of [fun]
 } // end of [where] // end of [val]
@@ -1932,8 +1934,17 @@ val () =
 set () where
 { 
   extern
-  fun set (): void
+  fun set(): void
     = "mac#patsopt_PATSRELOCROOT_set"
+  // end of [fun]
+} // end of [where] // end of [val]
+//
+val () =
+set () where
+{ 
+  extern
+  fun set(): void
+    = "mac#patsopt_PATSHOMERELOCS_set"
   // end of [fun]
 } // end of [where] // end of [val]
 //

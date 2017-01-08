@@ -546,20 +546,31 @@ in
 end // end of [dirpath_append]
 
 (* ****** ****** *)
-
+//
+implement
+print_stropt
+ (opt) =
+ fprint_stropt(stdout_ref, opt)
+implement
+prerr_stropt
+ (opt) =
+ fprint_stropt(stderr_ref, opt)
+//
 implement
 fprint_stropt
  (out, opt) = let
 in
 //
-if stropt_is_some (opt) then
-  fprint_string (out, stropt_unsome (opt))
+if
+stropt_is_some(opt)
+then
+  fprint_string(out, stropt_unsome(opt))
 else
-  fprint_string (out, "(none)")
+  fprint_string(out, "(none)")
 // end of [if]
 //
 end (* end of [fprint_stropt] *)
-
+//
 (* ****** ****** *)
 
 implement

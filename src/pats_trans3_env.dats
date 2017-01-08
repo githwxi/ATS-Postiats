@@ -459,7 +459,7 @@ implement
 s2exp_unimet_instantiate_all
   (s2e0, locarg, err) = let
   val (s2e, s2ps_fst) =
-    s2exp_uni_instantiate_all (s2e0, locarg, err)
+    s2exp_uni_instantiate_all(s2e0, locarg, err)
   val s2f = s2exp2hnf (s2e)
   val s2e = s2hnf2exp (s2f)
 in
@@ -474,7 +474,7 @@ case s2e.s2exp_node of
       val s2ps_all = (
         case+ s2ps_rest of
         | list_vt_cons _ => let
-            prval () = fold@ (s2ps_rest) in list_vt_append (s2ps_fst, s2ps_rest)
+            prval () = fold@(s2ps_rest) in list_vt_append(s2ps_fst, s2ps_rest)
           end // end of [list_vt_cons]
         | ~list_vt_nil () => s2ps_fst
       ) : s2explst_vt // end of [val]

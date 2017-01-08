@@ -157,11 +157,19 @@ fun fprint_the_filenamelst (out: FILEref): void
 //
 (* ****** ****** *)
 //
-typedef
-path = string
+typedef path = string
+typedef pathlst = List0(path)
 //
-fun path_normalize (s0: NSHARED(path)): path
-fun path_normalize_vt (s0: NSHARED(path)): Strptr1
+(* ****** ****** *)
+//
+fun print_pathlst(xs: pathlst): void
+fun prerr_pathlst(xs: pathlst): void
+fun fprint_pathlst(out: FILEref, xs: pathlst): void
+//
+(* ****** ****** *)
+//
+fun path_normalize(s0: NSHARED(path)): path
+fun path_normalize_vt(s0: NSHARED(path)): Strptr1
 //
 (* ****** ****** *)
 //
@@ -205,6 +213,13 @@ filenameopt_make_local(name: string): filenameopt_vt
 fun
 filenameopt_make_relative
   (given: string, given2: &string? >> string): filenameopt_vt
+//
+(* ****** ****** *)
+//
+vtypedef
+pathlst_vt = List0_vt(path)
+//
+fun the_PATSHOMERELOCS_get_pathlst((*void*)): pathlst
 //
 (* ****** ****** *)
 

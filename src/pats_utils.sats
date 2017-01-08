@@ -62,14 +62,20 @@ fun float_get_nsfx (rep: string): uint // in the [rep]
 //
 (* ****** ****** *)
 
-fun dirpath_append
-  (dir: string, path: string, sep: char) : Strptr1
+fun
+dirpath_append
+  (dir: string, path: string, sep: char): Strptr1
 // end of [dirpath_append]
 
 (* ****** ****** *)
-
-fun fprint_stropt (out: FILEref, opt: Stropt): void
-
+//
+fun
+print_stropt(opt: Stropt): void
+fun
+prerr_stropt(opt: Stropt): void
+fun
+fprint_stropt(out: FILEref, opt: Stropt): void
+//
 (* ****** ****** *)
 
 fun{

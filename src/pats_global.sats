@@ -46,7 +46,6 @@ fun the_ATSRELOC_get_decl(): ptr
 fun the_ATSRELOC_set_decl(d0c: ptr): void
 
 (* ****** ****** *)
-
 (*
 //
 // HX-2014-06-06:
@@ -55,7 +54,6 @@ fun the_ATSRELOC_set_decl(d0c: ptr): void
 fun the_STALOADFLAG_get (): int
 fun the_STALOADFLAG_set (flag: int): void
 *)
-
 (* ****** ****** *)
 
 fun the_DYNLOADFLAG_get (): int
@@ -97,13 +95,13 @@ fun the_DEBUGATS_dbgline_set(flag: int): void
 // HX-2015-04-26:
 // for managing tail-call optimization
 //
-fun the_CCOMPATS_tlcalopt_get (): int
-fun the_CCOMPATS_tlcalopt_set (flag: int): void
+fun the_CCOMPATS_tlcalopt_get(): int
+fun the_CCOMPATS_tlcalopt_set(flag: int): void
 //
 (* ****** ****** *)
 
-fun the_CCOMPENV_maxtmprecdepth_get (): int
-fun the_CCOMPENV_maxtmprecdepth_set (mtd: int): void
+fun the_CCOMPENV_maxtmprecdepth_get(): int
+fun the_CCOMPENV_maxtmprecdepth_set(mtd: int): void
 
 (* ****** ****** *)
 
