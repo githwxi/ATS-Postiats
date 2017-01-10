@@ -591,7 +591,7 @@ $(ATSCC) -DATS PATSOPT_MAIN_NONE \
 #
 libatsopt_min: ; $(MAKE) C3NSTRINTKND=intknd libatsopt
 #
-cleanall:: ; $(RMF) libpatsopt.a
+cleanall:: ; $(RMF) libatsopt.a
 #
 ######
 #

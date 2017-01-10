@@ -26,6 +26,8 @@ Here is a list of major additions and changes since the last release:
 2. pkgreloc -> atsreloc; util/atspkgreloc -> util/atsreloc
 3. Adding doc/EXAMPLE/RosettaCode as an example of [atsreloc] that makes
    it conventient to download external library code for use in a project.
+4. Adding support for PATSHOMERELOCS. Please see:
+   https://groups.google.com/forum/#!topic/ats-lang-users/03LCSLaBmxU
 
 ######
 
