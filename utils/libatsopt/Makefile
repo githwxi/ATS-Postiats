@@ -51,8 +51,10 @@ $(MAKE) -C $(PATSHOME)/src C3NSTRINTKND=intknd libatsopt
 libatsopt_min:: ; $(RMF) libatsopt.a
 libatsopt_min:: ; $(MAKE) -C $(PATSHOME)/src CBOOTmin
 #
-libatsopt_min:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT cleanall
-libatsopt_min:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt
+libatsopt_min:: ; \
+$(MAKE) -C $(PATSHOME)/src/CBOOT cleanall
+libatsopt_min:: ; \
+$(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt && $(MVF) $(PATSHOME)/src/CBOOT/libatsopt.a .
 #
 ######
 #

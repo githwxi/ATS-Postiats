@@ -37,26 +37,27 @@ all:: atslib_update
 ######
 #
 src_depend: ; touch src/.depend
-src_cleanall: ; $(MAKE) -C src cleanall
+src_cleanall: ; make -C src cleanall
 #
 bin_patscc: \
 src_patscc; $(CPF) utils/atscc/patscc bin/patscc
 #
-src_patscc:: ; $(MAKE) -f codegen/Makefile_atslib
-src_patscc:: bin_patsopt ; $(MAKE) -C utils/atscc -f Makefile all
+src_patscc:: ; make -f codegen/Makefile_atslib
+src_patscc:: bin_patsopt ; make -C utils/atscc -f Makefile all
 #
 bin_patsopt: \
 src_patsopt; $(CPF) src/patsopt bin/patsopt
-src_patsopt: src_depend src_cleanall ; $(MAKE) -C src -f Makefile all
+src_patsopt: src_depend src_cleanall ; make -C src -f Makefile all
 #
 ######
-
-lib_patsopt:: ; $(MAKE) -C src -f Makefile libatsopt
-
+#
+lib_patsopt:: ; make -C src -f Makefile libatsopt
+lib_patsopt:: ; $(CPF) src/libatsopt.a ccomp/atslib/lib/.
+#
 ######
 #
-atslib_update:: ; $(MAKE) -C ccomp/atslib -f Makefile
-atslib_cleanall:: ; $(MAKE) -C ccomp/atslib -f Makefile clean
+atslib_update:: ; make -C ccomp/atslib -f Makefile
+atslib_cleanall:: ; make -C ccomp/atslib -f Makefile clean
 #
 ######
 #

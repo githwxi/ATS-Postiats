@@ -28,6 +28,8 @@ Here is a list of major additions and changes since the last release:
    it conventient to download external library code for use in a project.
 4. Adding support for PATSHOMERELOCS. Please see:
    https://groups.google.com/forum/#!topic/ats-lang-users/03LCSLaBmxU
+5. Adding script for automatically building ccomp/atslib/lib/libatsopt.a
+   in future releases
 
 ######
 

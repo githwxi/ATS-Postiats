@@ -20,13 +20,18 @@ https://github.com/githwxi/ATS-Postiats
 
 Please use the provided Makefile to build libatsopt.a:
 
-make libatsop # the built libatsopt.a depends on libgmp (-lgmp)
-make libatsop_min # the built libatsopt.a does not depend on libgmp
+make libatsopt # the built libatsopt.a depends on libgmp (-lgmp)
+make libatsopt_min # the built libatsopt.a does not depend on libgmp
 
-After libatsopt.a is successfully built, you can test it by doing
+After libatsopt.a is successfully built, you need to do:
+
+make libatsopt_ext
+
+After the extended version of libatsopt.a is successfully built,
+you can test it by doing:
 
 cd TEST
-make patsopt # for libatsopt.a without libgmp dependency
+make patsopt LIBGMP= # for libatsopt.a without libgmp dependency
 make patsopt LIBGMP=-lgmp # for libatsopt.a with libgmp dependency
 
 The generated executable 'patsopt' is just the compiler for ATS2 :)
