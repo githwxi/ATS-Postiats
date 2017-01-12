@@ -29,6 +29,7 @@ MAKE=make
 ######
 #
 all:: bin_patscc
+all:: lib_patsopt
 all:: atslib_update
 #
 #all:: bin_atspkgreloc
@@ -48,6 +49,10 @@ bin_patsopt: \
 src_patsopt; $(CPF) src/patsopt bin/patsopt
 src_patsopt: src_depend src_cleanall ; $(MAKE) -C src -f Makefile all
 #
+######
+
+lib_patsopt:: ; $(MAKE) -C src -f Makefile libatsopt
+
 ######
 #
 atslib_update:: ; $(MAKE) -C ccomp/atslib -f Makefile

@@ -8,10 +8,12 @@
 #
 
 ######
-
+#
 CC=gcc
+CCOMP=$(CC)
+#
 export ATSCCOMP=$(CC)
-
+#
 ######
 
 ATSCC=$(ATSHOME)/bin/atscc
@@ -830,9 +832,13 @@ $(ATSCC) $(CFLAGS) $(GCFLAG) \
 cleanall:: ; $(RMF) patsopt
 #
 ######
-
+#
 libatsopt:: $(TARGETS)
-
+#
+libatsopt:: $(OBJECTS) pats_main_none_dats.o; $(ARR) libatsopt.a $^
+#
+libatsopt:: ; $(CPF) ./libatsopt.a ./../ccomp/atslib/lib/.
+#
 ######
 #
 # for building patsopt through CMake
@@ -1585,6 +1591,8 @@ pats_main_dats.c: \
 pats_main_none_dats.c: \
   pats_main.dats; $(ATSOPT) $(DATSCC) -DATS PATSOPT_MAIN_NONE -o $@ -d $<
 #
+pats_main_none_dats.o: pats_main_none_dats.c; $(ATSCC) $(CFLAGS) -c -o $@ $<
+#
 ######
 #
 # HX: '-o .depend' means appending instead of overwriting
@@ -1599,6 +1607,7 @@ depend::
 ######
 
 DIR=.
+ARR=ar -r
 CPF=cp -f
 RMF=rm -f
 WCL=wc -l

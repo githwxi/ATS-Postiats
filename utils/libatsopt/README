@@ -1,8 +1,11 @@
+######
 #
 # libatsopt:
-# the lib version of patsopt
 #
-
+# It is really libatsopt_ext
+# as it is the extended version
+# of ccomp/atslib/lib/libatsopt
+#
 ######
 #
 # Steps for building libatsopt.a
