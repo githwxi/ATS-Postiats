@@ -99,6 +99,7 @@ The ATS/Postiats C-Boostrapping\
 (* ****** ****** *)
 
 #packfilename("pats_main_dats.c")
+#packfilename("pats_main_none_dats.c")
 
 (* ****** ****** *)
 

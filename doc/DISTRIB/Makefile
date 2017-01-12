@@ -184,6 +184,16 @@ clean:: ; $(RMF) utils_emacs_atxt.exe
 cleanall:: ; $(RMF) HTML/utils_emacs.html
 cleanall:: ; $(RMF) SCRIPT/utils_emacs.bash
 
+all_script:: \
+SCRIPT/utils_libatsopt.bash
+SCRIPT/utils_libatsopt.bash: utils_libatsopt_atxt.exe ; ./$< > $@
+utils_libatsopt_atxt.dats: ATEXT/utils_libatsopt.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+utils_libatsopt_atxt.exe: utils_libatsopt_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) utils_libatsopt_atxt.exe
+cleanall:: ; $(RMF) HTML/utils_libatsopt.html
+cleanall:: ; $(RMF) SCRIPT/utils_libatsopt.bash
+
 
 ######
 
@@ -443,6 +453,7 @@ atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
 atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_utils_emacs
+atspackaging:: srcget_utils_libatsopt
 atspackaging:: srcget_doc_example
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 
@@ -508,6 +519,7 @@ srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 
 srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
 srcget_utils_emacs:: SCRIPT/utils_emacs.bash ; bash $<
+srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
 
 ######
 

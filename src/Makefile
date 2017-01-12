@@ -42,9 +42,10 @@ C3NSTRINTKND=gmpknd
 #C3NSTRINTKND=intknd
 #
 ######
-
-DATSCC=-DATS C3NSTRINTKND=$(C3NSTRINTKND)
-
+#
+DATSCC=-DATS \
+C3NSTRINTKND=$(C3NSTRINTKND)
+#
 ######
 
 LIBATS=-lats
@@ -324,6 +325,251 @@ SOURCESdyn := $(filter %.dats, $(SOURCES))
 
 ######
 
+TARGETS := \
+  pats_error_sats.c \
+  pats_error_dats.c \
+  pats_intinf_sats.c \
+  pats_intinf_dats.c \
+  pats_counter_sats.c \
+  pats_counter_dats.c \
+  pats_utils_sats.c \
+  pats_utils_dats.c \
+  pats_global_sats.c \
+  pats_global_dats.c \
+  pats_basics_sats.c \
+  pats_basics_dats.c \
+  pats_comarg_sats.c \
+  pats_comarg_dats.c \
+  pats_stamp_sats.c \
+  pats_stamp_dats.c \
+  pats_symbol_sats.c \
+  pats_symbol_dats.c \
+  pats_filename_sats.c \
+  pats_filename_dats.c \
+  pats_filename_reloc_dats.c \
+  pats_location_sats.c \
+  pats_location_dats.c \
+  pats_jsonize_sats.c \
+  pats_jsonize_dats.c \
+  pats_errmsg_sats.c \
+  pats_errmsg_dats.c \
+  pats_reader_sats.c \
+  pats_reader_dats.c \
+  pats_lexbuf_sats.c \
+  pats_lexbuf_dats.c \
+  pats_lexing_sats.c \
+  pats_lexing_dats.c \
+  pats_lexing_print_dats.c \
+  pats_lexing_error_dats.c \
+  pats_lexing_token_dats.c \
+  pats_label_sats.c \
+  pats_label_dats.c \
+  pats_effect_sats.c \
+  pats_effect_dats.c \
+  pats_fixity_sats.c \
+  pats_fixity_prec_dats.c \
+  pats_fixity_fxty_dats.c \
+  pats_syntax_sats.c \
+  pats_syntax_dats.c \
+  pats_syntax_print_dats.c \
+  pats_depgen_sats.c \
+  pats_depgen_dats.c \
+  pats_taggen_sats.c \
+  pats_taggen_dats.c \
+  pats_tokbuf_sats.c \
+  pats_tokbuf_dats.c \
+  pats_parsing_sats.c \
+  pats_parsing_dats.c \
+  pats_parsing_error_dats.c \
+  pats_parsing_util_dats.c \
+  pats_parsing_kwds_dats.c \
+  pats_parsing_base_dats.c \
+  pats_parsing_e0xp_dats.c \
+  pats_parsing_sort_dats.c \
+  pats_parsing_staexp_dats.c \
+  pats_parsing_p0at_dats.c \
+  pats_parsing_dynexp_dats.c \
+  pats_parsing_decl_dats.c \
+  pats_parsing_toplevel_dats.c \
+  pats_symmap_sats.c \
+  pats_symmap_dats.c \
+  pats_symenv_sats.c \
+  pats_symenv_dats.c \
+  pats_staexp1_sats.c \
+  pats_staexp1_dats.c \
+  pats_staexp1_print_dats.c \
+  pats_dynexp1_sats.c \
+  pats_dynexp1_dats.c \
+  pats_dynexp1_print_dats.c \
+  pats_trans1_sats.c \
+  pats_trans1_env_sats.c \
+  pats_trans1_env_dats.c \
+  pats_e1xpval_sats.c \
+  pats_e1xpval_dats.c \
+  pats_e1xpval_error_dats.c \
+  pats_trans1_error_dats.c \
+  pats_trans1_e0xp_dats.c \
+  pats_trans1_effect_dats.c \
+  pats_trans1_sort_dats.c \
+  pats_trans1_staexp_dats.c \
+  pats_trans1_p0at_dats.c \
+  pats_trans1_syndef_dats.c \
+  pats_trans1_dynexp_dats.c \
+  pats_trans1_decl_dats.c \
+  pats_staexp2_sats.c \
+  pats_staexp2_dats.c \
+  pats_stacst2_sats.c \
+  pats_stacst2_dats.c \
+  pats_staexp2_print_dats.c \
+  pats_staexp2_pprint_dats.c \
+  pats_staexp2_sort_dats.c \
+  pats_staexp2_scst_dats.c \
+  pats_staexp2_svar_dats.c \
+  pats_staexp2_svvar_dats.c \
+  pats_staexp2_hole_dats.c \
+  pats_staexp2_ctxt_dats.c \
+  pats_staexp2_dcon_dats.c \
+  pats_staexp2_skexp_dats.c \
+  pats_staexp2_szexp_dats.c \
+  pats_staexp2_util_sats.c \
+  pats_staexp2_util1_dats.c \
+  pats_staexp2_util2_dats.c \
+  pats_staexp2_util3_dats.c \
+  pats_staexp2_error_sats.c \
+  pats_staexp2_error_dats.c \
+  pats_staexp2_solve_sats.c \
+  pats_staexp2_solve_dats.c \
+  pats_patcst2_sats.c \
+  pats_patcst2_dats.c \
+  pats_dynexp2_sats.c \
+  pats_dynexp2_dats.c \
+  pats_dyncst2_sats.c \
+  pats_dyncst2_dats.c \
+  pats_dynexp2_print_dats.c \
+  pats_dynexp2_dcst_dats.c \
+  pats_dynexp2_dvar_dats.c \
+  pats_dynexp2_dmac_dats.c \
+  pats_dynexp2_util_dats.c \
+  pats_dynexp2_mapgen_dats.c \
+  pats_trans2_sats.c \
+  pats_namespace_sats.c \
+  pats_namespace_dats.c \
+  pats_trans2_env_sats.c \
+  pats_trans2_env_dats.c \
+  pats_trans2_error_dats.c \
+  pats_trans2_sort_dats.c \
+  pats_trans2_staexp_dats.c \
+  pats_trans2_p1at_dats.c \
+  pats_trans2_dynexp_dats.c \
+  pats_trans2_impdec_dats.c \
+  pats_trans2_decl_dats.c \
+  pats_codegen2_sats.c \
+  pats_codegen2_dats.c \
+  pats_codegen2_util_dats.c \
+  pats_codegen2_absrec_dats.c \
+  pats_codegen2_datype_dats.c \
+  pats_codegen2_fprint_dats.c \
+  pats_jsonize_synent2_sats.c \
+  pats_jsonize_synent2_dats.c \
+  pats_dynexp3_sats.c \
+  pats_dynexp3_dats.c \
+  pats_dynexp3_print_dats.c \
+  pats_trans3_sats.c \
+  pats_trans3_error_dats.c \
+  pats_trans3_util_dats.c \
+  pats_trans3_env_sats.c \
+  pats_trans3_env_dats.c \
+  pats_trans3_env_print_dats.c \
+  pats_trans3_env_scst_dats.c \
+  pats_trans3_env_svar_dats.c \
+  pats_trans3_env_termet_dats.c \
+  pats_trans3_env_effect_dats.c \
+  pats_trans3_env_dvar_dats.c \
+  pats_trans3_env_lamlp_dats.c \
+  pats_trans3_env_pfman_dats.c \
+  pats_trans3_env_lstate_dats.c \
+  pats_dmacro2_sats.c \
+  pats_dmacro2_dats.c \
+  pats_dmacro2_print_dats.c \
+  pats_dmacro2_eval0_dats.c \
+  pats_dmacro2_eval1_dats.c \
+  pats_trans3_p2at_dats.c \
+  pats_trans3_patcon_dats.c \
+  pats_trans3_syncst_dats.c \
+  pats_trans3_dynexp_up_dats.c \
+  pats_trans3_dynexp_dn_dats.c \
+  pats_trans3_appsym_dats.c \
+  pats_trans3_caseof_dats.c \
+  pats_trans3_selab_dats.c \
+  pats_trans3_ptrof_dats.c \
+  pats_trans3_viewat_dats.c \
+  pats_trans3_deref_dats.c \
+  pats_trans3_assgn_dats.c \
+  pats_trans3_xchng_dats.c \
+  pats_trans3_lvalres_dats.c \
+  pats_trans3_fldfrat_dats.c \
+  pats_trans3_looping_dats.c \
+  pats_trans3_decl_dats.c \
+  pats_lintprgm_sats.c \
+  pats_lintprgm_dats.c \
+  pats_lintprgm_print_dats.c \
+  pats_lintprgm_myint_dats.c \
+  pats_lintprgm_solve_dats.c \
+  pats_constraint3_sats.c \
+  pats_constraint3_dats.c \
+  pats_constraint3_print_dats.c \
+  pats_constraint3_mapgen_dats.c \
+  pats_constraint3_jsonize_dats.c \
+  pats_constraint3_init_dats.c \
+  pats_constraint3_simplify_dats.c \
+  pats_constraint3_icnstr_dats.c \
+  pats_constraint3_solve_dats.c \
+  pats_histaexp_sats.c \
+  pats_histaexp_dats.c \
+  pats_histaexp_print_dats.c \
+  pats_histaexp_funlab_dats.c \
+  pats_hidynexp_sats.c \
+  pats_hidynexp_dats.c \
+  pats_hidynexp_print_dats.c \
+  pats_hidynexp_util_dats.c \
+  pats_typerase_sats.c \
+  pats_typerase_error_dats.c \
+  pats_typerase_staexp_dats.c \
+  pats_typerase_dynexp_dats.c \
+  pats_typerase_decl_dats.c \
+  pats_ccomp_sats.c \
+  pats_ccomp_dats.c \
+  pats_ccomp_print_dats.c \
+  pats_ccomp_hitype_dats.c \
+  pats_ccomp_tmplab_dats.c \
+  pats_ccomp_tmpvar_dats.c \
+  pats_ccomp_d2env_dats.c \
+  pats_ccomp_funlab_dats.c \
+  pats_ccomp_funent_dats.c \
+  pats_ccomp_util_dats.c \
+  pats_ccomp_ccompenv_dats.c \
+  pats_ccomp_instrseq_dats.c \
+  pats_ccomp_hipat_dats.c \
+  pats_ccomp_dynexp_dats.c \
+  pats_ccomp_caseof_dats.c \
+  pats_ccomp_claulst_dats.c \
+  pats_ccomp_lazyeval_dats.c \
+  pats_ccomp_trywith_dats.c \
+  pats_ccomp_looping_dats.c \
+  pats_ccomp_decl_dats.c \
+  pats_ccomp_subst_dats.c \
+  pats_ccomp_environ_dats.c \
+  pats_ccomp_template_dats.c \
+  pats_ccomp_emit_dats.c \
+  pats_ccomp_emit2_dats.c \
+  pats_ccomp_emit3_dats.c \
+  pats_ccomp_main_dats.c \
+
+TARGETS += pats_main_dats.c
+TARGETS += pats_main_none_dats.c
+
+######
+
 OBJECTS := \
   pats_error_sats.o \
   pats_error_dats.o \
@@ -573,26 +819,20 @@ all:: patsopt
 #
 # AS-20130407:
 # link order matters to GNU ld
-# please keep the order '$(LIBATS) $(LIBGMP)' as libats depends on libgmp
+# please keep the order '$(LIBATS) $(LIBGMP)'
+# as the former depends on the latter
 #
-patsopt: $(OBJECTS) ; \
-$(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main.dats $(OBJECTS) $(LIBATS) $(LIBGMP)
+patsopt:: $(TARGETS)
+patsopt:: $(OBJECTS) ; \
+$(ATSCC) $(CFLAGS) $(GCFLAG) \
+-o $@ pats_main.dats $(OBJECTS) $(LIBATS) $(LIBGMP)
 #
 cleanall:: ; $(RMF) patsopt
 #
 ######
-#
-AR=ar
-MAKE=make
-#
-libatsopt: $(OBJECTS) ; \
-$(ATSCC) -DATS PATSOPT_MAIN_NONE \
-  $(CFLAGS) $(GCFLAG) -c pats_main.dats && $(AR) -r libatsopt.a pats_main_dats.o $^
-#
-libatsopt_min: ; $(MAKE) C3NSTRINTKND=intknd libatsopt
-#
-cleanall:: ; $(RMF) libatsopt.a
-#
+
+libatsopt:: $(TARGETS)
+
 ######
 #
 # for building patsopt through CMake
@@ -623,7 +863,7 @@ TAGATS:: ; $(RMF) $@
 TAGATS:: ; $(ATSOPT) --output-a $@ --taggen -s $(SOURCESsta) -d $(SOURCESdyn)
 
 ######
-
+#
 pats_error_sats.c: pats_error.sats; $(ATSCC) $(DATSCC) -cc $<
 pats_error_sats.o: pats_error_sats.c; $(ATSCC) $(CFLAGS) -c $<
 
@@ -1339,9 +1579,13 @@ pats_ccomp_main_dats.c: pats_ccomp_main.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_ccomp_main_dats.o: pats_ccomp_main_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
 
-
+#
+pats_main_dats.c: \
+  pats_main.dats; $(ATSOPT) $(DATSCC) -o $@ -d $<
+pats_main_none_dats.c: \
+  pats_main.dats; $(ATSOPT) $(DATSCC) -DATS PATSOPT_MAIN_NONE -o $@ -d $<
+#
 ######
-
 #
 # HX: '-o .depend' means appending instead of overwriting
 #
@@ -1349,8 +1593,9 @@ depend::
 	$(RMF) .depend
 	$(ATSOPT) --output-a .depend --depgen -d pats_main.dats
 	$(ATSOPT) --output-a .depend --depgen -s $(SOURCESsta) -d $(SOURCESdyn)
+#
 -include .depend
-
+#
 ######
 
 DIR=.

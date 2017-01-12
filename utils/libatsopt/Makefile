@@ -4,10 +4,19 @@
 #
 
 ######
+
+CC=gcc
+CCOMP=$(CC)
+
+######
 #
 ATSCC=$(ATSHOME)/bin/atscc
 ATSOPT=$(ATSHOME)/bin/atsopt
 #
+######
+
+ATSRUNTIME=$(ATSHOME)/ccomp/runtime
+
 ######
 
 all:: libatsopt
@@ -25,8 +34,10 @@ $(MAKE) -C $(PATSHOME)/src libatsopt
 libatsopt:: ; $(RMF) libatsopt.a
 libatsopt:: ; $(MAKE) -C $(PATSHOME)/src CBOOT
 #
-libatsopt:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT cleanall
-libatsopt:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt
+libatsopt:: ; \
+$(MAKE) -C $(PATSHOME)/src/CBOOT cleanall
+libatsopt:: ; \
+$(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt && $(MVF) $(PATSHOME)/src/CBOOT/libatsopt.a .
 #
 ######
 #
@@ -45,18 +56,28 @@ libatsopt_min:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt
 #
 ######
 #
-libatsopt_ext:: ; \
-  $(ATSCC) -IATS ${PATSHOME} -IATS ${ATSHOME} -I ${PATSHOME}/src -c SATS/libatsopt_ext.sats && \
-  $(AR) -r libatsopt.a libatsopt_ext_sats.o
+libatsopt_ext_sats.c: \
+SATS/libatsopt_ext.sats; \
+  $(ATSCC) -IATS ${PATSHOME} -IATS ${ATSHOME} -cc $<
+libatsopt_ext_dats.c: \
+DATS/libatsopt_ext.dats; \
+  $(ATSCC) -IATS ${PATSHOME} -IATS ${ATSHOME} -cc $<
 #
-libatsopt_ext:: ; \
-  $(ATSCC) -IATS ${PATSHOME} -IATS ${ATSHOME} -I ${PATSHOME}/src -c DATS/libatsopt_ext.dats && \
-  $(AR) -r libatsopt.a libatsopt_ext_dats.o
+libatsopt_ext_sats.o: libatsopt_ext_sats.c ; \
+$(CCOMP) -O2 $(CFLAGS) \
+  -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
+libatsopt_ext_dats.o: libatsopt_ext_dats.c ; \
+$(CCOMP) -O2 $(CFLAGS) \
+  -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
+#
+libatsopt_ext:: libatsopt_ext_sats.o ; $(AR) -r libatsopt.a $<
+libatsopt_ext:: libatsopt_ext_dats.o ; $(AR) -r libatsopt.a $<
 #
 ######
 
 AR= ar
 RMF=rm -f
+MVF=mv -f
 MAKE=make
 
 ######

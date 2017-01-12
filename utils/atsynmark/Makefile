@@ -84,25 +84,27 @@ CBOOT:: ; $(CPF) pats2xhtml_*_dats.c CBOOT
 ######
 ##
 pats2xhtml_sats.o: \
-  SATS/pats2xhtml.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
+SATS/pats2xhtml.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 ##
 pats2xhtml_level1_dats.o: \
-  DATS/pats2xhtml_level1.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
+DATS/pats2xhtml_level1.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 ##
 ######
 #
-LDPATH :=
-LDPATH += -L$(PATSHOME)/utils/libatsopt
-LDPATH += -L$(PATSHOME)/utils/libatsynmark
+LDFLAGS :=
+#
+LDFLAGS += -L$(PATSHOME)/ccomp/atslib/lib
+LDFLAGS += -L$(PATSHOME)/utils/libatsynmark
+#
+LDFLAGS += -latsynmark -latsopt -lats -lgmp
 #
 ######
 ##
 pats2xhtml: \
-  SATS/pats2xhtml.sats \
-  DATS/pats2xhtml_main.dats \
-  DATS/pats2xhtml_level1.dats ; \
-  $(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $^ \
-  $(OBJECTS) $(LDPATH) -latsynmark -latsopt -lats -lgmp
+SATS/pats2xhtml.sats \
+DATS/pats2xhtml_main.dats \
+DATS/pats2xhtml_level1.dats ; \
+$(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $^ $(OBJECTS) $(LDFLAGS)
 ##
 cleanall:: ; $(RMF) pats2xhtml
 ##

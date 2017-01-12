@@ -16,10 +16,14 @@ MAKEJ4=make -j4
 
 ######
 #
-all: \
-  config.mk \
-  bin2_patsopt bin_patscc \
-  ccomp/atslib/lib/libatslib.a \
+all:: config.mk
+#
+all:: bin2_patsopt
+all:: lib2_libatsopt
+#
+all:: bin_patscc
+#
+all:: ccomp/atslib/lib/libatslib.a
 #
 ######
 
@@ -59,6 +63,13 @@ $(MAKEJ4) -C src/CBOOT \
   CCOMP=$(CCOMP) GCFLAG=$(GCFLAG) LDFLAGS=$(LDFLAGS) patsopt
 #
 bin2_patsopt: src2_patsopt ; $(CPF) src/CBOOT/patsopt bin/patsopt
+#
+######
+#
+src2_libatsopt: ; \
+$(MAKE) -C src/CBOOT CCOMP=$(CCOMP) libatsopt
+lib2_libatsopt: src2_libatsopt ; \
+$(CPF) src/CBOOT/libatsopt.a ccomp/atslib/lib/.
 #
 ######
 
