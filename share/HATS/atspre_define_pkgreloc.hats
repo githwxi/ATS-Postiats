@@ -1,5 +1,5 @@
 (*
-** For ATS2-package relocation
+** For package reloc
 *)
 (* ****** ****** *)
 //
@@ -21,11 +21,6 @@ PATSHOMERELOCS_targetloc "$PATSHOMERELOCS"
 (* ****** ****** *)
 //
 #define
-ATSLANGWEB "http://www.ats-lang.org"
-//
-(* ****** ****** *)
-//
-#define
 PATSPRE_targetloc "$PATSHOME/prelude"
 #define
 PATSLIBATS_targetloc "$PATSHOME/libats"
@@ -36,13 +31,28 @@ PATSLIBATSLIBC_targetloc "$PATSHOME/libats/libc"
 //
 (* ****** ****** *)
 //
+(*
 #define
-PCRE_targetloc "$PATSHOMERELOC/contrib/pcre"
+ATSLANGWEB "http://www.ats-lang.org"
+#define
+ATSLANGORG "http://www.ats-lang.org"
+#define
+ATSLANGCOM "http://www.ats-lang.com"
+*)
 //
 (* ****** ****** *)
 //
 #define
-LIBGMP_targetloc "$PATSHOMERELOC/contrib/libgmp"
+LIBGMP_targetloc
+"$PATSHOMERELOCS/atscntrb-libgmp"
+#define
+INTINFHWXI_targetloc
+"$PATSHOMERELOCS/atscntrb-intinf-hwxi"
+//
+(* ****** ****** *)
+//
+#define
+PCRE_targetloc "$PATSHOMERELOC/contrib/pcre"
 //
 (* ****** ****** *)
 //

@@ -124,18 +124,21 @@ println! ("gfact<double>(100) = ", gfact<double>(100))
 (* ****** ****** *)
 //
 staload _(*T*) =
-"{$LIBATSHWXI}/intinf/DATS/intinf_t.dats"
+"{$INTINFHWXI}/DATS/intinf_t.dats"
 staload _(*VT*) =
-"{$LIBATSHWXI}/intinf/DATS/intinf_vt.dats"
+"{$INTINFHWXI}/DATS/intinf_vt.dats"
 //
 staload GINTINF =
-"{$LIBATSHWXI}/intinf/DATS/gintinf_t.dats"
+"{$INTINFHWXI}/DATS/gintinf_t.dats"
 //
 (* ****** ****** *)
-
-typedef intinf = $GINTINF.intinf
-overload print with $GINTINF.print_intinf
-
+//
+typedef
+intinf = $GINTINF.intinf
+//
+overload
+print with $GINTINF.print_intinf
+//
 (* ****** ****** *)
 
 val () =
