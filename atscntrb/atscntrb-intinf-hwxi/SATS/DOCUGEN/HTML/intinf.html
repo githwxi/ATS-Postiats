@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>ATSLIB/contrib/libats-hwxi/intinf</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntaxkeyword {color:#000000;font-weight:bold;}
+  .patsyntaxcomment {color:#787878;font-style:italic;}
+  .patsyntaxextcode {color:#A52A2A;}
+  .patsyntaxneuexp  {color:#800080;}
+  .patsyntaxstaexp  {color:#0000F0;}
+  .patsyntaxprfexp  {color:#603030;}
+  .patsyntaxdynexp  {color:#F00000;}
+  .patsyntaxstalab  {color:#0000F0;font-style:italic}
+  .patsyntaxdynlab  {color:#F00000;font-style:italic}
+  .patsyntaxdynstr  {color:#008000;font-style:normal}
+  .patsyntaxstacstdec  {text-decoration:none;}
+  .patsyntaxstacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntaxdyncstdec  {text-decoration:none;}
+  .patsyntaxdyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntaxdyncst_implement  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<script
+type="text/javascript"
+src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
+></script>
+
+<script
+type="text/javascript"
+src="http://www.ats-lang.org/scripts/patscode_tryit_bind_all.js"
+></script>
+
+</head>
+<body>
+
+<h1>ATSLIB/contrib/libats-hwxi/intinf</h1>
+
+
+<p>
+This package is for supporting integers of unlimited precision, and it is
+implemented based on the <a href="http://www.gmplib.org/">GMP</a> library.
+The primary purpose of the package is to provide a simple and clean
+approach to programming with large integers.
+</p><!--para-->
+
+
+
+<hr style="background-color: #E0E0E0; height: 2px;"></hr>
+
+<menu>
+<li><a href="#intinf_type">intinf_type</a></li>
+<li><a href="#intinf_vtype">intinf_vtype</a></li>
+<li><a href="#intinf_vt2t">intinf_vt2t</a></li>
+<li><a href="#intinf_takeout">intinf_takeout</a></li>
+<li><a href="#intinf_vcopy">intinf_vcopy</a></li>
+<li><a href="#intinf_t.sats">intinf_t.sats</a></li>
+<li><a href="#intinf_vt.sats">intinf_vt.sats</a></li>
+</menu>
+
+<hr style="background-color: #E0E0E0; height: 2px;"></hr>
+
+<h2><a id="intinf_type">intinf_type</a></h2>
+<h3>Synopsis</h3>
+<pre class="patsyntax">
+<span class="staexp"><span class="keyword">abstype</span> intinf_type<span class="keyword">(</span>i<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span> ptr</span></pre>
+<hr style="background-color: #E0E0E0; height: 1px;"></hr>
+<h2><a id="intinf_vtype">intinf_vtype</a></h2>
+<h3>Synopsis</h3>
+<pre class="patsyntax">
+<span class="staexp"><span class="keyword">absvtype</span> intinf_vtype<span class="keyword">(</span>i<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span> ptr</span></pre>
+<hr style="background-color: #E0E0E0; height: 1px;"></hr>
+<h2><a id="intinf_vt2t">intinf_vt2t</a></h2>
+<h3>Synopsis</h3>
+<pre class="patsyntax">
+<span class="dynexp"><span class="keyword">castfn</span>
+intinf_vt2t<span class="staexp"><span class="keyword">{</span>i<span class="keyword">:</span>int<span class="keyword">}</span></span>
+  <span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp">intinf_vtype</span><span class="keyword">(</span><span class="staexp">i</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:&lt;</span><span class="keyword">&gt;</span> <span class="staexp">intinf_type</span><span class="keyword">(</span><span class="staexp">i</span><span class="keyword">)</span></span></pre>
+<hr style="background-color: #E0E0E0; height: 1px;"></hr>
+<h2><a id="intinf_takeout">intinf_takeout</a></h2>
+<h3>Synopsis</h3>
+<pre class="patsyntax">
+<span class="dynexp"><span class="keyword">castfn</span>
+intinf_takeout
+  <span class="staexp"><span class="keyword">{</span>i<span class="keyword">:</span>int<span class="keyword">}</span></span>
+  <span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp">intinf_type</span><span class="keyword">(</span><span class="staexp">i</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:&lt;</span><span class="keyword">&gt;</span> <span class="staexp">vttakeout0</span><span class="keyword">(</span><span class="staexp">intinf_vtype</span><span class="keyword">(</span><span class="staexp">i</span><span class="keyword">)</span><span class="keyword">)</span></span></pre>
+<hr style="background-color: #E0E0E0; height: 1px;"></hr>
+<h2><a id="intinf_vcopy">intinf_vcopy</a></h2>
+<h3>Synopsis</h3>
+<pre class="patsyntax">
+Synopsis for [intinf_vcopy] is unavailable.</pre>
+<hr style="background-color: #E0E0E0; height: 1px;"></hr>
+<h2><a id="intinf_t.sats" href="intinf_t.html">intinf_t.sats</a></h2>
+<hr style="background-color: #E0E0E0; height: 1px;"></hr>
+<h2><a id="intinf_vt.sats" href="intinf_vt.html">intinf_vt.sats</a></h2>
+
+
+<hr style="background-color: #E0E0E0; height: 2px;"></hr>
+
+<table>
+<tr>
+<td style="width: 100%;">
+This page is created with
+<a href="http://www.ats-lang.org">ATS</a>
+by
+<a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>
+and also maintained by
+<a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</td>
+<td style="width: 0%;"><!--pushed to the right-->
+<a href="http://sourceforge.net">
+<img
+src="http://sflogo.sourceforge.net/sflogo.php?group_id=205722&amp;type=2"
+width="120"
+height="36"
+alt="SourceForge.net Logo"
+/>
+</a>
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>
+

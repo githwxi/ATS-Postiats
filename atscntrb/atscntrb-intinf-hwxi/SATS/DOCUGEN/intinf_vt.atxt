@@ -1,0 +1,151 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../intinf_vt.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats-hwxi_intinf_vt")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/libats-hwxi/intinf_vt\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package is for supporting integers of unlimited precision, and it is
+implemented based on the <a href="http://www.gmplib.org/">GMP</a> library.
+The primary purpose of the package is to provide a simple and clean
+approach to programming with large integers that is also memory-efficient.\
+
+')#comment("para")
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declname("intinf")
+
+%{
+(*
+#declnamesynop("intinf_vtype")
+*)
+%}
+
+(* ****** ****** *)
+
+#declnamesynop("Intinf")
+
+(* ****** ****** *)
+
+#declnamesynop("intinfLt")
+#declnamesynop("intinfLte")
+#declnamesynop("intinfGt")
+#declnamesynop("intinfGte")
+#declnamesynop("intinfBtw")
+#declnamesynop("intinfBtwe")
+
+(* ****** ****** *)
+
+#declnamesynop("intinf_make_int")
+#declnamesynop("intinf_make_uint")
+#declnamesynop("intinf_make_lint")
+#declnamesynop("intinf_make_ulint")
+
+(* ****** ****** *)
+
+#declnamesynop("intinf_free")
+
+(* ****** ****** *)
+
+#declnamesynop("print_intinf")
+#declnamesynop("prerr_intinf")
+#declnamesynop("fprint_intinf")
+#declnamesynop("fprint_intinf_base")
+
+(* ****** ****** *)
+
+#declnamesynop("abs_intinf0")
+#declnamesynop("abs_intinf1")
+
+#declnamesynop("neg_intinf0")
+#declnamesynop("neg_intinf1")
+
+(* ****** ****** *)
+
+#declnamesynop("succ_intinf0")
+#declnamesynop("succ_intinf1")
+#declnamesynop("pred_intinf0")
+#declnamesynop("pred_intinf1")
+
+(* ****** ****** *)
+
+#declnamesynop("add_intinf0_int")
+#declnamesynop("add_intinf1_int")
+#declnamesynop("add_int_intinf0")
+#declnamesynop("add_int_intinf1")
+#declnamesynop("add_intinf0_intinf1")
+#declnamesynop("add_intinf1_intinf0")
+#declnamesynop("add_intinf1_intinf1")
+
+(* ****** ****** *)
+
+#declnamesynop("sub_intinf0_int")
+#declnamesynop("sub_intinf1_int")
+#declnamesynop("sub_int_intinf0")
+#declnamesynop("sub_int_intinf1")
+#declnamesynop("sub_intinf0_intinf1")
+#declnamesynop("sub_intinf1_intinf0")
+#declnamesynop("sub_intinf1_intinf1")
+
+(* ****** ****** *)
+
+#declnamesynop("mul_intinf0_int")
+#declnamesynop("mul_intinf1_int")
+#declnamesynop("mul_int_intinf0")
+#declnamesynop("mul_int_intinf1")
+#declnamesynop("mul_intinf0_intinf1")
+#declnamesynop("mul_intinf1_intinf0")
+#declnamesynop("mul_intinf1_intinf1")
+
+(* ****** ****** *)
+
+#declnamesynop("div_intinf0_int")
+#declnamesynop("div_intinf1_int")
+#declnamesynop("div_intinf0_intinf1")
+#declnamesynop("div_intinf1_intinf0")
+#declnamesynop("div_intinf1_intinf1")
+
+(* ****** ****** *)
+
+#declnamesynop("ndiv_intinf0_int")
+#declnamesynop("ndiv_intinf1_int")
+
+(* ****** ****** *)
+
+#declnamesynop("nmod_intinf0_int")
+#declnamesynop("nmod_intinf1_int")
+
+(* ****** ****** *)
+
+#declnamesynop("compare_int_intinf")
+#declnamesynop("compare_intinf_int")
+#declnamesynop("compare_intinf_intinf")
+
+(* ****** ****** *)
+
+#declnamesynop("pow_intinf_int")
+
+(* ****** ****** *)
+
+(* end of [intinf_vt.atxt] *)
