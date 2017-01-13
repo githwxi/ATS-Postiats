@@ -10,63 +10,84 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
-
-PATSCONTRIB=${PATSHOMERELOC}/contrib
-
+#
+export \
+PATSHOMERELOCS=$(PATSHOME)/atscntrb
+#
 ######
 
-CFLAGS=-O2
+CFLAGS :=
+CFLAGS += -O2
+CFLAGS += -D_GNU_SOURCE -DATS_MEMALLOC_LIBC
 
 ######
-
+#
 all:: \
 myprint
-myprint: myprint.dats ; \
-$(PATSCC) -I${PATSCONTRIB} \
-  -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< -lgmp
-regress:: myprint ; ./myprint
+myprint: \
+myprint.dats ; $(PATSCC) $(CFLAGS) -o $@ $< -lgmp
+#
+regress:: \
+myprint ; ./myprint
+#
 cleanall:: ; $(RMF) myprint
-
+#
 ######
-
+#
 all:: \
 gnumber
-gnumber: gnumber.dats ; \
-$(PATSCC) -I${PATSCONTRIB} \
-  -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $< -lgmp
-regress:: gnumber ; ./gnumber
+gnumber: \
+gnumber.dats ; \
+$(PATSCC) $(CFLAGS) \
+-I$(PATSHOME)/atscntrb/atscntrb-libgmp -o $@ $< -lgmp
+regress:: \
+gnumber ; ./gnumber
+#
 cleanall:: ; $(RMF) gnumber
-
+#
 ######
-
+#
 all:: \
 loopcons
-loopcons: loopcons.dats ; \
-  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<
-regress:: loopcons ; ./loopcons
+loopcons: \
+loopcons.dats ; $(PATSCC) $(CFLAGS) -o $@ $<
+#
+regress:: \
+loopcons ; ./loopcons
+#
 cleanall:: ; $(RMF) loopcons
-
+#
 ######
-
+#
 all:: \
 list_map
-list_map: list_map.dats ; \
-  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<
-regress:: list_map ; ./list_map
+list_map: \
+list_map.dats ; $(PATSCC) $(CFLAGS) -o $@ $<
+#
+regress:: \
+list_map ; ./list_map
+#
 cleanall:: ; $(RMF) list_map
-
+#
 ######
 
 all:: \
 intfloat
-intfloat: intfloat.dats ; \
-  $(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC $(CFLAGS) -o $@ $<
-regress:: intfloat ; ./intfloat
+intfloat: \
+intfloat.dats ; $(PATSCC) $(CFLAGS) -o $@ $<
+regress:: \
+intfloat ; ./intfloat
 cleanall:: ; $(RMF) intfloat
 
 ######
 
 RMF=rm -f
+
+######
+
+testall:: all
+testall:: regress
+testall:: cleanall
 
 ######
 

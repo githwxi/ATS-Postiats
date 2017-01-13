@@ -41,15 +41,15 @@ cleanall:: ; $(RMF) Best_shuffle
 #
 ######
 #
-all:: \
-Lucas-Lehmer_test
+# all:: \
+# Lucas-Lehmer_test
 Lucas-Lehmer_test: \
 Lucas-Lehmer_test.dats ; \
 $(PATSCC) -O2 -I./PATSRELOCROOT -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
 #
-regress:: \
-Lucas-Lehmer_test; ./$<
-cleanall:: ; $(RMF) Lucas-Lehmer_test
+# regress:: \
+# Lucas-Lehmer_test; ./$<
+# cleanall:: ; $(RMF) Lucas-Lehmer_test
 #
 ######
 #
@@ -57,8 +57,8 @@ all:: \
 Lucas-Lehmer_test2
 Lucas-Lehmer_test2: \
 Lucas-Lehmer_test2.dats ; \
-export PATSHOMERELOCS="./node_modules" && \
-$(PATSCC) -O2 -I"./node_modules/atscntrb-libgmp" -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+export PATSHOMERELOCS="$(PATSHOME)/atscntrb" && \
+$(PATSCC) -O2 -I"$(PATSHOME)/atscntrb/atscntrb-libgmp" -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
 #
 regress:: \
 Lucas-Lehmer_test2; ./$<

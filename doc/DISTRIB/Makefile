@@ -140,6 +140,19 @@ cleanall:: ; $(RMF) SCRIPT/atslib_libats_BUCS320.bash
 
 
 ######
+#
+all_script:: \
+SCRIPT/atscntrb-libgmp.bash
+SCRIPT/atscntrb-libgmp.bash: atscntrb-libgmp_atxt.exe ; ./$< > $@
+atscntrb-libgmp_atxt.dats: ATEXT/atscntrb-libgmp.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atscntrb-libgmp_atxt.exe: atscntrb-libgmp_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atscntrb-libgmp_atxt.exe
+cleanall:: ; $(RMF) HTML/atscntrb-libgmp.html
+cleanall:: ; $(RMF) SCRIPT/atscntrb-libgmp.bash
+
+#
+######
 
 all_script:: \
 SCRIPT/ccomp_atslib.bash
@@ -249,17 +262,6 @@ atscntrb_pcre_atxt.exe: atscntrb_pcre_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) 
 clean:: ; $(RMF) atscntrb_pcre_atxt.exe
 cleanall:: ; $(RMF) HTML/atscntrb_pcre.html
 cleanall:: ; $(RMF) SCRIPT/atscntrb_pcre.bash
-
-#
-all_script:: \
-SCRIPT/atscntrb_libgmp.bash
-SCRIPT/atscntrb_libgmp.bash: atscntrb_libgmp_atxt.exe ; ./$< > $@
-atscntrb_libgmp_atxt.dats: ATEXT/atscntrb_libgmp.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb_libgmp_atxt.exe: atscntrb_libgmp_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb_libgmp_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb_libgmp.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb_libgmp.bash
 
 #
 all_script:: \
@@ -443,20 +445,28 @@ cleanall:: ; $(RMF) SCRIPT/atscntrb_kernelats.bash
 
 #
 ######
-
+#
 atspackaging:: srcget_home
 atspackaging:: srcget_share
+#
 atspackaging:: srcget_patsrc
 atspackaging:: srcget_patsrc_cboot
+#
 atspackaging:: srcget_atslib
+#
+atspackaging:: srcget_atscntrb-libgmp
+#
 atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
+#
 atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_utils_emacs
-atspackaging:: srcget_utils_libatsopt
+#
+# atspackaging:: srcget_utils_libatsopt
+#
 atspackaging:: srcget_doc_example
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
-
+#
 ######
 
 srcget_home:: ; $(CPF) ../../AUTHORS $(ATSDIST)/
@@ -512,6 +522,10 @@ srcget_atslib_libats_BUCS320:: SCRIPT/atslib_libats_BUCS320.bash ; bash $<
 
 ######
 
+srcget_atscntrb-libgmp:: SCRIPT/atscntrb-libgmp.bash ; bash $<
+
+######
+
 srcget_ccomp_atslib:: SCRIPT/ccomp_atslib.bash ; bash $<
 srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 
@@ -540,11 +554,6 @@ atscontribing:: srcget_atscntrb
 
 srcget_atscntrb:: srcget_atscntrb_pcre
 srcget_atscntrb_pcre:: SCRIPT/atscntrb_pcre.bash ; bash $<
-
-######
-
-srcget_atscntrb:: srcget_atscntrb_libgmp
-srcget_atscntrb_libgmp:: SCRIPT/atscntrb_libgmp.bash ; bash $<
 
 ######
 
