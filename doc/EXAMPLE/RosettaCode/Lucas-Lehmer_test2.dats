@@ -65,7 +65,7 @@ M44497
 //
 #define
 INTINF_targetloc
-"./PATSRELOCROOT/libats-hwxi/intinf"
+"$PATSHOMERELOCS/atscntrb-intinf-hwxi"
 //
 #staload"{$INTINF}/SATS/intinf.sats"
 #staload"{$INTINF}/SATS/intinf_vt.sats"
@@ -185,4 +185,4 @@ val ((*void*)) = stream_vt_foreach_cloptr(theMPrimes_10, lam(p) => println! ("M"
 
 (* ****** ****** *)
 
-(* end of [Lucas-Lehmer_test.dats] *)
+(* end of [Lucas-Lehmer_test2.dats] *)

@@ -54,6 +54,19 @@ cleanall:: ; $(RMF) Lucas-Lehmer_test
 ######
 #
 all:: \
+Lucas-Lehmer_test2
+Lucas-Lehmer_test2: \
+Lucas-Lehmer_test2.dats ; \
+export PATSHOMERELOCS="./node_modules" && \
+$(PATSCC) -O2 -I"./node_modules/atscntrb-libgmp" -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+#
+regress:: \
+Lucas-Lehmer_test2; ./$<
+cleanall:: ; $(RMF) Lucas-Lehmer_test2
+#
+######
+#
+all:: \
 Middle_three_digits
 Middle_three_digits: \
 Middle_three_digits.dats ; \
