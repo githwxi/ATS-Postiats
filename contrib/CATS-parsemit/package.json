@@ -1,0 +1,13 @@
+{
+  "name": "catsparsemit",
+  "version": "1.0.0-alpha",
+  "description": "For parsing C code generated from ATS source via patsopt",
+  "main": "N/A",
+  "scripts": {},
+  "keywords": [
+    "ATS",
+    "patsopt"
+  ],
+  "author": "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT"
+}
