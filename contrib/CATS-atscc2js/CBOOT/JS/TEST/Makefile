@@ -116,6 +116,12 @@ cleanall:: clean
 cleanall:: ; rm -f libatscc2js_ext.js
 cleanall:: ; rm -f libatscc2js_ext.data
 cleanall:: ; rm -f libatscc2js_ext.js.mem
+cleanall:: ; rm -f libatscc2js_ext_worker.js
+cleanall:: ; rm -f libatscc2js_ext_worker.data
+cleanall:: ; rm -f libatscc2js_ext_worker.js.mem
+#
+cleanall:: ; rm -f libatscc2js_worker_dats.js
+#
 cleanall:: ; rm -f test_libatscc2js_dats.js
 cleanall:: ; rm -f wktest_libatscc2js_dats.js
 #
