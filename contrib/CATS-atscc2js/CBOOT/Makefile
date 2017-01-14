@@ -30,8 +30,8 @@ all::
 
 # SOURCES_CATS :=
 # SOURCES_CATS += catsparse_sats.c
-# SOURCES_CATS += $(CATSPARSEMIT)/catsparse_mylib_dats.c
-# SOURCES_CATS += $(CATSPARSEMIT)/catsparse_include_all_dats.c
+# SOURCES_CATS += $(CATSPARSEMIT)/CATS/catsparse_mylib_dats.c
+# SOURCES_CATS += $(CATSPARSEMIT)/CATS/catsparse_include_all_dats.c
 
 ######
 
@@ -55,6 +55,7 @@ all:: ; $(MAKE) -C ./.. CBOOT
 
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
+clean:: ; $(RMF) *_?ats.c
 
 ######
 

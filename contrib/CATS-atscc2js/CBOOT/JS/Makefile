@@ -26,15 +26,15 @@ all:: libatscc2js_ext.o
 
 ######
 
-CATSPARSEMIT=./../../.CATS-parsemit
+CATSPARSEMIT=./../../CATS-parsemit
 
 ######
 
 OBJECTS := \
   main0_dats.o \
   catsparse_sats.o \
+  catsparse_all_dats.o \
   catsparse_mylib_dats.o \
-  catsparse_include_all_dats.o \
   atscc2js_main_dats.o \
   atscc2js_emit_dats.o \
   atscc2js_emit2_dats.o \
@@ -58,12 +58,14 @@ catsparse_sats.o: \
 ./../catsparse_sats.c; \
 $(CCOMP) -O2 $(CFLAGS) -I$(PATSHOME) -I$(PATSRUNTIME) -c -o $@ $<
 #
+catsparse_all_dats.o: \
+$(CATSPARSEMIT)/CATS/catsparse_all_dats.c; \
+$(CCOMP) -O2 $(CFLAGS) -I$(PATSHOME) -I$(PATSRUNTIME) -c -o $@ $<
 catsparse_mylib_dats.o: \
-$(CATSPARSEMIT)/catsparse_mylib_dats.c; \
+$(CATSPARSEMIT)/CATS/catsparse_mylib_dats.c; \
 $(CCOMP) -O2 $(CFLAGS) -I$(PATSHOME) -I$(PATSRUNTIME) -c -o $@ $<
-catsparse_include_all_dats.o: \
-$(CATSPARSEMIT)/catsparse_include_all_dats.c; \
-$(CCOMP) -O2 $(CFLAGS) -I$(PATSHOME) -I$(PATSRUNTIME) -c -o $@ $<
+#
+######
 #
 atscc2js_main_dats.o: \
 ./../atscc2js_main_dats.c; \

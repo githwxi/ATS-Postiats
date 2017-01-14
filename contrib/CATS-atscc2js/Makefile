@@ -50,8 +50,8 @@ all:: \
 atscc2js
 atscc2js: \
 $(SOURCES_DATS); \
-$(PATSCC) -DATS_MEMALLOC_GCBDW \
-  -O2 -o $@ $(SOURCES_DATS) $(SOURCES_SATS) $(SOURCES_CATS) -lgc
+$(PATSCC) -O2 -DATS_MEMALLOC_GCBDW \
+  -o $@ $(SOURCES_DATS) $(SOURCES_SATS) $(SOURCES_CATS) -lgc
 #
 ######
 #
