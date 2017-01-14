@@ -10,11 +10,6 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
-#
-export \
-PATSHOMERELOCS=$(PATSHOME)/atscntrb
-#
-######
 
 CFLAGS :=
 CFLAGS += -O2

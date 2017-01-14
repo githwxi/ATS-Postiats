@@ -158,7 +158,7 @@ val symbol__STRING__ : symbol
 //
 val symbol_PATSHOME : symbol
 //
-val symbol_PATSHOMERELOC : symbol
+val symbol_PATSCONTRIB : symbol
 //
 val symbol_PATSRELOCROOT : symbol
 //

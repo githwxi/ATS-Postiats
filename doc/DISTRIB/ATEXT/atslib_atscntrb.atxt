@@ -129,6 +129,29 @@ packfilesynop(x) = atext_nil()
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-hx-cstream/SATS/cstream.sats")
+#packfilename("atscntrb-hx-cstream/SATS/cstream_tokener.sats")
+#packfilename("atscntrb-hx-cstream/DATS/cstream.dats")
+#packfilename("atscntrb-hx-cstream/DATS/cstream_fun.dats")
+#packfilename("atscntrb-hx-cstream/DATS/cstream_cloref.dats")
+#packfilename("atscntrb-hx-cstream/DATS/cstream_strptr.dats")
+#packfilename("atscntrb-hx-cstream/DATS/cstream_string.dats")
+#packfilename("atscntrb-hx-cstream/DATS/cstream_fileptr.dats")
+#packfilename("atscntrb-hx-cstream/DATS/cstream_fileref.dats")
+#packfilename("atscntrb-hx-cstream/DATS/cstream_tokener.dats")
+
+(* ****** ****** *)
+
+#packfilename("atscntrb-hx-globals/HATS/gcount.hats")
+#packfilename("atscntrb-hx-globals/HATS/globvar.hats")
+#packfilename("atscntrb-hx-globals/HATS/gobjptr.hats")
+#packfilename("atscntrb-hx-globals/HATS/gdeqarray.hats")
+#packfilename("atscntrb-hx-globals/HATS/gstacklst.hats")
+#packfilename("atscntrb-hx-globals/HATS/ghashtbl_chain.hats")
+#packfilename("atscntrb-hx-globals/HATS/ghashtbl_linprb.hats")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)

@@ -424,7 +424,7 @@ dynload "pats_ccomp_main.dats"
 extern void patsopt_PATSHOME_set () ;
 extern char *patsopt_PATSHOME_get () ;
 //
-extern void patsopt_PATSHOMERELOC_set () ;
+extern void patsopt_PATSCONTRIB_set () ;
 //
 extern void patsopt_PATSRELOCROOT_set () ;
 //
@@ -1926,7 +1926,7 @@ set () where
 {
   extern
   fun set(): void
-    = "mac#patsopt_PATSHOMERELOC_set"
+    = "mac#patsopt_PATSCONTRIB_set"
   // end of [fun]
 } // end of [where] // end of [val]
 //

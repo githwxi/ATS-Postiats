@@ -344,7 +344,7 @@ implement
 symbol_PATSHOME = symbol_make_string "PATSHOME"
 //
 implement
-symbol_PATSHOMERELOC = symbol_make_string "PATSHOMERELOC"
+symbol_PATSCONTRIB = symbol_make_string "PATSCONTRIB"
 //
 implement
 symbol_PATSRELOCROOT = symbol_make_string "PATSRELOCROOT"
@@ -353,10 +353,10 @@ implement
 symbol_PATSHOMERELOCS = symbol_make_string "PATSHOMERELOCS"
 //
 (* ****** ****** *)
-
+//
 implement
 symbol_ATS_PACKNAME = symbol_make_string "ATS_PACKNAME"
-
+//
 (*
 // HX-2014-06-06: this one is no longer in use:
 implement
@@ -364,7 +364,7 @@ symbol_ATS_STALOADFLAG = symbol_make_string "ATS_STALOADFLAG"
 *)
 implement
 symbol_ATS_DYNLOADFLAG = symbol_make_string "ATS_DYNLOADFLAG"
-
+//
 (* ****** ****** *)
 
 implement

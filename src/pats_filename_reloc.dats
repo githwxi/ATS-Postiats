@@ -358,12 +358,14 @@ val
 srcd0c =
 $GLOB.the_ATSRELOC_get_decl()
 //
+(*
 extern
 fun
 PATSHOME_get(): string = "ext#patsopt_PATSHOME_get"
 extern
 fun
-PATSHOMERELOC_get(): Stropt = "ext#patsopt_PATSHOMERELOC_get"
+PATSCONTRIB_get(): Stropt = "ext#patsopt_PATSCONTRIB_get"
+*)
 //
 in
 //

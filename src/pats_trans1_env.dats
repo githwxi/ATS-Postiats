@@ -679,7 +679,7 @@ local
 extern
 ats_ptr_type patsopt_PATSHOME_get() ;
 extern
-ats_ptr_type patsopt_PATSHOMERELOC_get() ;
+ats_ptr_type patsopt_PATSCONTRIB_get() ;
 /*
 extern
 ats_ptr_type patsopt_PATSHOMERELOCS_get() ;
@@ -709,12 +709,12 @@ end // end of [if] // end of [val]
 //
 val opt = get() where
 {
-  extern fun get(): Stropt = "mac#patsopt_PATSHOMERELOC_get"
+  extern fun get(): Stropt = "mac#patsopt_PATSCONTRIB_get"
 } (* end of [val] *)
 val issome = stropt_is_some (opt)
 val () =
 if issome then let
-  val k = $SYM.symbol_PATSHOMERELOC
+  val k = $SYM.symbol_PATSCONTRIB
   val x = e1xp_string($LOC.location_dummy, stropt_unsome(opt))
 in
   the_e1xpenv_addperv (k, x)
