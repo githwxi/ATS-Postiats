@@ -33,11 +33,18 @@
 // Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
-
+//
+#define
+ATS_PACKNAME
+"ATSCNTRB.HX.cstream"
+//
+(* ****** ****** *)
+//
 (*
-** cstream-based tokenizer
+** cstream:
+** stream of characters
 *)
-
+//
 (* ****** ****** *)
 
 staload "./cstream.sats"

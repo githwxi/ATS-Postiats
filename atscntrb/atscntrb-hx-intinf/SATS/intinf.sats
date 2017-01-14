@@ -40,7 +40,7 @@
 (* ****** ****** *)
 //
 #define
-ATS_PACKNAME "ATSCNTRB.libats-hwxi.intinf"
+ATS_PACKNAME "ATSCNTRB.HX.intinf"
 //
 (* ****** ****** *)
 //

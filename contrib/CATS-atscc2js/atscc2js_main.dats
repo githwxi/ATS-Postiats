@@ -136,9 +136,9 @@ in
 //
 case+
 chan_old of
-| OUTCHANref (filr) => ()
-| OUTCHANptr (filp) => let
-    val err = $STDIO.fclose0 (filp) in (*nothing*)
+| OUTCHANref(filr) => ()
+| OUTCHANptr(filp) => let
+    val err = $STDIO.fclose0(filp) in (*nothing*)
   end // end of [OUTCHANptr]
 //
 end // end of [cmdstate_set_outchan]
@@ -155,20 +155,20 @@ atscc2js_fileref
   (state, inp) = let
 //
 val oc = state.outchan
-val out = outchan_get_fileref (oc)
+val out = outchan_get_fileref(oc)
 //
-val d0cs = parse_from_fileref (inp)
+val d0cs = parse_from_fileref(inp)
 //
-val () = emit_time_stamp (out)
+val () = emit_time_stamp(out)
 //
-val ((*void*)) = emit_toplevel (out, d0cs)
+val ((*void*)) = emit_toplevel(out, d0cs)
 //
 val () =
 emit_text (out, "\n/* ****** ****** */\n")
 val () =
 emit_text (out, "\n/* end-of-compilation-unit */")
 //
-val ((*flusing*)) = emit_newline (out)
+val ((*flusing*)) = emit_newline(out)
 //
 in
   // nothing
@@ -622,7 +622,7 @@ prerrln! ("Good-bye from atscc2js!")
 ATSCC2JS_MAIN_NONE
 //
 implement
-main0 (argc, argv) =
+main0(argc, argv) =
 {
 //
 val () = atscc2js_main0(argc, argv)

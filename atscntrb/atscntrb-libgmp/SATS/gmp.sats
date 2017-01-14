@@ -45,10 +45,14 @@
 %} // end of [%{#]
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSCNTRB.libgmp"
-#define ATS_EXTERN_PREFIX "atscntrb_libgmp_" // prefix for external names
-
+//
+#define
+ATS_PACKNAME "ATSCNTRB.libgmp"
+#define
+ATS_EXTERN_PREFIX "atscntrb_libgmp_" // prefix for extern names
+#define
+ATS_EXTERN_STATIC "_atscntrb_libgmp_" // prefix for static names
+//
 (* ****** ****** *)
 //
 // integral numbers

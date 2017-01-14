@@ -69,12 +69,12 @@ libatscc2js.a: $(OBJECTS); $(AR) -r $@ $(OBJECTS)
 ######
 #
 catsparse_sats.o: \
-$(CATSPARSEMIT)/catsparse.sats; $(PATSCC) -O2 -c $<
+$(CATSPARSEMIT)/SATS/catsparse.sats; $(PATSCC) -O2 -c $<
 #
 catsparse_all_dats.o: \
-$(CATSPARSEMIT)/catsparse_all_dats.c; $(PATSCC) -O2 -c $<
+$(CATSPARSEMIT)/CATS/catsparse_all_dats.c; $(PATSCC) -O2 -c $<
 catsparse_mylib_dats.o: \
-$(CATSPARSEMIT)/catsparse_mylib_dats.c; $(PATSCC) -O2 -c $<
+$(CATSPARSEMIT)/CATS/catsparse_mylib_dats.c; $(PATSCC) -O2 -c $<
 #
 ######
 #
