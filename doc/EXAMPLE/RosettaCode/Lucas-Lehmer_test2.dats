@@ -63,15 +63,11 @@ M44497
 //
 (* ****** ****** *)
 //
-#define
-INTINF_targetloc
-"$PATSHOMERELOCS/atscntrb-intinf-hwxi"
+#staload"{$HX_INTINF}/SATS/intinf.sats"
+#staload"{$HX_INTINF}/SATS/intinf_vt.sats"
 //
-#staload"{$INTINF}/SATS/intinf.sats"
-#staload"{$INTINF}/SATS/intinf_vt.sats"
-//
-#staload _ = "{$INTINF}/DATS/intinf_t.dats"
-#staload _ = "{$INTINF}/DATS/intinf_vt.dats"
+#staload _ = "{$HX_INTINF}/DATS/intinf_t.dats"
+#staload _ = "{$HX_INTINF}/DATS/intinf_vt.dats"
 //
 (* ****** ****** *)
 

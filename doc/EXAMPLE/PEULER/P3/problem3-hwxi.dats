@@ -24,10 +24,10 @@ _(*anon*) = "prelude/DATS/pointer.dats"
 //
 (* ****** ****** *)
 //
-#staload "{$INTINFHWXI}/SATS/intinf_t.sats"
+#staload "{$HX_INTINF}/SATS/intinf_t.sats"
 //
-#staload _(*anon*) = "{$INTINFHWXI}/DATS/intinf_t.dats"
-#staload _(*anon*) = "{$INTINFHWXI}/DATS/intinf_vt.dats"
+#staload _(*anon*) = "{$HX_INTINF}/DATS/intinf_t.dats"
+#staload _(*anon*) = "{$HX_INTINF}/DATS/intinf_vt.dats"
 //
 (* ****** ****** *)
 

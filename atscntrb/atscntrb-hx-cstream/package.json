@@ -1,11 +1,11 @@
 {
 "name":
-"atscntrb-libgmp"
+"atscntrb-hx-cstream"
 ,
-  "version": "1.0.2"
+  "version": "1.0.0"
 ,
   "description":
-  "This package is for directly calling in ATS various GMP-functions."
+  "A simple package generating character streams based on strings, files, etc."
 ,
   "main": "N/A"
 ,
@@ -15,9 +15,10 @@
 ,
   "keywords": [
     "ATS",
-    "GMP",
-    "libgmp"
+    "cstream"
   ]
+,
+  "dependencies" : {}
 ,
   "author": "Hongwei Xi <gmhwxi@gmail.com>"
 ,

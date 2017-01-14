@@ -108,7 +108,7 @@ all_script::
 
 ######
 #
-#make_entry("atscntrb-libgmp")
+#make_entry("atslib_atscntrb")
 #
 ######
 
@@ -168,8 +168,7 @@ atspackaging:: srcget_patsrc
 atspackaging:: srcget_patsrc_cboot
 #
 atspackaging:: srcget_atslib
-#
-atspackaging:: srcget_atscntrb-libgmp
+atspackaging:: srcget_atslib_atscntrb
 #
 atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
@@ -221,7 +220,7 @@ srcget_patsrc:: SCRIPT/patsopt_src.bash ; bash $<
 srcget_patsrc_cboot:: SCRIPT/patsopt_src_cboot.bash ; bash $<
 
 ######
-
+#
 srcget_atslib:: srcget_atslib_prelude
 srcget_atslib_prelude:: SCRIPT/atslib_prelude.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats
@@ -234,11 +233,9 @@ srcget_atslib:: srcget_atslib_libats_ATS1
 srcget_atslib_libats_ATS1:: SCRIPT/atslib_libats_ATS1.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_BUCS320
 srcget_atslib_libats_BUCS320:: SCRIPT/atslib_libats_BUCS320.bash ; bash $<
-
-######
-
-srcget_atscntrb-libgmp:: SCRIPT/atscntrb-libgmp.bash ; bash $<
-
+#
+srcget_atslib_atscntrb:: SCRIPT/atslib_atscntrb.bash ; bash $<
+#
 ######
 
 srcget_ccomp_atslib:: SCRIPT/ccomp_atslib.bash ; bash $<

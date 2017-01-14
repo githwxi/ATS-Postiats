@@ -30,7 +30,7 @@ UN = "prelude/SATS/unsafe.sats"
 staload
 "libats/libc/SATS/stdio.sats"
 //
-staload "{$LIBGMP}/SATS/gmp.sats"
+staload "./../../SATS/gmp.sats"
 //
 (* ****** ****** *)
 

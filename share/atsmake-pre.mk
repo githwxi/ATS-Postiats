@@ -12,29 +12,34 @@
 CC=gcc
 #
 ######
-
-ifdef PATSHOME
+#
+ifdef \
+PATSHOME
   PATSHOMEQ="$(PATSHOME)"
 else
+#
 ifdef ATSHOME
   PATSHOMEQ="$(ATSHOME)"
 else
   PATSHOMEQ="/usr/local/lib/ats2-postiats"
-endif
-endif
-
+endif # end of [ifdef]
+#
+endif # end of [ifdef]
+#
 ######
-
-ifdef PATSHOMERELOC
-  PATSHOMERELOCQ="$(PATSHOMERELOC)"
-else
-ifdef ATSHOMERELOC
-  PATSHOMERELOCQ="$(ATSHOMERELOC)"
-else
-  PATSHOMERELOCQ="/usr/local/lib/ats2-postiats"
-endif
-endif
-
+#
+# ifdef \
+# PATSHOMERELOC
+#   PATSHOMERELOCQ="$(PATSHOMERELOC)"
+# else
+# ifdef \
+# ATSHOMERELOC
+#   PATSHOMERELOCQ="$(ATSHOMERELOC)"
+# else
+#   PATSHOMERELOCQ="/usr/local/lib/ats2-postiats"
+# endif # end of [ifdef]
+# endif # end of [ifdef]
+#
 ######
 #
 PATSCC=$(PATSHOMEQ)/bin/patscc
@@ -66,12 +71,13 @@ INCLUDE += -I$(PATSHOMEQ)/ccomp/runtime
 CFLAGS += -D_GNU_SOURCE
 
 ######
-
+#
 LDFLAGS += -L$(PATSLIB)
 # LDFLAGS += -L$(PATSLIB32)
 # LDFLAGS += -L$(PATSLIB64)
+#
 LDFLAGS += -latslib
-
+#
 ######
 
 EXTRAFLAGS =
@@ -81,12 +87,13 @@ EXTRAFLAGS =
 MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
-
-ifdef PATSHOMERELOCQ
-INCLUDE += -I$(PATSHOMERELOCQ)/contrib
-INCLUDE_ATS += -IATS $(PATSHOMERELOCQ)/contrib
-endif
-
+#
+# ifdef \
+# PATSHOMERELOCQ
+# INCLUDE += -I$(PATSHOMERELOCQ)/contrib
+# INCLUDE_ATS += -IATS $(PATSHOMERELOCQ)/contrib
+# endif # end of [ifdef]
+#
 ######
 
 SOURCES_C=

@@ -5,6 +5,7 @@
 ######
 #
 PATSCC=$(PATSHOME)/bin/patscc
+PATSOPT=$(PATSHOME)/bin/patsopt
 #
 ######
 

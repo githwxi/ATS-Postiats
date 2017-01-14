@@ -124,12 +124,13 @@ println! ("gfact<double>(100) = ", gfact<double>(100))
 (* ****** ****** *)
 //
 staload _(*T*) =
-"{$INTINFHWXI}/DATS/intinf_t.dats"
+"{$HX_INTINF}/DATS/intinf_t.dats"
 staload _(*VT*) =
-"{$INTINFHWXI}/DATS/intinf_vt.dats"
+"{$HX_INTINF}/DATS/intinf_vt.dats"
 //
-staload GINTINF =
-"{$INTINFHWXI}/DATS/gintinf_t.dats"
+staload
+GINTINF =
+"{$HX_INTINF}/DATS/gintinf_t.dats"
 //
 (* ****** ****** *)
 //
@@ -140,17 +141,21 @@ overload
 print with $GINTINF.print_intinf
 //
 (* ****** ****** *)
-
+/
 val () =
-println! ("gfact<intinf>(10) = ", gfact<intinf>(10))
+println!
+(
+"gfact<intinf>(10) = ", gfact<intinf>(10)
+) (* println! *)
+//
 val () =
 println! ("gfact<intinf>(34) = ", gfact<intinf>(34))
 val () =
 println! ("gfact<intinf>(100) = ", gfact<intinf>(100))
-
+//
 (* ****** ****** *)
 
-implement main0 () = ()
+implement main0((*void*)) = ()
 
 (* ****** ****** *)
 

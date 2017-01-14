@@ -142,14 +142,14 @@ cleanall:: ; $(RMF) SCRIPT/atslib_libats_BUCS320.bash
 ######
 #
 all_script:: \
-SCRIPT/atscntrb-libgmp.bash
-SCRIPT/atscntrb-libgmp.bash: atscntrb-libgmp_atxt.exe ; ./$< > $@
-atscntrb-libgmp_atxt.dats: ATEXT/atscntrb-libgmp.atxt ; \
+SCRIPT/atslib_atscntrb.bash
+SCRIPT/atslib_atscntrb.bash: atslib_atscntrb_atxt.exe ; ./$< > $@
+atslib_atscntrb_atxt.dats: ATEXT/atslib_atscntrb.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atscntrb-libgmp_atxt.exe: atscntrb-libgmp_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atscntrb-libgmp_atxt.exe
-cleanall:: ; $(RMF) HTML/atscntrb-libgmp.html
-cleanall:: ; $(RMF) SCRIPT/atscntrb-libgmp.bash
+atslib_atscntrb_atxt.exe: atslib_atscntrb_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atslib_atscntrb_atxt.exe
+cleanall:: ; $(RMF) HTML/atslib_atscntrb.html
+cleanall:: ; $(RMF) SCRIPT/atslib_atscntrb.bash
 
 #
 ######
@@ -453,8 +453,7 @@ atspackaging:: srcget_patsrc
 atspackaging:: srcget_patsrc_cboot
 #
 atspackaging:: srcget_atslib
-#
-atspackaging:: srcget_atscntrb-libgmp
+atspackaging:: srcget_atslib_atscntrb
 #
 atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
@@ -506,7 +505,7 @@ srcget_patsrc:: SCRIPT/patsopt_src.bash ; bash $<
 srcget_patsrc_cboot:: SCRIPT/patsopt_src_cboot.bash ; bash $<
 
 ######
-
+#
 srcget_atslib:: srcget_atslib_prelude
 srcget_atslib_prelude:: SCRIPT/atslib_prelude.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats
@@ -519,11 +518,9 @@ srcget_atslib:: srcget_atslib_libats_ATS1
 srcget_atslib_libats_ATS1:: SCRIPT/atslib_libats_ATS1.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_BUCS320
 srcget_atslib_libats_BUCS320:: SCRIPT/atslib_libats_BUCS320.bash ; bash $<
-
-######
-
-srcget_atscntrb-libgmp:: SCRIPT/atscntrb-libgmp.bash ; bash $<
-
+#
+srcget_atslib_atscntrb:: SCRIPT/atslib_atscntrb.bash ; bash $<
+#
 ######
 
 srcget_ccomp_atslib:: SCRIPT/ccomp_atslib.bash ; bash $<

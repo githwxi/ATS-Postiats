@@ -50,8 +50,8 @@ fprint_string(out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../atscntrb/atscntrb-libgmp/\n\
-TARGET=ATS-Postiats/atscntrb/atscntrb-libgmp/\n\
+SOURCE=./../../atscntrb/\n\
+TARGET=ATS-Postiats/atscntrb/\n\
 \n\
 srcget ()\n\
 {\n\
@@ -72,7 +72,7 @@ out = stdout_ref
 val () =
 fprint_string(out, "\
 #\n\
-echo \"The ATSCNTRB-libgmp files have been copied.\"\n\
+echo \"The ATSCNTRB files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -82,8 +82,9 @@ in
 end // end of [packpostamble]
 
 implement
-packtitle (x) = atext_nil ()
-
+packtitle
+  (x) = atext_nil()
+//
 implement
 packfilename
   (x) = let
@@ -97,10 +98,10 @@ fprintf(out, "srcget \"%s\" ;\n", @(x))
 in
   atext_nil()
 end // end of [packfilename]
-
+//
 implement
-packfilesynop (x) = atext_nil ()
-
+packfilesynop(x) = atext_nil()
+//
 %} // end of [%{]
 
 (* ****** ****** *)
@@ -109,18 +110,22 @@ packfilesynop (x) = atext_nil ()
 
 (* ****** ****** *)
 
-#packtitle("\
-ATSCNTRB/libgmp\
-")
+#packtitle("ATSCNTRB")
 
 (* ****** ****** *)
 
-#packfilename("SATS/gmp.sats")
-#packfilename("DATS/gmp.dats")
+#packfilename("atscntrb-libgmp/SATS/gmp.sats")
+#packfilename("atscntrb-libgmp/DATS/gmp.dats")
+#packfilename("atscntrb-libgmp/libgmp/CATS/gmp.cats")
 
 (* ****** ****** *)
 
-#packfilename("libgmp/CATS/gmp.cats")
+#packfilename("atscntrb-hx-intinf/SATS/intinf.sats")
+#packfilename("atscntrb-hx-intinf/SATS/intinf_t.sats")
+#packfilename("atscntrb-hx-intinf/SATS/intinf_vt.sats")
+#packfilename("atscntrb-hx-intinf/DATS/intinf_t.dats")
+#packfilename("atscntrb-hx-intinf/DATS/intinf_vt.dats")
+#packfilename("atscntrb-hx-intinf/DATS/gintinf_t.dats")
 
 (* ****** ****** *)
 
@@ -136,4 +141,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb-libgmp.atxt] *)
+(* end of [atslib_atscntrb.atxt] *)

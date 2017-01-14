@@ -33,28 +33,25 @@
 // Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
-
-#staload
-UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-local
 //
-#ifndef LIBGMP_targetloc
+#staload
+UN =
+"prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+local
 //
 #define
 LIBGMP_targetloc
-"$PATSHOMERELOCS/atscntrb-libgmp"
+"$PATSHOME/atscntrb/atscntrb-libgmp"
 //
-#endif // #ifndef(LIBGMP_targetloc)
-//
-in (* in-of-local *)
+in (*in-of-local*)
 //
 #staload GMP = "{$LIBGMP}/SATS/gmp.sats"
 //
 end // end of [local]
-
+//
 (* ****** ****** *)
 
 vtypedef mpz = $GMP.mpz_vt0ype

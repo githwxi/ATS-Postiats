@@ -8,11 +8,11 @@ PATSCC=patscc
 PATSOPT=patsopt
 PATSFIND=patsfind
 PATSHOMEQ="$(PATSHOME)"
-PATSHOMERELOCQ="$(PATSHOMERELOC)"
 
 ######
 #
-export PATSHOMERELOCS=./../node_modules
+export \
+PATSHOMERELOCS=./../..
 #
 ######
 
@@ -22,7 +22,7 @@ all::
 
 CFLAGS:=
 CFLAGS+=-DATS_MEMALLOC_LIBC
-CFLAGS+=-I"./../node_modules/atscntrb-libgmp"
+CFLAGS+=-I"./../../atscntrb-libgmp"
 
 ######
 

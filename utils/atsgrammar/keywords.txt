@@ -172,6 +172,8 @@ T_SRPINCLUDE : #include
 T_SRPPRINT : #print
 T_SRPTHEN : #then
 T_SRPUNDEF : #undef
+T_SRPREQUIRE : #require
+T_SRPSTALOAD : #staload
 (*
   | T_LABEL of (int(*knd*), string) // HX-2013-01: should it be supported?
 *)
