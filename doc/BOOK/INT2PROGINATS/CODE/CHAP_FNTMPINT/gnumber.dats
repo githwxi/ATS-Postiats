@@ -141,7 +141,7 @@ overload
 print with $GINTINF.print_intinf
 //
 (* ****** ****** *)
-/
+//
 val () =
 println!
 (

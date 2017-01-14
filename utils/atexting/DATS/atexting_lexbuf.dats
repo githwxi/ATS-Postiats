@@ -26,37 +26,32 @@
 *)
 
 (* ****** ****** *)
-
+//
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom *)
 (* Start time: January, 2016 *)
-
+(* Authoremail: gmhwxiATgmailDOTcom *)
+//
 (* ****** ****** *)
 //
 //
 #include
-"share\
-/atspre_define.hats"
+"share/atspre_define.hats"
 #include
-"share\
-/atspre_staload.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-staload UN = $UNSAFE
+#staload UN = $UNSAFE
 
 (* ****** ****** *)
 //
-staload
-"./../SATS/atexting.sats"
+#staload "./../SATS/atexting.sats"
 //
 (* ****** ****** *)
 //
-staload _ =
-"libats/DATS/stringbuf.dats"
+#staload _ = "libats/DATS/stringbuf.dats"
 //
-staload _ =
-"{$LIBATSHWXI}/cstream/DATS/cstream.dats"
+#staload _ = "{$HX_CSTREAM}/DATS/cstream.dats"
 //
 (* ****** ****** *)
 

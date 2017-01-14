@@ -51,23 +51,17 @@ staload
 staload
 DA =
 "libats/SATS/dynarray.sats"
-//
-stadef dynarray = $DA.dynarray
-//
-(* ****** ****** *)
-//
 staload
 SBF =
 "libats/SATS/stringbuf.sats"
-//
-stadef stringbuf = $SBF.stringbuf
-//
-(* ****** ****** *)
-//
 staload
 CS0 =
-"{$LIBATSHWXI}\
-/cstream/SATS/cstream.sats"
+"{$HX_CSTREAM}/SATS/cstream.sats"
+//
+stadef
+dynarray = $DA.dynarray
+stadef
+stringbuf = $SBF.stringbuf
 //
 vtypedef cstream = $CS0.cstream
 //

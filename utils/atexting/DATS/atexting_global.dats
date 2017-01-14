@@ -34,13 +34,11 @@
 (* ****** ****** *)
 //
 #include
-"share\
-/atspre_staload.hats"
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 //
-staload
-"./../SATS/atexting.sats"
+staload "./../SATS/atexting.sats"
 //
 (* ****** ****** *)
 
@@ -72,8 +70,7 @@ staload
 typedef T = fil_t
 //
 #include"\
-{$LIBATSHWXI}\
-/globals/HATS/gstacklst.hats"
+{$HX_GLOBALS}/HATS/gstacklst.hats"
 //
 implement
 the_filename_get
@@ -91,21 +88,18 @@ the_filename_push(fil) = push(fil)
 staload
 PARERR = {
 //
-#include
-"share/\
-atspre_define.hats"
+#define
+HX_GLOBALS_targetloc
+"$PATSHOME\
+/atscntrb/atscntrb-hx-globals"
 //
-staload
-"./../SATS/atexting.sats"
+#staload"./../SATS/atexting.sats"
 //
 typedef T = parerr
 //
-staload
-"prelude/DATS/list_vt.dats"
+#staload"prelude/DATS/list_vt.dats"
 //
-#include"\
-{$LIBATSHWXI}\
-/globals/HATS/gstacklst.hats"
+#include"{$HX_GLOBALS}/HATS/gstacklst.hats"
 //
 (* ****** ****** *)
 //
