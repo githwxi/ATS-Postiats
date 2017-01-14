@@ -12,8 +12,9 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 #
 ATSCC2JS=$(PATSHOME)/bin/atscc2js
+#
 LIBATSCC2JS_ALL_JS=\
-${PATSHOMERELOC}/contrib/libatscc/libatscc2js/output/libatscc2js_all.js
+${PATSCONTRIB}/contrib/libatscc/libatscc2js/output/libatscc2js_all.js
 #
 ######
 
