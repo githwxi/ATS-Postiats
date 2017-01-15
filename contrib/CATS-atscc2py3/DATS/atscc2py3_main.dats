@@ -66,8 +66,8 @@ catsparse_mylib_dynload(): void = "ext#"
 //
 (* ****** ****** *)
 
-dynload "./atscc2py3_emit.dats"
-dynload "./atscc2py3_emit2.dats"
+#dynload "./atscc2py3_emit.dats"
+#dynload "./atscc2py3_emit2.dats"
 
 (* ****** ****** *)
 //

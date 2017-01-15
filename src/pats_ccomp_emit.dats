@@ -2467,9 +2467,9 @@ case+ lxs of
     val () =
       if i > 0 then emit_text (out, "\n")
     val () =
-      if boxknd = 0 then emit_text (out, "ATSINSstore_fltrec_ofs (")
+      if boxknd = 0 then emit_text (out, "ATSINSstore_fltrec_ofs(")
     val () =
-      if boxknd > 0 then emit_text (out, "ATSINSstore_boxrec_ofs (")
+      if boxknd > 0 then emit_text (out, "ATSINSstore_boxrec_ofs(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hitype (out, hit_rec)

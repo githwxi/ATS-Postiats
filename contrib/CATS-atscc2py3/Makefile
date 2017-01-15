@@ -44,6 +44,11 @@ $(PATSCC) \
   $(SOURCES_DATS) $(SOURCES_SATS) $(SOURCES_CATS) -lgc
 #
 ######
+#
+npm:: atscc2py3
+npm:: ; $(CPF) catsparse_sats.c atscc2py3_*_dats.c npm/CATS/.
+#
+######
 
 CPF=cp -f
 RMF=rm -f
