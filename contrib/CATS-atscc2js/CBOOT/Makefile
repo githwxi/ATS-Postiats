@@ -19,14 +19,14 @@ all::
 
 ######
 
-# CATSPARSEMIT=./../.CATS-parsemit
+# CATSPARSEMIT=./../CATS-parsemit
 
 ######
 
 # SOURCES_DATS :=
-# SOURCES_DATS += atscc2js_main.dats
-# SOURCES_DATS += atscc2js_emit.dats
-# SOURCES_DATS += atscc2js_emit2.dats
+# SOURCES_DATS += DATS/atscc2js_main.dats
+# SOURCES_DATS += DATS/atscc2js_emit.dats
+# SOURCES_DATS += DATS/atscc2js_emit2.dats
 
 # SOURCES_CATS :=
 # SOURCES_CATS += catsparse_sats.c

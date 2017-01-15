@@ -8,7 +8,7 @@
 ATS_MAINATSFLAG 1
 #define
 ATS_DYNLOADNAME
-"test_libatscc2js_dynload"
+"wktest_libatscc2js_dynload"
 //
 (* ****** ****** *)
 //
@@ -22,17 +22,17 @@ ATS_DYNLOADNAME
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "{$LIBATSCC2JS}/SATS/Worker/channel.sats"
-staload
+#staload
 "{$LIBATSCC2JS}/DATS/Worker/channel.dats"
 #include
 "{$LIBATSCC2JS}/DATS/Worker/channeg.dats"
 //
 (* ****** ****** *)
 //
-staload
-"./../../../libatscc2js_ext.sats"
+#staload
+"./../../../DATS/libatscc2js_ext.dats"
 //
 (* ****** ****** *)
 
@@ -266,7 +266,7 @@ end // end of [theExample_atscc2js_onclick]
 function
 the_libatscc2js_main()
 {
-  jQuery(document).ready(function(){test_libatscc2js_dynload();});
+  jQuery(document).ready(function(){wktest_libatscc2js_dynload();});
 }
 //
 %} // end of [%{$]

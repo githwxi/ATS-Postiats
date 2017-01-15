@@ -10,15 +10,16 @@
 //
 (* ****** ****** *)
 //
+#define
+ATS_DYNLOADNAME
+"libatscc2js_dynload"
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_define.hats"
 #include
 "share/atspre_staload.hats"
-//
-(* ****** ****** *)
-//
-#define
-ATS_DYNLOADNAME "atscc2js_dynload"
 //
 (* ****** ****** *)
 //
@@ -37,7 +38,8 @@ CATSPARSEMIT_targetloc
 #else
 //
 #define
-CATSPARSEMIT_targetloc "./CATS-parsemit"
+CATSPARSEMIT_targetloc
+"./../CATS-parsemit"
 //
 #endif // end of [ifdef]
 //
@@ -67,7 +69,7 @@ extern
 fun
 catsparse_mylib_dynload(): void = "ext#"
 } (* end of [val] *)
-
+//
 (* ****** ****** *)
 
 dynload "./atscc2js_emit.dats"

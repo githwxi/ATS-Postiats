@@ -29,13 +29,13 @@ staload
 //
 (* ****** ****** *)
 
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-staload
-"./../../../libatscc2js_ext.sats"
+#staload
+"./../../../DATS/libatscc2js_ext.dats"
 //
 (* ****** ****** *)
 //

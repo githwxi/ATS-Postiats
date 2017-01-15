@@ -286,20 +286,27 @@ RMRF=rm -rf
 #
 libatscc2js:: ; \
 $(CPF) \
-$(PATSCONTRIB)/contrib/libatscc/libatscc2js/output/libatscc2js_all.js libatscc2js/.
+$(PATSCONTRIB)/contrib\
+/libatscc/libatscc2js/output/libatscc2js_all.js libatscc2js/.
 #
 libatscc2js:: ; \
-$(CPRF) $(PATSCONTRIB)/contrib/libatscc/libatscc2js/CATS/* libatscc2js/CATS/.
+$(CPRF) \
+$(PATSCONTRIB)/contrib/libatscc/libatscc2js/CATS/* libatscc2js/CATS/.
 libatscc2js:: ; \
-$(CPRF) $(PATSCONTRIB)/contrib/libatscc/libatscc2js/output/DATS/* libatscc2js/DATS/.
+$(CPRF) \
+$(PATSCONTRIB)/contrib/libatscc/libatscc2js/output/DATS/* libatscc2js/DATS/.
 #
 ######
 
 clean:: ; $(RMF) *~
 
 ######
-
+#
 cleanall:: clean
+#
 cleanall:: ; $(RMF) *_?ats.c
-
+cleanall:: ; $(RMF) libatscc2js/libatscc2js_all.js
+cleanall:: ; $(RMRF) libatscc2js/CATS/*
+cleanall:: ; $(RMRF) libatscc2js/DATS/*
+#
 ###### end of [Makefile] ######

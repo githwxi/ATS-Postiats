@@ -5,11 +5,11 @@
 (* ****** ****** *)
 //
 dynload
-"./../../atscc2js_main.dats"
+"./../../DATS/atscc2js_main.dats"
 //
 (* ****** ****** *)
 //
-implement main0 () = {(*void*)}
+implement main0((*void*)) = {(*void*)}
 //
 (* ****** ****** *)
 

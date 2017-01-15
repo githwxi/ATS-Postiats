@@ -29,7 +29,8 @@ CATSPARSEMIT_targetloc
 #else
 //
 #define
-CATSPARSEMIT_targetloc "./CATS-parsemit"
+CATSPARSEMIT_targetloc
+"./../CATS-parsemit"
 //
 #endif // end of [ifdef]
 //

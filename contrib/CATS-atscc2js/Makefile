@@ -4,6 +4,9 @@
 
 ######
 
+AR=ar
+CPF=cp -f
+RMF=rm -f
 MAKE=make
 
 ######
@@ -26,19 +29,19 @@ CBOOT:: ; $(CPF) libatscc2js_*_dats.c CBOOT/.
 CATSPARSEMIT=./CATS-parsemit
 
 ######
-
+#
 SOURCES_DATS :=
-SOURCES_DATS += atscc2js_main.dats
-SOURCES_DATS += atscc2js_emit.dats
-SOURCES_DATS += atscc2js_emit2.dats
-
+SOURCES_DATS += DATS/atscc2js_main.dats
+SOURCES_DATS += DATS/atscc2js_emit.dats
+SOURCES_DATS += DATS/atscc2js_emit2.dats
+#
 SOURCES_SATS :=
 SOURCES_SATS += $(CATSPARSEMIT)/SATS/catsparse.sats
-
+#
 SOURCES_CATS :=
 SOURCES_CATS += $(CATSPARSEMIT)/CATS/catsparse_all_dats.c
 SOURCES_CATS += $(CATSPARSEMIT)/CATS/catsparse_mylib_dats.c
-
+#
 ######
 #
 all:: ; \
@@ -50,8 +53,13 @@ all:: \
 atscc2js
 atscc2js: \
 $(SOURCES_DATS); \
-$(PATSCC) -O2 -DATS_MEMALLOC_GCBDW \
-  -o $@ $(SOURCES_DATS) $(SOURCES_SATS) $(SOURCES_CATS) -lgc
+$(PATSCC) -O2 -DATS_MEMALLOC_GCBDW -o $@ \
+  $(SOURCES_DATS) $(SOURCES_SATS) $(SOURCES_CATS) -lgc
+#
+######
+#
+npm:: atscc2js
+npm:: ; $(CPF) catsparse_sats.c atscc2js_*_dats.c npm/CATS/.
 #
 ######
 #
@@ -78,32 +86,12 @@ $(CATSPARSEMIT)/CATS/catsparse_mylib_dats.c; $(PATSCC) -O2 -c $<
 #
 ######
 #
-%_dats.o: %.dats; \
+%_dats.o: DATS/%.dats; \
 $(PATSCC) -D_GNU_SOURCE -DATS ATSCC2JS_MAIN_NONE -O2 -c $<
 #
 ######
-
-CPF=cp -f
-RMF=rm -f
-
-######
 #
-CATSPARSEMIT_source=\
-$(PATSHOMERELOC)/projects/MEDIUM/CATS-parsemit
-#
-pkgreloc:: ; \
-$(CPF) $(CATSPARSEMIT_source)/SATS/catsparse.sats $(CATSPARSEMIT)/.
-pkgreloc:: ; \
-$(CPF) $(CATSPARSEMIT_source)/SATS/catsparse_*.sats $(CATSPARSEMIT)/.
-pkgreloc:: ; \
-$(CPF) $(CATSPARSEMIT_source)/CATS/catsparse_*_dats.c $(CATSPARSEMIT)/.
-#
-######
-#
-build:: pkgreloc
-build:: atscc2js
-#
-testall:: build
+testall:: all
 testall:: cleanall
 #
 ######

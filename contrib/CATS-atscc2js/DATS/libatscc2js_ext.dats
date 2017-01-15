@@ -5,9 +5,9 @@
 *)
 
 (* ****** ****** *)
-
+//
 #define ATS_DYNLOADFLAG 0
-
+//
 (* ****** ****** *)
 //
 #include
@@ -37,9 +37,102 @@ UNISTD =
 "libats/libc/SATS/unistd.sats"
 
 (* ****** ****** *)
+//
+extern
+fun
+atscc2js_main0_exn
+  {n:pos}
+(
+  argc: int(n), argv: &(@[string][n])
+) : void = "ext#libatscc2js_atscc2js_main0"
+//
+extern
+fun
+atscc2js_main0_opt
+  {n:pos}
+(
+  argc: int(n), argv: &(@[string][n])
+) : bool = "ext#libatscc2js_atscc2js_main0_opt"
+//
+(* ****** ****** *)
+//
+datatype
+comarg =
+//
+| COMARGstrlit of string
+//
+| COMARGstrinp of string
+//
+| COMARGprefil of string
+| COMARGpostfil of string
+//
+typedef comarglst0 = List0(comarg)
+typedef comarglst1 = List1(comarg)
+//
+(* ****** ****** *)
+//
+extern
+fun
+comarg_strlit
+  (x: string): comarg
+  = "ext#libatscc2js_comarg_strlit"
+extern
+fun
+comarg_strinp
+  (x: string): comarg
+  = "ext#libatscc2js_comarg_strinp"
+//
+extern
+fun
+comarg_prefil
+  (x: string): comarg
+  = "ext#libatscc2js_comarg_prefil"
+and
+comarg_postfil
+  (x: string): comarg
+  = "ext#libatscc2js_comarg_postfil"
+//
+(* ****** ****** *)
+//
+extern
+fun
+comarglst_nil
+(
+// argumentless
+) : comarglst0 = "ext#libatscc2js_comarglst_nil"
+and
+comarglst_cons
+(
+  x: comarg, xs: comarglst0
+) : comarglst1 = "ext#libatscc2js_comarglst_cons"
+//
+(* ****** ****** *)
+//
+extern
+fun
+libatscc2js_dynload
+  ((*initialize*)): void = "ext#libatscc2js_dynload"
+//
+(* ****** ****** *)
 
-staload "./libatscc2js_ext.sats"
+datatype
+atscc2jsres =
+ATSCC2JSRES of
+(
+  int(*nerr*)
+, string(*stdout*), string(*stderr*)
+)
 
+(* ****** ****** *)
+//
+extern
+fun
+atscc2js_main0_arglst
+  {n:pos}
+(
+  args: list(comarg, n)
+) : int(*nerr*) = "ext#libatscc2js_atscc2js_main0_arglst"
+//
 (* ****** ****** *)
 //
 implement
@@ -119,7 +212,7 @@ string2file
 (* ****** ****** *)
 
 local
-
+//
 fun
 aux_prefils
 (
@@ -137,7 +230,7 @@ case+ xs of
     val () = if ec < 0 then nerr := nerr + 1
   } (* end of [list_cons] *)
 )
-
+//
 fun
 aux_postfils
 (
@@ -155,7 +248,7 @@ case+ xs of
     val () = if ec < 0 then nerr := nerr + 1
   } (* end of [list_cons] *)
 )
-
+//
 in (* in-of-local *)
 
 implement
