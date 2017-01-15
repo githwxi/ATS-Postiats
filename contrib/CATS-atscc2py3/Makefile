@@ -35,6 +35,11 @@ SOURCES_CATS += $(CATSPARSEMIT)/CATS/catsparse_mylib_dats.c
 
 ######
 #
+all:: ; \
+$(MAKE) -C CATS-parsemit all
+#
+######
+#
 all:: \
 atscc2py3
 atscc2py3: \
