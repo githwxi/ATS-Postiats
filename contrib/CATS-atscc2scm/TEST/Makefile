@@ -182,12 +182,18 @@ RMRF=rm -rf
 ######
 #
 # libatscc2scm:: ; \
-# $(CPRF) $(PATSCONTRIB)/contrib/libatscc/libatscc2scm/CATS/* libatscc2scm/CATS/.
+# $(CPRF) \
+# $(PATSCONTRIB)/contrib\
+# /libatscc/libatscc2scm/CATS/* libatscc2scm/CATS/.
 # libatscc2scm:: ; \
-# $(CPRF) $(PATSCONTRIB)/contrib/libatscc/libatscc2scm/output/DATS/* libatscc2scm/DATS/.
+# $(CPRF) \
+# $(PATSCONTRIB)/contrib\
+# /libatscc/libatscc2scm/output/DATS/* libatscc2scm/DATS/.
 #
-libatscc2scm:: ; $(CPF) \
-  $(PATSCONTRIB)/contrib/libatscc/libatscc2scm/output/libatscc2scm_all.scm libatscc2scm/.
+libatscc2scm:: ; \
+$(CPF) \
+$(PATSCONTRIB)/contrib\
+/libatscc/libatscc2scm/output/libatscc2scm_all.scm libatscc2scm/.
 #
 ######
 
@@ -197,7 +203,6 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) *_?ats.c
 cleanall:: ; $(RMF) libatscc2scm/libatscc2scm_all.scm
 cleanall:: ; $(RMRF) libatscc2scm/CATS/*
 cleanall:: ; $(RMRF) libatscc2scm/DATS/*

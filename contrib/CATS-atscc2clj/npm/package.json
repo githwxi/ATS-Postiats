@@ -1,0 +1,22 @@
+{
+"name":
+"atsccomp-atscc2clj"
+,
+  "version": "1.0.0-beta",
+  "description":
+  "For transpiling into Clojure the C code generated from ATS source via patsopt",
+  "main": "N/A",
+  "scripts": {},
+  "keywords": [
+    "ATS",
+    "Clojure",
+    "atsopt",
+    "patsopt",
+    "atscc2clj"
+  ],
+  "dependencies" : {
+    "catsparsemit" : ">=1.0.0"
+  },
+  "author": "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT"
+}
