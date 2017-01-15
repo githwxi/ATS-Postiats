@@ -24,9 +24,9 @@ all::
 ######
 
 # SOURCES_DATS :=
-# SOURCES_DATS += DATS/atscc2js_main.dats
-# SOURCES_DATS += DATS/atscc2js_emit.dats
-# SOURCES_DATS += DATS/atscc2js_emit2.dats
+# SOURCES_DATS += DATS/atscc2erl_main.dats
+# SOURCES_DATS += DATS/atscc2erl_emit.dats
+# SOURCES_DATS += DATS/atscc2erl_emit2.dats
 
 # SOURCES_CATS :=
 # SOURCES_CATS += catsparse_sats.c
@@ -40,15 +40,16 @@ all::
 ######
 #
 # all:: \
-# atscc2js
-# atscc2js: ; \
+# atscc2erl
+# atscc2erl: ; \
 # $(PATSCC) -O2 -o $@ \
 #   $(SOURCES_DATS_C) $(SOURCES_CATS) -DATS_MEMALLOC_GCBDW -lgc
 #
 ######
 #
 all:: ; \
-make -C ./.. libatscc2js.a
+make -C ./.. libatscc2erl.a
+#
 all:: ; $(MAKE) -C ./.. CBOOT
 #
 ######
@@ -60,6 +61,6 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) ./atscc2js
+cleanall:: ; $(RMF) ./atscc2erl
 
 ###### end of [Makefile] ######

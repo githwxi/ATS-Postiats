@@ -5,7 +5,7 @@
 (* ****** ****** *)
 //
 #dynload
-"./../../DATS/atscc2js_main.dats"
+"./../../DATS/atscc2erl_main.dats"
 //
 (* ****** ****** *)
 //

@@ -54,7 +54,8 @@ PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 ifdef \
 PATSCCOMP
 else
-export PATSCCOMP = $(CC) -std=c99 -D_XOPEN_SOURCE
+export \
+PATSCCOMP=$(CC) -std=c99 -D_XOPEN_SOURCE
 endif
 #
 ######
