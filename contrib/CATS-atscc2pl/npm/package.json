@@ -1,0 +1,22 @@
+{
+"name":
+"atsccomp-atscc2pl"
+,
+  "version": "1.0.0-beta",
+  "description":
+  "For transpiling into Perl the C code generated from ATS source via patsopt",
+  "main": "N/A",
+  "scripts": {},
+  "keywords": [
+    "ATS",
+    "Perl",
+    "atsopt",
+    "patsopt",
+    "atscc2pl"
+  ],
+  "dependencies" : {
+    "catsparsemit" : ">=1.0.0"
+  },
+  "author": "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT"
+}
