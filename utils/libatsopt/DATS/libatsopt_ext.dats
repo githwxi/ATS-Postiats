@@ -110,8 +110,183 @@ libatsopt_file2stropt(fd) patsopt_file2strptr(fd)
 
 (* ****** ****** *)
 
+(*
 staload "./../SATS/libatsopt_ext.sats"
+*)
 
+(* ****** ****** *)
+//
+absprop
+PATSHOME_set_p
+//
+extern
+fun
+PATSHOME_set
+(
+// argumentless
+) : (PATSHOME_set_p | void)
+//
+extern
+fun
+PATSHOME_get
+  (pf: PATSHOME_set_p | (*void*)) : string
+//
+(* ****** ****** *)
+//
+extern
+fun
+pervasive_load
+(
+  PATSHOME: string, given: string
+) : void
+  = "ext#libatsopt_pervasive_load"
+//
+(* ****** ****** *)
+//
+extern
+fun
+the_prelude_load
+(
+  PATSHOME: string
+) : void
+  = "ext#libatsopt_the_prelude_load"
+//
+extern
+fun
+the_prelude_load_if
+(
+  PATSHOME: string, flag: &int
+) : void
+  = "ext#libatsopt_the_prelude_load_if"
+//
+(* ****** ****** *)
+//
+extern
+fun
+patsopt_main_exn
+  {n:pos}
+(
+  argc: int(n), argv: &(@[string][n])
+) : void = "ext#libatsopt_patsopt_main"
+//
+extern
+fun
+patsopt_main_opt
+  {n:pos}
+(
+  argc: int(n), argv: &(@[string][n])
+) : bool = "ext#libatsopt_patsopt_main_opt"
+//
+(* ****** ****** *)
+//
+datatype
+comarg =
+//
+| COMARGstrlit of string
+//
+| COMARGstrinp of string
+//
+| COMARGprefil of string
+| COMARGpostfil of string
+//
+typedef comarglst0 = List0(comarg)
+typedef comarglst1 = List1(comarg)
+//
+(* ****** ****** *)
+//
+extern
+fun
+comarg_strlit
+  (x: string): comarg
+  = "ext#libatsopt_comarg_strlit"
+extern
+fun
+comarg_strinp
+  (x: string): comarg
+  = "ext#libatsopt_comarg_strinp"
+//
+extern
+fun
+comarg_prefil
+  (x: string): comarg
+  = "ext#libatsopt_comarg_prefil"
+and
+comarg_postfil
+  (x: string): comarg
+  = "ext#libatsopt_comarg_postfil"
+//
+(* ****** ****** *)
+//
+extern
+fun
+comarglst_nil
+(
+// argumentless
+) : comarglst0 = "ext#libatsopt_comarglst_nil"
+and
+comarglst_cons
+(
+  x: comarg, xs: comarglst0
+) : comarglst1 = "ext#libatsopt_comarglst_cons"
+//
+(* ****** ****** *)
+//
+extern
+fun
+libatsopt_dynloadall
+  ((*void*)): void = "ext#libatsopt_dynloadall"
+//
+(* ****** ****** *)
+//
+datatype
+patsoptres =
+PATSOPTRES of
+(
+  int(*nerr*), string(*stdout*), string(*stderr*)
+) (* end of [patsoptres] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+patsoptres_get_nerr
+(
+res:
+patsoptres
+) : int = "ext#libatsopt_patsoptres_get_nerr"
+extern
+fun
+patsoptres_get_stdout
+(
+res:
+patsoptres
+) : string = "ext#libatsopt_patsoptres_get_stdout"
+extern
+fun
+patsoptres_get_stderr
+(
+res:
+patsoptres
+) : string = "ext#libatsopt_patsoptres_get_stderr"
+//
+(* ****** ****** *)
+//
+extern
+fun
+patsopt_main_arglst
+  {n:pos}
+(
+  args: list(comarg, n)
+) : int(*nerr*) = "ext#libatsopt_patsopt_main_arglst"
+//
+extern
+fun
+patsoptres_main_arglst
+  {n:pos}
+(
+  args: list(comarg, n)
+) : patsoptres = "ext#libatsopt_patsoptres_main_arglst"
+//
 (* ****** ****** *)
 //
 implement

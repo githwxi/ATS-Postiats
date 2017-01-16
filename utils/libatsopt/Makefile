@@ -58,21 +58,13 @@ $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt && $(MVF) $(PATSHOME)/src/CBOOT/libat
 #
 ######
 #
-libatsopt_ext_sats.c: \
-SATS/libatsopt_ext.sats; \
-  $(ATSCC) -IATS ${PATSHOME} -IATS ${ATSHOME} -cc $<
 libatsopt_ext_dats.c: \
 DATS/libatsopt_ext.dats; \
   $(ATSCC) -IATS ${PATSHOME} -IATS ${ATSHOME} -cc $<
-#
-libatsopt_ext_sats.o: libatsopt_ext_sats.c ; \
-$(CCOMP) -O2 $(CFLAGS) \
-  -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
 libatsopt_ext_dats.o: libatsopt_ext_dats.c ; \
 $(CCOMP) -O2 $(CFLAGS) \
   -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
 #
-libatsopt_ext:: libatsopt_ext_sats.o ; $(AR) -r libatsopt.a $<
 libatsopt_ext:: libatsopt_ext_dats.o ; $(AR) -r libatsopt.a $<
 #
 ######

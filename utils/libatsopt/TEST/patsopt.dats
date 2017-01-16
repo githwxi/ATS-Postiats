@@ -1,16 +1,39 @@
 (*
 //
-// HX-2015-10-02: this is in ATS1!
+// HX-2015-10-02:
+// this is in ATS1!
 //
 *)
 (* ****** ****** *)
-
-staload "./../SATS/libatsopt_ext.sats"
-
+//
+(*
+staload
+"./../DATS/libatsopt_ext.dats"
+*)
+//
+(* ****** ****** *)
+//
+extern
+fun
+libatsopt_dynloadall
+(
+(*void*)
+) : void = "ext#libatsopt_dynloadall"
+//
+(* ****** ****** *)
+//
+extern
+fun
+patsopt_main_opt
+  {n:pos}
+(
+  argc: int(n), argv: &(@[string][n])
+) : bool = "ext#libatsopt_patsopt_main_opt"
+//
 (* ****** ****** *)
 
 implement
-main (argc, argv) =
+main(argc, argv) =
 (
 //
 if
@@ -20,7 +43,7 @@ then let
 val () =
   libatsopt_dynloadall()
 val opt =
-  patsopt_main_opt (argc, argv)
+  patsopt_main_opt(argc, argv)
 in
 //
 if

@@ -8,7 +8,7 @@
 ATS_MAINATSFLAG 1
 #define
 ATS_DYNLOADNAME
-"test_libatsopt_dynload"
+"wktest_libatsopt_dynload"
 //
 (* ****** ****** *)
 //
@@ -31,8 +31,34 @@ staload
 //
 (* ****** ****** *)
 //
+(*
 staload
-"./../../SATS/libatsopt_ext.sats"
+"./../../DATS/libatsopt_ext.dats"
+*)
+//
+(* ****** ****** *)
+//
+datatype
+comarg =
+//
+| COMARGstrlit of string
+//
+| COMARGstrinp of string
+//
+| COMARGprefil of string
+| COMARGpostfil of string
+//
+typedef comarglst0 = List0(comarg)
+typedef comarglst1 = List1(comarg)
+//
+(* ****** ****** *)
+//
+datatype
+patsoptres =
+PATSOPTRES of
+(
+  int(*nerr*), string(*stdout*), string(*stderr*)
+) (* end of [patsoptres] *)
 //
 (* ****** ****** *)
 
@@ -275,7 +301,7 @@ end // end of [theExample_patsopt_onclick]
 function
 the_libatsopt_main()
 {
-  jQuery(document).ready(function(){test_libatsopt_dynload();});
+  jQuery(document).ready(function(){wktest_libatsopt_dynload();});
 }
 //
 %} // end of [%{$]

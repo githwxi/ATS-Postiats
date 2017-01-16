@@ -31,18 +31,19 @@
 //
 (* ****** ****** *)
 //
-staload
-M = "libc/SATS/math.sats"
-//
-(* ****** ****** *)
-//
-staload
+#staload
 UN =
 "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
+Math =
+"libats/libc/SATS/math.sats"
+//
+(* ****** ****** *)
+//
+#staload
 "libats/SATS/Number/real.sats"
 //
 (* ****** ****** *)
@@ -50,12 +51,12 @@ staload
 abst@ype
 real_real_t0ype(real) = double
 //
-typedef real(r:real) = real_real_t0ype(r)
+typedef
+real(r:real) = real_real_t0ype(r)
 //
-(* ****** ****** *)
-
-typedef real0 = [r:real] real_real_t0ype(r)
-
+typedef
+real0 = [r:real] real_real_t0ype(r)
+//
 (* ****** ****** *)
 //
 #include "./SHARE/real.dats"
@@ -66,102 +67,120 @@ assume
 real_real_t0ype(r:real) = double
 //
 (* ****** ****** *)
-
-implement
-{}(*tmp*)
-neg_real(x) = g0float_neg_double(x)
-
-(* ****** ****** *)
 //
 implement
-{}(*tmp*)
-add_real_real(x, y) = g0float_add(x, y)
-implement
-{}(*tmp*)
-sub_real_real(x, y) = g0float_sub(x, y)
-implement
-{}(*tmp*)
-mul_real_real(x, y) = g0float_mul(x, y)
-implement
-{}(*tmp*)
-div_real_real(x, y) = g0float_div(x, y)
+neg_real<> = g0float_neg_double
 //
 (* ****** ****** *)
 //
 implement
-{}(*tmp*)
-add_int_real(i, x) = add_real_real(int2real(i), x)
-implement
-{}(*tmp*)
-add_real_int(x, i) = add_real_real(x, int2real(i))
+abs_real<> = g0float_abs_double
+//
+(* ****** ****** *)
 //
 implement
-{}(*tmp*)
-sub_int_real(i, x) = sub_real_real(int2real(i), x)
+add_real_real<> = g0float_add_double
 implement
-{}(*tmp*)
-sub_real_int(x, i) = sub_real_real(x, int2real(i))
-//
+sub_real_real<> = g0float_sub_double
 implement
-{}(*tmp*)
-mul_int_real(i, x) = mul_real_real(int2real(i), x)
+mul_real_real<> = g0float_mul_double
 implement
-{}(*tmp*)
-div_real_int(x, i) = div_real_real(x, int2real(i))
+div_real_real<> = g0float_div_double
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-lt_real_real(x, y) = $UN.cast(g0float_lt(x, y))
+add_int_real(i, x) =
+  add_real_real(int2real(i), x)
 implement
 {}(*tmp*)
-lte_real_real(x, y) = $UN.cast(g0float_lte(x, y))
+add_real_int(x, i) =
+  add_real_real(x, int2real(i))
+//
+implement
+{}(*tmp*)
+sub_int_real(i, x) =
+  sub_real_real(int2real(i), x)
+implement
+{}(*tmp*)
+sub_real_int(x, i) =
+  sub_real_real(x, int2real(i))
+//
+implement
+{}(*tmp*)
+mul_int_real(i, x) =
+  mul_real_real(int2real(i), x)
+implement
+{}(*tmp*)
+div_real_int(x, i) =
+  div_real_real(x, int2real(i))
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-gt_real_real(x, y) = $UN.cast(g0float_gt(x, y))
+lt_real_real(x, y) =
+  $UN.cast(g0float_lt(x, y))
 implement
 {}(*tmp*)
-gte_real_real(x, y) = $UN.cast(g0float_gte(x, y))
+lte_real_real(x, y) =
+  $UN.cast(g0float_lte(x, y))
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-eq_real_real(x, y) = $UN.cast(g0float_eq(x, y))
+gt_real_real(x, y) =
+  $UN.cast(g0float_gt(x, y))
 implement
 {}(*tmp*)
-neq_real_real(x, y) = $UN.cast(g0float_neq(x, y))
+gte_real_real(x, y) =
+  $UN.cast(g0float_gte(x, y))
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-lt_real_int(x, i) = $UN.cast(g0float_lt(x, int2real(i)))
+eq_real_real(x, y) =
+  $UN.cast(g0float_eq(x, y))
 implement
 {}(*tmp*)
-lte_real_int(x, i) = $UN.cast(g0float_lte(x, int2real(i)))
+neq_real_real(x, y) =
+  $UN.cast(g0float_neq(x, y))
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-gt_real_int(x, i) = $UN.cast(g0float_gt(x, int2real(i)))
+lt_real_int(x, i) =
+  $UN.cast(g0float_lt(x, int2real(i)))
 implement
 {}(*tmp*)
-gte_real_int(x, i) = $UN.cast(g0float_gte(x, int2real(i)))
+lte_real_int(x, i) =
+  $UN.cast(g0float_lte(x, int2real(i)))
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-eq_real_int(x, i) = $UN.cast(g0float_eq(x, int2real(i)))
+gt_real_int(x, i) =
+  $UN.cast(g0float_gt(x, int2real(i)))
 implement
 {}(*tmp*)
-neq_real_int(x, i) = $UN.cast(g0float_neq(x, int2real(i)))
+gte_real_int(x, i) =
+  $UN.cast(g0float_gte(x, int2real(i)))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+eq_real_int(x, i) =
+  $UN.cast(g0float_eq(x, int2real(i)))
+implement
+{}(*tmp*)
+neq_real_int(x, i) =
+  $UN.cast(g0float_neq(x, int2real(i)))
 //
 (* ****** ****** *)
 //
@@ -174,26 +193,20 @@ int2real(i) =
 
 implement
 {}(*tmp*)
-abs_real(r) = g0float_abs(r)
-
-(* ****** ****** *)
-
-implement
-{}(*tmp*)
-sqrt_real(r) = $M.sqrt_double(r)
+sqrt_real(r) = $Math.sqrt_double(r)
 
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-sin_real(x) = $M.sin(x)
+sin_real(x) = $Math.sin(x)
 implement
 {}(*tmp*)
-cos_real(x) = $M.cos(x)
+cos_real(x) = $Math.cos(x)
 //
 implement
 {}(*tmp*)
-tan_real(x) = $M.tan(x)
+tan_real(x) = $Math.tan(x)
 //
 (* ****** ****** *)
 

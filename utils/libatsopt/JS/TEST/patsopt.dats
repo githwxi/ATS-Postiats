@@ -5,8 +5,30 @@
 *)
 (* ****** ****** *)
 
-staload "./../../SATS/libatsopt_ext.sats"
+(*
+staload
+"./../../DATS/libatsopt_ext.dats"
+*)
 
+(* ****** ****** *)
+//
+extern
+fun
+libatsopt_dynloadall
+(
+(*void*)
+) : void = "ext#libatsopt_dynloadall"
+//
+(* ****** ****** *)
+//
+extern
+fun
+patsopt_main_opt
+  {n:pos}
+(
+  argc: int(n), argv: &(@[string][n])
+) : bool = "ext#libatsopt_patsopt_main_opt"
+//
 (* ****** ****** *)
 //
 %{^
@@ -31,19 +53,20 @@ return ;
 %} // end of [%{^]
 //
 extern
-fun PATSHOME_mount(): void = "mac#"
+fun
+PATSHOME_mount(): void = "mac#"
 //
 (* ****** ****** *)
-
+//
 extern
 fun
 libatsopt_the_fixity_load
   (PATHSOME: string): void = "ext#"
-
+//
 (* ****** ****** *)
 
 implement
-main (argc, argv) = let
+main(argc, argv) = let
 //
 val () = PATSHOME_mount()
 //
@@ -60,8 +83,10 @@ val () =
   println! ("libatsopt_dynloadall: finished")
 *)
 //
-val opt =
-  patsopt_main_opt (argc, argv)
+val
+opt =
+patsopt_main_opt(argc, argv)
+//
 in
 //
 if

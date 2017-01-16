@@ -46,24 +46,17 @@ libatsopt:: ; $(MAKE) -C $(PATSHOME)/src/CBOOT/JS libatsopt
 #
 ######
 #
-libatsopt_ext_sats.c: \
-./../SATS/libatsopt_ext.sats ; \
-$(ATSOPT) -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ --static $<
-libatsopt_ext_sats.o: libatsopt_ext_sats.c ; \
+libatsopt_ext_dats.o: \
+libatsopt_ext_dats.c; \
 $(CCOMP) -O2 $(CFLAGS) \
   -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
-#
 libatsopt_ext_dats.c: \
 ./../DATS/libatsopt_ext.dats ; \
 $(ATSOPT) -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ --dynamic $<
-libatsopt_ext_dats.o: libatsopt_ext_dats.c ; \
-$(CCOMP) -O2 $(CFLAGS) \
-  -I $(ATSHOME) -I $(ATSRUNTIME) -I $(PATSHOME)/src -c -o $@ $<
 #
 ######
 #
-libatsopt_ext.o: libatsopt.o \
-  libatsopt_ext_sats.o libatsopt_ext_dats.o ; $(CCOMP) -o $@ $^
+libatsopt_ext.o: libatsopt.o libatsopt_ext_dats.o ; $(CCOMP) -o $@ $^
 #
 ######
 

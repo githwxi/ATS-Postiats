@@ -37,8 +37,17 @@ neg_real:
   {x:real}
   (real(x)) -<fun> real(~x)
 //
+extern
+fun{}
+abs_real:
+  {x:real}
+  (real(x)) -<fun> real(abs(x))
+//
+(* ****** ****** *)
+//
 overload ~ with neg_real
 overload neg with neg_real
+overload abs with abs_real
 //
 (* ****** ****** *)
 //
@@ -65,6 +74,8 @@ fun{}
 div_real_real
   {x,y:real}
   (real(x), real(y)):<> real(x/y)
+//
+(* ****** ****** *)
 //
 overload + with add_real_real
 overload - with sub_real_real
@@ -152,6 +163,8 @@ neq_real_real
   {x,y:real}
   (real(x), real(y)):<> bool(x != y)
 //
+(* ****** ****** *)
+//
 overload < with lt_real_real
 overload <= with lte_real_real
 //
@@ -196,6 +209,8 @@ neq_real_int
   {x:real;i:int}
   (real(x), int(i)):<> bool(x != i2r(i))
 //
+(* ****** ****** *)
+//
 overload < with lt_real_int
 overload <= with lte_real_int
 //
@@ -218,16 +233,6 @@ fun{}
 double2real
   {f:float}(x: double(f)):<> real(f2r(f))
 *)
-//
-(* ****** ****** *)
-//
-extern
-fun{}
-abs_real:
-  {x:real}
-  (real(x)) -<fun> real(abs(x))
-//
-overload abs with abs_real
 //
 (* ****** ****** *)
 //

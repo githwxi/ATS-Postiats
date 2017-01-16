@@ -1,16 +1,66 @@
 (* ****** ****** *)
 //
+(*
 staload
-"./../SATS/libatsopt_ext.sats"
+"./../DATS/libatsopt_ext.dats"
+*)
 //
 (* ****** ****** *)
 //
 extern
 fun
-libatsopt_dynloadall(): void = "ext#"
+libatsopt_dynloadall
+(
+(*void*)
+) : void = "ext#libatsopt_dynloadall"
 //
 (* ****** ****** *)
 //
+datatype
+comarg =
+//
+| COMARGstrlit of string
+//
+| COMARGstrinp of string
+//
+| COMARGprefil of string
+| COMARGpostfil of string
+//
+typedef comarglst0 = List0(comarg)
+typedef comarglst1 = List1(comarg)
+//
+(* ****** ****** *)
+//
+datatype
+patsoptres =
+PATSOPTRES of
+(
+  int(*nerr*)
+, string(*stdout*), string(*stderr*)
+) (* end of [patsoptres] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+patsopt_main_arglst
+  {n:pos}
+(
+  args: list(comarg, n)
+) : int(*nerr*) =
+  "ext#libatsopt_patsopt_main_arglst"
+//
+extern
+fun
+patsoptres_main_arglst
+  {n:pos}
+(
+  args: list(comarg, n)
+) : patsoptres =
+  "ext#libatsopt_patsoptres_main_arglst"
+//
+(* ****** ****** *)
+
 #define
 HELLO_WORLD "\
 //
@@ -70,8 +120,14 @@ alert(ats2jspre_the_print_store_join());
 (* ****** ****** *)
 
 implement
-main (argc, argv) =
+main(argc, argv) =
 {
+//
+val () =
+println!
+(
+"Hello from [patsopt_atscc2js]!"
+)
 //
 val () = libatsopt_dynloadall()
 //
@@ -89,9 +145,18 @@ args =
   arg1::arg2::arg3::arg4::list_nil()
 ) : comarglst1
 //
+(*
+val
+nerr = patsopt_main_arglst(args)
+val () =
+println! ("patsopt_main_arglst: nerr = ", nerr)
+*)
+//
 val
 PATSOPTRES
-  (nerr, strout, strerr) = patsoptres_main_arglst(args)
+( nerr
+, strout
+, strerr ) = patsoptres_main_arglst(args)
 //
 (*
 val () =
@@ -107,4 +172,3 @@ println! ("patsoptres_main_arglst: stderr = ", stderr)
 (* ****** ****** *)
 
 (* end of [patsopt_atscc2js.dats] *)
-

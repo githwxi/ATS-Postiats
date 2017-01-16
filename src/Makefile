@@ -835,7 +835,8 @@ cleanall:: ; $(RMF) patsopt
 #
 libatsopt:: $(TARGETS)
 #
-libatsopt:: $(OBJECTS) pats_main_none_dats.o; $(ARR) libatsopt.a $^
+libatsopt:: \
+$(OBJECTS) pats_main_none_dats.o; $(ARR) libatsopt.a $^
 #
 libatsopt:: ; $(CPF) ./libatsopt.a ./../ccomp/atslib/lib/.
 #

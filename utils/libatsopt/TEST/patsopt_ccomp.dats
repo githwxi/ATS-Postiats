@@ -1,13 +1,44 @@
 (* ****** ****** *)
 //
+(*
 staload
-"./../SATS/libatsopt_ext.sats"
+"./../DATS/libatsopt_ext.dats"
+*)
 //
 (* ****** ****** *)
 //
 extern
 fun
-libatsopt_dynloadall(): void = "ext#"
+libatsopt_dynloadall
+(
+(*void*)
+) : void = "ext#libatsopt_dynloadall"
+//
+(* ****** ****** *)
+//
+datatype
+comarg =
+//
+| COMARGstrlit of string
+//
+| COMARGstrinp of string
+//
+| COMARGprefil of string
+| COMARGpostfil of string
+//
+typedef comarglst0 = List0(comarg)
+typedef comarglst1 = List1(comarg)
+//
+(* ****** ****** *)
+//
+extern
+fun
+patsopt_main_arglst
+  {n:pos}
+(
+  args: list(comarg, n)
+) : int(*nerr*) =
+  "ext#libatsopt_patsopt_main_arglst"
 //
 (* ****** ****** *)
 //
@@ -20,7 +51,7 @@ main0 () = println! \"Hello, world!\"\n\
 (* ****** ****** *)
 
 implement
-main (argc, argv) =
+main(argc, argv) =
 {
 //
 val () = libatsopt_dynloadall()
@@ -33,13 +64,14 @@ val arg2 = COMARGstrinp(HELLO_WORLD)
 val
 args =
 (
-  arg1 :: arg2 :: list_nil()
+  arg1::arg2::list_nil()
 ) : comarglst1
 //
-val nerr =
-  patsopt_main_arglst(args)
+val
+nerr =
+patsopt_main_arglst(args)
 //
-val ((*void*)) =
+val () =
 if nerr > 0 then
   prerrln! ("[patsopt_main_arglst] encountered errors!")
 //

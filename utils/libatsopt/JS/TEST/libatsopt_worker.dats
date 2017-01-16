@@ -18,24 +18,49 @@ ATS_DYNLOADNAME
 #include
 "{$LIBATSCC2JS}/staloadall.hats"
 //
-staload "libats/ML/SATS/basis.sats"
+#staload "libats/ML/SATS/basis.sats"
 //
-staload
+#staload
 "{$LIBATSCC2JS}/SATS/Worker/channel.sats"
-staload
+#staload
 "{$LIBATSCC2JS}/DATS/Worker/channel.dats"
 #include
 "{$LIBATSCC2JS}/DATS/Worker/chanpos.dats"
 //
 (* ****** ****** *)
 
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-staload
-"./../../SATS/libatsopt_ext.sats"
+(*
+#staload
+"./../../DATS/libatsopt_ext.dats"
+*)
+//
+(* ****** ****** *)
+//
+datatype
+comarg =
+//
+| COMARGstrlit of string
+//
+| COMARGstrinp of string
+//
+| COMARGprefil of string
+| COMARGpostfil of string
+//
+typedef comarglst = list0(comarg)
+//
+(* ****** ****** *)
+//
+datatype
+patsoptres =
+PATSOPTRES of
+(
+  int(*nerr*), string(*stdout*), string(*stderr*)
+) (* end of [patsoptres] *)
 //
 (* ****** ****** *)
 //
@@ -48,8 +73,6 @@ comarg_ =
 //
 | COMARGprefil_ of chmsg(string)
 | COMARGpostfil_ of chmsg(string)
-//
-typedef comarglst = list0(comarg)
 //
 (* ****** ****** *)
 //

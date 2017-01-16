@@ -298,8 +298,8 @@ MV=mv
 ######
 
 libatsopt: \
-pats_main_dats.o \
 $(OBJECTSstadyn) \
+pats_main_none_dats.o \
 prelude_libats.o \
 libc_libats.o libats_libats.o ; \
 $(CCOMP) -O2 $(CFLAGS) -o libatsopt.o $^ && \
