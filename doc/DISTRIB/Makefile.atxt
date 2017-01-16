@@ -122,6 +122,14 @@ all_script::
 #make_entry("utils_libatsopt")
 
 ######
+#
+#make_entry("contrib_parsemit")
+#
+#make_entry("contrib_atscc2js")
+#make_entry("contrib_atscc2py3")
+#make_entry("contrib_atscc2php")
+#
+######
 
 #make_entry("doc_example_pcpv")
 #make_entry("doc_example_misc")
@@ -177,6 +185,12 @@ atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_utils_emacs
 #
 # atspackaging:: srcget_utils_libatsopt
+#
+atspackaging:: srcget_contrib_parsemit
+#
+atspackaging:: srcget_contrib_atscc2js
+atspackaging:: srcget_contrib_atscc2py3
+atspackaging:: srcget_contrib_atscc2php
 #
 atspackaging:: srcget_doc_example
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
@@ -247,6 +261,14 @@ srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
 srcget_utils_emacs:: SCRIPT/utils_emacs.bash ; bash $<
 srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
 
+######
+#
+srcget_contrib_parsemit:: SCRIPT/contrib_parsemit.bash ; bash $<
+#
+srcget_contrib_atscc2js:: SCRIPT/contrib_atscc2js.bash ; bash $<
+srcget_contrib_atscc2py3:: SCRIPT/contrib_atscc2py3.bash ; bash $<
+srcget_contrib_atscc2php:: SCRIPT/contrib_atscc2php.bash ; bash $<
+#
 ######
 
 srcget_doc_example:: srcget_doc_example_intro

@@ -1,16 +1,16 @@
+(* ****** ****** *)
 (*
 //
-// HX-2015-10-02: this is in ATS1!
+// HX-2015-10-02:
+// this is in ATS1!!!
 //
 *)
 (* ****** ****** *)
-
+//
 (*
 staload
 "./../../DATS/libatsopt_ext.dats"
 *)
-
-(* ****** ****** *)
 //
 extern
 fun
@@ -18,8 +18,6 @@ libatsopt_dynloadall
 (
 (*void*)
 ) : void = "ext#libatsopt_dynloadall"
-//
-(* ****** ****** *)
 //
 extern
 fun
@@ -91,8 +89,8 @@ in
 //
 if
 opt
-then println! ("[patsopt] finished normally!")
-else println! ("[patsopt] terminated abnormally!")
+then prerrln! ("[patsopt] finished normally!")
+else prerrln! ("[patsopt] terminated abnormally!")
 //
 end // end of [then]
 else prerrln! ("Hello from ATS2(ATS/Postiats)!")

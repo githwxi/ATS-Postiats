@@ -19,7 +19,7 @@ Module['preRun'].push
 function()
 {
   ENV.PATSHOME = '/PATSHOME';
-  ENV.PATSHOMERELOC = '/PATSHOME';
+  ENV.PATSCONTRIB = '/PATSHOME';
 }
 );
 

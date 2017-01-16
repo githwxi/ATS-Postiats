@@ -1,0 +1,22 @@
+######
+#
+# README for mytesting
+#
+######
+#
+# HX-2017-01-16:
+#
+# Note that the package is moved to
+# $PATSHOME/atscntrb/atscntrb-hx-mytesting
+# This package is for backward compatibility
+#
+# Please avoid using it and use prelude/grandom
+# instead!!!
+#
+######
+#
+# HX-2015-06-28:
+#
+# Note that randgen-functions have all been moved into prelude/grandom.
+#
+###### end of [README] ######

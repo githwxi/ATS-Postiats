@@ -209,6 +209,50 @@ cleanall:: ; $(RMF) SCRIPT/utils_libatsopt.bash
 
 
 ######
+#
+all_script:: \
+SCRIPT/contrib_parsemit.bash
+SCRIPT/contrib_parsemit.bash: contrib_parsemit_atxt.exe ; ./$< > $@
+contrib_parsemit_atxt.dats: ATEXT/contrib_parsemit.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_parsemit_atxt.exe: contrib_parsemit_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_parsemit_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_parsemit.html
+cleanall:: ; $(RMF) SCRIPT/contrib_parsemit.bash
+
+#
+all_script:: \
+SCRIPT/contrib_atscc2js.bash
+SCRIPT/contrib_atscc2js.bash: contrib_atscc2js_atxt.exe ; ./$< > $@
+contrib_atscc2js_atxt.dats: ATEXT/contrib_atscc2js.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_atscc2js_atxt.exe: contrib_atscc2js_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_atscc2js_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_atscc2js.html
+cleanall:: ; $(RMF) SCRIPT/contrib_atscc2js.bash
+
+all_script:: \
+SCRIPT/contrib_atscc2py3.bash
+SCRIPT/contrib_atscc2py3.bash: contrib_atscc2py3_atxt.exe ; ./$< > $@
+contrib_atscc2py3_atxt.dats: ATEXT/contrib_atscc2py3.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_atscc2py3_atxt.exe: contrib_atscc2py3_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_atscc2py3_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_atscc2py3.html
+cleanall:: ; $(RMF) SCRIPT/contrib_atscc2py3.bash
+
+all_script:: \
+SCRIPT/contrib_atscc2php.bash
+SCRIPT/contrib_atscc2php.bash: contrib_atscc2php_atxt.exe ; ./$< > $@
+contrib_atscc2php_atxt.dats: ATEXT/contrib_atscc2php.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_atscc2php_atxt.exe: contrib_atscc2php_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_atscc2php_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_atscc2php.html
+cleanall:: ; $(RMF) SCRIPT/contrib_atscc2php.bash
+
+#
+######
 
 all_script:: \
 SCRIPT/doc_example_pcpv.bash
@@ -463,6 +507,12 @@ atspackaging:: srcget_utils_emacs
 #
 # atspackaging:: srcget_utils_libatsopt
 #
+atspackaging:: srcget_contrib_parsemit
+#
+atspackaging:: srcget_contrib_atscc2js
+atspackaging:: srcget_contrib_atscc2py3
+atspackaging:: srcget_contrib_atscc2php
+#
 atspackaging:: srcget_doc_example
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 #
@@ -532,6 +582,14 @@ srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
 srcget_utils_emacs:: SCRIPT/utils_emacs.bash ; bash $<
 srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
 
+######
+#
+srcget_contrib_parsemit:: SCRIPT/contrib_parsemit.bash ; bash $<
+#
+srcget_contrib_atscc2js:: SCRIPT/contrib_atscc2js.bash ; bash $<
+srcget_contrib_atscc2py3:: SCRIPT/contrib_atscc2py3.bash ; bash $<
+srcget_contrib_atscc2php:: SCRIPT/contrib_atscc2php.bash ; bash $<
+#
 ######
 
 srcget_doc_example:: srcget_doc_example_intro

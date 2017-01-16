@@ -1,14 +1,20 @@
 #!/bin/sh
-
+######
 #
 # beg of [patscc_env.sh.in]
 #
-# Author: Likai Liu (likai AT cs DOT bu DOT edu)
-# Author2: Hongwei Xi (gmhwxi AT gmail DOT com) // September, 2013
+######
 #
-
-PACKAGE_TARNAME=@PACKAGE_TARNAME@
+# Author:
+# Likai Liu (likaiATcsDOTbuDOTedu)
+# Author2:
+# Hongwei Xi (gmhwxiATgmailDOTcom) // September, 2013
+#
+######
+#
 PACKAGE_VERSION=@PACKAGE_VERSION@
+PACKAGE_TARNAME=@PACKAGE_TARNAME@
+#
 prefix=@prefix@
 
 if [ ! "$PATSHOME" ] ; then
@@ -32,6 +38,8 @@ case $prog in
     ;;
 esac
 
+######
 #
 # end of [patscc_env.sh.in]
 #
+######

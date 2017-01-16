@@ -152,6 +152,13 @@ packfilesynop(x) = atext_nil()
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-hx-mytesting/SATS/randgen.sats")
+#packfilename("atscntrb-hx-mytesting/SATS/foldleft.sats")
+#packfilename("atscntrb-hx-mytesting/DATS/randgen.dats")
+#packfilename("atscntrb-hx-mytesting/DATS/foldleft.dats")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)
