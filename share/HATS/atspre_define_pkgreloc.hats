@@ -58,6 +58,10 @@ HX_CSTREAM_targetloc
 HX_GLOBALS_targetloc
 "$PATSHOME/atscntrb/atscntrb-hx-globals"
 //
+#define
+HX_MYTESTING_targetloc
+"$PATSHOME/atscntrb/atscntrb-hx-mytesting"
+//
 (* ****** ****** *)
 //
 #define
