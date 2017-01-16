@@ -192,8 +192,6 @@ testall:: cleanall
 ######
 #
 CPF=cp -f
-CPRF=cp -rf
-#
 RMF=rm -f
 RMRF=rm -rf
 #
@@ -214,6 +212,6 @@ clean:: ; $(RMF) erl_crash.dump
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMRF) libatscc2erl/libatscc2erl_all.hrl
+cleanall:: ; $(RMF) libatscc2erl/libatscc2erl_all.hrl
 
 ###### end of [Makefile] ######

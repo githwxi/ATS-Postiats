@@ -252,11 +252,11 @@ $(PATSHOME_contrib)/contrib\
 ######
 
 clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.c
 
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) *_?ats.c
-cleanall:: ; $(RMRF) libatscc2pl/*
+cleanall:: ; $(RMRF) libatscc2pl/libatscc2pl_all.pl
 
 ###### end of [Makefile] ######

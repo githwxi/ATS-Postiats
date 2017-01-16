@@ -299,12 +299,12 @@ $(PATSCONTRIB)/contrib/libatscc/libatscc2js/output/DATS/* libatscc2js/DATS/.
 ######
 
 clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.c
 
 ######
 #
 cleanall:: clean
 #
-cleanall:: ; $(RMF) *_?ats.c
 cleanall:: ; $(RMF) libatscc2js/libatscc2js_all.js
 cleanall:: ; $(RMRF) libatscc2js/CATS/*
 cleanall:: ; $(RMRF) libatscc2js/DATS/*

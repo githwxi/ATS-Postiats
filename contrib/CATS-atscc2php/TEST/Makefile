@@ -165,10 +165,13 @@ $(PATSCONTRIB)/contrib/libatscc/libatscc2php/output/DATS/* libatscc2php/DATS/.
 ######
 
 clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.c
 
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) *_?ats.c
+cleanall:: ; $(RMF) libatscc2php/libatscc2php_all.php
+cleanall:: ; $(RMRF) libatscc2php/CATS/*
+cleanall:: ; $(RMRF) libatscc2php/DATS/*
 
 ###### end of [Makefile] ######

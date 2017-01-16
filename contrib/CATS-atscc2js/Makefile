@@ -107,6 +107,5 @@ clean:: ; $(RMF) libatscc2js_ext_?ats.c
 cleanall:: clean
 cleanall:: ; $(RMF) ./atscc2js
 cleanall:: ; $(RMF) ./libatscc2js.a
-cleanall:: ; $(RMF) ./.CATS-parsemit/*
 
 ###### end of [Makefile] ######
