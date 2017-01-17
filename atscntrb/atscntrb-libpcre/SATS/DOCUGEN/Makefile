@@ -61,18 +61,26 @@ all_html::
 
 ######
 
-all_html:: HTML/gmp.html
-HTML/gmp.html:   gmp_atxt.exe ; ./$< > $@
-gmp_atxt.txt: gmp.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-gmp_atxt.exe: htmlgendecl_atxt.dats   gmp_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(LDPATH) -latsynmark -latsopt -latsdoc -lats -lgmp
-upload_gmp:: ;   scp HTML/gmp.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/contrib/libgmp/SATS/DOCUGEN/HTML
-clean:: ; $(RMF) gmp_atxt.exe
-cleanall:: ; $(RMF) HTML/gmp.html
+all_html:: HTML/pcre.html
+HTML/pcre.html:   pcre_atxt.exe ; ./$< > $@
+pcre_atxt.txt: pcre.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+pcre_atxt.exe: htmlgendecl_atxt.dats   pcre_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(LDPATH) -latsynmark -latsopt -latsdoc -lats -lgmp
+upload_pcre:: ;   scp HTML/pcre.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/contrib/libgmp/SATS/DOCUGEN/HTML
+clean:: ; $(RMF) pcre_atxt.exe
+cleanall:: ; $(RMF) HTML/pcre.html
+
+all_html:: HTML/pcre_ML.html
+HTML/pcre_ML.html:   pcre_ML_atxt.exe ; ./$< > $@
+pcre_ML_atxt.txt: pcre_ML.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+pcre_ML_atxt.exe: htmlgendecl_atxt.dats   pcre_ML_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(LDPATH) -latsynmark -latsopt -latsdoc -lats -lgmp
+upload_pcre_ML:: ;   scp HTML/pcre_ML.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/contrib/libgmp/SATS/DOCUGEN/HTML
+clean:: ; $(RMF) pcre_ML_atxt.exe
+cleanall:: ; $(RMF) HTML/pcre_ML.html
 
 
 ######
 #
-uploadall:: ; scp HTML/*.html   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/contrib/libgmp/SATS/DOCUGEN/HTML
+uploadall:: ; scp HTML/*.html   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/contrib/pcre/SATS/DOCUGEN/HTML
 #
 ######
 
@@ -86,6 +94,8 @@ clean:: ; $(RMF) *_?ats.c
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) Makefile.exe
+
+######
 
 cleanall:: clean
 
