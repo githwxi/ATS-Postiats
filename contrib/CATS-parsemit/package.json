@@ -2,7 +2,7 @@
 "name":
 "catsparsemit"
 ,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description":
   "For parsing the C code generated from ATS source via patsopt",
   "main": "N/A",
@@ -13,5 +13,7 @@
     "patsopt"
   ],
   "author": "Hongwei Xi <gmhwxi@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/contrib/CATS-parsemit/."
 }

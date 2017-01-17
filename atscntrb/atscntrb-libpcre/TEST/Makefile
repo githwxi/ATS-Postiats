@@ -19,7 +19,7 @@ cleanall::
 
 ######
 
-INCLUDE="./.."
+INCLUDE=./..
 
 ######
 
