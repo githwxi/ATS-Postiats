@@ -34,7 +34,7 @@ before_install:
 install:
   - date
   # Build ATS1
-  - cd ${ATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh
+  - cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh
 script:
   # Building ATS2
   - ${CC} --version
