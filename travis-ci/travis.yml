@@ -35,11 +35,11 @@ install:
   - date
   - cd ${HOME}
   # Build ATS1
-  - echo "Building ATS1 ..."
+  - echo -e "\033[1m[93mBuilding ATS1 ...[0m"
   - ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh
 script:
   # Building ATS2
-  - echo "Building ATS2 ..."
+  - echo -e "\033[1m[93mBuilding ATS2 ...[0m"
   - ${CC} --version
   - cd ${PATSHOME}
   - make -f Makefile_devl CC=${GCC} all
@@ -47,7 +47,7 @@ script:
   # make C3NSTRINTKND=intknd -f Makefile_devl CC=${CLANG} all
   # make C3NSTRINTKND=intknd GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${CLANG} all
   # Trying-out release process
-  - echo "Building CBOOT and DISTRIB ..."
+  - echo -e "\033[1m[93mBuilding CBOOT and DISTRIB ...[0m"
   - cd ${PATSHOME}
   - make -C ${PATSHOME}/src CBOOT
   - make -C ${PATSHOME}/src/CBOOT/prelude
@@ -61,12 +61,12 @@ script:
   # make -C ${PATSHOME}/doc/DISTRIB cleanall
   # 
   # Running regress test
-  - echo "Regression tests ..."
+  - echo -e "\033[1m[93mRegression tests ...[0m"
   - cd ${PATSHOME}
   - make -C ${PATSHOME}/doc -f Makefile_test testall > testall_doc.log 2>&1
   - tail -100 testall_doc.log
   # Building some utilities
-  - echo "Buidling utilities ..."
+  - echo -e "\033[1m[93mBuidling utilities ...[0m"
   - cd ${PATSHOME}
   - cp ${ATSHOME}/config.h .
   - make -C src cleanall
@@ -82,11 +82,11 @@ script:
   # make -C utils/packeditall
   # 
   # Install Contrib
-  - echo "Installing ATS2-Contrib ..."
+  - echo -e "\033[1m[93mInstalling ATS2-Contrib ...[0m"
   - cd ${HOME}
   - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
   # Building books
-  - echo "Building books ..."
+  - echo -e "\033[1m[93mBuilding books ...[0m"
   - cd ${PATSHOME}
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -C doc/BOOK/ATS2TUTORIAL; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -C doc/BOOK/INT2PROGINATS; fi

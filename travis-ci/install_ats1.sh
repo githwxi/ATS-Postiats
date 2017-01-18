@@ -26,10 +26,9 @@ tar -zxf ${ATSPACKTGZ}
 #
 ######
 #
-cd ${ATSHOME} 
-./configure && make CC=${CC} all_ngc
-cd bootstrap1 && rm -f *.o
-cd ccomp/runtime/GCATS && make && make clean
+cd ${ATSHOME} && ./configure && make CC=${CC} all_ngc
+cd ${ATSHOME}/bootstrap1 && rm -f *.o
+cd ${ATSHOME}/ccomp/runtime/GCATS && make && make clean
 #
 ######
 #
