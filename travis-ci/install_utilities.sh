@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-cd ${PATSHOME}
 cp ${ATSHOME}/config.h .
 make -C src cleanall
 make -C src/CBOOT/prelude
