@@ -129,21 +129,6 @@ cleanall:: ; $(RMF) patsolve_z3
 %_dats.o: DATS/%.dats; $(PATSCC2) -c $<
 
 ######
-#
--include .depend
-#
-depend:: ; $(RMF) .depend
-#
-ifeq ("$(strip $(SOURCES_SATS))","")
-else
-depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCES_SATS)
-endif
-ifeq ("$(strip $(SOURCES_DATS))","")
-else
-depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
-endif
-#
-######
 
 testall:: all
 testall:: cleanall
@@ -163,7 +148,6 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) .depend
 
 ######
 
