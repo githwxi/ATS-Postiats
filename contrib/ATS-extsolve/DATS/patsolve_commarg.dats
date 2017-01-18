@@ -33,11 +33,11 @@ STDIO =
 "libats/libc/SATS/stdio.sats"
 //
 (* ****** ****** *)
-
-staload "./patsolve_commarg.sats"
-staload "./patsolve_cnstrnt.sats"
-staload "./patsolve_parsing.sats"
-
+//
+staload "./../SATS/patsolve_commarg.sats"
+staload "./../SATS/patsolve_cnstrnt.sats"
+staload "./../SATS/patsolve_parsing.sats"
+//
 (* ****** ****** *)
 
 implement

@@ -17,8 +17,9 @@ CC=gcc
 
 ######
 
-ifdef PATSHOME
-  PATSHOMEQ="$(PATSHOME)"
+ifdef \
+PATSHOME
+PATSHOMEQ="$(PATSHOME)"
 else
 ifdef ATSHOME
   PATSHOMEQ="$(ATSHOME)"
@@ -29,13 +30,14 @@ endif
 
 ######
 
-ifdef PATSHOMERELOC
-  PATSHOMERELOCQ="$(PATSHOMERELOC)"
+ifdef \
+PATSCONTRIB
+PATSCONTRIBQ="$(PATSCONTRIB)"
 else
-ifdef ATSHOMERELOC
-  PATSHOMERELOCQ="$(ATSHOMERELOC)"
+ifdef ATSCONTRIB
+  PATSCONTRIBQ="$(ATSCONTRIB)"
 else
-  PATSHOMERELOCQ="/usr/local/lib/ats2-postiats"
+  PATSCONTRIBQ="/usr/local/lib/ats2-postiats"
 endif
 endif
 
@@ -55,7 +57,7 @@ CFLAGS += -DATS_MEMALLOC_LIBC
 #
 CFLAGS2 :=
 CFLAGS2 += \
--IIATS ${PATSHOMERELOC}/contrib
+-IIATS ${PATSCONTRIB}/contrib
 CFLAGS2 += \
 $(shell pkg-config --cflags json-c)
 #
@@ -119,26 +121,34 @@ cleanall:: ; $(RMF) patsolve
 #
 ######
 
-patsolve_main_dats.o: patsolve_main.dats; $(PATSCC2) -c $<
+patsolve_main_dats.o: \
+DATS/patsolve_main.dats; $(PATSCC2) -c $<
 
 ######
 
-patsolve_mylib_dats.o: patsolve_mylib.dats; $(PATSCC3) -c $<
+patsolve_mylib_dats.o: \
+DATS/patsolve_mylib.dats; $(PATSCC3) -c $<
 
 ######
 
-patsolve_commarg_sats.o: patsolve_commarg.sats; $(PATSCC) -c $<
-patsolve_commarg_dats.o: patsolve_commarg.dats; $(PATSCC3) -c $<
+patsolve_commarg_sats.o: \
+SATS/patsolve_commarg.sats; $(PATSCC) -c $<
+patsolve_commarg_dats.o: \
+DATS/patsolve_commarg.dats; $(PATSCC3) -c $<
 
 ######
 
-patsolve_cnstrnt_sats.o: patsolve_cnstrnt.sats; $(PATSCC) -c $<
-patsolve_cnstrnt_dats.o: patsolve_cnstrnt.dats; $(PATSCC2) -c $<
+patsolve_cnstrnt_sats.o: \
+SATS/patsolve_cnstrnt.sats; $(PATSCC) -c $<
+patsolve_cnstrnt_dats.o: \
+DATS/patsolve_cnstrnt.dats; $(PATSCC2) -c $<
 
 ######
 
-patsolve_parsing_sats.o: patsolve_parsing.sats; $(PATSCC3) -c $<
-patsolve_parsing_dats.o: patsolve_parsing.dats; $(PATSCC3) -c $<
+patsolve_parsing_sats.o: \
+SATS/patsolve_parsing.sats; $(PATSCC3) -c $<
+patsolve_parsing_dats.o: \
+DATS/patsolve_parsing.dats; $(PATSCC3) -c $<
 
 ######
 
@@ -177,10 +187,12 @@ RMF=rm -f
 ######
 
 cleanats:: ; $(RMF) *~
-cleanats:: ; $(RMF) CNSTRNT/*~
-cleanats:: ; $(RMF) PARSING/*~
 cleanats:: ; $(RMF) *_?ats.o
 cleanats:: ; $(RMF) *_?ats.c
+cleanats:: ; $(RMF) SATS/*~
+cleanats:: ; $(RMF) DATS/*~
+cleanats:: ; $(RMF) DATS/CNSTRNT/*~
+cleanats:: ; $(RMF) DATS/PARSING/*~
 
 ######
 

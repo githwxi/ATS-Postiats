@@ -18,28 +18,36 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "./patsolve_z3_commarg.sats"
-staload "./patsolve_z3_solving.sats"
-
+//
+#staload
+"./../SATS/patsolve_z3_commarg.sats"
+#staload
+"./../SATS/patsolve_z3_solving.sats"
+//
 (* ****** ****** *)
 //
 (*
-dynload "patsolve_cnstrnt.dats"
+dynload
+"ATS-extsolve/DATS/patsolve_cnstrnt.dats"
 *)
-val () = patsolve_cnstrnt__dynload() where
+val () =
+patsolve_cnstrnt__dynload() where
 {
-  extern fun patsolve_cnstrnt__dynload(): void = "ext#"
+  extern
+  fun patsolve_cnstrnt__dynload(): void = "ext#"
 }
 //
 (* ****** ****** *)
 //
 (*
-dynload "patsolve_parsing.dats"
+dynload
+"ATS-extsolve/DATS/patsolve_parsing.dats"
 *)
-val () = patsolve_parsing__dynload() where
+val () =
+patsolve_parsing__dynload() where
 {
-  extern fun patsolve_parsing__dynload(): void = "ext#"
+  extern
+  fun patsolve_parsing__dynload(): void = "ext#"
 }
 //
 (* ****** ****** *)

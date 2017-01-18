@@ -33,9 +33,10 @@ ATS_DYNLOADNAME
 staload UN = $UNSAFE
 
 (* ****** ****** *)
-
-staload "./patsolve_cnstrnt.sats"
-
+//
+staload
+"./../SATS/patsolve_cnstrnt.sats"
+//
 (* ****** ****** *)
 //
 implement

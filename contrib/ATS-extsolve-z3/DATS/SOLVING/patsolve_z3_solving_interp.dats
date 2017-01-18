@@ -7,14 +7,16 @@
 
 (* ****** ****** *)
 //
-#ifndef
+#ifdef
 PATSOLVE_Z3_SOLVING
+#then
+#else
 #include "./myheader.hats"
-#endif // end of [ifndef]
+#endif // ifdef(PATSOLVE_Z3_SOLVING)
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)

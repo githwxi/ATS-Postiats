@@ -26,15 +26,17 @@ STDIO =
 (* ****** ****** *)
 //
 #define
-PATSOLVE_targetloc "./.ATS-extsolve"
+PATSOLVE_targetloc "./../ATS-extsolve"
 //
-staload "{$PATSOLVE}/patsolve_cnstrnt.sats"
-staload "{$PATSOLVE}/patsolve_parsing.sats"
+#staload
+"{$PATSOLVE}/SATS/patsolve_cnstrnt.sats"
+#staload
+"{$PATSOLVE}/SATS/patsolve_parsing.sats"
 //
 (* ****** ****** *)
 
-staload "./patsolve_z3_commarg.sats"
-staload "./patsolve_z3_solving.sats"
+#staload "./../SATS/patsolve_z3_commarg.sats"
+#staload "./../SATS/patsolve_z3_solving.sats"
 
 (* ****** ****** *)
 

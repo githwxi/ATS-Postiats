@@ -32,22 +32,22 @@ Z3_targetloc
 "$PATSCONTRIB/contrib/SMT/Z3"
 //
 #define
-PATSOLVE_targetloc "./.ATS-extsolve"
-//
-(* ****** ****** *)
-
-staload "{$Z3}/SATS/z3.sats"
-
-(* ****** ****** *)
-//
-staload
-"{$PATSOLVE}/patsolve_cnstrnt.sats"
-staload
-"{$PATSOLVE}/patsolve_parsing.sats"
+PATSOLVE_targetloc "./../ATS-extsolve"
 //
 (* ****** ****** *)
 //
-staload "./patsolve_z3_solving.sats"
+#staload "{$Z3}/SATS/z3.sats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$PATSOLVE}/SATS/patsolve_cnstrnt.sats"
+#staload
+"{$PATSOLVE}/SATS/patsolve_parsing.sats"
+//
+(* ****** ****** *)
+//
+#staload "./../SATS/patsolve_z3_solving.sats"
 //
 (* ****** ****** *)
 //

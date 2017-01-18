@@ -1,8 +1,7 @@
 (*
 ##
-## ATS-extsolve-smt2:
-## Outputing ATS-constraints
-## in the format of smt-lib2
+## ATS-extsolve-z3:
+## Solving ATS-constraints with Z3
 ##
 *)
 
@@ -11,63 +10,95 @@
 (*
 ** Author: Hongwei Xi
 ** Authoremail: gmhwxiATgmailDOTcom
-** Start time: June, 2016
+** Start time: June, 2015
 *)
 
 (* ****** ****** *)
 //
 #define
 ATS_PACKNAME
-"PATSOLVE_SMT2_SOLVING"
+"PATSOLVE_Z3_SOLVING"
 //
 (* ****** ****** *)
 //
 #define
-PATSOLVE_targetloc "./.ATS-extsolve"
+Z3_targetloc
+"$PATSCONTRIB/contrib/SMT/Z3"
+//
+#define
+PATSOLVE_targetloc "./../ATS-extsolve"
 //
 (* ****** ****** *)
 //
-staload "{$PATSOLVE}/patsolve_cnstrnt.sats"
+#staload "{$Z3}/SATS/z3.sats"
+//
+#staload "{$PATSOLVE}/SATS/patsolve_cnstrnt.sats"
 //
 (* ****** ****** *)
 //
-fun
-c3nstr_smt2_solve
-  (out: FILEref, c3t0: c3nstr): void
+fun c3nstr_z3_solve(c3nstr): void
 //
 (* ****** ****** *)
 //
-datatype form =
+absvtype sort_vtype = ptr
 //
-  | FORMint of (int)
-  | FORMbool of bool
-  | FORMintrep of (string(*rep*))
+vtypedef sort = sort_vtype
+vtypedef sortlst = List0_vt (sort)
 //
-  | FORMs2var of (s2var)
-  | FORMs2cst of (s2cst)
-// (*
-  | FORMs2exp of (s2exp) // unprocessed
-// *)
+absvtype form_vtype = ptr
 //
-  | FORMnot of (form)
-  | FORMconj of (form, form)
-  | FORMdisj of (form, form)
-  | FORMimpl of (form, form)
+vtypedef form = form_vtype
+vtypedef formlst = List0_vt (form)
+//
+absvtype func_decl_vtype = ptr
+vtypedef func_decl = func_decl_vtype
 //
 (* ****** ****** *)
 //
-typedef formlst = List0 (form)
-vtypedef formlst_vt = List0_vt (form)
+fun sort_decref (sort): void
+fun sort_incref (!sort): sort
+//
+fun formula_decref (form): void
+fun formula_incref (!form): form
 //
 (* ****** ****** *)
 //
-fun print_form : form -> void
-fun prerr_form : form -> void
-fun fprint_form : fprint_type(form)
+fun sort_int (): sort
+fun sort_bool (): sort
 //
-overload print with print_form
-overload prerr with prerr_form
-overload fprint with fprint_form
+fun sort_real (): sort
+(*
+fun sort_string (): sort
+*)
+(* ****** ****** *)
+
+fun sort_mk_cls (): sort
+fun sort_mk_eff (): sort
+
+(* ****** ****** *)
+//
+fun sort_mk_type (): sort
+fun sort_mk_vtype (): sort
+//
+fun sort_mk_t0ype (): sort
+fun sort_mk_vt0ype (): sort
+//
+fun sort_mk_prop (): sort
+fun sort_mk_view (): sort
+//
+fun sort_mk_tkind (): sort
+//
+(* ****** ****** *)
+
+fun sort_mk_abstract(name: string): sort
+
+(* ****** ****** *)
+//
+fun sort_error (s2rt): sort
+//
+(* ****** ****** *)
+//
+fun sort_make_s2rt (s2rt): sort
 //
 (* ****** ****** *)
 
@@ -157,12 +188,14 @@ formula_mul_real_real(form, form): form
 fun
 formula_div_real_real(form, form): form
 //
+(*
 fun formula_add_int_real(form, form): form
 fun formula_add_real_int(form, form): form
 fun formula_sub_int_real(form, form): form
 fun formula_sub_real_int(form, form): form
 fun formula_mul_int_real(form, form): form
 fun formula_div_real_int(form, form): form
+*)
 //
 fun
 formula_lt_real_real: (form, form) -> form
@@ -177,12 +210,14 @@ formula_eq_real_real: (form, form) -> form
 fun
 formula_neq_real_real: (form, form) -> form
 //
+(*
 fun formula_lt_real_int: (form, form) -> form
 fun formula_lte_real_int: (form, form) -> form
 fun formula_gt_real_int: (form, form) -> form
 fun formula_gte_real_int: (form, form) -> form
 fun formula_eq_real_int: (form, form) -> form
 fun formula_neq_real_int: (form, form) -> form
+*)
 //
 (* ****** ****** *)
 //
@@ -195,50 +230,39 @@ formula_cond
 (* ****** ****** *)
 //
 fun
-formula_eqeq(s2e1: form, s2e2: form): form
+formula_eqeq (s2e1: form, s2e2: form): form
+//
+(* ****** ****** *)
+
+fun
+formula_sizeof_t0ype (s2e_t0ype: form): form
+
+(* ****** ****** *)
+//
+fun
+func_decl_0
+  (name: string, res: sort): func_decl
+fun
+func_decl_1
+  (name: string, arg: sort, res: sort): func_decl
+fun
+func_decl_2
+  (name: string, a0: sort, a1: sort, res: sort): func_decl
+//
+fun
+func_decl_list
+  (name: string, domain: sortlst, range: sort): func_decl
 //
 (* ****** ****** *)
 //
 fun
-formula_sizeof_t0ype(s2e_t0ype: form): form
-//
-(* ****** ****** *)
-//
-datatype
-solvercmd =
-//
-| SOLVERCMDpop of ()
-| SOLVERCMDpush of ()
-//
-| SOLVERCMDassert of (form)
-| SOLVERCMDchecksat of ()
-//
-| SOLVERCMDecholoc of (loc_t)
-//
-| SOLVERCMDpopenv of (s2varlst)
-| SOLVERCMDpushenv of ((*void*))
-//
-| SOLVERCMDpopenv2 of ((*void*))
-| SOLVERCMDpushenv2 of (s2varlst)
-//
-(* ****** ****** *)
-//
+formula_fdapp_0(fd: func_decl): form
 fun
-print_solvercmd (solvercmd): void
-and
-prerr_solvercmd (solvercmd): void
+formula_fdapp_1(fd: func_decl, arg: form): form
 fun
-fprint_solvercmd : fprint_type(solvercmd)
-//
-overload print with print_solvercmd
-overload prerr with prerr_solvercmd
-overload fprint with fprint_solvercmd
-//
-(* ****** ****** *)
-//
+formula_fdapp_2(fd: func_decl, a0: form, a1: form): form
 fun
-solvercmdlst_reverse
-  (List_vt(solvercmd)): List0_vt(solvercmd)
+formula_fdapp_list(fd: func_decl, args: formlst): form
 //
 (* ****** ****** *)
 
@@ -250,18 +274,16 @@ vtypedef smtenv = smtenv_vtype
 fun
 smtenv_create(): smtenv
 fun
-smtenv_destroy(env: smtenv): List0_vt(solvercmd)
+smtenv_destroy(env: smtenv): void
 //
 (* ****** ****** *)
 //
-(*
 fun
 s2var_pop_payload(s2var): form
 fun
 s2var_top_payload(s2var): form
 fun
 s2var_push_payload(s2var, form): void
-*)
 //
 (* ****** ****** *)
 //
@@ -290,20 +312,16 @@ overload formula_error with formula_error_s2exp
 fun
 formula_make_s2cst
   (env: !smtenv, s2c: s2cst): form
-(*
 fun
 formula_make_s2cst_fresh
   (env: !smtenv, s2c: s2cst): form
-*)
 //
 fun
 formula_make_s2var
   (env: !smtenv, s2v: s2var): form
-(*
 fun
 formula_make_s2var_fresh
   (env: !smtenv, s2v: s2var): form
-*)
 //
 fun
 formula_make_s2Var_fresh
@@ -327,11 +345,38 @@ formula_make_s2cst_s2explst
 //
 (* ****** ****** *)
 //
-fun
-the_s2cinterp_initize(): void
+datatype
+s2cinterp =
+//
+  | S2CINTnone of ()
+  | S2CINTsome of (ptr)
+//
+  | S2CINTbuiltin_0 of (() -> form)
+  | S2CINTbuiltin_1 of (form -> form)
+  | S2CINTbuiltin_2 of ((form, form) -> form)
+//
+  | S2CINTbuiltin_list of ((formlst) -<cloref1> form)
+//
+//
+(* ****** ****** *)
+//
+fun print_s2cinterp (s2cinterp): void
+and prerr_s2cinterp (s2cinterp): void
+fun fprint_s2cinterp : fprint_type(s2cinterp)
+//
+overload print with print_s2cinterp
+overload prerr with prerr_s2cinterp
+overload fprint with fprint_s2cinterp
+//
+(* ****** ****** *)
 //
 fun
-s2cst_get_s2cinterp(s2c: s2cst): s2cstopt
+s2cst_get_s2cinterp(s2cst): s2cinterp
+//
+fun
+s2cfun_initize_s2cinterp(s2cst): void
+//
+fun the_s2cinterp_initize((*void*)): void
 //
 (* ****** ****** *)
 
@@ -340,55 +385,16 @@ absview smtenv_push_v
 (* ****** ****** *)
 //
 fun
-smtenv_pop(smtenv_push_v | !smtenv): void
+smtenv_pop (smtenv_push_v | !smtenv): void
 //
 fun
-smtenv_push(env: !smtenv): (smtenv_push_v | void)
+smtenv_push (env: !smtenv): (smtenv_push_v | void)
 //
 (* ****** ****** *)
 //
 fun
-smtenv_solve_formula
-(
-  env: !smtenv, loc0: loc_t, fml: form
-) : void // end-of-function
+smtenv_solve_formula(!smtenv, form): Z3_lbool
 // 
 (* ****** ****** *)
-//
-fun emit_form(out: FILEref, fml: form): void
-//
-fun emit_s2rt(out: FILEref, s2t: s2rt): void
-fun emit_s2rtlst(out: FILEref, s2ts: s2rtlst): void
-//
-fun emit_s2cst(out: FILEref, s2e: s2cst): void
-fun emit_s2var(out: FILEref, s2e: s2var): void
-fun emit_s2exp(out: FILEref, s2e: s2exp): void
-//
-fun emit_decl_s2cst(out: FILEref, s2c: s2cst): void
-fun emit_decl_s2cstlst(out: FILEref, s2cs: s2cstlst): void
-//
-fun emit_decl_s2var(out: FILEref, s2v: s2var): void
-fun emit_decl_s2varlst(out: FILEref, s2vs: s2varlst): void
-//
-fun emit_solvercmd(out: FILEref, cmd: solvercmd): void
-fun emit_solvercmdlst(out: FILEref, cmds: List(solvercmd)): void
-//
-(* ****** ****** *)
-//
-fun emit_preamble(FILEref): void
-//
-fun emit_preamble_real(FILEref): void
-//
-(*
-fun emit_preamble_set(FILEref): void
-fun emit_preamble_mset(FILEref): void
-fun emit_preamble_array(FILEref): void
-*)
-//
-(* ****** ****** *)
-//
-fun emit_the_s2cstmap(out: FILEref): void
-//
-(* ****** ****** *)
 
-(* end of [patsolve_smt2_solving.sats] *)
+(* end of [patsolve_z3_solving.sats] *)

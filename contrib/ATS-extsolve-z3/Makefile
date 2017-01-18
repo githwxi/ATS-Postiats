@@ -16,8 +16,9 @@ CC=gcc
 
 ######
 
-ifdef PATSHOME
-  PATSHOMEQ="$(PATSHOME)"
+ifdef \
+PATSHOME
+PATSHOMEQ="$(PATSHOME)"
 else
 ifdef ATSHOME
   PATSHOMEQ="$(ATSHOME)"
@@ -28,13 +29,14 @@ endif
 
 ######
 
-ifdef PATSHOMERELOC
-  PATSHOMERELOCQ="$(PATSHOMERELOC)"
+ifdef \
+PATSCONTRIB
+PATSCONTRIBQ="$(PATSCONTRIB)"
 else
-ifdef ATSHOMERELOC
-  PATSHOMERELOCQ="$(ATSHOMERELOC)"
+ifdef ATSCONTRIB
+  PATSCONTRIBQ="$(ATSCONTRIB)"
 else
-  PATSHOMERELOCQ="/usr/local/lib/ats2-postiats"
+  PATSCONTRIBQ="/usr/local/lib/ats2-postiats"
 endif
 endif
 
@@ -54,8 +56,8 @@ CFLAGS += -DATS_MEMALLOC_LIBC
 #
 CFLAGS2 :=
 CFLAGS2 +=-DATS_MEMALLOC_LIBC
-CFLAGS2 +=-I${PATSHOMERELOC}/contrib
-CFLAGS2 +=-I${PATSHOMERELOC}/contrib/SMT
+CFLAGS2 +=-I${PATSCONTRIB}/contrib
+CFLAGS2 +=-I${PATSCONTRIB}/contrib/SMT
 CFLAGS2 += $(shell pkg-config --cflags json-c)
 #
 ######
@@ -81,19 +83,19 @@ INCLUDE += -I$(PATSHOMEQ)/ccomp/runtime
 
 ######
 
-PATSOLVE=./.ATS-extsolve
+PATSOLVE=./ATS-extsolve
 
 ######
 
 SOURCES_SATS= \
-  $(PATSOLVE)/patsolve_cnstrnt.sats \
-  $(PATSOLVE)/patsolve_parsing.sats \
+  $(PATSOLVE)/SATS/patsolve_cnstrnt.sats \
+  $(PATSOLVE)/SATS/patsolve_parsing.sats \
 
 ######
 
 SOURCES_CATS= \
-  $(PATSOLVE)/patsolve_cnstrnt_dats.c \
-  $(PATSOLVE)/patsolve_parsing_dats.c \
+  $(PATSOLVE)/CATS/patsolve_cnstrnt_dats.c \
+  $(PATSOLVE)/CATS/patsolve_parsing_dats.c \
 
 ######
 
@@ -106,7 +108,7 @@ SOURCES_DATS += patsolve_z3_solving.dats
 ######
 
 TARGETS_DATS_O = \
-  $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
+$(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
 
 ######
 #
@@ -115,13 +117,13 @@ patsolve_z3
 patsolve_z3: \
 $(TARGETS_DATS_O); \
 $(PATSCC2) -O2 -o $@ \
-  $(SOURCES_SATS) $(SOURCES_CATS) $(TARGETS_DATS_O) $(LDFLAGS)
+$(SOURCES_SATS) $(SOURCES_CATS) $(TARGETS_DATS_O) $(LDFLAGS)
 #
 cleanall:: ; $(RMF) patsolve_z3
 #
 ######
 
-%_dats.o: %.dats; $(PATSCC2) -c $<
+%_dats.o: DATS/%.dats; $(PATSCC2) -c $<
 
 ######
 #
@@ -138,25 +140,6 @@ else
 depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
 endif
 #
-######
-#
-PATSOLVE_source=\
-$(PATSHOMERELOC)/projects/MEDIUM/ATS-extsolve
-#
-pkgreloc:: ; \
-$(CPF) $(PATSOLVE_source)/patsolve_cnstrnt.sats $(PATSOLVE)/.
-pkgreloc:: ; \
-$(CPF) $(PATSOLVE_source)/patsolve_parsing.sats $(PATSOLVE)/.
-pkgreloc:: ; \
-$(CPF) $(PATSOLVE_source)/CATS/patsolve_cnstrnt_dats.c $(PATSOLVE)/.
-pkgreloc:: ; \
-$(CPF) $(PATSOLVE_source)/CATS/patsolve_parsing_dats.c $(PATSOLVE)/.
-#
-######
-
-build:: pkgreloc
-build:: patsolve_z3
-
 ######
 
 testall:: all

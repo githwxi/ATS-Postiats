@@ -18,9 +18,10 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "./patsolve_commarg.sats"
-
+//
+staload
+"./../SATS/patsolve_commarg.sats"
+//
 (* ****** ****** *)
 //
 (*

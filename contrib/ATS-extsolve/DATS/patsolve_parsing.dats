@@ -42,18 +42,20 @@ HTR = "libats/ML/SATS/hashtblref.sats"
 //
 (* ****** ****** *)
 
+staload
+"./../SATS/patsolve_cnstrnt.sats"
+staload
+"./../SATS/patsolve_parsing.sats"
+
+(* ****** ****** *)
+
 staload "{$JSONC}/SATS/json.sats"
 staload "{$JSONC}/SATS/json_ML.sats"
 
 (* ****** ****** *)
 
-staload "./patsolve_cnstrnt.sats"
-staload "./patsolve_parsing.sats"
-
-(* ****** ****** *)
-
 staload
-_ = "libats/libc/DATS/string.dats"
+_(*anon*) = "libats/libc/DATS/string.dats"
 
 (* ****** ****** *)
 //
