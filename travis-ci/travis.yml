@@ -2,6 +2,7 @@ os:
   - osx
   - linux
 sudo: false
+language: c
 compiler:
   - gcc
   - clang 
