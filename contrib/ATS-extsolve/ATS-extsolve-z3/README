@@ -1,0 +1,26 @@
+#
+# README for ATS-extsolve-z3
+#
+
+######
+#
+# HX-2015-12:
+#
+# For now, please use the following
+# command-line to build [patsolve_z3]:
+#
+######
+
+make -C ../ATS-extsolve DATS_C; make build
+
+######
+#
+# HX-2015-12:
+#
+# Here is a script for installing ATS2 + patsolve_z3:
+#
+######
+
+https://github.com/ats-lang/ats-lang.github.io/blob/master/SCRIPT/C9-ATS2-install-cs520-z3.sh
+
+###### end of [Makefile] ######

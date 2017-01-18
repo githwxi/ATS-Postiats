@@ -17,13 +17,13 @@ Typical usage:
 
 A single-file program in ATS can be compiled as follows:
 
-nodejs patsopt_dats.js -d PATSHOME/mytmp/hello.dats > output/hello_dats.c
+nodejs patsopt_dats.js -d PATSHOME/mytmp/hello.dats > myout/hello_dats.c
 
 The generated C code can be compiled to into object code by a compiler like
 gcc or clang:
 
 CC=gcc & \
-${CC} -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -o output/hello output/hello_dats.c
+${CC} -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -o myout/hello myout/hello_dats.c
 
 Another possibility is for the generated C code to be transpiled into JavaScript
 via atscc2js.

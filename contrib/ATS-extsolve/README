@@ -1,0 +1,19 @@
+##
+## ATS-extsolve:
+## For solving ATS-constraints
+## with external SMT-solvers
+##
+
+######
+
+HX:
+This one is built on top of the earlier
+work by Will Blair (wdblairATcsDOTbuDOTedu)
+
+######
+
+HX:
+ATS-extsolve-z3 // solving with Z3
+ATS-extsolve-smt2 // generating constraints in smt-lib format
+
+###### end of [README] ######
