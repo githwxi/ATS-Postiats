@@ -151,14 +151,16 @@ patsolve_parsing_dats.o: \
 DATS/patsolve_parsing.dats; $(PATSCC3) -c $<
 
 ######
-
+#
 DATS_C:: \
-patsolve_cnstrnt.dats; \
+DATS/patsolve_cnstrnt.dats; \
 $(PATSOPT) -o CATS/patsolve_cnstrnt_dats.c --dynamic $<
 DATS_C:: \
-patsolve_parsing.dats; \
+DATS/patsolve_parsing.dats; \
 $(PATSOPT) -o CATS/patsolve_parsing_dats.c --dynamic $<
-
+#
+cleanall:: ; $(RMF) CATS/patsolve_*_dats.c
+#
 ######
 #
 -include .depend

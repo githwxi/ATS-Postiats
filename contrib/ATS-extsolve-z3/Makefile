@@ -88,14 +88,14 @@ PATSOLVE=./ATS-extsolve
 ######
 
 SOURCES_SATS= \
-  $(PATSOLVE)/SATS/patsolve_cnstrnt.sats \
-  $(PATSOLVE)/SATS/patsolve_parsing.sats \
+$(PATSOLVE)/SATS/patsolve_cnstrnt.sats \
+$(PATSOLVE)/SATS/patsolve_parsing.sats \
 
 ######
 
 SOURCES_CATS= \
-  $(PATSOLVE)/CATS/patsolve_cnstrnt_dats.c \
-  $(PATSOLVE)/CATS/patsolve_parsing_dats.c \
+$(PATSOLVE)/CATS/patsolve_cnstrnt_dats.c \
+$(PATSOLVE)/CATS/patsolve_parsing_dats.c \
 
 ######
 
@@ -111,6 +111,9 @@ TARGETS_DATS_O = \
 $(patsubst %.dats, %_dats.o, $(SOURCES_DATS))
 
 ######
+#
+all:: ; \
+$(MAKE) -C ATS-extsolve DATS_C
 #
 all:: \
 patsolve_z3
@@ -149,6 +152,7 @@ testall:: cleanall
 
 CPF=cp -f
 RMF=rm -f
+MAKE=make
 
 ######
 
