@@ -123,6 +123,10 @@ all_script::
 
 ######
 #
+#make_entry("contrib_extsolve")
+#make_entry("contrib_extsolve_z3")
+#make_entry("contrib_extsolve_smt2")
+#
 #make_entry("contrib_parsemit")
 #
 #make_entry("contrib_atscc2js")
@@ -185,6 +189,10 @@ atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_utils_emacs
 #
 # atspackaging:: srcget_utils_libatsopt
+#
+atspackaging:: srcget_contrib_extsolve
+atspackaging:: srcget_contrib_extsolve_z3
+atspackaging:: srcget_contrib_extsolve_smt2
 #
 atspackaging:: srcget_contrib_parsemit
 #
@@ -262,6 +270,10 @@ srcget_utils_emacs:: SCRIPT/utils_emacs.bash ; bash $<
 srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
 
 ######
+#
+srcget_contrib_extsolve:: SCRIPT/contrib_extsolve.bash ; bash $<
+srcget_contrib_extsolve_z3:: SCRIPT/contrib_extsolve_z3.bash ; bash $<
+srcget_contrib_extsolve_smt2:: SCRIPT/contrib_extsolve_smt2.bash ; bash $<
 #
 srcget_contrib_parsemit:: SCRIPT/contrib_parsemit.bash ; bash $<
 #

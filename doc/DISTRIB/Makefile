@@ -211,6 +211,27 @@ cleanall:: ; $(RMF) SCRIPT/utils_libatsopt.bash
 ######
 #
 all_script:: \
+SCRIPT/contrib_extsolve.bash
+SCRIPT/contrib_extsolve.bash: contrib_extsolve_atxt.exe ; ./$< > $@
+contrib_extsolve_atxt.dats: ATEXT/contrib_extsolve.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_extsolve_atxt.exe: contrib_extsolve_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_extsolve_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_extsolve.html
+cleanall:: ; $(RMF) SCRIPT/contrib_extsolve.bash
+
+all_script:: \
+SCRIPT/contrib_extsolve_z3.bash
+SCRIPT/contrib_extsolve_z3.bash: contrib_extsolve_z3_atxt.exe ; ./$< > $@
+contrib_extsolve_z3_atxt.dats: ATEXT/contrib_extsolve_z3.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_extsolve_z3_atxt.exe: contrib_extsolve_z3_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_extsolve_z3_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_extsolve_z3.html
+cleanall:: ; $(RMF) SCRIPT/contrib_extsolve_z3.bash
+
+#
+all_script:: \
 SCRIPT/contrib_parsemit.bash
 SCRIPT/contrib_parsemit.bash: contrib_parsemit_atxt.exe ; ./$< > $@
 contrib_parsemit_atxt.dats: ATEXT/contrib_parsemit.atxt ; \
@@ -507,6 +528,9 @@ atspackaging:: srcget_utils_emacs
 #
 # atspackaging:: srcget_utils_libatsopt
 #
+atspackaging:: srcget_contrib_extsolve
+atspackaging:: srcget_contrib_extsolve_z3
+#
 atspackaging:: srcget_contrib_parsemit
 #
 atspackaging:: srcget_contrib_atscc2js
@@ -583,6 +607,9 @@ srcget_utils_emacs:: SCRIPT/utils_emacs.bash ; bash $<
 srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
 
 ######
+#
+srcget_contrib_extsolve:: SCRIPT/contrib_extsolve.bash ; bash $<
+srcget_contrib_extsolve_z3:: SCRIPT/contrib_extsolve_z3.bash ; bash $<
 #
 srcget_contrib_parsemit:: SCRIPT/contrib_parsemit.bash ; bash $<
 #
