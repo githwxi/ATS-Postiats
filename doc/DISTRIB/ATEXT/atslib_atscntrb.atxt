@@ -53,7 +53,7 @@ fprint_string(out, "\
 SOURCE=./../../atscntrb/\n\
 TARGET=ATS-Postiats/atscntrb/\n\
 \n\
-srcget ()\n\
+srcget()\n\
 {\n\
 cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
 }\n\
@@ -61,7 +61,7 @@ cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
 ") // end of [val]
 //
 in
-  atext_nil ()
+  atext_nil((*void*))
 end // end of [packpreamble]
 
 implement
@@ -78,7 +78,7 @@ echo \"The ATSCNTRB files have been copied.\"\n\
 #\n\
 ")
 in
-  atext_nil()
+  atext_nil((*void*))
 end // end of [packpostamble]
 
 implement
@@ -96,7 +96,7 @@ val () =
 fprintf(out, "srcget \"%s\" ;\n", @(x))
 //
 in
-  atext_nil()
+  atext_nil((*void*))
 end // end of [packfilename]
 //
 implement

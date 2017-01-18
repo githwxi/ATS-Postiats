@@ -230,6 +230,16 @@ clean:: ; $(RMF) contrib_extsolve_z3_atxt.exe
 cleanall:: ; $(RMF) HTML/contrib_extsolve_z3.html
 cleanall:: ; $(RMF) SCRIPT/contrib_extsolve_z3.bash
 
+all_script:: \
+SCRIPT/contrib_extsolve_smt2.bash
+SCRIPT/contrib_extsolve_smt2.bash: contrib_extsolve_smt2_atxt.exe ; ./$< > $@
+contrib_extsolve_smt2_atxt.dats: ATEXT/contrib_extsolve_smt2.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_extsolve_smt2_atxt.exe: contrib_extsolve_smt2_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_extsolve_smt2_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_extsolve_smt2.html
+cleanall:: ; $(RMF) SCRIPT/contrib_extsolve_smt2.bash
+
 #
 all_script:: \
 SCRIPT/contrib_parsemit.bash
@@ -530,6 +540,7 @@ atspackaging:: srcget_utils_emacs
 #
 atspackaging:: srcget_contrib_extsolve
 atspackaging:: srcget_contrib_extsolve_z3
+atspackaging:: srcget_contrib_extsolve_smt2
 #
 atspackaging:: srcget_contrib_parsemit
 #
@@ -610,6 +621,7 @@ srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
 #
 srcget_contrib_extsolve:: SCRIPT/contrib_extsolve.bash ; bash $<
 srcget_contrib_extsolve_z3:: SCRIPT/contrib_extsolve_z3.bash ; bash $<
+srcget_contrib_extsolve_smt2:: SCRIPT/contrib_extsolve_smt2.bash ; bash $<
 #
 srcget_contrib_parsemit:: SCRIPT/contrib_parsemit.bash ; bash $<
 #
