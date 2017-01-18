@@ -2,6 +2,21 @@ os:
   - osx
   - linux
 sudo: false
+compiler:
+  - gcc
+  - clang 
+env:
+  global:
+    # ATS1
+    - ATSVER=0.2.12
+    - ATSHOME=${HOME}/ats-lang-anairiats-${ATSVER}
+    - ATSHOMERELOC=ATS-${ATSVER}
+    # ATS2
+    - PATSHOME=${TRAVIS_BUILD_DIR}
+    - PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
+    - PATSHOME_contrib=${PATSHOMERELOC}
+    # Path
+    - PATH=${PATH}:${PATSHOME}/bin
 addons:
   apt:
     packages:
@@ -13,37 +28,26 @@ addons:
     - libjansson-dev
     - docbook-utils
 before_install:
+  # Install OSX Packages
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ${TRAVIS_BUILD_DIR}/travis-ci/install_osx.sh; fi
+install:
   - date
   - cd ${HOME}
-  # Setting-up
-  - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.12
-  - export ATSHOMERELOC=ATS-0.2.12
-  - export PATSHOME=${TRAVIS_BUILD_DIR}
-  - export PATH=${PATH}:${PATSHOME}/bin
-  # Install pkgs
-  - ${TRAVIS_BUILD_DIR}/travis-ci/installpkg.sh
-  # Download ATS1
-  - ${TRAVIS_BUILD_DIR}/travis-ci/ats1_setup.sh 0.2.12
-  # Download ATS2-contrib
-  - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
-  - export PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
-  - export GCC=gcc
-  - export CLANG=clang
+  # Build ATS1
+  - echo "Building ATS1 ..."
+  - ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh
 script:
-  - ${GCC} --version
-  - ${CLANG} --version
-  # Building ATS1
-  - cd ${ATSHOME}
-  # ./configure&&make CC=${GCC} all
-  - ./configure&&make CC=${GCC} all_ngc
   # Building ATS2
-  - cd ${TRAVIS_BUILD_DIR}
+  - echo "Building ATS2 ..."
+  - ${CC} --version
+  - cd ${PATSHOME}
   - make -f Makefile_devl CC=${GCC} all
   # make GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${GCC} all
   # make C3NSTRINTKND=intknd -f Makefile_devl CC=${CLANG} all
   # make C3NSTRINTKND=intknd GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${CLANG} all
   # Trying-out release process
-  - cd ${TRAVIS_BUILD_DIR}
+  - echo "Building CBOOT and DISTRIB ..."
+  - cd ${PATSHOME}
   - make -C ${PATSHOME}/src CBOOT
   - make -C ${PATSHOME}/src/CBOOT/prelude
   - make -C ${PATSHOME}/src/CBOOT/libc
@@ -54,11 +58,15 @@ script:
   # make -C ${PATSHOME}/doc/DISTRIB atscontribing
   # make -C ${PATSHOME}/doc/DISTRIB atscntrbtarzvcf
   # make -C ${PATSHOME}/doc/DISTRIB cleanall
+  # 
   # Running regress test
-  - cd ${TRAVIS_BUILD_DIR}
+  - echo "Regression tests ..."
+  - cd ${PATSHOME}
   - make -C ${PATSHOME}/doc -f Makefile_test testall > testall_doc.log 2>&1
   - tail -100 testall_doc.log
   # Building some utilities
+  - echo "Buidling utilities ..."
+  - cd ${PATSHOME}
   - cp ${ATSHOME}/config.h .
   - make -C src cleanall
   - make -C src/CBOOT/prelude
@@ -71,7 +79,14 @@ script:
   - make -C utils/atsynmark
   # make -C utils/atstagging
   # make -C utils/packeditall
+  # 
+  # Install Contrib
+  - echo "Installing ATS2-Contrib ..."
+  - cd ${HOME}
+  - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
   # Building books
+  - echo "Building books ..."
+  - cd ${PATSHOME}
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -C doc/BOOK/ATS2TUTORIAL; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -C doc/BOOK/INT2PROGINATS; fi
 after_script:

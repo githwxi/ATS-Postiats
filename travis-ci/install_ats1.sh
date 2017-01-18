@@ -11,36 +11,25 @@
 #
 ######
 #
-ATSVER=$1
-#
-ATSPACK=\
-ats-lang-anairiats-${ATSVER}
-#
+ATSPACK=ats-lang-anairiats-${ATSVER}
 ATSPACKTGZ=${ATSPACK}.tgz
 #
-######
-#
-ATSLANGURL_srcfg=\
-http://sourceforge.net/projects/ats-lang
-#
+ATSLANGURL_srcfg=http://sourceforge.net/projects/ats-lang
 ATSLANGURL_github=http://ats-lang.github.io
 #
 ######
 #
-WGETQ="wget -q"
-TARZXF="tar -zxf"
+cd ${HOME}
+wget -q ${ATSLANGURL_github}/ATS-Anairiats/${ATSPACKTGZ}
+# wget -q ${ATSLANGURL_srcfg}/files/ats-lang/anairiats-latest/${ATSPACKTGZ}
+tar -zxf ${ATSPACKTGZ}
 #
 ######
 #
-${WGETQ} \
-${ATSLANGURL_github}/ATS-Anairiats/${ATSPACKTGZ}
-#
-# ${WGETQ} \
-# ${ATSLANGURL_srcfg}/files/ats-lang/anairiats-latest/${ATSPACKTGZ}
-#
-######
-#
-${TARZXF} ${ATSPACKTGZ}
+cd ${ATSHOME} 
+./configure && make CC=${GCC} all_ngc
+cd bootstrap1 && rm -f *.o
+cd ccomp/runtime/GCATS && make && make clean
 #
 ######
 #
@@ -64,4 +53,4 @@ ${TARZXF} ${ATSPACKTGZ}
 #
 ######
 
-###### end of [ats1_setup.sh] ######
+###### end of [install_ats1.sh] ######
