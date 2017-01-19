@@ -1,12 +1,12 @@
 (* ****** ****** *)
 //
-// API in ATS for libgmp
+// API in ATS for libcurl
 //
 (* ****** ****** *)
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2017 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** Permission to use, copy, modify, and distribute this software for any
@@ -23,16 +23,16 @@
 *)
 
 (* ****** ****** *)
-
+//
 (*
 // Author: Hongwei Xi
-// Authoremail: hwxiATcsDOTbuDOTedu
+// Authoremail: gmhwxiATgmailDOTcom
 *)
-
-(* ****** ****** *)
-//
-// HX-2013-09: This file is yet empty!
 //
 (* ****** ****** *)
+//
+// HX-2017-01: This file is yet empty!
+//
+(* ****** ****** *)
 
-(* end of [gmp.dats] *)
+(* end of [curl.dats] *)
