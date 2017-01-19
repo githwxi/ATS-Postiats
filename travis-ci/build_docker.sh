@@ -2,10 +2,6 @@
 
 export REPO=steinwaywhw/ats
 
-echo $1
-echo $2
-
-docker login -u $1 -p $2
 docker build \
 	-f Dockerfile \
 	-t $REPO:$TRAVIS_COMMIT \

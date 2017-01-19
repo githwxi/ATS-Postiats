@@ -21,8 +21,8 @@ env:
     # Path
     - PATH=${PATH}:${PATSHOME}/bin
     # Docker
-    - secure: "jlR3HXpM1A6kZ5q+I7beqFI1kbaPeqceIUdZSCy2O0DqPer4nKLLN+J9Y88uBnKE8jaucomPGqQ3MbTzjXQ5V3EXdgQSROMEKbN2ONxzM4P7Mly1nQ0kjE4qMtAXe0kRmTJvSm9pHD2a0SZuFoX9atR+wB2hSO2KEHNwt7RFiQ0="
-    - secure: "Ino3LdjpJ0wLdCKhGgVHb1Y0vTIJOXvMiyNwcE9cB1/jFwgIBsPoawYpEN2eyo4m/3Prw1SThjGGck0SHlPO7I1CsbYKdoA1gUms9ulPaLSdD+xBCI6eR6+EsUQ3eDZjqh7tpLFbPxbYGQlEcpBbtv5JdXZs9+je+gKvQrpPJeg="
+    - secure: "epWjhbYtBqKXc/hPEYwf0imwdHXFWBM6WemZMUkeQcsmrkyov0wX0oRBd3a7QBRzhy+pozrzi95H3B8iXwihPlYUPNn9+gl7eVAN2KmYfO3DmX2HVgJ26AHvs36l5m/hZCwTnemkvqnS1kkChyLrklzEDEkitiNawu50XG2XCt4="
+    - secure: "UKQSPT2XNq8CNJ+0vZS97Qg7hLVWXcs7eJR+JBz7XjPR7ioXoWu6t9ZNiwaaQljVGYuG/mkdTJ2IoVzf3/Ik0jHcsHBX+8hsUokXTl0P5thZwhTAZeEBTxHH//2NVji4Aulbo3XruhrGqTiMHVws48WXwcI7nivXnE6gFD218xQ="
 addons:
   apt:
     packages:
@@ -50,7 +50,10 @@ script:
   # - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
 after_success:
   # Build Docker Image
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "gcc" ]]; then (cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh "$DOCKER_USER" "$DOCKER_PASSWORD"); fi
+  - echo $DOCKER_USER
+  - echo $DOCKER_PASS
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "gcc" ]]; then (cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh "$DOCKER_USER" "$DOCKER_PASS"); fi
   # Building some utilities
   # - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
   # Install Contrib
