@@ -19,19 +19,15 @@ ATSLANGURL_github=http://ats-lang.github.io
 #
 ######
 #
-echo ${PWD}
-echo ${HOME}
-echo ${ATSHOME}
-
 wget -q ${ATSLANGURL_github}/ATS-Anairiats/${ATSPACKTGZ}
 # wget -q ${ATSLANGURL_srcfg}/files/ats-lang/anairiats-latest/${ATSPACKTGZ}
 tar -zxf ${ATSPACKTGZ}
 #
 ######
 #
-./configure && make CC=${CC} all_ngc
-(cd bootstrap1 && rm -f *.o)
-(cd ccomp/runtime/GCATS && make && make clean)
+(cd ${ATSHOME} && ./configure && make CC=${CC} all_ngc)
+(cd ${ATSHOME}/bootstrap1 && rm -f *.o)
+(cd ${ATSHOME}/ccomp/runtime/GCATS && make && make clean)
 #
 ######
 #
