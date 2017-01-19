@@ -21,44 +21,43 @@ env:
     # Path
     - PATH=${PATH}:${PATSHOME}/bin
     # Docker
-    - secure: "SZbKHVHWgwzN61KSqdlXyaCn4tye9UxRMmKrzdhy6sAHLFubZ6nos/cU13Bpa343Oqy3SUCIqYrj3CP/2uDKsg5YrkRzQesCA6b27vERzUyY77LV5pFRfD03t+BCMIpFZs3QadHuSw4aEuu72K0Vy2B+VLN4bHPkmH6P0H54vi8="
     - secure: "jlR3HXpM1A6kZ5q+I7beqFI1kbaPeqceIUdZSCy2O0DqPer4nKLLN+J9Y88uBnKE8jaucomPGqQ3MbTzjXQ5V3EXdgQSROMEKbN2ONxzM4P7Mly1nQ0kjE4qMtAXe0kRmTJvSm9pHD2a0SZuFoX9atR+wB2hSO2KEHNwt7RFiQ0="
     - secure: "Ino3LdjpJ0wLdCKhGgVHb1Y0vTIJOXvMiyNwcE9cB1/jFwgIBsPoawYpEN2eyo4m/3Prw1SThjGGck0SHlPO7I1CsbYKdoA1gUms9ulPaLSdD+xBCI6eR6+EsUQ3eDZjqh7tpLFbPxbYGQlEcpBbtv5JdXZs9+je+gKvQrpPJeg="
 addons:
   apt:
     packages:
-    - libgc-dev
-    - libgmp-dev
-    - libgtk-3-dev
-    - libev-dev
-    - libjson0-dev
-    - libjansson-dev
-    - docbook-utils
+    # - libgc-dev
+    # - libgmp3-dev
+    # - libgtk-3-dev
+    # - libev-dev
+    - libjson-c-dev
+    # - libjansson-dev
+    # - docbook-utils
 before_install:
   # Install OSX Packages
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ${TRAVIS_BUILD_DIR}/travis-ci/install_osx.sh; fi
 install:
   # Build ATS1
   - date
-  - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh)
+  # - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh)
 script:
   # Building ATS2
   - ${CC} --version
-  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats2.sh)
+  # - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats2.sh)
   # Initial Testing
-  - patscc
+  # - patscc
   # Running regress test
-  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
+  # - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
 after_success:
   # Build Docker Image
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "gcc" ]]; then (cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh $DOCKER_USER $DOCKER_PASSWORD); fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "gcc" ]]; then (cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh "$DOCKER_USER" "$DOCKER_PASSWORD"); fi
   # Building some utilities
-  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
+  # - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
   # Install Contrib
-  - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_contrib.sh)
+  # - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_contrib.sh)
   # Building books
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/ATS2TUTORIAL); fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/INT2PROGINATS); fi
+  # - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/ATS2TUTORIAL); fi
+  # - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/INT2PROGINATS); fi
 after_script:
   # End Time
   - date
