@@ -34,20 +34,20 @@ before_install:
 install:
   - date
   # Build ATS1
-  - cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh
+  - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh)
 script:
   # Building ATS2
   - ${CC} --version
-  - cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats2.sh
+  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats2.sh)
   # Running regress test
-  - cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh
+  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
 after_script:
   # Building some utilities
-  - cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh
+  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
   # Install Contrib
-  - cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_contrib.sh
+  - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_contrib.sh)
   # Building books
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cd ${PATSHOME} && make -C doc/BOOK/ATS2TUTORIAL; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cd ${PATSHOME} && make -C doc/BOOK/INT2PROGINATS; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/ATS2TUTORIAL); fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/INT2PROGINATS); fi
   # End Time
   - date

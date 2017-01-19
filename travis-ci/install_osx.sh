@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-cd ${HOME}
-
 brew update
 brew install gmp
 brew install bdw-gc
@@ -16,7 +14,5 @@ brew install docbook
 brew install caskroom/cask/brew-cask
 brew cask install xquartz
 export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig:$PKG_CONFIG_PATH
-
-exit 0
 
 ###### end of [install_osx.sh] ######
