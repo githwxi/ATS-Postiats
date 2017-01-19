@@ -66,13 +66,13 @@ json_object_iterator_struct ;
 
 ATSinline()
 atstype_ptr
-atscntrb_jsonc_lh_entry_get_key (atstype_ptr ent)
+atscntrb_jsonc_lh_entry_get_key(atstype_ptr ent)
 {
   return (atstype_ptr)(((struct lh_entry*)ent)->k) ;
 }
 ATSinline()
 atstype_ptr
-atscntrb_jsonc_lh_entry_get_val (atstype_ptr ent)
+atscntrb_jsonc_lh_entry_get_val(atstype_ptr ent)
 {
   return (atstype_ptr)(((struct lh_entry*)ent)->v) ;
 }

@@ -39,16 +39,18 @@
 %} // end of [%{#]
 
 (* ****** ****** *)
-
+//
 #define
 ATS_PACKNAME "ATSCNTRB.jsonc"
+//
 #define
-ATS_EXTERN_PREFIX "atscntrb_jsonc_" // prefix for external names
-
+ATS_EXTERN_PREFIX
+"atscntrb_jsonc_" // prefix for external names
+//
 (* ****** ****** *)
 
-fun json_c_version (): string = "mac#%"
-fun json_c_version_num (): int = "mac#%"
+fun json_c_version(): string = "mac#%"
+fun json_c_version_num(): int = "mac#%"
 
 (* ****** ****** *)
 

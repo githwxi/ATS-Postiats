@@ -1,0 +1,51 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../arraylist.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/arraylist\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("array_list2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("array_list_new")
+
+(* ****** ****** *)
+
+#declnamesynop("array_list_free")
+
+(* ****** ****** *)
+
+#declnamesynop("array_list_length")
+
+(* ****** ****** *)
+
+#declnamesynop("array_list_add")
+
+(* ****** ****** *)
+
+#declnamesynop("array_list_get_idx")
+#declnamesynop("array_list_put_idx")
+
+(* ****** ****** *)
+
+#declnamesynop("array_list_sort")
+
+(* ****** ****** *)
+
+(* end of [arraylist.atxt] *)

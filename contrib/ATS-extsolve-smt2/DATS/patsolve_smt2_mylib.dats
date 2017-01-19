@@ -32,19 +32,22 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "{$JSONC}/DATS/json.dats"
-
+//
+staload
+"{$LIBJSONC}/DATS/json.dats"
+//
 (* ****** ****** *)
 //
 local
-#include"prelude/DATS/filebas.dats"
+#include
+"prelude/DATS/filebas.dats"
 in (*nothing*) end // end of [local]
 //
 (* ****** ****** *)
 //
 local
-#include"{$JSONC}/DATS/json_ML.dats"
+#include
+"{$LIBJSONC}/DATS/json_ML.dats"
 in (*nothing*) end // end of [local]
 //
 (* ****** ****** *)

@@ -30,19 +30,6 @@ endif
 
 ######
 
-ifdef \
-PATSCONTRIB
-PATSCONTRIBQ="$(PATSCONTRIB)"
-else
-ifdef ATSCONTRIB
-  PATSCONTRIBQ="$(ATSCONTRIB)"
-else
-  PATSCONTRIBQ="/usr/local/lib/ats2-postiats"
-endif
-endif
-
-######
-
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
@@ -57,9 +44,9 @@ CFLAGS += -DATS_MEMALLOC_LIBC
 #
 CFLAGS2 :=
 CFLAGS2 += \
--IIATS ${PATSCONTRIB}/contrib
-CFLAGS2 += \
 $(shell pkg-config --cflags json-c)
+CFLAGS2 += \
+-I${PATSHOMEQ}/atscntrb/atscntrb-libjson-c
 #
 ######
 
@@ -71,11 +58,11 @@ LDFLAGS += $(shell pkg-config --libs json-c)
 EXTRAFLAGS :=
 
 ######
-
+#
 INCLUDE :=
 INCLUDE += -I$(PATSHOMEQ)
 INCLUDE += -I$(PATSHOMEQ)/ccomp/runtime
-
+#
 ######
 
 SOURCES_SATS= \
@@ -114,8 +101,9 @@ PATSCC3 = $(PATSCC) $(CFLAGS) $(CFLAGS2)
 #
 all:: patsolve
 #
-patsolve: $(OBJECTS) ; \
-  $(PATSCC) $(INCLUDE) -o $@ $^ $(LDFLAGS) $(EXTRAFLAGS)
+patsolve: \
+$(OBJECTS) ; \
+$(PATSCC) $(INCLUDE) -o $@ $^ $(LDFLAGS) $(EXTRAFLAGS)
 #
 cleanall:: ; $(RMF) patsolve
 #

@@ -24,13 +24,16 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.jsonc_ML"
-#define ATS_EXTERN_PREFIX "atscntrb_jsonc_ML_" // prefix for external names
+staload "./json.sats"
 
 (* ****** ****** *)
-
-staload "./../SATS/json.sats"
-
+//
+#define
+ATS_PACKNAME "ATSCNTRB.jsonc_ML"
+#define
+ATS_EXTERN_PREFIX
+"atscntrb_jsonc_ML_" // prefix for external names
+//
 (* ****** ****** *)
 
 datatype

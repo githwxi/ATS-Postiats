@@ -8,23 +8,28 @@
 #include "./mybasis.sats"
 
 (* ****** ****** *)
-
+//
 castfn
 json_object2ptr
-  {l:addr} (al: !json_object (l)):<> ptr (l)
+  {l:addr}
+  (al: !json_object(l)):<> ptr(l)
+//
 overload ptrcast with json_object2ptr
-
+//
 (* ****** ****** *)
-
+//
 fun{}
 json_object_is_null
-  {l:addr} (al: !json_object (l)):<> bool (l==null)
-overload iseqz with json_object_is_null
+  {l:addr}
+  (al: !json_object (l)):<> bool (l==null)
 fun{}
 json_object_isnot_null
-  {l:addr} (al: !json_object (l)):<> bool (l > null)
+  {l:addr}
+  (al: !json_object (l)):<> bool (l > null)
+//
+overload iseqz with json_object_is_null
 overload isneqz with json_object_isnot_null
-
+//
 (* ****** ****** *)
 
 (*

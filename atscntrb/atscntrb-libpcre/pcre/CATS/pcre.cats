@@ -50,39 +50,39 @@ typedef unsigned char uchar ;
 /* ****** ****** */
 
 #define \
-atscntrb_libpcre_memcpy memcpy
+atscntrb_pcre_memcpy memcpy
 
 /* ****** ****** */
 
 #define \
-atscntrb_libpcre_pcre_version() ((char*)(pcre_version()))
+atscntrb_pcre_pcre_version() ((char*)(pcre_version()))
 
 /* ****** ****** */
 
 #define \
-atscntrb_libpcre_pcre_compile(code, options, errptr, erroffset, tableptr) \
+atscntrb_pcre_pcre_compile(code, options, errptr, erroffset, tableptr) \
 pcre_compile(code, (int)options, (const char**)errptr, (int*)erroffset, (const uchar*)tableptr)
 
 #define \
-atscntr_libpcre_pcre_compile2(code, options, errorcodeptr, errptr, erroffset, tableptr) \
+atscntr_pcre_pcre_compile2(code, options, errorcodeptr, errptr, erroffset, tableptr) \
 pcre_compile2(code, (int)options, (int*)errorcodeptr, (const char**)errptr, (int*)erroffset, (const uchar*)tableptr)
 
 /* ****** ****** */
 
 #define \
-atscntrb_libpcre_pcre_free pcre_free
+atscntrb_pcre_pcre_free pcre_free
 
 /* ****** ****** */
 
 #define \
-atscntrb_libpcre_pcre_study pcre_study
+atscntrb_pcre_pcre_study pcre_study
 #define \
-atscntrb_libpcre_pcre_free_study pcre_free_study
+atscntrb_pcre_pcre_free_study pcre_free_study
 
 /* ****** ****** */
 
 #define \
-atscntrb_libpcre_pcre_exec pcre_exec
+atscntrb_pcre_pcre_exec pcre_exec
 
 /* ****** ****** */
 

@@ -56,9 +56,14 @@ CFLAGS += -DATS_MEMALLOC_LIBC
 #
 CFLAGS2 :=
 CFLAGS2 +=-DATS_MEMALLOC_LIBC
-CFLAGS2 +=-I${PATSCONTRIB}/contrib
-CFLAGS2 +=-I${PATSCONTRIB}/contrib/SMT
-CFLAGS2 += $(shell pkg-config --cflags json-c)
+#
+CFLAGS2 += \
+$(shell pkg-config --cflags json-c)
+#
+CFLAGS2 += \
+-I${PATSHOMEQ}/atscntrb/atscntrb-libjson-c
+CFLAGS2 += \
+-I${PATSHOMEQ}/atscntrb/atscntrb-smt-libz3
 #
 ######
 

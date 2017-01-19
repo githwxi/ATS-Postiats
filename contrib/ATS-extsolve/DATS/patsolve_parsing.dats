@@ -49,8 +49,8 @@ staload
 
 (* ****** ****** *)
 
-staload "{$JSONC}/SATS/json.sats"
-staload "{$JSONC}/SATS/json_ML.sats"
+staload "{$LIBJSONC}/SATS/json.sats"
+staload "{$LIBJSONC}/SATS/json_ML.sats"
 
 (* ****** ****** *)
 

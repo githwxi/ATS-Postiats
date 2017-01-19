@@ -22,21 +22,24 @@ ATS_PACKNAME
 (* ****** ****** *)
 //
 #define
-Z3_targetloc
-"$PATSCONTRIB/contrib/SMT/Z3"
+PATSOLVE_targetloc
+"./../ATS-extsolve"
 //
 #define
-PATSOLVE_targetloc "./../ATS-extsolve"
+SMT_LIBZ3_targetloc
+"$PATSHOME/atscntrb/atscntrb-smt-libz3"
 //
 (* ****** ****** *)
 //
-#staload "{$Z3}/SATS/z3.sats"
+#staload "{$SMT_LIBZ3}/SATS/z3.sats"
 //
-#staload "{$PATSOLVE}/SATS/patsolve_cnstrnt.sats"
+#staload
+"{$PATSOLVE}/SATS/patsolve_cnstrnt.sats"
 //
 (* ****** ****** *)
 //
-fun c3nstr_z3_solve(c3nstr): void
+fun
+c3nstr_z3_solve(c3nstr): void
 //
 (* ****** ****** *)
 //

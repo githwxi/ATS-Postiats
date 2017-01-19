@@ -1,0 +1,44 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../json_object_iterator.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/json_object_iterator\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_iter_clear")
+#decldescrpt('\
+
+This function is for invalidating a given iterator so that it is no longer
+available for use subsequently.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_iter_begin")
+#declnamesynop("json_object_iter_end")
+#declnamesynop("json_object_iter_next")
+#declnamesynop("json_object_iter_peek_name")
+#declnamesynop("json_object_iter_peek_value")
+#declnamesynop("=")
+#declnamesynop("json_object_iter_equal")
+#declnamesynop("!=")
+#declnamesynop("json_object_iter_notequal")
+
+(* ****** ****** *)
+
+(* end of [json_object_iterator.atxt] *)

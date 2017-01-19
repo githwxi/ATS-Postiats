@@ -36,24 +36,25 @@
 (* ****** ****** *)
 //
 #define
-ATS_PACKNAME "ATSCNTRB.libgmp"
+ATS_PACKNAME "ATSCNTRB.gmp"
 //
 (* ****** ****** *)
 //
 %{#
 //
-#include "libgmp/CATS/gmp.cats"
+#include "gmp/CATS/gmp.cats"
 //
 %} // end of [%{#]
 //
 (* ****** ****** *)
 //
+// prefix for extern names
+// prefix for static names
+//
 #define
-ATS_EXTERN_PREFIX
-"atscntrb_libgmp_" // prefix for extern names
+ATS_EXTERN_PREFIX "atscntrb_gmp_"
 #define
-ATS_EXTERN_STATIC
-"_atscntrb_libgmp_" // prefix for static names
+ATS_EXTERN_STATIC "_atscntrb_gmp_"
 //
 (* ****** ****** *)
 //
@@ -61,25 +62,25 @@ ATS_EXTERN_STATIC
 //
 absvt@ype
 mpz_vt0ype =
-$extype"atscntrb_libgmp_mpz"
+$extype"atscntrb_gmp_mpz"
 //
 // rational numbers
 //
 absvt@ype
 mpq_vt0ype =
-$extype"atscntrb_libgmp_mpq"
+$extype"atscntrb_gmp_mpq"
 //
 // floating point numbers
 //
 absvt@ype
 mpf_vt0ype =
-$extype"atscntrb_libgmp_mpf"
+$extype"atscntrb_gmp_mpf"
 //
 (* ****** ****** *)
 //
-stadef mpz = mpz_vt0ype
-stadef mpq = mpq_vt0ype
-stadef mpf = mpf_vt0ype
+stadef mpz = mpz_vt0ype: vt@ype
+stadef mpq = mpq_vt0ype: vt@ype
+stadef mpf = mpf_vt0ype: vt@ype
 //
 (* ****** ****** *)
 //
@@ -87,7 +88,7 @@ stadef mpf = mpf_vt0ype
 // outputing MP numbers
 //
 typedef
-mp_base = intBtwe(2, 36)
+mp_base = intBtwe(2, 36): t@ype
 //
 (* ****** ****** *)
 //

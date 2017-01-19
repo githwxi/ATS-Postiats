@@ -46,6 +46,13 @@ ATSLANGCOM "http://www.ats-lang.com"
 LIBGMP_targetloc
 "$PATSHOME/atscntrb/atscntrb-libgmp"
 //
+#define
+LIBJSONC_targetloc
+"$PATSHOME/atscntrb/atscntrb-libjson-c"
+#define
+LIBJSON_C_targetloc
+"$PATSHOME/atscntrb/atscntrb-libjson-c"
+//
 (* ****** ****** *)
 //
 #define
@@ -66,11 +73,6 @@ HX_MYTESTING_targetloc
 //
 #define
 PCRE_targetloc "$PATSCONTRIB/contrib/pcre"
-//
-(* ****** ****** *)
-//
-#define
-JSONC_targetloc "$PATSCONTRIB/contrib/json-c"
 //
 (* ****** ****** *)
 //
