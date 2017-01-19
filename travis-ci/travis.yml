@@ -26,39 +26,39 @@ env:
 addons:
   apt:
     packages:
-    # - libgc-dev
-    # - libgmp3-dev
-    # - libgtk-3-dev
-    # - libev-dev
+    - libgc-dev
+    - libgmp3-dev
+    - libgtk-3-dev
+    - libev-dev
     - libjson-c-dev
-    # - libjansson-dev
-    # - docbook-utils
+    - libjansson-dev
+    - docbook-utils
 before_install:
   # Install OSX Packages
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ${TRAVIS_BUILD_DIR}/travis-ci/install_osx.sh; fi
 install:
   # Build ATS1
   - date
-  # - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh)
+  - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh)
 script:
   # Building ATS2
   - ${CC} --version
-  # - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats2.sh)
+  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats2.sh)
   # Initial Testing
-  # - patscc
+  - patscc
   # Running regress test
-  # - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
+  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
 after_success:
   # Build Docker Image
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "gcc" ]]; then (cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh "$DOCKER_USER" "$DOCKER_PASS"); fi
   # Building some utilities
-  # - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
+  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
   # Install Contrib
-  # - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_contrib.sh)
+  - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_contrib.sh)
   # Building books
-  # - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/ATS2TUTORIAL); fi
-  # - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/INT2PROGINATS); fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/ATS2TUTORIAL); fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/INT2PROGINATS); fi
 after_script:
   # End Time
   - date
