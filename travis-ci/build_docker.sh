@@ -1,9 +1,9 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+# this one needs to be bash since we are using [[ ]]
 
-export REPO=steinwaywhw/ats
+REPO=steinwaywhw/ats
 
 docker build -f Dockerfile -t $REPO:$TRAVIS_COMMIT --build-arg ATSVER=${ATSVER} ./
-
 
 if [[ "$TRAVIS_BRANCH" == "master" ]]; then 
 	if [ -z "$TRAVIS_TAG" ]; then 
@@ -16,6 +16,6 @@ else
 	docker tag $REPO:$TRAVIS_COMMIT $REPO:$TRAVIS_BRANCH          # steinwaywhw/ats:branch
 fi
 
-# docker push $REPO
+docker push $REPO
 
 
