@@ -1,0 +1,25 @@
+{
+"name":
+"atscntrb-libjson-c"
+,
+  "version": "1.0.0-alpha"
+,
+  "description":
+  "This package is for directly calling in ATS various json-c-functions."
+,
+  "main": "N/A"
+,
+  "scripts": {}
+,
+  "repository": {}
+,
+  "keywords": [
+    "ATS",
+    "json-c",
+    "libjson-c"
+  ]
+,
+  "author": "Hongwei Xi <gmhwxi@gmail.com>"
+,
+  "license": "MIT"
+}

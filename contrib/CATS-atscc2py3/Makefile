@@ -70,8 +70,11 @@ clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
 ######
-
+#
 cleanall:: clean
+#
 cleanall:: ; $(RMF) ./atscc2py3
-
+cleanall:: ; $(RMF) ./npm/CATS/catsparse_sats.c
+cleanall:: ; $(RMF) ./npm/CATS/atscc2py3_*_dats.c 
+#
 ###### end of [Makefile] ######

@@ -28,47 +28,52 @@
 ** Author: Hongwei Xi // MPZ and MPQ
 ** Authoremail: hwxi AT cs DOT bu DOT edu
 *)
-
-(* ****** ****** *)
-
 (*
 ** Author: Shivkumar Chandrasekaran // MPF
 ** Authoremail: shiv AT ece DOT ucsb DOT edu)
 *)
 
 (* ****** ****** *)
-
+//
+#define
+ATS_PACKNAME "ATSCNTRB.libgmp"
+//
+(* ****** ****** *)
+//
 %{#
 //
 #include "libgmp/CATS/gmp.cats"
 //
 %} // end of [%{#]
-
+//
 (* ****** ****** *)
 //
 #define
-ATS_PACKNAME "ATSCNTRB.libgmp"
+ATS_EXTERN_PREFIX
+"atscntrb_libgmp_" // prefix for extern names
 #define
-ATS_EXTERN_PREFIX "atscntrb_libgmp_" // prefix for extern names
-#define
-ATS_EXTERN_STATIC "_atscntrb_libgmp_" // prefix for static names
+ATS_EXTERN_STATIC
+"_atscntrb_libgmp_" // prefix for static names
 //
 (* ****** ****** *)
 //
 // integral numbers
 //
 absvt@ype
-mpz_vt0ype = $extype"atscntrb_libgmp_mpz"
+mpz_vt0ype =
+$extype"atscntrb_libgmp_mpz"
 //
 // rational numbers
 //
 absvt@ype
-mpq_vt0ype = $extype"atscntrb_libgmp_mpq"
+mpq_vt0ype =
+$extype"atscntrb_libgmp_mpq"
 //
 // floating point numbers
 //
 absvt@ype
-mpf_vt0ype = $extype"atscntrb_libgmp_mpf"
+mpf_vt0ype =
+$extype"atscntrb_libgmp_mpf"
 //
 (* ****** ****** *)
 //
@@ -77,10 +82,13 @@ stadef mpq = mpq_vt0ype
 stadef mpf = mpf_vt0ype
 //
 (* ****** ****** *)
-
+//
+// HX: for
+// outputing MP numbers
+//
 typedef
-mp_base = intBtw (2, 36+1) // for outputing MP numbers
-
+mp_base = intBtwe(2, 36)
+//
 (* ****** ****** *)
 //
 // integral number operations
@@ -708,6 +716,7 @@ fun mpz_ui_pow_ui
   (pw: &mpz >> _, base: ulint, exp: ulint): void = "mac#%"
 //
 symintr mpz_pow
+//
 overload mpz_pow with mpz_cmp_uint
 overload mpz_pow with mpz_cmp_ulint
 //

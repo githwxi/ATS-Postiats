@@ -47,44 +47,50 @@ atstyarr_field_undef(fname) fname[]
 
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload
-"{$LIBATSHWXI}/jsonats/SATS/jsonats.sats"
+#staload
+_ = "libats/DATS/stringbuf.dats"
+//
+#staload
+_ = "{$HX_CSTREAM}/DATS/cstream.dats"
+#staload
+_ = "{$HX_CSTREAM}/DATS/cstream_tokener.dats"
 //
 (* ****** ****** *)
 //
-staload _ = "libats/DATS/stringbuf.dats"
-//
-staload
-_ = "{$LIBATSHWXI}/cstream/DATS/cstream.dats"
-staload
-_ = "{$LIBATSHWXI}/cstream/DATS/cstream_tokener.dats"
-//
-staload
-_ = "{$LIBATSHWXI}/jsonats/DATS/jsonats.dats"
+#staload
+"{$LIBATSHWXI}/jsonats/SATS/jsonats.sats"
+#staload _ =
+"{$LIBATSHWXI}/jsonats/DATS/jsonats.dats"
 //
 (* ****** ****** *)
 //
 extern
-fun wget_params
-  (source: string, target: string): (int, string)
+fun
+wget_params
+(
+  source: string
+, target: string
+) : (int, string) // end-of-function
 //
 (* ****** ****** *)
 
 local
 
 fun
-suffix_max{n1,n2:int}
+suffix_max
+{n1,n2:int}
 (
   str1: string(n1), n1: size_t(n1)
 , str2: string(n2), n2: size_t(n2)
 ) : sizeLte(min(n1,n2)) = let
 //
-fun auxmain
+fun
+auxmain
 (
   p1: ptr, p2: ptr, n: size_t
 ) : size_t =
@@ -97,8 +103,8 @@ fun auxmain
     if c1 = c2 then auxmain (p1, p2, pred(n)) else n
   end else (n) // end of [if]
 //
-val p1 = ptr_add<char> (string2ptr(str1), n1)
-val p2 = ptr_add<char> (string2ptr(str2), n2)
+val p1 = ptr_add<char>(string2ptr(str1), n1)
+val p2 = ptr_add<char>(string2ptr(str2), n2)
 //
 val n12 = min (n1, n2)
 val n12_ = auxmain (p1, p2, n12)

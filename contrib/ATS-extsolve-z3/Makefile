@@ -125,6 +125,13 @@ $(SOURCES_SATS) $(SOURCES_CATS) $(TARGETS_DATS_O) $(LDFLAGS)
 cleanall:: ; $(RMF) patsolve_z3
 #
 ######
+#
+npm:: all
+npm:: ; $(CPF) patsolve_z3_*_dats.c npm/CATS/.
+npm:: ; $(CPF) patsolve_parsing_sats.c npm/CATS/.
+npm:: ; $(CPF) patsolve_cnstrnt_sats.c npm/CATS/.
+#
+######
 
 %_dats.o: DATS/%.dats; $(PATSCC2) -c $<
 
@@ -146,9 +153,13 @@ clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
 
 ######
-
+#
 cleanall:: clean
-
+#
+cleanall:: ; $(RMF) ./npm/CATS/patsolve_z3_*_dats.c
+cleanall:: ; $(RMF) ./npm/CATS/patsolve_parsing_sats.c
+cleanall:: ; $(RMF) ./npm/CATS/patsolve_cnstrnt_sats.c
+#
 ######
 
 ## end of [Makefile] ##

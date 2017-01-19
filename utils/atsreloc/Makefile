@@ -22,6 +22,9 @@ PATSLIB=$(PATSHOMEQ)/ccomp/atslib/lib
 #
 CFLAGS :=
 #
+CFLAGS += -I./libcurl
+CFLAGS += -I./libjson-c
+#
 CFLAGS += $(shell pkg-config --cflags json-c)
 CFLAGS += $(shell pkg-config --cflags libcurl)
 #
@@ -38,18 +41,18 @@ all:: atsreloc_curl
 all:: atsreloc_wget
 
 ######
-
+#
 atsreloc_curl: \
 atsreloc_curl.dats ; \
-  $(PATSCC) -I . -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
-
+$(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $< $(LDFLAGS)
+#
 ######
-
+#
 atsreloc_wget: \
 atsreloc_wget.dats \
 atsreloc_wget_lib.dats ; \
-  $(PATSCC) -I . -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $^ $(LDFLAGS)
-
+$(PATSCC) -DATS_MEMALLOC_LIBC $(CFLAGS) -O2 -o $@ $^ $(LDFLAGS)
+#
 ######
 
 RMF=rm -f
