@@ -19,7 +19,7 @@ MAINTAINER Steinway Wu "https://github.com/steinwaywhw"
 # ADD ./*.sh /tmp/
 # RUN chmod +x *.sh 
 
-# ARG ATSVER 
+ARG ATSVER 
 
 # ENV HOME=/root
 # ENV CC=gcc

@@ -2,11 +2,8 @@
 
 export REPO=steinwaywhw/ats
 
-docker build \
-	-f Dockerfile \
-	-t $REPO:$TRAVIS_COMMIT \
-	--build-arg ATSVER=${ATSVER} \
-	.
+docker build -f Dockerfile -t $REPO:$TRAVIS_COMMIT --build-arg ATSVER=${ATSVER} ./
+
 
 if [[ "$TRAVIS_BRANCH" == "master" ]]; then 
 	if [ -z "$TRAVIS_TAG" ]; then 

@@ -50,8 +50,6 @@ script:
   # - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
 after_success:
   # Build Docker Image
-  - echo $DOCKER_USER
-  - echo $DOCKER_PASS
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "gcc" ]]; then (cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh "$DOCKER_USER" "$DOCKER_PASS"); fi
   # Building some utilities
