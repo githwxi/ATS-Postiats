@@ -3,7 +3,7 @@
 export REPO=steinwaywhw/ats
 export COMMIT=${TRAVIS_COMMIT::8}
 
-docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
+docker login -u $1 -p $2
 docker build \
 	-f Dockerfile \
 	-t $REPO:$COMMIT \
@@ -21,6 +21,6 @@ else
 	docker tag $REPO:$TRAVIS_BRANCH/git  # steinwaywhw/ats:branch/git
 fi
 
-# docker push $REPO
+docker push $REPO
 
 

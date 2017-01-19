@@ -51,7 +51,7 @@ script:
   - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
 after_success:
   # Build Docker Image
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "gcc" ]]; then (cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh); fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$CC" == "gcc" ]]; then (cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh $DOCKER_USER $DOCKER_PASSWORD); fi
   # Building some utilities
   - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
   # Install Contrib
