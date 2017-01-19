@@ -8,7 +8,7 @@ docker build \
 	--build-arg ATSVER=${ATSVER} \
 	.
 
-if [ "$TRAVIS_BRANCH" == "master" ]; then 
+if [[ "$TRAVIS_BRANCH" == "master" ]]; then 
 	if [ -z "$TRAVIS_TAG" ]; then 
 		docker tag $REPO:$TRAVIS_COMMIT $REPO:git                 # steinwaywhw/ats:git
 	else 
@@ -16,7 +16,7 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
 		docker tag $REPO:$TRAVIS_COMMIT $REPO:latest              # steinwaywhw/ats:latest
 	fi
 else
-	docker tag $REPO:$TRAVIS_COMMIT $REPO:$TRAVIS_BRANCH/git  # steinwaywhw/ats:branch/git
+	docker tag $REPO:$TRAVIS_COMMIT $REPO:$TRAVIS_BRANCH          # steinwaywhw/ats:branch
 fi
 
 # docker push $REPO
