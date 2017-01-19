@@ -1,11 +1,11 @@
 {
 "name":
-"atscntrb-libpcre"
+"atscntrb-libcurl"
 ,
-  "version": "1.0.0"
+  "version": "1.0.0-alpha"
 ,
   "description":
-  "This package is for directly calling in ATS various PCRE-functions."
+  "This package is for directly calling in ATS various CURL-functions."
 ,
   "main": "N/A"
 ,
@@ -15,8 +15,8 @@
 ,
   "keywords": [
     "ATS",
-    "PCRE",
-    "libpcre"
+    "CURL",
+    "libcurl"
   ]
 ,
   "author": "Hongwei Xi <gmhwxi@gmail.com>"
