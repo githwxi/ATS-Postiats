@@ -21,8 +21,8 @@ env:
     # Path
     - PATH=${PATH}:${PATSHOME}/bin
     # Docker
-    - secure: "epWjhbYtBqKXc/hPEYwf0imwdHXFWBM6WemZMUkeQcsmrkyov0wX0oRBd3a7QBRzhy+pozrzi95H3B8iXwihPlYUPNn9+gl7eVAN2KmYfO3DmX2HVgJ26AHvs36l5m/hZCwTnemkvqnS1kkChyLrklzEDEkitiNawu50XG2XCt4="
-    - secure: "UKQSPT2XNq8CNJ+0vZS97Qg7hLVWXcs7eJR+JBz7XjPR7ioXoWu6t9ZNiwaaQljVGYuG/mkdTJ2IoVzf3/Ik0jHcsHBX+8hsUokXTl0P5thZwhTAZeEBTxHH//2NVji4Aulbo3XruhrGqTiMHVws48WXwcI7nivXnE6gFD218xQ="
+    - secure: "OgvCVUQ2VcPx5unLH6md8l7RPTpdNDBFF9wty3IMnzj7QoCQTuL0RFT0ETJoBoMbKwIpeCi2GJvdORxbakQqy9jjzyAv40/iaoO9IdGLO4RqMfSUIo++L9SkCg/TSNOyGTxz/tW0J6ZpbipC/Xj3r/elWzOSRp6Ya3/EqXSipkA="
+    - secure: "ZeSajGikxbZSBD+hZzQ92vKSvaEwYUH94jaEpBKmXYKlRZ8p+j9tdpIOqrsbCZivWn4Y/kj88YolRS60z4HyF1F0o/FuUKfawva3uV3KHL5wWdQqUexnFkwzLoQoXh9hsS/CxPaSgVipdWPLByPiyP8Vf39Z44KFSQDCgFf1dd8="
 addons:
   apt:
     packages:
