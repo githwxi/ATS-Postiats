@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 export REPO=steinwaywhw/ats
+echo $TRAVIS_COMMIT
 export COMMIT=${TRAVIS_COMMIT::8}
 
 echo $1
