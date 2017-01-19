@@ -20,6 +20,9 @@ ATSLANGURL_github=http://ats-lang.github.io
 ######
 #
 echo ${PWD}
+echo ${HOME}
+echo ${ATSHOME}
+
 wget -q ${ATSLANGURL_github}/ATS-Anairiats/${ATSPACKTGZ}
 # wget -q ${ATSLANGURL_srcfg}/files/ats-lang/anairiats-latest/${ATSPACKTGZ}
 tar -zxf ${ATSPACKTGZ}
