@@ -16,9 +16,9 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
 		docker tag $REPO:$TRAVIS_COMMIT $REPO:latest              # steinwaywhw/ats:latest
 	fi
 else
-	docker tag $REPO:$TRAVIS_BRANCH/git  # steinwaywhw/ats:branch/git
+	docker tag $REPO:$TRAVIS_COMMIT $REPO:$TRAVIS_BRANCH/git  # steinwaywhw/ats:branch/git
 fi
 
-docker push $REPO
+# docker push $REPO
 
 
