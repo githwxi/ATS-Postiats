@@ -216,7 +216,7 @@ PATS_MAJOR_VERSION 0
 #define
 PATS_MINOR_VERSION 3
 #define
-PATS_MICRO_VERSION 0
+PATS_MICRO_VERSION 1
 //
 // HX-2011-04-27: this is supported in Postiats:
 //

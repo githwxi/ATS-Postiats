@@ -1,6 +1,6 @@
 0.3.0
 
-This is the 36th release of ATS2, the successor of the
+This is the 37th release of ATS2, the successor of the
 ATS programming language. The compiler for ATS2 is given
 the name ATS/Positats, ATS2/Postiats or simply Postiats.
 
@@ -44,6 +44,7 @@ Here is a list of major additions and changes since the last release:
    CATS-atscc2clj,
    CATS-atscc2erl,
    ...
+   Basically, there is a lot of moving around...
       
 ######
 
