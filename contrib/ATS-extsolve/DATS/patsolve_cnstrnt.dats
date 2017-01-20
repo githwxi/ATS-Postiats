@@ -155,6 +155,15 @@ end // end of [local]
 local
 //
 #include
+"./CNSTRNT/patsolve_cnstrnt_label.dats" in (*nothing*)
+//
+end // end of [local]
+//
+(* ****** ****** *)
+//
+local
+//
+#include
 "./CNSTRNT/patsolve_cnstrnt_symbol.dats" in (*nothing*)
 //
 end // end of [local]
@@ -165,15 +174,6 @@ local
 //
 #include
 "./CNSTRNT/patsolve_cnstrnt_location.dats" in (*nothing*)
-//
-end // end of [local]
-//
-(* ****** ****** *)
-//
-local
-//
-#include
-"./CNSTRNT/patsolve_cnstrnt_label.dats" in (*nothing*)
 //
 end // end of [local]
 //

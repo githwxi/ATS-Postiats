@@ -37,20 +37,21 @@ end // end of [revarr]
 
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
-staload
+#staload
 STDLIB = "libats/libc/SATS/stdlib.sats"
 //
 (* ****** ****** *)
 //
-staload
-RG = "{$LIBATSHWXI}/testing/SATS/randgen.sats"
-staload
-_(*RG*) = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
+#staload
+RG = "{$HX_MYTESTING}/SATS/randgen.sats"
+#staload
+_(*RG*) = "{$HX_MYTESTING}/DATS/randgen.dats"
 //
 (* ****** ****** *)
+//
 %{^
 //
 #include <time.h>

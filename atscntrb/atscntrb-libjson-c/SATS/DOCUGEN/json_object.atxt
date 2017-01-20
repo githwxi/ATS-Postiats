@@ -1,0 +1,146 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../json_object.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/json_object\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_get")
+#declnamesynop("json_object_put")
+#declnamesynop("json_object_is_type")
+#declnamesynop("json_object_get_type")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_to_json_string")
+#declnamesynop("json_object_to_json_string_ext")
+
+(* ****** ****** *)
+
+#declnamesynop("print_json_object")
+#declnamesynop("print_json_object_ext")
+#declnamesynop("prerr_json_object")
+#declnamesynop("prerr_json_object_ext")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_json_object")
+#declnamesynop("fprint_json_object_ext")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_new_boolean")
+#declnamesynop("json_object_get_boolean")
+#declnamesynop("json_object_new_int")
+#declnamesynop("json_object_get_int")
+#declnamesynop("json_object_new_int64")
+#declnamesynop("json_object_get_int64")
+#declnamesynop("json_object_new_double")
+#declnamesynop("json_object_get_double")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_new_string")
+#declnamesynop("json_object_new_string_len")
+#declnamesynop("json_object_get_string")
+#declnamesynop("json_object_get_string_len")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_new_array")
+#declnamesynop("json_object_get_array")
+#declnamesynop("json_object_array_length")
+#declnamesynop("json_object_array_add")
+#declnamesynop("json_object_array_get_idx")
+#declnamesynop("json_object_array_put_idx")
+#declnamesynop("json_object_array_put2_idx")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_new_object")
+#declnamesynop("json_object_get_object")
+#declnamesynop("jsob_object_object_length")
+#declnamesynop("json_object_object_add")
+#declnamesynop("json_object_object_del")
+#declnamesynop("json_object_object_get")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_iforeach")
+#decldescrpt('\
+
+This function is a special case of #dyncode("json_object_iforeach_env")
+where the third argument named env is ignored.
+
+')
+
+#declnamesynop("json_object_iforeach_env")
+#decldescrpt('\
+
+This function can be employed to traverse the fields of a given json array.
+
+')
+
+#declnamesynop("json_object_iforeach$cont")
+#declnamesynop("json_object_iforeach$fwork")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_kforeach")
+#decldescrpt('\
+
+This function is a special case of #dyncode("json_object_kforeach_env")
+where the third argument named env is ignored.
+
+')
+
+#declnamesynop("json_object_kforeach_env")
+#decldescrpt('\
+
+This function can be employed to traverse the fields of a given json object.
+
+')
+
+#declnamesynop("json_object_kforeach$cont")
+#declnamesynop("json_object_kforeach$fwork")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+#declnamesynop("print")
+#declnamesynop("prerr")
+#declnamesynop("fprint")
+
+(* ****** ****** *)
+
+(* end of [json_object.atxt] *)

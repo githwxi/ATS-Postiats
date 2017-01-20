@@ -11,7 +11,7 @@
 #
 ######
 
-make -C ../ATS-extsolve DATS_C; make build
+make -C ATS-extsolve DATS_C; make all
 
 ######
 #
@@ -23,4 +23,4 @@ make -C ../ATS-extsolve DATS_C; make build
 
 https://github.com/ats-lang/ats-lang.github.io/blob/master/SCRIPT/C9-ATS2-install-cs520-z3.sh
 
-###### end of [Makefile] ######
+###### end of [README] ######

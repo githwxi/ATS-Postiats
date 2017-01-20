@@ -1,0 +1,25 @@
+{
+"name":
+"atscntrb-libcurl"
+,
+  "version": "1.0.0-alpha"
+,
+  "description":
+  "This package is for directly calling in ATS various CURL-functions."
+,
+  "main": "N/A"
+,
+  "scripts": {}
+,
+  "repository": {}
+,
+  "keywords": [
+    "ATS",
+    "CURL",
+    "libcurl"
+  ]
+,
+  "author": "Hongwei Xi <gmhwxi@gmail.com>"
+,
+  "license": "MIT"
+}

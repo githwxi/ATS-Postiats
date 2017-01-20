@@ -26,7 +26,7 @@ ATS_PACKNAME
 (* ****** ****** *)
 //
 staload
-"{$JSONC}/SATS/json_ML.sats"
+"{$LIBJSONC}/SATS/json_ML.sats"
 //
 (* ****** ****** *)
 //

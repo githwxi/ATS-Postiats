@@ -24,22 +24,24 @@
 *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSCNTRB.pcre_ML"
-#define ATS_EXTERN_PREFIX "atscntrb_pcre_ML_" // prefix for external names
-
+//
+#define
+ATS_PACKNAME "ATSCNTRB.pcre_ML"
+#define
+ATS_EXTERN_PREFIX "atscntrb_pcre_ML_" // prefix for external names
+//
 (* ****** ****** *)
 
-staload "./../SATS/pcre.sats"
+staload "./pcre.sats"
 
 (* ****** ****** *)
 //
-fun{
-} regstr_match_string
+fun{}
+regstr_match_string
   (regstr: string, subject: string): int
 //
-fun{
-} regstr_match_substring
+fun{}
+regstr_match_substring
   {n:int}{st,ln:int | st+ln <= n}
 (
   regstr: string
@@ -48,15 +50,15 @@ fun{
 //
 (* ****** ****** *)
 
-fun{
-} regstr_match2_string{n:int}
+fun{}
+regstr_match2_string{n:int}
 (
   regstr: string, subject: string(n)
 , matched_beg: &int? >> int(n0), matched_end: &int? >> int(n1)
 ) : #[n0,n1:int | n0 <= n1; n1 <= n] int // end-of-fun
 
-fun{
-} regstr_match2_substring
+fun{}
+regstr_match2_substring
   {n:int}{st,ln:int | st+ln <= n}
 (
   regstr: string
@@ -66,8 +68,8 @@ fun{
 
 (* ****** ****** *)
 
-fun{
-} regstr_match3_string
+fun{}
+regstr_match3_string
   {n:int}
 (
   regstr: string
@@ -77,8 +79,8 @@ fun{
 , err: &int? >> int
 ) : #[n0,n1:int | n0 <= n1; n1 <= n] List0_vt(Strptr0)
 
-fun{
-} regstr_match3_substring
+fun{}
+regstr_match3_substring
   {n:int}{st,ln:int | st+ln <= n}
 (
   regstr: string

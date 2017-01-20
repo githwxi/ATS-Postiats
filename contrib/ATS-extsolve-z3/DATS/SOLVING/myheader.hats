@@ -8,16 +8,16 @@
 (* ****** ****** *)
 //
 #define
-Z3_targetloc
-"$PATSCONTRIB/contrib/SMT/Z3"
+SMT_LIBZ3_targetloc
+"$PATSHOME/atscntrb/atscntrb-smt-libz3"
 //
 #define
 PATSOLVE_targetloc "./../../ATS-extsolve"
 //
 (* ****** ****** *)
-
-#staload "{$Z3}/SATS/z3.sats"
-
+//
+#staload "{$SMT_LIBZ3}/SATS/z3.sats"
+//
 (* ****** ****** *)
 //
 #staload

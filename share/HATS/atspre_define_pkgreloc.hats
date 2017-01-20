@@ -44,7 +44,22 @@ ATSLANGCOM "http://www.ats-lang.com"
 //
 #define
 LIBGMP_targetloc
-"$PATSHOME/atscntrb/atscntrb-libgmp"
+"$$PATSHOME/atscntrb/atscntrb-libgmp"
+//
+#define
+LIBPCRE_targetloc
+"$PATSHOME/atscntrb/atscntrb-libpcre"
+//
+#define
+LIBCURL_targetloc
+"$PATSHOME/atscntrb/atscntrb-libcurl"
+//
+#define
+LIBJSONC_targetloc
+"$PATSHOME/atscntrb/atscntrb-libjson-c"
+#define
+LIBJSON_C_targetloc
+"$PATSHOME/atscntrb/atscntrb-libjson-c"
 //
 (* ****** ****** *)
 //
@@ -65,27 +80,12 @@ HX_MYTESTING_targetloc
 (* ****** ****** *)
 //
 #define
-PCRE_targetloc "$PATSCONTRIB/contrib/pcre"
-//
-(* ****** ****** *)
-//
-#define
-JSONC_targetloc "$PATSCONTRIB/contrib/json-c"
-//
-(* ****** ****** *)
-//
-#define
 HIREDIS_targetloc "$PATSCONTRIB/contrib/hiredis"
 //
 (* ****** ****** *)
 //
 #define
 OPENSSL_targetloc "$PATSCONTRIB/contrib/OpenSSL"
-//
-(* ****** ****** *)
-//
-#define
-LIBCURL_targetloc "$PATSCONTRIB/contrib/libcurl"
 //
 (* ****** ****** *)
 //
@@ -174,14 +174,6 @@ ZEROMQ_targetloc "$PATSCONTRIB/contrib/zeromq"
 LIBATSHWXI_targetloc "$PATSCONTRIB/contrib/libats-/hwxi"
 #define
 LIBATS_HWXI_targetloc "$PATSCONTRIB/contrib/libats-/hwxi"
-//
-(* ****** ****** *)
-//
-// For applying ATS to AVR programming
-//
-#define AVR_targetloc "$PATSCONTRIB/contrib/AVR"
-//
-#define ARDUINO_targetloc "$PATSCONTRIB/contrib/arduino"
 //
 (* ****** ****** *)
 //

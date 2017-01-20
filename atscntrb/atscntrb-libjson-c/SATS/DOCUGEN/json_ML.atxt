@@ -1,0 +1,66 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../json_ML.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_jsonc_json_ML")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/json_ML\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+#para('\
+
+This package contains an API in ATS of quasi ML-style that is directly
+based on the <a href="http://json-c.github.io/json-c/">json-c</a> package.\
+
+')
+
+")#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("jsonval")
+
+(* ****** ****** *)
+
+#declnamesynop("jsonvalist_vt")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_jsonval")
+#declnamesynop("fprint_jsonvalist")
+#declnamesynop("fprint_labjsonvalist")
+
+(* ****** ****** *)
+
+#declnamesynop("jsonval_ofstring")
+
+(* ****** ****** *)
+
+#declnamesynop("jsonval_tostring")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object2val0")
+#declnamesynop("json_object2val1")
+
+(* ****** ****** *)
+
+#declnamesynop("jsonval_objectify")
+
+(* ****** ****** *)
+
+(* end of [json_ML.atxt] *)

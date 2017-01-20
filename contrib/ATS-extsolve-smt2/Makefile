@@ -29,19 +29,6 @@ endif
 
 ######
 
-ifdef \
-PATSCONTRIB
-PATSCONTRIBQ="$(PATSCONTRIB)"
-else
-ifdef ATSCONTRIB
-  PATSCONTRIBQ="$(ATSCONTRIB)"
-else
-  PATSCONTRIBQ="/usr/local/lib/ats2-postiats"
-endif
-endif
-
-######
-
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
@@ -56,8 +43,10 @@ CFLAGS += -DATS_MEMALLOC_LIBC
 #
 CFLAGS2 :=
 CFLAGS2 +=-DATS_MEMALLOC_LIBC
-CFLAGS2 +=-I${PATSCONTRIB}/contrib
-CFLAGS2 += $(shell pkg-config --cflags json-c)
+CFLAGS2 += \
+$(shell pkg-config --cflags json-c)
+CFLAGS2 += \
+-I${PATSHOMEQ}/atscntrb/atscntrb-libjson-c
 #
 ######
 
@@ -123,24 +112,16 @@ $(SOURCES_SATS) $(SOURCES_CATS) $(TARGETS_DATS_O) $(LDFLAGS)
 cleanall:: ; $(RMF) patsolve_smt2
 #
 ######
+#
+npm:: all
+npm:: ; $(CPF) patsolve_smt2_*_dats.c npm/CATS/.
+npm:: ; $(CPF) patsolve_parsing_sats.c npm/CATS/.
+npm:: ; $(CPF) patsolve_cnstrnt_sats.c npm/CATS/.
+#
+######
 
 %_dats.o: DATS/%.dats; $(PATSCC2) -c $<
 
-######
-#
--include .depend
-#
-depend:: ; $(RMF) .depend
-#
-ifeq ("$(strip $(SOURCES_SATS))","")
-else
-depend:: ; $(PATSOPT) --output-a .depend --depgen -s $(SOURCES_SATS)
-endif
-ifeq ("$(strip $(SOURCES_DATS))","")
-else
-depend:: ; $(PATSOPT) --output-a .depend --depgen -d $(SOURCES_DATS)
-endif
-#
 ######
 
 testall:: all
@@ -161,7 +142,9 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) .depend
+cleanall:: ; $(RMF) ./npm/CATS/patsolve_smt2_*_dats.c
+cleanall:: ; $(RMF) ./npm/CATS/patsolve_parsing_sats.c
+cleanall:: ; $(RMF) ./npm/CATS/patsolve_cnstrnt_sats.c
 
 ######
 

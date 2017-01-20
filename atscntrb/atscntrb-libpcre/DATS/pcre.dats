@@ -125,6 +125,9 @@ prval (
 
 local
 
+#define BSZ 16
+#define BSZ3 48
+
 vtypedef
 res_vt = List0_vt(Strptr0)
 
@@ -133,11 +136,8 @@ fun
 memcpy
 (
   ptr, ptr, size_t
-) : ptr = "mac#atscntrb_libpcre_memcpy"
+) : ptr = "mac#atscntrb_pcre_memcpy"
 // end of [memcpy]
-
-#define BSZ 16
-#define BSZ3 48
 
 fun
 auxlst
@@ -155,7 +155,7 @@ val n = $UN.cast{Size}(e-b)
 val n1 = g1uint_succ_size (n)
 val (pf, pfgc | p) = malloc_gc (n1)
 //
-val p = memcpy (p, ptr_add<char> (string2ptr(subject), b), n)
+val p = memcpy(p, ptr_add<char>(string2ptr(subject), b), n)
 //
 val p_n = ptr_add<char> (p, n)
 val ((*void*)) = $UN.ptr0_set<char> (p_n, '\000')

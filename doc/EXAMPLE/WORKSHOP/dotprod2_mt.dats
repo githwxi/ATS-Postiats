@@ -156,40 +156,48 @@ end // end of [dotprod_mt]
 
 (* ****** ****** *)
 //
-staload "libats/libc/SATS/stdlib.sats"
-//
-staload
-"{$LIBATSHWXI}/testing/SATS/randgen.sats"
+#staload "libats/libc/SATS/stdlib.sats"
 //
 (* ****** ****** *)
 //
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/workshop.sats"
-//  
+#staload
+_(*anon*) = "prelude/DATS/gnumber.dats"
+//
 (* ****** ****** *)
 //
-staload _ = "prelude/DATS/gnumber.dats"
-//  
-staload _ =
-"{$LIBATSHWXI}/testing/DATS/randgen.dats"
+#staload "{$HX_MYTESTING}/SATS/randgen.sats"
+#staload _ = "{$HX_MYTESTING}/DATS/randgen.dats"
 //
-staload _ = "libats/DATS/deqarray.dats"
-staload _ =
+(* ****** ****** *)
+//
+#staload _ = "libats/DATS/athread.dats"
+#staload _ = "libats/DATS/athread_posix.dats"
+//
+(* ****** ****** *)
+//
+#staload _ = "libats/DATS/deqarray.dats"
+//
+(* ****** ****** *)
+//
+#staload _ =
 "{$LIBATSHWXI}/teaching/mythread/DATS/channel.dats"
 //
-staload _(*anon*) =
+#staload _(*anon*) =
 "{$LIBATSHWXI}/teaching/mythread/DATS/spinvar.dats"
-staload _(*anon*) =
+#staload _(*anon*) =
 "{$LIBATSHWXI}/teaching/mythread/DATS/spinref.dats"
-staload _(*anon*) =
+#staload _(*anon*) =
 "{$LIBATSHWXI}/teaching/mythread/DATS/nwaiter.dats"
-staload _ =
+//
+(* ****** ****** *)
+//
+#staload
+"{$LIBATSHWXI}/teaching/mythread/SATS/workshop.sats"
+//
+#staload _(*anon*) =
 "{$LIBATSHWXI}/teaching/mythread/DATS/workshop.dats"
 staload _ =
 "{$LIBATSHWXI}/teaching/mythread/DATS/parallelize.dats"
-//
-staload _ = "libats/DATS/athread.dats"
-staload _ = "libats/DATS/athread_posix.dats"
 //
 (* ****** ****** *)
 

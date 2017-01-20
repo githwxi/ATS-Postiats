@@ -53,13 +53,13 @@ atstyarr_field_undef(fname) fname[]
 //
 local
 #include
-"{$LIBATSHWXI}/cstream/DATS/cstream.dats"
+"{$HX_CSTREAM}/DATS/cstream.dats"
 in (*in-of-local *)
 end // end of [local]
 //
 local
 #include
-"{$LIBATSHWXI}/cstream/DATS/cstream_fileref.dats"
+"{$HX_CSTREAM}/DATS/cstream_fileref.dats"
 in (*in-of-local *)
 end // end of [local]
 //

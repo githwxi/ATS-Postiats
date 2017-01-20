@@ -1,0 +1,153 @@
+%{
+//
+dynload
+"libatsdoc/dynloadall.dats"
+//
+staload
+"libatsdoc/SATS/libatsdoc_atext.sats"
+//
+extern
+fun
+comment(x: string): atext
+//
+extern
+fun packpreamble (): atext
+extern
+fun packpostamble (): atext
+extern
+fun packtitle (x: string): atext
+extern
+fun packfilename (x: string): atext
+extern
+fun packfilesynop (x: string): atext
+//
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+comment(x) = atext_nil((*void*))
+
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+packpreamble
+  () = let
+//
+val
+out = stdout_ref
+val () =
+fprint_string (out, "\
+#!/bin/bash\n\
+#\n\
+# This script is automatically generated.\n\
+#\n\
+\n\
+SOURCE=${PATSCONTRIB}/contrib/libats-/hwxi/\n\
+TARGET=ATS-Postiats-contrib/contrib/libats-/hwxi/\n\
+\n\
+srcget ()\n\
+{\n\
+cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") // end of [val]
+//
+in
+  atext_nil((*void*))
+end // end of [packpreamble]
+
+implement
+packpostamble
+  () = let
+val
+out = stdout_ref
+val () =
+fprint_string (out, "\
+#\n\
+echo \"The PATSCONTRIB-libats-hwxi files have been copied.\"\n\
+#\n\
+# end of the automatically generated script\n\
+#\n\
+")
+in
+  atext_nil((*void*))
+end // end of [packpostamble]
+
+implement
+packtitle(x) = atext_nil((*void*))
+
+implement
+packfilename
+  (x) = let
+//
+val
+out = stdout_ref
+val () =
+fprintf (out, "srcget \"%s\" ;\n", @(x))
+//
+in
+  atext_nil((*void*))
+end // end of [packfilename]
+
+implement
+packfilesynop (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+#packpreamble()
+
+(* ****** ****** *)
+
+#packtitle("\
+PATSCONTRIB/libats-/hwxi\
+")
+
+(* ****** ****** *)
+
+#packfilename("SIMD/SATS/v2df.sats")
+#packfilename("SIMD/CATS/v2df.cats")
+
+(* ****** ****** *)
+
+#packfilename("PEULER/SATS/peuler.sats")
+
+(* ****** ****** *)
+
+#packfilename("threadkit/staloadall.hats")
+
+#packfilename("threadkit/SATS/spinvar.sats")
+#packfilename("threadkit/SATS/spinref.sats")
+#packfilename("threadkit/SATS/nwaiter.sats")
+#packfilename("threadkit/SATS/channel.sats")
+#packfilename("threadkit/SATS/channel_vt.sats")
+
+#packfilename("threadkit/DATS/spinvar.dats")
+#packfilename("threadkit/DATS/spinref.dats")
+#packfilename("threadkit/DATS/nwaiter.dats")
+#packfilename("threadkit/DATS/channel.dats")
+#packfilename("threadkit/DATS/channel_vt.dats")
+
+(* ****** ****** *)
+
+#packpostamble()
+
+(* ****** ****** *)
+
+%{
+
+implement main () = ()
+
+%}
+
+(* ****** ****** *)
+
+(* end of [patscontrib_libats_hwxi.atxt] *)

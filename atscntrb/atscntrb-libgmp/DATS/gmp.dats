@@ -26,12 +26,12 @@
 
 (*
 // Author: Hongwei Xi
-// Authoremail: hwxi AT cs DOT bu DOT edu
+// Authoremail: hwxiATcsDOTbuDOTedu
 *)
 
 (* ****** ****** *)
 //
-// HX-2013-09: It is yet empty
+// HX-2013-09: This file is yet empty!
 //
 (* ****** ****** *)
 

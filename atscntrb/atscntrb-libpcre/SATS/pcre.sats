@@ -33,15 +33,15 @@
 (* ****** ****** *)
 //
 #define
-ATS_PACKNAME "ATSCNTRB.libpcre"
+ATS_PACKNAME "ATSCNTRB.pcre"
 #define
-ATS_EXTERN_PREFIX "atscntrb_libpcre_" // prefix for external names
+ATS_EXTERN_PREFIX "atscntrb_pcre_" // prefix for external names
 //
 (* ****** ****** *)
 //
 %{#
 //
-#include "libpcre/CATS/pcre.cats"
+#include "pcre/CATS/pcre.cats"
 //
 %} // end of [%{#]
 //

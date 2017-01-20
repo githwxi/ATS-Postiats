@@ -9,7 +9,7 @@ SRC=ATS-Postiats
 DST=ATS-Postiats-include
 #
 SRC2=ATS-Postiats-contrib
-DST2=ATS-Postiats-include/contrib
+DST2=ATS-Postiats-include/patscontrib
 #
 ######
 
@@ -61,29 +61,12 @@ update:: ; $(CPF) $(SRC)/libats/libc/CATS/gdbm/*.cats $(DST)/libats/libc/CATS/gd
 ######
 
 update2:: ; \
-  $(CPF) $(SRC2)/contrib/pcre/CATS/pcre.cats $(DST2)/pcre/CATS/.
-
-######
-
-update2:: ; \
-  $(CPF) $(SRC2)/contrib/libgmp/CATS/gmp.cats $(DST2)/libgmp/CATS/.
-
-######
-
-update2:: ; \
   $(CPF) $(SRC2)/contrib/cairo/CATS/cairo.cats $(DST2)/cairo/CATS/.
 
 ######
 
 update2:: ; \
   $(CPF) $(SRC2)/contrib/zeromq/CATS/zmq.cats $(DST2)/zeromq/CATS/.
-
-######
-
-update2:: ; \
-  $(CPF) $(SRC2)/contrib/json-c/CATS/json.cats $(DST2)/json-c/CATS/.
-update2:: ; \
-  $(CPF) $(SRC2)/contrib/json-c/CATS/printbuf.cats $(DST2)/json-c/CATS/.
 
 ######
 
@@ -108,11 +91,12 @@ update2:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gtk $(DST2)/GTK/CATS/.
 
 ######
 
-TARZVCF=tar zvcf
+TARZVCF=tar -zvcf
 
 ######
 #
-PACKNAME=ATS2-Postiats-include-0.2.13
+PACKNAME=ATS2-Postiats-include-0.3.0
+# PACKNAME=ATS2-Postiats-include-0.2.13
 # PACKNAME=ATS2-Postiats-include-0.2.12
 # PACKNAME=ATS2-Postiats-include-0.2.11
 # PACKNAME=ATS2-Postiats-include-0.2.10

@@ -103,9 +103,12 @@ clean:: ; $(RMF) atscc2js_*_?ats.c
 clean:: ; $(RMF) libatscc2js_ext_?ats.c
 
 ######
-
+#
 cleanall:: clean
+#
 cleanall:: ; $(RMF) ./atscc2js
 cleanall:: ; $(RMF) ./libatscc2js.a
-
+cleanall:: ; $(RMF) ./npm/CATS/catsparse_sats.c
+cleanall:: ; $(RMF) ./npm/CATS/atscc2js_*_dats.c 
+#
 ###### end of [Makefile] ######
