@@ -5,10 +5,7 @@
 "version": "1.0.0-alpha"
 ,
 "description":
-"\
-The package contains the header files needed for \
-compiling the C code generated from ATS source via patsopt\
-"
+"The package contains the header files needed for compiling the C code generated from ATS source via patsopt"
 ,
   "main": "N/A",
   "scripts": {},
