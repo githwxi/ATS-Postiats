@@ -30,7 +30,21 @@ Here is a list of major additions and changes since the last release:
    https://groups.google.com/forum/#!topic/ats-lang-users/03LCSLaBmxU
 5. Adding script for automatically building ccomp/atslib/lib/libatsopt.a
    in future releases
-
+6. Reorganizing (by moving packages from ATS2-contrib to ATS2/contrib):
+   ats2cpp,
+   ATS-extsolve,
+   ATS-extsolve-z3,
+   ATS-extsolve-smt2,
+   CATS-parsemit,
+   CATS-atscc2js,
+   CATS-atscc2pl,
+   CATS-atscc2py3,
+   CATS-atscc2php,
+   CATS-atscc2scm,
+   CATS-atscc2clj,
+   CATS-atscc2erl,
+   ...
+      
 ######
 
 0.2.13
