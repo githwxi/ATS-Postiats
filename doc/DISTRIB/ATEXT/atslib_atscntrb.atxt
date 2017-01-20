@@ -135,6 +135,23 @@ packfilesynop(x) = atext_nil()
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-libjson-c/SATS/json.sats")
+#packfilename("atscntrb-libjson-c/SATS/json_ML.sats")
+#packfilename("atscntrb-libjson-c/SATS/json_util.sats")
+#packfilename("atscntrb-libjson-c/SATS/json_object.sats")
+#packfilename("atscntrb-libjson-c/SATS/json_object_iterator.sats")
+#packfilename("atscntrb-libjson-c/SATS/json_tokener.sats")
+#packfilename("atscntrb-libjson-c/SATS/mybasis.sats")
+#packfilename("atscntrb-libjson-c/SATS/linkhash.sats")
+#packfilename("atscntrb-libjson-c/SATS/printbuf.sats")
+#packfilename("atscntrb-libjson-c/SATS/arraylist.sats")
+#packfilename("atscntrb-libjson-c/DATS/json.dats")
+#packfilename("atscntrb-libjson-c/DATS/json_ML.dats")
+#packfilename("atscntrb-libjson-c/json-c/CATS/json.cats")
+#packfilename("atscntrb-libjson-c/json-c/CATS/printbuf.cats")
+  
+(* ****** ****** *)
+
 #packfilename("atscntrb-hx-intinf/SATS/intinf.sats")
 #packfilename("atscntrb-hx-intinf/SATS/intinf_t.sats")
 #packfilename("atscntrb-hx-intinf/SATS/intinf_vt.sats")

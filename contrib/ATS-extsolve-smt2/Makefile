@@ -29,19 +29,6 @@ endif
 
 ######
 
-ifdef \
-PATSCONTRIB
-PATSCONTRIBQ="$(PATSCONTRIB)"
-else
-ifdef ATSCONTRIB
-  PATSCONTRIBQ="$(ATSCONTRIB)"
-else
-  PATSCONTRIBQ="/usr/local/lib/ats2-postiats"
-endif
-endif
-
-######
-
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
@@ -125,6 +112,13 @@ $(SOURCES_SATS) $(SOURCES_CATS) $(TARGETS_DATS_O) $(LDFLAGS)
 cleanall:: ; $(RMF) patsolve_smt2
 #
 ######
+#
+npm:: all
+npm:: ; $(CPF) patsolve_smt2_*_dats.c npm/CATS/.
+npm:: ; $(CPF) patsolve_parsing_sats.c npm/CATS/.
+npm:: ; $(CPF) patsolve_cnstrnt_sats.c npm/CATS/.
+#
+######
 
 %_dats.o: DATS/%.dats; $(PATSCC2) -c $<
 
@@ -148,6 +142,9 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) ./npm/CATS/patsolve_smt2_*_dats.c
+cleanall:: ; $(RMF) ./npm/CATS/patsolve_parsing_sats.c
+cleanall:: ; $(RMF) ./npm/CATS/patsolve_cnstrnt_sats.c
 
 ######
 

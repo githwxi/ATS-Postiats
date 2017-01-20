@@ -177,12 +177,12 @@ RMF=rm -f
 ######
 
 cleanats:: ; $(RMF) *~
-cleanats:: ; $(RMF) *_?ats.o
-cleanats:: ; $(RMF) *_?ats.c
 cleanats:: ; $(RMF) SATS/*~
 cleanats:: ; $(RMF) DATS/*~
 cleanats:: ; $(RMF) DATS/CNSTRNT/*~
 cleanats:: ; $(RMF) DATS/PARSING/*~
+cleanats:: ; $(RMF) *_?ats.o
+cleanats:: ; $(RMF) *_?ats.c
 
 ######
 

@@ -29,19 +29,6 @@ endif
 
 ######
 
-ifdef \
-PATSCONTRIB
-PATSCONTRIBQ="$(PATSCONTRIB)"
-else
-ifdef ATSCONTRIB
-  PATSCONTRIBQ="$(ATSCONTRIB)"
-else
-  PATSCONTRIBQ="/usr/local/lib/ats2-postiats"
-endif
-endif
-
-######
-
 PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 

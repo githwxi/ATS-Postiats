@@ -45,12 +45,16 @@
 
 (* ****** ****** *)
 //
-#define ATS_PACKNAME "ATSCNTRB.libz3"
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define
+ATS_PACKNAME "ATSCNTRB.libz3"
+#define
+ATS_STALOADFLAG 0 // no static loading at run-time
 //
-#define ATS_EXTERN_PREFIX "atscntrb" // prefix for extern names
+#define
+ATS_EXTERN_PREFIX "atscntrb_" // prefix for extern names
 (*
-#define ATS_EXTERN_STATIC "_atscntrb" // prefix for extern names
+#define
+ATS_EXTERN_STATIC "_atscntrb_" // prefix for extern names
 *)
 //
 (* ****** ****** *)
