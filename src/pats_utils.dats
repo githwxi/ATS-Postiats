@@ -165,7 +165,9 @@ patsopt_PATSRELOCROOT_set()
 extern
 fun
 patsopt_getenv_gc
-  (name: string): Stropt = "ext#patsopt_getenv_gc"
+(
+  name: string
+) : Stropt = "ext#patsopt_getenv_gc"
 //
 implement
 patsopt_getenv_gc
@@ -211,24 +213,50 @@ fun strcasecmp (
   = "ext#patsopt_strcasecmp"
 //
 implement
-strcasecmp (x1, x2) = let
-  fun loop (p1: Ptr1, p2: Ptr1): int = let
-    val c1 = char_toupper ($UN.ptrget<char> (p1))
-    val c2 = char_toupper ($UN.ptrget<char> (p2))
-  in
-    if c1 < c2 then ~1
-    else if c1 > c2 then 1
-    else if c1 != '\000' then loop (p1+1, p2+1)
-    else 0 // end of [if]
-  end // end of [loop]
+strcasecmp
+  (x1, x2) = let
+//
+#define NUL '\000'
+//
+fun
+loop
+(
+p1: Ptr1, p2: Ptr1
+) : int = let
+//
+val c1 = char_toupper($UN.ptrget<char>(p1))
+val c2 = char_toupper($UN.ptrget<char>(p2))
+//
 in
-  $effmask_all (loop ($UN.cast2Ptr1(x1), $UN.cast2Ptr1(x2)))
+//
+if
+(c1 < c2)
+then (~1)
+else
+(
+if
+(c1 > c2)
+then ( 1 )
+else
+(
+if c1 != NUL then loop(p1+1, p2+1) else (0)
+) (* end of [else] *)
+) (* end of [else] *)
+//
+end // end of [loop]
+//
+in
+//
+$effmask_all
+  (loop($UN.cast2Ptr1(x1), $UN.cast2Ptr1(x2)))
+//
 end // end of [strcasecmp]
 //
 (* ****** ****** *)
 //
 extern
-fun string_test_prefix
+fun
+string_test_prefix
 (
   str: string, prfx: string
 ) :<> bool
@@ -261,7 +289,8 @@ end // end of [patsopt_string_test_prefix]
 (* ****** ****** *)
 //
 extern
-fun string_test_sffx
+fun
+string_test_sffx
 (
   str: string, sffx: string
 ) :<> bool
@@ -291,6 +320,8 @@ end // end of [string_test_sffx]
 (* ****** ****** *)
 
 local
+
+(* ****** ****** *)
 
 staload
 STDLIB = "libc/SATS/stdlib.sats"
@@ -832,8 +863,9 @@ val
 tmpbuf = strbuf_of_strptr(tmp0)
 //
 prval () =
-__assert () where {
-  extern prfun __assert (): [n >= 6] void
+__assert () where
+{
+  extern prfun __assert(): [n >= 6] void
 } (* end of [prval] *)
 //
 prval
@@ -851,7 +883,7 @@ if
 fd >= 0
 then let
 //
-  prval
+prval
   $FCNTL.open_v_succ(pffil) = pfopt
 //
   val
@@ -881,9 +913,12 @@ in
   res (*strptr*)
 end // end of [then]
 else let
-  prval
+//
+prval
   $FCNTL.open_v_fail((*void*)) = pfopt
+//
   val ((*freed*)) = strptr_free(tmpstr) in strptr_null((*void*))
+//
 end // end of [else]
 //
 end // end of [tostring_fprint]
@@ -895,7 +930,7 @@ end // end of [local]
 // HX-2015-01-27:
 // for stopping optimization
 //
-implement ptr_as_volatile (ptr) = ((*dummy*))
+implement ptr_as_volatile(ptr) = ((*dummy*))
 //
 (* ****** ****** *)
 
