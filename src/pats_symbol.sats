@@ -160,9 +160,9 @@ val symbol_PATSHOME : symbol
 //
 val symbol_PATSCONTRIB : symbol
 //
-val symbol_PATSRELOCROOT : symbol
+val symbol_PATSHOMELOCS : symbol
 //
-val symbol_PATSHOMERELOCS : symbol
+val symbol_PATSRELOCROOT : symbol
 //
 (* ****** ****** *)
 //

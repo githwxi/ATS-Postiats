@@ -48,8 +48,8 @@ staload "./pats_utils.sats"
 //
 static char *patsopt_PATSHOME = (char*)0 ;
 static char *patsopt_PATSCONTRIB = (char*)0 ;
+static char *patsopt_PATSHOMELOCS = (char*)0 ;
 static char *patsopt_PATSRELOCROOT = (char*)0 ;
-static char *patsopt_PATSHOMERELOCS = (char*)0 ;
 //
 #define \
 patsopt_getenv(name) getenv(name)
@@ -111,6 +111,30 @@ patsopt_PATSCONTRIB_set()
 //
 ATSextfun()
 ats_ptr_type
+patsopt_PATSHOMELOCS_get()
+{
+  return patsopt_PATSHOMELOCS ; // optional string
+} // end of [patsopt_PATSHOMELOCS_get]
+ATSextfun()
+ats_void_type
+patsopt_PATSHOMELOCS_set()
+{
+//
+  patsopt_PATSHOMELOCS = patsopt_getenv_gc("PATSHOMELOCS") ;
+//
+  if
+  (
+   !patsopt_PATSHOMELOCS
+  )
+  {
+    patsopt_PATSHOMELOCS = patsopt_getenv_gc("ATSHOMELOCS") ;
+  }
+//
+  return ;
+} // end of [patsopt_PATSHOMELOCS_set]
+//
+ATSextfun()
+ats_ptr_type
 patsopt_PATSRELOCROOT_get()
 {
   return patsopt_PATSRELOCROOT ; // optional string
@@ -133,30 +157,6 @@ patsopt_PATSRELOCROOT_set()
   return ;
 //
 } // end of [patsopt_PATSRELOCROOT_set]
-//
-ATSextfun()
-ats_ptr_type
-patsopt_PATSHOMERELOCS_get()
-{
-  return patsopt_PATSHOMERELOCS ; // optional string
-} // end of [patsopt_PATSHOMERELOCS_get]
-ATSextfun()
-ats_void_type
-patsopt_PATSHOMERELOCS_set()
-{
-//
-  patsopt_PATSHOMERELOCS = patsopt_getenv_gc("PATSHOMERELOCS") ;
-//
-  if
-  (
-   !patsopt_PATSHOMERELOCS
-  )
-  {
-    patsopt_PATSHOMERELOCS = patsopt_getenv_gc("ATSHOMERELOCS") ;
-  }
-//
-  return ;
-} // end of [patsopt_PATSHOMERELOCS_set]
 //
 %} (* end of [%{^] *)
 

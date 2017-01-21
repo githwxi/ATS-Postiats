@@ -219,7 +219,7 @@ filenameopt_make_relative
 vtypedef
 pathlst_vt = List0_vt(path)
 //
-fun the_PATSHOMERELOCS_get_pathlst((*void*)): pathlst
+fun the_PATSHOMELOCS_get_pathlst((*void*)): pathlst
 //
 (* ****** ****** *)
 

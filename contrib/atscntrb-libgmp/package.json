@@ -2,10 +2,10 @@
 "name":
 "atscntrb-libgmp"
 ,
-  "version": "1.0.2"
+"version": "1.0.3"
 ,
-  "description":
-  "This package is for directly calling in ATS various GMP-functions."
+"description":
+"This package is for directly calling in ATS various GMP-functions."
 ,
   "main": "N/A"
 ,
@@ -16,7 +16,7 @@
   "keywords": [
     "ATS",
     "GMP",
-    "libgmp"
+    "atscntrb-libgmp"
   ]
 ,
   "author": "Hongwei Xi <gmhwxi@gmail.com>"

@@ -125,7 +125,11 @@ else
 (
 (
 if
-strncmp(given, "$PATSHOMERELOCS/", 16) = 0
+0 =
+strncmp
+(
+given, "$PATSHOMELOCS/", 14
+)
 then 1
 else 2(*ext*)
 ) (* end of [else] *)
@@ -161,9 +165,9 @@ in
 //
 case+ 0 of
 | _ when c = c0 =>
-    loop (p1, n+1, c0, c1)
+    loop(p1, n+1, c0, c1)
 | _ when c = c1 =>
-    if n > 1 then loop (p1, n-1, c0, c1) else p1
+    if n > 1 then loop(p1, n-1, c0, c1) else p1
 | _ (* !=c0,c1 *) =>
     if c != '\000' then loop (p1, n, c0, c1) else null
 //
@@ -512,18 +516,18 @@ in
   | ~list_vt_cons
       (dir, dirs) => (
       if (p2s)dir = curdir then let
-        val () = strptr_free (dir) in
-        dirs_process (curdir, pardir, npar, dirs, res)
+        val () = strptr_free(dir) in
+        dirs_process(curdir, pardir, npar, dirs, res)
       end else if (p2s)dir = pardir then let
-        val () = strptr_free (dir) in
-        dirs_process (curdir, pardir, npar + 1, dirs, res)
+        val () = strptr_free(dir) in
+        dirs_process(curdir, pardir, npar + 1, dirs, res)
       end else (
         if npar > 0 then let
-          val () = strptr_free (dir)
+          val () = strptr_free(dir)
         in
-          dirs_process (curdir, pardir, npar - 1, dirs, res)
+          dirs_process(curdir, pardir, npar - 1, dirs, res)
         end else begin
-          dirs_process (curdir, pardir, 0, dirs, list_vt_cons (dir, res))
+          dirs_process(curdir, pardir, 0, dirs, list_vt_cons(dir, res))
         end (* end of [if] *)
       ) // end of [if]
     ) (* end of [list_vt_cons] *)
@@ -580,7 +584,7 @@ stringlst_concat
 } (* end of [where] *) // end of [val]
 //
 val ((*freed*)) =
-list_vt_free_fun<strptr1> (dirs, lam x => strptr_free (x))
+list_vt_free_fun<strptr1> (dirs, lam x => strptr_free(x))
 //
 in
   path(*strptr*)
@@ -996,33 +1000,6 @@ extern castfn p2s {l:agz} (x: !strptr l):<> String
 (* ****** ****** *)
 
 fun
-aux_local
-(
-  given: string
-) : Stropt = let
-  val fil = filename_get_current()
-  val pname = filename_get_partname(fil)
-(*
-  val () = println!("aux_local: pname = ", pname)
-*)
-  val pname2 = filename_merge(pname, given)
-  val pname2_nf = path_normalize_vt((p2s)pname2)
-  val () = strptr_free (pname2)
-(*
-  val () = println! ("aux_local: pname2_nf = ", pname2_nf)
-*)
-  val isexi = test_file_exists((p2s)pname2_nf)
-in
-  if isexi then
-    stropt_of_strptr(pname2_nf)
-  else let
-    val () = strptr_free(pname2_nf) in stropt_none(*void*)
-  end // end of [if]
-end // end of [aux_local]
-
-(* ****** ****** *)
-
-fun
 aux_try
   {n:nat} .<n,0>.
 (
@@ -1045,14 +1022,17 @@ aux2_try
 (
   path: path, paths: list(path, n), given: string
 ) : Stropt = let
-  val partname =
-    filename_append (path, given)
-  val isexi = test_file_exists ((p2s)partname)
+//
+  val
+  partname = filename_append(path, given)
+//
 (*
-  val () = begin
-    printf ("aux2_try: partname = %s\n", @(partname))
-  end // end of [val]
+  val () =
+  printf ("aux2_try: partname = %s\n", @(partname))
 *)
+//
+  val isexi = test_file_exists((p2s)partname)
+//
 in
 //
 if
@@ -1065,6 +1045,35 @@ then
 end // end of [if]
 //
 end // end of [aux2_try]
+
+(* ****** ****** *)
+
+fun
+aux_local
+(
+  given: string
+) : Stropt = let
+  val fil = filename_get_current()
+  val pname = filename_get_partname(fil)
+(*
+  val () = println!("aux_local: pname = ", pname)
+*)
+  val pname2 =
+    filename_merge(pname, given)
+  val pname2_nf =
+    path_normalize_vt((p2s)pname2)
+  val ((*freed*)) = strptr_free(pname2)
+(*
+  val () = println! ("aux_local: pname2_nf = ", pname2_nf)
+*)
+  val isexi = test_file_exists((p2s)pname2_nf)
+in
+  if isexi then
+    stropt_of_strptr(pname2_nf)
+  else let
+    val () = strptr_free(pname2_nf) in stropt_none(*void*)
+  end // end of [if]
+end // end of [aux_local]
 
 (* ****** ****** *)
 
@@ -1108,7 +1117,7 @@ aux_try_prepathlst
 (* ****** ****** *)
 
 fun
-aux_relocs
+aux_homelocs
 (
   given: string
 ) : Stropt = let
@@ -1117,7 +1126,7 @@ aux_relocs
 val () =
 println!
 (
-  "aux_relocs: given = ", given
+  "aux_homelocs: given = ", given
 ) (* end of [val] *)
 *)
 //
@@ -1162,22 +1171,22 @@ in
   loop($UN.cast2ptr(given))
 end // end of [given_get_partname]
 //
-val relocs =
-  the_PATSHOMERELOCS_get_pathlst()
+val homelocs =
+  the_PATSHOMELOCS_get_pathlst()
 //
 (*
 val () =
 (
 print!
 (
-"aux_relocs: relocs = "
-); print_pathlst(relocs); println!()
+"aux_homelocs: homelocs = "
+); print_pathlst(homelocs); println!()
 )
 *)
 //
 in
-  aux_try(relocs, given_get_partname(given))
-end // end of [aux_relocs]
+  aux_try(homelocs, given_get_partname(given))
+end // end of [aux_homelocs]
 
 (* ****** ****** *)
 
@@ -1203,12 +1212,13 @@ case+ knd of
     //
     aux_local(given)
   )
-| 1 (* relocs *) =>
+| 1 (* homelocs *) =>
   (
     //
-    // given = $PATSHOMERELOCS/<path>
+    // given =
+    // $PATSHOMELOCS/<path>
     //
-    aux_relocs(given)
+    aux_homelocs(given)
   )
 //
 | _ (*external*) => let
@@ -1366,11 +1376,11 @@ pathlst_insert
 (* ****** ****** *)
 //
 val
-the_PATSHOMERELOCS =
+the_PATSHOMELOCS =
 ref<Option(pathlst)>(None())
 //
 fun
-the_PATSHOMERELOCS_split
+the_PATSHOMELOCS_split
 (
   paths: string
 ) : pathlst = let
@@ -1460,10 +1470,10 @@ list_of_list_vt
 list_vt_reverse(loop2($UN.cast2ptr(paths), 0, list_vt_nil()))
 ) (* list_of_list_vt *)
 //
-end // end of [the_PATSHOMERELOCS_split]
+end // end of [the_PATSHOMELOCS_split]
 //
 fun
-the_PATSHOMERELOCS_initize
+the_PATSHOMELOCS_initize
   (): pathlst = let
 //
 val
@@ -1474,7 +1484,7 @@ paths = get() where
   get(
   // argless
   ) : Stropt =
-    "ext#patsopt_PATSHOMERELOCS_get"
+    "ext#patsopt_PATSHOMELOCS_get"
 } (* end of [val] *)
 //
 (*
@@ -1482,7 +1492,7 @@ val () =
 (
 print!
 (
-"the_PATSHOMERELOCS_initize: paths = "
+"the_PATSHOMELOCS_initize: paths = "
 ); print_stropt(paths); print_newline()
 )
 *)
@@ -1496,16 +1506,16 @@ issome
 then paths where
 {
   val paths = stropt_unsome(paths)
-  val paths = the_PATSHOMERELOCS_split(paths)
+  val paths = the_PATSHOMELOCS_split(paths)
   val ((*void*)) =
-    !the_PATSHOMERELOCS := Some(paths)
+    !the_PATSHOMELOCS := Some(paths)
   // end of [val]
 }
 else paths where
 {
   val paths = list_nil()
   val ((*void*)) =
-    !the_PATSHOMERELOCS := Some(paths)
+    !the_PATSHOMELOCS := Some(paths)
   // end of [val]
 }
 end // end of [ else]
@@ -1513,19 +1523,19 @@ end // end of [ else]
 in (* in-of-local *)
 
 implement
-the_PATSHOMERELOCS_get_pathlst
+the_PATSHOMELOCS_get_pathlst
   () = let
 //
 val
-opt = !the_PATSHOMERELOCS
+opt = !the_PATSHOMELOCS
 //
 in
 //
 case+ opt of
 | Some(paths) => paths
-| None((*void*)) => the_PATSHOMERELOCS_initize()
+| None((*void*)) => the_PATSHOMELOCS_initize()
 //
-end // end of [the_PATSHOMERELOCS_get_pathlst]
+end // end of [the_PATSHOMELOCS_get_pathlst]
 
 end // end of [local]
 

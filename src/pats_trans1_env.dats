@@ -682,7 +682,7 @@ extern
 ats_ptr_type patsopt_PATSCONTRIB_get() ;
 /*
 extern
-ats_ptr_type patsopt_PATSHOMERELOCS_get() ;
+ats_ptr_type patsopt_PATSHOMELOCS_get() ;
 */
 //
 %} // end of [%{^]
