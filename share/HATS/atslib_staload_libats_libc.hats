@@ -16,9 +16,10 @@ SHARE_ATSLIB_STALOAD_LIBATS_LIBC
 SHARE_ATSLIB_STALOAD_LIBATS_LIBC 1
 
 (* ****** ****** *)
-(*
-$PATSLIBATS = "$PATSHOME/libats"
-*)
+//
+#define
+PATSLIBATS_targetloc "$PATSHOME/libats"
+//
 (* ****** ****** *)
 
 staload

@@ -16,9 +16,10 @@ SHARE_ATSPRE_STALOAD_LIBATS_ML
 SHARE_ATSPRE_STALOAD_LIBATS_ML 1
 
 (* ****** ****** *)
-(*
-$PATSLIBATS = "$PATSHOME/libats"
-*)
+//
+#define
+PATSLIBATS_targetloc "$PATSHOME/libats"
+//
 (* ****** ****** *)
 //
 staload
