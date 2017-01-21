@@ -15,15 +15,17 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload T = "./../SATS/intinf_t.sats"
-staload VT = "./../SATS/intinf_vt.sats"
-
-(* ****** ****** *)
-
-staload _(*T*) = "./../DATS/intinf_t.dats"
-staload _(*VT*) = "./../DATS/intinf_vt.dats"
-
+//
+#staload
+T = "./../SATS/intinf_t.sats"
+#staload
+VT = "./../SATS/intinf_vt.sats"
+//
+#staload
+_(*T*) = "./../DATS/intinf_t.dats"
+#staload
+_(*VT*) = "./../DATS/intinf_vt.dats"
+//
 (* ****** ****** *)
 
 overload print with $T.print_intinf

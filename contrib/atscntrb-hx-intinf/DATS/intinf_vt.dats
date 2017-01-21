@@ -40,22 +40,10 @@ UN =
 //
 (* ****** ****** *)
 //
-local
+#include "./../mylib.hats"
 //
-#define
-LIBGMP_targetloc
-"$PATSHOME/contrib/atscntrb-libgmp"
-//
-in (*in-of-local*)
-//
-#staload GMP = "{$LIBGMP}/SATS/gmp.sats"
-//
-end // end of [local]
-//
-(* ****** ****** *)
-
 vtypedef mpz = $GMP.mpz_vt0ype
-
+//
 (* ****** ****** *)
 //
 #staload "./../SATS/intinf.sats"
