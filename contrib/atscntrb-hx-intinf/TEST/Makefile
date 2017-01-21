@@ -12,7 +12,8 @@ PATSHOMEQ="$(PATSHOME)"
 ######
 #
 export \
-PATSHOMERELOCS=./../..
+PATSHOMELOCS=\
+./node_modules:./../../node_modules
 #
 ######
 
