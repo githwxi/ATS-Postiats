@@ -14,7 +14,7 @@ ATS_MAINATSFLAG 1
 (* ****** ****** *)
 //
 #define
-ATS_DYNLOADNAME "atexting_include_all_dynload"
+ATS_DYNLOADNAME "atexting_all_dynload"
 //
 (* ****** ****** *)
 //
@@ -324,4 +324,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [atexting_include_all.dats] *)
+(* end of [atexting_all.dats] *)

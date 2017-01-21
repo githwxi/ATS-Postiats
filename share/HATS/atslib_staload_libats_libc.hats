@@ -16,87 +16,108 @@ SHARE_ATSLIB_STALOAD_LIBATS_LIBC
 SHARE_ATSLIB_STALOAD_LIBATS_LIBC 1
 
 (* ****** ****** *)
+(*
+$PATSLIBATS = "$PATSHOME/libats"
+*)
+(* ****** ****** *)
 
-#define
-PATSLIBATSC_targetloc "$PATSHOME/libats/libc"
+staload
+ERRNO =
+"{$PATSLIBATS}/libc/SATS/errno.sats"
+staload
+_(*ERRNO*) =
+"{$PATSLIBATS}/libc/DATS/errno.dats"
 
 (* ****** ****** *)
 
 staload
-ERRNO = "{$PATSLIBATSC}/SATS/errno.sats"
+DIRENT =
+"{$PATSLIBATS}/libc/SATS/dirent.sats"
 staload
-_(*ERRNO*) = "{$PATSLIBATSC}/DATS/errno.dats"
+_(*DIRENT*) =
+"{$PATSLIBATS}/libc/DATS/dirent.dats"
 
 (* ****** ****** *)
 
 staload
-DIRENT = "{$PATSLIBATSC}/SATS/dirent.sats"
+MATH =
+"{$PATSLIBATS}/libc/SATS/math.sats"
 staload
-_(*DIRENT*) = "{$PATSLIBATSC}/DATS/dirent.dats"
+_(*MATH*) =
+"{$PATSLIBATS}/libc/DATS/math.dats"
 
 (* ****** ****** *)
 
 staload
-MATH = "{$PATSLIBATSC}/SATS/math.sats"
+FLOAT =
+"{$PATSLIBATS}/libc/SATS/float.sats"
 staload
-_(*MATH*) = "{$PATSLIBATSC}/DATS/math.dats"
+_(*FLOAT*) =
+"{$PATSLIBATS}/libc/DATS/float.dats"
 
 (* ****** ****** *)
 
 staload
-FLOAT = "{$PATSLIBATSC}/SATS/float.sats"
-staload
-_(*FLOAT*) = "{$PATSLIBATSC}/DATS/float.dats"
+SIGNAL =
+"{$PATSLIBATS}/libc/SATS/signal.sats"
 
 (* ****** ****** *)
 
 staload
-SIGNAL = "{$PATSLIBATSC}/SATS/signal.sats"
+STDDEF =
+"{$PATSLIBATS}/libc/SATS/stddef.sats"
 
 (* ****** ****** *)
 
 staload
-STDDEF = "{$PATSLIBATSC}/SATS/stddef.sats"
+STDIO =
+"{$PATSLIBATS}/libc/SATS/stdio.sats"
+staload
+_(*STDIO*) =
+"{$PATSLIBATS}/libc/DATS/stdio.dats"
 
 (* ****** ****** *)
 
 staload
-STDIO = "{$PATSLIBATSC}/SATS/stdio.sats"
+STDLIB =
+"{$PATSLIBATS}/libc/SATS/stdlib.sats"
 staload
-_(*STDIO*) = "{$PATSLIBATSC}/DATS/stdio.dats"
+_(*STDLIB*) =
+"{$PATSLIBATS}/libc/DATS/stdlib.dats"
 
-(* ****** ****** *)
-
-staload
-STDLIB = "{$PATSLIBATSC}/SATS/stdlib.sats"
-staload
-_(*STDLIB*) = "{$PATSLIBATSC}/DATS/stdlib.dats"
-
-(* ****** ****** *)
-//
-staload
-STRING = "{$PATSLIBATSC}/SATS/string.sats"
-staload
-_(*STRING*) = "{$PATSLIBATSC}/DATS/string.dats"
-//
-staload
-STRINGS = "{$PATSLIBATSC}/SATS/strings.sats"
-staload
-_(*STRINGS*) = "{$PATSLIBATSC}/DATS/strings.dats"
-//
-(* ****** ****** *)
-//
-staload
-TIME = "{$PATSLIBATSC}/SATS/time.sats"
-staload
-_(*TIME*) = "{$PATSLIBATSC}/DATS/time.dats"
-//
 (* ****** ****** *)
 //
 staload
-UNISTD = "{$PATSLIBATSC}/SATS/unistd.sats"
+STRING =
+"{$PATSLIBATS}/libc/SATS/string.sats"
 staload
-_(*UNISTD*) = "{$PATSLIBATSC}/DATS/unistd.dats"
+_(*STRING*) =
+"{$PATSLIBATS}/libc/DATS/string.dats"
+//
+staload
+STRINGS =
+"{$PATSLIBATS}/libc/SATS/strings.sats"
+staload
+_(*STRINGS*) =
+"{$PATSLIBATS}/libc/DATS/strings.dats"
+//
+(* ****** ****** *)
+//
+staload
+TIME =
+"{$PATSLIBATS}/libc/SATS/time.sats"
+staload
+_(*TIME*) =
+"{$PATSLIBATS}/libc/DATS/time.dats"
+//
+(* ****** ****** *)
+//
+staload
+UNISTD =
+"{$PATSLIBATS}/libc/SATS/unistd.sats"
+staload
+_(*UNISTD*) =
+"{$PATSLIBATS}/libc/DATS/unistd.dats"
 //
 (* ****** ****** *)
 

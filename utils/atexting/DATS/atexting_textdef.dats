@@ -34,11 +34,11 @@
 (* ****** ****** *)
 //
 #include
-"share\
-/atspre_staload.hats"
+"share/atspre_define.hats"
 #include
-"share/HATS\
-/atspre_staload_libats_ML.hats"
+"share/atspre_staload.hats"
+#include
+"share/HATS/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 

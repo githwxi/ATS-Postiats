@@ -101,7 +101,6 @@ staload _(*anon*) = "libats/ML/DATS/hashtblref.dats"
 implement
 print_gvalue(x0) =
   fprint_gvalue(stdout_ref, x0)
-//
 implement
 prerr_gvalue(x0) =
   fprint_gvalue(stderr_ref, x0)
