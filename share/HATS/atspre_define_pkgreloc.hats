@@ -44,7 +44,7 @@ ATSLANGCOM "http://www.ats-lang.com"
 //
 #define
 LIBGMP_targetloc
-"$$PATSHOME/contrib/atscntrb-libgmp"
+"$PATSHOME/contrib/atscntrb-libgmp"
 //
 #define
 LIBPCRE_targetloc
