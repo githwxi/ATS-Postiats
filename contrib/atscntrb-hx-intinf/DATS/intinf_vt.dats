@@ -44,7 +44,7 @@ local
 //
 #define
 LIBGMP_targetloc
-"$PATSHOME/atscntrb/atscntrb-libgmp"
+"$PATSHOME/contrib/atscntrb-libgmp"
 //
 in (*in-of-local*)
 //

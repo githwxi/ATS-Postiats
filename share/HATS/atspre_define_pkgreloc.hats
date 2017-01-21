@@ -44,48 +44,43 @@ ATSLANGCOM "http://www.ats-lang.com"
 //
 #define
 LIBGMP_targetloc
-"$$PATSHOME/atscntrb/atscntrb-libgmp"
+"$$PATSHOME/contrib/atscntrb-libgmp"
 //
 #define
 LIBPCRE_targetloc
-"$PATSHOME/atscntrb/atscntrb-libpcre"
+"$PATSHOME/contrib/atscntrb-libpcre"
 //
 #define
 LIBCURL_targetloc
-"$PATSHOME/atscntrb/atscntrb-libcurl"
+"$PATSHOME/contrib/atscntrb-libcurl"
 //
 #define
 LIBJSONC_targetloc
-"$PATSHOME/atscntrb/atscntrb-libjson-c"
+"$PATSHOME/contrib/atscntrb-libjson-c"
 #define
 LIBJSON_C_targetloc
-"$PATSHOME/atscntrb/atscntrb-libjson-c"
+"$PATSHOME/contrib/atscntrb-libjson-c"
 //
 (* ****** ****** *)
 //
 #define
 HX_INTINF_targetloc
-"$PATSHOME/atscntrb/atscntrb-hx-intinf"
+"$PATSHOME/contrib/atscntrb-hx-intinf"
 #define
 HX_CSTREAM_targetloc
-"$PATSHOME/atscntrb/atscntrb-hx-cstream"
+"$PATSHOME/contrib/atscntrb-hx-cstream"
 #define
 HX_GLOBALS_targetloc
-"$PATSHOME/atscntrb/atscntrb-hx-globals"
+"$PATSHOME/contrib/atscntrb-hx-globals"
 //
 #define
 HX_MYTESTING_targetloc
-"$PATSHOME/atscntrb/atscntrb-hx-mytesting"
+"$PATSHOME/contrib/atscntrb-hx-mytesting"
 //
 (* ****** ****** *)
 //
 #define
-HIREDIS_targetloc "$PATSCONTRIB/contrib/hiredis"
-//
-(* ****** ****** *)
-//
-#define
-OPENSSL_targetloc "$PATSCONTRIB/contrib/OpenSSL"
+JNI_targetloc "$PATSCONTRIB/contrib/JNI"
 //
 (* ****** ****** *)
 //
@@ -105,7 +100,12 @@ CAIRO_targetloc "$PATSCONTRIB/contrib/cairo"
 (* ****** ****** *)
 //
 #define
-JNI_targetloc "$PATSCONTRIB/contrib/JNI"
+HIREDIS_targetloc "$PATSCONTRIB/contrib/hiredis"
+//
+(* ****** ****** *)
+//
+#define
+OPENSSL_targetloc "$PATSCONTRIB/contrib/OpenSSL"
 //
 (* ****** ****** *)
 //

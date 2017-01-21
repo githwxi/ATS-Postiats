@@ -9,7 +9,7 @@ CCOMP=gcc -O2 -D_XOPEN_SOURCE
 ######
 #
 export \
-PATSHOMERELOCS=$(PATSHOME)/atscntrb
+PATSHOMERELOCS=$(PATSHOME)/contrib
 #
 ######
 
@@ -32,7 +32,7 @@ CFLAGS += -DATS_MEMALLOC_LIBC
 #
 CFLAGS += -I$(PATSHOMEQ)
 CFLAGS += -I$(PATSHOMEQ)/ccomp/runtime
-CFLAGS += -I$(PATSHOMEQ)/atscntrb/atscntrb-libgmp 
+CFLAGS += -I$(PATSHOMEQ)/contrib/atscntrb-libgmp 
 #
 ######
 #
