@@ -271,7 +271,7 @@ in
 //
 if ngurl < 0
   then fprint_string (out, fname)
-  else fprintf (out, "%s(%s)", @(fname, given))
+  else fprintf(out, "%s(%s)", @(fname, given))
 // end of [if]
 //
 end // end of [fprint2_filename_full]
@@ -1020,15 +1020,17 @@ and
 aux2_try
   {n:nat} .<n,1>.
 (
-  path: path, paths: list(path, n), given: string
+  path: path
+, paths: list(path, n), given: string
 ) : Stropt = let
 //
   val
-  partname = filename_append(path, given)
+  partname =
+  filename_append(path, given)
 //
 (*
   val () =
-  printf ("aux2_try: partname = %s\n", @(partname))
+  printf("aux2_try: partname = %s\n", @(partname))
 *)
 //
   val isexi = test_file_exists((p2s)partname)
@@ -1117,6 +1119,56 @@ aux_try_prepathlst
 (* ****** ****** *)
 
 fun
+aux_tryloc
+  {n:nat} .<n,0>.
+(
+  paths: list(path, n), given: string
+) : Stropt = let
+in
+//
+case+ paths of
+| list_cons
+  (
+    path, paths
+  ) => aux2_tryloc(path, paths, given)
+| list_nil((*void*)) => stropt_none(*void*)
+//
+end // end of [aux_tryloc]
+
+and
+aux2_tryloc
+  {n:nat} .<n,1>.
+(
+  path: path
+, paths: list(path, n), given: string
+) : Stropt = let
+//
+val
+partname =
+filename_append(path, given)
+//
+(*
+val () =
+printf("aux2_tryloc: partname = %s\n", @(partname))
+*)
+//
+val stropt = aux_local((p2s)partname)
+//
+val ((*freed*)) = strptr_free(partname)
+//
+in
+//
+if
+(
+stropt_is_some(stropt)
+) then stropt(*path/given*) else aux_tryloc(paths, given)
+// end of [if]
+//
+end // end of [aux2_tryloc]
+
+(* ****** ****** *)
+
+fun
 aux_homelocs
 (
   given: string
@@ -1185,7 +1237,7 @@ print!
 *)
 //
 in
-  aux_try(homelocs, given_get_partname(given))
+  aux_tryloc(homelocs, given_get_partname(given))
 end // end of [aux_homelocs]
 
 (* ****** ****** *)
