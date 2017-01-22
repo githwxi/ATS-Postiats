@@ -2,7 +2,7 @@
 "name":
 "atscntrb-hx-intinf"
 ,
-"version": "1.0.2"
+"version": "1.0.3"
 ,
 "description":
 "A simple package based on libgmp for arithmetic operations (plus some other common operations on integers)"
@@ -20,11 +20,15 @@
     "intinf"
   ]
 ,
-  "dependencies" : {
-    "atscntrb-libgmp" : ">=1.0.2"
+  "dependencies": {
+    "atscntrb-libgmp" : ">=1.0.3"
   }
 ,
-  "author": "Hongwei Xi <gmhwxi@gmail.com>"
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>"
 ,
   "license": "MIT"
+,
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/contrib/atscntrb-hx-intinf/."
 }

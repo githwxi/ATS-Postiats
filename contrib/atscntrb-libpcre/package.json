@@ -2,10 +2,10 @@
 "name":
 "atscntrb-libpcre"
 ,
-  "version": "1.0.0"
+"version": "1.0.0"
 ,
-  "description":
-  "This package is for directly calling in ATS various PCRE-functions."
+"description":
+"This package is for directly calling in ATS various PCRE-functions."
 ,
   "main": "N/A"
 ,
@@ -19,7 +19,12 @@
     "libpcre"
   ]
 ,
-  "author": "Hongwei Xi <gmhwxi@gmail.com>"
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>"
 ,
   "license": "MIT"
+,
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/contrib/atscntrb-libpcre/."
+
 }

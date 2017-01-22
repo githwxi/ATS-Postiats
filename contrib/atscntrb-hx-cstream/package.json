@@ -2,10 +2,10 @@
 "name":
 "atscntrb-hx-cstream"
 ,
-  "version": "1.0.0"
+"version": "1.0.0"
 ,
-  "description":
-  "A simple package generating character streams based on strings, files, etc."
+"description":
+"A simple package generating character streams based on strings, files, etc."
 ,
   "main": "N/A"
 ,
@@ -20,7 +20,11 @@
 ,
   "dependencies" : {}
 ,
-  "author": "Hongwei Xi <gmhwxi@gmail.com>"
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>"
 ,
   "license": "MIT"
+,
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/contrib/atscntrb-hx-cstream/."
 }

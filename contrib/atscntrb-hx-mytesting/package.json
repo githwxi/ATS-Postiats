@@ -2,7 +2,7 @@
 "name":
 "atscntrb-hx-mytesting"
 ,
-  "version": "1.0.0-alpha"
+  "version": "1.0.0"
 ,
   "description":
   "A simple package for generating random data; it is primarily for backward compatibility; please use prelude/grandom instead!"
@@ -20,7 +20,11 @@
 ,
   "dependencies" : {}
 ,
-  "author": "Hongwei Xi <gmhwxi@gmail.com>"
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>"
 ,
   "license": "MIT"
+,
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/contrib/atscntrb-hx-mytesting/."    
 }
