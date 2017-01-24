@@ -6,11 +6,18 @@
 
 ######
 
-include $(PATSHOME)/share/atsmake-pre.mk
+PATSCONTRIBQ="$PATSCONTRIB"
 
 ######
 
-PATSCC_2=$(PATSCC) $(INCLUDE) -DATS_MEMALLOC_GCBDW -IIATS $(PATSHOMERELOCQ)/contrib -O2
+include \
+$(PATSHOME)/share/atsmake-pre.mk
+
+######
+
+PATSCC_2=\
+$(PATSCC) $(INCLUDE) \
+-DATS_MEMALLOC_GCBDW -IIATS $(PATSCONTRIBQ)/contrib -O2
 
 ######
 
@@ -63,8 +70,7 @@ INPATH += -I$(PATSHOME)/src
 INPATH += -IATS $(PATSHOME) -IATS $(ATSHOME)
 
 LDPATH :=
-LDPATH += -L$(PATSHOME)/utils/libatsopt
-LDPATH += -L$(PATSHOME)/utils/libatsynmark
+LDPATH += -L$(PATSHOME)/ccomp/atslib/lib
 
 LIBRARY :=
 LIBRARY := -latsynmark -latsdoc -latsopt -lats -lgmp

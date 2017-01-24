@@ -30,8 +30,7 @@ INPATH += -I$(PATSHOME)/src
 INPATH += -IATS $(PATSHOME) -IATS $(ATSHOME)
 
 LDPATH :=
-LDPATH += -L$(PATSHOME)/utils/libatsopt
-LDPATH += -L$(PATSHOME)/utils/libatsynmark
+LDPATH += -L$(PATSHOME)/ccomp/atslib/lib
 
 LIBRARY :=
 LIBRARY := -latsynmark -latsdoc -latsopt -lats -lgmp
