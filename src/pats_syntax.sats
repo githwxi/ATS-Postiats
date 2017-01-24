@@ -225,7 +225,10 @@ datatype
 s0taq_node =
   | S0TAQnone
   | S0TAQsymdot of symbol
+(*
+// HX-2017-01-24:
   | S0TAQsymcolon of symbol
+*)
 (*
   | S0TAQfildot of string (* filename *)
 *)
@@ -234,12 +237,17 @@ s0taq_node =
 typedef s0taq = '{
   s0taq_loc= location, s0taq_node= s0taq_node
 }
-
+//
 val the_s0taq_none : s0taq
+//
 fun s0taq_none (loc: location): s0taq
 fun s0taq_symdot (ent1: i0de, tok2: token): s0taq
+//
+(*
+// HX-2017-01-24:
 fun s0taq_symcolon (ent1: i0de, tok2: token): s0taq
-
+*)
+//
 fun s0taq_is_none (q: s0taq): bool
 
 fun print_s0taq (x: s0taq): void

@@ -150,10 +150,17 @@ fprint_s0taq (out, x) =
       val () = fprint_symbol (out, sym)
       val () = fprint_string (out, ".")
     }
-  | S0TAQsymcolon (sym) => {
+(*
+//
+// HX-2017-01-24:
+// it is never in use
+//
+  | S0TAQsymcolon(sym) =>
+    {
       val () = fprint_symbol (out, sym)
       val () = fprint_string (out, ":")
     }
+*)
 // end of [fprint_s0taq]
 
 implement print_s0taq (x) = fprint_s0taq (stdout_ref, x)

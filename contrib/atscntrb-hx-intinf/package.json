@@ -2,7 +2,7 @@
 "name":
 "atscntrb-hx-intinf"
 ,
-"version": "1.0.3"
+"version": "1.0.4"
 ,
 "description":
 "A simple package based on libgmp for arithmetic operations (plus some other common operations on integers)"

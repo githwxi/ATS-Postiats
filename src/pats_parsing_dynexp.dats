@@ -188,42 +188,48 @@ di0de
 implement
 p_di0de
   (buf, bt, err) = let
-  val tok = tokbuf_get_token (buf)
-  val loc = tok.token_loc
-  macdef incby1 () = tokbuf_incby1 (buf)
+//
+val tok =
+  tokbuf_get_token(buf)
+// end of [val]
+val loc = tok.token_loc
+macdef incby1() = tokbuf_incby1(buf)
+//
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node
+of // case+
 | T_IDENT_alp (x) => let
-    val () = incby1 () in i0de_make_string (loc, x)
+    val () = incby1 () in i0de_make_string(loc, x)
   end
 | T_IDENT_sym (x) => let
-    val () = incby1 () in i0de_make_string (loc, x)
+    val () = incby1 () in i0de_make_string(loc, x)
   end
 //
 | T_LT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_LT)
+    val () = incby1 () in i0de_make_sym(loc, symbol_LT)
   end
 | T_GT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_GT)
+    val () = incby1 () in i0de_make_sym(loc, symbol_GT)
   end
 //
 | T_BACKSLASH
     ((*void*)) => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_BACKSLASH)
+    val () = incby1 () in i0de_make_sym(loc, symbol_BACKSLASH)
   end
 | T_BANG () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_BANG)
+    val () = incby1 () in i0de_make_sym(loc, symbol_BANG)
   end
 | T_EQ () => let // [EQ] is a keyword in the statics
-    val () = incby1 () in i0de_make_sym (loc, symbol_EQ)
+    val () = incby1 () in i0de_make_sym(loc, symbol_EQ)
   end
 | T_TILDE () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_TILDE)
+    val () = incby1 () in i0de_make_sym(loc, symbol_TILDE)
   end
 //
 | T_GTLT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_GTLT)
+    val () = incby1 () in i0de_make_sym(loc, symbol_GTLT)
   end
 //
 | _ (*rest*) => let
@@ -262,7 +268,8 @@ val tok =
 val loc = tok.token_loc
 //
 var ent: synent? // uninitized
-macdef incby1 () = tokbuf_incby1 (buf)
+//
+macdef incby1() = tokbuf_incby1 (buf)
 //
 in
 //
@@ -275,20 +282,20 @@ case+ 0 of
     val ent1 =
       synent_decode{i0de}(ent)
     // end of [val]
-    val tok2 = tokbuf_get_token (buf)
+    val tok2 = tokbuf_get_token(buf)
   in
     case+
     tok2.token_node
     of // case+
-    | T_DOT () => let
-        val () = incby1 () in d0ynq_symdot(ent1, tok2)
+    | T_DOT() => let
+        val () = incby1() in d0ynq_symdot(ent1, tok2)
       end
-    | T_COLON () => let
-        val () = incby1 () in d0ynq_symcolon(ent1, tok2)
+    | T_COLON() => let
+        val () = incby1() in d0ynq_symcolon(ent1, tok2)
       end
-    | _ => let
-        val ent2 = p_i0de_dlr (buf, bt, err)
-        val ent3 = pif_fun (buf, bt, err, p_COLON, err0)
+    | _ (*rest-of-tokens*) => let
+        val ent2 = p_i0de_dlr(buf, bt, err)
+        val ent3 = pif_fun(buf, bt, err, p_COLON, err0)
       in
         if err = err0
           then d0ynq_symdotcolon(ent1, ent2, ent3)

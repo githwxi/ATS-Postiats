@@ -1486,57 +1486,70 @@ end // end of [p_v0ardec]
 i0mpsvararg ::= LBRACE s0vararg RBRACE
 *)
 fun
-p_i0mpsvararg (
+p_i0mpsvararg
+(
   buf: &tokbuf, bt: int, err: &int
 ) : s0vararg = let
   val err0 = err
   typedef a1 = token
   typedef a2 = s0vararg
   typedef a3 = token
-  val+~SYNENT3 (ent1, ent2, ent3) =
-    pseq3_fun {a1,a2,a3} (buf, bt, err, p_LBRACE, p_s0vararg, p_RBRACE)
+  val+
+  ~SYNENT3
+  (ent1, ent2, ent3) =
+  pseq3_fun{a1,a2,a3}
+    (buf, bt, err, p_LBRACE, p_s0vararg, p_RBRACE)
   // end of [val]
 in
-  if err = err0 then ent2 else synent_null ((*okay*))
+  if err = err0 then ent2 else synent_null((*okay*))
 end // end of [p_i0mpsvararg]
 
 (*
 i0mparg ::= LPAREN {s0arg}* RPAREN | {i0mpsvararg}*
 *)
 fun
-p_i0mparg (
+p_i0mparg
+(
   buf: &tokbuf, bt: int, err: &int
 ) : i0mparg = let
 //
-val err0 = err
-val ntok0 = tokbuf_get_ntok (buf)
+val
+err0 = err
+val
+ntok0 = tokbuf_get_ntok(buf)
 //
-val tok = tokbuf_get_token (buf)
+val tok = tokbuf_get_token(buf)
 //
-macdef incby1 () = tokbuf_incby1 (buf)
+macdef incby1() = tokbuf_incby1(buf)
 //
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node
+of // case+
 | T_LBRACE () => let
-    val ent = pstar_fun {s0vararg} (buf, bt, p_i0mpsvararg)
+    val
+    ent =
+    pstar_fun{s0vararg}
+      (buf, bt, p_i0mpsvararg)
+    // end of [val]
   in
-    i0mparg_svararglst ((l2l)ent)
+    i0mparg_svararglst((l2l)ent)
   end (* end of [_] *)
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
+    val ent2 = pstar_fun0_COMMA{s0arg}(buf, bt, p_s0arg)
     val ent3 = p_RPAREN (buf, bt, err)
   in
     if err = err0
-      then i0mparg_sarglst_some (tok, (l2l)ent2, ent3)
+      then i0mparg_sarglst_some(tok, (l2l)ent2, ent3)
       else let
-        val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, ntok0)
+        val () = list_vt_free(ent2) in tokbuf_set_ntok_null(buf, ntok0)
       end (* end of [else] *)
     // end of [if]
   end
-| _ => i0mparg_sarglst_none ()
+| _ (*rest-of-tokens*) => i0mparg_sarglst_none()
 //
 end // end of [p_i0mparg]
 
@@ -1549,7 +1562,8 @@ impqi0de ::=
 *)
 //
 fun
-p_impqi0de (
+p_impqi0de
+(
   buf: &tokbuf, bt: int, err: &int
 ) : impqi0de = let
 //
