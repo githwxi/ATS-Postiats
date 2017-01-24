@@ -290,15 +290,39 @@ case+ 0 of
     | T_DOT() => let
         val () = incby1() in d0ynq_symdot(ent1, tok2)
       end
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
     | T_COLON() => let
         val () = incby1() in d0ynq_symcolon(ent1, tok2)
       end
-    | _ (*rest-of-tokens*) => let
-        val ent2 = p_i0de_dlr(buf, bt, err)
-        val ent3 = pif_fun(buf, bt, err, p_COLON, err0)
+*)
+    | _ (*non-DOT*) =>
+        tokbuf_set_ntok_null(buf, n0) where
+      {
+        val () =
+          the_parerrlst_add_ifnbt(bt, loc, PE_d0ynq)
+        // end of [val]
+      } // end of [non-DOT]
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
+    | _ (*non-DOT-COLON*) => let
+        val ent2 =
+          p_i0de_dlr(buf, bt, err)
+        val ent3 =
+          pif_fun(buf, bt, err, p_COLON, err0)
+        // end of [val]
       in
         if err = err0
-          then d0ynq_symdotcolon(ent1, ent2, ent3)
+          then
+          (
+            d0ynq_symdotcolon(ent1, ent2, ent3)
+          ) (* end of [then] *)
           else let
             val () =
               the_parerrlst_add_ifnbt(bt, loc, PE_d0ynq)
@@ -307,15 +331,16 @@ case+ 0 of
             tokbuf_set_ntok_null(buf, n0)
           end // end of [else]
         // end of [if]
-      end // end of [_]
+      end // end of [non-DOT-COLON]
+*)
   end (* end of [_ when ...] *)
 //
-| _ (*rest*) => let
+| _ (*rest-of-tokens*) =>
+    synent_null((*void*)) where
+  {
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt(bt, loc, PE_d0ynq)
-  in
-    synent_null ((*void*))
-  end (* end of [_] *)
+  } (* end of [rest-of-tokens] *)
 //
 end // end of [p_d0ynq]
 

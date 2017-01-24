@@ -272,11 +272,17 @@ datatype
 d0ynq_node =
   | D0YNQnone of ()
   | D0YNQsymdot of symbol
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
   | D0YNQsymcolon of symbol
   | D0YNQsymdotcolon of (symbol, symbol)
+*)
 (*
-  | D0YNQfildot of string (* filename *)
-  | D0YNQfildot_symcolon of (string (* filename *), symbol)
+  | D0YNQfildot of string (*filename*)
+  | D0YNQfildot_symcolon of (string (*filename*), symbol)
 *)
 // end of [d0ynq_node]
 
@@ -296,10 +302,17 @@ d0ynq_none(loc: location): d0ynq
 //
 fun d0ynq_symdot
   (ent1: i0de, tok2: token): d0ynq
+//
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
 fun d0ynq_symcolon
   (ent1: i0de, tok2: token): d0ynq
 fun d0ynq_symdotcolon
   (ent1: i0de, ent2: i0de, ent3: token): d0ynq
+*)
 //
 fun d0ynq_is_none (q: d0ynq): bool
 //

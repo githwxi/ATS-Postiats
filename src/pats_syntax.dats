@@ -520,6 +520,13 @@ in '{
   d0ynq_loc= loc, d0ynq_node= D0YNQsymdot(ent1.i0de_sym)
 } end // end of [d0ynq_symdot]
 
+(* ****** ****** *)
+
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
 implement
 d0ynq_symcolon
   (ent1, tok2) = let
@@ -527,7 +534,7 @@ d0ynq_symcolon
 in '{
   d0ynq_loc= loc, d0ynq_node= D0YNQsymcolon(ent1.i0de_sym)
 } end // end of [d0ynq_symcolon]
-
+//
 implement
 d0ynq_symdotcolon
   (ent1, ent2, ent3) = let
@@ -536,6 +543,8 @@ in '{
   d0ynq_loc= loc
 , d0ynq_node= D0YNQsymdotcolon(ent1.i0de_sym, ent2.i0de_sym)
 } end // end of [d0ynq_symdotcolon]
+//
+*)
 
 (* ****** ****** *)
 
