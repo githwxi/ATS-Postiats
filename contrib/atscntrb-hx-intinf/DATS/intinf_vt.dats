@@ -40,7 +40,7 @@ UN =
 //
 (* ****** ****** *)
 //
-#include "./../mydep.hats"
+#include "./../mydepies.hats"
 //
 vtypedef mpz = $GMP.mpz_vt0ype
 //

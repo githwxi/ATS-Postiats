@@ -19,4 +19,4 @@ end // end of [local]
 //
 (* ****** ****** *)
 
-(* end of [mydep.hats] *)
+(* end of [mydepies.hats] *)
