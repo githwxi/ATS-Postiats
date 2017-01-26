@@ -14,11 +14,11 @@ ATSLANG_GITHUB_ATSLIB_CONTRIB
 (* ****** ****** *)
 //
 #require
-"{$ATSLANG_GITHUB_ATSLIB_CONTRIB}/libgmp/CATS/gmp.cats"
-#require
 "{$ATSLANG_GITHUB_ATSLIB_CONTRIB}/libgmp/SATS/gmp.sats"
 #require
 "{$ATSLANG_GITHUB_ATSLIB_CONTRIB}/libgmp/DATS/gmp.dats"
+#require
+"{$ATSLANG_GITHUB_ATSLIB_CONTRIB}/libgmp/gmp/CATS/gmp.cats"
 //
 (* ****** ****** *)
 //
