@@ -39,8 +39,7 @@ staload
 (* ****** ****** *)
 //
 staload
-"./../../../\
-STL/DATS/queue_queue.dats"
+"./../../../../STL/DATS/queue_queue.dats"
 //
 (* ****** ****** *)
 //

@@ -11,7 +11,7 @@ ATEXTING_targetloc
 (* ****** ****** *)
 //
 #include
-"{$ATEXTING}atexting_all.dats"
+"{$ATEXTING}/atexting_all.dats"
 #include
 "{$ATEXTING}\
 /DATS/SHARE/atexting_textdef_pre.dats"
