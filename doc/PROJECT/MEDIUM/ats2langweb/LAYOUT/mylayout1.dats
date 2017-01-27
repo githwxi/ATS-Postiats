@@ -13,7 +13,9 @@
 //
 (* ****** ****** *)
 //
-#include "{$LIBATSHWXI}/weboxy/weboxy.dats"
+#include
+"{$PATSHOME}/npm-utils\
+/contrib/libats-hwxi/weboxy/DATS/weboxy.dats"
 //
 (* ****** ****** *)
 //

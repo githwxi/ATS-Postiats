@@ -1,0 +1,30 @@
+{
+"name":
+"atscntrb-hx-weboxy"
+,
+"version": "1.0.1"
+,
+"description":
+"This package is for doing simple webpage layout..."
+,
+  "main": "N/A"
+,
+  "scripts": {}
+,
+  "repository": {}
+,
+  "keywords": [
+    "ATS",
+    "weboxy"
+  ]
+,
+  "dependencies": {}
+,
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>"
+,
+  "license": "MIT"
+,
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/npm-utils/contrib/libats-hwxi/weboxy/."
+}

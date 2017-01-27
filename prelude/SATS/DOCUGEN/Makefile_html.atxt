@@ -67,8 +67,7 @@ SHAREDOCU=$(PATSHOMEQ)/share/DOCUGEN
 ######
 
 LDPATH :=
-LDPATH += -L$(PATSHOME)/utils/libatsopt
-LDPATH += -L$(PATSHOME)/utils/libatsynmark
+LDPATH += -L$(PATSHOME)/ccomp/atslib/lib
 
 ######
 
