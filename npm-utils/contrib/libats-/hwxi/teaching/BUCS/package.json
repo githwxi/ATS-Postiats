@@ -2,7 +2,7 @@
 "name":
 "atscntrb-hx-teaching-bucs"
 ,
-"version": "1.0.0-alpha"
+"version": "1.0.0"
 ,
 "description":
 "This package contains library code for teaching BUCS courses..."

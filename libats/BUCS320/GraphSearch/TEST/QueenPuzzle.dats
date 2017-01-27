@@ -13,8 +13,8 @@ For testing GraphSearh_dfs
 
 (* ****** ****** *)
 
-staload "./../GraphSearch.dats"
-staload "./../GraphSearch_dfs.dats"
+staload "./../DATS/GraphSearch.dats"
+staload "./../DATS/GraphSearch_dfs.dats"
 
 (* ****** ****** *)
 

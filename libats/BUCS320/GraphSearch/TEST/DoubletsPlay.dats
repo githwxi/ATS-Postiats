@@ -17,8 +17,8 @@ staload UN = $UNSAFE
 
 (* ****** ****** *)
 
-staload "./../GraphSearch.dats"
-staload "./../GraphSearch_bfs.dats"
+staload "./../DATS/GraphSearch.dats"
+staload "./../DATS/GraphSearch_bfs.dats"
 
 (* ****** ****** *)
 
