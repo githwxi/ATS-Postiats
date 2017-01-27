@@ -8,7 +8,8 @@
 #include
 "share/atspre_staload.hats"
 #include
-"share/HATS/atspre_staload_libats_ML.hats"
+"share/HATS\
+/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
@@ -17,7 +18,7 @@
 (* ****** ****** *)
 //
 #staload
-"./../GamePlay_single.dats"
+"./../DATS/GamePlay_single.dats"
 //
 (* ****** ****** *)
 //
