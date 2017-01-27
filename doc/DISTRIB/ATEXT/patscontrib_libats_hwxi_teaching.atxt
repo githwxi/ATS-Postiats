@@ -112,10 +112,6 @@ PATSCONTRIB/libats-/hwxi/teaching\
 ")
 
 (* ****** ****** *)
-
-#packfilename("BUCS/DATS/BUCS.dats")
-
-(* ****** ****** *)
 //
 #packfilename("mydraw/SATS/mydraw.sats")
 #packfilename("mydraw/SATS/mydraw_cairo.sats")

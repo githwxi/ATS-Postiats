@@ -1,8 +1,10 @@
 %{
 //
-dynload "libatsdoc/dynloadall.dats"
+dynload
+"libatsdoc/dynloadall.dats"
 //
-staload "libatsdoc/SATS/libatsdoc_atext.sats"
+staload
+"libatsdoc/SATS/libatsdoc_atext.sats"
 //
 extern
 fun comment (x: string): atext

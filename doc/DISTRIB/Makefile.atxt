@@ -145,6 +145,10 @@ all_script::
 #make_entry("doc_example_atslib")
 
 ######
+
+#make_entry("npm_utils_contrib_libats_hwxi")
+
+######
 #
 #make_entry("patscontrib_JNI")
 #
@@ -201,6 +205,9 @@ atspackaging:: srcget_contrib_atscc2py3
 atspackaging:: srcget_contrib_atscc2php
 #
 atspackaging:: srcget_doc_example
+#
+atspackaging:: srcget_npm_utils_contrib
+#
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 #
 ######
@@ -282,15 +289,23 @@ srcget_contrib_atscc2py3:: SCRIPT/contrib_atscc2py3.bash ; bash $<
 srcget_contrib_atscc2php:: SCRIPT/contrib_atscc2php.bash ; bash $<
 #
 ######
-
-srcget_doc_example:: srcget_doc_example_intro
-srcget_doc_example:: srcget_doc_example_atslib
+#
 srcget_doc_example:: srcget_doc_example_misc
 srcget_doc_example:: srcget_doc_example_pcpv
-srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
-srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
+srcget_doc_example:: srcget_doc_example_intro
+srcget_doc_example:: srcget_doc_example_atslib
+#
 srcget_doc_example_misc:: SCRIPT/doc_example_misc.bash ; bash $<
 srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
+srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
+srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
+#
+######
+
+srcget_npm_utils_contrib:: \
+srcget_npm_utils_contrib_libats_hwxi
+srcget_npm_utils_contrib_libats_hwxi:: \
+SCRIPT/npm_utils_contrib_libats_hwxi.bash; bash $<
 
 ######
 

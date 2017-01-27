@@ -327,6 +327,19 @@ cleanall:: ; $(RMF) SCRIPT/doc_example_atslib.bash
 
 
 ######
+
+all_script:: \
+SCRIPT/npm_utils_contrib_libats_hwxi.bash
+SCRIPT/npm_utils_contrib_libats_hwxi.bash: npm_utils_contrib_libats_hwxi_atxt.exe ; ./$< > $@
+npm_utils_contrib_libats_hwxi_atxt.dats: ATEXT/npm_utils_contrib_libats_hwxi.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+npm_utils_contrib_libats_hwxi_atxt.exe: npm_utils_contrib_libats_hwxi_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) npm_utils_contrib_libats_hwxi_atxt.exe
+cleanall:: ; $(RMF) HTML/npm_utils_contrib_libats_hwxi.html
+cleanall:: ; $(RMF) SCRIPT/npm_utils_contrib_libats_hwxi.bash
+
+
+######
 #
 all_script:: \
 SCRIPT/patscontrib_JNI.bash
@@ -518,6 +531,9 @@ atspackaging:: srcget_contrib_atscc2py3
 atspackaging:: srcget_contrib_atscc2php
 #
 atspackaging:: srcget_doc_example
+#
+atspackaging:: srcget_npm_utils_contrib
+#
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 #
 ######
@@ -599,15 +615,21 @@ srcget_contrib_atscc2py3:: SCRIPT/contrib_atscc2py3.bash ; bash $<
 srcget_contrib_atscc2php:: SCRIPT/contrib_atscc2php.bash ; bash $<
 #
 ######
-
-srcget_doc_example:: srcget_doc_example_intro
-srcget_doc_example:: srcget_doc_example_atslib
+#
 srcget_doc_example:: srcget_doc_example_misc
 srcget_doc_example:: srcget_doc_example_pcpv
-srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
-srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
+srcget_doc_example:: srcget_doc_example_intro
+srcget_doc_example:: srcget_doc_example_atslib
+#
 srcget_doc_example_misc:: SCRIPT/doc_example_misc.bash ; bash $<
 srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
+srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
+srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
+#
+######
+
+srcget_npm_utils_contrib:: srcget_npm_utils_contrib_libats_hwxi
+srcget_npm_utils_contrib_libats_hwxi:: SCRIPT/npm_utils_contrib_libats_hwxi.bash; bash $<
 
 ######
 
