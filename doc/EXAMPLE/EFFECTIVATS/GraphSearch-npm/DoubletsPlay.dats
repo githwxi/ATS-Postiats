@@ -15,12 +15,11 @@ staload UN = $UNSAFE
 
 (* ****** ****** *)
 //
+#define GraphSearch_bfs 1
+//
 #include
 "$PATSHOMELOCS\
 /atscntrb-bucs320-graphsearch/mylibies.hats"
-//
-staload $GS // opening GS
-staload $GS_bfs // opening GS_bfs
 //
 (* ****** ****** *)
 
@@ -173,22 +172,22 @@ end // end of [local]
 
 (* ****** ****** *)
 
-assume node = list0(string)
-assume nodelst = stream_vt(node)
+assume $GS.node = list0(string)
+assume $GS.nodelst = stream_vt($GS.node)
 
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-theSearchStore_insert_lst(nxs) =
+$GS.theSearchStore_insert_lst(nxs) =
 (
 nxs
-).foreach()(lam nx => theSearchStore_insert(nx))
+).foreach()(lam nx => $GS.theSearchStore_insert(nx))
 //
 (* ****** ****** *)
 
 implement
-node_get_neighbors<>
+$GS.node_get_neighbors<>
   (nx0) = let
 //
 val-cons0(w, _) = nx0
@@ -196,7 +195,7 @@ val ws = word_get_neighbors(w)
 //
 in
 //
-ws.map(TYPE{node})(lam w => cons0(w, nx0))
+ws.map(TYPE{$GS.node})(lam w => cons0(w, nx0))
 //
 end // end of [node_get_neighbors]
 
@@ -224,7 +223,7 @@ val
 theMarked = myhashtbl_make_nil(1024)
 //
 implement
-node_mark<>(nx) =
+$GS_bfs.node_mark<>(nx) =
 {
 //
   val-
@@ -234,7 +233,7 @@ node_mark<>(nx) =
 }
 //
 implement
-node_is_marked<>(nx) = let
+$GS_bfs.node_is_marked<>(nx) = let
 //
   val-
   cons0(w, _) = nx
@@ -249,7 +248,7 @@ case+ opt of
 end // end of [node_is_marked]
 //
 implement
-process_node<>
+$GS.process_node<>
   (nx) = let
   val-cons0(w, _) = nx
 in
@@ -264,7 +263,7 @@ qlistref_make_nil()
 val () =
 qlistref_insert(store, nx)
 //
-val () = GraphSearch_bfs(store)
+val () = $GS_bfs.GraphSearch_bfs(store)
 //
 } (* end of [Doublets_play] *)
 

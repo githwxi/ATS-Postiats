@@ -12,15 +12,12 @@ For testing GraphSearh_dfs
 
 (* ****** ****** *)
 //
+#define GRAPHSEARCH_DFS 1
+//
 #include
 "$PATSHOMELOCS\
 /atscntrb-bucs320-graphsearch/mylibies.hats"
 //
-(* ****** ****** *)
-
-staload $GS // opening GS
-staload $GS_dfs // opening GS_dfs
-
 (* ****** ****** *)
 
 implement
@@ -97,7 +94,7 @@ slistref_make_nil{node}()
 val () =
 slistref_insert(store, nil0)
 //
-val () = GraphSearch_dfs(store)
+val () = $GS_dfs.GraphSearch_dfs(store)
 //
 } (* end of [QueenPuzzle_solve] *)
 //
