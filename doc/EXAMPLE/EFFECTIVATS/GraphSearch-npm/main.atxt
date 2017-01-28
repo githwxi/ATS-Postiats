@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-GraphSearch-npm</title>
+##patsyntax()
+##thePage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Let's use packages!
+</h1>
+
+##para('\
+
+In this article, I present an example that makes use of a package for
+(generic) graph search. It should be plainly evident that this style
+of package-based programming can greatly facilitate sharing of ATS
+code, which is essential to building a community based on the ATS
+programming language system.
+
+')##comment("para")
+
+<h2>Generic Graph Search</h2>
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+QueenPuzzle.dats // solving 8-queen puzzle with GraphSearch_dfs
+DoubletsPlay.dats // implementing Doublets based on GraphSearch_bfs
+</pre>
+
+In addition, there is an accompanying ##filename("Makefile") for compiling
+and testing the code.\
+
+""")
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+</body>
+</html>

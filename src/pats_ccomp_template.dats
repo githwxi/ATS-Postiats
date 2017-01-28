@@ -72,19 +72,25 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 datavtype impenv =
-  | IMPENVcons of (s2var, s2hnf, impenv) | IMPENVnil of ()
+  | IMPENVnil of ()
+  | IMPENVcons of (s2var, s2hnf, impenv)
 // end of [impenv]
 
+(* ****** ****** *)
+//
 extern
-fun fprint_impenv : fprint_vtype (impenv)
-
+fun
+fprint_impenv : fprint_vtype (impenv)
+//
 extern
-fun impenv_find (env: !impenv, s2v: s2var): s2hnf
+fun
+impenv_find (env: !impenv, s2v: s2var): s2hnf
 extern
-fun impenv_update
+fun
+impenv_update
   (env: !impenv, s2v: s2var, s2f: s2hnf): bool(*updated*)
 // end of [impenv_update]
-
+//
 (* ****** ****** *)
 
 implement
@@ -102,14 +108,14 @@ case+ env of
     s2v, s2f, !p_env
   ) => let
     val () =
-      if i > 0 then
-        fprint_string (out, "; ")
-      // end of [if]
+    if i > 0 then
+      fprint_string (out, "; ")
+    // end of [if]
     val () = fprint_s2var (out, s2v)
     val () = fprint_string (out, " -> ")
     val () = fprint_s2hnf (out, s2f)
     val () = loop (out, !p_env, i+1)
-    prval () = fold@ (env)
+    prval ((*folded*)) = fold@ (env)
   in
     // nothing
   end // end of [IMPENVcons]
@@ -192,33 +198,45 @@ case+ env of
 end // end of [impenv_update]
 
 (* ****** ****** *)
-
+//
 extern
-fun s2hnf_is_err (s2f: s2hnf): bool
+fun
+s2hnf_is_err
+  (s2f: s2hnf): bool
+//
 implement
 s2hnf_is_err
   (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
 //
-case+ s2e.s2exp_node of S2Eerrexp() => true | _ => false
+case+
+s2e.s2exp_node
+of // case+
+| S2Eerrexp() => true | _(*non-S2Eerrexp*) => false
 //
 end // end of [s2hnf_is_err]
-
+//
 (* ****** ****** *)
-
+//
 extern
-fun impenv_make_nil (): impenv
+fun
+impenv_make_nil
+  ((*void*)): impenv
 extern
-fun impenv_make_svarlst (s2vs: s2varlst): impenv
-
+fun
+impenv_make_svarlst
+  (s2vs: s2varlst): impenv
+//
 (* ****** ****** *)
-
+//
 implement
-impenv_make_nil () = IMPENVnil
-
+impenv_make_nil
+  () = IMPENVnil()
+//
 implement
-impenv_make_svarlst (s2vs) = let
+impenv_make_svarlst
+  (s2vs) = let
 in
 //
 case+ s2vs of
@@ -238,7 +256,7 @@ case+ s2vs of
   end // end of [list_cons]
 //
 end // end of [impenv_make_svarlst]
-
+//
 (* ****** ****** *)
 //
 extern
@@ -247,11 +265,17 @@ impenv_free
   (env: impenv): void
 //
 implement
-impenv_free (env) = let
+impenv_free(env) = let
+//
+(*
+val () = println! ("impenv_free")
+*)
+//
 in
 //
 case+ env of
-| ~IMPENVcons (_, _, env) => impenv_free (env) | ~IMPENVnil () => ()
+| ~IMPENVnil() => ()
+| ~IMPENVcons(_, _, env) => impenv_free(env)
 //
 end // end of [impenv_free]
 //
@@ -272,13 +296,14 @@ fun aux (
 in
 //
 case+ env of
+| ~IMPENVnil
+    ((*void*)) => tsub
 | ~IMPENVcons
     (s2v, s2f, env) => let
     val s2e = s2hnf2exp (s2f)
   in
     TMPSUBcons(s2v, s2e, aux (env, tsub))
   end // end of [IMPENVcons]
-| ~IMPENVnil((*void*)) => tsub
 //
 end // end of [aux]
 //
