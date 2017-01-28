@@ -19,6 +19,12 @@ MYTEXTING=./../MYTEXT/bin/mytexting
 
 ######
 
+export \
+PATSHOMELOCS=\
+./node_modules:./../../node_modules
+
+######
+
 all::
 regress::
 cleanall::
