@@ -1047,30 +1047,32 @@ fun auxmain
 , hde_def: hidexp
 ) : funlab = let
 //
-val hse_def =
-  hde_def.hidexp_type
+val
+hse_def =
+hde_def.hidexp_type
 //
 in
 //
 case+
-  hde_def.hidexp_node of
+hde_def.hidexp_node
+of // case+
 //
-| HDEcst (d2c) => let
+| HDEcst(d2c) => let
     val () = the_dyncstlst_add (d2c)
     val fcopt = d2cst_get2_funclo (d2c)
   in
-    funlab_make_dcst_type (d2c, hse_def, fcopt)
+    funlab_make_dcst_type(d2c, hse_def, fcopt)
   end // end of [HDEcst]
-| HDEvar (d2v) => let
-    val fcopt = d2var_get2_funclo (d2v)
+| HDEvar(d2v) => let
+    val fcopt = d2var_get2_funclo(d2v)
   in
-    funlab_make_dvar_type (d2v, hse_def, fcopt)
+    funlab_make_dvar_type(d2v, hse_def, fcopt)
   end // end of [HDEvar]
 //
-| HDEtmpcst (d2c, t2mas) => let
+| HDEtmpcst(d2c, t2mas) => let
     val fcopt = d2cst_get2_funclo (d2c)
   in
-    funlab_make_tmpcst_type (d2c, t2mas, hse_def, fcopt)
+    funlab_make_tmpcst_type(d2c, t2mas, hse_def, fcopt)
   end // end of [HDEtmpcst]
 //
 | HDElam _ =>
@@ -1083,14 +1085,15 @@ case+
     auxfix (env, loc0, d2c, imparg, tmparg, hde_def)
   ) (* end of [HDEfix] *)
 //
-| _ => let
-    val (
-    ) = (
-      println! ("hiimpdec_ccomp: auxmain: hde_def = ", hde_def)
-    ) // end of [val]
+| _(*rest-of-hidecl*) =>
+  let
+    val () =
+    println!
+      ("hiimpdec_ccomp: auxmain: hde_def = ", hde_def)
+    // end of [val]
   in
-    exitloc (1)
-  end // end of [_]
+    exitloc(1) // exit with location information reported
+  end (* end of [rest-of-hidecl] *)
 //
 end (* end of [auxmain] *)
 
@@ -1103,7 +1106,7 @@ hiimpdec_ccomp
 ) = let
 //
 val d2c = imp.hiimpdec_cst
-val dck = $D2E.d2cst_get_kind (d2c)
+val dck = $D2E.d2cst_get_kind(d2c)
 //
 (*
 val () =
@@ -1139,7 +1142,7 @@ case+ 0 of
       if istmp then ccompenv_inc_tmplevel(env)
     // end of [val]
     val flab =
-      auxmain (env, loc0, d2c, imparg, tmparg, hde_def)
+      auxmain(env, loc0, d2c, imparg, tmparg, hde_def)
     // end of [val]
     val () =
       if istmp then ccompenv_dec_tmplevel(env)
@@ -1147,16 +1150,16 @@ case+ 0 of
 //
     val () = (
       if knd = 0 then
-        (if istmp then ccompenv_add_impdec (env, imp))
+        (if istmp then ccompenv_add_impdec(env, imp))
       // end of [if]
     ) (* end of [val] *)
 //
-    val opt = Some (flab)
-    val ((*void*)) = hiimpdec_set_funlabopt (imp, opt)
+    val opt = Some(flab)
+    val ((*void*)) = hiimpdec_set_funlabopt(imp, opt)
     val ((*void*)) =
     (
       if not(istmp) then
-        $D2E.d2cst_set_funlab (d2c, $UN.cast{dynexp2_funlabopt}(opt))
+        $D2E.d2cst_set_funlab(d2c, $UN.cast{dynexp2_funlabopt}(opt))
       // end of [if]
     ) (* end of [val] *)
 //
@@ -1166,11 +1169,12 @@ case+ 0 of
 //
 | _ (*non-fun*) => let
     var res
-      : instrseq = instrseq_make_nil ()
-    val pmv = hidexp_ccomp (env, res, imp.hiimpdec_def)
-    val () = instrseq_add_dcstdef (res, imp.hiimpdec_loc, d2c, pmv)
-    val inss = instrseq_get_free (res)
-    val () = hiimpdec_set_instrlstopt (imp, Some (inss))
+      : instrseq = instrseq_make_nil()
+    // end of [var]
+    val pmv = hidexp_ccomp(env, res, imp.hiimpdec_def)
+    val () = instrseq_add_dcstdef(res, imp.hiimpdec_loc, d2c, pmv)
+    val inss = instrseq_get_free(res)
+    val () = hiimpdec_set_instrlstopt(imp, Some (inss))
   in
     // nothing
   end // end of [non-fun]
@@ -1192,7 +1196,7 @@ in
 //
 case+ opt of
 | Some _ => ((*void*))
-| None _ => hiimpdec_ccomp (env, lvl0, imp, knd)
+| None _ => hiimpdec_ccomp(env, lvl0, imp, knd)
 //
 end // end of [hiimpdec_ccomp_if]
 

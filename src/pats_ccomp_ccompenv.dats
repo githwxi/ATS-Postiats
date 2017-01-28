@@ -2543,12 +2543,20 @@ auxcont
 , d2c0: d2cst
 , t2mas: t2mpmarglst
 ) : tmpcstmat = let
+//
+(*
+val () =
+println!("ccompenv_tmpcst_match: auxcont")
+*)
+//
 in
 //
 case+ opt of
+//
 | TMPCSTMATsome _ => opt
 | TMPCSTMATsome2 _ => opt
-| TMPCSTMATnone _ => auxlst (xs, d2c0, t2mas)
+//
+| TMPCSTMATnone((*void*)) => auxlst(xs, d2c0, t2mas)
 //
 end // end of [auxcont]
 
