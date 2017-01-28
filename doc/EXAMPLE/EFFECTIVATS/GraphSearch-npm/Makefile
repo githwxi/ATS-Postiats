@@ -52,7 +52,7 @@ regress:: DoubletsPlay; ./$< clean dirty
 upload_main: \
   main.html ; \
   scp main.html \
-  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/GraphSearch/
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/GraphSearch-npm/
 
 ######
 
@@ -63,6 +63,7 @@ testall:: cleanall
 ######
 
 RMF=rm -f
+RMRF=rm -rf
 
 ######
 
@@ -77,6 +78,7 @@ cleanall:: ; $(RMF) main.html
 #
 cleanall:: ; $(RMF) QueenPuzzle
 cleanall:: ; $(RMF) DoubletsPlay
+cleanall:: ; $(RMRF) ./node_modules
 #
 ######
 

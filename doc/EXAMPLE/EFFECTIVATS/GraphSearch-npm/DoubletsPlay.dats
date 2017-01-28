@@ -15,7 +15,7 @@ staload UN = $UNSAFE
 
 (* ****** ****** *)
 //
-#define GraphSearch_bfs 1
+#define GRAPHSEARCH_BFS 1
 //
 #include
 "$PATSHOMELOCS\
@@ -172,8 +172,14 @@ end // end of [local]
 
 (* ****** ****** *)
 
-assume $GS.node = list0(string)
-assume $GS.nodelst = stream_vt($GS.node)
+assume
+$GS.node = list0(string)
+assume
+$GS.nodelst = stream_vt($GS.node)
+
+(* ****** ****** *)
+
+typedef node = $GS.node
 
 (* ****** ****** *)
 //
@@ -195,7 +201,7 @@ val ws = word_get_neighbors(w)
 //
 in
 //
-ws.map(TYPE{$GS.node})(lam w => cons0(w, nx0))
+ws.map(TYPE{node})(lam w => cons0(w, nx0))
 //
 end // end of [node_get_neighbors]
 

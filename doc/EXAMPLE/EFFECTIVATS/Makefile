@@ -142,6 +142,9 @@ funcomb-style:: ; $(MAKE) -C $@ $(TARGET)
 all :: \
 GraphSearch
 GraphSearch:: ; $(MAKE) -C $@ $(TARGET)
+all :: \
+GraphSearch-npm
+GraphSearch-npm:: ; $(MAKE) -C $@ $(TARGET)
 
 ######
 
@@ -171,6 +174,7 @@ uploadall::upload_linear-streams
 uploadall::upload_FRP-bacon.js
 uploadall::upload_funcomb-style
 uploadall::upload_GraphSearch
+uploadall::upload_GraphSearch-npm
 
 ######
 
@@ -435,6 +439,13 @@ upload_GraphSearch:: ; \
   GraphSearch/index.html \
   GraphSearch/Makefile GraphSearch/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/GraphSearch/
+
+upload_GraphSearch-npm:: ; \
+  $(SCP) \
+  GraphSearch-npm/index.html \
+  GraphSearch-npm/Makefile GraphSearch-npm/package.json \
+  GraphSearch-npm/QueenPuzzle.dats GraphSearch-npm/DoubletsPlay.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/GraphSearch-npm/
 
 ######
 
