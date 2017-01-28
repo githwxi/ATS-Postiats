@@ -1,6 +1,14 @@
+0.3.2
+  
+This is the 39th release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+######
+
 0.3.1
 
-This is the 37th release of ATS2, the successor of the
+This is the 38th release of ATS2, the successor of the
 ATS programming language. The compiler for ATS2 is given
 the name ATS/Positats, ATS2/Postiats or simply Postiats.
 
@@ -23,7 +31,12 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Moving ${PATSHOME}/atscntrb/* into ${PATSHOME}/contrib/.
-
+2. Adding ${PATSHOME}/npm-utils; gradually retiring ${PATSCONTRIB}/.
+3. Supporting package-based programming:
+   PATSHOMELOCS, mydepies.?ats, mylibies.?ats, etc
+   Please see GraphSearch-npm in the Effective ATS series
+4. There is still a lot of moving around; the dust should soon settle...
+  
 ######
 
 0.3.0

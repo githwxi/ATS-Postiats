@@ -67,6 +67,7 @@ cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
 \n\
 srcget_r()\n\
 {\n\
+rm -rf ${TARGET}/$1 ;\n\
 cp -rf ${SOURCE}/$1 ${TARGET}/$1 ;\n\
 }\n\
 \n\
