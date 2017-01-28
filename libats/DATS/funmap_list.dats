@@ -28,13 +28,14 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
 (* Start time: December, 2012 *)
+(* Authoremail: hwxiATcsDOTbuDOTedu *)
 
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
 staload "libats/SATS/funmap_list.sats"
@@ -44,12 +45,12 @@ staload "libats/SATS/funmap_list.sats"
 #include "./SHARE/funmap.hats" // code reuse
 //
 (* ****** ****** *)
-
+//
 assume
 map_type
-  (key:t0p, itm: vt0p) = List0 @(key, itm)
+(key:t0p, itm: vt0p) = List0 @(key, itm)
 // end of [map_type]
-
+//
 (* ****** ****** *)
 
 implement{} funmap_nil () = list_nil ()
