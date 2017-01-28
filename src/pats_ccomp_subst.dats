@@ -1129,7 +1129,9 @@ primdec_subst
 (
   env, map, sub, pmd0, sfx
 ) = let
-  val loc0 = pmd0.primdec_loc
+//
+val loc0 = pmd0.primdec_loc
+//
 in
 //
 case+
@@ -1140,8 +1142,10 @@ of (* case+ *)
 //
 | PMDlist
     (pmds) => let
-    val pmds =
-      primdeclst_subst (env, map, sub, pmds, sfx)
+    val
+    pmds =
+    primdeclst_subst
+      (env, map, sub, pmds, sfx)
     // end of [val]
   in
     primdec_list (loc0, pmds)
@@ -1151,7 +1155,11 @@ of (* case+ *)
 //
 | PMDextvar
     (name, inss) => let
-    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+    val
+    inss =
+    instrlst0_subst
+      (env, map, sub, inss, sfx)
+    // end of [val]
   in
     primdec_extvar (loc0, name, inss)
   end // end of [PMDextvar]
@@ -1160,42 +1168,66 @@ of (* case+ *)
 | PMDexndecs _ => pmd0
 //
 | PMDimpdec (imp) => let
-    val () = ccompenv_add_impdecloc (env, sub, imp) in pmd0
+    val () =
+      ccompenv_add_impdecloc(env, sub, imp) in pmd0
+    // end of [val]
   end // end of [PMDimpdec]
 //
 | PMDfundecs
     (knd, decarg, hfds) => let
-    val () = ccompenv_add_fundecsloc (env, sub, knd, decarg, hfds)
-    val () = ccompenv_add_fundecsloc_subst (env, sub, knd, decarg, hfds)
+    val () =
+    ccompenv_add_fundecsloc
+      (env, sub, knd, decarg, hfds)
+    // end of [val]
+    val () =
+    ccompenv_add_fundecsloc_subst
+      (env, sub, knd, decarg, hfds)
+    // end of [val]
   in
     pmd0
   end // end of [PMDfundecs]
 //
 | PMDvaldecs
     (knd, hvds, inss) => let
-    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+    val
+    inss =
+    instrlst0_subst
+      (env, map, sub, inss, sfx)
+    // end of [val]
   in
-    primdec_valdecs (loc0, knd, hvds, inss)
+    primdec_valdecs(loc0, knd, hvds, inss)
   end // end of [PMDvaldecs]
 | PMDvaldecs_rec
     (knd, hvds, inss) => let
-    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+    val
+    inss =
+    instrlst0_subst
+      (env, map, sub, inss, sfx)
+    // end of [val]
   in
-    primdec_valdecs_rec (loc0, knd, hvds, inss)
+    primdec_valdecs_rec(loc0, knd, hvds, inss)
   end // end of [PMDvaldecs_rec]
 //
 | PMDvardecs
     (hvds, inss) => let
-    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+    val
+    inss =
+    instrlst0_subst
+      (env, map, sub, inss, sfx)
+    // end of [val]
   in
-    primdec_vardecs (loc0, hvds, inss)
+    primdec_vardecs(loc0, hvds, inss)
   end // end of [PMDvardecs]
 //
 | PMDinclude
     (stadyn, pmds) => let
-    val pmds = primdeclst_subst (env, map, sub, pmds, sfx)
+    val
+    pmds =
+    primdeclst_subst
+      (env, map, sub, pmds, sfx)
+    // end of [val]
   in
-    primdec_include (loc0, stadyn, pmds)
+    primdec_include(loc0, stadyn, pmds)
   end // end of [PMDinclude]
 //
 | PMDstaload
@@ -1203,27 +1235,37 @@ of (* case+ *)
   {
     val-HIDstaload
       (_, _, _, fenv, loaded) = hid.hidecl_node
-    val ((*void*)) = ccompenv_add_staload (env, fenv)
+    val ((*void*)) = ccompenv_add_staload(env, fenv)
   } (* end of [PMDstaload] *)
 //
 | PMDstaloadloc
-    (pfil, nspace, pmds) => pmd0
+  (
+    pfil, nspace, pmds
+  ) => pmd0 (*sanctuary*)
 //
-| PMDdynload (hid) => pmd0
+| PMDdynload(hid) => pmd0
 //
 | PMDlocal
   (
     pmds_head, pmds_body
   ) => let
-    val (pf | ()) = ccompenv_push (env)
-    val pmds_head =
-      primdeclst_subst (env, map, sub, pmds_head, sfx)
+    val (pf | ()) = ccompenv_push(env)
+    val
+    pmds_head =
+    primdeclst_subst
+      (env, map, sub, pmds_head, sfx)
+    // end of [val]
     val (pf2 | ()) = ccompenv_push (env)
-    val pmds_body =
-      primdeclst_subst (env, map, sub, pmds_body, sfx)
-    val () = ccompenv_localjoin (pf, pf2 | env)
+    val
+    pmds_body =
+    primdeclst_subst
+      (env, map, sub, pmds_body, sfx)
+    // end of [val]
+    val ((*void*)) =
+      ccompenv_localjoin(pf, pf2 | env)
+    // end of [val]
   in
-    primdec_local (loc0, pmds_head, pmds_body)
+    primdec_local(loc0, pmds_head, pmds_body)
   end // end of [PMDlocal]
 //
 end // end of [primdec_subst]
@@ -1238,14 +1280,13 @@ primdeclst_subst
 in
 //
 case+ pmds of
-| list_cons
-    (pmd, pmds) => let
-    val pmd = primdec_subst (env, map, sub, pmd, sfx)
-    val pmds = primdeclst_subst (env, map, sub, pmds, sfx)
+| list_nil() => list_nil()
+| list_cons(pmd, pmds) => let
+    val pmd = primdec_subst(env, map, sub, pmd, sfx)
+    val pmds = primdeclst_subst(env, map, sub, pmds, sfx)
   in
-    list_cons (pmd, pmds)
+    list_cons(pmd, pmds)
   end // end of [list_cons]
-| list_nil () => list_nil ()
 //
 end // end of [primdeclst_subst]
 

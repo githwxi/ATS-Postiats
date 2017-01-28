@@ -39,7 +39,7 @@
 (* ****** ****** *)
 //
 #include
-"{$PATSLIBATS}/BUCS320/GraphSearch/GraphSearch.dats"
+"{$PATSLIBATS}/BUCS320/GraphSearch/DATS/GraphSearch.dats"
 //
 (* ****** ****** *)
 

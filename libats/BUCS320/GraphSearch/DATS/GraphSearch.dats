@@ -28,9 +28,15 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
 (* Start time: November, 2016 *)
+(* Authoremail: hwxiATcsDOTbuDOTedu *)
 
+(* ****** ****** *)
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.BUCS320.GraphSearch"
+//
 (* ****** ****** *)
 
 abstype node = ptr

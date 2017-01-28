@@ -1,14 +1,11 @@
 (*
-For Effective ATS
+For testing GraphSearh_bfs
 *)
 
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
-//
 #include
 "share/HATS/atspre_staload_libats_ML.hats"
 //
@@ -18,15 +15,11 @@ staload UN = $UNSAFE
 
 (* ****** ****** *)
 //
-staload
-"./../DATS/GraphSearch.dats"
-staload
-"./../DATS/GraphSearch_bfs.dats"
+#define GRAPHSEARCH_BFS 1
 //
-(* ****** ****** *)
-//
-staload
-"./../../../../STL/DATS/queue_queue.dats"
+#include
+"$PATSHOMELOCS\
+/atscntrb-bucs320-graphsearch/mylibies.hats"
 //
 (* ****** ****** *)
 
@@ -179,23 +172,28 @@ end // end of [local]
 
 (* ****** ****** *)
 
-assume node = list0(string)
-assume nodelst = stream_vt(node)
+assume
+$GS.node = list0(string)
+assume
+$GS.nodelst = stream_vt($GS.node)
+
+(* ****** ****** *)
+
+typedef node = $GS.node
 
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-theSearchStore_insert_lst(nxs) =
+$GS.theSearchStore_insert_lst(nxs) =
 (
 nxs
-).foreach()(lam nx => theSearchStore_insert(nx))
+).foreach()(lam nx => $GS.theSearchStore_insert(nx))
 //
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
-node_get_neighbors
+$GS.node_get_neighbors<>
   (nx0) = let
 //
 val-cons0(w, _) = nx0
@@ -231,7 +229,7 @@ val
 theMarked = myhashtbl_make_nil(1024)
 //
 implement
-node_mark<>(nx) =
+$GS_bfs.node_mark<>(nx) =
 {
 //
   val-
@@ -241,7 +239,7 @@ node_mark<>(nx) =
 }
 //
 implement
-node_is_marked<>(nx) = let
+$GS_bfs.node_is_marked<>(nx) = let
 //
   val-
   cons0(w, _) = nx
@@ -256,7 +254,7 @@ case+ opt of
 end // end of [node_is_marked]
 //
 implement
-process_node<>
+$GS.process_node<>
   (nx) = let
   val-cons0(w, _) = nx
 in
@@ -267,14 +265,11 @@ val nx = list0_sing(w1)
 //
 val
 store =
-queue_make_nil<node>()
-val
-p_store =
-$UN.castvwtp1{ptr}(store)
+qlistref_make_nil()
+val () =
+qlistref_insert(store, nx)
 //
-val () = queue_insert(store, nx)
-//
-val () = GraphSearch_bfs_queue(store)
+val () = $GS_bfs.GraphSearch_bfs(store)
 //
 } (* end of [Doublets_play] *)
 

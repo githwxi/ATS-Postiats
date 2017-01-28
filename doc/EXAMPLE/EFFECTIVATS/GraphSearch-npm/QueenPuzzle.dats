@@ -1,58 +1,60 @@
 (*
-For testing GraphSearch_dfs
+For testing GraphSearh_dfs
 *)
 
 (* ****** ****** *)
-//
-#include
-"share/atspre_define.hats"
+
 #include
 "share/atspre_staload.hats"
+#include
+"share/HATS\
+/atspre_staload_libats_ML.hats"
+
+(* ****** ****** *)
+//
+#define GRAPHSEARCH_DFS 1
 //
 #include
-"share/HATS/atspre_staload_libats_ML.hats"
-//
-(* ****** ****** *)
-//
-staload
-"./../DATS/GraphSearch.dats"
-staload
-"./../DATS/GraphSearch_dfs.dats"
-//
-(* ****** ****** *)
-//
-staload
-"./../../../../STL/DATS/stack_stack.dats"
+"$PATSHOMELOCS\
+/atscntrb-bucs320-graphsearch/mylibies.hats"
 //
 (* ****** ****** *)
 
-implement node_mark<>(nx) = ()
-implement node_unmark<>(nx) = ()
-implement node_is_marked<>(nx) = false
+implement
+$GS_dfs.node_mark<>(nx) = ()
+implement
+$GS_dfs.node_unmark<>(nx) = ()
+implement
+$GS_dfs.node_is_marked<>(nx) = false
 
 (* ****** ****** *)
 
 #define N 8
 
 (* ****** ****** *)
+//
+assume
+$GS.node = list0(int)
+assume
+$GS.nodelst = stream_vt($GS.node)
+//
+(* ****** ****** *)
 
-assume node = list0(int)
-assume nodelst = stream_vt(node)
+typedef node = $GS.node
 
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-theSearchStore_insert_lst(nxs) =
+$GS.theSearchStore_insert_lst(nxs) =
 (
 nxs
-).rforeach()(lam nx => theSearchStore_insert(nx))
+).rforeach()(lam nx => $GS.theSearchStore_insert(nx))
 //
 (* ****** ****** *)
 //
 implement
-{}(*tmp*)
-node_get_neighbors
+$GS.node_get_neighbors<>
   (nx0) = 
 (
 (N).stream_vt_map(TYPE{node})(lam x => cons0(x, nx0))
@@ -69,7 +71,7 @@ node_get_neighbors
 (* ****** ****** *)
 //
 implement
-process_node<>
+$GS.process_node<>
   (nx) =
 if
 (length(nx) = N)
@@ -91,14 +93,14 @@ QueenPuzzle_solve(): void
 implement
 QueenPuzzle_solve() =
 {
-//
 val
 store =
-stack_make_nil<node>()
-val () =
-stack_insert(store, nil0)
+slistref_make_nil{node}()
 //
-val () = GraphSearch_dfs_stack(store)
+val () =
+slistref_insert(store, nil0)
+//
+val () = $GS_dfs.GraphSearch_dfs(store)
 //
 } (* end of [QueenPuzzle_solve] *)
 //
