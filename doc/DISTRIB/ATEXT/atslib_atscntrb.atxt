@@ -130,6 +130,7 @@ packfilesynop(x) = atext_nil()
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-libcurl/mylibies.hats")
 #packfilename("atscntrb-libcurl/SATS/curl.sats")
 #packfilename("atscntrb-libcurl/SATS/easy.sats")
 #packfilename("atscntrb-libcurl/DATS/curl.dats")
