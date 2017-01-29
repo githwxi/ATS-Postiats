@@ -59,7 +59,7 @@ fun json_c_version_num(): int = "mac#%"
 (* ****** ****** *)
 
 (*
-#include "./linkhash.sats" // HX: for hashtable implementation
+#include "./linkhash.sats" // HX: for hashtable
 *)
 
 (* ****** ****** *)

@@ -2,10 +2,10 @@
 "name":
 "atscntrb-libjson-c"
 ,
-  "version": "1.0.0-alpha"
+"version": "1.0.0"
 ,
-  "description":
-  "This package is for directly calling in ATS various json-c-functions."
+"description":
+"This package is for directly calling in ATS various json-c-functions."
 ,
   "main": "N/A"
 ,
@@ -19,7 +19,11 @@
     "libjson-c"
   ]
 ,
-  "author": "Hongwei Xi <gmhwxi@gmail.com>"
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>"
 ,
   "license": "MIT"
+,
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/contrib/atscntrb-libjson-c/."
 }
