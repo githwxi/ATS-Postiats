@@ -59,15 +59,19 @@ M44497
 #include
 "share/atspre_staload.hats"
 #include
-"share/HATS/atspre_staload_libats_ML.hats"
+"share/HATS\
+/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 //
-#staload"{$HX_INTINF}/SATS/intinf.sats"
-#staload"{$HX_INTINF}/SATS/intinf_vt.sats"
+#include
+"{$HX_INTINF}/mylibies.hats"
 //
-#staload _ = "{$HX_INTINF}/DATS/intinf_t.dats"
-#staload _ = "{$HX_INTINF}/DATS/intinf_vt.dats"
+(* ****** ****** *)
+//
+staload $INTINF_vt
+overload >= with gte_intinf_int
+overload compare with compare_intinf_int
 //
 (* ****** ****** *)
 
