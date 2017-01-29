@@ -34,81 +34,36 @@
 *)
 
 (* ****** ****** *)
-
-/*
-CURL *curl_easy_init();
-*/
-fun curl_easy_init (): CURLptr0 = "mac#%"
-fun curl_easy_init_exn (): CURLptr1 = "mac#%"
-
-(* ****** ****** *)
-
-/*
-CURLcode curl_easy_setopt(CURL *curl, CURLoption option, ...);
-*/
-
-(* ****** ****** *)
-
-/*
-CURLcode curl_easy_perform(CURL *curl);
-*/
-fun curl_easy_perform (curl: !CURLptr1): CURLerror = "mac#%"
-
-(* ****** ****** *)
 //
-fun curl_easy_cleanup (curl: CURLptr1): void = "mac#%"
-//
-praxi curl_easy_cleanup_null (curl: CURLptr(null)): void
-//
-(* ****** ****** *)
-
 /*
-CURLcode curl_easy_getinfo(CURL *curl, CURLINFO info, ...);
+const char
+*curl_easy_strerror(CURLcode);
 */
-
+fun
+curl_easy_strerror(CURLcode): string = "mac#%"
+//
 (* ****** ****** *)
 
 /*
 CURLcode
-curl_easy_send
-(
-  CURL *curl , const void * buffer , size_t buflen , size_t *n
-) ; // end of [curl_easy_send]
+curl_global_init(long flags);
 */
-fun curl_easy_send
-  {m:int}{n:nat | n <= m}
-(
-  curl: !CURLptr1, buf: &bytes(m), len: size_t(m), n: &size_t(n) >> size_t(n2)
-) : #[n2:int] CURLerror = "mac#%" // end of [curl_easy_send]
-
+fun
+curl_global_init(flags: lint): CURLcode = "mac#%"
+//
 (* ****** ****** *)
-
+  
+macdef
+CURL_GLOBAL_DEFAULT =
+$extval(lint, "CURL_GLOBAL_DEFAULT")
+  
+(* ****** ****** *)
+//
 /*
-CURLcode curl_easy_recv
-(
-  CURL *curl, void *buffer, size_t buflen, size_t *n
-) ; // end of [curl_easy_recv]
+void curl_global_cleanup(void) ;
 */
-fun curl_easy_recv
-  {m:int}{n:nat | n <= m}
-(
-  curl: !CURLptr1, buf: &bytes(m) >> _, len: size_t(m), n: &size_t(n) >> size_t(n2)
-) : #[n2:int] CURLerror = "mac#%" // end of [curl_easy_recv]
-
+fun curl_global_cleanup((*void*)): void = "mac#%"
+//
 (* ****** ****** *)
 
-/*
-CURL* curl_easy_duphandle(CURL *curl);
-*/
-fun curl_easy_duphandle (curl: CURLptr1): CURLptr0 = "mac#%"
-
-(* ****** ****** *)
-
-/*
-void curl_easy_reset(CURL *curl);
-*/
-fun curl_easy_reset (curl: CURLptr1): void = "mac#%"
-
-(* ****** ****** *)
-
-(* end of [easy.sats] *)
+(* end of [curl_curl.sats] *)

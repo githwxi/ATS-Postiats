@@ -47,52 +47,68 @@ ATS_PACKNAME "ATSCNTRB.curl"
 ATS_EXTERN_PREFIX "atscntrb_curl_" // prefix for external names
 //
 (* ****** ****** *)
-
-absvtype
-CURLptr_vtype (l:addr) = ptr
-
+//
+fun
+curl_version(): string = "mac#%"
+//
 (* ****** ****** *)
 
-vtypedef
-CURLptr (l:addr) = CURLptr_vtype (l)
-vtypedef
-CURLptr0 = [l:agez] CURLptr_vtype (l)
-vtypedef
-CURLptr1 = [l:addr | l > null] CURLptr_vtype (l)
+absvtype CURLptr_vtype(l:addr) = ptr
 
 (* ****** ****** *)
 //
+vtypedef
+CURLptr(l:addr) = CURLptr_vtype(l)
+vtypedef
+CURLptr0 = [l:agez] CURLptr_vtype(l)
+vtypedef
+CURLptr1 = [l:addr | l > null] CURLptr_vtype(l)
+//
+(* ****** ****** *)
+//
 castfn
-CURLptr2ptr{l:addr} (curl: !CURLptr(l)):<> ptr(l)
+CURLptr2ptr
+  {l:addr}(curl: !CURLptr(l)):<> ptr(l)
 //
 overload ptrcast with CURLptr2ptr
 //
 (* ****** ****** *)
-
+//
 abst@ype CURLcode = $extype"CURLcode"
+//
 absvt0ype CURLerror = $extype"CURLcode"
-
-(* ****** ****** *)
-
-castfn CURLerror2code (err: CURLerror):<> CURLcode
-
+//
 (* ****** ****** *)
 //
-fun eq_CURLcode_CURLcode (CURLcode, CURLcode):<> bool = "mac#%"
-fun eq_CURLerror_CURLcode (CURLerror, CURLcode):<> bool = "mac#%"
+castfn
+CURLerror2code(err: CURLerror):<> CURLcode
+//
+(* ****** ****** *)
+//
+fun
+eq_CURLcode_CURLcode
+  (CURLcode, CURLcode):<> bool = "mac#%"
+fun
+neq_CURLcode_CURLcode
+  (CURLcode, CURLcode):<> bool = "mac#%"
 //
 overload = with eq_CURLcode_CURLcode
-overload = with eq_CURLerror_CURLcode
-//
-fun neq_CURLcode_CURLcode (CURLcode, CURLcode):<> bool = "mac#%"
-fun neq_CURLerror_CURLcode (CURLerror, CURLcode):<> bool = "mac#%"
-//
 overload != with neq_CURLcode_CURLcode
+//
+fun
+eq_CURLerror_CURLcode
+  (CURLerror, CURLcode):<> bool = "mac#%"
+fun
+neq_CURLerror_CURLcode
+  (CURLerror, CURLcode):<> bool = "mac#%"
+//
+overload = with eq_CURLerror_CURLcode
 overload != with neq_CURLerror_CURLcode
 //
 (* ****** ****** *)
 
-macdef CURLE_OK = $extval(CURLcode, "CURLE_OK")
+macdef
+CURLE_OK = $extval(CURLcode, "CURLE_OK")
 
 (* ****** ****** *)
 
@@ -138,40 +154,8 @@ macdef CURLINFO_SSL_DATA_OUT = $extval(CURLINFO, "CURLINFO_SSL_DATA_OUT")
 //
 (* ****** ****** *)
 
-fun curl_version ((*void*)): string = "mac#%"
-
-(* ****** ****** *)
-
-/*
-const char *curl_easy_strerror(CURLcode);
-*/
-fun
-curl_easy_strerror (CURLcode): string = "mac#%"
-
-(* ****** ****** *)
-
-/*
-CURLcode
-curl_global_init(long flags);
-*/
-fun
-curl_global_init (flags: lint): CURLcode = "mac#%"
-
-(* ****** ****** *)
-  
-macdef
-CURL_GLOBAL_DEFAULT = $extval(lint, "CURL_GLOBAL_DEFAULT")
-  
-(* ****** ****** *)
-
-/*
-void curl_global_cleanup(void) ;
-*/
-fun curl_global_cleanup ((*void*)): void = "mac#%"
-
-(* ****** ****** *)
-
-#include "./easy.sats"
+#include "./curl_curl.sats"
+#include "./curl_easy.sats"
 
 (* ****** ****** *)
 

@@ -114,12 +114,14 @@ packfilesynop(x) = atext_nil()
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-libgmp/mylibies.hats")
 #packfilename("atscntrb-libgmp/SATS/gmp.sats")
 #packfilename("atscntrb-libgmp/DATS/gmp.dats")
 #packfilename("atscntrb-libgmp/gmp/CATS/gmp.cats")
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-libpcre/mylibies.hats")
 #packfilename("atscntrb-libpcre/SATS/pcre.sats")
 #packfilename("atscntrb-libpcre/SATS/pcre_ML.sats")
 #packfilename("atscntrb-libpcre/DATS/pcre.dats")

@@ -31,10 +31,9 @@
 *)
 //
 (* ****** ****** *)
-
-#include "./curl_curl.dats"
-#include "./curl_easy.dats"
-
+//
+// HX-2017-01: It is included in curl.dats // This file is yet empty!
+//
 (* ****** ****** *)
 
-(* end of [curl.dats] *)
+(* end of [curl_easy.dats] *)
