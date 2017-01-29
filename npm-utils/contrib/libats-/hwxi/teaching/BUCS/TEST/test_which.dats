@@ -4,11 +4,11 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 staload
 STDLIB =
 "libats/libc/SATS/stdlib.sats"
-
+//
 (* ****** ****** *)
 
 #include "./../DATS/BUCS320.dats"
