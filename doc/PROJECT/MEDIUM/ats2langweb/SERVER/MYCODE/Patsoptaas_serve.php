@@ -218,7 +218,9 @@ return;
 </script>
 
 <!--php-->
-<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+<table
+ style="width:100%;height:100%;"
+ cellspacing="0" cellpadding="0">
 <tr height="100%">
 <td style="vertical-align:top;width:15%;">
 <div id="thePage2Left">
@@ -753,7 +755,9 @@ Code-folding
 
 <td style="vertical-align:top;width:85%;">
 <div id="thePage2Right">
-<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+<table
+ style="width:100%;height:100%;"
+ cellspacing="0" cellpadding="0">
 <tr style="height:6%;">
 <td>
 <div id="thePage2RTop">
