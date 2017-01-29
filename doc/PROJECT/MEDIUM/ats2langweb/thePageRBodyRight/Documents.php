@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+2017-01-28:<br>Effective ATS:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/5ojXdc-QJ1g"
+>Let's start with package-based programming!</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 2016-11-23:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/f9CARqaB4S0"

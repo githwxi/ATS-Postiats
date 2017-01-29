@@ -73,16 +73,21 @@ $GS.node_get_neighbors<>
 implement
 $GS.process_node<>
   (nx) =
+(
+//
 if
 (length(nx) = N)
 then let
 //
-val () = println! (list0_reverse(nx))
+val () =
+  println! (list0_reverse(nx))
 //
 in
   true
 end // end of [then]
 else true // end of [else]
+//
+) (* end of [$GS.process_node] *)
 //
 (* ****** ****** *)
 //

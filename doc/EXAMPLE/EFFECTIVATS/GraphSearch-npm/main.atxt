@@ -128,10 +128,11 @@ The rest of ##filename("QueenPuzzle.dats") is mostly similar to
 what is presented
 <a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/GraphSearch/index.html">on-line</a>
 on solving 8-queen puzzle. Basically, various function templates in
-##dyncode(GS) and ##dyncode(GS_dfs) needs to given specific implementations
-pertinent to the particular task of solving 8-queen puzzle. For instance,
-the following implementations are given because node marking is not needed
-for a tree-based search (as there are no circular paths in a tree):
+##dyncode(GS) and ##dyncode(GS_dfs) needs to be given specific
+implementations pertinent to the particular task of solving 8-queen
+puzzle. For instance, the following implementations are given because
+node marking is not needed for a tree-based search used in this case
+(as there are no circular paths in a tree):
 
 <pre
 class="patsyntax"
