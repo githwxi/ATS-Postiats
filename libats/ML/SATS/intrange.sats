@@ -50,14 +50,17 @@ staload "libats/ML/SATS/basis.sats"
 //
 fun{}
 int_repeat_lazy
-  (n: int, f: lazy (void)): void
+  (n: int, f: lazy(void)): void
 fun{}
 int_repeat_cloref
-  (n: int, f: cfun0 (void)): void
+  (n: int, f: cfun0(void)): void
+fun{}
+int_repeat_method
+  (n: int)(f: cfun0(void)): void
 //
 overload repeat with int_repeat_lazy
 overload repeat with int_repeat_cloref
-overload .repeat with int_repeat_cloref
+overload .repeat with int_repeat_method
 //
 (* ****** ****** *)
 //

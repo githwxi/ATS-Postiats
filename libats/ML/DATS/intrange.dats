@@ -46,15 +46,15 @@ staload "libats/ML/SATS/intrange.sats"
 implement
 {}(*tmp*)
 int_repeat_lazy
-  (n, f) =
-  int_repeat_cloref<> (n, lazy2cloref(f))
+  (n, fopr) =
+  int_repeat_cloref<> (n, lazy2cloref(fopr))
 //
 (* ****** ****** *)
 
 implement
 {}(*tmp*)
 int_repeat_cloref
-  (n, f) = let
+  (n, fopr) = let
 //
 fun
 loop
@@ -63,15 +63,22 @@ loop
 ) : void = (
 //
 if n > 0
-  then let val () = f () in loop (n-1, f) end
-  else ()
+  then let val () = fopr() in loop(n-1, fopr) end
+  else ((*void*))
 //
 ) (* end of [loop] *)
 //
 in
-  loop (n, f)
+  loop (n, fopr)
 end // end of [int_repeat_cloref]
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+int_repeat_method
+  (n) = lam(fopr) => int_repeat_cloref(n, fopr)
+//
 (* ****** ****** *)
 //
 implement
