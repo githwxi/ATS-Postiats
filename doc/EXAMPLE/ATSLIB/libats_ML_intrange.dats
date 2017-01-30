@@ -28,7 +28,7 @@ val ((*void*)) =
   repeat(5, $delay(print"Hello!\n"))
 //
 val ((*void*)) =
-  (5).repeat(lam () =<cloref1> print"Hello!\n")
+  (5).repeat()(lam() =<cloref1> print"Hello!\n")
 //
 val ((*void*)) =
   (5).foreach()(lam(i) => print!(i, ": Hello!\n"))
