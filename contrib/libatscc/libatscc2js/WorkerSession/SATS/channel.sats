@@ -66,8 +66,8 @@ chmsg(a:t0p) = chmsg_type(a)
 //
 (* ****** ****** *)
 //
-abstype chanpos()
-abstype channeg()
+abstype chanpos((*void*))
+abstype channeg((*void*))
 //
 (* ****** ****** *)
 //

@@ -26,8 +26,8 @@ UN = "prelude/SATS/unsafe.sats"
 #define
 WORKERSESSION_CHANPOS 1
 //
-#include
-"./../mylibies.hats"; staload $CHANNEL
+#include "./../mylibies.dats"
+#include "./../mylibies.hats"
 //
 (* ****** ****** *)
 //
@@ -44,7 +44,8 @@ list0_add
 //
 (* ****** ****** *)
 //
-typedef ARG = list0(int) and RES = int
+vtypedef
+chanpos() = $CHANNEL.chanpos()
 //
 (* ****** ****** *)
 
@@ -56,10 +57,13 @@ implement
 rpc_server_cont(ch, f) = chanpos_close(ch)
 *)
 //
+typedef ARG = list0(int) and RES = int
+//
 in
 //
 val ((*void*)) =
-  rpc_server<ARG><RES>($UN.cast{chanpos()}(0), lam(xs) => list0_add(xs))
+$CHANNEL.rpc_server<ARG><RES>
+  ($UN.cast{chanpos()}(0), lam(xs) => list0_add(xs))
 //
 end // end of [local]
 //

@@ -16,7 +16,8 @@
 (* ****** ****** *)
 
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
@@ -24,8 +25,16 @@ UN = "prelude/SATS/unsafe.sats"
 #define
 WORKERSESSION_CHANNEG 1
 //
-#include
-"./../mylibies.hats"; staload $CHANNEL
+#include "./../mylibies.dats"
+#include "./../mylibies.hats"
+//
+(* ****** ****** *)
+//
+stadef chnil = $CHANNEL.chnil
+stadef chcons = $CHANNEL.chcons
+//
+vtypedef
+channeg(ss:type) = $CHANNEL.channeg(ss)
 //
 (* ****** ****** *)
 
@@ -127,23 +136,24 @@ StartIt() = let
 //
 val
 chn =
-channeg0_new_file("./test_server_dats_.js")
+$CHANNEL.channeg0_new_file
+  ("./test_server_dats_.js")
 //
 val
 chn = $UN.castvwtp0{channeg(sstest3)}(chn)
 //
 in
 //
-channeg1_recv
+$CHANNEL.channeg1_recv
 ( chn, 0
 , lam(chn) =>
-  channeg1_send
+  $CHANNEL.channeg1_send
   ( chn
   , lam(chn, a1) =>
-    channeg1_send
+    $CHANNEL.channeg1_send
     ( chn
     , lam(chn, a2) =>
-      ReplyIt(chn, chmsg_parse(a1), chmsg_parse(a2))
+      ReplyIt(chn, $CHANNEL.chmsg_parse(a1), $CHANNEL.chmsg_parse(a2))
     )
   )
 )
@@ -170,12 +180,12 @@ llam() =<lincloptr1> let
   val res = $extfcall(int, "theResult_get")
 in
 //
-channeg1_recv
+$CHANNEL.channeg1_recv
 ( chn, res
 , lam(chn) =>
-  channeg1_send
+  $CHANNEL.channeg1_send
   ( chn
-  , lam(chn, yn) => PostRep(chn, chmsg_parse(yn))
+  , lam(chn, yn) => PostRep(chn, $CHANNEL.chmsg_parse(yn))
   )
 )
 //
@@ -195,7 +205,7 @@ end // end of [ReplyIt]
 implement
 PostRep(chn, yn) = let
   val () =
-    channeg1_close(chn)
+    $CHANNEL.channeg1_close(chn)
   // end of [val]
 //
   extvar "Started" = false;

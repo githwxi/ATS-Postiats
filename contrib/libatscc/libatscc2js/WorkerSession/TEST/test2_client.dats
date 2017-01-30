@@ -24,6 +24,8 @@ UN = "prelude/SATS/unsafe.sats"
 #define
 WORKERSESSION_CHANNEG 1
 //
+#include "./../mylibies.dats"
+//
 #include
 "./../mylibies.hats"; staload $CHANNEL
 //
@@ -166,14 +168,14 @@ val k0 =
 lam(chn: channeg_nil) =<cloref1>
   let extvar "Started" = false in channeg1_close(chn) end
 //
-// (*
+(*
 implement
 channeg1_repeat_disj$fwork_tag<>
   (tag) =
 (
   console_log("fwork_tag: tag = " + String(tag))
 )
-// *)
+*)
 //
 in
 //

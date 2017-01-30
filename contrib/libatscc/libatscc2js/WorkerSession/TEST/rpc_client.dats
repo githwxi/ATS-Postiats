@@ -14,18 +14,18 @@
 "{$LIBATSCC2JS}/staloadall.hats"
 //  
 (* ****** ****** *)
-
+//
 staload
 UN =
 "prelude/SATS/unsafe.sats"
-
+//
 (* ****** ****** *)
 //
 #define
 WORKERSESSION_CHANNEG 1
 //
-#include
-"./../mylibies.hats"; staload $CHANNEL
+#include "./../mylibies.dats"
+#include "./../mylibies.hats"
 //
 (* ****** ****** *)
 
@@ -62,6 +62,9 @@ theTrigger_onclick()
 
 (* ****** ****** *)
 //
+vtypedef
+channeg() = $CHANNEL.channeg()
+//
 extern
 fun
 theTrigger_onclick_
@@ -81,7 +84,7 @@ typedef stringlst = List0(string)
 //
 in
 //
-rpc_client<stringlst><int>
+$CHANNEL.rpc_client<stringlst><int>
 (
   chn, args, lam(res) => alert(arg1 + " + " + arg2 + " = " + String(res))
 )

@@ -1,7 +1,7 @@
 (* ****** ****** *)
 (*
 ** HX-2017-01-30:
-** For downstream staloading
+** For downstream static loading
 *)
 (* ****** ****** *)
 //
@@ -18,7 +18,8 @@ _(*CHANNEL*) = "./DATS/channel.dats"
 //
 #ifdef
 WORKERSESSION_CHANPOS
-#include "./DATS/chanpos.dats"
+#staload
+_(*CHANPOS*) = "./DATS/chanpos.dats"
 #endif // #if(WORKERSESSION_CHANPOS)
 //
 (* ****** ****** *)
@@ -28,7 +29,8 @@ WORKERSESSION_CHANPOS
 //
 #ifdef
 WORKERSESSION_CHANNEG
-#include "./DATS/channeg.dats"
+#staload
+_(*CHANNEG*) = "./DATS/channeg.dats"
 #endif // #if(WORKERSESSION_CHANNEG)
 //
 (* ****** ****** *)

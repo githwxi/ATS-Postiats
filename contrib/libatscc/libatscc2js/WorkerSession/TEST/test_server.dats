@@ -19,7 +19,8 @@ ATS_DYNLOADNAME "theWorker_start"
 (* ****** ****** *)
 
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
@@ -27,8 +28,11 @@ UN = "prelude/SATS/unsafe.sats"
 #define
 WORKERSESSION_CHANPOS 1
 //
-#include
-"./../mylibies.hats"; staload $CHANNEL
+#include "./../mylibies.dats"
+#include "./../mylibies.hats"
+//
+vtypedef
+chanpos(ss:type) = $CHANNEL.chanpos(ss)
 //
 (* ****** ****** *)
 //
@@ -48,7 +52,7 @@ val chp =
 $UN.castvwtp0{chanpos(sstest3)}(0)
 //
 val ((*void*)) =
-chanpos1_recv
+$CHANNEL.chanpos1_recv
 (
 chp
 ,
@@ -56,17 +60,17 @@ lam(chp, _) => let
   val a1 = double2int(100*JSmath_random())
   val a2 = double2int(100*JSmath_random())
 in
-  chanpos1_send
+  $CHANNEL.chanpos1_send
   ( chp, a1
   , lam(chp) =>
-    chanpos1_send
+    $CHANNEL.chanpos1_send
     ( chp, a2
     , lam(chp) =>
-      chanpos1_recv
+      $CHANNEL.chanpos1_recv
       ( chp
       , lam(chp, res) =>
-        chanpos1_send
-        ( chp, (chmsg_parse(res) = a1 * a2), lam(chp) => chanpos1_close(chp))
+        $CHANNEL.chanpos1_send
+        ( chp, ($CHANNEL.chmsg_parse(res) = a1 * a2), lam(chp) => $CHANNEL.chanpos1_close(chp))
       )
     )
   )
