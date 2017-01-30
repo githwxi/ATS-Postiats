@@ -16,14 +16,16 @@
 (* ****** ****** *)
 
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-staload "./../SATS/channel.sats"
-staload "./../DATS/channel.dats"
+#define
+WORKERSESSION_CHANNEG 1
 //
-#include "./../DATS/channeg.dats"
+#include
+"./../mylibies.hats"; staload $CHANNEL
 //
 (* ****** ****** *)
 

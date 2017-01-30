@@ -23,10 +23,11 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-staload "./../SATS/channel.sats"
-staload "./../DATS/channel.dats"
+#define
+WORKERSESSION_CHANPOS 1
 //
-#include "./../DATS/chanpos.dats"
+#include
+"./../mylibies.hats"; staload $CHANNEL
 //
 (* ****** ****** *)
 //
