@@ -26,5 +26,5 @@
 "license": "MIT",
 ,
 "note-for-me":
-"This package is stored at ${PATSHOME}/contrib/libatscc2js/WorkerSession/."
+"This package is stored at ${PATSHOME}/contrib/libatscc/libatscc2js/WorkerSession/."
 }
