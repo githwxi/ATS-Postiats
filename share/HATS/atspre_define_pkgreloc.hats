@@ -125,6 +125,16 @@ KERNELATS_targetloc "$PATSCONTRIB/contrib/kernelats"
 (* ****** ****** *)
 //
 #define
+ZLOG_targetloc "$PATSCONTRIB/contrib/zlog"
+//
+(* ****** ****** *)
+//
+#define
+ZEROMQ_targetloc "$PATSCONTRIB/contrib/zeromq"
+//
+(* ****** ****** *)
+//
+#define
 LIBATSCC_targetloc
 "$PATSCONTRIB/contrib/libatscc"
 //
@@ -154,16 +164,6 @@ LIBATSCC2CLJ_targetloc
 #define
 LIBATSCC2PHP_targetloc
 "$PATSCONTRIB/contrib/libatscc/libatscc2php"
-//
-(* ****** ****** *)
-//
-#define
-ZLOG_targetloc "$PATSCONTRIB/contrib/zlog"
-//
-(* ****** ****** *)
-//
-#define
-ZEROMQ_targetloc "$PATSCONTRIB/contrib/zeromq"
 //
 (* ****** ****** *)
 //
