@@ -26,14 +26,7 @@ _(*anon*) =
 //
 (* ****** ****** *)
 //
-staload $BACONJS
-//
-overload merge with EStream_merge2
-//
-overload .map with EStream_map_method
-overload .map with Property_map_method
-//
-overload .push with EStream_bus_push
+staload $BACONJS // opening [BACONJS]
 //
 (* ****** ****** *)
 
