@@ -59,21 +59,25 @@ staload
 LAB = "./pats_label.sats"
 
 (* ****** ****** *)
-
+//
 staload
 LOC = "./pats_location.sats"
 typedef loc_t = $LOC.location
-overload print with $LOC.print_location
-
+overload
+print with $LOC.print_location
+//
 (* ****** ****** *)
-
-staload SYM = "./pats_symbol.sats"
-overload = with $SYM.eq_symbol_symbol
-
+//
+staload
+SYM = "./pats_symbol.sats"
+overload
+= with $SYM.eq_symbol_symbol
+//
 (* ****** ****** *)
-
-staload SYN = "./pats_syntax.sats"
-
+//
+staload
+SYN = "./pats_syntax.sats"
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
@@ -101,43 +105,70 @@ staload "./pats_typerase.sats"
 (* ****** ****** *)
 
 implement
-labhipatlst_get_type (lxs) = let
+labhipatlst_get_type
+  (lxs) = let
 //
-fun f (
-  lx: labhipat
+fun
+fopr
+(
+lx: labhipat
 ) : labhisexp = let
-  val LABHIPAT (l, x) = lx
-in
-  HSLABELED (l, None(*name*), x.hipat_type)
-end // end of [f]
 //
-val lhses = list_map_fun (lxs, f)
+val
+LABHIPAT(l, x) = lx
 //
 in
-  list_of_list_vt (lhses)
+//
+HSLABELED
+(
+l, None(*name*), x.hipat_type
+) (* HSLABELED *)
+//
+end // end of [fopr]
+//
+val
+lhses =
+list_map_fun<labhipat>(lxs, fopr)
+//
+in
+  list_of_list_vt{labhisexp}(lhses)
 end // end of [labhipatlst_get_type]
 
 implement
-labhidexplst_get_type (lxs) = let
+labhidexplst_get_type
+  (lxs) = let
 //
-fun f (
-  lx: labhidexp
+fun
+fopr
+(
+lx: labhidexp
 ) : labhisexp = let
-  val LABHIDEXP (l, x) = lx
+//
+val
+LABHIDEXP(l, x) = lx
+//
 in
-  HSLABELED (l, None(*name*), x.hidexp_type)
+//
+HSLABELED
+(
+l, None(*name*), x.hidexp_type
+) (* HSLABELED *)
+//
 end // end of [f]
 //
-val lhses = list_map_fun (lxs, f)
+val
+lhses =
+list_map_fun<labhidexp>(lxs, fopr)
 //
 in
-  list_of_list_vt (lhses)
+  list_of_list_vt{labhisexp}(lhses)
 end // end of [labhidexplst_get_type]
 
 (* ****** ****** *)
 //
 extern
-fun p3at_tyer_con
+fun
+p3at_tyer_con
 (
   loc0: location, hse0: hisexp
 , pck: pckind, d2c: d2con, npf: int, p3ts: p3atlst
