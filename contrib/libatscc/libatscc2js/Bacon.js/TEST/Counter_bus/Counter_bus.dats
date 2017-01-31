@@ -4,10 +4,8 @@
 
 (* ****** ****** *)
 
-#define
-ATS_MAINATSFLAG 1
-#define
-ATS_DYNLOADNAME "my_dynload"
+#define ATS_MAINATSFLAG 1
+#define ATS_DYNLOADNAME "my_dynload"
 
 (* ****** ****** *)
 //
@@ -34,6 +32,8 @@ overload merge with EStream_merge2
 //
 overload .map with EStream_map_method
 overload .map with Property_map_method
+//
+overload .push with EStream_bus_push
 //
 (* ****** ****** *)
 
@@ -78,26 +78,50 @@ val theRandoms =
 val theResets =
   theResets.map(TYPE{action})(lam(x) => Reset())
 //
+(* ****** ****** *)
+//
 val theClicks = theUps
 val theClicks = merge(theClicks, theDowns)
 val theClicks = merge(theClicks, theRandoms)
 val theClicks = merge(theClicks, theResets)
 //
 (* ****** ****** *)
-//
+
 val
-theCounts =
-$BACONJS.EStream_scan
-  {int}{action}
+theCounts = let
+//
+val state = ref{int}(0)
+val mybus = Bacon_new_bus()
+//
+fun
+aux
 (
-  theClicks, 0
-, lam(y, x) =<cloref1>
+  x: action
+) : void = let
+//
+val n = state[]
+//
+val n = (
   case+ x of
-  | Up() => min(99, y+1)
-  | Down() => max(0, y-1)
+  | Up() => if n < 99 then n+1 else 0
+  | Down() => if n > 0 then n-1 else 99
   | Random() => double2int(100*JSmath_random())
   | Reset() => 0
-)
+) : int // end of [val]
+//
+val () = state[] := n
+//
+in
+  mybus.push(n)
+end // end of [aux]
+//
+val () = theClicks.onValue()(lam(x) => aux(x))
+//
+in
+  mybus
+end // end of [theCounts]
+
+(* ****** ****** *)
 //
 val
 theCounts = let
@@ -117,9 +141,7 @@ in
 end // end of [stringize]
 //
 in
-//
-theCounts.map(TYPE{string})(lam(x) =<cloref1> stringize(x))
-//
+  theCounts.map(TYPE{string})(lam(x) => stringize(x))
 end // end of [val]
 //
 extvar "theCounts" = theCounts

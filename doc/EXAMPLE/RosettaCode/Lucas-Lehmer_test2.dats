@@ -70,6 +70,7 @@ M44497
 (* ****** ****** *)
 //
 staload $INTINF_vt
+//
 overload >= with gte_intinf_int
 overload compare with compare_intinf_int
 //

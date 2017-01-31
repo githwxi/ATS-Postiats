@@ -181,9 +181,7 @@ EStream_filter_property
   xs: EStream(a), bs: Property(bool)
 ) : EStream(a) = "mac#%" // end-of-fun
 //
-(*
 overload filter with EStream_filter_property
-*)
 overload .filter with EStream_filter_property
 //
 (* ****** ****** *)
@@ -201,7 +199,9 @@ EStream_scan_method
   xs: EStream(b), ini: a)(fopr: cfun(a, b, a)
 ) : Property(a) = "mac#%" // end-of-function
 //
+(*
 overload scan with EStream_scan
+*)
 overload .scan with EStream_scan_method
 //
 (* ****** ****** *)
