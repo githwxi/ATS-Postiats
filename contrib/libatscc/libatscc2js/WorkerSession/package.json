@@ -11,6 +11,9 @@
 ,
 "scripts": {}
 ,
+"repository": {
+  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/contrib/libatscc/libatscc2js/WorkerSession"
+}
 "keywords": [
   "ATS",
   "atscc2js",
