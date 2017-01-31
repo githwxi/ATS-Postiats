@@ -179,23 +179,36 @@ end // end of [local]
 local
 //
 typedef
-dirlst = List (string)
+dirlst = List0(string)
 //
 val
-the_IATS_dirlst = ref<dirlst> (list_nil)
+the_IATS_dirlst =
+ref<dirlst>(list_nil(*void*))
 //
 in (*in-of-local*)
 //
 implement
-the_IATS_dirlst_get () = !the_IATS_dirlst
+the_IATS_dirlst_get
+  () = !the_IATS_dirlst
 //
 implement
 the_IATS_dirlst_ppush
   (dir) = let
   val dirs = !the_IATS_dirlst
 in
-  !the_IATS_dirlst := list_cons (dir, dirs)
+  !the_IATS_dirlst := list_cons(dir, dirs)
 end // end of [the_IATS_dirlst_ppush]
+//
+// HX-2017-01-31: push from the back!
+//
+implement
+the_IATS_dirlst_ppushb
+  (dir) = let
+  val dirs = !the_IATS_dirlst
+in
+  !the_IATS_dirlst :=
+    list_of_list_vt(list_extend(dirs, dir))
+end // end of [the_IATS_dirlst_ppushb]
 //
 end // end of [local]
 

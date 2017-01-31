@@ -717,14 +717,14 @@ implement
 the_filenamelst_ppop
   ((*none*)) = let
 //
-val f0 = x where {
+val f0 = x0 where {
 //
-  val (
-    vbox pf | p
-  ) = ref_get_view_ptr(the_filenamelst)
+  val
+  (vbox pf | p) =
+  ref_get_view_ptr(the_filenamelst)
 //
   val-
-  ~list_vt_cons (x, xs) = !p
+  ~list_vt_cons(x0, xs) = !p
   val ((*void*)) = (!p := xs)
 //
 } (* end of [val] *)
@@ -736,25 +736,41 @@ in
 end // end of [the_filenamelst_ppop]
 
 (* ****** ****** *)
-
+//
 implement
 the_filenamelst_push(f0) = let
 //
 val () =
-  the_filenamelst_ppush (f0) in (unit_v() | ())
+  the_filenamelst_ppush(f0) in (unit_v() | ())
 //
 end // end of [the_filenamelst_push]
-
+//
 implement
 the_filenamelst_ppush(f0) = let
-  val x = !the_filename
+  val x0 = !the_filename
   val () = !the_filename := f0
   val (vbox pf | p) = ref_get_view_ptr(the_filenamelst)
-  val () = !p := list_vt_cons (x, !p)
+  val () = !p := list_vt_cons(x0, !p)
 in
   // nothing
 end // end of [the_filenamelst_ppush]
-
+//
+(* ****** ****** *)
+(*
+//
+// HX-2017-01-31: push from the back
+//
+implement
+the_filenamelst_ppushb(f0) = let
+  val x0 = !the_filename
+  val () = !the_filename := f0
+  val (vbox pf | p) = ref_get_view_ptr(the_filenamelst)
+  val () = !p := list_vt_extend(!p, x0)
+in
+  // nothing
+end // end of [the_filenamelst_ppushb]
+//
+*)
 (* ****** ****** *)
 
 implement
@@ -903,14 +919,15 @@ val ((*void*)) = !p := xs
 } (* end of [the_pathlst_pop] *)
 
 implement
-the_pathlst_push (x) = let
+the_pathlst_push(x0) = let
 //
-val () = the_pathlst_ppush (x) in (unit_v() | ())
+val () =
+  the_pathlst_ppush(x0) in (unit_v() | ())
 //
 end // end of [the_pathlst_push]
 
 implement
-the_pathlst_ppush (x) = let
+the_pathlst_ppush(x0) = let
 //
 val
 (
@@ -918,8 +935,22 @@ val
 ) = ref_get_view_ptr(the_pathlst)
 //
 in
-  !p := list_vt_cons (x, !p)
+  !p := list_vt_cons(x0, !p)
 end // end of [the_pathlst_ppush]
+
+(* ****** ****** *)
+
+implement
+the_pathlst_ppushb(x0) = let
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr(the_pathlst)
+//
+in
+  !p := list_vt_extend(!p, x0)
+end // end of [the_pathlst_ppushb]
 
 (* ****** ****** *)
 

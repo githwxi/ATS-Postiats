@@ -150,9 +150,13 @@ fun the_filenamelst_push_check
   (fil: filename): (the_filenamelst_push_v | bool)
 // end of [the_filenamelst_push_check]
 //
-fun the_filenamelst_ppop (): void 
-fun the_filenamelst_ppush (fil: filename): void
+fun the_filenamelst_ppop(): void 
+fun the_filenamelst_ppush(fil: filename): void
+(*
+// HX-2017-01-31: push from the back!
+fun the_filenamelst_ppushb(fil: filename): void
 //
+*)
 fun fprint_the_filenamelst (out: FILEref): void
 //
 (* ****** ****** *)
@@ -187,8 +191,16 @@ the_pathlst_pop
 fun
 the_pathlst_push
   (x: path): (the_pathlst_push_v | void)
-fun
-the_pathlst_ppush(x: path): void // HX: permanent push
+//
+// HX: permanent push
+//
+fun the_pathlst_ppush(x: path): void
+//
+// HX: permanent push from the back!
+//
+fun the_pathlst_ppushb(x: path): void
+//
+(* ****** ****** *)
 //
 fun
 the_prepathlst_push
