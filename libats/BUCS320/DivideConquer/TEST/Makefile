@@ -15,10 +15,6 @@ PATSCC2=$(PATSCC) \
 
 ######
 
-MYTEXTING=./../MYTEXT/bin/mytexting
-
-######
-
 all::
 regress::
 cleanall::
@@ -32,6 +28,16 @@ test01.dats; $(PATSCC2) -o $@ $<
 #
 regress:: test01; ./$<
 cleanall:: ; $(RMF) test01
+#
+######
+#
+all:: \
+test02
+test02: \
+test02.dats; $(PATSCC2) -o $@ $<
+#
+regress:: test02; ./$<
+cleanall:: ; $(RMF) test02
 #
 ######
 
