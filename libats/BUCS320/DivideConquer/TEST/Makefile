@@ -41,6 +41,16 @@ cleanall:: ; $(RMF) test02
 #
 ######
 
+all:: \
+mergesort
+mergesort: \
+mergesort.dats; $(PATSCC2) -o $@ $<
+#
+regress:: mergesort; ./$<
+cleanall:: ; $(RMF) mergesort
+#
+######
+
 testall:: all
 testall:: regress
 testall:: cleanall
