@@ -88,10 +88,39 @@ fun{}
 DivideConquer$conquer$combine(xs: list0(output)): output
 //
 (* ****** ****** *)
+//
+extern
+fun{}
+DivideConquer$solve$eval : (input) -> output
+extern
+fun{}
+DivideConquer$solve$memo_get : (input) -> Option_vt(output)
+extern
+fun{}
+DivideConquer$conquer$memo_set : (output) -> void
+//
+(* ****** ****** *)
 
 implement
 {}(*tmp*)
 DivideConquer$solve
+  (x0) = let
+//
+val opt =
+  DivideConquer$solve$memo_get<>(x0)
+//
+in
+  case+ opt of
+  | ~Some_vt(r0) => r0
+  | ~None_vt((*void*)) =>
+     DivideConquer$solve$eval<>(x0)
+end // end of [DivideConquer$solve]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+DivideConquer$solve$eval
   (x0) = let
 //
 val
@@ -113,9 +142,28 @@ end // end of [DivideConquer$solve]
 //
 implement
 {}(*tmp*)
-DivideConquer$conquer(xs) =
-DivideConquer$conquer$combine<>
-  (list0_map<input><output>(xs, lam(x) => DivideConquer$solve<>(x)))
+DivideConquer$solve$memo_get(x0) = None_vt()
+//
+implement
+{}(*tmp*)
+DivideConquer$conquer$memo_set(r0) = ((*void*))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+DivideConquer$conquer
+  (xs) = r0 where
+{
+//
+val rs =
+list0_map<input><output>
+  (xs, lam(x) => DivideConquer$solve<>(x))
+//
+val r0 = DivideConquer$conquer$combine<> (rs)
+val () = DivideConquer$conquer$memo_set<>(r0)
+//
+} (* end of [DivideConquer$conquer] *)
 //
 (* ****** ****** *)
 
