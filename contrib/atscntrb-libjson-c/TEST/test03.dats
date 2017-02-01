@@ -11,13 +11,6 @@
 *)
 
 (* ****** ****** *)
-
-%{^
-#include "json-c/CATS/json.cats"
-#include "json-c/CATS/printbuf.cats"
-%}
-
-(* ****** ****** *)
 //
 #include
 "share/atspre_staload.hats"

@@ -77,7 +77,8 @@ val () = fprintln! (stdout_ref, "x = ", x)
 
 (* ****** ****** *)
 
-val () = {
+val () =
+{
 //
 val out = stdout_ref
 //
@@ -100,7 +101,7 @@ val () = fprint_newline (out)
 
 (* ****** ****** *)
 
-implement main0 () = ()
+implement main0((*void*)) = ()
 
 (* ****** ****** *)
 

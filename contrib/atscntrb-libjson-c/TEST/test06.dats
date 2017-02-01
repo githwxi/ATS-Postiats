@@ -50,7 +50,7 @@ end // end of [json_objlst_fprint_and_free]
 (* ****** ****** *)
 
 implement
-main0 () =
+main0((*void*)) =
 {
 //
 val out = stdout_ref

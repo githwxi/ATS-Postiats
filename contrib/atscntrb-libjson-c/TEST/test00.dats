@@ -11,25 +11,14 @@
 *)
 
 (* ****** ****** *)
-
-%{^
-#include "json-c/CATS/json.cats"
-%}
-
-(* ****** ****** *)
 //
 #include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload
-UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload "./../SATS/json.sats"
-
+//
+#staload "./../SATS/json.sats"
+//
 (* ****** ****** *)
 
 implement

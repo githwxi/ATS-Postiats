@@ -4,10 +4,15 @@
 *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSCNTRB.jsonc"
-#define ATS_EXTERN_PREFIX "atscntrb_jsonc_" // prefix for external names
-
+//
+#define
+ATS_PACKNAME "ATSCNTRB.jsonc"
+//
+// HX: prefix for extern names
+//
+#define
+ATS_EXTERN_PREFIX "atscntrb_jsonc_"
+//
 (* ****** ****** *)
 //
 staload JSON = "./json.sats"

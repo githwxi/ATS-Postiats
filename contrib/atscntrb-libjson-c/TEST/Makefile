@@ -10,7 +10,7 @@ PATSHOMEQ="$(PATSHOME)"
 ######
 
 CFLAGS :=
-CFLAGS += -I./..
+CFLAGS += -I./../..
 CFLAGS +=  $(shell pkg-config --cflags json-c)
 
 ######

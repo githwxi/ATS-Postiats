@@ -83,7 +83,7 @@ end // end of [foo2]
 (* ****** ****** *)
 
 implement
-main0 () =
+main0((*void*)) =
 {
 //
 val out = stdout_ref

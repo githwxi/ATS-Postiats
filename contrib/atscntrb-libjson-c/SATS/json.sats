@@ -35,7 +35,8 @@
 (* ****** ****** *)
 
 %{#
-#include "json-c/CATS/json.cats"
+#include \
+"atscntrb-libjson-c/CATS/json.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
@@ -43,9 +44,10 @@
 #define
 ATS_PACKNAME "ATSCNTRB.jsonc"
 //
+// HX: prefix for external names
+//
 #define
-ATS_EXTERN_PREFIX
-"atscntrb_jsonc_" // prefix for external names
+ATS_EXTERN_PREFIX "atscntrb_jsonc_"
 //
 (* ****** ****** *)
 

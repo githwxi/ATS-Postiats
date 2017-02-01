@@ -28,7 +28,7 @@ staload _(*anon*) = "./../DATS/json.dats"
 (* ****** ****** *)
 
 implement
-main0 () =
+main0((*void*)) =
 {
 //
 val arr = json_object_new_array ()
