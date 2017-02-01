@@ -196,9 +196,10 @@ the_pathlst_push
 //
 fun the_pathlst_ppush(x: path): void
 //
+(*
 // HX: permanent push from the back!
-//
 fun the_pathlst_ppushb(x: path): void
+*)
 //
 (* ****** ****** *)
 //

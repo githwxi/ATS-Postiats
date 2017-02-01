@@ -940,6 +940,10 @@ end // end of [the_pathlst_ppush]
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2017-02-01: reverted
+//
 implement
 the_pathlst_ppushb(x0) = let
 //
@@ -951,6 +955,7 @@ val
 in
   !p := list_vt_extend(!p, x0)
 end // end of [the_pathlst_ppushb]
+*)
 
 (* ****** ****** *)
 

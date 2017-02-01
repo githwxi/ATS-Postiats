@@ -199,6 +199,9 @@ in
   !the_IATS_dirlst := list_cons(dir, dirs)
 end // end of [the_IATS_dirlst_ppush]
 //
+(*
+//
+// HX-2017-02-01: reverted
 // HX-2017-01-31: push from the back!
 //
 implement
@@ -209,6 +212,7 @@ in
   !the_IATS_dirlst :=
     list_of_list_vt(list_extend(dirs, dir))
 end // end of [the_IATS_dirlst_ppushb]
+*)
 //
 end // end of [local]
 

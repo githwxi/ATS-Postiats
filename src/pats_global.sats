@@ -82,9 +82,10 @@ fun the_IATS_dirlst_get (): List (string)
 //
 fun the_IATS_dirlst_ppush (dir: string):<!ref> void
 //
+(*
 // HX: ppushb: permanent push from back
-//
 fun the_IATS_dirlst_ppushb (dir: string):<!ref> void
+*)
 //
 (* ****** ****** *)
 //

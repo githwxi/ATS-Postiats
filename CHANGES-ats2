@@ -26,9 +26,15 @@ Here is a list of major additions and changes since the last release:
 2. Initiating libatscc being moved from PATSCONTRIB to PATSHOME/contrib
    In particular, moving of Bacon.js and Worker in libatscc/libatscc2js
    is finished.
+(*
+//
+HX-2017-02-01: Reverted!
+// File search in ATS should be different from done in C
+//
 3. Using pushb (push-from-the-back) to push a path permanently:
    fun the_pathlst_ppushb(x: path): void // see [pats_filename]
    fun the_IATS_dirlst_ppushb (dir: string): void // see [pats_global]
+*)
 
 ######
 
