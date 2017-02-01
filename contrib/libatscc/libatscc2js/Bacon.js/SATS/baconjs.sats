@@ -100,7 +100,8 @@ Bacon_sequentially
 (* ****** ****** *)
 //
 fun
-Bacon_repeat{a:t0p}
+Bacon_repeat
+  {a:t0p}
 (
   fopr: cfun(intGte(0), EStream(a))
 ) : EStream(a) = "mac#%" // end-of-fun
@@ -111,26 +112,26 @@ fun
 EStream_map
   {a:t0p}{b:t0p}
 (
-  xs: EStream(a), fopr: cfun(a, b)
+xs: EStream(a), fopr: cfun(a, b)
 ) : EStream(b) = "mac#%" // end-of-fun
 fun
 EStream_map_method
   {a:t0p}{b:t0p}
 (
-  xs: EStream(a), TYPE(b))(fopr: cfun(a, b)
+xs: EStream(a), TYPE(b))(fopr: cfun(a, b)
 ) : EStream(b) = "mac#%" // end-of-fun
 //
 fun
 Property_map
   {a:t0p}{b:t0p}
 (
-  xs: Property(a), fopr: cfun(a, b)
+xs: Property(a), fopr: cfun(a, b)
 ) : Property(b) = "mac#%" // end-of-fun
 fun
 Property_map_method
   {a:t0p}{b:t0p}
 (
-  xs: Property(a), TYPE(b))(fopr: cfun(a, b)
+xs: Property(a), TYPE(b))(fopr: cfun(a, b)
 ) : Property(b) = "mac#%" // end-of-fun
 //
 (*
@@ -146,7 +147,7 @@ fun
 EStream_map_property
   {a:t0p}{b:t0p}
 (
-  xs: EStream(a), ys: Property(b)
+xs: EStream(a), ys: Property(b)
 ) : EStream(b) = "mac#%" // end-of-fun
 //
 overload map with EStream_map_property
@@ -158,13 +159,13 @@ fun
 EStream_filter
   {a:t0p}
 (
-  xs: EStream(a), test: cfun(a, bool)
+xs: EStream(a), test: cfun(a, bool)
 ) : EStream(a) = "mac#%" // end-of-fun
 fun
 EStream_filter_method
   {a:t0p}
 (
-  xs: EStream(a))(test: cfun(a, bool)
+xs: EStream(a))(test: cfun(a, bool)
 ) : EStream(a) = "mac#%" // end-of-fun
 //
 (*
@@ -178,7 +179,7 @@ fun
 EStream_filter_property
   {a:t0p}
 (
-  xs: EStream(a), bs: Property(bool)
+xs: EStream(a), bs: Property(bool)
 ) : EStream(a) = "mac#%" // end-of-fun
 //
 overload filter with EStream_filter_property
@@ -190,13 +191,13 @@ fun
 EStream_scan
   {a:t0p}{b:t0p}
 (
-  xs: EStream(b), ini: a, fopr: cfun(a, b, a)
+xs: EStream(b), ini: a, fopr: cfun(a, b, a)
 ) : Property(a) = "mac#%" // end-of-function
 fun
 EStream_scan_method
   {a:t0p}{b:t0p}
 (
-  xs: EStream(b), ini: a)(fopr: cfun(a, b, a)
+xs: EStream(b), _: TYPE(a))(ini: a, fopr: cfun(a, b, a)
 ) : Property(a) = "mac#%" // end-of-function
 //
 (*
@@ -264,7 +265,7 @@ fun
 Property_flatMap_method
   {a:t0p}{b:t0p}
 (
-  Property(a), TYPE(b))(fopr: cfun(a, EStream(b))
+xs: Property(a), _: TYPE(b))(fopr: cfun(a, EStream(b))
 ) : EStream(b) = "mac#%" // end-of-function
 //
 (*

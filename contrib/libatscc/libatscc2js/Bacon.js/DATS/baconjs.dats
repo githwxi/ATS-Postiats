@@ -79,8 +79,8 @@ EStream_filter_method
 //
 implement
 EStream_scan_method
-  (xs, ini) =
-  lam(fopr) => EStream_scan(xs, ini, fopr)
+  (xs, _(*type*)) =
+  lam(ini, fopr) => EStream_scan(xs, ini, fopr)
 //
 (* ****** ****** *)
 //
