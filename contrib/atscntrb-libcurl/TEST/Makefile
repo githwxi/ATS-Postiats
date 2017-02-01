@@ -18,7 +18,7 @@ cleanall::
 
 ######
 
-INCLUDE=./..
+INCLUDE=./../..
 
 ######
 

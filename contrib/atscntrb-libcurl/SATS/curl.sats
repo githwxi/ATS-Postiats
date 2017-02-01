@@ -36,7 +36,8 @@
 (* ****** ****** *)
 
 %{#
-#include "curl/CATS/curl.cats"
+#include \
+"atscntrb-libcurl/CATS/curl.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
