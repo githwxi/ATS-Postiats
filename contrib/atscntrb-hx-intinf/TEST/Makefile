@@ -22,8 +22,8 @@ all::
 ######
 
 CFLAGS:=
+CFLAGS+=-I"./../.."
 CFLAGS+=-DATS_MEMALLOC_LIBC
-CFLAGS+=-I"./../../atscntrb-libgmp"
 
 ######
 
