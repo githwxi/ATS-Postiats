@@ -33,8 +33,7 @@ all:: \
 gnumber
 gnumber: \
 gnumber.dats ; \
-$(PATSCC) $(CFLAGS) \
--I$(PATSHOME)/contrib/atscntrb-libgmp -o $@ $< -lgmp
+$(PATSCC) $(CFLAGS) -I$(PATSHOME)/contrib -o $@ $< -lgmp
 regress:: \
 gnumber ; ./gnumber
 #

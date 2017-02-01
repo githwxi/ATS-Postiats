@@ -45,7 +45,7 @@ cleanall:: ; $(RMF) Best_shuffle
 # Lucas-Lehmer_test
 Lucas-Lehmer_test: \
 Lucas-Lehmer_test.dats ; \
-$(PATSCC) -O2 -I./PATSRELOCROOT/libgmp -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+$(PATSCC) -O2 -I./PATSRELOCROOT -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
 #
 # regress:: \
 # Lucas-Lehmer_test; ./$<
@@ -57,7 +57,7 @@ all:: \
 Lucas-Lehmer_test2
 Lucas-Lehmer_test2: \
 Lucas-Lehmer_test2.dats ; \
-$(PATSCC) -O2 -I"$(PATSHOME)/contrib/atscntrb-libgmp" -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+$(PATSCC) -O2 -I"$(PATSHOME)/contrib" -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
 #
 regress:: \
 Lucas-Lehmer_test2; ./$<
