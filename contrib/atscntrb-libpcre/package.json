@@ -2,28 +2,30 @@
 "name":
 "atscntrb-libpcre"
 ,
-"version": "1.0.0"
+"version": "1.0.1"
 ,
 "description":
 "This package is for directly calling in ATS various PCRE-functions."
 ,
-  "main": "N/A"
+"main": "N/A"
 ,
-  "scripts": {}
+"scripts": {}
 ,
-  "repository": {}
+"repository": {
+  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/contrib/atscntrb-libpcre"
+}
 ,
-  "keywords": [
-    "ATS",
-    "PCRE",
-    "libpcre"
-  ]
+"keywords": [
+  "ATS",
+  "PCRE",
+  "libpcre"
+]
 ,
-  "author":
-  "Hongwei Xi <gmhwxi@gmail.com>"
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
 ,
-  "license": "MIT"
+"license": "MIT"
 ,
-  "note-for-me":
-  "The package is stored at ${PATSHOME}/contrib/atscntrb-libpcre/."
+"note-for-me":
+"The package is stored at ${PATSHOME}/contrib/atscntrb-libpcre/."
 }
