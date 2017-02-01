@@ -35,21 +35,21 @@
 
 (* ****** ****** *)
 //
-#define
-ATS_PACKNAME "ATSCNTRB.gmp"
-//
-(* ****** ****** *)
-//
 %{#
 //
-#include "gmp/CATS/gmp.cats"
+#include \
+"atscntrb-libgmp/CATS/gmp.cats"
 //
 %} // end of [%{#]
 //
 (* ****** ****** *)
 //
-// prefix for extern names
-// prefix for static names
+#define ATS_PACKNAME "ATSCNTRB.gmp"
+//
+(* ****** ****** *)
+//
+// HX: prefix for extern names
+// HX: prefix for static names
 //
 #define
 ATS_EXTERN_PREFIX "atscntrb_gmp_"
