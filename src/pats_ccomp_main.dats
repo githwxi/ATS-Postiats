@@ -1235,32 +1235,56 @@ end // end of [aux_exndeclst]
 
 fun
 aux_saspdeclst
-  (out: FILEref): void = let
+(
+  out: FILEref
+) : void = let
 //
-fun loop (
+fun
+loop
+(
   out: FILEref, xs: hideclist
 ) : void = let
 in
 //
 case+ xs of
+| list_nil
+    () => ((*void*))
+  // list_nil
 | list_cons
-    (x, xs) => let
-    val () = emit_saspdec (out, x) in loop (out, xs)
-  end // end of [list_cons]
-| list_nil () => ()
+  (
+    x, xs
+  ) => loop(out, xs) where
+  {
+    val () = emit_saspdec(out, x)
+  } (* end of [list_cons] *)
 //
 end // end of [loop]
 //
-val () = emit_text (out, "/*\n")
-val () = emit_text (out, "assumelst-declaration(beg)\n")
-val () = emit_text (out, "*/\n")
+val () =
+emit_text(out, "/*\n")
+val () =
+emit_text(out, "assumelst-declaration(beg)\n")
+val () =
+emit_text(out, "*/\n")
 //
-val hids = the_saspdeclst_get ()
-val ((*void*)) = loop (out, hids)
+val () =
+emit_text(out, "#ifndef _ATS_CCOMP_ASSUME_CHECK_NONE_\n")
 //
-val () = emit_text (out, "/*\n")
-val () = emit_text (out, "assumelst-declaration(end)\n")
-val () = emit_text (out, "*/\n")
+val ((*void*)) =
+loop(out, hids) where
+{
+  val hids = the_saspdeclst_get((*void*))
+} (* end of [where] *) // end of [val]
+//
+val () =
+emit_text(out, "#endif // #ifndef(_ATS_CCOMP_ASSUME_CHECK_NONE_)\n")
+//
+val () =
+emit_text(out, "/*\n")
+val () =
+emit_text(out, "assumelst-declaration(end)\n")
+val () =
+emit_text(out, "*/\n")
 //
 in
   (* nothing *)
