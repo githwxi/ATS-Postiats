@@ -25,6 +25,10 @@ assume elt_t0ype = double
 //
 in
 //
+implement
+gcompare_val_val<elt>
+  (x, y) = compare(x, y)
+//
 fun
 MyMergeSort_list
 (
@@ -50,14 +54,11 @@ $list{double}
 )
 ) (* end of [val] *)
 //
-(*
 //
 val xs1 = MyMergeSort_list(xs0)
 //
 val ((*void*)) = println! ("xs0 = ", xs0)
 val ((*void*)) = println! ("xs1 = ", xs1)
-//
-*)
 //
 } (* end of [main0] *)
 

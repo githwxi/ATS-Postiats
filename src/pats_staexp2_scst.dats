@@ -132,19 +132,32 @@ s2cst_struct = @{
 (* ****** ****** *)
 
 local
+//
+extern
+fun
+s2cst_set_isabs
+(
+x0: s2cst, opt: s2expopt
+) : void = "patsopts2cst_set_isabs"
+//
+fun
+s2rt_get_arylst
+(
+  s2t: s2rt
+) : List0(int) =
+(
+case+ s2t of
+| S2RTfun(s2ts, s2t) => let
+    val n0 = list_length(s2ts)
+  in
+    list_cons(n0, s2rt_get_arylst(s2t))
+  end (* end of [S2RTfun] *)
+| _ (*non-S2RTfun*) => list_nil((*void*))
+) // end of [s2rt_get_arylst]
 
-fun s2rt_get_arylst
-  (s2t: s2rt): List int =
-  case+ s2t of
-  | S2RTfun (s2ts, s2t) => 
-      list_cons (list_length s2ts, s2rt_get_arylst (s2t))
-    // end of [S2RTfun]
-  | _ => list_nil () // end of [_]
-// end of [s2rt_get_arylst]
+assume s2cst_type = ref(s2cst_struct)
 
-assume s2cst_type = ref (s2cst_struct)
-
-in // in of [local]
+in (* in of [local] *)
 
 implement
 s2cst_make
@@ -269,6 +282,19 @@ val (vbox pf | p) =
 //
 end // end of [s2cst_get_isabs]
 
+(* ****** ****** *)
+//
+// HX-2017-02-01:
+// This one is for internal use!
+//
+implement
+s2cst_set_isabs(s2c, opt) = let
+//
+val (vbox pf | p) =
+  ref_get_view_ptr(s2c) in p->s2cst_isabs := Some(opt)
+//
+end // end of [s2cst_set_isabs]
+//
 (* ****** ****** *)
 
 implement
