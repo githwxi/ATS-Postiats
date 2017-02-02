@@ -14,7 +14,7 @@
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "./../DATS/DivideConquer.dats"
 //
 (* ****** ****** *)
@@ -142,4 +142,4 @@ val ((*void*)) = println! ("xs1 = ", xs1)
 
 (* ****** ****** *)
 
-(* end of [mergesort.dats] *)
+(* end of [MergeSort_list.dats] *)

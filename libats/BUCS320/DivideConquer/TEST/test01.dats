@@ -14,7 +14,7 @@
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "./../DATS/DivideConquer.dats"
 //
 (* ****** ****** *)

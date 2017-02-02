@@ -1,7 +1,8 @@
 (* ****** ****** *)
 //
 // HX-2017-02-01:
-// MergeSort via
+// MergeSort for
+// lists and arrays via
 // Generic Divide-Conquer
 //
 (* ****** ****** *)

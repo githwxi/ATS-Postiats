@@ -30,26 +30,6 @@ regress:: test01; ./$<
 cleanall:: ; $(RMF) test01
 #
 ######
-#
-all:: \
-test02
-test02: \
-test02.dats; $(PATSCC2) -o $@ $<
-#
-regress:: test02; ./$<
-cleanall:: ; $(RMF) test02
-#
-######
-
-all:: \
-MergeSort_list
-MergeSort_list: \
-MergeSort_list.dats; $(PATSCC2) -o $@ $<
-#
-regress:: MergeSort_list; ./$<
-cleanall:: ; $(RMF) MergeSort_list
-#
-######
 
 testall:: all
 testall:: regress
