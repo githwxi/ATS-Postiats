@@ -360,7 +360,8 @@ of the datatype itself. For instance, the following declared datatype
 
 #sats2xhtml("\
 datatype charlst =
-  | charlst_nil of () | charlst_cons of (char, charlst)
+  | charlst_nil of ()
+  | charlst_cons of (char, charlst)
 // end of [charlst]
 ")
 
@@ -379,9 +380,12 @@ the length of a given character list:
 #dats2xhtml("\
 fun
 charlst_length
-  (cs: charlst): int = case cs of
-  | charlst_cons (_, cs) => 1 + charlst_length (cs)
-  | charlst_nil () => 0
+(
+  cs: charlst
+) : int =
+  case cs of
+  | charlst_nil() => 0
+  | charlst_cons(_, cs) => 1 + charlst_length(cs)
 // end of [charlst_length]
 ")
 
@@ -397,7 +401,7 @@ charlst_length
 //
 fun loop
   (cs: charlst, n: int): int = case cs of
-  | charlst_cons (_, cs) => loop (cs, n+1) | charlst_nil () => n
+  | charlst_nil() => n | charlst_cons (_, cs) => loop(cs, n+1)
 // end of [loop]
 //
 in
