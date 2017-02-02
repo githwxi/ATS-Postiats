@@ -13,37 +13,31 @@
 /atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
-//
-local
-//
-#define MERGESORT_LIST
-//
-#include "./../mydepies.hats"
-#include "./../mylibies.hats"
-//
-#staload $MergeSort_list
-//
-  assume elt_t0ype = double
-//
-in
-//
-implement
-gcompare_val_val<elt>
-  (x, y) = compare(x, y)
-//
-fun
-MyMergeSort_list
-(
-xs: list0(double)
-) : list0(double) = MergeSort_list<>(xs)
-//
-end // end of [local]
+
+#staload TESTLIB = "./testlib.dats"
 
 (* ****** ****** *)
 
 implement
 main0() =
 {
+//
+val
+xs0 =
+g0ofg1
+(
+$list{int}
+(
+  8, 3, 2, 4, 6, 5, 1, 7, 0, 9
+)
+) (* end of [val] *)
+//
+//
+val xs1 =
+$TESTLIB.MergeSort_list_int(xs0)
+//
+val ((*void*)) = println! ("xs0 = ", xs0)
+val ((*void*)) = println! ("xs1 = ", xs1)
 //
 val
 xs0 =
@@ -57,7 +51,8 @@ $list{double}
 ) (* end of [val] *)
 //
 //
-val xs1 = MyMergeSort_list(xs0)
+val xs1 =
+$TESTLIB.MergeSort_list_double(xs0)
 //
 val ((*void*)) = println! ("xs0 = ", xs0)
 val ((*void*)) = println! ("xs1 = ", xs1)

@@ -9,7 +9,7 @@
 //
 #ifdef
 MERGESORT_LIST
-staload
+#staload
 MergeSort_list =
 "./DATS/MergeSort_list.dats"
 #endif // #ifdef(MERGESORT_LIST)

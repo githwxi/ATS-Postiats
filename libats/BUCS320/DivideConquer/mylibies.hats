@@ -6,7 +6,7 @@
 //
 (* ****** ****** *)
 //
-staload
+#staload
 DivideConquer =
 "./DATS/DivideConquer.dats"
 //
@@ -14,7 +14,7 @@ DivideConquer =
 //
 #ifdef
 DIVIDECONQUER_MEMO
-staload
+#staload
 DivideConquer_memo =
 "./DATS/DIVIDECONQUER_memo.dats"
 #endif // #ifdef(DIVIDECONQUER_MEMO)

@@ -24,10 +24,24 @@ cleanall::
 all:: \
 test01
 test01: \
-test01.dats; $(PATSCC2) -o $@ $<
+test01.dats \
+testlib_dats.o; \
+$(PATSCC2) -o $@ $< testlib_dats.o
 #
 regress:: test01; ./$<
 cleanall:: ; $(RMF) test01
+#
+######
+#
+all:: \
+testlib_dats.o
+testlib_dats.o: \
+testlib.dats; \
+$(PATSCC2) -c $< \
+MergeSort_list_int.dats \
+MergeSort_list_double.dats
+#
+cleanall:: ; $(RMF) testlib_dats.o
 #
 ######
 
@@ -43,6 +57,7 @@ RMF=rm -f
 
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c
+clean:: ; $(RMF) *_?ats.o
 
 ######
 #

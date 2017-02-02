@@ -220,6 +220,21 @@ end // end of [local]
 
 local
 //
+val rasmflag = ref<int> (1)
+//
+in
+//
+implement
+the_ASSUME_check_get() = !rasmflag
+implement
+the_ASSUME_check_set(flag) = !rasmflag := flag
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
 val rdbgflag = ref<int> (0)
 //
 in (*in-of-local*)

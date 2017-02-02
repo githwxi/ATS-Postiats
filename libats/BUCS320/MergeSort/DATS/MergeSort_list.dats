@@ -40,12 +40,6 @@
 /atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
-//
-#include"./../mydepies.hats"
-//
-#staload DC = $DivideConquer
-//
-(* ****** ****** *)
 
 abst@ype elt_t0ype
 
@@ -53,6 +47,10 @@ abst@ype elt_t0ype
 
 typedef elt = elt_t0ype
 
+(* ****** ****** *)
+//
+#include "./../mydepies.hats"
+//
 (* ****** ****** *)
 //
 extern
@@ -66,6 +64,11 @@ typedef
 input = (int, list0(elt))
 //
 typedef output = list0(elt)
+//
+(* ****** ****** *)
+//
+staload
+DC = $DivideConquer
 //
 assume $DC.input_t0ype = input
 assume $DC.output_t0ype = output
@@ -104,7 +107,7 @@ val xs2 = list0_drop_exn(xs, n2)
 //
 in
 //
-g0ofg1($list{input}((n2, xs1), (n-n2, xs2)))
+g0ofg1_list($list{input}((n2, xs1), (n-n2, xs2)))
 //
 end // end of [DivideConquer$divide]
 //
@@ -149,7 +152,7 @@ case+ xs10 of
 implement
 {}(*tmp*)
 MergeSort_list(xs) = let
-  val n = length(xs) in $DC.DivideConquer$solve<>((n, xs))
+  val n = list0_length(xs) in $DC.DivideConquer$solve<>((n, xs))
 end // end of [MergeSort_list]
 //
 (* ****** ****** *)
