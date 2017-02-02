@@ -48,8 +48,9 @@ implement
 dotprod{n}
   (A, B, n) = let
 //
-fun loop
-  {i:nat | i <= n} .<n-i>.
+fun
+loop
+{i:nat | i <= n} .<n-i>.
 (
   pa: ptr, pb: ptr, i: int(i), res: a
 ) : (a) = let
@@ -61,20 +62,20 @@ then let
   val x = $UN.ptr0_get<a> (pa)
   val y = $UN.ptr0_get<a> (pb)
   val res =
-    gadd_val_val<a> (res, gmul_val_val<a> (x, y))
+    gadd_val_val<a>(res, gmul_val_val<a>(x, y))
   // end of [val]
 in
-  loop (ptr_succ<a> (pa), ptr_succ<a> (pb), succ(i), res)
+  loop(ptr_succ<a>(pa), ptr_succ<a>(pb), succ(i), res)
 end // end of [then]
 else res // end of [else]
 //
 end // end of [loop]
 //
-prval () = lemma_array_param (A)
-prval () = lemma_array_param (B)
+prval () = lemma_array_param(A)
+prval () = lemma_array_param(B)
 //
 in
-  loop (addr@A, addr@B, 0, gnumber_int<a> (0))
+  loop(addr@A, addr@B, 0, gnumber_int<a>(0))
 end (* end of [dotprod] *)
 
 (* ****** ****** *)
