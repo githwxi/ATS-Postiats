@@ -16,12 +16,14 @@
 //
 local
 //
-#include
-"./../mydepies.hats"
-#staload
-"./../DATS/MergeSort_list.dats"
+#define MERGESORT_LIST
 //
-assume elt_t0ype = double
+#include "./../mydepies.hats"
+#include "./../mylibies.hats"
+//
+#staload $MergeSort_list
+//
+  assume elt_t0ype = double
 //
 in
 //

@@ -41,7 +41,9 @@
 //
 (* ****** ****** *)
 //
-#include "./../mydepies.hats"
+#include"./../mydepies.hats"
+//
+#staload DC = $DivideConquer
 //
 (* ****** ****** *)
 
@@ -91,8 +93,10 @@ $DC.DivideConquer$divide<>
 val n =
   g1ofg0(nxs.0)
 //
-val () = assertloc (n >= 2)
-val n2 = half(n)
+val () =
+assertloc(n >= 2)
+//
+val n2 = half( n )
 //
 val xs = nxs.1
 val xs1 = list0_take_exn(xs, n2)
