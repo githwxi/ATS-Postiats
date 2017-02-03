@@ -39,66 +39,52 @@ ATS_PACKNAME
 .BUCS320.DivideConquer"
 //
 (* ****** ****** *)
+//
+#staload
+"libats/ML/SATS/basis.sats"
+#staload
+"libats/ML/SATS/list0.sats"
+//
+(* ****** ****** *)
 
 #staload "./DivideConquer.dats"
 
 (* ****** ****** *)
-
-#staload "libats/ML/SATS/hashtblref.sats"
-
-(* ****** ****** *)
 //
 extern
 fun{}
-DivideConquer_memo$solve
-  (x0: input): output
-//
-(* ****** ****** *)
-//
+DivideConquer_cont$solve
+  (x0: input, k0: output -<cloref1> void): void
 extern
 fun{}
-DivideConquer_memo$table_get
-  ((*void*)): hashtbl(input, output)
+DivideConquer_cont$conquer
+  (xs: list0(input), k0: output -<cloref1> void): void
 //
 (* ****** ****** *)
-//
-implement
-DivideConquer$solve$memo_get<>
-  (x0) = let
-//
-val
-theTable =
-DivideConquer_memo$table_get<>()
-//
-in
-//
-hashtbl_search<input,output>(theTable, x0)
-//
-end // end of [DivideConquer$solve$memo_get]
 
-implement
-DivideConquer$solve$eval$memo_set<>
-  (x0, r0) = let
-val
-theTable =
-DivideConquer_memo$table_get<>()
-//
-in
-//
-hashtbl_insert_any<input,output>(theTable, x0, r0)
-//
-end // end of [DivideConquer$solve$memo_get]
-//
-(* ****** ****** *)
-//
 implement
 {}(*tmp*)
-DivideConquer_memo$solve
-  (x0) =
-(
-  DivideConquer$solve<>(x0)
-) (* end of [DivideConquer_memo] *)
+DivideConquer_cont$solve
+  (x0, k0) = let
 //
+val
+test =
+DivideConquer$base_test<>(x0)
+//
+in (* in-of-let *)
+//
+if
+(test)
+then k0(DivideConquer$base_solve(x0))
+else () where
+{
+  val xs = DivideConquer$divide<>(x0)
+  val () = DivideConquer_cont$conquer<>(xs, k0)
+} (* end of [else] *)
+//
+end // end of [DivideConquer_cont$solve]
+
+
 (* ****** ****** *)
 
-(* end of [DivideConquer_memo.dats] *)
+(* end of [DivideConquer_parallel.dats] *)
