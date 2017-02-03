@@ -2,7 +2,7 @@
 "name":
 "atscntrb-libsdl2"
 ,
-"version": "1.0.0"
+"version": "1.0.1"
 ,
 "description":
 "This package is for directly calling in ATS various SDL2-functions."
@@ -12,7 +12,7 @@
 "scripts": {}
 ,
 "repository": {
-  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/contrib/atscntrb-libsdl2"
+  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/npm-utils/contrib/atscntrb-libsdl2"
 }
 ,
 "keywords": [
@@ -27,5 +27,5 @@
 "license": "MIT"
 ,
 "note-for-me":
-"The package is stored at ${PATSHOME}/contrib/atscntrb-libsdl2/."
+"The package is stored at ${PATSHOME}/npm-utils/contrib/atscntrb-libsdl2/."
 }

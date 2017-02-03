@@ -28,7 +28,8 @@
 
 %{#
 //
-#include "SDL2/CATS/SDL_image.cats"
+#include \
+"atscntrb-libsdl2/CATS/SDL_image.cats"
 //
 %} // end of [%{#]
 
