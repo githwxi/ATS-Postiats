@@ -105,15 +105,15 @@ The ATSLIB/libats/BUCS320 library\
 (*
 ** parcomb
 *)
-#packfilename("parcomb/parcomb.dats")
+#packfilename("parcomb/DATS/parcomb.dats")
 //
 (* ****** ****** *)
 (*
 ** GraphSearch
 *)
-#packfilename("GraphSearch/GraphSearch.dats")
-#packfilename("GraphSearch/GraphSearch_bfs.dats")
-#packfilename("GraphSearch/GraphSearch_dfs.dats")
+#packfilename("GraphSearch/DATS/GraphSearch.dats")
+#packfilename("GraphSearch/DATS/GraphSearch_bfs.dats")
+#packfilename("GraphSearch/DATS/GraphSearch_dfs.dats")
 //
 (* ****** ****** *)
 
