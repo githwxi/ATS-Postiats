@@ -94,16 +94,17 @@ in (* in-of-local *)
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 workshop_get_capacity
   (ws) = let
 //
 val (
   vbox pf | p
-) = ref_get_viewptr (ws)
+) = ref_get_viewptr(ws)
 //
 in
-  channel_get_capacity (p->WS_chan)
+  channel_get_capacity(p->WS_chan)
 end (* end of [workshop_get_capacity] *)
 
 (* ****** ****** *)
@@ -113,26 +114,27 @@ implement
 workshop_get_channel
   (ws) = let
 //
-  val (vbox pf | p) = ref_get_viewptr (ws) in p->WS_chan
+  val (vbox pf | p) = ref_get_viewptr(ws) in p->WS_chan
 //
 end // end of [workshop_get_channel]
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 workshop_get_nworker
   (ws) = let
 //
 val (
   vbox pf | p
-) = ref_get_viewptr (ws)
+) = ref_get_viewptr(ws)
 //
 val spn = p->WS_spin
 val (
   pflock | ()
 ) = $AT.spin_lock (spn)
-val nworker = list_vt_length (p->WS_workerlst)
-val ((*void*)) = $AT.spin_unlock (pflock | spn)
+val nworker = list_vt_length(p->WS_workerlst)
+val ((*void*)) = $AT.spin_unlock(pflock | spn)
 //
 in
   nworker
@@ -173,13 +175,17 @@ implement
 workshop_create_cap
   (cap) = let
 //
-val (
-  pf, fpf | p
-) = ptr_alloc<workshop_struct(a)> ()
+val
+(
+pf, fpf | p
+) = ptr_alloc<workshop_struct(a)>()
 //
-val () = p->WS_spin := $AT.spin_create_exn ()
-val () = p->WS_chan := channel_create_exn<a> (cap)
-val () = p->WS_workerlst := list_vt_nil((*void*))
+val () =
+p->WS_spin := $AT.spin_create_exn()
+val () =
+p->WS_chan := channel_create_exn<a>(cap)
+val () =
+p->WS_workerlst := list_vt_nil((*void*))
 //
 in
   $UN.castvwtp0{workshop(a)}((pf, fpf | p))
@@ -191,11 +197,13 @@ implement
 {a}(*tmp*)
 workshop_insert_job
   (ws, x) = let
-  val chan =
-    workshop_get_channel<> (ws)
-  // end of [val]
+//
+val
+chan =
+workshop_get_channel<>(ws)
+// end of [val]
 in
-  channel_insert<a> (chan, x)
+  channel_insert<a>(chan, x)
 end // end of [workshop_insert_job]
 
 (* ****** ****** *)
@@ -204,11 +212,13 @@ implement
 {a}(*tmp*)
 workshop_takeout_job
   (ws) = let
-  val chan =
-    workshop_get_channel<> (ws)
-  // end of [val]
+//
+val
+chan =
+workshop_get_channel<>(ws)
+// end of [val]
 in
-  channel_takeout<a> (chan)
+  channel_takeout<a>(chan)
 end // end of [workshop_takeout_job]
 
 (* ****** ****** *)
@@ -222,19 +232,22 @@ fun fworker
 (
   ws: workshop(a)
 ) : void = let
-  val x = workshop_takeout_job (ws)
-  val status = workshop_handle_job (ws, x)
+//
+val x0 = workshop_takeout_job(ws)
+val status = workshop_handle_job(ws, x0)
+//
 in
-  if status >= 0 then fworker (ws) else ((*exit*))
+  if status >= 0 then fworker(ws) else ((*exit*))
 end // end of [fworker]
 //
 var tid: lint?
 //
 val err =
 $AT.athread_create_cloptr
-  (tid, llam ((*void*)) => fworker (ws))
+  (tid, llam ((*void*)) => fworker(ws))
 //
-val ((*void*)) =
+val
+((*void*)) =
 if (err = 0) then workshop_add_tid (ws, tid)
 //
 in
@@ -257,9 +270,11 @@ in
 if
 n > 0
 then let
-  val err = workshop_add_worker<a> (ws)
+//
+val err = workshop_add_worker<a>(ws)
+//
 in
-  if err = 0 then loop (ws, n - 1, res + 1) else res
+  if err = 0 then loop(ws, n - 1, res + 1) else res
 end // end of [then]
 else res // end of [else]
 //
@@ -296,7 +311,7 @@ implement
 {}(*tmp*)
 workshop_insert_job_lincloptr
   (ws, job) =
-  workshop_insert_job<lincloptr> (ws, $UN.castvwtp0{lincloptr}(job))
+  workshop_insert_job<lincloptr>(ws, $UN.castvwtp0{lincloptr}(job))
 //
 (* ****** ****** *)
 

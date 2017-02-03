@@ -43,7 +43,7 @@ workshop(a:vt0p) = workshop_type(a)
 
 fun{
 a:vt0p
-} workshop_create_cap (cap: sizeGte(1)): workshop(a)
+} workshop_create_cap(cap: sizeGte(1)): workshop(a)
 
 (* ****** ****** *)
 
@@ -59,27 +59,27 @@ workshop_get_nworker{a:vt0p}(ws: workshop(a)): intGte(0)
 
 fun{
 a:vt0p
-} workshop_handle_job (ws: workshop(a), x: a): int
+} workshop_handle_job(ws: workshop(a), x: a): int
 
 (* ****** ****** *)
 
 fun{
 a:vt0p
-} workshop_insert_job (workshop(a), a): void // block?
+} workshop_insert_job(workshop(a), a): void // block?
 
 (* ****** ****** *)
 
 fun{
 a:vt0p
-} workshop_takeout_job (ws: workshop(a)): (a) // block?
+} workshop_takeout_job(ws: workshop(a)): (a) // block?
 
 (* ****** ****** *)
 //
 fun{a:vt0p}
-workshop_add_worker (ws: workshop(a)): int(*err*)
+workshop_add_worker(ws: workshop(a)): int(*err*)
 //
 fun{a:vt0p}
-workshop_add_nworker{n:nat} (workshop(a), int(n)): natLte(n)
+workshop_add_nworker{n:nat}(workshop(a), int(n)): natLte(n)
 //
 (* ****** ****** *)
 //
