@@ -1,0 +1,30 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../SDL_version.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_SDL2_SDL")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/SDL2/SDL\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_VERSION")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_GetVersion")
+
+(* ****** ****** *)
+
+(* end of [SDL_version.atxt] *)

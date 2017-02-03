@@ -91,8 +91,8 @@ Note that the variable <u>PATSHOMELOCS</u> in this case should be set
 to the name of the directory ##filename("./node_modules")
 as <u>npm</u> installs packages in it. The name ##filename("mylibies.hats")
 is conventional in the sense that it refers to a file that should be
-only used to statically load files into certain namespaces. In this
-case, the content of this file is listed as follows:
+only used to statically load files into certain namespaces. The content of
+this file is listed as follows:
 
 <pre
 class="patsyntax"
@@ -118,8 +118,8 @@ staload GS_dfs = "./DATS/GraphSearch_dfs.dats"
 
 Therefore, the two chosen namespaces are
 ##dyncode("GS") (for storing names in ##filename("GraphSearch.dats"))
-and ##dyncode("GS_dfs") (for storing names in ##filename("GraphSearch_dfs.dats")).
-
+and ##dyncode("GS_dfs") (for storing names in ##filename("GraphSearch_dfs.dats"))
+in this case.
 ')
 
 ##para('\
