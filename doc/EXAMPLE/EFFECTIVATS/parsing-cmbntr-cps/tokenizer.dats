@@ -24,8 +24,15 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
+(*
 #include
-"{$LIBATSHWXI}/teaching/kparcomb/HATS/kparcomb.hats"
+"{$LIBATSHWXI}\
+/teaching/kparcomb/HATS/kparcomb.hats"
+*)
+//
+#include
+"{$PATSHOME}/npm-utils/contrib\
+/libats-hwxi/kparcomb/DATS/kparcomb.dats"
 //
 (* ****** ****** *)
 //
