@@ -88,12 +88,14 @@ fun the_IATS_dirlst_ppushb (dir: string):<!ref> void
 *)
 //
 (* ****** ****** *)
+(*
 //
 // HX-2017-02-02:
 // --assume-check=0
 fun the_ASSUME_check_get(): int
 fun the_ASSUME_check_set(flag: int): void
 //
+*)
 (* ****** ****** *)
 //
 fun the_DEBUGATS_dbgflag_get(): int

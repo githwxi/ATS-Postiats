@@ -37,6 +37,9 @@ HX-2017-02-01: Reverted!
 *)
 4. Adding support for handling abstract types of unspecified size
 5. Adding code into libats/BUCS320/. to support package-based programming
+6. Introducing the compilation flag _ATS_CCOMP_ASSUME_CHECK_NONE_ to skip
+   over checks that are otherwise required of assuming (i.e., implementing)
+   abstract types
 
 ######
 

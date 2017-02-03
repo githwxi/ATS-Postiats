@@ -217,7 +217,7 @@ end // end of [the_IATS_dirlst_ppushb]
 end // end of [local]
 
 (* ****** ****** *)
-
+(*
 local
 //
 val rasmflag = ref<int> (1)
@@ -230,7 +230,7 @@ implement
 the_ASSUME_check_set(flag) = !rasmflag := flag
 //
 end // end of [local]
-
+*)
 (* ****** ****** *)
 
 local
