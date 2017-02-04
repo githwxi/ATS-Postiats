@@ -15,10 +15,10 @@ CFLAGS_image = $(CFLAGS)
 
 ######
 #
-CFLAGS0 += -I$(PATSHOME)/contrib
+CFLAGS0 +=-I./../..
 CFLAGS0 += $(shell pkg-config sdl2 --cflags)
 #
-CFLAGS_image += -I$(PATSHOME)/contrib
+CFLAGS_image +=-I./../..
 CFLAGS_image += $(shell pkg-config SDL2_image --cflags)
 #
 ######
@@ -52,17 +52,21 @@ cleanall:: ; $(RMF) test00
 all:: test01
 test01: test01.dats ; \
 $(PATSCC2) $(CFLAGS0) -o $@ $< $(LDFLAGS0)
-regress:: test01; ./$<
+#
+# regress:: test01; ./$<
+#
 cleanall:: ; $(RMF) test01
 
 ######
-
+#
 all:: test02
 test02: test02.dats ; \
 $(PATSCC2) $(CFLAGS_image) -o $@ $< $(LDFLAGS_image)
-regress:: test02; ./$<
+#
+# regress:: test02; ./$<
+#
 cleanall:: ; $(RMF) test02
-
+#
 ######
 
 testall:: all
