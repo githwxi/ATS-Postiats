@@ -5,7 +5,6 @@
 ######
 
 PATSHOMEQ="$(PATSHOME)"
-PATSCONTRIBQ="$(PATSCONTRIB)"
 
 ######
 
@@ -16,55 +15,67 @@ PATSCC=${PATSHOMEQ}/bin/patscc
 all::
 
 ######
-
-all:: test00
-test00: test00.dats ; \
-  $(PATSCC) -cleanaft \
-    -IIATS $(PATSCONTRIBQ)/contrib -o $@ $< -lhiredis
+#
+all:: \
+test00
+test00: \
+test00.dats ; \
+$(PATSCC) -cleanaft -I./../.. -o $@ $< -lhiredis
+#
 cleanall:: ; $(RMF) test00
-
+#
 ######
-
-all:: test01
-test01: test01.dats ; \
-  $(PATSCC) -cleanaft \
-    -IIATS $(PATSCONTRIBQ)/contrib -o $@ $< -lhiredis
+#
+all:: \
+test01
+test01: \
+test01.dats ; \
+$(PATSCC) -cleanaft -I./../.. -o $@ $< -lhiredis
+#
 cleanall:: ; $(RMF) test01
-
+#
 ######
-
-all:: test02
-test02: test02.dats ; \
-  $(PATSCC) -cleanaft \
-    -IIATS $(PATSCONTRIBQ)/contrib \
-    -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+#
+all:: \
+test02
+test02: \
+test02.dats ; \
+$(PATSCC) -cleanaft -I./../.. \
+  -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+#
 cleanall:: ; $(RMF) test02
-
+#
 ######
-
-all:: test03
-test03:: test03_1
-test03_1: test03_1.dats ; \
-  $(PATSCC) -cleanaft \
-    -IIATS $(PATSCONTRIBQ)/contrib \
-    -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+#
+all:: \
+test03
+test03:: \
+test03_1
+test03_1: \
+test03_1.dats ; \
+$(PATSCC) -cleanaft -I./../.. \
+  -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+#
 cleanall:: ; $(RMF) test03_1
-test03:: test03_2
-test03_2: test03_2.dats ; \
-  $(PATSCC) -cleanaft \
-    -IIATS $(PATSCONTRIBQ)/contrib \
-    -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+#
+test03:: \
+test03_2
+test03_2: \
+test03_2.dats ; \
+$(PATSCC) -cleanaft -I./../.. \
+  -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+#
 cleanall:: ; $(RMF) test03_2
-
+#
 ######
-
+#
 all:: fact
 fact: fact.dats ; \
-  $(PATSCC) -cleanaft \
-    -IIATS $(PATSCONTRIBQ)/contrib \
-    -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+$(PATSCC) -cleanaft -I./../.. \
+  -DATS_MEMALLOC_GCBDW -o $@ $< testlib.dats -lhiredis -lgc
+#
 cleanall:: ; $(RMF) fact
-
+#
 ######
 
 RMF=rm -f
