@@ -9,11 +9,12 @@ all::
 ######
 
 SUBDIRS :=
+SUBDIRS += atscntrb-libcairo
 SUBDIRS += atscntrb-libev
 SUBDIRS += atscntrb-libevent
-SUBDIRS += atscntrb-libcairo
-SUBDIRS += atscntrb-libsdl2
 SUBDIRS += atscntrb-libhiredis
+SUBDIRS += atscntrb-libjansson
+SUBDIRS += atscntrb-libsdl2
 
 ######
 
