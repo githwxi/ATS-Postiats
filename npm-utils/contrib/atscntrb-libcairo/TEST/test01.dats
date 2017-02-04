@@ -23,9 +23,10 @@
 *)
 
 (* ****** ****** *)
-
-staload "./../SATS/cairo.sats"
-
+//
+#staload
+"./../SATS/cairo.sats"
+//
 (* ****** ****** *)
 
 implement
