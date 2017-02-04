@@ -55,46 +55,58 @@ l1,l2,l3:agz
 (
   ptr(*buf*)
 , size_t(*cap*)
-, mutex(l1), condvar(l2), condvar(l3)
+, mutex(l1)
+, condvar(l2), condvar(l3)
 ) (* end of [channel] *)
 //
 (* ****** ****** *)
-
-assume channel_type (a:vt0p) = channel
-
+//
+assume
+channel_type(a:vt0p) = channel
+//
 (* ****** ****** *)
 
-implement{a}
-channel_create_exn (cap) = let
+implement
+{a}(*tmp*)
+channel_create_exn
+  (cap) = let
 //
-val mut = mutex_create_exn ()
-val CVisnil = condvar_create_exn ()
-val CVisful = condvar_create_exn ()
-val deq = deqarray_make_cap<a> (cap)
+val mut = mutex_create_exn()
+//
+val CVisnil = condvar_create_exn()
+val CVisful = condvar_create_exn()
+//
+val deq = deqarray_make_cap<a>(cap)
 val deq = $UN.castvwtp0{ptr}(deq)
 //
 in
-  CHANNEL (deq, cap, mut, CVisnil, CVisful)
+  CHANNEL(deq, cap, mut, CVisnil, CVisful)
 end // end of [channel_create_exn]
 
 (* ****** ****** *)
 //
-implement{}
-channel_get_capacity (chan) =
-  let val+CHANNEL(ptr, cap, _, _, _) = chan in cap end
+implement
+{}(*tmp*)
+channel_get_capacity(chan) =
+let
+  val+CHANNEL(ptr, cap, _, _, _) = chan in cap
+end // end of [channel_get_capacity]
 //
 (* ****** ****** *)
 //
 extern
 fun{a:vt0p}
-channel_insert2 (channel(a), !deqarray(a) >> _, a): void
+channel_insert2
+  (channel(a), deq: !deqarray(a) >> _, a): void
 extern
 fun{a:vt0p}
-channel_takeout2 (chan: channel(a), !deqarray(a) >> _): (a)
+channel_takeout2
+  (chan: channel(a), deq: !deqarray(a) >> _): (a)
 //
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 channel_insert
   (chan, x0) = let
 //
@@ -113,20 +125,24 @@ end // end of [channel_insert]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 channel_insert2
   (chan, deq, x0) = let
 //
-val+CHANNEL{l1,l2,l3}
-  (ptr, cap, mut, CVisnil, CVisful) = chan
+val+
+CHANNEL{l1,l2,l3}
+(
+  ptr, cap, mut, CVisnil, CVisful
+) = chan // end of [val]
 //
-val isnot = deqarray_isnot_full (deq)
-prval ((*void*)) = lemma_deqarray_param (deq)
+val isnot = deqarray_isnot_full(deq)
+prval ((*void*)) = lemma_deqarray_param(deq)
 //
 in
 //
 if
-isnot
+(isnot)
 then let
   val isnil = deqarray_is_nil (deq)
   val ((*void*)) =
@@ -139,13 +155,19 @@ in
 end // end of [then]
 else let
   prval
-  (pfmut, fpf) = __assert () where
+  (pfmut, fpf) =
+  __assert((*void*)) where
   {
     extern
-    praxi __assert (): vtakeout0(locked_v(l1))
+    praxi
+    __assert
+    (
+      // argless
+    ) : vtakeout0(locked_v(l1))
   }
-  val ((*void*)) = condvar_wait (pfmut | CVisful, mut)
-  prval ((*void*)) = fpf (pfmut)
+  val ((*void*)) =
+  condvar_wait(pfmut | CVisful, mut)
+  prval ((*returned*)) = fpf (pfmut)
 in
   channel_insert2 (chan, deq, x0)
 end // end of [else]
@@ -154,17 +176,22 @@ end // end of [channel_insert2]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 channel_takeout
   (chan) = x0 where
 {
 //
-val+CHANNEL{l1,l2,l3}
-  (deq, cap, mut, CVisnil, CVisful) = chan
-val (pfmut | ()) = mutex_lock (mut)
+val+
+CHANNEL{l1,l2,l3}
+(
+  deq, cap, mut, CVisnil, CVisful
+) = chan // end of [val]
+//
+val (pfmut | ()) = mutex_lock(mut)
 val deq =
   $UN.castvwtp0{deqarray(a)}((pfmut | deq))
-val x0 = channel_takeout2<a> (chan, deq)
+val x0 = channel_takeout2<a>(chan, deq)
 prval pfmut = $UN.castview0{locked_v(l1)}(deq)
 val ((*void*)) = mutex_unlock (pfmut | mut)
 //
@@ -172,39 +199,50 @@ val ((*void*)) = mutex_unlock (pfmut | mut)
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
 channel_takeout2
   (chan, deq) = let
 //
-val+CHANNEL{l1,l2,l3}
-  (ptr, cap, mut, CVisnil, CVisful) = chan
+val+
+CHANNEL{l1,l2,l3}
+(
+  ptr, cap, mut, CVisnil, CVisful
+) = chan // end of [val]
 //
-val isnot = deqarray_isnot_nil (deq)
-prval ((*void*)) = lemma_deqarray_param (deq)
+val isnot = deqarray_isnot_nil(deq)
+prval ((*void*)) = lemma_deqarray_param(deq)
 //
 in
 //
 if
-isnot
+(isnot)
 then let
-  val isful = deqarray_is_full (deq)
-  val x0_out = deqarray_takeout_atbeg (deq)
+  val isful = deqarray_is_full(deq)
+  val x0_out = deqarray_takeout_atbeg(deq)
   val ((*void*)) =
-    if isful then condvar_broadcast (CVisful)
+    if isful then condvar_broadcast(CVisful)
   // end of [val]
 in
   x0_out
 end // end of [then]
 else let
-  prval (pfmut, fpf) = __assert () where
+  prval
+  (pfmut, fpf) =
+  __assert((*void*)) where
   {
     extern
-    praxi __assert (): vtakeout0(locked_v(l1))
+    praxi
+    __assert
+    (
+      // argless
+    ) : vtakeout0(locked_v(l1))
   }
-  val ((*void*)) = condvar_wait (pfmut | CVisnil, mut)
-  prval ((*void*)) = fpf (pfmut)
+  val ((*void*)) =
+  condvar_wait(pfmut | CVisnil, mut)
+  prval ((*returned*)) = fpf (pfmut)
 in
-  channel_takeout2 (chan, deq)
+  channel_takeout2<a>(chan, deq)
 end // end of [else]
 //
 end // end of [channel_takeout2]

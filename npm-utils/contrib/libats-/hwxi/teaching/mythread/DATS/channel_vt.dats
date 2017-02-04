@@ -384,7 +384,7 @@ val (pf | isful) = queue_isful (xs)
 in
 //
 if
-isful
+(isful)
 then let
   prval
   (pfmut, fpf) =
@@ -436,7 +436,7 @@ val+CHANNEL
   {l0,l1,l2,l3}(ch) = chan
 val mutex =
   unsafe_mutex_vt2t(ch.mutex)
-val (pfmut | ()) = mutex_lock (mutex)
+val (pfmut | ()) = mutex_lock(mutex)
 val xs =
   $UN.castvwtp0{queue(a)}((pfmut | ch.queue))
 val x0 = channel_takeout2<a> (chan, xs)
@@ -459,7 +459,7 @@ val (pf | isnil) = queue_isnil (xs)
 in
 //
 if
-isnil
+(isnil)
 then let
   prval
   (pfmut, fpf) =
