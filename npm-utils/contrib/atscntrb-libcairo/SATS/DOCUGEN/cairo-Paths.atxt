@@ -1,0 +1,61 @@
+(* ****** ****** *)
+
+%{
+implement
+srcfilename_get () = "../Drawing/cairo-Paths.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_cairo_cairo")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/cairo/Drawing/cairo-Paths\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_has_current_point")
+#declnamesynop("cairo_get_current_point")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_new_path")
+#declnamesynop("cairo_new_sub_path")
+
+#declnamesynop("cairo_close_path")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_arc")
+#declnamesynop("cairo_arc_negative")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_curve_to")
+#declnamesynop("cairo_line_to")
+#declnamesynop("cairo_move_to")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_rectangle")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_text_path")
+#declnamesynop("cairo_glyph_path")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_rel_move_to")
+#declnamesynop("cairo_rel_line_to")
+#declnamesynop("cairo_rel_curve_to")
+
+(* ****** ****** *)
+
+(* end of [cairo-Paths.atxt] *)

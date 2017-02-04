@@ -112,13 +112,32 @@ PATSCONTRIB/kernelats\
 (* ****** ****** *)
 
 #packfilename("prelude/CATS/integer.cats")
+
+(* ****** ****** *)
+
 #packfilename("prelude/CATS/pointer.cats")
+
+(* ****** ****** *)
+
+#packfilename("prelude/CATS/integer_long.cats")
+#packfilename("prelude/CATS/integer_size.cats")
+#packfilename("prelude/CATS/integer_short.cats")
+#packfilename("prelude/CATS/integer_fixed.cats")
 
 (* ****** ****** *)
 
 #packfilename("prelude/CATS/bool.cats")
 #packfilename("prelude/CATS/char.cats")
 #packfilename("prelude/CATS/string.cats")
+
+(* ****** ****** *)
+
+#packfilename("prelude/CATS/memory.cats")
+
+(* ****** ****** *)
+
+#packfilename("prelude/CATS/arrayptr.cats")
+#packfilename("prelude/CATS/arrayref.cats")
 
 (* ****** ****** *)
 
