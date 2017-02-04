@@ -24,7 +24,8 @@
 
 %{#
 //
-#include "libev/CATS/ev.cats"
+#include \
+"atscntrb-libev/CATS/ev.cats"
 //
 %} // end of [%{]
 

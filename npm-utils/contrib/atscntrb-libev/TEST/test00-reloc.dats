@@ -1,3 +1,10 @@
+(* ****** ****** *)
+//
+// HX-2017-02-04:
+// This is no longer in use
+// The code is kept for historic reasons
+//
+(* ****** ****** *)
 //
 // Some code for testing
 // the API in ATS for libev

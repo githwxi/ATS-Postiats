@@ -1,0 +1,25 @@
+#
+# For testing
+#
+
+######
+
+all::
+
+######
+
+SUBDIRS :=
+SUBDIRS += atscntrb-libev
+SUBDIRS += atscntrb-libevent
+SUBDIRS += atscntrb-libcairo
+SUBDIRS += atscntrb-libsdl2
+SUBDIRS += atscntrb-libhiredis
+
+######
+
+all:: ; \
+for i in $(SUBDIRS); do $(MAKE) -C $$i -f Makefile_test; done
+
+######
+
+###### end of [Makefile_test] ######

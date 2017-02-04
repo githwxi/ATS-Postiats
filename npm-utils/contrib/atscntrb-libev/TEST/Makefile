@@ -5,7 +5,6 @@
 ######
 
 PATSHOMEQ="$(PATSHOME)"
-PATSCONTRIBQ="$(PATSCONTRIB)"
 
 ######
 
@@ -38,7 +37,7 @@ all:: \
 test00
 test00: \
 test00.dats ; \
-$(PATSCC) -I$(PATSCONTRIBQ)/contrib $(CFLAGS) -o $@ $< $(LDFLAGS)
+$(PATSCC) -I./../.. $(CFLAGS) -o $@ $< $(LDFLAGS)
 #
 regress:: \
 test00; ./test00
@@ -51,7 +50,7 @@ all:: \
 test01
 test01: \
 test01.dats ; \
-$(PATSCC) -I$(PATSCONTRIBQ)/contrib $(CFLAGS) -o $@ $< $(LDFLAGS)
+$(PATSCC) -I./../.. $(CFLAGS) -o $@ $< $(LDFLAGS)
 #
 regress:: \
 test01; echo | ./test01
@@ -59,20 +58,20 @@ test01; echo | ./test01
 cleanall:: ; $(RMF) test01
 #
 ######
-#
-test00-reloc:: \
-test00-reloc.dats ; \
-$(PATSCC) -IIATS ./.TEST00/. \
--DATS ATSRELOCROOT=\\\".TEST00\\\" $(CFLAGS) -o $@ $< $(LDFLAGS)
-#
-test00-reloc.mk: ; \
-$(PATSOPT) --atsreloc \
--DATS PATSRELOCROOT=\".TEST00\" -d test00-reloc.dats | $(ATSRELOC2) --output-w $@
-#
-test00-reloc.wget:: test00-reloc.mk ; $(MAKE) -f ./$< wgetall
-#
-cleanall:: ; $(RMF) test00-reloc
-cleanall:: ; $(RMF) test00-reloc.mk
+# #
+# test00-reloc:: \
+# test00-reloc.dats ; \
+# $(PATSCC) -IIATS ./.TEST00/. \
+# -DATS ATSRELOCROOT=\\\".TEST00\\\" $(CFLAGS) -o $@ $< $(LDFLAGS)
+# #
+# test00-reloc.mk: ; \
+# $(PATSOPT) --atsreloc \
+# -DATS PATSRELOCROOT=\".TEST00\" -d test00-reloc.dats | $(ATSRELOC2) --output-w $@
+# #
+# test00-reloc.wget:: test00-reloc.mk ; $(MAKE) -f ./$< wgetall
+# #
+# cleanall:: ; $(RMF) test00-reloc
+# cleanall:: ; $(RMF) test00-reloc.mk
 #
 ######
 
