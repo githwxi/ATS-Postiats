@@ -47,6 +47,12 @@ ATS_PACKNAME
 (* ****** ****** *)
 //
 #staload
+UNSAFE =
+"prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+#staload
 "libats/ML/SATS/basis.sats"
 #staload
 "libats/ML/SATS/list0.sats"
@@ -74,6 +80,25 @@ fun{}
 DivideConquer_cont$conquer
   (xs: list0(input), k0: list0(output) -<cloref1> void): void
 //
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+DivideConquer$solve
+  (x0) = let
+//
+var res: output
+//
+val ((*void*)) =
+DivideConquer_cont$solve<>
+( x0
+, lam(r0) => $UNSAFE.ptr0_set<output>(addr@res, r0)
+) (* end of [val] *)
+//
+in
+  $UNSAFE.ptr0_get<output>(addr@res)
+end // end of [DivideConquer$solve]
+
 (* ****** ****** *)
 
 implement

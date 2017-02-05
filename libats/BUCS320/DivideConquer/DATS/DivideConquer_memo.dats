@@ -50,13 +50,6 @@ ATS_PACKNAME
 //
 extern
 fun{}
-DivideConquer_memo$solve
-  (x0: input): output
-//
-(* ****** ****** *)
-//
-extern
-fun{}
 DivideConquer_memo$table_get
   ((*void*)): hashtbl(input, output)
 //
@@ -88,16 +81,6 @@ in
 hashtbl_insert_any<input,output>(theTable, x0, r0)
 //
 end // end of [DivideConquer$solve$memo_get]
-//
-(* ****** ****** *)
-//
-implement
-{}(*tmp*)
-DivideConquer_memo$solve
-  (x0) =
-(
-  DivideConquer$solve<>(x0)
-) (* end of [DivideConquer_memo] *)
 //
 (* ****** ****** *)
 

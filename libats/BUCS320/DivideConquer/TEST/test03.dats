@@ -1,6 +1,7 @@
 (* ****** ****** *)
 (*
 ** DivideConquer
+** (of CPS-style)
 ** with memoization:
 ** Fibonacci numbers
 **
@@ -19,11 +20,9 @@
 "./../DATS/DivideConquer.dats"
 #staload
 "./../DATS/DivideConquer_memo.dats"
+#staload
+"./../DATS/DivideConquer_cont.dats"
 //
-(* ****** ****** *)
-
-#staload "libats/ML/SATS/hashtblref.sats"
-
 (* ****** ****** *)
 //
 extern
@@ -88,6 +87,7 @@ implement
 DivideConquer_memo$table_get<>
   ((*void*)) = theTable
 //
+//
 in
   DivideConquer$solve<>(n)
 end // end of [Fibonacci]
@@ -111,4 +111,4 @@ println! ("Fibonacci(40) = ", Fibonacci(40))
 
 (* ****** ****** *)
 
-(* end of [test02.dats] *)
+(* end of [test03.dats] *)
