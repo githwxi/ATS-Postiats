@@ -51,10 +51,13 @@ implement
 {}(*tmp*)
 intrange_parallelize
 (
-  start, finish, cutoff, nw
+  start
+, finish
+, cutoff, nw
 ) = let
 //
-vtypedef ticket = nwaiter_ticket
+vtypedef
+ticket = nwaiter_ticket
 //
 fun segmentize
 (
@@ -67,26 +70,36 @@ if
 m2 >= n
 then let
   val ((*void*)) = 
-  intrange_parallelize$submit (
-    llam () => (intrange_parallelize$loop<> (m, n); nwaiter_ticket_put (tick))
+  intrange_parallelize$submit
+  (
+    llam () =>
+    (
+      intrange_parallelize$loop<>(m, n); nwaiter_ticket_put(tick)
+    )
   ) (* end of [intrange_parallelize$submit] *)
 in
+  // nothing
 end // end of [then]
 else let
-  val tick2 = nwaiter_ticket_split (tick)
+  val tick2 =
+  nwaiter_ticket_split(tick)
   val ((*void*)) =
-  intrange_parallelize$submit (
-    llam () => (intrange_parallelize$loop<> (m, m2); nwaiter_ticket_put (tick2))
+  intrange_parallelize$submit
+  (
+    llam () =>
+    (
+      intrange_parallelize$loop<>(m, m2); nwaiter_ticket_put(tick2)
+    )
   ) (* end of [intrange_parallelize$submit] *)
 in
-  segmentize (m2, n, cutoff, tick)
+  segmentize(m2, n, cutoff, tick)
 end // end of [else]
 //
 end // end of [segmentize]
 //
-val tick = nwaiter_initiate (nw)
-val ((*void*)) = segmentize (start, finish, cutoff, tick)
-val ((*void*)) = nwaiter_waitfor (nw)
+val tick = nwaiter_initiate(nw)
+val ((*void*)) = segmentize(start, finish, cutoff, tick)
+val ((*void*)) = nwaiter_waitfor(nw)
 //
 in
   // nothing
