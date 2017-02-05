@@ -61,6 +61,10 @@ extern
 fun{}
 DivideConquer$solve(input): output
 //
+extern
+fun{}
+DivideConquer$solve$eval : (input) -> output
+//
 (* ****** ****** *)
 //
 extern
@@ -85,13 +89,10 @@ DivideConquer$conquer(xs: list0(input)): output
 //
 extern
 fun{}
-DivideConquer$conquer$combine(xs: list0(output)): output
+DivideConquer$conquer$combine(rs: list0(output)): output
 //
 (* ****** ****** *)
 //
-extern
-fun{}
-DivideConquer$solve$eval : (input) -> output
 extern
 fun{}
 DivideConquer$solve$memo_get : (input) -> Option_vt(output)
@@ -137,7 +138,7 @@ else r0 where
 {
   val xs = DivideConquer$divide<>(x0)
   val r0 = DivideConquer$conquer<>(xs)
-  val () = DivideConquer$solve$eval$memo_set(x0, r0)
+  val () = DivideConquer$solve$eval$memo_set<>(x0, r0)
 } (* end of [else] *)
 //
 end // end of [DivideConquer$solve]

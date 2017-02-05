@@ -61,6 +61,14 @@ extern
 fun{}
 DivideConquer_cont$solve
   (x0: input, k0: output -<cloref1> void): void
+//
+extern
+fun{}
+DivideConquer_cont$solve$eval
+  (x0: input, k0: output -<cloref1> void): void
+//
+(* ****** ****** *)
+//
 extern
 fun{}
 DivideConquer_cont$conquer
@@ -71,6 +79,23 @@ DivideConquer_cont$conquer
 implement
 {}(*tmp*)
 DivideConquer_cont$solve
+  (x0, k0) = let
+//
+val opt =
+  DivideConquer$solve$memo_get<>(x0)
+//
+in
+  case+ opt of
+  | ~Some_vt(r0) => k0(r0)
+  | ~None_vt((*void*)) =>
+     DivideConquer_cont$solve$eval<>(x0, k0)
+end // end of [DivideConquer_cont$solve]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+DivideConquer_cont$solve$eval
   (x0, k0) = let
 //
 val
@@ -88,7 +113,13 @@ else () where
   DivideConquer$divide<>(x0)
   val () =
   DivideConquer_cont$conquer<>
-    (xs, lam(rs) => k0(DivideConquer$conquer$combine<>(rs)))
+  ( xs
+  , lam(rs) => k0(r0) where
+    {
+      val r0 = DivideConquer$conquer$combine<>(rs)
+      val () = DivideConquer$solve$eval$memo_set<>(x0, r0)
+    } // end of [where] // end of [lam]
+  )
   // end of [val]
 } (* end of [else] *)
 //
