@@ -20,5 +20,14 @@ DivideConquer_memo =
 #endif // #ifdef(DIVIDECONQUER_MEMO)
 //
 (* ****** ****** *)
+//
+#ifdef
+DIVIDECONQUER_CONT
+#staload
+DivideConquer_cont =
+"./DATS/DIVIDECONQUER_cont.dats"
+#endif // #ifdef(DIVIDECONQUER_CONT)
+//
+(* ****** ****** *)
 
 (* end of [mylibies.hats] *)

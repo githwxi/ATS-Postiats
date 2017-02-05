@@ -1,0 +1,21 @@
+#
+# For testing
+#
+
+######
+
+all::
+
+######
+
+SUBDIRS :=
+SUBDIRS += TEST
+
+######
+
+all:: ; \
+for i in $(SUBDIRS); do $(MAKE) -C $$i testall; done
+
+######
+
+###### end of [Makefile_test] ######

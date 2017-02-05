@@ -31,6 +31,5 @@
 ,
 "license": "MIT"
 ,
-"note-for-me":
-"The package is stored at ${PATSHOME}/libats/BUCS320/MergeSort"
+"note-for-me": "The package is stored at ${PATSHOME}/libats/BUCS320/MergeSort"
 }
