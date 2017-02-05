@@ -34,13 +34,16 @@
 (* ****** ****** *)
 
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-staload "libats/SATS/athread.sats"
+staload
+"libats/SATS/athread.sats"
 //
-staload "libats/SATS/deqarray.sats"
+staload
+"libats/SATS/deqarray.sats"
 //
 (* ****** ****** *)
 
@@ -76,8 +79,8 @@ val mut = mutex_create_exn()
 val CVisnil = condvar_create_exn()
 val CVisful = condvar_create_exn()
 //
-val deq = deqarray_make_cap<a>(cap)
-val deq = $UN.castvwtp0{ptr}(deq)
+val deq =deqarray_make_cap<a>(cap)
+val deq = $UN.castvwtp0{Ptr0}(deq)
 //
 in
   CHANNEL(deq, cap, mut, CVisnil, CVisful)
@@ -99,12 +102,17 @@ end // end of [channel_get_capacity]
 //
 extern
 fun{a:vt0p}
-channel_insert2
-  (channel(a), deq: !deqarray(a) >> _, a): void
+channel_insert_buf
+  (channel(a), buf: !deqarray(a) >> _, a): void
 extern
 fun{a:vt0p}
-channel_takeout2
-  (chan: channel(a), deq: !deqarray(a) >> _): (a)
+channel_takeout_buf
+  (chan: channel(a), buf: !deqarray(a) >> _): (a)
+//
+extern
+fun{a:vt0p}
+channel_process_buf
+  (chan: channel(a), buf: !deqarray(a) >> _): bool
 //
 (* ****** ****** *)
 
@@ -122,7 +130,7 @@ CHANNEL{l1,l2,l3}
 val (pfmut | ()) = mutex_lock(mut)
 val deq =
   $UN.castvwtp0{deqarray(a)}((pfmut | deq))
-val ((*void*)) = channel_insert2<a>(chan, deq, x0)
+val ((*void*)) = channel_insert_buf<a>(chan, deq, x0)
 //
 prval pfmut =
   $UN.castview0{locked_v(l1)}(deq)
@@ -136,7 +144,7 @@ end // end of [channel_insert]
 
 implement
 {a}(*tmp*)
-channel_insert2
+channel_insert_buf
   (chan, deq, x0) = let
 //
 val+
@@ -182,10 +190,10 @@ else let
   condvar_wait(pfmut | CVisful, mut)
   prval ((*returned*)) = fpf (pfmut)
 in
-  channel_insert2 (chan, deq, x0)
+  channel_insert_buf<a>(chan, deq, x0)
 end // end of [else]
 //
-end // end of [channel_insert2]
+end // end of [channel_insert_buf]
 
 (* ****** ****** *)
 
@@ -204,17 +212,17 @@ CHANNEL{l1,l2,l3}
 val (pfmut | ()) = mutex_lock(mut)
 val deq =
   $UN.castvwtp0{deqarray(a)}((pfmut | deq))
-val x0 = channel_takeout2<a>(chan, deq)
+val x0 = channel_takeout_buf<a>(chan, deq)
 prval pfmut = $UN.castview0{locked_v(l1)}(deq)
 val ((*void*)) = mutex_unlock (pfmut | mut)
 //
-} // end of [channel_takeout2]
+} // end of [channel_takeout]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-channel_takeout2
+channel_takeout_buf
   (chan, deq) = let
 //
 val+
@@ -259,10 +267,100 @@ else let
   condvar_wait(pfmut | CVisnil, mut)
   prval ((*returned*)) = fpf (pfmut)
 in
-  channel_takeout2<a>(chan, deq)
+  channel_takeout_buf<a>(chan, deq)
 end // end of [else]
 //
-end // end of [channel_takeout2]
+end // end of [channel_takeout_buf]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+channel_process
+  (chan) = ans where
+{
+//
+val+
+CHANNEL{l1,l2,l3}
+(
+  deq, cap, mut, CVisnil, CVisful
+) = chan // end of [val]
+//
+val (pfmut | ()) = mutex_lock(mut)
+val deq =
+  $UN.castvwtp0{deqarray(a)}((pfmut | deq))
+val ans = channel_process_buf<a>(chan, deq)
+prval pfmut = $UN.castview0{locked_v(l1)}(deq)
+val ((*void*)) = mutex_unlock (pfmut | mut)
+//
+} // end of [channel_process]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+channel_process_buf
+  (chan, deq) = let
+//
+val+
+CHANNEL{l1,l2,l3}
+(
+  ptr, cap
+, mut, CVisnil, CVisful
+) = chan // end of [val]
+//
+val isnot =
+  deqarray_isnot_nil(deq)
+prval ((*void*)) =
+  lemma_deqarray_param(deq)
+//
+in
+//
+if
+(isnot)
+then ans where
+{
+  val cp =
+    deqarray_getref_at<a>(deq, i2sz(0))
+  val (pf, fpf | p0) = $UN.cptr_vtake(cp)
+  val ans = channel_process$fwork<a>(!p0)
+  val () =
+  if (ans)
+    then ((*kept*))
+    else ((*taken*)) where
+    {
+      val isful =
+        deqarray_is_full(deq)
+      val x0_out =
+        deqarray_takeout_atbeg(deq)
+      val ((*void*)) = $UN.cast2void(x0_out)
+      val ((*void*)) =
+        if isful then condvar_broadcast(CVisful)
+      // end of [val]
+    } (* end of [else] *)
+  // end of [val]
+  prval ((*void*)) = $UN.cast2void((pf, fpf | p0))
+} (* end of [then] *)
+else let
+  prval
+  (pfmut, fpf) =
+  __assert((*void*)) where
+  {
+    extern
+    praxi
+    __assert
+    (
+      // argless
+    ) : vtakeout0(locked_v(l1))
+  }
+  val ((*void*)) =
+  condvar_wait(pfmut | CVisnil, mut)
+  prval ((*returned*)) = fpf (pfmut)
+in
+  channel_process_buf<a>(chan, deq)
+end // end of [else]
+//
+end // end of [channel_process_buf]
 
 (* ****** ****** *)
 

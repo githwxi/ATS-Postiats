@@ -348,8 +348,8 @@ local
 //
 extern
 fun{a:vt0p}
-channel_insert2
-  (!channel(a), !queue(a) >> _, a): void
+channel_insert_buf
+  (!channel(a), buf: !queue(a) >> _, a): void
 //
 in
 
@@ -367,7 +367,7 @@ val (pfmut | ()) = mutex_lock(mutex)
 //
 val xs =
   $UN.castvwtp0{queue(a)}((pfmut | ch.queue))
-val ((*void*)) = channel_insert2<a>(chan, xs, x0)
+val ((*void*)) = channel_insert_buf<a>(chan, xs, x0)
 prval pfmut = $UN.castview0{locked_v(l1)}(xs)
 val ((*void*)) = mutex_unlock (pfmut | mutex)
 //
@@ -379,7 +379,7 @@ end // end of [channel_insert]
 
 implement
 {a}(*tmp*)
-channel_insert2
+channel_insert_buf
   (chan, xs, x0) = let
 //
 val+
@@ -415,7 +415,7 @@ then let
   prval ((*returned*)) = fpf(pfmut)
 //
 in
-  channel_insert2<a>(chan, xs, x0)
+  channel_insert_buf<a>(chan, xs, x0)
 end // end of [then]
 else ((*void*)) where
 {
@@ -427,7 +427,7 @@ else ((*void*)) where
   // end of [if]
 } (* end of [else] *)
 //
-end // end of [channel_insert2]
+end // end of [channel_insert_buf]
 
 end // end of [local]
 
@@ -437,8 +437,8 @@ local
 //
 extern
 fun{a:vt0p}
-channel_takeout2
-  (chan: !channel(a), !queue(a) >> _): (a)
+channel_takeout_buf
+  (chan: !channel(a), buf: !queue(a) >> _): (a)
 //
 in (* in-of-local *)
 
@@ -457,17 +457,17 @@ val mutex =
 val (pfmut | ()) = mutex_lock(mutex)
 val xs =
   $UN.castvwtp0{queue(a)}((pfmut | ch.queue))
-val x0 = channel_takeout2<a> (chan, xs)
+val x0 = channel_takeout_buf<a> (chan, xs)
 prval pfmut = $UN.castview0{locked_v(l1)}(xs)
 val ((*void*)) = mutex_unlock (pfmut | mutex)
 //
-} (* end of [channel_takeout2] *)
+} (* end of [channel_takeout_buf] *)
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-channel_takeout2
+channel_takeout_buf
   (chan, xs) = let
 //
 val+CHANNEL
@@ -502,7 +502,7 @@ then let
   prval ((*returned*)) = fpf(pfmut)
 //
 in
-  channel_takeout2<a>(chan, xs)
+  channel_takeout_buf<a>(chan, xs)
 end // end of [then]
 else x0_out where
 {
@@ -514,7 +514,7 @@ else x0_out where
   // end of [if]
 } (* end of [else] *)
 //
-end // end of [channel_takeout2]
+end // end of [channel_takeout_buf]
 
 end // end of [local]
 
