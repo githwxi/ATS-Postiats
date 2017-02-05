@@ -454,9 +454,11 @@ typedef tenv = int
 implement
 deqarray_foreach$fwork<a><tenv>
   (x, env) = let
-  val n = env
-  val () = if n > 0 then fprint_deqarray$sep<>(out)
-  val () = env := n + 1
+//
+val n0 = env
+val () = if n0 > 0 then fprint_deqarray$sep<>(out)
+val () = env := n0 + 1
+//
 in
   fprint_ref<a>(out, x)
 end // end of [deqarray_foreach$fwork]
@@ -485,7 +487,8 @@ fprint_deqarray_sep
 //
 implement
 fprint_deqarray$sep<>
-  (out) = fprint_string(out, sep)
+  (out) =
+  fprint_string( out, sep )
 //
 in
   fprint_deqarray<a>(out, deq)
@@ -501,8 +504,12 @@ deqarray_foreach$cont(x, env) = true
 
 implement
 {a}(*tmp*)
-deqarray_foreach (deq) = let
-  var env: void = () in deqarray_foreach_env<a><void>(deq, env)
+deqarray_foreach(deq) = let
+//
+var
+env: void = () in
+  deqarray_foreach_env<a><void>(deq, env)
+//
 end // end of [deqarray_foreach]
 
 (* ****** ****** *)
