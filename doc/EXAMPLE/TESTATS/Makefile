@@ -366,6 +366,19 @@ s2rt_float: s2rt_float.dats; $(PATSOPT) --typecheck -d $<
 ######
 
 all:: \
+wherecls
+wherecls: wherecls_dats.c ; \
+  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+wherecls_dats.c: wherecls.dats ; $(PATSCC2) -ccats $<
+#
+# regress:: wherecls ; ./$<
+#
+cleanall:: ; $(RMF) wherecls
+cleanall:: ; $(RMF) wherecls_dats.c
+
+######
+
+all:: \
 undefined
 undefined: undefined_dats.c ; \
   $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<

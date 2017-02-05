@@ -1856,31 +1856,66 @@ pstar_where
 val
 err0 = err
 //
-val n0 = tokbuf_get_ntok (buf)
-val tok = tokbuf_get_token (buf)
+val n0 = tokbuf_get_ntok(buf)
+val tok = tokbuf_get_token(buf)
 //
-macdef incby1 () = tokbuf_incby1 (buf)
+macdef incby1() = tokbuf_incby1(buf)
 //
 in
 //
 case+
 tok.token_node
 of // case+
-| T_WHERE () => let
+| T_WHERE() => let
     val bt = 0
-    val () = incby1 ()
-    typedef a1 = token and a2 = d0eclist and a3 = token
-    val+~SYNENT3 (ent2, ent3, ent4) =
-      pseq3_fun{a1,a2,a3}(buf, bt, err, p_LBRACE, p_d0eclseq_dyn, p_RBRACE)
-    // end of [val]   
+    val () = incby1()
+    val tok2 = tokbuf_get_token(buf)
+    typedef a2 = d0eclist and a3 = token
   in
-    if err = err0 then let
-      val d0e = d0exp_where (d0e, ent3, ent4)
-    in
-      pstar_where (d0e, buf, bt, err)
-    end else
-      tokbuf_set_ntok_null (buf, n0)
-    // end of [if]
+    case+
+    tok2.token_node
+    of // case+
+    | T_LBRACE() => let
+//
+        val () = incby1()
+//
+        val+
+        ~SYNENT2
+        (ent2, ent3) =
+        pseq2_fun{a2,a3}
+          (buf, bt, err, p_d0eclseq_dyn, p_RBRACE)
+        // end of [val]   
+//
+      in
+        if
+        (err = err0)
+        then let
+          val d0e =
+            d0exp_where(d0e, ent2, ent3)
+          // end of [val]
+        in
+          pstar_where(d0e, buf, bt, err)
+        end // end of [then]
+        else tokbuf_set_ntok_null(buf, n0)
+      end // end of [T_LBRACE]
+    | _(*non-LBRACE*) => let
+//
+        val+
+        ~SYNENT2
+        (ent2, ent3) =
+        pseq2_fun{a2,a3}(buf, bt, err, p_d0eclseq_dyn, p_END)
+//
+      in
+        if
+        (err = err0) then let
+          val d0e =
+            d0exp_where(d0e, ent2, ent3)
+          // end of [val]
+        in
+          pstar_where(d0e, buf, bt, err)
+        end // end of [then]
+        else tokbuf_set_ntok_null(buf, n0)
+      end // end of [non-LBRACE]
   end // end of [T_WHERE]
 | _ (*non-WHERE*) => d0e // HX: it is not a where-clause
 //
