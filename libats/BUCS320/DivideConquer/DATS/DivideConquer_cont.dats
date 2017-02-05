@@ -58,7 +58,7 @@ DivideConquer_cont$solve
 extern
 fun{}
 DivideConquer_cont$conquer
-  (xs: list0(input), k0: output -<cloref1> void): void
+  (xs: list0(input), k0: list0(output) -<cloref1> void): void
 //
 (* ****** ****** *)
 
@@ -78,13 +78,34 @@ if
 then k0(DivideConquer$base_solve(x0))
 else () where
 {
-  val xs = DivideConquer$divide<>(x0)
-  val () = DivideConquer_cont$conquer<>(xs, k0)
+  val xs =
+  DivideConquer$divide<>(x0)
+  val () =
+  DivideConquer_cont$conquer<>
+    (xs, lam(rs) => k0(DivideConquer$conquer$combine<>(rs)))
+  // end of [val]
 } (* end of [else] *)
 //
 end // end of [DivideConquer_cont$solve]
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+DivideConquer_cont$conquer
+  (xs, k0) =
+(
+case+ xs of
+| list0_nil() =>
+  k0(list0_nil())
+| list0_cons(x, xs) =>
+  DivideConquer_cont$solve
+  ( x
+  , lam(r) =>
+    DivideConquer_cont$conquer(xs, lam(rs) => k0(list0_cons(r, rs)))
+  )
+)
 
 (* ****** ****** *)
 
-(* end of [DivideConquer_parallel.dats] *)
+(* end of [DivideConquer_cont.dats] *)

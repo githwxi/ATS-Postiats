@@ -78,6 +78,8 @@ val () =
 println! ("Fibonacci(10) = ", Fibonacci(10))
 val () =
 println! ("Fibonacci(20) = ", Fibonacci(20))
+val () =
+println! ("Fibonacci(30) = ", Fibonacci(30))
 //
 } (* end of [main0] *)
 
