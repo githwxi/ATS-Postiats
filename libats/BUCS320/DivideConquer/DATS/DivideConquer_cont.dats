@@ -33,6 +33,12 @@
 
 (* ****** ****** *)
 //
+// HX:
+// DivideConquer_cont:
+// This one is of CPS-style
+//
+(* ****** ****** *)
+//
 #define
 ATS_PACKNAME
 "ATSLIB.libats\
@@ -104,8 +110,8 @@ case+ xs of
   , lam(r) =>
     DivideConquer_cont$conquer(xs, lam(rs) => k0(list0_cons(r, rs)))
   )
-)
-
+) (* end of [DivideConquer_cont$conquer] *)
+//
 (* ****** ****** *)
 
 (* end of [DivideConquer_cont.dats] *)
