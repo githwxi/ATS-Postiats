@@ -113,13 +113,19 @@ implement
 channel_insert
   (chan, x0) = let
 //
-val+CHANNEL{l1,l2,l3}
-  (deq, cap, mut, CVisnil, CVisful) = chan
-val (pfmut | ()) = mutex_lock (mut)
+val+
+CHANNEL{l1,l2,l3}
+(
+  deq, cap, mut, CVisnil, CVisful
+) = chan // end of [val]
+//
+val (pfmut | ()) = mutex_lock(mut)
 val deq =
   $UN.castvwtp0{deqarray(a)}((pfmut | deq))
-val ((*void*)) = channel_insert2<a> (chan, deq, x0)
-prval pfmut = $UN.castview0{locked_v(l1)}(deq)
+val ((*void*)) = channel_insert2<a>(chan, deq, x0)
+//
+prval pfmut =
+  $UN.castview0{locked_v(l1)}(deq)
 val ((*void*)) = mutex_unlock (pfmut | mut)
 //
 in
@@ -136,20 +142,24 @@ channel_insert2
 val+
 CHANNEL{l1,l2,l3}
 (
-  ptr, cap, mut, CVisnil, CVisful
+  ptr, cap
+, mut, CVisnil, CVisful
 ) = chan // end of [val]
 //
-val isnot = deqarray_isnot_full(deq)
-prval ((*void*)) = lemma_deqarray_param(deq)
+val isnot =
+  deqarray_isnot_full(deq)
+prval ((*void*)) =
+  lemma_deqarray_param(deq)
 //
 in
 //
 if
 (isnot)
 then let
-  val isnil = deqarray_is_nil (deq)
+  val isnil =
+    deqarray_is_nil(deq)
   val ((*void*)) =
-    deqarray_insert_atend (deq, x0)
+    deqarray_insert_atend(deq, x0)
   val ((*void*)) =
     if isnil then condvar_broadcast (CVisnil)
   // end of [val]
@@ -210,25 +220,29 @@ channel_takeout2
 val+
 CHANNEL{l1,l2,l3}
 (
-  ptr, cap, mut, CVisnil, CVisful
+  ptr, cap
+, mut, CVisnil, CVisful
 ) = chan // end of [val]
 //
-val isnot = deqarray_isnot_nil(deq)
-prval ((*void*)) = lemma_deqarray_param(deq)
+val isnot =
+  deqarray_isnot_nil(deq)
+prval ((*void*)) =
+  lemma_deqarray_param(deq)
 //
 in
 //
 if
 (isnot)
-then let
-  val isful = deqarray_is_full(deq)
-  val x0_out = deqarray_takeout_atbeg(deq)
+then x0_out where
+{
+  val isful =
+    deqarray_is_full(deq)
+  val x0_out =
+    deqarray_takeout_atbeg(deq)
   val ((*void*)) =
     if isful then condvar_broadcast(CVisful)
   // end of [val]
-in
-  x0_out
-end // end of [then]
+} (* end of [then] *)
 else let
   prval
   (pfmut, fpf) =
