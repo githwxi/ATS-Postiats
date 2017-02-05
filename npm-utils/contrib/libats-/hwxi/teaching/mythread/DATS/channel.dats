@@ -89,7 +89,10 @@ implement
 {}(*tmp*)
 channel_get_capacity(chan) =
 let
-  val+CHANNEL(ptr, cap, _, _, _) = chan in cap
+//
+val+
+CHANNEL(ptr, cap, _, _, _) = chan in g1ofg0(cap)
+//
 end // end of [channel_get_capacity]
 //
 (* ****** ****** *)
