@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2014 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -28,49 +28,86 @@
 
 (* ****** ****** *)
 //
-// HX-2013-11:
-// An array-based channel for ATS
+// HX-2014-05:
+// This is based on spinlock
 //
 (* ****** ****** *)
 //
-abstype
-channel_type(a:vt@ype) = ptr
-typedef
-channel(a:vt0p) = channel_type(a)
+staload
+UN =
+"prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
-
-fun
-{a:vt0p}
-channel_create_exn
-  (cap: sizeGte(1)): channel(a)
-
+//
+staload
+"libats/SATS/athread.sats"
+//
 (* ****** ****** *)
 //
-fun{}
-channel_get_capacity
-  {a:vt0p}(channel(a)):<> Size_t
+staload "./../SATS/spinvar.sats"
+staload "./../SATS/spinref.sats"
 //
 (* ****** ****** *)
 
-fun
-{a:vt0p}
-channel_insert(channel(a), a): void
-fun
-{a:vt0p}
-channel_takeout(chan: channel(a)): (a) 
+implement
+{a}(*tmp*)
+spinref_get_elt
+  (spnr) = x where
+{
+//
+val
+spnv =
+$UN.castvwtp0{spinvar(a)}(spnr)
+//
+val x = spinvar_get_elt<a>(spnv)
+prval () = $UN.castview0{void}(spnv)
+//
+} (* end of [spinref_get] *)
 
 (* ****** ****** *)
+
+implement
+{a}(*tmp*)
+spinref_create_exn(x) = let
 //
-(*
-fun
-{a:vt0p}
-channel_process(chan: channel(a)): bool
-fun
-{a:vt0p}
-channel_process$fwork(x0: &(a) >> opt(a, b)): #[b:bool] bool(b)
-*)
+val spnv = spinvar_create_exn (x)
 //
+in
+  $UN.castvwtp0{spinref(a)}(spnv)
+end // end of [spinref_create_exn]
+
 (* ****** ****** *)
 
-(* end of [channel.sats] *)
+implement
+{a}(*tmp*)
+spinref_process
+  (spnr) = let
+//
+var env: void = ()
+//
+in
+  spinref_process_env<a><void> (spnr, env)
+end // end of [spinref_process]
+
+(* ****** ****** *)
+
+implement
+{a}{env}
+spinref_process_env
+  (spnr, env) = () where
+{
+//
+implement
+spinvar_process$fwork<a><env> =
+  spinref_process$fwork<a><env>
+//
+val spnv =
+$UN.castvwtp0{spinvar(a)}(spnr)
+val () = spinvar_process_env<a><env> (spnv, env)
+prval () = $UN.castview0{void}(spnv)
+//
+} (* end of [spinref_process_env] *)
+
+(* ****** ****** *)
+
+(* end of [spinref.dats] *)

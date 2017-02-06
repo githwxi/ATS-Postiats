@@ -33,30 +33,35 @@
 //
 (* ****** ****** *)
 //
-abstype spinref_type (a:vt@ype) = ptr
-typedef spinref (a:vt0p) = spinref_type (a)
+abstype
+spinref_type(a:vt@ype) = ptr
+//
+typedef
+spinref(a:vt0p) = spinref_type(a)
 //
 (* ****** ****** *)
-
-fun{a:vt0p}
-spinref_create_exn (x: a): spinref (a)
-
-(* ****** ****** *)
-
-fun{a:t0p} spinref_get (spnr: spinref(a)): (a)
-
+//
+fun
+{a:vt0p}
+spinref_create_exn(x0: a): spinref(a)
+//
 (* ****** ****** *)
 //
-fun{
-a:vt0p}{env:vt0p
-} spinref_process$fwork (x: &a >> _, env: &(env) >> _): void
+fun{a:t0p} spinref_get(spnr: spinref(a)): (a)
+//
+(* ****** ****** *)
 //
 fun{
 a:vt0p
-} spinref_process (spnr: spinref(a)): void
+} spinref_process(spnr: spinref(a)): void
 fun{
 a:vt0p}{env:vt0p
-} spinref_process_env (spnr: spinref(a), env: &(env) >> _): void
+} spinref_process_env
+  (spnr: spinref(a), env: &(env) >> _): void
+//
+fun{
+a:vt0p}{env:vt0p
+} spinref_process$fwork(x: &a >> _, env: &(env) >> _): void
 //
 (* ****** ****** *)
 

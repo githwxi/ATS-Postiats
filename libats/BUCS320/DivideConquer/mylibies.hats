@@ -16,7 +16,7 @@ DivideConquer =
 DIVIDECONQUER_MEMO
 #staload
 DivideConquer_memo =
-"./DATS/DIVIDECONQUER_memo.dats"
+"./DATS/DivideConquer_memo.dats"
 #endif // #ifdef(DIVIDECONQUER_MEMO)
 //
 (* ****** ****** *)
@@ -25,7 +25,7 @@ DivideConquer_memo =
 DIVIDECONQUER_CONT
 #staload
 DivideConquer_cont =
-"./DATS/DIVIDECONQUER_cont.dats"
+"./DATS/DivideConquer_cont.dats"
 #endif // #ifdef(DIVIDECONQUER_CONT)
 //
 (* ****** ****** *)

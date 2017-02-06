@@ -78,7 +78,9 @@ DivideConquer_cont$solve$eval
 extern
 fun{}
 DivideConquer_cont$conquer
-  (xs: list0(input), k0: list0(output) -<cloref1> void): void
+(
+xs: list0(input), k0: list0(output) -<cloref1> void
+) : void // end of [DivideConquer_cont$conquer]
 //
 (* ****** ****** *)
 

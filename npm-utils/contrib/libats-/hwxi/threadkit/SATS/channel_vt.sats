@@ -28,49 +28,44 @@
 
 (* ****** ****** *)
 //
-// HX-2013-11:
-// An array-based channel for ATS
-//
-(* ****** ****** *)
-//
-abstype
-channel_type(a:vt@ype) = ptr
-typedef
-channel(a:vt0p) = channel_type(a)
+// HX-2015-01:
+// An array-based linear channel for ATS
 //
 (* ****** ****** *)
 
-fun
-{a:vt0p}
-channel_create_exn
-  (cap: sizeGte(1)): channel(a)
+absvtype channel_vtype(a:vt@ype+) = ptr
+vtypedef channel(a:vt0p) = channel_vtype(a)
+
+(* ****** ****** *)
+
+absvtype queueopt_vtype(a:vt@ype+) = ptr
+absvtype queueopt(a:vt0p) = queueopt_vtype(a)
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+channel_create_exn (cap: sizeGte(1)): channel (a)
 
 (* ****** ****** *)
 //
 fun{}
-channel_get_capacity
-  {a:vt0p}(channel(a)):<> Size_t
+channel_get_capacity{a:vt0p}(!channel(a)): size_t
+//
+(* ****** ****** *)
+//
+fun{}
+channel_get_refcount{a:vt0p}(!channel(a)): intGt(0)
 //
 (* ****** ****** *)
 
-fun
-{a:vt0p}
-channel_insert(channel(a), a): void
-fun
-{a:vt0p}
-channel_takeout(chan: channel(a)): (a) 
+fun{a:vt0p} channel_ref (!channel(a)): channel(a)
+fun{a:vt0p} channel_unref (channel(a)): queueopt(a)
 
 (* ****** ****** *)
-//
-(*
-fun
-{a:vt0p}
-channel_process(chan: channel(a)): bool
-fun
-{a:vt0p}
-channel_process$fwork(x0: &(a) >> opt(a, b)): #[b:bool] bool(b)
-*)
-//
+
+fun{a:vt0p} channel_insert (!channel(a), a): void
+fun{a:vt0p} channel_takeout (chan: !channel(a)): (a) 
+
 (* ****** ****** *)
 
-(* end of [channel.sats] *)
+(* end of [channel_vt.sats] *)

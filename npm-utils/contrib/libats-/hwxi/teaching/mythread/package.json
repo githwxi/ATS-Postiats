@@ -2,7 +2,7 @@
 "name":
 "atscntrb-hx-teaching-mythread"
 ,
-"version": "1.0.2"
+"version": "1.0.3"
 ,
 "description":
 "This package contains library code for teaching some basic thread concepts."

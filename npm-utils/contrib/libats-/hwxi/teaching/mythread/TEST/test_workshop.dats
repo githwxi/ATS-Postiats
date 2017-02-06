@@ -71,8 +71,8 @@ val err =
 val err =
   workshop_add_worker<lincloptr>(ws0)
 //
-val nworker = workshop_get_nworker (ws0)
-val ((*void*)) = println! ("nworker = ", nworker)
+val nworker = workshop_get_nworker(ws0)
+val ((*void*)) = println! ("nworker(bef) = ", nworker)
 //
 val NW = nwaiter_create_exn()
 val NWT1 = nwaiter_initiate(NW)
@@ -94,8 +94,10 @@ workshop_insert_job_lincloptr
   (ws0, llam() => $effmask_all(do_work(NWT4)))
 //
 val ((*void*)) = nwaiter_waitfor(NW)
-//
 val ((*void*)) = nwaiter_destroy(NW)
+//
+val nworker = workshop_get_nworker(ws0)
+val ((*void*)) = println! ("nworker(aft) = ", nworker)
 //
 val ((*void*)) = println! ("[test_workshop] is finished.")
 //

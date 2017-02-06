@@ -40,37 +40,19 @@ channel(a:vt0p) = channel_type(a)
 //
 (* ****** ****** *)
 
-fun
-{a:vt0p}
-channel_create_exn
-  (cap: sizeGte(1)): channel(a)
+fun{a:vt0p}
+channel_create_exn (cap: sizeGte(1)): channel(a)
 
 (* ****** ****** *)
 //
 fun{}
-channel_get_capacity
-  {a:vt0p}(channel(a)):<> Size_t
+channel_get_capacity{a:vt0p}(channel(a)):<> size_t
 //
 (* ****** ****** *)
 
-fun
-{a:vt0p}
-channel_insert(channel(a), a): void
-fun
-{a:vt0p}
-channel_takeout(chan: channel(a)): (a) 
+fun{a:vt0p} channel_insert (channel(a), a): void
+fun{a:vt0p} channel_takeout (chan: channel(a)): (a) 
 
 (* ****** ****** *)
-//
-(*
-fun
-{a:vt0p}
-channel_process(chan: channel(a)): bool
-fun
-{a:vt0p}
-channel_process$fwork(x0: &(a) >> opt(a, b)): #[b:bool] bool(b)
-*)
-//
-(* ****** ****** *)
 
-(* end of [channel.sats] *)
+(* end of [channel_t.sats] *)

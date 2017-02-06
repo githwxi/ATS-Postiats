@@ -23,7 +23,7 @@
 ]
 ,
 "dependencies": {
-  "atscntrb-hx-teaching-mythread": ">=1.0.0"
+  "atscntrb-hx-threadkit": ">=1.0.0"
 ,
   "atscntrb-bucs320-divideconquer": ">=1.0.0"
 }

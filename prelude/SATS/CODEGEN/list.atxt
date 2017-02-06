@@ -48,7 +48,9 @@ list_t0ype_int_type
     list_cons (a, n+1) of (a, list_t0ype_int_type(a, n))
 // end of [list_t0ype_int_type]
 //
-stadef list = list_t0ype_int_type
+stadef
+list = list_t0ype_int_type
+//
 typedef
 List(a:t0p) = [n:int] list(a, n)
 typedef

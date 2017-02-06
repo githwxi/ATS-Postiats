@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2014 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -28,49 +28,50 @@
 
 (* ****** ****** *)
 //
-// HX-2013-11:
-// An array-based channel for ATS
+// HX-2014-05:
+// This is based on spinlock
 //
 (* ****** ****** *)
 //
-abstype
-channel_type(a:vt@ype) = ptr
-typedef
-channel(a:vt0p) = channel_type(a)
+absvtype
+spinvar_vtype(a:vt@ype) = ptr
+//
+vtypedef
+spinvar(a:vt0p) = spinvar_vtype (a)
 //
 (* ****** ****** *)
 
-fun
-{a:vt0p}
-channel_create_exn
-  (cap: sizeGte(1)): channel(a)
+fun{
+a:vt0p
+} spinvar_create_exn(x: a): spinvar(a)
 
 (* ****** ****** *)
-//
+
 fun{}
-channel_get_capacity
-  {a:vt0p}(channel(a)):<> Size_t
-//
+spinvar_destroy{a:t0p}(spinvar(a)): void
+
 (* ****** ****** *)
 
-fun
-{a:vt0p}
-channel_insert(channel(a), a): void
-fun
-{a:vt0p}
-channel_takeout(chan: channel(a)): (a) 
+fun{a:t0p}
+spinvar_get_elt (spnv: !spinvar(a)): (a)
+fun{a:vt0p}
+spinvar_getfree_elt (spnv: spinvar(a)): (a)
 
 (* ****** ****** *)
 //
-(*
-fun
-{a:vt0p}
-channel_process(chan: channel(a)): bool
-fun
-{a:vt0p}
-channel_process$fwork(x0: &(a) >> opt(a, b)): #[b:bool] bool(b)
-*)
+fun{
+a:vt0p
+} spinvar_process
+  (spnv: !spinvar(a)): void
+fun{
+a:vt0p}{env:vt0p
+} spinvar_process_env
+  (spnv: !spinvar(a), env: &(env) >> _): void
+//
+fun{
+a:vt0p}{env:vt0p
+} spinvar_process$fwork(x: &a >> _, env: &(env) >> _): void
 //
 (* ****** ****** *)
 
-(* end of [channel.sats] *)
+(* end of [spinvar.sats] *)

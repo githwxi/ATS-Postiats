@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2014 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -28,49 +28,51 @@
 
 (* ****** ****** *)
 //
-// HX-2013-11:
-// An array-based channel for ATS
+// HX-2014-05:
+// For waiting until the proofs for
+// a predeterminted view are all uploaded
+// in a piecewise manner.
+// Note that this version does not use types
+// to ensure a correct match between the uploaded
+// proofs and the downloaded proof.
 //
 (* ****** ****** *)
 //
-abstype
-channel_type(a:vt@ype) = ptr
-typedef
-channel(a:vt0p) = channel_type(a)
+absvtype
+nwaiter_vtype (i:int) = ptr
+vtypedef nwaiter(i:int) = nwaiter_vtype(i)
+absvtype nwaiter_ticket_vtype = ptr
+vtypedef nwaiter_ticket = nwaiter_ticket_vtype
+//
+(* ****** ****** *)
+//
+fun{}
+nwaiter_create_exn (): nwaiter(0)
 //
 (* ****** ****** *)
 
-fun
-{a:vt0p}
-channel_create_exn
-  (cap: sizeGte(1)): channel(a)
+fun{}
+nwaiter_destroy (nw: nwaiter(0)): void
 
 (* ****** ****** *)
 //
 fun{}
-channel_get_capacity
-  {a:vt0p}(channel(a)):<> Size_t
+nwaiter_initiate
+  (nw: !nwaiter(0) >> nwaiter(1)): nwaiter_ticket
+//
+(* ****** ****** *)
+//
+fun{}
+nwaiter_waitfor (nw: !nwaiter(1) >> nwaiter(0)): void
+//
+(* ****** ****** *)
+//
+fun{}
+nwaiter_ticket_put (nwt: nwaiter_ticket): void
+fun{}
+nwaiter_ticket_split
+  (nwt: !nwaiter_ticket >> nwaiter_ticket): nwaiter_ticket
 //
 (* ****** ****** *)
 
-fun
-{a:vt0p}
-channel_insert(channel(a), a): void
-fun
-{a:vt0p}
-channel_takeout(chan: channel(a)): (a) 
-
-(* ****** ****** *)
-//
-(*
-fun
-{a:vt0p}
-channel_process(chan: channel(a)): bool
-fun
-{a:vt0p}
-channel_process$fwork(x0: &(a) >> opt(a, b)): #[b:bool] bool(b)
-*)
-//
-(* ****** ****** *)
-
-(* end of [channel.sats] *)
+(* end of [nwaiter.sats] *)

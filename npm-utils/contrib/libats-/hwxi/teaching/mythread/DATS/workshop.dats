@@ -80,7 +80,7 @@ workshop_add_tid
 extern
 fun{}
 workshop_get_channel
-  {a:vt0p} (workshop(a)): channel(a)
+  {a:vt0p}(workshop(a)): channel(a)
 //
 (* ****** ****** *)
 
@@ -88,7 +88,7 @@ local
 //
 assume
 workshop_type
-  (a:vt0p) = ref (workshop_struct(a))
+  (a:vt0p) = ref(workshop_struct(a))
 //
 in (* in-of-local *)
 
@@ -154,11 +154,12 @@ val (
 val spn = p->WS_spin
 val (
   pflock | ()
-) = $AT.spin_lock (spn)
+) = $AT.spin_lock(spn)
 val tids = p->WS_workerlst
 val ((*void*)) =
-  p->WS_workerlst := list_vt_cons (tid, tids)
-val ((*void*)) = $AT.spin_unlock (pflock | spn)
+  p->WS_workerlst := list_vt_cons(tid, tids)
+//
+val ((*void*)) = $AT.spin_unlock(pflock | spn)
 //
 in
   // nothing
@@ -259,11 +260,12 @@ end // end of [workshop_add_worker]
 implement
 {a}(*tmp*)
 workshop_add_nworker
-  {n} (ws, n) = let
+  {n}(ws, n) = let
 //
-fun loop
+fun
+loop
 (
-  ws: workshop(a), n: int, res: int
+ws: workshop(a), n: int, res: int
 ) : int = let
 in
 //

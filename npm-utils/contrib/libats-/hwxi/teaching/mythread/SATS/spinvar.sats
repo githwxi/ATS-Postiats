@@ -33,36 +33,42 @@
 //
 (* ****** ****** *)
 //
-absvtype spinvar_vtype (a:vt@ype) = ptr
-vtypedef spinvar (a:vt0p) = spinvar_vtype (a)
+absvtype
+spinvar_vtype(a:vt@ype) = ptr
+//
+vtypedef
+spinvar(a:vt0p) = spinvar_vtype(a)
 //
 (* ****** ****** *)
 
 fun{
 a:vt0p
-} spinvar_create_exn (x: a): spinvar (a)
-
-(* ****** ****** *)
-
-fun{} spinvar_destroy{a:t0p}(spinvar(a)): void
-
-(* ****** ****** *)
-
-fun{a:t0p} spinvar_get (spnv: !spinvar(a)): (a)
-fun{a:vt0p} spinvar_getfree (spnv: spinvar(a)): (a)
+} spinvar_create_exn(x: a): spinvar(a)
 
 (* ****** ****** *)
 //
-fun{
-a:vt0p}{env:vt0p
-} spinvar_process$fwork (x: &a >> _, env: &(env) >> _): void
+fun{}
+spinvar_destroy{a:t0p}(spinvar(a)): void
+//
+(* ****** ****** *)
+
+fun{a:t0p} spinvar_get(spnv: !spinvar(a)): (a)
+fun{a:vt0p} spinvar_getfree(spnv: spinvar(a)): (a)
+
+(* ****** ****** *)
 //
 fun{
 a:vt0p
-} spinvar_process (spnv: !spinvar(a)): void
+} spinvar_process
+  (spnv: !spinvar(a)): void
 fun{
 a:vt0p}{env:vt0p
-} spinvar_process_env (spnv: !spinvar(a), env: &(env) >> _): void
+} spinvar_process_env
+  (spnv: !spinvar(a), env: &(env) >> _): void
+//
+fun{
+a:vt0p}{env:vt0p
+} spinvar_process$fwork(x: &a >> _, env: &(env) >> _): void
 //
 (* ****** ****** *)
 

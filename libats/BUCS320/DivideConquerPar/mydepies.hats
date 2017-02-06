@@ -7,14 +7,14 @@
 //
 #include
 "$PATSHOMELOCS\
-/atscntrb-hx-teaching-mythread/mylibies.hats"
+/atscntrb-hx-threadkit/mylibies.hats"
 //
 (* ****** ****** *)
 //
 local
 #define
-DIVIDECONQUER_CONT
-in
+DIVIDECONQUER_CONT 1
+in (* in-of-local *)
 #include
 "$PATSHOMELOCS\
 /atscntrb-bucs320-divideconquer/mylibies.hats"
