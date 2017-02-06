@@ -197,15 +197,19 @@ ifcase
     $DC_cont.DivideConquer_cont$solve(x0, lam(r0) => k0(list0_sing(r0)))
   end // end of [n0 = 1]
 | _(* n0 >= 2 *) => let
+//
     val rs =
     list_map_fun<input><output>
     (
       xs, lam _ => _
     ) (* end of [val] *)
-    val res = $UN.castvwtp1{list0(output)}(rs)
+    val res =
+    $UN.castvwtp1{list0(output)}(rs)
+//
     val+list_cons(x, xs) = xs
     val ((*void*)) = loop2(x, xs, rs, $SPINREF.spinref_create_exn<int>(n0), res)
-    val ((*void*)) = $UN.cast2void(rs)
+    prval ((*void*)) = $UN.cast2void(rs)
+//
   in
     // nothing
   end // end of [n0 >= 2]
