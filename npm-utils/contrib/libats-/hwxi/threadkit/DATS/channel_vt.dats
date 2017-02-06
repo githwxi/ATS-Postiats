@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2015 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2015-2017 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -289,8 +289,9 @@ channel_ref
 //
 val@CHANNEL(ch) = chan
 //
-val spin =
-  unsafe_spin_vt2t(ch.spin)
+val
+spin =
+unsafe_spin_vt2t(ch.spin)
 //
 val
 (pf | ()) = spin_lock(spin)
@@ -314,8 +315,9 @@ val
 @CHANNEL
 {l0,l1,l2,l3}(ch) = chan
 //
-val spin =
-  unsafe_spin_vt2t(ch.spin)
+val
+spin =
+unsafe_spin_vt2t(ch.spin)
 //
 val
 (pf | ()) = spin_lock(spin)
@@ -377,23 +379,76 @@ channel_insert_buf
 //
 in
 
-implement{a}
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 channel_insert
   (chan, x0) = let
 //
 val+CHANNEL
   {l0,l1,l2,l3}(ch) = chan
-val mutex = unsafe_mutex_vt2t(ch.mutex)
+//
+val
+mutex = unsafe_mutex_vt2t(ch.mutex)
 val (pfmut | ()) = mutex_lock(mutex)
+//
 val xs =
   $UN.castvwtp0{queue(a)}((pfmut|ch.queue))
-val ((*void*)) = channel_insert_buf<a>(chan, xs, x0)
-prval pfmut = $UN.castview0{locked_v(l1)}(xs)
+val () = channel_insert_buf<a>(chan, xs, x0)
+//
+prval
+pfmut = $UN.castview0{locked_v(l1)}(xs)
 val ((*void*)) = mutex_unlock(pfmut | mutex)
 //
 in
   // nothing
 end // end of [channel_insert]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+channel_insert_opt
+  (chan, x0) = opt where
+{
+//
+val+
+CHANNEL
+{l0,l1,l2,l3}(ch) = chan
+//
+val
+mutex = unsafe_mutex_vt2t(ch.mutex)
+val (pfmut | ()) = mutex_lock(mutex)
+//
+val xs =
+  $UN.castvwtp0{queue(a)}((pfmut|ch.queue))
+//
+val (pf | isful) = queue_isful<a>(xs)
+//
+val opt =
+(
+if
+isful
+then Some_vt(x0)
+else None_vt(*void*) where
+{
+  val isnil =
+    queue_isnil<a>(xs)
+  val ((*void*)) =
+    queue_insert<a>(pf | xs, x0)
+  val ((*void*)) =
+  if isnil.1 then
+    condvar_broadcast(unsafe_condvar_vt2t(ch.CVisnil))
+  // end of [then] // end of [if]
+}
+) : Option_vt(a) // end of [val]
+//
+prval
+pfmut = $UN.castview0{locked_v(l1)}(xs)
+val ((*void*)) = mutex_unlock(pfmut | mutex)
+//
+} (* end of [channel_insert_opt] *)
 
 (* ****** ****** *)
 
@@ -435,12 +490,14 @@ in
   channel_insert_buf<a>(chan, xs, x0)
 end // end of [then]
 else let
-  val isnil = queue_isnil<a>(xs)
-  val ((*void*)) = queue_insert<a>(pf | xs, x0)
+  val isnil =
+    queue_isnil<a>(xs)
   val ((*void*)) =
-  if isnil.1
-    then condvar_broadcast(unsafe_condvar_vt2t(ch.CVisnil))
-  // end of [if]
+    queue_insert<a>(pf | xs, x0)
+  val ((*void*)) =
+  if isnil.1 then
+    condvar_broadcast(unsafe_condvar_vt2t(ch.CVisnil))
+  // end of [then] // end of [if]
 in
   // nothing
 end // end of [else]
@@ -460,28 +517,83 @@ channel_takeout_buf
 //
 in (* in-of-local *)
 
+(* ****** ****** *)
+
 implement
 {a}(*tmp*)
 channel_takeout
-  (chan) = x0 where
+  (chan) = x0_out where
 {
 //
-val+CHANNEL
-  {l0,l1,l2,l3}(ch) = chan
-val mutex =
-  unsafe_mutex_vt2t(ch.mutex)
+val+
+CHANNEL
+{l0,l1,l2,l3}(ch) = chan
+//
+val
+mutex = unsafe_mutex_vt2t(ch.mutex)
 val (pfmut | ()) = mutex_lock(mutex)
+//
 val xs =
   $UN.castvwtp0{queue(a)}((pfmut|ch.queue))
-val x0 = channel_takeout_buf<a>(chan, xs)
-prval pfmut = $UN.castview0{locked_v(l1)}(xs)
+//
+val x0_out = channel_takeout_buf<a>(chan, xs)
+//
+prval
+pfmut = $UN.castview0{locked_v(l1)}(xs)
 val ((*void*)) = mutex_unlock(pfmut | mutex)
 //
-} // end of [channel_takeout_buf]
+} // end of [channel_takeout_opt]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
+channel_takeout_opt
+  (chan) = opt where
+{
+//
+val+
+CHANNEL
+{l0,l1,l2,l3}(ch) = chan
+//
+val
+mutex = unsafe_mutex_vt2t(ch.mutex)
+val (pfmut | ()) = mutex_lock(mutex)
+//
+val xs =
+  $UN.castvwtp0{queue(a)}((pfmut|ch.queue))
+//
+val (pf | isnil) = queue_isnil<a>(xs)
+//
+val opt =
+(
+if
+isnil
+then None_vt()
+else Some_vt(x0_out) where
+{
+  val isful =
+    queue_isful<a>(xs)
+  val x0_out =
+    queue_takeout<a>(pf | xs)
+  val ((*void*)) =
+  if isful.1 then
+    condvar_broadcast(unsafe_condvar_vt2t(ch.CVisful))
+  // end of [then] // end of [if]
+} (* end of [else] *)
+) : Option_vt(a) // end of [val]
+//
+prval pfmut =
+  $UN.castview0{locked_v(l1)}(xs)
+//
+val ((*void*)) = mutex_unlock(pfmut | mutex)
+//
+} // end of [channel_takeout_opt]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 channel_takeout_buf
   (chan, xs) = let
 //
@@ -522,9 +634,9 @@ else let
   val isful = queue_isful<a>(xs)
   val x0_out = queue_takeout<a>(pf | xs)
   val ((*void*)) =
-  if isful.1
-    then condvar_broadcast(unsafe_condvar_vt2t(ch.CVisful))
-  // end of [if]
+  if isful.1 then
+    condvar_broadcast(unsafe_condvar_vt2t(ch.CVisful))
+  // end of [then] // end of [if]
 in
   x0_out
 end // end of [else]

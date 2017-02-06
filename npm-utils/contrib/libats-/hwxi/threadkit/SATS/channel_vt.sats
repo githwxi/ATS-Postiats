@@ -33,39 +33,65 @@
 //
 (* ****** ****** *)
 
-absvtype channel_vtype(a:vt@ype+) = ptr
-vtypedef channel(a:vt0p) = channel_vtype(a)
+absvtype
+channel_vtype(a:vt@ype+) = ptr
+vtypedef
+channel(a:vt0p) = channel_vtype(a)
 
 (* ****** ****** *)
 
-absvtype queueopt_vtype(a:vt@ype+) = ptr
-absvtype queueopt(a:vt0p) = queueopt_vtype(a)
+absvtype
+queueopt_vtype(a:vt@ype+) = ptr
+absvtype
+queueopt(a:vt0p) = queueopt_vtype(a)
 
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
-channel_create_exn (cap: sizeGte(1)): channel (a)
-
-(* ****** ****** *)
-//
-fun{}
-channel_get_capacity{a:vt0p}(!channel(a)): size_t
+channel_create_exn
+  (cap: sizeGte(1)): channel(a)
 //
 (* ****** ****** *)
 //
 fun{}
-channel_get_refcount{a:vt0p}(!channel(a)): intGt(0)
+channel_get_capacity
+  {a:vt0p}(chan: !channel(a)): size_t
+//
+(* ****** ****** *)
+//
+fun{}
+channel_get_refcount
+  {a:vt0p}(chan: !channel(a)): intGt(0)
 //
 (* ****** ****** *)
 
-fun{a:vt0p} channel_ref (!channel(a)): channel(a)
-fun{a:vt0p} channel_unref (channel(a)): queueopt(a)
+fun
+{a:vt0p}
+channel_ref(chan: !channel(a)): channel(a)
+fun
+{a:vt0p}
+channel_unref(chan: channel(a)): queueopt(a)
 
 (* ****** ****** *)
-
-fun{a:vt0p} channel_insert (!channel(a), a): void
-fun{a:vt0p} channel_takeout (chan: !channel(a)): (a) 
-
+//
+// HX: blocking
+//
+fun{a:vt0p}
+channel_insert
+  (chan: !channel(a), x0: a): void
+fun{a:vt0p}
+channel_takeout(chan: !channel(a)): (a) 
+//
+(* ****** ****** *)
+//
+// HX: non-blocking
+//
+fun{a:vt0p}
+channel_insert_opt
+  (chan: !channel(a), x0: a): Option_vt(a)
+fun{a:vt0p}
+channel_takeout_opt(chan: !channel(a)): Option_vt(a) 
+//
 (* ****** ****** *)
 
 (* end of [channel_vt.sats] *)
