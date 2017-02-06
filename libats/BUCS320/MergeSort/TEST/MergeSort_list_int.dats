@@ -6,7 +6,8 @@
 *)
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0
+#define
+ATS_DYNLOADFLAG 0
 
 (* ****** ****** *)
 //
@@ -26,6 +27,8 @@
 //
 #include "./../mydepies.hats"
 #include "./../mylibies.hats"
+//
+(* ****** ****** *)
 //
 #staload
 MS_list = $MergeSort_list

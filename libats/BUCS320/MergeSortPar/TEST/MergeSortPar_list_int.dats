@@ -1,13 +1,19 @@
 (* ****** ****** *)
 (*
 ** DivideConquer:
-** MergeSort_list
+** MergeSortPar_list
 **
 *)
 (* ****** ****** *)
-//
+
 #define
 ATS_DYNLOADFLAG 0
+
+(* ****** ****** *)
+//
+%{^
+#include <pthread.h>
+%} // end of [%{^]
 //
 (* ****** ****** *)
 //
@@ -23,7 +29,7 @@ ATS_DYNLOADFLAG 0
 
 (* ****** ****** *)
 //
-#define MERGESORT_LIST
+#define MERGESORTPAR_LIST
 //
 #include "./../mydepies.hats"
 #include "./../mylibies.hats"
@@ -31,16 +37,16 @@ ATS_DYNLOADFLAG 0
 (* ****** ****** *)
 //
 #staload
-MS_list = $MergeSort_list
+MSP_list = $MergeSortPar_list
 //
-assume $MS_list.elt_t0ype = double
-//
-implement
-gcompare_val_val<double>(x, y) = compare(x, y)
+assume $MSP_list.elt_t0ype = int
 //
 implement
-MergeSort_list_double(xs) = $MS_list.MergeSort_list<>(xs)
+gcompare_val_val<int>(x, y) = compare(x, y)
+//
+implement
+MergeSortPar_list_int(xs) = $MSP_list.MergeSortPar_list<>(xs)
 //
 (* ****** ****** *)
 
-(* end of [MergeSort_list_double.dats] *)
+(* end of [MergeSortParPar_list_int.dats] *)
