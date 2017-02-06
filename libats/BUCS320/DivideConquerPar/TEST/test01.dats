@@ -32,7 +32,8 @@
 (* ****** ****** *)
 //
 extern
-fun Fibonacci(int): int
+fun
+Fibonacci(int): int
 //
 (* ****** ****** *)
 
