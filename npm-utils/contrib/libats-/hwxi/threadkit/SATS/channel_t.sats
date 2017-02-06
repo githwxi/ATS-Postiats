@@ -49,10 +49,25 @@ fun{}
 channel_get_capacity{a:vt0p}(channel(a)):<> size_t
 //
 (* ****** ****** *)
-
-fun{a:vt0p} channel_insert (channel(a), a): void
-fun{a:vt0p} channel_takeout (chan: channel(a)): (a) 
-
+//
+// Hx: blocking
+//
+fun{a:vt0p}
+channel_insert
+  (chan: channel(a), x0: a): void
+fun{a:vt0p}
+channel_takeout (chan: channel(a)): (a) 
+//
+(* ****** ****** *)
+//
+// Hx: non-blocking
+//
+fun{a:vt0p}
+channel_insert_opt
+  (chan: channel(a), x0: a): Option_vt(a)
+fun{a:vt0p}
+channel_takeout_opt (chan: channel(a)): Option_vt(a)
+//
 (* ****** ****** *)
 
 (* end of [channel_t.sats] *)

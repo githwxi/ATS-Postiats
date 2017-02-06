@@ -2,7 +2,7 @@
 "name":
 "atscntrb-hx-threadkit"
 ,
-"version": "1.0.0"
+"version": "1.0.1"
 ,
 "description":
 "This package is for some basic thread-related objects: spin locks, barriers, channels, etc."

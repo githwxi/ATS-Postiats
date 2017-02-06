@@ -102,6 +102,7 @@ extern
 fun{a:vt0p}
 channel_insert_buf
   (channel(a), !deqarray(a) >> _, a): void
+//
 extern
 fun{a:vt0p}
 channel_takeout_buf
@@ -120,10 +121,12 @@ CHANNEL{l1,l2,l3}
 deq, cap, mut, CVisnil, CVisful
 ) = chan // end of [val]
 //
-val (pfmut | ()) = mutex_lock(mut)
+val
+(pfmut | ()) = mutex_lock(mut)
 //
-val deq =
-  $UN.castvwtp0{deqarray(a)}((pfmut|deq))
+val
+deq =
+$UN.castvwtp0{deqarray(a)}((pfmut|deq))
 //
 val ((*void*)) =
   channel_insert_buf<a>(chan, deq, x0)
@@ -141,6 +144,59 @@ end // end of [channel_insert]
 
 implement
 {a}(*tmp*)
+channel_insert_opt
+  (chan, x0) = opt where
+{
+//
+val+
+CHANNEL{l1,l2,l3}
+(
+deq, cap, mut, CVisnil, CVisful
+) = chan // end of [val]
+//
+val
+(pfmut | ()) = mutex_lock(mut)
+//
+val
+deq =
+$UN.castvwtp0{deqarray(a)}((pfmut|deq))
+//
+val
+isnot = deqarray_isnot_full<a>(deq)
+//
+prval
+((*void*)) = lemma_deqarray_param(deq)
+//
+val opt =
+(
+if
+isnot
+then let
+  val isnil =
+    deqarray_is_nil{a}(deq)
+  val ((*void*)) =
+    deqarray_insert_atend<a>(deq, x0)
+  val ((*void*)) =
+    if isnil then condvar_broadcast(CVisnil)
+  // end of [val]
+in
+  None_vt()
+end (* end of [then] *)
+else Some_vt(x0)
+) : Option_vt(a) // end of [val]
+//
+prval
+pfmut =
+$UN.castview0{locked_v(l1)}(deq)
+//
+val ((*void*)) = mutex_unlock(pfmut | mut)
+//
+} (* end of [channel_insert_opt] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 channel_insert_buf
   (chan, deq, x0) = let
 //
@@ -150,9 +206,11 @@ CHANNEL{l1,l2,l3}
 ptr, cap, mut, CVisnil, CVisful
 ) = chan // end of [val]
 //
-val isnot = deqarray_isnot_full<a>(deq)
+val
+isnot = deqarray_isnot_full<a>(deq)
 //
-prval ((*void*)) = lemma_deqarray_param(deq)
+prval
+((*void*)) = lemma_deqarray_param(deq)
 //
 in
 //
@@ -195,26 +253,82 @@ end // end of [channel_insert_buf]
 implement
 {a}(*tmp*)
 channel_takeout
-  (chan) = x0 where
+  (chan) = x0_out where
 {
 //
 val+
 CHANNEL{l1,l2,l3}
-(deq, cap, mut, CVisnil, CVisful) = chan
+(
+deq, cap, mut, CVisnil, CVisful
+) = chan // end of [val]
 //
 val (pfmut | ()) = mutex_lock(mut)
 //
-val deq =
-  $UN.castvwtp0{deqarray(a)}((pfmut|deq))
+val
+deq =
+$UN.castvwtp0{deqarray(a)}((pfmut|deq))
 //
-val x0 = channel_takeout_buf<a>(chan, deq)
+val
+x0_out = channel_takeout_buf<a>(chan, deq)
 //
 prval
-pfmut = $UN.castview0{locked_v(l1)}(deq)
+pfmut =
+$UN.castview0{locked_v(l1)}(deq)
 //
 val ((*void*)) = mutex_unlock(pfmut | mut)
 //
-} // end of [channel_takeout_buf]
+} (* end of [channel_takeout] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+channel_takeout_opt
+  (chan) = opt where
+{
+//
+val+
+CHANNEL{l1,l2,l3}
+(
+deq, cap, mut, CVisnil, CVisful
+) = chan // end of [val]
+//
+val (pfmut | ()) = mutex_lock(mut)
+//
+val
+deq =
+$UN.castvwtp0{deqarray(a)}((pfmut|deq))
+//
+val
+isnot = deqarray_isnot_nil{a}(deq)
+prval
+((*void*)) = lemma_deqarray_param(deq)
+//
+val opt =
+(
+if
+isnot
+then let
+  val isful =
+    deqarray_is_full<a>(deq)
+  val x0_out =
+    deqarray_takeout_atbeg<a>(deq)
+  val ((*void*)) =
+    if isful then condvar_broadcast(CVisful)
+  // end of [val]
+in
+  Some_vt(x0_out)
+end // end of [then]
+else None_vt((*void*))
+) : Option_vt(a) // end of [val]
+//
+prval
+pfmut =
+$UN.castview0{locked_v(l1)}(deq)
+//
+val ((*void*)) = mutex_unlock(pfmut | mut)
+//
+} (* end of [channel_takeout_opt] *)
 
 (* ****** ****** *)
 
@@ -225,10 +339,14 @@ channel_takeout_buf
 //
 val+
 CHANNEL{l1,l2,l3}
-(ptr, cap, mut, CVisnil, CVisful) = chan
+(
+ptr, cap, mut, CVisnil, CVisful
+) = chan // end of [val]
 //
-val isnot = deqarray_isnot_nil{a}(deq)
-prval ((*void*)) = lemma_deqarray_param(deq)
+val
+isnot = deqarray_isnot_nil{a}(deq)
+prval
+((*void*)) = lemma_deqarray_param(deq)
 //
 in
 //
