@@ -80,14 +80,15 @@ end (* end of [dotprod] *)
 
 (* ****** ****** *)
 //
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/spinvar.sats"
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/spinref.sats"
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/nwaiter.sats"
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/parallelize.sats"
+#define
+MYTHREAD_targetloc
+"$PATSHOME/npm-utils\
+/contrib/libats-/hwxi/teaching/mythread"
+//
+#staload "{$MYTHREAD}/SATS/spinvar.sats"
+#staload "{$MYTHREAD}/SATS/spinref.sats"
+#staload "{$MYTHREAD}/SATS/nwaiter.sats"
+#staload "{$MYTHREAD}/SATS/parallelize.sats"
 //
 (* ****** ****** *)
 
@@ -181,24 +182,24 @@ _(*anon*) = "prelude/DATS/gnumber.dats"
 (* ****** ****** *)
 //
 #staload _ =
-"{$LIBATSHWXI}/teaching/mythread/DATS/channel.dats"
+"{$MYTHREAD}/DATS/channel.dats"
 //
 #staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/spinvar.dats"
+"{$MYTHREAD}/DATS/spinvar.dats"
 #staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/spinref.dats"
+"{$MYTHREAD}/DATS/spinref.dats"
 #staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/nwaiter.dats"
+"{$MYTHREAD}/DATS/nwaiter.dats"
 //
 (* ****** ****** *)
 //
 #staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/workshop.sats"
+"{$MYTHREAD}/SATS/workshop.sats"
 //
 #staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/workshop.dats"
-staload _ =
-"{$LIBATSHWXI}/teaching/mythread/DATS/parallelize.dats"
+"{$MYTHREAD}/DATS/workshop.dats"
+#staload _ =
+"{$MYTHREAD}/DATS/parallelize.dats"
 //
 (* ****** ****** *)
 
