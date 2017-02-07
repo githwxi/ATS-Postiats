@@ -36,6 +36,11 @@
 #include "prelude/params.hats"
 
 (* ****** ****** *)
+//
+fun
+patsopt_version(): string = "mac#%"
+//
+(* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_dyn.sats] starts!\n"

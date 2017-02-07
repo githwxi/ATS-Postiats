@@ -2,9 +2,9 @@
 //
 // HX-2017-02-06:
 //
-// MergeSort
-// in parallel
-// for lists and arrays
+// MergeSort for
+// lists and arrays via
+// Generic Divide-Conquer in parallel
 //
 (* ****** ****** *)
 //
