@@ -23,6 +23,11 @@ staload UN = $UNSAFE
 //
 (* ****** ****** *)
 
+#staload GS = $GraphSearch
+#staload GS_bfs = $GraphSearch_bfs
+
+(* ****** ****** *)
+
 local
 
 typedef

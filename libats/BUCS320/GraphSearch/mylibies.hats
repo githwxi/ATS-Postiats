@@ -7,20 +7,28 @@
 //
 (* ****** ****** *)
 //
-staload GS = "./DATS/GraphSearch.dats"
+#staload
+GraphSearch =
+"./DATS/GraphSearch.dats"
 //
 (* ****** ****** *)
 //
 #ifdef
 GRAPHSEARCH_BFS
-staload GS_bfs = "./DATS/GraphSearch_bfs.dats"
+#staload
+GraphSearch_bfs =
+"./DATS/GraphSearch_bfs.dats"
 #endif // #ifdef(GRAPHSEARCH_BFS)
 //
 (* ****** ****** *)
 //
 #ifdef
 GRAPHSEARCH_DFS
-staload GS_dfs = "./DATS/GraphSearch_dfs.dats"
+//
+#staload
+GraphSearch_dfs =
+"./DATS/GraphSearch_dfs.dats"
+//
 #endif // #ifdef(GRAPHSEARCH_DFS)
 //
 (* ****** ****** *)

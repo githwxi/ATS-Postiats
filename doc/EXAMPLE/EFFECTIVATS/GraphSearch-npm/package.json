@@ -7,26 +7,27 @@
 "description":
 "This package contains a piece in the EFFECTIVATS series that presents an example of programming with packages..."
 ,
-  "main": "N/A"
+"main": "N/A"
 ,
-  "scripts": {}
+"scripts": {}
 ,
-  "repository": {}
+"repository": {}
 ,
-  "keywords": [
-    "ATS",
-    "EFFECTIVATS"
-  ]
+"keywords": [
+  "ATS",
+  "EFFECTIVATS",
+  "graph", "search"
+]
 ,
-  "dependencies": {
-    "atscntrb-bucs320-graphsearch": "~1.0.0"
-  }
+"dependencies": {
+  "atscntrb-bucs320-graphsearch": "~1.0.0"
+}
 ,
-  "author":
-  "Hongwei Xi <gmhwxi@gmail.com>"
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
 ,
-  "license": "MIT"
+"license": "MIT"
 ,
-  "note-for-me":
-  "This package is stored at ${PATSHOME}/doc/EXAMPLE/EFFECTIVATS/GraphSearch-npm/."
+"note-for-me":
+"This package is stored at ${PATSHOME}/doc/EXAMPLE/EFFECTIVATS/GraphSearch-npm/."
 }

@@ -9,9 +9,11 @@ For testing GraphSearh_dfs
 #include
 "share/atspre_staload.hats"
 #include
-"share/HATS/atspre_staload_libats_ML.hats"
+"share/HATS\
+/atspre_staload_libats_ML.hats"
 #include
-"share/HATS/atslib_staload_libats_libc.hats"
+"share/HATS\
+/atslib_staload_libats_libc.hats"
 
 (* ****** ****** *)
 

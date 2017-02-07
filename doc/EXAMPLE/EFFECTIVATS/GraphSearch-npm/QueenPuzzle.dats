@@ -20,6 +20,11 @@ For testing GraphSearh_dfs
 //
 (* ****** ****** *)
 
+#staload GS = $GraphSearch
+#staload GS_dfs = $GraphSearch_dfs
+
+(* ****** ****** *)
+
 implement
 $GS_dfs.node_mark<>(nx) = ()
 implement

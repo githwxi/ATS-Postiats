@@ -128,7 +128,7 @@ val
 test =
 DivideConquer$base_test<>(x0)
 //
-in
+in (* in-of-let *)
 //
 if
 (test)
