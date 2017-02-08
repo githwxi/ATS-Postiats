@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2014 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2017 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 (* ****** ****** *)
 
 (*
-** HX-2014-06-01: Start it now!
+** HX-2017-02-07: Start it now!
 *)
 
 (* ****** ****** *)
-
+//
 staload
 UN =
 "prelude/SATS/unsafe.sats"
-
+//
 (* ****** ****** *)
 //
 staload
@@ -50,11 +50,6 @@ typedef spin1 = $AT.spin1
 (* ****** ****** *)
 //
 abstype
-fworkshop_type = ptr
-typedef
-fworkshop = fworkshop_type
-
-abstype
 fws$store_type = ptr
 typedef
 fws$store = fws$store_type
@@ -65,6 +60,28 @@ absvtype
 fws$fwork_vtype = ptr
 vtypedef
 fws$fwork = fws$fwork_vtype
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+fws$store_insert
+  (fws$store, fws$fwork): void
+extern
+fun{}
+fws$store_takeout
+  (store: fws$store): fws$fwork
+//
+extern
+fun{}
+fws$fwork_process(fws$fwork): int
+//
+(* ****** ****** *)
+//
+abstype
+fworkshop_type = ptr
+typedef
+fworkshop = fworkshop_type
 //
 (* ****** ****** *)
 
@@ -112,6 +129,13 @@ fworkshop_get_nworker
   (fws: fworkshop): intGte(0)
 //
 (* ****** ****** *)
+//
+extern
+fun{}
+fworkshop_insert_work
+(
+  fws: fworkshop, fwork: fws$fwork
+) : void // end-of-function
 //
 extern
 fun{}
@@ -301,68 +325,51 @@ end // end of [loop]
 
 end // end of [local]
 
-////  
 (* ****** ****** *)
 
-implement
-{a}(*tmp*)
-workshop_insert_job
-  (ws, x) = let
-//
-val
-chan =
-workshop_get_channel<>(ws)
-// end of [val]
-in
-  channel_insert<a>(chan, x)
-end // end of [workshop_insert_job]
-
-(* ****** ****** *)
-
-implement
-{a}(*tmp*)
-workshop_takeout_job
-  (ws) = let
-//
-val
-chan =
-workshop_get_channel<>(ws)
-// end of [val]
-in
-  channel_takeout<a>(chan)
-end // end of [workshop_takeout_job]
-
-(* ****** ****** *)
-
-(* ****** ****** *)
-//
-// lincloptr = ((*void*)) -<lincloptr> void
-//
-(* ****** ****** *)
-//
 implement
 {}(*tmp*)
-workshop_handle_job_lincloptr
-  (ws, job) = let
+fworkshop_insert_work
+  (fws, x0) = let
 //
-val () =
-  $UN.castvwtp0{()-<lincloptr>void}(job)() in (0)
-//
-end (* end of [workshop_handle_job_lincloptr] *)
-  
+val
+store =
+fworkshop_get_store<>(fws)
+// end of [val]
+in
+  fws$store_insert<>(store, x0)
+end // end of [fworkshop_insert_work]
+
 (* ****** ****** *)
-//
-implement
-workshop_handle_job<lincloptr> = workshop_handle_job_lincloptr<>
-//
-(* ****** ****** *)
-//
+
 implement
 {}(*tmp*)
-workshop_insert_job_lincloptr
-  (ws, job) =
-  workshop_insert_job<lincloptr>(ws, $UN.castvwtp0{lincloptr}(job))
+fworkshop_takeout_work
+  (fws) = let
 //
+val
+store =
+fworkshop_get_store<>(fws)
+// end of [val]
+in
+  fws$store_takeout<>(store)
+end // end of [fworkshop_takeout_work]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+fworkshop_process_work
+(
+  fws, fwork
+) = status where
+{
+//
+val
+status = fws$fwork_process(fwork)
+//
+} // end of [fworkshop_process_work]
+
 (* ****** ****** *)
 
 (* end of [fworkshop.dats] *)
