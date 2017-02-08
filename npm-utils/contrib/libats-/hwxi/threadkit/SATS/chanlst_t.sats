@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2017 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),
@@ -29,45 +29,40 @@
 (* ****** ****** *)
 //
 // HX-2013-11:
-// An array-based channel for ATS
+// An array-based chanlst for ATS
 //
 (* ****** ****** *)
 //
 abstype
-channel_type(a:vt@ype) = ptr
+chanlst_type(a:vt@ype) = ptr
 typedef
-channel(a:vt0p) = channel_type(a)
+chanlst(a:vt0p) = chanlst_type(a)
 //
 (* ****** ****** *)
 
 fun{a:vt0p}
-channel_create_exn(cap: sizeGte(1)): channel(a)
+chanlst_create_exn(): chanlst(a)
 
-(* ****** ****** *)
-//
-fun{}
-channel_get_capacity{a:vt0p}(channel(a)):<> size_t
-//
 (* ****** ****** *)
 //
 // Hx: blocking
 //
 fun{a:vt0p}
-channel_insert
-  (chan: channel(a), x0: a): void
+chanlst_insert
+  (chan: chanlst(a), x0: a): void
 fun{a:vt0p}
-channel_takeout(chan: channel(a)): (a) 
+chanlst_takeout(chan: chanlst(a)): (a) 
 //
 (* ****** ****** *)
 //
 // Hx: non-blocking
 //
 fun{a:vt0p}
-channel_insert_opt
-  (chan: channel(a), x0: a): Option_vt(a)
+chanlst_insert_opt
+  (chan: chanlst(a), x0: a): Option_vt(a)
 fun{a:vt0p}
-channel_takeout_opt(chan: channel(a)): Option_vt(a)
+chanlst_takeout_opt(chan: chanlst(a)): Option_vt(a)
 //
 (* ****** ****** *)
 
-(* end of [channel_t.sats] *)
+(* end of [chanlst_t.sats] *)

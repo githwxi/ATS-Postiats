@@ -60,6 +60,8 @@ typedef output = output_t0ype
 extern
 fun{}
 DivideConquer$solve(input): output
+and
+DivideConquer$solve_rec(input): output
 //
 extern
 fun{}
@@ -118,6 +120,13 @@ in
 end // end of [DivideConquer$solve]
 
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+DivideConquer$solve_rec
+  (x0) = DivideConquer$solve<>(x0)
+//
+(* ****** ****** *)
 
 implement
 {}(*tmp*)
@@ -165,7 +174,9 @@ DivideConquer$conquer
 //
 val rs =
 list0_map<input><output>
-  (xs, lam(x) => DivideConquer$solve<>(x))
+( xs
+, lam(x) => DivideConquer$solve_rec<>(x)
+) (* end of [val] *)
 //
 val r0 = DivideConquer$conquer$combine<>(rs)
 //

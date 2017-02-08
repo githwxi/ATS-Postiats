@@ -38,11 +38,17 @@ NWAITER = "./SATS/nwaiter.sats"
 (* ****** ****** *)
 //
 #staload
+CHANLST_t = "./SATS/chanlst_t.sats"
+#staload _ = "./DATS/chanlst_t.dats"
+//
+(* ****** ****** *)
+//
+#staload
 CHANNEL_t = "./SATS/channel_t.sats"
+#staload _ = "./DATS/channel_t.dats"
+//
 #staload
 CHANNEL_vt = "./SATS/channel_vt.sats"
-//
-#staload _ = "./DATS/channel_t.dats"
 #staload _ = "./DATS/channel_vt.dats"
 //
 (* ****** ****** *)

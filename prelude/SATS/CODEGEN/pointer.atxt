@@ -21,8 +21,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 #atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 #atscode_start_time("March, 2012")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 
 #atscode_separator()
 
@@ -563,16 +563,21 @@ fun
 aptr_getfree_elt{l:agz}(aptr(a, l)):<!wrt> (a)
 //
 fun
-{a:t0p}
-aptr_get_elt{l:agz}(ap: !aptr(INV(a), l)):<!wrt> (a)
+{a:vt0p}
+aptr_get_elt
+  {l:agz}
+  (ap: !aptr(a, l) >> aptr(a?!, l)):<!wrt> (a)
 fun
 {a:t0p}
 aptr_set_elt
-  {l:agz}(ap: !aptr(INV(a), l) >> _, x: a):<!wrt> void
-fun
-{a:t0p}
+  {l:agz}
+  (ap: !aptr(a?, l) >> aptr(a, l), x: a):<!wrt> void
+//
+  fun
+{a:vt0p}
 aptr_exch_elt
-  {l:agz}(ap: !aptr(INV(a), l) >> _, x: &(a)>>_):<!wrt> void
+  {l:agz}
+  (ap: !aptr(INV(a), l) >> _, x: &(a) >> _):<!wrt> void
 //
 overload [] with aptr_get_elt
 overload [] with aptr_set_elt
