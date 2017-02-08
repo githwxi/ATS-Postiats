@@ -66,13 +66,34 @@ val-list0_cons(r2, rs) = rs
 (* ****** ****** *)
 
 implement
-Fibonacci(n) = DivideConquer$solve<>(n)
+Fibonacci(n) = let
+//
+val () =
+println!
+(
+  "Fibonacci(", n, ")"
+)
+//
+(*
+implement
+DivideConquer$solve_rec<>
+  (n) = Fibonacci(n)
+*)
+//
+in
+  DivideConquer$solve<>(n)
+end // end of [Fibonacci]
 
 (* ****** ****** *)
 
 implement
 main0() =
 {
+//
+(*
+val () =
+println! ("Fibonacci(10) = ", Fibonacci(5))
+*)
 //
 val () =
 println! ("Fibonacci(10) = ", Fibonacci(10))

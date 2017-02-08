@@ -573,7 +573,7 @@ aptr_set_elt
   {l:agz}
   (ap: !aptr(a?, l) >> aptr(a, l), x: a):<!wrt> void
 //
-  fun
+fun
 {a:vt0p}
 aptr_exch_elt
   {l:agz}
@@ -586,10 +586,14 @@ overload [] with aptr_set_elt
 //
 fun aptr_null{a:vt0p}():<> aptr(a, null) = "mac\#%"
 //
-fun aptr_is_null
-  {a:vt0p}{l:addr}(ap: !aptr(INV(a), l)):<> bool(l==null) = "mac\#%"
-fun aptr_isnot_null
-  {a:vt0p}{l:addr}(ap: !aptr(INV(a), l)):<> bool(l > null) = "mac\#%"
+fun
+aptr_is_null
+{a:vt0p}{l:addr}
+  (ap: !aptr(INV(a), l)):<> bool(l==null) = "mac\#%"
+fun
+aptr_isnot_null
+{a:vt0p}{l:addr}
+  (ap: !aptr(INV(a), l)):<> bool(l > null) = "mac\#%"
 //
 overload iseqz with aptr_is_null
 overload isneqz with aptr_isnot_null
