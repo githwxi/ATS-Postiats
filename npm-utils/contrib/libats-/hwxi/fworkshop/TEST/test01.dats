@@ -29,16 +29,15 @@ nwaiter_ticket = $NWAITER.nwaiter_ticket
 fun
 do_work
 (
-  NWT: nwaiter_ticket
-) : int = let
+  n: intGte(0)
+, NWT: nwaiter_ticket
+) : int = (~1) where
+{
 //
-val _ = sleep(1u)
+val _ = sleep(n)
+val _ = $NWAITER.nwaiter_ticket_put(NWT)
 //
-in
-//
-$NWAITER.nwaiter_ticket_put(NWT); (0)
-//
-end (* end of [do_work] *)
+} (* end of [do_work] *)
 //
 (* ****** ****** *)
 //
@@ -76,16 +75,16 @@ val NWT4 = $NWAITER.nwaiter_ticket_split(NWT1)
 //
 val () =
 $FWS.fworkshop_insert_lincloptr
-  (ws0, llam() => $effmask_all(do_work(NWT1)))
+  (ws0, llam() => do_work(1, NWT1))
 val () =
 $FWS.fworkshop_insert_lincloptr
-  (ws0, llam() => $effmask_all(do_work(NWT2)))
+  (ws0, llam() => do_work(1, NWT2))
 val () =
 $FWS.fworkshop_insert_lincloptr
-  (ws0, llam() => $effmask_all(do_work(NWT3)))
+  (ws0, llam() => do_work(1, NWT3))
 val () =
 $FWS.fworkshop_insert_lincloptr
-  (ws0, llam() => $effmask_all(do_work(NWT4)))
+  (ws0, llam() => do_work(1, NWT4))
 //
 val ((*void*)) = $NWAITER.nwaiter_waitfor(NW)
 val ((*void*)) = $NWAITER.nwaiter_destroy(NW)

@@ -207,7 +207,6 @@ val (
 val tids = p0->FWS_workerlst
 val ((*void*)) =
   p0->FWS_workerlst := list_vt_cons(tid, tids)
-//
 val ((*void*)) = $AT.spin_unlock(pflock | spn)
 //
 in
@@ -316,8 +315,13 @@ val (
   vbox pf | p0
 ) = ref_get_viewptr(fws)
 //
+val spn = p0->FWS_spin
+val (
+  pflock | ()
+) = $AT.spin_lock(spn)
 val ((*void*)) =
   $effmask_ref(auxrmv(p0->FWS_workerlst))
+val ((*void*)) = $AT.spin_unlock(pflock | spn)
 //
 in
   // nothing
