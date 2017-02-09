@@ -40,7 +40,8 @@
 (* ****** ****** *)
 
 %{#
-#include "Z3/CATS/z3.cats"
+#include \
+"atscntrb-smt-libz3/CATS/z3.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)

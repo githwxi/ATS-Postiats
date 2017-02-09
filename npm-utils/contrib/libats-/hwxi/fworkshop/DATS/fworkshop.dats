@@ -197,16 +197,16 @@ fworkshop_add_tid
   (fws, tid) = let
 //
 val (
-  vbox pf | p
+  vbox pf | p0
 ) = ref_get_viewptr(fws)
 //
-val spn = p->FWS_spin
+val spn = p0->FWS_spin
 val (
   pflock | ()
 ) = $AT.spin_lock(spn)
-val tids = p->FWS_workerlst
+val tids = p0->FWS_workerlst
 val ((*void*)) =
-  p->FWS_workerlst := list_vt_cons(tid, tids)
+  p0->FWS_workerlst := list_vt_cons(tid, tids)
 //
 val ((*void*)) = $AT.spin_unlock(pflock | spn)
 //
@@ -222,8 +222,8 @@ fworkshop_get_store
   (fws) = let
 //
 val (
-  vbox pf | p
-) = ref_get_viewptr(fws) in p->FWS_store
+  vbox pf | p0
+) = ref_get_viewptr(fws) in p0->FWS_store
 //
 end // end of [fworkshop_get_store]
 
@@ -235,14 +235,15 @@ fworkshop_get_nworker
   (fws) = let
 //
 val (
-  vbox pf | p
+  vbox pf | p0
 ) = ref_get_viewptr(fws)
 //
-val spn = p->FWS_spin
+val spn = p0->FWS_spin
 val (
   pflock | ()
 ) = $AT.spin_lock (spn)
-val nworker = list_vt_length(p->FWS_workerlst)
+val nworker =
+  list_vt_length(p0->FWS_workerlst)
 val ((*void*)) = $AT.spin_unlock(pflock | spn)
 //
 in
@@ -254,7 +255,7 @@ end (* end of [fworkshop_get_nworker] *)
 implement
 {}(*tmp*)
 fworkshop_add_worker
-  (ws) = err where
+  (fws) = err where
 {
 //
 fun
@@ -269,18 +270,68 @@ val status =
   fworkshop_process_work(fws, fwork)
 //
 in
-  if status >= 0 then fworker(fws) else ((*exit*))
+//
+if
+(status >= 0)
+then fworker(fws) else fworker_exit(fws)
+//
 end // end of [fworker]
+//
+and
+fworker_exit
+(
+  fws: fworkshop
+) : void = let
+//
+val
+tid0 = $AT.athread_self()
+//
+fun
+auxrmv
+(
+  tids: &List0_vt(tid) >> _
+) : void =
+(
+case+ tids of
+| list_vt_nil
+    () => ((*void*))
+  // list_vt_nil
+| @list_vt_cons
+    (tid, tids_tl) =>
+  (
+    if (tid0 != tid)
+      then {
+        val () = auxrmv(tids_tl)
+        val ((*folded*)) = fold@(tids)
+      } (* then *)
+      else {
+        val tids_ = tids
+        val ((*void*)) = tids := tids_tl
+        val ((*freed*)) = free@{..}{0}(tids_)
+      } (* else *)
+  )
+) (* end of [auxrmv] *)
+//
+val (
+  vbox pf | p0
+) = ref_get_viewptr(fws)
+//
+val ((*void*)) =
+  $effmask_ref(auxrmv(p0->FWS_workerlst))
+//
+in
+  // nothing
+end // end of [fworker_exit]
 //
 var tid: lint?
 //
 val err =
-$AT.athread_create_cloptr
-  (tid, llam ((*void*)) => fworker(ws))
+$AT.athread_create_cloptr<>
+  (tid, llam ((*void*)) => fworker(fws))
 //
 val
 ((*void*)) =
-if (err = 0) then fworkshop_add_tid(ws, tid)
+if (err = 0) then fworkshop_add_tid<>(fws, tid)
 //
 } // end of [fworkshop_add_worker]
 
@@ -366,7 +417,7 @@ fworkshop_process_work
 {
 //
 val
-status = fws$fwork_process(fwork)
+status = fws$fwork_process<>(fwork)
 //
 } // end of [fworkshop_process_work]
 

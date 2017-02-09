@@ -129,7 +129,7 @@ fun app
 end // end of [app]
 //
 val f = $UN.castvwtp1{ptr}(fwork)
-val err = athread_create_funenv (tid, app, fwork)
+val err = athread_create_funenv<>(tid, app, fwork)
 val () = if (err != 0) then cloptr_free($UN.castvwtp0{cloptr0}(f))
 //
 } (* end of [athread_create_cloptr] *)
@@ -144,7 +144,7 @@ athread_create_cloptr_exn
 //
 var tid: lint
 val err =
-athread_create_cloptr (tid, fwork)
+athread_create_cloptr<>(tid, fwork)
 //
 val () =
 if (err != 0) then

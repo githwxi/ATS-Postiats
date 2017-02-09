@@ -42,7 +42,7 @@ ATS_PACKNAME "ATSLIB.libats.athread"
 //
 (* ****** ****** *)
 
-absview locked_v (l:addr)
+absview locked_v(l:addr)
 
 (* ****** ****** *)
 
@@ -197,6 +197,11 @@ fun{} condvar_wait{l:addr}
   
 typedef tid = lint
   
+(* ****** ****** *)
+//
+fun{}
+athread_self((*void*)): tid
+//
 (* ****** ****** *)
 //
 fun{}
