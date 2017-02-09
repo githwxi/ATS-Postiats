@@ -33,8 +33,8 @@ val () =
 val ap =
 aptr_make_elt<int> (10)
 //
-val-10 = ap[]
-val () = ap[] := 2 * 10
+val-10 = aptr_get_elt<int>(ap)
+val () = aptr_set_elt<int>(ap, 2 * 10)
 val-20 = aptr_getfree_elt(ap)
 //
 } (* end of [val] *)

@@ -579,8 +579,10 @@ aptr_exch_elt
   {l:agz}
   (ap: !aptr(INV(a), l) >> _, x: &(a) >> _):<!wrt> void
 //
-overload [] with aptr_get_elt
-overload [] with aptr_set_elt
+(*
+overload [] with aptr_get_elt // HX: template arg needed
+overload [] with aptr_set_elt // HX: template arg needed
+*)
 //
 #atscode_separator()
 //
