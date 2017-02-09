@@ -276,6 +276,10 @@ of // case+
     d2exp_trdn_sifhead(d2e0, s2f0)
   // end of [D2Esifhead]
 //
+| D2Eifcasehd _ =>
+    d2exp_trdn_ifcasehd(d2e0, s2f0)
+  // end of [D2Eifcasehd]
+//
 | D2Ecasehead _ =>
     d2exp_trdn_casehead(d2e0, s2f0)
   // end of [D2Ecasehead]
@@ -398,7 +402,9 @@ d2expopt_trdn_elt
 //
 val () =
 println!
-  ("d2expopt_trdn_elt")
+(
+"d2expopt_trdn_elt"
+) (* println! *)
 //
 *)
 in
@@ -883,6 +889,19 @@ implement
 d2exp_trdn_ifcasehd
   (d2e0, s2f_if) = let
 //
+(*
+val () =
+println!
+(
+"d2exp_trdn_ifcasehd: d2e0 = ", d2e0
+) (* println! *)
+val () =
+println!
+(
+"d2exp_trdn_ifcasehd: s2f_if = ", s2f_if
+) (* println! *)
+*)
+//
 val loc0 = d2e0.d2exp_loc
 val-D2Eifcasehd
   (knd, invres, ifcls) = d2e0.d2exp_node
@@ -930,8 +949,22 @@ end // end of [local]
 implement
 d2exp_trdn_letwhere
   (d2e0, s2f0, d2cs, d2e_scope) = let
+//
+(*
+val () =
+println!
+(
+"d2exp_trdn_letwhere: d2e0 = ", d2e0
+) (* println! *)
+val () =
+println!
+(
+"d2exp_trdn_letwhere: s2f0 = ", s2f0
+) (* println! *)
+*)
+//
   val loc0 = d2e0.d2exp_loc
-  val s2e0 = s2hnf2exp (s2f0)
+  val s2e0 = s2hnf2exp(s2f0)
 //
   val (pfpush_eff | ()) = the_effenv_push ()
   val (pfpush_s2cst | ()) = the_s2cstbindlst_push ()

@@ -43,6 +43,7 @@ HX-2017-02-01: Reverted!
 7. Moving a lot of code around due to packaging; mostly from PATSCONTRIB
    to PATSHOME/npm-utils
 8. Adding support for 'where <declist> end' (besides 'where { <declist> }')
+9. Fixing a minor glitch involving typechecking ifcase-expressions
 
 ######
 
