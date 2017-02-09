@@ -8,7 +8,6 @@
 //
 (* ****** ****** *)
 //
-//
 #include
 "$PATSHOMELOCS\
 /atscntrb-hx-threadkit/mylibies.hats"

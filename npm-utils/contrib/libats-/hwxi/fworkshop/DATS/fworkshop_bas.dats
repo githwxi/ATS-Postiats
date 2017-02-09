@@ -38,6 +38,15 @@
 #include "./fworkshop.dats"
 
 (* ****** ****** *)
+//
+extern
+fun{}
+fworkshop_insert_lincloptr
+(
+  fws: fworkshop, fwork: () -<lincloptr1> int
+) : void // end-of-function
+//
+(* ****** ****** *)
 
 local
 //
@@ -48,7 +57,21 @@ local
 assume
 fws$store_type = chanlst(fws$fwork)
 //
+vtypedef fwork = fws$fwork
+//
 in (* in-of-local *)
+//
+(*
+extern
+fun{}
+fws$store_create_exn(): fws$store
+*)
+//
+implement
+{}(*tmp*)
+fws$store_create_exn
+  ((*void*)) =
+  chanlst_create_exn<fwork>()
 //
 (*extern
 fun{}
@@ -60,8 +83,9 @@ implement
 fws$store_insert
   (store, fwork) =
 {
-val-~None_vt() =
-  chanlst_insert_opt(store, fwork)
+val-
+~None_vt() =
+chanlst_insert_opt<fwork>(store, fwork)
 }
 //
 (*
@@ -73,7 +97,8 @@ fws$store_takeout
 implement
 {}(*tmp*)
 fws$store_takeout
-  (store) = chanlst_takeout(store)
+  (store) = chanlst_takeout<fwork>(store)
+//
 //
 end // end of [local]
 
@@ -85,7 +110,7 @@ assume
 fws$fwork_vtype = () -<lincloptr1> int
 
 in (* in-of-local *)
-
+//
 (*
 extern
 fun{}
@@ -102,12 +127,20 @@ fws$fwork_process
 val
 status = fwork()
 //
-val ((*void*)) =
-cloptr_free($UN.castvwtp0{cloptr(void)}(fwork))
+val () =
+cloptr_free
+(
+$UN.castvwtp0{cloptr(void)}(fwork)
+) (* cloptr_free *)
 //
 } // end of [fws$fwork_process]
-
-
+//
+implement
+{}(*tmp*)
+fworkshop_insert_lincloptr
+  (fws, fwork) =
+  fworkshop_insert_work<>(fws, fwork)
+//
 end // end of [local]
 
 (* ****** ****** *)
