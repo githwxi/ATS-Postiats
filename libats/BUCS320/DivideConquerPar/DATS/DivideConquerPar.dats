@@ -84,31 +84,74 @@ DivideConquerPar$submit
 (* ****** ****** *)
 //
 #staload
+DC = $DivideConquer
+#staload
 DC_cont = $DivideConquer_cont
 //
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+$DC.DivideConquer$solve
+  (x0) = let
+//
+#staload $NWAITER
+//
+val NW =
+  nwaiter_create_exn()
+val NWT =
+  nwaiter_initiate(NW)
+val NWT =
+  $UN.castvwtp0{ptr}(NWT)
+//
+var res: output
+//
+val ((*void*)) =
+$DC_cont.DivideConquer_cont$solve<>
+( x0
+, lam(r0) =>
+  nwaiter_ticket_put(NWT) where
+  {
+    val () =
+    $UN.ptr0_set<output>(addr@res, r0)
+    val NWT =
+    $UN.castvwtp0{nwaiter_ticket}(NWT)
+  } (* end of [lam] *)
+) (* end of [val] *)
+//
+val () = nwaiter_waitfor(NW)
+val () = nwaiter_destroy(NW)
+//
+in
+  $UN.ptr0_get<output>(addr@res)
+end // end of [DivideConquer$solve]
+
+(* ****** ****** *)
+
 implement
 {}(*tmp*)
 $DC_cont.DivideConquer_cont$conquer
   (xs, k0) = let
 //
+#staload
+$SPINREF // opening it
+//
 fun
 spinref_decget
-(
-  spnr: spinref
-) : int = let
+  (spnr: spinref) : int = let
 //
 var env: int = 0
 typedef tenv = int
 //
 implement
-$SPINREF.spinref_process$fwork<int><tenv>
+spinref_process$fwork<int><tenv>
   (x, env) =
   let val () = (x := x - 1) in env := x end
 //
 in
 //
 let val () =
-  $SPINREF.spinref_process_env<int><tenv>(spnr, env) in env
+  spinref_process_env<int><tenv>(spnr, env) in env
 end // end of [let]
 //
 end // end of [spinref_decget]
@@ -135,12 +178,11 @@ case+ xs of
     $DC_cont.DivideConquer_cont$solve
     ( x0
     , lam(r0) => let
-        val c0 =
-          spinref_decget(spnr)
-        // end of [val]
         val () =
-          $UN.ptr0_set<output>(addr_r0, r0)
-        // end of [val]
+        $UN.ptr0_set<output>
+          (addr_r0, r0)
+        // end of [$UN.ptr0_set]
+        val c0 = spinref_decget(spnr)
       in
         if (c0 > 0) then ((*unfinished*)) else k0(res)
       end // end of [lam]
@@ -160,12 +202,11 @@ case+ xs of
     $DC_cont.DivideConquer_cont$solve
     ( x0
     , lam(r0) => let
-        val c0 =
-          spinref_decget(spnr)
-        // end of [val]
         val () =
-          $UN.ptr0_set<output>(addr_r0, r0)
-        // end of [val]
+        $UN.ptr0_set<output>
+          (addr_r0, r0)
+        // end of [$UN.ptr0_set]
+        val c0 = spinref_decget(spnr)
       in
         if (c0 > 0) then ((*void*)) else k0(res)
       end // end of [lam]
@@ -199,7 +240,7 @@ ifcase
 | _(* n0 >= 2 *) => let
 //
     val rs =
-    list_map_fun<input><output>
+    list_map_cloref<input><output>
     (
       xs, lam _ => _
     ) (* end of [val] *)
@@ -207,7 +248,7 @@ ifcase
     $UN.castvwtp1{list0(output)}(rs)
 //
     val+list_cons(x, xs) = xs
-    val ((*void*)) = loop2(x, xs, rs, $SPINREF.spinref_create_exn<int>(n0), res)
+    val ((*void*)) = loop2(x, xs, rs, spinref_create_exn<int>(n0), res)
     prval ((*void*)) = $UN.cast2void(rs)
 //
   in

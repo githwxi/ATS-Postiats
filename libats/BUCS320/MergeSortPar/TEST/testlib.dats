@@ -17,18 +17,27 @@
 /atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
+
+#include "./../mydepies.hats"
+
+(* ****** ****** *)
+//
+typedef
+fworkshop = $FWORKSHOP_bas.fworkshop
+//
+(* ****** ****** *)
 //
 extern
 fun
 MergeSortPar_list_int
-  (xs: list0(int)): list0(int)
+  (fws: fworkshop, xs: list0(int)): list0(int)
 //
 (* ****** ****** *)
 //
 extern
 fun
 MergeSortPar_list_double
-  (xs: list0(double)): list0(double)
+  (fws: fworkshop, xs: list0(double)): list0(double)
 //
 (* ****** ****** *)
 

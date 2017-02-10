@@ -37,6 +37,18 @@ Fibonacci(int): int
 //
 (* ****** ****** *)
 
+fun
+fib
+(
+n0:int
+) : int =
+(
+fix f(n:int):int =>
+  if n >= 2 then f(n-1)+f(n-2) else n
+)(n0) // end of [fib]
+
+(* ****** ****** *)
+
 assume input_t0ype = int
 assume output_t0ype = int
 
@@ -46,14 +58,14 @@ implement
 DivideConquer$base_test<>
   (n) =
 (
-if n >= 2 then false else true
+if n >= 10 then false else true
 )
 //
 (* ****** ****** *)
 //
 implement
 DivideConquer$base_solve<>
-  (n) = n
+  (n) = fib(n)
 //
 (* ****** ****** *)
 //
@@ -103,6 +115,16 @@ val () =
 println! ("Fibonacci(20) = ", Fibonacci(20))
 val () =
 println! ("Fibonacci(30) = ", Fibonacci(30))
+val () =
+println! ("Fibonacci(31) = ", Fibonacci(31))
+val () =
+println! ("Fibonacci(32) = ", Fibonacci(32))
+val () =
+println! ("Fibonacci(33) = ", Fibonacci(33))
+val () =
+println! ("Fibonacci(34) = ", Fibonacci(34))
+val () =
+println! ("Fibonacci(35) = ", Fibonacci(35))
 //
 } (* end of [main0] *)
 

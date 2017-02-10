@@ -1,14 +1,14 @@
 (* ****** ****** *)
-//
-#include
-"share/atspre_staload.hats"
-//
-(* ****** ****** *)
 
 %{^
 #include <pthread.h>
 %} // end of [%{^]
 
+(* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
 (* ****** ****** *)
 
 #staload UN = $UNSAFE

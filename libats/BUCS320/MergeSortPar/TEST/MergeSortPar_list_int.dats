@@ -36,6 +36,11 @@ ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
 //
+#staload FWS = $FWORKSHOP_bas
+#staload DCP = $DivideConquerPar
+//
+(* ****** ****** *)
+//
 #staload
 MSP_list = $MergeSortPar_list
 //
@@ -45,7 +50,30 @@ implement
 gcompare_val_val<int>(x, y) = compare(x, y)
 //
 implement
-MergeSortPar_list_int(xs) = $MSP_list.MergeSortPar_list<>(xs)
+MergeSortPar_list_int
+  (fws, xs) = let
+//
+val () = $tempenver(fws)
+//
+implement
+$DCP.DivideConquerPar$submit<>
+  (fwork) =
+{
+val () =
+$FWS.fworkshop_insert_lincloptr
+( fws
+, llam() => 0 where
+  {
+    val () = fwork()
+    val () = // fwork needs to be freed
+    cloptr_free($UNSAFE.castvwtp0{cloptr(void)}(fwork))
+  } // end of [fworkshop_insert_lincloptr]
+) (* end of [val] *)
+}
+//
+in
+  $MSP_list.MergeSortPar_list<>(xs)
+end // end of [MergeSortPar_list_int]
 //
 (* ****** ****** *)
 

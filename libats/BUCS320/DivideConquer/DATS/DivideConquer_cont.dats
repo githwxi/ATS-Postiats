@@ -94,7 +94,10 @@ var res: output
 val ((*void*)) =
 DivideConquer_cont$solve<>
 ( x0
-, lam(r0) => $UNSAFE.ptr0_set<output>(addr@res, r0)
+, lam(r0) =>
+  $UNSAFE.ptr0_set<output>
+    (addr@res, r0)
+  // end of [$UNSAFE.ptr0_set]
 ) (* end of [val] *)
 //
 in

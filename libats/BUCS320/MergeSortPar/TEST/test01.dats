@@ -5,12 +5,23 @@
 **
 *)
 (* ****** ****** *)
+
+%{^
+#include <pthread.h>
+%} // end of [%{^]
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_staload.hats"
 #include
 "share/HATS\
 /atspre_staload_libats_ML.hats"
+//
+(* ****** ****** *)
+//
+#include "./../mydepies.hats"
+#staload FWS = $FWORKSHOP_bas
 //
 (* ****** ****** *)
 
@@ -23,6 +34,15 @@ main0() =
 {
 //
 val
+fws =
+$FWS.fworkshop_create_exn()
+//
+val err =
+  $FWS.fworkshop_add_worker(fws)
+val err =
+  $FWS.fworkshop_add_worker(fws)
+//
+val
 xs0 =
 g0ofg1
 (
@@ -32,30 +52,25 @@ $list{int}
 )
 ) (* end of [val] *)
 //
+val xs1 = xs0 + xs0
+val ((*void*)) = println!("xs1 = ", xs1)
 //
-val xs1 =
-$TESTLIB.MergeSortPar_list_int(xs0)
+val xs2 =
+$TESTLIB.MergeSortPar_list_int(fws, xs1)
 //
-val ((*void*)) = println! ("xs0 = ", xs0)
-val ((*void*)) = println! ("xs1 = ", xs1)
+val ((*void*)) = println!("xs2 = ", xs2)
 //
-val
-xs0 =
-g0ofg1
+val ys1 =
 (
-$list{double}
+xs1
+).map
 (
-  8.8, 3.3, 2.2, 4.4, 6.6
-, 5.5, 1.1, 7.7, 0.0, 9.9
-)
-) (* end of [val] *)
+TYPE{double}
+)(lam x => $UNSAFE.cast{double}(x))
+val ys2 =
+$TESTLIB.MergeSortPar_list_double(fws, ys1)
 //
-//
-val xs1 =
-$TESTLIB.MergeSortPar_list_double(xs0)
-//
-val ((*void*)) = println! ("xs0 = ", xs0)
-val ((*void*)) = println! ("xs1 = ", xs1)
+val ((*void*)) = println!("ys2 = ", ys2)
 //
 } (* end of [main0] *)
 

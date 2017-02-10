@@ -152,17 +152,6 @@ case+ xs10 of
 (* ****** ****** *)
 //
 implement
-$DCP.DivideConquerPar$submit<>
-  (fwork) =
-{
-  val () = fwork()
-  val () = // HX: fwork needs to be freed
-  cloptr_free($UNSAFE.castvwtp0{cloptr(void)}(fwork))
-}
-//
-(* ****** ****** *)
-//
-implement
 {}(*tmp*)
 MergeSortPar_list(xs) = let
   val n = list0_length(xs) in $DC.DivideConquer$solve<>((n, xs))

@@ -13,6 +13,12 @@
 //
 (* ****** ****** *)
 //
+#include
+"$PATSHOMELOCS\
+/atscntrb-hx-fworkshop/mylibies.hats"
+//
+(* ****** ****** *)
+//
 local
 #define
 DIVIDECONQUER_CONT 1

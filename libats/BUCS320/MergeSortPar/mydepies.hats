@@ -10,6 +10,15 @@
 //
 #include
 "$PATSHOMELOCS\
+/atscntrb-hx-fworkshop/mydepies.hats"
+#include
+"$PATSHOMELOCS\
+/atscntrb-hx-fworkshop/mylibies.hats"
+//
+(* ****** ****** *)
+//
+#include
+"$PATSHOMELOCS\
 /atscntrb-bucs320-divideconquerpar/mydepies.hats"
 #include
 "$PATSHOMELOCS\
