@@ -7,7 +7,15 @@
 (* ****** ****** *)
 
 %{^
+//
 #include <pthread.h>
+//
+#ifdef ATS_MEMALLOC_GCBDW
+#undef GC_H
+#define GC_THREADS
+#include <gc/gc.h>
+#endif // #if(ATS_MEMALLOC_GCBDW)
+//
 %} // end of [%{^]
 
 (* ****** ****** *)
