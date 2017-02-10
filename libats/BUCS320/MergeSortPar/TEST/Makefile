@@ -13,7 +13,7 @@ PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 PATSCC2=\
 $(PATSCC) \
 -O2 -D_GNU_SOURCE \
--DATS_MEMALLOC_LIBC \
+-DATS_MEMALLOC_GCBDW \
 -D_ATS_CCOMP_ASSUME_CHECK_NONE_
 #
 ######
@@ -33,7 +33,7 @@ OBJECTS += MergeSortPar_list_double_dats.o
 all:: \
 test01
 test01: \
-test01.dats $(OBJECTS); $(PATSCC2) -o $@ $^ -lpthread
+test01.dats $(OBJECTS); $(PATSCC2) -o $@ $^ -lgc -lpthread
 #
 regress:: test01; ./$<
 cleanall:: ; $(RMF) test01

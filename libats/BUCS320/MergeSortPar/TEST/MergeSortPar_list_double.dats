@@ -12,7 +12,9 @@ ATS_DYNLOADFLAG 0
 (* ****** ****** *)
 //
 %{^
+//
 #include <pthread.h>
+//
 %} // end of [%{^]
 //
 (* ****** ****** *)
