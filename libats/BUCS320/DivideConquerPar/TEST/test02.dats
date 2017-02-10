@@ -47,7 +47,7 @@ implement
 DivideConquer$base_test<>
   (n) =
 (
-if n >= 10 then false else true
+if n >= 20 then false else true
 )
 //
 (* ****** ****** *)
@@ -147,6 +147,8 @@ val () =
 println! ("Fibonacci(34) = ", Fibonacci_(34))
 val () =
 println! ("Fibonacci(35) = ", Fibonacci_(35))
+val () =
+println! ("Fibonacci(35) = ", Fibonacci_(40))
 //
 } (* end of [main0] *)
 
