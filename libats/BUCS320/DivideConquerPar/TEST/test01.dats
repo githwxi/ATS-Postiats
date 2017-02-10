@@ -126,7 +126,7 @@ println! ("Fibonacci(34) = ", Fibonacci(34))
 val () =
 println! ("Fibonacci(35) = ", Fibonacci(35))
 val () =
-println! ("Fibonacci(35) = ", Fibonacci(40))
+println! ("Fibonacci(40) = ", Fibonacci(40))
 //
 } (* end of [main0] *)
 

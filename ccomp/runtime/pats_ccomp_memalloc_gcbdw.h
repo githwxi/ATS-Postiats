@@ -97,7 +97,9 @@ atsruntime_malloc_gcbdw_exn
 
 /* ****** ****** */
 //
-// HX: [malloc] alreay clears the allocated region
+// HX:
+// [GC_malloc] already
+// clears the allocated region!
 //
 ATSinline()
 atstype_ptr

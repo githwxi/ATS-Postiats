@@ -7,7 +7,15 @@
 (* ****** ****** *)
 //
 %{^
+//
 #include <pthread.h>
+//
+#ifdef ATS_MEMALLOC_GCBDW
+#undef GC_H
+#define GC_THREADS
+#include <gc/gc.h>
+#endif // #if(ATS_MEMALLOC_GCBDW)
+//
 %} // end of [%{^]
 //
 (* ****** ****** *)
@@ -148,7 +156,7 @@ println! ("Fibonacci(34) = ", Fibonacci_(34))
 val () =
 println! ("Fibonacci(35) = ", Fibonacci_(35))
 val () =
-println! ("Fibonacci(35) = ", Fibonacci_(40))
+println! ("Fibonacci(40) = ", Fibonacci_(40))
 //
 } (* end of [main0] *)
 
