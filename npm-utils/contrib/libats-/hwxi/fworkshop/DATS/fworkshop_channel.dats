@@ -28,11 +28,21 @@
 
 (* ****** ****** *)
 //
-// HX-2017-02-09:
+// HX-2017-02-11:
 //
-// A fworkshop-implementation where
-// fws$store = chanlst and fws$fwork = lincloptr
+// A fworkshop where:
 //
+// fws$store = channel
+// fws$fwork = lincloptr
+//
+(* ****** ****** *)
+
+#define
+ATS_PACKNAME
+"ATSCNTRB.HX.fworkshop_channel"
+#define
+ATS_DYNLOADFLAG 0 // no dynloading
+
 (* ****** ****** *)
 
 #include "./fworkshop.dats"
@@ -52,10 +62,10 @@ local
 //
 #include
 "./../mydepies.hats"
-#staload $CHANLST_t // opening it
+#staload $CHANNEL_t // opening it
 //
 assume
-fws$store_type = chanlst(fws$fwork)
+fws$store_type = channel(fws$fwork)
 //
 vtypedef fwork = fws$fwork
 //
@@ -70,8 +80,14 @@ fws$store_create_exn(): fws$store
 implement
 {}(*tmp*)
 fws$store_create_exn
-  ((*void*)) =
-  chanlst_create_exn<fwork>()
+  ((*void*)) = let
+//
+val cap =
+  i2sz(fws$store_capacity<>())
+//
+in
+  channel_create_exn<fwork>(cap)
+end // end of [fws$store_create_exn]
 //
 (*extern
 fun{}
@@ -81,12 +97,23 @@ fws$store_insert
 implement
 {}(*tmp*)
 fws$store_insert
-  (store, fwork) =
-{
-val-
-~None_vt() =
-chanlst_insert_opt<fwork>(store, fwork)
-}
+  (store, fwork) = let
+//
+val
+opt =
+channel_insert_opt<fwork>
+  (store, fwork)
+//
+in
+//
+case+ opt of
+| ~None_vt() => ()
+| ~Some_vt(fwork) => () where
+  {
+    val status = fws$fwork_process<>(fwork)
+  } (* end of [Some_vt] *)
+//
+end // end of [fws$store_insert]
 //
 (*
 extern
@@ -97,8 +124,7 @@ fws$store_takeout
 implement
 {}(*tmp*)
 fws$store_takeout
-  (store) = chanlst_takeout<fwork>(store)
-//
+  (store) = channel_takeout<fwork>(store)
 //
 end // end of [local]
 
@@ -145,4 +171,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [fworkshop_bas.dats] *)
+(* end of [fworkshop_channel.dats] *)

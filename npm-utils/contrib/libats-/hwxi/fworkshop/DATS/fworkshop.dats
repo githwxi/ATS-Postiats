@@ -33,6 +33,19 @@
 *)
 
 (* ****** ****** *)
+
+(*
+//
+// HX-2017-02-11:
+// It is supposed to be
+// included rather than staloaded
+//
+#define
+ATS_PACKNAME "ATSCNTRB.HX.fworkshop"
+//
+*)
+
+(* ****** ****** *)
 //
 staload
 UN =
@@ -63,6 +76,10 @@ fws$fwork = fws$fwork_vtype
 //
 (* ****** ****** *)
 //
+extern
+fun{}
+fws$store_capacity
+  ((*void*)): intGte(1)
 extern
 fun{}
 fws$store_insert

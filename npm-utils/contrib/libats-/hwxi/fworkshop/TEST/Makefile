@@ -23,9 +23,21 @@ all:: \
 test01
 test01: \
 test01.dats ; \
-$(PATSCC) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< -lpthread
+$(PATSCC) -D_GNU_SOURCE \
+-DATS_MEMALLOC_LIBC -o $@ $< -lpthread
 regress:: test01; ./$<
 cleanall:: ; $(RMF) test01
+
+######
+
+all:: \
+test02
+test02: \
+test02.dats ; \
+$(PATSCC) -D_GNU_SOURCE \
+-DATS_MEMALLOC_LIBC -o $@ $< -lpthread
+regress:: test02; ./$<
+cleanall:: ; $(RMF) test02
 
 ######
 

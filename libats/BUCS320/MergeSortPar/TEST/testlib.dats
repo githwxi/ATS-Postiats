@@ -23,7 +23,7 @@
 (* ****** ****** *)
 //
 typedef
-fworkshop = $FWORKSHOP_bas.fworkshop
+fworkshop = $FWORKSHOP_chanlst.fworkshop
 //
 (* ****** ****** *)
 //

@@ -29,7 +29,7 @@
 (* ****** ****** *)
 //
 #include "./../mydepies.hats"
-#staload FWS = $FWORKSHOP_bas
+#staload FWS = $FWORKSHOP_chanlst
 //
 (* ****** ****** *)
 

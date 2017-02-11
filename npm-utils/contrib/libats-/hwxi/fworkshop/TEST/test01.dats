@@ -35,6 +35,7 @@ do_work
 {
 //
 val _ = sleep(n)
+val _ = println! ("do_work: n = ", n)
 val _ = $NWAITER.nwaiter_ticket_put(NWT)
 //
 } (* end of [do_work] *)
@@ -42,7 +43,7 @@ val _ = $NWAITER.nwaiter_ticket_put(NWT)
 (* ****** ****** *)
 //
 #include "./../mylibies.hats"
-#staload FWS = $FWORKSHOP_bas
+#staload FWS = $FWORKSHOP_chanlst
 //
 (* ****** ****** *)
 
@@ -78,13 +79,13 @@ $FWS.fworkshop_insert_lincloptr
   (ws0, llam() => do_work(1, NWT1))
 val () =
 $FWS.fworkshop_insert_lincloptr
-  (ws0, llam() => do_work(1, NWT2))
+  (ws0, llam() => do_work(2, NWT2))
 val () =
 $FWS.fworkshop_insert_lincloptr
-  (ws0, llam() => do_work(1, NWT3))
+  (ws0, llam() => do_work(3, NWT3))
 val () =
 $FWS.fworkshop_insert_lincloptr
-  (ws0, llam() => do_work(1, NWT4))
+  (ws0, llam() => do_work(4, NWT4))
 //
 val ((*void*)) = $NWAITER.nwaiter_waitfor(NW)
 val ((*void*)) = $NWAITER.nwaiter_destroy(NW)

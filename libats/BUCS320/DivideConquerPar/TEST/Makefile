@@ -42,6 +42,17 @@ regress:: test02; ./$<
 cleanall:: ; $(RMF) test02
 #
 ######
+#
+all:: \
+test03
+test03: \
+test03.dats; \
+$(PATSCC2) -o $@ $< -lgc -lpthread
+#
+regress:: test03; ./$<
+cleanall:: ; $(RMF) test03
+#
+######
 
 testall:: all
 testall:: regress

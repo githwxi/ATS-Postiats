@@ -36,7 +36,7 @@
 #staload $DivideConquer
 #staload $DivideConquerPar
 //
-#staload FWS = $FWORKSHOP_chanlst
+#staload FWS = $FWORKSHOP_channel
 //
 (* ****** ****** *)
 //
@@ -110,6 +110,10 @@ implement
 main0() =
 {
 //
+implement
+$FWS.fws$store_capacity<>
+  ((*void*)) = 1024
+//
 val
 fws =
 $FWS.fworkshop_create_exn()
@@ -162,4 +166,4 @@ println! ("Fibonacci(40) = ", Fibonacci_(40))
 
 (* ****** ****** *)
 
-(* end of [test02.dats] *)
+(* end of [test03.dats] *)

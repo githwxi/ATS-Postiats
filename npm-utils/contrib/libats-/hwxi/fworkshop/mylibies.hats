@@ -14,7 +14,12 @@ FWORKSHOP = "./DATS/fworkshop.dats"
 (* ****** ****** *)
 //
 #staload
-FWORKSHOP_bas = "./DATS/fworkshop_bas.dats"
+FWORKSHOP_chanlst = "./DATS/fworkshop_chanlst.dats"
+//
+(* ****** ****** *)
+//
+#staload
+FWORKSHOP_channel = "./DATS/fworkshop_channel.dats"
 //
 (* ****** ****** *)
 

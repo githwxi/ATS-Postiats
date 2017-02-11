@@ -38,8 +38,8 @@ ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
 //
-#staload FWS = $FWORKSHOP_bas
 #staload DCP = $DivideConquerPar
+#staload FWS = $FWORKSHOP_chanlst
 //
 (* ****** ****** *)
 //
