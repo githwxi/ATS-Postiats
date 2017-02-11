@@ -122,26 +122,29 @@ determined by the integer passed as the second argument to
 
 <p>
 
-The given implementation of #dyncode("mergesort") exemplifies
-the so-called divide-and-conquer strategy for problem-solving.
-The (inner) function #dyncode("msort") divides a given problem
-into two subproblems; after recursively solving them, it combines
-the returned solutions into a solution to the original problem.
-It is straightforward to parallelize the function #dyncode("msort")
-by initiating two threads for handling the two recursive
-calls in the body of #dyncode("msort") and then joining these two
-threads to obtain the values they return. In a programming language
-like Erlang where threads are extremely light-weighted, parallelizing
-#dyncode("msort") in such a manner may make sense. If threads are not
-light-weighted (e.g., pthreads), doing so often leads to poor performance
-at run-time. Also, joining threads involves explicit synchronization
-and can have a great negative impact on concurrency.
+The given implementation of #dyncode("mergesort") exemplifies the so-called
+divide-and-conquer strategy for problem-solving.  The (inner) function
+#dyncode("msort") inside #dyncode("mergesort") divides a given problem into
+two subproblems; after recursively solving them, it combines the returned
+solutions into a solution to the original problem.
 
 </p>
 
 <h2>
 Issues on Parallelizing Merge-Sort
 </h2>
+
+<p>
+It is straightforward to parallelize the above implementation of
+#dyncode("msort") by simply initiating two threads for handling the two
+recursive calls in the body of #dyncode("msort") and then joining these two
+threads to obtain the values they return. In a programming language like
+Erlang where threads are extremely light-weighted, parallelizing
+#dyncode("msort") in such a manner may make sense. If threads are not
+light-weighted (e.g., pthreads), doing so often leads to poor performance
+at run-time. Also, joining threads involves explicit synchronization and
+can have a great impact on diminishing the level of concurrency.
+</p>
 
 <p>
 One common approach to lowering the overhead of creating and destroying
@@ -159,15 +162,15 @@ However, there is a caveat that one must pay close attention to when
 utilizing a thread pool. In general, each piece of work passed to this pool
 should not cause blocking for otherwise a scenario can readily occur where
 all of the threads in the pool are blocked (and thus no progress can be
-made in terms of work completion). This is especially true when a problem
-is solved recursively (e.g., by using the divide-and-conquer strategy).
+made in terms of work completion). This is especially true when a recursive
+problem-solving strategy (e.g., divide-and-conquer) is involved.
 </p>
 
 <p>
 It should soon become clear that #dyncode("msort") can be implemented in a
 continuation-passing style (CPS) that allows a problem to be divided into
-non-blocking subproblems, which one can pass directly to a thread pool
-without running any risk of potential deadlocking.
+<em>non-blocking</em> subproblems, which one can pass directly to a thread
+pool without running any risk of potential deadlocking.
 </p>
 
 <h2>
@@ -176,7 +179,8 @@ Merge-Sort of Continuation-Passing style
 
 <p>
 
-A sequential implementation of #dyncode("mergesort") is given as follows:
+A (sequential) implementation of #dyncode("mergesort") in CPS-style is
+given as follows:
 
 <pre
 class="patsyntax">
@@ -308,24 +312,24 @@ end (* end of [msort] *)
 ')</pre>
 
 Note that the two recursive calls in the body of #dyncode("msort") are
-turned into two closure-functions and then submitted (to the underlying
-thread pool). Each of these closure-functions carries a continuation that
-may be thought of as a fractional one in the following sense.  After one
-recursive call to #dyncode("msort") is evaluated, the returned list is
-stored in some reference and the count stored in some counter (set to 0
-initially) is increased by 1. If this count is less than 2, then the other
-recursive call to #dyncode("msort") is not yet completed; otherwise, it is
-completed and the two lists returned by the two recursive calls to
-#dyncode("msort") can be merged and then passed to the original
-continuation. To some extent, one may think of the original continuation as
-being split into two fractions, and each fraction is used to build a new
-continuation for a recursive call (to #dyncode("msort")).
+turned into two closure-functions and then submitted (to some thread
+pool). Each of these closure-functions carries a continuation that may be
+thought of as a fractional one in the following sense.  After one recursive
+call to #dyncode("msort") is evaluated, the returned list is stored in some
+reference and the count stored in some counter (set to 0 initially) is
+increased by 1. If this count is less than 2, then the other recursive call
+to #dyncode("msort") is not yet completed; otherwise, it is completed and
+the two lists returned by the two recursive calls to #dyncode("msort") can
+be merged and then passed to the original continuation. To some extent, one
+may think of the original continuation as being split into two fractions,
+and each fraction is used to build a new continuation for a recursive call
+(to #dyncode("msort")).
 
 </p>
 
 <p>
 
-The function #dyncode("mergesort") can be implemented as follows:
+The function #dyncode("mergesort") can now be implemented as follows:
 
 <pre
 class="patsyntax">
@@ -363,10 +367,10 @@ end // end of [mergesort]
 ')</pre>
 
 Note that #dyncode("msort") is in CPS-style but #dyncode("mergesort") is in
-direct style (rather than CPS-style), some form of handshake is needed in
-order for the caller #dyncode("mergesort") to learn that the callee
-#dyncode("msort") is finished. The functions #dyncode("block")
-and #dyncode("unblock") are introduced precisely for this purpose.
+direct style (rather than CPS-style). Therefore, some form of handshake is
+needed in order for the caller #dyncode("mergesort") to learn that the
+callee #dyncode("msort") is finished. The functions #dyncode("block") and
+#dyncode("unblock") are introduced precisely for this purpose.
 
 </p>
 
