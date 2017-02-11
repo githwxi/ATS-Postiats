@@ -14,7 +14,8 @@
 <body>
 
 <h1>
-Effective ATS: Parallel Sorting
+Effective ATS:<br>
+Parallel Sorting via Fractional Continuation
 </h1>
 
 <p>
@@ -368,6 +369,8 @@ order for the caller #dyncode("mergesort") to learn that the callee
 and #dyncode("unblock") are introduced precisely for this purpose.
 
 </p>
+
+<hr size="2">
 
 <p>
 Please find in the following files the entirety of the code presented
