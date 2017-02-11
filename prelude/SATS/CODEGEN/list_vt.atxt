@@ -527,7 +527,8 @@ streamize_list_vt_elt(List_vt(INV(a))):<!wrt> stream_vt(a)
 //
 #atscode_separator()
 //
-// overloading for certain symbols
+// HX: overloading
+// for certain symbols
 //
 #atscode_separator()
 //

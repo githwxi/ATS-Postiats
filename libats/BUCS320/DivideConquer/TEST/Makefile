@@ -10,9 +10,16 @@ PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 
 ######
 
-PATSCC2=$(PATSCC) \
--D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2
+PATSCC2=\
+$(PATSCC) -O2 \
+-D_GNU_SOURCE -DATS_MEMALLOC_GCBDW
 
+######
+#
+export \
+PATSHOMELOCS=\
+./node_modules:./../../node_modules
+#
 ######
 
 all::

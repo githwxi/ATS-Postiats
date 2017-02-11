@@ -17,6 +17,12 @@ $(PATSCC) \
 -D_ATS_CCOMP_ASSUME_CHECK_NONE_
 #
 ######
+#
+export \
+PATSHOMELOCS=\
+./node_modules:./../../node_modules
+#
+######
 
 all::
 regress::
