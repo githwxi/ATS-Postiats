@@ -67,6 +67,11 @@ mergesort:: ; \
 $(MAKE) -C $@ $(TARGET)
 
 all :: \
+parallel-sorting
+parallel-sorting:: ; \
+$(MAKE) -C $@ $(TARGET)
+
+all :: \
 sorting-linear-lists
 sorting-linear-lists:: ; \
 $(MAKE) -C $@ $(TARGET)
@@ -158,6 +163,7 @@ uploadall::upload_word-counting
 uploadall::upload_stack-array
 uploadall::upload_queue-sllist2
 uploadall::upload_mergesort
+uploadall::upload_parallel-sorting
 uploadall::upload_sorting-linear-lists
 uploadall::upload_DiningPhil
 uploadall::upload_DiningPhil2
@@ -262,6 +268,14 @@ upload_mergesort:: ; \
   mergesort/index.html \
   mergesort/Makefile mergesort/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/mergesort/
+
+######
+
+upload_parallel-sorting:: ; \
+  $(SCP) \
+  parallel-sorting/index.html \
+  parallel-sorting/Makefile parallel-sorting/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/parallel-sorting/
 
 ######
 
