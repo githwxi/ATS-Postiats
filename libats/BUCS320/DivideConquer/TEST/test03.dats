@@ -86,6 +86,9 @@ val () = $tempenver(theTable)
 implement
 DivideConquer_memo$table_get<>
   ((*void*)) = theTable
+implement
+DivideConquer_memo$table_set<>
+  (theTable) = ((*void*))
 //
 //
 in

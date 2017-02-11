@@ -52,35 +52,48 @@ extern
 fun{}
 DivideConquer_memo$table_get
   ((*void*)): hashtbl(input, output)
+extern
+fun{}
+DivideConquer_memo$table_set
+  (tbl: hashtbl(input, output)): void
 //
 (* ****** ****** *)
 //
 implement
 DivideConquer$solve$memo_get<>
-  (x0) = let
+  (x0) = opt where
+{
 //
 val
 theTable =
 DivideConquer_memo$table_get<>()
 //
-in
-//
+val opt =
 hashtbl_search<input,output>(theTable, x0)
 //
-end // end of [DivideConquer$solve$memo_get]
+val ((*void*)) =
+DivideConquer_memo$table_set<>(theTable)
+//
+} (* DivideConquer$solve$memo_get *)
 
+(* ****** ****** *)
+//
 implement
 DivideConquer$solve$eval$memo_set<>
-  (x0, r0) = let
+  (x0, r0) = () where
+{
+//
 val
 theTable =
 DivideConquer_memo$table_get<>()
 //
-in
-//
+val () =
 hashtbl_insert_any<input,output>(theTable, x0, r0)
 //
-end // end of [DivideConquer$solve$memo_get]
+val ((*void*)) =
+DivideConquer_memo$table_set<>(theTable)
+//
+} (* DivideConquer$solve$memo_set *)
 //
 (* ****** ****** *)
 
