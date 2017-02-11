@@ -20,7 +20,9 @@
   "weboxy"
 ]
 ,
-"dependencies": {}
+"dependencies": {
+  "atscntrb-hx-teaching-bucs": ">=1.0.0"
+}
 ,
 "author":
 "Hongwei Xi <gmhwxi@gmail.com>"

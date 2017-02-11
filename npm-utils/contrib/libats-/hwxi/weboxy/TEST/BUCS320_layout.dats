@@ -15,9 +15,7 @@
 //
 (* ****** ****** *)
 //
-#staload
-"{$LIBATSHWXI}\
-/teaching/BUCS/DATS/BUCS320.dats"
+#include "./../mydepies.hats"
 //
 (* ****** ****** *)
 //
@@ -52,7 +50,10 @@ in
 end // end of [randcolor]
 //
 implement
-randcolor_initize<>() = srandom_with_time<>()
+randcolor_initize<>
+(
+// argumentless
+) = $BUCS320.srandom_with_time<>((*void*))
 //
 (* ****** ****** *)
 
