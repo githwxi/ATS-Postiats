@@ -60,4 +60,4 @@ else xs // end of [else]
 
 (* ****** ****** *)
 
-(* end of [mergesort] *)
+(* end of [mergesort.dats] *)

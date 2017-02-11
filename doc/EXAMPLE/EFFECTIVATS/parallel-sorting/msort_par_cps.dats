@@ -70,4 +70,4 @@ else f(xs) // end of [else]
 //
 (* ****** ****** *)
 
-(* end of [mergesort_cps] *)
+(* end of [msort_par_cps.dats] *)
