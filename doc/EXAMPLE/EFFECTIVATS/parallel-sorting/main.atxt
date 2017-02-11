@@ -6,7 +6,7 @@
 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<title>EFFECTIVATS-word-counting</title>
+<title>EFFECTIVATS-parallel-mergesort</title>
 #patscode_style()
 #patspage_style()
 </head>
@@ -17,10 +17,17 @@
 Effective ATS: Parallel Sorting
 </h1>
 
-In this article, I present two implementations of parallel mergesort.
-One implementation makes heavy use of explicit synchronization while the
-other does not. The former is easier to code, but it is significantly less
-efficient than the latter in terms of the level of concurrency achieved.
+In this article, I present an implementation of parallel mergesort in the
+continuation-passing style (CPS), which achieves high concurrency
+by completely eliminating the need for explicit synchronization. It is
+expected that this style of implementation can be readily applied to
+various other algorithms based on the so-called divide-and-conquer strategy
+(for problem-solving).
+
+<h2>
+Sequential Mergesort
+</h2>
+
 
 <hr size="2">
 
