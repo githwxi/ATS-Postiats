@@ -1,4 +1,8 @@
 (* ****** ****** *)
+//
+// For use in Effective-ATS
+//
+(* ****** ****** *)
 
 extern
 fun
@@ -71,9 +75,10 @@ msort(
    !cnt := !cnt + 1;
    if !cnt < 2 then () else k0(list_merge<a>(!ys1, !ys2))
   )
-)
-)
-)
+) (* msort *)
+) (* delay *)
+) (* submit *)
+//
 val () =
 submit
 (
@@ -85,9 +90,9 @@ msort(
    !cnt := !cnt + 1;
    if !cnt < 2 then () else k0(list_merge<a>(!ys1, !ys2))
   )
-)
-)
-)
+) (* msort *)
+) (* delay *)
+) (* submit *)
 //
 in
   // nothing

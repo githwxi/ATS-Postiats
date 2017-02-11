@@ -6,7 +6,7 @@
 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<title>EFFECTIVATS-parallel-mergesort</title>
+<title>EFFECTIVATS-parallel-sorting</title>
 #patscode_style()
 #patspage_style()
 </head>
@@ -33,7 +33,7 @@ which contains some detailed explanation on implementing (top-down) merge-sort.
 </p>
 
 <h2>
-Sequential Mergesort
+Sequential Merge-Sort
 </h2>
 
 <p>
@@ -139,7 +139,7 @@ and can have a great negative impact on concurrency.
 </p>
 
 <h2>
-Issues on Parallelizing Merge-sort
+Issues on Parallelizing Merge-Sort
 </h2>
 
 <p>
@@ -170,7 +170,7 @@ without running any risk of potential deadlocking.
 </p>
 
 <h2>
-Mergesort of Continuation-Passing style
+Merge-Sort of Continuation-Passing style
 </h2>
 
 <p>
@@ -223,6 +223,10 @@ Note that the third argument of #dyncode("msort") (of the name
 
 </p>
 
+<h2>
+Parallelization via Fractional Continuation
+</h2>
+
 <p>
 
 The following code illustrates in clear
@@ -266,7 +270,7 @@ val ys2 = ref<list(a, n-n/2)>(_)
 val () =
 submit
 (
-delay(
+delay( // delaying the evaluation of its argument
 msort(
   xs1, n2
 , lam(ys1_) =>
@@ -274,13 +278,14 @@ msort(
    !cnt := !cnt + 1;
    if !cnt < 2 then () else k0(list_merge<a>(!ys1, !ys2))
   )
-)
-)
-)
+) (* msort *)
+) (* delay *)
+) (* submit *)
+//
 val () =
 submit
 (
-delay(
+delay( // delaying the evaluation of its argument
 msort(
   xs2, n-n2
 , lam(ys2_) =>
@@ -288,9 +293,9 @@ msort(
    !cnt := !cnt + 1;
    if !cnt < 2 then () else k0(list_merge<a>(!ys1, !ys2))
   )
-)
-)
-)
+) (* msort *)
+) (* delay *)
+) (* submit *)
 //
 in
   // nothing
@@ -300,6 +305,20 @@ else k0(xs) // end of [else]
 end (* end of [msort] *)
 //
 ')</pre>
+
+Note that the two recursive calls in the body of #dyncode("msort") are
+turned into two closure-functions and then submitted (to the underlying
+thread pool). Each of these closure-functions carries a continuation that
+may be thought of as a fractional one in the following sense.  After one
+recursive call to #dyncode("msort") is evaluated, the returned list is
+stored in some reference and the count stored in some counter (set to 0
+initially) is increased by 1. If this count is less than 2, then the other
+recursive call to #dyncode("msort") is not yet completed; otherwise, it is
+completed and the two lists returned by the two recursive calls to
+#dyncode("msort") can be merged and then passed to the original
+continuation. To some extent, one may think of the original continuation as
+being split into two fractions, and each fraction is used to build a new
+continuation for a recursive call (to #dyncode("msort")).
 
 </p>
 
@@ -348,6 +367,20 @@ order for the caller #dyncode("mergesort") to learn that the callee
 #dyncode("msort") is finished. The functions #dyncode("block")
 and #dyncode("unblock") are introduced precisely for this purpose.
 
+</p>
+
+<p>
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+mergesort.dats
+mergesort_cps.dats
+mergesort_par_cps.dats
+</pre>
+
+In addition, there is an accompanying #filename("Makefile") for typechecking
+the code.
 </p>
 
 <hr size="2">

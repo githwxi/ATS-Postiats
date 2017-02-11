@@ -1,4 +1,8 @@
 (* ****** ****** *)
+//
+// For use in Effective-ATS
+//
+(* ****** ****** *)
 
 extern
 fun

@@ -71,6 +71,12 @@ upload_main: \
 
 ######
 
+typecheck:: mergesort.dats; $(PATSCC) -tcats $<
+typecheck:: mergesort_cps.dats; $(PATSCC) -tcats $<
+typecheck:: mergesort_par_cps.dats; $(PATSCC) -tcats $<
+
+######
+
 cleanats:: ; $(RMF) *_?ats.c
 cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
