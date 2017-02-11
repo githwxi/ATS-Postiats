@@ -17,17 +17,211 @@
 Effective ATS: Parallel Sorting
 </h1>
 
-In this article, I present an implementation of parallel mergesort in the
+<p>
+In this article, I present an implementation of parallel merge-sort in the
 continuation-passing style (CPS), which achieves high concurrency
 by completely eliminating the need for explicit synchronization. It is
 expected that this style of implementation can be readily applied to
 various other algorithms based on the so-called divide-and-conquer strategy
 (for problem-solving).
+</p>
+
+<p>
+There is an article in the Effective-ATS series available
+<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/mergesort/index.html">on-line</a>,
+which contains some detailed explanation on implementing (top-down) merge-sort.
+</p>
 
 <h2>
 Sequential Mergesort
 </h2>
 
+<p>
+
+Let us first declare a function #dyncode("mergesort") as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+fun
+{a:t@ype}
+mergesort{n:int}(xs: list(a, n)): list(a, n)
+')</pre>
+
+which takes a list of length N and returns another list of the same length.
+Strictly speaking, #dyncode("mergesort") is a function template, which can
+be instantiated with any given type T to form a function for sorting a list
+in which each element is of the type T.
+
+</p>
+
+<p>
+
+A sequential implementation of #dyncode("mergesort") is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+{a}(*tmp*)
+mergesort(xs) =
+msort(xs, length(xs)) where
+{
+//
+fun
+msort{n:int}
+(
+xs: list(a, n), n: int(n)
+) : list(a, n) =
+(
+if
+(n >= 2)
+then let
+  val n2 = n / 2
+  val (xs1, xs2) = list_split<a>(xs, n2)
+  val ys1 = msort(xs1, n2) and ys2 = msort(xs2, n - n2)
+in
+  list_merge<a>(ys1, ys2)
+end // end of [then]
+else xs // end of [else]
+) (* end of [msort] *)
+//
+} (* end of [mergesort] *)
+')</pre>
+
+Note that the functions #dyncode("list_split") and #dyncode("list_merge")
+are given the following types:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a:t@ype}
+list_merge
+{n1,n2:int}
+  (xs: list(a, n1), ys: list(a, n2)): list(a, n1+n2)
+//
+fun
+{a:t@ype}
+list_split
+{n:int}{k:nat | k <= n}
+  (xs: list(a, n), k: int(k) ): (list(a, k), list(a, n-k))
+//
+')</pre>
+
+The function #dyncode("list_merge") merges two given lists (that are
+ordered) into one (that is ordered).
+The function #dyncode("list_split") splits a given list into two parts
+where the first part is a prefix of the given list (whose length is
+determined by the integer passed as the second argument to
+#dyncode("list_split")) and the second part consists of the rest.
+
+</p>
+
+<p>
+
+The given implementation of #dyncode("mergesort") exemplifies
+the so-called divide-and-conquer strategy for problem-solving.
+The (inner) function #dyncode("msort") divides a given problem
+into two subproblems; after recursively solving them, it combines
+the returned solutions into a solution to the original problem.
+It is straightforward to parallelize the function #dyncode("msort")
+by initiating two threads for handling the two recursive
+calls in the body of #dyncode("msort") and then joining these two
+threads to obtain the values they return. In a programming language
+like Erlang where threads are extremely light-weighted, parallelizing
+#dyncode("msort") in such a manner may make sense. If threads are not
+light-weighted (e.g., pthreads), doing so often leads to poor performance
+at run-time. Also, joining threads involves explicit synchronization
+and can have a great negative impact on concurrency.
+
+</p>
+
+<h2>
+Issues on Parallelizing Mergesort
+</h2>
+
+<p>
+One common approach to lowering the overhead of creating and destroying
+threads is to start a pool of threads. Instead of creating a thread to
+perform a particular piece of work, this piece can be inserted into some
+kind of store shared by the pool of threads so as to allow one of them to
+pick up the piece and then execute it. Also, a thread can return to the
+pool (instead of simply exiting) after it completes a piece of
+work. With this appraoch, the overhead of creating and destroying threads
+is spread over the pieces of work done by these threads.
+</p>
+
+<p>
+However, there is a caveat that one must pay close attention to when
+utilizing a thread pool. In general, each piece of work passed to this pool
+should not cause blocking for otherwise a scenario can readily occur where
+all of the threads in the pool are blocked (and thus no progress can be
+made in terms of work completion). This is especially true when a problem
+is solved recursively (e.g., by using the divide-and-conquer strategy).
+</p>
+
+<p>
+It should soon become clear that #dyncode("msort") can be implemented in a
+continuation-passing style (CPS) that allows a problem to be divided into
+non-blocking subproblems, which one can pass directly to a thread pool
+without running any risk of potential deadlocking.
+</p>
+
+<h2>
+Mergesort of Continuation-Passing style
+</h2>
+
+<p>
+
+A sequential implementation of #dyncode("mergesort") is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+implement
+{a}(*tmp*)
+mergesort{n}(xs) =
+msort(xs, length(xs), lam ys => ys) where
+{
+//
+typedef res = list(a, n)
+//
+fun
+msort{n:int}
+(
+xs: list(a, n), n: int(n), f: list(a, n) -> res
+) : res =
+(
+if
+(n >= 2)
+then let
+//
+val n2 = n / 2
+val
+(xs1, xs2) =
+list_split<a>(xs, n2)
+//
+in
+//
+msort
+( xs1, n2
+, lam(ys1) =>
+  msort(xs2, n-n2, lam(ys2) => f(list_merge<a>(ys1, ys2)))
+)
+//
+end // end of [then]
+else f(xs) // end of [else]
+) (* end of [msort] *)
+//
+} (* end of [mergesort] *)
+')</pre>
+
+Note that the third argument of #dyncode("msort") (of the name
+#dyncode("f")) is a closure function that acts like a continuation.
+
+</p>
 
 <hr size="2">
 

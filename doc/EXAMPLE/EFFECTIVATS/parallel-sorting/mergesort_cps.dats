@@ -31,33 +31,41 @@ xs: list(a, n1), ys: list(a, n2)
 
 implement
 {a}(*tmp*)
-mergesort(xs) =
-msort(xs, length(xs)) where
+mergesort{n}(xs) =
+msort(xs, length(xs), lam ys => ys) where
 {
+//
+typedef res = list(a, n)
 //
 fun
 msort{n:int}
 (
-xs: list(a, n), n: int(n)
-) : list(a, n) =
+xs: list(a, n), n: int(n), f: list(a, n) -> res
+) : res =
 (
 if
 (n >= 2)
 then let
-  val n2 = n / 2
-  val
-  (xs1, xs2) =
-  list_split<a>(xs, n2)
-  val ys1 = msort(xs1, n2)
-  val ys2 = msort(xs2, n - n2)
+//
+val n2 = n / 2
+val
+(xs1, xs2) =
+list_split<a>(xs, n2)
+//
 in
-  list_merge<a>(ys1, ys2)
+//
+msort
+( xs1, n2
+, lam(ys1) =>
+  msort(xs2, n-n2, lam(ys2) => f(list_merge<a>(ys1, ys2)))
+)
+//
 end // end of [then]
-else xs // end of [else]
+else f(xs) // end of [else]
 ) (* end of [msort] *)
 //
 } (* end of [mergesort] *)
 
 (* ****** ****** *)
 
-(* end of [mergesort] *)
+(* end of [mergesort_cps] *)

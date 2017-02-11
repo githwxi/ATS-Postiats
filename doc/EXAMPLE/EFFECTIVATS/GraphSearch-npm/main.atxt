@@ -31,9 +31,10 @@ programming language system.
 
 A template-based implementation of generic graph search
 plus detailed explanation can be found
-<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/GraphSearch/index.html">on-line</a>,
-which serves as the basis for the code used in this article and should therefore be thoroughly
-studied first.
+<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/GraphSearch/index.html">on-line</a>
+in an article in the Effective-ATS series, which serves as the basis for
+the code used in this article and should therefore be thoroughly studied
+first.
 
 ')##comment("para")
 
