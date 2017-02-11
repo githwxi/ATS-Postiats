@@ -184,8 +184,16 @@ case+ xs of
         // end of [$UN.ptr0_set]
         val c0 = spinref_decget(spnr)
       in
-        if (c0 > 0) then ((*unfinished*)) else k0(res)
-      end // end of [lam]
+        if (c0 > 0)
+          then (
+            // unfinished
+          ) (* end of [then] *)
+          else k0(res) where
+          {
+            val () =
+            $SPINVAR.spinvar_destroy($UN.castvwtp0(spnr))
+          } (* end of [else] *)
+      end // end of [let] // end of [lam]
     )
   end // end of [list_nil]
 | list_cons(x1, xs) => let
@@ -208,8 +216,16 @@ case+ xs of
         // end of [$UN.ptr0_set]
         val c0 = spinref_decget(spnr)
       in
-        if (c0 > 0) then ((*void*)) else k0(res)
-      end // end of [lam]
+        if (c0 > 0)
+          then (
+            // unfinished
+          ) (* end of [then] *)
+          else k0(res) where
+          {
+            val () =
+            $SPINVAR.spinvar_destroy($UN.castvwtp0(spnr))
+          } (* end of [else] *)
+      end // end of [let] // end of [lam]
     )
     ) (* llam *)
     ) (* end of [val] *)
