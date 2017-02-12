@@ -155,13 +155,8 @@ all_script::
 #make_entry("patscontrib_glib")
 #make_entry("patscontrib_GTK")
 #make_entry("patscontrib_SDL2")
-#make_entry("patscontrib_cairo")
 #
 #make_entry("patscontrib_zeromq")
-#
-#make_entry("patscontrib_jansson")
-#
-#make_entry("patscontrib_hiredis")
 #
 #make_entry("patscontrib_OpenSSL")
 #
@@ -333,23 +328,8 @@ srcget_patscontrib_SDL2:: SCRIPT/patscontrib_SDL2.bash ; bash $<
 
 ######
 
-srcget_patscontrib:: srcget_patscontrib_cairo
-srcget_patscontrib_cairo:: SCRIPT/patscontrib_cairo.bash ; bash $<
-
-######
-
 srcget_patscontrib:: srcget_patscontrib_zeromq
 srcget_patscontrib_zeromq:: SCRIPT/patscontrib_zeromq.bash ; bash $<
-
-######
-
-srcget_patscontrib:: srcget_patscontrib_jansson
-srcget_patscontrib_jansson:: SCRIPT/patscontrib_jansson.bash ; bash $<
-
-######
-
-srcget_patscontrib:: srcget_patscontrib_hiredis
-srcget_patscontrib_hiredis:: SCRIPT/patscontrib_hiredis.bash ; bash $<
 
 ######
 

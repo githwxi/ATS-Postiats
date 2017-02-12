@@ -382,16 +382,6 @@ clean:: ; $(RMF) patscontrib_SDL2_atxt.exe
 cleanall:: ; $(RMF) HTML/patscontrib_SDL2.html
 cleanall:: ; $(RMF) SCRIPT/patscontrib_SDL2.bash
 
-all_script:: \
-SCRIPT/patscontrib_cairo.bash
-SCRIPT/patscontrib_cairo.bash: patscontrib_cairo_atxt.exe ; ./$< > $@
-patscontrib_cairo_atxt.dats: ATEXT/patscontrib_cairo.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_cairo_atxt.exe: patscontrib_cairo_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_cairo_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_cairo.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_cairo.bash
-
 #
 all_script:: \
 SCRIPT/patscontrib_zeromq.bash
@@ -402,28 +392,6 @@ patscontrib_zeromq_atxt.exe: patscontrib_zeromq_atxt.dats ; $(ATSCC) $(INCLATS) 
 clean:: ; $(RMF) patscontrib_zeromq_atxt.exe
 cleanall:: ; $(RMF) HTML/patscontrib_zeromq.html
 cleanall:: ; $(RMF) SCRIPT/patscontrib_zeromq.bash
-
-#
-all_script:: \
-SCRIPT/patscontrib_jansson.bash
-SCRIPT/patscontrib_jansson.bash: patscontrib_jansson_atxt.exe ; ./$< > $@
-patscontrib_jansson_atxt.dats: ATEXT/patscontrib_jansson.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_jansson_atxt.exe: patscontrib_jansson_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_jansson_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_jansson.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_jansson.bash
-
-#
-all_script:: \
-SCRIPT/patscontrib_hiredis.bash
-SCRIPT/patscontrib_hiredis.bash: patscontrib_hiredis_atxt.exe ; ./$< > $@
-patscontrib_hiredis_atxt.dats: ATEXT/patscontrib_hiredis.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_hiredis_atxt.exe: patscontrib_hiredis_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_hiredis_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_hiredis.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_hiredis.bash
 
 #
 all_script:: \
@@ -657,23 +625,8 @@ srcget_patscontrib_SDL2:: SCRIPT/patscontrib_SDL2.bash ; bash $<
 
 ######
 
-srcget_patscontrib:: srcget_patscontrib_cairo
-srcget_patscontrib_cairo:: SCRIPT/patscontrib_cairo.bash ; bash $<
-
-######
-
 srcget_patscontrib:: srcget_patscontrib_zeromq
 srcget_patscontrib_zeromq:: SCRIPT/patscontrib_zeromq.bash ; bash $<
-
-######
-
-srcget_patscontrib:: srcget_patscontrib_jansson
-srcget_patscontrib_jansson:: SCRIPT/patscontrib_jansson.bash ; bash $<
-
-######
-
-srcget_patscontrib:: srcget_patscontrib_hiredis
-srcget_patscontrib_hiredis:: SCRIPT/patscontrib_hiredis.bash ; bash $<
 
 ######
 

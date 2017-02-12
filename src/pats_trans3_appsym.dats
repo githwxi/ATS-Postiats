@@ -716,6 +716,10 @@ val xyz = auxsel_arglst(xys, d2as, list_vt_nil)
 //
 val d3pis = xyz.0
 val d3pis = auxselmax(d3pis)
+//
+// HX-2017-02-12:
+// For removing duplicates of
+// overloaded dyncsts and dynvars
 val d3pis = auxeq_d3pitm_remdup(d3pis)
 //
 in
