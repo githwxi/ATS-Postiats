@@ -28,9 +28,10 @@ various other algorithms based on the so-called divide-and-conquer strategy
 </p>
 
 <p>
-There is an article in the Effective-ATS series available
-<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/mergesort/index.html">on-line</a>,
-which contains some detailed explanation on implementing (top-down) merge-sort.
+Note that there is an article in the Effective-ATS series available
+<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/mergesort/index.html">on-line</a>
+that contains some detailed explanation on implementing (top-down) merge-sort. One may
+want read the article first before studying the current one.
 </p>
 
 <h2>

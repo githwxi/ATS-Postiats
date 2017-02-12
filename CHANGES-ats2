@@ -66,11 +66,12 @@ HX-2017-02-01: Reverted!
 6. Introducing the compilation flag _ATS_CCOMP_ASSUME_CHECK_NONE_ to skip
    over checks that are otherwise required of assuming (i.e., implementing)
    abstract types
-7. Moving a lot of code around due to packaging; mostly from PATSCONTRIB
-   to PATSHOME/npm-utils
+7. Moving a lot of code around due to packaging and re-packaging; mostly
+   moving from PATSCONTRIB to PATSHOME/npm-utils
 8. Adding support for 'where <declist> end' (besides 'where { <declist> }')
 9. Fixing a minor glitch involving typechecking ifcase-expressions
-10. Removing duplicates of overloaded dynamic constants and variables
+10. Removing duplicates of overloaded dynamic constants and variables;
+    please see the changes in [pats_trans3_appsym.dats]
 
 ######
 
