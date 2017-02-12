@@ -32,7 +32,8 @@ CFLAGS += -DATS_MEMALLOC_LIBC
 #
 CFLAGS += -I$(PATSHOMEQ)
 CFLAGS += -I$(PATSHOMEQ)/ccomp/runtime
-CFLAGS += -I$(PATSHOMEQ)/contrib/atscntrb-libgmp 
+#
+CFLAGS += -I$(PATSHOMEQ)/contrib
 #
 ######
 #

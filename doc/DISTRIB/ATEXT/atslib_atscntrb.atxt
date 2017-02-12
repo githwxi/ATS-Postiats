@@ -141,6 +141,7 @@ packfilesynop(x) = atext_nil()
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-libjson-c/mylibies.hats")
 #packfilename("atscntrb-libjson-c/SATS/json.sats")
 #packfilename("atscntrb-libjson-c/SATS/json_ML.sats")
 #packfilename("atscntrb-libjson-c/SATS/json_util.sats")
@@ -158,6 +159,8 @@ packfilesynop(x) = atext_nil()
   
 (* ****** ****** *)
 
+#packfilename("atscntrb-hx-intinf/mydepies.hats")
+#packfilename("atscntrb-hx-intinf/mylibies.hats")
 #packfilename("atscntrb-hx-intinf/SATS/intinf.sats")
 #packfilename("atscntrb-hx-intinf/SATS/intinf_t.sats")
 #packfilename("atscntrb-hx-intinf/SATS/intinf_vt.sats")
