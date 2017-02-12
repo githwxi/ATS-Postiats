@@ -44,6 +44,7 @@ HX-2017-02-01: Reverted!
    to PATSHOME/npm-utils
 8. Adding support for 'where <declist> end' (besides 'where { <declist> }')
 9. Fixing a minor glitch involving typechecking ifcase-expressions
+10. Removing duplicates of overloaded dynamic constants and variables
 
 ######
 

@@ -311,7 +311,7 @@ and d3exp_node =
   | D3Efreeat of (d3exp)
 //
   | D3Eitem of
-      (d2itm, t2mpmarglst) // HX: for temporary use
+      (d2itm, t2mpmarglst) // temporary use
     // end of [D3Eitem]
 //
   | D3Elet of (d3eclist, d3exp)

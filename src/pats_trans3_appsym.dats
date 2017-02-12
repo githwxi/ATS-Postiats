@@ -39,19 +39,28 @@ ATSPRE =
 //
 (* ****** ****** *)
 
-staload "./pats_basics.sats"
+staload
+"./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
-staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_appsym"
-
+staload
+_(*anon*) = "./pats_errmsg.dats"
+//
+implement
+prerr_FILENAME<>
+(
+  // argless
+) =
+  prerr "pats_trans3_appsym"
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
@@ -580,6 +589,74 @@ in
   list_of_list_vt(d3pis)
 end // end of [auxselmax]
 
+fun
+auxeq_d2itm
+(
+  d2i1: d2itm
+, d2i2: d2itm
+) : bool =
+(
+case+ d2i1 of
+| D2ITMcst(d2c1) =>
+  (
+  case+ d2i2 of
+  | D2ITMcst(d2c2) => (d2c1 = d2c2) | _ => false
+  )
+| D2ITMvar(d2v1) =>
+  (
+  case+ d2i2 of
+  | D2ITMvar(d2v2) => (d2v1 = d2v2) | _ => false
+  )
+| _(* rest-of-d2itm *) => false
+) (* end of [auxeq_d2itm] *)
+
+
+fun
+auxeq_d3pitm
+(
+  d3pi1: d3pitm
+, d3pi2: d3pitm
+) : bool = let
+//
+val d3e1 = d3pitm_get_dexp(d3pi1)
+val d3e2 = d3pitm_get_dexp(d3pi2)
+//
+in
+//
+case+
+d3e1.d3exp_node
+of (* case+ *)
+| D3Eitem(d2i1, _) =>
+  (
+  case+
+  d3e2.d3exp_node
+  of (* case+ *)
+  | D3Eitem(d2i2, _) => auxeq_d2itm(d2i1, d2i2) | _ => false
+  )
+| _ (*non-D3Eitem*) => false
+//
+end // end of [auxeq_d3pitm]
+
+fun
+auxeq_d3pitm_remdup
+(
+  d3pis: d3pitmlst
+) : d3pitmlst =
+(
+case+ d3pis of
+| list_nil() => list_nil()
+| list_cons(d3pi0, d3pis) => let
+    val 
+    d3pis =
+    list_filter_cloptr<d3pitm>
+    ( d3pis
+    , lam(x) =<1> ~auxeq_d3pitm(d3pi0, x)
+    ) (* end of [val] *)
+  in
+    list_cons(d3pi0, list_of_list_vt(d3pis))
+  end
+) (* end of [auxeq_d3pitm_remdup] *)
+
 in (* in of [local] *)
 
 implement
@@ -639,6 +716,7 @@ val xyz = auxsel_arglst(xys, d2as, list_vt_nil)
 //
 val d3pis = xyz.0
 val d3pis = auxselmax(d3pis)
+val d3pis = auxeq_d3pitm_remdup(d3pis)
 //
 in
 //
