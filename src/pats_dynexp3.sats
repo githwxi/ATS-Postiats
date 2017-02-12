@@ -119,9 +119,14 @@ overload fprint with fprint_p3atlst
 
 (* ****** ****** *)
 
-fun p3at_make_node (
-  loc: location, s2e: s2exp, node: p3at_node
+fun
+p3at_make_node
+(
+  loc: location
+, s2e: s2exp, node: p3at_node
 ) : p3at // end of [p3at_make_node]
+
+(* ****** ****** *)
 
 fun p3at_any (
   loc: location, s2e: s2exp, d2v: d2var
