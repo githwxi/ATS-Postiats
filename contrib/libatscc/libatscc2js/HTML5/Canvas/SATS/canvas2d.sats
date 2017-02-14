@@ -75,17 +75,22 @@ canvas2d_clearRect
 , x: int, y: int, wd: int, ht: int
 ) : void = "mac#%" // endfun
 
-overload .clearRect with canvas2d_clearRect
+overload
+.clearRect with canvas2d_clearRect
 
 (* ****** ****** *)
 //
 fun
-canvas2d_beginPath(canvas2d): void = "mac#%"
+canvas2d_beginPath
+  (cnvs: canvas2d): void = "mac#%"
 fun
-canvas2d_closePath(canvas2d): void = "mac#%"
+canvas2d_closePath
+  (cnvs: canvas2d): void = "mac#%"
 //
-overload .beginPath with canvas2d_beginPath
-overload .closePath with canvas2d_closePath
+overload
+.beginPath with canvas2d_beginPath
+overload
+.closePath with canvas2d_closePath
 //
 (* ****** ****** *)
 //
