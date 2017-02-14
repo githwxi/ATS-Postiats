@@ -26,16 +26,20 @@
 (* ****** ****** *)
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
 ** Start Time: November, 2014
+** Authoremail: gmhwxiATgmailDOTcom
 *)
 (* ****** ****** *)
-
+(*
 #define
-ATS_STALOADFLAG 0 // no staloading at run-time
+ATS_STALOADFLAG 0
+*)
+//
+// prefix for external names
+//
 #define
-ATS_EXTERN_PREFIX "ats2js_HTML5_" // prefix for external names
-
+ATS_EXTERN_PREFIX "ats2js_HTML5_"
+//
 (* ****** ****** *)
 //
 abstype canvas_type
@@ -47,9 +51,9 @@ typedef canvasgl = canvasgl_type
 (* ****** ****** *)
 //
 fun
-canvas_getById (id: string): canvas = "mac#%"
+canvas_getById(id: string): canvas = "mac#%"
 fun
-canvasgl_getById (id: string): canvasgl = "mac#%"
+canvasgl_getById(id: string): canvasgl = "mac#%"
 //
 (* ****** ****** *)
 
