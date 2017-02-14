@@ -20,32 +20,24 @@ LIBCAIRO_targetloc
 //
 (* ****** ****** *)
 //
-staload
-_(*M*) =
-"libats/libc/DATS/math.dats"
-//
-(* ****** ****** *)
-//
 #staload
 "{$LIBCAIRO}/SATS/cairo.sats"
 //
 (* ****** ****** *)
 //
-#staload
-"./../SATS/mydraw.sats"
-#staload
-_(*anon*) = "./../DATS/mydraw.dats"
+#define MYDRAW_CAIRO
 //
-(* ****** ****** *)
+#include "./../mylibies.hats"
 //
-#staload
-"./../SATS/mydraw_cairo.sats"
-#staload
-_(*anon*) = "./../DATS/mydraw_cairo.dats"
+#staload $MYDRAW
+#staload $MYDRAW_cairo
+//
+#include "./../DATS/mydraw.dats"
+#include "./../DATS/mydraw_cairo.dats"
 //
 (* ****** ****** *)
 
-#staload "./test03.dats"
+#include "./test03.dats"
 
 (* ****** ****** *)
 

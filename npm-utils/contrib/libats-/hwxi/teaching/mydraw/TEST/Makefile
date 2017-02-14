@@ -17,10 +17,11 @@ PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
-
+#
 PATSCCOMP2=\
-$(EMCC) -Wno-warn-absolute-paths -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
-
+$(EMCC) -Wno-warn-absolute-paths \
+  -D_XOPEN_SOURCE -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
+#
 ######
 
 XRLIBS=`pkg-config cairo --libs`

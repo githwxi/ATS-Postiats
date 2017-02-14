@@ -25,26 +25,25 @@ LIBCAIRO_targetloc
 //
 (* ****** ****** *)
 //
-#staload
-"./../SATS/mydraw.sats"
-#staload
-_(*anon*) = "./../DATS/mydraw.dats"
+#define MYDRAW_CAIRO
 //
-(* ****** ****** *)
+#include "./../mylibies.hats"
 //
-#staload
-"./../SATS/mydraw_cairo.sats"
-#staload
-_(*anon*) = "./../DATS/mydraw_cairo.dats"
+#staload $MYDRAW
+#staload $MYDRAW_cairo
+//
+#include "./../DATS/mydraw.dats"
+#include "./../DATS/mydraw_cairo.dats"
 //
 (* ****** ****** *)
 
-#staload "./test02.dats"
+#include "./test02.dats"
 
 (* ****** ****** *)
 
 implement
-main0 () = () where {
+main0 () = () where
+{
 //
 val M = 8 and N = 8
 val W = 400 and H = 400

@@ -5,28 +5,19 @@
 *)
 
 (* ****** ****** *)
-//
-#include
-"share/atspre_define.hats"
-#include
-"share/atspre_staload.hats"
-//
-(* ****** ****** *)
-//
-staload "./../SATS/mydraw.sats"
-//
-(* ****** ****** *)
 
 extern
-fun{} draw_row
+fun{}
+draw_row
 (
   pul: point, c1: color, c2: color, n: intGte(0)
 ) : void // end of [draw_row]
 
 (* ****** ****** *)
 
-implement{
-} draw_row
+implement
+{}(*tmp*)
+draw_row
   (pul, c1, c2, n) = let
 //
 fun loop

@@ -12,27 +12,19 @@
 //
 (* ****** ****** *)
 //
-staload
-_(*M*) =
-"libats/libc/DATS/math.dats"
+#define MYDRAW_CANVAS2D
+//
+#include "./../mylibies.hats"
+//
+#staload $MYDRAW
+#staload $MYDRAW_canvas2d
+//
+#include "./../DATS/mydraw.dats"
+#include "./../DATS/mydraw_HTML5_canvas2d.dats"
 //
 (* ****** ****** *)
 //
-#staload
-"./../SATS/mydraw.sats"
-#staload
-_(*anon*) = "./../DATS/mydraw.dats"
-//
-(* ****** ****** *)
-//
-#staload
-"./../SATS/mydraw_HTML5_canvas2d.sats"
-#staload _(*anon*) =
-"./../DATS/mydraw_HTML5_canvas2d.dats"
-//
-(* ****** ****** *)
-//
-#staload "./test04.dats"
+#include "./test04.dats"
 //
 (* ****** ****** *)
 

@@ -35,7 +35,8 @@
 //
 #define
 ATS_PACKNAME
-"ATSCNTRB.libats-hwxi.teaching"
+"ATSCNTRB\
+.libats-hwxi.teaching.mydraw"
 //
 (* ****** ****** *)
 //
@@ -53,11 +54,14 @@ stadef cairo_ref1 = $XR.cairo_ref1
 //
 (* ****** ****** *)
 //
-fun{
-} mydraw_get0_cairo (
-) : [l:agz] vttakeout0 (cairo_ref (l))
+fun{}
+mydraw_get0_cairo
+(
+// argumentless
+) : [l:agz] vttakeout0(cairo_ref(l))
 //
-fun{} mydraw_get1_cairo (): cairo_ref1
+fun{}
+mydraw_get1_cairo((*void*)): cairo_ref1
 //
 (* ****** ****** *)
 

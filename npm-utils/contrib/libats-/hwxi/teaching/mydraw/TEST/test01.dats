@@ -6,14 +6,10 @@
 
 (* ****** ****** *)
 //
-staload "./../SATS/mydraw.sats"
-staload _(*anon*) = "./../DATS/mydraw.dats"
-//
-(* ****** ****** *)
-//
 extern
 fun{}
-draw3_solid (point, point, point, color): void
+draw3_solid
+  (point, point, point, color): void
 extern
 fun{}
 draw3_sierpinski

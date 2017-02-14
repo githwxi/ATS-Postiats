@@ -4,6 +4,8 @@ style="margin-top:8px;padding:8px;"
 
 <h2 style="display:inline;">What is new?</h2>
 
+<hr></hr>
+
 2017-02-12:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/y3ccbpFUKwE"

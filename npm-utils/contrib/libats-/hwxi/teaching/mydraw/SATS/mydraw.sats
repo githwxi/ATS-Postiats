@@ -34,8 +34,10 @@
 //
 (* ****** ****** *)
 //
-#define ATS_PACKNAME
-"ATSCNTRB.libats-hwxi.teaching"
+#define
+ATS_PACKNAME
+"ATSCNTRB\
+.libats-hwxi.teaching.mydraw"
 //
 (* ****** ****** *)
 

@@ -5,16 +5,6 @@
 *)
 
 (* ****** ****** *)
-//
-staload M =
-"libats/libc/SATS/math.sats"
-//
-(* ****** ****** *)
-//
-staload "./../SATS/mydraw.sats"
-staload _(*anon*) = "./../DATS/mydraw.dats"
-//
-(* ****** ****** *)
 
 #define PI 3.1415926535898
 
