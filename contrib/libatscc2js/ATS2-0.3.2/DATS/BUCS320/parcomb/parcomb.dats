@@ -23,12 +23,12 @@ ATS_STATIC_PREFIX
 //
 #define
 LIBATSCC_targetloc
-"$PATSHOME/contrib/libatscc"
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
-#staload
-"./../../../basics_js.sats"
+#staload "./../../../basics_js.sats"
 //
 (* ****** ****** *)
 //

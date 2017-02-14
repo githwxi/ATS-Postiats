@@ -13,10 +13,10 @@ ATS_EXTERN_PREFIX "ats2jspre_ML_"
 //
 (* ****** ****** *)
 //
-//
 #define
 LIBATSCC_targetloc
-"$PATSHOME/contrib/libatscc"
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 #staload "./../../basics_js.sats"
 //

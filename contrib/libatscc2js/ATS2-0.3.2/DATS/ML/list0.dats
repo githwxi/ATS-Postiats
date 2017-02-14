@@ -21,7 +21,9 @@ ATS_STATIC_PREFIX "_ats2jspre_ML_list0_"
 //
 #define
 LIBATSCC_targetloc
-"$PATSHOME/contrib/libatscc"
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
+//
 //
 (* ****** ****** *)
 //

@@ -34,7 +34,8 @@ UN = "prelude/SATS/unsafe.sats"
 //
 #define
 LIBATSCC_targetloc
-"$PATSHOME/contrib/libatscc"
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 #include "{$LIBATSCC}/DATS/slistref.dats"
 //

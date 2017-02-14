@@ -13,15 +13,18 @@
 // prefix for external names
 //
 #define
-ATS_EXTERN_PREFIX "ats2jspre_BUCS320_"
+ATS_EXTERN_PREFIX
+"ats2jspre_BUCS320_"
 #define
-ATS_STATIC_PREFIX "_ats2jspre_BUCS320_GraphSearch_bfs_"
+ATS_STATIC_PREFIX
+"_ats2jspre_BUCS320_GraphSearch_bfs_"
 //
 (* ****** ****** *)
 //
 #define
 LIBATSCC_targetloc
-"$PATSHOME/contrib/libatscc"
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
