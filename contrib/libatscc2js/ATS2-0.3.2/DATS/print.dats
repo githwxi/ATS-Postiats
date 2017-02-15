@@ -22,7 +22,7 @@ ATS_STATIC_PREFIX "_ats2jspre_print_"
 #include
 "./../staloadall.hats"
 //
-staload "./../SATS/print.sats"
+#staload "./../SATS/print.sats"
 //
 (* ****** ****** *)
 //

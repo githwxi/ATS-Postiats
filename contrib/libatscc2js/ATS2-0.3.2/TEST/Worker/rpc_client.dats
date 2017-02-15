@@ -8,21 +8,24 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME\
+/contrib/libatscc2js/ATS2-0.3.2"
+//
 #include
 "{$LIBATSCC2JS}/staloadall.hats"
 //
 (* ****** ****** *)
 
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-staload
+#staload
 "./../../SATS/Worker/channel.sats"
-staload
+#staload
 "./../../DATS/Worker/channel.dats"
 #include
 "./../../DATS/Worker/channeg.dats"
