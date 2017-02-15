@@ -80,6 +80,16 @@ HX_MYTESTING_targetloc
 (* ****** ****** *)
 //
 #define
+LIBATSCC_targetloc
+"$PATSHOME/contrib/libatscc"
+//
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
+//
+(* ****** ****** *)
+//
+#define
 JNI_targetloc "$PATSCONTRIB/contrib/JNI"
 //
 (* ****** ****** *)
@@ -95,6 +105,11 @@ GLIB_targetloc "$PATSCONTRIB/contrib/glib"
 (* ****** ****** *)
 //
 #define
+SDL2_targetloc "$PATSCONTRIB/contrib/SDL2"
+//
+(* ****** ****** *)
+//
+#define
 CAIRO_targetloc "$PATSCONTRIB/contrib/cairo"
 //
 (* ****** ****** *)
@@ -106,11 +121,6 @@ HIREDIS_targetloc "$PATSCONTRIB/contrib/hiredis"
 //
 #define
 OPENSSL_targetloc "$PATSCONTRIB/contrib/OpenSSL"
-//
-(* ****** ****** *)
-//
-#define
-SDL2_targetloc "$PATSCONTRIB/contrib/SDL2"
 //
 (* ****** ****** *)
 //
@@ -133,14 +143,6 @@ ZLOG_targetloc "$PATSCONTRIB/contrib/zlog"
 ZEROMQ_targetloc "$PATSCONTRIB/contrib/zeromq"
 //
 (* ****** ****** *)
-//
-#define
-LIBATSCC_targetloc
-"$PATSCONTRIB/contrib/libatscc"
-//
-#define
-LIBATSCC2JS_targetloc
-"$PATSCONTRIB/contrib/libatscc/libatscc2js"
 //
 #define
 LIBATSCC2PL_targetloc
