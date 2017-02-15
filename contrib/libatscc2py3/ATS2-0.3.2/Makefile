@@ -144,13 +144,16 @@ CATS/PYGAME_pygame_cats.py \
 clean:: ; $(RMF) *~ */*~
 
 ######
-
+#
 cleanall:: clean
+#
 cleanall:: ; rm -rf output/__pycache__
-cleanall:: ; rm -rf output/DATS/*_?ats.py
-cleanall:: ; rm -rf output/DATS/ML/*_?ats.py
+#
+cleanall:: ; $(RMF) output/DATS/*_?ats.py
+cleanall:: ; $(RMF) output/DATS/ML/*_?ats.py
+#
 cleanall:: ; $(RMF) $(LIBATSCC2PY3_ALL_PY)
 cleanall:: ; $(RMF) $(LIBATSCC2PY3_ALL_PYLIBC_PY)
 cleanall:: ; $(RMF) $(LIBATSCC2PY3_ALL_PYGAME_PY)
-
+#
 ###### end of [Makefile] ######

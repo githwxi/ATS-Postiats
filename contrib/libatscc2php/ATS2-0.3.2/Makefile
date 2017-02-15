@@ -133,6 +133,8 @@ clean:: ; $(RMF) *~ */*~
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) output/DATS/*_?ats.php
+cleanall:: ; $(RMF) output/DATS/ML/*_?ats.php
 cleanall:: ; $(RMF) $(LIBATSCC2PHP_ALL_PHP)
 
 ######

@@ -26,17 +26,17 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "./../../../basics_py.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../../SATS/list.sats"
-staload "./../../../SATS/list_vt.sats"
+#staload "./../../../SATS/list.sats"
+#staload "./../../../SATS/list_vt.sats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "./../../../SATS/BUCS320/parcomb.sats"
 //
 (* ****** ****** *)

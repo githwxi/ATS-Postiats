@@ -26,7 +26,7 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 
-staload "./../SATS/gprint.sats"
+#staload "./../SATS/gprint.sats"
 
 (* ****** ****** *)
 //

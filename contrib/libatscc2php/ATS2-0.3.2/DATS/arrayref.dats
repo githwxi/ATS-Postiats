@@ -19,29 +19,31 @@ ATS_STATIC_PREFIX "_ats2phppre_arrayref_"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC_targetloc
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload "./../basics_php.sats"
+#staload "./../basics_php.sats"
 //
-staload "./../SATS/integer.sats"
+#staload "./../SATS/integer.sats"
 //
-staload "./../SATS/PHParref.sats"
-//
-(* ****** ****** *)
-//
-staload "./../SATS/intrange.sats"
+#staload "./../SATS/PHParref.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/arrayref.sats"
+#staload "./../SATS/intrange.sats"
+//
+(* ****** ****** *)
+//
+#staload "./../SATS/arrayref.sats"
 //
 (* ****** ****** *)
 //

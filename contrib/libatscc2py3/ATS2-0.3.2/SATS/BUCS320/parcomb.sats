@@ -20,7 +20,7 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 
-staload "./../../basics_py.sats"
+#staload "./../../basics_py.sats"
 
 (* ****** ****** *)
 //

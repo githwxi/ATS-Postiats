@@ -11,7 +11,7 @@
 //
 (* ****** ****** *)
 
-staload "./../basics_php.sats"
+#staload "./../basics_php.sats"
 
 (* ****** ****** *)
 //

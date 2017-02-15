@@ -19,21 +19,23 @@ ATS_STATIC_PREFIX "_ats2phppre_option_"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC_targetloc
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/integer.sats"
+#staload "./../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/option.sats"
+#staload "./../SATS/option.sats"
 //
 (* ****** ****** *)
 //

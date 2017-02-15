@@ -19,13 +19,13 @@ ATS_STATIC_PREFIX "_ats2phppre_print_"
 //
 (* ****** ****** *)
 //
-staload UN =
+#staload UN =
 "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/print.sats"
-staload "./../SATS/filebas.sats"
+#staload "./../SATS/print.sats"
+#staload "./../SATS/filebas.sats"
 //
 (* ****** ****** *)
 

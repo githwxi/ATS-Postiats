@@ -26,14 +26,14 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 //
-staload "./../../../basics_py.sats"
+#staload "./../../../basics_py.sats"
 //
-staload "./../../../SATS/bool.sats"
-staload "./../../../SATS/integer.sats"
+#staload "./../../../SATS/bool.sats"
+#staload "./../../../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../../SATS/slistref.sats"
+#staload "./../../../SATS/slistref.sats"
 //
 macdef
 slistref_insert = slistref_push

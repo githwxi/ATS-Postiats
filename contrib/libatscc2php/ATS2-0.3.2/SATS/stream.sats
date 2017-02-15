@@ -15,12 +15,12 @@ ATS_STATIC_PREFIX "_ats2phppre_stream_"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC_targetloc
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
-(* ****** ****** *)
-//
-staload "./../basics_php.sats"
+#staload "./../basics_php.sats"
 //
 (* ****** ****** *)
 //

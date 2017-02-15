@@ -19,36 +19,38 @@ ATS_STATIC_PREFIX "_ats2phppre_stream_vt_"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC_targetloc
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN =
 "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload "./../basics_php.sats"
+#staload "./../basics_php.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/integer.sats"
+#staload "./../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/print.sats"
+#staload "./../SATS/print.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/list.sats"
-staload "./../SATS/reference.sats"
+#staload "./../SATS/list.sats"
+#staload "./../SATS/reference.sats"
 //
 (* ****** ****** *)
 
-staload "./../SATS/stream.sats"
-staload "./../SATS/stream_vt.sats"
+#staload "./../SATS/stream.sats"
+#staload "./../SATS/stream_vt.sats"
 
 (* ****** ****** *)
 //

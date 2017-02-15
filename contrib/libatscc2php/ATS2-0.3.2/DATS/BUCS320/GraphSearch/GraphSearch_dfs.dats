@@ -19,21 +19,23 @@ ATS_STATIC_PREFIX "_ats2pypre_BUCS320_GraphSearch_dfs_"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC_targetloc
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
-staload "./../../../basics_php.sats"
+#staload "./../../../basics_php.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../../SATS/bool.sats"
-staload "./../../../SATS/integer.sats"
+#staload "./../../../SATS/bool.sats"
+#staload "./../../../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../../SATS/slistref.sats"
+#staload "./../../../SATS/slistref.sats"
 //
 macdef
 slistref_insert = slistref_push

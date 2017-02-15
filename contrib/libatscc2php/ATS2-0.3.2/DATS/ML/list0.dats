@@ -19,31 +19,33 @@ ATS_STATIC_PREFIX "_ats2phppre_ML_list0_"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC_targetloc
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../basics_php.sats"
+#staload "./../../basics_php.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../SATS/integer.sats"
+#staload "./../../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../SATS/print.sats"
-staload "./../../SATS/filebas.sats"
+#staload "./../../SATS/print.sats"
+#staload "./../../SATS/filebas.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../SATS/list.sats"
-staload "./../../SATS/ML/list0.sats"
+#staload "./../../SATS/list.sats"
+#staload "./../../SATS/ML/list0.sats"
 //
 (* ****** ****** *)
 //

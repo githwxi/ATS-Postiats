@@ -13,7 +13,7 @@ ATS_EXTERN_PREFIX "ats2phppre_"
 //
 (* ****** ****** *)
 
-staload "./../basics_php.sats"
+#staload "./../basics_php.sats"
 
 (* ****** ****** *)
 //
