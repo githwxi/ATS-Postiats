@@ -286,6 +286,29 @@ cleanall:: ; $(RMF) SCRIPT/contrib_atscc2php.bash
 ######
 
 all_script:: \
+SCRIPT/contrib_libatscc.bash
+SCRIPT/contrib_libatscc.bash: contrib_libatscc_atxt.exe ; ./$< > $@
+contrib_libatscc_atxt.dats: ATEXT/contrib_libatscc.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_libatscc_atxt.exe: contrib_libatscc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_libatscc_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_libatscc.html
+cleanall:: ; $(RMF) SCRIPT/contrib_libatscc.bash
+
+all_script:: \
+SCRIPT/contrib_libatscc2js.bash
+SCRIPT/contrib_libatscc2js.bash: contrib_libatscc2js_atxt.exe ; ./$< > $@
+contrib_libatscc2js_atxt.dats: ATEXT/contrib_libatscc2js.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_libatscc2js_atxt.exe: contrib_libatscc2js_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_libatscc2js_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_libatscc2js.html
+cleanall:: ; $(RMF) SCRIPT/contrib_libatscc2js.bash
+
+
+######
+
+all_script:: \
 SCRIPT/doc_example_pcpv.bash
 SCRIPT/doc_example_pcpv.bash: doc_example_pcpv_atxt.exe ; ./$< > $@
 doc_example_pcpv_atxt.dats: ATEXT/doc_example_pcpv.atxt ; \
@@ -457,6 +480,16 @@ clean:: ; $(RMF) patscontrib_libatscc_atxt.exe
 cleanall:: ; $(RMF) HTML/patscontrib_libatscc.html
 cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc.bash
 
+all_script:: \
+SCRIPT/patscontrib_libatscc2js.bash
+SCRIPT/patscontrib_libatscc2js.bash: patscontrib_libatscc2js_atxt.exe ; ./$< > $@
+patscontrib_libatscc2js_atxt.dats: ATEXT/patscontrib_libatscc2js.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+patscontrib_libatscc2js_atxt.exe: patscontrib_libatscc2js_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) patscontrib_libatscc2js_atxt.exe
+cleanall:: ; $(RMF) HTML/patscontrib_libatscc2js.html
+cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2js.bash
+
 #
 all_script:: \
 SCRIPT/patscontrib_kernelats.bash
@@ -497,6 +530,9 @@ atspackaging:: srcget_contrib_parsemit
 atspackaging:: srcget_contrib_atscc2js
 atspackaging:: srcget_contrib_atscc2py3
 atspackaging:: srcget_contrib_atscc2php
+#
+atspackaging:: srcget_contrib_libatscc
+atspackaging:: srcget_contrib_libatscc2js
 #
 atspackaging:: srcget_doc_example
 #
@@ -581,6 +617,9 @@ srcget_contrib_parsemit:: SCRIPT/contrib_parsemit.bash ; bash $<
 srcget_contrib_atscc2js:: SCRIPT/contrib_atscc2js.bash ; bash $<
 srcget_contrib_atscc2py3:: SCRIPT/contrib_atscc2py3.bash ; bash $<
 srcget_contrib_atscc2php:: SCRIPT/contrib_atscc2php.bash ; bash $<
+#
+srcget_contrib_libatscc:: SCRIPT/contrib_libatscc.bash ; bash $<
+srcget_contrib_libatscc2js:: SCRIPT/contrib_libatscc2js.bash ; bash $<
 #
 ######
 #

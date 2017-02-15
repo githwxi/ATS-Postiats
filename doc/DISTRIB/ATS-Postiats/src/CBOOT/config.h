@@ -44,7 +44,7 @@
 #define PACKAGE_NAME "ATS2/Postiats"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "ATS2/Postiats 0.3.2"
+#define PACKAGE_STRING "ATS2/Postiats 0.3.3"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "ats2-postiats"
@@ -53,7 +53,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.3.2"
+#define PACKAGE_VERSION "0.3.3"
 
 /* The size of `void*', as computed by sizeof. */
 #define SIZEOF_VOIDP 8
