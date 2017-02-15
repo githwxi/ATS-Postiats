@@ -26,15 +26,15 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 //
-staload "./../basics_py.sats"
+#staload "./../basics_py.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/integer.sats"
+#staload "./../SATS/integer.sats"
 //
-staload "./../SATS/bool.sats"
-staload "./../SATS/float.sats"
-staload "./../SATS/string.sats"
+#staload "./../SATS/bool.sats"
+#staload "./../SATS/float.sats"
+#staload "./../SATS/string.sats"
 //
 (* ****** ****** *)
 //

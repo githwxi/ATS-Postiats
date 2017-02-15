@@ -15,7 +15,7 @@ ATS_EXTERN_PREFIX "ats2pypre_"
 //
 // Python datatypes
 //
-staload "./../basics_py.sats"
+#staload "./../basics_py.sats"
 //
 (* ****** ****** *)
 //

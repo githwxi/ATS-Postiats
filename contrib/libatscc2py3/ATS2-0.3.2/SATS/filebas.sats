@@ -13,7 +13,7 @@ ATS_EXTERN_PREFIX "ats2pypre_"
 //
 (* ****** ****** *)
 
-staload "./../basics_py.sats"
+#staload "./../basics_py.sats"
 
 (* ****** ****** *)
 //

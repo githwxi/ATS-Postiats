@@ -26,17 +26,17 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/bool.sats"
-staload "./../SATS/integer.sats"
+#staload "./../SATS/bool.sats"
+#staload "./../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/option.sats"
+#staload "./../SATS/option.sats"
 //
 (* ****** ****** *)
 //

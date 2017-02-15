@@ -19,14 +19,14 @@ ATS_STATIC_PREFIX "_ats2pypre_reference_"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload "./../basics_py.sats"
-staload "./../SATS/PYlist.sats"
-staload "./../SATS/reference.sats"
+#staload "./../basics_py.sats"
+#staload "./../SATS/PYlist.sats"
+#staload "./../SATS/reference.sats"
 //
 (* ****** ****** *)
 //

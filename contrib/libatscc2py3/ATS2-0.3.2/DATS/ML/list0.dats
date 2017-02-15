@@ -26,36 +26,36 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../basics_py.sats"
+#staload "./../../basics_py.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../SATS/integer.sats"
+#staload "./../../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../SATS/print.sats"
-staload "./../../SATS/filebas.sats"
+#staload "./../../SATS/print.sats"
+#staload "./../../SATS/filebas.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../SATS/list.sats"
+#staload "./../../SATS/list.sats"
 //
 (* ****** ****** *)
 //
-staload "./../../SATS/stream.sats"
+#staload "./../../SATS/stream.sats"
 //
-staload "./../../SATS/stream_vt.sats"
-staload _ = "./../../DATS/stream_vt.dats"
+#staload "./../../SATS/stream_vt.sats"
+#staload _ = "./../../DATS/stream_vt.dats"
 //
 (* ****** ****** *)
 //
-staload "./../../SATS/ML/list0.sats"
+#staload "./../../SATS/ML/list0.sats"
 //
 (* ****** ****** *)
 //

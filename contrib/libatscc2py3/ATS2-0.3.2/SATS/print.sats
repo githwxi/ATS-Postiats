@@ -5,13 +5,15 @@
 
 (* ****** ****** *)
 //
-// HX: prefix for external names
+// HX:
+// prefix for external names
 //
-#define ATS_EXTERN_PREFIX "ats2pypre_"
+#define
+ATS_EXTERN_PREFIX "ats2pypre_"
 //
 (* ****** ****** *)
 
-staload "./../basics_py.sats"
+#staload "./../basics_py.sats"
 
 (* ****** ****** *)
 //
