@@ -1,0 +1,963 @@
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "share/atspre_staload.hats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/basics.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/pointer.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/integer.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/integer_fixed.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/char.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/bool.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/float.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/tuple.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/memory.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/string.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/strptr.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/integer.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/reference.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/filebas.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/integer.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "libc/SATS/stdio.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "libc/sys/SATS/types.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "libc/SATS/string.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "libc/SATS/stdio.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/intrange.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/gorder.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_int.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_uint.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_bool.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_char.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_float.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_string.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/list.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/unsafe.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/list_vt.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/list_vt_mergesort.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/list_vt_quicksort.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/option.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/option_vt.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/array.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/giterator.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/array_bsearch.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/array_quicksort.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/arrayptr.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/arrayref.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/matrix.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/matrixptr.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/matrixref.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/stream.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/stream_vt.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/gprint.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/unsafe.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/checkast.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "require"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/CATS/pcre.cats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/CATS/pcre.cats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/SATS/pcre.sats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/SATS/pcre.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/SATS/pcre_ML.sats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/SATS/pcre_ML.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/DATS/pcre.dats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/DATS/pcre.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/DATS/pcre_ML.dats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/DATS/pcre_ML.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/DATS/pcre.dats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/DATS/pcre.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/DATS/pcre_ML.dats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/DATS/pcre_ML.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "share/atspre_staload.hats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/basics.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/pointer.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/integer.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/integer_fixed.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/char.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/bool.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/float.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/tuple.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/memory.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/string.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/strptr.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/integer.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/reference.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/filebas.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/integer.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "libc/SATS/stdio.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "libc/sys/SATS/types.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "libc/SATS/string.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "libc/SATS/stdio.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/intrange.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/gorder.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_int.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_uint.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_bool.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_char.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_float.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/DATS/gorder_string.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/list.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/unsafe.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/list_vt.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/list_vt_mergesort.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/list_vt_quicksort.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/option.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/option_vt.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/array.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/giterator.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/array_bsearch.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/array_quicksort.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/arrayptr.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/arrayref.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/matrix.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/matrixptr.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/matrixref.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/stream.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/stream_vt.dats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_given": "prelude/params.hats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/gprint.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/unsafe.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/DATS/checkast.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "require"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/CATS/pcre.cats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/CATS/pcre.cats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/SATS/pcre.sats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/SATS/pcre.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/SATS/pcre_ML.sats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/SATS/pcre_ML.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "./../SATS/pcre.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/DATS/pcre.dats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/DATS/pcre.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "./../SATS/pcre.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/DATS/pcre_ML.dats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/DATS/pcre_ML.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "./../SATS/pcre.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "./../SATS/pcre_ML.sats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/DATS/pcre.dats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/DATS/pcre.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "./../SATS/pcre.sats"
+}
+{
+"atsreloc_kind": "include"
+,
+"atsreloc_target": ".TEST03/contrib/pcre/DATS/pcre_ML.dats"
+,
+"atsreloc_source": "https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/contrib/pcre/DATS/pcre_ML.dats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "prelude/SATS/unsafe.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "./../SATS/pcre.sats"
+}
+{
+"atsreloc_kind": "staload"
+,
+"atsreloc_given": "./../SATS/pcre_ML.sats"
+}
