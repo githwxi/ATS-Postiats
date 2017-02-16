@@ -25,13 +25,15 @@
 (* ****** ****** *)
 
 (*
+** Author: Hongwei Xi
 ** Start Time: May, 2012
-** Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+** Authoremail: gmhwxiATgmailDOTcom
 *)
 
 (* ****** ****** *)
 //
-// API for cairo in ATS // this one is based on cairo-1.12
+// API for cairo in ATS
+// this one is based on cairo-1.12
 //
 (* ****** ****** *)
 
