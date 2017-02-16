@@ -155,7 +155,7 @@ kind of store shared by the pool of threads so as to allow one of them to
 pick up the piece and then execute it. Also, a thread can return to the
 pool (instead of simply exiting) after it completes a piece of
 work. With this appraoch, the overhead of creating and destroying threads
-is spread over the pieces of work done by these threads.
+is spread over the pieces of work done by the threads in the pool.
 </p>
 
 <p>
@@ -171,7 +171,7 @@ problem-solving strategy (e.g., divide-and-conquer) is involved.
 It should soon become clear that #dyncode("msort") can be implemented in a
 continuation-passing style (CPS) that allows a problem to be divided into
 <em>non-blocking</em> subproblems, which one can pass directly to a thread
-pool without running any risk of potential deadlocking.
+pool without running risk of potential deadlocking.
 </p>
 
 <h2>
@@ -225,7 +225,7 @@ else f(xs) // end of [else]
 ')</pre>
 
 Note that the third argument of #dyncode("msort") (of the name
-#dyncode("k0")) is a closure function that acts like a continuation.
+#dyncode("k0")) is a closure-function that acts like a continuation.
 
 </p>
 
