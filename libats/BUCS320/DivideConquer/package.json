@@ -2,7 +2,7 @@
 "name":
 "atscntrb-bucs320-divideconquer"
 ,
-"version": "1.0.4"
+"version": "1.0.5"
 ,
 "description":
 "A generic implementation of the divide-and-conquer strategy"
