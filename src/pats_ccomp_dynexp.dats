@@ -913,9 +913,9 @@ hidexp_ccomp_tmpcst
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val-HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
+val-HDEtmpcst(d2c, t2mas) = hde0.hidexp_node
 //
-val tmplev = ccompenv_get_tmplevel (env)
+val tmplev = ccompenv_get_tmplevel(env)
 //
 in
 //
@@ -932,7 +932,7 @@ case+ 0 of
 | _ when
     tmplev > 0 => let
   in
-    primval_tmpltcst (loc0, hse0, d2c, t2mas)
+    primval_tmpltcst(loc0, hse0, d2c, t2mas)
   end // ...
 | _ => let
     val tmpmat =

@@ -59,23 +59,29 @@ regress:: test02; ./$<
 cleanall:: ; $(RMF) test02
 #
 ######
-
+#
 all:: \
 MergeSortPar_list_int_dats.o
 MergeSortPar_list_int_dats.o: MergeSortPar_list_int.dats; $(PATSCC2) -c $<
 all:: \
 MergeSortPar_list_double_dats.o
 MergeSortPar_list_double_dats.o: MergeSortPar_list_double.dats; $(PATSCC2) -c $<
-
+#
+cleanall:: ; $(RMF) MergeSortPar_list_int_dats.o
+cleanall:: ; $(RMF) MergeSortPar_list_double_dats.o
+#
 ######
-
+#
 all:: \
 MergeSortPar_array_int_dats.o
 MergeSortPar_array_int_dats.o: MergeSortPar_array_int.dats; $(PATSCC2) -c $<
 all:: \
 MergeSortPar_array_double_dats.o
 MergeSortPar_array_double_dats.o: MergeSortPar_array_double.dats; $(PATSCC2) -c $<
-
+#
+cleanall:: ; $(RMF) MergeSortPar_array_int_dats.o
+cleanall:: ; $(RMF) MergeSortPar_array_double_dats.o
+#
 ######
 
 testall:: all

@@ -160,18 +160,27 @@ end // end of [DivideConquer_cont$solve]
 implement
 {}(*tmp*)
 DivideConquer_cont$conquer
-  (x0, xs, k0) =
+  (x0, xs, k0) = let
+//
+fun
+conquer:
+$d2ctype
+(
+DivideConquer_cont$conquer<>
+) = lam(x0, xs, k0) =>
 (
 case+ xs of
 | list0_nil() =>
   k0(list0_nil())
 | list0_cons(x, xs) =>
-  DivideConquer_cont$solve
+  DivideConquer_cont$solve<>
   ( x
-  , lam(r) =>
-    DivideConquer_cont$conquer(x0, xs, lam(rs) => k0(list0_cons(r, rs)))
+  , lam(r) => conquer(x0, xs, lam(rs) => k0(list0_cons(r, rs)))
   )
-) (* end of [DivideConquer_cont$conquer] *)
+)
+in
+  conquer(x0, xs, k0)
+end (* end of [DivideConquer_cont$conquer] *)
 //
 (* ****** ****** *)
 

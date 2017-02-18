@@ -80,10 +80,10 @@ funent = '{
 // 2. sibling functions called transitively
 //
 , funent_flablst= funlablst // flabs in function body
-, funent_flablst_fin= Option (funlablst) // final value
+, funent_flablst_fin= Option(funlablst) // final value
 //
 , funent_d2envlst= d2envlst // d2vars in function body
-, funent_d2envlst_fin= Option (d2envlst) // final value
+, funent_d2envlst_fin= Option(d2envlst) // final value
 //
 , funent_vbindmap= vbindmap // local varbind map
 //

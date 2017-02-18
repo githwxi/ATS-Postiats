@@ -5,10 +5,10 @@
 **
 *)
 (* ****** ****** *)
-//
+
 #define
 ATS_DYNLOADFLAG 0
-//
+
 (* ****** ****** *)
 //
 %{^
@@ -31,24 +31,11 @@ ATS_DYNLOADFLAG 0
 
 (* ****** ****** *)
 //
-local
-#define
-MERGESORTPAR_LIST
-in
+#define MERGESORTPAR_LIST
+//
 #include "./../mylibies.hats"
-end // end of [local]
-//
-(* ****** ****** *)
-//
 #include "./../mydepies.hats"
 #include "./../mydepies_list.hats"
-//
-#staload DCP = $DivideConquerPar
-#staload FWS = $FWORKSHOP_chanlst
-//
-(* ****** ****** *)
-//
-#staload MSP_list = $MergeSortPar_list
 //
 (* ****** ****** *)
 //
@@ -64,26 +51,10 @@ MergeSortPar_list_double
 //
 val () = $tempenver(fws)
 //
-implement
-$DCP.DivideConquerPar$submit<>
-  (fwork) =
-{
-val () =
-$FWS.fworkshop_insert_lincloptr
-( fws
-, llam() => 0 where
-  {
-    val () = fwork()
-    val () = // fwork needs to be freed
-    cloptr_free($UNSAFE.castvwtp0{cloptr(void)}(fwork))
-  } // end of [fworkshop_insert_lincloptr]
-) (* end of [val] *)
-}
-//
 in
-  $MSP_list.MergeSortPar_list<>(xs)
+  $MergeSortPar_list.MergeSortPar_list<>(fws, xs)
 end // end of [MergeSortPar_list_double]
 //
 (* ****** ****** *)
 
-(* end of [MergeSortPar_list_double.dats] *)
+(* end of [MergeSortParPar_list_double.dats] *)

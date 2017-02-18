@@ -41,57 +41,27 @@
 //
 (* ****** ****** *)
 //
-#include "./../mydepies.hats"
-#include "./../mydepies_list.hats"
-//
-(* ****** ****** *)
-//
-#staload DCP = $DivideConquerPar
-#staload FWS = $FWORKSHOP_chanlst
+#include "./../mydepies_array.hats"
 //
 (* ****** ****** *)
 //
 (*
 abst@ype elt_t0ype
 *)
-typedef elt = $MergeSort_list.elt_t0ype
+typedef elt = $MergeSort_array.elt_t0ype
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-MergeSortPar_list
-  ($FWS.fworkshop, xs: list0(elt)): list0(elt)
+MergeSortPar_array{n:int}(arrayref(elt, n), int(n)): void
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-MergeSortPar_list
-  (fws, xs) = let
-//
-implement
-$DCP.DivideConquerPar$submit<>
-  (fwork) =
-{
-//
-val () =
-$FWS.fworkshop_insert_lincloptr
-( fws
-, llam() => 0 where
-  {
-    val () = fwork()
-    val () = // fwork needs to be freed
-    cloptr_free($UNSAFE.castvwtp0{cloptr(void)}(fwork))
-  } // end of [fworkshop_insert_lincloptr]
-) (* end of [val] *)
-//
-} (* DivideConquerPar$submit] *)
-//
-in
-  $MergeSort_list.MergeSort_list<>(xs)
-end // end of [MergeSortPar_list]
+MergeSortPar_array(A, n) = $MergeSort_array.MergeSort_array<>(A, n)
 //
 (* ****** ****** *)
 
-(* end of [MergeSortPar_list.dats] *)
+(* end of [MergeSortPar_array.dats] *)

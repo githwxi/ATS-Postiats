@@ -677,40 +677,41 @@ val tmplst2 =
   tmpvarlst_subst (sub, tmplst, sfx)
 val tmpmap2 = tmpmap_make (tmplst2)
 //
-val tmpret2 = tmpvar2var (tmpmap2, tmpret)
+val tmpret2 = tmpvar2var(tmpmap2, tmpret)
 //
 val () = let
-  val opt = funlab_get_d2copt (flab)
+  val opt = funlab_get_d2copt(flab)
 in
 //
 case+ opt of
-| Some (d2c) =>
+| None() => ()
+| Some(d2c) =>
     ccompenv_add_tmpcstmat(env, TMPCSTMATsome2(d2c, tmparg2, flab2))
-| None () => ()
+  // end of [val]
 //
 end // end of [val]
 //
 val () = let
-  val opt = funlab_get_d2vopt (flab)
+  val opt = funlab_get_d2vopt(flab)
 in
 //
 case+ opt of
+| None () => ()
 | Some (d2v) => (
     ccompenv_add_tmpvarmat(env, TMPVARMATsome2(d2v, tmparg2, flab2))
   ) (* end of [Some] *)
-| None ((*void*)) => ()
 //
 end // end of [val]
 //
-val flvl2 = funlab_get_level (flab2)
+val flvl2 = funlab_get_level(flab2)
 //
-val (pfinc | ()) = the_d2varlev_inc ()
+val (pfinc | ()) = the_d2varlev_inc()
 //
-val d2es = funent_get_d2envlst (fent)
-val d2es2 = d2envlst_subst (sub, d2es)
-val () = ccompenv_inc_flabsetenv (env)
-val () = ccompenv_incwth_dvarsetenv (env, list_vt2t(d2es2))
-val ((*freed*)) = list_vt_free (d2es2)
+val d2es = funent_get_d2envlst(fent)
+val d2es2 = d2envlst_subst(sub, d2es)
+val () = ccompenv_inc_flabsetenv(env)
+val () = ccompenv_incwth_dvarsetenv(env, list_vt2t(d2es2))
+val ((*freed*)) = list_vt_free(d2es2)
 //
 val inss2_body =
   instrlst_subst (env, tmpmap2, sub, inss_body, sfx)
