@@ -87,11 +87,13 @@ DivideConquer$divide(x0: input): list0(input)
 //
 extern
 fun{}
-DivideConquer$conquer(xs: list0(input)): output
+DivideConquer$conquer
+  (x0: input, xs: list0(input)): output
 //
 extern
 fun{}
-DivideConquer$conquer$combine(rs: list0(output)): output
+DivideConquer$conquer$combine
+  (x0: input, rs: list0(output)): output
 //
 (* ****** ****** *)
 //
@@ -146,7 +148,7 @@ DivideConquer$base_solve<>(x0)
 else r0 where
 {
   val xs = DivideConquer$divide<>(x0)
-  val r0 = DivideConquer$conquer<>(xs)
+  val r0 = DivideConquer$conquer<>(x0, xs)
   val () = DivideConquer$solve$eval$memo_set<>(x0, r0)
 } (* end of [else] *)
 //
@@ -169,7 +171,7 @@ DivideConquer$solve$eval$memo_set
 implement
 {}(*tmp*)
 DivideConquer$conquer
-  (xs) = r0 where
+  (x0, xs) = r0 where
 {
 //
 val rs =
@@ -178,7 +180,7 @@ list0_map<input><output>
 , lam(x) => DivideConquer$solve_rec<>(x)
 ) (* end of [val] *)
 //
-val r0 = DivideConquer$conquer$combine<>(rs)
+val r0 = DivideConquer$conquer$combine<>(x0, rs)
 //
 } (* end of [DivideConquer$conquer] *)
 //

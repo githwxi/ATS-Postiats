@@ -1,7 +1,7 @@
 (* ****** ****** *)
 (*
 ** DivideConquer:
-** MergeSortPar_list
+** MergeSortPar_array
 **
 *)
 (* ****** ****** *)
@@ -52,9 +52,9 @@ val err =
 //
 val
 xs0 =
-g0ofg1
+array0
 (
-$list{int}
+$arrpsz{int}
 (
   8, 3, 2, 4, 6, 5, 1, 7, 0, 9
 )
@@ -63,26 +63,32 @@ $list{int}
 val xs1 = xs0 + xs0
 val ((*void*)) = println!("xs1 = ", xs1)
 //
-val xs2 =
-$TESTLIB.MergeSortPar_list_int(fws, xs1)
+val ( xs2, n ) = array0_get_refsize(xs1)
 //
-val ((*void*)) = println!("xs2 = ", xs2)
+val ((*void*)) =
+$TESTLIB.MergeSortPar_array_int(fws, xs2, sz2i(n))
+//
+val ((*void*)) = println!("xs2 = ", xs1)
 //
 val ys1 =
 (
-xs1
+xs0 + xs0
 ).map
 (
 TYPE{double}
 )(lam x => $UNSAFE.cast{double}(x))
 val ((*void*)) = println!("ys1 = ", ys1)
-val ys2 =
-$TESTLIB.MergeSortPar_list_double(fws, ys1)
 //
-val ((*void*)) = println!("ys2 = ", ys2)
+val ( ys2, n ) = array0_get_refsize(ys1)
+//
+val ((*void*)) =
+$TESTLIB.MergeSortPar_array_double(fws, ys2, sz2i(n))
+//
+val ((*void*)) = println!("ys2 = ", ys1)
+//
 //
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [test01.dats] *)
+(* end of [test02.dats] *)

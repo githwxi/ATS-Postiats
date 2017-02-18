@@ -31,5 +31,21 @@ MergeSort_list_double
   (xs: list0(double)): list0(double)
 //
 (* ****** ****** *)
+//
+extern
+fun
+MergeSort_array_int
+  {n:int}
+  (arrayref(int, n), int(n)): void
+//
+(* ****** ****** *)
+//
+extern
+fun
+MergeSort_array_double
+  {n:int}
+  (arrayref(double, n), int(n)): void
+//
+(* ****** ****** *)
 
 (* end of [testlib.dats] *)

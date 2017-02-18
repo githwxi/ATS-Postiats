@@ -131,7 +131,7 @@ end // end of [DivideConquer$solve]
 implement
 {}(*tmp*)
 $DC_cont.DivideConquer_cont$conquer
-  (xs, k0) = let
+  (_, xs, k0) = let
 //
 #staload
 $SPINREF // opening it

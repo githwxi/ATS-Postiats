@@ -80,7 +80,7 @@ g0ofg1($list{int}(n-1, n-2))
 
 implement
 DivideConquer$conquer$combine<>
-  (rs) = r1 + r2 where
+  (_, rs) = r1 + r2 where
 {
 //
 val-list0_cons(r1, rs) = rs

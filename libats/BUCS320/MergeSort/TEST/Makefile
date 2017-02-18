@@ -30,19 +30,33 @@ cleanall::
 
 ######
 #
-OBJECTS :=
-OBJECTS += MergeSort_list_int_dats.o
-OBJECTS += MergeSort_list_double_dats.o
+OBJECTS1 :=
+OBJECTS1 += MergeSort_list_int_dats.o
+OBJECTS1 += MergeSort_list_double_dats.o
+#
+OBJECTS2 :=
+OBJECTS2 += MergeSort_array_int_dats.o
+OBJECTS2 += MergeSort_array_double_dats.o
 #
 ######
 #
 all:: \
 test01
 test01: \
-test01.dats $(OBJECTS); $(PATSCC2) -o $@ $^
+test01.dats $(OBJECTS1); $(PATSCC2) -o $@ $^
 #
 regress:: test01; ./$<
 cleanall:: ; $(RMF) test01
+#
+######
+#
+all:: \
+test02
+test02: \
+test02.dats $(OBJECTS2); $(PATSCC2) -o $@ $^
+#
+regress:: test02; ./$<
+cleanall:: ; $(RMF) test02
 #
 ######
 
@@ -52,6 +66,15 @@ MergeSort_list_int_dats.o: MergeSort_list_int.dats; $(PATSCC2) -c $<
 all:: \
 MergeSort_list_double_dats.o
 MergeSort_list_double_dats.o: MergeSort_list_double.dats; $(PATSCC2) -c $<
+
+######
+
+all:: \
+MergeSort_array_int_dats.o
+MergeSort_array_int_dats.o: MergeSort_array_int.dats; $(PATSCC2) -c $<
+all:: \
+MergeSort_array_double_dats.o
+MergeSort_array_double_dats.o: MergeSort_array_double.dats; $(PATSCC2) -c $<
 
 ######
 

@@ -70,7 +70,7 @@ end // end of [DivideConquer$divide]
 
 implement
 DivideConquer$conquer$combine<>
-  (rs) =
+  (_, rs) =
   merge(xs1, xs2) where
 {
 //

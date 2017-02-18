@@ -115,12 +115,9 @@ end // end of [DivideConquer$divide]
 
 implement
 $DC.DivideConquer$conquer$combine<>
-  (rs) =
+  (_, rs) =
   merge(xs1, xs2) where
 {
-//
-val-list0_cons(xs1, rs) = rs
-val-list0_cons(xs2, rs) = rs
 //
 fun
 merge
@@ -144,6 +141,9 @@ case+ xs10 of
     end // end of [list0_cons]
   )
 )
+//
+val-list0_cons(xs1, rs) = rs
+val-list0_cons(xs2, rs) = rs
 //
 } // end of [DivideConquer$conquer$combine]
 

@@ -55,7 +55,7 @@ g0ofg1($list{int}(n+11))
 
 implement
 DivideConquer$conquer$combine<>
-  (rs) =
+  (_, rs) =
   MacCarthy's_91(r1) where
 {
 //

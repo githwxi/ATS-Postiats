@@ -31,22 +31,29 @@ ATS_DYNLOADFLAG 0
 
 (* ****** ****** *)
 //
-#define MERGESORTPAR_LIST
-//
-#include "./../mydepies.hats"
+local
+#define
+MERGESORTPAR_LIST
+in
 #include "./../mylibies.hats"
+end // end of [local]
 //
 (* ****** ****** *)
+//
+#include "./../mydepies.hats"
+#include "./../mydepies_list.hats"
 //
 #staload DCP = $DivideConquerPar
 #staload FWS = $FWORKSHOP_chanlst
 //
 (* ****** ****** *)
 //
-#staload
-MSP_list = $MergeSortPar_list
+#staload MSP_list = $MergeSortPar_list
 //
-assume $MSP_list.elt_t0ype = double
+(* ****** ****** *)
+//
+assume
+$MergeSort_list.elt_t0ype = double
 //
 implement
 gcompare_val_val<double>(x, y) = compare(x, y)

@@ -2,7 +2,7 @@
 "name":
 "atscntrb-bucs320-mergesortpar"
 ,
-"version": "1.0.1"
+"version": "1.0.2"
 ,
 "description":
 "Mergesort for lists and arrays based on generic divide-and-conquer in parallel"
@@ -25,6 +25,8 @@
 ,
 "dependencies": {
   "atscntrb-hx-fworkshop": ">=1.0.0"
+,
+  "atscntrb-bucs320-mergesort": ">=1.0.0"
 ,
   "atscntrb-bucs320-divideconquerpar": ">=1.0.0"
 }

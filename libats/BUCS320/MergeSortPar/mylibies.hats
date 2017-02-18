@@ -16,5 +16,14 @@ MergeSortPar_list =
 #endif // #ifdef(MERGESORTPAR_LIST)
 //
 (* ****** ****** *)
+//
+#ifdef
+MERGESORTPAR_ARRAY
+#staload
+MergeSortPar_array =
+"./DATS/MergeSortPar_array.dats"
+#endif // #ifdef(MERGESORTPAR_array)
+//
+(* ****** ****** *)
 
 (* end of [mylibies.hats] *)

@@ -79,7 +79,7 @@ extern
 fun{}
 DivideConquer_cont$conquer
 (
-xs: list0(input), k0: list0(output) -<cloref1> void
+x0: input, xs: list0(input), k0: list0(output) -<cloref1> void
 ) : void // end of [DivideConquer_cont$conquer]
 //
 (* ****** ****** *)
@@ -143,10 +143,10 @@ else () where
   DivideConquer$divide<>(x0)
   val () =
   DivideConquer_cont$conquer<>
-  ( xs
+  ( x0, xs
   , lam(rs) => k0(r0) where
     {
-      val r0 = DivideConquer$conquer$combine<>(rs)
+      val r0 = DivideConquer$conquer$combine<>(x0, rs)
       val () = DivideConquer$solve$eval$memo_set<>(x0, r0)
     } // end of [where] // end of [lam]
   )
@@ -160,7 +160,7 @@ end // end of [DivideConquer_cont$solve]
 implement
 {}(*tmp*)
 DivideConquer_cont$conquer
-  (xs, k0) =
+  (x0, xs, k0) =
 (
 case+ xs of
 | list0_nil() =>
@@ -169,7 +169,7 @@ case+ xs of
   DivideConquer_cont$solve
   ( x
   , lam(r) =>
-    DivideConquer_cont$conquer(xs, lam(rs) => k0(list0_cons(r, rs)))
+    DivideConquer_cont$conquer(x0, xs, lam(rs) => k0(list0_cons(r, rs)))
   )
 ) (* end of [DivideConquer_cont$conquer] *)
 //

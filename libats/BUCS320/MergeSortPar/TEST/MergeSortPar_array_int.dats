@@ -1,14 +1,14 @@
 (* ****** ****** *)
 (*
 ** DivideConquer:
-** MergeSortPar_list
+** MergeSortPar_array
 **
 *)
 (* ****** ****** *)
-
+//
 #define
 ATS_DYNLOADFLAG 0
-
+//
 (* ****** ****** *)
 //
 %{^
@@ -33,7 +33,7 @@ ATS_DYNLOADFLAG 0
 //
 local
 #define
-MERGESORTPAR_LIST
+MERGESORTPAR_ARRAY
 in
 #include "./../mylibies.hats"
 end // end of [local]
@@ -41,26 +41,26 @@ end // end of [local]
 (* ****** ****** *)
 //
 #include "./../mydepies.hats"
-#include "./../mydepies_list.hats"
+#include "./../mydepies_array.hats"
 //
 #staload DCP = $DivideConquerPar
 #staload FWS = $FWORKSHOP_chanlst
 //
 (* ****** ****** *)
 //
-#staload MSP_list = $MergeSortPar_list
+#staload MSP_array = $MergeSortPar_array
 //
 (* ****** ****** *)
 //
 assume
-$MergeSort_list.elt_t0ype = int
+$MergeSort_array.elt_t0ype = int
 //
 implement
 gcompare_val_val<int>(x, y) = compare(x, y)
 //
 implement
-MergeSortPar_list_int
-  (fws, xs) = let
+MergeSortPar_array_int
+  (fws, A, n) = let
 //
 val () = $tempenver(fws)
 //
@@ -81,9 +81,9 @@ $FWS.fworkshop_insert_lincloptr
 }
 //
 in
-  $MSP_list.MergeSortPar_list<>(xs)
-end // end of [MergeSortPar_list_int]
+  $MSP_array.MergeSortPar_array<>(A, n)
+end // end of [MergeSortPar_array_int]
 //
 (* ****** ****** *)
 
-(* end of [MergeSortParPar_list_int.dats] *)
+(* end of [MergeSortPar_array_int.dats] *)
