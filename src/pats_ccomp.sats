@@ -658,12 +658,15 @@ and primval_node =
   | PMVtmpltvarmat of //  for matched
       (d2var, t2mpmarglst, tmpvarmat) // template variables
     // end of [PMVtmpltvarmat]
+(*
 //
 // HX-2017-02-18:
+//
   | PMVtempenver of
       (d2varlst) // for specified environvals
     // end of [PMVtempenver]
 //
+*)
   | PMVerror of ((*indication-of-erroneous-values*))
 //
 // end of [primval_node]
@@ -1004,26 +1007,30 @@ fun primval_cfunlab
 //
 (* ****** ****** *)
 
-fun primval_d2vfunlab
+fun
+primval_d2vfunlab
 (
   loc: loc_t, hse: hisexp, d2v: d2var, flab: funlab
 ) : primval // end of [primval_d2vfunlab]
 
 (* ****** ****** *)
 
-fun primval_lamfix (knd: int, pmv_funval: primval): primval
+fun
+primval_lamfix (knd: int, pmv_funval: primval): primval
 
 (* ****** ****** *)
 //
 fun
 primval_tmpltcst
 (
-  loc: loc_t, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
+  loc: loc_t
+, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpltcst]
 fun
 primval_tmpltcstmat
 (
-  loc: loc_t, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
+  loc: loc_t
+, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
 ) : primval // end of [primval_tmpltcstmat]
 //
 (* ****** ****** *)
@@ -1031,19 +1038,23 @@ primval_tmpltcstmat
 fun
 primval_tmpltvar
 (
-  loc: loc_t, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
+  loc: loc_t
+, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpltvar]
 fun
 primval_tmpltvarmat
 (
-  loc: loc_t, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst, mat: tmpvarmat
+  loc: loc_t
+, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst, mat: tmpvarmat
 ) : primval // end of [primval_tmpltvarmat]
 //
 (* ****** ****** *)
 //
+(*
 fun
 primval_tempenver
   (loc: loc_t, hse: hisexp, d2vs: d2varlst): primval
+*)
 //
 (* ****** ****** *)
 
@@ -1268,8 +1279,13 @@ instr_node =
 //
   | INStmpdec of (tmpvar) // HX-2013-01: this is a no-op
 //
-  | INSextvar of (string, primval) // HX-2013-05: extvar def
-  | INSdcstdef of (d2cst, primval) // HX-2013-05: global const def
+  | INSextvar of
+      (string, primval) // HX-2013-05: extvar def
+//
+  | INSdcstdef of
+      ( d2cst, primval ) // HX-2013-05: global const def
+//
+  | INStempenver of(d2varlst) // HX-2017-02-18: $tempenver
 //
 // end of [instr_node]
 
@@ -1560,10 +1576,20 @@ fun instr_closure_initize
 fun instr_tmpdec (loc: loc_t, tmp: tmpvar): instr
 
 (* ****** ****** *)
-
-fun instr_extvar (loc: loc_t, xnm: string, pmv: primval): instr
-fun instr_dcstdef (loc: loc_t, d2c: d2cst, pmv: primval): instr
-
+//
+fun
+instr_extvar
+  (loc: loc_t, xnm: string, pmv: primval): instr
+//
+fun
+instr_dcstdef
+  (loc: loc_t, d2c: d2cst, pmv: primval): instr
+//
+(* ****** ****** *)
+//
+fun
+instr_tempenver(loc: loc_t, d2vs: d2varlst): instr
+//
 (* ****** ****** *)
 
 fun ibranch_make (loc: loc_t, inss: instrlst): ibranch

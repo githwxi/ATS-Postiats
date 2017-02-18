@@ -208,11 +208,12 @@ case+ hid0.hidecl_node of
     val
     lvl0 = the_d2varlev_get ()
     val ((*void*)) =
-      hifundeclst_ccomp (env, lvl0, knd, decarg, hfds)
+    hifundeclst_ccomp
+      (env, lvl0, knd, decarg, hfds)
     // end of [val]
 //
   in
-    primdec_fundecs (loc0, knd, decarg, hfds)
+    primdec_fundecs(loc0, knd, decarg, hfds)
   end // end of [HIDfundecs]
 //
 | HIDvaldecs
@@ -222,7 +223,7 @@ case+ hid0.hidecl_node of
     val
     inss = hivaldeclst_ccomp(env, lvl0, knd, hvds)
   in
-    primdec_valdecs (loc0, knd, hvds, inss)
+    primdec_valdecs(loc0, knd, hvds, inss)
   end // end of [HIDvaldecs]
 | HIDvaldecs_rec
     (knd, hvds) => let
@@ -230,7 +231,8 @@ case+ hid0.hidecl_node of
     val
     lvl0 = the_d2varlev_get()
     val
-    inss = hivaldeclst_ccomp_rec(env, lvl0, knd, hvds)
+    inss =
+    hivaldeclst_ccomp_rec(env, lvl0, knd, hvds)
 //
   in
     primdec_valdecs_rec (loc0, knd, hvds, inss)
@@ -240,9 +242,9 @@ case+ hid0.hidecl_node of
     (hvds) => let
 //
     val
-    lvl0 = the_d2varlev_get ()
+    lvl0 = the_d2varlev_get()
     val
-    inss = hivardeclst_ccomp (env, lvl0, hvds)
+    inss = hivardeclst_ccomp(env, lvl0, hvds)
 //
   in
     primdec_vardecs (loc0, hvds, inss)
@@ -720,14 +722,23 @@ fun aux
   val loc = hvd.hivaldec_loc
   val hde_def = hvd.hivaldec_def
   val pmv_def =
-    hidexp_ccompv (env, res, hde_def) // non-lvalue
+    hidexp_ccompv(env, res, hde_def) // non-lvalue
+//
+(*
+  val () =
+    println!
+    (
+      "hivaldeclst_ccomp: aux: pmv_def = ", pmv_def
+    ) (* println! *)
+*)
+//
   val hip = hvd.hivaldec_pat
   val fail = (
     case+ knd of
-    | VK_val_pos () => PTCKNTnone () | _ => PTCKNTcaseof_fail (loc)
+    | VK_val_pos() => PTCKNTnone() | _ => PTCKNTcaseof_fail(loc)
   ) : patckont // end of [val]
-  val () = hipatck_ccomp (env, res, fail, hip, pmv_def)
-  val () = himatch2_ccomp (env, res, lvl0, hip, pmv_def)
+  val () = hipatck_ccomp(env, res, fail, hip, pmv_def)
+  val () = himatch2_ccomp(env, res, lvl0, hip, pmv_def)
 in
   // nothing
 end // end of [aux]
@@ -741,6 +752,9 @@ fun auxlst
 in
 //
 case+ hvds of
+| list_nil
+    ((*void*)) => ()
+  // end of [list_nil]
 | list_cons
     (hvd, hvds) => let
     val () = aux (env, res, lvl0, knd, hvd)
@@ -748,7 +762,6 @@ case+ hvds of
   in
     // nothing
   end // end of [list_cons]
-| list_nil ((*void*)) => ()
 //
 end // end of [auxlst]
 
@@ -761,11 +774,13 @@ hivaldeclst_ccomp
 ) = let
 //
 var res
-  : instrseq = instrseq_make_nil()
-val () = auxlst (env, res, lvl0, knd, hvds)
+  : instrseq =
+  instrseq_make_nil((*void*))
+val () =
+  auxlst(env, res, lvl0, knd, hvds)
 //
 in
-  instrseq_get_free (res)
+  instrseq_get_free(res)
 end // end of [hivaldeclst_ccomp]
 
 end // end of [local]

@@ -2159,8 +2159,15 @@ ins.instr_node of
 //
 | INSextvar (id, pmv) =>
   {
-    val () = emit_text (out, "ATSINSextvar_assign(")
-    val () = fprintf (out, "ATSPMVextval(%s)", @(id))
+    val () =
+    emit_text
+    (
+      out, "ATSINSextvar_assign("
+    ) (* emit_text *)
+    val () =
+    fprintf (
+      out, "ATSPMVextval(%s)", @(id)
+    ) (* fprintf *)
     val () = emit_text (out, ", ")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ") ;")
@@ -2168,12 +2175,27 @@ ins.instr_node of
 //
 | INSdcstdef (d2c, pmv) =>
   {
-    val () = emit_text (out, "ATSINSdyncst_valbind(")
+    val () =
+    emit_text
+    (
+      out, "ATSINSdyncst_valbind("
+    ) (* emit_text *)
     val () = emit_d2cst (out, d2c)
     val () = emit_text (out, ", ")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ") ;")
   } (* end of [INSdcstdef] *)
+//
+| INStempenver( d2vs ) =>
+  {
+    val () =
+    emit_text (out, "// ")
+    val () =
+    emit_text (out, "$tempenver(")
+    val () =
+    $D2E.fprint_d2varlst(out, d2vs)
+    val ((*closing*)) = emit_RPAREN(out)
+  } (* end of [INStempenver] *)
 //
 | _ (*unsupported-instr*) =>
   {

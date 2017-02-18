@@ -41,7 +41,13 @@
 //
 (* ****** ****** *)
 //
+#include "./../mydepies.hats"
 #include "./../mydepies_array.hats"
+//
+(* ****** ****** *)
+//
+#staload DCP = $DivideConquerPar
+#staload FWS = $FWORKSHOP_chanlst
 //
 (* ****** ****** *)
 //
@@ -54,13 +60,45 @@ typedef elt = $MergeSort_array.elt_t0ype
 //
 extern
 fun{}
-MergeSortPar_array{n:int}(arrayref(elt, n), int(n)): void
+MergeSortPar_array
+  {n:int}
+(
+  fws: $FWS.fworkshop, A: arrayref(elt, n), n: int(n)
+) : void // end of [MergeSortPar_array]
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-MergeSortPar_array(A, n) = $MergeSort_array.MergeSort_array<>(A, n)
+MergeSortPar_array
+  (fws, A, n) = let
+//
+// HX:
+// for bug circumvention
+val () = $tempenver(fws)
+//
+//
+implement
+$DCP.DivideConquerPar$submit<>
+  (fwork) =
+{
+//
+val () =
+$FWS.fworkshop_insert_lincloptr
+( fws
+, llam() => 0 where
+  {
+    val () = fwork()
+    val () = // fwork needs to be freed
+    cloptr_free($UNSAFE.castvwtp0{cloptr(void)}(fwork))
+  } // end of [fworkshop_insert_lincloptr]
+) (* end of [val] *)
+//
+} (* DivideConquerPar$submit] *)
+//
+in
+  $MergeSort_array.MergeSort_array<>(A, n)
+end // end of [MergeSortPar_array]
 //
 (* ****** ****** *)
 

@@ -47,13 +47,10 @@ gcompare_val_val<int>(x, y) = compare(x, y)
 //
 implement
 MergeSortPar_list_int
-  (fws, xs) = let
-//
-val () = $tempenver(fws)
-//
-in
+  (fws, xs) =
+(
   $MergeSortPar_list.MergeSortPar_list<>(fws, xs)
-end // end of [MergeSortPar_list_int]
+) (* end of [MergeSortPar_list_int] *)
 //
 (* ****** ****** *)
 

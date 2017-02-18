@@ -47,13 +47,10 @@ gcompare_val_val<double>(x, y) = compare(x, y)
 //
 implement
 MergeSortPar_list_double
-  (fws, xs) = let
-//
-val () = $tempenver(fws)
-//
-in
+  (fws, xs) =
+(
   $MergeSortPar_list.MergeSortPar_list<>(fws, xs)
-end // end of [MergeSortPar_list_double]
+) (* end of [MergeSortPar_list_double] *)
 //
 (* ****** ****** *)
 

@@ -957,6 +957,7 @@ pmv0.primval_node of
     // end of [if]    
   end // end of [PMVtmpltvar]
 //
+(*
 | PMVtempenver
     (d2vs) => pmv0 where
   {
@@ -966,6 +967,7 @@ pmv0.primval_node of
     , "primval_subst: PMVtempenver: d2vs = ", d2vs
     ) (* end of [println!] *)
   } (* end of [PMVtempenver] *)
+*)
 //
 | _ (* rest-of-primval *) => pmv0
 //
@@ -1757,9 +1759,9 @@ of (* case+ *)
     val fent2 = funent_subst (env, sub, flab2, fent, sfx)
     val ((*void*)) = funlab_set_funent (flab2, Some (fent2))
 //
-    val tmpret2 = ftmp (tmpret)
+    val tmpret2 = ftmp(tmpret)
     typedef funlab = hisexp_funlab_type
-    val ((*void*)) = tmpvar_set_tyclo (tmpret2, $UN.cast{funlab}(flab2))
+    val ((*void*)) = tmpvar_set_tyclo(tmpret2, $UN.cast{funlab}(flab2))
 //
   in
     instr_closure_initize (loc0, tmpret2, flab2)
@@ -1769,6 +1771,21 @@ of (* case+ *)
 //
 | INSextvar(name, pmv) => instr_extvar(loc0, name, fpmv(pmv))
 | INSdcstdef(d2c0, pmv) => instr_dcstdef(loc0, d2c0, fpmv(pmv))
+//
+| INStempenver(d2vs) => ins0 where
+  {
+//
+    val () =
+    ccompenv_add_tempenver(env, d2vs)
+//
+(*
+    val () =
+    fprintln!
+      (stdout_ref, "instr_subst: INStempenver: d2vs = ", d2vs)
+    // end of [val]
+*)
+//
+  } (* end of [INStempenver] *)
 //
 end // end of [instr_subst]
 
