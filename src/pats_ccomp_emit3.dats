@@ -1857,7 +1857,7 @@ case+ pmd.primdec_node of
     (knd, hvds, inss) =>
     emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
 //
-| PMDvardecs (hvds, inss) =>
+| PMDvardecs(hvds, inss) =>
     emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
 //
 | PMDinclude

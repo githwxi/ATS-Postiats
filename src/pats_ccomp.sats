@@ -593,8 +593,8 @@ and primval_node =
 //
   | PMVarg of (int)
   | PMVargref of (int) // call-by-reference
-  | PMVargtmpref of (int) // call-by-reference but treated as tmpvar
   | PMVargenv of (int) // arguments for environvals
+  | PMVargtmpref of (int) // call-by-reference but treated as tmpvar
 //
   | PMVcst of (d2cst) // for constants
   | PMVenv of (d2var) // for environvals
@@ -627,10 +627,14 @@ and primval_node =
   | PMVselect of (primval, hisexp(*tyroot*), primlab)
   | PMVselect2 of (primval, hisexp(*tyroot*), primlablst)
 //
-  | PMVselptr of (primval, hisexp(*tyroot*), primlablst)
+  | PMVselptr of
+      (primval, hisexp(*tyroot*), primlablst)
+    // end of [PMVselptr]
 //
   | PMVptrof of (primval)
-  | PMVptrofsel of (primval, hisexp(*tyroot*), primlablst)
+  | PMVptrofsel of
+      (primval, hisexp(*tyroot*), primlablst)
+    // end of [PMVptrofsel]
 //
   | PMVrefarg of (int(*knd*), int(*freeknd*), primval)
 //
@@ -641,13 +645,27 @@ and primval_node =
 //
   | PMVlamfix of (int(*knd*), primval) // knd=0/1:lam/fix
 //
-  | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
-  | PMVtmpltvar of (d2var, t2mpmarglst) // for template variables
+  | PMVtmpltcst of
+      (d2cst, t2mpmarglst) // for template constants
+    // end of [PMVtmpltcst]
+  | PMVtmpltvar of
+      (d2var, t2mpmarglst) // for template variables
+    // end of [PMVtmpltvar]
 //
-  | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
-  | PMVtmpltvarmat of (d2var, t2mpmarglst, tmpvarmat) // for matched template variables
+  | PMVtmpltcstmat of  // for matched 
+      (d2cst, t2mpmarglst, tmpcstmat) // template constants
+    // end of [PMVtmpltcstmat]
+  | PMVtmpltvarmat of //  for matched
+      (d2var, t2mpmarglst, tmpvarmat) // template variables
+    // end of [PMVtmpltvarmat]
 //
-  | PMVerror of ()
+// HX-2017-02-18:
+  | PMVtempenver of
+      (d2varlst) // for specified environvals
+    // end of [PMVtempenver]
+//
+  | PMVerror of ((*indication-of-erroneous-values*))
+//
 // end of [primval_node]
 
 and primlab_node =
@@ -996,29 +1014,37 @@ fun primval_d2vfunlab
 fun primval_lamfix (knd: int, pmv_funval: primval): primval
 
 (* ****** ****** *)
-
-fun primval_tmpltcst
+//
+fun
+primval_tmpltcst
 (
   loc: loc_t, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpltcst]
-
-fun primval_tmpltcstmat
+fun
+primval_tmpltcstmat
 (
   loc: loc_t, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
 ) : primval // end of [primval_tmpltcstmat]
-
+//
 (* ****** ****** *)
-
-fun primval_tmpltvar
+//
+fun
+primval_tmpltvar
 (
   loc: loc_t, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpltvar]
-
-fun primval_tmpltvarmat
+fun
+primval_tmpltvarmat
 (
   loc: loc_t, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst, mat: tmpvarmat
 ) : primval // end of [primval_tmpltvarmat]
-
+//
+(* ****** ****** *)
+//
+fun
+primval_tempenver
+  (loc: loc_t, hse: hisexp, d2vs: d2varlst): primval
+//
 (* ****** ****** *)
 
 fun primval_error (loc: loc_t, hse: hisexp): primval

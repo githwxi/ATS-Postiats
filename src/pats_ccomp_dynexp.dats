@@ -395,10 +395,19 @@ case+ hde0.hidexp_node of
 | HDEvcopyenv (d2v) => HX: HDEvar (d2v)
 *)
 //
-| HDEtempenver (d2vs) => let
-    val () = ccompenv_add_tempenver(env, d2vs)
+| HDEtempenver(d2vs) => let
+//
+    val () =
+    ccompenv_add_tempenver(env, d2vs)
+//
+    val () =
+    fprintln!
+    ( stdout_ref
+    , "hidexp_ccomp: HDEtempenver: d2vs = ", d2vs
+    ) (* println! *)
+//
   in
-    primval_empty (loc0, hse0)
+    primval_tempenver(loc0, hse0, d2vs)
   end // end of [HDEtempenver]
 //
 | HDElam _ => hidexp_ccomp_lam (env, res, hde0)

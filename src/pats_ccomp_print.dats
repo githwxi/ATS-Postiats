@@ -609,6 +609,13 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
+| PMVtempenver(d2vs) =>
+  {
+    val () = prstr "PMVtempenver("
+    val () = fprint_d2varlst(out, d2vs)
+    val () = prstr ")"
+  }
+//
 | PMVerror((*error*)) => prstr "PMVerror()"
 //
 end // end of [fprint_primval]

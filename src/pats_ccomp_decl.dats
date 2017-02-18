@@ -786,45 +786,52 @@ auxinit
 in
 //
 case+ hvds of
+| list_nil
+  (
+    (*void*)
+  ) => list_vt_nil()
 | list_cons
     (hvd, hvds) => let
     val hip = hvd.hivaldec_pat
     val loc = hip.hipat_loc
     val hse = hip.hipat_type
-    val tmp = tmpvar_make (loc, hse)
-    val () = instrseq_add_tmpdec (res, loc, tmp)
-    val pmv = primval_tmp (loc, hse, tmp)
-    val () = himatch2_ccomp (env, res, lvl0, hip, pmv)
-    val tmps = auxinit (env, res, lvl0, hvds)
+    val tmp = tmpvar_make(loc, hse)
+    val () = instrseq_add_tmpdec(res, loc, tmp)
+    val pmv = primval_tmp(loc, hse, tmp)
+    val () = himatch2_ccomp(env, res, lvl0, hip, pmv)
+    val tmps = auxinit(env, res, lvl0, hvds)
   in
     list_vt_cons (tmp, tmps)
   end // end of [list_cons]
-| list_nil () => list_vt_nil ()
 //
 end // end of [auxinit]
 
-fun auxmain
-  {n:nat} .<n>.
+fun
+auxmain
+{n:nat} .<n>.
 (
   env: !ccompenv
 , res: !instrseq
-, hvds: list (hivaldec, n)
-, tmps: list_vt (tmpvar, n)
+, hvds: list(hivaldec, n)
+, tmps: list_vt(tmpvar, n)
 ) : void = let
 in
 //
 case+ hvds of
+| list_nil
+    ((*void*)) => () where
+  {
+    val+~list_vt_nil() = tmps
+  } (* end of [list_nil] *)
 | list_cons
     (hvd, hvds) => let
     val hde_def = hvd.hivaldec_def
-    val+~list_vt_cons (tmp, tmps) = tmps
-    val () = hidexp_ccomp_ret (env, res, tmp, hde_def)
+    val+~list_vt_cons(tmp, tmps) = tmps
+    val ((*void*)) =
+      hidexp_ccomp_ret(env, res, tmp, hde_def)
   in
-    auxmain (env, res, hvds, tmps)
+    auxmain(env, res, hvds, tmps)
   end // end of [list_cons]
-| list_nil () => let
-    val+~list_vt_nil () = tmps in (*nothing*)
-  end // end of [list_nil]
 //
 end // end of [auxmain]
 
@@ -835,9 +842,12 @@ hivaldeclst_ccomp_rec
   (env, lvl0, knd, hvds) = let
 //
 var res
-  : instrseq = instrseq_make_nil()
-val tmps = auxinit (env, res, lvl0, hvds)
-val () = auxmain (env, res, hvds, tmps)
+  : instrseq =
+  instrseq_make_nil((*void*))
+val tmps =
+  auxinit(env, res, lvl0, hvds)
+val ((*void*)) =
+  auxmain (env, res, hvds, tmps)
 //
 in
   instrseq_get_free (res)

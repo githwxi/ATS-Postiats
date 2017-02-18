@@ -463,6 +463,13 @@ primval_tmpltvarmat
 // end of [primval_tmpltvarmat]
 //
 (* ****** ****** *)
+//
+implement
+primval_tempenver
+  (loc, hse, d2vs) =
+  primval_make_node(loc, hse, PMVtempenver(d2vs))
+//
+(* ****** ****** *)
 
 implement
 primval_error
