@@ -68,8 +68,9 @@ a:t@ype
 , cmp: cmp(a)
 ) : void // end of [merge]
 
-implement{a}
-merge (A, m, B, n, C, cmp) = let
+implement
+{a}(*tmp*)
+merge(A, m, B, n, C, cmp) = let
 //
 fun loop
   {m,n:nat}
@@ -175,8 +176,9 @@ msort2{n:nat} .<n>.
 (* ****** ****** *)
 
 extern
-fun{a:t@ype}
-mergeSort {n:nat}
+fun
+{a:t@ype}
+mergeSort{n:nat}
   (A: &(@[a][n]), n: size_t n, cmp: cmp(a)): void
 // end of [mergeSort]
 
