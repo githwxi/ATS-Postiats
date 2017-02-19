@@ -19,6 +19,15 @@
 //
 #include
 "$PATSHOMELOCS\
+/atscntrb-bucs320-mergesort/mydepies.hats"
+#include
+"$PATSHOMELOCS\
+/atscntrb-bucs320-mergesort/mylibies.hats"
+//
+(* ****** ****** *)
+//
+#include
+"$PATSHOMELOCS\
 /atscntrb-bucs320-divideconquerpar/mydepies.hats"
 #include
 "$PATSHOMELOCS\
