@@ -742,7 +742,7 @@ srcget_patscontrib_libatscc:: SCRIPT/patscontrib_libatscc.bash ; bash $<
 
 ######
 #
-PACKNAME=ATS2-Postiats-0.3.2
+PACKNAME=ATS2-Postiats-0.3.3
 #
 atspacktarzvcf:: ; $(RMRF) $(PACKNAME)
 atspacktarzvcf:: ; $(CPRF) ATS-Postiats $(PACKNAME)
@@ -757,14 +757,14 @@ scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Posti
 #
 ######
 #
-PACKNAMEintmin=ATS2-Postiats-intmin-0.3.2
+PACKNAMEintmin=ATS2-Postiats-intmin-0.3.3
 #
 atspacktarzvcf_intmin_up:: ; \
 scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEintmin).tgz
 #
 ######
 
-CONTRIBNAME=ATS2-Postiats-contrib-0.3.2
+CONTRIBNAME=ATS2-Postiats-contrib-0.3.3
 atscontribtarzvcf:: ; $(RMRF) $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(CPRF) ATS-Postiats-contrib $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(TARZVCF)  $(CONTRIBNAME).tgz  $(CONTRIBNAME)/.

@@ -70,7 +70,7 @@ implement
 MergeSortPar_list
   (fws, xs) = let
 //
-val () = $tempenver(fws)
+// val () = $tempenver(fws)
 //
 implement
 $DCP.DivideConquerPar$submit<>

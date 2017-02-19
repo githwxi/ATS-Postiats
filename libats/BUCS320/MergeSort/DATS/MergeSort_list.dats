@@ -115,29 +115,44 @@ end // end of [DivideConquer$divide]
 
 implement
 $DC.DivideConquer$conquer$combine<>
-  (_, rs) =
-  merge(xs1, xs2) where
-{
+  (_, rs) = let
 //
 fun
 merge
 ( xs10: output
-, xs20: output
-) : output =
+, xs20: output, res: &ptr? >> output
+) : void =
 (
 case+ xs10 of
-| list0_nil() => xs20
+| list0_nil() =>
+    (res := xs20)
+  // list0_nil
 | list0_cons(x1, xs11) =>
   (
   case+ xs20 of
-  | list0_nil() => xs10
+  | list0_nil() =>
+      (res := xs10)
   | list0_cons(x2, xs21) => let
       val sgn =
       gcompare_val_val<elt>(x1, x2)
     in
       if sgn <= 0
-        then list0_cons(x1, merge(xs11, xs20))
-        else list0_cons(x2, merge(xs10, xs21))
+        then () where
+        {
+          val () =
+            (res := list0_cons(x1, _))
+          val+list0_cons(_, res1) = res
+          val ((*void*)) = merge(xs11, xs20, res1)
+          prval ((*folded*)) = fold@(res)
+        } (* end of [then] *)
+        else () where
+        {
+          val () =
+            (res := list0_cons(x2, _))
+          val+list0_cons(_, res1) = res
+          val ((*void*)) = merge(xs10, xs21, res1)
+          prval ((*folded*)) = fold@(res)
+        } (* end of [else] *)
     end // end of [list0_cons]
   )
 )
@@ -145,7 +160,14 @@ case+ xs10 of
 val-list0_cons(xs1, rs) = rs
 val-list0_cons(xs2, rs) = rs
 //
-} // end of [DivideConquer$conquer$combine]
+in
+//
+let
+var res: ptr
+val ((*void*)) = merge(xs1, xs2, res) in res
+end
+//
+end // end of [DivideConquer$conquer$combine]
 
 (* ****** ****** *)
 //

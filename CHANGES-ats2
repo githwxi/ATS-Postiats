@@ -25,7 +25,12 @@ Here is a list of major additions and changes since the last release:
 1. Supporting $tempenver in template implementation:
    This is a crucial addition in support of programming in ATS that
    may potentially be (very) deeply template-based!!!
-
+(*
+2: Re-arranging (and duplicating) files containing code of template
+   implementation may cause the need for $tempenver to change. It is
+   not yet understood what the reason is behind all of this behavior.
+*)
+  
 ######
 
 0.3.2
