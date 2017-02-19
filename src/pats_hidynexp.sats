@@ -578,6 +578,12 @@ fun hidexplst_get_type (hdes: hidexplst): hisexplst
 fun labhidexplst_get_type (lhdes: labhidexplst): labhisexplst
 
 (* ****** ****** *)
+//
+fun hidexp_is_empty (hde: hidexp): bool
+fun hidexplst_isall_empty (hdes: hidexplst): bool
+fun hidexplst_isexi_empty (hdes: hidexplst): bool
+//
+(* ****** ****** *)
 
 fun hidexp_is_value (hde: hidexp): bool
 fun hidexp_is_lvalue (hde: hidexp): bool
@@ -759,11 +765,14 @@ hidexp_rec2 (
 ) : hidexp // end of [hidexp_rec2]
 
 (* ****** ****** *)
-
+//
 fun hidexp_seq
   (loc: loc_t, hse: hisexp, hdes: hidexplst): hidexp
 // end of [hidexp_seq]
-
+fun hidexp_seq_simplify
+  (loc: loc_t, hse: hisexp, hdes: hidexplst): hidexp
+// end of [hidexp_seq_simply]
+//
 (* ****** ****** *)
 
 fun hidexp_selab (

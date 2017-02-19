@@ -60,6 +60,21 @@ MergeSort_list
 //
 (* ****** ****** *)
 //
+extern
+fun{}
+MergeSort_list$cutoff
+  ((*void*)): intGte(2)
+//
+local
+#define CUTOFF 128
+in(*in-of-local*)
+implement
+{}(*tmp*)
+MergeSort_list$cutoff() = CUTOFF
+end // end of [local]
+//
+(* ****** ****** *)
+//
 typedef
 input = (int, list0(elt))
 //
@@ -77,15 +92,25 @@ assume $DC.output_t0ype = output
 //
 implement
 $DC.DivideConquer$base_test<>
-  (nxs) =
-(
-if nxs.0 >= 2 then false else true
-)
+  (nxs) = let
+//
+val
+CUTOFF = MergeSort_list$cutoff<>()
+//
+in
+  if nxs.0 >= CUTOFF then false else true
+end // end of [DivideConquer$base_test]
 //
 (* ****** ****** *)
 //
 implement
-$DC.DivideConquer$base_solve<>(nxs) = nxs.1
+$DC.DivideConquer$base_solve<>
+  (nxs) =
+(
+list0_mergesort
+  (nxs.1, lam(x1, x2) => gcompare_val_val<elt>(x1, x2))
+// list0_mergesort
+)
 //
 (* ****** ****** *)
 //

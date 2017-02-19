@@ -30,7 +30,9 @@ Here is a list of major additions and changes since the last release:
    implementation may cause the need for $tempenver to change. It is
    not yet understood what the reason is behind all of this behavior.
 *)
-  
+3. Fixing a glitch involving tail-call optimization; please see the
+   function hidexp_seq_simplify for details.
+
 ######
 
 0.3.2

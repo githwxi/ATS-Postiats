@@ -884,10 +884,11 @@ d3e0.d3exp_node of
 //
 | D3Eseq (d3es) => let
     val hdes =
-      list_map_fun (d3es, d3exp_tyer)
-    val hdes = list_of_list_vt (hdes)
+      list_map_fun(d3es, d3exp_tyer)
+    // end of [val]
+    val hdes = list_of_list_vt(hdes)
   in
-    hidexp_seq (loc0, hse0, hdes)
+    hidexp_seq_simplify(loc0, hse0, hdes)
   end // end of [D3Eseq]
 //
 | D3Eselab
