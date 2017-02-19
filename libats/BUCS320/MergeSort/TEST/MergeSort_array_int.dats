@@ -36,7 +36,11 @@ MS_array = $MergeSort_array
 assume $MS_array.elt_t0ype = int
 //
 implement
-gcompare_val_val<int>(x, y) = compare(x, y)
+gcompare_val_val<int>
+  (x, y) = compare(x, y)
+//
+implement
+$MS_array.MergeSort_array$cutoff<>() = 2
 //
 implement
 MergeSort_array_int(xs, n) = $MS_array.MergeSort_array<>(xs, n)

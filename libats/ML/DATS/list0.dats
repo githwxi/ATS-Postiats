@@ -1840,16 +1840,15 @@ streamize_list0_cross
 
 implement
 {a}(*tmp*)
-list0_quicksort(xs, cmp) = let
+list0_is_ordered
+  (xs, cmp) = let
 //
 implement
-list_quicksort$cmp<a>(x, y) = cmp(x, y)
-//
-val ys = $effmask_wrt(list_quicksort<a>(g1ofg0(xs)))
+gcompare_val_val<a>(x, y) = cmp(x, y)
 //
 in
-  list0_of_list_vt (ys)
-end // end of [list0_quicksort]
+  list_is_ordered<a>(g1ofg0_list{a}(xs))
+end // end of [list0_is_ordered]
 
 (* ****** ****** *)
 
@@ -1865,6 +1864,21 @@ val ys = $effmask_wrt(list_mergesort<a>(g1ofg0(xs)))
 in
   list0_of_list_vt (ys)
 end // end of [list0_mergesort]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_quicksort(xs, cmp) = let
+//
+implement
+list_quicksort$cmp<a>(x, y) = cmp(x, y)
+//
+val ys = $effmask_wrt(list_quicksort<a>(g1ofg0(xs)))
+//
+in
+  list0_of_list_vt (ys)
+end // end of [list0_quicksort]
 
 (* ****** ****** *)
 //

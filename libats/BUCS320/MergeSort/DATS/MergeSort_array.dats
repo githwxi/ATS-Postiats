@@ -63,6 +63,21 @@ MergeSort_array
 //
 (* ****** ****** *)
 //
+extern
+fun{}
+MergeSort_array$cutoff
+  ((*void*)): intGte(2)
+//
+local
+#define CUTOFF 128
+in(*in-of-local*)
+implement
+{}(*tmp*)
+MergeSort_array$cutoff() = CUTOFF
+end // end of [local]
+//
+(* ****** ****** *)
+//
 datatype input =
 | {n:nat}
   MSORT1 of (int(n), ptr(*A*), ptr(*B*))
@@ -81,14 +96,20 @@ assume $DC.output_t0ype = input
 //
 implement
 $DC.DivideConquer$base_test<>
-  (inp) =
-(
+  (inp) = let
+//
+val
+CUTOFF = MergeSort_array$cutoff<>()
+//
+in
+//
 case+ inp of
 | MSORT1(n, _, _) =>
-  if n >= 2 then false else true
+  if n >= CUTOFF then false else true
 | MSORT2(n, _, _) =>
-  if n >= 2 then false else true
-)
+  if n >= CUTOFF then false else true
+//
+end // end of [DivideConquer$base_test]
 //
 (* ****** ****** *)
 //

@@ -2487,6 +2487,40 @@ end // end of [list_foldright_cloref]
 
 implement
 {a}(*tmp*)
+list_is_ordered
+  (xs) = let
+//
+fun
+loop
+(
+x0: a, xs: List(a)
+) : bool =
+(
+//
+case+ xs of
+| list_nil() => true
+| list_cons(x1, xs) => let
+    val
+    sgn =
+    gcompare_val_val<a>(x0, x1)
+  in
+    if sgn <= 0
+      then loop(x1, xs) else false
+    // end of [if]
+  end // end of [list_cons]
+//
+) (* end of [loop] *)
+//
+in
+  case+ xs of
+  | list_nil() => true
+  | list_cons(x0, xs) => loop(x0, xs)
+end // end of [list_is_ordered]
+  
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 list_mergesort$cmp
   (x1, x2) = gcompare_val_val<a>(x1, x2)
 // end of [list_mergesort$cmp]

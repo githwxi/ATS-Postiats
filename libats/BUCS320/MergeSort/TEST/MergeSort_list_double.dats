@@ -36,7 +36,11 @@ MS_list = $MergeSort_list
 assume $MS_list.elt_t0ype = double
 //
 implement
-gcompare_val_val<double>(x, y) = compare(x, y)
+gcompare_val_val<double>
+  (x, y) = compare(x, y)
+//
+implement
+$MS_list.MergeSort_list$cutoff<>() = 2
 //
 implement
 MergeSort_list_double(xs) = $MS_list.MergeSort_list<>(xs)
