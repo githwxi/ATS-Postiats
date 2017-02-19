@@ -118,6 +118,23 @@ $DC.DivideConquer$base_solve<>
   (inp) = let
 //
 fun
+sort{n:nat}
+(
+A: ptr, n: int(n)
+) : void = let
+//
+implement
+array_quicksort$cmp<elt>
+  (x, y) = gcompare_ref_ref<elt>(x, y)
+//
+in
+//
+arrayref_quicksort<elt>
+  ($UNSAFE.cast{arrayref(elt,n)}(A), i2sz(n))
+//
+end // end of [sort]
+//
+fun
 copy{n:nat}
 (
 A: ptr, B: ptr, n: int(n)
@@ -139,8 +156,8 @@ end (* end of [copy] *)
 in
 //
 case+ inp of
-| MSORT1 _ => inp
-| MSORT2(n, A, B) => (copy(A, B, n); inp)
+| MSORT1(n, A, B) => (sort(A, n); inp)
+| MSORT2(n, A, B) => (sort(A, n); copy(A, B, n); inp)
 //
 end // end of [DivideConquer$base_solve]
 //

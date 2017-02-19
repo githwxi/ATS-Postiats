@@ -277,13 +277,59 @@ end // end of [arrayref_rforeach_env]
 
 implement
 {a}(*tmp*)
+arrayref_is_ordered
+  (A, asz) = let
+//
+fun
+loop
+{i:nat}
+(
+  p0: ptr, i: size_t(i)
+) : bool =
+if
+(i > 0)
+then let
+//
+val p1 = ptr_succ<a>(p0)
+//
+val
+(pf0,fpf0|p0) = $UN.ptr_vtake{a}(p0)
+val
+(pf1,fpf1|p1) = $UN.ptr_vtake{a}(p1)
+//
+val sgn = gcompare_ref_ref<a>(!p0, !p1)
+//
+prval ((*returned*)) = fpf0(pf0)
+prval ((*returned*)) = fpf1(pf1)
+//
+in
+//
+if sgn <= 0
+  then loop(p1, pred(i)) else false
+//
+end // end of [then]
+else true // end of [else]
+//
+in
+//
+if (asz > 0)
+  then loop(ptrcast(A), pred(asz)) else true
+//
+end // end of [arrayref_is_ordered]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 arrayref_quicksort
   (A, asz) = let
 //
-val (vbox pf | p) = arrayref_get_viewptr (A)
+val
+(vbox(pf) | p0) =
+arrayref_get_viewptr{a}(A)
 //
 in
-  $effmask_ref (array_quicksort<a> (!p, asz))
+  $effmask_ref(array_quicksort<a>(!p0, asz))
 end // end of [arrayref_quicksort]
 
 #atscode_separator()

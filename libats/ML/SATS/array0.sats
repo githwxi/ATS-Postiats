@@ -487,6 +487,13 @@ streamize_array0_elt(array0(a)):<!wrt> stream_vt(a)
 //
 fun
 {a:vt0p}
+array0_is_ordered
+  (A0: array0(a), cmp: (&a, &a) -<cloref1> int): bool
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
 array0_quicksort
   (A0: array0(a), cmp: (&a, &a) -<cloref1> int): void
 //
