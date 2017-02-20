@@ -51,9 +51,14 @@ fun{}
 spinvar_destroy{a:t0p}(spinvar(a)): void
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
 spinvar_get_elt(spnv: !spinvar(a)): (a)
+fun{a:t0p}
+spinvar_set_elt(spnv: !spinvar(a), x: a): void
+//
+(* ****** ****** *)
+
 fun{a:vt0p}
 spinvar_getfree_elt(spnv: spinvar(a)): (a)
 

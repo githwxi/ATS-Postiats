@@ -135,6 +135,13 @@ fworkshop_add_tid
 //
 extern
 fun{}
+fworkshop_get_spin
+  (fws: fworkshop): spin1
+//
+(* ****** ****** *)
+//
+extern
+fun{}
 fworkshop_get_store
   (fws: fworkshop): fws$store
 //
@@ -229,6 +236,19 @@ val ((*void*)) = $AT.spin_unlock(pflock | spn)
 in
   // nothing
 end (* end of [fworkshop_add_tid] *)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+fworkshop_get_spin
+  (fws) = let
+//
+val (
+  vbox pf | p0
+) = ref_get_viewptr(fws) in p0->FWS_spin
+//
+end // end of [fworkshop_get_spin]
 
 (* ****** ****** *)
 

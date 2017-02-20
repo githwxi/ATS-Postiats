@@ -44,8 +44,12 @@ spinref(a:vt0p) = spinref_type(a)
 fun{a:t0p}
 spinref_get_elt
   (spnr: spinref(a)): (a)
+fun{a:t0p}
+spinref_set_elt
+  (spnr: spinref(a), x: a): void
 //
-overload [] with spinref_get_elt
+overload [] with spinref_get_elt of 0
+overload [] with spinref_set_elt of 0
 //
 (* ****** ****** *)
 //

@@ -60,9 +60,28 @@ spnv =
 $UN.castvwtp0{spinvar(a)}(spnr)
 //
 val x = spinvar_get_elt<a>(spnv)
+//
 prval () = $UN.castview0{void}(spnv)
 //
-} (* end of [spinref_get] *)
+} (* end of [spinref_get_elt] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+spinref_set_elt
+  (spnr, x) = () where
+{
+//
+val
+spnv =
+$UN.castvwtp0{spinvar(a)}(spnr)
+//
+val () = spinvar_set_elt<a>(spnv, x)
+//
+prval () = $UN.castview0{void}(spnv)
+//
+} (* end of [spinref_set_elt] *)
 
 (* ****** ****** *)
 

@@ -116,6 +116,31 @@ prval () = $UN.castview0{void}(spnv)
 
 implement
 {a}(*tmp*)
+spinvar_set_elt
+  (spnv, x0) = () where
+{
+//
+val spnv =
+$UN.castvwtp1{spinvar_vt(a)}(spnv)
+//
+val+
+@SPINVAR(spn, x1) = spnv
+//
+val (pf | ()) = spin_lock(spn)
+//
+val ((*void*)) = (x1 := x0)
+//
+val ((*void*)) = spin_unlock(pf | spn)
+//
+prval () = fold@(spnv)
+prval () = $UN.castview0{void}(spnv)
+//
+} (* end of [spinvar_set_elt] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 spinvar_getfree_elt
   (spnv) = x0 where
 {
