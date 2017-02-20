@@ -402,6 +402,12 @@ fun
 arrayref_quicksort
   {n:int}(A: arrayref(a, n), asz: size_t(n)): void
 //
+fun
+{a:vt0p}
+arrayref_quicksort_stdlib
+  {n:int}
+  (A: arrayref(a, n), asz: size_t(n), cmp: cmpref(a)): void
+//
 #atscode_separator()
 (*
 //

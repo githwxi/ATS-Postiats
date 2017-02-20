@@ -332,6 +332,19 @@ in
   $effmask_ref(array_quicksort<a>(!p0, asz))
 end // end of [arrayref_quicksort]
 
+implement
+{a}(*tmp*)
+arrayref_quicksort_stdlib
+  (A, asz, cmp) = let
+//
+val
+(vbox(pf) | p0) =
+arrayref_get_viewptr{a}(A)
+//
+in
+  $effmask_ref(array_quicksort_stdlib<a>(!p0, asz, cmp))
+end // end of [arrayref_quicksort_stdlib]
+
 #atscode_separator()
 
 local
