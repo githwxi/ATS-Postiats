@@ -45,38 +45,40 @@ ATS_PACKNAME "ATSLIB.libats.athread"
 absview locked_v(l:addr)
 
 (* ****** ****** *)
-
+//
 abstype
-spin_type (l:addr) = ptr(l)
+spin_type(l:addr) = ptr(l)
+//
 typedef spin (l:addr) = spin_type(l)
 typedef spin0 = [l:agez] spin_type(l)
 typedef spin1 = [l:addr | l > null] spin_type(l)
-
+//
 (* ****** ****** *)
-
+//
 absvtype
-spin_vtype (l:addr) = ptr(l)
+spin_vtype(l:addr) = ptr(l)
+//
 vtypedef spin_vt (l:addr) = spin_vtype(l)
 vtypedef spin0_vt = [l:agez] spin_vtype(l)
 vtypedef spin1_vt = [l:addr | l > null] spin_vtype(l)
-
+//
 (* ****** ****** *)
 //
 castfn
-spin2ptr{l:addr} (spin(l)):<> ptr (l)
+spin2ptr{l:addr} (spin(l)):<> ptr(l)
 castfn
-spin2ptr_vt{l:addr} (!spin_vt(l)):<> ptr (l)
+spin2ptr_vt{l:addr} (!spin_vt(l)):<> ptr(l)
 //
 overload ptrcast with spin2ptr
 overload ptrcast with spin2ptr_vt
 //
 (* ****** ****** *)
-
+//
 castfn
 unsafe_spin_t2vt{l:addr}(spin(l)): spin_vt(l)
 castfn
 unsafe_spin_vt2t{l:addr}(!spin_vt(l)): spin(l)
-
+//
 (* ****** ****** *)
 //
 fun{} spin_create ((*void*)): spin0
@@ -89,17 +91,20 @@ fun{} spin_vt_destroy{l:addr}(spin_vt(l)): void
 (* ****** ****** *)
 //
 fun{}
-spin_lock{l:agz} (x: spin(l)):<!wrt> (locked_v(l) | void)
+spin_lock{l:agz}
+  (spin(l)):<!wrt> (locked_v(l) | void)
+fun{}
+spin_unlock{l:addr}
+  (pf: locked_v(l) | spin(l)):<!wrt> void
+//
 fun{}
 spin_trylock{l:agz}
-  (x: spin(l)): [b:bool] (option_v(locked_v(l), b) | bool(b))
-fun{}
-spin_unlock{l:addr} (pf: locked_v(l) | x: spin(l)):<!wrt> void
+  (spin(l)):<!wrt> [b:bool] (option_v(locked_v(l), b) | bool(b))
 //
 (* ****** ****** *)
 
 abstype
-mutex_type (l:addr) = ptr(l)
+mutex_type(l:addr) = ptr(l)
 typedef mutex (l:addr) = mutex_type(l)
 typedef mutex0 = [l:agez] mutex_type(l)
 typedef mutex1 = [l:addr | l > null] mutex_type(l)
