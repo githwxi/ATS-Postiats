@@ -78,11 +78,16 @@ end // end of [local]
 //
 (* ****** ****** *)
 //
-datatype input =
+datatype
+input =
 | {n:nat}
-  MSORT1 of (int(n), ptr(*A*), ptr(*B*))
+  MSORT1 of
+  (int(n)(*asz*), ptr(*A*), ptr(*B*))
 | {n:nat}
-  MSORT2 of (int(n), ptr(*A*), ptr(*B*))
+  MSORT2 of
+  (int(n)(*asz*), ptr(*A*), ptr(*B*))
+//
+typedef output = input
 //
 (* ****** ****** *)
 //
@@ -90,7 +95,7 @@ staload
 DC = $DivideConquer
 //
 assume $DC.input_t0ype = input
-assume $DC.output_t0ype = input
+assume $DC.output_t0ype = output
 //
 (* ****** ****** *)
 //

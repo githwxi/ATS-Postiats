@@ -55,14 +55,17 @@ typedef elt = elt_t0ype
 //
 extern
 fun{}
-MergeSort_list
-  (xs: list0(elt)): list0(elt)
+QuickSort_array
+  {n:int}
+(
+  A: arrayref(elt, n), n: int(n)
+) : void // end-of-fun
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-MergeSort_list$cutoff
+QuickSort_array$cutoff
   ((*void*)): intGte(2)
 //
 local
@@ -70,15 +73,14 @@ local
 in(*in-of-local*)
 implement
 {}(*tmp*)
-MergeSort_list$cutoff() = CUTOFF
+QuickSort_array$cutoff() = CUTOFF
 end // end of [local]
 //
 (* ****** ****** *)
 //
-typedef
-input = (int, list0(elt))
-//
-typedef output = list0(elt)
+typedef input =
+[n:nat] (int(n), arrayref(elt, n))
+typedef output = int(*void*)
 //
 (* ****** ****** *)
 //
@@ -95,7 +97,7 @@ $DC.DivideConquer$base_test<>
   (nxs) = let
 //
 val
-CUTOFF = MergeSort_list$cutoff<>()
+CUTOFF = QuickSort_array$cutoff<>()
 //
 in
   if nxs.0 >= CUTOFF then false else true
@@ -105,103 +107,43 @@ end // end of [DivideConquer$base_test]
 //
 implement
 $DC.DivideConquer$base_solve<>
-  (nxs) =
-(
-list0_mergesort<elt>
-  (nxs.1, lam(x1, x2) => gcompare_val_val<elt>(x1, x2))
-// list0_mergesort
-)
+  (nxs) = (0) where
+{
+//
+implement
+array_quicksort$cmp<elt>
+  (x, y) = gcompare_ref_ref<elt>(x, y)
+//
+val () =
+arrayref_quicksort<elt>(nxs.1, i2sz(nxs.0))
+//
+} (* end of [DivideConquer$base_solve] *)
 //
 (* ****** ****** *)
 //
 implement
-$DC.DivideConquer$divide<>
-  (nxs) = let
-//
-val n =
-  g1ofg0(nxs.0)
-//
-val () =
-assertloc(n >= 2)
-//
-val n2 = half( n )
-//
-val xs = nxs.1
-val xs1 = list0_take_exn(xs, n2)
-val xs2 = list0_drop_exn(xs, n2)
-//
-in
-//
-g0ofg1_list($list{input}((n2, xs1), (n-n2, xs2)))
-//
-end // end of [DivideConquer$divide]
+$DC.DivideConquer$divide<>(nxs) = list0_nil()
 //
 (* ****** ****** *)
 
 implement
-$DC.DivideConquer$conquer$combine<>
-  (_, rs) = let
-//
-fun
-merge
-( xs10: output
-, xs20: output, res: &ptr? >> output
-) : void =
-(
-case+ xs10 of
-| list0_nil() =>
-    (res := xs20)
-  // list0_nil
-| list0_cons(x1, xs11) =>
-  (
-  case+ xs20 of
-  | list0_nil() =>
-      (res := xs10)
-  | list0_cons(x2, xs21) => let
-      val sgn =
-      gcompare_val_val<elt>(x1, x2)
-    in
-      if sgn <= 0
-        then () where
-        {
-          val () =
-            (res := list0_cons(x1, _))
-          val+list0_cons(_, res1) = res
-          val ((*void*)) = merge(xs11, xs20, res1)
-          prval ((*folded*)) = fold@(res)
-        } (* end of [then] *)
-        else () where
-        {
-          val () =
-            (res := list0_cons(x2, _))
-          val+list0_cons(_, res1) = res
-          val ((*void*)) = merge(xs10, xs21, res1)
-          prval ((*folded*)) = fold@(res)
-        } (* end of [else] *)
-    end // end of [list0_cons]
-  )
-)
-//
-val-list0_cons(xs1, rs) = rs
-val-list0_cons(xs2, rs) = rs
-//
-in
-//
-let
-var res: ptr
-val ((*void*)) = merge(xs1, xs2, res) in res
-end
-//
-end // end of [DivideConquer$conquer$combine]
+$DC.DivideConquer$conquer$combine<>(_, _) = 0
 
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-MergeSort_list(xs) = let
-  val n = list0_length(xs) in $DC.DivideConquer$solve<>((n, xs))
-end // end of [MergeSort_list]
+QuickSort_array
+  (xs, n) = () where
+{
+//
+prval
+((*void*)) = lemma_arrayref_param(xs)
+//
+val _(*0*) = $DC.DivideConquer$solve<>((n, xs))
+//
+} (* end of [QuickSort_array] *)
 //
 (* ****** ****** *)
 
-(* end of [MergeSort_list.dats] *)
+(* end of [QuickSort_array.dats] *)

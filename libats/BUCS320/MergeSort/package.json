@@ -5,7 +5,7 @@
 "version": "1.0.6"
 ,
 "description":
-"Mergesort for lists and arrays based on generic divide-and-conquer"
+"Merge-sort for lists and arrays based on generic divide-and-conquer"
 ,
 "main": "N/A"
 ,

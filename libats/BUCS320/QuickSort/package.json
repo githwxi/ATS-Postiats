@@ -1,0 +1,35 @@
+{
+"name":
+"atscntrb-bucs320-quicksort"
+,
+"version": "1.0.0"
+,
+"description":
+"Quick-sort arrays based on generic divide-and-conquer"
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/QuickSort"
+}
+,
+"keywords": [
+  "ATS",
+  "BUCS",
+  "sort",
+  "quicksort"
+]
+,
+"dependencies": {
+  "atscntrb-bucs320-divideconquer": ">=1.0.0"
+}
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-me": "The package is stored at ${PATSHOME}/libats/BUCS320/QuickSort"
+}
