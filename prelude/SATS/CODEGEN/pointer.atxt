@@ -117,8 +117,8 @@ overload - with sub_ptr0_ptr0 of 0
 
 #atscode_separator()
 //
-fun{a:vt0p} ptr0_succ (p: ptr):<> ptr
-fun{a:vt0p} ptr0_pred (p: ptr):<> ptr
+fun{a:vt0p} ptr0_succ(p: ptr):<> ptr
+fun{a:vt0p} ptr0_pred(p: ptr):<> ptr
 //
 overload ptr_succ with ptr0_succ of 0
 overload ptr_pred with ptr0_pred of 0
@@ -126,11 +126,17 @@ overload ptr_pred with ptr0_pred of 0
 #atscode_separator()
 //
 fun{
-a:vt0p}{tk:tk
-} ptr0_add_gint (p: ptr, ofs: g0int (tk)):<> ptr
+a:vt0p
+} ptr0_diff(p1: ptr, p2: ptr): ssize_t
+//
+#atscode_separator()
+//
 fun{
 a:vt0p}{tk:tk
-} ptr0_add_guint (p: ptr, ofs: g0uint (tk)):<> ptr
+} ptr0_add_gint(p: ptr, ofs: g0int(tk)):<> ptr
+fun{
+a:vt0p}{tk:tk
+} ptr0_add_guint(p: ptr, ofs: g0uint(tk)):<> ptr
 //
 overload ptr_add with ptr0_add_gint of 0
 overload ptr_add with ptr0_add_guint of 0

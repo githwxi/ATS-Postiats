@@ -52,6 +52,15 @@ ptr0_pred(p) = sub_ptr_bsz(p, sizeof<a>)
 #atscode_separator()
 //
 implement
+{a}(*tmp*)
+ptr0_diff(p1, p2) =
+(
+  sub_ptr0_ptr0(p1, p2) / g0u2i(sizeof<a>)
+) (* end of [ptr0_diff] *)
+//
+#atscode_separator()
+//
+implement
 {a}{tk}
 ptr0_add_gint(p, i) =
   add_ptr_bsz(p, g0int2uint(i) * sizeof<a>)
