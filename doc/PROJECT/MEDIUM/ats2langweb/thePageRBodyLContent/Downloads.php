@@ -42,7 +42,7 @@ In case of SF going down, which seems not uncommon at all, please
 obtain the latest stable release (and some other past releases) of
 ATS2 <a
 href="https://github.com/ats-lang/ATS-Postiats-release">on-line</a> at
-<a href="http://github.com">github.com</a>. </p>
+<a href="http://github.com">github.com</a>, which serves as a backup. </p>
 
 <hr></hr>
 
