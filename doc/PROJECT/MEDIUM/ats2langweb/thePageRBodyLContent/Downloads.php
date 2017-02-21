@@ -33,17 +33,16 @@ The current <em>pre-stable</em> release of ATS2-intmin is at
 </ul>
 
 <p>
-All of the past stable releases of ATS2 are also available <a
+All of the past stable releases of ATS2 are available <a
 href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/">on-line</a>
-at <a href="http://sourceforge.net">sourceforge.net</a> (SF).
-</p>
+at <a href="http://sourceforge.net">sourceforge.net</a> (SF).  </p>
 
 <p>
-In case of SF going down,
-which is not uncommon at all, please obtain the latest stable
-release (and some other past releases) of ATS2 at <a
-href="https://github.com/githwxi/ATS-Postiats/releases">GitHub</a>.
-</p>
+In case of SF going down, which seems not uncommon at all, please
+obtain the latest stable release (and some other past releases) of
+ATS2 <a
+href="https://github.com/ats-lang/ATS-Postiats-release">on-line</a> at
+<a href="http://github.com">github.com</a>. </p>
 
 <hr></hr>
 
