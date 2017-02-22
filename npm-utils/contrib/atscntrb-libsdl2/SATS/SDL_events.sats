@@ -21,7 +21,8 @@
 (* ****** ****** *)
 
 (*
-** Author: Hongwei Xi (gmhwxiDOTgmailDOTcom)
+** Author: Hongwei Xi
+** Authoremail: gmhwxiDOTgmailDOTcom
 *)
 
 (* ****** ****** *)
@@ -72,29 +73,39 @@ macdef SDL_MULTIGESTURE = $extval (SDL_EventType, "SDL_MULTIGESTURE")
 macdef SDL_CLIPBOARDUPDATE = $extval (SDL_EventType, "SDL_CLIPBOARDUPDATE")
 macdef SDL_DROPFILE = $extval (SDL_EventType, "SDL_DROPFILE")
 macdef SDL_USEREVENT = $extval (SDL_EventType, "SDL_USEREVENT")
+//
 (*
 macdef SDL_LASTEVENT = $extval (SDL_EventType, "SDL_LASTEVENT")
 *)
 //
 (* ****** ****** *)
 //
-fun SDL_EventType_equal
-  (SDL_EventType, SDL_EventType):<> bool = "mac#atspre_eq_int_int"
-fun SDL_EventType_notequal
-  (SDL_EventType, SDL_EventType):<> bool = "mac#atspre_neq_int_int"
+fun
+SDL_EventType_equal
+(
+  SDL_EventType, SDL_EventType
+) :<> bool = "mac#atspre_eq_int_int"
+//
+fun
+SDL_EventType_notequal
+(
+  SDL_EventType, SDL_EventType
+) :<> bool = "mac#atspre_neq_int_int"
 //
 overload = with SDL_EventType_equal
 overload != with SDL_EventType_notequal
 //
 (* ****** ****** *)
-
-fun SDL_PollEvent
+//
+fun
+SDL_PollEvent
 (
-  event: &SDL_Event? >> opt (SDL_Event, i > 0)
-) : #[i:nat] int(i) = "mac#%" // end-of-fun
-
-fun SDL_PollEvent_null ((*void*)): intGte (0) = "mac#%"
-
+  event: &SDL_Event? >> opt(SDL_Event, i > 0)
+) : #[i:nat] int(i) = "mac#%" // end-of-function
+//
+fun
+SDL_PollEvent_null ((*void*)): intGte (0) = "mac#%"
+//
 (* ****** ****** *)
 
 (* end of [SDL_events.sats] *)

@@ -21,15 +21,15 @@
 (* ****** ****** *)
 
 (*
-** Author: Hongwei Xi (gmhwxiDOTgmailDOTcom)
+** Author: Hongwei Xi
+** Authoremail: gmhwxiDOTgmailDOTcom
 *)
 
 (* ****** ****** *)
 
 %{#
 //
-#include \
-"atscntrb-libsdl2/CATS/SDL.cats"
+#include "atscntrb-libsdl2/CATS/SDL.cats"
 //
 %} // end of [%{#]
 

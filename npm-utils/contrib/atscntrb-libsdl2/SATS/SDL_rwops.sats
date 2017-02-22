@@ -21,7 +21,8 @@
 (* ****** ****** *)
 
 (*
-** Author: Hongwei Xi (gmhwxiDOTgmailDOTcom)
+** Author: Hongwei Xi
+** Authoremail: gmhwxiDOTgmailDOTcom
 *)
 
 (* ****** ****** *)
@@ -37,14 +38,20 @@ SDL_RWops_ptr2ptr
 overload ptrcast with SDL_RWops_ptr2ptr
 //
 (* ****** ****** *)
-
-macdef SDL_RWOPS_UNKNOWN = $extval (int, "SDL_RWOPS_UNKNOWN")
-macdef SDL_RWOPS_WINFILE = $extval (int, "SDL_RWOPS_WINFILE")
-macdef SDL_RWOPS_STDFILE = $extval (int, "SDL_RWOPS_STDFILE")
-macdef SDL_RWOPS_JNIFILE = $extval (int, "SDL_RWOPS_JNIFILE")
+//
+macdef
+SDL_RWOPS_UNKNOWN = $extval (int, "SDL_RWOPS_UNKNOWN")
+//
+macdef
+SDL_RWOPS_WINFILE = $extval (int, "SDL_RWOPS_WINFILE")
+macdef
+SDL_RWOPS_STDFILE = $extval (int, "SDL_RWOPS_STDFILE")
+macdef
+SDL_RWOPS_JNIFILE = $extval (int, "SDL_RWOPS_JNIFILE")
+//
 macdef SDL_RWOPS_MEMORY = $extval (int, "SDL_RWOPS_MEMORY")
 macdef SDL_RWOPS_MEMORY_RO = $extval (int, "SDL_RWOPS_MEMORY_RO")
-
+//
 (* ****** ****** *)
 
 fun SDL_RWFromFP

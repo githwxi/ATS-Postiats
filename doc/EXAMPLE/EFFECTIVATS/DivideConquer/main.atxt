@@ -78,14 +78,27 @@ end // end of [DC_solve]
 //
 ')</pre>
 
-Basically, ##dyncode("DC_base_test") is called to test whether a given
-input can be classified as a base case; if it is, then
-##dyncode("DC_base_solve") can be called to return the output for the
+Basically, ##dyncode("DC_solve") is the main function for
+solving a problem, which is given the following interface
+
+<pre
+class="patsyntax">
+##sats2xhtml('fun{} DC_solve : input -> output')
+</pre>
+
+where ##stacode("input") and ##stacode("output") are two abstract
+types for the input and output, respectively, that are associated with
+a problem to be solved.  In the body of ##dyncode("DC_solve"),
+##dyncode("DC_base_test") is called to test whether a given input can
+be classified as a base case; if it is, then
+##dyncode("DC_base_solve") is called to return the output for the
 given input immediately; otherwise, ##dyncode("DC_divide") is called
 to divide the input into a list of inputs, which are then passed to
-##dyncode("DC_conquer"):
+##dyncode("DC_conquer") defined as follows:
 
 ')##comment("para")
+
+##para("""\
 
 <pre
 class="patsyntax">
@@ -111,10 +124,10 @@ val r0 = DC_conquer$combine<>(x0, rs)
 
 As can be expected, the function ##dyncode("DC_conquer") is called to
 process a given list of inputs and then form an output (for the
-original input) based on the obtained outputs corresponding to the
-list of inputs.
+original input) by combining (in some unspecified manner) the obtained
+outputs corresponding to the list of inputs.
 
-')##comment("para")
+""")##comment("para")
 
 <hr size="2">
 <p>

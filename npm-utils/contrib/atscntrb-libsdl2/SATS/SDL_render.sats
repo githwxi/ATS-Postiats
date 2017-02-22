@@ -21,7 +21,8 @@
 (* ****** ****** *)
 
 (*
-** Author: Hongwei Xi (gmhwxiDOTgmailDOTcom)
+** Author: Hongwei Xi
+** Authoremail: gmhwxiDOTgmailDOTcom
 *)
 
 (* ****** ****** *)

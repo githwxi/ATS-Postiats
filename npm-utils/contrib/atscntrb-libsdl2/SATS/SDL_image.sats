@@ -21,7 +21,8 @@
 (* ****** ****** *)
 
 (*
-** Author: Hongwei Xi (gmhwxiDOTgmailDOTcom)
+** Author: Hongwei Xi
+** Authoremail: gmhwxiDOTgmailDOTcom
 *)
 
 (* ****** ****** *)
@@ -34,10 +35,12 @@
 %} // end of [%{#]
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSCNTRB.SDL2IMG" // package name
-#define ATS_EXTERN_PREFIX "atscntrb_SDL2IMG_" // prefix for external names"
-
+//
+#define
+ATS_PACKNAME "ATSCNTRB.SDL2IMG" // package name
+#define
+ATS_EXTERN_PREFIX "atscntrb_SDL2IMG_" // prefix for external names"
+//
 (* ****** ****** *)
 
 staload "./SDL.sats"
