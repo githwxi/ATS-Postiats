@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-DivideConquer</title>
+##patsyntax()
+##thePage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Let's build a template-based package!
+</h1>
+
+##para('\
+
+ATS is a feature-rich language, and dependent types, linear types and
+embeddable templates can be seen as three of its most prominent
+features. The richness of programming features can potentially make it
+highly demanding for a programmer to rein in the inherent complexity
+associated with ATS. In this article, I would like to present a
+template-based package that is designed to (partially) relieve a
+programmer of the heavy burden that is so often associated with
+programming in ATS.
+
+')##comment("para")
+
+##para('\
+
+The code presented in this article is essentially based on some library code of ATS available
+<a href="https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/DivideConquer/.">on-line</a>.
+
+')##comment("para")
+
+<h2>Divide-and-Conquer</h2>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+</body>
+</html>

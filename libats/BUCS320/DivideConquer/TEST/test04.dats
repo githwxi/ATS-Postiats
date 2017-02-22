@@ -69,7 +69,7 @@ implement
 MacCarthy's_91(n) =
 (
   DivideConquer$solve<>(n)
-) // end of [MacCarthy's]
+) // end of [MacCarthy's_91]
 //
 (* ****** ****** *)
 

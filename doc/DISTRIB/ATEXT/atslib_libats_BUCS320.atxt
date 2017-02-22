@@ -108,12 +108,25 @@ The ATSLIB/libats/BUCS320 library\
 #packfilename("parcomb/DATS/parcomb.dats")
 //
 (* ****** ****** *)
+//
 (*
 ** GraphSearch
 *)
+#packfilename("GraphSearch/mylibies.dats")
+#packfilename("GraphSearch/mylibies.hats")
 #packfilename("GraphSearch/DATS/GraphSearch.dats")
 #packfilename("GraphSearch/DATS/GraphSearch_bfs.dats")
 #packfilename("GraphSearch/DATS/GraphSearch_dfs.dats")
+//
+(* ****** ****** *)
+//
+(*
+** DivideConquer
+*)
+#packfilename("DivideConquer/mylibies.hats")
+#packfilename("DivideConquer/DATS/DivideConquer.dats")
+#packfilename("DivideConquer/DATS/DivideConquer_cont.dats")
+#packfilename("DivideConquer/DATS/DivideConquer_memo.dats")
 //
 (* ****** ****** *)
 
