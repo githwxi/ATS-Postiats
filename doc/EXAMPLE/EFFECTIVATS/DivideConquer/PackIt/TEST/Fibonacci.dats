@@ -14,9 +14,19 @@
 //
 (* ****** ****** *)
 //
-#staload
-"./../DATS/DivideConquer.dats"
+#include "./../mylibies.hats"
 //
+(*
+#staload
+"$PATSHOMELOCS\
+/effectivats-divideconquer/mylibies.hats"
+*)
+//
+(* ****** ****** *)
+
+staload
+DC = $DivideConquer
+
 (* ****** ****** *)
 //
 extern
@@ -24,13 +34,13 @@ fun Fibonacci(int): int
 //
 (* ****** ****** *)
 
-assume input_t0ype = int
-assume output_t0ype = int
+assume $DC.input_t0ype = int
+assume $DC.output_t0ype = int
 
 (* ****** ****** *)
 //
 implement
-DivideConquer$base_test<>
+$DC.DivideConquer$base_test<>
   (n) =
 (
 if n >= 2 then false else true
@@ -39,13 +49,13 @@ if n >= 2 then false else true
 (* ****** ****** *)
 //
 implement
-DivideConquer$base_solve<>
+$DC.DivideConquer$base_solve<>
   (n) = n
 //
 (* ****** ****** *)
 //
 implement
-DivideConquer$divide<>
+$DC.DivideConquer$divide<>
   (n) =
 (
 g0ofg1($list{int}(n-1, n-2))
@@ -54,7 +64,7 @@ g0ofg1($list{int}(n-1, n-2))
 (* ****** ****** *)
 
 implement
-DivideConquer$conquer$combine<>
+$DC.DivideConquer$conquer$combine<>
   (_, rs) = r1 + r2 where
 {
 //
@@ -73,15 +83,8 @@ println!
 (
   "Fibonacci(", n, ")"
 )
-//
-(*
-implement
-DivideConquer$solve_rec<>
-  (n) = Fibonacci(n)
-*)
-//
 in
-  DivideConquer$solve<>(n)
+  $DC.DivideConquer$solve<>(n)
 end // end of [Fibonacci]
 
 (* ****** ****** *)
@@ -90,11 +93,8 @@ implement
 main0() =
 {
 //
-(*
 val () =
 println! ("Fibonacci(5) = ", Fibonacci(5))
-*)
-//
 val () =
 println! ("Fibonacci(10) = ", Fibonacci(10))
 val () =
@@ -106,4 +106,4 @@ println! ("Fibonacci(30) = ", Fibonacci(30))
 
 (* ****** ****** *)
 
-(* end of [test01.dats] *)
+(* end of [Fibonacci.dats] *)

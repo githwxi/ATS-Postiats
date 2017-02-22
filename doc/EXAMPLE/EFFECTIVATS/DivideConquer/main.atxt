@@ -37,6 +37,81 @@ The code presented in this article is essentially based on some library code of 
 
 <h2>Divide-and-Conquer</h2>
 
+##para('\
+
+In problem-solving, divide-and-conquer (D&amp;C) is a strategy that
+divides a given problem of certain size into a collection of
+subproblems of less size and then solves the subproblems (recursively)
+and then combines the obtained solutions to the subproblems to form a
+solution to the original given problem.
+
+')##comment("para")
+
+##para('\
+
+Formally, D&amp;C can be given a template-based implemenation as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+{}(*tmp*)
+DC_solve(x0) = let
+//
+val
+test = DC_base_test<>(x0)
+//
+in (* in-of-let *)
+//
+if
+(test)
+then
+DC_base_solve<>(x0)
+else r0 where
+{
+  val xs = DC_divide<>(x0)
+  val r0 = DC_conquer<>(x0, xs)
+} (* end of [else] *)
+//
+end // end of [DC_solve]
+//
+')</pre>
+
+Basically, ##dyncode("DC_base_test") is called to tested whether a
+given input is considered a base case; if it is, then
+##dyncode("DC_base_solve") can be called to solve it immediately;
+otherwise, ##dyncode("DC_divide") is called to divide it into a list
+of inputs to be passed ##dyncode("DC_conquer"), which is implemented
+as follows:
+
+')##comment("para")
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+{}(*tmp*)
+DC_conquer
+  (x0, xs) = r0 where
+{
+//
+val rs =
+list0_map<input><output>
+( xs
+, lam(x) => DC_solve<>(x)
+) (* end of [val] *)
+//
+val r0 = DC_conquer$combine<>(x0, rs)
+//
+} (* end of [DC_conquer] *)
+//
+')</pre>
+
+
+')##comment("para")
+
 <hr size="2">
 <p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.

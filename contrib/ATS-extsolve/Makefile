@@ -43,10 +43,11 @@ CFLAGS :=
 CFLAGS += -DATS_MEMALLOC_LIBC
 #
 CFLAGS2 :=
+#
+CFLAGS2 += \
+-I${PATSHOMEQ}/contrib
 CFLAGS2 += \
 $(shell pkg-config --cflags json-c)
-CFLAGS2 += \
--I${PATSHOMEQ}/atscntrb/atscntrb-libjson-c
 #
 ######
 
@@ -147,7 +148,7 @@ DATS_C:: \
 DATS/patsolve_parsing.dats; \
 $(PATSOPT) -o CATS/patsolve_parsing_dats.c --dynamic $<
 #
-cleanall:: ; $(RMF) CATS/patsolve_*_dats.c
+# cleanall:: ; $(RMF) CATS/patsolve_*_dats.c
 #
 ######
 #

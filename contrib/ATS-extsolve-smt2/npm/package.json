@@ -2,7 +2,7 @@
 "name":
 "ats-extsolve-smt2"
 ,
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description":
   "For solving ATS-constraints externally",
   "main": "N/A",

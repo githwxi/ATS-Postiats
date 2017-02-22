@@ -152,7 +152,7 @@ else r0 where
   val () = DivideConquer$solve$eval$memo_set<>(x0, r0)
 } (* end of [else] *)
 //
-end // end of [DivideConquer$solve]
+end // end of [DivideConquer$solve$eval]
 
 (* ****** ****** *)
 //
