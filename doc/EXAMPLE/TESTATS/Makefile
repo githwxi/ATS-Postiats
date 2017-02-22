@@ -284,13 +284,15 @@ regress:: sumodd ; ./$<
 cleanall:: ; $(RMF) sumodd
 
 ######
-
+#
 all:: \
 tempenver
 tempenver: tempenver.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: tempenver ; ./$<
 cleanall:: ; $(RMF) tempenver
-
+#
+# cleanall:: ; $(RMF) tempenver_dats.c
+#
 ######
 
 all:: \

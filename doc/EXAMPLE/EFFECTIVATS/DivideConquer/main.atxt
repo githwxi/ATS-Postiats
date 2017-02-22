@@ -78,12 +78,12 @@ end // end of [DC_solve]
 //
 ')</pre>
 
-Basically, ##dyncode("DC_base_test") is called to tested whether a
-given input is considered a base case; if it is, then
-##dyncode("DC_base_solve") can be called to solve it immediately;
-otherwise, ##dyncode("DC_divide") is called to divide it into a list
-of inputs to be passed ##dyncode("DC_conquer"), which is implemented
-as follows:
+Basically, ##dyncode("DC_base_test") is called to test whether a given
+input can be classified as a base case; if it is, then
+##dyncode("DC_base_solve") can be called to return the output for the
+given input immediately; otherwise, ##dyncode("DC_divide") is called
+to divide the input into a list of inputs, which are then passed to
+##dyncode("DC_conquer"):
 
 ')##comment("para")
 
@@ -109,6 +109,10 @@ val r0 = DC_conquer$combine<>(x0, rs)
 //
 ')</pre>
 
+As can be expected, the function ##dyncode("DC_conquer") is called to
+process a given list of inputs and then form an output (for the
+original input) based on the obtained outputs corresponding to the
+list of inputs.
 
 ')##comment("para")
 
