@@ -49,8 +49,8 @@ ATS_EXTERN_PREFIX "atslib_libats_libc_"
 //
 (* ****** ****** *)
 
-#define NSH (x) x // for commenting: no sharing
-#define SHR (x) x // for commenting: it is shared
+#define NSH(x) x // for commenting: no sharing
+#define SHR(x) x // for commenting: it is shared
 
 (* ****** ****** *)
 //

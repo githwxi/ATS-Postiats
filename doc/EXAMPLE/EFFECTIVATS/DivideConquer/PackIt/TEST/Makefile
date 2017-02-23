@@ -37,6 +37,16 @@ regress:: Fibonacci; ./$<
 cleanall:: ; $(RMF) Fibonacci
 #
 ######
+#
+all:: \
+MCarthy91
+MCarthy91: \
+MCarthy91.dats; $(PATSCC2) -o $@ $<
+#
+regress:: MCarthy91; ./$<
+cleanall:: ; $(RMF) MCarthy91
+#
+######
 
 testall:: all
 testall:: regress

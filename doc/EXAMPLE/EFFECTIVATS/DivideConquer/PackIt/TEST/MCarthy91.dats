@@ -1,7 +1,7 @@
 (* ****** ****** *)
 (*
 ** DivideConquer:
-** Fibonacci numbers
+** MacCarthy'1 91-function
 **
 *)
 (* ****** ****** *)
@@ -35,7 +35,7 @@
 (* ****** ****** *)
 //
 extern
-fun Fibonacci(int): int
+fun MCarthy91(int): int
 //
 (* ****** ****** *)
 
@@ -48,49 +48,39 @@ implement
 DC_base_test<>
   (n) =
 (
-if n >= 2 then false else true
+if n <= 100
+  then false else true
+// end of [if]
 )
 //
 (* ****** ****** *)
 //
 implement
 DC_base_solve<>
-  (n) = n
+  (n) = n - 10
 //
 (* ****** ****** *)
 //
 implement
 DC_divide<>(n) =
-(
-g0ofg1($list{int}(n-1, n-2))
-) (* DC_divide *)
+  g0ofg1($list{int}(n+11))
 //
 (* ****** ****** *)
 
 implement
 DC_conquer_combine<>
-  (_, rs) = r1 + r2 where
+  (_, rs) = MCarthy91(r1) where
 {
 //
 val-list0_cons(r1, rs) = rs
-val-list0_cons(r2, rs) = rs
 //
 }
 
 (* ****** ****** *)
-
-implement
-Fibonacci(n) = let
 //
-val () =
-println!
-(
-  "Fibonacci(", n, ")"
-)
-in
-  DC_solve<>(n)
-end // end of [Fibonacci]
-
+implement
+MCarthy91(n) = DC_solve<>(n)
+//
 (* ****** ****** *)
 
 implement
@@ -98,16 +88,16 @@ main0() =
 {
 //
 val () =
-println! ("Fibonacci(5) = ", Fibonacci(5))
+println! ("MCarthy91(5) = ", MCarthy91(5))
 val () =
-println! ("Fibonacci(10) = ", Fibonacci(10))
+println! ("MCarthy91(10) = ", MCarthy91(10))
 val () =
-println! ("Fibonacci(20) = ", Fibonacci(20))
+println! ("MCarthy91(20) = ", MCarthy91(20))
 val () =
-println! ("Fibonacci(30) = ", Fibonacci(30))
+println! ("MCarthy91(30) = ", MCarthy91(30))
 //
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [Fibonacci.dats] *)
+(* end of [MCarthy91.dats] *)

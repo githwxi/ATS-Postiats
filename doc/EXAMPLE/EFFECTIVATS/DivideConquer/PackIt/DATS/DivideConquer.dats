@@ -23,76 +23,76 @@ typedef output = output_t0ype
 //
 extern
 fun{}
-DivideConquer$solve(input): output
+DC_solve(input): output
 //
 extern
 fun{}
-DivideConquer$base_test(x0: input): bool
+DC_base_test(x0: input): bool
 //
 extern
 fun{}
-DivideConquer$base_solve(x0: input): output
+DC_base_solve(x0: input): output
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-DivideConquer$divide(x0: input): list0(input)
+DC_divide(x0: input): list0(input)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-DivideConquer$conquer
+DC_conquer
   (x0: input, xs: list0(input)): output
 //
 extern
 fun{}
-DivideConquer$conquer$combine
+DC_conquer_combine
   (x0: input, rs: list0(output)): output
 //
 (* ****** ****** *)
 
 implement
 {}(*tmp*)
-DivideConquer$solve
+DC_solve
   (x0) = let
 //
 val
 test =
-DivideConquer$base_test<>(x0)
+DC_base_test<>(x0)
 //
 in (* in-of-let *)
 //
 if
 (test)
 then
-DivideConquer$base_solve<>(x0)
+DC_base_solve<>(x0)
 else r0 where
 {
-  val xs = DivideConquer$divide<>(x0)
-  val r0 = DivideConquer$conquer<>(x0, xs)
+  val xs = DC_divide<>(x0)
+  val r0 = DC_conquer<>(x0, xs)
 } (* end of [else] *)
 //
-end // end of [DivideConquer$solve]
+end // end of [DC_solve]
 
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-DivideConquer$conquer
+DC_conquer
   (x0, xs) = r0 where
 {
 //
 val rs =
 list0_map<input><output>
 ( xs
-, lam(x) => DivideConquer$solve<>(x)
+, lam(x) => DC_solve<>(x)
 ) (* end of [val] *)
 //
-val r0 = DivideConquer$conquer$combine<>(x0, rs)
+val r0 = DC_conquer_combine<>(x0, rs)
 //
-} (* end of [DivideConquer$conquer] *)
+} (* end of [DC_conquer] *)
 //
 (* ****** ****** *)
 

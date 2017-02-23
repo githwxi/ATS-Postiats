@@ -2,7 +2,7 @@
 "name":
 "effectivats-divideconquer"
 ,
-"version": "1.0.0"
+"version": "1.0.1"
 ,
 "description":
 "A generic implementation of divide-and-conquer for use in the Effective-ATS series"
@@ -17,9 +17,8 @@
 }
 ,
 "keywords": [
-  "ATS",
-  "BUCS",
-  "divide-conquer"
+  "EFFECTIVATS",
+  "divide-and-conquer"
 ]
 ,
 "dependencies": {
