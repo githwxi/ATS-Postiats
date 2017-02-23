@@ -394,9 +394,20 @@ appears).
 
 ##para("""\
 
-The code for testing the package
-##dyncode("effectivats-divideconquer") from outside is supposed to use
-the following line (or one of its variants) to statically load in the package:
+One can download the package
+##dyncode("effectivats-divideconquer") 
+by issuing the following command-line:
+<pre>
+##command("npm i effectivats-divideconquer")
+</pre>
+For updating it, one can simply do
+<pre>
+##command("npm up effectivats-divideconquer")
+</pre>
+
+The code for testing the package from outside is supposed to use
+the following line (or one of its variants) to statically load in the
+package:
 
 <pre
 class="patsyntax">
@@ -408,8 +419,38 @@ class="patsyntax">
 
 where ##dyncode("PATSHOMELOCS") is an evironmental variable
 whose value is set to be a string representing colon-separated
-path names.
+path names. For instance, following is a typical setup for using npm:
+<pre>
+##command("PATSHOMELOCS=./node_modules:./../../node_modules:./../../../../node_modules")
+</pre>
+which reflects the way in which npm stores downloaded packages.
 
+""")
+
+##para("""\
+
+For further details, please find
+<a href="https://github.com/githwxi/ATS-Postiats-test/tree/master/package/TEST">on-line</a>
+some concrete examples on testing packages externally.\
+
+""")
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+PackIt/mylibies.hats
+PackIt/Makefile_test.hats
+PackIt/DATS/DivideConquer.dats
+PackIt/TEST/Fibonacci.dats // for testing internally
+</pre>
+
+In addition, there is an accompanying ##filename("Makefile") for compiling
+and testing the code.\
 
 """)
 
