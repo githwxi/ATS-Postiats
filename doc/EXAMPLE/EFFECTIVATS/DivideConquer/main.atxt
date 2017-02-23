@@ -125,8 +125,8 @@ val r0 = DC_conquer_combine<>(x0, rs)
 
 As can be expected, the function ##dyncode("DC_conquer") is called to
 process a given list of inputs and then form an output (for the
-original input) by combining (in some unspecified manner) the obtained
-outputs corresponding to the list of inputs.
+original input) by combining (in some manner unspecified here) the
+obtained outputs corresponding to the list of inputs.
 
 """)##comment("para")
 
@@ -134,10 +134,10 @@ outputs corresponding to the list of inputs.
 
 ##para("""\
 
-Let us use ##dyncode("Fibonacci") to refer to the function
-that maps each given natural number N to Fibonacci number N.
-A recursive implementation of ##dyncode("Fibonacci") is given
-as follows:
+Let us use ##dyncode("Fibonacci") to refer to the function that maps
+natural numbers to Fibonacci numbers 0, 1, 1, 2, 3, 5, etc. A
+recursive implementation of ##dyncode("Fibonacci") is given as
+follows:
 
 <pre
 class="patsyntax">
@@ -218,8 +218,8 @@ If we replace ##dyncode("Fibonacci") with a (much) more involved
 implementation of some algorithm (e.g., in the field of AI), then
 benefits from a template-based implementation can hardly be
 missed. What is particularly beneficial to a programmer is that he or
-she can, with the template-based approach as is outlined above,
-concentrate on the specifics of the problem being solved while
+she, with the template-based approach as is outlined above,
+can concentrate on the specifics of the problem being solved while
 largely, if not completely, skipping generic issues that are not
 directly pertinent to the problem. For instance, the programmer can
 focus on specific issues such as dividing inputs and combining outputs
@@ -234,10 +234,12 @@ concerns.
 <h2>Building a Package for D&amp;C</h2>
 
 ##para("""\
-I outline some key steps involved in building a package for D&amp;C
-that can be published via <a
-href="https://www.npmjs.com">npm</a>. Some basic knowledge of npm is
-assumed in the following presentation.
+
+I hereby outline some key steps involved in building a package for
+D&amp;C that can be published
+via <a href="https://www.npmjs.com">npm</a>. Some basic knowledge of
+npm is assumed in the following presentation.\
+
 """)
 
 <h3>##filename("mydepies.hats")</h3>
@@ -281,8 +283,8 @@ DivideConquer =
 </pre>
 
 Code that makes use of this package (which is given the name
-##dyncode("effectivats-divideconquer")) contains a line like the
-following one:
+##dyncode("effectivats-divideconquer")) is expected to contain a line
+like the following one:
 
 <pre
 class="patsyntax">
@@ -400,7 +402,7 @@ by issuing the following command-line:
 <pre>
 ##command("npm i effectivats-divideconquer")
 </pre>
-For updating it, one can simply do
+For updating it, one can simply do:
 <pre>
 ##command("npm up effectivats-divideconquer")
 </pre>
@@ -449,8 +451,8 @@ PackIt/DATS/DivideConquer.dats
 PackIt/TEST/Fibonacci.dats // for testing internally
 </pre>
 
-In addition, there is an accompanying ##filename("Makefile") for compiling
-and testing the code.\
+Note that the file ##filename("Makefile_test") can be used for compiling
+and testing the code (via the make utility).\
 
 """)
 

@@ -145,6 +145,10 @@ funcomb-style
 funcomb-style:: ; $(MAKE) -C $@ $(TARGET)
 
 all :: \
+DivideConquer
+DivideConquer:: ; $(MAKE) -C $@ $(TARGET)
+
+all :: \
 GraphSearch
 GraphSearch:: ; $(MAKE) -C $@ $(TARGET)
 all :: \
@@ -179,6 +183,7 @@ uploadall::upload_ssntyped-channels-2
 uploadall::upload_linear-streams
 uploadall::upload_FRP-bacon.js
 uploadall::upload_funcomb-style
+uploadall::upload_DivideConquer
 uploadall::upload_GraphSearch
 uploadall::upload_GraphSearch-npm
 
@@ -445,6 +450,14 @@ upload_funcomb-style:: ; \
   funcomb-style/index.html \
   funcomb-style/Makefile funcomb-style/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/funcomb-style/
+
+######
+
+upload_DivideConquer:: ; \
+  $(SCP) -r \
+  DivideConquer/index.html \
+  DivideConquer/Makefile DivideConquer/PackIt \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DivideConquer/
 
 ######
 
