@@ -1,5 +1,16 @@
 #!/usr/bin/env sh
 
+
+cd $PATSHOME/contrib/CATS-parsemit && make all 
+cd $PATSHOME/contrib/CATS-atscc2clj && make all && cp -f atscc2clj $PATSHOME/bin
+cd $PATSHOME/contrib/CATS-atscc2erl && make all && cp -f atscc2erl $PATSHOME/bin
+cd $PATSHOME/contrib/CATS-atscc2js && make all && cp -f atscc2js $PATSHOME/bin
+cd $PATSHOME/contrib/CATS-atscc2php && make all && cp -f atscc2php $PATSHOME/bin
+cd $PATSHOME/contrib/CATS-atscc2pl && make all && cp -f atscc2pl $PATSHOME/bin
+cd $PATSHOME/contrib/CATS-atscc2py3 && make all && cp -f atscc2py3 $PATSHOME/bin
+cd $PATSHOME/contrib/CATS-atscc2scm && make all && cp -f atscc2scm $PATSHOME/bin
+
+
 git clone https://github.com/githwxi/ATS-Postiats-contrib
 
 echo "Skip the build until it is fixed."

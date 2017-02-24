@@ -18,6 +18,7 @@ env:
     - PATSHOME=${TRAVIS_BUILD_DIR}
     - PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
     - PATSHOME_contrib=${PATSHOMERELOC}
+    - PATCONTRIB=${PATSHOMERELOC}
     # Path
     - PATH=${PATH}:${PATSHOME}/bin
     # Docker
@@ -52,7 +53,7 @@ script:
   - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
 after_success:
   # Build Docker Image
-  - if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$CC" == "gcc" ]; then (docker login -u $DOCKER_USER -p $DOCKER_PASS && cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh); fi
+  # - if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$CC" == "gcc" ]; then (docker login -u $DOCKER_USER -p $DOCKER_PASS && cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh); fi
   # Building some utilities
   - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
   # Install Contrib
