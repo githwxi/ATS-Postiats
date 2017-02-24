@@ -21,13 +21,19 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 #atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 #atscode_start_time("March, 2012")
+#atscode_authoremail("hwxiATcsDOTbuDOTedu")
 
 #atscode_separator()
 //
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
+//
+#atscode_separator()
+//
+implement
+patsopt_version() = "0.3.2"
 //
 #atscode_separator()
 //

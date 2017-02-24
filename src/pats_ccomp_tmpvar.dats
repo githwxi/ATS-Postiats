@@ -176,11 +176,13 @@ fprint_tmpvaropt
 local
 
 extern
-fun tmpvar_set_ref
+fun
+tmpvar_set_ref
   (tmp: tmpvar, knd: int): void = "patsopt_tmpvar_set_ref"
 // end of [tmpvar_set_ref]
 extern
-fun tmpvar_set_ret
+fun
+tmpvar_set_ret
   (tmp: tmpvar, ret: int): void = "patsopt_tmpvar_set_ret"
 // end of [tmpvar_set_ret]
 

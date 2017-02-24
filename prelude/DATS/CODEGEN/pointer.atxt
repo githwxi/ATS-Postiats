@@ -52,6 +52,15 @@ ptr0_pred(p) = sub_ptr_bsz(p, sizeof<a>)
 #atscode_separator()
 //
 implement
+{a}(*tmp*)
+ptr0_diff(p1, p2) =
+(
+  sub_ptr0_ptr0(p1, p2) / g0u2i(sizeof<a>)
+) (* end of [ptr0_diff] *)
+//
+#atscode_separator()
+//
+implement
 {a}{tk}
 ptr0_add_gint(p, i) =
   add_ptr_bsz(p, g0int2uint(i) * sizeof<a>)
@@ -74,31 +83,45 @@ ptr0_sub_guint(p, i) =
 implement
 {a}(*tmp*)
 ptr1_succ{l}(p) =
-$UN.cast{ptr(l+sizeof(a))}(add_ptr_bsz(p, sizeof<a>))
+$UN.cast
+{ptr(l+sizeof(a))}(add_ptr_bsz(p, sizeof<a>))
 implement
 {a}(*tmp*)
 ptr1_pred{l}(p) =
-$UN.cast{ptr(l-sizeof(a))}(sub_ptr_bsz(p, sizeof<a>))
+$UN.cast
+{ptr(l-sizeof(a))}(sub_ptr_bsz(p, sizeof<a>))
 //
 #atscode_separator()
 //
 implement
 {a}{tk}
 ptr1_add_gint{l}{i}(p, i) =
-$UN.cast{ptr(l+i*sizeof(a))}(ptr0_add_gint<a><tk>(p, i))
+(
+$UN.cast
+{ptr(l+i*sizeof(a))}(ptr0_add_gint<a><tk>(p, i))
+)
 implement
 {a}{tk}
 ptr1_sub_gint{l}{i}(p, i) =
-$UN.cast{ptr(l-i*sizeof(a))}(ptr0_sub_gint<a><tk>(p, i))
+(
+$UN.cast
+{ptr(l-i*sizeof(a))}(ptr0_sub_gint<a><tk>(p, i))
+)
 //
 implement
 {a}{tk}
 ptr1_add_guint{l}{i}(p, i) =
-$UN.cast{ptr(l+i*sizeof(a))}(ptr0_add_guint<a><tk>(p, i))
+(
+$UN.cast
+{ptr(l+i*sizeof(a))}(ptr0_add_guint<a><tk>(p, i))
+)
 implement
 {a}{tk}
 ptr1_sub_guint{l}{i}(p, i) =
-$UN.cast{ptr(l-i*sizeof(a))}(ptr0_sub_guint<a><tk>(p, i))
+(
+$UN.cast
+{ptr(l-i*sizeof(a))}(ptr0_sub_guint<a><tk>(p, i))
+)
 //
 #atscode_separator()
 
@@ -114,12 +137,24 @@ implement
 {a}(*tmp*)
 ptr_exch(pf | p, xr) =
 {
-  val x0 = xr; val () = xr := !p; val () = !p := x0
-} // end of [ptr_exch]
+  val x0 = xr
+  val () = xr := !p; val () = !p := x0
+} (* end of [ptr_exch] *)
 
 #atscode_separator()
-
+//
 implement
+{a}(*tmp*)
+cptr_succ{l}(cp) =
+$UN.cast(add_ptr_bsz(cptr2ptr(cp), sizeof<a>))
+implement
+{a}(*tmp*)
+cptr_pred{l}(cp) =
+$UN.cast(sub_ptr_bsz(cptr2ptr(cp), sizeof<a>))
+//
+#atscode_separator()
+
+  implement
 {a}(*tmp*)
 ptr_nullize
   (pf | x) =
@@ -150,17 +185,6 @@ end // end of [aptr_make_elt]
 //
 implement
 {a}(*tmp*)
-cptr_succ{l}(cp) =
-$UN.cast(add_ptr_bsz(cptr2ptr(cp), sizeof<a>))
-implement
-{a}(*tmp*)
-cptr_pred{l}(cp) =
-$UN.cast(sub_ptr_bsz(cptr2ptr(cp), sizeof<a>))
-//
-#atscode_separator()
-//
-implement
-{a}(*tmp*)
 aptr_getfree_elt
   {l}(ap) = x0 where
 {
@@ -172,6 +196,7 @@ prval
 pfat_ = $UN.castview0{(a?)@l}(0)
 prval
 pfgc_ = $UN.castview0{mfree_gc_v(l)}(0)
+//
 val () = ptr_free{a?}{l}(pfgc_, pfat_ | p0)
 //
 prval () = $UN.cast2void(ap)
@@ -182,16 +207,31 @@ prval () = $UN.cast2void(ap)
 //
 implement
 {a}(*tmp*)
-aptr_get_elt(ap) =
-  $UN.ptr1_get<a>(aptr2ptr(ap))
+aptr_get_elt
+  (ap) = x0 where
+{
+val x0 =
+$UN.ptr1_get<a>(aptr2ptr(ap))
+//
+prval ((*void*)) = $UN.castvwtp2void(ap)
+//
+} (* end of [aptr_get_elt] *)
 implement
 {a}(*tmp*)
-aptr_set_elt(ap, x0) =
-  $UN.ptr1_set<a>(aptr2ptr(ap), x0)
+aptr_set_elt
+  (ap, x0) = () where
+{
+val () =
+$UN.ptr1_set<a>(aptr2ptr(ap), x0)
+//
+  prval ((*void*)) = $UN.castvwtp2void(ap)
+//
+} (* end of [aptr_set_elt] *)
 //
 implement
 {a}(*tmp*)
-aptr_exch_elt(ap, x0) =
+aptr_exch_elt
+  (ap, x0) =
   $UN.ptr1_exch<a>(aptr2ptr(ap), x0)
 //
 #atscode_separator()
@@ -213,22 +253,19 @@ prval () = $UN.castvwtp2void(ap)
 implement
 {a}(*tmp*)
 aptr_vtget1_elt
-  {l}(ap) = let
+  {l}(ap) =
+  $UN.castvwtp0{res}(x0) where
+{
 //
-val x0 =
-  $UN.ptr1_get<a>(aptr2ptr(ap))
+val x0 = $UN.ptr1_get<a>(aptr2ptr(ap))
+vtypedef res = (minus_v(aptr(a,l), a) | a)
 //
-vtypedef
-res_vt = (minus_v(aptr(a,l),a) | a)
-//
-in
-  $UN.castvwtp0{res_vt}(x0)
-end // end of [aptr_vtget1_elt]
+} (* end of [aptr_vtget1_elt] *)
 //
 #atscode_separator()
 
 implement
-fprint_val<ptr> (out, p) = fprint_ptr (out, p)
+fprint_val<ptr>(out, p) = fprint_ptr(out, p)
 
 #atscode_separator()
 

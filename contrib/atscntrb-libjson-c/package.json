@@ -1,0 +1,32 @@
+{
+"name":
+"atscntrb-libjson-c"
+,
+"version": "1.0.1"
+,
+"description":
+"This package is for directly calling in ATS various json-c-functions."
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url":
+  "https://github.com/githwxi/ATS-Postiats/tree/master/contrib/atscntrb-libjson-c"
+}
+,
+"keywords": [
+  "ATS",
+  "json-c",
+  "libjson-c"
+]
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-me":
+"The package is stored at ${PATSHOME}/contrib/atscntrb-libjson-c/."
+}

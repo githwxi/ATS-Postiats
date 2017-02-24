@@ -139,10 +139,21 @@ all_script::
 #
 ######
 
+#make_entry("contrib_libatscc")
+#make_entry("contrib_libatscc2js")
+#make_entry("contrib_libatscc2py3")
+#make_entry("contrib_libatscc2php")
+
+######
+
 #make_entry("doc_example_pcpv")
 #make_entry("doc_example_misc")
 #make_entry("doc_example_intro")
 #make_entry("doc_example_atslib")
+
+######
+
+#make_entry("npm_utils_contrib_libats_hwxi")
 
 ######
 #
@@ -151,13 +162,8 @@ all_script::
 #make_entry("patscontrib_glib")
 #make_entry("patscontrib_GTK")
 #make_entry("patscontrib_SDL2")
-#make_entry("patscontrib_cairo")
 #
 #make_entry("patscontrib_zeromq")
-#
-#make_entry("patscontrib_jansson")
-#
-#make_entry("patscontrib_hiredis")
 #
 #make_entry("patscontrib_OpenSSL")
 #
@@ -168,6 +174,9 @@ all_script::
 #make_entry("patscontrib_libats_hwxi_teaching")
 #
 #make_entry("patscontrib_libatscc")
+#make_entry("patscontrib_libatscc2js")
+#make_entry("patscontrib_libatscc2py3")
+#make_entry("patscontrib_libatscc2php")
 #
 #make_entry("patscontrib_kernelats")
 #
@@ -200,7 +209,15 @@ atspackaging:: srcget_contrib_atscc2js
 atspackaging:: srcget_contrib_atscc2py3
 atspackaging:: srcget_contrib_atscc2php
 #
+atspackaging:: srcget_contrib_libatscc
+atspackaging:: srcget_contrib_libatscc2js
+atspackaging:: srcget_contrib_libatscc2py3
+atspackaging:: srcget_contrib_libatscc2php
+#
 atspackaging:: srcget_doc_example
+#
+atspackaging:: srcget_npm_utils_contrib
+#
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 #
 ######
@@ -281,16 +298,29 @@ srcget_contrib_atscc2js:: SCRIPT/contrib_atscc2js.bash ; bash $<
 srcget_contrib_atscc2py3:: SCRIPT/contrib_atscc2py3.bash ; bash $<
 srcget_contrib_atscc2php:: SCRIPT/contrib_atscc2php.bash ; bash $<
 #
+srcget_contrib_libatscc:: SCRIPT/contrib_libatscc.bash ; bash $<
+srcget_contrib_libatscc2js:: SCRIPT/contrib_libatscc2js.bash ; bash $<
+srcget_contrib_libatscc2py3:: SCRIPT/contrib_libatscc2py3.bash ; bash $<
+srcget_contrib_libatscc2php:: SCRIPT/contrib_libatscc2php.bash ; bash $<
+#
 ######
-
-srcget_doc_example:: srcget_doc_example_intro
-srcget_doc_example:: srcget_doc_example_atslib
+#
 srcget_doc_example:: srcget_doc_example_misc
 srcget_doc_example:: srcget_doc_example_pcpv
-srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
-srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
+srcget_doc_example:: srcget_doc_example_intro
+srcget_doc_example:: srcget_doc_example_atslib
+#
 srcget_doc_example_misc:: SCRIPT/doc_example_misc.bash ; bash $<
 srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
+srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
+srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
+#
+######
+
+srcget_npm_utils_contrib:: \
+srcget_npm_utils_contrib_libats_hwxi
+srcget_npm_utils_contrib_libats_hwxi:: \
+SCRIPT/npm_utils_contrib_libats_hwxi.bash; bash $<
 
 ######
 
@@ -318,23 +348,8 @@ srcget_patscontrib_SDL2:: SCRIPT/patscontrib_SDL2.bash ; bash $<
 
 ######
 
-srcget_patscontrib:: srcget_patscontrib_cairo
-srcget_patscontrib_cairo:: SCRIPT/patscontrib_cairo.bash ; bash $<
-
-######
-
 srcget_patscontrib:: srcget_patscontrib_zeromq
 srcget_patscontrib_zeromq:: SCRIPT/patscontrib_zeromq.bash ; bash $<
-
-######
-
-srcget_patscontrib:: srcget_patscontrib_jansson
-srcget_patscontrib_jansson:: SCRIPT/patscontrib_jansson.bash ; bash $<
-
-######
-
-srcget_patscontrib:: srcget_patscontrib_hiredis
-srcget_patscontrib_hiredis:: SCRIPT/patscontrib_hiredis.bash ; bash $<
 
 ######
 
@@ -367,7 +382,7 @@ srcget_patscontrib_libatscc:: SCRIPT/patscontrib_libatscc.bash ; bash $<
 
 ######
 #
-PACKNAME=ATS2-Postiats-0.3.0
+PACKNAME=ATS2-Postiats-0.3.3
 #
 atspacktarzvcf:: ; $(RMRF) $(PACKNAME)
 atspacktarzvcf:: ; $(CPRF) ATS-Postiats $(PACKNAME)
@@ -382,14 +397,14 @@ scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Posti
 #
 ######
 #
-PACKNAMEintmin=ATS2-Postiats-intmin-0.3.0
+PACKNAMEintmin=ATS2-Postiats-intmin-0.3.3
 #
 atspacktarzvcf_intmin_up:: ; \\
 scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEintmin).tgz
 #
 ######
 
-CONTRIBNAME=ATS2-Postiats-contrib-0.3.0
+CONTRIBNAME=ATS2-Postiats-contrib-0.3.3
 atscontribtarzvcf:: ; $(RMRF) $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(CPRF) ATS-Postiats-contrib $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(TARZVCF)  $(CONTRIBNAME).tgz  $(CONTRIBNAME)/.

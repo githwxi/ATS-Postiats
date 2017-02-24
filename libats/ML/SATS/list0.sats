@@ -832,18 +832,24 @@ streamize_list0_cross
   (list0(INV(a)), list0(INV(b))):<!wrt> stream_vt(@(a, b))
 //
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-list0_quicksort
-  (NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
-// end of [list0_quicksort]
-
+list0_is_ordered
+  (xs: list0(INV(a)), cmp:  (a, a) -<cloref> int): bool
+//
 (* ****** ****** *)
 
 fun{a:t0p}
 list0_mergesort
   (NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
 // end of [list0_mergesort]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+list0_quicksort
+  (NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
+// end of [list0_quicksort]
 
 (* ****** ****** *)
 

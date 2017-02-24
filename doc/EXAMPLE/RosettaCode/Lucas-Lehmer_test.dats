@@ -20,6 +20,7 @@ or the 47th Mersenne prime (whichever comes first).
 //
 Output after 8 hours:
 //
+M2
 M3
 M5
 M7

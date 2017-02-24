@@ -4,11 +4,13 @@
 
 ######
 
-include $(PATSHOME)/share/atsmake-pre.mk
+include \
+$(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-PATSCC2=$(PATSCC) -DATS_MEMALLOC_LIBC -O2
+PATSCC2=\
+$(PATSCC) -DATS_MEMALLOC_LIBC -O2
 
 ######
 
@@ -17,7 +19,8 @@ MYCCRULE=MYCCRULE
 
 ######
 
-include $(PATSHOME)/share/atsmake-post.mk
+include \
+$(PATSHOME)/share/atsmake-post.mk
 
 ######
 
@@ -72,8 +75,7 @@ INPATH += -I$(PATSHOME)/src
 INPATH += -IATS $(PATSHOME) -IATS $(ATSHOME)
 
 LDPATH :=
-LDPATH += -L$(PATSHOME)/utils/libatsopt
-LDPATH += -L$(PATSHOME)/utils/libatsynmark
+LDPATH += -L$(PATSHOME)/ccomp/atslib/lib
 
 LIBRARY :=
 LIBRARY := -latsynmark -latsdoc -latsopt -lats -lgmp

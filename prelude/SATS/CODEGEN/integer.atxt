@@ -211,8 +211,8 @@ overload isneqz with g0int_isneqz of 0
 #atscode_separator()
 
 typedef
-g0int_cmp_type (tk:tk) =
-  (g0int (tk), g0int (tk)) -<fun0> bool
+g0int_cmp_type(tk:tk) =
+  (g0int(tk), g0int(tk)) -<fun0> bool
 // end of [g0int_cmp_type]
 
 #g0int_cmp_decl("lt")
@@ -226,12 +226,18 @@ g0int_cmp_type (tk:tk) =
 overload <> with g0int_neq of 0
 
 #atscode_separator()
-
+//
+fun{tk:tk}
+g0int_sgn(g0int(tk)): intBtwe(~1,1)
+//
+#atscode_separator()
+//
 fun{tk:tk}
 g0int_compare
-  (x: g0int (tk), y: g0int (tk)):<> int
+  (x: g0int(tk), y: g0int(tk)):<> int
+//
 overload compare with g0int_compare of 0
-
+//
 #atscode_separator()
 
 fun

@@ -426,9 +426,9 @@ extern char *patsopt_PATSHOME_get () ;
 //
 extern void patsopt_PATSCONTRIB_set () ;
 //
-extern void patsopt_PATSRELOCROOT_set () ;
+extern void patsopt_PATSHOMELOCS_set () ;
 //
-extern void patsopt_PATSHOMERELOCS_set () ;
+extern void patsopt_PATSRELOCROOT_set () ;
 //
 %} // end of [%{^]
 
@@ -1944,7 +1944,7 @@ set () where
 { 
   extern
   fun set(): void
-    = "mac#patsopt_PATSHOMERELOCS_set"
+    = "mac#patsopt_PATSHOMELOCS_set"
   // end of [fun]
 } // end of [where] // end of [val]
 //

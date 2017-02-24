@@ -284,13 +284,15 @@ regress:: sumodd ; ./$<
 cleanall:: ; $(RMF) sumodd
 
 ######
-
+#
 all:: \
 tempenver
 tempenver: tempenver.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: tempenver ; ./$<
 cleanall:: ; $(RMF) tempenver
-
+#
+# cleanall:: ; $(RMF) tempenver_dats.c
+#
 ######
 
 all:: \
@@ -363,6 +365,19 @@ all:: \
 s2rt_float
 s2rt_float: s2rt_float.dats; $(PATSOPT) --typecheck -d $<
 #
+######
+
+all:: \
+wherecls
+wherecls: wherecls_dats.c ; \
+  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+wherecls_dats.c: wherecls.dats ; $(PATSCC2) -ccats $<
+#
+# regress:: wherecls ; ./$<
+#
+cleanall:: ; $(RMF) wherecls
+cleanall:: ; $(RMF) wherecls_dats.c
+
 ######
 
 all:: \

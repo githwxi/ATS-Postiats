@@ -67,6 +67,11 @@ mergesort:: ; \
 $(MAKE) -C $@ $(TARGET)
 
 all :: \
+parallel-sorting
+parallel-sorting:: ; \
+$(MAKE) -C $@ $(TARGET)
+
+all :: \
 sorting-linear-lists
 sorting-linear-lists:: ; \
 $(MAKE) -C $@ $(TARGET)
@@ -140,8 +145,15 @@ funcomb-style
 funcomb-style:: ; $(MAKE) -C $@ $(TARGET)
 
 all :: \
+DivideConquer
+DivideConquer:: ; $(MAKE) -C $@ $(TARGET)
+
+all :: \
 GraphSearch
 GraphSearch:: ; $(MAKE) -C $@ $(TARGET)
+all :: \
+GraphSearch-npm
+GraphSearch-npm:: ; $(MAKE) -C $@ $(TARGET)
 
 ######
 
@@ -155,6 +167,7 @@ uploadall::upload_word-counting
 uploadall::upload_stack-array
 uploadall::upload_queue-sllist2
 uploadall::upload_mergesort
+uploadall::upload_parallel-sorting
 uploadall::upload_sorting-linear-lists
 uploadall::upload_DiningPhil
 uploadall::upload_DiningPhil2
@@ -170,7 +183,9 @@ uploadall::upload_ssntyped-channels-2
 uploadall::upload_linear-streams
 uploadall::upload_FRP-bacon.js
 uploadall::upload_funcomb-style
+uploadall::upload_DivideConquer
 uploadall::upload_GraphSearch
+uploadall::upload_GraphSearch-npm
 
 ######
 
@@ -258,6 +273,14 @@ upload_mergesort:: ; \
   mergesort/index.html \
   mergesort/Makefile mergesort/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/mergesort/
+
+######
+
+upload_parallel-sorting:: ; \
+  $(SCP) \
+  parallel-sorting/index.html \
+  parallel-sorting/Makefile parallel-sorting/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/parallel-sorting/
 
 ######
 
@@ -430,11 +453,26 @@ upload_funcomb-style:: ; \
 
 ######
 
+upload_DivideConquer:: ; \
+  $(SCP) -r \
+  DivideConquer/index.html \
+  DivideConquer/Makefile DivideConquer/PackIt \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/DivideConquer/
+
+######
+
 upload_GraphSearch:: ; \
   $(SCP) \
   GraphSearch/index.html \
   GraphSearch/Makefile GraphSearch/*.?ats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/GraphSearch/
+
+upload_GraphSearch-npm:: ; \
+  $(SCP) \
+  GraphSearch-npm/index.html \
+  GraphSearch-npm/Makefile GraphSearch-npm/package.json \
+  GraphSearch-npm/QueenPuzzle.dats GraphSearch-npm/DoubletsPlay.dats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/GraphSearch-npm/
 
 ######
 

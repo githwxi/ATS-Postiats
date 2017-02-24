@@ -44,10 +44,18 @@ val () = println! ("xs4 = ", (gflist2list(xs4)).1)
 staload UN = $UNSAFE
 //
 implement
-gflist_mergesort$cmp<int>(x1, x2) =
+gflist_mergesort$cmp<int>
+  (x1, x2) = (
+//
+$UN.cast
 (
-  $UN.cast($UN.cast2int(x1) - $UN.cast2int(x2))
-)
+g0int_sgn
+(
+$UN.cast2int(x1) - $UN.cast2int(x2)
+) (*g0int_sgn*)
+) (* $UN.cast *)
+//
+) (* end of [gflist_mergesort$cmp] *)
 //
 val (pf5ord | xs5) = gflist_mergesort<int> (xs3)
 //

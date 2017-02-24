@@ -44,48 +44,53 @@ ATSLANGCOM "http://www.ats-lang.com"
 //
 #define
 LIBGMP_targetloc
-"$$PATSHOME/atscntrb/atscntrb-libgmp"
+"$PATSHOME/contrib/atscntrb-libgmp"
 //
 #define
 LIBPCRE_targetloc
-"$PATSHOME/atscntrb/atscntrb-libpcre"
+"$PATSHOME/contrib/atscntrb-libpcre"
 //
 #define
 LIBCURL_targetloc
-"$PATSHOME/atscntrb/atscntrb-libcurl"
+"$PATSHOME/contrib/atscntrb-libcurl"
 //
 #define
 LIBJSONC_targetloc
-"$PATSHOME/atscntrb/atscntrb-libjson-c"
+"$PATSHOME/contrib/atscntrb-libjson-c"
 #define
 LIBJSON_C_targetloc
-"$PATSHOME/atscntrb/atscntrb-libjson-c"
+"$PATSHOME/contrib/atscntrb-libjson-c"
 //
 (* ****** ****** *)
 //
 #define
 HX_INTINF_targetloc
-"$PATSHOME/atscntrb/atscntrb-hx-intinf"
+"$PATSHOME/contrib/atscntrb-hx-intinf"
 #define
 HX_CSTREAM_targetloc
-"$PATSHOME/atscntrb/atscntrb-hx-cstream"
+"$PATSHOME/contrib/atscntrb-hx-cstream"
 #define
 HX_GLOBALS_targetloc
-"$PATSHOME/atscntrb/atscntrb-hx-globals"
+"$PATSHOME/contrib/atscntrb-hx-globals"
 //
 #define
 HX_MYTESTING_targetloc
-"$PATSHOME/atscntrb/atscntrb-hx-mytesting"
+"$PATSHOME/contrib/atscntrb-hx-mytesting"
 //
 (* ****** ****** *)
 //
 #define
-HIREDIS_targetloc "$PATSCONTRIB/contrib/hiredis"
+LIBATSCC_targetloc
+"$PATSHOME/contrib/libatscc"
+//
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
 //
 (* ****** ****** *)
 //
 #define
-OPENSSL_targetloc "$PATSCONTRIB/contrib/OpenSSL"
+JNI_targetloc "$PATSCONTRIB/contrib/JNI"
 //
 (* ****** ****** *)
 //
@@ -100,17 +105,22 @@ GLIB_targetloc "$PATSCONTRIB/contrib/glib"
 (* ****** ****** *)
 //
 #define
+SDL2_targetloc "$PATSCONTRIB/contrib/SDL2"
+//
+(* ****** ****** *)
+//
+#define
 CAIRO_targetloc "$PATSCONTRIB/contrib/cairo"
 //
 (* ****** ****** *)
 //
 #define
-JNI_targetloc "$PATSCONTRIB/contrib/JNI"
+HIREDIS_targetloc "$PATSCONTRIB/contrib/hiredis"
 //
 (* ****** ****** *)
 //
 #define
-SDL2_targetloc "$PATSCONTRIB/contrib/SDL2"
+OPENSSL_targetloc "$PATSCONTRIB/contrib/OpenSSL"
 //
 (* ****** ****** *)
 //
@@ -125,12 +135,14 @@ KERNELATS_targetloc "$PATSCONTRIB/contrib/kernelats"
 (* ****** ****** *)
 //
 #define
-LIBATSCC_targetloc
-"$PATSCONTRIB/contrib/libatscc"
+ZLOG_targetloc "$PATSCONTRIB/contrib/zlog"
+//
+(* ****** ****** *)
 //
 #define
-LIBATSCC2JS_targetloc
-"$PATSCONTRIB/contrib/libatscc/libatscc2js"
+ZEROMQ_targetloc "$PATSCONTRIB/contrib/zeromq"
+//
+(* ****** ****** *)
 //
 #define
 LIBATSCC2PL_targetloc
@@ -154,16 +166,6 @@ LIBATSCC2CLJ_targetloc
 #define
 LIBATSCC2PHP_targetloc
 "$PATSCONTRIB/contrib/libatscc/libatscc2php"
-//
-(* ****** ****** *)
-//
-#define
-ZLOG_targetloc "$PATSCONTRIB/contrib/zlog"
-//
-(* ****** ****** *)
-//
-#define
-ZEROMQ_targetloc "$PATSCONTRIB/contrib/zeromq"
 //
 (* ****** ****** *)
 //

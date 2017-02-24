@@ -165,12 +165,40 @@ case+ d2c0.d2ecl_node of
 //
     val loc = d2c.s2aspdec_loc
     val s2c = d2c.s2aspdec_cst
-    val s2f = d2c.s2aspdec_def
+    val s2e = d2c.s2aspdec_def
 //
-    val s2e_def = s2exp2hnf(s2f)
+    val s2f_def = s2exp2hnf(s2e)
+    val s2e_def = s2hnf2exp(s2f_def)
+//
+// HX-2017-02-01:
+// For handling abstypes of unspecified sized
+//
+    extern
+    fun
+    s2cst_set_isabs
+    (
+      s2c: s2cst, opt: s2expopt
+    ) : void = "patsopts2cst_set_isabs"
+    val s2eoptopt = s2cst_get_isabs(s2c)
+    val ((*void*)) =
+    (
+      case+ s2eoptopt of
+      | Some (s2eopt) =>
+        (
+          case+ s2eopt of
+          | None () => let
+              val
+              s2eopt = Some(s2e_def)
+            in
+              s2cst_set_isabs(s2c, s2eopt)
+            end // end of [None]
+          | Some _(*s2exp*) => ((*void*))
+        )
+      | None ((*void*)) => ((*void*))
+    ) : void // end of [val]
 //
     val ((*void*)) =
-      the_s2cstbindlst_bind_and_add(loc, s2c, s2e_def)
+      the_s2cstbindlst_bind_and_add(loc, s2c, s2f_def)
     // end of [val]
   in
     d3ecl_saspdec (loc0, d2c)

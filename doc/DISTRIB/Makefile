@@ -286,6 +286,49 @@ cleanall:: ; $(RMF) SCRIPT/contrib_atscc2php.bash
 ######
 
 all_script:: \
+SCRIPT/contrib_libatscc.bash
+SCRIPT/contrib_libatscc.bash: contrib_libatscc_atxt.exe ; ./$< > $@
+contrib_libatscc_atxt.dats: ATEXT/contrib_libatscc.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_libatscc_atxt.exe: contrib_libatscc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_libatscc_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_libatscc.html
+cleanall:: ; $(RMF) SCRIPT/contrib_libatscc.bash
+
+all_script:: \
+SCRIPT/contrib_libatscc2js.bash
+SCRIPT/contrib_libatscc2js.bash: contrib_libatscc2js_atxt.exe ; ./$< > $@
+contrib_libatscc2js_atxt.dats: ATEXT/contrib_libatscc2js.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_libatscc2js_atxt.exe: contrib_libatscc2js_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_libatscc2js_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_libatscc2js.html
+cleanall:: ; $(RMF) SCRIPT/contrib_libatscc2js.bash
+
+all_script:: \
+SCRIPT/contrib_libatscc2py3.bash
+SCRIPT/contrib_libatscc2py3.bash: contrib_libatscc2py3_atxt.exe ; ./$< > $@
+contrib_libatscc2py3_atxt.dats: ATEXT/contrib_libatscc2py3.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_libatscc2py3_atxt.exe: contrib_libatscc2py3_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_libatscc2py3_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_libatscc2py3.html
+cleanall:: ; $(RMF) SCRIPT/contrib_libatscc2py3.bash
+
+all_script:: \
+SCRIPT/contrib_libatscc2php.bash
+SCRIPT/contrib_libatscc2php.bash: contrib_libatscc2php_atxt.exe ; ./$< > $@
+contrib_libatscc2php_atxt.dats: ATEXT/contrib_libatscc2php.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_libatscc2php_atxt.exe: contrib_libatscc2php_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_libatscc2php_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_libatscc2php.html
+cleanall:: ; $(RMF) SCRIPT/contrib_libatscc2php.bash
+
+
+######
+
+all_script:: \
 SCRIPT/doc_example_pcpv.bash
 SCRIPT/doc_example_pcpv.bash: doc_example_pcpv_atxt.exe ; ./$< > $@
 doc_example_pcpv_atxt.dats: ATEXT/doc_example_pcpv.atxt ; \
@@ -324,6 +367,19 @@ doc_example_atslib_atxt.exe: doc_example_atslib_atxt.dats ; $(ATSCC) $(INCLATS) 
 clean:: ; $(RMF) doc_example_atslib_atxt.exe
 cleanall:: ; $(RMF) HTML/doc_example_atslib.html
 cleanall:: ; $(RMF) SCRIPT/doc_example_atslib.bash
+
+
+######
+
+all_script:: \
+SCRIPT/npm_utils_contrib_libats_hwxi.bash
+SCRIPT/npm_utils_contrib_libats_hwxi.bash: npm_utils_contrib_libats_hwxi_atxt.exe ; ./$< > $@
+npm_utils_contrib_libats_hwxi_atxt.dats: ATEXT/npm_utils_contrib_libats_hwxi.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+npm_utils_contrib_libats_hwxi_atxt.exe: npm_utils_contrib_libats_hwxi_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) npm_utils_contrib_libats_hwxi_atxt.exe
+cleanall:: ; $(RMF) HTML/npm_utils_contrib_libats_hwxi.html
+cleanall:: ; $(RMF) SCRIPT/npm_utils_contrib_libats_hwxi.bash
 
 
 ######
@@ -369,16 +425,6 @@ clean:: ; $(RMF) patscontrib_SDL2_atxt.exe
 cleanall:: ; $(RMF) HTML/patscontrib_SDL2.html
 cleanall:: ; $(RMF) SCRIPT/patscontrib_SDL2.bash
 
-all_script:: \
-SCRIPT/patscontrib_cairo.bash
-SCRIPT/patscontrib_cairo.bash: patscontrib_cairo_atxt.exe ; ./$< > $@
-patscontrib_cairo_atxt.dats: ATEXT/patscontrib_cairo.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_cairo_atxt.exe: patscontrib_cairo_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_cairo_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_cairo.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_cairo.bash
-
 #
 all_script:: \
 SCRIPT/patscontrib_zeromq.bash
@@ -389,28 +435,6 @@ patscontrib_zeromq_atxt.exe: patscontrib_zeromq_atxt.dats ; $(ATSCC) $(INCLATS) 
 clean:: ; $(RMF) patscontrib_zeromq_atxt.exe
 cleanall:: ; $(RMF) HTML/patscontrib_zeromq.html
 cleanall:: ; $(RMF) SCRIPT/patscontrib_zeromq.bash
-
-#
-all_script:: \
-SCRIPT/patscontrib_jansson.bash
-SCRIPT/patscontrib_jansson.bash: patscontrib_jansson_atxt.exe ; ./$< > $@
-patscontrib_jansson_atxt.dats: ATEXT/patscontrib_jansson.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_jansson_atxt.exe: patscontrib_jansson_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_jansson_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_jansson.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_jansson.bash
-
-#
-all_script:: \
-SCRIPT/patscontrib_hiredis.bash
-SCRIPT/patscontrib_hiredis.bash: patscontrib_hiredis_atxt.exe ; ./$< > $@
-patscontrib_hiredis_atxt.dats: ATEXT/patscontrib_hiredis.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_hiredis_atxt.exe: patscontrib_hiredis_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_hiredis_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_hiredis.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_hiredis.bash
 
 #
 all_script:: \
@@ -476,6 +500,36 @@ clean:: ; $(RMF) patscontrib_libatscc_atxt.exe
 cleanall:: ; $(RMF) HTML/patscontrib_libatscc.html
 cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc.bash
 
+all_script:: \
+SCRIPT/patscontrib_libatscc2js.bash
+SCRIPT/patscontrib_libatscc2js.bash: patscontrib_libatscc2js_atxt.exe ; ./$< > $@
+patscontrib_libatscc2js_atxt.dats: ATEXT/patscontrib_libatscc2js.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+patscontrib_libatscc2js_atxt.exe: patscontrib_libatscc2js_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) patscontrib_libatscc2js_atxt.exe
+cleanall:: ; $(RMF) HTML/patscontrib_libatscc2js.html
+cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2js.bash
+
+all_script:: \
+SCRIPT/patscontrib_libatscc2py3.bash
+SCRIPT/patscontrib_libatscc2py3.bash: patscontrib_libatscc2py3_atxt.exe ; ./$< > $@
+patscontrib_libatscc2py3_atxt.dats: ATEXT/patscontrib_libatscc2py3.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+patscontrib_libatscc2py3_atxt.exe: patscontrib_libatscc2py3_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) patscontrib_libatscc2py3_atxt.exe
+cleanall:: ; $(RMF) HTML/patscontrib_libatscc2py3.html
+cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2py3.bash
+
+all_script:: \
+SCRIPT/patscontrib_libatscc2php.bash
+SCRIPT/patscontrib_libatscc2php.bash: patscontrib_libatscc2php_atxt.exe ; ./$< > $@
+patscontrib_libatscc2php_atxt.dats: ATEXT/patscontrib_libatscc2php.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+patscontrib_libatscc2php_atxt.exe: patscontrib_libatscc2php_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) patscontrib_libatscc2php_atxt.exe
+cleanall:: ; $(RMF) HTML/patscontrib_libatscc2php.html
+cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2php.bash
+
 #
 all_script:: \
 SCRIPT/patscontrib_kernelats.bash
@@ -517,7 +571,15 @@ atspackaging:: srcget_contrib_atscc2js
 atspackaging:: srcget_contrib_atscc2py3
 atspackaging:: srcget_contrib_atscc2php
 #
+atspackaging:: srcget_contrib_libatscc
+atspackaging:: srcget_contrib_libatscc2js
+atspackaging:: srcget_contrib_libatscc2py3
+atspackaging:: srcget_contrib_libatscc2php
+#
 atspackaging:: srcget_doc_example
+#
+atspackaging:: srcget_npm_utils_contrib
+#
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 #
 ######
@@ -598,16 +660,27 @@ srcget_contrib_atscc2js:: SCRIPT/contrib_atscc2js.bash ; bash $<
 srcget_contrib_atscc2py3:: SCRIPT/contrib_atscc2py3.bash ; bash $<
 srcget_contrib_atscc2php:: SCRIPT/contrib_atscc2php.bash ; bash $<
 #
+srcget_contrib_libatscc:: SCRIPT/contrib_libatscc.bash ; bash $<
+srcget_contrib_libatscc2js:: SCRIPT/contrib_libatscc2js.bash ; bash $<
+srcget_contrib_libatscc2py3:: SCRIPT/contrib_libatscc2py3.bash ; bash $<
+srcget_contrib_libatscc2php:: SCRIPT/contrib_libatscc2php.bash ; bash $<
+#
 ######
-
-srcget_doc_example:: srcget_doc_example_intro
-srcget_doc_example:: srcget_doc_example_atslib
+#
 srcget_doc_example:: srcget_doc_example_misc
 srcget_doc_example:: srcget_doc_example_pcpv
-srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
-srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
+srcget_doc_example:: srcget_doc_example_intro
+srcget_doc_example:: srcget_doc_example_atslib
+#
 srcget_doc_example_misc:: SCRIPT/doc_example_misc.bash ; bash $<
 srcget_doc_example_pcpv:: SCRIPT/doc_example_pcpv.bash ; bash $<
+srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
+srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
+#
+######
+
+srcget_npm_utils_contrib:: srcget_npm_utils_contrib_libats_hwxi
+srcget_npm_utils_contrib_libats_hwxi:: SCRIPT/npm_utils_contrib_libats_hwxi.bash; bash $<
 
 ######
 
@@ -635,23 +708,8 @@ srcget_patscontrib_SDL2:: SCRIPT/patscontrib_SDL2.bash ; bash $<
 
 ######
 
-srcget_patscontrib:: srcget_patscontrib_cairo
-srcget_patscontrib_cairo:: SCRIPT/patscontrib_cairo.bash ; bash $<
-
-######
-
 srcget_patscontrib:: srcget_patscontrib_zeromq
 srcget_patscontrib_zeromq:: SCRIPT/patscontrib_zeromq.bash ; bash $<
-
-######
-
-srcget_patscontrib:: srcget_patscontrib_jansson
-srcget_patscontrib_jansson:: SCRIPT/patscontrib_jansson.bash ; bash $<
-
-######
-
-srcget_patscontrib:: srcget_patscontrib_hiredis
-srcget_patscontrib_hiredis:: SCRIPT/patscontrib_hiredis.bash ; bash $<
 
 ######
 
@@ -684,7 +742,7 @@ srcget_patscontrib_libatscc:: SCRIPT/patscontrib_libatscc.bash ; bash $<
 
 ######
 #
-PACKNAME=ATS2-Postiats-0.3.0
+PACKNAME=ATS2-Postiats-0.3.3
 #
 atspacktarzvcf:: ; $(RMRF) $(PACKNAME)
 atspacktarzvcf:: ; $(CPRF) ATS-Postiats $(PACKNAME)
@@ -699,14 +757,14 @@ scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Posti
 #
 ######
 #
-PACKNAMEintmin=ATS2-Postiats-intmin-0.3.0
+PACKNAMEintmin=ATS2-Postiats-intmin-0.3.3
 #
 atspacktarzvcf_intmin_up:: ; \
 scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEintmin).tgz
 #
 ######
 
-CONTRIBNAME=ATS2-Postiats-contrib-0.3.0
+CONTRIBNAME=ATS2-Postiats-contrib-0.3.3
 atscontribtarzvcf:: ; $(RMRF) $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(CPRF) ATS-Postiats-contrib $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(TARZVCF)  $(CONTRIBNAME).tgz  $(CONTRIBNAME)/.

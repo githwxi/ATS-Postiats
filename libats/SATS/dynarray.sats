@@ -28,17 +28,20 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
 (* Start time: May, 2013 *)
+(* Authoremail: hwxiATcsDOTbuDOTedu *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.dynarray"
-
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.dynarray"
+//
 (* ****** ****** *)
 
 %{#
-#include "libats/CATS/dynarray.cats"
+#include \
+"libats/CATS/dynarray.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)

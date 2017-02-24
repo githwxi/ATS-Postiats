@@ -24,7 +24,7 @@ CFLAGS+=-DATS_MEMALLOC_LIBC
 #
 CFLAGS+=-I$(NODE_MODULES)
 CFLAGS+=-I$(NODE_MODULES_P)
-CFLAGS+=-I${PATSHOME}/atscntrb/atscntrb-libjson-c
+CFLAGS+=-I${PATSHOME}/contrib
 #
 ######
 

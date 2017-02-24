@@ -243,8 +243,13 @@ doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/sys/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/arpa/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/netinet/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/gdbm/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/gdbm/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/BUCS320/parcomb/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/parcomb/DATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/BUCS320/GraphSearch/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/GraphSearch/DATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/DivideConquer/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/DivideConquer/DATS/*.?ats
 doc/DISTRIB/ATS-Postiats/contrib/*
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile

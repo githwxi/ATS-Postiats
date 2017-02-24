@@ -387,10 +387,26 @@ a:vt0p}{env:vt0p
 
 #atscode_separator()
 //
+// HX-2017-02-19:
+// Using [gcompare_ref_ref] to check
+//
+fun
+{a:vt0p}
+arrayref_is_ordered
+  {n:int}(A: arrayref(a, n), asz: size_t(n)): bool
+//
+#atscode_separator()
+//
 fun
 {a:vt0p}
 arrayref_quicksort
   {n:int}(A: arrayref(a, n), asz: size_t(n)): void
+//
+fun
+{a:vt0p}
+arrayref_quicksort_stdlib
+  {n:int}
+  (A: arrayref(a, n), asz: size_t(n), cmp: cmpref(a)): void
 //
 #atscode_separator()
 (*

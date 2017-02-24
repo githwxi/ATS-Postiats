@@ -686,7 +686,7 @@ fun
 array_quicksort_stdlib
   {n:int}
 (
-  A: &(@[INV(a)][n]) >> @[a][n], n: size_t n, cmp: cmpref (a)
+  A: &(@[INV(a)][n]) >> @[a][n], n: size_t(n), cmp: cmpref(a)
 ) :<!wrt> void // end of [array_quicksort_stdlib]
 
 #atscode_separator()

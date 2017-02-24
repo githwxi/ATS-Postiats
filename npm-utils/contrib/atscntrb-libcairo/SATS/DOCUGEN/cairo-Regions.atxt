@@ -1,0 +1,24 @@
+(* ****** ****** *)
+
+%{
+implement
+srcfilename_get (
+) = "../Drawing/cairo-Regions.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_cairo_cairo")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/cairo/Drawing/cairo-Regions\
+")
+
+(* ****** ****** *)
+
+(* end of [cairo-Regions.atxt] *)

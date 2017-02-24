@@ -19,12 +19,12 @@ released packages of ATS2 are available at the following links:
 <ul>
 <li>
 The current <em>stable</em> release of ATS2 is at
-<a href="http://sourceforge.net/projects/ats2-lang/download">ATS2-0.2.12</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/download">ATS2-0.3.2</a>.
 </li>
 
 <li>
 The current <em>pre-stable</em> release of ATS2 is at
-<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-0.2.13.tgz">ATS2-0.2.13</a>
+<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-0.3.3.tgz">ATS2-0.3.3</a>
 </li>
 <li>
 The current <em>pre-stable</em> release of ATS2-intmin is at
@@ -33,9 +33,16 @@ The current <em>pre-stable</em> release of ATS2-intmin is at
 </ul>
 
 <p>
-The previous stable releases of ATS2 are also available
-<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/">on-line</a>.
-</p>
+All of the past stable releases of ATS2 are available <a
+href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/">on-line</a>
+at <a href="http://sourceforge.net">sourceforge.net</a> (SF).  </p>
+
+<p>
+In case of SF going down, which seems not uncommon at all, please
+obtain the latest stable release (and some other past releases) of
+ATS2 <a
+href="https://github.com/ats-lang/ATS-Postiats-release">on-line</a> at
+<a href="http://github.com">github.com</a>, which serves as a backup. </p>
 
 <hr></hr>
 
@@ -254,7 +261,7 @@ of library packages, tutorials, examples, documentation of various sorts, etc.
 <ul>
 <li>
 The current <em>stable</em> release of ATS2-contrib is at
-<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.2.12/.">ATS2-contrib-0.2.12</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.3.2/.">ATS2-contrib-0.3.2</a>.
 </li>
 </ul>
 
@@ -310,7 +317,7 @@ violations.
 <ul>
 <li>
 The current <em>stable</em> release of ATS2-include is at
-<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.2.12/.">ATS2-include-0.2.12</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.3.2/.">ATS2-include-0.3.2</a>.
 </li>
 </ul>
 

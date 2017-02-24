@@ -1,0 +1,31 @@
+{
+"name":
+"atscntrb-hx-threadkit"
+,
+"version": "1.0.3"
+,
+"description":
+"This package is for some basic thread-related objects: spin locks, barriers, channels, etc."
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/npm-utils/contrib/libats-/hwxi/threadkit"
+}
+,
+"keywords": [
+  "ATS",
+  "threadkit"
+]
+,
+"dependencies": {}
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-me": "The package is stored at ${PATSHOME}/npm-utils/contrib/libats-hwxi/threadkit/."
+}

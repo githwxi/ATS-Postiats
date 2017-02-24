@@ -48,8 +48,9 @@ implement
 dotprod{n}
   (A, B, n) = let
 //
-fun loop
-  {i:nat | i <= n} .<n-i>.
+fun
+loop
+{i:nat | i <= n} .<n-i>.
 (
   pa: ptr, pb: ptr, i: int(i), res: a
 ) : (a) = let
@@ -61,32 +62,33 @@ then let
   val x = $UN.ptr0_get<a> (pa)
   val y = $UN.ptr0_get<a> (pb)
   val res =
-    gadd_val_val<a> (res, gmul_val_val<a> (x, y))
+    gadd_val_val<a>(res, gmul_val_val<a>(x, y))
   // end of [val]
 in
-  loop (ptr_succ<a> (pa), ptr_succ<a> (pb), succ(i), res)
+  loop(ptr_succ<a>(pa), ptr_succ<a>(pb), succ(i), res)
 end // end of [then]
 else res // end of [else]
 //
 end // end of [loop]
 //
-prval () = lemma_array_param (A)
-prval () = lemma_array_param (B)
+prval () = lemma_array_param(A)
+prval () = lemma_array_param(B)
 //
 in
-  loop (addr@A, addr@B, 0, gnumber_int<a> (0))
+  loop(addr@A, addr@B, 0, gnumber_int<a>(0))
 end (* end of [dotprod] *)
 
 (* ****** ****** *)
 //
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/spinvar.sats"
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/spinref.sats"
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/nwaiter.sats"
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/parallelize.sats"
+#define
+MYTHREAD_targetloc
+"$PATSHOME/npm-utils\
+/contrib/libats-/hwxi/teaching/mythread"
+//
+#staload "{$MYTHREAD}/SATS/spinvar.sats"
+#staload "{$MYTHREAD}/SATS/spinref.sats"
+#staload "{$MYTHREAD}/SATS/nwaiter.sats"
+#staload "{$MYTHREAD}/SATS/parallelize.sats"
 //
 (* ****** ****** *)
 
@@ -180,24 +182,24 @@ _(*anon*) = "prelude/DATS/gnumber.dats"
 (* ****** ****** *)
 //
 #staload _ =
-"{$LIBATSHWXI}/teaching/mythread/DATS/channel.dats"
+"{$MYTHREAD}/DATS/channel.dats"
 //
 #staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/spinvar.dats"
+"{$MYTHREAD}/DATS/spinvar.dats"
 #staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/spinref.dats"
+"{$MYTHREAD}/DATS/spinref.dats"
 #staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/nwaiter.dats"
+"{$MYTHREAD}/DATS/nwaiter.dats"
 //
 (* ****** ****** *)
 //
 #staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/workshop.sats"
+"{$MYTHREAD}/SATS/workshop.sats"
 //
 #staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/workshop.dats"
-staload _ =
-"{$LIBATSHWXI}/teaching/mythread/DATS/parallelize.dats"
+"{$MYTHREAD}/DATS/workshop.dats"
+#staload _ =
+"{$MYTHREAD}/DATS/parallelize.dats"
 //
 (* ****** ****** *)
 

@@ -11,17 +11,10 @@ ATEXTING_targetloc
 (* ****** ****** *)
 //
 #include
-"{$ATEXTING}\
-/atexting_include_all.dats"
-//
-(* ****** ****** *)
-//
+"{$ATEXTING}/atexting_all.dats"
 #include
 "{$ATEXTING}\
 /DATS/SHARE/atexting_textdef_pre.dats"
-//
-(* ****** ****** *)
-//
 #include
 "{$ATEXTING}\
 /DATS/SHARE/atexting_textdef_xhtml.dats"

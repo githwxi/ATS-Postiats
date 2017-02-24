@@ -655,20 +655,21 @@ OPT (a: t@ype) = optarg_t0ype_t0ype (a)
 (* ****** ****** *)
 //
 abst@ype
-stamped_t0ype (a:t@ype, int) = a
-stadef stamped_t = stamped_t0ype
-//
+stamped_t0ype(a:t@ype, int) = a
 absvt@ype
-stamped_vt0ype (a:vt@ype, int) = a
+stamped_vt0ype(a:vt@ype, int) = a
+//
+stadef stamped_t = stamped_t0ype
 stadef stamped_vt = stamped_vt0ype
 //
 (* ****** ****** *)
 //
 absview
-vcopyenv_view_view (v:view)
-stadef vcopyenv_v = vcopyenv_view_view
+vcopyenv_view_view(v:view)
 absvt@ype
-vcopyenv_vt0ype_vt0ype (vt: vt0ype) = vt
+vcopyenv_vt0ype_vt0ype(vt: vt0ype) = vt
+//
+stadef vcopyenv_v = vcopyenv_view_view
 stadef vcopyenv_vt = vcopyenv_vt0ype_vt0ype
 //
 (* ****** ****** *)

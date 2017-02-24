@@ -104,25 +104,27 @@ end // end of [the_s2cstbindlst_add]
 implement
 the_s2cstbindlst_bind_and_add
   (loc0, s2c, s2f) = let
-  val s2e = s2hnf2exp (s2f)
+  val s2e = s2hnf2exp(s2f)
 (*
   val () = begin
     println! ("the_s2cstbindlst_bind_and_add: s2c = ", s2c);
     println! ("the_s2cstbindlst_bind_and_add: s2e = ", s2e);
   end // end of [val]
 *)
-  val isasp = s2cst_get_isasp (s2c)
+//
+  val isasp = s2cst_get_isasp(s2c)
+//
   val () =
   if (isasp) then {
-    val () = prerr_warning3_loc (loc0)
+    val () = prerr_warning3_loc(loc0)
     val () = prerrln! (": the static constant [", s2c, "] is not abstract at this point.")
   } // end of [if] // end of [val]
 //
-  val () = s2cst_set_def (s2c, Some s2e)
-  val () = s2cst_set_isasp (s2c, true(*assumed*))
+  val () = s2cst_set_def(s2c, Some(s2e))
+  val () = s2cst_set_isasp(s2c, true(*assumed*))
 //
 in
-  the_s2cstbindlst_add (s2c)
+  the_s2cstbindlst_add(s2c)
 end // end of [the_s2cstbindlst_bind_and_add]
 
 (* ****** ****** *)

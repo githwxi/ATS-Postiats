@@ -57,8 +57,7 @@ all:: \
 Lucas-Lehmer_test2
 Lucas-Lehmer_test2: \
 Lucas-Lehmer_test2.dats ; \
-export PATSHOMERELOCS="$(PATSHOME)/atscntrb" && \
-$(PATSCC) -O2 -I"$(PATSHOME)/atscntrb/atscntrb-libgmp" -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+$(PATSCC) -O2 -I"$(PATSHOME)/contrib" -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
 #
 regress:: \
 Lucas-Lehmer_test2; ./$<

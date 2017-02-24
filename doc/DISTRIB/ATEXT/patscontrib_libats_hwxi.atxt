@@ -122,22 +122,6 @@ PATSCONTRIB/libats-/hwxi\
 
 (* ****** ****** *)
 
-#packfilename("threadkit/staloadall.hats")
-
-#packfilename("threadkit/SATS/spinvar.sats")
-#packfilename("threadkit/SATS/spinref.sats")
-#packfilename("threadkit/SATS/nwaiter.sats")
-#packfilename("threadkit/SATS/channel.sats")
-#packfilename("threadkit/SATS/channel_vt.sats")
-
-#packfilename("threadkit/DATS/spinvar.dats")
-#packfilename("threadkit/DATS/spinref.dats")
-#packfilename("threadkit/DATS/nwaiter.dats")
-#packfilename("threadkit/DATS/channel.dats")
-#packfilename("threadkit/DATS/channel_vt.dats")
-
-(* ****** ****** *)
-
 #packpostamble()
 
 (* ****** ****** *)

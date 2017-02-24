@@ -82,9 +82,13 @@ fprint_token
 //
   | T_ABSTYPE (x) =>
       fprintf (out, "ABSTYPE(%i)", @(x))
-  | T_AND () => fprintf (out, "AND()", @())
-  | T_AS () => fprintf (out, "AS()", @())
+    // end of [T_ABSTYPE]
+//
   | T_ASSUME () => fprintf (out, "ASSUME()", @())
+  | T_REASSUME () => fprintf (out, "REASSUME()", @())
+//
+  | T_AS () => fprintf (out, "AS()", @())
+  | T_AND () => fprintf (out, "AND()", @())
   | T_BEGIN () => fprintf (out, "BEGIN()", @())
   | T_CASE (x) => fprintf (out, "CASE(...)", @())
   | T_CLASSDEC () => fprintf (out, "CLASSDEC()", @())

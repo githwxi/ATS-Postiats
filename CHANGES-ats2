@@ -1,6 +1,127 @@
+0.3.3
+  
+This is the 40th release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Supporting $tempenver in template implementation:
+   This is a crucial addition in support of programming in ATS that
+   may potentially be (very) deeply template-based!!!
+(*
+2: Re-arranging (and duplicating) files containing code of template
+   implementation may cause the need for $tempenver to change. It is
+   not yet understood what the reason is behind all of this behavior.
+*)
+3. Fixing a glitch involving tail-call optimization; please see the
+   function hidexp_seq_simplify for details.
+
+######
+
+0.3.2
+  
+This is the 39th release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Allowing overloads declared in staloadnm to be merged automatically
+2. Initiating libatscc being moved from PATSCONTRIB to PATSHOME/contrib
+   In particular, moving of Bacon.js and Worker in libatscc/libatscc2js
+   is finished.
+(*
+//
+HX-2017-02-01: Reverted!
+// File search in ATS is intentionally different from done in C
+//
+3. Using pushb (push-from-the-back) to push a path permanently:
+   fun the_pathlst_ppushb(x: path): void // see [pats_filename]
+   fun the_IATS_dirlst_ppushb (dir: string): void // see [pats_global]
+*)
+4. Adding support for handling abstract types of unspecified size
+5. Adding code into libats/BUCS320/. to support package-based programming
+6. Introducing the compilation flag _ATS_CCOMP_ASSUME_CHECK_NONE_ to skip
+   over checks that are otherwise required of assuming (i.e., implementing)
+   abstract types
+7. Moving a lot of code around due to packaging and re-packaging; mostly
+   moving from PATSCONTRIB to PATSHOME/npm-utils
+8. Adding support for 'where <declist> end' (besides 'where { <declist> }')
+9. Fixing a minor glitch involving typechecking ifcase-expressions
+10. Removing duplicates of overloaded dynamic constants and variables;
+    please see the changes in [pats_trans3_appsym.dats]
+
+######
+
+0.3.1
+
+This is the 38th release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Moving ${PATSHOME}/atscntrb/* into ${PATSHOME}/contrib/.
+2. Adding ${PATSHOME}/npm-utils; gradually retiring ${PATSCONTRIB}/.
+3. Supporting package-based programming:
+   PATSHOMELOCS, mydepies.?ats, mylibies.?ats, etc
+   Please see GraphSearch-npm in the Effective ATS series
+4. There is still a lot of moving around; the dust should soon settle...
+  
+######
+
 0.3.0
 
-This is the 36th release of ATS2, the successor of the
+This is the 37th release of ATS2, the successor of the
 ATS programming language. The compiler for ATS2 is given
 the name ATS/Positats, ATS2/Postiats or simply Postiats.
 
@@ -44,6 +165,7 @@ Here is a list of major additions and changes since the last release:
    CATS-atscc2clj,
    CATS-atscc2erl,
    ...
+   Basically, there is a lot of moving around...
       
 ######
 

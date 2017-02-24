@@ -1298,27 +1298,30 @@ emit_d2env
   (out, d2e) = let
 //
 val d2v =
-  d2env_get_var (d2e)
+  d2env_get_var(d2e)
 //
 in
-  emit_d2var_env (out, d2v)
+  emit_d2var_env(out, d2v)
 end (* end of [emit_d2env] *)
 
 implement
 emit_d2var_env
   (out, d2v) = let
 //
-val opt = the_funent_varbindmap_find (d2v)
+val opt =
+  the_funent_varbindmap_find(d2v)
 //
 in
 //
 case+ opt of
-| ~Some_vt (pmv) =>
-    emit_primval (out, pmv)
-| ~None_vt () => let
-    val () = emit_text (out, "ATSPMVenv(")
-    val () = emit_symbol (out, $D2E.d2var_get_sym (d2v))
-    val ((*closing*)) = emit_RPAREN (out)
+| ~Some_vt(pmv) =>
+    emit_primval(out, pmv)
+| ~None_vt((*void*)) => let
+    val () =
+      emit_text(out, "ATSPMVenv(")
+    val () =
+      emit_symbol(out, $D2E.d2var_get_sym(d2v))
+    val ((*closing*)) = emit_RPAREN(out)
   in
     // nothing
   end (* end of [None_vt] *)
@@ -1329,7 +1332,9 @@ end // end of [emit_d2var_env]
 
 implement
 emit_d2envlst
-  (out, d2es, i) = let
+(
+  out, d2es, i0
+) = let
 //
 fun auxlst
 (
@@ -1339,21 +1344,25 @@ fun auxlst
 in
 //
 case+ d2es of
+| list_nil
+    ((*void*)) => (i)
 | list_cons
     (d2e, d2es) => let
     val () =
-      if (i > 0) then emit_text (out, ", ")
-    // end of [val]
-    val () = emit_d2env (out, d2e)
+    (
+      if (i > 0)
+        then emit_text(out, ", ")
+      // end of [if]
+    ) // end of [val]
+    val () = emit_d2env(out, d2e)
   in
-    auxlst (out, d2es, i+1)
+    auxlst(out, d2es, i+1)
   end // end of [list_cons]
-| list_nil () => (i)
 //
 end (* end of [auxlst] *)
 //
 in
-  auxlst (out, d2es, i)
+  auxlst(out, d2es, i0)
 end // end of [emit_d2envlst]
 
 (* ****** ****** *)
@@ -1682,70 +1691,93 @@ extern fun emit_instr_move_delay : emit_instr_type
 extern fun emit_instr_move_lazyeval : emit_instr_type
 //
 (* ****** ****** *)
-
+//
 extern
-fun emit_move_val
+fun
+emit_move_val
 (
   out: FILEref, tmp: tmpvar, pmv: primval
 ) : void // end of [emit_move_val]
+//
 implement
 emit_move_val
   (out, tmp, pmv) = let
 //
-val isvoid = primval_is_void (pmv)
+val
+isvoid = primval_is_void(pmv)
 //
-val () = emit_text (out, "ATSINSmove")
+val () =
+emit_text(out, "ATSINSmove")
+//
 val () =
 (
-  if isvoid then emit_text (out, "_void")
+if isvoid then emit_text(out, "_void")
 )
-val () = emit_text (out, "(")
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, ", ")
-val () = emit_primval (out, pmv)
-val () = emit_text (out, ") ;")
+//
+val () = emit_text(out, "(")
+val () = emit_tmpvar(out, tmp)
+val () = emit_text(out, ", ")
+val () = emit_primval(out, pmv)
+val () = emit_text(out, ") ;")
 //
 in
   // nothing
 end // end of [emit_move_val]
-
+//
+(* ****** ****** *)
+//
 extern
-fun emit_pmove_val
+fun
+emit_pmove_val
 (
   out: FILEref, tmp: tmpvar, pmv: primval
 ) : void // end of [emit_pmove_val]
+//
 implement
 emit_pmove_val
   (out, tmp, pmv) = let
-  val () = emit_text (out, "ATSINSpmove(")
+  val () =
+  emit_text (out, "ATSINSpmove(")
+//
   val () = emit_tmpvar (out, tmp)
   val () = emit_text (out, ", ")
   val () = emit_hisexp (out, pmv.primval_type)
   val () = emit_text (out, ", ")
   val () = emit_primval (out, pmv)
   val () = emit_text (out, ") ;")
+//
 in
   // nothing
 end // end of [emit_pmove_val]
-
+//
 (* ****** ****** *)
-
+//
 extern
-fun emit_move_ptralloc
-  (out: FILEref, tmp: tmpvar, hit: hitype): void
+fun
+emit_move_ptralloc
+(
+  out: FILEref, tmp: tmpvar, hit: hitype
+) : void // end of [emit_move_ptralloc]
+//
 implement
 emit_move_ptralloc
   (out, tmp, hit) = let
+//
   val () =
-    emit_text (out, "ATSINSmove_ptralloc(")
+  emit_text
+  (
+    out, "ATSINSmove_ptralloc("
+  ) (* emit_text *)
+//
   val () = emit_tmpvar (out, tmp)
   val () = emit_text (out, ", ")
   val () = emit_hitype (out, hit)
   val () = emit_text (out, ") ;")
+//
 in
   // nothing
 end // end of [emit_move_ptralloc]
-
+//
 (* ****** ****** *)
 
 implement
@@ -1805,7 +1837,7 @@ in
 case+
 ins.instr_node of
 //
-| INSfunlab (flab) =>
+| INSfunlab(flab) =>
   {
     val () =
     emit_text (out, "ATSINSflab(")
@@ -1815,7 +1847,7 @@ ins.instr_node of
     ) (* end of [val] *)
   } (* end of [INSfunlab] *)
 //
-| INStmplab (tmplab) =>
+| INStmplab(tmplab) =>
   {
     val () = emit_text (out, "ATSINSlab(")
     val () = (
@@ -1823,7 +1855,7 @@ ins.instr_node of
     ) (* end of [val] *)
   } (* end of [INStmplab] *)
 //
-| INScomment (string) =>
+| INScomment(string) =>
   {
     val () = emit_text (out, "/*\n")
     val () = emit_text (out, string)
@@ -1831,14 +1863,14 @@ ins.instr_node of
   } (* end of [INScomment] *)
 //
 | INSmove_val
-    (tmp, pmv) => emit_move_val (out, tmp, pmv)
+    (tmp, pmv) => emit_move_val(out, tmp, pmv)
   // end of [INSmove_val]
 | INSpmove_val
-    (tmp, pmv) => emit_pmove_val (out, tmp, pmv)
+    (tmp, pmv) => emit_pmove_val(out, tmp, pmv)
   // end of [INSpmove_val]
 //
-| INSfcall _ => emit_instr_fcall (out, ins)
-| INSfcall2 _ => emit_instr_fcall2 (out, ins)
+| INSfcall _ => emit_instr_fcall(out, ins)
+| INSfcall2 _ => emit_instr_fcall2(out, ins)
 //
 | INSextfcall _ => emit_instr_extfcall (out, ins)
 | INSextmcall _ => emit_instr_extmcall (out, ins)
@@ -2127,8 +2159,15 @@ ins.instr_node of
 //
 | INSextvar (id, pmv) =>
   {
-    val () = emit_text (out, "ATSINSextvar_assign(")
-    val () = fprintf (out, "ATSPMVextval(%s)", @(id))
+    val () =
+    emit_text
+    (
+      out, "ATSINSextvar_assign("
+    ) (* emit_text *)
+    val () =
+    fprintf (
+      out, "ATSPMVextval(%s)", @(id)
+    ) (* fprintf *)
     val () = emit_text (out, ", ")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ") ;")
@@ -2136,12 +2175,27 @@ ins.instr_node of
 //
 | INSdcstdef (d2c, pmv) =>
   {
-    val () = emit_text (out, "ATSINSdyncst_valbind(")
+    val () =
+    emit_text
+    (
+      out, "ATSINSdyncst_valbind("
+    ) (* emit_text *)
     val () = emit_d2cst (out, d2c)
     val () = emit_text (out, ", ")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ") ;")
   } (* end of [INSdcstdef] *)
+//
+| INStempenver( d2vs ) =>
+  {
+    val () =
+    emit_text (out, "// ")
+    val () =
+    emit_text (out, "$tempenver(")
+    val () =
+    $D2E.fprint_d2varlst(out, d2vs)
+    val ((*closing*)) = emit_RPAREN(out)
+  } (* end of [INStempenver] *)
 //
 | _ (*unsupported-instr*) =>
   {

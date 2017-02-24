@@ -125,7 +125,11 @@ else
 (
 (
 if
-strncmp(given, "$PATSHOMERELOCS/", 16) = 0
+0 =
+strncmp
+(
+given, "$PATSHOMELOCS/", 14
+)
 then 1
 else 2(*ext*)
 ) (* end of [else] *)
@@ -161,9 +165,9 @@ in
 //
 case+ 0 of
 | _ when c = c0 =>
-    loop (p1, n+1, c0, c1)
+    loop(p1, n+1, c0, c1)
 | _ when c = c1 =>
-    if n > 1 then loop (p1, n-1, c0, c1) else p1
+    if n > 1 then loop(p1, n-1, c0, c1) else p1
 | _ (* !=c0,c1 *) =>
     if c != '\000' then loop (p1, n, c0, c1) else null
 //
@@ -267,7 +271,7 @@ in
 //
 if ngurl < 0
   then fprint_string (out, fname)
-  else fprintf (out, "%s(%s)", @(fname, given))
+  else fprintf(out, "%s(%s)", @(fname, given))
 // end of [if]
 //
 end // end of [fprint2_filename_full]
@@ -512,18 +516,18 @@ in
   | ~list_vt_cons
       (dir, dirs) => (
       if (p2s)dir = curdir then let
-        val () = strptr_free (dir) in
-        dirs_process (curdir, pardir, npar, dirs, res)
+        val () = strptr_free(dir) in
+        dirs_process(curdir, pardir, npar, dirs, res)
       end else if (p2s)dir = pardir then let
-        val () = strptr_free (dir) in
-        dirs_process (curdir, pardir, npar + 1, dirs, res)
+        val () = strptr_free(dir) in
+        dirs_process(curdir, pardir, npar + 1, dirs, res)
       end else (
         if npar > 0 then let
-          val () = strptr_free (dir)
+          val () = strptr_free(dir)
         in
-          dirs_process (curdir, pardir, npar - 1, dirs, res)
+          dirs_process(curdir, pardir, npar - 1, dirs, res)
         end else begin
-          dirs_process (curdir, pardir, 0, dirs, list_vt_cons (dir, res))
+          dirs_process(curdir, pardir, 0, dirs, list_vt_cons(dir, res))
         end (* end of [if] *)
       ) // end of [if]
     ) (* end of [list_vt_cons] *)
@@ -580,7 +584,7 @@ stringlst_concat
 } (* end of [where] *) // end of [val]
 //
 val ((*freed*)) =
-list_vt_free_fun<strptr1> (dirs, lam x => strptr_free (x))
+list_vt_free_fun<strptr1> (dirs, lam x => strptr_free(x))
 //
 in
   path(*strptr*)
@@ -713,14 +717,14 @@ implement
 the_filenamelst_ppop
   ((*none*)) = let
 //
-val f0 = x where {
+val f0 = x0 where {
 //
-  val (
-    vbox pf | p
-  ) = ref_get_view_ptr(the_filenamelst)
+  val
+  (vbox pf | p) =
+  ref_get_view_ptr(the_filenamelst)
 //
   val-
-  ~list_vt_cons (x, xs) = !p
+  ~list_vt_cons(x0, xs) = !p
   val ((*void*)) = (!p := xs)
 //
 } (* end of [val] *)
@@ -732,25 +736,41 @@ in
 end // end of [the_filenamelst_ppop]
 
 (* ****** ****** *)
-
+//
 implement
 the_filenamelst_push(f0) = let
 //
 val () =
-  the_filenamelst_ppush (f0) in (unit_v() | ())
+  the_filenamelst_ppush(f0) in (unit_v() | ())
 //
 end // end of [the_filenamelst_push]
-
+//
 implement
 the_filenamelst_ppush(f0) = let
-  val x = !the_filename
+  val x0 = !the_filename
   val () = !the_filename := f0
   val (vbox pf | p) = ref_get_view_ptr(the_filenamelst)
-  val () = !p := list_vt_cons (x, !p)
+  val () = !p := list_vt_cons(x0, !p)
 in
   // nothing
 end // end of [the_filenamelst_ppush]
-
+//
+(* ****** ****** *)
+(*
+//
+// HX-2017-01-31: push from the back
+//
+implement
+the_filenamelst_ppushb(f0) = let
+  val x0 = !the_filename
+  val () = !the_filename := f0
+  val (vbox pf | p) = ref_get_view_ptr(the_filenamelst)
+  val () = !p := list_vt_extend(!p, x0)
+in
+  // nothing
+end // end of [the_filenamelst_ppushb]
+//
+*)
 (* ****** ****** *)
 
 implement
@@ -899,14 +919,15 @@ val ((*void*)) = !p := xs
 } (* end of [the_pathlst_pop] *)
 
 implement
-the_pathlst_push (x) = let
+the_pathlst_push(x0) = let
 //
-val () = the_pathlst_ppush (x) in (unit_v() | ())
+val () =
+  the_pathlst_ppush(x0) in (unit_v() | ())
 //
 end // end of [the_pathlst_push]
 
 implement
-the_pathlst_ppush (x) = let
+the_pathlst_ppush(x0) = let
 //
 val
 (
@@ -914,8 +935,27 @@ val
 ) = ref_get_view_ptr(the_pathlst)
 //
 in
-  !p := list_vt_cons (x, !p)
+  !p := list_vt_cons(x0, !p)
 end // end of [the_pathlst_ppush]
+
+(* ****** ****** *)
+
+(*
+//
+// HX-2017-02-01: reverted
+//
+implement
+the_pathlst_ppushb(x0) = let
+//
+val
+(
+  vbox pf | p
+) = ref_get_view_ptr(the_pathlst)
+//
+in
+  !p := list_vt_extend(!p, x0)
+end // end of [the_pathlst_ppushb]
+*)
 
 (* ****** ****** *)
 
@@ -996,33 +1036,6 @@ extern castfn p2s {l:agz} (x: !strptr l):<> String
 (* ****** ****** *)
 
 fun
-aux_local
-(
-  given: string
-) : Stropt = let
-  val fil = filename_get_current()
-  val pname = filename_get_partname(fil)
-(*
-  val () = println!("aux_local: pname = ", pname)
-*)
-  val pname2 = filename_merge(pname, given)
-  val pname2_nf = path_normalize_vt((p2s)pname2)
-  val () = strptr_free (pname2)
-(*
-  val () = println! ("aux_local: pname2_nf = ", pname2_nf)
-*)
-  val isexi = test_file_exists((p2s)pname2_nf)
-in
-  if isexi then
-    stropt_of_strptr(pname2_nf)
-  else let
-    val () = strptr_free(pname2_nf) in stropt_none(*void*)
-  end // end of [if]
-end // end of [aux_local]
-
-(* ****** ****** *)
-
-fun
 aux_try
   {n:nat} .<n,0>.
 (
@@ -1043,16 +1056,21 @@ and
 aux2_try
   {n:nat} .<n,1>.
 (
-  path: path, paths: list(path, n), given: string
+  path: path
+, paths: list(path, n), given: string
 ) : Stropt = let
-  val partname =
-    filename_append (path, given)
-  val isexi = test_file_exists ((p2s)partname)
+//
+  val
+  partname =
+  filename_append(path, given)
+//
 (*
-  val () = begin
-    printf ("aux2_try: partname = %s\n", @(partname))
-  end // end of [val]
+  val () =
+  printf("aux2_try: partname = %s\n", @(partname))
 *)
+//
+  val isexi = test_file_exists((p2s)partname)
+//
 in
 //
 if
@@ -1065,6 +1083,35 @@ then
 end // end of [if]
 //
 end // end of [aux2_try]
+
+(* ****** ****** *)
+
+fun
+aux_local
+(
+  given: string
+) : Stropt = let
+  val fil = filename_get_current()
+  val pname = filename_get_partname(fil)
+(*
+  val () = println!("aux_local: pname = ", pname)
+*)
+  val pname2 =
+    filename_merge(pname, given)
+  val pname2_nf =
+    path_normalize_vt((p2s)pname2)
+  val ((*freed*)) = strptr_free(pname2)
+(*
+  val () = println! ("aux_local: pname2_nf = ", pname2_nf)
+*)
+  val isexi = test_file_exists((p2s)pname2_nf)
+in
+  if isexi then
+    stropt_of_strptr(pname2_nf)
+  else let
+    val () = strptr_free(pname2_nf) in stropt_none(*void*)
+  end // end of [if]
+end // end of [aux_local]
 
 (* ****** ****** *)
 
@@ -1108,7 +1155,57 @@ aux_try_prepathlst
 (* ****** ****** *)
 
 fun
-aux_relocs
+aux_tryloc
+  {n:nat} .<n,0>.
+(
+  paths: list(path, n), given: string
+) : Stropt = let
+in
+//
+case+ paths of
+| list_cons
+  (
+    path, paths
+  ) => aux2_tryloc(path, paths, given)
+| list_nil((*void*)) => stropt_none(*void*)
+//
+end // end of [aux_tryloc]
+
+and
+aux2_tryloc
+  {n:nat} .<n,1>.
+(
+  path: path
+, paths: list(path, n), given: string
+) : Stropt = let
+//
+val
+partname =
+filename_append(path, given)
+//
+(*
+val () =
+printf("aux2_tryloc: partname = %s\n", @(partname))
+*)
+//
+val stropt = aux_local((p2s)partname)
+//
+val ((*freed*)) = strptr_free(partname)
+//
+in
+//
+if
+(
+stropt_is_some(stropt)
+) then stropt(*path/given*) else aux_tryloc(paths, given)
+// end of [if]
+//
+end // end of [aux2_tryloc]
+
+(* ****** ****** *)
+
+fun
+aux_homelocs
 (
   given: string
 ) : Stropt = let
@@ -1117,7 +1214,7 @@ aux_relocs
 val () =
 println!
 (
-  "aux_relocs: given = ", given
+  "aux_homelocs: given = ", given
 ) (* end of [val] *)
 *)
 //
@@ -1162,22 +1259,22 @@ in
   loop($UN.cast2ptr(given))
 end // end of [given_get_partname]
 //
-val relocs =
-  the_PATSHOMERELOCS_get_pathlst()
+val homelocs =
+  the_PATSHOMELOCS_get_pathlst()
 //
 (*
 val () =
 (
 print!
 (
-"aux_relocs: relocs = "
-); print_pathlst(relocs); println!()
+"aux_homelocs: homelocs = "
+); print_pathlst(homelocs); println!()
 )
 *)
 //
 in
-  aux_try(relocs, given_get_partname(given))
-end // end of [aux_relocs]
+  aux_tryloc(homelocs, given_get_partname(given))
+end // end of [aux_homelocs]
 
 (* ****** ****** *)
 
@@ -1203,12 +1300,13 @@ case+ knd of
     //
     aux_local(given)
   )
-| 1 (* relocs *) =>
+| 1 (* homelocs *) =>
   (
     //
-    // given = $PATSHOMERELOCS/<path>
+    // given =
+    // $PATSHOMELOCS/<path>
     //
-    aux_relocs(given)
+    aux_homelocs(given)
   )
 //
 | _ (*external*) => let
@@ -1366,11 +1464,11 @@ pathlst_insert
 (* ****** ****** *)
 //
 val
-the_PATSHOMERELOCS =
+the_PATSHOMELOCS =
 ref<Option(pathlst)>(None())
 //
 fun
-the_PATSHOMERELOCS_split
+the_PATSHOMELOCS_split
 (
   paths: string
 ) : pathlst = let
@@ -1460,10 +1558,10 @@ list_of_list_vt
 list_vt_reverse(loop2($UN.cast2ptr(paths), 0, list_vt_nil()))
 ) (* list_of_list_vt *)
 //
-end // end of [the_PATSHOMERELOCS_split]
+end // end of [the_PATSHOMELOCS_split]
 //
 fun
-the_PATSHOMERELOCS_initize
+the_PATSHOMELOCS_initize
   (): pathlst = let
 //
 val
@@ -1474,7 +1572,7 @@ paths = get() where
   get(
   // argless
   ) : Stropt =
-    "ext#patsopt_PATSHOMERELOCS_get"
+    "ext#patsopt_PATSHOMELOCS_get"
 } (* end of [val] *)
 //
 (*
@@ -1482,7 +1580,7 @@ val () =
 (
 print!
 (
-"the_PATSHOMERELOCS_initize: paths = "
+"the_PATSHOMELOCS_initize: paths = "
 ); print_stropt(paths); print_newline()
 )
 *)
@@ -1496,16 +1594,16 @@ issome
 then paths where
 {
   val paths = stropt_unsome(paths)
-  val paths = the_PATSHOMERELOCS_split(paths)
+  val paths = the_PATSHOMELOCS_split(paths)
   val ((*void*)) =
-    !the_PATSHOMERELOCS := Some(paths)
+    !the_PATSHOMELOCS := Some(paths)
   // end of [val]
 }
 else paths where
 {
   val paths = list_nil()
   val ((*void*)) =
-    !the_PATSHOMERELOCS := Some(paths)
+    !the_PATSHOMELOCS := Some(paths)
   // end of [val]
 }
 end // end of [ else]
@@ -1513,19 +1611,19 @@ end // end of [ else]
 in (* in-of-local *)
 
 implement
-the_PATSHOMERELOCS_get_pathlst
+the_PATSHOMELOCS_get_pathlst
   () = let
 //
 val
-opt = !the_PATSHOMERELOCS
+opt = !the_PATSHOMELOCS
 //
 in
 //
 case+ opt of
 | Some(paths) => paths
-| None((*void*)) => the_PATSHOMERELOCS_initize()
+| None((*void*)) => the_PATSHOMELOCS_initize()
 //
-end // end of [the_PATSHOMERELOCS_get_pathlst]
+end // end of [the_PATSHOMELOCS_get_pathlst]
 
 end // end of [local]
 

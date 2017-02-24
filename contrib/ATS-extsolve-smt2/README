@@ -1,0 +1,9 @@
+######
+#
+# README for ATS-extsolve-smt2
+#
+######
+
+This is for generating constraints in the smt2-lib format.
+
+###### end of [README] ######

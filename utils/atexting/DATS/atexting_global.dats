@@ -91,7 +91,7 @@ PARERR = {
 #define
 HX_GLOBALS_targetloc
 "$PATSHOME\
-/atscntrb/atscntrb-hx-globals"
+/contrib/atscntrb-hx-globals"
 //
 #staload"./../SATS/atexting.sats"
 //

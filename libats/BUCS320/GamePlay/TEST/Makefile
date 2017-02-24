@@ -41,7 +41,7 @@ hangman_single: \
 hangman_single.dats; \
 $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
 #
-regress:: hangman_single; ./$<
+# regress:: hangman_single; ./$<
 #
 ######
 

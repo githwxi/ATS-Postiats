@@ -609,6 +609,15 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
+(*
+| PMVtempenver(d2vs) =>
+  {
+    val () = prstr "PMVtempenver("
+    val () = fprint_d2varlst(out, d2vs)
+    val () = prstr ")"
+  }
+*)
+//
 | PMVerror((*error*)) => prstr "PMVerror()"
 //
 end // end of [fprint_primval]
@@ -1261,6 +1270,13 @@ case+ x.instr_node of
     val () = fprint_primval (out, pmv)
     val ((*closing*)) = prstr ")"
   } (* end of [INSdcstdef] *)
+//
+| INStempenver(d2vs) =>
+  {
+    val () = prstr "INStempenver("
+    val () = fprint_d2varlst(out, d2vs)
+    val ((*closing*)) = prstr ")"
+  }
 //
 | _ (*rest-of-instr*) => prstr "INS...(...)"
 //

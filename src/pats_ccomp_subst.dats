@@ -659,76 +659,82 @@ val () =
 ) (* end of [val] *)
 *)
 //
-val loc = funent_get_loc (fent)
-val flab = funent_get_lab (fent)
+val loc = funent_get_loc(fent)
+val flab = funent_get_lab(fent)
 //
-val imparg = funent_get_imparg (fent)
+val imparg = funent_get_imparg(fent)
 //
-val tmparg = funent_get_tmparg (fent)
-val tmparg2 = s2explstlst_subst (sub, tmparg)
+val tmparg = funent_get_tmparg(fent)
+val tmparg2 = s2explstlst_subst(sub, tmparg)
 //
-val tmpret = funent_get_tmpret (fent)
+val tmpret = funent_get_tmpret(fent)
 //
-val vbmap = funent_get_vbindmap (fent)
-val inss_body = funent_get_instrlst (fent)
-val tmplst = funent_get_tmpvarlst (fent)
+val vbmap = funent_get_vbindmap(fent)
+val inss_body = funent_get_instrlst(fent)
 //
+val tmplst =
+  funent_get_tmpvarlst(fent)
 val tmplst2 =
-  tmpvarlst_subst (sub, tmplst, sfx)
-val tmpmap2 = tmpmap_make (tmplst2)
+  tmpvarlst_subst(sub, tmplst, sfx)
+val tmpmap2 = tmpmap_make(tmplst2)
 //
-val tmpret2 = tmpvar2var (tmpmap2, tmpret)
+val tmpret2 = tmpvar2var(tmpmap2, tmpret)
 //
 val () = let
-  val opt = funlab_get_d2copt (flab)
+  val opt = funlab_get_d2copt(flab)
 in
 //
 case+ opt of
-| Some (d2c) =>
+| None() => ()
+| Some(d2c) =>
     ccompenv_add_tmpcstmat(env, TMPCSTMATsome2(d2c, tmparg2, flab2))
-| None () => ()
+  // end of [val]
 //
 end // end of [val]
 //
 val () = let
-  val opt = funlab_get_d2vopt (flab)
+  val opt = funlab_get_d2vopt(flab)
 in
 //
 case+ opt of
+| None () => ()
 | Some (d2v) => (
     ccompenv_add_tmpvarmat(env, TMPVARMATsome2(d2v, tmparg2, flab2))
   ) (* end of [Some] *)
-| None ((*void*)) => ()
 //
 end // end of [val]
 //
-val flvl2 = funlab_get_level (flab2)
+val flvl2 = funlab_get_level(flab2)
 //
-val (pfinc | ()) = the_d2varlev_inc ()
+val (pfinc | ()) = the_d2varlev_inc()
 //
-val d2es = funent_get_d2envlst (fent)
-val d2es2 = d2envlst_subst (sub, d2es)
-val () = ccompenv_inc_flabsetenv (env)
-val () = ccompenv_incwth_dvarsetenv (env, list_vt2t(d2es2))
-val ((*freed*)) = list_vt_free (d2es2)
+val d2es = funent_get_d2envlst(fent)
+val d2es2 = d2envlst_subst(sub, d2es)
+val () = ccompenv_inc_flabsetenv(env)
+val () = ccompenv_incwth_dvarsetenv(env, list_vt2t(d2es2))
+val ((*freed*)) = list_vt_free(d2es2)
 //
-val inss2_body =
-  instrlst_subst (env, tmpmap2, sub, inss_body, sfx)
+val
+inss2_body =
+instrlst_subst(env, tmpmap2, sub, inss_body, sfx)
 //
-val fls0_tmp =
-  ccompenv_getdec_flabsetenv (env)
-val fls0_tmp =
-  funlabset_vt_listize_free (fls0_tmp)
-val fls0_tmp =
-  ccompenv_addlst_flabsetenv_ifmap (env, flvl2, vbmap, fls0_tmp)
+val
+fls0_tmp =
+ccompenv_getdec_flabsetenv(env)
+val
+fls0_tmp =
+funlabset_vt_listize_free(fls0_tmp)
+val
+fls0_tmp =
+ccompenv_addlst_flabsetenv_ifmap(env, flvl2, vbmap, fls0_tmp)
 //
-val fls0 = funent_get_flablst (fent)
-val fls0 = funent_funlablst_update (env, fls0)
-val fls02 = list_vt_append (fls0, fls0_tmp)
+val fls0 = funent_get_flablst(fent)
+val fls0 = funent_funlablst_update(env, fls0)
+val fls02 = list_vt_append(fls0, fls0_tmp)
 //
-val d2es2 = ccompenv_getdec_dvarsetenv (env)
-val d2es2 = ccompenv_dvarsetenv_add_tempenver (env, d2es2)
-val d2es2(*list*) = d2envset_vt_listize_free (d2es2)
+val d2es2 = ccompenv_getdec_dvarsetenv(env)
+val d2es2 = ccompenv_dvarsetenv_add_tempenver(env, d2es2)
+val d2es2(*d2env-list*) = d2envset_vt_listize_free(d2es2)
 //
 val () = the_d2varlev_dec (pfinc | (*void*))
 //
@@ -788,19 +794,19 @@ in
 case+
 pmv0.primval_node of
 //
-| PMVtmp (tmp) => let
-    val tmp = ftmp (tmp) in primval_tmp (loc0, hse0, tmp)
+| PMVtmp(tmp) => let
+    val tmp = ftmp(tmp) in primval_tmp(loc0, hse0, tmp)
   end // end of [PMVtmp]
-| PMVtmpref (tmp) => let
-    val tmp = ftmp (tmp) in primval_tmpref (loc0, hse0, tmp)
+| PMVtmpref(tmp) => let
+    val tmp = ftmp(tmp) in primval_tmpref(loc0, hse0, tmp)
   end // end of [PMVtmpref]
 //
-| PMVarg (n) => primval_arg (loc0, hse0, n)
-| PMVargref (n) => primval_argref (loc0, hse0, n)
-| PMVargenv (n) => primval_argenv (loc0, hse0, n)
+| PMVarg(n) => primval_arg (loc0, hse0, n)
+| PMVargref(n) => primval_argref (loc0, hse0, n)
+| PMVargenv(n) => primval_argenv (loc0, hse0, n)
 //
-| PMVtop () => primval_top (loc0, hse0)
-| PMVempty () => primval_empty (loc0, hse0)
+| PMVtop() => primval_top (loc0, hse0)
+| PMVempty() => primval_empty (loc0, hse0)
 //
 | PMVextval (name) => primval_extval (loc0, hse0, name)
 //
@@ -811,7 +817,7 @@ pmv0.primval_node of
     primval_castfn (loc0, hse0, d2c, pmv)
   end // end of [PMVcastfn]
 //
-| PMVtyrep (hse) => let
+| PMVtyrep(hse) => let
     val hse_sub =
       hisexp_subst (sub, hse)
     // end of [val]
@@ -819,7 +825,7 @@ pmv0.primval_node of
     primval_tyrep (loc0, hse0, hse_sub)
   end // end of [PMVtyrep]
 //
-| PMVsizeof (hse) => let
+| PMVsizeof(hse) => let
     val hse_sub =
       hisexp_subst (sub, hse)
     // end of [val]
@@ -841,46 +847,53 @@ pmv0.primval_node of
   (
     pmv, hse_rt, pml
   ) => let
-    val pmv = fpmv (pmv)
-    val hse_rt = hisexp_subst (sub, hse_rt)
-    val pml = fpml (pml)
+    val pmv = fpmv(pmv)
+    val hse_rt =
+      hisexp_subst (sub, hse_rt)
+    val pml = fpml(pml)
   in
-    primval_select (loc0, hse0, pmv, hse_rt, pml)
+    primval_select(loc0, hse0, pmv, hse_rt, pml)
   end // end of [PMVselect]
 | PMVselect2
   (
     pmv, hse_rt, pmls
   ) => let
-    val pmv = fpmv (pmv)
-    val hse_rt = hisexp_subst (sub, hse_rt)
+    val pmv = fpmv(pmv)
+    val hse_rt =
+      hisexp_subst (sub, hse_rt)
     val pmls = fpmlist (pmls)
   in
-    primval_select2 (loc0, hse0, pmv, hse_rt, pmls)
+    primval_select2(loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVselect2]
 //
 | PMVselptr
   (
     pmv, hse_rt, pmls
   ) => let
-    val pmv = fpmv (pmv)
-    val hse_rt = hisexp_subst (sub, hse_rt)
-    val pmls = fpmlist (pmls)
+    val pmv = fpmv(pmv)
+    val hse_rt =
+      hisexp_subst (sub, hse_rt)
+    val pmls = fpmlist(pmls)
   in
-    primval_selptr (loc0, hse0, pmv, hse_rt, pmls)
+    primval_selptr(loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVselptr]
 //
-| PMVptrof (pmv) => let
-    val pmv = fpmv (pmv) in primval_ptrof (loc0, hse0, pmv)
+| PMVptrof
+    (pmv) => let
+    val pmv = fpmv(pmv)
+  in
+    primval_ptrof(loc0, hse0, pmv)
   end // end of [PMVptrof]
 | PMVptrofsel
   (
     pmv, hse_rt, pmls
   ) => let
-    val pmv = fpmv (pmv)
-    val hse_rt = hisexp_subst (sub, hse_rt)
-    val pmls = fpmlist (pmls)
+    val pmv = fpmv(pmv)
+    val hse_rt =
+      hisexp_subst(sub, hse_rt)
+    val pmls = fpmlist(pmls)
   in
-    primval_ptrofsel (loc0, hse0, pmv, hse_rt, pmls)
+    primval_ptrofsel(loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVptrof]
 //
 | PMVrefarg
@@ -944,7 +957,19 @@ pmv0.primval_node of
     // end of [if]    
   end // end of [PMVtmpltvar]
 //
-| _ => pmv0
+(*
+| PMVtempenver
+    (d2vs) => pmv0 where
+  {
+    val () =
+    fprintln!
+    ( stdout_ref
+    , "primval_subst: PMVtempenver: d2vs = ", d2vs
+    ) (* end of [println!] *)
+  } (* end of [PMVtempenver] *)
+*)
+//
+| _ (* rest-of-primval *) => pmv0
 //
 end // end of [primval_subst]
 
@@ -958,6 +983,9 @@ primvalist_subst
 in
 //
 case+ pmvs of
+| list_nil
+    ((*void*)) => list_nil()
+  // end of [list_nil]
 | list_cons
     (pmv, pmvs) => let
     val pmv = primval_subst (env, map, sub, pmv, sfx)
@@ -965,7 +993,6 @@ case+ pmvs of
   in
     list_cons (pmv, pmvs)
   end // end of [list_cons]
-| list_nil () => list_nil ()
 //
 end // end of [primvalist_subst]
 
@@ -1129,7 +1156,9 @@ primdec_subst
 (
   env, map, sub, pmd0, sfx
 ) = let
-  val loc0 = pmd0.primdec_loc
+//
+val loc0 = pmd0.primdec_loc
+//
 in
 //
 case+
@@ -1140,8 +1169,10 @@ of (* case+ *)
 //
 | PMDlist
     (pmds) => let
-    val pmds =
-      primdeclst_subst (env, map, sub, pmds, sfx)
+    val
+    pmds =
+    primdeclst_subst
+      (env, map, sub, pmds, sfx)
     // end of [val]
   in
     primdec_list (loc0, pmds)
@@ -1151,7 +1182,11 @@ of (* case+ *)
 //
 | PMDextvar
     (name, inss) => let
-    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+    val
+    inss =
+    instrlst0_subst
+      (env, map, sub, inss, sfx)
+    // end of [val]
   in
     primdec_extvar (loc0, name, inss)
   end // end of [PMDextvar]
@@ -1160,42 +1195,66 @@ of (* case+ *)
 | PMDexndecs _ => pmd0
 //
 | PMDimpdec (imp) => let
-    val () = ccompenv_add_impdecloc (env, sub, imp) in pmd0
+    val () =
+      ccompenv_add_impdecloc(env, sub, imp) in pmd0
+    // end of [val]
   end // end of [PMDimpdec]
 //
 | PMDfundecs
     (knd, decarg, hfds) => let
-    val () = ccompenv_add_fundecsloc (env, sub, knd, decarg, hfds)
-    val () = ccompenv_add_fundecsloc_subst (env, sub, knd, decarg, hfds)
+    val () =
+    ccompenv_add_fundecsloc
+      (env, sub, knd, decarg, hfds)
+    // end of [val]
+    val () =
+    ccompenv_add_fundecsloc_subst
+      (env, sub, knd, decarg, hfds)
+    // end of [val]
   in
     pmd0
   end // end of [PMDfundecs]
 //
 | PMDvaldecs
     (knd, hvds, inss) => let
-    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+    val
+    inss =
+    instrlst0_subst
+      (env, map, sub, inss, sfx)
+    // end of [val]
   in
-    primdec_valdecs (loc0, knd, hvds, inss)
+    primdec_valdecs(loc0, knd, hvds, inss)
   end // end of [PMDvaldecs]
 | PMDvaldecs_rec
     (knd, hvds, inss) => let
-    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+    val
+    inss =
+    instrlst0_subst
+      (env, map, sub, inss, sfx)
+    // end of [val]
   in
-    primdec_valdecs_rec (loc0, knd, hvds, inss)
+    primdec_valdecs_rec(loc0, knd, hvds, inss)
   end // end of [PMDvaldecs_rec]
 //
 | PMDvardecs
     (hvds, inss) => let
-    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+    val
+    inss =
+    instrlst0_subst
+      (env, map, sub, inss, sfx)
+    // end of [val]
   in
-    primdec_vardecs (loc0, hvds, inss)
+    primdec_vardecs(loc0, hvds, inss)
   end // end of [PMDvardecs]
 //
 | PMDinclude
     (stadyn, pmds) => let
-    val pmds = primdeclst_subst (env, map, sub, pmds, sfx)
+    val
+    pmds =
+    primdeclst_subst
+      (env, map, sub, pmds, sfx)
+    // end of [val]
   in
-    primdec_include (loc0, stadyn, pmds)
+    primdec_include(loc0, stadyn, pmds)
   end // end of [PMDinclude]
 //
 | PMDstaload
@@ -1203,27 +1262,37 @@ of (* case+ *)
   {
     val-HIDstaload
       (_, _, _, fenv, loaded) = hid.hidecl_node
-    val ((*void*)) = ccompenv_add_staload (env, fenv)
+    val ((*void*)) = ccompenv_add_staload(env, fenv)
   } (* end of [PMDstaload] *)
 //
 | PMDstaloadloc
-    (pfil, nspace, pmds) => pmd0
+  (
+    pfil, nspace, pmds
+  ) => pmd0 (*sanctuary*)
 //
-| PMDdynload (hid) => pmd0
+| PMDdynload(hid) => pmd0
 //
 | PMDlocal
   (
     pmds_head, pmds_body
   ) => let
-    val (pf | ()) = ccompenv_push (env)
-    val pmds_head =
-      primdeclst_subst (env, map, sub, pmds_head, sfx)
+    val (pf | ()) = ccompenv_push(env)
+    val
+    pmds_head =
+    primdeclst_subst
+      (env, map, sub, pmds_head, sfx)
+    // end of [val]
     val (pf2 | ()) = ccompenv_push (env)
-    val pmds_body =
-      primdeclst_subst (env, map, sub, pmds_body, sfx)
-    val () = ccompenv_localjoin (pf, pf2 | env)
+    val
+    pmds_body =
+    primdeclst_subst
+      (env, map, sub, pmds_body, sfx)
+    // end of [val]
+    val ((*void*)) =
+      ccompenv_localjoin(pf, pf2 | env)
+    // end of [val]
   in
-    primdec_local (loc0, pmds_head, pmds_body)
+    primdec_local(loc0, pmds_head, pmds_body)
   end // end of [PMDlocal]
 //
 end // end of [primdec_subst]
@@ -1238,14 +1307,13 @@ primdeclst_subst
 in
 //
 case+ pmds of
-| list_cons
-    (pmd, pmds) => let
-    val pmd = primdec_subst (env, map, sub, pmd, sfx)
-    val pmds = primdeclst_subst (env, map, sub, pmds, sfx)
+| list_nil() => list_nil()
+| list_cons(pmd, pmds) => let
+    val pmd = primdec_subst(env, map, sub, pmd, sfx)
+    val pmds = primdeclst_subst(env, map, sub, pmds, sfx)
   in
-    list_cons (pmd, pmds)
+    list_cons(pmd, pmds)
   end // end of [list_cons]
-| list_nil () => list_nil ()
 //
 end // end of [primdeclst_subst]
 
@@ -1302,21 +1370,21 @@ instr_subst
 //
 val loc0 = ins0.instr_loc
 //
-macdef ftmp (x) = tmpvar2var (map, ,(x))
-macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
-macdef flabpmv (lx) = labprimval_subst (env, map, sub, ,(lx), sfx)
-macdef fpmvlst (xs) = primvalist_subst (env, map, sub, ,(xs), sfx)
-macdef flabpmvlst (lxs) = labprimvalist_subst (env, map, sub, ,(lxs), sfx)
+macdef ftmp(x) = tmpvar2var(map, ,(x))
+macdef fpmv(x) = primval_subst(env, map, sub, ,(x), sfx)
+macdef flabpmv(lx) = labprimval_subst(env, map, sub, ,(lx), sfx)
+macdef fpmvlst(xs) = primvalist_subst(env, map, sub, ,(xs), sfx)
+macdef flabpmvlst(lxs) = labprimvalist_subst(env, map, sub, ,(lxs), sfx)
 //
-macdef fkont (x) = patckont_subst (env, map, sub, ,(x), sfx)
+macdef fkont(x) = patckont_subst(env, map, sub, ,(x), sfx)
 //
-macdef fpmd (x) = primdec_subst (env, map, sub, ,(x), sfx)
-macdef fpmdlst (xs) = primdeclst_subst (env, map, sub, ,(xs), sfx)
+macdef fpmd(x) = primdec_subst(env, map, sub, ,(x), sfx)
+macdef fpmdlst(xs) = primdeclst_subst(env, map, sub, ,(xs), sfx)
 //
-macdef finstrlst (inss) = instrlst_subst (env, map, sub, ,(inss), sfx)
-macdef fibranchlst (inss) = ibranchlst_subst (env, map, sub, ,(inss), sfx)
+macdef finstrlst(inss) = instrlst_subst(env, map, sub, ,(inss), sfx)
+macdef fibranchlst(inss) = ibranchlst_subst(env, map, sub, ,(inss), sfx)
 //
-in
+in (* in-of-let *)
 //
 case+
 ins0.instr_node
@@ -1329,77 +1397,79 @@ of (* case+ *)
 //
 | INSmove_val
     (tmp, pmv) => let
-    val tmp = ftmp (tmp)
-    val pmv = fpmv (pmv)
+    val tmp = ftmp(tmp)
+    val pmv = fpmv(pmv)
   in
-    instr_move_val (loc0, tmp, pmv)
+    instr_move_val(loc0, tmp, pmv)
   end // end of [INSmove_val]
 //
 | INSpmove_val
     (tmp, pmv) => let
-    val tmp = ftmp (tmp)
-    val pmv = fpmv (pmv)
+    val tmp = ftmp(tmp)
+    val pmv = fpmv(pmv)
   in
-    instr_pmove_val (loc0, tmp, pmv)
+    instr_pmove_val(loc0, tmp, pmv)
   end // end of [INSpmove_val]
 //
 | INSmove_arg_val
     (narg, pmv) => let
-    val pmv = fpmv (pmv)
+    val pmv = fpmv(pmv)
   in
-    instr_move_arg_val (loc0, narg, pmv)
+    instr_move_arg_val(loc0, narg, pmv)
   end // end of [INSmove_arg_val]
 //
 | INSfcall
     (tmp, _fun, hse, _arg) => let
-    val tmp = ftmp (tmp)
-    val _fun = fpmv (_fun)
+    val tmp = ftmp(tmp)
+    val _fun = fpmv(_fun)
     val hse = hisexp_subst (sub, hse)
-    val _arg = fpmvlst (_arg)
+    val _arg = fpmvlst(_arg)
   in
-    instr_fcall (loc0, tmp, _fun, hse, _arg)
+    instr_fcall(loc0, tmp, _fun, hse, _arg)
   end // end of [INSfcall]
 //
 | INSfcall2
     (tmp, flab, ntl, hse, _arg) => let
-    val tmp = ftmp (tmp)
-    val () = tmpvar_inc_tailcal (tmp)
-    val hse = hisexp_subst (sub, hse)
-    val _arg = fpmvlst (_arg)
+    val tmp = ftmp(tmp)
+    val () =
+      tmpvar_inc_tailcal(tmp)
+    // end of [val]
+    val hse = hisexp_subst(sub, hse)
+    val _arg = fpmvlst(_arg)
   in
-    instr_fcall2 (loc0, tmp, flab, ntl, hse, _arg)
+    instr_fcall2(loc0, tmp, flab, ntl, hse, _arg)
   end // end of [INSfcall2]
 //
 | INSextfcall
     (tmp, _fun, _arg) => let
-    val tmp = ftmp (tmp)
-    val _arg = fpmvlst (_arg)
+    val tmp = ftmp(tmp)
+    val _arg = fpmvlst(_arg)
   in
-    instr_extfcall (loc0, tmp, _fun, _arg)
+    instr_extfcall(loc0, tmp, _fun, _arg)
   end // end of [INSextfcall]
 //
 | INSextmcall
     (tmp, _obj, _mtd, _arg) => let
-    val tmp = ftmp (tmp)
-    val _obj = fpmv (_obj)
-    val _arg = fpmvlst (_arg)
+    val tmp = ftmp(tmp)
+    val _obj = fpmv(_obj)
+    val _arg = fpmvlst(_arg)
   in
-    instr_extmcall (loc0, tmp, _obj, _mtd, _arg)
+    instr_extmcall(loc0, tmp, _obj, _mtd, _arg)
   end // end of [INSextmcall]
 //
 | INScond
   (
     pmv, _then, _else
   ) => let
-    val pmv = fpmv (pmv)
-    val _then = finstrlst (_then)
-    val _else = finstrlst (_else)
+    val pmv = fpmv(pmv)
+    val _then = finstrlst(_then)
+    val _else = finstrlst(_else)
   in
-    instr_cond (loc0, pmv, _then, _else)
+    instr_cond(loc0, pmv, _then, _else)
   end // end of [INScond]
 //
-| INSfreecon (pmv) => let
-    val pmv = fpmv (pmv) in instr_freecon (loc0, pmv)
+| INSfreecon(pmv) => let
+    val pmv = fpmv(pmv) in instr_freecon(loc0, pmv)
   end // end of [INSfreecon]
 //
 | INSloop
@@ -1624,11 +1694,11 @@ of (* case+ *)
   end // end of [INSmove_list_phead]
 | INSmove_list_ptail
     (tmp_new, tmp_old, hse) => let
-    val tmp_new = ftmp (tmp_new)
-    val tmp_old = ftmp (tmp_old)
-    val hse = hisexp_subst (sub, hse)
+    val tmp_new = ftmp(tmp_new)
+    val tmp_old = ftmp(tmp_old)
+    val hse = hisexp_subst(sub, hse)
   in
-    instr_move_list_ptail (loc0, tmp_new, tmp_old, hse)
+    instr_move_list_ptail(loc0, tmp_new, tmp_old, hse)
   end // end of [INSmove_list_ptail]
 //
 | INSmove_arrpsz_ptr
@@ -1641,34 +1711,38 @@ of (* case+ *)
 //
 | INSstore_arrpsz_asz
     (tmp, asz) => let
-    val tmp = ftmp (tmp)
+    val tmp = ftmp(tmp)
   in
-    instr_store_arrpsz_asz (loc0, tmp, asz)
+    instr_store_arrpsz_asz(loc0, tmp, asz)
   end // end of [INSstore_arrpsz_asz]
 //
 | INSstore_arrpsz_ptr
   (
     tmp, hse_elt, asz
   ) => let
-    val tmp = ftmp (tmp)
-    val hse_elt = hisexp_subst (sub, hse_elt)
+    val tmp = ftmp(tmp)
+    val hse_elt =
+      hisexp_subst(sub, hse_elt)
+    // end of [val]
   in
-    instr_store_arrpsz_ptr (loc0, tmp, hse_elt, asz)
+    instr_store_arrpsz_ptr(loc0, tmp, hse_elt, asz)
   end // end of [INSstore_arrpsz_ptr]
 //
 | INSupdate_ptrinc
     (tmp, hse_elt) => let
-    val tmp = ftmp (tmp)
-    val hse_elt = hisexp_subst (sub, hse_elt)
+    val tmp = ftmp(tmp)
+    val hse_elt =
+      hisexp_subst(sub, hse_elt)
   in
-    instr_update_ptrinc (loc0, tmp, hse_elt)
+    instr_update_ptrinc(loc0, tmp, hse_elt)
   end // end of [INSupdate_ptrinc]
 | INSupdate_ptrdec
     (tmp, hse_elt) => let
-    val tmp = ftmp (tmp)
-    val hse_elt = hisexp_subst (sub, hse_elt)
+    val tmp = ftmp(tmp)
+    val hse_elt =
+      hisexp_subst(sub, hse_elt)
   in
-    instr_update_ptrdec (loc0, tmp, hse_elt)
+    instr_update_ptrdec(loc0, tmp, hse_elt)
   end // end of [INSupdate_ptrdec]
 //
 | INSclosure_initize
@@ -1685,9 +1759,9 @@ of (* case+ *)
     val fent2 = funent_subst (env, sub, flab2, fent, sfx)
     val ((*void*)) = funlab_set_funent (flab2, Some (fent2))
 //
-    val tmpret2 = ftmp (tmpret)
+    val tmpret2 = ftmp(tmpret)
     typedef funlab = hisexp_funlab_type
-    val ((*void*)) = tmpvar_set_tyclo (tmpret2, $UN.cast{funlab}(flab2))
+    val ((*void*)) = tmpvar_set_tyclo(tmpret2, $UN.cast{funlab}(flab2))
 //
   in
     instr_closure_initize (loc0, tmpret2, flab2)
@@ -1697,6 +1771,21 @@ of (* case+ *)
 //
 | INSextvar(name, pmv) => instr_extvar(loc0, name, fpmv(pmv))
 | INSdcstdef(d2c0, pmv) => instr_dcstdef(loc0, d2c0, fpmv(pmv))
+//
+| INStempenver(d2vs) => ins0 where
+  {
+//
+    val () =
+    ccompenv_add_tempenver(env, d2vs)
+//
+(*
+    val () =
+    fprintln!
+      (stdout_ref, "instr_subst: INStempenver: d2vs = ", d2vs)
+    // end of [val]
+*)
+//
+  } (* end of [INStempenver] *)
 //
 end // end of [instr_subst]
 

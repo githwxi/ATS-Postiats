@@ -232,20 +232,24 @@ end // end of [effcst_tr]
 implement
 s1arg_trup(s1a) = let
 //
-val s2t = (
-  case+ s1a.s1arg_srt of
-  | Some s1t => s1rt_tr (s1t)
-  | None (
-    ) => S2RTVar (s2rtVar_make (s1a.s1arg_loc))
+val s2t =
+(
+case+
+s1a.s1arg_srt
+of // case+
+| Some (s1t) => s1rt_tr(s1t)
+| None ((*void*)) =>
+    S2RTVar(s2rtVar_make(s1a.s1arg_loc))
+  // end of [None]
 ) : s2rt // end of [val]
 //
 in
-  s2var_make_id_srt (s1a.s1arg_sym, s2t)
+  s2var_make_id_srt(s1a.s1arg_sym, s2t)
 end // end of [s1arg_trup]
 
 implement
 s1arglst_trup
-  (s1as) = l2l (list_map_fun (s1as, s1arg_trup))
+  (s1as) = l2l(list_map_fun(s1as, s1arg_trup))
 // end of [s1arglst_trup]
 
 (* ****** ****** *)
@@ -869,33 +873,38 @@ case+ e0.e1xp_node of
     val+~list_vt_cons (x, xs1) = xs
     val () = xs := xs1
 //
-    prval pfu = unit_v ()
+  prval pfu = unit_v()
+//
     val es =
-      list_map_vclo<s1exp> {unit_v} (pfu | x.1, !p_clo) where {
+      list_map_vclo<s1exp>{unit_v}(pfu | x.1, !p_clo) where
+    {
       var !p_clo =
         @lam (pf: !unit_v | s1e: s1exp): e1xp => e1xp_make_s1exp (loc0, s1e)
       // end of [var]
-    } // end of [val]
-    prval unit_v () = pfu
+    } // end of [where] // end of [val]
 //
-    val e0 = e1xp_app (loc0, e0, loc0, l2l (es))
-    val e1 = e1xp_normalize (e0)
-    val s1e1 = s1exp_make_e1xp (loc0, e1)
+  prval unit_v () = pfu
+//
+    val es = l2l(es)
+    val e0 = e1xp_app(loc0, e0, loc0, es)
+    val e1 = e1xp_normalize(e0)
+    val s1e1 = s1exp_make_e1xp( loc0, e1 )
   in
-    s1exp_app_unwind (s1e1, xs)
+    s1exp_app_unwind( s1e1, xs )
   end // end of [E1XPfun]
-| _ => let
-    val e1 = e1xp_normalize (e0)
-    val s1e1 = s1exp_make_e1xp (loc0, e1)
+| _ (* non-E1XPfun *) => let
+    val e1 = e1xp_normalize(e0)
+    val s1e1 = s1exp_make_e1xp(loc0, e1)
   in
-    s1exp_app_unwind (s1e1, xs)
+    s1exp_app_unwind( s1e1, xs )
   end // end of [_]
 //
 end // end of [s1exp_app_unwind_e1xp]
 
 (* ****** ****** *)
 
-fun s1exp_trup_invar
+fun
+s1exp_trup_invar
 (
   refval: int, s1e: s1exp
 ) : s2exp = let

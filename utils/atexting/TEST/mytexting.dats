@@ -4,8 +4,7 @@
 (* ****** ****** *)
 //
 #include
-"utils/atexting\
-/atexting_include_all.dats"
+"utils/atexting/atexting_all.dats"
 //
 (* ****** ****** *)
 //

@@ -1,0 +1,34 @@
+#
+# For testing
+#
+
+######
+
+NPM=npm
+RMRF=rm -rf
+
+######
+
+all::
+
+######
+
+SUBDIRS :=
+SUBDIRS += TEST
+
+######
+
+all:: ; $(NPM) install
+
+######
+
+all:: ; \
+for i in $(SUBDIRS); do $(MAKE) -C $$i testall; done
+
+######
+
+cleanall:: ; $(RMRF) ./node_modules
+
+######
+
+###### end of [Makefile_test] ######

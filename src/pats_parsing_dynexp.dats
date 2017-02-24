@@ -188,42 +188,48 @@ di0de
 implement
 p_di0de
   (buf, bt, err) = let
-  val tok = tokbuf_get_token (buf)
-  val loc = tok.token_loc
-  macdef incby1 () = tokbuf_incby1 (buf)
+//
+val tok =
+  tokbuf_get_token(buf)
+// end of [val]
+val loc = tok.token_loc
+macdef incby1() = tokbuf_incby1(buf)
+//
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node
+of // case+
 | T_IDENT_alp (x) => let
-    val () = incby1 () in i0de_make_string (loc, x)
+    val () = incby1 () in i0de_make_string(loc, x)
   end
 | T_IDENT_sym (x) => let
-    val () = incby1 () in i0de_make_string (loc, x)
+    val () = incby1 () in i0de_make_string(loc, x)
   end
 //
 | T_LT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_LT)
+    val () = incby1 () in i0de_make_sym(loc, symbol_LT)
   end
 | T_GT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_GT)
+    val () = incby1 () in i0de_make_sym(loc, symbol_GT)
   end
 //
 | T_BACKSLASH
     ((*void*)) => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_BACKSLASH)
+    val () = incby1 () in i0de_make_sym(loc, symbol_BACKSLASH)
   end
 | T_BANG () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_BANG)
+    val () = incby1 () in i0de_make_sym(loc, symbol_BANG)
   end
 | T_EQ () => let // [EQ] is a keyword in the statics
-    val () = incby1 () in i0de_make_sym (loc, symbol_EQ)
+    val () = incby1 () in i0de_make_sym(loc, symbol_EQ)
   end
 | T_TILDE () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_TILDE)
+    val () = incby1 () in i0de_make_sym(loc, symbol_TILDE)
   end
 //
 | T_GTLT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_GTLT)
+    val () = incby1 () in i0de_make_sym(loc, symbol_GTLT)
   end
 //
 | _ (*rest*) => let
@@ -262,7 +268,8 @@ val tok =
 val loc = tok.token_loc
 //
 var ent: synent? // uninitized
-macdef incby1 () = tokbuf_incby1 (buf)
+//
+macdef incby1() = tokbuf_incby1 (buf)
 //
 in
 //
@@ -275,23 +282,47 @@ case+ 0 of
     val ent1 =
       synent_decode{i0de}(ent)
     // end of [val]
-    val tok2 = tokbuf_get_token (buf)
+    val tok2 = tokbuf_get_token(buf)
   in
     case+
     tok2.token_node
     of // case+
-    | T_DOT () => let
-        val () = incby1 () in d0ynq_symdot(ent1, tok2)
+    | T_DOT() => let
+        val () = incby1() in d0ynq_symdot(ent1, tok2)
       end
-    | T_COLON () => let
-        val () = incby1 () in d0ynq_symcolon(ent1, tok2)
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
+    | T_COLON() => let
+        val () = incby1() in d0ynq_symcolon(ent1, tok2)
       end
-    | _ => let
-        val ent2 = p_i0de_dlr (buf, bt, err)
-        val ent3 = pif_fun (buf, bt, err, p_COLON, err0)
+*)
+    | _ (*non-DOT*) =>
+        tokbuf_set_ntok_null(buf, n0) where
+      {
+        val () =
+          the_parerrlst_add_ifnbt(bt, loc, PE_d0ynq)
+        // end of [val]
+      } // end of [non-DOT]
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
+    | _ (*non-DOT-COLON*) => let
+        val ent2 =
+          p_i0de_dlr(buf, bt, err)
+        val ent3 =
+          pif_fun(buf, bt, err, p_COLON, err0)
+        // end of [val]
       in
         if err = err0
-          then d0ynq_symdotcolon(ent1, ent2, ent3)
+          then
+          (
+            d0ynq_symdotcolon(ent1, ent2, ent3)
+          ) (* end of [then] *)
           else let
             val () =
               the_parerrlst_add_ifnbt(bt, loc, PE_d0ynq)
@@ -300,15 +331,16 @@ case+ 0 of
             tokbuf_set_ntok_null(buf, n0)
           end // end of [else]
         // end of [if]
-      end // end of [_]
+      end // end of [non-DOT-COLON]
+*)
   end (* end of [_ when ...] *)
 //
-| _ (*rest*) => let
+| _ (*rest-of-tokens*) =>
+    synent_null((*void*)) where
+  {
     val () = err := err + 1
     val () = the_parerrlst_add_ifnbt(bt, loc, PE_d0ynq)
-  in
-    synent_null ((*void*))
-  end (* end of [_] *)
+  } (* end of [rest-of-tokens] *)
 //
 end // end of [p_d0ynq]
 
@@ -1824,31 +1856,66 @@ pstar_where
 val
 err0 = err
 //
-val n0 = tokbuf_get_ntok (buf)
-val tok = tokbuf_get_token (buf)
+val n0 = tokbuf_get_ntok(buf)
+val tok = tokbuf_get_token(buf)
 //
-macdef incby1 () = tokbuf_incby1 (buf)
+macdef incby1() = tokbuf_incby1(buf)
 //
 in
 //
 case+
 tok.token_node
 of // case+
-| T_WHERE () => let
+| T_WHERE() => let
     val bt = 0
-    val () = incby1 ()
-    typedef a1 = token and a2 = d0eclist and a3 = token
-    val+~SYNENT3 (ent2, ent3, ent4) =
-      pseq3_fun{a1,a2,a3}(buf, bt, err, p_LBRACE, p_d0eclseq_dyn, p_RBRACE)
-    // end of [val]   
+    val () = incby1()
+    val tok2 = tokbuf_get_token(buf)
+    typedef a2 = d0eclist and a3 = token
   in
-    if err = err0 then let
-      val d0e = d0exp_where (d0e, ent3, ent4)
-    in
-      pstar_where (d0e, buf, bt, err)
-    end else
-      tokbuf_set_ntok_null (buf, n0)
-    // end of [if]
+    case+
+    tok2.token_node
+    of // case+
+    | T_LBRACE() => let
+//
+        val () = incby1()
+//
+        val+
+        ~SYNENT2
+        (ent2, ent3) =
+        pseq2_fun{a2,a3}
+          (buf, bt, err, p_d0eclseq_dyn, p_RBRACE)
+        // end of [val]   
+//
+      in
+        if
+        (err = err0)
+        then let
+          val d0e =
+            d0exp_where(d0e, ent2, ent3)
+          // end of [val]
+        in
+          pstar_where(d0e, buf, bt, err)
+        end // end of [then]
+        else tokbuf_set_ntok_null(buf, n0)
+      end // end of [T_LBRACE]
+    | _(*non-LBRACE*) => let
+//
+        val+
+        ~SYNENT2
+        (ent2, ent3) =
+        pseq2_fun{a2,a3}(buf, bt, err, p_d0eclseq_dyn, p_END)
+//
+      in
+        if
+        (err = err0) then let
+          val d0e =
+            d0exp_where(d0e, ent2, ent3)
+          // end of [val]
+        in
+          pstar_where(d0e, buf, bt, err)
+        end // end of [then]
+        else tokbuf_set_ntok_null(buf, n0)
+      end // end of [non-LBRACE]
   end // end of [T_WHERE]
 | _ (*non-WHERE*) => d0e // HX: it is not a where-clause
 //

@@ -222,14 +222,16 @@ fprint_array0_sep
 (* ****** ****** *)
 
 fun{a:t0p}
-array0_copy(A: array0(a)):<!refwrt> array0(a)
+array0_copy(array0(a)):<!refwrt> array0(a)
 
 (* ****** ****** *)
 //
 fun{a:t0p}
 array0_append
-  (A1: array0(a), A2: array0(a)):<!refwrt> array0(a)
+  (array0(a), array0(a)):<!refwrt> array0(a)
 // end of [array0_append]
+//
+overload + with array0_append
 //
 (* ****** ****** *)
 //
@@ -480,6 +482,13 @@ overload .foldright with array0_foldright_method
 fun
 {a:t0p}
 streamize_array0_elt(array0(a)):<!wrt> stream_vt(a)
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+array0_is_ordered
+  (A0: array0(a), cmp: (&a, &a) -<cloref1> int): bool
 //
 (* ****** ****** *)
 //

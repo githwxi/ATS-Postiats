@@ -21,8 +21,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 #atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 #atscode_start_time("March, 2012")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 
 #atscode_separator()
 
@@ -117,8 +117,8 @@ overload - with sub_ptr0_ptr0 of 0
 
 #atscode_separator()
 //
-fun{a:vt0p} ptr0_succ (p: ptr):<> ptr
-fun{a:vt0p} ptr0_pred (p: ptr):<> ptr
+fun{a:vt0p} ptr0_succ(p: ptr):<> ptr
+fun{a:vt0p} ptr0_pred(p: ptr):<> ptr
 //
 overload ptr_succ with ptr0_succ of 0
 overload ptr_pred with ptr0_pred of 0
@@ -126,11 +126,17 @@ overload ptr_pred with ptr0_pred of 0
 #atscode_separator()
 //
 fun{
-a:vt0p}{tk:tk
-} ptr0_add_gint (p: ptr, ofs: g0int (tk)):<> ptr
+a:vt0p
+} ptr0_diff(p1: ptr, p2: ptr): ssize_t
+//
+#atscode_separator()
+//
 fun{
 a:vt0p}{tk:tk
-} ptr0_add_guint (p: ptr, ofs: g0uint (tk)):<> ptr
+} ptr0_add_gint(p: ptr, ofs: g0int(tk)):<> ptr
+fun{
+a:vt0p}{tk:tk
+} ptr0_add_guint(p: ptr, ofs: g0uint(tk)):<> ptr
 //
 overload ptr_add with ptr0_add_gint of 0
 overload ptr_add with ptr0_add_guint of 0
@@ -563,28 +569,39 @@ fun
 aptr_getfree_elt{l:agz}(aptr(a, l)):<!wrt> (a)
 //
 fun
-{a:t0p}
-aptr_get_elt{l:agz}(ap: !aptr(INV(a), l)):<!wrt> (a)
+{a:vt0p}
+aptr_get_elt
+  {l:agz}
+  (ap: !aptr(a, l) >> aptr(a?!, l)):<!wrt> (a)
 fun
 {a:t0p}
 aptr_set_elt
-  {l:agz}(ap: !aptr(INV(a), l) >> _, x: a):<!wrt> void
-fun
-{a:t0p}
-aptr_exch_elt
-  {l:agz}(ap: !aptr(INV(a), l) >> _, x: &(a)>>_):<!wrt> void
+  {l:agz}
+  (ap: !aptr(a?, l) >> aptr(a, l), x: a):<!wrt> void
 //
-overload [] with aptr_get_elt
-overload [] with aptr_set_elt
+fun
+{a:vt0p}
+aptr_exch_elt
+  {l:agz}
+  (ap: !aptr(INV(a), l) >> _, x: &(a) >> _):<!wrt> void
+//
+(*
+overload [] with aptr_get_elt // HX: template arg needed
+overload [] with aptr_set_elt // HX: template arg needed
+*)
 //
 #atscode_separator()
 //
 fun aptr_null{a:vt0p}():<> aptr(a, null) = "mac\#%"
 //
-fun aptr_is_null
-  {a:vt0p}{l:addr}(ap: !aptr(INV(a), l)):<> bool(l==null) = "mac\#%"
-fun aptr_isnot_null
-  {a:vt0p}{l:addr}(ap: !aptr(INV(a), l)):<> bool(l > null) = "mac\#%"
+fun
+aptr_is_null
+{a:vt0p}{l:addr}
+  (ap: !aptr(INV(a), l)):<> bool(l==null) = "mac\#%"
+fun
+aptr_isnot_null
+{a:vt0p}{l:addr}
+  (ap: !aptr(INV(a), l)):<> bool(l > null) = "mac\#%"
 //
 overload iseqz with aptr_is_null
 overload isneqz with aptr_isnot_null

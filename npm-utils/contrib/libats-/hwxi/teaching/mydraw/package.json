@@ -1,0 +1,31 @@
+{
+"name":
+"atscntrb-hx-teaching-mydraw"
+,
+"version": "1.0.1"
+,
+"description":
+"This package contains library code for teaching some basic drawing involving cairo and canvas-2d."
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {}
+,
+"keywords": [
+  "ATS",
+  "cairo",
+  "canvas-2d"
+]
+,
+"dependencies": {}
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-me":
+"The package is stored at ${PATSHOME}/npm-utils/contrib/libats-hwxi/teaching/mydraw/."
+}

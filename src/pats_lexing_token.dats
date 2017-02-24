@@ -392,20 +392,24 @@ val () = ins ("-<>", T_MINUSLTGT)
 val () = ins (":<", T_COLONLT)
 *)
 //
-val () = ins ("abstype", ABSTYPE)
-val () = ins ("abst0ype", ABST0YPE)
 val () = ins ("absprop", ABSPROP)
 val () = ins ("absview", ABSVIEW)
+//
+val () = ins ("abstype", ABSTYPE)
+val () = ins ("abst0ype", ABST0YPE)
+//
 val () = ins ("absvtype", ABSVIEWTYPE)
 val () = ins ("absviewtype", ABSVIEWTYPE)
+//
 val () = ins ("absvt0ype", ABSVIEWT0YPE)
 val () = ins ("absviewt0ype", ABSVIEWT0YPE)
+//
+val () = ins ("assume", T_ASSUME)
+val () = ins ("reassume", T_REASSUME)
 //
 val () = ins ("as", T_AS)
 //
 val () = ins ("and", T_AND)
-//
-val () = ins ("assume", T_ASSUME)
 //
 val () = ins ("begin", T_BEGIN)
 //

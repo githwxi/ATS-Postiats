@@ -435,46 +435,53 @@ end // end of [i0de_make_dotlab]
 (* ****** ****** *)
 
 implement
-s0rtq_none (loc) = '{
+s0rtq_none(loc) = '{
   s0rtq_loc= loc, s0rtq_node= S0RTQnone ()
 } // end of [s0rtq_none]
 
 implement
-s0rtq_symdot (ent1, tok2) = let
+s0rtq_symdot(ent1, tok2) = let
   val loc = ent1.i0de_loc + tok2.token_loc
 in '{
-  s0rtq_loc= loc, s0rtq_node= S0RTQsymdot (ent1.i0de_sym)
+  s0rtq_loc= loc, s0rtq_node= S0RTQsymdot(ent1.i0de_sym)
 } end // end of [s0rtq_symdot]
 
 (* ****** ****** *)
-
+//
 implement
-the_s0taq_none = s0taq_none ($LOC.location_dummy)
-
+the_s0taq_none =
+  s0taq_none($LOC.location_dummy)
+//
 implement
 s0taq_none (loc) = '{
-  s0taq_loc= loc, s0taq_node= S0TAQnone ()
+  s0taq_loc= loc, s0taq_node= S0TAQnone()
 } // end of [s0taq_none]
-
+//
 implement
 s0taq_symdot (ent1, tok2) = let
   val loc = ent1.i0de_loc + tok2.token_loc
 in '{
-  s0taq_loc= loc, s0taq_node= S0TAQsymdot (ent1.i0de_sym)
+  s0taq_loc= loc, s0taq_node= S0TAQsymdot(ent1.i0de_sym)
 } end // end of [s0taq_symdot]
-
+//
+(*
+//
+// HX-2017-01-24:
+// removed as it is never in use
+//
 implement
 s0taq_symcolon (ent1, tok2) = let
   val loc = ent1.i0de_loc + tok2.token_loc
 in '{
   s0taq_loc= loc, s0taq_node= S0TAQsymcolon (ent1.i0de_sym)
 } end // end of [s0taq_symcolon]
-
+*)
+//
 implement
 s0taq_is_none (q) =
   case q.s0taq_node of S0TAQnone () => true | _ => false
 // end of [s0taq_is_none]
-
+//
 (* ****** ****** *)
 
 implement
@@ -501,36 +508,49 @@ implement
 the_d0ynq_none = d0ynq_none ($LOC.location_dummy)
 
 implement
-d0ynq_none (loc) = '{
+d0ynq_none(loc) = '{
   d0ynq_loc= loc, d0ynq_node= D0YNQnone ()
 } // end of [d0ynq_none]
 
 implement
-d0ynq_symdot (ent1, tok2) = let
+d0ynq_symdot
+  (ent1, tok2) = let
   val loc = ent1.i0de_loc + tok2.token_loc
 in '{
-  d0ynq_loc= loc, d0ynq_node= D0YNQsymdot (ent1.i0de_sym)
+  d0ynq_loc= loc, d0ynq_node= D0YNQsymdot(ent1.i0de_sym)
 } end // end of [d0ynq_symdot]
 
+(* ****** ****** *)
+
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
 implement
-d0ynq_symcolon (ent1, tok2) = let
+d0ynq_symcolon
+  (ent1, tok2) = let
   val loc = ent1.i0de_loc + tok2.token_loc
 in '{
-  d0ynq_loc= loc, d0ynq_node= D0YNQsymcolon (ent1.i0de_sym)
+  d0ynq_loc= loc, d0ynq_node= D0YNQsymcolon(ent1.i0de_sym)
 } end // end of [d0ynq_symcolon]
-
+//
 implement
 d0ynq_symdotcolon
   (ent1, ent2, ent3) = let
   val loc = ent1.i0de_loc + ent3.token_loc
 in '{
   d0ynq_loc= loc
-, d0ynq_node= D0YNQsymdotcolon (ent1.i0de_sym, ent2.i0de_sym)
+, d0ynq_node= D0YNQsymdotcolon(ent1.i0de_sym, ent2.i0de_sym)
 } end // end of [d0ynq_symdotcolon]
+//
+*)
+
+(* ****** ****** *)
 
 implement
 d0ynq_is_none (q) =
-  case q.d0ynq_node of D0YNQnone () => true | _ => false
+  case q.d0ynq_node of D0YNQnone() => true | _ => false
 // end of [d0ynq_is_none]
 
 (* ****** ****** *)

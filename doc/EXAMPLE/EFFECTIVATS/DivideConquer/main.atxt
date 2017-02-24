@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-DivideConquer</title>
+##patsyntax()
+##thePage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Let's build a template-based package!
+</h1>
+
+##para('\
+
+ATS is a feature-rich language, and dependent types, linear types and
+embeddable templates can be seen as three of its most prominent
+features. The richness of programming features can potentially make it
+highly demanding for a programmer to rein in the inherent complexity
+associated with ATS. In this article, I would like to present a
+template-based package that is designed to (partially) relieve a
+programmer of the heavy burden that is so often associated with
+programming in ATS.
+
+')##comment("para")
+
+##para('\
+
+The code presented in this article is essentially based on some library code of ATS available
+<a href="https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/DivideConquer/.">on-line</a>.
+
+')##comment("para")
+
+<h2>Divide-and-Conquer</h2>
+
+##para('\
+
+In problem-solving, divide-and-conquer (D&amp;C) is a strategy that
+divides a given problem of certain size into a collection of
+subproblems of less size and then solves the subproblems (recursively)
+and then combines the obtained solutions to the subproblems to form a
+solution to the original given problem.
+
+')##comment("para")
+
+##para('\
+
+Formally, D&amp;C can be given a template-based implemenation as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+{}(*tmp*)
+DC_solve(x0) = let
+//
+val
+test = DC_base_test<>(x0)
+//
+in (* in-of-let *)
+//
+if
+(test)
+then
+DC_base_solve<>(x0)
+else r0 where
+{
+  val xs = DC_divide<>(x0)
+  val r0 = DC_conquer<>(x0, xs)
+} (* end of [else] *)
+//
+end // end of [DC_solve]
+//
+')</pre>
+
+Note that ##dyncode("DC_solve") is the main function for
+solving a problem. The following interface is assigned
+to ##dyncode("DC_solve"):
+
+<pre
+class="patsyntax">
+##sats2xhtml('fun{} DC_solve : input -> output')
+</pre>
+
+where ##stacode("input") and ##stacode("output") are two abstract
+types for the input and output, respectively, that are associated with
+the problem to be solved.  In the body of ##dyncode("DC_solve"),
+##dyncode("DC_base_test") is called to test whether a given input can
+be classified as a base case; if it is, then
+##dyncode("DC_base_solve") is called to return the output for the
+given input immediately; otherwise, ##dyncode("DC_divide") is called
+to divide the input into a list of inputs, which are then passed to
+##dyncode("DC_conquer") defined as follows:
+
+')##comment("para")
+
+##para("""\
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+{}(*tmp*)
+DC_conquer
+  (x0, xs) = r0 where
+{
+//
+val rs =
+list0_map<input><output>
+( xs
+, lam(x) => DC_solve<>(x)
+) (* end of [val] *)
+//
+val r0 = DC_conquer_combine<>(x0, rs)
+//
+} (* end of [DC_conquer] *)
+//
+')</pre>
+
+As can be expected, the function ##dyncode("DC_conquer") is called to
+process a given list of inputs and then form an output (for the
+original input) by combining (in some manner unspecified here) the
+obtained outputs corresponding to the list of inputs.
+
+""")##comment("para")
+
+<h2>Example: Computing Fibonacci Numbers</h2>
+
+##para("""\
+
+Let us use ##dyncode("Fibonacci") to refer to the function that maps
+natural numbers to Fibonacci numbers 0, 1, 1, 2, 3, 5, etc. A
+recursive implementation of ##dyncode("Fibonacci") is given as
+follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+implement
+Fibonacci(n) =
+if n <= 1
+  then (n)
+  else Fibonacci(n-1)+Fibonacci(n-2)
+// end of [if]
+')</pre>
+
+We can also implement ##dyncode("Fibonacci")
+as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+implement
+Fibonacci(n) = DC_solve<>(n)
+')</pre>
+
+after giving the following (specific) implementations
+for various function templates introduced in the above
+template-based implementation of D&amp;C:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+DC_base_test<>(n) =
+  if n <= 1 then true else false
+//
+(* ****** ****** *)
+//
+implement
+DC_base_solve<>(n) = n
+//
+(* ****** ****** *)
+//
+implement
+DC_divide<>(n) =
+  g0ofg1($list{int}(n-1, n-2))
+//
+(* ****** ****** *)
+//
+implement
+DC_conquer_combine<>
+  (_, rs) = r1 + r2 where
+{
+//
+val-list0_cons(r1, rs) = rs
+val-list0_cons(r2, rs) = rs
+//
+} (* end of [DC_conquer_combine] *)
+//
+')</pre>
+
+Given the simplicity of the (first) recursive implementation of
+##dyncode("Fibonacci"), one may not be able to immediately appreciate
+the (second) templated-based implementation of ##dyncode("Fibonacci").
+Let me elaborate a bit on this point. Assume that we need to
+parallelize an implementation of ##dyncode("Fibonacci"). For the
+recursive implementation, we probably need to rewrite it substantially
+in order to parallelize it. For the template-based implementation, we
+can simply choose an already parallelized implementation of D&amp;C
+(while having little need for modifying the implementation of
+##dyncode("Fibonacci")). In particular, code that implements
+D&amp;C is generic and can thus be employed repeatedly in settings
+where D&amp;C is the underlying problem-solving strategy.
+
+""")
+
+##para("""\
+
+If we replace ##dyncode("Fibonacci") with a (much) more involved
+implementation of some algorithm (e.g., in the field of AI), then
+benefits from a template-based implementation can hardly be
+missed. What is particularly beneficial to a programmer is that he or
+she, with the template-based approach as is outlined above,
+can concentrate on the specifics of the problem being solved while
+largely, if not completely, skipping generic issues that are not
+directly pertinent to the problem. For instance, the programmer can
+focus on specific issues such as dividing inputs and combining outputs
+while relying on the chosen implementation of D&amp;C to handle a
+generic issue like parallelization. In other words, the template-based
+approach can be seen as a concrete means that reduces complexity in
+problem-solving by employing the very principle of separation of
+concerns.
+
+""")
+
+<h2>Building a Package for D&amp;C</h2>
+
+##para("""\
+
+I hereby outline some key steps involved in building a package for
+D&amp;C that can be published
+via <a href="https://www.npmjs.com">npm</a>. Some basic knowledge of
+npm is assumed in the following presentation.\
+
+""")
+
+<h3>##filename("mydepies.hats")</h3>
+
+##para("""\
+
+In general, a package should contain a file of the name
+##filename("mydepies.hats") for specifying (static) loading of other
+packages upon which the current package depends. The file
+##filename("mydepies.hats") for the package being built is empty as
+there is no issue of package dependency.\
+
+""")
+
+<h3>##filename("mylibies.hats")</h3>
+
+##para("""\
+
+In general, a package should contain a file of the name
+##filename("mylibies.hats"), which serves as the entry point to the
+package. For instance, the content of ##filename("mylibies.hats") for
+the package being built is listed as follows:\
+
+<pre>
+(* ****** ****** *)
+//
+// HX-2017-02-22:
+//
+// Effective-ATS:
+// Generic Divide-Conquer
+//
+(* ****** ****** *)
+//
+#staload
+DivideConquer =
+"./DATS/DivideConquer.dats"
+//
+(* ****** ****** *)
+
+(* end of [mylibies.hats] *)
+</pre>
+
+Code that makes use of this package (which is given the name
+##dyncode("effectivats-divideconquer")) is expected to contain a line
+like the following one:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+#include "$PATSHOMELOCS/effectivats-divideconquer/mylibies.hats"
+')</pre>
+
+which introduces a namespace referred to as ##dyncode("DivideConquer")
+and populates it with all sorts of bindings declared in
+##filename("DivideConquer.dats") (for implementing the template-based
+D&amp;C as is outlined above).  Of course, it is allowed to introduce
+more than one namespaces at once.\
+
+""")
+
+<h3>##filename("package.json")</h3>
+
+For each npm-package, a file of the name ##filename("package.json") is
+needed for specifying various properties of the package. For instance,
+the content of ##filename("package.json") for the package being built
+is given as follows:
+
+##para("""\
+
+<pre>
+{
+"name":
+"effectivats-divideconquer"
+,
+"version": "1.0.1"
+,
+"description":
+"A generic implementation of divide-and-conquer for use in the Effective-ATS series"
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url":
+  "https://github.com/githwxi/ATS-Postiats/tree/master/doc/EXAMPLE/EFFECTIVATS/DivideConquer"
+}
+,
+"keywords": [
+  "EFFECTIVATS",
+  "divide-and-conquer"
+]
+,
+"dependencies": {
+}
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-myself": "The package is stored at ${PATSHOME}/doc/EXAMPLE/EFFECTIVATS/DivideConquer/."
+}
+</pre>
+
+If needed, please see documentation on <a
+href="https://www.npmjs.com">npm</a> for further information on
+##filename("package.json").
+
+""")
+
+##para("""\
+
+With a correctly formatted ##filename("package.json"), one can simply
+issue the following command-line (from the directory containing the
+package) to publish the package:
+
+<pre>
+##command("npm publish")
+</pre>
+
+Immediately after ##dyncode("effectivats-divideconquer") is published,
+it is ready for downloading.
+
+""")
+
+<h3>##filename("Internal Package Testing")</h3>
+
+##para("""\
+
+The code for testing a package from within is supposed to be stored in
+a directory of the name ##filename("TEST"). For instance, the file
+##filename("TEST/Fibonacci.dats") contains code for testing the
+package ##dyncode("effectivats-divideconquer"). In this file, one can
+find the following line for statically loading into the namespace
+##dyncode("DivideConquer") all sorts of the bindings declared inside
+##filename("DivideConquer.dats"):
+
+<pre
+class="patsyntax">
+##sats2xhtml('\
+//
+#include "./../mylibies.hats"
+//
+')</pre>
+
+Note that a path starting with the dot symbol (.) means that the path
+is relative to the directory that contains the file (in which the path
+appears).
+
+""")
+
+<h3>##filename("External Package Testing")</h3>
+
+##para("""\
+
+One can download the package
+##dyncode("effectivats-divideconquer") 
+by issuing the following command-line:
+<pre>
+##command("npm i effectivats-divideconquer")
+</pre>
+For updating it, one can simply do:
+<pre>
+##command("npm up effectivats-divideconquer")
+</pre>
+
+The code for testing the package from outside is supposed to use
+the following line (or one of its variants) to statically load in the
+package:
+
+<pre
+class="patsyntax">
+##sats2xhtml('\
+//
+#include "$PATSHOMELOCS/effectivats-divideconquer/mylibies.hats"
+//
+')</pre>
+
+where ##dyncode("PATSHOMELOCS") is an evironmental variable
+whose value is set to be a string representing colon-separated
+path names. For instance, following is a typical setup for using npm:
+<pre>
+##command("PATSHOMELOCS=./node_modules:./../../node_modules:./../../../../node_modules")
+</pre>
+which reflects the way in which npm stores downloaded packages.
+
+""")
+
+##para("""\
+
+For further details, please find
+<a href="https://github.com/githwxi/ATS-Postiats-test/tree/master/package/TEST">on-line</a>
+some concrete examples on testing packages externally.\
+
+""")
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+PackIt/mylibies.hats
+PackIt/Makefile_test.hats
+PackIt/DATS/DivideConquer.dats
+PackIt/TEST/Fibonacci.dats // for testing internally
+</pre>
+
+Note that the file ##filename("Makefile_test") can be used for compiling
+and testing the code (via the make utility).\
+
+""")
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+</body>
+</html>

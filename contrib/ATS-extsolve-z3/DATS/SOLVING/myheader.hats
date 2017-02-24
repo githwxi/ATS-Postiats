@@ -9,7 +9,7 @@
 //
 #define
 SMT_LIBZ3_targetloc
-"$PATSHOME/atscntrb/atscntrb-smt-libz3"
+"$PATSHOME/contrib/atscntrb-smt-libz3"
 //
 #define
 PATSOLVE_targetloc "./../../ATS-extsolve"

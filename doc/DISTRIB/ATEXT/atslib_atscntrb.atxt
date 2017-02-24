@@ -50,8 +50,8 @@ fprint_string(out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../atscntrb/\n\
-TARGET=ATS-Postiats/atscntrb/\n\
+SOURCE=./../../contrib/\n\
+TARGET=ATS-Postiats/contrib/\n\
 \n\
 srcget()\n\
 {\n\
@@ -114,27 +114,34 @@ packfilesynop(x) = atext_nil()
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-libgmp/mylibies.hats")
 #packfilename("atscntrb-libgmp/SATS/gmp.sats")
 #packfilename("atscntrb-libgmp/DATS/gmp.dats")
-#packfilename("atscntrb-libgmp/gmp/CATS/gmp.cats")
+#packfilename("atscntrb-libgmp/CATS/gmp.cats")
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-libpcre/mylibies.hats")
 #packfilename("atscntrb-libpcre/SATS/pcre.sats")
 #packfilename("atscntrb-libpcre/SATS/pcre_ML.sats")
 #packfilename("atscntrb-libpcre/DATS/pcre.dats")
 #packfilename("atscntrb-libpcre/DATS/pcre_ML.dats")
-#packfilename("atscntrb-libpcre/pcre/CATS/pcre.cats")
+#packfilename("atscntrb-libpcre/CATS/pcre.cats")
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-libcurl/mylibies.hats")
 #packfilename("atscntrb-libcurl/SATS/curl.sats")
-#packfilename("atscntrb-libcurl/SATS/easy.sats")
+#packfilename("atscntrb-libcurl/SATS/curl_curl.sats")
+#packfilename("atscntrb-libcurl/SATS/curl_easy.sats")
 #packfilename("atscntrb-libcurl/DATS/curl.dats")
-#packfilename("atscntrb-libcurl/curl/CATS/curl.cats")
+#packfilename("atscntrb-libcurl/DATS/curl_curl.dats")
+#packfilename("atscntrb-libcurl/DATS/curl_easy.dats")
+#packfilename("atscntrb-libcurl/CATS/curl.cats")
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-libjson-c/mylibies.hats")
 #packfilename("atscntrb-libjson-c/SATS/json.sats")
 #packfilename("atscntrb-libjson-c/SATS/json_ML.sats")
 #packfilename("atscntrb-libjson-c/SATS/json_util.sats")
@@ -147,11 +154,13 @@ packfilesynop(x) = atext_nil()
 #packfilename("atscntrb-libjson-c/SATS/arraylist.sats")
 #packfilename("atscntrb-libjson-c/DATS/json.dats")
 #packfilename("atscntrb-libjson-c/DATS/json_ML.dats")
-#packfilename("atscntrb-libjson-c/json-c/CATS/json.cats")
-#packfilename("atscntrb-libjson-c/json-c/CATS/printbuf.cats")
+#packfilename("atscntrb-libjson-c/CATS/json.cats")
+#packfilename("atscntrb-libjson-c/CATS/printbuf.cats")
   
 (* ****** ****** *)
 
+#packfilename("atscntrb-hx-intinf/mydepies.hats")
+#packfilename("atscntrb-hx-intinf/mylibies.hats")
 #packfilename("atscntrb-hx-intinf/SATS/intinf.sats")
 #packfilename("atscntrb-hx-intinf/SATS/intinf_t.sats")
 #packfilename("atscntrb-hx-intinf/SATS/intinf_vt.sats")

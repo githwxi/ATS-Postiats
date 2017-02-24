@@ -1,0 +1,32 @@
+{
+"name":
+"atscntrb-libcurl"
+,
+"version": "1.0.1"
+,
+"description":
+"This package is for directly calling in ATS various CURL-functions."
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url": 
+  "https://github.com/githwxi/ATS-Postiats/tree/master/contrib/atscntrb-libcurl"
+}
+,
+"keywords": [
+  "ATS",
+  "CURL",
+  "libcurl"
+]
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-me":
+"The package is stored at ${PATSHOME}/contrib/atscntrb-libcurl/."
+}

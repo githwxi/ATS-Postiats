@@ -150,10 +150,17 @@ fprint_s0taq (out, x) =
       val () = fprint_symbol (out, sym)
       val () = fprint_string (out, ".")
     }
-  | S0TAQsymcolon (sym) => {
+(*
+//
+// HX-2017-01-24:
+// it is never in use
+//
+  | S0TAQsymcolon(sym) =>
+    {
       val () = fprint_symbol (out, sym)
       val () = fprint_string (out, ":")
     }
+*)
 // end of [fprint_s0taq]
 
 implement print_s0taq (x) = fprint_s0taq (stdout_ref, x)
@@ -168,46 +175,74 @@ fprint_sqi0de (out, x) = {
 (* ****** ****** *)
 
 implement
-fprint_d0ynq (out, x) =
-  case+ x.d0ynq_node of
-  | D0YNQnone () => ()
-  | D0YNQsymdot (sym) => {
-      val () = fprint_symbol (out, sym)
-      val () = fprint_string (out, ".")
-    }
-  | D0YNQsymcolon (sym) => {
-      val () = fprint_symbol (out, sym)
-      val () = fprint_string (out, ":")
-    }
-  | D0YNQsymdotcolon (sym1, sym2) => {
-      val () = fprint_symbol (out, sym1)
-      val () = fprint_symbol (out, sym2)
-      val () = fprint_string (out, ":")
-    }
-// end of [fprint_d0ynq]
-
-implement print_d0ynq (x) = fprint_d0ynq (stdout_ref, x)
-implement prerr_d0ynq (x) = fprint_d0ynq (stderr_ref, x)
-
+fprint_d0ynq
+  (out, x) =
+(
+case+
+x.d0ynq_node
+of // case+
+| D0YNQnone() => ()
+| D0YNQsymdot(sym) =>
+  {
+    val () = fprint_symbol(out, sym)
+    val () = fprint_string(out, ".")
+  }
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
+| D0YNQsymcolon
+    (sym) =>
+  {
+    val () = fprint_symbol (out, sym)
+    val () = fprint_string (out, ":")
+  }
+| D0YNQsymdotcolon
+    (sym1, sym2) =>
+  {
+    val () = fprint_symbol (out, sym1)
+    val () = fprint_symbol (out, sym2)
+    val () = fprint_string (out, ":")
+  }
+*)
+) (* end of [fprint_d0ynq] *)
+//
 implement
-fprint_dqi0de (out, x) = {
-  val () = fprint_d0ynq (out, x.dqi0de_qua)
-  val () = fprint_symbol (out, x.dqi0de_sym)
+print_d0ynq(x) = fprint_d0ynq(stdout_ref, x)
+implement
+prerr_d0ynq(x) = fprint_d0ynq(stderr_ref, x)
+//
+(* ****** ****** *)
+//
+implement
+fprint_dqi0de(out, x) =
+{
+  val () = fprint_d0ynq(out, x.dqi0de_qua)
+  val () = fprint_symbol(out, x.dqi0de_sym)
 } // end of [fprint_dqi0de]
-
-implement print_dqi0de (x) = fprint_dqi0de (stdout_ref, x)
-implement prerr_dqi0de (x) = fprint_dqi0de (stderr_ref, x)
-
+//
+implement
+print_dqi0de(x) = fprint_dqi0de(stdout_ref, x)
+implement
+prerr_dqi0de(x) = fprint_dqi0de(stderr_ref, x)
+//
 (* ****** ****** *)
 
 implement
-fprint_p0rec (out, x) = let
-  macdef prstr (str) = fprint_string (out, ,(str))
+fprint_p0rec
+  (out, p0rec) = let
+//
+macdef
+prstr(x) = fprint_string(out, ,(x))
+//
 in
-  case+ x of
-  | P0RECint int => prstr "P0RECint(...)"
-  | P0RECi0de (id) => prstr "P0RECi0de(...)"
-  | P0RECi0de_adj _ => prstr "P0RECi0de_adj(...)" 
+//
+case+ p0rec of
+| P0RECint(i0) => prstr "P0RECint(...)"
+| P0RECi0de(id) => prstr "P0RECi0de(...)"
+| P0RECi0de_adj _ => prstr "P0RECi0de_adj(...)" 
+//
 end // end of [fprint_p0rec]
 
 (* ****** ****** *)

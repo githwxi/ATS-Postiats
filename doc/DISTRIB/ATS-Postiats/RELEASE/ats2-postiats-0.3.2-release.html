@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.3.2</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.3.2:
+</H2>
+
+<pre>
+0.3.2
+
+This is the 39th release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Allowing overloads declared in staloadnm to be merged automatically
+2. Initiating libatscc being moved from PATSCONTRIB to PATSHOME/contrib
+   In particular, moving of Bacon.js and Worker in libatscc/libatscc2js
+   is finished.
+(*
+//
+HX-2017-02-01: Reverted!
+// File search in ATS is intentionally different from done in C
+//
+3. Using pushb (push-from-the-back) to push a path permanently:
+   fun the_pathlst_ppushb(x: path): void // see [pats_filename]
+   fun the_IATS_dirlst_ppushb (dir: string): void // see [pats_global]
+*)
+4. Adding support for handling abstract types of unspecified size
+5. Adding code into libats/BUCS320/. to support package-based programming
+6. Introducing the compilation flag _ATS_CCOMP_ASSUME_CHECK_NONE_ to skip
+   over checks that are otherwise required of assuming (i.e., implementing)
+   abstract types
+7. Moving a lot of code around due to packaging; mostly from PATSCONTRIB
+   to PATSHOME/npm-utils
+8. Adding support for 'where <declist> end' (besides 'where { <declist> }')
+9. Fixing a minor glitch involving typechecking ifcase-expressions
+10. Removing duplicates of overloaded dynamic constants and variables
+</pre>
+
+</body><!--body-->
+</html><!--html-->

@@ -265,8 +265,14 @@ implement
 process_IATS_dir
   (dir) = let
 //
-val () = $FIL.the_pathlst_ppush (dir)
-val () = $GLOB.the_IATS_dirlst_ppush (dir)
+val () = $FIL.the_pathlst_ppush(dir)
+val () = $GLOB.the_IATS_dirlst_ppush(dir)
+//
+(*
+// HX-2017-01-31: push from the back!
+val () = $FIL.the_pathlst_ppushb(dir)
+val () = $GLOB.the_IATS_dirlst_ppushb(dir)
+*)
 //
 in
   // nothing

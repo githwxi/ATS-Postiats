@@ -284,26 +284,30 @@ auxerr2
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_d1ecl_tr_overload_def (loc0))
+//
+the_trans2errlst_add(T2E_d1ecl_tr_overload_def(loc0))
+//
 end // end of [auxerr2]
 //
 val sym = id.i0de_sym
 val ans = ans where {
-  val ans = the_d2expenv_current_find (sym)
+  val ans = the_d2expenv_current_find(sym)
   val ans = (
     case+ ans of
     | Some_vt _ => (fold@ ans; ans)
-    | ~None_vt () => the_d2expenv_pervasive_find (sym)
+    | ~None_vt () => the_d2expenv_pervasive_find(sym)
   ) : d2itmopt_vt
 } // end of [where] // end of [val]
 val d2pis = (
   case+ ans of
-  | ~Some_vt (d2i) =>
-    (
+  | ~Some_vt
+      (d2i) => (
       case+ d2i of
-      | D2ITMsymdef (sym, d2pis) => d2pis
-      | _ => let
-          val () = auxerr1 (loc0, id, err) in list_nil
+      | D2ITMsymdef
+          (sym, d2pis) => d2pis
+        // D2ITMsymdef
+      | _ (*non-D2ITMsymdef*) => let
+          val () = auxerr1(loc0, id, err) in list_nil()
         end // end of [_]
     ) // end of [Some_vt]
 (*
@@ -312,17 +316,17 @@ val d2pis = (
 // Is this design too cumbersome?
 //
   | ~None_vt () => let
-      val () = auxerr2 (loc0, id, err) in list_nil ()
+      val () = auxerr2 (loc0, id, err) in list_nil()
     end // end of [None_vt]
 *)
-  | ~None_vt () => let
-      val d2pis = list_nil ()
+  | ~None_vt() =>
+      d2pis where
+    {
+      val d2pis = list_nil()
       val () =
-        the_d2expenv_add (sym, D2ITMsymdef (sym, d2pis))
+        the_d2expenv_add(sym, D2ITMsymdef(sym, d2pis))
       // end of [val]
-    in
-      d2pis
-    end // end of [_]
+    } // end of [None_vt]
 ) : d2pitmlst // end of [val]
 (*
 val () = begin
@@ -637,8 +641,10 @@ in
 end : List(s2varlst) // end of [val]
 //
 val def = let
-  fun aux (
-    s2t_fun: s2rt, s2vss: List (s2varlst), s2e: s2exp
+//
+  fun aux
+  (
+    s2t_fun: s2rt, s2vss: List(s2varlst), s2e: s2exp
   ) : s2exp =
   (
     case+ s2vss of
@@ -653,17 +659,17 @@ val def = let
     | list_nil((*void*)) => s2e
   ) (* end of [aux] *)
 //
-  val def = d0.s1tacon_def
+  val def = d0.s1tacon_def (* : s1expopt *)
 //
 in
   case+ def of
-  | Some s1e => let
+  | Some(s1e) => let
       val s2e =
         s1exp_trdn(s1e, s2t_res)
       // end of [val]
       val s2e_def = aux(s2t_fun, s2vss, s2e)
     in
-      Some (s2e_def)
+      Some(s2e_def)
     end // end of [Some]
   | None((*void*)) => None()
 end : s2expopt // end of [val]
@@ -863,7 +869,8 @@ and arg = d.s1expdef_arg
 and def = d.s1expdef_def
 val res1 = s1rtopt_tr (d.s1expdef_res)
 //
-val res2 = (
+val res2 =
+(
 case+ res of
 | Some s2t => (
   case+ res1 of
@@ -898,12 +905,13 @@ s2cst_make
 //
 end // end of [s1expdef_tr]
 
-fun s1expdeflst_tr
+fun
+s1expdeflst_tr
   (knd: int, ds: s1expdeflst): void = let
 //
 val res =
 (
-  if knd >= 0 then Some (s2rt_impred (knd)) else None ()
+  if knd >= 0 then Some(s2rt_impred(knd)) else None()
 ) : s2rtopt
 //
 val s2cs = let
@@ -933,12 +941,12 @@ val () = let
         ((*void*)) => ()
     | ~list_vt_cons
         (s2c, s2cs) => let
-        val () = the_s2expenv_add_scst (s2c) in loop (s2cs)
+        val () = the_s2expenv_add_scst(s2c) in loop(s2cs)
       end // end of [list_vt_cons]
   ) (* end of [loop] *)
 //
 in
-  loop (s2cs)
+  loop(s2cs)
 end // end of [val]
 //
 in
@@ -1010,24 +1018,26 @@ auxerr (
   val () = prerr "] but it is expected to be of the sort ["
   val () = prerr_s2rt (s2t2)
   val () = prerr "]."
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 //
-  val () = the_trans2errlst_add (T2E_s1aspdec_tr_res (d, s2t1, s2t2))
+  val () = the_trans2errlst_add(T2E_s1aspdec_tr_res(d, s2t1, s2t2))
 } // end of [auxerr]
 //
 in // in of [let]
 //
 case+
-d.s1aspdec_res of
-| Some s1t => let
-    val s2t = s1rt_tr (s1t)
-    val test = s2rt_ltmat1 (s2t, s2t_res)
+d.s1aspdec_res
+of // case+
+| Some(s1t) => let
+    val s2t = s1rt_tr(s1t)
+    val test = s2rt_ltmat1(s2t, s2t_res)
   in
-    if test then s2t else let
-      val () = auxerr (d, s2t, s2t_res) in s2t
+    if test
+    then s2t else let
+      val () = auxerr(d, s2t, s2t_res) in s2t
     end (* end of [if] *)
   end // end of [Some]
-| None ((*void*)) => s2t_res
+| None((*void*)) => s2t_res
 //
 end // end of [s1aspdec_tr_res]
 
@@ -1074,55 +1084,81 @@ fun
 auxerr3 (
   d: s1aspdec, q: s0taq, id: symbol
 ) : void = let
-  val () = prerr_error2_loc (d.s1aspdec_loc)
+  val () =
+    prerr_error2_loc(d.s1aspdec_loc)
+  // end of [val]
   val () = prerr ": the identifier ["
   val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_s1aspdec_tr (d))
+  the_trans2errlst_add(T2E_s1aspdec_tr(d))
 end // end of [auxerr3]
 //
   val loc = d1c.s1aspdec_loc
   val qid = d1c.s1aspdec_qid
-  val q = qid.sqi0de_qua and id = qid.sqi0de_sym
-  val ans = the_s2expenv_find_qua (q, id)
+//
+  val q0 = qid.sqi0de_qua
+  and id = qid.sqi0de_sym
+//
+  val ans = the_s2expenv_find_qua(q0, id)
+//
 in
 //
 case+ ans of
-| ~Some_vt s2i => begin case+ s2i of
-  | S2ITMcst s2cs => let
-      val s2cs = list_filter_fun<s2cst> (s2cs, s2cst_is_abstr)
+| ~None_vt() => let
+    val () = auxerr3(d1c, q0, id) in None_vt()
+  end // end of [None_vt]
+| ~Some_vt(s2i) => begin
+  case+ s2i of
+  | S2ITMcst(s2cs) => let
+//
+      val
+      s2cs =
+      list_filter_fun<s2cst>(s2cs, s2cst_is_abstr)
+//
     in
       case+ s2cs of
+      | ~list_vt_nil
+          ((*void*)) => let
+          val () = auxerr1(d1c, q0, id) in None_vt()
+        end // end of [list_vt_nil]
       | ~list_vt_cons
           (s2c, s2cs) => let
-          val () = list_vt_free (s2cs)
-          val (pfenv | ()) = the_s2expenv_push_nil ()
-          var s2t_fun = s2cst_get_srt (s2c)
-          val s2vss = s1aspdec_tr_arg (d1c, d1c.s1aspdec_arg, s2t_fun)
-          val s2t_res = s1aspdec_tr_res (d1c, s2t_fun)
-          val s2e_body = s1exp_trdn (d1c.s1aspdec_def, s2t_res)
-          val () = the_s2expenv_pop_free (pfenv | (*none*))
-          val s2e_def = s2exp_lamlst ((castvwtp1)s2vss, s2e_body)
-          val () = list_vt_free (s2vss)
+//
+          val ((*freed*)) = list_vt_free(s2cs)
+//
+          val (pfenv | ()) =
+            the_s2expenv_push_nil((*pushed*))
+          // end of [val]
+//
+          var s2t_fun = s2cst_get_srt(s2c)
+//
+          val s2vss =
+            s1aspdec_tr_arg(d1c, d1c.s1aspdec_arg, s2t_fun)
+          // end of [val]
+//
+          val s2t_res = s1aspdec_tr_res(d1c, s2t_fun)
+          val s2e_body = s1exp_trdn(d1c.s1aspdec_def, s2t_res)
+//
+          val ((*popped*)) =
+            the_s2expenv_pop_free (pfenv | (*none*))
+          // end of [val]
+//
+          val s2e_def = s2exp_lamlst((castvwtp1)s2vss, s2e_body)
+//
+          val ((*freed*)) = list_vt_free(s2vss)
 (*
           // HX: definition binding is to be done in [pats_trans3_decl.dats]
 *)
+//
         in
-          Some_vt (s2aspdec_make (loc, s2c, s2e_def))
+          Some_vt(s2aspdec_make(loc, s2c, s2e_def))
         end // end of [list_vt_cons]
-      | ~list_vt_nil () => let
-          val () = auxerr1 (d1c, q, id) in None_vt ()
-        end // end of [list_vt_nil]
-      end // end of [S2ITEMcst]
-    | _ => let
-        val () = auxerr2 (d1c, q, id) in None_vt ()
-      end (* end of [_] *)
-    end // end of [Some_vt]
-  | ~None_vt () => let
-      val () = auxerr3 (d1c, q, id) in None_vt ()
-    end // end of [None_vt]
+    end // end of [S2ITEMcst]
+  | _ (* non-S2ITMcst *) =>
+    let val () = auxerr2(d1c, q0, id) in None_vt() end
+  end // end of [Some_vt]
 end // end of [s1aspdec_tr]
 
 end // end of [local]
@@ -2211,7 +2247,7 @@ s1taloadnm_tr
 ) : void // end-of-fun
 //
 implement
-s1taloadnm_tr (d1c0) = let
+s1taloadnm_tr(d1c0) = let
 //
 fun
 auxerr
@@ -2220,34 +2256,54 @@ auxerr
 ) : void = let
   val () =
     prerr_error2_loc (d1c0.d1ecl_loc)
+  // end of [val]
   val () = filprerr_ifdebug "s1taloadnm_tr"
+//
   val () = prerr ": the name ["
-  val () = $SYM.prerr_symbol (name)
+  val () = $SYM.prerr_symbol(name)
   val () = prerr "] does not refer to a namespace."
-  val () = prerr_newline ((*void*))
+  val () = prerr_newline((*void*))
+//
 in
-  the_trans2errlst_add (T2E_d1ecl_tr_staloadnm (d1c0))
+  the_trans2errlst_add(T2E_d1ecl_tr_staloadnm(d1c0))
 end (* end of [auxerr] *)
 //
-val-D1Cstaloadnm
-  (idopt, nspace) = d1c0.d1ecl_node
+val-
+D1Cstaloadnm
+(idopt, nspace) = d1c0.d1ecl_node
 //
-val ans = the_s2expenv_find (nspace)
+val ans = the_s2expenv_find(nspace)
 //
 in
 //
 case+ ans of
-| ~Some_vt (s2i) => (
-    case+ s2i of
-    | S2ITMfilenv (fenv) =>
-      (
-        case+ idopt of
-        | Some (id) => the_s2expenv_add (id, s2i)
-        | None ((*void*)) => $NS.the_namespace_add (fenv)
-      ) (* end of [S2ITMfi1lenv] *)
-    | _(*non-S2ITMfilenv*) => auxerr (d1c0, nspace)
+| ~None_vt
+    ((*void*)) => auxerr(d1c0, nspace)
+  // end of [None_vt]
+| ~Some_vt(s2i) =>
+  (
+  case+ s2i of
+  | S2ITMfilenv(fenv) =>
+    (
+      case+ idopt of
+      | Some(id) => () where
+        {
+          val () = the_s2expenv_add(id, s2i)
+        }
+      | None((*void*)) => () where
+        {
+          val () = $NS.the_namespace_add(fenv)
+//
+// HX-2017-01-30:
+// Overloading declarations needs to be added
+//
+          val d2cs = filenv_get_d2eclist(fenv)
+          val ((*void*)) = overload_tr_d2eclist(d2cs)
+//
+        } (* end of [None] *)
+    ) (* end of [S2ITMfi1lenv] *)
+    | _(*non-S2ITMfilenv*) => auxerr(d1c0, nspace)
   ) (* end of [Some_vt] *)
-| ~None_vt ((*void*)) => auxerr (d1c0, nspace)
 //
 end // end of [s1taloadnm_tr]
   
@@ -2325,19 +2381,21 @@ end // end of [auxcheck_impdec]
 //
 in
 //
-case+ d1c0.d1ecl_node of
+case+
+d1c0.d1ecl_node
+of // case+
 //
-| D1Cnone () => d2ecl_none (loc0)
+| D1Cnone() => d2ecl_none(loc0)
 //
-| D1Clist (ds) => let
-    val ds = l2l (list_map_fun (ds, d1ecl_tr))
+| D1Clist(ds) => let
+    val ds = l2l(list_map_fun(ds, d1ecl_tr))
   in
-    d2ecl_list (loc0, ds)
+    d2ecl_list(loc0, ds)
   end // end of [D1Clist]
 //
-| D1Cpackname (opt) => let
+| D1Cpackname(opt) => let
     val () =
-      $GLOB.the_PACKNAME_set (opt) in d2ecl_none (loc0)
+      $GLOB.the_PACKNAME_set(opt) in d2ecl_none(loc0)
     // end of [D1Cpackname]
   end (* end of [D1Cpackname] *)
 //
@@ -2377,24 +2435,24 @@ case+ d1c0.d1ecl_node of
 | D1Ccodegen
     (knd, e1xps) => d2ecl_codegen(loc0, knd, e1xps)
 //
-| D1Cdatsrts (ds) => let
+| D1Cdatsrts(ds) => let
     val () =
-      d1atsrtdeclst_tr (ds) in d2ecl_none (loc0)
+      d1atsrtdeclst_tr(ds) in d2ecl_none(loc0)
     // end of [val]
   end // end of [D1Cdatsrts]
 //
-| D1Csrtdefs (ds) => let
-    val () = s1rtdeflst_tr (ds) in d2ecl_none (loc0)
+| D1Csrtdefs(ds) => let
+    val () = s1rtdeflst_tr(ds) in d2ecl_none(loc0)
   end // end of [D1Csrtdefs]
 //
-| D1Cstacsts (ds) => let
+| D1Cstacsts(ds) => let
     val s2cs =
-      s1tacstlst_tr (ds) in d2ecl_stacsts (loc0, s2cs)
+      s1tacstlst_tr (ds) in d2ecl_stacsts(loc0, s2cs)
     // end of [val]
   end // end of [D1Cstacsts]
-| D1Cstacons (knd, ds) => let
+| D1Cstacons(knd, ds) => let
     val s2cs =
-      s1taconlst_tr (knd, ds) in d2ecl_stacons (loc0, knd, s2cs)
+      s1taconlst_tr (knd, ds) in d2ecl_stacons(loc0, knd, s2cs)
     // end of [val]
   end // end of [D1Cstacons]
 (*
@@ -2404,23 +2462,25 @@ case+ d1c0.d1ecl_node of
   end // end of [D1Cstavars]
 *)
 //
-| D1Ctkindef (d) => let
+| D1Ctkindef(d) => let
     val () = t1kindef_tr (d) in d2ecl_none (loc0)
   end // end of [D1Ckindef]
 //
-| D1Csexpdefs (knd, ds) => let
-    val () = s1expdeflst_tr (knd, ds) in d2ecl_none (loc0)
+| D1Csexpdefs(knd, ds) => let
+    val () =
+      s1expdeflst_tr (knd, ds) in d2ecl_none (loc0)
+    // end of [val]
   end // end of [D1Csexpdefs]
 //
 | D1Csaspdec (d1c) => let
-    val opt = s1aspdec_tr (d1c)
+    val opt = s1aspdec_tr(d1c)
   in
     case+ opt of
     | ~Some_vt d2c =>
-        d2ecl_saspdec (loc0, d2c)
+        d2ecl_saspdec(loc0, d2c)
       // end of [Some_vt]
     | ~None_vt ((*void*)) =>
-        d2ecl_none (loc0) // HX: error is already reported
+        d2ecl_none(loc0) // HX: error is already reported
       // end of [None_vt]
     // end of [case]
   end // end of [D1Csaspdec]
@@ -2430,19 +2490,19 @@ case+ d1c0.d1ecl_node of
     knd, d1cs_dat, d1cs_def
   ) => let
     val s2cs =
-      d1atdeclst_tr (knd, d1cs_dat, d1cs_def)
+      d1atdeclst_tr(knd, d1cs_dat, d1cs_def)
     // end of [val]
   in
     d2ecl_datdecs (loc0, knd, s2cs)
   end // end of [D1Cdatdecs]
 //
-| D1Cexndecs (d1cs) =>
+| D1Cexndecs(d1cs) =>
   (
-    d2ecl_exndecs (loc0, e1xndeclst_tr (d1cs))
+    d2ecl_exndecs(loc0, e1xndeclst_tr(d1cs))
   ) (* end of [D1Cexndecs] *)
 //
 | D1Cclassdec(id, sup) => let
-    val () = c1lassdec_tr (id, sup) in d2ecl_none (loc0)
+    val () = c1lassdec_tr(id, sup) in d2ecl_none(loc0)
   end // end of [D1Cclassdec]
 //
 | D1Cextype
@@ -2615,21 +2675,22 @@ case+ d1c0.d1ecl_node of
 // Overloading declarations
 // is not allowed to permeate a NAMED namespace!!!
 //
-    val () = (
+    val () =
+    (
     case+ idopt of
-    | None () => {
-        val d2cs = filenv_get_d2eclist (fenv)
-        val ((*void*)) = overload_tr_d2eclist (d2cs)
+    | None() => {
+        val d2cs = filenv_get_d2eclist(fenv)
+        val ((*void*)) = overload_tr_d2eclist(d2cs)
       } (* end of [None] *)
-    | Some (id) => ((*void*))
+    | Some(id) => ((*void*))
     ) (* end of [val] *)
 //
   in
-    d2ecl_staload (loc0, idopt, fil, ldflag, fenv, loaded)
+    d2ecl_staload(loc0, idopt, fil, ldflag, fenv, loaded)
   end // end of [D1Cstaload]
 //
 | D1Cstaloadnm _ => let
-    val () = s1taloadnm_tr (d1c0) in d2ecl_none (loc0)
+    val () = s1taloadnm_tr(d1c0) in d2ecl_none(loc0)
   end // end of [D1Cstaloadnm]
 //
 | D1Cstaloadloc
@@ -2637,7 +2698,10 @@ case+ d1c0.d1ecl_node of
     pfil, nspace, d1cs_loc
   ) => let
 //
-    val (pfsave | ((*void*))) = the_trans2_env_save ()
+    val
+    ( pfsave
+    | ((*void*))
+    ) = the_trans2_env_save()
 //
     val opt = $GLOB.the_PACKNAME_get ()
     val d2cs_loc = d1eclist_tr (d1cs_loc) // local declarations

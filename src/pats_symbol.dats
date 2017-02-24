@@ -347,10 +347,10 @@ implement
 symbol_PATSCONTRIB = symbol_make_string "PATSCONTRIB"
 //
 implement
-symbol_PATSRELOCROOT = symbol_make_string "PATSRELOCROOT"
+symbol_PATSHOMELOCS = symbol_make_string "PATSHOMELOCS"
 //
 implement
-symbol_PATSHOMERELOCS = symbol_make_string "PATSHOMERELOCS"
+symbol_PATSRELOCROOT = symbol_make_string "PATSRELOCROOT"
 //
 (* ****** ****** *)
 //

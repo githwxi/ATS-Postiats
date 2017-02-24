@@ -10,7 +10,7 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 #
 ATSCC2JS=$(PATSHOME)/bin/atscc2js
-LIBATCC2JS=$(PATSHOMERELOC)/contrib/libatscc/libatscc2js
+LIBATCC2JS=$(PATSCONTRIB)/contrib/libatscc/libatscc2js
 #
 ######
 
@@ -33,8 +33,7 @@ INPATH += -I$(PATSHOME)/src
 INPATH += -IATS $(PATSHOME) -IATS $(ATSHOME)
 
 LDPATH :=
-LDPATH += -L$(PATSHOME)/utils/libatsopt
-LDPATH += -L$(PATSHOME)/utils/libatsynmark
+LDPATH += -L$(PATSHOME)/ccomp/atslib/lib
 
 LIBRARY :=
 LIBRARY := -latsynmark -latsdoc -latsopt -lats -lgmp

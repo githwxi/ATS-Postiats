@@ -1,0 +1,30 @@
+{
+"name":
+"atscntrb-hx-teaching-mythread"
+,
+"version": "1.0.3"
+,
+"description":
+"This package contains library code for teaching some basic thread concepts."
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {}
+,
+"keywords": [
+  "ATS",
+  "thread", "pthread"
+]
+,
+"dependencies": {}
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-me":
+"The package is stored at ${PATSHOME}/npm-utils/contrib/libats-hwxi/teaching/mythread/."
+}

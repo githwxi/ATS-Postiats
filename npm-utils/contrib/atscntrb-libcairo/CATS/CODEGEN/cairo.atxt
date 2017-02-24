@@ -1,0 +1,289 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"cairo.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+fun atscntrb_define (fname: string): atext = (
+  atext_strptr (sprintf ("#define atscntrb_%s %s", @(fname, fname)))
+) // end of [atscntrb_define]
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/cairo.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("May, 2012")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef CAIRO_CAIRO_CATS
+\#define CAIRO_CAIRO_CATS
+
+#atscode_separator_for_C()
+
+\#include <cairo.h>
+\#ifdef CAIRO_HAS_PS_SURFACE
+\#include <cairo-ps.h>
+\#endif
+\#ifdef CAIRO_HAS_PDF_SURFACE
+\#include <cairo-pdf.h>
+\#endif
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_bool
+atscntrb_cairo_eq_int_int
+(
+  atstype_int x, atstype_int y
+) {
+  return (x==y ? atsbool_true : atsbool_false) ;
+} /* end of [atscntrb_cairo_eq_int_int] */
+
+#atscode_separator_for_C()
+
+#atscntrb_define("CAIRO_VERSION_ENCODE")
+
+#atscntrb_define("cairo_version")
+
+ATSinline()
+atstype_string
+atscntrb_cairo_version_string()
+{
+  return (void*)(cairo_version_string()) ;
+} /* endfun */
+
+#atscode_separator_for_C()
+
+#atscntrb_define("cairo_device_reference")
+#atscntrb_define("cairo_device_destroy")
+
+#atscntrb_define("cairo_pattern_reference")
+#atscntrb_define("cairo_pattern_destroy")
+
+#atscode_separator_for_C()
+
+#atscode_separator_for_C()
+//
+// Drawing: cairo-cairo-t
+//
+#atscntrb_define("cairo_create")
+#atscntrb_define("cairo_reference")
+#atscntrb_define("cairo_destroy")
+#atscntrb_define("cairo_status")
+#atscntrb_define("cairo_status_to_string")
+#atscntrb_define("cairo_save")
+#atscntrb_define("cairo_restore")
+#atscntrb_define("cairo_get_target")
+#atscntrb_define("cairo_push_group")
+#atscntrb_define("cairo_push_group_with_content")
+#atscntrb_define("cairo_pop_group")
+#atscntrb_define("cairo_pop_group_to_source")
+#atscntrb_define("cairo_get_group_target")
+#atscntrb_define("cairo_set_source_rgb")
+#atscntrb_define("cairo_set_source_rgba")
+#atscntrb_define("cairo_set_source")
+#atscntrb_define("cairo_set_source_surface")
+#atscntrb_define("cairo_get_source")
+#atscntrb_define("cairo_set_antialias")
+#atscntrb_define("cairo_get_antialias")
+#atscntrb_define("cairo_set_dash")
+#atscntrb_define("cairo_get_dash_count")
+#atscntrb_define("cairo_set_fill_rule")
+#atscntrb_define("cairo_get_fill_rule")
+#atscntrb_define("cairo_set_line_cap")
+#atscntrb_define("cairo_get_line_cap")
+#atscntrb_define("cairo_set_line_join")
+#atscntrb_define("cairo_get_line_join")
+#atscntrb_define("cairo_set_line_width")
+#atscntrb_define("cairo_get_line_width")
+#atscntrb_define("cairo_set_miter_limit")
+#atscntrb_define("cairo_get_miter_limit")
+#atscntrb_define("cairo_set_operator")
+#atscntrb_define("cairo_get_operator")
+#atscntrb_define("cairo_set_tolerance")
+#atscntrb_define("cairo_get_tolerance")
+#atscntrb_define("cairo_clip")
+#atscntrb_define("cairo_clip_preserve")
+#atscntrb_define("cairo_clip_extents")
+#atscntrb_define("cairo_in_clip")
+#atscntrb_define("cairo_reset_clip")
+#atscntrb_define("cairo_fill")
+#atscntrb_define("cairo_fill_preserve")
+#atscntrb_define("cairo_fill_extents")
+#atscntrb_define("cairo_in_fill")
+#atscntrb_define("cairo_mask")
+#atscntrb_define("cairo_mask_surface")
+#atscntrb_define("cairo_paint")
+#atscntrb_define("cairo_paint_with_alpha")
+#atscntrb_define("cairo_stroke")
+#atscntrb_define("cairo_stroke_preserve")
+#atscntrb_define("cairo_stroke_extents")
+#atscntrb_define("cairo_in_stroke")
+#atscntrb_define("cairo_copy_page")
+#atscntrb_define("cairo_show_page")
+#atscntrb_define("cairo_get_reference_count")
+#atscntrb_define("cairo_set_user_data")
+#atscntrb_define("cairo_get_user_data")
+//
+// Drawing: cairo-text
+//
+#atscntrb_define("cairo_select_font_face")
+#atscntrb_define("cairo_set_font_size")
+#atscntrb_define("cairo_set_font_matrix")
+#atscntrb_define("cairo_get_font_matrix")
+#atscntrb_define("cairo_set_font_options")
+#atscntrb_define("cairo_get_font_options")
+#atscntrb_define("cairo_set_font_face")
+#atscntrb_define("cairo_get_font_face")
+#atscntrb_define("cairo_set_scaled_font")
+#atscntrb_define("cairo_get_scaled_font")
+#atscntrb_define("cairo_show_text")
+#atscntrb_define("cairo_show_glyphs")
+#atscntrb_define("cairo_show_text_glyphs")
+#atscntrb_define("cairo_font_extents")
+#atscntrb_define("cairo_text_extents")
+#atscntrb_define("cairo_glyph_extents")
+#atscntrb_define("cairo_toy_font_face_create")
+#atscntrb_define("cairo_toy_font_face_get_family")
+#atscntrb_define("cairo_toy_font_face_get_slant")
+#atscntrb_define("cairo_toy_font_face_get_weight")
+#atscntrb_define("cairo_glyph_allocate")
+#atscntrb_define("cairo_glyph_free")
+#atscntrb_define("cairo_text_cluster_allocate")
+#atscntrb_define("cairo_text_cluster_free")
+//
+// Drawing: cairo-Paths
+//
+#atscntrb_define("cairo_copy_path")
+#atscntrb_define("cairo_copy_path_flat")
+#atscntrb_define("cairo_path_destroy")
+#atscntrb_define("cairo_append_path")
+#atscntrb_define("cairo_get_current_point")
+#atscntrb_define("cairo_has_current_point")
+#atscntrb_define("cairo_new_path")
+#atscntrb_define("cairo_new_sub_path")
+#atscntrb_define("cairo_close_path")
+#atscntrb_define("cairo_arc")
+#atscntrb_define("cairo_arc_negative")
+#atscntrb_define("cairo_rectangle")
+#atscntrb_define("cairo_move_to")
+#atscntrb_define("cairo_line_to")
+#atscntrb_define("cairo_curve_to")
+#atscntrb_define("cairo_rel_move_to")
+#atscntrb_define("cairo_rel_line_to")
+#atscntrb_define("cairo_rel_curve_to")
+#atscntrb_define("cairo_text_path")
+#atscntrb_define("cairo_glyph_path")
+#atscntrb_define("cairo_path_extents")
+//
+// Drawing: cairo-Transformations
+//
+#atscntrb_define("cairo_translate")
+#atscntrb_define("cairo_scale")
+#atscntrb_define("cairo_rotate")
+#atscntrb_define("cairo_transform")
+#atscntrb_define("cairo_set_matrix")
+#atscntrb_define("cairo_get_matrix")
+#atscntrb_define("cairo_identity_matrix")
+#atscntrb_define("cairo_user_to_device")
+#atscntrb_define("cairo_user_to_device_distance")
+#atscntrb_define("cairo_device_to_user")
+#atscntrb_define("cairo_device_to_user_distance")
+//
+#atscode_separator_for_C()
+//
+// Surfaces: cairo-cairo-surface-t
+//
+#atscntrb_define("cairo_surface_create_similar")
+#atscntrb_define("cairo_surface_create_similar_image")
+#atscntrb_define("cairo_surface_create_for_rectangle")
+#atscntrb_define("cairo_surface_reference")
+#atscntrb_define("cairo_surface_destroy")
+#atscntrb_define("cairo_surface_status")
+#atscntrb_define("cairo_surface_finish")
+//
+//
+// Surfaces: cairo-Image-Surfaces
+//
+#atscntrb_define("cairo_format_stride_for_width")
+#atscntrb_define("cairo_image_surface_create")
+#atscntrb_define("cairo_image_surface_create_for_data")
+#atscntrb_define("cairo_image_surface_get_data")
+#atscntrb_define("cairo_image_surface_get_format")
+#atscntrb_define("cairo_image_surface_get_width")
+#atscntrb_define("cairo_image_surface_get_height")
+#atscntrb_define("cairo_image_surface_get_stride")
+//
+// Surfaces: cairo-PNG-Support
+//
+#atscntrb_define("cairo_image_surface_create_from_png")
+#atscntrb_define("cairo_image_surface_create_from_png_stream")
+#atscntrb_define("cairo_surface_write_to_png")
+#atscntrb_define("cairo_surface_write_to_png_stream")
+//
+// Surfaces: cairo-PDF-Surfaces
+//
+#atscntrb_define("cairo_pdf_surface_create")
+#atscntrb_define("cairo_pdf_surface_create_for_stream")
+#atscntrb_define("cairo_pdf_surface_restrict_to_version")
+#atscntrb_define("cairo_pdf_version_to_string")
+#atscntrb_define("cairo_pdf_surface_set_size")
+//
+// Surfaces: cairo-PostScript-Surfaces
+//
+#atscntrb_define("cairo_ps_surface_create")
+#atscntrb_define("cairo_ps_surface_create_for_stream")
+#atscntrb_define("cairo_ps_surface_restrict_to_level")
+#atscntrb_define("cairo_ps_get_levels")
+#atscntrb_define("cairo_ps_level_to_string")
+#atscntrb_define("cairo_ps_surface_get_eps")
+#atscntrb_define("cairo_ps_surface_set_eps")
+#atscntrb_define("cairo_ps_surface_set_size")
+#atscntrb_define("cairo_ps_surface_dsc_begin_setup")
+#atscntrb_define("cairo_ps_surface_dsc_begin_page_setup")
+#atscntrb_define("cairo_ps_surface_dsc_comment")
+//
+#atscode_separator_for_C()
+//
+// Utilities: cairo-cairo-matrix-t
+//
+#atscntrb_define("cairo_matrix_init")
+#atscntrb_define("cairo_matrix_init_identity")
+#atscntrb_define("cairo_matrix_init_translate")
+#atscntrb_define("cairo_matrix_init_scale")
+#atscntrb_define("cairo_matrix_init_rotate")
+#atscntrb_define("cairo_matrix_translate")
+#atscntrb_define("cairo_matrix_scale")
+#atscntrb_define("cairo_matrix_rotate")
+#atscntrb_define("cairo_matrix_invert")
+#atscntrb_define("cairo_matrix_multiply")
+#atscntrb_define("cairo_matrix_transform_distance")
+#atscntrb_define("cairo_matrix_transform_point")
+//
+#atscode_separator_for_C()
+
+\#endif // ifndef CAIRO_CAIRO_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "cairo_atxt.txt")
+%}\

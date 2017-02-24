@@ -72,19 +72,25 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 datavtype impenv =
-  | IMPENVcons of (s2var, s2hnf, impenv) | IMPENVnil of ()
+  | IMPENVnil of ()
+  | IMPENVcons of (s2var, s2hnf, impenv)
 // end of [impenv]
 
+(* ****** ****** *)
+//
 extern
-fun fprint_impenv : fprint_vtype (impenv)
-
+fun
+fprint_impenv : fprint_vtype (impenv)
+//
 extern
-fun impenv_find (env: !impenv, s2v: s2var): s2hnf
+fun
+impenv_find (env: !impenv, s2v: s2var): s2hnf
 extern
-fun impenv_update
+fun
+impenv_update
   (env: !impenv, s2v: s2var, s2f: s2hnf): bool(*updated*)
 // end of [impenv_update]
-
+//
 (* ****** ****** *)
 
 implement
@@ -102,14 +108,14 @@ case+ env of
     s2v, s2f, !p_env
   ) => let
     val () =
-      if i > 0 then
-        fprint_string (out, "; ")
-      // end of [if]
+    if i > 0 then
+      fprint_string (out, "; ")
+    // end of [if]
     val () = fprint_s2var (out, s2v)
     val () = fprint_string (out, " -> ")
     val () = fprint_s2hnf (out, s2f)
     val () = loop (out, !p_env, i+1)
-    prval () = fold@ (env)
+    prval ((*folded*)) = fold@ (env)
   in
     // nothing
   end // end of [IMPENVcons]
@@ -192,33 +198,45 @@ case+ env of
 end // end of [impenv_update]
 
 (* ****** ****** *)
-
+//
 extern
-fun s2hnf_is_err (s2f: s2hnf): bool
+fun
+s2hnf_is_err
+  (s2f: s2hnf): bool
+//
 implement
 s2hnf_is_err
   (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
 //
-case+ s2e.s2exp_node of S2Eerrexp() => true | _ => false
+case+
+s2e.s2exp_node
+of // case+
+| S2Eerrexp() => true | _(*non-S2Eerrexp*) => false
 //
 end // end of [s2hnf_is_err]
-
+//
 (* ****** ****** *)
-
+//
 extern
-fun impenv_make_nil (): impenv
+fun
+impenv_make_nil
+  ((*void*)): impenv
 extern
-fun impenv_make_svarlst (s2vs: s2varlst): impenv
-
+fun
+impenv_make_svarlst
+  (s2vs: s2varlst): impenv
+//
 (* ****** ****** *)
-
+//
 implement
-impenv_make_nil () = IMPENVnil
-
+impenv_make_nil
+  () = IMPENVnil()
+//
 implement
-impenv_make_svarlst (s2vs) = let
+impenv_make_svarlst
+  (s2vs) = let
 in
 //
 case+ s2vs of
@@ -238,7 +256,7 @@ case+ s2vs of
   end // end of [list_cons]
 //
 end // end of [impenv_make_svarlst]
-
+//
 (* ****** ****** *)
 //
 extern
@@ -247,11 +265,17 @@ impenv_free
   (env: impenv): void
 //
 implement
-impenv_free (env) = let
+impenv_free(env) = let
+//
+(*
+val () = println! ("impenv_free")
+*)
+//
 in
 //
 case+ env of
-| ~IMPENVcons (_, _, env) => impenv_free (env) | ~IMPENVnil () => ()
+| ~IMPENVnil() => ()
+| ~IMPENVcons(_, _, env) => impenv_free(env)
 //
 end // end of [impenv_free]
 //
@@ -272,13 +296,14 @@ fun aux (
 in
 //
 case+ env of
+| ~IMPENVnil
+    ((*void*)) => tsub
 | ~IMPENVcons
     (s2v, s2f, env) => let
     val s2e = s2hnf2exp (s2f)
   in
     TMPSUBcons(s2v, s2e, aux (env, tsub))
   end // end of [IMPENVcons]
-| ~IMPENVnil((*void*)) => tsub
 //
 end // end of [aux]
 //
@@ -964,16 +989,16 @@ implement
 ccomp_funlab_tmpsubst
   (env, loc0, hse0, flab, tsub) = let
 //
-val opt = funlab_get_funent (flab)
+val opt = funlab_get_funent(flab)
 //
 in
 //
 case+ opt of
 | None () =>
-    ccomp_funlab_tmpsubst_none (env, loc0, hse0, flab, tsub)
+    ccomp_funlab_tmpsubst_none(env, loc0, hse0, flab, tsub)
   // end of [None]
 | Some (fent) =>
-    ccomp_funlab_tmpsubst_some (env, loc0, hse0, flab, tsub, fent)
+    ccomp_funlab_tmpsubst_some(env, loc0, hse0, flab, tsub, fent)
   // end of [None]
 //
 end // end of [ccomp_funlab_tmpsubst]
@@ -988,11 +1013,11 @@ in
 //
 case+ t2mas of
 | list_cons _ => let
-    val-Some(d2c) = funlab_get_d2copt (flab)
-    val t2mas = t2mpmarglst_tsubst (loc0, tsub, t2mas)
-    val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
+    val-Some(d2c) = funlab_get_d2copt(flab)
+    val t2mas = t2mpmarglst_tsubst(loc0, tsub, t2mas)
+    val tmpmat = ccompenv_tmpcst_match(env, d2c, t2mas)
   in
-    ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
+    ccomp_tmpcstmat(env, loc0, hse0, d2c, t2mas, tmpmat)
   end (* end of [list_cons] *)
 | list_nil () => primval_make2_funlab (loc0, hse0, flab)
 //
@@ -1083,9 +1108,9 @@ case+ mat of
   // end of [TMPCSTMATsome]
 | TMPCSTMATsome2
     (d2c, s2ess, flab) =>
-    primval_make2_funlab (loc0, hse0, flab)
+    primval_make2_funlab(loc0, hse0, flab)
 | TMPCSTMATnone() =>
-    primval_tmpltcstmat (loc0, hse0, d2c, t2mas, mat)
+    primval_tmpltcstmat(loc0, hse0, d2c, t2mas, mat)
   // end of [TMPCSTMATnone]
 //
 end // end of [ccomp_tmpcstmat]
@@ -1094,20 +1119,23 @@ implement
 ccomp_tmpcstmat_some
   (env, loc0, hse0, d2c, t2mas, mat) = let
 //
-val-TMPCSTMATsome
-  (imp, tsub, knd) = mat
+val-
+TMPCSTMATsome
+(imp, tsub, knd) = mat
 //
-val lvl0 = the_d2varlev_save ()
+val
+lvl0 = the_d2varlev_save()
 //
 val () =
-  hiimpdec_ccomp_if (env, 0(*level*), imp, knd)
+hiimpdec_ccomp_if
+  (env, 0(*level*), imp, knd)
 //
-val () = the_d2varlev_restore (lvl0)
+val () = the_d2varlev_restore(lvl0)
 //
-val-Some (flab) = hiimpdec_get_funlabopt (imp)
+val-Some(flab) = hiimpdec_get_funlabopt(imp)
 //
 in
-  ccomp_funlab_tmpsubst (env, loc0, hse0, flab, tsub)
+  ccomp_funlab_tmpsubst(env, loc0, hse0, flab, tsub)
 end // end of [ccomp_tmpcstmat_some]
 
 (* ****** ****** *)
@@ -1117,7 +1145,8 @@ fun
 ccomp_tmpvarmat_some
 (
   env: !ccompenv
-, loc0: location, hse0: hisexp, d2v: d2var, t2mas: t2mpmarglst, mat: tmpvarmat
+, loc0: location
+, hse0: hisexp, d2v: d2var, t2mas: t2mpmarglst, mat: tmpvarmat
 ) : primval // end of [ccomp_tmpvarmat_some]
 
 (* ****** ****** *)
@@ -1161,31 +1190,34 @@ implement
 ccomp_tmpvarmat_some
   (env, loc0, hse0, d2v, t2mas, mat) = let
 //
-val-TMPVARMATsome
-  (hfd, tsub, _(*knd*)) = mat
+val-
+TMPVARMATsome
+(hfd, tsub, _(*knd*)) = mat
 //
-val opt = hifundec_get_funlabopt (hfd)
-val () = (
+val opt =
+  hifundec_get_funlabopt(hfd)
+//
+val ((*void*)) = (
 //
 case+ opt of
 | None _ => let
     val-Some
-      (hdc0) = hifundec_get_hideclopt (hfd)
+      (hdc0) = hifundec_get_hideclopt(hfd)
     // end of [val]
     val-HIDfundecs
       (knd, decarg, hfds) = hdc0.hidecl_node
     // end of [val]
   in
-    hifundeclst_ccomp (env, 0(*lvl0*), knd, decarg, hfds)
+    hifundeclst_ccomp(env, 0(*lvl0*), knd, decarg, hfds)
   end // end of [None]
 | Some _ => ((*void*))
 //
 ) (* end of [val] *)
 //
-val-Some(flab) = hifundec_get_funlabopt (hfd)
+val-Some(flab) = hifundec_get_funlabopt(hfd)
 //
 in
-  ccomp_funlab_tmpsubst (env, loc0, hse0, flab, tsub)
+  ccomp_funlab_tmpsubst(env, loc0, hse0, flab, tsub)
 end // end of [ccomp_tmpvarmat_some]
 
 (* ****** ****** *)

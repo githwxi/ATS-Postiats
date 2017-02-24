@@ -5,6 +5,11 @@
 // $tempenver-declaration
 //
 (* ****** ****** *)
+
+#define
+ATS_PACKNAME "TEMPENVER"
+
+(* ****** ****** *)
 //
 #include
 "share/atspre_staload.hats"
@@ -19,11 +24,13 @@ extern fun{} bar2(int): int
 //
 implmnt
 {}(*tmp*)
-bar1 (x) = bar2 (x)
+bar1(x) = bar2(x)
 implmnt
 {}(*tmp*)
-bar2 (x) =
-  if x > 0 then foo() + bar1 (x-1) else 0
+bar2(x) =
+if x > 0
+  then foo() + bar1(x-1) else 0
+// end of [if]
 //
 (* ****** ****** *)
 

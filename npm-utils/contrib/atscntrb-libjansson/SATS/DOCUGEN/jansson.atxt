@@ -1,0 +1,237 @@
+(* ****** ****** *)
+
+%{
+implement
+srcfilename_get () = "../jansson.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_jansson_jansson")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/jansson/jansson\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains an API in ATS for the <a
+href="http://www.digip.org/jansson/">jansson</a> library.  ')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("JSONptr2ptr")
+#declnamesynop("JSONptr_is_gtez")
+#declnamesynop("JSONptr_free_null")
+#declnamesynop("JSONptr_is_null")
+#declnamesynop("JSONptr_isnot_null")
+
+(* ****** ****** *)
+
+#declnamesynop("JSONiter2ptr")
+#declnamesynop("JSONiter_is_gtez")
+#declnamesynop("JSONiter_free_null")
+#declnamesynop("JSONiter_return")
+#declnamesynop("JSONiter_is_null")
+#declnamesynop("JSONiter_isnot_null")
+
+(* ****** ****** *)
+
+#declnamesynop("json_typeof")
+
+(* ****** ****** *)
+
+#declnamesynop("json_is_null")
+#declnamesynop("json_is_true")
+#declnamesynop("json_is_false")
+
+#declnamesynop("json_is_boolean")
+
+#declnamesynop("json_is_integer")
+#declnamesynop("json_is_real")
+#declnamesynop("json_is_number")
+
+#declnamesynop("json_is_string")
+#declnamesynop("json_is_array")
+#declnamesynop("json_is_object")
+
+(* ****** ****** *)
+
+#declnamesynop("json_incref")
+#declnamesynop("json_decref")
+
+(* ****** ****** *)
+
+#declnamesynop("json_null")
+#declnamesynop("json_true")
+#declnamesynop("json_false")
+
+(* ****** ****** *)
+
+#declnamesynop("int2json_int")
+#declnamesynop("lint2json_int")
+#declnamesynop("llint2json_int")
+#declnamesynop("json_integer")
+#declnamesynop("json_integer_value")
+#declnamesynop("json_integer_set")
+
+(* ****** ****** *)
+
+#declnamesynop("json_string")
+#declnamesynop("json_string_nocheck")
+
+#declnamesynop("json_string_value")
+
+#declnamesynop("json_string_set")
+#declnamesynop("json_string_set_nocheck")
+
+(* ****** ****** *)
+
+#declnamesynop("json_array")
+
+#declnamesynop("json_array_size")
+
+(* ****** ****** *)
+
+#declnamesynop("json_array_get")
+#declnamesynop("json_array_get_exnmsg")
+#declnamesynop("json_array_get_exnloc")
+#declnamesynop("json_array_get1")
+#declnamesynop("json_array_get1_exnmsg")
+#declnamesynop("json_array_get1_exnloc")
+
+(* ****** ****** *)
+
+#declnamesynop("json_array_set")
+#declnamesynop("json_array_set_new")
+
+#declnamesynop("json_array_append")
+#declnamesynop("json_array_append_new")
+
+#declnamesynop("json_array_insert")
+#declnamesynop("json_array_insert_new")
+
+#declnamesynop("json_array_remove")
+
+#declnamesynop("json_array_clear")
+
+#declnamesynop("json_array_extend")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object")
+
+#declnamesynop("json_object_size")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_get")
+#declnamesynop("json_object_get_exnmsg")
+#declnamesynop("json_object_get_exnloc")
+#declnamesynop("json_object_get1")
+#declnamesynop("json_object_get1_exnmsg")
+#declnamesynop("json_object_get1_exnloc")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_set")
+#declnamesynop("json_object_set_nocheck")
+#declnamesynop("json_object_set_new")
+#declnamesynop("json_object_set_new_nocheck")
+
+#declnamesynop("json_object_del")
+
+#declnamesynop("json_object_clear")
+
+#declnamesynop("json_object_update")
+#declnamesynop("json_object_update_existing")
+#declnamesynop("json_object_update_missing")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_iter")
+#declnamesynop("json_object_iter_at")
+#declnamesynop("json_object_iter_next")
+#declnamesynop("json_object_iter_nextret")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_iter_key")
+#declnamesynop("json_object_iter_value")
+
+#declnamesynop("json_object_iter_set")
+#declnamesynop("json_object_iter_set_new")
+
+#declnamesynop("json_object_key_to_iter")
+
+(* ****** ****** *)
+
+#declnamesynop("json_loads")
+#declexample('\
+
+The following code creates a JSON-value based on a given string
+representation, prints it onto the standard output channel and then free
+the JSON-value:
+
+#pats2xhtmld_tryit('\
+//
+staload "jansson/SATS/jansson.sats"
+//
+implement
+main () = let
+//
+  var err: json_err? 
+//
+  val root =
+    json_loads ("{\\\\"int\\\\":0}", 0(*flag*), err)
+  val () = assertloc (JSONptr_isnot_null (root))
+//
+  val _(*err*) =
+    json_dumpf (rt, stdout_ref, 0)
+  // end of [val]
+  val () = fprint_newline (stdout_ref)
+//
+  val () = json_decref (root)
+in
+  // nothing
+end // end of [main]
+')
+')
+
+#declnamesynop("json_loadb")
+#declnamesynop("json_loadf")
+#declnamesynop("json_load_file")
+
+(* ****** ****** *)
+
+#declnamesynop("json_dumps")
+#declnamesynop("json_dumpf")
+#declnamesynop("json_dump_file")
+
+(* ****** ****** *)
+//
+// HX: various overloaded symbols
+//
+(* ****** ****** *)
+
+#declname("Overloaded Symbols")
+
+(* ****** ****** *)
+
+#declnamesynop("iseqz")
+#declnamesynop("isneqz")
+
+(* ****** ****** *)
+
+(* end of [jansson.atxt] *)

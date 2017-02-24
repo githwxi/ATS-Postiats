@@ -2,7 +2,7 @@
 "name":
 "ats-extsolve"
 ,
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description":
   "For parsing ATS-constraints in JSON format",
   "main": "N/A",

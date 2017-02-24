@@ -613,7 +613,13 @@ case+ q.s0taq_node of
       end
   end // end of [S2RTsymdot]
 //
-| $SYN.S0TAQsymcolon _ => None_vt ()
+(*
+//
+// HX-2017-01-24:
+// removed as it is never in use
+//
+| $SYN.S0TAQsymcolon _ => None_vt((*void*))
+*)
 //
 end // end of [the_s2expenv_find_qua]
 
@@ -1031,54 +1037,74 @@ implement
 the_d2expenv_find_qua
   (q, id) = let
 (*
-  val () = print "the_d2expenv_find_qua: qid = "
-  val () = ($SYN.print_s0taq (q); $SYM.print_symbol (id))
-  val () = print_newline ((*void*))
+val () =
+print (
+  "the_d2expenv_find_qua: qid = "
+) (* val *)
+val () =
+($SYN.print_s0taq(q); $SYM.print_symbol(id))
+val () = print_newline ((*void*))
 *)
 in
 //
-case+ q.d0ynq_node of
+case+
+q.d0ynq_node
+of // case+
 | $SYN.D0YNQnone _ =>
-    the_d2expenv_find (id)
-| $SYN.D0YNQsymdot (sym) => let
-    val ans = the_s2expenv_find (sym)
+    the_d2expenv_find(id)
+  // end of [D0YNQnone]
+| $SYN.D0YNQsymdot(sym) => let
+    val ans =
+      the_s2expenv_find(sym)
+    // end of [val]
   in
     case+ ans of
-    | ~Some_vt (s2i) => (
+    | ~Some_vt(s2i) =>
+      (
       case+ s2i of
-      | S2ITMfilenv (fenv) => let
+      | S2ITMfilenv
+        (
+          fenv
+        ) => ans where
+        {
           val (
             pf, fpf | p_map
-          ) = filenv_get_d2itmmap (fenv)
-          val ans = symmap_search (!p_map, id)
-          prval () = minus_addback (fpf, pf | fenv)
-        in
-          ans
-        end // en dof [S2ITMfil]
-      | _ => let
-          val loc = q.d0ynq_loc
-          val () = prerr_error2_loc (loc)
+          ) = filenv_get_d2itmmap(fenv)
+          val ans = symmap_search(!p_map, id)
+          prval () = minus_addback(fpf, pf | fenv)
+        } (* end of [S2ITMfil] *)
+      | _ (*rest-of-s2itm*) => let
+          val () =
+            prerr_error2_loc(q.d0ynq_loc)
+          // end of [val]
           val () = prerr ": the qualifier ["
-          val () = $SYM.prerr_symbol (sym)
+          val () = $SYM.prerr_symbol(sym)
           val () = prerr "] should refer to a filename but it does not."
-          val () = prerr_newline ()
+          val () = prerr_newline((*void*))
         in
-          None_vt ()
+          None_vt ((*void*))
         end
       ) // end of [Some_vt]
-    | ~None_vt () => let
-        val loc = q.d0ynq_loc
-        val () = prerr_error2_loc (loc)
+    | ~None_vt((*void*)) => let
+        val () =
+          prerr_error2_loc(q.d0ynq_loc)
+        // end of [val]
         val () = prerr ": the qualifier ["
-        val () = $SYM.prerr_symbol (sym)
+        val () = $SYM.prerr_symbol(sym)
         val () = prerr "] is unrecognized."
-        val () = prerr_newline ()
+        val () = prerr_newline((*void*))
       in
-        None_vt ()
+        None_vt ((*void*))
       end // end of [None_vt]
   end // end of [S2RTsymdot]
-| $SYN.D0YNQsymcolon _ => None_vt ()
-| $SYN.D0YNQsymdotcolon _ => None_vt ()
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
+| $SYN.D0YNQsymcolon _ => None_vt((*void*))
+| $SYN.D0YNQsymdotcolon _ => None_vt((*void*))
+*)
 //
 end // end of [the_s2expenv_find_qua]
 

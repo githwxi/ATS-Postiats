@@ -48,7 +48,9 @@ list_t0ype_int_type
     list_cons (a, n+1) of (a, list_t0ype_int_type(a, n))
 // end of [list_t0ype_int_type]
 //
-stadef list = list_t0ype_int_type
+stadef
+list = list_t0ype_int_type
+//
 typedef
 List(a:t0p) = [n:int] list(a, n)
 typedef
@@ -937,10 +939,18 @@ x:t0p}{res:vt0p
 //
 #atscode_separator()
 //
-fun{
-a:t0p
-} list_mergesort{n:int}
-  (xs: list(INV(a), n)) :<!wrt> list_vt(a, n)
+// HX-2017-02-19:
+// Using [gcompare_val_val] to check
+//
+fun
+{a:t0p}
+list_is_ordered(xs: List(INV(a))): bool
+//
+#atscode_separator()
+//
+fun{a:t0p}
+list_mergesort{n:int}
+  (xs: list(INV(a), n)):<!wrt> list_vt(a, n)
 //
 fun{a:t0p}
 list_mergesort$cmp(x1: a, x2: a):<> int (* sign *)
@@ -1011,7 +1021,10 @@ streamize_list_cross
 //
 #atscode_separator()
 //
-// overloading for certain symbols
+// HX: overloading
+// for certain symbols
+//
+#atscode_separator()
 //
 overload = with list_equal
 //

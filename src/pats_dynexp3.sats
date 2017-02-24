@@ -119,9 +119,14 @@ overload fprint with fprint_p3atlst
 
 (* ****** ****** *)
 
-fun p3at_make_node (
-  loc: location, s2e: s2exp, node: p3at_node
+fun
+p3at_make_node
+(
+  loc: location
+, s2e: s2exp, node: p3at_node
 ) : p3at // end of [p3at_make_node]
+
+(* ****** ****** *)
 
 fun p3at_any (
   loc: location, s2e: s2exp, d2v: d2var
@@ -306,7 +311,7 @@ and d3exp_node =
   | D3Efreeat of (d3exp)
 //
   | D3Eitem of
-      (d2itm, t2mpmarglst) // HX: for temporary use
+      (d2itm, t2mpmarglst) // temporary use
     // end of [D3Eitem]
 //
   | D3Elet of (d3eclist, d3exp)

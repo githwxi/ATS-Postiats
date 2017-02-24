@@ -178,7 +178,7 @@ deqarray_insert_atbeg_opt
 // end of [deqarray_insert_atbeg_opt]
 
 (* ****** ****** *)
-
+//
 fun
 {a:vt0p}
 deqarray_insert_atend
@@ -186,15 +186,15 @@ deqarray_insert_atend
 (
   deq: !deqarray(INV(a),m,n) >> deqarray(a,m,n+1), x0: a
 ) :<!wrt> void // end-of-fun
-
+//
 fun
 {a:vt0p}
 deqarray_insert_atend_opt
   (deq: !deqarray(INV(a)) >> _, x0: a):<!wrt> Option_vt(a)
 // end of [deqarray_insert_atend_opt]
-
+//
 (* ****** ****** *)
-
+//
 fun
 {a:vt0p}
 deqarray_takeout_atbeg
@@ -202,13 +202,13 @@ deqarray_takeout_atbeg
 (
   deq: !deqarray(INV(a),m,n) >> deqarray(a,m,n-1)
 ) :<!wrt> (a) // end-of-fun
-
+//
 fun
 {a:vt0p}
 deqarray_takeout_atbeg_opt
   (deq: !deqarray(INV(a)) >> _):<!wrt> Option_vt(a)
 // end of [deqarray_takeout_atbeg_opt]
-
+//
 (* ****** ****** *)
 
 fun

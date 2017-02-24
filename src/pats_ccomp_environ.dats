@@ -85,32 +85,40 @@ extern
 fun
 funent_set_flablst_fin
 (
-  fent: funent, opt: Option (funlablst)
+  fent: funent, opt: Option(funlablst)
 ) : void = "ext#patsopt_funent_set_flablst_fin"
 
 (*
 fun
 aux_funlab_get_flablst
-  (flab: funlab): funlablst = let
+(
+  flab: funlab
+) : funlablst = let
 //
-val opt = funlab_get_funent (flab)
+val opt =
+  funlab_get_funent(flab)
 //
 in
 //
 case+ opt of
-| Some (fent) => funent_get_flablst (fent)
-| None ((*void*)) => list_nil ()
+| Some(fent) =>
+    funent_get_flablst(fent)
+  // end of [Some]
+| None((*void*)) => list_nil()
 //
 end // end of [aux_funlab_get_flablst]
 *)
 fun
 aux_funlab_get_flablst
-  (flab: funlab): funlablst = let
+(
+  flab: funlab
+) : funlablst = let
 //
-val-Some (fent) = funlab_get_funent (flab)
+val-Some(fent) =
+  funlab_get_funent(flab)
 //
 in
-  funent_get_flablst (fent)
+  funent_get_flablst(fent)
 end // end of [aux_funlab_get_flablst]
 
 fun
@@ -122,7 +130,11 @@ auxtrclo
 , res: funlabset_vt
 ) : funlabset_vt = let
 (*
-val () = println! ("auxtrclo: flvl0 = ", flvl0)
+val () =
+println!
+(
+"auxtrclo: flvl0 = ", flvl0
+) (* println! *)
 *)
 in
 //
@@ -133,17 +145,19 @@ case+ xs of
 // HX-2013-04-12:
 // Note that flvl <= flvl0 holds!
 //
-    val flvl = funlab_get_level (x)
+    val
+    flvl = funlab_get_level(x)
   in
     if flvl >= flvl0 then let
-      val ismem = funlabset_vt_ismem (res, x)
+      val
+      ismem = funlabset_vt_ismem(res, x)
     in
       if ismem then
       (
-        auxtrclo (flvl0, xs, xss, res)
+        auxtrclo(flvl0, xs, xss, res)
       ) else let
-        val res = funlabset_vt_add (res, x)
-        val xs_new = aux_funlab_get_flablst (x) 
+        val res = funlabset_vt_add(res, x)
+        val xs_new = aux_funlab_get_flablst(x) 
 //
 (*
         val out = stdout_ref
@@ -152,20 +166,22 @@ case+ xs of
 *)
 //
       in
-        auxtrclo (flvl0, xs_new, list_vt_cons (xs, xss), res)
+        auxtrclo(flvl0, xs_new, list_vt_cons(xs, xss), res)
       end (* end of [if] *)
     end else let // parent
       val res =
-        funlabset_vt_add (res, x) in auxtrclo (flvl0, xs, xss, res)
+        funlabset_vt_add(res, x) in auxtrclo(flvl0, xs, xss, res)
       // end of [val]
     end (* end of [if] *)
   end // end of [list_vt_cons]
-| list_nil () =>
+| list_nil((*void*)) =>
   (
     case+ xss of
+    | ~list_vt_nil
+        ((*void*)) => res
     | ~list_vt_cons
-        (xs, xss) => auxtrclo (flvl0, xs, xss, res)
-    | ~list_vt_nil () => res
+        (xs, xss) => auxtrclo(flvl0, xs, xss, res)
+      // end of [list_vt_cons]
   ) (* end of [list_vt_nil] *)
 //
 end // end of [auxtrclo]
@@ -175,33 +191,51 @@ in (* in of [local] *)
 implement
 funent_eval_flablst
   (fent) = let
+// (*
 (*
-val fl = funent_get_lab (fent)
-val () = println! ("funent_eval_flablst: fent.lab = ", fl)
+val
+fl0 = funent_get_lab (fent)
+val () =
+println!
+(
+"funent_eval_flablst: fent.lab = ", fl0
+) (* println! *)
 *)
 //
-val opt = funent_get_flablst_fin (fent)
+val opt = funent_get_flablst_fin(fent)
 //
 (*
-val () = fprintln! (stdout_ref, "funent_eval_flablst: opt = ", opt)
+val () =
+fprintln!
+(
+  stdout_ref, "funent_eval_flablst: opt = ", opt
+) (* fprintln! *)
 *)
 //
 in
 //
 case+ opt of
-| Some (fls) => fls
-| None () => fls where
+| Some(fls) => fls
+| None((*void*)) => fls where
   {
-    val fl0 = funent_get_lab (fent)
-    val flvl = funent_get_level (fent)
-    val xs0 = funent_get_flablst (fent)
-    val xss = list_vt_nil () // : funlablst2_vt
-    val res = funlabset_vt_nil ()
-    val res = funlabset_vt_add (res, fl0)
-    val res = auxtrclo (flvl, xs0, xss, res)
-    val fls = funlabset_vt_listize_free (res)
+//
+    val fl0 = funent_get_lab(fent)
+    val flvl = funent_get_level(fent)
+//
+    val xs0 = funent_get_flablst(fent)
+    val xss = list_vt_nil() // : funlablst2_vt
+    val res = funlabset_vt_nil()
+    val res = funlabset_vt_add(res, fl0)
+    val res = auxtrclo(flvl, xs0, xss, res)
+    val fls = funlabset_vt_listize_free(res)
     val fls = list_of_list_vt{funlab}(fls)
-    val ((*void*)) = funent_set_flablst_fin (fent, Some (fls))
+    val ((*void*)) = funent_set_flablst_fin(fent, Some(fls))
+//
+(*
+    val ((*void*)) =
+      fprintln!(stdout_ref, "funent_eval_flablst(", fl0, "): fls = ", fls)
+    // end of [val]
+*)
   } (* end of [None] *)
 //
 end // end of [funent_eval_flablst]

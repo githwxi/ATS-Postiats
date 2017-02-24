@@ -28,23 +28,26 @@
 (* ****** ****** *)
 
 (*
-** A functional map implementation based on lists
+** A functional map
+** implementation based on lists
 *)
 
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
 (* Start time: December, 2012 *)
+(* Authoremail: hwxiATcsDOTbuDOTedu *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.funmap_list"
-
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.funmap_list"
+//
 (* ****** ****** *)
-
+//
 #include "./SHARE/funmap.hats"
-
+//
 (* ****** ****** *)
 
 (* end of [funmap_list.sats] *)

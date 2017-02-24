@@ -15,10 +15,12 @@ For testing GraphSearch_dfs
 "share/HATS/atslib_staload_libats_libc.hats"
 //
 (* ****** ****** *)
-
-staload "./../GraphSearch.dats"
-staload "./../GraphSearch_dfs.dats"
-
+//
+staload
+"./../DATS/GraphSearch.dats"
+staload
+"./../DATS/GraphSearch_dfs.dats"
+//
 (* ****** ****** *)
 //
 staload

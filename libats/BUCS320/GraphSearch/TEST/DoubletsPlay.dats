@@ -9,7 +9,8 @@ For testing GraphSearh_bfs
 #include
 "share/atspre_staload.hats"
 #include
-"share/HATS/atspre_staload_libats_ML.hats"
+"share/HATS\
+/atspre_staload_libats_ML.hats"
 
 (* ****** ****** *)
 
@@ -17,8 +18,8 @@ staload UN = $UNSAFE
 
 (* ****** ****** *)
 
-staload "./../GraphSearch.dats"
-staload "./../GraphSearch_bfs.dats"
+staload "./../DATS/GraphSearch.dats"
+staload "./../DATS/GraphSearch_bfs.dats"
 
 (* ****** ****** *)
 

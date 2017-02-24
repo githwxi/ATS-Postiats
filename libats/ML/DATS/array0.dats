@@ -800,25 +800,64 @@ ASZ = arrszref_of_array0(A0)
 //
 var
 asz : size_t
-val A = arrszref_get_refsize(ASZ, asz)
+val A =
+  arrszref_get_refsize(ASZ, asz)
 //
 implement
-array_rforeach$cont<a><tres>(x, env) = true
+array_rforeach$cont<a><tres>
+  (x, env) = true
 implement
-array_rforeach$fwork<a><tres>(x, env) = env := fopr(x, env)
+array_rforeach$fwork<a><tres>
+  (x, env) = env := fopr(x, env)
 //
 var
 res: tres = snk
+//
 val _(*asz*) =
-  arrayref_rforeach_env<a><tres> (A, asz, res)
+arrayref_rforeach_env<a><tres>(A, asz, res)
 //
 } (* end of [array0_foldright] *)
 //
 implement
 {a}{tres}
-array0_foldright_method(A0, _) =
-  lam(fopr, snk) => array0_foldright<a><tres>(A0, fopr, snk)
+array0_foldright_method
+  (A0, _) =
+(
+  lam(fopr, snk) =>
+    array0_foldright<a><tres>(A0, fopr, snk)
+) (* end of [lam] *)
 //
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+array0_is_ordered
+  (A0, cmp) = let
+//
+implement
+gcompare_ref_ref<a>
+  (x, y) = $effmask_all(cmp(x, y))
+//
+in (* in-of-let *)
+//
+let
+//
+val
+ASZ = arrszref_of_array0(A0)
+//
+var
+asz : size_t
+val A =
+  arrszref_get_refsize(ASZ, asz)
+//
+in
+//
+  arrayref_is_ordered<a>(A, asz)
+//
+end // end of [let]
+//
+end // end of [array0_is_ordered]
+
 (* ****** ****** *)
 
 implement
@@ -827,11 +866,12 @@ array0_quicksort
   (A0, cmp) = let
 //
 val
-ASZ = arrszref_of_array0 (A0)
+ASZ = arrszref_of_array0(A0)
 //
 var
 asz : size_t
-val A = arrszref_get_refsize (ASZ, asz)
+val A =
+  arrszref_get_refsize(ASZ, asz)
 //
 implement
 {a}(*tmp*)

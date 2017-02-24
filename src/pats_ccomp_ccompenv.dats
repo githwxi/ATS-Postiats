@@ -2543,12 +2543,20 @@ auxcont
 , d2c0: d2cst
 , t2mas: t2mpmarglst
 ) : tmpcstmat = let
+//
+(*
+val () =
+println!("ccompenv_tmpcst_match: auxcont")
+*)
+//
 in
 //
 case+ opt of
+//
 | TMPCSTMATsome _ => opt
 | TMPCSTMATsome2 _ => opt
-| TMPCSTMATnone _ => auxlst (xs, d2c0, t2mas)
+//
+| TMPCSTMATnone((*void*)) => auxlst(xs, d2c0, t2mas)
 //
 end // end of [auxcont]
 
@@ -2686,16 +2694,20 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
-val the_tmplst = ref<tmpvarlst> (list_nil)
-val the_pmdlst = ref<primdeclst> (list_nil)
-
-in (* in of [local] *)
+//
+val
+the_tmplst = ref<tmpvarlst>(list_nil)
+val
+the_pmdlst = ref<primdeclst>(list_nil)
+//
+in (* in-of-local *)
 
 implement
-the_toplevel_getref_tmpvarlst () = $UN.cast2Ptr1 (the_tmplst)
+the_toplevel_getref_tmpvarlst
+  ((*void*)) = $UN.cast2Ptr1 (the_tmplst)
 implement
-the_toplevel_getref_primdeclst () = $UN.cast2Ptr1 (the_pmdlst)
+the_toplevel_getref_primdeclst
+  ((*void*)) = $UN.cast2Ptr1 (the_pmdlst)
 
 end // end of [local]
 
@@ -2787,7 +2799,7 @@ val d2vs = auxlst (p->ccompenv_markenvlst, list_vt_nil)
 prval ((*void*)) = fold@ (env)
 //
 in
-  list_vt_reverse(d2vs)
+  list_vt_reverse<d2var>(d2vs)
 end // end of [ccompenv_get_tempenver]
 
 (* ****** ****** *)
@@ -2817,11 +2829,11 @@ fprintln!
 //
 val () = theFlag_set()
 //
-val CCOMPENV (!p) = env
+val CCOMPENV(!p) = env
 //
 val xs = p->ccompenv_markenvlst
 val () =
-  p->ccompenv_markenvlst := MARKENVLSTcons_tempenver (d2vs, xs)
+  p->ccompenv_markenvlst := MARKENVLSTcons_tempenver(d2vs, xs)
 //
 prval ((*void*)) = fold@ (env)
 //
@@ -2835,7 +2847,7 @@ implement
 ccompenv_get2_tempenver
   (env) = let
 //
-val flag = theFlag_get ()
+val flag = theFlag_get()
 //
 in
 //
@@ -2843,7 +2855,8 @@ if
 flag
 then let
 //
-val d2vs = ccompenv_get_tempenver(env)
+val d2vs =
+  ccompenv_get_tempenver(env)
 val ((*void*)) =
   if list_vt_is_nil(d2vs) then theFlag_unset()
 //
@@ -2851,7 +2864,7 @@ in
   d2vs
 end // end of [then]
 //
-else list_vt_nil ()
+else list_vt_nil((*void*))
 //
 end // end of [ccompenv_get2_tempenver]
 
@@ -2869,16 +2882,18 @@ fun auxlst
 (
 //
 case+ d2vs of
-| ~list_vt_nil () => d2es
-| ~list_vt_cons (d2v, d2vs) => let
-    val d2es = d2envset_vt_add (d2es, d2var2env(d2v))
+| ~list_vt_nil
+    ((*void*)) => d2es
+| ~list_vt_cons
+    (d2v, d2vs) => let
+    val d2es = d2envset_vt_add(d2es, d2var2env(d2v))
   in
-    auxlst (d2es, d2vs)
+    auxlst(d2es, d2vs)
   end // end of [list_vt_cons]
 //
 ) (* end of [auxlst] *)
 //
-val d2vs = ccompenv_get2_tempenver (env)
+val d2vs = ccompenv_get2_tempenver(env)
 //
 (*
 val d2vs2 = $UN.list_vt2t{d2var}(d2vs)
@@ -2887,7 +2902,7 @@ fprintln! (stdout_ref, "ccompenv_dvarsetenv_add_tempenver: d2vs = ", d2vs2)
 *)
 //
 in
-  auxlst (d2es, d2vs)
+  auxlst(d2es, d2vs)
 end // end of [ccompenv_dvarsetenv_add_tempenver]
 
 end // end of [local]
