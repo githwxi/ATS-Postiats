@@ -36,6 +36,8 @@ addons:
     - libjson-c-dev
     - libjansson-dev
     - docbook-utils
+    - python
+    - python3
 before_install:
   # Install OSX Packages
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ${TRAVIS_BUILD_DIR}/travis-ci/install_osx.sh; fi
@@ -53,7 +55,7 @@ script:
   - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
 after_success:
   # Build Docker Image
-  # - if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$CC" == "gcc" ]; then (docker login -u $DOCKER_USER -p $DOCKER_PASS && cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh); fi
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$CC" == "gcc" ]; then (docker login -u $DOCKER_USER_WU -p $DOCKER_PASS_WU && cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh); fi
   # Building some utilities
   - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
   # Install Contrib
