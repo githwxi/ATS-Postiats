@@ -54,21 +54,40 @@ implement
 DivideConquer$divide<>
   (xs) = let
 //
+extern
+fun{}
+mapcons{n:int}
+(
+x0: elt,
+xs: list0(list(elt, n))
+) : list0(list(elt, n+1))
+//
+implement
+mapcons<>
+(
+  x0, xs
+) =
+$UNSAFE.cast
+(
+  list0_mapcons(x0, $UNSAFE.cast(xs))
+) (* end of [mapcons] *)
+//
 fun
 divide
+{n:nat} .<n>.
 (
-xs: list0(elt)
-) : list0(list0(elt)) =
+xs: list(elt,n)
+) : list0(list(elt,n-1)) =
 (
 case+ xs of
-| list0_nil() =>
+| list_nil() =>
   list0_nil()
-| list0_cons(x, xs) =>
-  list0_cons(xs, list0_mapcons(x, divide(xs)))
+| list_cons(x, xs) =>
+  list0_cons(xs, mapcons(x, divide(xs)))
 )
 //
 in
-  divide(xs)
+  $UNSAFE.cast(divide(g1ofg0(xs)))
 end // end of [DivideConquer$divide]
 //
 (* ****** ****** *)
