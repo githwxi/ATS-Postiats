@@ -13,7 +13,7 @@
 ,
 "repository": {
   "url":
-  "https://github.com/githwxi/ATS-Postiats/tree/master/doc/EXAMPLE/EFFECTIVATS/DivideConquer"
+  "https://github.com/githwxi/ATS-Postiats/tree/master/doc/EXAMPLE/EFFECTIVATS/DivideConquer/PackIt"
 }
 ,
 "keywords": [
@@ -29,5 +29,5 @@
 ,
 "license": "MIT"
 ,
-"note-for-myself": "The package is stored at ${PATSHOME}/doc/EXAMPLE/EFFECTIVATS/DivideConquer/."
+"note-for-myself": "The package is stored at ${PATSHOME}/doc/EXAMPLE/EFFECTIVATS/DivideConquer/PackIt/."
 }

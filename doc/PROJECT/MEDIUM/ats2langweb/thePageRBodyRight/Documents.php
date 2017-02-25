@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+2017-02-23:<br>Effective ATS:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/r26e_gp8I48"
+>Let's build a template-based package for D&amp;C!</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 2017-01-28:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/5ojXdc-QJ1g"
