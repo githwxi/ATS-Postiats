@@ -67,6 +67,16 @@ regress:: test04; ./$<
 cleanall:: ; $(RMF) test04
 #
 ######
+#
+all:: \
+test05
+test05: \
+test05.dats; $(PATSCC2) -o $@ $<
+#
+regress:: test05; ./$<
+cleanall:: ; $(RMF) test05
+#
+######
 
 all:: \
 MergeSort_list
