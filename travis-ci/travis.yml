@@ -26,6 +26,8 @@ env:
     - secure: "f6PFoHAU6Fhe673zNnyxEdE9rcEIDtaro1xETYaIFRB/yEpMfRqJnXCXgHNh2P9EDy5DM3+41NFjV2WhPXtdDOnbViDznMRr24VY3Mullzvbt5xjImir/Ig7QOrlvf2nCQzpi21CCKcy3UlmqRDhVmP+T4WSshmEcBckkAD5U0Q=" # DOCKER_PASS
     - secure: "V7sH6XcR30gIbFhTroTA+4UuRZQ0e/+/ezDYhDt6I3oEPXnOA2Z8AV6uzblRhAlalIunaZSXsRqz/br/HgBSlDniIFdLYumMrCjSBjXptp4O0guaVVY2vrG0ivr6xeaDFf52TfUIruLrslArgrOFgvPGX+/HiFqH2hky8oqpRf0=" # DOCKER_USER_WU
     - secure: "YA8JcqU40bFwyWUbCPCo9+HCsKylwTHsD1el2ZI7BQCF4sgFCAfG+6t+QL4rlPZKXNZyMYqIEupgyIkILK+iSyoQwjIyBp+oxvaLffe4tR79qRNfn+XaCLMZZUP5EPedvkp4/QOigAlAWiAVvfqlGyC7JWkEZZeeNuZCOtsGmZc=" # DOCKER_PASS_WU
+    - secure: "WrUGfiz+eB76EYyyY5gv7QPnsksJQRtaoTbZJALeGajVNgdXyBb/01oLJKs3KVKmH88AEtA3kisAZpOWSCOh2em0Yy740nzZ+maxb6oOZLtn3PUm/SGT3AkyQmP0hgEUSD9EJCfAPMQj6m5ugO5mj83Ha7uvi15BJx+AJzuO7pYhRJXd5X2eazHB/NHvJaVF582jp9tSLSk3J09YYfpWWG3ZvK23NpG/arlVdny+aLZk5vmrpyakmwo6hi2XJo3JzhGBcY+1z6TPbdXliSajrshzzIWJogO6j4SoW38su0hlW641KEPibRzw8Kfm79pQt66e9ZMxRulruS/46O1JVsBOG+jXMGqZzHSHB+w4VR89enyeNjphuRQrz7ipID+uZ4yWI8U5P9uzJu5tjZEZ3LT7m9CdOSmQRW6/xzCoTDCjbvQdaCnQTZyw8XESL79VUX0BV5wDnRwqNeDtJa9m2Zavzag/GNBogmspC/BLFU1p+EvJ1oHUlAeug5m6EfBYcQqvhAo/AMnE1HogACjW9bFLc8Z++dyIQnTVf+jjnRajSjgr8Lpix288EuB5FEFWczALjOV/RLMTy9tPkjNSs7TgWZ9GY9r2ELAewWypGXbEQctaAE6GWJplGcUaMaVSFCHNXnjMcehJBY3ubXXTnfUAQy+1ReZxyJ3gF4Ce4cQ=" # DOCKER_USER_RELEASE
+    - secure: "HJzFVp+qLoneIxlHjBlQN4lgeGdr/jssjzS6hSBdfXE+diirDXXYQhciwEpS8QyPPMt+nT5vVTCS/6lYR08YagvXojgzdHRdNovEOgBU/TVIYey4zRPpfRdZ9PYxweIBXVBD1FxZPOJp7WYbZ//H4a+VKcZG4/v1Z5F+sTsvJFS4S3BSibZpmN9ZRXoMQoCYRqDVsVeaY40WCC+8b/plQVBr5w71QyoTQoIikkhs2Zypy7SJ0ixyWTVMD/UIB47lmAMT8jyMLqrTQw7TI1iu12HrvfowF/p1CClhPEFX+WYVO7lChWCaRQlJ1qsiqfpL/qed7Kh4hLOOzWr/HyhJXz00nfcWoqX6oJ0HhW47ozh+XOtWfX24aL9nq1r1T41qTCZz+z/hYnKs4pEUVJChL7I6x3BzBjreF1iuH0tSzYMlLlKLOyTCXAstjU+dliVKDlwXchIq804MMI8OR0KT3Iid3M1rOjx1JLS2YcZcsrMFzqWThL77/7P1q3AJ+e1B46a45zOFTRtArIwxvUjSyEturk/L9+4JTsmZnorLy0F85WcyRul5IFmcErqxu61IXyEMfCmCBPtDZTJkcmAdRGAmKRKRltOE2SL/rZm9sCWZ+G50rEQsA66L/x7VXOo7jGi+Y8ILXIPs27Ab1mCWWttCm4zkpAZJQezp3cTIs28=" # DOCKER_PASS_RELEASE
 addons:
   apt:
     packages:
@@ -55,7 +57,8 @@ script:
   - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
 after_success:
   # Build Docker Image
-  - if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$CC" == "gcc" ]; then (docker login -u $DOCKER_USER_WU -p $DOCKER_PASS_WU && cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh); fi
+  - docker login -u $DOCKER_USER_RELEASE -p $DOCKER_PASS_RELEASE
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$CC" == "gcc" ]; then (cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh); fi
   # Building some utilities
   - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
   # Building books
