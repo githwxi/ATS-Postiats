@@ -1,11 +1,7 @@
-FROM ubuntu
+FROM steinwaywhw/ats-base
 MAINTAINER Steinway Wu "https://github.com/steinwaywhw"
 
-# for installing erlang/elixir
 WORKDIR /tmp
-RUN apt-get -qq update
-RUN apt-get -qq install -y wget libgmp3-dev libgc-dev make gcc build-essential git \
-				bash libjson-c-dev pkg-config  openjdk-8-jdk unzip zsh
 
 ADD ./*.sh /tmp/
 RUN chmod +x *.sh 
@@ -32,10 +28,8 @@ RUN git clone https://github.com/githwxi/ATS-Postiats
 WORKDIR /tmp
 RUN (cd ${HOME}     && /tmp/install_ats1.sh)
 RUN (cd ${PATSHOME} && /tmp/install_ats2.sh)
-RUN (cd ${PATSHOME} && /tmp/install_backends.sh)
 RUN (cd ${PATSHOME} && /tmp/install_utilities.sh)
 RUN (cd ${HOME}     && /tmp/install_contrib.sh)
-RUN (cd ${HOME}     && /tmp/install_emscripten.sh)
 
 WORKDIR /tmp
 RUN rm -rf *

@@ -58,8 +58,6 @@ after_success:
   - if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$CC" == "gcc" ]; then (docker login -u $DOCKER_USER_WU -p $DOCKER_PASS_WU && cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh); fi
   # Building some utilities
   - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
-  # Install Contrib
-  - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_contrib.sh)
   # Building books
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/ATS2TUTORIAL); fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/INT2PROGINATS); fi

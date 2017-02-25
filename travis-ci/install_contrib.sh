@@ -12,11 +12,6 @@ cd $PATSHOME/contrib/CATS-atscc2pl  && make all && cp -f atscc2pl $PATSHOME/bin 
 cd $PATSHOME/contrib/CATS-atscc2py3 && make all && cp -f atscc2py3 $PATSHOME/bin && atscc2py3
 cd $PATSHOME/contrib/CATS-atscc2scm && make all && cp -f atscc2scm $PATSHOME/bin && atscc2scm
 
-cd $HOME
-git clone https://github.com/Z3Prover/z3
-cd $HOME/z3 && python scripts/mk_make.py 
-cd $HOME/z3/build && make && make install
-
 cd $PATSHOME/contrib/ATS-extsolve      && make all && cp -f patsolve $PATSHOME/bin      && patsolve
 cd $PATSHOME/contrib/ATS-extsolve-smt2 && make all && cp -f patsolve_smt2 $PATSHOME/bin && patsolve_smt2
 cd $PATSHOME/contrib/ATS-extsolve-z3   && make all && cp -f patsolve_z3 $PATSHOME/bin   && patsolve_z3
