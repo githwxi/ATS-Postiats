@@ -11,8 +11,8 @@
 //
 (* ****** ****** *)
 //
-#staload
-"./../DATS/DivideConquer.dats"
+#include "./../mylibies.hats"
+#staload $DivideConquer // opening it
 //
 (* ****** ****** *)
 //
