@@ -41,6 +41,7 @@ install:
     - 'echo Build ATS1(with GC)'
     - 'bash -lc "cd %BUILD_FOLDER%"'
     - 'bash -lc "curl -O %ATS1PACKURL% && tar -zxf %ATS1PACKTGZ%"'
+    - 'bash -lc "ls -al"'
     - 'bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure && make all"'
     - 'echo Build ATS1(with GC) is finished!'
     - 'echo Download ATS2-contrib...'
