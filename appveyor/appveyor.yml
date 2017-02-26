@@ -39,7 +39,9 @@ init:
 
 install:
     - 'echo Build ATS1(with GC)'
-    - 'bash -lc "cd %BUILD_FOLDER%"'
+    - 'bash -lc "pwd"'
+    - 'bash -lc "echo %BUILD_FOLDER%"'
+    - 'bash -lc "cd /cygdrive/c/projects"'
     - 'bash -lc "curl -O %ATS1PACKURL%"'
     - 'bash -lc "pwd"'
     - 'bash -lc "ls -al"'
