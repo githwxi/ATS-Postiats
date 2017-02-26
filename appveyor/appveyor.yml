@@ -7,12 +7,9 @@ environment:
     global:
         BUILD_FOLDER: C:/projects
         CYG_MIRROR: http://cygwin.mirror.constant.com
-        ATS1VER: 0.2.12
-        ATS1VERNAME: anairiats
         ATS1PACK: ats-lang-anairiats-0.2.12
         ATS1PACKTGZ: ats-lang-anairiats-0.2.12.tgz
-        ATS1LANGURL: https://sourceforge.net/projects/ats-lang
-        ATS1PACKURL: "%ATS1LANGURL%/files/ats-lang/%ATS1VERNAME%-%ATS1VER%/%ATS1PACKTGZ%"
+        ATS1PACKURL: http://ats-lang.github.io/ATS-Anairiats/ats-lang-anairiats-0.2.12.tgz
         ATSHOME: "/cygdrive/c/projects/ats-lang-anairiats-0.2.12"
         ATSHOMERELOC: ATS-0.2.12
         PATSHOME: "/cygdrive/c/projects/ATS-Postiats"
@@ -41,7 +38,7 @@ init:
     - 'echo Setup Cygwin dependencies is finished!'
 
 install:
-    - 'echo Build ATS1(with GC support)'
+    - 'echo Build ATS1 (with GC support)'
     - 'bash -lc "wget -P %BUILD_FOLDER% %ATS1PACKURL%"'
     - 'bash -lc "tar -C $(cygpath -u %BUILD_FOLDER%) -zxf $(cygpath -u %BUILD_FOLDER%/%ATS1PACKTGZ%)"'
     - 'bash -lc "cd %ATSHOME%; exec 0</dev/null; ./configure && make all"'
