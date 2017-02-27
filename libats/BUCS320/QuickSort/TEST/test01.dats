@@ -17,6 +17,33 @@
 #staload TESTLIB = "./testlib.dats"
 
 (* ****** ****** *)
+//
+#define QUICKSORT_ARRAY
+//
+#include "./../mydepies.hats"
+#include "./../mylibies.hats"
+//
+#staload DC = $DivideConquer
+//
+implement
+$DC.DivideConquer$base_test<>
+  (nxs) = let
+//
+(*
+assume
+$DC.input_t0ype =
+[n:int](int(n), arrayref($QuickSort_array.elt, n))
+*)
+//
+reassume $DC.input_t0ype
+//
+val CUTOFF = 2
+//
+in
+  if nxs.0 >= CUTOFF then false else true
+end // end of [DivideConquer$base_test]
+//
+(* ****** ****** *)
 
 implement
 main0() =

@@ -196,7 +196,7 @@ val tok =
 //
 val loc = tok.token_loc
 //
-macdef incby1() = tokbuf_incby1 (buf)
+macdef incby1() = tokbuf_incby1(buf)
 //
 in
 //
