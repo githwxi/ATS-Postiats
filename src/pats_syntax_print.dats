@@ -1399,18 +1399,31 @@ of // case+
 *)
 | D0Ctkindef(x) =>
   {
-    val () = prstr "D0Ctkindef(...)"
+    val () =
+      prstr "D0Ctkindef(...)"
+    // end of [val]
   }
 | D0Csexpdefs
-    (knd, xs) => {
-    val () = prstr "D0Csexpdefs("
-    val () = fprint! (out, knd, "; ", "...")
+    (knd, xs) =>
+  {
+    val () =
+      prstr "D0Csexpdefs("
+    // end of [val]
+    val () =
+      fprint! (out, knd, "; ", "...")
+    // end of [val]
     val ((*closing*)) = prstr ")"
   }
+//
 | D0Csaspdec(x) =>
   {
     val () = prstr "D0Csaspdec(...)"
   }
+| D0Creassume(x) =>
+  {
+    val () = prstr "D0Creassume(...)"
+  }
+//
 | D0Cexndecs(xs) =>
   {
     val () = prstr "D0Cexndecs(...)"

@@ -695,6 +695,7 @@ case+ d3c0.d3ecl_node of
 // HX: needed for compiling abstract types
 //
 | D3Csaspdec _ => prstr "D3Csaspdec(...)"
+| D3Creassume _ => prstr "D3Creassume(...)"
 //
 | D3Cextype _ => prstr "D3Cextype(...)"
 | D3Cextvar _ => prstr "D3Cextvar(...)"

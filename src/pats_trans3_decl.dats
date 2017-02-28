@@ -161,7 +161,7 @@ case+ d2c0.d2ecl_node of
 | D2Cstacsts _ => d3ecl_none (loc0)
 | D2Cstacons _ => d3ecl_none (loc0)
 //
-| D2Csaspdec (d2c) => let
+| D2Csaspdec(d2c) => let
 //
     val loc = d2c.s2aspdec_loc
     val s2c = d2c.s2aspdec_cst
@@ -179,14 +179,18 @@ case+ d2c0.d2ecl_node of
     (
       s2c: s2cst, opt: s2expopt
     ) : void = "patsopts2cst_set_isabs"
+//
     val s2eoptopt = s2cst_get_isabs(s2c)
+//
     val ((*void*)) =
     (
-      case+ s2eoptopt of
-      | Some (s2eopt) =>
+      case+
+      s2eoptopt
+      of (*case+*)
+      | Some(s2eopt) =>
         (
           case+ s2eopt of
-          | None () => let
+          | None() => let
               val
               s2eopt = Some(s2e_def)
             in
@@ -194,7 +198,7 @@ case+ d2c0.d2ecl_node of
             end // end of [None]
           | Some _(*s2exp*) => ((*void*))
         )
-      | None ((*void*)) => ((*void*))
+      | None((*void*)) => ((*void*))
     ) : void // end of [val]
 //
     val ((*void*)) =
@@ -203,6 +207,40 @@ case+ d2c0.d2ecl_node of
   in
     d3ecl_saspdec (loc0, d2c)
   end // end of [D2Csaspec]
+//
+| D2Creassume(s2c) =>
+  d3ecl_reassume(loc0, s2c) where
+  {
+//
+    val s2eopt = s2cst_get_isasp(s2c)
+//
+    val ((*void*)) =
+    (
+      case+
+      s2eopt
+      of (*case+*)
+      | None() => () where
+        {
+          val () =
+          prerr_error3_loc(loc0);
+          val () =
+          prerrln!
+          (
+           ": the abstype type [", s2c, "] is not yet assumed."
+          ) (* println! *)
+          val () =
+          the_trans3errlst_add
+          (
+            T3E_reassume_tr_isnotasp(loc0, s2c)
+          ) (* the_trans3errlst_add *)
+        }
+      | Some(s2e) => () where
+        {
+          val () = s2cst_set_def(s2c, Some(s2e))
+        } (* end of [Some] *)
+    ) : void // end of [val]
+//
+  } (* end of [D2Creassume] *) 
 //
 | D2Cextype
     (name, s2e_def) =>
@@ -511,14 +549,21 @@ case+ d2cs of
     ) // end of [val]
 *)
     val () = let
-      val test = termet_sortcheck (os2ts0, os2ts)
-      val () = if ~test then let
-        val () = prerr_error3_loc (d2c.f2undec_loc);
-        val () = prerr ": incompatible termination metric for this function."
-        val () = prerr_newline ()
+      val test =
+        termet_sortcheck(os2ts0, os2ts)
+      // end of [val]
+      val () =
+      if ~test then let
+        val () =
+        prerr_error3_loc(d2c.f2undec_loc);
+        val () =
+        prerrln!
+        (
+          ": incompatible termination metric for this function."
+        ) (* println! *)
       in
-        the_trans3errlst_add (T3E_f2undeclst_tr_termetsrtck (d2c, os2ts))
-      end // end of [val]
+        the_trans3errlst_add(T3E_f2undeclst_tr_termetsrtck(d2c, os2ts))
+      end // end of [if] // end of [val]
     in
       (*nothing*)
     end // end of [val]

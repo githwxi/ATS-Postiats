@@ -235,6 +235,8 @@ d3ecl_node =
 //
   | D3Csaspdec of (s2aspdec)
 //
+  | D3Creassume of (s2cst) // abstype
+//
   | D3Cextype of (string(*name*), s2exp(*def*))
   | D3Cextvar of (string(*name*), d3exp(*def*))
   | D3Cextcode of (int(*knd*), int(*pos*), string(*code*))  
@@ -1110,9 +1112,12 @@ fun d3ecl_none (loc: location): d3ecl
 fun d3ecl_list (loc: location, xs: d3eclist): d3ecl
 
 (* ****** ****** *)
-
-fun d3ecl_saspdec (loc: location, d2c: s2aspdec): d3ecl
-
+//
+fun
+d3ecl_saspdec(loc: location, d2c: s2aspdec): d3ecl
+fun
+d3ecl_reassume(loc: location, s2c_abs: s2cst): d3ecl
+//
 (* ****** ****** *)
 
 fun d3ecl_extype

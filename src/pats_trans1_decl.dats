@@ -1275,20 +1275,24 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_sexpdefs (loc0, knd, l2l(d1cs))
   end // end of [D0Csexpdefs]
-| D0Csaspdec (d0c) =>
-    d1ecl_saspdec (loc0, s0aspdec_tr (d0c))
 //
-| D0Cexndecs (d0cs) => let
+| D0Csaspdec(d0c) =>
+    d1ecl_saspdec(loc0, s0aspdec_tr (d0c))
+  // end of [D0Csaspdec]
+//
+| D0Creassume(qid) => d1ecl_reassume(loc0, qid)
+//
+| D0Cexndecs(d0cs) => let
     val d1cs =
     list_map_fun(d0cs, e0xndec_tr)
   in
-    d1ecl_exndecs (loc0, l2l(d1cs))
+    d1ecl_exndecs(loc0, l2l(d1cs))
   end // end of [D0Cexndecs]
-| D0Cdatdecs (knd, d0cs1, d0cs2) => let
-    val d1cs1 = list_map_fun (d0cs1, d0atdec_tr)
-    val d1cs2 = list_map_fun (d0cs2, s0expdef_tr)
+| D0Cdatdecs(knd, d0cs1, d0cs2) => let
+    val d1cs1 = list_map_fun(d0cs1, d0atdec_tr)
+    val d1cs2 = list_map_fun(d0cs2, s0expdef_tr)
   in
-    d1ecl_datdecs (loc0, knd, l2l(d1cs1), l2l(d1cs2))
+    d1ecl_datdecs(loc0, knd, l2l(d1cs1), l2l(d1cs2))
   end // end of [D0Cdatdecs]
 //
 | D0Cclassdec (id, sup) => let

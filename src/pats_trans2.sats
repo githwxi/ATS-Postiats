@@ -32,11 +32,13 @@
 // Start Time: May, 2011
 //
 (* ****** ****** *)
-
+//
 staload
 SYN = "./pats_syntax.sats"
+//
 typedef s0rtq = $SYN.s0rtq
-
+typedef sqi0de = $SYN.sqi0de
+//
 (* ****** ****** *)
 
 staload "./pats_staexp1.sats"
@@ -74,11 +76,16 @@ datatype trans2err =
   | T2E_sc2laulst_coverck_missing of (location, s2cst)
 //
   | T2E_q1marg_tr_dec of (q1marg)
+//
   | T2E_s1rtext_tr of (s1rtext)
   | T2E_s1expdef_tr of (s1expdef)
+//
   | T2E_s1aspdec_tr of (s1aspdec)
   | T2E_s1aspdec_tr_arg of (s1aspdec, s1marg)
   | T2E_s1aspdec_tr_res of (s1aspdec, s2rt, s2rt)
+//
+  | T2E_re1assume_tr of (sqi0de(*s2cst*))
+//
   | T2E_d1atcon_tr of (d1atcon)
   | T2E_d1atdec_tr of (d1atdec)
 //

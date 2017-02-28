@@ -782,6 +782,7 @@ d2ecl_node =
 *)
 //
   | D2Csaspdec of s2aspdec (* for static assumption *)
+  | D2Creassume of s2cst(*abstype*) // for static re-assumption
 //
   | D2Cextype of (string(*name*), s2exp(*def*))
   | D2Cextvar of (string(*name*), d2exp(*def*))
@@ -1866,9 +1867,12 @@ fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
 *)
 //
 (* ****** ****** *)
-
-fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
-
+//
+fun
+d2ecl_saspdec(loc: location, d0: s2aspdec): d2ecl
+fun
+d2ecl_reassume(loc: location, s2c_abs: s2cst): d2ecl
+//
 (* ****** ****** *)
 //
 fun

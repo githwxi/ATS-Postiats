@@ -632,7 +632,7 @@ s2cst_make
 , isabs: Option(s2expopt)
 , iscon: bool
 , isrec: bool
-, isasp: bool
+, isasp: s2expopt
 , islst: Option@(d2con(*nil*), d2con(*cons*))
 , argsrtss: List(syms2rtlst) // HX: containing info on arg variances
 , s2cstdef: s2expopt
@@ -676,11 +676,11 @@ fun s2cst_get_iscon (x: s2cst): bool
 
 fun s2cst_get_isrec (x: s2cst): bool
 
-fun s2cst_get_isasp (x: s2cst): bool
-fun s2cst_set_isasp (x: s2cst, asp: bool): void
+fun s2cst_get_isasp (x: s2cst): s2expopt
+fun s2cst_set_isasp (x: s2cst, opt: s2expopt): void
 
 fun s2cst_get_iscpy (x: s2cst): s2cstopt
-fun s2cst_set_iscpy (x: s2cst, cpy: s2cstopt): void
+fun s2cst_set_iscpy (x: s2cst, opt: s2cstopt): void
 
 fun s2cst_get_islst (x: s2cst): Option @(d2con, d2con)
 fun s2cst_set_islst (x: s2cst, lst: Option @(d2con, d2con)): void

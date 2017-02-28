@@ -813,32 +813,46 @@ fprint_hiclau (out, x) = {
 (* ****** ****** *)
 //
 implement
-print_hidecl
-  (hid) = fprint_hidecl (stdout_ref, hid)
-implement
-prerr_hidecl
-  (hid) = fprint_hidecl (stderr_ref, hid)
-//
-implement
 fprint_hidecl
   (out, hid) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
-in
 //
-case+ hid.hidecl_node of
+macdef
+prstr(str) =
+fprint_string(out, ,(str))
 //
-| HIDnone () => prstr "HIDnone()"
+in (* in-of-let *)
 //
-| HIDlist (hids) => {
-    val () = prstr "HIDlist(\n"
-    val () = $UT.fprintlst (out, hids, "\n", fprint_hidecl)
+case+
+hid.hidecl_node
+of // case+
+//
+| HIDnone() =>
+  prstr "HIDnone()"
+//
+| HIDlist(hids) =>
+  {
+    val () =
+    prstr "HIDlist(\n"
+    val () =
+    $UT.fprintlst
+      (out, hids, "\n", fprint_hidecl)
+    // end of [val]
     val () = prstr "\n)"
   }
 //
+| HIDsaspdec _ => prstr "HIDsaspdec(...)"
+| HIDreassume _ => prstr "HIDreassume(...)"
+//
 | HIDextcode
-    (knd, pos, code) => {
-    val () = prstr "HIDextcode("
-    val () = fprintf (out, "knd=%i, pos=%i, code=...", @(knd, pos))
+    (knd, pos, code) =>
+  {
+    val () =
+    prstr "HIDextcode("
+    val () =
+    fprintf
+    (
+      out, "knd=%i, pos=%i, code=...", @(knd, pos)
+    ) (* fprintf *)
     val () = prstr ")"
   } (* end of [HIDextcode] *)
 //
@@ -871,27 +885,38 @@ case+ hid.hidecl_node of
     (knd, decarg, hfds) =>
   {
     val () = prstr "HIDfundecs(\n"
-    val () = $UT.fprintlst (out, hfds, "\n", fprint_hifundec)
+    val () =
+    $UT.fprintlst
+      (out, hfds, "\n", fprint_hifundec)
+    // end of [val]
     val () = prstr "\n)"
   } // end of [HIDfundec]
 //
 | HIDvaldecs
     (knd, hvds) => {
     val () = prstr "HIDvaldecs(\n"
-    val () = $UT.fprintlst (out, hvds, "\n", fprint_hivaldec)
+    val () =
+    $UT.fprintlst
+      (out, hvds, "\n", fprint_hivaldec)
+    // end of [val]
     val () = prstr "\n)"
   } // end of [HIDvaldec]
 | HIDvaldecs_rec
     (knd, hvds) => {
     val () = prstr "HIDvaldecs_rec(\n"
-    val () = $UT.fprintlst (out, hvds, "\n", fprint_hivaldec)
+    val () =
+    $UT.fprintlst
+      (out, hvds, "\n", fprint_hivaldec)
+    // end of [val]
     val () = prstr "\n)"
   } // end of [HIDvaldec_rec]
 //
 | HIDvardecs (hvds) => {
     val () = prstr "HIDvardecs(\n"
     val () =
-      $UT.fprintlst (out, hvds, "\n", fprint_hivardec)
+    $UT.fprintlst
+      (out, hvds, "\n", fprint_hivardec)
+    // end of [val]
     val () = prstr "\n)"
   } // end of [HIDvardec]
 //
@@ -899,16 +924,20 @@ case+ hid.hidecl_node of
     (knd, himpdec) =>
   {
     val () = prstr "HIDimpdec(\n"
-    val () = fprint_hiimpdec (out, himpdec)
+    val () = fprint_hiimpdec(out, himpdec)
     val () = prstr "\n)"
   } (* end of [HIDimpdec] *)
 //
 | HIDinclude
-    (knd, hids) => {
-    val () = prstr "HIDinclude("
-    val () = fprint_int (out, knd)
+    (knd, hids) =>
+  {
+    val () = prstr("HIDinclude(")
+    val () = fprint_int(out, knd)
     val () = prstr "\n"
-    val () = $UT.fprintlst (out, hids, "\n", fprint_hidecl)
+    val () =
+    $UT.fprintlst
+      (out, hids, "\n", fprint_hidecl)
+    // end of [val]
     val () = prstr "\n)"
   } (* end of [HIDinclude] *)
 //
@@ -916,7 +945,8 @@ case+ hid.hidecl_node of
     (idopt, cfil, _, _, _) =>
   {
     val () = prstr "HIDstaload("
-    val () = $FIL.fprint_filename_full (out, cfil)
+    val () =
+    $FIL.fprint_filename_full(out, cfil)
     val () = prstr ")"
   } (* end of [HIDstaload] *)
 | HIDstaloadloc
@@ -924,16 +954,22 @@ case+ hid.hidecl_node of
   {
     val () = prstr "HIDstaloadloc("
     val () =
-      $FIL.fprint_filename_full (out, pfil)
-    val () = $SYM.fprint_symbol (out, nspace)
+    $FIL.fprint_filename_full(out, pfil)
+    val () = $SYM.fprint_symbol(out, nspace)
     val () = prstr ")"
   } (* end of [HIDstaloadloc] *)
 //
-| _ => {
-    val () = prstr "HID...(...)"
-  } // end of [_]
+| _ (* rest-of-hidecl *) =>
+  let val () = prstr "HID...(...)" in (*nothing*) end
 //
 end // end of [fprint_hidecl]
+//
+implement
+print_hidecl
+  (hid) = fprint_hidecl(stdout_ref, hid)
+implement
+prerr_hidecl
+  (hid) = fprint_hidecl(stderr_ref, hid)
 //
 (* ****** ****** *)
 

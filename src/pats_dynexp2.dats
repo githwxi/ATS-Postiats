@@ -1270,7 +1270,11 @@ d2ecl_stavars
 //
 implement
 d2ecl_saspdec
-  (loc, d) = d2ecl_make_node (loc, D2Csaspdec (d))
+  (loc, d0) = d2ecl_make_node(loc, D2Csaspdec(d0))
+//
+implement
+d2ecl_reassume
+  (loc, s2c) = d2ecl_make_node(loc, D2Creassume(s2c))
 //
 (* ****** ****** *)
 //

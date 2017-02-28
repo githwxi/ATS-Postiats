@@ -87,6 +87,7 @@ typedef i0de = $SYN.i0de
 typedef i0delst = $SYN.i0delst
 typedef s0taq = $SYN.s0taq
 typedef d0ynq = $SYN.d0ynq
+typedef sqi0de = $SYN.sqi0de
 typedef dqi0de = $SYN.dqi0de
 typedef impqi0de = $SYN.impqi0de
 typedef dcstextdef = $SYN.dcstextdef
@@ -374,7 +375,7 @@ s2cst_make (
 , None () // isabs
 , true // iscon
 , false // isrec
-, false // isasp
+, None () // isasp
 , None () // islst
 , list_nil () // argvarlst
 , None () // def
@@ -453,7 +454,7 @@ case+ d1cs of
     , None () // isabs
     , false // iscon
     , false // isrec
-    , false // isasp
+    , None () // isasp
     , None () // islst
     , list_nil () // argvarlst
     , None () // def
@@ -532,10 +533,10 @@ s2cst_make
 , None() // isabs
 , false  // iscon
 , false  // isrec
-, false  // isasp
+, None()  // isasp
 , None() // islst
 , list_nil() // argvarlst
-, None(*void*) // s2cstdef
+, None((*void*)) // s2cstdef
 ) (* end of [s2cst_make] *)
 //
 val () =
@@ -687,7 +688,7 @@ s2cst_make
 , Some(def) // isabs
 , true // iscon
 , false // isrec
-, false // isasp
+, None() // isasp
 , None() // islst
 , argvars // argvarlst
 , None() // definition
@@ -774,9 +775,9 @@ s2cst_make (
 , None () // isabs
 , false // iscon
 , false // isrec
-, false // isasp
+, None () // isasp
 , None () // islst
-, list_nil () // argvar
+, list_nil() // argvar
 , Some (def) // definition
 ) (* end of [s2cst_make] *)
 //
@@ -897,9 +898,9 @@ s2cst_make
 , None () // isabs
 , false // iscon
 , false // isrec
-, false // isasp
+, None () // isasp
 , None () // islst
-, list_nil () // argvar
+, list_nil() // argvar
 , Some (def2) // definition
 ) (* end of [s2cst_make] *)
 //
@@ -962,24 +963,29 @@ local
 fun
 s1aspdec_tr_arg
 (
-  d: s1aspdec, xs: s1marglst, s2t_fun: &s2rt
-) : List_vt (s2varlst) = let
+d0: s1aspdec,
+xs: s1marglst, s2t_fun: &s2rt
+) : List0_vt (s2varlst) = let
 //
 fun
-auxerr (
-  d: s1aspdec, x: s1marg
+auxerr
+(
+d0: s1aspdec, x: s1marg
 ) : void = let
-  val () = prerr_error2_loc (x.s1marg_loc)
-  val () = filprerr_ifdebug ("s1aspdec_tr_arg")
+  val () = prerr_error2_loc(x.s1marg_loc)
+  val () = filprerr_ifdebug("s1aspdec_tr_arg")
   val () = prerr ": too many arguments for the assumed static constant."
-  val () = prerr_newline ()
+  val () = prerr_newline((*void*))
 in
-  the_trans2errlst_add (T2E_s1aspdec_tr_arg (d, x))
+  the_trans2errlst_add(T2E_s1aspdec_tr_arg (d0, x))
 end // end of [auxerr]
 //
 in (* in-of-let *)
 //
 case+ xs of
+| list_nil
+    () => list_vt_nil()
+  // end of [list_nil]
 | list_cons
     (x, xs) => (
   case+ s2t_fun of
@@ -988,29 +994,32 @@ case+ xs of
       val s2vs = s1marg_trdn (x, s2ts_arg)
       val () = the_s2expenv_add_svarlst (s2vs)
     in
-      list_vt_cons (s2vs, s1aspdec_tr_arg (d, xs, s2t_fun))
+      list_vt_cons(s2vs, s1aspdec_tr_arg(d0, xs, s2t_fun))
     end // end of [S2RTfun]
   | _ => let
-      val () = auxerr (d, x) in list_vt_nil ()
+      val () = auxerr (d0, x) in list_vt_nil((*void*))
     end (* end of [_] *)
-  ) // end of [list_cons]
-| list_nil () => list_vt_nil ()
+  ) (* end of [list_cons] *)
 //
 end // end of [s1aspdec_tr_arg]
 
 fun
 s1aspdec_tr_res
 (
-  d: s1aspdec, s2t_res: s2rt
+d0: s1aspdec, s2t_res: s2rt
 ) : s2rt = let
 //
 fun
-auxerr (
-  d: s1aspdec, s2t1: s2rt, s2t2: s2rt
-) : void = {
+auxerr
+(
+d0: s1aspdec, s2t1: s2rt, s2t2: s2rt
+) : void =
+{
 //
-  val () = prerr_error2_loc (d.s1aspdec_loc)
-  val () = filprerr_ifdebug ("s1aspdec_tr_res")
+  val () =
+  prerr_error2_loc(d0.s1aspdec_loc)
+  val () =
+  filprerr_ifdebug("s1aspdec_tr_res")
 //
   val () =
   prerr ": the static assumption is given the sort ["
@@ -1020,13 +1029,13 @@ auxerr (
   val () = prerr "]."
   val () = prerr_newline ((*void*))
 //
-  val () = the_trans2errlst_add(T2E_s1aspdec_tr_res(d, s2t1, s2t2))
+  val () = the_trans2errlst_add(T2E_s1aspdec_tr_res(d0, s2t1, s2t2))
 } // end of [auxerr]
 //
 in // in of [let]
 //
 case+
-d.s1aspdec_res
+d0.s1aspdec_res
 of // case+
 | Some(s1t) => let
     val s2t = s1rt_tr(s1t)
@@ -1034,7 +1043,7 @@ of // case+
   in
     if test
     then s2t else let
-      val () = auxerr(d, s2t, s2t_res) in s2t
+      val () = auxerr(d0, s2t, s2t_res) in s2t
     end (* end of [if] *)
   end // end of [Some]
 | None((*void*)) => s2t_res
@@ -1048,51 +1057,62 @@ in (* in-of-local *)
 
 fun
 s1aspdec_tr
-  (d1c: s1aspdec): s2aspdecopt_vt = let
+(
+  d1c: s1aspdec
+) : s2aspdecopt_vt = let
 //
 fun
-auxerr1 (
-  d: s1aspdec, q: s0taq, id: symbol
+auxerr1
+(
+d0: s1aspdec, q: s0taq, id: symbol
 ) : void = let
   val () =
-    prerr_error2_loc (d.s1aspdec_loc)
+    prerr_error2_loc(d0.s1aspdec_loc)
   // end of [val]
-  val () = filprerr_ifdebug ("s1aspdec_tr")
-  val () = prerr (": the static constant [")
-  val () = ($SYN.prerr_s0taq (q); $SYM.prerr_symbol id)
+  val () =
+    filprerr_ifdebug( "s1aspdec_tr" )
+  // end of [val]
+  val () = prerr(": the static constant [")
+  val () =
+    ($SYN.prerr_s0taq(q); $SYM.prerr_symbol(id))
   val () = prerrln! ("] is not abstract.")
 in
-  the_trans2errlst_add (T2E_s1aspdec_tr (d))
+  the_trans2errlst_add(T2E_s1aspdec_tr(d0))
 end // end of [auxerr1]
 //
 fun
-auxerr2 (
-  d: s1aspdec, q: s0taq, id: symbol
+auxerr2
+(
+d0: s1aspdec, q: s0taq, id: symbol
 ) : void = let
   val () =
-    prerr_error2_loc (d.s1aspdec_loc)
+    prerr_error2_loc(d0.s1aspdec_loc)
   // end of [val]
-  val () = filprerr_ifdebug ("s1aspdec_tr")
-  val () = prerr (": the identifier [")
-  val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
-  val () = prerrln! "] does not refer to a static constant."
+  val () =
+    filprerr_ifdebug( "s1aspdec_tr" )
+  // end of [val]
+  val () = prerr(": the identifier [")
+  val () =
+    ($SYN.prerr_s0taq(q); $SYM.prerr_symbol(id))
+  val () = prerrln! ("] does not refer to a static constant.")
 in
-  the_trans2errlst_add (T2E_s1aspdec_tr (d))
+  the_trans2errlst_add(T2E_s1aspdec_tr(d0))
 end // end of [auxerr2]
 //
 fun
-auxerr3 (
-  d: s1aspdec, q: s0taq, id: symbol
+auxerr3
+(
+d0: s1aspdec, q: s0taq, id: symbol
 ) : void = let
   val () =
-    prerr_error2_loc(d.s1aspdec_loc)
+    prerr_error2_loc(d0.s1aspdec_loc)
   // end of [val]
   val () = prerr ": the identifier ["
-  val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
-  val () = prerr "] is unrecognized."
-  val () = prerr_newline ()
+  val () =
+    ($SYN.prerr_s0taq(q); $SYM.prerr_symbol(id))
+  val () = prerrln! ("] is unrecognized.")
 in
-  the_trans2errlst_add(T2E_s1aspdec_tr(d))
+  the_trans2errlst_add(T2E_s1aspdec_tr(d0))
 end // end of [auxerr3]
 //
   val loc = d1c.s1aspdec_loc
@@ -1106,10 +1126,8 @@ end // end of [auxerr3]
 in
 //
 case+ ans of
-| ~None_vt() => let
-    val () = auxerr3(d1c, q0, id) in None_vt()
-  end // end of [None_vt]
-| ~Some_vt(s2i) => begin
+| ~Some_vt(s2i) =>
+  (
   case+ s2i of
   | S2ITMcst(s2cs) => let
 //
@@ -1156,12 +1174,120 @@ case+ ans of
           Some_vt(s2aspdec_make(loc, s2c, s2e_def))
         end // end of [list_vt_cons]
     end // end of [S2ITEMcst]
-  | _ (* non-S2ITMcst *) =>
-    let val () = auxerr2(d1c, q0, id) in None_vt() end
-  end // end of [Some_vt]
+  | _ (*non-S2ITMcst*) =>
+    (
+      let val () = auxerr2(d1c, q0, id) in None_vt((*void*)) end
+    ) (* end of [non-S2ITMcst] *)
+  ) (* end of [Some_vt] *)
+| ~None_vt() => let
+    val () = auxerr3(d1c, q0, id) in None_vt()
+  end // end of [None_vt]
+//
 end // end of [s1aspdec_tr]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+fun
+re1assume_tr
+(
+  qid: sqi0de
+) : Option_vt(s2cst) = let
+//
+fun
+auxerr1
+(
+  qid: sqi0de, q: s0taq, id: symbol
+) : void = let
+  val () =
+    prerr_error2_loc(qid.sqi0de_loc)
+  // end of [val]
+  val () =
+    filprerr_ifdebug( "re1assume_tr" )
+  // end of [val]
+  val () = prerr(": the static constant [")
+  val () =
+    ($SYN.prerr_s0taq(q); $SYM.prerr_symbol(id))
+  val () = prerrln! ("] is not abstract.")
+in
+  the_trans2errlst_add(T2E_re1assume_tr(qid))
+end // end of [auxerr1]
+//
+fun
+auxerr2
+(
+  qid: sqi0de, q: s0taq, id: symbol
+) : void = let
+  val () =
+    prerr_error2_loc(qid.sqi0de_loc)
+  // end of [val]
+  val () =
+    filprerr_ifdebug( "re1assume_tr" )
+  // end of [val]
+  val () = prerr(": the identifier [")
+  val () =
+    ($SYN.prerr_s0taq(q); $SYM.prerr_symbol(id))
+  val () = prerrln! ("] does not refer to a static constant.")
+in
+  the_trans2errlst_add(T2E_re1assume_tr(qid))
+end // end of [auxerr2]
+//
+fun
+auxerr3
+(
+  qid: sqi0de, q: s0taq, id: symbol
+) : void = let
+  val () =
+    prerr_error2_loc(qid.sqi0de_loc)
+  // end of [val]
+  val () = prerr ": the identifier ["
+  val () =
+    ($SYN.prerr_s0taq(q); $SYM.prerr_symbol(id))
+  val () = prerrln! ("] is unrecognized.")
+in
+  the_trans2errlst_add(T2E_re1assume_tr(qid))
+end // end of [auxerr3]
+//
+val q0 = qid.sqi0de_qua
+and id = qid.sqi0de_sym
+//
+val ans = the_s2expenv_find_qua(q0, id)
+//
+in
+//
+case+ ans of
+| ~Some_vt(s2i) =>
+  (
+  case+ s2i of
+  | S2ITMcst(s2cs) => let
+//
+      val
+      s2cs =
+      list_filter_fun<s2cst>(s2cs, s2cst_is_abstr)
+//
+    in
+      case+ s2cs of
+      | ~list_vt_nil
+          ((*void*)) => let
+          val () = auxerr1(qid, q0, id) in None_vt()
+        end // end of [list_vt_nil]
+      | ~list_vt_cons
+          (s2c, s2cs) =>
+          Some_vt(s2c) where
+        {
+          val ((*freed*)) = list_vt_free(s2cs)
+        } (* end of [list_vt_cons] *)
+    end // end of [S2ITMcst]
+  | _ (*non-S2ITMcst*) =>
+    let val () = auxerr2(qid, q0, id) in None_vt((*void*)) end
+  ) (* end of [Some_vt] *)
+//
+| ~None_vt() => let
+    val () = auxerr3(qid, q0, id) in None_vt()
+  end // end of [None_vt]
+//
+end // end of [re1assume_tr]
 
 (* ****** ****** *)
 
@@ -1507,7 +1633,7 @@ s2cst_make
 , None(*isabs*)
 , false(*iscon*)
 , false(*isrec*)
-, false(*isasp*)
+, None((*isasp*))
 , None((*listlike*))
 , list_nil(*argvar*)
 , None((*s2expopt*))
@@ -2472,18 +2598,41 @@ of // case+
     // end of [val]
   end // end of [D1Csexpdefs]
 //
-| D1Csaspdec (d1c) => let
+| D1Csaspdec(d1c) => let
     val opt = s1aspdec_tr(d1c)
   in
     case+ opt of
-    | ~Some_vt d2c =>
+    | ~Some_vt(d2c) =>
         d2ecl_saspdec(loc0, d2c)
       // end of [Some_vt]
-    | ~None_vt ((*void*)) =>
-        d2ecl_none(loc0) // HX: error is already reported
-      // end of [None_vt]
+(*
+//
+// HX: error is already reported
+//
+*)
+    | ~None_vt((*void*)) => d2ecl_none(loc0)
     // end of [case]
   end // end of [D1Csaspdec]
+| D1Creassume(qid) => let
+    val opt = re1assume_tr(qid)
+  in
+    case+ opt of
+    | ~Some_vt(s2c) =>
+      (
+        d2ecl_reassume(loc0, s2c)
+      ) (* end of [Some_vt] *)
+(*
+//
+// HX: error is already reported
+//
+*)
+    | ~None_vt((*void*)) => d2ecl_none(loc0)
+  end // end of [D1Creassume] *)
+//
+| D1Cexndecs(d1cs) =>
+  (
+    d2ecl_exndecs(loc0, e1xndeclst_tr(d1cs))
+  ) (* end of [D1Cexndecs] *)
 //
 | D1Cdatdecs
   (
@@ -2495,11 +2644,6 @@ of // case+
   in
     d2ecl_datdecs (loc0, knd, s2cs)
   end // end of [D1Cdatdecs]
-//
-| D1Cexndecs(d1cs) =>
-  (
-    d2ecl_exndecs(loc0, e1xndeclst_tr(d1cs))
-  ) (* end of [D1Cexndecs] *)
 //
 | D1Cclassdec(id, sup) => let
     val () = c1lassdec_tr(id, sup) in d2ecl_none(loc0)

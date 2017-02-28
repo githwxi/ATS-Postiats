@@ -32,6 +32,9 @@ Here is a list of major additions and changes since the last release:
 *)
 3. Fixing a glitch involving tail-call optimization; please see the
    function hidexp_seq_simplify for details.
+4. Supporting [reassume]: An assumed abstract type can be reassumed
+   so as to make its (original) implementation available in the scope
+   of the reassume-declaration.
 
 ######
 

@@ -270,6 +270,14 @@ cleanall:: ; $(RMF) pfsearch
 ######
 
 all:: \
+reassume
+reassume: reassume.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: reassume ; ./$<
+cleanall:: ; $(RMF) reassume
+
+######
+
+all:: \
 stkalloc
 stkalloc: stkalloc.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: stkalloc ; ./$<

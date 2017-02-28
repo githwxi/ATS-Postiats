@@ -1252,22 +1252,29 @@ implement
 d1ecl_sexpdefs(loc, knd, xs) =
   d1ecl_make_node(loc, D1Csexpdefs (knd, xs))
 //
+(* ****** ****** *)
+//
 implement
 d1ecl_saspdec(loc, x) =
-  d1ecl_make_node (loc, D1Csaspdec (x))
+  d1ecl_make_node(loc, D1Csaspdec(x))
+//
+//
+implement
+d1ecl_reassume(loc, x) =
+  d1ecl_make_node(loc, D1Creassume(x))
 //
 (* ****** ****** *)
+//
+implement
+d1ecl_exndecs(loc, d1cs) =
+  d1ecl_make_node(loc, D1Cexndecs(d1cs))
+// end of [d1ecl_exndecs]
 //
 implement
 d1ecl_datdecs
   (loc, knd, _datdec, _sexpdef) =
   d1ecl_make_node(loc, D1Cdatdecs(knd, _datdec, _sexpdef))
 // end of [d1ecl_datdec]
-//
-implement
-d1ecl_exndecs(loc, d1cs) =
-  d1ecl_make_node (loc, D1Cexndecs(d1cs))
-// end of [d1ecl_exndecs]
 //
 (* ****** ****** *)
 //

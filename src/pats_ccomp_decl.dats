@@ -111,6 +111,10 @@ extern
 fun hisaspdec_ccomp
   (env: !ccompenv, hid0: hidecl): primdec
 // end of [hidsaspdec_ccomp]
+extern
+fun hireassume_ccomp
+  (env: !ccompenv, hid0: hidecl): primdec
+// end of [hidreassume_ccomp]
 
 extern
 fun hiextvar_ccomp
@@ -176,11 +180,13 @@ case+ hid0.hidecl_node of
 //
 | HIDlist (hids) => let
     val pmds =
-      hideclist_ccomp (env, hids) in primdec_list (loc0, pmds)
+      hideclist_ccomp(env, hids) in primdec_list(loc0, pmds)
     // end of [val]
   end // end of [HIDlist]
 //
-| HIDsaspdec _ => hisaspdec_ccomp (env, hid0)
+| HIDsaspdec _ => hisaspdec_ccomp(env, hid0)
+//
+| HIDreassume _ => hireassume_ccomp(env, hid0)
 //
 | HIDextype _ => hiextype_ccomp (env, hid0)
 | HIDextvar _ => hiextvar_ccomp (env, hid0)
@@ -398,13 +404,21 @@ hisaspdec_ccomp
   (env, hid0) = let
 //
 val loc0 = hid0.hidecl_loc
-val-HIDsaspdec (d2c) = hid0.hidecl_node
-val () = the_saspdeclst_add (hid0)
+val-HIDsaspdec(d2c) = hid0.hidecl_node
+//
+val ((*void*)) = the_saspdeclst_add(hid0)
 //
 in
-  primdec_saspdec (loc0, d2c)
+  primdec_saspdec(loc0, d2c)
 end // end of [hisaspdec_ccomp]
 
+(* ****** ****** *)
+//
+implement
+hireassume_ccomp
+  (env, hid0) =
+  primdec_none(hid0.hidecl_loc)
+//
 (* ****** ****** *)
 
 implement

@@ -920,54 +920,58 @@ hidecl_make_node
 
 implement
 hidecl_none (loc) =
-  hidecl_make_node (loc, HIDnone ())
+  hidecl_make_node (loc, HIDnone())
 // end of [hidecl_none]
 
 implement
 hidecl_list (loc, hids) =
-  hidecl_make_node (loc, HIDlist (hids))
+  hidecl_make_node (loc, HIDlist(hids))
 // end of [hidecl_list]
 
 (* ****** ****** *)
-
+//
 implement
 hidecl_saspdec (loc, d2c) =
-  hidecl_make_node (loc, HIDsaspdec (d2c))
+  hidecl_make_node (loc, HIDsaspdec(d2c))
 // end of [hidecl_saspdec]
-
+implement
+hidecl_reassume (loc, s2c) =
+  hidecl_make_node (loc, HIDreassume(s2c))
+// end of [hidecl_reassume]
+//
 (* ****** ****** *)
 
 implement
 hidecl_extype
   (loc, name, hse_def) =
-  hidecl_make_node (loc, HIDextype (name, hse_def))
+  hidecl_make_node (loc, HIDextype(name, hse_def))
 // end of [hidecl_extype]
 
 implement
 hidecl_extvar
   (loc, name, hde_def) =
-  hidecl_make_node (loc, HIDextvar (name, hde_def))
+  hidecl_make_node (loc, HIDextvar(name, hde_def))
 // end of [hidecl_extvar]
 
 implement
 hidecl_extcode
   (loc, knd, pos, code) =
-  hidecl_make_node (loc, HIDextcode (knd, pos, code))
+  hidecl_make_node (loc, HIDextcode(knd, pos, code))
 // end of [hidecl_extcode]
 
 (* ****** ****** *)
 
 implement
-hidecl_datdecs
-  (loc, knd, s2cs) =
-  hidecl_make_node (loc, HIDdatdecs (knd, s2cs))
-// end of [hidecl_datdecs]
-
-implement
 hidecl_exndecs
   (loc, d2cs) =
-  hidecl_make_node (loc, HIDexndecs (d2cs))
+  hidecl_make_node(loc, HIDexndecs(d2cs))
 // end of [hidecl_exndecs]
+
+implement
+hidecl_datdecs
+  (loc, knd, s2cs) =
+  hidecl_make_node(loc, HIDdatdecs(knd, s2cs))
+// end of [hidecl_datdecs]
 
 (* ****** ****** *)
 

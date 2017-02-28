@@ -1083,7 +1083,19 @@ case+ tok.token_node of
   in
     if err = err0
       then d0ecl_saspdec(tok, ent2) else synent_null()
-  end
+    // end of [if]
+  end // T_ASSUME
+//
+| T_REASSUME() => let
+    val bt = 0
+    val () = incby1()
+    val ent2 = p_sqi0de(buf, bt, err)
+  in
+    if err = err0
+      then d0ecl_reassume(tok, ent2) else synent_null()
+    // end of [if]
+  end // T_REASSUME
+//
 | T_TKINDEF() => let
     val bt = 0
     val () = incby1()
@@ -1091,7 +1103,7 @@ case+ tok.token_node of
   in
     if err = err0
       then d0ecl_tkindef(tok, ent2) else synent_null()
-  end
+  end // T_TKINDEF
 //
 | T_TYPEDEF(knd) => let
     val bt = 0
@@ -1102,7 +1114,7 @@ case+ tok.token_node of
   in
     if err = err0
       then d0ecl_sexpdefs(knd, tok, ent2) else synent_null()
-  end
+  end // T_TYPEDEF
 //
 | T_EXCEPTION() => let
     val bt = 0
@@ -1114,7 +1126,7 @@ case+ tok.token_node of
     if err = err0
       then d0ecl_exndecs(tok, ent2) else synent_null()
     // end of [if]
-  end
+  end // T_EXCEPTION
 | T_DATATYPE(knd) => let
     val bt = 0
     val () = incby1()
@@ -1133,7 +1145,7 @@ case+ tok.token_node of
         d0ecl_datdecs_some(knd, tok, ent2, tok2, ent4)
       end // end of [T_WHERE]
     | _ (*non-T_WHERE*) => d0ecl_datdecs_none(knd, tok, ent2)
-  end
+  end // T_DATATYPE
 //
 | T_CLASSDEC() => let
     val bt = 0
@@ -1144,14 +1156,14 @@ case+ tok.token_node of
     if err = err0
       then d0ecl_classdec(tok, ent1, ent3) else synent_null()
     // end of [if]
-  end
+  end // T_CLASSDEC
 //
 | T_SRPSTALOAD() => let
     val bt = 0
     val () = incby1()
   in
     p_staload_tok(buf, bt, err, tok)
-  end // end of [SRPSTALOAD]
+  end // end of [T_SRPSTALOAD]
 //
 | _ (*rest-of-tokens*) =>
     let val () = err := err + 1 in synent_null() end

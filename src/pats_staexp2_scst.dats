@@ -99,7 +99,7 @@ s2cst_struct = @{
 , s2cst_isabs= Option(s2expopt) // is abstract?
 , s2cst_iscon= bool // constructor?
 , s2cst_isrec= bool // is it recursive?
-, s2cst_isasp= bool // already assumed?
+, s2cst_isasp= s2expopt // is it assumed?
 , s2cst_iscpy= s2cstopt_t // is it a copy?
 //
 // HX: is list-like?
@@ -518,10 +518,10 @@ s2cst_make
 , None () // isabs
 , true // iscon
 , false // isrec
-, false // isasp
+, None () // isasp
 , None () // islst
 , argsrtss // argsortlstlst
-, None() // definition
+, None () // definition
 ) (* end of [s2cst_make] *)
 //
 end // end of [s2cst_make_dat]

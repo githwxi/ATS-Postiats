@@ -261,6 +261,7 @@ hidecl_node =
   | HIDlist of hideclist
 //
   | HIDsaspdec of (s2aspdec)
+  | HIDreassume of (s2cst)(*abstype*)
 //
   | HIDextype of (string(*name*), hisexp)
   | HIDextvar of (string(*name*), hidexp)
@@ -1010,13 +1011,20 @@ fun hidecl_is_empty (hid: hidecl): bool
 fun hidecl_none (loc: loc_t): hidecl
 fun hidecl_list (loc: loc_t, hids: hideclist): hidecl
 
-fun hidecl_saspdec (loc: loc_t, d2c: s2aspdec): hidecl
-
 (* ****** ****** *)
 //
-fun hidecl_extype
+fun
+hidecl_saspdec (loc: loc_t, d2c: s2aspdec): hidecl
+fun
+hidecl_reassume (loc: loc_t, s2c_abs: s2cst): hidecl
+//
+(* ****** ****** *)
+//
+fun
+hidecl_extype
   (loc: loc_t, name: string, hse_def: hisexp): hidecl
-fun hidecl_extvar
+fun
+hidecl_extvar
   (loc: loc_t, name: string, hde_def: hidexp): hidecl
 //
 (* ****** ****** *)

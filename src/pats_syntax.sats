@@ -69,12 +69,18 @@ typedef filename = $FIL.filename
 //
 abstype synent // a boxed union
 //
-castfn synent_encode {a:type} (x: a): synent
-castfn synent_decode {a:type} (x: synent): (a)
+(* ****** ****** *)
 //
-fun synent_null {a:type} (): a // = null
-fun synent_is_null {a:type} (x: a):<> bool
-fun synent_isnot_null {a:type} (x: a):<> bool
+castfn
+synent_encode{a:type}(x: a): synent
+castfn
+synent_decode{a:type}(x: synent): (a)
+//
+(* ****** ****** *)
+//
+fun synent_null{a:type}(): a // = null
+fun synent_is_null{a:type}(x: a):<> bool
+fun synent_isnot_null{a:type}(x: a):<> bool
 //
 (* ****** ****** *)
 
@@ -259,7 +265,7 @@ fun fprint_s0taq : fprint_type (s0taq)
 typedef sqi0de = '{
   sqi0de_loc= location
 , sqi0de_qua= s0taq, sqi0de_sym= symbol
-} // end of [sqi0de]
+} (* end of [sqi0de] *)
 
 fun sqi0de_make_none (ent: i0de): sqi0de
 fun sqi0de_make_some (ent1: s0taq, ent2: i0de): sqi0de
@@ -1445,11 +1451,17 @@ d0ecl_node =
   | D0Cstacsts of (s0tacstlst) (* static constants *)
   | D0Cstacons of (int(*knd*), s0taconlst) (* abstype defintion *)
 (*
-  | D0Cstavars of (s0tavarlst) (* static constants *) // HX-2012-05-23: removed
+  | D0Cstavars of
+      (s0tavarlst) (* static constants *) // HX-2012-05-23: removed
+    // end of [D0Cstavars]
 *)
   | D0Ctkindef of t0kindef (* primitive tkind *)
-  | D0Csexpdefs of (int(*knd*), s0expdeflst) (* staexp definition *)
+  | D0Csexpdefs of
+      (int(*knd*), s0expdeflst) (* staexp definition *)
+    // end of [D0Csexpdefs]
+//
   | D0Csaspdec of s0aspdec (* static assumption *)
+  | D0Creassume of sqi0de(*abstype*) // static re-assumption
 //
   | D0Cexndecs of (e0xndeclst)
   | D0Cdatdecs of (int(*knd*), d0atdeclst, s0expdeflst)
@@ -2305,14 +2317,25 @@ d0ecl_stacsts (_1: token, _2: s0tacstlst): d0ecl
 fun
 d0ecl_stavars (_1: token, _2: s0tavarlst): d0ecl
 *)
-fun d0ecl_tkindef (_1: token, _2: t0kindef): d0ecl
-fun d0ecl_saspdec (_1: token, _2: s0aspdec): d0ecl
+//
+fun
+d0ecl_tkindef (_1: token, _2: t0kindef): d0ecl
 //
 fun
 d0ecl_sexpdefs
   (knd: int, _1: token, _2: s0expdeflst): d0ecl
 //
-fun d0ecl_exndecs (_1: token, _2: e0xndeclst): d0ecl
+(* ****** ****** *)
+//
+fun
+d0ecl_saspdec(tok: token, d0: s0aspdec): d0ecl
+fun
+d0ecl_reassume(tok: token, qid: sqi0de): d0ecl
+//
+(* ****** ****** *)
+//
+fun
+d0ecl_exndecs (tok: token, d0: e0xndeclst): d0ecl
 //
 (* ****** ****** *)
 //

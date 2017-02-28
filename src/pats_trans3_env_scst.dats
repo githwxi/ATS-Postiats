@@ -105,7 +105,7 @@ implement
 the_s2cstbindlst_bind_and_add
   (loc0, s2c, s2f) = let
 //
-  val s2e = s2hnf2exp(s2f)
+val s2e = s2hnf2exp(s2f)
 //
 (*
   val () = begin
@@ -114,12 +114,14 @@ the_s2cstbindlst_bind_and_add
   end // end of [val]
 *)
 //
-  val isasp =
-    s2cst_get_isasp(s2c)
-  // end of [val]
+val
+isasp = s2cst_get_isasp(s2c)
 //
-  val () =
-  if (isasp) then
+val () =
+(
+case+ isasp of
+| None _ => ()
+| Some _ => () where
   {
     val () =
     prerr_warning3_loc(loc0)
@@ -129,9 +131,10 @@ the_s2cstbindlst_bind_and_add
       ": the static constant [", s2c, "] is not abstract at this point."
     ) (* prerrln! *)
   } (* end of [if] // end of [val] *)
+) (* end of [val] *)
 //
-  val () = s2cst_set_def(s2c, Some(s2e))
-  val () = s2cst_set_isasp(s2c, true(*assumed*))
+val () = s2cst_set_def(s2c, Some(s2e))
+val () = s2cst_set_isasp(s2c, Some(s2e))
 //
 in
   the_s2cstbindlst_add(s2c)

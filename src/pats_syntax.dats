@@ -3099,12 +3099,26 @@ in '{
   d0ecl_loc= loc, d0ecl_node= D0Csexpdefs (knd, xs)
 } end // end of [d0ecl_sexpdefs]
 
+(* ****** ****** *)
+
 implement
-d0ecl_saspdec (tok, x) = let
-  val loc = tok.token_loc + x.s0aspdec_loc
+d0ecl_saspdec(tok, x) = let
+//
+val
+loc = tok.token_loc + x.s0aspdec_loc
+//
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Csaspdec (x)
+  d0ecl_loc= loc, d0ecl_node= D0Csaspdec(x)
 } end // end of [d0ecl_saspdec]
+
+implement
+d0ecl_reassume(tok, x) = let
+//
+val loc = tok.token_loc + x.sqi0de_loc
+//
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Creassume(x)
+} end // end of [d0ecl_reassume]
 
 (* ****** ****** *)
 

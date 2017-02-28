@@ -1233,20 +1233,26 @@ d3ecl_make_node
 
 implement
 d3ecl_none
-  (loc) = d3ecl_make_node (loc, D3Cnone ())
+  (loc) =
+  d3ecl_make_node(loc, D3Cnone())
 // end of [d3ecl_none]
 implement
 d3ecl_list
-  (loc, xs) = d3ecl_make_node (loc, D3Clist (xs))
+  (loc, xs) =
+  d3ecl_make_node (loc, D3Clist(xs))
 // end of [d3ecl_list]
 
 (* ****** ****** *)
-
+//
 implement
-d3ecl_saspdec (loc, d2c) =
-  d3ecl_make_node (loc, D3Csaspdec (d2c))
+d3ecl_saspdec(loc, d2c) =
+  d3ecl_make_node(loc, D3Csaspdec(d2c))
 // end of [d3ecl_saspdec]
-
+implement
+d3ecl_reassume(loc, s2c) =
+  d3ecl_make_node(loc, D3Creassume(s2c))
+// end of [d3ecl_reassume]
+//
 (* ****** ****** *)
 
 implement

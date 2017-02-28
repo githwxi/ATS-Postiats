@@ -207,6 +207,8 @@ datatype trans3err =
   | T3E_dmacro_evalctx_extend of (loc_t, d2mac)
   | T3E_dmacro_eval1_d2exp of (loc_t, d2exp)
 //
+  | T3E_reassume_tr_isnotasp of (loc_t, s2cst)
+//
   | T3E_f2undeclst_tr_termetsrtck of (f2undec, s2rtlstopt)
   | T3E_v2aldeclst_rec_tr_linearity of (v2aldec, s2exp(*linear*))
 // end of [trans3err]

@@ -117,50 +117,55 @@ val loc0 = d3c0.d3ecl_loc
 in
 //
 case+
-  d3c0.d3ecl_node of
+d3c0.d3ecl_node of
 //
-| D3Cnone () => hidecl_none (loc0)
+| D3Cnone() => hidecl_none(loc0)
 //
-| D3Clist (d3cs) => let
-    val hids = d3eclist_tyer (d3cs) in hidecl_list (loc0, hids)
+| D3Clist(d3cs) => let
+    val hids =
+      d3eclist_tyer(d3cs) in hidecl_list(loc0, hids)
+    // end of [val]
   end // end of [D3Clist]
 //
-| D3Csaspdec (d2c) => hidecl_saspdec (loc0, d2c)
+| D3Csaspdec(d2c) => hidecl_saspdec(loc0, d2c)
+  // end of [D3Csaspdec]
+| D3Creassume(s2c) => hidecl_reassume(loc0, s2c)
+  // end of [D3Creassume]
 //
 | D3Cextype
     (name, s2e_def) => let
     val hse_def =
-      s2exp_tyer_deep (loc0, s2e_def)
+      s2exp_tyer_deep(loc0, s2e_def)
     // end of [val]
   in
-    hidecl_extype (loc0, name, hse_def)
+    hidecl_extype(loc0, name, hse_def)
   end // end of [D3Cextype]
 | D3Cextvar
     (name, d3e_def) =>
   (
-    hidecl_extvar (loc0, name, d3exp_tyer (d3e_def))
+    hidecl_extvar(loc0, name, d3exp_tyer(d3e_def))
   ) (* end of [D3Cextvar] *)
 //
 | D3Cextcode
-    (knd, pos, code) => hidecl_extcode (loc0, knd, pos, code)
+    (knd, pos, code) => hidecl_extcode(loc0, knd, pos, code)
   // end of [D3Cextcode]
 //
 | D3Cexndecs
-    (d2cs) => hidecl_exndecs (loc0, d2cs)
+    (d2cs) => hidecl_exndecs(loc0, d2cs)
 | D3Cdatdecs
-    (knd, s2cs) => hidecl_datdecs (loc0, knd, s2cs)
+    (knd, s2cs) => hidecl_datdecs(loc0, knd, s2cs)
 //
 | D3Cdcstdecs
-    (knd, dck, d2cs) => hidecl_dcstdecs (loc0, dck, d2cs)
+    (knd, dck, d2cs) => hidecl_dcstdecs(loc0, dck, d2cs)
 //
-| D3Cimpdec _ => d3ecl_tyer_impdec (d3c0)
+| D3Cimpdec _ => d3ecl_tyer_impdec(d3c0)
 //
-| D3Cfundecs _ => d3ecl_tyer_fundecs (d3c0)
+| D3Cfundecs _ => d3ecl_tyer_fundecs(d3c0)
 //
-| D3Cvaldecs _ => d3ecl_tyer_valdecs (d3c0)
-| D3Cvaldecs_rec _ => d3ecl_tyer_valdecs_rec (d3c0)
+| D3Cvaldecs _ => d3ecl_tyer_valdecs(d3c0)
+| D3Cvaldecs_rec _ => d3ecl_tyer_valdecs_rec(d3c0)
 //
-| D3Cvardecs _ => d3ecl_tyer_vardecs (d3c0)
+| D3Cvardecs _ => d3ecl_tyer_vardecs(d3c0)
 //
 | D3Cprvardecs _ => hidecl_none (loc0) // proof vars
 //
