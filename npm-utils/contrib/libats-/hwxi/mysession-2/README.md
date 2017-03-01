@@ -1,3 +1,7 @@
+# Dyadic Session Types
+
+(* ****** ******* *)
+
 (*
 //
 // HX-2016:
@@ -15,4 +19,4 @@
 //
 (* ****** ******* *)
 
-(* end of [README] *)
+(* end of [README.md] *)
