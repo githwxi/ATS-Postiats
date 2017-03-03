@@ -494,9 +494,9 @@ end // end of [local]
 //
 // Try the following to see difference:
 //
-// ./S0B1B2 book1
-// ./S0B1B2 book2
-// ./S0B1B2 book3
+// ./S0B1B2_rec book1
+// ./S0B1B2_rec book2
+// ./S0B1B2_rec book3
 //
 implement
 main0

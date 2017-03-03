@@ -80,6 +80,16 @@ extern
 fun{}
 DivideConquerPar$submit
   (fwork): void
+extern
+fun{}
+DivideConquerPar$submit2
+  (x0: input, fwork): void
+//
+implement
+{}(*tmp*)
+DivideConquerPar$submit2
+  (x0, fwork) =
+  DivideConquerPar$submit<>(fwork)
 //
 (* ****** ****** *)
 //
@@ -164,48 +174,16 @@ loop2
 , xs: list(input, n)
 , rs: !list_vt(output, n+1)
 , spnr: spinref, res: list0(output)
-) : void =
-(
-case+ xs of
-| list_nil() => let
-    val+
-    @list_vt_cons
-      (r0, rs1) = rs
-    // list_vt_cons
-    val addr_r0 = addr@(r0)
-    prval ((*folded*)) = fold@(rs)
-  in
-    $DC_cont.DivideConquer_cont$solve
-    ( x0
-    , lam(r0) => let
-        val () =
-        $UN.ptr0_set<output>
-          (addr_r0, r0)
-        // end of [$UN.ptr0_set]
-        val c0 = spinref_decget(spnr)
-      in
-        if (c0 > 0)
-          then (
-            // unfinished
-          ) (* end of [then] *)
-          else k0(res) where
-          {
-            val () =
-            $SPINVAR.spinvar_destroy($UN.castvwtp0(spnr))
-          } (* end of [else] *)
-      end // end of [let] // end of [lam]
-    )
-  end // end of [list_nil]
-| list_cons(x1, xs) => let
-    val+
-    @list_vt_cons
-      (r0, rs1) = rs
-    // list_vt_cons
-    val addr_r0 = addr@(r0)
-    val () =
-    DivideConquerPar$submit<>
-    (
-    llam() =>
+) : void = let
+  val+
+  @list_vt_cons
+    (r0, rs1) = rs
+  // list_vt_cons
+  val addr_r0 = addr@(r0)
+  val () =
+  DivideConquerPar$submit2<>
+  ( x0
+  , llam() =>
     (
     $DC_cont.DivideConquer_cont$solve
     ( x0
@@ -228,18 +206,22 @@ case+ xs of
       end // end of [let] // end of [lam]
     )
     ) (* llam *)
-    ) (* end of [val] *)
+  ) (* end of [val] *)
 //
+in
+//
+case+ xs of
+| list_nil() => () where
+  {
+    prval ((*folded*)) = fold@(rs)
+  }
+| list_cons(x1, xs) => () where
+  {
     val () =
     loop2(x1, xs, rs1, spnr, res)
-//
     prval ((*folded*)) = fold@(rs)
-//
-  in
-    // nothing
-  end // end of [list_cons]
-//
-) (* end of [loop2] *)
+  }
+end (* end of [loop2] *)
 //
 val xs = g1ofg0(xs); val n0 = length(xs)
 //

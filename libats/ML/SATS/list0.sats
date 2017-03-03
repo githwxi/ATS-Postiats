@@ -182,8 +182,17 @@ list0_tail_opt
 //
 (* ****** ****** *)
 //
+overload head with list0_head_exn of 0
+overload tail with list0_tail_exn of 0
+//
 overload .head with list0_head_exn of 0
 overload .tail with list0_tail_exn of 0
+//
+overload head_opt with list0_head_opt of 0
+overload tail_opt with list0_tail_opt of 0
+//
+overload .head_opt with list0_head_opt of 0
+overload .tail_opt with list0_tail_opt of 0
 //
 (* ****** ****** *)
 //
@@ -308,14 +317,20 @@ mul_int_list0
 (* ****** ****** *)
 //
 fun{a:t0p}
-list0_reverse(xs: list0(INV(a))):<> list0(a)
+list0_reverse
+  (xs: list0(INV(a))):<> list0(a)
+//
+overload reverse with list0_reverse
 //
 fun{a:t0p}
 list0_reverse_append
   (xs: list0(INV(a)), ys: list0(a)):<> list0(a)
 // end of [list0_reverse_append]
 //
-macdef list0_revapp = list0_reverse_append
+macdef
+list0_revapp = list0_reverse_append
+//
+overload revapp with list0_reverse_append
 //
 (* ****** ****** *)
 //
