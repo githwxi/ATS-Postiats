@@ -126,20 +126,9 @@ val err =
 val () = $tempenver(fws)
 //
 implement
-DivideConquerPar$submit<>
-  (fwork) =
-{
-val () =
-$FWS.fworkshop_insert_lincloptr
-( fws
-, llam() => 0 where
-  {
-    val () = fwork()
-    val () = // fwork needs to be freed
-    cloptr_free($UNSAFE.castvwtp0{cloptr(void)}(fwork))
-  } // end of [fworkshop_insert_lincloptr]
-) (* end of [val] *)
-}
+{}(*tmp*)
+DivideConquerPar$fworkshop
+  ((*void*)) = FWORKSHOP_channel(fws)
 //
 val Fibonacci_ = Fibonacci<>
 //

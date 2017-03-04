@@ -85,11 +85,74 @@ fun{}
 DivideConquerPar$submit2
   (x0: input, fwork): void
 //
+(* ****** ****** *)
+//
+datatype
+fworkshop =
+| FWORKSHOP_chanlst of
+  $FWORKSHOP_chanlst.fworkshop
+| FWORKSHOP_channel of
+  $FWORKSHOP_channel.fworkshop
+//
+extern
+fun{}
+DivideConquerPar$fworkshop(): fworkshop
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+DivideConquerPar$submit
+  (fwork) = let
+//
+val
+fworkshop =
+DivideConquerPar$fworkshop<>
+  ((*void*))
+//
+in
+//
+case+
+fworkshop
+of (*case+*)
+| FWORKSHOP_chanlst(fws) =>
+  {
+    val () =
+    $FWORKSHOP_chanlst.fworkshop_insert_lincloptr
+    ( fws
+    , llam() => 0 where
+      {
+        val () = fwork()
+        val () = // fwork needs to be freed
+        cloptr_free($UN.castvwtp0{cloptr(void)}(fwork))
+      } // end of [fworkshop_insert_lincloptr]
+    )
+  } (* FWORKSHOP_chanlst *)
+| FWORKSHOP_channel(fws) =>
+  {
+    val () =
+    $FWORKSHOP_channel.fworkshop_insert_lincloptr
+    ( fws
+    , llam() => 0 where
+      {
+        val () = fwork()
+        val () = // fwork needs to be freed
+        cloptr_free($UN.castvwtp0{cloptr(void)}(fwork))
+      } // end of [fworkshop_insert_lincloptr]
+    )
+  } (* FWORKSHOP_channel *)
+//
+end // end of [DivideConquerPar$submit]
+
+(* ****** ****** *)
+//
 implement
 {}(*tmp*)
 DivideConquerPar$submit2
   (x0, fwork) =
+(
   DivideConquerPar$submit<>(fwork)
+)
 //
 (* ****** ****** *)
 //
