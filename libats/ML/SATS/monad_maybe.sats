@@ -45,21 +45,25 @@ staload "./basis.sats"
 #include "./SHARE/monad.hats"
 
 (* ****** ****** *)
-
+//
 fun{a:t0p}
 monad_maybe_none(): monad(a)
 fun{a:t0p}
 monad_maybe_some(x0: a): monad(a)
-
-(* ****** ****** *)
-
-fun{a:t0p}
-monad_maybe_optize(m: monad(a)): Option(a)
-
+//
 (* ****** ****** *)
 //
 fun{a:t0p}
-fprint_monad(out: FILEref, m: monad(INV(a))): void
+monad_maybe_optize
+  (m0: monad(INV(a))): Option(a)
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+fprint_monad
+  (out: FILEref, m: monad(INV(a))): void
+//
 overload fprint with fprint_monad
 //
 (* ****** ****** *)
