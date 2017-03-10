@@ -26,10 +26,9 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 //
-//
 // HX:
-// there is no dynloading at
-\#define ATS_DYNLOADFLAG 0 // run-time
+\#define // there is no need
+ATS_DYNLOADFLAG 0 // for dynloading
 //
 #atscode_separator()
 //

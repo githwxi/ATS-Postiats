@@ -39,6 +39,17 @@ atslib:: atslib_prelude
 
 ######
 
+atslib_prelude:: atslib_prelude_basics_dats
+atslib_prelude_basics_dats: output/atslib_prelude_basics_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_prelude_basics_dats.c: ../../prelude/DATS/basics.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_prelude_basics_dats.o: output/atslib_prelude_basics_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_prelude_basics_dats.c
+clean:: ; $(RMF) output/atslib_prelude_basics_dats.o
+
+
+######
+
 atslib_prelude:: atslib_prelude_integer_dats
 atslib_prelude_integer_dats: output/atslib_prelude_integer_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_prelude_integer_dats.c: ../../prelude/DATS/integer.dats ; $(PATSOPT) -o $@ --dynamic $<

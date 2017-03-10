@@ -154,7 +154,7 @@ $UN.cast(sub_ptr_bsz(cptr2ptr(cp), sizeof<a>))
 //
 #atscode_separator()
 
-  implement
+implement
 {a}(*tmp*)
 ptr_nullize
   (pf | x) =

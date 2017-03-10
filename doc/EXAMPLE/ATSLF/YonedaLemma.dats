@@ -75,7 +75,8 @@ val Functor_homres
 (* ****** ****** *)
 
 implement
-Functor_homres{c}{a,b} (f) = lam (r) => lam (x) => f (r(x))
+Functor_homres{c}{a,b}
+  (f) = lam (r) => lam (x) => f(r(x))
 
 (* ****** ****** *)
 //
@@ -90,11 +91,25 @@ fun Yoneda_psi : {F:ftype}Functor(F) ->
 //
 implement
 Yoneda_phi
-  (ftor) = lam(fx) => lam (m) => ftor(m)(fx)
+  (ftor) =
+  lam(fx) => lam (m) => ftor(m)(fx)
 //
 implement
-Yoneda_psi (ftor) = lam(mf) => mf(lam x => x)
+Yoneda_psi
+  (ftor) = lam(mf) => mf(lam x => x)
 //
+(* ****** ****** *)
+
+(*
+//
+psi(phi(fx)) =
+phi(fx)(id) = F(id)(fx) = fx // F(id) = id
+//
+phi(psi(mf))(m) =
+F(m)(psi(mf)) => F(m)(mf(id)) = mf(m) // mf being natural
+//
+*)
+
 (* ****** ****** *)
 
 (*
@@ -112,10 +127,14 @@ natrans(F:ftype, G:ftype) = {x:type} (F(x) ->> G(x))
 (* ****** ****** *)
 //
 extern
-fun Yoneda_phi_nat : {F:ftype}Functor(F) ->
+fun
+Yoneda_phi_nat :
+{F:ftype}Functor(F) ->
   {a:type} F(a) ->> natrans(lam (r:type) => (a ->> r), F)
 extern
-fun Yoneda_psi_nat : {F:ftype}Functor(F) ->
+fun
+Yoneda_psi_nat :
+{F:ftype}Functor(F) ->
   {a:type} natrans(lam (r:type) => (a ->> r), F) ->> F(a)
 //
 (* ****** ****** *)

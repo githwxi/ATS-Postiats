@@ -38,7 +38,7 @@
 (* ****** ****** *)
 //
 fun
-patsopt_version(): string = "mac#%"
+patsopt_version(): string = "ext#%"
 //
 (* ****** ****** *)
 

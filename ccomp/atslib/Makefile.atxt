@@ -129,6 +129,10 @@ atslib:: atslib_prelude
 
 ######
 
+#make_entry("prelude", "basics.dats")
+
+######
+
 #make_entry("prelude", "integer.dats")
 #make_entry("prelude", "pointer.dats")
 

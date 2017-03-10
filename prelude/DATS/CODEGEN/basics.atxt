@@ -26,14 +26,18 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 //
-staload
-UN =
-"prelude/SATS/unsafe.sats"
+// HX-2017-03-08:
+\#define // there is no need
+ATS_DYNLOADFLAG 0 // for dynloading
+//
+#atscode_separator()
+//
+staload UN = "prelude/SATS/unsafe.sats"
 //
 #atscode_separator()
 //
 implement
-patsopt_version() = "0.3.2"
+patsopt_version((*void*)) = "0.3.4"
 //
 #atscode_separator()
 //
