@@ -1843,7 +1843,8 @@ s2e2.s2exp_node
   ) (* when *) =>
     s2hnf_hypequal_solve_abscon(loc0, s2f1, s2f2)
   // end of [abscon, abscon]
-| (S2Ecst s2c1, S2Ecst s2c2) when s2c1 = s2c2 => ()
+| (S2Ecst s2c1,
+   S2Ecst s2c2) when s2c1 = s2c2 => ()
 //
 | (S2Evar s2v1,
    S2Evar s2v2) => let
@@ -1851,14 +1852,16 @@ s2e2.s2exp_node
   in
     case+ sgn of 
     | _ when sgn > 0 =>
-        trans3_env_hypadd_bind (loc0, s2v1, s2f2)
+        trans3_env_hypadd_bind(loc0, s2v1, s2f2)
     | _ when sgn < 0 =>
-        trans3_env_hypadd_bind (loc0, s2v2, s2f1)
+        trans3_env_hypadd_bind(loc0, s2v2, s2f1)
     | _ (* sgn = 0: s2v1 = s2v2 *) => ((*void*))
   end // end of [S2Evar _, S2Evar _]
 //
 | (S2Evar s2v1, _) => let
-    val test = s2var_occurcheck_s2exp(s2v1, s2e2)
+    val
+    test =
+    s2var_occurcheck_s2exp(s2v1, s2e2)
   in
     if test
       then trans3_env_hypadd_eqeq(loc0, s2f1, s2f2)
@@ -1866,7 +1869,9 @@ s2e2.s2exp_node
     // end of [if]
   end // end of [(S2Evar, _)]
 | (_, S2Evar s2v2) => let
-    val test = s2var_occurcheck_s2exp(s2v2, s2e1)
+    val
+    test =
+    s2var_occurcheck_s2exp(s2v2, s2e1)
   in
     if test
       then trans3_env_hypadd_eqeq(loc0, s2f1, s2f2)
@@ -1883,7 +1888,8 @@ s2e2.s2exp_node
     s2explst_hypequal_solve(loc0, s2es21, s2es11)
   end // end of [S2Efun _, S2Efun _]
 //
-| (_, _) => trans3_env_hypadd_eqeq(loc0, s2f1, s2f2)
+| (_(*rest-of-s2exp*),
+   _(*rest-of-s2exp*)) => trans3_env_hypadd_eqeq(loc0, s2f1, s2f2)
 //
 end // end of [s2exp_hypequal_solve]
 
