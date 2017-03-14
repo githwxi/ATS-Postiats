@@ -41,23 +41,27 @@ local
 //
 extern
 fun
-segfault(): int = "ext#pats_error_segfault"
+segfault
+(
+// argless
+) : int =
+  "ext#pats_error_segfault"
 //
 in (* in-of-local *)
 
 implement
-abort () = let
+abort() = let
 (*
-  val _ = segfault ()
+  val _ = segfault()
 *)
 in
   $raise FatalErrorExn((*void*))
 end // end of [abort]
 
 implement
-abort_interr () = let
+abort_interr() = let
 (*
-  val _ = segfault ()
+  val _ = segfault()
 *)
 in
   $raise FatalErrorExn_interr((*void*))

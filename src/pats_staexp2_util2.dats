@@ -34,12 +34,18 @@
 (* ****** ****** *)
 //
 staload
-ATSPRE = "./pats_atspre.dats"
+ATSPRE =
+"./pats_atspre.dats"
+//
+(* ****** ****** *)
+//
+staload
+UN =
+"prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
@@ -47,25 +53,30 @@ staload UT = "./pats_utils.sats"
 
 (* ****** ****** *)
 
-staload "./pats_basics.sats"
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
-
+//
 staload LAB = "./pats_label.sats"
 overload = with $LAB.eq_label_label
 overload != with $LAB.neq_label_label
+//
 staload EFF = "./pats_effect.sats"
 overload = with $EFF.eq_effset_effset
+//
+(* ****** ****** *)
+//
 staload INTINF = "./pats_intinf.sats"
+//
 macdef eq_intinf_int = $INTINF.eq_intinf_int
 macdef eq_int_intinf = $INTINF.eq_int_intinf
 macdef eq_intinf_intinf = $INTINF.eq_intinf_intinf
-
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
-staload "./pats_staexp2_util.sats"
 staload "./pats_stacst2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -76,50 +87,114 @@ staload "./pats_stacst2.sats"
 extern
 fun
 s2exp_linkrem_flag
-  (s2e: s2exp, flag: &int >> int): s2exp
+(
+  s2e0: s2exp, flag: &int >> int
+) : s2exp // s2exp_linkrem_flag
+//
+(* ****** ****** *)
 //
 implement
-s2exp_linkrem_flag (s2e0, flag) = let
+s2exp_linkrem_flag
+  (s2e0, flag) = let
 (*
 val () =
-  println! ("s2exp_linkrem_flag: s2e0 = ", s2e0)
-// end of [val]
+println! (
+"s2exp_linkrem_flag: s2e0 = ", s2e0
+) (* end of [val] *)
 *)
+//
+#define
+S2EXP_LINKREM_DEPTH 1000000
+//
+fun
+auxlinkrem
+(
+  s2e0: s2exp
+, flag: &int >> int, tick: int
+) : s2exp = let
+//
+(*
+val () =
+prerrln! ("auxinkrem: tick = ", tick)
+*)
+//
+val () =
+if
+(tick <= 0)
+then () where
+{
+//
+val () =
+(
+prerrln! ("Panic from [patsopt]:\n");
+prerrln! ("The potential causes may be:\n");
+prerrln! ("1. template arguments are not given explicitly;");
+prerrln! ("2. ...(other potential causes are yet to be added!)");
+)
+//
+val () = $ERR.abort_interr{void}()
+//
+} (* end of [if] *)
+//
 in
 //
 case+
-s2e0.s2exp_node of
-| S2Ecst s2c => let
-    val isr = s2cst_get_isrec (s2c)
+s2e0.s2exp_node
+of (* case+ *)
+| S2Ecst(s2c) => let
+//
+    val
+    isr =
+    s2cst_get_isrec(s2c)
+//
   in
     if isr then s2e0 else let
-      val opt = s2cst_get_def (s2c)
+      val opt =
+        s2cst_get_def(s2c)
+      // end of [val]
     in
-      case+ opt  of
-      | Some s2e => let
-          val () = flag := flag + 1 in s2exp_linkrem_flag (s2e, flag)
+      case+ opt of
+      | Some(s2e) => let
+          val () =
+            (flag := flag + 1)
+          // end of [val]
+        in
+          auxlinkrem(s2e, flag, tick-1)
         end // end of [Some]
-      | None () => s2e0
+      | None((*void*)) => s2e0
     end (* end of [if] *)
   end // end of [S2Ecst]
 //
 // HX: the link of s2V should not be updated!!!
 //
-| S2EVar s2V => (
-  case+ s2Var_get_link (s2V) of
-  | Some s2e => let
-      val () = flag := flag + 1 in s2exp_linkrem_flag (s2e, flag)
+| S2EVar(s2V) =>
+  (
+  case+
+  s2Var_get_link(s2V)
+  of (* case+ *)
+  | Some(s2e) => let
+      val () =
+        (flag := flag + 1) in auxlinkrem(s2e, flag, tick-1)
+      // end of [val]
     end // end of [Some]
-  | None () => s2e0
-  ) // end of [S2EVar]
-| _ => s2e0 // end of [_]
+  | None((*void*)) => s2e0
+  ) (* end of [S2EVar] *)
+//
+| _ (* rest-of-s2exp *) => s2e0 // end of [_]
+//
+end // end of [auxlinkrem]
+//
+in
+//
+  auxlinkrem(s2e0, flag, S2EXP_LINKREM_DEPTH(*1000000*))
+//
 end (* end of [s2exp_linkrem_flag] *)
-
+//
 implement
-s2exp_linkrem (s2e0) = let
-  var flag: int = 0 in s2exp_linkrem_flag (s2e0, flag)
-end // end of [s2exp_linkrem]
-
+s2exp_linkrem(s2e0) =
+  let var flag: int = 0 in s2exp_linkrem_flag(s2e0, flag) end
+// end of [s2exp_linkrem]
+//
 (* ****** ****** *)
 
 fun
@@ -195,14 +270,16 @@ case+ 0 of
     val () = flag := flag+1 in s2exp_unit_prop()
   end // end of [_ when ...]
 | _ (*isprf=false*) => let
-    val isdone =
+    val
+    isdone =
     (
-      if knd > 0 (*typization*)
+      if
+      (knd > 0) // typization
       then (
         if s2exp_is_lin(s2e0) then false else true
       ) else false // end of [else]
     ) : bool // end of [val]
-    val s2e0 = s2exp_hnfize_flag (s2e0, flag)
+    val s2e0 = s2exp_hnfize_flag(s2e0, flag)
   in
     if isdone
     then s2e0 // no change
@@ -272,14 +349,14 @@ case+
 | S2EVar _ => let
     val flag0 = flag
     val s2e =
-      s2exp_hnfize_flag (s2e, flag)
+      s2exp_hnfize_flag(s2e, flag)
     // end of [val]
   in
     if flag <= flag0 then s2e0 else s2e
   end // end of [S2Evar]
 //
 | _ => let
-    val () = flag := flag + 1 in s2exp_hnfize_flag (s2e, flag)
+    val () = flag := flag + 1 in s2exp_hnfize_flag(s2e, flag)
   end // end of [_]
 //
 end // end of [s2exp_invar_flag]
@@ -302,10 +379,10 @@ println!
 val flag0 = flag
 //
 val s2e_fun =
-  s2exp_hnfize_flag (s2e_fun, flag)
+  s2exp_hnfize_flag(s2e_fun, flag)
 //
 val s2es_arg =
-  s2explst_hnfize_flag (s2es_arg, flag)
+  s2explst_hnfize_flag(s2es_arg, flag)
 //
 (*
 //
@@ -323,23 +400,34 @@ of // case+
     s2vs_arg, s2e_body
   ) => let
     #define :: list_cons
-    fun aux (
-      s2vs: s2varlst, s2es: s2explst, sub: &stasub
+    fun
+    aux (
+      s2vs: s2varlst
+    , s2es: s2explst, sub: &stasub
     ) : void =
-      case+ (s2vs, s2es) of
+      case+
+      (
+        s2vs, s2es
+      ) of (* case+ *)
       | (list_nil(), _) => ()
       | (_, list_nil()) => ()
-      | (s2v :: s2vs, s2e :: s2es) => let
-          val () = stasub_add (sub, s2v, s2e) in aux (s2vs, s2es, sub)
-        end // end of [::, ::]
+      | (s2v :: s2vs, s2e :: s2es) =>
+        aux(s2vs, s2es, sub) where
+        {
+          val () = stasub_add(sub, s2v, s2e)
+        } (* end of [cons, cons] *)
     // end of [aux]
     val () = flag := flag + 1
-    var sub = stasub_make_nil ()
-    val () = aux (s2vs_arg, s2es_arg, sub)
-    val s2e0 = s2exp_subst (sub, s2e_body)
-    val ((*freed*)) = stasub_free (sub)
+    var sub = stasub_make_nil()
+    val () =
+      aux(s2vs_arg, s2es_arg, sub)
+    // end of [val]
+    val s2e0 =
+      s2exp_subst(sub, s2e_body)
+    // end of [val]
+    val ((*freed*)) = stasub_free(sub)
   in
-    s2exp_hnfize_flag (s2e0, flag)
+    s2exp_hnfize_flag(s2e0, flag)
   end // end of [S2Elam]
 | _ (* non-S2Elam *) =>
   (
@@ -356,16 +444,36 @@ end // end of [s2exp_hnfize_flag_app]
 implement
 s2exp_hnfize_flag
   (s2e0, flag) = let
+//
 (*
-  val () = (
-    print "s2exp_hnfize_flag: s2e0 = "; print_s2exp (s2e0); print_newline ()
-  ) // end of [val]
+val () =
+(
+println!
+(
+"s2exp_hnfize_flag: s2e0(bef) = ", s2e0
+)
+) // end of [val]
 *)
-  val s2t0 = s2e0.s2exp_srt
-  val s2e0 = s2exp_linkrem_flag (s2e0, flag)
+//
+val s2t0 = s2e0.s2exp_srt
+val s2e0 = s2exp_linkrem_flag(s2e0, flag)
+//
+(*
+//
+val () =
+(
+println!
+(
+"s2exp_hnfize_flag: s2e0(aft) = ", s2e0
+)
+) // end of [val]
+*)
+//
 in
 //
-case+ s2e0.s2exp_node of
+case+
+s2e0.s2exp_node
+of (* case+ *)
 //
 | S2Eint _ => s2e0
 | S2Eintinf _ => s2e0
@@ -467,17 +575,23 @@ s2explst_hnfize_flag
 in
 //
 case+ s2es0 of
+| list_nil
+    ((*void*)) => list_nil()
+  // end of [list_nil]
 | list_cons
     (s2e, s2es) => let
-    val flag0 = flag
-    val s2e = s2exp_hnfize_flag (s2e, flag)
-    val s2es = s2explst_hnfize_flag (s2es, flag)
+//
+    val
+    flag0 = flag
+//
+    val s2e = s2exp_hnfize_flag(s2e, flag)
+    val s2es = s2explst_hnfize_flag(s2es, flag)
+//
   in
     if flag > flag0 then
       list_cons (s2e, s2es) else s2es0
     // end of [if]
   end // end of [list_cons]
-| list_nil () => list_nil ()
 //
 end // end of [s2explst_hnfize_flag]
 
@@ -489,47 +603,56 @@ labs2explst_hnfize_flag
 in
 //
 case+ ls2es0 of
+| list_nil
+    ((*void*)) => list_nil()
+  // end of [list_nil]
 | list_cons
     (ls2e, ls2es) => let
     val flag0 = flag
-    val SLABELED (l, name, s2e) = ls2e
-    val s2e = s2exp_hnfize_flag (s2e, flag)
-    val ls2es = labs2explst_hnfize_flag (ls2es, flag)
+    val SLABELED(l, name, s2e) = ls2e
+    val s2e = s2exp_hnfize_flag(s2e, flag)
+    val ls2es = labs2explst_hnfize_flag(ls2es, flag)
   in
     if flag > flag0 then
-      list_cons (SLABELED (l, name, s2e), ls2es) else ls2es0
+      list_cons(SLABELED(l, name, s2e), ls2es) else ls2es0
     // end of [if]
   end // end of [list_cons]
-| list_nil () => list_nil ()
 //
 end // end of [labs2explst_hnfize_flag]
 
 (* ****** ****** *)
 
 implement
-s2exp_hnfize (s2e) = let
-  var flag: int = 0 in s2exp_hnfize_flag (s2e, flag)
+s2exp_hnfize(s2e) = let
+//
+(*
+  val () =
+  println! ("s2exp_hnfize: s2e = ", s2e)
+*)
+//
+  var flag: int = 0 in s2exp_hnfize_flag(s2e, flag)
 end // end of [s2exp_hnfsize]
 
 implement
-s2explst_hnfize (s2es) = let
-  var flag: int = 0 in s2explst_hnfize_flag (s2es, flag)
+s2explst_hnfize(s2es) = let
+  var flag: int = 0 in s2explst_hnfize_flag(s2es, flag)
 end // end of [s2explst_hnfsize]
 
 implement
-s2expopt_hnfize (opt) = let
+s2expopt_hnfize
+  (opt) = let
   var flag: int = 0
 in
 //
 case+ opt of
-| Some s2e => let
+| None() => None()
+| Some(s2e) => let
     val s2f =
-      s2exp_hnfize_flag (s2e, flag)
+      s2exp_hnfize_flag(s2e, flag)
     // end of [val]
   in
-    if flag > 0 then Some (s2f) else opt
+    if flag > 0 then Some(s2f) else opt
   end // end of [Some]
-| None () => None ()
 //
 end // end of [s2expopt_hnfsize]
 
@@ -1192,13 +1315,16 @@ aux0
 ) : bool = (
 //
 case+ env1 of
-| list_nil () =>
-    aux1_0 (env1, env2, s2v10, s2v20)
-| list_cons (s2v1, env1) =>
+| list_nil() =>
+    aux1_0(env1, env2, s2v10, s2v20)
+| list_cons
+    (s2v1, env1) =>
+  (
     if s2v1 = s2v10
       then aux1_t (env1, env2, s2v10, s2v20)
       else aux1_f (env1, env2, s2v10, s2v20)
     // end of [if]
+  ) (* end of [list_cons] *)
 //
 ) (* end of [aux0] *)
 
@@ -1229,9 +1355,10 @@ aux1_t
 ) : bool = (
 //
 case+ env2 of
-| list_nil () => false
-| list_cons (s2v2, env2) =>
+| list_nil() => false
+| list_cons(s2v2, env2) =>
     if s2v2 = s2v20 then true else false
+  // end of [list_cons]
 //
 ) (* end of [aux1_t] *)
 
@@ -1248,7 +1375,7 @@ case+ env2 of
     aux2_0 (env1, env2, s2v10, s2v20)
 | list_cons (s2v2, env2) =>
     if s2v2 = s2v20
-      then false else aux0 (env1, env2, s2v10, s2v20)
+      then false else aux0(env1, env2, s2v10, s2v20)
     // end of [if]
 //
 ) (* end of [aux1_f] *)
@@ -1262,12 +1389,16 @@ aux2_0
 ) : bool = (
 //
 case+ env1 of
-| list_nil () =>
+| list_nil() =>
     if s2v10=s2v20 then true else false
-| list_cons (s2v1, env1) =>
+  // end of [list_nil]
+| list_cons
+    (s2v1, env1) =>
+  (
     if s2v1 = s2v10
-      then false else aux2_0 (env1, env2, s2v10, s2v20)
+      then false else aux2_0(env1, env2, s2v10, s2v20)
     // end of [if]
+  ) (* end of [list_cons] *)
 //
 ) (* end of [aux2_0] *)
 
@@ -1297,9 +1428,9 @@ auxenv
 (
   env: !s2varlst_vt, s2vs: s2varlst
 ) : s2varlst_vt = let
-  val env2 = list_vt_copy (env)
+  val env2 = list_vt_copy(env)
 in
-  list_reverse_append2_vt<s2var> (s2vs, env2)
+  list_reverse_append2_vt<s2var>(s2vs, env2)
 end // end of [auxenv]
 
 in (* in-of-local *)

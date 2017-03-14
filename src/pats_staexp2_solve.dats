@@ -257,29 +257,37 @@ end // end of [s2Var_s2exp_srtck_err]
 
 extern
 fun
-s2hnf_tyleq_solve_lbs_err (
-  loc0: location, lbs: s2VarBoundlst, s2f: s2hnf, err: &int
+s2hnf_tyleq_solve_lbs_err
+(
+  loc: location
+, lbs: s2VarBoundlst, s2f: s2hnf, err: &int
 ) : void // end of [s2hnf_tyleq_solve_lbs_err]
 extern
 fun
-s2hnf_tyleq_solve_ubs_err (
-  loc0: location, s2f: s2hnf, ubs: s2VarBoundlst, err: &int
+s2hnf_tyleq_solve_ubs_err
+(
+  loc: location
+, s2f: s2hnf, ubs: s2VarBoundlst, err: &int
 ) : void // end of [s2hnf_tyleq_solve_ubs_err]
 
 (* ****** ****** *)
-
+//
 extern
 fun
-s2hnf_equal_solve_lVar_err (
+s2hnf_equal_solve_lVar_err
+(
   loc: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
 ) : void // end of [s2hnf_equal_solve_lVar_err]
 extern
 fun
-s2hnf_equal_solve_lVar_err_nck (
+s2hnf_equal_solve_lVar_err_nck
+(
   loc: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
 ) : void // end of [s2hnf_equal_solve_lVar_err_nck]
+//
+(* ****** ****** *)
 
 implement
 s2hnf_equal_solve_lVar_err
@@ -815,13 +823,15 @@ in
 end // end of [wths2explst_equal_solve_err]
 
 (* ****** ****** *)
-
+//
 extern
 fun
-s2hnf_tyleq_solve_lVar_err (
+s2hnf_tyleq_solve_lVar_err
+(
   loc: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
 ) : void // end of [s2hnf_tyleq_solve_lVar_err]
+//
 implement
 s2hnf_tyleq_solve_lVar_err
   (loc0, s2f1, s2f2, s2V1, err) = let
@@ -929,27 +939,34 @@ val () =
 case+ (s2en10, s2en20) of
 //
 | (S2Einvar s2e11, _) => let
-    val s2f11 = s2exp2hnf (s2e11) in
+    val
+    s2f11 = s2exp2hnf (s2e11) in
     s2hnf_tyleq_solve_err (loc0, s2f11, s2f20, err)
   end // end of [S2Einvar, _]
 | (_, S2Einvar s2e21) => let
     val s2f21 = s2exp2hnf (s2e21)
     val s2e21 = s2hnf2exp (s2f21)
   in
-    case+ s2e21.s2exp_node of
+    case+
+    s2e21.s2exp_node
+    of (* case+ *)
     | S2EVar s2V2 =>
-        s2hnf_equal_solve_rVar_err (loc0, s2f10, s2f21, s2V2, err)
-    | _ => s2hnf_tyleq_solve_err (loc0, s2f10, s2f21, err)
+      s2hnf_equal_solve_rVar_err
+        (loc0, s2f10, s2f21, s2V2, err)
+      // s2hnf_equal_solve_rVar_err
+    | _ (*non-S2Evar*) =>
+      s2hnf_tyleq_solve_err(loc0, s2f10, s2f21, err)
   end // end of [_, S2Einvar]
 //
 | (_, S2EVar s2V2) =>
-    s2hnf_tyleq_solve_rVar_err (loc0, s2f10, s2f20, s2V2, err)
+    s2hnf_tyleq_solve_rVar_err(loc0, s2f10, s2f20, s2V2, err)
   // end of [_, S2EVar]
 | (S2EVar s2V1, _) =>
-    s2hnf_tyleq_solve_lVar_err (loc0, s2f10, s2f20, s2V1, err)
+    s2hnf_tyleq_solve_lVar_err(loc0, s2f10, s2f20, s2V1, err)
   // end of [S2EVar, _]
 //
-| (S2Etop(knd1, s2e1), _) => (
+| (S2Etop(knd1, s2e1), _) =>
+  (
   case+ s2en20 of
   | S2Etop (knd2, s2e2) => (
       if knd1 >= knd2 then let
@@ -958,7 +975,7 @@ case+ (s2en10, s2en20) of
         // nothing
       end else (err := err + 1) // end of [if]
     ) // end of [S2Etop]
-  | _ => (err := err + 1)
+  | _ (*non-S2Etop*) => (err := err + 1)
   ) // end of [S2Etop, _]
 | (_, S2Etop(knd2, s2e2)) => (
   case+ 0 of
@@ -979,8 +996,11 @@ case+ (s2en10, s2en20) of
     val (pfpush | ()) = trans3_env_push ()
 //
     // this order is mandatary!
-    val s2e2 = s2hnf_absuni_and_add (loc0, s2f20)
-    val (s2e1, s2ps) = s2exp_uni_instantiate_all (s2e10, loc0, err)
+    val s2e2 =
+      s2hnf_absuni_and_add (loc0, s2f20)
+    val (s2e1, s2ps) =
+      s2exp_uni_instantiate_all (s2e10, loc0, err)
+    // end of [val]
 //
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
@@ -993,8 +1013,11 @@ case+ (s2en10, s2en20) of
     val (pfpush | ()) = trans3_env_push ()
 //
     // this order is mandatary!
-    val s2e1 = s2hnf_opnexi_and_add (loc0, s2f10)
-    val (s2e2, s2ps) = s2exp_exi_instantiate_all (s2e20, loc0, err)
+    val s2e1 =
+      s2hnf_opnexi_and_add (loc0, s2f10)
+    val (s2e2, s2ps) =
+      s2exp_exi_instantiate_all (s2e20, loc0, err)
+    // end of [val]
 //
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
@@ -1322,31 +1345,52 @@ end // end of [wths2explst_tyleq_solve_err]
 implement
 s2hnf_tyleq_solve_lbs_err
   (loc0, lbs, s2f, err) = let
-  macdef loop = s2hnf_tyleq_solve_lbs_err
+//
+(*
+macdef
+loop = s2hnf_tyleq_solve_lbs_err
+*)
+//
 in
   case+ lbs of
-  | list_cons (lb, lbs) => let
-      val s2f_lb = s2exp2hnf (s2VarBound_get_val (lb))
-      val () = s2hnf_tyleq_solve_err (loc0, s2f_lb, s2f, err)
+  | list_nil() => ()
+  | list_cons(lb, lbs) => let
+//
+      val
+      s2f_lb =
+      s2exp2hnf(s2VarBound_get_val(lb))
+//
+      val () =
+      s2hnf_tyleq_solve_err(loc0, s2f_lb, s2f, err)
+//
     in
-      loop (loc0, lbs, s2f, err)
+      s2hnf_tyleq_solve_lbs_err(loc0, lbs, s2f, err)
     end // end of [list_cons]
-  | list_nil () => ()
 end // end of [s2hnf_tyleq_solve_lbs_err]
 
 implement
 s2hnf_tyleq_solve_ubs_err
   (loc0, s2f, ubs, err) = let
-  macdef loop = s2hnf_tyleq_solve_ubs_err
+//
+(*
+macdef
+loop = s2hnf_tyleq_solve_ubs_err
+*)
+//
 in
   case+ ubs of
-  | list_cons (ub, ubs) => let
-      val s2f_ub = s2exp2hnf (s2VarBound_get_val (ub))
-      val () = s2hnf_tyleq_solve_err (loc0, s2f, s2f_ub, err)
+  | list_nil() => ()
+  | list_cons(ub, ubs) => let
+//
+      val
+      s2f_ub =
+      s2exp2hnf(s2VarBound_get_val (ub))
+//
+      val () =
+      s2hnf_tyleq_solve_err(loc0, s2f, s2f_ub, err)
     in
-      loop (loc0, s2f, ubs, err)
+      s2hnf_tyleq_solve_ubs_err(loc0, s2f, ubs, err)
     end // end of [list_cons]
-  | list_nil () => ()
 end // end of [s2hnf_tyleq_solve_ubs_err]
 
 (* ****** ****** *)
