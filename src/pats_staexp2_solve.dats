@@ -40,12 +40,15 @@ staload UN = "prelude/SATS/unsafe.sats"
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload LAB = "./pats_label.sats"
-overload compare with $LAB.compare_label_label
 staload STMP = "./pats_stamp.sats"
-overload compare with $STMP.compare_stamp_stamp
-
+//
+overload
+compare with $LAB.compare_label_label
+overload
+compare with $STMP.compare_stamp_stamp
+//
 (* ****** ****** *)
 
 staload EFF = "./pats_effect.sats"
@@ -78,24 +81,38 @@ implement
 label_equal_solve_err
   (loc0, l1, l2, err) =
 (
-  if compare(l1, l2) = 0 then () else let
-    val () = err := err + 1
-    val () = the_staerrlst_add (STAERR_label_equal (loc0, l1, l2))
-  in
-    // nothing
-  end // end of [if]
+//
+if
+compare(l1, l2) = 0
+then ()
+else let
+  val () = err := err + 1
+  val () =
+  the_staerrlst_add
+    (STAERR_label_equal(loc0, l1, l2))
+  // end of [val]
+in
+  // nothing
+end // end of [if]
+//
 ) (* end of [label_equal_solve_err] *)
 
 implement
 stamp_equal_solve_err
   (loc0, s1, s2, err) =
 (
-  if compare(s1, s2) = 0 then () else let
-    val () = err := err + 1
-    val () = the_staerrlst_add (STAERR_stamp_equal (loc0, s1, s2))
-  in
-    // nothing
-  end // end of [if]
+if
+compare(s1, s2) = 0
+then ()
+else let
+  val () = err := err + 1
+  val () =
+  the_staerrlst_add
+    (STAERR_stamp_equal(loc0, s1, s2))
+  // end of [val]
+in
+  // nothing
+end // end of [if]
 ) (* end of [stamp_equal_solve_err] *)
 
 (* ****** ****** *)
@@ -105,10 +122,12 @@ funclo_equal_solve
 (
   loc0, fc1, fc2
 ) = err where {
-  var err: int = 0
-  val ((*void*)) =
-    funclo_equal_solve_err(loc0, fc1, fc2, err)
-  // end of [val]
+//
+var err: int = 0
+val ((*void*)) =
+funclo_equal_solve_err
+  (loc0, fc1, fc2, err)
+//
 } // end of [funclo_equal_solve]
 
 implement
@@ -124,7 +143,8 @@ else let
   val () =
     (err := err + 1)
   val () =
-    the_staerrlst_add(STAERR_funclo_equal(loc0, fc1, fc2))
+  the_staerrlst_add
+    (STAERR_funclo_equal(loc0, fc1, fc2))
   // end of [val]
 in
   // nothing
@@ -147,7 +167,8 @@ else let
   val () =
     (err := err + 1)
   val () =
-    the_staerrlst_add(STAERR_clokind_equal(loc0, knd1, knd2))
+  the_staerrlst_add
+    (STAERR_clokind_equal(loc0, knd1, knd2))
   // end of [val]
 in
   // nothing
@@ -158,54 +179,94 @@ end // end of [if]
 
 implement
 linearity_equal_solve
-  (loc0, lin1, lin2) = err where {
-  var err: int = 0
-  val () = linearity_equal_solve_err (loc0, lin1, lin2, err)
+(
+  loc0, lin1, lin2
+) = err where {
+//
+var err: int = 0
+//
+val () =
+linearity_equal_solve_err
+  (loc0, lin1, lin2, err)
+//
 } (* end of [linearity_equal_solve] *)
 
 implement
 linearity_equal_solve_err
-  (loc0, lin1, lin2, err) =
-  if lin1 = lin2 then () else let
-    val () = err := err + 1
-    val () = the_staerrlst_add (STAERR_linearity_equal (loc0, lin1, lin2))
-  in
-    // nothing
-  end // end of [if]
-// end of [linearity_equal_solve_err]
+  (loc0, lin1, lin2, err) = (
+//
+if
+(lin1 = lin2)
+then ()
+else let
+  val () =
+    (err := err + 1)
+  val () =
+  the_staerrlst_add
+    (STAERR_linearity_equal(loc0, lin1, lin2))
+  // end of [val]
+in
+  // nothing
+end // end of [if]
+//
+) (* end of [linearity_equal_solve_err] *)
 
 (* ****** ****** *)
 
 implement
 pfarity_equal_solve
-  (loc0, npf1, npf2) = err where {
-  var err: int = 0
-  val () = pfarity_equal_solve_err (loc0, npf1, npf2, err)
-} // end of [pfarity_equal_solve]
+(
+  loc0, npf1, npf2
+) = err where {
+//
+var err: int = 0
+//
+val () =
+pfarity_equal_solve_err
+  (loc0, npf1, npf2, err)
+//
+} (* end of [pfarity_equal_solve] *)
 
 implement
 pfarity_equal_solve_err
   (loc0, npf1, npf2, err) =
-  if npf1 = npf2 then () else let
-    val () = err := err + 1
-    val () = the_staerrlst_add (STAERR_pfarity_equal (loc0, npf1, npf2))
-  in
-    // nothing
-  end // end of [if]
-// end of [pfarity_equal_solve_err]
+(
+//
+if
+(npf1 = npf2)
+then ()
+else let
+  val () =
+    (err := err + 1)
+  val () =
+  the_staerrlst_add
+    (STAERR_pfarity_equal(loc0, npf1, npf2))
+in
+  // nothing
+end // end of [if]
+//
+) (* end of [pfarity_equal_solve_err] *)
 
 (* ****** ****** *)
 
 implement
 boxity_equal_solve_err
   (loc0, knd1, knd2, err) = let
-  val i = (
-    if tyreckind_is_boxed (knd2) then 1-knd1 else knd1
-  ) : int // end of [val]
+//
+val i =
+(
+if
+tyreckind_is_boxed(knd2) then 1-knd1 else knd1
+) : int // end of [val]
+//
 in
   if (i = 0) then () else let
-    val () = err := err + 1
-    val () = the_staerrlst_add (STAERR_boxity_equal (loc0, knd1, knd2))
+    val () =
+      (err := err + 1)
+    val () =
+    the_staerrlst_add
+      (STAERR_boxity_equal (loc0, knd1, knd2))
+    // end of [val]
   in
     // nothing
   end // end of [if]
@@ -214,35 +275,55 @@ end // end of [boxity_equal_solve_err]
 implement
 tyreckind_equal_solve_err
   (loc0, knd1, knd2, err) =
-  if knd1 = knd2 then () else let
-    val () = err := err + 1
-    val () = the_staerrlst_add (STAERR_tyreckind_equal (loc0, knd1, knd2))
-  in
-    // nothing
-  end // end of [if]
-// end of [tyreckind_equal_solve_err]
+(
+//
+if
+(knd1 = knd2)
+then ()
+else let
+  val () = (err := err + 1)
+  val () =
+  the_staerrlst_add
+    (STAERR_tyreckind_equal(loc0, knd1, knd2))
+  // end of [val]
+in
+  // nothing
+end // end of [else]
+//
+) (* end of [tyreckind_equal_solve_err] *)
 
 (* ****** ****** *)
 
 implement
 refval_equal_solve_err
   (loc0, knd1, knd2, err) =
-  if knd1 = knd2 then () else let
-    val () = err := err + 1
-    val () = the_staerrlst_add (STAERR_refval_equal (loc0, knd1, knd2))
-  in
-    // nothing
-  end // end of [if]
-// end of [refval_equal_solve_err]
+(
+//
+if
+(knd1 = knd2)
+then ()
+else let
+  val () = (err := err + 1)
+  val () =
+  the_staerrlst_add
+    (STAERR_refval_equal(loc0, knd1, knd2))
+  // end of [val]
+in
+  // nothing
+end // end of [else]
+//
+) (* end of [refval_equal_solve_err] *)
 
 (* ****** ****** *)
-
+//
 extern
 fun
 s2Var_merge_szexp_err
 (
-  loc: location, s2V1: s2Var, s2ze2: s2zexp, err: &int
+  loc0: location
+, s2V1: s2Var, s2ze2: s2zexp, err: &int
 ) : void // end of [s2Var_merge_szexp_err]
+//
 implement
 s2Var_merge_szexp_err
   (loc0, s2V1, s2ze2, err) = let
@@ -261,6 +342,7 @@ then () where
     the_staerrlst_add(STAERR_s2zexp_merge(loc0, s2ze1, s2ze2))
   // end of [val]
 } (* end of [then] *)
+//
 in
   s2Var_set_szexp(s2V1, s2ze12)
 end // end of [s2Var_merge_szexp_err]
@@ -319,14 +401,14 @@ extern
 fun
 s2hnf_equal_solve_lVar_err
 (
-  loc: location
+  loc0: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
 ) : void // end of [s2hnf_equal_solve_lVar_err]
 extern
 fun
 s2hnf_equal_solve_lVar_err_nck
 (
-  loc: location
+  loc0: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
 ) : void // end of [s2hnf_equal_solve_lVar_err_nck]
 //
@@ -427,38 +509,45 @@ extern
 fun
 s2hnf_equal_solve_rVar_err
 (
-  loc: location
+  loc0: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V2: s2Var, err: &int
 ) : void // end of [s2hnf_equal_solve_rVar_err]
 extern
 fun
 s2hnf_equal_solve_rVar_err_nck
 (
-  loc: location
+  loc0: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V2: s2Var, err: &int
 ) : void // end of [s2hnf_equal_solve_rVar_err_nck]
+
+(* ****** ****** *)
 
 implement
 s2hnf_equal_solve_rVar_err
   (loc0, s2f1, s2f2, s2V2, err) = let
 //
-val s2e1 = s2hnf2exp (s2f1)
-val s2e2 = s2hnf2exp (s2f2)
+val s2e1 = s2hnf2exp(s2f1)
+and s2e2 = s2hnf2exp(s2f2)
+//
 (*
-val () = (
+val () =
+(
   println! ("s2hnf_equal_solve_rVar_err: s2e1 = ", s2e1);
   println! ("s2hnf_equal_solve_rVar_err: s2t1 = ", s2e1.s2exp_srt);
   println! ("s2hnf_equal_solve_rVar_err: s2e2 = ", s2e2);
   println! ("s2hnf_equal_solve_rVar_err: s2t2 = ", s2e2.s2exp_srt);
-) // end of [val]
+) (* end of [val] *)
 *)
+//
 val
 (ans, s2cs, s2vs, s2Vs) =
 s2Var_occurcheck_s2exp(s2V2, s2e1)
 //
 in
 //
-if ans = 0 then let
+if
+(ans = 0)
+then let
   val () = s2Varlst_add_sVarlst(s2Vs, s2V2)
 in
   s2hnf_equal_solve_rVar_err_nck(loc0, s2f1, s2f2, s2V2, err)
