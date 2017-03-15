@@ -22,8 +22,8 @@ ATSOPT=$(ATSHOME)/bin/atsopt
 ######
 
 CFLAGS=-g
-CFLAGS=-g -O
-CFLAGS=-g -O2
+#CFLAGS=-g -O
+#CFLAGS=-g -O2
 
 ######
 #

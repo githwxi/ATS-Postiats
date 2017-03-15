@@ -103,8 +103,12 @@ println! (
 ) (* end of [val] *)
 *)
 //
+(*
+HX-2017-03-14:
+1000 should be enough
+*)
 #define
-S2EXP_LINKREM_DEPTH 1000000
+S2EXP_LINKREM_DEPTH 1000
 //
 fun
 auxlinkrem

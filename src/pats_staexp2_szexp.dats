@@ -494,7 +494,12 @@ implement
 s2zexp_merge_exn
   (x1, x2) = let
 //
-fn abort (): s2zexp = $raise S2ZEXPMERGEexn()
+fn
+abort
+(
+// argless
+) : s2zexp =
+  $raise S2ZEXPMERGEexn()
 //
 val s2ze1 = s2zexp_linkrem (x1)
 val s2ze2 = s2zexp_linkrem (x2)

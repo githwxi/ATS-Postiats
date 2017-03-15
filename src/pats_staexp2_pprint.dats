@@ -61,13 +61,20 @@ local
 
 #define MAXLEVEL 100
 
-fun aux_s2exp (
+fun
+aux_s2exp
+(
   out: FILEref, n: int, s2e0: s2exp
 ) : void = let
-  macdef prstr (x) = fprint_string (out, ,(x))
+//
+macdef
+prstr(x) = fprint_string (out, ,(x))
+//
 in
 //
-case+ s2e0.s2exp_node of
+case+
+s2e0.s2exp_node
+of (* case+ *)
 //
 | S2Eint (x) => {
     val () = prstr "S2Eint("
@@ -128,27 +135,37 @@ case+ s2e0.s2exp_node of
     val () = prstr "S2Evar("
     val () = fprint_s2var (out, x)
     val () = prstr ")"
-  } // end of [S2Evar]
+  } (* end of [S2Evar] *)
 | S2EVar (X) => {
-    val opt = s2Var_get_link (X)
     val () = prstr "S2EVar("
     val () = fprint_s2Var (out, X)
-    val () = (
+    val () = let
+      val opt = s2Var_get_link (X)
+    in
       case+ opt of
+      | None () => ()
       | Some (s2e) => {
           val () = prstr "->"
           val () = aux_s2exp_if (out, n-1, s2e)
         } // end of [Some]
-      | None () => ()
-    ) // end of [val]
+    end (* end of [val] *)
     val () = prstr ")"
-  } // end of [S2EVar]
+  } (* end of [S2EVar] *)
 //
 | S2Ehole (s2h) => {
     val () = prstr "S2Ehole("
     val () = fprint_s2hole (out, s2h)
     val () = prstr ")"
-  } // end of [S2Ehole]
+  } (* end of [S2Ehole] *)
+//
+| S2Eat (s2e1, s2e2) =>
+  {
+    val () = prstr "S2Eat("
+    val () = aux_s2exp (out, n, s2e1)
+    val () = prstr "; "
+    val () = aux_s2exp (out, n, s2e2)
+    val () = prstr ")"
+  } (* end of [S2Eat] *)
 //
 | S2Edatcontyp
     (d2c, arg) => {
@@ -169,13 +186,6 @@ case+ s2e0.s2exp_node of
     val () = prstr ")"
   } // end of [S2Edatconptr]
 //
-| S2Eat (s2e1, s2e2) => {
-    val () = prstr "S2Eat("
-    val () = aux_s2exp (out, n, s2e1)
-    val () = prstr "; "
-    val () = aux_s2exp (out, n, s2e2)
-    val () = prstr ")"
-  } // end of [S2Eat]
 | S2Esizeof (s2e) => {
     val () = prstr "S2Esizeof("
     val () = aux_s2exp (out, n, s2e)
@@ -187,14 +197,18 @@ case+ s2e0.s2exp_node of
     val () = aux_s2eff (out, n, s2fe)
     val () = prstr ")"
   } // end of [S2Eeff]
-| S2Eeqeq (s2e1, s2e2) => {
+//
+| S2Eeqeq(s2e1, s2e2) =>
+  {
     val () = prstr "S2Eeqeq("
     val () = aux_s2exp (out, n, s2e1)
     val () = prstr "; "
     val () = aux_s2exp (out, n, s2e2)
     val () = prstr ")"
   } // end of [S2Eeqeq]
-| S2Eproj (s2a, s2e, s2ls) => {
+| S2Eproj
+    (s2a, s2e, s2ls) =>
+  {
     val () = prstr "S2Eproj("
     val () = aux_s2exp (out, n, s2a)
     val () = prstr "; "
@@ -204,21 +218,29 @@ case+ s2e0.s2exp_node of
     val () = prstr ")"
   } // end of [S2Eproj]
 //
-| S2Eapp (s2e_fun, s2es_arg) => {
+| S2Eapp
+  (
+    s2e_fun, s2es_arg
+  ) => {
     val () = prstr "S2Eapp("
     val () = aux_s2exp (out, n, s2e_fun)
     val () = prstr "; "
     val () = aux_s2explst (out, n, s2es_arg)
     val () = prstr ")"
-  } // end of [S2Eapp]
-| S2Elam (s2vs_arg, s2e_body) => {
+  } (* end of [S2Eapp] *)
+| S2Elam
+  (
+    s2vs_arg, s2e_body
+  ) => {
     val () = prstr "S2Elam("
     val () = fprint_s2varlst (out, s2vs_arg)
     val () = prstr "; "
     val () = aux_s2exp (out, n, s2e_body)
     val () = prstr ")"
-  } // end of [S2Elam]
-| S2Efun (
+  } (* end of [S2Elam] *)
+//
+| S2Efun
+  (
     fc, lin, s2fe, npf, s2es_arg, s2e_res
   ) => {
     val () = prstr "S2Efun("
@@ -235,8 +257,9 @@ case+ s2e0.s2exp_node of
     val () = prstr "; "
     val () = aux_s2exp (out, n, s2e_res)
     val () = prstr ")"
-  } // end of [S2Efun]
-| S2Emetfun (
+  } (* end of [S2Efun] *)
+| S2Emetfun
+  (
     opt, s2es_met, s2e_body
   ) => {
     val () = prstr "S2Emetfun("
@@ -244,13 +267,13 @@ case+ s2e0.s2exp_node of
     val () = prstr "; "
     val () = (
       case+ opt of
-      | Some stamp => $STMP.fprint_stamp (out, stamp)
       | None () => ()
+      | Some stamp => $STMP.fprint_stamp(out, stamp)
     ) // end of [val]
     val () = prstr "; "
     val () = aux_s2exp (out, n, s2e_body)
     val () = prstr ")"
-  } // end of [S2Emetfun]
+  } (* end of [S2Emetfun] *)
 //
 | S2Emetdec
     (s2es1, s2es2) => {
@@ -259,7 +282,7 @@ case+ s2e0.s2exp_node of
     val () = prstr ") < ("
     val () = aux_s2explst (out, n, s2es2)
     val () = prstr "))"
-  } // end of [S2Emetdec]
+  } (* end of [S2Emetdec] *)
 //
 | S2Etop
     (knd, s2e) => {
@@ -275,14 +298,19 @@ case+ s2e0.s2exp_node of
     val () = prstr ")"
   }
 //
-| S2Etyarr (s2e_elt, s2es_dim) => {
+| S2Etyarr
+  (
+    s2e_elt, s2es_dim
+  ) => {
     val () = prstr "S2Etyarr("
     val () = aux_s2exp (out, n, s2e_elt)
     val () = prstr "; "
     val () = aux_s2explst (out, n, s2es_dim)
     val () = prstr ")"
   } // end of [S2Etyarr]
-| S2Etyrec (knd, npf, ls2es) => {
+| S2Etyrec
+    (knd, npf, ls2es) =>
+  {
     val () = prstr "S2Etyrec("
     val () = fprint_tyreckind (out, knd)
     val () = prstr "; "
@@ -298,7 +326,9 @@ case+ s2e0.s2exp_node of
     val () = prstr ")"
   } // end of [S2Einvar]
 //
-| S2Erefarg (knd, s2e) => { // knd=0/1:val/ref
+| S2Erefarg (knd, s2e) =>
+  {
+    // knd=0/1:val/ref
     val () = prstr "S2Erefarg("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -312,7 +342,8 @@ case+ s2e0.s2exp_node of
     val () = prstr ")"
   } // end of [S2Evararg]
 //
-| S2Eexi (
+| S2Eexi
+  (
     s2vs, s2ps, s2e
   ) => {
     val () = prstr "S2Eexi("
@@ -323,7 +354,8 @@ case+ s2e0.s2exp_node of
     val () = aux_s2exp (out, n, s2e)
     val () = prstr ")"
   } // end of [S2Eexi]
-| S2Euni (
+| S2Euni
+  (
     s2vs, s2ps, s2e
   ) => {
     val () = prstr "S2Euni("
@@ -347,7 +379,7 @@ case+ s2e0.s2exp_node of
 | S2Eerrexp((*void*)) => prstr "S2Eerrexp()"
 //
 (*
-| _ => prstr "S2E...(...)"
+| _ (*rest-of-s2exp*) => prstr "S2E...(...)"
 *)
 //
 end // end of [aux_s2exp]
@@ -537,39 +569,41 @@ case+ s2fe of
 //
 end // end of [aux_s2eff]
 
-in // in of [local]
-
+in (* in of [local] *)
+//
 implement
 fpprint_s2exp
-  (out, s2e) = aux_s2exp (out, MAXLEVEL, s2e)
+  (out, s2e) = aux_s2exp(out, MAXLEVEL, s2e)
+//
 implement
-pprint_s2exp (s2e) = fpprint_s2exp (stdout_ref, s2e)
+pprint_s2exp(s2e) = fpprint_s2exp(stdout_ref, s2e)
 implement
-pprerr_s2exp (s2e) = fpprint_s2exp (stderr_ref, s2e)
-
+pprerr_s2exp(s2e) = fpprint_s2exp(stderr_ref, s2e)
+//
 implement
 fpprint_s2explst
-  (out, s2es) = aux_s2explst (out, MAXLEVEL, s2es)
+  (out, s2es) = aux_s2explst(out, MAXLEVEL, s2es)
+//
 implement
-pprint_s2explst (s2es) = fpprint_s2explst (stdout_ref, s2es)
+pprint_s2explst(s2es) = fpprint_s2explst(stdout_ref, s2es)
 implement
-pprerr_s2explst (s2es) = fpprint_s2explst (stderr_ref, s2es)
-
+pprerr_s2explst(s2es) = fpprint_s2explst(stderr_ref, s2es)
+//
 implement
 fpprint_s2explstlst
-  (out, s2ess) = aux_s2explstlst (out, MAXLEVEL, s2ess)
+  (out, s2ess) = aux_s2explstlst(out, MAXLEVEL, s2ess)
 // end of [fpprint_s2explstlst]
-
+//
 implement
 fpprint_labs2explst
-  (out, ls2es) = aux_labs2explst (out, MAXLEVEL, ls2es)
+  (out, ls2es) = aux_labs2explst(out, MAXLEVEL, ls2es)
 // end of [fpprint_labs2explst]
-
+//
 implement
 fpprint_wths2explst
-  (out, ws2es) = aux_wths2explst (out, MAXLEVEL, ws2es)
+  (out, ws2es) = aux_wths2explst(out, MAXLEVEL, ws2es)
 // end of [fpprint_wths2explst]
-
+//
 end // end of [local]
 
 (* ****** ****** *)

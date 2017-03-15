@@ -32,9 +32,17 @@
 // Start Time: October, 2011
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload
+ATSPRE =
+"./pats_atspre.dats"
+//
+(* ****** ****** *)
+//
+staload
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
@@ -348,14 +356,14 @@ in
 end // end of [s2Var_merge_szexp_err]
 
 (* ****** ****** *)
-
+//
 extern
 fun
 s2Var_s2exp_srtck_err
 (
   loc0: location, s2V1: s2Var, s2e2: s2exp, err: &int
 ) : void // end of [s2Var_s2exp_srtck_err]
-
+//
 implement
 s2Var_s2exp_srtck_err
   (loc0, s2V1, s2e2, err) = let
@@ -419,18 +427,21 @@ s2hnf_equal_solve_lVar_err
 (
   loc0, s2f1, s2f2, s2V1, err
 ) = let
-(*
-  val () = (
-    println! ("s2hnf_equal_solve_lVar_err: s2f1 = ", s2f1);
-    println! ("s2hnf_equal_solve_lVar_err: s2f2 = ", s2f2);
-  ) // end of [val]
-*)
-  val s2e1 = s2hnf2exp (s2f1)
-  val s2e2 = s2hnf2exp (s2f2)
 //
-  val
-  (ans, s2cs, s2vs, s2Vs) =
-  s2Var_occurcheck_s2exp(s2V1, s2e2)
+(*
+val () =
+(
+  println! ("s2hnf_equal_solve_lVar_err: s2f1 = ", s2f1);
+  println! ("s2hnf_equal_solve_lVar_err: s2f2 = ", s2f2);
+) (* end of [val] *)
+*)
+//
+val s2e1 = s2hnf2exp (s2f1)
+val s2e2 = s2hnf2exp (s2f2)
+//
+val
+(ans, s2cs, s2vs, s2Vs) =
+s2Var_occurcheck_s2exp(s2V1, s2e2)
 //
 in
 //
@@ -955,31 +966,42 @@ fun loop (
   loc0: location
 , s2es1: s2explst, s2es2: s2explst
 , err: &int
-) : int = case+ s2es1 of
-  | list_cons (s2e1, s2es1) => (
-    case+ s2es2 of
-    | list_cons (s2e2, s2es2) => let
-        val () =
-          s2exp_equal_solve_err (loc0, s2e1, s2e2, err)
-        // end of [val]
-      in
-        loop (loc0, s2es1, s2es2, err)
-      end // end of [list_cons]
-    | list_nil () => 1
-    ) // end of [list_cons]
-  | list_nil () => (
-    case+ s2es2 of
-    | list_cons _ => ~1 | list_nil () => 0
-    ) // end of [list_nil]
-// end of [loop]
+) : int =
+(
+case+ s2es1 of
+| list_nil() =>
+  (
+  case+ s2es2 of
+  | list_nil() => 0 | list_cons _ => ~1
+  ) (* list_nil *)
+| list_cons(s2e1, s2es1) =>
+  (
+  case+ s2es2 of
+  | list_nil() => 1
+  | list_cons(s2e2, s2es2) =>
+    loop(loc0, s2es1, s2es2, err) where
+    {
+      val () =
+      s2exp_equal_solve_err(loc0, s2e1, s2e2, err)
+    } (* list_cons *)
+  ) (* end of [list_cons] *)
+) (* end of [loop] *)
 //
-val sgn = loop (
+val
+sgn =
+loop
+(
   loc0, s2es1, s2es2, err
-) // end of [val]
-val () = if (sgn != 0) then {
-  val () = err := err + 1
-  val () = the_staerrlst_add (STAERR_s2explst_length (loc0, sgn))
-} // end of [val]
+) (* end of [val] *)
+val () =
+if (sgn != 0) then
+{
+  val () =
+    (err := err + 1)
+  val () =
+    the_staerrlst_add(STAERR_s2explst_length(loc0, sgn))
+  // end of [val]
+} (* end of [val] *)
 in
   // nothing
 end // end of [s2explst_equal_solve_err]
@@ -1002,32 +1024,37 @@ loop
 case+ ls2es1 of
 | list_nil () =>
   (
-  case+ ls2es2 of list_cons _ => ~1 | list_nil () => 0
+  case+ ls2es2 of
+  | list_nil () => 0 | list_cons _ => ~1
   ) // end of [list_nil]
 | list_cons(ls2e1, ls2es1) =>
   (
   case+ ls2es2 of
-  | list_nil
-      ((*void*)) => 1
-    // list_nil
-  | list_cons
-      (ls2e2, ls2es2) => let
+  | list_nil((*void*)) => 1
+  | list_cons(ls2e2, ls2es2) =>
+    loop(loc0, ls2es1, ls2es2, err) where
+    {
       val SLABELED(l1, _, s2e1) = ls2e1
       val SLABELED(l2, _, s2e2) = ls2e2
       val () = label_equal_solve_err(loc0, l1, l2, err)
       val () = s2exp_equal_solve_err(loc0, s2e1, s2e2, err)
-    in
-      loop (loc0, ls2es1, ls2es2, err)
-    end // end of [list_cons]
+    } (* list_cons *)
   ) // end of [list_cons]
 // end of [loop]
 //
-val sgn = loop (
+val
+sgn =
+loop
+(
   loc0, ls2es1, ls2es2, err
-) // end of [val]
-val () = if (sgn != 0) then {
-  val () = err := err + 1
-  val () = the_staerrlst_add (STAERR_labs2explst_length (loc0, sgn))
+) (* end of [val] *)
+val () =
+if (sgn != 0) then
+{
+  val () =
+    (err := err + 1)
+  val () =
+    the_staerrlst_add(STAERR_labs2explst_length (loc0, sgn))
 } // end of [if] // end of [val]
 in
   // nothing
@@ -1103,6 +1130,15 @@ s2hnf_tyleq_solve_lVar_err
 (
   loc0, s2f1, s2f2, s2V1, err
 ) = let
+//
+(*
+val () =
+println!
+("s2hnf_tyleq_solve_lVar_err: s2f1 = ", s2f1)
+val () =
+println!
+("s2hnf_tyleq_solve_lVar_err: s2f2 = ", s2f2)
+*)
 //
 val
 s2e2 = s2hnf2exp(s2f2)
@@ -1200,7 +1236,7 @@ var err: int = 0
 val ((*void*)) =
 s2exp_tyleq_solve_err(loc0, s2e10, s2e20, err)
 //
-} // end of [s2exp_tyleq_solve]
+} (* end of [s2exp_tyleq_solve] *)
 
 (* ****** ****** *)
 
@@ -1211,9 +1247,12 @@ s2hnf_tyleq_solve_err
 ) = let
 //
 val err0 = err
-val s2e10 = s2hnf2exp (s2f10)
-and s2e20 = s2hnf2exp (s2f20)
-val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
+//
+val s2e10 = s2hnf2exp(s2f10)
+and s2e20 = s2hnf2exp(s2f20)
+//
+val s2en10 = s2e10.s2exp_node
+and s2en20 = s2e20.s2exp_node
 //
 (*
 val () =
@@ -1222,15 +1261,18 @@ val () =
 println!
 ("s2hnf_tyleq_solve_err: err0 = ", err0);
 //
-print ("s2hnf_tyleq_solve_err: s2e10 = "); pprint_s2exp(s2e10); print_newline();
-print ("s2hnf_tyleq_solve_err: s2e20 = "); pprint_s2exp(s2e20); print_newline();
+print("s2hnf_tyleq_solve_err: s2e10 = "); pprint_s2exp(s2e10); print_newline();
+print("s2hnf_tyleq_solve_err: s2e20 = "); pprint_s2exp(s2e20); print_newline();
 //
 ) // end of [val]
 *)
 //
 val () =
 (
-case+ (s2en10, s2en20) of
+case+
+(
+s2en10, s2en20
+) of (* case+ *)
 //
 | (S2Einvar s2e11, _) => let
     val
@@ -1262,19 +1304,17 @@ case+ (s2en10, s2en20) of
 | (S2Etop(knd1, s2e1), _) =>
   (
   case+ s2en20 of
-  | S2Etop (knd2, s2e2) =>
+  | S2Etop(knd2, s2e2) =>
     (
-      if knd1 >= knd2 then let
-        val () =
-          s2exp_tyleq_solve_err(loc0, s2e1, s2e2, err)
-        // end of [val]
-      in
-        // nothing
-      end else (err := err + 1) // end of [if]
+      if (
+        knd1 < knd2
+      ) then (err := err + 1)
+        else s2exp_tyleq_solve_err(loc0, s2e1, s2e2, err)
     ) (* end of [S2Etop] *)
-  | _ (*non-S2Etop*) => (err := err + 1)
+  | _ (* non-S2Etop *) => (err := err + 1)
   ) (* end of [S2Etop, _] *)
-| (_, S2Etop(knd2, s2e2)) => (
+| (_, S2Etop(knd2, s2e2)) =>
+  (
   case+ 0 of
   | _ when knd2 = 0 => let
       // [s2e0] is topized version of some type
@@ -1283,67 +1323,67 @@ case+ (s2en10, s2en20) of
       s2exp_is_nonlin(s2e10)
       then (
         if s2exp_tszeq(s2e10, s2e20) then () else (err := err + 1)
-      ) else (err := err + 1) // end of [else]
+      ) else (err := err + 1) // end of [if]
     end // end of [knd2 = 0]
   | _ (* when knd2 > 0 *) => (err := err + 1)
   ) (* end of [_, S2Etop] *)
 //
 | (S2Euni _, _) => let
 //
-    val (pfpush | ()) = trans3_env_push ()
+    val (pfpush | ()) = trans3_env_push()
 //
     // this order is mandatary!
     val s2e2 =
-      s2hnf_absuni_and_add (loc0, s2f20)
+      s2hnf_absuni_and_add(loc0, s2f20)
     val (s2e1, s2ps) =
-      s2exp_uni_instantiate_all (s2e10, loc0, err)
-    // end of [val]
-//
-    val () = trans3_env_add_proplst_vt (loc0, s2ps)
-    val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
-//
-  in
-    trans3_env_pop_and_add_main (pfpush | loc0)
-  end // end of [S2Euni, _]
-| (_, S2Eexi _) => let
-//
-    val (pfpush | ()) = trans3_env_push ()
-//
-    // this order is mandatary!
-    val s2e1 =
-      s2hnf_opnexi_and_add (loc0, s2f10)
-    val (s2e2, s2ps) =
-      s2exp_exi_instantiate_all (s2e20, loc0, err)
+      s2exp_uni_instantiate_all(s2e10, loc0, err)
     // end of [val]
 //
     val () = trans3_env_add_proplst_vt(loc0, s2ps)
+//
     val () = s2exp_tyleq_solve_err(loc0, s2e1, s2e2, err)
 //
   in
-    trans3_env_pop_and_add_main (pfpush | loc0)
+    trans3_env_pop_and_add_main(pfpush | loc0)
+  end // end of [S2Euni, _]
+| (_, S2Eexi _) => let
+//
+    val (pfpush | ()) = trans3_env_push()
+//
+    // this order is mandatary!
+    val s2e1 =
+      s2hnf_opnexi_and_add(loc0, s2f10)
+    val (s2e2, s2ps) =
+      s2exp_exi_instantiate_all(s2e20, loc0, err)
+    // end of [val]
+//
+    val () = trans3_env_add_proplst_vt(loc0, s2ps)
+//
+    val () = s2exp_tyleq_solve_err(loc0, s2e1, s2e2, err)
+//
+  in
+    trans3_env_pop_and_add_main(pfpush | loc0)
   end // end of [_, S2Eexi]
 //
 | (_, S2Euni _) => let
 //
-    val
-    (pfpush | ()) = trans3_env_push()
+    val (pfpush | ()) = trans3_env_push()
 //
     val
     s2e2 = s2hnf_absuni_and_add(loc0, s2f20)
     val () = s2exp_tyleq_solve_err(loc0, s2e10, s2e2, err)
   in
-    trans3_env_pop_and_add_main (pfpush | loc0)
+    trans3_env_pop_and_add_main(pfpush | loc0)
   end // end of [_, S2Euni]
 | (S2Eexi _, _) => let
 //
-    val
-    (pfpush | ()) = trans3_env_push()
+    val (pfpush | ()) = trans3_env_push()
 //
     val
-    s2e1 = s2hnf_opnexi_and_add (loc0, s2f10)
+    s2e1 = s2hnf_opnexi_and_add(loc0, s2f10)
     val () = s2exp_tyleq_solve_err(loc0, s2e1, s2e20, err)
   in
-    trans3_env_pop_and_add_main (pfpush | loc0)
+    trans3_env_pop_and_add_main(pfpush | loc0)
   end // end of [S2Eexi, _]
 //
 | (S2Ecst s2c1, _) =>
@@ -1395,7 +1435,7 @@ case+ (s2en10, s2en20) of
        _(*non-S2Ecst*)) => let // HX: sound but incomplete!
         val () =
           s2exp_equal_solve_err(loc0, s2e1_fun, s2e2_fun, err)
-        val errlen =
+        val nerr =
           s2explst_equal_solve_err(loc0, s2es1_arg, s2es2_arg, err)
       in
         // nothing
@@ -1743,6 +1783,23 @@ macdef
 loop = s2hnf_tyleq_solve_lbs_err
 *)
 //
+(*
+val () = let
+//
+val lbs = 
+list_map_fun
+( lbs
+, lam lb =<1> s2VarBound_get_val(lb)
+) (* end of [val] *)
+val lbs = list_of_list_vt{s2exp}(lbs)
+//
+in
+//
+println!("s2hnf_tyleq_solve_lbs_err: lbs = ", lbs)
+//
+end // end of [let]
+*)
+//
 in
   case+ lbs of
   | list_nil() => ()
@@ -1968,8 +2025,8 @@ s2e2.s2exp_node
     // end of [if]
   end // end of [(_, S2Evar)]
 //
-| (S2Efun (_, _, _, _, s2es11, s2e12),
-   S2Efun (_, _, _, _, s2es21, s2e22)) => let
+| (S2Efun(_, _, _, _, s2es11, s2e12),
+   S2Efun(_, _, _, _, s2es21, s2e22)) => let
     val () =
       s2exp_hypequal_solve(loc0, s2e12, s2e22)
     // end of [val]
