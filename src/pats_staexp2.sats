@@ -931,12 +931,19 @@ fun s2Var_set_ubs (s2V: s2Var, ubs: s2VarBoundlst): void
 fun s2Var_get_stamp (s2V: s2Var):<> stamp
 
 (* ****** ****** *)
-
+//
 fun s2VarBound_make
   (loc: location, s2f: s2exp): s2VarBound
 fun s2VarBound_get_loc (x: s2VarBound): location
 fun s2VarBound_get_val (x: s2VarBound): s2exp
-
+//
+(* ****** ****** *)
+//
+fun s2Var_lb_insert
+  (loc: location, s2V: s2Var, s2e: s2exp): void
+fun s2Var_ub_insert
+  (loc: location, s2V: s2Var, s2e: s2exp): void
+//
 (* ****** ****** *)
 
 fun lt_s2Var_s2Var (x1: s2Var, x2: s2Var):<> bool

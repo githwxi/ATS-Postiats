@@ -1157,11 +1157,15 @@ in
   s2hnf_tyleq_solve_lbs_err(loc0, lbs, s2f2, err)
 end // end of [val]
 //
+(*
 val () = let
   val ub = s2VarBound_make(loc0, s2e2)
 in
   s2Var_set_ubs(s2V1, list_cons(ub, s2Var_get_ubs(s2V1)))
 end // end of [val]
+*)
+//
+val () = s2Var_ub_insert(loc0, s2V1, s2e2)
 //
 in
   // nothing
@@ -1200,11 +1204,15 @@ in
   s2hnf_tyleq_solve_ubs_err(loc0, s2f1, ubs, err)
 end // end of [val]
 //
+(*
 val () = let
   val lb = s2VarBound_make(loc0, s2e1)
 in
   s2Var_set_lbs(s2V2, list_cons(lb, s2Var_get_lbs(s2V2)))
 end // end of [val]
+*)
+//
+val () = s2Var_lb_insert(loc0, s2V2, s2e1)
 //
 in
   // nothing
@@ -1766,7 +1774,9 @@ if
 (mis > 0)
 then
 the_staerrlst_add
-  (STAERR_wths2explst_shape(loc0, xs1, xs2))
+(
+STAERR_wths2explst_shape(loc0, xs1, xs2)
+) (* then *)
 // end of [val]
 in
   // nothing
@@ -1833,7 +1843,7 @@ in
 //
       val
       s2f_ub =
-      s2exp2hnf(s2VarBound_get_val (ub))
+      s2exp2hnf(s2VarBound_get_val(ub))
 //
       val () =
       s2hnf_tyleq_solve_err(loc0, s2f, s2f_ub, err)
