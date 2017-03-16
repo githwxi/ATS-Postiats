@@ -23,6 +23,8 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Fixing the issue of patsopt_version not available in libatslib.a
+2. Fixing made to prevent an existential type variable (s2Var) from
+   becoming its own upper bound or lower bound.
 
 ######
 
