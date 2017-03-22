@@ -28,8 +28,8 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmmhwxiATgmailDOTcom *)
 (* Start time: July, 2013 *)
+(* Authoremail: gmmhwxiATgmailDOTcom *)
 
 (* ****** ****** *)
 //
@@ -37,10 +37,12 @@
 // HX: shared by monad_maybe
 //
 (* ****** ****** *)
-
-abstype monad_type (a:t@ype+) = ptr
-typedef monad (a:t@ype) = monad_type (a)
-
+//
+abstype
+monad_type(a:t@ype+) = ptr
+typedef
+monad(a:t@ype) = monad_type(a)
+//
 (* ****** ****** *)
 
 fun
@@ -73,29 +75,29 @@ monad_bind3
 (* ****** ****** *)
 
 fun{a:t0p}
-monad_return (x: a): monad(a)
+monad_return(x: a): monad(a)
 
 (* ****** ****** *)
 
-fun{} monad_unit (): monad(unit)
+fun{} monad_unit(): monad(unit)
 
 (* ****** ****** *)
 //
 fun
 {a:t0p}
-monad_nil (): monad(list0(a))
+monad_nil(): monad(list0(a))
 fun
 {a:t0p}
 monad_cons
 (
-  monad(INV(a)), monad (list0(a))
+  monad(INV(a)), monad(list0(a))
 ) : monad(list0(a)) // end-of-fun
 //
 (* ****** ****** *)
 
-fun
-{a1,a2:t0p}
-monad_seq
+fun{
+a1,a2:t0p
+} monad_seq
 (
   m1: monad(INV(a1)), m2: monad(INV(a2))
 ): monad(a2) // end of [monad_seq]
@@ -103,14 +105,14 @@ monad_seq
 (* ****** ****** *)
 
 fun{a:t0p}
-monad_join (monad(monad(INV(a)))): monad(a)
+monad_join(monad(monad(INV(a)))): monad(a)
 
 (* ****** ****** *)
 
 fun
 {a:t0p}
 {b:t0p}
-monad_fmap (cfun(a, b), monad(a)): monad(b)
+monad_fmap(cfun(a, b), monad(a)): monad(b)
 
 (* ****** ****** *)
 
