@@ -19,8 +19,10 @@ ATS_STATIC_PREFIX "_ats2scmpre_BUCS320_GraphSearch_bfs_"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC_targetloc
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //

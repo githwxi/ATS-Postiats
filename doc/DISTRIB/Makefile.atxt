@@ -136,6 +136,7 @@ all_script::
 #make_entry("contrib_atscc2js")
 #make_entry("contrib_atscc2py3")
 #make_entry("contrib_atscc2php")
+#make_entry("contrib_atscc2scm")
 #
 ######
 
@@ -143,6 +144,7 @@ all_script::
 #make_entry("contrib_libatscc2js")
 #make_entry("contrib_libatscc2py3")
 #make_entry("contrib_libatscc2php")
+#make_entry("contrib_libatscc2scm")
 
 ######
 
@@ -177,6 +179,7 @@ all_script::
 #make_entry("patscontrib_libatscc2js")
 #make_entry("patscontrib_libatscc2py3")
 #make_entry("patscontrib_libatscc2php")
+#make_entry("patscontrib_libatscc2scm")
 #
 #make_entry("patscontrib_kernelats")
 #
@@ -208,11 +211,13 @@ atspackaging:: srcget_contrib_parsemit
 atspackaging:: srcget_contrib_atscc2js
 atspackaging:: srcget_contrib_atscc2py3
 atspackaging:: srcget_contrib_atscc2php
+atspackaging:: srcget_contrib_atscc2scm
 #
 atspackaging:: srcget_contrib_libatscc
 atspackaging:: srcget_contrib_libatscc2js
 atspackaging:: srcget_contrib_libatscc2py3
 atspackaging:: srcget_contrib_libatscc2php
+atspackaging:: srcget_contrib_libatscc2scm
 #
 atspackaging:: srcget_doc_example
 #
@@ -297,11 +302,13 @@ srcget_contrib_parsemit:: SCRIPT/contrib_parsemit.bash ; bash $<
 srcget_contrib_atscc2js:: SCRIPT/contrib_atscc2js.bash ; bash $<
 srcget_contrib_atscc2py3:: SCRIPT/contrib_atscc2py3.bash ; bash $<
 srcget_contrib_atscc2php:: SCRIPT/contrib_atscc2php.bash ; bash $<
+srcget_contrib_atscc2scm:: SCRIPT/contrib_atscc2scm.bash ; bash $<
 #
 srcget_contrib_libatscc:: SCRIPT/contrib_libatscc.bash ; bash $<
 srcget_contrib_libatscc2js:: SCRIPT/contrib_libatscc2js.bash ; bash $<
 srcget_contrib_libatscc2py3:: SCRIPT/contrib_libatscc2py3.bash ; bash $<
 srcget_contrib_libatscc2php:: SCRIPT/contrib_libatscc2php.bash ; bash $<
+srcget_contrib_libatscc2scm:: SCRIPT/contrib_libatscc2scm.bash ; bash $<
 #
 ######
 #
