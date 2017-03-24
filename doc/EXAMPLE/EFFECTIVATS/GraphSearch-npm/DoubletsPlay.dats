@@ -178,9 +178,9 @@ end // end of [local]
 (* ****** ****** *)
 
 assume
-$GS.node = list0(string)
+$GS.node_type = list0(string)
 assume
-$GS.nodelst = stream_vt($GS.node)
+$GS.nodelst_vtype = stream_vt($GS.node)
 
 (* ****** ****** *)
 

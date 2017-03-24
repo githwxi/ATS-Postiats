@@ -39,9 +39,9 @@ $GS_dfs.node_is_marked<>(nx) = false
 (* ****** ****** *)
 //
 assume
-$GS.node = list0(int)
+$GS.node_type = list0(int)
 assume
-$GS.nodelst = stream_vt($GS.node)
+$GS.nodelst_vtype = stream_vt($GS.node)
 //
 (* ****** ****** *)
 
