@@ -292,6 +292,16 @@ clean:: ; $(RMF) contrib_atscc2scm_atxt.exe
 cleanall:: ; $(RMF) HTML/contrib_atscc2scm.html
 cleanall:: ; $(RMF) SCRIPT/contrib_atscc2scm.bash
 
+all_script:: \
+SCRIPT/contrib_atscc2clj.bash
+SCRIPT/contrib_atscc2clj.bash: contrib_atscc2clj_atxt.exe ; ./$< > $@
+contrib_atscc2clj_atxt.dats: ATEXT/contrib_atscc2clj.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_atscc2clj_atxt.exe: contrib_atscc2clj_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_atscc2clj_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_atscc2clj.html
+cleanall:: ; $(RMF) SCRIPT/contrib_atscc2clj.bash
+
 #
 ######
 
@@ -344,6 +354,16 @@ contrib_libatscc2scm_atxt.exe: contrib_libatscc2scm_atxt.dats ; $(ATSCC) $(INCLA
 clean:: ; $(RMF) contrib_libatscc2scm_atxt.exe
 cleanall:: ; $(RMF) HTML/contrib_libatscc2scm.html
 cleanall:: ; $(RMF) SCRIPT/contrib_libatscc2scm.bash
+
+all_script:: \
+SCRIPT/contrib_libatscc2clj.bash
+SCRIPT/contrib_libatscc2clj.bash: contrib_libatscc2clj_atxt.exe ; ./$< > $@
+contrib_libatscc2clj_atxt.dats: ATEXT/contrib_libatscc2clj.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_libatscc2clj_atxt.exe: contrib_libatscc2clj_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_libatscc2clj_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_libatscc2clj.html
+cleanall:: ; $(RMF) SCRIPT/contrib_libatscc2clj.bash
 
 
 ######
@@ -560,6 +580,16 @@ clean:: ; $(RMF) patscontrib_libatscc2scm_atxt.exe
 cleanall:: ; $(RMF) HTML/patscontrib_libatscc2scm.html
 cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2scm.bash
 
+all_script:: \
+SCRIPT/patscontrib_libatscc2clj.bash
+SCRIPT/patscontrib_libatscc2clj.bash: patscontrib_libatscc2clj_atxt.exe ; ./$< > $@
+patscontrib_libatscc2clj_atxt.dats: ATEXT/patscontrib_libatscc2clj.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+patscontrib_libatscc2clj_atxt.exe: patscontrib_libatscc2clj_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) patscontrib_libatscc2clj_atxt.exe
+cleanall:: ; $(RMF) HTML/patscontrib_libatscc2clj.html
+cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2clj.bash
+
 #
 all_script:: \
 SCRIPT/patscontrib_kernelats.bash
@@ -601,12 +631,14 @@ atspackaging:: srcget_contrib_atscc2js
 atspackaging:: srcget_contrib_atscc2py3
 atspackaging:: srcget_contrib_atscc2php
 atspackaging:: srcget_contrib_atscc2scm
+atspackaging:: srcget_contrib_atscc2clj
 #
 atspackaging:: srcget_contrib_libatscc
 atspackaging:: srcget_contrib_libatscc2js
 atspackaging:: srcget_contrib_libatscc2py3
 atspackaging:: srcget_contrib_libatscc2php
 atspackaging:: srcget_contrib_libatscc2scm
+atspackaging:: srcget_contrib_libatscc2clj
 #
 atspackaging:: srcget_doc_example
 #
@@ -692,12 +724,14 @@ srcget_contrib_atscc2js:: SCRIPT/contrib_atscc2js.bash ; bash $<
 srcget_contrib_atscc2py3:: SCRIPT/contrib_atscc2py3.bash ; bash $<
 srcget_contrib_atscc2php:: SCRIPT/contrib_atscc2php.bash ; bash $<
 srcget_contrib_atscc2scm:: SCRIPT/contrib_atscc2scm.bash ; bash $<
+srcget_contrib_atscc2clj:: SCRIPT/contrib_atscc2clj.bash ; bash $<
 #
 srcget_contrib_libatscc:: SCRIPT/contrib_libatscc.bash ; bash $<
 srcget_contrib_libatscc2js:: SCRIPT/contrib_libatscc2js.bash ; bash $<
 srcget_contrib_libatscc2py3:: SCRIPT/contrib_libatscc2py3.bash ; bash $<
 srcget_contrib_libatscc2php:: SCRIPT/contrib_libatscc2php.bash ; bash $<
 srcget_contrib_libatscc2scm:: SCRIPT/contrib_libatscc2scm.bash ; bash $<
+srcget_contrib_libatscc2clj:: SCRIPT/contrib_libatscc2clj.bash ; bash $<
 #
 ######
 #
