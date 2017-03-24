@@ -1,6 +1,6 @@
 (*
 ** For writing ATS code
-** that translates into PHP
+** that translates into Scheme
 *)
 
 (* ****** ****** *)
@@ -13,9 +13,9 @@
 // prefix for external names
 //
 #define
-ATS_EXTERN_PREFIX "ats2phppre_"
+ATS_EXTERN_PREFIX "ats2scmpre_"
 #define
-ATS_STATIC_PREFIX "_ats2phppre_list_vt_"
+ATS_STATIC_PREFIX "_ats2scmpre_option_"
 //
 (* ****** ****** *)
 //
@@ -26,27 +26,21 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 //
-#staload
-UN =
-"prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+staload "./../SATS/integer.sats"
+//
+(* ****** ****** *)
+//
+staload "./../SATS/option.sats"
+//
+(* ****** ****** *)
+//
+#include "{$LIBATSCC}/DATS/option.dats"
 //
 (* ****** ****** *)
 
-#staload "./../basics_php.sats"
-
-(* ****** ****** *)
-//
-#staload "./../SATS/integer.sats"
-//
-(* ****** ****** *)
-//
-#staload "./../SATS/list.sats"
-#staload "./../SATS/list_vt.sats"
-//
-(* ****** ****** *)
-//
-#include "{$LIBATSCC}/DATS/list_vt.dats"
-//
-(* ****** ****** *)
-
-(* end of [list_vt.dats] *)
+(* end of [option.dats] *)

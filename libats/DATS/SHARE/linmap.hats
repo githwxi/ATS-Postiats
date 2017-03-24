@@ -55,14 +55,21 @@ implement
 linmap_search
   (t, k0, res) = let
 //
-val p = linmap_search_ref (t, k0)
+val p =
+  linmap_search_ref<key,itm>(t, k0)
 //
 in
 //
-if cptr2ptr(p) > 0 then let
-  val (pf, fpf | p) = $UN.cptr_vtake (p)
+if
+(cptr2ptr(p) > 0)
+then let
+//
+  val
+  (pf, fpf | p) =
+  $UN.cptr_vtake(p)
+//
   val () = res := !p
-  prval () = fpf (pf)
+  prval () = fpf(pf)
   prval () = opt_some{itm}(res)
 in
   true
@@ -82,21 +89,39 @@ linmap_search_opt
   (map, k0) = let
 //
 var res: itm?
-val ans = linmap_search (map, k0, res)
+//
+val ans =
+  linmap_search<key,itm>
+    (map, k0, res)
 //
 in
 //
-if ans then let
-  prval () = opt_unsome {itm} (res)
+if
+ans
+then let
+  prval () = opt_unsome{itm}(res)
 in
-  Some_vt {itm} (res)
+  Some_vt{itm}(res)
 end else let
-  prval () = opt_unnone {itm} (res)
+  prval () = opt_unnone{itm}(res)
 in
-  None_vt {itm} ((*void*))
+  None_vt{itm}((*void*))
 end // end of [if]
 //
 end // end of [linmap_search_opt]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_insert_any
+  (map, k0, x0) = () where
+{
+//
+val-~None_vt() =
+  linmap_insert_opt<key,itm>(map, k0, x0)
+//
+} (* end of [linmap_insert_any] *)
 
 (* ****** ****** *)
 
@@ -106,18 +131,22 @@ linmap_insert_opt
   (map, k0, x0) = let
 //
 var res: itm?
-val ans = linmap_insert (map, k0, x0, res)
+val ans =
+  linmap_insert<key,itm>
+    (map, k0, x0, res)
 //
 in
 //
-if ans then let
-  prval () = opt_unsome {itm} (res)
+if
+ans
+then let
+  prval () = opt_unsome{itm}(res)
 in
-  Some_vt {itm} (res)
+  Some_vt{itm}(res)
 end else let
-  prval () = opt_unnone {itm} (res)
+  prval () = opt_unnone{itm}(res)
 in
-  None_vt {itm} ((*void*))
+  None_vt{itm}((*void*))
 end // end of [if]
 //
 end // end of [linmap_insert_opt]
@@ -130,16 +159,20 @@ linmap_takeout_opt
   (map, k0) = let
 //
 var res: itm?
-val ans = linmap_takeout (map, k0, res)
+val ans =
+  linmap_takeout<key,itm>
+    (map, k0, res)
 //
 in
 //
-if ans then let
-  prval () = opt_unsome {itm} (res)
+if
+ans
+then let
+  prval () = opt_unsome{itm}(res)
 in
   Some_vt{itm}(res)
 end else let
-  prval () = opt_unnone {itm} (res)
+  prval () = opt_unnone{itm}(res)
 in
   None_vt{itm}((*void*))
 end // end of [if]
@@ -155,7 +188,8 @@ linmap_remove
 //
 var res: itm
 val takeout =
-  linmap_takeout<key,itm> (map, k0, res)
+  linmap_takeout<key,itm>(map, k0, res)
+//
 prval () = opt_clear (res)
 //
 in
@@ -166,7 +200,7 @@ end // end of [linmap_remove]
 
 implement
 {key,itm}
-linmap_free (map) = let
+linmap_free(map) = let
 //
 implement
 linmap_freelin$clear<itm> (x) = ()
@@ -177,10 +211,12 @@ end // end of [linmap_free]
 
 (* ****** ****** *)
 
-implement{}
-fprint_linmap$sep (out) = fprint (out, "; ")
-implement{}
-fprint_linmap$mapto (out) = fprint (out, "->")
+implement
+{}(*tmp*)
+fprint_linmap$sep(out) = fprint(out, "; ")
+implement
+{}(*tmp*)
+fprint_linmap$mapto(out) = fprint(out, "->")
 
 implement
 {key,itm}
@@ -190,7 +226,10 @@ fprint_linmap
 implement
 linmap_foreach$fwork<key,itm><int>
   (k, x, env) = {
-  val () = if env > 0 then fprint_linmap$sep (out)
+  val () =
+  if env > 0
+    then fprint_linmap$sep<>(out)
+  // end of [if]
   val () = env := env + 1
   val () = fprint_val<key> (out, k)
   val () = fprint_linmap$mapto (out)
@@ -210,7 +249,7 @@ implement
 linmap_foreach
   (map) = let
   var env: void = () in
-  linmap_foreach_env<key,itm><void> (map, env)
+  linmap_foreach_env<key,itm><void>(map, env)
 end // end of [linmap_foreach]
 
 (* ****** ****** *)
@@ -222,12 +261,13 @@ linmap_listize
 //
 vtypedef ki2 = @(key, itm)
 //
-implement(k2,i2)
+implement
+(k2,i2)(*tmp*)
 linmap_flistize$fopr<k2,i2><ki2> (k, x) =
   ($UN.castvwtp0{key}(k), $UN.castvwtp0{itm}(x))
 //
 in
-  $effmask_all(linmap_flistize<key,itm><ki2> (map))
+  $effmask_all(linmap_flistize<key,itm><ki2>(map))
 end // end of [linmap_listize]
 
 (* ****** ****** *)
@@ -247,15 +287,16 @@ linmap_listize1
 vtypedef ki = @(key, itm)
 vtypedef tenv = $Q.qstruct (ki)
 //
-implement(env)
+implement
+(env)(*tmp*)
 linmap_foreach$fwork<key,itm><env>
   (k, x, env) = let
 //
 val (
   pf, fpf | p
 ) = $UN.ptr_vtake{tenv}(addr@(env))
-val () = $Q.qstruct_insert<ki> (env, @(k, x))
-prval () = fpf (pf)
+val () = $Q.qstruct_insert<ki>(env, @(k, x))
+prval ((*returned*)) = fpf(pf)
 //
 in
   // nothing
@@ -263,7 +304,13 @@ end // end of [linmap_foreach$fwork]
 //
 var env: $Q.qstruct
 val () = $Q.qstruct_initize{ki}(env)
-val () = $effmask_all (linmap_foreach_env<key,itm><tenv> (map, env))
+//
+val () =
+$effmask_all
+(
+  linmap_foreach_env<key,itm><tenv> (map, env)
+) (* $effmask_all *)
+//
 val res = $Q.qstruct_takeout_list (env)
 prval () = $Q.qstruct_uninitize{ki}(env)
 //

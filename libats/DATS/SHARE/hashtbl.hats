@@ -75,12 +75,19 @@ implement
 hashtbl_search
   (t, k0, res) = let
 //
-val p = hashtbl_search_ref (t, k0)
+val p =
+  hashtbl_search_ref<key,itm>(t, k0)
 //
 in
 //
-if cptr2ptr(p) > 0 then let
-  val (pf, fpf | p) = $UN.cptr_vtake (p)
+if
+(cptr2ptr(p) > 0)
+then let
+//
+  val
+  (pf, fpf | p) =
+  $UN.cptr_vtake(p)
+//
   val () = res := !p
   prval () = fpf (pf)
   prval () = opt_some {itm} (res)
@@ -100,18 +107,24 @@ implement
 {key,itm}
 hashtbl_search_opt
   (tbl, k0) = let
-  var res: itm?
-  val ans = hashtbl_search (tbl, k0, res)
+//
+var res: itm?
+val ans =
+  hashtbl_search<key,itm>
+    (tbl, k0, res)
+//
 in
 //
-if ans then let
-  prval () = opt_unsome {itm} (res)
+if
+ans
+then let
+  prval () = opt_unsome{itm}(res)
 in
-  Some_vt {itm} (res)
+  Some_vt{itm}(res)
 end else let
-  prval () = opt_unnone {itm} (res)
+  prval () = opt_unnone{itm}(res)
 in
-  None_vt {itm} ((*void*))
+  None_vt{itm}((*void*))
 end // end of [if]
 //
 end // end of [hashtbl_search_opt]
@@ -125,18 +138,21 @@ hashtbl_insert_opt
 //
 var res: itm?
 val ans =
-  hashtbl_insert (tbl, k0, x0, res)
+  hashtbl_insert<key,itm>
+    (tbl, k0, x0, res)
 //
 in
 //
-if ans then let
-  prval () = opt_unsome {itm} (res)
+if
+ans
+then let
+  prval () = opt_unsome{itm}(res)
 in
-  Some_vt {itm} (res)
+  Some_vt{itm}(res)
 end else let
-  prval () = opt_unnone {itm} (res)
+  prval () = opt_unnone{itm}(res)
 in
-  None_vt {itm} ((*void*))
+  None_vt{itm}((*void*))
 end // end of [if]
 //
 end // end of [hashtbl_insert_opt]
@@ -149,16 +165,20 @@ hashtbl_takeout_opt
   (tbl, k0) = let
 //
 var res: itm?
-val ans = hashtbl_takeout (tbl, k0, res)
+val ans =
+  hashtbl_takeout<key,itm>
+    (tbl, k0, res)
 //
 in
 //
-if ans then let
-  prval () = opt_unsome {itm} (res)
+if
+ans
+then let
+  prval () = opt_unsome{itm}(res)
 in
   Some_vt{itm}(res)
 end else let
-  prval () = opt_unnone {itm} (res)
+  prval () = opt_unnone{itm}(res)
 in
   None_vt{itm}((*void*))
 end // end of [if]
@@ -174,7 +194,7 @@ hashtbl_remove
 //
 var res: itm
 val takeout =
-  hashtbl_takeout<key,itm> (tbl, k0, res)
+  hashtbl_takeout<key,itm>(tbl, k0, res)
 prval () = opt_clear (res)
 //
 in
@@ -210,10 +230,13 @@ fprint_hashtbl
 implement
 hashtbl_foreach$fwork<key,itm><int>
   (k, x, env) = {
-  val () = if env > 0 then fprint_hashtbl$sep (out)
+  val () =
+  if env > 0
+    then fprint_hashtbl$sep<>(out)
+  // end of [if]
   val () = env := env + 1
   val () = fprint_val<key> (out, k)
-  val () = fprint_hashtbl$mapto (out)
+  val () = fprint_hashtbl$mapto<>(out)
   val () = fprint_val<itm> (out, x)
 } (* end of [hashtbl_foreach$fwork] *)
 //
