@@ -129,8 +129,8 @@ list0_reverse(res) where
 
 (* ****** ****** *)
 
-assume node = exprlst
-assume nodelst = list0(exprlst)
+assume node_type = exprlst
+assume nodelst_vtype = list0(exprlst)
 
 (* ****** ****** *)
 //

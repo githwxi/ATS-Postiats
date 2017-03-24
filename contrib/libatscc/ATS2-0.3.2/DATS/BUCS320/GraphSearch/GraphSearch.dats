@@ -5,9 +5,14 @@
 // for libatscc
 //
 (* ****** ****** *)
+//
+abstype node_type = ptr
+absvtype nodelst_vtype = ptr
+//
+(* ****** ****** *)
 
-abstype node = ptr
-absvtype nodelst = ptr
+typedef node = node_type
+vtypedef nodelst = nodelst_vtype
 
 (* ****** ****** *)
 //

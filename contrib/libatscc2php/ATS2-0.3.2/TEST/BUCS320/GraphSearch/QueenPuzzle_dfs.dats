@@ -28,8 +28,8 @@ implement node_is_marked<>(nx) = false
 
 (* ****** ****** *)
 
-assume node = list0(int)
-assume nodelst = stream_vt(node)
+assume node_type = list0(int)
+assume nodelst_vtype = stream_vt(node)
 
 (* ****** ****** *)
 //
