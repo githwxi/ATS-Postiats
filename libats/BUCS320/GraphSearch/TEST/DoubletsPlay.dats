@@ -172,8 +172,8 @@ end // end of [local]
 
 (* ****** ****** *)
 
-assume node = list0(string)
-assume nodelst = stream_vt(node)
+assume node_type = list0(string)
+assume nodelst_vtype = stream_vt(node)
 
 (* ****** ****** *)
 //
