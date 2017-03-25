@@ -62,6 +62,11 @@ RMF=rm -f
 
 ######
 
+testall:: all
+testall:: cleanall
+
+######
+
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c
 
