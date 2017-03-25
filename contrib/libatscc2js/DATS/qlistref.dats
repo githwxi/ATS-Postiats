@@ -24,11 +24,12 @@ ATS_STATIC_PREFIX "_ats2jspre_qlistref_"
 (* ****** ****** *)
 //
 #staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-#include "./../staloadall.hats"
+#include "./../mylibies.hats"
 //
 (* ****** ****** *)
 //

@@ -15,7 +15,7 @@
 #define
 ATS_EXTERN_PREFIX "ats2jspre_BUCS320_"
 #define
-ATS_STATIC_PREFIX "_ats2jspre_BUCS320_GraphSearch_dfs_"
+ATS_STATIC_PREFIX "_ats2jspre_BUCS320_DivideConquer_bfs_"
 //
 (* ****** ****** *)
 //
@@ -27,23 +27,18 @@ LIBATSCC_targetloc
 //
 #staload "./../../../basics_js.sats"
 //
+(* ****** ****** *)
+//
 #staload "./../../../SATS/bool.sats"
 #staload "./../../../SATS/integer.sats"
 //
-(* ****** ****** *)
-//
-#staload "./../../../SATS/slistref.sats"
-//
-macdef
-slistref_insert = slistref_push
-macdef
-slistref_takeout_opt = slistref_pop_opt
+#staload "./../../../SATS/ML/list0.sats"
 //
 (* ****** ****** *)
 //
 #include
-"{$LIBATSCC}/DATS/BUCS320/GraphSearch/GraphSearch_dfs.dats"
+"{$LIBATSCC}/BUCS320/DivideConquer/DATS/DivideConquer.dats"
 //
 (* ****** ****** *)
 
-(* end of [GraphSearch_dfs.dats] *)
+(* end of [DivideConquer.dats] *)

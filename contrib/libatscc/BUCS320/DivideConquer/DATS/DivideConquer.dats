@@ -149,7 +149,7 @@ DivideConquer$conquer
 {
 //
 val rs =
-list0_map<input><output>
+list0_map{input}{output}
 ( xs
 , lam(x) => DivideConquer$solve_rec<>(x)
 ) (* end of [val] *)
