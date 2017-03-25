@@ -14,8 +14,13 @@
 //
 #define
 ATS_EXTERN_PREFIX "ats2jspre_BUCS320_"
+(*
+//
+HX: DivideConquer is entirely template-based
+//
 #define
-ATS_STATIC_PREFIX "_ats2jspre_BUCS320_DivideConquer_bfs_"
+ATS_STATIC_PREFIX "_ats2jspre_BUCS320_DivideConquer_"
+*)
 //
 (* ****** ****** *)
 //

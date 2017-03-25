@@ -104,8 +104,14 @@ val () =
 println! ("Fibonacci(10) = ", Fibonacci(10))
 val () =
 println! ("Fibonacci(20) = ", Fibonacci(20))
+(*
+//
+// HX: it takes a bit too long:
+//
 val () =
 println! ("Fibonacci(30) = ", Fibonacci(30))
+//
+*)
 } (* end of [val] *)
 //
 (* ****** ****** *)

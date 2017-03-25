@@ -19,10 +19,11 @@ ATS_STATIC_PREFIX "_ats2jspre_print_"
 //
 (* ****** ****** *)
 //
-#include
-"./../staloadall.hats"
+#staload "./../basics_js.sats"
 //
 #staload "./../SATS/print.sats"
+//
+#staload "./../SATS/ML/list0.sats"
 //
 (* ****** ****** *)
 //
