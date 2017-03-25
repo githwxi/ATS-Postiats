@@ -153,6 +153,10 @@ LIBATSCC2PY3_targetloc
 "$PATSCONTRIB/contrib/libatscc/libatscc2py3"
 //
 #define
+LIBATSCC2PHP_targetloc
+"$PATSCONTRIB/contrib/libatscc/libatscc2php"
+//
+#define
 LIBATSCC2ERL_targetloc
 "$PATSCONTRIB/contrib/libatscc/libatscc2erl"
 //
@@ -162,10 +166,6 @@ LIBATSCC2SCM_targetloc
 #define
 LIBATSCC2CLJ_targetloc
 "$PATSCONTRIB/contrib/libatscc/libatscc2clj"
-//
-#define
-LIBATSCC2PHP_targetloc
-"$PATSCONTRIB/contrib/libatscc/libatscc2php"
 //
 (* ****** ****** *)
 //

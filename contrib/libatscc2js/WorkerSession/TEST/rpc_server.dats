@@ -14,7 +14,7 @@ ATS_DYNLOADNAME "theWorker_start"
 #include
 "share/atspre_define.hats"
 #include
-"{$LIBATSCC2JS}/staloadall.hats"
+"{$LIBATSCC2JS}/mylibies.hats"
 //
 (* ****** ****** *)
 

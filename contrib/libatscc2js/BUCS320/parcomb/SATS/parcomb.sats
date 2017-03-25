@@ -22,7 +22,7 @@ staload "./../../basics_js.sats"
 
 (* ****** ****** *)
 //
-#include "{$LIBATSCC}/BUCS320/parcomb/SATS/parcomb.sats"
+#include "{$LIBATSCC}/SATS/BUCS320/parcomb.sats"
 //
 (* ****** ****** *)
 
