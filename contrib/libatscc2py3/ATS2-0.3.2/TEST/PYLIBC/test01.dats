@@ -8,11 +8,6 @@
 //
 (* ****** ****** *)
 //
-(*
-#include
-"share/atspre_define.hats"
-*)
-//
 #include"./../../staloadall.hats"
 //
 (* ****** ****** *)

@@ -16,8 +16,9 @@ ATS_EXTERN_PREFIX "ats2jspre_"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC_targetloc
+"$PATSHOME/contrib/libatscc"
 //
 (* ****** ****** *)
 //

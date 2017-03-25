@@ -19,11 +19,6 @@ ATS_STATIC_PREFIX "_ats2jspre_string_"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-//
-(* ****** ****** *)
-//
 #staload
 UN =
 "prelude/SATS/unsafe.sats"

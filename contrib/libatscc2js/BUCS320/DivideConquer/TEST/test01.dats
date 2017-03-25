@@ -15,8 +15,12 @@ ATS_DYNLOADNAME "test01_dynload"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
+//
+(* ****** ****** *)
+//
 #include
 "{$LIBATSCC2JS}/mylibies.hats"
 //
