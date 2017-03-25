@@ -13,16 +13,18 @@ ATS_EXTERN_PREFIX "ats2jspre_BUCS320_"
 //
 (* ****** ****** *)
 //
+#define
+LIBATSCC_targetloc
+"$PATSHOME/contrib/libatscc"
+//
+(* ****** ****** *)
+
+staload "./../../../basics_js.sats"
+
+(* ****** ****** *)
+//
 #include
-"share/atspre_define.hats"
-//
-(* ****** ****** *)
-
-staload "./../../basics_js.sats"
-
-(* ****** ****** *)
-//
-#include "{$LIBATSCC}/SATS/BUCS320/words.sats"
+"{$LIBATSCC}/BUCS320/words/SATS/words.sats"
 //
 (* ****** ****** *)
 

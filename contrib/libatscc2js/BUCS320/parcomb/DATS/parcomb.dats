@@ -32,13 +32,14 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 //
-#staload "./../../../SATS/list.sats"
-#staload "./../../../SATS/list_vt.sats"
+#staload
+"./../../../SATS/list.sats"
+#staload
+"./../../../SATS/list_vt.sats"
 //
 (* ****** ****** *)
 //
-#staload
-"./../../../SATS/BUCS320/parcomb.sats"
+#staload "./../SATS/parcomb.sats"
 //
 (* ****** ****** *)
 //

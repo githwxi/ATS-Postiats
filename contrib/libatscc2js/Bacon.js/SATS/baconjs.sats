@@ -43,7 +43,7 @@ ATS_EXTERN_PREFIX
 #include
 "share/atspre_define.hats"
 #include
-"{$LIBATSCC2JS}/staloadall.hats"
+"{$LIBATSCC2JS}/mylibies.hats"
 //
 (* ****** ****** *)
 //
