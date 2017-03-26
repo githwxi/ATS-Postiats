@@ -44,12 +44,20 @@ macdef ptr_of_ref = ref_get_ptr
 
 #atscode_separator()
 
-fun{a:vt0p} ref (x: a):<!wrt> ref a
-fun{a:vt0p} ref_make_elt (x: a):<!wrt> ref a
+fun{a:vt0p} ref(x: a):<!wrt> ref(a)
+fun{a:vt0p} ref_make_elt(x: a):<!wrt> ref(a)
 
-castfn ref_make_viewptr
-  {a:vt0p}{l:addr} (pf: a @ l | p: ptr l):<> ref (a)
+#atscode_separator()
+
+castfn
+ref_make_viewptr
+  {a:vt0p}{l:addr} (pf: a @ l | p: ptr l):<> ref(a)
 // end of [ref_make_viewptr]
+
+#atscode_separator()
+
+fun{a:vt0p}
+ref_make_type_elt(TYPE(a), a):<!wrt> ref(a)
 
 #atscode_separator()
 //

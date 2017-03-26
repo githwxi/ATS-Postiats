@@ -41,10 +41,17 @@ ref_vt0ype_type(a:t@ype) = JSarray(a)
 (* ****** ****** *)
 //
 implement
-ref (x) = ref_make_elt (x)
+ref{a}(x) = ref_make_elt{a}(x)
 //
 implement
-ref_make_elt{a}(x) = $UN.cast{ref(a)}(JSarray_sing(x))
+ref_make_elt{a}(x) =
+  $UN.cast{ref(a)}(JSarray_sing(x))
+//
+(* ****** ****** *)
+//
+implement
+ref_make_type_elt
+  {a}(_type_, x) = ref_make_elt{a}(x)
 //
 (* ****** ****** *)
 

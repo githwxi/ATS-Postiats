@@ -91,8 +91,19 @@ implement
 DivideConquer_memo$table_set<>
   (theTable) = ((*void*))
 //
+fun
+Fibonacci_(n: int): int = DivideConquer$solve<>(n)
+//
+val () =
+loop(0) where
+{
+fun
+loop(i: int): void =
+  if i < n then (ignoret(Fibonacci_(i)); loop(i+1))
+}
+//
 in
-  DivideConquer$solve<>(n)
+  Fibonacci_(n)
 end // end of [Fibonacci]
 //
 (* ****** ****** *)
@@ -109,6 +120,13 @@ val () =
 println! ("Fibonacci(30) = ", Fibonacci(30))
 val () =
 println! ("Fibonacci(40) = ", Fibonacci(40))
+//
+// HX:
+// There is integer overflow,
+// but there is no stack overflow!
+//
+val () =
+println! ("Fibonacci(1000000) = ", Fibonacci(1000000))
 //
 } (* end of [main0] *)
 
