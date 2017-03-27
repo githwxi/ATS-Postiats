@@ -28,14 +28,14 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Start time: February, 2017 *)
+(* Start time: March, 2017 *)
 (* Authoremail: hwxiATcsDOTbuDOTedu *)
 
 (* ****** ****** *)
 //
 #define
 ATS_PACKNAME
-"ATSLIB.libats.BUCS520.DivideConquer"
+"ATSLIB.libats.BUCS520.DivideConquerLazy"
 //
 (* ****** ****** *)
 //
@@ -51,136 +51,110 @@ typedef output = output_t0ype
 //
 extern
 fun{}
-DivideConquer$solve(input): output
+DivideConquerLazy$solve
+  (x0: input): stream_vt(output)
 and
-DivideConquer$solve_rec(input): output
-//
-extern
-fun{}
-DivideConquer$solve$eval : (input) -> output
+DivideConquerLazy$solve_rec
+  (x0: input): stream_vt(output)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-DivideConquer$base_test(x0: input): bool
+DivideConquerLazy$base_test(x0: input): bool
 //
 extern
 fun{}
-DivideConquer$base_solve(x0: input): output
+DivideConquerLazy$base_solve(x0: input): stream_vt(output)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-DivideConquer$divide(x0: input): List0_vt(input)
+DivideConquerLazy$divide(x0: input): stream_vt(input)
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-DivideConquer$conquer
-  (x0: input, xs: List_vt(input)): output
+DivideConquerLazy$conquer
+  (x0: input, xs: stream_vt(input)): stream_vt(output)
 //
 extern
 fun{}
-DivideConquer$conquer$combine
-  (x0: input, rs: List_vt(output)): output
-//
-(* ****** ****** *)
-//
-extern
-fun{}
-DivideConquer$solve$memo_get : (input) -> Option_vt(output)
-extern
-fun{}
-DivideConquer$solve$eval$memo_set : (input, output) -> void
+DivideConquerLazy$conquer$combine
+  (x0: input, rs: stream_vt(stream_vt(output))): stream_vt(output)
 //
 (* ****** ****** *)
 
 implement
 {}(*tmp*)
-DivideConquer$solve
-  (x0) = let
-//
-val opt =
-  DivideConquer$solve$memo_get<>(x0)
-//
-in
-  case+ opt of
-  | ~Some_vt(r0) => r0
-  | ~None_vt((*void*)) =>
-     DivideConquer$solve$eval<>(x0)
-end // end of [DivideConquer$solve]
-
-(* ****** ****** *)
-//
-implement
-{}(*tmp*)
-DivideConquer$solve_rec
-  (x0) = DivideConquer$solve<>(x0)
-//
-(* ****** ****** *)
-
-implement
-{}(*tmp*)
-DivideConquer$solve$eval
+DivideConquerLazy$solve
   (x0) = let
 //
 val
 test =
-DivideConquer$base_test<>(x0)
+DivideConquerLazy$base_test<>(x0)
 //
 in (* in-of-let *)
 //
 if
 (test)
 then
-DivideConquer$base_solve<>(x0)
+DivideConquerLazy$base_solve<>(x0)
 else r0 where
 {
-  val xs = DivideConquer$divide<>(x0)
-  val r0 = DivideConquer$conquer<>(x0, xs)
-  val () = DivideConquer$solve$eval$memo_set<>(x0, r0)
+  val xs =
+    DivideConquerLazy$divide<>(x0)
+  // end of [val]
+  val r0 =
+    DivideConquerLazy$conquer<>(x0, xs)
+  // end of [val]
 } (* end of [else] *)
 //
-end // end of [DivideConquer$solve$eval]
+end // end of [DivideConquerLazy$solve]
 
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-DivideConquer$solve$memo_get
-  (x0) = None_vt()
-//
-implement
-{}(*tmp*)
-DivideConquer$solve$eval$memo_set
-  (x0, r0) = ((*void*))
+DivideConquerLazy$solve_rec
+  (x0) = DivideConquerLazy$solve<>(x0)
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-DivideConquer$conquer
+DivideConquerLazy$conquer
   (x0, xs) = r0 where
 {
 //
+vtypedef
+outstream = stream_vt(output)
+//
 val rs =
-list_vt_mapfree<input><output>
+stream_vt_map<input><outstream>
   (xs) where
 {
 //
 implement
-list_vt_mapfree$fopr<input><output>
-  (x) = DivideConquer$solve_rec<>(x)
+stream_vt_map$fopr<input><outstream>
+  (x) = DivideConquerLazy$solve_rec<>(x)
 //
 } (* end of [val] *)
 //
-val r0 = DivideConquer$conquer$combine<>(x0, rs)
+val r0 =
+DivideConquerLazy$conquer$combine<>(x0, rs)
 //
-} (* end of [DivideConquer$conquer] *)
+} (* end of [DivideConquerLazy$conquer] *)
 //
 (* ****** ****** *)
+(*
+implement
+{}(*tmp*)
+DivideConquerLazy$conquer$combine
+  (x0, rs) = stream_vt_concat<output>(rs)
+*)
+(* ****** ****** *)
 
-(* end of [DivideConquer.dats] *)
+(* end of [DivideConquerLazy.dats] *)

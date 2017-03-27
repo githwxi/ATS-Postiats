@@ -189,6 +189,8 @@ overload .translate with canvas2d_translate
 //
 absview canvas2d_save_v
 //
+(* ****** ****** *)
+//
 fun
 canvas2d_save
   (canvas: canvas2d): (canvas2d_save_v | void) = "mac#%"

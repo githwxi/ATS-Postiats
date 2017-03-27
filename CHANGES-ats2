@@ -1,3 +1,5 @@
+######
+
 0.3.4
 
 This is the 41st release of ATS2, the successor of the
@@ -25,8 +27,9 @@ Here is a list of major additions and changes since the last release:
 1. Fixing the issue of patsopt_version not available in libatslib.a
 2. Fixing made to prevent an existential type variable (s2Var) from
    becoming its own upper bound or lower bound.
-3. Adding both of CATS-atscc2scm and libatscc2scm to the release
-4. Adding both of CATS-atscc2clj and libatscc2clj to the release
+3. Adding both of CATS-atscc2pl and libatscc2pl to the release
+   Adding both of CATS-atscc2scm and libatscc2scm to the release
+   Adding both of CATS-atscc2clj and libatscc2clj to the release
   
 ######
 
