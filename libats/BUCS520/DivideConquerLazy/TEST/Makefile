@@ -37,6 +37,16 @@ regress:: test01; ./$<
 cleanall:: ; $(RMF) test01
 #
 ######
+#
+all:: \
+QueenPuzzle
+QueenPuzzle: \
+QueenPuzzle.dats; $(PATSCC2) -o $@ $<
+#
+regress:: QueenPuzzle; ./$<
+cleanall:: ; $(RMF) QueenPuzzle
+#
+######
 
 testall:: all
 testall:: regress
