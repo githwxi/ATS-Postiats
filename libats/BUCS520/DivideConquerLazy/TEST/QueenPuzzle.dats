@@ -116,13 +116,29 @@ xss =
 QueenPuzzle_solve()
 //
 val () =
-(xss.head()).rforeach()
+xss.iforeach()
+(
+lam(i, xs) =>
+(
+if
+(i > 0)
+then
+println!
+(
+) ;
+println!
+(
+"Solutin#", i+1
+) ;
+(xs).rforeach()
 (
 lam x =>
 (
 (x).repeat()(lam() => print ". ");
 print "Q ";
 (N-1-x).repeat()(lam() => print ". "); println!()
+)
+)
 )
 ) (* end of [val] *)
 //
