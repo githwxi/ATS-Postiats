@@ -150,10 +150,19 @@ DivideConquerLazy$conquer$combine<>(x0, rs)
 //
 (* ****** ****** *)
 (*
+//
+// HX-2017-03-27:
+// this is a very common implementation
+// when divide-and-conquer is used for DFS:
+//
+*)
+(*
+//
 implement
 {}(*tmp*)
 DivideConquerLazy$conquer$combine
   (x0, rs) = stream_vt_concat<output>(rs)
+//
 *)
 (* ****** ****** *)
 
