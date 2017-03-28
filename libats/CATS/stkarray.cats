@@ -51,7 +51,7 @@ struct {
 
 ATSinline()
 atstype_ptr
-atslib_stkarray_make_ngc__tsz
+atslib_stkarray_make_ngc_tsz
 (
   atstype_ptr p
 , atstype_ptr A
@@ -64,31 +64,31 @@ atslib_stkarray_make_ngc__tsz
   p_stk->stkarray_end = (char*)A + m * tsz ;
   p_stk->stkarray_cur = A ;
   return p_stk ;
-} // end of [atslib_stkarray_make_ngc__tsz]
+} // end of [atslib_stkarray_make_ngc_tsz]
 
 /* ****** ****** */
 
 ATSinline()
 atstype_size
-atslib_stkarray_get_size__tsz
+atslib_stkarray_get_size_tsz
 (
   atstype_ptr p, atstype_size tsz
 ) {
   atslib_stkarray_struct *p_stk ;
   p_stk = (atslib_stkarray_struct*)p ;
   return ((char*)(p_stk->stkarray_cur) - (char*)(p_stk->stkarray_beg)) / tsz ;
-} // end of [atslib_stkarray_get_size__tsz]
+} // end of [atslib_stkarray_get_size_tsz]
 
 ATSinline()
 atstype_size
-atslib_stkarray_get_capacity__tsz
+atslib_stkarray_get_capacity_tsz
 (
   atstype_ptr p, atstype_size tsz
 ) {
   atslib_stkarray_struct *p_stk ;
   p_stk = (atslib_stkarray_struct*)p ;
   return ((char*)(p_stk->stkarray_end) - (char*)(p_stk->stkarray_beg)) / tsz ;
-} // end of [atslib_stkarray_get_capacity__tsz]
+} // end of [atslib_stkarray_get_capacity_tsz]
 
 /* ****** ****** */
 

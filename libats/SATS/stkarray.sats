@@ -38,34 +38,45 @@
 (*
 **
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
 ** Start time: September, 2013
+** Authoremail: gmhwxiATgmailDOTcom
 **
 *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.stkarray"
-#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
-
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.stkarray"
+//
+// HX-2017-03-28:
+#define // prefix for external
+ATS_EXTERN_PREFIX "atslib_" // names
+//
 (* ****** ****** *)
 
 %{#
+//
 #include "libats/CATS/stkarray.cats"
+//
 %} // end of [%{#]
 
 (* ****** ****** *)
 //
 absvtype
-stkarray_vtype (a:vt@ype+, m:int, n:int) = ptr
+stkarray_vtype
+  (a: vt@ype+, m: int, n: int) = ptr
 //
 (* ****** ****** *)
 //
-stadef stkarray = stkarray_vtype
+stadef
+stkarray = stkarray_vtype
 //
 vtypedef
 stkarray
-  (a:vt0p) = [m,n:int] stkarray_vtype (a, m, n)
+(
+  a:vt0p
+) = [m,n:int] stkarray_vtype (a, m, n)
 //
 (* ****** ****** *)
 
@@ -77,7 +88,7 @@ stkarray_tsize = $extype"atslib_stkarray_struct"
 praxi
 lemma_stkarray_param
   {a:vt0p}{m,n:int}
-  (!stkarray (INV(a), m, n)): [m >= n; n >= 0] void
+  (!stkarray(INV(a), m, n)): [m >= n; n >= 0] void
 // end of [lemma_stkarray_param]
 
 (* ****** ****** *)
@@ -90,7 +101,7 @@ stkarray_make_cap
 (* ****** ****** *)
 
 fun
-stkarray_make_ngc__tsz
+stkarray_make_ngc_tsz
   {a:vt0p}
   {l:addr}{m:int}
 (
