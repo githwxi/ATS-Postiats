@@ -180,6 +180,10 @@ $UN.castvwtp0{ptr}(store)
 implement
 theStreamizeStore_get<>
   ((*void*)) = $UN.castvwtp0(store)
+implement
+theStreamizeStore_set<>
+  (store) = { prval() = $UN.cast2void(store) }
+//
 } (* GraphStreamize_dfs *)
 //
 (* ****** ****** *)
