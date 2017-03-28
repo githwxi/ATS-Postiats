@@ -1,11 +1,11 @@
+(* ****** ****** *)
 (*
-For testing GraphSearh_dfs
+//
+Testing DivideConquerLazy
+//
 *)
-
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
 #include
 "share/atspre_staload.hats"
 #include
@@ -111,12 +111,10 @@ implement
 main0((*void*)) = 
 {
 //
-val
-xss =
-QueenPuzzle_solve()
-//
 val () =
-xss.iforeach()
+(
+QueenPuzzle_solve()
+).iforeach()
 (
 lam(i, xs) =>
 (
@@ -138,10 +136,10 @@ lam x =>
 (x).repeat()(lam() => print ". ");
 print "Q ";
 (N-1-x).repeat()(lam() => print ". "); println!()
-)
-)
-)
-) (* end of [val] *)
+) (* lam *)
+) (* rforeach *)
+) (* lam *)
+) (* iforeach *)
 //
 } (* end of [main0] *)
 

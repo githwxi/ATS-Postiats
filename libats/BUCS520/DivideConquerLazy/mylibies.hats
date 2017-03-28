@@ -2,7 +2,7 @@
 //
 // HX-2017-03-27:
 //
-// Generic
+// A generic implemenation of
 // Divide-Conquer of lazy-style
 //
 (* ****** ****** *)

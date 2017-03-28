@@ -2,7 +2,7 @@
 "name":
 "atscntrb-bucs520-divideconquerlazy"
 ,
-"version": "1.0.0"
+"version": "1.0.1"
 ,
 "description":
 "A generic implementation of the divide-and-conquer strategy of lazy-style"
