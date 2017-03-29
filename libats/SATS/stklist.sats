@@ -79,5 +79,55 @@ lemma_stklist_param
 // end of [lemma_stklist_param]
 //
 (* ****** ****** *)
+//
+fun{}
+stklist_make_nil
+  {a:vt0p}((*void*)):<!wrt> stklist(a, 0)
+//
+(* ****** ****** *)
+//
+fun{}
+stklist_getfree
+  {a:vt0p}{n:int}
+  (stk: stklist(INV(a), n)):<!wrt> list_vt(a, n)
+//
+(* ****** ****** *)
+//
+fun{}
+stklist_is_nil
+  {a:vt0p}{n:int}
+  (stk: !stklist(INV(a), n)):<> bool(n==0)
+fun{}
+stklist_isnot_nil
+  {a:vt0p}{n:int}
+  (stk: !stklist(INV(a), n)):<> bool(n > 0)
+//
+(* ****** ****** *)
+
+fun
+{a:vt0p}
+stklist_insert
+  {n:int}
+(
+  stk: !stklist(INV(a), n) >> stklist(a, n+1), x0: a
+) :<!wrt> void // endfun
+
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+stklist_takeout
+  {n:int | n > 0}
+(
+  stk: !stklist(INV(a), n) >> stklist(a, n-1)
+) :<!wrt> (a) // endfun
+//
+fun
+{a:vt0p}
+stklist_takeout_opt
+  (stk: !stklist(INV(a)) >> _):<!wrt> Option_vt(a)
+// end of [stklist_takeout_opt]
+//
+(* ****** ****** *)
 
 (* end of [stklist.sats] *)

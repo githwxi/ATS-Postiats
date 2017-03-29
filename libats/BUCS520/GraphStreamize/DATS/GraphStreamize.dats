@@ -134,26 +134,36 @@ in
 if
 (ans)
 then let
-   val nx = nx0 where
-   {
-     prval() = opt_unsome(nx0)
-   }
-   val nxs =
-     node_get_neighbors<>(nx)
-   // end of [val]
-   val ((*void*)) =
-     theStreamizeStore_insert_lst<>(nxs)
-   // end of [val]
+//
+val nx = nx0 where
+{
+  prval() = opt_unsome(nx0)
+}
+val nxs =
+node_get_neighbors<>(nx)
+// end of [val]
+val ((*void*)) =
+theStreamizeStore_insert_lst<>(nxs)
+// end of [val]
+//
 in
-   stream_vt_cons(nx, streamize())
+  stream_vt_cons(nx, streamize())
 end // end of [then]
 else let
-   prval() = opt_unnone(nx0) in stream_vt_nil()
+//
+val () =
+theStreamizeStore_free<>((*freed*))
+//
+in
+//
+stream_vt_nil()
+  where { prval() = opt_unnone(nx0) }
+//
 end // end of [else]
 //
 end // end of [let]
 ,
-theStreamizeStore_free<>((*void*))
+theStreamizeStore_free<>((*freed*))
 ) (* end of [streamize] *)
 //
 } (* end of [GraphStreamize] *)

@@ -45,7 +45,7 @@ ATS_PACKNAME
 (* ****** ****** *)
 //
 #staload
-"libats/SATS/sllist.sats"
+"libats/SATS/stklist.sats"
 //
 (* ****** ****** *)
 //
@@ -83,11 +83,11 @@ overload
 extern
 fun{}
 theStreamizeStore_get
-  ((*void*)): Sllist0(node)
+  ((*void*)): stklist(node)
 extern
 fun{}
 theStreamizeStore_set
-  (store: Sllist0(node)): void
+  (store: stklist(node)): void
 //
 (* ****** ****** *)
 
@@ -95,13 +95,21 @@ implement
 theStreamizeStore_free<>
   ((*void*)) = let
 //
+(*
+val () =
+println!
+("theStreamizeStore_free")
+*)
+//
 implement
-sllist_freelin$clear<node>
+list_vt_freelin$clear<node>
   (nx0) =
   $effmask_all(node_free(nx0))
 //
+val store = theStreamizeStore_get<>()
+//
 in
-  sllist_freelin<node>(theStreamizeStore_get<>())
+  list_vt_freelin<node>(stklist_getfree<>(store))
 end // end of [theStreamizeStore_free]
 
 (* ****** ****** *)
@@ -111,7 +119,7 @@ theStreamizeStore_insert<>
   (nx) = let
 //
 val
-theStore =
+store =
 theStreamizeStore_get()
 //
 in
@@ -121,12 +129,13 @@ if
 then
 (
   node_free(nx);
-  theStreamizeStore_set(theStore)
+  theStreamizeStore_set(store)
 )
 else
 (
   node_mark(nx);
-  theStreamizeStore_set(sllist_cons(nx, theStore))
+  stklist_insert(store, nx);
+  theStreamizeStore_set(store)
 )
 //
 end (* end of [theStreamizeStore_insert] *)
@@ -138,23 +147,31 @@ theStreamizeStore_choose<>
   (nx0) = let
 //
 var
-nxs = theStreamizeStore_get()
+store =
+theStreamizeStore_get()
+val isnil = stklist_is_nil(store)
+//
+prval () = lemma_stklist_param(store)
 //
 in
 //
 if
-isneqz(nxs)
+isnil
 then let
-  val nx = sllist_uncons(nxs)
-  val () = theStreamizeStore_set(nxs)
-  val () = (nx0 := nx)
-  prval () = opt_some(nx0) in true
-end // end of [else]
-else let
-  val () =
-  theStreamizeStore_set(nxs)
-  prval () = opt_none(nx0) in false
+//
+val () =
+theStreamizeStore_set(store)
+prval () = opt_none(nx0) in false
+//
 end // end of [then]
+else let
+//
+  val nx = stklist_takeout(store)
+  val () = theStreamizeStore_set(store)
+  val () = (nx0 := nx)
+prval () = opt_some(nx0) in (true)
+//
+end // end of [else]
 //
 end // end of [theStreamizeStore_choose]
 //
@@ -164,7 +181,7 @@ extern
 fun{}
 GraphStreamize_dfs
 (
-store:Sllist0(node)
+store:stklist(node)
 ) : stream_vt(node)
 //
 implement

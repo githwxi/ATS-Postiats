@@ -55,5 +55,130 @@ UN = "prelude/SATS/unsafe.sats"
 staload "libats/SATS/stklist.sats"
 
 (* ****** ****** *)
+//
+assume
+stklist_vtype
+  (a:vt0p, n:int) = aPtr1(list_vt(a, n))
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+stklist_make_nil
+  {a}((*void*)) =
+(
+aptr_make_elt<
+  list_vt(a,0)>(list_vt_nil(*void*))
+) (* stklist_make_nil *)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+stklist_getfree
+  {a}{n}(stk) =
+  aptr_getfree_elt<list_vt(a,n)>(stk)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+stklist_is_nil
+  {a}{n}(stk) = isnil where
+{
+//
+val p0 = $UN.castvwtp1{ptr}(stk)
+//
+val xs = $UN.ptr0_get<list_vt(a,n)>(p0)
+//
+val isnil = list_vt_is_nil(xs)
+prval ((*void*)) = $UN.cast2void(xs)
+//
+} (* end of [stklist_is_nil] *)
+//
+implement
+{}(*tmp*)
+stklist_isnot_nil
+  {a}{n}(stk) = iscons where
+{
+//
+val p0 = $UN.castvwtp1{ptr}(stk)
+//
+val xs = $UN.ptr0_get<list_vt(a,n)>(p0)
+//
+val iscons = list_vt_is_cons(xs)
+prval ((*void*)) = $UN.cast2void(xs)
+//
+} (* end of [stklist_isnot_nil] *)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+stklist_insert
+  {n}(stk, x0) = let
+//
+prval
+((*n>=0*)) =
+lemma_stklist_param(stk)
+//
+val xs =
+aptr_get_elt<list_vt(a,n)>(stk)
+val xs = list_vt_cons(x0, xs)
+//
+in
+  aptr_set_elt<list_vt(a,n+1)>(stk, xs)
+end // end of [stklist_insert]
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+stklist_takeout
+  {n}(stk) = x0 where
+{
+//
+val xs =
+aptr_get_elt<list_vt(a,n)>(stk)
+//
+val+~list_vt_cons(x0, xs) = xs
+val () = aptr_set_elt<list_vt(a,n-1)>(stk, xs)
+//
+} (* end of [stklist_takeout] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+stklist_takeout_opt
+  (stk) = let
+//
+prval
+((*n>=0*)) =
+lemma_stklist_param(stk)
+//
+val xs =
+aptr_get_elt<List0_vt(a)>(stk)
+//
+in
+//
+case+ xs of
+| list_vt_nil
+  (
+  ) => None_vt() where
+  {
+    val () = aptr_set_elt(stk, xs)
+  } (* end of [list_vt_nil] *)
+| ~list_vt_cons
+  (
+    x0, xs
+  ) => Some_vt(x0) where
+  {
+    val () = aptr_set_elt(stk, xs)
+  } (* end of [list_vt_nil] *)
+//
+end // end of [stklist_takeout_opt]
+
+(* ****** ****** *)
 
 (* end of [stklist.dats] *)

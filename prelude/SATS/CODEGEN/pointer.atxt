@@ -574,7 +574,7 @@ aptr_get_elt
   {l:agz}
   (ap: !aptr(a, l) >> aptr(a?!, l)):<!wrt> (a)
 fun
-{a:t0p}
+{a:vt0p}
 aptr_set_elt
   {l:agz}
   (ap: !aptr(a?, l) >> aptr(a, l), x: a):<!wrt> void
