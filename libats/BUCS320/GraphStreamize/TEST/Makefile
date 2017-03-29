@@ -47,6 +47,16 @@ $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: QueenPuzzle_dfs; ./$<
 #
 ######
+#
+all:: \
+KnightsTour_dfs
+KnightsTour_dfs: \
+KnightsTour_dfs.dats; \
+$(PATSCC) -O2 -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
+#
+regress:: KnightsTour_dfs; ./$<
+#
+######
 
 testall:: all
 testall:: regress
@@ -67,6 +77,7 @@ cleanall:: clean
 #
 cleanall:: ; $(RMF) QueenPuzzle_bfs
 cleanall:: ; $(RMF) QueenPuzzle_dfs
+cleanall:: ; $(RMF) KnightsTour_dfs
 #
 ######
 

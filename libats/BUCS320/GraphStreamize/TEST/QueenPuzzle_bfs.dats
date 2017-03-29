@@ -1,5 +1,5 @@
 (*
-For testing GraphSearh_bfs
+For testing GraphStreamize_bfs
 *)
 
 (* ****** ****** *)
