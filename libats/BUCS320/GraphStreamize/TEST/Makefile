@@ -81,6 +81,7 @@ cleanall:: clean
 #
 cleanall:: ; $(RMF) QueenPuzzle_bfs
 cleanall:: ; $(RMF) QueenPuzzle_dfs
+cleanall:: ; $(RMF) KnightsTour_bfs
 cleanall:: ; $(RMF) KnightsTour_dfs
 #
 ######
