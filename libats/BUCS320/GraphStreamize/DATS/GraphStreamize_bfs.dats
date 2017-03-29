@@ -35,49 +35,73 @@
 //
 #define
 ATS_PACKNAME
-"ATSLIB.libats.BUCS520.GraphStreamize"
-//
-(* ****** ****** *)
-
-absvtype node_type = ptr
-absvtype nodelst_vtype = ptr
-
-(* ****** ****** *)
-
-vtypedef node = node_type
-vtypedef nodelst = nodelst_vtype
-
-(* ****** ****** *)
-//
-extern
-fun{}
-node_get_neighbors(nx: !node): nodelst
+"ATSLIB.libats.BUCS320.GraphStreamize"
 //
 (* ****** ****** *)
 //
-extern
-fun{}
-theStreamizeStore_free(): void
+#staload
+"./GraphStreamize.dats"
 //
-extern
-fun{}
-theStreamizeStore_insert(node): void
-extern
-fun{}
-theStreamizeStore_insert_lst(nodelst): void
+(* ****** ****** *)
+//
+#staload
+"libats/ML/SATS/qlistref.sats"
+//
+(* ****** ****** *)
+//
+#staload
+UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
 extern
 fun{}
-theStreamizeStore_choose
+node_mark(!node): void
+extern
+fun{}
+node_unmark(!node): void
+//
+extern
+fun{}
+node_is_marked(!node): bool
+overload
+.is_marked with node_is_marked
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+theStreamizeStore_get(): qlistref(node)
+extern
+fun{}
+theStreamizeStore_set(store: qlistref(node)): void
+//
+(* ****** ****** *)
+//
+implement
+theStreamizeStore_insert<>
+  (nx) = let
+//
+val
+store =
+theStreamizeStore_get()
+//
+in
+//
+if
+(nx.is_marked())
+then
 (
-nx0: &node? >> opt(node, b)
-) : #[b:bool] bool(b) // endfun
+  theStreamizeStore_set(store)
+)
+else
+(
+  node_mark(nx);
+  qlistref_insert(store, nx);
+  theStreamizeStore_set(store)
+)
 //
-extern
-fun{}
-theStreamizeStore_choose_opt(): Option_vt(node)
+end (* end of [theStreamizeStore_insert] *)
 //
 (* ****** ****** *)
 //
@@ -85,19 +109,27 @@ implement
 theStreamizeStore_choose<>
   (nx0) = let
 //
+var
+store =
+theStreamizeStore_get()
+//
 val opt =
-theStreamizeStore_choose_opt<>()
+qlistref_takeout_opt(store)
 //
 in
 //
 case+ opt of
-| ~Some_vt(nx) => let
-    val () = nx0 := nx
-    prval () = opt_some(nx0) in true
-  end // end of [Some_vt]
-| ~None_vt((*void*)) => let
-    prval () = opt_none(nx0) in false
-  end // end of [None_vt]
+| ~None_vt() => false where
+  {
+  prval () = opt_none(nx0)
+    val () = theStreamizeStore_set(store)
+  }
+| ~Some_vt(nx) => true where
+  {
+    val () = (nx0 := nx)
+  prval () = opt_some(nx0)
+    val () = theStreamizeStore_set(store)
+  }
 //
 end // end of [theStreamizeStore_choose]
 //
@@ -105,69 +137,22 @@ end // end of [theStreamizeStore_choose]
 //
 extern
 fun{}
-GraphStreamize((*void*)): stream_vt(node)
+GraphStreamize_bfs
+  (qlistref(node)): stream(node)
 //
-(* ****** ****** *)
-
 implement
 {}(*tmp*)
-GraphStreamize
-  ((*void*)) =
-  streamize() where
+GraphStreamize_bfs
+  (store) = GraphStreamize<>() where
 {
 //
-fun
-streamize
-(
-// argless
-): stream_vt(node) = $ldelay
-(
-let
+implement
+theStreamizeStore_get<>() = store
+implement
+theStreamizeStore_set<>(store) = ((*void*))
 //
-var nx0: node?
-val
-ans =
-theStreamizeStore_choose<>(nx0)
+} (* GraphStreamize_bfs *)
 //
-in
-//
-if
-(ans)
-then let
-//
-val nx = nx0 where
-{
-  prval() = opt_unsome(nx0)
-}
-val nxs =
-node_get_neighbors<>(nx)
-// end of [val]
-val ((*void*)) =
-theStreamizeStore_insert_lst<>(nxs)
-// end of [val]
-//
-in
-  stream_vt_cons(nx, streamize())
-end // end of [then]
-else let
-//
-val () =
-theStreamizeStore_free<>((*freed*))
-//
-in
-//
-stream_vt_nil()
-  where { prval() = opt_unnone(nx0) }
-//
-end // end of [else]
-//
-end // end of [let]
-,
-theStreamizeStore_free<>((*freed*))
-) (* end of [streamize] *)
-//
-} (* end of [GraphStreamize] *)
-
 (* ****** ****** *)
 
-(* end of [GraphStreamize.dats] *)
+(* end of [GraphStreamize_bfs.dats] *)

@@ -35,17 +35,17 @@
 //
 #define
 ATS_PACKNAME
-"ATSLIB.libats.BUCS520.GraphStreamize"
+"ATSLIB.libats.BUCS320.GraphStreamize"
 //
 (* ****** ****** *)
 
-absvtype node_type = ptr
-absvtype nodelst_vtype = ptr
+abstype node_type = ptr
+abstype nodelst_type = ptr
 
 (* ****** ****** *)
 
-vtypedef node = node_type
-vtypedef nodelst = nodelst_vtype
+typedef node = node_type
+typedef nodelst = nodelst_type
 
 (* ****** ****** *)
 //
@@ -54,10 +54,6 @@ fun{}
 node_get_neighbors(nx: !node): nodelst
 //
 (* ****** ****** *)
-//
-extern
-fun{}
-theStreamizeStore_free(): void
 //
 extern
 fun{}
@@ -105,7 +101,7 @@ end // end of [theStreamizeStore_choose]
 //
 extern
 fun{}
-GraphStreamize((*void*)): stream_vt(node)
+GraphStreamize((*void*)): stream(node)
 //
 (* ****** ****** *)
 
@@ -120,7 +116,7 @@ fun
 streamize
 (
 // argless
-): stream_vt(node) = $ldelay
+): stream(node) = $delay
 (
 let
 //
@@ -146,24 +142,21 @@ val ((*void*)) =
 theStreamizeStore_insert_lst<>(nxs)
 // end of [val]
 //
+prval ((*void*)) = topize(nx0)
+//
 in
-  stream_vt_cons(nx, streamize())
+  stream_cons(nx, streamize())
 end // end of [then]
 else let
 //
-val () =
-theStreamizeStore_free<>((*freed*))
-//
 in
 //
-stream_vt_nil()
+stream_nil()
   where { prval() = opt_unnone(nx0) }
 //
 end // end of [else]
 //
 end // end of [let]
-,
-theStreamizeStore_free<>((*freed*))
 ) (* end of [streamize] *)
 //
 } (* end of [GraphStreamize] *)

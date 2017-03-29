@@ -23,21 +23,12 @@ GRAPHSTREAMIZE_BFS 1
 //
 (* ****** ****** *)
 
-#staload "libats/SATS/qlist.sats"
-#staload _ = "libats/DATS/qlist.dats"
-
-(* ****** ****** *)
-
 #define N 8
 
 (* ****** ****** *)
 
-assume node_type = List0(int)
-assume nodelst_vtype = stream_vt(node)
-
-(* ****** ****** *)
-
-implement node_free<>(nx) = ()
+assume node_type = list0(int)
+assume nodelst_type = list0(node)
 
 (* ****** ****** *)
 
@@ -60,14 +51,14 @@ implement
 node_get_neighbors<>
   (nx0) = 
 (
-(N).stream_vt_map(TYPE{node})(lam x => cons(x, nx0))
+(N).list0_map(TYPE{node})(lam x => cons0(x, nx0))
 ).filter()
   (
     lam nx =>
     let
-      val-cons(x0, nx) = nx
+      val-cons0(x0, nx) = nx
     in
-      (g0ofg1(nx)).iforall()(lam(i, x) => x0 != x && abs(x0 - x) != i+1)
+      (nx).iforall()(lam(i, x) => x0 != x && abs(x0 - x) != i+1)
     end // end of [let] // end of [lam]
   )
 //
@@ -77,8 +68,8 @@ extern
 fun
 QueenPuzzle_solve
 (
-  // argmentless
-) : stream_vt(node)
+  // argless
+) : stream(node)
 //
 implement
 QueenPuzzle_solve
@@ -86,14 +77,14 @@ QueenPuzzle_solve
 {
 //
 val
-root = list_nil()
+root = list0_nil()
 //
 val
 store =
-qlist_make_nil{node}()
+qlistref_make_nil{node}()
 //
 val () =
-qlist_insert(store, root)
+qlistref_insert(store, root)
 //
 val nxs = GraphStreamize_bfs(store)
 //
@@ -105,19 +96,16 @@ implement
 main0() = () where
 {
 //
-val nxs = QueenPuzzle_solve()
+val
+nxs = QueenPuzzle_solve()
+val
+nxs =
+(nxs).filter()(lam(nx) => length(nx) >= N)
 //
-val nxs =
-  (nxs).filter()(lam(nx) => length(nx) >= N)
-//
-val ((*void*)) =
+val () =
 nxs.foreach()
 (
-  lam(nx) =>
-  let
-    val nx2 = list_reverse(nx) in
-    println!($UN.list_vt2t(nx2)); list_vt_free(nx2) 
-  end
+  lam(nx) => println!(list0_reverse(nx))
 )
 //
 } (* end of [main0] *)
