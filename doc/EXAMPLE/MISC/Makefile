@@ -276,6 +276,14 @@ clean:: ; $(RMF) strmat_dats.o
 clean:: ; $(RMF) strmat_dats.c
 cleanall:: ; $(RMF) strmat strmat.exe
 
+all:: tempfunctor
+tempfunctor: tempfunctor.exe
+tempfunctor.exe: tempfunctor_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+tempfunctor_dats.c: tempfunctor.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output tempfunctor_dats.c --dynamic tempfunctor.dats
+clean:: ; $(RMF) tempfunctor_dats.o
+clean:: ; $(RMF) tempfunctor_dats.c
+cleanall:: ; $(RMF) tempfunctor tempfunctor.exe
+
 all:: wclines
 wclines: wclines.exe
 wclines.exe: wclines_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib

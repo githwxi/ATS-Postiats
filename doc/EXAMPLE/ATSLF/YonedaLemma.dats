@@ -47,14 +47,14 @@ Functor
 typedef
 list0(a:type) = list0(a)
 extern
-val Functor_list0 : Functor (list0)
+val Functor_list0 : Functor(list0)
 
 (* ****** ****** *)
 //
 implement
 Functor_list0{a,b}
   (f) =
-  lam xs => list0_map<a><b> (xs, f)
+  lam xs => list0_map<a><b>(xs, f)
 //
 (* ****** ****** *)
 //
@@ -69,7 +69,7 @@ Functor_option0 : Functor(option0)
 implement
 Functor_option0{a,b}
   (f) =
-  lam opt => option0_map<a><b> (opt, f)
+  lam opt => option0_map<a><b>(opt, f)
 //
 (* ****** ****** *)
 //
