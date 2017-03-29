@@ -9,12 +9,6 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 
 ######
-
-PATSCC2=\
-$(PATSCC) -O2 \
--D_GNU_SOURCE -DATS_MEMALLOC_LIBC
-
-######
 #
 export \
 PATSHOMELOCS=\
@@ -32,7 +26,7 @@ all:: \
 QueenPuzzle_bfs
 QueenPuzzle_bfs: \
 QueenPuzzle_bfs.dats; \
-$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+$(PATSCC) -O2 -DATS_MEMALLOC_LIBC -o $@ $<
 #
 regress:: QueenPuzzle_bfs; ./$<
 #
@@ -42,9 +36,19 @@ all:: \
 QueenPuzzle_dfs
 QueenPuzzle_dfs: \
 QueenPuzzle_dfs.dats; \
-$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+$(PATSCC) -O2 -DATS_MEMALLOC_LIBC -o $@ $<
 #
 regress:: QueenPuzzle_dfs; ./$<
+#
+######
+#
+all:: \
+KnightsTour_bfs
+KnightsTour_bfs: \
+KnightsTour_bfs.dats; \
+$(PATSCC) -O2 -DATS_MEMALLOC_GCBDW -o $@ $< -lgc
+#
+regress:: KnightsTour_bfs; ./$<
 #
 ######
 #
