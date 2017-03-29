@@ -9,7 +9,8 @@ For testing GraphSearh_dfs
 #include
 "share/atspre_staload.hats"
 #include
-"share/HATS/atspre_staload_libats_ML.hats"
+"share/HATS\
+/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 //
@@ -25,6 +26,12 @@ GRAPHSTREAMIZE_DFS 1
 
 #define N 8
 
+(* ****** ****** *)
+//
+extern
+fun
+QueenPuzzle_solve(): stream(node)
+//
 (* ****** ****** *)
 
 assume node_type = list0(int)
@@ -63,13 +70,6 @@ node_get_neighbors<>
   )
 //
 (* ****** ****** *)
-//
-extern
-fun
-QueenPuzzle_solve
-(
-  // argless
-) : stream(node)
 //
 implement
 QueenPuzzle_solve
