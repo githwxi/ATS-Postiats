@@ -52,7 +52,7 @@ qlist_make_nil
   val () = qstruct_initize (!p)
   prval pfngc = qstruct_objfize (pf | pq)
   prval () = mfree_gcngc_v_nullify (pfgc, pfngc)
-} // end of [qlist_make]
+} (* end of [qlist_make] *)
 
 implement{}
 qlist_free_nil
@@ -72,7 +72,10 @@ val () = __mfree (pq) where
 implement{a}
 qlist_insert
   (pq, x) = let
-  val nx = mynode_make_elt<a> (x) in qlist_insert_ngc<a> (pq, nx)
+//
+val nx =
+mynode_make_elt<a>(x) in qlist_insert_ngc<a>(pq, nx)
+//
 end // end of [qlist_insert]
 
 implement{a}
@@ -80,12 +83,17 @@ qstruct_insert
   (que, x) = let
 //
 val pq = addr@(que)
-val pq2 = ptr2ptrlin (pq)
-prval pfngc = qstruct_objfize (view@(que) | pq2)
-val () = qlist_insert<a> (pq2, x)
-prval pfat = qstruct_unobjfize (pfngc | pq, pq2)
+val pq2 = ptr2ptrlin(pq)
+//
+prval
+pfngc =
+qstruct_objfize(view@(que)|pq2)
+//
+val () = qlist_insert<a>(pq2, x)
+prval pfat =
+qstruct_unobjfize (pfngc | pq, pq2)
 prval () = view@(que) := pfat
-prval () = ptrlin_free (pq2)
+prval () = ptrlin_free{a}(pq2)
 //
 in
   // nothing

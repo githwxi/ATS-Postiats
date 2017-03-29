@@ -55,9 +55,10 @@
 %} // end of [%{#]
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.qlist"
-
+//
+#define
+ATS_PACKNAME "ATSLIB.libats.qlist"
+//
 (* ****** ****** *)
 //
 absvtype
@@ -99,29 +100,36 @@ qlist_length
 //
 fun{a:vt0p}
 qlist_is_nil
-  {n:int} (q0: !qlist(a, n)):<> bool (n == 0)
+  {n:int}(q0: !qlist(a, n)):<> bool(n == 0)
 fun{a:vt0p}
 qlist_isnot_nil
-  {n:int} (q0: !qlist(INV(a), n)):<> bool (n > 0)
+  {n:int}(q0: !qlist(INV(a), n)):<> bool(n > 0)
 //
 (* ****** ****** *)
 //
 fun{}
-fprint_qlist$sep(out: FILEref): void
+fprint_qlist$sep
+  (out: FILEref): void
 //
 fun{a:vt0p}
 fprint_qlist
-  (out: FILEref, q0: !qlist(INV(a))): void
+(
+  out: FILEref, que: !qlist(INV(a))
+) : void // end of [fprint_qlist]
 fun{a:vt0p}
 fprint_qlist_sep
-  (out: FILEref, q0: !qlist(INV(a)), sep: string): void
+(
+  out: FILEref, que: !qlist(INV(a)), sep: string
+) : void // end of [fprint_qlist_sep]
 //
 (* ****** ****** *)
 
 fun{a:vt0p}
 qlist_insert{n:int}
 (
-  q0: !qlist(INV(a), n) >> qlist(a, n+1), x: a
+  que:
+  !qlist(INV(a), n) >> qlist(a, n+1)
+, elt: a
 ) :<!wrt> void // end of [qlist_insert]
 
 (* ****** ****** *)
@@ -143,8 +151,7 @@ qlist_takeout_opt
 *)
 //
 fun{}
-qlist_takeout_list
-  {a:vt0p}{n:int}
+qlist_takeout_list{a:vt0p}{n:int}
   (q0: !qlist(INV(a), n) >> qlist(a, 0)):<!wrt> list_vt(a, n)
 // end of [qlist_takeout_list]
 //
@@ -152,21 +159,21 @@ qlist_takeout_list
 //
 fun
 {a:vt0p}
-qlist_foreach (q: !qlist(INV(a))): void
+qlist_foreach(q0: !qlist(INV(a))): void
 fun
 {a:vt0p}
 {env:vt0p}
 qlist_foreach_env
-  (q: !qlist(INV(a)), env: &(env) >> _): void
+  (q0: !qlist(INV(a)), env: &(env) >> _): void
 //
 fun
 {a:vt0p}
 {env:vt0p}
-qlist_foreach$cont (x: &a, env: &env): bool
+qlist_foreach$cont(x0: &a, env: &env): bool
 fun
 {a:vt0p}
 {env:vt0p}
-qlist_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+qlist_foreach$fwork(x0: &a >> _, env: &(env) >> _): void
 //
 (* ****** ****** *)
 //
@@ -209,29 +216,32 @@ qstruct_objfize
   {a:vt0p}
   {l:addr}{n:int}
 (
-  pf: qstruct(INV(a), n) @ l | p: !ptrlin l >> qlist(a, n)
-) :<prf> mfree_ngc_v (l) // endfun
+  pf:
+  qstruct
+  (INV(a), n) @ l | p0: !ptrlin(l) >> qlist(a, n)
+) :<prf> mfree_ngc_v(l) // end of [qstruct_objfize]
 
 praxi
 qstruct_unobjfize
   {a:vt0p}
   {l:addr}{n:int}
 (
-  pf: mfree_ngc_v(l) | p: ptr l, q: !qlist(INV(a), n) >> ptrlin l
-) :<prf> qstruct(a, n) @ l // endfun
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-qstruct_insert{n:int}
-  (q: &qstruct(INV(a), n) >> qstruct(a, n+1), x: a):<!wrt> void
-// end of [qstruct_insert]
+  pf: mfree_ngc_v(l) | p0: ptr(l), q0: !qlist(INV(a), n) >> ptrlin(l)
+) :<prf> qstruct(a, n) @ l // end of [qstruct_unobjfize]
 
 (* ****** ****** *)
 //
 fun{a:vt0p}
+qstruct_insert{n:int}
+(
+  q0: &qstruct(INV(a), n) >> qstruct(a, n+1), x0: a
+) :<!wrt> void // end of [qstruct_insert]
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
 qstruct_takeout{n:pos}
-  (q: &qstruct(INV(a), n) >> qstruct(a, n-1)):<!wrt> (a)
+  (q0: &qstruct(INV(a), n) >> qstruct(a, n-1)):<!wrt> (a)
 //
 (* ****** ****** *)
 //
@@ -240,9 +250,8 @@ qstruct_takeout{n:pos}
 *)
 //
 fun{}
-qstruct_takeout_list
-  {a:vt0p}{n:int}
-  (q: &qstruct(INV(a), n) >> qstruct(a, 0)):<!wrt> list_vt(a, n)
+qstruct_takeout_list{a:vt0p}{n:int}
+  (q0: &qstruct(INV(a), n) >> qstruct(a, 0)):<!wrt> list_vt(a, n)
 // end of [qstruct_takeout_list]
 //
 (* ****** ****** *)
