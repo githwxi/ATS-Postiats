@@ -24,9 +24,7 @@ GRAPHSTREAMIZE_DFS 1
 //
 (* ****** ****** *)
 //
-// HX:  too slow for N=8
-//
-#define N 6; #define NN %(N * N)
+#define N 8; #define NN %(N * N)
 //
 (* ****** ****** *)
 //
@@ -40,22 +38,14 @@ assume node_type = list0(int)
 assume nodelst_type = list0(node)
 
 (* ****** ****** *)
-
+//
 implement
 node_mark<>(nx) = ()
 implement
 node_unmark<>(nx) = ()
 implement
-node_is_marked<>
-  (nx) = let
+node_is_marked<>(nx) = false
 //
-val-
-list0_cons(xy0, xys) = nx
-//
-in
-  (xys).exists()(lam(xy) => xy0 = xy)
-end // end of [node_is_marked]
-
 (* ****** ****** *)
 //
 implement
@@ -71,23 +61,92 @@ lam nx => theStreamizeStore_insert(nx)
 //
 (* ****** ****** *)
 
+fun
+node_eval
+(nx0: node): int =
+(score - 1) where
+{
+//
+val-cons0(xy0,xys) = nx0
+//
+val x0 = xy0 / N and y0 = xy0 % N
+//
+fun{}
+fxy(x: int, y: int): int = x*N+y
+fun{}
+test(x: int, y: int): bool =
+  (0 <= x && x < N)&&(0 <= y && y < N)
+&&
+  (nx0).forall()(lam(xy) => xy != fxy(x, y))
+//
+var score: int = 0
+//
+val x_ = x0+1
+val y_ = y0+2
+val () =
+if test(x_, y_) then score := score + 1
+val y_ = y0-2
+val () =
+if test(x_, y_) then score := score + 1
+//
+val x_ = x0-1
+val y_ = y0+2
+val () =
+if test(x_, y_) then score := score + 1
+val y_ = y0-2
+val () =
+if test(x_, y_) then score := score + 1
+//
+val x_ = x0+2
+val y_ = y0+1
+val () =
+if test(x_, y_) then score := score + 1
+val y_ = y0-1
+val () =
+if test(x_, y_) then score := score + 1
+//
+val x_ = x0-2
+val y_ = y0+1
+val () =
+if test(x_, y_) then score := score + 1
+val y_ = y0-1
+val () =
+if test(x_, y_) then score := score + 1
+//
+} (* end of [node_eval] *)
+
+(* ****** ****** *)
+//
+fun
+nodelst_sort
+(nxs: nodelst): nodelst =
+list0_mergesort
+( nxs
+, lam(nx1, nx2) =>
+  $effmask_all(compare(node_eval(nx1), node_eval(nx2)))
+) (* end of [list0_mergesort] *)
+//
+(* ****** ****** *)
+
 implement
 node_get_neighbors<>
-  (nx0) = nxs where
+  (nx0) =
+  nodelst_sort(nxs) where
 {
 //
 #define :: list0_cons
 //
-val-(xy0::xys) = nx0
+val-cons0(xy0,xys) = nx0
 //
-val x0 = xy0 / N
-and y0 = xy0 % N
+val x0 = xy0 / N and y0 = xy0 % N
 //
 fun{}
-fxy(x: int, y: int): int = N*x+y
+fxy(x: int, y: int): int = x*N+y
 fun{}
 test(x: int, y: int): bool =
   (0 <= x && x < N)&&(0 <= y && y < N)
+&&
+  (nx0).forall()(lam(xy) => xy != fxy(x, y))
 //
 var nxs: nodelst = nil0()
 //

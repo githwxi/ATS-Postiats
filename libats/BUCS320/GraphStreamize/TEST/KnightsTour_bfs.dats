@@ -46,15 +46,7 @@ node_mark<>(nx) = ()
 implement
 node_unmark<>(nx) = ()
 implement
-node_is_marked<>
-  (nx) = let
-//
-val-
-list0_cons(xy0, xys) = nx
-//
-in
-  (xys).exists()(lam(xy) => xy0 = xy)
-end // end of [node_is_marked]
+node_is_marked<>(nx) = false
 
 (* ****** ****** *)
 //
@@ -78,16 +70,17 @@ node_get_neighbors<>
 //
 #define :: list0_cons
 //
-val-(xy0::xys) = nx0
+val-cons0(xy0,xys) = nx0
 //
-val x0 = xy0 / N
-and y0 = xy0 % N
+val x0 = xy0 / N and y0 = xy0 % N
 //
 fun{}
 fxy(x: int, y: int): int = N*x+y
 fun{}
 test(x: int, y: int): bool =
   (0 <= x && x < N)&&(0 <= y && y < N)
+&&
+  (nx0).forall()(lam(xy) => xy != fxy(x, y))
 //
 var nxs: nodelst = nil0()
 //
