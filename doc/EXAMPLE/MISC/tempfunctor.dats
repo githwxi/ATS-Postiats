@@ -49,6 +49,12 @@ pf: FUNCTOR(fname, f) | fopr: a -<cloref1> b
 
 extern
 praxi
+FUNCTOR_List0
+(
+// argless
+) : FUNCTOR(List0_name, List0)
+extern
+praxi
 FUNCTOR_List0_elim
   {f:ftype}
 (
@@ -73,13 +79,12 @@ implement
 main0((*void*)) =
 {
 //
-prval pf =
-$UNSAFE.proof_assert
-{FUNCTOR(List0_name, List0)}()
+val xs =
+$list{int}
+(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 //
-val xs = $list{int}(0, 1, 2, 3, 4)
-//
-val ys = functor_map<List0_name><int,int>(pf | lam(x) => x * x)(xs)
+val ys =
+functor_map<List0_name><int,int>(FUNCTOR_List0() | lam(x) => x * x)(xs)
 //
 val () = println! ("xs = ", xs)
 val () = println! ("ys = ", ys)
