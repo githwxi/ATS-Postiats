@@ -1623,7 +1623,7 @@ case+ s2en10 of
       val syneq =
         (if syneq then lin1 = lin2 else false): bool
       val syneq =
-        (if syneq then s2eff_syneq (s2fe1, s2fe2) else false): bool
+        (if syneq then s2eff_syneq(s2fe1, s2fe2) else false): bool
       val syneq =
         (if syneq then npf1 = npf2 else false): bool
       val syneq = (
@@ -1633,7 +1633,7 @@ case+ s2en10 of
       ) : bool // end of [val]
     in
       if syneq then
-        s2exp_syneq_env (env1, env2, s2e1_res, s2e2_res) else false
+        s2exp_syneq_env(env1, env2, s2e1_res, s2e2_res) else false
       // end of [if]
     end // end of [S2Efun]
   | _ (* non-S2Efun *) => false
@@ -1650,9 +1650,9 @@ case+ s2en10 of
   | _ (* non-S2Etop *) => false
   ) (* end of [S2Etop] *)
 //
-| S2Ewithout (s2e1) => (
+| S2Ewithout(s2e1) => (
   case+ s2en20 of
-  | S2Ewithout (s2e2) => s2exp_syneq_env (env1, env2, s2e1, s2e2)
+  | S2Ewithout (s2e2) => s2exp_syneq_env(env1, env2, s2e1, s2e2)
   | _ (* non-S2Ewithout *) => false
   ) // end of [S2Ewithout]
 //
@@ -1690,7 +1690,7 @@ case+ s2en10 of
   | _ (* non-S2Etyrec *) => false
   ) (* end of [S2Etyrec] *)
 //
-| S2Einvar (s2e1) => (
+| S2Einvar(s2e1) => (
   case+ s2en20 of
   | S2Einvar (s2e2) => s2exp_syneq_env (env1, env2, s2e1, s2e2)
   | _ (* non-S2Einvar *) => false
@@ -1748,14 +1748,14 @@ case+ s2en10 of
   | S2Erefarg
       (knd2, s2e2) => (
     if knd1 = knd2
-      then s2exp_syneq_env (env1, env2, s2e1, s2e2) else false
+      then s2exp_syneq_env(env1, env2, s2e1, s2e2) else false
     ) // end of [S2Erefarg]
   | _ (* non-S2Erefarg *) => false
   ) (* end of [S2Erefarg] *)
 //
-| S2Evararg (s2e1) => (
+| S2Evararg(s2e1) => (
   case+ s2en20 of
-  | S2Evararg (s2e2) => s2exp_syneq_env (env1, env2, s2e1, s2e2)
+  | S2Evararg (s2e2) => s2exp_syneq_env(env1, env2, s2e1, s2e2)
   | _ (* non-S2Evararg *) => false
   ) (* end of [S2Evararg] *)
 //
@@ -1775,7 +1775,7 @@ val s2f10 = s2exp2hnf (s2e10)
 and s2f20 = s2exp2hnf (s2e20)
 //
 in
-  s2hnf_syneq_env (env1, env2, s2f10, s2f20)
+  s2hnf_syneq_env(env1, env2, s2f10, s2f20)
 end // end of [s2exp_syneq_env]
 
 (* ****** ****** *)
@@ -1796,12 +1796,14 @@ case+ s2es1 of
     (s2e1, s2es1) =>
   (
     case+ s2es2 of
-    | list_nil () => false
+    | list_nil
+        ((*void*)) => false
+      // list_nil
     | list_cons
         (s2e2, s2es2) =>
       (
-        if s2exp_syneq_env (env1, env2, s2e1, s2e2)
-          then s2explst_syneq_env (env1, env2, s2es1, s2es2) else false
+        if s2exp_syneq_env(env1, env2, s2e1, s2e2)
+          then s2explst_syneq_env(env1, env2, s2es1, s2es2) else false
       ) (* end of [list_cons] *)
   ) (* end of [list_cons] *)
 //
@@ -1818,19 +1820,21 @@ case+ s2ess1 of
 | list_nil () =>
   (
     case+ s2ess2 of
-    | list_nil () => true
+    | list_nil() => true
     | list_cons _ => false
   )
 | list_cons
     (s2es1, s2ess1) =>
   (
     case+ s2ess2 of
-    | list_nil () => false
+    | list_nil
+        ((*void*)) => false
+      // list_nil
     | list_cons
         (s2es2, s2ess2) =>
       (
-        if s2explst_syneq_env (env1, env2, s2es1, s2es2)
-          then s2explstlst_syneq_env (env1, env2, s2ess1, s2ess2) else false
+        if s2explst_syneq_env(env1, env2, s2es1, s2es2)
+          then s2explstlst_syneq_env(env1, env2, s2ess1, s2ess2) else false
       ) (* end of [list_cons] *)
   ) (* end of [list_cons] *)
 //
@@ -1851,8 +1855,8 @@ case+
 ) of // case+
 | (list_cons (ls2e1, ls2es1),
    list_cons (ls2e2, ls2es2)) => let
-    val SLABELED (l1, _(*opt*), s2e1) = ls2e1
-    val SLABELED (l2, _(*opt*), s2e2) = ls2e2
+    val SLABELED(l1, _(*opt*), s2e1) = ls2e1
+    val SLABELED(l2, _(*opt*), s2e2) = ls2e2
   in
     if (l1 = l2) then let
       val syneq =
@@ -1878,8 +1882,8 @@ s2hnf_syneq2
   val env1 = list_vt_nil()
   val env2 = list_vt_nil()
   val syneq =
-    s2hnf_syneq_env (env1, env2, s2f1, s2f2)
-  val () = list_vt_free (env1) and () = list_vt_free (env2)
+    s2hnf_syneq_env(env1, env2, s2f1, s2f2)
+  val () = list_vt_free(env1) and () = list_vt_free(env2)
 } (* end of [s2hnf_syneq2] *)
 //
 implement
@@ -1889,8 +1893,9 @@ s2exp_syneq2
   val env1 = list_vt_nil()
   val env2 = list_vt_nil()
   val syneq =
-    s2exp_syneq_env (env1, env2, s2e1, s2e2)
-  val () = list_vt_free (env1) and () = list_vt_free (env2)
+    s2exp_syneq_env(env1, env2, s2e1, s2e2)
+  // end of [val]
+  val () = list_vt_free(env1) and () = list_vt_free(env2)
 } (* end of [s2exp_syneq2] *)
 //
 implement
@@ -1900,8 +1905,9 @@ s2explst_syneq2
   val env1 = list_vt_nil()
   val env2 = list_vt_nil()
   val syneq =
-    s2explst_syneq_env (env1, env2, s2es1, s2es2)
-  val () = list_vt_free (env1) and () = list_vt_free (env2)
+    s2explst_syneq_env(env1, env2, s2es1, s2es2)
+  // end of [val]
+  val () = list_vt_free(env1) and () = list_vt_free(env2)
 } (* end of [s2explst_syneq2] *)
 //
 (* ****** ****** *)
