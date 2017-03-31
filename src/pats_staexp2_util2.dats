@@ -541,7 +541,7 @@ of (* case+ *)
     val s2e_scope = s2exp_hnfize_flag (s2e_scope, flag)
   in
     if flag > flag0 then s2exp_exi (s2vs, s2ps, s2e_scope) else s2e0
-  end // end of [S2Euni]
+  end // end of [S2Eexi]
 | S2Euni (s2vs, s2ps, s2e_scope) => let
     val flag0 = flag
     val s2e_scope = s2exp_hnfize_flag (s2e_scope, flag)
@@ -1579,19 +1579,37 @@ case+ s2en10 of
   ) (* end of[S2Eproj] *)
 //
 | S2Eapp
-    (s2e11, s2es12) => (
+    (s2e11, s2es12) =>
+  (
   case+ s2en20 of
   | S2Eapp
       (s2e21, s2es22) => let
       val syneq =
-        s2exp_syneq_env (env1, env2, s2e11, s2e21)
+        s2exp_syneq_env(env1, env2, s2e11, s2e21)
     in
       if syneq then
-        s2explst_syneq_env (env1, env2, s2es12, s2es22) else false
+        s2explst_syneq_env(env1, env2, s2es12, s2es22) else false
       // end of [if]
     end // end of [S2Eapp]
   | _ (* non-S2Eapp *) => false
   ) (* end of [S2Eapp] *)
+//
+| S2Elam
+    (s2vs1, s2e1) => (
+  case+ s2en20 of
+  | S2Elam
+      (s2vs2, s2e2) => let
+      val env1 = auxenv(env1, s2vs1)
+      val env2 = auxenv(env2, s2vs2)
+      val syneq =
+        s2exp_syneq_env (env1, env2, s2e1, s2e2)
+      // end of [val]
+      val () = list_vt_free(env1) and () = list_vt_free(env2)
+    in
+      syneq
+    end // end of [S2Elam]
+  | _ (* non-S2Elam *) => false
+  ) (* end of [S2Elam] *)
 //
 | S2Efun (
     fc1, lin1, s2fe1, npf1, s2es1_arg, s2e1_res
@@ -1679,26 +1697,50 @@ case+ s2en10 of
   ) (* end of [S2Einvar] *)
 //
 | S2Eexi
-    (s2vs1, s2ps1, s2e1) => (
+    (s2vs1, s2ps1, s2e1) =>
+  (
   case+ s2en20 of
   | S2Eexi
       (s2vs2, s2ps2, s2e2) => let
-      val env1 = auxenv (env1, s2vs1)
-      val env2 = auxenv (env2, s2vs2)
+      val env1 = auxenv(env1, s2vs1)
+      val env2 = auxenv(env2, s2vs2)
       val syneq =
-        s2explst_syneq_env (env1, env2, s2ps1, s2ps2)
+        s2explst_syneq_env(env1, env2, s2ps1, s2ps2)
       val syneq =
       (
         if syneq then
-          s2exp_syneq_env (env1, env2, s2e1, s2e2) else false
+          s2exp_syneq_env(env1, env2, s2e1, s2e2) else false
         // end of [if]
       ) : bool // end of [val]
-      val () = list_vt_free (env1) and () = list_vt_free (env2)
+      val () = list_vt_free(env1) and () = list_vt_free(env2)
     in
       syneq
     end // end of [S2Eexi]
   | _ (* non-S2Eexi *) => false
-  ) (* end of [S2EVar] *)
+  ) (* end of [S2Eexi] *)
+//
+| S2Euni
+    (s2vs1, s2ps1, s2e1) =>
+  (
+  case+ s2en20 of
+  | S2Euni
+      (s2vs2, s2ps2, s2e2) => let
+      val env1 = auxenv(env1, s2vs1)
+      val env2 = auxenv(env2, s2vs2)
+      val syneq =
+        s2explst_syneq_env(env1, env2, s2ps1, s2ps2)
+      val syneq =
+      (
+        if syneq then
+          s2exp_syneq_env(env1, env2, s2e1, s2e2) else false
+        // end of [if]
+      ) : bool // end of [val]
+      val () = list_vt_free(env1) and () = list_vt_free(env2)
+    in
+      syneq
+    end // end of [S2Euni]
+  | _ (* non-S2Euni *) => false
+  ) (* end of [S2Euni] *)
 //
 | S2Erefarg
     (knd1, s2e1) => (
