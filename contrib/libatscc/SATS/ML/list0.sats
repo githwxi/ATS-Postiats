@@ -366,7 +366,7 @@ overload .map2 with list0_zipwith_method
 overload .zipwith with list0_zipwith_method
 //
 (* ****** ****** *)
-
+//
 fun
 list0_foldleft
   {res:t0p}{a:t0p}
@@ -379,7 +379,23 @@ list0_foldright
 (
   list0(INV(a)), fopr: cfun(a, res, res), sink: res
 ) : res = "mac#%" // end-of-function
-
+//
+fun
+list0_foldleft_method
+  {res:t0p}{a:t0p}
+(
+  list0(INV(a)), init: res)(fopr: cfun(res, a, res)
+) : res = "mac#%" // end-of-function
+fun
+list0_foldright_method
+  {a:t0p}{res:t0p}
+(
+  list0(INV(a)), sink: res)(fopr: cfun(a, res, res)
+) : res = "mac#%" // end-of-function
+//
+overload .foldleft with list0_foldleft_method
+overload .foldright with list0_foldright_method
+//
 (* ****** ****** *)
 //
 fun

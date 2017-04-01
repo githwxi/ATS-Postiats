@@ -18,15 +18,20 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 implement
 {}(*tmp*)
-stream_sing(x) =
-  stream_cons(x, stream_make_nil())
+stream_make_nil() =
+  $delay(stream_nil())
+//
+implement
+{}(*tmp*)
+stream_make_cons(x, xs) =
+  $delay(stream_cons(x, xs))
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-stream_make_nil() =
-  $delay(stream_nil())
+stream_sing(x) =
+  stream_cons(x, stream_make_nil())
 //
 implement
 {}(*tmp*)

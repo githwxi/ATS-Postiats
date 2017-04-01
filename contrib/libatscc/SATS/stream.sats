@@ -14,6 +14,11 @@ fun{}
 stream_make_nil
   {a:t0p}(): stream(a) = "mac#%"
 //
+fun{}
+stream_make_cons
+  {a:t0p}
+  (a, stream(a)): stream(a) = "mac#%"
+//
 (* ****** ****** *)
 //
 fun{}

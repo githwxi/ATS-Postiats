@@ -530,6 +530,13 @@ in
   aux(init, xs)
 end // end of [list0_foldleft]
 
+implement
+list0_foldleft_method
+  {res}{a}(xs, init) =
+(
+  lam(fopr) => list0_foldleft{res}{a}(xs, init, fopr)
+) (* end of [list0_foldleft_method] *)
+
 (* ****** ****** *)
 
 implement
@@ -551,6 +558,13 @@ case+ xs of
 in
   aux(xs, sink)
 end // end of [list0_foldright]
+
+implement
+list0_foldright_method
+  {res}{a}(xs, sink) =
+(
+  lam(fopr) => list0_foldright{res}{a}(xs, fopr, sink)
+) (* end of [list0_foldright_method] *)
 
 (* ****** ****** *)
 //
