@@ -583,22 +583,22 @@ s2t_fun = let
   ) : s2rt =
   (
     case+ xss of
+    | list_nil
+        ((*void*)) => s2t_res
+      // list_nil
     | list_cons
-        (xs, xss) => let
+        (xs0, xss) => let
 //
         val
         s2ts_arg = l2l
         (
           list_map_fun<syms2rt><s2rt>
-            (xs, lam (x) =<fun0> x.1)
+            (xs0, lam (x) =<fun0> x.1)
         ) (* s2ts_arg *)
 //
-        val s2t0_res = s2rt_fun(s2ts_arg, s2t_res)
-//
       in
-        aux(s2t0_res, xss)
+        s2rt_fun(s2ts_arg, aux(s2t_res, xss))
       end (* end of [list_cons] *)
-    | list_nil((*void*)) => s2t_res
   ) (* end of [aux] *)
 in
   aux(s2t_res, argvars)
@@ -607,7 +607,7 @@ end : s2rt // end of [val]
 (*
 val () = (
 //
-print "s1tacon_tr: sym = "; $SYM.print_symbol(id); print_newline();
+print "s1tacon_tr: sym = "; $SYM.print_symbol(id0); print_newline();
 print "s1tacon_tr: s2t_fun = "; print_s2rt(s2t_fun); print_newline();
 //
 ) (* end of [val] *)
@@ -826,8 +826,7 @@ case+ res of
 | None ((*void*)) => s1exp_trup (def)
 ) : s2exp // end of [val]
 //
-val (
-) = the_s2expenv_pop_free (pfenv | (*none*))
+val () = the_s2expenv_pop_free (pfenv | (*none*))
 //
 val s2e_def = s2exp_lamlst ((castvwtp1)s2vss, s2e_body)
 val () = list_vt_free (s2vss)
@@ -989,14 +988,15 @@ case+ xs of
 | list_cons
     (x, xs) => (
   case+ s2t_fun of
-  | S2RTfun (s2ts_arg, s2t_res) => let
+  | S2RTfun
+     (s2ts_arg, s2t_res) => let
       val () = s2t_fun := s2t_res
       val s2vs = s1marg_trdn (x, s2ts_arg)
       val () = the_s2expenv_add_svarlst (s2vs)
     in
       list_vt_cons(s2vs, s1aspdec_tr_arg(d0, xs, s2t_fun))
     end // end of [S2RTfun]
-  | _ => let
+  | _ (*non-S2RTfun *)=> let
       val () = auxerr (d0, x) in list_vt_nil((*void*))
     end (* end of [_] *)
   ) (* end of [list_cons] *)

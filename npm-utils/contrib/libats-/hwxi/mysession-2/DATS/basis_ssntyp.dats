@@ -26,12 +26,17 @@ implement
 {a}(*tmp*)
 chanpos_send
   (chpos, x) = let
+//
   vtypedef bxa = boxed(a)
+//
   val chan0 =
     $UN.castvwtp1{channel0(bxa)}(chpos)
-  val ((*void*)) = channel0_send (chan0, BOX(x))
+  // end of [val]
+  val ((*void*)) = channel0_send(chan0, BOX(x))
+//
   prval ((*void*)) = $UN.cast2void(chan0)
   prval ((*void*)) = $UN.castview2void(chpos)
+//
 in
   // nothing
 end // end of [chanpos_send]
@@ -42,12 +47,17 @@ implement
 {a}(*tmp*)
 channeg_recv
   (chneg, x) = let
+//
   vtypedef bxa = boxed(a)
+//
   val chan0 =
     $UN.castvwtp1{channel0(bxa)}(chneg)
-  val ((*void*)) = channel0_send (chan0, BOX(x))
+  // end of [val]
+  val ((*void*)) = channel0_send(chan0, BOX(x))
+//
   prval ((*void*)) = $UN.cast2void(chan0)
   prval ((*void*)) = $UN.castview2void(chneg)
+//
 in
   // nothing
 end // end of [channeg_recv]

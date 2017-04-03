@@ -21,6 +21,7 @@ queue_vtype
 //
 vtypedef
 queue(a:vt0p, id:int) = queue_vtype(a, id)
+//
 vtypedef queue(a:vt0p) = [id:int] queue(a, id)
 //
 (* ****** ****** *)

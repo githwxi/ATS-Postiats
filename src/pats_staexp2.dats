@@ -330,6 +330,8 @@ s2exp_app_srt
   s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)
 } // end of [s2exp_app_srt]
 
+(* ****** ****** *)
+
 implement
 s2exp_lam
   (s2vs, s2e_body) = let
@@ -345,14 +347,21 @@ s2exp_lam_srt
   s2exp_srt= s2t_fun, s2exp_node= S2Elam (s2vs_arg, s2e_body)
 } // end of [s2exp_lam_srt]
 
+(* ****** ****** *)
+
 implement
 s2exp_lamlst (
   s2vss, s2e_body
-) = case+ s2vss of
-  | list_cons (s2vs, s2vss) =>
-      s2exp_lamlst (s2vss, s2exp_lam (s2vs, s2e_body))
-  | list_nil () => s2e_body
-// end of [s2exp_lamlst]
+) = 
+(
+case+ s2vss of
+| list_nil() => s2e_body
+| list_cons(s2vs, s2vss) =>
+    s2exp_lam (s2vs, s2exp_lamlst (s2vss, s2e_body))
+  // end of [list_cons]
+) (* end of [s2exp_lamlst] *)
+
+(* ****** ****** *)
 
 implement
 s2exp_fun_srt (
