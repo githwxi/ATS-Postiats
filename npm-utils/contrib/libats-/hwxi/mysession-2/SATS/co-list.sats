@@ -22,7 +22,7 @@ abstype sslist(a:vt@ype)
 datatype
 chanpos_list
   (a:vt@ype, type) =
-| chanpos_list_nil(a, nil) of ()
+| chanpos_list_nil(a, nil()) of ()
 | chanpos_list_cons(a, chsnd(a) :: sslist(a)) of ()
 //
 (* ****** ****** *)
@@ -37,7 +37,7 @@ chanpos_list
 fun{}
 channeg_list_nil
   {a:vt@ype}
-  (!channeg(sslist(a)) >> channeg(nil)): void
+  (!channeg(sslist(a)) >> channeg(nil())): void
 fun{}
 channeg_list_cons
   {a:vt@ype}

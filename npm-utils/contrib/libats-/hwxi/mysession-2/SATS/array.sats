@@ -30,7 +30,7 @@ channeg_arrsz
 praxi
 chanpos_array_nil
   {a:vt@ype}
-  (!chanpos(ssarray(a, 0)) >> chanpos(nil)): void
+  (!chanpos(ssarray(a, 0)) >> chanpos(nil())): void
 praxi
 chanpos_array_cons
   {a:vt@ype}{n:pos}
@@ -43,7 +43,7 @@ chanpos_array_cons
 praxi
 channeg_array_nil
   {a:vt@ype}
-  (!channeg(ssarray(a, 0)) >> channeg(nil)): void
+  (!channeg(ssarray(a, 0)) >> channeg(nil())): void
 praxi
 channeg_array_cons
   {a:vt@ype}{n:pos}

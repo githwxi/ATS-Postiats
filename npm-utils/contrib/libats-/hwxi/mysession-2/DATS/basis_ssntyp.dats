@@ -213,7 +213,7 @@ val CAP = channel_cap()
 //
 val
 (chx, chy) =
-  channel0_make_pair<ptr>(CAP)
+channel0_make_pair<ptr>(CAP)
 //
 val chpos =
   $UN.castvwtp0{chanpos(ss)}(chx)

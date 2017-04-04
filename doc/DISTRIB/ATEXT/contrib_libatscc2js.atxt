@@ -155,6 +155,7 @@ ATS/contrib/libatscc2js
 
 (* ****** ****** *)
 //
+#packfilename("mylibies.hats")
 #packfilename("basics_js.sats")
 #packfilename_r("SATS")
 #packfilename_r("DATS")

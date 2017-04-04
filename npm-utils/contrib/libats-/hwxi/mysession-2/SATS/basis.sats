@@ -4,24 +4,29 @@
 
 (* ****** ****** *)
 //
-abstype chsnd (a:vt@ype)
-abstype chrcv (a:vt@ype)
+abstype
+chsnd(a:vt@ype)
+abstype
+chrcv(a:vt@ype)
 //
 (* ****** ****** *)
 
-abstype chnil
-abstype chcons (a:type, ss:type)
+abstype
+chnil((*void*))
+abstype
+chcons(a:type, ss:type)
 
 (* ****** ****** *)
-
+//
 stadef nil = chnil
+//
 stadef :: = chcons
 stadef cons = chcons
-
+//
 (* ****** ****** *)
 
-absvtype chanpos (type) = ptr
-absvtype channeg (type) = ptr
+absvtype chanpos(type) = ptr
+absvtype channeg(type) = ptr
 
 (* ****** ****** *)
 //
@@ -69,9 +74,9 @@ channeg_send_val
 (* ****** ****** *)
 
 fun{}
-chanpos_nil_wait(chanpos(nil)): void
+chanpos_nil_wait(chanpos(nil())): void
 fun{}
-channeg_nil_close(channeg(nil)): void
+channeg_nil_close(channeg(nil())): void
 
 (* ****** ****** *)
 //
