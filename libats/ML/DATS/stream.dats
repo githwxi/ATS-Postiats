@@ -46,6 +46,29 @@ staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/stream.sats"
 
 (* ****** ****** *)
+
+implement
+{a}(*tmp*)
+stream_make_list0
+  (xs) =
+  auxmain(xs) where
+{
+//
+fun
+auxmain:
+$d2ctype
+(
+stream_make_list0<a>
+) = lam(xs) => $delay
+(
+case+ xs of
+| list0_nil() => stream_nil()
+| list0_cons(x, xs) => stream_cons(x, auxmain(xs))
+)
+//
+} (* end of [stream_make_list0] *)
+
+(* ****** ****** *)
 //
 implement
 {a}{b}

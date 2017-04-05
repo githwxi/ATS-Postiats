@@ -1,6 +1,6 @@
 (* ****** ****** *)
 (*
-** For mconj and mdisj
+** For mconj/mdisj
 *)
 (* ****** ****** *)
 
@@ -9,44 +9,35 @@ staload "./basis.sats"
 (* ****** ****** *)
 //
 abstype
-chmconj(ss1:type, ss2:type)
+chmconj(ssa:type, ssb:type)
 abstype
-chmdisj(ss1:type, ss2:type)
+chmdisj(ssa:type, ssb:type)
 //
 stadef mconj = chmconj and mdisj = chmdisj
 //
 (* ****** ****** *)
 
 fun{}
-chanpos_mconj
+chanpos_mconj_elim
   {ssa,ssb:type}
 (
   chp: !chanpos(mconj(ssa, ssb)) >> chanpos(ssa)
 ) : chanpos(ssb) // endfun
 
 fun{}
-channeg_mconj
+channeg_mconj_elim
   {ssa,ssb:type}
 (
-  chn: !channeg(mconj(ssa, ssb)) >> channeg(ssa), fchn: channeg(ssb) -<lincloptr> void
+  chn: !channeg(mconj(ssa, ssb)) >> channeg(ssa), chp: chanpos(ssb)
 ) : void // end of [channeg_mconj]
 
 (* ****** ****** *)
-
+//
 fun{}
-channeg_mdisj
+channeg_mconj_make
   {ssa,ssb:type}
-(
-  chn: !channeg(mdisj(ssa, ssb)) >> channeg(ssa)
-) : channeg(ssb) // endfun
-
-fun{}
-chanpos_mdisj
-  {ssa,ssb:type}
-(
-  chp: !chanpos(mdisj(ssa, ssb)) >> chanpos(ssa), fchp: chanpos(ssb) -<lincloptr> void
-) : void // end of [chanpos_mdisj]
-
+  (channeg(ssa), channeg(ssb)): channeg(mconj(ssa, ssb))
+//
 (* ****** ****** *)
 
 (* end of [basis_ext.sats] *)

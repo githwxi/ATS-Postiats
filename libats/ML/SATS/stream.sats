@@ -45,6 +45,13 @@ staload "libats/ML/SATS/basis.sats"
 (* ****** ****** *)
 //
 fun
+{a:t0p}
+stream_make_list0
+  (xs: list0(a)):<!laz> stream(a)
+//
+(* ****** ****** *)
+//
+fun
 {a:t0p}{b:t0p}
 stream_map_method
 (
