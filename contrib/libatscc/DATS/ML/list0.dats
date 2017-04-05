@@ -94,6 +94,34 @@ in
 end // end of [list0_last_opt]
 
 (* ****** ****** *)
+
+implement
+list0_init_opt
+  {a}(xs) = let
+//
+fun
+aux
+{n:nat} .<n>.
+(
+  x0: a, xs: list(a, n)
+) :<> list0(a) =
+(
+case+ xs of
+| list_nil() =>
+  list0_nil()
+| list_cons(x, xs) =>
+  list0_cons(x0, aux(x, xs))
+)
+//
+in
+//
+case+ xs of
+| list0_nil() => None_vt()
+| list0_cons(x, xs) => Some_vt(aux(x, g1ofg0(xs)))
+//
+end // end of [list0_init_opt]
+
+(* ****** ****** *)
 //
 implement
 list0_get_at_opt

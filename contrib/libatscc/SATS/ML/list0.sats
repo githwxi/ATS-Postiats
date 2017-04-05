@@ -70,6 +70,15 @@ xs: list0(INV(a))
 (* ****** ****** *)
 //
 fun
+list0_init_opt
+  {a:t0p}
+(
+xs: list0(INV(a))
+) : Option_vt(list0(a)) = "mac#%" // end-of-fun
+//
+(* ****** ****** *)
+//
+fun
 list0_get_at_opt
   {a:t0p}
 (

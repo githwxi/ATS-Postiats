@@ -349,6 +349,68 @@ case+ xs of
 end // end of [list0_last_opt]
 
 (* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_init_exn
+  (xs) = let
+//
+fun
+aux
+{n:nat} .<n>.
+(
+  x0: a, xs: list(a, n)
+) :<> list(a, n) =
+(
+case+ xs of
+| list_nil() =>
+  list_nil()
+| list_cons(x, xs) =>
+  list_cons(x0, aux(x, xs))
+)
+//
+in
+  case+ xs of
+  | list0_cons
+      (x, xs) =>
+    (
+      g0ofg1(aux(x, g1ofg0(xs)))
+    ) (* end of [list0_cons] *)
+  | list0_nil() => $raise ListSubscriptExn()
+end // end of [list0_init_exn]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_init_opt
+  (xs) = let
+//
+fun
+aux
+{n:nat} .<n>.
+(
+  x0: a, xs: list(a, n)
+) :<> list(a, n) =
+(
+case+ xs of
+| list_nil() =>
+  list_nil()
+| list_cons(x, xs) =>
+  list_cons(x0, aux(x, xs))
+)
+//
+in
+//
+case+ xs of
+| list0_nil() =>
+  None_vt(*void*)
+| list0_cons(x, xs) =>
+  Some_vt(g0ofg1(aux(x, g1ofg0(xs))))
+//
+end // end of [list0_init_opt]
+
+(* ****** ****** *)
 //
 implement
 {a}(*tmp*)

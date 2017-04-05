@@ -205,6 +205,15 @@ list0_last_opt(xs: list0(INV(a))):<> Option_vt(a)
 //
 (* ****** ****** *)
 //
+fun
+{a:t0p}
+list0_init_exn(xs: list0(INV(a))):<!exn> list0(a)
+fun
+{a:t0p}
+list0_init_opt(xs: list0(INV(a))):<!exn> Option_vt(list0(a))
+//
+(* ****** ****** *)
+//
 fun{a:t0p}
 list0_nth_exn
   (xs: list0(INV(a)), i: int):<!exn> (a)
