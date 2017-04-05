@@ -34,32 +34,42 @@
 (* ****** ****** *)
 //
 staload
-ATSPRE = "./pats_atspre.dats"
+ATSPRE =
+"./pats_atspre.dats"
 //
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
-staload LAB = "./pats_label.sats"
-overload = with $LAB.eq_label_label
-
+//
+staload
+LAB = "./pats_label.sats"
+//
+overload
+= with $LAB.eq_label_label
+//
 (* ****** ****** *)
-
-staload "./pats_staexp2.sats"
-staload "./pats_staexp2_util.sats"
-staload "./pats_dynexp2.sats"
-
+//
+staload
+"./pats_staexp2.sats"
+staload
+"./pats_dynexp2.sats"
+//
+staload
+"./pats_staexp2_util.sats"
+//
 (* ****** ****** *)
-
-staload "./pats_trans2_env.sats"
-
+//
+staload
+"./pats_trans2_env.sats"
+//
 (* ****** ****** *)
 
 staload "./pats_histaexp.sats"
@@ -70,21 +80,27 @@ staload "./pats_hidynexp.sats"
 staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
-
-datavtype impenv =
-  | IMPENVnil of ()
-  | IMPENVcons of (s2var, s2hnf, impenv)
+//
+datavtype
+impenv =
+| IMPENVnil of ()
+| IMPENVcons of
+    (s2var, s2hnf, impenv)
+  // (* IMPENVcons *)
 // end of [impenv]
-
+//
 (* ****** ****** *)
 //
 extern
 fun
-fprint_impenv : fprint_vtype (impenv)
+fprint_impenv
+  : fprint_vtype (impenv)
 //
 extern
 fun
-impenv_find (env: !impenv, s2v: s2var): s2hnf
+impenv_find
+  (env: !impenv, s2v: s2var): s2hnf
+//
 extern
 fun
 impenv_update
@@ -168,33 +184,47 @@ implement
 impenv_update
   (env, s2v, s2f) = let
 (*
-val () = println! ("impenv_update: s2v = ", s2v)
-val () = println! ("impenv_update: s2f = ", s2f)
+val () =
+println!
+  ("impenv_update: s2v = ", s2v)
+val () =
+println!
+  ("impenv_update: s2f = ", s2f)
 *)
-in
+//
+fun
+aux
+(
+  env: !impenv
+) :<cloref1> bool =
 //
 case+ env of
 | IMPENVcons (
     s2v1, !p_s2f, !p_env
   ) => (
-    if s2v = s2v1 then let
-      val () = !p_s2f := s2f
+    if (
+      s2v = s2v1
+    ) then let
+      val () =
+        (!p_s2f := s2f)
+      // end of [val]
       prval () = fold@ (env)
     in
       true
     end else let
-      val ans =
-        impenv_update (!p_env, s2v, s2f)
-      // end of [val]
-      prval () = fold@ (env)
-    in
-      ans
+      val ans = aux(!p_env)
+      prval () = fold@(env) in ans
     end // end of [if]
   ) // end of [IMPENVcons]
 | IMPENVnil () => let
     prval () = fold@ (env) in false
   end // end of [IMPENVnil]
 //
+val s2e = s2hnf2exp(s2f)
+val s2t = s2var_get_srt(s2v)
+//
+in
+  if s2rt_ltmat1(s2e.s2exp_srt, s2t) then aux(env) else false
 end // end of [impenv_update]
 
 (* ****** ****** *)
@@ -350,7 +380,7 @@ case+ env of
       end // end of [else]
   ) (* end of [list_vt_cons] *)
 | list_vt_nil() => (fold@env; true)
-) (* end of [auxbvar] *)
+) (* end of [auxfvar] *)
 
 (* ****** ****** *)
 
@@ -419,8 +449,12 @@ val s2en_pat = s2e0_pat.s2exp_node
 val s2en_arg = s2e0_arg.s2exp_node
 //
 (*
-val () = println! ("auxmat_env: s2e0_pat(aft) = ", s2e0_pat)
-val () = println! ("auxmat_env: s2e0_arg(aft) = ", s2e0_arg)
+val () =
+println!
+  ("auxmat_env: s2e0_pat(aft) = ", s2e0_pat)
+val () =
+println!
+  ("auxmat_env: s2e0_arg(aft) = ", s2e0_arg)
 *)
 //
 in
@@ -440,15 +474,18 @@ s2en_pat of
         // end of [val]
         val iserr = s2hnf_is_err (s2f)
       in
-        if iserr
-          then (
-            impenv_update (env, s2v, s2f0_arg)
-          ) else (s2hnf_syneq2 (s2f, s2f0_arg))
-       end (* [true] *)
-     | false =>
-       s2hnf_syneq_env
-         (env_pat, env_arg, s2f0_pat, s2f0_arg)
-       (* end of [false] *)
+        if
+        iserr
+        then
+        (
+          impenv_update(env, s2v, s2f0_arg)
+        ) else (s2hnf_syneq2 (s2f, s2f0_arg))
+      end (* [true] *)
+    | false =>
+      s2hnf_syneq_env
+        (env_pat, env_arg, s2f0_pat, s2f0_arg)
+      // s2hnf_syneq_env
+      (* end of [false] *)
   end // end of [S2Evar]
 //
 | S2Ecst(s2c) => let

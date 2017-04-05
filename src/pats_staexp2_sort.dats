@@ -853,41 +853,58 @@ s2rt_ltmat
 fun
 auxVar
 (
-  V: s2rtVar, s2t: s2rt, knd: int
+  knd: int
+, s2tV: s2rtVar, s2t: s2rt
 ) : bool =
   if knd > 0 then let
-    val test = s2rtVar_occurcheck (V, s2t)
+    val
+    test =
+    s2rtVar_occurcheck(s2tV, s2t)
   in
-    if test then false else let
-      val () = s2rtVar_set_s2rt (V, s2t) in true
+    if test
+      then false else let
+      val () = s2rtVar_set_s2rt(s2tV, s2t) in true
     end (* end of [if] *)
   end else
     true // HX: a dry run always succeeds
   // end of [auxVar]
 //
-val s2t1 = s2rt_delink (s2t1)
-and s2t2 = s2rt_delink (s2t2)
+val s2t1 = s2rt_delink(s2t1)
+and s2t2 = s2rt_delink(s2t2)
 //
 in
 //
 case+ s2t1 of
-| S2RTbas (s2tb1) => (case+ s2t2 of
+| S2RTbas
+    (s2tb1) =>
+  (
+  case+ s2t2 of
   | S2RTbas (s2tb2) => s2tb1 <= s2tb2 | _ => false
   )
-| S2RTfun (
+| S2RTfun
+  (
     s2ts1, s2t1
-  ) => (case+ s2t2 of
-  | S2RTfun (s2ts2, s2t2) =>
-     if s2rtlst_ltmat (knd, s2ts2, s2ts1)
-       then s2rt_ltmat (knd, s2t1, s2t2) else false
-    // end of [S2RTfun]
-  | _ => false
+  ) =>
+  (
+  case+ s2t2 of
+  | S2RTfun
+    (
+      s2ts2, s2t2
+    ) =>
+    if s2rtlst_ltmat(knd, s2ts2, s2ts1)
+      then s2rt_ltmat(knd, s2t1, s2t2) else false
+    // end of [if]
+  | _ (*non-S2RTfun*) => false
   )
-| S2RTtup (s2ts1) => (case+ s2t2 of
-  | S2RTtup (s2ts2) => s2rtlst_ltmat (knd, s2ts1, s2ts2) | _ => false
+| S2RTtup(s2ts1) =>
+  (
+  case+ s2t2 of
+  | S2RTtup(s2ts2) => s2rtlst_ltmat(knd, s2ts1, s2ts2) | _ => false
   )
-| S2RTVar (V1) => (case+ s2t2 of
-  | S2RTVar (V2) when V1 = V2 => true | _ => auxVar (V1, s2t2, knd)
+| S2RTVar(s2tV1) =>
+  (
+  case+ s2t2 of
+  | S2RTVar(s2tV2) when s2tV1 = s2tV2 => true | _ => auxVar(knd, s2tV1, s2t2)
   )
 //
 | S2RTerr ((*void*)) => false
