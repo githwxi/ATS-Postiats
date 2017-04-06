@@ -201,6 +201,23 @@ stream_iforeach_method
 ) : void = "mac#%" // end-of-function
 //
 (* ****** ****** *)
+
+fun
+stream_merge_cloref
+  {a:t0p}
+(
+  xs1: stream(INV(a))
+, xs2: stream(a), cmp: (a, a) -<cloref1> (int)
+) : stream(a) // end of [stream_merge_cloref]
+fun
+stream_merge_method
+  {a:t0p}
+(
+  xs1: stream(INV(a))
+, xs2: stream(a))(cmp: (a, a) -<cloref1> (int)
+) : stream(a) // end of [stream_merge_method]
+//
+(* ****** ****** *)
 //
 fun
 stream_tabulate_cloref
@@ -286,6 +303,10 @@ overload .exists with stream_exists_method of 100
 overload .foreach with stream_foreach_method of 100
 overload .iforeach with stream_iforeach_method of 100
 //
+(* ****** ****** *)
+
+overload .merge with stream_merge_method of 100
+
 (* ****** ****** *)
 
 (* end of [stream.sats] *)

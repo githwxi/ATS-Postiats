@@ -412,6 +412,76 @@ stream_iforeach_method
 //
 (* ****** ****** *)
 
+local
+
+#define :: stream_cons
+
+in (* in of [local] *)
+
+implement
+stream_merge_cloref
+  {a}
+(
+  xs10, xs20, cmp
+) = let
+//
+fun
+auxmain
+(
+xs10:
+stream(a)
+,
+xs20:
+stream(a)
+) : stream(a) = $delay
+(
+case+ !xs10 of
+| stream_nil
+    () => !xs20
+  // stream_nil
+| x1 :: xs1 =>
+  (
+  case+ !xs20 of
+  | stream_nil
+     () =>
+    (
+    stream_cons{a}(x1, xs1)
+    ) (* stream_nil *)
+  | x2 :: xs2 => let
+      val
+      sgn = cmp(x1, x2)
+    in
+      if
+      (sgn <= 0)
+      then
+        stream_cons{a}(x1, auxmain(xs1, xs20))
+      else
+        stream_cons{a}(x2, auxmain(xs10, xs2))
+      // end of [if]
+    end // end of [::]
+  ) (* end of [::] *)
+) (* end of [auxmain] *)
+//
+in
+  auxmain(xs10, xs20)
+end // end of [stream_merge_cloref]
+
+end // end of [local]
+
+(* ****** ****** *)
+//
+implement
+stream_merge_method
+(
+  xs1, xs2
+) =
+(
+lam(fopr) =>
+  stream_merge_cloref(xs1, xs2, fopr)
+) (* end of [stream_merge_method] *)
+//
+(* ****** ****** *)
+
 implement
 stream_tabulate_cloref
   {a}(fopr) = auxmain(0) where
