@@ -54,8 +54,8 @@ gidentity_vt (x: INV(a)):<> a
 (* ****** ****** *)
 //
 fun
-{a:t0p}
-gcopy_val (x: INV(a)):<> a
+{a:vt0p}
+gcopy_val (x: !INV(a)):<> a
 //
 fun
 {a:vt0p}

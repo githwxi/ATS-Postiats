@@ -188,14 +188,15 @@ implement
 gidentity_vt (x) = (x)
 
 #atscode_separator()
-
+//
 implement
-{a}(*tmp*)
-gcopy_val (x) = (x)
+(a:t@ype)
+gcopy_val<a> (x) = (x)
+//
 implement
 (a:t@ype)
 gcopy_ref<a> (x) = (x)
-
+//
 #atscode_separator()
 //
 implement

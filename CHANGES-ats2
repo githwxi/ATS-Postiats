@@ -32,6 +32,7 @@ Here is a list of major additions and changes since the last release:
    Adding both of CATS-atscc2clj and libatscc2clj to the release
 4. Improving s2hnf_syneq_env for handling S2Elam.
 5: Fixing s2exp_lamlst: arguments should not be reversed!
+6: Fixing impenv_update: s2e.sort <= s2v.sort is needed for s2e to match s2v
 
 ######
 
