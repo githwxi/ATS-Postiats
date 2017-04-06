@@ -7,12 +7,12 @@
 (* ****** ****** *)
 
 abstype node_type = ptr
-abstype nodelst_type = ptr
+absvtype nodelst_vtype = ptr
 
 (* ****** ****** *)
 
 typedef node = node_type
-typedef nodelst = nodelst_type
+vtypedef nodelst = nodelst_vtype
 
 (* ****** ****** *)
 //

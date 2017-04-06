@@ -1,11 +1,11 @@
 (*
-For testing GraphSearch_dfs
+For testing GraphStreamize_bfs
 *)
 
 (* ****** ****** *)
 //
 #define
-ATS_STATIC_PREFIX "_QueenPuzzle_dfs_"
+ATS_STATIC_PREFIX "_QueenPuzzle_bfs_"
 //
 (* ****** ****** *)
 //
@@ -16,7 +16,7 @@ ATS_STATIC_PREFIX "_QueenPuzzle_dfs_"
 //
 (* ****** ****** *)
 //
-#staload "./../DATS/GraphSearch_dfs.dats"
+#staload "./../DATS/GraphStreamize_bfs.dats"
 //
 (* ****** ****** *)
 
@@ -37,10 +37,10 @@ assume nodelst_vtype = stream_vt(node)
 //
 implement
 {}(*tmp*)
-theSearchStore_insert_lst(nxs) =
+theStreamizeStore_insert_lst(nxs) =
 (
 nxs
-).rforeach()(lam nx => theSearchStore_insert(nx))
+).foreach()(lam nx => theStreamizeStore_insert(nx))
 //
 (* ****** ****** *)
 //
@@ -61,40 +61,47 @@ node_get_neighbors<>
 //
 (* ****** ****** *)
 //
-implement
-process_node<>
-  (nx) =
-if
-(length(nx) = N)
-then let
-//
-val () = println! (list0_reverse(nx))
-//
-in
-  true
-end // end of [then]
-else true // end of [else]
-//
-(* ****** ****** *)
-//
 extern
 fun
-QueenPuzzle_solve(): void = "mac#"
+QueenPuzzle_solve
+(
+// argumentless
+) : stream(node) = "mac#"
 //
 implement
-QueenPuzzle_solve() =
+QueenPuzzle_solve
+  ((*void*)) = res where
 {
 val
 store =
-slistref_make_nil{node}()
+qlistref_make_nil{node}()
 //
 val () =
-slistref_insert(store, nil0)
+qlistref_insert(store, nil0)
 //
-val () = GraphSearch_dfs(store)
+val res = GraphStreamize_bfs(store)
 //
 } (* end of [QueenPuzzle_solve] *)
 //
+(* ****** ****** *)
+
+//
+extern
+fun
+QueenPuzzle_solve_print
+  () : void = "mac#"
+//
+implement
+QueenPuzzle_solve_print
+  ((*void*)) = let
+//
+val xss = QueenPuzzle_solve()
+val xss = (xss).filter()(lam(xs) => length(xs) >= N)
+//
+in
+  println! ("There are ", length(xss), " (full) solutions in total.")
+end // end of [QueenPuzzle_solve_print]
+
 (* ****** ****** *)
 
 %{^
@@ -111,11 +118,11 @@ eval(fs.readFileSync('./../../../CATS/PRINT/print_store_cats.js').toString());
 
 %{$
 //
-QueenPuzzle_solve();
+QueenPuzzle_solve_print();
 process.stdout.write(ats2jspre_the_print_store_join());
 //
 %} // end of [%{$]
 
 (* ****** ****** *)
 
-(* end of [QueenPuzzle_dfs.dats] *)
+(* end of [QueenPuzzle_bfs.dats] *)
