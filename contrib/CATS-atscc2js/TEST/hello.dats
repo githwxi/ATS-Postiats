@@ -12,7 +12,7 @@
 (* ****** ****** *)
 //
 #include
-"{$LIBATSCC2JS}/staloadall.hats"
+"{$LIBATSCC2JS}/mylibies.hats"
 //
 staload
 "{$LIBATSCC2JS}/SATS/Node.js/basics.sats"

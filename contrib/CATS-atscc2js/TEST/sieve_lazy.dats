@@ -26,7 +26,7 @@ ATS_DYNLOADNAME "sieve_lazy_main"
 #include
 "share/atspre_define.hats"
 #include
-"{$LIBATSCC2JS}/staloadall.hats"
+"{$LIBATSCC2JS}/mylibies.hats"
 //
 (* ****** ****** *)
 //
