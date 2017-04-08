@@ -1,3 +1,27 @@
+0.3.5
+
+This is the 42nd release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
 ######
 
 0.3.4
@@ -31,8 +55,8 @@ Here is a list of major additions and changes since the last release:
    Adding both of CATS-atscc2scm and libatscc2scm to the release
    Adding both of CATS-atscc2clj and libatscc2clj to the release
 4. Improving s2hnf_syneq_env for handling S2Elam.
-5: Fixing s2exp_lamlst: arguments should not be reversed!
-6: Fixing impenv_update: s2e.sort <= s2v.sort is needed for s2e to match s2v
+5. Fixing s2exp_lamlst: arguments should not be reversed!
+6. Fixing impenv_update: s2e.sort <= s2v.sort is needed for s2e to match s2v
 
 ######
 
