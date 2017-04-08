@@ -29,7 +29,7 @@ ATS_DYNLOADNAME "sieve_llazy_main"
 (* ****** ****** *)
 //
 #include
-"{$LIBATSCC2JS}/staloadall.hats"
+"{$LIBATSCC2JS}/mylibies.hats"
 //
 (* ****** ****** *)
 //

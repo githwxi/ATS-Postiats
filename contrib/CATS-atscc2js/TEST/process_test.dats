@@ -19,7 +19,7 @@ ATS_DYNLOADNAME "process_test_dynload"
 (* ****** ****** *)
 //
 #include
-"{$LIBATSCC2JS}/staloadall.hats"
+"{$LIBATSCC2JS}/mylibies.hats"
 //
 staload
 "{$LIBATSCC2JS}/SATS/print.sats"

@@ -1,21 +1,15 @@
 (* ****** ****** *)
 //
-// HX-2017-01-28:
+// HX-2017-04-08:
 //
 // Generic Graph Search
 // Depth-first and Breath-first
 //
 (* ****** ****** *)
 //
-#staload
-GraphSearch =
-"./DATS/GraphSearch.dats"
-//
-(* ****** ****** *)
-//
 #ifdef
-//
 GRAPHSEARCH_BFS
+//
 #staload
 GraphSearch_bfs =
 "./DATS/GraphSearch_bfs.dats"

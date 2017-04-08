@@ -343,11 +343,12 @@ ins0.instr_node of
     val () = emit_text (out, " {\n")
     val () = emit2_instrlst (out, ind+2, inss)
   in
-    case+ inssopt of
+    case+
+    inssopt of
     | None _ =>
       {
         val () = emit_nspc (out, ind)
-        val () = emit_text (out, "} // endif")
+        val () = emit_text (out, "} // end-of-if")
       } (* end of [None] *)
     | Some (inss) =>
       {
@@ -355,32 +356,40 @@ ins0.instr_node of
         val () = emit_text (out, "} else {\n")
         val () = emit2_instrlst (out, ind+2, inss)
         val () = emit_nspc (out, ind)
-        val ((*closing*)) = emit_text (out, "} // endif")
+        val ((*closing*)) = emit_text (out, "} // end-of-if")
       } (* end of [Some] *)
   end // end of [ATSif]
 //
 | ATSifthen(d0e, inss) =>
   {
 //
+(*
     val-list_sing(ins) = inss
+*)
 //
     val () = emit_nspc (out, ind)
     val () = emit_text (out, "if(")
     val () = emit_d0exp (out, d0e)
-    val () = emit_text (out, ") ")
-    val () = emit_instr (out, ins)
+    val ((*closing*)) = emit_text (out, ") {\n")
+    val () = emit2_instrlst (out, ind+2, inss)
+    val () = emit_nspc (out, ind)
+    val ((*closing*)) = emit_text (out, "} // ifthen")
   }
 //
 | ATSifnthen(d0e, inss) =>
   {
 //
+(*
     val-list_sing(ins) = inss
+*)
 //
     val () = emit_nspc (out, ind)
     val () = emit_text (out, "if(!")
     val () = emit_d0exp (out, d0e)
-    val ((*closing*)) = emit_text (out, ") ")
-    val () = emit_instr (out, ins)
+    val ((*closing*)) = emit_text (out, ") {\n")
+    val () = emit2_instrlst (out, ind+2, inss)
+    val () = emit_nspc (out, ind)
+    val ((*closing*)) = emit_text (out, "} // ifnthen")
   }
 //
 | ATSbranchseq (inss) =>

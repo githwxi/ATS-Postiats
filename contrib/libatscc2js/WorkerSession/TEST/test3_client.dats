@@ -287,8 +287,10 @@ val N = ref{int}(0)
 implement
 channeg1_repeat_disj$fwork_tag<>
   (tag) = let
+//
   val n = N[]
   val () = N[] := n + 1
+//
 in
   case+ tag of
   | 0 => ()

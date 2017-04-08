@@ -50,8 +50,14 @@ typedef canvasgl = canvasgl_type
 //
 (* ****** ****** *)
 //
+// HX:
+// This one is also declared in Canvas
+//
 fun
 canvas_getById(id: string): canvas = "mac#%"
+//
+(* ****** ****** *)
+//
 fun
 canvasgl_getById(id: string): canvasgl = "mac#%"
 //
