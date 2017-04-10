@@ -13,10 +13,10 @@
 ** the rights to use, copy, modify, merge, publish, distribute, sublicense,
 ** and/or sell copies of the Software, and to permit persons to whom the
 ** Software is furnished to do so, subject to the following stated conditions:
-** 
+**
 ** The above copyright notice and this permission notice shall be included in
 ** all copies or substantial portions of the Software.
-** 
+**
 ** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 ** OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 ** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
@@ -615,7 +615,7 @@ val sgn = $GMP.mpz_cmp_int (!(x.2), y)
 val ans = (if sgn < 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i < j)}(sgn)
+  $UN.cast{bool(i < j)}(ans)
 end // end of [lt_intinf_int]
 
 implement
@@ -627,7 +627,7 @@ val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
 val ans = (if sgn < 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i < j)}(sgn)
+  $UN.cast{bool(i < j)}(ans)
 end // end of [lt_intinf_intinf]
 
 (* ****** ****** *)
@@ -641,7 +641,7 @@ val sgn = $GMP.mpz_cmp_int (!(x.2), y)
 val ans = (if sgn <= 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i <= j)}(sgn)
+  $UN.cast{bool(i <= j)}(ans)
 end // end of [lte_intinf_int]
 
 implement
@@ -653,7 +653,7 @@ val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
 val ans = (if sgn <= 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i <= j)}(sgn)
+  $UN.cast{bool(i <= j)}(ans)
 end // end of [lte_intinf_intinf]
 
 (* ****** ****** *)
@@ -667,7 +667,7 @@ val sgn = $GMP.mpz_cmp_int (!(x.2), y)
 val ans = (if sgn > 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i > j)}(sgn)
+  $UN.cast{bool(i > j)}(ans)
 end // end of [gt_intinf_int]
 
 implement
@@ -679,7 +679,7 @@ val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
 val ans = (if sgn > 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i > j)}(sgn)
+  $UN.cast{bool(i > j)}(ans)
 end // end of [gt_intinf_intinf]
 
 (* ****** ****** *)
@@ -693,7 +693,7 @@ val sgn = $GMP.mpz_cmp_int (!(x.2), y)
 val ans = (if sgn >= 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i >= j)}(sgn)
+  $UN.cast{bool(i >= j)}(ans)
 end // end of [gte_intinf_int]
 
 implement
@@ -705,7 +705,7 @@ val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
 val ans = (if sgn >= 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i >= j)}(sgn)
+  $UN.cast{bool(i >= j)}(ans)
 end // end of [gte_intinf_intinf]
 
 (* ****** ****** *)
@@ -719,7 +719,7 @@ val sgn = $GMP.mpz_cmp_int (!(x.2), y)
 val ans = (if sgn = 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i == j)}(sgn)
+  $UN.cast{bool(i == j)}(ans)
 end // end of [eq_intinf_int]
 
 implement
@@ -731,7 +731,7 @@ val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
 val ans = (if sgn = 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i == j)}(sgn)
+  $UN.cast{bool(i == j)}(ans)
 end // end of [eq_intinf_intinf]
 
 (* ****** ****** *)
@@ -745,7 +745,7 @@ val sgn = $GMP.mpz_cmp_int (!(x.2), y)
 val ans = (if sgn != 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i != j)}(sgn)
+  $UN.cast{bool(i != j)}(ans)
 end // end of [neq_intinf_int]
 
 implement
@@ -757,7 +757,7 @@ val sgn = $GMP.mpz_cmp_mpz (!(x.2), !(y.2))
 val ans = (if sgn != 0 then true else false): bool
 //
 in
-  $UN.cast{bool(i != j)}(sgn)
+  $UN.cast{bool(i != j)}(ans)
 end // end of [neq_intinf_intinf]
 
 (* ****** ****** *)
