@@ -38,10 +38,13 @@
 // higher-order functions should not be annotated!
 //
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
-
+//
+#define
+ATS_PACKNAME "ATSLIB.libats.ML"
+//
+#define
+ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
