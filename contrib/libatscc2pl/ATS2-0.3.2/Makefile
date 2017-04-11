@@ -69,16 +69,23 @@ all_in_one:: libatscc2pl_all
 DATE=/bin/date
 ECHO=/bin/echo -en
 #
-libatscc2pl_all:: ; $(ECHO) | $(CAT) - >$(LIBATSCC2PL_ALL_PL)
+PRINTF=printf
 #
-libatscc2pl_all:: ; $(ECHO) '######\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
-libatscc2pl_all:: ; $(ECHO) '#\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
+# libatscc2pl_all:: ; \
+# $(ECHO) | $(CAT) - >$(LIBATSCC2PL_ALL_PL)
+#
 libatscc2pl_all:: ; \
-  $(ECHO) '# Time of Generation:\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
+$(PRINTF) '######\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
 libatscc2pl_all:: ; \
-  ($(ECHO) '# ' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL); $(DATE) | $(CAT) - >>$(LIBATSCC2PL_ALL_PL))
-libatscc2pl_all:: ; $(ECHO) '#\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
-libatscc2pl_all:: ; $(ECHO) '######\n\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
+$(PRINTF) '#\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
+libatscc2pl_all:: ; \
+$(PRINTF) '# Time of Generation:\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
+libatscc2pl_all:: ; \
+($(PRINTF) '# ' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL); $(DATE) | $(CAT) - >>$(LIBATSCC2PL_ALL_PL))
+libatscc2pl_all:: ; \
+$(PRINTF) '#\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
+libatscc2pl_all:: ; \
+$(PRINTF) '######\n\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
 #
 ######
 
@@ -107,12 +114,12 @@ output/DATS/ML/array0_dats.pl \
 
 ######
 #
-libatscc2pl_all:: ; $(ECHO) '\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
-libatscc2pl_all:: ; $(ECHO) '## ###### ###### ##' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
-libatscc2pl_all:: ; $(ECHO) '\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
+libatscc2pl_all:: ; $(PRINTF) '\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
+libatscc2pl_all:: ; $(PRINTF) '## ###### ###### ##' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
+libatscc2pl_all:: ; $(PRINTF) '\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
 #
 libatscc2pl_all:: ; \
-  $(ECHO) '\n## end of [libatscc2pl_all.pl] ##\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
+  $(PRINTF) '\n## end of [libatscc2pl_all.pl] ##\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
 #
 ######
 

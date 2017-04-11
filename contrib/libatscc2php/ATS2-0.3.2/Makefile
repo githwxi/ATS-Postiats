@@ -68,22 +68,24 @@ output/libatscc2php_all.php
 DATE=/bin/date
 ECHO=/bin/echo -en
 #
-all_in_one:: ; \
-  $(ECHO) | $(CAT) - >$(LIBATSCC2PHP_ALL_PHP)
+PRINTF=printf
+#
+# all_in_one:: ; \
+# $(ECHO) | $(CAT) - >$(LIBATSCC2PHP_ALL_PHP)
 #
 all_in_one:: ; \
-  $(ECHO) '<?php\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
+$(PRINTF) '<?php\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
 #
-all_in_one:: ; $(ECHO) '/*\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
+all_in_one:: ; $(PRINTF) '/*\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
 #
 all_in_one:: ; \
-  $(ECHO) '** Time of Generation:\n** ' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
+$(PRINTF) '** Time of Generation:\n** ' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
 #
 all_in_one:: ; $(DATE) | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
 #
-all_in_one:: ; $(ECHO) '*/\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
+all_in_one:: ; $(PRINTF) '*/\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
 #
-all_in_one:: ; $(ECHO) '?>\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
+all_in_one:: ; $(PRINTF) '?>\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
 #
 ######
 
@@ -119,12 +121,12 @@ output/DATS/ML/array0_dats.php \
 
 #
 all_in_one:: ; \
-  $(ECHO) '<?php\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
+$(PRINTF) '<?php\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
 #
 all_in_one:: ; \
-  $(ECHO) '/*\n** end of [$(LIBATSCC2PHP_ALL_PHP)]\n*/\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
+$(PRINTF) '/*\n** end of [$(LIBATSCC2PHP_ALL_PHP)]\n*/\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
 #
-all_in_one:: ; $(ECHO) '?>\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
+all_in_one:: ; $(PRINTF) '?>\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
 #
 ######
 
