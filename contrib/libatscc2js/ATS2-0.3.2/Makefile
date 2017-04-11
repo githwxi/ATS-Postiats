@@ -133,8 +133,11 @@ ECHO=/bin/echo -en
 #
 PRINTF=printf
 #
+######
+#
 # libatscc2js_all:: ; \
 # $(ECHO) | $(CAT) - >$(LIBATSCC2JS_ALL_JS)
+#
 libatscc2js_all:: ; \
 $(PRINTF) '/*\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 libatscc2js_all:: ; \
@@ -143,6 +146,8 @@ libatscc2js_all:: ; \
 $(DATE) | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 libatscc2js_all:: ; \
 $(PRINTF) '*/\n\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
+#
+######
 #
 libatscc2js_all:: ; \
 $(CAT) >>$(LIBATSCC2JS_ALL_JS) \
@@ -180,6 +185,8 @@ output/DATS/qlistref_dats.js \
 output/DATS/slistref_dats.js \
 output/DATS/ML/list0_dats.js \
 output/DATS/ML/array0_dats.js
+#
+######
 #
 libatscc2js_all:: ; \
 $(PRINTF) '\n/* ****** ****** */\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)

@@ -79,8 +79,11 @@ ECHO=/bin/echo -en
 #
 PRINTF=printf
 #
+######
+#
 # libatscc2clj_all:: ; \
 # $(ECHO) | $(CAT) - >$(LIBATSCC2CLJ_ALL_CLJ)
+#
 libatscc2clj_all:: ; \
 $(PRINTF) ';;\n' | $(CAT) - >>$(LIBATSCC2CLJ_ALL_CLJ)
 libatscc2clj_all:: ; \
@@ -89,6 +92,8 @@ libatscc2clj_all:: ; \
 $(PRINTF) ';; ' | $(CAT) - >>$(LIBATSCC2CLJ_ALL_CLJ) && $(DATE) | $(CAT) - >>$(LIBATSCC2CLJ_ALL_CLJ)
 libatscc2clj_all:: ; \
 $(PRINTF) ';;\n\n' | $(CAT) - >>$(LIBATSCC2CLJ_ALL_CLJ)
+#
+######
 #
 libatscc2clj_all:: ; \
 $(CAT) >>$(LIBATSCC2CLJ_ALL_CLJ) \

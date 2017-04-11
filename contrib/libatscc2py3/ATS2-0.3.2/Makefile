@@ -92,9 +92,34 @@ all_in_one:: libatscc2py3_all_pylibc
 all_in_one:: libatscc2py3_all_pygame
 
 ######
+#
+DATE=/bin/date
+ECHO=/bin/echo -en
+#
+PRINTF=printf
+#
+######
+#
+# libatscc2py3_all:: ; \
+# $(ECHO) '\n' | $(CAT) - >$(LIBATSCC2PY3_ALL_PY)
+#
+libatscc2py3_all:: ; \
+$(PRINTF) '######\n' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)
+libatscc2py3_all:: ; \
+$(PRINTF) '#\n' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)
+libatscc2py3_all:: ; \
+$(PRINTF) '# Time of Generation:\n' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)
+libatscc2py3_all:: ; \
+($(PRINTF) '# ' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY); $(DATE) | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY))
+libatscc2py3_all:: ; \
+$(PRINTF) '#\n' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)
+libatscc2py3_all:: ; \
+$(PRINTF) '######\n\n' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)
+#
+######
 
 libatscc2py3_all:: ; \
-$(CAT) >$(LIBATSCC2PY3_ALL_PY) \
+$(CAT) >>$(LIBATSCC2PY3_ALL_PY) \
 CATS/basics_cats.py \
 CATS/integer_cats.py \
 CATS/bool_cats.py \
@@ -126,6 +151,18 @@ output/DATS/qlistref_dats.py \
 output/DATS/ML/list0_dats.py \
 output/DATS/ML/array0_dats.py \
 
+######
+#
+libatscc2py3_all:: ; \
+$(PRINTF) '\n' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)
+libatscc2py3_all:: ; \
+$(PRINTF) '## ###### ###### ##' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)
+libatscc2py3_all:: ; \
+$(PRINTF) '\n' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)
+#
+libatscc2py3_all:: ; \
+$(PRINTF) '\n## end of [libatscc2py3_all.py] ##\n' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)
+#
 ######
 
 libatscc2py3_all_pylibc:: ; \

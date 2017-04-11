@@ -70,6 +70,8 @@ ECHO=/bin/echo -en
 #
 PRINTF=printf
 #
+######
+#
 # all_in_one:: ; \
 # $(ECHO) | $(CAT) - >$(LIBATSCC2PHP_ALL_PHP)
 #
@@ -118,7 +120,6 @@ output/DATS/ML/list0_dats.php \
 output/DATS/ML/array0_dats.php \
 
 ######
-
 #
 all_in_one:: ; \
 $(PRINTF) '<?php\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)

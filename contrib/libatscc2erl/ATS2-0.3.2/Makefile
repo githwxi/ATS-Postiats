@@ -54,8 +54,11 @@ ECHO=/bin/echo -en
 #
 PRINTF=printf
 #
+######
+#
 # libatscc2erl_all:: ; \
 # $(ECHO) | $(CAT) - >$(LIBATSCC2ERL_ALL_HRL)
+#
 libatscc2erl_all:: ; \
 $(PRINTF) '%%' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
 libatscc2erl_all:: ; \

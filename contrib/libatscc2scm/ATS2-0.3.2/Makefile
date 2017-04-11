@@ -81,6 +81,8 @@ ECHO=/bin/echo -en
 #
 PRINTF=printf
 #
+######
+#
 libatscc2scm_all:: ; \
 $(ECHO) | $(CAT) - >$(LIBATSCC2SCM_ALL_SCM)
 libatscc2scm_all:: ; \
@@ -91,6 +93,8 @@ libatscc2scm_all:: ; \
 $(PRINTF) ';; ' | $(CAT) - >>$(LIBATSCC2SCM_ALL_SCM) && $(DATE) | $(CAT) - >>$(LIBATSCC2SCM_ALL_SCM)
 libatscc2scm_all:: ; \
 $(PRINTF) ';;\n\n' | $(CAT) - >>$(LIBATSCC2SCM_ALL_SCM)
+#
+######
 #
 libatscc2scm_all:: ; \
 $(CAT) >>$(LIBATSCC2SCM_ALL_SCM) \
@@ -124,7 +128,7 @@ output/DATS/qlistref_dats.scm \
 output/DATS/ML/list0_dats.scm \
 
 ######
-
+#
 libatscc2scm_all:: ; \
 $(PRINTF) '\n;; ****** ****** ;;\n' | $(CAT) - >>$(LIBATSCC2SCM_ALL_SCM)
 libatscc2scm_all:: ; \
