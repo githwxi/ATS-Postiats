@@ -23,7 +23,8 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Fixing a bug in atscc2js that prevented certain compound patterns
-   from being handled correctly
+   from being handled correctly. Should this be done to other atsccomp
+   compilers?
 
 ######
 

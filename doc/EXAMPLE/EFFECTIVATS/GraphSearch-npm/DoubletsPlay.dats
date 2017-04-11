@@ -309,7 +309,7 @@ case+ opt of
       "[", w1, "] and [", w2, "] form a doublet: ", list0_reverse(ws)
     )
 //
-end // end of [Doublets_play]
+end // end of [main0]
 
 (* ****** ****** *)
 
