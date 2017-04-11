@@ -52,20 +52,22 @@ all_in_one:: libatscc2erl_all
 DATE=/bin/date
 ECHO=/bin/echo -en
 #
+PRINTF=printf
+#
+# libatscc2erl_all:: ; \
+# $(ECHO) | $(CAT) - >$(LIBATSCC2ERL_ALL_HRL)
 libatscc2erl_all:: ; \
-$(ECHO) | $(CAT) - >$(LIBATSCC2ERL_ALL_HRL)
+$(PRINTF) '%%' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
 libatscc2erl_all:: ; \
-$(ECHO) '%%' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
+$(PRINTF) '\n%% ' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
 libatscc2erl_all:: ; \
-$(ECHO) '\n%% ' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
+$(PRINTF) 'Time of Generation:' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
 libatscc2erl_all:: ; \
-$(ECHO) 'Time of Generation:' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
-libatscc2erl_all:: ; \
-$(ECHO) '\n%% ' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
+$(PRINTF) '\n%% ' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
 libatscc2erl_all:: ; \
 $(DATE) | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
 libatscc2erl_all:: ; \
-$(ECHO) '%%\n\n' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
+$(PRINTF) '%%\n\n' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
 #
 ######
 
@@ -92,9 +94,9 @@ output/DATS/intrange_dats.hrl \
 ######
 #
 libatscc2erl_all:: ; \
-$(ECHO) '\n%% ****** ****** %%\n' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
+$(PRINTF) '\n%% ****** ****** %%\n' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
 libatscc2erl_all:: ; \
-$(ECHO) '\n%% end of [$(LIBATSCC2ERL_ALL_HRL)] %%\n' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
+$(PRINTF) '\n%% end of [$(LIBATSCC2ERL_ALL_HRL)] %%\n' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
 #
 ######
 

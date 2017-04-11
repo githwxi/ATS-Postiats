@@ -131,16 +131,18 @@ all_in_one:: libatscc2js_bucs320_parcomb
 DATE=/bin/date
 ECHO=/bin/echo -en
 #
+PRINTF=printf
+#
+# libatscc2js_all:: ; \
+# $(ECHO) | $(CAT) - >$(LIBATSCC2JS_ALL_JS)
 libatscc2js_all:: ; \
-$(ECHO) | $(CAT) - >$(LIBATSCC2JS_ALL_JS)
+$(PRINTF) '/*\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 libatscc2js_all:: ; \
-$(ECHO) '/*\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
-libatscc2js_all:: ; \
-$(ECHO) 'Time of Generation:\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
+$(PRINTF) 'Time of Generation:\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 libatscc2js_all:: ; \
 $(DATE) | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 libatscc2js_all:: ; \
-$(ECHO) '*/\n\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
+$(PRINTF) '*/\n\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 #
 libatscc2js_all:: ; \
 $(CAT) >>$(LIBATSCC2JS_ALL_JS) \
@@ -180,9 +182,9 @@ output/DATS/ML/list0_dats.js \
 output/DATS/ML/array0_dats.js
 #
 libatscc2js_all:: ; \
-$(ECHO) '\n/* ****** ****** */\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
+$(PRINTF) '\n/* ****** ****** */\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 libatscc2js_all:: ; \
-$(ECHO) '\n/* end of [libatscc2js_all.js] */\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
+$(PRINTF) '\n/* end of [libatscc2js_all.js] */\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 #
 ######
 #
