@@ -120,7 +120,6 @@
  (ats2scmpre_neq_int0_int0 x y) `(not (= ,x ,y))
 )
 ;;
-;;
 (define-macro
  (ats2scmpre_lt_int1_int1 x y) `(< ,x ,y)
 )
@@ -139,6 +138,15 @@
 )
 (define-macro
  (ats2scmpre_neq_int1_int1 x y) `(not (= ,x ,y))
+)
+;;
+(define-macro
+ (ats2scmpre_compare_int0_int0 x y)
+`(let ((x1 ,x) (y1 ,y)) (if (< x1 y1) -1 (if (<= x1 y1) 0 1)))
+)
+(define-macro
+ (ats2scmpre_compare_int1_int1 x y)
+`(let ((x1 ,x) (y1 ,y)) (if (< x1 y1) -1 (if (<= x1 y1) 0 1)))
 )
 ;;
 ;; ****** ****** ;;

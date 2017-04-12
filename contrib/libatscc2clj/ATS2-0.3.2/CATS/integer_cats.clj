@@ -122,6 +122,7 @@
  ats2cljpre_neq_int0_int0[x y] `(not (= ~x ~y))
 )
 ;;
+;; ****** ****** ;;
 ;;
 (defmacro
  ats2cljpre_lt_int1_int1[x y] `(< ~x ~y)
@@ -143,6 +144,17 @@
  ats2cljpre_neq_int1_int1[x y] `(not (= ~x ~y))
 )
 ;;
+;; ****** ****** ;;
+
+(defmacro
+ ats2cljpre_compare_int0_int0[x y]
+`(let [x# ~x y# ~y] (if (< x# y#) -1 (if (<= x# y#) 0 1)))
+)
+(defmacro
+ ats2cljpre_compare_int1_int1[x y]
+`(let [x# ~x y# ~y] (if (< x# y#) -1 (if (<= x# y#) 0 1)))
+)
+
 ;; ****** ****** ;;
 
 ;; end of [integer_cats.clj] ;;

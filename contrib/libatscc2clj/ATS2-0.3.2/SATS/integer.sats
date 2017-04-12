@@ -127,6 +127,8 @@ fun neq_int0_int0: (int, int) -<fun> bool = "mac#%"
 //
 fun compare_int0_int0: (int, int) -<fun> int = "mac#%"
 //
+(* ****** ****** *)
+//
 fun lt_int1_int1
   : {i,j:int} (int(i), int(j)) -<fun> bool(i < j) = "mac#%"
 fun lte_int1_int1

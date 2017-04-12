@@ -10,6 +10,7 @@
 (* ****** ****** *)
 //
 staload "./basics_clj.sats"
+staload _ = "./DATS/basics.dats"
 //
 (* ****** ****** *)
 //

@@ -177,6 +177,25 @@
 ;;
 ;; ****** ****** ;;
 
+(define-macro
+ (ats2scmpre_cloref0_app cf)
+`(let ((cf1 ,cf)) ((ATSfunclo_fclo cf1) cf1))
+) ; define-macro
+(define-macro
+ (ats2scmpre_cloref1_app cf x)
+`(let ((cf1 ,cf)) ((ATSfunclo_fclo cf1) cf1 ,x))
+) ; define-macro
+(define-macro
+ (ats2scmpre_cloref2_app cf x1 x2)
+`(let ((cf1 ,cf)) ((ATSfunclo_fclo cf1) cf1 x1 x2))
+) ; define-macro
+(define-macro
+ (ats2scmpre_cloref3_app cf x1 x2 x3)
+`(let ((cf1 ,cf)) ((ATSfunclo_fclo cf1) cf1 ,x1 ,x2 ,x3))
+) ; define-macro
+
+;; ****** ****** ;;
+
 (define
  (ats2scmpre_cloref2fun0 cf)
  (lambda () (ats2scmpre_cloref0_app cf))
@@ -193,21 +212,6 @@
  (ats2scmpre_cloref2fun3 cf)
  (lambda (x1 x2 x3) (ats2scmpre_cloref3_app cf x1 x2 x3))
 ) ; define
-
-;; ****** ****** ;;
-
-(define-macro
- (ats2scmpre_cloref0_app cf) `(ATSfunclo_fclo ,cf)
-) ; define-macro
-(define-macro
- (ats2scmpre_cloref1_app cf x) `((ATSfunclo_fclo ,cf) ,x)
-) ; define-macro
-(define-macro
- (ats2scmpre_cloref2_app cf x1 x2) `((ATSfunclo_fclo ,cf) ,x1 ,x2)
-) ; define-macro
-(define-macro
- (ats2scmpre_cloref3_app cf x1 x2 x3) `((ATSfunclo_fclo ,cf) ,x1 ,x2 ,x3)
-) ; define-macro
 
 ;; ****** ****** ;;
 

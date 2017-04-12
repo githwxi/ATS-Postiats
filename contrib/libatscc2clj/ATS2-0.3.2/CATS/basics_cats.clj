@@ -215,6 +215,24 @@
 ;;
 ;; ****** ****** ;;
 
+(defmacro
+ ats2cljpre_cloref0_app[cf]
+`(let [cf# ~cf] ((ATSfunclo_fclo cf#) cf#))
+) ; defmacro
+(defmacro
+ ats2cljpre_cloref1_app[cf x]
+`(let [cf# ~cf] ((ATSfunclo_fclo cf#) cf# ~x))
+) ; defmacro
+(defmacro
+ ats2cljpre_cloref2_app[cf x1 x2]
+`(let [cf# ~cf] ((ATSfunclo_fclo cf#) cf# ~x1 ~x2))
+) ; defmacro
+(defmacro
+ ats2cljpre_cloref3_app[cf x1 x2 x3]
+`(let [cf# ~cf] ((ATSfunclo_fclo cf#) cf# ~x1 ~x2 ~x3))
+) ; defmacro
+
+;; ****** ****** ;;
 ;;
 (defn
  ats2cljpre_cloref2fun0[cf]
@@ -233,25 +251,6 @@
  (fn [x1 x2 x3] (ats2cljpre_cloref3_app cf x1 x2 x3))
 ) ; defn
 ;;
-;; ****** ****** ;;
-
-(defmacro
- ats2cljpre_cloref0_app[cf]
-`(let [cf# ~cf] ((ATSfunclo_fclo cf#) cf#))
-) ; defmacro
-(defmacro
- ats2cljpre_cloref1_app[cf x]
-`(let [cf# ~cf] ((ATSfunclo_fclo cf#) cf# ~x))
-) ; defmacro
-(defmacro
- ats2cljpre_cloref2_app[cf x1 x2]
-`(let [cf# ~cf] ((ATSfunclo_fclo cf#) cf# ~x1 ~x2))
-) ; defmacro
-(defmacro
- ats2cljpre_cloref3_app[cf x1 x2 x3]
-`(let [cf# ~cf] ((ATSfunclo_fclo cf#) cf# ~x1 ~x2 ~x3))
-) ; defmacro
-
 ;; ****** ****** ;;
 
 (defmacro

@@ -30,7 +30,32 @@ staload "./../basics_clj.sats"
 //
 (* ****** ****** *)
 //
+#staload "./../SATS/bool.sats"
+#staload "./../SATS/integer.sats"
+//
+(* ****** ****** *)
+//
 #include "{$LIBATSCC}/DATS/basics.dats"
+//
+(* ****** ****** *)
+//
+implement
+gcompare_val_val<int>
+  (x, y) =
+  $effmask_all(compare_int0_int0(x, y))
+//
+(* ****** ****** *)
+//
+implement
+gcompare_val_val<bool>
+  (x, y) =
+(
+//
+if (x)
+  then (if y then 0(*t/t*) else 1(*t/f*))
+  else (if y then ~1(*f/t*) else 0(*f/f*))
+//
+) (* gcompare_val_val<bool> *)
 //
 (* ****** ****** *)
 

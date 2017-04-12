@@ -30,7 +30,16 @@ val xs =
 (* ****** ****** *)
 
 val () = println! ("xs = ", xs)
-val () = println! ("xs + xs = ", xs + xs)
+
+(* ****** ****** *)
+
+val ys = xs + xs
+val () = println! ("xs+xs = ", ys)
+
+(* ****** ****** *)
+
+val zs = list_sort(ys)
+val () = println! ("sort(xs+xs) = ", zs)
 
 (* ****** ****** *)
 
