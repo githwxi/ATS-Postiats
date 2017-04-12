@@ -1,6 +1,6 @@
 (*
 ** For writing ATS code
-** that translates into Scheme
+** that translates into Clojure
 *)
 
 (* ****** ****** *)
@@ -15,19 +15,19 @@
 #define
 ATS_EXTERN_PREFIX "ats2scmpre_"
 #define
-ATS_STATIC_PREFIX "_ats2scmpre_stream_"
+ATS_STATIC_PREFIX "_ats2scmpre_SCMlist_"
 //
 (* ****** ****** *)
 //
 #define
 LIBATSCC_targetloc
-"$PATSHOME/contrib/libatscc/ATS2-0.3.2"
+"$PATSHOME\
+/contrib/libatscc/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
 staload
-UN =
-"prelude/SATS/unsafe.sats"
+UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
@@ -35,30 +35,26 @@ staload "./../basics_scm.sats"
 
 (* ****** ****** *)
 //
-staload "./../SATS/bool.sats"
 staload "./../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
 staload "./../SATS/print.sats"
+staload "./../SATS/filebas.sats"
 //
 (* ****** ****** *)
-//
+
 staload "./../SATS/list.sats"
-staload "./../SATS/reference.sats"
-//
-(* ****** ****** *)
-
-staload "./../SATS/stream.sats"
+staload "./../SATS/SCMlist.sats"
 
 (* ****** ****** *)
 //
-#define
-LIBATSCC_targetloc
-"$PATSHOME/contrib/libatscc/ATS2-0.3.2"
-//
-#include "{$LIBATSCC}/DATS/stream.dats"
+implement
+{a}(*tmp*)
+SCMlist_sort_1(xs) = 
+SCMlist_sort_2
+  (xs, lam(x1, x2) => gcompare_val_val<a>(x1, x2))
 //
 (* ****** ****** *)
 
-(* end of [stream.dats] *)
+(* end of [SCMlist.dats] *)

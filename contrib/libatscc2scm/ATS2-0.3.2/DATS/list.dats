@@ -31,6 +31,11 @@ UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
+staload "./../basics_scm.sats"
+//
+(* ****** ****** *)
+//
+staload "./../SATS/bool.sats"
 staload "./../SATS/integer.sats"
 //
 (* ****** ****** *)
@@ -41,6 +46,9 @@ staload "./../SATS/filebas.sats"
 (* ****** ****** *)
 //
 staload "./../SATS/list.sats"
+staload "./../SATS/SCMlist.sats"
+//
+(* ****** ****** *)
 //
 staload "./../SATS/stream_vt.sats"
 staload _ = "./../DATS/stream.dats"
@@ -70,6 +78,60 @@ implement
 print_list_sep
   (xs, sep) =
   fprint_list_sep<a>(stdout_get(), xs, sep)
+//
+(* ****** ****** *)
+//
+implement
+SCMlist2list_rev
+  {a}(xs) =
+  loop(xs, nil()) where
+{
+//
+fun
+loop
+(
+xs: SCMlist(a), res: List0(a)
+) : List0(a) =
+(
+if
+SCMlist_is_nil(xs) then res
+else loop(SCMlist_tail(xs), list_cons(SCMlist_head(xs), res))
+) (* end of [loop] *)
+//
+} (* SCMlist2list_rev *)
+//
+(* ****** ****** *)
+
+implement
+SCMlist_oflist_rev{a}(xs) = let
+//
+fun
+aux
+(
+xs: List(a), res: SCMlist(a)
+) : SCMlist(a) =
+  case+ xs of
+  | list_nil() => res
+  | list_cons(x, xs) => let
+      val res = SCMlist_cons(x, res) in aux(xs, res)
+    end // end of [list_cons]
+//
+in
+  aux(xs, SCMlist_nil((*void*)))
+end // end of [SCMlist_oflist_rev]
+
+(* ****** ****** *)
+//
+implement
+list_sort_2
+  {a}{n}(xs, cmp) = let
+//
+val xs = SCMlist_oflist_rev{a}(xs)
+val ys = SCMlist_sort_2{a}(xs, lam(x1, x2) => ~cmp(x1, x2))
+//
+in
+  $UN.cast{list(a,n)}(SCMlist2list_rev(ys))
+end // end of [list_sort_2]
 //
 (* ****** ****** *)
 

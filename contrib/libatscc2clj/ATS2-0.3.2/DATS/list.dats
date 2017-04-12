@@ -79,12 +79,12 @@ staload _ = "./../DATS/stream_vt.dats"
 //
 extern
 fun{}
-print_list$sep (): void
+print_list$sep((*void*)): void
 //
 implement
 {}(*tmp*)
 print_list$sep
-  ((*void*)) = print_string (", ")
+  ((*void*)) = print_string(", ")
 //
 implement
 {a}(*tmp*)
@@ -125,7 +125,7 @@ CLJlist_oflist_rev{a}(xs) = let
 fun
 aux
 (
-  xs: List(a), res: CLJlist(a)
+xs: List(a), res: CLJlist(a)
 ) : CLJlist(a) =
   case+ xs of
   | list_nil() => res
@@ -134,7 +134,7 @@ aux
     end // end of [list_cons]
 //
 in
-  aux(xs, CLJlist_nil())
+  aux(xs, CLJlist_nil((*void*)))
 end // end of [CLJlist_oflist_rev]
 
 (* ****** ****** *)

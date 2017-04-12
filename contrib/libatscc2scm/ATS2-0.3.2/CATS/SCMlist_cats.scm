@@ -74,4 +74,24 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;
+;; Note that [fold] is is SRFI-1
+;; So this one is implemented in list.dats
+;; 
+;;(define-macro
+;; (ats2scmpre_SCMlist2list_rev xs)
+;;`(fold (lambda (x xs) (cons x xs)) '() ,xs)
+;;) ; define-macro
+;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-macro
+ (ats2scmpre_SCMlist_sort_2 xs cmp)
+`(let ((cmp (ats2scmpre_cloref2fun2 ,cmp)))
+    (sort ,xs (lambda(x1 x2) (< (cmp x1 x2) 0))))
+) ; define-macro
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;;;;;; end of [SCMlist_cats.scm] ;;;;;;

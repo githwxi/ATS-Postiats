@@ -42,6 +42,9 @@ staload _(*anon*) = "./DATS/intrange.dats"
 (* ****** ****** *)
 //
 staload "./SATS/list.sats"
+staload "./SATS/CLJlist.sats"
+//
+(* ****** ****** *)
 //
 staload "./SATS/stream.sats"
 staload "./SATS/stream_vt.sats"
@@ -57,6 +60,9 @@ staload "./SATS/reference.sats"
 (* ****** ****** *)
 //
 staload _(*anon*) = "./DATS/list.dats"
+//
+staload _(*anon*) = "./DATS/CLJlist.dats"
+//
 staload _(*anon*) = "./DATS/stream.dats"
 //
 (* ****** ****** *)
