@@ -1512,6 +1512,14 @@ end // end of [list0_imap]
 
 (* ****** ****** *)
 //
+implement
+{a}{b}
+list0_imap_method
+  (xs, _(*TYPE*)) =
+  lam(fopr) => list0_imap<a><b>(xs, fopr)
+//
+(* ****** ****** *)
+//
 (*
 implement
 {a1,a2}{b}

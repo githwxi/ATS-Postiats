@@ -155,10 +155,10 @@ strptr_free_null
 
 fun{}
 strptr_is_null
-  {l:addr} (x: !strptr l):<> bool (l==null)
+  {l:addr} (x: !strptr(l)):<> bool(l==null)
 fun{}
 strptr_isnot_null
-  {l:addr} (x: !strptr l):<> bool (l > null)
+  {l:addr} (x: !strptr(l)):<> bool(l > null)
 
 #atscode_separator()
 
@@ -182,7 +182,7 @@ strnptr_isnot_null
 //
 praxi
 strnptr_free_null
-  {l:addr|l <= null}{n:int} (x: strnptr(l, n)):<> void
+  {l:addr|l <= null}{n:int}(x: strnptr(l, n)):<> void
 // end of [strnptr_free_null]
 //
 #atscode_separator()
