@@ -87,9 +87,9 @@ auxerr_proof
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": a non-proof component is replaced of the type"
-  val () = prerrln! ("[", s2e_sel, "].")
+  val () = prerrln! (": [", s2e_sel, "].")
 in
-  the_trans3errlst_add (T3E_s2addr_assgn_deref_proof (loc0, s2e, d3ls))
+  the_trans3errlst_add(T3E_s2addr_assgn_deref_proof(loc0, s2e, d3ls))
 end // end of [auxerr_proof]
 
 fun
@@ -101,7 +101,7 @@ auxerr_linsel
   val () = prerr ": a linear component is abandoned of the type"
   val () = prerrln! (": [", s2e_sel, "].")
 in
-  the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e, d3ls))
+  the_trans3errlst_add(T3E_s2addr_assgn_deref_linsel(loc0, s2e, d3ls))
 end // end of [auxerr_linsel]
 
 fun
@@ -142,17 +142,22 @@ in
 //
 case+ opt of
 //
-| None () =>
+| None() =>
     d2var_set_type(d2v, Some(s2e_new))
   // end of [None]
 //
-| Some (s2e) => let
-    val islin = s2exp_is_lin(s2e)
-    val d3ls = list_nil and s2e_sel = s2e
+| Some(s2e) => let
+//
+    val
+    islin = s2exp_is_lin(s2e)
+//
+    val d3ls = list_nil() and s2e_sel = s2e
+//
     val () =
-      if islin
-        then auxerr_linsel(loc0, s2e, d3ls, s2e_sel)
-      // end of [if]
+    if islin
+      then auxerr_linsel(loc0, s2e, d3ls, s2e_sel)
+    // end of [if]
+//
   in
     d2var_set_type(d2v, Some(s2e_new))
   end // end of [Some]
@@ -164,27 +169,38 @@ d2var_assgn_lin1
   (loc0, d2v, d3ls, s2e_new) = let
 //
 val s2e =
-  d2var_get_type_some (loc0, d2v)
-var ctxtopt: s2ctxtopt = None ()
+  d2var_get_type_some(loc0, d2v)
+var ctxtopt: s2ctxtopt = None()
 val s2e_sel =
-  s2exp_get_dlablst_context (loc0, s2e, d3ls, ctxtopt)
+  s2exp_get_dlablst_context(loc0, s2e, d3ls, ctxtopt)
 // end of [val]
-val isprf = s2exp_is_prf (s2e_sel)
-val () = if ~(isprf)
-  then auxerr_proof (loc0, s2e, d3ls, s2e_sel)
-val islin = s2exp_is_lin (s2e_sel)
-val () = if  (islin)
-  then auxerr_linsel (loc0, s2e, d3ls, s2e_sel)
-val isctx = (
+//
+val
+isprf =
+s2exp_is_prf(s2e_sel)
+val () = if ~( isprf )
+  then auxerr_proof(loc0, s2e, d3ls, s2e_sel)
+//
+val
+islin =
+s2exp_is_lin(s2e_sel)
+val () = if  ( islin )
+  then auxerr_linsel(loc0, s2e, d3ls, s2e_sel)
+//
+val isctx =
+(
   case+ ctxtopt of Some _ => true | None _ => false
 ) : bool // end of [val]
-val () = if ~(isctx)
-  then auxerr_context (loc0, s2e, d3ls, s2e_sel)
-val s2e = (
+val () = if ~( isctx )
+  then auxerr_context(loc0, s2e, d3ls, s2e_sel)
+//
+val s2e =
+(
   case+ ctxtopt of
-  | Some (ctxt) => s2ctxt_hrepl (ctxt, s2e_new) | None () => s2e
+  | Some(ctxt) => s2ctxt_hrepl(ctxt, s2e_new) | None() => s2e
 ) : s2exp // end of [val]
-val () = d2var_set_type (d2v, Some (s2e))
+//
+val () = d2var_set_type (d2v, Some(s2e))
 //
 in
   // nothing

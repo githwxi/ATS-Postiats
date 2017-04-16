@@ -380,6 +380,10 @@ stream_skip_until_cloref
 //
 #atscode_separator()
 
+overload + with stream_append
+
+#atscode_separator()
+
 overload [] with stream_nth_exn
 
 #atscode_separator()
