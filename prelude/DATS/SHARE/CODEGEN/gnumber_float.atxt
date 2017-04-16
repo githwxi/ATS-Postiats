@@ -26,6 +26,19 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+#atscode_author("Artyom Shalkhakov")
+#atscode_authoremail("artyom.shalkhakov AT gmail DOT com")
+#atscode_start_time("March, 2015")
+
+#atscode_separator()
+
+implement
+gnumber_zero<float> () = 0.0f
+implement
+gnumber_zero<double> () = 0.0
+
+#atscode_separator()
+
 implement
 gnumber_int<float> (x) = g0int2float_int_float (x)
 implement

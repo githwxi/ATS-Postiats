@@ -35,6 +35,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("July, 2013")
 
 #atscode_separator()
+
+#atscode_author("Artyom Shalkhakov")
+#atscode_authoremail("artyom.shalkhakov AT gmail DOT com")
+#atscode_start_time("March, 2015")
+
+#atscode_separator()
 //
 // HX: for unindexed gnumber types
 //
@@ -78,6 +84,10 @@ fun{a:t0p} gnumber_double (x: double):<> a
 //
 #atscode_separator()
 
+fun{a:t0p} gnumber_zero ():<> a
+
+#atscode_separator()
+
 fun{a:t0p} gabs_val (x: a):<> a
 fun{a:t0p} gneg_val (x: a):<> a
 fun{a:t0p} gsucc_val (x: a):<> a
@@ -104,6 +114,10 @@ fun{a:t0p} gdiv_int_val (x: int, y: a):<!exn> a
 fun{a:t0p} gdiv_val_int (x: a, y: int):<!exn> a
 fun{a:t0p} gmod_val_int (x: a, y: int):<!exn> a
 //
+#atscode_separator()
+
+fun{a:t0p} gcompare_val_val (x: a, y: a):<> int
+
 #atscode_separator()
 
 fun{a:t0p} gsqrt_val (x: a):<!exn> a
