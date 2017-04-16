@@ -178,6 +178,10 @@ LIBATSHWXI_targetloc "$PATSCONTRIB/contrib/libats-/hwxi"
 LIBATS_HWXI_targetloc "$PATSCONTRIB/contrib/libats-/hwxi"
 //
 (* ****** ****** *)
+#define
+LIBATSBBARKER_targetloc "$PATSHOMERELOC/contrib/libats-/bbarker"
+//
+(* ****** ****** *)
 //
 // For applying ATS to Linux kernel programming
 //
