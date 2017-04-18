@@ -363,6 +363,7 @@ of (* case+ *)
 //
 | HIPcon _ =>
   hipatck_ccomp_sum(env, res, fail, hip0, pmv0)
+//
 | HIPcon_any(pck, d2c) =>
   hipatck_ccomp_con(env, res, fail, loc0, d2c, pmv0)
 //
@@ -422,12 +423,15 @@ of (* case+ *)
     // end of [val]
   } (* end of [HIPf0loat] *)
 //
-| HIPempty () => ()
+| HIPempty() => ()
 //
-| HIPrec _ =>
-  hipatck_ccomp_rec
-    (env, res, fail, hip0, pmv0)
-  // end of [HIPrec]
+| HIPrec(_, pck, _, _) =>
+  {
+    val () =
+    hipatck_ccomp_rec
+      (env, res, fail, hip0, pmv0)
+    // hipatck_ccomp_rec
+  } (* end of [HIPrec] *)
 //
 | HIPrefas(d2v, hip) =>
   hipatck_ccomp (env, res, fail, hip, pmv0)
@@ -489,18 +493,19 @@ case+ 0 of
 *)
 | _ => let
     val hse = hipat_get_type (hip)
-    val tmp = tmpvar_make (loc, hse)
-    val pml = primlab_lab (loc, lab)
-    val ins = instr_move_select (loc, tmp, hse, pmv0, hse_rec, pml)
-    val pmv = primval_make_tmp (loc, tmp)
-    val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
+    val tmp = tmpvar_make(loc, hse)
+    val pml = primlab_lab(loc, lab)
+    val ins = instr_move_select(loc, tmp, hse, pmv0, hse_rec, pml)
+    val pmv = primval_make_tmp(loc, tmp)
+    val ((*void*)) = ccompenv_add_vbindmapenvall(env, d2v, pmv)
   in
     instrseq_add (res, ins)    
   end // end of [_]
 //
 end // end of [auxvar]
 
-fun auxpat
+fun
+auxpat
 (
   env: !ccompenv
 , res: !instrseq
@@ -513,25 +518,30 @@ in
 case+
 hip.hipat_node
 of (* case+ *)
+//
 | HIPany _ => ()
-| HIPvar (d2v) =>
-    auxvar (env, res, lvl0, lab, hip, pmv0, hse_rec)
-| HIPrefas (d2v, hip) =>
-    auxpat (env, res, lvl0, lab, hip, pmv0, hse_rec)
+//
+| HIPvar(d2v) =>
+    auxvar(env, res, lvl0, lab, hip, pmv0, hse_rec)
+//
+| HIPrefas(d2v, hip) =>
+    auxpat(env, res, lvl0, lab, hip, pmv0, hse_rec)
   // end of [HIPrefas]
-| HIPann (hip, _(*ann*)) =>
-    auxpat (env, res, lvl0, lab, hip, pmv0, hse_rec)
+| HIPann(hip, ann) =>
+    auxpat(env, res, lvl0, lab, hip, pmv0, hse_rec)
   // end of [HIPann]
-| _ => let
+| _ (* rest-of-hipat *) => let
     val loc = hip.hipat_loc
-    val-Some (d2v) = hip.hipat_asvar
-    val-~Some_vt (pmv) = ccompenv_find_vbindmapenv (env, d2v)
+    val-Some(d2v) = hip.hipat_asvar
+    val-~Some_vt(pmv) =
+      ccompenv_find_vbindmapenv (env, d2v)
   in
-    himatch_ccomp (env, res, lvl0, hip, pmv)
+    himatch_ccomp(env, res, lvl0, hip, pmv)
   end // end of [_]
 end // end of [auxpat]
 
-fun auxpatlst
+fun
+auxpatlst
 (
   env: !ccompenv
 , res: !instrseq
@@ -542,16 +552,20 @@ fun auxpatlst
 in
 //
 case+ lhips of
+| list_nil
+    ((*void*)) => ()
+  // list_nil
 | list_cons
     (lhip, lhips) => let
-    val+LABHIPAT (lab, hip) = lhip
-    val () = auxpat
-      (env, res, lvl0, lab, hip, pmv0, hse_rec)
-    // end of [val]
+//
+    val+LABHIPAT(lab, hip) = lhip
+//
+    val () =
+    auxpat(env, res, lvl0, lab, hip, pmv0, hse_rec)
+//
   in
-    auxpatlst (env, res, lvl0, lhips, pmv0, hse_rec)
+    auxpatlst(env, res, lvl0, lhips, pmv0, hse_rec)
   end // end of [list_cons]
-| list_nil () => ()
 //
 end // end of [auxpatlst]
 
@@ -699,7 +713,7 @@ val-HIPcon
   (pck, d2c, hse_sum, lhips) = hip0.hipat_node
 //
 in
-  auxpatlst (env, res, lvl0, 0(*narg*), lhips, pmv0, hse_sum)
+  auxpatlst(env, res, lvl0, 0(*narg*), lhips, pmv0, hse_sum)
 end // end of [himatch_ccomp_sum]
 
 end // end of [local]

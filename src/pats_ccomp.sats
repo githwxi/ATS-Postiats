@@ -2026,7 +2026,8 @@ fun hidexplst_ccompv
 //
 (* ****** ****** *)
 
-fun hidexp_ccomp_funlab_arg_body
+fun
+hidexp_ccomp_funlab_arg_body
 (
   env: !ccompenv
 , flab: funlab // HX: needed for recursion
