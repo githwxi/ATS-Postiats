@@ -18,9 +18,8 @@
 implement
 main0() = let
 //
-val x = 0
-val y = 1
-val xy = $tup_vt(x, y)
+val xy =
+$tup_vt(0, 1)
 //
 val $tup(x, y) = xy
 //
