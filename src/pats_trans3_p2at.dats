@@ -1195,51 +1195,77 @@ implement
 p2at_trdn_rec
   (p2t0, s2f0) = let
 //
-val loc0 = p2t0.p2at_loc
-val-P2Trec (knd, npf, lp2ts) = p2t0.p2at_node
+val
+loc0 = p2t0.p2at_loc
+//
+val-
+P2Trec(knd, npf, lp2ts) = p2t0.p2at_node
+//
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 //
 in
 //
-case+ s2e.s2exp_node of
-| S2Etyrec (knd1, npf1, ls2es) => let
+case+
+s2e.s2exp_node of
+//
+| S2Etyrec
+  (
+    knd1, npf1, ls2es
+  ) => let
     val isbox = (knd > 0)
-    val isbox1 = tyreckind_is_boxed (knd1)
-    val () = if (isbox != isbox1) then {
+    val isbox1 = tyreckind_is_boxed(knd1)
+    val () =
+    if (isbox != isbox1) then
+    {
       val () = prerr_error3_loc (loc0)
       val () = prerr ": the tuple/record pattern is "
       val () = if isbox then prerr "boxed but it is assigned a flat/unboxed type."
       val () = if ~isbox then prerr "flat/unboxed but it is assigned a boxed type."
       val () = prerr_newline ()
       val s2e0 = s2hnf2exp (s2f0)
-      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+      val () = the_trans3errlst_add(T3E_p2at_trdn(p2t0, s2e0))
+    } (* end of [val] *)
+    val
+    nerr =
+    $SOL.pfarity_equal_solve
+      (loc0, npf, npf1)
+    // end of [val]
+    val () = if (nerr > 0) then
+    {
+      val () =
+      prerr_the_staerrlst()
+      val s2e0 = s2hnf2exp(s2f0)
+      val () = the_trans3errlst_add(T3E_p2at_trdn(p2t0, s2e0))
     } // end of [val]
-    val nerr = $SOL.pfarity_equal_solve (loc0, npf, npf1)
-    val () = if (nerr > 0) then {
-      val () = prerr_the_staerrlst ()
-      val s2e0 = s2hnf2exp (s2f0)
-      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
-    } // end of [val]
-    var nerr: int = 0
-    val lp3ts = labp2atlst_trdn (loc0, lp2ts, ls2es, nerr)
-    val () = if (nerr > 0) then {
-      val s2e0 = s2hnf2exp (s2f0)
-      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
-    } // end of [val]
-  in
-    p3at_rec (loc0, s2e, knd, npf, lp3ts)
-  end // end of [S2Etyrec]
-| _ => let
 //
-    val () = prerr_error3_loc (loc0)
+    var
+    nerr: int = 0
+    val
+    lp3ts =
+    labp2atlst_trdn(loc0, lp2ts, ls2es, nerr)
+    val () = if (nerr > 0) then
+    {
+      val s2e0 = s2hnf2exp(s2f0)
+      val () = the_trans3errlst_add(T3E_p2at_trdn(p2t0, s2e0))
+    } // end of [val]
+//
+    val pck = PCKcon()
+//
+  in
+    p3at_rec (loc0, s2e, knd, npf, pck, lp3ts)
+  end // end of [S2Etyrec]
+| _ (* non-S2Etyrec *) =>
+    p3at_errpat (loc0, s2e) where
+  {
+//
+    val () =
+    prerr_error3_loc(loc0)
     val () = prerrln! (": the tuple/record pattern is ill-typed.")
 //
-    val s2e0 = s2hnf2exp (s2f0)
-    val ((*void*)) = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+    val s2e0 = s2hnf2exp(s2f0)
+    val ((*void*)) = the_trans3errlst_add(T3E_p2at_trdn(p2t0, s2e0))
 //
-  in
-    p3at_errpat (loc0, s2e)
-  end // end of [_]
+  } // end of [rest-of-p2at]
 //
 end // end of [p2at_trdn_rec]
 

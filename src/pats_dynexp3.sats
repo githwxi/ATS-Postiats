@@ -63,7 +63,9 @@ datatype p3at_node =
   | P3Tany of d2var // wildcard
   | P3Tvar of (d2var) // mutability from the context
 //
-  | P3Tcon of (pckind, d2con, int(*npf*), p3atlst(*arg*))
+  | P3Tcon of
+      (pckind, d2con, int(*npf*), p3atlst(*arg*))
+    // P3Tcon
 //
   | P3Tint of (int)
   | P3Tintrep of string(*rep*)
@@ -77,7 +79,10 @@ datatype p3at_node =
 //
   | P3Tempty (* empty pattern *)
 //
-  | P3Trec of (int(*knd*), int(*npf*), labp3atlst)
+  | P3Trec of
+      (int(*knd*), int(*npf*), pckind, labp3atlst)
+    // P3Trec
+//
   | P3Tlst of (int(*lin*), s2exp(*elt*), p3atlst) // pattern list
 //
   | P3Trefas of (d2var, p3at) // referenced pattern
@@ -169,12 +174,17 @@ fun p3at_f0loat (
 //
 fun p3at_empty (loc: location, s2f: s2exp): p3at
 
-fun p3at_rec (
+fun p3at_rec
+(
   loc: location
-, s2f: s2exp, knd: int, npf: int, lp3ts: labp3atlst
+, s2f: s2exp
+, knd: int, npf: int, pck: pckind, lp3ts: labp3atlst
 ) : p3at // end of [p3at_rec]
-fun p3at_lst (
-  loc: location, s2f: s2exp, lin: int, s2e_elt: s2exp, p3ts: p3atlst
+//
+fun p3at_lst
+(
+  loc: location
+, s2f: s2exp, lin: int, s2e_elt: s2exp, p3ts: p3atlst
 ) : p3at // end of [p3at_lst]
 
 fun p3at_refas (

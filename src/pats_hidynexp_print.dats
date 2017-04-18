@@ -70,17 +70,22 @@ staload "./pats_hidynexp.sats"
 implement
 fprint_hipat
   (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+//
+macdef
+prstr(str) =
+fprint_string (out, ,(str))
+//
 in
 //
-case+ x.hipat_node of
+case+
+x.hipat_node of
 //
-| HIPany (d2v) => {
+| HIPany(d2v) => {
     val () = prstr "HIPany("
     val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   } (* end of [HIPany] *)
-| HIPvar (d2v) => {
+| HIPvar(d2v) => {
     val () = prstr "HIPvar("
     val () = fprint_d2var (out, d2v)
     val () = prstr ")"
@@ -98,13 +103,13 @@ case+ x.hipat_node of
     val () = prstr ")"
     val () = prstr ")"
   }
-| HIPcon_any (pck, d2c) => {
+| HIPcon_any(pck, d2c) => {
     val () = prstr "HIPcon_any("
     val () = fprint_d2con (out, d2c)
     val () = prstr ")"
   }
 //
-| HIPint (i) => {
+| HIPint(i) => {
     val () = prstr "HIPint("
     val () = fprint_int (out, i)
     val () = prstr ")"
@@ -115,39 +120,39 @@ case+ x.hipat_node of
     val () = fprint_string (out, intrep)
     val () = prstr ")"
   }
-| HIPbool (b) => {
+| HIPbool(b) => {
     val () = prstr "HIPbool("
     val () = fprint_bool (out, b)
     val () = prstr ")"
   }
-| HIPchar (c) => {
+| HIPchar(c) => {
     val () = prstr "HIPchar("
     val () = fprint_char (out, c)
     val () = prstr ")"
   }
-| HIPstring (str) => {
+| HIPstring(str) => {
     val () = prstr "HIPstring("
     val () = fprint_string (out, str)
     val () = prstr ")"
   }
-| HIPfloat (rep) => {
+| HIPfloat(rep) => {
     val () = prstr "HIPfloat("
     val () = fprint_string (out, rep)
     val () = prstr ")"
   }
 //
-| HIPi0nt (tok) => {
+| HIPi0nt(tok) => {
     val () = prstr "HIPi0nt("
     val () = $SYN.fprint_i0nt (out, tok)
     val () = prstr ")"
   }
-| HIPf0loat (tok) => {
+| HIPf0loat(tok) => {
     val () = prstr "HIPf0loat("
     val () = $SYN.fprint_f0loat (out, tok)
     val () = prstr ")"
   } // end of [HIPf0lat]
 //
-| HIPempty () => prstr "HIPempty()"
+| HIPempty((*void*)) => prstr "HIPempty()"
 //
 (*
 | HIPlst (
@@ -162,7 +167,7 @@ case+ x.hipat_node of
 *)
 //
 | HIPrec (
-    knd, lhips, hse_rec
+    knd, pck, lhips, hse_rec
   ) => {
     val () = prstr "HIPrec("
     val () = fprintf (out, "knd= %i", @(knd))

@@ -60,74 +60,92 @@ p3at_make_node
 implement
 p3at_any
   (loc, s2f, d2v) =
-  p3at_make_node (loc, s2f, P3Tany (d2v))
+  p3at_make_node(loc, s2f, P3Tany(d2v))
 // end of [p3at_any]
 
 implement
 p3at_var
   (loc, s2f, d2v) =
-  p3at_make_node (loc, s2f, P3Tvar (d2v))
+  p3at_make_node(loc, s2f, P3Tvar(d2v))
 // end of [p3at_var]
 
 implement
 p3at_con
   (loc, s2f, pck, d2c, npf, p3ts) =
-  p3at_make_node (loc, s2f, P3Tcon (pck, d2c, npf, p3ts))
-// end of [p3at_con]
+(
+p3at_make_node
+  (loc, s2f, P3Tcon(pck, d2c, npf, p3ts))
+) // end of [p3at_con]
 
 implement
 p3at_int
-  (loc, s2f, i) = p3at_make_node (loc, s2f, P3Tint (i))
+  (loc, s2f, i) =
+  p3at_make_node(loc, s2f, P3Tint(i))
 // end of [p3at_int]
 implement
 p3at_intrep
-  (loc, s2f, rep) = p3at_make_node (loc, s2f, P3Tintrep (rep))
+  (loc, s2f, rep) =
+  p3at_make_node(loc, s2f, P3Tintrep(rep))
 // end of [p3at_intrep]
 
 implement
 p3at_bool
-  (loc, s2f, b) = p3at_make_node (loc, s2f, P3Tbool (b))
+  (loc, s2f, b) =
+  p3at_make_node(loc, s2f, P3Tbool(b))
 // end of [p3at_bool]
 
 implement
 p3at_char
-  (loc, s2f, c) = p3at_make_node (loc, s2f, P3Tchar (c))
+  (loc, s2f, c) =
+  p3at_make_node(loc, s2f, P3Tchar(c))
 // end of [p3at_char]
 
 implement
 p3at_float
-  (loc, s2f, rep) = p3at_make_node (loc, s2f, P3Tfloat (rep))
+  (loc, s2f, rep) =
+  p3at_make_node(loc, s2f, P3Tfloat (rep))
 // end of [p3at_float]
 
 implement
 p3at_string
-  (loc, s2f, str) = p3at_make_node (loc, s2f, P3Tstring (str))
+  (loc, s2f, str) =
+  p3at_make_node(loc, s2f, P3Tstring (str))
 // end of [p3at_string]
 
 implement
 p3at_i0nt
-  (loc, s2f, x) = p3at_make_node (loc, s2f, P3Ti0nt (x))
+  (loc, s2f, x) =
+  p3at_make_node(loc, s2f, P3Ti0nt(x))
 // end of [p3at_i0nt]
 
 implement
 p3at_f0loat
-  (loc, s2f, x) = p3at_make_node (loc, s2f, P3Tf0loat (x))
+  (loc, s2f, x) =
+  p3at_make_node(loc, s2f, P3Tf0loat(x))
 // end of [p3at_f0loat]
 
 implement
 p3at_empty
-  (loc, s2f) = p3at_make_node (loc, s2f, P3Tempty ())
+  (loc, s2f) =
+  p3at_make_node(loc, s2f, P3Tempty(*void*))
 // end of [p3at_empty]
 
+(* ****** ****** *)
+//
 implement
 p3at_rec (
-  loc, s2f, knd, npf, lp3ts
-) = p3at_make_node (loc, s2f, P3Trec (knd, npf, lp3ts))
-
+  loc, s2f, knd, npf, pck, lp3ts
+) =
+(
+  p3at_make_node(loc, s2f, P3Trec(knd, npf, pck, lp3ts))
+)
+//
 implement
 p3at_lst (
   loc, s2f, lin, s2e_elt, p3ts
-) = p3at_make_node (loc, s2f, P3Tlst (lin, s2e_elt, p3ts))
+) = p3at_make_node(loc, s2f, P3Tlst(lin, s2e_elt, p3ts))
+//
+(* ****** ****** *)
 
 implement
 p3at_refas (
@@ -226,7 +244,7 @@ p3t0.p3at_node of
 //
 | P3Trec
   (
-    knd, npf, lxs
+    knd, npf, pck, lxs
   ) => aux_labp3atlst (lxs)
 //
 | P3Trefas

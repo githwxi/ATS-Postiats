@@ -247,15 +247,17 @@ end // end of [hipat_lst]
 
 implement
 hipat_rec (
-  loc, hse, knd, lhips, hse_rec
+  loc, hse, knd, pck, lhips, hse_rec
 ) =
-  hipat_make_node (loc, hse, HIPrec (knd, lhips, hse_rec))
-// end of [hipat_rec]
+(
+hipat_make_node
+  (loc, hse, HIPrec(knd, pck, lhips, hse_rec))
+) // end of [hipat_rec]
 
 implement
 hipat_rec2
 (
-  loc0, hse0, knd, lhips, hse_rec
+  loc0, hse0, knd, pck, lhips, hse_rec
 ) = let
 //
 val isflt =
@@ -269,12 +271,14 @@ then (
 case lhips of
 | list_cons
     (lx, list_nil ()) =>
-    let val+LABHIPAT (l, x) = lx in x end
+    let val+LABHIPAT(l, x) = lx in x end
   // end of [list_cons]
 | _ (*notsing*) =>
-    hipat_rec (loc0, hse0, knd, lhips, hse_rec)
+    hipat_rec(loc0, hse0, knd, pck, lhips, hse_rec)
 ) (* end of [then] *)
-else hipat_rec (loc0, hse0, knd, lhips, hse_rec)
+else (
+  hipat_rec (loc0, hse0, knd, pck, lhips, hse_rec)
+) (* end of [else] *)
 //
 end // end of [hipat_rec2]
 

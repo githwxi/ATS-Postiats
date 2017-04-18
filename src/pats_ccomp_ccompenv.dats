@@ -1147,6 +1147,24 @@ in
 end // end of [ccompenv_add_freeconenv]
 
 implement
+ccompenv_add_freetupenv_if
+  (env, pmv, pck) = let
+//
+(*
+val () =
+println! ("ccompenv_add_freetupenv_if")
+*)
+//
+in
+//
+case+ pck of
+| PCKfree() =>
+  ccompenv_add_freeconenv(env, pmv)
+| _ (* non-PCKfree *) => ((*nothing*))
+//
+end // end of [ccompenv_add_freetupenv_if]
+
+implement
 ccompenv_add_freeconenv_if
   (env, pmv, pck, d2c) = let
 //
@@ -1161,7 +1179,9 @@ case+ pck of
 | PCKfree() => let
     val isnul = d2con_is_nullary(d2c)
   in
-    if not(isnul) then ccompenv_add_freeconenv(env, pmv)
+    if not(isnul)
+      then ccompenv_add_freeconenv(env, pmv)
+    // end of [if]
   end (* end of [PCKfree] *)
 | _ (* non-PCKfree *) => ((*nothing*))
 //

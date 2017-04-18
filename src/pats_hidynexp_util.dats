@@ -267,23 +267,25 @@ case+
 | (HIPrefas (_, hip1), _) => hipat_subtest (hip1, hip2)
 //
 | (HIPcon
-    (_, d2c1, _, lxs1), _) => (
+    (_, d2c1, _, lxs1), _) =>
+  (
   case+ hipn2 of
-  | HIPcon (_, d2c2, _, lxs2) =>
+  | HIPcon(_, d2c2, _, lxs2) =>
     (
       if d2c1 = d2c2
         then labhipatlst_subtest (lxs1, lxs2) else false
       // end of [if]
     )
-  | HIPcon_any (_, d2c2) => d2c1 = d2c2
-  | _ => false
+  | HIPcon_any(_, d2c2) => d2c1 = d2c2
+  | _ (*non-HIPcon*) => false
   )
-| (HIPcon_any (_, d2c1), _) => (
+| (HIPcon_any(_, d2c1), _) =>
+  (
   case+ hipn2 of
-  | HIPcon (_, d2c2, _, lxs2) =>
+  | HIPcon(_, d2c2, _, lxs2) =>
       if d2c1 = d2c2 then labhipatlst_is_wild (lxs2) else false
-  | HIPcon_any (_, d2c2) => d2c1 = d2c2
-  | _ => false
+  | HIPcon_any(_, d2c2) => d2c1 = d2c2
+  | _ (*non-HIPcon*) => false
   )
 //
 | (HIPint i1, _) => (
@@ -295,15 +297,17 @@ case+
 | (HIPchar c1, _) => (
   case+ hipn2 of HIPchar c2 => c1 = c2 | _ => false
   )
-| (HIPstring str1, _) => (
-  case+ hipn2 of HIPstring str2 => str1 = str2 | _ => false
+| (HIPstring str1, _) =>
+  (
+  case+ hipn2 of
+  | HIPstring str2 => str1 = str2 | _ => false
   )
 | (HIPfloat f1, _) => (
   case+ hipn2 of HIPfloat f2 => f1 = f2 | _ => false
   )
 //
-| (HIPempty (), _) => (
-  case+ hipn2 of HIPempty () => true | _ => false
+| (HIPempty((*void*)), _) => (
+  case+ hipn2 of HIPempty((*void*)) => true | _ => false
   )
 //
 (*
@@ -316,9 +320,11 @@ case+
   )
 *)
 //
-| (HIPrec (_, lxs1, _), _) => (
+| (HIPrec(_, _, lxs1, _), _) =>
+  (
   case+ hipn2 of
-  | HIPrec (_, lxs2, _) => labhipatlst_subtest (lxs1, lxs2) | _ => false
+  | HIPrec(_, _, lxs2, _) =>
+    labhipatlst_subtest(lxs1, lxs2) | _ => false
   )
 //
 | (_, _) (*rest-of-hipat-hipat*) => false
@@ -692,21 +698,26 @@ in
 case+
 hip0.hipat_node
 of (* case+ *)
+//
 | HIPany _ => HABNDsome_any (hde)
-| HIPvar (d2v) => HABNDsome_var (d2v, hde)
-| HIPempty () => HABNDsome_emp (hde)
+//
+| HIPvar(d2v) => HABNDsome_var(d2v, hde)
+//
+| HIPempty((*void*)) => HABNDsome_emp(hde)
+//
 | HIPrec
   (
-    knd, lhips, hse_rec
+    knd, pck, lhips, hse_rec
   ) => (
-    if knd = 0 then (
-      case+ lhips of
-      | list_cons (lhip, list_nil ()) =>
-          let val+LABHIPAT (lab, hip) = lhip in aux (hip, hde) end
-      | _ => HABNDnone ()
+    if knd = 0 then
+    (
+    case+ lhips of
+    | list_cons(lhip, list_nil()) =>
+        let val+LABHIPAT(lab, hip) = lhip in aux(hip, hde) end
+    | _ (*non-list_sing*) => HABNDnone ()
     ) else HABNDnone () // end of [if]
   ) (* end of [HIPrec] *)
-| _ => HABNDnone ((*void*))
+| _ (* rest-of-hipat *) => HABNDnone ((*void*))
 //
 end // end of [aux]
 //
@@ -716,12 +727,13 @@ case+
 hid0.hidecl_node
 of (* case+ *)
 | HIDvaldecs
-    (_, hvds) => (
+    (_, hvds) =>
+  (
   case+ hvds of
   | list_cons (
-      hvd, list_nil ()
+      hvd, list_nil()
     ) => aux(hvd.hivaldec_pat, hvd.hivaldec_def)
-  | _ => HABNDnone ((*void*))
+  | _ (* non-list_sing*) => HABNDnone ((*void*))
   ) (* end of [HIDvaldecs] *)
 | _ (*non-HIDvaldecs*) => HABNDnone((*void*))
 //
@@ -748,6 +760,12 @@ in (* in of [local] *)
 implement
 hidexp_let_simplify
   (loc, hse, hids, hde) = let
+//
+(*
+val () =
+println! ("hidexp_let_simplify")
+*)
+//
 in
 //
 case+ hids of

@@ -166,10 +166,10 @@ hipatck_ccomp_rec
 ) = let
 //
 val-HIPrec
-  (knd, lhips, hse_rec) = hip0.hipat_node
+  (knd, pck, lhips, hse_rec) = hip0.hipat_node
 //
 in
-  auxlst (env, res, fail, lhips, pmv0, hse_rec)
+  auxlst(env, res, fail, lhips, pmv0, hse_rec)
 end // end of [hipatck_ccomp_rec]
 
 end // end of [local]
@@ -564,10 +564,10 @@ himatch_ccomp_rec
 ) = let
 //
 val-HIPrec
-  (knd, lhips, hse_rec) = hip0.hipat_node
+  (knd, pck, lhips, hse_rec) = hip0.hipat_node
 //
 in
-  auxpatlst (env, res, lvl0, lhips, pmv0, hse_rec)
+  auxpatlst(env, res, lvl0, lhips, pmv0, hse_rec)
 end // end of [himatch_ccomp_rec]
 
 end // end of [local]

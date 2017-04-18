@@ -1787,12 +1787,20 @@ fun ccompenv_dec_tmprecdepth (env: !ccompenv): void
 
 (* ****** ****** *)
 //
-fun ccompenv_inc_freeconenv (env: !ccompenv): void
-fun ccompenv_getdec_freeconenv (env: !ccompenv): primvalist_vt
+fun
+ccompenv_inc_freeconenv(env: !ccompenv): void
+fun
+ccompenv_getdec_freeconenv(env: !ccompenv): primvalist_vt
 //
-fun ccompenv_add_freeconenv
+fun
+ccompenv_add_freeconenv
   (env: !ccompenv, pmv: primval): void
-fun ccompenv_add_freeconenv_if
+//
+fun
+ccompenv_add_freetupenv_if
+  (env: !ccompenv, pmv: primval, pck: pckind): void
+fun
+ccompenv_add_freeconenv_if
   (env: !ccompenv, pmv: primval, pck: pckind, d2c: d2con): void
 //
 (* ****** ****** *)

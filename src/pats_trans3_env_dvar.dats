@@ -477,31 +477,35 @@ case+ p3t.p3at_node of
 | P3Tempty _ => ()
 //
 | P3Trec (
-    knd, npf, lp3ts
+    knd, npf, pck, lp3ts
   ) =>
-    the_d2varenv_add_labp3atlst (lp3ts)
+    the_d2varenv_add_labp3atlst(lp3ts)
   // end of [P3Trec]
 | P3Tlst (
     lin, _elt, p3ts
-  ) => the_d2varenv_add_p3atlst (p3ts)
+  ) => the_d2varenv_add_p3atlst( p3ts )
 //
-| P3Trefas (d2v, p3t) => {
-    val () = the_d2varenv_add_dvar (d2v)
-    val () = the_d2varenv_add_p3at (p3t)
+| P3Trefas(d2v, p3t) => {
+    val () = the_d2varenv_add_dvar(d2v)
+    val () = the_d2varenv_add_p3at(p3t)
   } // end of [P3Trefas]
 //
-| P3Texist (s2vs, p3t) => the_d2varenv_add_p3at (p3t)
+| P3Texist
+    (s2vs, p3t) => the_d2varenv_add_p3at(p3t)
+  // P3Texist
 //
-| P3Tvbox (d2v) => the_d2varenv_add_dvar (d2v)
+| P3Tvbox (d2v) => the_d2varenv_add_dvar(d2v)
 //
-| P3Terrpat ((*void*)) => ()
+| P3Terrpat ((*void*)) => ((*ignored*))
 //
 end // end of [the_d2varenv_add_p3at]
 
 implement
 the_d2varenv_add_p3atlst
-  (p3ts) = list_app_fun<p3at> (p3ts, the_d2varenv_add_p3at)
-// end of [the_d2varenv_add_p3atlst]
+  (p3ts) =
+(
+list_app_fun<p3at>(p3ts, the_d2varenv_add_p3at)
+) // end of [the_d2varenv_add_p3atlst]
 
 implement
 the_d2varenv_add_labp3atlst
@@ -510,20 +514,21 @@ the_d2varenv_add_labp3atlst
     xs: labp3atlst
   ) : void =
     case+ xs of
-    | list_cons (x, xs) => let
-        val LABP3AT (l, p3t) = x
-        val () = the_d2varenv_add_p3at (p3t)
-      in
-        loop (xs)
-      end // end of [list_cons]
     | list_nil () => ()
+    | list_cons
+        (x, xs) => loop(xs) where
+      {
+        val LABP3AT(l, p3t) = x
+        val () = the_d2varenv_add_p3at (p3t)
+      } (* end of [list_cons] *)
   // end of [loop]
 } // end of [the_d2varenv_add_labp3atlst]
 
 (* ****** ****** *)
 //
 extern
-fun d2vfin_check
+fun
+d2vfin_check
   (loc0: loc_t, d2v: d2var): void
 //
 (* ****** ****** *)

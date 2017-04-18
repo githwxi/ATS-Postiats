@@ -171,7 +171,7 @@ fun
 p3at_tyer_con
 (
   loc0: location, hse0: hisexp
-, pck: pckind, d2c: d2con, npf: int, p3ts: p3atlst
+, pcknd: pckind, d2c: d2con, npf: int, p3ts: p3atlst
 ) : hipat // end of [p3at_tyer_con]
 //
 extern
@@ -231,10 +231,10 @@ end // end of [d2cst_tyer]
 (* ****** ****** *)
 
 implement
-p3at_tyer (p3t0) = let
+p3at_tyer(p3t0) = let
 //
 val loc0 = p3t0.p3at_loc
-val s2e0 = p3at_get_type (p3t0)
+val s2e0 = p3at_get_type(p3t0)
 val hse0 = s2exp_tyer_shallow (loc0, s2e0)
 //
 (*
@@ -245,31 +245,36 @@ val () = println! ("p3at_tyer: hse0 = ", hse0)
 //
 in
 //
-case+ p3t0.p3at_node of
+case+
+p3t0.p3at_node of
 //
-| P3Tany (d2v) => let
-    val d2v = d2var_tyer (d2v) in hipat_any (loc0, hse0, d2v)
+| P3Tany(d2v) => let
+    val d2v =
+    d2var_tyer(d2v) in hipat_any(loc0, hse0, d2v)
   end (* end of [P3Tvar] *)
-| P3Tvar (d2v) => let
-    val d2v = d2var_tyer (d2v) in hipat_var (loc0, hse0, d2v)
+| P3Tvar(d2v) => let
+    val d2v =
+    d2var_tyer(d2v) in hipat_var(loc0, hse0, d2v)
   end (* end of [P3Tvar] *)
 //
 | P3Tcon
   (
     pck, d2c, npf, p3ts
-  ) => p3at_tyer_con (loc0, hse0, pck, d2c, npf, p3ts)
+  ) => (
+  p3at_tyer_con(loc0, hse0, pck, d2c, npf, p3ts)
+  ) (* end of [P3Tcon] *)
 //
-| P3Tint (i) => hipat_int (loc0, hse0, i)
-| P3Tintrep (rep) => hipat_intrep (loc0, hse0, rep)
+| P3Tint(i) => hipat_int(loc0, hse0, i)
+| P3Tintrep(rep) => hipat_intrep(loc0, hse0, rep)
 //
-| P3Tbool (b) => hipat_bool (loc0, hse0, b)
-| P3Tchar (c) => hipat_char (loc0, hse0, c)
-| P3Tstring (str) => hipat_string (loc0, hse0, str)
+| P3Tbool(b) => hipat_bool(loc0, hse0, b)
+| P3Tchar(c) => hipat_char(loc0, hse0, c)
+| P3Tstring(str) => hipat_string(loc0, hse0, str)
 //
-| P3Ti0nt (tok) => hipat_i0nt (loc0, hse0, tok)
-| P3Tf0loat (tok) => hipat_f0loat (loc0, hse0, tok)
+| P3Ti0nt(tok) => hipat_i0nt(loc0, hse0, tok)
+| P3Tf0loat(tok) => hipat_f0loat(loc0, hse0, tok)
 //
-| P3Tempty () => hipat_empty (loc0, hse0)
+| P3Tempty((*void*)) => hipat_empty(loc0, hse0)
 //
 | P3Tlst
   (
@@ -284,19 +289,21 @@ case+ p3t0.p3at_node of
 //
 | P3Trec
   (
-    knd, npf, lp3ts
+    knd, npf, pck, lp3ts
   ) => let
     val lhips =
-      labp3atlst_npf_tyer (npf, lp3ts)
+      labp3atlst_npf_tyer(npf, lp3ts)
     // end of [val]
-    val lhses = labhipatlst_get_type (lhips)
+    val lhses = labhipatlst_get_type(lhips)
     val recknd =
     (
-      if knd > 0 then TYRECKINDbox() else TYRECKINDflt0()
+      if knd > 0
+        then TYRECKINDbox() else TYRECKINDflt0()
+      // end of [if]
     ) : tyreckind // end of [val]
-    val hse_rec = hisexp_tyrec2 (recknd, lhses)
+    val hse_rec = hisexp_tyrec2(recknd, lhses)
   in
-    hipat_rec2 (loc0, hse0, knd, lhips, hse_rec)
+    hipat_rec2(loc0, hse0, knd, pck, lhips, hse_rec)
   end // end of [P3Trec]
 //
 | P3Trefas
@@ -304,26 +311,26 @@ case+ p3t0.p3at_node of
     val d2v = d2var_tyer (d2v)
     val hip_as = p3at_tyer (p3t_as)
   in
-    hipat_refas (loc0, hse0, d2v, hip_as)
+    hipat_refas(loc0, hse0, d2v, hip_as)
   end // end of [P3Trefas]
 //
 | P3Texist
-    (s2vs, p3t_scoop) => p3at_tyer (p3t_scoop)
+    (s2vs, p3t_scoop) => p3at_tyer(p3t_scoop)
 //
 | P3Tann
     (p3t, s2e_ann) => let
-    val hip = p3at_tyer (p3t)
-    val hse_ann = s2exp_tyer_shallow (loc0, s2e_ann)
+    val hip = p3at_tyer(p3t)
+    val hse_ann = s2exp_tyer_shallow(loc0, s2e_ann)
   in
-    hipat_ann (loc0, hse0, hip, hse_ann)
+    hipat_ann(loc0, hse0, hip, hse_ann)
   end // end of [P3Tann]
 //
-| _ => let
+| _ (* rest-of-p3at *) =>
+    exitloc(1) where
+  {
     val () = println! ("p3at_tyer: loc0 = ", loc0)
     val () = println! ("p3at_tyer: p3t0 = ", p3t0)
-  in
-    exitloc (1)
-  end // end of [_]
+  } // end of [rest-of-p3at]
 //
 end // endof [p3at_tyer]
 

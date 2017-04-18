@@ -274,24 +274,27 @@ case+ p3t.p3at_node of
 | P3Tempty _ => ()
 //
 | P3Trec (
-    knd, npf, lp3ts
+    knd, npf, pck, lp3ts
   ) =>
-    the_pfmanenv_add_labp3atlst (lp3ts)
+    the_pfmanenv_add_labp3atlst(lp3ts)
   // end of [P3Trec]
 | P3Tlst (
     lin, s2e_elt, p3ts
-  ) => the_pfmanenv_add_p3atlst (p3ts)
+  ) => the_pfmanenv_add_p3atlst( p3ts )
 //
-| P3Trefas (d2v, p3t) => {
-    val () = the_pfmanenv_add_dvar (d2v)
-    val () = the_pfmanenv_add_p3at (p3t)
+| P3Trefas
+    (d2v, p3t) => {
+    val () = the_pfmanenv_add_dvar(d2v)
+    val () = the_pfmanenv_add_p3at(p3t)
   } // end of [P3Trefas]
 //
-| P3Texist (s2vs, p3t) => the_pfmanenv_add_p3at (p3t)
+| P3Texist
+    (s2vs, p3t) => the_pfmanenv_add_p3at(p3t)
+  // P3Texist
 //
-| P3Tvbox (d2v) => the_pfmanenv_add_dvar (d2v)
+| P3Tvbox(d2v) => the_pfmanenv_add_dvar(d2v)
 //
-| P3Terrpat ((*void*)) => ()
+| P3Terrpat ((*void*)) => ((*ignore*))
 //
 end // end of [the_pfmanenv_add_p3at]
 

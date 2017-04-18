@@ -92,21 +92,26 @@ hipat_node =
 //
   | HIPempty of () // empty pattern
 //
-  | HIPcon of (* constructor pattern *)
-      (pckind, d2con, hisexp(*tysum*), labhipatlst)
+  | HIPcon of (* con-pattern *)
+    (
+      pckind
+    , d2con, hisexp(*tysum*), labhipatlst(*arg*)
+    ) (* HIPcon *)
   | HIPcon_any of (pckind, d2con) // HX: unused arg
 //
 (*
   | HIPlst of (hisexp(*element*), hipatlst)
 *)
-  | HIPrec of (* record pattern *)
-      (int(*knd*), labhipatlst, hisexp(*tyrec*))
+  | HIPrec of (* rec-pattern *)
+    (
+    int(*knd*), pckind, labhipatlst, hisexp(*tyrec*)
+    ) (* HIPrec *)
 //
   | HIPrefas of (d2var, hipat) // referenced pattern
 //
-  | HIPann of (hipat, hisexp)
+  | HIPann of (hipat, hisexp(*ann*))
 //
-  | HIPerr of () // HX: error indication
+  | HIPerr of ((*placeholder-for-error*)) // HX: error indication
 // end of [hipat_node]
 
 and labhipat = LABHIPAT of (label, hipat)
@@ -211,12 +216,14 @@ fun hipat_lst
 fun
 hipat_rec (
   loc: loc_t
-, hse: hisexp, knd: int, lhips: labhipatlst, hse_rec: hisexp
+, hse: hisexp
+, knd: int, pck: pckind, lhips: labhipatlst, hse_rec: hisexp
 ) : hipat // end of [hipat_rec]
 fun
 hipat_rec2 (
   loc: loc_t
-, hse: hisexp, knd: int, lhips: labhipatlst, hse_rec: hisexp
+, hse: hisexp
+, knd: int, pck: pckind, lhips: labhipatlst, hse_rec: hisexp
 ) : hipat // end of [hipat_rec2]
 
 (* ****** ****** *)
