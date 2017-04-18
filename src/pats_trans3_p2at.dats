@@ -1225,13 +1225,21 @@ s2e.s2exp_node of
     val () =
     if (isbox != isbox1) then
     {
-      val () = prerr_error3_loc (loc0)
-      val () = prerr ": the tuple/record pattern is "
-      val () = if isbox then prerr "boxed but it is assigned a flat/unboxed type."
-      val () = if ~isbox then prerr "flat/unboxed but it is assigned a boxed type."
+      val () =
+      prerr_error3_loc (loc0)
+      val () =
+      prerr ": the tuple/record pattern is "
+      val () =
+      if isbox then prerr "boxed but it is assigned a flat/unboxed type."
+      val () =
+      if ~isbox then prerr "flat/unboxed but it is assigned a boxed type."
       val () = prerr_newline ()
-      val s2e0 = s2hnf2exp (s2f0)
-      val () = the_trans3errlst_add(T3E_p2at_trdn(p2t0, s2e0))
+//
+      val
+      s2e0 = s2hnf2exp (s2f0)
+      val ((*void*)) =
+      the_trans3errlst_add(T3E_p2at_trdn(p2t0, s2e0))
+//
     } (* end of [val] *)
     val
     nerr =
@@ -1246,7 +1254,7 @@ s2e.s2exp_node of
 //
       val
       s2e0 = s2hnf2exp(s2f0)
-      val () =
+      val ((*void*)) =
       the_trans3errlst_add(T3E_p2at_trdn(p2t0, s2e0))
     } // end of [val]
 //
@@ -1259,7 +1267,7 @@ s2e.s2exp_node of
     {
       val
       s2e0 = s2hnf2exp(s2f0)
-      val () =
+      val ((*void*)) =
       the_trans3errlst_add(T3E_p2at_trdn(p2t0, s2e0))
     } // end of [val]
 //
@@ -1281,7 +1289,8 @@ s2e.s2exp_node of
     prerrln! (": the tuple/record pattern is ill-typed.")
 //
     val s2e0 = s2hnf2exp(s2f0)
-    val ((*void*)) = the_trans3errlst_add(T3E_p2at_trdn(p2t0, s2e0))
+    val ((*void*)) =
+    the_trans3errlst_add(T3E_p2at_trdn(p2t0, s2e0))
 //
   } // end of [rest-of-p2at]
 //
