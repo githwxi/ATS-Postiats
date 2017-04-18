@@ -555,12 +555,22 @@ case+ x.primval_node of
 //
 | PMVlamfix (knd, pmv) =>
   {
-    val () = prstr "PMVlamfix("
-    val () = prstr "knd="
-    val () = fprint_int (out, knd)
-    val () = prstr "; fun="
-    val () = fprint_primval (out, pmv)
-    val () = prstr ")"
+//
+    val () =
+    prstr "PMVlamfix("
+//
+    val () =
+    (
+      case+ knd of
+      | None() =>
+        fprint! (out, "knd=lam")
+      | Some(d2v) =>
+        fprint! (out, "knd=fix(", d2v, ")")
+    ) : void // end of [val]
+//
+    val () =
+    fprint! (out, "; fun=", pmv, ")")
+//
   }
 //
 | PMVtmpltcst
@@ -1238,9 +1248,9 @@ case+ x.instr_node of
   } (* end of [INSupdate_ptrdec] *)
 //
 | INSclosure_initize
-    (tmp, flab) => {
+    (tmp, knd, flab) => {
     val () = prstr "INSclosure_initize("
-    val () = fprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar(out, tmp)
     val () = prstr " <- "
     val () = fprint_funlab (out, flab)
     val ((*closing*)) = prstr ")"

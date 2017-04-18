@@ -837,28 +837,29 @@ end // end of [local]
 
 local
 
-fun auxfun
+fun
+auxfun
 (
   out: FILEref, fent: funent
 ) : void = let
 //
-val flab = funent_get_lab (fent)
-val istmp = (funlab_get_tmpknd (flab) > 0)
+val flab = funent_get_lab(fent)
+val istmp = (funlab_get_tmpknd(flab) > 0)
 //
-val qopt = funlab_get_d2copt (flab)
+val qopt = funlab_get_d2copt(flab)
 val isqua =
 (
-  case+ qopt of Some (d2c) => true | None () => false
+  case+ qopt of Some(d2c) => true | None() => false
 ) : bool // end of [val]
 val isext =
 (
 case+ qopt of
 | Some (d2c) =>
-    if $D2E.d2cst_is_static (d2c) then false else true
+    if $D2E.d2cst_is_static(d2c) then false else true
 | None _ => false
 ) : bool // end of [val]
 //
-val flopt = funlab_get_origin (flab)
+val flopt = funlab_get_origin(flab)
 val isqua =
 (
   case+ flopt of Some _ => false | None () => isqua

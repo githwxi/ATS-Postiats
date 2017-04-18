@@ -513,7 +513,8 @@ local
 
 fun
 auxinit
-  {n:nat} .<n>. (
+{n:nat} .<n>.
+(
   env: !ccompenv, lvl0: int
 , decarg: s2qualst, hfds: list (hifundec, n), i: int
 ) : list (funlab, n) = let
@@ -521,7 +522,7 @@ in
 //
 case+ hfds of
 | list_nil
-    ((*void*)) => list_nil ()
+    ((*void*)) => list_nil()
 | list_cons
     (hfd, hfds) => let
 //
@@ -536,48 +537,52 @@ case+ hfds of
 *)
 //
     val () =
-      $D2E.d2var_set_level (d2v, lvl0)
+      $D2E.d2var_set_level(d2v, lvl0)
     // end of [val]
-    val-Some(hse) = d2var_get2_hisexp (d2v)
+    val-Some(hse) = d2var_get2_hisexp(d2v)
     val fcopt = None_vt() // HX: by [hse]
 //
     val flab =
-      funlab_make_dvar_type (d2v, hse, fcopt)
+      funlab_make_dvar_type(d2v, hse, fcopt)
     // end of [val]
 //
 // HX: only the first fnx-decl is added!!!
 //
-    val () = (
-      if i <= 1 then the_funlablst_add (flab)
+    val () =
+    (
+    if i <= 1 then the_funlablst_add(flab)
+    // end of [if]
     ) : void // end of [val]
 //
-    val tmplev = ccompenv_get_tmplevel (env)
+    val tmplev = ccompenv_get_tmplevel(env)
+//
     val pmv = (
       if tmplev = 0
-        then primval_make_funlab (loc, flab)
-        else primval_make_d2vfunlab (loc, d2v, flab)
+        then primval_make_funlab(loc, flab)
+        else primval_make_d2vfunlab(loc, d2v, flab)
       // end of [if]
     ) : primval // end of [val]
 //
-    val () = ccompenv_add_vbindmapenvall (env, d2v, pmv)
+    val ((*void*)) =
+      ccompenv_add_vbindmapenvall(env, d2v, pmv)
 //
     val istmp = (
       if tmplev > 0
-        then true else list_is_cons (decarg)
+        then true else list_is_cons(decarg)
       // end of [if]
     ) : bool // end of [val]
-    val () = if istmp then funlab_set_tmpknd (flab, 1)
+    val () = if istmp then funlab_set_tmpknd(flab, 1)
 //
     val () = (
       case+ decarg of
-      | list_cons _ => ccompenv_add_fundec (env, hfd)
-      | list_nil () => ()
+      | list_nil _ => ()
+      | list_cons _ => ccompenv_add_fundec(env, hfd)
     ) : void // end of [val]
 //
     val i2 = (if i >= 1 then i + 1 else i): int
     val flabs = auxinit (env, lvl0, decarg, hfds, i2)
   in
-    list_cons (flab, flabs)
+    list_cons(flab, flabs)
   end // end of [list_cons]
 //
 end // end of [auxinit]
@@ -588,9 +593,8 @@ fun
 auxmain
   {n:nat} .<n>.
 (
-  env: !ccompenv
-, decarg: s2qualst
-, hfds: list (hifundec, n), flabs: list (funlab, n), i: int
+  env: !ccompenv, decarg: s2qualst
+, hfds: list(hifundec, n), flabs: list(funlab, n), i: int
 ) : void = let
 in
 //
@@ -625,20 +629,24 @@ case+ hfds of
         val ((*exit*)) = exitloc(1)
       } (* end of [non-HDElam] *)
 //
-    val-HDElam(knd, hips_arg, hde_body) = hde_def.hidexp_node
+    val-
+    HDElam
+    (
+    knd, hips_arg, hde_body
+    ) = hde_def.hidexp_node
 //
-    val+list_cons (flab, flabs) = flabs
+    val+list_cons(flab, flabs) = flabs
 //
     val () = (
-      if i = 0
-        then ccompenv_inc_tailcalenv (env, flab)
-      // end of [if]
+    if i = 0 then
+      ccompenv_inc_tailcalenv(env, flab)
+    // end of [if]
     ) // end of [val]
 //
     val
-    istmp = list_is_cons (decarg)
+    istmp = list_is_cons(decarg)
     val () =
-      if istmp then ccompenv_inc_tmplevel (env)
+    if istmp then ccompenv_inc_tmplevel(env)
     // end of [val]
 //
     val
@@ -654,9 +662,9 @@ case+ hfds of
     ) // end of [fcall] // end of [val]
 //
     val () =
-      if istmp then ccompenv_dec_tmplevel (env)
+      if istmp then ccompenv_dec_tmplevel(env)
     val () =
-      if i = 0 then ccompenv_dec_tailcalenv (env)
+      if i = 0 then ccompenv_dec_tailcalenv(env)
 //
     val () =
       if i > 0 then
@@ -665,14 +673,14 @@ case+ hfds of
     // end of [val]
 //
     val () =
-      hifundec_set_funlabopt (hfd, Some (flab))
+      hifundec_set_funlabopt(hfd, Some(flab))
     // end of [val]
-    val () = funlab_set_funent (flab, Some(fent))
+    val () = funlab_set_funent(flab, Some(fent))
 //
     val i2 = (if i >= 1 then i + 1 else i): int
 //
   in
-    auxmain (env, decarg, hfds, flabs, i2)
+    auxmain(env, decarg, hfds, flabs, i2)
   end // end of [let] // end of [list_cons]
 //
 end // end of [auxmain]

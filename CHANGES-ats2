@@ -25,7 +25,9 @@ Here is a list of major additions and changes since the last release:
 1. Fixing a bug in atscc2js that prevented certain compound patterns
    from being handled correctly. Should this be done to other atsccomp
    compilers?
-
+2. Fixing a bug in compiling a fix-function defined inside a template.
+   Please see bug-2017-04-17.
+  
 ######
 
 0.3.4

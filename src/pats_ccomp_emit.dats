@@ -807,38 +807,38 @@ fun auxtmp
   out: FILEref, tmp: tmpvar
 ) : void = let
 //
-val knd = tmpvar_get_topknd (tmp)
+val knd = tmpvar_get_topknd(tmp)
 //
 val () =
 (
   case+ 0 of
-  | _ when knd = 0 => emit_tmp (out) // local
-  | _ (*(static)top*) => emit_statmp (out) // toplevel
+  | _ when knd = 0 => emit_tmp(out) // local
+  | _ (*(static)top*) => emit_statmp(out) // toplevel
 ) : void // end of [val]
 //
-val isref = tmpvar_isref (tmp)
-val () = if isref then emit_text (out, "ref")
-val isret = tmpvar_isret (tmp)
-val () = if isret then emit_text (out, "ret")
+val isref = tmpvar_isref(tmp)
+val () = if isref then emit_text(out, "ref")
+val isret = tmpvar_isret(tmp)
+val () = if isret then emit_text(out, "ret")
 //
-val opt = tmpvar_get_origin (tmp)
+val opt = tmpvar_get_origin(tmp)
 //
 in
 //
 case+ opt of
 //
-| Some (tmpp) => let
+| Some(tmpp) => let
     val sfx = tmpvar_get_suffix (tmp)
     val stmp = tmpvar_get_stamp (tmpp)
-    val () = $STMP.fprint_stamp (out, stmp)
-    val () = fprintf (out, "__%i", @(sfx))
+    val ((*void*)) = $STMP.fprint_stamp(out, stmp)
+    val ((*void*)) = fprintf (out, "__%i", @(sfx))
   in
     // nothing
   end // end of [Some]
 //
-| None () => let
-    val stmp = tmpvar_get_stamp (tmp)
-    val () = $STMP.fprint_stamp (out, stmp)
+| None((*void*)) => let
+    val stmp = tmpvar_get_stamp(tmp)
+    val ((*void*)) = $STMP.fprint_stamp(out, stmp)
   in
     // nothing
   end // end of [None]
@@ -883,9 +883,13 @@ val tmpknd =
 val () =
 if tmpknd > 0 then
 {
+//
   val () = emit_text (out, "__")
-  val stamp = funlab_get_stamp (flab)
-  val () = $STMP.fprint_stamp (out, stamp)
+//
+  val
+  stamp = funlab_get_stamp(flab)
+  val () = $STMP.fprint_stamp(out, stamp)
+//
 } (* end of [if] *) // end of [val]
 //
 in
@@ -898,16 +902,20 @@ implement
 emit_funlab
   (out, flab) = let
 //
-val opt = funlab_get_origin (flab)
+val
+opt = funlab_get_origin(flab)
+//
 val () = (
   case+ opt of
   | Some (
      flab_1 // origin
-    ) => emit_funlab (out, flab_1)
-  | None () => auxmain (out, flab)
+    ) => emit_funlab(out, flab_1)
+  | None () => auxmain(out, flab)
 ) // end of [val]
-val sfx = funlab_get_suffix (flab)
-val () = if sfx > 0 then fprintf (out, "__%i", @(sfx))
+//
+val sfx = funlab_get_suffix(flab)
+val ((*void*)) =
+  if sfx > 0 then fprintf(out, "__%i", @(sfx))
 //
 in
   // nothing
@@ -917,14 +925,15 @@ implement
 emit2_funlab
   (out, flab) = let
 //
-val qopt = funlab_get_d2copt (flab)
+val qopt = funlab_get_d2copt(flab)
+//
 val name = (
   case+ qopt of
-  | Some (d2c) => $D2E.d2cst_get_name (d2c)
-  | None ((*void*)) => funlab_get_name (flab)
+  | Some (d2c) => $D2E.d2cst_get_name(d2c)
+  | None ((*void*)) => funlab_get_name(flab)
 ) : string // end of [val]
 //
-val ((*void*)) = emit_ident (out, name)
+val ((*void*)) = emit_ident(out, name)
 //
 in
   // nothing
@@ -2125,7 +2134,7 @@ ins.instr_node of
   } // end of [INSupdate_ptrdec]
 //
 | INSclosure_initize
-    (tmp, flab) => {
+    (tmp, knd, flab) => {
     val-Some(fent) =
       funlab_get_funent (flab)
     val d2es =

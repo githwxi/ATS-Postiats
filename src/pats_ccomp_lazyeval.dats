@@ -76,16 +76,23 @@ val fent = let
   val ins = instr_funlab (loc0, flab)
   val prolog = list_sing (ins)
 in
-  hidexp_ccomp_funlab_arg_body
-    (env, flab, imparg, tmparg, prolog, loc0, list_nil, hde)
-  // end of [hidexp_ccomp_funlab_arg_body]
+//
+hidexp_ccomp_funlab_arg_body
+  (env, flab, imparg, tmparg, prolog, loc0, list_nil, hde)
+// end of [hidexp_ccomp_funlab_arg_body]
+//
 end // end of [val]
 val () = funlab_set_funent (flab, Some(fent))
 //
 val () = ccompenv_dec_tailcalenv (env)
 //
-val pmv0_thk = primval_lamfix (0(*lam*), pmv0)
-val ins = instr_move_delay (loc0, tmpret, 0(*lin*), hse_res, pmv0_thk)
+val
+pmv0_tk =
+primval_lamfix(None(*lam*), pmv0)
+//
+val ins =
+instr_move_delay(loc0, tmpret, 0(*lin*), hse_res, pmv0_tk)
+//
 val ((*void*)) = instrseq_add (res, ins)
 //
 in
@@ -130,16 +137,24 @@ val fent = let
   val ins = instr_funlab (loc0, flab)
   val prolog = list_sing (ins)
 in
-  hidexp_ccomp_funlab_arg_body
-    (env, flab, imparg, tmparg, prolog, loc0, hips_arg, hde12_body)
-  // end of [hidexp_ccomp_funlab_arg_body]
+//
+hidexp_ccomp_funlab_arg_body
+( env, flab
+, imparg, tmparg, prolog, loc0, hips_arg, hde12_body
+) // end of [hidexp_ccomp_funlab_arg_body]
+//
 end // end of [val]
 val () = funlab_set_funent (flab, Some(fent))
 //
 val () = ccompenv_dec_tailcalenv (env)
 //
-val pmv0_thk = primval_lamfix (0(*lam*), pmv0)
-val ins = instr_move_delay (loc0, tmpret, 1(*lin*), hse_res, pmv0_thk)
+val
+pmv0_tk =
+primval_lamfix (None(*lam*), pmv0)
+//
+val ins =
+instr_move_delay(loc0, tmpret, 1(*lin*), hse_res, pmv0_tk)
+//
 val ((*void*)) = instrseq_add (res, ins)
 //
 in

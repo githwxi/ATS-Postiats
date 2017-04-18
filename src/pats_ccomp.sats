@@ -643,7 +643,7 @@ and primval_node =
 //
   | PMVd2vfunlab of (d2var, funlab) // for fundecloc reloc
 //
-  | PMVlamfix of (int(*knd*), primval) // knd=0/1:lam/fix
+  | PMVlamfix of (d2varopt(*knd*), primval) // knd=0/1:lam/fix
 //
   | PMVtmpltcst of
       (d2cst, t2mpmarglst) // for template constants
@@ -1016,7 +1016,7 @@ primval_d2vfunlab
 (* ****** ****** *)
 
 fun
-primval_lamfix (knd: int, pmv_funval: primval): primval
+primval_lamfix(knd: d2varopt, pmv_funval: primval): primval
 
 (* ****** ****** *)
 //
@@ -1275,7 +1275,7 @@ instr_node =
   | INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
   | INSupdate_ptrdec of (tmpvar, hisexp(*elt*))
 //
-  | INSclosure_initize of (tmpvar, funlab)
+  | INSclosure_initize of (tmpvar, d2varopt(*knd:lam/fix*), funlab)
 //
   | INStmpdec of (tmpvar) // HX-2013-01: this is a no-op
 //
@@ -1432,15 +1432,18 @@ fun instr_move_ref
 
 (* ****** ****** *)
 
-fun instr_move_boxrec
+fun
+instr_move_boxrec
 (
   loc: loc_t, tmp: tmpvar, arg: labprimvalist, hse: hisexp
 ) : instr // end of [instr_move_boxrec]
-fun instr_move_fltrec
+fun
+instr_move_fltrec
 (
   loc: loc_t, tmp: tmpvar, arg: labprimvalist, hse: hisexp
 ) : instr // end of [instr_move_fltrec]
-fun instr_move_fltrec2
+fun
+instr_move_fltrec2
 (
   loc: loc_t, tmp: tmpvar, arg: labprimvalist, hse: hisexp
 ) : instr // end of [instr_move_fltrec2]
@@ -1454,22 +1457,29 @@ fun instr_patck
   
 (* ****** ****** *)
 
-fun instr_move_selcon (
+fun
+instr_move_selcon
+(
   loc: loc_t
 , tmp: tmpvar, hse: hisexp, pmv: primval, hse_sum: hisexp, lab: label
 ) : instr // end of [instr_move_selcon]
-fun instr_move_select (
+fun
+instr_move_select
+(
   loc: loc_t
 , tmp: tmpvar, hse: hisexp, pmv: primval, hse_rt: hisexp, pml: primlab
 ) : instr // end of [instr_move_select]
-fun instr_move_select2 (
+fun
+instr_move_select2
+(
   loc: loc_t
 , tmp: tmpvar, hse: hisexp, pmv: primval, hse_rt: hisexp, pmls: primlablst
 ) : instr // end of [instr_move_select2]
 
 (* ****** ****** *)
 
-fun instr_move_ptrofsel
+fun
+instr_move_ptrofsel
 (
   loc: loc_t, tmp: tmpvar
 , pmv: primval, hse_rt: hisexp, pmls: primlablst
@@ -1487,14 +1497,16 @@ fun instr_load_ptrofs
 
 (* ****** ****** *)
 
-fun instr_store_ptrofs
+fun
+instr_store_ptrofs
 (
   loc: loc_t
 , pmv_l: primval, hse_rt: hisexp, pmls: primlablst
 , pmv_r: primval
 ) : instr // end of [instr_store_ptrofs]
 
-fun instr_xstore_ptrofs
+fun
+instr_xstore_ptrofs
 (
   loc: loc_t, tmp: tmpvar
 , pmv_l: primval, hse_rt: hisexp, pmls: primlablst
@@ -1503,77 +1515,99 @@ fun instr_xstore_ptrofs
 
 (* ****** ****** *)
 
-fun instr_raise
+fun
+instr_raise
 (
   loc: loc_t, tmp: tmpvar, pmv_exn: primval
 ) : instr // end of [instr_raise]
 
 (* ****** ****** *)
 
-fun instr_move_delay
+fun
+instr_move_delay
 (
   loc: loc_t, tmp: tmpvar, lin: int, hse: hisexp, thunk: primval
 ) : instr // end of [instr_move_delay]
 
-fun instr_move_lazyeval
+fun
+instr_move_lazyeval
 (
   loc: loc_t, tmp: tmpvar, lin: int, hse: hisexp, pmv_lazy: primval
 ) : instr // end of [instr_move_lazyeval]
 
 (* ****** ****** *)
 
-fun instr_trywith
+fun
+instr_trywith
 (
   loc: loc_t
 , tmp(*exn*): tmpvar, _try: instrlst, _with: ibranchlst
 ) : instr // end of [instr_trywith]
 
 (* ****** ****** *)
-
-fun instr_move_list_nil
+//
+fun
+instr_move_list_nil
   (loc: loc_t, tmp: tmpvar): instr
-fun instr_pmove_list_nil
+fun
+instr_pmove_list_nil
   (loc: loc_t, tmp: tmpvar): instr
-fun instr_pmove_list_cons
+fun
+instr_pmove_list_cons
   (loc: loc_t, tmp: tmpvar, elt: hisexp): instr
-
+//
 (* ****** ****** *)
-
-fun instr_move_list_phead
+//
+fun
+instr_move_list_phead
   (loc: loc_t, tmphd: tmpvar, tmptl: tmpvar, elt: hisexp): instr
-fun instr_move_list_ptail
+fun
+instr_move_list_ptail
   (loc: loc_t, tl_new: tmpvar, tl_old: tmpvar, elt: hisexp): instr
-
+//
 (* ****** ****** *)
 
 fun instr_move_arrpsz_ptr
   (loc: loc_t, tmp: tmpvar, psz: tmpvar): instr
 
 (* ****** ****** *)
-
-fun instr_store_arrpsz_asz
+//
+fun
+instr_store_arrpsz_asz
   (loc: loc_t, tmp: tmpvar, asz: int) : instr
-fun instr_store_arrpsz_ptr (
+//
+fun
+instr_store_arrpsz_ptr
+(
   loc: loc_t, tmp: tmpvar, hse_elt: hisexp, asz: int
 ) : instr // end of [instr_store_arrpsz_asz]
-
-(* ****** ****** *)
-
-fun instr_update_ptrinc
-  (loc: loc_t, tmpelt: tmpvar, hse_elt: hisexp): instr
-// end of [instr_update_ptrinc]
-fun instr_update_ptrdec
-  (loc: loc_t, tmpelt: tmpvar, hse_elt: hisexp): instr
-// end of [instr_update_ptrdec]
-
-(* ****** ****** *)
-//
-fun instr_closure_initize
-  (loc: loc_t, tmpret: tmpvar, flab: funlab): instr
 //
 (* ****** ****** *)
+//
+fun
+instr_update_ptrinc
+(
+  loc: loc_t, tmpelt: tmpvar, hse_elt: hisexp
+) : instr // end of [instr_update_ptrinc]
+fun
+instr_update_ptrdec
+(
+  loc: loc_t, tmpelt: tmpvar, hse_elt: hisexp
+) : instr // end of [instr_update_ptrdec]
+//
+(* ****** ****** *)
+//
+fun
+instr_closure_initize
+(
+  loc: loc_t
+, tmpret: tmpvar, knd: d2varopt(*lam/fix*), flab: funlab
+) : instr // end of [instr_closure_initize]
+//
+(* ****** ****** *)
 
-fun instr_tmpdec (loc: loc_t, tmp: tmpvar): instr
+fun
+instr_tmpdec(loc: loc_t, tmp: tmpvar): instr
 
 (* ****** ****** *)
 //

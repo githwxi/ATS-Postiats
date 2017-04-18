@@ -372,7 +372,7 @@ primval_select2
 implement
 primval_selptr
   (loc, hse, pmv, hse_rt, pmls) =
-  primval_make_node (loc, hse, PMVselptr (pmv, hse_rt, pmls))
+  primval_make_node(loc, hse, PMVselptr (pmv, hse_rt, pmls))
 // end of [primval_selptr]
 
 (* ****** ****** *)
@@ -380,22 +380,24 @@ primval_selptr
 implement
 primval_ptrof
   (loc, hse, pmv) =
-  primval_make_node (loc, hse, PMVptrof (pmv))
+  primval_make_node(loc, hse, PMVptrof(pmv))
 // end of [primval_ptrof]
 
 implement
-primval_ptrofsel (
+primval_ptrofsel
+(
   loc, hse, pmv, hse_rt, pmls
 ) =
-  primval_make_node (loc, hse, PMVptrofsel (pmv, hse_rt, pmls))
-// end of [primval_ptrofsel]
+(
+  primval_make_node(loc, hse, PMVptrofsel(pmv, hse_rt, pmls))
+) // end of [primval_ptrofsel]
 
 (* ****** ****** *)
 
 implement
 primval_refarg
   (loc, hse, knd, freeknd, pmv) =
-  primval_make_node (loc, hse, PMVrefarg (knd, freeknd, pmv))
+  primval_make_node(loc, hse, PMVrefarg(knd, freeknd, pmv))
 // end of [primval_refarg]
 
 (* ****** ****** *)
@@ -403,13 +405,13 @@ primval_refarg
 implement
 primval_funlab
   (loc, hse, fl) =
-  primval_make_node (loc, hse, PMVfunlab (fl))
+  primval_make_node(loc, hse, PMVfunlab(fl))
 // end of [primval_funlab]
 
 implement
 primval_cfunlab
   (loc, hse, knd, fl) =
-  primval_make_node (loc, hse, PMVcfunlab (knd, fl))
+  primval_make_node(loc, hse, PMVcfunlab(knd, fl))
 // end of [primval_cfunlab]
 
 (* ****** ****** *)
@@ -417,7 +419,7 @@ primval_cfunlab
 implement
 primval_d2vfunlab
   (loc, hse, d2v, fl) =
-  primval_make_node (loc, hse, PMVd2vfunlab (d2v, fl))
+  primval_make_node(loc, hse, PMVd2vfunlab(d2v, fl))
 // end of [primval_d2vfunlab]
 
 (* ****** ****** *)
@@ -430,7 +432,7 @@ val loc = pmv_funval.primval_loc
 val hse = pmv_funval.primval_type
 //
 in
-  primval_make_node (loc, hse, PMVlamfix (knd, pmv_funval))
+  primval_make_node(loc, hse, PMVlamfix(knd, pmv_funval))
 end // end of [primval_lamfix]
 
 (* ****** ****** *)
@@ -438,12 +440,12 @@ end // end of [primval_lamfix]
 implement
 primval_tmpltcst
   (loc, hse, d2c, t2mas) =
-  primval_make_node(loc, hse, PMVtmpltcst (d2c, t2mas))
+  primval_make_node(loc, hse, PMVtmpltcst(d2c, t2mas))
 // end of [primval_tmpltcst]
 implement
 primval_tmpltvar
   (loc, hse, d2v, t2mas) =
-  primval_make_node(loc, hse, PMVtmpltvar (d2v, t2mas))
+  primval_make_node(loc, hse, PMVtmpltvar(d2v, t2mas))
 // end of [primval_tmpltvar]
 
 (* ****** ****** *)
@@ -451,16 +453,16 @@ primval_tmpltvar
 implement
 primval_tmpltcstmat
   (loc, hse, d2c, t2mas, mat) =
-  primval_make_node
-    (loc, hse, PMVtmpltcstmat (d2c, t2mas, mat))
-// end of [primval_tmpltcstmat]
+(
+primval_make_node(loc, hse, PMVtmpltcstmat(d2c, t2mas, mat))
+) // end of [primval_tmpltcstmat]
 //
 implement
 primval_tmpltvarmat
   (loc, hse, d2v, t2mas, mat) =
-  primval_make_node
-    (loc, hse, PMVtmpltvarmat (d2v, t2mas, mat))
-// end of [primval_tmpltvarmat]
+(
+primval_make_node(loc, hse, PMVtmpltvarmat(d2v, t2mas, mat))
+) // end of [primval_tmpltvarmat]
 //
 (* ****** ****** *)
 //
@@ -934,38 +936,43 @@ instr_store_arrpsz_asz
 implement
 instr_store_arrpsz_ptr
   (loc, tmp, hse_elt, asz) =
-  instr_make_node
-  (loc, INSstore_arrpsz_ptr (tmp, hse_elt, asz))
-// end of [instr_store_arrpsz_ptr]
+(
+instr_make_node
+(
+loc, INSstore_arrpsz_ptr(tmp, hse_elt, asz)
+)
+) // end of [instr_store_arrpsz_ptr]
 
 (* ****** ****** *)
 
 implement
 instr_update_ptrinc
   (loc, tmpelt, hse_elt) =
-  instr_make_node (loc, INSupdate_ptrinc (tmpelt, hse_elt))
+  instr_make_node
+  (loc, INSupdate_ptrinc (tmpelt, hse_elt))
 // end of [instr_update_ptrinc]
 
 implement
 instr_update_ptrdec
   (loc, tmpelt, hse_elt) =
-  instr_make_node (loc, INSupdate_ptrdec (tmpelt, hse_elt))
+  instr_make_node
+  (loc, INSupdate_ptrdec (tmpelt, hse_elt))
 // end of [instr_update_ptrdec]
 
 (* ****** ****** *)
 //
 implement
 instr_closure_initize
-  (loc, tmpret, flab) =
+  (loc, tmpret, knd, flab) =
   instr_make_node
-  (loc, INSclosure_initize (tmpret, flab))
+  (loc, INSclosure_initize(tmpret, knd, flab))
 //
 (* ****** ****** *)
 
 implement
 instr_tmpdec
   (loc, tmp) =
-  instr_make_node(loc, INStmpdec (tmp))
+  instr_make_node(loc, INStmpdec(tmp))
 // end of [instr_tmpdec]
 
 (* ****** ****** *)

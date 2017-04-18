@@ -132,14 +132,14 @@ implement
 primval_make2_funlab
   (loc, hse0, fl) = let
 //
-val hse = funlab_get_type (fl)
-val funclo = funlab_get_funclo (fl)
+val hse = funlab_get_type(fl)
+val funclo = funlab_get_funclo(fl)
 //
 in
 //
 case+ funclo of
-| FUNCLOfun () => primval_funlab (loc, hse0, fl)
-| FUNCLOclo (knd) => primval_cfunlab (loc, hse0, knd, fl)
+| FUNCLOfun() => primval_funlab(loc, hse0, fl)
+| FUNCLOclo(knd) => primval_cfunlab(loc, hse0, knd, fl)
 //
 end // end of [primval_make2_funlab]
 
@@ -148,14 +148,14 @@ end // end of [primval_make2_funlab]
 implement
 primval_make_d2vfunlab
   (loc, d2v, fl) = let
-  val hse = funlab_get_type (fl) in primval_d2vfunlab (loc, hse, d2v, fl)
+  val hse = funlab_get_type(fl) in primval_d2vfunlab(loc, hse, d2v, fl)
 end // end of [primval_make_d2vfunlab]
 
 (* ****** ****** *)
 
 implement
-patckont_is_none (fail) =
-  case+ fail of PTCKNTnone () => true | _ => false
+patckont_is_none(fail) =
+  case+ fail of PTCKNTnone() => true | _ => false
 // end of [patckont_is_none]
 
 (* ****** ****** *)
