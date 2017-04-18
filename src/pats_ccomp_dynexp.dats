@@ -1903,7 +1903,8 @@ extern
 fun
 hidexp_ccomp_lam_flab
 (
-  env: !ccompenv, res: !instrseq, hde0: hidexp, flab: funlab
+  env: !ccompenv
+, res: !instrseq, hde0: hidexp, flab: funlab
 ) : void // end of [hidexp_ccomp_lam_flab]
 
 (* ****** ****** *)
@@ -1913,12 +1914,18 @@ hidexp_ccomp_lam_flab
   (env, res, hde0, flab) = let
 //
 val loc0 = hde0.hidexp_loc
-val-HDElam (knd, hips_arg, hde_body) = hde0.hidexp_node
 //
-val () = ccompenv_inc_tailcalenv (env, flab)
+val-
+HDElam
+(knd, hips_arg, hde_body) = hde0.hidexp_node
 //
-val tmplev = ccompenv_get_tmplevel (env)
-val () = if tmplev > 0 then funlab_set_tmpknd (flab, 1)
+val () =
+ccompenv_inc_tailcalenv(env, flab)
+//
+val
+tmplev = ccompenv_get_tmplevel(env)
+val () =
+if tmplev > 0 then funlab_set_tmpknd(flab, 1)
 //
 val fent = let
   val imparg = list_nil(*s2vs*)
@@ -1930,9 +1937,9 @@ in
     (env, flab, imparg, tmparg, prolog, loc0, hips_arg, hde_body)
   // end of [hidexp_ccomp_funlab_arg_body]
 end // end of [val]
-val () = funlab_set_funent (flab, Some(fent))
+val () = funlab_set_funent(flab, Some(fent))
 //
-val () = ccompenv_dec_tailcalenv (env)
+val () = ccompenv_dec_tailcalenv(env)
 //
 (*
 val out = stdout_ref
@@ -1955,15 +1962,15 @@ hidexp_ccomp_lam
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val flab = funlab_make_type (hse0)
-val pmv0 = primval_make_funlab (loc0, flab)
+val flab = funlab_make_type(hse0)
+val pmv0 = primval_make_funlab(loc0, flab)
 //
-val () = the_funlablst_add (flab)
-val () = ccompenv_add_flabsetenv (env, flab)
-val () = hidexp_ccomp_lam_flab (env, res, hde0, flab)
+val () = the_funlablst_add(flab)
+val () = ccompenv_add_flabsetenv(env, flab)
+val () = hidexp_ccomp_lam_flab(env, res, hde0, flab)
 //
 in
-  primval_lamfix (None(*lam*), pmv0)
+  primval_lamfix(None(*lam*), pmv0)
 end // end of [hidexp_ccomp_lam]
 
 (* ****** ****** *)
@@ -1974,18 +1981,27 @@ hidexp_ccomp_fix
 //
 val loc0 = hde0.hidexp_loc
 //
-val-HDEfix(knd, f_d2v, hde_def) = hde0.hidexp_node
+val-
+HDEfix
+(knd, f_d2v, hde_def) = hde0.hidexp_node
 //
 val hse = hde_def.hidexp_type
-val flab = funlab_make_type (hse)
+val flab = funlab_make_type(hse)
 //
-(*
 val
-pmv0 = primval_make_funlab(loc0, flab)
-*)
+pmv0 = let
+//
 val
-pmv0 =
-primval_make_d2vfunlab(loc0, f_d2v, flab)
+tmplev = ccompenv_get_tmplevel(env)
+//
+in
+//
+if
+(tmplev = 0)
+then primval_make_funlab(loc0, flab)
+else primval_make_d2vfunlab(loc0, f_d2v, flab)
+//
+end : primval // end of [val]
 //
 val () = the_funlablst_add(flab)
 //
@@ -2070,13 +2086,20 @@ funlab_make_dvar_type
 val () = the_funlablst_add(flab)
 val () = ccompenv_add_flabsetenv(env, flab)
 //
-(*
 val
-pmv0 = primval_funlab(loc, hse, flab)
-*)
+pmv0 = let
+//
 val
-pmv0 =
-primval_make_d2vfunlab(loc, f_d2v, flab)
+tmplev = ccompenv_get_tmplevel(env)
+//
+in
+//
+if
+(tmplev = 0)
+then primval_funlab(loc, hse, flab)
+else primval_make_d2vfunlab(loc, f_d2v, flab)
+//
+end : primval // end of [val]
 //
 val () =
 ccompenv_add_vbindmapenvall(env, f_d2v, pmv0)

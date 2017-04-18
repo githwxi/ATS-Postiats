@@ -1273,7 +1273,7 @@ s2e.s2exp_node of
 //
     val pck =
     (
-      if islin then PCKfree() else PCKcon()
+      if (isbox && islin) then PCKfree() else PCKcon()
     ) : pckind // end of [val]
 //
   in

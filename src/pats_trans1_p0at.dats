@@ -179,24 +179,37 @@ val loc0 = p0t0.p0at_loc
 //
 in
 //
-case+ p0t0.p0at_node of
+case+
+p0t0.p0at_node
+of (* case+ *)
 //
-| P0Tide id when
-    id = UNDERSCORE => FXITMatm (p1at_any (loc0))
-  // end of [P0Tide when ...]
-| P0Tide id when
-    id = BACKSLASH => p1atitm_backslash (loc0)
-  // end of [P0Tide when ...]
-| P0Tide id => let
-    val p1t = p1at_ide (loc0, id)
-  in
-    case+ the_fxtyenv_find id of
-    | ~Some_vt f => p1at_make_opr (p1t, f)
-    | ~None_vt () => FXITMatm (p1t)
-  end // end of [P0Tide]
+| P0Tide(id) =>
+  (
+    if
+    (id=UNDERSCORE)
+    then FXITMatm(p1at_any(loc0))
+    else
+    (
+      if
+      (id=BACKSLASH)
+      then p1atitm_backslash(loc0)
+      else let
+        val p1t = p1at_ide(loc0, id)
+        val opt = the_fxtyenv_find(id)
+      in
+        case+ opt of
+        | ~None_vt() => FXITMatm(p1t)
+        | ~Some_vt(f) => p1at_make_opr(p1t, f)
+      end // end of [else]
+    )
+  ) (* end of [P0Tide] *)
 //
-| P0Tdqid (dq, id) => FXITMatm (p1at_dqid (loc0, dq, id))
-| P0Topid (id) => FXITMatm (p1at_ide (loc0, id))
+| P0Tdqid
+    (dq, id) =>
+    FXITMatm(p1at_dqid(loc0, dq, id))
+  // (* end of [P0Tdqid] *)
+//
+| P0Topid(id) => FXITMatm(p1at_ide(loc0, id))
 //
 | P0Tint (x) => FXITMatm (p1at_i0nt (loc0, x))
 | P0Tchar (x) => FXITMatm (p1at_c0har (loc0, x))
@@ -204,68 +217,76 @@ case+ p0t0.p0at_node of
 | P0Tstring (x) => FXITMatm (p1at_s0tring (loc0, x))
 //
 | P0Tapp _ => let 
-    val p1t_app = fixity_resolve (
-      loc0, p1at_get_loc, p1atitm_app (loc0), aux_itemlst p0t0
-    ) // end of [val]
+    val p1t_app =
+    fixity_resolve (
+      loc0, p1at_get_loc, p1atitm_app(loc0), aux_itemlst p0t0
+    ) (* end of [val] *)
   in
     FXITMatm (p1t_app)
   end // end of [P0Tapp]
 //
-| P0Tlist (npf, p0ts) => let
-    val p1ts = p0atlst_tr p0ts in FXITMatm (p1at_list (loc0, npf, p1ts))
+| P0Tlist(npf, p0ts) => let
+    val p1ts =
+    p0atlst_tr p0ts in FXITMatm(p1at_list(loc0, npf, p1ts))
   end // end of [[P0Tlist]
 //
 | P0Tlst (lin, p0ts) => let
-    val p1ts = p0atlst_tr p0ts in FXITMatm (p1at_lst (loc0, lin, p1ts))
+    val p1ts =
+    p0atlst_tr(p0ts) in FXITMatm(p1at_lst(loc0, lin, p1ts))
   end // end of [P1Tlst]
 | P0Ttup (knd, npf, p0ts) => let
-    val p1ts = p0atlst_tr p0ts in FXITMatm (p1at_tup (loc0, knd, npf, p1ts))
+    val p1ts =
+    p0atlst_tr(p0ts) in FXITMatm(p1at_tup(loc0, knd, npf, p1ts))
   end // end of [P1Ttup]
 | P0Trec (knd, npf, lp0ts) => let
-    val lp1ts = labp0atlst_tr lp0ts in FXITMatm (p1at_rec (loc0, knd, npf, lp1ts))
+    val lp1ts =
+    labp0atlst_tr(lp0ts) in FXITMatm(p1at_rec(loc0, knd, npf, lp1ts))
   end // end of [P0Trec]
 //
-| P0Tfree (p0t) => FXITMatm (p1at_free (loc0, p0at_tr p0t))
-| P0Tunfold (p0t) => FXITMatm (p1at_unfold (loc0, p0at_tr p0t))
+| P0Tfree(p0t) => FXITMatm(p1at_free(loc0, p0at_tr(p0t)))
+| P0Tunfold(p0t) => FXITMatm(p1at_unfold(loc0, p0at_tr(p0t)))
 //
-| P0Trefas (id, loc_id, p0t) =>
-    FXITMatm (p1at_refas (loc0, id, loc_id, p0at_tr p0t))
+| P0Trefas(id, loc_id, p0t) =>
+    FXITMatm(p1at_refas(loc0, id, loc_id, p0at_tr p0t))
 //
-| P0Texist (s0as) => let
+| P0Texist(s0as) => let
     val s1as = s0arglst_tr (s0as)
-    fn f (
+    fun fopr (
       body: p1at
     ) :<cloref1> p1atitm = let
       val loc = loc0 + body.p1at_loc in
-      FXITMatm (p1at_exist (loc, s1as, body))
+      FXITMatm(p1at_exist(loc, s1as, body))
     end // end of [f]
   in
-    FXITMopr (loc0, FXOPRpre (exist_prec_dyn, f))
+    FXITMopr(loc0, FXOPRpre(exist_prec_dyn, fopr))
   end // end of [P0Texist]
-| P0Tsvararg s0a => FXITMatm (p1at_svararg (loc0, s0vararg_tr s0a))
 //
-| P0Tann (p0t, s0e) => let
-    val p1t = p0at_tr (p0t)
-    val s1e = s0exp_tr (s0e)
+| P0Tsvararg(s0a) =>
+    FXITMatm(p1at_svararg(loc0, s0vararg_tr(s0a)))
+  // end of [P0Tsvararg]
+//
+| P0Tann(p0t, s0e) => let
+    val p1t = p0at_tr(p0t)
+    val s1e = s0exp_tr(s0e)
   in
-    FXITMatm (p1at_ann (loc0, p1t, s1e))
+    FXITMatm(p1at_ann(loc0, p1t, s1e))
   end // end of [P0Tann]
 //
-| P0Terr ((*erroneous*)) => let
-    val () = prerr_interror_loc (loc0)
+| P0Terr((*erroneous*)) => let
+    val () = prerr_interror_loc(loc0)
     val () = fprintln! (stderr_ref, ": p0at_tr: p0t0 = ", p0t0)
   in
     $ERR.abort_interr{p1atitm}((*reachable*))
   end // end of [P0Terr]
 (*
-| _ => let
-    val () = prerr_interror_loc (loc0)
+| _ (* rest-of-p0at *) => let
+    val () = prerr_interror_loc(loc0)
     val () =
     fprintln (
       stderr_ref, "p0at_tr: aux_item: p0t0 = ", p0t0
     ) (* end of [val] *)
-    val () = assertloc (false) in $ERR.abort_interr((*deadcode*))
-  end
+    val () = assertloc(false) in $ERR.abort_interr((*deadcode*))
+  end // (* end of [rest-of-p0at] *)
 *)
 end (* end of [aux_item] *)
 //
