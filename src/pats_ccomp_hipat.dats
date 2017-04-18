@@ -425,7 +425,7 @@ of (* case+ *)
 //
 | HIPempty() => ()
 //
-| HIPrec(_, pck, _, _) =>
+| HIPrec(_, _, _, _) =>
   {
     val () =
     hipatck_ccomp_rec
@@ -434,11 +434,11 @@ of (* case+ *)
   } (* end of [HIPrec] *)
 //
 | HIPrefas(d2v, hip) =>
-  hipatck_ccomp (env, res, fail, hip, pmv0)
+    hipatck_ccomp(env, res, fail, hip, pmv0)
   // end of [HIPrefas]
 //
 | HIPann(hip, ann) =>
-  hipatck_ccomp (env, res, fail, hip, pmv0)
+    hipatck_ccomp (env, res, fail, hip, pmv0)
   // end of [HIPann]
 //
 | _ (*rest-of-HIP*) =>
@@ -812,33 +812,42 @@ of (* case+ *)
     pck, d2c, _, _
   ) => let
     val () =
-    ccompenv_add_freeconenv_if(env, pmv0, pck, d2c)
-    val () =
-      himatch_ccomp_sum(env, res, lvl0, hip0, pmv0)
+    ccompenv_add_freeconenv_if
+      (env, pmv0, pck, d2c)
     // end of [val]
   in
-    // nothing
+    himatch_ccomp_sum(env, res, lvl0, hip0, pmv0)
   end // end of [HIPcon]
 //
 | HIPcon_any
-    (pck, d2c) => let
+    (pck, d2c) => () where
+  {
     val () =
-      ccompenv_add_freeconenv_if(env, pmv0, pck, d2c)
+    ccompenv_add_freeconenv_if(env, pmv0, pck, d2c)
     // end of [val]
-  in
-    // nothing
-  end // end of [HIPcon_any]
+  } // end of [HIPcon_any]
 //
-| HIPrec _ =>
-  himatch_ccomp_rec
-    (env, res, lvl0, hip0, pmv0)
-  // end of [HIPrec]
+| HIPrec
+    (_, pck, _, _) =>
+    himatch_ccomp_rec
+      (env, res, lvl0, hip0, pmv0) where
+  {
+    val () =
+      ccompenv_add_freetupenv_if(env, pmv0, pck)
+    // end of [val]
+  } // end of [HIPrec]
 //
 | HIPrefas(d2v, hip) =>
-  himatch_ccomp(env, res, lvl0, hip, pmv0)
+  {
+    val () =
+    himatch_ccomp(env, res, lvl0, hip, pmv0)
+  } // end of [HIPrefas]
 //
-| HIPann(hip, ann) =>
-  himatch_ccomp(env, res, lvl0, hip, pmv0)
+| HIPann(hip, _(*ann*)) =>
+  {
+    val () =
+    himatch_ccomp(env, res, lvl0, hip, pmv0)
+  } // end of [HIPann]
 //
 | _ (*rest-of-hipat*) =>
     exitloc(1) where
