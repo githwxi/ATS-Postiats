@@ -135,6 +135,9 @@ tmprimval2pmv2
 implement
 tmprimval2pmv
   (tpmv) = let
+(*
+val () = println! ("tmprimval2pmv")
+*)
 in
 //
 case+ tpmv of
@@ -179,7 +182,8 @@ fprint_tmprimval
   (out, x) = let
 //
 macdef
-prstr (s) = fprint_string (out, ,(s))
+prstr(str) =
+fprint_string (out, ,(str))
 //
 in
 //
@@ -218,9 +222,13 @@ tmpmovlst_add
   (tmvlst, tpmv1, tpmv2) = let
 //
 (*
-val out = stdout_ref
-val () = fprintln! (out, "tmpmovlst_add: tpmv1 = ", tpmv1)
-val () = fprintln! (out, "tmpmovlst_add: tpmv2 = ", tpmv2)
+val
+out = stdout_ref
+//
+val () =
+fprintln! (out, "tmpmovlst_add: tpmv1 = ", tpmv1)
+val () =
+fprintln! (out, "tmpmovlst_add: tpmv2 = ", tpmv2)
 *)
 //
 in
@@ -230,7 +238,7 @@ case+ tpmv2 of
 | TPMVsome (tmp2, _) =>
   (
     tmvlst := list_vt_cons ((tpmv1, tmp2), tmvlst)
-  )
+  ) (* end of [TPMVsome] *)
 end // end of [tmpmovlst_add]
 
 (* ****** ****** *)
@@ -1606,9 +1614,9 @@ in
 case+ opt of
 | Some (knd) => (
   case+ ptck of
-  | PATCKcon (d2c) =>
-      ccompenv_add_freeconenv_if (env, pmv, knd, d2c)
-  | _ => ((*nothing*))
+  | PATCKcon(d2c) =>
+      ccompenv_add_freeconenv_if(env, pmv, knd, d2c)
+  | _(*non-PATCKcon*) => ((*nothing*))
   ) (* end of [Some] *)
 | None ((*void*)) => ()
 //
@@ -1677,38 +1685,41 @@ case+ x of
   (
     ptck, tpmv, tlab, opt, kntr
   ) => let
-    val res1 = addtpmv (res1, tpmv)
-    val res1 = addtlab (res1, tlab)
-    val pmv = tmprimval2pmv (tpmv)
-    val ((*void*)) = addfreecon (env, pmv, opt, ptck)
-    val ins = instr_patck (pmv.primval_loc, pmv, ptck, !kntr)
-    val res1 = list_vt_cons (ins, res1)
+    val res1 = addtpmv(res1, tpmv)
+    val res1 = addtlab(res1, tlab)
+//
+    val pmv = tmprimval2pmv(tpmv)
+    val ((*void*)) = addfreecon(env, pmv, opt, ptck)
+    val ins = instr_patck(pmv.primval_loc, pmv, ptck, !kntr)
+//
+    val res1 = list_vt_cons(ins, res1)
+//
   in
     fptcmplst (env, xs, res1, res2)
   end // end of [PTCMPreclparen]
 //
 | PTCMPreclparen
     (tpmv, tlab) => let
-    val res1 = addtpmv (res1, tpmv)
-    val res1 = addtlab (res1, tlab)
+    val res1 = addtpmv(res1, tpmv)
+    val res1 = addtlab(res1, tlab)
   in
     fptcmplst (env, xs, res1, res2)
   end // end of [PTCMPreclparen]
 //
 | PTCMPtmplabend
     (tlab) => let
-    val res1 = addtlab (res1, tlab)
+    val res1 = addtlab(res1, tlab)
   in
     fptcmplst (env, xs, res1, res2)
   end // end of [PTCMPtmplabend]
 | PTCMPtmplabgua
     (tlab, _) => let
-    val res1 = addtlab (res1, tlab)
+    val res1 = addtlab(res1, tlab)
   in
     fptcmplst (env, xs, res1, res2)
   end // end of [PTCMPtmplabgua]
 //
-| _ => fptcmplst (env, xs, res1, res2)
+| _ (*non-PTCMP*) => fptcmplst(env, xs, res1, res2)
 //
 end (* end of [fptcmplst2] *)
 
@@ -1717,14 +1728,20 @@ in (* in of [local] *)
 implement
 patcomplst_ccomp
   (env, xs) = let
+//
+(*
+val () =
+println! ("patcomplst_ccomp")
+*)
+//
 in
-  fptcmplst (env, xs, list_vt_nil, list_vt_nil)
+  fptcmplst (env, xs, list_vt_nil(), list_vt_nil())
 end // end of [patcomplst_ccomp]
 
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 extern
 fun
 higmat_ccomp
@@ -1732,6 +1749,7 @@ higmat_ccomp
   env: !ccompenv, res: !instrseq
 , lvl0: int, hig: higmat, fail: patckont
 ) : void // end of [higmat_ccomp]
+//
 extern
 fun
 higmatlst_ccomp
@@ -1739,7 +1757,7 @@ higmatlst_ccomp
   env: !ccompenv, res: !instrseq
 , lvl0: int, higs: higmatlst, fail: patckont
 ) : void // end of [higmatlst_ccomp]
-
+//
 (* ****** ****** *)
 
 implement
@@ -1764,10 +1782,10 @@ hig.higmat_pat of
 ) : hipat // end of [val]
 //
 val
-pmv = hidexp_ccomp (env, res, hde)
+pmv = hidexp_ccomp(env, res, hde)
 //
-val () = hipatck_ccomp (env, res, fail, hip, pmv)
-val () = himatch_ccomp (env, res, lvl0, hip, pmv)
+val () = hipatck_ccomp(env, res, fail, hip, pmv)
+val () = himatch_ccomp(env, res, lvl0, hip, pmv)
 //
 in
   // nothing

@@ -38,40 +38,45 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 
 staload "./pats_dynexp2.sats"
-
-(* ****** ****** *)
-
 staload "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 
+staload "./pats_ccomp.sats"
 staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
-staload "./pats_ccomp.sats"
-
-(* ****** ****** *)
-
 extern
-fun hidexplst_ccompv
+fun
+hidexplst_ccompv
   (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
 // end of [hidexplst_ccompv]
+
+(* ****** ****** *)
 
 implement  
 hidexplst_ccompv
   (env, res, hdes) = let
+//
+(*
+val () =
+println! ("hidexplst_ccompv")
+*)
+//
 in
 //
 case+ hdes of
+| list_nil
+    ((*void*)) => list_nil()
+  // end of [list_nil]
 | list_cons
     (hde, hdes) => let
-    val pmv = hidexp_ccompv (env, res, hde)
-    val pmvs = hidexplst_ccompv (env, res, hdes)
+    val pmv = hidexp_ccompv(env, res, hde)
+    val pmvs = hidexplst_ccompv(env, res, hdes)
   in
-    list_cons (pmv, pmvs)
+    list_cons(pmv, pmvs)
   end // end of [list_cons]    
-| list_nil () => list_nil ()
 //
 end // end of [hidexplst_ccompv]
 
@@ -82,6 +87,7 @@ hidexp_ccomp_ret_case
   (env, res, tmpret, hde0) = let
 //
 val loc0 = hde0.hidexp_loc
+//
 val-HDEcase
   (knd, hdes, hicls) = hde0.hidexp_node
 //
@@ -97,13 +103,14 @@ case+ knd of
 | CK_case((*none*)) => PTCKNTcaseof_fail(loc0)
 ) : patckont // end of [val]
 //
-val lvl0 = the_d2varlev_get ()
+val lvl0 = the_d2varlev_get((*void*))
 //
 val ibranchlst =
-  hiclaulst_ccomp (env, lvl0, pmvs, hicls, tmpret, fail)
+  hiclaulst_ccomp(env, lvl0, pmvs, hicls, tmpret, fail)
 //
 val ins =
-  instr_caseof (loc0, ibranchlst)
+  instr_caseof(loc0, ibranchlst)
+//
 val ((*void*)) = instrseq_add (res, ins)
 //
 in

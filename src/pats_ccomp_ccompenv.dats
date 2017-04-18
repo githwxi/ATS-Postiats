@@ -701,21 +701,26 @@ end // end of [fprint_markenvlst]
 (* ****** ****** *)
 
 vtypedef
-freeconenv = List_vt (primvalist_vt)
+freeconenv = List_vt(primvalist_vt)
 
 extern
-fun freeconenv_free (xs: freeconenv): void
+fun
+freeconenv_free(xs: freeconenv): void
 
 implement
-freeconenv_free (xs) = let
+freeconenv_free(xs) = let
+//
+(*
+val () = println! ("freeconenv_free")
+*)
+//
 in
 //
 case+ xs of
-| ~list_vt_cons
-    (x, xs) => let
+| ~list_vt_nil() => ()
+| ~list_vt_cons(x, xs) => let
     val () = list_vt_free (x) in freeconenv_free (xs)
   end // end of [list_vt_cons]
-| ~list_vt_nil () => ()
 //
 end // end of [freeconenv_free]
 
@@ -1093,15 +1098,21 @@ end // end of [ccompenv_add_freeconenv]
 implement
 ccompenv_add_freeconenv_if
   (env, pmv, pck, d2c) = let
+//
+(*
+val () =
+println! ("ccompenv_add_freeconenv_if")
+*)
+//
 in
 //
 case+ pck of
-| PCKfree () => let
-    val isnul = d2con_is_nullary (d2c)
+| PCKfree() => let
+    val isnul = d2con_is_nullary(d2c)
   in
-    if not(isnul) then ccompenv_add_freeconenv (env, pmv)
+    if not(isnul) then ccompenv_add_freeconenv(env, pmv)
   end (* end of [PCKfree] *)
-| _ => ((*nothing*))
+| _ (* non-PCKfree *) => ((*nothing*))
 //
 end // end of [ccompenv_add_freeconenv_if]
 

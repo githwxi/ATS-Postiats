@@ -42,12 +42,14 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
+//
 implement
-prerr_FILENAME<> () = prerr "pats_trans3_fldfrat"
-
+prerr_FILENAME<>
+  ((*void*)) = prerr "pats_trans3_fldfrat"
+//
 (* ****** ****** *)
 
 staload
@@ -74,7 +76,8 @@ staload "./pats_trans3_env.sats"
 
 local
 
-fun auxck_free
+fun
+auxck_free
 (
   loc0: loc_t
 , s2es: s2explst, nerr: int
@@ -82,6 +85,11 @@ fun auxck_free
 in
 //
 case+ s2es of
+//
+| list_nil
+    ((*void*)) => nerr
+  // list_nil
+//
 | list_cons
     (s2e, s2es) => let
 (*
@@ -104,11 +112,11 @@ case+ s2es of
   in
     auxck_free (loc0, s2es, nerr)
   end // end of [list_cons]
-| list_nil () => nerr
 //
 end // end of [auxck_free]
 
-fun auxfind
+fun
+auxfind
 (
   loc0: loc_t, s2ls: s2explst
 ) : s2explst = let
@@ -155,7 +163,8 @@ case+ s2ls of
 //
 end // end of [auxfind]
 
-fun auxmain
+fun
+auxmain
 (
   loc0: loc_t
 , opknd: int // 0/1 free/fold
@@ -167,8 +176,9 @@ fun auxmain
   val s2e_ptr = d3exp_get_type (d3e)
 in
 //
-case
-  s2e_ptr.s2exp_node of
+case+
+s2e_ptr.s2exp_node
+of (* case+ *)
 | S2Edatconptr
     (d2c, _(*rt*), arg) => let
     val s2es_elt = auxfind (loc0, arg)
@@ -187,11 +197,12 @@ case
       fc, lin, s2fe, nof, s2es_arg, s2e_res
     ) = s2e_dcon.s2exp_node // end of [val]
 //
-    val () = if opknd = 0 then let
-      val nerr = auxck_free (loc0, s2es_elt, 0(*nerr*))
+    val () =
+    if opknd = 0 then let
+      val nerr = auxck_free(loc0, s2es_elt, 0(*nerr*))
     in
       if nerr > 0 then
-        the_trans3errlst_add (T3E_d3exp_freeat (loc0, d3e))
+        the_trans3errlst_add(T3E_d3exp_freeat(loc0, d3e))
       // end of [if]
     end // end of [val]
 //
@@ -203,56 +214,68 @@ case
       // end of [val]
     in
       if err > 0 then let
-        val () = prerr_error3_loc (loc)
+        val () = prerr_error3_loc(loc)
         val () = prerr ": [fold@] operation cannot be formed"
         val () = prerrln! ": some argument types are mismatched."
-        val () = prerr_the_staerrlst ()
+        val () = prerr_the_staerrlst()
       in
-        the_trans3errlst_add (T3E_d3exp_foldat (loc0, d3e))
+        the_trans3errlst_add(T3E_d3exp_foldat(loc0, d3e))
       end // end of [if]
     end // end of [val]
     val () =
     if opknd > 0 then let
       var err: int = 0
-      val () = d3lval_set_type_err (0(*refval*), d3e, s2e_res, err)
+      val ((*void*)) =
+        d3lval_set_type_err(0(*refval*), d3e, s2e_res, err)
+      // end of [val]
     in
       if err > 0 then let
-        val () = prerr_error3_loc (loc)
-        val () = prerr ": [fold@] operation cannot be formed"
-        val () = prerrln! ": the type of the dynamic expression cannot be changed."
+        val () = prerr_error3_loc(loc)
+        val () =
+          prerr ": [fold@] operation cannot be formed"
+        val () =
+          prerrln! (": the type of the dynamic expression cannot be changed.")
+        // end of [val]
       in
-        the_trans3errlst_add (T3E_d3exp_foldat (loc0, d3e))
+        the_trans3errlst_add(T3E_d3exp_foldat(loc0, d3e))
       end (* end of [if] *)
     end // end of [val]
   in
     d3e
   end // end of [S2Edatconptr]
-| _ => let
-    val () = prerr_error3_loc (loc)
-    val () = if opknd = 0 then
+| _ (*non-S2Edatconptr*) => let
+    val () = prerr_error3_loc(loc)
+    val () =
+    if opknd = 0 then
       prerr ": [free@] operation cannot be performed"
-    val () = if opknd > 0 then
+    // end of [if]
+    val () =
+    if opknd > 0 then
       prerr ": [fold@] operation cannot be performed"
+    // end of [if]
     val () =
       prerrln! (": unfolded datatype constructor is expected.")
+    // end of [val]
   in
     d3exp_errexp (loc0)
-  end // end of [_]
+  end // end of [non-S2Edatconptr]
 //
 end // end of [auxmain]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d2exp_trup_foldat
   (d2e0) = let
 //
-val loc0 = d2e0.d2exp_loc
-val-D2Efoldat (s2as, d2e) = d2e0.d2exp_node
-val d3e = auxmain (loc0, 1(*opknd*), s2as, d2e)
+val
+loc0 = d2e0.d2exp_loc
+val-D2Efoldat(s2as, d2e) = d2e0.d2exp_node
+//
+val d3e = auxmain(loc0, 1(*opknd*), s2as, d2e)
 //
 in
-  d3exp_foldat (loc0, d3e)
+  d3exp_foldat(loc0, d3e)
 end // end of [d2exp_trup_foldat]
 
 implement
@@ -260,17 +283,21 @@ d2exp_trup_freeat
   (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val-D2Efreeat (s2as, d2e) = d2e0.d2exp_node
+val-D2Efreeat(s2as, d2e) = d2e0.d2exp_node
 //
-val err = the_effenv_check_wrt (loc0)
-val () = if (err > 0) then (
-  the_trans3errlst_add (T3E_d2exp_trup_wrt (loc0))
+val err =
+the_effenv_check_wrt(loc0)
+//
+val () =
+if (err > 0) then
+(
+the_trans3errlst_add(T3E_d2exp_trup_wrt(loc0))
 ) // end of [if] // end of [val]
 //
-val d3e = auxmain (loc0, 0(*opknd*), s2as, d2e)
+val d3e = auxmain(loc0, 0(*opknd*), s2as, d2e)
 //
 in
-  d3exp_freeat (loc0, d3e)
+  d3exp_freeat(loc0, d3e)
 end // end of [d2exp_trup_freeat]
 
 end // end of [local]
