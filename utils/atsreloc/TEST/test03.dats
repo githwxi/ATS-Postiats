@@ -18,9 +18,9 @@ ATS_PACKNAME "atsreloc_test03"
 (* ****** ****** *)
 //
 #define
-PATSCONTRIB "\
+LIBPCRE "\
 https://raw.githubusercontent.com/\
-githwxi/ATS-Postiats-contrib/master/contrib"
+githwxi/ATS-Postiats/master/contrib/atscntrb-libpcre"
 //
 (*
 //
@@ -34,26 +34,26 @@ PATSCONTRIB
 (* ****** ****** *)
 //
 #require
-"{$PATSCONTRIB}/pcre/CATS/pcre.cats"
+"{$LIBPCRE}/CATS/pcre.cats"
 //
 (* ****** ****** *)
 //
-staload
-"{$PATSCONTRIB}/pcre/SATS/pcre.sats"
-staload
-"{$PATSCONTRIB}/pcre/SATS/pcre_ML.sats"
+#staload
+"{$LIBPCRE}/SATS/pcre.sats"
+#staload
+"{$LIBPCRE}/SATS/pcre_ML.sats"
 //
-staload _ =
-"{$PATSCONTRIB}/pcre/DATS/pcre.dats"
-staload _ =
-"{$PATSCONTRIB}/pcre/DATS/pcre_ML.dats"
+#staload _ =
+"{$LIBPCRE}/DATS/pcre.dats"
+#staload _ =
+"{$LIBPCRE}/DATS/pcre_ML.dats"
 //
 (* ****** ****** *)
 
 local
 //
-#include "{$PATSCONTRIB}/pcre/DATS/pcre.dats"
-#include "{$PATSCONTRIB}/pcre/DATS/pcre_ML.dats"
+#include "{$LIBPCRE}/DATS/pcre.dats"
+#include "{$LIBPCRE}/DATS/pcre_ML.dats"
 //
 in (* in of [local] *)
 //
@@ -63,12 +63,14 @@ end // end of [local]
 
 (* ****** ****** *)
 
-fun tally
+fun
+tally
 (
   subject: string
 ) : int = let
 //
-val regstr = "(-?[0-9]+)"
+val
+regstr = "(-?[0-9]+)"
 //
 fun loop
 (
@@ -101,12 +103,14 @@ end // end of [tally]
 (* ****** ****** *)
 
 implement
-main0 () = () where
+main0() = () where
 {
 //
-val subject0 = "-1,-2,-3,-4,-5,6,7,8,9,10"
+val
+subject0 = "-1,-2,-3,-4,-5,6,7,8,9,10"
 //
-val () = println! ("tally(", subject0, ") = ", tally(subject0))
+val ((*void*)) =
+println! ("tally(", subject0, ") = ", tally(subject0))
 //
 } (* end of [main0] *)
 

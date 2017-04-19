@@ -18,16 +18,19 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload
-STDIO = "libats/libc/SATS/stdio.sats"
-overload ptrcast with $STDIO.FILEptr2ptr
+STDIO =
+"libats/libc/SATS/stdio.sats"
+overload
+ptrcast with $STDIO.FILEptr2ptr
 
 (* ****** ****** *)
-
+//
 staload
 "{$OPENSSL}/SATS/evp.sats"
 staload
-_(*OPENSSL*) = "{$OPENSSL}/DATS/openssl.dats"
-
+_(*OPENSSL*) =
+"{$OPENSSL}/DATS/openssl.dats"
+//
 (* ****** ****** *)
 
 staload

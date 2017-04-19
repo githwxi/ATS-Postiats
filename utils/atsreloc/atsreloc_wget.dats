@@ -62,10 +62,15 @@ _ = "{$HX_CSTREAM}/DATS/cstream_tokener.dats"
 //
 (* ****** ****** *)
 //
-#staload
-"{$LIBATSHWXI}/jsonats/SATS/jsonats.sats"
-#staload _ =
-"{$LIBATSHWXI}/jsonats/DATS/jsonats.dats"
+#define
+LIBATSHWXI_targetloc
+"$PATSHOME\
+/npm-utils/contrib/libats-/hwxi"
+//
+#include
+"{$LIBATSHWXI}/jsonats/mylibies.hats"
+//
+#staload $JSONATS // opening the NS!
 //
 (* ****** ****** *)
 //
@@ -176,14 +181,17 @@ end // end of [local]
 (* ****** ****** *)
 //
 extern
-fun atsreloc_jsonval
+fun
+atsreloc_jsonval
   (out: FILEref, jsv: jsonval): void
 extern
-fun atsreloc_jsonvalist
+fun
+atsreloc_jsonvalist
   (out: FILEref, jsvs: jsonvalist): void
 //
 extern
-fun atsreloc_fileref
+fun
+atsreloc_fileref
   (flag: int, out: FILEref, inp: FILEref): void
 //
 (* ****** ****** *)
