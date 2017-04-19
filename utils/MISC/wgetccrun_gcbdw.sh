@@ -7,7 +7,7 @@ TCCRUN='tcc -run'
 
 ######
 
-__CFLAGS__LIBS="-L/usr/lib -lgc"
+MY_CFLAGS_LIBS="-L/usr/lib -lgc"
 
 ######
 #
@@ -17,10 +17,9 @@ __CFLAGS__LIBS="-L/usr/lib -lgc"
 #
 ${WGET} -q -O - $1 | \
 ${TCCRUN} \
-  -DATS_MEMALLOC_GCBDW \
-  -I${PATSHOME} \
-  -I${PATSHOME}/ccomp/runtime \
-  -I${PATSHOMERELOC}/contrib \
-   $__CFLAGS__LIBS -
+-DATS_MEMALLOC_GCBDW \
+-I${PATSHOME} \
+-I${PATSHOME}/ccomp/runtime -I${PATSHOMERELOC}/contrib \
+ $MY_CFLAGS_LIBS -
 #
 ###### end of [wgetccrun_gcbdw.sh] ######

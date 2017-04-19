@@ -8,8 +8,10 @@
 
 linenumbering:
 
-It is for numbering lines in a given file.  A primary use of this utility
-is to produce code to be explained in blogs or tutorials.
+It is for numbering lines in a given file.
+
+A primary use of this utility is to produce code to be explained in
+blogs or tutorials.
 
 ###### ######
 

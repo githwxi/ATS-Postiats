@@ -7,16 +7,15 @@ TCCRUN='tcc -run'
 
 ######
 
-__CFLAGS__LIBS=`pkg-config gtk+-2.0 --cflags --libs`
+MY_CFLAGS_LIBS=`pkg-config gtk+-2.0 --cflags --libs`
 
 ######
 #
 ${WGET} -q -O - $1 | \
 ${TCCRUN} \
-  -DATS_MEMALLOC_LIBC \
-  -I${PATSHOME} \
-  -I${PATSHOME}/ccomp/runtime \
-  -I${PATSHOMERELOC}/contrib \
-   $__CFLAGS__LIBS - >& /dev/null
+-DATS_MEMALLOC_LIBC \
+-I${PATSHOME} \
+-I${PATSHOME}/ccomp/runtime -I${PATSHOMERELOC}/contrib \
+ $MY_CFLAGS_LIBS - >& /dev/null
 #
 ###### end of [wgetccrun_gtk2.sh] ######
