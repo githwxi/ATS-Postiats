@@ -39,7 +39,8 @@ ATS_EXTERN_PREFIX
 
 %{#
 //
-#include "sdstring/CATS/sdstring.cats"
+#include \
+"atscntrb-sdstring/CATS/sdstring.cats"
 //
 %} // end of [%{#}
 

@@ -26,7 +26,7 @@
 
 /* ****** ****** */
 
-#include "sdstring/H/sds.h"
+#include "atscntrb-sdstring/H/sds.h"
 
 /* ****** ****** */
 

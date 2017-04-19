@@ -37,7 +37,7 @@ UN = "prelude/SATS/unsafe.sats"
 
 %{$
 //
-#include "sdstring/H/sds.c"
+#include "atscntrb-sdstring/H/sds.c"
 //
 %} // end of [%{$]
 
