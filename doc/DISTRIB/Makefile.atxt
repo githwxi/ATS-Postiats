@@ -126,6 +126,10 @@ all_script::
 #make_entry("utils_libatsopt")
 
 ######
+
+#make_entry("contrib_ats2cpp")
+
+######
 #
 #make_entry("contrib_extsolve")
 #make_entry("contrib_extsolve_z3")
@@ -207,6 +211,8 @@ atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_utils_emacs
 #
 # atspackaging:: srcget_utils_libatsopt
+#
+atspackaging:: srcget_contrib_ats2cpp
 #
 atspackaging:: srcget_contrib_extsolve
 atspackaging:: srcget_contrib_extsolve_z3
@@ -300,6 +306,10 @@ srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
 srcget_utils_emacs:: SCRIPT/utils_emacs.bash ; bash $<
 srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
+
+######
+
+srcget_contrib_ats2cpp:: SCRIPT/contrib_ats2cpp.bash ; bash $<
 
 ######
 #

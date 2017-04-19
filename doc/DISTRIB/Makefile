@@ -209,6 +209,19 @@ cleanall:: ; $(RMF) SCRIPT/utils_libatsopt.bash
 
 
 ######
+
+all_script:: \
+SCRIPT/contrib_ats2cpp.bash
+SCRIPT/contrib_ats2cpp.bash: contrib_ats2cpp_atxt.exe ; ./$< > $@
+contrib_ats2cpp_atxt.dats: ATEXT/contrib_ats2cpp.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_ats2cpp_atxt.exe: contrib_ats2cpp_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_ats2cpp_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_ats2cpp.html
+cleanall:: ; $(RMF) SCRIPT/contrib_ats2cpp.bash
+
+
+######
 #
 all_script:: \
 SCRIPT/contrib_extsolve.bash
@@ -651,6 +664,8 @@ atspackaging:: srcget_utils_emacs
 #
 # atspackaging:: srcget_utils_libatsopt
 #
+atspackaging:: srcget_contrib_ats2cpp
+#
 atspackaging:: srcget_contrib_extsolve
 atspackaging:: srcget_contrib_extsolve_z3
 atspackaging:: srcget_contrib_extsolve_smt2
@@ -743,6 +758,10 @@ srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
 srcget_utils_emacs:: SCRIPT/utils_emacs.bash ; bash $<
 srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
+
+######
+
+srcget_contrib_ats2cpp:: SCRIPT/contrib_ats2cpp.bash ; bash $<
 
 ######
 #

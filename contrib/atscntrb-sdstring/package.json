@@ -2,7 +2,7 @@
 "name":
 "atscntrb-sdstring"
 ,
-"version": "1.0.0-alpha"
+"version": "1.0.0"
 ,
 "description":
 "This package is for directly calling in ATS various functions on simple dynamic strings."
