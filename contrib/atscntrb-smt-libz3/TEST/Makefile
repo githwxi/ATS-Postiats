@@ -17,10 +17,11 @@ PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 ######
-
-INCLUDE :=
-INCLUDE += -I$(PATSHOMERELOC)/contrib/SMT
-
+#
+INCLUDE := -I./../..
+#
+#INCLUDE += -I$(PATSHOME)/contrib
+#
 ######
 #
 LDFLAGS :=
@@ -61,6 +62,12 @@ test02.dats ; $(PATSCC) $(INCLUDE) -o $@ $< $(LDFLAGS) -lz3
 regress:: \
 test02; ./test02
 cleanall:: ; $(RMF) test02
+
+######
+
+testall:: all
+testall:: regress
+testall:: cleanall
 
 ######
 

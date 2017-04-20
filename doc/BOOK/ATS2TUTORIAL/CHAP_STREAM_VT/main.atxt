@@ -69,7 +69,9 @@ The interface for the
 function template #dyncode("lazy_vt_force") is given as follows:
 
 #sats2xhtml('\
-fun{a:vt@ype} lazy_vt_force (lazyval: lazy_vt(a)): (a)
+fun
+{a:vt@ype}
+lazy_vt_force(lazyval: lazy_vt(a)): (a)
 ')
 
 Note that the special prefix operator #keycode("!") in ATS is overloaded
@@ -83,7 +85,8 @@ The interface for the
 function #dyncode("lazy_vt_free") is given as follows:
 
 #sats2xhtml('\
-fun lazy_vt_free {a:vt@ype} (lazyval: lazy_vt(a)): void
+fun
+lazy_vt_free{a:vt@ype}(lazyval: lazy_vt(a)): void
 ')
 
 Note that the special prefix operator #keycode("~") in ATS is overloaded
@@ -100,7 +103,7 @@ linear lazy streams:
 
 #sats2xhtml("\
 datavtype
-stream_vt_con (a:vt@ype+) =
+stream_vt_con(a:vt@ype+) =
   | stream_vt_nil of ((*void*)) | stream_vt_cons of (a, stream_vt(a))
 where stream_vt (a:vt@ype) = lazy_vt (stream_vt_con(a))
 ")
@@ -120,24 +123,35 @@ constructed:
 #dats2xhtml('\
 //
 fun
-from (n: int): stream_vt (int) =
-  $ldelay (stream_vt_cons (n, from (n+1)))
+from(n: int): stream_vt(int) =
+  $ldelay(stream_vt_cons(n, from(n+1)))
 //
-fun sieve
+fun
+sieve
 (
-  ns: stream_vt(int)
+ns: stream_vt(int)
 ) : stream_vt(int) = $ldelay
 (
 let
 //
-// [val-] means no warning message from the compiler
+(*
+[val-]: no warning message
+*)
 //
-  val ns_con = !ns
-  val-@stream_vt_cons(n, ns1) = ns_con
-  val n = n
-  val ns1_ = ns1
-  val ((*void*)) = ns1 := sieve (stream_vt_filter_cloptr<int> (ns1_, lam x => x mod n > 0))
-  prval ((*void*)) = fold@(ns_con)
+  val
+  ns_con = !ns
+  val-
+  @stream_vt_cons(n0, ns1) = ns_con
+//
+  val n0_val = n0
+  val ns1_val = ns1
+//
+  val ((*void*)) =
+    (ns1 := sieve(stream_vt_filter_cloptr<int>(ns1_val, lam x => x mod n0_val > 0)))
+  // end of [val]
+//
+  prval ((*folded*)) = fold@(ns_con)
+//
 in
   ns_con
 end // end of [let]
@@ -159,7 +173,7 @@ the following interface:
 #sats2xhtml('\
 fun{a:t0p}
 stream_vt_filter_cloptr
-  (xs: stream_vt (a), pred: (&a) -<cloptr> bool): stream_vt (a)
+  (xs: stream_vt(a), pred: (&a) -<cloptr> bool): stream_vt(a)
 // end of [stream_vt_filter_cloptr]
 ')
 
@@ -190,14 +204,17 @@ implementation given above leaks no memory.
 //
 staload STDIO = "libc/SATS/stdio.sats"
 //
-implement main () = {
+implement
+main((*void*)) = {
 //
   val filr =
-    $STDIO.fopen_ref_exn ("../TEMP/chap_stream_vt.dats", file_mode_w)
-  val () = fprint_theCodeLst (filr)
-  val () = $STDIO.fclose_exn (filr)
+  $STDIO.fopen_ref_exn
+    ("../TEMP/chap_stream_vt.dats", file_mode_w)
+  // end of [val]
+  val () = fprint_theCodeLst(filr)
+  val () = $STDIO.fclose_exn(filr)
 //
   val () = fprint_filsub (stdout_ref, "main_atxt.txt")
 //
-}
+} (* end of [main] *)
 %}

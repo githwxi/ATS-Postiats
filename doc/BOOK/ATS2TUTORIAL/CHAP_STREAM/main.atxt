@@ -40,7 +40,9 @@ then the returned value is of type T. The interface for the function
 template #dyncode("lazy_force") is given as follows:
 
 #sats2xhtml('\
-fun{a:t@ype} lazy_force (lazyval: lazy(a)):<!laz> a
+fun
+{a:t@ype}
+lazy_force(lazyval: lazy(a)):<!laz> a
 ')
 
 where the symbol #stacode("!laz") indicates a form of effect associated
@@ -57,9 +59,9 @@ mutually recursively for representing lazy streams:
 
 #sats2xhtml("\
 datatype
-stream_con (a:t@ype+) =
+stream_con(a:t@ype+) =
   | stream_nil of ((*void*)) | stream_cons of (a, stream(a))
-where stream (a:t@ype) = lazy (stream_con(a))
+where stream(a:t@ype) = lazy (stream_con(a))
 ")
 
 Also, a number of common functions on streams are declared in
@@ -76,20 +78,22 @@ Eratosthenes:
 #dats2xhtml('\
 //
 fun
-from (n: int): stream (int) =
-  $delay (stream_cons (n, from (n+1)))
+from(n: int): stream(int) =
+  $delay(stream_cons(n, from(n+1)))
 //
-fun sieve
+fun
+sieve
 (
-  ns: stream(int)
-) :<!laz> stream(int) = $delay let
+ns: stream(int)
+) :<!laz> stream(int) = $delay
+let
 //
 // [val-] means no warning message from the compiler
 //
   val-stream_cons(n, ns) = !ns
 in
-  stream_cons (n, sieve (stream_filter_cloref<int> (ns, lam x => x mod n > 0)))
-end // end of [$delay let] // end of [sieve]
+  stream_cons(n, sieve(stream_filter_cloref<int>(ns, lam x => x mod n > 0)))
+end // end of [let] // end of [$delay]
 //
 val thePrimes = sieve(from(2))
 //
@@ -134,13 +138,13 @@ val _1_ = $UNSAFE.cast{int64}(1)
 //
 val // the following values are defined mutually recursively
 rec theFibs_0
-  : stream(int64) = $delay (stream_cons(_0_, theFibs_1)) // fib0, fib1, ...
+  : stream(int64) = $delay(stream_cons(_0_, theFibs_1)) // fib0, fib1, ...
 and theFibs_1
-  : stream(int64) = $delay (stream_cons(_1_, theFibs_2)) // fib1, fib2, ...
+  : stream(int64) = $delay(stream_cons(_1_, theFibs_2)) // fib1, fib2, ...
 and theFibs_2
   : stream(int64) = // fib2, fib3, fib4, ...
 (
-  stream_map2_fun<int64,int64><int64> (theFibs_0, theFibs_1, lam (x, y) => x + y)
+  stream_map2_fun<int64,int64><int64>(theFibs_0, theFibs_1, lam (x, y) => x + y)
 ) (* end of [val/and/and] *)
 //
 ')
@@ -151,10 +155,10 @@ interface:
 #sats2xhtml("\
 fun{
 a1,a2:t0p}{b:t0p
-} stream_map2_cloref
+} stream_map2_fun
 (
-  xs1: stream (a1), xs2: stream (a2), f: (a1, a2) -<fun> b
-) :<!laz> stream (b) // end of [stream_map2_cloref]
+  xs1: stream(a1), xs2: stream(a2), f: (a1, a2) -<fun> b
+) :<!laz> stream(b) // end of [stream_map2_fun]
 ")
 
 Given two streams xs1 and xs2 and a binary function f,
@@ -178,8 +182,9 @@ compare_int_int =
   lam (x1: int, x2: int): int =<fun> compare(x1, x2)
 //
 macdef
-merge2 (xs1, xs2) =
-  stream_mergeq_fun<int> (,(xs1), ,(xs2), compare_int_int)
+merge2
+(xs1, xs2) =
+stream_mergeq_fun<int> (,(xs1), ,(xs2), compare_int_int)
 //
 val
 rec theHamming
@@ -204,8 +209,8 @@ interface:
 fun{a:t0p}
 stream_mergeq_fun
 (
-  xs1: stream (a), xs2: stream (a), (a, a) -<fun> int
-) :<!laz> stream (a) // end of [stream_mergeq_fun]
+  xs1: stream(a), xs2: stream(a), (a, a) -<fun> int
+) :<!laz> stream(a) // end of [stream_mergeq_fun]
 ')
 
 Given two streams and an ordering (represented by a function) such that the

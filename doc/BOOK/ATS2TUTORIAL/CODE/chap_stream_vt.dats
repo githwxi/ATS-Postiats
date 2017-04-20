@@ -9,25 +9,37 @@
 //
 (* ****** ****** *)
 //
-fun
-from (n: int): stream_vt (int) =
-  $ldelay (stream_vt_cons (n, from (n+1)))
 //
-fun sieve
+fun
+from(n: int): stream_vt(int) =
+  $ldelay(stream_vt_cons(n, from(n+1)))
+//
+fun
+sieve
 (
-  ns: stream_vt(int)
+ns: stream_vt(int)
 ) : stream_vt(int) = $ldelay
 (
 let
 //
-// [val-] means no warning message from the compiler
+(*
+[val-]: no warning message
+*)
 //
-  val ns_con = !ns
-  val-@stream_vt_cons(n, ns1) = ns_con
-  val n = n
-  val ns1_ = ns1
-  val ((*void*)) = ns1 := sieve (stream_vt_filter_cloptr<int> (ns1_, lam x => x mod n > 0))
-  prval ((*void*)) = fold@(ns_con)
+  val
+  ns_con = !ns
+  val-
+  @stream_vt_cons(n0, ns1) = ns_con
+//
+  val n0_val = n0
+  val ns1_val = ns1
+//
+  val ((*void*)) =
+    (ns1 := sieve(stream_vt_filter_cloptr<int>(ns1_val, lam x => x mod n0_val > 0)))
+  // end of [val]
+//
+  prval ((*folded*)) = fold@(ns_con)
+//
 in
   ns_con
 end // end of [let]

@@ -16,8 +16,12 @@ extern
 fun packpostamble(): atext
 extern
 fun packtitle(x: string): atext
+//
 extern
 fun packfilename(x: string): atext
+extern
+fun packfilename_r(x: string): atext
+//
 extern
 fun packfilesynop(x: string): atext
 //
@@ -58,6 +62,12 @@ srcget()\n\
 cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
 }\n\
 \n\
+srcget_r()\n\
+{\n\
+rm -rf ${TARGET}/$1 ;\n\
+cp -rf ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
 ") // end of [val]
 //
 in
@@ -93,11 +103,30 @@ val
 out = stdout_ref
 //
 val () =
-fprintf(out, "srcget \"%s\" ;\n", @(x))
+fprintf (
+  out, "srcget \"%s\" ;\n", @(x)
+) (* fprintf *)
 //
 in
   atext_nil((*void*))
 end // end of [packfilename]
+//
+implement
+packfilename_r
+  (x) = let
+//
+val
+out =
+stdout_ref
+//
+val () =
+fprintf (
+  out, "srcget_r \"%s\" ;\n", @(x)
+) (* fprintf *)
+//
+in
+  atext_nil((*void*))
+end // end of [packfilename_r]
 //
 implement
 packfilesynop(x) = atext_nil()
@@ -114,89 +143,80 @@ packfilesynop(x) = atext_nil()
 
 (* ****** ****** *)
 
+#packfilename("atscntrb-libgmp/README.md")
 #packfilename("atscntrb-libgmp/mylibies.hats")
-#packfilename("atscntrb-libgmp/SATS/gmp.sats")
-#packfilename("atscntrb-libgmp/DATS/gmp.dats")
-#packfilename("atscntrb-libgmp/CATS/gmp.cats")
+#packfilename_r("atscntrb-libgmp/CATS")
+#packfilename_r("atscntrb-libgmp/SATS")
+#packfilename_r("atscntrb-libgmp/DATS")
+#packfilename_r("atscntrb-libgmp/TEST")
 
 (* ****** ****** *)
 
 #packfilename("atscntrb-libpcre/mylibies.hats")
-#packfilename("atscntrb-libpcre/SATS/pcre.sats")
-#packfilename("atscntrb-libpcre/SATS/pcre_ML.sats")
-#packfilename("atscntrb-libpcre/DATS/pcre.dats")
-#packfilename("atscntrb-libpcre/DATS/pcre_ML.dats")
-#packfilename("atscntrb-libpcre/CATS/pcre.cats")
-
-(* ****** ****** *)
-
-#packfilename("atscntrb-libcurl/mylibies.hats")
-#packfilename("atscntrb-libcurl/SATS/curl.sats")
-#packfilename("atscntrb-libcurl/SATS/curl_curl.sats")
-#packfilename("atscntrb-libcurl/SATS/curl_easy.sats")
-#packfilename("atscntrb-libcurl/DATS/curl.dats")
-#packfilename("atscntrb-libcurl/DATS/curl_curl.dats")
-#packfilename("atscntrb-libcurl/DATS/curl_easy.dats")
-#packfilename("atscntrb-libcurl/CATS/curl.cats")
-
-(* ****** ****** *)
-
-#packfilename("atscntrb-libjson-c/mylibies.hats")
-#packfilename("atscntrb-libjson-c/SATS/json.sats")
-#packfilename("atscntrb-libjson-c/SATS/json_ML.sats")
-#packfilename("atscntrb-libjson-c/SATS/json_util.sats")
-#packfilename("atscntrb-libjson-c/SATS/json_object.sats")
-#packfilename("atscntrb-libjson-c/SATS/json_object_iterator.sats")
-#packfilename("atscntrb-libjson-c/SATS/json_tokener.sats")
-#packfilename("atscntrb-libjson-c/SATS/mybasis.sats")
-#packfilename("atscntrb-libjson-c/SATS/linkhash.sats")
-#packfilename("atscntrb-libjson-c/SATS/printbuf.sats")
-#packfilename("atscntrb-libjson-c/SATS/arraylist.sats")
-#packfilename("atscntrb-libjson-c/DATS/json.dats")
-#packfilename("atscntrb-libjson-c/DATS/json_ML.dats")
-#packfilename("atscntrb-libjson-c/CATS/json.cats")
-#packfilename("atscntrb-libjson-c/CATS/printbuf.cats")
+#packfilename_r("atscntrb-libpcre/CATS")
+#packfilename_r("atscntrb-libpcre/SATS")
+#packfilename_r("atscntrb-libpcre/DATS")
+#packfilename_r("atscntrb-libpcre/TEST")
   
 (* ****** ****** *)
 
+#packfilename("atscntrb-libcurl/mylibies.hats")
+#packfilename_r("atscntrb-libcurl/CATS")
+#packfilename_r("atscntrb-libcurl/SATS")
+#packfilename_r("atscntrb-libcurl/DATS")
+#packfilename_r("atscntrb-libcurl/TEST")
+  
+(* ****** ****** *)
+
+#packfilename("atscntrb-libjson-c/mylibies.hats")
+#packfilename_r("atscntrb-libjson-c/CATS")
+#packfilename_r("atscntrb-libjson-c/SATS")
+#packfilename_r("atscntrb-libjson-c/DATS")
+#packfilename_r("atscntrb-libjson-c/TEST")
+    
+(* ****** ****** *)
+
+#packfilename("atscntrb-hx-intinf/README.md")
 #packfilename("atscntrb-hx-intinf/mydepies.hats")
 #packfilename("atscntrb-hx-intinf/mylibies.hats")
-#packfilename("atscntrb-hx-intinf/SATS/intinf.sats")
-#packfilename("atscntrb-hx-intinf/SATS/intinf_t.sats")
-#packfilename("atscntrb-hx-intinf/SATS/intinf_vt.sats")
-#packfilename("atscntrb-hx-intinf/DATS/intinf_t.dats")
-#packfilename("atscntrb-hx-intinf/DATS/intinf_vt.dats")
-#packfilename("atscntrb-hx-intinf/DATS/gintinf_t.dats")
+#packfilename_r("atscntrb-hx-intinf/SATS")
+#packfilename_r("atscntrb-hx-intinf/DATS")
+#packfilename_r("atscntrb-hx-intinf/TEST")
 
 (* ****** ****** *)
 
-#packfilename("atscntrb-hx-cstream/SATS/cstream.sats")
-#packfilename("atscntrb-hx-cstream/SATS/cstream_tokener.sats")
-#packfilename("atscntrb-hx-cstream/DATS/cstream.dats")
-#packfilename("atscntrb-hx-cstream/DATS/cstream_fun.dats")
-#packfilename("atscntrb-hx-cstream/DATS/cstream_cloref.dats")
-#packfilename("atscntrb-hx-cstream/DATS/cstream_strptr.dats")
-#packfilename("atscntrb-hx-cstream/DATS/cstream_string.dats")
-#packfilename("atscntrb-hx-cstream/DATS/cstream_fileptr.dats")
-#packfilename("atscntrb-hx-cstream/DATS/cstream_fileref.dats")
-#packfilename("atscntrb-hx-cstream/DATS/cstream_tokener.dats")
+#packfilename("atscntrb-hx-cstream/README.md")
+#packfilename_r("atscntrb-hx-cstream/SATS")
+#packfilename_r("atscntrb-hx-cstream/DATS")
+#packfilename_r("atscntrb-hx-cstream/TEST")
 
 (* ****** ****** *)
 
-#packfilename("atscntrb-hx-globals/HATS/gcount.hats")
-#packfilename("atscntrb-hx-globals/HATS/globvar.hats")
-#packfilename("atscntrb-hx-globals/HATS/gobjptr.hats")
-#packfilename("atscntrb-hx-globals/HATS/gdeqarray.hats")
-#packfilename("atscntrb-hx-globals/HATS/gstacklst.hats")
-#packfilename("atscntrb-hx-globals/HATS/ghashtbl_chain.hats")
-#packfilename("atscntrb-hx-globals/HATS/ghashtbl_linprb.hats")
+#packfilename("atscntrb-hx-globals/README.md")
+#packfilename_r("atscntrb-hx-globals/HATS")
+#packfilename_r("atscntrb-hx-globals/TEST")
 
 (* ****** ****** *)
 
-#packfilename("atscntrb-hx-mytesting/SATS/randgen.sats")
-#packfilename("atscntrb-hx-mytesting/SATS/foldleft.sats")
-#packfilename("atscntrb-hx-mytesting/DATS/randgen.dats")
-#packfilename("atscntrb-hx-mytesting/DATS/foldleft.dats")
+#packfilename("atscntrb-hx-mytesting/README")
+#packfilename_r("atscntrb-hx-mytesting/SATS")
+#packfilename_r("atscntrb-hx-mytesting/DATS")
+#packfilename_r("atscntrb-hx-mytesting/TEST")
+
+(* ****** ****** *)
+
+#packfilename("atscntrb-sdstring/README.md")
+#packfilename_r("atscntrb-sdstring/H")
+#packfilename_r("atscntrb-sdstring/CATS")
+#packfilename_r("atscntrb-sdstring/SATS")
+#packfilename_r("atscntrb-sdstring/DATS")
+#packfilename_r("atscntrb-sdstring/TEST")
+
+(* ****** ****** *)
+
+#packfilename_r("atscntrb-smt-libz3/CATS")
+#packfilename_r("atscntrb-smt-libz3/SATS")
+#packfilename_r("atscntrb-smt-libz3/TEST")
 
 (* ****** ****** *)
 
@@ -206,7 +226,7 @@ packfilesynop(x) = atext_nil()
 
 %{
 //
-implement main () = ()
+implement main() = () where { }
 //
 %} // end of [%{]
 
