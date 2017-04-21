@@ -80,5 +80,12 @@ in
 end // end of [ref_exch_elt]
 
 (* ****** ****** *)
+//
+extern
+fun{a:vt0p} ref(x0: a): ref(a)
+//
+implement{a} ref(x0) = ref_make_elt{a}(x0)
+//
+(* ****** ****** *)
 
 (* end of [reference.dats] *)
