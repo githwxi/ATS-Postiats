@@ -44,10 +44,34 @@ MYATSCCDEF
 //
 (* ****** ****** *)
 //
-abstype
-location_type = ptr
-typedef
-location = location_type
+abstype loc_type = ptr
+typedef loc_t = loc_type
+//
+(* ****** ****** *)
+//
+fun
+loc_t_make
+  (p0: int, p1: int): loc_t
+//
+fun
+loc_t_combine
+  (x1: loc_t, x2: loc_t): loc_t
+//
+overload + with loc_t_combine
+//
+(* ****** ****** *)
+//
+fun
+print_loc_t: loc_t -> void
+and
+prerr_loc_t: loc_t -> void
+//
+fun
+fprint_loc_t: fprint_type(loc_t)
+//
+overload print with print_loc_t
+overload prerr with prerr_loc_t
+overload fprint with fprint_loc_t
 //
 (* ****** ****** *)
 //
@@ -57,7 +81,23 @@ token_node =
 | TOKint of ( int )
 | TOKspchr of char
 //
-where token = $rec{ loc= location, tok=token_node }
+where token = $rec{ loc= loc_t, tok=token_node }
+//
+(* ****** ****** *)
+//
+fun
+token_make_ide
+(
+p0: int, p1: int, ide: string
+) : token
+//
+fun
+token_make_int
+  (p0: int, p1: int, int: int): token
+//
+fun
+token_make_spchr
+  (p0: int, chr: char): token
 //
 (* ****** ****** *)
 
