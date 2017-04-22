@@ -1818,6 +1818,7 @@ case+ p2tc of
       filprerr_ifdebug("funarg_patck_exhaust")
       val () = prerrln!
         (": the linear pattern cannot be used as a function argument.")
+      (* end of [val] *)
     in
       the_trans3errlst_add(T3E_d2exp_trup_arg_body_linpat(p2t))
     end // end of [_]
@@ -1970,24 +1971,29 @@ d2exp_trup_laminit_dyn
   val d3e_body = s2ep3tsd3e.2
   val () = (
     case+ s2e_fun.s2exp_node of
-    | S2Efun (fc, _, _, _, _, _) => (case+ fc of
-      | FUNCLOclo 0 => () // [CLO]
-      | _ => let
+    | S2Efun
+      (
+        fc, _, _, _, _, _
+      ) =>
+      (
+      case+ fc of
+      | FUNCLOclo(0) => () // [CLO]
+      | _ (*non-FUNCLOclo(0)*) => let
          val () =
          prerr_error3_loc(loc0)
          val () =
          filprerr_ifdebug("d2exp_trup_laminit_dyn")
          val () = prerrln!
            (": the initializing value is expected to be a flat closure but it is not.")
-         // end of [val]
+         (* end of [val] *)
        in
-         the_trans3errlst_add(T3E_d2exp_trup_laminit_funclo (d2e0, fc))
+         the_trans3errlst_add(T3E_d2exp_trup_laminit_funclo(d2e0, fc))
        end // end of [_]
       ) // end of [S2Efun]
-    | _ => () // HX: deadcode
+    | _ (* non-S2Efun *) => ( (*deadcode*) )
   ) : void // end of [val]
 in
-  d3exp_laminit_dyn (loc0, s2e_fun, lin, npf, p3ts_arg, d3e_body)
+  d3exp_laminit_dyn(loc0, s2e_fun, lin, npf, p3ts_arg, d3e_body)
 end // end of [d2exp_trup_laminit_dyn]
 
 (* ****** ****** *)
