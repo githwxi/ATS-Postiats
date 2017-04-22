@@ -1769,21 +1769,81 @@ funarg_patck_exhaust
 ) = () where
 {
 //
+(*
 val p2tcs =
-  list_map_fun (p2ts_arg, p2at2cst)
+  list_map_fun(p2ts_arg, p2at2cst)
+*)
+val p2tcs = let
+//
+fun
+auxlst
+(
+  p2ts: p2atlst
+, s2es: s2explst
+) : p2atcstlst_vt =
+case+ p2ts of
+| list_nil() =>
+  list_vt_nil()
+| list_cons
+    (p2t, p2ts) => let
+    val-
+    list_cons
+      (s2e, s2es) = s2es
+    // end of [val]
+    val p2tc = p2at2cst(p2t)
+    val ((*void*)) =
+      auxlinck(p2t, p2tc, s2e)
+    // end of [val]
+  in
+    list_vt_cons(p2tc, auxlst(p2ts, s2es))
+  end
+//
+and
+auxlinck
+(
+  p2t: p2at, p2tc: p2atcst, s2e: s2exp
+) : void =
+(
+case+ p2tc of
+| P2TCany() => ()
+| _(* non-P2TCany *) => let
+    val
+    islin =
+    s2exp_is_lin(s2e)
+  in
+    if islin then let
+      val () =
+      prerr_error3_loc(p2t.p2at_loc)
+      val () =
+      filprerr_ifdebug("funarg_patck_exhaust")
+      val () = prerrln!
+        (": the linear pattern cannot be used as a function argument.")
+    in
+      the_trans3errlst_add(T3E_d2exp_trup_arg_body_linpat(p2t))
+    end // end of [_]
+  end // end of [non-P2TCany]
+)
+//
+in
+  auxlst(p2ts_arg, s2es_arg)
+end // end of [val]
+//
 val cp2tcss =
-  p2atcstlst_comp ($UN.castvwtp1{p2atcstlst}(p2tcs))
-val ((*freed*)) = list_vt_free (p2tcs)
+  p2atcstlst_comp($UN.castvwtp1{p2atcstlst}(p2tcs))
+val ((*freed*)) = list_vt_free(p2tcs)
 val isexhaust =
 (
-  if list_vt_is_nil (cp2tcss) then true else false
+  if list_vt_is_nil(cp2tcss) then true else false
 ) : bool // end of [val]
 val () =
 if ~isexhaust then let
-  val cp2tcss = p2atcstlstlst_vt_copy (cp2tcss) in
-  trans3_env_add_patcstlstlst_false (loc0, CK_case_pos, cp2tcss, s2es_arg)
+//
+val cp2tcss = p2atcstlstlst_vt_copy(cp2tcss) in
+//
+  trans3_env_add_patcstlstlst_false(loc0, CK_case_pos, cp2tcss, s2es_arg)
 end // end of [if] // end of [val]
-val ((*freed*)) = p2atcstlstlst_vt_free (cp2tcss)
+//
+val ((*freed*)) = p2atcstlstlst_vt_free(cp2tcss)
 //
 } (* end of [funarg_patck_exhaust] *)
 
@@ -1811,52 +1871,68 @@ val () = (
   print_d2exp (d2e_body); print_newline ()
 ) // end of [val]
 *)
-val (pfenv | ()) = trans3_env_push ()
+val
+(pfenv | ()) = trans3_env_push()
 //
 var fc: funclo = fc0
+//
 val d2e_body =
-  d2exp_funclo_of_d2exp (d2e_body, fc)
-var s2fe: s2eff = s2eff_nil
-val d2e_body = d2exp_s2eff_of_d2exp (d2e_body, s2fe)
+  d2exp_funclo_of_d2exp(d2e_body, fc)
 //
-val (pfeff | ()) = the_effenv_push_lam (s2fe)
+var s2fe
+  : s2eff = s2eff_nil(*void*)
+val d2e_body =
+  d2exp_s2eff_of_d2exp(d2e_body, s2fe)
 //
-val s2es_arg = p2atlst_syn_type (p2ts_arg)
+val
+(pfeff | ()) = the_effenv_push_lam(s2fe)
 //
-val () = funarg_patck_exhaust (loc0, p2ts_arg, s2es_arg)
+val s2es_arg = p2atlst_syn_type(p2ts_arg)
 //
-val p3ts_arg = p2atlst_trup_arg (npf, p2ts_arg)
+val () =
+funarg_patck_exhaust(loc0, p2ts_arg, s2es_arg)
 //
-val (pfd2v | ()) = the_d2varenv_push_lam (lin)
-val () = the_d2varenv_add_p3atlst (p3ts_arg)
-val (pfman | ()) = the_pfmanenv_push_lam (lin) // lin:0/1:stopping/continue
-val () = the_pfmanenv_add_p3atlst (p3ts_arg)
+val p3ts_arg = p2atlst_trup_arg(npf, p2ts_arg)
 //
-val (pflamlp | ()) = the_lamlpenv_push_lam (p3ts_arg)
+val
+(pfd2v|()) = the_d2varenv_push_lam(lin)
+val () = the_d2varenv_add_p3atlst(p3ts_arg)
+val
+(pfman|()) = the_pfmanenv_push_lam(lin) // lin:0/1:stopping/continue
+val () = the_pfmanenv_add_p3atlst(p3ts_arg)
 //
-val d3e_body = d2exp_trup (d2e_body)
+val
+(pflamlp|()) = the_lamlpenv_push_lam(p3ts_arg)
 //
-val () = the_d2varenv_check (loc0)
-val () = if lin > 0 then the_d2varenv_check_llam (loc0)
+val d3e_body = d2exp_trup(d2e_body)
 //
-val () = the_effenv_pop (pfeff | (*none*))
-val () = the_d2varenv_pop (pfd2v | (*none*))
-val () = the_pfmanenv_pop (pfman | (*none*))
-val () = the_lamlpenv_pop (pflamlp | (*none*))
+val () = the_d2varenv_check(loc0)
+val () =
+  if lin > 0 then the_d2varenv_check_llam(loc0)
 //
-val () = trans3_env_pop_and_add_main (pfenv | loc0)
+val () = the_effenv_pop(pfeff | (*none*))
+val () = the_d2varenv_pop(pfd2v | (*none*))
+val () = the_pfmanenv_pop(pfman | (*none*))
+val () = the_lamlpenv_pop(pflamlp | (*none*))
+//
+val () = trans3_env_pop_and_add_main(pfenv | loc0)
 //
 val s2e_res = d3e_body.d3exp_type
-val isprf = s2exp_is_prf (s2e_res)
-val islin = lin > 0
-val s2t_fun = s2rt_prf_lin_fc (loc0, isprf, islin, fc)
-val s2e_fun = s2exp_fun_srt (
+//
+val islin = (lin > 0)
+val isprf = s2exp_is_prf(s2e_res)
+//
+val s2t_fun =
+  s2rt_prf_lin_fc(loc0, isprf, islin, fc)
+//
+val s2e_fun = s2exp_fun_srt
+(
   s2t_fun, fc, lin, s2fe, npf, s2es_arg, s2e_res
-) // end of [val]
+) (* end of [val] *)
 //
 in
 //
-(s2e_fun, p3ts_arg, d3e_body)
+  (s2e_fun, p3ts_arg, d3e_body)
 //
 end // end of [d2exp_trup_arg_body]
 
@@ -1897,12 +1973,15 @@ d2exp_trup_laminit_dyn
     | S2Efun (fc, _, _, _, _, _) => (case+ fc of
       | FUNCLOclo 0 => () // [CLO]
       | _ => let
-         val () = prerr_error3_loc (loc0)
-         val () = filprerr_ifdebug "d2exp_trup_laminit_dyn"
-         val () = prerr ": the initializing value is expected to be a flat closure but it is not."
-         val () = prerr_newline ()
+         val () =
+         prerr_error3_loc(loc0)
+         val () =
+         filprerr_ifdebug("d2exp_trup_laminit_dyn")
+         val () = prerrln!
+           (": the initializing value is expected to be a flat closure but it is not.")
+         // end of [val]
        in
-         the_trans3errlst_add (T3E_d2exp_trup_laminit_funclo (d2e0, fc))
+         the_trans3errlst_add(T3E_d2exp_trup_laminit_funclo (d2e0, fc))
        end // end of [_]
       ) // end of [S2Efun]
     | _ => () // HX: deadcode

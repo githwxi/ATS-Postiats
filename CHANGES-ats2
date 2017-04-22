@@ -29,7 +29,12 @@ Here is a list of major additions and changes since the last release:
    Please see bug-2017-04-16.
 3. Fixing a bug in compiling a fix-function defined inside a template.
    Please see bug-2017-04-17.
-  
+4. Disallowing non-variable linear patterns as function arguments:
+   For instance,
+   fun foo($tup(x, y)): ... = ...
+   needs to be written as
+   fun foo(xy): ... = let $tup(x, y) = xy in ... end
+    
 ######
 
 0.3.4

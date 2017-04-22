@@ -114,6 +114,8 @@ datatype trans3err =
   | T3E_d2exp_trdn_exist of (d2exp, s2exp)
   | T3E_d2exp_trdn_lam_dyn of (d2exp, s2exp)
 //
+  | T3E_d2exp_trup_arg_body_linpat of (p2at)
+//
   | T3E_d3exp_delay of (loc_t, d3exp)
 //
   | T3E_d3exp_foldat of (loc_t, d3exp)

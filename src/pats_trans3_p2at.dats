@@ -96,12 +96,14 @@ staload "./pats_trans3_env.sats"
 #define l2l list_of_list_vt
 
 (* ****** ****** *)
-
+//
 extern
-fun p2at_trdn_any (p2t0: p2at, s2f0: s2hnf): p3at
+fun
+p2at_trdn_any(p2t0: p2at, s2f0: s2hnf): p3at
 extern
-fun p2at_trdn_var (p2t0: p2at, s2f0: s2hnf): p3at
-
+fun
+p2at_trdn_var(p2t0: p2at, s2f0: s2hnf): p3at
+//
 (* ****** ****** *)
 
 local
@@ -223,7 +225,8 @@ p2atlst_syn_type (p2ts) =
 (* ****** ****** *)
 
 implement
-p2at_trup_arg (p2t0) = let
+p2at_trup_arg
+  (p2t0) = let
 (*
   val () = begin
     println! ("p2at_trup_arg: p2t0 = ", p2t0)
@@ -232,14 +235,15 @@ p2at_trup_arg (p2t0) = let
 in
 //
 case+
-  p2t0.p2at_node of
-| P2Tann (p2t, s2e) =>
-    p2at_trdn_arg (p2t, s2e)
+p2t0.p2at_node
+of (*case+*)
+| P2Tann(p2t, s2e) =>
+    p2at_trdn_arg(p2t, s2e)
   // end of [P2Tann]
 | _ (*non-P2Tann*) => let
-    val-Some (s2e) = p2t0.p2at_type
+    val-Some(s2e) = p2t0.p2at_type
   in
-    p2at_trdn (p2t0, s2e)
+    p2at_trdn(p2t0, s2e)
   end // end of [_]
 //
 end // end of [p2at_trup_arg]
@@ -279,17 +283,17 @@ case+ p2ts of
 //
     val () =
     if npf > 0
-      then p2at_proofize (p2t)
+      then p2at_proofize(p2t)
     // end of [if]
 //
-    val p3t = p2at_trup_arg (p2t)
+    val p3t = p2at_trup_arg(p2t)
 //
     val () =
-    res := list_cons {p3at}{0} (p3t, ?)
+    res := list_cons{p3at}{0}(p3t, ?)
 //
-    val+list_cons (_, !p_res) = res
+    val+list_cons(_, !p_res) = res
 //
-    val () = loop (npf-1, p2ts, !p_res)
+    val () = loop(npf-1, p2ts, !p_res)
 //
     prval ((*folded*)) = fold@ (res)
   in
@@ -299,7 +303,7 @@ case+ p2ts of
 ) (* end of [loop] *)
 //
 var res: p3atlst // uninitized
-val ((*void*)) = loop (npf, p2ts, res)
+val ((*void*)) = loop(npf, p2ts, res)
 //
 } (* end of [p2atlst_trup_arg] *)
 
@@ -534,17 +538,18 @@ in
 //
 case+ p2t0.p2at_node of
 //
-| P2Tany _ => p2at_trdn_any (p2t0, s2f0)
-| P2Tvar _ => p2at_trdn_var (p2t0, s2f0)
+| P2Tany _ => p2at_trdn_any(p2t0, s2f0)
+| P2Tvar _ => p2at_trdn_var(p2t0, s2f0)
 //
-| P2Tcon _ => p2at_trdn_con (p2t0, s2f0)
+| P2Tcon _ => p2at_trdn_con(p2t0, s2f0)
 //
-| P2Tint _ => p2at_trdn_int (p2t0, s2f0)
-| P2Tintrep _ => p2at_trdn_intrep (p2t0, s2f0)
-| P2Tbool _ =>  p2at_trdn_bool (p2t0, s2f0)
-| P2Tchar _ =>  p2at_trdn_char (p2t0, s2f0)
-| P2Tfloat _ => p2at_trdn_float (p2t0, s2f0)
-| P2Tstring _ => p2at_trdn_string (p2t0, s2f0)
+| P2Tint _ => p2at_trdn_int(p2t0, s2f0)
+| P2Tintrep _ => p2at_trdn_intrep(p2t0, s2f0)
+//
+| P2Tbool _ =>  p2at_trdn_bool(p2t0, s2f0)
+| P2Tchar _ =>  p2at_trdn_char(p2t0, s2f0)
+| P2Tfloat _ => p2at_trdn_float(p2t0, s2f0)
+| P2Tstring _ => p2at_trdn_string(p2t0, s2f0)
 //
 | P2Ti0nt _ => p2at_trdn_i0nt (p2t0, s2f0)
 | P2Tf0loat _ => p2at_trdn_f0loat (p2t0, s2f0)
@@ -629,15 +634,23 @@ end // end of [p2atlst_trdn]
 implement
 p2at_trdn_any
   (p2t0, s2f0) = let
-  val loc0 = p2t0.p2at_loc
-  val s2e0 = s2hnf2exp (s2f0)
-  val d2v = d2var_make_any (loc0)
-  val () = d2var_set_mastype (d2v, Some (s2e0))
-  val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
-  val () = d2var_set_type (d2v, None ())
-  val islin = s2exp_is_lin (s2e0)
-  val p3t0 = p3at_any (loc0, s2e, d2v)
-  val () = if islin then p3at_set_type_left (p3t0, Some (s2e0))
+//
+val loc0 = p2t0.p2at_loc
+val s2e0 = s2hnf2exp(s2f0)
+//
+val p3t0 = let
+  val d2v = d2var_make_any(loc0)
+  val s2e = s2hnf_opnexi_and_add(loc0, s2f0)
+  val ((*void*)) = d2var_set_type(d2v, None())
+  val ((*void*)) = d2var_set_mastype(d2v, Some(s2e0))
+in
+  p3at_any(loc0, s2e, d2v)
+end // end of [val]
+//
+val islin = s2exp_is_lin(s2e0)
+val ((*void*)) =
+  if islin then p3at_set_type_left(p3t0, Some(s2e0))
+//
 in
   p3t0
 end // end of [p2at_trdn_any]
@@ -648,13 +661,13 @@ implement
 p2at_trdn_var
   (p2t0, s2f0) = let
   val loc0 = p2t0.p2at_loc
-  val-P2Tvar (d2v) = p2t0.p2at_node
+  val-P2Tvar(d2v) = p2t0.p2at_node
 //
   val s2e0 = s2hnf2exp (s2f0)
   val s2t0 = s2e0.s2exp_srt
   val islin = s2rt_is_lin (s2t0)
 //
-  val () = d2var_set_mastype (d2v, Some s2e0)
+  val () = d2var_set_mastype(d2v, Some s2e0)
   val () = if islin then { // linear var
     val () = d2var_set_linval (d2v, 0)
     val () = d2var_set_finknd (d2v, D2VFINnone())

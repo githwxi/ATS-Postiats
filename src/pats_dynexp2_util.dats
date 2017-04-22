@@ -79,25 +79,27 @@ p2atlst_tupize
   (p2ts) = let
 //
 fun
-aux
+auxlst
 (
   p2ts: p2atlst, n: int
 ) : labp2atlst =
   case+ p2ts of
+  | list_nil
+      ((*void*)) => list_nil()
+    // end of [list_nil]
   | list_cons
       (p2t, p2ts) => let
       val loc = p2t.p2at_loc
-      val l = $LAB.label_make_int (n)
-      val l0 = $SYN.l0ab_make_label (loc, l)
-      val lp2t = LABP2ATnorm (l0, p2t)
+      val l = $LAB.label_make_int(n)
+      val l0 = $SYN.l0ab_make_label(loc, l)
+      val lp2t = LABP2ATnorm(l0, p2t)
     in
-      list_cons (lp2t, aux (p2ts, n+1))
+      list_cons(lp2t, auxlst(p2ts, n+1))
     end // end of [list_vt_cons]
-  | list_nil ((*void*)) => list_nil ()
 // end of [aux]
 //
 in
-  aux (p2ts, 0)
+  auxlst(p2ts, 0)
 end // end of [p2atlst_tupize]
 
 (* ****** ****** *)
@@ -204,8 +206,8 @@ auxlst
 ) : bool =
 (
 case+ d2es of
-| list_nil () => true
-| list_cons (d2e, d2es) =>
+| list_nil() => true
+| list_cons(d2e, d2es) =>
     if aux(d2e) then auxlst(d2es) else false
   // end of [list_cons]
 )
@@ -217,10 +219,15 @@ auxlablst
 ) : bool =
 (
 case+ ld2es of
-| list_nil () => true
+| list_nil
+    ((*void*)) => true
+  // list_nil
 | list_cons
     (ld2e, ld2es) => let
-    val $SYN.DL0ABELED(l, d2e) = ld2e
+//
+    val
+    $SYN.DL0ABELED(l, d2e) = ld2e
+//
   in
     if aux(d2e) then auxlablst(ld2es) else false
   end // end of [list_cons]
@@ -235,26 +242,31 @@ end // end of [d2exp_is_varlamcst]
 implement
 d2con_select_arity
   (d2cs, n) = let
-  val nd2cs = list_length (d2cs)
+//
+val nd2cs = list_length(d2cs)
+//
 in
 //
 if
 nd2cs >= 2
 then let
 //
-  var !p_clo =
-  @lam (
-    pf: !unit_v | d2c: d2con
-  ) : bool =<clo1> d2con_get_arity_full (d2c) = n
+var
+!p_clo =
+@lam (
+  pf: !unit_v | d2c: d2con
+) : bool =<clo1> d2con_get_arity_full (d2c) = n
 //
-  prval pfu = unit_v ()
-  val d2cs2 = list_filter_vclo{unit_v}(pfu | d2cs, !p_clo)
-  prval unit_v () = pfu
+prval pfu = unit_v()
 //
-  val d2cs2 = (l2l)d2cs2
+val d2cs2 = list_filter_vclo{unit_v}(pfu | d2cs, !p_clo)
+//
+prval unit_v() = pfu
+//
+val d2cs2 = (l2l)d2cs2
 //
 in
-  case+ d2cs2 of list_cons _ => d2cs2 | list_nil () => d2cs
+  case+ d2cs2 of list_cons _ => d2cs2 | list_nil() => d2cs
 end // end of [then]
 else d2cs // end of [else]
 //
@@ -269,11 +281,14 @@ d2exp_d2var_lvalize
 (
   d2e0: d2exp, d2v: d2var, d2ls: d2lablst
 ) : d2lval =
-  case+ 0 of
-  | _ when d2var_is_linear (d2v) => D2LVALvar_lin (d2v, d2ls)
-  | _ when d2var_is_mutabl (d2v) => D2LVALvar_mut (d2v, d2ls)
-  | _ => D2LVALnone (d2e0) // end of [_]
-// end of [d2var_lvalize]
+(
+case+ 0 of
+| _ when
+    d2var_is_linear(d2v) => D2LVALvar_lin(d2v, d2ls)
+| _ when
+    d2var_is_mutabl(d2v) => D2LVALvar_mut(d2v, d2ls)
+| _ (* rest-of-d2var *) => D2LVALnone(d2e0)
+) (* end of [d2var_lvalize] *)
 
 in (* in-of-local *)
 
@@ -283,7 +298,7 @@ d2exp_lvalize
 (*
 val () = (
   println! ("d2exp_lvalize: d2e0 = ", d2e0)
-) // end of [val]
+) (* end of [val] *)
 *)
 in
 //
