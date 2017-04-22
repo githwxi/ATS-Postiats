@@ -1136,8 +1136,12 @@ ccompenv_add_freeconenv
 val CCOMPENV(!p) = env
 //
 val-
-list_vt_cons(!p_pmvs, _) = p->ccompenv_freeconenv
-val ((*void*)) = !p_pmvs := list_vt_cons(pmv, !p_pmvs)
+list_vt_cons
+(!p_pmvs, _) = p->ccompenv_freeconenv
+//
+val ((*void*)) =
+!p_pmvs := list_vt_cons(pmv, !p_pmvs)
+//
 prval ((*folded*)) = fold@ (p->ccompenv_freeconenv)
 //
 prval ((*folded*)) = fold@ (env)

@@ -895,17 +895,18 @@ case+
 | HSErefarg
     (refval, hse) =>
   (
-    if refval = 0 then
-      primval_arg (loc, hse0, narg)
-    else
-      primval_argref (loc, hse0, narg)
-    // end of [if]
+  if refval = 0 then
+    primval_arg(loc, hse0, narg)
+  else
+    primval_argref(loc, hse0, narg)
+  // end of [if]
   ) // end of [HSErefarg]
 //
 | HSEvararg _ =>
-    primval_argtmpref (loc, hse0, narg)
+    primval_argtmpref(loc, hse0, narg)
 //
-| _ => primval_arg (loc, hse0, narg)
+| _ (*rest-of-hidexp*) =>
+    primval_arg(loc, hse0, narg)
 //
 end // end of [primval_make_funarg]
 
@@ -924,16 +925,27 @@ auxpatck
   env: !ccompenv
 , res: !instrseq
 , narg: int
-, hips: list (hipat, n)
+, hips: list(hipat, n)
 , fail: patckont
-) : list_vt (primval, n) = let
+) : list_vt(primval, n) = let
+(*
+val () =
+println! ("hifunarg_ccomp")
+*)
 in
 //
 case+ hips of
+//
+| list_nil
+    () => list_vt_nil()
+  // end of [list_nil]
+//
 | list_cons
     (hip, hips) => let
+//
     val loc = hip.hipat_loc
     val hse = hip.hipat_type
+//
 (*
     val () =
     (
@@ -941,13 +953,17 @@ case+ hips of
       println!("hifunarg_ccomp: auxpatck: hse = ", hse);
     ) (* end of [val] *)
 *)
-    val pmv = primval_make_funarg (loc, hse, narg)
-    val ((*void*)) = hipatck_ccomp (env, res, fail, hip, pmv)
-    val pmvs = auxpatck (env, res, narg+1, hips, fail)
+//
+    val pmv =
+      primval_make_funarg(loc, hse, narg)
+    val ((*void*)) =
+      hipatck_ccomp(env, res, fail, hip, pmv)
+//
+    val pmvs = auxpatck(env, res, narg+1, hips, fail)
+//
   in
-    list_vt_cons (pmv, pmvs)
+    list_vt_cons(pmv, pmvs)
   end // end of [list_cons]
-| list_nil () => list_vt_nil ()
 //
 end // end of [auxpatck]
 //
