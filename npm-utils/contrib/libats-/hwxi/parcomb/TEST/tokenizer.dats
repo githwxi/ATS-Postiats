@@ -58,10 +58,10 @@ ident_make
   c: int, cs: List0(int)
 ) : string = let
   val cs =
-    list_map_fun<int><char> (c::cs, lam c => i2c(c))
+    list_map_fun<int><char>(c::cs, lam c => i2c(c))
   val ident =
-    string_make_list ($UN.castvwtp1{List0(charNZ)}(cs))
-  val ((*freed*)) = list_vt_free (cs)
+    string_make_list($UN.castvwtp1{List0(charNZ)}(cs))
+  val ((*freed*)) = list_vt_free<char>(cs)
 in
   strnptr2string(ident)
 end // end of [ident_make]
