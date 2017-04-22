@@ -2,77 +2,68 @@ os:
   - osx
   - linux
 sudo: false
+language: c
+services:
+  - docker
+compiler:
+  - gcc
+  - clang 
+env:
+  global:
+    # ATS1
+    - ATSVER=0.2.12
+    - ATSHOME=${HOME}/ats-lang-anairiats-${ATSVER}
+    - ATSHOMERELOC=ATS-${ATSVER}
+    # ATS2
+    - PATSHOME=${TRAVIS_BUILD_DIR}
+    - PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
+    - PATSHOME_contrib=${PATSHOMERELOC}
+    - PATCONTRIB=${PATSHOMERELOC}
+    # Path
+    - PATH=${PATH}:${PATSHOME}/bin
+    # Docker
+    - secure: "QZ8IFnlmrMwFkBR00MVvj1wAelGn+RGhmP/bGIKrS0znxbBbIkXZbFKR1a0VoWBIjtV9pKoAd9OeFVojxnQr8msolN1hN7n+u9z56cnUMMgOVxXxS5UQuEAn8DgTolHIy/fc81IS0RYexxR+JsN/sRNPTLTO+iKTeoEmZKq9vms=" # DOCKER_USER
+    - secure: "f6PFoHAU6Fhe673zNnyxEdE9rcEIDtaro1xETYaIFRB/yEpMfRqJnXCXgHNh2P9EDy5DM3+41NFjV2WhPXtdDOnbViDznMRr24VY3Mullzvbt5xjImir/Ig7QOrlvf2nCQzpi21CCKcy3UlmqRDhVmP+T4WSshmEcBckkAD5U0Q=" # DOCKER_PASS
+    - secure: "V7sH6XcR30gIbFhTroTA+4UuRZQ0e/+/ezDYhDt6I3oEPXnOA2Z8AV6uzblRhAlalIunaZSXsRqz/br/HgBSlDniIFdLYumMrCjSBjXptp4O0guaVVY2vrG0ivr6xeaDFf52TfUIruLrslArgrOFgvPGX+/HiFqH2hky8oqpRf0=" # DOCKER_USER_WU
+    - secure: "YA8JcqU40bFwyWUbCPCo9+HCsKylwTHsD1el2ZI7BQCF4sgFCAfG+6t+QL4rlPZKXNZyMYqIEupgyIkILK+iSyoQwjIyBp+oxvaLffe4tR79qRNfn+XaCLMZZUP5EPedvkp4/QOigAlAWiAVvfqlGyC7JWkEZZeeNuZCOtsGmZc=" # DOCKER_PASS_WU
+    - secure: "WrUGfiz+eB76EYyyY5gv7QPnsksJQRtaoTbZJALeGajVNgdXyBb/01oLJKs3KVKmH88AEtA3kisAZpOWSCOh2em0Yy740nzZ+maxb6oOZLtn3PUm/SGT3AkyQmP0hgEUSD9EJCfAPMQj6m5ugO5mj83Ha7uvi15BJx+AJzuO7pYhRJXd5X2eazHB/NHvJaVF582jp9tSLSk3J09YYfpWWG3ZvK23NpG/arlVdny+aLZk5vmrpyakmwo6hi2XJo3JzhGBcY+1z6TPbdXliSajrshzzIWJogO6j4SoW38su0hlW641KEPibRzw8Kfm79pQt66e9ZMxRulruS/46O1JVsBOG+jXMGqZzHSHB+w4VR89enyeNjphuRQrz7ipID+uZ4yWI8U5P9uzJu5tjZEZ3LT7m9CdOSmQRW6/xzCoTDCjbvQdaCnQTZyw8XESL79VUX0BV5wDnRwqNeDtJa9m2Zavzag/GNBogmspC/BLFU1p+EvJ1oHUlAeug5m6EfBYcQqvhAo/AMnE1HogACjW9bFLc8Z++dyIQnTVf+jjnRajSjgr8Lpix288EuB5FEFWczALjOV/RLMTy9tPkjNSs7TgWZ9GY9r2ELAewWypGXbEQctaAE6GWJplGcUaMaVSFCHNXnjMcehJBY3ubXXTnfUAQy+1ReZxyJ3gF4Ce4cQ=" # DOCKER_USER_RELEASE
+    - secure: "HJzFVp+qLoneIxlHjBlQN4lgeGdr/jssjzS6hSBdfXE+diirDXXYQhciwEpS8QyPPMt+nT5vVTCS/6lYR08YagvXojgzdHRdNovEOgBU/TVIYey4zRPpfRdZ9PYxweIBXVBD1FxZPOJp7WYbZ//H4a+VKcZG4/v1Z5F+sTsvJFS4S3BSibZpmN9ZRXoMQoCYRqDVsVeaY40WCC+8b/plQVBr5w71QyoTQoIikkhs2Zypy7SJ0ixyWTVMD/UIB47lmAMT8jyMLqrTQw7TI1iu12HrvfowF/p1CClhPEFX+WYVO7lChWCaRQlJ1qsiqfpL/qed7Kh4hLOOzWr/HyhJXz00nfcWoqX6oJ0HhW47ozh+XOtWfX24aL9nq1r1T41qTCZz+z/hYnKs4pEUVJChL7I6x3BzBjreF1iuH0tSzYMlLlKLOyTCXAstjU+dliVKDlwXchIq804MMI8OR0KT3Iid3M1rOjx1JLS2YcZcsrMFzqWThL77/7P1q3AJ+e1B46a45zOFTRtArIwxvUjSyEturk/L9+4JTsmZnorLy0F85WcyRul5IFmcErqxu61IXyEMfCmCBPtDZTJkcmAdRGAmKRKRltOE2SL/rZm9sCWZ+G50rEQsA66L/x7VXOo7jGi+Y8ILXIPs27Ab1mCWWttCm4zkpAZJQezp3cTIs28=" # DOCKER_PASS_RELEASE
 addons:
   apt:
     packages:
     - libgc-dev
-    - libgmp-dev
+    - libgmp3-dev
     - libgtk-3-dev
     - libev-dev
-    - libjson0-dev
+    - libjson-c-dev
     - libjansson-dev
     - docbook-utils
+    - python
+    - python3
 before_install:
+  # Install OSX Packages
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ${TRAVIS_BUILD_DIR}/travis-ci/install_osx.sh; fi
+install:
+  # Build ATS1
   - date
-  - cd ${HOME}
-  # Setting-up
-  - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.12
-  - export ATSHOMERELOC=ATS-0.2.12
-  - export PATSHOME=${TRAVIS_BUILD_DIR}
-  - export PATH=${PATH}:${PATSHOME}/bin
-  # Install pkgs
-  - ${TRAVIS_BUILD_DIR}/travis-ci/installpkg.sh
-  # Download ATS1
-  - ${TRAVIS_BUILD_DIR}/travis-ci/ats1_setup.sh 0.2.12
-  # Download ATS2-contrib
-  - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
-  - export PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
-  - export GCC=gcc
-  - export CLANG=clang
+  - (cd ${HOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats1.sh)
 script:
-  - ${GCC} --version
-  - ${CLANG} --version
-  # Building ATS1
-  - cd ${ATSHOME}
-  # ./configure&&make CC=${GCC} all
-  - ./configure&&make CC=${GCC} all_ngc
   # Building ATS2
-  - cd ${TRAVIS_BUILD_DIR}
-  - make -f Makefile_devl CC=${GCC} all
-  # make GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${GCC} all
-  # make C3NSTRINTKND=intknd -f Makefile_devl CC=${CLANG} all
-  # make C3NSTRINTKND=intknd GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${CLANG} all
-  # Trying-out release process
-  - cd ${TRAVIS_BUILD_DIR}
-  - make -C ${PATSHOME}/src CBOOT
-  - make -C ${PATSHOME}/src/CBOOT/prelude
-  - make -C ${PATSHOME}/src/CBOOT/libc
-  - make -C ${PATSHOME}/src/CBOOT/libats
-  - make -C ${PATSHOME}/doc/DISTRIB atspackaging
-  - make -C ${PATSHOME}/doc/DISTRIB atspacktarzvcf
-  - make -C ${PATSHOME}/doc/DISTRIB cleanall
-  # make -C ${PATSHOME}/doc/DISTRIB atscontribing
-  # make -C ${PATSHOME}/doc/DISTRIB atscntrbtarzvcf
-  # make -C ${PATSHOME}/doc/DISTRIB cleanall
+  - ${CC} --version
+  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_ats2.sh)
+  # Initial Testing
+  - patscc
   # Running regress test
-  - cd ${TRAVIS_BUILD_DIR}
-  - make -C ${PATSHOME}/doc -f Makefile_test testall > testall_doc.log 2>&1
-  - tail -100 testall_doc.log
+  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/test_regress.sh)
+after_success:
+  # Build Docker Image
+  - docker login -u $DOCKER_USER_RELEASE -p $DOCKER_PASS_RELEASE
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$CC" == "gcc" ]; then (cd ${TRAVIS_BUILD_DIR}/travis-ci/ && ./build_docker.sh); fi
   # Building some utilities
-  - cp ${ATSHOME}/config.h .
-  - make -C src cleanall
-  - make -C src/CBOOT/prelude
-  - make -C src/CBOOT/libc
-  - make -C src/CBOOT/libats
-  - make -C utils/libatsopt
-  - cp utils/libatsopt/libatsopt.a ${ATSHOME}/ccomp/lib
-  - make -C utils/libatsynmark
-  - cp utils/libatsynmark/libatsynmark.a ${ATSHOME}/ccomp/lib
-  - make -C utils/atsynmark
-  # make -C utils/atstagging
-  # make -C utils/packeditall
+  - (cd ${PATSHOME} && ${TRAVIS_BUILD_DIR}/travis-ci/install_utilities.sh)
   # Building books
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -C doc/BOOK/ATS2TUTORIAL; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -C doc/BOOK/INT2PROGINATS; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/ATS2TUTORIAL); fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then (cd ${PATSHOME} && make -C doc/BOOK/INT2PROGINATS); fi
 after_script:
+  # End Time
   - date
