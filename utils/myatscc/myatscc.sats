@@ -50,6 +50,16 @@ typedef loc_t = loc_type
 (* ****** ****** *)
 //
 fun
+loc_t_left(loc_t): int
+fun
+loc_t_right(loc_t): int
+//
+overload .left with loc_t_left
+overload .right with loc_t_right
+//
+(* ****** ****** *)
+//
+fun
 loc_t_make
   (p0: int, p1: int): loc_t
 //
@@ -77,15 +87,25 @@ overload fprint with fprint_loc_t
 //
 datatype
 token_node =
+//
 | TOKide of string
+//
 | TOKint of ( int )
+//
 | TOKspchr of char
+//
+| TOKname_i of int
+| TOKname_s of string
+| TOKstring of string
 //
 where token = $rec
 {
   token_loc= loc_t
 , token_node= token_node
 } (* end of [where] *)
+//
+typedef tokenlst = List0(token)
+vtypedef tokenlst_vt = List0_vt(token)
 //
 (* ****** ****** *)
 //
@@ -120,8 +140,13 @@ overload fprint with fprint_token
 (* ****** ****** *)
 //
 fun
-string_tokenize(inp: string): List0(token)
+string_tokenize(inp: string): tokenlst
 //
+(* ****** ****** *)
+
+fun
+tokenlst_tokenize(ts: List(token)): tokenlst
+
 (* ****** ****** *)
 
 (* end of [myatscc.sats] *)

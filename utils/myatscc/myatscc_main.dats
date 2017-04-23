@@ -58,11 +58,13 @@ val () =
 println! ("Hello from [myatscc]!")
 //
 val toks =
-string_tokenize(MYATSCCDEF)
+  string_tokenize(MYATSCCDEF)
+//
+val toks = tokenlst_tokenize(toks)
 //
 val toks = g0ofg1_list(toks)
 //
-val ((*void*)) = toks.foreach()(lam(tok) => println!(tok))
+val ((*void*)) = toks.foreach()(lam(tok) => println!(tok, ":", tok.token_loc))
 //
 } (* end of [main0] *)
 

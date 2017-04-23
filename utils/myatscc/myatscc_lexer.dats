@@ -157,12 +157,22 @@ tok.token_node of
   fprint!(out, "TOKide(", ide, ")")
 | TOKint(int) =>
   fprint!(out, "TOKint(", int, ")")
+//
 | TOKspchr(chr) =>
   fprint!(out, "TOKspchr(", chr, ")")
+//
+| TOKname_i(name) =>
+  fprint!(out, "TOKname_i(", name, ")")
+| TOKname_s(name) =>
+  fprint!(out, "TOKname_s(", name, ")")
+//
+| TOKstring(text) =>
+  fprint!(out, "TOKstring(", text, ")")
+//
 )
 //
 (* ****** ****** *)
-//
+
 local
 //
 fun
@@ -249,6 +259,73 @@ seq2wth_parser_fun
 end // end of [local]
   
 (* ****** ****** *)
+
+local
+
+fun
+digit_parser
+(
+p0: parser(ichar, ichar)
+) : parser(ichar, ichar) =
+(
+sat_parser_fun(p0, lam ic => isdigit(ic.char()))
+) (* end of [digit_parser] *)
+
+in (* in-of-local *)
+//
+fun
+token_int_parser
+(
+p0: parser(ichar, ichar)
+) : parser(ichar, token) = let
+//
+fun
+integer_make
+(
+  ics: List1(ichar)
+) : token = let
+//
+  val+list_cons(ic, ics) = ics
+//
+  val p0 = ic.pos()
+  val p1 = loop(p0, ics) where
+  {
+    fun
+    loop
+    (
+      p0: int, ics: List0(ichar)
+    ) : int =
+    (
+      case+ ics of
+      | list_nil() => p0+1
+      | list_cons
+          (ic, ics) => loop(ic.pos(), ics)
+        // list_cons
+    )
+  }
+//
+  implement
+  list_foldleft$fopr<int><ichar>
+    (res, ic) = 10 * res + (ic.char()-'0')
+  // end of [list_foldleft$fopr]
+in
+//
+token_make_int
+( p0, p1
+, list_foldleft<int><ichar>(ics, ic.char()-'0')
+)
+//
+end (* end of [integer_make] *)
+//
+in
+  seq1wth_parser_fun
+    (list1_parser(digit_parser(p0)), integer_make)
+  // end of [seq1wth_parser_fun]
+end // end of [token_int_parser]
+
+end // end of [local]
+
+(* ****** ****** *)
 //
 fun
 token_spchr_parser
@@ -273,11 +350,8 @@ p0: parser(ichar, ichar)
 //
 token_ide_parser(p0)
 //
-(*
 ||
-//
 token_int_parser(p0)
-*)
 //
 ||
 //
@@ -300,6 +374,107 @@ token_parser(any_parser<ichar>())
 in
   parser_apply_stream(list0_parser(partok), ics)
 end // end of [string_tokenize]
+
+(* ****** ****** *)
+
+implement
+tokenlst_tokenize
+  (ts) = let
+//
+fun
+trans1
+(
+ts: List(token), res: tokenlst_vt
+) : tokenlst_vt =
+(
+case+ ts of
+| list_nil() => res
+| list_cons(t, ts) =>
+  (
+    case-
+    t.token_node
+    of (*case-*)
+    | TOKide _ =>
+      trans1(ts, cons_vt(t, res))
+    | TOKint _ => 
+      trans1(ts, cons_vt(t, res))
+    | TOKspchr(c) =>
+      (
+        ifcase
+        | c = '$' => trans2(t, ts, res)
+        | c = '\\' => trans3(t, ts, res)
+        | _(*else*) => trans1(ts, cons_vt(t, res))
+      )
+  )
+) (* end of [trans1] *)
+//
+and
+trans2
+(
+t0: token,
+ts1: List(token), res: tokenlst_vt
+) : tokenlst_vt =
+(
+case+ ts1 of
+| list_nil() =>
+  cons_vt(t0, res)
+| list_cons(t1, ts2) =>
+  (
+    case+
+    t1.token_node
+    of (*case+*)
+    | TOKide(ide) => let
+        val loc =
+        t0.token_loc+t1.token_loc
+        val t01 =
+        token_make_node(loc, TOKname_s(ide))
+      in
+        trans1(ts2, cons_vt(t01, res))
+      end
+    | TOKint(int) => let
+        val loc =
+        t0.token_loc+t1.token_loc
+        val t01 =
+        token_make_node(loc, TOKname_i(int))
+      in
+        trans1(ts2, cons_vt(t01, res))
+      end
+    | _(*rest-of-token*) =>
+        trans1(ts1, cons_vt(t0, res))
+  )
+)
+//
+and
+trans3
+(
+t0: token,
+ts1: List(token), res: tokenlst_vt
+) : tokenlst_vt =
+(
+case+ ts1 of
+| list_nil() =>
+  cons_vt(t0, res)
+| list_cons(t1, ts2) =>
+  (
+    case+
+    t1.token_node
+    of (*case+*)
+    | TOKspchr(c) => let
+        val loc =
+        t0.token_loc+t1.token_loc
+        val t01 =
+        token_make_node(loc, t1.token_node)
+      in
+        trans1(ts2, cons_vt(t01, res))
+      end
+    | _(*rest-of-token*) =>
+        trans1(ts1, cons_vt(t0, res))
+  )
+)
+//
+in
+  list_vt2t(list_vt_reverse(trans1(ts, list_vt_nil())))
+end // end of [tokenlst_tokenize]
 
 (* ****** ****** *)
 

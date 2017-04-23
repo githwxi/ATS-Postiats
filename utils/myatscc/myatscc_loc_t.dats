@@ -24,6 +24,13 @@ loc_t = LOC of (int, int)
 assume loc_type = loc_t
 //
 (* ****** ****** *)
+
+implement
+loc_t_left(LOC(p0, _)) = p0
+implement
+loc_t_right(LOC(_, p1)) = p1
+
+(* ****** ****** *)
 //
 implement
 loc_t_make(p0, p1) = LOC(p0, p1)
@@ -51,7 +58,7 @@ fprint_loc_t
   (out, loc) = let
   val LOC(p0, p1) = loc
 in
-  fprint!(stdout_ref, "(", p0, " -- ", p1, ")")
+  fprint!(stdout_ref, "(", p0, "--", p1, ")")
 end // end of [fprint_loc_t]
 
 (* ****** ****** *)
