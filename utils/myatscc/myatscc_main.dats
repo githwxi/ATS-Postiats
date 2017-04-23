@@ -33,95 +33,39 @@
 
 (* ****** ****** *)
 //
-(*
-HX-2017-04-22:
-This is the default used by [myatscc]
-*)
-//
-#define
-MYATSCCDEF
-"patscc -DATS_MEMALLOC_LIBC -o $fname($1) $1"
-//
-(* ****** ****** *)
-//
-abstype loc_type = ptr
-typedef loc_t = loc_type
-//
-(* ****** ****** *)
-//
-fun
-loc_t_make
-  (p0: int, p1: int): loc_t
-//
-fun
-loc_t_combine
-  (x1: loc_t, x2: loc_t): loc_t
-//
-overload + with loc_t_combine
-//
-(* ****** ****** *)
-//
-fun
-print_loc_t: loc_t -> void
-and
-prerr_loc_t: loc_t -> void
-//
-fun
-fprint_loc_t: fprint_type(loc_t)
-//
-overload print with print_loc_t
-overload prerr with prerr_loc_t
-overload fprint with fprint_loc_t
-//
-(* ****** ****** *)
-//
-datatype
-token_node =
-| TOKide of string
-| TOKint of ( int )
-| TOKspchr of char
-//
-where token = $rec
-{
-  token_loc= loc_t
-, token_node= token_node
-} (* end of [where] *)
-//
-(* ****** ****** *)
-//
-fun
-token_make_ide
-(
-p0: int, p1: int, ide: string
-) : token
-//
-fun
-token_make_int
-  (p0: int, p1: int, int: int): token
-//
-fun
-token_make_spchr
-  (p0: int, chr: char): token
-//
-(* ****** ****** *)
-//
-fun
-print_token: token -> void
-and
-prerr_token: token -> void
-//
-fun
-fprint_token: fprint_type(token)
-//
-overload print with print_token
-overload prerr with prerr_token
-overload fprint with fprint_token
-//
-(* ****** ****** *)
-//
-fun
-string_tokenize(inp: string): List0(token)
+#include
+"share/atspre_staload.hats"
+#include
+"share/HATS\
+/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
-(* end of [myatscc.sats] *)
+staload "./myatscc.sats"
+
+(* ****** ****** *)
+//
+dynload "./myatscc_loc_t.dats"
+dynload "./myatscc_lexer.dats"
+//
+(* ****** ****** *)
+
+implement
+main0() = () where
+{
+//
+val () =
+println! ("Hello from [myatscc]!")
+//
+val toks =
+string_tokenize(MYATSCCDEF)
+//
+val toks = g0ofg1_list(toks)
+//
+val ((*void*)) = toks.foreach()(lam(tok) => println!(tok))
+//
+} (* end of [main0] *)
+
+(* ****** ****** *)
+
+(* end of [myatscc_main.dats] *)

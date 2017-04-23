@@ -2,7 +2,7 @@
 "name":
 "atscntrb-hx-parcomb"
 ,
-"version": "1.0.3"
+"version": "1.0.4"
 ,
 "description":
 "This package is for experimenting with parsing combinators..."

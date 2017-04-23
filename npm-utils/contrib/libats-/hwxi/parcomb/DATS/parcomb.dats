@@ -139,7 +139,7 @@ any_parser
 //
 implement
 {t}{a}
-ret_parser (x) = lam (st) => (x)
+ret_parser(x) = lam (st) => (x)
 //
 (* ****** ****** *)
 //
@@ -350,7 +350,10 @@ end // end of [opt_parser]
 implement
 {t}{a}
 parser_apply_stream
-  (p0, ts) = let
+(
+parser, ts
+) = parser(st) where
+{
 //
 var st: pstate(t)
 //
@@ -360,9 +363,30 @@ val () =
 val () = st.ncur := 0
 and () = st.nmax := 0
 //
-in
-  p0 (st)
-end // end of [parser_apply_stream]
+} (* end of [parser_apply_stream] *)
+
+(* ****** ****** *)
+
+implement
+{t}{a}
+parser_apply2_stream
+(
+parser, ts
+) = (x0, ts) where
+{
+//
+var st: pstate(t)
+//
+val () =
+  st.tstream := ts
+//
+val () = st.ncur := 0
+and () = st.nmax := 0
+//
+val x0 = parser(st)
+val ts = st.tstream
+//
+} (* end of [parser_apply2_stream] *)
 
 (* ****** ****** *)
 

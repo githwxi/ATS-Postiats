@@ -190,7 +190,13 @@ opt_parser
 fun
 {t:t0p}
 {a:t0p}
-parser_apply_stream(parser(t, a), stream(t)): a
+parser_apply_stream(parser(t, a), stream(t)): (a)
+//
+fun
+{t:t0p}
+{a:t0p}
+parser_apply2_stream
+  (parser: parser(t, a), ts: stream(t)): (a, stream(t))
 //
 (* ****** ****** *)
 

@@ -31,6 +31,31 @@ regress::
 cleanall::
 
 ######
+
+DATS_C =
+DATS_C += myatscc_main_dats.c
+DATS_C += myatscc_loc_t_dats.c
+DATS_C += myatscc_lexer_dats.c
+
+PARCOMB =
+PARCOMB += myatscc_parcomb.sats
+PARCOMB += myatscc_parcomb.dats
+
+######
+#
+all:: \
+myatscc
+#
+myatscc: \
+$(DATS_C); $(PATSCC2) -o $@ $(DATS_C) $(PARCOMB)
+#
+cleanall:: ; $(RMF) myatscc
+#
+######
+
+%_dats.c: %.dats; $(PATSCC) -ccats $<
+
+######
 #
 npm-install:: ; \
 $(NPM) install atscntrb-hx-parcomb
