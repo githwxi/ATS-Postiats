@@ -7,8 +7,8 @@ atscntrb-hx-parcomb
 //
 (* ****** ****** *)
 //
-#staload "./SATS/parcomb.sats"
-#staload _(*anon*) = "./DATS/parcomb.dats"
+#staload PARCOMB = "./SATS/parcomb.sats"
+#staload _(*PARCOMB*) = "./DATS/parcomb.dats"
 //
 (* ****** ****** *)
 

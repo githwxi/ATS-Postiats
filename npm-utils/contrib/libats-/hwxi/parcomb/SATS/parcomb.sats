@@ -145,6 +145,16 @@ seq2wth_parser_cloref
 fun
 {t:t0p}
 {a1,a2,a3,b:t0p}
+seq3wth_parser_fun
+(
+  p1: parser(t, a1)
+, p2: parser(t, a2)
+, p3: parser(t, a3)
+, fopr: (a1, a2, a3) -<fun1> b
+) : parser(t, b) // end-of-function
+fun
+{t:t0p}
+{a1,a2,a3,b:t0p}
 seq3wth_parser_cloref
 (
   p1: parser(t, a1)
@@ -156,6 +166,17 @@ seq3wth_parser_cloref
 fun
 {t:t0p}
 {a1,a2,a3,a4,b:t0p}
+seq4wth_parser_fun
+(
+  p1: parser(t, a1)
+, p2: parser(t, a2)
+, p3: parser(t, a3)
+, p4: parser(t, a4)
+, fopr: (a1, a2, a3, a4) -<fun1> b
+) : parser(t, b) // end-of-function
+fun
+{t:t0p}
+{a1,a2,a3,a4,b:t0p}
 seq4wth_parser_cloref
 (
   p1: parser(t, a1)
@@ -164,6 +185,26 @@ seq4wth_parser_cloref
 , p4: parser(t, a4)
 , fopr: (a1, a2, a3, a4) -<cloref1> b
 ) : parser(t, b) // end-of-function
+//
+(* ****** ****** *)
+//
+fun
+{t:t0p}
+{a:t0p}
+skip_parser
+  (p0: parser(t, a)): parser(t, unit)
+//
+fun
+{t:t0p}
+{a:t0p}
+skipall0_parser
+  (p0: parser(t, a)): parser(t, unit)
+//
+fun
+{t:t0p}
+{a:t0p}
+skipall1_parser
+  (p0: parser(t, a)): parser(t, unit)
 //
 (* ****** ****** *)
 //
@@ -182,7 +223,7 @@ list1_parser
 fun
 {t:t0p}
 {a:t0p}
-opt_parser
+option_parser
   (p0: parser(t, a)): parser(t, Option(a))
 //
 (* ****** ****** *)

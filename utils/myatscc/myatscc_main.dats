@@ -47,6 +47,7 @@ staload "./myatscc.sats"
 //
 dynload "./myatscc_loc_t.dats"
 dynload "./myatscc_lexer.dats"
+dynload "./myatscc_parser.dats"
 //
 (* ****** ****** *)
 
@@ -62,9 +63,11 @@ val toks =
 //
 val toks = tokenlst_tokenize(toks)
 //
-val toks = g0ofg1_list(toks)
+val exps = tokenlst2myexpseq(toks)
 //
-val ((*void*)) = toks.foreach()(lam(tok) => println!(tok, ":", tok.token_loc))
+val exps = g0ofg1_list(exps)
+//
+val ((*void*)) = exps.foreach()(lam(exp) => println!(exp, ":", exp.myexp_loc))
 //
 } (* end of [main0] *)
 

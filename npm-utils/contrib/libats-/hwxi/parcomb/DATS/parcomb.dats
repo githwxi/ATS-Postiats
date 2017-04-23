@@ -244,57 +244,116 @@ end // end of [let]
 implement
 {t}{a,b}
 seq1wth_parser_fun
-  (p, f) =
+  (p, fopr) =
   lam (st) =>
-  let val x = p(st) in f (x) end
+  let val x = p(st) in fopr(x) end
 implement
 {t}{a,b}
 seq1wth_parser_cloref
-  (p, f) =
+  (p, fopr) =
   lam (st) =>
-  let val x = p(st) in f (x) end
+  let val x = p(st) in fopr(x) end
 //
 implement
 {t}{a1,a2,b}
 seq2wth_parser_fun
-  (p1, p2, f) =
+  (p1, p2, fopr) =
 lam (st) => let
   val x1 = p1(st)
-  val x2 = p2(st) in f (x1, x2)
+  val x2 = p2(st) in fopr(x1, x2)
 end // end of [seq2wth_parser_fun]
 implement
 {t}{a1,a2,b}
 seq2wth_parser_cloref
-  (p1, p2, f) =
+  (p1, p2, fopr) =
 lam (st) => let
   val x1 = p1(st)
-  val x2 = p2(st) in f (x1, x2)
+  val x2 = p2(st) in fopr(x1, x2)
 end // end of [seq2wth_parser_cloref]
 //
 implement
 {t}{a1,a2,a3,b}
-seq3wth_parser_cloref
+seq3wth_parser_fun
 (
-  p1, p2, p3, f
+  p1, p2, p3, fopr
 ) =
 lam (st) => let
   val x1 = p1(st)
   val x2 = p2(st)
-  val x3 = p3(st) in f (x1, x2, x3)
+  val x3 = p3(st) in fopr(x1, x2, x3)
+end // end of [seq3wth_parser_fun]
+implement
+{t}{a1,a2,a3,b}
+seq3wth_parser_cloref
+(
+  p1, p2, p3, fopr
+) =
+lam (st) => let
+  val x1 = p1(st)
+  val x2 = p2(st)
+  val x3 = p3(st) in fopr(x1, x2, x3)
 end // end of [seq3wth_parser_cloref]
 //
 implement
 {t}{a1,a2,a3,a4,b}
-seq4wth_parser_cloref
+seq4wth_parser_fun
 (
-  p1, p2, p3, p4, f
+  p1, p2, p3, p4, fopr
 ) =
 lam (st) => let
   val x1 = p1(st)
   val x2 = p2(st)
   val x3 = p3(st)
-  val x4 = p4(st) in f (x1, x2, x3, x4)
+  val x4 = p4(st) in fopr(x1, x2, x3, x4)
+end // end of [seq4wth_parser_fun]
+implement
+{t}{a1,a2,a3,a4,b}
+seq4wth_parser_cloref
+(
+  p1, p2, p3, p4, fopr
+) =
+lam (st) => let
+  val x1 = p1(st)
+  val x2 = p2(st)
+  val x3 = p3(st)
+  val x4 = p4(st) in fopr(x1, x2, x3, x4)
 end // end of [seq4wth_parser_cloref]
+//
+(* ****** ****** *)
+//
+implement
+{t}{a}
+skip_parser(px) = let
+  typedef b = unit
+in
+//
+seq1wth_parser_fun<t><a,b>
+  (px, lam x => unit(*void*))
+//
+end // end of [skip_parser]
+//
+implement
+{t}{a}
+skipall0_parser(px) = let
+//
+in
+//
+skipall1_parser<t><a>(px) ||
+ret_parser<t><unit>(unit(*void*))
+//
+end // end of [list0_parser]
+//
+implement
+{t}{a}
+skipall1_parser(px) =
+(
+//
+lam (st) => let
+  val x = px(st)
+  val py = skipall0_parser<t><a>(px) in py(st)
+end // end of [let]
+//
+) (* end of [skipall1_parser] *)
 //
 (* ****** ****** *)
 
@@ -314,9 +373,7 @@ end // end of [list0_parser]
 implement
 {t}{a}
 list1_parser
-(
-  p0
-) =
+  (p0) =
 (
 //
 lam (st) => let
@@ -333,7 +390,7 @@ end // end of [let]
 //
 implement
 {t}{a}
-opt_parser(p0) = let
+option_parser(p0) = let
 //
 typedef b = Option(a)
 //
@@ -341,7 +398,7 @@ in
 //
 seq1wth_parser_fun<t><a,b>
   (p0, lam x => Some(x)) ||
-ret_parser<t><b>(None(*void*))
+ret_parser<t><b>(None((*void*)))
 //
 end // end of [opt_parser]
 //

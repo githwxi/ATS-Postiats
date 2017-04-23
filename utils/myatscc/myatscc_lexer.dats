@@ -8,22 +8,20 @@
 #include
 "share/atspre_staload.hats"
 //
-staload UN = $UNSAFE
+#staload UN = $UNSAFE
 //
 (* ****** ****** *)
 //
 #include
-"$PATSHOMELOCS/atscntrb-hx-parcomb/mylibies.hats"
+"$PATSHOMELOCS\
+/atscntrb-hx-parcomb/mylibies.hats"
+//
+#staload $PARCOMB // opening the package
 //
 (* ****** ****** *)
 
 #staload "./myatscc.sats"
 
-(* ****** ****** *)
-//
-#define :: list_cons
-#define i2c int2char0
-//
 (* ****** ****** *)
 //
 abst@ype

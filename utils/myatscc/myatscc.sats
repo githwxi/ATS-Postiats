@@ -148,5 +148,55 @@ fun
 tokenlst_tokenize(ts: List(token)): tokenlst
 
 (* ****** ****** *)
+//
+datatype
+myexp_node =
+//
+| EXPtok of token
+//
+| EXPname of (token)
+//
+| EXPcall of (token, myexplst)
+//
+where
+myexp = $rec
+{
+  myexp_loc=loc_t
+, myexp_node=myexp_node
+}
+and myexplst = List0(myexp)
+//
+(* ****** ****** *)
+//
+fun
+myexp_tok(token): myexp
+fun
+myexp_name(token): myexp
+fun
+myexp_call(token, myexplst): myexp
+//
+(* ****** ****** *)
+//
+fun
+print_myexp: myexp -> void
+and
+prerr_myexp: myexp -> void
+//
+fun
+fprint_myexp: fprint_type(myexp)
+fun
+fprint_myexplst: fprint_type(List(myexp))
+//
+overload print with print_myexp
+overload prerr with prerr_myexp
+overload fprint with fprint_myexp
+overload fprint with fprint_myexplst of 10
+//
+(* ****** ****** *)
+//
+fun
+tokenlst2myexpseq(xs: tokenlst): myexplst
+//
+(* ****** ****** *)
 
 (* end of [myatscc.sats] *)
