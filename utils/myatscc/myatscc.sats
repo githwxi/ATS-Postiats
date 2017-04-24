@@ -33,6 +33,11 @@
 
 (* ****** ****** *)
 //
+#staload
+"libats/ML/SATS/basis.sats"
+//
+(* ****** ****** *)
+//
 (*
 HX-2017-04-22:
 This is the default used by [myatscc]
@@ -207,7 +212,7 @@ myexpseq_parse(tokenlst): myexplst
 fun
 myexp_stringize(myexp): string
 fun
-myexpseq_stringize(myexplst): string
+myexpseq_stringize(list0(myexp)): string
 
 (* ****** ****** *)
 

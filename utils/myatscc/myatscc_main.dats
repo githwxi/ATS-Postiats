@@ -77,6 +77,8 @@ val exps = g0ofg1_list(exps)
 //
 val ((*void*)) = exps.foreach()(lam(exp) => println!(exp, ":", exp.myexp_loc))
 //
+val ((*void*)) = println! (myexpseq_stringize(exps))
+//
 } (* end of [main0] *)
 
 (* ****** ****** *)

@@ -96,7 +96,9 @@ s2rt_linearize
   var s2t: s2rt = s2t
   val () = (
     case+ s2t of
-    | S2RTbas s2tb => (case+ s2tb of
+    | S2RTbas s2tb =>
+      (
+      case+ s2tb of
       | S2RTBASimp (knd, name) => let
           val knd = impkind_linearize (knd)
           val name = impname_linearize (name)
@@ -105,7 +107,7 @@ s2rt_linearize
         end // end of [S2RTBASimp]
       | _ => err := 1
       ) // end of [S2RTbas]
-    | _ => err := 1
+    | _ (*non-S2RTbas*) => (err := 1)
   ) : void // end of [val]
 (*
   val () = assertloc (err > 0) // [s2t] maybe [S2RTerr]
@@ -127,32 +129,47 @@ local
 in (* in of [local] *)
 
 implement
-s2rt_prf_lin_fc (
+s2rt_prf_lin_fc
+(
   loc0, isprf, islin, fc
 ) = begin
-  if isprf then begin
-    (if islin then s2rt_view else s2rt_prop)
-  end else begin case+ islin of
-    | _ when islin => begin case+ fc of
-      | FUNCLOclo (knd) => begin case+ knd of
-        | CLO(*0*) => s2rt_vt0ype
-        | CLOPTR(*1*) => s2rt_vtype
-        | _ (*CLOREF*) => s2rt_err () where {
-            val () = prerr_error2_loc (loc0)
-            val () = prerr ": a closure reference cannot be linear."
-            val () = prerr_newline ()
+if
+isprf
+then (
+  if islin
+    then s2rt_view else s2rt_prop
+  // end of [if]
+) else begin
+  case+ islin of
+  | _ when islin =>
+    ( case+ fc of
+      | FUNCLOclo(knd) => begin
+        case+ knd of
+        | CLO(*0*) =>
+          s2rt_vt0ype
+        | CLOPTR(*1*) =>
+          s2rt_vtype(*ptr*)
+        | _ (*CLOREF*) =>
+            s2rt_err() where
+          {
+            val () =
+            prerr_error2_loc(loc0)
+            val () =
+            prerrln!(": a closure reference cannot be linear.")
           } // end of [_]
         end (* end of [FUNCLOclo] *)
-      | FUNCLOfun () => s2rt_vtype
-      end // end of [_ when islin]
-    | _ => begin case+ fc of
-      | FUNCLOclo (knd) => begin case+ knd of
+      | FUNCLOfun((*void*)) => s2rt_vtype
+    ) (* end of [_ when islin] *)
+  | _ (* when ~islin *) =>
+    ( case+ fc of
+      | FUNCLOclo(knd) => begin
+        case+ knd of
         | CLO => s2rt_t0ype
-        | CLOPTR => s2rt_vtype (*ptr*)
-        | _ (*CLOREF*) => s2rt_type (*ref*)
+        | CLOPTR => s2rt_vtype(*ptr*)
+        | _ (*CLOREF*) => s2rt_type(*ref*)
         end // end of [FUNCLOclo]
-      | FUNCLOfun () => s2rt_type
-      end // end of [_]
+      | FUNCLOfun((*void*)) => s2rt_type
+    ) (* end of [_ when ~islin] *)
   end (* end of [if] *)
 end // end of [s2rt_prf_lin_fc]
 
@@ -165,28 +182,45 @@ end // end of [local]
 *)
 implement
 s2rt_npf_lin_prf_boxed
-  (npf, lin, prf, boxed) =
-  if npf >= 0 then (
-    if lin = 0 then
-      if boxed > 0 then s2rt_type else s2rt_t0ype
-    else
-      if boxed > 0 then s2rt_vtype else s2rt_vt0ype
-    // end of [if]
-  ) else (
-    if prf = 0 then (
-      if lin = 0 then
-        if boxed > 0 then s2rt_type else s2rt_t0ype
-      else
-        if boxed > 0 then s2rt_vtype else s2rt_vt0ype
-      // end of [if]
-    ) else
-      if lin = 0 then
-        if boxed > 0 then s2rt_type else s2rt_prop
-      else
-        if boxed > 0 then s2rt_vtype else s2rt_view
-      // end of [if]
-  ) (* end of [if] *)
-// end of [s2rt_lin_prf_boxed]
+  (npf, lin, prf, boxed) = (
+//
+if
+(npf >= 0)
+then (
+if
+(lin = 0)
+then
+  if boxed > 0 then s2rt_type else s2rt_t0ype
+else
+  if boxed > 0 then s2rt_vtype else s2rt_vt0ype
+// end of [if]
+) else (
+//
+if
+(prf = 0)
+then (
+if
+(lin = 0)
+then
+  if boxed > 0 then s2rt_type else s2rt_t0ype
+else
+  if boxed > 0 then s2rt_vtype else s2rt_vt0ype
+// end of [if]
+) else (
+if
+(lin = 0)
+then
+  if boxed > 0 then s2rt_type else s2rt_prop
+else
+  if boxed > 0 then s2rt_vtype else s2rt_view
+// end of [if]
+) (* end of [else] *)
+//
+) (* end of [else] *)
+//
+) (* end of [s2rt_lin_prf_boxed] *)
+
+(* ****** ****** *)
 
 implement
 s2rt_npf_lin_prf_prgm_boxed_labs2explst
@@ -219,7 +253,9 @@ fun aux // HX: only when prgm = 1
 ) : s2rt = let
 in
 //
-if npf > 0 then let
+if
+(npf > 0)
+then let
   val-list_cons (_, xs) = xs
 in
   aux (npf-1, lin, xs)
@@ -232,32 +268,42 @@ end else let
   val () = (println! ("aux: s2t = ", s2t)
 *)
 in
-  if s2rt_is_prf (s2t) then
-    aux (0(*npf*), lin, xs) // HX: [xs] cannot be nil
-  else (
-    if lin = 0 then s2t else s2rt_linearize (s2t)      
-  ) // end of [if]
-end (* end of [if] *)
+//
+if
+s2rt_is_prf(s2t)
+then (
+  aux (0(*npf*), lin, xs) // HX: [xs] not nil
+) else (
+  (if lin = 0 then s2t else s2rt_linearize(s2t))
+) (* end of [if] *)
+//
+end (* end of [else] *)
 //
 end // end of [aux]
 //
 in
 //
-if prgm = 0 then
+if
+(prgm = 0)
+then (
   s2rt_npf_lin_prf_boxed (npf, lin, prf, boxed)
-else if prgm = 1 then
-(
+) else (
+//
+if
+(prgm = 1)
+then (
   if boxed > 0 then
     if lin = 0 then s2rt_type else s2rt_vtype
   else aux (npf, lin, ls2es)
-) else // HX: prgm >= 2
-(
+) else ( // HX: prgm >= 2
   if lin = 0 then
     if boxed > 0 then s2rt_type else s2rt_t0ype
   else
     if boxed > 0 then s2rt_vtype else s2rt_vt0ype
   // end of [if]
 ) // end of [if]
+//
+) (* end of [else] *)
 //
 end // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]  
 
@@ -294,11 +340,13 @@ case+ s2es of
 //
 end // end of [aux]
 //
-val ls2es = aux (0, s2es)
+val ls2es = aux(0, s2es)
 //
 in
-  s2exp_tyrec (knd, npf, ls2es)
+  s2exp_tyrec(knd, npf, ls2es)
 end // end of [s2exp_tytup]
+
+(* ****** ****** *)
 
 implement
 s2exp_tyrec
@@ -330,34 +378,35 @@ case+ ls2es of
 //
     val s2t = s2e.s2exp_srt
     val () =
-    if s2rt_is_lin (s2t) then (lin := lin+1)
+    if s2rt_is_lin(s2t) then (lin := lin+1)
     val () =
-    if s2rt_is_prf (s2t)
+    if s2rt_is_prf(s2t)
       then (prf := prf+1) else (if i >= npf then prgm := prgm+1)
     // end of [if] // end of [val]
   in
-    aux01 (i+1, npf, ls2es, lin, prf, prgm)
+    aux01(i+1, npf, ls2es, lin, prf, prgm)
   end // end of [list_cons]
 //
 end // end of [aux01]
 //
 var lin: int = 0
 var prf: int = 0 and prgm: int = 0
-val () = aux01 (0, npf, ls2es, lin, prf, prgm)
+val () = aux01(0, npf, ls2es, lin, prf, prgm)
 val boxed = knd // 0/1
 val tyrecknd =
 (
   case+ knd of
-  | 0 => TYRECKINDflt0 ()
-  | 1 => TYRECKINDbox () | 2 => TYRECKINDbox ()
-  | _ => TYRECKINDbox_lin ()
+  | 0 => TYRECKINDflt0
+  | 1 => TYRECKINDbox() | 2 => TYRECKINDbox()
+  | _ => TYRECKINDbox_lin()
 ) : tyreckind // end of [val]
 //
 val s2t_rec =
 (
-  if (knd >= 3) then s2rt_vtype else
-    s2rt_npf_lin_prf_prgm_boxed_labs2explst (npf, lin, prf, prgm, boxed, ls2es)
-  // end of [if]
+if (knd >= 3)
+  then s2rt_vtype
+  else s2rt_npf_lin_prf_prgm_boxed_labs2explst(npf, lin, prf, prgm, boxed, ls2es)
+// end of [if]
 ) : s2rt // end of [val]
 //
 in
@@ -447,10 +496,12 @@ of // case+
 implement
 s2exp_is_wthtype(s2e) =
 (
-  case+ s2e.s2exp_node of
-  | S2Ewthtype _ => true
-  | S2Eexi (s2vs, s2ps, s2e) => s2exp_is_wthtype (s2e)
-  | _ => false
+case+
+s2e.s2exp_node
+of (*case+*)
+| S2Ewthtype _ => true
+| S2Eexi(s2vs, s2ps, s2e) => s2exp_is_wthtype (s2e)
+| _ (*rest-of-s2exp*) => false
 ) (* end of [s2exp_is_wthtype] *)
 
 (* ****** ****** *)

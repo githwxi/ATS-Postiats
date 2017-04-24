@@ -306,7 +306,7 @@ case+ 0 of
           (s2e_elt, dim) => let
           val s2e_elt = s2exp_top (knd, s2e_elt)
         in
-          s2exp_tyarr_srt (s2rt_t0ype, s2e_elt, dim)
+          s2exp_tyarr_srt(s2rt_t0ype, s2e_elt, dim)
         end // end of [S2Etyarr]
       | S2Etyrec
           (recknd, npf, ls2es) => let
@@ -332,14 +332,17 @@ end (* end of [s2exp_topize_flag] *)
 (* ****** ****** *)
 
 implement
-s2exp_topize (knd, s2e) = let
-  var flag: int = 0 in s2exp_topize_flag (knd, s2e, flag)
+s2exp_topize
+  (knd, s2e) = let
+  var flag: int = 0
+in
+  s2exp_topize_flag(knd, s2e, flag)
 end // end of [s2exp_topize_0]
 
 implement
-s2exp_topize_0 (s2e) = s2exp_topize (0(*knd*), s2e)
+s2exp_topize_0(s2e) = s2exp_topize(0(*knd*), s2e)
 implement
-s2exp_topize_1 (s2e) = s2exp_topize (1(*knd*), s2e)
+s2exp_topize_1(s2e) = s2exp_topize(1(*knd*), s2e)
 
 (* ****** ****** *)
 
@@ -347,12 +350,13 @@ implement
 s2exp_invar_flag
   (s2e0, flag) = let
 //
-val-S2Einvar (s2e) = s2e0.s2exp_node
+val-S2Einvar(s2e) = s2e0.s2exp_node
 //
 in
 //
 case+
-  s2e.s2exp_node of
+s2e.s2exp_node
+of (*case+*)
 //
 | S2Evar _ => s2e0
 //
