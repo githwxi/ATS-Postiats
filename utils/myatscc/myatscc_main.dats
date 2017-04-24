@@ -41,6 +41,10 @@
 //
 (* ****** ****** *)
 
+#staload UN = $UNSAFE
+
+(* ****** ****** *)
+
 #staload "./myatscc.sats"
 
 (* ****** ****** *)
@@ -52,6 +56,80 @@
 //
 (* ****** ****** *)
 
+fun
+comarg_parse
+(
+  arg: string
+) : int = let
+//
+fun
+aux
+(
+ p: ptr, r: int
+) : int = let
+  val c = $UN.ptr0_get<char>(p)
+in
+//
+if
+isneqz(c)
+then (
+if c = '-'
+  then aux(ptr0_succ<char>(p), r+1) else r
+// end of [if]
+) else (r)
+// end of [if]
+end // end of [aux]
+//
+in
+  aux(string2ptr(arg), 0)
+end // end of [comarg_parse]
+
+(* ****** ****** *)
+//
+implement
+the_name_i_env_initize
+  {n}(argc, argv) = let
+//
+vtypedef
+res = List0_vt(gvalue)
+//
+fun
+loop
+{i:nat | i <= n}
+(
+ i: int(i), argv: !argv(n), res: res
+) : res =
+(
+if
+(i < argc)
+then let
+  val arg = argv[i]
+in
+  if comarg_parse(arg) = 0
+    then let
+      val arg = GVstring(arg)
+      val res = cons_vt(arg, res)
+    in
+      loop(i+1, argv, res)
+    end // end of [then]
+    else loop(i+1, argv, res)
+end // end of [then]
+else res (* end of [else] *)
+)
+//
+val arg = GVstring(argv[0])
+val res = list_vt_sing(arg)
+val res = loop(1, argv, res)
+//
+in
+//
+the_name_i_env_initset
+  (list0_of_list_vt(list_vt_reverse(res)))
+//
+end // end of [the_name_i_env_initize]
+//
+(* ****** ****** *)
+
 implement
 main0(argc, argv) = () where
 {
@@ -59,13 +137,8 @@ main0(argc, argv) = () where
 val () =
 println! ("Hello from [myatscc]!")
 //
-var
-myatsccdef
-  : string = MYATSCCDEF
-//
-val () =
-if argc >= 2
-  then myatsccdef := argv[1]
+val
+myatsccdef = MYATSCCDEF
 //
 val toks =
   string_tokenize(myatsccdef)
@@ -75,7 +148,15 @@ val exps =
 //
 val exps = g0ofg1_list(exps)
 //
-val ((*void*)) = exps.foreach()(lam(exp) => println!(exp, ":", exp.myexp_loc))
+(*
+val ((*void*)) =
+exps.foreach()(lam(exp) => println!(exp, ":", exp.myexp_loc))
+*)
+//
+val ((*void*)) =
+  the_myexpfun_map_initize()
+val ((*void*)) =
+  the_name_i_env_initize(argc, argv)
 //
 val ((*void*)) = println! (myexpseq_stringize(exps))
 //

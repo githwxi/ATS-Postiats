@@ -81,7 +81,7 @@ comarg_parse
 //
 fun
 loop
-  {n,i:nat | i <= n} .<n-i>.
+{n,i:nat|i <= n} .<n-i>.
 (
   str: string n, n: int n, i: int i
 ) :<> comarg = 
@@ -101,7 +101,7 @@ val len = string_length (str)
 val len = int1_of_size1 (len)
 //
 in
-  loop (str, len, 0)
+  loop(str, len, 0)
 end // end of [comarg_parse]
 
 (* ****** ****** *)

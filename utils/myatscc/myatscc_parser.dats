@@ -89,8 +89,8 @@ of (* case+ *)
   fprint!(out, tok)
 | EXPname(tok) =>
   fprint!(out, tok)
-| EXPcall(tok, xs) =>
-  fprint!(out, "EXPcall(", tok, "; ", xs, ")")
+| EXPfcall(tok, xs) =>
+  fprint!(out, "EXPfcall(", tok, "; ", xs, ")")
 //
 ) (* end of [fprint_myexp] *)
 
@@ -325,7 +325,7 @@ seq3_parser
 (* ****** ****** *)
 //
 fun
-myexp_call
+myexp_fcall
 (
   tok: token, arg: myexparg
 ) : myexp = let
@@ -333,20 +333,20 @@ myexp_call
   tok.token_loc + (arg.2).token_loc
 in
 //
-myexp_make_node(loc, EXPcall(tok, arg.1))
+myexp_make_node(loc, EXPfcall(tok, arg.1))
 //
-end // end of [myexp_call]
+end // end of [myexp_fcall]
 fun
-myexp_callopt
+myexp_fcallopt
 (
   tok: token, opt: myexpargopt
 ) : myexp = (
 //
   case+ opt of
   | None() => myexp_name(tok)
-  | Some(arg) => myexp_call(tok, arg)
+  | Some(arg) => myexp_fcall(tok, arg)
 //
-) (* myexp_callopt *)
+) (* myexp_fcallopt *)
 //
 (* ****** ****** *)
 //
@@ -373,7 +373,7 @@ seq2wth_parser_fun
 (
   TOKEN_name_s(px)
 , option_parser(myexparg_parser(px))
-, lam(tok, opt) => myexp_callopt(tok, opt)
+, lam(tok, opt) => myexp_fcallopt(tok, opt)
 ) ||
 //
 seq1wth_parser_fun(TOKEN(px), lam(x) => myexp_tok(x))

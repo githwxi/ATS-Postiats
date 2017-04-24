@@ -168,7 +168,7 @@ myexp_node =
 //
 | EXPname of (token)
 //
-| EXPcall of (token, myexplst)
+| EXPfcall of (token, myexplst)
 //
 where
 myexp = $rec
@@ -208,12 +208,50 @@ fun
 myexpseq_parse(tokenlst): myexplst
 //
 (* ****** ****** *)
-
+//
+fun
+the_name_i_env_initset
+  (xs: list0(gvalue)): void
+//
+fun
+the_name_i_env_initize
+  {n:pos}
+  (argc: int(n), argv: !argv(n)): void
+//
+(* ****** ****** *)
+//
+abstype
+myexpfun_type = ptr
+//
+typedef
+myexpfun = myexpfun_type
+//
+local
+//
+assume
+myexpfun_type =
+  (List(gvalue)) -<cloref1> gvalue
+//
+in
+  // nothing
+end // end of [local]
+//
+(* ****** ****** *)
+//
+fun
+the_myexpfun_map_insert
+  (name: string, fdef: myexpfun): void
+//
+fun
+the_myexpfun_map_initize((*void*)): void
+//
+(* ****** ****** *)
+//
 fun
 myexp_stringize(myexp): string
 fun
 myexpseq_stringize(list0(myexp)): string
-
+//
 (* ****** ****** *)
 
 (* end of [myatscc.sats] *)
