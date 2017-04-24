@@ -251,7 +251,7 @@ option_parser
 fun
 {t:t@ype}
 {a:t@ype}
-parser_lazy_eval
+parser_unlazy
   (lpx: lazy(parser(t, a))): parser(t, a)
 //
 (* ****** ****** *)

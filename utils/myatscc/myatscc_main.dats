@@ -48,6 +48,7 @@
 #dynload "./myatscc_loc_t.dats"
 #dynload "./myatscc_lexer.dats"
 #dynload "./myatscc_parser.dats"
+#dynload "./myatscc_evaler.dats"
 //
 (* ****** ****** *)
 
@@ -63,14 +64,14 @@ myatsccdef
   : string = MYATSCCDEF
 //
 val () =
-if argc >= 2 then myatsccdef := argv[1]
+if argc >= 2
+  then myatsccdef := argv[1]
 //
 val toks =
   string_tokenize(myatsccdef)
 //
-val toks = tokenlst_tokenize(toks)
-//
-val exps = tokenlst2myexpseq(toks)
+val exps =
+  myexpseq_parse(tokenlst_tokenize(toks))
 //
 val exps = g0ofg1_list(exps)
 //

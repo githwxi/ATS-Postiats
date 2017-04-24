@@ -439,7 +439,7 @@ end // end of [option_parser]
 //
 implement
 {t}{a}
-parser_lazy_eval
+parser_unlazy
   (lpx) = lam (st) => (!lpx)(st)
 //
 (* ****** ****** *)

@@ -200,8 +200,15 @@ overload fprint with fprint_myexplst of 10
 (* ****** ****** *)
 //
 fun
-tokenlst2myexpseq(xs: tokenlst): myexplst
+myexpseq_parse(tokenlst): myexplst
 //
+(* ****** ****** *)
+
+fun
+myexp_stringize(myexp): string
+fun
+myexpseq_stringize(myexplst): string
+
 (* ****** ****** *)
 
 (* end of [myatscc.sats] *)

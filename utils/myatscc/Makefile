@@ -37,6 +37,7 @@ DATS_C += myatscc_main_dats.c
 DATS_C += myatscc_loc_t_dats.c
 DATS_C += myatscc_lexer_dats.c
 DATS_C += myatscc_parser_dats.c
+DATS_C += myatscc_evaler_dats.c
 
 PARCOMB =
 PARCOMB += myatscc_parcomb.sats

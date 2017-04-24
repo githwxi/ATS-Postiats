@@ -359,7 +359,7 @@ px: parser(token, token)
 //
 implement
 myexp_parser(px) =
-parser_lazy_eval(myexp_lparser(px))
+parser_unlazy(myexp_lparser(px))
 //
 implement
 myexp_lparser(px) = $delay
@@ -418,13 +418,13 @@ end // end of [tokenlst_streamize]
 (* ****** ****** *)
 
 implement
-tokenlst2myexpseq
-  (toks) = exps where
+myexpseq_parse
+  (inp) = exps where
 {
   val px =
   any_parser<token>()
   val toks =
-  tokenlst_streamize(toks)
+  tokenlst_streamize(inp)
   val (exps, toks) =
   parser_apply2_stream(myexpseq_parser(px), toks)
 } (* end of [tokenlst2myexpseq] *)
