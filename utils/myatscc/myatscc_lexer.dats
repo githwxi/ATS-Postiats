@@ -24,15 +24,17 @@
 
 (* ****** ****** *)
 //
-abst@ype
-ichar_t0ype = @(int, char)
-//
-typedef ichar = ichar_t0ype
+abst@ype ichar_t0ype
 //
 local
-assume ichar_t0ype = @(int, char)
+assume
+ichar_t0ype = @(int, char)
 in (*nothing*) end
 //
+(* ****** ****** *)
+
+typedef ichar = ichar_t0ype
+
 (* ****** ****** *)
 //
 extern
@@ -87,7 +89,7 @@ end // end of [let]
 )
 //
 in
-  auxmain(0, string2ptr(cs))
+  auxmain(1, string2ptr(cs)) // HX: position starts at 1
 end // end of [string2icharlst]
 
 (* ****** ****** *)
@@ -103,6 +105,18 @@ node: token_node
   token_loc=loc, token_node=node
 } (* end of [token_make_node] *)
 //
+(* ****** ****** *)
+
+implement
+token_eof() = let
+//
+val loc =
+  loc_t_make(0, 0)
+//
+in
+  token_make_node(loc, TOKeof())
+end // end of [token_make_eof]
+
 (* ****** ****** *)
 
 implement
@@ -151,6 +165,10 @@ fprint_token
 (
 case+
 tok.token_node of
+//
+| TOKeof() =>
+  fprint!(out, "TOKeof()")
+//
 | TOKide(ide) =>
   fprint!(out, "TOKide(", ide, ")")
 | TOKint(int) =>

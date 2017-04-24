@@ -240,6 +240,33 @@ end // end of [let]
 ) (* end of [seq_parser_parser] *)
 
 (* ****** ****** *)
+
+implement
+{t}{a1,a2}
+seq2_parser
+  (p1, p2) = (
+//
+lam (st) => let
+  val x1 = p1 (st)
+  val x2 = p2 (st) in @(x1, x2)
+end // end of [let]
+//
+) (* end of [seq2_parser] *)
+implement
+{t}(*tmp*)
+{a1,a2,a3}
+seq3_parser
+  (p1, p2, p3) = (
+//
+lam (st) => let
+  val x1 = p1 (st)
+  val x2 = p2 (st)
+  val x3 = p3 (st) in @(x1, x2, x3)
+end // end of [let]
+//
+) (* end of [seq3_parser] *)
+
+(* ****** ****** *)
 //
 implement
 {t}{a,b}
@@ -253,6 +280,8 @@ seq1wth_parser_cloref
   (p, fopr) =
   lam (st) =>
   let val x = p(st) in fopr(x) end
+//
+(* ****** ****** *)
 //
 implement
 {t}{a1,a2,b}
@@ -270,6 +299,8 @@ lam (st) => let
   val x1 = p1(st)
   val x2 = p2(st) in fopr(x1, x2)
 end // end of [seq2wth_parser_cloref]
+//
+(* ****** ****** *)
 //
 implement
 {t}{a1,a2,a3,b}
@@ -293,6 +324,8 @@ lam (st) => let
   val x2 = p2(st)
   val x3 = p3(st) in fopr(x1, x2, x3)
 end // end of [seq3wth_parser_cloref]
+//
+(* ****** ****** *)
 //
 implement
 {t}{a1,a2,a3,a4,b}
@@ -400,7 +433,14 @@ seq1wth_parser_fun<t><a,b>
   (p0, lam x => Some(x)) ||
 ret_parser<t><b>(None((*void*)))
 //
-end // end of [opt_parser]
+end // end of [option_parser]
+//
+(* ****** ****** *)
+//
+implement
+{t}{a}
+parser_lazy_eval
+  (lpx) = lam (st) => (!lpx)(st)
 //
 (* ****** ****** *)
 

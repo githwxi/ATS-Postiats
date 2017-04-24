@@ -9,7 +9,8 @@
 "share/atspre_staload.hats"
 //
 #include
-"share/HATS/atspre_staload_libats_ML.hats"
+"share/HATS\
+/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 //
@@ -50,6 +51,13 @@ myexp_make_node
 (* ****** ****** *)
 //
 implement
+myexp_name(tok) =
+myexp_make_node
+  (tok.token_loc, EXPname(tok))
+//
+(* ****** ****** *)
+//
+implement
 print_myexp
   (exp) = fprint(stdout_ref, exp)
 implement
@@ -78,9 +86,9 @@ case+
 exp.myexp_node
 of (* case+ *)
 | EXPtok(tok) =>
-  fprint(out, tok)
+  fprint!(out, tok)
 | EXPname(tok) =>
-  fprint!(out, "$", tok)
+  fprint!(out, tok)
 | EXPcall(tok, xs) =>
   fprint!(out, "EXPcall(", tok, "; ", xs, ")")
 //
@@ -89,11 +97,35 @@ of (* case+ *)
 (* ****** ****** *)
 //
 fun
+token_is_eof
+  (tok: token): bool =
+(
+case+
+tok.token_node of
+| TOKeof() => true
+| _ (*non-TOKeof*) => false
+)
+fun
+token_isnot_eof
+  (tok: token): bool =
+(
+case+
+tok.token_node of
+| TOKeof() => false
+| _ (*non-TOKeof*) => true
+)
+//
+(* ****** ****** *)
+//
+fun
 TOKEN
 (
-// argument
+px: parser(token, token)
 ) : parser(token, token) =
-  any_parser<token>((*void*))
+(
+sat_parser_fun
+  (any_parser<token>(), lam(x) => token_isnot_eof(x))
+)
 //
 (* ****** ****** *)
 //
@@ -231,34 +263,121 @@ commamyexp_parser
   (parser(token, token)): parser(token, myexp)
 //
 implement
-commamyexp_parser(px) =
-seq2wth_parser_fun(COMMA(px), myexp_parser(px), lam(_, exp) => exp)
+commamyexp_parser
+  (px) =
+(
+seq2wth_parser_fun
+(
+  COMMA(px), myexp_parser_(px), lam(_, exp) => exp
+) (* seq2wth_parser_fun *)
+)
 //
 (* ****** ****** *)
 //
 extern
 fun
-myexpcommaseq0_parser
-  (parser(token, token)): parser(token, myexplst)
-extern
-fun
-myexpcommaseq1_parser
+myexpcommaseq_parser
   (parser(token, token)): parser(token, myexplst)
 //
 implement
-myexpcommaseq0_parser(px) =
-myexpcommaseq1_parser(px) || ret_parser(list_nil)
-implement
-myexpcommaseq1_parser(px) =
-seq2wth_parser_fun<token><myexp,myexplst,myexplst>
-  (myexp_parser(px), list0_parser(commamyexp_parser(px)), lam(x, xs) => list_cons(x, xs))
+myexpcommaseq_parser
+  (px) = let
+//
+typedef x = myexp
+typedef xs = myexplst
+in
+//
+seq2wth_parser_fun<token><x,xs,xs>
+( myexp_parser_(px)
+, list0_parser(commamyexp_parser(px)), lam(x, xs) => list_cons(x, xs)
+) || ret_parser(list_nil((*void*)))
+//
+end // end of [myexpcommaseq_parser]
 //
 (* ****** ****** *)
+
+typedef
+myexparg = @(token, myexplst, token)
+typedef
+myexpargopt = Option@(token, myexplst, token)
+
+(* ****** ****** *)
+//
+extern
+fun
+myexparg_parser
+(
+px: parser(token, token)
+) : parser(token, myexparg)
+//
+implement
+myexparg_parser
+  (px) =
+(
+seq3_parser
+(
+  LPAREN(px)
+, myexpcommaseq_parser(px)
+, RPAREN(px)
+)
+) (* end of [myexparg_parser] *)
+//
+(* ****** ****** *)
+//
+fun
+myexp_call
+(
+  tok: token, arg: myexparg
+) : myexp = let
+  val loc =
+  tok.token_loc + (arg.2).token_loc
+in
+//
+myexp_make_node(loc, EXPcall(tok, arg.1))
+//
+end // end of [myexp_call]
+fun
+myexp_callopt
+(
+  tok: token, opt: myexpargopt
+) : myexp = (
+//
+  case+ opt of
+  | None() => myexp_name(tok)
+  | Some(arg) => myexp_call(tok, arg)
+//
+) (* myexp_callopt *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+myexp_lparser
+(
+px: parser(token, token)
+) : lazy(parser(token, myexp))
 //
 implement
 myexp_parser(px) =
+parser_lazy_eval(myexp_lparser(px))
+//
+implement
+myexp_lparser(px) = $delay
 (
-seq1wth_parser_fun(TOKEN(), lam(x) => myexp_tok(x))
+seq1wth_parser_fun
+(
+  TOKEN_name_i(px), lam(x) => myexp_name(x)
+) ||
+//
+seq2wth_parser_fun
+(
+  TOKEN_name_s(px)
+, option_parser(myexparg_parser(px))
+, lam(tok, opt) => myexp_callopt(tok, opt)
+) ||
+//
+seq1wth_parser_fun(TOKEN(px), lam(x) => myexp_tok(x))
+//
 )
 //
 (* ****** ****** *)
@@ -273,14 +392,41 @@ myexpseq_parser(px) = list0_parser(myexp_parser(px))
 //
 (* ****** ****** *)
 
+fun
+tokenlst_streamize
+(
+xs: List(token)
+) : stream(token) = let
+//
+val eof = token_eof((*void*))
+//
+in
+//
+$delay
+(
+case+ xs of
+| list_nil() =>
+  stream_cons
+    (eof, tokenlst_streamize(xs))
+  // list_nil
+| list_cons(x, xs) =>
+  stream_cons(x, tokenlst_streamize(xs))
+)
+//
+end // end of [tokenlst_streamize]
+
+(* ****** ****** *)
+
 implement
 tokenlst2myexpseq
   (toks) = exps where
 {
+  val px =
+  any_parser<token>()
   val toks =
-  stream_make_list0(g0ofg1(toks))
+  tokenlst_streamize(toks)
   val (exps, toks) =
-  parser_apply2_stream(myexpseq_parser(TOKEN()), toks)
+  parser_apply2_stream(myexpseq_parser(px), toks)
 } (* end of [tokenlst2myexpseq] *)
 
 (* ****** ****** *)

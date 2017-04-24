@@ -108,6 +108,26 @@ overload && with seq_parser_parser
 //
 fun
 {t:t0p}
+{a1
+,a2:t0p}
+seq2_parser
+(
+  parser(t, a1), parser(t, a2)
+) : parser(t, (a1,a2)) // end-of-fun
+fun
+{t:t0p}
+{a1
+,a2
+,a3:t0p}
+seq3_parser
+(
+  parser(t, a1), parser(t, a2), parser(t, a3)
+) : parser(t, (a1,a2,a3)) // end-of-fun
+//
+(* ****** ****** *)
+//
+fun
+{t:t0p}
 {a,b:t0p}
 seq1wth_parser_fun
 (
@@ -225,6 +245,14 @@ fun
 {a:t0p}
 option_parser
   (p0: parser(t, a)): parser(t, Option(a))
+//
+(* ****** ****** *)
+//
+fun
+{t:t@ype}
+{a:t@ype}
+parser_lazy_eval
+  (lpx: lazy(parser(t, a))): parser(t, a)
 //
 (* ****** ****** *)
 //

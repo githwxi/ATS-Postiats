@@ -41,25 +41,32 @@
 //
 (* ****** ****** *)
 
-staload "./myatscc.sats"
+#staload "./myatscc.sats"
 
 (* ****** ****** *)
 //
-dynload "./myatscc_loc_t.dats"
-dynload "./myatscc_lexer.dats"
-dynload "./myatscc_parser.dats"
+#dynload "./myatscc_loc_t.dats"
+#dynload "./myatscc_lexer.dats"
+#dynload "./myatscc_parser.dats"
 //
 (* ****** ****** *)
 
 implement
-main0() = () where
+main0(argc, argv) = () where
 {
 //
 val () =
 println! ("Hello from [myatscc]!")
 //
+var
+myatsccdef
+  : string = MYATSCCDEF
+//
+val () =
+if argc >= 2 then myatsccdef := argv[1]
+//
 val toks =
-  string_tokenize(MYATSCCDEF)
+  string_tokenize(myatsccdef)
 //
 val toks = tokenlst_tokenize(toks)
 //

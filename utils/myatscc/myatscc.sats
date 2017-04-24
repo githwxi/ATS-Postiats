@@ -88,6 +88,8 @@ overload fprint with fprint_loc_t
 datatype
 token_node =
 //
+| TOKeof of ()
+//
 | TOKide of string
 //
 | TOKint of ( int )
@@ -106,6 +108,11 @@ where token = $rec
 //
 typedef tokenlst = List0(token)
 vtypedef tokenlst_vt = List0_vt(token)
+//
+(* ****** ****** *)
+//
+fun
+token_eof(): token
 //
 (* ****** ****** *)
 //
@@ -172,8 +179,6 @@ fun
 myexp_tok(token): myexp
 fun
 myexp_name(token): myexp
-fun
-myexp_call(token, myexplst): myexp
 //
 (* ****** ****** *)
 //

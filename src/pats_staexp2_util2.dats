@@ -2188,12 +2188,12 @@ case+ ls2es0 of
     val
     flag0 = flag
     val
-    SLABELED (l, name, s2e) = ls2e
+    SLABELED(l, name, s2e) = ls2e
     val s2e =
       s2exp_prenexize(knd, s2e, flag, s2vs_res, s2ps_res)
     // end of [val]
     val ls2e = (
-      if flag > flag0 then SLABELED (l, name, s2e) else ls2e
+      if flag > flag0 then SLABELED(l, name, s2e) else ls2e
     ) : labs2exp // end of [val]
     val ls2es =
       labs2explst_prenexize(knd, ls2es, flag, s2vs_res, s2ps_res)
