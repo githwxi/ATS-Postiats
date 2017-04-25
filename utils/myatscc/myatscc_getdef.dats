@@ -49,7 +49,7 @@ in
 //
 case+ opt of
 | ~Some_vt(def) => def
-| ~None_vt((*void*)) => MYATSCCDEF
+| ~None_vt((*void*)) => MYATSCCDEF_def
 //
 end // end of [myatscc_getdef]
 
@@ -127,7 +127,7 @@ auxfind
 {
 //
   val cs1 =
-  string_explode("##myatsccdef=")
+  string_explode(MYATSCCDEF_key)
   val res =
   auxfind2($UN.list_vt2t(cs1), filr)
 //

@@ -138,7 +138,7 @@ myatscc_get_def.dats
 (*
 implement
 myatscc_get_def
-  ((*void*)) = MYATSCCDEF
+  ((*void*)) = MYATSCCDEF_def
 *)
 //
 (* ****** ****** *)

@@ -38,13 +38,16 @@
 //
 (* ****** ****** *)
 //
+#define
+MYATSCCDEF_key "##myatsccdef="
+//
 (*
 HX-2017-04-22:
 This is the default used by [myatscc]
 *)
 //
 #define
-MYATSCCDEF
+MYATSCCDEF_def
 "patscc -DATS_MEMALLOC_LIBC -o $fname($1) $1"
 //
 (* ****** ****** *)
