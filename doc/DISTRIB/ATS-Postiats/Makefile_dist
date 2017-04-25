@@ -22,6 +22,7 @@ all:: bin2_patsopt
 all:: lib2_libatsopt
 #
 all:: bin_patscc
+all:: bin_myatscc
 #
 all:: ccomp/atslib/lib/libatslib.a
 #
@@ -59,11 +60,25 @@ LDFLAGS=
 ######
 #
 src2_patsopt: ; \
-$(MAKEJ4) -C src/CBOOT \
-  CCOMP=$(CCOMP) GCFLAG=$(GCFLAG) LDFLAGS=$(LDFLAGS) patsopt
+$(MAKEJ4) -C src/CBOOT patsopt \
+CCOMP=$(CCOMP) GCFLAG=$(GCFLAG) LDFLAGS=$(LDFLAGS) 
 #
 bin2_patsopt: src2_patsopt ; $(CPF) src/CBOOT/patsopt bin/patsopt
 #
+######
+
+utl_atscc: ; \
+$(MAKE) -C utils/atscc patscc
+bin_patscc: utl_atscc ; \
+$(CPF) utils/atscc/patscc bin/patscc
+
+######
+
+utl_myatscc: ; \
+$(MAKE) -C utils/myatscc myatscc
+bin_myatscc: utl_myatscc ; \
+$(CPF) utils/myatscc/myatscc bin/myatscc
+
 ######
 #
 src2_libatsopt: ; \
@@ -71,11 +86,6 @@ $(MAKE) -C src/CBOOT CCOMP=$(CCOMP) libatsopt
 lib2_libatsopt: src2_libatsopt ; \
 $(CPF) src/CBOOT/libatsopt.a ccomp/atslib/lib/.
 #
-######
-
-utl_atscc: ; $(MAKE) -C utils/atscc patscc
-bin_patscc: utl_atscc ; $(CPF) utils/atscc/patscc bin/patscc
-
 ######
 
 ccomp/atslib/lib/libatslib.a: ; $(MAKE) -C ccomp/atslib atslib

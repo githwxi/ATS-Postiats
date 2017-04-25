@@ -178,6 +178,16 @@ cleanall:: ; $(RMF) SCRIPT/ccomp_runtime.bash
 ######
 
 all_script:: \
+SCRIPT/utils_emacs.bash
+SCRIPT/utils_emacs.bash: utils_emacs_atxt.exe ; ./$< > $@
+utils_emacs_atxt.dats: ATEXT/utils_emacs.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+utils_emacs_atxt.exe: utils_emacs_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) utils_emacs_atxt.exe
+cleanall:: ; $(RMF) HTML/utils_emacs.html
+cleanall:: ; $(RMF) SCRIPT/utils_emacs.bash
+
+all_script:: \
 SCRIPT/utils_atscc.bash
 SCRIPT/utils_atscc.bash: utils_atscc_atxt.exe ; ./$< > $@
 utils_atscc_atxt.dats: ATEXT/utils_atscc.atxt ; \
@@ -188,14 +198,14 @@ cleanall:: ; $(RMF) HTML/utils_atscc.html
 cleanall:: ; $(RMF) SCRIPT/utils_atscc.bash
 
 all_script:: \
-SCRIPT/utils_emacs.bash
-SCRIPT/utils_emacs.bash: utils_emacs_atxt.exe ; ./$< > $@
-utils_emacs_atxt.dats: ATEXT/utils_emacs.atxt ; \
+SCRIPT/utils_myatscc.bash
+SCRIPT/utils_myatscc.bash: utils_myatscc_atxt.exe ; ./$< > $@
+utils_myatscc_atxt.dats: ATEXT/utils_myatscc.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-utils_emacs_atxt.exe: utils_emacs_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) utils_emacs_atxt.exe
-cleanall:: ; $(RMF) HTML/utils_emacs.html
-cleanall:: ; $(RMF) SCRIPT/utils_emacs.bash
+utils_myatscc_atxt.exe: utils_myatscc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) utils_myatscc_atxt.exe
+cleanall:: ; $(RMF) HTML/utils_myatscc.html
+cleanall:: ; $(RMF) SCRIPT/utils_myatscc.bash
 
 all_script:: \
 SCRIPT/utils_libatsopt.bash
@@ -659,8 +669,9 @@ atspackaging:: srcget_atslib_atscntrb
 atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
 #
-atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_utils_emacs
+atspackaging:: srcget_utils_atscc
+atspackaging:: srcget_utils_myatscc
 #
 # atspackaging:: srcget_utils_libatsopt
 #
@@ -755,8 +766,9 @@ srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 
 ######
 
-srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
 srcget_utils_emacs:: SCRIPT/utils_emacs.bash ; bash $<
+srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
+srcget_utils_myatscc:: SCRIPT/utils_myatscc.bash ; bash $<
 srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
 
 ######
