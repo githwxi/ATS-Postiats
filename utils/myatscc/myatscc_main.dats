@@ -169,14 +169,66 @@ in
 end // end of [myatscc_get_def]
 //
 (* ****** ****** *)
+//
+extern
+fun
+myatscc_usage
+  {n:pos}
+(
+  argc: int(n), argv: !argv(n)
+) : int // end-of-function
+//
+implement
+myatscc_usage
+  {n}(argc, argv) = let
+//
+fun
+loop
+{i:nat | i <= n}
+(
+ i: int(i), argv: !argv(n)
+) : int =
+(
+if
+(i=argc)
+then (0)
+else
+(
+case+ argv[i] of
+| "-h" => usage()
+| "--help" => usage()
+| _(* rest *) => loop(i+1, argv)
+)
+)
+//
+and
+usage(): int = 1 where
+{
+  val () =
+  println!("Usage: myatscc [FLAG]... [FILE]...")
+}
+//
+in
+  (if argc >= 2 then loop(1, argv) else usage())
+end // end of [myatscc_usage]
+//
+(* ****** ****** *)
 
 implement
 main(argc, argv) =
 myatscc_main(argc, argv) where
 {
 //
+(*
 val () =
 println!("Hello from [myatscc]!")
+*)
+//
+val done =
+  myatscc_usage(argc, argv)
+//
+val ((*void*)) =
+  if done > 0 then exit(0)
 //
 val ((*void*)) =
   the_myexpfun_map_initize((*void*))
