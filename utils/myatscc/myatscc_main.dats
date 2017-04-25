@@ -204,8 +204,20 @@ case+ argv[i] of
 and
 usage(): int = 1 where
 {
-  val () =
-  println!("Usage: myatscc [FLAG]... [FILE]...")
+val () =
+println!("Usage: myatscc [FLAG]... [FILE]...")
+val () =
+println!("\n\
+By supporting embedding as comment some form of scripts\n\
+for compilation inside the code to be compiled, [myatscc]\n\
+is primarily for simplifying the compilation of ATS source.\n\
+")
+val () =
+println!("The following options are supported:")
+val () =
+println!("  -h/--help: for printing the help message")
+val () =
+println!("  --dry/--dryrun: for command generation only")
 }
 //
 in
