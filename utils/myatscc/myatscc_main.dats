@@ -129,38 +129,135 @@ the_name_i_env_initset
 end // end of [the_name_i_env_initize]
 //
 (* ****** ****** *)
+//
+implement
+myatscc_get_def
+  ((*void*)) = MYATSCCDEF
+//
+(* ****** ****** *)
+//
+implement
+myatscc_eval_def
+  ((*void*)) = let
+//
+val
+def = myatscc_get_def()
+//
+val
+toks = string_tokenize(def)
+val
+toks = tokenlst_tokenize(toks)
+//
+val
+exps = myexpseq_parse(toks)
+//
+(*
+val () =
+exps.foreach()
+  (lam(exp) => println!(exp))
+*)
+//
+in
+  myexpseq_stringize(g0ofg1(exps))
+end // end of [myatscc_get_def]
+//
+(* ****** ****** *)
 
 implement
-main0(argc, argv) = () where
+main(argc, argv) =
+myatscc_main(argc, argv) where
 {
 //
 val () =
-println! ("Hello from [myatscc]!")
-//
-val
-myatsccdef = MYATSCCDEF
-//
-val toks =
-  string_tokenize(myatsccdef)
-//
-val exps =
-  myexpseq_parse(tokenlst_tokenize(toks))
-//
-val exps = g0ofg1_list(exps)
-//
-(*
-val ((*void*)) =
-exps.foreach()(lam(exp) => println!(exp, ":", exp.myexp_loc))
-*)
+println!("Hello from [myatscc]!")
 //
 val ((*void*)) =
-  the_myexpfun_map_initize()
+  the_myexpfun_map_initize((*void*))
 val ((*void*)) =
   the_name_i_env_initize(argc, argv)
 //
-val ((*void*)) = println! (myexpseq_stringize(exps))
+} (* end of [main] *)
+
+(* ****** ****** *)
+
+local
 //
-} (* end of [main0] *)
+typedef
+state = @{
+//
+dryrun= int
+//
+} (* state *)
+//
+#staload
+"libats/libc/SATS/stdlib.sats"
+//
+fun
+state_initset
+{n:int}
+{i:nat|i <= n}
+(
+  i: int(i)
+, argc: int(n)
+, argv: !argv(n)
+, state: &state >> _
+) : void =
+(
+if
+(i < argc)
+then let
+//
+val () =
+if
+string_is_prefix
+  ("--dry", argv[i])
+then (state.dryrun := state.dryrun + 1)
+//
+in
+  state_initset(i+1, argc, argv, state)
+end // end of [then]
+else () // end of [else]
+)
+//
+in (* in-of-local *)
+
+implement
+myatscc_main
+(
+  argc, argv
+) = res where {
+//
+var
+state: state
+val () =
+state.dryrun := 0
+//
+var res: int = 0
+//
+var dryrun: bool = false
+//
+val ((*void*)) =
+state_initset(1, argc, argv, state)
+//
+val ((*void*)) =
+(
+if
+dryrun
+then () else (
+if state.dryrun > 0 then dryrun := true
+) (* end of [if] *)
+) (* end of [val] *)
+//
+val command = myatscc_eval_def()
+//
+val ((*void*)) = println! (command)
+//
+val ((*void*)) =
+  if ~(dryrun) then (res := system(command))
+//
+} // end of [myatscc_main]
+
+end // end of [local]
 
 (* ****** ****** *)
 

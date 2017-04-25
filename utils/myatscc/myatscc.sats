@@ -253,5 +253,17 @@ fun
 myexpseq_stringize(list0(myexp)): string
 //
 (* ****** ****** *)
+//
+fun
+myatscc_get_def((*void*)): string
+fun
+myatscc_eval_def((*void*)): string
+//
+fun
+myatscc_main
+  {n:pos}
+  (argc: int(n), argv: !argv(n)): int
+//
+(* ****** ****** *)
 
 (* end of [myatscc.sats] *)

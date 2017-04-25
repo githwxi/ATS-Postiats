@@ -2041,7 +2041,7 @@ val () = if state.nerror > 0 then $ERR.abort{void}()
 PATSOPT_MAIN_NONE
 //
 implement
-main (argc, argv) =
+main(argc, argv) =
 (
 //
 if

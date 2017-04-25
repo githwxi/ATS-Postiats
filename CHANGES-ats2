@@ -35,7 +35,9 @@ Here is a list of major additions and changes since the last release:
    fun foo($tup(x, y)): ... = ...
    needs to be written as
    fun foo(xy): ... = let $tup(x, y) = xy in ... end
-    
+5. Adding myatscc-support (in utils/myatscc)
+   for allowing compilation commands being embedded inside source code
+      
 ######
 
 0.3.4
