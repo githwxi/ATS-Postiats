@@ -210,6 +210,9 @@ myexpseq_parse(tokenlst): myexplst
 (* ****** ****** *)
 //
 fun
+the_name_i_env_get
+  ((*void*)): list0(gvalue)
+fun
 the_name_i_env_initset
   (xs: list0(gvalue)): void
 //
@@ -255,9 +258,9 @@ myexpseq_stringize(list0(myexp)): string
 (* ****** ****** *)
 //
 fun
-myatscc_get_def((*void*)): string
+myatscc_getdef((*void*)): string
 fun
-myatscc_eval_def((*void*)): string
+myatscc_evaldef((*void*)): string
 //
 fun
 myatscc_main

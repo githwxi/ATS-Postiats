@@ -38,6 +38,7 @@ DATS_C += myatscc_loc_t_dats.c
 DATS_C += myatscc_lexer_dats.c
 DATS_C += myatscc_parser_dats.c
 DATS_C += myatscc_evaler_dats.c
+DATS_C += myatscc_getdef_dats.c
 
 PARCOMB =
 PARCOMB += myatscc_parcomb.sats
@@ -49,7 +50,8 @@ all:: \
 myatscc
 #
 myatscc: \
-$(DATS_C); $(PATSCC2) -o $@ $(DATS_C) $(PARCOMB)
+$(DATS_C); \
+$(PATSCC2) -o $@ $(DATS_C) $(PARCOMB) -latslib
 #
 cleanall:: ; $(RMF) myatscc
 #

@@ -161,8 +161,15 @@ case+ opt of
 //
 end // end of [myexp_eval_name_i]
 
+(* ****** ****** *)
+
+implement
+the_name_i_env_get() = the_name_i_env[]
+
 implement
 the_name_i_env_initset(xs) = (the_name_i_env[] := xs)
+
+(* ****** ****** *)
 
 end // end of [local]
 

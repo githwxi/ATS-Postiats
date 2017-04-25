@@ -53,6 +53,7 @@
 #dynload "./myatscc_lexer.dats"
 #dynload "./myatscc_parser.dats"
 #dynload "./myatscc_evaler.dats"
+#dynload "./myatscc_getdef.dats"
 //
 (* ****** ****** *)
 
@@ -130,18 +131,24 @@ end // end of [the_name_i_env_initize]
 //
 (* ****** ****** *)
 //
+(*
+HX: see
+myatscc_get_def.dats
+*)
+(*
 implement
 myatscc_get_def
   ((*void*)) = MYATSCCDEF
+*)
 //
 (* ****** ****** *)
 //
 implement
-myatscc_eval_def
+myatscc_evaldef
   ((*void*)) = let
 //
 val
-def = myatscc_get_def()
+def = myatscc_getdef()
 //
 val
 toks = string_tokenize(def)
@@ -248,7 +255,7 @@ if state.dryrun > 0 then dryrun := true
 ) (* end of [if] *)
 ) (* end of [val] *)
 //
-val command = myatscc_eval_def()
+val command = myatscc_evaldef()
 //
 val ((*void*)) = println! (command)
 //
