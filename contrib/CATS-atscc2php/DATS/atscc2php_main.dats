@@ -88,8 +88,10 @@ waitkind =
 
 (* ****** ****** *)
 
-datatype OUTCHAN =
-  | OUTCHANref of (FILEref) | OUTCHANptr of (FILEref)
+datatype
+OUTCHAN =
+  | OUTCHANref of (FILEref)
+  | OUTCHANptr of (FILEref)
 // end of [OUTCHAN]
 
 fun
@@ -98,7 +100,7 @@ outchan_get_fileref
 (
 //
 case+ x of
-| OUTCHANref (filr) => filr | OUTCHANptr (filp) => filp
+| OUTCHANref(filr) => filr | OUTCHANptr(filp) => filp
 //
 ) (* end of [outchan_get_fileref] *)
 
@@ -148,15 +150,21 @@ implement
 atscc2php_fileref
   (state, inp) = let
 //
-val out =
-outchan_get_fileref (state.outchan)
+val
+out =
+outchan_get_fileref
+(
+  state.outchan
+) (* end of [val] *)
 //
-val d0cs = parse_from_fileref (inp)
+val
+d0cs = parse_from_fileref(inp)
 //
 val () = emit_text (out, "<?php\n")
 //
-val () = emit_time_stamp (out)
-val ((*void*)) = emit_toplevel (out, d0cs)
+val () = emit_time_stamp(out)
+val () = emit_toplevel(out, d0cs)
+//
 val () = emit_text (out, "/* ****** ****** */\n\n")
 val () = emit_text (out, "/* end-of-compilation-unit */\n")
 //
@@ -170,7 +178,8 @@ end // end of [atscc2php_fileref]
 
 (* ****** ****** *)
 //
-macdef fopen = $STDIO.fopen
+macdef
+fopen = $STDIO.fopen
 //
 extern
 fun
@@ -178,37 +187,63 @@ atscc2php_basename
 (
   state: &cmdstate >> _, fname: string
 ) : void // end-of-fun
+extern
+fun
+atscc2php_basename_
+(
+  state: &cmdstate >> _, fname: string
+) : void // end-of-fun
 //
 implement
 atscc2php_basename
+  (state, fname) =
+(
+case+
+fname of
+| "-" => let
+    val inp = stdin_ref
+  in
+    atscc2php_fileref(state, inp)
+  end // end of [stdin]
+| _(*fname*) =>
+    atscc2php_basename_(state, fname)
+  // end of [non-stdin]
+)
+//
+implement
+atscc2php_basename_
   (state, fname) = let
 //
-val inp =
-  fopen (fname, file_mode_r)
-//
-val p_inp = $STDIO.ptrcast(inp)
+val
+inp =
+fopen(fname, file_mode_r)
+val
+p_inp = $STDIO.ptrcast(inp)
 //
 in
 //
 if
 p_inp > 0
-then let
+then
+fileref_close(inp) where
+{
 //
-val inp =
-  $UNSAFE.castvwtp0{FILEref}(inp)
-val ((*void*)) =
-  the_filename_push(filename_make(fname))
+val
+inp =
+$UNSAFE.castvwtp0{FILEref}(inp)
+val () =
+the_filename_push(filename_make(fname))
 //
-in
-  atscc2php_fileref (state, inp)
-end // end of [then]
+val () = atscc2php_fileref(state, inp)
+} (* end of [then] *)
 else let
 //
 prval
 (
 // freed
-) = $STDIO.FILEptr_free_null (inp)
-val ((*void*)) = state.nerror := state.nerror + 1
+) = $STDIO.FILEptr_free_null(inp)
+val ((*void*)) =
+  (state.nerror := state.nerror + 1)
 //
 in
   // nothing
@@ -224,9 +259,13 @@ cmdstate_set_outchan_basename
   state: &cmdstate >> _, basename: string
 ) : void = let
 //
-val filp =
-  $STDIO.fopen (basename, file_mode_w)
-val p0 = $STDIO.ptrcast(filp)
+val
+filp =
+$STDIO.fopen
+  (basename, file_mode_w)
+//
+val
+p_out = $STDIO.ptrcast(filp)
 //
 (*
 val () = println! ("cmdstate_set_outchan_basename: p0 = ", p0)
@@ -235,7 +274,7 @@ val () = println! ("cmdstate_set_outchan_basename: p0 = ", p0)
 in
 //
 if
-p0 > 0
+p_out > 0
 then let
   val filp = $UNSAFE.castvwtp0{FILEref}(filp)
 in
@@ -254,14 +293,16 @@ end // end of [cmdstate_set_outchan_basename]
 
 (* ****** ****** *)
 //
-fn isinwait
-  (state: cmdstate): bool =
+fn
+isinwait
+(state: cmdstate): bool =
 (
   case+ state.waitkind of WTKinput () => true | _ => false
 ) (* end of [isinwait] *)
 //
-fn isoutwait
-  (state: cmdstate): bool =
+fn
+isoutwait
+(state: cmdstate): bool =
 (
   case+ state.waitkind of WTKoutput () => true | _ => false
 ) (* end of [isoutwait] *)
@@ -270,15 +311,17 @@ fn isoutwait
 //
 extern
 fun
-comarg_warning (string): void
+comarg_warning
+  (msg: string): void
 //
 implement
-comarg_warning (str) = {
+comarg_warning
+  (msg) = {
   val () = prerr ("waring(ATS)")
   val () = prerr (": unrecognized command line argument [")
-  val () = prerr (str)
+  val () = prerr (msg)
   val () = prerr ("] is ignored.")
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 } (* end of [comarg_warning] *)
 //
 (* ****** ****** *)

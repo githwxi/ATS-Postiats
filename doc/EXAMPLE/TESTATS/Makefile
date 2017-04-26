@@ -407,4 +407,8 @@ testall:: cleanall
 
 ######
 
+cleanall:: ; $(RMF) *_?ats.c
+
+######
+
 ###### end of [Makefile] ######

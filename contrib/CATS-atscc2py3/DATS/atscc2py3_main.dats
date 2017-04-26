@@ -75,7 +75,7 @@ datatype
 comarg =
 COMARGkey of (int, string)
 //
-typedef comarglst = List0 (comarg)
+typedef comarglst = List0(comarg)
 //
 (* ****** ****** *)
 
@@ -130,9 +130,9 @@ in
 //
 case+
 chan_old of
-| OUTCHANref (filr) => ()
-| OUTCHANptr (filp) => let
-    val err = $STDIO.fclose0 (filp) in (*nothing*)
+| OUTCHANref(filr) => ()
+| OUTCHANptr(filp) => let
+    val err = $STDIO.fclose0(filp) in (*nothing*)
   end // end of [OUTCHANptr]
 //
 end // end of [cmdstate_set_outchan]
@@ -152,11 +152,15 @@ val
 out =
 outchan_get_fileref(state.outchan)
 //
-val d0cs = parse_from_fileref (inp)
+val
+d0cs =
+parse_from_fileref(inp)
 //
-val () = emit_time_stamp (out)
+val () =
+  emit_time_stamp(out)
 //
-val ((*void*)) = emit_toplevel (out, d0cs)
+val ((*void*)) =
+  emit_toplevel(out, d0cs)
 //
 val () = emit_text (out, "######\n")
 val () = emit_text (out, "##\n")
@@ -164,7 +168,7 @@ val () = emit_text (out, "## end-of-compilation-unit")
 val () = emit_text (out, "\n##")
 val () = emit_text (out, "\n######")
 //
-val ((*flusing*)) = emit_newline (out)
+val ((*flusing*)) = emit_newline(out)
 //
 in
   // nothing
@@ -178,36 +182,62 @@ extern
 fun
 atscc2py3_basename
   (state: &cmdstate >> _, fname: string): void
+extern
+fun
+atscc2py3_basename_
+  (state: &cmdstate >> _, fname: string): void
 //
 implement
 atscc2py3_basename
+  (state, fname) = (
+//
+case+
+fname of
+| "-" => let
+    val inp = stdin_ref
+  in
+    atscc2py3_fileref(state, inp)
+  end // end of [stdin]
+| _(*fname*) =>
+    atscc2py3_basename_(state, fname)
+  // end of [non-stdin]
+) (* end of [atscc2py3_basename] *)
+//
+implement
+atscc2py3_basename_
   (state, fname) = let
 //
-val inp =
-  fopen (fname, file_mode_r)
-val p_inp = $STDIO.ptrcast(inp)
+val
+inp =
+fopen(fname, file_mode_r)
+val
+p_inp = $STDIO.ptrcast(inp)
 //
 in
 //
 if
 p_inp > 0
-then let
+then
+fileref_close(inp) where
+{
 //
-val inp =
-  $UNSAFE.castvwtp0{FILEref}(inp)
-val ((*void*)) =
-  the_filename_push(filename_make(fname))
+val
+inp =
+$UNSAFE.castvwtp0{FILEref}(inp)
+val () =
+the_filename_push(filename_make(fname))
 //
-in
-  atscc2py3_fileref (state, inp)
-end // end of [then]
+val () = atscc2py3_fileref(state, inp)
+//
+} (* end of [then] *)
 else let
 //
 prval
 (
 // freed
-) = $STDIO.FILEptr_free_null (inp)
-val ((*void*)) = state.nerror := state.nerror + 1
+) = $STDIO.FILEptr_free_null(inp)
+val ((*void*)) =
+  (state.nerror := state.nerror + 1)
 //
 in
   // nothing
@@ -224,7 +254,7 @@ cmdstate_set_outchan_basename
 ) : void = let
 //
 val filp =
-  $STDIO.fopen (basename, file_mode_w)
+  $STDIO.fopen(basename, file_mode_w)
 val p0 = $STDIO.ptrcast(filp)
 //
 (*
@@ -238,7 +268,7 @@ p0 > 0
 then let
   val filp = $UNSAFE.castvwtp0{FILEref}(filp)
 in
-  cmdstate_set_outchan (state, OUTCHANptr (filp))
+  cmdstate_set_outchan(state, OUTCHANptr(filp))
 end // end of [then]
 else let
   prval
@@ -246,7 +276,7 @@ else let
   ) = $STDIO.FILEptr_free_null (filp)
   val ((*void*)) = state.nerror := state.nerror + 1
 in
-  cmdstate_set_outchan (state, OUTCHANref (stderr_ref))
+  cmdstate_set_outchan (state, OUTCHANref(stderr_ref))
 end // end of [else]
 //
 end // end of [cmdstate_set_outchan_basename]
@@ -269,15 +299,17 @@ fn isoutwait
 //
 extern
 fun
-comarg_warning (string): void
+comarg_warning
+  (msg: string): void
 //
 implement
-comarg_warning (str) = {
+comarg_warning
+  (msg) = {
   val () = prerr ("waring(ATS)")
   val () = prerr (": unrecognized command line argument [")
-  val () = prerr (str)
+  val () = prerr (msg)
   val () = prerr ("] is ignored.")
-  val () = prerr_newline ()
+  val () = prerr_newline ((*void*))
 } (* end of [comarg_warning] *)
 //
 (* ****** ****** *)
@@ -548,8 +580,10 @@ end // end of [comarglst_parse]
 (* ****** ****** *)
 
 implement
-main0 (argc, argv) =
-{
+main0
+(
+argc, argv
+) = {
 //
 val () =
 prerrln!
@@ -559,22 +593,22 @@ prerrln!
 //
 //
 val arglst =
-  comarglst_parse (argc, argv)
+  comarglst_parse(argc, argv)
 //
-val+list_cons (arg0, arglst) = arglst
+val+list_cons(arg0, arglst) = arglst
 //
 var
 state = @{
   comarg0= arg0
 , ncomarg= 0 // counting from 0
-, waitkind= WTKnone ()
+, waitkind= WTKnone(*void*)
 // number of prcessed
 , ninputfile= ~1 // input files
-, outchan= OUTCHANref (stdout_ref)
+, outchan= OUTCHANref(stdout_ref)
 , nerror= 0 // number of accumulated errors
 } : cmdstate // end of [var]
 //
-val () = process_cmdline (state, arglst)
+val () = process_cmdline(state, arglst)
 //
 val () =
 if

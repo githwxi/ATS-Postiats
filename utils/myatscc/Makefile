@@ -44,6 +44,9 @@ PARCOMB =
 PARCOMB += myatscc_parcomb.sats
 PARCOMB += myatscc_parcomb.dats
 
+MYLIBATS =
+MYLIBATS += myatscc_libats.dats
+
 ######
 #
 all:: \
@@ -51,7 +54,8 @@ myatscc
 #
 myatscc: \
 $(DATS_C); \
-$(PATSCC2) -o $@ $(DATS_C) $(PARCOMB) -latslib
+$(PATSCC2) -o $@ \
+$(DATS_C) $(PARCOMB) $(MYLIBATS)
 #
 cleanall:: ; $(RMF) myatscc
 #
