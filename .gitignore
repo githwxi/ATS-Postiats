@@ -41,6 +41,7 @@ src/TAGATS
 bin/patscc
 bin/patsopt
 bin/pats2xhtml
+bin/myatscc
 bin/atsreloc_curl
 bin/atsreloc_wget
 bin/atscc2js
