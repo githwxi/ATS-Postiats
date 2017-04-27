@@ -1,0 +1,178 @@
+%{
+//
+dynload
+"libatsdoc/dynloadall.dats"
+//
+staload
+"libatsdoc/SATS/libatsdoc_atext.sats"
+//
+extern
+fun
+comment(x: string): atext
+//
+extern
+fun packpreamble(): atext
+extern
+fun packpostamble(): atext
+extern
+fun packtitle(x: string): atext
+extern
+fun packfilename(x: string): atext
+extern
+fun packfilename_r(x: string): atext
+extern
+fun packfilesynop(x: string): atext
+//
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+comment(x) = atext_nil((*void*))
+
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+packpreamble
+  () = let
+//
+val
+out =
+stdout_ref
+//
+val () =
+fprint_string
+(
+out
+,
+"\
+#!/bin/bash\n\
+#\n\
+# This script is automatically generated.\n\
+#\n\
+\n\
+SOURCE=../../npm-utils/contrib\n\
+TARGET=ATS-Postiats/npm-utils/contrib\n\
+\n\
+srcget()\n\
+{\n\
+cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+srcget_r()\n\
+{\n\
+rm -rf ${TARGET}/$1 ;\n\
+cp -rf ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") (*fprint_string*)
+//
+in
+  atext_nil((*void*))
+end // end of [packpreamble]
+
+implement
+packpostamble
+  () = let
+//
+val
+out =
+stdout_ref
+//
+val () =
+fprint_string
+(
+out
+,
+"\
+#\n\
+echo \"The \${ATSHOME}/npm-utils/contrib files have been copied.\"\n\
+#\n\
+# end of the automatically generated script\n\
+#\n\
+") (*fprint_string*)
+in
+  atext_nil((*void*))
+end // end of [packpostamble]
+
+implement
+packtitle(x) = atext_nil((*void*))
+
+implement
+packfilename
+  (x) = let
+//
+val
+out =
+stdout_ref
+//
+val () =
+fprintf (
+  out, "srcget \"%s\" ;\n", @(x)
+) (* fprintf *)
+//
+in
+  atext_nil((*void*))
+end // end of [packfilename]
+
+implement
+packfilename_r
+  (x) = let
+//
+val
+out =
+stdout_ref
+//
+val () =
+fprintf (
+  out, "srcget_r \"%s\" ;\n", @(x)
+) (* fprintf *)
+//
+in
+  atext_nil((*void*))
+end // end of [packfilename_r]
+
+implement
+packfilesynop(x) = atext_nil((*void*))
+
+%}
+
+(* ****** ****** *)
+
+#packpreamble()
+
+(* ****** ****** *)
+
+#packtitle("\
+PATSHOME/npm-utils/contrib\
+")
+
+(* ****** ****** *)
+
+#packfilename_r("atscntrb-libsdl2")
+
+(* ****** ****** *)
+
+#packfilename_r("atscntrb-libcairo")
+
+(* ****** ****** *)
+
+#packpostamble()
+
+(* ****** ****** *)
+
+%{
+
+implement main () = ()
+
+%}
+
+(* ****** ****** *)
+
+(* end of [npm_utils_contrib_atscntrb.atxt] *)
