@@ -93,7 +93,7 @@ val-HDEcase
 //
 // HX: [pmvs] should not contain lvalues
 //
-val pmvs = hidexplst_ccompv (env, res, hdes)
+val pmvs = hidexplst_ccompv(env, res, hdes)
 //
 val fail =
 (

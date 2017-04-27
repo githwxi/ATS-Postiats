@@ -455,6 +455,16 @@ cleanall:: ; $(RMF) SCRIPT/doc_example_atslib.bash
 ######
 
 all_script:: \
+SCRIPT/npm_utils_contrib_atscntrb.bash
+SCRIPT/npm_utils_contrib_atscntrb.bash: npm_utils_contrib_atscntrb_atxt.exe ; ./$< > $@
+npm_utils_contrib_atscntrb_atxt.dats: ATEXT/npm_utils_contrib_atscntrb.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+npm_utils_contrib_atscntrb_atxt.exe: npm_utils_contrib_atscntrb_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) npm_utils_contrib_atscntrb_atxt.exe
+cleanall:: ; $(RMF) HTML/npm_utils_contrib_atscntrb.html
+cleanall:: ; $(RMF) SCRIPT/npm_utils_contrib_atscntrb.bash
+
+all_script:: \
 SCRIPT/npm_utils_contrib_libats_hwxi.bash
 SCRIPT/npm_utils_contrib_libats_hwxi.bash: npm_utils_contrib_libats_hwxi_atxt.exe ; ./$< > $@
 npm_utils_contrib_libats_hwxi_atxt.dats: ATEXT/npm_utils_contrib_libats_hwxi.atxt ; \
@@ -811,6 +821,9 @@ srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
 srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
 #
 ######
+
+srcget_npm_utils_contrib:: srcget_npm_utils_contrib_atscntrb
+srcget_npm_utils_contrib_atscntrb:: SCRIPT/npm_utils_contrib_atscntrb.bash; bash $<
 
 srcget_npm_utils_contrib:: srcget_npm_utils_contrib_libats_hwxi
 srcget_npm_utils_contrib_libats_hwxi:: SCRIPT/npm_utils_contrib_libats_hwxi.bash; bash $<

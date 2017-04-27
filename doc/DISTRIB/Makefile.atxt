@@ -164,6 +164,7 @@ all_script::
 
 ######
 
+#make_entry("npm_utils_contrib_atscntrb")
 #make_entry("npm_utils_contrib_libats_hwxi")
 
 ######
@@ -350,6 +351,11 @@ srcget_doc_example_intro:: SCRIPT/doc_example_intro.bash ; bash $<
 srcget_doc_example_atslib:: SCRIPT/doc_example_atslib.bash ; bash $<
 #
 ######
+
+srcget_npm_utils_contrib:: \
+srcget_npm_utils_contrib_atscntrb
+srcget_npm_utils_contrib_atscntrb:: \
+SCRIPT/npm_utils_contrib_atscntrb.bash; bash $<
 
 srcget_npm_utils_contrib:: \
 srcget_npm_utils_contrib_libats_hwxi
