@@ -331,7 +331,7 @@ stream_labelize
 //
 fun
 {a:t0p}
-stream_foreach (xs: stream(a)): void
+stream_foreach(xs: stream(a)): void
 fun
 {a:t0p}
 {env:vt0p}

@@ -1,6 +1,17 @@
+(* ****** ****** *)
 //
 // Some code for testing the API in ATS for pcre
 //
+(* ****** ****** *)
+
+(*
+##myatsccdef=\
+patscc \
+-I./../.. \
+-DATS_MEMALLOC_LIBC \
+-o $fname($1) $1 -lpcre
+*)
+
 (* ****** ****** *)
 
 #include
@@ -8,14 +19,13 @@
 
 (* ****** ****** *)
 
-staload "./../SATS/pcre.sats"
-staload "./../SATS/pcre_ML.sats"
+#include "./../mylibies.hats"
+#staload $PCRE_ML // opening it
 
 (* ****** ****** *)
-
-staload _ = "./../DATS/pcre.dats"
-staload _ = "./../DATS/pcre_ML.dats"
-
+//
+local #include "testlib.dats" in (*nothing*) end
+//
 (* ****** ****** *)
 
 implement

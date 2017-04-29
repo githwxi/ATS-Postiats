@@ -1,16 +1,31 @@
+(* ****** ****** *)
 //
-// Some code for testing the API in ATS for pcre
+// Some code for
+// testing the API in ATS for pcre
 //
+(* ****** ****** *)
+
+(*
+##myatsccdef=\
+patscc -I./../.. \
+-DATS_MEMALLOC_LIBC -o $fname($1) $1 -latslib -lpcre
+*)
+
 (* ****** ****** *)
 
 #include
 "share/atspre_staload.hats"
 
 (* ****** ****** *)
-
-staload
+//
+#staload
 UN =
 "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+
+#include "./../mylibies.hats"
+#staload $PCRE_ML // opening it
 
 (* ****** ****** *)
 //
@@ -22,15 +37,9 @@ _(*anon*) =
 "libats/libc/DATS/dirent.dats"
 //
 (* ****** ****** *)
-
-staload "./../SATS/pcre.sats"
-staload "./../SATS/pcre_ML.sats"
-
-(* ****** ****** *)
-
-staload _ = "./../DATS/pcre.dats"
-staload _ = "./../DATS/pcre_ML.dats"
-
+//
+local #include "testlib.dats" in (*nothing*) end
+//
 (* ****** ****** *)
 
 val () =
