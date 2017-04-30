@@ -12,16 +12,17 @@
 //
 extern
 fun{}
-draw_line (point, point, color): void
+draw_line(point, point, color): void
 //
 extern
 fun{}
-draw_koch (point, point, color, int(*level*)): void
+draw_koch(point, point, color, int(*level*)): void
 //
 (* ****** ****** *)
 
-implement{
-} draw_line
+implement
+{}(*tmp*)
+draw_line
 (
   p1, p2, clr
 ) = let
@@ -41,8 +42,9 @@ end // end of [draw_line]
 
 (* ****** ****** *)
 
-implement{
-} draw_koch
+implement
+{}(*tmp*)
+draw_koch
 (
   p1, p2, clr, n
 ) = let

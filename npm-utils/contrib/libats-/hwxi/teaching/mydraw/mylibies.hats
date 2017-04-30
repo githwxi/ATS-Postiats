@@ -26,7 +26,7 @@ MYDRAW_cairo = "./SATS/mydraw_cairo.sats"
 MYDRAW_CANVAS2D
 #staload
 MYDRAW_canvas2d = "./SATS/mydraw_HTML5_canvas2d.sats"
-#endif // #ifdef(MYDRAW_CAIRO)
+#endif // #ifdef(MYDRAW_CANVAS2D)
 //
 (* ****** ****** *)
 
