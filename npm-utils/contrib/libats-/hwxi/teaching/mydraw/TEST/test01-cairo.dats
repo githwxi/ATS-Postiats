@@ -36,6 +36,30 @@ staload
 #include "./../DATS/mydraw_cairo.dats"
 //
 (* ****** ****** *)
+(*
+HX:
+For external use:
+*)
+(*
+//
+#define MYDRAW_CAIRO
+//
+#include
+"$PATSHOMELOCS\
+/atscntrb-hx-teaching-mydraw/mylibies.hats"
+//
+#staload $MYDRAW
+#staload $MYDRAW_cairo
+//
+#include
+"$PATSHOMELOCS\
+/atscntrb-hx-teaching-mydraw/DATS/mydraw.dats"
+#include
+"$PATSHOMELOCS\
+/atscntrb-hx-teaching-mydraw/DATS/mydraw_cairo.dats"
+//
+*)
+(* ****** ****** *)
 
 #include "./test01.dats"
 
