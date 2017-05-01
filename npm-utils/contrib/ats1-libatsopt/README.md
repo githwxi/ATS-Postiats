@@ -11,23 +11,23 @@ where the package is stored locally. For the sake of illustration, let
 us suppose that the package resides inside a directory of the following
 name:
   
-<SomePath>/node_modules/ats1-libatsopt
+$SomePath/node_modules/ats1-libatsopt
 
 Please issue the following command-line to build libatsopt:
 
-cd <SomePath>/node_modules/ats1-libatsopt; make all
+cd $SomePath/node_modules/ats1-libatsopt; make all
 
 Alternatively, one may issue the following command-line:
 
-make -C <SomePath>/node_modules/ats1-libatsopt all
+make -C $SomePath/node_modules/ats1-libatsopt all
 
 ## Linking to libatsopt
 
 Note that the generated library libatsopt.a is stored in the following
 directory:
 
-<SomePath>/node_modules/ats1-libatsopt/ccomp/atslib/lib
+$SomePath/node_modules/ats1-libatsopt/ccomp/atslib/lib
 
 Typically, one needs the following options for linking to libatsopt
   
--L <SomePath>/node_modules/ats1-libatsopt/ccomp/atslib/lib -latsopt
+-L $SomePath/node_modules/ats1-libatsopt/ccomp/atslib/lib -latsopt
