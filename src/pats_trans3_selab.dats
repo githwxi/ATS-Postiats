@@ -369,17 +369,19 @@ of // case+
 //
 *)
     | Some(d2s) => let
-        val () = prerr_error3_loc (loc0) 
+        val () =
+        prerr_error3_loc(loc0) 
         val () =
         prerrln! (
           ": overloaded dot-symbol: [", d2s, "] should be applied."
         ) (* end of [val] *)
         val () = the_trans3errlst_add(T3E_d3lab_overld_app(loc0, d3l))
       in
-        s2exp_t0ype_err ((*void*))
+        s2exp_t0ype_err((*void*))
       end // end of [Some]
     | None((*void*)) => let
-        val () = prerr_error3_loc (loc0)
+        val () =
+        prerr_error3_loc(loc0)
         val () =
         prerr! (
           ": [", lab0, "] cannot be found"
@@ -390,7 +392,7 @@ of // case+
         ) (* end of [val] *)
         val () = the_trans3errlst_add(T3E_s2exp_selab_tyrec(loc0, s2e))
       in
-        s2exp_t0ype_err ((*void*))
+        s2exp_t0ype_err((*void*))
       end // end of [None]
    end (* rest-of-s2exp *)
 //

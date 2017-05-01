@@ -21,9 +21,7 @@ ATSOPT=$(ATSHOME)/bin/atsopt
 
 ######
 
-CFLAGS=-g
-#CFLAGS=-g -O
-#CFLAGS=-g -O2
+CFLAGS=-O2
 
 ######
 #
@@ -814,61 +812,13 @@ OBJECTS := \
 
 
 ######
-
-all:: patsopt
-
-######
-#
-# AS-20130407:
-# link order matters to GNU ld
-# please keep the order '$(LIBATS) $(LIBGMP)'
-# as the former depends on the latter
-#
-patsopt:: $(TARGETS)
-patsopt:: $(OBJECTS) ; \
-$(ATSCC) $(CFLAGS) $(GCFLAG) \
--o $@ pats_main.dats $(OBJECTS) $(LIBATS) $(LIBGMP)
-#
-cleanall:: ; $(RMF) patsopt
-#
-######
 #
 libatsopt:: $(TARGETS)
+libatsopt:: $(OBJECTS) \
+pats_main_none_dats.o; $(ARR) libatsopt.a $^
 #
-libatsopt:: \
-$(OBJECTS) pats_main_none_dats.o; $(ARR) libatsopt.a $^
+libatsopt:: ; $(CPF) ./libatsopt.a ./../libatsopt.a
 #
-libatsopt:: ; $(CPF) ./libatsopt.a ./../ccomp/atslib/lib/.
-#
-######
-#
-# for building patsopt through CMake
-#
-CMKBLD/init: ; cd CMKBLD; cmake ..; cd ..
-CMKBLD/clean: ; make -C CMKBLD -f Makefile clean
-CMKBLD/patsopt: ; make -C CMKBLD -j8 -f Makefile patsopt
-#
-######
-#
-CBOOT:: ; $(CPF) pats_*.hats CBOOT
-CBOOT:: ; $(CPF) pats_*.cats CBOOT
-CBOOT:: ; $(CPF) pats_*_sats.c CBOOT
-CBOOT:: ; $(CPF) pats_*_dats.c CBOOT
-CBOOT:: ; $(CPF) Makefile_CBOOT CBOOT/Makefile
-#
-######
-#
-CBOOTmin:: ; $(CPF) pats_*.hats CBOOT
-CBOOTmin:: ; $(CPF) pats_*.cats CBOOT
-CBOOTmin:: ; $(CPF) pats_*_sats.c CBOOT
-CBOOTmin:: ; $(CPF) pats_*_dats.c CBOOT
-CBOOTmin:: ; $(CPF) Makefile_CBOOTmin CBOOT/Makefile
-#
-######
-
-TAGATS:: ; $(RMF) $@
-TAGATS:: ; $(ATSOPT) --output-a $@ --taggen -s $(SOURCESsta) -d $(SOURCESdyn)
-
 ######
 #
 pats_error_sats.c: pats_error.sats; $(ATSCC) $(DATSCC) -cc $<
@@ -1585,7 +1535,7 @@ pats_ccomp_emit3_dats.o: pats_ccomp_emit3_dats.c; $(ATSCC) $(CFLAGS) -c $<
 pats_ccomp_main_dats.c: pats_ccomp_main.dats; $(ATSCC) $(DATSCC) -cc $<
 pats_ccomp_main_dats.o: pats_ccomp_main_dats.c; $(ATSCC) $(CFLAGS) -c $<
 
-
+######
 #
 pats_main_dats.c: \
   pats_main.dats; $(ATSOPT) $(DATSCC) -o $@ -d $<
@@ -1595,30 +1545,14 @@ pats_main_none_dats.c: \
 pats_main_none_dats.o: pats_main_none_dats.c; $(ATSCC) $(CFLAGS) -c -o $@ $<
 #
 ######
-#
-# HX: '-o .depend' means appending instead of overwriting
-#
-depend::
-	$(RMF) .depend
-	$(ATSOPT) --output-a .depend --depgen -d pats_main.dats
-	$(ATSOPT) --output-a .depend --depgen -s $(SOURCESsta) -d $(SOURCESdyn)
-#
--include .depend
-#
-######
 
 DIR=.
 ARR=ar -r
 CPF=cp -f
+MVF=mv -f
 RMF=rm -f
 WCL=wc -l
 
-######
-#
-srclines:: ; $(WCL)   pats_main.dats $(SOURCES)
-#
-liblines:: ; $(WCL)   ../prelude/*.sats   ../prelude/?ATS/*.?ats   ../libc/?ATS/*.?ats   ../libats/?ATS/*.?ats ../libats/?ATS/SHARE/*.?ats
-#
 ######
 
 clean:: ; $(RMF) $(DIR)/*~

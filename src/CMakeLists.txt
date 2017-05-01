@@ -163,6 +163,7 @@ pats_dynexp2_mapgen.dats
 pats_codegen2.sats
 pats_codegen2.dats
 pats_codegen2_util.dats
+pats_codegen2_absrec.dats
 pats_codegen2_datype.dats
 pats_codegen2_fprint.dats
 pats_jsonize_synent2.sats

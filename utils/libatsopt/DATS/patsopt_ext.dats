@@ -1,12 +1,7 @@
-(*
-//
-// For [libatsopt]
-//
-*)
-
 (* ****** ****** *)
 //
 // HX: This is ATS1!
+// HX: For [libatsopt]
 //
 (* ****** ****** *)
 
@@ -964,4 +959,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [libatsopt_ext.dats] *)
+(* end of [patsopt_ext.dats] *)
