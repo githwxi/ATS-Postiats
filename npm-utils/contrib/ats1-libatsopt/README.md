@@ -31,3 +31,7 @@ $SomePath/node_modules/ats1-libatsopt/ccomp/atslib/lib
 Typically, one needs the following options for linking to libatsopt
   
 -L $SomePath/node_modules/ats1-libatsopt/ccomp/atslib/lib -latsopt
+
+## Examples of using libatsopt
+
+Please find various examples of using libatsopt inside libatsopt/TEST/.
