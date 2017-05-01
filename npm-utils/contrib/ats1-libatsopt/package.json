@@ -2,7 +2,7 @@
 "name":
 "ats1-libatsopt"
 ,
-"version": "0.3.5-0"
+"version": "0.3.5-1"
 ,
 "description":
 "This package is for libatsopt (the library version of patsopt)."
