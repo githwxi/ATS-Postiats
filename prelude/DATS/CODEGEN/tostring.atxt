@@ -317,8 +317,7 @@ tostrptr_array$end<>()
 val
 _end = string0_copy<>(_end)
 //
-val res = list_vt_cons (_end, res)
-//
+val res = list_vt_cons(_end, res)
 val res = list_vt_reverse<Strptr1>(res)
 //
 in
@@ -330,11 +329,11 @@ end // end of [tostrptr_array]
 #atscode_separator()
 //
 implement{}
-tostrptr_array$beg() = ""
+tostrptr_array$beg() = "" // HX: default
 implement{}
-tostrptr_array$end() = ""
+tostrptr_array$end() = "" // HX: default
 implement{}
-tostrptr_array$sep() = ""
+tostrptr_array$sep() = "" // HX: default
 //
 #atscode_separator()
 
@@ -348,8 +347,7 @@ val (vbox pf | p) =
 //
 in
 //
-$effmask_ref
-  (tostrptr_array<a>(!p, n))
+$effmask_ref(tostrptr_array<a>(!p, n))
 //
 end // end of [tostrptr_arrayref]
 
@@ -360,12 +358,10 @@ implement
 tostrptr_arrszref
   (ASZ) = let
 //
-var n: size_t
-val A =
-arrszref_get_refsize<>(ASZ, n)
+var asz: size_t
 //
 in
-  tostrptr_arrayref<a>(A, n)
+  tostrptr_arrayref<a>(arrszref_get_refsize<>(ASZ, asz), asz)
 end // end of [tostrptr_arrszref]
 
 #atscode_separator()
