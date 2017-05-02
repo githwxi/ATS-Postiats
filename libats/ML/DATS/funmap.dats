@@ -65,50 +65,57 @@ $FM.compare_key_key = compare_key_key<a>
 
 implement
 {}(*tmp*)
-funmap_nil() = $FM.funmap_nil ()
+funmap_nil() = $FM.funmap_nil<>()
 implement
 {}(*tmp*)
-funmap_make_nil() = $FM.funmap_make_nil ()
+funmap_make_nil() = $FM.funmap_make_nil<>()
 
 (* ****** ****** *)
 
-implement{}
-funmap_is_nil(map) = $FM.funmap_is_nil (map)
-implement{}
-funmap_isnot_nil(map) = $FM.funmap_isnot_nil (map)
+implement
+{}(*tmp*)
+funmap_is_nil(map) = $FM.funmap_is_nil<>(map)
+implement
+{}(*tmp*)
+funmap_isnot_nil(map) = $FM.funmap_isnot_nil<>(map)
 
 (* ****** ****** *)
 //
 implement
 {key,itm}
-funmap_size (map) = $FM.funmap_size (map)
+funmap_size
+  (map) = $FM.funmap_size<key,itm>(map)
 //
 (* ****** ****** *)
 //
 implement
 {key,itm}
 funmap_search
-  (map, k) = $FM.funmap_search_opt (map, k)
+  (map, k) =
+  $FM.funmap_search_opt<key,itm>(map, k)
 //
 (* ****** ****** *)
 //
 implement
 {key,itm}
 funmap_insert
-  (map, k, x) = $FM.funmap_insert_opt (map, k, x)
+  (map, k, x) =
+  $FM.funmap_insert_opt<key,itm>(map, k, x)
 //
 (* ****** ****** *)
 //
 implement
 {key,itm}
 funmap_takeout
-  (map, k) = $FM.funmap_takeout_opt (map, k)
+  (map, k) =
+  $FM.funmap_takeout_opt<key,itm>(map, k)
 //
 (* ****** ****** *)
 //
 implement
 {key,itm}
-funmap_remove (map, k) = $FM.funmap_remove (map, k)
+funmap_remove
+  (map, k) = $FM.funmap_remove<key,itm>(map, k)
 //
 (* ****** ****** *)
 
@@ -122,7 +129,7 @@ $FM.fprint_funmap$sep<> = fprint_funmap$sep<>
 implement
 $FM.fprint_funmap$mapto<> = fprint_funmap$mapto<>
 //
-val () = $FM.fprint_funmap (out, map)
+val () = $FM.fprint_funmap<key,itm>(out, map)
 //
 in
   // nothing
@@ -131,9 +138,9 @@ end // end of [fprint_funmap]
 (* ****** ****** *)
 
 implement{}
-fprint_funmap$sep (out) = fprint (out, "; ")
+fprint_funmap$sep(out) = fprint(out, "; ")
 implement{}
-fprint_funmap$mapto (out) = fprint (out, "->")
+fprint_funmap$mapto(out) = fprint(out, "->")
 
 (* ****** ****** *)
 
@@ -156,19 +163,19 @@ $FM.funmap_foreach_env<key,itm><void>(map, env)
 } (* end of [funmap_foreach_cloref] *)
 
 (* ****** ****** *)
-
+//
 implement
 {key,itm}
 funmap_listize
-  (map) = let
+  (map) =
+(
+$effmask_wrt
+(
+list0_of_list_vt
+  ($FM.funmap_listize<key,itm>(map))
+)
+) (* end of [funmap_listize] *)
 //
-val xs =
-  $effmask_wrt($FM.funmap_listize(map))
-//
-in
-  list0_of_list_vt(xs)
-end // end of [funmap_listize]
-
 (* ****** ****** *)
 
 implement
@@ -176,7 +183,8 @@ implement
 funmap_streamize
   (map) =
 (
-  $effmask_wrt($FM.funmap_streamize(map))
+$effmask_wrt
+  ($FM.funmap_streamize<key,itm>(map))
 ) (* end of [funmap_streamize] *)
 
 (* ****** ****** *)
