@@ -1534,30 +1534,30 @@ end // end of [list_app]
 implement
 {x}(*tmp*)
 list_app_fun
-  (xs, fopr) = let
+  (xs, fwork) = let
 //
 prval() = lemma_list_param(xs)
 //
 fun
 loop{n:nat} .<n>.
 (
-  xs: list(x, n), fopr: (x) -<fun1> void
+  xs: list(x, n), fwork: (x) -<fun1> void
 ) : void = (
 //
 case+ xs of
 | list_nil() => ()
-| list_cons(x, xs) => (fopr(x); loop(xs, fopr))
+| list_cons(x, xs) => (fwork(x); loop(xs, fwork))
 //
 ) (* end of [loop] *)
 //
 in
-  loop(xs, fopr)
+  loop(xs, fwork)
 end // end of [list_app_fun]
 
 implement
 {x}(*tmp*)
 list_app_cloref
-  (xs, fopr) = let
+  (xs, fwork) = let
 //
 prval() = lemma_list_param(xs)
 //
@@ -1566,17 +1566,17 @@ loop
 {n:nat} .<n>.
 (
   xs: list(x, n)
-, fopr: (x) -<cloref1> void
+, fwork: (x) -<cloref1> void
 ) : void = (
 //
 case+ xs of
 | list_nil() => ()
-| list_cons(x, xs) => (fopr(x); loop(xs, fopr))
+| list_cons(x, xs) => (fwork(x); loop(xs, fwork))
 //
 ) (* end of [loop] *)
 //
 in
-  loop(xs, fopr)
+  loop(xs, fwork)
 end // end of [list_app_cloref]
 
 #atscode_separator()
