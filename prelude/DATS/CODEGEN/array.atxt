@@ -251,7 +251,8 @@ end // end of [array_ptr_free]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_ptr_tabulate
   (asz) = let
 //
@@ -261,12 +262,17 @@ val
 ) = array_ptr_alloc<a> (asz)
 //
 local
-implement{a}
+implement
+{a2}(*tmp*)
 array_initize$init
   (i, x) =
-  (x := array_tabulate$fopr<a>(i))
+(
+x := array_tabulate$fopr<a2>(i)
+)
 in (*in of [local]*)
-val () = array_initize<a> (!p, asz)
+//
+val () = array_initize<a>(!p, asz)
+//
 end // end of [local]
 //
 in
@@ -275,7 +281,8 @@ end // end of [array_ptr_tabulate]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_array_int
   (out, A, asz) = let
 //
@@ -285,7 +292,8 @@ in
   fprint_array_size (out, A, i2sz(asz))
 end // end of [fprint_array_int]
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_array_size
   (out, A, asz) = let
 //
@@ -310,12 +318,14 @@ end // end of [fprint_array_size]
 
 #atscode_separator()
 
-implement{}
-fprint_array$sep (out) = fprint (out, ", ")
+implement
+{}(*tmp*)
+fprint_array$sep(out) = fprint(out, ", ")
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_array_sep
   (out, A, asz, sep) = let
 //
@@ -356,7 +366,8 @@ end // end of [array_copy]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_copy_from_list
   (A, xs) = let
 //
@@ -391,7 +402,8 @@ end // end of [array_copy_from_list]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_copy_from_list_vt
   (A, xs) = let
 //
@@ -431,7 +443,8 @@ end // end of [array_copy_from_list_vt]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_copy_to_list_vt
   (A, n) = res where {
 //
@@ -780,7 +793,8 @@ array_iforeach$fwork (i, x, env) = ((*void*))
 //
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_rforeach
   (A, asz) = let
   var env: void = ()
@@ -907,11 +921,13 @@ end // end of [array_initize]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_initize_elt
   (A, asz, elt) = let
 //
-implement{a2}
+implement
+{a2}(*tmp*)
 array_initize$init
   (i, xi) = xi := $UN.castvwtp0{a2}(elt)
 //
@@ -921,7 +937,8 @@ end // end of [array_initize_elt]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_initize_list
   {n} (A, asz, xs) = let
 //
@@ -982,7 +999,8 @@ end // end of [array_initize_list]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_initize_rlist
   {n} (A, asz, xs) = let
 //
@@ -1037,7 +1055,8 @@ end // end of [array_initize_rlist]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_initize_list_vt
   {n} (A, asz, xs) = let
 //
@@ -1094,7 +1113,8 @@ end // end of [array_initize_list_vt]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_initize_rlist_vt
   {n} (A, asz, xs) = let
 //
@@ -1151,7 +1171,8 @@ end // end of [array_initize_rlist_vt]
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 array_uninitize
   (A, asz) = let
 //
