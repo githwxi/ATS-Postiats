@@ -37,7 +37,7 @@ TRENV2 = "src/pats_trans2_env.sats"
 extern void patsopt_PATSHOME_set () ;
 extern char *patsopt_PATSHOME_get () ;
 //
-extern void patsopt_PATSHOMERELOC_set () ;
+extern void patsopt_PATSHOMELOCS_set () ;
 //
 %} // end of [%{^]
 
@@ -63,7 +63,7 @@ set () where
 {
   extern
   fun set (): void
-    = "mac#patsopt_PATSHOMERELOC_set"
+    = "mac#patsopt_PATSHOMELOCS_set"
   // end of [fun]
 } // end of [where] // end of [val]
 //
@@ -104,14 +104,14 @@ val () = $TRENV1.the_trans1_env_initialize()
 val () = $TRENV2.the_trans2_env_initialize()
 //
 val () =
-libatsopt_the_prelude_load
+the_prelude_load
   (PATSHOME) where
 {
 //
 extern
 fun
-libatsopt_the_prelude_load
-  (PATSHOME: string): void = "mac#"
+the_prelude_load
+  (PATSHOME: string): void = "ext#libatsopt_the_prelude_load"
 //
 } (* end of [where] *)
 //

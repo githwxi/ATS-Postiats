@@ -19,7 +19,7 @@ $(ATSCC) -I$(PATSHOME)/src \
   -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ $< \
   -L $(PATSHOME)/utils/libatsyntext -latsyntext -L $(PATSHOME)/utils/libatsopt -latsopt -lgmp
 #
-regress:: test01 | ./$<
+regress:: test01; ./$<
 #
 cleanall:: ; $(RMF) test01
 #
