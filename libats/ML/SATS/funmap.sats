@@ -88,7 +88,7 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } funmap_search
-  (map: map (key, INV(itm)), k: key): Option_vt (itm)
+  (map: map (key, INV(itm)), k: key): Option_vt(itm)
 // end of [funmap_search]
 
 (* ****** ****** *)
