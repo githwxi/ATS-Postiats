@@ -1,8 +1,11 @@
 %{
-#define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT == "txt")
+#define
+ATSCODEFORMAT "txt"
+//
+#if(ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
+//
 val _thisfilename = atext_strcst"list_vt.dats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
@@ -41,14 +44,16 @@ List0_vt_(a:vt@ype+) = List0_vt(a)
 implement
 {a}(*tmp*)
 list_vt_make_sing(x) =
-  list_vt_cons{a}(x, list_vt_nil)
+  list_vt_cons{a}(x, list_vt_nil())
 implement
 {a}(*tmp*)
 list_vt_make_pair(x1, x2) =
+(
   list_vt_cons{a}
   (
     x1, list_vt_cons{a}(x2, list_vt_nil())
-  ) (* list_vt_cons *)
+  )
+) (* list_vt_cons *)
 //
 #atscode_separator()
 //
@@ -152,7 +157,7 @@ end // end of [list_vt_uncons]
 
 implement
 {a}(*tmp*)
-list_vt_length (xs) = let
+list_vt_length(xs) = let
 //
 fun
 loop
@@ -169,7 +174,7 @@ case+ xs of
 //
 end // end of [loop]
 //
-prval () = lemma_list_vt_param(xs)
+prval() = lemma_list_vt_param(xs)
 //
 in
   loop(xs, 0)
@@ -179,7 +184,7 @@ end // end of [list_vt_length]
 
 implement
 {x}(*tmp*)
-list_vt_copy (xs) = let
+list_vt_copy(xs) = let
 //
 implement
 {x2}(*tmp*)
@@ -187,7 +192,7 @@ list_vt_copylin$copy
   (x) = $UN.ptr0_get<x2>(addr@x)
 //
 in
-  $effmask_all (list_vt_copylin<x> (xs))
+  $effmask_all(list_vt_copylin<x>(xs))
 end // end of [list_vt_copy]
 
 implement
@@ -195,7 +200,7 @@ implement
 list_vt_copylin
   (xs) = let
 //
-prval () = lemma_list_vt_param(xs)
+prval() = lemma_list_vt_param(xs)
 //
 fun
 loop
@@ -223,15 +228,14 @@ case+ xs of
   in
     // nothing
   end // end of [list_vt_cons]
-| list_vt_nil () => res := list_vt_nil ()
+| list_vt_nil() => res := list_vt_nil()
 //
 end // end of [loop]
-//
-var res: ptr
 //
 in
 //
 let
+var res: ptr
 val () = $effmask_all(loop(xs, res)) in res
 end
 //
@@ -258,7 +262,7 @@ val x2 = $effmask_all(f2(x))
 } (* end of [copy] *)
 //
 in
-  list_vt_copylin<x> (xs)
+  list_vt_copylin<x>(xs)
 end // end of [list_vt_copylin_fun]
 
 #atscode_separator()
@@ -309,6 +313,7 @@ var xs = __ref (xs) where
   extern
   castfn __ref
     (xs: !list_vt(a, n)):<> list_vt(a, n)
+  // castfn
 } // end of [val]
 //
 val pi =
@@ -321,7 +326,7 @@ prval() =
 __unref(xs) where
 {
   extern
-  praxi __unref (xs: list_vt(a, n)): void
+  praxi __unref(xs: list_vt(a, n)): void
 } // end of [prval]
 //
 } // end of [list_vt_get_at]
@@ -329,16 +334,16 @@ __unref(xs) where
 implement
 {a}(*tmp*)
 list_vt_set_at
-  {n} (xs, i, x0) = let
+  {n}(xs, i, x0) = let
 //
-var xs = let
+var xs =
+__ref(xs) where
+{
   extern
   castfn __ref
     (xs: !list_vt(a, n)):<> list_vt(a, n)
   // end of [__ref]
-in
-  __ref (xs)
-end // end of [val]
+} (* end of [val] *)
 //
 val pi =
 list_vt_getref_at<a>(xs, i)
@@ -348,12 +353,14 @@ val
 val+@list_vt_cons(x1, xs1) = !pi
 //
 val () = x1 := x0
-prval () = fold@(!pi); prval () = fpf(pf)
 //
-prval () = let
-  extern praxi __unref (xs: list_vt(a, n)): void
+prval() = fold@(!pi); prval() = fpf(pf)
+//
+prval() = let
+  extern
+  praxi __unref (xs: list_vt(a, n)): void
 in
-  __unref (xs)
+  __unref(xs)
 end // end of [prval]
 //
 in
@@ -365,9 +372,10 @@ end // end of [list_vt_set_at]
 implement
 {a}(*tmp*)
 list_vt_exch_at
-  {n} (xs, i, x0) = let
+  {n}(xs, i, x0) = let
 //
-var xs = __ref (xs) where
+var xs =
+__ref(xs) where
 {
   extern
   castfn __ref
@@ -383,12 +391,13 @@ val+@list_vt_cons(x1, xs1) = !pi
 val t = x1
 val () = x1 := x0
 val () = x0 := t
-prval () = fold@(!pi); prval () = fpf(pf)
+prval() = fold@(!pi); prval() = fpf(pf)
 //
-prval () =
+prval() =
 __unref(xs) where
 {
-  extern praxi __unref (xs: list_vt(a, n)): void
+  extern
+  praxi __unref (xs: list_vt(a, n)): void
 } // end of [prval]
 //
 in
@@ -577,9 +586,9 @@ implement
 list_vt_append
   {m,n}(xs, ys) = let
 //
-prval () =
+prval() =
 lemma_list_vt_param(xs)
-prval () =
+prval() =
 lemma_list_vt_param(ys)
 //
 fun
@@ -596,7 +605,7 @@ case+ xs of
   // end of [list_vt_nil]
 | @list_vt_cons
     (x, xs1) => let
-    val () = loop(xs1, ys); prval () = fold@(xs) in (*none*)
+    val () = loop(xs1, ys); prval() = fold@(xs) in (*none*)
   end // end of [list_vt_cons]
 //
 end (* end of [loop] *)
@@ -643,7 +652,7 @@ case+ xs1 of
   end // end of [list_vt_nil]
 | list_vt_cons _ => let
     val x = loop(xs1)
-    prval () = fold@ (xs) in x
+    prval() = fold@ (xs) in (x)
   end // end of [list_vt_cons]
 //
 end // end of [loop]
@@ -683,7 +692,7 @@ xs: list_vt(a, m), ys: list_vt(a, n)
   | @list_vt_cons
       (_, xs1) => let
       val xs1_ = xs1
-      val () = xs1 := ys; prval () = fold@ (xs)
+      val () = xs1 := ys; prval() = fold@ (xs)
     in
       loop(xs1_, xs)
     end // end of [cons]
@@ -710,6 +719,7 @@ xs: &list_vt(x, n) >> list_vt(x, i), i: int i
 if i > 0 then let
 //
 val+@cons_vt(x, xs1) = xs
+//
 val res = loop(xs1, i-1)
 prval ((*folded*)) = fold@ (xs)
 //
@@ -754,13 +764,13 @@ in
       loop(res, xss)
     end // end of [list_vt_cons]
   | ~list_vt_nil () => let
-      prval () = lemma_list_vt_param(res) in res
+      prval() = lemma_list_vt_param(res) in res
     end // end of [list_vt_nil]
 end (* end of [loop] *)
 //
 val xss = list_vt_reverse (xss)
 //
-prval () = lemma_list_vt_param(xss)
+prval() = lemma_list_vt_param(xss)
 //
 in
 //
@@ -775,9 +785,9 @@ end // end of [list_vt_concat]
 
 implement
 {a}(*tmp*)
-list_vt_separate (xs) = let
+list_vt_separate(xs) = let
 //
-prval () = lemma_list_vt_param(xs)
+prval() = lemma_list_vt_param(xs)
 //
 fun loop
   {n:nat} .<n>. (
@@ -824,7 +834,7 @@ end // end of [list_vt_separate]
 
 implement
 {a}(*tmp*)
-list_vt_filter (xs) = let
+list_vt_filter(xs) = let
 //
 implement
 list_vt_filterlin$pred<a>
@@ -873,10 +883,9 @@ case+ xs of
       val xs1 = xs1
       val () =
         list_vt_filterlin$clear<a>(x)
-      val () = free@{a}{0}(xs)
-      val () = xs := xs1
+      val ((*freed*)) = free@{a}{0}(xs)
     in
-      loop(xs)
+      let val () = xs := xs1 in loop(xs) end
     end // end of [if]
   end // end of [list_vt_cons]
 //
@@ -887,10 +896,10 @@ in
 end // end of [list_vt_filterlin]
 
 #atscode_separator()
-
+//
 implement
 {a}(*tmp*)
-list_vt_filterlin$clear (x) = gclear_ref (x)
+list_vt_filterlin$clear(x) = gclear_ref<a>(x)
 
 #atscode_separator()
 
@@ -941,7 +950,7 @@ implement
 list_vt_map
   (xs) = let
 //
-prval () =
+prval() =
 lemma_list_vt_param(xs)
 //
 fun
@@ -1042,7 +1051,8 @@ implement
 list_vt_mapfree
   (xs) = let
 //
-prval () = lemma_list_vt_param (xs)
+prval() =
+lemma_list_vt_param(xs)
 //
 fun
 loop
@@ -1301,7 +1311,8 @@ implement
 list_vt_iforeach_env
   (xs, env) = let
 //
-prval () = lemma_list_vt_param (xs)
+prval() =
+lemma_list_vt_param(xs)
 //
 fun
 loop
@@ -1314,19 +1325,21 @@ in
   | @list_vt_cons
       (x, xs1) => let
       val test =
-        list_vt_iforeach$cont<x><env>(i, x, env)
+      list_vt_iforeach$cont<x><env>
+        (i, x, env)
       // end of [val]
     in
       if test then let
         val () =
-          list_vt_iforeach$fwork<x><env>(i, x, env)
+        list_vt_iforeach$fwork<x><env>
+          (i, x, env)
         // end of [val]
         val i = loop(succ(i), xs1, env)
-        prval () = fold@ (xs)
+        prval ((*folded*)) = fold@ (xs)
       in
         i // the number of processed elements
       end else let
-        prval () = fold@ (xs)
+        prval ((*folded*)) = fold@ (xs)
       in
         i // the number of processed elements
       end // end of [if]
@@ -1492,8 +1505,12 @@ val xs =
 $UN.ptr0_get<
   list_vt_cons_pstruct(a,ptr?)>(pz)
 //
-val+list_vt_cons(_, xs_tl) = xs
-val () = (xs_tl := res); prval () = fold@(xs)
+val+
+list_vt_cons(_, xs_tl) = xs
+//
+val () = (xs_tl := res)
+prval((*folded*)) = fold@(xs)
+//
 in
   loop2(pz, pred(i0), xs(*res*))
 end // end of [then]
