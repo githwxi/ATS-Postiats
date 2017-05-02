@@ -424,7 +424,7 @@ val p = ptrcast(A)
 prval pfarr = arrayptr_takeout(A)
 //
 val () = array_uninitize<a>(!p, asz)
-prval () = arrayptr_addback{a}(pfarr | A)
+prval () = arrayptr_addback{a?}(pfarr | A)
 //
 } // end of [arrayptr_uninitize]
 

@@ -445,20 +445,21 @@ fun{a:vtype} unbox_vt: boxed_vt(INV(a)) -> (a)
 //
 (* ****** ****** *)
 //
-typedef
-array (a, n) = @[a][n]
+stadef
+array(a:vt@ype, n:int) = @[a][n]
+//
 viewdef
 array_v
   (a:vt@ype, l:addr, n:int) = @[a][n] @ l
 //
 absvtype
 arrayptr_vt0ype_addr_int_vtype
-  (a:vt0ype+, l:addr, n:int(*size*)) = ptr (l)
+  (a:vt0ype+, l:addr, n:int(*size*)) = ptr(l)
 stadef
 arrayptr = arrayptr_vt0ype_addr_int_vtype
 vtypedef
 arrayptr
-  (a:vt0p, n:int) = [l:addr] arrayptr (a, l, n)
+  (a:vt0p, n:int) = [l:addr] arrayptr(a, l, n)
 //
 abstype
 arrayref_vt0ype_int_type
@@ -466,8 +467,8 @@ arrayref_vt0ype_int_type
 stadef arrayref = arrayref_vt0ype_int_type
 //
 abstype
-arrszref_vt0ype_type (a: vt@ype) = ptr
-stadef arrszref = arrszref_vt0ype_type
+arrszref_vt0ype_type(a: vt@ype) = ptr
+typedef arrszref(a:vt0p) = arrszref_vt0ype_type(a)
 //
 (* ****** ****** *)
 //
@@ -477,7 +478,7 @@ list_t0ype_int_type
   (a:t@ype+, int) =
   | list_nil(a, 0) of ()
   | {n:int | n >= 0}
-    list_cons(a, n+1) of (a, list_t0ype_int_type (a, n))
+    list_cons(a, n+1) of (a, list_t0ype_int_type(a, n))
 // end of [datatype]
 stadef list = list_t0ype_int_type
 typedef
@@ -505,29 +506,29 @@ datavtype
 // vt@ype+: covariant
 list_vt0ype_int_vtype
   (a:vt@ype+, int) =
-  | list_vt_nil (a, 0) of ()
+  | list_vt_nil(a, 0) of ()
   | {n:int | n >= 0}
-    list_vt_cons (a, n+1) of (a, list_vt0ype_int_vtype (a, n))
+    list_vt_cons(a, n+1) of (a, list_vt0ype_int_vtype(a, n))
 // end of [list_vt0ype_int_vtype]
 stadef list_vt = list_vt0ype_int_vtype
 vtypedef
-List_vt (a:vt0p) = [n:int] list_vt (a, n)
+List_vt(a:vt0p) = [n:int] list_vt(a, n)
 vtypedef
-List0_vt (a:vt0p) = [n:int | n >= 0] list_vt (a, n)
+List0_vt(a:vt0p) = [n:int | n >= 0] list_vt(a, n)
 vtypedef
-List1_vt (a:vt0p) = [n:int | n >= 1] list_vt (a, n)
+List1_vt(a:vt0p) = [n:int | n >= 1] list_vt(a, n)
 vtypedef listLt_vt
-  (a:vt0p, n:int) = [k:nat | k < n] list_vt (a, k)
+  (a:vt0p, n:int) = [k:nat | k < n] list_vt(a, k)
 vtypedef listLte_vt
-  (a:vt0p, n:int) = [k:nat | k <= n] list_vt (a, k)
+  (a:vt0p, n:int) = [k:nat | k <= n] list_vt(a, k)
 vtypedef listGt_vt
-  (a:vt0p, n:int) = [k:int | k > n] list_vt (a, k)
+  (a:vt0p, n:int) = [k:int | k > n] list_vt(a, k)
 vtypedef listGte_vt
-  (a:vt0p, n:int) = [k:int | k >= n] list_vt (a, k)
+  (a:vt0p, n:int) = [k:int | k >= n] list_vt(a, k)
 vtypedef listBtw_vt
-  (a:vt0p, m:int, n:int) = [k:int | m <= k; k < n] list_vt (a, k)
+  (a:vt0p, m:int, n:int) = [k:int | m <= k; k < n] list_vt(a, k)
 vtypedef listBtwe_vt
-  (a:vt0p, m:int, n:int) = [k:int | m <= k; k <= n] list_vt (a, k)
+  (a:vt0p, m:int, n:int) = [k:int | m <= k; k <= n] list_vt(a, k)
 //
 (* ****** ****** *)
 //
@@ -558,7 +559,7 @@ option_t0ype_bool_type
   | Some(a, true) of (INV(a)) | None(a, false)
 // end of [datatype]
 stadef option = option_t0ype_bool_type
-typedef Option (a:t0p) = [b:bool] option (a, b)
+typedef Option(a:t0p) = [b:bool] option (a, b)
 //
 datavtype
 // vt@ype+: covariant
@@ -569,7 +570,7 @@ option_vt0ype_bool_vtype
   | Some_vt(a, true) of (INV(a)) | None_vt(a, false)
 // end of [option_vt0ype_bool_vtype]
 stadef option_vt = option_vt0ype_bool_vtype
-vtypedef Option_vt (a:vt0p) = [b:bool] option_vt (a, b)
+vtypedef Option_vt(a:vt0p) = [b:bool] option_vt(a, b)
 //
 (* ****** ****** *)
 //
@@ -633,7 +634,7 @@ stadef option_v = option_view_bool_view
 (* ****** ****** *)
 //
 absvt@ype
-arrayopt (a:vt0p, n:int, b:bool) = array (a, n)
+arrayopt(a:vt0p, n:int, b:bool) = array(a, n)
 //
 praxi
 arrayopt_some
@@ -838,25 +839,28 @@ typedef fmode = file_mode
 dataprop
 file_mode_lte
   (fmode, fmode) =
+//
   | {m:fmode} file_mode_lte_refl (m, m)
+//
   | {m1,m2,m3:fmode}
     file_mode_lte_tran (m1, m3) of
-      (file_mode_lte (m1, m2), file_mode_lte (m2, m3))
-  | {m:fmode} file_mode_lte_rw_r (rw(), r()) of ()
-  | {m:fmode} file_mode_lte_rw_w (rw(), w()) of ()
+    (file_mode_lte(m1, m2), file_mode_lte(m2, m3))
+//
+  | {m:fmode} file_mode_lte_rw_r(rw(), r()) of ()
+  | {m:fmode} file_mode_lte_rw_w(rw(), w()) of ()
 // end of [file_mode_lte]
 
 (* ****** ****** *)
 //
 prval
 file_mode_lte_r_r
-  : file_mode_lte (r(), r()) // impled in [filebas_prf.dats]
+  : file_mode_lte(r(), r()) // impled in [filebas_prf.dats]
 prval
 file_mode_lte_w_w
-  : file_mode_lte (w(), w()) // impled in [filebas_prf.dats]
+  : file_mode_lte(w(), w()) // impled in [filebas_prf.dats]
 prval
 file_mode_lte_rw_rw
-  : file_mode_lte (rw(), rw()) // impled in [filebas_prf.dats]
+  : file_mode_lte(rw(), rw()) // impled in [filebas_prf.dats]
 //
 (* ****** ****** *)
 
