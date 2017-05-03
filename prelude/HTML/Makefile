@@ -305,30 +305,16 @@ ATSPREall2:: ; \
 $(PHP) -f ATSPRE_all_in_one_html.php > ATSPRE_all_in_one.html
 #
 ######
-
-# upload_top: ; \
-# $(SCP) \
-# fixity_ats.html \
-# basics_*_sats.html \
-# macrodef_sats.html \
-# lmacrodef_hats.html \
-# ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/.
-
-######
-
-# upload_sats: ; \
-# $(SCP) SATS/*_sats.html \
-# ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/.
-# upload_dats: ; \
-# $(SCP) DATS/*_dats.html \
-# ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/.
-
-######
-
+#
+SOURCEFORGE=\
+ats-hwxi,ats-lang@web.sourceforge.net:htdocs
+#
 upload_all_in_one: ; \
-$(SCP) ATSPRE_all_in_one.raw ATSPRE_all_in_one.html \
-ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/.
-
+$(SCP) \
+ATSPRE_all_in_one.raw \
+ATSPRE_all_in_one.html \
+$(SOURCEFORGE)/DOCUMENT/ATS-Postiats/prelude/HTML/.
+#
 ######
 
 RMF=rm -f
