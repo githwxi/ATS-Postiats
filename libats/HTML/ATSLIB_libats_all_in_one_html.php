@@ -29,15 +29,19 @@
 //
 // SATS
 //
-include 'SATS/stdio_sats.html';
-include 'SATS/stdlib_sats.html';
-include 'SATS/unistd_sats.html';
+include 'SATS/qlist_sats.html';
+include 'SATS/sllist_sats.html';
+//
+include 'SATS/stklist_sats.html';
+include 'SATS/stkarray_sats.html';
 //
 // DATS
 //
-include 'DATS/stdio_dats.html';
-include 'DATS/stdlib_dats.html';
-include 'DATS/unistd_dats.html';
+include 'DATS/qlist_dats.html';
+include 'DATS/sllist_dats.html';
+//
+include 'DATS/stklist_dats.html';
+include 'DATS/stkarray_dats.html';
 //
 ?><!--php-->
 

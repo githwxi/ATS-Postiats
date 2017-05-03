@@ -79,18 +79,22 @@ MAKE=make
 #
 ######
 #
-ATSLIBMLall0:: ; \
-$(PHP) -f ATSLIB_ML_all_in_one_raw.php > ATSLIB_ML_all_in_one.raw
+ATSLIBlibatsMLall0:: ; \
+$(PHP) -f \
+ATSLIB_libats_ML_all_in_one_raw.php > ATSLIB_libats_ML_all_in_one.raw
 #
-ATSLIBMLall1:: ; \
+ATSLIBlibatsMLall1:: ; \
 $(MAKE) EMBED=--embedded -f Makefile all
-ATSLIBMLall2:: ; \
-$(PHP) -f ATSLIB_ML_all_in_one_html.php > ATSLIB_ML_all_in_one.html
+ATSLIBlibatsMLall2:: ; \
+$(PHP) -f \
+ATSLIB_libats_ML_all_in_one_html.php > ATSLIB_libats_ML_all_in_one.html
 #
 ######
 
 upload_all_in_one: ; \
-$(SCP) ATSLIB_ML_all_in_one.raw ATSLIB_ML_all_in_one.html \
+$(SCP) \
+ATSLIB_libats_ML_all_in_one.raw \
+ATSLIB_libats_ML_all_in_one.html \
 ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/libats/ML/HTML/.
 
 ######
@@ -108,8 +112,8 @@ cleanall:: ; $(RMF) *_ats.html
 cleanall:: ; $(RMF) *_?ats.html
 cleanall:: ; $(RMF) SATS/*_sats.html
 cleanall:: ; $(RMF) DATS/*_dats.html
-cleanall:: ; $(RMF) ATSLIB_ML_all_in_one.raw
-cleanall:: ; $(RMF) ATSLIB_ML_all_in_one.html
+cleanall:: ; $(RMF) ATSLIB_libats_ML_all_in_one.raw
+cleanall:: ; $(RMF) ATSLIB_libats_ML_all_in_one.html
 
 ######
 

@@ -27,8 +27,9 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
 // Start Time: May, 2012
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
 //
@@ -57,17 +58,22 @@ staload "libats/libc/SATS/stdlib.sats"
 implement
 {}(*tmp*)
 getenv_gc
-  (name) = let
-  val fpfstr = getenv (name)
-  val str2 = strptr0_copy (fpfstr.1)
-  prval () = fpfstr.0 (fpfstr.1)
-in
-  str2
-end // end of [getenv_gc]
+  (name) = str2 where
+{
+//
+val
+fpfstr = getenv(name)
+//
+val str2 = strptr0_copy(fpfstr.1)
+//
+prval ((*void*)) = fpfstr.0(fpfstr.1)
+//
+} (* end of [getenv_gc] *)
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atstype_ptr
 atslib_libats_libc_malloc_libc_exn
@@ -80,6 +86,7 @@ atslib_libats_libc_malloc_libc_exn
   } // end of [if]
   return p0 ;
 } /* end of [atslib_libats_libc_malloc_libc_exn] */
+//
 %}
 
 (* ****** ****** *)

@@ -41,9 +41,9 @@ types to ensure the safety of manual memory management.
 
 <ul>
 <li>
-ATSLIB_all_in_one
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/HTML/ATSLIB_all_in_one.raw">raw</a>)
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/HTML/ATSLIB_all_in_one.html">html</a>)
+ATSLIB_libats_all_in_one
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/HTML/ATSLIB_libats_all_in_one.raw">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/HTML/ATSLIB_libats_all_in_one.html">html</a>)
 </li>
 </ul>
 
@@ -59,9 +59,9 @@ functional data structures implemented in <u>ATSLIB/libats</u>.
 
 <ul>
 <li>
-ATSLIB_ML_all_in_one
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/ML/HTML/ATSLIB_ML_all_in_one.raw">raw</a>)
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/ML/HTML/ATSLIB_ML_all_in_one.html">html</a>)
+ATSLIB_libats_ML_all_in_one
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/ML/HTML/ATSLIB_libats_ML_all_in_one.raw">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/ML/HTML/ATSLIB_libats_ML_all_in_one.html">html</a>)
 </li>
 </ul>
 
@@ -76,9 +76,9 @@ essentially consists of an API for calling libc-functions in ATS.
 
 <ul>
 <li>
-ATSLIB_libc_all_in_one
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/libc/HTML/ATSLIB_libc_all_in_one.raw">raw</a>)
-(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/libc/HTML/ATSLIB_libc_all_in_one.html">html</a>)
+ATSLIB_libats_libc_all_in_one
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/libc/HTML/ATSLIB_libats_libc_all_in_one.raw">raw</a>)
+(<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS-Postiats/libats/libc/HTML/ATSLIB_libats_libc_all_in_one.html">html</a>)
 </li>
 </ul>
 

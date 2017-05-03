@@ -84,25 +84,25 @@ abstype FILEref = ptr // declared in [prelude/basic_dyn.sats]
 // HX-2011-04-02:
 //
 absview
-FILE_view (l:addr, m:fm)
+FILE_view(l:addr, m:fm)
 absvtype
-FILEptr_vtype (addr, fm) = ptr
+FILEptr_vtype(addr, fm) = ptr
 //
 viewdef
-FILE_v (l:addr, m:fm) = FILE_view (l, m)
+FILE_v(l:addr, m:fm) = FILE_view(l, m)
 vtypedef
-FILEptr (l:addr, m: fm) = FILEptr_vtype (l, m)
+FILEptr(l:addr, m: fm) = FILEptr_vtype(l, m)
 //
 (* ****** ****** *)
 //
 vtypedef
-FILEptr0 (m:fm) =
-  [l:addr | l >= null] FILEptr (l, m)
+FILEptr0(m:fm) =
+  [l:addr | l >= null] FILEptr(l, m)
 //
 vtypedef
-FILEptr1 (m:fm) = [l:agz] FILEptr (l, m)
+FILEptr1(m:fm) = [l:agz] FILEptr(l, m)
 vtypedef
-FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
+FILEptr1(*none*) = [l:agz;m:fm] FILEptr(l, m)
 //
 (* ****** ****** *)
 
@@ -112,7 +112,7 @@ stadef fmlte = file_mode_lte
 //
 castfn
 FILEptr2ptr
-  {l:addr}{m:fm}(filp: !FILEptr (l, m)):<> ptr(l)
+  {l:addr}{m:fm}(filp: !FILEptr(l, m)):<> ptr(l)
 //
 overload ptrcast with FILEptr2ptr
 //
@@ -120,46 +120,52 @@ overload ptrcast with FILEptr2ptr
 
 castfn
 FILEptr_encode
-  {l:addr}{m:fm} (
-  pf: FILE_v (l, m) | p: ptr l
-) : FILEptr (l, m)
+{l:addr}{m:fm}
+(
+pf: FILE_v(l, m) | p: ptr(l)
+) : FILEptr(l, m)
 overload encode with FILEptr_encode
 
 castfn
 FILEptr_decode
-  {l:agz}{m:fm} (
-  p: FILEptr (l, m)
-) : (FILE_v (l, m) | ptr l)
+  {l:agz}{m:fm}
+(
+p0: FILEptr(l, m)
+) : (FILE_v(l, m) | ptr(l))
 overload decode with FILEptr_decode
 
 (* ****** ****** *)
 
 praxi
 FILEptr_free_null
-  {l:alez}{m:fm} (p: FILEptr (l, m)):<prf> void
+  {l:alez}{m:fm}(p0: FILEptr(l, m)):<prf> void
 // end of [FILEptr_free_null]
 
 (* ****** ****** *)
 
 castfn
-FILEptr_refize (filp: FILEptr1):<> FILEref
+FILEptr_refize(filp: FILEptr1):<> FILEref
 
 (* ****** ****** *)
-
+//
+// HX:
+// A lock is associated with each FILEref-value
+//
 castfn
-FILEref_vttakeout // a lock is associated with FILEref-value
-  {m:fm} (filr: FILEref):<> [l:agz] vttakeout0 (FILEptr (l, m))
+FILEref_vttakeout
+  {m:fm}
+  (filr: FILEref):<> [l:agz] vttakeout0(FILEptr(l, m))
 // end of [FILEref_vttakeout]
-
+//
 (* ****** ****** *)
 //
 abst@ype whence_type = int
 //
 typedef whence = whence_type
 //
-macdef SEEK_SET = $extval (whence, "SEEK_SET")
-macdef SEEK_CUR = $extval (whence, "SEEK_CUR")
-macdef SEEK_END = $extval (whence, "SEEK_END")
+macdef SEEK_SET = $extval(whence, "SEEK_SET")
+macdef SEEK_CUR = $extval(whence, "SEEK_CUR")
+macdef SEEK_END = $extval(whence, "SEEK_END")
 //
 (* ****** ****** *)
 (*
@@ -195,17 +201,20 @@ ing sequences (Additional characters may follow these sequences.):
 
 *)
 
-fun fopen{m:fm}
+fun
+fopen{m:fm}
 (
   path: NSH(string), fmode(m)
-) :<!wrt> FILEptr0 (m) = "mac#%"
+) :<!wrt> FILEptr0(m) = "mac#%"
 
-fun fopen_exn{m:fm}
+fun
+fopen_exn{m:fm}
 (
   path: NSH(string), fmode(m)
-) :<!exnwrt> FILEptr1 (m) = "ext#%"
+) :<!exnwrt> FILEptr1(m) = "ext#%"
 
-fun fopen_ref_exn{m:fm}
+fun
+fopen_ref_exn{m:fm}
 (
   path: NSH(string), fmode(m)
 ) :<!exnwrt> FILEref(*none*) = "ext#%"
@@ -215,12 +224,16 @@ fun fopen_ref_exn{m:fm}
 symintr fclose
 symintr fclose_exn
 //
-fun fclose0
-  (filr: FILEref):<!wrt> int = "mac#%"
-fun fclose1
+fun
+fclose0
+(
+  filr: FILEref
+) :<!wrt> int = "mac#%"
+fun
+fclose1
   {l:addr}{m:fm}
 (
-  filp: !FILEptr (l, m) >> ptr l
+  filp: !FILEptr(l, m) >> ptr(l)
 ) :<!wrt>
   [i:int | i <= 0]
 (
@@ -230,9 +243,11 @@ fun fclose1
 overload fclose with fclose0
 overload fclose with fclose1
 //
-fun fclose0_exn
+fun
+fclose0_exn
   (filr: FILEref):<!exnwrt> void = "ext#%"
-fun fclose1_exn
+fun
+fclose1_exn
   (filp: FILEptr1(*none*)):<!exnwrt> void = "ext#%"
 //
 overload fclose_exn with fclose0_exn
@@ -344,8 +359,8 @@ fdopen_v
   fd:int, addr, m: fmode
 ) = (* fdopen_v *)
   | {l:agz}
-    fdopen_v_succ (fd, l, m) of FILE_v (l, m)
-  | fdopen_v_fail (fd, null, m) of fildes_v (fd)
+    fdopen_v_succ(fd, l, m) of FILE_v(l, m)
+  | fdopen_v_fail(fd, null, m) of fildes_v(fd)
 // end of [fdopen_v]
 //
 fun
@@ -361,7 +376,7 @@ fdopen
 fun
 fdopen_exn
 {fd:int}{m:fm}
-(fd: fildes (fd), m: fmode (m)): FILEptr1 (m) = "ext#%"
+(fd: fildes(fd), m: fmode (m)): FILEptr1(m) = "ext#%"
 // end of [fdopen_exn]
 //
 (* ****** ****** *)
@@ -477,7 +492,7 @@ fgetc0
 fun
 fgetc1 {m:fm}
 (
-  pf: fmlte(m, r()) | inp: !FILEptr1 (m)
+  pf: fmlte(m, r()) | inp: !FILEptr1(m)
 ) :<!wrt> intLte (UCHAR_MAX) = "mac#%"
 //
 symintr fgetc
@@ -530,11 +545,15 @@ fgets_v
 //
 fun
 fgets1_err
-{sz,n0:int | sz >= n0; n0 > 0}{l0:addr}{m:fm}
+{sz,n0:int
+| 0 < n0
+; n0 <= sz}
+{l0:addr}{m:fm}
 (
-  pf_mod: fmlte (m, r), pf_buf: b0ytes (sz) @ l0
-| p0: ptr (l0), n0: int (n0), inp: !FILEptr1 (m)
-) :<> [l1:addr] (fgets_v (sz, n0, l0, l1) | ptr l1) = "mac#%"
+  pf_mod: fmlte(m, r)
+, pf_buf: b0ytes(sz)@l0
+| p0: ptr(l0), n0: int(n0), inp: !FILEptr1(m)
+) :<> [l1:addr] (fgets_v(sz, n0, l0, l1) | ptr(l1)) = "mac#%"
 // end of [fgets_err]
 //
 overload fgets with fgets1_err
@@ -550,7 +569,7 @@ fgets0_gc
 fun
 fgets1_gc{m:fm}
 (
-  pf_mod: fmlte (m, r) | bsz: intGte(1), inp: FILEptr1 (m)
+  pf_mod: fmlte (m, r) | bsz: intGte(1), inp: FILEptr1(m)
 ) : Strptr0 = "ext#%" // end of [fget1_gc]
 //
 (* ****** ****** *)
@@ -1071,14 +1090,19 @@ fun
 setbuffer0
 {n1,n2:nat | n2 <= n1}{l:addr}
 (
-  pf_buf: !b0ytes n1 @ l | f: FILEref, p_buf: ptr l, n2: size_t n2
+  pf_buf: !b0ytes(n1)@l
+| filr: FILEref, p_buf: ptr(l), n2: size_t(n2)
 ) : void = "mac#%"
 //
 fun
 setbuffer1
-{n1,n2:nat | n2 <= n1}{lbf:addr}
+{ n1
+, n2: nat
+| n2 <= n1
+}{lbf:addr}
 (
-  pf_buf: !b0ytes n1 @ lbf | f: !FILEptr1(*none*), p_buf: ptr lbf, n2: size_t n2
+  pf_buf: !b0ytes(n1)@lbf
+| filp: !FILEptr1(*none*), p_buf: ptr(lbf), n2: size_t(n2)
 ) : void = "mac#%"
 //
 symintr setbuffer
@@ -1116,17 +1140,23 @@ overload setvbuf_null with setvbuf1_null
 //
 fun
 setvbuf0
-{n1,n2:nat | n2 <= n1}{lbf:addr}
+{ n1
+, n2:nat
+| n2 <= n1
+}{lbf:addr}
 (
-  pf_buf: !b0ytes(n1) @ lbf
-| fil: FILEref, mode: bufmode_t, n2: size_t n2
+  pf: !b0ytes(n1)@lbf
+| filr: FILEref, mode: bufmode_t, n2: size_t(n2)
 ) : int = "mac#%"
 fun
 setvbuf1
-{n1,n2:nat | n2 <= n1}{lbf:addr}
+{ n1
+, n2 : nat
+| n2 <= n1
+}{lbf:addr}
 (
-  pf_buf: !b0ytes(n1) @ lbf
-| fil: !FILEptr1(*none*), mode: bufmode_t, n2: size_t n2
+  pf: !b0ytes(n1) @ lbf
+| filp: !FILEptr1(*none*), mode: bufmode_t, n2: size_t(n2)
 ) : int = "mac#%"
 //
 symintr setvbuf

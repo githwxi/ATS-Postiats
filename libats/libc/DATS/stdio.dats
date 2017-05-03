@@ -28,8 +28,8 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: gmhwxiATgmailDOTcom
 // Start Time: May, 2012
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
 //
@@ -44,7 +44,7 @@ ATS_EXTERN_PREFIX
 (* ****** ****** *)
 
 %{^
-#include"share/H/pats_atslib.h"
+#include "share/H/pats_atslib.h"
 %} // end of [%{^]
 
 (* ****** ****** *)
@@ -54,6 +54,7 @@ staload "libats/libc/SATS/stdio.sats"
 (* ****** ****** *)
 
 %{$
+//
 extern
 atstype_ptr
 atslib_libats_libc_fopen_exn
@@ -66,11 +67,13 @@ atslib_libats_libc_fopen_exn
   if (!filp) ATSLIBfailexit("fopen") ; // HX: failure
   return filp ;
 } /* end of [atslib_libats_libc_fopen_exn] */
+//
 %}
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atsvoid_t0ype
 atslib_libats_libc_fclose_exn
@@ -80,11 +83,13 @@ atslib_libats_libc_fclose_exn
   if (0 > err) ATSLIBfailexit("fclose") ;
   return ;
 } /* end of [atslib_libats_libc_fclose_exn] */
+//
 %}
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atsvoid_t0ype
 atslib_libats_libc_fflush_exn
@@ -95,11 +100,13 @@ atslib_libats_libc_fflush_exn
   if (0 > err) ATSLIBfailexit("fflush") ;
   return ;
 } /* end of [atslib_libats_libc_fflush_exn] */
+//
 %}
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atsvoid_t0ype
 atslib_libats_libc_fputc_exn
@@ -113,11 +120,13 @@ atslib_libats_libc_fputc_exn
   } // end of [if]
   return ;  
 } /* end of [atslib_libats_libc_fputc_exn] */
+//
 %}
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atsvoid_t0ype
 atslib_libats_libc_fgets_exn
@@ -140,11 +149,13 @@ atslib_libats_libc_fgets_exn
   } // end of [if]
   return ;  
 } /* end of [atslib_libats_libc_fgets_exn] */
+//
 %}
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atstype_ptr
 atslib_libats_libc_fgets_gc
@@ -181,11 +192,13 @@ atslib_libats_libc_fgets_gc
   } // end of [while]
   return buf ; // HX: deadcode
 } /* end of [atslib_libats_libc_fgets_gc] */
+//
 %}
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atsvoid_t0ype
 atslib_libats_libc_fputs_exn
@@ -199,11 +212,13 @@ atslib_libats_libc_fputs_exn
   } // end of [if]
   return ;  
 } /* end of [atslib_libats_libc_fputs_exn] */
+//
 %}
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atsvoid_t0ype
 atslib_libats_libc_puts_exn
@@ -217,11 +232,13 @@ atslib_libats_libc_puts_exn
   } // end of [if]
   return ;  
 } /* end of [atslib_libats_libc_puts_exn] */
+//
 %}
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atstype_ptr
 atslib_libats_libc_popen_exn
@@ -236,11 +253,13 @@ atslib_libats_libc_popen_exn
   } // end of [if]
   return filp ;
 } /* end of [atslib_libats_libc_popen_exn] */
+//
 %}
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atstype_int
 atslib_libats_libc_pclose_exn
@@ -254,19 +273,24 @@ atslib_libats_libc_pclose_exn
   } // end of [if]
   return res ;
 } /* end of [atslib_libats_libc_pclose_exn] */
+//
 %}
 
 (* ****** ****** *)
 
 %{$
+//
 extern
 atstype_ptr
-atslib_libats_libc_tmpfile_exn(
+atslib_libats_libc_tmpfile_exn
+(
+// argumentless
 ) {
   FILE *filp = tmpfile() ;
   if (!filp) ATSLIBfailexit("tmpfile") ;
   return (filp) ;
 } /* end of [atslib_libats_libc_tmpfile_exn] */
+//
 %}
 
 (* ****** ****** *)
