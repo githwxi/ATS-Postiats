@@ -11,8 +11,8 @@ fprint_print_prerr_decl
   (tnm: string): atext = let
 //
 val ent = sprintf ("\
-fun print_%s (x: %s): void = \"mac#%%\"
-fun prerr_%s (x: %s): void = \"mac#%%\"
+fun print_%s(x: %s): void = \"mac#%%\"
+fun prerr_%s(x: %s): void = \"mac#%%\"
 overload print with print_%s
 overload prerr with prerr_%s
 fun fprint_%s : fprint_type (%s) = \"mac#%%\"
@@ -23,7 +23,7 @@ overload fprint with fprint_%s\
 ) // end of [sprintf] // end of [val]
 //
 in
-  atext_strptr (ent)
+  atext_strptr(ent)
 end // end of [fprint_print_prerr_decl]
 //
 %}\
@@ -65,41 +65,43 @@ lemma_uchar_size
 //
 #atscode_separator()
 //
-castfn char2schar0 (c: char):<> schar
-castfn schar2char0 (c: schar):<> char
+castfn char2schar0(c: char):<> schar
+castfn schar2char0(c: schar):<> char
 //
-castfn char2uchar0 (c: char):<> uchar
-castfn uchar2char0 (c: uchar):<> char
-//
-#atscode_separator()
-//
-fun int2char0 (i: int):<> char = "mac\#%"
-fun int2schar0 (i: int):<> schar = "mac\#%"
-fun int2uchar0 (i: int):<> uchar = "mac\#%"
-//
-fun uint2uchar0 (u: uint):<> uchar = "mac\#%"
+castfn char2uchar0(c: char):<> uchar
+castfn uchar2char0(c: uchar):<> char
 //
 #atscode_separator()
-
-fun char2int0 (c: char):<> int = "mac\#%"
-fun schar2int0 (c: schar):<> int = "mac\#%"
-fun uchar2int0 (c: uchar):<> int = "mac\#%"
-
+//
+fun int2char0(i: int):<> char = "mac\#%"
+fun int2schar0(i: int):<> schar = "mac\#%"
+fun int2uchar0(i: int):<> uchar = "mac\#%"
+//
+fun uint2uchar0(u: uint):<> uchar = "mac\#%"
+//
 #atscode_separator()
 
-fun char2uint0 (c: char):<> uint = "mac\#%"
-fun schar2uint0 (c: schar):<> uint = "mac\#%"
-fun uchar2uint0 (c: uchar):<> uint = "mac\#%"
+fun char2int0(c: char):<> int = "mac\#%"
+fun schar2int0(c: schar):<> int = "mac\#%"
+fun uchar2int0(c: uchar):<> int = "mac\#%"
 
 #atscode_separator()
 
-fun char2u2int0 (c: char):<> int = "mac\#%"
-fun char2u2uint0 (c: char):<> uint = "mac\#%"
+fun char2uint0(c: char):<> uint = "mac\#%"
+fun schar2uint0(c: schar):<> uint = "mac\#%"
+fun uchar2uint0(c: uchar):<> uint = "mac\#%"
+
+#atscode_separator()
+
+fun char2u2int0(c: char):<> int = "mac\#%"
+fun char2u2uint0(c: char):<> uint = "mac\#%"
 
 #atscode_separator()
 //
-fun char0_iseqz (c: char):<> bool = "mac\#%"
-fun char0_isneqz (c: char):<> bool = "mac\#%"
+fun
+char0_iseqz(c: char):<> bool = "mac\#%"
+fun
+char0_isneqz(c: char):<> bool = "mac\#%"
 //
 overload iseqz with char0_iseqz of 0
 overload isneqz with char0_isneqz of 0
@@ -132,7 +134,8 @@ val fopr_d = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent =
+sprintf ("\
 fun %s_char0_char0
   (c1: char, c2: char):<> bool = \"mac#%%\"
 overload %s with %s_char0_char0 of 0\
@@ -162,8 +165,8 @@ overload compare with compare_char0_char0 of 0
 
 #atscode_separator()
 //
-castfn g0ofg1_char (c: Char):<> char
-castfn g1ofg0_char (c: char):<> Char
+castfn g0ofg1_char(c: Char):<> char
+castfn g1ofg0_char(c: char):<> Char
 //
 overload g0ofg1 with g0ofg1_char // index-erasing
 overload g1ofg0 with g1ofg0_char // index-inducing
@@ -172,29 +175,29 @@ overload g1ofg0 with g1ofg0_char // index-inducing
 //
 castfn
 char2schar1
-  {c:int}(c: char (c)):<> schar (c)
+  {c:int}(c: char(c)):<> schar(c)
 castfn
 schar2char1
-  {c:int}(c: schar (c)):<> char (c)
+  {c:int}(c: schar(c)):<> char(c)
 //
 castfn
 char2uchar1
-  {c:int}(c: char (c)):<> uchar (i2u8(c))
+  {c:int}(c: char(c)):<> uchar(i2u8(c))
 castfn
 uchar2char1
-  {c:int}(c: uchar (c)):<> char (u2i8(c))
+  {c:int}(c: uchar(c)):<> char(u2i8(c))
 //
 #atscode_separator()
 //
 fun
 char2int1
-  {c:int}(c: char (c)):<> int (c) = "mac\#%"
+  {c:int}(c: char(c)):<> int(c) = "mac\#%"
 fun
 schar2int1
-  {c:int}(c: schar (c)):<> int (c) = "mac\#%"
+  {c:int}(c: schar(c)):<> int(c) = "mac\#%"
 fun
 uchar2int1
-  {c:int}(c: uchar (c)):<> int (c) = "mac\#%"
+  {c:int}(c: uchar(c)):<> int(c) = "mac\#%"
 //
 #atscode_separator()
 //
@@ -212,7 +215,8 @@ overload isneqz with char1_isneqz of 10
 
 %{
 fun
-fun_char_cmp1_decl (
+fun_char_cmp1_decl
+(
   opr: string
 ) : atext = let
 //
@@ -233,8 +237,9 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun
-%s_char1_char1 {c1,c2:int}
-  (c1: char (c1), c2: char (c2)):<> bool (c1 %s c2) = \"mac#%%\"
+%s_char1_char1
+  {c1,c2:int}
+  (c1: char(c1), c2: char(c2)):<> bool(c1 %s c2) = \"mac#%%\"
 overload %s with %s_char1_char1 of 20\
 ", @(
  opr, fopr_s, fopr_d, opr
@@ -259,7 +264,7 @@ overload <> with neq_char1_char1 of 20
 #atscode_decl_strcst('\
 fun compare_char1_char1
   {c1,c2:int}
-  (c1: char c1, c2: char c2) :<> int (c1-c2) = "mac\#%"
+  (c1: char c1, c2: char c2) :<> int(c1-c2) = "mac\#%"
 overload compare with compare_char1_char1 of 20
 ')\
 
@@ -345,10 +350,12 @@ val fopr_d = (
   | _ => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent =
+sprintf ("\
 fun
-%s_uchar1_uchar1 {c1,c2:int}
-  (c1: uchar (c1), c2: uchar (c2)) :<> bool (c1 %s c2) = \"mac#%%\"
+%s_uchar1_uchar1
+  {c1,c2:int}
+  (c1: uchar(c1), c2: uchar(c2)) :<> bool(c1 %s c2) = \"mac#%%\"
 overload %s with %s_uchar1_uchar1 of 20\
 ", @(
  opr, fopr_s, fopr_d, opr
@@ -373,7 +380,7 @@ overload <> with neq_uchar1_uchar1 of 20
 #atscode_decl_strcst('\
 fun compare_uchar1_uchar1
   {c1,c2:int}
-  (c1: uchar c1, c2: uchar c2) :<> int (c1-c2) = "mac\#%"
+  (c1: uchar c1, c2: uchar c2) :<> int(c1-c2) = "mac\#%"
 overload compare with compare_uchar1_uchar1 of 20
 ')\
 
@@ -384,28 +391,28 @@ sortdef tk = tkind
 #atscode_separator()
 
 fun{tk:tk}
-g0int_of_char (c: char):<> g0int (tk)
+g0int_of_char(c: char):<> g0int(tk)
 fun{tk:tk}
-g0int_of_schar (c: schar):<> g0int (tk)
+g0int_of_schar(c: schar):<> g0int(tk)
 fun{tk:tk}
-g0int_of_uchar (c: uchar):<> g0int (tk)
+g0int_of_uchar(c: uchar):<> g0int(tk)
 
 fun{tk:tk}
-g0uint_of_uchar (c: uchar):<> g0uint (tk)
+g0uint_of_uchar(c: uchar):<> g0uint(tk)
 
 #atscode_separator()
 
 fun{tk:tk}
 g1int_of_char1 // c:int8
-  {c:int} (c: char (c)):<> g1int (tk, c)
+  {c:int} (c: char(c)):<> g1int(tk, c)
 // end of [g1int_of_char1]
 fun{tk:tk}
 g1int_of_schar1 // c:int8
-  {c:int} (c: schar (c)):<> g1int (tk, c)
+  {c:int} (c: schar(c)):<> g1int(tk, c)
 // end of [g1int_of_schar1]
 fun{tk:tk}
 g1int_of_uchar1 // c:uint8
-  {c:int} (c: uchar (c)):<> g1int (tk, c)
+  {c:int} (c: uchar(c)):<> g1int(tk, c)
 // end of [g1int_of_uchar1]
 
 #atscode_decl_strcst('\
@@ -414,7 +421,7 @@ g1int_of_uchar1 // c:uint8
 *)
 fun{tk:tk}
 g1uint_of_uchar1
-  {c:int} (c: uchar (c)):<> g1uint (tk, c)
+  {c:int} (c: uchar(c)):<> g1uint(tk, c)
 // end of [g1uint_of_uchar1]
 ')\
 
@@ -441,16 +448,20 @@ char2strptr(c: char):<!wrt> Strptr1
 
 %{
 fun
-fun_isX_decl (
+fun_isX_decl
+(
   isX: string
 ) : atext = let
 //
-val ent = sprintf ("\
+val ent =
+sprintf ("\
+fun %s_int(c: int):<> bool = \"mac#%%\"
+fun %s_char(c: char):<> bool = \"mac#%%\"
+//
 symintr %s
-fun %s_int (c: int):<> bool = \"mac#%%\"
 overload %s with %s_int of 0
-fun %s_char (c: char):<> bool = \"mac#%%\"
-overload %s with %s_char of 0\
+overload %s with %s_char of 0
+//\
 ", @(
  isX, isX, isX, isX, isX, isX, isX
 )
@@ -488,14 +499,14 @@ fun toascii (c: int):<> int = "mac\#%"
 #atscode_separator()
 
 symintr tolower
-fun tolower_int (c: int):<> int = "mac\#%"
-fun tolower_char (c: char):<> char = "mac\#%"
+fun tolower_int(c: int):<> int = "mac\#%"
+fun tolower_char(c: char):<> char = "mac\#%"
 overload tolower with tolower_int
 overload tolower with tolower_char
 
 symintr toupper
-fun toupper_int (c: int):<> int = "mac\#%"
-fun toupper_char (c: char):<> char = "mac\#%"
+fun toupper_int(c: int):<> int = "mac\#%"
+fun toupper_char(c: char):<> char = "mac\#%"
 overload toupper with toupper_int
 overload toupper with toupper_char
 
@@ -534,11 +545,11 @@ overload char2u2ui with char2u2uint0 of 0
 
 #atscode_separator()
 //
-fun int2byte0 (i: int): byte = "mac\#%"
-fun byte2int0 (b: byte):<> int = "mac\#%"
+fun int2byte0(i: int): byte = "mac\#%"
+fun byte2int0(b: byte):<> int = "mac\#%"
 //
-fun uint2byte0 (u: uint): byte = "mac\#%"
-fun byte2uint0 (b: byte):<> uint = "mac\#%"
+fun uint2byte0(u: uint): byte = "mac\#%"
+fun byte2uint0(b: byte):<> uint = "mac\#%"
 //
 symintr byte2i
 overload byte2i with byte2int0 of 0
