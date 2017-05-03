@@ -96,37 +96,43 @@ sortdef uint8 =
 tkindef char_kind = "atstype_char"
 //
 abst@ype
-char_t0ype = tkind_t0ype (char_kind)
-stadef char = char_t0ype // shorthand
+char_t0ype = tkind_t0ype(char_kind)
 abst@ype
-char_int_t0ype (c:int) = char_t0ype
+char_int_t0ype(c:int) = char_t0ype
+//
+stadef char = char_t0ype // shorthand
 stadef char = char_int_t0ype // shorthand
-typedef Char = [c:int8] char (c)
-typedef charNZ = [c:int8 | c != 0] char (c)
+//
+typedef Char = [c:int8] char(c)
+typedef charNZ = [c:int8 | c != 0] char(c)
 //
 // signed characters
 //
 tkindef schar_kind = "atstype_schar"
 //
 abst@ype
-schar_t0ype = tkind_t0ype (schar_kind)
-stadef schar = schar_t0ype // shorthand
+schar_t0ype = tkind_t0ype(schar_kind)
 abst@ype
 schar_int_t0ype (c:int) = schar_t0ype
+//
+stadef schar = schar_t0ype // shorthand
 stadef schar = schar_int_t0ype // shorthand
-typedef sChar = [c:int8] schar (c)
+typedef sChar = [c:int8] schar(c)
+typedef scharNZ = [c:int8 | c != 0] schar(c)
 //
 // unsigned characters
 //
 tkindef uchar_kind = "atstype_uchar"
 //
 abst@ype
-uchar_t0ype = tkind_t0ype (uchar_kind)
-stadef uchar = uchar_t0ype // shorthand
+uchar_t0ype = tkind_t0ype(uchar_kind)
 abst@ype
 uchar_int_t0ype (c:int) = uchar_t0ype
+//
+stadef uchar = uchar_t0ype // shorthand
 stadef uchar = uchar_int_t0ype // shorthand
 typedef uChar = [c:uint8] uchar (c)
+typedef scharNZ = [c:uint8 | c != 0] uchar(c)
 //
 (* ****** ****** *)
 

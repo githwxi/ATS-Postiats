@@ -202,12 +202,13 @@ fprint_listlist_sep
 ) : void // end of [fprint_listlist_sep]
 
 #atscode_separator()
-
 (*
 //
 // HX: for testing macdef
 //
 *)
+//
+(*
 //
 macdef
 fprintlst_mac
@@ -240,7 +241,7 @@ in
   loop(xs0, 0)
 end // end of [fprintlst_mac]
 *)
-
+//
 #atscode_separator()
 //
 fun{}
