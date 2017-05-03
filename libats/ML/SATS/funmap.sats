@@ -59,36 +59,36 @@ map(key:t0p, itm:t0p) = map_type(key, itm)
 (* ****** ****** *)
 //
 fun{key:t0p}
-compare_key_key (x1: key, x2: key):<> int
+compare_key_key(x1: key, x2: key):<> int
 //
 (* ****** ****** *)
 //
 fun{}
-funmap_nil{key,itm:t0p} ():<> map (key, itm)
+funmap_nil{key,itm:t0p}():<> map(key, itm)
 fun{}
-funmap_make_nil{key,itm:t0p} ():<> map (key, itm)
+funmap_make_nil{key,itm:t0p}():<> map(key, itm)
 //
 (* ****** ****** *)
 
-fun{
-} funmap_is_nil
-  {key,itm:t0p} (map: map (key, INV(itm))):<> bool
-fun{
-} funmap_isnot_nil
-  {key,itm:t0p} (map: map (key, INV(itm))):<> bool
+fun{}
+funmap_is_nil
+  {key,itm:t0p}(map: map(key, INV(itm))):<> bool
+fun{}
+funmap_isnot_nil
+  {key,itm:t0p}(map: map(key, INV(itm))):<> bool
 
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
-} funmap_size (map: map (key, INV(itm))):<> size_t
+} funmap_size(map: map(key, INV(itm))):<> size_t
 
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
 } funmap_search
-  (map: map (key, INV(itm)), k: key): Option_vt(itm)
+  (map: map(key, INV(itm)), k: key): Option_vt(itm)
 // end of [funmap_search]
 
 (* ****** ****** *)
@@ -97,7 +97,7 @@ fun{
 key,itm:t0p
 } funmap_insert
 (
-  &map (key, INV(itm)) >> _, key, itm
+  &map(key, INV(itm)) >> _, key, itm
 ) : Option_vt(itm) // end of [funmap_insert]
 //
 (* ****** ****** *)
@@ -106,7 +106,7 @@ fun{
 key,itm:t0p
 } funmap_takeout
 (
-  map: &map (key, INV(itm)) >> _, k: key
+  map: &map(key, INV(itm)) >> _, k: key
 ) : Option_vt(itm) // end of [funmap_takeout]
 //
 (* ****** ****** *)
@@ -114,7 +114,7 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } funmap_remove
-  (map: &map (key, INV(itm)) >> _, k: key): bool
+  (map: &map(key, INV(itm)) >> _, k: key): bool
 //
 (* ****** ****** *)
 //
@@ -126,9 +126,9 @@ key,itm:t@ype
 ) : void // end of [fprint_funmap]
 //
 fun{}
-fprint_funmap$sep (out: FILEref): void // default: fprint("; ")
+fprint_funmap$sep(out: FILEref): void // fprint("; ")
 fun{}
-fprint_funmap$mapto (out: FILEref): void // default: fprint("->")
+fprint_funmap$mapto(out: FILEref): void // fprint("->")
 //
 overload fprint with fprint_funmap
 //
@@ -167,14 +167,14 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } funmap_listize
-  (map: map (key, INV(itm))): list0 @(key, itm)
+  (map: map(key, INV(itm))): list0 @(key, itm)
 //
 (* ****** ****** *)
 //
 fun{
 key,itm:t0p
 } funmap_streamize
-  (map: map (key, INV(itm))): stream_vt @(key, itm)
+  (map: map(key, INV(itm))): stream_vt @(key, itm)
 //
 (* ****** ****** *)
 

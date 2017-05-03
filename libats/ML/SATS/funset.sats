@@ -56,30 +56,34 @@ typedef set(a:t0p) = set_type(a)
 (* ****** ****** *)
 
 fun{a:t0p}
-compare_elt_elt (x: a, y: a):<> int
+compare_elt_elt(x: a, y: a):<> int
 
 (* ****** ****** *)
 
-fun{} funset_nil{a:t0p} ():<> set(a)
-fun{} funset_make_nil{a:t0p} ():<> set(a)
+fun{} funset_nil{a:t0p}():<> set(a)
+fun{} funset_make_nil{a:t0p}():<> set(a)
 
 (* ****** ****** *)
 
-fun{a:t0p} funset_sing (x: a): set(a)
-fun{a:t0p} funset_make_sing (x: a): set(a)
+fun{a:t0p} funset_sing(x: a): set(a)
+fun{a:t0p} funset_make_sing(x: a): set(a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_make_list (xs: list0(INV(a))): set(a)
+funset_make_list(xs: list0(INV(a))): set(a)
 
 (* ****** ****** *)
 //
-fun{
-} fprint_funset$sep (out: FILEref): void // ", "
+fun
+{a:t0p}
+fprint_funset
+(
+  out: FILEref, set: set(INV(a))
+) : void // end of [fprint_funset]
 //
-fun{a:t0p}
-fprint_funset (out: FILEref, set: set(INV(a))): void
+fun{}
+fprint_funset$sep(out: FILEref): void // fprint(", ")
 //
 overload fprint with fprint_funset
 //
@@ -93,14 +97,14 @@ funset_isnot_nil{a:t0p}(xs: set(INV(a))):<> bool
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_size (xs: set(INV(a))):<> size_t
+funset_size(xs: set(INV(a))):<> size_t
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_is_member (xs: set(INV(a)), x0: a):<> bool
+funset_is_member(xs: set(INV(a)), x0: a):<> bool
 fun{a:t0p}
-funset_isnot_member (xs: set(INV(a)), x0: a):<> bool
+funset_isnot_member(xs: set(INV(a)), x0: a):<> bool
 
 (* ****** ****** *)
 
@@ -113,57 +117,57 @@ funset_insert
 
 fun{a:t0p}
 funset_remove
-  (xs: &set(INV(a)) >> _, x0: a): bool(*[x0] is [xs]*)
+  (xs: &set(INV(a)) >> _, x0: a): bool(*[x0] in [xs]*)
 // end of [funset_remove]
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_getmax_opt (xs: set(INV(a))): Option_vt(a)
+funset_getmax_opt(xs: set(INV(a))): Option_vt(a)
 fun{a:t0p}
-funset_getmin_opt (xs: set(INV(a))): Option_vt(a)
+funset_getmin_opt(xs: set(INV(a))): Option_vt(a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_takeoutmax_opt (xs: &set(INV(a)) >> _): Option_vt(a)
+funset_takeoutmax_opt(xs: &set(INV(a)) >> _): Option_vt(a)
 fun{a:t0p}
-funset_takeoutmin_opt (xs: &set(INV(a)) >> _): Option_vt(a)
+funset_takeoutmin_opt(xs: &set(INV(a)) >> _): Option_vt(a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_union (xs1: set(INV(a)), xs2: set(a)):<> set(a)
+funset_union(xs1: set(INV(a)), xs2: set(a)):<> set(a)
 fun{a:t0p}
-funset_intersect (xs1: set(INV(a)), xs2: set(a)):<> set(a)
+funset_intersect(xs1: set(INV(a)), xs2: set(a)):<> set(a)
 fun{a:t0p}
-funset_differ (xs1: set(INV(a)), xs2: set(a)):<> set(a)
+funset_differ(xs1: set(INV(a)), xs2: set(a)):<> set(a)
 fun{a:t0p}
-funset_symdiff (xs1: set(INV(a)), xs2: set(a)):<> set(a)
+funset_symdiff(xs1: set(INV(a)), xs2: set(a)):<> set(a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_equal (xs1: set(INV(a)), xs2: set(a)):<> bool
+funset_equal(xs1: set(INV(a)), xs2: set(a)):<> bool
 
 (* ****** ****** *)
 //
 // HX: set ordering induced by the ordering on elements
 //
 fun{a:t0p}
-funset_compare (xs1: set(INV(a)), xs2: set(a)):<> int
+funset_compare(xs1: set(INV(a)), xs2: set(a)):<> int
 
 (* ****** ****** *)
 //
 fun{a:t0p}
-funset_is_subset (xs1: set(INV(a)), xs2: set(a)):<> bool
+funset_is_subset(xs1: set(INV(a)), xs2: set(a)):<> bool
 fun{a:t0p}
-funset_is_supset (xs1: set(INV(a)), xs2: set(a)):<> bool
+funset_is_supset(xs1: set(INV(a)), xs2: set(a)):<> bool
 //
 (* ****** ****** *)
 //
 fun{a:t0p}
-funset_foreach (set: set(INV(a))): void
+funset_foreach(set: set(INV(a))): void
 fun
 {a:t0p}
 {env:vt0p}
@@ -174,7 +178,7 @@ funset_foreach_env
 fun
 {a:t0p}
 {env:vt0p}
-funset_foreach$fwork (x: a, env: &(env) >> _): void
+funset_foreach$fwork(x: a, env: &(env) >> _): void
 //
 (* ****** ****** *)
 //
@@ -191,10 +195,10 @@ funset_tabulate_cloref
 (* ****** ****** *)
 //
 fun{a:t0p}
-funset_listize (xs: set(INV(a))):<> list0(a)
+funset_listize(xs: set(INV(a))):<> list0(a)
 //
 fun{a:t0p}
-funset_streamize (xs: set(INV(a))):<> stream_vt(a)
+funset_streamize(xs: set(INV(a))):<> stream_vt(a)
 //
 (* ****** ****** *)
 
