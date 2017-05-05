@@ -16,8 +16,10 @@ $(PATSHOME)/share/atsmake-pre.mk
 ######
 
 PATSCC_2=\
-$(PATSCC) $(INCLUDE) \
--DATS_MEMALLOC_GCBDW -IIATS $(PATSCONTRIBQ)/contrib -O2
+$(PATSCC) \
+$(INCLUDE) \
+-DATS_MEMALLOC_GCBDW \
+-IIATS $(PATSHOME)/npm-utils/contrib -O2
 
 ######
 
@@ -44,18 +46,24 @@ OBJECTS := $(MYTARGET_DATS_O)
 
 ######
 
-all:: test_up
-test_up: test_up.dats $(OBJECTS) ; $(PATSCC_2) -o $@ $^ -lhiredis -lgc
+all:: \
+test_up
+test_up: \
+test_up.dats $(OBJECTS) ; \
+$(PATSCC_2) -o $@ $^ -lhiredis -lgc
 cleanall:: ; $(RMF) test_up
 
-all:: test_dn
-test_dn: test_dn.dats $(OBJECTS) ; $(PATSCC_2) -o $@ $^ -lhiredis -lgc
+all:: \
+test_dn
+test_dn: \
+test_dn.dats $(OBJECTS) ; \
+$(PATSCC_2) -o $@ $^ -lhiredis -lgc
 cleanall:: ; $(RMF) test_dn
 
 ######
 
-%_sats.o: %.sats ; $(PATSCC2) -c $< || echo $@ ": ERROR!!!"
-%_dats.o: %.dats ; $(PATSCC2) -D_BSD_SOURCE -c $< || echo $@ ": ERROR!!!"
+%_sats.o: %.sats ; $(PATSCC_2) -c $< || echo $@ ": ERROR!!!"
+%_dats.o: %.dats ; $(PATSCC_2) -D_BSD_SOURCE -c $< || echo $@ ": ERROR!!!"
 
 ######
 

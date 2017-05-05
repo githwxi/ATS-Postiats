@@ -11,8 +11,14 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_define.hats"
 #include "share/atspre_staload.hats"
+//
+(* ****** ****** *)
+//
+#define
+HIREDIS_targetloc
+"$PATSHOME\
+/npm-utils/contrib/atscntrb-libhiredis"
 //
 (* ****** ****** *)
   

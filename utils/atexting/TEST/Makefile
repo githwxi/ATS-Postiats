@@ -12,8 +12,8 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 LDPATH :=
 LDPATH := -L$(ATSHOME)/ccomp/lib
 LDPATH += -L$(ATSHOME)/ccomp/lib64
-LDPATH += -L$(PATSHOME)/utils/libatsopt
-LDPATH += -L$(PATSHOME)/utils/libatsynmark
+#LDPATH += -L$(PATSHOME)/utils/libatsopt
+#LDPATH += -L$(PATSHOME)/utils/libatsynmark
 #
 LIBRARY = -latsynmark -latsopt -lats -lgmp -lgc
 #
@@ -25,11 +25,9 @@ ATEXTING_MYLIB=\
 $(PATSHOME)/utils/atexting/atexting_mylib.dats
 #
 ######
-
-all:: mytexting
-
-######
 #
+all:: \
+mytexting
 mytexting: \
 mytexting.dats ; \
 $(PATSCC) -verbose -O2 -o $@ \
@@ -38,9 +36,6 @@ $(PATSCC) -verbose -O2 -o $@ \
   mytexting.dats $(ATEXTING_MYLIB) \
   $(ATSRUNTIME)/ats_prelude.c $(LDPATH) $(LIBRARY)
 #
-######
-
-
 ######
 #
 regress:: \

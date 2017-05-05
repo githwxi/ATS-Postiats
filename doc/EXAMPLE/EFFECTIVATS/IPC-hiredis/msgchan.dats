@@ -11,8 +11,6 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -21,18 +19,30 @@ staload "./msgchan.sats"
 staload "./redisContextSetup.dats"
 
 (* ****** ****** *)
-
-staload "{$HIREDIS}/SATS/hiredis.sats"
-staload "{$HIREDIS}/SATS/hiredis_ML.sats"
-staload _(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
-
+//
+#define
+HIREDIS_targetloc
+"$PATSHOME\
+/npm-utils/contrib/atscntrb-libhiredis"
+//
+(* ****** ****** *)
+//
+#staload "{$HIREDIS}/SATS/hiredis.sats"
+#staload "{$HIREDIS}/SATS/hiredis_ML.sats"
+//
+#staload
+_(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
+//
 (* ****** ****** *)
 
 local
 //
 datatype
 msgchan =
-MSGCHAN of (string(*name*), string(*key*))
+MSGCHAN of
+(
+string(*name*), string(*key*)
+)
 assume msgchan_type = msgchan
 //
 fun

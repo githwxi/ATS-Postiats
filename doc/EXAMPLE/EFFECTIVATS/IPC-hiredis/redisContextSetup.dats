@@ -11,8 +11,6 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -21,11 +19,20 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload "{$HIREDIS}/SATS/hiredis.sats"
-staload "{$HIREDIS}/SATS/hiredis_ML.sats"
-staload _(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
-
+//
+#define
+HIREDIS_targetloc
+"$PATSHOME\
+/npm-utils/contrib/atscntrb-libhiredis"
+//
+(* ****** ****** *)
+//
+#staload "{$HIREDIS}/SATS/hiredis.sats"
+#staload "{$HIREDIS}/SATS/hiredis_ML.sats"
+//
+#staload
+_(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
+//
 (* ****** ****** *)
 
 #include "params.hats"
