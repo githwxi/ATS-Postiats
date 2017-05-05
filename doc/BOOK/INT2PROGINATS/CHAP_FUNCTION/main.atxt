@@ -1396,7 +1396,7 @@ id="example-a-higher-order-fun-puzzle">
 Let us first introduce a type definition as follows:
 
 #sats2xhtml("\
-typedef I (a:t@ype) = a -<cloref1> a
+typedef I(a:t@ype) = (a) -<cloref1> a
 ")
 
 Given a type T, I(T) is for a closure-function that maps a given input

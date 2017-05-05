@@ -32,10 +32,13 @@
 (* Start time: December, 2012 *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
-
+//
+#define
+ATS_PACKNAME "ATSLIB.libats.ML"
+//
+#define
+ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
@@ -59,11 +62,12 @@ stadef matrix0 = matrix0_vt0ype_type
 #endif
 
 (* ****** ****** *)
-
+//
 (*
-typedef matrix0 (a: vt@ype) = mtrxszref (a)
+typedef
+matrix0(a: vt@ype) = mtrxszref(a)
 *)
-
+//
 (* ****** ****** *)
 
 sortdef t0p = t@ype and vt0p = viewt@ype

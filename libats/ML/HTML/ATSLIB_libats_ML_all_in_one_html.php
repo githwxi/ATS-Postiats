@@ -29,6 +29,15 @@
 //
 // SATS
 //
+include 'SATS/basis_sats.html';
+//
+include 'SATS/list0_sats.html';
+include 'SATS/array0_sats.html';
+include 'SATS/matrix0_sats.html';
+include 'SATS/stream_sats.html';
+include 'SATS/stream_vt_sats.html';
+//
+include 'SATS/filebas_sats.html';
 include 'SATS/intrange_sats.html';
 //
 include 'SATS/funmap_sats.html';
@@ -38,6 +47,13 @@ include 'SATS/hashtblref_sats.html';
 //
 // DATS
 //
+include 'DATS/list0_dats.html';
+include 'DATS/array0_dats.html';
+include 'DATS/matrix0_dats.html';
+include 'DATS/stream_dats.html';
+include 'DATS/stream_vt_dats.html';
+//
+include 'DATS/filebas_dats.html';
 include 'DATS/intrange_dats.html';
 //
 include 'DATS/funmap_dats.html';

@@ -26,6 +26,38 @@ all:: all_dats
 ######
 
 all_sats:: \
+basis_sats.html
+basis_sats.html: \
+./../SATS/basis.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
+list0_sats.html
+list0_sats.html: \
+./../SATS/list0.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
+array0_sats.html
+array0_sats.html: \
+./../SATS/array0.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+matrix0_sats.html
+matrix0_sats.html: \
+./../SATS/matrix0.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
+stream_sats.html
+stream_sats.html: \
+./../SATS/stream.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+stream_vt_sats.html
+stream_vt_sats.html: \
+./../SATS/stream_vt.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
+filebas_sats.html
+filebas_sats.html: \
+./../SATS/filebas.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
 intrange_sats.html
 intrange_sats.html: \
 ./../SATS/intrange.sats; $(PATS2XHTML) -o SATS/$@ --static $<
@@ -52,6 +84,33 @@ hashtblref_sats.html: \
 #
 ######
 
+all_dats:: \
+list0_dats.html
+list0_dats.html: \
+./../DATS/list0.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+
+all_dats:: \
+array0_dats.html
+array0_dats.html: \
+./../DATS/array0.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+all_dats:: \
+matrix0_dats.html
+matrix0_dats.html: \
+./../DATS/matrix0.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+
+all_dats:: \
+stream_dats.html
+stream_dats.html: \
+./../DATS/stream.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+all_dats:: \
+stream_vt_dats.html
+stream_vt_dats.html: \
+./../DATS/stream_vt.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+
+all_dats:: \
+filebas_dats.html
+filebas_dats.html: \
+./../DATS/filebas.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 all_dats:: \
 intrange_dats.html
 intrange_dats.html: \

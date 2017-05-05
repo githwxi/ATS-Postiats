@@ -43,10 +43,12 @@ staload "libats/ML/SATS/matrix0.sats"
 
 (* ****** ****** *)
 //
-implement{}
+implement
+{}(*tmp*)
 matrix0_of_mtrxszref{a}(A) = $UN.cast{matrix0(a)}(A)
 //
-implement{}
+implement
+{}(*tmp*)
 mtrxszref_of_matrix0{a}(A) = $UN.cast{mtrxszref(a)}(A)
 //
 (* ****** ****** *)
@@ -65,13 +67,18 @@ implement{
 (* ****** ****** *)
 
 implement{
-} matrix0_get_refsize (M) = let
-  var nrow: size_t and ncol: size_t
-  val Mref =
-  $effmask_wrt
-  (
-    mtrxszref_get_refsize(mtrxszref_of_matrix0(M), nrow, ncol)
-  ) (* end of [val] *)
+} matrix0_get_refsize
+  (M) = let
+//
+var nrow: size_t // uninitized
+and ncol: size_t // uninitized
+//
+val Mref =
+$effmask_wrt
+(
+mtrxszref_get_refsize(mtrxszref_of_matrix0(M), nrow, ncol)
+) (* end of [val] *)
+//
 in
   (Mref, nrow, ncol)
 end // end of [matrix0_get_refsize]
@@ -82,7 +89,7 @@ implement
 {a}(*tmp*)
 matrix0_make_elt
   (nrow, ncol, x0) =
-  matrix0_of_mtrxszref (mtrxszref_make_elt<a> (nrow, ncol, x0))
+  matrix0_of_mtrxszref(mtrxszref_make_elt<a>(nrow, ncol, x0))
 // end of [matrix0_make_elt]
 
 (* ****** ****** *)
@@ -95,7 +102,8 @@ matrix0_get_at_int
   and j = g1ofg0_int(j)
 in
 //
-if i >= 0
+if
+i >= 0
 then (
 if j >= 0 then
   matrix0_get_at_size<a> (M0, i2sz(i), i2sz(j))
@@ -114,9 +122,13 @@ implement
 {a}(*tmp*)
 matrix0_get_at_size
   (M0, i, j) = let
-  val MSZ =
-    mtrxszref_of_matrix0 (M0) in mtrxszref_get_at_size (MSZ, i, j)
-  // end of [val]
+//
+val
+MSZ = mtrxszref_of_matrix0(M0)
+//
+in
+  mtrxszref_get_at_size<a>(MSZ, i, j)
+// end of [val]
 end // end of [matrix0_get_at_size]
 
 (* ****** ****** *)
@@ -129,10 +141,13 @@ matrix0_set_at_int
   and j = g1ofg0_int(j)
 in
 //
-if i >= 0
+if
+i >= 0
 then (
-if j >= 0 then
-  matrix0_set_at_size<a> (M0, i2sz(i), i2sz(j), x)
+if
+j >= 0
+then
+  matrix0_set_at_size<a>(M0, i2sz(i), i2sz(j), x)
 else
   $raise MatrixSubscriptExn((*void*)) (* neg index *)
 // end of [if]
@@ -148,9 +163,13 @@ implement
 {a}(*tmp*)
 matrix0_set_at_size
   (M0, i, j, x) = let
-  val MSZ =
-    mtrxszref_of_matrix0 (M0) in mtrxszref_set_at_size (MSZ, i, j, x)
-  // end of [val]
+//
+val
+MSZ =
+mtrxszref_of_matrix0{a}(M0)
+//
+in
+  mtrxszref_set_at_size<a>(MSZ, i, j, x)
 end // end of [matrix0_set_at_size]
 
 (* ****** ****** *)
