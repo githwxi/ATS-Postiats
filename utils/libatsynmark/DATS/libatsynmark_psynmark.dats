@@ -3,7 +3,7 @@
 ** Some utility functions
 ** for manipulating the syntax of ATS2
 **
-** Contributed by Hongwei Xi (gmhwxi AT gmail DOT com)
+** Contributed by Hongwei Xi (gmhwxiATgmailDOTcom)
 **
 ** Start Time: June, 2012
 **
@@ -31,37 +31,37 @@ fprint_synmark
 //
 macdef
 prstr(x) =
-  fprint_string (out, ,(x))
+fprint_string(out, ,(x))
 //
 in
 //
 case+ sm of
-| SMnone () => prstr "SMnone"
-| SMcomment () => prstr "SMcomment"
-| SMkeyword () => prstr "SMkeyword"
+| SMnone() => prstr "SMnone"
+| SMcomment() => prstr "SMcomment"
+| SMkeyword() => prstr "SMkeyword"
 //
-| SMextcode () => prstr "SMextcode"
+| SMextcode() => prstr "SMextcode"
 //
-| SMneuexp () => prstr "SMneuexp"
-| SMstaexp () => prstr "SMstaexp"
-| SMprfexp () => prstr "SMprfexp"
-| SMdynexp () => prstr "SMdynexp"
+| SMneuexp() => prstr "SMneuexp"
+| SMstaexp() => prstr "SMstaexp"
+| SMprfexp() => prstr "SMprfexp"
+| SMdynexp() => prstr "SMdynexp"
 //
-| SMstalab () => prstr "SMstalab"
-| SMdynlab () => prstr "SMdynlab"
+| SMstalab() => prstr "SMstalab"
+| SMdynlab() => prstr "SMdynlab"
 //
-| SMdynstr () => prstr "SMdynstr"
+| SMdynstr() => prstr "SMdynstr"
 //
-| SMscst_def (g) => prstr "SMscst_def"
-| SMscst_use (g) => prstr "SMscst_use"
+| SMscst_def(g) => prstr "SMscst_def"
+| SMscst_use(g) => prstr "SMscst_use"
 //
-| SMscon_dec (g) => prstr "SMscon_dec"
-| SMscon_use (g) => prstr "SMscon_use"
-| SMscon_assume (g) => prstr "SMscon_assume"
+| SMscon_dec(g) => prstr "SMscon_dec"
+| SMscon_use(g) => prstr "SMscon_use"
+| SMscon_assume(g) => prstr "SMscon_assume"
 //
-| SMdcst_dec (g) => prstr "SMdcst_dec"
-| SMdcst_use (g) => prstr "SMdcst_use"
-| SMdcst_implement (g) => prstr "SMdcst_implement"
+| SMdcst_dec(g) => prstr "SMdcst_dec"
+| SMdcst_use(g) => prstr "SMdcst_use"
+| SMdcst_implement(g) => prstr "SMdcst_implement"
 //
 end // end of [fprint_synmark]
 
@@ -83,10 +83,13 @@ end // end of [fprint_psynmark]
 (* ****** ****** *)
 //
 staload
-BAS = "src/pats_basics.sats"
+BAS =
+"src/pats_basics.sats"
 //
-stadef funkind = $BAS.funkind
-stadef valkind = $BAS.valkind
+stadef
+funkind = $BAS.funkind
+stadef
+valkind = $BAS.valkind
 //
 staload
 TBF = "src/pats_tokbuf.sats"
@@ -173,8 +176,12 @@ PAR = "src/pats_parsing.sats"
 
 vtypedef res = psynmarklst_vt
 
-fun psynmark_ins (
-  sm: synmark, knd: int, loc: location
+fun
+psynmark_ins
+(
+  sm: synmark
+, knd: int
+, loc: location
 , res: &res >> res
 ) : void = let
   val p = (

@@ -3,7 +3,7 @@
 ** Some utility functions
 ** for manipulating the syntax of ATS2
 **
-** Contributed by Hongwei Xi (gmhwxi AT gmail DOT com)
+** Contributed by Hongwei Xi (gmhwxiATgmailDOTcom)
 **
 ** Start Time: June, 2012
 **
