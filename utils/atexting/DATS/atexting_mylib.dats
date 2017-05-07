@@ -40,15 +40,20 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 #include
 "libats/libc/DATS/stdio.dats"
-
+//
+(* ****** ****** *)
+//
+#define
+HX_CSTREAM_targetloc
+"$PATSHOME\
+/contrib/atscntrb-hx-cstream"
+//
 (* ****** ****** *)
 
 %{^
@@ -59,45 +64,52 @@ atstyarr_field_undef(fname) fname[]
 (* ****** ****** *)
 
 local
-#include"{$HX_CSTREAM}/DATS/cstream.dats"
+#include
+"{$HX_CSTREAM}/DATS/cstream.dats"
 in (*in-of-local *)
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-#include"{$HX_CSTREAM}/DATS/cstream_fun.dats"
+#include
+"{$HX_CSTREAM}/DATS/cstream_fun.dats"
 in (*in-of-local *)
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-#include"{$HX_CSTREAM}/DATS/cstream_cloref.dats"
+#include
+"{$HX_CSTREAM}/DATS/cstream_cloref.dats"
 in (*in-of-local *)
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-#include"{$HX_CSTREAM}/DATS/cstream_string.dats"
+#include
+"{$HX_CSTREAM}/DATS/cstream_string.dats"
 in (*in-of-local *)
 end // end of [local]
 
 local
-#include"{$HX_CSTREAM}/DATS/cstream_strptr.dats"
+#include
+"{$HX_CSTREAM}/DATS/cstream_strptr.dats"
 in (*in-of-local *)
 end // end of [local]
 
 (* ****** ****** *)
 
 local
-#include"{$HX_CSTREAM}/DATS/cstream_fileref.dats"
+#include
+"{$HX_CSTREAM}/DATS/cstream_fileref.dats"
 in (*in-of-local *)
 end // end of [local]
 
 local
-#include"{$HX_CSTREAM}/DATS/cstream_fileptr.dats"
+#include
+"{$HX_CSTREAM}/DATS/cstream_fileptr.dats"
 in (*in-of-local *)
 end // end of [local]
 

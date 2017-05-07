@@ -838,6 +838,45 @@ end // end of [parsing_toplevel]
 (* ****** ****** *)
 
 implement
+parsing_from_stdin
+  ((*void*)) = txtlst where
+{
+//
+val () =
+the_filename_push(filename_stdin)
+//
+val txtlst = parsing_from_fileref(stdin_ref)
+//
+val _(*fname*) = the_filename_pop()
+//
+} (* end of [parsing_from_stdin] *)
+
+(* ****** ****** *)
+
+implement
+parsing_from_string
+  (instr) = txtlst where
+{
+//
+var buf: tokbuf
+//
+val () =
+the_filename_push(filename_string)
+//
+val ((*void*)) =
+tokbuf_initize_string(buf, instr)
+//
+val txtlst = parsing_toplevel(buf)
+//
+val ((*void*)) = tokbuf_uninitize(buf)
+//
+val _(*fname*) = the_filename_pop()
+//
+} (* end of [parsing_from_string] *)
+
+(* ****** ****** *)
+
+implement
 parsing_from_fileref
   (infil) = txtlst where
 {
@@ -852,22 +891,6 @@ val txtlst = parsing_toplevel(buf)
 val ((*void*)) = tokbuf_uninitize(buf)
 //
 } (* end of [parsing_from_fileref] *)
-
-(* ****** ****** *)
-
-implement
-parsing_from_stdin
-  ((*void*)) = txtlst where
-{
-//
-val () =
-  the_filename_push(filename_stdin)
-//
-val txtlst = parsing_from_fileref(stdin_ref)
-//
-val _(*fname*) = the_filename_pop()
-//
-} (* end of [parsing_from_stdin] *)
 
 (* ****** ****** *)
 

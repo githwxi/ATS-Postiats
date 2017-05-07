@@ -55,6 +55,8 @@ implement
 filename_dummy = FNAME ("")
 implement
 filename_stdin = FNAME ("__STDIN__")
+implement
+filename_string = FNAME ("__STRING__")
 
 (* ****** ****** *)
 

@@ -317,12 +317,14 @@ in (* in-of-local *)
 val () =
 the_atextmap_insert
 (
-  "thePage_style", TEXTDEFfun(lam(loc, xs) => __thePage_style__(loc, xs))
+  "thePage_style"
+, TEXTDEFfun(lam(loc, xs) => __thePage_style__(loc, xs))
 )
 val () =
 the_atextmap_insert
 (
-  "thePage_script", TEXTDEFfun(lam(loc, xs) => __thePage_script__(loc, xs))
+  "thePage_script"
+, TEXTDEFfun(lam(loc, xs) => __thePage_script__(loc, xs))
 )
 //
 end // end of [local]
@@ -347,4 +349,3 @@ end // end of [local]
 (* ****** ****** *)
 
 (* end of [mytexting.dats] *)
-

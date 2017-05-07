@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2017 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,9 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
 // Start Time: July, 2013
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
 //
@@ -40,9 +41,10 @@
 (* ****** ****** *)
 //
 #define
-ATS_PACKNAME "ATSLIB.libats.libc.gdbm"
+ATS_PACKNAME
+"ATSLIB.libats.libc.gdbm"
 //
-// prefix for external names
+// HX: prefix for external names
 //
 #define
 ATS_EXTERN_PREFIX "atslib_libats_libc_"
@@ -150,8 +152,10 @@ fun gdbm_errno_get (): GDBMerror = "mac#%"
 //
 // statically-allocated
 //
-val gdbm_version : string = "mac#%"
-val gdbm_version_number : array (int, 3) = "mac#mac%"
+val
+gdbm_version : string = "mac#%"
+val
+gdbm_version_number : arrayref(int, 3) = "mac#mac%"
 //
 (* ****** ****** *)
 
@@ -376,29 +380,34 @@ macdef
 GDBM_GETDBNAME = $extval (gdbmgetopt(ptr), "GDBM_GETDBNAME")
 //
 (* ****** ****** *)
-
+//
 fun
 gdbm_setopt
-  {a:t@ype} (
+  {a:t@ype}
+(
   dbf: !GDBMfilptr1
 , option: gdbmsetopt(a), value: &a, size: sizeof_t(a)
 ) : int(*err*) = "mac#%" // end of [gdbm_setopt]
+//
 fun
 gdbm_getopt
-  {a:t@ype} (
+  {a:t@ype}
+(
   dbf: !GDBMfilptr1
 , option: gdbmgetopt(a), value: &a? >> a, size: sizeof_t(a)
 ) : int(*err*) = "mac#%" // end of [gdbm_getopt]
-
-fun gdbm_getdbname (dbf: !GDBMfilptr1): Strptr0 = "mac#%"
-
+//
+fun
+gdbm_getdbname(dbf: !GDBMfilptr1): Strptr0 = "mac#%"
+//
 (* ****** ****** *)
-
+//
 (*
 int gdbm_fdesc(dbf);
 *)
-fun gdbm_fdesc (!GDBMfilptr1): int(*fd*) = "mac#%" // no failure
-
+fun
+gdbm_fdesc(dbf: !GDBMfilptr1): int(*fd*) = "mac#%" // no failure
+//
 (* ****** ****** *)
 
 (* end of [gdbm.sats] *)

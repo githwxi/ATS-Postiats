@@ -200,7 +200,10 @@ end // end of [local]
 //
 extern
 fun
-the_atext_outchanlst_top(): FILEref
+the_atext_outchanlst_top
+(
+// argumentless
+) : FILEref // end-of-fun
 //
 (* ****** ****** *)
 

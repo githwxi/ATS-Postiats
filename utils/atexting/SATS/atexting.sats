@@ -75,6 +75,7 @@ typedef fil_t = filename
 //
 val filename_dummy : fil_t
 val filename_stdin : fil_t
+val filename_string : fil_t
 //
 fun
 filename_make(path: string): fil_t
@@ -164,7 +165,7 @@ fun location_rightmost(loc0: loc_t): loc_t
 (* ****** ****** *)
 //
 fun
-location_combine (loc1: loc_t, loc2: loc_t): loc_t
+location_combine(loc1: loc_t, loc2: loc_t): loc_t
 //
 (* ****** ****** *)
 //
@@ -550,8 +551,10 @@ parerr_make
 //
 (* ****** ****** *)
 //
-fun fprint_parerr : fprint_type(parerr)
-fun fprint_parerrlst : fprint_type(parerrlst)
+fun
+fprint_parerr : fprint_type(parerr)
+fun
+fprint_parerrlst : fprint_type(parerrlst)
 //
 overload fprint with fprint_parerr
 overload fprint with fprint_parerrlst
@@ -594,11 +597,15 @@ parsing_toplevel(buf: &tokbuf >> _): atextlst
 //
 fun
 parsing_from_stdin((*void*)): atextlst
-fun
-parsing_from_filename(path: string): atextlst
 //
 fun
-parsing_from_fileref(infil: FILEref): atextlst
+parsing_from_string(inp: string): atextlst
+//
+fun
+parsing_from_fileref(inp: FILEref): atextlst
+//
+fun
+parsing_from_filename(path: string): atextlst
 //
 (* ****** ****** *)
 //

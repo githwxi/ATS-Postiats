@@ -40,8 +40,14 @@ $(PATSCC) -verbose -O2 -o $@ \
 #
 regress:: \
 data.atxt ; \
-./mytexting -o data_atxt.dats -i $<
+./mytexting -o data_atxt.out -i $<
 #
+######
+
+testall:: all
+testall:: regress
+testall:: cleanall
+
 ######
 
 RMF=rm -f
@@ -55,6 +61,6 @@ clean:: ; $(RMF) *_dats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) mytexting
-cleanall:: ; $(RMF) data_atxt.dats
+cleanall:: ; $(RMF) data_atxt.out
 
 ###### end of [Makefile] ######

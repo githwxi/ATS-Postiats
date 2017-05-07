@@ -272,4 +272,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [atextfun.hats] *)
+(* end of [mytextfun.hats] *)

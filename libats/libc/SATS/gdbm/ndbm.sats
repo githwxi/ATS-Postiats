@@ -27,23 +27,28 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
 // Start Time: July, 2013
-//
-(* ****** ****** *)
-//
-#define
-ATS_PACKNAME "ATSLIB.libats.libc.gdbm"
-//
-#define
-ATS_EXTERN_PREFIX "atslib_libats_libc_" // prefix for external names
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
 
 %{#
-#include "libats/libc/gdbm/CATS/ndbm.cats"
+#include \
+"libats/libc/CATS/gdbm/ndbm.cats"
 %} // end of [%{#]
 
+(* ****** ****** *)
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.libc.gdbm"
+//
+// HX: prefix for external names
+//
+#define
+ATS_EXTERN_PREFIX "atslib_libats_libc_"
+//
 (* ****** ****** *)
 
 (* end of [ndbm.sats] *)
