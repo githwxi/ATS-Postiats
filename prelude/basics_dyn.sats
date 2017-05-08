@@ -482,23 +482,23 @@ list_t0ype_int_type
 // end of [datatype]
 stadef list = list_t0ype_int_type
 typedef
-List (a:t0p) = [n:int] list (a, n)
+List(a:t0p) = [n:int] list(a, n)
 typedef
-List0 (a:t0p) = [n:int | n >= 0] list (a, n)
+List0(a:t0p) = [n:int | n >= 0] list(a, n)
 typedef
-List1 (a:t0p) = [n:int | n >= 1] list (a, n)
+List1(a:t0p) = [n:int | n >= 1] list(a, n)
 typedef listLt
-  (a:t0p, n:int) = [k:nat | k < n] list (a, k)
+  (a:t0p, n:int) = [k:nat | k < n] list(a, k)
 typedef listLte
-  (a:t0p, n:int) = [k:nat | k <= n] list (a, k)
+  (a:t0p, n:int) = [k:nat | k <= n] list(a, k)
 typedef listGt
-  (a:t0p, n:int) = [k:int | k > n] list (a, k)
+  (a:t0p, n:int) = [k:int | k > n] list(a, k)
 typedef listGte
-  (a:t0p, n:int) = [k:int | k >= n] list (a, k)
+  (a:t0p, n:int) = [k:int | k >= n] list(a, k)
 typedef listBtw
-  (a:t0p, m:int, n:int) = [k:int | m <= k; k < n] list (a, k)
+  (a:t0p, m:int, n:int) = [k:int | m <= k; k < n] list(a, k)
 typedef listBtwe
-  (a:t0p, m:int, n:int) = [k:int | m <= k; k <= n] list (a, k)
+  (a:t0p, m:int, n:int) = [k:int | m <= k; k <= n] list(a, k)
 //
 (* ****** ****** *)
 //
@@ -559,7 +559,7 @@ option_t0ype_bool_type
   | Some(a, true) of (INV(a)) | None(a, false)
 // end of [datatype]
 stadef option = option_t0ype_bool_type
-typedef Option(a:t0p) = [b:bool] option (a, b)
+typedef Option(a:t0p) = [b:bool] option(a, b)
 //
 datavtype
 // vt@ype+: covariant

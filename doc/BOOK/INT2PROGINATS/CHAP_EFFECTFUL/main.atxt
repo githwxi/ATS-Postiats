@@ -37,13 +37,13 @@ effectul. For instance, let us define a function #dyncode("loop") as
 follows:
 
 #dats2xhtml("\
-fun loop (): void = loop ()
+fun loop(): void = loop()
 ")
 
 Then the expression #dyncode("loop()") can be distinguished from
 any values in the following context:
 
-#atscode('let val _ = [] in print ("Terminated") end')
+#atscode('let val _ = [] in print("Terminated") end')
 
 If the hole #dyncode("[]") in the context is replaced with
 #dyncode("loop()"), then the evaluation of the resulting expression
@@ -103,7 +103,7 @@ division is implemented:
 
 #dats2xhtml("\
 exception DivisionByZero of ()
-fun divexn (x: int, y: int): int =
+fun divexn(x: int, y: int): int =
   if y != 0 then x / y else $raise DivisionByZero()
 // end of [divexn]
 ")
@@ -151,39 +151,40 @@ the product of the integers in a given list:
 #dats2xhtml("\
 fun listprod1
 (
-  xs: list0 (int)
+  xs: list0(int)
 ) : int =
 (
   case+ xs of
-  | list0_nil () => 1
-  | list0_cons (x, xs) => x * listprod1 (xs)
+  | list0_nil() => 1
+  | list0_cons(x, xs) => x * listprod1(xs)
 ) (* end of [listprod1] *)
 
 fun listprod2
 (
-  xs: list0 (int)
+  xs: list0(int)
 ) : int =
 (
   case+ xs of
-  | list0_nil () => 1
-  | list0_cons (x, xs) =>
-      if x = 0 then 0 else x * listprod2 (xs)
+  | list0_nil() => 1
+  | list0_cons(x, xs) =>
+      if x = 0 then 0 else x * listprod2(xs)
     // end of [list0_cons]
 ) (* end of [listprod2] *)
 
 fun listprod3
 (
-  xs: list0 (int)
+  xs: list0(int)
 ) : int = let
   exception ZERO of ()
-  fun aux (xs: list0 (int)): int =
+  fun aux(xs: list0(int)): int =
     case+ xs of
-    | list0_cons (x, xs) =>
-        if x = 0 then $raise ZERO() else x * aux (xs)
-    | list0_nil () => 1
+    | list0_nil() => 1
+    | list0_cons(x, xs) =>
+        if x = 0 then $raise ZERO() else x * aux(xs)
+      // end of [list0_cons]
   // end of [aux]
 in
-  try aux (xs) with ~ZERO () => 0
+  try aux(xs) with ~ZERO() => 0
 end // end of [listprod3]
 ")
 
@@ -295,24 +296,33 @@ given binary tree is a Braun tree:
 #dats2xhtml("\
 fun{
 a:t@ype
-} size (t: tree a): int = case+ t of
-  | tree_nil () => 0
-  | tree_cons (_, tl, tr) => 1 + size(tl) + size(tr)
-// end of [size]
+} size
+(
+t0: tree(a)
+) : int =
+(
+case+ t0 of
+| tree_nil() => 0
+| tree_cons(_, tl, tr) => 1 + size(tl) + size(tr)
+) (* end of [size] *)
 
 fun{
 a:t@ype
 } brauntest0
-  (t: tree a): bool =
 (
-case+ t of
-| tree_nil () => true
-| tree_cons (_, tl, tr) => let
-    val cond1 = brauntest0(tl) andalso brauntest0(tr)
+t0: tree(a)
+) : bool =
+(
+case+ t0 of
+| tree_nil() => true
+| tree_cons(_, tl, tr) => let
+    val test = brauntest0(tl) andalso brauntest0(tr)
   in
-    if cond1 then let
-      val df = size(tl) - size(tr) in (df = 0) orelse (df = 1)
-    end else false
+    if test
+      then let
+        val dif = size(tl)-size(tr) in (dif=0) orelse (dif=1)
+      end else false
+    // end of [if]
   end // end of [tree_cons]
 ) (* end of [brauntest0] *)
 ")
@@ -333,22 +343,33 @@ tests whether a given binary tree is a Braun tree:
 fun{
 a:t@ype
 } brauntest1
-  (t: tree a): bool = let
-  exception Negative of ()
-  fun aux (t: tree a): int =
+(
+t0: tree(a)
+) : bool = let
+//
+exception Negative of ()
+//
+  fun
+  aux
   (
-    case+ t of
-    | tree_nil () => 0
-    | tree_cons (_, tl, tr) => let
-        val szl = aux (tl) and szr = aux (tr)
-        val df = szl - szr
+  t0: tree(a)
+  ) : int =
+  (
+    case+ t0 of
+    | tree_nil() => 0
+    | tree_cons
+        (_, tl, tr) => let
+        val szl = aux(tl)
+        and szr = aux(tr)
+        val dif = szl - szr
       in
-        if df = 0 orelse df = 1 then 1+szl+szr else $raise Negative()
+        if (dif=0 orelse dif=1) then 1+szl+szr else $raise Negative()
       end // end of [tree_cons]
   ) (* end of [aux] *)
+//
 in
   try let
-    val _ = aux (t)
+    val _ = aux(t0)
   in
     true // [t] is a Braun tree
   end with
@@ -388,8 +409,8 @@ seem interesting but it actually leads to very inefficient code:
 fun{
 a:t@ype
 } list0_length
-  (xs: list0 (a)): int =
-  try 1 + list0_length (xs.tail()) with ~ListSubscriptExn() => 0
+  (xs: list0(a)): int =
+  try 1 + list0_length(xs.tail()) with ~ListSubscriptExn() => 0
 // end of [list0_length]
 ')
 
@@ -418,8 +439,8 @@ given the type ref(T).  The following simple program makes use of all the
 essential functionalities on references:
 
 #dats2xhtml("\
-val intr = ref<int> (0) // create a ref and init. it with 0
-val () = !intr := !intr + 1 // increase the integer at [intr] by 1
+val intr = ref<int>(0) // create a ref and init. it with 0
+val ((*void*)) = !intr := !intr + 1 // increase the integer at [intr] by 1
 ")
 
 The first line creates a reference for storing an integer and initializes
@@ -446,8 +467,8 @@ templates #dyncode("ref_get_elt") and #dyncode("ref_set_elt") of the following
 interfaces, respectively:
 
 #sats2xhtml("\
-fun{a:t@ype} ref_get_elt (r: ref a): a // !r
-fun{a:t@ype} ref_set_elt (r: ref a, x: a): void // !r := x
+fun{a:t@ype} ref_get_elt(r: ref a): a // !r
+fun{a:t@ype} ref_set_elt(r: ref a, x: a): void // !r := x
 ")
 
 ")#comment("para")
@@ -465,13 +486,13 @@ integer, inclusive:
 #dats2xhtml("\
 fun sumup
   (n: int): int = let
-  val i = ref<int> (1)
-  val res = ref<int> (0)
-  fun loop (): void =
-    if !i <= n then (!res := !res + !i; !i := !i + 1; loop ())
+  val i = ref<int>(1)
+  val res = ref<int>(0)
+  fun loop(): void =
+    if !i <= n then (!res := !res + !i; !i := !i + 1; loop())
   // end of [loop]
 in
-  loop (); !res
+  loop(); !res
 end // end of [sumup]
 ")
 
@@ -533,7 +554,7 @@ fun newCounter
 (
 // argumentless
 ) : counter = let
-  val count = ref<int> (0)
+  val count = ref<int>(0)
 in '{
   get= lam () => !count
 , inc= lam () => !count := !count + 1
@@ -622,13 +643,13 @@ arrszref_make_elt
 // polymorphic fun:
 //
 fun arrszref_get_size
-  {a:t@ype} (A: arrszref a): size_t // size of an array
+  {a:t@ype}(A: arrszref a): size_t // size of an array
 //
 fun{a:t@ype} // template
-arrszref_get_elt_at (A: arrszref a, i: size_t): a // A[i]
+arrszref_get_elt_at(A: arrszref a, i: size_t): a // A[i]
 //
 fun{a:t@ype} // template
-arrszref_set_elt_at (A: arrszref a, i: size_t, x: a): void // A[i] := x
+arrszref_set_elt_at(A: arrszref a, i: size_t, x: a): void // A[i] := x
 //
 ")
 
@@ -670,24 +691,31 @@ fun{
 a:t@ype
 } insertion_sort
 (
-  A: arrszref (a)
+  A: arrszref(a)
 , cmp: (a, a) -> int
-) : void = let
-  val n = g0uint2int_size_int(A.size())
-  fun ins (x: a, i: int):<cloref1> void =
+) : void =
+  loop(1) where
+{
+  fun
+  ins
+  (
+   x: a, i: int
+  ) :<cloref1> void =
     if i >= 0 then
     (
-      if cmp (x, A[i]) < 0
-        then (A[i+1] := A[i]; ins (x, i-1)) else A[i+1] := x
+      if cmp(x, A[i]) < 0
+        then (A[i+1] := A[i]; ins(x, i-1))
+        else (A[i+1] := x)
       // end of [if]
     ) else A[0] := x // end of [if]
   // end of [ins]
-  fun loop (i: int):<cloref1> void =
-    if i < n then (ins (A[i], i-1); loop (i+1)) else ()
+  val asz =
+    g0uint2int_size_int(A.size())
+  // end of [val]
+  fun loop(i: int):<cloref1> void =
+    if i < asz then (ins(A[i], i-1); loop(i+1)) else ()
   // end of [loop]
-in
-  loop (1)
-end // end of [insertion_sort]
+} (* end of [insertion_sort] *)
 ")
 
 The comparison function #dyncode("cmp") should return 1, -1, and 0 if its
@@ -765,19 +793,23 @@ Let us first define a function as follows for printing out an array
 of integers:
 
 #dats2xhtml('
-fun print_intarray
-  (A: arrszref (int)): void = let
-  val asz = g0uint2int_size_int(A.size())
+fun
+print_intarray
+  (A: arrszref(int)): void =
+  loop(0, ", ") where
+{
+//
+  val asz =
+  g0uint2int_size_int(A.size())
 //
 // The integers are to be separated by the string [sep]
 //
-  fun loop (i: int, sep: string): void =
+  fun loop
+    (i: int, sep: string): void =
     if i < asz then
-      (if i > 0 then print sep; print A[i]; loop (i+1, sep))
+      (if i > 0 then print sep; print A[i]; loop(i+1, sep))
     // end of [if]
-in
-  loop (0, ", ")
-end // end of [print_intarray]
+} (* end of [print_intarray] *)
 ')
 ")#comment("para")
 
@@ -787,29 +819,35 @@ We next implement two functions #dyncode("lrotate") and #dyncode("rrotate")
 for rearranging the elements in a given integer array:
 
 #dats2xhtml("\
-fun lrotate (
+fun lrotate
+(
   A: arrszref int, i: int, j: int
 ) : void = let
   fun lshift (
     A: arrszref int, i: int, j: int
   ) : void =
-  if i < j then (A[i] := A[i+1]; lshift (A, i+1, j))
+  if i < j
+    then (A[i] := A[i+1]; lshift(A, i+1, j))
+  // end of [if]
 in
   if i < j then let
-    val tmp = A[i] in lshift (A, i, j); A[j] := tmp
+    val tmp = A[i] in lshift(A, i, j); A[j] := tmp
   end // end of [if]
 end // end of [lrotate]
 
-fun rrotate (
+fun rrotate
+(
   A: arrszref int, i: int, j: int
 ) : void = let
   fun rshift (
     A: arrszref int, i: int, j: int
   ) : void =
-  if i < j then (A[j] := A[j-1]; rshift (A, i, j-1))
+  if i < j
+    then (A[j] := A[j-1]; rshift(A, i, j-1))
+  // end of [if]
 in
   if i < j then let
-    val tmp = A[j] in rshift (A, i, j); A[i] := tmp
+    val tmp = A[j] in rshift(A, i, j); A[i] := tmp
   end // end of [if]
 end // end of [rrotate]
 ")
@@ -830,30 +868,39 @@ ranging from 1 to n, inclusive while arranging the output according to
 the lexicographic ordering on integer sequences.
 
 #dats2xhtml("\
-fun permute
-  (n: int): void = let
+fun
+permute
+(
+ n: int
+) : void =
+  aux(1) where
+{
 //
   \#define i2sz g0int2uint_int_size
 //
 // Creating array A of size n
 //
-  val A = arrszref_make_elt<int> (i2sz(n), 0)
+  val A =
+  arrszref_make_elt<int>(i2sz(n), 0)
 //
-// Initializing A with integers from 1 to n, inclusive
+// Initializing A
+// with integers from 1 to n, inclusive
 //
   val () = init(0) where
   {
-    fun init (i: int): void =
-      if i < n then (A[i] := i+1; init (i+1))
+    fun init(i: int): void =
+      if i < n
+        then (A[i] := i+1; init(i+1))
+      // end of [if]
   } // end of [where] // end of [val]
 //
   fun aux
     (i: int): void =
   (
     if i <= n
-      then aux2 (i, i)
+      then aux2(i, i)
       else (
-        print_intarray (A); print_newline ()
+        print_intarray(A); print_newline()
       ) (* end of [else] *)
   ) (* end of [aux] *)
 //
@@ -862,16 +909,14 @@ fun permute
   (
     if j <= n then let
       val () = (
-        rrotate (A, i-1, j-1); aux (i+1); lrotate (A, i-1, j-1)
+        rrotate(A, i-1, j-1); aux(i+1); lrotate(A, i-1, j-1)
       ) // end of [val]
     in
-      aux2 (i, j+1)
+      aux2 (i, j + 1)
     end // end of [if]
   ) (* end of [aux2] *)
 //
-in
-  aux (1)
-end // end of [permute]
+} (* end of [permute] *)
 ")
 
 Note that #dyncode("where") is a keyword, and the expression
@@ -946,8 +991,8 @@ fun{a:t@ype}
 mtrxszref_make_elt // template
   (row: size_t, col: size_t, x: a): mtrxszref (a)
 //
-fun mtrxszref_get_nrow{a:t@ype} (M: mtrxszref a): size_t // polyfun
-fun mtrxszref_get_ncol{a:t@ype} (M: mtrxszref a): size_t // polyfun
+fun mtrxszref_get_nrow{a:t@ype}(M: mtrxszref a): size_t // polyfun
+fun mtrxszref_get_ncol{a:t@ype}(M: mtrxszref a): size_t // polyfun
 //
 fun{a:t@ype}
 mtrxszref_get_elt_at // template
@@ -991,21 +1036,19 @@ fun{a:t@ype}
 mtrxszref_transpose
   (M: mtrxszref a): void = let
 //
-val nrow = mtrxszref_get_nrow (M)
+val nrow = mtrxszref_get_nrow(M)
 //
 fnx loop1
   (i: size_t): void =
-  if i < nrow then loop2 (i, 0) else ()
+  if i < nrow then loop2(i, 0) else ()
 //
 and loop2
   (i: size_t, j: size_t): void =
   if j < i then let
     val tmp = M[i,j]
   in
-    M[i,j] := M[j,i]; M[j,i] := tmp; loop2 (i, j+1)
-  end else
-    loop1 (i+1)
-  // end of [if]
+    M[i,j] := M[j,i]; M[j,i] := tmp; loop2(i, j+1)
+  end else loop1(i+1) // end of [if]
 //
 in
   loop1 (0)
@@ -1155,7 +1198,7 @@ fun fileref_open_exn
   path: string, fm: file_mode
 ) : FILEref // endfun
 
-fun fileref_close (fil: FILEref): void
+fun fileref_close(fil: FILEref): void
 ")
 
 Note that these two functions abort immediately whenever an error occurs.
@@ -1256,9 +1299,9 @@ implement
 main0 () =
 {
 val out =
-  fileref_open_exn ("hello.txt", file_mode_w)
-val () = fprint_string (out, "Hello, world!\\\n")
-val () = fileref_close (out)
+  fileref_open_exn("hello.txt", file_mode_w)
+val () = fprint_string(out, "Hello, world!\\\n")
+val () = fileref_close(out)
 //
 } (* end of [main0] *)
 ')
@@ -1292,20 +1335,22 @@ line read from the standard input:
 implement
 main0 (
 // argumentless
-) = loop () where
+) = loop() where
 {
 //
-fun loop (): void = let
-  val isnot = fileref_isnot_eof (stdin_ref)
+fun loop(): void = let
+  val isnot =
+    fileref_isnot_eof(stdin_ref)
+  // end of [val]
 in
 //
 if isnot then let
   val line =
-    fileref_get_line_string (stdin_ref)
-  val ((*void*)) = fprintln! (stdout_ref, line)
-  val ((*void*)) = strptr_free (line)
+    fileref_get_line_string(stdin_ref)
+  val ((*void*)) = fprintln!(stdout_ref, line)
+  val ((*void*)) = strptr_free(line)
 in
-  loop ()
+  loop((*void*))
 end else ((*loop exits as the end-of-file is reached*))
 //
 end (* end of [loop] *)

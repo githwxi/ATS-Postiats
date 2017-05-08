@@ -36,8 +36,15 @@ Here is a list of major additions and changes since the last release:
    needs to be written as
    fun foo(xy): ... = let $tup(x, y) = xy in ... end
 5. Adding myatscc-support (in utils/myatscc)
-   for allowing compilation commands being embedded inside source code
-      
+   for allowing compilation commands being embedded inside source code.
+   For instance, the following comment can be included to support using
+   ATS as a scripting language:
+   (*
+   ##myatsccdef=\
+   patsopt --constraint-ignore --dynamic $1 | \
+   tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime - $arglst(2)
+   *)
+        
 ######
 
 0.3.4
