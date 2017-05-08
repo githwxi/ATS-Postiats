@@ -3,7 +3,14 @@
 ** The following code is largely adapted from
 ** the Linux Programmer's manual for bsearch
 *)
-
+(* ****** ****** *)
+//
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
+//
 (* ****** ****** *)
 //
 #include

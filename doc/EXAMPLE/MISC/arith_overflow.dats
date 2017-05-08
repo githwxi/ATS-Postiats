@@ -11,41 +11,54 @@ stadef isintb (i:int): bool = (INTMIN <= i && i <= INTMAX)
 
 (* ****** ****** *)
 
-abst@ype intb (i: int) = int // bounded integers
+abst@ype intb(i: int) = int // bounded integers
 
 (* ****** ****** *)
   
 extern
-praxi lemma_INTMINMAX (): [INTMIN < ~0X7FFF ; INTMAX >= 0x7FFF] void
+praxi
+lemma_INTMINMAX
+(
+// argmentless
+) : [INTMIN < ~0X7FFF ; INTMAX >= 0x7FFF] void
 
 (* ****** ****** *)
 
 extern
-castfn intb2int {i:int} (i: intb i): int (i)
+castfn
+intb2int{i:int}(i: intb i): int(i)
 extern
-castfn int2intb {i:int | isintb(i)} (i: int i): intb (i)
+castfn
+int2intb{i:int | isintb(i)} (i: int(i)): intb(i)
 
 (* ****** ****** *)
 
 extern
-praxi lemma_intb_param {i: int} (i: intb i): [isintb(i)] void
+praxi
+lemma_intb_param{i: int}(i: intb i): [isintb(i)] void
 
 extern
-fun add_intb_intb
-  {i,j:int | isintb(i+j)} (i: intb (i), j: intb (j)):<> intb (i+j)
+fun
+add_intb_intb
+  {i,j:int | isintb(i+j)}
+  (i: intb (i), j: intb (j)):<> intb (i+j)
 overload + with add_intb_intb
 
 extern
-fun sub_intb_intb
-  {i,j:int | isintb(i-j)} (i: intb (i), j: intb (j)):<> intb (i-j)
+fun
+sub_intb_intb
+  {i,j:int | isintb(i-j)}
+  (i: intb (i), j: intb (j)):<> intb (i-j)
 overload - with sub_intb_intb
 
 extern
-fun half_intb {i:nat} (i: intb (i)):<> intb (ndiv(i,2))
+fun
+half_intb {i:nat}(i: intb (i)):<> intb (ndiv(i,2))
 overload half with half_intb
 
 extern
-fun lt_intb_intb {i,j:int} (i: intb i, j: intb j):<> bool (i < j)
+fun
+lt_intb_intb{i,j:int}(i: intb i, j: intb j):<> bool (i < j)
 overload < with lt_intb_intb
 
 (* ****** ****** *)
@@ -64,18 +77,21 @@ bsearch{n}
 //
 #define i2b int2intb
 //
-prval () = lemma_INTMINMAX ()
-prval () = lemma_intb_param (n)
+prval () = lemma_INTMINMAX()
+prval () = lemma_intb_param(n)
 //
-fun loop
-  {l,r:nat | l <= r; r <= n} .<r-l>.
+fun
+loop
+{ l,r:nat
+| l <= r
+; r <= n} .<r-l>.
 (
   A: &(@[a][n]), x0: &a, l: intb l, r: intb r
 ) :<cloref1> bool = let
 in
 //
 if l < r then let
-  val m = l + half (r - l)
+  val m = l + half(r - l)
 (*
 //
 // HX: typechecking fails
@@ -100,7 +116,7 @@ end // end of [bsearch]
 
 (* ****** ****** *)
 
-implement main () = 0
+implement main((*void*)) = 0
 
 (* ****** ****** *)
 

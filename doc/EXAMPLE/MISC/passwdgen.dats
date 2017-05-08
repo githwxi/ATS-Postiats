@@ -6,7 +6,6 @@
 ** Time: August, 2008
 **
 *)
-
 (* ****** ****** *)
 //
 // HX: Happy Thanksgiving!
@@ -14,7 +13,14 @@
 //
 (* ****** ****** *)
 //
-#include "share/atspre_define.hats"
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
+//
+(* ****** ****** *)
+//
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -22,10 +28,14 @@
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload STDLIB = "libats/libc/SATS/stdlib.sats"
-staload RANDGEN = "{$LIBATSHWXI}/testing/SATS/randgen.sats"
-
+//
+staload
+STDLIB = "libats/libc/SATS/stdlib.sats"
+//
+staload
+RANDGEN =
+"contrib/atscntrb-hx-mytesting/SATS/randgen.sats"
+//
 (* ****** ****** *)
 
 implement{a}
@@ -88,13 +98,16 @@ srand_with_time ()
 extern fun srand_with_time (): void = "ext#"
 
 (* ****** ****** *)
-
+//
 (*
-fun{} randint {n:pos} (n: int n): natLt (n)
+fun{}
+randint {n:pos} (n: int n): natLt (n)
 *)
+//
 implement
-$RANDGEN.randint<> {n} (n) = $UN.cast{natLt(n)}($STDLIB.rand() mod n)
-
+$RANDGEN.randint<>{n}(n) =
+  $UN.cast{natLt(n)}($STDLIB.rand() mod n)
+//
 (* ****** ****** *)
 
 implement

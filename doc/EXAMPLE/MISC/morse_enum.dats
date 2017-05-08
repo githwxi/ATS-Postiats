@@ -8,7 +8,14 @@
 // Time: July 18-19, 2012
 //
 *)
-
+(* ****** ****** *)
+//
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc - -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -L${PATSHOME}/ccomp/atslib/lib -latslib
+*)
+//
 (* ****** ****** *)
 //
 #include

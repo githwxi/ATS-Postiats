@@ -4,7 +4,6 @@
 ** the Smith-Waterman algorithm
 **
 *)
-
 (* ****** ****** *)
 
 staload
