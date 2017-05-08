@@ -294,7 +294,7 @@ cleanall:: ; $(RMF) wclines wclines.exe
 
 all:: word-chain
 word-chain: word-chain.exe
-word-chain.exe: word-chain_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+word-chain.exe: word-chain_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O0     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
 word-chain_dats.c: word-chain.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output word-chain_dats.c --dynamic word-chain.dats
 clean:: ; $(RMF) word-chain_dats.o
 clean:: ; $(RMF) word-chain_dats.c

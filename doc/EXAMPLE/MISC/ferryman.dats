@@ -19,6 +19,14 @@
 // Start time: 2012-05-05 // Cinco de Mayo :)
 //
 (* ****** ****** *)
+//
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
+//
+(* ****** ****** *)
 
 absview
 STATE0 ( // for all states

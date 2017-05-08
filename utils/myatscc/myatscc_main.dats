@@ -321,7 +321,8 @@ if state.dryrun > 0 then dryrun := true
 //
 val command = myatscc_evaldef()
 //
-val ((*void*)) = println! (command)
+val ((*void*)) =
+if dryrun then println! (command) else ()
 //
 val ((*void*)) =
   if ~(dryrun) then (res := system(command))

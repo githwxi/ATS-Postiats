@@ -14,6 +14,14 @@
 //
 (* ****** ****** *)
 //
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 //
