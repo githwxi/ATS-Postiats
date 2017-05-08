@@ -547,6 +547,15 @@ list0_exists2
 , pred: cfun2(a1, a2, bool)
 ) : bool // end of [list0_exists2]
 //
+fun
+{a1,a2:t0p}
+list0_exists2_eq
+(
+  xs1: list0(INV(a1))
+, xs2: list0(INV(a2))
+, pred: cfun2(a1, a2, bool), sgn: &int? >> int
+) : bool // end of [list0_exists2_eq]
+//
 (* ****** ****** *)
 //
 fun
@@ -594,7 +603,7 @@ list0_forall2_eq
 (
   xs1: list0(INV(a1))
 , xs2: list0(INV(a2))
-, p: cfun2(a1, a2, bool), sgn: &int? >> int
+, pred: cfun2(a1, a2, bool), sgn: &int? >> int
 ) : bool // end of [list0_forall2_eq]
 //
 (* ****** ****** *)

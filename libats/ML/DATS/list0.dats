@@ -1073,31 +1073,54 @@ list0_iexists_method(xs) =
 implement
 {a1,a2}
 list0_exists2
+  (xs1, xs2, p0) = let
+//
+var sgn: int // uninitized
+//
+in
+  list0_exists2_eq<a1,a2>(xs1, xs2, p0, sgn)
+end // end of [list0_exists2]
+
+implement
+{a1,a2}
+list0_exists2_eq
 (
-  xs1, xs2, pred
-) = let
+  xs1, xs2, pred, sgn
+) = loop(xs1, xs2, sgn) where
+{
 //
 fun
 loop
 (
   xs1: list0(a1)
 , xs2: list0(a2)
+, sgn: &int? >> _
 ) : bool =
 (
   case+ xs1 of
-  | list0_nil() => false
-  | list0_cons(x1, xs1) => (
+  | list0_nil() => (
     case+ xs2 of
-    | list0_nil() => false
-    | list0_cons(x2, xs2) =>
-        if pred(x1, x2) then true else loop(xs1, xs2)
-      // end of [list_cons]
+    | list0_nil() =>
+      (sgn := 0; false)
+    | list0_cons _ =>
+      (sgn := ~1; false)
     )
-) (* end of [loop] *)
-//
-in
-  loop(xs1, xs2)
-end // end of [list0_exists2]
+  | list0_cons
+      (x1, xs1) =>
+    (
+    case+ xs2 of
+    | list0_nil() =>
+      (sgn := 1; false)
+    | list0_cons
+        (x2, xs2) =>
+      (
+        if pred(x1, x2)
+          then (sgn := 0; true) else loop(xs1, xs2, sgn)
+        // end of [if]
+      ) (* end of [list0_cons] *)
+    )
+)
+} (* end of [list0_exists2_eq] *)
 
 (* ****** ****** *)
 
@@ -1158,10 +1181,12 @@ list0_iforall_method(xs) =
 implement
 {a1,a2}
 list0_forall2
-  (xs1, xs2, p) = let
-  var sgn: int // uninitialized
+  (xs1, xs2, p0) = let
+//
+var sgn: int // uninitized
+//
 in
-  list0_forall2_eq (xs1, xs2, p, sgn)
+  list0_forall2_eq<a1,a2>(xs1, xs2, p0, sgn)
 end // end of [list0_forall2]
 
 implement
@@ -1181,17 +1206,24 @@ loop
 ) : bool =
 (
   case+ xs1 of
-  | list0_nil() => (
+  | list0_nil() =>
+    (
     case+ xs2 of
-    | list0_nil() => (sgn := 0; true)
-    | list0_cons _ => (sgn := ~1; true)
+    | list0_nil() =>
+      (sgn := 0; true)
+    | list0_cons _ =>
+      (sgn := ~1; true)
     )
-  | list0_cons(x1, xs1) => (
+  | list0_cons
+      (x1, xs1) =>
+    (
     case+ xs2 of
-    | list0_nil() => (sgn := 1; true)
-    | list0_cons (x2, xs2) =>
+    | list0_nil() =>
+      (sgn := 1; true)
+    | list0_cons
+        (x2, xs2) =>
       (
-        if pred (x1, x2)
+        if pred(x1, x2)
           then loop(xs1, xs2, sgn) else (sgn := 0; false)
         // end of [if]
       ) (* end of [list0_cons] *)
