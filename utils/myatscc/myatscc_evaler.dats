@@ -316,6 +316,8 @@ case+ gvs of
 //
 ) (* end of [fname] *)
 
+(* ****** ****** *)
+
 fun
 fname_ext
 (
@@ -354,6 +356,142 @@ case+ gvs of
 //
 ) (* end of [fname_ext] *)
 
+(* ****** ****** *)
+
+fun
+arglst
+(
+  gvs: List(gvalue)
+) : gvalue =
+(
+case+ gvs of
+| list_nil() => GVnil()
+| list_cons(gv1, gvs) =>
+  (
+    case+ gvs of
+    | list_nil() => arglst_1(gv1)
+    | list_cons(gv2, _) => arglst_2(gv1, gv2)
+  )
+) (* end of [arglst] *)
+//
+and
+arglst_1
+(
+  gv1: gvalue
+) : gvalue =
+(
+case+ gv1 of
+| GVint(i1) => let
+    val args =
+    the_name_i_env_get()
+  in
+    arglst_concat(arglst_drop(args, i1))
+  end // end of [GVint]
+| _(*non-GVint*) => GVnil()
+) (* end of [arglst_1] *)
+//
+and
+arglst_2
+(
+  gv1: gvalue, gv2: gvalue
+) : gvalue =
+(
+case+ gv1 of
+| GVint(i1) =>
+  (
+  case+ gv2 of
+  | GVint(i2) => let
+      val args =
+      the_name_i_env_get()
+    in
+      arglst_concat
+      (
+      arglst_take(arglst_drop(args, i1), i2-i1)
+      ) (* arglst_concat *)
+    end // end of [GVint]
+  | _(*non-GVint*) => GVnil()
+  )
+| _(*non-GVint*) => GVnil()
+) (* end of [arglst_2] *)
+//
+and
+arglst_drop
+(
+xs: list0(gvalue), i: int
+) : list0(gvalue) =
+//
+(
+if
+(i > 0)
+then
+(
+case+ xs of
+| list0_nil() => list0_nil()
+| list0_cons(_, xs) => arglst_drop(xs, i-1)
+) else (xs) // end of [else]
+) (* end of [arglst_drop] *)
+//
+and
+arglst_take
+(
+xs: list0(gvalue), i: int
+) : list0(gvalue) =
+//
+(
+if
+(i > 0)
+then
+(
+case+ xs of
+| list0_nil() => list0_nil()
+| list0_cons
+    (x, xs) => list0_cons(x, arglst_take(xs, i-1))
+  // list0_cons
+) else list0_nil(*void*)
+) (* end of [arglst_take] *)
+//
+and
+arglst_concat
+(
+xs: list0(gvalue)
+) : gvalue = let
+//
+fun
+auxlst
+(
+xs: list0(gvalue), i: &int >> int
+) : list0(string) = let
+//
+val sep = " "
+//
+in
+//
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  (
+  case+ x of
+  | GVstring(x) => let
+      val xs = auxlst(xs, i)
+      val xs =
+      (
+        if i > 0 then list0_cons(sep, xs) else xs
+      ) : list0(string)
+    in
+      i := i + 1; list0_cons(x, xs)
+    end // end of [GVstring]
+  | _(*non-GVstring*) => auxlst(xs, i)
+  )
+//
+end // end of [auxlst]
+//
+in
+  let var i: int = 0 in GVstring(stringlst_concat(auxlst(xs, i))) end
+end // end of [arglst_concat]
+
+(* ****** ****** *)
+
 in (* in-of-local *)
 
 implement
@@ -364,8 +502,13 @@ reassume myexpfun_type
 //
 in
 //
-the_myexpfun_map_insert("fname", lam(gvs) => fname(gvs));
-the_myexpfun_map_insert("fname_ext", lam(gvs) => fname_ext(gvs));
+the_myexpfun_map_insert
+  ("fname", lam(gvs) => fname(gvs));
+the_myexpfun_map_insert
+  ("fname_ext", lam(gvs) => fname_ext(gvs));
+//
+the_myexpfun_map_insert
+  ("arglst", lam(gvs) => arglst(gvs));
 //
 end // end of [the_myexpfun_map_initize]
 
