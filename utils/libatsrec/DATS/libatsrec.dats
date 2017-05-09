@@ -29,8 +29,7 @@ UN =
 (* ****** ****** *)
 //
 implement
-line_is_key
-  (line) = let
+line_is_key(line) = let
 //
 fnx
 loop0
@@ -47,14 +46,12 @@ if
 isneqz(c)
 then
 (
-if c = '\['
-  then
-  loop1
-    (ptr_succ<char>(p), 1)
-  // then
-  else (~1)
+if (
+c != '\['
+) then (~1)
+  else loop1(ptr_succ<char>(p), 1(*pos*))
 // end of [if]
-)
+) (* end of [then] *)
 else (~1) // end of [else]
 //
 end // end of [loop0]
@@ -65,8 +62,8 @@ loop1
  p: ptr, i: int
 ) : int = let
 //
-  val c =
-  $UN.ptr0_get<char>(p)
+val c =
+$UN.ptr0_get<char>(p)
 //
 in
 //
@@ -93,7 +90,7 @@ ifcase
       then loop1(ptr_succ<char>(p), i+2) else (~1)
     // end of [if]
   end // end of [BACKSLASH]
-| _ (* rest-of-char *) => loop1(ptr_succ<char>(p), i+1)
+| _ (*rest-of-char*) => loop1(ptr_succ<char>(p), i+1)
 )
 else (~1) // end of [else]
 //
@@ -136,16 +133,22 @@ loop0
 if
 (n > 0)
 then let
-  val c =
-  $UN.ptr0_get<char>(p)
+//
+val c =
+$UN.ptr0_get<char>(p)
+//
 in
-  if isneqz(c)
-    then (
-      if
-      (c = '#')
-      then loop0(ptr_succ<char>(p), n-1)
-      else false
-    ) else false // end of [if]
+//
+if
+isneqz(c)
+then
+(
+if (
+c != '#'
+) then false
+  else loop0(ptr_succ<char>(p), n-1)
+// end of [if]
+) else false // end of [if]
 end // end of [then]
 else true // end of [else]
 //
@@ -311,6 +314,8 @@ in
   strptr_free(line)
 end // end of [linenum_free]
 
+(* ****** ****** *)
+
 fun
 linenum_is_nil
 (
@@ -386,11 +391,22 @@ ys: List0_vt(linenum_vt)
 (
 //
 case+ !xs of
-| ~stream_vt_nil() =>
-   stream_vt_cons
-   (ys, stream_vt_make_nil())
-| ~stream_vt_cons(x, xs) =>
-  (
+//
+| ~stream_vt_nil
+    () => let
+    val ys =
+      list_vt_reverse(ys)
+    // end of [val]
+    val ys = lines_drop_nil(ys)
+  in
+    stream_vt_cons
+    ( ys
+    , stream_vt_make_nil()
+    ) (* stream_vt_cons *)
+  end // end of [stream_vt_nil]
+//
+| ~stream_vt_cons
+    (x, xs) => (
     if
     linenum_is_delim(x)
     then let
@@ -409,7 +425,7 @@ case+ !xs of
     (
       auxmain(xs, list_vt_cons(x, ys))
     ) (* end of [else] *)
-  )
+  ) (* end of [stream_vt_cons] *)
 //
 ) (* end of [auxmain] *)
 //
@@ -436,6 +452,7 @@ xs = linenumlst_vt
 fun
 loop0(xs: xs): void =
 (
+//
 case+ xs of
 | ~list_vt_nil() => ()
 | ~list_vt_cons(x, xs) => let
@@ -445,23 +462,27 @@ case+ xs of
     $UN.strptr2string(lcs)
     val kend = line_is_key(cs2)
   in
-    if kend >= 0
-      then let
-        val key =
-        line_get_key(cs2, kend)
-      in
-        loop1(lcs, kend, xs, key)
-      end // end of [then]
-      else let
-        val () = strptr_free(lcs)
-        val () =
-        prerrln!
-          ("line(", n, "): key is missing!")
-        // end of [val]
-      in
-        loop0(xs) // HX: continue to process the rest
-      end // end of [else]
-  end
+    if
+    kend >= 0
+    then let
+      val key =
+      line_get_key(cs2, kend)
+    in
+      loop1(lcs, kend, xs, key)
+    end // end of [then]
+    else let
+      val () =
+      prerrln!
+        ("line(", n+1, ") = (", cs2, ")")
+      // end of [val]
+      val () =
+      prerrln!
+        ("line(", n+1, "): key is missing!")
+      // end of [val]
+      val () = strptr_free(lcs) in loop0(xs)
+    end // end of [else]
+  end // end of [list_vt_cons]
+//
 ) (* end of [loop0] *)
 //
 and
@@ -537,16 +558,17 @@ case+ xs of
       then () where
       {
         val _1_ =
-        stringbuf_insert_char<>(buf, '\n')
+        stringbuf_insert_char<>
+          (buf, '\n')
+        // end of [val]
       } (* end of [then] *)
       val cs2 =
         $UN.strptr2string(lcs)
       val neol =
         line_add_value_cont(cs2, buf)
-      val ((*freed*)) = strptr_free(lcs)
     in
-      loop2(xs, neol, buf, key)
-    end
+      strptr_free(lcs); loop2(xs, neol, buf, key)
+    end (* end of [else] *)
   end // end of [list_vt_cons]
 )
 //

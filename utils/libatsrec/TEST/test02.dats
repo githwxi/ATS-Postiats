@@ -36,8 +36,8 @@ implement
 process_key_value<>
   (key, value) = let
 //
-val () = println!("key = ", key)
-val () = println!("value = ", value)
+val () = println!("key = (", key, ")")
+val () = println!("value = (", value, ")")
 //
 in
   strptr_free(key) ; strptr_free(value)
@@ -55,17 +55,19 @@ val-
 ~Some_vt(inp) = opt
 val xs =
   streamize_fileref_line(inp)
+//
 val nxs = stream_vt_labelize(xs)
-val lines = stream_vt_map_fun(nxs, lam(nx) => LINENUM(nx.0, nx.1))
-val liness = lines_grouping(lines)
 //
-val-
-~stream_vt_cons(lines, liness) = !liness
+val lines =
+  stream_vt_map_fun(nxs, lam(nx) => LINENUM(nx.0, nx.1))
 //
-val ((*processed*)) = process_linenumlst(lines)
+val glines = lines_grouping(lines)
+//
+val ((*void*)) =
+  stream_vt_foreach_cloptr(glines, lam(x) => process_linenumlst(x))
 //
 in
-    ~liness; fileref_close(inp)
+  fileref_close(inp)
 end // end of [main0]
 
 (* ****** ****** *)
