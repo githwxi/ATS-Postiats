@@ -107,19 +107,11 @@ end // end of [list_is_key]
 
 implement
 line_get_key
-  (line) = let
-//
-val line = g1ofg0(line)
-val kend = line_is_key(line)
-//
-in
+  (line, kend) = (
 //
 if
-(kend >= 0)
+(kend >= 3)
 then let
-//
-val () =
-assertloc(kend >= 3)
 //
 val key =
 string_make_substring
@@ -135,12 +127,12 @@ in
 end // end of [then]
 else None_vt((*void*))
 //
-end // end of [line_get_key]
+) (* end of [line_get_key] *)
 
 (* ****** ****** *)
 
 implement
-line_is_comment
+line_is_nsharp
   (line, nsharp) = let
 //
 fun
@@ -157,10 +149,10 @@ then let
 in
   if isneqz(c)
     then (
-      if c = '#'
-        then loop0(ptr_succ<char>(p), n-1)
-        else false
-      // end of [if]
+      if
+      (c = '#')
+      then loop0(ptr_succ<char>(p), n-1)
+      else false
     ) else false // end of [if]
 end // end of [then]
 else true // end of [else]
@@ -170,6 +162,147 @@ else true // end of [else]
 in
   loop0(string2ptr(line), nsharp)
 end // end of [line_is_comment]
+
+(* ****** ****** *)
+
+implement
+line_add_value
+(
+  line, kend, buf
+) = let
+//
+fun
+loop0
+(
+ p: ptr, buf: !stringbuf
+) : int = let
+//
+val c =
+$UN.ptr0_get<char>(p)
+//
+in
+ifcase
+| isspace(c) =>
+  loop0(ptr_succ<char>(p), buf)
+| _(* else *) =>
+  loop1(c, ptr_succ<char>(p), buf)
+end // end of [loop0]
+//
+and
+loop1
+(
+ c: char, p1: ptr, buf: !stringbuf
+) : int = let
+//
+val c = g1ofg0_char(c)
+//
+in
+//
+ifcase
+| (c = '\\') => let
+    val c1 = 
+    $UN.ptr0_get<char>(p1)
+    val c1 = g1ofg0_char(c1)
+  in
+    if
+    isneqz(c1)
+    then let
+      val _1_ =
+      stringbuf_insert_char<>
+        (buf, c)
+      // end of [val]
+    in
+      loop1
+      (c1, ptr_succ<char>(p1), buf)
+    end // end of [then]
+    else (1) // end of [else]
+  end // end of [BACKSLASH]
+| _(* else *) =>
+  (
+    if
+    isneqz(c)
+    then let
+      val _1_ =
+      stringbuf_insert_char<>
+        (buf, c)
+      // end of [val]
+      val c1 =
+      $UN.ptr0_get<char>(p1)
+    in
+      loop1(c1, ptr_succ<char>(p1), buf)
+    end // end of [then]
+    else (0) // end of [else]
+  ) // end of [else]
+//
+end // end of [loop1]
+//
+in
+//
+loop0
+(ptr_add<char>(string2ptr(line), kend), buf)
+//
+end (* end of [line_add_value] *)
+
+(* ****** ****** *)
+
+implement
+line_add_value_cont
+  (line, buf) = let
+//
+fun
+loop1
+(
+ c: char, p1: ptr, buf: !stringbuf
+) : int = let
+//
+val c = g1ofg0_char(c)
+//
+in
+//
+ifcase
+| (c = '\\') => let
+    val c1 = 
+    $UN.ptr0_get<char>(p1)
+    val c1 = g1ofg0_char(c1)
+  in
+    if
+    isneqz(c1)
+    then let
+      val _1_ =
+      stringbuf_insert_char<>
+        (buf, c)
+      // end of [val]
+    in
+      loop1
+      (c1, ptr_succ<char>(p1), buf)
+    end // end of [then]
+    else (1) // end of [else]
+  end // end of [BACKSLASH]
+| _(* else *) =>
+  (
+    if
+    isneqz(c)
+    then let
+      val _1_ =
+      stringbuf_insert_char<>
+        (buf, c)
+      // end of [val]
+      val c1 =
+      $UN.ptr0_get<char>(p1)
+    in
+      loop1(c1, ptr_succ<char>(p1), buf)
+    end // end of [then]
+    else (0) // end of [else]
+  ) // end of [else]
+//
+end // end of [loop1]
+//
+val p = string2ptr(line)
+val c = $UN.ptr0_get<char>(p)
+//
+in
+  loop1(c, ptr_succ<char>(p), buf)
+end // end of [line_add_value_cont]
 
 (* ****** ****** *)
 

@@ -8,6 +8,11 @@
 *)
 (* ****** ****** *)
 //
+#staload
+"libats/SATS/stringbuf.sats"
+//
+(* ****** ****** *)
+//
 fun
 line_is_key
 {n:int}(line: string(n)): intLt(n)
@@ -16,14 +21,34 @@ line_is_key
 //
 fun
 line_get_key
-  (line: string): Option_vt(Strptr1)
+  {n:int}
+(
+  line: string(n), kend: intBtw(0, n)
+) : Option_vt(Strptr1)
 //
 (* ****** ****** *)
 //
 fun
-line_is_comment
+line_is_nsharp
   (line: string, nsharp: intGte(1)): bool
 //
+(* ****** ****** *)
+//
+fun
+line_add_value
+  {n:int}
+(
+  line: string(n)
+, kend: intBtw(0, n), buf: !stringbuf
+) : int // end of [line_add_value]
+//
+fun
+line_add_value_cont
+  (line: string, buf: !stringbuf): int
+//
+(* ****** ****** *)
+
+
 (* ****** ****** *)
 
 (* end of [libatsrec.sats] *)
