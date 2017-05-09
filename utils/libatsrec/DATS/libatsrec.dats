@@ -107,27 +107,19 @@ end // end of [list_is_key]
 
 implement
 line_get_key
-  (line, kend) = (
+  (line, kend) = let
 //
-if
-(kend >= 3)
-then let
+val () = assertloc(kend >= 3)
 //
 val key =
 string_make_substring
   (line, i2sz(1), i2sz(kend-3))
 //
-prval() =
-  lemma_strnptr_param(key)
+prval() = lemma_strnptr_param(key)
 //
 in
-//
-  Some_vt(strnptr2strptr(key))
-//
-end // end of [then]
-else None_vt((*void*))
-//
-) (* end of [line_get_key] *)
+  strnptr2strptr(key)
+end (* end of [line_get_key] *)
 
 (* ****** ****** *)
 
@@ -303,6 +295,187 @@ val c = $UN.ptr0_get<char>(p)
 in
   loop1(c, ptr_succ<char>(p), buf)
 end // end of [line_add_value_cont]
+
+(* ****** ****** *)
+
+implement
+line_lines_get_key_value
+  (x0, xs) =
+  (key, value) where
+{
+//
+val x0 = g1ofg0(x0)
+//
+val
+kend = line_is_key(x0)
+//
+val () = assertloc(kend >= 0)
+//
+val key = line_get_key(x0, kend)
+//
+val buf = stringbuf_make_nil(1024)
+//
+val neol = line_add_value(x0, kend, buf)
+//
+val value = let
+//
+fun
+loop
+(
+  neol: int
+, lines: List(string), buf: !stringbuf
+) : void =
+(
+case+ lines of
+| list_nil() => ()
+| list_cons(x, xs) =>
+  loop(neol, xs, buf) where
+  {
+    val () =
+    if
+    (neol = 0)
+    then () where
+    {
+      val _ =
+      stringbuf_insert_char<>(buf, '\n')
+    } (* end of [then] *)
+    val neol = line_add_value_cont(x, buf)
+  } (* end of [loop] *)
+)
+//
+in
+  loop(neol, xs, buf); stringbuf_getfree_strptr(buf)
+end // end of [val]
+//
+} (* end of [line_lines_get_key_value] *)
+
+(* ****** ****** *)
+
+fun
+linenum_free
+(
+  line: linenum_vt
+) : void = let
+//
+val+
+~LINENUM(_, line) = line
+//
+in
+  strptr_free(line)
+end // end of [linenum_free]
+
+fun
+linenum_is_nil
+(
+  line: !linenum_vt
+) : bool = let
+//
+val LINENUM(_, line) = line
+//
+in
+//
+string_is_empty
+  ($UN.strptr2string(line))
+//
+end // end of [linenum_is_nil]
+
+fun
+linenum_is_delim
+(
+  line: !linenum_vt
+) : bool = let
+//
+val LINENUM(_, line) = line
+//
+in
+//
+line_is_nsharp
+  ($UN.strptr2string(line), 6)
+//
+end // end of [linenum_is_delim]
+
+(* ****** ****** *)
+
+fun
+lines_drop_nil
+(
+xs: List_vt(linenum_vt)
+) : List0_vt(linenum_vt) =
+(
+case+ xs of
+| ~list_vt_nil
+    () => list_vt_nil()
+| @list_vt_cons
+    (x, xs_tl) => let
+    val
+    isnil = linenum_is_nil(x)
+  in
+    if isnil
+      then let
+        val xs_tl = xs_tl
+        val ((*void*)) = linenum_free(x)
+        val ((*freed*)) = free@{..}{0}(xs)
+      in
+        lines_drop_nil(xs_tl)
+      end else (fold@(xs); xs)
+    // end of [if]
+  end // end of [list_vt_cons]
+) (* end of [lines_drop_nil] *)
+
+(* ****** ****** *)
+
+implement
+lines_grouping
+  (xs) = let
+//
+fun
+auxmain
+(
+xs:
+stream_vt(linenum_vt)
+,
+ys: List0_vt(linenum_vt)
+) : stream_vt_con(linenumlst_vt) =
+(
+//
+case+ !xs of
+| ~stream_vt_nil() =>
+   stream_vt_cons
+   (ys, stream_vt_make_nil())
+| ~stream_vt_cons(x, xs) =>
+  (
+    if
+    linenum_is_delim(x)
+    then let
+      val () =
+        linenum_free(x)
+      val ys =
+        lines_drop_nil(ys)
+      val ys =
+        list_vt_reverse(ys)
+      // end of [val]
+      val ys = lines_drop_nil(ys)
+    in
+      stream_vt_cons
+        (ys, lines_grouping(xs))
+      // end of [stream_vt_cons]
+    end // end of [then]
+    else
+    (
+      auxmain(xs, list_vt_cons(x, ys))
+    ) (* end of [else] *)
+  )
+//
+) (* end of [auxmain] *)
+//
+in
+//
+$ldelay
+(
+  auxmain(xs, list_vt_nil(*void*)), (~xs)
+) (* $ldelay *)
+//
+end // end of [lines_grouping]
 
 (* ****** ****** *)
 

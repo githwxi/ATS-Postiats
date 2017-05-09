@@ -24,7 +24,7 @@ line_get_key
   {n:int}
 (
   line: string(n), kend: intBtw(0, n)
-) : Option_vt(Strptr1)
+) : Strptr1
 //
 (* ****** ****** *)
 //
@@ -47,8 +47,28 @@ line_add_value_cont
   (line: string, buf: !stringbuf): int
 //
 (* ****** ****** *)
-
-
+//
+fun
+line_lines_get_key_value
+(
+  line: string, lines: List(string)
+) : (Strptr1(*key*), Strptr1(*value*))
+//
+(* ****** ****** *)
+//
+datavtype
+linenum_vt =
+| LINENUM of (int, Strptr1)
+//
+where
+linenumlst_vt = List0_vt(linenum_vt)
+//
+(* ****** ****** *)
+//
+fun
+lines_grouping
+(stream_vt(linenum_vt)): stream_vt(linenumlst_vt)
+//
 (* ****** ****** *)
 
 (* end of [libatsrec.sats] *)
