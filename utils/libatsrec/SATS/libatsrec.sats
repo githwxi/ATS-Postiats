@@ -48,14 +48,6 @@ line_add_value_cont
 //
 (* ****** ****** *)
 //
-fun
-line_lines_get_key_value
-(
-  line: string, lines: List(string)
-) : (Strptr1(*key*), Strptr1(*value*))
-//
-(* ****** ****** *)
-//
 datavtype
 linenum_vt =
 | LINENUM of (int, Strptr1)
@@ -67,7 +59,20 @@ linenumlst_vt = List0_vt(linenum_vt)
 //
 fun
 lines_grouping
-(stream_vt(linenum_vt)): stream_vt(linenumlst_vt)
+(
+xs: stream_vt(linenum_vt)
+) : stream_vt(linenumlst_vt)
+//
+(* ****** ****** *)
+//
+fun{}
+process_key_value
+  (key: Strptr1, value: Strptr1): void
+//
+(* ****** ****** *)
+//
+fun{}
+process_linenumlst(linenumlst_vt): void
 //
 (* ****** ****** *)
 

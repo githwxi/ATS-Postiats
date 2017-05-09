@@ -298,59 +298,6 @@ end // end of [line_add_value_cont]
 
 (* ****** ****** *)
 
-implement
-line_lines_get_key_value
-  (x0, xs) =
-  (key, value) where
-{
-//
-val x0 = g1ofg0(x0)
-//
-val
-kend = line_is_key(x0)
-//
-val () = assertloc(kend >= 0)
-//
-val key = line_get_key(x0, kend)
-//
-val buf = stringbuf_make_nil(1024)
-//
-val neol = line_add_value(x0, kend, buf)
-//
-val value = let
-//
-fun
-loop
-(
-  neol: int
-, lines: List(string), buf: !stringbuf
-) : void =
-(
-case+ lines of
-| list_nil() => ()
-| list_cons(x, xs) =>
-  loop(neol, xs, buf) where
-  {
-    val () =
-    if
-    (neol = 0)
-    then () where
-    {
-      val _ =
-      stringbuf_insert_char<>(buf, '\n')
-    } (* end of [then] *)
-    val neol = line_add_value_cont(x, buf)
-  } (* end of [loop] *)
-)
-//
-in
-  loop(neol, xs, buf); stringbuf_getfree_strptr(buf)
-end // end of [val]
-//
-} (* end of [line_lines_get_key_value] *)
-
-(* ****** ****** *)
-
 fun
 linenum_free
 (
@@ -450,8 +397,6 @@ case+ !xs of
       val () =
         linenum_free(x)
       val ys =
-        lines_drop_nil(ys)
-      val ys =
         list_vt_reverse(ys)
       // end of [val]
       val ys = lines_drop_nil(ys)
@@ -476,6 +421,136 @@ $ldelay
 ) (* $ldelay *)
 //
 end // end of [lines_grouping]
+
+(* ****** ****** *)
+
+implement
+process_linenumlst<>
+  (lines) =
+  loop0(lines) where
+{
+//
+vtypedef
+xs = linenumlst_vt
+//
+fun
+loop0(xs: xs): void =
+(
+case+ xs of
+| ~list_vt_nil() => ()
+| ~list_vt_cons(x, xs) => let
+    val+
+    ~LINENUM(n, lcs) = x
+    val cs2 =
+    $UN.strptr2string(lcs)
+    val kend = line_is_key(cs2)
+  in
+    if kend >= 0
+      then let
+        val key =
+        line_get_key(cs2, kend)
+      in
+        loop1(lcs, kend, xs, key)
+      end // end of [then]
+      else let
+        val () = strptr_free(lcs)
+        val () =
+        prerrln!
+          ("line(", n, "): key is missing!")
+        // end of [val]
+      in
+        loop0(xs) // HX: continue to process the rest
+      end // end of [else]
+  end
+) (* end of [loop0] *)
+//
+and
+loop1
+(
+lcs: Strptr1,
+kend: intGte(0), xs: xs, key: Strptr1
+) : void = let
+//
+val cs2 =
+  $UN.strptr2string(lcs)
+val buf =
+  stringbuf_make_nil(1024)
+val neol = let
+  extern
+  prfun
+  __assert__
+    {n,k:int}
+  (
+    cs2: string(n), kend: int(k)
+   ) : [k < n] void
+  prval () = __assert__(cs2, kend)
+in
+  line_add_value(cs2, kend, buf)
+end (* end of [val] *)
+//
+in
+  strptr_free(lcs); loop2(xs, neol, buf, key)
+end // end of [loop1]
+//
+and
+loop2
+(
+xs: xs, neol: int,
+buf: stringbuf, key: Strptr1
+) : void =
+(
+case+ xs of
+| ~list_vt_nil() =>
+  {
+    val
+    value =
+    stringbuf_getfree_strptr(buf)
+    val ((*void*)) =
+    process_key_value<>(key, value)
+  }
+| ~list_vt_cons(x, xs) => let
+    val+
+    ~LINENUM(n, lcs) = x
+    val cs2 =
+    $UN.strptr2string(lcs)
+    val kend = line_is_key(cs2)
+  in
+    if
+    kend >= 0
+    then
+    loop1
+    (lcs, kend, xs, key) where
+    {
+//
+      val
+      value =
+      stringbuf_getfree_strptr(buf)
+      val ((*void*)) =
+      process_key_value<>(key, value)
+//
+      val key = line_get_key(cs2, kend)
+    } (* end of [then] *)
+    else let
+      val () =
+      if
+      (neol = 0)
+      then () where
+      {
+        val _1_ =
+        stringbuf_insert_char<>(buf, '\n')
+      } (* end of [then] *)
+      val cs2 =
+        $UN.strptr2string(lcs)
+      val neol =
+        line_add_value_cont(cs2, buf)
+      val ((*freed*)) = strptr_free(lcs)
+    in
+      loop2(xs, neol, buf, key)
+    end
+  end // end of [list_vt_cons]
+)
+//
+} (* end of [process_linenumlst] *)
 
 (* ****** ****** *)
 
