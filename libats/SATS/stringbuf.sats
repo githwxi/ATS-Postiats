@@ -32,10 +32,15 @@
 (* Start time: July, 2013 *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.stringbuf"
-#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
-
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.stringbuf"
+//
+// HX: prefix for external names
+//
+#define ATS_EXTERN_PREFIX "atslib_"
+//
 (* ****** ****** *)
 
 %{#
@@ -57,7 +62,7 @@ fun{} stringbuf$recapacitize ((*void*)): int
 //
 (*
 fun{}
-stringbuf_make_nil (cap: sizeGte(1)): stringbuf
+stringbuf_make_nil(cap: sizeGte(1)): stringbuf
 *)
 //
 fun{}
@@ -71,10 +76,10 @@ overload stringbuf_make_nil with stringbuf_make_nil_size
 (* ****** ****** *)
 
 fun{}
-stringbuf_free (sbf: stringbuf):<!wrt> void
+stringbuf_free(sbf: stringbuf):<!wrt> void
 
 fun{}
-stringbuf_getfree_strptr (sbf: stringbuf):<!wrt> Strptr1
+stringbuf_getfree_strptr(sbf: stringbuf):<!wrt> Strptr1
 
 fun{}
 stringbuf_getfree_strnptr
@@ -84,16 +89,16 @@ stringbuf_getfree_strnptr
 (* ****** ****** *)
 
 fun{}
-stringbuf_get_size (sbf: !stringbuf):<> size_t
+stringbuf_get_size(sbf: !stringbuf):<> size_t
 fun{}
-stringbuf_get_capacity (sbf: !stringbuf):<> size_t
+stringbuf_get_capacity(sbf: !stringbuf):<> size_t
 
 (* ****** ****** *)
 
 fun{}
-stringbuf_get_bufptr (sbf: !stringbuf):<> Ptr1
+stringbuf_get_bufptr(sbf: !stringbuf):<> Ptr1
 fun{}
-stringbuf_get_strptr (sbf: !stringbuf):<!wrt> vStrptr1
+stringbuf_get_strptr(sbf: !stringbuf):<!wrt> vStrptr1
 
 (* ****** ****** *)
 
@@ -118,9 +123,9 @@ stringbuf_reset_capacity
 // HX: (-1) indicates error of bounds-checking
 //
 fun{}
-stringbuf_get_at (sbf: !stringbuf, i: size_t): int
+stringbuf_get_at(sbf: !stringbuf, i: size_t): int
 fun{}
-stringbuf_rget_at (sbf: !stringbuf, i: sizeGte(1)): int
+stringbuf_rget_at(sbf: !stringbuf, i: sizeGte(1)): int
 
 (* ****** ****** *)
 
@@ -129,13 +134,14 @@ symintr stringbuf_insert
 (* ****** ****** *)
 
 fun{}
-stringbuf_insert_char (!stringbuf, x: charNZ): int
+stringbuf_insert_char(!stringbuf, x: charNZ): int
 fun{}
-stringbuf_insert_string (!stringbuf, x: string): int
+stringbuf_insert_string(!stringbuf, x: string): int
 fun{}
-stringbuf_insert_strlen{n:int} (!stringbuf, string(n), size_t(n)): int
+stringbuf_insert_strlen
+  {n:int}(buf: !stringbuf, string n, size_t n): int
 fun{}
-stringbuf_insert_bool (sbf: !stringbuf, x: bool): int
+stringbuf_insert_bool(sbf: !stringbuf, x: bool): int
 
 (* ****** ****** *)
 
@@ -146,13 +152,13 @@ overload stringbuf_insert with stringbuf_insert_bool
 (* ****** ****** *)
 
 fun{}
-stringbuf_insert_int (sbf: !stringbuf, x: int): int
+stringbuf_insert_int(sbf: !stringbuf, x: int): int
 fun{}
-stringbuf_insert_uint (sbf: !stringbuf, x: uint): int
+stringbuf_insert_uint(sbf: !stringbuf, x: uint): int
 fun{}
-stringbuf_insert_lint (sbf: !stringbuf, x: lint): int
+stringbuf_insert_lint(sbf: !stringbuf, x: lint): int
 fun{}
-stringbuf_insert_ulint (sbf: !stringbuf, x: ulint): int
+stringbuf_insert_ulint(sbf: !stringbuf, x: ulint): int
 
 (* ****** ****** *)
 
@@ -187,12 +193,12 @@ stringbuf_insert_snprintf
 (* ****** ****** *)
 
 fun{a:t0p}
-stringbuf_insert_val (sbf: !stringbuf, x: a): int
+stringbuf_insert_val(sbf: !stringbuf, x: a): int
 
 (* ****** ****** *)
 
 fun{a:t0p}
-stringbuf_insert_list (sbf: !stringbuf, x: List(a)): int
+stringbuf_insert_list(sbf: !stringbuf, x: List(a)): int
 
 (* ****** ****** *)
 //
@@ -205,7 +211,7 @@ stringbuf_takeout
   (sbf: !stringbuf, i: size_t):<!wrt> Strptr1
 //
 fun{}
-stringbuf_takeout_all (sbf: !stringbuf):<!wrt> Strptr1
+stringbuf_takeout_all(sbf: !stringbuf):<!wrt> Strptr1
 //
 (* ****** ****** *)
 //
@@ -214,7 +220,7 @@ stringbuf_remove
   (sbf: !stringbuf, i: size_t):<!wrt> void
 //
 fun{}
-stringbuf_remove_all (sbf: !stringbuf):<!wrt> void
+stringbuf_remove_all(sbf: !stringbuf):<!wrt> void
 //
 (* ****** ****** *)
 
@@ -236,7 +242,7 @@ stringbuf_truncout
 // it does the same as [stringbuf_takeout_all]
 //
 fun{}
-stringbuf_truncout_all (sbf: !stringbuf):<!wrt> Strptr1
+stringbuf_truncout_all(sbf: !stringbuf):<!wrt> Strptr1
 //
 (* ****** ****** *)
 

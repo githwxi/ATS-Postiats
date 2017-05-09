@@ -6,8 +6,10 @@ ATSCODEFORMAT "txt"
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
 //
-val _thisfilename = atext_strcst"list_vt.dats"
-val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+val
+_thisfilename = atext_strcst"list_vt.dats"
+val ((*void*)) =
+theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
 #atscode_banner()
@@ -24,8 +26,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 #atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 #atscode_start_time("Feburary, 2012")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 
 #atscode_separator()
 //
@@ -785,55 +787,6 @@ end // end of [list_vt_concat]
 
 implement
 {a}(*tmp*)
-list_vt_separate(xs) = let
-//
-prval() = lemma_list_vt_param(xs)
-//
-fun loop
-  {n:nat} .<n>. (
-  xs: list_vt(a, n)
-, res1: &ptr? >> list_vt(a, n1)
-, res2: &ptr? >> list_vt(a, n2)
-) : #[n1,n2:nat | n1+n2==n] void = let
-in
-//
-case+ xs of
-| @list_vt_cons
-    (x, xs_tl) => let
-    val xs_tl_v = xs_tl
-    val test = list_vt_separate$pred (x)
-  in
-    if test then let
-      val () = res1 := xs
-      val () = loop(xs_tl_v, xs_tl, res2)
-    in
-      fold@ (res1)
-    end else let
-      val () = res2 := xs
-      val () = loop(xs_tl_v, res1, xs_tl)
-    in
-      fold@ (res2)
-    end // end of [if]
-  end // end of [list_vt_cons]
-| ~list_vt_nil () => (
-    res1 := list_vt_nil; res2 := list_vt_nil
-  ) (* end of [list_vt_nil] *)
-//
-end // end of [loop]
-//
-var res1: ptr
-var res2: ptr
-val () = loop(xs, res1, res2)
-val () = xs := res1
-//
-in
-  res2
-end // end of [list_vt_separate]
-
-#atscode_separator()
-
-implement
-{a}(*tmp*)
 list_vt_filter(xs) = let
 //
 implement
@@ -900,6 +853,127 @@ end // end of [list_vt_filterlin]
 implement
 {a}(*tmp*)
 list_vt_filterlin$clear(x) = gclear_ref<a>(x)
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+list_vt_separate
+  (xs, n1) = res2 where
+{
+//
+prval() = lemma_list_vt_param(xs)
+//
+fun
+loop
+{k,n:nat} .<n>.
+(
+  xs: list_vt(a, n)
+, n1: &int(k) >> int(n1+k)
+, res1: &ptr? >> list_vt(a, n1)
+, res2: &ptr? >> list_vt(a, n2)
+) : #[n1,n2:nat | n1+n2==n] void =
+(
+//
+case+ xs of
+| ~list_vt_nil() =>
+  (
+    res1 := list_vt_nil();
+    res2 := list_vt_nil();
+  ) (* end of [list_vt_nil] *)
+| @list_vt_cons
+    (x, xs_tl) => let
+    val xs_tl_ = xs_tl
+    val test =
+      list_vt_separate$pred<a>(x)
+    // end of [val]
+  in
+    if test
+      then let
+      val () = n1 := n1+1
+      val () = res1 := xs
+      val () = loop(xs_tl_, n1, xs_tl, res2)
+    in
+      fold@(res1)
+    end else let
+      val () = res2 := xs
+      val () = loop(xs_tl_, n1, res1, xs_tl)
+    in
+      fold@(res2)
+    end // end of [if]
+  end // end of [list_vt_cons]
+//
+) (* end of [loop] *)
+//
+var res1: ptr
+var res2: ptr
+//
+val () = n1 := 0
+val () = loop(xs, n1, res1, res2)
+val () = xs := res1
+//
+} (* end of [list_vt_separate] *)
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+list_vt_take_until
+  (xs, n1) = res1 where
+{
+//
+prval() = lemma_list_vt_param(xs)
+//
+fun
+loop
+{k,n:nat} .<n>.
+(
+  xs: list_vt(a, n)
+, n1: &int(k) >> int(n1+k)
+, res1: &ptr? >> list_vt(a, n1)
+, res2: &ptr? >> list_vt(a, n2)
+) : #[n1,n2:nat | n1+n2==n] void =
+(
+//
+case+ xs of
+| ~list_vt_nil() =>
+  (
+    res1 := list_vt_nil();
+    res2 := list_vt_nil();
+  ) (* end of [list_vt_nil] *)
+| @list_vt_cons
+    (x, xs_tl) => let
+    val test =
+      list_vt_take_until$pred<a>(x)
+    // end of [val]
+  in
+    if test
+      then let
+      val () =
+      res1 := list_vt_nil
+      val () = res2 := xs
+    in
+      fold@(res2) // folded
+    end else let
+      val xs_tl_ = xs_tl
+      val () = n1 := n1+1
+      val () = res1 := xs
+      val () = loop(xs_tl_, n1, xs_tl, res2)
+    in
+      fold@(res1) // folded
+    end // end of [if]
+  end // end of [list_vt_cons]
+//
+) (* end of [loop] *)
+//
+var res1: ptr
+var res2: ptr
+//
+val () = n1 := 0
+val () = loop(xs, n1, res1, res2)
+val () = xs := res2
+//
+} (* end of [list_vt_take_until] *)
 
 #atscode_separator()
 

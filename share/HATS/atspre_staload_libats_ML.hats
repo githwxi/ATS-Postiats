@@ -46,6 +46,7 @@ staload _ =
 staload _ =
 "{$PATSLIBATS}/ML/DATS/matrix0.dats"
 //
+(* ****** ****** *)
 //
 staload
 "{$PATSLIBATS}/ML/SATS/string.sats"
@@ -55,6 +56,8 @@ staload _ =
 "{$PATSLIBATS}/ML/DATS/string.dats"
 staload _ =
 "{$PATSLIBATS}/ML/DATS/strarr.dats"
+//
+(* ****** ****** *)
 //
 staload
 "{$PATSLIBATS}/ML/SATS/stream.sats"

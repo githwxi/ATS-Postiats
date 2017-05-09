@@ -16,8 +16,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 #atscode_author("Hongwei Xi")
-#atscode_authoremail("gmhwxiATgmailDOTcom")
 #atscode_start_time("Feburary, 2012")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
 
 #atscode_separator()
 

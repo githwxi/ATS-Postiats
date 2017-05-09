@@ -28,14 +28,24 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom *)
 (* Start time: July, 2012 *)
+(* Authoremail: gmhwxiATgmailDOTcom *)
 
 (* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
-
+//
+// HX:
+// no need for
+// dynloading at run-time
+//
+#define
+ATS_DYNLOADFLAG 0
+//
+// HX:
+// prefix for external names
+//
+#define
+ATS_EXTERN_PREFIX "atslib_ML_"
+//
 (* ****** ****** *)
 //
 #include

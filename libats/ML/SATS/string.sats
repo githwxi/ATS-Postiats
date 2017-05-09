@@ -28,14 +28,20 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmmhwxiATgmailDOTcom *)
 (* Start time: July, 2012 *)
+(* Authoremail: gmmhwxiATgmailDOTcom *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
-
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.ML"
+//
+// prefix for external names
+//
+#define
+ATS_EXTERN_PREFIX "atslib_ML_"
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
