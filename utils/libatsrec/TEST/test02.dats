@@ -50,16 +50,14 @@ main0(argc, argv) = let
 //
 val opt =
 fileref_open_opt
-  ("theQuestionDB.arec", file_mode_r)
+  ("DATA/theQuestionDB.arec", file_mode_r)
 val-
 ~Some_vt(inp) = opt
 val xs =
   streamize_fileref_line(inp)
 //
-val nxs = stream_vt_labelize(xs)
-//
 val lines =
-  stream_vt_map_fun(nxs, lam(nx) => LINENUM(nx.0, nx.1))
+  stream_vt_imap_fun(xs, lam(n, x) => LINENUM(n, x))
 //
 val glines = lines_grouping(lines)
 //

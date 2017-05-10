@@ -891,9 +891,12 @@ stream_vt_map_cloptr
 //
 fun
 auxmain:
-$d2ctype(stream_vt_map_cloptr<a><b>) =
-lam(xs, fopr) => $ldelay
+$d2ctype
 (
+stream_vt_map_cloptr<a><b>
+) =
+lam(xs, fopr) => $ldelay (
+//
 let
   val xs_con = !xs
 in
@@ -921,11 +924,142 @@ in
 end // end of [let]
 ,
 (~xs; cloptr_free($UN.castvwtp0{cloptr0}(fopr)))
+//
 ) (* end of [auxmain] *)
 //
 in
   auxmain(xs, fopr)
 end // end of [stream_vt_map_cloptr]
+
+#atscode_separator()
+
+implement
+{a}{b}(*tmp*)
+stream_vt_imap(xs) = let
+//
+fun
+auxmain (
+//
+i0: intGte(0)
+,
+xs: stream_vt(a)
+//
+) : stream_vt(b) = $ldelay
+(
+//
+let
+  val xs_con = !xs
+in
+//
+case+
+xs_con
+of // case+
+//
+| ~stream_vt_nil
+    ((*void*)) => stream_vt_nil()
+  // end of [stream_vt_nil]
+| @stream_vt_cons(x, xs) => let
+    val y =
+    stream_vt_imap$fopr<a><b>(i0, x)
+    val xs = xs
+    val ((*void*)) = free@ (xs_con)
+  in
+    stream_vt_cons{b}(y, auxmain(i0+1, xs))
+  end (* end of [stream_vt_con] *)
+//
+end // end of [let]
+//
+,
+//
+(
+  ~xs
+) (* HX: for freeing the stream! *)
+//
+) (* end of [auxmain] *)
+//
+in
+  auxmain(0(*i*), xs)
+end // end of [stream_vt_imap]
+
+#atscode_separator()
+
+implement
+{a}{b}(*tmp*)
+stream_vt_imap_fun
+  (xs, fopr) = let
+//
+implement
+{a2}{b2}
+stream_vt_imap$fopr
+  (i, x) = res where
+{
+//
+prval() = __assert(x) where
+{
+  extern
+  praxi __assert(x: &a2 >> a2?!): void
+}
+val (
+  pf, fpf | p_x
+) = $UN.ptr0_vtake{a}(addr@x)
+val res =
+  $UN.castvwtp0{b2}(fopr(i, !p_x))
+//
+prval() = $UN.castview0{void}(@(fpf, pf))
+//
+} (* end of [stream_vt_map$fopr] *)
+//
+in
+  stream_vt_imap<a><b>(xs)
+end // end of [stream_vt_imap_fun]
+
+#atscode_separator()
+
+implement
+{a}{b}(*tmp*)
+stream_vt_imap_cloptr
+  (xs, fopr) = let
+//
+fun
+auxmain
+(
+i0: intGte(0),
+xs: stream_vt(a),
+fopr: (intGte(0), &a >> a?!) -<cloptr1> b
+) : stream_vt(b) = $ldelay
+(
+let
+  val xs_con = !xs
+in
+  case+ xs_con of
+  | ~stream_vt_nil
+      () => let
+    //
+      val () =
+      cloptr_free
+      (
+        $UN.castvwtp0{cloptr0}(fopr)
+      )
+    //
+    in
+      stream_vt_nil()
+    end // end of [stream_vt_nil]
+  | @stream_vt_cons
+      (x, xs) => let
+      val y = fopr(i0, x)
+      val xs = xs
+      val () = free@{a?}(xs_con)
+    in
+      stream_vt_cons(y, auxmain(i0+1, xs, fopr))
+    end // end of [stream_vt_cons]
+end // end of [let]
+,
+(~xs; cloptr_free($UN.castvwtp0{cloptr0}(fopr)))
+) (* end of [auxmain] *)
+//
+in
+  auxmain(0, xs, fopr)
+end // end of [stream_vt_imap_cloptr]
 
 #atscode_separator()
 

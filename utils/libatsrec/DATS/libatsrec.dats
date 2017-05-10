@@ -346,6 +346,21 @@ line_is_nsharp
 //
 end // end of [linenum_is_delim]
 
+fun
+linenum_is_cmmnt
+(
+  line: !linenum_vt
+) : bool = let
+//
+val LINENUM(_, line) = line
+//
+in
+//
+line_is_nsharp
+  ($UN.strptr2string(line), 1)
+//
+end // end of [linenum_is_cmmnt]
+
 (* ****** ****** *)
 
 fun
@@ -421,9 +436,19 @@ case+ !xs of
         (ys, lines_grouping(xs))
       // end of [stream_vt_cons]
     end // end of [then]
-    else
-    (
-      auxmain(xs, list_vt_cons(x, ys))
+    else (
+      if
+      linenum_is_cmmnt(x)
+      then let
+        val () =
+          linenum_free(x) in auxmain(xs, ys)
+        // end of [val]
+      end // end of [then]
+      else let
+        val ys =
+          list_vt_cons(x, ys) in auxmain(xs, ys)
+        // end of [val]
+      end // end of [else]
     ) (* end of [else] *)
   ) (* end of [stream_vt_cons] *)
 //
@@ -471,10 +496,12 @@ case+ xs of
       loop1(lcs, kend, xs, key)
     end // end of [then]
     else let
+(*
       val () =
       prerrln!
         ("line(", n+1, ") = (", cs2, ")")
       // end of [val]
+*)
       val () =
       prerrln!
         ("line(", n+1, "): key is missing!")

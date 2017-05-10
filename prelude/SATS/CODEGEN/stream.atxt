@@ -188,7 +188,7 @@ a:t0p}{b:t0p
 //
 fun{
 a:t0p}{b:t0p
-} stream_imap{n:int}
+} stream_imap
   (xs: stream(INV(a))):<!laz> stream(b)
 //
 fun{
