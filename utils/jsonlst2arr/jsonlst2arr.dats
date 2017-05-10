@@ -41,8 +41,6 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -54,6 +52,12 @@ UN = "prelude/SATS/unsafe.sats"
 
 staload "libats/libc/SATS/string.sats"
 
+(* ****** ****** *)
+//
+#define
+JSONC_targetloc
+"$PATSHOME/contrib/atscntrb-libjson-c"
+//
 (* ****** ****** *)
 
 staload "{$JSONC}/SATS/json.sats"

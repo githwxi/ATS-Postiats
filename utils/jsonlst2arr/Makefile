@@ -11,7 +11,6 @@ CC=gcc -std=c99 -D_XOPEN_SOURCE
 ######
 
 PATSHOMEQ="$(PATSHOME)"
-PATSHOMERELOCQ="$(PATSHOMERELOC)"
 
 ######
 
@@ -21,7 +20,7 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 ######
 
 CFLAGS :=
-CFLAGS +=-I$(PATSHOMERELOCQ)/contrib
+CFLAGS +=-I$(PATSHOME)/contrib
 CFLAGS += $(shell pkg-config --cflags json-c)
 
 ######

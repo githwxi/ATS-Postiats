@@ -16,28 +16,29 @@ staload
 EVP = "{$OPENSSL}/SATS/evp.sats"
 
 (* ****** ****** *)
-
-staload "./unpacking.sats"
-
+//
+(*
+#dynload "./unpacking.sats"
+*)
+#dynload "./unpacking.dats"
+//
 (* ****** ****** *)
 
-(*
-dynload "./unpacking.sats"
-*)
-dynload "./unpacking.dats"
+#staload "./../SATS/unpacking.sats"
 
 (* ****** ****** *)
 
 implement
-main0 (argc, argv) =
+main0(argc, argv) =
 {
 //
 val () =
-$EVP.OpenSSL_add_all_digests ()
+$EVP.OpenSSL_add_all_digests()
 //
-val nerr = unpack_many_fileref (stdin_ref)
+val nerr =
+  unpack_many_fileref(stdin_ref)
 //
-val ((*void*)) = $EVP.EVP_cleanup ()
+val ((*void*)) = $EVP.EVP_cleanup()
 //
 } (* end of [main0] *)
 

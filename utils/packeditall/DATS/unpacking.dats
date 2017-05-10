@@ -37,15 +37,15 @@ staload _ =
 
 (* ****** ****** *)
 
+#define BUFSZ 1024
+
+(* ****** ****** *)
+
 #include "./params.hats"
 
 (* ****** ****** *)
 
-staload "./unpacking.sats"
-
-(* ****** ****** *)
-
-#define BUFSZ 1024
+#staload "./../SATS/unpacking.sats"
 
 (* ****** ****** *)
 

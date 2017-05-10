@@ -33,14 +33,18 @@ _(*OPENSSL*) =
 //
 (* ****** ****** *)
 
-staload
+#staload
 "libats/SATS/stringbuf.sats"
-staload _ =
+#staload _ =
 "libats/DATS/stringbuf.dats"
 
 (* ****** ****** *)
 
-staload "./packing.sats"
+#define BUFSZ 1024
+
+(* ****** ****** *)
+
+#staload "./../SATS/packing.sats"
 
 (* ****** ****** *)
 
@@ -49,10 +53,6 @@ fun pack_sing
   (out: FILEref, inp: FILEref): int(*err*)
 // end of [pack_sing]
 *)
-
-(* ****** ****** *)
-
-#define BUFSZ 1024
 
 (* ****** ****** *)
 

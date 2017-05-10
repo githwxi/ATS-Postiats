@@ -1,66 +1,34 @@
-#
-# A simple Makefile
-#
-
-######
-
-include \
-$(PATSHOME)/share/atsmake-pre.mk
-
-######
-
-CFLAGS += -I$(PATSCONTRIB)/contrib
-
-######
-
-LDFLAGS += -lcrypto
-
-######
-
-SOURCES_SATS += packing.sats
-SOURCES_SATS += unpacking.sats
-
-######
-
-SOURCES_DATS += packing.dats
-SOURCES_DATS += unpacking.dats
-
-######
-
-SOURCES_DATS += main_pack.dats
-SOURCES_DATS += main_unpack.dats
-
 ######
 #
-all:: \
-main_pack
-main_pack: \
-packing_sats.o \
-packing_dats.o \
-main_pack_dats.o ; \
-$(PATSCC) -O2 $(CFLAGS) -o $@ $^ $(LDFLAGS)
-#
-cleanall:: ; $(RMF) main_pack
-#
-######
-#
-all:: \
-main_unpack
-main_unpack: \
-unpacking_sats.o \
-unpacking_dats.o \
-main_unpack_dats.o ; \
-$(PATSCC) -O2 $(CFLAGS) -o $@ $^ $(LDFLAGS)
-#
-cleanall:: ; $(RMF) main_unpack
+# A Simple Makefile
 #
 ######
 
-include $(PATSHOME)/share/atsmake-post.mk
+make=make
+CPRF=cp -rf
+RMRF=rm -rf
 
 ######
 
-cleanall:: ; $(RMF) tmp*_*
+copy:: ; $(CPRF) DATS/* BUILD/.
+
+######
+
+build:: ; \
+$(MAKE) -C BUILD -f ../Makefile_build
+
+######
+
+testall:: ; $(MAKE) -C TEST testall 
+
+######
+
+cleanall:: ; $(RMRF) ./BUILD/*.o
+cleanall:: ; $(RMRF) ./BUILD/*.c
+cleanall:: ; $(RMRF) ./BUILD/*.hats
+cleanall:: ; $(RMRF) ./BUILD/*.dats
+cleanall:: ; $(RMRF) ./BUILD/main_pack
+cleanall:: ; $(RMRF) ./BUILD/main_unpack
 
 ######
 

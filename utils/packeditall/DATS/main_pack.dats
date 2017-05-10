@@ -12,24 +12,22 @@
 //
 (* ****** ****** *)
 
-staload
+#staload
 EVP = "{$OPENSSL}/SATS/evp.sats"
 
 (* ****** ****** *)
-
-staload "./packing.sats"
-
-(* ****** ****** *)
-
+//
 (*
-dynload "./packing.sats"
+#dynload "./packing.sats"
 *)
-dynload "./packing.dats"
-
+#dynload "./packing.dats"
+//
+#staload "./../SATS/packing.sats"
+//
 (* ****** ****** *)
 
 implement
-main0 (argc, argv) =
+main0(argc, argv) =
 {
 //
 val () =
