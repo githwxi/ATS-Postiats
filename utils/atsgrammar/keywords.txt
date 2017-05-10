@@ -1,7 +1,10 @@
+######
 #
-# The list of keywords in ATS2
+# HX-2017-05-09:
 #
-
+# This is the *current*
+# list of keywords in ATS2
+#
 ###### beg of [keywords.txt] ######
 
 T_AT : '@'
@@ -159,6 +162,7 @@ T_DLRSHOWTYPE : $showtype
 //
 T_SRPASSERT : #assert
 T_SRPDEFINE : #define
+T_SRPDYNLOAD : #dynload
 T_SRPELIF : #elif
 T_SRPELIFDEF : #elifdef
 T_SRPELIFNDEF : #elifndef

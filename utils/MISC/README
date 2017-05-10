@@ -14,10 +14,17 @@ A primary use of this utility is to produce code to be explained in
 blogs or tutorials.
 
 ###### ######
+#
+wgetccrun.sh :
+wget+tcc-run C code generated from ATS source
+#
+wgetccrun_gtk3.sh :
+wget+tcc-run C code generated from ATS source with GTK3 support
+#
+###### ######
 
-wgetccrun.sh : wget+tcc-run C code generated from ATS source
-wgetccrun_gtk2.sh : wget+tcc-run C code generated from ATS source with GTK2 support
-wgetccrun_gtk3.sh : wget+tcc-run C code generated from ATS source with GTK3 support
+jsonlst2arr:
+For parsing a list of json object representations into a json array of objects.
 
 ###### ######
 
