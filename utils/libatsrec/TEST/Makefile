@@ -33,6 +33,17 @@ regress:: test02; ./$<
 cleanall:: ; $(RMF) test02
 #
 ######
+#
+all:: \
+test03
+test03: \
+test03.dats; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -O2 -o $@ $< -latslib
+#
+regress:: test03; ./$<
+cleanall:: ; $(RMF) test03
+#
+######
 
 testall:: all
 testall:: regress

@@ -9,10 +9,17 @@
 (* ****** ****** *)
 //
 #staload
-"prelude/SATS/string.sats"
-#staload
 UN =
 "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+#staload
+"prelude/SATS/string.sats"
+#staload
+"prelude/SATS/stream.sats"
+#staload
+"prelude/SATS/stream_vt.sats"
 //
 (* ****** ****** *)
 //
@@ -21,6 +28,13 @@ UN =
 //
 #staload _ =
 "libats/DATS/stringbuf.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"libats/ML/SATS/basis.sats"
+#staload
+"libats/ML/SATS/gvalue.sats"
 //
 (* ****** ****** *)
 //
@@ -647,6 +661,61 @@ case+ xs of
 )
 //
 } (* end of [process_linenumlst] *)
+
+(* ****** ****** *)
+
+implement
+streamize_fileref_gvhashtbl
+  (inp, cap) =
+  auxmain(gxs) where
+{
+//
+vtypedef
+gx = linenumlst_vt
+fun
+auxmain
+(
+  gxs: stream_vt(gx)
+) : stream_vt(gvhashtbl) = $ldelay
+(
+case+ !gxs of
+| ~stream_vt_nil
+    () => stream_vt_nil(*void*)
+| ~stream_vt_cons
+    (gx, gxs) => let
+//
+    val obj =
+    gvhashtbl_make_nil(cap)
+//
+    local
+    implement
+    process_key_value<>
+      (key, value) =
+    {
+      val k = strptr2string(key)
+      val v = strptr2string(value)
+      val () = obj[k] := GVstring(v)
+    }
+    in
+    val () = process_linenumlst<>(gx)
+    end // end of [local]
+//
+  in
+    stream_vt_cons(obj, auxmain(gxs))
+  end // end of [stream_vt_cons]
+, (~gxs) // for freeing the generated stream
+)
+//
+val xs =
+streamize_fileref_line(inp)
+//
+val lns =
+stream_vt_imap_fun
+  (xs, lam(i, x) => LINENUM(i, x))
+//
+val gxs = lines_grouping(lns)
+//
+} // end of [streamize_fileref_gvhashtbl]
 
 (* ****** ****** *)
 

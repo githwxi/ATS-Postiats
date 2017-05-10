@@ -9,6 +9,9 @@
 (* ****** ****** *)
 //
 #staload
+"libats/ML/SATS/basis.sats"
+//
+#staload
 "libats/SATS/stringbuf.sats"
 //
 (* ****** ****** *)
@@ -73,6 +76,12 @@ process_key_value
 //
 fun{}
 process_linenumlst(linenumlst_vt): void
+//
+(* ****** ****** *)
+//
+fun
+streamize_fileref_gvhashtbl
+  (inp: FILEref, cap: intGte(1)): stream_vt(gvhashtbl)
 //
 (* ****** ****** *)
 
