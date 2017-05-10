@@ -7,7 +7,7 @@
 [name]: \
 Q100-2016-05-06
 [description]: \
-Let us define the following function $f$:
+Let function $f$ be defined as follows:
 \##dyncode("fun f(x: int): int = f(x)")
 What happens if we evaluate the expression $f(0)$
 in ATS?

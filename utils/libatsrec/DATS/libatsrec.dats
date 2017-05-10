@@ -293,10 +293,57 @@ ifcase
 end // end of [loop1]
 //
 val p = string2ptr(line)
-val c = $UN.ptr0_get<char>(p)
+val c = $UN.ptr0_get<Char>(p)
 //
 in
+//
+if
+(c = '\\')
+then let
+//
+val p1 = ptr_succ<char>(p)
+val c1 = $UN.ptr0_get<Char>(p1)
+//
+in
+//
+ifcase
+| c1 = '#' => let
+    val _1_ =
+    stringbuf_insert_char<>
+      (buf, c1)
+    // end of [val]
+    val p2 = ptr_succ<char>(p1)
+    val c2 = $UN.ptr0_get<char>(p2)
+  in
+    loop1(c2, ptr_succ<char>(p2), buf)
+  end // end of [c1==#]
+| c1 = '\\' => let
+    val _1_ =
+    stringbuf_insert_char<>
+      (buf, c1)
+    // end of [val]
+    val p2 = ptr_succ<char>(p1)
+    val c2 = $UN.ptr0_get<char>(p2)
+  in
+    loop1(c2, ptr_succ<char>(p2), buf)
+  end // end of [c1==\]
+| _(*rest-of-char*) =>
+  (
+    if
+    isneqz(c1)
+    then let
+      val _1_ =
+      stringbuf_insert_char<>
+        (buf, c)
+      // end of [val]
+    in
+      loop1(c1, ptr_succ<char>(p1), buf)
+    end else (1)
+  ) (* rest-of-char *)
+end else (
   loop1(c, ptr_succ<char>(p), buf)
+) (* end of [else] *)
+//
 end // end of [line_add_value_cont]
 
 (* ****** ****** *)
