@@ -48,7 +48,7 @@ val () = println! ("AL[1] = ", $UN.cast{string}(array_list_get_idx (AL, 1)))
 //
 val () = array_list_free (AL)
 //
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

@@ -104,7 +104,7 @@ val () = foo2 (jso2)
 val () = assertloc (json_object_put(jso1) > 0)
 val () = assertloc (json_object_put(jso2) > 0)
 //
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

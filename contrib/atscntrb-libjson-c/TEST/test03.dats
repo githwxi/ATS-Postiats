@@ -39,7 +39,7 @@ val () = println! ("buf = ", buf)
 prval () = fpf (buf)
 val () = printbuf_free (pb)
 //
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

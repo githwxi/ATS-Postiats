@@ -88,7 +88,7 @@ val () = json_object_iter_clear (obj, jsiEnd)
 //
 val freed = json_object_put (obj)
 //
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

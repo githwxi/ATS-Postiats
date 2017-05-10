@@ -96,7 +96,7 @@ val () = assertloc (lh_table_delete (HT, string2ptr"girl3") < 0)
 //
 val () = lh_table_free (HT)
 //
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

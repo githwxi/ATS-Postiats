@@ -65,7 +65,7 @@ json_tokener_parse_list ("\
 //
 val () = json_objlst_fprint_and_free (out, xs, 0)
 //
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 

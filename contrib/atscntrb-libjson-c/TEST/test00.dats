@@ -1,7 +1,7 @@
+(* ****** ****** *)
 (*
-** Some testing code for [json]
+** Testing code for [libjson-c]
 *)
-
 (* ****** ****** *)
 
 (*
@@ -25,10 +25,10 @@ implement
 main0 () =
 {
 //
-val () = println! ("json-c version str = ", json_c_version())
-val () = println! ("json-c version num = ", json_c_version_num())
+val () = println!("json-c version str = ", json_c_version())
+val () = println!("json-c version num = ", json_c_version_num())
 //
-} // end of [main]
+} // end of [main0]
 
 (* ****** ****** *)
 
