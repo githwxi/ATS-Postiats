@@ -22,6 +22,13 @@ OPTARGS of
 , list0(string)(*args*))
 //
 (* ****** ****** *)
+
+datatype
+optarity =
+| OPTARITYint of int
+| OPTARITYint2 of (int, int)
+
+(* ****** ****** *)
 //
 datatype
 outchan =
