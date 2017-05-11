@@ -1,0 +1,10 @@
+#
+# For testing
+# atscntrb-hx-getargs
+#
+######
+
+all:: ; make -C TEST testall
+
+###### end of [Makefile_test] ######
+  

@@ -2,7 +2,7 @@
 "name":
 "atscntrb-hx-getargs"
 ,
-"version": "1.0.0"
+"version": "0.0.1"
 ,
 "description":
 "A simple package for implementing command-line stuff..."

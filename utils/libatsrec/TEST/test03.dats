@@ -23,26 +23,11 @@ streamize_fileref_line
 //
 #include "./../mylibies.hats"
 //
+#staload $LIBATSREC // opening it
+#staload $STRINGBUF // opening it
+//
 #include "./../mylibies_link.hats"
 //
-(* ****** ****** *)
-//
-#staload "libats/SATS/stringbuf.sats"
-#staload _ = "libats/DATS/stringbuf.dats"
-//
-(* ****** ****** *)
-
-implement
-process_key_value<>
-  (key, value) = let
-//
-val () = println!("key = (", key, ")")
-val () = println!("value = (", value, ")")
-//
-in
-  strptr_free(key) ; strptr_free(value)
-end // end of [process_key_value]
-
 (* ****** ****** *)
 
 implement

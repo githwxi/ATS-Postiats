@@ -69,6 +69,10 @@ setenv_err
 //
 (* ****** ****** *)
 //
+// HX:
+// Default implementation
+// is based on STDLIB.random
+//
 fun{}
 randint{n:pos}(n: int(n)): natLt(n)
 //

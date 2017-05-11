@@ -7,6 +7,12 @@
 #include
 "share/atspre_staload.hats"
 //
+macdef
+streamize_fileref_line =
+streamize_fileref_line
+//
+(* ****** ****** *)
+//
 #include
 "share/HATS\
 /atspre_staload_libats_ML.hats"
@@ -15,12 +21,10 @@
 //
 #include "./../mylibies.hats"
 //
+#staload $LIBATSREC // opening it
+#staload $STRINGBUF // opening it
+//
 #include "./../mylibies_link.hats"
-//
-(* ****** ****** *)
-//
-#staload "libats/SATS/stringbuf.sats"
-#staload _ = "libats/DATS/stringbuf.dats"
 //
 (* ****** ****** *)
 //
@@ -28,7 +32,8 @@ extern
 fun
 line_lines_get_key_value
 (
-  line: string, lines: List(string)
+  line: string
+, lines: List(string)
 ) : (Strptr1(*key*), Strptr1(*value*))
 //
 implement

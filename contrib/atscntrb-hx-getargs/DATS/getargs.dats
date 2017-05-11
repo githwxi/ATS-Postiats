@@ -86,23 +86,23 @@ implement
 getargs_is_flag
   (arg) =
 (
-  getargs_get_ndash<>(arg) > 0
+  getargs_get_ndash(arg) > 0
 )
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-getargs_usage(out) =
+getargs_usage() =
 (
 fprintln!
-(out, "Hello from [getargs_usage]!")
+( stderr_ref
+, "Hello from [getargs_usage]!")
 ) (* getargs_usage *)
 //
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
 getargs_get_ndash
   (arg) = let
 //
@@ -128,6 +128,19 @@ in
 end // end of [getargs_get_ndash]
 
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+getargs_is_help
+  (flag) =
+(
+case+ flag of
+| "-h" => true
+| "--help" => true
+| _(*string*) => false
+)
+//
+(* ****** ****** *)
 
 implement
 {}(*tmp*)
@@ -150,6 +163,27 @@ the_state_set_key
 val state = the_state_get<>()
 //
 } // end of [the_state_set_key]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+optargs_eval
+  (fxs) = let
+//
+macdef
+is_help =
+getargs_is_help
+
+val+OPTARGS(f, xs) = fxs
+//
+in
+//
+ifcase
+| is_help(f) => getargs_usage<>()
+| _(* else *) => optargs_eval2<>(fxs)
+//
+end // end of [optargs_eval]
 
 (* ****** ****** *)
 

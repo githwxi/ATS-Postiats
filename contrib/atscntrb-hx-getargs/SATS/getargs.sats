@@ -16,6 +16,14 @@
 (* ****** ****** *)
 //
 datatype
+optargs =
+OPTARGS of
+( string(*opt*)
+, list0(string)(*args*))
+//
+(* ****** ****** *)
+//
+datatype
 outchan =
 | OUTCHANptr of (FILEref) // need for closing
 | OUTCHANref of (FILEref) // no need for closing
@@ -35,15 +43,20 @@ outchan_fileref(outchan): FILEref
 (* ****** ****** *)
 //
 fun{}
-getargs_usage(out: FILEref): void
+getargs_usage(): void
 //
 (* ****** ****** *)
 //
 fun{}
 getargs_is_flag(string): bool
 //
-fun{}
+fun//{}
 getargs_get_ndash(string): intGte(0)
+//
+(* ****** ****** *)
+//
+fun{}
+getargs_is_help(string): bool
 //
 (* ****** ****** *)
 //
@@ -61,6 +74,13 @@ fun{}
 the_state_get_key(k0: string): gvalue
 fun{}
 the_state_set_key(k0: string, gv: gvalue): void
+//
+(* ****** ****** *)
+//
+fun{}
+optargs_eval(fxs: optargs): void
+fun{}
+optargs_eval2(fxs: optargs): void
 //
 (* ****** ****** *)
 

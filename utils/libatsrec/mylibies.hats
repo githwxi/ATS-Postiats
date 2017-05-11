@@ -4,9 +4,18 @@
 *)
 (* ****** ****** *)
 //
-#staload "./SATS/libatsrec.sats"
+#staload
+STRINGBUF =
+"libats/SATS/stringbuf.sats"
+#staload _(*anon*) =
+"libats/DATS/stringbuf.dats"
 //
-#staload _ = "./DATS/libatsrec.dats"
+(* ****** ****** *)
+//
+#staload
+LIBATSREC = "./SATS/libatsrec.sats"
+#staload
+_(*anon*) = "./DATS/libatsrec.dats"
 //
 (* ****** ****** *)
 

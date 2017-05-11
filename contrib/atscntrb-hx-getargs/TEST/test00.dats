@@ -37,12 +37,12 @@ val () =
 println!
   ("Hello from [getargs]!")
 //
-val () = getargs_usage(stderr_ref)
+val () = getargs_usage()
 //
-var out = OUTCHANref(stdout_ref)
+var cout = OUTCHANref(stdout_ref)
 //
 implement
-the_outchan_getref<>() = $UN.cast(addr@out)
+the_outchan_getref<>() = $UN.cast(addr@cout)
 //
 } // end of [main0]
 
