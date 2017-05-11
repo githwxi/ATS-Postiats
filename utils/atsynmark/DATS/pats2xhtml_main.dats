@@ -8,7 +8,8 @@
 (* ****** ****** *)
 //
 staload
-STDIO = "libc/SATS/stdio.sats"
+STDIO =
+"libc/SATS/stdio.sats"
 //
 (* ****** ****** *)
 //
@@ -80,8 +81,8 @@ pats2xhtml_file_end
 //
 (* ****** ****** *)
 //
-#define PSYNMARK_HTML_PRE_BEG "<pre class=\"patsyntax\">\n"
 #define PSYNMARK_HTML_PRE_END "</pre>\n"
+#define PSYNMARK_HTML_PRE_BEG "<pre class=\"patsyntax\">\n"
 //
 (* ****** ****** *)
 //
@@ -135,7 +136,7 @@ outchan_get_fileref
   (x: outchan): FILEref =
 (
   case+ x of
-  | OUTCHANref (filr) => filr | OUTCHANptr (filp) => filp
+  | OUTCHANref(filr) => filr | OUTCHANptr(filp) => filp
 ) (* end of [outchan_get_fileref] *)
 //
 (* ****** ****** *)
@@ -165,9 +166,9 @@ val ((*void*)) = state.outchan := chan_new
 //
 in
   case+ chan_old of
-  | OUTCHANref (filr) => ()
-  | OUTCHANptr (filp) => let
-      val err = $STDIO.fclose0_err (filp) in (*nothing*)
+  | OUTCHANref(filr) => ()
+  | OUTCHANptr(filp) => let
+      val err = $STDIO.fclose0_err(filp) in (*nothing*)
     end // end of [OUTCHANptr]
 end // end of [cmdstate_set_outchan]
 
@@ -180,22 +181,30 @@ cmdstate_set_outchan_basename
 ) : void = let
 //
 val [l:addr] (pfopt | p) =
-  $STDIO.fopen_err (basename, file_mode_w)
+  $STDIO.fopen_err(basename, file_mode_w)
 // end of [val]
 in
 //
-if p > null then let
-  prval Some_v (pf) = pfopt
-  val filp = __cast (pf | p) where {
-    extern castfn __cast (pf: FILE w @ l | p: ptr l):<> FILEref
-  } // end of [val]
+if
+(p > null)
+then let
+  prval
+  Some_v(pf) = pfopt
+  val filp = let
+    extern
+    castfn
+    __cast__
+    (pf: FILE w @ l | p: ptr(l)):<> FILEref
+  in
+    __cast__(pf | p)
+  end // end of [val]
 in
-  cmdstate_set_outchan (state, OUTCHANptr (filp))
+  cmdstate_set_outchan(state, OUTCHANptr(filp))
 end else let
   prval None_v () = pfopt
   val () = state.nerror := state.nerror + 1
 in
-  cmdstate_set_outchan (state, OUTCHANref (stderr_ref))
+  cmdstate_set_outchan(state, OUTCHANref(stderr_ref))
 end // end of [if]
 //
 end // end of [cmdstate_set_outchan_basename]
@@ -237,22 +246,22 @@ pats2xhtml_level1_state_fileref
 ) : void = let
 //
 val stadyn =
-  waitkind_get_stadyn (state.waitkind)
-val out = outchan_get_fileref (state.outchan)
+  waitkind_get_stadyn(state.waitkind)
+val out = outchan_get_fileref(state.outchan)
 val putc =
   lam (c: char)
-    : int =<cloref1> $STDIO.fputc0_err (c, out)
+    : int =<cloref1> $STDIO.fputc0_err(c, out)
   // end of [lam]
 //
 val () =
-  if state.standalone then pats2xhtml_file_beg (out)
+  if state.standalone then pats2xhtml_file_beg(out)
 //
-val () = pats2xhtml_pre_beg (out)
-val () = pats2xhtml_level1_fileref (stadyn, inp, putc)
-val () = pats2xhtml_pre_end (out)
+val () = pats2xhtml_pre_beg(out)
+val () = pats2xhtml_level1_fileref(stadyn, inp, putc)
+val () = pats2xhtml_pre_end(out)
 //
 val () =
-  if state.standalone then pats2xhtml_file_end (out)
+  if state.standalone then pats2xhtml_file_end(out)
 //
 in
   // nothing
@@ -274,15 +283,15 @@ case+ opt of
 | ~Some_vt (fil) => let
     prval pfmod = file_mode_lte_r_r
     val fsym =
-      $FIL.filename_get_fullname (fil)
-    val fname = $SYM.symbol_get_name (fsym)
+      $FIL.filename_get_fullname(fil)
+    val fname = $SYM.symbol_get_name(fsym)
     val [l:addr] (pf | p) =
-      $STDIO.fopen_exn (fname, file_mode_r)
+      $STDIO.fopen_exn(fname, file_mode_r)
     val inp = __cast (pf | p) where {
       extern castfn __cast (pf: FILE r @ l | p: ptr l): FILEref
     } // end of [val]
-    val () = pats2xhtml_level1_state_fileref (state, inp)
-    val _err = $STDIO.fclose0_err (inp)
+    val () = pats2xhtml_level1_state_fileref(state, inp)
+    val _err = $STDIO.fclose0_err(inp)
   in
     // nothing
   end // end of [Some_vt]
@@ -345,7 +354,7 @@ case+ arglst of
       state.ncomarg := state.ncomarg + 1
     // end of [val]
   in
-    process_cmdline2 (state, arg, arglst)
+    process_cmdline2(state, arg, arglst)
   end (* end of [list_vt_cons] *)
 //
 | ~list_vt_nil () => let
@@ -354,7 +363,7 @@ case+ arglst of
     if nif = 0
       then let
         val stadyn =
-          waitkind_get_stadyn (state.waitkind)
+          waitkind_get_stadyn(state.waitkind)
         // end of [val]
       in
         case+ 0 of
@@ -362,12 +371,12 @@ case+ arglst of
             stadyn >= 0 => {
             val inp = stdin_ref
             val ((*void*)) =
-              pats2xhtml_level1_state_fileref (state, inp)
+              pats2xhtml_level1_state_fileref(state, inp)
             // end of [val]
           } // end of [_ when ...]
         | _ (*non-wait*) =>
           (
-            if state.ncomarg = 0 then pats2xhtml_usage ("pats2xhtml")
+            if state.ncomarg = 0 then pats2xhtml_usage("pats2xhtml")
           )
       end // end of [then]
       else () // end of [else]
@@ -431,9 +440,10 @@ case+ arg of
 //
 | _ when
     isiatswait(state) => let
-    val () = state.waitkind := WTKnone()
+    val () =
+    state.waitkind := WTKnone()
     val COMARG(_, dir) = arg
-    val () = process_IATS_dir (dir)
+    val () = process_IATS_dir(dir)
   in
     process_cmdline(state, arglst)
   end
@@ -495,13 +505,12 @@ case+ key of
   in
     if issome then let
       val () =
-      state.waitkind := WTKnone()
-      val def = stropt_unsome (def)
+        state.waitkind := WTKnone()
+      // end of [val]
     in
-      process_DATS_def(def)
+      process_DATS_def(stropt_unsome(def))
     end else let
-      val () =
-      state.waitkind := WTKdefine()
+      val () = state.waitkind := WTKdefine()
     in
       // nothing
     end // end of [if]
@@ -513,13 +522,12 @@ case+ key of
   in
     if issome then let
       val () =
-      state.waitkind := WTKnone()
-      val dir = stropt_unsome(dir)
+        state.waitkind := WTKnone()
+      // end of [val]
     in
-      process_IATS_dir(dir)
+      process_IATS_dir(stropt_unsome(dir))
     end else let
-      val () =
-      state.waitkind := WTKinclude()
+      val () = state.waitkind := WTKinclude()
     in
       // nothing
     end // end of [if]
