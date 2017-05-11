@@ -66,6 +66,10 @@ isdebug() =
 //
 staload "./pats_comarg.sats"
 //
+(*
+overload print with print_comarg
+*)
+//
 (* ****** ****** *)
 
 staload "./pats_lexing.sats"
@@ -440,7 +444,7 @@ patsopt_usage
   out: FILEref, arg0: comarg
 ) : void = let
 //
-val COMARGkey (_, cmdname) = arg0
+val COMARG(_, cmdname) = arg0
 //
 in
 //
@@ -645,7 +649,9 @@ cmdstate = @{
 
 (* ****** ****** *)
 
-fun
+local
+
+fn
 outchan_make_path
 (
   state: &cmdstate, name: string
@@ -659,18 +665,39 @@ in
 if
 filp > null
 then let
-  prval Some_v (pf) = pfopt
-  val filr = $UN.castvwtp_trans {FILEref} @(pf | filp)
+//
+  prval
+  Some_v(pf) = pfopt
+//
+  val filr =
+  $UN.castvwtp_trans{FILEref}(@(pf | filp))
+//
 in
-  OUTCHANptr (filr)
+  OUTCHANptr(filr)
 end // end of [then]
 else let
-  prval None_v () = pfopt
+  prval
+  None_v() = pfopt
 in
-  OUTCHANref (stderr_ref)
+  OUTCHANref(stderr_ref)
 end // end of [else]
 //
 end // end of [outchan_make_path]
+
+in
+
+fn
+outchan_make_path
+(
+  state: &cmdstate, name: string
+) : outchan =
+(
+case+ name of
+| "-" => OUTCHANref(stdout_ref)
+| _(*non-special*) => outchan_make_path(state, name)
+)
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -1531,7 +1558,7 @@ prval ((*addback*)) = fpf (pf)
 //
 in
   // nothing
-end with exn => auxexn (p0, given, d0cs, exn)
+end with exn => auxexn(p0, given, d0cs, exn)
 //
 end // end of [do_transfinal2]
 
@@ -1539,68 +1566,85 @@ end // end of [local]
 
 (* ****** ****** *)
 
+fn
+process_nil
+(
+state: &cmdstate
+) : void = let
+//
+val stadyn =
+waitkind_get_stadyn(state.waitkind)
+//
+in
+//
+if
+stadyn >= 0
+then () where
+{
+//
+val () =
+state.infil := $FIL.filename_stdin
+//
+val () =
+the_prelude_load_if
+  (state.PATSHOME, state.preludeflag)
+// end of [val]
+//
+val () =
+if stadyn >= 1
+  then $GLOB.the_DYNLOADFLAG_set(1)
+// end of [if]
+//
+val d0cs = parse_from_stdin_toplevel(stadyn)
+//
+var istrans: bool = true
+//
+val isdepgen = state.depgen > 0
+val istaggen = state.taggen > 0
+//
+val () = if isdepgen then istrans := false
+val () = if istaggen then istrans := false
+//
+val given = "__STDIN__"
+//
+val () =
+if isdepgen then do_depgen(state, given, d0cs)
+// end of [val]
+val () =
+if istaggen then do_taggen(state, given, d0cs)
+// end of [val]
+//
+val () =
+if
+istrans
+then
+$FIL.the_filenamelst_ppush($FIL.filename_stdin)
+//
+val () =
+if istrans then do_transfinal2(state, given, d0cs)
+//
+} (* end of [then] *)
+//
+end // end of [process_nil]
+
+(* ****** ****** *)
+
 fn*
 process_cmdline
   {i:nat} .<i,0>.
 (
-  state: &cmdstate, arglst: comarglst (i)
+  state: &cmdstate, arglst: comarglst(i)
 ) :<fun1> void = let
 in
 //
 case+ arglst of
 //
-| ~list_vt_nil() when
-    state.ninpfile = 0 => let
-    val stadyn =
-      waitkind_get_stadyn (state.waitkind)
-    // end of [val]
-  in
-    case+ 0 of
-    | _ when
-        stadyn >= 0 => {
-//
-        val () =
-        state.infil := $FIL.filename_stdin
-//
-        val () =
-        the_prelude_load_if
-          (state.PATSHOME, state.preludeflag)
-        // end of [val]
-//
-        val () =
-        if stadyn >= 1
-          then $GLOB.the_DYNLOADFLAG_set (1)
-        // end of [if]
-        val d0cs = parse_from_stdin_toplevel (stadyn)
-//
-        var istrans: bool = true
-        val isdepgen = state.depgen > 0
-        val () = if isdepgen then istrans := false
-        val istaggen = state.taggen > 0
-        val () = if istaggen then istrans := false
-//
-        val given = "__STDIN__"
-//
-        val () =
-          if isdepgen then do_depgen (state, given, d0cs)
-        // end of [val]
-        val () =
-          if istaggen then do_taggen (state, given, d0cs)
-        // end of [val]
-//
-        val () =
-          if istrans then
-            $FIL.the_filenamelst_ppush($FIL.filename_stdin)
-          // end of [if]
-        val () =
-          if istrans then do_transfinal2 (state, given, d0cs)
-        // end of [val]
-//
-      } (* end of [_ when ...] *)
-    | _ (* stadyn < 0 *) => ((*nothing*))
-  end // end of [list_vt_nil when ...]
-//
-| ~list_vt_nil((*void*)) => ((*void*))
+| ~list_vt_nil() =>
+  (
+    if
+    state.ninpfile = 0
+    then process_nil(state) else ()
+  )
 //
 | ~list_vt_cons(arg, arglst) => process_cmdline2(state, arg, arglst)
 //
@@ -1613,31 +1657,48 @@ process_cmdline2
   {i:nat} .<i,2>.
 (
   state: &cmdstate
-, arg: comarg, arglst: comarglst (i)
+, arg: comarg, arglst: comarglst(i)
 ) :<fun1> void = let
+//
+(*
+val () =
+println!
+  ("process_cmdline2: arg = ", arg)
+*)
+//
 in
 //
 case+ arg of
 //
 | _ when
-    isinpwait (state) => let
+    isinpwait(state) => let
 //
-// HX: the [inpwait] state stays unchanged
+// HX: [inpwait] stays unchanged
 //
     val
     stadyn =
-      waitkind_get_stadyn (state.waitkind)
-    // end of [val]
+    waitkind_get_stadyn(state.waitkind)
     val nif = state.ninpfile
   in
     case+ arg of
-    | COMARGkey
-        (1, key) when nif > 0 =>
-        process_cmdline2_COMARGkey1(state, arglst, key)
-    | COMARGkey
-        (2, key) when nif > 0 =>
-        process_cmdline2_COMARGkey2(state, arglst, key)
-    | COMARGkey (_, given) => let
+//
+    | COMARG(1, key)
+      when nif > 0 =>
+      process_cmdline2_COMARGkey1(state, arglst, key)
+//
+    | COMARG(2, key)
+      when nif > 0 =>
+      process_cmdline2_COMARGkey2(state, arglst, key)
+//
+    | COMARG(_, "-") => let
+//
+        val () =
+        state.ninpfile := state.ninpfile+1
+      in
+        process_nil(state); process_cmdline(state, arglst)
+      end (* end of [COMARGkey] *)
+//
+    | COMARG(_, given) => let
 //
         val () =
         state.ninpfile := state.ninpfile+1
@@ -1679,10 +1740,10 @@ case+ arg of
   end // end of [_ when isinpwait]
 //
 | _ when
-    isoutwait (state) => let
+    isoutwait(state) => let
     val () = state.waitkind := WTKnone ()
 //
-    val COMARGkey (_, given) = arg
+    val COMARG(_, given) = arg
 //
     val opt = stropt_some (given)
     val ((*void*)) = theOutFilename_set (opt)
@@ -1695,31 +1756,32 @@ case+ arg of
   end // end of [_ when isoutwait]
 //
 | _ when
-    isdatswait (state) => let
+    isdatswait(state) => let
     val () = state.waitkind := WTKnone ()
-    val COMARGkey (_, def) = arg
+    val COMARG(_, def) = arg
     val () = process_DATS_def (def)
   in
     process_cmdline (state, arglst)
   end // end of [_ when isdatswait]
 //
-| _ when isiatswait (state) => let
+| _ when
+    isiatswait(state) => let
     val () = state.waitkind := WTKnone ()
-    val COMARGkey (_, dir) = arg
+    val COMARG(_, dir) = arg
     val () = process_IATS_dir (dir)
   in
     process_cmdline (state, arglst)
   end
 //
-| COMARGkey (1, key) =>
-    process_cmdline2_COMARGkey1 (state, arglst, key)
-| COMARGkey (2, key) =>
-    process_cmdline2_COMARGkey2 (state, arglst, key)
-| COMARGkey (_, key) => let
-    val () = comarg_warning (key)
-    val () = state.waitkind := WTKnone ()
-  in
-    process_cmdline (state, arglst)
+| COMARG(1, key) =>
+    process_cmdline2_COMARGkey1(state, arglst, key)
+| COMARG(2, key) =>
+    process_cmdline2_COMARGkey2(state, arglst, key)
+| COMARG(_, key) => let
+    val () =
+    comarg_warning(key)
+    val () =
+    state.waitkind := WTKnone() in process_cmdline (state, arglst)
   end // end of [COMARGkey]
 //
 end // end of [process_cmdline2]
