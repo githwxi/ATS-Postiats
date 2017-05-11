@@ -2018,10 +2018,14 @@ set () where
 val
 PATSHOME = let
 //
-val opt = get () where
+val
+opt = get() where
 {
   extern
-  fun get (): Stropt = "mac#patsopt_PATSHOME_get"
+  fun get
+  (
+  // argless
+  ) : Stropt = "mac#patsopt_PATSHOME_get"
 } (* end of [where] *)
 val issome = stropt_is_some(opt)
 //
@@ -2037,7 +2041,7 @@ else let
     "The environment variable PATSHOME is undefined!"
   ) (* end of [val] *)
 in
-  $ERR.abort ((*exit*))
+  $ERR.abort((*exit*))
 end (* end of [else] *)
 //
 end : string // end of [val]
@@ -2052,8 +2056,11 @@ val () =
 val () =
   $TRENV2.the_trans2_env_initialize()
 //
-val arglst = comarglst_parse(argc, argv)
-val+~list_vt_cons(arg0, arglst) = arglst
+val
+arglst =
+comarglst_parse(argc, argv)
+val+
+~list_vt_cons(arg0, arglst) = arglst
 //
 var
 state = @{
@@ -2096,9 +2103,11 @@ val () = process_PATSRELOCROOT()
 val () = process_cmdline(state, arglst)
 //
 // HX-2015-01-09:
-// A tool like patscc should receive an error:
+// A tool like patscc
+// should be able to receive an error:
 //
-val () = if state.nerror > 0 then $ERR.abort{void}()
+val () =
+if state.nerror > 0 then $ERR.abort{void}()
 //
 } (* end of [where] *) // end of [patsopt_main]
 //
