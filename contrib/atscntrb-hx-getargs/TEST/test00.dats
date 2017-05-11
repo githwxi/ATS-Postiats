@@ -9,16 +9,40 @@
 ** Authoremail: gmhwxiATgmailDOTedu
 *)
 (* ****** ****** *)
+
+#staload
+UN =
+"prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
 //
 #include "./../mylibies.hats"
+//
+#staload $GETARGS // opening it
 //
 (* ****** ****** *)
 
 implement
-main0 () =
+main0(argc, argv) =
 {
 //
-val () = println! ("Hello from [getargs]!")
+local
+val arg0 = argv[0]
+in (*in-of-local*)
+implement
+getargs_get_arg0<>() = arg0
+end // end of [local]
+//
+val () =
+println!
+  ("Hello from [getargs]!")
+//
+val () = getargs_usage(stderr_ref)
+//
+var out = OUTCHANref(stdout_ref)
+//
+implement
+the_outchan_getref<>() = $UN.cast(addr@out)
 //
 } // end of [main0]
 

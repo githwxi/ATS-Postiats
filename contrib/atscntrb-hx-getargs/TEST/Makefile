@@ -27,7 +27,8 @@ all:: \
 test00
 test00: \
 test00.dats ; \
-$(PATSCC) -I$(INCLUDE) -o $@ $<
+$(PATSCC) \
+-DATS_MEMALLOC_LIBC -I$(INCLUDE) -o $@ $<
 #
 regress:: test00; ./$<
 cleanall:: ; $(RMF) test00

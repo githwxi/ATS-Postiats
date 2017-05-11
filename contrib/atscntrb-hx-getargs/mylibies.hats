@@ -9,5 +9,10 @@
 GETARGS = "./SATS/getargs.sats"
 //
 (* ****** ****** *)
+//
+#staload
+_(*GETARGS*) = "./DATS/getargs.dats"
+//
+(* ****** ****** *)
 
 (* end of [mylibies.hats] *)

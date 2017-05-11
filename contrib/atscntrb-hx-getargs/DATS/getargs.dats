@@ -42,11 +42,114 @@
 #include
 "share/atspre_staload.hats"
 #include
-"share/HATS/atspre_staload_libats_ML.hats"
+"share/HATS\
+/atspre_staload_libats_ML.hats"
+
+(* ****** ****** *)
+
+#staload UN = $UNSAFE
 
 (* ****** ****** *)
 
 #staload "./../SATS/getargs.sats"
+
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+outchan_close
+  (out) =
+(
+case+ out of
+| OUTCHANptr(filr) =>
+    fileref_close(filr)
+  // OUTCHANptr
+| OUTCHANref(filr) => ()
+)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+outchan_fileref
+  (out) =
+(
+case+ out of
+| OUTCHANptr(filr) => filr
+| OUTCHANref(filr) => filr
+)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+getargs_is_flag
+  (arg) =
+(
+  getargs_get_ndash<>(arg) > 0
+)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+getargs_usage(out) =
+(
+fprintln!
+(out, "Hello from [getargs_usage]!")
+) (* getargs_usage *)
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+getargs_get_ndash
+  (arg) = let
+//
+fun
+loop
+(
+ p: ptr, i: intGte(0)
+) : intGte(0) = let
+  val c =
+  $UN.ptr0_get<char>(p)
+in
+//
+if
+(c = '-')
+then i (*exit*)
+else loop(ptr_succ<char>(p), i+1)
+// end of [if]
+//
+end
+//
+in
+  loop(string2ptr(arg), 0)
+end // end of [getargs_get_ndash]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+the_state_get_key
+  (k0) =
+  state[k0] where
+{
+//
+val state = the_state_get<>()
+//
+} // end of [the_state_get_key]
+
+implement
+{}(*tmp*)
+the_state_set_key
+  (k0, gv) =
+  (state[k0] := gv) where
+{
+//
+val state = the_state_get<>()
+//
+} // end of [the_state_set_key]
 
 (* ****** ****** *)
 
