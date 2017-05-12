@@ -14,7 +14,7 @@
 //
 (* ****** ****** *)
 //
-#staload UN = $UNSAFE
+#staload "./../SATS/myatscc.sats"
 //
 (* ****** ****** *)
 //
@@ -23,10 +23,6 @@
 /atscntrb-hx-parcomb/mylibies.hats"
 //
 #staload $PARCOMB // opening the package
-//
-(* ****** ****** *)
-//
-#staload "./myatscc.sats"
 //
 (* ****** ****** *)
 //

@@ -27,7 +27,7 @@
 
 (* ****** ****** *)
 
-#staload "./myatscc.sats"
+#staload "./../SATS/myatscc.sats"
 
 (* ****** ****** *)
 //

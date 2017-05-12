@@ -5,7 +5,8 @@
 (* ****** ****** *)
 //
 #include
-"$PATSHOMELOCS/atscntrb-hx-parcomb/mylibies.dats"
+"$PATSHOMELOCS\
+/atscntrb-hx-parcomb/mylibies.dats"
 //
 (* ****** ****** *)
 

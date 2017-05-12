@@ -44,10 +44,6 @@
 #staload UN = $UNSAFE
 
 (* ****** ****** *)
-
-#staload "./myatscc.sats"
-
-(* ****** ****** *)
 //
 #dynload "./myatscc_loc_t.dats"
 #dynload "./myatscc_lexer.dats"
@@ -55,6 +51,10 @@
 #dynload "./myatscc_evaler.dats"
 #dynload "./myatscc_getdef.dats"
 //
+(* ****** ****** *)
+
+#staload "./../SATS/myatscc.sats"
+
 (* ****** ****** *)
 
 fun
