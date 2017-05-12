@@ -65,6 +65,29 @@ getargs_get_ndash(string): intGte(0)
 fun{}
 getargs_is_help(string): bool
 //
+fun{}
+getargs_do_help(optargs): void
+//
+(* ****** ****** *)
+//
+fun{}
+getargs_is_input(string): bool
+//
+fun{}
+getargs_do_input(optargs): void
+//
+(* ****** ****** *)
+//
+fun{}
+getargs_is_output(string): bool
+fun{}
+getargs_is_output_a(string): bool
+fun{}
+getargs_is_output_w(string): bool
+//
+fun{}
+getargs_do_output(fxs: optargs): void
+//
 (* ****** ****** *)
 //
 fun{}

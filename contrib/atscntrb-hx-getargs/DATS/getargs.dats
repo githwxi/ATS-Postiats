@@ -137,7 +137,35 @@ getargs_is_help
 case+ flag of
 | "-h" => true
 | "--help" => true
-| _(*string*) => false
+| _(*rest-of-string*) => false
+)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+getargs_is_input
+  (flag) =
+(
+case+ flag of
+| "-i" => true
+| "--input" => true
+| _(*rest-of-string*) => false
+)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+getargs_is_output
+  (flag) =
+(
+case+ flag of
+| "-o" => true
+| "--output" => true
+| "--output-a" => true
+| "--output-w" => true
+| _(*rest-of-string*) => false
 )
 //
 (* ****** ****** *)
@@ -165,6 +193,43 @@ val state = the_state_get<>()
 } // end of [the_state_set_key]
 
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+getargs_do_help
+  (fxs) = () where
+{
+val () = getargs_usage((*void*))
+}
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+getargs_do_input
+  (fxs) = let
+//
+val+OPTARGS(f, xs) = fxs
+//
+val-list0_cons(x, xs) = xs
+//
+in
+//
+case+ x of
+| "-" => ()
+| _(*non-dash*) => let
+    val fopt =
+      fileref_open_opt(x, file_mode_r)
+    // end of [val]
+  in
+    case+ fopt of
+    | ~None_vt() => ()
+    | ~Some_vt(filr) => ()
+  end // end of [non-dash]
+//
+end // end of [getargs_do_input]
+//
+(* ****** ****** *)
 
 implement
 {}(*tmp*)
@@ -174,14 +239,26 @@ optargs_eval
 macdef
 is_help =
 getargs_is_help
+macdef
+is_input =
+getargs_is_input
+macdef
+is_output =
+getargs_is_output
 
 val+OPTARGS(f, xs) = fxs
 //
-in
+in (* in-of-let *)
 //
 ifcase
-| is_help(f) => getargs_usage<>()
-| _(* else *) => optargs_eval2<>(fxs)
+//
+| is_help(f) => getargs_do_help<>(fxs)
+//
+| is_input(f) => getargs_do_input<>(fxs)
+//
+| is_output(f) => getargs_do_output<>(fxs)
+//
+| _(*non-special*) => optargs_eval2<>(fxs)
 //
 end // end of [optargs_eval]
 
