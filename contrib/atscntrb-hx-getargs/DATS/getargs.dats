@@ -196,6 +196,92 @@ case+ flag of
 //
 (* ****** ****** *)
 
+local
+
+val
+table =
+gvhashtbl_make_nil(16)
+
+in (* in-of-local *)
+//
+implement
+{}(*tmp*)
+the_optarty_get_key
+  (k0) =
+(
+case+
+table[k0]
+of (*case+*)
+| GVptr(p0) =>
+    $UN.cast{optarty}(p0)
+  // GVptr
+| _(*non-GVptr*) => OPTARTY0
+) (* the_optarty_get *)
+//
+implement
+{}(*tmp*)
+the_optarty_set_key
+  (k0, art) =
+(
+  table[k0] := gvalue_box(art)
+)
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+the_optarty_initset
+  ((*void*)) =
+{
+//
+(*
+//
+// HX:
+// there is no need
+// for this as it is the default
+//
+val () =
+the_optarty_set_key("-h", OPTARTY0)
+val () =
+the_optarty_set_key("--helo", OPTARTY0)
+*)
+//
+val () =
+the_optarty_set_key("-i", OPTARTY1)
+val () =
+the_optarty_set_key("--input", OPTARTY1)
+//
+val () =
+the_optarty_set_key("-o", OPTARTY1)
+val () =
+the_optarty_set_key("--output", OPTARTY1)
+val () =
+the_optarty_set_key("--output-a", OPTARTY1)
+val () =
+the_optarty_set_key("--output-w", OPTARTY1)
+//
+} (* end of [the_optarty_initset] *)
+
+(* ****** ****** *)
+
+local
+
+val
+state =
+gvhashtbl_make_nil(16)
+
+in (* in-of-local *)
+
+implement
+{}(*tmp*)
+the_state_get() = state
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 {}(*tmp*)
 the_state_get_key

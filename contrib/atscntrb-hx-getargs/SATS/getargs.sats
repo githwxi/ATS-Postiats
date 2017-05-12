@@ -109,6 +109,18 @@ fun{}
 getargs_do_output(fxs: optargs): void
 //
 (* ****** ****** *)
+//
+fun{}
+the_optarty_get_key
+  (k0: string): optarty
+fun{}
+the_optarty_set_key
+  (k0: string, art: optarty): void
+//
+fun{}
+the_optarty_initset(): void
+//
+(* ****** ****** *)
 
 #define
 OUTCHAN "outchan"
