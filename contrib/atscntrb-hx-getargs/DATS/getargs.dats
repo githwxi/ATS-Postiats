@@ -71,6 +71,8 @@ fprint_optargs(out, x) =
 case+ x of
 | OPTARGS0(arg) =>
   fprint!(out, "OPTARGS0(", arg, ")")
+| OPTARGS1(opt, nil0()) =>
+  fprint!(out, "OPTARGS1(", opt, ")")
 | OPTARGS1(opt, args) =>
   fprint!(out, "OPTARGS1(", opt, "; ", args, ")")
 )
@@ -104,15 +106,20 @@ case+ x of
 (* ****** ****** *)
 //
 implement
+fprint_val<optargs> = fprint_optargs<>
+implement
+fprint_val<optarty> = fprint_optarty<>
+//
+(* ****** ****** *)
+//
+implement
 {}(*tmp*)
 outchan_close
   (out) =
 (
 case+ out of
-| OUTCHANptr(filr) =>
-    fileref_close(filr)
-  // OUTCHANptr
 | OUTCHANref(filr) => ()
+| OUTCHANptr(filr) => fileref_close(filr)
 )
 //
 (* ****** ****** *)
@@ -159,7 +166,8 @@ end // end of [getargs_is_opt]
 //
 implement
 {}(*tmp*)
-getargs_is_arg(arg) = not(getargs_is_opt(arg))
+getargs_is_arg
+  (arg) = not(getargs_is_opt<>(arg))
 //
 (* ****** ****** *)
 //
@@ -168,13 +176,13 @@ implement
 getargs_usage() =
 (
 fprintln!
-( stderr_ref
-, "Hello from [getargs_usage]!")
+  (stderr_ref, "Hello from [getargs_usage]!")
 ) (* getargs_usage *)
 //
 (* ****** ****** *)
 
 implement
+//{}(*tmp*)
 getargs_get_ndash
   (arg) = let
 //
@@ -188,7 +196,7 @@ loop
 in
 //
 if
-(c = '-')
+(c != '-')
 then i (*exit*)
 else loop(ptr_succ<char>(p), i+1)
 // end of [if]
@@ -237,24 +245,56 @@ case+ opt of
 | "--output" => true
 | "--output-a" => true
 | "--output-w" => true
-| _(*rest-of-string*) => false
+| _(* rest-of-string *) => false
+)
+//
+implement
+{}(*tmp*)
+getargs_is_output_w
+  (opt) =
+(
+case+ opt of
+| "--output-w" => true
+| _(* rest-of-string *) => false
+)
+implement
+{}(*tmp*)
+getargs_is_output_a
+  (opt) =
+(
+case+ opt of
+| "--output-a" => true
+| _(* rest-of-string *) => false
 )
 //
 (* ****** ****** *)
-
+//
 local
-
+//
 val
 table =
 gvhashtbl_make_nil(16)
-
+//
 in (* in-of-local *)
+//
+implement
+the_optarty_get() = table
+//
+end // end of [local]
+
+(* ****** ****** *)
 //
 implement
 {}(*tmp*)
 the_optarty_get_key
-  (k0) =
-(
+  (k0) = let
+//
+val
+table =
+the_optarty_get()
+//
+in
+//
 case+
 table[k0]
 of (*case+*)
@@ -262,18 +302,24 @@ of (*case+*)
     $UN.cast{optarty}(p0)
   // GVptr
 | _(*non-GVptr*) => OPTARTY0
-) (* the_optarty_get *)
+//
+end // end of [the_optarty_get_key]
 //
 implement
 {}(*tmp*)
 the_optarty_set_key
-  (k0, art) =
-(
-  table[k0] := gvalue_box(art)
-)
+  (k0, art) = let
 //
-end // end of [local]
-
+val
+table =
+the_optarty_get()
+//
+in
+//
+  table[k0] := gvalue_box(art)
+//
+end // end of [the_optarty_set_key]
+//
 (* ****** ****** *)
 
 implement
@@ -311,21 +357,46 @@ the_optarty_set_key("--output-w", OPTARTY1)
 } (* end of [the_optarty_initset] *)
 
 (* ****** ****** *)
-
+//
 local
-
+//
+typedef
+gvhashtblopt =
+Option(gvhashtbl)
+//
 val
-state =
-gvhashtbl_make_nil(16)
-
+optref =
+ref<gvhashtblopt>(None)
+//
 in (* in-of-local *)
 
 implement
-{}(*tmp*)
-the_state_get() = state
+the_state_optref_get
+  () = let
+//
+  val opt = !optref
+//
+in
+//
+case+ opt of
+| Some(x0) => x0
+| None((*void*)) => x0 where
+  {
+    val x0 =
+      gvhashtbl_make_nil(16)
+    // end of [val]
+    val () = !optref := Some(x0)
+  }
+//
+end // end of [the_state_ref_get]
 
 end // end of [local]
-
+//
+implement
+{}(*tmp*)
+the_state_get
+  ((*void*)) = the_state_optref_get()
+//
 (* ****** ****** *)
 
 implement
@@ -437,6 +508,11 @@ ifcase
 | _(*no-mode-specified*) => ((*void*))
 )
 //
+val r0 =
+  the_outchan_getref<>()
+//
+val () = outchan_close(!r0)
+//
 in
 //
 case+ x of
@@ -445,7 +521,7 @@ case+ x of
     cout = 
     OUTCHANref(stdout_ref)
   in
-    // nothing
+    !r0 := cout
   end // end of [dash]
 | _(*non-dash*) => let
     val fm =
@@ -454,8 +530,11 @@ case+ x of
     val fopt = fileref_open_opt(x, fm)
   in
     case+ fopt of
-    | ~None_vt() => ()
-    | ~Some_vt(filr) => ()
+    | ~Some_vt(filr) =>
+        (!r0 := OUTCHANptr(filr))
+    | ~None_vt((*void*)) =>
+        (!r0 := OUTCHANref(stderr_ref))
+      // end of [None_vt]
   end // end of [non-dash]
 //
 end // end of [getargs_do_output]
@@ -464,7 +543,44 @@ end // end of [getargs_do_output]
 
 implement
 {}(*tmp*)
-optargs_eval
+optargs_eval_one
+  (fxs) = let
+//
+(*
+val () =
+println!
+("optargs_eval_one") 
+*)
+//
+in
+//
+case+ fxs of
+| OPTARGS0 _ => optargs_eval_arg(fxs)
+| OPTARGS1 _ => optargs_eval_opt(fxs)
+//
+end // end of [optargs_eval_one]
+
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+optargs_eval_arg
+  (fxs) = let
+//
+val out = stderr_ref
+//
+in
+//
+fprintln!
+  (out, "optargs_eval_arg: fxs = ", fxs)
+//
+end // end of [optargs_eval_arg]
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+optargs_eval_opt
   (fxs) = let
 //
 macdef
@@ -478,7 +594,7 @@ is_output =
 getargs_is_output
 //
 val-
-OPTARGS1(f, xs) = fxs
+OPTARGS1(f, _) = fxs
 //
 in (* in-of-let *)
 //
@@ -490,10 +606,60 @@ ifcase
 //
 | is_output(f) => getargs_do_output<>(fxs)
 //
-| _(*non-special*) => optargs_eval2<>(fxs)
+| _(*non-special*) => optargs_eval2_opt<>(fxs)
 //
-end // end of [optargs_eval]
+end // end of [optargs_eval_opt]
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+optargs_eval2_opt
+  (fxs) =
+(
+fprintln!
+( stderr_ref
+, "optargs_eval2_opt: fxs = ", fxs
+) (* fprintln! *)
+)
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+optargs_eval_all
+  (fxss) =
+(
+case+ fxss of
+| list0_nil
+    ((*void*)) =>
+  {
+    val () =
+    optargs_eval_all$after<>()
+  }
+| list0_cons
+    (fxs, fxss) =>
+  {
+    val () = optargs_eval_one<>(fxs)
+    val () = optargs_eval_all<>(fxss)
+  } (* end of [list0_cons] *)
+)
+
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+optargs_eval_all$after
+  ((*void*)) =
+{
+//
+val r0 =
+  the_outchan_getref()
+// end of [val]
+val () = outchan_close(!r0)
+//
+} (* optargs_eval_all$after *)
+//
 (* ****** ****** *)
 
 implement

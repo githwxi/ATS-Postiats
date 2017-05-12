@@ -204,41 +204,53 @@ fprint_val<gvalue> = fprint_gvalue
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 gvalue_nil() = GVnil()
 //
 implement
+{}(*tmp*)
 gvalue_int(i) = GVint(i)
 //
 implement
+{}(*tmp*)
 gvalue_ptr(p) = GVptr(p)
 //
 implement
+{}(*tmp*)
 gvalue_bool(x) = GVbool(x)
 implement
+{}(*tmp*)
 gvalue_char(x) = GVchar(x)
 //
 implement
+{}(*tmp*)
 gvalue_float(x) = GVfloat(x)
 implement
+{}(*tmp*)
 gvalue_string(x) = GVstring(x)
 //
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 gvalue_box(x) = GVptr($UN.cast2ptr(x))
 
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
 gvalue_ref(r) = GVref(r)
 //
 implement
+{}(*tmp*)
 gvalue_list(xs) = GVlist(xs)
 //
 implement
+{}(*tmp*)
 gvalue_array(xs) = GVarray(xs)
 //
 implement
+{}(*tmp*)
 gvalue_hashtbl(kxs) = GVhashtbl(kxs)
 //
 (* ****** ****** *)
@@ -253,8 +265,8 @@ implement
 gvarray_make_nil
   (asz) =
 (
-  array0_make_elt(i2sz(asz), GVnil())
-)
+array0_make_elt<gvalue>(i2sz(asz), GVnil())
+) (* gvarray_make_nil *)
 //
 (* ****** ****** *)
 

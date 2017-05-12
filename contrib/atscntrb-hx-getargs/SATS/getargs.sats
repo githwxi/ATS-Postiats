@@ -128,14 +128,20 @@ getargs_do_output(fxs: optargs): void
 (* ****** ****** *)
 //
 fun{}
+the_optarty_initset(): void
+//
+(* ****** ****** *)
+//
+fun
+the_optarty_get
+  ((*void*)): gvhashtbl
+//
+fun{}
 the_optarty_get_key
   (k0: string): optarty
 fun{}
 the_optarty_set_key
   (k0: string, art: optarty): void
-//
-fun{}
-the_optarty_initset(): void
 //
 (* ****** ****** *)
 
@@ -148,6 +154,8 @@ OUTPUT_MODE "output_mode"
 //
 fun{}
 the_state_get(): gvhashtbl
+fun//{}
+the_state_optref_get(): gvhashtbl
 //
 (* ****** ****** *)
 //
@@ -172,9 +180,26 @@ the_state_get_output_mode(): file_mode
 (* ****** ****** *)
 //
 fun{}
-optargs_eval(fxs: optargs): void
+optargs_eval_arg(fxs: optargs): void
+//
 fun{}
-optargs_eval2(fxs: optargs): void
+optargs_eval_opt(fxs: optargs): void
+fun{}
+optargs_eval2_opt(fxs: optargs): void
+//
+(* ****** ****** *)
+//
+fun{}
+optargs_eval_one(fxs: optargs): void
+//
+(* ****** ****** *)
+//
+fun{}
+optargs_eval_all
+  (fxss: list0(optargs)): void
+//
+fun{}
+optargs_eval_all$after((*void*)): void
 //
 (* ****** ****** *)
 //
