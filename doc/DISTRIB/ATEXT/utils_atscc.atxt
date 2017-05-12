@@ -15,8 +15,12 @@ extern
 fun packpostamble (): atext
 extern
 fun packtitle (x: string): atext
+//
 extern
 fun packfilename (x: string): atext
+extern
+fun packfilename_r(x: string): atext
+//
 extern
 fun packfilesynop (x: string): atext
 //
@@ -48,15 +52,21 @@ val () = fprint_string (out, "\
 SOURCE=../../utils/atscc\n\
 TARGET=ATS-Postiats/utils/atscc\n\
 \n\
-srcget ()\n\
+srcget()\n\
 {\n\
 cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
 }\n\
 \n\
-") // end of [val]
+srcget_r()\n\
+{\n\
+rm -rf ${TARGET}/$1 ;\n\
+cp -rf ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") (*fprint_string*)
 //
 in
-  atext_nil ()
+  atext_nil((*void*))
 end // end of [packpreamble]
 
 implement
@@ -70,24 +80,46 @@ echo \"The \${ATSHOME}/utils/atscc files have been copied.\"\n\
 #\n\
 ")
 in
-  atext_nil ()
+  atext_nil((*void*))
 end // end of [packpostamble]
 
 implement
-packtitle (x) = atext_nil ()
+packtitle(x) = atext_nil()
 
 implement
-packfilename (x) = let
+packfilename(x) = let
 //
-val out = stdout_ref
-val () = fprintf (out, "srcget \"%s\" ;\n", @(x))
+val
+out = stdout_ref
+//
+val () =
+fprintf(
+  out, "srcget \"%s\" ;\n", @(x)
+) (* fprintf *)
 //
 in
-  atext_nil ()
+  atext_nil((*void*))
 end // end of [packfilename]
 
 implement
-packfilesynop (x) = atext_nil ()
+packfilename_r
+  (x) = let
+//
+val
+out =
+stdout_ref
+//
+val () =
+fprintf (
+  out, "srcget_r \"%s\" ;\n", @(x)
+) (* fprintf *)
+//
+in
+  atext_nil((*void*))
+end // end of [packfilename_r]
+
+implement
+packfilesynop(x) = atext_nil((*void*))
 
 %}
 
@@ -103,12 +135,12 @@ ATS/utils/atscc
 
 (* ****** ****** *)
 //
+#packfilename("README")
 #packfilename("Makefile")
-#packfilename("atscc.sats")
-#packfilename("atscc_main.dats")
-#packfilename("atscc_util.dats")
-#packfilename("atscc_print.dats")
-#packfilename("patscc.dats")
+#packfilename("Makefile_build")
+#packfilename_r("./SATS")
+#packfilename_r("./DATS")
+#packfilename_r("./BUILD")
 //
 (* ****** ****** *)
 
@@ -117,7 +149,7 @@ ATS/utils/atscc
 (* ****** ****** *)
 
 %{
-implement main (argc, argv) = ()
+implement main(argc, argv) = ((*void*))
 %}
 
 (* ****** ****** *)

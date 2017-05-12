@@ -28,12 +28,8 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxiATcsDOTbuDOTedu *)
 (* Start time: July, 2013 *)
-
-(* ****** ****** *)
-
-staload "./atscc.sats"
+(* Authoremail: hwxiATcsDOTbuDOTedu *)
 
 (* ****** ****** *)
 //
@@ -42,16 +38,18 @@ STDLIB =
 "libats/libc/SATS/stdlib.sats"
 //
 (* ****** ****** *)
-
+//
 #define ATSOPT_DEFAULT "patsopt"
-
+//
 (* ****** ****** *)
-
+//
+staload "./../SATS/atscc.sats"
+//
 macdef
 unsome(opt) = stropt_unsome(,(opt))
 macdef
 issome(opt) = stropt_is_some(,(opt))
-
+//
 (* ****** ****** *)
 
 implement
@@ -227,15 +225,18 @@ end // end of [atsccomp_get]
   
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 atsccomp_get2
   (cas) = let
 (*
-val () = println! ("atsccomp_get2")
+val () =
+println! ("atsccomp_get2")
 *)
 in
 //
 case+ cas of
+//
 | list_cons
     (ca, cas) =>
   (
@@ -243,12 +244,14 @@ case+ cas of
   | CAatsccomp
       (opt) => (
       if issome(opt)
-        then unsome(opt) else atsccomp_get2 (cas)
+        then unsome(opt)
+        else atsccomp_get2(cas)
       // end of [if]
     ) (* end of [CAatsccomp] *)
-  | _ (*void*) => atsccomp_get2 (cas)
+  | _ (*void*) => atsccomp_get2(cas)
   ) (* end of [list_cons] *)
-| list_nil () => atsccomp_get ()
+//
+| list_nil() => atsccomp_get()
 //
 end // end of [atsccomp_get2]
 

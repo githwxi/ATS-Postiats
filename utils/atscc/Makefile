@@ -1,57 +1,41 @@
-#
-# Makefile for [atscc]
-#
-
 ######
 #
-CC=gcc
-CFLAGS=-std=c99 -D_XOPEN_SOURCE
+# A Simple Makefile
 #
 ######
 
-PATSHOMEQ="$(PATSHOME)"
-
-######
-
-PATSCC=$(PATSHOMEQ)/bin/patscc
-PATSOPT=$(PATSHOMEQ)/bin/patsopt
-
-######
-
-INCLUDE=-I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime
-
-######
-
-all:: clean
-all:: patscc
-
-######
-#
-patscc: \
-  patscc_dats.c \
-  atscc_main_dats.c \
-  atscc_print_dats.c ; \
-  $(CC) $(INCLUDE) $(CFLAGS) -DATS_MEMALLOC_LIBC -O2 -o $@ $^
-#
-######
-
-%_dats.c: %.dats; $(PATSOPT) --output $@ --dynamic $<
-
-######
-
+CPF=cp -f
 RMF=rm -f
+MAKE=make
 
 ######
 
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.o
-clean:: ; $(RMF) *_?ats.c
+copy:: ; \
+$(CPF) DATS/*.?ats BUILD/.
 
 ######
 
+build:: ; \
+$(MAKE) \
+-C BUILD -f ../Makefile_build
+
+######
+
+testall:: ; \
+$(MAKE) -C TEST testall 
+
+######
+#
+clean:: ; $(RMF) ./BUILD/*.o
+clean:: ; $(RMF) ./BUILD/*.c
+clean:: ; $(RMF) ./BUILD/*.?ats
+#
+######
+#
 cleanall:: clean
-cleanall:: ; $(RMF) patscc
-
+#
+cleanall:: ; $(RMF) ./BUILD/atscc
+#
 ######
 
 ###### end of [Makefile] ######

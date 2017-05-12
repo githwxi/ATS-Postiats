@@ -24,6 +24,7 @@
 ######
 
 CPF=cp -f
+MVF=mv -f
 MAKE=make
 
 ######
@@ -40,10 +41,13 @@ src_depend: ; touch src/.depend
 src_cleanall: ; make -C src cleanall
 #
 bin_patscc: \
-src_patscc; $(CPF) utils/atscc/patscc bin/patscc
+src_patscc; \
+$(MVF) utils/atscc/BUILD/patscc bin/patscc
 #
-src_patscc:: ; make -f codegen/Makefile_atslib
-src_patscc:: bin_patsopt ; make -C utils/atscc -f Makefile all
+src_patscc:: ; \
+make -f codegen/Makefile_atslib
+src_patscc:: bin_patsopt ; \
+make -C utils/atscc -f Makefile copy build clean
 #
 bin_patsopt: \
 src_patsopt; $(CPF) src/patsopt bin/patsopt

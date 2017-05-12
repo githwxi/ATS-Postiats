@@ -68,16 +68,16 @@ bin2_patsopt: src2_patsopt ; $(CPF) src/CBOOT/patsopt bin/patsopt
 ######
 
 utl_atscc: ; \
-$(MAKE) -C utils/atscc patscc
+$(MAKE) -C utils/atscc copy build clean
 bin_patscc: utl_atscc ; \
-$(CPF) utils/atscc/patscc bin/patscc
+$(MVF) utils/atscc/BUILD/patscc bin/patscc
 
 ######
 
 utl_myatscc: ; \
-$(MAKE) -C utils/myatscc myatscc
+$(MAKE) -C utils/myatscc copy build clean
 bin_myatscc: utl_myatscc ; \
-$(CPF) utils/myatscc/myatscc bin/myatscc
+$(MVF) utils/myatscc/BUILD/myatscc bin/myatscc
 
 ######
 #
@@ -168,6 +168,7 @@ install_files_5: ; \
 ######
 
 CPF=cp -f
+MVF=mv -f
 RMF=rm -f
 RMRF=rm -rf
 

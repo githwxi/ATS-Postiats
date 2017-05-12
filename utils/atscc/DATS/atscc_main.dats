@@ -37,20 +37,21 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
+STDLIB =
+"libats/libc/SATS/stdlib.sats"
+staload
+UNISTD =
+"libats/libc/SATS/unistd.sats"
+//
+(* ****** ****** *)
+
+staload UN = $UNSAFE
 
 (* ****** ****** *)
 
-staload
-STDLIB = "libats/libc/SATS/stdlib.sats"
-staload
-UNISTD = "libats/libc/SATS/unistd.sats"
-
-(* ****** ****** *)
-
-staload "./atscc.sats"
+staload "./../SATS/atscc.sats"
 
 (* ****** ****** *)
 
@@ -1090,7 +1091,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-atscc_help
+atscc_is_help
   (cas) = let
 in
 //
@@ -1099,16 +1100,16 @@ case+ cas of
     (ca, cas) =>
   (
     case+ ca of
-    | CAhelp () => true | _ => atscc_help (cas)
+    | CAhelp() => true | _ => atscc_is_help(cas)
   )
 | list_nil((*void*)) => false
 //
-end // end of [atscc_help]
+end // end of [atscc_is_help]
 
 (* ****** ****** *)
 
 implement
-atscc_verbose
+atscc_is_verbose
   (cas) = let
 in
 //
@@ -1117,7 +1118,7 @@ case+ cas of
     (ca, cas) =>
   (
     case+ ca of
-    | CAverbose () => true | _ => atscc_verbose(cas)
+    | CAverbose() => true | _ => atscc_is_verbose(cas)
   )
 | list_nil((*void*)) => false
 //

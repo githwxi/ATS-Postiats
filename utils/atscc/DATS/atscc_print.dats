@@ -37,35 +37,36 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload
-UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
 //
 staload
-STDLIB = "libats/libc/SATS/stdlib.sats"
+STDLIB =
+"libats/libc/SATS/stdlib.sats"
 staload
-_(*anon*) = "libats/libc/DATS/stdlib.dats"
+_(*anon*) =
+"libats/libc/DATS/stdlib.dats"
+//
+(* ****** ****** *)
+//
+#staload UN = $UNSAFE
+//
+(* ****** ****** *)
+//
+#staload "./../SATS/atscc.sats"
 //
 (* ****** ****** *)
 
-staload "./atscc.sats"
+#staload _(*anon*) = "./atscc_util.dats"
 
 (* ****** ****** *)
 
-staload _(*anon*) = "./atscc_util.dats"
+macdef
+unsome(opt) = stropt_unsome(,(opt))
+macdef
+issome(opt) = stropt_is_some(,(opt))
 
 (* ****** ****** *)
 
 typedef ca = commarg
-
-(* ****** ****** *)
-
-macdef
-unsome (opt) = stropt_unsome (,(opt))
-macdef
-issome (opt) = stropt_is_some (,(opt))
 
 (* ****** ****** *)
 
@@ -74,60 +75,62 @@ fprint_commarg
   (out, ca) = let
 //
 macdef
-prstr (str) = fprint_string (out, ,(str))
+prstr(x) = fprint_string(out, ,(x))
 //
 macdef
 propt (opt) = let
-  val opt = ,(opt) in
-  if issome (opt) then fprint_string (out, unsome(opt))
+//
+val opt = ,(opt) in
+//
+  if issome(opt) then fprint_string(out, unsome(opt))
 end // end of [propt]
 //
 in
 //
 case+ ca of
 //
-| CAhats () => prstr "CAhats()"
-| CAvats () => prstr "CAvats()"
+| CAhats() => prstr "CAhats()"
+| CAvats() => prstr "CAvats()"
 //
-| CAccats () => prstr "CAccats()"
-| CAtcats () => prstr "CAtcats()"
+| CAccats() => prstr "CAccats()"
+| CAtcats() => prstr "CAtcats()"
 //
-| CAhelp () => prstr "CAhelp()"
+| CAhelp() => prstr "CAhelp()"
 //
-| CAgline () => prstr "CAgline()"
+| CAgline() => prstr "CAgline()"
 //
-| CAverbose () => prstr "CAverbose()"
+| CAverbose() => prstr "CAverbose()"
 //
-| CAcleanaft () => prstr "CAcleanaft()"
+| CAcleanaft() => prstr "CAcleanaft()"
 //
-| CAatsccomp (opt) =>
+| CAatsccomp(opt) =>
   (
     prstr "CAatsccomp("; propt (opt); prstr ")"
   )
 //
-| CAdats (0, opt) =>
+| CAdats(0, opt) =>
   (
     prstr "CAdats("; propt (opt); prstr ")"
   )
-| CAdats (_, opt) =>
+| CAdats(_, opt) =>
   (
     prstr "CAddats("; propt (opt); prstr ")"
   )
 //
-| CAiats (0, opt) =>
+| CAiats(0, opt) =>
   (
     prstr "CAiats("; propt (opt); prstr ")"
   )
-| CAiats (_, opt) =>
+| CAiats(_, opt) =>
   (
     prstr "CAiiats("; propt (opt); prstr ")"
   )
 //
-| CAfilats (0, opt) =>
+| CAfilats(0, opt) =>
   (
     prstr "CAfilats(0, "; propt (opt); prstr ")"
   )
-| CAfilats (_, opt) =>
+| CAfilats(_, opt) =>
   (
     prstr "CAfilats(1, "; propt (opt); prstr ")"
   )
@@ -135,13 +138,13 @@ case+ ca of
 | CA_tlcalopt_disable() => prstr "CA_tlcalopt_disable"
 | CA_constraint_ignore() => prstr "CA_constraint_ignore"
 //
-| CA_CCOMPitm (itm) =>
+| CA_CCOMPitm(itm) =>
   (
     prstr "CA_CCOMPitm("; prstr (itm); prstr ")"
   )
 //
 (*
-| _ => prstr "CA...(...)"
+| _(*rest-of-commarg*) => (prstr"CA...("; prstr"..."; prstr")")
 *)
 //
 end // end of [fprint_commarg]
@@ -154,10 +157,12 @@ fprint_commarglst
 //
 implement
 fprint_val<ca>
-  (out, x) = fprint_commarg (out, x)
+  (out, x) =
+  fprint_commarg(out, x)
 //
 implement
-fprint_list$sep<> (out) = fprint_string (out, " ")
+fprint_list$sep<>
+  (out) = fprint_string(out, " ")
 //
 in
   fprint_list<ca> (out, cas)

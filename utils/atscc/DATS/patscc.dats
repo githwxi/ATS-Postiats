@@ -37,55 +37,61 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "./atscc.sats"
-staload "./atscc_util.dats"
-
+//
+#staload
+"libats/libc/DATS/stdlib.dats"
+//
 (* ****** ****** *)
 
-dynload "./atscc_main.dats"
-dynload "./atscc_print.dats"
+#dynload "./atscc_main.dats"
+#dynload "./atscc_print.dats"
 
 (* ****** ****** *)
-
-staload "libats/libc/DATS/stdlib.dats"
-
+//
+#staload "./../SATS/atscc.sats"
+//
+(* ****** ****** *)
+//
+#staload _(*anon*) = "./atscc_util.dats"
+//
 (* ****** ****** *)
 
 implement
-main0 (argc, argv) =
+main0(argc, argv) =
 {
 //
 var status: int = 0
 //
 val cas =
-atsccproc_commline (argc, argv)
+atsccproc_commline(argc, argv)
 //
 // HX-2015-03-22:
 // [patscc] for [patscc -vats]
 //
 val cas =
 (
-if argc >= 2 then cas else cas+'[CAvats]
+if argc >= 2
+  then cas else cas+'[CAvats]
+// end of [i]
 ) : commarglst
 //
-val help = atscc_help (cas)
+val help = atscc_is_help(cas)
 //
 val () =
 (
-  if help then atsopt_print_usage ()
+  if help then atsopt_print_usage()
 ) (* end of [val] *)
 //
 val verb =
 (
-  if atscc_verbose (cas) then 1 else 0
+  if atscc_is_verbose(cas) then 1 else 0
 ) : int // end of [val]
 //
-val cmd = atsopt_get ()
-val argss = atsoptline_make_all (cas)
+val cmd = atsopt_get()
+val argss = atsoptline_make_all(cas)
 val () =
   status :=
-  atsoptline_exec_all (verb, cmd, argss)
+  atsoptline_exec_all(verb, cmd, argss)
 //
 val cont =
 (
@@ -93,17 +99,17 @@ val cont =
 ) : bool // end of [val]
 val cont =
 (
-  if cont then atsccomp_cont (cas) else false
+  if cont then atsccomp_cont(cas) else false
 ) : bool // end of [val]
 val () =
 if cont then
 {
 //
-val cmd = atsccomp_get2 (cas)
+val cmd = atsccomp_get2(cas)
 val arglst = atsccompline_make (cas)
 val () =
 (
-  status := atsccompline_exec (verb, cmd, arglst)
+  status := atsccompline_exec(verb, cmd, arglst)
 ) (* end of [val] *)
 //
 } (* end of [if] *) // end of [val]
@@ -114,20 +120,22 @@ val cont =
 ) : bool // end of [val]
 val cont =
 (
-  if cont then atscc_cleanaft_cont (cas) else false
+  if cont
+    then atscc_cleanaft_cont(cas) else false
+  // end of [if]
 ) : bool // end of [val]
 //
 val () =
 (
   if cont
-    then atscc_cleanaft_exec (verb, cas) else ((*void*))
+    then atscc_cleanaft_exec(verb, cas) else ()
   // end of [if]
 ) : void // end of [val]
 //
 val () =
 exit_void
 (
-  if status = 0 then 0(*success*) else 1(*failure*)
+  if (status = 0) then 0(*success*) else 1(*failure*)
 ) (* end of [val] *)
 //
 } (* end of [main0] *)
