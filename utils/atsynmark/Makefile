@@ -1,127 +1,35 @@
 ######
 #
-# Makefile for atsynmark
+# A Simple Makefile
 #
 ######
 
-ATSHOMEQ="$(ATSHOME)"
-PATSHOMEQ="$(PATSHOME)"
-
-######
-
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSDOC=$(ATSHOMEQ)/bin/atsdoc
-
-######
-
-INCLUDE:=-I $(PATSHOMEQ)/src
-INCLATS:=-IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ)
-
-######
-
-CCFLAGS=-fPIC -O2
-
-######
-
-all:: pats2xhtml
-
-######
-
-CBOOT:: ; $(CPF) pats_*_sats.c CBOOT
-CBOOT:: ; $(CPF) pats_*_dats.c CBOOT
-CBOOT:: ; $(CPF) pats2xhtml_sats.c CBOOT
-CBOOT:: ; $(CPF) pats2xhtml_*_dats.c CBOOT
-
-######
-#
-# OBJECTS := \
-#   pats_utils_sats.o \
-#   pats_utils_dats.o \
-#   pats_global_sats.o \
-#   pats_global_dats.o \
-#   pats_errmsg_sats.o \
-#   pats_errmsg_dats.o \
-#   pats_comarg_sats.o \
-#   pats_comarg_dats.o \
-#   pats_symbol_sats.o \
-#   pats_symbol_dats.o \
-#   pats_filename_sats.o \
-#   pats_filename_dats.o \
-#   pats_intinf_sats.o \
-#   pats_effect_sats.o \
-#   pats_effect_dats.o \
-#   pats_symmap_sats.o \
-#   pats_symmap_dats.o \
-#   pats_symenv_sats.o \
-#   pats_symenv_dats.o \
-#   pats_staexp1_sats.o \
-#   pats_staexp1_dats.o \
-#   pats_staexp1_print_dats.o \
-#   pats_dynexp1_sats.o \
-#   pats_dynexp1_dats.o \
-#   pats_dynexp1_print_dats.o \
-#   pats_trans1_sats.o \
-#   pats_trans1_env_sats.o \
-#   pats_trans1_env_dats.o \
-#   pats_e1xpval_sats.o \
-#   pats_e1xpval_dats.o \
-#   pats_e1xpval_error_dats.o \
-#   pats_trans1_e0xp_dats.o \
-#   pats_trans1_error_dats.o \
-#   pats2xhtml_sats.o \
-#   pats2xhtml_level1_dats.o \
-#
-######
-#
-# %_sats.o: \
-#   $(PATSHOME)/src/%.sats; \
-#   $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
-#
-# %_dats.o: \
-#   $(PATSHOME)/src/%.dats; \
-#   $(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
-#
-######
-##
-pats2xhtml_sats.o: \
-SATS/pats2xhtml.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
-##
-pats2xhtml_level1_dats.o: \
-DATS/pats2xhtml_level1.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
-##
-######
-#
-LDFLAGS :=
-#
-LDFLAGS += -L$(PATSHOME)/ccomp/atslib/lib
-LDFLAGS += -L$(PATSHOME)/utils/libatsynmark
-#
-LDFLAGS += -latsynmark -latsopt -lats -lgmp
-#
-######
-##
-pats2xhtml: \
-SATS/pats2xhtml.sats \
-DATS/pats2xhtml_main.dats \
-DATS/pats2xhtml_level1.dats ; \
-$(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $^ $(OBJECTS) $(LDFLAGS)
-##
-cleanall:: ; $(RMF) pats2xhtml
-##
-######
-
-CPF=cp -f
 RMF=rm -f
+MAKE=make
 
 ######
 
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) */*~
-clean:: ; $(RMF) *_?ats.c
-clean:: ; $(RMF) *_?ats.o
+build:: ; \
+$(MAKE) \
+-C BUILD \
+-f ../Makefile_build
 
 ######
 
+testall:: ; \
+$(MAKE) -C TEST testall 
+
+######
+#
+clean:: ; $(RMF) ./BUILD/*.o
+clean:: ; $(RMF) ./BUILD/*.c
+#
+######
+#
 cleanall:: clean
+#
+cleanall:: ; $(RMF) ./BUILD/pats2xhtml
+#
+######
 
-###### end of [Makefile for atsynmark] ######
+###### end of [Makefile] ######

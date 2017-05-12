@@ -316,23 +316,27 @@ val () =
 printf("where each <command> is of one of the following forms:\n\n", @())
 //
 val () =
+printf("  -h : for printing out this help usage\n", @())
+val () =
+printf("  --help : for printing out this help usage\n", @())
+//
+val () =
 printf("  -o <filename> : output into <filename>\n", @())
 val () =
 printf("  --output <filename> : output into <filename>\n", @())
+//
 val () =
 printf("  -s <filename> : for processing static <filename>\n", @())
 val () =
 printf("  --static <filename> : for processing static <filename>\n", @())
+//
 val () =
 printf("  -d <filename> : for processing dynamic <filename>\n", @())
 val () =
 printf("  --dynamic <filename> : for processing dynamic <filename>\n", @())
+//
 val () =
 printf("  --embedded : for outputing xhtml code to be embedded\n", @())
-val () =
-printf("  -h : for printing out this help usage\n", @())
-val () =
-printf("  --help : for printing out this help usage\n", @())
 //
 } (* end of [pats2xhtml_usage] *)
 

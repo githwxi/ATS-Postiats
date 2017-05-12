@@ -42,14 +42,15 @@ regstr_match_string
 //
 fun{}
 regstr_match_substring
-  {n:int}{st,ln:int | st+ln <= n}
+  {n:int}
+  {st,ln:int|st+ln <= n}
 (
   regstr: string
 , subject: string(n), st: size_t st, ln: size_t ln
 ) : int // end of [regstr_match_substring]
 //
 (* ****** ****** *)
-
+//
 fun{}
 regstr_match2_string{n:int}
 (
@@ -58,20 +59,21 @@ regstr_match2_string{n:int}
 , matched_beg: &int? >> int(n0)
 , matched_end: &int? >> int(n1)
 ) : #[n0,n1:int | n0 <= n1; n1 <= n] int // end-of-fun
-
+//
 fun{}
 regstr_match2_substring
-  {n:int}{st,ln:int | st+ln <= n}
+  {n:int}
+  {st,ln:int|st+ln <= n}
 (
   regstr: string
 , subject: string(n)
-, st: size_t(st), ln: size_t(ln)
+, st: size_t st, ln: size_t ln
 , matched_beg: &int? >> int(n0)
 , matched_end: &int? >> int(n1)
 ) : #[n0,n1:int | n0 <= n1; n1 <= st+ln] int // end-of-fun
-
+//
 (* ****** ****** *)
-
+//
 fun{}
 regstr_match3_string
   {n:int}
@@ -79,22 +81,34 @@ regstr_match3_string
   regstr: string
 , subject: string(n)
 , matched_beg: &int? >> int(n0)
-, matched_end: &int? >> int(n1)
-, err: &int? >> int
-) : #[n0,n1:int | n0 <= n1; n1 <= n] List0_vt(Strptr0)
-
+, matched_end: &int? >> int(n1), err: &int? >> int
+) : #[n0,n1:int|n0 <= n1; n1 <= n] List0_vt(Strptr0)
+//
 fun{}
 regstr_match3_substring
-  {n:int}{st,ln:int | st+ln <= n}
+  {n:int}
+  {st,ln:int|st+ln <= n}
 (
   regstr: string
 , subject: string(n)
 , st: size_t st, ln: size_t ln
 , matched_beg: &int? >> int(n0)
-, matched_end: &int? >> int(n1)
-, err: &int? >> int
-) : #[n0,n1:int | n0 <= n1; n1 <= st+ln] List0_vt(Strptr0)
-
+, matched_end: &int? >> int(n1), err: &int? >> int
+) : #[n0,n1:int|n0 <= n1; n1 <= st+ln] List0_vt(Strptr0)
+//
+(* ****** ****** *)
+//
+fun{}
+regstr_match3_string_easy
+( regstr: string
+, subject: string): Option_vt(List0_vt(Strptr0))
+fun{}
+regstr_match3_substring_easy
+  {n:int}{st,ln:int|st+ln <= n}
+( regstr: string
+, subject: string(n)
+, st: size_t st, ln: size_t ln): Option_vt(List0_vt(Strptr0))
+//
 (* ****** ****** *)
 
 (* end of [pcre_ML.sats] *)

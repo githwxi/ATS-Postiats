@@ -40,7 +40,7 @@ implement
 regstr_match_string
   (regstr, subject) = let
 //
-val subject = g1ofg0 (subject)
+val subject = g1ofg0(subject)
 //
 in
 //
@@ -68,14 +68,19 @@ val p_code = pcreptr2ptr(code)
 //
 in
 //
-if p_code > 0 then let
-  val ret =
-  pcre_match_substring (code, subject, st, ln)
-  val ((*freed*)) = pcre_free (code)
-in
-  ret
-end else let
-  prval () = pcre_free_null (code)
+if
+(p_code > 0)
+then
+rets where
+{
+  val
+  rets =
+  pcre_match_substring
+    (code, subject, st, ln)
+  // end of [val]
+  val ((*freed*)) = pcre_free(code)
+} else let
+  prval ((*freed*)) = pcre_free_null(code)
 in
   ~1(*PCRE_ERROR_NOMATCH*)
 end // end of [if]
@@ -95,7 +100,8 @@ in
 regstr_match2_substring
 (
   regstr, subject
-, i2sz(0), length(subject), matched_beg, matched_end)
+, i2sz(0), length(subject), matched_beg, matched_end
+) (* regstr_match2_substring *)
 //
 end // end of [regstr_match2_string]
 
@@ -110,9 +116,9 @@ regstr_match2_substring
 ) = let
 //
 prval () =
-  lemma_g1uint_param (st)
+  lemma_g1uint_param(st)
 prval () =
-  lemma_g1uint_param (ln)
+  lemma_g1uint_param(ln)
 //
 var errptr: ptr
 var erroffset: int
@@ -126,16 +132,21 @@ val p_code = pcreptr2ptr(code)
 //
 in
 //
-if p_code > 0 then let
-  val ret =
+if
+(p_code > 0)
+then
+rets where
+{
+  val
+  rets =
   pcre_match2_substring
     (code, subject, st, ln, matched_beg, matched_end)
-  val ((*freed*)) = pcre_free (code)
-in
-  ret
-end else let
-  prval () = pcre_free_null (code)
-  val () = matched_beg := ~1 and () = matched_end := ~1
+  // end of [val]
+  val ((*freed*)) = pcre_free(code)
+} else let
+  val () = matched_beg := ~1
+  and () = matched_end := ~1
+  prval ((*freed*)) = pcre_free_null(code)
 in
   ~1(*PCRE_ERROR_NOMATCH*)
 end // end of [if]
@@ -148,14 +159,19 @@ implement
 {}(*tmp*)
 regstr_match3_string
 (
-  regstr, subject, matched_beg, matched_end, err
+  regstr, subject
+, matched_beg, matched_end, err
 ) = let
+//
+val st = i2sz(0)
+and ln = length(subject)
+//
 in
 //
 regstr_match3_substring
 (
-  regstr, subject
-, i2sz(0), length(subject), matched_beg, matched_end, err)
+  regstr, subject, st, ln, matched_beg, matched_end, err
+) (* regstr_match3_substring *)
 //
 end // end of [regstr_match3_string]
 
@@ -165,7 +181,8 @@ implement
 {}(*tmp*)
 regstr_match3_substring
 (
-  regstr, subject, st, ln, matched_beg, matched_end, err
+  regstr, subject, st, ln
+, matched_beg, matched_end, err
 ) = let
 //
 prval () =
@@ -185,22 +202,78 @@ val p_code = pcreptr2ptr(code)
 //
 in
 //
-if p_code > 0 then let
-  val ret =
+if
+(p_code > 0)
+then
+rets where
+{
+  val
+  rets =
   pcre_match3_substring
     (code, subject, st, ln, matched_beg, matched_end, err)
-  val ((*freed*)) = pcre_free (code)
-in
-  ret
-end else let
-  prval () = pcre_free_null (code)
+  // end of [val]
+  val ((*freed*)) = pcre_free(code)
+} else let
   val () = err := ~1
-  val () = matched_beg := ~1 and () = matched_end := ~1
+  val () = matched_beg := ~1
+  and () = matched_end := ~1
+  prval ((*freed*)) = pcre_free_null(code)
 in
   list_vt_nil((*void*))
 end // end of [if]
 //
 end // end of [regstr_match3_substring]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+regstr_match3_string_easy
+  (regstr, subject) = let
+//
+val subject = g1ofg0(subject)
+//
+in
+  regstr_match3_substring_easy(regstr, subject, i2sz(0), length(subject))
+end // end of [regstr_match3_string_easy]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+regstr_match3_substring_easy
+  (regstr, subject, st, ln) = let
+//
+var _beg_: int
+and _end_: int
+var _err_: int
+//
+val rets =
+regstr_match3_substring
+  (regstr, subject, st, ln, _beg_, _end_, _err_)
+//
+in
+//
+if
+(_err_ >= 0)
+then
+Some_vt(rets)
+else
+None_vt(*void*) where
+{
+val () = loop(rets) where
+{
+  fun
+  loop(xs: List_vt(Strptr0)): void =
+  (
+    case+ xs of
+    | ~list_vt_nil() => ()
+    | ~list_vt_cons(x, xs) => (strptr_free(x); loop(xs))
+  )
+} (* end of [val] *)
+} (* end of [else] *)
+//
+end // end of [regstr_match3_string_easy]
 
 (* ****** ****** *)
 
