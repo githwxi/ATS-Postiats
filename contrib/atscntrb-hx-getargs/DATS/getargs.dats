@@ -57,6 +57,32 @@
 //
 implement
 {}(*tmp*)
+print_optarty(x) =
+fprint_optarty<>(stdout_ref, x)
+implement
+{}(*tmp*)
+prerr_optarty(x) =
+fprint_optarty<>(stderr_ref, x)
+//
+implement
+{}(*tmp*)
+fprint_optarty(out, x) =
+(
+case+ x of
+| OPTARTY0() =>
+  fprint!(out, "OPTARTY0()")
+| OPTARTY1() =>
+  fprint!(out, "OPTARTY1()")
+| OPTARTYeq(n) =>
+  fprint!(out, "OPTARTYeq(", n, ")")
+| OPTARTYgte(n) =>
+  fprint!(out, "OPTARTYgte(", n, ")")
+)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
 outchan_close
   (out) =
 (
@@ -316,7 +342,7 @@ getargs_is_input
 macdef
 is_output =
 getargs_is_output
-
+//
 val+OPTARGS(f, xs) = fxs
 //
 in (* in-of-let *)

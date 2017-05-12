@@ -1,7 +1,8 @@
 (* ****** ****** *)
 (*
-** For parsing
-** command-line arguments and more
+** Simple templates
+** for parsing command-line
+** arguments and more
 *)
 (* ****** ****** *)
 //
@@ -22,12 +23,31 @@ OPTARGS of
 , list0(string)(*args*))
 //
 (* ****** ****** *)
-
+//
+// HX:
+// The default is interpreted
+// as argumentless: OPTARTYeq(0)
+//
 datatype
-optarity =
-| OPTARITYint of int
-| OPTARITYint2 of (int, int)
-
+optarty =
+| OPTARTY0 of ()
+| OPTARTY1 of ()
+| OPTARTYeq of (int)
+| OPTARTYgte of (int)
+//
+(* ****** ****** *)
+//
+fun{}
+print_optarty: print_type(optarty)
+fun{}
+prerr_optarty: print_type(optarty)
+fun{}
+fprint_optarty: fprint_type(optarty)
+//
+overload print with print_optarty
+overload prerr with prerr_optarty
+overload fprint with fprint_optarty
+//
 (* ****** ****** *)
 //
 datatype
