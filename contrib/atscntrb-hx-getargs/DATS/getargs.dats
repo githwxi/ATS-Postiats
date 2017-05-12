@@ -193,6 +193,25 @@ val state = the_state_get<>()
 } // end of [the_state_set_key]
 
 (* ****** ****** *)
+
+implement
+{}(*tmp*)
+the_state_get_output_mode
+  ((*void*)) = let
+//
+val gv =
+the_state_get_key(OUTPUT_MODE)
+//
+in
+//
+case+ gv of
+| GVstring"s" => file_mode_w
+| GVstring"a" => file_mode_a
+| _(*unrecognized*) => file_mode_w
+//
+end // the_state_get_output_mode
+
+(* ****** ****** *)
 //
 implement
 {}(*tmp*)
@@ -211,15 +230,16 @@ getargs_do_input
 //
 val+OPTARGS(f, xs) = fxs
 //
-val-list0_cons(x, xs) = xs
+val-list0_cons(x, _) = xs
 //
 in
 //
 case+ x of
 | "-" => ()
 | _(*non-dash*) => let
+    val fm = file_mode_r
     val fopt =
-      fileref_open_opt(x, file_mode_r)
+      fileref_open_opt(x, fm)
     // end of [val]
   in
     case+ fopt of
@@ -228,6 +248,57 @@ case+ x of
   end // end of [non-dash]
 //
 end // end of [getargs_do_input]
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+getargs_do_output
+  (fxs) = let
+//
+val+OPTARGS(f, xs) = fxs
+//
+val-list0_cons(x, _) = xs
+//
+macdef
+is_output_a = getargs_is_output_a
+macdef
+is_output_w = getargs_is_output_w
+//
+val () =
+(
+ifcase
+| is_output_a(f) =>
+  the_state_set_key
+    (OUTPUT_MODE, GVstring"a")
+| is_output_w(f) =>
+  the_state_set_key
+    (OUTPUT_MODE, GVstring"w")
+| _(*no-mode-specified*) => ((*void*))
+)
+//
+in
+//
+case+ x of
+| "-" => let
+    val
+    cout = 
+    OUTCHANref(stdout_ref)
+  in
+    // nothing
+  end // end of [dash]
+| _(*non-dash*) => let
+    val fm =
+      the_state_get_output_mode()
+    // end of [val]
+    val fopt = fileref_open_opt(x, fm)
+  in
+    case+ fopt of
+    | ~None_vt() => ()
+    | ~Some_vt(filr) => ()
+  end // end of [non-dash]
+//
+end // end of [getargs_do_output]
 //
 (* ****** ****** *)
 

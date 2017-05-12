@@ -223,6 +223,11 @@ implement
 gvalue_string(x) = GVstring(x)
 //
 (* ****** ****** *)
+
+implement
+gvalue_box(x) = GVptr($UN.cast2ptr(x))
+
+(* ****** ****** *)
 //
 implement
 gvalue_ref(r) = GVref(r)

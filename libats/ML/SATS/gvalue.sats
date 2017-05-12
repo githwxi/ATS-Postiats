@@ -206,6 +206,10 @@ fun gvalue_float(double): gvalue
 fun gvalue_string(string): gvalue
 //
 (* ****** ****** *)
+
+fun gvalue_box{a:type}(x: a): gvalue
+//
+(* ****** ****** *)
 //
 fun gvalue_ref(gvref): gvalue
 //

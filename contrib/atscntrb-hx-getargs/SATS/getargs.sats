@@ -89,6 +89,13 @@ fun{}
 getargs_do_output(fxs: optargs): void
 //
 (* ****** ****** *)
+
+#define
+OUTCHAN "outchan"
+#define
+OUTPUT_MODE "output_mode"
+
+(* ****** ****** *)
 //
 fun{}
 the_state_get(): gvhashtbl
@@ -104,6 +111,11 @@ fun{}
 the_state_get_key(k0: string): gvalue
 fun{}
 the_state_set_key(k0: string, gv: gvalue): void
+//
+(* ****** ****** *)
+//
+fun{}
+the_state_get_output_mode(): file_mode
 //
 (* ****** ****** *)
 //
