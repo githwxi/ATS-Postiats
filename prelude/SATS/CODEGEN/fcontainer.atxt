@@ -1,14 +1,27 @@
 %{
-#define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT == "txt")
+#define
+ATSCODEFORMAT "txt"
+//
+#if
+(ATSCODEFORMAT=="txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"fcontainer.sats"
-val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
+val
+_thisfilename = atext_strcst"fcontainer.sats"
+val () =
+theAtextMap_insert_str("thisfilename", _thisfilename)
+//
 %}\
 \
 #atscode_banner()
 #atscode_copyright_GPL()
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_start_time("February, 2012")
+#atscode_authoremail("hwxiATcsDOTbuDOTedu")
 
 #atscode_separator()
 
@@ -17,12 +30,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 ** $PATSHOME/prelude/SATS/CODEGEN/fcontainer.atxt
 ** Time of generation: #timestamp()
 *)
-
-#atscode_separator()
-
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("February, 2012")
 
 #atscode_separator()
 
