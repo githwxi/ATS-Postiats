@@ -68,14 +68,14 @@ typedef mode_t = $STAT.mode_t
 (* ****** ****** *)
 //
 staload
-"./libjson-c/SATS/json.sats"
+"./../libjson-c/SATS/json.sats"
 staload _(*anon*) =
-"./libjson-c/DATS/json.dats"
+"./../libjson-c/DATS/json.dats"
 //
 (* ****** ****** *)
-
-staload "./libcurl/SATS/curl.sats"
-
+//
+staload "./../libcurl/SATS/curl.sats"
+//
 (* ****** ****** *)
 //
 extern
