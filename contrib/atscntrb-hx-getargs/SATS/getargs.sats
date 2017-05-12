@@ -18,9 +18,11 @@
 //
 datatype
 optargs =
-OPTARGS of
-( string(*opt*)
-, list0(string)(*args*))
+| OPTARGS0 of
+  ( string(*arg*) )
+| OPTARGS1 of
+  ( string(*opt*)
+  , list0(string)(*args*))
 //
 (* ****** ****** *)
 //
@@ -34,6 +36,19 @@ optarty =
 | OPTARTY1 of ()
 | OPTARTYeq of (int)
 | OPTARTYgte of (int)
+//
+(* ****** ****** *)
+//
+fun{}
+print_optargs: print_type(optargs)
+fun{}
+prerr_optargs: print_type(optargs)
+fun{}
+fprint_optargs: fprint_type(optargs)
+//
+overload print with print_optargs
+overload prerr with prerr_optargs
+overload fprint with fprint_optargs
 //
 (* ****** ****** *)
 //

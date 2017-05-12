@@ -57,6 +57,28 @@
 //
 implement
 {}(*tmp*)
+print_optargs(x) =
+fprint_optargs<>(stdout_ref, x)
+implement
+{}(*tmp*)
+prerr_optargs(x) =
+fprint_optargs<>(stderr_ref, x)
+//
+implement
+{}(*tmp*)
+fprint_optargs(out, x) =
+(
+case+ x of
+| OPTARGS0(arg) =>
+  fprint!(out, "OPTARGS0(", arg, ")")
+| OPTARGS1(opt, args) =>
+  fprint!(out, "OPTARGS1(", opt, "; ", args, ")")
+)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
 print_optarty(x) =
 fprint_optarty<>(stdout_ref, x)
 implement
@@ -364,7 +386,8 @@ implement
 getargs_do_input
   (fxs) = let
 //
-val+OPTARGS(f, xs) = fxs
+val-
+OPTARGS1(f, xs) = fxs
 //
 val-list0_cons(x, _) = xs
 //
@@ -392,7 +415,8 @@ implement
 getargs_do_output
   (fxs) = let
 //
-val+OPTARGS(f, xs) = fxs
+val-
+OPTARGS1(f, xs) = fxs
 //
 val-list0_cons(x, _) = xs
 //
@@ -453,7 +477,8 @@ macdef
 is_output =
 getargs_is_output
 //
-val+OPTARGS(f, xs) = fxs
+val-
+OPTARGS1(f, xs) = fxs
 //
 in (* in-of-let *)
 //
