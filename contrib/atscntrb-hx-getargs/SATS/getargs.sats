@@ -182,7 +182,13 @@ fun{}
 optargs_parse_one
 (
   opt: string, xs: &list0(string) >> _
-) : Option_vt(list0(string))
+) : list0(string)
+//
+(* ****** ****** *)
+//
+fun{}
+optargs_parse_all
+  (arglst: list0(string)): list0(optargs)
 //
 (* ****** ****** *)
 

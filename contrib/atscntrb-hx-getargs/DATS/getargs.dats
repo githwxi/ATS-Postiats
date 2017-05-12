@@ -507,13 +507,19 @@ the_optarty_get_key(opt)
 //
 local
 //
+macdef
+return
+(p0, xs, res) =
+let
+val () =
+$UN.ptr0_set<list0(string)>(,(p0), ,(xs))
+in ,(res) end
+//
 fun loop
 (
-p0: ptr,
-xs: list0(string),
-i0: int,
-res: List0_vt(string)
-) : Option_vt(List0_vt(string)) = (
+p0: ptr, xs: list0(string),
+i0: int, res: List0_vt(string)
+) : List0_vt(string) = (
 //
 if
 (i0 > 0)
@@ -521,7 +527,7 @@ then
 (
 case+ xs of
 | list0_nil() =>
-  (free(res); None_vt())
+  return(p0, xs, res)
 | list0_cons(x, xs) =>
   (
     if
@@ -531,13 +537,10 @@ case+ xs of
     ( p0, xs
     , i0-1, cons_vt(x, res)
     ) (* loop *)
-    else (free(res); None_vt())
+    else return(p0, xs, res)
   ) (* end of [list0_cons] *)
 ) (* end of [then] *)
-else Some_vt(res) where
-{
-  val () = $UN.ptr0_set<list0(string)>(p0, xs)
-} (* end of [else] *)
+else return(p0, xs, res)
 //
 ) (* end of [loop] *)
 //
@@ -548,7 +551,7 @@ auxeq
 (
 xs:
 &list0(string) >> _, i0: int
-) : Option_vt(list0(string)) = let
+) : list0(string) = let
 //
 val p0 = addr@xs
 //
@@ -558,12 +561,7 @@ val res =
 loop(p0, xs, i0, res)
 //
 in
-  case+ res of
-  | ~None_vt() =>
-     None_vt()
-  | ~Some_vt(res) =>
-     Some_vt(list0_of_list_vt(list_vt_reverse(res)))
-  // end of [case+]
+  list0_of_list_vt(list_vt_reverse(res))
 end // end of [auxeq]
 //
 fun
@@ -571,52 +569,39 @@ auxgte
 (
 xs:
 &list0(string) >> _, i0: int
-) : Option_vt(list0(string)) = let
+) : list0(string) = let
+//
+fun
+loop2
+( p0: ptr
+, xs: list0(string)
+, res: List0_vt(string)
+) : List0_vt(string) =
+(
+case+ xs of
+| list0_nil() =>
+  return(p0, xs, res)
+| list0_cons(x, xs) =>
+  (
+    if
+    getargs_is_arg(x)
+    then
+    loop2(p0, xs, cons_vt(x, res))
+    else return(p0, xs, res)
+  ) (* end of [list0_cons] *)
+)
 //
 val p0 = addr@xs
 //
 val res =
-loop(p0, xs, i0, list_vt_nil(*void*))
+list_vt_nil(*void*)
+val res =
+loop(p0, xs, i0, res)
+//
+val res = loop2(p0, xs, res)
 //
 in
-  case+ res of
-  | ~None_vt() =>
-     None_vt()
-  | ~Some_vt(res) => let
-//
-      fun
-      loop2
-      ( p0: ptr
-      , xs: list0(string)
-      , res: List0_vt(string)
-      ) : List0_vt(string) =
-      (
-      case+ xs of
-      | list0_nil() => res where
-        {
-          val () =
-          $UN.ptr0_set<list0(string)>(p0, xs)
-        } (* list0_nil *)
-      | list0_cons(x, xs) =>
-        (
-        if
-        getargs_is_arg(x)
-        then
-        loop2(p0, xs, cons_vt(x, res))
-        else res where
-        {
-          val () =
-          $UN.ptr0_set<list0(string)>(p0, xs)          
-        } (* end of [else] *)
-        ) (* end of [list0_cons] *)
-      )
-//
-      val res = loop2(p0, xs, res)
-//
-    in
-       Some_vt(list0_of_list_vt(list_vt_reverse(res)))
-    end // end of [Some_vt]
-  // end of [case+]
+  list0_of_list_vt(list_vt_reverse(res))
 end // end of [auxgte]
 //
 end // end of [local]
@@ -625,12 +610,53 @@ in
 //
 case+ art of
 | OPTARTY0() =>
-  Some_vt(list0_nil(*void*))
+  list0_nil(*void*)
 | OPTARTY1() => auxeq(xs, 1)
 | OPTARTYeq(n) => auxeq(xs, n)
 | OPTARTYgte(n) => auxgte(xs, n)
 //
 end // end of [optargs_parse_one]
+
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+optargs_parse_all
+  (xs) = let
+//
+fun
+loop
+( xs: list0(string)
+, res: List0_vt(optargs) 
+) : List0_vt(optargs) =
+(
+case+ xs of
+| list0_nil() => res
+| list0_cons(x, xs) =>
+  (
+    if
+    getargs_is_arg(x)
+    then let
+      val res =
+      list_vt_cons(OPTARGS0(x), res)
+    in
+      loop(xs, res)
+    end // end of [then]
+    else let
+      var xs = xs
+      val ys = optargs_parse_one(x, xs)
+      val res = list_vt_cons(OPTARGS1(x, ys), res)
+    in
+      loop(xs, res)
+    end // end of [else]
+  )
+)
+//
+val res = list_vt_nil((*void*))
+//
+in
+  list0_of_list_vt(list_vt_reverse(loop(xs, res)))
+end // end of [optargs_parse_all]
 
 (* ****** ****** *)
 
