@@ -109,11 +109,35 @@ case+ out of
 //
 implement
 {}(*tmp*)
-getargs_is_flag
-  (arg) =
+getargs_is_opt
+  (arg) = let
+//
+val n =
+getargs_get_ndash(arg)
+//
+in
+//
+if
+(n >= 1)
+then
 (
-  getargs_get_ndash(arg) > 0
+if
+(n >= 2)
+then
+true
+else
+isneqz
+($UN.ptr0_get_at<char>(string2ptr(arg), 1))
 )
+else false
+//
+end // end of [getargs_is_opt]
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+getargs_is_arg(arg) = not(getargs_is_opt(arg))
 //
 (* ****** ****** *)
 //
@@ -158,9 +182,9 @@ end // end of [getargs_get_ndash]
 implement
 {}(*tmp*)
 getargs_is_help
-  (flag) =
+  (opt) =
 (
-case+ flag of
+case+ opt of
 | "-h" => true
 | "--help" => true
 | _(*rest-of-string*) => false
@@ -171,9 +195,9 @@ case+ flag of
 implement
 {}(*tmp*)
 getargs_is_input
-  (flag) =
+  (opt) =
 (
-case+ flag of
+case+ opt of
 | "-i" => true
 | "--input" => true
 | _(*rest-of-string*) => false
@@ -184,9 +208,9 @@ case+ flag of
 implement
 {}(*tmp*)
 getargs_is_output
-  (flag) =
+  (opt) =
 (
-case+ flag of
+case+ opt of
 | "-o" => true
 | "--output" => true
 | "--output-a" => true
@@ -444,6 +468,144 @@ ifcase
 | _(*non-special*) => optargs_eval2<>(fxs)
 //
 end // end of [optargs_eval]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+optargs_parse_one
+  (opt, xs) = let
+//
+val
+art =
+the_optarty_get_key(opt)
+//
+local
+//
+fun loop
+(
+p0: ptr,
+xs: list0(string),
+i0: int,
+res: List0_vt(string)
+) : Option_vt(List0_vt(string)) = (
+//
+if
+(i0 > 0)
+then
+(
+case+ xs of
+| list0_nil() =>
+  (free(res); None_vt())
+| list0_cons(x, xs) =>
+  (
+    if
+    getargs_is_arg(x)
+    then
+    loop
+    ( p0, xs
+    , i0-1, cons_vt(x, res)
+    ) (* loop *)
+    else (free(res); None_vt())
+  ) (* end of [list0_cons] *)
+) (* end of [then] *)
+else Some_vt(res) where
+{
+  val () = $UN.ptr0_set<list0(string)>(p0, xs)
+} (* end of [else] *)
+//
+) (* end of [loop] *)
+//
+in
+//
+fun
+auxeq
+(
+xs:
+&list0(string) >> _, i0: int
+) : Option_vt(list0(string)) = let
+//
+val p0 = addr@xs
+//
+val res =
+list_vt_nil(*void*)
+val res =
+loop(p0, xs, i0, res)
+//
+in
+  case+ res of
+  | ~None_vt() =>
+     None_vt()
+  | ~Some_vt(res) =>
+     Some_vt(list0_of_list_vt(list_vt_reverse(res)))
+  // end of [case+]
+end // end of [auxeq]
+//
+fun
+auxgte
+(
+xs:
+&list0(string) >> _, i0: int
+) : Option_vt(list0(string)) = let
+//
+val p0 = addr@xs
+//
+val res =
+loop(p0, xs, i0, list_vt_nil(*void*))
+//
+in
+  case+ res of
+  | ~None_vt() =>
+     None_vt()
+  | ~Some_vt(res) => let
+//
+      fun
+      loop2
+      ( p0: ptr
+      , xs: list0(string)
+      , res: List0_vt(string)
+      ) : List0_vt(string) =
+      (
+      case+ xs of
+      | list0_nil() => res where
+        {
+          val () =
+          $UN.ptr0_set<list0(string)>(p0, xs)
+        } (* list0_nil *)
+      | list0_cons(x, xs) =>
+        (
+        if
+        getargs_is_arg(x)
+        then
+        loop2(p0, xs, cons_vt(x, res))
+        else res where
+        {
+          val () =
+          $UN.ptr0_set<list0(string)>(p0, xs)          
+        } (* end of [else] *)
+        ) (* end of [list0_cons] *)
+      )
+//
+      val res = loop2(p0, xs, res)
+//
+    in
+       Some_vt(list0_of_list_vt(list_vt_reverse(res)))
+    end // end of [Some_vt]
+  // end of [case+]
+end // end of [auxgte]
+//
+end // end of [local]
+//
+in
+//
+case+ art of
+| OPTARTY0() =>
+  Some_vt(list0_nil(*void*))
+| OPTARTY1() => auxeq(xs, 1)
+| OPTARTYeq(n) => auxeq(xs, n)
+| OPTARTYgte(n) => auxgte(xs, n)
+//
+end // end of [optargs_parse_one]
 
 (* ****** ****** *)
 

@@ -75,7 +75,9 @@ getargs_usage(): void
 (* ****** ****** *)
 //
 fun{}
-getargs_is_flag(string): bool
+getargs_is_opt(string): bool
+fun{}
+getargs_is_arg(string): bool
 //
 fun//{}
 getargs_get_ndash(string): intGte(0)
@@ -135,14 +137,17 @@ the_state_get(): gvhashtbl
 (* ****** ****** *)
 //
 fun{}
-the_outchan_getref(): ref(outchan)
+the_outchan_getref
+  ((*void*)): ref(outchan)
 //
 (* ****** ****** *)
 //
 fun{}
-the_state_get_key(k0: string): gvalue
+the_state_get_key
+  (k0: string): gvalue
 fun{}
-the_state_set_key(k0: string, gv: gvalue): void
+the_state_set_key
+  (k0: string, gv: gvalue): void
 //
 (* ****** ****** *)
 //
@@ -155,6 +160,14 @@ fun{}
 optargs_eval(fxs: optargs): void
 fun{}
 optargs_eval2(fxs: optargs): void
+//
+(* ****** ****** *)
+//
+fun{}
+optargs_parse_one
+(
+  opt: string, xs: &list0(string) >> _
+) : Option_vt(list0(string))
 //
 (* ****** ****** *)
 
