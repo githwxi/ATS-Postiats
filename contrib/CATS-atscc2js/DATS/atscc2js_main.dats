@@ -79,7 +79,7 @@ catsparse_mylib_dynload(): void = "ext#"
 //
 datatype
 comarg =
-COMARGkey of (int, string)
+COMARG of (int, string)
 //
 typedef comarglst = List0 (comarg)
 //
@@ -107,7 +107,7 @@ outchan_get_fileref
 (
 //
 case+ x of
-| OUTCHANref (filr) => filr | OUTCHANptr (filp) => filp
+| OUTCHANref(filr) => filr | OUTCHANptr(filr) => filr
 //
 ) (* end of [outchan_get_fileref] *)
 
@@ -317,11 +317,11 @@ comarg_warning
 implement
 comarg_warning
   (msg) = {
-  val () = prerr ("waring(ATS)")
-  val () = prerr (": unrecognized command line argument [")
-  val () = prerr (msg)
-  val () = prerr ("] is ignored.")
-  val () = prerr_newline ((*void*))
+  val () = prerr("waring(ATS)")
+  val () = prerr(": unrecognized command line argument [")
+  val () = prerr(msg)
+  val () = prerr("] is ignored.")
+  val () = prerr_newline((*void*))
 } (* end of [comarg_warning] *)
 //
 (* ****** ****** *)
@@ -413,55 +413,55 @@ in
 case+ arg of
 //
 | _ when
+    isoutwait(state) => let
+//
+    val COMARG(_, fname) = arg
+//
+    val () =
+    cmdstate_set_outchan_basename(state, fname)
+//
+    val () = state.waitkind := WTKnone((*void*))
+//
+  in
+    process_cmdline(state, arglst)
+  end // end of [_ when isoutwait]
+//
+| _ when
     isinwait(state) => let
     val nif = state.ninputfile
   in
     case+ arg of
-    | COMARGkey(1, key)
-        when nif > 0 =>
-        process_cmdline2_COMARGkey1(state, arglst, key)
-    | COMARGkey(2, key)
-        when nif > 0 =>
-        process_cmdline2_COMARGkey2(state, arglst, key)
-    | COMARGkey(_, fname) => let
+    | COMARG(1, key) when nif > 0 =>
+      process_cmdline2_comarg1(state, arglst, key)
+    | COMARG(2, key) when nif > 0 =>
+      process_cmdline2_comarg2(state, arglst, key)
+    | COMARG(_, fname) =>
+      process_cmdline(state, arglst) where
+      {
         val () = state.ninputfile := nif + 1
         val () = atscc2js_basename(state, fname(*input*))
-      in
-        process_cmdline(state, arglst)
-      end // end of [COMARGkey]
+      } (* end of [COMARG(_, _)] *)
   end // end of [_ when isinpwait]
 //
-| _ when
-    isoutwait(state) => let
+| COMARG(1, key) =>
+    process_cmdline2_comarg1(state, arglst, key)
+| COMARG(2, key) =>
+    process_cmdline2_comarg2(state, arglst, key)
 //
-    val COMARGkey(_, fname) = arg
-//
-    val () = cmdstate_set_outchan_basename(state, fname)
-//
-    val () = state.waitkind := WTKnone(*void*)
-//
-  in
-    process_cmdline (state, arglst)
-  end // end of [_ when isoutwait]
-//
-| COMARGkey(1, key) =>
-    process_cmdline2_COMARGkey1(state, arglst, key)
-| COMARGkey(2, key) =>
-    process_cmdline2_COMARGkey2(state, arglst, key)
-//
-| COMARGkey (_, key) => let
-    val () = comarg_warning (key)
-    val () = state.waitkind := WTKnone ()
-  in
-    process_cmdline (state, arglst)
-  end // end of [COMARGkey]
+| COMARG(_, key) =>
+    process_cmdline(state, arglst) where
+  {
+    val () = comarg_warning(key)
+    val () = state.waitkind := WTKnone((*void*))
+  } // end of [COMARG(_, _)]
 //
 end // end of [process_cmdline2]
 
 and
-process_cmdline2_COMARGkey1
+process_cmdline2_comarg1
 (
-  state: &cmdstate >> _, arglst: comarglst, key: string
+  state: &cmdstate >> _
+, arglst: comarglst, key: string
 ) : void = let
 //
 val () = (
@@ -478,69 +478,74 @@ case+ key of
 //
 | "-o" =>
   {
-    val () = state.waitkind := WTKoutput ()
+    val () = state.waitkind := WTKoutput()
   } (* end of [-o] *)
 //
 | "-h" =>
   {
     val () = atscc2js_usage("atscc2js")
-    val () = state.waitkind := WTKnone(*void*)
-    val () = if state.ninputfile < 0 then state.ninputfile := 0
+    val () = state.waitkind := WTKnone((*void*))
+    val () =
+    if state.ninputfile >= 0 then () else state.ninputfile := 0
   } (* end of [-h] *)
 //
-| _ (*unrecognized*) => comarg_warning (key)
+| _ (*unrecognized*) => comarg_warning(key)
 //
 ) : void // end of [val]
 //
 in
-  process_cmdline (state, arglst)
-end // end of [process_cmdline2_COMARGkey1]
+  process_cmdline(state, arglst)
+end // end of [process_cmdline2_comarg1]
 
 and
-process_cmdline2_COMARGkey2
+process_cmdline2_comarg2
 (
-  state: &cmdstate >> _, arglst: comarglst, key: string
+  state: &cmdstate >> _
+, arglst: comarglst, key: string
 ) : void = let
 //
-val () = state.waitkind := WTKnone ()
+val () = state.waitkind := WTKnone()
 //
 val () = (
 //
 case+ key of
 //
-| "--input" => {
+| "--input" =>
+  {
     val () = state.ninputfile := 0
     val () = state.waitkind := WTKinput()
   } (* end of [--input] *)
 //
-| "--output" => {
-    val () = state.waitkind := WTKoutput ()
+| "--output" =>
+  {
+    val () = state.waitkind := WTKoutput()
   } (* end of [--output] *)
 //
 | "--help" => {
-    val () = atscc2js_usage ("atscc2js")
-    val () = state.waitkind := WTKnone(*void*)
-    val () = if state.ninputfile < 0 then state.ninputfile := 0
+    val () = atscc2js_usage("atscc2js")
+    val () = state.waitkind := WTKnone((*void*))
+    val () =
+    if state.ninputfile >= 0 then () else state.ninputfile := 0
   } (* end of [--help] *)
 //
-| _ (*unrecognized*) => comarg_warning (key)
+| _ (*unrecognized*) => comarg_warning(key)
 //
 ) : void // end of [val]
 //
 in
-  process_cmdline (state, arglst)
-end // end of [process_cmdline2_COMARGkey2]
+  process_cmdline(state, arglst)
+end // end of [process_cmdline2_comarg2]
 
 (* ****** ****** *)
 //
 extern
 fun
-comarg_parse (string):<> comarg
+comarg_parse(string):<> comarg
 //
 extern
 fun
 comarglst_parse{n:nat}
-  (argc: int n, argv: !argv(n)): list (comarg, n)
+  (argc: int(n), argv: !argv(n)): list(comarg, n)
 // end of [comarglst_parse]
 //
 (* ****** ****** *)
@@ -551,16 +556,19 @@ comarg_parse
 //
 fun
 loop
-  {n,i:nat | i <= n} .<n-i>.
+{n:int}
+{i:nat|i <= n} .<n-i>.
 (
-  str: string n, n: int n, i: int i
-) :<> comarg = 
+  str: string(n), n: int(n), i: int(i)
+) :<(*void*)> comarg = 
 (
-  if i < n
-    then (
-    if (str[i] != '-')
-      then COMARGkey (i, str) else loop (str, n, i+1)
-    ) else COMARGkey (n, str)
+if
+(i < n)
+then (
+  if
+  (str[i] != '-')
+  then COMARG(i, str) else loop(str, n, i+1)
+) else COMARG(n, str)
 ) (* end of [if] *)  
 // end of [loop]
 //
@@ -586,7 +594,7 @@ loop
 (
 if i < argc
   then let
-    val res = list_vt_cons (comarg_parse (argv[i]), res)
+    val res = list_vt_cons(comarg_parse(argv[i]), res)
   in
     loop (argv, i+1, res)
   end // end of [then]
@@ -621,23 +629,24 @@ val () =
   prerrln! ("Hello from atscc2js!")
 //
 //
-val arglst =
-  comarglst_parse (argc, argv)
+val
+arglst =
+comarglst_parse(argc, argv)
 //
-val+list_cons (arg0, arglst) = arglst
+val+list_cons(arg0, arglst) = arglst
 //
 var
 state = @{
   comarg0= arg0
 , ncomarg= 0 // counting from 0
-, waitkind= WTKnone ()
+, waitkind= WTKnone()
 // number of prcessed
 , ninputfile= ~1 // input files
-, outchan= OUTCHANref (stdout_ref)
+, outchan= OUTCHANref(stdout_ref)
 , nerror= 0 // number of accumulated errors
 } : cmdstate // end of [var]
 //
-val () = process_cmdline (state, arglst)
+val () = process_cmdline(state, arglst)
 //
 val () =
 if

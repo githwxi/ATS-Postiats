@@ -120,7 +120,7 @@ ifcase
    end
 | _(* rest-of-flag *) =>
   (
-    fprintln!(stderr_ref, "optargs_eval2_opt: fxs = ", fxs)
+    fprintln!(stderr_ref, "optargs_eval2_opt: unrecognized flag: ", f)
   )
 //
 end // end of [optargs_eval2_opt]
@@ -155,6 +155,7 @@ val () =
 the_optarty_set_key("-a1", OPTARTYeq(1))
 val () =
 the_optarty_set_key("--arg1", OPTARTYeq(1))
+//
 val () =
 the_optarty_set_key("-a2", OPTARTYeq(1))
 val () =
@@ -172,20 +173,21 @@ arg0 = argv[0]
 implement
 getargs_arg0<>() = arg0
 //
+val () =
+the_optarty_initset((*void*))
+//
 val
 xs =
-listize_argc_argv
-  (argc, argv)
+listize_argc_argv(argc, argv)
 //
-val () = the_optarty_initset()
 val xs = list0_of_list_vt(xs)
-val ts = optargs_parse_all(xs)
+val optargss = optargs_parse_all(xs)
 //
 (*
-val () = println!("ts = ", ts)
+val () = println!("optargss = ", optargss)
 *)
 //
-val () = optargs_eval_all(ts.tail())
+val () = optargs_eval_all(optargss.tail())
 //
 } // end of [main0]
 
