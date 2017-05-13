@@ -465,19 +465,32 @@ val-list0_cons(x, _) = xs
 in
 //
 case+ x of
-| "-" => ()
-| _(*non-dash*) => let
+| "-"(*stdin*) =>
+  let
+    val inp = stdin_ref
+  in
+    getargs_do_input$some<>(inp)
+  end // end of [dash]
+| _(*non-dash*) =>
+  let
     val fm = file_mode_r
     val fopt =
       fileref_open_opt(x, fm)
     // end of [val]
   in
     case+ fopt of
-    | ~None_vt() => ()
-    | ~Some_vt(filr) => ()
+    | ~None_vt() => getargs_do_input$none<>()
+    | ~Some_vt(inp) => getargs_do_input$some<>(inp)
   end // end of [non-dash]
 //
 end // end of [getargs_do_input]
+//
+implement
+{}(*tmp*)
+getargs_do_input$none() = ()
+implement
+{}(*tmp*)
+getargs_do_input$some(inp) = fileref_close(inp)
 //
 (* ****** ****** *)
 //

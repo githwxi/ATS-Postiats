@@ -112,6 +112,10 @@ getargs_is_input(string): bool
 //
 fun{}
 getargs_do_input(optargs): void
+fun{}
+getargs_do_input$none(): void
+fun{}
+getargs_do_input$some(inp: FILEref): void
 //
 (* ****** ****** *)
 //
