@@ -240,12 +240,17 @@ implement
 getargs_is_output
   (opt) =
 (
-case+ opt of
-| "-o" => true
-| "--output" => true
-| "--output-a" => true
-| "--output-w" => true
-| _(* rest-of-string *) => false
+ifcase
+//
+| (opt="-o") => true
+| (opt="--output") => true
+//
+| getargs_is_output_a(opt) => true
+//
+| getargs_is_output_w(opt) => true
+//
+| _(* else *) => false
+//
 )
 //
 implement
@@ -356,6 +361,15 @@ the_optarty_set_key("--output-w", OPTARTY1)
 //
 } (* end of [the_optarty_initset] *)
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+the_outchan_get() = !
+(
+the_outchan_getref<>()
+)
+//
 (* ****** ****** *)
 //
 local

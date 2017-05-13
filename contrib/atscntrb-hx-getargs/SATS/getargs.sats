@@ -73,7 +73,7 @@ outchan =
 (* ****** ****** *)
 //
 fun{}
-getargs_get_arg0(): string
+getargs_arg0(): string
 //
 (* ****** ****** *)
 
@@ -157,15 +157,18 @@ OUTPUT_MODE "output_mode"
 (* ****** ****** *)
 //
 fun{}
-the_state_get(): gvhashtbl
-fun//{}
-the_state_optref_get(): gvhashtbl
+the_outchan_get
+  ((*void*)): outchan
+fun{}
+the_outchan_getref
+  ((*void*)): ref(outchan)
 //
 (* ****** ****** *)
 //
 fun{}
-the_outchan_getref
-  ((*void*)): ref(outchan)
+the_state_get(): gvhashtbl
+fun//{}
+the_state_optref_get(): gvhashtbl
 //
 (* ****** ****** *)
 //

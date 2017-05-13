@@ -18,17 +18,13 @@ regress::
 cleanall::
 
 ######
-
-INCLUDE=./../..
-
-######
 #
 all:: \
 test00
 test00: \
 test00.dats ; \
 $(PATSCC) \
--DATS_MEMALLOC_LIBC -I$(INCLUDE) -o $@ $<
+-DATS_MEMALLOC_LIBC -o $@ $<
 #
 regress:: test00; ./$<
 cleanall:: ; $(RMF) test00
@@ -40,7 +36,7 @@ test01
 test01: \
 test01.dats ; \
 $(PATSCC) \
--DATS_MEMALLOC_LIBC -I$(INCLUDE) -o $@ $< -latslib
+-DATS_MEMALLOC_LIBC -o $@ $< -latslib
 #
 regress:: test01; ./$<
 cleanall:: ; $(RMF) test01

@@ -44,7 +44,8 @@ Here is a list of major additions and changes since the last release:
    patsopt --constraint-ignore --dynamic $1 | \
    tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime - $arglst(2)
    *)
-        
+6. Adding contrib/atscntrb-hx-getargs for building command-line support
+
 ######
 
 0.3.4

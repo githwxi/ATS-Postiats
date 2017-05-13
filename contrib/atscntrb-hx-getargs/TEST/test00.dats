@@ -30,7 +30,7 @@ local
 val arg0 = argv[0]
 in (*in-of-local*)
 implement
-getargs_get_arg0<>() = arg0
+getargs_arg0<>() = arg0
 end // end of [local]
 //
 val () =
