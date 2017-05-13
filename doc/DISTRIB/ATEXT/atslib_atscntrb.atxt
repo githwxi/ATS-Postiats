@@ -143,8 +143,12 @@ packfilesynop(x) = atext_nil()
 
 (* ****** ****** *)
 
-#packfilename("atscntrb-libgmp/README.md")
-#packfilename("atscntrb-libgmp/mylibies.hats")
+#packfilename(
+"atscntrb-libgmp/README.md"
+)
+#packfilename(
+"atscntrb-libgmp/mylibies.hats"
+)
 #packfilename_r("atscntrb-libgmp/CATS")
 #packfilename_r("atscntrb-libgmp/SATS")
 #packfilename_r("atscntrb-libgmp/DATS")
@@ -152,7 +156,9 @@ packfilesynop(x) = atext_nil()
 
 (* ****** ****** *)
 
-#packfilename("atscntrb-libpcre/mylibies.hats")
+#packfilename(
+"atscntrb-libpcre/mylibies.hats"
+)
 #packfilename_r("atscntrb-libpcre/CATS")
 #packfilename_r("atscntrb-libpcre/SATS")
 #packfilename_r("atscntrb-libpcre/DATS")
@@ -160,7 +166,9 @@ packfilesynop(x) = atext_nil()
   
 (* ****** ****** *)
 
-#packfilename("atscntrb-libcurl/mylibies.hats")
+#packfilename(
+"atscntrb-libcurl/mylibies.hats"
+)
 #packfilename_r("atscntrb-libcurl/CATS")
 #packfilename_r("atscntrb-libcurl/SATS")
 #packfilename_r("atscntrb-libcurl/DATS")
@@ -168,7 +176,9 @@ packfilesynop(x) = atext_nil()
   
 (* ****** ****** *)
 
-#packfilename("atscntrb-libjson-c/mylibies.hats")
+#packfilename(
+"atscntrb-libjson-c/mylibies.hats"
+)
 #packfilename_r("atscntrb-libjson-c/CATS")
 #packfilename_r("atscntrb-libjson-c/SATS")
 #packfilename_r("atscntrb-libjson-c/DATS")
@@ -176,36 +186,65 @@ packfilesynop(x) = atext_nil()
     
 (* ****** ****** *)
 
-#packfilename("atscntrb-hx-intinf/README.md")
-#packfilename("atscntrb-hx-intinf/mydepies.hats")
-#packfilename("atscntrb-hx-intinf/mylibies.hats")
+#packfilename(
+"atscntrb-hx-intinf/README.md"
+)
+#packfilename(
+"atscntrb-hx-intinf/mydepies.hats"
+)
+#packfilename(
+"atscntrb-hx-intinf/mylibies.hats"
+)
 #packfilename_r("atscntrb-hx-intinf/SATS")
 #packfilename_r("atscntrb-hx-intinf/DATS")
 #packfilename_r("atscntrb-hx-intinf/TEST")
 
 (* ****** ****** *)
 
-#packfilename("atscntrb-hx-cstream/README.md")
+#packfilename(
+"atscntrb-hx-cstream/README.md"
+)
 #packfilename_r("atscntrb-hx-cstream/SATS")
 #packfilename_r("atscntrb-hx-cstream/DATS")
 #packfilename_r("atscntrb-hx-cstream/TEST")
 
 (* ****** ****** *)
 
-#packfilename("atscntrb-hx-globals/README.md")
+#packfilename(
+"atscntrb-hx-globals/README.md"
+)
 #packfilename_r("atscntrb-hx-globals/HATS")
 #packfilename_r("atscntrb-hx-globals/TEST")
 
 (* ****** ****** *)
 
-#packfilename("atscntrb-hx-mytesting/README")
+#packfilename(
+"atscntrb-hx-getargs/README.md"
+)
+#packfilename(
+"atscntrb-hx-getargs/mylibies.hats"
+)
+#packfilename(
+"atscntrb-hx-getargs/mylibies_link.hats"
+)
+#packfilename_r("atscntrb-hx-getargs/SATS")
+#packfilename_r("atscntrb-hx-getargs/DATS")
+#packfilename_r("atscntrb-hx-getargs/TEST")
+
+(* ****** ****** *)
+
+#packfilename(
+"atscntrb-hx-mytesting/README"
+)
 #packfilename_r("atscntrb-hx-mytesting/SATS")
 #packfilename_r("atscntrb-hx-mytesting/DATS")
 #packfilename_r("atscntrb-hx-mytesting/TEST")
 
 (* ****** ****** *)
 
-#packfilename("atscntrb-sdstring/README.md")
+#packfilename(
+"atscntrb-sdstring/README.md"
+)
 #packfilename_r("atscntrb-sdstring/H")
 #packfilename_r("atscntrb-sdstring/CATS")
 #packfilename_r("atscntrb-sdstring/SATS")

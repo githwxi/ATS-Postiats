@@ -38,7 +38,7 @@ test01.dats ; \
 $(PATSCC) \
 -DATS_MEMALLOC_LIBC -o $@ $< -latslib
 #
-regress:: test01; ./$<
+regress:: test01; ./$ --arg1 10 --arg2 10 --eval
 cleanall:: ; $(RMF) test01
 #
 ######
