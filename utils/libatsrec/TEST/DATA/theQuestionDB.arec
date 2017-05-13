@@ -14,10 +14,10 @@ in ATS?
 [points]: 10
 [choice(1)]: \
 It loops forever
-[choice(2)]: \
-It raises a run-time error
 [choice(3)]: \
 It returns an integer value
+[choice(2)]: \
+It raises a run-time exception
 [choice(4)]: \
 It exceeds a fixed maximum recursion depth and then crashes
 [choice(5)]: \
@@ -35,9 +35,9 @@ in ATS?
 [choice(1)]: \
 It loops forever
 [choice(2)]: \
-It raises a run-time error
-[choice(3)]: \
 It returns an integer value
+[choice(3)]: \
+It raises a run-time exception
 [choice(4)]: \
 It exceeds a fixed maximum recursion depth and then crashes
 [choice(5)]: \
