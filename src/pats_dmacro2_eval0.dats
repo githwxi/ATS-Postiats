@@ -136,7 +136,7 @@ local
 fun
 eval0_app_add
 (
-  loc0: location, m2v1: m2val, m2v2: m2val
+  loc0: loc_t, m2v1: m2val, m2v2: m2val
 ) : m2val = let
 (*
 val () =
@@ -157,7 +157,7 @@ end // end of [eval0_app_add]
 fun
 eval0_app_sub
 (
-  loc0: location, m2v1: m2val, m2v2: m2val
+  loc0: loc_t, m2v1: m2val, m2v2: m2val
 ) : m2val = let
 (*
 val () =
@@ -178,7 +178,7 @@ end // end of [eval0_app_sub]
 fun
 eval0_app_mul
 (
-  loc0: location, m2v1: m2val, m2v2: m2val
+  loc0: loc_t, m2v1: m2val, m2v2: m2val
 ) : m2val = let
 (*
 val () =
@@ -201,13 +201,13 @@ end // end of [eval0_app_mul]
 fn
 eval0_app_cmp_int
 (
-  loc0: location, m2v1: m2val, m2v2: m2val
+  loc0: loc_t, m2v1: m2val, m2v2: m2val
 ) : Sgn = let
 //
 fun
 auxerr
 (
-  loc0: location
+  loc0: loc_t
 , m2v1: m2val, m2v2: m2val
 ) : Sgn = let
   val () =
@@ -244,7 +244,7 @@ end // end of [eval0_app_cmp_int]
 fun
 eval0_app_lt
 (
-  loc0: location, m2v1: m2val, m2v2: m2val
+  loc0: loc_t, m2v1: m2val, m2v2: m2val
 ) : m2val = let
 //
 val sgn = eval0_app_cmp_int(loc0, m2v1, m2v2)
@@ -256,7 +256,7 @@ end // end of [eval0_exp_app_lt]
 fun
 eval0_app_lte
 (
-  loc0: location, m2v1: m2val, m2v2: m2val
+  loc0: loc_t, m2v1: m2val, m2v2: m2val
 ) : m2val = let
 //
 val sgn = eval0_app_cmp_int(loc0, m2v1, m2v2)
@@ -270,7 +270,7 @@ end // end of [eval0_exp_app_lte]
 fun
 eval0_app_gt
 (
-  loc0: location, m2v1: m2val, m2v2: m2val
+  loc0: loc_t, m2v1: m2val, m2v2: m2val
 ) : m2val = let
 //
 val sgn = eval0_app_cmp_int(loc0, m2v1, m2v2)
@@ -282,7 +282,7 @@ end // end of [eval0_exp_app_gt]
 fun
 eval0_app_gte
 (
-  loc0: location, m2v1: m2val, m2v2: m2val
+  loc0: loc_t, m2v1: m2val, m2v2: m2val
 ) : m2val = let
 //
 val sgn = eval0_app_cmp_int(loc0, m2v1, m2v2)
@@ -296,7 +296,7 @@ end // end of [eval0_exp_app_gte]
 fun
 eval0_app_eq
 (
-  loc0: location, m2v1: m2val, m2v2: m2val
+  loc0: loc_t, m2v1: m2val, m2v2: m2val
 ) : m2val = let
 //
 val
@@ -309,7 +309,7 @@ end // end of [eval0_exp_app_eq]
 fun
 eval0_app_neq
 (
-  loc0: location, m2v1: m2val, m2v2: m2val
+  loc0: loc_t, m2v1: m2val, m2v2: m2val
 ) : m2val = let
 //
 val sgn= eval0_app_cmp_int(loc0, m2v1, m2v2)
@@ -341,7 +341,7 @@ end // end of [d2exparg_get_d2explst]
 fun
 eval0_d2exparg_1
 (
-  loc: location
+  loc: loc_t
 , ctx: !evalctx
 , env: &alphenv, d2a: d2exparg
 ) : m2val = let
@@ -366,7 +366,7 @@ end // end of [eval0_d2exparg_1]
 fun
 eval0_d2exparglst_1
 (
-  loc: location
+  loc: loc_t
 , ctx: !evalctx
 , env: &alphenv, d2as: d2exparglst
 ) : m2val = (
@@ -392,7 +392,7 @@ typedef m2val2 = @(m2val, m2val)
 fun
 eval0_d2exparg_2
 (
-  loc: location
+  loc: loc_t
 , ctx: !evalctx
 , env: &alphenv, d2a: d2exparg
 ) : m2val2 = let
@@ -422,7 +422,7 @@ end // end of [eval0_d2exparg_2]
 fun
 eval0_d2exparglst_2
 (
-  loc: location
+  loc: loc_t
 , ctx: !evalctx
 , env: &alphenv, d2as: d2exparglst
 ) : m2val2 = let
@@ -551,7 +551,7 @@ end // end of [local]
 fun
 eval0_app_eval
 (
-  loc0: location, m2v: m2val
+  loc0: loc_t, m2v: m2val
 ) : m2val = let
 //
 fun
@@ -589,7 +589,7 @@ end // end of [eval0_app_eval]
 fun
 eval0_app_lift
 (
-  loc0: location, m2v: m2val
+  loc0: loc_t, m2v: m2val
 ) : m2val = let
   val d2e = liftval2dexp(loc0, m2v) in M2Vdcode(d2e)
 end // end of [eval0_app_lift]
@@ -689,14 +689,14 @@ eval0_iscons
 fun
 eval0_d2var
 (
-  loc: location
+  loc: loc_t
 , ctx: !evalctx, d2v: d2var
 ) : m2val = let
 //
 fun
 auxerr
 (
-  loc: location, d2v: d2var
+  loc: loc_t, d2v: d2var
 ) : m2val = let
   val () =
   prerr_errmac_loc(loc)
@@ -726,7 +726,7 @@ extern
 fun
 eval0_d2explst
 (
-  loc: location
+  loc: loc_t
 , ctx: !evalctx, env: &alphenv, d2es: d2explst
 ) : m2valist // end of [eval0_d2expopt]
 implement
@@ -753,7 +753,7 @@ extern
 fun
 eval0_d2expopt
 (
-  loc: location
+  loc: loc_t
 , ctx: !evalctx, env: &alphenv, opt: d2expopt
 ) : m2val // end of [eval0_d2expopt]
 implement
@@ -984,7 +984,7 @@ evalctx_extend_sarg
 fun
 auxerr
 (
-  loc: location, d2m: d2mac, sgn: int
+  loc: loc_t, d2m: d2mac, sgn: int
 ) : void = let
   val () =
   prerr_errmac_loc(loc)
@@ -1041,7 +1041,7 @@ evalctx_extend_darg
 fun
 auxerr
 (
-  loc: location, d2m: d2mac, sgn: int
+  loc: loc_t, d2m: d2mac, sgn: int
 ) : void = let
   val () =
   prerr_errmac_loc(loc)
@@ -1057,7 +1057,7 @@ end // end of [auxerr]
 fun
 auxexp
 (
-  loc: location, knd: int
+  loc: loc_t, knd: int
 , ctx: !evalctx, env: &alphenv, d2e: d2exp
 ) : m2val = let
 in
@@ -1075,7 +1075,7 @@ end // end of [auxexp]
 fun
 auxexplst
 (
-  loc: location, knd: int
+  loc: loc_t, knd: int
 , ctx: !evalctx, env: &alphenv, d2es: d2explst
 ) : m2valist = let
 in
@@ -1202,8 +1202,8 @@ evalctx_extend_arg
 fun
 auxerr
 (
-  loc: location
-, loca: location, d2m: d2mac, stadyn: int
+  loc: loc_t
+, loca: loc_t, d2m: d2mac, stadyn: int
 ) : void = let
   val () =
   prerr_errmac_loc(loc)
@@ -1212,9 +1212,9 @@ auxerr
   val () =
   $LOC.prerr_location(loca)
   val () =
-  if stadyn = 0 then prerr ") is expected to be static."
+  if (stadyn = 0) then prerr ") is expected to be static."
   val () =
-  if stadyn > 0 then prerr ") is expected to be dynamic."
+  if (stadyn > 0) then prerr ") is expected to be dynamic."
   val () = prerr_newline((*void*))
 in
   the_trans3errlst_add(T3E_dmacro_evalctx_extend(loc, d2m))
@@ -1294,13 +1294,14 @@ eval0_app_mac_long
   val () = println! ("eval0_app_mac_long: d2m = ", d2m)
 *)
 //
-val n = list_length(d2as)
-val args = d2mac_get_arglst (d2m)
+val n0 = list_length(d2as)
+val args = d2mac_get_arglst(d2m)
 val narg = list_length(args)
 //
-val () =
-(
-if n != narg then let
+val () = (
+if
+(n0 != narg)
+then let
   val () =
   prerr_errmac_loc(loc)
   val () =
@@ -1308,9 +1309,9 @@ if n != narg then let
   val () =
   prerr_d2mac(d2m)
   val () =
-  if n > narg then prerr "] is overlly applied."
+  if n0 > narg then prerr "] is overlly applied."
   val () =
-  if n < narg then prerr "] is applied insufficiently."
+  if n0 < narg then prerr "] is applied insufficiently."
   val () = prerr_newline((*void*))
 in
   the_trans3errlst_add
@@ -1357,9 +1358,9 @@ val () = (
 ) (* end of [val] *)
 *)
 //
-val n = list_length (d2as)
-val args = d2mac_get_arglst (d2m)
-val narg = list_length (args)
+val n0 = list_length(d2as)
+val args = d2mac_get_arglst(d2m)
+val narg = list_length(args)
 //
 (*
 val () = (
@@ -1372,7 +1373,7 @@ val () =
 (
 //
 if
-(n < narg)
+(n0 < narg)
 then let
   val () =
   prerr_errmac_loc(loc)
@@ -1391,10 +1392,11 @@ end // end of [let] // end of [if]
 var d2as1
   : d2exparglst = list_nil()
 //
-val d2as2 = (
+val d2as2 =
+(
 //
 if
-narg <= n
+(n0 >= narg)
 then xs2 where
 {
   val (xs1, xs2) =
@@ -1433,10 +1435,12 @@ in
 case+ d2as2 of
 | list_nil
     () => (d2e)
-  // list_nil
+  // list_nil()
 | list_cons _ =>
   (
-  case+ d2e.d2exp_node of
+  case+
+  d2e.d2exp_node
+  of (* case+ *)
   | D2Eapplst
      (d2e_fun, d2as1) =>
    (
