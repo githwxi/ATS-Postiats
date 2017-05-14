@@ -12,14 +12,13 @@ ATSRUNTIME=$(ATSHOME)/ccomp/runtime
 
 ######
 #
-LDPATH :=
-LDPATH += -L$(PATSHOME)/utils/libatsopt
+LIBGMP=-lgmp
 #
 ######
-
-LIBGMP=
-LIBGMP=-lgmp
-
+#
+LDPATH :=
+LDPATH += -L./../BUILD
+#
 ######
 
 all:: patsopt
