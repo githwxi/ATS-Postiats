@@ -67,7 +67,7 @@ script:
   - make -C utils/libatsopt copy build
   - cp -f utils/libatsopt/BUILD/libatsopt.a ${ATSHOME}/ccomp/lib
   - make -C utils/libatsynmark copy build
-  - cp -f utils/libatsynmark/BUILD libatsynmark.a ${ATSHOME}/ccomp/lib
+  - cp -f utils/libatsynmark/BUILD/libatsynmark.a ${ATSHOME}/ccomp/lib
   - make -C utils/atsynmark
   # make -C utils/atstagging
   # make -C utils/packeditall
