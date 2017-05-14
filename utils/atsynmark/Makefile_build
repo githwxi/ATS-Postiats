@@ -93,12 +93,10 @@ $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 ##
 ######
 #
-LDFLAGS :=
+LDPATH :=
+LDPATH += -L"$(ATSHOME)/ccomp/lib"
 #
-LDFLAGS += -L$(PATSHOME)/ccomp/atslib/lib
-LDFLAGS += -L$(PATSHOME)/utils/libatsynmark
-#
-LDFLAGS += -latsynmark -latsopt -lats -lgmp
+LIBRARY += -latsynmark -latsopt -lats -lgmp
 #
 ######
 ##
@@ -106,7 +104,7 @@ pats2xhtml: \
 ./../SATS/pats2xhtml.sats \
 ./../DATS/pats2xhtml_main.dats \
 ./../DATS/pats2xhtml_level1.dats ; \
-$(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $^ $(OBJECTS) $(LDFLAGS)
+$(ATSCC) -O2 $(INCLUDE) $(INCLATS) -o $@ $^ $(OBJECTS) $(LDPATH) $(LIBRARY)
 ##
 cleanall:: ; $(RMF) pats2xhtml
 ##
