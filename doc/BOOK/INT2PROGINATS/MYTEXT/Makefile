@@ -13,10 +13,8 @@ LDPATH :=
 LDPATH := -L$(ATSHOME)/ccomp/lib
 LDPATH += -L$(ATSHOME)/ccomp/lib64
 #
-# LDPATH += -L$(PATSHOME)/utils/libatsopt
-# LDPATH += -L$(PATSHOME)/utils/libatsynmark
-#
-LIBRARY = -latsynmark -latsopt -lats -lgmp -lgc
+LIBRARY = \
+-latsynmark -latsopt -lats -lgmp -lgc
 #
 ATSRUNTIME=$(ATSHOME)/ccomp/runtime
 #

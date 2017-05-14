@@ -15,16 +15,19 @@ all:: build
 
 ######
 
-build:: ; \
-$(MAKE) -C BUILD all && \
-  $(CPF) BUILD/libatsopt.a ccomp/atslib/lib/.
+build:: ; $(MAKE) -C BUILD all
+
+######
+
+upload:: ; \
+$(MVF) BUILD/libatsopt.a ccomp/atslib/lib/.
 
 ######
 #
 copysrc:: ; \
 $(CPF) ${PATSHOME}/src/pats_*.?ats ./BUILD/src
 copysrc:: ; \
-$(CPF) ${PATSHOME}/utils/BUILD/DATS/* BUILD/DATS/.
+$(CPF) ${PATSHOME}/utils/libatsopt/DATS/* BUILD/DATS/.
 #
 ######
 #
@@ -40,5 +43,8 @@ clean:: ; $(RMF) ./BUILD/src/pats_*_?ats.o
 cleanall:: ; $(RMF) ./BUILD/DATS/*
 cleanall:: ; $(RMF) ./BUILD/src/pats_*.?ats
 cleanall:: ; $(RMF) ./ccomp/atslib/lib/libatsopt.a
+#
+cleanall:: ; $(MAKE) -C BUILD -f Makefile cleanall
+cleanall:: ; $(MAKE) -C BUILD/src -f Makefile cleanall
 #
 ###### end of [Makefile] ######

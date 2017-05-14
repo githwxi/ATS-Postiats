@@ -1561,5 +1561,6 @@ clean:: ; $(RMF) $(DIR)/*_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) TAGATS
+cleanall:: ; $(RMF) libatsopt.a
 
 ###### end of [Makefile] ######
