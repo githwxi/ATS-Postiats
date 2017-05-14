@@ -16,29 +16,29 @@ all:: build
 ######
 
 build:: ; \
-$(MAKE) -C libatsopt all && \
-  $(CPF) libatsopt/libatsopt.a ccomp/atslib/lib/.
+$(MAKE) -C BUILD all && \
+  $(CPF) BUILD/libatsopt.a ccomp/atslib/lib/.
 
 ######
 #
 copysrc:: ; \
-$(CPF) ${PATSHOME}/src/pats_*.?ats ./libatsopt/src
+$(CPF) ${PATSHOME}/src/pats_*.?ats ./BUILD/src
 copysrc:: ; \
-$(CPF) ${PATSHOME}/utils/libatsopt/DATS/* libatsopt/DATS/.
+$(CPF) ${PATSHOME}/utils/BUILD/DATS/* BUILD/DATS/.
 #
 ######
 #
-clean:: ; $(RMF) ./libatsopt/libatsopt.a
-clean:: ; $(RMF) ./libatsopt/src/libatsopt.a
+clean:: ; $(RMF) ./BUILD/libatsopt.a
+clean:: ; $(RMF) ./BUILD/src/libatsopt.a
 #
-clean:: ; $(RMF) ./libatsopt/patsopt*_dats.c
-clean:: ; $(RMF) ./libatsopt/patsopt*_dats.o
+clean:: ; $(RMF) ./BUILD/patsopt*_dats.c
+clean:: ; $(RMF) ./BUILD/patsopt*_dats.o
 #
-clean:: ; $(RMF) ./libatsopt/src/pats_*_?ats.c
-clean:: ; $(RMF) ./libatsopt/src/pats_*_?ats.o
+clean:: ; $(RMF) ./BUILD/src/pats_*_?ats.c
+clean:: ; $(RMF) ./BUILD/src/pats_*_?ats.o
 #
-cleanall:: ; $(RMF) ./libatsopt/DATS/*
-cleanall:: ; $(RMF) ./libatsopt/src/pats_*.?ats
+cleanall:: ; $(RMF) ./BUILD/DATS/*
+cleanall:: ; $(RMF) ./BUILD/src/pats_*.?ats
 cleanall:: ; $(RMF) ./ccomp/atslib/lib/libatsopt.a
 #
 ###### end of [Makefile] ######
