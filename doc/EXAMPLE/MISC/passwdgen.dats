@@ -126,35 +126,30 @@ main (
   [n:int]
   EQINT() = eqint_make_gint(n)
 //
-  val () = assert(n >= 0)
+  val () = assertloc(n >= 0)
   val () = srand_with_time((*void*))
-  val asz = g1int2uint(n)
+//
+  fun
+  loop{i:nat | i <= n} .<n-i>.
+  (
+    passwd: arrayref(char, n), n: int(n), i: int(i)
+  ) : void =
+    if (i < n) then let
+      val () =
+      (passwd[i] := int2char0($RANDGEN.randint(94) + 33))
+    in
+      loop (passwd, n, i+1)
+    end else () // end of [if]
 //
   val
+  asz = g1int2uint(n)
+  val
   passwd =
-  arrayref_make_elt<char>(asz, '\000')
-//
-  val () =
-  loop(passwd, n, 0) where
-  {
-    fun
-    loop{i:nat | i <= n} .<n-i>.
-    (
-      passwd: arrayref(char, n), n: int(n), i: int(i)
-    ) : void =
-      if (i < n) then let
-        val () =
-        (passwd[i] := int2char0($RANDGEN.randint(94) + 33))
-      in
-        loop (passwd, n, i+1)
-      end else () // end of [if]
-  } (* end of [where] *)
-//
-  val () =
-  fprint_arrayref_sep
-    (stdout_ref, passwd, asz, "")
-  // end of [val]
-  val () = fprint_newline(stdout_ref)
+  arrayref_make_elt<char>(asz, '\0')
+  val ((*void*)) = loop(passwd, n, 0)
+  val ((*void*)) =
+  fprint_arrayref_sep<char>(stdout_ref, passwd, asz, "")
+  val ((*void*)) = fprint_newline(stdout_ref)
 //
 } // end of [main]
 
