@@ -56,6 +56,10 @@ scadexp =
 //
 | SCADEXPvec of scadexplst
 //
+| SCADEXPcond of
+    (scadexp, scadexp, scadexp)
+  // SCADEXPcond
+//
 | SCADEXPextfcall of
     (string(*fun*), scadenv, scadarglst)
   // SCADEXPextfcall
@@ -97,12 +101,14 @@ SCADVEC($list{scadexp}(,(x), ,(y), ,(z)))
 datatype
 scadobj =
 //
-| SCADOBJfopr of
-  (string(*fopr*), scadenv, scadarglst)
+| SCADOBJfapp of
+  (
+    string(*fopr*), scadenv, scadarglst
+  ) (* SCADOBJfopr *)
 //
-| SCADOBJmopr of (string(*mopr*), scadobjlst)
+| SCADOBJmapp of (string(*mopr*), scadobjlst)
 //
-| SCADOBJtfmapp of (scadtfm, scadobjlst)
+| SCADOBJtfmapp of (scadtfm(*mtfm*), scadobjlst)
 //
 // end of [scadobj]
 
@@ -114,10 +120,26 @@ scadtfm =
 | SCADTFMcompose of (scadtfm, scadtfm)
 //
 | SCADTFMextmcall of
-    (string(*module*), scadenv, scadarglst)
-  // SCADTFMextmcall
+  (
+    string(*fmod*), scadenv(*env*), scadarglst(*args*)
+  ) (* SCADTFMextmcall *)
 //
 where scadobjlst = List0(scadobj)
+//
+(* ****** ****** *)
+//
+fun
+scadenv_nil(): scadenv
+fun
+scadenv_sing
+  (l: label, x: scadexp): scadenv
+//
+(* ****** ****** *)
+//
+fun
+scadenv_is_nil(scadenv): bool
+fun
+scadenv_is_cons(scadenv): bool
 //
 (* ****** ****** *)
 //
@@ -154,11 +176,29 @@ scadexplst_femit(FILEref, scadexplst): void
 (* ****** ****** *)
 //
 fun
+scadenv_femit(FILEref, scadenv): void
+//
+(* ****** ****** *)
+//
+fun
 scadarg_femit(FILEref, scadarg): void
 fun
 scadarglst_femit(FILEref, scadarglst): void
 fun
 scadarglst_env_femit(FILEref, scadarglst, scadenv): void
+//
+(* ****** ****** *)
+//
+fun
+scadobj_femit
+  (out: FILEref, int(*indent*), scadobj): void
+fun
+scadtfm_femit
+  (out: FILEref, int(*indent*), scadtfm): void
+//
+fun
+scadobjlst_femit
+  (out: FILEref, int(*indent*), scadobjlst): void
 //
 (* ****** ****** *)
 

@@ -62,16 +62,21 @@ scadarglst_env_femit
   (out, args, env) =
 {
 //
-  val
-  iscons = list_is_cons(args)
-//
   val () =
   scadarglst_femit(out, args)
 //
-  val () =
-  if iscons then fprint(out, ", ")
+  val
+  iscons = scadenv_is_cons(env)
 //
-  val () = fprint_scadenv(out, env)
+  val () =
+  if iscons then
+  {
+    val
+    iscons = list_is_cons(args)
+    val () =
+    if iscons then fprint(out, ", ")
+    val () = scadenv_femit(out, env)
+  } (* end of [if] *) // end of [val]
 //
 } (* end of [scadarglst_env_femit] *)
 
@@ -110,6 +115,11 @@ case+ exp of
     fprint(out, "]");
   )
 //
+| SCADEXPcond(x0, x1, x2) =>
+  (
+    fprint!(out, "(", x0, ") ? (", x1, ") : (", x2, ")")
+  )
+//
 | SCADEXPextfcall
     (fnm, env, args) =>
   (
@@ -146,6 +156,119 @@ case+ xs of
 )
 //
 } (* end of [scadexplst_femit] *)
+
+(* ****** ****** *)
+//
+extern
+fun
+fprint_nspace
+  (out: FILEref, nsp: int): void
+//
+implement
+fprint_nspace
+  (out, nsp) =
+(
+fix
+loop
+(
+  out: FILEref, nsp: int
+) : void =>
+if nsp > 0
+  then (fprint(out, ' '); loop(out, nsp-1))
+// end of [if]
+) (out, nsp) // end of [fprint_nspace]
+//
+(* ****** ****** *)
+
+implement
+scadobj_femit
+  (out, nsp, obj) = let
+(*
+val () =
+println! ("scadobj_femit")
+*)
+in
+//
+case+ obj of
+| SCADOBJfapp
+    (fopr, env, args) =>
+  (
+    fprint_nspace(out, nsp);
+    fprint_string(out, fopr);
+    fprint!(out, "(");
+    scadarglst_env_femit(out, args, env);
+    fprint!(out, ");\n");
+  )
+//
+| SCADOBJmapp(mopr, objs) =>
+  (
+    fprint_nspace(out, nsp);
+    fprint!(out, mopr, "()\n");
+    fprint_nspace(out, nsp); fprint!(out, "{\n");
+    scadobjlst_femit(out, nsp+2, objs);
+    fprint_nspace(out, nsp); fprint!(out, "}\n");
+  )
+//
+| SCADOBJtfmapp(tfm, objs) =>
+  (
+    scadtfm_femit(out, nsp, tfm);
+    fprint_nspace(out, nsp); fprint!(out, "{\n");
+    scadobjlst_femit(out, nsp+2, objs);
+    fprint_nspace(out, nsp); fprint!(out, "}\n");
+  )
+//
+end // end of [scadobj_femit]
+
+(* ****** ****** *)
+
+implement
+scadobjlst_femit
+  (out, nsp, objs) =
+(
+fix
+loop
+(
+  out: FILEref, nsp: int, xs: scadobjlst
+) : void =>
+(
+case+ xs of
+| list_nil() => ()
+| list_cons(x, xs) =>
+  loop(out, nsp, xs) where
+  {
+    val () = scadobj_femit(out, nsp, x)
+  } (* end of [list_cons] *)
+)
+) (out, nsp, objs) // end of [scadobjlst_femit]
+
+(* ****** ****** *)
+
+implement
+scadtfm_femit
+  (out, nsp, tfm) =
+(
+case+ tfm of
+| SCADTFMident() =>
+  (
+    fprint_nspace(out, nsp);
+    fprint!(out, "/* identity() */\n");
+  )
+//
+| SCADTFMcompose
+    (tfm1, tfm2) =>
+  (
+    scadtfm_femit(out, nsp, tfm1);
+    scadtfm_femit(out, nsp, tfm2);  
+  )
+//
+| SCADTFMextmcall
+    (fmod, env, args) =>
+  (
+    fprint_nspace(out, nsp);
+    fprint!(out, fmod); fprint!(out, "(");
+    scadarglst_env_femit(out, args, env); fprint!(out, ")\n"); 
+  ) (* SCADTFMextmcall *)
+)
 
 (* ****** ****** *)
 

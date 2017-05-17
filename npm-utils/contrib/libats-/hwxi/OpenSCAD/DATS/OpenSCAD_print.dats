@@ -55,12 +55,21 @@ case+ exp of
 | SCADEXPfloat(f0) =>
   $extfcall
   (
-    void, "fprintf", out, "SCADEXPfloat(%.2f)", f0
+    void
+  , "fprintf", out, "SCADEXPfloat(%.2f)", f0
   ) (* $extfcall *)
 //
 | SCADEXPvec(xs) =>
   (
     fprint!(out, "SCADEXPvec(", xs, ")")
+  )
+//
+| SCADEXPcond(x0, x1, x2) =>
+  (
+    fprint!
+    ( out
+    , "SCADEXPcond(", x0, "; ", x1, "; ", x2, ")"
+    ) (* fprint! *)
   )
 //
 | SCADEXPextfcall

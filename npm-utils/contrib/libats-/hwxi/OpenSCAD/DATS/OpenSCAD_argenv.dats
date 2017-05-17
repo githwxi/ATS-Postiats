@@ -20,6 +20,24 @@ assume
 scadenv_type = List0(@(label, scadexp))
 //
 (* ****** ****** *)
+//
+implement
+scadenv_nil() = list_nil()
+//
+implement
+scadenv_sing(l, x) =
+let
+  val lx = @(l, x) in list_sing(lx)
+end // end of [scadenv_sing]
+//
+(* ****** ****** *)
+//
+implement
+scadenv_is_nil(env) = list_is_nil(env)
+implement
+scadenv_is_cons(env) = list_is_cons(env)
+//
+(* ****** ****** *)
 
 implement
 fprint_scadenv
@@ -62,7 +80,9 @@ loop
 ) : Option_vt(scadexp) =
 (
 case+ lxs of
-| list_nil() => None_vt()
+| list_nil
+    () => None_vt()
+  // list_nil
 | list_cons(lx, lxs) =>
   if (k0 = lx.0)
     then Some_vt(lx.1) else loop(lxs)
@@ -80,6 +100,36 @@ scadenv_insert_any
   scadenv_insert_any(lxs, k0, x0)
 )
 //
+(* ****** ****** *)
+//
+implement
+scadenv_femit
+  (out, lxs) = let
+//
+fun
+loop
+(
+ i: int, lxs: scadenv
+) : void =
+(
+case+ lxs of
+| list_nil() => ()
+| list_cons(lx, lxs) =>
+    loop(i+1, lxs) where
+  {
+    val () =
+    if i > 0
+      then fprint(out, ", ")
+    // end of [if]
+    val () = fprint!(out, lx.0, "=")
+    val () = scadexp_femit(out, lx.1)
+  }
+) (* end of [loop] *)
+//
+in
+  loop(0, lxs)
+end // end of [scadenv_femit]
+
 (* ****** ****** *)
 
 (* end of [OpenSCAD_argenv.dats] *)

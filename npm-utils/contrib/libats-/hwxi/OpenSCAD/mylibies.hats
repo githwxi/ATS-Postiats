@@ -7,6 +7,8 @@
 //
 #staload
 OpenSCAD = "./SATS/OpenSCAD.sats"
+#staload
+OpenSCAD_meta = "./SATS/OpenSCAD_meta.sats"
 //
 (* ****** ****** *)
 //
