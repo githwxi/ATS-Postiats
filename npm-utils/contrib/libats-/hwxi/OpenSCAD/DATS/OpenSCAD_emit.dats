@@ -236,6 +236,12 @@ case+ obj of
     fprint_nspace(out, nsp); fprint!(out, "}\n");
   )
 //
+| SCADOBJextcode(code) =>
+  (
+    fprint_nspace(out, nsp); fprint!(out, code, ";\n")
+  )
+
+//
 end // end of [scadobj_femit]
 
 (* ****** ****** *)

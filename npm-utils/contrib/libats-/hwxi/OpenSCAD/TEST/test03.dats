@@ -125,8 +125,8 @@ main0() = () where
 val out = stdout_ref
 //
 val stack =
-ballstack
-  (scadobj_sphere(1.0), N)
+ballstack // testing extcode
+  (SCADOBJextcode("sphere(1.0)"), N)
 val stack =
 scadobj_translate(~1.0*N+1.0, ~1.0*N+1.0, 1.0, stack)
 //

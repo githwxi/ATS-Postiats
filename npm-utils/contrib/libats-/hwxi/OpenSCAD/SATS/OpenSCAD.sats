@@ -114,6 +114,8 @@ scadobj =
 //
 | SCADOBJtfmapp of (scadtfm(*mtfm*), scadobjlst)
 //
+| SCADOBJextcode of (string(*code*))
+//
 // end of [scadobj]
 
 and

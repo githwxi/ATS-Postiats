@@ -79,7 +79,8 @@ case+ exp of
   ) => $extfcall
   (
     void
-  , "fprintf", out, "SCADEXPstr(\"%s\")", $UN.cast{charptr}(s0)
+  , "fprintf", out
+  , "SCADEXPstr(\"%s\")", $UN.cast{charptr}(s0)
   ) (* $extfcall *)
 //
 | SCADEXPvec(xs) =>
