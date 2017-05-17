@@ -28,6 +28,31 @@
 #include "./../mylibies_link.hats"
 //
 (* ****** ****** *)
+(*
+//
+// HX-2017-05-17:
+// For testing externally
+//
+#include
+"$PATSHOMELOCS\
+/atscntrb-hx-openscad/mylibies.hats"
+//
+#staload $OpenSCAD // opening it!
+#staload $OpenSCAD_meta // opening it!
+//
+#include
+"$PATSHOMELOCS\
+/atscntrb-hx-openscad/mylibies_link.hats"
+//
+*)
+(* ****** ****** *)
+
+val
+tfm_red = scadtfm_color_name("red")
+val
+tfm_blue = scadtfm_color_name("blue")
+
+(* ****** ****** *)
 //
 fun
 ballrow
@@ -68,17 +93,26 @@ ballstack
 {n:pos}
 (
   ball: scadobj, n: int(n)
-) : scadobj =
-(
+) : scadobj = let
+//
+val tfm =
+  (if n % 2 = 0 then tfm_red else tfm_blue): scadtfm
+// end of [val]
+in
+//
 if n = 1
-  then ball
+  then
+  (
+  scadobj_tfmapp(tfm, ball)
+  ) (* end of [then] *)
   else let
     val stack = ballstack(ball, n-1)
-    val bottom = ballrows(ball, n, n)
+    val bottom = scadobj_tfmapp(tfm, ballrows(ball, n, n))
   in
     scadobj_union2(scadobj_translate(1.0, 1.0, sqrt(2.0), stack), bottom)
   end // end of [else]
-)
+//
+end // end of [ballstack]
 
 (* ****** ****** *)
 //

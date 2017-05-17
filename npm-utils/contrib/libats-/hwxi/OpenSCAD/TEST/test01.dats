@@ -28,6 +28,24 @@
 #include "./../mylibies_link.hats"
 //
 (* ****** ****** *)
+(*
+//
+// HX-2017-05-17:
+// For testing externally
+//
+#include
+"$PATSHOMELOCS\
+/atscntrb-hx-openscad/mylibies.hats"
+//
+#staload $OpenSCAD // opening it!
+#staload $OpenSCAD_meta // opening it!
+//
+#include
+"$PATSHOMELOCS\
+/atscntrb-hx-openscad/mylibies_link.hats"
+//
+*)
+(* ****** ****** *)
 //
 extern
 fun

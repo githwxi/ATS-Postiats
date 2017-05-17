@@ -12,6 +12,17 @@
 *)
 (* ****** ****** *)
 //
+typedef
+charptr =
+$extype"atstype_string"
+//
+(* ****** ****** *)
+
+#staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+//
 #staload "./../SATS/OpenSCAD.sats"
 //
 (* ****** ****** *)
@@ -52,11 +63,23 @@ case+ exp of
   (
     fprint!(out, "SCADEXPbool(", b, ")")
   )
-| SCADEXPfloat(f0) =>
-  $extfcall
+//
+| SCADEXPfloat
+  (
+    f0
+  ) => $extfcall
   (
     void
   , "fprintf", out, "SCADEXPfloat(%.2f)", f0
+  ) (* $extfcall *)
+//
+| SCADEXPstring
+  (
+    s0
+  ) => $extfcall
+  (
+    void
+  , "fprintf", out, "SCADEXPstr(\"%s\")", $UN.cast{charptr}(s0)
   ) (* $extfcall *)
 //
 | SCADEXPvec(xs) =>

@@ -51,8 +51,12 @@ scadexp =
 | SCADEXPnil of ()
 //
 | SCADEXPint of (int)
+//
 | SCADEXPbool of (bool)
-| SCADEXPfloat of (double)
+//
+| SCADEXPfloat of double
+//
+| SCADEXPstring of string
 //
 | SCADEXPvec of scadexplst
 //

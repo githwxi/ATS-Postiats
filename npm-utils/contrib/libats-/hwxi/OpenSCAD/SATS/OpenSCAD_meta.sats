@@ -182,6 +182,17 @@ scadtfm_translate with scadtfm_translate_float3
 (* ****** ****** *)
 //
 fun
+scadtfm_color_name
+  (name: string): scadtfm
+fun
+scadtfm_color_rgba_float4
+(
+  r: double, g: double, b: double, a: double
+): scadtfm // end-of-function
+//
+(* ****** ****** *)
+//
+fun
 scadtfm_compose(scadtfm, scadtfm): scadtfm
 //
 (* ****** ****** *)

@@ -490,6 +490,21 @@ in
 end // end of [scadtfm_translate_float3]
 
 (* ****** ****** *)
+
+implement
+scadtfm_color_name(name) = let
+//
+val env = scadenv_nil((*void*))
+//
+val name = SCADEXPstring(name)
+val name =
+  $list{scadarg}(SCADARGexp(name))
+//
+in
+  SCADTFMextmcall("color", env, name)
+end // end of [scadtfm_color_name]
+
+(* ****** ****** *)
 //
 implement
 scadtfm_compose
