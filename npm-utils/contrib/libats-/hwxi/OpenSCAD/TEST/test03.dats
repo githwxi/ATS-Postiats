@@ -50,7 +50,7 @@
 val
 tfm_red = scadtfm_color_name("red")
 val
-tfm_blue = scadtfm_color_name("blue")
+tfm_blue = scadtfm_color_rgba(0.0, 0.0, 1.0, 1.0)
 
 (* ****** ****** *)
 //

@@ -10,6 +10,29 @@
 (* ****** ****** *)
 //
 fun
+scadexp_v2d_int2
+  (x: int, y: int): scadexp
+fun
+scadexp_v2d_float2
+  (x: double, y: double): scadexp
+//
+fun
+scadexp_v3d_int3
+  (x: int, y: int, z: int): scadexp
+fun
+scadexp_v3d_float3
+  (x: double, y: double, z: double): scadexp
+//
+symintr scadexp_v2d
+symintr scadexp_v3d
+overload scadexp_v2d with scadexp_v2d_int2
+overload scadexp_v2d with scadexp_v2d_float2
+overload scadexp_v3d with scadexp_v3d_int3
+overload scadexp_v3d with scadexp_v3d_float3
+//
+(* ****** ****** *)
+//
+fun
 scadobj_cube_int1
   (x: int): scadobj
 fun
@@ -185,7 +208,7 @@ fun
 scadtfm_color_name
   (name: string): scadtfm
 fun
-scadtfm_color_rgba_float4
+scadtfm_color_rgba
 (
   r: double, g: double, b: double, a: double
 ): scadtfm // end-of-function
@@ -267,5 +290,23 @@ scadobj_translate with scadobj_translate_float3
 //
 (* ****** ****** *)
 
+fun
+scadobj_polyhedron
+  {n:int | n >= 4}
+(
+  pts: list(point3, n)
+, faces: List0(listGte(natLt(n), 3))
+, convexity: intGte(0)
+) : scadobj // end-of-function
+
+(* ****** ****** *)
+
+fun
+scadobj_tetrahedron
+(
+p0: point3, p1: point3, p2: point3, p3: point3
+) : scadobj // end-of-function
+
+(* ****** ****** *)
 
 (* end of [OpenSCAD_meta.sats] *)

@@ -24,7 +24,6 @@ scadobj_cube_int1
 val x = SCADEXPint(x)
 val x = SCADARGexp(x)
 //
-//
 val env = scadenv_nil((*void*))
 //
 in
@@ -38,8 +37,7 @@ scadobj_cube_int1_bool
 val x = SCADEXPint(x)
 val x = SCADARGexp(x)
 //
-val l0 =
-  label_make("center")
+val l0 = label("center")
 val ct = SCADEXPbool(ct)
 //
 val env = scadenv_sing(l0, ct)
@@ -75,8 +73,7 @@ val x =
 //
 val x = SCADARGexp(x)
 //
-val l0 =
-  label_make("center")
+val l0 = label("center")
 val ct = SCADEXPbool(ct)
 //
 val env = scadenv_sing(l0, ct)
@@ -120,8 +117,7 @@ val xyz =
   $list{scadexp}(x, y, z)
 val xyz = SCADEXPvec(xyz)
 //
-val l0 =
-  label_make("center")
+val l0 = label("center")
 val ct = SCADEXPbool(ct)
 //
 val env = scadenv_sing(l0, ct)
@@ -168,9 +164,7 @@ val xyz =
   $list{scadexp}(x, y, z)
 val xyz = SCADEXPvec(xyz)
 //
-val l0 =
-  label_make("center")
-//
+val l0 = label("center")
 val ct = SCADEXPbool(ct)
 //
 val env = scadenv_sing(l0, ct)
@@ -221,8 +215,8 @@ scadobj_cylinder1_int2
 val h = SCADEXPint(h)
 and r = SCADEXPint(r)
 //
-val h_l = label_make("h")
-val r_l = label_make("r")
+val h_l = label("h")
+val r_l = label("r")
 val h_a = SCADARGlabexp(h_l, h)
 and r_a = SCADARGlabexp(r_l, r)
 //
@@ -241,13 +235,12 @@ scadobj_cylinder1_int2_bool
 val h = SCADEXPint(h)
 and r = SCADEXPint(r)
 //
-val h_l = label_make("h")
-val r_l = label_make("r")
+val h_l = label("h")
+val r_l = label("r")
 val h_a = SCADARGlabexp(h_l, h)
 and r_a = SCADARGlabexp(r_l, r)
 //
-val l0 =
-  label_make("center")
+val l0 = label("center")
 val ct = SCADEXPbool(ct)
 val env = scadenv_sing(l0, ct)
 //
@@ -268,8 +261,8 @@ val h =
 and r =
   SCADEXPfloat(r)
 //
-val h_l = label_make("h")
-val r_l = label_make("r")
+val h_l = label("h")
+val r_l = label("r")
 val h_a = SCADARGlabexp(h_l, h)
 and r_a = SCADARGlabexp(r_l, r)
 //
@@ -290,13 +283,12 @@ val h =
 and r =
   SCADEXPfloat(r)
 //
-val h_l = label_make("h")
-val r_l = label_make("r")
+val h_l = label("h")
+val r_l = label("r")
 val h_a = SCADARGlabexp(h_l, h)
 and r_a = SCADARGlabexp(r_l, r)
 //
-val l0 =
-  label_make("center")
+val l0 = label("center")
 val ct = SCADEXPbool(ct)
 val env = scadenv_sing(l0, ct)
 //
@@ -505,6 +497,29 @@ in
 end // end of [scadtfm_color_name]
 
 (* ****** ****** *)
+
+implement
+scadtfm_color_rgba
+  (r, g, b, a) = let
+//
+val r = SCADEXPfloat(r)
+val g = SCADEXPfloat(g)
+val b = SCADEXPfloat(b)
+val a = SCADEXPfloat(a)
+//
+val rgba =
+  SCADEXPvec($list{scadexp}(r, g, b, a))
+//
+val env = scadenv_nil((*void*))
+//
+val rgba = SCADARGexp(rgba)
+val rgba = $list{scadarg}(rgba)
+//
+in
+  SCADTFMextmcall("color", env, rgba)
+end // end of [scadtfm_color_rgba]
+
+(* ****** ****** *)
 //
 implement
 scadtfm_compose
@@ -554,6 +569,117 @@ scadobj_translate_float3
 (
 scadobj_tfmapp(scadtfm_translate_float3(x, y, z), obj)
 ) (* scadobj_translate_float3 *)
+
+(* ****** ****** *)
+
+implement
+scadobj_polyhedron
+  (pts, faces, N) = let
+//
+macdef
+SEfloat(a) = SCADEXPfloat(,(a))
+//
+local
+val
+fpt =
+lam
+(
+pt: point3
+) : scadexp => let
+//
+val POINT3(x, y, z) = pt
+//
+in
+//
+SCADEXPvec
+(
+$list{scadexp}
+(
+  SEfloat(x), SEfloat(y), SEfloat(z)
+)
+) (* SCADEXPvec *)
+//
+end // end of [let]
+in (*in-of-local*)
+val
+pts =
+SCADEXPvec
+(
+list_vt2t
+  (list_map_fun<point3><scadexp>(pts, fpt))
+)
+end // end of [local]
+//
+local
+//
+val
+fface =
+lam (
+ns: List0(int)
+) : scadexp =>
+  SCADEXPvec
+  (
+    list_vt2t
+    (
+      list_map_fun<int><scadexp>
+        (ns, lam(n) => SCADEXPint(n))
+      // list_map_fun
+    )
+  ) (* SCADEXPvec *)
+//
+in (* in-of-local *)
+val
+faces =
+SCADEXPvec
+(
+list_vt2t
+(
+list_map_fun<List0(int)><scadexp>(faces, fface)
+)
+// list_vt2t
+) (* SCADEXPvec *)
+end // end of [local]
+//
+val
+pts =
+SCADARGlabexp(label"points", pts)
+//
+val
+faces =
+SCADARGlabexp( label"faces", faces )
+//
+val N =
+  SCADEXPint(N)
+val N =
+  SCADARGlabexp(label"convexity", N)
+//
+val
+env = scadenv_nil((*void*))
+val
+arglst = $list{scadarg}(pts, faces, N)
+//
+in
+  SCADOBJfapp("polyhedron", env, arglst)
+end // end of [scadobj_polyhedron]
+
+(* ****** ****** *)
+
+implement
+scadobj_tetrahedron
+  (p0, p1, p2, p3) = let
+//
+val pts =
+$list{point3}(p0, p1, p2, p3)
+//
+val f0 = $list(0, 1, 2)
+val f1 = $list(0, 2, 3)
+val f2 = $list(0, 3, 1)
+val f3 = $list(1, 2, 3)
+val faces = $list(f0, f1, f2, f3)
+//
+in
+  scadobj_polyhedron(pts, faces, 2(*N*))
+end // end of [scadobj_tetrahedron]
 
 (* ****** ****** *)
 

@@ -5,14 +5,53 @@
 *)
 (* ****** ****** *)
 //
+datatype
+point2 =
+POINT2 of (double, double)
+datatype
+point3 =
+POINT3 of (double, double, double)
+//
+(* ****** ****** *)
+//
+fun
+point2_make_int2
+  (x: int, y: int): point2
+fun
+point2_make_float2
+  (x: double, y: double): point2
+//
+fun
+point3_make_int3
+  (x: int, y: int, z: int): point3
+fun
+point3_make_float3
+  (x: double, y: double, z: double): point3
+//
+symintr point2 point3
+//
+overload
+point2 with point2_make_int2
+overload
+point2 with point2_make_float2
+//
+overload
+point3 with point3_make_int3
+overload
+point3 with point3_make_float3
+//
+(* ****** ****** *)
+//
 abstype label_type
 typedef label = label_type
 //
 (* ****** ****** *)
 //
 fun
-label_make
-  (x: string): label
+label_make(x: string): label
+//
+symintr label
+overload label with label_make
 //
 (* ****** ****** *)
 //
@@ -114,7 +153,7 @@ scadobj =
 //
 | SCADOBJtfmapp of (scadtfm(*mtfm*), scadobjlst)
 //
-| SCADOBJextcode of (string(*code*))
+| SCADOBJextcode of (string(*code*)) // HX: external one-liners
 //
 // end of [scadobj]
 

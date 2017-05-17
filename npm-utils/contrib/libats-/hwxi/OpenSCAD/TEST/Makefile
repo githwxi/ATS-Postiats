@@ -66,6 +66,18 @@ regress:: test03; ./$<
 cleanall:: ; $(RMF) test03
 #
 ######
+#
+all:: \
+test04
+test04: \
+test04.dats ; \
+$(PATSCC) \
+-DATS_MEMALLOC_LIBC -o $@ $< -latslib
+#
+regress:: test04; ./$<
+cleanall:: ; $(RMF) test04
+#
+######
 
 RMF=rm -f
 
@@ -87,5 +99,6 @@ cleanall:: clean
 cleanall:: ; $(RMF) test01_dats.scad
 cleanall:: ; $(RMF) test02_dats.scad
 cleanall:: ; $(RMF) test03_dats.scad
+cleanall:: ; $(RMF) test04_dats.scad
 
 ###### end of [Makefile] ######
