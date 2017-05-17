@@ -346,6 +346,18 @@ in
 end // end of [scadobj_differ]
 
 (* ****** ****** *)
+//
+implement
+scadobj_tfmapp_one
+  (tfm, obj) =
+(
+SCADOBJtfmapp(tfm, list_sing(obj))
+)
+implement
+scadobj_tfmapp_list
+  (tfm, objs) = SCADOBJtfmapp(tfm, objs)
+//
+(* ****** ****** *)
 
 implement
 scadtfm_scale_int3
@@ -476,6 +488,57 @@ val xyz =
 in
   SCADTFMextmcall("translate", env, xyz)
 end // end of [scadtfm_translate_float3]
+
+(* ****** ****** *)
+//
+implement
+scadtfm_compose
+  (tfm1, tfm2) = SCADTFMcompose(tfm1, tfm2)
+//
+(* ****** ****** *)
+
+implement
+scadobj_scale_int3
+  (x, y, z, obj) =
+(
+scadobj_tfmapp(scadtfm_scale_int3(x, y, z), obj)
+) (* scadobj_scale_int3 *)
+implement
+scadobj_scale_float3
+  (x, y, z, obj) =
+(
+scadobj_tfmapp(scadtfm_scale_float3(x, y, z), obj)
+) (* scadobj_scale_float3 *)
+
+(* ****** ****** *)
+
+implement
+scadobj_rotate_int3
+  (x, y, z, obj) =
+(
+scadobj_tfmapp(scadtfm_rotate_int3(x, y, z), obj)
+) (* scadobj_rotate_int3 *)
+implement
+scadobj_rotate_float3
+  (x, y, z, obj) =
+(
+scadobj_tfmapp(scadtfm_rotate_float3(x, y, z), obj)
+) (* scadobj_rotate_float3 *)
+
+(* ****** ****** *)
+
+implement
+scadobj_translate_int3
+  (x, y, z, obj) =
+(
+scadobj_tfmapp(scadtfm_translate_int3(x, y, z), obj)
+) (* scadobj_translate_int3 *)
+implement
+scadobj_translate_float3
+  (x, y, z, obj) =
+(
+scadobj_tfmapp(scadtfm_translate_float3(x, y, z), obj)
+) (* scadobj_translate_float3 *)
 
 (* ****** ****** *)
 

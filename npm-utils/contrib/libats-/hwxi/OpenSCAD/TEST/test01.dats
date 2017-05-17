@@ -68,28 +68,19 @@ tfm_trans =
 scadtfm_translate(0.0, 0.0, 0.1)
 val
 cylinder =
-SCADOBJtfmapp(tfm_trans, list_sing(cylinder))
+scadobj_tfmapp(tfm_trans, cylinder)
 //
 val
 mug = (ball \cap cube) \diff cylinder
-val
-tfm_trans =
-scadtfm_translate(0.0, 0.0, 0.5)
 //
 val
 mug = 
-SCADOBJtfmapp(tfm_trans, list_sing(mug))
-//
-val
-tfm_scale = scadtfm_scale(x0, y0, z0)
-//
-val
-mug =
-SCADOBJtfmapp(tfm_scale, list_sing(mug))
+scadobj_tfmapp
+(scadtfm_translate(0.0, 0.0, 0.5), mug)
 //
 in
 //
-  mug
+  scadobj_tfmapp(scadtfm_scale(x0, y0, z0), mug)
 //
 end // end of [muglike]
 
@@ -105,25 +96,23 @@ val obj =
 muglike(10.0, 10.0, 17.5)
 //
 val () =
-fprintln!
-(out, "\
+fprint!
+( out, "\
 /*
 The code is automatically
 generated from [test01.dats]
-*/\n\
+*/\n\n\
 ")
 val () =
-fprintln!
-(out, "$fa=0.1; $fs=0.1;")
+fprint!
+(out, "$fa=0.1; $fs=0.1;\n\n")
 //
 val () =
 scadobj_femit(out, 0(*nsp*), obj)
 //
 val () =
-fprint! (out, "\n")
-val () =
-fprintln!
-(out, "/* end of [test01_dats.scad] */")
+fprint!
+(out, "\n/* end of [test01_dats.scad] */\n")
 //
 } (* end of [main0] *)
 

@@ -180,5 +180,81 @@ overload
 scadtfm_translate with scadtfm_translate_float3
 //
 (* ****** ****** *)
+//
+fun
+scadtfm_compose(scadtfm, scadtfm): scadtfm
+//
+(* ****** ****** *)
+//
+fun
+scadobj_tfmapp_one
+  (tfm: scadtfm, x0: scadobj): scadobj
+fun
+scadobj_tfmapp_list
+  (tfm: scadtfm, xs: scadobjlst): scadobj
+//
+(* ****** ****** *)
+//
+symintr scadobj_tfmapp
+//
+overload scadobj_tfmapp with scadobj_tfmapp_one
+overload scadobj_tfmapp with scadobj_tfmapp_list
+//
+(* ****** ****** *)
+//
+fun
+scadobj_scale_int3
+  (x: int, y: int, z: int, obj: scadobj): scadobj
+fun
+scadobj_scale_float3
+  (x: double, y: double, z: double, obj: scadobj): scadobj
+//
+(* ****** ****** *)
+//
+symintr
+scadobj_scale
+overload
+scadobj_scale with scadobj_scale_int3
+overload
+scadobj_scale with scadobj_scale_float3
+//
+(* ****** ****** *)
+//
+fun
+scadobj_rotate_int3
+  (x: int, y: int, z: int, obj: scadobj): scadobj
+fun
+scadobj_rotate_float3
+  (x: double, y: double, z: double, obj: scadobj): scadobj
+//
+(* ****** ****** *)
+//
+symintr
+scadobj_rotate
+overload
+scadobj_rotate with scadobj_rotate_int3
+overload
+scadobj_rotate with scadobj_rotate_float3
+//
+(* ****** ****** *)
+//
+fun
+scadobj_translate_int3
+  (x: int, y: int, z: int, obj: scadobj): scadobj
+fun
+scadobj_translate_float3
+  (x: double, y: double, z: double, obj: scadobj): scadobj
+//
+(* ****** ****** *)
+//
+symintr
+scadobj_translate
+overload
+scadobj_translate with scadobj_translate_int3
+overload
+scadobj_translate with scadobj_translate_float3
+//
+(* ****** ****** *)
+
 
 (* end of [OpenSCAD_meta.sats] *)
