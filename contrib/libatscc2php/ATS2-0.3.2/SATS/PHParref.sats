@@ -10,10 +10,12 @@
 //
 #define
 ATS_EXTERN_PREFIX "ats2phppre_"
+#define
+ATS_STATIC_PREFIX "_ats2phppre_PHParref_"
 //
 (* ****** ****** *)
 //
-// Python datatypes
+// PHP datatypes
 //
 #staload "./../basics_php.sats"
 //
