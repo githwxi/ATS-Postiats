@@ -16,6 +16,8 @@ fun packtitle (x: string): atext
 extern
 fun packfilename (x: string): atext
 extern
+fun packfilename_r(x: string): atext
+extern
 fun packfilesynop (x: string): atext
 //
 %}
@@ -34,24 +36,37 @@ comment (x) = atext_nil ()
 %{
 
 implement
-packpreamble () = let
+packpreamble
+  ((*void*)) = let
 //
-val out = stdout_ref
-val () = fprint_string (out, "\
+val
+out =
+stdout_ref
+//
+val () =
+fprint_string
+(
+out, "\
 #!/bin/bash\n\
 #\n\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=${PATSCONTRIB}/contrib/libatscc/\n\
-TARGET=ATS-Postiats-contrib/contrib/libatscc/\n\
+SOURCE=${PATSCONTRIB}/contrib/libatscc-0.3.2/\n\
+TARGET=ATS-Postiats-contrib/contrib/libatscc-0.3.2/\n\
 \n\
-srcget ()\n\
+srcget()\n\
 {\n\
 cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
 }\n\
 \n\
-") // end of [val]
+srcget_r()\n\
+{\n\
+rm -rf ${TARGET}/$1 ;\n\
+cp -rf ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") (*fprint_string*)
 //
 in
   atext_nil ()
@@ -62,7 +77,7 @@ packpostamble () = let
 val out = stdout_ref
 val () = fprint_string (out, "\
 #\n\
-echo \"The ATSCNTRB-libatscc files have been copied.\"\n\
+echo \"The PATSCONTRIB-libatscc files have been copied.\"\n\
 #\n\
 # end of the automatically generated script\n\
 #\n\
@@ -85,6 +100,23 @@ in
 end // end of [packfilename]
 
 implement
+packfilename_r
+  (x) = let
+//
+val
+out =
+stdout_ref
+//
+val () =
+fprintf (
+  out, "srcget_r \"%s\" ;\n", @(x)
+) (* fprintf *)
+//
+in
+  atext_nil((*void*))
+end // end of [packfilename_r]
+
+implement
 packfilesynop (x) = atext_nil ()
 
 %}
@@ -96,362 +128,15 @@ packfilesynop (x) = atext_nil ()
 (* ****** ****** *)
 
 #packtitle("\
-ATSCNTRB/libatscc\
+PATSCONTRIB/libatscc-0.3.2\
 ")
 
 (* ****** ****** *)
 
-#packfilename("basics.sats")
-
-#packfilename("SATS/list.sats")
-#packfilename("SATS/option.sats")
-#packfilename("SATS/stream.sats")
-
-#packfilename("SATS/gvalue.sats")
-
-#packfilename("SATS/intrange.sats")
-#packfilename("SATS/reference.sats")
-
-#packfilename("SATS/arrayref.sats")
-#packfilename("SATS/matrixref.sats")
-#packfilename("SATS/gmatrixref.sats")
-
-#packfilename("SATS/slistref.sats")
-#packfilename("SATS/qlistref.sats")
-
-#packfilename("SATS/funarray.sats")
-
-#packfilename("SATS/ML/list0.sats")
-#packfilename("SATS/ML/array0.sats")
-
-(* ****** ****** *)
-
-#packfilename("DATS/basics.dats")
-
-#packfilename("DATS/list.dats")
-#packfilename("DATS/option.dats")
-#packfilename("DATS/stream.dats")
-
-#packfilename("DATS/intrange.dats")
-
-#packfilename("DATS/arrayref.dats")
-#packfilename("DATS/matrixref.dats")
-#packfilename("DATS/gmatrixref.dats")
-
-#packfilename("DATS/slistref.dats")
-#packfilename("DATS/qlistref.dats")
-
-#packfilename("DATS/funarray.dats")
-
-#packfilename("DATS/ML/list0.dats")
-#packfilename("DATS/ML/array0.dats")
-
-(* ****** ****** *)
-//
-// JS
-//
-(* ****** ****** *)
-
-#packfilename("libatscc2js/basics_js.sats")
-#packfilename("libatscc2js/staloadall.hats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2js/SATS/bool.sats")
-#packfilename("libatscc2js/SATS/float.sats")
-#packfilename("libatscc2js/SATS/integer.sats")
-#packfilename("libatscc2js/SATS/string.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2js/SATS/gvalue.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2js/SATS/print.sats")
-#packfilename("libatscc2js/SATS/filebas.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2js/SATS/list.sats")
-#packfilename("libatscc2js/SATS/option.sats")
-#packfilename("libatscc2js/SATS/stream.sats")
-
-#packfilename("libatscc2js/SATS/JSmath.sats")
-#packfilename("libatscc2js/SATS/JSdate.sats")
-#packfilename("libatscc2js/SATS/JSarray.sats")
-#packfilename("libatscc2js/SATS/JSglobal.sats")
-
-#packfilename("libatscc2js/SATS/intrange.sats")
-#packfilename("libatscc2js/SATS/reference.sats")
-
-#packfilename("libatscc2js/SATS/arrayref.sats")
-#packfilename("libatscc2js/SATS/matrixref.sats")
-
-#packfilename("libatscc2js/SATS/slistref.sats")
-#packfilename("libatscc2js/SATS/qlistref.sats")
-
-#packfilename("libatscc2js/SATS/funarray.sats")
-
-#packfilename("libatscc2js/SATS/ML/list0.sats")
-#packfilename("libatscc2js/SATS/ML/array0.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2js/CATS/basics_cats.js")
-#packfilename("libatscc2js/CATS/integer_cats.js")
-
-#packfilename("libatscc2js/CATS/bool_cats.js")
-#packfilename("libatscc2js/CATS/float_cats.js")
-#packfilename("libatscc2js/CATS/string_cats.js")
-
-#packfilename("libatscc2js/CATS/gvalue_cats.js")
-
-#packfilename("libatscc2js/CATS/JSmath_cats.js")
-#packfilename("libatscc2js/CATS/JSdate_cats.js")
-#packfilename("libatscc2js/CATS/JSarray_cats.js")
-#packfilename("libatscc2js/CATS/JSglobal_cats.js")
-
-#packfilename("libatscc2js/CATS/PRINT/print_store_cats.js")
-
-#packfilename("libatscc2js/CATS/Ajax/Ajax_cats.js")
-#packfilename("libatscc2js/CATS/Bacon.js/baconjs_cats.js")
-
-#packfilename("libatscc2js/CATS/HTML/canvas-2d/canvas2d_cats.js")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2js/DATS/print.dats")
-#packfilename("libatscc2js/DATS/basics.dats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2js/DATS/list.dats")
-#packfilename("libatscc2js/DATS/option.dats")
-#packfilename("libatscc2js/DATS/stream.dats")
-
-#packfilename("libatscc2js/DATS/JSarray.dats")
-
-#packfilename("libatscc2js/DATS/intrange.dats")
-#packfilename("libatscc2js/DATS/reference.dats")
-
-#packfilename("libatscc2js/DATS/arrayref.dats")
-#packfilename("libatscc2js/DATS/matrixref.dats")
-
-#packfilename("libatscc2js/DATS/slistref.dats")
-#packfilename("libatscc2js/DATS/qlistref.dats")
-
-#packfilename("libatscc2js/DATS/funarray.dats")
-
-#packfilename("libatscc2js/DATS/ML/list0.dats")
-#packfilename("libatscc2js/DATS/ML/array0.dats")
-
-(* ****** ****** *)
-//
-// ERL
-//
-(* ****** ****** *)
-
-#packfilename("libatscc2erl/basics_erl.sats")
-#packfilename("libatscc2erl/staloadall.hats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2erl/SATS/bool.sats")
-#packfilename("libatscc2erl/SATS/float.sats")
-#packfilename("libatscc2erl/SATS/integer.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2erl/SATS/print.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2erl/SATS/list.sats")
-#packfilename("libatscc2erl/SATS/option.sats")
-#packfilename("libatscc2erl/SATS/intrange.sats")
-#packfilename("libatscc2erl/SATS/reference.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2erl/CATS/bool_cats.hrl")
-#packfilename("libatscc2erl/CATS/float_cats.hrl")
-#packfilename("libatscc2erl/CATS/integer_cats.hrl")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2erl/DATS/print.dats")
-#packfilename("libatscc2erl/DATS/basics.dats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2erl/DATS/list.dats")
-#packfilename("libatscc2erl/DATS/option.dats")
-#packfilename("libatscc2erl/DATS/intrange.dats")
-
-(* ****** ****** *)
-//
-// PHP
-//
-(* ****** ****** *)
-
-#packfilename("libatscc2php/basics_php.sats")
-#packfilename("libatscc2php/staloadall.hats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2php/SATS/integer.sats")
-#packfilename("libatscc2php/SATS/bool.sats")
-#packfilename("libatscc2php/SATS/float.sats")
-#packfilename("libatscc2php/SATS/string.sats")
-#packfilename("libatscc2php/SATS/print.sats")
-#packfilename("libatscc2php/SATS/filebas.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2php/SATS/PHPref.sats")
-#packfilename("libatscc2php/SATS/PHParray.sats")
-#packfilename("libatscc2php/SATS/PHParref.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2php/SATS/list.sats")
-#packfilename("libatscc2php/SATS/intrange.sats")
-#packfilename("libatscc2php/SATS/reference.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2php/CATS/basics_cats.php")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2php/CATS/bool_cats.php")
-#packfilename("libatscc2php/CATS/float_cats.php")
-#packfilename("libatscc2php/CATS/integer_cats.php")
-#packfilename("libatscc2php/CATS/string_cats.php")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2php/CATS/print_cats.php")
-#packfilename("libatscc2php/CATS/filebas_cats.php")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2php/CATS/PHPref_cats.php")
-#packfilename("libatscc2php/CATS/PHParray_cats.php")
-#packfilename("libatscc2php/CATS/PHParref_cats.php")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2php/DATS/list.dats")
-#packfilename("libatscc2php/DATS/intrange.dats")
-#packfilename("libatscc2php/DATS/reference.dats")
-
-(* ****** ****** *)
-//
-// Perl
-//
-(* ****** ****** *)
-
-#packfilename("libatscc2pl/basics_pl.sats")
-#packfilename("libatscc2pl/staloadall.hats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2pl/SATS/bool.sats")
-#packfilename("libatscc2pl/SATS/integer.sats")
-#packfilename("libatscc2pl/SATS/string.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2pl/SATS/print.sats")
-#packfilename("libatscc2pl/SATS/filebas.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2pl/SATS/list.sats")
-#packfilename("libatscc2pl/SATS/PLarray.sats")
-#packfilename("libatscc2pl/SATS/arrayref.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2pl/CATS/basics_cats.pl")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2pl/CATS/bool_cats.pl")
-#packfilename("libatscc2pl/CATS/float_cats.pl")
-#packfilename("libatscc2pl/CATS/integer_cats.pl")
-#packfilename("libatscc2pl/CATS/string_cats.pl")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2pl/CATS/print_cats.pl")
-
-(* ****** ****** *)
-//
-// Python
-//
-(* ****** ****** *)
-
-#packfilename("libatscc2py3/basics_py.sats")
-#packfilename("libatscc2py3/staloadall.hats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2py3/SATS/bool.sats")
-#packfilename("libatscc2py3/SATS/char.sats")
-#packfilename("libatscc2py3/SATS/integer.sats")
-#packfilename("libatscc2py3/SATS/string.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2py3/SATS/print.sats")
-#packfilename("libatscc2py3/SATS/filebas.sats")
-#packfilename("libatscc2py3/SATS/intrange.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2py3/SATS/list.sats")
-#packfilename("libatscc2py3/SATS/option.sats")
-#packfilename("libatscc2py3/SATS/stream.sats")
-#packfilename("libatscc2py3/SATS/PYlist.sats")
-#packfilename("libatscc2py3/SATS/arrayref.sats")
-#packfilename("libatscc2py3/SATS/slistref.sats")
-#packfilename("libatscc2py3/SATS/qlistref.sats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2py3/CATS/basics_cats.py")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2py3/CATS/bool_cats.py")
-#packfilename("libatscc2py3/CATS/char_cats.py")
-#packfilename("libatscc2py3/CATS/integer_cats.py")
-#packfilename("libatscc2py3/CATS/string_cats.py")
-
-#packfilename("libatscc2py3/CATS/PYlist_cats.py")
-#packfilename("libatscc2py3/CATS/filebas_cats.py")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2py3/DATS/print.dats")
-#packfilename("libatscc2py3/DATS/intrange.dats")
-
-(* ****** ****** *)
-
-#packfilename("libatscc2py3/DATS/list.dats")
-#packfilename("libatscc2py3/DATS/option.dats")
-#packfilename("libatscc2py3/DATS/stream.dats")
-#packfilename("libatscc2py3/DATS/arrayref.dats")
-#packfilename("libatscc2py3/DATS/matrixref.dats")
-#packfilename("libatscc2py3/DATS/reference.dats")
-#packfilename("libatscc2py3/DATS/slistref.dats")
-#packfilename("libatscc2py3/DATS/qlistref.dats")
-
-#packfilename("libatscc2py3/SATS/ML/list0.sats")
-#packfilename("libatscc2py3/SATS/ML/array0.sats")
+#packfilename_r("libatscc2js")
+#packfilename_r("libatscc2pl")
+#packfilename_r("libatscc2php")
+#packfilename_r("libatscc2py3")
 
 (* ****** ****** *)
 
@@ -467,4 +152,4 @@ implement main () = ()
 
 (* ****** ****** *)
 
-(* end of [atscntrb_libatscc2.atxt] *)
+(* end of [patscontrib_libatscc.atxt] *)

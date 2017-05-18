@@ -19,6 +19,8 @@ fun packtitle (x: string): atext
 extern
 fun packfilename (x: string): atext
 extern
+fun packfilename_r(x: string): atext
+extern
 fun packfilesynop (x: string): atext
 //
 %}
@@ -43,7 +45,9 @@ packpreamble
 val
 out = stdout_ref
 val () =
-fprint_string (out, "\
+fprint_string
+(
+out, "\
 #!/bin/bash\n\
 #\n\
 # This script is automatically generated.\n\
@@ -57,7 +61,13 @@ srcget ()\n\
 cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
 }\n\
 \n\
-") // end of [val]
+srcget_r()\n\
+{\n\
+rm -rf ${TARGET}/$1 ;\n\
+cp -rf ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") (*fprint_string*)
 //
 in
   atext_nil((*void*))
@@ -97,6 +107,23 @@ in
 end // end of [packfilename]
 
 implement
+packfilename_r
+  (x) = let
+//
+val
+out =
+stdout_ref
+//
+val () =
+fprintf (
+  out, "srcget_r \"%s\" ;\n", @(x)
+) (* fprintf *)
+//
+in
+  atext_nil((*void*))
+end // end of [packfilename_r]
+
+implement
 packfilesynop (x) = atext_nil ()
 
 %}
@@ -113,12 +140,8 @@ PATSCONTRIB/libats-/hwxi\
 
 (* ****** ****** *)
 
-#packfilename("SIMD/SATS/v2df.sats")
-#packfilename("SIMD/CATS/v2df.cats")
-
-(* ****** ****** *)
-
-#packfilename("PEULER/SATS/peuler.sats")
+#packfilename_r("SIMD")
+#packfilename_r("PEULER")
 
 (* ****** ****** *)
 

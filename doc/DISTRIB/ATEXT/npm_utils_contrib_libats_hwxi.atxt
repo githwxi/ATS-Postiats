@@ -159,6 +159,10 @@ PATSHOME/npm-utils/contrib/libats-/hwxi\
 
 (* ****** ****** *)
 
+#packfilename_r("OpenSCAD")
+
+(* ****** ****** *)
+
 #packfilename_r("teaching")
 
 (* ****** ****** *)

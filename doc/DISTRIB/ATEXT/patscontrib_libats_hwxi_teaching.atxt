@@ -19,6 +19,8 @@ fun packtitle (x: string): atext
 extern
 fun packfilename (x: string): atext
 extern
+fun packfilename_r (x: string): atext
+extern
 fun packfilesynop (x: string): atext
 //
 %}
@@ -38,12 +40,15 @@ comment(x) = atext_nil((*void*))
 
 implement
 packpreamble
-  () = let
+  ((*void*)) = let
 //
 val
-out = stdout_ref
+out =
+stdout_ref
 val () =
-fprint_string (out, "\
+fprint_string
+(
+out, "\
 #!/bin/bash\n\
 #\n\
 # This script is automatically generated.\n\
@@ -57,7 +62,13 @@ srcget()\n\
 cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
 }\n\
 \n\
-") // end of [val]
+srcget_r()\n\
+{\n\
+rm -rf ${TARGET}/$1 ;\n\
+cp -rf ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") (*fprint_string*)
 //
 in
   atext_nil((*void*))
@@ -65,11 +76,16 @@ end // end of [packpreamble]
 
 implement
 packpostamble
-  () = let
+  ((*void*)) = let
+//
 val
-out = stdout_ref
+out =
+stdout_ref
+//
 val () =
-fprint_string (out, "\
+fprint_string
+(
+out, "\
 #\n\
 echo \"The PATSCONTRIB-libats-hwxi-teaching files have been copied.\"\n\
 #\n\
@@ -97,6 +113,23 @@ in
 end // end of [packfilename]
 
 implement
+packfilename_r
+  (x) = let
+//
+val
+out =
+stdout_ref
+//
+val () =
+fprintf (
+  out, "srcget_r \"%s\" ;\n", @(x)
+) (* fprintf *)
+//
+in
+  atext_nil((*void*))
+end // end of [packfilename_r]
+
+implement
 packfilesynop(x) = atext_nil((*void*))
 
 %}
@@ -113,42 +146,8 @@ PATSCONTRIB/libats-/hwxi/teaching\
 
 (* ****** ****** *)
 
-#packfilename("mythread/SATS/channel.sats")
-#packfilename("mythread/SATS/channel_vt.sats")
-#packfilename("mythread/SATS/spinref.sats")
-#packfilename("mythread/SATS/spinvar.sats")
-#packfilename("mythread/SATS/nwaiter.sats")
-#packfilename("mythread/SATS/workshop.sats")
-#packfilename("mythread/SATS/parallelize.sats")
-
-#packfilename("mythread/DATS/channel.dats")
-#packfilename("mythread/DATS/channel_vt.dats")
-#packfilename("mythread/DATS/spinref.dats")
-#packfilename("mythread/DATS/spinvar.dats")
-#packfilename("mythread/DATS/nwaiter.dats")
-#packfilename("mythread/DATS/workshop.dats")
-#packfilename("mythread/DATS/parallelize.dats")
-
-(* ****** ****** *)
-
-#packfilename("myGTK/SATS/gtkcairoclock.sats")
-#packfilename("myGTK/DATS/gtkcairoclock.dats")
-
-(* ****** ****** *)
-
-#packfilename("myGTK/SATS/gtkcairotimer.sats")
-#packfilename("myGTK/DATS/gtkcairotimer/ControlPanel.dats")
-#packfilename("myGTK/DATS/gtkcairotimer/DrawingPanel.dats")
-#packfilename("myGTK/DATS/gtkcairotimer/gtkcairotimer_main.dats")
-#packfilename("myGTK/DATS/gtkcairotimer/gtkcairotimer_timer.dats")
-#packfilename("myGTK/DATS/gtkcairotimer/gtkcairotimer_toplevel.dats")
-#packfilename("myGTK/TEST/Makefile")
-#packfilename("myGTK/TEST/test_gtkcairotimer.dats")
-
-(* ****** ****** *)
-
-#packfilename("fileAsLock/SATS/fileAsLock.sats")
-#packfilename("fileAsLock/DATS/fileAsLock.dats")
+#packfilename_r("myGTK")
+#packfilename_r("mythread-0.3.2")
 
 (* ****** ****** *)
 

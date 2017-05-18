@@ -46,9 +46,9 @@ Here is a list of major additions and changes since the last release:
    *)
 6. Adding ats1-libatsopt (npm-package)
 7. Adding contrib/atscntrb-hx-getargs for building command-line support
-8. Adding ATS-Postiats-contrib/OpenSCAD:
-   Supporting a form of meta-programming for OpenSCAD, that is, writing
-   programs in ATS for generating code in OpenSCAD.
+8. Adding ATS-Postiats/npm-util/libats-hwxi/OpenSCAD:
+   Supporting meta-programming for OpenSCAD, that is, writing programs in
+   ATS for generating OpenSCAD code (that can create models for 3D-printing)
   
 ######
 
