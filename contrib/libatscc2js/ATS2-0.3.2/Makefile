@@ -139,6 +139,8 @@ PRINTF=printf
 # $(ECHO) | $(CAT) - >$(LIBATSCC2JS_ALL_JS)
 #
 libatscc2js_all:: ; \
+$(PRINTF) '\n' | $(CAT) - >$(LIBATSCC2JS_ALL_JS)
+libatscc2js_all:: ; \
 $(PRINTF) '/*\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 libatscc2js_all:: ; \
 $(PRINTF) 'Time of Generation:\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)

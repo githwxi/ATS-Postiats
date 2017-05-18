@@ -85,6 +85,8 @@ PRINTF=printf
 # $(ECHO) | $(CAT) - >$(LIBATSCC2CLJ_ALL_CLJ)
 #
 libatscc2clj_all:: ; \
+$(PRINTF) '\n' | $(CAT) - >$(LIBATSCC2CLJ_ALL_CLJ)
+libatscc2clj_all:: ; \
 $(PRINTF) ';;\n' | $(CAT) - >>$(LIBATSCC2CLJ_ALL_CLJ)
 libatscc2clj_all:: ; \
 $(PRINTF) ';; Time of Generation:\n' | $(CAT) - >>$(LIBATSCC2CLJ_ALL_CLJ)

@@ -76,6 +76,8 @@ PRINTF=printf
 # $(ECHO) | $(CAT) - >$(LIBATSCC2PHP_ALL_PHP)
 #
 all_in_one:: ; \
+$(PRINTF) '\n' | $(CAT) - >$(LIBATSCC2PHP_ALL_PHP)
+all_in_one:: ; \
 $(PRINTF) '<?php\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)
 #
 all_in_one:: ; $(PRINTF) '/*\n' | $(CAT) - >>$(LIBATSCC2PHP_ALL_PHP)

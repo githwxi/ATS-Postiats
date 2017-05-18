@@ -104,6 +104,8 @@ PRINTF=printf
 # $(ECHO) '\n' | $(CAT) - >$(LIBATSCC2PY3_ALL_PY)
 #
 libatscc2py3_all:: ; \
+$(PRINTF) '\n' | $(CAT) - >$(LIBATSCC2PY3_ALL_PY)
+libatscc2py3_all:: ; \
 $(PRINTF) '######\n' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)
 libatscc2py3_all:: ; \
 $(PRINTF) '#\n' | $(CAT) - >>$(LIBATSCC2PY3_ALL_PY)

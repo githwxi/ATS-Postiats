@@ -60,6 +60,8 @@ PRINTF=printf
 # $(ECHO) | $(CAT) - >$(LIBATSCC2ERL_ALL_HRL)
 #
 libatscc2erl_all:: ; \
+$(PRINTF) '\n' | $(CAT) - >$(LIBATSCC2ERL_ALL_HRL)
+libatscc2erl_all:: ; \
 $(PRINTF) '%%' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)
 libatscc2erl_all:: ; \
 $(PRINTF) '\n%% ' | $(CAT) - >>$(LIBATSCC2ERL_ALL_HRL)

@@ -90,6 +90,75 @@ scadobj_cube with scadobj_cube_float3_bool
 (* ****** ****** *)
 //
 fun
+scadobj_square_int1
+  (x: int): scadobj
+fun
+scadobj_square_int1_bool
+  (x: int, ct: bool): scadobj
+//
+fun
+scadobj_square_float1
+  (x: double): scadobj
+fun
+scadobj_square_float1_bool
+  (x: double, ct: bool): scadobj
+//
+(* ****** ****** *)
+//
+fun
+scadobj_square_int2
+  (x: int, y: int): scadobj
+fun
+scadobj_square_int2_bool
+  (x: int, y: int, ct: bool): scadobj
+//
+fun
+scadobj_square_float2
+  (x: double, y: double): scadobj
+fun
+scadobj_square_float2_bool
+  (x: double, y: double, ct: bool): scadobj
+//
+(* ****** ****** *)
+//
+symintr
+scadobj_square
+//
+overload
+scadobj_square with scadobj_square_int1
+overload
+scadobj_square with scadobj_square_int1_bool
+overload
+scadobj_square with scadobj_square_float1
+overload
+scadobj_square with scadobj_square_float1_bool
+//
+overload
+scadobj_square with scadobj_square_int2
+overload
+scadobj_square with scadobj_square_int2_bool
+overload
+scadobj_square with scadobj_square_float2
+overload
+scadobj_square with scadobj_square_float2_bool
+//
+(* ****** ****** *)
+//
+fun
+scadobj_circle_int1(rad: int): scadobj
+fun
+scadobj_circle_float1(rad: double): scadobj
+//
+symintr
+scadobj_circle
+overload
+scadobj_circle with scadobj_circle_int1
+overload
+scadobj_circle with scadobj_circle_float1
+//
+(* ****** ****** *)
+//
+fun
 scadobj_sphere_int1(rad: int): scadobj
 fun
 scadobj_sphere_float1(rad: double): scadobj

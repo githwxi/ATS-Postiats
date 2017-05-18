@@ -20,26 +20,37 @@
 
 class
 PHPref {
-  public $value ; // this is the payload
+//
+// HX: payload
+//
+   public $value ;
 } /* end of [class] */
 
 /* ****** ****** */
 //
 function
-PHPref_new($x0) {
+ats2phppre_PHPref_new
+  ($x0)
+{
   $res = new PHPref;
   $res->value = $x0; return $res;
 }
 function
-PHPref_make_elt($x0) { return PHPref_new($x0); }
+ats2phppre_PHPref_make_elt
+  ($x0)
+  { return PHPref_new($x0); }
 //
 /* ****** ****** */
 //
 function
-PHPref_get_elt($A) { return $A->value ; }
+ats2phppre_PHPref_get_elt
+  ($A)
+  { return $A->value ; }
 //
 function
-PHPref_set_elt($A, $x) { $A->value = $x; return ; }
+ats2phppre_PHPref_set_elt
+  ($A, $x)
+  { $A->value = $x; return ; }
 //
 /* ****** ****** */
 

@@ -179,6 +179,193 @@ end // end of [scadobj_cube_float3_bool]
 (* ****** ****** *)
 
 implement
+scadobj_square_int1
+  (x) = let
+//
+val x = SCADEXPint(x)
+val x = SCADARGexp(x)
+//
+val env = scadenv_nil((*void*))
+//
+in
+  SCADOBJfapp("square", env, list_sing(x))
+end // end of [scadobj_square_int1]
+
+implement
+scadobj_square_int1_bool
+  (x, ct) = let
+//
+val x = SCADEXPint(x)
+val x = SCADARGexp(x)
+//
+val l0 = label("center")
+val ct = SCADEXPbool(ct)
+//
+val env = scadenv_sing(l0, ct)
+//
+in
+  SCADOBJfapp("square", env, list_sing(x))
+end // end of [scadobj_square_int1]
+
+(* ****** ****** *)
+
+implement
+scadobj_square_float1
+  (x) = let
+//
+val x =
+  SCADEXPfloat(x)
+//
+val x = SCADARGexp(x)
+//
+//
+val env = scadenv_nil((*void*))
+//
+in
+  SCADOBJfapp("square", env, list_sing(x))
+end // end of [scadobj_square_float1]
+
+implement
+scadobj_square_float1_bool
+  (x, ct) = let
+//
+val x =
+  SCADEXPfloat(x)
+//
+val x = SCADARGexp(x)
+//
+val l0 = label("center")
+val ct = SCADEXPbool(ct)
+//
+val env = scadenv_sing(l0, ct)
+//
+in
+  SCADOBJfapp("square", env, list_sing(x))
+end // end of [scadobj_square_float1]
+
+(* ****** ****** *)
+
+implement
+scadobj_square_int2
+  (x, y) = let
+//
+val x = SCADEXPint(x)
+and y = SCADEXPint(y)
+//
+val xy =
+  $list{scadexp}(x, y)
+val xy = SCADEXPvec(xy)
+//
+val env = scadenv_nil((*void*))
+//
+val xy =
+  $list{scadarg}(SCADARGexp(xy))
+//
+in
+  SCADOBJfapp("square", env, xy)
+end // end of [scadobj_square_int2]
+
+implement
+scadobj_square_int2_bool
+  (x, y, ct) = let
+//
+val x = SCADEXPint(x)
+and y = SCADEXPint(y)
+//
+val xy =
+  $list{scadexp}(x, y)
+val xy = SCADEXPvec(xy)
+//
+val l0 = label("center")
+val ct = SCADEXPbool(ct)
+//
+val env = scadenv_sing(l0, ct)
+//
+val xy =
+  $list{scadarg}(SCADARGexp(xy))
+//
+in
+  SCADOBJfapp("square", env, xy)
+end // end of [scadobj_square_int2_bool]
+
+(* ****** ****** *)
+
+implement
+scadobj_square_float2
+  (x, y) = let
+//
+val x = SCADEXPfloat(x)
+and y = SCADEXPfloat(y)
+//
+val xy =
+  $list{scadexp}(x, y)
+val xy = SCADEXPvec(xy)
+//
+val env = scadenv_nil((*void*))
+//
+val xy =
+  $list{scadarg}(SCADARGexp(xy))
+//
+in
+  SCADOBJfapp("square", env, xy)
+end // end of [scadobj_square_float2]
+
+implement
+scadobj_square_float2_bool
+  (x, y, ct) = let
+//
+val x = SCADEXPfloat(x)
+and y = SCADEXPfloat(y)
+//
+val xy =
+  $list{scadexp}(x, y)
+val xy = SCADEXPvec(xy)
+//
+val l0 = label("center")
+val ct = SCADEXPbool(ct)
+//
+val env = scadenv_sing(l0, ct)
+//
+val xy =
+  $list{scadarg}(SCADARGexp(xy))
+//
+in
+  SCADOBJfapp("square", env, xy)
+end // end of [scadobj_square_float2_bool]
+
+(* ****** ****** *)
+
+implement
+scadobj_circle_int1
+  (rad) = let
+//
+val rad = SCADEXPint(rad)
+val rad = SCADARGexp(rad)
+//
+val env = scadenv_nil((*void*))
+//
+in
+  SCADOBJfapp("circle", env, list_sing(rad))
+end // end of [scadobj_circle_int1]
+
+implement
+scadobj_circle_float1
+  (rad) = let
+//
+val rad =
+  SCADEXPfloat(rad)
+//
+val rad = SCADARGexp(rad)
+//
+val env = scadenv_nil((*void*))
+//
+in
+  SCADOBJfapp("circle", env, list_sing(rad))
+end // end of [scadobj_circle_float1]
+
+(* ****** ****** *)
+
+implement
 scadobj_sphere_int1
   (rad) = let
 //
@@ -225,7 +412,7 @@ val env = scadenv_nil((*void*))
 val hr_a = $list{scadarg}(h_a, r_a)
 //
 in
-  SCADOBJfapp("cube", env, hr_a)
+  SCADOBJfapp("cylinder", env, hr_a)
 end // end of [scadobj_cylinder1_int2]
 
 implement
@@ -247,7 +434,7 @@ val env = scadenv_sing(l0, ct)
 val hr_a = $list{scadarg}(h_a, r_a)
 //
 in
-  SCADOBJfapp("cube", env, hr_a)
+  SCADOBJfapp("cylinder", env, hr_a)
 end // end of [scadobj_cylinder1_int2_bool]
 
 (* ****** ****** *)

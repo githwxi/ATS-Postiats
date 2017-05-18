@@ -83,8 +83,11 @@ PRINTF=printf
 #
 ######
 #
+# libatscc2scm_all:: ; \
+# $(ECHO) | $(CAT) - >$(LIBATSCC2SCM_ALL_SCM)
+#
 libatscc2scm_all:: ; \
-$(ECHO) | $(CAT) - >$(LIBATSCC2SCM_ALL_SCM)
+$(PRINTF) '\n' | $(CAT) - >$(LIBATSCC2SCM_ALL_SCM)
 libatscc2scm_all:: ; \
 $(PRINTF) ';;\n' | $(CAT) - >>$(LIBATSCC2SCM_ALL_SCM)
 libatscc2scm_all:: ; \

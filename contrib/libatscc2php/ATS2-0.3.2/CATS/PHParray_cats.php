@@ -19,11 +19,11 @@
 /* ****** ****** */
 //
 function
-PHParray_nil() { return array(); }
+ats2phppre_PHParray_nil() { return array(); }
 function
-PHParray_sing($x) { return array($x); }
+ats2phppre_PHParray_sing($x) { return array($x); }
 function
-PHParray_pair($x1, $x2) { return array($x1, $x2); }
+ats2phppre_PHParray_pair($x1, $x2) { return array($x1, $x2); }
 //
 /* ****** ****** */
 

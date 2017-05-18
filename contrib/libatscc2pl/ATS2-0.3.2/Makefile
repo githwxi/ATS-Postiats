@@ -77,6 +77,8 @@ PRINTF=printf
 # $(ECHO) | $(CAT) - >$(LIBATSCC2PL_ALL_PL)
 #
 libatscc2pl_all:: ; \
+$(PRINTF) '\n' | $(CAT) - >$(LIBATSCC2PL_ALL_PL)
+libatscc2pl_all:: ; \
 $(PRINTF) '######\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
 libatscc2pl_all:: ; \
 $(PRINTF) '#\n' | $(CAT) - >>$(LIBATSCC2PL_ALL_PL)
