@@ -6,9 +6,6 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-//
 staload
 UN = "prelude/SATS/unsafe.sats"
 //
@@ -20,6 +17,13 @@ UN = "prelude/SATS/unsafe.sats"
 ATS_EXTERN_PREFIX "atslangweb_"
 #define
 ATS_STATIC_PREFIX "_atslangweb_patsopt_tcats_"
+//
+(* ****** ****** *)
+//
+#define
+LIBATSCC2PHP_targetloc
+"$PATSHOME\
+/contrib/libatscc2php/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //

@@ -341,12 +341,12 @@ Home_queenpuzzle_button_set(name)
 function
 Home_queenpuzzle_reply(reply)
 {
-  var comparr =
-    JSON.parse(decodeURIComponent(reply));
-  // end of [var]
-  if (comparr[0]===0) eval(comparr[1]);
+  var
+  comparr =
+  JSON.parse(decodeURIComponent(reply));
+  if (comparr[0]===0) eval( comparr[1] );
   if (comparr[0] > 0) alert("Compilation failed!");
-  Home_queenpuzzle_button_set("Try-it-yourself"); // HX: change it back!
+  Home_queenpuzzle_button_set( "Try-it-yourself" ); // HX: change it back!
   return/*void*/;
 }
 //

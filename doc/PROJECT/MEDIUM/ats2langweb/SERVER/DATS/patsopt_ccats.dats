@@ -7,20 +7,24 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-//
-staload
-UN = "prelude/SATS/unsafe.sats"
-//
-(* ****** ****** *)
-//
 #define ATS_DYNLOADFLAG 0
 //
 #define
 ATS_EXTERN_PREFIX "atslangweb_"
 #define
 ATS_STATIC_PREFIX "_atslangweb_patsopt_ccats_"
+//
+(* ****** ****** *)
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+#define
+LIBATSCC2PHP_targetloc
+"$PATSHOME\
+/contrib/libatscc2php/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
