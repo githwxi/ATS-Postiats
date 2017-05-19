@@ -61,21 +61,6 @@ update:: ; $(CPF) $(SRC)/libats/libc/CATS/gdbm/*.cats $(DST)/libats/libc/CATS/gd
 ######
 
 update2:: ; \
-  $(CPF) $(SRC2)/contrib/cairo/CATS/cairo.cats $(DST2)/cairo/CATS/.
-
-######
-
-update2:: ; \
-  $(CPF) $(SRC2)/contrib/zeromq/CATS/zmq.cats $(DST2)/zeromq/CATS/.
-
-######
-
-update2:: ; \
-  $(CPF) $(SRC2)/contrib/hiredis/CATS/hiredis.cats $(DST2)/hiredis/CATS/.
-
-######
-
-update2:: ; \
   $(CPF) $(SRC2)/contrib/glib/CATS/glib.cats $(DST2)/glib/CATS/.
 update2:: ; \
   $(CPF) $(SRC2)/contrib/glib/CATS/glib-object.cats $(DST2)/glib/CATS/.
@@ -95,7 +80,8 @@ TARZVCF=tar -zvcf
 
 ######
 #
-PACKNAME=ATS2-Postiats-include-0.3.4
+PACKNAME=ATS2-Postiats-include-0.3.5
+# PACKNAME=ATS2-Postiats-include-0.3.4
 # PACKNAME=ATS2-Postiats-include-0.3.3
 # PACKNAME=ATS2-Postiats-include-0.3.2
 # PACKNAME=ATS2-Postiats-include-0.3.1

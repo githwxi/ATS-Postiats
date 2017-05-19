@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.3.5</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.3.5:
+</H2>
+
+<pre>
+This is the 42nd release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Fixing a bug in atscc2js that prevented certain compound patterns
+   from being handled correctly. Should this be done to other atsccomp
+   compilers?
+2. Fixing a bug causing linear tuples to be leaked after their use.
+   Please see bug-2017-04-16.
+3. Fixing a bug in compiling a fix-function defined inside a template.
+   Please see bug-2017-04-17.
+4. Disallowing non-variable linear patterns used as function arguments
+   (due to potential memory leaks):
+   For instance,
+   fun foo($tup(x, y)): ... = ...
+   needs to be written as
+   fun foo(xy): ... = let $tup(x, y) = xy in ... end
+5. Adding myatscc-support (in utils/myatscc)
+   for allowing compilation commands being embedded inside source code.
+   For instance, the following comment can be included to support using
+   ATS as a scripting language:
+   (*
+   ##myatsccdef=\
+   patsopt --constraint-ignore --dynamic $1 | \
+   tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime - $arglst(2)
+   *)
+6. Adding ats1-libatsopt (npm-package)
+7. Adding contrib/atscntrb-hx-getargs for building command-line support
+8. Adding ATS-Postiats/npm-util/libats-hwxi/OpenSCAD:
+   Supporting meta-programming for OpenSCAD, that is, writing programs in
+   ATS for generating OpenSCAD code (that can create models for 3D-printing)
+</pre>
+
+</body><!--body-->
+</html><!--html-->
