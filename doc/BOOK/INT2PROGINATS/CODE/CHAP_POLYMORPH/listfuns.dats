@@ -43,10 +43,10 @@
 *)
 
 (* ****** ****** *)
-
-#include "share/atspre_define.hats"
-#include "share/atspre_staload.hats"
-
+//
+#include
+"share/atspre_staload.hats"
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"

@@ -11,15 +11,12 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-//
-staload
-UN = "prelude/SATS/unsafe.sats"
+#define ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
 //
-#define ATS_DYNLOADFLAG 0
+staload
+UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
@@ -33,12 +30,15 @@ Patsoptaas_File_examples_hello =
 *)\n\
 \n\
 (* ****** ****** *)\n\
-\n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
-\n\
+//\n\
 (* ****** ****** *)\n\
 \n\
 staload\n\
@@ -87,12 +87,15 @@ Patsoptaas_File_examples_factrec =
 *)\n\
 \n\
 (* ****** ****** *)\n\
-\n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
-\n\
+//\n\
 (* ****** ****** *)\n\
 \n\
 staload\n\
@@ -142,12 +145,15 @@ Patsoptaas_File_examples_factiter =
 *)\n\
 \n\
 (* ****** ****** *)\n\
-\n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
-\n\
+//\n\
 (* ****** ****** *)\n\
 \n\
 staload\n\
@@ -213,12 +219,15 @@ Patsoptaas_File_examples_fact_verify =
 *)\n\
 \n\
 (* ****** ****** *)\n\
-\n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
-\n\
+//\n\
 (* ****** ****** *)\n\
 \n\
 staload\n\
@@ -307,12 +316,15 @@ Patsoptaas_File_examples_fibats_verify =
 *)\n\
 \n\
 (* ****** ****** *)\n\
-\n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
-\n\
+//\n\
 (* ****** ****** *)\n\
 \n\
 staload\n\
@@ -388,12 +400,15 @@ Patsoptaas_File_examples_list_append =
 *)\n\
 \n\
 (* ****** ****** *)\n\
-\n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
-\n\
+//\n\
 (* ****** ****** *)\n\
 //\n\
 staload\n\
@@ -472,12 +487,15 @@ Patsoptaas_File_examples_list_reverse =
 *)\n\
 \n\
 (* ****** ****** *)\n\
-\n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
-\n\
+//\n\
 (* ****** ****** *)\n\
 //\n\
 staload\n\
@@ -560,12 +578,15 @@ Patsoptaas_File_examples_list_sort_insert =
 *)\n\
 \n\
 (* ****** ****** *)\n\
-\n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
-\n\
+//\n\
 (* ****** ****** *)\n\
 \n\
 staload\n\
@@ -692,12 +713,15 @@ Patsoptaas_File_examples_list_sort_quick =
 *)\n\
 \n\
 (* ****** ****** *)\n\
-\n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
-\n\
+//\n\
 (* ****** ****** *)\n\
 \n\
 staload\n\
@@ -829,12 +853,15 @@ Patsoptaas_File_examples_stream_sieve =
 *)\n\
 \n\
 (* ****** ****** *)\n\
-\n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
-\n\
+//\n\
 (* ****** ****** *)\n\
 \n\
 staload\n\

@@ -12,15 +12,12 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-//
-staload
-UN = "prelude/SATS/unsafe.sats"
+#define ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
 //
-#define ATS_DYNLOADFLAG 0
+staload
+UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
@@ -30,6 +27,11 @@ ATS_EXTERN_PREFIX "Patsoptaas_"
 ATS_STATIC_PREFIX "Patsoptaas_"
 
 (* ****** ****** *)
+//
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME\
+/contrib/libatscc2js/ATS2-0.3.2"
 //
 #include
 "{$LIBATSCC2JS}/staloadall.hats"

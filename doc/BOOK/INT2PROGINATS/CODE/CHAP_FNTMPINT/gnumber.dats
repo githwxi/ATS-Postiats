@@ -9,8 +9,6 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -120,6 +118,13 @@ val () =
 println! ("gfact<double>(34) = ", gfact<double>(34))
 val () =
 println! ("gfact<double>(100) = ", gfact<double>(100))
+//
+(* ****** ****** *)
+//
+#define
+HX_INTINF_targetloc
+"$PATSHOME\
+/contrib/atscntrb-hx-intinf"
 //
 (* ****** ****** *)
 //

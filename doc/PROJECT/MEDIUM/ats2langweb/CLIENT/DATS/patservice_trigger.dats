@@ -7,8 +7,17 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+ATS_DYNLOADFLAG 0
+//
+(* ****** ****** *)
+//
+#define
+ATS_EXTERN_PREFIX "atslangweb_"
+#define
+ATS_STATIC_PREFIX "_atslangweb_patservice__"
+//
+(* ****** ****** *)
 //
 staload
 UN = "prelude/SATS/unsafe.sats"
@@ -16,12 +25,9 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 //
 #define
-ATS_DYNLOADFLAG 0
-//
-#define
-ATS_EXTERN_PREFIX "atslangweb_"
-#define
-ATS_STATIC_PREFIX "_atslangweb_patservice__"
+LIBATSCC2JS_targetloc
+"$PATSHOME\
+/contrib/libatscc2js/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
@@ -53,7 +59,12 @@ thePreamble_atscc2js(): string
 implement
 {}(*tmp*)
 thePreamble_atscc2js() = "\n\
-#include\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//
 #include\"{$LIBATSCC2JS}/staloadall.hats\"\n\
 " (* thePreamble_atscc2js *)
 //

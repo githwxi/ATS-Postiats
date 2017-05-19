@@ -11,15 +11,12 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-//
-staload
-UN = "prelude/SATS/unsafe.sats"
+#define ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
 //
-#define ATS_DYNLOADFLAG 0
+staload
+UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
@@ -38,8 +35,12 @@ Patsoptaas_File_newfile_template1 =
 \n\
 (* ****** ****** *)\n\
 \n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
 \n\
@@ -88,8 +89,12 @@ Patsoptaas_File_newfile_template2 =
 \n\
 (* ****** ****** *)\n\
 \n\
-#include\n\
-\"share/atspre_define.hats\"\n\
+//\n\
+#define\n\
+LIBATSCC2JS_targetloc\n\
+\"$PATSHOME\\\n\
+/contrib/libatscc2js/ATS2-0.3.2\"\n\
+//\n\
 #include\n\
 \"{$LIBATSCC2JS}/staloadall.hats\"\n\
 \n\
