@@ -7,6 +7,11 @@ ATSCC=$(ATSHOME)/bin/atscc
 
 ######
 
+ATSLIB=$(ATSHOME)/ccomp/lib
+PATSLIB=$(PATSHOME)/ccomp/atslib/lib
+
+######
+
 all::
 all:: test01
 all:: test02
@@ -17,7 +22,7 @@ test01: \
 test01.dats ; \
 $(ATSCC) -I$(PATSHOME)/src \
   -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ $< \
-  -L $(PATSHOME)/utils/libatsyntext -latsyntext -L $(PATSHOME)/utils/libatsopt -latsopt -lgmp
+  -L./../BUILD -L$(ATSLIB) -latsyntext -latsopt -lgmp
 #
 regress:: test01; ./$<
 #
@@ -29,7 +34,7 @@ test02: \
 test02.dats ; \
 $(ATSCC) -I$(PATSHOME)/src \
   -IATS $(PATSHOME) -IATS $(ATSHOME) -o $@ $< \
-  -L $(PATSHOME)/utils/libatsyntext -latsyntext -L $(PATSHOME)/utils/libatsopt -latsopt -lgmp
+  -L./../BUILD -L$(ATSLIB) -latsyntext -latsopt -lgmp
 #
 regress:: test02 ; $(CAT) DATA/fact.dats | ./$<
 #

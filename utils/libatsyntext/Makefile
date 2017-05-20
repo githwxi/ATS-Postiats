@@ -1,128 +1,34 @@
-# (***********************************************************************)
-# (*                                                                     *)
-# (*                         Applied Type System                         *)
-# (*                                                                     *)
-# (***********************************************************************)
-
-# (*
-# ** ATS/Postiats - Unleashing the Potential of Types!
-# ** Copyright (C) 2011-2016 Hongwei Xi, ATS Trustful Software, Inc.
-# ** All rights reserved
-# **
-# ** ATS is free software;  you can  redistribute it and/or modify it under
-# ** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
-# ** Free Software Foundation; either version 3, or (at  your  option)  any
-# ** later version.
-# ** 
-# ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
-# ** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
-# ** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
-# ** for more details.
-# ** 
-# ** You  should  have  received  a  copy of the GNU General Public License
-# ** along  with  ATS;  see the  file COPYING.  If not, please write to the
-# ** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
-# ** 02110-1301, USA.
-# *)
-
-# (* ****** ****** *)
-# //
-# // Author: Hongwei Xi
-# // Authoremail: gmhwxi AT gmail DOT com
-# // Start Time: July, 2016
-# //
-# (* ****** ****** *)
-
-######
-
-ATSHOMEQ="$(ATSHOME)"
-PATSHOMEQ="$(PATSHOME)"
-
-######
-
-ATSCC=$(ATSHOMEQ)/bin/atscc
-ATSCCFLAGS=
-ATSRUNTIME=$(ATSHOMEQ)/ccomp/runtime
-
-######
-
-ATSLIB=$(ATSHOMEQ)/ccomp/lib
-ATSLIB64=$(ATSHOMEQ)/ccomp/lib64
-
-######
-
-CCFLAGS=-fPIC -O2
-
-######
-
-INCLUDE:=-I $(PATSHOMEQ)/src
-INCLATS:=-IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ)
-
-######
-
-all:: libatsyntext
-
 ######
 #
-OBJECTS :=
-# OBJECTS := $(patsubst %.sats, %_sats.o, $(SOURCES))
-# OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
+# A Simple Makefile
 #
 ######
 
-libatsyntext:: $(OBJECTS)
-
-######
-#
-%_sats.o: \
-$(PATSHOME)/src/%.sats ; \
-  $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
-#
-%_dats.o: \
-$(PATSHOME)/src/%.dats ; \
-  $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
-#
-######
-#
-#
-libatsyntext:: \
-libatsyntext_sats.o
-libatsyntext_sats.o: \
-SATS/libatsyntext.sats ; \
-  $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
-libatsyntext:: \
-libatsyntext_dats.o
-libatsyntext_dats.o: \
-DATS/libatsyntext.dats ; \
-  $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
-#
-libatsyntext:: \
-dynloadall_dats.o
-dynloadall_dats.o: dynloadall.dats; \
-  $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
-#
-######
-#
-libatsyntext:: \
-libatsyntext_d2ecl_dats.o
-libatsyntext_d2ecl_dats.o: \
-DATS/libatsyntext_d2ecl.dats ; \
-  $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
-#
-######
-
-AR=ar
 CPF=cp -f
 RMF=rm -f
+MAKE=make
 
 ######
 
-clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_?ats.c *_?ats.o
+copy::
 
+######
+
+build:: ; \
+$(MAKE) -C BUILD -f ../Makefile_build
+
+######
+#
+clean:: ; $(RMF) ./BUILD/*.o
+clean:: ; $(RMF) ./BUILD/*.c
+clean:: ; $(RMF) ./BUILD/*.?ats
+#
+######
+#
 cleanall:: clean
-cleanall:: ; $(RMF) libatsyntext.a
-
-distclean:: cleanall
+#
+cleanall:: ; $(RMF) ./BUILD/libatsyntext.a
+#
+######
 
 ###### end of [Makefile] ######

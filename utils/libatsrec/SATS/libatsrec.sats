@@ -80,8 +80,18 @@ process_linenumlst(linenumlst_vt): void
 (* ****** ****** *)
 //
 fun
-streamize_fileref_gvhashtbl
+streamize_fileref_gvhashtbl_0
+  (inp: FILEref): stream_vt(gvhashtbl)
+fun
+streamize_fileref_gvhashtbl_cap
   (inp: FILEref, cap: intGte(1)): stream_vt(gvhashtbl)
+//
+symintr
+streamize_fileref_gvhashtbl
+overload
+streamize_fileref_gvhashtbl with streamize_fileref_gvhashtbl_0
+overload
+streamize_fileref_gvhashtbl with streamize_fileref_gvhashtbl_cap
 //
 (* ****** ****** *)
 

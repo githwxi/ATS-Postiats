@@ -111,26 +111,36 @@ the_prelude_load
 extern
 fun
 the_prelude_load
-  (PATSHOME: string): void = "ext#libatsopt_the_prelude_load"
+(
+  PATSHOME: string
+) : void =
+  "ext#libatsopt_the_prelude_load"
 //
 } (* end of [where] *)
 //
-val d0cs = parse_from_stdin_toplevel(1)
+val
+d0cs =
+parse_from_stdin_toplevel(1)
 //
 val
-(
-  pfenv | ()
-) = $TRENV1.the_fxtyenv_push_nil()
+(pfenv | ()) =
+$TRENV1.the_fxtyenv_push_nil()
 //
-val d1cs = $TRANS1.d0eclist_tr_errck(d0cs)
+val
+d1cs =
+$TRANS1.d0eclist_tr_errck(d0cs)
+//
 val
 fxtymap =
-  $TRENV1.the_fxtyenv_pop (pfenv | (*none*))
+$TRENV1.the_fxtyenv_pop(pfenv | (*none*))
 //
-val ((*joined*)) =
-  $TRENV1.the_fxtyenv_pervasive_joinwth(fxtymap)
+val
+((*joined*)) =
+$TRENV1.the_fxtyenv_pervasive_joinwth(fxtymap)
 //
-val d2cs = $TRANS2.d1eclist_tr_errck(d1cs)
+val
+d2cs =
+$TRANS2.d1eclist_tr_errck(d1cs)
 //
 in
   syntext_d2eclist(stdout_ref, d2cs)
