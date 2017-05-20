@@ -55,6 +55,24 @@ staload
 absvtype
 cstream_vtype(tkind) = ptr
 //
+(* ****** ****** *)
+
+typedef
+cstruct = @{
+  getc= (ptr) -> int
+, free= (ptr) -> void
+, data= @[ulint][0] // well-aligned
+} (* end of [cstruct] *)
+
+datavtype
+cstream = CS of cstruct
+//
+local
+assume cstream_vtype(tk) = cstream
+in (* assume *) end
+//
+(* ****** ****** *)
+//
 vtypedef
 cstream(tk:tkind) = cstream_vtype(tk)
 vtypedef cstream = [tk:tkind] cstream(tk)

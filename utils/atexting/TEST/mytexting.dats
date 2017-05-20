@@ -3,21 +3,30 @@
 *)
 (* ****** ****** *)
 //
+#define
+ATEXTING_targetloc "./.."
+//
+(* ****** ****** *)
+//
+(*
 #include
-"utils/atexting/atexting_all.dats"
+"{$ATEXTING}/mylibies.hats"
+*)
+#include
+"{$ATEXTING}/mylibies_link.hats"
 //
 (* ****** ****** *)
 //
 #include
-"utils/atexting\
+"{$ATEXTING}\
 /DATS/SHARE/atexting_textdef_pre.dats"
 //
 #include
-"utils/atexting\
+"{$ATEXTING}\
 /DATS/SHARE/atexting_textdef_xhtml.dats"
 //
 #include
-"utils/atexting\
+"{$ATEXTING}\
 /DATS/SHARE/atexting_textdef_foreach.dats"
 //
 (* ****** ****** *)

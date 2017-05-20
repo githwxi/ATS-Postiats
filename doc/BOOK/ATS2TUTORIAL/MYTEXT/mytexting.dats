@@ -10,22 +10,43 @@ ATEXTING_targetloc
 //
 (* ****** ****** *)
 //
-staload
-STDLIB =
-"libats/libc/SATS/stdlib.sats"
+#include
+"share/atspre_staload.hats"
+#include
+"share/HATS\
+/atspre_staload_libats_ML.hats"
+#include
+"share/HATS\
+/atslib_staload_libats_libc.hats"
+//
+(* ****** ****** *)
 //
 macdef atoi = $STDLIB.atoi
 //
 (* ****** ****** *)
 //
 #include
-"{$ATEXTING}/atexting_all.dats"
+"{$ATEXTING}/mylibies.hats"
+//
+#staload $ATEXTING
+#staload $ATEXTING_TEXTDEF
+//
+#include
+"{$ATEXTING}/mylibies_link.hats"
+//
+(* ****** ****** *)
+//
+local
 #include
 "{$ATEXTING}\
 /DATS/SHARE/atexting_textdef_pre.dats"
+in (* nothing *) end
+//
+local
 #include
 "{$ATEXTING}\
 /DATS/SHARE/atexting_textdef_xhtml.dats"
+in (* nothing *) end
 //
 (* ****** ****** *)
 //

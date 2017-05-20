@@ -34,12 +34,7 @@
 (* ****** ****** *)
 //
 #include
-"share\
-/atspre_define.hats"
-//
-#include
-"share\
-/atspre_staload.hats"
+"share/atspre_staload.hats"
 //
 #include
 "share/HATS\
@@ -51,15 +46,15 @@
 //
 (* ****** ****** *)
 
-staload UN = $UNSAFE
+#staload UN = $UNSAFE
 
 (* ****** ****** *)
 
-staload $TIME // opening TIME
+#staload $TIME // opening TIME
 
 (* ****** ****** *)
 //
-staload
+#staload
 "utils/atexting/SATS/atexting.sats"
 //
 (* ****** ****** *)

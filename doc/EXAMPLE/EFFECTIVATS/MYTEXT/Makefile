@@ -20,11 +20,6 @@ LIBRARY = -latsynmark -latsopt -lats -lgmp -lgc
 ATSRUNTIME=$(ATSHOME)/ccomp/runtime
 #
 ######
-#
-ATEXTING_MYLIB=\
-$(PATSHOME)/utils/atexting/atexting_mylib.dats
-#
-######
 
 all:: mytexting
 
@@ -32,10 +27,9 @@ all:: mytexting
 #
 mytexting: \
 mytexting.dats ; \
-$(PATSCC) -O2 -o bin/$@ \
-  -D_ATS_GCBDW \
-  -DATS_MEMALLOC_GCBDW \
-  mytexting.dats $(ATEXTING_MYLIB) \
+$(PATSCC) -verbose \
+  -O2 -o bin/$@ mytexting.dats \
+  -D_ATS_GCBDW -DATS_MEMALLOC_GCBDW \
   $(ATSRUNTIME)/ats_prelude.c $(LDPATH) $(LIBRARY)
 #
 ######

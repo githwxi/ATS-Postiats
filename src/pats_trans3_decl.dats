@@ -236,6 +236,7 @@ case+ d2c0.d2ecl_node of
         }
       | Some(s2e) => () where
         {
+          val () = the_s2cstbindlst_add(s2c)
           val () = s2cst_set_def(s2c, Some(s2e))
         } (* end of [Some] *)
     ) : void // end of [val]

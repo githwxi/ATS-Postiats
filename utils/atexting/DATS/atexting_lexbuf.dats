@@ -50,7 +50,6 @@
 (* ****** ****** *)
 //
 #staload _ = "libats/DATS/stringbuf.dats"
-//
 #staload _ = "{$HX_CSTREAM}/DATS/cstream.dats"
 //
 (* ****** ****** *)
@@ -69,15 +68,17 @@ lexbuf_vt0ype = _lexbuf_vt0ype
 
 implement
 lexbuf_initize_string
-  (buf, inp) = () where
+(
+buf, inp
+) = ((*void*)) where
 {
 //
 #define BUFCAP 1024
 //
 val cs0 =
-$CS0.cstream_make_string (inp)
+$CS0.cstream_make_string(inp)
 val sbf =
-$SBF.stringbuf_make_nil (i2sz(BUFCAP))
+$SBF.stringbuf_make_nil(i2sz(BUFCAP))
 //
 val () = buf.lexbuf_ntot := 0
 val () = buf.lexbuf_nrow := 0
@@ -129,9 +130,9 @@ lexbuf_uninitize
 {
 //
 val () =
-$CS0.cstream_free (buf.lexbuf_cstream)
+$CS0.cstream_free(buf.lexbuf_cstream)
 val () =
-$SBF.stringbuf_free (buf.lexbuf_stringbuf)
+$SBF.stringbuf_free(buf.lexbuf_stringbuf)
 //
 } (* end of [lexbuf_uninitize] *)
 
@@ -168,9 +169,9 @@ lexbuf_incby_nback
 (* ****** ****** *)
 //
 implement
-lexbuf_get_nspace (buf) = buf.lexbuf_nspace
+lexbuf_get_nspace(buf) = buf.lexbuf_nspace
 implement
-lexbuf_set_nspace (buf, n) = buf.lexbuf_nspace := n
+lexbuf_set_nspace(buf, n) = buf.lexbuf_nspace := n
 //
 (* ****** ****** *)
 implement
@@ -182,10 +183,10 @@ val
 nchr = i2sz(nchr)
 //
 val () =
-$SBF.stringbuf_remove (buf.lexbuf_stringbuf, nchr)
+$SBF.stringbuf_remove(buf.lexbuf_stringbuf, nchr)
 //
 val nbuf =
-  $SBF.stringbuf_get_size (buf.lexbuf_stringbuf)
+  $SBF.stringbuf_get_size(buf.lexbuf_stringbuf)
 val ((*void*)) = lexbuf_set_nback (buf, sz2i(nbuf))
 //
 } (* end of [lexbuf_remove] *)
@@ -197,10 +198,10 @@ lexbuf_remove_all
   (buf) = () where
 {
 //
-val () = lexbuf_set_nback (buf, 0)
+val () = lexbuf_set_nback(buf, 0)
 //
 val () =
-$SBF.stringbuf_remove_all (buf.lexbuf_stringbuf)
+$SBF.stringbuf_remove_all(buf.lexbuf_stringbuf)
 //
 } (* end of [lexbuf_remove_all] *)
 

@@ -1,10 +1,10 @@
 (* ****** ****** *)
 //
-// ATS-texting
+// HX-2016-02-16
 //
 (* ****** ****** *)
 //
-// HX-2016-02-16
+// For downstream linking
 //
 (* ****** ****** *)
 //
@@ -14,7 +14,14 @@ ATS_MAINATSFLAG 1
 (* ****** ****** *)
 //
 #define
-ATS_DYNLOADNAME "atexting_all_dynload"
+ATS_DYNLOADNAME
+"atexting_all_dynload"
+//
+(* ****** ****** *)
+//
+local
+#include "./DATS/atexting_mylib.dats"
+in (*nothing*) end
 //
 (* ****** ****** *)
 //
@@ -119,7 +126,7 @@ case+ x0 of
 ) (* end of [outchan_close] *)
 
 (* ****** ****** *)
-
+//
 #ifdef
 MAIN_NONE
 #then
@@ -128,12 +135,14 @@ MAIN_NONE
 // the [main] is
 // to be implemented
 //
+(*
+#print
+"MAIN_NONE defined!"
+*)
+//
 #else
 //
 local
-//
-staload
-"./SATS/atexting.sats"
 //
 typedef
 cmdstate = @{
@@ -352,4 +361,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [atexting_all.dats] *)
+(* end of [mylibies_link.dats] *)

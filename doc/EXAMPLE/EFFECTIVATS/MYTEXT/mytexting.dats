@@ -11,13 +11,38 @@ ATEXTING_targetloc
 (* ****** ****** *)
 //
 #include
-"{$ATEXTING}/atexting_all.dats"
+"share/atspre_staload.hats"
+#include
+"share/HATS\
+/atspre_staload_libats_ML.hats"
+#include
+"share/HATS\
+/atslib_staload_libats_libc.hats"
+//
+(* ****** ****** *)
+//
+#include
+"{$ATEXTING}/mylibies.hats"
+//
+#staload $ATEXTING
+#staload $ATEXTING_TEXTDEF
+//
+#include
+"{$ATEXTING}/mylibies_link.hats"
+//
+(* ****** ****** *)
+//
+local
 #include
 "{$ATEXTING}\
 /DATS/SHARE/atexting_textdef_pre.dats"
+in (* nothing *) end
+//
+local
 #include
 "{$ATEXTING}\
 /DATS/SHARE/atexting_textdef_xhtml.dats"
+in (* nothing *) end
 //
 (* ****** ****** *)
 //

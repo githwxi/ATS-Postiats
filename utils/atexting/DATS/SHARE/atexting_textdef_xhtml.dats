@@ -34,12 +34,7 @@
 (* ****** ****** *)
 //
 #include
-"share\
-/atspre_define.hats"
-//
-#include
-"share\
-/atspre_staload.hats"
+"share/atspre_staload.hats"
 //
 #include
 "share/HATS\
@@ -47,12 +42,14 @@
 //
 (* ****** ****** *)
 
-staload UN = $UNSAFE
+#staload UN = $UNSAFE
 
 (* ****** ****** *)
 //
-staload
+#staload
 "utils/atexting/SATS/atexting.sats"
+#staload
+"utils/atexting/SATS/atexting_textdef.sats"
 //
 (* ****** ****** *)
 //
@@ -142,20 +139,13 @@ end // end of [__ats2xhtml__]
 
 in (* in-of-local *)
 //
-fun
-sats2xhtml
-(
-  loc: loc_t, xs: atextlst
-) : atext =
+implement
+sats2xhtml(loc, xs) =
 (
   atext_make_string(loc, __ats2xhtml__(0, xs))
 )
-//
-fun
-dats2xhtml
-(
-  loc: loc_t, xs: atextlst
-) : atext =
+implement
+dats2xhtml(loc, xs) =
 (
   atext_make_string(loc, __ats2xhtml__(1, xs))
 )

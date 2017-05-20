@@ -48,6 +48,10 @@ staload "./../SATS/cstream.sats"
 
 (* ****** ****** *)
 
+#define NUL '\000'
+
+(* ****** ****** *)
+
 typedef
 cstruct = @{
   getc= (ptr) -> int
@@ -61,11 +65,8 @@ datavtype cstream = CS of cstruct
 
 (* ****** ****** *)
 
-#define NUL '\000'
-
-(* ****** ****** *)
-
-fun cstream_getc
+fun
+cstream_getc
   (p: ptr): int = ret where
 {
 //
@@ -81,7 +82,7 @@ prval () = fpf (pf)
 
 (* ****** ****** *)
 
-fun cstream_free (p: ptr): void = ()
+fun cstream_free(p: ptr): void = ()
 
 (* ****** ****** *)
 

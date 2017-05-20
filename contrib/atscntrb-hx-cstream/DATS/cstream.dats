@@ -27,34 +27,25 @@
 *)
 
 (* ****** ****** *)
-
+//
 (*
+** cstream:
 ** stream of characters
 *)
-
+//
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
-
+//
 staload "./../SATS/cstream.sats"
-
+//
 (* ****** ****** *)
 
-typedef
-cstruct = @{
-  getc= (ptr) -> int
-, free= (ptr) -> void
-, data= @[ulint][0] // well-aligned
-} (* end of [cstruct] *)
-
-(* ****** ****** *)
-
-datavtype
-cstream = CS of cstruct
-assume cstream_vtype(tk) = cstream
+reassume cstream_vtype(*tkind*)
 
 (* ****** ****** *)
 
@@ -64,7 +55,7 @@ cstream_free
 {
 //
   val+@CS(cstruct) = cs0
-  val () = cstruct.free (addr@(cstruct.data))
+  val () = cstruct.free(addr@(cstruct.data))
   val ((*void*)) = free@cs0
 //
 } // end of [cstream_free]
@@ -78,7 +69,7 @@ cstream_get_char
 {
 //
   val+@CS(cstruct) = cs0
-  val ret = cstruct.getc (addr@(cstruct.data))
+  val ret = cstruct.getc(addr@(cstruct.data))
   prval ((*void*)) = fold@cs0
 //
 } // end of [cstream_get_char]
@@ -97,16 +88,16 @@ fun loop
 (
 if (n > 0) then let
 //
-val i = cstream_get_char (cs0)
+val i = cstream_get_char(cs0)
 //
 in
 //
 if i >= 0
   then let
     val c = int2char0(i)
-    val () = $UN.ptr0_set<char> (p, c)
+    val () = $UN.ptr0_set<char>(p, c)
   in
-    loop (cs0, ptr_succ<char> (p), pred(n))
+    loop (cs0, ptr_succ<char>(p), pred(n))
   end // end of [then]
   else (n) // end of [else]
 // end of [if]
@@ -135,11 +126,13 @@ in
 //
 if n != 0
   then let
-    val i = cstream_get_char (cs0)
+    val i =
+      cstream_get_char(cs0)
+    // end of [val]
   in
     if i > 0
       then let
-        val c = int2char0 (i)
+        val c = int2char0(i)
         val () =
           res := list_vt_cons{char}{0}(c, _)
         val+list_vt_cons (_, res1) = res
