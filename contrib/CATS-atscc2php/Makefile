@@ -31,7 +31,6 @@ SOURCES_SATS += $(CATSPARSEMIT)/SATS/catsparse.sats
 
 SOURCES_CATS :=
 SOURCES_CATS += $(CATSPARSEMIT)/CATS/catsparse_all_dats.c
-SOURCES_CATS += $(CATSPARSEMIT)/CATS/catsparse_mylib_dats.c
 
 ######
 #

@@ -62,14 +62,6 @@ fun
 catsparse_all_dynload(): void = "ext#"
 } (* end of [val] *)
 //
-val () =
-catsparse_mylib_dynload() where
-{
-extern
-fun
-catsparse_mylib_dynload(): void = "ext#"
-} (* end of [val] *)
-//
 (* ****** ****** *)
 
 #dynload "./atscc2js_emit.dats"

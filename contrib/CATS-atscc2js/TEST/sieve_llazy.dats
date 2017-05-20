@@ -23,17 +23,15 @@ ATS_DYNLOADNAME "sieve_llazy_main"
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
 //
 (* ****** ****** *)
 //
 #include
 "{$LIBATSCC2JS}/mylibies.hats"
-//
-(* ****** ****** *)
-//
-staload
+#staload
 "{$LIBATSCC2JS}/SATS/print.sats"
 //
 (* ****** ****** *)

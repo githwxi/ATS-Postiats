@@ -42,8 +42,10 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2PHP_targetloc
+"$PATSHOME\
+/contrib/libatscc2php/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //

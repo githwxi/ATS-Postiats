@@ -52,8 +52,10 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2CLJ_targetloc
+"$PATSHOME\
+/contrib/libatscc2clj/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //

@@ -4,7 +4,8 @@
 
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0
+#define
+ATS_DYNLOADFLAG 0
 
 (* ****** ****** *)
 
@@ -36,8 +37,10 @@ ATS_STATIC_PREFIX "_sstree_"
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2ERL_targetloc
+"$PATSHOME\
+/contrib/libatscc2erl/ATS2-0.3.2"
 //
 #include
 "{$LIBATSCC2ERL}/staloadall.hats"

@@ -23,8 +23,10 @@ ATS_DYNLOADNAME "sieve_llazy_main"
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2SCM_targetloc
+"$PATSHOME\
+/contrib/libatscc2scm/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //

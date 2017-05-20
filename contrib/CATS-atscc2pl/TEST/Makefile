@@ -12,9 +12,12 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
-
+#
 ATSCC2PL=./../atscc2pl
-
+#
+LIBATSCC2PL=\
+$(PATSHOME)/contrib/libatscc2pl/ATS2-0.3.2
+#
 ######
 
 all::
@@ -246,8 +249,7 @@ RMRF=rm -rf
 #
 libatscc2pl:: ; \
 $(CPF) \
-$(PATSHOME_contrib)/contrib\
-/libatscc/libatscc2pl/output/libatscc2pl_all.pl libatscc2pl/.
+$(LIBATSCC2PL)/output/libatscc2pl_all.pl libatscc2pl/.
 #
 ######
 

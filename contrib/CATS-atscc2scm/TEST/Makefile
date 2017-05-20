@@ -3,22 +3,24 @@
 #
 
 ######
-#
-SCHEME=guile
-#
-SCHEME2=$(SCHEME) \
--l $(LIBATSCC2SCM)/libatscc2scm_all.scm
-#
-######
 
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
-
+#
+SCHEME=guile
+#
+######
+#
 ATSCC2SCM=./../atscc2scm
-LIBATSCC2SCM=./libatscc2scm
-
+#
+LIBATSCC2SCM=\
+$(PATSHOME)/contrib/libatscc2scm/ATS2-0.3.2
+#
+SCHEME2=$(SCHEME) \
+-l $(LIBATSCC2SCM)/output/libatscc2scm_all.scm
+#
 ######
 
 all::
@@ -163,7 +165,13 @@ cleanall:: ; $(RMF) sieve_llazy_dats.scm
 #
 ######
 
-%_dats.scm: %.dats ; $(PATSOPT) -d $< | $(ATSCC2SCM) -o $@
+%_dats.scm: %.dats ; \
+$(PATSOPT) -d $< | $(ATSCC2SCM) -o $@
+
+######
+
+libatscc2scm:: ; \
+$(CPRF) $(LIBATSCC2SCM)/CATS ./libatscc2scm/.
 
 ######
 
@@ -180,22 +188,6 @@ RMF=rm -f
 RMRF=rm -rf
 #
 ######
-#
-# libatscc2scm:: ; \
-# $(CPRF) \
-# $(PATSCONTRIB)/contrib\
-# /libatscc/libatscc2scm/CATS/* libatscc2scm/CATS/.
-# libatscc2scm:: ; \
-# $(CPRF) \
-# $(PATSCONTRIB)/contrib\
-# /libatscc/libatscc2scm/output/DATS/* libatscc2scm/DATS/.
-#
-libatscc2scm:: ; \
-$(CPF) \
-$(PATSCONTRIB)/contrib\
-/libatscc/libatscc2scm/output/libatscc2scm_all.scm libatscc2scm/.
-#
-######
 
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c
@@ -203,8 +195,6 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) libatscc2scm/libatscc2scm_all.scm
-cleanall:: ; $(RMRF) libatscc2scm/CATS/*
-cleanall:: ; $(RMRF) libatscc2scm/DATS/*
+cleanall:: ; $(RMRF) libatscc2scm/CATS
 
 ###### end of [Makefile] ######

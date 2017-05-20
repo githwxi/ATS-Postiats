@@ -15,9 +15,12 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
-
+#
 ATSCC2PY=./../atscc2py3
-
+#
+LIBATSCC2PY3=\
+$(PATSHOME)/contrib/libatscc2py3/ATS2-0.3.2
+#
 ######
 
 all::
@@ -297,15 +300,7 @@ testall:: cleanall
 #
 libatscc2py3:: ; \
 $(CPF) \
-$(PATSCONTRIB)/contrib\
-/libatscc/libatscc2py3/output/libatscc2py3_all.py libatscc2py3/.
-#
-libatscc2py3:: ; \
-$(CPRF) \
-$(PATSCONTRIB)/contrib/libatscc/libatscc2py3/CATS/* libatscc2py3/CATS/.
-libatscc2py3:: ; \
-$(CPRF) \
-$(PATSCONTRIB)/contrib/libatscc/libatscc2py3/output/DATS/* libatscc2py3/DATS/.
+$(LIBATSCC2PY3)/output/libatscc2py3_all.py libatscc2py3/.
 #
 ######
 
@@ -318,8 +313,6 @@ cleanall:: clean
 #
 cleanall:: ; $(RMF) *_?ats.py
 cleanall:: ; $(RMF) libatscc2py3/libatscc2py3_all.py
-cleanall:: ; $(RMRF) libatscc2py3/CATS/*
-cleanall:: ; $(RMRF) libatscc2py3/DATS/*
 cleanall:: ; $(RMRF) libatscc2py3/__pycache__
 #
 ###### end of [Makefile] ######

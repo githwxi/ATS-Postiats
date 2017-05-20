@@ -4,7 +4,8 @@
 
 (* ****** ****** *)
 //
-#define ATS_DYNLOADFLAG 0
+#define
+ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
 //
@@ -15,14 +16,18 @@ ATS_STATIC_PREFIX "_libats2erl_session_sslist_"
 //
 (* ****** ****** *)
 //
-#include "share/atspre_define.hats"
-#include "{$LIBATSCC2ERL}/staloadall.hats"
+#define
+LIBATSCC2ERL_targetloc
+"$PATSHOME\
+/contrib/libatscc2erl/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN =
 "prelude/SATS/unsafe.sats"
+#include
+"{$LIBATSCC2ERL}/staloadall.hats"
 //
 (* ****** ****** *)
 //

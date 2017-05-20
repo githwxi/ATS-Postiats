@@ -6,14 +6,15 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-#include
-"{$LIBATSCC2JS}/mylibies.hats"
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
 //
 (* ****** ****** *)
 //
-staload
+#include
+"{$LIBATSCC2JS}/mylibies.hats"
+#staload
 "{$LIBATSCC2JS}/SATS/print.sats"
 //
 (* ****** ****** *)

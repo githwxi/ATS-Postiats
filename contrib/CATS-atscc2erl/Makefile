@@ -37,7 +37,6 @@ SOURCES_SATS += $(CATSPARSEMIT)/SATS/catsparse.sats
 
 SOURCES_CATS :=
 SOURCES_CATS += $(CATSPARSEMIT)/CATS/catsparse_all_dats.c
-SOURCES_CATS += $(CATSPARSEMIT)/CATS/catsparse_mylib_dats.c
 
 ######
 #
@@ -63,7 +62,6 @@ npm:: ; $(CPF) catsparse_sats.c atscc2erl_*_dats.c npm/CATS/.
 OBJECTS := \
   catsparse_sats.o \
   catsparse_all_dats.o \
-  catsparse_mylib_dats.o \
   atscc2erl_main_dats.o \
   atscc2erl_emit_dats.o \
   atscc2erl_emit2_dats.o \
@@ -78,8 +76,6 @@ $(CATSPARSEMIT)/SATS/catsparse.sats; $(PATSCC) -O2 -c $<
 #
 catsparse_all_dats.o: \
 $(CATSPARSEMIT)/CATS/catsparse_all_dats.c; $(PATSCC) -O2 -c $<
-catsparse_mylib_dats.o: \
-$(CATSPARSEMIT)/CATS/catsparse_mylib_dats.c; $(PATSCC) -O2 -c $<
 #
 %_dats.o: DATS/%.dats; \
 $(PATSCC) -D_GNU_SOURCE -DATS ATSCC2ERL_MAIN_NONE -O2 -c $<

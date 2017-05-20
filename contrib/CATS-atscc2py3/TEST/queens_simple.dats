@@ -50,8 +50,10 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2PY3_targetloc
+"$PATSHOME\
+/contrib/libatscc2py3/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //

@@ -70,7 +70,7 @@ Removing the binaries <u>patscc</u> and <u>patsopt</u>, which are
 usually stored in a directory like <u>/usr/bin</u> or <u>/usr/local/bin</u>;
 </li>
 <li>
-Removing the directory ${PATSHOMERELOC} if ATS2-contrib is installed.
+Removing the directory ${PATSCONTRIB} if ATS2-contrib is installed.
 </li>
 </ul>
 </p>
@@ -279,9 +279,9 @@ x.x.x is the version number of the package. All the directories and files extrac
 from the tarball are now in the directory <u>MYATS/ATS2-Postiats-contrib-x.x.x</u>.
 </p>
 <p>
-Please set the environment variable PATSHOMERELOC to the name of this
+Please set the environment variable PATSCONTRIB to the name of this
 directory and then you are ready to use ATS2-contrib.  If you like, you can
-set PATSHOMERELOC to be the same as ${PATSHOME} after moving the content of
+set PATSCONTRIB to be the same as ${PATSHOME} after moving the content of
 the directory <u>MYATS/ATS2-Postiats-contrib-x.x.x</u> into the directory of
 the name ${PATSHOME}.
 </p>

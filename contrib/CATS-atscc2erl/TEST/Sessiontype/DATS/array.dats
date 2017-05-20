@@ -15,8 +15,15 @@ ATS_STATIC_PREFIX "_libats2erl_session_ssarray_"
 //
 (* ****** ****** *)
 //
-#include "share/atspre_define.hats"
-#include "{$LIBATSCC2ERL}/staloadall.hats"
+#define
+LIBATSCC2ERL_targetloc
+"$PATSHOME\
+/contrib/libatscc2erl/ATS2-0.3.2"
+//
+(* ****** ****** *)
+//
+#include
+"{$LIBATSCC2ERL}/staloadall.hats"
 //
 (* ****** ****** *)
 //

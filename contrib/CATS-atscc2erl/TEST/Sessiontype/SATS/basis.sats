@@ -16,10 +16,15 @@ ATS_EXTERN_PREFIX "libats2erl_session_"
 //
 local
 //
-#include "share/atspre_define.hats"
+#define
+LIBATSCC2ERL_targetloc
+"$PATSHOME\
+/contrib/libatscc2erl/ATS2-0.3.2"
 //
 in
-  staload "{$LIBATSCC2ERL}/basics_erl.sats"
+//
+staload "{$LIBATSCC2ERL}/basics_erl.sats"
+//
 end // end of [local]
 //
 (* ****** ****** *)

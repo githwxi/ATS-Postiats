@@ -8,8 +8,13 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2PL_targetloc
+"$PATSHOME\
+/contrib/libatscc2pl/ATS2-0.3.2"
+//
+(* ****** ****** *)
+//
 #include
 "{$LIBATSCC2PL}/staloadall.hats"
 //

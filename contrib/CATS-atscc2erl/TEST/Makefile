@@ -13,9 +13,12 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
-
+#
 ATSCC2ERL=./../atscc2erl
-
+#
+LIBATSCC2ERL=\
+$(PATSHOME)/contrib/libatscc2erl/ATS2-0.3.2
+#
 ######
 
 all::
@@ -198,9 +201,7 @@ RMRF=rm -rf
 ######
 #
 libatscc2erl:: ; \
-$(CPF) \
-$(PATSHOME_contrib)/contrib\
-/libatscc/libatscc2erl/output/libatscc2erl_all.hrl libatscc2erl/.
+$(CPF) $(LIBATSCC2ERL)/output/libatscc2erl_all.hrl libatscc2erl/.
 #
 ######
 

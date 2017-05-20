@@ -8,9 +8,13 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
-
+#
 ATSCC2CLJ=./../atscc2clj
-LIBATSCC2CLJ=./libatscc2clj
+#
+LIBATSCC2CLJ=\
+$(PATSHOME)/contrib/libatscc2clj/ATS2-0.3.2
+#
+######
 
 ######
 #
@@ -22,7 +26,7 @@ $(JAVA) -Xss4m \
 #
 CLOJURE2=\
 $(CLOJURE) clojure.main \
-  -i $(LIBATSCC2CLJ)/libatscc2clj_all.clj
+-i $(LIBATSCC2CLJ)/output/libatscc2clj_all.clj
 #
 ######
 
@@ -195,13 +199,6 @@ RMF=rm -f
 RMRF=rm -rf
 #
 ######
-#
-libatscc2clj:: ; \
-$(CPF) \
-$(PATSCONTRIB)/contrib\
-/libatscc/libatscc2clj/output/libatscc2clj_all.clj libatscc2clj/.
-#
-######
 
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c
@@ -209,6 +206,5 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) libatscc2clj/libatscc2clj_all.clj
 
 ###### end of [Makefile] ######

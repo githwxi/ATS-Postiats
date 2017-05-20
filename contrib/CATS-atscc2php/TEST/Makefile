@@ -8,9 +8,12 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
-
+#
 ATSCC2PHP=./../atscc2php
-
+#
+LIBATSCC2PHP=\
+$(PATSHOME)/contrib/libatscc2php/ATS2-0.3.2
+#
 ######
 
 all::
@@ -156,11 +159,9 @@ RMRF=rm -rf
 ######
 #
 libatscc2php:: ; \
-$(CPRF) \
-$(PATSCONTRIB)/contrib/libatscc/libatscc2php/CATS/* libatscc2php/CATS/.
+$(CPRF) $(LIBATSCC2PHP)/CATS libatscc2php/.
 libatscc2php:: ; \
-$(CPRF) \
-$(PATSCONTRIB)/contrib/libatscc/libatscc2php/output/DATS/* libatscc2php/DATS/.
+$(CPRF) $(LIBATSCC2PHP)/output/DATS libatscc2php/.
 #
 ######
 
@@ -171,7 +172,7 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) libatscc2php/libatscc2php_all.php
-cleanall:: ; $(RMRF) libatscc2php/CATS/*
-cleanall:: ; $(RMRF) libatscc2php/DATS/*
+cleanall:: ; $(RMRF) libatscc2php/CATS
+cleanall:: ; $(RMRF) libatscc2php/DATS
 
 ###### end of [Makefile] ######

@@ -9,14 +9,19 @@
 (* ****** ****** *)
 
 #define
-ATS_EXTERN_PREFIX "queens_main0_comb_"
+ATS_EXTERN_PREFIX
+"queens_main0_comb_"
 #define
-ATS_STATIC_PREFIX "_queens_main0_comb_"
+ATS_STATIC_PREFIX
+"_queens_main0_comb_"
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2PHP_targetloc
+"$PATSHOME\
+/contrib/libatscc2php/ATS2-0.3.2"
+//
 #include
 "{$LIBATSCC2PHP}/staloadall.hats"
 //
