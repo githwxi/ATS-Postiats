@@ -28,7 +28,7 @@ extern
 fun fact : int -> int = "mac#fact"
 //
 implement
-fact (n) = if n > 0 then n * fact(n-1) else 1
+fact(n) = if n > 0 then n * fact(n-1) else 1
 //
 (* ****** ****** *)
 

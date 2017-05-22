@@ -256,6 +256,22 @@ gvalue_hashtbl(kxs) = GVhashtbl(kxs)
 (* ****** ****** *)
 //
 implement
+{}(*tmp*)
+gvalue_is_nil(gv) =
+(
+case+ gv of GVnil() => true | _ => false
+) (* gvalue_is_nil *)
+//
+implement
+{}(*tmp*)
+gvalue_isnot_nil(gv) =
+(
+case+ gv of GVnil() => false | _ => true
+) (* gvalue_isnot_nil *)
+//
+(* ****** ****** *)
+//
+implement
 gvref_make_elt
   (x0) = ref_make_elt<gvalue>(x0)
 //

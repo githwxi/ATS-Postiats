@@ -34,7 +34,6 @@ OBJECTS := \
   main0_dats.o \
   catsparse_sats.o \
   catsparse_all_dats.o \
-  catsparse_mylib_dats.o \
   atscc2js_main_dats.o \
   atscc2js_emit_dats.o \
   atscc2js_emit2_dats.o \
@@ -60,9 +59,6 @@ $(CCOMP) -O2 $(CFLAGS) -I$(PATSHOME) -I$(PATSRUNTIME) -c -o $@ $<
 #
 catsparse_all_dats.o: \
 $(CATSPARSEMIT)/CATS/catsparse_all_dats.c; \
-$(CCOMP) -O2 $(CFLAGS) -I$(PATSHOME) -I$(PATSRUNTIME) -c -o $@ $<
-catsparse_mylib_dats.o: \
-$(CATSPARSEMIT)/CATS/catsparse_mylib_dats.c; \
 $(CCOMP) -O2 $(CFLAGS) -I$(PATSHOME) -I$(PATSRUNTIME) -c -o $@ $<
 #
 ######

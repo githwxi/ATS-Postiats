@@ -1,12 +1,24 @@
+(* ****** ****** *)
+(*
+// Implementing a module of ML-style
+*)
+(* ****** ****** *)
 (*
 //
-// Implementing a module of ML-style
 // Author: Hongwei Xi
-// Authoremail: gmhwxi AT gmail DOT edu
 // TIme: the 4th of June, 2013
+// Authoremail: gmhwxi AT gmail DOT edu
 //
 *)
-
+(* ****** ****** *)
+(*
+//
+##myatsccdef=\
+curl --data-urlencode mycode@$1 \
+http://www.ats-lang.org/SERVER/MYCODE/atslangweb_patsopt_tcats_0_.php | \
+php -R 'if (\$argn != \"\") echo(json_decode(urldecode(\$argn))[1].\"\\n\");'
+//
+*)
 (* ****** ****** *)
 
 staload _ = "prelude/DATS/list.dats"

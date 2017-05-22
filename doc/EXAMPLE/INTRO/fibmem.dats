@@ -1,9 +1,21 @@
+(* ****** ****** *)
 //
 // Fibonacci function via memoization
 //
 // Author: Hongwei Xi (February 21, 2013)
 //
-
+(* ****** ****** *)
+(*
+//
+// HX-2017-05-22:
+// For remote typechecking only!
+//
+##myatsccdef=\
+curl --data-urlencode mycode@$1 \
+http://www.ats-lang.org/SERVER/MYCODE/atslangweb_patsopt_tcats_0_.php | \
+php -R 'if (\$argn != \"\") echo(json_decode(urldecode(\$argn))[1].\"\\n\");'
+//
+*)
 (* ****** ****** *)
 //
 // How to test:

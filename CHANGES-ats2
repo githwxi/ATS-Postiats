@@ -22,8 +22,11 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Fixing a bug involving 'reassume': the bug is serious
-   but the fix is very minor.
+1. Fixing a bug involving 'reassume': the bug is serious but the fix
+   is very minor.
+2. Improving utils/atexting by merging atexting_all with atexting_mylib
+   Many clients of atexting (e.g., atsccomp-compilers) have been updated
+   with respect to the changes maded to atexting.
 
 ######
 

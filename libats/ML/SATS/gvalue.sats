@@ -233,21 +233,28 @@ gvalue_hashtbl(kxs: gvhashtbl): gvalue
 //
 (* ****** ****** *)
 //
-fun
-gvref_make_elt
-  (x0: gvalue): gvref
+fun{}
+gvalue_is_nil(gvalue): bool
+fun{}
+gvalue_isnot_nil(gvalue): bool
+//
+overload iseqz with gvalue_is_nil
+overload isneqz with gvalue_isnot_nil
 //
 (* ****** ****** *)
 //
 fun
-gvarray_make_nil
-  (asz: intGte(0)): gvarray
+gvref_make_elt(ini: gvalue): gvref
 //
 (* ****** ****** *)
 //
 fun
-gvdynarr_make_nil
-  (cap: intGte(1)): gvdynarr
+gvarray_make_nil(asz: intGte(0)): gvarray
+//
+(* ****** ****** *)
+//
+fun
+gvdynarr_make_nil(cap: intGte(1)): gvdynarr
 //
 (* ****** ****** *)
 //

@@ -28,16 +28,16 @@ fun
 fact : double -> double = "mac#fact"
 //
 implement
-fact (n) = let
+fact(n) = let
 //
 fun loop
 (
   n: double, res: double
 ) : double =
-  if n > 0.0 then loop (n-1.0, n*res) else res
+  if n > 0.0 then loop(n-1.0, n*res) else res
 //
 in
-  loop (n, 1.0)
+  loop(n, 1.0)
 end // end of [fact]
 
 (* ****** ****** *)

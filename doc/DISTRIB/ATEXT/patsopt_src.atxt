@@ -96,12 +96,14 @@ The ATS/Postiats (ATS2) Compiler\
 (* ****** ****** *)
 
 #packfilename("pats_main.dats")
-#packfilesynop("\
-")
 
 (* ****** ****** *)
 
 #packfilename("pats_params.hats")
+
+(* ****** ****** *)
+
+#packfilename("pats_atspre.dats")
 
 (* ****** ****** *)
 

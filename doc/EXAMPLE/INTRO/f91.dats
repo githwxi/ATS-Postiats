@@ -1,8 +1,8 @@
+(* ****** ****** *)
 //
 // Implementing MacCarthy's 91-function
 // Author: Hongwei Xi (February 21, 2013)
 //
-
 (* ****** ****** *)
 
 staload "prelude/DATS/integer.dats"
@@ -29,6 +29,8 @@ val () = assertloc (f91 (N+6) = 91)
 val () = assertloc (f91 (N+7) = 91)
 val () = assertloc (f91 (N+8) = 91)
 val () = assertloc (f91 (N+9) = 91)
+//
+val () = println! ("Testing for [f91] is done!")
 //
 in
   // nothing
