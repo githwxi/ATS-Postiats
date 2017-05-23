@@ -1,14 +1,9 @@
+(* ****** ****** *)
 (*
 //
 // Some basics stuff
 //
 *)
-
-(* ****** ****** *)
-//
-staload
-UN = "prelude/SATS/unsafe.sats"
-//
 (* ****** ****** *)
 //
 #define ATS_DYNLOADFLAG 0
@@ -27,25 +22,31 @@ LIBATSCC2PHP_targetloc
 //
 (* ****** ****** *)
 //
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
 #include
 "{$LIBATSCC2PHP}/staloadall.hats"
 //
 (* ****** ****** *)
-
+//
 staload "./../SATS/atslangweb.sats"
-
+//
 (* ****** ****** *)
 //
 extern
 fun
-file_get_contents (fname: string): string = "mac#"
+file_get_contents
+  (fname: string): string = "mac#"
 //
 (* ****** ****** *)
 //
 implement
 tmpfile_unlink
   (fname) =
-  unlink ($UN.castvwtp0{string}(fname))
+  unlink($UN.castvwtp0{string}(fname))
 //
 (* ****** ****** *)
 //
