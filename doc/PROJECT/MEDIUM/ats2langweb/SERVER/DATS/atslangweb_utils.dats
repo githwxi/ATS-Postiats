@@ -80,7 +80,8 @@ end // end of [patsopt_command]
 //
 implement
 {}(*tmp*)
-atscc2js_command() = "atscc2js"
+atscc2js_command
+  ((*void*)) = "atscc2js"
 //
 (* ****** ****** *)
 //
