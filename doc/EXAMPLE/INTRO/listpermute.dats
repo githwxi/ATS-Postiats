@@ -1,5 +1,7 @@
+(* ****** ****** *)
 //
-// Enumerate the permutations of a list
+// Enumerate all of
+// the permutations of a list
 //
 // Author: Hongwei Xi (February, 2014)
 //
