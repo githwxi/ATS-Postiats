@@ -17,7 +17,7 @@ http://www.ats-lang.org/SERVER/MYCODE/atslangweb_patsopt_tcats_0_.php | \
 php -R 'if (\$argn != \"\") echo(json_decode(urldecode(\$argn))[1].\"\\n\");'
 //
 *)
-/
+//
 (* ****** ****** *)
 //
 // How to test:
