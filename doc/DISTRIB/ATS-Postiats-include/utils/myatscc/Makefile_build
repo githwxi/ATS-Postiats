@@ -1,0 +1,33 @@
+######
+#
+# A simple Makefile
+#
+######
+
+CC=gcc
+MAKE=make
+
+######
+
+DATS_C=./../DATS_C
+
+######
+
+SOURCES=\
+$(DATS_C)/myatscc_main_dats.c \
+$(DATS_C)/myatscc_libats_dats.c \
+$(DATS_C)/myatscc_parcomb_sats.c \
+$(DATS_C)/myatscc_parcomb_dats.c \
+
+######
+#
+all:: \
+myatscc
+myatscc : ; \
+$(CC) -o $@ $(SOURCES) \
+  -D_GNU_SOURCE -DATS_MEMALLOC_LIBC \
+  -I${PATSHOME} -I${PATSHOME}/ccomp/runtime
+#
+######
+
+###### end of [Makefile_build] ######

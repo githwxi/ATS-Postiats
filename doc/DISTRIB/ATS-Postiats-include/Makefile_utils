@@ -1,0 +1,21 @@
+######
+#
+# A simple Makefile
+#
+######
+
+MAKE=make
+  
+######
+
+all:: ; \
+$(MAKE) -C utils/atscc build install
+all:: ; \
+$(MAKE) -C utils/myatscc build install
+
+######
+
+cleanall:: ; rm -f bin/patscc
+cleanall:: ; rm -f bin/myatscc
+
+###### end of [Makefile_utils] ######
