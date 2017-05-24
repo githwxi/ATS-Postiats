@@ -8,7 +8,11 @@
 #include
 "share/atspre_staload.hats"
 //
+(*
 #staload UN = $UNSAFE
+*)
+#staload
+UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 

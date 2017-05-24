@@ -35,9 +35,6 @@
 //
 #include
 "share/atspre_staload.hats"
-#include
-"share/HATS\
-/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
@@ -45,12 +42,42 @@
 
 (* ****** ****** *)
 //
+(*
 #dynload "./myatscc_loc_t.dats"
 #dynload "./myatscc_lexer.dats"
 #dynload "./myatscc_parser.dats"
 #dynload "./myatscc_evaler.dats"
 #dynload "./myatscc_getdef.dats"
+*)
 //
+(* ****** ****** *)
+//
+local
+#include "./myatscc_loc_t.dats"
+in (* nothing *) end // endlocal
+//
+local
+#include "./myatscc_lexer.dats"
+in (* nothing *) end // endlocal
+//
+local
+#include "./myatscc_parser.dats"
+in (* nothing *) end // endlocal
+//
+local
+#include "./myatscc_evaler.dats"
+in (* nothing *) end // endlocal
+//
+local
+#include "./myatscc_getdef.dats"
+in (* nothing *) end // endlocal
+//
+(* ****** ****** *)
+
+#include
+"share/HATS\
+/atspre_staload_libats_ML.hats"
+
 (* ****** ****** *)
 
 #staload "./../SATS/myatscc.sats"

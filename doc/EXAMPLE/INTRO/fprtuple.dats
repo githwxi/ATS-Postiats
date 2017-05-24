@@ -1,7 +1,9 @@
+(* ****** ****** *)
 //
-// Author: Hongwei Xi (February 2013)
+// Author: Hongwei Xi
+// Start time: Feb of 2013
+// Authoremail: gmhwxi@gmail.com
 //
-
 (* ****** ****** *)
 //
 #include

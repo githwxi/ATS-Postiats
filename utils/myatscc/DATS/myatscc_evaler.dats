@@ -14,7 +14,11 @@
 //
 (* ****** ****** *)
 //
+(*
 #staload UN = $UNSAFE
+*)
+#staload
+UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //

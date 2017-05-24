@@ -22,9 +22,13 @@
 *)
 //
 (* ****** ****** *)
-
+//
+(*
 #staload UN = $UNSAFE
-
+*)
+#staload
+UN = "prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
 #staload "./../SATS/myatscc.sats"
