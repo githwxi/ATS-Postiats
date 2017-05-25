@@ -116,9 +116,10 @@ $UN.castvwtp0{list0(charlst0)}
 (* ****** ****** *)
 
 local
-
-staload _(*anon*) = "prelude/DATS/strptr.dats"
-
+//
+staload
+_(*anon*) = "prelude/DATS/strptr.dats"
+//
 in (* in of [local] *)
 
 implement
@@ -138,6 +139,32 @@ $UN.castvwtp0{list0(string)}
 ) // end of [fileref_get_lines_stringlst]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+filename_get_lines_stringlst_opt
+  (path) = let
+//
+val opt =
+  fileref_open_opt(path, file_mode_r)
+//
+in
+//
+case+ opt of
+| ~None_vt() =>
+   None_vt()
+| ~Some_vt(inp) =>
+   Some_vt(lines) where
+ {
+    val lines =
+      fileref_get_lines_stringlst(inp)
+    // end of [val]
+    val ((*void*)) = fileref_close(inp)
+ } (* end of [Some_vt] *) 
+//
+end // end of [filename_get_lines_stringlst_opt]
 
 (* ****** ****** *)
 //

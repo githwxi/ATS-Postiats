@@ -48,10 +48,9 @@ This is the default used by [myatscc]
 //
 #define
 MYATSCCDEF_def
-"patscc \
--cleanaft \
--D_GNU_SOURCE \
--DATS_MEMALLOC_LIBC -o $fname($1) $1 -latslib"
+"patscc -cleanaft \
+-D_GNU_SOURCE -DATS_MEMALLOC_LIBC \
+-I${PATSHOME}/contrib -o $fname($1) $1 -latslib"
 //
 (* ****** ****** *)
 //

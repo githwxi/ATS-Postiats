@@ -80,6 +80,9 @@ fileref_get_line_string(filr: FILEref): string
 fun
 fileref_get_lines_stringlst(filr: FILEref): stringlst0
 //
+fun{}
+filename_get_lines_stringlst_opt(path: string): Option_vt(stringlst0)
+//
 (* ****** ****** *)
 //
 fun{}
