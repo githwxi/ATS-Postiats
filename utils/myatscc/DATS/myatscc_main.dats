@@ -42,16 +42,6 @@
 
 (* ****** ****** *)
 //
-(*
-#dynload "./myatscc_loc_t.dats"
-#dynload "./myatscc_lexer.dats"
-#dynload "./myatscc_parser.dats"
-#dynload "./myatscc_evaler.dats"
-#dynload "./myatscc_getdef.dats"
-*)
-//
-(* ****** ****** *)
-//
 local
 #include "./myatscc_loc_t.dats"
 in (* nothing *) end // endlocal
@@ -70,6 +60,12 @@ in (* nothing *) end // endlocal
 //
 local
 #include "./myatscc_getdef.dats"
+in (* nothing *) end // endlocal
+//
+(* ****** ****** *)
+//
+local
+#include "./myatscc_libats.dats"
 in (* nothing *) end // endlocal
 //
 (* ****** ****** *)

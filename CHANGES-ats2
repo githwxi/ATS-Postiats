@@ -27,7 +27,13 @@ Here is a list of major additions and changes since the last release:
 2. Improving utils/atexting by merging atexting_all with atexting_mylib
    Many clients of atexting (e.g., atsccomp-compilers) have been updated
    with respect to the changes maded to atexting.
-
+3. Adding support for compiling a static file followed by a dynamic file
+   into a single file consisting of the generated code:
+   patsopt -o foo_all.c -s foo.sats -d foo.dats; patscc -o foo foo_all.c
+   This support can be useful for distributing C code generated from ATS
+   source. For instance, a file of C code generated as such can serve as
+   a script of some sort.
+  
 ######
 
 0.3.5

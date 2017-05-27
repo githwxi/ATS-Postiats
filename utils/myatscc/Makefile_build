@@ -45,7 +45,7 @@ PARCOMB +=./myatscc_parcomb.sats
 PARCOMB +=./myatscc_parcomb.dats
 
 MYLIBATS =
-MYLIBATS += myatscc_libats.dats
+# MYLIBATS += myatscc_libats.dats
 
 ######
 #
