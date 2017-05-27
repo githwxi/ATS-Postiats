@@ -1404,7 +1404,20 @@ if isdebug() then
 
 implement
 do_transfinal
-  (state, given, d0cs) = (
+  (state, given, d0cs) = let
+//
+(*
+val () = 
+println!
+("PACKNAME=",
+ $GLOB.the_PACKNAME_get())
+val () = 
+println!
+("STATIC_PREFIX=",
+ $GLOB.the_STATIC_PREFIX_get())
+*)
+//
+in
 //
 case+ 0 of
 | _ when
@@ -1437,17 +1450,18 @@ case+ 0 of
     val d3cs = do_trans123(state, given, d0cs)
   } (* end of [when ...] *)
 | _ (*compilation*) => let
-    val () = state.olevel := 1 // there is output
+    val () = state.olevel := 1 // for output
     val hids = do_trans1234(state, given, d0cs)
-    val outfil = outchan_get_filr(state.outchan)
+    val filr = outchan_get_filr(state.outchan)
     val flag = waitkind_get_stadyn(state.waitkind)
     val ((*void*)) =
-      $CCOMP.ccomp_main(outfil, flag, state.infil, hids)
+      $CCOMP.ccomp_main(filr, flag, state.infil, hids)
+    // end of [val]
   in
     // nothing
   end // end of [_]
 //
-) (* end of [do_transfinal] *)
+end (* end of [do_transfinal] *)
 
 (* ****** ****** *)
 
@@ -1712,7 +1726,7 @@ case+ arg of
         val () =
         the_prelude_load_if
           (state.PATSHOME, state.preludeflag)
-        // end of [val]
+        // the_prelude_load_if
 //
         val () =
         if stadyn >= 1

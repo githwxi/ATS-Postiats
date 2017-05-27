@@ -68,7 +68,7 @@ end // end of [local]
 
 implement
 the_PACKNAME_set_name
-  (ns) = the_PACKNAME_set(stropt_some (ns))
+  (ns) = the_PACKNAME_set(stropt_some(ns))
 // end of [the_PACKNAME_set]
 implement
 the_PACKNAME_set_none
@@ -110,7 +110,7 @@ local
 //
 val the_STALOADFLAG = ref<int> (0)
 *)
-val the_DYNLOADFLAG = ref<int> (0)
+val the_DYNLOADFLAG = ref<int>(0)
 //
 in (* in of [local] *)
 //
@@ -119,12 +119,14 @@ in (* in of [local] *)
 // HX-2014-06-06:
 // [STALOADFLAG] is no longer in use
 //
-implement the_STALOADFLAG_get () = !the_STALOADFLAG
-implement the_STALOADFLAG_set (flag) = !the_STALOADFLAG := flag
+implement the_STALOADFLAG_get() = !the_STALOADFLAG
+implement the_STALOADFLAG_set(flag) = !the_STALOADFLAG := flag
 *)
 //
-implement the_DYNLOADFLAG_get () = !the_DYNLOADFLAG
-implement the_DYNLOADFLAG_set (flag) = !the_DYNLOADFLAG := flag
+implement
+the_DYNLOADFLAG_get() = !the_DYNLOADFLAG
+implement
+the_DYNLOADFLAG_set(flag) = !the_DYNLOADFLAG := flag
 //
 end // end of [local]
 
@@ -139,9 +141,14 @@ ref<stropt>(stropt_none)
 in (* in-of-local *)
 
 implement
-the_DYNLOADNAME_get () = !the_DYNLOADNAME
+the_DYNLOADNAME_get
+  () = !the_DYNLOADNAME
 implement
-the_DYNLOADNAME_set (name) = !the_DYNLOADNAME := stropt_some(name)
+the_DYNLOADNAME_set_none
+  () = !the_DYNLOADNAME := stropt_none(*void*)
+implement
+the_DYNLOADNAME_set_name
+  (name) = !the_DYNLOADNAME := stropt_some(name)
 
 end // end of [local]
 
@@ -149,12 +156,14 @@ end // end of [local]
 
 local
 
-val the_MAINATSFLAG = ref<int> (0)
+val the_MAINATSFLAG = ref<int>(0)
 
 in (* in of [local] *)
 
-implement the_MAINATSFLAG_get () = !the_MAINATSFLAG
-implement the_MAINATSFLAG_set (flag) = !the_MAINATSFLAG := flag
+implement
+the_MAINATSFLAG_get() = !the_MAINATSFLAG
+implement
+the_MAINATSFLAG_set(flag) = !the_MAINATSFLAG := flag
 
 end // end of [local]
 
@@ -163,14 +172,20 @@ end // end of [local]
 local
 //
 val
-the_STATIC_PREFIX = ref<stropt> (stropt_none)
+the_STATIC_PREFIX =
+  ref<stropt>(stropt_none)
 //
 in (* in-of-local *)
 //
 implement
-the_STATIC_PREFIX_get () = !the_STATIC_PREFIX
+the_STATIC_PREFIX_get
+  () = !the_STATIC_PREFIX
 implement
-the_STATIC_PREFIX_set (x) = !the_STATIC_PREFIX := stropt_some(x)
+the_STATIC_PREFIX_set_none
+  () = !the_STATIC_PREFIX := stropt_none
+implement
+the_STATIC_PREFIX_set_name
+  (x) = !the_STATIC_PREFIX := stropt_some(x)
 //
 end // end of [local]  
   
@@ -235,14 +250,14 @@ end // end of [local]
 
 local
 //
-val rdbgflag = ref<int> (0)
+val rdbgflag = ref<int>(0)
 //
 in (*in-of-local*)
 //
 implement
-the_DEBUGATS_dbgflag_get () = !rdbgflag
+the_DEBUGATS_dbgflag_get() = !rdbgflag
 implement
-the_DEBUGATS_dbgflag_set (flag) = !rdbgflag := flag
+the_DEBUGATS_dbgflag_set(flag) = !rdbgflag := flag
 //
 end // end of [local]
 
@@ -250,14 +265,14 @@ end // end of [local]
 
 local
 //
-val rdbgline = ref<int> (0)
+val rdbgline = ref<int>(0)
 //
 in (*in-of-local*)
 //
 implement
-the_DEBUGATS_dbgline_get () = !rdbgline
+the_DEBUGATS_dbgline_get() = !rdbgline
 implement
-the_DEBUGATS_dbgline_set (flag) = !rdbgline := flag
+the_DEBUGATS_dbgline_set(flag) = !rdbgline := flag
 //
 end // end of [local]
 
@@ -265,14 +280,14 @@ end // end of [local]
 
 local
 //
-val rtlcalopt = ref<int> (1)
+val rtlcalopt = ref<int>(1)
 //
 in
 //
 implement
-the_CCOMPATS_tlcalopt_get () = !rtlcalopt
+the_CCOMPATS_tlcalopt_get() = !rtlcalopt
 implement
-the_CCOMPATS_tlcalopt_set (flag) = !rtlcalopt := flag
+the_CCOMPATS_tlcalopt_set(flag) = !rtlcalopt := flag
 //
 end // end of [local]
 
@@ -281,14 +296,14 @@ end // end of [local]
 local
 //
 val
-rmaxtmprecdepth = ref<int> (CCOMPENV_MAXTMPRECDEPTH)
+rmaxtmprecdepth = ref<int>(CCOMPENV_MAXTMPRECDEPTH)
 //
 in (*in-of-local*)
 //
 implement
-the_CCOMPENV_maxtmprecdepth_get () = !rmaxtmprecdepth
+the_CCOMPENV_maxtmprecdepth_get() = !rmaxtmprecdepth
 implement
-the_CCOMPENV_maxtmprecdepth_set (mtd) = !rmaxtmprecdepth := mtd
+the_CCOMPENV_maxtmprecdepth_set(mtd) = !rmaxtmprecdepth := mtd
 //
 end // end of [local]
 

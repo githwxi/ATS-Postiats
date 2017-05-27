@@ -2142,7 +2142,7 @@ println!
 *)
 //
 val s2e =
-  s2hnf_opnexi_and_add (d3e.d3exp_loc, s2f)
+  s2hnf_opnexi_and_add(d3e.d3exp_loc, s2f)
 //
 (*
 //
@@ -2235,7 +2235,7 @@ fprintln!
 *)
 //
 in
-  c3nstr_itmlst ($LOC.location_dummy, C3TKmain(), s3is)
+  c3nstr_itmlst($LOC.location_dummy, C3TKmain(), s3is)
 end // end of [the_trans3_finget_constraint]
 
 (* ****** ****** *)

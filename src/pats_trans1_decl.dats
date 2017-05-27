@@ -1518,7 +1518,7 @@ if isnone
 // end of [if]
 ) : d1eclist // end of [val]
 //
-val () = the_trans1errlst_finalize ()
+val () = the_trans1errlst_finalize()
 //
 } // end of [d0eclist_tr_errck]
 
@@ -1530,53 +1530,61 @@ fun
 intrep2int
   (rep: string): int = let
 //
-val x = $UT.llint_make_string (rep) in int_of_llint (x)
+val x =
+$UT.llint_make_string(rep) in int_of_llint(x)
 //
 end // end of [intrep2int]
 
 fun
 aux_dynloadflag(): void = let
-  val opt = the_e1xpenv_find (ATS_DYNLOADFLAG)
+  val opt = the_e1xpenv_find( ATS_DYNLOADFLAG )
 in
 //
 case+ opt of
-| ~Some_vt (e) => (
+| ~Some_vt(e) =>
+  (
   case+ e.e1xp_node of
-  | E1XPint (x) =>
-      $GLOB.the_DYNLOADFLAG_set (x)
-  | E1XPintrep (rep) =>
-      $GLOB.the_DYNLOADFLAG_set (intrep2int(rep))
-  | _ => let
+  | E1XPint(x) =>
+      $GLOB.the_DYNLOADFLAG_set(x)
+  | E1XPintrep(rep) =>
+      $GLOB.the_DYNLOADFLAG_set(intrep2int(rep))
+  | _ (*rest-of-e1xp*) => let
       val () =
-      prerr_error1_loc (e.e1xp_loc)
-      val () = prerr ": non-integer definition for [ATS_DYNLOADFLAG]."
-      val () = prerr_newline ((*void*))
+      prerr_error1_loc(e.e1xp_loc)
+      val () =
+      prerrln! (": non-integer definition for [ATS_DYNLOADFLAG].")
     in
-       $ERR.abort{void}((*reachable*)) // HX: is it meaningful to continue?
+      $ERR.abort{void}((*reachable*)) // HX: is it meaningful to continue?
     end // end of [_]
   ) (* end of [Some_vt] *)
 //
 // HX: [ATS_DYNLOADFLAG] is set to 1 by default
 //
-| ~None_vt ((*void*)) => ()
+| ~None_vt((*void*)) => ()
 //
 end // end of [aux_dynloadflag]
 
 fun
-aux_dynloadname(): void = let
-  val opt = the_e1xpenv_find (ATS_DYNLOADNAME)
+aux_dynloadname
+(
+) : void = let
+//
+val opt =
+the_e1xpenv_find(ATS_DYNLOADNAME)
+//
 in
 //
 case+ opt of
-| ~Some_vt (e) => (
+| ~Some_vt(e) =>
+  (
   case+ e.e1xp_node of
-  | E1XPstring (x) =>
-      $GLOB.the_DYNLOADNAME_set (x)
-  | _ => let
+  | E1XPstring(x) =>
+    $GLOB.the_DYNLOADNAME_set_name(x)
+  | _ (*non-E1XPstring*) => let
       val () =
-      prerr_error1_loc (e.e1xp_loc)
-      val () = prerr ": non-string definition for [ATS_DYNLOADNAME]."
-      val () = prerr_newline ((*void*))
+        prerr_error1_loc( e.e1xp_loc )
+      val () =
+        prerrln!(": non-string definition for [ATS_DYNLOADNAME].")
     in
        $ERR.abort{void}((*reachable*)) // HX: is it meaningful to continue?
     end // end of [_]
@@ -1584,27 +1592,34 @@ case+ opt of
 //
 // HX: the [ATS_DYNLOADNAME] is set to stropt_none
 //
-| ~None_vt ((*void*)) => ()
+| ~None_vt((*void*)) => ()
 //
 end // end of [aux_dynloadname]
 
 fun
-aux_mainatsflag(): void = let
-  val opt = the_e1xpenv_find (ATS_MAINATSFLAG)
+aux_mainatsflag
+(
+// argless
+) : void = let
+//
+val opt =
+  the_e1xpenv_find(ATS_MAINATSFLAG)
+//
 in
 //
 case+ opt of
-| ~Some_vt (e) => (
+| ~Some_vt(e) =>
+  (
   case+ e.e1xp_node of
-  | E1XPint (x) =>
+  | E1XPint(x) =>
       $GLOB.the_MAINATSFLAG_set (x)
-  | E1XPintrep (rep) =>
+  | E1XPintrep(rep) =>
       $GLOB.the_MAINATSFLAG_set (intrep2int(rep))
-  | _ => let
+  | _ (* rest-of-e1xp *)=> let
       val () =
-      prerr_error1_loc (e.e1xp_loc)
-      val () = prerr ": non-integer definition for [ATS_MAINATSFLAG]."
-      val () = prerr_newline ((*void*))
+      prerr_error1_loc(e.e1xp_loc)
+      val () =
+      prerrln! (": non-integer definition for [ATS_MAINATSFLAG].")
     in
        $ERR.abort{void}((*reachable*)) // HX: is it meaningful to continue?
     end // end of [_]
@@ -1617,20 +1632,25 @@ case+ opt of
 end // end of [aux_mainatsflag]
 
 fun
-aux_static_prefix(): void = let
-  val opt = the_e1xpenv_find (ATS_STATIC_PREFIX)
+aux_static_prefix
+(
+// argless
+) : void = let
+  val opt =
+  the_e1xpenv_find(ATS_STATIC_PREFIX)
 in
 //
 case+ opt of
-| ~Some_vt (e) => (
+| ~Some_vt(e) =>
+  (
   case+ e.e1xp_node of
-  | E1XPstring (x) =>
-      $GLOB.the_STATIC_PREFIX_set (x)
-  | _ => let
+  | E1XPstring(x) =>
+    $GLOB.the_STATIC_PREFIX_set_name(x)
+  | _ (* non-E1XPstring *) => let
       val () =
-        prerr_error1_loc (e.e1xp_loc)
-      val () = prerr ": non-string definition for [ATS_STATIC_PREFIX]."
-      val () = prerr_newline ((*void*))
+        prerr_error1_loc( e.e1xp_loc )
+      val () =
+        prerrln!(": non-string definition for [ATS_STATIC_PREFIX].")
     in
        $ERR.abort{void}((*reachable*)) // HX: is it meaningful to continue?
     end // end of [_]
@@ -1638,14 +1658,14 @@ case+ opt of
 //
 // HX: the [ATS_STATIC_PREFIX] is set to stropt_none
 //
-| ~None_vt ((*void*)) => ()
+| ~None_vt((*void*)) => ()
 //
 end // end of [aux_static_prefix]
 
 in (* in of [local] *)
 
 implement
-trans1_finalize () =
+trans1_finalize() =
 {
 //
   val () = aux_dynloadflag()

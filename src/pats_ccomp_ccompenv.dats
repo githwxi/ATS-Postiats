@@ -77,10 +77,10 @@ saspdeclst_vt = List_vt(hidecl)
 //
 val
 the_exndeclst =
-ref_make_elt<exndeclst_vt> (list_vt_nil())
+ref_make_elt<exndeclst_vt>(list_vt_nil())
 val
 the_saspdeclst =
-ref_make_elt<saspdeclst_vt> (list_vt_nil())
+ref_make_elt<saspdeclst_vt>(list_vt_nil())
 // end of [val]
 //
 in (* in of [local] *)
@@ -148,7 +148,7 @@ end // end of [local]
 local
 //
 vtypedef
-extypelst_vt = List_vt (hidecl)
+extypelst_vt = List_vt(hidecl)
 //
 val
 the_extypelst =
@@ -191,11 +191,11 @@ end // end of [local]
 local
 //
 vtypedef
-extcodelst_vt = List_vt (hidecl)
+extcodelst_vt = List_vt(hidecl)
 //
 val
 the_extcodelst =
-ref_make_elt<extcodelst_vt> (list_vt_nil())
+ref_make_elt<extcodelst_vt>(list_vt_nil())
 // end of [val]
 //
 in (* in of [local] *)
@@ -253,10 +253,10 @@ dynloadlst_vt = List_vt(hidecl)
 //
 val
 the_staloadlst =
-ref_make_elt<staloadlst_vt> (list_vt_nil())
+ref_make_elt<staloadlst_vt>(list_vt_nil())
 val
 the_dynloadlst =
-ref_make_elt<dynloadlst_vt> (list_vt_nil())
+ref_make_elt<dynloadlst_vt>(list_vt_nil())
 //
 in (* in of [local] *)
 
@@ -323,10 +323,12 @@ end // end of [local]
 
 local
 //
-val the_dyncstset =
-  ref_make_elt<d2cstset> (d2cstset_nil ())
-val the_dyncstlst =
-  ref_make_elt<d2cstlst_vt> (list_vt_nil ())
+val
+the_dyncstset =
+ref_make_elt<d2cstset>(d2cstset_nil())
+val
+the_dyncstlst =
+ref_make_elt<d2cstlst_vt>(list_vt_nil())
 //
 in (* in of [local] *)
 
@@ -334,38 +336,41 @@ implement
 the_dyncstlst_add
   (d2c) = let
   val d2cs = !the_dyncstset
-  val found = d2cstset_ismem (d2cs, d2c)
+  val found = d2cstset_ismem(d2cs, d2c)
 in
 //
-if ~(found) then let
+if
+~(found)
+then let
   val () = let
-    val (
-      vbox pf | p
-    ) = ref_get_view_ptr (the_dyncstlst)
+    val
+    (vbox pf | p) =
+    ref_get_view_ptr(the_dyncstlst)
   in
-    !p := list_vt_cons (d2c, !p)
+    !p := list_vt_cons{d2cst}(d2c, !p)
   end // end of [val]
 in
-  !the_dyncstset := d2cstset_add (d2cs, d2c)
+  !the_dyncstset := d2cstset_add(d2cs, d2c)
 end (* end of [if] *)
 //
 end // end of [the_dyncstlst_add]
 
 implement
-the_dyncstlst_get () = let
+the_dyncstlst_get
+  ((*void*)) = let
 //
 val d2cs = let
-  val (
-    vbox pf | p
-  ) = ref_get_view_ptr (the_dyncstlst)
+  val
+  (vbox pf | p) =
+  ref_get_view_ptr(the_dyncstlst)
   val d2cs = !p
-  val () = !p := list_vt_nil ()
+  val ((*void*)) = !p := list_vt_nil()
 in
-  list_vt_reverse (d2cs)
+  list_vt_reverse<d2cst>(d2cs)
 end // end of [val]
 //
 in
-  list_of_list_vt (d2cs)
+  list_of_list_vt{d2cst}(d2cs)
 end // end of [the_dyncstlst_get]
 
 end // end of [local]
@@ -374,10 +379,12 @@ end // end of [local]
 
 local
 //
-val the_dynconset =
-  ref_make_elt<d2conset> (d2conset_nil ())
-val the_dynconlst =
-  ref_make_elt<d2conlst_vt> (list_vt_nil ())
+val
+the_dynconset =
+ref_make_elt<d2conset>(d2conset_nil())
+val
+the_dynconlst =
+ref_make_elt<d2conlst_vt>(list_vt_nil())
 //
 in (* in of [local] *)
 
@@ -385,38 +392,41 @@ implement
 the_dynconlst_add
   (d2c) = let
   val d2cs = !the_dynconset
-  val found = d2conset_ismem (d2cs, d2c)
+  val found = d2conset_ismem(d2cs, d2c)
 in
 //
-if ~(found) then let
+if
+~(found)
+then let
   val () = let
-    val (
-      vbox pf | p
-    ) = ref_get_view_ptr (the_dynconlst)
+    val
+    (vbox pf | p) =
+    ref_get_view_ptr(the_dynconlst)
   in
-    !p := list_vt_cons (d2c, !p)
+    !p := list_vt_cons{d2con}(d2c, !p)
   end // end of [val]
 in
-  !the_dynconset := d2conset_add (d2cs, d2c)
+  !the_dynconset := d2conset_add(d2cs, d2c)
 end (* end of [if] *)
 //
 end // end of [the_dynconlst_add]
 
 implement
-the_dynconlst_get () = let
+the_dynconlst_get
+  ((*void*)) = let
 //
 val d2cs = let
-  val (
-    vbox pf | p
-  ) = ref_get_view_ptr (the_dynconlst)
+  val
+  (vbox pf | p) =
+  ref_get_view_ptr(the_dynconlst)
   val d2cs = !p
-  val () = !p := list_vt_nil ()
+  val ((*void*)) = !p := list_vt_nil()
 in
-  list_vt_reverse (d2cs)
+  list_vt_reverse<d2con>(d2cs)
 end // end of [val]
 //
 in
-  list_of_list_vt (d2cs)
+  list_of_list_vt{d2con}(d2cs)
 end // end of [the_dynconlst_get]
 
 end // end of [local]
@@ -425,45 +435,55 @@ end // end of [local]
 
 local
 
-vtypedef funlablst_vt = List_vt (funlab)
+vtypedef
+funlablst_vt = List_vt(funlab)
 
-val the_funlablst =
-  ref_make_elt<funlablst_vt> (list_vt_nil ())
+val
+the_funlablst =
+ref_make_elt<funlablst_vt>(list_vt_nil())
 // end of [the_funlablst]
 
 in (* in of [local] *)
 
 implement
-the_funlablst_add (fl) = let
+the_funlablst_add(fl) = let
 //
-val (vbox pf | p) = ref_get_view_ptr (the_funlablst)
+val
+(vbox pf | p) =
+ref_get_view_ptr(the_funlablst)
 //
 in
-  !p := list_vt_cons (fl, !p)
+  !p := list_vt_cons(fl, !p)
 end // end of [the_funlablst_add]
 
 implement
 the_funlablst_addlst
-  (fls) = list_app_fun (fls, the_funlablst_add)
+  (fls) = list_app_fun(fls, the_funlablst_add)
 // end of [the_funlablst_addlst]
 
 (* ****** ****** *)
 
 implement
-the_funlablst_get () = let
+the_funlablst_get
+  ((*void*)) = let
 //
 val fls = fls where
 {
-val (
-  vbox pf | p
-) = ref_get_view_ptr (the_funlablst)
-val fls = !p; val () = !p := list_vt_nil ()
+//
+val
+(vbox pf | p) =
+ref_get_view_ptr(the_funlablst)
+//
+val fls = !p
+val ((*void*)) = !p := list_vt_nil()
+//
 } (* end of [val] *)
 //
-val fls = list_vt_reverse (fls)
+val
+fls = list_vt_reverse(fls)
 //
 in
-  list_of_list_vt (fls)
+  list_of_list_vt{funlab}(fls)
 end // end of [the_funlablst_get]
 
 end // end of [local]
@@ -2782,19 +2802,22 @@ end // end of [local]
 local
 //
 val
-the_tmplst = ref<tmpvarlst>(list_nil)
+the_tmplst =
+ref<tmpvarlst>(list_nil)
 val
-the_pmdlst = ref<primdeclst>(list_nil)
+the_pmdlst =
+ref<primdeclst>(list_nil)
 //
 in (* in-of-local *)
-
+//
 implement
 the_toplevel_getref_tmpvarlst
   ((*void*)) = $UN.cast2Ptr1 (the_tmplst)
+//
 implement
 the_toplevel_getref_primdeclst
   ((*void*)) = $UN.cast2Ptr1 (the_pmdlst)
-
+//
 end // end of [local]
 
 (* ****** ****** *)
@@ -2810,11 +2833,14 @@ revapp
 ) : d2varlst_vt =
 (
 case+ d2vs of
-| list_nil () => res
-| list_cons (d2v, d2vs) =>
-    revapp (d2vs, list_vt_cons (d2v, res))
+| list_nil
+    ((*void*)) => res
+  // list_nil
+| list_cons
+    (d2v, d2vs) =>
+    revapp(d2vs, list_vt_cons(d2v, res))
   // end of [list_cons]
-)
+) (* end of [revapp] *)
 //
 fun
 auxlst
@@ -2824,7 +2850,9 @@ auxlst
 (
 case+ xs of
 //
-| MARKENVLSTnil() => (fold@(xs); res)
+| MARKENVLSTnil
+    ((*void*)) => (fold@(xs); res)
+  // MARKENVLSTnil
 //
 | MARKENVLSTcons_tempenver
     (!p_x, !p_xs) => let

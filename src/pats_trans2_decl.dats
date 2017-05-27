@@ -2759,43 +2759,43 @@ of // case+
     list_map_fun
       (decarg, q1marg_tr_dec)
     // end of [val]
-    val s2qs = list_of_list_vt (s2qs)
+    val s2qs = list_of_list_vt(s2qs)
     val ((*void*)) =
-      s2qualstlst_set_tmplev (s2qs, tmplev)
+      s2qualstlst_set_tmplev(s2qs, tmplev)
     // end of [val]
 //
     val f2ds =
-      f1undeclst_tr (fk0, s2qs, f1ds)
+      f1undeclst_tr(fk0, s2qs, f1ds)
     // end of [val]
 //
-    val () = if istmp then the_tmplev_dec ()
+    val () = if istmp then the_tmplev_dec()
 //
-    val () = the_trans2_env_pop (pfenv | (*none*))
+    val () = the_trans2_env_pop(pfenv | (*none*))
 //
-    val () = the_d2expenv_add_fundeclst (fk0, f2ds)
+    val () = the_d2expenv_add_fundeclst(fk0, f2ds)
 //
   in
-    d2ecl_fundecs (loc0, fk0, s2qs, f2ds)
+    d2ecl_fundecs(loc0, fk0, s2qs, f2ds)
   end // end of [D1Cfundecs]
 //
 | D1Cvaldecs
   (
     knd, isrec, v1ds
   ) => let
-    val v2ds = v1aldeclst_tr (isrec, v1ds)
+    val v2ds = v1aldeclst_tr(isrec, v1ds)
   in
     if not(isrec)
-      then d2ecl_valdecs (loc0, knd, v2ds)
-      else d2ecl_valdecs_rec (loc0, knd, v2ds)
+      then d2ecl_valdecs(loc0, knd, v2ds)
+      else d2ecl_valdecs_rec(loc0, knd, v2ds)
     // end of [if]
   end // end of [D1Cvaldecs]
 //
 | D1Cvardecs
     (knd, v1ds) => (
     if knd = 0 then let
-      val v2ds = v1ardeclst_tr (v1ds) in d2ecl_vardecs (loc0, v2ds)
+      val v2ds = v1ardeclst_tr (v1ds) in d2ecl_vardecs(loc0, v2ds)
     end else let // knd = 1
-      val v2ds = prv1ardeclst_tr (v1ds) in d2ecl_prvardecs (loc0, v2ds)
+      val v2ds = prv1ardeclst_tr (v1ds) in d2ecl_prvardecs(loc0, v2ds)
     end // end of [if]
   ) // end of [D1Cvardecs]
 //
@@ -2858,7 +2858,7 @@ of // case+
     d2ecl_staloadloc (loc0, pfil, nspace, fenv)
   end // end of [D1Cstaloadloc]
 //
-| D1Cdynload (fil) => d2ecl_dynload (loc0, fil)
+| D1Cdynload(fil) => d2ecl_dynload(loc0, fil)
 //
 | D1Clocal
   (
@@ -2887,8 +2887,14 @@ end // end of [d1ecl_tr]
 (* ****** ****** *)
 
 implement
-d1eclist_tr (d1cs) = let
-  val d2cs = list_map_fun (d1cs, d1ecl_tr) in list_of_list_vt (d2cs)
+d1eclist_tr(d1cs) = let
+//
+val
+d2cs =
+list_map_fun(d1cs, d1ecl_tr)
+//
+in
+  list_of_list_vt{d2ecl}(d2cs)
 end // end of [d1eclist_tr]
 
 (* ****** ****** *)
@@ -2897,8 +2903,11 @@ implement
 d1eclist_tr_errck
   (d1cs) = d2cs where
 {
-  val d2cs = d1eclist_tr (d1cs)
-  val () = the_trans2errlst_finalize ()
+//
+  val d2cs = d1eclist_tr(d1cs)
+//
+  val ((*void*)) = the_trans2errlst_finalize()
+//
 } // end of [d1eclist_tr_errck]
 
 (* ****** ****** *)

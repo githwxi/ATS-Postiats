@@ -32,6 +32,17 @@
 // Start Time: August, 2012
 //
 (* ****** ****** *)
+//
+(*
+//
+// HX-2017-05-26:
+// This is likely to be a
+// very poor design!!!
+fun
+patsopt_global_initset(): void
+*)
+//
+(* ****** ****** *)
 
 fun the_PACKNAME_get(): Stropt
 fun the_PACKNAME_set(opt: Stropt): void
@@ -56,23 +67,25 @@ fun the_STALOADFLAG_set (flag: int): void
 *)
 (* ****** ****** *)
 
-fun the_DYNLOADFLAG_get (): int
-fun the_DYNLOADFLAG_set (flag: int): void
+fun the_DYNLOADFLAG_get(): int
+fun the_DYNLOADFLAG_set(flag: int): void
 
 (* ****** ****** *)
 
-fun the_DYNLOADNAME_get (): stropt
-fun the_DYNLOADNAME_set (name: string): void
+fun the_DYNLOADNAME_get(): stropt
+fun the_DYNLOADNAME_set_none((*void*)): void
+fun the_DYNLOADNAME_set_name(name: string): void
 
 (* ****** ****** *)
 
-fun the_MAINATSFLAG_get (): int
-fun the_MAINATSFLAG_set (flag: int): void
+fun the_MAINATSFLAG_get(): int
+fun the_MAINATSFLAG_set(flag: int): void
 
 (* ****** ****** *)
 
-fun the_STATIC_PREFIX_get (): stropt
-fun the_STATIC_PREFIX_set (name: string): void
+fun the_STATIC_PREFIX_get(): stropt
+fun the_STATIC_PREFIX_set_none((*void*)): void
+fun the_STATIC_PREFIX_set_name(name: string): void
 
 (* ****** ****** *)
 //
@@ -80,7 +93,7 @@ fun the_IATS_dirlst_get (): List (string)
 //
 // HX: ppush: permanent push
 //
-fun the_IATS_dirlst_ppush (dir: string):<!ref> void
+fun the_IATS_dirlst_ppush(dir: string):<!ref> void
 //
 (*
 // HX: ppushb: permanent push from back

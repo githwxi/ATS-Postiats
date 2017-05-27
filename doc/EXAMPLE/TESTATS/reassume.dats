@@ -10,7 +10,14 @@
 //
 abst@ype
 int2_t0ype = @(int, int)
+///
 typedef int2 = int2_t0ype
+//
+(* ****** ****** *)
+//
+extern
+fun
+int2_make(x: int, y: int): int2
 //
 (* ****** ****** *)
 
@@ -20,7 +27,7 @@ assume int2_t0ype = @(int, int)
 
 in (* in-of-local *)
 //
-fun int2_make(x: int, y: int) = (x, y)
+implement int2_make(x, y) = (x, y)
 //
 end // end of [local]
 
