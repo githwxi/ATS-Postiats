@@ -803,8 +803,28 @@ parse_from_filename_toplevel2
 fun
 parse_from_givename_toplevel
 (
-  stadyn: int, given: string, filref: &filename? >> filename
-) : d0eclist // end of [parse_from_givename_toplevel]
+  stadyn: int
+, givename: string, filref: &filename? >> filename
+) : d0eclist // end-of-function
+fun
+parse_from_givename_toplevel2
+(
+  stadyn: int
+, givename: string, filref: &filename? >> filename
+) : d0eclist // end-of-function
+//
+(* ****** ****** *)
+//
+// HX-2017-05-26:
+// [filref] is set
+// by the first [givename]
+//
+fun
+parse_from_givenames_toplocal2
+(
+  stadyn: int
+, givenames: List(string), filref: &filename? >> filename
+) : d0eclist // end of [parse_from_givename_toplocal2]
 //
 (* ****** ****** *)
 

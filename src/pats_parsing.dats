@@ -184,7 +184,8 @@ implement
 parse_from_filename_toplevel2
   (stadyn, fil) = let
 //
-val isnot = $FIL.filename_isnot_dummy(fil)
+val
+isnot = $FIL.filename_isnot_dummy(fil)
 //
 in
 //
@@ -222,16 +223,16 @@ case+ filopt of
 //
 (*
     val () =
-    the_parerrlst_add
-    (
-      parerr_make ($LOC.location_dummy, PE_FILENONE(given))
+    the_parerrlst_add (
+    parerr_make($LOC.location_dummy, PE_FILENONE(given))
     ) (* end of [the_parerrlst_add] *)
 *)
 //
     val () =
     prerr("patsopt: error(0)")
     val () =
-    prerrln! (
+    prerrln!
+    (
       ": the given file [", given, "] cannot be accessed."
     ) (* end of [prerrln!] *)
 //
@@ -244,6 +245,104 @@ case+ filopt of
   end // end of [None_vt]
 //
 end // end of [parse_from_givename_toplevel]
+
+(* ****** ****** *)
+
+implement
+parse_from_givename_toplevel2
+  (stadyn, given, filref) = let
+//
+val filopt =
+  $FIL.filenameopt_make_local(given)
+// end of [val]
+in
+//
+case+ filopt of
+| ~Some_vt(fil) => let
+    val () = filref := fil
+    val d0cs = 
+      parse_from_filename_toplevel(stadyn, fil)
+    // end of [val]
+    val ((*void*)) = $FIL.the_filenamelst_ppush(fil)
+  in
+    d0cs
+  end // end of [Some_vt]
+| ~None_vt((*void*)) => let
+//
+    val () =
+    prerr("patsopt: error(0)")
+    val () =
+    prerrln! (
+    ": the given file [", given, "] cannot be accessed."
+    ) (* end of [prerrln!] *)
+//
+    val () = filref := $FIL.filename_dummy in list_nil()
+  end // end of [None_vt]
+//
+end // end of [parse_from_givename_toplevel2]
+
+(* ****** ****** *)
+
+implement
+parse_from_givenames_toplocal2
+(
+  stadyn, givens, filref
+) = let
+//
+fun
+auxlst
+(
+  stadyn: int
+, givens: List(string)
+, filref: &filename >> filename
+) : d0eclist =
+(
+//
+case+ givens of
+| list_nil
+    () => list_nil()
+  // list_nil
+| list_cons
+    (given1, givens) =>
+    list_cons(d0c1, d0cs) where
+  {
+//
+    val d0cs =
+    parse_from_givename_toplevel2
+      (stadyn, given1, filref)
+    val d0c1 =
+      d0ecl_toplocal(filref, d0cs)
+    // end of [val]
+    val d0cs =
+      auxlst(stadyn, givens, filref)
+    // end of [val]
+//
+  } (* end of [list_cons] *)
+//
+) (* end of [auxlst] *)
+//
+in
+//
+case+ givens of
+| list_cons
+    (given0, givens) =>
+    list_cons(d0c0, d0cs) where
+  {
+//
+    val d0cs =
+    parse_from_givename_toplevel2
+      (stadyn, given0, filref)
+//
+    val d0c0 = d0ecl_list(filref, d0cs)
+    val d0cs = auxlst(stadyn, givens, filref)
+//
+  } (* end of [list_cons] *)
+| list_nil((*void*)) => let
+    val () =
+    filref := $FIL.filename_dummy in list_nil()
+  end // end of [list_nil]
+//
+end // end of [parse_from_givenames_toplocal2]
 
 (* ****** ****** *)
 

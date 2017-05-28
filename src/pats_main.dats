@@ -34,14 +34,21 @@
 (* ****** ****** *)
 //
 staload
+STDIO =
+"libc/SATS/stdio.sats"
+//
+(* ****** ****** *)
+//
+staload
+ATSPRE =
+  "./pats_atspre.dats"
+//
+(* ****** ****** *)
+//
+staload
 UN =
 "prelude/SATS/unsafe.sats"
 //
-(* ****** ****** *)
-
-staload
-STDIO = "libc/SATS/stdio.sats"
-
 (* ****** ****** *)
 
 staload
@@ -457,16 +464,19 @@ fprintln! (out, "  --help (for printing out this help usage)");
 fprintln! (out, "  -v (for printing out the version)");
 fprintln! (out, "  --version (for printing out the version)");
 //
-fprintln! (out, "  -s filenames (for compiling (many) static <filenames>)");
-fprintln! (out, "  --static filenames (for compiling (many) static <filenames>)");
+fprintln! (out, "  -s <filenames> (for compiling static filenames individually)");
+fprintln! (out, "  --static <filenames> (for compiling static filenames individually)");
 //
-fprintln! (out, "  -d filenames (for compiling (many) dynamic <filenames>)");
-fprintln! (out, "  --dynamic filenames (for compiling (many) dynamic <filenames>)");
+fprintln! (out, "  -d <filenames> (for compiling dynamic filenames individually)");
+fprintln! (out, "  --dynamic <filenames> (for compiling dynamic filenames individually)");
 //
-fprintln! (out, "  -o filename (output into <filename>)");
-fprintln! (out, "  --output filename (output into <filename>)");
-fprintln! (out, "  --output-w filename (output-write into <filename>)");
-fprintln! (out, "  --output-a filename (output-append into <filename>)");
+fprintln! (out, "  -dd <filenames> (for compiling dynamic filenames in a combined manner)");
+fprintln! (out, "  --dynamics <filenames> (for compiling dynamic filenames in a combined manner)");
+//
+fprintln! (out, "  -o <filename> (output into filename)");
+fprintln! (out, "  --output <filename> (output into filename)");
+fprintln! (out, "  --output-w <filename> (output-write into filename)");
+fprintln! (out, "  --output-a <filename> (output-append into filename)");
 //
 fprintln! (out, "  -cc (for compiling into C)");
 fprintln! (out, "  -tc (for typechecking only)");
@@ -574,39 +584,47 @@ fprintf
 datatype
 waitkind =
   | WTKnone of ()
+  | WTKoutput of () // -o ...
   | WTKinput_sta of () // -s ...
   | WTKinput_dyn of () // -d ...
-  | WTKoutput of () // -o ...
+  | WTKinputs_dyn of () // -dd ...
   | WTKdefine of () // -DATS ...
   | WTKinclude of () // -IATS ...
 // end of [waitkind]
 
-fn waitkind_get_stadyn
+fun
+waitkind_get_stadyn
   (knd: waitkind): int =
-  case+ knd of
-  | WTKinput_sta() => 0
-  | WTKinput_dyn() => 1
-  | _ => ~1 // this is not a valid input kind
-// end of [cmdkind_get_stadyn]
+(
+case+ knd of
+| WTKinput_sta() => 0
+| WTKinput_dyn() => 1
+| WTKinputs_dyn() => 2
+| _ (*rest-of-WTK*) => ~1
+) // end of [waitkind_get_stadyn]
 
 (* ****** ****** *)
 
 datatype
 outchan =
-  | OUTCHANref of (FILEref) | OUTCHANptr of (FILEref)
+| OUTCHANref of (FILEref)
+| OUTCHANptr of (FILEref)
 // end of [outchan]
 
 fun
 outchan_get_filr
-  (oc: outchan): FILEref = (
-  case+ oc of
-  | OUTCHANref(filr) => filr | OUTCHANptr(filr) => filr
-) // end of [outchan_get_filr]
+  (oc: outchan): FILEref =
+(
+case+ oc of
+| OUTCHANref(filr) => filr
+| OUTCHANptr(filr) => filr
+) (* end of [outchan_get_filr] *)
 
 (* ****** ****** *)
 
 typedef
-fmode = [m:file_mode] file_mode(m)
+fmode =
+[m:file_mode] file_mode(m)
 
 typedef
 cmdstate = @{
@@ -651,8 +669,8 @@ cmdstate = @{
 
 local
 
-fn
-outchan_make_path
+fun
+auxmain
 (
   state: &cmdstate, name: string
 ) : outchan = let
@@ -682,11 +700,11 @@ in
   OUTCHANref(stderr_ref)
 end // end of [else]
 //
-end // end of [outchan_make_path]
+end // end of [auxmain]
 
-in
+in (* in-of-local *)
 
-fn
+fun
 outchan_make_path
 (
   state: &cmdstate, name: string
@@ -694,8 +712,10 @@ outchan_make_path
 (
 case+ name of
 | "-" => OUTCHANref(stdout_ref)
-| _(*non-special*) => outchan_make_path(state, name)
-)
+//
+| _(*~special*) => auxmain(state, name)
+//
+) (* outchan_make_path *)
 
 end // end of [local]
 
@@ -723,7 +743,8 @@ end // end of [cmdstate_set_outchan]
 
 (* ****** ****** *)
 
-fn isinpwait
+fun
+isinpwait
 (
   state: cmdstate
 ) : bool =
@@ -733,24 +754,28 @@ state.waitkind
 of // case+
  | WTKinput_sta() => true
  | WTKinput_dyn() => true
+ | WTKinputs_dyn() => true
  | _ (*non-WTKinput*) => false
 ) // end of [isinpwait]
 
-fn isoutwait
+fun
+isoutwait
   (state: cmdstate): bool =
 (
 case+ state.waitkind of
   | WTKoutput() => true | _(*non-WTKoutput*) => false
 ) (* end of [isoutwait] *)
 
-fn isdatswait
+fun
+isdatswait
   (state: cmdstate): bool =
 (
 case+ state.waitkind of
   | WTKdefine() => true | _(*non-WTKdefine*) => false
 ) (* end of [isdatswait] *)
 
-fn isiatswait
+fun
+isiatswait
   (state: cmdstate): bool =
 (
 case+ state.waitkind of
@@ -771,22 +796,26 @@ val (pf0 | ()) =
 
 in (* in-of-local *)
 
-fn
+fun
 theOutFilename_get
 (
 // argless
 ) : Stropt = out where
 {
-  prval vbox pf = pf0
+//
+prval vbox pf = pf0
+//
   val out = theOutFilename
   val () = theOutFilename := stropt_none
 } // end of [theOutFilename_get]
 
-fn
+fun
 theOutFilename_set
  (name: Stropt) = () where
 {
-  prval vbox pf = pf0
+//
+prval vbox pf = pf0
+//
   val () = theOutFilename := name
 } // end of [theOutFilename_set]
 
@@ -1061,14 +1090,15 @@ implement
 do_depgen
   (state, given, d0cs) = let
 //
-  val ents = $DEPGEN.depgen_eval (d0cs)
+val ents = $DEPGEN.depgen_eval(d0cs)
 //
 // HX-2015-05-28:
 // [trans1] is not allowed after [depgen]
 //
-  val ((*pop*)) = $FIL.the_filenamelst_ppop ()
+val
+((*popped*)) = $FIL.the_filenamelst_ppop()
 //
-  val filr = outchan_get_filr(state.outchan)
+val filr = outchan_get_filr(state.outchan)
 //
 in
   $DEPGEN.fprint_entlst(filr, given, ents)
@@ -1078,14 +1108,15 @@ implement
 do_taggen
   (state, given, d0cs) = let
 //
-  val ents = $TAGGEN.taggen_proc(d0cs)
+val ents = $TAGGEN.taggen_proc(d0cs)
 //
 // HX-2015-05-28:
 // [trans1] is not allowed after [taggen]
 //
-  val ((*pop*)) = $FIL.the_filenamelst_ppop ()
+val
+((*popped*)) = $FIL.the_filenamelst_ppop()
 //
-  val filr = outchan_get_filr(state.outchan)
+val filr = outchan_get_filr(state.outchan)
 //
 in
   $TAGGEN.fprint_entlst(filr, given, ents)
@@ -1587,6 +1618,102 @@ end // end of [local]
 (* ****** ****** *)
 
 fn
+parse_from_given_arglst_toplevel
+  {n:nat}
+( state: &cmdstate
+, given: string(*path*)
+, arglst: comarglst(n)
+) :
+[i:nat | i <= n]
+(
+  comarglst(i), d0eclist
+) = let
+//
+fun
+loop
+{i:nat | i <= n}
+( state: &cmdstate
+, arglst: comarglst(i)
+, fnames: list_vt(string, n-i+1)
+) :
+[i:nat | i <= n]
+(
+  comarglst(i), d0eclist
+) = (
+//
+case+ arglst of
+| list_vt_nil() =>
+  (
+    fold@(arglst);
+    loop2(state, arglst, fnames)
+  )
+| list_vt_cons(!p_arg1, !p_arglst2) =>
+  (
+    case+ !p_arg1 of
+    | COMARG(1, _) =>
+       (fold@(arglst); loop2(state, arglst, fnames))
+    | COMARG(2, _) =>
+       (fold@(arglst); loop2(state, arglst, fnames))
+    | COMARG(_, fname) => let
+        val arglst2 = !p_arglst2
+      in
+        free@{comarg}{0}(arglst);
+        loop(state, arglst2, list_vt_cons(fname, fnames))
+      end // end of [COMARG]
+  )
+//
+) (* end of [loop] *)
+//
+and
+loop2
+{i:nat | i <= n}
+( state: &cmdstate
+, arglst: comarglst(i)
+, fnames: list_vt(string, n-i+1)
+) :
+(
+  comarglst(i), d0eclist
+) = let
+  val
+  fnames =
+  list_vt_reverse(fnames)
+  val
+  givens = $UN.list_vt2t(fnames)
+  val d0cs =
+  parse_from_givenames_toplocal2(1(*dyn*), givens, state.infil)
+  val ((*freed*)) = list_vt_free(fnames)
+in
+  (arglst, d0cs)
+end // end of [loop2]
+//
+val
+stadyn =
+waitkind_get_stadyn(state.waitkind)
+//
+in
+//
+if
+(stadyn <= 1)
+then let // -s / -d
+//
+val
+d0cs =
+parse_from_givename_toplevel
+  (stadyn, given, state.infil)
+//
+in
+  (arglst, d0cs)
+end // end of [then]
+else // stadyn >= 2 // -dd
+(
+  loop(state, arglst, list_vt_sing(given))
+)  (* end of [else] *)
+//
+end // end of [parse_from_given_arglst_toplevel]
+
+(* ****** ****** *)
+
+fn
 process_nil
 (
 state: &cmdstate
@@ -1653,7 +1780,8 @@ fn*
 process_cmdline
   {i:nat} .<i,0>.
 (
-  state: &cmdstate, arglst: comarglst(i)
+  state: &cmdstate
+, arglst: comarglst(i)
 ) :<fun1> void = let
 in
 //
@@ -1666,7 +1794,11 @@ case+ arglst of
     then process_nil(state) else ()
   )
 //
-| ~list_vt_cons(arg, arglst) => process_cmdline2(state, arg, arglst)
+| ~list_vt_cons
+    (arg, arglst) =>
+  (
+    process_cmdline2(state, arg, arglst)
+  )
 //
 end // end of [process_cmdline]
 
@@ -1732,15 +1864,21 @@ case+ arg of
         if stadyn >= 1
           then $GLOB.the_DYNLOADFLAG_set(1)
         // end of [if]
-        val d0cs =
-          parse_from_givename_toplevel(stadyn, given, state.infil)
-        // end of [val]
 //
         var istrans: bool = true
         val isdepgen = state.depgen > 0
         val () = if isdepgen then istrans := false
         val istaggen = state.taggen > 0
         val () = if istaggen then istrans := false
+//
+(*
+        val
+        d0cs = // for -s / -d
+        parse_from_givename_toplevel(stadyn, given, state.infil)
+*)
+        val (
+          arglst, d0cs
+        ) = parse_from_given_arglst_toplevel(state, given, arglst)
 //
         val () =
         if isdepgen then do_depgen(state, given, d0cs)
@@ -1818,24 +1956,30 @@ process_cmdline2_comarg1
 ) :<fun1> void = let
 //
 val () = state.waitkind := WTKnone()
+//
 val () =
 (
 case+ key of
 //
-| "-o" => let
+| "-o" =>
+  {
     val () = state.waitkind := WTKoutput
-  in
-  end // end of [-o]
-| "-s" => let
+  } (* end of [-o] *)
+| "-s" =>
+  {
     val () = state.ninpfile := 0
     val () = state.waitkind := WTKinput_sta
-  in
-  end // end of [-s]
-| "-d" => let
+  } (* end of [-s] *)
+| "-d" =>
+  {
     val () = state.ninpfile := 0
     val () = state.waitkind := WTKinput_dyn
-  in
-  end // end of [-d]
+  } (* end of [-d] *)
+| "-dd" =>
+  {
+    val () = state.ninpfile := 0
+    val () = state.waitkind := WTKinputs_dyn
+  } (* end of [-dd] *)
 //
 | "-cc" => (state.typecheckflag := 0)
 | "-tc" => (state.typecheckflag := 1)
@@ -1899,7 +2043,9 @@ process_cmdline2_comarg2
 , arglst: comarglst(i), key: string
 ) :<fun1> void = let
 //
-val () = state.waitkind := WTKnone()
+val () =
+  state.waitkind := WTKnone(*void*)
+//
 val () =
 (
 case+ key of
@@ -1926,6 +2072,9 @@ case+ key of
 | "--dynamic" => {
     val () = state.waitkind := WTKinput_dyn
   } // end of [--dynamic]
+| "--dynamics" => {
+    val () = state.waitkind := WTKinputs_dyn
+  } // end of [--dynamics]
 //
 | "--compile" => (state.typecheckflag := 0)
 | "--typecheck" => (state.typecheckflag := 1)
@@ -2063,18 +2212,19 @@ end : string // end of [val]
 // for the run-time and atslib
 //
 val () =
-  $FIL.the_prepathlst_push(PATSHOME)
+$FIL.the_prepathlst_push(PATSHOME)
 //
 val () =
-  $TRENV1.the_trans1_env_initialize()
+$TRENV1.the_trans1_env_initialize()
 val () =
-  $TRENV2.the_trans2_env_initialize()
+$TRENV2.the_trans2_env_initialize()
 //
-val
-arglst =
-comarglst_parse(argc, argv)
 val+
-~list_vt_cons(arg0, arglst) = arglst
+~list_vt_cons
+  (arg0, arglst) = arglst where
+{
+  val arglst = comarglst_parse(argc, argv)
+} (* end of [val] *)
 //
 var
 state = @{

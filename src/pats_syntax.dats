@@ -3473,13 +3473,74 @@ in '{
 (* ****** ****** *)
 
 implement
-d0ecl_local (
+d0ecl_local
+(
   t_local, d0cs1, d0cs2, t_end
 ) = let
   val loc = t_local.token_loc + t_end.token_loc
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Clocal (d0cs1, d0cs2)
 } end // end of [d0ec_local]
+
+(* ****** ****** *)
+
+local
+
+fun
+loop
+(
+  d0c0: d0ecl
+, d0c1: d0ecl
+, d0cs: d0eclist
+) : location =
+(
+case+ d0cs of
+| list_nil() =>
+  $LOC.location_combine
+    (d0c0.d0ecl_loc, d0c1.d0ecl_loc)
+  // list_nil
+| list_cons
+    (d0c1, d0cs) => loop(d0c0, d0c1, d0cs)
+  // end of [list_cons]
+)
+
+in (* in-of-local *)
+
+implement
+d0ecl_list
+(
+  _(*filename*), d0cs
+) = let
+//
+val loc01 =
+(
+case+ d0cs of
+| list_nil() => $LOC.location_dummy
+| list_cons(d0c0, d0cs) => loop(d0c0, d0c0, d0cs)
+) : location // end of [val]
+//
+in '{ 
+  d0ecl_loc= loc01, d0ecl_node= D0Clocal(list_nil(), d0cs)
+} end // end of [d0ecl_list]
+
+implement
+d0ecl_toplocal
+(
+  _(*filename*), d0cs
+) = let
+//
+val loc01 =
+(
+case+ d0cs of
+| list_nil() => $LOC.location_dummy
+| list_cons(d0c0, d0cs) => loop(d0c0, d0c0, d0cs)
+) : location // end of [val]
+//
+in '{ 
+  d0ecl_loc= loc01, d0ecl_node= D0Clocal(d0cs, list_nil())
+} end // end of [d0ecl_toplocal]
+
+end // end of [local]
 
 (* ****** ****** *)
 
