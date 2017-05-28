@@ -1874,11 +1874,12 @@ case+ arg of
 (*
         val
         d0cs = // for -s / -d
-        parse_from_givename_toplevel(stadyn, given, state.infil)
+        parse_from_givename_toplevel
+          (stadyn, given, state.infil)
 *)
-        val (
-          arglst, d0cs
-        ) = parse_from_given_arglst_toplevel(state, given, arglst)
+        val
+        (arglst, d0cs) =
+        parse_from_given_arglst_toplevel(state, given, arglst)
 //
         val () =
         if isdepgen then do_depgen(state, given, d0cs)

@@ -33,7 +33,23 @@ Here is a list of major additions and changes since the last release:
    This support can be useful for distributing C code generated from ATS
    source. For instance, a file of C code generated as such can serve as
    a script of some sort.
-  
+4. Adding support for -dd/--dynamics, which compiles a list given files
+   in a combined manner.
+   For instance, the following command-line:
+//
+   patsopt -dd foo.dats bar1.dats bar2.dats bar3.dats
+//
+   essentially compiles a program of the following structure:
+//
+   local (*nothing*) in #include "foo.dats" end
+   local #include "bar1.dats" in (*nothing*) end
+   local #include "bar2.dats" in (*nothing*) end
+   local #include "bar3.dats" in (*nothing*) end
+//
+   This style of compilation can be used for the purpose of producing a
+   single target containing all of the output generated from compiling a
+   list of ATS source files.
+
 ######
 
 0.3.5
