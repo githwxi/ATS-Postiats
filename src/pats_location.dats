@@ -287,6 +287,18 @@ location_dummy =
 (* ****** ****** *)
 
 implement
+location_filename_origin
+  (fil) =
+'{
+  filename= fil
+, beg_ntot= 0L, beg_nrow= 0, beg_ncol= 0
+, end_ntot= 0L, end_nrow= 0, end_ncol= 0
+, locpragma= locpragma0_make()
+} (* end of [location_filename_origin] *)
+
+(* ****** ****** *)
+
+implement
 location_make_pos_pos
   (pos1, pos2) = let
   val fil = $FIL.filename_get_current ()

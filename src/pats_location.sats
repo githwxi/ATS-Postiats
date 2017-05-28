@@ -144,9 +144,13 @@ fprint2_location
   (out: FILEref, loc: location): void
 //
 (* ****** ****** *)
-
-val location_dummy : location (* dummy location *)
-
+//
+val
+location_dummy : location (* dummy location *)
+//
+fun
+location_filename_origin(fil: filename): location
+//
 (* ****** ****** *)
 
 fun

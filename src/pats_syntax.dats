@@ -3509,14 +3509,17 @@ in (* in-of-local *)
 implement
 d0ecl_list
 (
-  _(*filename*), d0cs
+  fil, d0cs
 ) = let
 //
 val loc01 =
 (
 case+ d0cs of
-| list_nil() => $LOC.location_dummy
-| list_cons(d0c0, d0cs) => loop(d0c0, d0c0, d0cs)
+| list_nil() =>
+  $LOC.location_filename_origin(fil)
+| list_cons
+    (d0c0, d0cs) => loop(d0c0, d0c0, d0cs)
+  // end of [list_cons]
 ) : location // end of [val]
 //
 in '{ 
@@ -3526,14 +3529,17 @@ in '{
 implement
 d0ecl_toplocal
 (
-  _(*filename*), d0cs
+  fil, d0cs
 ) = let
 //
 val loc01 =
 (
 case+ d0cs of
-| list_nil() => $LOC.location_dummy
-| list_cons(d0c0, d0cs) => loop(d0c0, d0c0, d0cs)
+| list_nil() =>
+  $LOC.location_filename_origin(fil)
+| list_cons
+    (d0c0, d0cs) => loop(d0c0, d0c0, d0cs)
+  // end of [list_cons]
 ) : location // end of [val]
 //
 in '{ 
