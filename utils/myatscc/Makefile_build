@@ -32,19 +32,19 @@ cleanall::
 
 ######
 
-DATS_C =
-DATS_C += myatscc_main_dats.c
-# DATS_C += myatscc_loc_t_dats.c
-# DATS_C += myatscc_lexer_dats.c
-# DATS_C += myatscc_parser_dats.c
-# DATS_C += myatscc_evaler_dats.c
-# DATS_C += myatscc_getdef_dats.c
+MAIN =
+MAIN += myatscc_main_dats.c
+# MAIN += myatscc_loc_t_dats.c
+# MAIN += myatscc_lexer_dats.c
+# MAIN += myatscc_parser_dats.c
+# MAIN += myatscc_evaler_dats.c
+# MAIN += myatscc_getdef_dats.c
 
 PARCOMB =
-PARCOMB +=./myatscc_parcomb.sats
-PARCOMB +=./myatscc_parcomb.dats
+PARCOMB += myatscc_parcomb_sats.c
+PARCOMB += myatscc_parcomb_dats.c
 
-MYLIBATS =
+# MYLIBATS =
 # MYLIBATS += myatscc_libats.dats
 
 ######
@@ -53,15 +53,16 @@ all:: \
 myatscc
 #
 myatscc: \
-$(DATS_C); \
-$(PATSCC2) -o $@ \
-$(DATS_C) $(PARCOMB) $(MYLIBATS)
+$(MAIN) \
+$(PARCOMB) ; \
+$(PATSCC2) -o $@ $(MAIN) $(PARCOMB)
 #
 cleanall:: ; $(RMF) myatscc
 #
 ######
 
-%_dats.c: %.dats; $(PATSCC) -ccats $<
+%_sats.c: %.sats; $(PATSOPT) --output $@ --static $<
+%_dats.c: %.dats; $(PATSOPT) --output $@ --dynamic $<
 
 ######
 #
