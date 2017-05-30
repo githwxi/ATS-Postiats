@@ -92,6 +92,7 @@ end // end of [val]
 val line1 = "[name]: what is my name?\\"
 val line2 = " My name is very strange!!!\\"
 val line3 = " My name is very strange!!!"
+val line21 = "[\\[name\\]]: what is my name?\\"
 
 (* ****** ****** *)
 
@@ -117,6 +118,15 @@ val ((*void*)) = println! ("line1: value = (", value, ")")
 //
 val ((*void*)) = strptr_free(key)
 val ((*void*)) = strptr_free(value)
+//
+val ke = line_is_key(line21)
+val () = assertloc (ke >= 0)
+//
+val key = line_get_key(line21, ke)
+//
+val ((*void*)) = println! ("line21: key = ", key)
+//
+val ((*void*)) = strptr_free(key)
 //
 } (* end of [main0] *)
 

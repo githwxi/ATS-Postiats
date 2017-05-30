@@ -43,3 +43,13 @@ It exceeds a fixed maximum recursion depth and then crashes
 [choice(5)]: \
 None of the above
 ################################################
+
+[name]:
+-[name-1]:
+--[name-11]: name-11
+--[name-12]: name-12
+-[name-2]:
+--[name-21]: name-21
+--[name-22]: name-22
+
+################################################
