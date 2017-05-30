@@ -27,8 +27,9 @@ CFLAGS+=-DATS_MEMALLOC_LIBC
 #
 SOURCES_CATS= \
 CATS/atscc2scm_main_dats.c \
-CATS/atscc2scm_emit_dats.c CATS/atscc2scm_emit2_dats.c \
-CATS/catsparse_sats.c CATS/catsparse_all_dats.c CATS/catsparse_mylib_dats.c
+CATS/atscc2scm_emit_dats.c \
+CATS/atscc2scm_emit2_dats.c \
+CATS/catsparse_sats.c CATS/catsparse_all_dats.c
 #
 ######
 

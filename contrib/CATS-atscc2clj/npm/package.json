@@ -2,7 +2,7 @@
 "name":
 "atsccomp-atscc2clj"
 ,
-"version": "1.0.0"
+"version": "1.0.2"
 ,
 "description":
 "For transpiling into Clojure the C code generated from ATS source via patsopt"

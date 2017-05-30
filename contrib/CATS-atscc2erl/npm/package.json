@@ -2,7 +2,7 @@
 "name":
 "atsccomp-atscc2erl"
 ,
-"version": "1.0.0"
+"version": "1.0.1"
 ,
 "description":
 "For transpiling into Erlang the C code generated from ATS source via patsopt"
