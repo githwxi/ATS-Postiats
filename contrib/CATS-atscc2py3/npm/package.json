@@ -1,20 +1,20 @@
 {
 "name":
-"atsccomp-atscc2php"
+"atsccomp-atscc2py3"
 ,
-"version": "1.0.3"
+"version": "1.0.1"
 ,
 "description":
-"For transpiling into PHP the C code generated from ATS source via patsopt"
+"For transpiling into Python C code generated from ATS source via patsopt"
 ,
   "main": "N/A",
   "scripts": {},
   "keywords": [
     "ATS",
-    "PHP",
+    "Python",
     "atsopt",
     "patsopt",
-    "atscc2php"
+    "atscc2py3"
   ],
   "dependencies" : {
     "catsparsemit" : ">=1.0.0"
@@ -22,5 +22,5 @@
   "author":
   "Hongwei Xi <gmhwxi@gmail.com>",
   "license": "MIT",
-  "note-for-me": "The package is stored at ${PATSHOME}/contrib/CATS-atscc2php/."
+  "note-for-me": "The package is stored at ${PATSHOME}/contrib/CATS-atscc2py3/."
 }

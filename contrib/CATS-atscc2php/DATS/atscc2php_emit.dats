@@ -29,8 +29,7 @@ CATSPARSEMIT_targetloc
 #else
 //
 #define
-CATSPARSEMIT_targetloc
-"./../CATS-parsemit"
+CATSPARSEMIT_targetloc "./../CATS-parsemit"
 //
 #endif // end of [ifdef]
 //
@@ -122,7 +121,7 @@ emit_PMVintrep
 val-T_INT(base, rep) = tok.token_node
 //
 in
-  emit_text (out, rep)
+  emit_text(out, rep)
 end // end of [emit_PMVintrep]
 //
 (* ****** ****** *)
@@ -131,7 +130,10 @@ implement
 emit_PMVbool
   (out, tfv) =
 (
-  emit_text (out, if tfv then "true" else "false")
+emit_text
+( out
+, if tfv then "true" else "false"
+) (* emit_text *)
 ) (* end of [emit_PMVbool] *)
 
 (* ****** ****** *)
@@ -141,7 +143,8 @@ emit_PMVfloat
   (out, tok) = let
 //
 val-
-T_FLOAT(_, rep) = tok.token_node in emit_text (out, rep)
+T_FLOAT(_, rep) =
+tok.token_node in emit_text(out, rep)
 end // end of [emit_PMVfloat]
 
 (* ****** ****** *)
@@ -150,7 +153,9 @@ implement
 emit_PMVstring
   (out, tok) = let
 //
-val-T_STRING(rep) = tok.token_node in emit_text (out, rep)
+val-
+T_STRING(rep) =
+tok.token_node in emit_text(out, rep)
 //
 end // end of [emit_PMVstring]
 
@@ -175,7 +180,7 @@ emit_PMVf0loat
 val-T_FLOAT(base, rep) = tok.token_node
 //
 in
-  emit_text (out, rep)
+  emit_text(out, rep)
 end // end of [emit_PMVf0loat]
 
 (* ****** ****** *)
@@ -186,7 +191,7 @@ emit_PMVempty
 {
 //
 val () =
-  emit_text (out, "NULL")
+  emit_text(out, "NULL")
 //
 } (* emit_PMVempty *)
 //  
@@ -206,7 +211,7 @@ implement
 emit_PMVfunlab
   (out, flab) =
 {
-  val () = emit_label (out, flab)
+  val () = emit_label(out, flab)
 }
 //
 (* ****** ****** *)
@@ -217,13 +222,13 @@ emit_PMVcfunlab
 {
 //
 val () =
-  emit_label (out, fl)
+  emit_label(out, fl)
 val () =
-  emit_text (out, "__closurerize")
+  emit_text(out, "__closurerize")
 //
-val () = emit_LPAREN (out)
-val () = emit_d0explst (out, d0es)
-val () = emit_RPAREN (out)
+val () = emit_LPAREN(out)
+val () = emit_d0explst(out, d0es)
+val () = emit_RPAREN(out)
 //
 } (* end of [emit_PMVcfunlab] *)
 
@@ -256,10 +261,11 @@ emit_fname_d0exp
 {
 //
 val () =
-  emit_text (out, fname)
-val () = emit_LPAREN (out)
-val () = emit_d0exp (out, d0e)
-val () = emit_RPAREN (out)
+  emit_text(out, fname)
+//
+val () = emit_LPAREN(out)
+val () = emit_d0exp(out, d0e)
+val () = emit_RPAREN(out)
 //
 } (* end of [emit_fname_d0exp] *)
 //
@@ -269,7 +275,7 @@ emit_fname_d0exp2
 {
 //
 val () =
-  emit_text (out, fname)
+  emit_text(out, fname)
 //
 val () = emit_LPAREN(out)
 val () =
@@ -283,19 +289,23 @@ val () = emit_RPAREN(out)
 (* ****** ****** *)
 //
 implement
-emit_ATSCKiseqz(out, d0e) =
+emit_ATSCKiseqz
+  (out, d0e) =
   emit_fname_d0exp(out, "ATSCKiseqz", d0e)
 implement
-emit_ATSCKisneqz(out, d0e) =
+emit_ATSCKisneqz
+  (out, d0e) =
   emit_fname_d0exp(out, "ATSCKisneqz", d0e)
 //
 (* ****** ****** *)
 //
 implement
-emit_ATSCKptriscons(out, d0e) =
+emit_ATSCKptriscons
+  (out, d0e) =
   emit_fname_d0exp(out, "ATSCKptriscons", d0e)
 implement
-emit_ATSCKptrisnull(out, d0e) =
+emit_ATSCKptrisnull
+  (out, d0e) =
   emit_fname_d0exp(out, "ATSCKptrisnull", d0e)
 //
 (* ****** ****** *)
@@ -303,15 +313,15 @@ emit_ATSCKptrisnull(out, d0e) =
 implement
 emit_ATSCKpat_int
   (out, d0e, i0) =
-  emit_fname_d0exp2 (out, "ATSCKpat_int", d0e, i0)
+  emit_fname_d0exp2(out, "ATSCKpat_int", d0e, i0)
 implement
 emit_ATSCKpat_bool
   (out, d0e, b0) =
-  emit_fname_d0exp2 (out, "ATSCKpat_bool", d0e, b0)
+  emit_fname_d0exp2(out, "ATSCKpat_bool", d0e, b0)
 implement
 emit_ATSCKpat_string
   (out, d0e, s0) =
-  emit_fname_d0exp2 (out, "ATSCKpat_string", d0e, s0)
+  emit_fname_d0exp2(out, "ATSCKpat_string", d0e, s0)
 //
 (* ****** ****** *)
 
@@ -319,24 +329,36 @@ implement
 emit_ATSCKpat_con0
   (out, d0e, ctag) =
 {
-  val () =
-  emit_text (out, "ATSCKpat_con0(")
-  val () = (
-    emit_d0exp (out, d0e);
-    emit_text (out, ", "); emit_int (out, ctag); emit_RPAREN (out)
-  ) (* end of [val] *)
+//
+val () =
+emit_text
+  (out, "ATSCKpat_con0")
+// end of [val]
+val () = emit_LPAREN(out)
+val () =
+(
+  emit_d0exp(out, d0e); emit_text(out, ", "); emit_int(out, ctag)
+) (* end of [val] *)
+val () = emit_RPAREN(out)
+//
 } (* end of [emit_ATSCKpat_con0] *)
 
 implement
 emit_ATSCKpat_con1
   (out, d0e, ctag) =
 {
-  val () =
-  emit_text (out, "ATSCKpat_con1(")
-  val () = (
-    emit_d0exp (out, d0e);
-    emit_text (out, ", "); emit_int (out, ctag); emit_RPAREN (out)
-  ) (* end of [val] *)
+//
+val () =
+emit_text
+  (out, "ATSCKpat_con1")
+// end of [val]
+val () = emit_LPAREN(out)
+val () =
+(
+  emit_d0exp(out, d0e); emit_text(out, ", "); emit_int(out, ctag)
+) (* end of [val] *)
+val () = emit_RPAREN(out)
+//
 } (* end of [emit_ATSCKpat_con1] *)
 
 (* ****** ****** *)
@@ -345,18 +367,19 @@ implement
 emit_tmpvar
   (out, tmp) = let
 //
-val isloc =
-  tmpvar_is_local (tmp.i0dex_sym)
+val
+isloc =
+tmpvar_is_local(tmp.i0dex_sym)
 //
 in
 //
 if (
 isloc
 ) then (
-  emit_DOLLAR(out); emit_i0de (out, tmp)
+  emit_DOLLAR(out); emit_i0de(out, tmp)
 ) else (
-  emit_text (out, "$GLOBALS['");
-  emit_i0de (out, tmp); emit_text (out, "']")
+  emit_text(out, "$GLOBALS['");
+  emit_i0de(out, tmp); emit_text (out, "']")
 ) (* end of [if] *)
 //
 end (* end of [emit_tmpvar] *)
@@ -381,37 +404,37 @@ of (* case+ *)
 //
 | D0Eide (tmp) => 
   {
-    val () = emit_tmpvar (out, tmp)
+    val () = emit_tmpvar(out, tmp)
   }
 //
 | D0Eappid (fid, d0es) =>
   {
-    val () = emit_i0de (out, fid)
+    val () = emit_i0de(out, fid)
 //
-    val () = emit_LPAREN (out)
-    val () = emit_d0explst (out, d0es)
-    val () = emit_RPAREN (out)
+    val () = emit_LPAREN(out)
+    val () = emit_d0explst(out, d0es)
+    val () = emit_RPAREN(out)
 //
   }
 | D0Eappexp (d0e, d0es) =>
   {
-    val () = emit_d0exp (out, d0e)
-    val () = emit_LPAREN (out)
-    val () = emit_d0explst (out, d0es)
-    val () = emit_RPAREN (out)
+    val () = emit_d0exp(out, d0e)
+    val () = emit_LPAREN(out)
+    val () = emit_d0explst(out, d0es)
+    val () = emit_RPAREN(out)
   }
 //
 | D0Elist (d0es) =>
   {
-    val () = emit_text (out, "D0Elist")
-    val () = emit_LPAREN (out)
-    val () = emit_d0explst (out, d0es)
-    val () = emit_RPAREN (out)
+    val () = emit_text(out, "D0Elist")
+    val () = emit_LPAREN(out)
+    val () = emit_d0explst(out, d0es)
+    val () = emit_RPAREN(out)
   }
 //
 | ATSPMVint(int) =>
   {
-    val () = emit_PMVint (out, int)
+    val () = emit_PMVint(out, int)
   }
 | ATSPMVintrep(int) =>
   {
@@ -483,48 +506,51 @@ of (* case+ *)
   }
 //
 | ATSCSTSPmyloc
-    (tok) => emit_CSTSPmyloc (out, tok)
+    (tok) => emit_CSTSPmyloc(out, tok)
 //
 | ATSCKpat_int
     (d0e, int) =>
-    emit_ATSCKpat_int (out, d0e, int)
+    emit_ATSCKpat_int(out, d0e, int)
 | ATSCKpat_bool
     (d0e, bool) =>
-    emit_ATSCKpat_bool (out, d0e, bool)
+    emit_ATSCKpat_bool(out, d0e, bool)
 | ATSCKpat_string
     (d0e, string) =>
-    emit_ATSCKpat_string (out, d0e, string)
+    emit_ATSCKpat_string(out, d0e, string)
 //
 | ATSCKpat_con0
     (d0e, ctag) =>
-    emit_ATSCKpat_con0 (out, d0e, ctag)
+    emit_ATSCKpat_con0(out, d0e, ctag)
 | ATSCKpat_con1
     (d0e, ctag) =>
-    emit_ATSCKpat_con1 (out, d0e, ctag)
+    emit_ATSCKpat_con1(out, d0e, ctag)
 //
-| ATSCKiseqz(d0e) => emit_ATSCKiseqz (out, d0e)
-| ATSCKisneqz(d0e) => emit_ATSCKisneqz (out, d0e)
-| ATSCKptriscons(d0e) => emit_ATSCKptriscons (out, d0e)
-| ATSCKptrisnull(d0e) => emit_ATSCKptrisnull (out, d0e)
+| ATSCKiseqz(d0e) => emit_ATSCKiseqz(out, d0e)
+| ATSCKisneqz(d0e) => emit_ATSCKisneqz(out, d0e)
+| ATSCKptriscons(d0e) => emit_ATSCKptriscons(out, d0e)
+| ATSCKptrisnull(d0e) => emit_ATSCKptrisnull(out, d0e)
 //
-| ATSSELcon _ => emit_SELcon (out, d0e0)
-| ATSSELrecsin _ => emit_SELrecsin (out, d0e0)
-| ATSSELboxrec _ => emit_SELboxrec (out, d0e0)
-| ATSSELfltrec _ => emit_text (out, "ATSSELfltrec(...)")
+| ATSSELcon _ => emit_SELcon(out, d0e0)
+| ATSSELrecsin _ => emit_SELrecsin(out, d0e0)
+| ATSSELboxrec _ => emit_SELboxrec(out, d0e0)
+| ATSSELfltrec _ => emit_text(out, "ATSSELfltrec(...)")
 //
 | ATSextfcall
     (_fun, _arg) =>
   {
-    val () = emit_i0de (out, _fun)
-    val () = emit_d0exparg (out, _arg)
+//
+    val () = emit_i0de(out, _fun)
+//
+    val () = emit_d0exparg(out, _arg)
+//
   } (* end of [ATSextfcall] *)
 | ATSextmcall
     (_obj, _mtd, _arg) =>
   {
 //
-    val () = emit_d0exp (out, _obj)
-    val () = emit_text (out, "->")
-    val () = emit_d0exp (out, _mtd)
+    val () = emit_d0exp(out, _obj)
+    val () = emit_text( out, "->" )
+    val () = emit_d0exp(out, _mtd)
 //
     val () = emit_d0exparg (out, _arg)
 //
@@ -539,7 +565,7 @@ of (* case+ *)
       d0e.d0exp_node
       of (* case+ *)
       | ATSPMVfunlab(fl) => emit_PMVfunlab(out, fl)
-      | _(*non-ATSPMVfunlab*) => emit_d0exp (out, d0e)
+      | _(*non-ATSPMVfunlab*) => emit_d0exp(out, d0e)
     ) (* end of [val] *)
   }
 | ATSfunclo_clo
@@ -558,26 +584,28 @@ local
 fun
 loop
 (
-  out: FILEref, d0es: d0explst, i: int
+  out: FILEref
+, d0es: d0explst, i: int
 ) : void =
 (
 case+ d0es of
-| list_nil () => ()
-| list_cons (d0e, d0es) => let
+| list_nil() => ()
+| list_cons
+    (d0e, d0es) => let
     val () =
-      if i > 0 then emit_text (out, ", ")
+      if i > 0 then emit_text(out, ", ")
     // end of [val]
   in
-    emit_d0exp (out, d0e); loop (out, d0es, i+1)
+    emit_d0exp(out, d0e); loop(out, d0es, i+1)
   end // end of [list_cons]
 )
 
 in (* in-of-local *)
 
 implement
-emit_d0explst (out, d0es) = loop (out, d0es, 0)
+emit_d0explst(out, d0es) = loop(out, d0es, 0)
 implement
-emit_d0explst_1 (out, d0es) = loop (out, d0es, 1)
+emit_d0explst_1(out, d0es) = loop(out, d0es, 1)
 
 end // end of [local]
 
@@ -605,22 +633,23 @@ implement
 tyrec_labsel
   (tyrec, lab) = let
 //
-fun loop
+fun
+loop
 (
   xs: tyfldlst, i: int
 ) : int =
 (
 case+ xs of
-| list_cons (x, xs) => let
-    val TYFLD (id, s0e) = x.tyfld_node
+| list_cons(x, xs) => let
+    val+TYFLD(id, s0e) = x.tyfld_node
   in
     if lab = id.i0dex_sym then i else loop (xs, i+1)
   end // end of [list_cons
-| list_nil ((*void*)) => ~1(*error*)
+| list_nil((*void*)) => ~1(*error*)
 )
 //
 in
-  loop (tyrec.tyrec_node, 0)
+  loop(tyrec.tyrec_node, 0)
 end // end of [tyrec_labsel]
 //
 (* ****** ****** *)
