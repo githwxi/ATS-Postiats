@@ -59,7 +59,9 @@ drawexp =
 //
 | DRAWEXPint of (int)
 //
-| DRAWEXPbool of (bool)
+| DRAWEXPbool of bool
+//
+| DRAWEXPpoint of point
 //
 | DRAWEXPlist of drawexplst
 
