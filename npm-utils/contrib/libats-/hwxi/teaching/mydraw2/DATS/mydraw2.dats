@@ -50,12 +50,18 @@ overload label with label_make
 
 datatype
 drawarg =
-| DRAWARG of drawexp
+| DRAWARGexp of drawexp
 
 and
 drawexp =
+//
+| DRAWEXPnil of ()
+//
 | DRAWEXPint of (int)
+//
 | DRAWEXPbool of (bool)
+//
+| DRAWEXPlist of drawexplst
 
 where
 drawexplst = List0(drawexp)
@@ -71,10 +77,18 @@ typedef drawenv = drawenv_type
 
 datatype
 drawobj =
+//
 | DRAWOBJfapp of
   (
-    string(*fopr*), drawenv, drawarglst
+    string(*fopr*)
+  , drawenv, drawarglst
   ) (* DRAWOBJfopr *)
+//
+| DRAWOBJlist of drawobjlst
+//
+| DRAWOBJtfmapp of (drawtfm(*mtfm*), drawobj)
+//
+| DRAWOBJextcode of (string(*code*)) // HX: external one-liners
 
 and
 drawtfm =
