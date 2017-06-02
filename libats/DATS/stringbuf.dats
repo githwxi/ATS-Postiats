@@ -69,10 +69,10 @@ staload "libats/SATS/stringbuf.sats"
 
 extern
 fun
-memcpy (ptr, ptr, size_t):<!wrt> ptr = "mac#atslib_stringbuf_memcpy"
+memcpy(ptr, ptr, size_t):<!wrt> ptr = "mac#atslib_stringbuf_memcpy"
 extern
 fun
-memmove (ptr, ptr, size_t):<!wrt> ptr = "mac#atslib_stringbuf_memmove"
+memmove(ptr, ptr, size_t):<!wrt> ptr = "mac#atslib_stringbuf_memmove"
 
 (* ****** ****** *)
 //
@@ -334,7 +334,7 @@ stringbuf_insert_string
   (sbf, x) = let
   val x = g1ofg0(x)
 in
-  stringbuf_insert_strlen (sbf, x, string_length(x))
+  stringbuf_insert_strlen(sbf, x, string_length(x))
 end // end of [stringbuf_insert_string]
 
 (* ****** ****** *)
@@ -348,7 +348,7 @@ fun _stringbuf_pow2min
 //
 implement
 _stringbuf_pow2min (s1, s2) =
-   if s1 >= s2 then s1 else _stringbuf_pow2min (s1+s1, s2)
+   if s1 >= s2 then s1 else _stringbuf_pow2min(s1+s1, s2)
 *)
 //
 (* ****** ****** *)
@@ -376,12 +376,12 @@ case+ 0 of
     sz2i(nx)
   end // end of [n2 <= m]
 | _ (*n2 >= m*) => let
-    val recap = stringbuf$recapacitize ()
+    val recap = stringbuf$recapacitize()
     prval () = fold@ (sbf)
   in
     if recap >= 1 then let
-      val m2 = _stringbuf_pow2min (m, n2)
-      val _ = stringbuf_reset_capacity (sbf, m2) in stringbuf_insert_strlen (sbf, x, nx)
+      val m2 = _stringbuf_pow2min(m, n2)
+      val ret = stringbuf_reset_capacity(sbf, m2) in stringbuf_insert_strlen(sbf, x, nx)
     end else 0(*~inserted*) // end of [if]
   end // end of [n2 >= m]
 //
@@ -395,7 +395,7 @@ stringbuf_insert_bool
   (sbf, x) = let
 in
 //
-if x
+if (x)
   then stringbuf_insert_strlen (sbf, "true", i2sz(4))
   else stringbuf_insert_strlen (sbf, "false", i2sz(5))
 // end of [if]
@@ -409,7 +409,7 @@ implement
 stringbuf_insert_int
   (sbf, x) = let
   val sbf = $UN.castvwtp1{ptr}(sbf)
-  val recap = stringbuf$recapacitize ()
+  val recap = stringbuf$recapacitize()
 in
   $extfcall(int, "atslib_stringbuf_insert_snprintf", sbf, recap, "%i", x)
 end // end of [stringbuf_insert_int]
@@ -427,7 +427,7 @@ implement
 stringbuf_insert_lint
   (sbf, x) = let
   val sbf = $UN.castvwtp1{ptr}(sbf)
-  val recap = stringbuf$recapacitize ()
+  val recap = stringbuf$recapacitize()
 in
   $extfcall(int, "atslib_stringbuf_insert_snprintf", sbf, recap, "%li", x)
 end // end of [stringbuf_insert_lint]
@@ -436,7 +436,7 @@ implement
 stringbuf_insert_ulint
   (sbf, x) = let
   val sbf = $UN.castvwtp1{ptr}(sbf)
-  val recap = stringbuf$recapacitize ()
+  val recap = stringbuf$recapacitize()
 in
   $extfcall(int, "atslib_stringbuf_insert_snprintf", sbf, recap, "%lu", x)
 end // end of [stringbuf_insert_ulint]
@@ -452,20 +452,22 @@ val+@STRINGBUF(A, p, m) = sbf
 //
 val n = $UN.cast{size_t}(p - ptrcast(A))
 //
-val nb = g1ofg0 (nb)
-val nb = (
-  if nb > 0 then min (i2sz(nb), m - n) else (m - n)
+val nb = g1ofg0(nb)
+val nb =
+(
+  if nb > 0 then min(i2sz(nb), m - n) else (m - n)
 ) : size_t
 val [nb:int] nb = g1ofg0(nb)
 //
-val (
+val
+(
   pf, fpf | p1
 ) = $UN.ptr0_vtake{bytes(nb)}(p)
-val nread = $STDIO.fread (!p1, i2sz(1), nb, inp)
-val ((*void*)) = p := ptr_add<char> (p, nread)
+val nread = $STDIO.fread(!p1, i2sz(1), nb, inp)
+val ((*void*)) = (p := ptr_add<char>(p, nread))
 //
-prval () = fpf (pf)
-prval () = fold@ (sbf)
+prval () = fpf(pf)
+prval () = fold@(sbf)
 //
 in
   sz2i(nread)
@@ -497,24 +499,25 @@ assert (view@last) where
 //
 val n2 =
 (
-if p2 > 0 
-  then let
-    val n2 =
-      length($UN.cast{string}(p2))
-    val n2 = g1ofg0(n2)
-    val () = p := ptr_add<char> (p, n2)
-    val () = if n2 > 0 then last := $UN.ptr0_get<char> (ptr_pred<char> (p))
-  in
-    sz2i (n2)
-  end // end of [then]
-  else (~1) // HX: failure
+if
+(p2 > 0)
+then let
+  val n2 =
+    length($UN.cast{string}(p2))
+  val n2 = g1ofg0(n2)
+  val () = p := ptr_add<char> (p, n2)
+  val () = if n2 > 0 then last := $UN.ptr0_get<char> (ptr_pred<char> (p))
+in
+  sz2i (n2)
+end // end of [then]
+else (~1) // HX: failure
 // end of [if]
 ) : int // end of [val]
 //
 prval () = view@last := pf2
 //
-prval () = fpf (pf)
-prval () = fold@ (sbf)
+prval () = fpf(pf)
+prval () = fold@(sbf)
 //
 in
   n2
@@ -552,13 +555,18 @@ fun loop
 in
 //
 case+ xs of
+| list_nil
+    () => res
+  // list_nil
 | list_cons
     (x, xs) => let
-    val n = stringbuf_insert_val<a> (sbf, x)
+    val n =
+    stringbuf_insert_val<a>
+      (sbf, x)
+    // end of [val]
   in
     loop (sbf, xs, res + n)
   end (* end of [list_cons] *)
-| list_nil () => res
 //
 end // end of [loop]
 //
@@ -575,20 +583,20 @@ stringbuf_takeout
 //
 val+@STRINGBUF(A, p1, _) = sbf
 //
-val p0 = ptrcast (A)
+val p0 = ptrcast(A)
 val n = $UN.cast{size_t}(p1 - p0)
-val [n:int] n = g1ofg0_uint (n)
-val [i:int] i = g1ofg0_uint (i)
+val [n:int] n = g1ofg0_uint(n)
+val [i:int] i = g1ofg0_uint(i)
 //
 val i = min(i, n)
-val str = string_make_substring ($UN.cast{string(n)}(p0), i2sz(0), i)
+val str = string_make_substring($UN.cast{string(n)}(p0), i2sz(0), i)
 //
 val ni = (n - i)
-val p0 = memmove (p0, ptr_add<char> (p0, i), ni)
-val () = p1 := ptr_add<char> (p0, ni)
+val p0 = memmove(p0, ptr_add<char>(p0, i), ni)
+val () = (p1 := ptr_add<char>(p0, ni))
 //
-prval () = fold@ (sbf)
-prval () = lemma_strnptr_param (str)
+prval () = fold@(sbf)
+prval () = lemma_strnptr_param(str)
 //
 in
   strnptr2strptr(str)
@@ -603,16 +611,19 @@ stringbuf_takeout_all
 //
 val+@STRINGBUF(A, p1, _) = sbf
 //
-val p0 = ptrcast (A)
-val n = $UN.cast{size_t}(p1 - p0)
-val [n:int] n = g1ofg0_uint (n)
+val p0 = ptrcast(A)
 //
-val str = string_make_substring ($UN.cast{string(n)}(p0), i2sz(0), n)
+val n =
+$UN.cast{size_t}(p1 - p0)
+val
+[n:int] n = g1ofg0_uint(n)
+//
+val str = string_make_substring($UN.cast{string(n)}(p0), i2sz(0), n)
 //
 val () = p1 := p0
 //
-prval () = fold@ (sbf)
-prval () = lemma_strnptr_param (str)
+prval () = fold@(sbf)
+prval () = lemma_strnptr_param(str)
 //
 in
   strnptr2strptr(str)
@@ -628,17 +639,19 @@ stringbuf_remove
 //
 val+@STRINGBUF(A, p1, _) = sbf
 //
-val p0 = ptrcast (A)
-val n = $UN.cast{size_t}(p1 - p0)
-val [n:int] n = g1ofg0_uint (n)
-val [i:int] i = g1ofg0_uint (i)
+val p0 = ptrcast(A)
+//
+val n =
+$UN.cast{size_t}(p1 - p0)
+val [n:int] n = g1ofg0_uint(n)
+val [i:int] i = g1ofg0_uint(i)
 //
 val i = min(i, n)
 val ni = n - min(i, n)
-val p0 = memmove (p0, ptr_add<char> (p0, i), ni)
-val () = p1 := ptr_add<char> (p0, ni)
+val p0 = memmove(p0, ptr_add<char>(p0, i), ni)
+val () = (p1 := ptr_add<char>(p0, ni))
 //
-prval () = fold@ (sbf)
+prval () = fold@(sbf)
 //
 } (* end of [stringbuf_remove] *)
   
@@ -650,9 +663,12 @@ stringbuf_remove_all
   (sbf) = () where
 {
 //
-val+@STRINGBUF(A, p1, _) = sbf
-val ((*void*)) = p1 := ptrcast(A)
-prval ((*void*)) = fold@ (sbf)
+val+
+@STRINGBUF(A, p1, _) = sbf
+//
+val ((*void*)) = (p1 := ptrcast(A))
+//
+prval ((*void*)) = fold@(sbf)
 //
 } (* end of [stringbuf_remove_all] *)
 
@@ -670,19 +686,19 @@ val n1 = $UN.cast{size_t}(p1 - p0)
 //
 in
 //
-if n2 < n1
-  then let
-    val p2 =
-      ptr_add<char> (p0, n2)
-    val ((*void*)) = (p1 := p2)
-    prval () = fold@ (sbf)
-  in
-    true
-  end // end of [then]
-  else let
-    prval () = fold@ (sbf) in false
-  end // end of [else]
-// end of [if]
+if
+(n2 < n1)
+then let
+  val p2 =
+    ptr_add<char>(p0, n2)
+  val ((*void*)) = (p1 := p2)
+  prval ((*folded*)) = fold@(sbf)
+in
+  true
+end // end of [then]
+else let
+  prval ((*folded*)) = fold@(sbf) in false
+end // end of [else]
 //
 end // end of [stringbuf_truncate]
 
@@ -701,11 +717,11 @@ fun aux .<>.
     str = $UN.cast{String}(p)
   val n = $UN.cast{sizeLte(n0)}(n)
   val str2 =
-    string_make_substring (str, i2sz(0), n)
+    string_make_substring(str, i2sz(0), n)
   // end of [val]
-  prval () = lemma_strnptr_param (str2)
+  prval () = lemma_strnptr_param(str2)
 in
-  strnptr2strptr (str2)
+  strnptr2strptr(str2)
 end // end of [aux]
 //
 val+@STRINGBUF(A, p1, _) = sbf
@@ -715,21 +731,20 @@ val n1 = $UN.cast{size_t}(p1 - p0)
 //
 in
 //
-if (
-  n1 >= n2
-) then let
-    val p2 =
-      ptr_add<char> (p0, n2)
-    val res = aux (p2, n1-n2)
-    val ((*void*)) = (p1 := p2)
-    prval () = fold@ (sbf)
-  in
-    res
-  end // end of [then]
-  else let
-    prval () = fold@ (sbf) in strptr_null ()
-  end // end of [else]
-// end of [if]
+if
+(n1 >= n2)
+then let
+  val p2 =
+    ptr_add<char> (p0, n2)
+  val res = aux (p2, n1-n2)
+  val ((*void*)) = (p1 := p2)
+  prval ((*folded*)) = fold@ (sbf)
+in
+  res
+end // end of [then]
+else let
+  prval ((*folded*)) = fold@(sbf) in strptr_null()
+end // end of [else]
 //
 end // end of [stringbuf_truncout]
 
@@ -737,30 +752,32 @@ end // end of [stringbuf_truncout]
 //
 implement
 {}(*tmp*)
-stringbuf_truncout_all (sbf) =
+stringbuf_truncout_all(sbf) =
   $UN.castvwtp0{Strptr1}(stringbuf_truncout (sbf, i2sz(0)))
 //  
 (* ****** ****** *)
 //
 extern
-fun _stringbuf_get_size (!stringbuf): size_t = "ext#%"
+fun _stringbuf_get_size(!stringbuf): size_t = "ext#%"
 extern
-fun _stringbuf_get_capacity (!stringbuf): size_t = "ext#%"
+fun _stringbuf_get_capacity(!stringbuf): size_t = "ext#%"
 //
 extern
-fun _stringbuf_get_ptrcur (sbf: !stringbuf): ptr = "ext#%"
+fun _stringbuf_get_ptrcur(sbf: !stringbuf): ptr = "ext#%"
 extern
-fun _stringbuf_set_ptrcur (sbf: !stringbuf, p2: ptr): void = "ext#%"
+fun _stringbuf_set_ptrcur(sbf: !stringbuf, p2: ptr): void = "ext#%"
 //
 extern
-fun _stringbuf_reset_capacity (sbf: !stringbuf, m2: sizeGte(1)): bool = "ext#%"
+fun _stringbuf_reset_capacity(sbf: !stringbuf, m2: sizeGte(1)): bool = "ext#%"
 //
 (* ****** ****** *)
 //
 implement
-_stringbuf_get_size (sbf) = stringbuf_get_size<> (sbf)
+_stringbuf_get_size
+  (sbf) = stringbuf_get_size<>(sbf)
 implement
-_stringbuf_get_capacity (sbf) = stringbuf_get_capacity<> (sbf)
+_stringbuf_get_capacity
+  (sbf) = stringbuf_get_capacity<>(sbf)
 //
 implement
 _stringbuf_get_ptrcur
@@ -773,7 +790,8 @@ _stringbuf_set_ptrcur
 // end of [_stringbuf_set_ptrcur]
 //
 implement
-_stringbuf_reset_capacity (sbf, m2) = stringbuf_reset_capacity<> (sbf, m2)
+_stringbuf_reset_capacity
+  (sbf, m2) = stringbuf_reset_capacity<>(sbf, m2)
 //
 (* ****** ****** *)
 

@@ -42,6 +42,18 @@ UN =
 //
 (* ****** ****** *)
 //
+local
+#staload
+FILEBAS =
+"prelude/SATS/filebas.sats"
+in (* in-of-local *)
+macdef
+streamize_fileref_line =
+$FILEBAS.streamize_fileref_line
+end // end of [local]
+//
+(* ****** ****** *)
+//
 implement
 line_is_key(line) = let
 //

@@ -278,9 +278,9 @@ end // end of [fprint_hashtbl]
 (* ****** ****** *)
 
 implement{}
-fprint_hashtbl$sep (out) = fprint (out, "; ")
+fprint_hashtbl$sep(out) = fprint(out, "; ")
 implement{}
-fprint_hashtbl$mapto (out) = fprint (out, "->")
+fprint_hashtbl$mapto(out) = fprint(out, "->")
 
 (* ****** ****** *)
 
@@ -290,9 +290,9 @@ fprint_hashtbl_sep_mapto
   (out, tbl, sep, mapto) = let
 //
 implement
-fprint_hashtbl$sep<> (out) = fprint (out, sep)
+fprint_hashtbl$sep<>(out) = fprint(out, sep)
 implement
-fprint_hashtbl$mapto<> (out) = fprint (out, mapto)
+fprint_hashtbl$mapto<>(out) = fprint(out, mapto)
 //
 in
   fprint_hashtbl<key,itm>(out, tbl)
@@ -310,11 +310,17 @@ var env: void = ((*void*))
 //
 implement
 (env)(*tmp*)
-$HT.hashtbl_foreach$fwork<key,itm><env> (k, x, env) = fwork(k, x)
+$HT.hashtbl_foreach$fwork<key,itm><env>
+  (k, x, env) = fwork(k, x)
 //
-val tbl = htdecode (tbl)
-val ((*void*)) = $HT.hashtbl_foreach_env<key,itm><void> (tbl, env)
-prval ((*void*)) = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+//
+val
+((*void*)) =
+$HT.hashtbl_foreach_env<key,itm><void>
+  (tbl, env)
+//
+prval ((*returned*)) = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_foreach_cloref] *)
 
@@ -328,9 +334,13 @@ hashtbl_listize1
 //
 typedef ki = @(key, itm)
 //
-val tbl = htdecode (tbl)
-val kxs = $HT.hashtbl_listize1 (tbl)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+//
+val kxs = $HT.hashtbl_listize1(tbl)
+//
+prval
+((*returned*)) = $UN.cast2void(tbl)
+//
 val kxs = list0_of_list_vt{(key,itm)}(kxs)
 //
 } (* end of [hashtbl_listize1] *)
