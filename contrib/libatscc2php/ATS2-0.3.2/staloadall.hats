@@ -23,6 +23,11 @@
 //
 (* ****** ****** *)
 //
+#staload
+_(*anon*) = "./DATS/basics.dats"
+//
+(* ****** ****** *)
+//
 #staload "./SATS/print.sats"
 #staload _ = "./DATS/print.dats"
 //

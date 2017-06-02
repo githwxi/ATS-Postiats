@@ -1,0 +1,12 @@
+######
+##
+## The command [myatscc] is just a wrapper
+## for convenience around the command [atsopt]
+##
+######
+
+--dry  : for a dryrun
+
+######
+
+###### end of [README] ######

@@ -26,6 +26,10 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 
+abstype PHPobj
+
+(* ****** ****** *)
+
 abstype PHPfilr
 
 (* ****** ****** *)

@@ -113,7 +113,6 @@ ATS/contrib/CATS-parsemit
 #packfilename("Makefile")
 //
 #packfilename("catsparse_all.dats")
-#packfilename("catsparse_mylib.dats")
 //
 #packfilename("SATS/catsparse.sats")
 #packfilename("SATS/catsparse_emit.sats")
