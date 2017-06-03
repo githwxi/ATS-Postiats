@@ -8,8 +8,9 @@ this time :)
 
 My current plan is to present a crash course on functional programming
 that targets someone who has already acquired certain basic
-understanding of programming in general (e.g., someone who has already
-taken one semester of a programming course based on Java or
+understanding of programming in general (e.g., someone who has
+already done a bit of programming that is roughly equivalent to taking
+one semester of an introductory programming course based on C, Java or
 Python). This crash course is primarily based on the ML-like
 functional core of ATS extended with templates (for handling
 parametric polymorphism), and the presented style of functional
