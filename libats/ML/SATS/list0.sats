@@ -201,19 +201,23 @@ overload .tail_opt with list0_tail_opt of 0
 //
 fun
 {a:t0p}
-list0_last_exn(xs: list0(INV(a))):<!exn> (a)
+list0_last_exn
+  (xs: list0(INV(a))):<!exn> (a)
 fun
 {a:t0p}
-list0_last_opt(xs: list0(INV(a))):<> Option_vt(a)
+list0_last_opt
+  (xs: list0(INV(a))):<> Option_vt(a)
 //
 (* ****** ****** *)
 //
 fun
 {a:t0p}
-list0_init_exn(xs: list0(INV(a))):<!exn> list0(a)
+list0_init_exn
+  (xs: list0(INV(a))):<!exn> list0(a)
 fun
 {a:t0p}
-list0_init_opt(xs: list0(INV(a))):<!exn> Option_vt(list0(a))
+list0_init_opt
+  (xs: list0(INV(a))):<!exn> Option_vt(list0(a))
 //
 (* ****** ****** *)
 //
@@ -365,26 +369,36 @@ list0_drop_exn
 // end of [list0_drop_exn]
 
 (* ****** ****** *)
-
+//
+fun
+{a:t0p}
+{res:t0p}
+list0_cata
+( xs: list0(INV(a))
+, f_nil: cfun0(res), f_cons: cfun2(a, list0(a), res)
+) : (res) // end of [list0_cata]
+//
+(* ****** ****** *)
+//
 fun
 {a:t0p}
 list0_app
 (
-  xs: list0(INV(a)), fwork: cfun(a, void)
+xs: list0(INV(a)), fwork: cfun(a, void)
 ) : void // end of [list0_app]
-
+//
 (* ****** ****** *)
 //
 fun{a:t0p}
 list0_foreach
 (
-  xs: list0(INV(a)), fwork: cfun(a, void)
+xs: list0(INV(a)), fwork: cfun(a, void)
 ) : void // end of [list0_foreach]
 //
 fun{a:t0p}
 list0_foreach_method
 (
-  xs: list0(INV(a))) (fwork: cfun(a, void)
+xs: list0(INV(a))) (fwork: cfun(a, void)
 ) : void // end of [list0_foreach_method]
 //
 overload .foreach with list0_foreach_method
@@ -394,13 +408,13 @@ overload .foreach with list0_foreach_method
 fun{a:t0p}
 list0_rforeach
 (
-  xs: list0(INV(a)), fwork: cfun(a, void)
+xs: list0(INV(a)), fwork: cfun(a, void)
 ) : void // end of [list0_rforeach]
 //
 fun{a:t0p}
 list0_rforeach_method
 (
-  xs: list0(INV(a))) (fwork: cfun(a, void)
+xs: list0(INV(a))) (fwork: cfun(a, void)
 ) : void // end of [list0_rforeach_method]
 //
 overload .rforeach with list0_rforeach_method
@@ -654,23 +668,25 @@ fun{
 a,b:t0p
 } list0_assoc_exn
 (
-  list0 @(INV(a), b), x0: a, eq: cfun(a, a, bool)
+  list0@(INV(a), b), x0: a, eq: cfun(a, a, bool)
 ) : (b) // end-of-function
 fun{
 a,b:t0p
 } list0_assoc_opt
 (
-  list0 @(INV(a), b), x0: a, eq: cfun(a, a, bool)
+  list0@(INV(a), b), x0: a, eq: cfun(a, a, bool)
 ) : Option_vt (b) // end-of-function
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 list0_filter
-  (list0(INV(a)), pred: cfun(a, bool)): list0(a)
-fun{a:t0p}
+  (xs: list0(INV(a)), pred: cfun(a, bool)): list0(a)
+fun
+{a:t0p}
 list0_filter_method
-  (list0(INV(a)))(pred: cfun(a, bool)): list0(a)
+  (xs: list0(INV(a)))(pred: cfun(a, bool)): list0(a)
 //
 overload .filter with list0_filter_method
 //

@@ -741,19 +741,24 @@ implement
 list0_take_exn
   (xs, i) = let
 //
-val i = g1ofg0_int (i)
-val xs = g1ofg0_list (xs)
+val i = g1ofg0_int(i)
+val xs = g1ofg0_list(xs)
 //
 in
-  if i >= 0 then let
-    val res =
-      $effmask_wrt (list_take_exn<a>(xs, i))
-    // end of [val]
-  in
-    list0_of_list_vt (res)
-  end else
-    $raise (IllegalArgExn"list0_take_exn:i")
-  // end of [if]
+//
+if
+(i >= 0)
+then let
+//
+val
+res =
+$effmask_wrt(list_take_exn<a>(xs, i))
+//
+in
+  list0_of_list_vt(res)
+end else (
+  $raise(IllegalArgExn"list0_take_exn:i")
+) (* end of [if] *)
 end // end of [list0_take_exn]
 
 (* ****** ****** *)
@@ -767,13 +772,28 @@ val i = g1ofg0_int (i)
 val xs = g1ofg0_list (xs)
 //
 in
-  if i >= 0 then
-    list0_of_list (list_drop_exn<a>(xs, i))
-  else
-    $raise (IllegalArgExn"list0_drop_exn:i")
-  // end of [if]
+//
+if
+(i >= 0)
+then
+g0ofg1(list_drop_exn<a>(xs, i))
+else
+$raise(IllegalArgExn"list0_drop_exn:i")
+//
 end // end of [list0_drop_exn]
 
+(* ****** ****** *)
+//
+implement
+{a}{b}//tmp
+list0_cata
+  (xs, fnil, fcons) =
+(
+case+ xs of
+| list0_nil() => fnil()
+| list0_cons(x, xs) => fcons(x, xs)
+)
+//
 (* ****** ****** *)
 //
 implement
@@ -1406,6 +1426,29 @@ case+ xys of
 
 (* ****** ****** *)
 //
+implement
+{a}(*tmp*)
+list0_filter
+  (xs, pred) = let
+//
+implement{a2}
+list_filter$pred
+  (x) = pred($UN.cast{a}(x))
+//
+val ys = list_filter<a>(g1ofg0(xs))
+//
+in
+  list0_of_list_vt (ys)
+end // end of [list0_filter]
+//
+implement
+{a}(*tmp*)
+list0_filter_method
+  (xs) = lam(pred) => list0_filter<a>(xs, pred)
+//
+
+(* ****** ****** *)
+//
 (*
 implement
 {a}{b}
@@ -1592,28 +1635,6 @@ in
   list0_of_list_vt{b}(list_map2<a1,a2><b>(g1ofg0(xs1), g1ofg0(xs2)))
 end // end of [list0_map2]
 
-(* ****** ****** *)
-//
-implement
-{a}(*tmp*)
-list0_filter
-  (xs, pred) = let
-//
-implement{a2}
-list_filter$pred
-  (x) = pred($UN.cast{a}(x))
-//
-val ys = list_filter<a>(g1ofg0(xs))
-//
-in
-  list0_of_list_vt (ys)
-end // end of [list0_filter]
-//
-implement
-{a}(*tmp*)
-list0_filter_method
-  (xs) = lam(pred) => list0_filter<a>(xs, pred)
-//
 (* ****** ****** *)
 
 implement
