@@ -5,6 +5,10 @@ $MYPHPDIR = "";
 $MYPHPDIR = "SERVER/MYCODE"; // for testing
 */
 //
+header(
+"Access-Control-Allow-Origin: *"
+); /* header */
+//
 include
 "./$MYPHPDIR/libatscc2php_all.php";
 //
@@ -30,10 +34,6 @@ $mycode =
 rawurldecode($_REQUEST["mycode"]);
 $mycode_res =
 atslangweb_patsopt_atscc2js_code_0_($mycode);
-//
-header(
-"Access-Control-Allow-Origin: *"
-); /* header */
 //
 echo rawurlencode(json_encode($mycode_res));
 //

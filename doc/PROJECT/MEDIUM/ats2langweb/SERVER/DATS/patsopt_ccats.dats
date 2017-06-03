@@ -61,7 +61,7 @@ fname_dats_log =
 val
 stadyn =
 (
-  if stadyn = 0 then "--static" else "--dynamic"
+if (stadyn = 0) then "--static" else "--dynamic"
 ) : string // end of [val]
 //
 in
