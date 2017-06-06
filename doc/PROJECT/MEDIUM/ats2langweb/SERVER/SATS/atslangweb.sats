@@ -42,9 +42,9 @@ datatype compres =
 // HX-2014-09:
 // the order must be maintained!!!
 //
-  | COMPRES0_succ of (string(*target*)) // success
-  | COMPRES1_fail of (string(*target*)) // failure1
-  | COMPRES2_fail of (string(*source*), string(*errmsg*)) // failure2
+| COMPRES0_succ of (string(*target*)) // success
+| COMPRES1_fail of (string(*target*)) // failure1
+| COMPRES2_fail of (string(*source*), string(*errmsg*)) // failure2
 //
 (* ****** ****** *)
 //

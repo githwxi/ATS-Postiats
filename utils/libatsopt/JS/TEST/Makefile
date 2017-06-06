@@ -1,3 +1,4 @@
+######
 #
 # A simple Makefile
 #
@@ -213,6 +214,10 @@ $(NODEJS) patsopt_dats.js \
 test_patsopt:: ; \
 $(NODEJS) patsopt_dats.js \
   --dynamic /PATSHOME/prelude/DATS/stream_vt.dats 
+#
+test_patsopt:: ; \
+$(NODEJS) patsopt_dats.js \
+  --dynamic /PATSHOME/contrib/libatscc2js/DATS/stream_vt.dats 
 #
 ######
 

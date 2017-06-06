@@ -84,5 +84,42 @@ overload
 compare with compare_string_string of 100
 //
 (* ****** ****** *)
+//
+fun
+string_append
+(
+  str1: string, str2: string
+) : string = "mac#%"
+//
+overload + with string_append of 100
+//
+(* ****** ****** *)
+//
+fun
+string_concat_2
+(
+  x1: string, x2: string
+) : string = "mac#%" // endfun
+fun
+string_concat_3
+(
+  x1: string, x2: string, x3: string
+) : string = "mac#%" // end-of-fun
+fun
+string_concat_4
+(
+  x1: string, x2: string, x3: string, x4: string
+) : string = "mac#%" // end-of-fun
+//
+symintr string_concat
+//
+overload
+string_concat with string_concat_2 of 100
+overload
+string_concat with string_concat_3 of 100
+overload
+string_concat with string_concat_4 of 100
+//
+(* ****** ****** *)
 
 (* end of [string.sats] *)

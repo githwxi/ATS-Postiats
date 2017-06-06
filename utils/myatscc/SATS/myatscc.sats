@@ -50,7 +50,7 @@ This is the default used by [myatscc]
 MYATSCCDEF_def
 "patscc -cleanaft \
 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC \
--I${PATSHOME}/contrib -o $fname($1) $1 -latslib"
+-I${PATSHOME}/contrib -o $fname($1)_$fname_ext($1) $1 -latslib"
 //
 (* ****** ****** *)
 //

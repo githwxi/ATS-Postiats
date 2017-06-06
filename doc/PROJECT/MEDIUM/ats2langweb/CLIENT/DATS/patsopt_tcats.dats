@@ -6,7 +6,8 @@
 
 (* ****** ****** *)
 //
-#define ATS_DYNLOADFLAG 0
+#define
+ATS_DYNLOADFLAG 0
 //
 #define
 ATS_EXTERN_PREFIX "atslangweb_"

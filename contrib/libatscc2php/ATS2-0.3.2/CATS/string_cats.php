@@ -88,6 +88,26 @@ compare_string_string
 //
 /* ****** ****** */
 
+function
+ats2phppre_string_append
+  ($x1, $x2) { return ($x1.$x2) ; }
+
+/* ****** ****** */
+//
+function
+ats2phppre_string_concat_2
+  ($x1, $x2) { return ($x1.$x2) ; }
+function
+ats2phppre_string_concat_3
+  ($x1, $x2, $x3)
+  { return sprintf("%s%s%s", $x1, $x2, $x3) ; }
+function
+ats2phppre_string_concat_4
+  ($x1, $x2, $x3, $x4)
+  { return sprintf("%s%s%s%s", $x1, $x2, $x3, $x4) ; }
+//
+/* ****** ****** */
+
 /* end of [string_cats.php] */
 
 ?>

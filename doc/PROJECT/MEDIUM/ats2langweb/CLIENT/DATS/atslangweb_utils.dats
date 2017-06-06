@@ -73,7 +73,7 @@ window.open
 //
 extern
 fun
-Home_tryatsnow_onclick (): void = "mac#"
+Home_tryatsnow_onclick(): void = "mac#"
 //
 %{^
 //
@@ -106,7 +106,7 @@ Home_hello_reply
 //
 extern
 fun
-Home_hello_onclick (): void = "mac#"
+Home_hello_onclick(): void = "mac#"
 //
 %{^
 //
@@ -180,7 +180,7 @@ Home_listsub_reply
 //
 extern
 fun
-Home_listsub_onclick (): void = "mac#"
+Home_listsub_onclick(): void = "mac#"
 //
 %{^
 //
@@ -211,7 +211,7 @@ Home_listsub_reply(reply)
 %} // end of [%{^]
 //
 implement
-Home_listsub_onclick () = let
+Home_listsub_onclick() = let
 //
 implement
 patsopt_tcats_rpc$cname<> () =
@@ -220,9 +220,9 @@ patsopt_tcats_rpc$cname<> () =
 implement
 patsopt_tcats_rpc$reply<> (reply) = Home_listsub_reply (reply)
 //
-val mycode = Home_listsub_getval ()
-val ((*void*)) = Home_listsub_button_set ("Wait...")
-val ((*void*)) = patsopt_tcats_rpc (mycode)
+val mycode = Home_listsub_getval()
+val ((*void*)) = Home_listsub_button_set("Wait...")
+val ((*void*)) = patsopt_tcats_rpc(mycode)
 //
 in
   // nothing
@@ -246,7 +246,7 @@ Home_repeat_f0f1_reply
 //
 extern
 fun
-Home_repeat_f0f1_onclick (): void = "mac#"
+Home_repeat_f0f1_onclick(): void = "mac#"
 //
 %{^
 //
@@ -322,7 +322,7 @@ Home_queenpuzzle_reply
 //
 extern
 fun
-Home_queenpuzzle_onclick (): void = "mac#"
+Home_queenpuzzle_onclick(): void = "mac#"
 //
 %{^
 //
