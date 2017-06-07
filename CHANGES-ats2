@@ -1720,7 +1720,7 @@ https://sourceforge.net/projects/ats2-lang/
 The actual implementation of ATS2 started in the March of 2011, and
 it took about two and one-half years to reach this stage. As of now,
 the code base for the compiler of ATS2 consists of 140,000+ lines of
-code (LOC), which are nearly all written in ATS.
+code (LOC), which are nearly all written in ATS1.
 
 When compared to ATS1, the single most important new feature is the
 template system of ATS2. This is a feature that could potentially change
@@ -1729,9 +1729,9 @@ this is a very powerful feature (a bit like feeling that OOP is a very
 powerful feature). However, how this feature should be properly and
 effectively used in practice needs a lot more investigation.
 
-Another thing about ATS2 is that it is a lot leaner than ATS. One can make
-good use of ATS2 without any need for compiled library (libatslib.a). Also,
-GC support in ATS1 is now removed; if needed, third-party GC (e.g.,
+Another thing about ATS2 is that it is a lot leaner than ATS1. One can
+make good use of ATS2 without any need for compiled library (libatslib.a).
+Also, GC support in ATS2 becomes optional; if needed, third-party GC (e.g.,
 Bohem-GC) can be readily employed.
 
 I will gradually list differences between ATS and ATS2, helping people

@@ -159,6 +159,9 @@ packfilesynop(x) = atext_nil()
 #packfilename(
 "atscntrb-libpcre/mylibies.hats"
 )
+#packfilename(
+"atscntrb-libpcre/mylibies_link.hats"
+)
 #packfilename_r("atscntrb-libpcre/CATS")
 #packfilename_r("atscntrb-libpcre/SATS")
 #packfilename_r("atscntrb-libpcre/DATS")
