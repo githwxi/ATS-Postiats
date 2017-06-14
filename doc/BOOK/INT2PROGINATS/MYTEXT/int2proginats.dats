@@ -303,7 +303,7 @@ MYCODEROOT
 "https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT"
 #define
 MYATSCODEROOT
-"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats"
+"https://github.com/ats-lang/ats-lang.github.io/blob/master/ATS-Postiats"
 //
 (* ****** ****** *)
 
@@ -319,7 +319,7 @@ sprintf
 (
   "<ulink url=\"%s/INT2PROGINATS/CODE/%s\">%s</ulink>", @(MYCODEROOT, path, link)
 ) (* end of [val] *)
-val res = string_of_strptr (res)
+val res = string_of_strptr(res)
 //
 in
   atext_strcst (res)

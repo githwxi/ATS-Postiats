@@ -339,7 +339,7 @@ MYCODEROOT
 "https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT"
 #define
 MYATSCODEROOT
-"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS-Postiats"
+"https://github.com/ats-lang/ats-lang.github.io/blob/master/ATS-Postiats"
 //
 (* ****** ****** *)
 
@@ -356,10 +356,10 @@ sprintf
   "<ulink url=\"%s/ATS2TUTORIAL/CODE/%s\">%s</ulink>", @(MYCODEROOT, path, link)
 ) (* end of [val] *)
 //
-val res = string_of_strptr (res)
+val res = string_of_strptr(res)
 //
 in
-  atext_strcst (res)
+  atext_strcst(res)
 end // end of [mycodelink]
 
 fun
@@ -370,9 +370,9 @@ myatscodelink
   val
   res =
   sprintf("<ulink url=\"%s/%s\">%s</ulink>", @(MYATSCODEROOT, codepath, linkname))
-  val res = string_of_strptr (res)
+  val res = string_of_strptr(res)
 in
-  atext_strcst (res)
+  atext_strcst(res)
 end // end of [myatscodelink]
 
 (* ****** ****** *)
@@ -380,18 +380,22 @@ end // end of [myatscodelink]
 
 local
 
-val theCodeLst = ref<atextlst> (list_nil)
+val
+theCodeLst = ref<atextlst>(list_nil)
 
 in // in of [local]
 
-fun theCodeLst_add (x: atext) =
-  !theCodeLst := list_cons (x, !theCodeLst)
+fun
+theCodeLst_add(x: atext) =
+  !theCodeLst := list_cons(x, !theCodeLst)
 
-fun theCodeLst_get (): atextlst = let
-  val xs = list_reverse (!theCodeLst) in list_of_list_vt (xs)
+fun
+theCodeLst_get (): atextlst = let
+  val xs = list_reverse (!theCodeLst) in list_of_list_vt(xs)
 end // end of [theCodeLst_get]
 
-fun fprint_theCodeLst
+fun
+fprint_theCodeLst
   (out: FILEref): void = let
 //
 fun loop
@@ -403,8 +407,11 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
-    val () = if i > 0 then fprint_newline (out)
-    val () = fprint_atext (out, x)
+    val () =
+    if i > 0
+      then fprint_newline(out)
+    // end of [if]
+    val () = fprint_atext(out, x)
   in
     loop (xs, i+1)
   end // end of [list_cons]
@@ -413,16 +420,17 @@ case+ xs of
 end // end of [loop]
 //
 in
-  loop (theCodeLst_get (),  0)
+  loop (theCodeLst_get(),  0)
 end // end of [fprint_theCodeLst]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-fn atscode_extract
+fun
+atscode_extract
   (x: string): atext = let
-  val () = theCodeLst_add (atext_strcst (x)) in atscode (x)
+  val () = theCodeLst_add(atext_strcst(x)) in atscode(x)
 end // end of [atscode_extract]
 
 (* ****** ****** *)

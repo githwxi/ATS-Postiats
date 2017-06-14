@@ -456,18 +456,18 @@ Given two lists xs and ys of the type #stacode("list0(T)") for some type T,
 of xs and ys:
 
 #dats2xhtml("\
-fun{
-a:t@ype
-} list0_append
+fun
+{a:t@ype}
+list0_append
 (
-  xs: list0 a
-, ys: list0 a
+xs: list0 a, ys: list0 a
 ) : list0 a =
 (
 case+ xs of
-| list0_cons (x, xs) =>
-    list0_cons{a}(x, list0_append<a> (xs, ys))
-| list0_nil ((*void*)) => ys
+| list0_nil() => ys
+| list0_cons(x, xs) =>
+    list0_cons{a}(x, list0_append<a>(xs, ys))
+  // end of [list0_cons]
 ) (* end of [list0_append] *)
 ")
 
@@ -491,17 +491,18 @@ Given two lists xs and ys of the type #stacode("list0(T)") for some type T,
 concatenation of the reverse of xs and ys:
 
 #dats2xhtml("\
-fun{
-a:t@ype
-} list0_reverse_append
+fun
+{a:t@ype}
+list0_reverse_append
 (
-  xs: list0 a, ys: list0 a
+xs: list0 a, ys: list0 a
 ) : list0 a =
 (
 case+ xs of
-| list0_cons (x, xs) =>
+| list0_nil() => ys
+| list0_cons(x, xs) =>
     list0_reverse_append<a> (xs, list0_cons{a}(x, ys))
-| list0_nil () => ys
+  // end of [list0_cons]
 ) (* end of [list0_reverse_append] *)
 ")
 
@@ -524,9 +525,10 @@ Given a list xs, #dyncode("list0_reverse(xs)") returns the
 reverse of xs:
 
 #dats2xhtml("\
-fun{a:t@ype}
+fun
+{a:t@ype}
 list0_reverse
-  (xs: list0 a): list0 a = list0_reverse_append<a> (xs, list0_nil)
+  (xs: list0 a): list0 a = list0_reverse_append<a>(xs, list0_nil)
 // end of [list0_reverse]
 ")
 ")#comment("para")
@@ -541,8 +543,8 @@ Mapping: #dyncode("list0_map")
 #para("\
 
 Given a list xs of the type #stacode("list0(T1)") for some type T1 and a
-closure function f of the type T1 -&lt;cloref1&gt; T2 for some type T2,
-#dyncode("list0_map(xs, f)") returns a list ys of the type #stacode("list0(T2)"):
+closure function #dyncode("f0") of the type T1 -&lt;cloref1&gt; T2 for some type T2,
+#dyncode("list0_map(xs, f0)") returns a list ys of the type #stacode("list0(T2)"):
 
 #dats2xhtml("\
 fun
@@ -550,17 +552,18 @@ fun
 {b:t@ype}
 list0_map
 (
-  xs: list0 a, f: a -<cloref1> b
+  xs: list0 a, f0: a -<cloref1> b
 ) : list0 b =
 (
 case+ xs of
-| list0_cons (x, xs) =>
-    list0_cons{b}(f x, list0_map<a><b> (xs, f))
-| list0_nil ((*void*)) => list0_nil ()
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  list0_cons{b}(f0(x), list0_map<a><b>(xs, f0))
 ) (* end of [list0_map] *)
 ")
 
-The length of ys equals that of xs and each element y in ys equals f(x),
+The length of ys equals that of xs and each element y in ys equals f0(x),
 where x is the corresponding element in xs.  Clearly, this implementation
 of #dyncode("list0_map") is not tail-recursive.\
 
@@ -575,8 +578,8 @@ of #dyncode("list0_map") is not tail-recursive.\
 
 #para('\
 
-Given xs, ini and f, #dyncode("list0_foldleft(ini, xs, f)") computes the
-value of the expression f(... f(f(ini, xs[0]), xs[1]) ..., xs[n-1]), where
+Given xs, ini and f0, #dyncode("list0_foldleft(ini, xs, f0)") computes the
+value of the expression f0(... f0(f0(ini, xs[0]), xs[1]) ..., xs[n-1]), where
 n is the length of xs and xs[i] refers to element i in xs for each i &lt; n.
 The following implementation of #dyncode("list0_foldleft") is tail-recursive:
 
@@ -586,14 +589,17 @@ fun
 {b:t@ype}
 list0_foldleft
 (
-  ini: a, xs: list0 (b), f: (a, b) -> a
+  ini: a
+, xs0: list0(b), f0: (a, b) -<cloref> a
 ) : a =
 (
-  case+ xs of
-  | list0_cons
-      (x, xs) => list0_foldleft<a><b> (f (ini, x), xs, f)
-  | list0_nil ((*void*)) => ini
-)
+//
+case+ xs0 of
+| list0_nil() => ini
+| list0_cons(x, xs) =>
+  list0_foldleft<a><b> (f0(ini, x), xs, f0)
+//
+) (* end of [list0_foldleft] *)
 ')
 
 ')
@@ -607,8 +613,8 @@ list0_foldleft
 
 #para('\
 
-Given xs, res and f, #dyncode("list0_foldright(xs, res, f)") computes the
-value of the expression f(xs[0], f(xs[1], f(... f(xs[n-1], res) ...))), where
+Given xs, res and f0, #dyncode("list0_foldright(xs, res, f0)") computes the
+value of the expression f0(xs[0], f0(xs[1], f0(... f0(xs[n-1], res) ...))), where
 n is the length of xs and xs[i] refers to element i in xs for each i &lt; n.
 The following implementation of #dyncode("list0_foldright") is not tail-recursive:
 
@@ -618,13 +624,16 @@ fun
 {b:t@ype}
 list0_foldright
 (
-  xs: list0 (a), res: b, f: (a, b) -> b
+  xs0: list0(a)
+, res: b, f0: (a, b) -<cloref1> b
 ) : b =
 (
-  case+ xs of
-  | list0_cons
-      (x, xs) => f (x, list0_foldright<a><b> (xs, res, f))
-  | list0_nil ((*void*)) => res
+//
+case+ xs0 of
+| list0_nil() => res
+| list0_cons(x, xs) =>
+  f0(x, list0_foldright<a><b>(xs, res, f0))
+//
 )
 ')
 
@@ -649,19 +658,23 @@ fun{
 a,b:t@ype
 } list0_zip
 (
-  xs: list0 a
-, ys: list0 b
-) : list0 @(a, b) = let
-  typedef ab = @(a, b)
+xs: list0(a)
+,
+ys: list0(b)
+) : list0@(a, b) = let
+//
+  typedef ab = @( a, b )
+//
 in
 //
 case+ (xs, ys) of
-| (list0_cons (x, xs),
-   list0_cons (y, ys)) =>
+| (list0_cons(x, xs),
+   list0_cons(y, ys)
+  ) =>
   (
-    list0_cons{ab}((x, y), list0_zip<a,b> (xs, ys))
-  )
-| (_, _) => list0_nil ()
+    list0_cons{ab}((x, y), list0_zip<a,b>(xs, ys))
+  ) (* (cons,cons) *)
+| (_, _) => list0_nil((*void*))
 //
 end // end of [list0_zip]
 ")
@@ -685,38 +698,39 @@ Zipping with: #dyncode("list0_zipwith")
 Given two lists xs and ys of the types #stacode("list0(T1)") and
 #stacode("list0(T2)") for some types T1 and T2, respectively, and a closure
 function f of the type (T1, T2) -&lt;cloref1&gt; T3 for some type T3,
-#dyncode("list0_zipwith(xs, ys, f)") returns a list zs of the type
+#dyncode("list0_zipwith(xs, ys, f0)") returns a list zs of the type
 #stacode("list0(T3)"):
 
 #dats2xhtml("\
 fun
-{a,b:t@ype}
+{a,
+ b:t@ype}
 {c:t@ype}
 list0_zipwith
 (
-  xs: list0 a
-, ys: list0 b
-, f: (a, b) -<cloref1> c
-) : list0 c =
+  xs: list0(a)
+, ys: list0(b)
+, f0: (a, b) -<cloref1> c
+) : list0(c) =
 (
 case+ (xs, ys) of
-| (list0_cons (x, xs),
-   list0_cons (y, ys)) =>
+| (list0_cons(x, xs),
+   list0_cons(y, ys)) =>
   (
-    list0_cons{c}(f (x, y), list0_zipwith<a,b><c> (xs, ys, f))
+    list0_cons{c}(f0(x, y), list0_zipwith<a,b><c> (xs, ys, f0))
   )
-| (_, _) => list0_nil ()
+| (_, _) => list0_nil((*void*))
 ) (* end of [list0_zipwith] *)
 ")
 
 The length of zs is the minimum of the lengths of xs and ys and each
-element z in zs is f(x, y), where x and y are the corresponding elements in
-xs and ys, respectively.  Clearly, this implementation of
+element z in zs is f0(x, y), where x and y are the corresponding
+elements in xs and ys, respectively.  Clearly, this implementation of
 #dyncode("list0_zipwith") is not tail-recursive.  Note that
-#dyncode("list0_zipwith") behaves exactly like #dyncode("list0_zip") if its
-third argument #dyncode("f") is replaced with #dyncode("lam (x, y) => @(x, y)").
-This function template is also named #dyncode("list0_map2") for the obvious
-reason.\
+#dyncode("list0_zipwith") behaves exactly like #dyncode("list0_zip")
+if its third argument #dyncode("f0") is replaced with #dyncode("lam
+(x, y) => @(x, y)").  This function template is also given the name
+#dyncode("list0_map2") for the obvious reason.\
 
 ")#comment("para")
 
@@ -816,27 +830,27 @@ fun{
 a:t@ype
 } mergesort
 (
-  xs: list0 a, lte: lte a
+  xs: list0(a), lte: lte(a)
 ) : list0 a = let
 //
-val n = list0_length<a> (xs)
+val n = list0_length<a>(xs)
 //
 fun msort
 (
-  xs: list0 a, n: int, lte: lte a
+  xs: list0(a), n: int, lte: lte(a)
 ) : list0 a =
-  if n >= 2 then split (xs, n, lte, n/2, nil0) else xs
+  if n >= 2 then split(xs, n, lte, n/2, nil0) else xs
 //
 and split
 (
-  xs: list0 a, n: int, lte: lte a, i: int, xsf: list0 a
+  xs: list0(a), n: int, lte: lte(a), i: int, xsf: list0(a)
 ) : list0 a =
   if i > 0 then let
     val-cons0 (x, xs) = xs
   in
     split (xs, n, lte, i-1, cons0{a}(x, xsf))
   end else let
-    val xsf = list0_reverse<a> (xsf) // make sorting stable!
+    val xsf = list0_reverse<a>(xsf) // make sorting stable!
     val xsf = msort (xsf, n/2, lte) and xs = msort (xs, n-n/2, lte)
   in
     merge<a> (xsf, xs, lte)

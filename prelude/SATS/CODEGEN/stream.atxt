@@ -277,44 +277,85 @@ res:t0p}{x:t0p
 //
 #atscode_separator()
 //
+// HX: duplicates are kept
+//
 fun
 {a:t0p}
 stream_merge
-  (stream(INV(a)), stream(a)) :<!laz> stream(a)
+(
+  xs1: stream(INV(a)), xs2: stream(a)
+) :<!laz> stream(a) // end-of-function
 //
-fun{a:t0p} stream_merge$cmp (x1: a, x2: a):<> int
+fun{a:t0p}
+stream_merge$cmp (x1: a, x2: a):<> int
 //
 fun
 {a:t0p}
 stream_merge_fun
 (
-  xs1: stream(INV(a)), xs2: stream(a), (a, a) -<fun> int
+  xs1: stream(INV(a))
+, xs2: stream(a), cmp: (a, a) -<fun> int
 ) :<!laz> stream(a) // end of [stream_merge_fun]
 fun
 {a:t0p}
 stream_merge_cloref
 (
-  xs1: stream(INV(a)), xs2: stream(a), (a, a) -<cloref> int
+  xs1: stream(INV(a))
+, xs2: stream(a), cmp: (a, a) -<cloref> int
 ) :<!laz> stream(a) // end of [stream_merge_cloref]
 
 #atscode_separator()
 //
+// HX: duplicates are dropped
+//
 fun{a:t0p}
 stream_mergeq
-  (stream(INV(a)), stream(a)):<!laz> stream(a)
+(
+  xs1: stream(INV(a)), xs2: stream(a)
+) :<!laz> stream(a)
 //
-fun{a:t0p} stream_mergeq$cmp (x1: a, x2: a):<> int
+fun{a:t0p}
+stream_mergeq$cmp(x1: a, x2: a):<> int
 //
 fun{a:t0p}
 stream_mergeq_fun
 (
-  xs1: stream(INV(a)), xs2: stream(a), (a, a) -<fun> int
-) :<!laz> stream(a) // end of [stream_mergeq_fun]
+  xs1: stream(INV(a))
+, xs2: stream(a), cmp: (a, a) -<fun> int
+) :<!laz> stream(a) // end-of-function
 fun{a:t0p}
 stream_mergeq_cloref
 (
-  xs1: stream(INV(a)), xs2: stream(a), (a, a) -<cloref> int
-) :<!laz> stream(a) // end of [stream_mergeq_cloref]
+  xs1: stream(INV(a))
+, xs2: stream(a), cmp: (a, a) -<cloref> int
+) :<!laz> stream(a) // end-of-function
+//
+#atscode_separator()
+//
+// HX-2017-06-13:
+// The streams are assumed to be ordered!!!
+//
+fun{a:t0p}
+stream_union$cmp(x1: a, x2: a):<> int
+fun{a:t0p}
+stream_inter$cmp(x1: a, x2: a):<> int
+fun{a:t0p}
+stream_differ$cmp(x1: a, x2: a):<> int
+fun{a:t0p}
+stream_symdiff$cmp(x1: a, x2: a):<> int
+//
+fun{a:t0p}
+stream_union
+  (stream(INV(a)), stream(a)):<!laz> stream(a)
+fun{a:t0p}
+stream_inter
+  (stream(INV(a)), stream(a)):<!laz> stream(a)
+fun{a:t0p}
+stream_differ
+  (stream(INV(a)), stream(a)):<!laz> stream(a)
+fun{a:t0p}
+stream_symdiff
+  (stream(INV(a)), stream(a)):<!laz> stream(a)
 //
 #atscode_separator()
 //
