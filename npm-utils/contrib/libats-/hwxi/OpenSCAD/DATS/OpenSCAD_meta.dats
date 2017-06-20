@@ -861,7 +861,7 @@ $list{point3}(p0, p1, p2, p3)
 val f0 = $list(0, 1, 2)
 val f1 = $list(0, 2, 3)
 val f2 = $list(0, 3, 1)
-val f3 = $list(1, 2, 3)
+val f3 = $list(1, 3, 2)
 val faces = $list(f0, f1, f2, f3)
 //
 in

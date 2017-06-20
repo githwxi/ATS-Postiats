@@ -880,7 +880,7 @@ case+ !xs0 of
 | stream_cons
     (x0, xs1) =>
   (
-    case+ !ys of
+    case+ !ys0 of
     | stream_nil() =>
       stream_cons(x0, xs1)
     | stream_cons(y0, ys1) => let
@@ -917,15 +917,13 @@ auxmain
 ) :<!laz> stream(a) = $delay
 (
 case+ !xs0 of
-| stream_nil
-    () => !(ys0)
-  // stream_nil
-| stream_cons
-    (x0, xs1) =>
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x0, xs1) =>
   (
-    case+ !ys of
+    case+ !ys0 of
     | stream_nil() =>
-      stream_cons(x0, xs1)
+      stream_nil()
     | stream_cons(y0, ys1) => let
         val sgn =
         stream_inter$cmp<a>(x0, y0)
@@ -959,13 +957,11 @@ auxmain
 ) :<!laz> stream(a) = $delay
 (
 case+ !xs0 of
-| stream_nil
-    () => !(ys0)
-  // stream_nil
-| stream_cons
-    (x0, xs1) =>
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x0, xs1) =>
   (
-    case+ !ys of
+    case+ !ys0 of
     | stream_nil() =>
       stream_cons(x0, xs1)
     | stream_cons(y0, ys1) => let
@@ -1008,7 +1004,7 @@ case+ !xs0 of
 | stream_cons
     (x0, xs1) =>
   (
-    case+ !ys of
+    case+ !ys0 of
     | stream_nil() =>
       stream_cons(x0, xs1)
     | stream_cons(y0, ys1) => let
