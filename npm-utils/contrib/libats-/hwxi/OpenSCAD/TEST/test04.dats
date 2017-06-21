@@ -70,6 +70,10 @@ mid
 //
 (* ****** ****** *)
 
+(*
+//
+// HX: it is in OpenSCAD_meta
+//
 fun
 scadobj_sphere_at
 (
@@ -79,6 +83,7 @@ scadobj_sphere_at
 in
   scadobj_tfmapp(scadtfm_translate(x, y, z), scadobj_sphere(r))
 end // end of [scadobj_sphere_at]
+*)
 
 (* ****** ****** *)
 
@@ -146,7 +151,7 @@ generated from [test04.dats]
 ")
 val () =
 fprint!
-(out, "$fa=1.0; $fs=1.0;\n\n")
+(out, "$fa=0.2; $fs=0.2;\n\n")
 //
 val () =
 scadobj_femit(out, 0(*nsp*), obj)

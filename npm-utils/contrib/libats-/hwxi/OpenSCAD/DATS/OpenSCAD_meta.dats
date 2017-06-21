@@ -394,6 +394,18 @@ in
 end // end of [scadobj_sphere_float1]
 
 (* ****** ****** *)
+//
+implement
+scadobj_sphere_at
+(
+  cntr, rad
+) : scadobj = let
+  val+POINT3(x, y, z) = cntr
+in
+  scadobj_tfmapp(scadtfm_translate(x, y, z), scadobj_sphere(rad))
+end // end of [scadobj_sphere_at]
+//      
+(* ****** ****** *)
 
 implement
 scadobj_cylinder1_int2

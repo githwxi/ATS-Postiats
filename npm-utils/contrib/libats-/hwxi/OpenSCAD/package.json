@@ -2,7 +2,7 @@
 "name":
 "atscntrb-hx-openscad"
 ,
-"version": "1.0.1"
+"version": "1.0.2"
 ,
 "description":
 "This package is for supporing in ATS a form of meta-programming for OpenSCAD"

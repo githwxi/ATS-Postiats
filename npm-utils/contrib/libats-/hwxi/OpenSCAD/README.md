@@ -2,7 +2,7 @@
 
 ## Project Description
 
-This package was orginally implemented for teaching CS320
+This package was orginally implemented for teaching BUCS320
 during the summer of 2017. It demonstrates a functional style
 of meta-programming in ATS for generating code that creates
 models in OpenSCAD. Please see the examples in the TEST directory

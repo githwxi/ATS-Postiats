@@ -173,6 +173,12 @@ scadobj_sphere with scadobj_sphere_float1
 (* ****** ****** *)
 //
 fun
+scadobj_sphere_at
+  (center: point3, radius: double): scadobj
+//
+(* ****** ****** *)
+//
+fun
 scadobj_cylinder1_int2
   (h: int, r: int): scadobj
 fun
