@@ -31,7 +31,7 @@
 (* ****** ****** *)
 (*
 //
-// HX-2047-05-17:
+// HX-2017-05-17:
 // For testing externally
 //
 #include
@@ -131,10 +131,10 @@ main0() = () where
 {
 //
 val a = 60.0
-val p0 = point3(a, 0.0, 0.0)
-val p1 = point3(~a/2, ~a*sqrt(3.0)/2, 0.0)
-val p2 = point3(~a/2,  a*sqrt(3.0)/2, 0.0)
-val p3 = point3(0.0, 0.0, a*sqrt(2.0))
+val p0 = point3( 0.0,            0.0, a*sqrt(2.0))
+val p1 = point3(   a,            0.0,         0.0)
+val p2 = point3(~a/2, ~a*sqrt(3.0)/2,         0.0)
+val p3 = point3(~a/2,  a*sqrt(3.0)/2,         0.0)
 //
 val out = stdout_ref
 //

@@ -384,4 +384,12 @@ p0: point3, p1: point3, p2: point3, p3: point3
 
 (* ****** ****** *)
 
+fun
+scadobj_square_pyramid
+(
+p0: point3, p1: point3, p2: point3, p3: point3, p4: point3
+) : scadobj // end-of-function
+
+(* ****** ****** *)
+
 (* end of [OpenSCAD_meta.sats] *)

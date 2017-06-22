@@ -18,6 +18,12 @@ UN =
 (* ****** ****** *)
 //
 #staload
+MATH =
+"libats/libc/SATS/math.sats"
+//
+(* ****** ****** *)
+//
+#staload
 "./../SATS/OpenSCAD.sats"
 #staload
 "./../SATS/OpenSCAD_util.sats"
@@ -72,6 +78,54 @@ point2vector_3d(p3d) = $UN.cast(p3d)
 implement
 vector2point_3d(v3d) = $UN.cast(v3d)
 //
+(* ****** ****** *)
+
+macdef sqrt = $MATH.sqrt_double
+
+(* ****** ****** *)
+//
+implement
+length_v2d(v2d) = let
+  val+VECTOR2(x, y) = v2d in sqrt(x*x+y*y)
+end // end of [length_v2d]
+//
+implement
+length_v3d(v3d) = let
+  val+VECTOR3(x, y, z) = v3d in sqrt(x*x+y*y+z*z)
+end // end of [length_v3d]
+//
+(* ****** ****** *)
+
+implement
+distance_p2d_p2d
+  (p1, p2) = let
+//
+val+POINT2(x1, y1) = p1
+val+POINT2(x2, y2) = p2
+//
+val x12 = x2 - x1 and y12 = y2 - y1
+//
+in
+  sqrt(x12*x12 + y12*y12)
+end // end of [distance_p2d_p2d]
+
+(* ****** ****** *)
+
+implement
+distance_p3d_p3d
+  (p1, p2) = let
+//
+val+POINT3(x1, y1, z1) = p1
+val+POINT3(x2, y2, z2) = p2
+//
+val x12 = x2 - x1
+and y12 = y2 - y1
+and z12 = z2 - z1
+//
+in
+  sqrt(x12*x12 + y12*y12 + z12*z12)
+end // end of [distance_p3d_p3d]
+
 (* ****** ****** *)
 
 implement

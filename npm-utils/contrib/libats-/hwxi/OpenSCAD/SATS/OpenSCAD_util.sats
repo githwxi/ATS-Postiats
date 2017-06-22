@@ -38,12 +38,51 @@ vector2point_3d(vector3): p3d
 //
 (* ****** ****** *)
 //
+overload
+p2v2d with point2vector_2d
+overload
+v2p2d with vector2point_2d
+//
+overload
+p2v3d with point2vector_3d
+overload
+v2p3d with vector2point_3d
+//
+(* ****** ****** *)
+//
 fun
-add_p3d_v3d : (p3d, v3d) -> p3d
+length_v2d(vector2): double
 fun
-sub_p3d_v3d : (p3d, v3d) -> p3d
+length_v3d(vector3): double
+//
+overload length with length_v2d
+overload length with length_v3d
+//
+(* ****** ****** *)
+//
 fun
-sub_p3d_p3d : (p3d, p3d) -> v3d
+distance_p2d_p2d
+  (point2, point2): double
+fun
+distance_p3d_p3d
+  (point3, point3): double
+//
+overload
+distance with distance_p2d_p2d
+overload
+distance with distance_p3d_p3d
+//
+(* ****** ****** *)
+//
+fun
+add_p3d_v3d
+  : (p3d, v3d) -> p3d
+fun
+sub_p3d_v3d
+  : (p3d, v3d) -> p3d
+fun
+sub_p3d_p3d
+  : (p3d, p3d) -> v3d
 //
 overload + with add_p3d_v3d
 overload - with sub_p3d_v3d
@@ -52,9 +91,11 @@ overload - with sub_p3d_p3d
 (* ****** ****** *)
 //
 fun
-add_v3d_v3d : (v3d, v3d) -> v3d
+add_v3d_v3d
+  : (v3d, v3d) -> v3d
 fun
-sub_v3d_v3d : (v3d, v3d) -> v3d
+sub_v3d_v3d
+  : (v3d, v3d) -> v3d
 //
 overload + with add_v3d_v3d
 overload - with sub_v3d_v3d

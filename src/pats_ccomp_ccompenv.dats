@@ -1347,14 +1347,16 @@ auxfind_lst
 in
 //
 case+ fls of
+//
+| list_nil() => ~1
+//
 | list_cons
     (fl, fls) => let
-    val s = funlab_get_stamp (fl)
-    val iseq = $STMP.eq_stamp_stamp (s0, s)
+    val s = funlab_get_stamp(fl)
+    val iseq = $STMP.eq_stamp_stamp(s0, s)
   in
-    if iseq then i else auxfind_lst (s0, fls, i+1)
+    if iseq then i else auxfind_lst(s0, fls, i+1)
   end // end of [list_cons]
-| list_nil ((*void*)) => ~1
 //
 end // end of [auxfind_lst]
 
@@ -1374,19 +1376,20 @@ println! ("auxfind2: d2c0 = ", d2c0)
 in
 //
 case+ tci of
-| TCIfun (fl) => let
+| TCIfun(fl) => let
     val opt =
       funlab_get_d2copt (fl)
     // end of [val]
     prval ((*void*)) = fold@ (tci)
   in
     case+ opt of
-    | Some (d2c) => let
-        val iseq = eq_d2cst_d2cst (d2c0, d2c)
+    | Some(d2c) => let
+        val
+        iseq = eq_d2cst_d2cst(d2c0, d2c)
       in
         if iseq then Some_vt(fl) else None_vt()
       end // end of [Some]
-    | None ((*void*)) => None_vt((*void*))
+    | None((*void*)) => None_vt((*void*))
   end // end of [TCIfun]
 //
 | TCIfnx _ => (fold@(tci); None_vt ()) // TCIfnx
@@ -1410,17 +1413,18 @@ in
 case+ tci of
 | TCIfun(fl) => let
     val opt =
-      funlab_get_d2vopt (fl)
+      funlab_get_d2vopt(fl)
     // end of [val]
-    prval ((*void*)) = fold@ (tci)
+    prval ((*void*)) = fold@(tci)
   in
     case+ opt of
-    | Some (d2v) => let
-        val iseq = eq_d2var_d2var (d2v0, d2v)
+    | Some(d2v) => let
+        val
+        iseq = eq_d2var_d2var(d2v0, d2v)
       in
         if iseq then Some_vt(fl) else None_vt()
       end // end of [Some]
-    | None ((*void*)) => None_vt()
+    | None((*void*)) => None_vt()
   end // end of [TCIfun]
 //
 | TCIfnx(!p_fls) => let

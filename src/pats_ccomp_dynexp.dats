@@ -1278,7 +1278,7 @@ var added: int = 0
 //
 val
 tlcalopt =
-  $GLOBAL.the_CCOMPATS_tlcalopt_get()
+$GLOBAL.the_CCOMPATS_tlcalopt_get()
 //
 val isret =
 (
@@ -1413,13 +1413,13 @@ println!
 *)
 //
 val () =
-if added > 0 then tmpvar_inc_tailcal (tmpret)
+if added > 0 then tmpvar_inc_tailcal(tmpret)
 //
 val () =
 if added = 0 then let
-  val ins = instr_fcall (loc0, tmpret, pmv_fun, hse_fun, pmvs_arg)
+  val ins = instr_fcall(loc0, tmpret, pmv_fun, hse_fun, pmvs_arg)
 in
-  instrseq_add (res, ins)
+  instrseq_add(res, ins)
 end // end of [then] // end of [if]
 //
 in

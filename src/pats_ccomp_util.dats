@@ -201,7 +201,9 @@ end // end of [tmpsub_append]
 #if(0)
 
 extern
-fun tailcalck (
+fun
+tailcalck
+(
   env: !ccompenv
 , tmpret: tmpvar, pmv: primval, ntl0: &int? >> int
 ) : funlabopt_vt // end of [tailcalck]
@@ -218,7 +220,8 @@ in
 if isret then
 (
 case+
-  pmv.primval_node of
+pmv.primval_node
+of (* case+ *)
 | PMVcst (d2c) => let
     val () = ntl0 := 0
   in

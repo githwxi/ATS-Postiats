@@ -882,4 +882,24 @@ end // end of [scadobj_tetrahedron]
 
 (* ****** ****** *)
 
+implement
+scadobj_square_pyramid
+  (p0, p1, p2, p3, p4) = let
+//
+val pts =
+$list{point3}(p0, p1, p2, p3, p4)
+//
+val f0 = $list(0, 1, 2)
+val f1 = $list(0, 2, 3)
+val f2 = $list(0, 3, 4)
+val f3 = $list(0, 4, 1)
+val f4 = $list(1, 4, 3, 2)
+val faces = $list(f0, f1, f2, f3, f4)
+//
+in
+  scadobj_polyhedron(pts, faces, 2(*N*))
+end // end of [scadobj_square_pyramid]
+
+(* ****** ****** *)
+
 (* end of [OpenSCAD_meta.dats] *)

@@ -192,11 +192,11 @@ a:t0p}{b:t0p
 fun{
 a:t0p}{b:t0p
 } stream_map_fun
-  (xs: stream(INV(a)), f: (a) -<fun> b):<!laz> stream(b)
+  (xs: stream(INV(a)), fopr: (a) -<fun> b):<!laz> stream(b)
 fun{
 a:t0p}{b:t0p
 } stream_map_cloref
-  (xs: stream(INV(a)), f: (a) -<cloref> b):<!laz> stream(b)
+  (xs: stream(INV(a)), fopr: (a) -<cloref> b):<!laz> stream(b)
 //
 #atscode_separator()
 //
@@ -213,13 +213,13 @@ fun{
 a:t0p}{b:t0p
 } stream_imap_fun
 (
-  xs: stream(INV(a)), f: (intGte(0), a) -<fun> b
+  xs: stream(INV(a)), fopr: (intGte(0), a) -<fun> b
 ) :<!laz> stream(b) // end-of-fun
 fun{
 a:t0p}{b:t0p
 } stream_imap_cloref
 (
-  xs: stream(INV(a)), f: (intGte(0), a) -<cloref> b
+  xs: stream(INV(a)), fopr: (intGte(0), a) -<cloref> b
 ) :<!laz> stream(b) // end-of-fun
 //
 #atscode_separator()
@@ -240,14 +240,14 @@ a1,a2:t0p}{b:t0p
 } stream_map2_fun
 (
   xs1: stream(INV(a1))
-, xs2: stream(INV(a2)), f: (a1, a2) -<fun> b
+, xs2: stream(INV(a2)), fopr: (a1, a2) -<fun> b
 ) :<!laz> stream(b) // end-of-fun
 fun{
 a1,a2:t0p}{b:t0p
 } stream_map2_cloref
 (
   xs1: stream(INV(a1))
-, xs2: stream(INV(a2)), f: (a1, a2) -<cloref> b
+, xs2: stream(INV(a2)), fopr: (a1, a2) -<cloref> b
 ) :<!laz> stream(b) // end-of-fun
 //
 #atscode_separator()
