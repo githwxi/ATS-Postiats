@@ -49,7 +49,9 @@ Here is a list of major additions and changes since the last release:
    This style of compilation can be used for the purpose of producing a
    single target containing all of the output generated from compiling a
    list of ATS source files.
-
+5. Disabling tail-call optimization temporarily when try-expression (in
+   trywith-expression) is compiled
+  
 ######
 
 0.3.5

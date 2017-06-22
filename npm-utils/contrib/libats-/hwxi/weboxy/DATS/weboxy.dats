@@ -49,6 +49,7 @@ UN = "prelude/SATS/unsafe.sats"
 #define CHILDREN "children"
 //
 #define CONTENT "content"
+#define FCONTENT "fcontent"
 //
 #define PCENTLST "pcentlst"
 #define TABSTYLE "tabstyle"
@@ -95,11 +96,21 @@ overload .isvbox with tabstyle_isvbox
 (* ****** ****** *)
 //
 datatype gval =
+//
   | GVnil of ()
+//
   | GVint of (int)
   | GVfloat of (double)
   | GVstring of (string)
+//
+  | GVthunk of (() -<cloref1> void)
+//
   | {a:type} GVboxed of (a)
+//
+(* ****** ****** *)
+//
+typedef
+gvthunk = () -<cloref1> void
 //
 typedef gvalopt = Option(gval)
 vtypedef gvalopt_vt = Option_vt(gval)
@@ -351,6 +362,18 @@ webox_set_content (webox, content: string): void
 //
 overload .content with webox_get_content
 overload .content with webox_set_content
+//
+(* ****** ****** *)
+//
+extern
+fun
+webox_get_fcontent (webox): gvthunk
+extern
+fun
+webox_set_fcontent (webox, fcontent: gvthunk): void
+//
+overload .fcontent with webox_get_fcontent
+overload .fcontent with webox_set_fcontent
 //
 (* ****** ****** *)
 
@@ -831,6 +854,33 @@ webox_set_content
   (wbx, c0) =
 (
 webox_insert_any(wbx, CONTENT, GVstring(c0))
+)
+//
+(* ****** ****** *)
+
+implement
+webox_get_fcontent
+  (wbx) = let
+//
+val
+opt = webox_search(wbx, FCONTENT)
+//
+in
+//
+case+ opt of
+| ~Some_vt(gv) =>
+  let val-GVthunk(f0) = gv in f0 end
+| ~None_vt((*void*)) => (lam() => ())
+//
+end // end of [webox_get_fcontent]
+
+(* ****** ****** *)
+//
+implement
+webox_set_fcontent
+  (wbx, f0) =
+(
+webox_insert_any(wbx, FCONTENT, GVthunk(f0))
 )
 //
 (* ****** ****** *)
