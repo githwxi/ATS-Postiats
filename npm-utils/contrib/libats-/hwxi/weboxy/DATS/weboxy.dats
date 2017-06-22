@@ -1222,19 +1222,38 @@ val () = (
 if
 isneqz(wbxs)
 then let
-  val ts = wbx0.tabstyle()
-  val pcs = webox_get_pcentlst(wbx0)
+//
+  val
+  ts = wbx0.tabstyle()
+  val
+  pcs = webox_get_pcentlst(wbx0)
+//
+  val () = gprint(wbx0.content())
+//
 in
-  gprint (wbx0.content());
-  gprint_weboxlst_html (ts, pcs, wbxs)
+  gprint_weboxlst_html(ts, pcs, wbxs)
 end // end of [then]
 else let
+//
   val msg = wbx0.content()
+//
+  val opt =
+    webox_search(wbx0, FCONTENT)
+//
+  val ((*void*)) =
+    (if isneqz(msg) then gprint(msg))
+//
 in
-  if isneqz(msg)
-    then gprint (msg)
-    else gprint! ("[", name , "]\n")
-  // end of [if]
+  case+ opt of
+  | ~None_vt() =>
+    (
+      gprint! ("[", name , "]\n")
+    )
+  | ~Some_vt(gv) =>
+    (
+      let val-GVthunk(f0) = gv in f0() end
+    )
+  // end of [case]
 end // end of [else]
 //
 ) : void // end of [val]
