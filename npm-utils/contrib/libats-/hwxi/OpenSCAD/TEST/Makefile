@@ -72,7 +72,7 @@ test04
 test04: \
 test04.dats ; \
 $(PATSCC) \
--DATS_MEMALLOC_LIBC -o $@ $< -latslib
+-DATS_MEMALLOC_LIBC -o $@ $< -latslib -lm
 #
 regress:: test04; ./$<
 cleanall:: ; $(RMF) test04

@@ -1235,19 +1235,24 @@ in
 end // end of [then]
 else let
 //
-  val msg = wbx0.content()
+  val msg =
+    wbx0.content((*void*))
 //
   val opt =
     webox_search(wbx0, FCONTENT)
 //
+  val isnil = iseqz(msg)
   val ((*void*)) =
-    (if isneqz(msg) then gprint(msg))
+    (if isnil then () else gprint(msg))
+  // end of [val]
 //
 in
   case+ opt of
   | ~None_vt() =>
     (
-      gprint! ("[", name , "]\n")
+      if isnil
+        then gprint! ("[", name , "]\n")
+      // end of [val]
     )
   | ~Some_vt(gv) =>
     (

@@ -113,11 +113,11 @@ end // end of [then]
 else let
 //
   val b1 =
-  scadobj_sphere_at(p1, 1.0)
+  scadobj_sphere_at(p1, 2.0)
   val b2 =
-  scadobj_sphere_at(p2, 1.0)
+  scadobj_sphere_at(p2, 2.0)
   val b3 =
-  scadobj_sphere_at(p3, 1.0)
+  scadobj_sphere_at(p3, 2.0)
 //
 in
   scadobj_tetrahedron(p0, p1, p2, p3) \cup (b1 \cup (b2 \cup b3))
@@ -151,7 +151,7 @@ generated from [test04.dats]
 ")
 val () =
 fprint!
-(out, "$fa=0.2; $fs=0.2;\n\n")
+(out, "$fa=0.5; $fs=0.5;\n\n")
 //
 val () =
 scadobj_femit(out, 0(*nsp*), obj)
