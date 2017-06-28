@@ -33,7 +33,7 @@ Here is a list of major additions and changes since the last release:
    This support can be useful for distributing C code generated from ATS
    source. For instance, a file of C code generated as such can serve as
    a script of some sort.
-4. Adding support for -dd/--dynamics, which compiles a list given files
+4. Adding support for -dd/--dynamics, which compiles a list of given files
    in a combined manner.
    For instance, the following command-line:
 //
@@ -51,7 +51,11 @@ Here is a list of major additions and changes since the last release:
    list of ATS source files.
 5. Disabling tail-call optimization temporarily when try-expression (in
    trywith-expression) is compiled
-6. Mandating that an else-clause be present in any ifcase-expression
+6. Mandating that an else-clause be present in any ifcase-expression:
+   ifcase
+   | test1 => ...
+   | test2 => ...
+   | _(*else*) => ... // this is the else-clause here
 
 ######
 
