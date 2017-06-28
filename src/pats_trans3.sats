@@ -187,8 +187,11 @@ datatype trans3err =
   | T3E_effenv_check_set of (loc_t, $EFF.effset) // disallowed effects
   | T3E_effenv_check_sexp of (loc_t, s2exp(*S2Eeff*)) // disallowed effects
 //
+  | T3E_d2exp_trdn_ifcasehd of (d2exp)
+//
   | T3E_guard_trdn of
       (loc_t, bool(*gval*), s2exp(*gtyp*))
+    // T3E_guard_trdn
   | T3E_c2lau_trdn_arity of (c2lau, s2explst)
   | T3E_c2laulst0_trdn_noclause of (loc_t)
   | T3E_c2laulst2_trdn_redundant of (loc_t, c2lau)

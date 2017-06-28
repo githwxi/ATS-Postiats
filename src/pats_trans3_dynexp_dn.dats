@@ -450,13 +450,20 @@ case+ s2e0.s2exp_node of
     val err =
       $SOL.linearity_equal_solve (loc0, lin, lin1)
     // end of [val]
-    val () = if err != 0 then  {
+    val () =
+    if (err != 0) then {
 (*
-      val () = prerr_error3_loc (loc0)
-      val () = prerr ": linarity mismatch"
-      val () = if lin > lin1 then
+      val () =
+        prerr_error3_loc (loc0)
+      // end of [val]
+      val () =
+        prerr ": linarity mismatch"
+      // end of [val]
+      val () =
+      if lin > lin1 then
         prerr ": the linear function is assigned a nonlinear function type."
-      val () = if lin < lin1 then
+      val () =
+      if lin < lin1 then
         prerr ": the nonlinear function is assigned a linear function type."
       val () = prerr_newline ()
 *)
@@ -506,12 +513,12 @@ case+ s2e0.s2exp_node of
     val p3ts_arg =
       p2atlst_trdn_arg (loc0, npf, p2ts_arg, s2es_arg, serr)
     // end of [val]
-    val () = if (serr != 0) then let
+    val () =
+    if (serr != 0) then let
       val () = prerr_error3_loc (loc0)
       val () = prerr ": dynamic arity mismatch"
-      val () = if serr < 0 then prerr ": more arguments are expected."
-      val () = if serr > 0 then prerr ": fewer arguments are expected."
-      val () = prerr_newline ()
+      val () = if serr < 0 then prerrln! ": more arguments are expected."
+      val () = if serr > 0 then prerrln! ": fewer arguments are expected."
     in
       the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
     end // end of [if] // end of [val]
@@ -740,7 +747,7 @@ val () = lstaftc3nstr_finalize (lsaft)
 val ((*void*)) = i2nvresstate_update (loc0, invres)
 //
 in
-  d3exp_sif (loc0, s2e0, s2p_cond, d3e_then, d3e_else)
+  d3exp_sif(loc0, s2e0, s2p_cond, d3e_then, d3e_else)
 end // end of [d2exp_trdn_sifhead]
 
 (* ****** ****** *)
@@ -902,15 +909,19 @@ println!
 ) (* println! *)
 *)
 //
-val loc0 = d2e0.d2exp_loc
-val-D2Eifcasehd
-  (knd, invres, ifcls) = d2e0.d2exp_node
+val
+loc0 = d2e0.d2exp_loc
+//
+val-
+D2Eifcasehd
+(knd, invres, ifcls) = d2e0.d2exp_node
 //
 val s2e0 = s2hnf2exp(s2f_if)
 //
 val lsbis =
-  the_d2varenv_save_lstbefitmlst ()
-var lsaft = lstaftc3nstr_initize (lsbis)
+  the_d2varenv_save_lstbefitmlst()
+//
+var lsaft = lstaftc3nstr_initize(lsbis)
 //
 val ifcls =
 (
@@ -933,10 +944,31 @@ ifcls of
 ) : i3fclist // end of [val]
 //
 val ((*void*)) =
-  lstaftc3nstr_process (lsaft, invres)
+lstaftc3nstr_process(lsaft, invres)
 //
-val () = lstaftc3nstr_finalize (lsaft)
-val ((*void*)) = i2nvresstate_update (loc0, invres)
+val ((*void*)) =
+  lstaftc3nstr_finalize(lsaft)
+val ((*void*)) =
+  i2nvresstate_update(loc0, invres)
+//
+val () =
+if
+(knd = 0)
+then {
+//
+val () =
+prerr_error3_loc (loc0)
+//
+val () =
+prerrln!
+(
+": else-clause is missing in the ifcase-expression"
+) (* println! *)
+//
+val () =
+  the_trans3errlst_add(T3E_d2exp_trdn_ifcasehd(d2e0))
+//
+} (* end of [if] *) // end of [val]
 //
 in
   d3exp_ifcase(loc0, s2e0, knd, ifcls)
@@ -998,23 +1030,29 @@ end // end of [d2exp_trdn_top]
 
 local
 
-fun auxerrlen
+fun
+auxerrlen
 (
   loc0: loc_t, serr: int
 ) : void = () where {
 //
 val () =
-  prerr_error3_loc (loc0)
-val () = if serr < 0 then prerr ": more record field expected."
-val () = if serr > 0 then prerr ": fewer record field expected."
-val () = prerr_newline ()
+prerr_error3_loc(loc0)
+//
+val () =
+if serr < 0 then prerrln! ": more record field expected."
+val () =
+if serr > 0 then prerrln! ": fewer record field expected."
 //
 } // end if [auxerrlen]
 
 (* ****** ****** *)
 
-fun auxtup (
-  d2es: d2explst, ls2es: labs2explst, serr: &int
+fun
+auxtup
+(
+  d2es: d2explst
+, ls2es: labs2explst, serr: &int
 ) : d3explst = let
 in
 //
@@ -1023,61 +1061,80 @@ case+ d2es of
     (d2e, d2es) => let
   in
     case+ ls2es of
+    | list_nil() => let
+        val () =
+          serr := serr+1 in list_nil()
+        // end of [val]
+      end // end of [list_nil]
     | list_cons
         (ls2e, ls2es) => let
-        val+SLABELED (l, name, s2e) = ls2e
-        val d3e = d2exp_trdn (d2e, s2e)
-        val d3es = auxtup (d2es, ls2es, serr)
+        val+
+        SLABELED
+          (l, name, s2e) = ls2e
+        // end of [val]
+        val d3e = d2exp_trdn(d2e, s2e)
+        val d3es = auxtup(d2es, ls2es, serr)
       in
         list_cons (d3e, d3es)
       end // end of [list_cons]
-    | list_nil () => let
-        val () = serr := serr+1 in list_nil ()
-      end // end of [list_nil]
   end // end of [list_cons]
-| list_nil () => let
+| list_nil
+    ((*void*)) => let
   in
     case+ ls2es of
+    | list_nil() => list_nil()
     | list_cons _ => let
-        val () = serr := serr-1 in list_nil ()
+        val () = serr := serr-1 in list_nil()
       end // end of [list_cons]
-    | list_nil () => list_nil ()
   end // end of [list_nil]
 //
 end // end of [auxtup]
 
-fun auxrec (
-  ld2es: labd2explst, ls2es: labs2explst, serr: &int
+fun
+auxrec
+(
+  ld2es: labd2explst
+, ls2es: labs2explst, serr: &int
 ) : labd3explst = let
 in
 //
 case+ ld2es of
+| list_nil
+    ((*void*)) => let
+  in
+    case+ ls2es of
+    | list_nil
+        ((*void*)) => list_nil()
+      // list_nil
+    | list_cons _ => let
+        val () =
+          serr := serr-1 in list_nil()
+        // end of [val]
+      end // end of [list_cons]
+  end // end of [list_nil]
 | list_cons
     (ld2e, ld2es) => let
-    val $SYN.DL0ABELED (l0, d2e) = ld2e
+    val $SYN.DL0ABELED(l0, d2e) = ld2e
   in
     case+ ls2es of
+    | list_nil() => let
+        val () =
+          serr := serr+1 in list_nil()
+        // end of [val]
+      end // end of [list_nil]
     | list_cons
         (ls2e, ls2es) => let
-        val+SLABELED (_, name, s2e) = ls2e
-        val d3e = d2exp_trdn (d2e, s2e)
-        val ld3e = $SYN.DL0ABELED (l0, d3e)
-        val ld3es = auxrec (ld2es, ls2es, serr)
+        val+
+        SLABELED
+          (_, name, s2e) = ls2e
+        // end of [val]
+        val d3e = d2exp_trdn(d2e, s2e)
+        val ld3e = $SYN.DL0ABELED(l0, d3e)
+        val ld3es = auxrec(ld2es, ls2es, serr)
       in
-        list_cons (ld3e, ld3es)
+        list_cons(ld3e, ld3es)
       end // end of [list_cons]
-    | list_nil () => let
-        val () = serr := serr+1 in list_nil ()
-      end // end of [list_nil]
   end // end of [list_cons]
-| list_nil () => let
-  in
-    case+ ls2es of
-    | list_cons _ => let
-        val () = serr := serr-1 in list_nil ()
-      end // end of [list_cons]
-    | list_nil () => list_nil ()
-  end // end of [list_nil]
 //
 end // end of [auxrec]
 

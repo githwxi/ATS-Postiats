@@ -51,7 +51,8 @@ Here is a list of major additions and changes since the last release:
    list of ATS source files.
 5. Disabling tail-call optimization temporarily when try-expression (in
    trywith-expression) is compiled
-  
+6. Mandating that an else-clause be present in any ifcase-expression
+
 ######
 
 0.3.5

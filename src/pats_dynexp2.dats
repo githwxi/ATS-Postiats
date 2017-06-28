@@ -597,26 +597,27 @@ i2fclist_is_else
   (ifcls: i2fclist): bool = let
 //
 fun
-aux
+loop
 (
   x: i2fcl, xs: i2fclist
 ) : bool =
   case+ xs of
   | list_nil() => i2fcl_is_else(x)
-  | list_cons(x, xs) => aux(x, xs)
+  | list_cons(x, xs) => loop(x, xs)
 //
 in
 //
 case+ ifcls of
 | list_nil() => true
-| list_cons(x, xs) => aux(x, xs)
+| list_cons(x, xs) => loop(x, xs)
 //
 end // end of [i2fclist_is_else]
 
 in (* in-of-local *)
 
 implement
-d2exp_ifcasehd (
+d2exp_ifcasehd
+(
   loc, r2es, ifcls
 ) = let
 //
@@ -641,75 +642,95 @@ end // end of [d2exp_ifcasehd]
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 implement
-d2exp_casehead (
+d2exp_casehead
+(
   loc, knd, inv, d2es, c2ls
-) = d2exp_make_node (
-  loc, D2Ecasehead (knd, inv, d2es, c2ls)
+) = d2exp_make_node
+(
+  loc
+, D2Ecasehead (knd, inv, d2es, c2ls)
 ) // end of [d2exp_casehead]
-
+//
 implement
-d2exp_scasehead (
-  loc, inv, s2f, sc2ls
-) = d2exp_make_node(loc, D2Escasehead (inv, s2f, sc2ls))
-
+d2exp_scasehead
+  (loc, inv, s2f, sc2ls) =
+(
+d2exp_make_node
+  (loc, D2Escasehead(inv, s2f, sc2ls))
+)
+//
 (* ****** ****** *)
 //
 implement
-d2exp_sing (loc, d2e) =
+d2exp_sing(loc, d2e) =
   d2exp_make_node (loc, D2Esing(d2e))
 //
 implement
-d2exp_list (loc, npf, d2es) =
-  d2exp_make_node (loc, D2Elist(npf, d2es))
+d2exp_list(loc, npf, d2es) =
+  d2exp_make_node(loc, D2Elist(npf, d2es))
 //
 (* ****** ****** *)
 
 implement
-d2exp_lst (loc, lin, elt, d2es) =
-  d2exp_make_node (loc, D2Elst (lin, elt, d2es))
+d2exp_lst
+  (loc, lin, elt, d2es) =
+  d2exp_make_node(loc, D2Elst (lin, elt, d2es))
 // end of [d2exp_lst]
 
+(* ****** ****** *)
+//
 implement
-d2exp_tup (
+d2exp_tup
+(
   loc, knd, npf, d2es
-) = (
-  d2exp_make_node (loc, D2Etup (knd, npf, d2es))
-) // end of [d2exp_tup]
-
+) =
+(
+d2exp_make_node
+  (loc, D2Etup (knd, npf, d2es))
+)
+//
 implement
-d2exp_tup_flt (
-  loc, npf, d2es
-) = (
-  d2exp_tup (loc, TYTUPKIND_flt(*knd*), npf, d2es)
-) // end of [d2exp_tup_flt]
-
+d2exp_tup_flt
+  (loc, npf, d2es) =
+(
+d2exp_tup
+  (loc, TYTUPKIND_flt(*knd*), npf, d2es)
+)
+//
+(* ****** ****** *)
+//
 implement
-d2exp_rec (loc, knd, npf, ld2es) =
-  d2exp_make_node (loc, D2Erec (knd, npf, ld2es))
-// end of [d2exp_rec]
-
+d2exp_rec
+(
+  loc, knd, npf, ld2es
+) =
+(
+  d2exp_make_node(loc, D2Erec(knd, npf, ld2es))
+)
+//
 (* ****** ****** *)
 
 implement
-d2exp_seq
-  (loc, d2es) = d2exp_make_node (loc, D2Eseq (d2es))
+d2exp_seq(loc, d2es) =
+  d2exp_make_node(loc, D2Eseq(d2es))
 // end of [d2exp_seq]
 
 implement
-d2exp_seq2
-  (loc, d2es) = let
-in
-  case+ d2es of
-  | list_cons
-      (d2e, d2es1) => (
-      case+ d2es1 of
-      | list_cons _ => d2exp_seq (loc, d2es)
-      | list_nil () => d2e
-    ) // end of [list_cons]
-  | list_nil () => d2exp_empty (loc)
-end // end of [d2exp_seq2]
+d2exp_seq2(loc, d2es) =
+(
+case+ d2es of
+| list_nil() =>
+  d2exp_empty(loc)
+| list_cons
+    (d2e, d2es1) =>
+  (
+    case+ d2es1 of
+    | list_nil() => d2e
+    | list_cons _ => d2exp_seq(loc, d2es)
+  ) // end of [list_cons]
+) (* end of [d2exp_seq2] *)
 
 (* ****** ****** *)
 
@@ -732,36 +753,52 @@ d2exp_xchng (
 // end of [d2exp_xchng]  
 
 (* ****** ****** *)
-
+//
 implement
-d2exp_arrsub (
+d2exp_arrsub
+(
   loc, d2s, arr, locind, ind
-) = d2exp_make_node (loc, D2Earrsub (d2s, arr, locind, ind))
-
+) =
+(
+d2exp_make_node
+  (loc, D2Earrsub (d2s, arr, locind, ind))
+)
+//
 implement
-d2exp_arrpsz (
+d2exp_arrpsz
+(
   loc, s2eopt_elt, d2es_ini
-) = d2exp_make_node (loc, D2Earrpsz (s2eopt_elt, d2es_ini))
-
+) =
+(
+d2exp_make_node
+  (loc, D2Earrpsz (s2eopt_elt, d2es_ini))
+)
+//
 implement
 d2exp_arrinit (
   loc, s2e_elt, asz, init
-) = d2exp_make_node (loc, D2Earrinit (s2e_elt, asz, init))
-
+) =
+(
+d2exp_make_node
+  (loc, D2Earrinit (s2e_elt, asz, init))
+)
+//
 (* ****** ****** *)
-
+//
 implement
-d2exp_ptrof (loc, d2e) = d2exp_make_node (loc, D2Eptrof (d2e))
-
+d2exp_ptrof(loc, d2e) =
+  d2exp_make_node (loc, D2Eptrof (d2e))
+//
 implement
-d2exp_viewat (loc, d2e) = d2exp_make_node (loc, D2Eviewat (d2e))
-
+d2exp_viewat(loc, d2e) =
+  d2exp_make_node (loc, D2Eviewat (d2e))
+//
 (* ****** ****** *)
 
 implement
 d2exp_selab
   (loc, d2e, d2ls) =
-  d2exp_make_node (loc, D2Eselab (d2e, d2ls))
+  d2exp_make_node(loc, D2Eselab (d2e, d2ls))
 // end of [d2exp_selab]
 
 implement
@@ -779,18 +816,18 @@ in
 end // end of [d2exp_sel_ptr]
 
 (* ****** ****** *)
-
+//
 implement
 d2exp_raise
   (loc, d2e) =
-  d2exp_make_node (loc, D2Eraise (d2e))
-
+  d2exp_make_node(loc, D2Eraise (d2e))
+//
 implement
 d2exp_effmask
   (loc, s2fe, d2e) =
-  d2exp_make_node (loc, D2Eeffmask (s2fe, d2e))
+  d2exp_make_node(loc, D2Eeffmask (s2fe, d2e))
 // end of [d2exp_effmask]
-
+//
 (* ****** ****** *)
 //
 implement
@@ -803,7 +840,7 @@ d2exp_showtype
 implement
 d2exp_vcopyenv
   (loc, knd, d2e) =
-  d2exp_make_node (loc, D2Evcopyenv (knd, d2e))
+  d2exp_make_node(loc, D2Evcopyenv (knd, d2e))
 // end of [d2exp_vcopyenv]
 
 (* ****** ****** *)
@@ -811,14 +848,14 @@ d2exp_vcopyenv
 implement
 d2exp_tempenver
   (loc, d2vs) =
-  d2exp_make_node (loc, D2Etempenver (d2vs))
+  d2exp_make_node(loc, D2Etempenver (d2vs))
 //
 (* ****** ****** *)
 
 implement
 d2exp_exist
   (loc, s2a, d2e) =
-  d2exp_make_node (loc, D2Eexist (s2a, d2e))
+  d2exp_make_node(loc, D2Eexist (s2a, d2e))
 // end of [d2exp_exist]
 
 (* ****** ****** *)

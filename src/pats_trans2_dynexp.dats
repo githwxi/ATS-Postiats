@@ -1691,22 +1691,29 @@ d1e0.d1exp_node of
   (
     r1es, _cond, _then, _else
   ) => let
-    val r2es = i1nvresstate_tr r1es
-    val _cond = d1exp_tr (_cond)
-    val _then = d1exp_tr (_then)
-    val _else = d1expopt_tr (_else)
+    val r2es =
+      i1nvresstate_tr(r1es)
+    // end of [val]
+    val _cond = d1exp_tr(_cond)
+    val _then = d1exp_tr(_then)
+    val _else = d1expopt_tr(_else)
   in
-    d2exp_ifhead (loc0, r2es, _cond, _then, _else)
+    d2exp_ifhead(loc0, r2es, _cond, _then, _else)
   end // end of [D1Eifhead]
 | D1Esifhead
   (
     r1es, _cond, _then, _else
   ) => let
-    val r2es = i1nvresstate_tr (r1es)
-    val _cond = s1exp_trdn_bool (_cond)
-    val _then = d1exp_tr (_then) and _else = d1exp_tr (_else)
+    val r2es =
+      i1nvresstate_tr(r1es)
+    // end of [val]
+    val _cond =
+      s1exp_trdn_bool(_cond)
+    // end of [val]
+    val _then = d1exp_tr(_then)
+    and _else = d1exp_tr(_else)
   in
-    d2exp_sifhead (loc0, r2es, _cond, _then, _else)
+    d2exp_sifhead(loc0, r2es, _cond, _then, _else)
   end // end of [D1Eifhead]
 //
 | D1Eifcasehd
@@ -1714,9 +1721,9 @@ d1e0.d1exp_node of
     val r2es =
       i1nvresstate_tr(r1es)
     // end of [val]
-    val ifcls = i1fclist_tr (ifcls)
+    val ifcls = i1fclist_tr(ifcls)
   in
-    d2exp_ifcasehd (loc0, r2es, ifcls)
+    d2exp_ifcasehd(loc0, r2es, ifcls)
   end // end of [D1Eifcasehd]
 //
 | D1Ecasehead
