@@ -683,7 +683,11 @@ atspackaging:: srcget_utils_emacs
 atspackaging:: srcget_utils_atscc
 atspackaging:: srcget_utils_myatscc
 #
+######
+#
 # atspackaging:: srcget_utils_libatsopt
+#
+######
 #
 atspackaging:: srcget_contrib_ats2cpp
 #
@@ -711,6 +715,31 @@ atspackaging:: srcget_contrib_libatscc2clj
 atspackaging:: srcget_doc_example
 #
 atspackaging:: srcget_npm_utils_contrib
+#
+######
+#
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/*_?ats.js
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/ML/*_?ats.js
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/Bacon.js/*_?ats.js
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/BUCS320/parcomb/*_?ats.js
+#
+atspackaging:: ; rm -rf ATS-Postiats/contrib/libatscc2py3/ATS2-0.3.2/output/__pycache__
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2py3/ATS2-0.3.2/output/DATS/*_?ats.py
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2py3/ATS2-0.3.2/output/DATS/ML/*_?ats.py
+#
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2php/ATS2-0.3.2/output/DATS/*_?ats.php
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2php/ATS2-0.3.2/output/DATS/ML/*_?ats.php
+#
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2scm/ATS2-0.3.2/output/DATS/*_?ats.scm
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2scm/ATS2-0.3.2/output/DATS/ML/*_?ats.scm
+#
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2clj/ATS2-0.3.2/output/DATS/*_?ats.clj
+atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2clj/ATS2-0.3.2/output/DATS/ML/*_?ats.clj
+#
+atspackaging:: ; $(RMF) ATS-Postiats/npm-utils/contrib/atscntrb-libsdl2/TEST/DATA/*.png
+atspackaging:: ; $(RMF) ATS-Postiats/npm-utils/contrib/atscntrb-libcairo/TEST/DATA/*.png
+#
+atspackaging:: ; $(RMF) ATS-Postiats/npm-utils/contrib/libats-/hwxi/OpenSCAD/TEST/output/*.stl
 #
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 #
@@ -779,8 +808,11 @@ srcget_ccomp_runtime:: SCRIPT/ccomp_runtime.bash ; bash $<
 srcget_utils_emacs:: SCRIPT/utils_emacs.bash ; bash $<
 srcget_utils_atscc:: SCRIPT/utils_atscc.bash ; bash $<
 srcget_utils_myatscc:: SCRIPT/utils_myatscc.bash ; bash $<
-srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
 
+######
+#
+# srcget_utils_libatsopt:: SCRIPT/utils_libatsopt.bash ; bash $<
+#
 ######
 
 srcget_contrib_ats2cpp:: SCRIPT/contrib_ats2cpp.bash ; bash $<

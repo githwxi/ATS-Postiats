@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.3.6</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.3.6:
+</H2>
+
+<pre>
+This is the 43rd release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Fixing a bug involving 'reassume': the bug is serious but the fix
+   is very minor.
+2. Improving utils/atexting by merging atexting_all with atexting_mylib
+   Many clients of atexting (e.g., atsccomp-compilers) have been updated
+   with respect to the changes maded to atexting.
+3. Adding support for compiling a static file followed by a dynamic file
+   into a single file consisting of the generated code:
+   patsopt -o foo_all.c -s foo.sats -d foo.dats; patscc -o foo foo_all.c
+   This support can be useful for distributing C code generated from ATS
+   source. For instance, a file of C code generated as such can serve as
+   a script of some sort.
+4. Adding support for -dd/--dynamics, which compiles a list given files
+   in a combined manner.
+   For instance, the following command-line:
+//
+   patsopt -dd foo.dats bar1.dats bar2.dats bar3.dats
+//
+   essentially compiles a program of the following structure:
+//
+   local (*nothing*) in #include "foo.dats" end
+   local #include "bar1.dats" in (*nothing*) end
+   local #include "bar2.dats" in (*nothing*) end
+   local #include "bar3.dats" in (*nothing*) end
+//
+   This style of compilation can be used for the purpose of producing a
+   single target containing all of the output generated from compiling a
+   list of ATS source files.
+5. Disabling tail-call optimization temporarily when try-expression (in
+   trywith-expression) is compiled
+6. Mandating that an else-clause be present in any ifcase-expression
+</pre>
+
+</body><!--body-->
+</html><!--html-->
