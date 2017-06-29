@@ -105,16 +105,6 @@ GLIB_targetloc "$PATSCONTRIB/contrib/glib"
 (* ****** ****** *)
 //
 #define
-SDL2_targetloc "$PATSCONTRIB/contrib/SDL2"
-//
-(* ****** ****** *)
-//
-#define
-CAIRO_targetloc "$PATSCONTRIB/contrib/cairo"
-//
-(* ****** ****** *)
-//
-#define
 HIREDIS_targetloc "$PATSCONTRIB/contrib/hiredis"
 //
 (* ****** ****** *)
@@ -143,6 +133,7 @@ ZLOG_targetloc "$PATSCONTRIB/contrib/zlog"
 ZEROMQ_targetloc "$PATSCONTRIB/contrib/zeromq"
 //
 (* ****** ****** *)
+(*
 //
 #define
 LIBATSCC2PL_targetloc
@@ -167,6 +158,7 @@ LIBATSCC2SCM_targetloc
 LIBATSCC2CLJ_targetloc
 "$PATSCONTRIB/contrib/libatscc/libatscc2clj"
 //
+*)
 (* ****** ****** *)
 //
 // HX-2014-05-12:

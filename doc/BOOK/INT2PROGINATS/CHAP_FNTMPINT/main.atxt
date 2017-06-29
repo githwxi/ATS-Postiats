@@ -346,13 +346,23 @@ presents a way to compute the true value of the factorial of 100:
 
 #dats2xhtml('\
 //
-staload _(*T*) =
-"{$LIBATSHWXI}/intinf/DATS/intinf_t.dats"
-staload _(*VT*) =
-"{$LIBATSHWXI}/intinf/DATS/intinf_vt.dats"
+\#define
+HX_INTINF_targetloc
+"$PATSHOME\
+/contrib/atscntrb-hx-intinf"
 //
-staload GINTINF =
-"{$LIBATSHWXI}/intinf/DATS/gintinf_t.dats"
+(* ****** ****** *)
+//
+staload _(*T*) =
+"{$HX_INTINF}/DATS/intinf_t.dats"
+staload _(*VT*) =
+"{$HX_INTINF}/DATS/intinf_vt.dats"
+//
+staload
+GINTINF =
+"{$HX_INTINF}/DATS/gintinf_t.dats"
+//
+(* ****** ****** *)
 //
 typedef intinf = $GINTINF.intinf
 overload print with $GINTINF.print_intinf
