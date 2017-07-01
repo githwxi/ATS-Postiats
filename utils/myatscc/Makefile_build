@@ -4,6 +4,10 @@
 
 ######
 
+CC=gcc
+
+######
+
 NPM=npm
 
 ######
@@ -15,8 +19,8 @@ PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 ######
 
 PATSCC2=\
-$(PATSCC) -O2 \
--D_GNU_SOURCE -DATS_MEMALLOC_LIBC
+$(PATSCC) -verbose -atsccomp "$(CC)" \
+-O2 -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -D_GNU_SOURCE -DATS_MEMALLOC_LIBC
 
 ######
 #
