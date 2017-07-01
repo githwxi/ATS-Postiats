@@ -718,28 +718,7 @@ atspackaging:: srcget_npm_utils_contrib
 #
 ######
 #
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/*_?ats.js
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/ML/*_?ats.js
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/Bacon.js/*_?ats.js
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/BUCS320/parcomb/*_?ats.js
-#
-atspackaging:: ; rm -rf ATS-Postiats/contrib/libatscc2py3/ATS2-0.3.2/output/__pycache__
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2py3/ATS2-0.3.2/output/DATS/*_?ats.py
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2py3/ATS2-0.3.2/output/DATS/ML/*_?ats.py
-#
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2php/ATS2-0.3.2/output/DATS/*_?ats.php
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2php/ATS2-0.3.2/output/DATS/ML/*_?ats.php
-#
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2scm/ATS2-0.3.2/output/DATS/*_?ats.scm
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2scm/ATS2-0.3.2/output/DATS/ML/*_?ats.scm
-#
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2clj/ATS2-0.3.2/output/DATS/*_?ats.clj
-atspackaging:: ; $(RMF) ATS-Postiats/contrib/libatscc2clj/ATS2-0.3.2/output/DATS/ML/*_?ats.clj
-#
-atspackaging:: ; $(RMF) ATS-Postiats/npm-utils/contrib/atscntrb-libsdl2/TEST/DATA/*.png
-atspackaging:: ; $(RMF) ATS-Postiats/npm-utils/contrib/atscntrb-libcairo/TEST/DATA/*.png
-#
-atspackaging:: ; $(RMF) ATS-Postiats/npm-utils/contrib/libats-/hwxi/OpenSCAD/TEST/output/*.stl
+atspackaging:: srcget_dist_cleanup
 #
 atspackaging:: ; (cd ATS-Postiats && ./autogen.sh)
 #
@@ -861,6 +840,31 @@ srcget_npm_utils_contrib:: srcget_npm_utils_contrib_libats_hwxi
 srcget_npm_utils_contrib_libats_hwxi:: SCRIPT/npm_utils_contrib_libats_hwxi.bash; bash $<
 
 ######
+#
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/*_?ats.js
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/ML/*_?ats.js
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/Bacon.js/*_?ats.js
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2js/ATS2-0.3.2/output/DATS/BUCS320/parcomb/*_?ats.js
+#
+srcget_dist_cleanup:: ; rm -rf ATS-Postiats/contrib/libatscc2py3/ATS2-0.3.2/output/__pycache__
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2py3/ATS2-0.3.2/output/DATS/*_?ats.py
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2py3/ATS2-0.3.2/output/DATS/ML/*_?ats.py
+#
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2php/ATS2-0.3.2/output/DATS/*_?ats.php
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2php/ATS2-0.3.2/output/DATS/ML/*_?ats.php
+#
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2scm/ATS2-0.3.2/output/DATS/*_?ats.scm
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2scm/ATS2-0.3.2/output/DATS/ML/*_?ats.scm
+#
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2clj/ATS2-0.3.2/output/DATS/*_?ats.clj
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2clj/ATS2-0.3.2/output/DATS/ML/*_?ats.clj
+#
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/npm-utils/contrib/atscntrb-libsdl2/TEST/DATA/*.png
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/npm-utils/contrib/atscntrb-libcairo/TEST/DATA/*.png
+#
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/npm-utils/contrib/libats-/hwxi/OpenSCAD/TEST/output/*.stl
+#
+######
 
 atscontribing:: srcget_patscontrib
 
@@ -941,7 +945,7 @@ atspacktarzvcf_intmin_up:: ; \
 scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEintmin).tgz
 #
 ######
-
+#
 CONTRIBNAME=ATS2-Postiats-contrib-0.3.7
 atscontribtarzvcf:: ; $(RMRF) $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(CPRF) ATS-Postiats-contrib $(CONTRIBNAME)
