@@ -848,8 +848,10 @@ case+ s2cs of
 | list_nil() => ()
 | list_cons(s2c, s2cs) => let
     val n0 = s2cst_get_nused(s2c)
-    val () =
-      if n0 > 0 then emit_decl_s2cst(out, s2c)
+    val ext = s2c.extdef()
+    val () = case+ ext of
+             | None () when n0 > 0 => emit_decl_s2cst(out, s2c)
+             | _ => ()
     // end of [val]
   in
     auxlst(s2cs)
