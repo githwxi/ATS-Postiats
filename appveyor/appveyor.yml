@@ -1,23 +1,23 @@
-clone_folder: C:/projects/ATS-Postiats
+clone_folder: C:\projects\ATS-Postiats
+
+image: Visual Studio 2015
 
 platform:
     - x64
 
 environment:
     global:
-        BUILD_FOLDER: C:/projects
+        BUILD_FOLDER: C:\projects
         CYG_MIRROR: http://cygwin.mirror.constant.com
         ATS1PACK: ats-lang-anairiats-0.2.12
         ATS1PACKTGZ: ats-lang-anairiats-0.2.12.tgz
         ATS1PACKURL: http://ats-lang.github.io/ATS-Anairiats/ats-lang-anairiats-0.2.12.tgz
-        HOMEDIR: "/cygdrive/c/projects"
         ATSHOME: "/cygdrive/c/projects/ats-lang-anairiats-0.2.12"
         ATSHOMERELOC: ATS-0.2.12
         PATSHOME: "/cygdrive/c/projects/ATS-Postiats"
         PATSHOMERELOC: "/cygdrive/c/projects/ATS-Postiats-contrib"
         PATSCONTRIBURL: https://github.com/githwxi/ATS-Postiats-contrib.git
-        CYGWIN_SETUP: "%BUILD_FOLDER%/setup.exe"
-
+        
     matrix:
         -   CYG_ARCH: x86
             CYG_ROOT: C:/cygwin
@@ -31,12 +31,15 @@ init:
     - 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
     - 'echo Build folder is: %APPVEYOR_BUILD_FOLDER%'
     - 'echo Setup Cygwin dependencies'
-    - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName %CYGWIN_SETUP%'
-    - '%CYGWIN_SETUP% -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P make -P autoconf -P automake -P gcc-core -P libtool -P intltool -P pkg-config -P git -P wget -P libgc-devel -P libgmp-devel > NUL'
+    - 'echo Build Folder: %BUILD_FOLDER%'
     - 'set PATH=%CYG_ROOT%/bin;%PATH%'
     - 'echo Checking the Cygwin setup'
     - 'bash -lc "cygcheck -dc cygwin"'
+    - 'bash -lc "wget rawgit.com/transcode-open/apt-cyg/master/apt-cyg"'
+    - 'bash -lc "install apt-cyg /bin"'
+    - 'bash -lc "apt-cyg install make autoconf automake gcc-core libtool intltool pkg-config git wget libgc-devel libgmp-devel"'
     - 'echo Setup Cygwin dependencies is finished!'
+    
 
 install:
     - 'echo Build ATS1(with GC)...'
