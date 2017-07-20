@@ -23,5 +23,11 @@ list_stdev
   (xs: List2(double)): double
 //
 (* ****** ****** *)
+//
+fun//{}
+list_smooth
+  (xs: List0(double), k: intGte(1)): stream_vt(double)
+//
+(* ****** ****** *)
 
 (* end of [andes_comp.sats] *)

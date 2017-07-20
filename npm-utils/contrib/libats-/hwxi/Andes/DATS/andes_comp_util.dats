@@ -85,4 +85,45 @@ end // end of [list_stdev]
 
 (* ****** ****** *)
 
+implement
+list_smooth
+  (xs, k) =
+  auxlst(xs) where
+{
+//
+fun
+aux
+(
+xs: List(double),
+sum: double, i: intGte(1)
+) : double =
+(
+if
+(i < k)
+then
+(
+case+ xs of
+| list_nil() => sum / i
+| list_cons(x, xs) => aux(xs, sum+x, i+1)
+)
+else (sum / i)
+)
+//
+fun
+auxlst
+(
+xs: List(double)
+) : stream_vt(double) = $ldelay
+(
+case+ xs of
+| list_nil() =>
+  stream_vt_nil()
+| list_cons(x, xs) =>
+  stream_vt_cons(aux(xs, x, 1), auxlst(xs))
+)
+//
+} (* end of [list_smooth] *)
+
+(* ****** ****** *)
+
 (* end of [andes_comp_util.dats] *)

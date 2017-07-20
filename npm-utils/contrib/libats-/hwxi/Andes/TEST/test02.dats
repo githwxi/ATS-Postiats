@@ -3,6 +3,18 @@
 SP500-1970-2016-daily
 *)
 (* ****** ****** *)
+
+(*
+//
+// Output:
+//
+theChanges_stdev(daily) = 0.010637
+theChanges_stdev(annual) = 0.168857
+avgret = 0.070027; totret = 24.073974
+//
+*)
+
+(* ****** ****** *)
 (*
 caldt,vwretd,vwretx,ewretd,ewretx,totval,totcnt,usdval,usdcnt,spindx,sprtrn
 ^START
@@ -11982,6 +11994,13 @@ main0() = () where
 //
 val () = println! ("theChanges_stdev(daily) = ", theChanges_stdev)
 val () = println! ("theChanges_stdev(annual) = ", theChanges_stdev*$MATH.sqrt(252.0))
+//
+val totret =
+list_foldleft_cloref<double><double>(list_tail(theChanges), 1.0, lam(res, x) => res*(1+x))
+val ((*void*)) = println! ("totret = ", totret)
+//
+val avgret = $MATH.exp($MATH.log(totret) / 47) - 1
+val ((*void*)) = println! ("avgret = ", avgret)
 //
 } (* end of [main0] *)
 
