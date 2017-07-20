@@ -52,6 +52,36 @@ case+ xs of
 
 implement
 //{}(*tmp*)
+listpre_mean
+  (xs, n0) =
+  loop(xs, 1, x) where
+{
+//
+val+list_cons(x, xs) = xs
+//
+fun
+loop
+(
+xs: List(double), n: int, tot: double
+) : double =
+(
+if
+(n < n0)
+then
+(
+case+ xs of
+| list_nil() => (tot / n)
+| list_cons(x, xs) => loop(xs, n+1, tot + x)
+)
+else (tot / n0)
+)
+//
+} (* end of [listpre_mean] *)
+
+(* ****** ****** *)
+
+implement
+//{}(*tmp*)
 list_stdev
   (xs) = let
 //
@@ -86,8 +116,8 @@ end // end of [list_stdev]
 (* ****** ****** *)
 
 implement
-list_smooth
-  (xs, k) =
+list_smooth_left
+  (xs, n) =
   auxlst(xs) where
 {
 //
@@ -99,7 +129,7 @@ sum: double, i: intGte(1)
 ) : double =
 (
 if
-(i < k)
+(i < n)
 then
 (
 case+ xs of
@@ -122,7 +152,7 @@ case+ xs of
   stream_vt_cons(aux(xs, x, 1), auxlst(xs))
 )
 //
-} (* end of [list_smooth] *)
+} (* end of [list_smooth_left] *)
 
 (* ****** ****** *)
 

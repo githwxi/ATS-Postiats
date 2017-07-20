@@ -11978,28 +11978,51 @@ list_vt2t(stream2list_vt(theChanges))
 
 (* ****** ****** *)
 //
+(*
+val
+theChanges = list_drop_exn(theChanges, 252*10)
+*)
+(*
+val
+theChanges = list_drop_exn(theChanges, 252*20)
+*)
+(*
+val
+theChanges = list_drop_exn(theChanges, 252*30)
+*)
+(*
+val
+theChanges = list_drop_exn(theChanges, 252*40)
+*)
+//
+(* ****** ****** *)
+//
 val () =
 assertloc(length(theChanges) >= 2)
 //
-(* ****** ****** *)
-
 val
 theChanges_stdev = list_stdev(theChanges)
-
+//
 (* ****** ****** *)
 
 implement
 main0() = () where
 {
 //
-val () = println! ("theChanges_stdev(daily) = ", theChanges_stdev)
-val () = println! ("theChanges_stdev(annual) = ", theChanges_stdev*$MATH.sqrt(252.0))
+val () =
+println! ("theChanges_stdev(daily) = ", theChanges_stdev)
+val () =
+println! ("theChanges_stdev(annual) = ", theChanges_stdev*$MATH.sqrt(252.0))
+//
+val N = 1.0*length(theChanges)/252
+//
+val ((*void*)) = println! ("N = ", N)
 //
 val totret =
 list_foldleft_cloref<double><double>(list_tail(theChanges), 1.0, lam(res, x) => res*(1+x))
 val ((*void*)) = println! ("totret = ", totret)
 //
-val avgret = $MATH.exp($MATH.log(totret) / 47) - 1
+val avgret = $MATH.exp($MATH.log(totret) / N) - 1
 val ((*void*)) = println! ("avgret = ", avgret)
 //
 } (* end of [main0] *)
