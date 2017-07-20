@@ -48,16 +48,6 @@ staload _ =
 
 (* ****** ****** *)
 
-local
-//
-#include "./../DATS/andes_comp_util.dats"
-//
-in
-  // nothing
-end // end of [local]
-
-(* ****** ****** *)
-
 val
 theIndexes =
 $list{double}
