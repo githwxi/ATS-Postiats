@@ -5,6 +5,16 @@
 *)
 (* ****** ****** *)
 //
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
+//
+#staload
+"libats/libc/DATS/math.dats"
+//
+(* ****** ****** *)
+//
 staload
 "./../SATS/andes_comp.sats"
 //
