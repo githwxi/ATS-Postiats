@@ -6,6 +6,7 @@
 
 PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
+PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 
 ######
 
@@ -22,6 +23,16 @@ test01; $(CAT) test01.dats | ./$<
 test01: \
 test01.dats ; \
 $(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES) -lm
+#
+######
+#
+all:: \
+test02
+regress:: \
+test02; $(CAT) test02.dats | ./$< 
+test02: \
+test02.dats ; \
+$(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES) -L$(PATSLIB) -latslib -lm
 #
 ######
 
@@ -44,5 +55,6 @@ clean:: ; $(RMF) *_?ats.o
 
 cleanall:: clean
 cleanall:: ; $(RMF) test01
+cleanall:: ; $(RMF) test02
 
 ###### end of [Makefile] ######

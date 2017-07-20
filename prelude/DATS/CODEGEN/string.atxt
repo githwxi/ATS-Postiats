@@ -702,14 +702,17 @@ implement
 {}(*tmp*)
 strchr{n}(str, c0) = let
 //
-prval () = lemma_string_param (str)
-extern fun __strchr (string, int):<> ptr = "mac\#atspre_strchr"
-extern fun __sub (ptr, ptr):<> ssizeBtw (0, n) = "mac\#atspre_sub_ptr_ptr"
+prval () = lemma_string_param(str)
+extern
+fun __strchr__(string, int):<> ptr = "mac\#atspre_strchr"
+extern
+fun sub_ptr_ptr(ptr, ptr):<> ssizeBtw(0, n) = "mac\#atspre_sub_ptr_ptr"
+//
 val p0 = string2ptr(str)
-val p1 = __strchr (str, (char2int0)c0)
+val p1 = __strchr__(str, (char2int0)c0)
 //
 in
-  if p1 > the_null_ptr then __sub (p1, p0) else i2ssz(~1)
+  if p1 > the_null_ptr then sub_ptr_ptr(p1, p0) else i2ssz(~1)
 end // end of [strchr]
 
 implement
@@ -717,13 +720,16 @@ implement
 strrchr{n}(str, c0) = let
 //
 prval () = lemma_string_param (str)
-extern fun __strrchr (string, int):<> ptr = "mac\#atspre_strrchr"
-extern fun __sub (ptr, ptr):<> ssizeBtw (0, n) = "mac\#atspre_sub_ptr_ptr"
+extern
+fun __strrchr__(string, int):<> ptr = "mac\#atspre_strrchr"
+extern
+fun sub_ptr_ptr(ptr, ptr):<> ssizeBtw(0, n) = "mac\#atspre_sub_ptr_ptr"
+//
 val p0 = string2ptr(str)
-val p1 = __strrchr (str, (char2int0)c0)
+val p1 = __strrchr__(str, (char2int0)c0)
 //
 in
-  if p1 > the_null_ptr then __sub (p1, p0) else i2ssz(~1)
+  if p1 > the_null_ptr then sub_ptr_ptr(p1, p0) else i2ssz(~1)
 end // end of [strrchr]
 
 #atscode_separator()
@@ -734,13 +740,17 @@ strstr{n}
   (haystack, needle) = let
 //
 prval () = lemma_string_param (haystack)
-extern fun __strstr (string, string):<> ptr = "mac\#atspre_strstr"
-extern fun __sub (ptr, ptr):<> ssizeBtw (0, n) = "mac\#atspre_sub_ptr_ptr"
+//
+extern
+fun __strstr__(string, string):<> ptr = "mac\#atspre_strstr"
+extern
+fun sub_ptr_ptr(ptr, ptr):<> ssizeBtw(0, n) = "mac\#atspre_sub_ptr_ptr"
+//
 val p0 = string2ptr(haystack)
-val p1 = __strstr (haystack, needle)
+val p1 = __strstr__(haystack, needle)
 //
 in
-  if p1 > the_null_ptr then __sub (p1, p0) else i2ssz(~1)
+  if p1 > the_null_ptr then sub_ptr_ptr(p1, p0) else i2ssz(~1)
 end // end of [strstr]
 
 #atscode_separator()
@@ -748,31 +758,31 @@ end // end of [strstr]
 implement
 {}(*tmp*)
 strspn{n}
-  (str, accept) = let
+(subject, accept) = let
 //
-prval() = lemma_string_param (str)
+prval () = lemma_string_param(subject)
 //
 extern
 fun
-__strspn (string, string):<> sizeLte (n) = "mac\#atspre_strspn"
+__strspn__(string, string):<> sizeLte(n) = "mac\#atspre_strspn"
 //
 in
-  __strspn (str, accept)
+  __strspn__(subject, accept)
 end // end of [strspn]
 
 implement
 {}(*tmp*)
 strcspn{n}
-  (str, reject) = let
+(subject, reject) = let
 //
-prval() = lemma_string_param (str)
+prval() = lemma_string_param(subject)
 //
 extern
 fun
-__strcspn (string, string):<> sizeLte (n) = "mac\#atspre_strcspn"
+__strcspn__(string, string):<> sizeLte(n) = "mac\#atspre_strcspn"
 //
 in
-  __strcspn (str, reject)
+  __strcspn__(subject, reject)
 end // end of [strcspn]
 
 #atscode_separator()
@@ -780,13 +790,13 @@ end // end of [strcspn]
 implement
 {}(*tmp*)
 string_index
-  {n}(str, c) = $UN.cast{ssizeBtw(~1,n)}(strchr (str, c))
+  {n}(str, c) = $UN.cast{ssizeBtw(~1,n)}(strchr(str, c))
 // end of [string_index]
 
 implement
 {}(*tmp*)
 string_rindex
-  {n}(str, c) = $UN.cast{ssizeBtw(~1,n)}(strrchr (str, c))
+  {n}(str, c) = $UN.cast{ssizeBtw(~1,n)}(strrchr(str, c))
 // end of [string_rindex]
 
 #atscode_separator()
@@ -798,8 +808,8 @@ string0_append
 //
 val x1 = g1ofg0(x1)
 val x2 = g1ofg0(x2)
-val x12 = string1_append (x1, x2)
-prval () = lemma_strnptr_param (x12)
+val x12 = string1_append(x1, x2)
+prval () = lemma_strnptr_param(x12)
 //
 in
   strnptr2strptr (x12)

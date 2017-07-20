@@ -387,13 +387,13 @@ strcspn{n:int} // complement spanning
 
 #atscode_separator()
 
-fun{
-} string_index{n:int}
+fun{}
+string_index{n:int}
   (str: string(n), c0: charNZ):<> ssizeBtw(~1, n)
 // end of [string_index]
 
-fun{
-} string_rindex{n:int}
+fun{}
+string_rindex{n:int}
   (str: string(n), c0: charNZ):<> ssizeBtw(~1, n)
 // end of [string_rindex]
 
