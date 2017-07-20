@@ -26,6 +26,10 @@ fun//{}
 list_stdev
   (xs: List2(double)): double
 //
+fun//{}
+listpre_stdev
+  (xs: List2(double), n0: intGte(2)): double
+//
 (* ****** ****** *)
 //
 fun//{}

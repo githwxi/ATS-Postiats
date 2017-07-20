@@ -96,14 +96,14 @@ val tot =
   list_foldleft<double><double>(xs, 0.0)
 end // end of [local]
 //
-val mean = tot / n0
+val mu = tot / n0
 //
 fun sq(x: double) = x*x
 //
 local
 implement
 list_foldleft$fopr<double><double>
-  (res, x) = res+sq(x-mean)
+  (res, x) = res+sq(x-mu)
 in
 val sqsum =
   list_foldleft<double><double>(xs, 0.0)
@@ -112,6 +112,39 @@ end // end of [local]
 in
   $MATH.sqrt(sqsum / (n0-1))
 end // end of [list_stdev]
+
+(* ****** ****** *)
+
+implement
+//{}(*tmp*)
+listpre_stdev
+  (xs, n0) = let
+//
+fun sq(x: double) = x*x
+//
+val mu = listpre_mean(xs, n0)
+//
+fun
+auxlst
+( xs: List(double)
+, i0: int, sqsum: double): double =
+(
+if
+(i0 < n0)
+then
+(
+case+ xs of
+| list_nil() =>
+  $MATH.sqrt(sqsum / (i0-1))
+| list_cons(x, xs) =>
+  auxlst(xs, i0+1, sqsum+(x-mu))
+)
+else $MATH.sqrt(sqsum / (n0-1))
+) (* end of [auxlst] *)
+//
+in
+  auxlst(xs, 0, 0.0)
+end // end of [listpre_stdev]
 
 (* ****** ****** *)
 
