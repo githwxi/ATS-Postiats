@@ -11986,10 +11986,10 @@ theChanges = list_drop_exn(theChanges, 252*10)
 val
 theChanges = list_drop_exn(theChanges, 252*20)
 *)
-(*
+// (*
 val
 theChanges = list_drop_exn(theChanges, 252*30)
-*)
+// *)
 (*
 val
 theChanges = list_drop_exn(theChanges, 252*40)
@@ -12015,7 +12015,6 @@ val () =
 println! ("theChanges_stdev(annual) = ", theChanges_stdev*$MATH.sqrt(252.0))
 //
 val N = 1.0*length(theChanges)/252
-//
 val ((*void*)) = println! ("N = ", N)
 //
 val totret =

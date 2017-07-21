@@ -33,7 +33,7 @@ listpre_stdev
 (* ****** ****** *)
 //
 fun//{}
-list_smooth_left
+list_smooth_aft
   (xs: List0(double), n: intGte(1)): stream_vt(double)
 //
 (* ****** ****** *)

@@ -137,9 +137,12 @@ case+ xs of
 | list_nil() =>
   $MATH.sqrt(sqsum / (i0-1))
 | list_cons(x, xs) =>
-  auxlst(xs, i0+1, sqsum+(x-mu))
+  auxlst(xs, i0+1, sqsum+sq(x-mu))
 )
-else $MATH.sqrt(sqsum / (n0-1))
+else
+(
+  $MATH.sqrt(sqsum / (n0-1))
+)
 ) (* end of [auxlst] *)
 //
 in
@@ -149,7 +152,7 @@ end // end of [listpre_stdev]
 (* ****** ****** *)
 
 implement
-list_smooth_left
+list_smooth_aft
   (xs, n) =
   auxlst(xs) where
 {
@@ -185,7 +188,7 @@ case+ xs of
   stream_vt_cons(aux(xs, x, 1), auxlst(xs))
 )
 //
-} (* end of [list_smooth_left] *)
+} (* end of [list_smooth_aft] *)
 
 (* ****** ****** *)
 
