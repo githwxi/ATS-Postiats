@@ -9769,7 +9769,6 @@ val
 theChanges = list_drop_exn(theChanges, 252*30)
 *)
 (* ****** ****** *)
-
 //
 (*
 // HX: ys=drop(xs, k)

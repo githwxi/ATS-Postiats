@@ -203,7 +203,7 @@ if
 then
 (
 case+ xs of
-| list_nil() => sum / n0
+| list_nil() => sum / i
 | list_cons(x, xs) => aux(xs, sum+x, i+1)
 )
 else (sum / n0)

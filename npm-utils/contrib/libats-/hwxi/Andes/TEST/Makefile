@@ -17,6 +17,16 @@ MYLIBIES += ./../mylibies.dats
 ######
 #
 all:: \
+test00
+regress:: \
+test00; $(CAT) test00.dats | ./$< 
+test00: \
+test00.dats ; \
+$(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES) -lm
+#
+######
+#
+all:: \
 test01
 regress:: \
 test01; $(CAT) test01.dats | ./$< 
@@ -65,6 +75,16 @@ test05.dats ; \
 $(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES) -L$(PATSLIB) -latslib -lm
 #
 ######
+#
+all:: \
+test06
+regress:: \
+test06; $(CAT) test06.dats | ./$< 
+test06: \
+test06.dats ; \
+$(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES) -L$(PATSLIB) -latslib -lm
+#
+######
 
 CAT=cat
 RMF=rm -f
@@ -84,10 +104,12 @@ clean:: ; $(RMF) *_?ats.o
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) test00
 cleanall:: ; $(RMF) test01
 cleanall:: ; $(RMF) test02
 cleanall:: ; $(RMF) test03
 cleanall:: ; $(RMF) test04
 cleanall:: ; $(RMF) test05
+cleanall:: ; $(RMF) test06
 
 ###### end of [Makefile] ######
