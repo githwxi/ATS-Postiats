@@ -152,8 +152,42 @@ end // end of [listpre_stdev]
 (* ****** ****** *)
 
 implement
+list_smooth_bef
+  (xs, n0) =
+  auxlst(xs, xs, 0) where
+{
+//
+fun
+auxlst
+{n1,n2:nat}
+{i:nat | n1 >= n2+i}
+(
+xs: list(double, n1), ys: list(double, n2), i0: int(i)
+) : stream_vt(double) = $ldelay
+(
+case+ ys of
+| list_nil() =>
+  stream_vt_nil()
+| list_cons(_, ys) => let
+    val i1 = i0 + 1
+    val mu = listpre_mean(xs, i1)
+  in
+    if (i1 < n0)
+      then stream_vt_cons(mu, auxlst(xs, ys, i1))
+      else stream_vt_cons(mu, auxlst(list_tail(xs), ys, i0))
+    // end of [if]
+  end // end of [list_cons]
+)
+//
+prval () = lemma_list_param(xs)
+//
+} (* end of [list_smooth_bef] *)
+
+(* ****** ****** *)
+
+implement
 list_smooth_aft
-  (xs, n) =
+  (xs, n0) =
   auxlst(xs) where
 {
 //
@@ -165,14 +199,14 @@ sum: double, i: intGte(1)
 ) : double =
 (
 if
-(i < n)
+(i < n0)
 then
 (
 case+ xs of
-| list_nil() => sum / i
+| list_nil() => sum / n0
 | list_cons(x, xs) => aux(xs, sum+x, i+1)
 )
-else (sum / i)
+else (sum / n0)
 )
 //
 fun

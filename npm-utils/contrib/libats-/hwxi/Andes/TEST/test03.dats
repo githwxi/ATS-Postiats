@@ -12050,8 +12050,20 @@ l0, s0, k0, xs, ys
 val ss =
 sigma_stream(k0, xs, ys)
 //
+fun
+trans(x: double): double = let
+  val e = x - 1
 in
-  stream_vt_map_cloptr(ss, lam(s) => min(s0/s, l0))
+  ifcase
+// (*
+  | e >= 0.1 => 10.0
+  | e <= ~0.2 => 0.50
+// *)
+  | _(* else *) => x
+end
+//
+in
+  stream_vt_map_cloptr(ss, lam(s) => min(trans(s0/s), l0))
 end // end of [kappa_stream]
 //
 (* ****** ****** *)
@@ -12061,7 +12073,7 @@ macdef sqrt = $MATH.sqrt
 (* ****** ****** *)
 //
 val k0 = 21
-val l0 = 1.30
+val l0 = 2.00
 val s0 = 0.169/sqrt(252.0)
 //
 val
@@ -12081,7 +12093,7 @@ list_vt2t(stream2list_vt(theKappas))
 (* ****** ****** *)
 
 val
-theChanges = list_drop_exn(theChanges, k0+1)
+theChanges = list_drop_exn(theChanges, k0-2)
 
 (* ****** ****** *)
 
@@ -12111,13 +12123,16 @@ implement
 main0() = () where
 {
 //
+(*
 val
 theKappas_100 =
 list_take_exn(theKappas, 100)
 val
 theKappas_100 = list_vt2t(theKappas_100)
 val () = println! ("theKappas_100 = ", theKappas_100)
+*)
 //
+(*
 val
 theChanges_100 =
 list_take_exn(theChanges, 100)
@@ -12131,6 +12146,7 @@ list_take_exn(theChanges2, 100)
 val
 theChanges2_100 = list_vt2t(theChanges2_100)
 val () = println! ("theChanges2_100 = ", theChanges2_100)
+*)
 //
 val () = println! ("l0 = ", l0)
 val () = println! ("k0 = ", k0)

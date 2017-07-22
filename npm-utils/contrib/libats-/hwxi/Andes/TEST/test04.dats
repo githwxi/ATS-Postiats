@@ -9764,10 +9764,10 @@ theChanges = list_drop_exn(theChanges, 252*10)
 val
 theChanges = list_drop_exn(theChanges, 252*20)
 *)
-// (*
+(*
 val
 theChanges = list_drop_exn(theChanges, 252*30)
-// *)
+*)
 (* ****** ****** *)
 
 //
@@ -9836,8 +9836,20 @@ l0, s0, k0, xs, ys
 val ss =
 sigma_stream(k0, xs, ys)
 //
+fun
+trans(x: double): double = let
+  val e = x - 1
 in
-  stream_vt_map_cloptr(ss, lam(s) => min(s0/s, l0))
+  ifcase
+// (*
+  | e >= 0.1 => 10.0
+  | e <= ~0.2 => 0.25
+// *)
+  | _(* else *) => x
+end
+//
+in
+  stream_vt_map_cloptr(ss, lam(s) => min(trans(s0/s), l0))
 end // end of [kappa_stream]
 //
 (* ****** ****** *)
@@ -9847,8 +9859,11 @@ macdef sqrt = $MATH.sqrt
 (* ****** ****** *)
 //
 val k0 = 21
-val l0 = 1.30
+val l0 = 2.00
+(*
 val s0 = 0.169/sqrt(252.0)
+*)
+val s0 = 0.160/sqrt(252.0)
 //
 val
 theKappas = let
@@ -9865,10 +9880,17 @@ theKappas =
 list_vt2t(stream2list_vt(theKappas))
 //
 (* ****** ****** *)
-
+//
 val
 theChanges = list_drop_exn(theChanges, k0+1)
-
+//
+(* ****** ****** *)
+//
+val () =
+assertloc(length(theChanges) >= 2)
+val
+theChanges_stdev = list_stdev(theChanges)
+//
 (* ****** ****** *)
 
 val () =
@@ -9923,6 +9945,13 @@ val
 theChanges2_100 = list_vt2t(theChanges2_100)
 val () = println! ("theChanges2_100 = ", theChanges2_100)
 *)
+//
+val () =
+println!
+("theChanges_stdev(daily) = ", theChanges_stdev)
+val () =
+println!
+("theChanges_stdev(annual) = ", theChanges_stdev*$MATH.sqrt(252.0))
 //
 val () = println! ("l0 = ", l0)
 val () = println! ("k0 = ", k0)

@@ -55,6 +55,16 @@ test04.dats ; \
 $(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES) -L$(PATSLIB) -latslib -lm
 #
 ######
+#
+all:: \
+test05
+regress:: \
+test05; $(CAT) test05.dats | ./$< 
+test05: \
+test05.dats ; \
+$(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES) -L$(PATSLIB) -latslib -lm
+#
+######
 
 CAT=cat
 RMF=rm -f
@@ -78,5 +88,6 @@ cleanall:: ; $(RMF) test01
 cleanall:: ; $(RMF) test02
 cleanall:: ; $(RMF) test03
 cleanall:: ; $(RMF) test04
+cleanall:: ; $(RMF) test05
 
 ###### end of [Makefile] ######
