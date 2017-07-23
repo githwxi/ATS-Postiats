@@ -119,7 +119,7 @@ case+ xs of
 (* ****** ****** *)
 //
 val () =
-assertloc(length(theChanges) >= 2)
+assertloc(theChanges >= 2)
 //
 (* ****** ****** *)
 

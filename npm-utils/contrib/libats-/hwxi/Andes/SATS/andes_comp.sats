@@ -32,6 +32,13 @@ listpre_stdev
 //
 (* ****** ****** *)
 //
+fun
+{a:t@ype}
+list_rolling
+  (xs: List(INV(a)), df: intGte(0)): stream_vt(List1(a))
+//
+(* ****** ****** *)
+//
 fun//{}
 list_smooth_bef
   (xs: List(double), n: intGte(1)): stream_vt(double)

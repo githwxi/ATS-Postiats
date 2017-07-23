@@ -11998,7 +11998,7 @@ theChanges = list_drop_exn(theChanges, 252*40)
 (* ****** ****** *)
 //
 val () =
-assertloc(length(theChanges) >= 2)
+assertloc(theChanges >= 2)
 //
 val
 theChanges_stdev = list_stdev(theChanges)

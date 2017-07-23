@@ -226,4 +226,37 @@ case+ xs of
 
 (* ****** ****** *)
 
+implement
+{a}(*tmp*)
+list_rolling(xs, df) =
+  auxlst(xs, xs, 0) where
+{
+//
+fun
+auxlst
+{n1,n2:nat}
+{i:nat | n1 >= n2+i}
+(
+xs: list(a, n1),
+ys: list(a, n2), i0: int(i)
+) : stream_vt(List1(a)) = $ldelay
+(
+case+ ys of
+| list_nil() =>
+  stream_vt_nil()
+| list_cons(_, ys) =>
+  (
+    if (i0 < df)
+      then stream_vt_cons(xs, auxlst(xs, ys, i0+1))
+      else stream_vt_cons(xs, auxlst(list_tail(xs), ys, i0))
+    // end of [if]
+  ) // end of [list_cons]
+)
+//
+prval () = lemma_list_param(xs)
+//
+} (* end of [list_rolling] *)
+//
+(* ****** ****** *)
+
 (* end of [andes_comp_util.dats] *)
