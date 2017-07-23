@@ -91,8 +91,12 @@ typedef listBtwe
 exception
 ListSubscriptExn of ()
 (*
-fun ListSubscriptExn ():<> exn = "mac\#%ListSubscriptExn_make"
-fun isListSubscriptExn (x: !exn):<> bool = "mac\#%isListSubscriptExn"
+//
+fun
+ListSubscriptExn():<> exn = "mac\#%ListSubscriptExn_make"
+fun
+isListSubscriptExn(x: !exn):<> bool = "mac\#%isListSubscriptExn"
+//
 macdef
 ifListSubscriptExn
   {tres}(exn, body) =
@@ -342,6 +346,20 @@ list_length
   {n:int} (xs: list(INV(x), n)):<> int(n)
 // end of [list_length]
 
+#atscode_separator()
+//
+fun{x:t0p}
+list_length_gte
+  {n1,n2:int}
+  (xs: list(INV(x), n1), n2: int(n2)): bool(n1 >= n2)
+fun{x:t0p}
+list_length_compare
+  {n1,n2:int}
+  (xs: list(INV(x), n1), n2: int(n2)): int(sgn(n1-n2))
+//
+overload >= with list_length_gte
+overload compare with list_length_compare
+//
 #atscode_separator()
 
 fun

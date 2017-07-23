@@ -128,12 +128,16 @@ theChanges_stdev = list_stdev(theChanges)
 
 (* ****** ****** *)
 
+macdef sqrt = $MATH.sqrt
+
+(* ****** ****** *)
+
 implement
 main0() = () where
 {
 //
 val () = println! ("theChanges_stdev(daily) = ", theChanges_stdev)
-val () = println! ("theChanges_stdev(annual) = ", theChanges_stdev*$MATH.sqrt(252.0))
+val () = println! ("theChanges_stdev(annual) = ", theChanges_stdev*sqrt(252.0))
 //
 } (* end of [main0] *)
 

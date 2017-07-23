@@ -1,9 +1,11 @@
 %{
 //
 #define ATSCODEFORMAT "txt"
+//
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
+//
 val _thisfilename = atext_strcst"gorder.sats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 //

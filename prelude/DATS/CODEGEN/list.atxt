@@ -574,7 +574,7 @@ end // end of [list_takeout_at]
 
 implement
 {x}(*tmp*)
-list_length (xs) = let
+list_length(xs) = let
 //
 prval() = lemma_list_param (xs)
 //
@@ -583,16 +583,53 @@ loop
 {i,j:nat} .<i>.
 (
 xs: list(x, i), j: int j
-) :<> int(i+j) =
-(
+) :<> int(i+j) = (
+//
 case+ xs of
 | list_cons(_, xs) => loop(xs, j+1) | _ =>> j
+//
 ) (* end of [loop] *)
 //
 in
   loop(xs, 0)
 end // end of [list_length]
 
+#atscode_separator()
+//
+implement
+{x}(*tmp*)
+list_length_gte
+  (xs, n2) =
+  (list_length_compare<x>(xs, n2) >= 0)
+//
+implement
+{x}(*tmp*)
+list_length_compare
+  (xs, n2) = let
+//
+prval() = lemma_list_param (xs)
+//
+fun
+loop
+{i:nat;j:int} .<i>.
+(xs: list(x, i), j: int j) :<> int(sgn(i-j)) =
+(
+if
+(j < 0)
+then 1 else
+(
+case+ xs of
+| list_cons
+    (_, xs) => loop(xs, j-1)
+  // list_cons
+| _ (*list_nil*) =>> (if j = 0 then 0 else ~1)
+)
+) (* end of [loop] *)
+//
+in
+  loop(xs, n2)
+end // end of [list_length_compare]
+//
 #atscode_separator()
 
 implement
