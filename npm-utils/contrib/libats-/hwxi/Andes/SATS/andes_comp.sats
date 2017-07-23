@@ -32,10 +32,19 @@ listpre_stdev
 //
 (* ****** ****** *)
 //
+fun//{}
+list_ratios
+  (xs: listGte(double, 1)): stream_vt(double)
+fun//{}
+list_change_ratios
+  (xs: listGte(double, 1)): stream_vt(double)
+//
+(* ****** ****** *)
+//
 fun
 {a:t@ype}
 list_rolling
-  (xs: List(INV(a)), df: intGte(0)): stream_vt(List1(a))
+  (xs: List(INV(a)), width: intGte(0)): stream_vt(List1(a))
 //
 (* ****** ****** *)
 //

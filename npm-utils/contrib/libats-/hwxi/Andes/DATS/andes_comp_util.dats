@@ -152,6 +152,54 @@ end // end of [listpre_stdev]
 (* ****** ****** *)
 
 implement
+list_ratios(xs) =
+  auxlst(x0, xs) where
+{
+//
+fun
+auxlst
+(
+x0: double,
+xs: List(double)
+) : stream_vt(double) = $ldelay
+(
+case+ xs of
+| list_nil() =>
+  stream_vt_nil()
+| list_cons(x1, xs) =>
+  stream_vt_cons(x1/x0, auxlst(x1, xs))
+)
+//
+val+list_cons(x0, xs) = xs
+//
+} (* end of [list_ratios] *)
+
+implement
+list_change_ratios(xs) =
+  auxlst(x0, xs) where
+{
+//
+fun
+auxlst
+(
+x0: double,
+xs: List(double)
+) : stream_vt(double) = $ldelay
+(
+case+ xs of
+| list_nil() =>
+  stream_vt_nil()
+| list_cons(x1, xs) =>
+  stream_vt_cons(x1/x0 - 1.0, auxlst(x1, xs))
+)
+//
+val+list_cons(x0, xs) = xs
+//
+} (* end of [list_change_ratios] *)
+
+(* ****** ****** *)
+
+implement
 list_smooth_bef
   (xs, n0) =
   auxlst(xs, xs, 0) where
@@ -228,7 +276,8 @@ case+ xs of
 
 implement
 {a}(*tmp*)
-list_rolling(xs, df) =
+list_rolling
+  (xs, width) =
   auxlst(xs, xs, 0) where
 {
 //
@@ -246,7 +295,7 @@ case+ ys of
   stream_vt_nil()
 | list_cons(_, ys) =>
   (
-    if (i0 < df)
+    if (i0 < width)
       then stream_vt_cons(xs, auxlst(xs, ys, i0+1))
       else stream_vt_cons(xs, auxlst(list_tail(xs), ys, i0))
     // end of [if]
