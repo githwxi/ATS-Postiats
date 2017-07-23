@@ -12093,7 +12093,7 @@ list_vt2t(stream2list_vt(theKappas))
 (* ****** ****** *)
 
 val
-theChanges = list_drop_exn(theChanges, k0-2)
+theChanges = list_drop_exn(theChanges, k0)
 
 (* ****** ****** *)
 
@@ -12150,6 +12150,7 @@ val () = println! ("theChanges2_100 = ", theChanges2_100)
 //
 val () = println! ("l0 = ", l0)
 val () = println! ("k0 = ", k0)
+val () = println! ("s0 = ", s0)
 //
 val totret =
 list_foldleft_cloref<double><double>(theChanges, 1.0, lam(res, x) => res*(1+x))

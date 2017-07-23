@@ -9954,6 +9954,7 @@ println!
 //
 val () = println! ("l0 = ", l0)
 val () = println! ("k0 = ", k0)
+val () = println! ("s0(annual) = ", s0*sqrt(252.0))
 //
 val totret =
 list_foldleft_cloref<double><double>(theChanges, 1.0, lam(res, x) => res*(1+x))
