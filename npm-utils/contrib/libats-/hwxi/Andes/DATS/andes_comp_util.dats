@@ -199,7 +199,9 @@ val+list_cons(x0, xs) = xs
 
 (* ****** ****** *)
 
+(*
 implement
+//{}(*tmp*)
 list_smooth_bef
   (xs, n0) =
   auxlst(xs, xs, 0) where
@@ -230,10 +232,13 @@ case+ ys of
 prval () = lemma_list_param(xs)
 //
 } (* end of [list_smooth_bef] *)
+*)
 
 (* ****** ****** *)
 
+(*
 implement
+//{}(*tmp*)
 list_smooth_aft
   (xs, n0) =
   auxlst(xs) where
@@ -271,41 +276,103 @@ case+ xs of
 )
 //
 } (* end of [list_smooth_aft] *)
+*)
+
+(* ****** ****** *)
+
+implement
+//{}(*tmp*)
+list_rolling_mean
+{n}{k}(xs, width) = let
+//
+fun
+auxlst
+{n1,n2:nat|n1==n2+k}
+( xs: list(double, n1)
+, ys: list(double, n2)
+) : stream_vt(double) = $ldelay
+(
+let
+//
+val
+mean = listpre_mean(xs, width)
+//
+in
+//
+case+ ys of
+| list_nil() =>
+  stream_vt_sing(mean)
+| list_cons(y, ys) =>
+  stream_vt_cons(mean, auxlst(list_tail(xs), ys))
+//
+end
+)
+//
+in
+  auxlst(xs, list_drop(xs, width))
+end // end of [list_rolling_mean]
+
+(* ****** ****** *)
+
+implement
+//{}(*tmp*)
+list_rolling_stdev
+{n}{k}(xs, width) = let
+//
+fun
+auxlst
+{n1,n2:nat|n1==n2+k}
+( xs: list(double, n1)
+, ys: list(double, n2)
+) : stream_vt(double) = $ldelay
+(
+let
+//
+val
+stdev = listpre_stdev(xs, width)
+//
+in
+//
+case+ ys of
+| list_nil() =>
+  stream_vt_sing(stdev)
+| list_cons(y, ys) =>
+  stream_vt_cons(stdev, auxlst(list_tail(xs), ys))
+//
+end
+)
+//
+in
+  auxlst(xs, list_drop(xs, width))
+end // end of [list_rolling_stdev]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-list_rolling
-  (xs, width) =
-  auxlst(xs, xs, 0) where
-{
+list_rolling_stream
+{n}{k}(xs, width) = let
 //
 fun
 auxlst
-{n1,n2:nat}
-{i:nat | n1 >= n2+i}
+{n1,n2:nat|n1==n2+k}
 (
-xs: list(a, n1),
-ys: list(a, n2), i0: int(i)
-) : stream_vt(List1(a)) = $ldelay
+xs: list(a, n1), ys: list(a, n2)
+) : stream_vt(listGte(a,k)) = $ldelay
 (
+//
 case+ ys of
 | list_nil() =>
-  stream_vt_nil()
-| list_cons(_, ys) =>
-  (
-    if (i0 < width)
-      then stream_vt_cons(xs, auxlst(xs, ys, i0+1))
-      else stream_vt_cons(xs, auxlst(list_tail(xs), ys, i0))
-    // end of [if]
-  ) // end of [list_cons]
+  stream_vt_sing(xs)
+| list_cons(y, ys) =>
+  stream_vt_cons(xs, auxlst(list_tail(xs), ys))
+//
 )
 //
-prval () = lemma_list_param(xs)
-//
-} (* end of [list_rolling] *)
-//
+in
+  auxlst(xs, list_drop(xs, width))
+end // end of [list_rolling_stream]
+
 (* ****** ****** *)
 
 (* end of [andes_comp_util.dats] *)

@@ -11244,76 +11244,33 @@ theChanges = list_drop_exn(theChanges, 252*25)
 val
 theChanges = list_drop_exn(theChanges, 252*30)
 *)
-// (*
+(*
 val
 theChanges = list_drop_exn(theChanges, 252*40)
-// *)
-(* ****** ****** *)
-//
-(*
-// HX: ys=drop(xs, k)
 *)
-//
-extern
-fun
-sigma_stream
-{k:int | k >= 2}
-{n1,n2:nat | n1 >= n2+k}
-( k0: int(k)
-, xs: list(double, n1), ys: list(double, n2)
-) : stream_vt(double)
+(* ****** ****** *)
 //
 extern
 fun
 kappa_stream
 {k:int | k >= 2}
-{n1,n2:nat | n1 >= n2+k}
+{n1:int | n1 >= k}
 ( l0: double
 , s0: double
 , k0: int(k)
-, xs: list(double, n1), ys: list(double, n2)
+, xs: list(double, n1)
 ) : stream_vt(double)
-//
-(* ****** ****** *)
-//
-implement
-sigma_stream
-(
-k0, xs, ys
-) = $ldelay
-(
-case+ ys of
-| list_nil() =>
-  stream_vt_nil()
-| list_cons
-    (_, ys) => let
-  //
-    val
-    stdev =
-    listpre_stdev(xs, k0)
-//
-(*
-    val () = println!("stdev = ", stdev);
-*)
-//
-    val-
-    list_cons(_, xs) = xs
-  //
-  in
-    stream_vt_cons(stdev, sigma_stream(k0, xs, ys))
-  end // end of [sigma_stream]
-)
 //
 (* ****** ****** *)
 //
 implement
 kappa_stream
 (
-l0, s0, k0, xs, ys
+l0, s0, k0, xs
 ) = let
 //
 val ss =
-sigma_stream(k0, xs, ys)
+list_rolling_stdev(xs, k0)
 //
 fun
 trans(x: double): double = let
@@ -11337,21 +11294,19 @@ macdef sqrt = $MATH.sqrt
 
 (* ****** ****** *)
 //
-val k0 = 21
+val k0 = 11
 val l0 = 2.00
-(*
-val s0 = 0.169/sqrt(252.0)
-*)
-val s0 = 0.26/sqrt(252.0)
+val s0 = 0.199/sqrt(252.0)
+// val s0 = 0.260/sqrt(252.0)
 //
 val
 theKappas = let
 //
 val xs = theChanges
-val ys = list_drop_exn(xs, k0)
+val () = assertloc(xs >= k0)
 //
 in
-  kappa_stream(l0, s0, k0, xs, ys)
+  kappa_stream(l0, s0, k0, xs)
 end // end of [theKappas]
 //
 val

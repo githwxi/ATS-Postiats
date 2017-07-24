@@ -41,19 +41,37 @@ list_change_ratios
 //
 (* ****** ****** *)
 //
-fun
-{a:t@ype}
-list_rolling
-  (xs: List(INV(a)), width: intGte(0)): stream_vt(List1(a))
-//
-(* ****** ****** *)
-//
+(*
 fun//{}
 list_smooth_bef
   (xs: List(double), n: intGte(1)): stream_vt(double)
 fun//{}
 list_smooth_aft
   (xs: List(double), n: intGte(1)): stream_vt(double)
+*)
+//
+(* ****** ****** *)
+//
+fun//{}
+list_rolling_mean
+{n:int}
+{k:int | n >= k; k >= 1}
+(xs: list(double, n), width: int(k)): stream_vt(double)
+//
+fun//{}
+list_rolling_stdev
+{n:int}
+{k:int | n >= k; k >= 2}
+(xs: list(double, n), width: int(k)): stream_vt(double)
+//
+(* ****** ****** *)
+//
+fun
+{a:t@ype}
+list_rolling_stream
+{n:int}
+{k:pos | n >= k}
+(xs: list(INV(a), n), width: int(k)): stream_vt(listGte(a, k))
 //
 (* ****** ****** *)
 

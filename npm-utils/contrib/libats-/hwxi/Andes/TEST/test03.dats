@@ -11974,10 +11974,10 @@ theChanges = list_drop_exn(theChanges, 252*10)
 val
 theChanges = list_drop_exn(theChanges, 252*20)
 *)
-// (*
+(*
 val
 theChanges = list_drop_exn(theChanges, 252*30)
-// *)
+*)
 (*
 val
 theChanges = list_drop_exn(theChanges, 252*40)
@@ -11989,6 +11989,7 @@ theChanges = list_drop_exn(theChanges, 252*40)
 // HX: ys=drop(xs, k)
 *)
 //
+(*
 extern
 fun
 sigma_stream
@@ -11997,20 +11998,22 @@ sigma_stream
 ( k0: int(k)
 , xs: list(double, n1), ys: list(double, n2)
 ) : stream_vt(double)
+*)
 //
 extern
 fun
 kappa_stream
 {k:int | k >= 2}
-{n1,n2:nat | n1 >= n2+k}
+{n1:nat | n1 >= k}
 ( l0: double
 , s0: double
 , k0: int(k)
-, xs: list(double, n1), ys: list(double, n2)
+, xs: list(double, n1)
 ) : stream_vt(double)
 //
 (* ****** ****** *)
 //
+(*
 implement
 sigma_stream
 (
@@ -12038,17 +12041,18 @@ case+ ys of
     stream_vt_cons(stdev, sigma_stream(k0, xs, ys))
   end // end of [sigma_stream]
 )
+*)
 //
 (* ****** ****** *)
 //
 implement
 kappa_stream
 (
-l0, s0, k0, xs, ys
+l0, s0, k0, xs
 ) = let
 //
 val ss =
-sigma_stream(k0, xs, ys)
+list_rolling_stdev(xs, k0)
 //
 fun
 trans(x: double): double = let
@@ -12080,10 +12084,10 @@ val
 theKappas = let
 //
 val xs = theChanges
-val ys = list_drop_exn(xs, k0)
+val () = assertloc(xs >= k0)
 //
 in
-  kappa_stream(l0, s0, k0, xs, ys)
+  kappa_stream(l0, s0, k0, xs)
 end // end of [theKappas]
 //
 val
@@ -12150,7 +12154,7 @@ val () = println! ("theChanges2_100 = ", theChanges2_100)
 //
 val () = println! ("l0 = ", l0)
 val () = println! ("k0 = ", k0)
-val () = println! ("s0 = ", s0)
+val () = println! ("s0(annual) = ", s0*sqrt(252.0))
 //
 val totret =
 list_foldleft_cloref<double><double>(theChanges, 1.0, lam(res, x) => res*(1+x))

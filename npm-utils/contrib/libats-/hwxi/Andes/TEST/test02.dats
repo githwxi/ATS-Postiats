@@ -11895,6 +11895,10 @@ MATH =
 staload _ =
 "libats/libc/DATS/math.dats"
 //
+macdef exp(x) = $MATH.exp(,(x))
+macdef log(x) = $MATH.log(,(x))
+macdef sqrt(x) = $MATH.sqrt(,(x))
+//
 (* ****** ****** *)
 
 #staload "./../SATS/andes_comp.sats"
@@ -11986,10 +11990,10 @@ theChanges = list_drop_exn(theChanges, 252*10)
 val
 theChanges = list_drop_exn(theChanges, 252*20)
 *)
-// (*
+(*
 val
 theChanges = list_drop_exn(theChanges, 252*30)
-// *)
+*)
 (*
 val
 theChanges = list_drop_exn(theChanges, 252*40)
@@ -12010,18 +12014,23 @@ main0() = () where
 {
 //
 val () =
-println! ("theChanges_stdev(daily) = ", theChanges_stdev)
+println!
+("theChanges_stdev(daily) = ", theChanges_stdev)
 val () =
-println! ("theChanges_stdev(annual) = ", theChanges_stdev*$MATH.sqrt(252.0))
+println!
+("theChanges_stdev(annual) = ", theChanges_stdev*sqrt(252.0))
 //
 val N = 1.0*length(theChanges)/252
 val ((*void*)) = println! ("N = ", N)
+//
+val ((*void*)) =
+  println! ("totret = ", 2238.83/93.0)
 //
 val totret =
 list_foldleft_cloref<double><double>(list_tail(theChanges), 1.0, lam(res, x) => res*(1+x))
 val ((*void*)) = println! ("totret = ", totret)
 //
-val avgret = $MATH.exp($MATH.log(totret) / N) - 1
+val avgret = exp(log(totret) / N) - 1
 val ((*void*)) = println! ("avgret = ", avgret)
 //
 } (* end of [main0] *)

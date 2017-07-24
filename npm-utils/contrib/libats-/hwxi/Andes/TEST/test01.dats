@@ -97,12 +97,13 @@ $list{double}
 ) (* theIndexes *)
 
 (* ****** ****** *)
-
+//
+(*
+//
 val-
-list_cons(index0, theIndexes) = theIndexes
-
-(* ****** ****** *)
-
+list_cons
+(index0,theIndexes) = theIndexes
+//
 val
 theChanges =
 auxlst(index0, theIndexes) where
@@ -115,7 +116,13 @@ case+ xs of
 | list_cons(x1, xs) => list_cons((x1 - x0) / x0, auxlst(x1, xs))
 )
 }
-
+*)
+//
+val
+theChanges = list_change_ratios(theIndexes)
+val
+theChanges = list_vt2t(stream2list_vt(theChanges))
+//
 (* ****** ****** *)
 //
 val () =
@@ -136,6 +143,9 @@ implement
 main0() = () where
 {
 //
+(*
+val () = println! ("theChanges = ", theChanges)
+*)
 val () = println! ("theChanges_stdev(daily) = ", theChanges_stdev)
 val () = println! ("theChanges_stdev(annual) = ", theChanges_stdev*sqrt(252.0))
 //

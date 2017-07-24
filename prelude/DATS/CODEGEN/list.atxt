@@ -605,9 +605,9 @@ list_length_gte
 implement
 {x}(*tmp*)
 list_length_compare
-  (xs, n2) = let
-//
-prval() = lemma_list_param (xs)
+  (xs, n2) =
+  loop(xs, n2) where
+{
 //
 fun
 loop
@@ -626,9 +626,9 @@ case+ xs of
 )
 ) (* end of [loop] *)
 //
-in
-  loop(xs, n2)
-end // end of [list_length_compare]
+prval() = lemma_list_param(xs)
+//
+} (* end of [list_length_compare] *)
 //
 #atscode_separator()
 
