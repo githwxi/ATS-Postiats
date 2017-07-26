@@ -67,6 +67,11 @@ PHParref_set_at
   {a:t0p}(A: PHParref(a), i: int, x: a): void = "mac#%"
 //
 (* ****** ****** *)
+
+overload [] with PHParref_get_at of 100
+overload [] with PHParref_set_at of 100
+
+(* ****** ****** *)
 //
 fun
 PHParref_unset

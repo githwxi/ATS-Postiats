@@ -26,6 +26,11 @@ function
 ats2phppre_PHParray_pair($x1, $x2) { return array($x1, $x2); }
 //
 /* ****** ****** */
+//
+function
+ats2phppre_PHParray_get_at($A, $i) { return $A[$i] ; }
+//
+/* ****** ****** */
 
 /* end of [PHParray_cats.php] */
 

@@ -1,3 +1,4 @@
+######
 #
 # A simple Makefile
 #
@@ -18,7 +19,7 @@ regress::
 cleanall::
 
 ######
-
+#
 all:: \
 test01_dats.php
 test01_dats.c: \
@@ -27,7 +28,7 @@ test01_dats.php: \
 test01_dats.c; $(ATSCC2PHP) -o $@ -i $<
 #
 ######
-
+#
 all:: \
 test02_dats.php
 test02_dats.c: \

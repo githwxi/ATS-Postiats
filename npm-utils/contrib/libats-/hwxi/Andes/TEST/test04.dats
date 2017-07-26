@@ -9760,9 +9760,13 @@ case+ xs of
 val
 theChanges = list_drop_exn(theChanges, 252*10)
 *)
-// (*
+(*
 val
 theChanges = list_drop_exn(theChanges, 252*20)
+*)
+// (*
+val
+theChanges = list_drop_exn(theChanges, 252*25)
 // *)
 (*
 val
@@ -9798,10 +9802,10 @@ trans(x: double): double = let
 in
   ifcase
 // (*
-  | e >= 0.1 => 10.0
-  | e <= ~0.2 => 0.25
+  | e >= 0.10 => 10.0
+  | e <= ~0.20 => 0.20
 // *)
-  | _(* else *) => x
+  | _(* else *) => 10.0
 end
 //
 in
@@ -9814,8 +9818,8 @@ macdef sqrt = $MATH.sqrt
 
 (* ****** ****** *)
 //
-val k0 = 2
-val l0 = 2.00
+val k0 = 21
+val l0 = 3.00
 (*
 val s0 = 0.169/sqrt(252.0)
 *)

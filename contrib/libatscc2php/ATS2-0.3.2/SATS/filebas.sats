@@ -60,11 +60,22 @@ fun
 fwrite_3
   (!PHPfilp0, inp: string, maxlen: int): int = "mac#%"
 //
-fun fwrite_checkret(nwrit: int): void = "mac#%"
+fun
+fwrite_checkret(nwrit: int): void = "mac#%"
 //
 symintr fwrite
 overload fwrite with fwrite_2
 overload fwrite with fwrite_3
+//
+(* ****** ****** *)
+//
+fun
+streamize_fileref_line
+  (inp: PHPfilr): stream_vt(string) = "mac#%"
+//
+fun
+streamize_fileptr_line
+  (inp: PHPfilp1): stream_vt(string) = "mac#%"
 //
 (* ****** ****** *)
 

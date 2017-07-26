@@ -11236,13 +11236,17 @@ theChanges = list_drop_exn(theChanges, 252*10)
 val
 theChanges = list_drop_exn(theChanges, 252*20)
 *)
-(*
+// (*
 val
 theChanges = list_drop_exn(theChanges, 252*25)
-*)
+// *)
 (*
 val
 theChanges = list_drop_exn(theChanges, 252*30)
+*)
+(*
+val
+theChanges = list_drop_exn(theChanges, 252*35)
 *)
 (*
 val
@@ -11277,11 +11281,8 @@ trans(x: double): double = let
   val e = x - 1
 in
   ifcase
-// (*
-  | e >= 0.1 => 10.0
   | e <= ~0.2 => 0.25
-// *)
-  | _(* else *) => x
+  | _(* else *) => 10.0
 end
 //
 in
@@ -11294,8 +11295,8 @@ macdef sqrt = $MATH.sqrt
 
 (* ****** ****** *)
 //
-val k0 = 11
-val l0 = 2.00
+val k0 = 21
+val l0 = 5.00
 val s0 = 0.199/sqrt(252.0)
 // val s0 = 0.260/sqrt(252.0)
 //
@@ -11398,6 +11399,23 @@ val ((*void*)) = println! ("totret = ", totret)
 val totret2 =
 list_foldleft_cloref<double><double>(theChanges2, 1.0, lam(res, x) => res*(1+x))
 val ((*void*)) = println! ("totret2 = ", totret2)
+//
+val () = loop(theChanges, theChanges2) where
+{
+fun
+loop
+( xs: List(double)
+, ys: List(double)): void = 
+(
+case+
+(xs, ys) of
+| (list_cons(x, xs),
+   list_cons(y, ys)) =>
+  (println! (x, "/", y); loop(xs, ys))
+| (_, _) => ()
+)
+}
+
 //
 val N = 1.0*length(theChanges)/252
 val ((*void*)) = println! ("N = ", N)

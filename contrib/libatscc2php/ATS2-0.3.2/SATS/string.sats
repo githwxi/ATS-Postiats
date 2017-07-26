@@ -49,6 +49,15 @@ overload isneqz with string1_isnot_empty of 110
 //
 (* ****** ****** *)
 //
+fun
+strcmp
+  (string, string): int = "mac#%"
+fun
+strncmp
+  (string, string, n: intGte(0)): int = "mac#%"
+//
+(* ****** ****** *)
+//
 fun lt_string_string
   : (string, string) -> bool = "mac#%"
 fun lte_string_string

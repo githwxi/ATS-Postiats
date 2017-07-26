@@ -14,8 +14,19 @@ ATS_EXTERN_PREFIX "ats2phppre_"
 (* ****** ****** *)
 //
 fun
+boolize
+{a:t@ype}
+(x: (a)): bool = "mac#%"
+fun
+boolize_vt
+{a:vt@ype}
+(x: !INV(a)): bool = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 neg_bool0
-  : bool -> bool = "mac#%"
+  : (bool) -> bool = "mac#%"
 fun
 neg_bool1
   : {b:bool} bool(b) -> bool(~b) = "mac#%"
