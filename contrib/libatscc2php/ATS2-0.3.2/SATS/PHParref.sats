@@ -80,17 +80,37 @@ PHParref_unset
 (* ****** ****** *)
 //
 fun
-PHParref_extend{a:t0p}(A: PHParref(a), x: a): void = "mac#%"
+PHParref_extend{a:t0p}(A: PHParref(a), x0: a): void = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
-PHParref_copy{a:t0p}(PHParref(a)): PHParref(a) = "mac#%"
+PHParref_copy
+  {a:t0p}(A0: PHParref(a)): PHParref(a) = "mac#%"
+fun
+PHParref_values
+  {a:t0p}(A0: PHParref(a)): PHParref(a) = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
-PHParref_values{a:t0p}(PHParref(a)): PHParref(a) = "mac#%"
+PHParref2array
+  {a:t0p}(A0: PHParref(a)): PHParray(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+PHParref2list
+  {a:t0p}(A: PHParref(a)): List0(a) = "mac#%"
+fun
+PHParref2list_rev
+  {a:t0p}(A: PHParref(a)): List0(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+PHParref_streamize_elt
+  {a:t0p}(A: PHParref(a)): stream_vt(a) = "mac#%"
 //
 (* ****** ****** *)
 

@@ -34,10 +34,34 @@ PHParray_pair
 (* ****** ****** *)
 //
 fun
+PHParray_size
+  {a:t0p}(A0: PHParray(a)): intGte(0) = "mac#%"
+//
+overload size with PHParray_size of 100
+overload .size with PHParray_size of 100
+//
+(* ****** ****** *)
+//
+fun
 PHParray_get_at
   {a:t0p}(A: PHParray(a), i: int): a = "mac#%"
 //
 overload [] with PHParray_get_at of 100
+//
+(* ****** ****** *)
+//
+fun
+PHParray2list
+  {a:t0p}(A: PHParray(a)): List0(a) = "mac#%"
+fun
+PHParray2list_rev
+  {a:t0p}(A: PHParray(a)): List0(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+PHParray_streamize_elt
+  {a:t0p}(A: PHParray(a)): stream_vt(a) = "mac#%"
 //
 (* ****** ****** *)
 

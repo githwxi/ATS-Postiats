@@ -124,6 +124,11 @@ ats2phppre_PHParref_values
 }
 
 /* ****** ****** */
+//
+function
+ats2phppre_PHParref2array($A) { return ($A->array); }
+//
+/* ****** ****** */
 
 /* end of [PHParref_cats.php] */
 

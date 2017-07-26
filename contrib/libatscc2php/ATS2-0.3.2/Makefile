@@ -37,6 +37,12 @@ all:: ; \
 $(PATSOPT) -d ./DATS/intrange.dats | \
 $(ATSCC2PHP) -o ./output/DATS/intrange_dats.php -i
 all:: ; \
+$(PATSOPT) -d ./DATS/PHParray.dats | \
+$(ATSCC2PHP) -o ./output/DATS/PHParray_dats.php -i
+all:: ; \
+$(PATSOPT) -d ./DATS/PHParref.dats | \
+$(ATSCC2PHP) -o ./output/DATS/PHParref_dats.php -i
+all:: ; \
 $(PATSOPT) -d ./DATS/arrayref.dats | \
 $(ATSCC2PHP) -o ./output/DATS/arrayref_dats.php -i
 all:: ; \
@@ -118,6 +124,8 @@ output/DATS/stream_dats.php \
 output/DATS/stream_vt_dats.php \
 output/DATS/filebas_dats.php \
 output/DATS/intrange_dats.php \
+output/DATS/PHParray_dats.php \
+output/DATS/PHParref_dats.php \
 output/DATS/arrayref_dats.php \
 output/DATS/reference_dats.php \
 output/DATS/slistref_dats.php \
