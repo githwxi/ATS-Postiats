@@ -169,6 +169,15 @@ in
 end // end of [list_length]
 
 (* ****** ****** *)
+//
+implement
+list_head(xs) =
+let val+list_cons(x, _) = xs in x end
+implement
+list_tail(xs) =
+let val+list_cons(_, xs) = xs in xs end
+//
+(* ****** ****** *)
 
 implement
 list_last(xs) = let

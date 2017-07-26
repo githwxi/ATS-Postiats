@@ -15,10 +15,18 @@ fun
 abs_int0 : int -<fun> int = "mac#%"
 overload abs with abs_int0 of 100
 //
+(* ****** ****** *)
+//
 fun
 neg_int0 : int -<fun> int = "mac#%"
+//
+fun neg_int1
+  : {i:int} int(i) -<fun> int(~i) = "mac#%"
+//
 overload ~ with neg_int0 of 100
+overload ~ with neg_int1 of 110
 overload neg with neg_int0 of 100
+overload neg with neg_int1 of 110
 //
 (* ****** ****** *)
 //
@@ -119,6 +127,24 @@ overload >= with gte_int1_int1 of 120
 overload = with eq_int1_int1 of 120
 overload != with neq_int1_int1 of 120
 overload <> with neq_int1_int1 of 120
+//
+(* ****** ****** *)
+//
+fun max_int0_int0: (int, int) -<fun> int = "mac#%"
+fun min_int0_int0: (int, int) -<fun> int = "mac#%"
+//
+fun max_int1_int1
+  : {i,j:int} (int(i), int(j)) -<fun> int(max(i,j)) = "mac#%"
+fun min_int1_int1
+  : {i,j:int} (int(i), int(j)) -<fun> int(min(i,j)) = "mac#%"
+//
+(* ****** ****** *)
+//
+overload max with max_int0_int0 of 100
+overload min with min_int0_int0 of 100
+//
+overload max with max_int1_int1 of 120
+overload min with min_int1_int1 of 120
 //
 (* ****** ****** *)
 

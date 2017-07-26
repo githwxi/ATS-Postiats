@@ -100,6 +100,13 @@ function
 ats2phppre_neq_double_double($x, $y) { return ($x !== $y); }
 
 /* ****** ****** */
+//
+function
+ats2phppre_max_double_double($x, $y) { return max($x, $y); }
+function
+ats2phppre_min_double_double($x, $y) { return min($x, $y); }
+//
+/* ****** ****** */
 
 function
 ats2phppre_exp_int($n) { return exp($n); }

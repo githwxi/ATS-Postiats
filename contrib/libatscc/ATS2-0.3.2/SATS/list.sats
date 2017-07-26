@@ -78,6 +78,31 @@ overload length with list_length of 100
 (* ****** ****** *)
 //
 fun
+list_length_gte
+  {x:t0p}{n1,n2:int}
+  (xs: list(INV(x), n1), n2: int(n2)): bool(n1 >= n2)
+fun
+list_length_compare
+  {x:t0p}{n1,n2:int}
+  (xs: list(INV(x), n1), n2: int(n2)): int(sgn(n1-n2))
+//
+overload >= with list_length_gte of 100
+overload compare with list_length_compare of 100
+//
+(* ****** ****** *)
+//
+fun
+list_head
+{x:t0p}{n:pos}
+(list(INV(x), n)):<> (x) = "mac#%"
+fun
+list_tail
+{x:t0p}{n:pos}
+(SHR(list(INV(x), n))):<> list(x, n-1) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 list_last
   {a:t0p}{n:pos}
   (xs: list(INV(a), n)): (a) = "mac#%"

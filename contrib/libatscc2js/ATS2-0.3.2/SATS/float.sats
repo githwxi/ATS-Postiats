@@ -174,7 +174,20 @@ fun
 compare_double_double
   (x1: double, x2: double):<> Sgn = "mac#%"
 //
-overload compare with compare_double_double of 100
+overload
+compare with compare_double_double of 100
+//
+(* ****** ****** *)
+//
+fun
+max_double_double
+  : (double, double) -<> double = "mac#%"
+fun
+min_double_double
+  : (double, double) -<> double = "mac#%"
+//
+overload max with max_double_double of 100
+overload min with min_double_double of 100
 //
 (* ****** ****** *)
 

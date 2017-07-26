@@ -13,8 +13,13 @@
 
 sub
 ats2plpre_abs_int0($) { return abs($_[0]); }
+
+############################################
+
 sub
 ats2plpre_neg_int0($) { return ( -($_[0]) ); }
+sub
+ats2plpre_neg_int1($) { return ( -($_[0]) ); }
 
 ############################################
 

@@ -78,6 +78,17 @@ overload length with list_length of 100
 (* ****** ****** *)
 //
 fun
+list_head
+{x:t0p}{n:pos}
+(list(INV(x), n)):<> (x) = "mac#%"
+fun
+list_tail
+{x:t0p}{n:pos}
+(SHR(list(INV(x), n))):<> list(x, n-1) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 list_last
   {a:t0p}{n:pos}
   (xs: list(INV(a), n)): (a) = "mac#%"

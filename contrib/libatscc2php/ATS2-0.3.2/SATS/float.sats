@@ -138,6 +138,18 @@ overload <> with neq_double_double of 100
 (* ****** ****** *)
 //
 fun
+max_double_double
+  : (double, double) -<> double = "mac#%"
+fun
+min_double_double
+  : (double, double) -<> double = "mac#%"
+//
+overload max with max_double_double of 100
+overload min with min_double_double of 100
+//
+(* ****** ****** *)
+//
+fun
 exp_int(int): double = "mac#%"
 fun
 exp_double

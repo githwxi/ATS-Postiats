@@ -21,6 +21,22 @@ implement
 stream_vt_make_nil() =
 $ldelay(stream_vt_nil())
 //
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+stream_vt_make_cons(x, xs) =
+$ldelay(
+  stream_vt_cons(x, xs), $effmask_wrt(~xs)
+)(*$ldelay*)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+stream_vt_sing(x0) =
+stream_vt_cons(x0, stream_vt_make_nil())
+//
 implement
 {}(*tmp*)
 stream_vt_make_sing(x0) =

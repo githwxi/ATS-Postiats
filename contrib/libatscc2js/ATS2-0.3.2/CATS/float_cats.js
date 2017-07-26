@@ -135,5 +135,12 @@ ats2jspre_compare_double_double(x, y)
 }
 
 /* ****** ****** */
+//
+function
+ats2jspre_max_double_double(x, y) { return (x >= y) ? x : y ; }
+function
+ats2jspre_min_double_double(x, y) { return (x <= y) ? x : y ; }
+//
+/* ****** ****** */
 
 /* end of [float_cats.js] */
