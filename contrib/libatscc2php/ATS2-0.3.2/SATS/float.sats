@@ -28,21 +28,36 @@ overload abs with abs_double of 100
 
 (* ****** ****** *)
 
-fun neg_double
+fun
+neg_double
   : (double) -> double = "mac#%"
 overload ~ with neg_double of 100
 overload neg with neg_double of 100
 
 (* ****** ****** *)
-
-fun succ_double : (double) -> double = "mac#%"
-fun pred_double : (double) -> double = "mac#%"
-
-(* ****** ****** *)
-
+//
+fun
+succ_double
+  : (double) -> double = "mac#%"
+fun
+pred_double
+  : (double) -> double = "mac#%"
+//
 overload succ with succ_double of 100
 overload pred with pred_double of 100
-
+//
+(* ****** ****** *)
+//
+fun
+sqrt_double
+  : (double) -> double = "mac#%"
+fun
+cbrt_double
+  : (double) -> double = "mac#%"
+//
+overload sqrt with sqrt_double of 100
+overload cbrt with cbrt_double of 100
+//
 (* ****** ****** *)
 //
 fun add_int_double
@@ -119,6 +134,41 @@ overload >= with gte_double_double of 100
 overload = with eq_double_double of 100
 overload != with neq_double_double of 100
 overload <> with neq_double_double of 100
+//
+(* ****** ****** *)
+//
+fun
+exp_int(int): double = "mac#%"
+fun
+exp_double
+  : (double) -> double = "mac#%"
+//
+overload exp with exp_int of 100
+overload exp with exp_double of 100
+//
+(* ****** ****** *)
+//
+fun
+log_double
+  : (double) -> double = "mac#%"
+fun
+log_double_double
+  : (double, double) -> double = "mac#%"
+//
+overload log with log_double of 100
+overload log with log_double_double of 100
+//
+(* ****** ****** *)
+//
+fun
+pow_double_int
+  : (double, int) -> double = "mac#%"
+fun
+pow_double_double
+  : (double, double) -> double = "mac#%"
+//
+overload pow with pow_double_int of 100
+overload pow with pow_double_double of 100
 //
 (* ****** ****** *)
 

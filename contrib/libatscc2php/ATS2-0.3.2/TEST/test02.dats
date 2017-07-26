@@ -7,9 +7,9 @@
 #define
 ATS_MAINATSFLAG 1
 #define
-ATS_DYNLOADNAME "test02_dynload"
-#define
 ATS_STATIC_PREFIX "_test02_"
+#define
+ATS_DYNLOADNAME "test02_dynload"
 //
 (* ****** ****** *)
 
