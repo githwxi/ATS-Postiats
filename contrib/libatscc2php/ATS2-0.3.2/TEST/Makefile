@@ -18,7 +18,7 @@ regress::
 cleanall::
 
 ######
-
+#
 all:: \
 test01_dats.php
 test01_dats.c: \
@@ -27,7 +27,7 @@ test01_dats.php: \
 test01_dats.c; $(ATSCC2PHP) -o $@ -i $<
 #
 ######
-
+#
 all:: \
 test02_dats.php
 test02_dats.c: \
@@ -37,8 +37,18 @@ test02_dats.c; $(ATSCC2PHP) -o $@ -i $<
 #
 ######
 #
+all:: \
+test03_dats.php
+test03_dats.c: \
+test03.dats; $(PATSOPT) -o $@ -d $<
+test03_dats.php: \
+test03_dats.c; $(ATSCC2PHP) -o $@ -i $<
+#
+######
+#
 regress:: test01_dats.php; $(PHP) -f $<
 regress:: test02_dats.php; $(PHP) -f $<
+regress:: test03_dats.php; $(PHP) -f $<
 #
 ######
 

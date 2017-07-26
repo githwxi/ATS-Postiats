@@ -47,6 +47,13 @@ ats2phppre_pred_double($x) { return ($x - 1); }
 /* ****** ****** */
 
 function
+ats2phppre_sqrt_double($x) { return sqrt($x); }
+function
+ats2phppre_cbrt_double($x) { return pow($x, 1/3); }
+
+/* ****** ****** */
+
+function
 ats2phppre_add_double_int($x, $y) { return ($x + $y); }
 function
 ats2phppre_sub_double_int($x, $y) { return ($x - $y); }
@@ -91,6 +98,27 @@ function
 ats2phppre_eq_double_double($x, $y) { return ($x === $y); }
 function
 ats2phppre_neq_double_double($x, $y) { return ($x !== $y); }
+
+/* ****** ****** */
+
+function
+ats2phppre_exp_int($n) { return exp($n); }
+function
+ats2phppre_exp_double($n) { return exp($n); }
+
+/* ****** ****** */
+
+function
+ats2phppre_log_double($p) { return log($p); }
+function
+ats2phppre_log_double_double($p, $base) { return log($p, $base); }
+
+/* ****** ****** */
+
+function
+ats2phppre_pow_double_int($base, $n) { return pow($base, $n); }
+function
+ats2phppre_pow_double_double($base, $n) { return pow($base, $n); }
 
 /* ****** ****** */
 
