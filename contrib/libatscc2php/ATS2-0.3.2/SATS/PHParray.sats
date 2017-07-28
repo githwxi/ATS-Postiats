@@ -60,6 +60,17 @@ PHParray2list_rev
 (* ****** ****** *)
 //
 fun
+PHParray2list_map
+  {a:t0p}{b:t0p}
+  (A: PHParray(a), fopr: cfun(a, b)): List0(b) = "mac#%"
+fun
+PHParray2list_map_rev
+  {a:t0p}{b:t0p}
+  (A: PHParray(a), fopr: cfun(a, b)): List0(b) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 PHParray_streamize_elt
   {a:t0p}(A: PHParray(a)): stream_vt(a) = "mac#%"
 //

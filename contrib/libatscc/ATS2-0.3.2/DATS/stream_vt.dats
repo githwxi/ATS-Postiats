@@ -151,6 +151,7 @@ case+ !xs of
 
 (* ****** ****** *)
 //
+(*
 implement
 stream2list_vt
   {a}(xs) =
@@ -167,6 +168,15 @@ case+ !xs of
 )
 //
 }
+*)
+(* ****** ****** *)
+//
+implement
+stream2list_vt
+  {a}(xs) =
+  list_vt_reverse(stream2list_vt_rev(xs))
+//
+(* ****** ****** *)
 //
 implement
 stream2list_vt_rev

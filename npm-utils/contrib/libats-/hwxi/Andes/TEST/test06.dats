@@ -24179,8 +24179,10 @@ val
 theChanges = list_drop_exn(theChanges, 252*80)
 *)
 //
+(*
 val
 theChanges = list_drop_exn(theChanges, 252*90)
+*)
 //
 (* ****** ****** *)
 //
@@ -24211,10 +24213,10 @@ trans(x: double): double = let
   val e = x - 1
 in
   ifcase
-// (*
+(*
   | e >= 0.1 => 10.0
   | e <= ~0.2 => 0.25
-// *)
+*)
   | _(* else *) => x
 end
 //
@@ -24229,12 +24231,9 @@ macdef sqrt = $MATH.sqrt
 (* ****** ****** *)
 //
 val k0 = 21
-val l0 = 2.00
-(*
-val s0 = 0.169/sqrt(252.0)
-*)
+val l0 = 1.30
 //
-val s0 = 0.186/sqrt(252.0)
+val s0 = 0.168/sqrt(252.0)
 //
 val
 theKappas = let
@@ -24322,7 +24321,7 @@ println!
 ("theChanges_stdev(daily) = ", theChanges_stdev)
 val () =
 println!
-("theChanges_stdev(annual) = ", theChanges_stdev*$MATH.sqrt(252.0))
+("theChanges_stdev(annual) = ", theChanges_stdev*sqrt(252.0))
 //
 val () = println! ("l0 = ", l0)
 val () = println! ("k0 = ", k0)

@@ -101,6 +101,7 @@ loop
 
 (* ****** ****** *)
 //
+(*
 implement
 stream2list
   {a}(xs) =
@@ -117,6 +118,17 @@ case+ !xs of
 )
 //
 }
+*)
+//
+implement
+stream2list
+  {a}(xs) =
+(
+list_reverse
+  (stream2list_rev(xs))
+)
+//
+(* ****** ****** *)
 //
 implement
 stream2list_rev

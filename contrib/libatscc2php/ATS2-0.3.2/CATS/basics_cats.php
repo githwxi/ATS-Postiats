@@ -31,7 +31,7 @@ function
 ATSCKptriscons($xs) { return ($xs !== NULL) ; }
 
 /* ****** ****** */
-
+//
 function
 ATSCKpat_int($tmp, $given) { return ($tmp === $given) ; }
 function
@@ -40,7 +40,11 @@ function
 ATSCKpat_char($tmp, $given) { return ($tmp === $given) ; }
 function
 ATSCKpat_float($tmp, $given) { return ($tmp === $given) ; }
-
+//
+function
+ATSCKpat_string
+  ($tmp, $given) { return (strcmp($tmp, $given) === 0) ; }
+//
 /* ****** ****** */
 
 function
@@ -120,24 +124,31 @@ ats2phppre_echo_obj($x) { echo($x); return; }
 /*
 //
 function
-ats2phppre_echo0_obj() { return; }
+ats2phppre_echo0_obj
+  () { return; }
 function
-ats2phppre_echo1_obj($x1) { echo($x1); return; }
+ats2phppre_echo1_obj
+  ($x1) { echo $x1; return; }
 function
-ats2phppre_echo2_obj($x1, $x2) { echo $x1, $x2; return; }
+ats2phppre_echo2_obj
+  ($x1, $x2) { echo $x1, $x2; return; }
 //
 function
 ats2phppre_echo3_obj
-  ($x1, $x2, $x3) { echo $x1, $x2, $x3; return; }
+  ($x1, $x2, $x3)
+  { echo $x1, $x2, $x3; return; }
 function
 ats2phppre_echo4_obj
-  ($x1, $x2, $x3, $x4) { echo $x1, $x2, $x3, $x4; return; }
+  ($x1, $x2, $x3, $x4)
+  { echo $x1, $x2, $x3, $x4; return; }
 function
 ats2phppre_echo5_obj
-  ($x1, $x2, $x3, $x4, $x5) { echo $x1, $x2, $x3, $x4, $x5; return; }
+  ($x1, $x2, $x3, $x4, $x5)
+  { echo $x1, $x2, $x3, $x4, $x5; return; }
 function
 ats2phppre_echo6_obj
-  ($x1, $x2, $x3, $x4, $x5, $x6) { echo $x1, $x2, $x3, $x4, $x5, $x6; return; }
+  ($x1, $x2, $x3, $x4, $x5, $x6)
+  { echo $x1, $x2, $x3, $x4, $x5, $x6; return; }
 //
 function
 ats2phppre_echo7_obj
@@ -152,11 +163,21 @@ ats2phppre_echo8_obj
 /* ****** ****** */
 
 function
-ats2phppre_print_newline() { ats2phppre_fprint_newline(STDOUT); }
+ats2phppre_print_newline()
+  { ats2phppre_fprint_newline(STDOUT); }
 function
-ats2phppre_prerr_newline() { ats2phppre_fprint_newline(STDERR); }
+ats2phppre_prerr_newline()
+  { ats2phppre_fprint_newline(STDERR); }
 function
-ats2phppre_fprint_newline($out) { fprintf($out, "\n"); fflush($out); return; }
+ats2phppre_fprint_newline($out)
+  { fprintf($out, "\n"); fflush($out); return; }
+
+/* ****** ****** */
+
+function
+ats2phppre_intval($x) { return intval($x); }
+function
+ats2phppre_floatval($x) { return floatval($x); }
 
 /* ****** ****** */
 

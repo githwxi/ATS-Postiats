@@ -11236,10 +11236,10 @@ theChanges = list_drop_exn(theChanges, 252*10)
 val
 theChanges = list_drop_exn(theChanges, 252*20)
 *)
-// (*
+(*
 val
 theChanges = list_drop_exn(theChanges, 252*25)
-// *)
+*)
 (*
 val
 theChanges = list_drop_exn(theChanges, 252*30)
@@ -11281,8 +11281,11 @@ trans(x: double): double = let
   val e = x - 1
 in
   ifcase
+(*
   | e <= ~0.2 => 0.25
   | _(* else *) => 10.0
+*)
+  | _(* else *) => x
 end
 //
 in
@@ -11296,8 +11299,8 @@ macdef sqrt = $MATH.sqrt
 (* ****** ****** *)
 //
 val k0 = 21
-val l0 = 5.00
-val s0 = 0.199/sqrt(252.0)
+val l0 = 1.3
+val s0 = 0.200/sqrt(252.0)
 // val s0 = 0.260/sqrt(252.0)
 //
 val
@@ -11363,30 +11366,27 @@ theKappas_100 = list_vt2t(theKappas_100)
 val () = println! ("theKappas_100 = ", theKappas_100)
 *)
 //
-(*
+// (*
 val
 theChanges_100 =
 list_take_exn(theChanges, 100)
 val
 theChanges_100 = list_vt2t(theChanges_100)
 val () = println! ("theChanges_100 = ", theChanges_100)
-*)
-//
-(*
 val
 theChanges2_100 =
 list_take_exn(theChanges2, 100)
 val
 theChanges2_100 = list_vt2t(theChanges2_100)
 val () = println! ("theChanges2_100 = ", theChanges2_100)
-*)
+// *)
 //
 val () =
 println!
 ("theChanges_stdev(daily) = ", theChanges_stdev)
 val () =
 println!
-("theChanges_stdev(annual) = ", theChanges_stdev*$MATH.sqrt(252.0))
+("theChanges_stdev(annual) = ", theChanges_stdev*sqrt(252.0))
 //
 val () = println! ("l0 = ", l0)
 val () = println! ("k0 = ", k0)
@@ -11400,7 +11400,10 @@ val totret2 =
 list_foldleft_cloref<double><double>(theChanges2, 1.0, lam(res, x) => res*(1+x))
 val ((*void*)) = println! ("totret2 = ", totret2)
 //
-val () = loop(theChanges, theChanges2) where
+// (*
+val () =
+loop
+(theChanges, theChanges2) where
 {
 fun
 loop
@@ -11415,7 +11418,7 @@ case+
 | (_, _) => ()
 )
 }
-
+// *)
 //
 val N = 1.0*length(theChanges)/252
 val ((*void*)) = println! ("N = ", N)

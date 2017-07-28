@@ -54,19 +54,19 @@ typedef NSH(a:type) = a // for commenting purpose
 (* ****** ****** *)
 //
 fun{}
-itoa (x: int):<> string
+itoa(x: int):<> string
 //
 (* ****** ****** *)
 //
 fun{}
-string_sing (c: charNZ):<> string
+string_sing(c: charNZ):<> string
 //
 (* ****** ****** *)
 //
 fun{}
-string_is_empty (NSH(string)):<> bool
+string_is_empty(NSH(string)):<> bool
 fun{}
-string_isnot_empty (NSH(string)):<> bool
+string_isnot_empty(NSH(string)):<> bool
 //
 overload iseqz with string_is_empty
 overload isneqz with string_isnot_empty

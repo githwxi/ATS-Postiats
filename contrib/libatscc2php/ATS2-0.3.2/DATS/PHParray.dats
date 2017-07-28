@@ -40,7 +40,7 @@ val [n:int] asz = A.size()
 //
 fun
 loop
-{i:nat | i <= n}
+{i:nat|i <= n}
 (i: int(i),
  res: list(a, n-i)): list(a, n) =
 (
@@ -65,42 +65,101 @@ val [n:int] asz = A.size()
 //
 fun
 loop
-{i:nat | i <= n}
-(i: int(i),
- res: list(a, i)): list(a, n) =
+{n:nat}
+{i:nat|i <= n}
+( n: int(n)
+, i: int(i)
+, res: list(a, i)): list(a, n) =
 (
-if i < asz
-  then loop(i+1, list_cons(A[i], res)) else res
+if
+(i < n)
+then
+loop(n, i+1, list_cons(A[i], res))
+else res
 // end of [if]
 ) (* end of [loop] *)
 //
 in
-  loop(0, list_nil())
+  loop(asz, 0, list_nil())
 end // end of [PHParray2list_rev]
+
+(* ****** ****** *)
+
+implement
+PHParray2list_map
+  {a}{b}(A, fopr) = let
+//
+val [n:int] asz = A.size()
+//
+fun
+loop
+{i:nat|i <= n}
+(i: int(i),
+ res: list(b, n-i)): list(b, n) =
+(
+if i > 0
+  then
+  loop(i-1, list_cons(fopr(A[i-1]), res))
+  else res
+// end of [if]
+) (* end of [loop] *)
+//
+in
+  loop(asz, list_nil())
+end // end of [PHParray2list_map]
+
+(* ****** ****** *)
+
+implement
+PHParray2list_map_rev
+  {a}{b}(A, fopr) = let
+//
+val [n:int] asz = A.size()
+//
+fun
+loop
+{n:nat}
+{i:nat|i <= n}
+( n: int(n)
+, i: int(i)
+, res: list(b, i)): list(b, n) =
+(
+if
+(i < n)
+then
+loop(n, i+1, list_cons(fopr(A[i]), res))
+else res
+// end of [if]
+) (* end of [loop] *)
+//
+in
+  loop(asz, 0, list_nil())
+end // end of [PHParray2list_map_rev]
 
 (* ****** ****** *)
 
 implement
 PHParray_streamize_elt
   {a}(A) =
-  auxmain(asz) where
+  auxmain(asz, 0) where
 {
 //
 val [n:int] asz = A.size()
 //
 fun
 auxmain
-{i:nat | i <= n}
+{n:int}
+{i:nat|i <= n}
 (
- i: int(i)
+ n: int(n), i: int(i)
 ) : stream_vt(a) = $ldelay
 (
-if i > 0
+if i < n
   then
   stream_vt_cons
-    (A[i-1], auxmain(i-1))
+    (A[i], auxmain(n, i+1))
   // then
-  else stream_vt_nil(*void*)
+  else stream_vt_nil((*void*))
 // end of [if]
 ) (* end of [auxmain] *)
 //
