@@ -297,15 +297,15 @@ string_make_substring
 val x = g1ofg0_string(x)
 val st = g1ofg0_uint(st)
 and ln = g1ofg0_uint(ln)
-val lnx = prelude_string1_length (x)
+val lnx = prelude_string1_length(x)
 //
-val st = min (st, lnx)
+val st = min(st, lnx)
 //
 val
 substr =
 $effmask_wrt
 (
-  prelude_string_make_substring (x, st, min (ln, lnx-st))
+  prelude_string_make_substring(x, st, min(ln, lnx-st))
 ) (* end of [val] *)
 //
 in

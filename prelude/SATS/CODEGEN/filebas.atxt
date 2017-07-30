@@ -326,6 +326,18 @@ fun{}
 streamize_fileref_line(inp: FILEref): stream_vt(Strptr1)
 //
 #atscode_separator()
+//
+absvtype FILEptr1_vtype = ptr
+vtypedef FILEptr1 = FILEptr1_vtype
+//
+(*
+fun{}
+streamize_fileptr_char(inp: FILEptr1): stream_vt(char)
+*)
+fun{}
+streamize_fileptr_line(inp: FILEptr1): stream_vt(Strptr1)
+//
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 

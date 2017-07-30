@@ -67,12 +67,15 @@ macdef
 prelude_fileref_get_lines_stringlst = fileref_get_lines_stringlst
 
 (* ****** ****** *)
-
+//
 macdef
 prelude_streamize_fileref_char = streamize_fileref_char
+//
 macdef
 prelude_streamize_fileref_line = streamize_fileref_line
-
+macdef
+prelude_streamize_fileptr_line = streamize_fileptr_line
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
@@ -174,6 +177,8 @@ streamize_fileref_char
   (filr) =
   prelude_streamize_fileref_char(filr)
 //
+(* ****** ****** *)
+//
 implement
 {}(*tmp*)
 streamize_fileref_line
@@ -182,6 +187,14 @@ streamize_fileref_line
 $UN.castvwtp0{stream_vt(string)}
   (prelude_streamize_fileref_line(filr))
 ) // end of [streamize_fileref_line]
+implement
+{}(*tmp*)
+streamize_fileptr_line
+  (filp) =
+(
+$UN.castvwtp0{stream_vt(string)}
+  (prelude_streamize_fileptr_line(filp))
+) // end of [streamize_fileptr_line]
 //
 (* ****** ****** *)
 

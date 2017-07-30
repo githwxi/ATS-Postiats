@@ -1,3 +1,5 @@
+######
+
 0.3.7
 
 This is the 44th release of ATS2, the successor of the
@@ -21,6 +23,8 @@ Major releases of external packages for ATS2 are available at:
 https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
+
+1. Extending prelude/stream_vt with more functions
 
 ######
 

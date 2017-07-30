@@ -630,7 +630,7 @@ x:t0p}{y:vt0p
   (xs: list(INV(x), n)): list_vt(y, n)
 // end of [list_map]
 //
-fun{x:t0p}{y:vt0p} list_map$fopr (x: x): (y)
+fun{x:t0p}{y:vt0p} list_map$fopr(x: x): (y)
 //
 #atscode_separator()
 
@@ -664,31 +664,36 @@ x:t0p}{y:vt0p
 
 #atscode_separator()
 //
-fun{
-x:t0p}{y:vt0p
-} list_imap{n:int}
+fun
+{x:t0p}
+{y:vt0p}
+list_imap{n:int}
   (xs: list(INV(x), n)): list_vt(y, n)
 //
-fun{
-x:t0p}{y:vt0p
-} list_imap$fopr (i: intGte(0), x: x): (y)
+fun
+{x:t0p}
+{y:vt0p}
+list_imap$fopr(i: intGte(0), x: x): (y)
 //
 #atscode_separator()
-
-fun{
-x:t0p}{y:vt0p
-} list_mapopt{n:int}
+//
+fun
+{x:t0p}
+{y:vt0p}
+list_mapopt{n:int}
   (xs: list(INV(x), n)): listLte_vt(y, n)
 //
-fun{
-x:t0p}{y:vt0p
-} list_mapopt$fopr (x: x): Option_vt(y)
+fun
+{x:t0p}
+{y:vt0p}
+list_mapopt$fopr(x: x): Option_vt(y)
 //
 (*
 fun{
 x:t0p}{y:t0p
 } list_mapopt_funenv
-  {v:view}{vt:viewtype}{n:int}{fe:eff} (
+  {v:view}{vt:viewtype}{n:int}{fe:eff}
+(
   pfv: !v |
   xs: list(INV(x), n)
 , f: (!v | x, !vt) -<fun,fe> Option_vt(y), env: !vt
