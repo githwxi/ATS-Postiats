@@ -535,7 +535,7 @@ a:t@ype
     case+ ys0 of
     | list_nil() => xs0
     | list_cons(y, ys1) =>
-        if x \\\\lte y
+        if x \\\\\\\\lte y
           then list_cons (x, merge (xs1, ys0, lte))
           else list_cons (y, merge (xs0, ys1, lte))
         // end of [if]

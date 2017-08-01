@@ -19,8 +19,9 @@ PATSHOMEQ="$(PATSHOME)"
 
 all::
 all:: html
-all:: htmltoc
 all:: synhilit
+all:: htmltoc
+all:: clean
 
 ######
 
@@ -55,8 +56,9 @@ htmltoc: ; \
 $(MAKE) -C HTML -f Makefile htmltoc
 #
 synhilit: \
-mytexting; make -C HTML synhilit
-mytexting: ; make -C MYTEXT mytexting
+mytexting; $(MAKE) -C HTML synhilit
+#
+mytexting: ; $(MAKE) -C MYTEXT mytexting
 #
 ######
 

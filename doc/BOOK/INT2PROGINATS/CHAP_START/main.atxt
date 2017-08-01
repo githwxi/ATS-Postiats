@@ -37,17 +37,19 @@ console) the string "Hello, world!" plus a newline before it terminates:
 
 #dats2xhtml('\
 //
-val _ = print ("Hello, world!\\\n")
+val _ = print ("Hello, world!\\\\\\\\n")
 //
 implement main0 () = () // a dummy for [main]
 //
 ')
 
 The keyword #dyncode("val") initiates a binding between the variable
-#dyncode("_") (underscore) and the function call #dyncode('print ("Hello,
-world!\\\n")').  However, this binding is never used after it is
-introduced; its sole purpose is for the call to the #dyncode("print")
-function to get evaluated.  ')#comment("para")
+#dyncode("_") (underscore) and the function call
+#dyncode('print("Hello, world!\\\\\\\\\\\\\\\\n")').  However, this
+binding is never used after it is introduced; its sole purpose is for
+the call to the #dyncode("print") function to get evaluated. \
+
+')#comment("para")
 
 #para("\
 
@@ -197,7 +199,7 @@ cleanall::
 \# Please uncomment the following three lines and replace the name [foo]
 \# with the name of the file you want to compile
 \#
-\# foo: foo.dats ; \\\\
+\# foo: foo.dats ; \\\\\\\\
 \#   $(ATSCC) $(ATSCCFLAGS) -o $@ $< || echo $@ ": ERROR!!!"
 \# cleanall:: ; $(RMF) foo
 \#

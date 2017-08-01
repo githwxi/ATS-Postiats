@@ -67,12 +67,12 @@ for #dyncode("andalso") and #dyncode("orelse"), respectively.  \
 
 Other commonly used constant values include characters and strings.  For
 instance, following are some character constants: #dyncode("'a'"),
-#dyncode("'B'"), #dyncode("'\\\\n'") (newline), #dyncode("'\\\\t'") (tab),
-#dyncode("'\\\\('") (left parenthesis), #dyncode("')'") (right
-parenthesis), #dyncode("'\\\\{'") (left curly brace), #dyncode("'}'")
+#dyncode("'B'"), #dyncode("'\\\\\\\\\\\\\\\\n'") (newline), #dyncode("'\\\\\\\\\\\\\\\\t'") (tab),
+#dyncode("'\\\\\\\\\\\\\\\\('") (left parenthesis), #dyncode("')'") (right
+parenthesis), #dyncode("'\\\\\\\\\\\\\\\\{'") (left curly brace), #dyncode("'}'")
 (right curly brace), etc; following are some string constants:
-#dyncode('"My name is Zoe"'), #dyncode('"Don\'t call me \\\\"Chloe\\\\""'),
-#dyncode('"this is a newline:\\\\n"'), etc.\
+#dyncode('"My name is Zoe"'), #dyncode('"Don\'t call me \\\\\\\\\\\\\\\\"Chloe\\\\\\\\\\\\\\\\""'),
+#dyncode('"this is a newline:\\\\\\\\\\\\\\\\n"'), etc.\
 
 ')
 

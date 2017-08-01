@@ -318,7 +318,7 @@ fun __fprintf
 in (* in of [local] *)
 //
 val N = 12
-val _ = __fprintf (stdout_ref, "fact(%i) = %i\\\\n", N, fact(N))
+val _ = __fprintf (stdout_ref, "fact(%i) = %i\\\\\\\\n", N, fact(N))
 //
 end // end of [local]
 ')
@@ -337,7 +337,7 @@ presented above:
 
 #dats2xhtml('\
 val N = 12
-val _ = $extfcall(int, "fprintf", stdout_ref, "fact(%i) = %i\\\\n", N, fact(N))
+val _ = $extfcall(int, "fprintf", stdout_ref, "fact(%i) = %i\\\\\\\\n", N, fact(N))
 ')
 
 When #dyncode("$extfcall") is employed to make an external function call,
