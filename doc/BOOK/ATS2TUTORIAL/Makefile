@@ -15,8 +15,9 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 all::
 all:: html
-all:: htmltoc
 all:: synhilit
+all:: htmltoc
+all:: clean
 
 ######
 

@@ -180,10 +180,99 @@ stream_vt_filter_cloptr
 Given a stream #dyncode("xs") and a predicate #dyncode("pred"), the
 function #dyncode("stream_vt_filter_cloptr") returns another stream
 consisting of all the elements in the stream #dyncode("xs") satisfying
-the predicate #dyncode("pred").  Note that both xs and pred are
-consumed by the call to #dyncode("stream_vt_filter_cloptr").
+the predicate #dyncode("pred").  Note that both #dyncode("xs") and
+#dyncode("pred") are consumed by the call to #dyncode("stream_vt_filter_cloptr").
 
 ')#comment("para")
+
+#para('\
+
+Given a linear stream #dyncode("xs"), the following function
+#dyncode("stream2list_vt") turns #dyncode("xs") into a (linear) list:
+
+#sats2xhtml('\
+fun{a:vt0p}
+stream2list_vt(xs: stream_vt(INV(a))): List0_vt(a)
+// end of [stream2list_vt]
+')
+
+Of course the given stream #dyncode("xs") should only contain finitely
+many elements for otherwise the call on #dyncode("xs") cannot
+terminate. The function #dyncode("stream2list_vt") can handle long
+streams without concern of stack overflow as it is implemented in a
+tail-recursive manner. As an example, let us assume that the standard
+list-map function #dyncode("list_map_cloref") is implemented as
+follows:
+
+#dats2xhtml('\
+fun
+{a:t0p}
+{b:t0p}
+list_map_cloref
+(
+xs: List0(a), fopr: (a) -<cloref1> b
+) : List0(b) =
+  auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: List0(a)): List0(b) =
+(
+case+ xs of
+| list_nil() =>
+  list_nil()
+| list_cons(x, xs) =>
+  list_cons(fopr(x), auxlst(xs))
+)
+} (* end of [list_map_cloref] *)
+')
+
+Clearly, the inner function #dyncode("auxlst") is not tail-recursive.
+Therefore, this implementation of #dyncode("list_map_cloref") runs the
+risk of causing stack overflow when called on a long list (e.g., one
+that contains 1 million elements). We can address the issue of potential
+stack overflow by modifying the implementation of #dyncode("auxlst") as follows:
+
+#dats2xhtml('\
+fun
+{a:t0p}
+{b:t0p}
+list_map_cloref
+(
+xs: List0(a), fopr: (a) -<cloref1> b
+) : List0(b) = let
+//
+fun
+auxlst
+(
+xs: List0(a)
+) : stream_vt(b) = $ldelay
+(
+case+ xs of
+| list_nil() =>
+  stream_vt_nil()
+| list_cons(x, xs) =>
+  stream_vt_cons(fopr(x), auxlst(xs))
+)
+//
+in
+//
+// list_vt2t: for turning
+// a linear list into a non-linear one
+//
+  list_vt2t(stream2list_vt(auxlst(xs)))
+end (* end of [list_map_cloref] *)
+')
+
+As #dyncode("stream2list_vt") is tail-recursive, the stream-based
+implementation of #dyncode("list_map_cloref") can readily handle long
+lists without concern of stack overflow. In practice, this
+stream-based approach to eliminating risk of stack overflow (for large
+inputs) can play a very effective role in a programming domain (e.g.,
+machine learning) where non-tail-recursion is often used extensively.\
+
+')#comment("para")  
 
 #para('\
 

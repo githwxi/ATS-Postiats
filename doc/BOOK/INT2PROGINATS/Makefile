@@ -61,6 +61,23 @@ mytexting; $(MAKE) -C HTML synhilit
 mytexting: ; $(MAKE) -C MYTEXT mytexting
 #
 ######
+#
+# How to make onechunk:
+# Step 1.
+# Uncomment the following line in mydocbook.dsl:
+# ;; (define nochunks #t)
+# Step 2.
+# Execute 'make html'
+# Step 3.
+# Save the output of the previous step
+# Extract out the html part and save it
+# in ./HTML/INT2PROGINATS-BOOK-onechunk.html.bak
+# Step 4.
+# Enter ./HTML and execute the following:
+# ./synhilt.exe INT2PROGINATS-BOOK-onechunk.html
+# Please view ./INT2PROGINATS-BOOK-onechunk.html
+#
+######
 
 main.db:: allchap
 main.db:: preface.db

@@ -362,7 +362,7 @@ While ATS provides many features to support safe (low-level) programming,
 it may take a long time and some great efforts for a programmer to learn
 and then master these features before he or she can make effective use of
 them.  In this section, I would like to present some ATS code written in
-C-style that makes typical use of certan unsafe programming features in
+C-style that makes typical use of certain unsafe programming features in
 ATS. This is a programming style that should be familiar to any programmer
 who can write C code competently.
 
@@ -542,7 +542,7 @@ end // end of [array_copy_from_list]
 ')
 
 Given a type T, a pointer p, and a value x of the type T,
-#dyncode("ptr0_set&lt;T&gt; (p, x)") stores the value x at the location to
+#dyncode("ptr0_set&lt;T&gt;(p, x)") stores the value x at the location to
 which p points.  Like #dyncode("ptr0_get"), #dyncode("ptr0_set") is
 inherently unsafe as there is simply no guarantee that p actually points to
 a valid memory location where a value of the type T can be stored.  The
