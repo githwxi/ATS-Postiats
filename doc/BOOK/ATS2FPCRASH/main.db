@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!--
+<!ENTITY ae "&#228;">
+<!ENTITY oe "&#246;">
+<!ENTITY ae "&auml;">
+<!ENTITY oe "&ouml;">
+-->
+<!ENTITY ae "ae">
+<!ENTITY oe "oe">
+<!ENTITY bookinfo SYSTEM "bookinfo.db">
+<!ENTITY preface SYSTEM "preface.db">
+]>
+<book id="ATS2FPCRASH" lang="en">
+&bookinfo;
+
+<!--
+<dedication>
+<para>
+To Jinning, Zoe, and Chloe
+</para>
+</dedication>
+-->
+
+&preface;
+<toc>
+</toc>
+
+</book>

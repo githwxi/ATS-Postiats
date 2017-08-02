@@ -1,13 +1,13 @@
 //
 // Some atext macros and functions
-// for writing the ATS2TUTORIAL book
+// for writing the ATS2FPCRASH book
 //
 (* ****** ****** *)
 (*
 **
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
-** Time: January, 2013
+** Authoremail: gmhwxiATgmailDOTcom
+** Time: the 1st of August, 2017
 **
 *)
 (* ****** ****** *)
@@ -435,4 +435,4 @@ end // end of [atscode_extract]
 
 (* ****** ****** *)
 
-(* end of [ats2tutorial.dats] *)
+(* end of [ats2fpcrash.dats] *)
