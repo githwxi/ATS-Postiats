@@ -744,9 +744,13 @@ srcget_share:: ; \
 srcget_share:: ; \
   $(CPF) ../../share/atspre_staload.hats $(ATSDIST)/share/.
 srcget_share:: ; \
+  $(CPF) ../../share/atspre_staload_libats_ML.hats $(ATSDIST)/share/.
+srcget_share:: ; \
   $(CPF) ../../share/H/pats_atslib.h $(ATSDIST)/share/H/.
 srcget_share:: ; \
   $(CPF) ../../share/HATS/atspre_define_pkgreloc.hats $(ATSDIST)/share/HATS/.
+srcget_share:: ; \
+  $(CPF) ../../share/HATS/atspre_staload_prelude.hats $(ATSDIST)/share/HATS/.
 srcget_share:: ; \
   $(CPF) ../../share/HATS/atspre_staload_libats_ML.hats $(ATSDIST)/share/HATS/.
 srcget_share:: ; \
@@ -939,7 +943,7 @@ scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Posti
 #
 ######
 #
-PACKNAMEintmin=ATS2-Postiats-intmin-0.3.7
+PACKNAMEintmin=ATS2-Postiats-intmin-0.3.3
 #
 atspacktarzvcf_intmin_up:: ; \
 scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEintmin).tgz
