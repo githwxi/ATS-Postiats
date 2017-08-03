@@ -75,8 +75,7 @@ preface.db:: ; $(RMF) preface.exe preface_atxt_dats.c preface_atxt.dats preface_
 #
 ######
 #
-lectures::
-# lectures:: lecture01
+lectures:: lecture01
 #
 lecture01:: ; \
 $(MAKE) -C LECTURE/01 -f ../Makefile_lect main.db

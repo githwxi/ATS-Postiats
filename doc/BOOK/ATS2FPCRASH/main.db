@@ -9,8 +9,9 @@
 -->
 <!ENTITY ae "ae">
 <!ENTITY oe "oe">
-<!ENTITY bookinfo SYSTEM "bookinfo.db">
 <!ENTITY preface SYSTEM "preface.db">
+<!ENTITY bookinfo SYSTEM "bookinfo.db">
+<!ENTITY lecture01 SYSTEM "LECTURE/01/main.db">
 ]>
 <book id="ATS2FPCRASH" lang="en">
 &bookinfo;
@@ -26,5 +27,7 @@ To Jinning, Zoe, and Chloe
 &preface;
 <toc>
 </toc>
+
+&lecture01;
 
 </book>
