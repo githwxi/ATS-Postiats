@@ -129,14 +129,14 @@ software.
 <h2><a id="Suggestion_on_learning_ATS">Suggestion on learning ATS</a></h2>
 
 <p>
-ATS is feature-rich (like C++). Prior knowledge of functional programming
-based on ML and imperative programming based on C can be a big plus for
-learning ATS. In general, one should expect to encounter many unfamiliar
-programming concepts and features in ATS and be prepared to spend a large
-amount of time on learning them. Hopefully, one will become a superbly
-confident programmer at the end who can enjoy implementing large and
-complex systems with minimal need for debugging.
-</p>
+ATS is feature-rich (like C++). Prior knowledge of functional
+programming based on ML and imperative programming based on C can be a
+big plus for learning ATS. In general, one should expect to encounter
+many unfamiliar programming concepts and features in ATS and be
+prepared to spend a substantial amount of time on learning
+them. Hopefully, one will become a superbly confident programmer at
+the end who can enjoy implementing large and complex systems with
+minimal need for debugging.  </p>
 
 <hr></hr>
 
