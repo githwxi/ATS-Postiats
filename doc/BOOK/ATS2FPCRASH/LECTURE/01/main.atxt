@@ -226,6 +226,54 @@ streamline the compilation process.
 
 </sect1><!--id="lecture01:compiling"-->
 
+<sect1
+ id="lecture01:libaccessing">
+#title("Accessing ATS libraries")
+
+#para('\
+
+There are many libraries in the ATS programming language system.  For
+instance, the name #filename("ATSLIB/prelude") refers to the prelude
+library in ATS that targets C code generation; the name
+#filename("ATSLIB/libats") refers to the libats library in ATS that
+targets C code generation as well; the name #filename("LIBATSCC2JS")
+refers to a library for targeting Javascript (JS) code generation; the
+name #filename("LIBATSCC2PHP") refers to a library for targeting PHP
+code generation; etc.
+
+')
+
+#para('\
+
+If a function is implemented as a template, the ATS compiler needs
+to access the source of the function implementation in order to generate
+code for each instance call of the function. For instance, the following
+line can be added to the beginning of a file so as to indicate to the compiler
+that #filename("ATSLIB/prelude") needs to be first loaded for compiling the
+rest of the ATS code in the file:
+
+#dats2xhtml('\
+//
+\#include "share/atspre_staload.hats"
+//
+')
+
+For accessing the library #filename("ATSLIB/libats/ML") (which is
+somewhat an ML-like portion of #filename("ATSLIB/libats")), the following line
+can be used:
+
+#dats2xhtml('\
+//
+\#include "share/atspre_staload_libats_ML.hats"
+//
+')
+
+Various library functions are to be introduced in the sample code presented in this book.
+
+')
+
+</sect1><!--id="lecture01:libaccessing"-->
+
 </chapter><!--id="lecture01"-->
 
 #comment(" ****** ****** ")
