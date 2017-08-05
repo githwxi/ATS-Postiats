@@ -110,6 +110,17 @@ develop a reflex for solving problems recursively.
 
 #para("\
 
+As a slightly more interesting example, please study the code in
+<ulink
+url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FPCRASH/LECTURE/02/CODE/multable.dats\">
+multable.dats</ulink>, which can be executed to generate the html file <ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/02/CODE/multable.html\">
+multable.html</ulink> for displaying a multiplication table.
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/02/CODE", "on-line") the entirety
 of the code used in this chapter.\
 

@@ -3,9 +3,6 @@
 #include
 "share/atspre_staload.hats"
 //
-#include
-"share/atspre_staload_libats_ML.hats"
-//
 (* ****** ****** *)
 
 extern fun html(): void
@@ -83,14 +80,18 @@ auxrows
 (n: int): void =
 if n > 0 then
 (
+//
 auxrows(n-1);
+//
 if
 (n%2 = 0) then
 print("<tr style=\"background:#c0c0c0\">\n");
 if
 (n%2 > 0) then
 print("<tr style=\"background:#ffffff\">\n");
+//
 auxrow(1, n); print("</tr>\n")
+//
 ) (* end of [auxrows] *)
 
 (* ****** ****** *)

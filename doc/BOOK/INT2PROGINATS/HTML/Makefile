@@ -51,12 +51,12 @@ clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.c
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) ./*.html.bak
+clean:: ; $(RMF) htmltoc.exe
+clean:: ; $(RMF) synhilit.exe
 
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) htmltoc.exe
-cleanall:: ; $(RMF) synhilit.exe
 cleanall:: ; $(RMF) HTMLTOC/p*.html
 cleanall:: ; $(RMF) HTMLTOC/f*.html
 cleanall:: ; $(RMF) HTMLTOC/c*.html
