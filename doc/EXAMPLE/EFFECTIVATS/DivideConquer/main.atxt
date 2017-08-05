@@ -23,7 +23,7 @@ features. The richness of programming features can potentially make it
 highly demanding for a programmer to rein in the inherent complexity
 associated with ATS. In this article, I would like to present a
 template-based package that is designed to (partially) relieve a
-programmer of the heavy burden that is so often associated with
+programmer from the heavy burden that is so often associated with
 programming in ATS.
 
 ')##comment("para")
@@ -376,7 +376,7 @@ a directory of the name ##filename("TEST"). For instance, the file
 package ##dyncode("effectivats-divideconquer"). In this file, one can
 find the following line for statically loading into the namespace
 ##dyncode("DivideConquer") all sorts of the bindings declared inside
-##filename("DivideConquer.dats"):
+the file ##filename("DivideConquer.dats"):
 
 <pre
 class="patsyntax">
@@ -386,8 +386,8 @@ class="patsyntax">
 //
 ')</pre>
 
-Note that a path starting with the dot symbol (.) means that the path
-is relative to the directory that contains the file (in which the path
+Note that a path starting with the dot symbol (.) means that the path is
+relative to the directory that contains the current file (in which the path
 appears).
 
 """)
