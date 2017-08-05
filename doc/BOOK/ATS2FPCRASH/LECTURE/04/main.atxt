@@ -73,6 +73,9 @@ encourage everyone reading the book to study the source code for the library
 
 #para("\
 
+As an example of higher-order function, let us implement a commonly
+used library function of the name #dyncode("int_foreach"):
+
 #dats2xhtml('\
 //
 extern
@@ -81,6 +84,53 @@ int_foreach
 (n0: int, fwork: cfun(int, void)): void
 //
 ')
+
+Note that the type #stacode("cfun(int, void)") is just a shorthand for
+#stacode("(int) -&lt;cloref1&gt; void"), which is assigned to a
+closure-function that takes an integer argument and returns void.
+There are two kinds of functions in ATS: envless function and
+closure-function; the former is just a function in the sense of C: a
+function pointer to some memory location where a sequence of
+instructions is stored; the latter is essentially a function pointer
+paired with an environment (represented as a tuple of values) for
+certain paramemters. For an envless function from #stacode("int") to
+#stacode("void"), its type is written as #stacode("(int) -&gt; void")
+or #stacode("(int) -&lt;fun1&gt; void").  While turning an envless
+function into a closure-function is straightforward, there is no
+generic method for turning a closure-function into an envless
+function. Note that each function argument of a higher-order function
+is usually chosen to be a closure-function so as to make the
+higher-order function more applicable.
+
+")
+
+#para("\
+
+A standard implementation of #dyncode("int_foreach") is given as
+follows:
+
+#dats2xhtml('\
+//
+implement
+int_foreach
+(n0, fwork) =
+loop(0) where {
+  fun
+  loop(i: int): void =
+    if i < n0 then (fwork(i); loop(i+1)) else ()
+  // end of [fun loop]
+} (* end of [int_foreach] *)
+//
+')
+
+#dats2xhtml('\
+//
+fun
+testfact(n: int): void =
+int_foreach(n, lam(i) => println!("fact(", i, ") = ", fact(i)))
+//
+')
+
 
 ")
 
