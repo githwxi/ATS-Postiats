@@ -353,7 +353,7 @@ val
 res =
 sprintf
 (
-  "<ulink url=\"%s/ATS2TUTORIAL/CODE/%s\">%s</ulink>", @(MYCODEROOT, path, link)
+  "<ulink url=\"%s/ATS2FPCRASH/%s\">%s</ulink>", @(MYCODEROOT, path, link)
 ) (* end of [val] *)
 //
 val res = string_of_strptr(res)

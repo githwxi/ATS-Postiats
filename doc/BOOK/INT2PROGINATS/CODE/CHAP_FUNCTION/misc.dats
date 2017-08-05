@@ -227,18 +227,29 @@ fun sqrsum
 val () = assertloc (sqrsum (10) = (2*10+1)*(10+1)*10/6)
 
 (* ****** ****** *)
-
+//
 fun ifold2
 (
   n: int, f: (int, int) -<cloref1> int, ini: int
 ) : int =
   if n > 0 then f (ifold2 (n-1, f, ini), n) else ini
 // end of [ifold]
-
-fun sqrmodsum (n: int, d: int): int =
-  ifold2 (n, lam (res, x) => if x mod d = 0 then res + x * x else res, 0)
+//
+fun
+sqrmodsum
+(
+n : int
+,
+d : int
+) : int =
+ifold2
+( n
+, lam (res, x) => if x mod d = 0 then res + x * x else res
+, 0 (*initial*)
+)
+//
 val () = assertloc (sqrmodsum (10, 2) = 2*2+4*4+6*6+8*8+10*10)
-
+//
 (* ****** ****** *)
 
 implement main0 () = ()

@@ -14,28 +14,22 @@
 (* ****** ****** *)
 
 fun
-fact(n: int): int =
-if n > 0 then n * fact(n-1) else 1
+fact2(n: int): int = let
+//
+fun
+loop(i: int, res: int): int =
+if i < n
+  then loop(i+1, (i+1)*res) else res
+// end of [if]
+//
+in
+  loop(0, n)
+end // end of [fact]
 
 (* ****** ****** *)
 
 val () =
-println! ("fact(10) = ", fact(10))
-
-(* ****** ****** *)
-
-fun
-testfact
-(n: int): void =
-if n > 0 then
-(
-  testfact(n-1);
-  println! ("fact(", n-1, ") = ", n-1)
-) (* end of [if] *)
-
-(* ****** ****** *)
-
-val () = testfact(100)
+println! ("fact2(10) = ", fact2(10))
 
 (* ****** ****** *)
 
@@ -46,7 +40,7 @@ testfact2
   loop(i: int): void =
   if i < n then
   (
-    println! ("fact(", i, ") = ", fact(i)); loop(i+1)
+    println! ("fact(", i, ") = ", fact2(i)); loop(i+1)
   ) (* end of [if] *)
 in
   loop(0)
@@ -62,4 +56,4 @@ implement main0() = () // a dummy for [main]
 
 (* ****** ****** *)
 
-(* end of [fact.dats] *)
+(* end of [lecture03.dats] *)

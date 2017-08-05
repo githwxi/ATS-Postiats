@@ -1289,8 +1289,9 @@ ifold2
 // end of [ifold2]
 //
 fun
-sqrmodsum (n: int, d: int): int =
-  ifold2 (n, lam (res, x) => if x mod d then res + x * x else res, 0)
+sqrmodsum
+(n: int, d: int): int =
+  ifold2(n, lam (res, x) => if x mod d = 0 then res + x * x else res, 0)
 // end of [sqrmodsum]
 //
 ")
@@ -1366,9 +1367,12 @@ equal to the given natural number:
 val
 ISQRT_MAX = (1 << 16) - 1 // = 65535
 //
+fun
+square(x: uint): uint = x * x
+//
 fun isqrt
   (x: uint): int =
-  bsearch_fun (lam i => square(g0i2u(i)), x, 0, ISQRT_MAX)
+  bsearch_fun(lam i => square(g0i2u(i)), x, 0, ISQRT_MAX)
 // end of [isqrt]
 ")
 

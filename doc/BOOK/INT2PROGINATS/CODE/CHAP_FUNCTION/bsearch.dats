@@ -64,10 +64,16 @@ fun bsearch_fun
 // end of [bsearch_fun]
 
 (* ****** ****** *)
-
+//
+fun
+square(x: uint): uint = x * x
+//
+(*
 macdef
-square (x) = let val x = ,(x) in x * x end
-
+square(x) =
+let val x = ,(x) in x * x end
+*)
+//
 (* ****** ****** *)
 //
 // Assume 32-bit ints
@@ -79,7 +85,8 @@ val ISQRT_MAX = (1 << 16) - 1
 fun isqrt
   (x: uint): int =
 (
-  bsearch_fun (lam i => square(g0i2u(i)), x, 0, ISQRT_MAX)
+  bsearch_fun
+  (lam i => square(g0i2u(i)), x, 0, ISQRT_MAX)
 ) // end of [isqrt]
 
 (* ****** ****** *)
@@ -90,7 +97,7 @@ val () = assertloc (isqrt (1024U) = 32)
 
 (* ****** ****** *)
 
-implement main0 () = ()
+implement main0() = ((*void*))
 
 (* ****** ****** *)
 

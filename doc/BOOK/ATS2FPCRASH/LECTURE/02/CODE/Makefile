@@ -14,19 +14,13 @@ all::
 ######
 
 all:: \
-compiling
-compiling: ; \
-$(MYATSCC) compiling.dats
-
-all:: \
-libaccessing
-libaccessing: ; \
-$(MYATSCC) libaccessing.dats
+lecture02
+lecture02: ; \
+$(MYATSCC) lecture02.dats
 
 ######
 
-regress:: compiling; ./compiling_dats
-regress:: libaccessing; ./libaccessing_dats
+regress:: lecture02; ./lecture02_dats
 
 ######
 
