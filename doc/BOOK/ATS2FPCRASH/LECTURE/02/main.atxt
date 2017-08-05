@@ -19,13 +19,14 @@ Time of Generation: #timestamp()\
 
 #para('\
 
-Recursion plays a pivotal role in problem-solving.  For instance, a
-problem-solving strategy based on divide-and-conquer divides a given
-problem (that cannot be solved immediately) into subproblems of a
-similar nature so that the same strategy can be applied to these
-subproblems #emphasis("recursively"); the obtained solutions to these
-subproblems are then compiled in some manner to form a solution to the
-original problem.
+Recursion, which literally means #emphasis("running back"), plays a
+pivotal role in problem-solving.  For instance, a problem-solving
+strategy based on divide-and-conquer divides a given problem (that
+cannot be solved immediately) into subproblems of a similar nature so
+that the same strategy can be applied to these subproblems
+#emphasis("recursively"); the obtained solutions to these subproblems
+are then compiled in some manner to form a solution to the original
+problem.
 
 ')
 

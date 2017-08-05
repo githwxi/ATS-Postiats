@@ -35,13 +35,13 @@ RMF=rm -f
 ######
 
 clean:: ; $(RMF) *~
-clean:: ; $(RMF) *_atxt.txt
-clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
-clean:: ; $(RMF) main
+clean:: ; $(RMF) *_atxt.txt
+clean:: ; $(RMF) *_atxt.dats
 
 cleanall:: clean
 cleanall:: ; $(RMF) main.db
+cleanall:: ; $(RMF) main.exe
 
 ###### end of [Makefile_chap] ######
