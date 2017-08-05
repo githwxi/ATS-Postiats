@@ -14,6 +14,7 @@
 <!ENTITY lecture01 SYSTEM "LECTURE/01/main.db">
 <!ENTITY lecture02 SYSTEM "LECTURE/02/main.db">
 <!ENTITY lecture03 SYSTEM "LECTURE/03/main.db">
+<!ENTITY lecture04 SYSTEM "LECTURE/04/main.db">
 ]>
 <book id="ATS2FPCRASH" lang="en">
 &bookinfo;
@@ -33,5 +34,6 @@ To Jinning, Zoe, and Chloe
 &lecture01;
 &lecture02;
 &lecture03;
+&lecture04;
 
 </book>

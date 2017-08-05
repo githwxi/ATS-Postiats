@@ -78,6 +78,7 @@ preface.db:: ; $(RMF) preface.exe preface_atxt_dats.c preface_atxt.dats preface_
 lectures:: lecture01
 lectures:: lecture02
 lectures:: lecture03
+lectures:: lecture04
 #
 ######
 #
@@ -92,6 +93,10 @@ clean:: ; $(MAKE) -C LECTURE/02 -f ../Makefile_lect clean
 lecture03:: ; \
 $(MAKE) -C LECTURE/03 -f ../Makefile_lect main.db
 clean:: ; $(MAKE) -C LECTURE/03 -f ../Makefile_lect clean
+#
+lecture04:: ; \
+$(MAKE) -C LECTURE/04 -f ../Makefile_lect main.db
+clean:: ; $(MAKE) -C LECTURE/04 -f ../Makefile_lect clean
 #
 ######
 #

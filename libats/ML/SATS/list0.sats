@@ -842,13 +842,15 @@ fun{
 x,y:t0p
 } list0_iforeach_xprod2
 (
-  list0(INV(x)), list0(INV(y)), fwork: cfun4(intGte(0), x, intGte(0), y, void)
+  list0(INV(x))
+, list0(INV(y)), fwork: cfun4(intGte(0), x, intGte(0), y, void)
 ) : void // end-of-function
 fun
 {x,y:t0p}
 list0_iforeach_xprod2_method
 (
-  list0(INV(x)), list0(INV(y)))(fwork: cfun4(intGte(0), x, intGte(0), y, void)
+  list0(INV(x))
+, list0(INV(y)))(fwork: cfun4(intGte(0), x, intGte(0), y, void)
 ) : void // end-of-function
 //
 overload .foreach_xprod2 with list0_foreach_xprod2_method
