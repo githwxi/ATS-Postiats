@@ -285,6 +285,54 @@ operations on generic numbers of type #stacode("a").  What
 
 #para("\
 
+In ATS code, dot-notation is often seen for calling combinators.
+For instance, we can introduce the following curried version of
+#dyncode("int_foreach") and #dyncode("int_foldleft") plus some
+overload declarations:
+
+#dats2xhtml('\
+//
+extern
+fun
+int_foreach_method
+(n0: int)(fwork: cfun(int, void)): void
+//
+extern
+fun
+{res:t@ype}
+int_foldleft_method
+(n0: int, ty: TYPE(res))
+(res: res, fopr: cfun(res, int, res)): res
+//
+overload .foreach with int_foreach_method
+overload .foldleft with int_foldleft_method
+//
+')
+
+We can then
+implement the functions #dyncode("fact") and #dyncode("testfact")
+as follows:
+
+#dats2xhtml('\
+//
+fun fact(n: int): int =
+(n).foldleft(TYPE{int})(lam(res, i) => res*(i+1))
+//
+fun testfact(n: int): int =
+(n).foreach()(lam(i) => println! ("fact(", i+1, ") = ", fact(i+1)))
+//
+')
+
+Note that #dyncode("TYPE{int}") is a form of type-annotation; it
+indicates to the typechecker of ATS that the template parameter for
+the involved instance of #dyncode("int_foldleft_method") is
+#stacode("int").
+
+")
+
+
+#para("\
+
 Please find #mycodelink("LECTURE/04/CODE", "on-line") the entirety of
 the code used in this chapter. \
 

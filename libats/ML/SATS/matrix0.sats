@@ -76,17 +76,17 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 //
 fun{}
 matrix0_of_mtrxszref
-  {a:vt0p} (mtrxszref (a)):<> matrix0 (a)
+  {a:vt0p} (mtrxszref (a)):<> matrix0(a)
 //
 fun{}
 mtrxszref_of_matrix0
-  {a:vt0p} (M: matrix0 (a)):<> mtrxszref (a)
+  {a:vt0p} (M: matrix0 (a)):<> mtrxszref(a)
 //
 (* ****** ****** *)
 
 fun{a:t0p}
 matrix0_make_elt
-  (nrow: size_t, ncol: size_t, init: a):<!wrt> matrix0 (a)
+  (nrow: size_t, ncol: size_t, init: a):<!wrt> matrix0(a)
 // end of [matrix0_make_elt]
 
 (* ****** ****** *)
@@ -104,7 +104,7 @@ matrix0_get_refsize
   {a:vt0p}
 (
   M: matrix0 (a)
-) :<> [m,n:nat] (matrixref (a, m, n), size_t(m), size_t(n))
+) :<> [m,n:nat] (matrixref(a, m, n), size_t(m), size_t(n))
 //
 (* ****** ****** *)
 //
@@ -114,7 +114,7 @@ matrix0_get_at_int
 //
 fun{a:t0p}
 matrix0_get_at_size
-  (M: matrix0 (a), i: size_t, j: size_t):<!exnref> a
+  (M: matrix0(a), i: size_t, j: size_t):<!exnref> a
 //
 symintr matrix0_get_at
 overload matrix0_get_at with matrix0_get_at_int
@@ -128,7 +128,7 @@ matrix0_set_at_int
 //
 fun{a:t0p}
 matrix0_set_at_size
-  (M: matrix0 (a), i: size_t, j: size_t, x: a):<!exnrefwrt> void
+  (M: matrix0(a), i: size_t, j: size_t, x: a):<!exnrefwrt> void
 //
 symintr matrix0_set_at
 overload matrix0_set_at with matrix0_set_at_int
@@ -137,24 +137,25 @@ overload matrix0_set_at with matrix0_set_at_size
 (* ****** ****** *)
 //
 fun{a:vt0p}
-print_matrix0 (M: matrix0 (a)): void
+print_matrix0 (M: matrix0(a)): void
 fun{a:vt0p}
-prerr_matrix0 (M: matrix0 (a)): void
+prerr_matrix0 (M: matrix0(a)): void
 //
 (*
 fprint_matrix$sep1 // col separation
 fprint_matrix$sep2 // row separation
 *)
 fun{a:vt0p}
-fprint_matrix0 (out: FILEref, M: matrix0 (a)): void
+fprint_matrix0
+  (out: FILEref, M: matrix0(a)): void
 fun{a:vt0p}
 fprint_matrix0_sep
-  (out: FILEref, M: matrix0 (a), sep1: string, sep2: string): void
+  (out: FILEref, M: matrix0(a), sep1: string, sep2: string): void
 //
 (* ****** ****** *)
 
 fun{a:t0p}
-matrix0_copy (M: matrix0 (a)): matrix0 (a)
+matrix0_copy (M: matrix0(a)): matrix0(a)
 
 (* ****** ****** *)
 
@@ -162,18 +163,18 @@ fun{a:vt0p}
 matrix0_tabulate
 (
   nrow: size_t, ncol: size_t, f: cfun (size_t, size_t, a)
-) : matrix0 (a) // end-of-fun
+) : matrix0(a) // end-of-fun
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 matrix0_foreach
-  (M: matrix0 (a), f: (&a >> _) -<cloref1> void): void
+  (M: matrix0(a), f: (&a >> _) -<cloref1> void): void
 // end of [matrix0_foreach]
 
 fun{a:vt0p}
 matrix0_iforeach
-  (M: matrix0 (a), f: (size_t, size_t, &a >> _) -<cloref1> void): void
+  (M: matrix0(a), f: (size_t, size_t, &a >> _) -<cloref1> void): void
 // end of [matrix0_iforeach]
 
 (* ****** ****** *)
@@ -182,14 +183,14 @@ fun{
 res:vt0p}{a:vt0p
 } matrix0_foldleft
 (
-  M: matrix0 (a), ini: res, f: (res, &a) -<cloref1> res
+  M: matrix0(a), ini: res, f: (res, &a) -<cloref1> res
 ) : res // end of [matrix0_foldleft]
 
 fun{
 res:vt0p}{a:vt0p
 } matrix0_ifoldleft
 (
-  M: matrix0 (a), ini: res, f: (res, size_t, size_t, &a) -<cloref1> res
+  M: matrix0(a), ini: res, f: (res, size_t, size_t, &a) -<cloref1> res
 ) : res // end of [matrix0_ifoldleft]
 
 (* ****** ****** *)

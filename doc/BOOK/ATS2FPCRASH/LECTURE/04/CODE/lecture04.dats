@@ -60,6 +60,31 @@ in
 end // end of [matrix_mulby]
 
 (* ****** ****** *)
+//
+val p = i2sz(4)
+and q = i2sz(5)
+and r = i2sz(6)
+//
+val A =
+matrix0_make_elt<int>(p, q, 1)
+val B =
+matrix0_make_elt<int>(q, r, 2)
+val C =
+matrix0_make_elt<int>(p, r, 0)
+//
+val () = println! ("A: ", A)
+val () = println! ("B: ", B)
+val () = println! ("C: ", C)
+//
+val () = matrix_mulby<int>(4, 5, 6, A, B, C)
+//
+val () = println! ("C: ", C)
+//
+val () = matrix_mulby<int>(4, 5, 6, A, B, C)
+//
+val () = println! ("C: ", C)
+//
+(* ****** ****** *)
 
 implement main0() = () // a dummy for [main]
 
