@@ -2,6 +2,8 @@
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
@@ -32,16 +34,31 @@ int_foreach<(*void*)>
 )
 //
 (* ****** ****** *)
+
+fun
+{a:t@ype}
+matrix_mulby
+( p:int, q:int, r:int
+, A:matrix0(a), B:matrix0(a), C:matrix0(a)
+) : void = let
+//
+val add = gadd_val_val<a>
+val mul = gmul_val_val<a>
 //
 fun
-fact(n:int): int =
-(n).foldleft
-(TYPE{int})(1, lam(res, i) => res * (i+1))
+fwork(i: int, j: int): void =
+(
+  C[i,j] :=
+  int_foldleft<a>
+  ( q, C[i,j]
+  , lam(res, k) => add(res, mul(A[i,k], B[k,j]))
+  )
+)
 //
-val () =
-(10).foreach()
-(lam(i) => println!("fact(", i, ") = ", fact(i)))
-//
+in
+  int_cross_foreach(p, r, lam(i, j) => fwork(i, j))
+end // end of [matrix_mulby]
+
 (* ****** ****** *)
 
 implement main0() = () // a dummy for [main]

@@ -283,4 +283,3 @@ Various library functions are to be introduced in the sample code presented in t
 %{
 implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
 %}
-

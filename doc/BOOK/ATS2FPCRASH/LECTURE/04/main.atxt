@@ -203,6 +203,88 @@ int_foldleft<int>(n, 0, lam(res, i) => res * sq(i+1))
 
 #para("\
 
+Higher-order functions like #dyncode("int_foreach") and
+#dyncode("int_foldleft") are often referred to as combinators.  By
+making use of combinators, one can often shorten the code needed for
+solving a particular problem. Much more importantly, combinators can
+help one formulate high-level solutions that tend to significantly
+reduce the need for directly handling minute programming details. As
+we all know too well, handling such details is a very rich source for
+programming errors.
+
+")
+
+#para("\
+
+As the last example in this chapter, let us see
+a combinator-based implementation of matrix multiplication.
+In imperative programming, the following style of code
+is common:
+
+<informalexample><programlisting>
+for (i = 0; i < m; i = i+1) for (j = 0; i < n; j = j+1) fwork(i, j);
+</programlisting></informalexample>
+
+where one for-loop is embedded in the body of another for-loop.  A
+combinator #dyncode("int_cross_foreach") is given as follows for doing
+the same:
+
+#dats2xhtml('\
+extern
+fun
+int_cross_foreach
+(m: int, n: int, fwork: cfun(int, int, void)): void
+//
+implement
+int_cross_foreach
+  (m, n, fwork) =
+  int_foreach(m, lam(i) => int_foreach(n, lam(j) => fwork(i, j)))
+//
+')
+
+The following function #dyncode("matrix_mulby") takes six arguments
+#dyncode("p"), #dyncode("q"), #dyncode("r"), #dyncode("A"),
+#dyncode("B"), and #dyncode("C"), where it is assumed that
+#dyncode("A"), #dyncode("B"), and #dyncode("C") are matrices of
+dimensions #dyncode("p") by #dyncode("q"), #dyncode("q") by
+#dyncode("r"), and #dyncode("p") by #dyncode("r"), respectively:
+
+#dats2xhtml('\
+fun
+{a:t@ype}
+matrix_mulby
+( p:int, q:int, r:int
+, A:matrix0(a), B:matrix0(a), C:matrix0(a)
+) : void = let
+//
+val add = gadd_val_val<a>
+val mul = gmul_val_val<a>
+//
+fun
+fwork(i: int, j: int): void =
+(
+  C[i,j] :=
+  int_foldleft<a>
+  ( q, C[i,j]
+  , lam(res, k) => add(res, mul(A[i,k], B[k,j]))
+  )
+)
+//
+in
+  int_cross_foreach(p, r, lam(i, j) => fwork(i, j))
+end // end of [matrix_mulby]
+')
+
+Note that the function templates #dyncode("gadd_val_val") and
+#dyncode("gmul_val_val") are for addition and multiplication
+operations on generic numbers of type #stacode("a").  What
+#dyncode("matrix_mulby") does is simply updating #dyncode("C") with
+#dyncode("C") plus the product of #dyncode("A") and #dyncode("B"). \
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/04/CODE", "on-line") the entirety of
 the code used in this chapter. \
 

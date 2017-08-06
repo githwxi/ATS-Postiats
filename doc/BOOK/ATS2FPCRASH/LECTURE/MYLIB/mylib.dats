@@ -79,5 +79,18 @@ int_foldleft_method(n0, ty) =
 lam(res, fopr) => int_foldleft<res>(n0, res, fopr)
 //
 (* ****** ****** *)
+//
+extern
+fun{}
+int_cross_foreach
+(m: int, n: int, fwork: cfun(int, int, void)): void
+//
+implement
+{}(*tmp*)
+int_cross_foreach
+  (m, n, fwork) =
+  int_foreach(m, lam(i) => int_foreach(n, lam(j) => fwork(i, j)))
+//
+(* ****** ****** *)
 
 (* end of [mylib.dats] *)
