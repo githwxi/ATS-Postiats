@@ -123,6 +123,14 @@ loop(0) where {
 //
 ')
 
+")
+
+#para("\
+
+For testing #dyncode("fact") (that implements the factorial
+function), we can simply make a call to #dyncode("int_foreach")
+as follows:
+
 #dats2xhtml('\
 //
 fun
@@ -131,6 +139,52 @@ int_foreach(n, lam(i) => println!("fact(", i, ") = ", fact(i)))
 //
 ')
 
+")
+
+#para("\
+
+As another example, let us implement a higher-order function of the
+name #dyncode("int_foldleft") as follows:
+
+#dats2xhtml('\
+//
+extern
+fun
+{res:t@ype}
+int_foldleft
+( n0: int
+, res: res, fopr: cfun(res, int, res)): res
+//
+implement
+{res}(*tmp*)
+int_foldleft
+  (n0, res, fopr) =
+  loop(res, 0) where
+{
+//
+fun loop(res: res, i: int): res =
+  if i < n0 then loop(fopr(res, i), i+1) else res
+//
+} (* end of [int_foldleft] *)
+//
+')
+
+Note that #dyncode("int_foldleft") is declared as a function template.
+For someone who knows the standard left-folding function on a list
+(for folding the list from left to right), #dyncode("int_foldleft")
+does essentially the same as left-folding a list consisting of
+integers from #dyncode("0") to #dyncode("n-1"), where #dyncode("n") is
+the first argument passed to #dyncode("int_foldleft"). For instance,
+the factorial function can be implemented as follows with a call to
+#dyncode("int_foldleft"):
+
+#dats2xhtml('\
+//
+fun
+fact(n: int): int =
+  int_foldleft<int>(n, 1, lam(res, i) => res * i)
+//
+')
 
 ")
 

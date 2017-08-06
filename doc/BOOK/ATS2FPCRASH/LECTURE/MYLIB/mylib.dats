@@ -32,7 +32,7 @@ int_foreach
 fun loop(i: int): void =
   if i < n0 then (fwork(i); loop(i+1))
 //
-} (* end of [int_foldleft] *)
+} (* end of [int_foreach] *)
 
 implement
 {}(*tmp*)
