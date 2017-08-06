@@ -751,14 +751,23 @@ a:t0p}{b:t0p
 overload .imap with list0_imap_method
 //
 (* ****** ****** *)
-
+//
 fun{
-a1,a2:t0p}{b:t0p
+a1,
+a2:t0p}{b:t0p
 } list0_map2
 (
   list0(INV(a1)), list0(INV(a2)), fopr: cfun2(a1, a2, b)
 ) : list0(b) // end of [list0_map2]
-
+//
+fun{
+a1,
+a2:t0p}{b:t0p
+} list0_imap2
+(
+  list0(INV(a1)), list0(INV(a2)), fopr: cfun3(int, a1, a2, b)
+) : list0(b) // end of [list0_imap2]
+//
 (* ****** ****** *)
 //
 fun{a:t0p}

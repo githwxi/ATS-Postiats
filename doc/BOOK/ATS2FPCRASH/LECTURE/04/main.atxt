@@ -175,14 +175,27 @@ For someone who knows the standard left-folding function on a list
 does essentially the same as left-folding a list consisting of
 integers from #dyncode("0") to #dyncode("n-1"), where #dyncode("n") is
 the first argument passed to #dyncode("int_foldleft"). For instance,
-the factorial function can be implemented as follows with a call to
-#dyncode("int_foldleft"):
+we can implement the factorial function as follows:
 
 #dats2xhtml('\
 //
 fun
 fact(n: int): int =
-  int_foldleft<int>(n, 1, lam(res, i) => res * i)
+int_foldleft<int>(n, 1, lam(res, i) => res * (i+1))
+//
+')
+
+If we want a function #dyncode("sqsum") to sum up the squares of the
+first #dyncode("n") positive integers for any given natural number
+#dyncode("n"), we can implement it with a call to #dyncode("int_foldleft") as well:
+
+#dats2xhtml('\
+//
+fun
+sq(i: int): int = i*i
+fun
+sqsum(n: int): int =
+int_foldleft<int>(n, 0, lam(res, i) => res * sq(i+1))
 //
 ')
 

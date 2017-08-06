@@ -1634,7 +1634,35 @@ $UN.castvwtp0{b2}
 in
   list0_of_list_vt{b}(list_map2<a1,a2><b>(g1ofg0(xs1), g1ofg0(xs2)))
 end // end of [list0_map2]
-
+//
+(* ****** ****** *)
+//
+implement
+{a1,a2}{b}
+list0_imap2
+  (xs1, xs2, fopr) = let
+//
+var _n_: int = 0
+val nptr = addr@(_n_)
+//
+implement
+{a11,a12}{b2}
+list_map2$fopr
+  (x1, x2) = let
+//
+val n0 =
+$UN.ptr0_get<int>(nptr)
+val res =
+$UN.castvwtp0{b2}
+  (fopr(n0, $UN.cast{a1}(x1), $UN.cast{a2}(x2)))
+in
+  $UN.ptr0_set<int>(nptr, n0+1); res
+end // end of [list_map2$fopr]
+//
+in
+  list0_of_list_vt{b}(list_map2<a1,a2><b>(g1ofg0(xs1), g1ofg0(xs2)))
+end // end of [list0_imap2]
+//
 (* ****** ****** *)
 
 implement

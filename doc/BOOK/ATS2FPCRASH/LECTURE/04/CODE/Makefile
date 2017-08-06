@@ -14,12 +14,20 @@ all::
 ######
 
 all:: \
+multable
+multable: ; \
+$(MYATSCC) multable.dats
+
+######
+
+all:: \
 lecture04
 lecture04: ; \
 $(MYATSCC) lecture04.dats
 
 ######
 
+regress:: multable; ./multable_dats
 regress:: lecture04; ./lecture04_dats
 
 ######

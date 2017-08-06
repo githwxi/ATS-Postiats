@@ -5,7 +5,7 @@
 //
 (* ****** ****** *)
 
-#staload "./../../mylib/mylib.dats"
+#staload "./../../MYLIB/mylib.dats"
 
 (* ****** ****** *)
 //

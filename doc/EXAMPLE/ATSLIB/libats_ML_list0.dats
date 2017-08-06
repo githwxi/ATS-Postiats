@@ -146,6 +146,20 @@ assertloc
 
 val () =
 {
+//
+val out = stdout_ref
+//
+val xs = list0_make_intrange(0, 10)
+val () = fprintln! (out, "imap2: xs = ", xs)
+val ys = list0_imap2<int,int><int>(xs, xs, lam(i, x1, x2) => i+x1*x2)
+val () = fprintln! (out, "imap2: ys = ", ys)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
 val out = stdout_ref
 val xs = list0_make_intrange (10, 0, ~1)
 val () = fprintln! (out, "xs = ", xs)
