@@ -334,7 +334,9 @@ the involved instance of #dyncode("int_foldleft_method") is
 #para("\
 
 Please find #mycodelink("LECTURE/04/CODE", "on-line") the entirety of
-the code used in this chapter. \
+the code used in this chapter. The multable example mentioned previously
+is modified a bit so as to make use of the #dyncode("int_foreach_method")
+combinator. \
 
 ")#comment("para")
 
