@@ -819,11 +819,14 @@ We next implement two functions #dyncode("lrotate") and #dyncode("rrotate")
 for rearranging the elements in a given integer array:
 
 #dats2xhtml("\
-fun lrotate
+fun
+lrotate
 (
   A: arrszref int, i: int, j: int
 ) : void = let
-  fun lshift (
+  fun
+  lshift
+  (
     A: arrszref int, i: int, j: int
   ) : void =
   if i < j
@@ -835,11 +838,14 @@ in
   end // end of [if]
 end // end of [lrotate]
 
-fun rrotate
+fun
+rrotate
 (
   A: arrszref int, i: int, j: int
 ) : void = let
-  fun rshift (
+  fun
+  rshift
+  (
     A: arrszref int, i: int, j: int
   ) : void =
   if i < j
@@ -1036,11 +1042,14 @@ fun{a:t@ype}
 mtrxszref_transpose
   (M: mtrxszref a): void = let
 //
+postfix sz
+\#define sz(x) i2sz(x)
+//
 val nrow = mtrxszref_get_nrow(M)
 //
 fnx loop1
   (i: size_t): void =
-  if i < nrow then loop2(i, 0) else ()
+  if i < nrow then loop2(i, 0sz) else ()
 //
 and loop2
   (i: size_t, j: size_t): void =
@@ -1051,10 +1060,12 @@ and loop2
   end else loop1(i+1) // end of [if]
 //
 in
-  loop1 (0)
+  loop1 (0sz)
 end // end of [mtrxszref_transpose]
 ")
 
+Note that #dyncode('0sz') expands to #dyncode("i2sz(0)"), which casts
+#dyncode('0') of #stacode('int') into #dyncode('0') of #stacode('size_t').
 The matrix M is assumed to be a square, that is, its number of rows equals
 its number of columns. Note that the two functions #dyncode("loop1") and
 #dyncode("loop2") are defined mutually tail-recursively, and the keyword

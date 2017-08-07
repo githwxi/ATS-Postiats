@@ -57,6 +57,21 @@ g0int2int<intknd,intknd> =
 //
 implement
 {}(*tmp*)
+add_int1_size0(i, j) =
+let val i =
+  g1int2uint_int_size(i) in i + j
+end // end of [add_int1_size0]
+implement
+{}(*tmp*)
+add_size0_int1(i, j) =
+let val j =
+  g1int2uint_int_size(j) in i + j
+end // end of [add_size0_int1]
+//
+#atscode_separator()
+//
+implement
+{}(*tmp*)
 mul_int1_size0(i, j) =
 let val i =
   g1int2uint_int_size(i) in i * j

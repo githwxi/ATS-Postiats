@@ -152,6 +152,18 @@ overload mod with g0int_mod of 0
 #atscode_separator()
 
 fun{}
+add_int1_size0{i:nat}(int(i), size_t):<> size_t
+fun{}
+add_size0_int1{j:nat}(size_t, int(j)):<> size_t
+
+#atscode_separator()
+
+overload + with add_int1_size0 of 11
+overload + with add_size0_int1 of 11
+
+#atscode_separator()
+
+fun{}
 mul_int1_size0{i:nat}(int(i), size_t):<> size_t
 fun{}
 mul_size0_int1{j:nat}(size_t, int(j)):<> size_t
