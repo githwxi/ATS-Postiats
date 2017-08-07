@@ -787,10 +787,36 @@ t0mpmarg_tr (x) =
 // end of [t0mpmarg_tr]
 
 (* ****** ****** *)
-
-implement a0typ_tr (x) = s0exp_tr (x.a0typ_typ)
-implement a0typlst_tr (xs) = l2l (list_map_fun (xs, a0typ_tr))
-
+//
+(*
+implement
+a0typ_tr(x) = s0exp_tr(x.a0typ_typ)
+*)
+implement
+a0typ_tr(x) = let
+//
+val opt = x.a0typ_sym
+val s1e = s0exp_tr(x.a0typ_typ)
+//
+in
+//
+case+ opt of
+| None() => s1e
+| Some(id) =>
+  (
+    case+
+    s1e.s1exp_node
+    of (* case+ *)
+    | S1Elist(npf, s1es) =>
+      s1exp_tytup(s1e.s1exp_loc, 0(*knd*), npf, s1es)
+    | _(* non-S1Elist *) => s1e
+  )
+//
+end // end of [a0typ_tr]
+//
+implement
+a0typlst_tr(xs) = l2l(list_map_fun (xs, a0typ_tr))
+//
 (* ****** ****** *)
 
 implement
@@ -1064,13 +1090,14 @@ d0cstdeclst_tr
 (
   isfun, isprf, ds
 ) = case+ ds of
+  | list_nil () =>
+    list_nil ()
   | list_cons (d, ds) => let
       val d = d0cstdec_tr (isfun, isprf, d)
       val ds = d0cstdeclst_tr (isfun, isprf, ds)
     in
       list_cons (d, ds)
     end // end of [list_cons]
-  | list_nil () => list_nil ()
 // end of [d0cstdeclst_tr]
 
 end // end of [local]

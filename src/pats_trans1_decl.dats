@@ -401,7 +401,8 @@ end // end of [e0xndec_tr]
 
 (* ****** ****** *)
 
-fun token_get_dcstkind
+fun
+token_get_dcstkind
   (tok: token): dcstkind = let
 in
 //
@@ -1314,13 +1315,18 @@ case+ d0c0.d0ecl_node of
   (
     knd, tok, qarg, d0cs // knd: 0/1: static/dynamic
   ) => let
-    val dck = token_get_dcstkind (tok)
-    val isfun = dcstkind_is_fun (dck)
-    and isprf = dcstkind_is_proof (dck)
-    val qarg = q0marglst_tr (qarg)
-    val d1cs = d0cstdeclst_tr (isfun, isprf, d0cs)
+//
+    val dck =
+      token_get_dcstkind(tok)
+    // end of [val]
+//
+    val isfun = dcstkind_is_fun(dck)
+    and isprf = dcstkind_is_proof(dck)
+//
+    val qarg = q0marglst_tr(qarg)
+    val d1cs = d0cstdeclst_tr(isfun, isprf, d0cs)
   in
-    d1ecl_dcstdecs (loc0, knd, dck, qarg, d1cs)
+    d1ecl_dcstdecs(loc0, knd, dck, qarg, d1cs)
   end // end of [D0Cdcstdecs]
 //
 | D0Cmacdefs

@@ -25,6 +25,12 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Extending prelude/stream_vt with more functions
+2. Supporting the following style of function interface declaration:
+   extern
+   fun swap_boxed{a,b:type}(xy: (a, b)): (b, a)
+   (
+   Note that (a, b) needs to be replaced with @(a, b) at this point
+   )
 
 ######
 

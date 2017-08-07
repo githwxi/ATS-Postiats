@@ -56,7 +56,8 @@ staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
 //
 implement
-prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
+prerr_FILENAME<>
+  ((*void*)) = prerr "pats_trans2_dynexp"
 //
 (* ****** ****** *)
 

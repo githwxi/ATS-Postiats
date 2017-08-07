@@ -376,7 +376,7 @@ employed by the <command>make</command> utility.\
 
 #para("\
 If we want to, we can also merge #filename("acker.sats") and
-#filename("acker.dats") into a single filename of the following content:
+#filename("acker.dats") into a single file of the following content:
 
 #dats2xhtml('\
 extern

@@ -19,6 +19,14 @@ Time of Generation: #timestamp()\
 
 #para("\
 
+Lists are by far the most commonly used data structure in functional
+programming. For instance, the functional programming language LISP
+is named after #emphasis("LISt Processor").
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/05/CODE", "on-line") the entirety of
 the code used in this chapter. \
 

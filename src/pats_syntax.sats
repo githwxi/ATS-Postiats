@@ -839,18 +839,19 @@ fun fprint_q0marg : fprint_type (q0marg)
 fun fprint_q0marglst : fprint_type (q0marglst)
 
 (* ****** ****** *)
-
+//
 typedef
 a0typ = '{
   a0typ_loc= location
 , a0typ_sym= symbolopt
 , a0typ_typ= s0exp
-} // end of [a0typ]
+} (* end of [a0typ] *)
+//
 typedef a0typlst = List (a0typ)
-
+//
 fun a0typ_make_none (_: s0exp): a0typ
 fun a0typ_make_some (id: i0de, _: s0exp): a0typ
-
+//
 (* ****** ****** *)
 
 datatype
