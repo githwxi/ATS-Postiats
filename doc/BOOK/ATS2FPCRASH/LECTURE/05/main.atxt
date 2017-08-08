@@ -20,8 +20,97 @@ Time of Generation: #timestamp()\
 #para("\
 
 Lists are by far the most commonly used data structure in functional
-programming. For instance, the functional programming language LISP
-is named after #emphasis("LISt Processor").
+programming. For instance, the functional programming language LISP is
+even named after #emphasis("LISt Processor").  In ATS, there is a
+datatype #stacode("list0") declared as follows:
+
+#dats2xhtml('\
+//
+datatype
+list0(a:t@ype) =
+list0_nil of () | list0_cons of (a, list0(a))
+//
+')
+
+Note that #stacode("t@ype") is a sort for static terms representing
+types of dynamic values of unspecified size. There is also a sort
+#stacode("type") in ATS, which is for types of boxed dynamic values
+(of the size of exactly one machine word). Given any type
+#stacode("T"), #stacode("list0(T)") is for lists consisting of
+elements of the type #stacode("T").
+
+")
+
+#para("\
+
+Every datatype is associated with a set of data-constructors, which
+are called for constructing (boxed) values of the datatype. The
+declaration of #stacode("list0") indicates that #dyncode("list0_nil")
+and #dyncode("list0_cons") are the two constructors assocated with
+#stacode("list0"); #dyncode("list0_nil") is nullary;
+#dyncode("list0_cons") is binary, which takes a given element and a
+given list to form a new list such that the given element and list are
+the head and tail of the newly formed list, respectively. For instance,
+the following code binds #dyncode("xs3") to a list of type
+#stacode("list0(int)") that contains three elements 3, 2, and 1:
+
+#dats2xhtml('\
+val xs0 = list0_nil{int}() // xs = ()
+val xs1 = list0_cons(1, xs0) // xs = (1)
+val xs2 = list0_cons(2, xs1) // xs = (2, 1)
+val xs3 = list0_cons(3, xs2) // xs = (3, 2, 1)
+')
+
+If #dyncode("list_nil0()") is used instead, then the typechecker of
+ATS can only infer that the type of #dyncode("xs3") is #dyncode("list0(T)")
+for some type #dyncode("T") such that 3, 2, and 1 are values of #dyncode("T").
+Note that the type system of ATS is highly expressive and it is beyond the focus
+of this book to cover advanced use of types in ATS.
+
+")
+
+#para("\
+
+The function for computing the length of a list0-value can be implemented
+as follows:
+
+#dats2xhtml('\
+fun
+{a:t@ype}
+list0_length
+  (xs0: list0(a)): int =
+(
+case+ xs0 of
+| list0_nil() => 0
+| list0_cons(x0, xs1) => 1 + list0_length<a>(xs1)
+) (* end of [list0_length] *)
+')
+
+Strictly speacking, #dyncode("list0_length") is a function template
+(rather than a function).
+
+")
+
+#para("\
+
+The function for concatenating two given list0-values can be implemented
+as follows:
+
+#dats2xhtml('\
+fun
+{a:t@ype}
+list0_append
+(xs: list0(a),
+ ys: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() => ys
+| list0_cons(x, xs) => list0_cons(x, list0_append<a>(xs, ys))
+) (* end of [list0_append] *)
+')
+
+Strictly speacking, #dyncode("list0_length") is a function template
+(rather than a function).
 
 ")
 
