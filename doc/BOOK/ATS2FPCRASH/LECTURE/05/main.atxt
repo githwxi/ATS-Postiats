@@ -15,7 +15,7 @@ Time of Generation: #timestamp()\
 ")
 <chapter
  id="lecture05">
-#title("Functional List-Processing")
+#title("Functional List-Processing (1)")
 
 #para("\
 
@@ -80,14 +80,24 @@ fun
 list0_length
   (xs0: list0(a)): int =
 (
-case+ xs0 of
+case xs0 of
 | list0_nil() => 0
 | list0_cons(x0, xs1) => 1 + list0_length<a>(xs1)
 ) (* end of [list0_length] *)
 ')
 
 Strictly speacking, #dyncode("list0_length") is a function template
-(rather than a function).
+(rather than a function). In the case-expression, there are two
+pattern matching clauses; each clause consists of a guard, which is
+pattern, and a body, which is an expression. When the value
+#dyncode("xs0") matches the guard of a clause, the body of the clause
+is chosen for subsequent evaluation. If #dyncode("xs0") is empty,
+then it is constructed with #dyncode("list0_nil") and thus matches the
+pattern #dyncode("list0_nil()").  If #dyncode("xs0") is non-empty,
+then then it is constructed with #dyncode("list0_cons") and thus
+matches the pattern #dyncode("list0_cons(x0, xs1)"), resulting in the
+names #dyncode("x0") and #dyncode("xs1") bound to the head and tail of
+#dyncode("xs0"), respectively.
 
 ")
 
@@ -109,8 +119,41 @@ case+ xs of
 ) (* end of [list0_append] *)
 ')
 
-Strictly speacking, #dyncode("list0_length") is a function template
-(rather than a function).
+Given #dyncode("xs") and #dyncode("ys"), #dyncode("list0_append")
+returns a list that represents the concatenation of #dyncode("xs") and
+#dyncode("ys"). The implementation of #dyncode("list0_append") is
+functional in the sense that it does not alter either #dyncode("xs")
+or #dyncode("ys") for the construction of the concatenation. For
+clarification, I point out that there is a function of the name
+#dyncode("list_vt_append") in ATS that consumes two given linear lists
+to construct their concatenation. When a call to
+#dyncode("list_vt_append") returns, the two linear lists passed to the
+call are no longer available for subsequent use.
+
+")
+
+#para("\
+
+The function for constructing the reverse of a given list0-value
+can be implemented as follows:
+
+#dats2xhtml('\
+fun
+{a:t@ype}
+list0_reverse
+(xs: list0(a)): list0(a) =
+list0_revappend<a>(xs, list0_nil())
+
+and
+list0_revappend
+(xs: list0(a),
+ ys: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() => ys
+| list0_cons(x, xs) => list0_revappend<a>(xs, list0_cons(x, ys))
+) (* end of [list0_revappend] *)
+')
 
 ")
 

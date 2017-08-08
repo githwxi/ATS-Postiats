@@ -31,6 +31,39 @@ case+ xs0 of
 
 (* ****** ****** *)
 
+fun
+{a:t@ype}
+list0_append
+(xs: list0(a),
+ ys: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() => ys
+| list0_cons(x, xs) =>
+  list0_cons(x, list0_append<a>(xs, ys))
+) (* end of [list0_append] *)
+
+(* ****** ****** *)
+
+fun
+{a:t@ype}
+list0_reverse
+(xs: list0(a)): list0(a) =
+list0_revappend<a>(xs, list0_nil())
+
+and
+list0_revappend
+(xs: list0(a),
+ ys: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() => ys
+| list0_cons(x, xs) =>
+  list0_revappend<a>(xs, list0_cons(x, ys))
+) (* end of [list0_revappend] *)
+
+(* ****** ****** *)
+
 val () =
 println! ("|xs3| = ", list0_length<int>(xs3))
 
