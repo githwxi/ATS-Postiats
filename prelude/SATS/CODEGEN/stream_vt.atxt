@@ -167,6 +167,15 @@ stream_vt_uncons_opt
 #atscode_separator()
 //
 fun{a:t0p}
+stream_vt_last_exn
+  (stream_vt(INV(a))):<!exnwrt> (a)
+fun{a:t0p}
+stream_vt_last_opt
+  (stream_vt(INV(a))):<!exnwrt> Option_vt(a)
+//
+#atscode_separator()
+//
+fun{a:t0p}
 stream_vt_nth_exn
   (xs: stream_vt(INV(a)), n: intGte(0)):<!exnwrt> (a)
 fun{a:t0p}

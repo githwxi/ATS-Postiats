@@ -383,6 +383,52 @@ case+ !xs0 of
 ) (* end of [stream_vt_uncons_opt] *)
 
 #atscode_separator()
+//
+implement
+{a}(*tmp*)
+stream_vt_last_exn(xs) = let
+//
+fun
+loop(x0: a, xs: stream_vt(a)) =
+(
+case+ !xs of
+| ~stream_vt_nil((*void*)) => x0
+| ~stream_vt_cons(x1, xs) => loop(x1, xs)
+) (* end of [loop] *)
+//
+in
+//
+case+ !xs of
+| ~stream_vt_nil
+    () => $raise StreamSubscriptExn()
+| ~stream_vt_cons
+    (x0, xs) => $effmask_all(loop(x0, xs))
+//
+end // end of [stream_vt_last_exn]
+//
+implement
+{a}(*tmp*)
+stream_vt_last_opt(xs) = let
+//
+fun
+loop(x0: a, xs: stream_vt(a)) =
+(
+case+ !xs of
+| ~stream_vt_nil((*void*)) => x0
+| ~stream_vt_cons(x1, xs) => loop(x1, xs)
+) (* end of [loop] *)
+//
+in
+//
+case+ !xs of
+| ~stream_vt_nil
+    () => None_vt((*void*))
+| ~stream_vt_cons
+    (x0, xs) => $effmask_all(Some_vt(loop(x0, xs)))
+//
+end // end of [stream_vt_last_opt]
+//
+#atscode_separator()
 
 implement
 {a}(*tmp*)
