@@ -92,5 +92,87 @@ int_cross_foreach
   int_foreach(m, lam(i) => int_foreach(n, lam(j) => fwork(i, j)))
 //
 (* ****** ****** *)
+//
+// For list0-values
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_length(xs0: list0(a)): int
+//
+(*
+implement
+list0_length
+(
+case+ xs0 of
+| list0_nil() => 0
+| list0_cons(x0, xs1) => 1 + list0_length<a>(xs1)
+) (* end of [list0_length] *)
+*)
+//
+(* ****** ****** *)
+
+extern
+fun
+{a:t@ype}
+list0_append
+(xs: list0(a), ys: list0(a)): list0(a)
+
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_reverse(xs: list0(a)): list0(a)
+and
+list0_revappend
+(xs: list0(a), ys: list0(a)): list0(a)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{r:t@ype}
+{a:t@ype}
+list0_foldleft
+(
+xs: list0(a), r0: r, fopr: cfun(r, a, r)
+) : (r) // end of [list0_foldleft]
+//
+implement
+{r}{a}
+list0_foldleft
+(xs, r0, fopr) =
+  loop(xs, r0) where
+{
+fun
+loop(xs: list0(a), r0: r): r =
+case+ xs of
+| list0_nil() => r0
+| list0_cons(x, xs) => loop(xs, fopr(r0, x))
+}
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+list0_length(xs) =
+  list0_foldleft<int><a>(xs, 0, lam(r, _) => r + 1)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+list0_reverse(xs) =
+  list0_revappend<a>(xs, list0_nil())
+//
+implement
+{a}(*tmp*)
+list0_revappend(xs, ys) =
+  list0_foldleft<list0(a)><a>(xs, ys, lam(ys, x) => list0_cons(x, ys))
+//
+(* ****** ****** *)
 
 (* end of [mylib.dats] *)

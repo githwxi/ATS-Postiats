@@ -104,6 +104,33 @@ ys: list0(a)
   list0_foldleft<list0(a)><a>(xs, ys, lam(ys, x) => list0_cons(x, ys))
 //
 (* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{r:t@ype}
+list0_foldright
+( xs: list0(a)
+, fopr: cfun(a, r, r), r0: r): r
+//
+implement
+{a}{r}
+list0_foldright
+( xs
+, fopr, r0) =
+auxlst(xs) where
+{
+fun
+auxlst
+(xs: list0(a)): r =
+(
+case+ xs of
+| list0_nil() => r0
+| list0_cons(x, xs) => fopr(x, auxlst(xs))
+) (* end of [auxlst] *)
+}
+//
+(* ****** ****** *)
 
 val () =
 println! ("|xs3| = ", list0_length<int>(xs3))
