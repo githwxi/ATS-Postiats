@@ -159,6 +159,79 @@ case+ xs of
 
 #para("\
 
+A commonly used list-combinator is the #dyncode("list0_foldleft")
+function implemented as follows:
+
+#dats2xhtml('\
+//
+extern
+fun
+{r:t@ype}
+{a:t@ype}
+list0_foldleft
+( xs: list0(a)
+, r0: r, fopr: cfun(r, a, r)): r
+//
+implement
+{r}{a}
+list0_foldleft
+( xs
+, r0, fopr) =
+loop(xs, r0) where
+{
+fun
+loop
+(
+xs: list0(a), r0: r
+) : r =
+(
+case+ xs of
+| list0_nil() => r0
+| list0_cons(x, xs) => loop(xs, fopr(r0, x))
+) (* end of [loop] *)
+}
+//
+')
+
+Clearly, #dyncode("list0_foldleft") is tail-recursive.
+
+")
+
+#para("\
+
+As an example, the function for computing the length of
+a given list0-value can be implemented as follows with a direct
+call to #dyncode("list0_foldleft"):
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+list0_length
+  (xs: list0(a)): int =
+  list0_foldleft<int><a>(xs, 0, lam(r, _) => r + 1)
+//
+')
+
+As another example, the reverse-append function that returns the link
+of the reverse of a list0-value with another list0-value can also be
+implemented as follows with a direct call to #dyncode("list0_foldleft"):
+
+#dats2xhtml('\
+fun
+{a:t@ype}
+list0_revappend
+(
+xs: list0(a),
+ys: list0(a)
+) : list0(a) =
+  list0_foldleft<list0(a)><a>(xs, ys, lam(ys, x) => list0_cons(x, ys))
+')
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/05/CODE", "on-line") the entirety of
 the code used in this chapter. \
 

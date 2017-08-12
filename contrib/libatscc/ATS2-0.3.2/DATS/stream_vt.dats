@@ -293,6 +293,49 @@ stream_vt_map_method
 ) (* end of [stream_vt_map_method] *)
 //
 (* ****** ****** *)
+//
+implement
+stream_vt_mapopt_cloref
+  {a}{b}
+(
+  xs, f0
+) =
+  auxmain(xs) where
+{
+//
+fun
+auxmain
+(
+xs: stream_vt(a)
+) : stream_vt(b) = $ldelay
+(
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+    stream_vt_nil()
+| ~stream_vt_cons(x, xs) =>
+  (
+    case+ f0(x) of
+    | ~None_vt() => !(auxmain(xs))
+    | ~Some_vt(y) =>
+        stream_vt_cons(y, auxmain(xs))
+      // end of [Some_vt]
+  )
+) : stream_vt_con(b)
+,
+~(xs) // called when the stream is freed
+) (* end of [auxmain] *)
+//
+} (* end of [stream_vt_mapopt_cloref] *)
+//
+implement
+stream_vt_mapopt_method
+  (xs, _) =
+(
+  llam(f0) => stream_vt_mapopt_cloref(xs, f0)
+) (* end of [stream_vt_map_method] *)
+//
+(* ****** ****** *)
 
 implement
 stream_vt_filter_cloref

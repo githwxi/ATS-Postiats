@@ -55,7 +55,7 @@ datatype #stacode("list") in ATS is declared as follows:
 datatype
 list(t@ype+, int) =
   | {a:t@ype} list_nil(a, 0) of () // [of ()] is optional
-  | {a:t@ype} {n:nat} list_cons(a, n+1) of (a, list(a, n))
+  | {a:t@ype}{n:nat} list_cons(a, n+1) of (a, list(a, n))
 ")
 
 More precisely, #stacode("list") is declared as a type constructor of the
@@ -92,7 +92,7 @@ and a list of length n.  Note that it is also possible to declare
 
 #sats2xhtml("\
 datatype
-list (a:t@ype+, int) =
+list(a:t@ype+, int) =
   | list_nil(a, 0) of () // [of ()] is optional
   | {n:nat} list_cons(a, n+1) of (a, list(a, n))
 ")
@@ -114,13 +114,14 @@ fun{
 a:t@ype
 } list_length
   {n:nat} .<n>.
-  // .<n>. is a termination metric
-  (xs: list (a, n)): int (n) = case+ xs of
-  | list_nil((*void*)) => 0
-  | list_cons(_(*x*), xs1) => 1 + list_length<a>(xs1)
+  (xs: list(a, n)): int(n) =
+  case+ xs of
+  | list_nil() => 0
+  | list_cons(_, xs1) => 1 + list_length<a>(xs1)
 // end of [list_length]
 ")
 
+Note that #stacode(".&lt;n&gt;.") is is a termination metric.
 The type assigned to the function #dyncode("list_length") indicates that
 the function takes a list of length n for any natural number n and returns
 an integer of value n. In addition, the function is verified to be
@@ -131,7 +132,7 @@ how typechecking can be performed on the definition of
 typechecks:
 
 #atscode("\
-  | list_cons (_, xs1) => 1 + list_length (xs1)
+  | list_cons(_, xs1) => 1 + list_length(xs1)
 ")
 
 What we need to verify is that the expression on the righthand side of the
@@ -174,18 +175,22 @@ given list:
 ')
 
 #dats2xhtml('\
-fun{
-a:t@ype
-} list_length{n:nat} .<>.
-  (xs: list (a, n)): int (n) = let
-  // loop: {i,j:nat} (list (a, i), int (j)) -> int (i+j)
-  fun loop {i,j:nat} .<i>.
-    // .<i>. is a termination metric
-    (xs: list (a, i), j: int j): int (i+j) = case+ xs of
-    | list_cons (_, xs1) => loop (xs1, j+1) | list_nil () => j
-  // end of [loop]
+fun
+{a:t@ype}
+list_length{n:nat} .<>.
+  (xs: list(a, n)): int(n) = let
+//
+// loop: {i,j:nat} (list(a, i), int(j)) -> int(i+j)
+//
+fun loop{i,j:nat} .<i>.
+  // .<i>. is a termination metric
+  (xs: list(a, i), j: int(j)): int(i+j) =
+  case+ xs of
+  | list_cons(_, xs1) => loop(xs1, j+1) | list_nil() => j
+// end of [loop]
+//
 in
-  loop (xs, 0)
+  loop(xs, 0)
 end // end of [list_length]
 ')
 
@@ -210,7 +215,7 @@ optional values:
 #sats2xhtml('\
 datatype
 option(a:t@ype+, bool) =
-  | Some (a, true) of a | None (a, false) of ()
+  | Some(a, true) of a | None(a, false) of ()
 // end of [option]
 ')
 
@@ -227,26 +232,26 @@ a:t@ype
 } list_last
   {n:nat} .<>.
 (
-  xs: list (a, n)
-) : option (a, n > 0) = let
+  xs: list(a, n)
+) : option(a, n > 0) = let
 //
 fun loop
   {n:pos} .<n>.
 (
-  xs: list (a, n)
+  xs: list(a, n)
 ) : a = let
-  val+ list_cons (_, xs1) = xs
+  val+ list_cons(_, xs1) = xs
 in
   case+ xs1 of
-  | list_cons _ => loop (xs1)
-  | list_nil () => let
-      val+ list_cons (x, _) = xs in x
+  | list_nil() => let
+      val+list_cons(x, _) = xs in x
     end // end of [list_nil]
+  | list_cons(_, _) => loop(xs1)
 end // end of [loop]
 //
 in
   case+ xs of
-  | list_cons _ => Some (loop (xs)) | list_nil () => None ()
+  | list_nil() => None() | list_cons _ => Some(loop(xs))
 end // end of [list_last]
 ')
 
@@ -304,13 +309,14 @@ Given two lists xs and ys of the types #stacode("list(T, I1)") and
 #stacode("list(T,I1+I2)") that is the concatenation of xs and ys:
 
 #dats2xhtml("\
-fun{
-a:t@ype
-} list_append
+fun
+{a:t@ype}
+list_append
   {m,n:nat} .<m>.
 (
-  xs: list (a, m), ys: list(a, n)
-) : list (a, m+n) =
+  xs: list(a, m)
+, ys: list(a, n)
+) : list(a, m+n) =
 (
   case+ xs of
   | list_nil() => ys
@@ -337,9 +343,9 @@ Given two lists xs and ys of the type #stacode("list(T, I1)") and
 and ys:
 
 #dats2xhtml("\
-fun{
-a:t@ype
-} list_reverse_append
+fun
+{a:t@ype}
+list_reverse_append
   {m,n:nat} .<m>.
 (
   xs: list(a, m)
@@ -347,8 +353,8 @@ a:t@ype
 ) : list(a, m+n) =
 (
   case+ xs of
-  | list_nil () => ys
-  | list_cons (x, xs) =>
+  | list_nil() => ys
+  | list_cons(x, xs) =>
       list_reverse_append<a>(xs, list_cons(x, ys))
 ) (* end of [list_reverse_append] *)
 ")
@@ -369,7 +375,8 @@ Given a list xs, #dyncode("list_reverse(xs)") returns the reverse of xs,
 which is of the same length as xs:
 
 #dats2xhtml("\
-fun{a:t@ype}
+fun
+{a:t@ype}
 list_reverse{n:nat} .<>. // defined non-recursively
   (xs: list(a, n)): list(a, n) = list_reverse_append<a>(xs, list_nil())
 // end of [list_reverse]
@@ -394,12 +401,12 @@ a:t@ype}
 } list_map
   {n:nat} .<n>.
 (
-  xs: list (a, n), f: a -<cloref1> b
-) : list (b, n) =
+  xs: list(a, n), f: a -<cloref1> b
+) : list(b, n) =
 (
   case+ xs of
   | list_nil() => list_nil()
-  | list_cons(x, xs) => list_cons(f x, list_map<a>(xs, f))
+  | list_cons(x, xs) => list_cons(f(x), list_map<a>(xs, f))
 ) (* end of [list_map] *)
 ")
 
@@ -426,8 +433,9 @@ a,b:t@ype
 } list_zip
   {n:nat} .<n>.
 (
-  xs: list (a, n), ys: list (b, n)
-) : list ((a, b), n) =
+  xs: list(a, n)
+, ys: list(b, n)
+) : list((a, b), n) =
 (
   case+ (xs, ys) of
   | (
@@ -435,8 +443,8 @@ a,b:t@ype
     , list_nil()
     ) => list_nil((*void*))
   | (
-      list_cons (x, xs)
-    , list_cons (y, ys)
+      list_cons(x, xs)
+    , list_cons(y, ys)
     ) => list_cons((x, y), list_zip<a,b>(xs, ys))
 ) (* end of [list_zip] *)
 ")
@@ -467,10 +475,10 @@ a,b:t@ype
 } list_zipwith
   {n:nat} .<n>.
 (
-  xs: list (a, n)
-, ys: list (b, n)
+  xs: list(a, n)
+, ys: list(b, n)
 , f: (a, b) -<cloref1> c
-) : list (c, n) =
+) : list(c, n) =
 (
   case+ (xs, ys) of
   | (
@@ -526,8 +534,8 @@ a:t@ype
 } merge
   {m,n:nat} .<m+n>.
 (
-  xs0: list (a, m), ys0: list (a, n), lte: lte a
-) : list (a, m+n) =
+  xs0: list(a, m), ys0: list(a, n), lte: lte a
+) : list(a, m+n) =
   case+ xs0 of
   | list_nil() => ys0
   | list_cons(x, xs1) =>
@@ -536,8 +544,8 @@ a:t@ype
     | list_nil() => xs0
     | list_cons(y, ys1) =>
         if x \\\\\\\\lte y
-          then list_cons (x, merge (xs1, ys0, lte))
-          else list_cons (y, merge (xs0, ys1, lte))
+          then list_cons(x, merge (xs1, ys0, lte))
+          else list_cons(y, merge (xs0, ys1, lte))
         // end of [if]
     ) // end of [list_cons]
 // end of [merge]
@@ -561,35 +569,35 @@ fun{
 a:t@ype
 } mergesort{n:nat}
 (
-  xs: list (a, n), lte: lte a
-) : list (a, n) = let
+  xs: list(a, n), lte: lte a
+) : list(a, n) = let
 //
   fun msort
     {n:nat} .<n,n>.
   (
-    xs: list (a, n), n: int n, lte: lte a
-  ) : list (a, n) =
+    xs: list(a, n), n: int n, lte: lte a
+  ) : list(a, n) =
     if n >= 2
-      then split (xs, n, lte, half(n), list_nil) else xs
+      then split(xs, n, lte, half(n), list_nil) else xs
     // end of [if]
   // end of [msort]
   and split
     {n:int | n >= 2}{i:nat | i <= n/2} .<n,i>.
   (
-    xs: list (a, n-n/2+i)
-  , n: int n, lte: lte a, i: int i, xsf: list (a, n/2-i)
-  ) : list (a, n) =
+    xs: list(a, n-n/2+i)
+  , n: int(n), lte: lte a, i: int(i), xsf: list(a, n/2-i)
+  ) : list(a, n) =
     if i > 0 then let
-      val+ list_cons (x, xs) = xs
+      val+list_cons(x, xs) = xs
     in
-      split (xs, n, lte, i-1, list_cons (x, xsf))
+      split(xs, n, lte, i-1, list_cons(x, xsf))
     end else let
       val n2 = half(n)
-      val xsf = list_reverse<a> (xsf) // make sorting stable!
-      val xsf = list_of_list_vt (xsf) // linear list -> nonlinear list
-      val xsf = msort (xsf, n2, lte) and xs = msort (xs, n-n2, lte)
+      val xsf = list_reverse<a>(xsf) // make sorting stable!
+      val xsf = list_of_list_vt(xsf) // linear list -> nonlinear list
+      val xsf = msort(xsf, n2, lte) and xs = msort (xs, n-n2, lte)
     in
-      merge (xsf, xs, lte)
+      merge(xsf, xs, lte)
     end // end of [if]
   // end of [split]
 //
@@ -685,19 +693,19 @@ match one of the following three patterns:
 
 <listitem>
 #para("
-#dyncode("(list_cons _, list_nil ())")
+#dyncode("(list_nil(), list_nil())")
 ")
 </listitem>
 
 <listitem>
 #para("
-#dyncode("(list_nil (), list_cons _)")
+#dyncode("(list_cons _, list_nil())")
 ")
 </listitem>
 
 <listitem>
 #para("
-#dyncode("(list_nil (), list_nil ())")
+#dyncode("(list_nil(), list_cons _)")
 ")
 </listitem>
 
@@ -760,10 +768,16 @@ as follows:
 sortdef clr = {c:nat | c <= 1}
 //
 datatype rbtree
-  (a:t@ype+, int(*clr*), int(*bh*)) =
-  | rbtree_nil (a, BLK, 0)
-  | {c,cl,cr:clr | cl <= 1-c; cr <= 1-c} {bh:nat}
-    rbtree_cons (a, c, bh+1-c) of (int c, rbtree (a, cl, bh), a, rbtree (a, cr, bh))
+(
+  a:t@ype+
+, int(*color*)
+, int(*bheight*)
+) =
+| rbtree_nil(a, BLK, 0)
+| {c,cl,cr:clr}{bh:nat}
+  {cl <= 1-c; cr <= 1-c}
+  rbtree_cons(a, c, bh+1-c) of
+    (int(c), rbtree(a, cl, bh), a, rbtree(a, cr, bh))
 // end of [rbtree]
 //
 ')
@@ -796,13 +810,13 @@ datatype rbtree
 (
   a:t@ype+
 , int // color
-, int // black height
+, int // bheight
 , int // violations
 ) = // rbtree
-  | rbtree_nil (a, BLK, 0, 0) of ()
+  | rbtree_nil(a, BLK, 0, 0) of ()
   | {c,cl,cr:clr}{bh:nat}{v:int}
-      {c==BLK && v==0 || c == RED && v==cl+cr}
-    rbtree_cons (a, c, bh+1-c, v) of
+    {c==BLK && v==0 || c == RED && v==cl+cr}
+    rbtree_cons(a, c, bh+1-c, v) of
     (
       int c, rbtree0 (a, cl, bh), a, rbtree0(a, cr, bh)
     ) (* end of [rbtree_cons] *)
@@ -842,11 +856,11 @@ a:t@ype
   \#define B BLK; \#define R RED; \#define cons rbtree_cons
 in
   case+ (tl, x0, tr) of
-  | (cons (R, cons (R, a, x, b), y, c), z, d) =>
-      cons (R, cons (B, a, x, b), y, cons (B, c, z, d)) // shallow rot
-  | (cons (R, a, x, cons (R, b, y, c)), z, d) =>
-      cons (R, cons (B, a, x, b), y, cons (B, c, z, d)) // deep rotation
-  | (a, x, b) =>> cons (B, a, x, b)
+  | (cons(R, cons(R, a, x, b), y, c), z, d) =>
+      cons(R, cons(B, a, x, b), y, cons(B, c, z, d)) // shallow rot
+  | (cons(R, a, x, cons(R, b, y, c)), z, d) =>
+      cons(R, cons(B, a, x, b), y, cons(B, c, z, d)) // deep rotation
+  | (a, x, b) =>> cons(B, a, x, b)
 end // end of [insfix_l]
 ')
 
@@ -875,11 +889,11 @@ a:t@ype
   \#define B BLK; \#define R RED; \#define cons rbtree_cons
 in
   case+ (tl, x0, tr) of
-  | (a, x, cons (R, b, y, cons (R, c, z, d))) =>
-      cons (R, cons (B, a, x, b), y, cons (B, c, z, d)) // shallow rot
-  | (a, x, cons (R, cons (R, b, y, c), z, d)) =>
-      cons (R, cons (B, a, x, b), y, cons (B, c, z, d)) // deep rotation
-  | (a, x, b) =>> cons (B, a, x, b)
+  | (a, x, cons(R, b, y, cons(R, c, z, d))) =>
+      cons(R, cons(B, a, x, b), y, cons(B, c, z, d)) // shallow rot
+  | (a, x, cons(R, cons(R, b, y, c), z, d)) =>
+      cons(R, cons(B, a, x, b), y, cons(B, c, z, d)) // deep rotation
+  | (a, x, b) =>> cons(B, a, x, b)
 end // end of [insfix_r]
 ')
 
@@ -898,9 +912,9 @@ extern
 fun{
 a:t@ype
 } rbtree_insert
-  {c:clr} {bh:nat}
+  {c:clr}{bh:nat}
 (
-  t: rbtree0 (a, c, bh), x0: a, cmp: cmp a
+  t: rbtree0 (a, c, bh), x0: a, cmp: cmp(a)
 ) : [bh1:nat] rbtree0 (a, BLK, bh1)
 ')
 
@@ -932,31 +946,40 @@ fun ins
 ] rbtree (a, cl, bh, v) =
 (
   case+ t of
-  | nil ((*void*)) =>
-      cons{..}{..}{..}{0} (R, nil, x0, nil)
-  | cons (c, tl, x, tr) => let
-      val sgn = compare (x0, x, cmp)
+  | nil((*void*)) =>
+    cons{..}{..}{..}{0}(R, nil, x0, nil)
+  | cons(c, tl, x, tr) => let
+      val sgn = compare(x0, x, cmp)
     in
-      if sgn < 0 then let
-        val [cl,v:int] tl = ins (tl, x0)
-      in
-        if c = B then insfix_l (tl, x, tr)
-          else cons{..}{..}{..}{cl} (R, tl, x, tr)
-        // end of [if]
-      end else if sgn > 0 then let
-        val [cr,v:int] tr = ins (tr, x0)
-      in
-        if c = B then insfix_r (tl, x, tr)
-          else cons{..}{..}{..}{cr} (R, tl, x, tr)
-        // end of [if]
-      end else t // end of [if]
+      //
+      // [ifcase] for combining a sequence
+      // of chaining if-then-else expressions
+      //
+      ifcase
+      | sgn < 0 => let
+          val [cl:int,v:int] tl = ins(tl, x0)
+        in
+          if c = B
+            then insfix_l(tl, x, tr)
+            else cons{..}{..}{..}{cl}(R, tl, x, tr)
+          // end of [if]
+        end (* sgn < 0 *)
+      | sgn > 0 => let
+          val [cr:int,v:int] tr = ins(tr, x0)
+        in
+          if c = B
+            then insfix_r(tl, x, tr)
+            else cons{..}{..}{..}{cr}(R, tl, x, tr)
+          // end of [if]
+        end (* sgn > 0 *)
+      | _(* sgn = 0 *) => (t) // end of [ifcase]
     end // end of [cons]
 ) (* end of [ins] *)
 //
 val t = ins (t, x0)
 //
 in
-  case+ t of cons (R, tl, x, tr) => cons (B, tl, x, tr) | _ =>> t
+  case+ t of cons(R, tl, x, tr) => cons(B, tl, x, tr) | _ =>> t
 end // end of [rbtree_insert]
 ')
 

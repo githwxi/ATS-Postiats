@@ -101,8 +101,16 @@ fun
 stream_vt_map_cloref
   {a:vt0p}{b:vt0p}
 (
-  xs: stream_vt(INV(a)), fopr: (a) -<cloref1> b
+xs: stream_vt(INV(a)), fopr: (a) -<cloref1> b
 ) : stream_vt(b) = "mac#%" // end-of-function
+//
+fun
+stream_vt_mapopt_cloref
+  {a:vt0p}{b:vt0p}
+(
+xs: stream_vt(INV(a)), fopr: (a) -<cloref1> Option_vt(b)
+) : stream_vt(b) = "mac#%" // end-of-function
+//
 fun
 stream_vt_map_method
   {a:vt0p}{b:vt0p}
@@ -111,6 +119,15 @@ xs: stream_vt(INV(a)), TYPE(b)
 ) :
 (
  (a) -<cloref1> b
+) -<lincloptr1> stream_vt(b) = "mac#%" // endfun
+fun
+stream_vt_mapopt_method
+  {a:vt0p}{b:vt0p}
+(
+xs: stream_vt(INV(a)), TYPE(b)
+) :
+(
+ (a) -<cloref1> Option_vt(b)
 ) -<lincloptr1> stream_vt(b) = "mac#%" // endfun
 //
 (* ****** ****** *)
@@ -222,6 +239,7 @@ overload concat with stream_vt_concat of 100
 overload .takeLte with stream_vt_takeLte of 100
 //
 overload .map with stream_vt_map_method of 100
+overload .mapopt with stream_vt_mapopt_method of 100
 overload .filter with stream_vt_filter_method of 100
 overload .foreach with stream_vt_foreach_method of 100
 overload .iforeach with stream_vt_iforeach_method of 100

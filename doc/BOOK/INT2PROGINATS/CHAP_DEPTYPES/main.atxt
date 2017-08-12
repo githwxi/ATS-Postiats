@@ -256,7 +256,7 @@ variables. For instance, the type #stacode("Int") in ATS is defined as
 follows:
 
 #sats2xhtml("\
-typedef Int = [a:int] int (a) // for unspecified integers
+typedef Int = [a:int] int(a) // for unspecified integers
 ")
 
 where the syntax #stacode("[a:int]") means existential quantification over
@@ -270,7 +270,7 @@ type.  As another example, the type #stacode("Nat") in ATS is defined as
 follows:
 
 #sats2xhtml("\
-typedef Nat = [a:int | a >= 0] int (a) // for natural numbers
+typedef Nat = [a:int | a >= 0] int(a) // for natural numbers
 ")
 
 where the syntax #stacode("[a:int | a >= 0]") means existential
@@ -283,7 +283,7 @@ natural number. This means that the type #stacode("Nat") is for natural
 numbers. The definition of #stacode("Nat") can also be given as follows:
 
 #sats2xhtml("\
-typedef Nat = [a:nat] int (a) // for natural numbers
+typedef Nat = [a:nat] int(a) // for natural numbers
 ")
 
 where the syntax #stacode("[a:nat]") is just a form of syntactic sugar that
@@ -303,7 +303,7 @@ the following universally quantified type is for a function that returns
 the successor of its integer argument:
 
 #atscode("\
-{i:int} int (i) -> int (i+1)
+{i:int} int(i) -> int(i+1)
 ")
 
 where the syntax #stacode("{i:int}") means universal quantification over a
@@ -315,7 +315,7 @@ infinitely may partial functions that can be given this type as well.  For
 the successor function on natural numbers, we can use the following type:
 
 #atscode("\
-{i:int | i >= 0} int (i) -> int (i+1)
+{i:int | i >= 0} int(i) -> int(i+1)
 ")
 
 where the syntax #stacode("{i:int | i >= 0}") means universal
@@ -324,7 +324,7 @@ quantification over a static variable #stacode("i") of the sort
 This type can also be written as follows:
 
 #atscode("\
-{i:nat} int (i) -> int (i+1)
+{i:nat} int(i) -> int(i+1)
 ")
 
 where the syntax #stacode("{i:nat}") automatically expands into
@@ -332,18 +332,18 @@ where the syntax #stacode("{i:nat}") automatically expands into
 commonly used functions on integers:
 
 #sats2xhtml("\
-fun g1int_neg {i:int} (int i): int (~i) // negation
-fun g1int_add {i,j:int} (int i, int j): int (i+j) // addition
-fun g1int_sub {i,j:int} (int i, int j): int (i-j) // subtraction
-fun g1int_mul {i,j:int} (int i, int j): int (i*j) // multiplication
-fun g1int_div {i,j:int} (int i, int j): int (i/j) // division
+fun g1int_neg {i:int} (int i): int(~i) // negation
+fun g1int_add {i,j:int} (int i, int j): int(i+j) // addition
+fun g1int_sub {i,j:int} (int i, int j): int(i-j) // subtraction
+fun g1int_mul {i,j:int} (int i, int j): int(i*j) // multiplication
+fun g1int_div {i,j:int} (int i, int j): int(i/j) // division
 
-fun g1int_lt {i,j:int} (int i, int j): bool (i < j) // less-than
-fun g1int_lte {i,j:int} (int i, int j): bool (i <= j) // less-than-or-equal-to
-fun g1int_gt {i,j:int} (int i, int j): bool (i > j) // greater-than
-fun g1int_gte {i,j:int} (int i, int j): bool (i >= j) // greater-than-or-equal-to
-fun g1int_eq {i,j:int} (int i, int j): bool (i == j) // equal-to
-fun g1int_neq {i,j:int} (int i, int j): bool (i != j) // not-equal-to
+fun g1int_lt {i,j:int} (int i, int j): bool(i < j) // less-than
+fun g1int_lte {i,j:int} (int i, int j): bool(i <= j) // less-than-or-equal-to
+fun g1int_gt {i,j:int} (int i, int j): bool(i > j) // greater-than
+fun g1int_gte {i,j:int} (int i, int j): bool(i >= j) // greater-than-or-equal-to
+fun g1int_eq {i,j:int} (int i, int j): bool(i == j) // equal-to
+fun g1int_neq {i,j:int} (int i, int j): bool(i != j) // not-equal-to
 ")
 
 These interfaces are all declared in the file
@@ -374,7 +374,7 @@ After seeing the above examples, it is only natural for one to expect
 something along the following line of thought:
 
 #sats2xhtml("\
-fun g1int_fact{i:nat}(i: int(i)): int (fact(i))
+fun g1int_fact{i:nat}(i: int(i)): int(fact(i))
 ")
 
 where #emphasis("fact") is a static version of the factorial function. The
@@ -416,7 +416,7 @@ fact{n:nat}
 (
   x: int(n)
 ) : [r:nat] int r =
-  if x > 0 then x * fact (x-1) else 1
+  if x > 0 then x * fact(x-1) else 1
 // end of [fact]
 ")
 
@@ -509,7 +509,7 @@ for strings of unspecified length, which is basically equivalent to the
 type #stacode("String") defined as follows:
 
 #sats2xhtml("\
-typedef String = [n:nat] string (n)
+typedef String = [n:nat] string(n)
 ")
 
 The following two functions are commonly used for traversing a given string:
@@ -518,12 +518,12 @@ The following two functions are commonly used for traversing a given string:
 //
 fun string_is_atend
   {n:int}{i:nat | i <= n}
-  (str: string (n), i: size_t (i)): bool (i==n)
+  (str: string(n), i: size_t(i)): bool(i==n)
 // end of [string_is_atend]
 //
 fun string_isnot_atend
   {n:int}{i:nat | i <= n}
-  (str: string (n), i: size_t (i)): bool (i < n)
+  (str: string(n), i: size_t(i)): bool(i < n)
 // end of [string_isnot_atend]
 //
 ")
@@ -535,15 +535,17 @@ of a given string:
 #dats2xhtml("\
 fun
 string_length
-  {n:nat} (
-  str: string (n)
-) : size_t (n) = let
-  fun loop {i:nat | i <= n} .<n-i>.
-    (str: string n, i: size_t i): size_t (n) =
-    if string_isnot_atend (str, i) then loop (str, succ(i)) else i
+  {n:nat}
+(
+  str: string(n)
+) : size_t(n) = let
+  fun
+  loop{i:nat | i <= n} .<n-i>.
+    (str: string(n), i: size_t(i)): size_t(n) =
+    if string_isnot_atend(str, i) then loop(str, succ(i)) else i
   // end of [loop]
 in
-  loop (str, i2sz(0))
+  loop(str, i2sz(0))
 end // end of [string_length]
 ")
 
@@ -588,26 +590,28 @@ occurs in the string:
 #dats2xhtml("\
 //
 typedef
-sizeLt (n:int) = [i:nat | i < n] size_t (i)
+sizeLt(n:int) = [i:nat | i < n] size_t(i)
 //
 fun
 string_find{n:nat}
 (
   str: string n, c0: char
-) : Option (sizeLt n) = let
-  typedef res = sizeLt (n)
+) : Option(sizeLt n) = let
+  typedef res = sizeLt(n)
   fun loop{i:nat | i <= n}
   (
     str: string n, c0: char, i: size_t i
-  ) : Option (res) = let
-    val isnot = string_isnot_atend (str, i)
+  ) : Option(res) = let
+    val isnot = string_isnot_atend(str, i)
   in
     if isnot then
-      if (c0 = str[i]) then Some{res}(i) else loop (str, c0, succ(i))
-    else None () // end of [if]
+      if (c0 = str[i])
+        then Some{res}(i) else loop(str, c0, succ(i))
+      // end of [if]
+    else None() // end of [if]
   end (* end of [loop] *)
 in
-  loop (str, c0, i2sz(0))
+  loop(str, c0, i2sz(0))
 end // end of [string_find]
 //
 ")
@@ -638,16 +642,17 @@ fun
 string_find2{n:nat}
 (
   str: string n, c0: char
-) : Option (sizeLt n) = let
+) : Option(sizeLt n) = let
 //
 fun
-loop{i:nat | i <= n}
+loop
+{i:nat | i <= n}
 (
-  str: string n
-, c0: char, i: size_t i
-) : Option (sizeLt n) = let
-  typedef res = sizeLt (n)
-  val c = string_test_at (str, i)
+  str: string(n)
+, c0: char, i: size_t(i)
+) : Option(sizeLt n) = let
+  typedef res = sizeLt(n)
+  val c = string_test_at(str, i)
 in
   if c != '\\\\\\\\000' then
   (
@@ -658,7 +663,7 @@ in
 end // end of [loop]
 //
 in
-  loop (str, c0, i2sz(0))
+  loop(str, c0, i2sz(0))
 end // end of [string_find2]
 ")
 
@@ -670,7 +675,7 @@ fun
 string_test_at
   {n:int}{i:nat | i <= n}
 (
-  str: string (n), i: size_t (i)
+  str: string(n), i: size_t(i)
 ) : [c:char | (c != NUL && i < n) || (c == NUL && i >= n)] char(c)
 // end of [string_test_at]
 ")
@@ -724,12 +729,12 @@ have the following interfaces:
 //
 fun{a:t@ype}
 arrayref_get_at
-  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i): (a)
+  {n:int}{i:nat | i < n} (A: arrayref(a, n), i: size_t i): (a)
 overload [] with arrayref_get_at
 //
 fun{a:t@ype}
 arrayref_set_at
-  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i, x: a): void
+  {n:int}{i:nat | i < n} (A: arrayref(a, n), i: size_t i, x: a): void
 overload [] with arrayref_set_at
 //
 ")
@@ -752,27 +757,27 @@ fun{
 a:t@ype
 } bsearch_arr{n:nat}
 (
-  A: arrayref (a, n), n: int n, x0: a, cmp: (a, a) -> int
+  A: arrayref(a, n), n: int n, x0: a, cmp: (a, a) -> int
 ) : int = let
 //
 fun loop
   {i,j:int |
    0 <= i; i <= j+1; j+1 <= n}
 (
-  A: arrayref (a, n), l: int i, u: int j
+  A: arrayref(a, n), l: int i, u: int j
 ) :<cloref1> int =
 (
   if l <= u then let
-    val m = l + half (u - l)
+    val m = l + half(u - l)
     val x = A[m]
-    val sgn = cmp (x0, x)
+    val sgn = cmp(x0, x)
   in
-    if sgn >= 0 then loop (A, m+1, u) else loop (A, l, m-1)
+    if sgn >= 0 then loop(A, m+1, u) else loop(A, l, m-1)
   end else u // end of [if]
 ) (* end of [loop] *)
 //
 in
-  loop (A, 0, n-1)
+  loop(A, 0, n-1)
 end // end of [bsearch_arr]
 ")
 
@@ -826,7 +831,7 @@ verify that the recursive function #dyncode("fact") is terminating, where
 
 #dats2xhtml("\
 fun fact {n:nat} .<n>.
-  (x: int n): int = if x > 0 then x * fact (x-1) else 1
+  (x: int n): int = if x > 0 then x * fact(x-1) else 1
 // end of [fact]
 ")
 
@@ -844,7 +849,7 @@ where the MacCarthy's 91-function is implemented:
 
 #dats2xhtml("\
 fun f91 {i:int} .<max(101-i,0)>. (x: int i)
-  : [j:int | (i < 101 && j==91) || (i >= 101 && j==i-10)] int (j) =
+  : [j:int | (i < 101 && j==91) || (i >= 101 && j==i-10)] int(j) =
   if x >= 101 then x-10 else f91 (f91 (x+11))
 // end of [f91]
 ")
@@ -865,9 +870,10 @@ which is well-known for being recursive but not primitive recursive:
 fun acker
   {m,n:nat} .<m,n>.
   (x: int m, y: int n): Nat =
-  if x > 0 then
-    if y > 0 then acker (x-1, acker (x, y-1)) else acker (x-1, 1)
-  else y + 1
+  if x > 0
+    then (
+     if y > 0 then acker(x-1, acker(x, y-1)) else acker(x-1, 1)
+    ) else y + 1
 // end of [acker]
 ")
 
@@ -892,10 +898,10 @@ mutually recursively:
 fun isevn
   {n:nat} .<2*n>.
   (n: int n) : bool =
-  if n = 0 then true else isodd (n-1)
+  if n = 0 then true else isodd(n-1)
 and isodd
   {n:nat} .<2*n+1>.
-  (n: int n) : bool = not (isevn (n))
+  (n: int n) : bool = not(isevn(n))
 ")
 
 The metrics supplied for verifying the termination of #dyncode("isevn") and
@@ -944,14 +950,14 @@ in
     in
       // x < m * m can overflow easily
       if x / m < m
-        then search (x, l, m) else search (x, m, r)
+        then search(x, l, m) else search(x, m, r)
       // end of [if]
     end // end of [if]
   | _ (* diff <= 0 *) => l (* the result is found *)
 end // end of [search]
 //
 in
-  search (x, 0, x)
+  search(x, 0, x)
 end // end of [isqrt]
 ")
 
@@ -1026,14 +1032,14 @@ in
       val m = l + half(diff)
     in
       if x / m < m
-        then search (x, l, m) else search (x, m, r)
+        then search(x, l, m) else search(x, m, r)
       // end of [if]
     end // end of [if]
   | _ (* diff <= 1 *) => l (* the result is found *)
 end // end of [search]
 //
 in
-  if x > 0 then search (x, 0, x) else 0
+  if x > 0 then search(x, 0, x) else 0
 end // end of [isqrt]
 ")
 
