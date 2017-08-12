@@ -113,22 +113,27 @@ case+ xs0 of
 *)
 //
 (* ****** ****** *)
-
+//
 extern
 fun
 {a:t@ype}
 list0_append
-(xs: list0(a), ys: list0(a)): list0(a)
-
+(xs: list0(INV(a)), ys: list0(a)): list0(a)
+//
+extern
+fun
+{a:t@ype}
+list0_concat(xs: list0(list0(INV(a)))): list0(a)
+//
 (* ****** ****** *)
 //
 extern
 fun
 {a:t@ype}
-list0_reverse(xs: list0(a)): list0(a)
+list0_reverse(xs: list0(INV(a))): list0(a)
 and
 list0_revappend
-(xs: list0(a), ys: list0(a)): list0(a)
+(xs: list0(INV(a)), ys: list0(a)): list0(a)
 //
 (* ****** ****** *)
 //
@@ -165,6 +170,20 @@ list0_length(xs) =
 //
 implement
 {a}(*tmp*)
+list0_append(xs, ys) =
+  list0_foldright<a><list0(a)>
+  (xs, lam(x, ys) => list0_cons(x, ys), list0_nil())
+//
+implement
+{a}(*tmp*)
+list0_concat(xss) =
+  list0_foldright<list0(a)><list0(a)>
+  (xss, lam(xs, res) => list0_append(xs, res), list0_nil())
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
 list0_reverse(xs) =
   list0_revappend<a>(xs, list0_nil())
 //
@@ -173,6 +192,71 @@ implement
 list0_revappend(xs, ys) =
   list0_foldleft<list0(a)><a>(xs, ys, lam(ys, x) => list0_cons(x, ys))
 //
+(* ****** ****** *)
+
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_map
+(xs: list0(INV(a)), fopr: cfun(a, b)): list0(b)
+
+(* ****** ****** *)
+
+extern
+fun
+{a:t@ype}
+list0_filter
+(xs: list0(INV(a)), pred: cfun(a, bool)): list0(a)
+
+(* ****** ****** *)
+
+implement
+{a}{b}
+list0_map
+(
+  xs, fopr
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  list0_cons(fopr(x), auxlst(xs))
+)
+//
+} (* end of [list0_map] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_filter
+(
+  xs, test
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  if test(x)
+    then list0_cons(x, auxlst(xs)) else auxlst(xs)
+  // end of [if]
+)
+//
+} (* end of [list0_filter] *)
+
 (* ****** ****** *)
 
 (* end of [mylib.dats] *)

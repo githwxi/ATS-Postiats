@@ -141,4 +141,4 @@ implement main0() = () // a dummy for [main]
 
 (* ****** ****** *)
 
-(* end of [lecture04.dats] *)
+(* end of [lecture05.dats] *)

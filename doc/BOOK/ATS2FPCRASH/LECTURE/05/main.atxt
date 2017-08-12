@@ -20,9 +20,18 @@ Time of Generation: #timestamp()\
 #para("\
 
 Lists are by far the most commonly used data structure in functional
-programming. For instance, the functional programming language LISP is
-even named after #emphasis("LISt Processor").  In ATS, there is a
-datatype #stacode("list0") declared as follows:
+programming: The functional programming language LISP is even named
+after #emphasis("LISt Processor"). For someone with a background in
+imperative programming, it is important to note that a functional list
+is essentially an immutable linked-list: Such a list can never be
+changed after its creation. In particular, functional list-processing
+cannot modify any lists being processed. \
+
+")
+
+#para("\
+  
+In ATS, there is a datatype #stacode("list0") declared as follows:
 
 #dats2xhtml('\
 //
@@ -302,7 +311,7 @@ case+ xs of
 
 Please note that #dyncode("list0_foldright") is not tail-recursive.
 As an example, the append function for concatenating two given
-list0-values can be implmented as follows with a direct call to
+list0-values can be implmented with a direct call to
 #dyncode("list0_foldright"):
 
 #dats2xhtml('\
@@ -312,7 +321,23 @@ fun
 list0_append
 (xs: list0(a),
  ys: list0(a)): list0(a) =
-list0_foldright<a><list0(a)>(xs, lam(x, ys) => list0_cons(x, ys), ys)
+list0_foldright<a><list0(a)>
+  (xs, lam(x, ys) => list0_cons(x, ys), ys)
+//
+')
+
+As another example, the list-concatenate function for concatenating
+a list of list0-values can also be implemented with a direct call to
+#dyncode("list0_foldright"):
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+list0_concat
+(xss: list0(list0(a))): list0(a) =
+list0_foldright<list0(a)><list0(a)>
+  (xss, lam(xs, res) => list0_append<a>(xs, res), list0_nil())
 //
 ')
 
@@ -323,8 +348,8 @@ list0_foldright<a><list0(a)>(xs, lam(x, ys) => list0_cons(x, ys), ys)
 In a case where a function (for example, #dyncode("list0_length")) can
 be implemented with a call to either #dyncode("list0_foldleft") or
 #dyncode("list0_foldright"), it is clear (unless there is a very
-special reason) that the former should be chosen as it is
-tail-recursive but the latter is not.
+special reason) that the former should be chosen as it is tail-recursive
+but the latter is not.
 
 ")
 
