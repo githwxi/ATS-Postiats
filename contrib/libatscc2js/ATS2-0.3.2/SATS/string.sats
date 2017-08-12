@@ -256,12 +256,6 @@ string_concat with string_concat_3 of 100
 (* ****** ****** *)
 //
 fun
-streamize_string_code
-  (str0: string): stream_vt(int) = "mac#%"
-//
-(* ****** ****** *)
-//
-fun
 string_exists_cloref
 (
   string, pred: cfun(strchr, bool)
@@ -312,6 +306,12 @@ string_tabulate_cloref
 (
 n0: int(n), fopr: cfun(natLt(n), charNZ)
 ) : string(n) = "mac#%" // string_tabulate_cloref
+//
+(* ****** ****** *)
+//
+fun
+streamize_string_code
+  (str0: string): stream_vt(int) = "mac#%"
 //
 (* ****** ****** *)
 //

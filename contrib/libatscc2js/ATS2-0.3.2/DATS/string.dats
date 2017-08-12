@@ -67,38 +67,6 @@ in
 end // end of [string_fset_at]
 
 (* ****** ****** *)
-
-implement
-streamize_string_code
-  (str0) =
-  auxmain(0) where
-{
-//
-val
-[n:int] str0 = g1ofg0(str0)
-//
-val len = string_length(str0)
-//
-fun
-auxmain
-{i:nat | i <= n}
-(
-  i: int(i)
-) : stream_vt(int) = $ldelay
-(
-//
-if i < len
-  then
-  stream_vt_cons
-    (str0.charCodeAt(i), auxmain(i+1))
-  // stream_vt_cons
-  else stream_vt_nil((*void*))
-//
-) (* end of [auxmain] *)
-//
-} (* end of [streamize_string_code] *)
-
-(* ****** ****** *)
 //
 implement
 string_exists_cloref
@@ -206,6 +174,38 @@ $UN.cast{string(n)}
   JSarray_join_sep(JSarray_tabulate_cloref(len, fopr), "")
 ) (* end of [string_tabulate_cloref] *)
 //
+(* ****** ****** *)
+
+implement
+streamize_string_code
+  (str0) =
+  auxmain(0) where
+{
+//
+val
+[n:int] str0 = g1ofg0(str0)
+//
+val len = string_length(str0)
+//
+fun
+auxmain
+{i:nat | i <= n}
+(
+  i: int(i)
+) : stream_vt(int) = $ldelay
+(
+//
+if i < len
+  then
+  stream_vt_cons
+    (str0.charCodeAt(i), auxmain(i+1))
+  // stream_vt_cons
+  else stream_vt_nil((*void*))
+//
+) (* end of [auxmain] *)
+//
+} (* end of [streamize_string_code] *)
+
 (* ****** ****** *)
 
 implement
