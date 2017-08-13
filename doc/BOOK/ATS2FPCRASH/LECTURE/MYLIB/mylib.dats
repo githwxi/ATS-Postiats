@@ -100,7 +100,7 @@ int_cross_foreach
 extern
 fun
 {a:t@ype}
-list0_length(xs0: list0(a)): int
+list0_length(xs0: list0(INV(a))): int
 //
 (*
 implement
@@ -143,7 +143,7 @@ fun
 {a:t@ype}
 list0_foldleft
 (
-xs: list0(a), r0: r, fopr: cfun(r, a, r)
+xs: list0(INV(a)), r0: r, fopr: cfun(r, a, r)
 ) : (r) // end of [list0_foldleft]
 //
 implement
@@ -161,6 +161,34 @@ case+ xs of
 //
 (* ****** ****** *)
 //
+extern
+fun
+{a:t@ype}
+{r:t@ype}
+list0_foldright
+(
+xs: list0(INV(a)), fopr: cfun(a, r, r), r0: r
+) : (r) // end of [list0_foldright]
+//
+implement
+{a}{r}
+list0_foldright
+( xs
+, fopr, r0) =
+auxlst(xs) where
+{
+fun
+auxlst
+(xs: list0(a)): r =
+(
+case+ xs of
+| list0_nil() => r0
+| list0_cons(x, xs) => fopr(x, auxlst(xs))
+) (* end of [auxlst] *)
+}
+//
+(* ****** ****** *)
+//
 implement
 {a}(*tmp*)
 list0_length(xs) =
@@ -172,7 +200,7 @@ implement
 {a}(*tmp*)
 list0_append(xs, ys) =
   list0_foldright<a><list0(a)>
-  (xs, lam(x, ys) => list0_cons(x, ys), list0_nil())
+  (xs, lam(x, ys) => list0_cons(x, ys), ys)
 //
 implement
 {a}(*tmp*)
@@ -257,6 +285,142 @@ case+ xs of
 //
 } (* end of [list0_filter] *)
 
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_find_index
+(xs: list0(INV(a)), test: cfun(a, bool)): int
+//
+implement
+{a}(*tmp*)
+list0_find_index
+  (xs, test) = let
+//
+fun
+loop
+(xs: list0(a), i: int): int =
+(
+case+ xs of
+| list0_nil() => ~1
+| list0_cons(x, xs) =>
+  if test(x) then i else loop(xs, i+1)
+)
+//
+in
+  loop(xs, 0)
+end // end of [list0_find_index]
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_exists
+(xs: list0(INV(a)), test: cfun(a, bool)): bool
+extern
+fun
+{a:t@ype}
+list0_forall
+(xs: list0(INV(a)), test: cfun(a, bool)): bool
+//
+implement
+{a}(*tmp*)
+list0_exists(xs, test) =
+list0_find_index<a>(xs, test) >= 0
+implement
+{a}(*tmp*)
+list0_forall(xs, test) =
+list0_find_index<a>(xs, lam(x) => not(test(x))) < 0
+//
+(* ****** ****** *)
+//
+macdef
+list0_sing(x) =
+list0_cons(,(x), list0_nil())
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_choose_rest
+(xs: list0(INV(a)), n: int): list0($tup(list0(a), list0(a)))
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_choose_rest
+  (xs, n) =
+  auxlst(xs, n) where
+{
+//
+typedef xs = list0(a)
+typedef xsxs = $tup(xs, xs)
+//
+fun
+auxlst
+(
+xs: xs, n: int
+) : list0(xsxs) =
+(
+if
+(n <= 0)
+then
+list0_sing
+($tup(list0_nil(), xs))
+else
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x0, xs) => let
+    val res1 =
+    list0_map<xsxs><xsxs>
+    ( auxlst(xs, n-1)
+    , lam($tup(xs1, xs2)) => $tup(list0_cons(x0, xs1), xs2)
+    )
+    val res2 =
+    list0_map<xsxs><xsxs>
+    ( auxlst(xs, n-0)
+    , lam($tup(xs1, xs2)) => $tup(xs1, list0_cons(x0, xs2))
+    )
+  in
+    list0_append<xsxs>(res1, res2)
+  end // end of [list0_cons]
+) (* end of [else] *)
+)
+//
+} (* end of [list0_choose_rest] *)
+
+(* ****** ****** *)
+//
+extern
+fun
+{a,b:t@ype}
+list0_cross
+( xs: list0(INV(a))
+, ys: list0(INV(b))): list0($tup(a, b))
+//
+implement
+{a,b}(*tmp*)
+list0_cross
+  (xs, ys) = let
+//
+typedef ab = $tup(a, b)
+//
+in
+//
+list0_concat
+(
+list0_map<a><list0(ab)>
+  (xs, lam(x) => list0_map<b><ab>(ys, lam(y) => $tup(x, y)))
+) (* end of [list0_concat] *)
+//
+end // end of [list0_cross]
+//
 (* ****** ****** *)
 
 (* end of [mylib.dats] *)

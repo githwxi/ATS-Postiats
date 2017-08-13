@@ -81,6 +81,7 @@ lectures:: lecture03
 lectures:: lecture04
 lectures:: lecture05
 lectures:: lecture06
+lectures:: lecture07
 #
 ######
 #
@@ -107,6 +108,10 @@ clean:: ; $(MAKE) -C LECTURE/05 -f ../Makefile_lect clean
 lecture06:: ; \
 $(MAKE) -C LECTURE/06 -f ../Makefile_lect main.db
 clean:: ; $(MAKE) -C LECTURE/06 -f ../Makefile_lect clean
+#
+lecture07:: ; \
+$(MAKE) -C LECTURE/07 -f ../Makefile_lect main.db
+clean:: ; $(MAKE) -C LECTURE/07 -f ../Makefile_lect clean
 #
 ######
 #

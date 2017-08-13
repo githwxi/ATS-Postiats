@@ -139,6 +139,16 @@ names #dyncode("x0") and #dyncode("xs1") bound to the head and tail of
 
 #para("\
 
+Clearly, the function #dyncode("list0_length") is of O(n)-time for n
+being the length of its argument. Often I see someone writing the code
+#dyncode("list0_length(xs) > 0") for testing whether a given list
+#dyncode("xs") is empty. This practice is terribly inefficient as
+checking whether a list is empty can be easily done in O(1)-time.
+
+")
+
+#para("\
+
 The function for concatenating two given list0-values can be implemented
 as follows:
 
@@ -157,14 +167,15 @@ case+ xs of
 
 Given #dyncode("xs") and #dyncode("ys"), #dyncode("list0_append")
 returns a list that represents the concatenation of #dyncode("xs") and
-#dyncode("ys"). The implementation of #dyncode("list0_append") is
-functional in the sense that it does not alter either #dyncode("xs")
-or #dyncode("ys") for the construction of the concatenation. For
-clarification, I point out that there is a function of the name
-#dyncode("list_vt_append") in ATS that consumes two given linear lists
-to construct their concatenation. When a call to
-#dyncode("list_vt_append") returns, the two linear lists passed to the
-call are no longer available for subsequent use.
+#dyncode("ys"). Clearly, #dyncode("list0_append") is O(n)-time for n
+being the length of #dyncode("xs"). The implementation of
+#dyncode("list0_append") is functional in the sense that it does not
+alter either #dyncode("xs") or #dyncode("ys") for the construction of
+the concatenation. For clarification, I point out that there is a
+function of the name #dyncode("list_vt_append") in ATS that consumes
+two given linear lists to construct their concatenation. When a call
+to #dyncode("list_vt_append") returns, the two linear lists passed to
+the call are no longer available for subsequent use.
 
 ")
 
@@ -197,6 +208,8 @@ returns a newly contructed list0-value that represents the reverse of
 #dyncode("ys"), #dyncode("list0_revappend") returns a newly contructed
 list0-value that represents the concatenation of the reverse of
 #dyncode("xs") and #dyncode("ys").
+Clearly, both #dyncode("list0_reverse") and #dyncode("list0_revappend")
+are O(n)-time functions, where n is the length of #dyncode("xs").
 
 ")
 
@@ -345,11 +358,38 @@ list0_foldright<list0(a)><list0(a)>
 
 #para("\
 
-In a case where a function (for example, #dyncode("list0_length")) can
-be implemented with a call to either #dyncode("list0_foldleft") or
-#dyncode("list0_foldright"), it is clear (unless there is a very
-special reason) that the former should be chosen as it is tail-recursive
-but the latter is not.
+In a case where a function (for example, #dyncode("list0_length"))
+can be implemented with a call to either #dyncode("list0_foldleft")
+or #dyncode("list0_foldright"), it is clear (unless there is a very
+special reason) that the former should be chosen as it is
+tail-recursive but the latter is not.
+
+")
+
+#para("\
+
+Often I see a beginner of functional programming gives
+the following implementation of #dyncode("list0_reverse"):
+
+#dats2xhtml('\
+
+fun
+{a:t@ype}
+list0_reverse
+(xs: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() => list0_nil()
+| list0_cons(x, xs) =>
+  list0_append<a>(list0_reverse<a>(xs), list0_cons(x, list0_nil()))
+)
+
+')
+
+While this implementation is functionally correctly, it is of
+O(n#sup("2"))-time complexity and thus can take a prohibitively long
+time for an input that is not so short (e.g., one containing 10K
+elements).
 
 ")
 
