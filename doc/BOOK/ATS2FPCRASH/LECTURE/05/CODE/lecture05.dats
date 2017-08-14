@@ -131,6 +131,45 @@ case+ xs of
 }
 //
 (* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_insertion_sort(xs: list0(a)): list0(a)
+//
+implement
+{a}(*tmp*)
+list0_insertion_sort
+  (xs) = let
+//
+fun
+insord
+(
+x0: a, xs: list0(a)
+) : list0(a) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_sing(x0)
+| list0_cons(x1, xs1) => let
+    val sgn =
+    gcompare_val_val<a>(x0, x1)
+  in
+    if sgn >= 0
+      then list0_cons(x1, insord(x0, xs1))
+      else list0_cons(x0, xs)
+    // end of [if]
+  end // end of [list0_cons]
+)
+//
+in
+//
+list0_foldleft<list0(a)><a>
+  (xs, list0_nil(), lam(res, x) => insord(x, res))
+//
+end // end of [list0_insertion_sort]
+//
+(* ****** ****** *)
 
 val () =
 println! ("|xs3| = ", list0_length<int>(xs3))
