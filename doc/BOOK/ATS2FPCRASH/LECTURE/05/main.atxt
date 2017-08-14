@@ -368,7 +368,7 @@ tail-recursive but the latter is not.
 
 #para("\
 
-Often I see a beginner of functional programming gives
+Often I see a beginner of functional programming giving
 the following implementation of #dyncode("list0_reverse"):
 
 #dats2xhtml('\
@@ -390,6 +390,60 @@ While this implementation is functionally correctly, it is of
 O(n#sup("2"))-time complexity and thus can take a prohibitively long
 time for an input that is not so short (e.g., one containing 10K
 elements).
+
+")
+
+#para("\
+
+As the last example of this chapter,
+#dyncode("list0_insertion_sort") is implemented
+as follows that applies insertion sort to a given
+list to return a sorted version of the list:
+
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+list0_insertion_sort
+(
+xs: list0(a), cmp: cfun(a, a, int)
+) : list0(a)
+//
+implement
+{a}(*tmp*)
+list0_insertion_sort
+  (xs, cmp) = let
+//
+fun
+insord
+( x0: a
+, xs: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_cons(x0, list0_nil())
+| list0_cons(x1, xs1) =>
+  (
+    if cmp(x0, x1) >= 0
+      then list0_cons(x1, insord(x0, xs1))
+      else list0_cons(x0, xs)
+    // end of [if]
+  ) // end of [list0_cons]
+) (* end of [insord] *)
+//
+in
+//
+list0_foldleft<list0(a)><a>
+  (xs, list0_nil(), lam(res, x) => insord(x, res))
+//
+end // end of [list0_insertion_sort]
+//
+')
+
+Note that the argument #dyncode("cmp") is a comparion function that is
+expected to return -1, 1, or 0 when its first argument is less than,
+greater than, or equal to its second argument, respectively.
 
 ")
 

@@ -365,6 +365,99 @@ list0_find_index<a>(xs, lam(x) => not(test(x))) < 0
 //
 (* ****** ****** *)
 //
+extern
+fun
+{a,b:t@ype}
+list0_cross
+( xs: list0(INV(a))
+, ys: list0(INV(b))): list0($tup(a, b))
+//
+implement
+{a,b}(*tmp*)
+list0_cross
+  (xs, ys) = let
+//
+typedef ab = $tup(a, b)
+//
+in
+//
+list0_concat
+(
+list0_map<a><list0(ab)>
+  (xs, lam(x) => list0_map<b><ab>(ys, lam(y) => $tup(x, y)))
+) (* end of [list0_concat] *)
+//
+end // end of [list0_cross]
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_imap
+(xs: list0(INV(a)), fopr: cfun(int, a, b)): list0(b)
+//
+implement
+{a}{b}
+list0_imap
+(
+  xs, fopr
+) = auxlst(0, xs) where
+{
+//
+fun
+auxlst
+(i: int, xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() => list0_nil()
+| list0_cons(x, xs) => list0_cons(fopr(i, x), auxlst(i+1, xs))
+)
+//
+} (* end of [list0_imap] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_iexists
+(xs: list0(INV(a)), test: cfun(int, a, bool)): bool
+extern
+fun
+{a:t@ype}
+list0_iforall
+(xs: list0(INV(a)), test: cfun(int, a, bool)): bool
+//
+implement
+{a}(*tmp*)
+list0_iexists
+(xs, test) =
+loop(0, xs) where
+{
+fun loop(i: int, xs: list0(a)): bool =
+  case+ xs of
+  | list0_nil() => false
+  | list0_cons(x, xs) =>
+    if test(i, x) then true else loop(i+1, xs)
+}
+//
+implement
+{a}(*tmp*)
+list0_iforall
+(xs, test) =
+loop(0, xs) where
+{
+fun loop(i: int, xs: list0(a)): bool =
+  case+ xs of
+  | list0_nil() => true
+  | list0_cons(x, xs) =>
+    if test(i, x) then loop(i+1, xs) else false
+}
+//
+(* ****** ****** *)
+//
 macdef
 list0_sing(x) =
 list0_cons(,(x), list0_nil())
@@ -424,60 +517,6 @@ case+ xs of
 //
 } (* end of [list0_choose_rest] *)
 
-(* ****** ****** *)
-//
-extern
-fun
-{a,b:t@ype}
-list0_cross
-( xs: list0(INV(a))
-, ys: list0(INV(b))): list0($tup(a, b))
-//
-implement
-{a,b}(*tmp*)
-list0_cross
-  (xs, ys) = let
-//
-typedef ab = $tup(a, b)
-//
-in
-//
-list0_concat
-(
-list0_map<a><list0(ab)>
-  (xs, lam(x) => list0_map<b><ab>(ys, lam(y) => $tup(x, y)))
-) (* end of [list0_concat] *)
-//
-end // end of [list0_cross]
-//
-(* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-{b:t@ype}
-list0_imap
-(xs: list0(INV(a)), fopr: cfun(int, a, b)): list0(b)
-//
-implement
-{a}{b}
-list0_imap
-(
-  xs, fopr
-) = auxlst(0, xs) where
-{
-//
-fun
-auxlst
-(i: int, xs: list0(a)): list0(b) =
-(
-case+ xs of
-| list0_nil() => list0_nil()
-| list0_cons(x, xs) => list0_cons(fopr(i, x), auxlst(i+1, xs))
-)
-//
-} (* end of [list0_imap] *)
-//
 (* ****** ****** *)
 
 (* end of [mylib.dats] *)

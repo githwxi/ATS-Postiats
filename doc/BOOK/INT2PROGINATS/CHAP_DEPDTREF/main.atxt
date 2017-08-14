@@ -976,7 +976,7 @@ fun ins
     end // end of [cons]
 ) (* end of [ins] *)
 //
-val t = ins (t, x0)
+val t = ins(t, x0)
 //
 in
   case+ t of cons(R, tl, x, tr) => cons(B, tl, x, tr) | _ =>> t

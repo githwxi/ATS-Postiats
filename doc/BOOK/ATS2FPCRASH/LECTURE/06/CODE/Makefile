@@ -20,7 +20,15 @@ $(MYATSCC) lecture06.dats
 
 ######
 
+all:: \
+QueenPuzzle
+QueenPuzzle: ; \
+$(MYATSCC) QueenPuzzle.dats
+
+######
+
 regress:: lecture06; ./lecture06_dats
+regress:: QueenPuzzle; ./QueenPuzzle_dats
 
 ######
 

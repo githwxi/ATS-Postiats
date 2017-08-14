@@ -135,32 +135,32 @@ case+ xs of
 extern
 fun
 {a:t@ype}
-list0_insertion_sort(xs: list0(a)): list0(a)
+list0_insertion_sort
+(
+xs: list0(a), cmp: cfun(a, a, int)
+) : list0(a)
 //
 implement
 {a}(*tmp*)
 list0_insertion_sort
-  (xs) = let
+  (xs, cmp) = let
 //
 fun
 insord
-(
-x0: a, xs: list0(a)
-) : list0(a) =
+( x0: a
+, xs: list0(a)): list0(a) =
 (
 case+ xs of
 | list0_nil() =>
-  list0_sing(x0)
-| list0_cons(x1, xs1) => let
-    val sgn =
-    gcompare_val_val<a>(x0, x1)
-  in
-    if sgn >= 0
+  list0_cons(x0, list0_nil())
+| list0_cons(x1, xs1) =>
+  (
+    if cmp(x0, x1) >= 0
       then list0_cons(x1, insord(x0, xs1))
       else list0_cons(x0, xs)
     // end of [if]
-  end // end of [list0_cons]
-)
+  ) // end of [list0_cons]
+) (* end of [insord] *)
 //
 in
 //
@@ -174,6 +174,18 @@ end // end of [list0_insertion_sort]
 val () =
 println! ("|xs3| = ", list0_length<int>(xs3))
 
+(* ****** ****** *)
+//
+val xs =
+g0ofg1($list{int}(8, 2, 4, 3, 6, 5, 9, 0, 1, 7))
+//
+val () =
+println! ("xs = ", xs)
+val () =
+println!
+( "sort(xs) = "
+, list0_insertion_sort<int>(xs, lam(x1, x2) => compare(x1, x2)))
+//
 (* ****** ****** *)
 
 implement main0() = () // a dummy for [main]

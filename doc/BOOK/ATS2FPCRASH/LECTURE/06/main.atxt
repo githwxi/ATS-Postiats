@@ -345,11 +345,12 @@ if no element satisfying the given predicate is found.
 #para("\
 
 Given a list0-value #dyncode("xs") and a predicate #dyncode("test"),
-#dyncode("list0_exist") returns true if and only if one element in
-#dyncode("xs") satisfies #dyncode("test"), and
+#dyncode("list0_exist") returns true if and only if there exists one
+element in #dyncode("xs") satisfing #dyncode("test"), and
 #dyncode("list0_forall") returns true if and only if every element in
 #dyncode("xs") satisfies #dyncode("test"). Both of these two functions
-can be readily implemented based on a direct call to #dyncode("list0_find_index"):
+can be readily implemented based on a direct call to
+#dyncode("list0_find_index"):
 
 #dats2xhtml('\
 //
