@@ -230,6 +230,14 @@ list0_map
 (xs: list0(INV(a)), fopr: cfun(a, b)): list0(b)
 
 (* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_foreach
+(xs: list0(INV(a)), fwork: cfun(a, void)): void
+//
+(* ****** ****** *)
 
 extern
 fun
@@ -259,6 +267,27 @@ case+ xs of
 )
 //
 } (* end of [list0_map] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_foreach
+(
+  xs, fwork
+) = loop(xs) where
+{
+//
+fun
+loop
+(xs: list0(a)): void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) => (fwork(x); loop(xs))
+)
+//
+} (* end of [list0_foreach] *)
 
 (* ****** ****** *)
 
@@ -420,6 +449,34 @@ list0_map<a><list0(ab)>
 ) (* end of [list0_concat] *)
 //
 end // end of [list0_cross]
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_imap
+(xs: list0(INV(a)), fopr: cfun(int, a, b)): list0(b)
+//
+implement
+{a}{b}
+list0_imap
+(
+  xs, fopr
+) = auxlst(0, xs) where
+{
+//
+fun
+auxlst
+(i: int, xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() => list0_nil()
+| list0_cons(x, xs) => list0_cons(fopr(i, x), auxlst(i+1, xs))
+)
+//
+} (* end of [list0_imap] *)
 //
 (* ****** ****** *)
 

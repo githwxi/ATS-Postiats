@@ -179,6 +179,44 @@ constructed list consisting of the following six pairs: #dyncode("(0,
 
 #para("\
 
+A function rather similar to #dyncode("list0_map") is
+#dyncode("list0_foreach"), which takes a list and a procedure (i.e., a
+function returning void) and applies the procedure to each element in
+the list:
+
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+list0_foreach
+(xs: list0(a), fwork: cfun(a, void)): void
+//
+implement
+{a}(*tmp*)
+list0_foreach
+(
+  xs, fwork
+) = loop(xs) where
+{
+//
+fun
+loop
+(xs: list0(a)): void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) => (fwork(x); loop(xs))
+)
+//
+} (* end of [list0_foreach] *)
+//
+')
+
+")
+
+#para("\
+
 Another commonly used (higher-order) function is often referred to as
 list-filter, which takes a list and a predicate (i.e., a function
 returning a boolean value) and returns a newly constructed list
@@ -360,7 +398,7 @@ list0_imap
 //
 implement
 {a}{b}
-list0_map
+list0_imap
 (
   xs, fopr
 ) = auxlst(0, xs) where

@@ -84,14 +84,6 @@ list0_map
 
 (* ****** ****** *)
 
-extern
-fun
-{a:t@ype}
-list0_filter
-(xs: list0(a), pred: cfun(a, bool)): list0(a)
-
-(* ****** ****** *)
-
 implement
 {a}{b}
 list0_map
@@ -150,7 +142,40 @@ list0_map<a><list0(ab)>
 end // end of [list0_cross]
 //
 (* ****** ****** *)
-
+//
+extern
+fun
+{a:t@ype}
+list0_foreach
+(xs: list0(a), fwork: cfun(a, void)): void
+//
+implement
+{a}(*tmp*)
+list0_foreach
+(
+  xs, fwork
+) = loop(xs) where
+{
+//
+fun
+loop
+(xs: list0(a)): void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) => (fwork(x); loop(xs))
+)
+//
+} (* end of [list0_foreach] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_filter
+(xs: list0(a), pred: cfun(a, bool)): list0(a)
+//
 implement
 {a}(*tmp*)
 list0_filter
@@ -173,7 +198,7 @@ case+ xs of
 )
 //
 } (* end of [list0_filter] *)
-
+//
 (* ****** ****** *)
 
 val xs =
@@ -251,6 +276,34 @@ implement
 {a}(*tmp*)
 list0_forall(xs, test) =
 list0_find_index<a>(xs, lam(x) => not(test(x))) < 0
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_imap
+(xs: list0(a), fopr: cfun(int, a, b)): list0(b)
+//
+implement
+{a}{b}
+list0_imap
+(
+  xs, fopr
+) = auxlst(0, xs) where
+{
+//
+fun
+auxlst
+(i: int, xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() => list0_nil()
+| list0_cons(x, xs) => list0_cons(fopr(i, x), auxlst(i+1, xs))
+)
+//
+} (* end of [list0_imap] *)
 //
 (* ****** ****** *)
 
