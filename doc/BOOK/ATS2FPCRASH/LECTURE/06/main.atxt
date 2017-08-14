@@ -419,10 +419,29 @@ case+ xs of
 ')
 
 Let us use #dyncode("list0_iexists") and #dyncode("list0_iforall") to
-refer the variants of #dyncode("list0_exists") and
+refer to the variants of #dyncode("list0_exists") and
 #dyncode("list0_forall"), respectively, for processing indexed lists.
 The code implementing #dyncode("list0_iexists") and #dyncode("list0_iforall")
 is omitted for brevity.
+
+")
+
+#para("\
+
+I have so far presented a variety of functions for processing lists in a
+functional style. I would like to conclude the chapter with an example
+of functional programming that can concretely demonstrate some typical use of
+list-processing functions in practice.
+
+")
+
+#para("\
+
+The famous 8-queen puzzle asks the player to find ways to put eight
+queen pieces on a chess board such that no queen piece can attack any
+other ones. In other words, no two queen pieces can be put on the same
+row, the same column, or the same diagnal. This puzzle can be readily
+solved with a tree-based search.
 
 ")
 
