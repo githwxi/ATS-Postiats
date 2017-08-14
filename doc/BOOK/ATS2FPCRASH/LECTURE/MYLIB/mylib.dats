@@ -352,6 +352,65 @@ case+ xs of
 extern
 fun
 {a:t@ype}
+int_list0_map
+( n: int
+, fopr: cfun(int, a)): list0(a)
+extern
+fun
+{a:t@ype}
+int_list0_mapopt
+( n: int
+, fopr: cfun(int, option0(a))): list0(a)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+int_list0_map
+  (n, fopr) =
+  auxmain(0) where
+{
+fun
+auxmain
+(
+ i: int
+) : list0(a) =
+if
+(i < n)
+then
+(
+  list0_cons(fopr(i), auxmain(i+1))
+) else list0_nil((*void*))
+} (* end of [int_list0_map] *)
+//
+implement
+{a}(*tmp*)
+int_list0_mapopt
+  (n, fopr) =
+  auxmain(0) where
+{
+//
+fun
+auxmain
+(
+ i: int
+) : list0(a) =
+if
+(i < n)
+then
+(
+  case+ fopr(i) of
+  | None0() => auxmain(i+1)
+  | Some0(x) => list0_cons(x, auxmain(i+1))
+) else list0_nil((*void*))
+//
+} (* end of [int_list0_mapopt] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
 list0_find_index
 (xs: list0(INV(a)), test: cfun(a, bool)): int
 //

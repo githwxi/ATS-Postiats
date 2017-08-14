@@ -36,7 +36,10 @@ int_list0_map
 {
 fun
 auxmain(i: int): list0(a) =
-  if i < n then list0_cons(fopr(i), auxmain(i+1)) else list0_nil()
+if i < n
+  then (
+    list0_cons(fopr(i), auxmain(i+1))
+  ) else list0_nil((*void*))
 } (* end of [int_list0_map] *)
 //
 (* ****** ****** *)
@@ -73,41 +76,32 @@ auxmain(i: int): list0(a) =
 abstype node = ptr
 
 (* ****** ****** *)
-
+//
+extern
+fun
+node_dfsenum(node): list0(node)
+//
 extern
 fun
 node_get_children(node): list0(node)
-
+overload .children with node_get_children
+//
 (* ****** ****** *)
-
-extern
-fun
-node_enumerate_dfs(node): list0(node)
-
-(* ****** ****** *)
-
+//
 implement
-node_enumerate_dfs
-  (nx0) = let
-//
-val nxs =
-  node_get_children(nx0)
-//
-in
-//
+node_dfsenum
+(nx0) =
 list0_cons
 (
 nx0
 ,
-list0_concat
+list0_concat<node>
 (
 list0_map<node><list0(node)>
-  (nxs, lam(nx) => node_enumerate_dfs(nx))
+  (nx0.children(), lam(nx) => node_dfsenum(nx))
 )
-) (* list0_cons *)
+) (* node_dfsenum *)
 //
-end // end of [node_enumerate_dfs]
-
 (* ****** ****** *)
 
 extern
@@ -129,7 +123,8 @@ QueenSolve(): list0(node)
 implement
 QueenSolve() =
 list0_filter<node>
-(node_enumerate_dfs(node_init()), lam(nx) => node_length(nx) >= N)
+( node_dfsenum(node_init())
+, lam(nx) => node_length(nx) >= N)
 
 (* ****** ****** *)
 
@@ -147,10 +142,18 @@ node_length(nx) = list0_length(nx)
 
 fun
 test_safety
-(xs: list0(int)): bool = let
-  val-list0_cons(x0, xs) = xs
+(
+xs: list0(int)
+) : bool = let
+//
+val-
+list0_cons(x0, xs) = xs
+//
 in
-  list0_iforall<int>(xs, lam(i, x) => (x0 != x && abs(x0-x) != (i+1)))
+//
+list0_iforall<int>
+  (xs, lam(i, x) => (x0 != x && abs(x0-x) != (i+1)))
+//
 end // end of [test_safety]
 
 (* ****** ****** *)
@@ -159,7 +162,9 @@ implement
 node_get_children
   (nx) =
   list0_filter<node>
-  (int_list0_map<node>(N, lam(x) => cons0(x, nx)), lam(nx) => test_safety(nx))
+  (int_list0_map<node>
+    (N, lam(x) => cons0(x, nx)), lam(nx) => test_safety(nx)
+  )
 //
 (* ****** ****** *)
 

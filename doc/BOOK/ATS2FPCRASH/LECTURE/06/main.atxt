@@ -89,7 +89,9 @@ involved index cannot be bounded by a small constant!
 #para("\
 
 Let us see more functions for performing functional
-list-processing in the following presentation.
+list-processing in the following presentation and an
+example of functional programming at the end that illustrates some
+typical use of list-processing functions.
 
 ")
 
