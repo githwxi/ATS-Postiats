@@ -228,6 +228,12 @@ fun
 {b:t@ype}
 list0_map
 (xs: list0(INV(a)), fopr: cfun(a, b)): list0(b)
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapopt
+(xs: list0(INV(a)), fopr: cfun(a, option0(b))): list0(b)
 
 (* ****** ****** *)
 //
@@ -267,6 +273,33 @@ case+ xs of
 )
 //
 } (* end of [list0_map] *)
+
+(* ****** ****** *)
+
+implement
+{a}{b}
+list0_mapopt
+(
+  xs, fopr
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  (
+  case+ fopr(x) of
+  | None0() => auxlst(xs)
+  | Some0(y) => list0_cons(y, auxlst(xs))
+  )
+)
+//
+} (* end of [list0_mapopt] *)
 
 (* ****** ****** *)
 
@@ -416,6 +449,33 @@ case+ xs of
 )
 //
 } (* end of [list0_imap] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_iforeach
+(xs: list0(INV(a)), fwork: cfun(int, a, void)): void
+//
+implement
+{a}(*tmp*)
+list0_iforeach
+(
+  xs, fwork
+) = loop(0, xs) where
+{
+//
+fun
+loop
+(i: int, xs: list0(a)): void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) => (fwork(i, x); loop(i+1, xs))
+)
+//
+} (* end of [list0_iforeach] *)
 //
 (* ****** ****** *)
 //
