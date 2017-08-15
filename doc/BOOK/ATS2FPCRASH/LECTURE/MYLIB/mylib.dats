@@ -221,6 +221,51 @@ list0_revappend(xs, ys) =
   list0_foldleft<list0(a)><a>(xs, ys, lam(ys, x) => list0_cons(x, ys))
 //
 (* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+print_list0
+(xs: list0(INV(a))): void
+extern
+fun
+{a:t@ype}
+fprint_list0
+(out: FILEref, xs: list0(INV(a))): void
+//
+overload print with print_list0 of 100
+overload fprint with fprint_list0 of 100
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+print_list0(xs) =
+fprint_list0<a>(stdout_ref, xs)
+//
+implement
+{a}(*tmp*)
+fprint_list0(out, xs) = let
+//
+fun
+loop(i: int, xs: list0(a)): void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) =>
+  (
+    if i > 0
+      then fprint(out, ", ");
+    // end of [if]
+    fprint_val<a>(out, x); loop(i+1, xs)
+  )
+)
+//
+in
+  loop(0, xs)
+end // end of [fprint_list0]
+//
+(* ****** ****** *)
 
 extern
 fun

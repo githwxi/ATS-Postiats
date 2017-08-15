@@ -443,7 +443,143 @@ The famous 8-queen puzzle asks the player to find ways to put eight
 queen pieces on a chess board such that no queen piece can attack any
 other ones. In other words, no two queen pieces can be put on the same
 row, the same column, or the same diagnal. This puzzle can be readily
-solved with a tree-based search.
+solved with a tree-based search. Let us introduce an abstract type as
+follows:
+
+#dats2xhtml('\
+abstype node = ptr
+')
+
+where #stacode("ptr") indicates that #stacode("node") is
+boxed. Intuitively, a node represents a partial solution where there
+are n queen pieces (for some n less than or equal to 8) on the first n
+rows of the chessboard such that no one piece can attack any other
+pieces. Given a node, another node extending it with one more queen
+piece is considered its child. The following declared function
+#dyncode("node_get_children") is supposed to be called to obtain all
+of the child nodes of a given node:
+
+#dats2xhtml('\
+extern
+fun
+node_get_children(node): list0(node)
+overload .children with node_get_children
+')
+
+With
+#dyncode("node_get_children"),
+we can readily implement #dyncode("node_dfsenum") as follows
+for enumerating in the depth-first manner all of the nodes contained
+in the tree rooted at a given node:
+
+#dats2xhtml('\
+//
+extern
+fun
+node_dfsenum(node): list0(node)
+//
+implement
+node_dfsenum
+(nx0) =
+list0_cons
+(
+nx0
+,
+list0_concat<node>
+(
+list0_map<node><list0(node)>(nx0.children(), lam(nx) => node_dfsenum(nx))
+) (* list0_concat *)
+) (* node_dfsenum *)
+//
+')
+
+In order to find all of the solutions to the 8-queen puzzle,
+we just need to keep all of the nodes of length 8 that are contained
+in the tree rooted at the initial node (representing the empty partial
+soloution):
+
+#dats2xhtml('\
+//
+extern
+fun
+QueenSolve(): list0(node)
+//
+\#define N 8
+//
+implement
+QueenSolve() =
+list0_filter<node>(node_dfsenum(node_init()), lam(nx) => node_length(nx) = N)
+//
+')
+
+where #dyncode("node_init") returns the initial node and
+#dyncode("node_length") returns the length of a node (that is, the
+number queen pieces in the partial solution represented by the node).
+By treating #stacode("node") as #stacode("list0(int)"), we
+can implement #dyncode("node_init") and #dyncode("node_length")
+as follows:
+
+#dats2xhtml('\
+//
+assume node = list0(int)
+//
+implement
+node_init() = list0_nil()
+//
+implement
+node_length(nx) = list0_length(nx)
+//
+')
+
+A node is represented as a list of integers; the length of the list
+refers to the number of queen pieces on the chessboard; the integers
+(between 0 and N-1) in the list refer to the reversely listed column
+positions of the queen pieces. The function #dyncode("node_get_children")
+is implemented as follows:
+
+#dats2xhtml('\
+//
+fun
+test_safety
+(
+xs: list0(int)
+) : bool = let
+//
+val-
+list0_cons(x0, xs) = xs
+//
+in
+//
+list0_iforall<int> // abs: absolute value
+  (xs, lam(i, x) => (x0 != x && abs(x0-x) != (i+1)))
+//
+end // end of [test_safety]
+//
+implement
+node_get_children
+  (nx) =
+  list0_filter<node>
+  (int_list0_map<node>
+    (N, lam(x) => list0_cons(x, nx)), lam(nx) => test_safety(nx)
+  )
+//
+')
+
+The function #dyncode("test_safety") checks whether a column position
+is safe for the next queen piece. Note that applying
+#dyncode("int_list0_map") to an integer n is like applying
+#dyncode("list0_map") to the list consisting of all of the integers
+between 0 and n-1, inclusive.
+
+")
+
+#para("\
+
+The presented code for solving 8-queen puzzle is of the kind of
+high-level functional programming style I intend to advocate
+throughout the book. It should be soon clear that we can reap even
+more benefits from programming in this way when linear lazy streams
+are used in place of functional lists.
 
 ")
 

@@ -79,14 +79,14 @@ abstype node = ptr
 //
 extern
 fun
-node_dfsenum(node): list0(node)
-//
-extern
-fun
 node_get_children(node): list0(node)
 overload .children with node_get_children
 //
 (* ****** ****** *)
+//
+extern
+fun
+node_dfsenum(node): list0(node)
 //
 implement
 node_dfsenum
@@ -151,7 +151,7 @@ list0_cons(x0, xs) = xs
 //
 in
 //
-list0_iforall<int>
+list0_iforall<int> // abs: absolute value
   (xs, lam(i, x) => (x0 != x && abs(x0-x) != (i+1)))
 //
 end // end of [test_safety]
@@ -163,7 +163,7 @@ node_get_children
   (nx) =
   list0_filter<node>
   (int_list0_map<node>
-    (N, lam(x) => cons0(x, nx)), lam(nx) => test_safety(nx)
+    (N, lam(x) => list0_cons(x, nx)), lam(nx) => test_safety(nx)
   )
 //
 (* ****** ****** *)
