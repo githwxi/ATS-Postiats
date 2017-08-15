@@ -453,7 +453,7 @@ abstype node = ptr
 where #stacode("ptr") indicates that #stacode("node") is
 boxed. Intuitively, a node represents a partial solution where there
 are n queen pieces (for some n less than or equal to 8) on the first n
-rows of the chessboard such that no one piece can attack any other
+rows of the chess board such that no one piece can attack any other
 pieces. Given a node, another node extending it with one more queen
 piece is considered its child. The following declared function
 #dyncode("node_get_children") is supposed to be called to obtain all
@@ -532,7 +532,7 @@ node_length(nx) = list0_length(nx)
 ')
 
 A node is represented as a list of integers; the length of the list
-refers to the number of queen pieces on the chessboard; the integers
+refers to the number of queen pieces on the chess board; the integers
 (between 0 and N-1) in the list refer to the reversely listed column
 positions of the queen pieces. The function #dyncode("node_get_children")
 is implemented as follows:
@@ -577,7 +577,7 @@ between 0 and n-1, inclusive.
 
 The presented code for solving 8-queen puzzle is of the kind of
 high-level functional programming style I intend to advocate
-throughout the book. It should be soon clear that we can reap even
+throughout the book. It should soon be clear that we can reap even
 more benefits from programming in this way when linear lazy streams
 are used in place of functional lists.
 
