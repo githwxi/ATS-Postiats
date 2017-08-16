@@ -210,34 +210,34 @@ delay_time_get()
 %}
 //
 (* ****** ****** *)
+//
+extern
+fun
+document_getElementById
+  (id: string): xmldoc = "mac#"
+//
+extern
+fun
+xmldoc_set_innerHTML
+(xmldoc, text: string): void = "mac#"
+//
+(* ****** ****** *)
 val
 theDocument =
 $extval(xmldoc, "document")
 //
 val
 theButton_start =
-$extmcall
-( xmldoc
-, theDocument
-, "getElementById", "button_start")
+document_getElementById("button_start")
 val
 theButton_reset =
-$extmcall
-( xmldoc
-, theDocument
-, "getElementById", "button_reset")
+document_getElementById("button_reset")
 val
 theButton_pause =
-$extmcall
-( xmldoc
-, theDocument
-, "getElementById", "button_pause")
+document_getElementById("button_pause")
 val
 theButton_resume =
-$extmcall
-( xmldoc
-, theDocument
-, "getElementById", "button_resume")
+document_getElementById("button_resume")
 //
 extern
 fun
@@ -247,11 +247,6 @@ extern
 fun
 button_disable
   (button: xmldoc): void = "mac#"
-//
-extern
-fun
-xmldoc_set_innerHTML
-(xmldoc, text: string): void = "mac#"
 //
 %{^
 //
@@ -265,11 +260,6 @@ button_disable(button)
 {
   button.disabled = true; return;
 }
-//
-function
-xmldoc_set_innerHTML
-  (xmldoc, text)
-  { xmldoc.innerHTML = text; return; }
 %}
 //
 (* ****** ****** *)
