@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<style>
+
+#theStage
+{
+width: 80%;
+margin: auto;
+}
+    
+</style>
+  
+</head>
+
+<body>
+
+  <h1>Solving the Eight-Queen Puzzle</h1>
+
+  <h2>Game Parameters</h2>
+  <ul>
+    <li>
+      The board size:<input style="text-align:right" type="text" id="param_board_size" value="8" size=1 maxlength=2>
+    </li>
+    <li>
+      The delay time:<input style="text-align:right" type="text" id="param_board_size" value="100" size=3 maxlength=4>
+    </li>
+  </ul>
+
+  <h2>Control for the Game</h2>
+  <ul>
+    <li>
+      <button type="button" onclick="control_start()">Start</button>
+    </li>
+    <li>
+      <button type="button" onclick="control_pause()">Pause</button>
+    </li>
+    <li>
+      <button type="button" onclick="control_resume()">Resume</button>
+    </li>
+    <li>
+      <button type="button" onclick="control_reset()">Reset</button>
+    </li>
+    <li>
+      <button type="button" onclick="control_finish()">Finish</button>
+    </li>
+  </ul>
+
+  <h2>Display for the Game</h2>
+  <div id="theStage">
+    This is the stage for display...
+  </div>
+
+</body>
+
+</html>

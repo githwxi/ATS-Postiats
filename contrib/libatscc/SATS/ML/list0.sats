@@ -31,8 +31,8 @@ fun{}
 list0_is_cons
   {a:t0p}(xs: list0(INV(a))): bool
 //
-overload iseqz with list0_is_nil
-overload isneqz with list0_is_cons
+overload iseqz with list0_is_nil of 100
+overload isneqz with list0_is_cons of 100
 //
 (* ****** ****** *)
 //

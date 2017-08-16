@@ -124,6 +124,39 @@ overload g0ofg1 with g0ofg1_list_vt of 100
 //
 (* ****** ****** *)
 //
+datatype
+option0_t0ype_type
+(
+  a: t@ype+
+) = // option0_t0ype_type
+  | Some0 of (a) | None0 of ()
+//
+where option0 = option0_t0ype_type
+//
+(* ****** ****** *)
+//
+castfn
+g0ofg1_option :
+  {a:t0p}(Option(a)) -<fun> option0(a)
+castfn
+option0_of_option :
+  {a:t0p}(Option(a)) -<fun> option0(a)
+//
+overload g0ofg1 with g0ofg1_option of 100
+//
+(* ****** ****** *)
+//
+castfn
+g0ofg1_option_vt :
+  {a:t0p}(Option_vt(a)) -<fun> option0(a)
+castfn
+option0_of_option_vt :
+  {a:t0p}(Option_vt(a)) -<fun> option0(a)
+//
+overload g0ofg1 with g0ofg1_option_vt of 100
+//
+(* ****** ****** *)
+//
 abstype
 array0_vt0ype_type(a:vt@ype) = ptr
 typedef
