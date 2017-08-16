@@ -14,6 +14,13 @@ all::
 ######
 
 all:: \
+Factorial
+Factorial: ; \
+$(MYATSCC) Factorial.dats
+
+######
+
+all:: \
 QueenPuzzle
 QueenPuzzle: ; \
 $(MYATSCC) QueenPuzzle.dats

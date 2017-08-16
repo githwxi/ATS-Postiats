@@ -185,10 +185,6 @@ typedef nodelstopt = option0(nodelst)
 
 (* ****** ****** *)
 //
-abstype xmldoc
-//
-(* ****** ****** *)
-//
 extern
 fun
 board_size_get(): int = "mac#"
@@ -210,6 +206,8 @@ delay_time_get()
 %}
 //
 (* ****** ****** *)
+//
+abstype xmldoc
 //
 extern
 fun
@@ -345,8 +343,7 @@ val nrow = node_length(nx)
 //
 in
 //
-$extfcall
-(void, "ats2jspre_the_print_store_clear");
+the_print_store_clear();
 //
 (nx).rforeach()(lam i => println_qrow(i));
 (N-nrow).foreach()(lam(_) => println_dots(N));
@@ -361,10 +358,7 @@ $extmcall
 , "getElementById", "theStage")
 //
 val
-res = 
-$extfcall
-( string
-, "ats2jspre_the_print_store_join")
+res = the_print_store_join()
 //
 in
   xmldoc_set_innerHTML(theStage, res)
@@ -565,19 +559,19 @@ end // end of [QueenPuzzleControl_reset]
 %{$
 //
 function
-QueenPuzzle_initize()
+QueenPuzzle__initize()
 {
 //
 QueenPuzzle__dynload(); return;
 //
-} // end of [QueenPuzzle_initize]
+} // end of [QueenPuzzle__initize]
 %}
 
 (* ****** ****** *)
 
 %{$
 //
-jQuery(document).ready(function(){QueenPuzzle__dynload(); QueenPuzzle_initize();});
+jQuery(document).ready(function(){QueenPuzzle__initize();});
 //
 %} // end of [%{$]
 
