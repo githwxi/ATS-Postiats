@@ -231,6 +231,14 @@ list0_revappend(xs, ys) =
 extern
 fun
 {a:t@ype}
+fprint_val
+(out: FILEref, x0: a): void
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
 print_list0
 (xs: list0(INV(a))): void
 extern

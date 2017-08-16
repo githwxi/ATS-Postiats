@@ -10,6 +10,13 @@
 #include "./../../MYLIB/mylib.dats"
 
 (* ****** ****** *)
+//
+implement
+fprint_val<int> = fprint_int
+implement
+fprint_val<string> = fprint_string
+//
+(* ****** ****** *)
 
 val xs0 = list0_nil{int}() // xs = ()
 val xs1 = list0_cons(1, xs0) // xs = (1)

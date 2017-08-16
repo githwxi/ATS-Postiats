@@ -21,6 +21,13 @@ list0_cons(,(x), list0_nil())
 
 (* ****** ****** *)
 //
+implement
+fprint_val<int> = fprint_int
+implement
+fprint_val<string> = fprint_string
+//
+(* ****** ****** *)
+//
 (*
 fun
 {a:t@ype}
