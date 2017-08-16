@@ -187,6 +187,8 @@ typedef nodelstopt = option0(nodelst)
 //
 abstype xmldoc
 //
+(* ****** ****** *)
+//
 extern
 fun
 board_size_get(): int = "mac#"
@@ -207,12 +209,63 @@ delay_time_get()
 }
 %}
 //
+(* ****** ****** *)
+val
+theDocument =
+$extval(xmldoc, "document")
+//
+val
+theButton_start =
+$extmcall
+( xmldoc
+, theDocument
+, "getElementById", "button_start")
+val
+theButton_reset =
+$extmcall
+( xmldoc
+, theDocument
+, "getElementById", "button_reset")
+val
+theButton_pause =
+$extmcall
+( xmldoc
+, theDocument
+, "getElementById", "button_pause")
+val
+theButton_resume =
+$extmcall
+( xmldoc
+, theDocument
+, "getElementById", "button_resume")
+//
+extern
+fun
+button_enable
+  (button: xmldoc): void = "mac#"
+extern
+fun
+button_disable
+  (button: xmldoc): void = "mac#"
+//
 extern
 fun
 xmldoc_set_innerHTML
 (xmldoc, text: string): void = "mac#"
 //
 %{^
+//
+function
+button_enable(button)
+{
+  button.disabled=false; return;
+}
+function
+button_disable(button)
+{
+  button.disabled = true; return;
+}
+//
 function
 xmldoc_set_innerHTML
   (xmldoc, text)
@@ -220,9 +273,20 @@ xmldoc_set_innerHTML
 %}
 //
 (* ****** ****** *)
+
+val () = button_enable(theButton_start)
+val () = button_enable(theButton_reset)
+val () = button_disable(theButton_pause)
+val () = button_disable(theButton_resume)
+
+(* ****** ****** *)
 //
+extern
 fun
-param_initize(): void =
+param_initize(): void = "mac#"
+//
+implement
+param_initize() =
 {
 val () = N_set(board_size_get())
 val () = theDelayTime_set(delay_time_get())
@@ -300,14 +364,10 @@ $extfcall
 let
 //
 val
-document =
-$extval(xmldoc, "document")
-//
-val
 theStage =
 $extmcall
 ( xmldoc
-, document
+, theDocument
 , "getElementById", "theStage")
 //
 val
@@ -380,6 +440,14 @@ val () =
 alert("QueenPuzzleControl_start!")
 *)
 //
+val () =
+button_enable(theButton_pause)
+//
+val () =
+button_disable(theButton_start)
+val () =
+button_disable(theButton_resume)
+//
 val
 theNodelst = 
 node_dfsenum(node_init())
@@ -406,6 +474,12 @@ QueenPuzzleControl_pause
 val () =
 alert("QueenPuzzleControl_pause!")
 *)
+//
+val () =
+button_enable(theButton_resume)
+//
+val () =
+button_disable(theButton_pause)
 //
 val opt =
 theQueenPuzzleData1[]
@@ -437,6 +511,12 @@ QueenPuzzleControl_resume
 val () =
 alert("QueenPuzzleControl_resume!")
 *)
+//
+val () =
+button_enable(theButton_pause)
+//
+val () =
+button_disable(theButton_resume)
 //
 val opt =
 theQueenPuzzleData0[]
@@ -473,6 +553,13 @@ alert("QueenPuzzleControl_reset!")
 val () =
 param_initize()
 //
+val () =
+button_enable(theButton_start)
+//
+val () =
+button_disable(theButton_pause)
+val () =
+button_disable(theButton_resume)
 //
 val () =
 theQueenPuzzleData0[] := None0()
