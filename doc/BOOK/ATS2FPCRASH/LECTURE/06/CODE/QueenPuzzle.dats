@@ -7,17 +7,12 @@
 #include
 "share/atspre_staload.hats"
 //
-#staload
-"libats/ML/SATS/basis.sats"
-//
-(*
 #include
 "share/atspre_staload_libats_ML.hats"
-*)
 //
 (* ****** ****** *)
 
-#staload "./../../MYLIB/mylib.dats"
+#include "./../../MYLIB/mylib.dats"
 
 (* ****** ****** *)
 //

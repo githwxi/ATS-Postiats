@@ -7,7 +7,7 @@
 //
 (* ****** ****** *)
 
-#staload "./../../MYLIB/mylib.dats"
+#include "./../../MYLIB/mylib.dats"
 
 (* ****** ****** *)
 //

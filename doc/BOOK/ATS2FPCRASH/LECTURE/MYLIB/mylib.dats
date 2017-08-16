@@ -8,6 +8,11 @@
 *)
 //
 (* ****** ****** *)
+
+symelim .foreach
+symelim .foldleft
+
+(* ****** ****** *)
 //
 extern
 fun{}
