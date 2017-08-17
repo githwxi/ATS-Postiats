@@ -11,7 +11,6 @@ patsopt -d $1 | atscc2js -o $fname($1)_dats.js -i -
 //
 #define
 ATS_MAINATSFLAG 1
-//
 #define
 ATS_DYNLOADNAME
 "Factorial__dynload"
@@ -25,11 +24,6 @@ ATS_STATIC_PREFIX "Factorial__"
 LIBATSCC2JS_targetloc
 "$PATSHOME/contrib\
 /libatscc2js/ATS2-0.3.2"
-//
-(* ****** ****** *)
-//
-#staload
-UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
@@ -48,6 +42,22 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 //
 abstype xmldoc
+//
+%{^
+//
+function
+document_getElementById
+  (id)
+{
+  return document.getElementById(id);
+}
+//
+function
+xmldoc_set_innerHTML
+  (xmldoc, text)
+  { xmldoc.innerHTML = text; return; }
+//
+%} // end of [%{^] 
 //
 extern
 fun
@@ -77,18 +87,18 @@ funarg1_get()
   return parseInt(document.getElementById("funarg1").value);
 }
 %} (* end of [%{^] *)
-
+//
 (* ****** ****** *)
 //
 extern
 fun
-Factorial_evaluate
+Factorial__evaluate
   ((*void*)): void = "mac#"
 //
 (* ****** ****** *)
 
 implement
-Factorial_evaluate
+Factorial__evaluate
   ((*void*)) = let
   val () =
   the_print_store_clear()
@@ -102,7 +112,7 @@ Factorial_evaluate
   // end of [val]
 in
   xmldoc_set_innerHTML(theOutput, the_print_store_join())
-end // end of [Factorial_evaluate]
+end // end of [Factorial__evaluate]
 
 (* ****** ****** *)
 
