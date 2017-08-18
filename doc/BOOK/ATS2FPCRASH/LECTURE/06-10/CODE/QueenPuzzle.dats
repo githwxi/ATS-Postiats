@@ -46,6 +46,36 @@ UN = "prelude/SATS/unsafe.sats"
 #include "./../../MYLIB/mylib.dats"
 //
 (* ****** ****** *)
+//
+abstype xmldoc
+//
+%{^
+//
+function
+document_getElementById
+  (id)
+{
+  return document.getElementById(id);
+}
+//
+function
+xmldoc_set_innerHTML
+  (xmldoc, text)
+  { xmldoc.innerHTML = text; return; }
+//
+%} // end of [%{^] 
+//
+extern
+fun
+document_getElementById
+  (id: string): xmldoc = "mac#"
+//
+extern
+fun
+xmldoc_set_innerHTML
+(xmldoc, text: string): void = "mac#"
+//
+(* ****** ****** *)
 
 (*
 #define N 8
