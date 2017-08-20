@@ -19,6 +19,197 @@ Time of Generation: #timestamp()\
 
 #para("\
 
+In this chapter, I intend to present a few more list-processing
+functions. More importantly, I would like to argue for the practice of
+actively identifying the need for generic list-processing functions in
+problem-solving.
+
+")
+
+#para("\
+
+There are many useful list-processing functions
+for handling two lists simultaneously. For instance,
+the following function #dyncode("list0_zip")
+takes a pair of lists and returns a list of pairs:
+
+#dats2xhtml('\
+//
+extern
+fun {
+a,b:t@ype
+} list0_zip
+  (xs: list0(a), ys: list0(b)): list0($tup(a, b))
+//
+implement
+{a,b}
+list0_zip(xs, ys) =
+(
+case xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  (
+    case+ ys of
+    | list0_nil() =>
+      list0_nil()
+    | list0_cons(y, ys) =>
+      list0_cons($tup(x, y), list0_zip<a,b>(xs, ys))
+  )
+)
+//
+')
+
+For instance, given two lists
+#dyncode("(1, 3, 5)") and #dyncode("(2, 4)"), #dyncode("list0_zip")
+returns the list consisting of #dyncode("$tup(1, 2)") and
+#dyncode("$tup(3,4)").  Note that #dyncode("$tup") is a keyword in ATS
+(for constructing tuples). For a list-processing function handling one
+list, there is often a meaningful variant that essentially acts like
+passing to the list-processing function a list of pairs obtained from
+applying #dyncode("list0_zip") to two given lists. For instance,
+the following function #dyncode("list0_map2") is such a variant
+of #dyncode("list0_map"):
+
+#dats2xhtml('\
+//
+extern
+fun
+{a
+,b:t@ype}
+{c:t@ype}
+list0_map2
+(xs: list0(a), ys: list0(b), fopr: cfun(a, b, c)): list0(c)
+//
+implement
+{a,b}{c}
+list0_map2
+(xs, ys, fopr) =
+(
+case xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  (
+    case+ ys of
+    | list0_nil() =>
+      list0_nil()
+    | list0_cons(y, ys) =>
+      list0_cons(fopr(x, y), list0_map2<a,b><c>(xs, ys, fopr))
+  ) (* end of [list0_cons] *)
+)
+//
+')
+
+For instance, given two lists
+#dyncode("(1, 3, 5)") and #dyncode("(2, 4, 6)")
+and the multiplication function, #dyncode("list0_map2") returns the
+list #dyncode("(2, 12, 30)"). Sometimes, #dyncode("list0_map2") is
+referred to as #dyncode("list0_zipwith").
+
+")
+
+#para("\
+
+There are various list-processing functions operating on ordered
+lists. For instance, the following function #dyncode("list0_merge") is
+for merging two ordered lists into one:
+  
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+list0_merge
+( xs: list0(a)
+, ys: list0(a), cmp: cfun(a, a, int)): list0(a)
+//
+implement
+{a}(*tmp*)
+list0_merge
+(xs0, ys0, cmp) = let
+//
+fun
+auxlst
+( xs0: list0(a)
+, ys0: list0(a)
+) : list0(a) = (
+//
+case+ xs0 of
+| list0_nil() => ys0
+| list0_cons
+    (x1, xs1) => (
+    case+ ys0 of
+    | list0_nil() => xs0
+    | list0_cons
+        (y1, ys1) => let
+        val sgn = cmp(x1, y1)
+      in
+        if (sgn <= 0)
+          then list0_cons(x1, auxlst(xs1, ys0))
+          else list0_cons(y1, auxlst(xs0, ys1))
+        // end of [if]
+      end // end of [list0_cons]
+  ) (* end of [list0_cons] *)
+//
+) (* end of [auxlst] *)
+//
+in
+  auxlst(xs0, ys0)
+end // end of [list0_merge]
+//
+')
+
+With #dyncode("list0_merge"), we can readily implement
+as follows the well-known mergesort algorithm to sort a given
+list0-value:
+
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+list0_mergesort
+(xs: list0(a), cmp: cfun(a, a, int)): list0(a)
+//
+implement
+{a}(*tmp*)
+list0_mergesort
+  (xs, cmp) = let
+//
+// [msort]:
+// It is assumed
+// that length(xs) = n
+//
+fun
+msort
+(xs: list0(a), n: int): list0(a) =
+if
+(n >= 2)
+then let
+  val n1 = n / 2
+  val xs1 = list0_take_exn(xs, n1)
+  val xs2 = list0_drop_exn(xs, n1)
+in
+  list0_merge<a>(msort(xs1, n1), msort(xs2, n-n1), cmp)
+end // end of [then]
+else (xs) // end of [else]
+//
+in
+  msort(xs, list0_length<a>(xs))
+end // end of [list0_mergesort]
+//
+')
+
+Note that #dyncode("list0_take_exn(xs, n)") returns the prefix of
+#dyncode("xs") that is of length #dyncode("n") and
+#dyncode("list0_drop_exn(xs, n)") returns the suffix of #dyncode("xs")
+that excludes the first #dyncode("n") elements of #dyncode("xs").
+
+")
+
+#para("\
+  
 #dats2xhtml('\
 //
 extern

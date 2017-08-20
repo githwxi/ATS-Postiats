@@ -1,8 +1,8 @@
+/* ****** ****** */
 /*
 ** Some basic JS function for
 ** supporting co-programming with ATS and JS
 */
-
 /* ****** ****** */
 //
 function
@@ -22,4 +22,3 @@ xmldoc_set_innerHTML
 /* ****** ****** */
 
 /* end of [mylib_cats.js] */
-
