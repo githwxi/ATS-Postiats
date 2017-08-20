@@ -869,24 +869,56 @@ list0_sing(x) =
 list0_cons(,(x), list0_nil())
 //
 (* ****** ****** *)
+
+extern
+fun
+{a:t@ype}
+list0_choose2
+(xs: list0(a)): list0($tup(a, a))
 //
 extern
 fun
 {a:t@ype}
-list0_choose
+list0_choose2
+(xs: list0(a)): list0($tup(a, a))
+//
+implement
+{a}(*tmp*)
+list0_choose2
+  (xs) = let
+//
+typedef aa = $tup(a, a)
+//
+in
+//
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x0, xs) =>
+  list0_append<aa>
+  (list0_map<a><aa>(xs, lam(x) => $tup(x0, x)), list0_choose2(xs))
+//
+end // end of [list0_choose2]
+
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_nchoose
 (xs: list0(a), n: int): list0(list0(a))
 //
 extern
 fun
 {a:t@ype}
-list0_choose_rest
+list0_nchoose_rest
 (xs: list0(INV(a)), n: int): list0($tup(list0(a), list0(a)))
 //
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-list0_choose
+list0_nchoose
   (xs, n) =
   auxlst(xs, n) where
 {
@@ -913,13 +945,13 @@ case+ xs of
 ) (* end of [else] *)
 )
 //
-} (* end of [list0_choose] *)
+} (* end of [list0_nchoose] *)
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-list0_choose_rest
+list0_nchoose_rest
   (xs, n) =
   auxlst(xs, n) where
 {
@@ -960,7 +992,7 @@ case+ xs of
 ) (* end of [else] *)
 )
 //
-} (* end of [list0_choose_rest] *)
+} (* end of [list0_nchoose_rest] *)
 
 (* ****** ****** *)
 

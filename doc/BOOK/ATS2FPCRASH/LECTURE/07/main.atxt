@@ -209,18 +209,70 @@ that excludes the first #dyncode("n") elements of #dyncode("xs").
 ")
 
 #para("\
-  
+
+During problem-solving, it often pays if one actively looks for
+opptunities to generalize a specific function into one that can be
+given a meaningful description in a broader context. For instance, if
+one encounters a need to process all of the pairs formed with
+elements chosen from a given list, then one may want to implement the
+following function #dyncode("list0_choose2"):
+
 #dats2xhtml('\
 //
 extern
 fun
 {a:t@ype}
-list0_choose
+list0_choose2
+(xs: list0(a)): list0($tup(a, a))
+//
+extern
+fun
+{a:t@ype}
+list0_choose2
+(xs: list0(a)): list0($tup(a, a))
+//
+implement
+{a}(*tmp*)
+list0_choose2
+  (xs) = let
+//
+typedef aa = $tup(a, a)
+//
+in
+//
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x0, xs) =>
+  list0_append<aa>
+  (list0_map<a><aa>(xs, lam(x) => $tup(x0, x)), list0_choose2(xs))
+//
+end // end of [list0_choose2]
+//
+')
+
+For instance, given the list #dyncode("(1, 2, 3)"),
+#dyncode("list0_choose2") returns the list of 3 pairs: #dyncode("(1,
+2)"), #dyncode("(1, 3)"), and #dyncode("(2, 3)"). And
+#dyncode("list0_choose2") can be generalized into the following
+function #dyncode("list0_nchoose") for listing all of the tuples of a
+given length that are formed with elements chosen from a given list:
+
+")
+
+#para("\
+
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+list0_nchoose
 (xs: list0(a), n: int): list0(list0(a))
 //
 implement
 {a}(*tmp*)
-list0_choose
+list0_nchoose
   (xs, n) =
   auxlst(xs, n) where
 {
@@ -247,25 +299,26 @@ case+ xs of
 ) (* end of [else] *)
 )
 //
-} (* end of [list0_choose] *)
+} (* end of [list0_nchoose] *)
 //
 ')
 
-")
-
-#para("\
+Sometimes, we may need to process tuples consisting of elements
+chosen from a given list as well as the complements of these tuples.
+The following function #dyncode("list0_nchoose_rest") further generalizes
+#dyncode("list0_nchoose"):
 
 #dats2xhtml('\
 //
 extern
 fun
 {a:t@ype}
-list0_choose_rest
+list0_nchoose_rest
 (xs: list0(a), n: int): list0($tup(list0(a), list0(a)))
 //
 implement
 {a}(*tmp*)
-list0_choose_rest
+list0_nchoose_rest
   (xs, n) =
   auxlst(xs, n) where
 {
@@ -306,8 +359,56 @@ case+ xs of
 ) (* end of [else] *)
 )
 //
-} (* end of [list0_choose_rest] *)
+} (* end of [list0_nchoose_rest] *)
 ')
+
+For instance, given the list #dyncode("(1, 2, 3)") and integer
+#dyncode("2"), #dyncode("list0_choose_rest") returns the list of 3
+pairs: #dyncode("$tup((1, 2), (3))"), #dyncode("$tup((1, 3), (2))"),
+and #dyncode("$tup((2, 3), (1))").
+
+")
+
+#para("\
+
+The problem of enumerating all of the permutations of a given
+list is often selected to test one's ability in constructing
+recursively defined functions. Let us see a solution to this
+problem given as follows:
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+list0_permute
+(xs: list0(a)): list0(list0(a)) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_cons(nil0(), nil0())
+| list0_cons _ => let
+    typedef xs = list0(a)
+    typedef out = list0(xs)
+    typedef inp = $tup(xs, xs)
+  in
+    list0_concat<xs>
+    (
+     list0_map<inp><out>
+     ( list0_nchoose_rest<a>(xs, 1)
+     , lam($tup(ys, zs)) => list0_mapcons<a>(ys[0], list0_permute<a>(zs))
+     )
+    ) (* list0_concat *)
+  end (* end of [list0_cons] *)
+)
+//
+')
+
+For instance, given the list #dyncode("(1, 2, 3)"),
+#dyncode("list0_permute") returns a list of length 6 in which each
+element is a permutation of #dyncode("(1, 2, 3)").  Note that
+#dyncode("ys[0]") refers to the first element in #dyncode("ys") and
+#dyncode("list0_mapcons") prepends its first argument to each element
+in its second argument (which is a list of lists).
 
 ")
 

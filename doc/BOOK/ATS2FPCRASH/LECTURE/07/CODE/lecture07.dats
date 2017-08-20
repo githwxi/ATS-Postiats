@@ -172,12 +172,38 @@ println!
 extern
 fun
 {a:t@ype}
-list0_choose
+list0_choose2
+(xs: list0(a)): list0($tup(a, a))
+//
+implement
+{a}(*tmp*)
+list0_choose2
+  (xs) = let
+//
+typedef aa = $tup(a, a)
+//
+in
+//
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x0, xs) =>
+  list0_append<aa>
+  (list0_map<a><aa>(xs, lam(x) => $tup(x0, x)), list0_choose2(xs))
+//
+end // end of [list0_choose2]
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_nchoose
 (xs: list0(a), n: int): list0(list0(a))
 //
 implement
 {a}(*tmp*)
-list0_choose
+list0_nchoose
   (xs, n) =
   auxlst(xs, n) where
 {
@@ -200,23 +226,24 @@ case+ xs of
 | list0_nil() =>
   list0_nil()
 | list0_cons(x0, xs) =>
-  list0_append<xs>(list0_mapcons(x0, auxlst(xs, n-1)), auxlst(xs, n))
+  list0_append<xs>
+  (list0_mapcons(x0, auxlst(xs, n-1)), auxlst(xs, n))
 ) (* end of [else] *)
 )
 //
-} (* end of [list0_choose] *)
+} (* end of [list0_nchoose] *)
 //
 (* ****** ****** *)
 //
 extern
 fun
 {a:t@ype}
-list0_choose_rest
+list0_nchoose_rest
 (xs: list0(a), n: int): list0($tup(list0(a), list0(a)))
 //
 implement
 {a}(*tmp*)
-list0_choose_rest
+list0_nchoose_rest
   (xs, n) =
   auxlst(xs, n) where
 {
@@ -257,26 +284,28 @@ case+ xs of
 ) (* end of [else] *)
 )
 //
-} (* end of [list0_choose_rest] *)
+} (* end of [list0_nchoose_rest] *)
 
 (* ****** ****** *)
-
+//
 fun
 {a:t@ype}
 list0_permute
 (xs: list0(a)): list0(list0(a)) =
 (
 case+ xs of
-| list0_nil() => list0_sing(nil0)
+| list0_nil() =>
+  list0_cons(nil0(), nil0())
 | list0_cons _ => let
-    typedef out = list0(list0(a))
-    typedef inp = $tup(list0(a), list0(a))
+    typedef xs = list0(a)
+    typedef out = list0(xs)
+    typedef inp = $tup(xs, xs)
   in
-    list0_concat
+    list0_concat<xs>
     (
      list0_map<inp><out>
-     ( list0_choose_rest(xs, 1)
-     , lam($tup(ys, zs)) => list0_mapcons(ys[0], list0_permute(zs))
+     ( list0_nchoose_rest<a>(xs, 1)
+     , lam($tup(ys, zs)) => list0_mapcons<a>(ys[0], list0_permute<a>(zs))
      )
     ) (* list0_concat *)
   end (* end of [list0_cons] *)
