@@ -19,12 +19,15 @@
 ATS_DYNLOADNAME "multest_client_dynload"
 
 (* ****** ****** *)
-  
-#include
-"share/atspre_define.hats"
+//
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib\
+/libatscc2js/ATS2-0.3.2"
+//
 #include
 "{$LIBATSCC2JS}/staloadall.hats"
-  
+//  
 (* ****** ****** *)
 //
 staload
@@ -106,19 +109,19 @@ val
 theClicks_bus = Bacon_new_bus{click}((*void*))
 //
 val () =
-login_clicks.onValue
+login_clicks.onValue()
   (lam(x) =<cloref1> theClicks_bus.push(Login))
 val () =
-passwd_clicks.onValue
+passwd_clicks.onValue()
   (lam(x) =<cloref1> theClicks_bus.push(Passwd))
 val () =
-multest_clicks.onValue
+multest_clicks.onValue()
   (lam(x) =<cloref1> theClicks_bus.push(Multest))
 val () =
-answer_clicks.onValue
+answer_clicks.onValue()
   (lam(x) =<cloref1> theClicks_bus.push(Answer))
 val () =
-logout_clicks.onValue
+logout_clicks.onValue()
   (lam(x) =<cloref1> theClicks_bus.push(Logout))
 //
 (* ****** ****** *)
@@ -168,7 +171,7 @@ theClicks_cont1_run(click): void = "mac#"
 (* ****** ****** *)
 //
 val () =
-theClicks_bus.onValue
+theClicks_bus.onValue()
   (lam(x) =<cloref1> theClicks_cont1_run(x))
 //
 (* ****** ****** *)

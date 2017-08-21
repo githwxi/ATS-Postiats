@@ -12,7 +12,7 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 PATSLIB+=$(PATSHOME)/ccomp/atslib/lib
 #
 ATSCC2JS=$(PATSHOME)/bin/atscc2js
-LIBATCC2JS=$(PATSCONTRIB)/contrib/libatscc/libatscc2js
+LIBATCC2JS=$(PATSHOME)/contrib/libatscc2js/ATS2-0.3.2/output
 #
 ######
 
@@ -91,7 +91,9 @@ upload_main: \
   main.html ; scp $^ \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/ssntyped-channels-2/.
 #
-upload_dats_js: \
+upload_demo: \
+  multest.html \
+  introxmpl1.html \
   multest_client_dats.js \
   multest_server_dats_.js \
   introxmpl1_client_dats.js \

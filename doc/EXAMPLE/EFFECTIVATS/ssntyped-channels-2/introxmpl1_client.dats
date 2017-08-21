@@ -15,12 +15,15 @@
 ATS_DYNLOADNAME "introxmpl1_client_initize"
 //
 (* ****** ****** *)
-  
-#include
-"share/atspre_define.hats"
+//
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib\
+/libatscc2js/ATS2-0.3.2"
+//
 #include
 "{$LIBATSCC2JS}/staloadall.hats"
-  
+//  
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
@@ -118,10 +121,10 @@ extern fun Start_reset(): void = "mac#"
 extern fun Start_output(msg: string): void = "mac#"
 //
 val () =
-Start_clicks.onValue
+Start_clicks.onValue()
   (lam(x) =<cloref1> theAction_bus.push(Start()))
 val () =
-theResult_clicks.onValue
+theResult_clicks.onValue()
   (lam(x) =<cloref1> theAction_bus.push(theResult()))
 //
 (* ****** ****** *)
@@ -170,7 +173,7 @@ theAction_fwork1_run(action): void = "mac#"
 (* ****** ****** *)
 //
 val () =
-theAction_bus.onValue
+theAction_bus.onValue()
   (lam(x) =<cloref1> theAction_fwork1_run(x))
 //
 (* ****** ****** *)

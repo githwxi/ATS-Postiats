@@ -243,14 +243,14 @@ typedef chncont0_nil = chncont0(chnil)
 //
 fun
 chanpos1_send
-  {a:t0p}{ss:type}
+{a:t0p}{ss:type}
 (
   chanpos(chsnd(a)::ss), x0: a, k0: chpcont0(ss)
 ) : void = "mac#%" // end-of-fun
 //
 fun
 chanpos1_recv
-  {a:t0p}{ss:type}
+{a:t0p}{ss:type}
 (
   chanpos(chrcv(a)::ss), k0: chpcont1(ss, chmsg(a))
 ) : void = "mac#%" // end-of-fun
@@ -259,14 +259,14 @@ chanpos1_recv
 //
 fun
 channeg1_recv
-  {a:t0p}{ss:type}
+{a:t0p}{ss:type}
 (
   channeg(chrcv(a)::ss), x0: a, k0: chncont0(ss)
 ) : void = "mac#%" // end-of-fun
 //
 fun
 channeg1_send
-  {a:t0p}{ss:type}
+{a:t0p}{ss:type}
 (
   channeg(chsnd(a)::ss), k0: chncont1(ss, chmsg(a))
 ) : void = "mac#%" // end-of-fun
