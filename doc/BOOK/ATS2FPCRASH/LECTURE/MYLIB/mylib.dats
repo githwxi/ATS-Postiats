@@ -1,5 +1,10 @@
 (* ****** ****** *)
 //
+// For use in
+// Crash into ATS
+//
+(* ****** ****** *)
+//
 (*
 #include
 "share/atspre_staload.hats"

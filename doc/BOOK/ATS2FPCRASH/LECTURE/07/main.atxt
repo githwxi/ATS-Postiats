@@ -392,7 +392,9 @@ problem given as follows:
 fun
 {a:t@ype}
 list0_permute
-(xs: list0(a)): list0(list0(a)) =
+(
+xs: list0(a)
+) : list0(list0(a)) =
 (
 case+ xs of
 | list0_nil() =>
@@ -419,9 +421,9 @@ For instance, given the list #dyncode("(1, 2, 3)"),
 element is a permutation of #dyncode("(1, 2, 3)").  Note that
 #dyncode("ys[0]") refers to the first element in #dyncode("ys") and
 #dyncode("list0_mapcons") prepends its first argument to each element
-in its second argument (which is a list of lists). Please find a demo
-for #dyncode("list0_permute") <ulink
-url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/07/CODE/Permute.html\">on-line</ulink>.
+in its second argument (which is a list of lists). A demo
+of #dyncode("list0_permute") can be seen by following this <ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/07/CODE/Permute.html\">link</ulink>.
 
 ")
 
