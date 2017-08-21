@@ -8,10 +8,22 @@
 *)
 //
 (* ****** ****** *)
-
+//
+(*
+symelim iseqz
+symelim isneqz
+*)
+//
+symelim .head
+symelim .tail
+//
+symelim .drop
+symelim .take
+//
 symelim .foreach
 symelim .foldleft
-
+symelim .foldright
+//
 (* ****** ****** *)
 //
 extern
@@ -184,6 +196,32 @@ let val-list0_cons(_, xs) = xs in xs end
 //
 overload .head with list0_head_exn of 100
 overload .tail with list0_tail_exn of 100
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_get_at_exn
+(xs: list0(a), n: int): a
+//
+implement
+{a}(*tmp*)
+list0_get_at_exn
+  (xs, n) =
+(
+case- xs of
+(*
+| list0_nil() =>
+  $raise ListSubscriptExn()
+*)
+| list0_cons(x, xs) =>
+  if n <= 0
+    then x else list0_get_at_exn<a>(xs, n-1)
+  // end of [list0_cons]
+)
+//
+overload [] with list0_get_at_exn of 100
 //
 (* ****** ****** *)
 //
@@ -458,6 +496,22 @@ case+ xs of
 //
 } (* end of [list0_mapopt] *)
 
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_mapcons
+  (x0: a, xss: list0(list0(a))): list0(list0(a))
+//
+implement
+{a}(*tmp*)
+list0_mapcons
+  (x0, xss) =
+(
+list0_map<list0(a)><list0(a)>(xss, lam(xs) => list0_cons(x0, xs))
+) (* list0_mapcons *)
+//
 (* ****** ****** *)
 
 implement

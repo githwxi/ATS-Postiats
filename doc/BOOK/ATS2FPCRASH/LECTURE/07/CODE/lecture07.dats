@@ -198,6 +198,22 @@ end // end of [list0_choose2]
 extern
 fun
 {a:t@ype}
+list0_mapcons
+  (x0: a, xss: list0(list0(a))): list0(list0(a))
+//
+implement
+{a}(*tmp*)
+list0_mapcons
+  (x0, xss) =
+(
+list0_map<list0(a)><list0(a)>(xss, lam(xs) => list0_cons(x0, xs))
+) (* list0_mapcons *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
 list0_nchoose
 (xs: list0(a), n: int): list0(list0(a))
 //
@@ -227,7 +243,7 @@ case+ xs of
   list0_nil()
 | list0_cons(x0, xs) =>
   list0_append<xs>
-  (list0_mapcons(x0, auxlst(xs, n-1)), auxlst(xs, n))
+  (list0_mapcons<a>(x0, auxlst(xs, n-1)), auxlst(xs, n))
 ) (* end of [else] *)
 )
 //

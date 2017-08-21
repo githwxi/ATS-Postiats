@@ -21,25 +21,22 @@ ATS_STATIC_PREFIX "QueenPuzzle__"
 //
 (* ****** ****** *)
 //
+// HX: for accessing LIBATSCC2JS 
+//
 #define
 LIBATSCC2JS_targetloc
 "$PATSHOME/contrib\
-/libatscc2js/ATS2-0.3.2"
+/libatscc2js/ATS2-0.3.2" // latest stable release
+//
+#include
+"{$LIBATSCC2JS}/staloadall.hats" // for prelude stuff
+#staload
+"{$LIBATSCC2JS}/SATS/print.sats" // for print into a store
 //
 (* ****** ****** *)
 //
 #staload
 UN = "prelude/SATS/unsafe.sats"
-//
-(* ****** ****** *)
-//
-#staload
-"{$LIBATSCC2JS}/SATS/print.sats"
-//
-(* ****** ****** *)
-//
-#include
-"{$LIBATSCC2JS}/staloadall.hats"
 //
 (* ****** ****** *)
 //

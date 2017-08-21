@@ -1855,7 +1855,7 @@ end // end of [list0_crosswith]
 
 implement
 {x}(*tmp*)
-list0_foreach_choose2
+list0_choose2_foreach
 (
   xs, fwork
 ) = loop(xs) where
@@ -1885,18 +1885,18 @@ case+ ys of
   end // end of [list_cons]
 )
 //
-} (* end of [list0_foreach_choose2] *)
+} (* end of [list0_choose2_foreach] *)
 //
 implement
 {x}(*tmp*)
-list0_foreach_choose2_method(xs) =
-  lam(fwork) => list0_foreach_choose2<x>(xs, fwork)
+list0_choose2_foreach_method(xs) =
+  lam(fwork) => list0_choose2_foreach<x>(xs, fwork)
 //
 (* ****** ****** *)
 
 implement
 {x,y}(*tmp*)
-list0_foreach_xprod2
+list0_xprod2_foreach
 (
   xs0, ys0, fwork
 ) = loop(xs0) where
@@ -1920,19 +1920,19 @@ case+ ys of
 | list0_cons(y, ys) => (fwork(x0, y); loop2(x0, xs, ys))
 )
 //
-} (* end of [list0_foreach_xprod2] *)
+} (* end of [list0_xprod2_foreach] *)
 //
 implement
 {x,y}(*tmp*)
-list0_foreach_xprod2_method
+list0_xprod2_foreach_method
   (xs, ys) =
-  lam(fwork) => list0_foreach_xprod2<x,y>(xs, ys, fwork)
+  lam(fwork) => list0_xprod2_foreach<x,y>(xs, ys, fwork)
 //
 (* ****** ****** *)
 
 implement
 {x,y}(*tmp*)
-list0_iforeach_xprod2
+list0_xprod2_iforeach
 (
   xs0, ys0, fwork
 ) = loop(0, xs0) where
@@ -1965,15 +1965,15 @@ case+ ys of
   // end of [list0_cons]
 )
 //
-} (* end of [list0_iforeach_xprod2] *)
+} (* end of [list0_xprod2_iforeach] *)
 //
 implement
 {x,y}(*tmp*)
-list0_iforeach_xprod2_method
+list0_xprod2_iforeach_method
   (xs, ys) =
 (
-lam(fwork) => list0_iforeach_xprod2<x,y>(xs, ys, fwork)
-) (* list0_iforeach_xprod2_method *)
+lam(fwork) => list0_xprod2_iforeach<x,y>(xs, ys, fwork)
+) (* list0_xprod2_iforeach_method *)
 //
 (* ****** ****** *)
 //

@@ -836,51 +836,51 @@ x,y:t0p}{z:t0p
 //
 fun
 {x:t0p}
-list0_foreach_choose2
+list0_choose2_foreach
 (
   list0(INV(x)), fwork: cfun2(x, x, void)
 ) : void // end-of-function
 fun
 {x:t0p}
-list0_foreach_choose2_method
+list0_choose2_foreach_method
 (
   list0(INV(x))) (fwork: cfun2(x, x, void)
 ) : void // end-of-function
 //
-overload .foreach_choose2 with list0_foreach_choose2_method
+overload .choose2_foreach with list0_choose2_foreach_method
 //
 (* ****** ****** *)
 //
 fun{
 x,y:t0p
-} list0_foreach_xprod2
+} list0_xprod2_foreach
 (
   list0(INV(x)), list0(INV(y)), fwork: cfun2(x, y, void)
 ) : void // end-of-function
 fun
 {x,y:t0p}
-list0_foreach_xprod2_method
+list0_xprod2_foreach_method
 (
   list0(INV(x)), list0(INV(y)))(fwork: cfun2(x, y, void)
 ) : void // end-of-function
 //
 fun{
 x,y:t0p
-} list0_iforeach_xprod2
+} list0_xprod2_iforeach
 (
   list0(INV(x))
 , list0(INV(y)), fwork: cfun4(intGte(0), x, intGte(0), y, void)
 ) : void // end-of-function
 fun
 {x,y:t0p}
-list0_iforeach_xprod2_method
+list0_xprod2_iforeach_method
 (
   list0(INV(x))
 , list0(INV(y)))(fwork: cfun4(intGte(0), x, intGte(0), y, void)
 ) : void // end-of-function
 //
-overload .foreach_xprod2 with list0_foreach_xprod2_method
-overload .iforeach_xprod2 with list0_iforeach_xprod2_method
+overload .xprod2_foreach with list0_xprod2_foreach_method
+overload .xprod2_iforeach with list0_xprod2_iforeach_method
 //
 (* ****** ****** *)
 //

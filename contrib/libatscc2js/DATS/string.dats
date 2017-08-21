@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into Javascript
 *)
-
 (* ****** ****** *)
 
 #define ATS_DYNLOADFLAG 0
@@ -32,10 +32,18 @@ UN =
 #staload "./../SATS/integer.sats"
 //
 (* ****** ****** *)
-
+//
 #staload "./../SATS/string.sats"
 #staload "./../SATS/JSarray.sats"
-
+//
+(* ****** ****** *)
+//
+#staload "./../SATS/stream.sats"
+#staload "./../SATS/stream_vt.sats"
+//
+#staload _(*STREAM*) = "./stream.dats"
+#staload _(*STREAM_VT*) = "./stream_vt.dats"
+//
 (* ****** ****** *)
 
 implement
@@ -167,6 +175,7 @@ $UN.cast{string(n)}
 ) (* end of [string_tabulate_cloref] *)
 //
 (* ****** ****** *)
+
 implement
 streamize_string_code
   (str0) =

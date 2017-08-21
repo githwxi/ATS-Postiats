@@ -1,6 +1,6 @@
 (* ****** ****** *)
 (*
-** Factorial
+** Permute
 *)
 (* ****** ****** *)
 (*
@@ -13,10 +13,10 @@ patsopt -d $1 | atscc2js -o $fname($1)_dats.js -i -
 ATS_MAINATSFLAG 1
 #define
 ATS_DYNLOADNAME
-"Factorial__dynload"
+"Permute__dynload"
 //
 #define
-ATS_STATIC_PREFIX "Factorial__"
+ATS_STATIC_PREFIX "Permute__"
 //
 (* ****** ****** *)
 //
@@ -34,7 +34,8 @@ LIBATSCC2JS_targetloc
 //
 (* ****** ****** *)
 //
-#include "./../../MYLIB/mylib.dats"
+#include
+"./../../MYLIB/mylib.dats"
 //
 (* ****** ****** *)
 //
@@ -68,8 +69,28 @@ xmldoc_set_innerHTML
 //
 (* ****** ****** *)
 //
-fun fact(n: int): int =
-  if n > 0 then n * fact(n-1) else 1
+fun
+{a:t@ype}
+list0_permute
+(xs: list0(a)): list0(list0(a)) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_cons(nil0(), nil0())
+| list0_cons _ => let
+    typedef xs = list0(a)
+    typedef out = list0(xs)
+    typedef inp = $tup(xs, xs)
+  in
+    list0_concat<xs>
+    (
+     list0_map<inp><out>
+     ( list0_nchoose_rest<a>(xs, 1)
+     , lam($tup(ys, zs)) => list0_mapcons<a>(ys[0], list0_permute<a>(zs))
+     )
+    ) (* list0_concat *)
+  end (* end of [list0_cons] *)
+)
 //
 (* ****** ****** *)
 //
@@ -89,49 +110,63 @@ funarg1_get()
 //
 extern
 fun
-Factorial__evaluate
+Permute__evaluate
   ((*void*)): void = "mac#"
 //
 (* ****** ****** *)
 
 implement
-Factorial__evaluate
+Permute__evaluate
   ((*void*)) = let
   val () =
   the_print_store_clear()
   val arg = funarg1_get()
+  val res = list0_permute<int>(list0_make_intrange(0, arg))
   val () =
-  println!
-  ("The factorial of ", arg, " is ", fact(arg))
-  // end of [val]
+  println!("Permute(", arg, "):")
+//
+  val () =
+  list0_foreach<list0(int)>
+  ( res
+  , lam(xs) =>
+    (
+    print("(");
+    list0_iforeach
+    ( xs
+    , lam(i, x) => (if i > 0 then print ", "; print x));
+    println!(")")
+    ) (* list0_iforeach *)
+  )
+//
   val theOutput =
     document_getElementById("theOutput")
   // end of [val]
+//
 in
   xmldoc_set_innerHTML(theOutput, the_print_store_join())
-end // end of [Factorial__evaluate]
+end // end of [Permute__evaluate]
 
 (* ****** ****** *)
 
 %{$
 //
 function
-Factorial__initize()
+Permute__initize()
 {
 //
-Factorial__dynload(); return;
+Permute__dynload(); return;
 //
-} // end of [Factorial_initize]
+} // end of [Permute_initize]
 %}
 
 (* ****** ****** *)
 
 %{$
 //
-jQuery(document).ready(function(){Factorial__initize();});
+jQuery(document).ready(function(){Permute__initize();});
 //
 %} // end of [%{$]
 
 (* ****** ****** *)
 
-(* end of [Factorial.dats] *)
+(* end of [Permute.dats] *)

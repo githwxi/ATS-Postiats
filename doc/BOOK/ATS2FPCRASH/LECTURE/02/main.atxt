@@ -25,7 +25,7 @@ strategy based on divide-and-conquer divides a given problem (that
 cannot be solved immediately) into subproblems of a similar nature so
 that the same strategy can be applied to these subproblems
 #emphasis("recursively"); the obtained solutions to these subproblems
-are then compiled in some manner to form a solution to the original
+are then combined in some manner to form a solution to the original
 problem.
 
 ')
