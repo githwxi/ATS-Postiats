@@ -222,7 +222,25 @@ sample ATS code presented in a previous chapter.
 #para("\
 
 Please find #mycodelink("LECTURE/06-10/CODE", "on-line") the entirety of
-the code used in this chapter. \
+the code used in this chapter. The mentioned URL link(s) can be found as follows:
+
+<itemizedlist>
+
+<listitem>
+#para("\
+<ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/06-10/CODE/Factorial.html\">https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/06-10/CODE/Factorial.html</ulink>
+")#comment("para")
+</listitem>
+
+<listitem>
+#para("\
+<ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/06-10/CODE/QueenPuzzle.html\">https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/06-10/CODE/QueenPuzzle.html</ulink>
+")#comment("para")
+</listitem>
+
+</itemizedlist>
 
 ")#comment("para")
 

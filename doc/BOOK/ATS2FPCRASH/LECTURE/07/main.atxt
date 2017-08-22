@@ -429,7 +429,18 @@ url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/07/CODE/Permute.ht
 #para("\
 
 Please find #mycodelink("LECTURE/07/CODE", "on-line") the entirety of
-the code used in this chapter. \
+the code used in this chapter. The mentioned URL link(s) can be found as follows:
+
+<itemizedlist>
+
+<listitem>
+#para("\
+<ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/07/CODE/Permute.html\">https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/07/CODE/Permute.html</ulink>
+")#comment("para")
+</listitem>
+
+</itemizedlist>
 
 ")#comment("para")
 

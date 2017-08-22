@@ -122,7 +122,18 @@ multable.html</ulink> for displaying a multiplication table.
 #para("\
 
 Please find #mycodelink("LECTURE/02/CODE", "on-line") the entirety
-of the code used in this chapter.\
+the code used in this chapter. The mentioned URL link(s) can be found as follows:
+
+<itemizedlist>
+
+<listitem>
+#para("\
+<ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/02/CODE/multable.html\">https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/02/CODE/multable.html</ulink>
+")#comment("para")
+</listitem>
+
+</itemizedlist>
 
 ")#comment("para")
 

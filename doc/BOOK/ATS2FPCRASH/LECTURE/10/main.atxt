@@ -36,7 +36,8 @@ is the following declared datatype:
 #sats2xhtml('\
 datatype
 stream_con(a:t@ype) =
-  | steam_nil of () | stream_cons of (a, stream(a))
+  | steam_nil of ()
+  | stream_cons of (a, stream(a))
 ')
 
 With pattern matching, we can inspect whether a stream-con value
