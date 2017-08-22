@@ -28,9 +28,8 @@ during problem-solving.
 
 #para("\
 
-There are many useful list-processing functions
-for handling two lists simultaneously. For instance,
-the following function #dyncode("list0_zip")
+There are many useful list-processing functions for handling two lists
+simultaneously. For instance, the following function #dyncode("list0_zip")
 takes a pair of lists and returns a list of pairs:
 
 #dats2xhtml('\

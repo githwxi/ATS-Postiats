@@ -102,23 +102,26 @@ simply exceptions). In the following program, a function for integer
 division is implemented:
 
 #dats2xhtml("\
+//
 exception DivisionByZero of ()
-fun divexn(x: int, y: int): int =
+//
+fun
+divexn(x: int, y: int): int =
   if y != 0 then x / y else $raise DivisionByZero()
-// end of [divexn]
+//
 ")
 
 When the function call #dyncode("divexn(1, 0)") is evaluated, the exception
 #dyncode("DivisionByZero()") is raised. The keyword #dyncode("$raise") in ATS
-is solely for raising exceptions.\
+is for raising an exception.\
 
 ")#comment("para")
 
 #para("\
 
-A raise-expression is of the form (#dyncode("$raise") exp) for some
+A raise-expression is of the form #dyncode("$raise(exp)") for some
 expression exp.  Clearly, if the evaluation of exp returns a value, then
-the evaluation of (#dyncode("$raise") exp) leads to a raised
+the evaluation of #dyncode("$raise(exp)") leads to a raised
 exception. Therefore, the evaluation of a raise-expression can never return
 a value, and this justifies that a raise-expression can be given any type.\
 

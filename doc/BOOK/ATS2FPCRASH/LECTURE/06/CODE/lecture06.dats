@@ -28,6 +28,43 @@ fprint_val<string> = fprint_string
 //
 (* ****** ****** *)
 //
+datatype
+option0(a:t@ype) = Some0 of (a) | None0 of ()
+//
+fun
+{a:t@ype}
+list0_head_opt
+  (xs: list0(a)): option0(a) =
+(
+case+ xs of list0_cons(x, _) => Some0(x) | _ => None0()
+)
+//
+(* ****** ****** *)
+//
+fun
+{a:t@ype}
+list0_last_opt
+  (xs: list0(a)): option0(a) = let
+//
+fun
+loop
+(x0: a, xs: list0(a)): a =
+(
+case+ xs of
+list0_nil() => x0
+| list0_cons(x1, xs) => loop(x1, xs)
+)
+//
+in
+//
+case+ xs of
+| list0_nil() => None0()
+| list0_cons(x, xs) => Some0(loop(x, xs))
+//
+end // end of [list0_last_opt]
+//
+(* ****** ****** *)
+//
 (*
 fun
 {a:t@ype}

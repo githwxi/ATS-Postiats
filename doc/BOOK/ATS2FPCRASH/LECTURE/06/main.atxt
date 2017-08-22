@@ -19,10 +19,88 @@ Time of Generation: #timestamp()\
 
 #para("\
 
-I would like to first point out in this chapter a very common mistake
-in (functional) list-processing. First and foremost, a list is not
-meant to be used like an array. The following function #dyncode("list0_get_at")
-does the so-called list-subscripting:
+Sometimes, a list-processing function is partial in the sense that it
+is not well-defined for all of the lists. For instance, the function
+#dyncode("list0_head") for returning the head element of a given list
+is defined only if the given list is non-empty:
+
+#dats2xhtml('\
+fun
+{a:t@ype}
+list0_head(xs: list0(a)): a =
+(
+case+ xs of
+| list0_cons(x, _) => x
+| _(* list0_nil() *) => $raise ListSubscriptExn()
+)
+')
+
+Note that the code #dyncode("$raise ListSubscriptExn()") is for
+raising an exception (in the case where #dyncode("xs") is empty),
+which is to be explained in details later. Another approach to
+handling a partial function is to turn it into a total one that
+returns options. For instance, #dyncode("list0_head_opt") is such a
+total function corresponding to #dyncode("list0_head"):
+
+#dats2xhtml('\
+//
+datatype
+option0(a:t@ype) = Some0 of (a) | None0 of ()
+//
+fun
+{a:t@ype}
+list0_head_opt
+  (xs: list0(a)): option0(a) =
+(
+case+ xs of list0_cons(x, _) => Some0(x) | _ => None0()
+)
+')
+
+The function returning the last element
+of a given list is also partial as it is only defined
+for a non-empty list. The following function
+#dyncode("list0_last_opt") returns an option to indicate
+whether the last element of a given list is found:
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+list0_last_opt
+(
+xs: list0(a)
+) : option0(a) = let
+//
+fun
+loop
+(x0: a, xs: list0(a)): a =
+(
+case+ xs of
+list0_nil() => x0
+| list0_cons(x1, xs) => loop(x1, xs)
+)
+//
+in
+//
+case+ xs of
+| list0_nil() => None0()
+| list0_cons(x, xs) => Some0(loop(x, xs))
+//
+end // end of [list0_last_opt]
+//
+')
+
+Note that the inner function #dyncode("loop") in the
+body of #dyncode("list0_last_opt") is tail-recursive.
+
+")
+
+#para("\
+
+Before moving on, I would like to point out a very common mistake in
+(functional) list-processing. First and foremost, a list is not meant
+to be used like an array. The following (partial) function
+#dyncode("list0_get_at") does the so-called list-subscripting:
 
 #dats2xhtml('\
 //
@@ -46,20 +124,17 @@ case+ xs of
 //
 ')
 
-For instance, given the list #dyncode("(1,10,100)") and
-the index #dyncode("1"), #dyncode("list0_get_at") return the element
+For instance, given the list #dyncode("(1,10,100)") and the index
+#dyncode("1"), #dyncode("list0_get_at") return the element
 #dyncode("10").  Another common name for #dyncode("list0_get_at") is
-#dyncode("list0_nth").  Note that the code #dyncode("$raise
-ListSubscriptExn()") is for raising an exception (in the case where
-the given #dyncode("n") is greater than or equal to the length of the
-given #dyncode("xs")), which is to be explained in details later.
-Clearly, the time-complexity of #dyncode("list0_get_at") is O(n)
-(while array-subscripting is O(1)-time). It is almost always a poor
-programming style to process the elements in a list by calling
-#dyncode("list0_get_at") (as the resulting code is likely to be
-prohibitively inefficient time-wise). For the purpose of illustration,
-let us take a look at the following two functions for tallying the
-integers contained in a given list:
+#dyncode("list0_nth"). Clearly, the time-complexity of
+#dyncode("list0_get_at") is O(n) (while array-subscripting is
+O(1)-time). It is almost always a poor programming style to process
+the elements in a list by calling #dyncode("list0_get_at") (as the
+resulting code is likely to be prohibitively inefficient
+time-wise). For the purpose of illustration, let us take a look at the
+following two functions for tallying the integers contained in a given
+list:
 
 #dats2xhtml('\
 //
