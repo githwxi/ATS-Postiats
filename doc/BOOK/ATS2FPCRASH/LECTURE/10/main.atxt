@@ -84,6 +84,40 @@ of a thunk based on the expression appearing as its argument.
 
 #para("\
 
+Accessing elements in a given stream is shown in the following
+example:
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+stream_get_at
+  (xs: stream(a), n: int): a =
+(
+case+ !xs of
+| stream_nil() =>
+  (
+    $raise StreamSubscriptExn()
+  )
+| stream_cons(x, xs) =>
+  (
+    if n <= 0 then x else stream_get_at<a>(xs, n-1)
+  )
+)
+//
+')
+
+The function #dyncode("stream_get_at") is the stream-version of
+#dyncode("list_get_at"): Given a stream and a position (denoted by an
+integer), #dyncode("stream_get_at") returns the element in the stream
+at the given position. Note that the symbol #dyncode("!") refers to
+the function #dyncode("lazy_force"), which evaluates a given stream
+value into a stream-con value in this case.
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/10/CODE", "on-line") the entirety of
 the code used in this chapter. \
 

@@ -94,6 +94,104 @@ is raised during the evaluation of the call, then this raised
 exception is to be caught by the handler following the keyword
 #keycode("with"), resulting in the value #dyncode("true") becoming the
 return value of #dyncode("list0_exists").
+Note that a raised exception is considered a resource in ATS and it needs
+to be properly freed or re-raised after being caught. The symbol #dyncode("~")
+in the pattern #dyncode("~True()") indicates that the caught execption is freed.
+
+")
+
+#para("\
+
+By raising an exception, a function can efficiently pass some
+information gathered during its evaluation. Let us see a typical
+example of this kind as follows. A datatype #stacode("tree") is
+decared for representing binary trees:
+
+#dats2xhtml('\
+//
+datatype tree(a:t@ype) =
+| tree_nil of ()
+| tree_cons of (tree(a), a, tree(a))
+//
+')
+
+For instance, the function for computing the height of a given
+binary tree can be implemented as follows:
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+tree_height(t0: tree(a)): int =
+(
+case+ t0 of
+| tree_nil() => 0
+| tree_cons(tl, _, tr) =>
+  1 + max(tree_height<a>(tl), tree_height<a>(tr))
+)
+//
+')
+
+Note that #dyncode("tree_height") is O(n)-time, where n is the size of
+its argument.  A binary is perfect if it is empty or both of its
+children are perfect and of the same height. For instance, the
+following function #dyncode("tree_is_perfect") checks whether a given
+binary tree is perfect:
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+tree_is_perfect
+  (t0: tree(a)): bool =
+(
+case+ t0 of
+| tree_nil() => true
+| tree_cons(tl, _, tr) =>
+  tree_is_perfect<a>(tl) &&
+  tree_is_perfect<a>(tr) &&
+  (tree_height<a>(tl) = tree_height<a>(tr))
+)
+//
+')
+
+Clearly, the time complexity of #dyncode("tree_is_perfect") is
+O(n(log(n))) where n is the size of its argument. By making use of
+exception, we can readily implement the following function of
+O(n)-time that also checks whether a given tree is perfect:
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+tree_is_perfect2
+  (t0: tree(a)): bool = let
+//
+exception NotPerfect of ()
+//
+fun
+aux(t0: tree(a)): int =
+case+ t0 of
+| tree_nil() => 0
+| tree_cons(tl, _, tr) => let
+    val hl = aux(tl) and hr = aux(tr)
+  in
+    if hl = hr then 1+max(hl, hr) else $raise NotPerfect
+  end
+//
+in
+  try let val _ = aux(t0) in true end with ~NotPerfect() => false
+end // end of [tree_is_perfect2]
+//
+')
+
+The inner function #dyncode("aux") inside #dyncode("tree_is_perfect2")
+returns the height of a given tree only if the tree is
+perfect. Otherwise, an exception (#dyncode("NotPerfect()")) is
+raised. In other words, if a call to #dyncode("aux") on a tree
+returns, we know that the tree is pefect while obtaining its height.
+This is often dubbed a #emphasis("hitting-two-birds-with-one-stone")
+scenario.
 
 ")
 

@@ -94,6 +94,63 @@ println!
 //
 (* ****** ****** *)
 
+datatype tree(a:t@ype) =
+| tree_nil of ()
+| tree_cons of (tree(a), a, tree(a))
+
+(* ****** ****** *)
+//
+fun
+{a:t@ype}
+tree_height
+  (t0: tree(a)): int =
+(
+case+ t0 of
+| tree_nil() => 0
+| tree_cons(tl, _, tr) =>
+  1 + max(tree_height<a>(tl), tree_height<a>(tr))
+)
+//
+(* ****** ****** *)
+//
+fun
+{a:t@ype}
+tree_is_perfect
+  (t0: tree(a)): bool =
+(
+case+ t0 of
+| tree_nil() => true
+| tree_cons(tl, _, tr) =>
+  tree_is_perfect<a>(tl) &&
+  tree_is_perfect<a>(tr) &&
+  (tree_height<a>(tl) = tree_height<a>(tr))
+)
+//
+(* ****** ****** *)
+//
+fun
+{a:t@ype}
+tree_is_perfect2
+  (t0: tree(a)): bool = let
+//
+exception NotPerfect of ()
+//
+fun
+aux(t0: tree(a)): int =
+case+ t0 of
+| tree_nil() => 0
+| tree_cons(tl, _, tr) => let
+    val hl = aux(tl) and hr = aux(tr)
+  in
+    if hl = hr then 1+max(hl, hr) else $raise NotPerfect
+  end
+//
+in
+  try let val _ = aux(t0) in true end with ~NotPerfect() => false
+end // end of [tree_is_perfect2]
+//
+(* ****** ****** *)
+
 implement main0() = () // a dummy for [main]
 
 (* ****** ****** *)

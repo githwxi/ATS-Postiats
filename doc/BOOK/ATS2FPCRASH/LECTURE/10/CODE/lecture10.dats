@@ -33,6 +33,24 @@ int_stream_from
 //
 fun
 {a:t@ype}
+stream_get_at
+  (xs: stream(a), n: int): a =
+(
+case+ !xs of
+| stream_nil() =>
+  (
+    $raise StreamSubscriptExn()
+  )
+| stream_cons(x, xs) =>
+  (
+    if n <= 0 then x else stream_get_at<a>(xs, n-1)
+  )
+)
+//
+(* ****** ****** *)
+//
+fun
+{a:t@ype}
 stream_length
   (xs: stream(a)): int =
 (
