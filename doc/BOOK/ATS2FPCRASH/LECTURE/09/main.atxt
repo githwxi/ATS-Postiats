@@ -91,7 +91,7 @@ further traversing if an element satisfying the predicate
 #dyncode("list0_foreach") returns, then the value #dyncode("false") is
 the return value of #dyncode("list0_exists").  If #dyncode("True()")
 is raised during the evaluation of the call, then this raised
-exception is to be caught by the handler following the
+exception is to be caught by the handler following the keyword
 #keycode("with"), resulting in the value #dyncode("true") becoming the
 return value of #dyncode("list0_exists").
 
