@@ -63,16 +63,17 @@ computation of type T, which can be resumed by simply calling the thunk.
 
 #para("\
 
-As an example, the following function #dyncode("stream_from") takes an
-integer #dyncode("n") and returns a stream that enumerates ascendingly
-all of the integers greater than or equal to #dyncode("n"):
+As an example, the following function #dyncode("int_stream_from")
+takes an integer #dyncode("n") and returns a stream that enumerates
+ascendingly all of the integers greater than or equal to
+#dyncode("n"):
 
 #dats2xhtml('\
 //
 fun
-stream_from
+int_stream_from
   (n: int): stream(int) =
-  $delay(stream_cons(n, stream_from(n+1)))
+  $delay(stream_cons(n, int_stream_from(n+1)))
 //
 ')
 

@@ -139,8 +139,11 @@ names #dyncode("x0") and #dyncode("xs1") bound to the head and tail of
 
 #para("\
 
-Clearly, the function #dyncode("list0_length") is of O(n)-time for n
-being the length of its argument. Often I see someone writing the code
+Though the given implementation of #dyncode("list0_length") is not
+tail-recursive, it should be clear that a tail-recursive
+implementation can be readily done. Note that the function
+#dyncode("list0_length") is of O(n)-time for n being the length of its
+argument. Often I see someone writing the code
 #dyncode("list0_length(xs) > 0") for testing whether a given list
 #dyncode("xs") is empty. This practice is terribly inefficient as
 checking whether a list is empty can be easily done in O(1)-time.
