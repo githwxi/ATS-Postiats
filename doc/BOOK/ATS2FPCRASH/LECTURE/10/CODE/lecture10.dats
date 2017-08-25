@@ -48,6 +48,12 @@ case+ !xs of
 )
 //
 (* ****** ****** *)
+
+val xs = int_stream_from(0)
+val x0 = stream_get_at<int>(xs, 1000000)
+val () = println! ("x0 = ", x0)
+
+(* ****** ****** *)
 //
 fun
 {a:t@ype}
@@ -74,6 +80,46 @@ stream_takeLte(theNats, 10)
 val () =
 println!
 ("theNats10 = ", stream_vt_length(theNats10))
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+stream_append
+(xs: stream(a), ys: stream(a)): stream(a)
+//
+implement
+{a}(*tmp*)
+stream_append
+(xs, ys) = $delay
+(
+case+ !xs of
+| stream_nil() => !ys
+| stream_cons(x, xs) =>
+  stream_cons(x, stream_append<a>(xs, ys))
+)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+stream_map
+(xs: stream(a), fopr: cfun(a, b)): stream(b)
+//
+implement
+{a}{b}
+stream_map
+  (xs, fopr) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons(fopr(x), stream_map<a><b>(xs, fopr))
+)
 //
 (* ****** ****** *)
 

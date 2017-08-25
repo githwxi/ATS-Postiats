@@ -118,6 +118,127 @@ value into a stream-con value in this case.
 
 #para("\
 
+Let us see what is involved in the evaluation of the following two
+lines of code:
+
+#dats2xhtml('\
+//
+val xs = int_stream_from(0)
+val x0 = stream_get_at<int>(xs, 1000000)
+//
+')
+
+The call to #dyncode("int_stream_from") returns immediately as all
+that is essentially done is creating a thunk (that is, a nullary
+closure-function). The call to #dyncode("stream_get_at") returns
+1000000 after creating 1000001 nodes to store the first 1000001
+elements in the stream bound to the name #dyncode("xs"). While it
+takes only a tiny amount of memory to store the initial stream bound
+to the name #dyncode("xs"), it requires a large amount of memory to
+store the expanded stream created during the evaluation of the call to
+#dyncode("stream_get_at"). In general, a call to
+#dyncode("lazy_force") evaluates its argument (of type
+#stacode("lazy(T)")) to a value (of type T) and then caches the value
+internally so that the value can be returned immediately when another
+call to #dyncode("lazy_force") on the same argument evaluates later.
+In other words, some form of memoization happens when the evaluation
+of a suspended computation is performed.  Memoization can be expensive
+memory-wise and unpredicatable time-wise. There is another kind of
+stream (to be presented later) that is referred to as
+#emphasis("linear stream"), which involves no memoization when
+evaluated. As a matter of fact, the internal representation of a
+linear stream only needs memory for storing one node (that contains
+the head element of the stream), resulting in great memory-efficiency.
+
+")
+
+#para("\
+
+Basically, for each a list-processing function, there is a
+corresponding version of stream-processing function. Let us see some
+concrete examples.  For instance, the following function
+#dyncode("stream_append") (corresponding to #dyncode("list0_append"))
+concatenates two given streams:
+
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+stream_append
+(xs: stream(a), ys: stream(a)): stream(a)
+//
+implement
+{a}(*tmp*)
+stream_append
+(xs, ys) = $delay
+(
+case+ !xs of
+| stream_nil() => !ys
+| stream_cons(x, xs) =>
+  stream_cons(x, stream_append<a>(xs, ys))
+)
+//
+')
+
+Please note the symbol #dyncode("!") in front of #dyncode("!ys"):
+The expression following #keycode("$delay") should evaluate to
+a stream-con value (instead of a stream value).
+
+")
+
+#para("\
+
+With streams, we can facilitate the use of (general) recursion in
+problem-solving by eliminating the risk of stack overflow caused by
+deeply nested recursive calls. In the case of
+#dyncode("stream_append"), the evaluation of a call to
+#dyncode("stream_append") returns immediately as all it does
+essentially is to form a thunk (for representing the resulting
+stream). On the other hand, the implementation of
+#dyncode("list0_append") presented previously can potentially cause
+stack overflow if its argument is a long list (e.g., one consisting of
+1000000 elements). By the way, the implementation of
+#dyncode("list0_append") in #filename("ATSLIB/prelude") (the prelude
+library of ATS) cannot cause stack overflow as it is
+tail-recursive. However, there is no free lunch here as this library
+implementation is written in an advanced style that is somewhat
+difficult to adopt in practice.
+
+")
+
+#para("\
+
+The following function #dyncode("stream_map") is the stream-version of
+#dyncode("list0_map"):
+
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+stream_map
+(xs: stream(a), fopr: cfun(a, b)): stream(b)
+//
+implement
+{a}{b}
+stream_map
+  (xs, fopr) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons(fopr(x), stream_map<a><b>(xs, fopr))
+)
+//
+')
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/10/CODE", "on-line") the entirety of
 the code used in this chapter. \
 
