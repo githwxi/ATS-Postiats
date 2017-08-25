@@ -100,7 +100,7 @@ evaluating the sequence.  \
 In imperative programming, a function like #dyncode("testfact") is
 normally implemented in terms of a for-loop (instead of being defined
 recursively). While there is indeed direct support for for-loops and
-while-loops in ATS, I will not attempt to make use of this support in
+while-loops in ATS, I will not attempt to make use of the support in
 this book. I hope to make a convincing argument that making extensive
 use of recursion is a key to increasing one\'s programming
 producivity.  In fact, I think that a functional programmer should
@@ -110,7 +110,29 @@ develop a reflex for solving problems recursively.
 
 #para("\
 
-As a slightly more interesting example, please study the code in
+As another example, the following function #dyncode("fibonacci")
+is defined to compute Fibonacci numbers:
+
+#dats2xhtml('\
+//
+fun
+fibo(n: int): int =
+  if n > 2 then fibo(n-1)+fibo(n-2) else 1
+//
+')
+
+There are two recursive calls in the body of #dyncode("fibo").
+The first and the second Fibonacci numbers are 1.
+Given a positive integer #emphasis("n"), #dyncode("fibo") returns
+the #emphasis("n")th Fibonacci number. This implementation of
+#dyncode("fibo") is of expontial time complexity, and it is probably
+impractical to call it on any integer that is 50 or greater.
+
+")
+
+#para("\
+
+For a slightly more interesting example, please study the code in
 <ulink
 url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FPCRASH/LECTURE/02/CODE/multable.dats\">
 multable.dats</ulink>, which can be executed to generate the html file <ulink

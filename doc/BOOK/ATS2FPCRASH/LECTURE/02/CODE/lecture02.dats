@@ -58,6 +58,12 @@ val () = testfact2(100)
 
 (* ****** ****** *)
 
+fun
+fibo(n: int): int =
+  if n > 2 then fibo(n-1)+fibo(n-2) else 1
+
+(* ****** ****** *)
+
 implement main0() = () // a dummy for [main]
 
 (* ****** ****** *)
