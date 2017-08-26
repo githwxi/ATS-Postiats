@@ -122,6 +122,65 @@ case+ !xs of
 )
 //
 (* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+stream_filter
+(xs: stream(a), test: cfun(a, bool)): stream(a)
+//
+implement
+{a}(*tmp*)
+stream_filter
+  (xs, test) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  if test(x)
+    then
+    stream_cons
+      (x, stream_filter<a>(xs, test))
+    // end of [then]
+    else !(stream_filter<a>(xs, test))
+  // end of [if]
+)
+//
+(* ****** ****** *)
+
+fun
+sieve(): stream(int) = let
+//
+fun
+auxmain
+(
+xs: stream(int)
+) : stream(int) = $delay
+(
+case- !xs of
+| stream_cons(x0, xs) =>
+  stream_cons(x0, auxmain(stream_filter(xs, lam(x) => x % x0 > 0)))
+)
+//
+in
+  auxmain(int_stream_from(2))
+end // end of [sieve]
+
+(* ****** ****** *)
+//
+#define N 100
+exception Done of ()
+//
+val
+thePrimes = sieve()
+val ((*void*)) =
+try
+thePrimes.iforeach()
+(lam(i, x) => if i < N then println!("Prime(", i, ") = ", x) else $raise Done())
+with ~Done() => ()
+//
+(* ****** ****** *)
 
 implement main0() = () // a dummy for [main]
 

@@ -121,12 +121,12 @@ fibo(n: int): int =
 //
 ')
 
-There are two recursive calls in the body of #dyncode("fibo").
-The first and the second Fibonacci numbers are 1.
-Given a positive integer #emphasis("n"), #dyncode("fibo") returns
-the #emphasis("n")th Fibonacci number. This implementation of
-#dyncode("fibo") is of expontial time complexity, and it is probably
-impractical to call it on any integer that is 50 or greater.
+The first and the second Fibonacci numbers are 1.  Given a positive
+integer #emphasis("n") greater than 2, the #emphasis("n")th Fibonacci
+number equals the sum of the previous two Fibonacci numbers. This
+implementation of #dyncode("fibo") is of expontial time complexity,
+and it is probably impractical to call it on any integer that is 50 or
+greater.
 
 ")
 

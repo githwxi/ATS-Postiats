@@ -239,6 +239,72 @@ case+ !xs of
 
 #para("\
 
+The following function #dyncode("stream_filter") is the stream-version of
+#dyncode("list0_filter"):
+
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+stream_filter
+(xs: stream(a), test: cfun(a, bool)): stream(a)
+//
+implement
+{a}(*tmp*)
+stream_filter
+  (xs, test) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  if test(x)
+    then
+    stream_cons
+      (x, stream_filter<a>(xs, test))
+    // end of [then]
+    else !(stream_filter<a>(xs, test))
+  // end of [if]
+)
+//
+')
+
+")
+
+#para("\
+
+The following function #dyncode("sieve") implements the sieve of
+Eratosthenes.  A call to #dyncode("sieve") returns a stream consisting
+of all the primes enumerated in the ascending order: 2, 3, 5, 7, 11,
+etc.
+
+#dats2xhtml('\
+//
+fun
+sieve(): stream(int) = let
+//
+fun
+auxmain
+(
+xs: stream(int)
+) : stream(int) = $delay
+(
+case- !xs of
+| stream_cons(x0, xs) =>
+  stream_cons(x0, auxmain(stream_filter(xs, lam(x) => x % x0 > 0)))
+)
+//
+in
+  auxmain(int_stream_from(2))
+end // end of [sieve]
+//
+')
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/10/CODE", "on-line") the entirety of
 the code used in this chapter. \
 

@@ -76,12 +76,14 @@ end // end of [list0_exists]
 //
 ')
 
-There is a built-in type #stacode("exn") in ATS, which is somewhat
-like an extensible datatype in the sense that a new constructor
-associated with #stacode("exn") can be introduced through an
-exception-declaration. For instance, #dyncode("True") is introduced as
-a nullary exception-constructor in the body of
-#dyncode("list0_exists"). Given a list and a function,
+Given a list and a predicate, #dyncode("list0_exists") returns a
+boolean value to indicate whether there exists an element in the list
+that satisfies the predicate.  There is a built-in type
+#stacode("exn") in ATS, which is somewhat like an extensible datatype
+in the sense that a new constructor associated with #stacode("exn")
+can be introduced through an exception-declaration. For instance,
+#dyncode("True") is introduced as a nullary exception-constructor in
+the body of #dyncode("list0_exists"). Given a list and a function,
 #dyncode("list0_foreach") normally traverses until the end of the list
 while appying the function to each encountered element.  When the call
 to #dyncode("list0_foreach") in the body of #dyncode("list0_exists")
@@ -93,10 +95,11 @@ the return value of #dyncode("list0_exists").  If #dyncode("True()")
 is raised during the evaluation of the call, then this raised
 exception is to be caught by the handler following the keyword
 #keycode("with"), resulting in the value #dyncode("true") becoming the
-return value of #dyncode("list0_exists").
-Note that a raised exception is considered a resource in ATS and it needs
-to be properly freed or re-raised after being caught. The symbol #dyncode("~")
-in the pattern #dyncode("~True()") indicates that the caught execption is freed.
+return value of #dyncode("list0_exists").  Note that a raised
+exception is considered a resource in ATS and it needs to be properly
+freed or re-raised after being caught. The symbol #dyncode("~") in the
+pattern #dyncode("~True()") indicates that the caught execption is
+freed.
 
 ")
 

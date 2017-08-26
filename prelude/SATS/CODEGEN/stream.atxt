@@ -410,6 +410,17 @@ stream_foreach_cloref
 //
 #atscode_separator()
 //
+fun{a:t0p}
+stream_iforeach_fun
+( xs: stream(a)
+, fwork: (intGte(0), a) -<fun1> void): void
+fun{a:t0p}
+stream_iforeach_cloref
+( xs: stream(a)
+, fwork: (intGte(0), a) -<cloref1> void): void
+//
+#atscode_separator()
+//
 fun{
 res:vt0p}{a:t0p
 } stream_foldleft_fun

@@ -164,6 +164,23 @@ stream_foreach_method(xs) =
 (* ****** ****** *)
 //
 implement
+{a}(*tmp*)
+stream_iforeach
+  (xs, fwork) =
+  stream_iforeach_cloref<a>(xs, fwork)
+//
+implement
+{a}(*tmp*)
+stream_iforeach_method(xs) =
+(
+  lam(fwork) =>
+    stream_iforeach_cloref<a>(xs, fwork)
+  // end of [lam]
+)
+//
+(* ****** ****** *)
+//
+implement
 {res}{a}
 stream_foldleft
   (xs, ini, fopr) =

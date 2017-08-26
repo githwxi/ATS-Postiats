@@ -151,6 +151,22 @@ overload .foreach with stream_foreach_method
 //
 (* ****** ****** *)
 //
+fun
+{a:t0p}
+stream_iforeach
+( xs: stream(a)
+, fwork: (intGte(0), a) -<cloref1> void): void
+//
+fun
+{a:t0p}
+stream_iforeach_method
+  (xs: stream(INV(a)))
+  (fwork: (intGte(0), a) -<cloref1> void): void
+//
+overload .iforeach with stream_iforeach_method
+//
+(* ****** ****** *)
+//
 fun{
 res:vt0p}{a:t0p
 } stream_foldleft

@@ -1197,6 +1197,49 @@ loop(xs: stream(a)): void =
 } (* end of [stream_foreach_cloref] *)
 
 #atscode_separator()
+//
+//
+implement
+{a}(*tmp*)
+stream_iforeach_fun
+  (xs, fwork) =
+  loop(0, xs) where
+{
+//
+fun
+loop
+( i: intGte(0)
+, xs: stream(a)): void =
+(
+case+ !xs of
+| stream_nil() => ()
+| stream_cons(x, xs) =>
+  let val () = fwork(i, x) in loop(i+1, xs) end
+)
+//
+} (* end of [stream_iforeach_fun] *)
+//
+implement
+{a}(*tmp*)
+stream_iforeach_cloref
+  (xs, fwork) =
+  loop(0, xs) where
+{
+//
+fun
+loop
+( i: intGte(0)
+, xs: stream(a)): void =
+(
+case+ !xs of
+| stream_nil() => ()
+| stream_cons(x, xs) =>
+  let val () = fwork(i, x) in loop(i+1, xs) end
+)
+//
+} (* end of [stream_iforeach_cloref] *)
+//
+#atscode_separator()
 
 implement
 {res}{a}
