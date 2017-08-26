@@ -169,16 +169,29 @@ end // end of [sieve]
 
 (* ****** ****** *)
 //
+local
+//
 #define N 100
 exception Done of ()
 //
+in
+//
 val
 thePrimes = sieve()
+//
 val ((*void*)) =
 try
-thePrimes.iforeach()
-(lam(i, x) => if i < N then println!("Prime(", i, ") = ", x) else $raise Done())
+thePrimes.iforeach
+((*void*))
+(lam(i, x) =>
+ if i < N
+   then println!("Prime(", i, ") = ", x)
+   else $raise Done()
+ // end of [if]
+)
 with ~Done() => ()
+//
+end // end of [local]
 //
 (* ****** ****** *)
 
