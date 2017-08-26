@@ -275,9 +275,7 @@ case+ !xs of
 #para("\
 
 The following function #dyncode("sieve") implements the sieve of
-Eratosthenes.  A call to #dyncode("sieve") returns a stream consisting
-of all the primes enumerated in the ascending order: 2, 3, 5, 7, 11,
-etc.
+Eratosthenes for enumerating prime numbers:
 
 #dats2xhtml('\
 //
@@ -300,6 +298,13 @@ in
 end // end of [sieve]
 //
 ')
+
+A call to #dyncode("sieve") returns a stream consisting of all the
+primes enumerated in the ascending order: 2, 3, 5, 7, 11, etc. Note
+that #keycode("case-") is used in place of #keycode("case") for the
+purpose of suppressing a warning message that would otherwise be
+issued due to pattern matching being non-exhaustive (as the case
+#dyncode("stream_nil()") is not covered).
 
 ")
 
