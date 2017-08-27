@@ -85,7 +85,7 @@ Programmers often misuse references. This is especially true for those
 with a background in imperative programming. For instance, the
 following example shows a typical poor use of references that is often
 resulted from someone learning functional programming by \"translating\"
-code written in an imperative style:
+code written in imperative style:
 
 #dats2xhtml('\
 //
@@ -105,11 +105,15 @@ end (* end of [fact_ref] *)
 //
 ')
 
-For evaluating each call to #dyncode("fact_ref"), two references are
-created, which become garbage after the call returns. As a reference
-is allocated on heap, it is not mapped to a register when
-compiled. Accessing a reference involves memory traffic, which is much
-more expensive than accessing a register.
+There are some obvious drawbacks in this implementation of
+#dyncode("fact_ref"). For evaluating each call to
+#dyncode("fact_ref"), two references are created, which become garbage
+after the call returns. As a reference is allocated on heap, it is not
+mapped to a register when compiled. Accessing a reference involves
+memory traffic, which is much more expensive than accessing a
+register. Compared to a tail-recursive implementation of the factorial
+function in functional style, #dyncode("fact_ref") is of great
+inefficiency both time-wise and memory-wise.
 
 ")
 

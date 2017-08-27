@@ -15,7 +15,19 @@ Time of Generation: #timestamp()\
 ")
 <chapter
  id="lecture11">
-#title("Lazy Linear Stream-Processing")
+#title("Linear Lazy Stream-Processing")
+
+#para("\
+
+As the name suggests, linear lazy streams are the linear version of
+lazy streams. In ATS, a linear value is one that cannot be shared; it
+must be consumed properly for otherwise a type error is reported
+during typechecking. Before moving on, let me present a simple but
+telling example that demonstrates a stream-based approach to
+addressing the potential risk of stack overflow due to deeply nested
+non-tail-recursive calls.
+
+")
 
 #para("\
 
