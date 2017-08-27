@@ -44,6 +44,24 @@ val () = println! (r1[])
 //
 (* ****** ****** *)
 
+fun
+fact_ref
+(n: int): int = let
+//
+val i = ref<int>(0)
+val r = ref<int>(1)
+//
+fun loop(): void =
+  if !i < n then (!i := !i+1; !r := !r * !i; loop())
+//
+in
+  let val () = loop() in !r end
+end (* end of [fact_ref] *)
+
+val () = println! ("fact_ref(10) = ", fact_ref(10))
+
+(* ****** ****** *)
+
 implement main0() = () // a dummy for [main]
 
 (* ****** ****** *)

@@ -81,6 +81,40 @@ val () = println! (r1[])
 
 #para("\
 
+Programmers often misuse references. This is especially true for those
+with a background in imperative programming. For instance, the
+following example shows a typical poor use of references that is often
+resulted from someone learning functional programming by \"translating\"
+code written in an imperative style:
+
+#dats2xhtml('\
+//
+fun
+fact_ref
+(n: int): int = let
+//
+val i = ref<int>(0)
+val r = ref<int>(1)
+//
+fun loop(): void =
+  if !i < n then (!i := !i+1; !r := !r * !i; loop())
+//
+in
+  let val () = loop() in !r end
+end (* end of [fact_ref] *)
+//
+')
+
+For evaluating each call to #dyncode("fact_ref"), two references are
+created, which become garbage after the call returns. As a reference
+is allocated on heap, it is not mapped to a register when
+compiled. Accessing a reference involves memory traffic, which is much
+more expensive than accessing a register.
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/08/CODE", "on-line") the entirety of
 the code used in this chapter. \
 
