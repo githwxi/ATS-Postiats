@@ -38,7 +38,6 @@ cleanall:: ; rm -f *_dats.js
 ######
 
 testall:: all
-testall:: regress
 testall:: cleanall
 
 ###### end of [Makefile] ######

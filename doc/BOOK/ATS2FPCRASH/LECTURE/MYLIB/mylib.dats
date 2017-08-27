@@ -1077,11 +1077,13 @@ implement
 stream_get_at_exn
   (xs, n) =
 (
-case+ !xs of
+case- !xs of
+(*
 | stream_nil() =>
   (
     $raise StreamSubscriptExn()
   )
+*)
 | stream_cons(x, xs) =>
   (
     if n <= 0 then x else stream_get_at_exn<a>(xs, n-1)

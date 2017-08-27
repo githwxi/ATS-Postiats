@@ -147,8 +147,8 @@ CHMOD=chmod
 #
 ######
 
-regress:: ; \
-$(MAKE) -C CODE regress
+testall:: ; \
+$(MAKE) -C LECTURE -f Makefile_lect testall
 
 ######
 

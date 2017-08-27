@@ -31,6 +31,21 @@ RMF=rm -f
 
 ######
 
+testall:: ; $(MAKE) -C 01/CODE testall
+testall:: ; $(MAKE) -C 02/CODE testall
+testall:: ; $(MAKE) -C 03/CODE testall
+testall:: ; $(MAKE) -C 04/CODE testall
+testall:: ; $(MAKE) -C 05/CODE testall
+testall:: ; $(MAKE) -C 06/CODE testall
+testall:: ; $(MAKE) -C 06-10/CODE testall
+testall:: ; $(MAKE) -C 07/CODE testall
+testall:: ; $(MAKE) -C 08/CODE testall
+testall:: ; $(MAKE) -C 09/CODE testall
+testall:: ; $(MAKE) -C 10/CODE testall
+testall:: ; $(MAKE) -C 11/CODE testall
+
+######
+
 clean:: ; $(RMF) *~
 clean:: ; $(RMF) *_?ats.o
 clean:: ; $(RMF) *_?ats.c
