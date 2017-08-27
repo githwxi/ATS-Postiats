@@ -188,7 +188,6 @@ cleanall:: clean
 cleanall:: ; $(RMF) preface
 cleanall:: ; $(RMF) preface.db
 cleanall:: ; $(RMF) PDF/main.pdf
-cleanall:: ; $(RMF) TEMP/chap_*.dats
 cleanall:: ; $(RMF) HTML/htmltoc.exe
 cleanall:: ; make -C HTML cleanall
 cleanall:: ; make -C MYTEXT cleanall

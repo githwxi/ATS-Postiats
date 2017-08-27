@@ -19,6 +19,68 @@ Time of Generation: #timestamp()\
 
 #para("\
 
+Let us start with references. A reference is precisely an
+(initialized) singleton array, that is, an array of size 1, and its
+typical use is for implementing a global variable that can be updated.
+
+")
+
+#para("\
+
+The following function is for creating a reference:
+
+#sats2xhtml('\
+//
+fun
+{a:t@ype}
+ref_make_elt(x0: a): ref(a)
+//
+')
+
+where #stacode("ref") is a type constructor in ATS that takes a type T
+to form a reference type #stacode("ref(T)") for any reference holding
+a value of the type T.  The functions #dyncode("ref_get_elt") and
+#dyncode("ref_set_elt") are for fetching and updating the value stored
+in a reference, respectively:
+
+#sats2xhtml('\
+//
+fun
+{a:t@ype}
+ref_get_elt(r: ref(a)): a
+fun
+{a:t@ype}
+ref_set_elt(r: ref(a), x: a): void
+//
+')
+
+A shorthand for #dyncode("ref_make_elt") is #dyncode("ref").  Also,
+both #dyncode("!") and #dyncode("[]") are overloaded with
+#dyncode("ref_get_elt") and #dyncode("ref_set_elt"). For instance, the
+following code prints out 0, 1, and 3 twice:
+
+#dats2xhtml('\
+//
+val r0 = ref<int>(0)
+val () = println! (!r0)
+val () = (!r0 := !r0 + 1)
+val () = println! (!r0)
+val () = (!r0 := !r0 + 2)
+val () = println! (!r0)
+//
+val r1 = ref<int>(0)
+val () = println! (r1[])
+val () = (r1[] := r1[] + 1)
+val () = println! (r1[])
+val () = (r1[] := r1[] + 2)
+val () = println! (r1[])
+//
+')
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/08/CODE", "on-line") the entirety of
 the code used in this chapter. \
 

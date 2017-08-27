@@ -42,13 +42,8 @@ stream_con(a:t@ype) =
 
 With pattern matching, we can inspect whether a stream-con value
 represents an empty stream or not. If the stream is non-empty, then
-its first element can be extracted.
-
-")
-
-#para("\
-
-Formally speaking, we have the following type definition in ATS:
+its first element can be extracted. Formally speaking, we have the
+following type definition in ATS:
 
 #sats2xhtml('\
 typedef stream(a:t@ype) = lazy(stream_con(a))
@@ -56,8 +51,8 @@ typedef stream(a:t@ype) = lazy(stream_con(a))
 
 where #stacode("lazy") is a special type constructor. Given a type
 T, the type #stacode("lazy(T)") is essentially for a thunk that returns
-a value of type T. Often such a thunk is referred to as a suspended
-computation of type T, which can be resumed by simply calling the thunk.
+a value of the type T. Often such a thunk is referred to as a suspended
+computation of the type T, which can be resumed by simply calling the thunk.
 
 ")
 
@@ -112,7 +107,10 @@ The function #dyncode("stream_get_at") is the stream-version of
 integer), #dyncode("stream_get_at") returns the element in the stream
 at the given position. Note that the symbol #dyncode("!") refers to
 the function #dyncode("lazy_force"), which evaluates a given stream
-value into a stream-con value in this case.
+value into a stream-con value in this case. Like
+#dyncode("list_get_at"), it is almost always a poor style of
+programming to make use of #dyncode("stream_get_at") excessively (for
+instance, inside the body of a loop).
 
 ")
 
@@ -198,9 +196,9 @@ essentially is to form a thunk (for representing the resulting
 stream). On the other hand, the implementation of
 #dyncode("list0_append") presented previously can potentially cause
 stack overflow if its argument is a long list (e.g., one consisting of
-1000000 elements). By the way, the implementation of
+1000000 elements). By the way, the actual implementation of
 #dyncode("list0_append") in #filename("ATSLIB/prelude") (the prelude
-library of ATS) cannot cause stack overflow as it is
+library of ATS) cannot cause stack overflow due to its being
 tail-recursive. However, there is no free lunch here as this library
 implementation is written in an advanced style that is somewhat
 difficult to adopt in practice.
@@ -274,6 +272,14 @@ case+ !xs of
 
 #para("\
 
+A function like #dyncode("stream_map") and #dyncode("stream_filter")
+is often referred to as being fully lazy as its evaluation does nothing
+except for creating a thunk (to represent a suspended computation).
+
+")
+
+#para("\
+
 The following function #dyncode("sieve") implements the sieve of
 Eratosthenes for enumerating prime numbers:
 
@@ -305,6 +311,29 @@ that #keycode("case-") is used in place of #keycode("case") for the
 purpose of suppressing a warning message that would otherwise be
 issued due to pattern matching being non-exhaustive (as the case
 #dyncode("stream_nil()") is not covered).
+
+")
+
+#para("\
+
+As a simple experiment, please try to evaluate the following code:
+
+#dats2xhtml('\
+//
+val
+thePrimes = sieve()
+val () = println! ("stream_get_at(thePrimes, 5000):")
+val () = println! (stream_get_at<int>(thePrimes, 5000))
+val () = println! ("stream_get_at(thePrimes, 5000):")
+val () = println! (stream_get_at<int>(thePrimes, 5000))
+//
+')
+
+Note that the number #emphasis("48619") is to be printed out
+twice. There is a clear pause before it is done for the first time,
+but there is virtually no delay between the first time and the second
+time, showing clearly the effect of memoization performed during the
+first call to #dyncode("stream_get_at") on #dyncode("thePrimes").
 
 ")
 

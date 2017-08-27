@@ -27,6 +27,22 @@ implement
 fprint_val<string> = fprint_string
 
 (* ****** ****** *)
+//
+val r0 = ref<int>(0)
+val () = println! (!r0)
+val () = (!r0 := !r0 + 1)
+val () = println! (!r0)
+val () = (!r0 := !r0 + 2)
+val () = println! (!r0)
+//
+val r1 = ref<int>(0)
+val () = println! (r1[])
+val () = (r1[] := r1[] + 1)
+val () = println! (r1[])
+val () = (r1[] := r1[] + 2)
+val () = println! (r1[])
+//
+(* ****** ****** *)
 
 implement main0() = () // a dummy for [main]
 

@@ -169,6 +169,16 @@ end // end of [sieve]
 
 (* ****** ****** *)
 //
+val
+thePrimes = sieve()
+val () = println! ("stream_get_at(thePrimes, 5000):")
+val () = println! (stream_get_at<int>(thePrimes, 5000))
+val () = println! ("stream_get_at(thePrimes, 5000):")
+val () = println! (stream_get_at<int>(thePrimes, 5000))
+//
+(* ****** ****** *)
+(*
+//
 local
 //
 #define N 100
@@ -193,6 +203,7 @@ with ~Done() => ()
 //
 end // end of [local]
 //
+*)
 (* ****** ****** *)
 
 implement main0() = () // a dummy for [main]
