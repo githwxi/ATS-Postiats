@@ -339,6 +339,96 @@ first call to #dyncode("stream_get_at") on #dyncode("thePrimes").
 
 #para("\
 
+Lastly, let us see a simple but telling example that demonstrates a
+stream-based approach to addressing the potential risk of stack
+overflow due to deeply nested non-tail-recursive calls. The following
+implementation of #dyncode("list0_map") is standard:
+
+#dats2xhtml('\
+//
+implement
+{a}{b}
+list0_map
+(xs, fopr) =
+auxmain(xs) where
+{
+//
+fun
+auxmain
+(
+xs: list0(a)
+) : list0(b) =
+(
+case+ xs of
+| list0_nil() => list0_nil()
+| list0_cons(x, xs) => list0_cons(fopr(x), auxmain(xs))
+)
+//
+} (* end of [list0_map] *)
+//
+')
+
+Clearly, this implementation is not tail-recursive. When applied to a
+long list (e.g., one consisting of 1000000 elements),
+#dyncode("list0_map") runs a high risk of causing stack overflow. This
+can become a very serious issue in practice if we ever want to apply
+functional programming to a domain like machine learning where
+processing large data is a norm rather than an exception. One
+possibility is to insist on using only tail-recursion in the
+implementation of a function like #dyncode("list0_map") that may need
+to be applied to large data, but such a requirement or restriction can
+clearly exert negative impact on the use of recursion in
+problem-solving. After all, there are numerous algorithms that are
+natrually expressed in terms of (general) recursion. And non-trivial
+effort is often needed in order to implement such an algorithm based
+on tail-recursion only, likely diminishing programming productivity.
+
+")
+
+#para("\
+
+Another implementation of #dyncode("list0_map") is given as follows:
+
+#dats2xhtml('\
+//
+implement
+{a}{b}
+list0_map(xs, fopr) = let
+//
+fun
+auxmain
+(
+xs: list0(a)
+) : stream(b) = $delay
+(
+case+ xs of
+| list0_nil() => stream_nil()
+| list0_cons(x, xs) => stream_cons(fopr(x), auxmain(xs))
+)
+//
+in
+  g0ofg1(stream2list(auxmain(xs)))
+end // end of [list0_map]
+//
+')
+
+What is special about this implementation of #dyncode("list0_map")
+lies in the implementation of of the inner function
+#dyncode("auxmain"), which turns a list into a stream. Calling
+#dyncode("auxmain") runs no risk of stack overflow as it simply
+creates a thunk (without issuing any recursive calls).  The library
+function #dyncode("stream2list") turns a stream into a (linear) list,
+which can be cast into a list0-value in O(1)-time by a call to
+#dyncode("g0ofg1"). As #dyncode("stream2list") is implemented
+tail-recursively, it can be safely called to generate a long list.
+Consequently, this stream-based implementation of
+#dyncode("list0_map") can be applied to a long list with no concern of
+causing stack overflow.
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/10/CODE", "on-line") the entirety of
 the code used in this chapter. \
 
