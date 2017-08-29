@@ -105,7 +105,7 @@ overload array0 with array0_make_arrpsz
 fun{}
 array0_make_arrayref
   {a:vt0p}{n:int}
-  (A: arrayref(a, n), n: size_t (n)):<!wrt> array0(a)
+  (A: arrayref(a, n), n: size_t(n)):<!wrt> array0(a)
 overload array0 with array0_make_arrayref
 //
 (* ****** ****** *)
@@ -122,15 +122,28 @@ array0_get_refsize
 //
 (* ****** ****** *)
 //
+symintr
+array0_make_elt
+//
 fun{a:t0p}
-array0_make_elt (asz: size_t, x: a):<!wrt> array0(a)
+array0_make_elt_int
+  (asz: int, x0: a):<!wrt> array0(a)
+//
+fun{a:t0p}
+array0_make_elt_size
+  (asz: size_t, x0: a):<!wrt> array0(a)
+//
+overload
+array0_make_elt with array0_make_elt_int
+overload
+array0_make_elt with array0_make_elt_size
 //
 (* ****** ****** *)
 //
 fun{a:t0p}
-array0_make_list (xs: list0(INV(a))):<!wrt> array0(a)
+array0_make_list(xs: list0(INV(a))):<!wrt> array0(a)
 fun{a:t0p}
-array0_make_rlist (xs: list0(INV(a))):<!wrt> array0(a)
+array0_make_rlist(xs: list0(INV(a))):<!wrt> array0(a)
 //
 (* ****** ****** *)
 
@@ -144,10 +157,12 @@ array0_make_subarray
 fun{a:t0p}
 array0_get_at_size
   (A: array0(a), i: size_t):<!exnref> (a)
-fun{a:t0p}{tk:tk}
+fun
+{a:t0p}{tk:tk}
 array0_get_at_gint
   (A: array0(a), i: g0int(tk)):<!exnref> (a)
-fun{a:t0p}{tk:tk}
+fun
+{a:t0p}{tk:tk}
 array0_get_at_guint
   (A: array0(a), i: g0uint(tk)):<!exnref> (a)
 //
@@ -161,10 +176,12 @@ overload array0_get_at with array0_get_at_guint
 fun{a:t0p}
 array0_set_at_size
   (A: array0(a), i: size_t, x: a):<!exnrefwrt> void
-fun{a:t0p}{tk:tk}
+fun
+{a:t0p}{tk:tk}
 array0_set_at_gint
   (A: array0(a), i: g0int(tk), x: a):<!exnrefwrt> void
-fun{a:t0p}{tk:tk}
+fun
+{a:t0p}{tk:tk}
 array0_set_at_guint
   (A: array0(a), i: g0uint(tk), x: a):<!exnrefwrt> void
 //
@@ -178,10 +195,13 @@ overload array0_set_at with array0_set_at_guint
 fun{a:vt0p}
 array0_exch_at_size
   (A: array0(a), i: size_t, x: &a >> _):<!exnrefwrt> void
-fun{a:vt0p}{tk:tk}
+//
+fun
+{a:vt0p}{tk:tk}
 array0_exch_at_gint
   (A: array0(a), i: g0int(tk), x: &a >> _):<!exnrefwrt> void
-fun{a:vt0p}{tk:tk}
+fun
+{a:vt0p}{tk:tk}
 array0_exch_at_guint
   (A: array0(a), i: g0uint(tk), x: &a >> _):<!exnrefwrt> void
 //

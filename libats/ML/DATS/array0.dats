@@ -114,16 +114,29 @@ array0_make_arrayref
 end // end of [array0_make_arrpsz]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
-array0_make_elt
+array0_make_elt_int
   (asz, x0) = let
-  val ASZ =
-    arrszref_make_elt<a>(asz, x0) in array0_of_arrszref(ASZ)
-  // end of [val]
-end // end of [array0_make_elt]
-
+//
+  val asz = max(g1ofg0(asz), 0)
+//
+in
+//
+array0_of_arrszref{a}
+  (arrszref_make_elt<a>(i2sz(asz), x0))
+//
+end // end of [array0_make_elt_int]
+//
+implement
+{a}(*tmp*)
+array0_make_elt_size
+  (asz, x0) =
+(
+array0_of_arrszref(arrszref_make_elt<a>(asz, x0))
+) (* end of [array0_make_elt_size] *)
+//
 (* ****** ****** *)
 
 implement
@@ -131,7 +144,8 @@ implement
 array0_make_list
   (xs) = let
   val xs = g1ofg0(xs)
-  val ASZ = arrszref_make_list (xs) in array0_of_arrszref (ASZ)
+in
+  array0_of_arrszref{a}(arrszref_make_list<a>(xs))
 end // end of [array0_make_list]
 
 (* ****** ****** *)
@@ -141,7 +155,8 @@ implement
 array0_make_rlist
   (xs) = let
   val xs = g1ofg0(xs)
-  val ASZ = arrszref_make_rlist (xs) in array0_of_arrszref (ASZ)
+in
+  array0_of_arrszref{a}(arrszref_make_rlist<a>(xs))
 end // end of [array0_make_rlist]
 
 (* ****** ****** *)
@@ -153,19 +168,21 @@ array0_make_subarray
 //
 val st = g1ofg0(st)
 val ln = g1ofg0(ln)
-val [n:int] (A, asz) = array0_get_refsize (A0)
+//
+val [n:int]
+  (A, asz) = array0_get_refsize(A0)
 //
 val [st:int] st =
-  (if st <= asz then st else asz): sizeLte (n)
+  (if st <= asz then st else asz): sizeLte(n)
 val [ln:int] ln =
-  (if st + ln <= asz then ln else asz - st): sizeLte (n-st)
+  (if st + ln <= asz then ln else asz - st): sizeLte(n-st)
 //
-val A2 = arrayptr_make_uninitized<a> (ln)
-val p2 = memcpy (ptrcast(A2), ptr_add<a> (ptrcast(A), st), ln*sizeof<a>)
+val A2 = arrayptr_make_uninitized<a>(ln)
+val p2 = memcpy (ptrcast(A2), ptr_add<a>(ptrcast(A), st), ln*sizeof<a>)
 val A2 = $UN.castvwtp0{arrayref(a,ln)}(A2)
 //
 in
-  array0_make_arrayref (A2, ln)
+  array0_make_arrayref{a}(A2, ln)
 end // end of [array0_make_subarray]
 
 (* ****** ****** *)
@@ -173,22 +190,22 @@ end // end of [array0_make_subarray]
 implement
 {a}(*tmp*)
 print_array0 (A) =
-  fprint_array0<a> (stdout_ref, A)
+  fprint_array0<a>(stdout_ref, A)
 //
 implement
 {a}(*tmp*)
 prerr_array0 (A) =
-  fprint_array0<a> (stderr_ref, A)
+  fprint_array0<a>(stderr_ref, A)
 //
 implement
 {a}(*tmp*)
 fprint_array0 (out, A) =
-  fprint_arrszref (out, arrszref_of_array0(A))
+fprint_arrszref<a>(out, arrszref_of_array0(A))
 //
 implement
 {a}(*tmp*)
 fprint_array0_sep (out, A, sep) =
-  fprint_arrszref_sep (out, arrszref_of_array0(A), sep)
+fprint_arrszref_sep<a>(out, arrszref_of_array0(A), sep)
 //
 (* ****** ****** *)
 
@@ -199,7 +216,7 @@ array0_get_at_gint
 in
 //
 if i >= 0 then
-  array0_get_at_size (A0, g0i2u(i))
+  array0_get_at_size<a>(A0, g0i2u(i))
 else
   $raise ArraySubscriptExn() // neg index
 //
@@ -210,49 +227,47 @@ implement
 array0_get_at_guint
   (A0, i) = let
 in
-  array0_get_at_size (A0, g0u2u(i))
+  array0_get_at_size<a>(A0, g0u2u(i))
 end // end of [array0_get_at_guint]
 
 implement
 {a}(*tmp*)
 array0_get_at_size
-  (A0, i) = let
-  val ASZ =
-    arrszref_of_array0 (A0) in arrszref_get_at_size (ASZ, i)
-  // end of [val]
-end // end of [array0_get_at_size]
+  (A0, i) =
+(
+  arrszref_get_at_size<a>(arrszref_of_array0(A0), i)
+) // end of [array0_get_at_size]
 
 (* ****** ****** *)
 
 implement
 {a}{tk}
 array0_set_at_gint
-  (A0, i, x) = let
-in
+  (A0, i, x) =
+(
 //
 if i >= 0 then
-  array0_set_at_size (A0, g0i2u(i), x)
+  array0_set_at_size<a>(A0, g0i2u(i), x)
 else
   $raise ArraySubscriptExn() // neg index
 //
-end // end of [array0_set_at_gint]
+) // end of [array0_set_at_gint]
 
 implement
 {a}{tk}
 array0_set_at_guint
   (A0, i, x) =
 (
-  array0_set_at_size (A0, g0u2u(i), x)
+  array0_set_at_size<a>(A0, g0u2u(i), x)
 ) // end of [array0_set_at_guint]
 
 implement
 {a}(*tmp*)
 array0_set_at_size
-  (A0, i, x) = let
-  val ASZ =
-    arrszref_of_array0 (A0) in arrszref_set_at_size (ASZ, i, x)
-  // end of [val]
-end // end of [array0_set_at_size]
+  (A0, i, x) =
+(
+  arrszref_set_at_size<a>(arrszref_of_array0(A0), i, x)
+) // end of [array0_set_at_size]
 
 (* ****** ****** *)
 
@@ -263,7 +278,7 @@ array0_exch_at_gint
 in
 //
 if i >= 0 then
-  array0_exch_at_size (A0, g0i2u(i), x)
+  array0_exch_at_size<a>(A0, g0i2u(i), x)
 else
   $raise ArraySubscriptExn() // neg index
 //
@@ -274,17 +289,16 @@ implement
 array0_exch_at_guint
   (A0, i, x) =
 (
-  array0_exch_at_size (A0, g0u2u(i), x)
+  array0_exch_at_size<a>(A0, g0u2u(i), x)
 ) // end of [array0_exch_at_guint]
 
 implement
 {a}(*tmp*)
 array0_exch_at_size
-  (A0, i, x) = let
-  val ASZ =
-    arrszref_of_array0 (A0) in arrszref_exch_at_size (ASZ, i, x)
-  // end of [val]
-end // end of [array0_exch_at_size]
+  (A0, i, x) =
+(
+  arrszref_exch_at_size (arrszref_of_array0(A0), i, x)
+) // end of [array0_exch_at_size]
 
 (* ****** ****** *)
 

@@ -119,6 +119,26 @@ inefficiency both time-wise and memory-wise.
 
 #para("\
 
+There is a type constructor #stacode("array0") in ATS that takes a
+type T to form the array type #stacode("array0(T)") for an array
+storing elements of the type T. We refer to such an array as an
+array0-value, which is essentially a pair containing a pointer (to the
+memory where elements are stored) and an integer (indicating the
+capacity of the array that cannot be changed). For instance, the
+following function can be called to create an array0-value:
+
+#sats2xhtml('\
+
+fun
+{a:t@ype}
+array0_make_elt(n: 
+
+')
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/08/CODE", "on-line") the entirety of
 the code used in this chapter. \
 
