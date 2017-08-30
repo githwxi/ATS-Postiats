@@ -123,17 +123,40 @@ There is a type constructor #stacode("array0") in ATS that takes a
 type T to form the array type #stacode("array0(T)") for an array
 storing elements of the type T. We refer to such an array as an
 array0-value, which is essentially a pair containing a pointer (to the
-memory where elements are stored) and an integer (indicating the
-capacity of the array that cannot be changed). For instance, the
+memory location where elements are stored) and an integer (indicating
+the capacity of the array that cannot be changed). For instance, the
 following function can be called to create an array0-value:
 
 #sats2xhtml('\
-
+//
 fun
 {a:t@ype}
-array0_make_elt(n: 
-
+array0_make_elt(asz: int, x0: a): array0(a)
+//
 ')
+
+Given a non-negative integer #dyncode("asz") and an element
+#dyncode("x0"), #dyncode("array0_make_elt") returns an array0-value in
+which the array is of size #dyncode("asz") and each of its cells is
+initialized with #dyncode("x0").
+
+The functions #dyncode("array0_get_at") and #dyncode("array0_set_at")
+are for fetching and updating the value stored in an array0-value at a
+given index:
+
+#sats2xhtml('\
+//
+fun
+{a:t@ype}
+array0_get_at(A: array0(a), i: int): a
+fun
+{a:t@ype}
+array0_set_at(A: array0(a), i: int, x: a): void
+//
+')
+
+Note that #dyncode("[]") is overloaded with both #dyncode("array0_get_at")
+and #dyncode("array0_set_at").
 
 ")
 
