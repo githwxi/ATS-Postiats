@@ -682,29 +682,37 @@ d23explst_open_and_add
   d23es: !list_vt (d23exp, n)
 ) : void = let
 //
-fn f (d23e: !d23exp): void =
+fn
+fopr
+(
+  d23e: !d23exp
+) : void = (
+//
   case+ d23e of
   | D23Ed2exp d2e => let
-      prval () = fold@ (d23e) in (*nothing*)
+      prval () = fold@(d23e) in (*nothing*)
     end // end of [D23Ed2exp]
   | D23Ed3exp d3e => let
-      val () = d3exp_open_and_add (d3e) in fold@ (d23e)
+      val () =
+        d3exp_open_and_add(d3e) in fold@(d23e)
+      // end of [val]
     end // end of [D23Ed3exp]
-(* end of [f] *)
+//
+) (* end of [fopr] *)
 //
 in
   case+ d23es of
+  | list_vt_nil() => let
+      prval () = fold@(d23es) in (*nothing*)
+    end // end of [list_nil]
   | list_vt_cons
       (!p_d23e, !p_d23es) => let
-      val () = f (!p_d23e)
-      val () = d23explst_open_and_add (!p_d23es)
-      prval () = fold@ (d23es)
+      val () = fopr(!p_d23e)
+      val () = d23explst_open_and_add(!p_d23es)
+      prval ((*folded*)) = fold@(d23es)
     in
       // nothing
     end // end of [cons]
-  | list_vt_nil () => let
-      prval () = fold@ (d23es) in (*nothing*)
-    end // end of [list_nil]
 end // end of [d23explst_open_and_add]
 
 (* ****** ****** *)
@@ -746,43 +754,45 @@ case+ d23es of
 | ~list_vt_nil () =>
   (
     case+ s2es of
+    | list_nil() => list_nil()
     | list_cons _ => let
-        val () = err := err - 1 in list_nil ()
+        val () = err := err - 1 in list_nil()
       end // end of [list_cons]
-    | list_nil () => list_nil ()
   ) (* end of [list_vt_nil] *)
 | ~list_vt_cons
     (d23e, d23es) =>
   (
     case+ s2es of
-    | list_nil () => let
+    | list_nil() => let
         val () = err := err + 1
-        val () = d23exp_free (d23e)
-        val () = d23explst_free (d23es)
+        val () = d23exp_free(d23e)
+        val () = d23explst_free(d23es)
       in
-        list_nil ()
+        list_nil()
       end // end of [list_nil]
-    | list_cons (s2e, s2es) => let
+    | list_cons
+        (s2e, s2es) => let
         val d3e = (
           case+ d23e of
-          | ~D23Ed2exp (d2e) => d2exp_trdn (d2e, s2e)
-          | ~D23Ed3exp (d3e) => d3exp_trdn (d3e, s2e)
+          | ~D23Ed2exp(d2e) => d2exp_trdn(d2e, s2e)
+          | ~D23Ed3exp(d3e) => d3exp_trdn(d3e, s2e)
         ) : d3exp // end of [val]
-        val d3es = aux (d23es, s2es, err)
+        val d3es = aux(d23es, s2es, err)
       in
-        list_cons (d3e, d3es)
+        list_cons(d3e, d3es)
       end // end of [list_cons]
   ) (* end of [list_vt_cons] *)
 end // end of [aux]
 //
 var serr: int = 0
-val d3es = aux (d23es, s2es, serr)
+val d3es = aux(d23es, s2es, serr)
+//
 val () =
 if
 (serr != 0)
 then let
   val () =
-    prerr_error3_loc (locarg)
+    prerr_error3_loc(locarg)
   val () =
     filprerr_ifdebug "d23explst_trdn"
   val () = prerr ": arity mismatch"
@@ -790,7 +800,7 @@ then let
   val () = if serr > 0 then prerr ": fewer arguments are expected."
   val () = prerr_newline ((*void*))
 in
-  the_trans3errlst_add (T3E_d23explst_trdn_arity (locarg, serr))
+  the_trans3errlst_add(T3E_d23explst_trdn_arity (locarg, serr))
 end // end of [then]
 //
 in
@@ -1785,18 +1795,21 @@ case+ p2ts of
 | list_nil() =>
   list_vt_nil()
 | list_cons
-    (p2t, p2ts) => let
-    val-
-    list_cons
-      (s2e, s2es) = s2es
-    // end of [val]
+    (p2t, p2ts) =>
+  (
+  case+ s2es of
+  | list_nil() =>
+    list_vt_nil()
+  | list_cons
+      (s2e, s2es) => let
     val p2tc = p2at2cst(p2t)
     val ((*void*)) =
       auxlinck(p2t, p2tc, s2e)
     // end of [val]
   in
     list_vt_cons(p2tc, auxlst(p2ts, s2es))
-  end
+  end // end of [list_cons]
+  )
 //
 and
 auxlinck

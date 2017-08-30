@@ -155,8 +155,120 @@ array0_set_at(A: array0(a), i: int, x: a): void
 //
 ')
 
-Note that #dyncode("[]") is overloaded with both #dyncode("array0_get_at")
-and #dyncode("array0_set_at").
+Note that #dyncode("array0_get_at") raises an exception
+(#dyncode("ArraySubscriptExn()")) if the given index is invalid, that
+is, not between 0 and the array size minus 1, inclusive.  And the same
+happens with respect to #dyncode("array0_set_at") as well.  Also note
+that #dyncode("[]") is overloaded with both #dyncode("array0_get_at")
+and #dyncode("array0_set_at").  For instance, evaluating the following
+code prints out two lines: the first consisting of the text
+#dyncode("000") and the second consisting of the text #dyncode("123"):
+
+#dats2xhtml('\
+//
+val A =
+array0_make_elt<int>(3, 0)
+//
+val () =
+println! (A[0], A[1], A[2])
+//
+val () = A[0] := 1
+val () = A[1] := A[0] + 1
+val () = A[2] := A[1] + 1
+//
+val () =
+println! (A[0], A[1], A[2])
+//
+')
+
+")
+
+#para("\
+
+Like list0-values, there are many commonly used functions for
+processing array0-values. For instance, the following function
+#dyncode("array0_foreach") corresponds to the previouly presented
+#dyncode("list0_foreach"):
+
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+array0_foreach
+(A: array0(a), fwork: cfun(a, void)): void
+//
+implement
+{a}(*tmp*)
+array0_foreach(A, fwork) =
+(
+  int_foreach(sz2i(A.size()), lam(i) => fwork(A[i]))
+) (* end of [array0_foreach] *)
+//
+')
+
+Given an array0-value #dyncode("A"), the expression
+#dyncode("A.size()") is written in dot-notation, which returns the
+size of the array contained in #dyncode("A"). The name #dyncode("sz2i")
+refers to a cast function from the type #stacode("size_t") to the type
+#stacode("int").
+
+")
+
+#para("\
+
+The following function
+#dyncode("array0_foldleft") corresponds to the previouly presented
+#dyncode("list0_foldleft"):
+
+#dats2xhtml('\
+//
+extern
+fun
+{r:t@ype}
+{a:t@ype}
+array0_foldleft
+(A: array0(a), r0: r, fopr: cfun(r, a, r)): r
+//
+implement
+{r}{a}
+array0_foldleft
+  (A, r0, fopr) =
+(
+//
+int_foldleft<r>
+  (sz2i(A.size()), r0, lam(r, i) => fopr(r, A[i]))
+//
+) (* end of [array0_foldleft] *)
+//
+')
+
+The following function
+#dyncode("array0_foldright") corresponds to the previouly presented
+#dyncode("list0_foldright"):
+
+#dats2xhtml('\
+//
+extern
+fun
+{r:t@ype}
+{a:t@ype}
+array0_foldright
+(A: array0(a), fopr: cfun(a, r, r), r0: r): r
+//
+implement
+{r}{a}
+array0_foldright
+  (A, fopr, r0) = let
+  val asz = sz2i(A.size())
+in
+  int_foldleft<r>(asz, r0, lam(r, i) => fopr(A[asz-i-1], r))
+end (* end of [array0_foldright] *)
+//
+')
+
+Unlike #dyncode("list0_foldright"), #dyncode("array0_foldright")
+is tail-recursive.
 
 ")
 

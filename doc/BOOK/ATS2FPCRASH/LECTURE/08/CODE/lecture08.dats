@@ -61,6 +61,74 @@ end (* end of [fact_ref] *)
 val () = println! ("fact_ref(10) = ", fact_ref(10))
 
 (* ****** ****** *)
+//
+val A =
+array0_make_elt<int>(3, 0)
+//
+val () =
+println! (A[0], A[1], A[2])
+//
+val () = A[0] := 1
+val () = A[1] := A[0] + 1
+val () = A[2] := A[1] + 1
+//
+val () =
+println! (A[0], A[1], A[2])
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+array0_foreach
+(A: array0(a), fwork: cfun(a, void)): void
+//
+implement
+{a}(*tmp*)
+array0_foreach(A, fwork) =
+(
+  int_foreach(sz2i(A.size()), lam(i) => fwork(A[i]))
+) (* end of [array0_foreach] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{r:t@ype}
+{a:t@ype}
+array0_foldleft
+(A: array0(a), r0: r, fopr: cfun(r, a, r)): r
+//
+implement
+{r}{a}
+array0_foldleft
+  (A, r0, fopr) =
+(
+//
+int_foldleft<r>
+  (sz2i(A.size()), r0, lam(r, i) => fopr(r, A[i]))
+//
+) (* end of [array0_foldleft] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{r:t@ype}
+{a:t@ype}
+array0_foldright
+(A: array0(a), fopr: cfun(a, r, r), r0: r): r
+//
+implement
+{r}{a}
+array0_foldright
+  (A, fopr, r0) = let
+  val asz = sz2i(A.size())
+in
+  int_foldleft<r>(asz, r0, lam(r, i) => fopr(A[asz-i-1], r))
+end (* end of [array0_foldright] *)
+//
+(* ****** ****** *)
 
 implement main0() = () // a dummy for [main]
 
