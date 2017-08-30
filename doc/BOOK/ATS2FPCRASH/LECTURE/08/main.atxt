@@ -274,6 +274,19 @@ is tail-recursive.
 
 #para("\
 
+In practice, matrices (that is, two dimensional arrays) are also a
+very common data structure. In ATS, there is a type constructor
+#stacode("matrix0"), which takes a type T to form the type
+#stacode("matrix0(T)") for a matrix storing elements of the type T. We
+refer to such a matrix as a matrix0-value, which is essentially a
+tuple containing a pointer (to the memory location where elements are
+stored) and two integers (indicating the two dimensions of the matrix
+that cannot be changed).
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/08/CODE", "on-line") the entirety of
 the code used in this chapter. \
 
