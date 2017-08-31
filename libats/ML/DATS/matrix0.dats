@@ -215,7 +215,7 @@ fprint_matrix0_sep (out, M, sep1, sep2) =
 
 implement
 {a}(*tmp*)
-matrix0_copy (M0) = let
+matrix0_copy(M0) = let
 //
 val M = matrix0_get_ref (M0)
 val [m:int] m = g1ofg0 (M0.nrow())
@@ -235,16 +235,23 @@ end // end of [matrix0_copy]
 implement
 {a}(*tmp*)
 matrix0_tabulate
-  (nrow, ncol, f) = let
+{m,n}
+(nrow, ncol, fopr) = let
 //
-implement{a2}
+implement
+{a2}(*tmp*)
 matrix_tabulate$fopr
-  (i, j) = $UN.castvwtp0{a2}(f(i,j))
-//
-val MSZ = mtrxszref_tabulate<a>(nrow, ncol)
+  (i, j) = let
+  val i =
+  $UN.cast{sizeLt(m)}(i)
+  val j =
+  $UN.cast{sizeLt(n)}(j)
+in  
+  $UN.castvwtp0{a2}(fopr(i,j))
+end // end of [matrix_tabulate$fopr]
 //
 in
-  matrix0_of_mtrxszref{a}(MSZ)  
+  matrix0_of_mtrxszref{a}(mtrxszref_tabulate<a>(nrow, ncol))
 end // end of [matrix0_tabulate]
 
 (* ****** ****** *)

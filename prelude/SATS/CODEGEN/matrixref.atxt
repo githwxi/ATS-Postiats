@@ -193,11 +193,12 @@ matrixref_copy
 
 (*
 fun{a:vt0p}
-matrix_tabulate$fopr (i: size_t, j: size_t): (a)
+matrix_tabulate$fopr(i: size_t, j: size_t): (a)
 *)
 fun{a:vt0p}
 matrixref_tabulate
-  {m,n:int} (nrow: size_t m, ncol: size_t n): matrixref(a, m, n)
+  {m,n:int}
+  (nrow: size_t m, ncol: size_t n): matrixref(a, m, n)
 //
 fun{a:vt0p}
 matrixref_tabulate_cloref

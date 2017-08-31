@@ -165,14 +165,16 @@ fprint_matrix0_sep
 (* ****** ****** *)
 
 fun{a:t0p}
-matrix0_copy (M: matrix0(a)): matrix0(a)
+matrix0_copy(M: matrix0(a)): matrix0(a)
 
 (* ****** ****** *)
 
-fun{a:vt0p}
+fun
+{a:vt0p}
 matrix0_tabulate
+  {m,n:nat}
 (
-  nrow: size_t, ncol: size_t, f: cfun (size_t, size_t, a)
+  nrow: size_t(m), ncol: size_t(n), f: cfun(sizeLt(m), sizeLt(n), a)
 ) : matrix0(a) // end-of-fun
 
 (* ****** ****** *)

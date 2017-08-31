@@ -147,6 +147,58 @@ in
 end (* end of [matrix0_foreach] *)
 //
 (* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+matrix0_iforeach
+(M: matrix0(a), fwork: cfun(int, int, a, void)): void
+//
+implement
+{a}(*tmp*)
+matrix0_iforeach
+  (M, fwork) = let
+  val nrow = sz2i(M.nrow())
+  val ncol = sz2i(M.ncol())
+in
+  int_cross_foreach(nrow, ncol, lam(i, j) => fwork(i, j, M[i,j]))
+end (* end of [matrix0_iforeach] *)
+//
+(* ****** ****** *)
+
+implement
+(a:t@ype)
+fprint_matrix0_sep<a>
+(
+  out, M, sep1, sep2
+) = let
+//
+val ncol = sz2i(M.ncol())
+//
+in
+matrix0_iforeach<a>
+( M
+, lam(i, j, x) =>
+  (
+   if j > 0 then fprint(out, sep1);
+   fprint_val<a>(out, x);
+   if j+1=ncol then fprint(out, sep2)
+  )
+)
+end // end of [fprint_matrix0]
+
+(* ****** ****** *)
+//
+val M0 =
+matrix0_tabulate<int>
+( i2sz(5)
+, i2sz(5)
+, lam(i, j) => sz2i(max(i, j)) + 1
+)
+//
+val () = fprint_matrix0_sep<int>(stdout_ref, M0, ",", "\n")
+//
+(* ****** ****** *)
 
 implement main0() = () // a dummy for [main]
 

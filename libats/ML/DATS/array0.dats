@@ -434,7 +434,7 @@ array0_map_method
 implement
 {a}(*tmp*)
 array0_tabulate
-  {n}(asz, f) = let
+{n}(asz, f) = let
 //
 implement{a2}
 array_tabulate$fopr
