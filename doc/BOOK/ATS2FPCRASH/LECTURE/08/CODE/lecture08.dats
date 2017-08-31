@@ -143,7 +143,7 @@ matrix0_foreach
   val nrow = sz2i(M.nrow())
   val ncol = sz2i(M.ncol())
 in
-  int_foreach(nrow, lam(i) => int_foreach(ncol, lam(j) => fwork(M[i,j])))
+  int_cross_foreach(nrow, ncol, lam(i, j) => fwork(M[i,j]))
 end (* end of [matrix0_foreach] *)
 //
 (* ****** ****** *)

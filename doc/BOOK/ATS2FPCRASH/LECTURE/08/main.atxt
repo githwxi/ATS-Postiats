@@ -144,6 +144,26 @@ initialized with #dyncode("x0").
 
 #para("\
 
+Another commonly used function for creating an array0-value
+is #dyncode("array0_tabulate") of the following interface:
+
+#sats2xhtml('\
+//
+fun
+{a:t@ype}
+array0_tabulate(asz: int, fopr: cfun(int, a)): array0(a)
+//
+')
+
+Given a non-negative integer #dyncode("asz") and a closure-function
+#dyncode("fopr"), #dyncode("array0_tabulate") returns an array0-value
+in which the array is of size #dyncode("asz") and the array cells are
+initialized with the values of #dyncode("fopr") at the valid indices.
+
+")
+
+#para("\
+
 The functions #dyncode("array0_get_at") and #dyncode("array0_set_at")
 are for fetching and updating the value stored in an array0-value at a
 given index:
@@ -307,6 +327,29 @@ matrix0-value in which the matrix is of dimension #dyncode("m") by
 
 #para("\
 
+Like #dyncode("array0_tabulate"), the following function
+#dyncode("matrix0_tabulate") is often called to create a
+matrix0-value:
+
+#sats2xhtml('\
+//
+fun
+{a:t@ype}
+matrix0_tabulate
+  (nrow: int, ncol: int, fopr: cfun(int, int, a)): matrix0(a)
+//
+')
+
+Given two non-negative integers #dyncode("m") and #dyncode("n") and a
+closure-function #dyncode("fopr"), #dyncode("matrix0_tabulate")
+returns a matrix0-value in which the matrix is of dimension
+#dyncode("m") by #dyncode("n") and the matrix cells are initialized
+with the values of #dyncode("fopr") at the valid indices.
+
+")
+
+#para("\
+
 The functions #dyncode("matrix0_get_at") and
 #dyncode("matrix0_set_at") are for fetching and updating the value
 stored in a matrix0-value at a given position (represented by a row
@@ -353,7 +396,7 @@ matrix0_foreach
   val nrow = sz2i(M.nrow())
   val ncol = sz2i(M.ncol())
 in
-  int_foreach(nrow, lam(i) => int_foreach(ncol, lam(j) => fwork(M[i,j])))
+  int_cross_foreach(nrow, ncol, lam(i, j) => fwork(M[i,j]))
 end (* end of [matrix0_foreach] *)
 //
 ')
