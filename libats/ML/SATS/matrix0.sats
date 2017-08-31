@@ -83,12 +83,22 @@ mtrxszref_of_matrix0
   {a:vt0p} (M: matrix0 (a)):<> mtrxszref(a)
 //
 (* ****** ****** *)
-
-fun{a:t0p}
+//
+symintr
 matrix0_make_elt
+//
+fun{a:t0p}
+matrix0_make_elt_int
+  (nrow: int, ncol: int, init: a):<!wrt> matrix0(a)
+// end of [matrix0_make_elt]
+fun{a:t0p}
+matrix0_make_elt_size
   (nrow: size_t, ncol: size_t, init: a):<!wrt> matrix0(a)
 // end of [matrix0_make_elt]
-
+//
+overload matrix0_make_elt with matrix0_make_elt_int
+overload matrix0_make_elt with matrix0_make_elt_size
+//
 (* ****** ****** *)
 //
 fun{}

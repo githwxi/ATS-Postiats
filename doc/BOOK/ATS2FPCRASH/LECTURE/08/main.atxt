@@ -124,8 +124,8 @@ type T to form the array type #stacode("array0(T)") for an array
 storing elements of the type T. We refer to such an array as an
 array0-value, which is essentially a pair containing a pointer (to the
 memory location where elements are stored) and an integer (indicating
-the capacity of the array that cannot be changed). For instance, the
-following function can be called to create an array0-value:
+the capacity of the array). For instance, the following function can
+be called to create an array0-value:
 
 #sats2xhtml('\
 //
@@ -280,8 +280,23 @@ very common data structure. In ATS, there is a type constructor
 #stacode("matrix0(T)") for a matrix storing elements of the type T. We
 refer to such a matrix as a matrix0-value, which is essentially a
 tuple containing a pointer (to the memory location where elements are
-stored) and two integers (indicating the two dimensions of the matrix
-that cannot be changed).
+stored) and two integers (indicating the number of rows and the number
+of columns of the matrix). For instance, the following function can be
+called to create a matrix0-value:
+
+#sats2xhtml('\
+//
+fun
+{a:t@ype}
+matrix0_make_elt(nrow: int, ncol: int, x0: a): matrix0(a)
+//
+')
+
+Given two non-negative integers #dyncode("m") and #dyncode("n") and an
+element #dyncode("x0"), #dyncode("matrix0_make_elt") returns a
+matrix0-value in which the matrix is of dimension #dyncode("m") by
+#dyncode("n") and each of its cells is initialized with
+#dyncode("x0").
 
 ")
 
