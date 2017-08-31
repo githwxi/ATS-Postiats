@@ -140,6 +140,10 @@ Given a non-negative integer #dyncode("asz") and an element
 which the array is of size #dyncode("asz") and each of its cells is
 initialized with #dyncode("x0").
 
+")
+
+#para("\
+
 The functions #dyncode("array0_get_at") and #dyncode("array0_set_at")
 are for fetching and updating the value stored in an array0-value at a
 given index:
@@ -158,11 +162,12 @@ array0_set_at(A: array0(a), i: int, x: a): void
 Note that #dyncode("array0_get_at") raises an exception
 (#dyncode("ArraySubscriptExn()")) if the given index is invalid, that
 is, not between 0 and the array size minus 1, inclusive.  And the same
-happens with respect to #dyncode("array0_set_at") as well.  Also note
-that #dyncode("[]") is overloaded with both #dyncode("array0_get_at")
-and #dyncode("array0_set_at").  For instance, evaluating the following
-code prints out two lines: the first consisting of the text
-#dyncode("000") and the second consisting of the text #dyncode("123"):
+happens with respect to #dyncode("array0_set_at").  Also please note
+that the brackets #dyncode("[]") is overloaded with both
+#dyncode("array0_get_at") and #dyncode("array0_set_at").  For
+instance, evaluating the following code prints out two lines: the
+first consisting of the text #dyncode("000") and the second consisting
+of the text #dyncode("123"):
 
 #dats2xhtml('\
 //
@@ -296,7 +301,67 @@ Given two non-negative integers #dyncode("m") and #dyncode("n") and an
 element #dyncode("x0"), #dyncode("matrix0_make_elt") returns a
 matrix0-value in which the matrix is of dimension #dyncode("m") by
 #dyncode("n") and each of its cells is initialized with
-#dyncode("x0").
+#dyncode("x0").\
+
+")
+
+#para("\
+
+The functions #dyncode("matrix0_get_at") and
+#dyncode("matrix0_set_at") are for fetching and updating the value
+stored in a matrix0-value at a given position (represented by a row
+index and a column index):
+
+#sats2xhtml('\
+//
+fun{a:t0p}
+matrix0_get_at
+  (M: matrix0(a), i: int, j: int): a
+fun{a:t0p}
+matrix0_set_at
+  (M: matrix0(a), i: int, j: int, x: a): void
+//
+')
+
+Note that #dyncode("matrix0_get_at") raises an exception
+(#dyncode("MatrixSubscriptExn()")) if one of the given indices is
+invalid.  And the same happens with respect to
+#dyncode("matrix0_set_at"). Also please note that the brackets
+#dyncode("[]") is overloaded with both #dyncode("matrix0_get_at") and
+#dyncode("matrix0_set_at").
+
+")
+
+#para("\
+
+Like #dyncode("array0_foreach"),
+the following function #dyncode("matrix0_foreach") applies to each
+element in a given matrix #dyncode("M") a given function #dyncode("fwork"):
+
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+matrix0_foreach
+(M: matrix0(a), fwork: cfun(a, void)): void
+//
+implement
+{a}(*tmp*)
+matrix0_foreach
+  (M, fwork) = let
+  val nrow = sz2i(M.nrow())
+  val ncol = sz2i(M.ncol())
+in
+  int_foreach(nrow, lam(i) => int_foreach(ncol, lam(j) => fwork(M[i,j])))
+end (* end of [matrix0_foreach] *)
+//
+')
+
+The expression #dyncode("M.nrow()") is written in dot-notation, which
+returns the number of rows in the matrix contained in
+#dyncode("M"). And #dyncode("M.ncol()") is for the number of columns
+in the matrix.
 
 ")
 

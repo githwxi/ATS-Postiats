@@ -129,6 +129,24 @@ in
 end (* end of [array0_foldright] *)
 //
 (* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+matrix0_foreach
+(M: matrix0(a), fwork: cfun(a, void)): void
+//
+implement
+{a}(*tmp*)
+matrix0_foreach
+  (M, fwork) = let
+  val nrow = sz2i(M.nrow())
+  val ncol = sz2i(M.ncol())
+in
+  int_foreach(nrow, lam(i) => int_foreach(ncol, lam(j) => fwork(M[i,j])))
+end (* end of [matrix0_foreach] *)
+//
+(* ****** ****** *)
 
 implement main0() = () // a dummy for [main]
 
