@@ -257,6 +257,28 @@ in
 end // end of [matrix0_tabulate]
 
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+matrix0_tabulate_method_int
+  (nrow, ncol) =
+(
+lam(fopr) =>
+matrix0_tabulate<a>
+( i2sz(nrow)
+, i2sz(ncol), lam(i, j) => fopr(sz2i(i), sz2i(j))
+)
+)
+//
+implement
+{a}(*tmp*)
+matrix0_tabulate_method_size
+  (nrow, ncol) =
+(
+lam(fopr) => matrix0_tabulate<a>(nrow, ncol, fopr)
+)
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)

@@ -434,7 +434,7 @@ array0_map_method
 implement
 {a}(*tmp*)
 array0_tabulate
-{n}(asz, f) = let
+{n}(asz, fopr) = let
 //
 implement{a2}
 array_tabulate$fopr
@@ -444,15 +444,35 @@ array_tabulate$fopr
   $UN.cast{sizeLt(n)}(i)
 //
 in
-  $UN.castvwtp0{a2}(f(i))
+  $UN.castvwtp0{a2}(fopr(i))
 end // array_tabulate$fopr
 //
-val ASZ = arrszref_tabulate<a>(asz)
-//
 in
-  array0_of_arrszref{a}(ASZ)  
+//
+array0_of_arrszref(arrszref_tabulate<a>(asz))
+//
 end // end of [array0_tabulate]
 
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+array0_tabulate_method_int
+  (asz) =
+(
+lam(fopr) =>
+array0_tabulate<a>
+  (i2sz(asz), lam(i) => fopr(sz2i(i)))
+)
+//
+implement
+{a}(*tmp*)
+array0_tabulate_method_size
+  (asz) =
+(
+lam(fopr) => array0_tabulate<a>(asz, fopr)
+)
+//
 (* ****** ****** *)
 
 implement

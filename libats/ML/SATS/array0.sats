@@ -287,6 +287,28 @@ array0_tabulate
 //
 (* ****** ****** *)
 //
+fun
+{a:vt0p}
+array0_tabulate_method_int
+  {n:nat}
+(
+  asz: int(n))(fopr: (natLt(n)) -<cloref1> a
+) : array0(a) // end of [array0_tabulate_method_int]
+fun
+{a:vt0p}
+array0_tabulate_method_size
+  {n:int}
+(
+  asz: size_t(n))(fopr: (sizeLt(n)) -<cloref1> a
+) : array0(a) // end of [array0_tabulate_method_size]
+//
+overload
+.array0_tabulate with array0_tabulate_method_int
+overload
+.array0_tabulate with array0_tabulate_method_size
+//
+(* ****** ****** *)
+//
 (*
 ** HX:
 ** Raising NotFoundExn

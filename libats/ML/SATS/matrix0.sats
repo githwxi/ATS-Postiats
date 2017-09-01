@@ -168,25 +168,52 @@ fun{a:t0p}
 matrix0_copy(M: matrix0(a)): matrix0(a)
 
 (* ****** ****** *)
-
+//
 fun
 {a:vt0p}
 matrix0_tabulate
   {m,n:int}
 (
-  nrow: size_t(m), ncol: size_t(n), f: cfun(sizeLt(m), sizeLt(n), a)
-) : matrix0(a) // end-of-fun
-
+  nrow: size_t(m)
+, ncol: size_t(n)
+, fopr: cfun(sizeLt(m), sizeLt(n), a)
+) : matrix0(a) // end of [matrix0_tabulate]
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+matrix0_tabulate_method_int
+  {m,n:nat}
+(
+  nrow: int(m)
+, ncol: int(n))(fopr: cfun(natLt(m), natLt(n), a)
+) : matrix0(a) // end of [matrix0_tabulate_method_int]
+//
+fun
+{a:vt0p}
+matrix0_tabulate_method_size
+  {m,n:int}
+(
+  nrow: size_t(m)
+, ncol: size_t(n))(fopr: cfun(sizeLt(m), sizeLt(n), a)
+) : matrix0(a) // end of [matrix0_tabulate_method_size]
+//
+overload
+.matrix0_tabulate with matrix0_tabulate_method_int
+overload
+.matrix0_tabulate with matrix0_tabulate_method_size
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
 matrix0_foreach
-  (M: matrix0(a), f: (&a >> _) -<cloref1> void): void
+  (M: matrix0(a), fwork: (&a >> _) -<cloref1> void): void
 // end of [matrix0_foreach]
 
 fun{a:vt0p}
 matrix0_iforeach
-  (M: matrix0(a), f: (size_t, size_t, &a >> _) -<cloref1> void): void
+  (M: matrix0(a), fwork: (size_t, size_t, &a >> _) -<cloref1> void): void
 // end of [matrix0_iforeach]
 
 (* ****** ****** *)
@@ -195,14 +222,14 @@ fun{
 res:vt0p}{a:vt0p
 } matrix0_foldleft
 (
-  M: matrix0(a), ini: res, f: (res, &a) -<cloref1> res
+  M: matrix0(a), ini: res, fopr: (res, &a) -<cloref1> res
 ) : res // end of [matrix0_foldleft]
 
 fun{
 res:vt0p}{a:vt0p
 } matrix0_ifoldleft
 (
-  M: matrix0(a), ini: res, f: (res, size_t, size_t, &a) -<cloref1> res
+  M: matrix0(a), ini: res, fopr: (res, size_t, size_t, &a) -<cloref1> res
 ) : res // end of [matrix0_ifoldleft]
 
 (* ****** ****** *)
