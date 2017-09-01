@@ -36,8 +36,8 @@
 #define
 ATS_PACKNAME "ATSLIB.libats.ML"
 //
-#define
-ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+#define // prefix for external
+ATS_EXTERN_PREFIX "atslib_ML_" // names
 //
 (* ****** ****** *)
 
@@ -76,11 +76,11 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 //
 fun{}
 matrix0_of_mtrxszref
-  {a:vt0p} (mtrxszref (a)):<> matrix0(a)
+  {a:vt0p}(mtrxszref (a)):<> matrix0(a)
 //
 fun{}
 mtrxszref_of_matrix0
-  {a:vt0p} (M: matrix0 (a)):<> mtrxszref(a)
+  {a:vt0p}(M: matrix0 (a)):<> mtrxszref(a)
 //
 (* ****** ****** *)
 //
@@ -102,12 +102,12 @@ overload matrix0_make_elt with matrix0_make_elt_size
 (* ****** ****** *)
 //
 fun{}
-matrix0_get_ref{a:vt0p} (M: matrix0 a):<> Ptr1
+matrix0_get_ref{a:vt0p}(M: matrix0 a):<> Ptr1
 //
 fun{}
-matrix0_get_nrow{a:vt0p} (M: matrix0 a):<> size_t
+matrix0_get_nrow{a:vt0p}(M: matrix0 a):<> size_t
 fun{}
-matrix0_get_ncol{a:vt0p} (M: matrix0 a):<> size_t
+matrix0_get_ncol{a:vt0p}(M: matrix0 a):<> size_t
 //
 fun{}
 matrix0_get_refsize
@@ -147,9 +147,9 @@ overload matrix0_set_at with matrix0_set_at_size
 (* ****** ****** *)
 //
 fun{a:vt0p}
-print_matrix0 (M: matrix0(a)): void
+print_matrix0(M: matrix0(a)): void
 fun{a:vt0p}
-prerr_matrix0 (M: matrix0(a)): void
+prerr_matrix0(M: matrix0(a)): void
 //
 (*
 fprint_matrix$sep1 // col separation
@@ -172,7 +172,7 @@ matrix0_copy(M: matrix0(a)): matrix0(a)
 fun
 {a:vt0p}
 matrix0_tabulate
-  {m,n:nat}
+  {m,n:int}
 (
   nrow: size_t(m), ncol: size_t(n), f: cfun(sizeLt(m), sizeLt(n), a)
 ) : matrix0(a) // end-of-fun
@@ -215,19 +215,21 @@ overload .nrow with matrix0_get_nrow
 overload .ncol with matrix0_get_ncol
 
 (* ****** ****** *)
-
+//
 overload [] with matrix0_get_at_int of 0
-overload [] with matrix0_get_at_size of 0
 overload [] with matrix0_set_at_int of 0
+//
+overload [] with matrix0_get_at_size of 0
 overload [] with matrix0_set_at_size of 0
-
+//
 (* ****** ****** *)
-
+//
 overload print with print_matrix0
 overload prerr with print_matrix0
+//
 overload fprint with fprint_matrix0
 overload fprint with fprint_matrix0_sep
-
+//
 (* ****** ****** *)
 
 (* end of [matrix0.sats] *)

@@ -203,12 +203,12 @@ prerr_matrix0 (A) =
 //
 implement
 {a}(*tmp*)
-fprint_matrix0 (out, M) =
+fprint_matrix0(out, M) =
   fprint_mtrxszref<a>(out, mtrxszref_of_matrix0(M))
 //
 implement
 {a}(*tmp*)
-fprint_matrix0_sep (out, M, sep1, sep2) =
+fprint_matrix0_sep(out, M, sep1, sep2) =
   fprint_mtrxszref_sep<a>(out, mtrxszref_of_matrix0(M), sep1, sep2)
 //
 (* ****** ****** *)
@@ -217,9 +217,11 @@ implement
 {a}(*tmp*)
 matrix0_copy(M0) = let
 //
-val M = matrix0_get_ref (M0)
-val [m:int] m = g1ofg0 (M0.nrow())
-val [n:int] n = g1ofg0 (M0.ncol())
+val M = matrix0_get_ref(M0)
+//
+val [m:int] m = g1ofg0(M0.nrow())
+val [n:int] n = g1ofg0(M0.ncol())
+//
 val M =
   matrixref_copy<a>($UN.cast{matrixref(a,m,n)}(M), m, n)
 // end of [val]
