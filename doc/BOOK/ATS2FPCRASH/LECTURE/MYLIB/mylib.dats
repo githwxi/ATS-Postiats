@@ -208,7 +208,7 @@ extern
 fun
 {a:t@ype}
 list0_get_at_exn
-(xs: list0(a), n: int): a
+(xs: list0(INV(a)), n: int): a
 //
 implement
 {a}(*tmp*)
@@ -506,7 +506,8 @@ extern
 fun
 {a:t@ype}
 list0_mapcons
-  (x0: a, xss: list0(list0(a))): list0(list0(a))
+( x0: a
+, xss: list0(list0(a))): list0(list0(a))
 //
 implement
 {a}(*tmp*)
@@ -515,6 +516,24 @@ list0_mapcons
 (
 list0_map<list0(a)><list0(a)>(xss, lam(xs) => list0_cons(x0, xs))
 ) (* list0_mapcons *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapjoin
+( xs: list0(INV(a))
+, fopr: cfun(a, list0(b))): list0(b)
+//
+implement
+{a}{b}
+list0_mapjoin
+  (xs, fopr) =
+(
+  list0_concat<b>(list0_map<a><list0(b)>(xs, fopr))
+)
 //
 (* ****** ****** *)
 

@@ -227,7 +227,7 @@ implement
 {a}(*tmp*)
 array0_foreach(A, fwork) =
 (
-  int_foreach(sz2i(A.size()), lam(i) => fwork(A[i]))
+  int_foreach<>(sz2i(A.size()), lam(i) => fwork(A[i]))
 ) (* end of [array0_foreach] *)
 //
 ')
@@ -321,7 +321,17 @@ Given two non-negative integers #dyncode("m") and #dyncode("n") and an
 element #dyncode("x0"), #dyncode("matrix0_make_elt") returns a
 matrix0-value in which the matrix is of dimension #dyncode("m") by
 #dyncode("n") and each of its cells is initialized with
-#dyncode("x0").\
+#dyncode("x0").
+
+")
+
+#para("\
+
+Please note that the so-called row-major representation is chosen for
+the matrix contained in each created matrix0-value. As the elements in
+each row are stored adjacently in row-major representation, it can be
+(much) more efficient to process the elements in the row-by-row fashion
+(compared to the column-by-column fashion) due to the memory-cache effect.
 
 ")
 
@@ -377,9 +387,9 @@ invalid.  And the same happens with respect to
 
 #para("\
 
-Like #dyncode("array0_foreach"),
-the following function #dyncode("matrix0_foreach") applies to each
-element in a given matrix #dyncode("M") a given function #dyncode("fwork"):
+Like #dyncode("array0_foreach"), the following function
+#dyncode("matrix0_foreach") applies to each element in a given matrix
+#dyncode("M") a given closure-function #dyncode("fwork"):
 
 #dats2xhtml('\
 //
@@ -396,7 +406,7 @@ matrix0_foreach
   val nrow = sz2i(M.nrow())
   val ncol = sz2i(M.ncol())
 in
-  int_cross_foreach(nrow, ncol, lam(i, j) => fwork(M[i,j]))
+  int_cross_foreach<>(nrow, ncol, lam(i, j) => fwork(M[i,j]))
 end (* end of [matrix0_foreach] *)
 //
 ')

@@ -743,6 +743,24 @@ overload * with list0_mapcons
 fun
 {a:t0p}
 {b:t0p}
+list0_mapjoin
+(
+  xs: list0(INV(a)), fopr: cfun(a, list0(b))
+) : list0(b) // end-of-function
+//
+fun
+{a:t0p}
+{b:t0p}
+list0_mapjoin_method
+(
+  xs: list0(INV(a)))(fopr: cfun(a, list0(b))
+) : list0(b) // end-of-function
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+{b:t0p}
 list0_imap
 (list0(INV(a)), fopr: cfun2(int, a, b)): list0(b)
 fun

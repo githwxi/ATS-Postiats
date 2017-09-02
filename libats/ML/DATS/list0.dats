@@ -1566,6 +1566,23 @@ in
 end // end of [list0_mapcons]
 
 (* ****** ****** *)
+//
+implement
+{a}{b}
+list0_mapjoin
+( xs
+, fopr
+) =
+  list0_concat<b>
+  (list0_map<a><list0(b)>(xs, fopr))
+//
+implement
+{a}{b}
+list0_mapjoin_method
+  (xs) =
+  lam(fopr) => list0_mapjoin<a><b>(xs, fopr)
+//
+(* ****** ****** *)
 
 implement
 {a}{b}

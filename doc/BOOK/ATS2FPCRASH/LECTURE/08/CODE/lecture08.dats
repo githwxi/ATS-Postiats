@@ -62,6 +62,15 @@ val () = println! ("fact_ref(10) = ", fact_ref(10))
 
 (* ****** ****** *)
 //
+(*
+extern
+fun
+{a:t@ype}
+array0_make_elt(asz: int, x0: a): array0(a)
+*)
+//
+(* ****** ****** *)
+//
 val A =
 array0_make_elt<int>(3, 0)
 //
@@ -87,7 +96,7 @@ implement
 {a}(*tmp*)
 array0_foreach(A, fwork) =
 (
-  int_foreach(sz2i(A.size()), lam(i) => fwork(A[i]))
+  int_foreach<>(sz2i(A.size()), lam(i) => fwork(A[i]))
 ) (* end of [array0_foreach] *)
 //
 (* ****** ****** *)
@@ -129,6 +138,14 @@ in
 end (* end of [array0_foldright] *)
 //
 (* ****** ****** *)
+(*
+//
+fun
+{a:t@ype}
+matrix0_make_elt(nrow: int, ncol: int, x0: a): matrix0(a)
+//
+*)
+(* ****** ****** *)
 //
 extern
 fun
@@ -143,7 +160,7 @@ matrix0_foreach
   val nrow = sz2i(M.nrow())
   val ncol = sz2i(M.ncol())
 in
-  int_cross_foreach(nrow, ncol, lam(i, j) => fwork(M[i,j]))
+  int_cross_foreach<>(nrow, ncol, lam(i, j) => fwork(M[i,j]))
 end (* end of [matrix0_foreach] *)
 //
 (* ****** ****** *)
@@ -161,7 +178,7 @@ matrix0_iforeach
   val nrow = sz2i(M.nrow())
   val ncol = sz2i(M.ncol())
 in
-  int_cross_foreach(nrow, ncol, lam(i, j) => fwork(i, j, M[i,j]))
+  int_cross_foreach<>(nrow, ncol, lam(i, j) => fwork(i, j, M[i,j]))
 end (* end of [matrix0_iforeach] *)
 //
 (* ****** ****** *)
