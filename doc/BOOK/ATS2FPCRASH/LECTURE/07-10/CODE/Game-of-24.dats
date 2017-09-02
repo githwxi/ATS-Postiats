@@ -26,9 +26,9 @@ list0_cons(,(x), list0_nil())
 (* ****** ****** *)
 //
 #define
-int2double g0int2float_int_double
+int2dbl g0int2float_int_double
 #define
-double2int g0float2int_double_int
+dbl2int g0float2int_double_int
 //
 (* ****** ****** *)
 //
@@ -66,7 +66,6 @@ case+ x0 of
 ) (* end of [eval_expr] *)
 //
 (* ****** ****** *)
-
 //
 extern
 fun
@@ -89,7 +88,7 @@ fprint_expr(out, x0) =
 (
 case x0 of
 | EXPRnum(v0) =>
-  fprint(out, double2int(v0))
+  fprint(out, dbl2int(v0))
 | EXPRbop(opr, x1, x2) =>
   fprint!(out, "(", x1, opr, x2, ")")
 )
@@ -169,15 +168,22 @@ val res = list0_reverse(res)
 //
 (* ****** ****** *)
 
-implement
-fprint_val<expr> = fprint_expr
+typedef task = exprlst
+typedef tasklst = list0(task)
 
 (* ****** ****** *)
 //
 extern
 fun
 do_one
-(xs: exprlst): list0(exprlst)
+(xs: task): tasklst
+//
+extern
+fun
+do_ones
+(n: int, xss: tasklst): tasklst
+//
+(* ****** ****** *)
 //
 implement
 do_one(xs) = let
@@ -194,13 +200,13 @@ println! ("|x1x2xss| = ", length(x1x2xss))
 //
 in
 //
-list0_mapjoin<$tup(exprlst, exprlst)><exprlst>
+list0_mapjoin<$tup(exprlst, exprlst)><task>
 (
 x1x2xss
 ,
 lam
 ($tup(x1x2, xs)) =>
-list0_map<expr><exprlst>
+list0_map<expr><task>
  (combine_expr_expr(x1x2[0], x1x2[1]), lam(x12) => list0_cons(x12, xs))
 )
 //
@@ -208,18 +214,13 @@ end // end of [do_one]
 //
 (* ****** ****** *)
 //
-extern
-fun
-do_ones
-(n: int, xss: list0(exprlst)): list0(exprlst)
-//
 implement
 do_ones(n, xss) =
 if n >= 2
   then
   do_ones
   ( n-1
-  , list0_mapjoin<exprlst><exprlst>(xss, lam(xs) => do_one(xs))
+  , list0_mapjoin<task><task>(xss, lam(xs) => do_one(xs))
   ) (* do_ones *)
   else xss
 //
@@ -228,19 +229,22 @@ if n >= 2
 extern
 fun
 play_game
-(n1: int, n2: int, n3: int, n4: int): list0(expr)
+( n1: int
+, n2: int
+, n3: int
+, n4: int): exprlst
 //
 implement
 play_game
   (n1, n2, n3, n4) = let
 //
-  val x1 = EXPRnum(int2double(n1))
-  val x2 = EXPRnum(int2double(n2))
-  val x3 = EXPRnum(int2double(n3))
-  val x4 = EXPRnum(int2double(n4))
+  val x1 = EXPRnum(int2dbl(n1))
+  val x2 = EXPRnum(int2dbl(n2))
+  val x3 = EXPRnum(int2dbl(n3))
+  val x4 = EXPRnum(int2dbl(n4))
 in
 //
-list0_mapopt<exprlst><expr>
+list0_mapopt<task><expr>
 (
 do_ones(4, list0_sing(g0ofg1($list{expr}(x1, x2, x3, x4))))
 ,
