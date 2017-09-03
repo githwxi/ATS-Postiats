@@ -147,6 +147,8 @@ extern
 fun
 combine_expr_expr(expr, expr): exprlst
 //
+overload combine with combine_expr_expr
+//
 (* ****** ****** *)
 //
 implement
@@ -207,7 +209,7 @@ x1x2xss
 lam
 ($tup(x1x2, xs)) =>
 list0_map<expr><task>
- (combine_expr_expr(x1x2[0], x1x2[1]), lam(x12) => list0_cons(x12, xs))
+ (combine(x1x2[0], x1x2[1]), lam(x) => list0_cons(x, xs))
 )
 //
 end // end of [do_one]
