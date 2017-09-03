@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Game-of-24</title>    
+
+<style>
+#theStage
+{
+width: 80%;
+margin: 0 auto;
+text-align: center;
+}
+#canvas-container
+{
+  margin: 0 auto; width: 920px; height: auto;
+}
+</style>
+
+<script
+ src="https://cdn.jsdelivr.net/jquery/2.1.1/jquery.min.js">
+</script>
+<script
+  src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_all.js">
+</script>
+<script
+  src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_print_store_cats.js">
+</script>
+  
+</head>
+
+<body>
+
+  <h1>Game-of-24</h1>
+
+  <h2>Game Parameters</h2>
+  <ul>
+    <li>
+      Card 1:<input style="text-align:right" type="text" id="card1_val" value="0" size=1 maxlength=2>
+    </li>
+    <li>
+      Card 2:<input style="text-align:right" type="text" id="card2_val" value="0" size=1 maxlength=2>
+    </li>
+    <li>
+      Card 3:<input style="text-align:right" type="text" id="card3_val" value="0" size=1 maxlength=2>
+    </li>
+    <li>
+      Card 4:<input style="text-align:right" type="text" id="card4_val" value="0" size=1 maxlength=2>
+    </li>
+  </ul>
+
+  <h2>Control for the Game</h2>
+  <ul>
+    <li>
+      <button type="button" onclick="input_rand()">Randomize(JS)</button>
+    </li>
+    <li>
+      <button type="button" onclick="input_play()">Submit-for-Evaluation(JS)</button>
+    </li>
+  </ul>
+
+  <h2>Display for the Game</h2>
+  <pre id="theStage">
+    This is the stage for displaying the solutions
+  </pre>
+
+  <script src="./Game-of-24-js_dats.js"></script>
+
+</body>
+
+</html>

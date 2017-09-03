@@ -20,6 +20,17 @@ $(MYATSCC) Game-of-24.dats
 
 ######
 
+all:: \
+Game-of-24-js
+Game-of-24-js: ; \
+$(MYATSCC) Game-of-24-js.dats
+
+######
+
+regress:: Game-of-24_dats; ./$<
+
+######
+
 clean:: ; rm -f *~
 
 ######

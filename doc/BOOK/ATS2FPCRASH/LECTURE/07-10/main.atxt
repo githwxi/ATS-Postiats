@@ -30,7 +30,9 @@ or division; if there exists a way to make r3 equal 24, then (n1, n2,
 n3, n4) is said to be a good quad. For instance, (10,10,4,4) is a good
 quad since we have: (10*10-4)/4 = 24; (5,7,7,11) is a good quad since
 we have: (5-11/7)*7 = 24. Game-of-24 is a game that determines whether
-four given integers form a good quad or not.
+four given integers form a good quad or not. For a demo of
+Game-of-24, please visit <ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/07-10/CODE/Game-of-24.html\">this link</ulink>.
 
 ")
 
@@ -47,10 +49,10 @@ the presented code significantly easier to access.\
 #para("\
 
 Instead of making direct use of rational numbers in the
-implementation, I choose doubles (that is, floating point numbers of
-double precision) to approaximate them.  The following declarations
-introduce #dyncode("int2dbl") and #dyncode("dbl2int") for casting
-integers to doubles and vice versa, respectively:
+implementation, I choose to use doubles (that is, floating point
+numbers of double precision) to approaximate them.  The following
+declarations introduce #dyncode("int2dbl") and #dyncode("dbl2int") for
+casting integers to doubles and vice versa, respectively:
 
 #dats2xhtml('\
 //
@@ -296,19 +298,53 @@ operation is applied.
 
 #para("\
 
+In practice, the following higher-order function #dyncode("list0_mapjoin")
+is of common use:
+
 #dats2xhtml('\
 //
 extern
 fun
-do_one
-(xs: task): list0(task)
+{a:t@ype}
+{b:t@ype}
+list0_mapjoin
+( xs: list0(INV(a))
+, fopr: cfun(a, list0(b))): list0(b)
+//
+implement
+{a}{b}
+list0_mapjoin
+  (xs, fopr) =
+(
+  list0_concat<b>(list0_map<a><list0(b)>(xs, fopr))
+)
+//
+')
+
+Given a list #dyncode("xs") and a closure-function #dyncode("fopr"),
+#dyncode("list0_mapjoin") calls #dyncode("list0_map") to obtain a list
+of lists and then calls #dyncode("list0_concat") to flatten this
+obtained list of lists.
+
+")
+
+#para("\
+
+Let #stacode("task") be an alias for #stacode("list0(expr)"). Given a
+task-value #dyncode("xs") of the type #stacode("task"), we can choose
+two expressions out of #dyncode("xs") to form a new expression (by
+applying addition, subtraction, multiplication or division) and then
+combine it with the rest to construct a new task-value. By calling
+#dyncode("do_one") on #dyncode("xs"), we obtain all of the possible new task-values:
+
+
+#dats2xhtml('\
+//
+typedef task = list0(expr)
 //
 extern
 fun
-do_ones
-(n: int, xss: list0(task)): list0(task)
-//
-(* ****** ****** *)
+do_one(xs: task): list0(task)
 //
 implement
 do_one(xs) = let
@@ -330,7 +366,17 @@ list0_map<expr><task>
 //
 end // end of [do_one]
 //
-(* ****** ****** *)
+')
+
+Given four integers, the following function #dyncode("play_game")
+returns a list of expressions that are proofs showing the four
+integers being a good quad:
+
+#dats2xhtml('\
+//
+extern
+fun
+do_ones(n: int, xss: list0(task)): list0(task)
 //
 implement
 do_ones(n, xss) =
@@ -342,7 +388,48 @@ if n >= 2
   ) (* do_ones *)
   else xss
 //
+(* ****** ****** *)
+//
+extern
+fun
+play_game
+( n1: int
+, n2: int
+, n3: int
+, n4: int): exprlst
+//
+implement
+play_game
+  (n1, n2, n3, n4) = let
+//
+  val x1 = EXPRnum(int2dbl(n1))
+  val x2 = EXPRnum(int2dbl(n2))
+  val x3 = EXPRnum(int2dbl(n3))
+  val x4 = EXPRnum(int2dbl(n4))
+in
+//
+list0_mapopt<task><expr>
+(
+do_ones(4, list0_sing(g0ofg1($list{expr}(x1, x2, x3, x4))))
+,
+lam(xss) => if (xss[0] = 24) then Some0(xss[0]) else None0()
+)
+//
+end // end of [play_game]
 ')
+
+Whether four given integers are a good quad depends precisely on
+whether the list returned by a call to #dyncode("play_game") on them
+is non-empty.
+
+")
+
+#para("\
+
+The code presented in this chapter targets C.  After a bit of
+adaptation, the code can also be compiled into JS for interpretation
+inside a browser.  Please see a demo of Game-of-24 <ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/07-10/CODE/Game-of-24.html\">on-line</ulink>.
 
 ")
 
@@ -350,6 +437,17 @@ if n >= 2
 
 Please find #mycodelink("LECTURE/07-10/CODE", "on-line") the entirety of
 the code used in this chapter. The mentioned URL link(s) can be found as follows:
+
+<itemizedlist>
+
+<listitem>
+#para("\
+<ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/07-10/CODE/Game-of-24.html\">https://ats-lang.github.io/DOCUMENT/ATS2FPCRASH/LECTURE/07-10/CODE/Game-of-24.html</ulink>
+")#comment("para")
+</listitem>
+
+</itemizedlist>
 
 ")#comment("para")
 
