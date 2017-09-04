@@ -1632,7 +1632,6 @@ case+ d0c0.d0ecl_node of
 | $SYN.D0Cfixity _ => neuexploc_ins ()
 | $SYN.D0Cnonfix _ => neuexploc_ins ()
 //
-| $SYN.D0Cinclude _ => neuexploc_ins ()
 | $SYN.D0Csymintr _ => neuexploc_ins ()
 | $SYN.D0Csymelim _ => neuexploc_ins ()
 //
@@ -1776,6 +1775,14 @@ case+ d0c0.d0ecl_node of
     // nothing
   end // end of [D0Cimpdec]
 //
+| $SYN.D0Cinclude _ => neuexploc_ins ()
+//
+| $SYN.D0Cstaload _ => neuexploc_ins ()
+| $SYN.D0Cstaloadnm _ => neuexploc_ins ()
+| $SYN.D0Cstaloadloc _ => neuexploc_ins ()
+//
+| $SYN.D0Cdynload _ => neuexploc_ins ()
+//
 | $SYN.D0Clocal
     (d0cs_head, d0cs_body) => {
     val () = d0eclist_mark (d0cs_head, res)
@@ -1784,7 +1791,7 @@ case+ d0c0.d0ecl_node of
 //
 | $SYN.D0Cguadecl (knd, gd) => guad0ecl_mark (gd, res)
 //
-| _ => ()
+| _ (* rest-of-d0ecl *) => ()
 //
 end // end of [d0ecl]
 
