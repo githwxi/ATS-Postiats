@@ -1,0 +1,41 @@
+<bookinfo>
+<title>A Functional Crash into ATS</title>
+<subtitle></subtitle>
+
+<authorgroup>
+<author>
+<firstname>Hongwei</firstname>
+<surname>Xi</surname>
+<affiliation><address><email>gmhwxiATgmailDOTcom</email></address></affiliation>
+</author>
+</authorgroup>
+
+<date>2017-08-01</date>
+<releaseinfo>0.0.1</releaseinfo>
+
+<abstract>
+<para>
+</para>
+</abstract>
+
+<copyright>
+<year>2017-201?</year>
+<holder>Hongwei Xi</holder>
+</copyright>
+
+<legalnotice>
+<para>
+All rights are reserved. Permission is granted to print this document for personal use.
+</para>
+</legalnotice>
+
+<keywordset>
+<keyword>ATS</keyword>
+<keyword>Types</keyword> 
+<keyword>Programming</keyword>
+<keyword>Linear Types</keyword>
+<keyword>Lazy Evaluation</keyword>
+<keyword>Functional Programming</keyword>
+</keywordset>
+
+</bookinfo>

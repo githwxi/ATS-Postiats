@@ -26,8 +26,7 @@ Links:
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/HTML/INT2PROGINATS-BOOK-onechunk.html">htmlone</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/PDF/main_epub.pdf">e-pdf</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/INT2PROGINATS/CODE/INT2PROGINATS-CODE.html">code</a>
-</td></tr>
-<tr><td>
+</td></tr><tr><td>
 Backup Links:
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/PDF/main.pdf">pdf</a>
 <a href="http://ats-lang.github.io/DOCUMENT/INT2PROGINATS/HTML/book1.html">html</a>
@@ -53,7 +52,7 @@ Translation in Japanese:
 
 <table>
 <tr><td>
-The primary purpose of this tutorial is to bring deep insights into a rich
+The primary purpose of this tutorial is to bring insights into a rich
 set of programming features in ATS and also demonstrate through concrete
 examples that these features can be made of effective use in the
 construction of high-quality programs. For someone familiar with both ML
@@ -70,8 +69,7 @@ Links:
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/ATS2TUTORIAL-BOOK-onechunk.html">htmlone</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/PDF/main_epub.pdf">e-pdf</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/CODE/ATS2TUTORIAL-CODE.html">code</a>
-</td></tr>
-<tr><td>
+</td></tr><tr><td>
 Backup Links:
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/PDF/main.pdf">pdf</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2TUTORIAL/HTML/book1.html">html</a>
@@ -90,6 +88,33 @@ Translation in Japanese:
 <a href="http://jats-ug.metasepi.org/doc/ATS2/ATS2TUTORIAL/.">html</a>
 </td></tr>
 <tr height="8px"><td></td></tr>
+</table>
+
+<hr></hr>
+
+<h2><a id="ATS2FUNCRASH0">A Functional Crash into ATS</a></h2>
+
+<table>
+<tr><td>
+This book consists of a set of lecture notes for a crash course on
+functional programming in ATS. The primary focus of these notes is set
+upon advocating a style of problem-solving that makes extensive use of
+list-processing and stream-processing functions. After finishing
+this course, one will have become familiar with recursion in problem-solving
+and ready to formulate high-level combinator-based programming solutions.
+</td></tr>
+<tr height="8px"><td></td></tr>
+<tr><td>
+Links:
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2FUNCRASH/PDF/main.pdf">pdf</a>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2FUNCRASH/HTML/book1.html">html</a>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2FUNCRASH/HTML/HTMLTOC/book1.html">htmltoc</a>
+</td></tr><tr><td>
+Backup Links:
+<a href="http://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/PDF/main.pdf">pdf</a>
+<a href="http://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/HTML/book1.html">html</a>
+<a href="http://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/HTML/HTMLTOC/book1.html">htmltoc</a>
+</td></tr>
 </table>
 
 <hr></hr>
