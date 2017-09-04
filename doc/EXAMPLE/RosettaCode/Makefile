@@ -49,7 +49,8 @@ $(PATSCC) -O2 -I./PATSRELOCROOT -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
 #
 # regress:: \
 # Lucas-Lehmer_test; ./$<
-# cleanall:: ; $(RMF) Lucas-Lehmer_test
+#
+cleanall:: ; $(RMF) Lucas-Lehmer_test
 #
 ######
 #

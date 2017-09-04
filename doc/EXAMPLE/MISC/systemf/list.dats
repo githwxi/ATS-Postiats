@@ -23,6 +23,14 @@
 //
 (* ****** ****** *)
 
+#define ATS_PACKNAME "systemf_list"
+
+(* ****** ****** *)
+
+#include "prelude/DATS/pointer.dats"
+
+(* ****** ****** *)
+
 typedef
 list_f (A: type) =
   {X:type} (X, (A, X) -<cloref0> X) -<cloref0> X
@@ -41,16 +49,23 @@ val Cons =
 local
 
 abstype int
-extern val _0 : int
+extern val _0_ : int
 extern fun succ : int -<> int
 
 in // in of [local]
+
+local
+assume int = ptr
+in
+implement _0_ = the_null_ptr
+implement succ(x) = ptr_succ<char>(x)
+end // end of [local]
 
 fn list_length
   {A:type} (
   xs: list_f(A)
 ) :<> int = let
-  val nil = _0
+  val nil = _0_
   val cons = lam (_: A, i: int) =<cloref0> succ (i)
 in
   xs {int} (nil, cons)
