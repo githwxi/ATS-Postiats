@@ -418,9 +418,12 @@ lam(xss) => if (xss[0] = 24) then Some0(xss[0]) else None0()
 end // end of [play_game]
 ')
 
-Whether four given integers are a good quad depends precisely on
-whether the list returned by a call to #dyncode("play_game") on them
-is non-empty.
+If we think of an option0-value as a list of length at most 1 (that
+is, #dyncode("None0") for #dyncode("list0_nil") and #dyncode("Some0")
+for #dyncode("list0_sing")), then #dyncode("list0_mapopt") behaves
+just like #dyncode("list0_mapjoin").  Note that four given integers
+are considered a good quad if and only if the list returned by a call to
+#dyncode("play_game") on them is non-empty.
 
 ")
 

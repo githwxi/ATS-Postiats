@@ -388,8 +388,9 @@ invalid.  And the same happens with respect to
 #para("\
 
 Like #dyncode("array0_foreach"), the following function
-#dyncode("matrix0_foreach") applies to each element in a given matrix
-#dyncode("M") a given closure-function #dyncode("fwork"):
+#dyncode("matrix0_foreach") applies to each element stored in the
+matrix contained in #dyncode("M") a given closure-function
+#dyncode("fwork"):
 
 #dats2xhtml('\
 //

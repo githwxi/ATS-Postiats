@@ -83,7 +83,7 @@ code is present:
 //
 ')
 
-which indicates to #dyncode("patsopt") that a dynload-function of the
+which indicates to #command("patsopt") that a dynload-function of the
 name #dyncode("Factorial__dynload") is to be generated when the ATS
 source contained in #filename("Factorial.dats") is compiled into C.
 Then this dynload-function is transpiled into JS by
