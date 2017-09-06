@@ -33,7 +33,8 @@ Here is a list of major additions and changes since the last release:
    )
 3. Hosting for ats-lang.org moved from OPENSHIFT2 to OPENSHIFT3
 4. Adding some stream-processing functions in prelude and libats/ML
-5. In progress: Crash into ATS: ${PATSHOME}/doc/BOOK/ATS2FPCRASH
+5. In progress:
+   A Functional Crash into ATS: ${PATSHOME}/doc/BOOK/ATS2FUNCRASH
 
 ######
 

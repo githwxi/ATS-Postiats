@@ -15,14 +15,16 @@ Time of Generation: #timestamp()\
 ")
 <chapter
  id="lecture03-10">
-#title("Example: Sierpinski Triangles")
+#title("Example: Sierpinski Triangle")
 
 #para("\
 
 A Sierpinski triangle is a fractal that can be constructed by first
 removing the medial triangle or midpoint triangle of a given triangle
 and then doing so recursively to the three triangles formed due to
-this removal.
+this removal. I would like to implement in this chapter a program for
+animating the drawing of a Sierpinksi triangle. This is also a place
+for me to advocate the so-called refinement-based programming.
 
 ")
 
