@@ -110,7 +110,7 @@ develop a reflex for solving problems recursively.
 
 #para("\
 
-As another example, the following function #dyncode("fibonacci")
+As another example, the following function #dyncode("fibo")
 is defined to compute Fibonacci numbers:
 
 #dats2xhtml('\
