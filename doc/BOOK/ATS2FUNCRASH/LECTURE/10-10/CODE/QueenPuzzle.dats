@@ -116,8 +116,27 @@ abstype node = ptr
 //
 extern
 fun
-node_get_children(node): stream(node)
+node_get_children(node): list0(node)
 overload .children with node_get_children
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_stream_concat
+  (xss: list0(stream(a))): stream(a)
+//
+implement
+{a}(*tmp*)
+list0_stream_concat(xss) = $delay
+(
+case+ xss of
+| list0_nil() =>
+  stream_nil()
+| list0_cons(xs, xss) =>
+  !(stream_append<a>(xs, list0_stream_concat<a>(xss)))
+)
 //
 (* ****** ****** *)
 //
@@ -133,9 +152,9 @@ stream_cons
 (
 nx0
 ,
-stream_concat<node>
+list0_stream_concat<node>
 (
-stream_map<node><stream(node)>
+list0_map<node><stream(node)>
   (nx0.children(), lam(nx) => node_dfsenum(nx))
 )
 )
@@ -185,7 +204,6 @@ list0_iforall<int> // abs: absolute value
 implement
 node_get_children
   (nx) =
-stream_make_list0
 (
 int_list0_mapopt<node>
 ( N()

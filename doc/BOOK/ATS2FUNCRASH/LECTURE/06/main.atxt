@@ -527,12 +527,13 @@ abstype node = ptr
 
 where #stacode("ptr") indicates that #stacode("node") is
 boxed. Intuitively, a node represents a partial solution where there
-are n queen pieces (for some n less than or equal to 8) on the first n
-rows of the chess board such that no one piece can attack any other
-pieces. Given a node, another node extending it with one more queen
-piece is considered its child. The following declared function
-#dyncode("node_get_children") is supposed to be called to obtain all
-of the child nodes of a given node:
+are #emphasis("n") queen pieces (for some #emphasis("n") less than or
+equal to 8) on the first #emphasis("n") rows of the chess board such
+that no one piece can attack any other pieces. Given a node, another
+node extending it with one more queen piece is considered its
+child. The following declared function #dyncode("node_get_children")
+is supposed to be called to obtain all of the child nodes of a given
+node:
 
 #dats2xhtml('\
 extern
