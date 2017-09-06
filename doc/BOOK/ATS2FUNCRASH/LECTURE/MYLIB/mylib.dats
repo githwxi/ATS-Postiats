@@ -1086,6 +1086,22 @@ int_stream_from(n) =
 extern
 fun
 {a:t@ype}
+stream_make_list0(xs: list0(INV(a))): stream(a)
+//
+implement
+{a}(*tmp*)
+stream_make_list0(xs) = $delay
+(
+case+ xs of
+| list0_nil() => stream_nil()
+| list0_cons(x, xs) => stream_cons(x, stream_make_list0<a>(xs))
+)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
 stream_get_at_exn
   (xs: stream(a), n: int): a
 //
@@ -1126,6 +1142,25 @@ case+ !xs of
 | stream_nil() => !ys
 | stream_cons(x, xs) =>
   stream_cons(x, stream_append<a>(xs, ys))
+)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+stream_concat
+  (xss: stream(stream(a))): stream(a)
+//
+implement
+{a}(*tmp*)
+stream_concat(xss) = $delay
+(
+case+ !xss of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(xs, xss) =>
+  !(stream_append<a>(xs, stream_concat<a>(xss)))
 )
 //
 (* ****** ****** *)
