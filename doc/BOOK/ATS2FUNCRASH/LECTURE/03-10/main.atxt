@@ -187,9 +187,11 @@ midpoint
 %}
 ')
 
-Various coding details that are omitted for brevity can be found in the file
-<ulink
-url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/03-10/CODE/Sierpinski.dats\">Sierpinski.dats</ulink>
+Various coding details that are omitted for brevity can be found in
+the file <ulink
+url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/03-10/CODE/Sierpinski.dats\">Sierpinski.dats</ulink>.
+I will talk more about co-programming with ATS and JS in a chapter
+presented later in this book.\
 
 ")
 

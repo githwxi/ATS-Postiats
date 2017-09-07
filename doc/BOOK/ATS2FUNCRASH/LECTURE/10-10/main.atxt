@@ -15,7 +15,7 @@ Time of Generation: #timestamp()\
 ")
 <chapter
  id="lecture10-10">
-#title("Example: Solving Queen Puzzle Lazily")
+#title("Example: Queen Puzzle Revisited")
 
 #para("\
 
@@ -120,8 +120,9 @@ lazily into a single stream.
 
 #para("\
 
-Various coding details that are omitted for brevity can be found in the file
-<ulink
+There is no change with respect to the implementation of
+#dyncode("node_get_children"). Various minor coding details that are
+omitted for brevity can be found in the file <ulink
 url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/10-10/CODE/QueenPuzzle.dats\">QueenPuzzle.dats</ulink>
 
 A demo for animating the depth-first search performed by #dyncode("node_dfsenum")
