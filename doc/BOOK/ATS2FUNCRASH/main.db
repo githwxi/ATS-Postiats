@@ -16,6 +16,7 @@
 <!ENTITY lecture03 SYSTEM "LECTURE/03/main.db">
 <!ENTITY lecture03-10 SYSTEM "LECTURE/03-10/main.db">
 <!ENTITY lecture04 SYSTEM "LECTURE/04/main.db">
+<!ENTITY lecture04-10 SYSTEM "LECTURE/04-10/main.db">
 <!ENTITY lecture05 SYSTEM "LECTURE/05/main.db">
 <!ENTITY lecture06 SYSTEM "LECTURE/06/main.db">
 <!ENTITY lecture06-10 SYSTEM "LECTURE/06-10/main.db">
@@ -47,6 +48,7 @@ To Jinning, Zoe, and Chloe
 &lecture03;
 &lecture03-10;
 &lecture04;
+&lecture04-10;
 &lecture05;
 &lecture06;
 &lecture06-10;
