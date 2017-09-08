@@ -108,6 +108,11 @@ string_make_rlist(cs: list0(char)):<> string
 (* ****** ****** *)
 
 fun{}
+string_make_prefix
+(
+  x0: NSH(string), len: size_t
+) :<> string // end-of-function
+fun{}
 string_make_substring
 (
   x0: NSH(string), start: size_t, len: size_t

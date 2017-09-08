@@ -288,7 +288,16 @@ in
 end // end of [string_make_rlist]
 //
 (* ****** ****** *)
-
+//
+implement
+{}(*tmp*)
+string_make_prefix
+  (x, ln) = let
+  val st = i2sz(0)
+in
+  string_make_substring<>(x, st, ln)
+end // end of [string_make_prefix]
+//
 implement
 {}(*tmp*)
 string_make_substring
@@ -311,7 +320,7 @@ $effmask_wrt
 in
   $UN.castvwtp0{string}(substr)
 end // end of [string_make_substring]
-
+//
 (* ****** ****** *)
 
 implement

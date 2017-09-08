@@ -100,7 +100,7 @@ midpoint
   var
   ymid = (p1.y + p2.y)/2;
 //
-  return {x: xmid, y: ymid };
+  return { x: xmid, y: ymid };
 //
 }
 //

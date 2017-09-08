@@ -30,10 +30,10 @@ deal with the case where the chess board is of the dimension 20 by 20,
 then no animation can actually happen as the time taken to generate
 all of the valid board configurations to the puzzle is prohibitively
 long. By making use of stream-based lazy-evaluation, I present as
-follows a slight variant of the previously presented solution to
-obviate the need for generating all of the valid board configurations
-before displaying them.  Instead, each valid board configuration is
-generated only when it needs to be displayed.\
+follows a slight variant of the previously presented solution so as
+to obviate the need for generating all of the valid board
+configurations before displaying them.  Instead, each valid board
+configuration is generated only when it needs to be displayed.\
 
 ")
 
@@ -88,9 +88,10 @@ list0_map<node><stream(node)>
 //
 ')
 
-where the function #dyncode("list0_stream_concat") is a variant
-of the function #dyncode("list0_concat") (which flattens a list of lists
-into a list):
+Note that the return value of #dyncode("node_dfsenum") is a stream (in
+contrast to a list used in the previous version).  Also note that the
+function #dyncode("list0_stream_concat") is a variant of the function
+#dyncode("list0_concat") (which flattens a list of lists into a list):
 
 #dats2xhtml('\
 //
