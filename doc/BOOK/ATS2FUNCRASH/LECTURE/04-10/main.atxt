@@ -20,9 +20,7 @@ Time of Generation: #timestamp()\
 #para("\
 
 Please find #mycodelink("LECTURE/04-10/CODE", "on-line") the entirety of
-the code used in this chapter. The multable example mentioned previously
-is modified a bit so as to make use of the #dyncode("int_foreach_method")
-combinator. \
+the code used in this chapter.
 
 ")#comment("para")
 
