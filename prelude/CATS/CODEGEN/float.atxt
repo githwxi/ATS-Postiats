@@ -1,10 +1,20 @@
 %{
-#define ATSCODEFORMAT "txt"
+#define
+ATSCODEFORMAT "txt"
+//
 #if (ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt.hats"
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"float.cats"
-val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
+val
+_thisfilename = atext_strcst"float.cats"
+//
+val () =
+theAtextMap_insert_str("thisfilename", _thisfilename)
+//
 %}\
 \
 #atscode_banner_for_C()
@@ -161,7 +171,7 @@ atstype_ldouble
 atspre_g0float_pred_ldouble (atstype_ldouble f) { return (f-1) ; }
 
 #atscode_separator_for_C()
-
+//
 %{
 fun
 fun_g0float_aop_decl
@@ -228,19 +238,20 @@ atspre_g0float_mod_ldouble
   (atstype_ldouble f1, atstype_ldouble f2) { return fmodl(f1, f2) ; }
 //
 #atscode_separator_for_C()
-
+//
 %{
 fun
 fun_g0float_cmp_decl (
   opr: string, knd: string
 ) : atext = let
 //
-val fopr = (
+val fopr =
+(
   case+ opr of
   | "lt" => "<" | "lte" => "<="
   | "gt" => ">" | "gte" => ">="
   | "eq" => "==" | "neq" => "!="
-  | _ => opr
+  | _ (* unprocessed comparison *) => opr
 ) : string // end of [val]
 //
 val ent = sprintf
@@ -349,18 +360,20 @@ atspre_g0float_max_ldouble
 // end of [atspre_g0float_max_ldouble]
 
 #atscode_separator_for_C()
-
+//
 %{
 fun
-fun_aop_int_g0float_decl (
+fun_aop_int_g0float_decl
+(
   opr: string, knd: string
 ) : atext = let
 //
-val fopr = (
+val fopr =
+(
   case+ opr of
   | "add" => "+" | "sub" => "-"
   | "mul" => "*" | "div" => "/"
-  | _ => opr
+  | _ (* unprocessed operator *) => opr
 ) : string // end of [val]
 //
 val ent = sprintf
@@ -396,18 +409,20 @@ end // end of [fun_aop_int_g0float_decl]
 #fun_aop_int_g0float_decl("div", "ldouble")\
 //
 #atscode_separator_for_C()
-
+//
 %{
 fun
-fun_aop_g0float_int_decl (
+fun_aop_g0float_int_decl
+(
   opr: string, knd: string
 ) : atext = let
 //
-val fopr = (
+val fopr =
+(
   case+ opr of
   | "add" => "+" | "sub" => "-"
   | "mul" => "*" | "div" => "/"
-  | _ => opr
+  | _ (* unprocessed operator *) => opr
 ) : string // end of [val]
 //
 val ent = sprintf
@@ -441,6 +456,104 @@ end // end of [fun_aop_g0float_int_decl]
 #fun_aop_g0float_int_decl("sub", "ldouble")\
 #fun_aop_g0float_int_decl("mul", "ldouble")\
 #fun_aop_g0float_int_decl("div", "ldouble")\
+//
+#atscode_separator_for_C()
+//
+%{
+fun
+fun_cmp_int_g0float_decl
+(
+  opr: string, knd: string
+) : atext = let
+//
+val fopr =
+(
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
+  | _ (* unprocessed comparison *) => opr
+) : string // end of [val]
+//
+val ent = sprintf
+("\
+ATSinline()
+atstype_bool
+atspre_%s_int_%s
+  (atstype_int i1, atstype_%s f2) { return (((atstype_%s)i1) %s f2) ; }
+// end of [atspre_%s_int_%s]\n\
+", @(
+  opr, knd, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_cmp_int_g0float_decl]
+%}\
+//
+#fun_cmp_int_g0float_decl("lt", "float")\
+#fun_cmp_int_g0float_decl("lte", "float")\
+#fun_cmp_int_g0float_decl("gt", "float")\
+#fun_cmp_int_g0float_decl("gte", "float")\
+#fun_cmp_int_g0float_decl("eq", "float")\
+#fun_cmp_int_g0float_decl("neq", "float")\
+//
+#fun_cmp_int_g0float_decl("lt", "double")\
+#fun_cmp_int_g0float_decl("lte", "double")\
+#fun_cmp_int_g0float_decl("gt", "double")\
+#fun_cmp_int_g0float_decl("gte", "double")\
+#fun_cmp_int_g0float_decl("eq", "double")\
+#fun_cmp_int_g0float_decl("neq", "double")\
+//
+#atscode_separator_for_C()
+//
+%{
+fun
+fun_cmp_g0float_int_decl
+(
+  opr: string, knd: string
+) : atext = let
+//
+val fopr =
+(
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
+  | _ (* unprocessed comparison *) => opr
+) : string // end of [val]
+//
+val ent = sprintf
+("\
+ATSinline()
+atstype_bool
+atspre_%s_%s_int
+  (atstype_%s f1, atstype_int i2) { return (f1 %s ((atstype_%s)i2)) ; }
+// end of [atspre_%s_%s_int]\n\
+", @(
+  opr, knd, knd, fopr, knd, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_cmp_int_g0float_decl]
+%}\
+//
+#fun_cmp_g0float_int_decl("lt", "float")\
+#fun_cmp_g0float_int_decl("lte", "float")\
+#fun_cmp_g0float_int_decl("gt", "float")\
+#fun_cmp_g0float_int_decl("gte", "float")\
+#fun_cmp_g0float_int_decl("eq", "float")\
+#fun_cmp_g0float_int_decl("neq", "float")\
+//
+#fun_cmp_g0float_int_decl("lt", "double")\
+#fun_cmp_g0float_int_decl("lte", "double")\
+#fun_cmp_g0float_int_decl("gt", "double")\
+#fun_cmp_g0float_int_decl("gte", "double")\
+#fun_cmp_g0float_int_decl("eq", "double")\
+#fun_cmp_g0float_int_decl("neq", "double")\
 //
 #atscode_separator_for_C()
 
