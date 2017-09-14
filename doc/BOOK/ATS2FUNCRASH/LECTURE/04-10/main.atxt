@@ -154,6 +154,52 @@ for a demo of the digital clock.
 
 #para("\
 
+Given N, fwork, and ms, the following function
+#dyncode("repeat_execute_after") executes the calls
+#dyncode("fwork(i)") for i ranging from 0 to N-1 and then repeats:
+
+#dats2xhtml('\
+//
+extern
+fun
+repeat_execute_after
+( N: int,
+  fwork: (int) -> void, ms: int) : void = "mac#"
+//
+implement
+repeat_execute_after
+(
+N, fwork, ms
+) = let
+//
+fun
+auxmain(i: int): void =
+if i >= N
+  then auxmain(0)
+  else (fwork(i); execute_after(lam() => auxmain(i+1), ms))
+//
+in
+  auxmain(0)
+end // end of [repeat_execute_after]
+//
+')
+
+For any two consecutive calls to fwork, there is a delay of ms
+milliseconds between them. In a case where a call to #dyncode("fwork")
+draws an image, calling #dyncode("repeat_execute_after") may create an
+animation effect of some sort. For example, please click
+<ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/LECTURE/04-10/CODE/Sierpinski.html\">here</ulink>
+to see an animated version of the example of Sierpinkski triangle presented previously.
+
+")
+
+#para("\
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/04-10/CODE", "on-line") the entirety
 of the code used in this chapter. The mentioned URL link(s) can be found as follows:
 
@@ -170,6 +216,20 @@ url=\"https://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/LECTURE/04-10/CODE/DigitC
 #para("\
 <ulink
 url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/04-10/CODE/DigitClock.dats\">https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/04-10/CODE/DigitClock.dats</ulink>
+")#comment("para")
+</listitem>
+
+<listitem>
+#para("\
+<ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/LECTURE/04-10/CODE/Sierpinski.html\">https://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/LECTURE/04-10/CODE/Sierpinski.html</ulink>
+")#comment("para")
+</listitem>
+
+<listitem>
+#para("\
+<ulink
+url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/04-10/CODE/Sierpinski.dats\">https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/04-10/CODE/Sierpinski.dats</ulink>
 ")#comment("para")
 </listitem>
 

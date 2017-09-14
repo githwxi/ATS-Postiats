@@ -429,9 +429,14 @@ neq_double_int
   (double, int):<> bool = "mac\#%"
 //
 overload != with neq_int_float of 0
+overload <> with neq_int_float of 0
 overload != with neq_float_int of 0
+overload <> with neq_float_int of 0
+//
 overload != with neq_int_double of 0
+overload <> with neq_int_double of 0
 overload != with neq_double_int of 0
+overload <> with neq_double_int of 0
 //
 #atscode_separator()
 //

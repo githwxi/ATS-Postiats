@@ -21,6 +21,14 @@ DigitClock_dats.c: DigitClock.dats; $(PATSCC) -ccats $<
 DigitClock_dats.js: DigitClock_dats.c; $(ATSCC2JS) -o $@ -i $<
 #
 ######
+#
+all:: \
+Sierpinski_dats.js
+#
+Sierpinski_dats.c: Sierpinski.dats; $(PATSCC) -ccats $<
+Sierpinski_dats.js: Sierpinski_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+######
 
 clean:: ; rm -f *~
 clean:: ; rm -f *_dats.c

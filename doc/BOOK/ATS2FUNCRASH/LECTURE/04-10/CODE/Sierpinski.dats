@@ -21,6 +21,10 @@ LIBATSCC2JS_targetloc
 //
 (* ****** ****** *)
 
+#include "./../../MYLIB/mylib.dats"
+
+(* ****** ****** *)
+
 abstype point
 
 (* ****** ****** *)
@@ -124,6 +128,48 @@ TriangleRemove
 %} // end of [%{^]
 
 (* ****** ****** *)
+//
+extern
+fun
+execute_after
+(fwork: cfun(void), ms: int): void
+//
+implement
+execute_after
+  (fwork, ms) = (
+//
+$extfcall
+( void
+, "setTimeout", cloref2fun0(fwork), ms)
+//
+) (* end of [execute_after] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+repeat_execute_after
+( N: int,
+  fwork: (int) -> void, ms: int
+) : void = "mac#" // end-of-fun
+//
+implement
+repeat_execute_after
+(
+N, fwork, ms
+) = let
+//
+fun
+auxmain(i: int): void =
+if i >= N
+  then auxmain(0)
+  else (fwork(i); execute_after(lam() => auxmain(i+1), ms))
+//
+in
+  auxmain(0)
+end // end of [repeat_execute_after]
+//
+(* ****** ****** *)
 
 %{$
 //
@@ -140,11 +186,20 @@ var C0 =
 theCtx.translate
 ((W-WH2)/2, (H-WH2)/2);
 //
+repeat_execute_after
+(
+N
+,
+function(i)
+{
 theCtx.fillStyle="#0000ff";
 TriangleRemove(A0, B0, C0);
-//
 theCtx.fillStyle="#ffff00";
-SierpinskiDraw(N, A0, B0, C0);
+SierpinskiDraw(i, A0, B0, C0);
+}
+,
+1000/*delay in ms*/
+);
 //
 }
 //

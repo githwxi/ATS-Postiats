@@ -28,7 +28,7 @@ all:: ccomp/atslib/lib/libatslib.a
 #
 ######
 
-configure : ; /bin/bash autogen.sh
+configure: ; /bin/bash autogen.sh
 
 ######
 #
@@ -38,7 +38,9 @@ configure : ; /bin/bash autogen.sh
 #
 #######
 #
-config.mk : configure ; @echo "Please execute './configure'." ; exit 1 ;
+config.mk: \
+configure ; \
+@echo "Please execute './configure'." ; exit 1 ;
 #
 ######
 
