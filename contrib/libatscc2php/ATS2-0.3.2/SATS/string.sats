@@ -108,7 +108,7 @@ fun
 string_concat_2
 (
   x1: string, x2: string
-) : string = "mac#%" // endfun
+) : string = "mac#%" // end-of-fun
 fun
 string_concat_3
 (

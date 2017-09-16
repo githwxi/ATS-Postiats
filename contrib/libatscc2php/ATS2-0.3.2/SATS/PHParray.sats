@@ -75,5 +75,14 @@ PHParray_streamize_elt
   {a:t0p}(A: PHParray(a)): stream_vt(a) = "mac#%"
 //
 (* ****** ****** *)
+//
+fun
+PHParray_join
+  {a:t0p}(A: PHParray(a)): string = "mac#%"
+fun
+PHParray_join_sep
+  {a:t0p}(A: PHParray(a), sep: string): string = "mac#%"
+//
+(* ****** ****** *)
 
 (* end of [PHParray.sats] *)

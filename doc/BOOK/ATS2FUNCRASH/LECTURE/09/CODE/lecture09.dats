@@ -93,11 +93,11 @@ println!
 ("forall_isevn(", xs, ") = ", list0_forall(xs, lam(x) => x%2 = 0))
 //
 (* ****** ****** *)
-
+//
 datatype tree(a:t@ype) =
-| tree_nil of ()
-| tree_cons of (tree(a), a, tree(a))
-
+  | tree_nil of ()
+  | tree_cons of (tree(a), a, tree(a))
+//
 (* ****** ****** *)
 //
 fun

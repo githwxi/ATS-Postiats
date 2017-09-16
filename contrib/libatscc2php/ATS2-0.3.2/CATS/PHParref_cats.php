@@ -29,6 +29,12 @@ PHParref {
 /* ****** ****** */
 //
 function
+ats2phppre_PHParref2array
+  ($A) { return ($A->array); }
+//
+/* ****** ****** */
+//
+function
 ats2phppre_PHParref_nil
   ()
 {
@@ -126,7 +132,11 @@ ats2phppre_PHParref_values
 /* ****** ****** */
 //
 function
-ats2phppre_PHParref2array($A) { return ($A->array); }
+ats2phppre_PHParref_join
+  ($A) { return (implode($A->array)); }
+function
+ats2phppre_PHParref_join_sep
+  ($A, $sep) { return (implode($A->array, $sep)); }
 //
 /* ****** ****** */
 

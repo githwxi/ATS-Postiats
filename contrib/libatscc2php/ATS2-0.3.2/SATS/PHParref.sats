@@ -41,7 +41,7 @@ PHParref_is_nil
 //
 fun
 PHParref_isnot_nil
-  {a:vt0p} (PHParref(a)): bool = "mac#%"
+  {a:vt0p}(PHParref(a)): bool = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -52,9 +52,11 @@ PHParref_make_elt{a:t0p}
 (* ****** ****** *)
 //
 fun
-PHParref_size{a:vt0p}(PHParref(a)): intGte(0) = "mac#%"
+PHParref_size
+  {a:vt0p}(PHParref(a)): intGte(0) = "mac#%"
 fun
-PHParref_length{a:vt0p}(PHParref(a)): intGte(0) = "mac#%"
+PHParref_length
+  {a:vt0p}(PHParref(a)): intGte(0) = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -64,7 +66,8 @@ PHParref_get_at
 //
 fun
 PHParref_set_at
-  {a:t0p}(A: PHParref(a), i: int, x: a): void = "mac#%"
+  {a:t0p}
+  (A: PHParref(a), i: int, x: a): void = "mac#%"
 //
 (* ****** ****** *)
 
@@ -75,12 +78,14 @@ overload [] with PHParref_set_at of 100
 //
 fun
 PHParref_unset
-  {a:t0p}(A: PHParref(a), index: int): void = "mac#%"
+  {a:t0p}
+  (A: PHParref(a), index: int): void = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
-PHParref_extend{a:t0p}(A: PHParref(a), x0: a): void = "mac#%"
+PHParref_extend
+  {a:t0p}(A: PHParref(a), x0: a): void = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -111,6 +116,15 @@ PHParref2list_rev
 fun
 PHParref_streamize_elt
   {a:t0p}(A: PHParref(a)): stream_vt(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+PHParref_join
+  {a:t0p}(A: PHParref(a)): string = "mac#%"
+fun
+PHParref_join_sep
+  {a:t0p}(A: PHParref(a), sep: string): string = "mac#%"
 //
 (* ****** ****** *)
 

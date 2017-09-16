@@ -113,8 +113,8 @@ decared for representing binary trees:
 #dats2xhtml('\
 //
 datatype tree(a:t@ype) =
-| tree_nil of ()
-| tree_cons of (tree(a), a, tree(a))
+  | tree_nil of ()
+  | tree_cons of (tree(a), a, tree(a))
 //
 ')
 
