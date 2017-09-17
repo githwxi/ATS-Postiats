@@ -64,6 +64,17 @@ ats2phppre_PHParref_pair
 /* ****** ****** */
 
 function
+ats2phppre_PHParref_make_elt
+  ($asz, $x0)
+{
+  $res = new PHParref;
+  $res->array = array_fill(0, $asz, $x0);
+  return $res;
+}
+
+/* ****** ****** */
+
+function
 ats2phppre_PHParref_size
   ($A)
 {

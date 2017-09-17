@@ -30,6 +30,15 @@ ats2phppre_PHParray_pair
   { return array($x1, $x2); }
 //
 /* ****** ****** */
+
+function
+ats2phppre_PHParray_make_elt
+  ($asz, $x0)
+{
+  return array_fill(0, $asz, $x0);
+}
+  
+/* ****** ****** */
 //
 function
 ats2phppre_PHParray_size

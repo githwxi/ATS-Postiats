@@ -94,7 +94,7 @@ ats2phppre_neq_string_string
 /* ****** ****** */
 //
 function
-compare_string_string
+ats2phppre_compare_string_string
   ($x1, $x2)
 {
   $sgn = strcmp($x1, $x2) ;

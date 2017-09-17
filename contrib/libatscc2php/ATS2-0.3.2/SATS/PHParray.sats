@@ -26,16 +26,23 @@ PHParray_nil
   {a:t0p}(): PHParray(a) = "mac#%"
 fun
 PHParray_sing
-  {a:t0p}(x: a): PHParray(a) = "mac#%"
+  {a:t0p}(a): PHParray(a) = "mac#%"
 fun
 PHParray_pair
-  {a:t0p}(x1: a, x2: a): PHParray(a) = "mac#%"
+  {a:t0p}(a, a): PHParray(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+PHParray_make_elt
+  {a:t0p}
+  (asz: intGte(0), x0: a): PHParray(a) = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
 PHParray_size
-  {a:t0p}(A0: PHParray(a)): intGte(0) = "mac#%"
+  {a:t0p}(PHParray(a)): intGte(0) = "mac#%"
 //
 overload size with PHParray_size of 100
 overload .size with PHParray_size of 100

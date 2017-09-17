@@ -13,12 +13,12 @@ For Effective ATS
 
 (* ****** ****** *)
 
-staload UN = $UNSAFE
+#staload UN = $UNSAFE
 
 (* ****** ****** *)
 
-staload "./GraphSearch.dats"
-staload "./GraphSearch_bfs.dats"
+#staload "./GraphSearch.dats"
+#staload "./GraphSearch_bfs.dats"
 
 (* ****** ****** *)
 
