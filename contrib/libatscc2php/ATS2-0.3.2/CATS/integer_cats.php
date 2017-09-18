@@ -38,6 +38,26 @@ ats2phppre_pred_int0($x) { return ($x - 1); }
 /* ****** ****** */
 
 function
+ats2phppre_half_int0($x)
+{
+  return ($x >= 0) ? floor($x/2) : ceil($x/2);
+}
+
+/* ****** ****** */
+
+function
+ats2phppre_succ_int1(x) { return (x + 1); }
+function
+ats2phppre_pred_int1(x) { return (x - 1); }
+
+/* ****** ****** */
+
+function
+ats2phppre_half_int1(x) { return ats2phppre_half_int0(x); }
+
+/* ****** ****** */
+
+function
 ats2phppre_add_int0_int0($x, $y) { return ($x + $y); }
 function
 ats2phppre_sub_int0_int0($x, $y) { return ($x - $y); }
