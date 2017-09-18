@@ -430,6 +430,13 @@ list0_filter_method
 (* ****** ****** *)
 //
 implement
+list0_labelize
+  {x}(xs) =
+  $UN.cast(list_labelize($UN.cast(xs)))
+//
+(* ****** ****** *)
+//
+implement
 list0_map
   {a}{b}
   (xs, fopr) =
@@ -439,6 +446,19 @@ implement
 list0_map_method
   {a}{b}(xs, _) =
   lam(fopr) => list0_map{a}{b}(xs, fopr)
+//
+(* ****** ****** *)
+//
+implement
+list0_imap
+  {a}{b}
+  (xs, fopr) =
+  $UN.cast(list_imap($UN.cast(xs), fopr))
+//
+implement
+list0_imap_method
+  {a}{b}(xs, _) =
+  lam(fopr) => list0_imap{a}{b}(xs, fopr)
 //
 (* ****** ****** *)
 //

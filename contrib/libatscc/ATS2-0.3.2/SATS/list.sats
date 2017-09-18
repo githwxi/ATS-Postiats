@@ -354,6 +354,31 @@ overload .filter with list_filter_method
 (* ****** ****** *)
 //
 fun
+list_labelize
+  {x:t0p}{n:int}
+  (xs: list(INV(x), n)): list($tup(int, x), n)
+// end of [list_labelize]
+//
+(* ****** ****** *)
+//
+fun
+list_imap
+  {a:t0p}{b:t0p}{n:int}
+(
+  xs: list(INV(a), n), fopr: cfun(Nat, a, b)
+) : list(b, n) = "mac#%" // end-of-function
+fun
+list_imap_method
+  {a:t0p}{b:t0p}{n:int}
+(
+  xs: list(INV(a), n), TYPE(b))(fopr: cfun(Nat, a, b)
+) : list(b, n) = "mac#%" // end-of-function
+//
+overload .imap with list_imap_method // HX: xs.imap(TYPE{b})(...)
+//
+(* ****** ****** *)
+//
+fun
 list_map
   {a:t0p}{b:t0p}{n:int}
 (

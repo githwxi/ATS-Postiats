@@ -378,11 +378,17 @@ list_insert_at
 if
 (i > 0)
 then let
-  val+list_cons (x, xs) = xs
+//
+val+
+list_cons(x, xs) = xs
+//
 in
-  list_cons (x, list_insert_at (xs, i-1, x0))
+//
+list_cons
+  (x, list_insert_at(xs, i-1, x0))
+//
 end // end of [then]
-else list_cons (x0, xs)
+else list_cons(x0, xs)
 //
 ) (* end of [list_insert_at] *)
   
@@ -439,15 +445,13 @@ list_exists
   case+ xs of
   | list_nil() => false
   | list_cons(x, xs) =>
-      if pred(x)
-        then true else list_exists(xs, pred)
-      // end of [if[
-    // end of [list_cons]
+    (pred(x) || list_exists(xs, pred))
 ) (* end of [list_exists] *)
 //
 implement
 list_exists_method
-  {a}(xs) = lam(pred) => list_exists{a}(xs, pred)
+  {a}(xs) =
+  lam(pred) => list_exists{a}(xs, pred)
 //  
 (* ****** ****** *)
 //
@@ -467,14 +471,14 @@ fun loop
   case+ xs of
   | list_nil() => false
   | list_cons(x, xs) =>
-      if pred(i, x) then true else loop(i+1, xs)
-    // end of [list_cons]
+    (pred(i, x) || loop(i+1, xs))
 )
 } (* end of [list_iexists] *)
 //
 implement
 list_iexists_method
-  {a}(xs) = lam(pred) => list_iexists{a}(xs, pred)
+  {a}(xs) =
+  lam(pred) => list_iexists{a}(xs, pred)
 //  
 (* ****** ****** *)
 //
@@ -485,15 +489,13 @@ list_forall
   case+ xs of
   | list_nil() => (true)
   | list_cons(x, xs) =>
-      if pred(x)
-        then list_forall(xs, pred) else false
-      // end of [if[
-    // end of [list_cons]
+    (pred(x) && list_forall(xs, pred))
 ) (* end of [list_forall] *)
 //
 implement
 list_forall_method
-  {a}(xs) = lam(pred) => list_forall{a}(xs, pred)
+  {a}(xs) =
+  lam(pred) => list_forall{a}(xs, pred)
 //
 (* ****** ****** *)
 //
@@ -513,14 +515,14 @@ fun loop
   case+ xs of
   | list_nil() => (true)
   | list_cons(x, xs) =>
-      if pred(i, x) then loop(i+1, xs) else false
-    // end of [list_cons]
+    (pred(i, x) && loop(i+1, xs))
 )
 } (* end of [list_iforall] *)
 //
 implement
 list_iforall_method
-  {a}(xs) = lam(pred) => list_iforall{a}(xs, pred)
+  {a}(xs) =
+  lam(pred) => list_iforall{a}(xs, pred)
 //  
 (* ****** ****** *)
 //
@@ -539,7 +541,8 @@ case+ xs of
 //
 implement
 list_foreach_method
-  {a}(xs) = lam(fwork) => list_foreach{a}(xs, fwork)
+  {a}(xs) =
+  lam(fwork) => list_foreach{a}(xs, fwork)
 //  
 (* ****** ****** *)
 //
@@ -563,7 +566,8 @@ end (* end of [list_iforeach] *)
 //
 implement
 list_iforeach_method
-  {a}(xs) = lam(fwork) => list_iforeach{a}(xs, fwork)
+  {a}(xs) =
+  lam(fwork) => list_iforeach{a}(xs, fwork)
 //  
 (* ****** ****** *)
 //
@@ -596,15 +600,26 @@ aux{n:int}
   case+ xs of
   | list_nil() => list_nil()
   | list_cons(x, xs) =>
-      if p(x) then list_cons(x, aux(xs)) else aux(xs)
-    // end of [list_cons]
+    (
+      if p(x)
+        then list_cons(x, aux(xs)) else aux(xs)
+      // end of [if]
+    ) // end of [list_cons]
 //
 } (* end of [list_filter] *)
 //
 implement
 list_filter_method
-  {a}(xs) = lam(pred) => list_filter{a}(xs, pred)
+  {a}(xs) =
+  lam(pred) => list_filter{a}(xs, pred)
 //  
+(* ****** ****** *)
+//
+implement
+list_labelize
+  {a}(xs) =
+  list_imap{a}(xs, lam(i, x) => $tup(i, x))
+//
 (* ****** ****** *)
 //
 implement
@@ -623,8 +638,10 @@ xs: list(a, n)
 ) : list(b, n) =
 (
 case+ xs of
-| list_nil() => list_nil()
-| list_cons(x, xs) => list_cons(fopr(x), aux(xs))
+| list_nil() =>
+  list_nil()
+| list_cons(x, xs) =>
+  list_cons(fopr(x), aux(xs))
 ) (* end of [aux] *)
 //
 prval () = lemma_list_param(xs)
@@ -633,7 +650,41 @@ prval () = lemma_list_param(xs)
 //
 implement
 list_map_method
-  {a}(xs, _) = lam(fopr) => list_map{a}(xs, fopr)
+  {a}(xs, _) =
+  lam(fopr) => list_map{a}(xs, fopr)
+//
+(* ****** ****** *)
+//
+implement
+list_imap
+  {a}{b}
+(
+  xs, fopr
+) = aux(0, xs) where
+{
+//
+fun
+aux
+{n:nat} .<n>.
+(
+i0: Nat,
+xs: list(a, n)
+) : list(b, n) =
+(
+case+ xs of
+| list_nil() =>
+  list_nil()
+| list_cons(x, xs) =>
+  list_cons(fopr(i0, x), aux(i0+1, xs))
+) (* end of [aux] *)
+//
+prval () = lemma_list_param(xs)
+//
+} (* end of [list_imap] *)
+//
+implement
+list_imap_method
+  {a}(xs, _) = lam(fopr) => list_imap{a}(xs, fopr)
 //
 (* ****** ****** *)
 
@@ -659,7 +710,8 @@ end // end of [list_foldleft]
 //
 implement
 list_foldleft_method
-  {a}(xs, init) = lam(fopr) => list_foldleft{a}(xs, init, fopr)
+  {a}(xs, init) =
+  lam(fopr) => list_foldleft{a}(xs, init, fopr)
 //
 (* ****** ****** *)
 

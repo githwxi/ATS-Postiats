@@ -314,6 +314,14 @@ overload .filter with list0_filter_method
 (* ****** ****** *)
 //
 fun
+list0_labelize
+  {x:t0p}
+  (xs: list0(INV(x))): list0($tup(int, x))
+// end of [list0_labelize]
+//
+(* ****** ****** *)
+//
+fun
 list0_map
   {a:t0p}{b:t0p}
   (list0(INV(a)), fopr: cfun(a, b)): list0(b) = "mac#%"
@@ -323,6 +331,19 @@ list0_map_method
   (list0(INV(a)), TYPE(b))(fopr: cfun(a, b)): list0(b) = "mac#%"
 //
 overload .map with list0_map_method
+//
+(* ****** ****** *)
+//
+fun
+list0_imap
+  {a:t0p}{b:t0p}
+  (list0(INV(a)), fopr: cfun(Nat, a, b)): list0(b) = "mac#%"
+fun
+list0_imap_method
+  {a:t0p}{b:t0p}
+  (list0(INV(a)), TYPE(b))(fopr: cfun(Nat, a, b)): list0(b) = "mac#%"
+//
+overload .imap with list0_imap_method
 //
 (* ****** ****** *)
 //
