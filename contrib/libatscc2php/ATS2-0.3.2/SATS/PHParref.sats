@@ -52,6 +52,12 @@ PHParref_make_elt{a:t0p}
 (* ****** ****** *)
 //
 fun
+PHParref_make_list
+  {a:t0p}(xs: List(INV(a))): PHParref(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 PHParref_size
   {a:vt0p}(PHParref(a)): intGte(0) = "mac#%"
 fun

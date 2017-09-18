@@ -16,13 +16,9 @@ ATS_EXTERN_PREFIX "ats2jspre_"
 #staload "./../basics_js.sats"
 //
 (* ****** ****** *)
-
-typedef char = int
-
-(* ****** ****** *)
 //
-typedef
-strchr = string(1)
+typedef char = int
+typedef strchr = string(1)
 //
 (* ****** ****** *)
 //

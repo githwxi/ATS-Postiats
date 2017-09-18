@@ -108,7 +108,8 @@ loop
 (
 if i < asz
   then let
-    val _ = JSarray_push(A, fopr(i)) in loop(i+1)
+    val _ =
+    JSarray_push(A, fopr(i)) in loop(i+1)
   end // end of [then]
   else () // end of [else]
 // end of [if]

@@ -109,6 +109,12 @@ overload echo with echo8
 //
 (* ****** ****** *)
 //
+(*
+typedef strchr = string(1)
+*)
+//
+(* ****** ****** *)
+//
 fun
 intval(rep: string): int = "mac#%"
 fun
@@ -142,7 +148,7 @@ assert_errmsg with assert_errmsg_bool1 of 110
 (* ****** ****** *)
 //
 macdef
-assertloc (x) = assert_errmsg (,(x), $mylocation)
+assertloc(x) = assert_errmsg (,(x), $mylocation)
 //
 (* ****** ****** *)
 

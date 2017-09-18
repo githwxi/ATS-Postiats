@@ -28,7 +28,24 @@ UN = "prelude/SATS/unsafe.sats"
 //
 #staload "./../SATS/integer.sats"
 //
+#staload "./../SATS/list.sats"
 #staload "./../SATS/PHParray.sats"
+#staload "./../SATS/PHParref.sats"
+//
+(* ****** ****** *)
+//
+implement
+PHParray_make_list
+{a}(xs) =
+(
+$extfcall
+( PHParray(a)
+, "ats2phppre_PHParref2array", A
+)
+) where
+{
+  val A = PHParref_make_list{a}(xs)
+}
 //
 (* ****** ****** *)
 
@@ -93,31 +110,6 @@ val [n:int] asz = A.size()
 //
 fun
 loop
-{i:nat|i <= n}
-(i: int(i),
- res: list(b, n-i)): list(b, n) =
-(
-if i > 0
-  then
-  loop(i-1, list_cons(fopr(A[i-1]), res))
-  else res
-// end of [if]
-) (* end of [loop] *)
-//
-in
-  loop(asz, list_nil())
-end // end of [PHParray2list_map]
-
-(* ****** ****** *)
-
-implement
-PHParray2list_map_rev
-  {a}{b}(A, fopr) = let
-//
-val [n:int] asz = A.size()
-//
-fun
-loop
 {n:nat}
 {i:nat|i <= n}
 ( n: int(n)
@@ -133,7 +125,32 @@ else res
 ) (* end of [loop] *)
 //
 in
-  loop(asz, 0, list_nil())
+  list_reverse(loop(asz, 0, list_nil()))
+end // end of [PHParray2list_map]
+
+(* ****** ****** *)
+
+implement
+PHParray2list_map_rev
+  {a}{b}(A, fopr) = let
+//
+val [n:int] asz = A.size()
+//
+fun
+loop
+{i:nat|i <= n}
+(i: int(i),
+ res: list(b, n-i)): list(b, n) =
+(
+if i > 0
+  then
+  loop(i-1, list_cons(fopr(A[i-1]), res))
+  else res
+// end of [if]
+) (* end of [loop] *)
+//
+in
+  list_reverse(loop(asz, list_nil()))
 end // end of [PHParray2list_map_rev]
 
 (* ****** ****** *)

@@ -130,5 +130,12 @@ overload
 string_concat with string_concat_4 of 100
 //
 (* ****** ****** *)
+//
+typedef strchr = string(1)
+//
+fun
+string_explode(cs: string): List0(strchr) = "mac#%"
+//
+(* ****** ****** *)
 
 (* end of [string.sats] *)

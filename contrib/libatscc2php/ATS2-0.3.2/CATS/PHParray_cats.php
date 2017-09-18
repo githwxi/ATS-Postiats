@@ -51,6 +51,12 @@ ats2phppre_PHParray_get_at
   ($A, $i) { return $A[$i] ; }
 //
 /* ****** ****** */
+//
+function
+ats2phppre_PHParray_of_string
+  ($str) { return (str_split($str)); }
+//
+/* ****** ****** */
 
 function
 ats2phppre_PHParray_join

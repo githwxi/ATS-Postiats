@@ -41,6 +41,12 @@ PHParray_make_elt
 (* ****** ****** *)
 //
 fun
+PHParray_make_list
+  {a:t0p}(xs: List(INV(a))): PHParray(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 PHParray_size
   {a:t0p}(PHParray(a)): intGte(0) = "mac#%"
 //
@@ -89,6 +95,13 @@ PHParray_join
 fun
 PHParray_join_sep
   {a:t0p}(A: PHParray(a), sep: string): string = "mac#%"
+//
+(* ****** ****** *)
+//
+typedef strchr = string(1)
+//
+fun
+PHParray_of_string(cs: string): PHParray(strchr) = "mac#%"
 //
 (* ****** ****** *)
 

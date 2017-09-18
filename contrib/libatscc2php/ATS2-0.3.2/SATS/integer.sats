@@ -48,7 +48,7 @@ overload pred with pred_int1 of 110
 //
 fun half_int0 : int -<fun> int = "mac#%"
 fun half_int1
-  : {i:int} int(i) -<fun> int(i/2) = "mac%"
+  : {i:int} int(i) -<fun> int(i/2) = "mac#%"
 //
 overload half with half_int0 of 100
 overload half with half_int1 of 110
@@ -105,6 +105,10 @@ fun gte_int0_int0: (int, int) -<fun> bool = "mac#%"
 fun eq_int0_int0: (int, int) -<fun> bool = "mac#%"
 fun neq_int0_int0: (int, int) -<fun> bool = "mac#%"
 //
+fun compare_int0_int0: (int, int) -<fun> int = "mac#%"
+//
+(* ****** ****** *)
+//
 fun lt_int1_int1
   : {i,j:int} (int(i), int(j)) -<fun> bool(i < j) = "mac#%"
 fun lte_int1_int1
@@ -128,6 +132,10 @@ overload >= with gte_int0_int0 of 100
 overload = with eq_int0_int0 of 100
 overload != with neq_int0_int0 of 100
 overload <> with neq_int0_int0 of 100
+//
+overload compare with compare_int0_int0 of 100
+//
+(* ****** ****** *)
 //
 overload < with lt_int1_int1 of 120
 overload <= with lte_int1_int1 of 120

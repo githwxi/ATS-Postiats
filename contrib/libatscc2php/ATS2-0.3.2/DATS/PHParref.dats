@@ -32,6 +32,38 @@ UN = "prelude/SATS/unsafe.sats"
 #staload "./../SATS/PHParref.sats"
 //
 (* ****** ****** *)
+
+implement
+PHParref_make_list
+{a}(xs) = (A) where
+{
+//
+val A =
+PHParref_nil()
+//
+fun
+loop
+(xs: List(a)): void =
+(
+case+ xs of
+| list_nil
+  (
+    // argless
+  ) => ((*exit*))
+| list_cons
+  (
+    x, xs
+  ) => loop(xs) where
+  {
+    val () = PHParref_extend(A, x)
+  } (* end of [list_cons] *)
+)
+//
+val () = loop(xs) // initizing
+//
+} (* PHParref_make_list *)
+
+(* ****** ****** *)
 //
 implement
 PHParref2list

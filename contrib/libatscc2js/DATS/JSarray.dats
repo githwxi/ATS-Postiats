@@ -57,7 +57,9 @@ loop
 case+ xs of
 | list_nil() => ()
 | list_cons(x, xs) =>
-  let val _ = A.push(x) in loop(A, xs) end
+  let
+    val _ = A.push(x) in loop(A, xs)
+  end // [list_cons]
 )
 //
 val A = JSarray_nil{a}()
@@ -81,7 +83,9 @@ loop
 case+ xs of
 | ~list_vt_nil() => ()
 | ~list_vt_cons(x, xs) =>
-  let val _ = A.push(x) in loop(A, xs) end
+  let
+    val _ = A.push(x) in loop(A, xs)
+  end // [list_vt_cons]
 )
 //
 val A = JSarray_nil{a}()
@@ -107,7 +111,8 @@ loop
 (
 if i < asz
   then let
-    val _ = JSarray_push(A, fopr(i)) in loop(i+1)
+    val _ =
+    JSarray_push(A, fopr(i)) in loop(i+1)
   end // end of [then]
   else () // end of [else]
 // end of [if]

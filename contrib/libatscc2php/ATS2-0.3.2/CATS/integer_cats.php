@@ -46,14 +46,14 @@ ats2phppre_half_int0($x)
 /* ****** ****** */
 
 function
-ats2phppre_succ_int1(x) { return (x + 1); }
+ats2phppre_succ_int1($x) { return ($x + 1); }
 function
-ats2phppre_pred_int1(x) { return (x - 1); }
+ats2phppre_pred_int1($x) { return ($x - 1); }
 
 /* ****** ****** */
 
 function
-ats2phppre_half_int1(x) { return ats2phppre_half_int0(x); }
+ats2phppre_half_int1($x) { return ats2phppre_half_int0($x); }
 
 /* ****** ****** */
 
@@ -100,6 +100,14 @@ function
 ats2phppre_eq_int0_int0($x, $y) { return ($x === $y); }
 function
 ats2phppre_neq_int0_int0($x, $y) { return ($x !== $y); }
+
+/* ****** ****** */
+
+function
+ats2phppre_compare_int0_int0($x, $y)
+{
+  return ($x < $y ? -1 : ($x <= $y ? 0 : 1)); // HX: intcmp
+}
 
 /* ****** ****** */
 

@@ -164,5 +164,11 @@ overload logats with logats8
 overload logats with logats9
 //
 (* ****** ****** *)
+//
+(*
+typedef strchr = string(1)
+*)
+//
+(* ****** ****** *)
 
 (* end of [basics_js.sats] *)
