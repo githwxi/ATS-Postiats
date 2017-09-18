@@ -25,15 +25,16 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Extending prelude/stream_vt with more functions
-2. Supporting the following style of function interface declaration:
+2. Improving ${PATSHOME}/contrib/libatscc2php/ATS2-0.3.2
+3. Supporting the following style of function interface declaration:
    extern
    fun swap_boxed{a,b:type}(xy: (a, b)): (b, a)
    (
    Note that (a, b) needs to be replaced with @(a, b) at this point
    )
-3. Hosting for ats-lang.org moved from OPENSHIFT2 to OPENSHIFT3
-4. Adding some stream-processing functions in prelude and libats/ML
-5. In progress:
+4. Adding stream-processing functions in prelude and libats/ML
+5. Hosting for ats-lang.org moved from OPENSHIFT2 to OPENSHIFT3
+6. In progress:
    A Functional Crash into ATS: ${PATSHOME}/doc/BOOK/ATS2FUNCRASH
 
 ######
