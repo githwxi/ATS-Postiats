@@ -61,7 +61,7 @@ LIBATSCC_targetloc
 //
 implement
 {a}(*tmp*)
-print_list (xs) = fprint_list<a> (STDOUT, xs)
+print_list(xs) = fprint_list<a> (STDOUT, xs)
 implement
 {a}(*tmp*)
 print_list_sep

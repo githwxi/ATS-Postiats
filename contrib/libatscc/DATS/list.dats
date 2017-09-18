@@ -818,8 +818,65 @@ list_sort_1(xs) =
 //
 (* ****** ****** *)
 //
+implement
+list_mergesort
+{a}(xs, cmp) = let
+//
+fun
+msort
+{n:int}
+(
+xs: list(a, n), n: int(n)
+) : list(a, n) =
+(
+if
+(n < 2)
+then xs
+else let
+  val n2 = half(n)
+  val
+  $tup(xs1, xs2) =
+  list_split_at(xs, n2)
+in
+  merge(msort(xs1, n2), msort(xs2, n-n2))
+end // end of [then]
+) (* end of [msort] *)
+//
+and
+merge
+{n1,n2:int}
+(
+xs10: list(a, n1)
+,
+xs20: list(a, n2)
+) : list(a, n1+n2) =
+(
+case+ xs10 of
+| list_nil() => xs20
+| list_cons(x10, xs11) =>
+  (
+    case+ xs20 of
+    | list_nil() => xs10
+    | list_cons(x20, xs21) => let
+        val sgn = cmp(x10, x20)
+      in
+        if
+        (sgn <= 0)
+        then list_cons(x10, merge(xs11, xs20))
+        else list_cons(x20, merge(xs10, xs21))
+      end // end of [list_cons]
+  )
+)
+//
+in
+  msort(xs, list_length(xs))
+end // end of [list_mergesort]
+//
+(* ****** ****** *)
+//
 #if
-defined(ATSCC_STREAM_VT)
+defined
+(ATSCC_STREAM_VT)
 #then
 //
 implement
@@ -848,7 +905,8 @@ end
 (* ****** ****** *)
 
 #if
-defined(ATSCC_STREAM_VT)
+defined
+(ATSCC_STREAM_VT)
 #then
 //
 implement
@@ -883,7 +941,8 @@ end // end of [streamize_list_zip]
 (* ****** ****** *)
 
 #if
-defined(ATSCC_STREAM_VT)
+defined
+(ATSCC_STREAM_VT)
 #then
 //
 implement

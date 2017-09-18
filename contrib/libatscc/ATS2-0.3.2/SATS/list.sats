@@ -485,6 +485,15 @@ overload list_sort with list_sort_2 of 100
 (* ****** ****** *)
 //
 fun
+list_mergesort
+{a:t0p}{n:int}
+(
+  list(INV(a), n), cmp: (a, a) -<cloref1> int
+) : list(a, n) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 streamize_list_elt
   {a:t0p}
 (

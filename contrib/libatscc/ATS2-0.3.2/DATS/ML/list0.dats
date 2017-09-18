@@ -576,19 +576,19 @@ end // end of [list0_foldright]
 //
 implement
 {a}(*tmp*)
-list0_sort_1(xs) = let
-//
-val ys = list_sort_1<a>(g1ofg0(xs)) in g0ofg1(ys)
-//
-end // end of [list0_sort_1]
+list0_sort_1(xs) =
+  g0ofg1(list_sort_1<a>(g1ofg0(xs)))
 //
 implement
-list0_sort_2(xs, cmp) = let
+list0_sort_2(xs, cmp) =
+  g0ofg1(list_sort_2(g1ofg0(xs), cmp))
 //
-val ys =
-  list_sort_2(g1ofg0(xs), $UN.cast(cmp)) in g0ofg1(ys)
+(* ****** ****** *)
 //
-end // end of [list0_sort_2]
+implement
+list0_mergesort
+  {a}(xs, cmp) =
+  g0ofg1(list_mergesort(g1ofg0(xs), cmp))
 //
 (* ****** ****** *)
 //

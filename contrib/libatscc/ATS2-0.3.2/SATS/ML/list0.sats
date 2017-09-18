@@ -422,6 +422,15 @@ overload list0_sort with list0_sort_2 of 100
 (* ****** ****** *)
 //
 fun
+list0_mergesort
+  {a:t0p}
+(
+  list0(INV(a)), cmp: (a, a) -<cloref1> int
+) : list0(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 streamize_list0_zip
   {a,b:t0p}
 (

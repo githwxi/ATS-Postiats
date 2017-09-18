@@ -582,7 +582,10 @@ implement
 list0_foldleft_method
   {res}{a}(xs, init) =
 (
-  lam(fopr) => list0_foldleft{res}{a}(xs, init, fopr)
+//
+lam(fopr) =>
+  list0_foldleft{res}{a}(xs, init, fopr)
+//
 ) (* end of [list0_foldleft_method] *)
 
 (* ****** ****** *)
@@ -611,7 +614,10 @@ implement
 list0_foldright_method
   {res}{a}(xs, sink) =
 (
-  lam(fopr) => list0_foldright{res}{a}(xs, fopr, sink)
+//
+lam(fopr) =>
+  list0_foldright{res}{a}(xs, fopr, sink)
+//
 ) (* end of [list0_foldright_method] *)
 
 (* ****** ****** *)
@@ -619,18 +625,18 @@ list0_foldright_method
 implement
 {a}(*tmp*)
 list0_sort_1(xs) = let
-//
-val ys = list_sort_1<a>(g1ofg0(xs)) in g0ofg1(ys)
-//
-end // end of [list0_sort_1]
+  g0ofg1(list_sort_1<a>(g1ofg0(xs)))
 //
 implement
-list0_sort_2(xs, cmp) = let
+list0_sort_2(xs, cmp) =
+  g0ofg1(list_sort_2(g1ofg0(xs), cmp)
 //
-val ys =
-  list_sort_2(g1ofg0(xs), $UN.cast(cmp)) in g0ofg1(ys)
+(* ****** ****** *)
 //
-end // end of [list0_sort_2]
+implement
+list0_mergesort
+  {a}(xs, cmp) =
+  g0ofg1(list_mergesort(g1ofg0(xs), cmp))
 //
 (* ****** ****** *)
 //
