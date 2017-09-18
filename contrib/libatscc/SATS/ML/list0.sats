@@ -348,6 +348,15 @@ overload .imap with list0_imap_method
 (* ****** ****** *)
 //
 fun
+list0_map2
+{a1,a2:t0p}{b:t0p}
+(
+  list0(INV(a1)), list0(INV(a2)), fopr: cfun(a1, a2, b)
+) : list0(b) = "mac#%" // end of [list0_map2]
+//
+(* ****** ****** *)
+//
+fun
 list0_mapcons
   {a:t0p}
   (x0: a, xss: list0(list0(INV(a)))): list0(list0(a)) = "mac#%"

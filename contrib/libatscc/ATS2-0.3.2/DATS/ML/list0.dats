@@ -301,7 +301,7 @@ case+ xs of
 implement
 list0_exists
   (xs, pred) =
-  list_exists($UN.cast(xs), pred)
+  list_exists(g1ofg0(xs), pred)
 //
 implement
 list0_exists_method
@@ -313,7 +313,7 @@ list0_exists_method
 implement
 list0_iexists
   (xs, pred) =
-  list_iexists($UN.cast(xs), pred)
+  list_iexists(g1ofg0(xs), pred)
 //
 implement
 list0_iexists_method
@@ -325,7 +325,7 @@ list0_iexists_method
 implement
 list0_forall
   (xs, pred) =
-  list_forall($UN.cast(xs), pred)
+  list_forall(g1ofg0(xs), pred)
 //
 implement
 list0_forall_method
@@ -337,7 +337,7 @@ list0_forall_method
 implement
 list0_iforall
   (xs, pred) =
-  list_iforall($UN.cast(xs), pred)
+  list_iforall(g1ofg0(xs), pred)
 //
 implement
 list0_iforall_method
@@ -353,7 +353,7 @@ list0_app{a}
 implement
 list0_foreach{a}
   (xs, fwork) =
-  list_foreach{a}($UN.cast(xs), fwork)
+  list_foreach{a}(g1ofg0(xs), fwork)
 //
 implement
 list0_foreach_method
@@ -365,7 +365,7 @@ list0_foreach_method
 implement
 list0_iforeach{a}
   (xs, fwork) =
-  list_iforeach{a}($UN.cast(xs), fwork)
+  list_iforeach{a}(g1ofg0(xs), fwork)
 //
 implement
 list0_iforeach_method
@@ -377,7 +377,7 @@ list0_iforeach_method
 implement
 list0_rforeach{a}
   (xs, fwork) =
-  list_rforeach{a}($UN.cast(xs), fwork)
+  list_rforeach{a}(g1ofg0(xs), fwork)
 //
 implement
 list0_rforeach_method
@@ -389,10 +389,7 @@ list0_rforeach_method
 implement
 list0_filter
   {a}(xs, pred) =
-  $UN.cast
-  (
-    list_filter($UN.cast(xs), pred)
-  ) (* $UN.cast *)
+  g0ofg1(list_filter(g1ofg0(xs), pred))
 //
 implement
 list0_filter_method
@@ -404,7 +401,7 @@ list0_filter_method
 implement
 list0_labelize
   {x}(xs) =
-  $UN.cast(list_labelize($UN.cast(xs)))
+  g0ofg1(list_labelize(g1ofg0(xs)))
 //
 (* ****** ****** *)
 //
@@ -412,7 +409,7 @@ implement
 list0_map
   {a}{b}
   (xs, fopr) =
-  $UN.cast(list_map($UN.cast(xs), fopr))
+  g0ofg1(list_map(g1ofg0(xs), fopr))
 //
 implement
 list0_map_method
@@ -425,12 +422,20 @@ implement
 list0_imap
   {a}{b}
   (xs, fopr) =
-  $UN.cast(list_imap($UN.cast(xs), fopr))
+  g0ofg1(list_imap(g1ofg0(xs), fopr))
 //
 implement
 list0_imap_method
   {a}{b}(xs, _) =
   lam(fopr) => list0_imap{a}{b}(xs, fopr)
+//
+(* ****** ****** *)
+//
+implement
+list0_map2
+  {a1,a2}{b}
+  (xs1, xs2, fopr) =
+  g0ofg1(list_map2(g1ofg0(xs1), g1ofg0(xs2), fopr))
 //
 (* ****** ****** *)
 //
