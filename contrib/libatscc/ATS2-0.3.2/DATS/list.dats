@@ -714,6 +714,35 @@ list_imap_method
   {a}(xs, _) = lam(fopr) => list_imap{a}(xs, fopr)
 //
 (* ****** ****** *)
+//
+implement
+list_map2
+(
+  xs1, xs2, fopr
+) = let
+//
+prval() =
+lemma_list_param(xs1)
+prval() =
+lemma_list_param(xs2)
+//
+in
+//
+case+ xs1 of
+| list_nil() =>
+  list_nil()
+| list_cons(x1, xs1) =>
+  (
+    case+ xs2 of
+    | list_nil() =>
+      list_nil()
+    | list_cons(x2, xs2) =>
+      list_cons(fopr(x1, x2), list_map2(xs1, xs2, fopr))
+  )
+//
+end (* end of [list_map2] *)
+//
+(* ****** ****** *)
 
 implement
 list_foldleft

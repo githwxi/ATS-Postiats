@@ -349,13 +349,14 @@ list_labelize
 //
 fun
 list_map
-  {a:t0p}{b:t0p}{n:int}
+{a:t0p}
+{b:t0p}{n:int}
 (
   xs: list(INV(a), n), fopr: cfun(a, b)
 ) : list(b, n) = "mac#%" // end-of-function
 fun
 list_map_method
-  {a:t0p}{b:t0p}{n:int}
+{a:t0p}{b:t0p}{n:int}
 (
   xs: list(INV(a), n), TYPE(b))(fopr: cfun(a, b)
 ) : list(b, n) = "mac#%" // end-of-function
@@ -366,18 +367,30 @@ overload .map with list_map_method // HX: xs.map(TYPE{b})(...)
 //
 fun
 list_imap
-  {a:t0p}{b:t0p}{n:int}
+{a:t0p}
+{b:t0p}{n:int}
 (
   xs: list(INV(a), n), fopr: cfun(Nat, a, b)
 ) : list(b, n) = "mac#%" // end-of-function
 fun
 list_imap_method
-  {a:t0p}{b:t0p}{n:int}
+{a:t0p}{b:t0p}{n:int}
 (
   xs: list(INV(a), n), TYPE(b))(fopr: cfun(Nat, a, b)
 ) : list(b, n) = "mac#%" // end-of-function
 //
 overload .imap with list_imap_method // HX: xs.imap(TYPE{b})(...)
+//
+(* ****** ****** *)
+//
+fun
+list_map2
+{a1,a2:t0p}
+{b:t0p}{n1,n2:int}
+(
+  xs1: list(INV(a1), n1)
+, xs2: list(INV(a2), n2), fopr: cfun(a1, a2, b)
+) : list(b, min(n1,n2)) = "mac#%" // end-of-function
 //
 (* ****** ****** *)
 //
