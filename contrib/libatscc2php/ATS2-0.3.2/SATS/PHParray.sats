@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into PHP
 *)
-
 (* ****** ****** *)
 //
 // HX-2014-08:
@@ -15,9 +15,8 @@ ATS_STATIC_PREFIX "_ats2phppre_PHParray_"
 //
 (* ****** ****** *)
 //
-// PHP datatypes
-//
-#staload "./../basics_php.sats"
+#staload
+"./../basics_php.sats" // PHP datatypes
 //
 (* ****** ****** *)
 //
@@ -98,8 +97,9 @@ PHParray_join_sep
 //
 (* ****** ****** *)
 //
+(*
 typedef strchr = string(1)
-//
+*)
 fun
 PHParray_of_string(cs: string): PHParray(strchr) = "mac#%"
 //

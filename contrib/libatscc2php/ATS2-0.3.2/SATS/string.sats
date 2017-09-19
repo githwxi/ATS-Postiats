@@ -10,6 +10,13 @@
 //
 #define
 ATS_EXTERN_PREFIX "ats2phppre_"
+#define
+ATS_STATIC_PREFIX "_ats2phppre_string_"
+//
+(* ****** ****** *)
+//
+#staload
+"./../basics_php.sats" // HX: strchr
 //
 (* ****** ****** *)
 //
@@ -130,8 +137,6 @@ overload
 string_concat with string_concat_4 of 100
 //
 (* ****** ****** *)
-//
-typedef strchr = string(1)
 //
 fun
 string_explode(cs: string): List0(strchr) = "mac#%"

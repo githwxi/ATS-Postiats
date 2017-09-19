@@ -109,9 +109,7 @@ overload echo with echo8
 //
 (* ****** ****** *)
 //
-(*
 typedef strchr = string(1)
-*)
 //
 (* ****** ****** *)
 //

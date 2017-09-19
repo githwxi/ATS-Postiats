@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into PHP
 *)
-
 (* ****** ****** *)
 //
 // HX-2014-08:
@@ -15,9 +15,8 @@ ATS_STATIC_PREFIX "_ats2phppre_PHParref_"
 //
 (* ****** ****** *)
 //
-// PHP datatypes
-//
-#staload "./../basics_php.sats"
+#staload
+"./../basics_php.sats" // PHP datatypes
 //
 (* ****** ****** *)
 //
