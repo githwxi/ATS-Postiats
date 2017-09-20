@@ -34,6 +34,21 @@ int_foreach<(*void*)>
 )
 //
 (* ****** ****** *)
+//
+fun
+sq(i: int): int = i*i
+fun
+sqsum(n: int): int =
+int_foldleft<int>(n, 0, lam(res, i) => res + sq(i+1))
+//
+val () =
+int_foreach<(*void*)>
+( 10
+, lam(i) =>
+  println!("sqsum(", i, ") = ", sqsum(i))
+)
+//
+(* ****** ****** *)
 
 fun
 {a:t@ype}

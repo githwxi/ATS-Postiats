@@ -64,16 +64,18 @@ typedef NSH(a:type) = a // for commenting purpose
 (* ****** ****** *)
 //
 #define
-list0_sing(x) list0_cons(x, list0_nil())
+list0_sing(x)
+list0_cons(x, list0_nil())
 //
 #define
 list0_pair(x1, x2)
-list0_cons(x1, list0_cons (x2, list0_nil()))
+list0_cons(x1, list0_cons(x2, list0_nil()))
 //
 (* ****** ****** *)
 //
 castfn
-list0_cast{x:t0p} (xs: list0(INV(x))):<> list0(x)
+list0_cast{x:t0p}
+  (xs: list0(INV(x))):<> list0(x)
 //
 (* ****** ****** *)
 //
@@ -87,9 +89,11 @@ list0_of_list_vt
 (* ****** ****** *)
 //
 castfn
-g0ofg1_list{a:t@ype}(List(INV(a))):<> list0(a)
+g0ofg1_list
+  {a:t@ype}(List(INV(a))):<> list0(a)
 castfn
-g0ofg1_list_vt{a:t@ype}(List_vt(INV(a))):<> list0(a)
+g0ofg1_list_vt
+  {a:t@ype}(List_vt(INV(a))):<> list0(a)
 //
 overload g0ofg1 with g0ofg1_list
 overload g0ofg1 with g0ofg1_list_vt
@@ -97,21 +101,22 @@ overload g0ofg1 with g0ofg1_list_vt
 (* ****** ****** *)
 //
 castfn
-g1ofg0_list{a:t@ype}(list0(INV(a))):<> List0(a)
+g1ofg0_list
+  {a:t@ype}(xs: list0(INV(a))):<> List0(a)
 //
 overload g1ofg0 with g1ofg0_list
 //
 (* ****** ****** *)
 
 fun{a:t0p}
-list0_make_sing (x: a):<> list0(a)
+list0_make_sing(x: a):<> list0(a)
 fun{a:t0p}
-list0_make_pair (x1: a, x2: a):<> list0(a)
+list0_make_pair(x1: a, x2: a):<> list0(a)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-list0_make_elt (n: int, x: a):<!exn> list0(a)
+list0_make_elt(n: int, x: a):<!exn> list0(a)
 
 (* ****** ****** *)
 //
@@ -134,8 +139,10 @@ list0_make_intrange_lrd
 //
 symintr list0_make_intrange
 //
-overload list0_make_intrange with list0_make_intrange_lr
-overload list0_make_intrange with list0_make_intrange_lrd
+overload
+list0_make_intrange with list0_make_intrange_lr
+overload
+list0_make_intrange with list0_make_intrange_lrd
 //
 (* ****** ****** *)
 //
