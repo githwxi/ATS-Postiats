@@ -49,11 +49,11 @@ staload "libats/ML/SATS/list0.sats"
 //
 implement
 {a}(*tmp*)
-list0_make_sing (x) =
+list0_make_sing(x) =
   list0_cons{a}(x, list0_nil)
 implement
 {a}(*tmp*)
-list0_make_pair (x1, x2) =
+list0_make_pair(x1, x2) =
   list0_cons{a}(x1, list0_cons{a}(x2, list0_nil))
 //
 (* ****** ****** *)

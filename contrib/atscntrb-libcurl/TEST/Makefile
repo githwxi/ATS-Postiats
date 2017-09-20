@@ -31,15 +31,15 @@ regress:: test00 ; ./$<
 cleanall:: ; $(RMF) test00
 
 ######
-
+#
 all:: test01
 test01: test01.dats ; \
-$(PATSCC) -DATS_MEMALLOC_LIBC -I$(INCLUDE) -o $@  $< testlib.dats -lcurl
+$(PATSCC) -g -DATS_MEMALLOC_LIBC -I$(INCLUDE) -o $@  $< testlib.dats -lcurl
 #
 regress:: test01 ; ./$<
 #
 cleanall:: ; $(RMF) test01
-
+#
 ######
 
 testall:: all

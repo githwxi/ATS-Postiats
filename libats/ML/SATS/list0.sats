@@ -291,7 +291,7 @@ overload fprint with fprint_listlist0_sep
 fun{a:t0p}
 list0_insert_at_exn
 (
-  SHR(list0(INV(a))), i: int, x: a
+  SHR(list0(INV(a))), i: int, x: (a)
 ) :<!exn> list0(a) // endfun
 
 (* ****** ****** *)
@@ -312,7 +312,8 @@ overload takeout_at with list0_takeout_at_exn
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 list0_append
 (
   xs: NSH(list0(INV(a))), ys: SHR(list0(a))
@@ -331,7 +332,8 @@ macdef list0_snoc = list0_extend
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 mul_int_list0
 (
   m0: intGte(0), xs: NSH(list0(INV(a)))

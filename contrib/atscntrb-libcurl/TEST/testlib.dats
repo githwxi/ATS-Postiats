@@ -9,8 +9,6 @@ ATS_DYNLOADFLAG 0 // no dynloading at run-time
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)

@@ -75,8 +75,7 @@ overload ptrcast with CURLptr2ptr
 //
 (* ****** ****** *)
 //
-abst@ype CURLcode = $extype"CURLcode"
-//
+abst0ype CURLcode = $extype"CURLcode"
 absvt0ype CURLerror = $extype"CURLcode"
 //
 (* ****** ****** *)
@@ -112,37 +111,48 @@ macdef
 CURLE_OK = $extval(CURLcode, "CURLE_OK")
 
 (* ****** ****** *)
-
-abst@ype CURLoption = $extype"CURLoption"
-
-(* ****** ****** *)
 //
-macdef CURLOPT_FILE = $extval(CURLoption, "CURLOPT_FILE") // 1
-macdef CURLOPT_URL = $extval(CURLoption, "CURLOPT_URL") // 2
-macdef CURLOPT_PORT = $extval(CURLoption, "CURLOPT_PORT") // 3
-macdef CURLOPT_PROXY = $extval(CURLoption, "CURLOPT_PROXY") // 4
-macdef CURLOPT_USERPWD = $extval(CURLoption, "CURLOPT_USERPWD") // 5
-macdef CURLOPT_PROXYUSERPWD = $extval(CURLoption, "CURLOPT_PROXYUSERPWD") // 6
-macdef CURLOPT_RANGE = $extval(CURLoption, "CURLOPT_RANGE") // 7
-// HX: [8] is not used
-macdef CURLOPT_INFILE = $extval(CURLoption, "CURLOPT_INFILE") // 9
-macdef CURLOPT_ERRORBUFFER = $extval(CURLoption, "CURLOPT_ERRORBUFFER") // 10
-macdef CURLOPT_WRITEFUNCTION = $extval(CURLoption, "CURLOPT_WRITEFUNCTION") // 11
-macdef CURLOPT_READFUNCTION = $extval(CURLoption, "CURLOPT_READFUNCTION") // 12
-macdef CURLOPT_TIMEOUT = $extval(CURLoption, "CURLOPT_TIMEOUT") // 13
-macdef CURLOPT_INFILESIZE = $extval(CURLoption, "CURLOPT_INFILESIZE") // 14
-macdef CURLOPT_POSTFIELDS = $extval(CURLoption, "CURLOPT_POSTFIELDS") // 15
-macdef CURLOPT_REFERER = $extval(CURLoption, "CURLOPT_REFERER") // 16
-macdef CURLOPT_FTPPORT = $extval(CURLoption, "CURLOPT_FTPPORT") // 17
-macdef CURLOPT_USERAGENT = $extval(CURLoption, "CURLOPT_USERAGENT") // 18
+typedef CURL = lint
 //
-macdef CURLOPT_READDATA = $extval(CURLoption, "CURLOPT_READDATA") // = CURLOPT_INFILE
-macdef CURLOPT_WRITEDATA = $extval(CURLoption, "CURLOPT_WRITEDATA") // = CURLOPT_FILE
+macdef
+CURL_GLOBAL_ALL = $extval(CURL, "CURL_GLOBAL_ALL")
+macdef
+CURL_GLOBAL_SSL = $extval(CURL, "CURL_GLOBAL_SSL")
+macdef
+CURL_GLOBAL_WIN32 = $extval(CURL, "CURL_GLOBAL_WIN32")
 //
 (* ****** ****** *)
-
+//
+abst@ype CURLOPT = $extype"CURLOPT"
 abst@ype CURLINFO = $extype"CURLINFO"
-
+//
+(* ****** ****** *)
+//
+macdef CURLOPT_URL = $extval(CURLOPT, "CURLOPT_URL") // 2
+macdef CURLOPT_FILE = $extval(CURLOPT, "CURLOPT_FILE") // 1
+macdef CURLOPT_PORT = $extval(CURLOPT, "CURLOPT_PORT") // 3
+macdef CURLOPT_PROXY = $extval(CURLOPT, "CURLOPT_PROXY") // 4
+macdef CURLOPT_USERPWD = $extval(CURLOPT, "CURLOPT_USERPWD") // 5
+macdef CURLOPT_PROXYUSERPWD = $extval(CURLOPT, "CURLOPT_PROXYUSERPWD") // 6
+macdef CURLOPT_RANGE = $extval(CURLOPT, "CURLOPT_RANGE") // 7
+// HX: [8] is not used
+macdef CURLOPT_INFILE = $extval(CURLOPT, "CURLOPT_INFILE") // 9
+macdef CURLOPT_ERRORBUFFER = $extval(CURLOPT, "CURLOPT_ERRORBUFFER") // 10
+macdef CURLOPT_WRITEFUNCTION = $extval(CURLOPT, "CURLOPT_WRITEFUNCTION") // 11
+macdef CURLOPT_READFUNCTION = $extval(CURLOPT, "CURLOPT_READFUNCTION") // 12
+macdef CURLOPT_TIMEOUT = $extval(CURLOPT, "CURLOPT_TIMEOUT") // 13
+macdef CURLOPT_INFILESIZE = $extval(CURLOPT, "CURLOPT_INFILESIZE") // 14
+macdef CURLOPT_POSTFIELDS = $extval(CURLOPT, "CURLOPT_POSTFIELDS") // 15
+macdef CURLOPT_REFERER = $extval(CURLOPT, "CURLOPT_REFERER") // 16
+macdef CURLOPT_FTPPORT = $extval(CURLOPT, "CURLOPT_FTPPORT") // 17
+macdef CURLOPT_USERAGENT = $extval(CURLOPT, "CURLOPT_USERAGENT") // 18
+//
+macdef CURLOPT_READDATA = $extval(CURLOPT, "CURLOPT_READDATA") // = CURLOPT_INFILE
+macdef CURLOPT_WRITEDATA = $extval(CURLOPT, "CURLOPT_WRITEDATA") // = CURLOPT_FILE
+//
+macdef CURLOPT_SSL_VERIFYPEER = $extval(CURLOPT, "CURLOPT_SSL_VERIFYPEER")
+macdef CURLOPT_SSL_VERIFYHOST = $extval(CURLOPT, "CURLOPT_SSL_VERIFYHOST")
+//
 (* ****** ****** *)
 //
 macdef CURLINFO_TEXT = $extval(CURLINFO, "CURLINFO_TEXT")
@@ -150,6 +160,9 @@ macdef CURLINFO_HEADER_IN = $extval(CURLINFO, "CURLINFO_HEADER_IN")
 macdef CURLINFO_HEADER_OUT = $extval(CURLINFO, "CURLINFO_HEADER_OUT")
 macdef CURLINFO_DATA_IN = $extval(CURLINFO, "CURLINFO_DATA_IN")
 macdef CURLINFO_DATA_OUT = $extval(CURLINFO, "CURLINFO_DATA_OUT")
+//
+(* ****** ****** *)
+//
 macdef CURLINFO_SSL_DATA_IN = $extval(CURLINFO, "CURLINFO_SSL_DATA_IN")
 macdef CURLINFO_SSL_DATA_OUT = $extval(CURLINFO, "CURLINFO_SSL_DATA_OUT")
 //
