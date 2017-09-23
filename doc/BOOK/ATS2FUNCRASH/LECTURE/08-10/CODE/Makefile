@@ -14,9 +14,10 @@ all::
 ######
 
 all:: \
-MonteCarlo
-MonteCarlo: ; \
-$(MYATSCC) MonteCarlo.dats
+MonteCarlo_dats
+MonteCarlo_dats: \
+MonteCarlo.dats; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -O2 -o $@ $< -lm
 
 ######
 
@@ -31,7 +32,6 @@ clean:: ; rm -f *~
 cleanall:: clean
 cleanall:: ; rm -f *_dats
 cleanall:: ; rm -f *_dats.c
-cleanall:: ; rm -f *_dats.js
 
 ######
 

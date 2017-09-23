@@ -642,6 +642,22 @@ then
 //
 (* ****** ****** *)
 //
+fun
+{a:t@ype}
+int_cross_list0_map
+( m: int
+, n: int
+, fopr: cfun(int, int, a)): list0(a) =
+list0_concat<a>
+(
+int_list0_map<list0(a)>
+( m
+, lam(i) => int_list0_map<a>(n, lam(j) => fopr(i, j))
+) (* int_list0_map *)
+)
+//
+(* ****** ****** *)
+//
 extern
 fun
 {a:t@ype}
