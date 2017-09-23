@@ -20,13 +20,6 @@ $(MYATSCC) Factorial.dats
 
 ######
 
-all:: \
-QueenPuzzle
-QueenPuzzle: ; \
-$(MYATSCC) QueenPuzzle.dats
-
-######
-
 clean:: ; rm -f *~
 
 ######

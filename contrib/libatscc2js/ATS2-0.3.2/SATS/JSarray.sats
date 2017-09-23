@@ -17,6 +17,11 @@ ATS_EXTERN_PREFIX "ats2jspre_"
 
 (* ****** ****** *)
 //
+macdef
+Array = $extval(JSobj, "Array")
+//
+(* ****** ****** *)
+//
 fun
 JSarray_nil
   {a:vt0p}(): JSarray(a) = "mac#%"

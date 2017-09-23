@@ -169,5 +169,24 @@ typedef strchr = string(1)
 *)
 //
 (* ****** ****** *)
+//
+fun
+fun2cloref0
+{res:t@ype}
+  (fopr: () -> res): cfun(res) = "mac#%"
+fun
+fun2cloref1
+{a:t@ype}{res:t@ype}
+  (fopr: (a) -> res): cfun(a, res) = "mac#%"
+fun
+fun2cloref2
+{a1,a2:t@ype}{res:t@ype}
+  (fopr: (a1, a2) -> res): cfun(a1, a2, res) = "mac#%"
+fun
+fun2cloref3
+{a1,a2,a3:t@ype}{res:t@ype}
+  (fopr: (a1, a2, a3) -> res): cfun(a1, a2, a3, res) = "mac#%"
+//
+(* ****** ****** *)
 
 (* end of [basics_js.sats] *)

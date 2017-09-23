@@ -85,5 +85,16 @@ echo8(x1, x2, x3, x4, x5, x6, x7, x8) =
 implement{a} echo_tmp(x) = echo_obj(x)
 
 (* ****** ****** *)
+//
+implement
+fun2cloref0(fopr) = lam() => fopr()
+implement
+fun2cloref1(fopr) = lam(x) => fopr(x)
+implement
+fun2cloref2(fopr) = lam(x1, x2) => fopr(x1, x2)
+implement
+fun2cloref3(fopr) = lam(x1, x2, x3) => fopr(x1, x2, x3)
+//
+(* ****** ****** *)
 
 (* end of [basics.dats] *)

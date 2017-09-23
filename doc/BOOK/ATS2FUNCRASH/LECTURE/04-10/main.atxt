@@ -184,13 +184,14 @@ end // end of [repeat_execute_after]
 //
 ')
 
-For any two consecutive calls to fwork, there is a delay of ms
-milliseconds between them. In a case where a call to #dyncode("fwork")
-draws an image, calling #dyncode("repeat_execute_after") may create an
-animation effect of some sort. For example, please click
-<ulink
+For any two consecutive calls to #dyncode("fwork"), there is a delay
+of #dyncode("ms") milliseconds between them. In a case where a call to
+#dyncode("fwork") draws an image, calling
+#dyncode("repeat_execute_after") may create an animation effect of
+some sort. For example, please click <ulink
 url=\"https://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/LECTURE/04-10/CODE/Sierpinski.html\">here</ulink>
-to see an animated version of the example of Sierpinkski triangle presented previously.
+to see an animated version of the example of Sierpinkski triangle
+presented previously.
 
 ")
 

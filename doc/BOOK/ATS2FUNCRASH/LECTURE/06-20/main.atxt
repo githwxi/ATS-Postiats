@@ -68,8 +68,10 @@ atscc2js -o Factorial_dats.js -i Factorial_dats.c
 
 #para("\
 
-At the beginning of #filename("Factorial.dats"), the following
-code is present:
+As a concrete example, please see the code in
+<ulink
+url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/06-20/CODE/Factorial.dats\">Factorial.dats</ulink>.
+At the beginning of the file, the following code is present:
 
 #dats2xhtml('\
 //
@@ -140,7 +142,7 @@ DOM-element.
 Note that the use of the string #dyncode('"mac\\\\#"') simply
 indicates to #command("patsopt") that the function
 #dyncode("funarg1_get") is to be given the same name when compiled
-into C.  In contrast, the name automatically chosen (by
+into C. In contrast, the name automatically chosen (by
 #command("patsopt")) for #dyncode("funarg1_get") contains a long
 prefix (for carrying some namespace information) if the string
 #dyncode('"mac\\\\#"') is not present. In case a different name is
@@ -153,7 +155,7 @@ string #dyncode('"mac\\\\#\JS_funarg1_get"') is used, then the name
 directly pasted by #command("patsopt") into the generated C code.  The
 symbol #dyncode("^") means that the pasted code is to appear near the
 beginning of the generated code. If the symbol #dyncode("^") is
-omitted or replaced with #dyncode("$"), the pasted code is to appear
+omitted or replaced with #dyncode("$"), the code is to be pasted
 near the bottom of the generated code.
 
 ")

@@ -159,12 +159,12 @@ insord
 (
 case+ xs of
 | list0_nil() =>
-  list0_cons(x0, list0_nil())
+  list0_sing(x0)
 | list0_cons(x1, xs1) =>
   (
-    if cmp(x0, x1) >= 0
-      then list0_cons(x1, insord(x0, xs1))
-      else list0_cons(x0, xs)
+    if cmp(x0, x1) < 0
+      then list0_cons(x0, xs)
+      else list0_cons(x1, insord(x0, xs1))
     // end of [if]
   ) // end of [list0_cons]
 ) (* end of [insord] *)

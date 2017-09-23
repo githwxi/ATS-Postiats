@@ -146,7 +146,7 @@ calls (and thus can be translated into local jumps), the keyword
 #para("\
 
 Please find #mycodelink("LECTURE/03/CODE", "on-line") the entirety of
-the code used in this chapter. Also, it can found in <ulink
+the code used in this chapter. Also, it can be found in <ulink
 url=\"http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/loop-as-tailrec/main.html\">
 this article</ulink> a detailed explanation on tail-recursion and the
 support in ATS for turning tail-recursive calls into local jumps.\
