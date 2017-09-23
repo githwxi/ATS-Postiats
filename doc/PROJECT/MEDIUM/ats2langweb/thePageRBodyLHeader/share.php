@@ -38,8 +38,8 @@ thePageRBodyLHeader_Documents()
   echo "<ul name=\"Documents\">\n";
   echo "<li><a href=\"#INT2PROGINATS\">Introduction to Programming in ATS</a></li>\n";
   echo "<li><a href=\"#ATS2TUTORIAL0\">A Tutorial on Programming Features in ATS</a></li>\n";
-  echo "<li><a href=\"#ATS2FUNCRASH0\">A Functional Crash into ATS</a></li>\n";
-  echo "<li><a href=\"#EFF2ATSPROGEX\">Effective ATS Programming through Examples</a></li>\n";
+  echo "<li><a href=\"#ATS2FUNCRASH0\">A Crash into Functional Programming via ATS</a></li>\n";
+  echo "<li><a href=\"#EFF2ATSPROGEX\">Effective Programming in AT through Examples</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Documents] */

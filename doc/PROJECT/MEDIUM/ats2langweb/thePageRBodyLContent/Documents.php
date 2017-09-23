@@ -92,7 +92,7 @@ Translation in Japanese:
 
 <hr></hr>
 
-<h2><a id="ATS2FUNCRASH0">A Functional Crash into ATS</a></h2>
+<h2><a id="ATS2FUNCRASH0">A Crash into Functional Programming via ATS</a></h2>
 
 <table>
 <tr><td>
@@ -119,7 +119,7 @@ Backup Links:
 
 <hr></hr>
 
-<h2><a id="EFF2ATSPROGEX">Effective ATS Programming through Examples</a></h2>
+<h2><a id="EFF2ATSPROGEX">Effective Programming in ATS through Examples</a></h2>
 
 <table>
 <tr><td>
