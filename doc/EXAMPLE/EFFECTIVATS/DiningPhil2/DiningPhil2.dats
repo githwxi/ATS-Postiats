@@ -21,28 +21,35 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload
+//
+#staload
 UN =
 "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-//
-staload "libats/libc/SATS/stdlib.sats"
-staload "libats/libc/SATS/unistd.sats"
 //
 (* ****** ****** *)
+//
+#staload
+"libats/libc/SATS/stdlib.sats"
+#staload
+"libats/libc/SATS/unistd.sats"
+//
+(* ****** ****** *)
+//
+#define
+LIBATSHWXI_targetloc
+"$PATSHOME\
+/npm-utils/contrib/libats-hwxi"
 //
 #include
-"{$LIBATSHWXI}/threadkit/staloadall.hats"
+"{$LIBATSHWXI}/threadkit/mylibies.hats"
 //
 (* ****** ****** *)
 
-staload $CHANNEL
+#staload $CHANNEL_t
 
 (* ****** ****** *)
 
-staload "./DiningPhil2.sats"
+#staload "./DiningPhil2.sats"
 
 (* ****** ****** *)
 

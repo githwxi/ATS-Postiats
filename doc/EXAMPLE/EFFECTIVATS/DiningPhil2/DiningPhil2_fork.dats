@@ -22,21 +22,26 @@
 //
 (* ****** ****** *)
 
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
+#define
+LIBATSHWXI_targetloc
+"$PATSHOME\
+/npm-utils/contrib/libats-hwxi"
+//
 #include
-"{$LIBATSHWXI}/threadkit/staloadall.hats"
+"{$LIBATSHWXI}/threadkit/mylibies.hats"
 //
 (* ****** ****** *)
 
-staload $CHANNEL
+#staload $CHANNEL_t
 
 (* ****** ****** *)
 
-staload "./DiningPhil2.sats"
+#staload "./DiningPhil2.sats"
 
 (* ****** ****** *)
 

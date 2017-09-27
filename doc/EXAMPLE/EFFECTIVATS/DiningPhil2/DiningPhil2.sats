@@ -12,8 +12,12 @@
 
 (* ****** ****** *)
 //
-staload
-"{$LIBATSHWXI}/threadkit/SATS/channel.sats"
+#define
+LIBATSHWXI_targetloc
+"$PATSHOME/npm-utils/contrib/libats-hwxi"
+//
+#staload
+"{$LIBATSHWXI}/threadkit/SATS/channel_t.sats"
 //
 (* ****** ****** *)
 
