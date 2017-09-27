@@ -17,6 +17,8 @@ staload M =
 staload _(*M*) =
 "libats/libc/DATS/math.dats"
 //
+staload TIME =
+"libats/libc/SATS/time.sats"
 staload STDLIB =
 "libats/libc/SATS/stdlib.sats"
 //
@@ -48,14 +50,11 @@ dbl2int g0float2int_double_int
 (* ****** ****** *)
 //
 typedef
-point =
-$tup(double, double)
-typedef
-pointlst = list0(point)
-typedef
-pointlstlst = list0(pointlst)
-typedef
-pointlstlstlst = list0(pointlstlst)
+point = $tup(double, double)
+//
+typedef points = list0(point)
+typedef pointss = list0(points)
+typedef pointsss = list0(pointss)
 //
 (* ****** ****** *)
 
@@ -63,6 +62,9 @@ fun sq(x: double): double = x * x
 fun sqrt(x: double): double = $M.sqrt(x)
 
 (* ****** ****** *)
+//
+// Computing the distance
+// between two given points
 //
 fun
 dist_point_point
@@ -75,7 +77,7 @@ overload dist with dist_point_point
 
 val
 theGrid =
-matrix0_make_elt<pointlst>(N, N, list0_nil)
+matrix0_make_elt<points>(N, N, list0_nil)
 
 (* ****** ****** *)
 //
@@ -89,9 +91,9 @@ if dist(p1, p2) <= 1.0 then 1 else 0
 )
 //
 fun
-hit_point_pointlst
+hit_point_points
 (
-p0: point, ps: pointlst
+p0: point, ps: points
 ) : int =
 (
 list0_foldleft<int><point>
@@ -101,36 +103,36 @@ list0_foldleft<int><point>
 )
 //
 fun
-hit_point_pointlstlst
+hit_point_pointss
 (
-p0: point, pss: pointlstlst
+p0: point, pss: pointss
 ) : int =
 (
-list0_foldleft<int><pointlst>
+list0_foldleft<int><points>
 ( pss, 0
-, lam(res, ps) => res + hit_point_pointlst(p0, ps)
+, lam(res, ps) => res + hit_point_points(p0, ps)
 ) (* list0_foldleft *)
 )
 //
 fun
-hit_point_pointlstlstlst
+hit_point_pointsss
 (
-p0: point, psss: pointlstlstlst
+p0: point, psss: pointsss
 ) : int =
 (
-list0_foldleft<int><pointlstlst>
+list0_foldleft<int><pointss>
 ( psss, 0
-, lam(res, ps) => res + hit_point_pointlstlst(p0, ps)
+, lam(res, ps) => res + hit_point_pointss(p0, ps)
 ) (* list0_foldleft *)
 )
 //
 (* ****** ****** *)
 
 fun
-theGrid_get_neibors
+theGrid_get_neighbors
 (
  i: int, j: int
-) : pointlstlstlst = let
+) : pointsss = let
 //
 fun
 isvalid_row
@@ -144,24 +146,27 @@ fopr
 (
   i: int
 , j: int
-) : pointlst =
+) : points =
 if
 (
 isvalid_row(i)
 &&
-isvalid_row(j)
+isvalid_col(j)
 )
 then theGrid[i, j] else list0_nil()
 //
 in
 //
-int_list0_map<pointlstlst>
+int_list0_map<pointss>
 ( 3
 , lam(i') =>
-  int_list0_map<pointlst>(3, lam(j') => fopr(i+i'-1, j+j'-1))
+  int_list0_map<points>
+  ( 3
+  , lam(j') => fopr(i + i' - 1, j + j' - 1)
+  )
 ) (* end of [int_list0_map] *)
 //
-end // end of [theGrid_get_neibors]
+end // end of [theGrid_get_neighbors]
 
 (* ****** ****** *)
 
@@ -184,20 +189,27 @@ ALPHA * $STDLIB.drand48()
 fun
 do_one(): int = let
 //
-val x = N * randfloat()
-val y = N * randfloat()
-//
-val i = g0float2int_double_int(x)
-val j = g0float2int_double_int(y)
+val x =
+N * randfloat()
+val y =
+N * randfloat()
 //
 val p = $tup(x, y)
 //
+val i =
+g0float2int_double_int(x)
+val j =
+g0float2int_double_int(y)
+//
 val nhit =
-hit_point_pointlstlstlst
-  (p, theGrid_get_neibors(i, j))
+hit_point_pointsss
+  (p, theGrid_get_neighbors(i, j))
 //
 in
-  theGrid[i, j] := list0_cons(p, theGrid[i, j]); nhit
+//
+  theGrid[i, j] :=
+  list0_cons(p, theGrid[i, j]); nhit
+//
 end // end of [do_one]
 
 (* ****** ****** *)
@@ -205,18 +217,25 @@ end // end of [do_one]
 fun
 do_all
 (
- T: int
+ K: int
 ) : int =
 (
 fix
-loop(i: int, res: int): int =<cloref1>
-  if i < T then loop(i+1, do_one()+res) else res
+loop
+(
+ i: int, res: int
+) : int =<cloref1>
+  if i < K then loop(i+1, do_one()+res) else res
 )(0, 0) // end of [do_all]
 //
 (* ****** ****** *)
 
 implement
 main0((*void*)) = let
+//
+val () =
+$STDLIB.srand48
+($UNSAFE.cast($TIME.time_get()))
 //
 val nhit = do_all(N*N)
 //
