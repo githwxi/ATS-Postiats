@@ -14,12 +14,12 @@ ATS_DYNLOADFLAG 0
 #define
 LIBATSCC2R3_targetloc
 "$PATSHOME\
-/contrib/libatscc2r3/ATS2-0.3.2"
+/contrib/libatscc2r3"
 //
 (* ****** ****** *)
 //
 #include
-"{$LIBATSCC2R3}/staloadall.hats"
+"{$LIBATSCC2R3}/mylibies.hats"
 //
 (* ****** ****** *)
 //

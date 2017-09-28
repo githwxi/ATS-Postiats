@@ -535,7 +535,7 @@ emit2_instrlst_end
 //
 extern
 fun
-emit2_instrlst_seqln
+emit2_instrlst_sepln
   (out: FILEref, ind: int, inss: instrlst, sep: string): void
 //
 (* ****** ****** *)
@@ -634,7 +634,7 @@ of // case+
     val () = emit_text (out, "(if")
     val () = emit_SPACE (out)
     val () = (emit_d0exp (out, d0e); emit_ENDL(out))
-    val () = emit2_instrlst_seqln (out, ind+2, inss, " ;; if-then\n")
+    val () = emit2_instrlst_sepln (out, ind+2, inss, " ;; if-then\n")
   in
     case+
     inssopt of
@@ -644,7 +644,7 @@ of // case+
       } (* end of [None] *)
     | Some(inss) =>
       {
-        val () = emit2_instrlst_seqln (out, ind+2, inss, " ;; if-else\n")
+        val () = emit2_instrlst_sepln (out, ind+2, inss, " ;; if-else\n")
         val () = (emit_nspc (out, ind); emit_RPAREN (out))
       } (* end of [Some] *)
   end // end of [ATSif]
@@ -1119,7 +1119,7 @@ inss of
 (* ****** ****** *)
 
 implement
-emit2_instrlst_seqln
+emit2_instrlst_sepln
   (out, ind, inss, sep) =
 {
 //
@@ -1131,7 +1131,7 @@ val () = emit2_instrlst_end(out, ind+1, inss, "\n")
 val () = emit_nspc(out, ind)
 val () = (emit_text(out, ")"); emit_text(out, sep))
 //
-} (* end of [emit2_instrlst_seqln] *)
+} (* end of [emit2_instrlst_sepln] *)
 
 (* ****** ****** *)
 
@@ -1288,7 +1288,7 @@ of // case+
     val _void_ = (emit_nspc (out, ind); emit_RPAREN (out))
   in
     inss
-  end // end of [ATSifnthen]
+  end // end of [ATSifthen]
 | ATSifnthen
     (d0e, inss2) => let
 //

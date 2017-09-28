@@ -38,6 +38,14 @@ cleanall:: ; $(RMF) fact_dats.R
 ######
 
 all:: \
+fact1_dats.R
+regress:: \
+fact1_dats.R ; $(SCHEME2) $<
+cleanall:: ; $(RMF) fact1_dats.R
+
+######
+
+all:: \
 fact2_dats.R
 regress:: \
 fact2_dats.R ; $(SCHEME2) $<

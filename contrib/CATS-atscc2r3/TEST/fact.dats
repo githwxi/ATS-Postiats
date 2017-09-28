@@ -12,19 +12,18 @@ ATS_DYNLOADFLAG 0
 (* ****** ****** *)
 //
 #define
-LIBATSCC2SCM_targetloc
-"$PATSHOME\
-/contrib/libatscc2scm/ATS2-0.3.2"
+LIBATSCC2R3_targetloc
+"$PATSHOME/contrib/libatscc2r3"
 //
 (* ****** ****** *)
 //
-#include
-"{$LIBATSCC2SCM}/staloadall.hats"
+#include "{$LIBATSCC2R3}/mylibies.hats"
 //
 (* ****** ****** *)
 //
 extern
-fun fact : int -> int = "mac#fact"
+fun
+fact : int -> int = "mac#fact"
 //
 implement
 fact (n) = if n > 0 then n * fact(n-1) else 1
@@ -42,14 +41,15 @@ implement
 main0_ats(N) =
 {
 //
-val () = println! ("fact(", N, ") = ", fact(N))
+val () = 
+$extfcall(void, "message", "fact(", N, ") = ", fact(N))
 //
 } (* end of [main0_ats] *)
 //
 (* ****** ****** *)
 
 %{$
-(fact_main0_ats 10)
+fact_main0_ats(10)
 %} // end of [%{$]
 
 (* ****** ****** *)
