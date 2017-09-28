@@ -16,7 +16,7 @@ SCHEME=guile
 ATSCC2R3=./../atscc2r3
 #
 LIBATSCC2R3=\
-$(PATSHOME)/contrib/libatscc2r3/ATS2-0.3.2
+$(PATSHOME)/contrib/libatscc2r3
 #
 SCHEME2=$(SCHEME) \
 -l $(LIBATSCC2R3)/output/libatscc2r3_all.R
