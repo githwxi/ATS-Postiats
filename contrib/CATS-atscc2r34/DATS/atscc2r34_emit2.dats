@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// Atscc2r3:
+// Atscc2r34:
 // from ATS to R(stat)
 //
 (* ****** ****** *)
@@ -412,13 +412,13 @@ ins0.instr_node of
     val () = emit_text (out, "## ATScaseofseq_beg")
     val () = emit_ENDL (out)
     val () = emit_nspc (out, ind)
-    val () = emit_text (out, "tmplab_r3 = 1;")
+    val () = emit_text (out, "tmplab_r34 = 1;")
     val () = emit_ENDL (out)
     val () = emit_nspc (out, ind)
     val () = emit_text (out, "while(TRUE) {")
     val () = emit_ENDL (out)
     val () = emit_nspc (out, ind+2)
-    val () = emit_text (out, "tmplab = tmplab_r3; tmplab_r3 = 0;")
+    val () = emit_text (out, "tmplab = tmplab_r34; tmplab_r34 = 0;")
     val () = emit_ENDL (out)
     val () = emit_nspc (out, ind+2)
     val () = emit_text (out, "switch(tmplab) {\n")
@@ -430,7 +430,7 @@ ins0.instr_node of
 //
     val () = emit_nspc (out, ind+2)
     val () =
-      emit_text (out, "if (tmplab_r3 === 0) break;\n")
+      emit_text (out, "if (tmplab_r34 === 0) break;\n")
     // end of [val]
 //
     val () = emit_nspc (out, ind)
@@ -479,7 +479,7 @@ ins0.instr_node of
   {
     val () = emit_nspc (out, ind)
     val () =
-      emit_text (out, "{ tmplab_r3 = ")
+      emit_text (out, "{ tmplab_r34 = ")
     // end of [val]
     val () = emit_tmplab_index (out, lab)
     val ((*closing*)) = emit_text (out, "; break; }")
@@ -495,7 +495,7 @@ ins0.instr_node of
 | ATSINSfgoto (flab) =>
   {
     val () = emit_nspc (out, ind)
-    val () = emit_text (out, "funlab_r3 = ")
+    val () = emit_text (out, "funlab_r34 = ")
     val () = emit_funlab_index (out, flab)
     val () = (
       emit_text (out, "; ## "); emit_label (out, flab)
@@ -1104,7 +1104,7 @@ d0c.d0ecl_node of
     (flag) => (
 //
 // HX-2015-05-22:
-// it is skipped as R3 does not have a link-time!
+// it is skipped as R34 does not have a link-time!
 //
   ) (* end of [D0Cdynloadflag_init] *)
 //
@@ -1249,12 +1249,12 @@ if knd > 0 then
 {
 //
 val () = emit_nspc (out, 2)
-val () = emit_text (out, "## var funlab_r3\n")
+val () = emit_text (out, "## var funlab_r34\n")
 //
 } (* end of [if] *) // end of [val]
 //
 val () = emit_nspc (out, 2)
-val () = emit_text (out, "## var tmplab, tmplab_r3\n")
+val () = emit_text (out, "## var tmplab, tmplab_r34\n")
 //
 val () = emit_text (out, "##\n")
 //
@@ -1339,7 +1339,7 @@ case+ inss of
     val () =
     emit_text
     (
-      out, "if (funlab_r3 > 0) next else"
+      out, "if (funlab_r34 > 0) next else"
     ) (* end of [val] *)
     val () = emit2_instr_ln (out, 1(*ind*), ins1)
 //
@@ -1355,7 +1355,7 @@ case+ inss of
 val () = emit_nspc (out, 2(*ind*))
 val () = emit_text (out, "while(TRUE) {\n")
 val () = emit_nspc (out, 4(*ind*))
-val () = emit_text (out, "funlab_r3 = 0;\n")
+val () = emit_text (out, "funlab_r34 = 0;\n")
 //
 val () =
 (
@@ -1400,14 +1400,14 @@ val () =
 )
 val () = emit_ENDL (out)
 val () = emit_nspc (out, 8)
-val () = emit_text (out, "funlab_r3 = 0;\n")
+val () = emit_text (out, "funlab_r34 = 0;\n")
 val () = emit2_instrlst (out, 8(*ind*), inss)
 //
 val () = emit_nspc (out, 8)
 val () =
 emit_text
 (
-  out, "if (funlab_r3 > 0) next else"
+  out, "if (funlab_r34 > 0) next else"
 ) (* end of [val] *)
 val () = emit2_instr_ln (out, 1(*ind*), ins1)
 //
@@ -1445,7 +1445,7 @@ emit_f0body_tlcal2
   (out, fbody) = let
 //
 val () = emit_nspc (out, 2(*ind*))
-val () = emit_text (out, "funlab_r3 = 1;")
+val () = emit_text (out, "funlab_r34 = 1;")
 //
 val () = emit_ENDL (out)
 val () = emit_nspc (out, 2(*ind*))
@@ -1453,7 +1453,7 @@ val () = emit_text (out, "while(true) {")
 //
 val () = emit_ENDL (out)
 val () = emit_nspc (out, 4(*ind*))
-val () = emit_text (out, "switch(funlab_r3) {\n")
+val () = emit_text (out, "switch(funlab_r34) {\n")
 //
 val () = emit_the_funbodylst (out)
 //
@@ -1529,4 +1529,4 @@ end // end of [emit_toplevel]
 
 (* ****** ****** *)
 
-(* end of [atscc2r3_emit2.dats] *)
+(* end of [atscc2r34_emit2.dats] *)

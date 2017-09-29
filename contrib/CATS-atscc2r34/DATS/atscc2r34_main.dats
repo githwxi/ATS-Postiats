@@ -1,6 +1,6 @@
 (* ****** ****** *)
 //
-// Atscc2r3:
+// Atscc2r34:
 // from ATS to R(stat)
 //
 (* ****** ****** *)
@@ -12,7 +12,7 @@
 //
 #define
 ATS_DYNLOADNAME
-"libatscc2r3_dynload"
+"libatscc2r34_dynload"
 //
 (* ****** ****** *)
 //
@@ -57,15 +57,17 @@ CATSPARSEMIT_targetloc
 val () =
 catsparse_all_dynload() where
 {
+//
 extern
 fun
 catsparse_all_dynload(): void = "ext#"
+//
 } (* end of [val] *)
 //
 (* ****** ****** *)
 
-#dynload "./atscc2r3_emit.dats"
-#dynload "./atscc2r3_emit2.dats"
+#dynload "./atscc2r34_emit.dats"
+#dynload "./atscc2r34_emit2.dats"
 
 (* ****** ****** *)
 //
@@ -73,7 +75,7 @@ datatype
 comarg =
 COMARG of (int, string)
 //
-typedef comarglst = List0 (comarg)
+typedef comarglst = List0(comarg)
 //
 (* ****** ****** *)
 
@@ -142,11 +144,11 @@ end // end of [cmdstate_set_outchan]
 //
 extern
 fun
-atscc2r3_fileref
+atscc2r34_fileref
   (state: &cmdstate >> _, filr: FILEref): void
 //
 implement
-atscc2r3_fileref
+atscc2r34_fileref
   (state, inp) = let
 //
 val oc = state.outchan
@@ -169,7 +171,7 @@ val ((*flusing*)) = emit_newline(out)
 //
 in
   // nothing
-end // end of [atscc2r3_fileref]
+end // end of [atscc2r34_fileref]
 
 (* ****** ****** *)
 //
@@ -177,19 +179,19 @@ macdef fopen = $STDIO.fopen
 //
 extern
 fun
-atscc2r3_basename
+atscc2r34_basename
 (
   state: &cmdstate >> _, fname: string
 ) : void // end-of-fun
 extern
 fun
-atscc2r3_basename_
+atscc2r34_basename_
 (
   state: &cmdstate >> _, fname: string
 ) : void // end-of-fun
 //
 implement
-atscc2r3_basename
+atscc2r34_basename
   (state, fname) =
 (
 case+
@@ -197,15 +199,15 @@ fname of
 | "-" => let
     val inp = stdin_ref
   in
-    atscc2r3_fileref(state, inp)
+    atscc2r34_fileref(state, inp)
   end // end of [stdin]
 | _(*fname*) =>
-    atscc2r3_basename_(state, fname)
+    atscc2r34_basename_(state, fname)
   // end of [non-stdin]
 )
 //
 implement
-atscc2r3_basename_
+atscc2r34_basename_
   (state, fname) = let
 //
 val
@@ -228,7 +230,7 @@ $UNSAFE.castvwtp0{FILEref}(inp)
 val () =
 the_filename_push(filename_make(fname))
 //
-val () = atscc2r3_fileref(state, inp)
+val () = atscc2r34_fileref(state, inp)
 //
 } (* end of [then] *)
 else let
@@ -244,7 +246,7 @@ in
   // nothing
 end // end of [else]
 //
-end // end of [atscc2r3_basename_]
+end // end of [atscc2r34_basename_]
 
 (* ****** ****** *)
 
@@ -321,7 +323,7 @@ comarg_warning
 (* ****** ****** *)
   
 fun
-atscc2r3_usage
+atscc2r34_usage
   (cmd: string): void = {
 //
 val () =
@@ -350,7 +352,7 @@ println! ("  -h : for printing out this help usage")
 val () =
 println! ("  --help : for printing out this help usage")
 //
-} (* end of [atscc2r3_usage] *)
+} (* end of [atscc2r34_usage] *)
   
 (* ****** ****** *)
 
@@ -380,8 +382,8 @@ case+ arglst of
     if wait0 then
     (
       if state.ncomarg = 0
-        then atscc2r3_usage("atscc2r3")
-        else atscc2r3_fileref(state, stdin_ref)
+        then atscc2r34_usage("atscc2r34")
+        else atscc2r34_fileref(state, stdin_ref)
       // end of [if]
     ) (* end of [if] *)
   end // end of [list_nil]
@@ -433,7 +435,7 @@ case+ arg of
       process_cmdline(state, arglst) where
       {
         val () = state.ninputfile := nif + 1
-        val () = atscc2r3_basename(state, fname(*input*))
+        val () = atscc2r34_basename(state, fname(*input*))
       } (* end of [COMARG(_, _)] *)
   end // end of [_ when isinpwait]
 //
@@ -477,7 +479,7 @@ case+ key of
 //
 | "-h" =>
   {
-    val () = atscc2r3_usage("atscc2r3")
+    val () = atscc2r34_usage("atscc2r34")
     val () = state.waitkind := WTKnone((*void*))
     val () =
     if state.ninputfile >= 0 then () else state.ninputfile := 0
@@ -516,7 +518,7 @@ case+ key of
   } (* end of [--output] *)
 //
 | "--help" => {
-    val () = atscc2r3_usage("atscc2r3")
+    val () = atscc2r34_usage("atscc2r34")
     val () = state.waitkind := WTKnone((*void*))
     val () =
     if state.ninputfile >= 0 then () else state.ninputfile := 0
@@ -607,20 +609,20 @@ end // end of [comarglst_parse]
 //
 extern
 fun
-atscc2r3_main0
+atscc2r34_main0
   {n:pos}
 (
   argc: int(n), argv: !argv(n)
 ) : void =
-  "ext#libatscc2r3_atscc2r3_main0"
+  "ext#libatscc2r34_atscc2r34_main0"
 //
 implement
-atscc2r3_main0
+atscc2r34_main0
   (argc, argv) =
 {
 //
 val () =
-  prerrln! ("Hello from atscc2r3!")
+  prerrln! ("Hello from atscc2r34!")
 //
 //
 val
@@ -647,7 +649,7 @@ if
 state.nerror = 1
 then let
   val () =
-  prerrln! ("atscc2r3: there is a reported error.")
+  prerrln! ("atscc2r34: there is a reported error.")
 in
   // nothing
 end // end of [then]
@@ -655,7 +657,7 @@ else if
 state.nerror >= 2
 then let
   val () =
-  prerrln! ("atscc2r3: there are some reported errors.")
+  prerrln! ("atscc2r34: there are some reported errors.")
 in
   // nothing
 end // end of [then]
@@ -663,26 +665,26 @@ else () // end of [else]
 //
 (*
 val () =
-prerrln! ("Good-bye from atscc2r3!")
+prerrln! ("Good-bye from atscc2r34!")
 *)
 //
-} (* end of [atscc2r3_main0] *)
+} (* end of [atscc2r34_main0] *)
 //
 (* ****** ****** *)
 
 #ifndef
-ATSCC2R3_MAIN_NONE
+ATSCC2R34_MAIN_NONE
 //
 implement
 main0(argc, argv) =
 {
 //
-val () = atscc2r3_main0(argc, argv)
+val () = atscc2r34_main0(argc, argv)
 //
 } (* end of [main0] *)
 //
-#endif // ifndef(ATSCC2R3_MAIN_NONE)
+#endif // ifndef(ATSCC2R34_MAIN_NONE)
 
 (* ****** ****** *)
 
-(* end of [atscc2r3_main.dats] *)
+(* end of [atscc2r34_main.dats] *)
