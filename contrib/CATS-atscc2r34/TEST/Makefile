@@ -13,13 +13,13 @@ SCHEME=guile
 #
 ######
 #
-ATSCC2R3=./../atscc2r3
+ATSCC2R34=./../atscc2r34
 #
-LIBATSCC2R3=\
-$(PATSHOME)/contrib/libatscc2r3
+LIBATSCC2R34=\
+$(PATSHOME)/contrib/libatscc2r34
 #
 SCHEME2=$(SCHEME) \
--l $(LIBATSCC2R3)/output/libatscc2r3_all.R
+-l $(LIBATSCC2R34)/output/libatscc2r34_all.R
 #
 ######
 
@@ -54,12 +54,12 @@ cleanall:: ; $(RMF) fact2_dats.R
 ######
 
 %_dats.R: %.dats ; \
-$(PATSOPT) -d $< | $(ATSCC2R3) -o $@
+$(PATSOPT) -d $< | $(ATSCC2R34) -o $@
 
 ######
 
-libatscc2r3:: ; \
-$(CPRF) $(LIBATSCC2R3)/CATS ./libatscc2r3/.
+libatscc2r34:: ; \
+$(CPRF) $(LIBATSCC2R34)/CATS ./libatscc2r34/.
 
 ######
 
@@ -83,6 +83,6 @@ clean:: ; $(RMF) *_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMRF) libatscc2r3/CATS
+cleanall:: ; $(RMRF) libatscc2r34/CATS
 
 ###### end of [Makefile] ######

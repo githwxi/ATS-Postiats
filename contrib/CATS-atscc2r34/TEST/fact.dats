@@ -12,12 +12,12 @@ ATS_DYNLOADFLAG 0
 (* ****** ****** *)
 //
 #define
-LIBATSCC2R3_targetloc
-"$PATSHOME/contrib/libatscc2r3"
+LIBATSCC2R34_targetloc
+"$PATSHOME/contrib/libatscc2r34"
 //
 (* ****** ****** *)
 //
-#include "{$LIBATSCC2R3}/mylibies.hats"
+#include "{$LIBATSCC2R34}/mylibies.hats"
 //
 (* ****** ****** *)
 //
@@ -51,17 +51,17 @@ $extfcall(void, "message", "fact(", N, ") = ", fact(N))
 %{^
 ######
 if
-(!(exists("libatscc2r3.is.loaded")))
+(!(exists("libatscc2r34.is.loaded")))
 {
-  assign("libatscc2r3.is.loaded", FALSE)
+  assign("libatscc2r34.is.loaded", FALSE)
 }
 ######
 if
 (
-!(libatscc2r3.is.loaded)
+!(libatscc2r34.is.loaded)
 )
 {
-  sys.source("./libatscc2r3/CATS/libatscc2r3.R")
+  sys.source("./libatscc2r34/CATS/libatscc2r34.R")
 }
 ######
 %} // end of [%{^]
