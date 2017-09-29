@@ -48,6 +48,26 @@ $extfcall(void, "message", "fact(", N, ") = ", fact(N))
 //
 (* ****** ****** *)
 
+%{^
+######
+if
+(!(exists("libatscc2r3.is.loaded")))
+{
+  assign("libatscc2r3.is.loaded", FALSE)
+}
+######
+if
+(
+!(libatscc2r3.is.loaded)
+)
+{
+  sys.source("./libatscc2r3/CATS/libatscc2r3.R")
+}
+######
+%} // end of [%{^]
+
+(* ****** ****** *)
+
 %{$
 fact_main0_ats(10)
 %} // end of [%{$]
