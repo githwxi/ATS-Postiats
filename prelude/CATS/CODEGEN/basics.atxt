@@ -195,6 +195,28 @@ atspre_assert_errmsg2_bool
 //
 #atscode_separator_for_C()
 //
+\#if(0)
+//
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_void
+(
+  atstype_ref out
+, atstype_void arg
+)
+{
+  return/*do-nothing*/;
+}
+//
+\#define
+atspre_print_void(x) atspre_fprint_void(stdout, x)
+\#define
+atspre_prerr_void(x) atspre_fprint_void(stderr, x)
+//
+\#endif // end of [if(0)]
+//  
+#atscode_separator_for_C()
+//
 ATSinline()
 atsvoid_t0ype
 atspre_fprint_newline
