@@ -10,13 +10,23 @@
 (* ****** ****** *)
 //
 (*
-staload "./basics_js.sats"
+staload "./basics_r34.sats"
 staload _ = "./DATS/basics.dats"
 *)
 //
 (* ****** ****** *)
 //
 staload "./SATS/integer.sats"
+//
+(* ****** ****** *)
+//
+staload "./SATS/bool.sats"
+staload "./SATS/float.sats"
+staload "./SATS/string.sats"
+//
+(* ****** ****** *)
+//
+staload "./SATS/print.sats" // HX: printing to the console
 //
 (* ****** ****** *)
 

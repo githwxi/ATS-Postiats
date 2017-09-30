@@ -76,6 +76,14 @@ cleanall:: ; $(RMF) listmap_dats.R
 ######
 
 all:: \
+twice_dats.R
+regress:: \
+twice_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) twice_dats.R
+
+######
+
+all:: \
 rtfind_dats.R
 regress:: \
 rtfind_dats.R ; $(RSCRIPT2) $<
@@ -86,6 +94,14 @@ rtfind2_dats.R
 regress:: \
 rtfind2_dats.R ; $(RSCRIPT2) $<
 cleanall:: ; $(RMF) rtfind2_dats.R
+
+######
+
+all:: \
+sieve_lazy_dats.R
+regress:: \
+sieve_lazy_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) sieve_lazy_dats.R
 
 ######
 

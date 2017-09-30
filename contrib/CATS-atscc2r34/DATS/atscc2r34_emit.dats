@@ -216,7 +216,7 @@ val name = symbol_get_name(sym)
 val c0 =
   $UN.ptr0_get<char> (string2ptr(name))
 //
-val () = if c0 = '_' then emit_text(out, "f")
+val () = if c0 = '_' then emit_text(out, "R")
 //
 in
   emit_symbol(out, sym)
@@ -369,7 +369,7 @@ emit_ATSCKpat_con1
 //
 implement
 emit_tmpvar
-  (out, tmp) = emit_i0de(out, tmp)
+  (out, tmp) = emit_f0ide(out, tmp)
 //
 (* ****** ****** *)
 //
@@ -397,7 +397,7 @@ d0e0.d0exp_node of
 //
 | D0Eappid (fid, d0es) =>
   {
-    val () = emit_i0de (out, fid)
+    val () = emit_f0ide (out, fid)
     val () = emit_LPAREN (out)
     val () = emit_d0explst (out, d0es)
     val () = emit_RPAREN (out)
@@ -470,7 +470,7 @@ d0e0.d0exp_node of
 //
 | ATSextfcall
     (_fun, _arg) => {
-    val () = emit_i0de (out, _fun)
+    val () = emit_f0ide (out, _fun)
     val () = emit_d0exparg (out, _arg)
   } (* end of [ATSextfcall] *)
 | ATSextmcall

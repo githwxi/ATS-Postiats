@@ -45,6 +45,17 @@ CATSPARSEMIT_targetloc
 //
 extern
 fun
+emit_f0ide
+  : emit_type(i0de) = "ext#atscc2r34_emit_f0ide"
+extern
+fun
+emit_flabel
+  : emit_type(label) = "ext#atscc2r34_emit_flabel"
+//
+(* ****** ****** *)
+//
+extern
+fun
 emit_tmpdeclst_initize
 (
   out: FILEref, tds: tmpdeclst
@@ -757,7 +768,7 @@ ins0.instr_node of
 | ATSINSdyncst_valbind (d2c, d0e_r) =>
   {
     val () = emit_nspc (out, ind)
-    val () = emit_i0de (out, d2c)
+    val () = emit_f0ide (out, d2c)
     val () = emit_text (out, " <- ")
     val () = emit_d0exp (out, d0e_r)
     val () = emit_SEMICOLON (out)
@@ -1220,11 +1231,13 @@ d0c.d0ecl_node of
 //
 | D0Cassume (id) =>
   {
-    val () = emit_ENDL (out)
     val () =
-      emit_text (out, "## ATSassume(")
-    val () = (
-      emit_i0de (out, id); emit_text (out, ")\n")
+    emit_ENDL (out)
+    val () =
+    emit_text (out, "## ATSassume(")
+    val () =
+    (
+      emit_f0ide(out, id); emit_text(out, ")\n")
     ) (* end of [val] *)
   }
 //
@@ -1236,40 +1249,45 @@ d0c.d0ecl_node of
 //
 | D0Cdyncst_valimp
     (id, s0e) => {
-    val () = emit_ENDL (out)
-    val () = (
-      emit_text (out, "var "); emit_i0de (out, id)
+    val () =
+    emit_ENDL(out)
+    val () =
+    emit_text(out, "##defvar\n")
+    val () =
+    (
+      emit_f0ide(out, id); emit_text(out, " = NULL\n")
     ) (* end of [val] *)
-    val () = emit_text (out, "\n")
   }
 //
 | D0Cextcode(toks) =>
   {
-    val () = emit_ENDL (out)
     val () =
-      emit_text (out, ATSEXTCODE_BEG)
-    // end of [val]
-    val () = emit_extcode (out, toks) // HX: verbatim output
+    emit_ENDL(out)
     val () =
-      emit_text (out, ATSEXTCODE_END)
-    // end of [val]
+    emit_text(out, ATSEXTCODE_BEG)
+    val () =
+    emit_extcode(out, toks) // HX: verbatim output
+    val () =
+    emit_text (out, ATSEXTCODE_END)
     val ((*void*)) = emit_newline (out)
   } (* end of [D0Cextcode] *)
 //
 | D0Cstatmp(tmp, opt) =>
   {
     val () = emit_ENDL (out)
-    val () = (
+    val () =
+    (
       case+ opt of
       | Some _ => ()
       | None () => emit_text(out, "##\n")
     ) (* end of [val] *)
     val () =
     (
-      emit_text(out, "## var ");
-      emit_tmpvar(out, tmp); emit_ENDL(out)
+      emit_text(out, "##defvar\n");
+      emit_tmpvar(out, tmp); emit_text(out, " = NULL\n")
     ) (* end of [val] *)
-    val () = (
+    val () =
+    (
       case+ opt of
       | Some _ => ()
       | None () => emit_text(out, "##\n")
@@ -1293,37 +1311,27 @@ d0c.d0ecl_node of
   ) (* end of [D0Cdynloadflag_init] *)
 //
 | D0Cdynloadflag_minit
-    (flag) => (
-    emit_text (out, "## dynloadflag_minit\n");
-    emit_text (out, "var "); emit_tmpvar (out, flag); emit_text (out, " <- 0;\n")
+    (flag) =>
+  (
+  emit_text(out, "## dynloadflag_minit\n");
+  emit_text(out, "##defvar\n"); emit_tmpvar(out, flag); emit_text(out, " <- 0;\n")
   ) (* end of [D0Cdynloadflag_minit] *)
 //
 | D0Cdynexn_dec(idexn) =>
   (
-    emit_text(out, "## dynexn_dec("); emit_i0de(out, idexn); emit_text(out, ")\n")
+    emit_text(out, "## dynexn_dec("); emit_f0ide(out, idexn); emit_text(out, ")\n")
   ) (* end of [D0Cdynexn_dec] *)
 | D0Cdynexn_extdec(idexn) =>
   (
-    emit_text(out, "## dynexn_extdec("); emit_i0de(out, idexn); emit_text(out, ")\n")
+    emit_text(out, "## dynexn_extdec("); emit_f0ide(out, idexn); emit_text(out, ")\n")
   ) (* end of [D0Cdynexn_extdec] *)
 | D0Cdynexn_initize(idexn, fullname) =>
   (
-    emit_text(out, "## dynexn_initize("); emit_i0de(out, idexn); emit_text(out, ")\n")
+    emit_text(out, "## dynexn_initize("); emit_f0ide(out, idexn); emit_text(out, ")\n")
   ) (* end of [D0Cdynexn_initize] *)
 //
 end // end of [emit_d0ecl]
 
-(* ****** ****** *)
-//
-extern
-fun
-emit_f0ide
-  : emit_type(i0de) = "ext#atscc2r34_emit_f0ide"
-extern
-fun
-emit_flabel
-  : emit_type(label) = "ext#atscc2r34_emit_flabel"
-//
 (* ****** ****** *)
 //
 extern
