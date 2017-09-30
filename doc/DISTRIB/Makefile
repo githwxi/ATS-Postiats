@@ -335,6 +335,16 @@ clean:: ; $(RMF) contrib_atscc2clj_atxt.exe
 cleanall:: ; $(RMF) HTML/contrib_atscc2clj.html
 cleanall:: ; $(RMF) SCRIPT/contrib_atscc2clj.bash
 
+all_script:: \
+SCRIPT/contrib_atscc2r34.bash
+SCRIPT/contrib_atscc2r34.bash: contrib_atscc2r34_atxt.exe ; ./$< > $@
+contrib_atscc2r34_atxt.dats: ATEXT/contrib_atscc2r34.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_atscc2r34_atxt.exe: contrib_atscc2r34_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_atscc2r34_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_atscc2r34.html
+cleanall:: ; $(RMF) SCRIPT/contrib_atscc2r34.bash
+
 #
 ######
 
@@ -407,6 +417,16 @@ contrib_libatscc2clj_atxt.exe: contrib_libatscc2clj_atxt.dats ; $(ATSCC) $(INCLA
 clean:: ; $(RMF) contrib_libatscc2clj_atxt.exe
 cleanall:: ; $(RMF) HTML/contrib_libatscc2clj.html
 cleanall:: ; $(RMF) SCRIPT/contrib_libatscc2clj.bash
+
+all_script:: \
+SCRIPT/contrib_libatscc2r34.bash
+SCRIPT/contrib_libatscc2r34.bash: contrib_libatscc2r34_atxt.exe ; ./$< > $@
+contrib_libatscc2r34_atxt.dats: ATEXT/contrib_libatscc2r34.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+contrib_libatscc2r34_atxt.exe: contrib_libatscc2r34_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_libatscc2r34_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_libatscc2r34.html
+cleanall:: ; $(RMF) SCRIPT/contrib_libatscc2r34.bash
 
 
 ######
@@ -703,6 +723,7 @@ atspackaging:: srcget_contrib_atscc2py3
 atspackaging:: srcget_contrib_atscc2php
 atspackaging:: srcget_contrib_atscc2scm
 atspackaging:: srcget_contrib_atscc2clj
+atspackaging:: srcget_contrib_atscc2r34
 #
 atspackaging:: srcget_contrib_libatscc
 atspackaging:: srcget_contrib_libatscc2js
@@ -711,6 +732,7 @@ atspackaging:: srcget_contrib_libatscc2py3
 atspackaging:: srcget_contrib_libatscc2php
 atspackaging:: srcget_contrib_libatscc2scm
 atspackaging:: srcget_contrib_libatscc2clj
+atspackaging:: srcget_contrib_libatscc2r34
 #
 atspackaging:: srcget_doc_example
 #
@@ -814,6 +836,7 @@ srcget_contrib_atscc2py3:: SCRIPT/contrib_atscc2py3.bash ; bash $<
 srcget_contrib_atscc2php:: SCRIPT/contrib_atscc2php.bash ; bash $<
 srcget_contrib_atscc2scm:: SCRIPT/contrib_atscc2scm.bash ; bash $<
 srcget_contrib_atscc2clj:: SCRIPT/contrib_atscc2clj.bash ; bash $<
+srcget_contrib_atscc2r34:: SCRIPT/contrib_atscc2r34.bash ; bash $<
 #
 srcget_contrib_libatscc:: SCRIPT/contrib_libatscc.bash ; bash $<
 srcget_contrib_libatscc2js:: SCRIPT/contrib_libatscc2js.bash ; bash $<
@@ -822,6 +845,7 @@ srcget_contrib_libatscc2py3:: SCRIPT/contrib_libatscc2py3.bash ; bash $<
 srcget_contrib_libatscc2php:: SCRIPT/contrib_libatscc2php.bash ; bash $<
 srcget_contrib_libatscc2scm:: SCRIPT/contrib_libatscc2scm.bash ; bash $<
 srcget_contrib_libatscc2clj:: SCRIPT/contrib_libatscc2clj.bash ; bash $<
+srcget_contrib_libatscc2r34:: SCRIPT/contrib_libatscc2r34.bash ; bash $<
 #
 ######
 #
