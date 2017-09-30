@@ -1,8 +1,8 @@
 (* ****** ****** *)
 //
-// HX-2017-10:
+// HX-2014-08:
 // A running example
-// from ATS2 to R(stat)
+// from ATS2 to Node.js
 //
 (* ****** ****** *)
 //
@@ -24,31 +24,23 @@ staload
 //
 extern
 fun
-listlen{a:t0p}
-  : List0 (a) -> int = "mac#listlen"
+list_map
+{a:t0p}
+{b:t0p}{n:int}
+(
+xs: list(INV(a), n), fopr: (a) -<cloref1> b
+) : list(b, n) = "mac#" // end-of-function
+//
+(* ****** ****** *)
 //
 implement
-listlen{a}
-  (xs) = let
-//
-prval () = lemma_list_param (xs)
-//
-fun
-loop{i,j:nat} .<i>.
+list_map(xs, f) =
 (
-  xs: list (a, i), res: int(j)
-) : int(i+j) = let
-in
-//
 case+ xs of
-| list_nil () => res | list_cons (_, xs) => loop (xs, res+1)
+| list_nil() => list_nil()
+| list_cons(x, xs) => list_cons(f(x), list_map(xs, f))
+) (* end of [list_map] *)
 //
-end // end of [loop]
-//
-in
-  loop (xs, 0)
-end // end of [listlen]
-
 (* ****** ****** *)
 //
 extern
@@ -61,6 +53,20 @@ fromto (m, n) =
 if m < n
   then list_cons (m, fromto (m+1, n)) else list_nil ()
 // end of [if]
+//
+(* ****** ****** *)
+//
+extern
+fun
+mytest
+  : (int, int) -> List0(int) = "mac#mytest"
+//
+implement
+mytest(m, n) = let
+  val xs = fromto (m, n)
+in
+  list_map{int}{int} (xs, lam x => m * n * x)
+end // end of [mytest]
 //
 (* ****** ****** *)
 
@@ -88,9 +94,9 @@ if
 
 %{$
 xs <- fromto(0, 10)
-message("listlen(", xs, ") =", listlen(xs))
+message("mytest(5, 10) =", mytest(5, 10))
 %} // end of [%{$]
 
 (* ****** ****** *)
 
-(* end of [listlen.dats] *)
+(* end of [listmap.dats] *)

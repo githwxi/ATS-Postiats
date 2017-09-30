@@ -1869,6 +1869,10 @@ fun emit_f0body_tlcal2 : emit_type (f0body)
 implement
 emit_f0arg
   (out, f0a) = let
+(*
+val () =
+println!("emit_f0arg: f0a = ", f0a)
+*)
 in
 //
 case+
@@ -1876,7 +1880,7 @@ f0a.f0arg_node
 of // case+
 //
 | F0ARGnone _ => emit_text(out, "__NONE__")
-| F0ARGsome (arg, s0e) => emit_tmpvar(out, arg)
+| F0ARGsome(arg, s0e) => emit_tmpvar(out, arg)
 //
 end // end of [emit_f0arg]
 

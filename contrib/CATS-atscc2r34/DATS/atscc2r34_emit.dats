@@ -112,7 +112,7 @@ emit_PMVint
 val-T_INT(base, rep) = tok.token_node
 //
 in
-  emit_text (out, rep)
+  emit_text(out, rep)
 end // end of [emit_PMVint]
 //
 implement
@@ -122,7 +122,7 @@ emit_PMVintrep
 val-T_INT(base, rep) = tok.token_node
 //
 in
-  emit_text (out, rep)
+  emit_text(out, rep)
 end // end of [emit_PMVintrep]
 //
 (* ****** ****** *)
@@ -131,7 +131,10 @@ implement
 emit_PMVbool
   (out, tfv) =
 (
-  emit_text (out, if tfv then "true" else "false")
+emit_text
+( out
+, if tfv then "true" else "false"
+) (* emit_text *)
 ) (* end of [emit_PMVbool] *)
 
 (* ****** ****** *)
@@ -143,7 +146,7 @@ emit_PMVstring
 val-T_STRING(rep) = tok.token_node
 //
 in
-  emit_text (out, rep)
+  emit_text(out, rep)
 end // end of [emit_PMVstring]
 
 (* ****** ****** *)
@@ -155,7 +158,7 @@ emit_PMVfloat
 val-T_FLOAT(base, rep) = tok.token_node
 //
 in
-  emit_text (out, rep)
+  emit_text(out, rep)
 end // end of [emit_PMVfloat]
 
 (* ****** ****** *)
@@ -167,7 +170,7 @@ emit_PMVi0nt
 val-T_INT(base, rep) = tok.token_node
 //
 in
-  emit_text (out, rep)
+  emit_text(out, rep)
 end // end of [emit_PMVi0nt]
 
 (* ****** ****** *)
@@ -179,42 +182,72 @@ emit_PMVf0loat
 val-T_FLOAT(base, rep) = tok.token_node
 //
 in
-  emit_text (out, rep)
+  emit_text(out, rep)
 end // end of [emit_PMVf0loat]
 
 (* ****** ****** *)
 //
 implement
 emit_PMVempty
-  (out, _) = emit_text (out, "null")
+  (out, _) = emit_text(out, "null")
 //  
 implement
 emit_PMVextval
-  (out, toks) = emit_tokenlst (out, toks)
+  (out, toks) = emit_tokenlst(out, toks)
+//
+(* ****** ****** *)
+//
+extern
+fun
+emit_f0ide
+  : emit_type(i0de) = "ext#atscc2r34_emit_f0ide"
+extern
+fun
+emit_flabel
+  : emit_type(label) = "ext#atscc2r34_emit_flabel"
+//
+implement
+emit_f0ide
+  (out, fid) = let
+//
+val sym = fid.i0dex_sym
+val name = symbol_get_name(sym)
+//
+val c0 =
+  $UN.ptr0_get<char> (string2ptr(name))
+//
+val () = if c0 = '_' then emit_text(out, "f")
+//
+in
+  emit_symbol(out, sym)
+end // end of [emit_f0ide]
+//
+implement
+emit_flabel
+  (out, flab) = emit_f0ide(out, flab)
 //
 (* ****** ****** *)
 //
 implement
 emit_PMVfunlab
-  (out, flab) = emit_label (out, flab)
+  (out, flab) = emit_flabel(out, flab)
 //
 (* ****** ****** *)
 
 implement
 emit_PMVcfunlab
-  (out, fl, d0es) =
-{
+  (out, fl, d0es) = let
 //
 val () =
-  emit_label (out, fl)
+emit_flabel(out, fl)
 val () =
-  emit_text (out, "__closurerize")
+emit_text(out, "__closurerize")
 //
-val () = emit_LPAREN (out)
-val () = emit_d0explst (out, d0es)
-val () = emit_RPAREN (out)
+in
 //
-} (* end of [emit_PMVcfunlab] *)
+emit_LPAREN(out); emit_d0explst(out, d0es); emit_RPAREN(out)
+//
+end (* end of [emit_PMVcfunlab] *)
 
 (* ****** ****** *)
 
@@ -698,7 +731,7 @@ case+ s0es of
     val () =
     (
       emit_text(out, "cenv");
-      emit_LBRACKET2(out); emit_int(out, i+1); emit_RBRACKET2(out)
+      emit_LBRACKET2(out); emit_int(out, i+2); emit_RBRACKET2(out)
     ) (* end of [val] *)
   in
     aux1_envlst (out, s0es, i+1)
@@ -719,34 +752,42 @@ val-S0Elist(s0es_arg) = arg.s0exp_node
 val () = emit_ENDL (out)
 //
 val () =
-emit_text (out, "function\n")
-val () = emit_label (out, fl)
+emit_text(out, "##defun\n")
+//
 val () =
-emit_text (out, "__closurerize(")
-val () = aux0_envlst (out, s0es_env, 0, 0)
-val ((*closing*)) = emit_text (out, ")\n")
+emit_flabel(out, fl)
+val () =
+emit_text
+(out, "__closurerize <-\n")
+//
+val () =
+emit_text(out, "function(")
+val () =
+aux0_envlst(out, s0es_env, 0, 0)
+val ((*closing*)) = emit_text(out, ")\n")
 //
 val ((*opening*)) = emit_text (out, "{\n")
 //
 val () = emit_nspc (out, 2)
-val () = emit_text (out, "return [")
+val () = emit_text (out, "return")
+val () = emit_text (out, "(list(")
 val () = emit_text (out, "function(")
 //
 val () = emit_text (out, "cenv")
 val () = aux0_arglst (out, s0es_arg, 1, 0)
 //
-val () = emit_text (out, ") { return ")
+val () = emit_text (out, ") { return(")
 //
-val () = emit_label (out, fl)
+val () = emit_flabel (out, fl)
 val () = emit_LPAREN (out)
 val n0 = aux1_envlst (out, s0es_env, 0)
 val () = aux0_arglst (out, s0es_arg, n0, 0)
 val () = emit_RPAREN (out)
 //
-val ((*closing*)) = emit_text (out, "; }")
+val ((*closing*)) = emit_text (out, "); }")
 //
 val () = aux0_envlst (out, s0es_env, 1, 0)
-val ((*closing*)) = emit_text (out, "];\n}\n")
+val ((*closing*)) = emit_text (out, "));\n}\n")
 //
 val ((*flushing*)) = emit_newline (out)
 //

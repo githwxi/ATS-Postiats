@@ -649,17 +649,20 @@ aux0_envlst
 ) : void =
 (
 case+ s0es of
-| list_nil () => ()
+| list_nil
+    ((*void*)) => ()
 | list_cons
     (s0e, s0es) => let
     val () =
-    if n0+i > 0 then emit_text (out, ", ")
+    if n0+i > 0
+      then emit_text(out, ", ")
+    // end of [if]
     val () =
     (
-      emit_text (out, "env"); emit_int (out, i)
+      emit_text(out, "env"); emit_int(out, i)
     ) (* end of [val] *)
   in
-    aux0_envlst (out, s0es, n0, i+1)
+    aux0_envlst(out, s0es, n0, i+1)
   end // end of [list_cons]
 ) (* end of [aux0_envlst] *)
 
@@ -681,8 +684,8 @@ case+ s0es of
     // end of [if]
     val () =
     (
-      emit_text (out, "cenv");
-      emit_LBRACKET (out); emit_int (out, i+1); emit_RBRACKET (out)
+      emit_text(out, "cenv");
+      emit_LBRACKET(out); emit_int(out, i+1); emit_RBRACKET(out)
     ) (* end of [val] *)
   in
     aux1_envlst (out, s0es, i+1)

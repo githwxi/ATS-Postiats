@@ -59,6 +59,14 @@ cleanall:: ; $(RMF) listlen_dats.R
 
 ######
 
+all:: \
+listmap_dats.R
+regress:: \
+listmap_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) listmap_dats.R
+
+######
+
 %_dats.R: %.dats ; \
 $(PATSOPT) -d $< | $(ATSCC2R34) -o $@
 
