@@ -51,6 +51,14 @@ cleanall:: ; $(RMF) acker_dats.R
 
 ######
 
+all:: \
+listlen_dats.R
+regress:: \
+listlen_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) listlen_dats.R
+
+######
+
 %_dats.R: %.dats ; \
 $(PATSOPT) -d $< | $(ATSCC2R34) -o $@
 

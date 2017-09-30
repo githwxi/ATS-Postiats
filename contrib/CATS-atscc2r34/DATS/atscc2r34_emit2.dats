@@ -957,19 +957,23 @@ getarglst
 ) : d0explst =
 (
 case+ inss of
-| list_nil () => list_nil ()
-| list_cons (ins, inss) => let
-    val-ATSINSstore_con1_ofs (_, _, _, d0e) = ins.instr_node
+| list_nil
+    () => list_nil ()
+  // list_nil
+| list_cons
+    (ins, inss) => let
+    val-
+    ATSINSstore_con1_ofs(_, _, _, d0e) = ins.instr_node
     val d0es = getarglst (inss)
   in
-    list_cons (d0e, d0es)
+    list_cons(d0e, d0es)
   end // end of [list_cons]
 )
 //
 val-ATSINSmove_con1(inss) = ins0.instr_node
 //
-val-list_cons (ins, inss) = inss
-val-ATSINSmove_con1_new (tmp, _) = ins.instr_node  
+val-list_cons(ins, inss) = inss
+val-ATSINSmove_con1_new(tmp, _) = ins.instr_node  
 //
 var opt: tokenopt = None()
 //
@@ -990,25 +994,35 @@ case+ inss of
   )
 ) : instrlst
 //
-val d0es = getarglst (inss)
-val () = emit_nspc (out, ind)
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, " <- ")
-val () = emit_LBRACKET (out)
+val
+d0es = getarglst(inss)
+//
+val () =
+emit_nspc(out, ind)
+//
+val () =
+emit_tmpvar(out, tmp)
+//
+val () =
+emit_text(out, " <- ")
+//
+val () =
+emit_text(out, "list")
+val () = emit_LPAREN(out)
 val () =
 (
 case+ opt of
-| None () => ()
-| Some (tag) => emit_PMVint (out, tag)
+| None() => ()
+| Some(tag) => emit_PMVint(out, tag)
 ) : void // end of [val]
 val () =
 (
 case+ opt of
-| None _ => emit_d0explst (out, d0es)
-| Some _ => emit_d0explst_1 (out, d0es)
+| None() => emit_d0explst(out, d0es)
+| Some(tag) => emit_d0explst_1(out, d0es)
 ) : void // end of [val]
 //
-val () = emit_RBRACKET (out)
+val () = emit_RPAREN(out)
 //
 val () = emit_SEMICOLON (out)
 //
@@ -1043,16 +1057,24 @@ val-ATSINSmove_boxrec(inss) = ins0.instr_node
 val-list_cons (ins, inss) = inss
 val-ATSINSmove_boxrec_new (tmp, _) = ins.instr_node  
 //
-val d0es = getarglst (inss)
+val
+d0es =
+getarglst (inss)
 //
-val () = emit_nspc (out, ind)
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, " <- ")
-val () = emit_LBRACKET (out)
-val () = emit_d0explst (out, d0es)
-val () = emit_RBRACKET (out)
+val () =
+emit_nspc(out, ind)
+val () =
+emit_tmpvar(out, tmp)
+val () =
+emit_text (out, " <- ")
+val () =
+emit_text (out, "list")
+val () =
+(
+emit_LPAREN(out); emit_d0explst(out, d0es); emit_RPAREN(out)
+)
 //
-val () = emit_SEMICOLON (out)
+val () = emit_SEMICOLON(out)
 //
 in
   // nothing

@@ -309,10 +309,12 @@ emit_ATSCKpat_con0
   (out, d0e, ctag) =
 {
   val () =
-  emit_text (out, "ATSCKpat_con0(")
-  val () = (
-    emit_d0exp (out, d0e);
-    emit_text (out, ", "); emit_int (out, ctag); emit_RPAREN (out)
+  emit_text
+  (out, "ATSCKpat_con0(")
+  val () = emit_d0exp(out, d0e)
+  val () =
+  (
+    emit_text(out, ", "); emit_int(out, ctag); emit_RPAREN(out)
   ) (* end of [val] *)
 } (* end of [emit_ATSCKpat_con0] *)
 
@@ -321,10 +323,12 @@ emit_ATSCKpat_con1
   (out, d0e, ctag) =
 {
   val () =
-  emit_text (out, "ATSCKpat_con1(")
-  val () = (
-    emit_d0exp (out, d0e);
-    emit_text (out, ", "); emit_int (out, ctag); emit_RPAREN (out)
+  emit_text
+  (out, "ATSCKpat_con1(")
+  val () = emit_d0exp(out, d0e)
+  val () =
+  (
+    emit_text(out, ", "); emit_int(out, ctag); emit_RPAREN(out)
   ) (* end of [val] *)
 } (* end of [emit_ATSCKpat_con1] *)
 
@@ -332,7 +336,16 @@ emit_ATSCKpat_con1
 //
 implement
 emit_tmpvar
-  (out, tmp) = emit_i0de (out, tmp)
+  (out, tmp) = emit_i0de(out, tmp)
+//
+(* ****** ****** *)
+//
+fun
+emit_LBRACKET2
+(out: FILEref): void = emit_text(out, "[[")
+fun
+emit_RBRACKET2
+(out: FILEref): void = emit_text(out, "]]")
 //
 (* ****** ****** *)
 
@@ -443,8 +456,8 @@ d0e0.d0exp_node of
 | ATSfunclo_clo
     (d0e, _(*arg*), _(*res*)) =>
   (
-    emit_d0exp (out, d0e);
-    emit_LBRACKET (out); emit_int (out, 0); emit_RBRACKET (out)
+    emit_d0exp(out, d0e);
+    emit_LBRACKET2(out); emit_int(out, 1); emit_RBRACKET2(out)
   ) (* end of [ATSfunclo_clo] *)
 //
 end // end of [emit_d0exp]
@@ -531,20 +544,21 @@ val-
 ATSSELcon
 (d0rec, s0e, id) = d0e.d0exp_node
 //
-val-S0Eide (name) = s0e.s0exp_node
-val-~Some_vt (s0rec) = typedef_search_opt (name)
+val-
+S0Eide(name) = s0e.s0exp_node
+val-
+~Some_vt(s0rec) = typedef_search_opt(name)
 //
-val index = tyrec_labsel (s0rec, id.i0dex_sym)
+val
+index = tyrec_labsel(s0rec, id.i0dex_sym)
 //
-val () =
-  emit_d0exp (out, d0rec)
-//
-val () = emit_LBRACKET (out)
-val () = emit_int (out, index)
-val () = emit_RBRACKET (out)
-//
+val () = emit_d0exp(out, d0rec)
 in
-  // nothing
+//
+// HX: R: index starting from 1
+//
+emit_LBRACKET2(out); emit_int(out, index+1); emit_RBRACKET2(out)
+//
 end // end of [emit_SELcon]
 
 (* ****** ****** *)
@@ -571,20 +585,22 @@ val-
 ATSSELboxrec
 (d0rec, s0e, id) = d0e.d0exp_node
 //
-val-S0Eide (name) = s0e.s0exp_node
-val-~Some_vt (s0rec) = typedef_search_opt (name)
+val-
+S0Eide(name) = s0e.s0exp_node
+val-
+~Some_vt(s0rec) = typedef_search_opt(name)
 //
-val index = tyrec_labsel (s0rec, id.i0dex_sym)
+val
+index = tyrec_labsel(s0rec, id.i0dex_sym)
 //
-val () =
-  emit_d0exp (out, d0rec)
-//
-val () = emit_LBRACKET (out)
-val () = emit_int (out, index)
-val () = emit_RBRACKET (out)
+val () = emit_d0exp(out, d0rec)
 //
 in
-  // nothing
+//
+// HX: R: index starting from 1
+//
+emit_LBRACKET2(out); emit_int(out, index+1); emit_RBRACKET2(out)
+//
 end // end of [emit_SELboxrec]
 
 (* ****** ****** *)
@@ -681,8 +697,8 @@ case+ s0es of
     // end of [if]
     val () =
     (
-      emit_text (out, "cenv");
-      emit_LBRACKET (out); emit_int (out, i+1); emit_RBRACKET (out)
+      emit_text(out, "cenv");
+      emit_LBRACKET2(out); emit_int(out, i+1); emit_RBRACKET2(out)
     ) (* end of [val] *)
   in
     aux1_envlst (out, s0es, i+1)
