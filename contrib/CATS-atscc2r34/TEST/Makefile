@@ -75,6 +75,20 @@ cleanall:: ; $(RMF) listmap_dats.R
 
 ######
 
+all:: \
+rtfind_dats.R
+regress:: \
+rtfind_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) rtfind_dats.R
+
+all:: \
+rtfind2_dats.R
+regress:: \
+rtfind2_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) rtfind2_dats.R
+
+######
+
 %_dats.R: %.dats ; \
 $(PATSOPT) -d $< | $(ATSCC2R34) -o $@
 
