@@ -7,6 +7,18 @@
 assign("libatscc2r34.is.loaded", TRUE)
 
 ######
+
+ATSCKiseqz <- function(x) { return (x == 0) }
+ATSCKisneqz <- function(x) { return (x != 0) }
+
+######
+
+ATSCKpat_int <- function(tmp, given) { return(tmp == given) }
+ATSCKpat_bool <- function(tmp, given) { return(tmp == given) }
+ATSCKpat_float <- function(tmp, given) { return(tmp == given) }
+ATSCKpat_string <- function(tmp, given) { return(tmp == given) }
+
+######
 #
 # integer
 #

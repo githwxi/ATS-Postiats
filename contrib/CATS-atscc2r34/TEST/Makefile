@@ -9,18 +9,16 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 #
-SCHEME=guile
-#
-######
-#
 ATSCC2R34=./../atscc2r34
 #
 LIBATSCC2R34=\
 $(PATSHOME)/contrib/libatscc2r34
 #
-SCHEME2=$(SCHEME) \
--l $(LIBATSCC2R34)/output/libatscc2r34_all.R
-#
+######
+
+RSCRIPT=Rscript
+RSCRIPT2=$(RSCRIPT)
+
 ######
 
 all::
@@ -32,7 +30,7 @@ cleanall::
 all:: \
 fact_dats.R
 regress:: \
-fact_dats.R ; $(SCHEME2) $<
+fact_dats.R ; $(RSCRIPT2) $<
 cleanall:: ; $(RMF) fact_dats.R
 
 ######
@@ -40,16 +38,16 @@ cleanall:: ; $(RMF) fact_dats.R
 all:: \
 fact1_dats.R
 regress:: \
-fact1_dats.R ; $(SCHEME2) $<
+fact1_dats.R ; $(RSCRIPT2) $<
 cleanall:: ; $(RMF) fact1_dats.R
 
 ######
 
 all:: \
-fact2_dats.R
+acker_dats.R
 regress:: \
-fact2_dats.R ; $(SCHEME2) $<
-cleanall:: ; $(RMF) fact2_dats.R
+acker_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) acker_dats.R
 
 ######
 

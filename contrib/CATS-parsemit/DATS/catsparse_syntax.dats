@@ -1098,23 +1098,25 @@ caseofseq_get_tmplablst
 //
 vtypedef res = labelist_vt
 //
-fun auxlst
+fun
+auxlst
 (
   xs: instrlst, res: res
 ) : res =
 (
 case+ xs of
-| list_nil () => res
-| list_cons (x, xs) =>
+| list_nil() => res
+| list_cons(x, xs) =>
   (
     case+ x.instr_node of
-    | ATSINSlab (lab) =>
-        auxlst (xs, cons_vt (lab, res))
-    | _(*non-ATSINSlab*) => auxlst (xs, res)
+    | ATSINSlab(lab) =>
+        auxlst(xs, cons_vt(lab, res))
+    | _(*non-ATSINSlab*) => auxlst(xs, res)
   )
 ) (* end of [auxlst] *)
 //
-fun auxlst2
+fun
+auxlst2
 (
   xs: instrlst, res: res
 ) : res =
@@ -1124,13 +1126,15 @@ case+ xs of
 | list_cons (x, xs) =>
   (
     case- x.instr_node of
-    | ATSbranchseq(inss) => auxlst2 (xs, auxlst (inss, res))
+    | ATSbranchseq(inss) =>
+      auxlst2(xs, auxlst(inss, res))
   ) (* end of [list_cons] *)
 ) (* end of [auxlst2] *)
 //
-val-ATScaseofseq(inss) = ins0.instr_node
+val-
+ATScaseofseq(inss) = ins0.instr_node
 //
-val res = auxlst2 (inss, list_vt_nil())
+val res = auxlst2(inss, list_vt_nil())
 //
 in
   list_vt2t(list_vt_reverse(res))
