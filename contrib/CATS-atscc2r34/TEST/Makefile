@@ -52,6 +52,14 @@ cleanall:: ; $(RMF) acker_dats.R
 ######
 
 all:: \
+isevn_dats.R
+regress:: \
+isevn_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) isevn_dats.R
+
+######
+
+all:: \
 listlen_dats.R
 regress:: \
 listlen_dats.R ; $(RSCRIPT2) $<

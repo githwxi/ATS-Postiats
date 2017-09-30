@@ -1617,20 +1617,34 @@ in
   // nothing
 end // end of [auxfun]
 //
-fun auxlst
+fun
+auxlst
 (
   out: FILEref, inss: instrlst, i: int
 ) : void =
 (
 case+ inss of
 | list_nil () => ()
-| list_cons _ => let
-    val-list_cons (ins0, inss) = inss
-    val-list_cons (ins1, inss) = inss
-    val () = auxfun (out, ins0, ins1, i)
-  in
-    auxlst (out, inss, i+1)
-  end // end of [auxlst]
+| list_cons _ =>
+  auxlst
+  (
+    out, inss, i+1
+  ) where
+  {
+    val-
+    list_cons
+    (ins0, inss) = inss
+    val-
+    list_cons
+    (ins1, inss) = inss
+    val () =
+    if (i > 1) then
+    (
+      emit_nspc(out, 6);
+      emit_text(out, ",\n")
+    ) (* end of [val] *)
+    val () = auxfun(out, ins0, ins1, i)
+  } // end of [auxlst]
 ) (* end of [auxlst] *)
 //
 in
@@ -1648,16 +1662,16 @@ val () = emit_text (out, "funlab_r34 <- 1;")
 //
 val () = emit_ENDL (out)
 val () = emit_nspc (out, 2(*ind*))
-val () = emit_text (out, "while(true) {")
+val () = emit_text (out, "while(TRUE) {")
 //
 val () = emit_ENDL (out)
 val () = emit_nspc (out, 4(*ind*))
-val () = emit_text (out, "switch(funlab_r34) {\n")
+val () = emit_text (out, "switch(funlab_r34, \n")
 //
 val () = emit_the_funbodylst (out)
 //
 val () = emit_nspc (out, 4(*ind*))
-val ((*closing*)) = emit_text (out, "} ## end-of-switch\n")
+val ((*closing*)) = emit_text (out, ") ## end-of-switch\n")
 //
 val () = emit_nspc (out, 2(*ind*))
 val ((*closing*)) = emit_text (out, "} ## endwhile-fun\n")

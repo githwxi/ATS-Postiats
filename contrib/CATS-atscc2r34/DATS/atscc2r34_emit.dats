@@ -133,7 +133,7 @@ emit_PMVbool
 (
 emit_text
 ( out
-, if tfv then "true" else "false"
+, if tfv then "TRUE" else "FALSE"
 ) (* emit_text *)
 ) (* end of [emit_PMVbool] *)
 
