@@ -105,6 +105,14 @@ cleanall:: ; $(RMF) sieve_lazy_dats.R
 
 ######
 
+all:: \
+sieve_llazy_dats.R
+regress:: \
+sieve_llazy_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) sieve_llazy_dats.R
+
+######
+
 %_dats.R: %.dats ; \
 $(PATSOPT) -d $< | $(ATSCC2R34) -o $@
 

@@ -65,7 +65,8 @@ implement
 emit_tmpdeclst_initize
   (out, tds) = let
 //
-fun auxlst
+fun
+auxlst
 (
   out: FILEref, tds: tmpdeclst
 ) : void = let
@@ -80,12 +81,20 @@ case+ tds of
         (tmp) => auxlst (out, tds)
     | TMPDECsome
         (tmp, _) => let
+        val
+        isret =
+        tmpvar_is_tmpret
+          (tmp.i0dex_sym)
+        // end of [val]
         val () =
         emit_nspc (out, 2(*ind*))
         val () =
+        if not(isret)
+          then emit_text(out, "## ")
+        // end of [if]
+        val () =
         (
-          emit_text (out, "## var ");
-          emit_tmpvar (out, tmp); emit_ENDL (out)
+          emit_tmpvar(out, tmp); emit_text(out, " <- NULL\n")
         ) (* end of [val] *)
       in
         auxlst (out, tds)

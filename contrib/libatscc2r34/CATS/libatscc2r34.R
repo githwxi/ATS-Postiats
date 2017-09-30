@@ -82,6 +82,21 @@ function(lazyval) {
 
 ######
 
+ATSPMVllazyval <-
+function(thunk){ return(thunk) }
+
+ATSPMVllazyval_eval <-
+function(llazyval) {
+  return(llazyval[[1]](llazyval, TRUE))
+} ## end of [ATSPMVllazyval_eval]
+
+atspre_lazy_vt_free <-
+function(llazyval) {
+  return (llazyval[[1]](llazyval, FALSE))
+} ## end of [atspre_lazy_vt_free]
+
+######
+
 ######
 #
 # integer
@@ -121,6 +136,9 @@ ats2r34pre_mod_int1_int1 <-
 function(arg0,arg1) { return(arg0 %% arg1) }
 ats2r34pre_div_int1_int1 <-
 function(arg0,arg1) { return(arg0 %/% arg1) }
+
+ats2r34pre_nmod_int1_int1 <-
+function(arg0,arg1) { return(arg0 %% arg1) }
 
 ######
   
