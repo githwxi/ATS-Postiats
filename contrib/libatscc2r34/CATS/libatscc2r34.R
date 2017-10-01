@@ -103,6 +103,13 @@ function(llazyval) {
 #
 ######
 
+######
+
+ats2r34pre_neg_int0 <-
+function(arg0) { return(-arg0) }
+ats2r34pre_abs_int0 <-
+function(arg0) { return(abs(arg0)) }
+
 ats2r34pre_succ_int0 <-
 function(arg0) { return(arg0 + 1) }
 ats2r34pre_pred_int0 <-
