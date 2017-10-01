@@ -48,7 +48,7 @@ implement
 option0_some(x) = Some0{a}(x)
 //
 implement{}
-option0_none ((*void*)) = None0((*void*))
+option0_none((*void*)) = None0((*void*))
 //
 (* ****** ****** *)
 
@@ -87,16 +87,19 @@ case+ opt of
 //
 implement
 {a}{b}
-option0_map(opt, fopr) =
+option0_map
+  (opt, fopr) =
 (
 case+ opt of
-| Some0(x) => Some0(fopr(x)) | _ => None0()
+| Some0(x) => Some0(fopr(x)) | _ => None0(*void*)
 ) (* end of [option0_map] *)
 //
 implement
 {a}{b}
 option0_map_method
-  (opt, _(*TYPE*)) = lam(fopr) => option0_map(opt, fopr)
+(
+  opt, _(*TYPE*)
+) = lam(fopr) => option0_map(opt, fopr)
 //
 (* ****** ****** *)
 //
@@ -112,16 +115,30 @@ case+ opt of
 implement
 {a}(*tmp*)
 option0_filter_method
-  (opt) = lam(pred) => option0_filter(opt, pred)
+(
+  opt
+) = lam(pred) => option0_filter(opt, pred)
 //
 (* ****** ****** *)
-
+//
+implement
+{a}(*tmp*)
+print_option0
+  (opt) = fprint_option0<a>(stdout_ref, opt)
+implement
+{a}(*tmp*)
+prerr_option0
+  (opt) = fprint_option0<a>(stderr_ref, opt)
+//
+(* ****** ****** *)
+//
 implement
 {a}(*tmp*)
 fprint_option0
-  (out, opt) = fprint_option<a>(out, g1ofg0_option(opt))
-// end of [fprint_option0]
-
+(
+  out, opt
+) = fprint_option<a>(out, g1ofg0_option(opt))
+//
 (* ****** ****** *)
 //
 implement
