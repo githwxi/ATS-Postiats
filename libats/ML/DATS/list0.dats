@@ -1396,8 +1396,6 @@ case+ xs of
 //
 } // end of [list0_skip_while]
 
-(* ****** ****** *)
-
 implement
 {a}(*tmp*)
 list0_skip_until
@@ -1419,6 +1417,54 @@ case+ xs of
 )
 //
 } // end of [list0_skip_until]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_take_while
+  (xs, pred) = let
+//
+fun
+auxmain
+(
+xs: list0(a), res: List0_vt(a)
+) : List0_vt(a) =
+(
+case+ xs of
+| list0_nil() => res
+| list0_cons(x0, xs1) =>
+  if pred(x0)
+    then auxmain(xs1, list_vt_cons(x0, res)) else res
+  // end of [if]
+)
+//
+in
+  g0ofg1(list_vt_reverse(auxmain(xs, list_vt_nil())))
+end // end of [list0_take_while]
+
+implement
+{a}(*tmp*)
+list0_take_until
+  (xs, pred) = let
+//
+fun
+auxmain
+(
+xs: list0(a), res: List0_vt(a)
+) : List0_vt(a) =
+(
+case+ xs of
+| list0_nil() => res
+| list0_cons(x0, xs1) =>
+  if pred(x0)
+    then res else auxmain(xs1, list_vt_cons(x0, res))
+  // end of [if]
+)
+//
+in
+  g0ofg1(list_vt_reverse(auxmain(xs, list_vt_nil())))
+end // end of [list0_take_until]
 
 (* ****** ****** *)
 
@@ -2046,6 +2092,37 @@ implement
 {a}(*tmp*)
 streamize_list0_elt
   (xs) = streamize_list_elt<a>(g1ofg0(xs))
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+streamize_list0_suffix
+  (xs) =
+  auxmain(xs) where
+{
+//
+fun
+auxmain:
+$d2ctype
+(
+streamize_list0_suffix<a>
+) = lam(xs) => $ldelay
+(
+case+ xs of
+| list0_nil
+  (
+  // none
+  ) => stream_vt_nil()
+| list0_cons
+  (
+    x0, xs1
+  ) => stream_vt_cons(xs, auxmain(xs1))
+)
+} (* end of [streamize_list0_suffix] *)
+
+(* ****** ****** *)
+//
 implement
 {a}(*tmp*)
 streamize_list0_choose2

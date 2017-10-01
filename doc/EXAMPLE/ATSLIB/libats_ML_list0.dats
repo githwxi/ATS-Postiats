@@ -160,6 +160,27 @@ val () = fprintln! (out, "imap2: ys = ", ys)
 
 val () =
 {
+//
+val out = stdout_ref
+//
+val xs = list0_make_intrange(0, 10)
+//
+val-list0_cons(5, _) =
+list0_skip_while(xs, lam(x) => x < 5)
+val-list0_cons(5, _) =
+list0_skip_until(xs, lam(x) => x >= 5)
+//
+val-5 =
+length(list0_take_while(xs, lam(x) => x < 5))
+val-5 =
+length(list0_take_until(xs, lam(x) => x >= 5))
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
 val out = stdout_ref
 val xs = list0_make_intrange (10, 0, ~1)
 val () = fprintln! (out, "xs = ", xs)

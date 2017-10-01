@@ -688,6 +688,21 @@ xs: list0(INV(a)), pred: cfun(a, bool)
 //
 (* ****** ****** *)
 //
+fun
+{a:t0p}
+list0_take_while
+(
+xs: list0(INV(a)), pred: cfun(a, bool)
+) : list0(a) // end of [list0_take_while]
+fun
+{a:t0p}
+list0_take_until
+(
+xs: list0(INV(a)), pred: cfun(a, bool)
+) : list0(a) // end of [list0_take_until]
+//
+(* ****** ****** *)
+//
 fun{
 a,b:t0p
 } list0_assoc_exn
@@ -929,6 +944,14 @@ overload .xprod2_iforeach with list0_xprod2_iforeach_method
 fun{a:t0p}
 streamize_list0_elt
   (list0(INV(a))):<!wrt> stream_vt(a)
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+streamize_list0_suffix
+  (list0(INV(a))):<!wrt> stream_vt(list0(a))
+//
+(* ****** ****** *)
 //
 fun{a:t0p}
 streamize_list0_choose2
