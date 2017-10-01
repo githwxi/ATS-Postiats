@@ -668,8 +668,23 @@ fun
 {a:t0p}
 list0_find_index
 (
-  xs: list0(INV(a)), pred: cfun(a, bool)
+xs: list0(INV(a)), pred: cfun(a, bool)
 ) : intGte(~1) // end of [list0_find_index]
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+list0_skip_while
+(
+xs: list0(INV(a)), pred: cfun(a, bool)
+) : list0(a) // end of [list0_skip_while]
+fun
+{a:t0p}
+list0_skip_until
+(
+xs: list0(INV(a)), pred: cfun(a, bool)
+) : list0(a) // end of [list0_skip_until]
 //
 (* ****** ****** *)
 //

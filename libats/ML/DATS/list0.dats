@@ -1375,6 +1375,54 @@ case+ xs of
 (* ****** ****** *)
 
 implement
+{a}(*tmp*)
+list0_skip_while
+  (xs, pred) =
+  auxmain(xs) where
+{
+//
+fun
+auxmain
+(
+xs: list0(a)
+) : list0(a) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x0, xs1) =>
+  if pred(x0) then auxmain(xs1) else xs
+)
+//
+} // end of [list0_skip_while]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_skip_until
+  (xs, pred) =
+  auxmain(xs) where
+{
+//
+fun
+auxmain
+(
+xs: list0(a)
+) : list0(a) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x0, xs1) =>
+  if pred(x0) then xs else auxmain(xs1)
+)
+//
+} // end of [list0_skip_until]
+
+(* ****** ****** *)
+
+implement
 {a,b}(*tmp*)
 list0_assoc_exn
 (
