@@ -52,22 +52,22 @@ typedef NSH(a:type) = a // for commenting purpose
 castfn
 option0_of_option
   {a:t@ype}
-  (xs: Option(a)):<> option0(a)
+  (xs: Option(INV(a))):<> option0(a)
 castfn
 option0_of_option_vt
   {a:t@ype}
-  (xs: Option_vt(a)):<> option0(a)
+  (xs: Option_vt(INV(a))):<> option0(a)
 //
 (* ****** ****** *)
 //
 castfn
 g0ofg1_option
   {a:t@ype}
-  (xs: Option(a)):<> option0(a)
+  (xs: Option(INV(a))):<> option0(a)
 castfn
 g1ofg0_option
   {a:t@ype}
-  (xs: option0(a)):<> Option(a)
+  (xs: option0(INV(a))):<> Option(a)
 //
 overload g0ofg1 with g0ofg1_option
 overload g1ofg0 with g1ofg0_option
@@ -104,14 +104,16 @@ option0_unsome_exn(opt: option0(a)):<!exn> a
 (* ****** ****** *)
 //
 fun{a:t0p}
-print_option0(option0(a)): void
+print_option0
+  (opt: option0(INV(a))): void
 fun{a:t0p}
-prerr_option0(option0(a)): void
+prerr_option0
+  (opt: option0(INV(a))): void
 //
 fun{a:t0p}
 fprint_option0
 (
-  out: FILEref, opt: option0(a)
+  out: FILEref, opt: option0(INV(a))
 ) : void // end-of-function
 //
 overload print with print_option0

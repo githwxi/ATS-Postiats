@@ -36,7 +36,10 @@ Here is a list of major additions and changes since the last release:
 5. Hosting for ats-lang.org moved from OPENSHIFT2 to OPENSHIFT3
 6. In progress:
    A Functional Crash into ATS: ${PATSHOME}/doc/BOOK/ATS2FUNCRASH
-
+7. Atscc2r34 (for transpiling ATS into R) is functioning and it is
+   expected to be improved gradually.
+8. Improving ATSLIB/libats/ML: more list0-combinators; printing stuff
+  
 ######
 
 0.3.6

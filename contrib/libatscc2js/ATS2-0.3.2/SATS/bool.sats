@@ -129,13 +129,5 @@ overload != with neq_bool0_bool0 of 100
 overload != with neq_bool1_bool1 of 120
 //
 (* ****** ****** *)
-//
-fun int2bool0 : int -> bool = "mac#%"
-fun int2bool1 : {i:int} int(i) -> bool(i != 0) = "mac#%"
-//
-fun bool2int0 : bool -> natLt(2) = "mac#%"
-fun bool2int1 : {b:bool} bool(b) -> int(bool2int(b)) = "mac#%"
-//
-(* ****** ****** *)
 
 (* end of [bool.sats] *)

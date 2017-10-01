@@ -106,80 +106,131 @@ function(llazyval) {
 ######
 
 ats2r34pre_neg_int0 <-
-function(arg0) { return(-arg0) }
+function(x) { return(-x) }
 ats2r34pre_abs_int0 <-
-function(arg0) { return(abs(arg0)) }
+function(x) { return(abs(x)) }
 
 ats2r34pre_succ_int0 <-
-function(arg0) { return(arg0 + 1) }
+function(x) { return(x + 1) }
 ats2r34pre_pred_int0 <-
-function(arg0) { return(arg0 - 1) }
+function(x) { return(x - 1) }
 
 ats2r34pre_add_int0_int0 <-
-function(arg0,arg1) { return(arg0 + arg1) }
+function(x,y) { return(x + y) }
 ats2r34pre_sub_int0_int0 <-
-function(arg0,arg1) { return(arg0 - arg1) }
+function(x,y) { return(x - y) }
 ats2r34pre_mul_int0_int0 <-
-function(arg0,arg1) { return(arg0 * arg1) }
+function(x,y) { return(x * y) }
 ats2r34pre_mod_int0_int0 <-
-function(arg0,arg1) { return(arg0 %% arg1) }
+function(x,y) { return(x %% y) }
 ats2r34pre_div_int0_int0 <-
-function(arg0,arg1) { return(arg0 %/% arg1) }
+function(x,y) { return(x %/% y) }
 
 ######
 
 ats2r34pre_succ_int1 <-
-function(arg0) { return(arg0 + 1) }
+function(x) { return(x + 1) }
 ats2r34pre_pred_int1 <-
-function(arg0) { return(arg0 - 1) }
+function(x) { return(x - 1) }
 
 ats2r34pre_add_int1_int1 <-
-function(arg0,arg1) { return(arg0 + arg1) }
+function(x,y) { return(x + y) }
 ats2r34pre_sub_int1_int1 <-
-function(arg0,arg1) { return(arg0 - arg1) }
+function(x,y) { return(x - y) }
 ats2r34pre_mul_int1_int1 <-
-function(arg0,arg1) { return(arg0 * arg1) }
+function(x,y) { return(x * y) }
 ats2r34pre_mod_int1_int1 <-
-function(arg0,arg1) { return(arg0 %% arg1) }
+function(x,y) { return(x %% y) }
 ats2r34pre_div_int1_int1 <-
-function(arg0,arg1) { return(arg0 %/% arg1) }
+function(x,y) { return(x %/% y) }
 
 ats2r34pre_nmod_int1_int1 <-
-function(arg0,arg1) { return(arg0 %% arg1) }
+function(x,y) { return(x %% y) }
 
 ######
   
 ats2r34pre_lt_int0_int0 <-
-function(arg0,arg1) { return(arg0 < arg1) }
+function(x,y) { return(x < y) }
 ats2r34pre_lte_int0_int0 <-
-function(arg0,arg1) { return(arg0 <= arg1) }
+function(x,y) { return(x <= y) }
 
 ats2r34pre_gt_int0_int0 <-
-function(arg0,arg1) { return(arg0 > arg1) }
+function(x,y) { return(x > y) }
 ats2r34pre_gte_int0_int0 <-
-function(arg0,arg1) { return(arg0 >= arg1) }
+function(x,y) { return(x >= y) }
 
 ats2r34pre_eq_int0_int0 <-
-function(arg0,arg1) { return(arg0 == arg1) }
+function(x,y) { return(x == y) }
 ats2r34pre_neq_int0_int0 <-
-function(arg0,arg1) { return(arg0 != arg1) }
+function(x,y) { return(x != y) }
 
 ######
 
 ats2r34pre_lt_int1_int1 <-
-function(arg0,arg1) { return(arg0 < arg1) }
+function(x,y) { return(x < y) }
 ats2r34pre_lte_int1_int1 <-
-function(arg0,arg1) { return(arg0 <= arg1) }
+function(x,y) { return(x <= y) }
 
 ats2r34pre_gt_int1_int1 <-
-function(arg0,arg1) { return(arg0 > arg1) }
+function(x,y) { return(x > y) }
 ats2r34pre_gte_int1_int1 <-
-function(arg0,arg1) { return(arg0 >= arg1) }
+function(x,y) { return(x >= y) }
 
 ats2r34pre_eq_int1_int1 <-
-function(arg0,arg1) { return(arg0 == arg1) }
+function(x,y) { return(x == y) }
 ats2r34pre_neq_int1_int1 <-
-function(arg0,arg1) { return(arg0 != arg1) }
+function(x,y) { return(x != y) }
+
+######
+
+######
+#
+# booleans
+#
+######
+
+ats2r34pre_int2bool0 <-
+function(x) { return(x != 0) }
+ats2r34pre_int2bool1 <-
+function(x) { return(x != 0) }
+
+######
+
+ats2r34pre_bool2int0 <-
+function(x) { return(if(x) 1 else 0) }
+ats2r34pre_bool2int1 <-
+function(x) { return(if(x) 1 else 0) }
+
+######
+
+ats2r34pre_neg_bool0 <-
+  function(x) { return(!x) }
+ats2r34pre_neg_bool1 <-
+  function(x) { return(!x) }
+
+######
+
+ats2r34pre_add_bool0_bool0 <-
+  function(x, y) { return (x || y) }
+ats2r34pre_add_bool0_bool1 <-
+  function(x, y) { return (x || y) }
+ats2r34pre_add_bool1_bool0 <-
+  function(x, y) { return (x || y) }
+ats2r34pre_add_bool1_bool1 <-
+  function(x, y) { return (x || y) }
+
+######
+
+ats2r34pre_mul_bool0_bool0 <-
+  function(x, y) { return (x && y) }
+ats2r34pre_mul_bool0_bool1 <-
+  function(x, y) { return (x && y) }
+ats2r34pre_mul_bool1_bool0 <-
+  function(x, y) { return (x && y) }
+ats2r34pre_mul_bool1_bool1 <-
+  function(x, y) { return (x && y) }
+
+######
 
 ######
 #
@@ -187,47 +238,107 @@ function(arg0,arg1) { return(arg0 != arg1) }
 #
 ######
 
+######
+
 ats2r34pre_succ_double <-
-function(arg0) { return(arg0 + 1) }
+function(x) { return(x + 1) }
 ats2r34pre_pred_double <-
-function(arg0) { return(arg0 - 1) }
+function(x) { return(x - 1) }
+
+######
+
+ats2r34pre_add_int_double <-
+function(x,y) { return(x + y) }
+ats2r34pre_add_double_int <-
+function(x,y) { return(x + y) }
+
+ats2r34pre_sub_int_double <-
+function(x,y) { return(x - y) }
+ats2r34pre_sub_double_int <-
+function(x,y) { return(x - y) }
+
+ats2r34pre_mul_int_double <-
+function(x,y) { return(x * y) }
+ats2r34pre_mul_double_int <-
+function(x,y) { return(x * y) }
+
+ats2r34pre_div_int_double <-
+function(x,y) { return(x %/% y) }
+ats2r34pre_div_double_int <-
+function(x,y) { return(x %/% y) }
+
+######
 
 ats2r34pre_add_double_double <-
-function(arg0,arg1) { return(arg0 + arg1) }
+function(x,y) { return(x + y) }
+
 ats2r34pre_sub_double_double <-
-function(arg0,arg1) { return(arg0 - arg1) }
+function(x,y) { return(x - y) }
+
 ats2r34pre_mul_double_double <-
-function(arg0,arg1) { return(arg0 * arg1) }
+function(x,y) { return(x * y) }
+
 ats2r34pre_mod_double_double <-
-function(arg0,arg1) { return(arg0 %% arg1) }
+function(x,y) { return(x %% y) }
 ats2r34pre_div_double_double <-
-function(arg0,arg1) { return(arg0 %/% arg1) }
+function(x,y) { return(x %/% y) }
+
+######
+
+ats2r34pre_lt_int_double <-
+function(x,y) { return(x < y) }
+ats2r34pre_lt_double_int <-
+function(x,y) { return(x < y) }
+
+ats2r34pre_lte_int_double <-
+function(x,y) { return(x <= y) }
+ats2r34pre_lte_double_int <-
+function(x,y) { return(x <= y) }
+
+ats2r34pre_gt_int_double <-
+function(x,y) { return(x > y) }
+ats2r34pre_gt_double_int <-
+function(x,y) { return(x > y) }
+
+ats2r34pre_gte_int_double <-
+function(x,y) { return(x >= y) }
+ats2r34pre_gte_double_int <-
+function(x,y) { return(x >= y) }
+
+ats2r34pre_eq_int_double <-
+function(x,y) { return(x == y) }
+ats2r34pre_eq_double_int <-
+function(x,y) { return(x == y) }
+
+ats2r34pre_neq_int_double <-
+function(x,y) { return(x != y) }
+ats2r34pre_neq_double_int <-
+function(x,y) { return(x != y) }
 
 ######
 
 ats2r34pre_lt_double_double <-
-function(arg0,arg1) { return(arg0 < arg1) }
+function(x,y) { return(x < y) }
 ats2r34pre_lte_double_double <-
-function(arg0,arg1) { return(arg0 <= arg1) }
+function(x,y) { return(x <= y) }
 
 ats2r34pre_gt_double_double <-
-function(arg0,arg1) { return(arg0 > arg1) }
+function(x,y) { return(x > y) }
 ats2r34pre_gte_double_double <-
-function(arg0,arg1) { return(arg0 >= arg1) }
+function(x,y) { return(x >= y) }
 
 ats2r34pre_eq_double_double <-
-function(arg0,arg1) { return(arg0 == arg1) }
+function(x,y) { return(x == y) }
 ats2r34pre_neq_double_double <-
-function(arg0,arg1) { return(arg0 != arg1) }
+function(x,y) { return(x != y) }
 
 ######
 
-ats2r34pre_print_int <-
-function(x) { return(cat(x)) }
-ats2r34pre_print_double <-
-function(x) { return(cat(x)) }
-ats2r34pre_print_string <-
-function(x) { return(cat(x)) }
+ats2r34pre_print_int <- function(x) { return(cat(x)) }
+ats2r34pre_print_double <- function(x) { return(cat(x)) }
+ats2r34pre_print_string <- function(x) { return(cat(x)) }
+
+######
 
 ats2r34pre_print_newline <-
 function() { cat("\n"); utils::flush.console(); return(NULL) }
