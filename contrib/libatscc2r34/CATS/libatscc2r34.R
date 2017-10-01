@@ -175,6 +175,45 @@ ats2r34pre_neq_int1_int1 <-
 function(arg0,arg1) { return(arg0 != arg1) }
 
 ######
+#
+# floating points
+#
+######
+
+ats2r34pre_succ_double <-
+function(arg0) { return(arg0 + 1) }
+ats2r34pre_pred_double <-
+function(arg0) { return(arg0 - 1) }
+
+ats2r34pre_add_double_double <-
+function(arg0,arg1) { return(arg0 + arg1) }
+ats2r34pre_sub_double_double <-
+function(arg0,arg1) { return(arg0 - arg1) }
+ats2r34pre_mul_double_double <-
+function(arg0,arg1) { return(arg0 * arg1) }
+ats2r34pre_mod_double_double <-
+function(arg0,arg1) { return(arg0 %% arg1) }
+ats2r34pre_div_double_double <-
+function(arg0,arg1) { return(arg0 %/% arg1) }
+
+######
+
+ats2r34pre_lt_double_double <-
+function(arg0,arg1) { return(arg0 < arg1) }
+ats2r34pre_lte_double_double <-
+function(arg0,arg1) { return(arg0 <= arg1) }
+
+ats2r34pre_gt_double_double <-
+function(arg0,arg1) { return(arg0 > arg1) }
+ats2r34pre_gte_double_double <-
+function(arg0,arg1) { return(arg0 >= arg1) }
+
+ats2r34pre_eq_double_double <-
+function(arg0,arg1) { return(arg0 == arg1) }
+ats2r34pre_neq_double_double <-
+function(arg0,arg1) { return(arg0 != arg1) }
+
+######
 
 ats2r34pre_print_int <-
 function(x) { return(cat(x)) }

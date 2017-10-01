@@ -42,9 +42,11 @@ overload neg with neg_double of 100
 (* ****** ****** *)
 //
 fun
-succ_double : double -<> double = "mac#%"
+succ_double
+  : double -<> double = "mac#%"
 fun
-pred_double : double -<> double = "mac#%"
+pred_double
+  : double -<> double = "mac#%"
 //
 overload succ with succ_double of 100
 overload pred with pred_double of 100

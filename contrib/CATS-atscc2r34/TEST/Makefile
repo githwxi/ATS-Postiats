@@ -44,6 +44,14 @@ cleanall:: ; $(RMF) fact1_dats.R
 ######
 
 all:: \
+fact2_dats.R
+regress:: \
+fact2_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) fact2_dats.R
+
+######
+
+all:: \
 acker_dats.R
 regress:: \
 acker_dats.R ; $(RSCRIPT2) $<

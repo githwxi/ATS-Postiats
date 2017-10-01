@@ -12,14 +12,14 @@ ATS_DYNLOADFLAG 0
 (* ****** ****** *)
 //
 #define
-LIBATSCC2R3_targetloc
+LIBATSCC2R34_targetloc
 "$PATSHOME\
-/contrib/libatscc2r3"
+/contrib/libatscc2r34"
 //
 (* ****** ****** *)
 //
 #include
-"{$LIBATSCC2R3}/mylibies.hats"
+"{$LIBATSCC2R34}/mylibies.hats"
 //
 (* ****** ****** *)
 //
@@ -57,6 +57,32 @@ val () = println! ("fact(", N, ") = ", fact(N))
 //
 } (* end of [main0_ats] *)
 //
+(* ****** ****** *)
+
+%{^
+######
+if
+(!(exists("libatscc2r34.is.loaded")))
+{
+  assign("libatscc2r34.is.loaded", FALSE)
+}
+######
+if
+(
+!(libatscc2r34.is.loaded)
+)
+{
+  sys.source("./libatscc2r34/CATS/libatscc2r34.R")
+}
+######
+%} // end of [%{^]
+
+(* ****** ****** *)
+
+%{$
+fact2_main0_ats(100)
+%} // end of [%{$]
+
 (* ****** ****** *)
 
 (* end of [fact2.dats] *)

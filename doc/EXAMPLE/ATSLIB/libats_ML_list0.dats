@@ -175,10 +175,10 @@ val () = {
 //
 val xs = g0ofg1($list{int}(0,1,2))
 //
-val () = xs.foreach_choose2()(lam(x, y) => println!(x, "/", y))
+val () = xs.choose2_foreach()(lam(x, y) => println!(x, "/", y))
 //
-val () = xs.foreach_xprod2(xs)(lam(x, y) => println!(x, "/", y))
-val () = xs.iforeach_xprod2(xs)(lam(i, x, j, y) => println!(i, ":", x, "/", j, ":", y))
+val () = xs.xprod2_foreach(xs)(lam(x, y) => println!(x, "/", y))
+val () = xs.xprod2_iforeach(xs)(lam(i, x, j, y) => println!(i, ":", x, "/", j, ":", y))
 //
 } (* end of [val] *)
 

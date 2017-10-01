@@ -208,6 +208,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("tempfunctor.dats")
+
+(* ****** ****** *)
+
 #packfilename("word-chain.dats")
 
 (* ****** ****** *)
