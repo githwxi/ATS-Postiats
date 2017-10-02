@@ -334,13 +334,18 @@ function(x,y) { return(x != y) }
 
 ######
 
-ats2r34pre_print_int <- function(x) { return(cat(x)) }
-ats2r34pre_print_double <- function(x) { return(cat(x)) }
-ats2r34pre_print_string <- function(x) { return(cat(x)) }
-
-######
+ats2r34pre_print_int <-
+  function(x) { return(cat(x)) }
+ats2r34pre_print_double <-
+  function(x) { return(cat(x)) }
+ats2r34pre_print_string <-
+  function(x) { return(cat(x)) }
 
 ats2r34pre_print_newline <-
-function() { cat("\n"); utils::flush.console(); return(NULL) }
+function() {
+  cat("\n"); utils::flush.console(); return(NULL)
+} ## ats2r34pre_print_newline
+
+######
 
 ###### end of [libatscc2r34.R] ######

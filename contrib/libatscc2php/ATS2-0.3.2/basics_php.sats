@@ -58,6 +58,10 @@ abstype PHParray(a:vt@ype) // risk on your own!!!
 abstype PHParref(a:vt@ype) // reference to PHParray
 //
 (* ****** ****** *)
+
+abstype PHPobjmap(a:vt@ype) // string-keyed hashmap
+
+(* ****** ****** *)
 //
 fun{
 a:t0p

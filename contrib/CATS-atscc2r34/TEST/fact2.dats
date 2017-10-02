@@ -25,16 +25,16 @@ LIBATSCC2R34_targetloc
 //
 extern
 fun
-fact : double -> double = "mac#fact"
+fact : int -> double = "mac#fact"
 //
 implement
 fact (n) = let
 //
 fnx loop
 (
-  n: double, res: double
+ n: int, res: double
 ) : double =
-  if n > 0.0 then loop (n-1.0, n*res) else res
+  if n > 0 then loop (n-1, n*res) else res
 //
 in
   loop (n, 1.0)
@@ -46,14 +46,15 @@ extern
 fun
 main0_ats
 (
-  N: double
+ N: int
 ) : void = "mac#fact2_main0_ats"
 //
 implement
 main0_ats(N) =
 {
 //
-val () = println! ("fact(", N, ") = ", fact(N))
+val () =
+println!("fact(", N, ") = ", fact(N))
 //
 } (* end of [main0_ats] *)
 //

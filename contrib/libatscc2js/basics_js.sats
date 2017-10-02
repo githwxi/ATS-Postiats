@@ -42,11 +42,12 @@ abstype JSdate // new Date()
 //
 abstype JSfilr // nominal!
 //
+abstype JSregexp // new RegExp()
+//
 (* ****** ****** *)
 //
-abstype JSarray(a:vt@ype)
-//
-abstype JSregexp // new RegExp()
+abstype JSarray(a:vt@ype) // [...]
+abstype JSobjmap(a:vt@ype) // {...}
 //
 (* ****** ****** *)
 //
