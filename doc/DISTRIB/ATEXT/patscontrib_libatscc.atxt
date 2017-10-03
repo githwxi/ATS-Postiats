@@ -52,8 +52,8 @@ out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=${PATSCONTRIB}/contrib/libatscc-0.3.2/\n\
-TARGET=ATS-Postiats-contrib/contrib/libatscc-0.3.2/\n\
+SOURCE=${PATSCONTRIB}/contrib/libatscc-0.3.2\n\
+TARGET=ATS-Postiats-contrib/contrib/libatscc-0.3.2\n\
 \n\
 srcget()\n\
 {\n\

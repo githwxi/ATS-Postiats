@@ -53,8 +53,8 @@ out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=${PATSCONTRIB}/contrib/libats-/hwxi/\n\
-TARGET=ATS-Postiats-contrib/contrib/libats-/hwxi/\n\
+SOURCE=${PATSCONTRIB}/contrib/libats-/hwxi\n\
+TARGET=ATS-Postiats-contrib/contrib/libats-/hwxi\n\
 \n\
 srcget ()\n\
 {\n\

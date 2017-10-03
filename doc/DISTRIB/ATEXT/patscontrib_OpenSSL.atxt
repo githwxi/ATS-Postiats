@@ -47,8 +47,8 @@ fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=${PATSCONTRIB}/contrib/OpenSSL/\n\
-TARGET=ATS-Postiats-contrib/contrib/OpenSSL/\n\
+SOURCE=${PATSCONTRIB}/contrib/OpenSSL\n\
+TARGET=ATS-Postiats-contrib/contrib/OpenSSL\n\
 \n\
 srcget ()\n\
 {\n\

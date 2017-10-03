@@ -49,8 +49,8 @@ fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=${PATSCONTRIB}/contrib/zeromq/\n\
-TARGET=ATS-Postiats-contrib/contrib/zeromq/\n\
+SOURCE=${PATSCONTRIB}/contrib/zeromq\n\
+TARGET=ATS-Postiats-contrib/contrib/zeromq\n\
 \n\
 srcget ()\n\
 {\n\

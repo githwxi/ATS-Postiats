@@ -49,8 +49,8 @@ fprint_string (out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/HTML-emscripten/\n\
-TARGET=ATS-Postiats-contrib/contrib/HTML-emscripten/\n\
+SOURCE=./../../contrib/HTML-emscripten\n\
+TARGET=ATS-Postiats-contrib/contrib/HTML-emscripten\n\
 \n\
 srcget()\n\
 {\n\

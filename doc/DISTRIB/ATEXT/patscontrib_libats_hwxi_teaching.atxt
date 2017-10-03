@@ -54,8 +54,8 @@ out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=${PATSCONTRIB}/contrib/libats-/hwxi/teaching/\n\
-TARGET=ATS-Postiats-contrib/contrib/libats-/hwxi/teaching/\n\
+SOURCE=${PATSCONTRIB}/contrib/libats-/hwxi/teaching\n\
+TARGET=ATS-Postiats-contrib/contrib/libats-/hwxi/teaching\n\
 \n\
 srcget()\n\
 {\n\
