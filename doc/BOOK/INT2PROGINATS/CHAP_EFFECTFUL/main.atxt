@@ -33,7 +33,7 @@ effectful as its evaluation results in an observable behavior that
 distinguishes the expression from any values.  In this case,
 #dyncode('print("Hello")') is said to certain I/O effect.  If the
 evaluation of an expression never terminates, then the expression is also
-effectul. For instance, let us define a function #dyncode("loop") as
+effectful. For instance, let us define a function #dyncode("loop") as
 follows:
 
 #dats2xhtml("\
