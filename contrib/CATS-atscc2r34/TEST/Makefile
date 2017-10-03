@@ -137,6 +137,14 @@ cleanall:: ; $(RMF) queens_simple_dats.R
 
 ######
 
+all:: \
+cs320-2017-fall-assign04_dats.R
+regress:: \
+cs320-2017-fall-assign04_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) cs320-2017-fall-assign04_dats.R
+
+######
+
 %_dats.R: %.dats ; \
 $(PATSOPT) -d $< | $(ATSCC2R34) -o $@
 

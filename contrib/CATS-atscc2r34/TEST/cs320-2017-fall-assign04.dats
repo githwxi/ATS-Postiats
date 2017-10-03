@@ -28,7 +28,7 @@ NDX100_fname "./DATA/NDX100-index.csv"
 
 (* ****** ****** *)
 
-abstype argopt
+abstype optarg
 
 (* ****** ****** *)
 
@@ -37,7 +37,7 @@ NDX100_dframe =
 $extfcall
 ( R34dframe(double)
 , "read.csv"
-, NDX100_fname, $extval(argopt,"header=TRUE")
+, NDX100_fname, $extval(optarg,"header=TRUE")
 )
 
 (* ****** ****** *)
@@ -84,6 +84,13 @@ val ((*void*)) =
 println! ("Adj_Close_pos = ", Adj_Close_pos)
 val ((*void*)) = assertloc(Adj_Close_pos > 0)
 //
+(* ****** ****** *)
+
+val
+Adj_Close_data =
+$extfcall(R34vector(double), "select", NDX100_dframe, "Adj.Close")
+val () = $extfcall(void, "message", Adj_Close_data)
+
 (* ****** ****** *)
 
 %{^
