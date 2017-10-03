@@ -43,8 +43,7 @@ $extfcall
 (* ****** ****** *)
 
 val
-NDX100_dframe_names =
-$extfcall(R34vector(string), "names", NDX100_dframe)
+NDX100_dframe_names = names(NDX100_dframe)
 
 (* ****** ****** *)
 //
@@ -85,12 +84,13 @@ println! ("Adj_Close_pos = ", Adj_Close_pos)
 val ((*void*)) = assertloc(Adj_Close_pos > 0)
 //
 (* ****** ****** *)
-
+//
 val
 Adj_Close_data =
-$extfcall(R34vector(double), "select", NDX100_dframe, "Adj.Close")
-val () = $extfcall(void, "message", Adj_Close_data)
-
+getcol_at(NDX100_dframe, Adj_Close_pos)
+val ((*void*)) =
+println! ("|Adj_Close_data| = ", length(Adj_Close_data))
+//
 (* ****** ****** *)
 
 %{^

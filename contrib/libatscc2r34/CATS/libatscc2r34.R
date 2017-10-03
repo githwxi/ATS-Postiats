@@ -357,6 +357,14 @@ function() {
 ##
 ######
 
+######
+#
+# R34vector
+#
+######
+
+######
+
 ats2r34pre_R34vector_length <-
 function(xs) { return(length(xs)) }
 
@@ -371,9 +379,37 @@ function(xs, i, x0) { xs[i] <<- x0; return(NULL) }
 
 ats2r34pre_R34vector_match <-
 function(x, xs) {
-  return(match(x, xs, nomatch = 0))
+  return(match(x, xs, nomatch=0))
 } ## ats2r34pre_R34vector_match
 
 ######
+
+######
+#
+# R34dframe
+#
+######
+
+######
+
+ats2r34pre_R34dframe_nrow <-
+  function(xss) { return(nrow(xss)) }
+ats2r34pre_R34dframe_ncol <-
+  function(xss) { return(ncol(xss)) }
+
+######
+
+ats2r34pre_R34dframe_names <-
+  function(xss) { return(names(xss)) }
+
+######
+
+ats2r34pre_R34dframe_getcol_at <-
+function(xss, jcol) { return(xss[[jcol]]) }
+ats2r34pre_R34dframe_getcol_by <-
+function(xss, name) { return(xss[[name]]) }
+
+######
+
 
 ###### end of [libatscc2r34.R] ######

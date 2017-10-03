@@ -34,5 +34,10 @@
 #staload _ = "./DATS/R34vector.dats"
 //
 (* ****** ****** *)
+//
+#staload "./SATS/R34dframe.sats"
+#staload _ = "./DATS/R34dframe.dats"
+//
+(* ****** ****** *)
 
 (* end of [mylibies.hats] *)
