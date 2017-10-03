@@ -7,7 +7,7 @@
 (* ****** ****** *)
 //
 #define
-ATS_DYNLOADFLAG 0
+ATS_DYNLOADFLAG 1
 //
 (* ****** ****** *)
 //
@@ -21,37 +21,25 @@ LIBATSCC2R34_targetloc
 //
 (* ****** ****** *)
 
-abstype
-R34vector(a:t@ype)
-
-extern
-fun
-{a:t@ype}
-R34vector_mean(R34vector(double)): double
-
-overload mean with R34vector_mean
-
-implement
-R34vector_mean(xs) = #extfcall(double, "mean", xs)
-
-(* ****** ****** *)
-
-mean(mydata)
-
-abstype R34dframe
-
-(* ****** ****** *)
-
-
-
-(* ****** ****** *)
-
 #define
-NDX100 "NDX100"
-
-%{$
-NDX100_get <-
-function() { read.csv(NDX100, header=TRUE) }
-%} // end of [%{$]
+NDX100_fname "./DATA/NDX100-index.csv"
 
 (* ****** ****** *)
+
+val
+NDX100_dframe =
+$extfcall
+( R34dframe(double)
+, "read.csv"
+, NDX100_fname, $literal("header=TRUE")
+)
+
+(* ****** ****** *)
+
+val
+NDX100_dframe_names =
+$extfcall(R34vector(string), "names", NDX100_dframe)
+
+(* ****** ****** *)
+
+(* end of [cs320-2017-fall-assign04.dats] *)

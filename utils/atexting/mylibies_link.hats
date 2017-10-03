@@ -144,6 +144,8 @@ MAIN_NONE
 //
 local
 //
+staload "./SATS/atexting.sats"
+//
 typedef
 cmdstate = @{
 //

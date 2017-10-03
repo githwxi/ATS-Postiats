@@ -36,6 +36,41 @@ abstype R34filr // nominal!
 //
 (* ****** ****** *)
 //
+abstype
+R34list(a:t@ype, n:int)
+abstype
+R34vector(a:t@ype, n:int)
+abstype
+R34dframe(a:t@ype, m:int, n:int)
+abstype
+R34matrix(a:t@ype, m:int, n:int)
+//
+(* ****** ****** *)
+//
+typedef
+R34list
+(
+a:t@ype
+) = [n:nat] R34list(a:t@ype, n)
+//
+typedef
+R34vector
+(
+  a:t@ype
+) = [n:nat] R34vector(a:t@ype, n)
+//
+typedef
+R34dframe
+(a:t@ype) =
+[m,n:nat] R34dframe(a:t@ype, m, n)
+//
+typedef
+R34matrix
+(a:t@ype) =
+[m,n:nat] R34matrix(a:t@ype, m, n)
+//
+(* ****** ****** *)
+//
 fun
 lazy2cloref
   {a:t@ype}

@@ -9,8 +9,8 @@
 //
 (* ****** ****** *)
 //
-(*
 #staload "./basics_r34.sats"
+(*
 #staload _ = "./DATS/basics.dats"
 *)
 //
@@ -27,6 +27,11 @@
 (* ****** ****** *)
 //
 #staload "./SATS/print.sats" // HX: printing to the console
+//
+(* ****** ****** *)
+//
+#staload "./SATS/R34vector.sats"
+#staload _ = "./DATS/R34vector.dats"
 //
 (* ****** ****** *)
 

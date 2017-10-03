@@ -33,6 +33,8 @@ $(PATSCC) -verbose \
 ######
 #
 regress:: \
+mytexting
+regress:: \
 data.atxt ; \
 ./mytexting -o data_atxt.out -i $<
 #

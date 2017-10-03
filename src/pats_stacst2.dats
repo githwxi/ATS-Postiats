@@ -940,9 +940,11 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-the_string_type = s2cstref_make "string_type"
+the_string_type =
+s2cstref_make("string_type")
 implement
-the_string_int_type = s2cstref_make "string_int_type"
+the_string_int_type =
+s2cstref_make("string_int_type")
 
 implement
 s2exp_string_type () =
@@ -969,16 +971,14 @@ in
 end // end of [s2exp_string_index_type]
 
 (* ****** ****** *)
-
-local
-
+//
 implement
-the_literal_float = s2cstref_make "literal_float"
+the_literal_float =
+s2cstref_make("literal_float")
 implement
-the_literal_string = s2cstref_make "literal_string"
-
-in (* in-of-local *)
-
+the_literal_string =
+s2cstref_make("literal_string")
+//
 implement
 s2exp_literal_float
   (rep) = let
@@ -996,9 +996,7 @@ s2exp_literal_string
 in
   s2exp_cstapp (s2c, list_sing(ind))
 end // end of [s2exp_literal_string]
-
-end // end of [local]
-
+//
 (* ****** ****** *)
 //
 implement
