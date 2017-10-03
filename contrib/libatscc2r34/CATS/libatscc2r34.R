@@ -97,6 +97,15 @@ function(llazyval) {
 
 ######
 
+ats2r34pre_assert_errmsg_bool0 <-
+function(claim, errmsg) {
+  if(!claim) { stop(errmsg) }; return(NULL)
+}
+ats2r34pre_assert_errmsg_bool1 <-
+  ats2r34pre_assert_errmsg_bool0
+  
+######
+
 ######
 #
 # integer
@@ -333,18 +342,37 @@ ats2r34pre_neq_double_double <-
 function(x,y) { return(x != y) }
 
 ######
-
+##
 ats2r34pre_print_int <-
   function(x) { return(cat(x)) }
 ats2r34pre_print_double <-
   function(x) { return(cat(x)) }
 ats2r34pre_print_string <-
   function(x) { return(cat(x)) }
-
+##
 ats2r34pre_print_newline <-
 function() {
   cat("\n"); utils::flush.console(); return(NULL)
 } ## ats2r34pre_print_newline
+##
+######
+
+ats2r34pre_R34vector_length <-
+function(xs) { return(length(xs)) }
+
+######
+
+ats2r34pre_R34vector_get_at <-
+function(xs, i) { return(xs[i]) }
+ats2r34pre_R34vector_set_at <-
+function(xs, i, x0) { xs[i] <<- x0; return(NULL) }
+  
+######
+
+ats2r34pre_R34vector_match <-
+function(x, xs) {
+  return(match(x, xs, nomatch = 0))
+} ## ats2r34pre_R34vector_match
 
 ######
 
