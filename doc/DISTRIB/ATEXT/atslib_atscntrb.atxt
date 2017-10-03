@@ -54,8 +54,8 @@ fprint_string(out, "\
 # This script is automatically generated.\n\
 #\n\
 \n\
-SOURCE=./../../contrib/\n\
-TARGET=ATS-Postiats/contrib/\n\
+SOURCE=./../../contrib\n\
+TARGET=ATS-Postiats/contrib\n\
 \n\
 srcget()\n\
 {\n\

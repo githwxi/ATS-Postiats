@@ -28,6 +28,14 @@ cleanall::
 ######
 
 all:: \
+fib_dats.R
+regress:: \
+fib_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) fib_dats.R
+
+######
+
+all:: \
 fact_dats.R
 regress:: \
 fact_dats.R ; $(RSCRIPT2) $<

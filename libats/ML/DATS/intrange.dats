@@ -47,7 +47,7 @@ implement
 {}(*tmp*)
 int_repeat_lazy
   (n, fopr) =
-  int_repeat_cloref<> (n, lazy2cloref(fopr))
+  int_repeat_cloref<>(n, lazy2cloref(fopr))
 //
 (* ****** ****** *)
 
@@ -63,7 +63,8 @@ loop
 ) : void = (
 //
 if n > 0
-  then let val () = fopr() in loop(n-1, fopr) end
+  then
+  let val () = fopr() in loop(n-1, fopr) end
   else ((*void*))
 //
 ) (* end of [loop] *)

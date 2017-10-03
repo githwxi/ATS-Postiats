@@ -20,38 +20,40 @@ LIBATSCC2R34_targetloc
 #include "{$LIBATSCC2R34}/mylibies.hats"
 //
 (* ****** ****** *)
-
-abstype
-R34vector(a:t@ype)
-
+//
 extern
 fun
-{a:t@ype}
-R34vector_mean(R34vector(double)): double
-
-overload mean with R34vector_mean
-
+fib : int -> int = "mac#fib_in_R"
+//
 implement
-R34vector_mean(xs) = #extfcall(double, "mean", xs)
-
+fib (n) = if n >= 2 then fib(n-1) + fib(n-2) else n
+//
 (* ****** ****** *)
 
-mean(mydata)
-
-abstype R34dframe
+%{^
+######
+if
+(!(exists("libatscc2r34.is.loaded")))
+{
+  assign("libatscc2r34.is.loaded", FALSE)
+}
+######
+if
+(
+!(libatscc2r34.is.loaded)
+)
+{
+  sys.source("./libatscc2r34/CATS/libatscc2r34.R")
+}
+######
+%} // end of [%{^]
 
 (* ****** ****** *)
-
-
-
-(* ****** ****** *)
-
-#define
-NDX100 "NDX100"
 
 %{$
-NDX100_get <-
-function() { read.csv(NDX100, header=TRUE) }
+message("fib(20) = ", fib_in_R(20))
 %} // end of [%{$]
 
 (* ****** ****** *)
+
+(* end of [fib.dats] *)
