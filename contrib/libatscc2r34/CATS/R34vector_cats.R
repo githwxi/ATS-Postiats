@@ -52,5 +52,18 @@ function(xs, fopr)
 } ## ats2r34pre_R34vector_map_fun
 
 ############################################
+
+ats2r34pre_R34vector_tabulate_fun <-
+function(n0, fopr)
+{
+  if (n0 == 0) return(c())
+  y1 = fopr(0); ys = rep(y1, n0)
+  if (n0 >= 2)
+  {
+    for (i in 1:n0-1) { ys[[i+1]] <- fopr(i) }
+  } ; return(ys)
+} ## ats2r34pre_R34vector_tabulate_fun
+
+############################################
 #end of [R34vector_cats.R]
 ############################################

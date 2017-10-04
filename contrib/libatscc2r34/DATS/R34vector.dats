@@ -62,5 +62,13 @@ R34vector_map_cloref
 R34vector_map_fun{a}{b}(xs, cloref2fun1(fopr))
 //
 (* ****** ****** *)
+//
+implement
+R34vector_tabulate_cloref
+{a}(*tmp*)
+(n0, fopr) =
+R34vector_tabulate_fun{a}(n0, cloref2fun1(fopr))
+//
+(* ****** ****** *)
 
 (* end of [R34vector.dats] *)

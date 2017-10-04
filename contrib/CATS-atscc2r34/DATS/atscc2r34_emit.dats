@@ -390,9 +390,9 @@ in
 case+
 d0e0.d0exp_node of
 //
-| D0Eide (tmp) => 
+| D0Eide(tmp) => 
   {
-    val () = emit_tmpvar (out, tmp)
+    val () = emit_tmpvar(out, tmp)
   }
 //
 | D0Eappid (fid, d0es) =>

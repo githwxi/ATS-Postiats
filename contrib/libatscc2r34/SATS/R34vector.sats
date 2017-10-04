@@ -98,8 +98,25 @@ R34vector_map_cloref
 ( xs: R34vector(a, n)
 , fopr: (a) -<cloref1> b): R34vector(b, n) = "mac#%"
 //
+(*
 overload map with R34vector_map_fun
+*)
 overload map with R34vector_map_cloref
+//
+(* ****** ****** *)
+//
+fun
+R34vector_tabulate_fun
+{a:t0p}
+{n:nat}
+( int(n)
+, fopr: (natLt(n)) -<fun1> a): R34vector(a, n) = "mac#%"
+fun
+R34vector_tabulate_cloref
+{a:t0p}
+{n:nat}
+( int(n)
+, fopr: (natLt(n)) -<cloref1> a): R34vector(a, n) = "mac#%"
 //
 (* ****** ****** *)
 
