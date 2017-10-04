@@ -47,9 +47,6 @@ $(ATSCC2R34) -o ./output/DATS/R34vector_dats.R -i
 all:: ; \
 $(PATSOPT) -d ./DATS/ML/list0.dats | \
 $(ATSCC2R34) -o ./output/DATS/ML/list0_dats.R -i
-all:: ; \
-$(PATSOPT) -d ./DATS/ML/array0.dats | \
-$(ATSCC2R34) -o ./output/DATS/ML/array0_dats.R -i
 #
 ######
 #
@@ -111,8 +108,11 @@ libatscc2r34_all:: ; \
 $(CAT) >>$(LIBATSCC2R34_ALL_R34) \
 output/DATS/list_dats.R \
 output/DATS/option_dats.R \
+output/DATS/stream_dats.R \
+output/DATS/stream_vt_dats.R \
 output/DATS/intrange_dats.R \
 output/DATS/R34vector_dats.R \
+output/DATS/ML/list0_dats.R \
 
 ######
 #
