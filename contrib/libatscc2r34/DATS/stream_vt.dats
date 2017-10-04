@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into R(stat)
 *)
-
 (* ****** ****** *)
 
 #define ATS_DYNLOADFLAG 0
@@ -15,7 +15,7 @@
 #define
 ATS_EXTERN_PREFIX "ats2r34pre_"
 #define
-ATS_STATIC_PREFIX "_ats2r34pre_intrange_"
+ATS_STATIC_PREFIX "_ats2r34pre_stream_vt_"
 //
 (* ****** ****** *)
 //
@@ -26,28 +26,35 @@ LIBATSCC_targetloc
 (* ****** ****** *)
 //
 #staload
-  "./../basics_r34.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 //
-#staload
-  "./../SATS/integer.sats"
+(* ****** ****** *)
+//
+#staload "./../basics_r34.sats"
+//
+(* ****** ****** *)
+//
+#staload "./../SATS/integer.sats"
+//
+(* ****** ****** *)
+//
+#staload "./../SATS/print.sats"
 //
 (* ****** ****** *)
 //
 #staload "./../SATS/list.sats"
-//
-(* ****** ****** *)
-//
-#staload "./../SATS/intrange.sats"
-//
-(* ****** ****** *)
-//
-#define ATSCC_STREAM 1
-#define ATSCC_STREAM_VT 1
-//
-(* ****** ****** *)
-//
-#include "{$LIBATSCC}/DATS/intrange.dats"
+#staload "./../SATS/list_vt.sats"
 //
 (* ****** ****** *)
 
-(* end of [intrange.dats] *)
+#staload "./../SATS/stream.sats"
+#staload "./../SATS/stream_vt.sats"
+
+(* ****** ****** *)
+//
+#include "{$LIBATSCC}/DATS/stream_vt.dats"
+//
+(* ****** ****** *)
+
+(* end of [stream_vt.dats] *)

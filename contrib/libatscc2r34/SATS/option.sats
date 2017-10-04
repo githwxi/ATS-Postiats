@@ -19,23 +19,14 @@ LIBATSCC_targetloc
 //
 #staload "./../basics_r34.sats"
 //
-#include "{$LIBATSCC}/SATS/list.sats"
+#include "{$LIBATSCC}/SATS/option.sats"
 //
 (* ****** ****** *)
 //
 fun{a:t0p}
-fprint_list
-  (R34filr, List(INV(a))): void = "mac#%"
-//
-fun{}
-fprint_list$sep(out: R34filr): void = "mac#%"
-//
-fun{a:t0p}
-fprint_list_sep
-  (R34filr, List(INV(a)), sep: string): void = "mac#%"
-//
-overload fprint with fprint_list of 100
+fprint_option
+  (R34filr, Option(INV(a))): void = "mac#%"
 //
 (* ****** ****** *)
 
-(* end of [list.sats] *)
+(* end of [option.sats] *)

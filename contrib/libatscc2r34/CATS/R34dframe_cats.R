@@ -10,8 +10,9 @@
 #beg of [R34dframe_cats.R]
 ############################################
 
-assign
-("libatscc2r34_R34dframe.is.loaded", TRUE)
+assign(
+  "libatscc2r34_R34dframe.is.loaded", TRUE
+)#assign
 
 ############################################
 

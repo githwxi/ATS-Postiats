@@ -10,8 +10,9 @@
 #beg of [bool_cats.R]
 ############################################
 
-assign
-("libatscc2r34_bool.is.loaded", TRUE)
+assign(
+  "libatscc2r34_bool.is.loaded", TRUE
+)#assign
 
 ############################################
 

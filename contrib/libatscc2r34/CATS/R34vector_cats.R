@@ -10,8 +10,9 @@
 #beg of [R34vector_cats.R]
 ############################################
 
-assign
-("libatscc2r34_R34vector.is.loaded", TRUE)
+assign(
+  "libatscc2r34_R34vector.is.loaded", TRUE
+)#assign
 
 ############################################
 

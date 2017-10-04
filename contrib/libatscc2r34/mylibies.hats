@@ -43,5 +43,17 @@
 #staload _ = "./DATS/R34dframe.dats"
 //
 (* ****** ****** *)
+//
+#staload
+"./SATS/ML/list0.sats" // un-indexed list
+#staload
+_(*anon*) = "./DATS/ML/list0.dats" // un-indexed list
+//
+#staload
+"./SATS/ML/array0.sats" // un-indexed array
+#staload
+_(*anon*) = "./DATS/ML/array0.dats" // un-indexed array
+//
+(* ****** ****** *)
 
 (* end of [mylibies.hats] *)

@@ -10,8 +10,9 @@
 #beg of [float_cats.R]
 ############################################
 
-assign
-("libatscc2r34_float.is.loaded", TRUE)
+assign(
+  "libatscc2r34_float.is.loaded", TRUE
+)#assign
 
 ############################################
 

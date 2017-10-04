@@ -142,7 +142,9 @@ val () = println! ("primes[500] = ", nth(ps, 500))
 options(expressions=100000);
 ######
 if
-(!(exists("libatscc2r34.is.loaded")))
+(
+!(exists("libatscc2r34.is.loaded"))
+)
 {
   assign("libatscc2r34.is.loaded", FALSE)
 }
@@ -152,7 +154,7 @@ if
 !(libatscc2r34.is.loaded)
 )
 {
-  sys.source("./libatscc2r34/CATS/libatscc2r34.R")
+  sys.source("./libatscc2r34/libatscc2r34_all.R")
 }
 ######
 %} // end of [%{^]

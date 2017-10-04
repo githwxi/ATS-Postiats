@@ -539,6 +539,11 @@ cross_stream_list0
 //
 (* ****** ****** *)
 
+#if
+defined
+(ATSCC_REFERENCE)
+#then
+//
 implement
 stream2cloref_exn
   {a}(xs) = let
@@ -558,9 +563,16 @@ in
 end // end of [lam]
 //
 end // end of [stream2cloref_exn]
+//
+#endif // if-defined(ATSCC_REFERENCE)
 
 (* ****** ****** *)
 
+#if
+defined
+(ATSCC_REFERENCE)
+#then
+//
 implement
 stream2cloref_opt
   {a}(xs) = let
@@ -579,9 +591,16 @@ in
 end // end of [lam]
 //
 end // end of [stream2cloref_opt]
+//
+#endif // if-defined(ATSCC_REFERENCE)
 
 (* ****** ****** *)
 
+#if
+defined
+(ATSCC_REFERENCE)
+#then
+//
 implement
 stream2cloref_last
   {a}(xs, x0) = let
@@ -606,6 +625,8 @@ in
 end // end of [lam]
 //
 end // end of [stream2cloref]
+//
+#endif // if-defined(ATSCC_REFERENCE)
 
 (* ****** ****** *)
 

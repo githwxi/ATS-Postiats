@@ -10,8 +10,9 @@
 #beg of [basics_cats.R]
 ############################################
 
-assign
-("libatscc2r34_basics.is.loaded", TRUE)
+assign(
+  "libatscc2r34_basics.is.loaded", TRUE
+)#assign
 
 ############################################
 

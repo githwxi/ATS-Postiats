@@ -10,8 +10,9 @@
 #beg of [integer_cats.R]
 ############################################
 
-assign
-("libatscc2r34_integer.is.loaded", TRUE)
+assign(
+  "libatscc2r34_integer.is.loaded", TRUE
+)#assign
 
 ############################################
 

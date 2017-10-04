@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
-** that translates into R(stat)
+** that transpiles into R(stat)
 *)
-
 (* ****** ****** *)
 //
 // HX-2017-10:
@@ -12,15 +12,17 @@
 ATS_EXTERN_PREFIX "ats2r34pre_"
 //
 (* ****** ****** *)
-//
-#define
-LIBATSCC_targetloc
-"$PATSHOME/contrib/libatscc"
-//
+
 #staload "./../basics_r34.sats"
+
+(* ****** ****** *)
 //
-#include "{$LIBATSCC}/SATS/intrange.sats"
+(*
+val STDIN : R34filr = "mac#"
+val STDOUT : R34filr = "mac#"
+val STDERR : R34filr = "mac#"
+*)
 //
 (* ****** ****** *)
 
-(* end of [intrange.sats] *)
+(* end of [filebas.sats] *)

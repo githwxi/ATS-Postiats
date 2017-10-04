@@ -71,7 +71,7 @@ UN =
 //
 extern
 fun{}
-print_list$sep (): void
+print_list$sep(): void
 //
 implement
 {}(*tmp*)

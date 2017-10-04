@@ -151,7 +151,7 @@ $(PATSOPT) -d $< | $(ATSCC2R34) -o $@
 ######
 
 libatscc2r34:: ; \
-$(CPRF) $(LIBATSCC2R34)/CATS ./libatscc2r34/.
+$(CPRF) $(LIBATSCC2R34)/output/libatscc2r34_all.R ./libatscc2r34/.
 
 ######
 

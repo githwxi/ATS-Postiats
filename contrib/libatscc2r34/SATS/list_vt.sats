@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into R(stat)
 *)
-
 (* ****** ****** *)
 //
 // HX-2017-10:
@@ -19,8 +19,8 @@ LIBATSCC_targetloc
 //
 #staload "./../basics_r34.sats"
 //
-#include "{$LIBATSCC}/SATS/intrange.sats"
+#include "{$LIBATSCC}/SATS/list_vt.sats"
 //
 (* ****** ****** *)
 
-(* end of [intrange.sats] *)
+(* end of [list_vt.sats] *)

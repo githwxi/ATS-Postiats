@@ -19,23 +19,19 @@ LIBATSCC_targetloc
 //
 #staload "./../basics_r34.sats"
 //
-#include "{$LIBATSCC}/SATS/list.sats"
+#include "{$LIBATSCC}/SATS/stream.sats"
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
-fprint_list
-  (R34filr, List(INV(a))): void = "mac#%"
+fun
+stream_nth_exn
+  {a:t0p}
+(
+  xs: stream(INV(a)), n: intGte(0)
+) : (a) = "mac#%" // end-of-function
 //
-fun{}
-fprint_list$sep(out: R34filr): void = "mac#%"
-//
-fun{a:t0p}
-fprint_list_sep
-  (R34filr, List(INV(a)), sep: string): void = "mac#%"
-//
-overload fprint with fprint_list of 100
+overload [] with stream_nth_exn of 100
 //
 (* ****** ****** *)
 
-(* end of [list.sats] *)
+(* end of [stream.sats] *)

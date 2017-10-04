@@ -99,8 +99,10 @@ R34vector_map_cloref(Adj_Close_data, lam(x) => x / 100)
 
 (* ****** ****** *)
 
+(*
 val () = $extfcall(void, "message", Adj_Close_data)
 val () = $extfcall(void, "message", Adj_Close_data2)
+*)
 
 (* ****** ****** *)
 
@@ -108,7 +110,9 @@ val () = $extfcall(void, "message", Adj_Close_data2)
 %{^
 ######
 if
-(!(exists("libatscc2r34.is.loaded")))
+(
+!(exists("libatscc2r34.is.loaded"))
+)
 {
   assign("libatscc2r34.is.loaded", FALSE)
 }
@@ -118,7 +122,7 @@ if
 !(libatscc2r34.is.loaded)
 )
 {
-  sys.source("./libatscc2r34/CATS/libatscc2r34.R")
+  sys.source("./libatscc2r34/libatscc2r34_all.R")
 }
 ######
 %} // end of [%{^]

@@ -51,6 +51,11 @@ UN =
 #staload "./../SATS/stream.sats"
 
 (* ****** ****** *)
+
+#define ATSCC_ARRAYREF 1
+#define ATSCC_REFERENCE 1
+
+(* ****** ****** *)
 //
 #include "{$LIBATSCC}/DATS/stream.dats"
 //

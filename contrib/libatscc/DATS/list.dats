@@ -111,13 +111,13 @@ loop
 (
 //
 case+ xs of
-| list_nil () => ()
-| list_cons (x, xs) =>
+| list_nil() => ()
+| list_cons(x, xs) =>
   (
     if i > 0
-      then fprint_list$sep<> (out);
+      then fprint_list$sep<>(out);
     // end of [if]
-    fprint_val<a> (out, x); loop (xs, i+1)
+    fprint_val<a>(out, x); loop(xs, i+1)
   ) (* end of [list_cons] *)
 //
 ) (* end of [loop] *)
@@ -929,7 +929,7 @@ in
   $effmask_all(auxmain(xs))
 end
 //
-#endif // ATSCC_STREAM_VT
+#endif // if-defined(ATSCC_STREAM_VT)
 //
 (* ****** ****** *)
 
@@ -965,7 +965,7 @@ in
   $effmask_all(auxmain(xs, ys))
 end // end of [streamize_list_zip]
 //
-#endif // ATSCC_STREAM_VT
+#endif // if-defined(ATSCC_STREAM_VT)
 
 (* ****** ****** *)
 
@@ -1010,7 +1010,7 @@ in
   $effmask_all(auxmain(xs, ys))
 end // end of [streamize_list_cross]
 //
-#endif // ATSCC_STREAM_VT
+#endif // if-defined(ATSCC_STREAM_VT)
 
 (* ****** ****** *)
 

@@ -1,6 +1,6 @@
 (*
 ** For writing ATS code
-** that translates into R(stat)
+** that translates into Javascript
 *)
 
 (* ****** ****** *)
@@ -15,7 +15,7 @@
 #define
 ATS_EXTERN_PREFIX "ats2r34pre_"
 #define
-ATS_STATIC_PREFIX "_ats2r34pre_list_"
+ATS_STATIC_PREFIX "_ats2r34pre_stream_"
 //
 (* ****** ****** *)
 //
@@ -30,9 +30,9 @@ UN =
 "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
-
+//
 #staload "./../basics_r34.sats"
-
+//
 (* ****** ****** *)
 //
 #staload "./../SATS/integer.sats"
@@ -40,29 +40,45 @@ UN =
 (* ****** ****** *)
 //
 #staload "./../SATS/print.sats"
-#staload "./../SATS/filebas.sats"
 //
 (* ****** ****** *)
 //
 #staload "./../SATS/list.sats"
 //
-(* ****** ****** *)
-//
 #staload "./../SATS/stream.sats"
-#staload _ = "./../DATS/stream.dats"
 //
-#staload "./../SATS/stream_vt.sats"
-#staload _ = "./../DATS/stream_vt.dats"
+(* ****** ****** *)
+(*
+#define ATSCC_ARRAYREF 1
+#define ATSCC_REFERENCE 1
+*)
+(* ****** ****** *)
+//
+#include "{$LIBATSCC}/DATS/stream.dats"
+//
+(* ****** ****** *)
+//
+extern
+fun
+StreamSubscriptExn_throw{a:vt0p}(): (a) = "mac#%"
 //
 (* ****** ****** *)
 
-#define ATSCC_STREAM 1
-#define ATSCC_STREAM_VT 1
+implement
+stream_nth_exn
+  (xs, n) = let
+//
+val opt =
+  stream_nth_opt(xs, n)
+//
+in
+//
+case+ opt of
+| ~Some_vt(x) => x
+| ~None_vt((*void*)) => StreamSubscriptExn_throw()
+//
+end // end of [stream_nth_exn]
 
 (* ****** ****** *)
-//
-#include "{$LIBATSCC}/DATS/list.dats"
-//
-(* ****** ****** *)
 
-(* end of [list.dats] *)
+(* end of [stream.dats] *)
