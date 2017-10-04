@@ -1,0 +1,126 @@
+############################################
+#
+# HX-2017-10:
+#
+# for R code translated from ATS
+#
+############################################
+
+############################################
+#beg of [float_cats.R]
+############################################
+
+assign
+("libatscc2r34_float.is.loaded", TRUE)
+
+############################################
+
+ats2r34pre_succ_double <-
+function(x) { return(x + 1) }
+ats2r34pre_pred_double <-
+function(x) { return(x - 1) }
+
+############################################
+
+ats2r34pre_add_int_double <-
+function(x,y) { return(x + y) }
+ats2r34pre_add_double_int <-
+function(x,y) { return(x + y) }
+
+ats2r34pre_sub_int_double <-
+function(x,y) { return(x - y) }
+ats2r34pre_sub_double_int <-
+function(x,y) { return(x - y) }
+
+ats2r34pre_mul_int_double <-
+function(x,y) { return(x * y) }
+ats2r34pre_mul_double_int <-
+function(x,y) { return(x * y) }
+
+ats2r34pre_div_int_double <-
+function(x,y) { return(x / y) }
+ats2r34pre_div_double_int <-
+function(x,y) { return(x / y) }
+
+############################################
+
+ats2r34pre_add_double_double <-
+function(x,y) { return(x + y) }
+
+ats2r34pre_sub_double_double <-
+function(x,y) { return(x - y) }
+
+ats2r34pre_mul_double_double <-
+function(x,y) { return(x * y) }
+
+ats2r34pre_div_double_double <-
+function(x,y) { return(x / y) }
+
+############################################
+
+ats2r34pre_lt_int_double <-
+function(x,y) { return(x < y) }
+ats2r34pre_lt_double_int <-
+function(x,y) { return(x < y) }
+
+ats2r34pre_lte_int_double <-
+function(x,y) { return(x <= y) }
+ats2r34pre_lte_double_int <-
+function(x,y) { return(x <= y) }
+
+ats2r34pre_gt_int_double <-
+function(x,y) { return(x > y) }
+ats2r34pre_gt_double_int <-
+function(x,y) { return(x > y) }
+
+ats2r34pre_gte_int_double <-
+function(x,y) { return(x >= y) }
+ats2r34pre_gte_double_int <-
+function(x,y) { return(x >= y) }
+
+ats2r34pre_eq_int_double <-
+function(x,y) { return(x == y) }
+ats2r34pre_eq_double_int <-
+function(x,y) { return(x == y) }
+
+ats2r34pre_neq_int_double <-
+function(x,y) { return(x != y) }
+ats2r34pre_neq_double_int <-
+function(x,y) { return(x != y) }
+
+############################################
+
+ats2r34pre_lt_double_double <-
+function(x,y) { return(x < y) }
+ats2r34pre_lte_double_double <-
+function(x,y) { return(x <= y) }
+
+ats2r34pre_gt_double_double <-
+function(x,y) { return(x > y) }
+ats2r34pre_gte_double_double <-
+function(x,y) { return(x >= y) }
+
+ats2r34pre_eq_double_double <-
+function(x,y) { return(x == y) }
+ats2r34pre_neq_double_double <-
+function(x,y) { return(x != y) }
+
+############################################
+##
+ats2r34pre_print_int <-
+  function(x) { return(cat(x)) }
+ats2r34pre_print_double <-
+  function(x) { return(cat(x)) }
+ats2r34pre_print_string <-
+  function(x) { return(cat(x)) }
+##
+ats2r34pre_print_newline <-
+function() {
+  cat("\n"); utils::flush.console(); return(NULL)
+} ## ats2r34pre_print_newline
+##
+############################################
+
+############################################
+#end of [float_cats.R]
+############################################
