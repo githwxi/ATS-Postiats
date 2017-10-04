@@ -31,14 +31,26 @@ R34vector_get_at
 {a:t0p}
 {n:int}{i:pos|i <= n}
 (R34vector(a, n), i: int(i)): a = "mac#%"
+(*
 fun
 R34vector_set_at
 {a:t0p}
 {n:int}{i:pos|i <= n}
 (R34vector(a, n), i: int(i), x0: a): void = "mac#%"
+*)
 //
 overload [] with R34vector_get_at
+(*
 overload [] with R34vector_set_at
+*)
+//
+(* ****** ****** *)
+//
+fun
+R34vector_extend
+{a:t0p}
+{n:int}{i:pos|i <= n}
+(xs: R34vector(a, n), x0: a): R34vector(a, n+1) = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -68,6 +80,26 @@ R34vector_variance
 //
 overload mean with R34vector_mean
 overload variance with R34vector_variance
+//
+(* ****** ****** *)
+//
+fun
+R34vector_map_fun
+{a:t0p}
+{b:t0p}
+{n:int}
+( xs: R34vector(a, n)
+, fopr: (a) -<fun1> b): R34vector(b, n) = "mac#%"
+fun
+R34vector_map_cloref
+{a:t0p}
+{b:t0p}
+{n:int}
+( xs: R34vector(a, n)
+, fopr: (a) -<cloref1> b): R34vector(b, n) = "mac#%"
+//
+overload map with R34vector_map_fun
+overload map with R34vector_map_cloref
 //
 (* ****** ****** *)
 

@@ -15,7 +15,7 @@
 #define
 ATS_EXTERN_PREFIX "ats2r34pre_"
 #define
-ATS_STATIC_PREFIX "_ats2r34pre_list_"
+ATS_STATIC_PREFIX "_ats2r34pre_intrange_"
 //
 (* ****** ****** *)
 //
@@ -26,32 +26,26 @@ LIBATSCC_targetloc
 (* ****** ****** *)
 //
 #staload
-UN =
-"prelude/SATS/unsafe.sats"
+  "./../basics_r34.sats"
 //
-(* ****** ****** *)
-//
-#staload "./../basics_r34.sats"
-//
-(* ****** ****** *)
-
-#staload "./../SATS/integer.sats"
-
-(* ****** ****** *)
+#staload
+  "./../SATS/integer.sats"
 //
 #staload "./../SATS/list.sats"
 //
 (* ****** ****** *)
-
-(*
+//
+#staload "./../SATS/intrange.sats"
+//
+(* ****** ****** *)
+//
 #define ATSCC_STREAM 1
 #define ATSCC_STREAM_VT 1
-*)
-
-(* ****** ****** *)
-//
-#include "{$LIBATSCC}/DATS/list.dats"
 //
 (* ****** ****** *)
+//
+#include "{$LIBATSCC}/DATS/intrange.dats"
+//
+(* ****** ****** *)
 
-(* end of [list.dats] *)
+(* end of [intrange.dats] *)

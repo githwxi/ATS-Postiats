@@ -54,5 +54,13 @@ R34vector_variance<double>
   (xs) = $extfcall( double, "var", xs )
 //
 (* ****** ****** *)
+//
+implement
+R34vector_map_cloref
+{a}{b}
+(xs, fopr) =
+R34vector_map_fun{a}{b}(xs, cloref2fun1(fopr))
+//
+(* ****** ****** *)
 
 (* end of [R34vector.dats] *)

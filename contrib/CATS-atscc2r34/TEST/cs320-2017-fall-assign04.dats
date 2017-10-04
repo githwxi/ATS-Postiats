@@ -93,6 +93,18 @@ println! ("|Adj_Close_data| = ", length(Adj_Close_data))
 //
 (* ****** ****** *)
 
+val
+Adj_Close_data2 =
+R34vector_map_cloref(Adj_Close_data, lam(x) => x / 100)
+
+(* ****** ****** *)
+
+val () = $extfcall(void, "message", Adj_Close_data)
+val () = $extfcall(void, "message", Adj_Close_data2)
+
+(* ****** ****** *)
+
+
 %{^
 ######
 if

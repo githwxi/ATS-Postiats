@@ -29,6 +29,10 @@
 #staload "./SATS/print.sats" // HX: printing to the console
 //
 (* ****** ****** *)
+
+#staload "./SATS/intrange.sats"
+
+(* ****** ****** *)
 //
 #staload "./SATS/R34vector.sats"
 #staload _ = "./DATS/R34vector.dats"

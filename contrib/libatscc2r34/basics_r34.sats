@@ -120,5 +120,24 @@ fun2cloref3
   (fopr: (a1, a2, a3) -> res): cfun(a1, a2, a3, res) = "mac#%"
 //
 (* ****** ****** *)
+//
+fun
+cloref2fun0
+{res:t@ype}
+(fopr: cfun(res)): (() -> res) = "mac#%"
+fun
+cloref2fun1
+{a:t@ype}{res:t@ype}
+(fopr: cfun(a, res)): ((a) -> res) = "mac#%"
+fun
+cloref2fun2
+{a1,a2:t@ype}{res:t@ype}
+(fopr: cfun(a1, a2, res)): ((a1, a2) -> res) = "mac#%"
+fun
+cloref2fun3
+{a1,a2,a3:t@ype}{res:t@ype}
+(fopr: cfun(a1, a2, a3, res)): ((a1, a2, a3) -> res) = "mac#%"
+//
+(* ****** ****** *)
 
 (* end of [basics_r34.sats] *)

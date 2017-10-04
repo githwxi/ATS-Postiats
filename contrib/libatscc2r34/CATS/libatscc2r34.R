@@ -97,6 +97,52 @@ function(llazyval) {
 
 ######
 
+ats2r34pre_cloref0_app <-
+function(cf)
+  { return(cf[[1]](cf)); }
+ats2r34pre_cloref1_app <-
+function(cf, x)
+  { return(cf[[1]](cf, x)); }
+ats2r34pre_cloref2_app <-
+function(cf, x1, x2)
+  { return(cf[[1]](cf, x1, x2)); }
+ats2r34pre_cloref3_app <-
+function(cf, x1, x2, x3)
+  { return(cf[[1]](cf, x1, x2, x3)); }
+
+######
+
+ats2r34pre_cloref2fun0 <-
+function(cf) {
+  return(
+    function()
+      {return(ats2r34pre_cloref0_app(cf))}
+  )
+}
+ats2r34pre_cloref2fun1 <-
+function(cf) {
+  return(
+    function(x)
+      {return(ats2r34pre_cloref1_app(cf, x))}
+  )
+}
+ats2r34pre_cloref2fun2 <-
+function(cf) {
+  return(
+    function(x1, x2)
+      {return(ats2r34pre_cloref2_app(cf, x1, x2))}
+  )
+}
+ats2r34pre_cloref2fun3 <-
+function(cf) {
+  return(
+    function(x1, x2, x3)
+      {return(ats2r34pre_cloref3_app(cf, x1, x2, x3))}
+  )
+}
+
+######
+
 ats2r34pre_assert_errmsg_bool0 <-
 function(claim, errmsg) {
   if(!claim) { stop(errmsg) }; return(NULL)
@@ -272,9 +318,9 @@ ats2r34pre_mul_double_int <-
 function(x,y) { return(x * y) }
 
 ats2r34pre_div_int_double <-
-function(x,y) { return(x %/% y) }
+function(x,y) { return(x / y) }
 ats2r34pre_div_double_int <-
-function(x,y) { return(x %/% y) }
+function(x,y) { return(x / y) }
 
 ######
 
@@ -287,10 +333,8 @@ function(x,y) { return(x - y) }
 ats2r34pre_mul_double_double <-
 function(x,y) { return(x * y) }
 
-ats2r34pre_mod_double_double <-
-function(x,y) { return(x %% y) }
 ats2r34pre_div_double_double <-
-function(x,y) { return(x %/% y) }
+function(x,y) { return(x / y) }
 
 ######
 
@@ -369,18 +413,36 @@ ats2r34pre_R34vector_length <-
 function(xs) { return(length(xs)) }
 
 ######
-
+#
 ats2r34pre_R34vector_get_at <-
 function(xs, i) { return(xs[i]) }
-ats2r34pre_R34vector_set_at <-
-function(xs, i, x0) { xs[i] <<- x0; return(NULL) }
-  
+#
+# HX-2017-10-03:
+# No call-by-reference in R!!!
+#
+# ats2r34pre_R34vector_set_at <-
+# function(xs, i, x0) { xs[i] <- x0; return(NULL) }
+#
 ######
 
 ats2r34pre_R34vector_match <-
 function(x, xs) {
   return(match(x, xs, nomatch=0))
 } ## ats2r34pre_R34vector_match
+
+######
+
+ats2r34pre_R34vector_map_fun <-
+function(xs, fopr)
+{
+  n0 = length(xs)
+  if (n0 == 0) return(c())
+  y1 = fopr(xs[[1]]); ys = rep(y1, n0)
+  if (n0 >= 2)
+  {
+    for (i in 2:n0) ys[[i]]<-fopr(xs[[i]])
+  } ; return(ys)
+} ## ats2r34pre_R34vector_map_fun
 
 ######
 
