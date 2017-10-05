@@ -381,6 +381,23 @@ overload .find_opt with list0_find_opt_method
 (* ****** ****** *)
 //
 fun
+list0_find_suffix
+  {a:t0p}
+(
+xs: list0(INV(a)), pred: cfun(list0(a), bool)
+) : list0(a) = "mac#%" // end-of-fun
+fun
+list0_find_suffix_method
+  {a:t0p}
+(
+xs: list0(INV(a)))(pred: cfun(list0(a), bool)
+) : list0(a) = "mac#%" // end-of-fun
+//
+overload .find_suffix with list0_find_suffix_method
+//
+(* ****** ****** *)
+//
+fun
 list0_zip
   {a1,a2:t0p}
 (
@@ -434,6 +451,15 @@ list0_foldright_method
 //
 overload .foldleft with list0_foldleft_method
 overload .foldright with list0_foldright_method
+//
+(* ****** ****** *)
+//
+fun
+list0_foldleft_suffix
+  {res:t0p}{a:t0p}
+(
+  list0(INV(a)), init: res, fopr: cfun(res, list0(a), res)
+) : res = "mac#%" // end-of-function
 //
 (* ****** ****** *)
 //

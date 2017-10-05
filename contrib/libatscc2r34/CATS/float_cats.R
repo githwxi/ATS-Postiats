@@ -16,10 +16,22 @@ assign(
 
 ############################################
 
+ats2r34pre_neg_double <-
+function(x) { return( -x ) }
+ats2r34pre_abs_double <-
+function(x) { return(abs(x)) }
+
+############################################
+
 ats2r34pre_succ_double <-
 function(x) { return(x + 1) }
 ats2r34pre_pred_double <-
 function(x) { return(x - 1) }
+
+############################################
+
+ats2r34pre_sqrt_double <-
+function(x) { return(sqrt(x)) }
 
 ############################################
 

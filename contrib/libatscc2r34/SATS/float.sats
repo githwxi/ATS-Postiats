@@ -18,6 +18,18 @@ ATS_EXTERN_PREFIX "ats2r34pre_"
 (* ****** ****** *)
 //
 fun
+abs_double
+  : double -<> double = "mac#%"
+fun
+neg_double
+  : double -<> double = "mac#%"
+//
+overload abs with abs_double of 100
+overload neg with neg_double of 100
+//
+(* ****** ****** *)
+//
+fun
 succ_double
   : double -<> double = "mac#%"
 fun
@@ -26,6 +38,14 @@ pred_double
 //
 overload succ with succ_double of 100
 overload pred with pred_double of 100
+//
+(* ****** ****** *)
+//
+fun
+sqrt_double
+  : double -<> double = "mac#%"
+//
+overload sqrt with sqrt_double of 100
 //
 (* ****** ****** *)
 //

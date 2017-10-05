@@ -30,6 +30,10 @@ typedef char = int
 *)
 (* ****** ****** *)
 //
+abstype optarg // nominal
+//
+(* ****** ****** *)
+//
 abstype R34obj // generic
 //
 abstype R34filr // nominal!

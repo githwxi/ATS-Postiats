@@ -471,7 +471,30 @@ list0_find_opt_method
   {a}(xs) =
 (
   lam(pred) => list0_find_opt{a}(xs, pred)
-) (* end of [list0_zipwith_method] *)
+) (* end of [list0_find_opt_method] *)
+
+(* ****** ****** *)
+
+implement
+list0_find_suffix
+  (xs, pred) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x0, xs1) =>
+  if pred(xs)
+    then (xs)
+    else list0_find_suffix(xs1, pred)
+  // end of [if]
+) (* end of [list0_find_suffix] *)
+
+implement
+list0_find_suffix_method
+  {a}(xs) =
+(
+  lam(pred) => list0_find_suffix{a}(xs, pred)
+) (* end of [list0_find_suffix_method] *)
 
 (* ****** ****** *)
 

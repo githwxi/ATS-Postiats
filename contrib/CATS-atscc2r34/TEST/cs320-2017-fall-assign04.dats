@@ -28,10 +28,6 @@ NDX100_fname "./DATA/NDX100-index.csv"
 
 (* ****** ****** *)
 
-abstype optarg
-
-(* ****** ****** *)
-
 val
 NDX100_dframe =
 $extfcall
@@ -41,10 +37,10 @@ $extfcall
 )
 
 (* ****** ****** *)
-
+//
 val
 NDX100_dframe_names = names(NDX100_dframe)
-
+//
 (* ****** ****** *)
 //
 val () = println!
@@ -122,10 +118,7 @@ R34vector_tabulate_cloref{double}
 //
 val
 volat =
-$extfcall
-( double
-, "sqrt", 252*variance(Daily_price_changes)
-) (* end of [val] *)
+sqrt(252*variance(Daily_price_changes))
 //
 val ((*void*)) = $extfcall(void, "message", "Volatility = ", volat)
 //

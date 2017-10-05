@@ -372,6 +372,23 @@ overload .find_opt with list0_find_opt_method
 (* ****** ****** *)
 //
 fun
+list0_find_suffix
+  {a:t0p}
+(
+xs: list0(INV(a)), pred: cfun(list0(a), bool)
+) : list0(a) = "mac#%" // end-of-fun
+fun
+list0_find_suffix_method
+  {a:t0p}
+(
+xs: list0(INV(a)))(pred: cfun(list0(a), bool)
+) : list0(a) = "mac#%" // end-of-fun
+//
+overload .find_suffix with list0_find_suffix_method
+//
+(* ****** ****** *)
+//
+fun
 list0_zip
   {a1,a2:t0p}
 (
