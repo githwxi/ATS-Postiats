@@ -41,6 +41,9 @@ $(ATSCC2R34) -o ./output/DATS/intrange_dats.R -i
 all:: ; \
 $(PATSOPT) -d ./DATS/R34vector.dats | \
 $(ATSCC2R34) -o ./output/DATS/R34vector_dats.R -i
+all:: ; \
+$(PATSOPT) -d ./DATS/R34dframe.dats | \
+$(ATSCC2R34) -o ./output/DATS/R34dframe_dats.R -i
 
 ######
 #
@@ -112,6 +115,7 @@ output/DATS/stream_dats.R \
 output/DATS/stream_vt_dats.R \
 output/DATS/intrange_dats.R \
 output/DATS/R34vector_dats.R \
+output/DATS/R34dframe_dats.R \
 output/DATS/ML/list0_dats.R \
 
 ######

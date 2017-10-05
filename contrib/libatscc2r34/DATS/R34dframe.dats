@@ -25,16 +25,16 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN =
 "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload "./../basics_r34.sats"
+#staload "./../basics_r34.sats"
 //
-staload "./../SATS/R34vector.sats"
-staload "./../SATS/R34dframe.sats"
+#staload "./../SATS/R34vector.sats"
+#staload "./../SATS/R34dframe.sats"
 //
 (* ****** ****** *)
 
