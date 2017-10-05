@@ -637,25 +637,25 @@ ins0.instr_node of
 //
   } (* end of [ATScaseofseq] *)
 //
-| ATSreturn (tmp) =>
+| ATSreturn(tmp) =>
   {
     val () =
-    emit_nspc (out, ind)
+    emit_nspc(out, ind)
     val () =
-    emit_text (out, "return")
+    emit_text(out, "return")
     val () = emit_LPAREN (out)
     val () = emit_tmpvar (out, tmp)
     val () = emit_RPAREN (out)
     val () = emit_SEMICOLON (out)
   }
-| ATSreturn_void (tmp) =>
+| ATSreturn_void(tmp) =>
   {
     val () = emit_nspc (out, ind)
     val () = emit_text (out, "return(NULL)")
     val () = emit_SEMICOLON (out)
   }
 //
-| ATSINSlab (lab) =>
+| ATSINSlab(lab) =>
   {
 //
     val i0 =
@@ -698,38 +698,44 @@ ins0.instr_node of
 //
   } (* end of [ATSINSlab] *)
 //
-| ATSINSgoto (lab) =>
+| ATSINSgoto(lab) =>
   {
-    val () = emit_nspc (out, ind)
     val () =
-      emit_text (out, "{ tmplab_r34 <- ")
+      emit_nspc(out, ind)
+    val () =
+      emit_text(out, "{ tmplab_r34 <- ")
     // end of [val]
-    val () = emit_tmplab_index (out, lab)
-    val ((*closing*)) = emit_text (out, "; break; }")
+    val () = emit_tmplab_index(out, lab)
+    val ((*closing*)) = emit_text(out, "; break; }")
   } (* end of [ATSINSgoto] *)
 //
-| ATSINSflab (flab) =>
+| ATSINSflab(flab) =>
   {
-    val () = emit_nspc (out, ind)
+    val () =
+      emit_nspc (out, ind)
+    // end of [val]
     val () =
     (
-      emit_text (out, "## "); emit_label (out, flab)
+      emit_text(out, "## "); emit_label(out, flab)
     ) (* end of [val] *)
   } (* end of [ATSINSflab] *)
 //
-| ATSINSfgoto (flab) =>
+| ATSINSfgoto(flab) =>
   {
-    val () = emit_nspc (out, ind)
     val () =
-      emit_text (out, "funlab_r34 <- ")
+      emit_nspc(out, ind)
+    val () =
+      emit_text(out, "funlab_r34 <- ")
     // end of [val]
-    val () = emit_funlab_index (out, flab)
-    val () = (
-      emit_text (out, "; ## "); emit_label (out, flab)
+    val () =
+      emit_funlab_index (out, flab)
+    val () =
+    (
+      emit_text(out, "; ## "); emit_label(out, flab)
     ) (* end of [val] *)
   } (* end of [ATSINSfgoto] *)
 //
-| ATSINSfreeclo (d0e) =>
+| ATSINSfreeclo(d0e) =>
   {
     val () = emit_nspc (out, ind)
     val () = emit_text (out, "## ")
@@ -739,7 +745,7 @@ ins0.instr_node of
     val () = emit_RPAREN (out)
     val () = emit_SEMICOLON (out)
   }
-| ATSINSfreecon (d0e) =>
+| ATSINSfreecon(d0e) =>
   {
     val () = emit_nspc (out, ind)
     val () = emit_text (out, "## ")
@@ -750,7 +756,7 @@ ins0.instr_node of
     val () = emit_SEMICOLON (out)
   }
 //
-| ATSINSmove (tmp, d0e) =>
+| ATSINSmove(tmp, d0e) =>
   {
     val () = emit_nspc(out, ind)
     val () = emit_tmpvar_assign_d0exp(out, tmp, d0e)
@@ -799,7 +805,7 @@ ins0.instr_node of
 | ATSINSmove_llazyeval _ =>
     emit2_ATSINSmove_llazyeval (out, ind, ins0)
 //
-| ATStailcalseq (inss) =>
+| ATStailcalseq(inss) =>
   {
     val () = emit_nspc (out, ind)
     val () = emit_text (out, "## ATStailcalseq_beg")
@@ -809,21 +815,24 @@ ins0.instr_node of
     val () = emit_text (out, "## ATStailcalseq_end")
   } (* end of [ATStailcalseq] *)
 //
-| ATSINSmove_tlcal (tmp, d0e) =>
+| ATSINSmove_tlcal
+    (tmp, d0e) =>
   {
     val () = emit_nspc (out, ind)
     val () = emit_tmpvar_assign_d0exp(out, tmp, d0e)
     val () = emit_SEMICOLON (out)
   } (* end of [ATSINSmove_tlcal] *)
 //
-| ATSINSargmove_tlcal (tmp1, tmp2) =>
+| ATSINSargmove_tlcal
+    (tmp1, tmp2) =>
   {
     val () = emit_nspc (out, ind)
     val () = emit_tmpvar_assign_tmpvar(out, tmp1, tmp2)
     val () = emit_SEMICOLON (out)
   } (* end of [ATSINSargmove_tlcal] *)
 //
-| ATSINSextvar_assign (ext, d0e_r) =>
+| ATSINSextvar_assign
+    (ext, d0e_r) =>
   {
     val () = emit_nspc (out, ind)
     val () = emit_d0exp (out, ext)
@@ -831,7 +840,8 @@ ins0.instr_node of
     val () = emit_d0exp (out, d0e_r)
     val () = emit_SEMICOLON (out)
   }
-| ATSINSdyncst_valbind (d2c, d0e_r) =>
+| ATSINSdyncst_valbind
+    (d2c, d0e_r) =>
   {
     val () = emit_nspc (out, ind)
     val () = emit_f0ide (out, d2c)
@@ -840,7 +850,8 @@ ins0.instr_node of
     val () = emit_SEMICOLON (out)
   }
 //
-| ATSINScaseof_fail (errmsg) =>
+| ATSINScaseof_fail
+    (errmsg) =>
   {
     val () = emit_nspc (out, ind)
     val () = emit_text (out, "ATSINScaseof_fail")
@@ -851,8 +862,10 @@ ins0.instr_node of
   }
 | ATSINSdeadcode_fail (__tok__) =>
   {
-    val () = emit_nspc (out, ind)
-    val () = emit_text (out, "ATSINSdeadcode_fail()")
+    val () =
+      emit_nspc (out, ind)
+    val () =
+      emit_text (out, "ATSINSdeadcode_fail()")
     val () = emit_SEMICOLON (out)
   }
 //
@@ -886,18 +899,21 @@ ins0.instr_node of
 //
 | ATSdynloadflag_sta (flag) =>
   {
-    val () = emit_nspc (out, ind)
-    val () = fprint! (out, "## ATSdynloadflag_sta(", flag, ")")
+    val () =
+    emit_nspc(out, ind)
+    val () = fprint!(out, "## ATSdynloadflag_sta(", flag, ")")
   }
 | ATSdynloadflag_ext (flag) =>
   {
-    val () = emit_nspc (out, ind)
-    val () = fprint! (out, "## ATSdynloadflag_ext(", flag, ")")
+    val () =
+    emit_nspc(out, ind)
+    val () = fprint!(out, "## ATSdynloadflag_ext(", flag, ")")
   }
 //
 | _ (*rest-of-instr*) =>
   {
-    val () = emit_nspc (out, ind)
+    val () =
+    emit_nspc(out, ind)
     val ((*error*)) = fprint! (out, "UNRECOGNIZED-INSTRUCTION: ", ins0)
   }
 //

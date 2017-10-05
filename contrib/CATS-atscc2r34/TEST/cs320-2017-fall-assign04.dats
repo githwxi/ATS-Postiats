@@ -84,28 +84,33 @@ val ((*void*)) = assertloc(Adj_Close_pos > 0)
 //
 (* ****** ****** *)
 //
+(*
 val
 Adj_Close_data =
 getcol_at(NDX100_dframe, Adj_Close_pos)
+*)
+//
+val
+Adj_Close_data =
+getcol_by(NDX100_dframe, "Adj.Close")
 //
 val () = println!
 ("|Adj_Close_data| = ", length(Adj_Close_data))
 //
 (* ****** ****** *)
-
-val n0 =
-length(Adj_Close_data)
-val n1 = n0-1
-
-(* ****** ****** *)
 //
-val () = assertloc(n1 >= 2)
+val n0 =
+  length(Adj_Close_data)
+//
+val () = assertloc(n0 >= 2)
+//
+(* ****** ****** *)
 //
 val
 Daily_price_changes =
 (
 R34vector_tabulate_cloref{double}
-( n1
+( n0-1
 , lam(i) =>
   fopr(Adj_Close_data[i+1], Adj_Close_data[i+2]))
 ) where

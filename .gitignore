@@ -45,11 +45,12 @@ bin/myatscc
 bin/atsreloc_curl
 bin/atsreloc_wget
 bin/atscc2js
+bin/atscc2pl
 bin/atscc2clj
 bin/atscc2erl
 bin/atscc2php
-bin/atscc2pl
 bin/atscc2py3
+bin/atscc2r34
 bin/atscc2scm
 bin/patsolve
 bin/patsolve_z3
