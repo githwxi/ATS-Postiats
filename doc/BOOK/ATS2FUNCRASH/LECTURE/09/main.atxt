@@ -89,7 +89,7 @@ while appying the function to each encountered element.  When the call
 to #dyncode("list0_foreach") in the body of #dyncode("list0_exists")
 is evaluated, an exception (#dyncode("True()")) is raised to stop
 further traversing if an element satisfying the predicate
-#dyncode("test") is encountered.  If the call to to
+#dyncode("test") is encountered.  If the call to
 #dyncode("list0_foreach") returns, then the value #dyncode("false") is
 the return value of #dyncode("list0_exists").  If #dyncode("True()")
 is raised during the evaluation of the call, then this raised
@@ -112,7 +112,8 @@ decared for representing binary trees:
 
 #dats2xhtml('\
 //
-datatype tree(a:t@ype) =
+datatype
+tree(a:t@ype) =
   | tree_nil of ()
   | tree_cons of (tree(a), a, tree(a))
 //

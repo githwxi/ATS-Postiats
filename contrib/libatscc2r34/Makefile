@@ -44,6 +44,9 @@ $(ATSCC2R34) -o ./output/DATS/R34vector_dats.R -i
 all:: ; \
 $(PATSOPT) -d ./DATS/R34dframe.dats | \
 $(ATSCC2R34) -o ./output/DATS/R34dframe_dats.R -i
+all:: ; \
+$(PATSOPT) -d ./DATS/R34matrix.dats | \
+$(ATSCC2R34) -o ./output/DATS/R34matrix_dats.R -i
 
 ######
 #
@@ -106,6 +109,7 @@ CATS/bool_cats.R \
 CATS/float_cats.R \
 CATS/R34vector_cats.R \
 CATS/R34dframe_cats.R \
+CATS/R34matrix_cats.R \
 
 libatscc2r34_all:: ; \
 $(CAT) >>$(LIBATSCC2R34_ALL_R34) \
@@ -116,6 +120,7 @@ output/DATS/stream_vt_dats.R \
 output/DATS/intrange_dats.R \
 output/DATS/R34vector_dats.R \
 output/DATS/R34dframe_dats.R \
+output/DATS/R34matrix_dats.R \
 output/DATS/ML/list0_dats.R \
 
 ######

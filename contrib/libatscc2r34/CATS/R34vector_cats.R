@@ -22,13 +22,13 @@ function(xs) { return(length(xs)) }
 ############################################
 #
 ats2r34pre_R34vector_get_at <-
-function(xs, i) { return(xs[i]) }
+function(xs, i) { return(xs[[i]]) }
 #
 # HX-2017-10-03:
 # No call-by-reference in R!!!
 #
 # ats2r34pre_R34vector_set_at <-
-# function(xs, i, x0) { xs[i] <- x0; return(NULL) }
+# function(xs, i, x0) { xs[[i]] <- x0; return(NULL) }
 #
 ############################################
 
@@ -57,11 +57,11 @@ ats2r34pre_R34vector_tabulate_fun <-
 function(n0, fopr)
 {
   if (n0 == 0) return(c())
-  y1 = fopr(0); ys = rep(y1, n0)
+  x1 = fopr(0); xs = rep(x1, n0)
   if (n0 >= 2)
   {
-    for (i in 1:n0-1) { ys[[i+1]] <- fopr(i) }
-  } ; return(ys)
+    for (i in 2:n0) { xs[[i]] <- fopr(i-1) }
+  } ; return(xs)
 } ## ats2r34pre_R34vector_tabulate_fun
 
 ############################################
