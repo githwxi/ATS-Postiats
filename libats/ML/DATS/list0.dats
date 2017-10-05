@@ -1330,7 +1330,9 @@ case+ xs of
   // list0_nil
 | list0_cons(x, xs) =>
   (
-    if pred(x) then Some_vt{a}(x) else loop(xs)
+    if pred(x)
+      then Some_vt{a}(x) else loop(xs)
+    // end of [if]
   ) (* end of [list_cons] *)
 //
 } (* end of [list0_find_opt] *)
@@ -1367,10 +1369,34 @@ case+ xs of
 | list0_nil() => (~1)
 | list0_cons(x, xs) =>
   (
-    if pred(x) then (i) else loop(xs, i+1)
+    if pred(x)
+      then (i) else loop(xs, i+1)
+    // end of [if]
   ) (* end of [list0_cons] *)
 //
 } (* end of [list0_find_index] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_find_suffix
+(
+  xs, pred
+) = loop(xs) where
+{
+//
+fun
+loop(xs: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(_, xs2) =>
+  if pred(xs) then xs else loop(xs2)
+)
+//
+} (* end of [list0_find_suffix] *)
 
 (* ****** ****** *)
 

@@ -675,6 +675,15 @@ xs: list0(INV(a)), pred: cfun(a, bool)
 //
 fun
 {a:t0p}
+list0_find_suffix
+(
+xs: list0(INV(a)), pred: cfun(list0(a), bool)
+) : list0(a) // end of [list0_find_suffix]
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
 list0_skip_while
 (
 xs: list0(INV(a)), pred: cfun(a, bool)
