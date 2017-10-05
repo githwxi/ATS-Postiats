@@ -13,7 +13,8 @@ all:: atscc2php
 ######
 
 NODE_MODULES="./node_modules"
-NODE_MODULES_P="./../../node_modules"
+NODE_MODULES_p="./../node_modules"
+NODE_MODULES_pp="./../../node_modules"
 
 ######
 #
