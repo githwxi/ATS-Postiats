@@ -46,11 +46,80 @@ overload [] with R34matrix_get_at
 (* ****** ****** *)
 //
 fun
+cbind_R34vector_R34vector
+{a:t@ype}{n:pos}
+( xs: R34vector(a, n)
+, ys: R34vector(a, n)): R34matrix(a, n, 2) = "mac#%"
+//
+fun
+rbind_R34vector_R34vector
+{a:t@ype}{n:pos}
+( xs: R34vector(a, n)
+, ys: R34vector(a, n)): R34matrix(a, 2, n) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+cbind_R34matrix_R34vector
+{a:t@ype}
+{m,n:pos}
+(xss: R34matrix(a, m, n), ys: R34vector(a, m)): R34matrix(a, m, n+1) = "mac#%"
+fun
+cbind_R34vector_R34matrix
+{a:t@ype}
+{m,n:pos}
+(ys: R34vector(a, m), xss: R34matrix(a, m, n)): R34matrix(a, m, n+1) = "mac#%"
+//
+fun
+cbind_R34matrix_R34matrix
+{a:t@ype}
+{m,n1,n2:pos}
+(xss: R34matrix(a, m, n1), yss: R34matrix(a, m, n2)): R34matrix(a, m, n1+n2) = "mac#%"
+//
+overload cbind with cbind_R34vector_R34vector
+overload cbind with cbind_R34vector_R34matrix
+overload cbind with cbind_R34matrix_R34vector
+overload cbind with cbind_R34matrix_R34matrix
+//
+(* ****** ****** *)
+//
+fun
+rbind_R34matrix_R34vector
+{a:t@ype}
+{m,n:pos}
+(xss: R34matrix(a, m, n), ys: R34vector(a, n)): R34matrix(a, m+1, n) = "mac#%"
+fun
+rbind_R34vector_R34matrix
+{a:t@ype}
+{m,n:pos}
+(ys: R34vector(a, n), xss: R34matrix(a, m, n)): R34matrix(a, m+1, n) = "mac#%"
+//
+fun
+rbind_R34matrix_R34matrix
+{a:t@ype}
+{m1,m2,n:pos}
+(xss: R34matrix(a, m1, n), yss: R34matrix(a, m2, n)): R34matrix(a, m1+m2, n) = "mac#%"
+//
+overload rbind with rbind_R34vector_R34vector
+overload rbind with rbind_R34vector_R34matrix
+overload rbind with rbind_R34matrix_R34vector
+overload rbind with rbind_R34matrix_R34matrix
+//
+(* ****** ****** *)
+//
+fun
+R34vector_transpose
+{a:t0p}
+{n:pos}
+(xss: R34vector(a, n)): R34matrix(a, 1, n) = "mac#%"
+//
+fun
 R34matrix_transpose
 {a:t0p}
 {m,n:pos}
 (xss: R34matrix(a, m, n)): R34matrix(a, n, m) = "mac#%"
 //
+overload transpose with R34vector_transpose
 overload transpose with R34matrix_transpose
 //
 (* ****** ****** *)

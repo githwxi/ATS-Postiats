@@ -74,11 +74,18 @@ R34vector_mean
 //
 fun
 {a:t0p}
+R34vector_median
+{n:pos}
+(xs: R34vector(a, n)): double = "mac#%"
+//
+fun
+{a:t0p}
 R34vector_variance
 {n:pos}
 (xs: R34vector(a, n)): double = "mac#%"
 //
 overload mean with R34vector_mean
+overload median with R34vector_median
 overload variance with R34vector_variance
 //
 (* ****** ****** *)

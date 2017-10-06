@@ -60,6 +60,11 @@
 //
 (* ****** ****** *)
 //
+#staload "./SATS/R34matrix.sats"
+#staload _ = "./DATS/R34matrix.dats"
+//
+(* ****** ****** *)
+//
 #staload "./SATS/R34dframe.sats"
 #staload _ = "./DATS/R34dframe.dats"
 //

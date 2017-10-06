@@ -56,6 +56,15 @@ R34vector_variance<double>
 (* ****** ****** *)
 //
 implement
+R34vector_median<int>
+  (xs) = $extfcall(double, "stats::median", xs)
+implement
+R34vector_median<double>
+  (xs) = $extfcall(double, "stats::median", xs)
+//
+(* ****** ****** *)
+//
+implement
 R34vector_map_cloref
 {a}{b}
 (xs, fopr) =

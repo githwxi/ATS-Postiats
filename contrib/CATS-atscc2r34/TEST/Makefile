@@ -146,6 +146,14 @@ cleanall:: ; $(RMF) queens_simple_dats.R
 ######
 
 all:: \
+statfuns_dats.R
+regress:: \
+statfuns_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) statfuns_dats.R
+
+######
+
+all:: \
 cs320-2017-fall-assign04_dats.R
 regress:: \
 cs320-2017-fall-assign04_dats.R ; $(RSCRIPT2) $<

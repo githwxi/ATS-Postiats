@@ -41,6 +41,9 @@ $extfcall
 val
 NDX100_dframe_names = names(NDX100_dframe)
 //
+val () =
+$extfcall(void, "message", NDX100_dframe_names)
+//
 (* ****** ****** *)
 //
 val () = println!

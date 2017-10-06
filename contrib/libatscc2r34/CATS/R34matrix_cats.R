@@ -34,9 +34,32 @@ function(xss, i, j) { return(xss[[i,j]]) }
 #
 ############################################
 #
+ats2r34pre_R34vector_transpose <-
+  function(xs) { return(t(xs)) }
 ats2r34pre_R34matrix_transpose <-
   function(xss) { return(t(xss)) }
 #
+############################################
+ats2r34pre_cbind_R34vector_R34vector <-
+  function(xs, ys) { return(cbind(xs, ys)) }
+ats2r34pre_cbind_R34vector_R34matrix <-
+  function(xs, yss) { return(cbind(xs, yss)) }
+ats2r34pre_cbind_R34matrix_R34vector <-
+  function(xss, ys) { return(cbind(xss, ys)) }
+ats2r34pre_cbind_R34matrix_R34matrix <-
+  function(xss, yss) { return(cbind(xss, yss)) }
+
+############################################
+
+ats2r34pre_rbind_R34vector_R34vector <-
+  function(xs, ys) { return(rbind(xs, ys)) }
+ats2r34pre_rbind_R34vector_R34matrix <-
+  function(xs, yss) { return(rbind(xs, yss)) }
+ats2r34pre_rbind_R34matrix_R34vector <-
+  function(xss, ys) { return(rbind(xss, ys)) }
+ats2r34pre_rbind_R34matrix_R34matrix <-
+  function(xss, yss) { return(rbind(xss, yss)) }
+
 ############################################
 
 ats2r34pre_R34matrix_tabulate_fun <-
