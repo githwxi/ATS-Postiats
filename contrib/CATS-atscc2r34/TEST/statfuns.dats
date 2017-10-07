@@ -66,6 +66,21 @@ val t_xsxsysys = rbind(t_xsxsys, t(ys))
 val () = $extfcall(void, "str", t_xsxsysys)
 
 (* ****** ****** *)
+//
+val M23 =
+R34matrix_tabulate_fun(2, 3, lam(i, j) => 1+max(i, j))
+val M32 =
+R34matrix_tabulate_fun(3, 2, lam(i, j) => 1+max(i, j))
+//
+val M22 = matmult(M23, M32)
+val M33 = matmult(M32, M23)
+//
+val () = $extfcall(void, "str", M23)
+val () = $extfcall(void, "str", M32)
+val () = $extfcall(void, "str", M22)
+val () = $extfcall(void, "str", M33)
+//
+(* ****** ****** *)
 
 %{^
 ######

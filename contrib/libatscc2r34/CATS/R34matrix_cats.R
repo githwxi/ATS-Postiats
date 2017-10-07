@@ -83,26 +83,28 @@ ats2r34pre_matmult_R34matrix_R34matrix <-
   { return(ats2r34pre_matmult(xss, yss)) }
 #
 ############################################
-
+#
+# HX: R is column-major
+#
 ats2r34pre_R34matrix_tabulate_fun <-
 function(m0, n0, fopr)
 {
   x1 = fopr(0, 0);
   xs = rep(x1, m0*n0)
   {
-    if (n0 >= 2)
-    {
-      for (j in 2:n0)
-      {
-        xs[[j]] <- fopr(0, j-1)
-      }
-    }
     if (m0 >= 2)
     {
       for (i in 2:m0)
-      for (j in 1:n0)
       {
-        xs[[(i-1)*n0+j]] <= fopr(i-1, j-1)
+        xs[[i]] <- fopr(0, i-1)
+      }
+    }
+    if (n0 >= 2)
+    {
+      for (j in 2:n0)
+      for (i in 1:m0)
+      {
+        xs[[(j-1)*m0+i]] <- fopr(i-1, j-1)
       }
     }
   } ; return(matrix(xs, nrow=m0, ncol=n0))

@@ -171,6 +171,22 @@ overload <> with neq_int1_int1 of 120
 //
 (* ****** ****** *)
 //
+fun max_int0_int0 : (int, int) -<fun> int = "mac#%"
+fun min_int0_int0 : (int, int) -<fun> int = "mac#%"
+//
+fun max_int1_int1
+  : {i,j:int} (int(i), int(j)) -<fun> int(max(i,j)) = "mac#%"
+fun min_int1_int1
+  : {i,j:int} (int(i), int(j)) -<fun> int(min(i,j)) = "mac#%"
+//
+overload max with max_int0_int0 of 100
+overload min with min_int0_int0 of 100
+//
+overload max with max_int1_int1 of 120
+overload min with min_int1_int1 of 120
+//
+(* ****** ****** *)
+//
 // HX: for unsigned integers
 //
 (* ****** ****** *)

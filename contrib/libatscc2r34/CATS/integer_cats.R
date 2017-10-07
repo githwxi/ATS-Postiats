@@ -93,6 +93,16 @@ ats2r34pre_neq_int1_int1 <-
 function(x,y) { return(x != y) }
 
 ############################################
+
+ats2r34pre_max_int0_int0 <-
+function(x,y) { return(max(x, y)) }
+ats2r34pre_min_int0_int0 <-
+function(x,y) { return(min(x, y)) }
+
+ats2r34pre_max_int1_int1 <-
+function(x,y) { return(max(x, y)) }
+ats2r34pre_min_int1_int1 <-
+function(x,y) { return(min(x, y)) }
   
 ############################################
 #end of [integer_cats.R]
