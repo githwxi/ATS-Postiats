@@ -62,6 +62,28 @@ ats2r34pre_rbind_R34matrix_R34matrix <-
 
 ############################################
 
+ats2r34pre_add_R34matrix_R34matrix <-
+  function(M1, M2) { return(M1 + M2) }
+ats2r34pre_mul_R34matrix_R34matrix <-
+  function(M1, M2) { return(M1 * M2) }
+
+############################################
+#
+ats2r34pre_matmult <-
+  function(M1, M2) { return(M1 %*% M2) }
+#
+ats2r34pre_matmult_R34vector_R34matrix <-
+  function(xs, yss)
+  { return(ats2r34pre_matmult(xs, yss)) }
+ats2r34pre_matmult_R34matrix_R34vector <-
+  function(xss, ys)
+  { return(ats2r34pre_matmult(xss, ys)) }
+ats2r34pre_matmult_R34matrix_R34matrix <-
+  function(xss, yss)
+  { return(ats2r34pre_matmult(xss, yss)) }
+#
+############################################
+
 ats2r34pre_R34matrix_tabulate_fun <-
 function(m0, n0, fopr)
 {

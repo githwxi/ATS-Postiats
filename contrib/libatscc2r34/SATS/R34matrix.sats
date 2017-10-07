@@ -125,6 +125,47 @@ overload transpose with R34matrix_transpose
 (* ****** ****** *)
 //
 fun
+add_R34matrix_R34matrix
+{a:t0p}
+{m,n:pos}
+( xss: R34matrix(a, m, n)
+, yss: R34matrix(a, m, n)): R34matrix(a, m, n) = "mac#%"
+fun
+mul_R34matrix_R34matrix
+{a:t0p}
+{m,n:pos}
+( xss: R34matrix(a, m, n)
+, yss: R34matrix(a, m, n)): R34matrix(a, m, n) = "mac#%"
+//
+overload + with add_R34matrix_R34matrix
+overload * with mul_R34matrix_R34matrix
+//
+(* ****** ****** *)
+//
+fun
+matmult_R34vector_R34matrix
+{a:t0p}
+{q,r:pos}
+(xs: R34vector(a, q), yss: R34matrix(a, q, r)): R34matrix(a, 1, r) = "mac#%"
+fun
+matmult_R34matrix_R34vector
+{a:t0p}
+{p,q:pos}
+(xss: R34matrix(a, p, q), ys: R34vector(a, q)): R34matrix(a, p, 1) = "mac#%"
+//
+fun
+matmult_R34matrix_R34matrix
+{a:t0p}
+{p,q,r:pos}
+(xss: R34matrix(a, p, q), yss: R34matrix(a, q, r)): R34matrix(a, p, r) = "mac#%"
+//
+overload matmult with matmult_R34vector_R34matrix
+overload matmult with matmult_R34matrix_R34vector
+overload matmult with matmult_R34matrix_R34matrix
+//
+(* ****** ****** *)
+//
+fun
 R34matrix_tabulate_fun
 {a:t0p}
 {m,n:pos}
