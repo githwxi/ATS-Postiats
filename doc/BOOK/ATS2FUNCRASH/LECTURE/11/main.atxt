@@ -143,15 +143,16 @@ difficult to predict if not unpredictable.
 #para("\
 
 Linear streams come to the rescue. A linear stream is very much like a
-non-linear stream except that it does support caching (of its
+non-linear stream except that it does not support caching (of its
 generated elements). While a linear stream presents an illusion of a
 (possibily infinte) sequence of elements, only the first element (if
 it exists) is available for use.  In order to gain access to the next
 element, the node for storing the first element needs to be freed.
-For the purpose of clarifying the concept of linearity, I would like to point
-out that the length of a (finite) linear stream can be readily obtained
-by evaluating a loop that traverses the linear stream but the linear stream
-itself is all consumed when its length is finally computed!
+For the purpose of clarifying the concept of linearity, I would like
+to point out that the length of a (finite) linear stream can be
+readily obtained by evaluating a loop that traverses the entire linear
+stream but the linear stream itself is all consumed when its length is
+finally computed!
 
 ")
 
@@ -246,7 +247,7 @@ What follows the keyword #dyncode("$ldelay") should be a pair of
 expressions; the first one is the body of the thunk that is called
 when the constructed linear stream is evaluated (to a linear
 stream-con value); the second one is the body of the thunk that is
-called when the constructed linear stream is passed to
+called when the constructed linear stream is to be freed by
 #dyncode("lazy_vt_free"). If the second expression is missing, then
 calling #dyncode("lazy_vt_free") on the constructed linear stream does
 nothing. In other words, a linear stream is like an object with two
