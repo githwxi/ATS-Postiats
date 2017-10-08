@@ -154,6 +154,14 @@ cleanall:: ; $(RMF) statfuns_dats.R
 ######
 
 all:: \
+lms_solve_dats.R
+regress:: \
+lms_solve_dats.R ; $(RSCRIPT2) $<
+cleanall:: ; $(RMF) lms_solve_dats.R
+
+######
+
+all:: \
 cs320-2017-fall-assign04_dats.R
 regress:: \
 cs320-2017-fall-assign04_dats.R ; $(RSCRIPT2) $<

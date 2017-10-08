@@ -34,6 +34,18 @@ function(xss, i, j) { return(xss[[i,j]]) }
 #
 ############################################
 #
+ats2r34pre_R34matrix_getrow_at <-
+  function(xss, i) { return(xss[i, ]) }
+ats2r34pre_R34matrix_getcol_at <-
+  function(xss, j) { return(xss[ ,j]) }
+#
+ats2r34pre_R34matrix2vector_row <-
+  function(xss, i) { return(xss[1, ]) }
+ats2r34pre_R34matrix2vector_col <-
+  function(xss, i) { return(xss[ ,1]) }
+#
+############################################
+#
 ats2r34pre_R34vector_transpose <-
   function(xs) { return(t(xs)) }
 ats2r34pre_R34matrix_transpose <-
@@ -68,6 +80,13 @@ ats2r34pre_mul_R34matrix_R34matrix <-
   function(M1, M2) { return(M1 * M2) }
 
 ############################################
+
+ats2r34pre_solve_R34matrix <-
+  function(xss) { return(solve(xss)) }
+ats2r34pre_solve_R34matrix_R34vector <-
+  function(xss, ys) { return(solve(xss, ys)) }
+
+############################################
 #
 ats2r34pre_matmult <-
   function(M1, M2) { return(M1 %*% M2) }
@@ -81,6 +100,26 @@ ats2r34pre_matmult_R34matrix_R34vector <-
 ats2r34pre_matmult_R34matrix_R34matrix <-
   function(xss, yss)
   { return(ats2r34pre_matmult(xss, yss)) }
+#
+############################################
+#
+ats2r34pre_crossprod_R34matrix <-
+  function(xss) { return(crossprod(xss)) }
+ats2r34pre_crossprod_R34vector_R34matrix <-
+  function(xs, yss) { return(crossprod(xs, yss)) }
+ats2r34pre_crossprod_R34matrix_R34vector <-
+  function(xss, ys) { return(crossprod(xss, ys)) }
+ats2r34pre_crossprod_R34matrix_R34matrix <-
+  function(xss, yss) { return(crossprod(xss, yss)) }
+#
+ats2r34pre_tcrossprod_R34matrix <-
+  function(xss) { return(tcrossprod(xss)) }
+ats2r34pre_tcrossprod_R34vector_R34matrix <-
+  function(xs, yss) { return(tcrossprod(xs, yss)) }
+ats2r34pre_tcrossprod_R34matrix_R34vector <-
+  function(xss, ys) { return(tcrossprod(xss, ys)) }
+ats2r34pre_tcrossprod_R34matrix_R34matrix <-
+  function(xss, yss) { return(tcrossprod(xss, yss)) }
 #
 ############################################
 #

@@ -46,6 +46,37 @@ overload [] with R34matrix_get_at
 (* ****** ****** *)
 //
 fun
+R34matrix_getrow_at
+{a:t0p}
+{m,n:int}
+{i:pos | i <= m}
+(R34matrix(a, m, n), i:int(i)): R34vector(a, n) = "mac#%"
+fun
+R34matrix_getcol_at
+{a:t0p}
+{m,n:int}
+{j:pos | j <= n}
+(R34matrix(a, m, n), j:int(j)): R34vector(a, m) = "mac#%"
+//
+overload getrow_at with R34matrix_getrow_at
+overload getcol_at with R34matrix_getcol_at
+//
+(* ****** ****** *)
+//
+fun
+R34matrix2vector_col
+{a:t0p}
+{m:pos}
+(xss: R34matrix(a, m, 1)): R34vector(a, m) = "mac#%"
+fun
+R34matrix2vector_row
+{a:t0p}
+{n:pos}
+(xss: R34matrix(a, 1, n)): R34vector(a, n) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 cbind_R34vector_R34vector
 {a:t@ype}{n:pos}
 ( xs: R34vector(a, n)
@@ -143,10 +174,26 @@ overload * with mul_R34matrix_R34matrix
 (* ****** ****** *)
 //
 fun
+{a:t0p}
+solve_R34matrix
+{n:pos}
+(xss: R34matrix(a, n, n)): R34matrix(a, n, n) = "mac#%"
+fun
+{a:t0p}
+solve_R34matrix_R34vector
+{n:pos}
+(xss: R34matrix(a, n, n), ys: R34vector(a, n)): R34vector(a, n) = "mac#%"
+//
+overload solve with solve_R34matrix
+overload solve with solve_R34matrix_R34vector
+//
+(* ****** ****** *)
+//
+fun
 matmult_R34vector_R34matrix
 {a:t0p}
-{q,r:pos}
-(xs: R34vector(a, q), yss: R34matrix(a, q, r)): R34matrix(a, 1, r) = "mac#%"
+{p,q:pos}
+(xs: R34vector(a, p), yss: R34matrix(a, p, q)): R34matrix(a, 1, q) = "mac#%"
 fun
 matmult_R34matrix_R34vector
 {a:t0p}
@@ -162,6 +209,62 @@ matmult_R34matrix_R34matrix
 overload matmult with matmult_R34vector_R34matrix
 overload matmult with matmult_R34matrix_R34vector
 overload matmult with matmult_R34matrix_R34matrix
+//
+(* ****** ****** *)
+//
+fun
+crossprod_R34matrix
+{a:t0p}
+{p,q:pos}(xss: R34matrix(a, p, q)): R34matrix(a, q, q) = "mac#%"
+//
+fun
+crossprod_R34vector_R34matrix
+{a:t0p}
+{p,q:pos}
+(xss: R34vector(a, p), yss: R34matrix(a, p, q)): R34matrix(a, 1, q) = "mac#%"
+fun
+crossprod_R34matrix_R34vector
+{a:t0p}
+{p,q:pos}
+(xss: R34matrix(a, p, q), yss: R34vector(a, p)): R34matrix(a, q, 1) = "mac#%"
+fun
+crossprod_R34matrix_R34matrix
+{a:t0p}
+{p,q,r:pos}
+(xss: R34matrix(a, p, q), yss: R34matrix(a, p, r)): R34matrix(a, q, r) = "mac#%"
+//
+overload crossprod with crossprod_R34matrix
+overload crossprod with crossprod_R34vector_R34matrix
+overload crossprod with crossprod_R34matrix_R34vector
+overload crossprod with crossprod_R34matrix_R34matrix
+//
+(* ****** ****** *)
+//
+fun
+tcrossprod_R34matrix
+{a:t0p}
+{p,q:pos}
+(xss: R34matrix(a, p, q)): R34matrix(a, p, p) = "mac#%"
+fun
+tcrossprod_R34vector_R34matrix
+{a:t0p}
+{q,r:pos}
+(xss: R34vector(a, q), yss: R34matrix(a, r, q)): R34matrix(a, 1, r) = "mac#%"
+fun
+tcrossprod_R34matrix_R34vector
+{a:t0p}
+{p,q:pos}
+(xss: R34matrix(a, p, q), yss: R34vector(a, q)): R34matrix(a, p, 1) = "mac#%"
+fun
+tcrossprod_R34matrix_R34matrix
+{a:t0p}
+{p,q,r:pos}
+(xss: R34matrix(a, p, q), yss: R34matrix(a, r, q)): R34matrix(a, p, r) = "mac#%"
+//
+overload tcrossprod with tcrossprod_R34matrix
+overload tcrossprod with tcrossprod_R34vector_R34matrix
+overload tcrossprod with tcrossprod_R34matrix_R34vector
+overload tcrossprod with tcrossprod_R34matrix_R34matrix
 //
 (* ****** ****** *)
 //

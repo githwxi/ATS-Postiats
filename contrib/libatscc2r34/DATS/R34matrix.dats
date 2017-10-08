@@ -38,6 +38,27 @@ staload "./../SATS/R34matrix.sats"
 (* ****** ****** *)
 //
 implement
+solve_R34matrix<double>
+{n}
+(xss) =
+(
+$extfcall
+(
+R34matrix(double, n, n), "solve", xss
+)
+) (* solve_R34matrix<double> *)
+//
+implement
+solve_R34matrix_R34vector<double>
+{n}
+(xss, ys0) =
+(
+$extfcall(R34vector(double, n), "solve", xss, ys0)
+) (* solve_R34matrix_R34vector<double> *)
+//
+(* ****** ****** *)
+//
+implement
 R34matrix_tabulate_cloref
 {a}(*tmp*)
 (m0, n0, fopr) =

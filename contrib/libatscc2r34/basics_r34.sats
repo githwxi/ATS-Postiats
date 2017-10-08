@@ -75,6 +75,20 @@ R34matrix
 //
 (* ****** ****** *)
 //
+castfn
+R34vector_int2double
+{n:int}
+(R34vector(int, n)):<> R34vector(double, n)
+castfn
+R34matrix_int2double
+{m,n:int}
+(R34matrix(int, m, n)):<> R34matrix(double, m, n)
+//
+overload int2double with R34vector_int2double
+overload int2double with R34matrix_int2double
+//
+(* ****** ****** *)
+//
 fun
 lazy2cloref
   {a:t@ype}
