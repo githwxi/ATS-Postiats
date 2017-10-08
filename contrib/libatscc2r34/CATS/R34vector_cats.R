@@ -28,7 +28,8 @@ function(xs, i) { return(xs[[i]]) }
 # No call-by-reference in R!!!
 #
 # ats2r34pre_R34vector_set_at <-
-# function(xs, i, x0) { xs[[i]] <- x0; return(NULL) }
+# function(xs, i, x0)
+#   { xs[[i]] <- x0; return(NULL) }
 #
 ############################################
 
@@ -37,6 +38,12 @@ function(x, xs) {
   return(match(x, xs, nomatch=0))
 } ## ats2r34pre_R34vector_match
 
+############################################
+#
+ats2r34pre_dotprod_R34vector_R34vector <-
+function(xs, ys)
+  { dotprod = xs %*% ys; return(dotprod[[1,1]]) }
+#
 ############################################
 
 ats2r34pre_R34vector_map_fun <-

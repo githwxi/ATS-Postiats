@@ -289,6 +289,7 @@ case+ !xs of
    stream_vt_cons(fopr(x), stream_vt_map<a><b>(xs, fopr))
 , ~(xs) // called when the stream is freed
 )
+//
 ')
 
 The following function #dyncode("stream_vt_foldleft") is just
@@ -361,12 +362,12 @@ efficiency both time-wise and memory-wise.
 
 #para("\
 
-As far as I can tell, the support for linear streams in ATS is unique
-and it is not yet available elsewhere.  In concern of stream-based
-programming, I see this support as a secret weapon that gives ATS a
-clear edge over others that can only provide support for non-linear
-streams.  Please find #mycodelink("LECTURE/11/CODE", "on-line") the
-entirety of the code used in this chapter. \
+As far as I can tell for now, the support for linear streams in ATS is
+unique and it is not yet available elsewhere.  In concern of
+stream-based programming, I see this support as a secret weapon that
+gives ATS a clear edge over others that can only provide support for
+non-linear streams.  Please find #mycodelink("LECTURE/11/CODE",
+"on-line") the entirety of the code used in this chapter. \
 
 ")#comment("para")
 

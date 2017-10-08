@@ -91,6 +91,16 @@ overload variance with R34vector_variance
 (* ****** ****** *)
 //
 fun
+dotprod_R34vector_R34vector
+{a:t0p}
+{n:pos}
+(R34vector(a, n), R34vector(a, n)): (a) = "mac#%"
+//
+overload dotprod with dotprod_R34vector_R34vector
+//
+(* ****** ****** *)
+//
+fun
 R34vector_map_fun
 {a:t0p}
 {b:t0p}
