@@ -413,20 +413,20 @@ end // end of [list0_map]
 ')
 
 What is special about this implementation of #dyncode("list0_map")
-lies in the implementation of of the inner function
-#dyncode("auxmain"), which turns a list into a stream. Calling
-#dyncode("auxmain") runs no risk of stack overflow as it simply
-creates a thunk (without issuing any recursive calls).  The library
-function #dyncode("stream2list") turns a stream into a (linear) list,
-which can be cast into a list0-value in O(1)-time by a call to
-#dyncode("g0ofg1"). As #dyncode("stream2list") is implemented
-tail-recursively, it can be safely called to generate a long list.
-Consequently, this stream-based implementation of
-#dyncode("list0_map") can be applied to a long list with no concern of
-causing stack overflow. After linear lazy streams are introduced, we
-are to see a significantly improved version of this stream-based
-approach to resolving a common type of risk of stack overflow caused
-by calling recursively defined functions for generating long lists.
+lies in the implementation of the inner function #dyncode("auxmain"),
+which turns a list into a stream. Calling #dyncode("auxmain") runs no
+risk of stack overflow as it simply creates a thunk (without issuing
+any recursive calls).  The library function #dyncode("stream2list")
+turns a stream into a (linear) list, which can be cast into a
+list0-value in O(1)-time by a call to #dyncode("g0ofg1"). As
+#dyncode("stream2list") is implemented tail-recursively, it can be
+safely called to generate a long list.  Consequently, this
+stream-based implementation of #dyncode("list0_map") can be applied to
+a long list with no concern of causing stack overflow. After linear
+lazy streams are introduced, we are to see a significantly improved
+version of this stream-based approach to resolving a common type of
+risk of stack overflow caused by calling recursively defined functions
+for generating long lists.
 
 ")
 

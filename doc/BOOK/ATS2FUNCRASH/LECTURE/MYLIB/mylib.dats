@@ -1146,6 +1146,32 @@ case- !xs of
 extern
 fun
 {a:t@ype}
+stream_takeLte
+  (xs: stream(a), n: int): stream(a)
+//
+implement
+{a}(*tmp*)
+stream_takeLte
+  (xs, n) = $delay
+(
+if
+n > 0
+then
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons(x, stream_takeLte(xs, n-1))
+)
+else stream_nil((*void*))
+) (* end of [stream_takeLte] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
 stream_append
 (xs: stream(a), ys: stream(a)): stream(a)
 //
@@ -1197,7 +1223,9 @@ case+ !xs of
 | stream_nil() =>
   stream_nil()
 | stream_cons(x, xs) =>
-  stream_cons(fopr(x), stream_map<a><b>(xs, fopr))
+  stream_cons
+    (fopr(x), stream_map<a><b>(xs, fopr))
+  // end of [stream_cons]
 )
 //
 (* ****** ****** *)
@@ -1225,6 +1253,31 @@ case+ !xs of
     else !(stream_filter<a>(xs, test))
   // end of [if]
 )
+//
+(* ****** ****** *)
+//
+extern
+fun{
+res:t@ype
+}{a:t@ype}
+stream_foldleft
+(
+xs: stream(a),
+r0: res, fopr: cfun(res, a, res)
+) : res // end-of-function
+//
+implement
+{res}{a}
+stream_foldleft(xs, r0, fopr) =
+
+(
+//
+case+ !xs of
+| stream_nil() => r0
+| stream_cons(x, xs) =>
+  stream_foldleft<res><a>(xs, fopr(r0, x), fopr)
+//
+) (* end of [stream_foldleft] *)
 //
 (* ****** ****** *)
 

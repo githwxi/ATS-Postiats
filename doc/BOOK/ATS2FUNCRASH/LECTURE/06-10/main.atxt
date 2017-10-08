@@ -129,6 +129,9 @@ LIBATSCC2PHP_targetloc
 //
 ')
 
+The version we use here is ATS2-0.3.2, which is the latest
+stable release of LIBATSCC2PHP.
+
 ")
 
 #para("\
