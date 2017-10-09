@@ -99,16 +99,16 @@ evolve. Let us imagine a scenario where the passed function f needs to
 perform computation at a remote site (because it needs to access a
 database) and the bottleneck for calling f lies in communicating the
 input and output over some network. A common approach to addressing
-this bottleneck issue is to provide a variant of f that can handle
-multiple inputs and outputs in one call. Assume that such a variant of
-f is available. We can implement a corresponding variant of
+this bottleneck issue is to provide a vectorial variant of f that can
+handle multiple inputs and outputs in one call. Assume that such a
+variant of f is available. We can implement a corresponding variant of
 #dyncode("stream_map") based on this variant of f and the
 implementation of #dyncode("ftally2") can then benefit immediately. As
 a matter of fact, it can be realistically expected that such a variant
 of #dyncode("stream_map") is already made available as a library
 function.  On the other hand, we probably need to completely overhaul
 the implementation of #dyncode("ftally") in order for it to benefit
-(from the variant of f).
+(from the vectorial variant of f).
 
 ")
 

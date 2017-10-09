@@ -20,9 +20,130 @@ Time of Generation: #timestamp()\
 #para("\
 
 One can approach the notion of continuation from many different
-angles.  I would like to start with asynchronous functions in Javascript
-(JS), which are designed to eliminate potential blocking due to inputs or
-resources being unavailable for completing a particular function call.
+angles.  I would like to start with asynchronous function calls in
+Javascript (JS), which are often employed for the purpose of
+eliminating potential blocking due to inputs or resources needed for
+execution being yet to be made available.
+
+")
+
+#para("\
+
+Let us use #dyncode("do_async1") and #dyncode("do_async2") to refer to
+two functions such that calls made to them are supposed to be executed
+asynchronously (so as to avoid potential blocking of entire program
+execution):
+
+#sats2xhtml('\
+//
+fun do_async1(): void
+fun do_async2(): void
+//
+')
+
+In the body of the following function #dyncode("do_async12"), a call
+to #dyncode("do_async1") is followed by another call to #dyncode("do_async2"):
+
+#dats2xhtml('\
+//
+fun do_async12(): void =
+{
+  val () = do_async1(); val () = do_async2()
+} (* end of [do_async12] *)
+//
+')
+
+Calling #dyncode("do_async1") returns immediately after the actual
+work to be done is scheduled. And the same can be said about calling
+#dyncode("do_async2"). There is in general no guarantee that the work
+scheduled for calling #dyncode("do_async1") is done ahead of the work
+scheduled for calling #dyncode("do_async2") or vice versa. What needs
+to be done if we want to enforce such an order? One solution is to
+provide a variant of #dyncode("do_async1") of the following interface:
+
+#sats2xhtml('\
+//
+fun do_async1_cont(k: cfun(void)): void
+//
+')
+
+The argument passed to #dyncode("do_async1_cont") is a thunk
+(that is, a nullary closure-function), which is supposed to be called
+immediately after the work scheduled for #dyncode("do_async1") is done.
+And this thunk is often called a continuation, referring to the work
+that needs to be continued. With #dyncode("do_async1_cont"),
+the function #dyncode("do_async1()") can be given the following
+implementation:
+
+#dats2xhtml('\
+//
+fun
+do_async1
+(
+// argless
+) : void = do_async1_cont(lam() => ())
+')
+
+which simply means that no more work is needed after
+the work scheduled for calling #dyncode("do_async1") is done.
+As for
+the function #dyncode("do_async12()"), the following implementation
+can be given:
+
+#dats2xhtml('\
+//
+fun do_async12(): void =
+{
+  val () = do_async1_cont(lam() => do_async2())
+} (* end of [do_async12] *)
+//
+')
+
+where a call to #dyncode("do_async2") is to be made only after the
+work scheduled for #dyncode("do_async1") is finished. In fact, we
+can require that each function take a continuation argument if it ever
+schedules work to be done asynchronously. For instance, we can have
+the following variant of #dyncode("do_async12"):
+
+#dats2xhtml('\
+//
+fun do_async12_cont(k): void =
+{
+  val () = do_async1_cont(lam() => do_async2_cont(k))
+} (* end of [do_async12] *)
+//
+')
+
+where the interface for #dyncode("do_async2_cont") is just like that
+for #dyncode("do_async1_cont"). And this style of coding is often referred
+to as continuation-passing style (CPS). Let us first see a few more examples
+of continuation-passing style in the following presentation.
+
+")
+
+#para("\
+
+#dats2xhtml('\
+//
+fun
+k_fact
+(
+n : int
+,
+k : cont1(int)
+) : void =
+(
+if n > 0
+  then k_fact(n-1, lam(res) => k(n*res)) else k(1)
+// end of [if]
+) (* end of [k_fact] *)
+//
+')
+
+#dats2xhtml('\
+//
+//
+')
 
 ")
 
