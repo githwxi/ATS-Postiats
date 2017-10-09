@@ -115,6 +115,13 @@ val () = $extfcall(void, "str", inv_tcp_M22)
 //
 (* ****** ****** *)
 
+val () = print!("dotprod(xs, xs) = ")
+val () = $extfcall(void, "str", dotprod(xs, xs))
+val () = print!("tcrossprod(xs, xs) = ")
+val () = $extfcall(void, "str", tcrossprod(xs, xs))
+
+(* ****** ****** *)
+
 %{^
 ######
 if

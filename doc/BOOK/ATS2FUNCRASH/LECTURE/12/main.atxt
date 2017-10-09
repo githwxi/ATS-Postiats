@@ -19,6 +19,15 @@ Time of Generation: #timestamp()\
 
 #para("\
 
+One can approach the notion of continuation from many different
+angles.  I would like to start with asynchronous functions in Javascript
+(JS), which are designed to eliminate potential blocking due to inputs or
+resources being unavailable for completing a particular function call.
+
+")
+
+#para("\
+
 Please find #mycodelink("LECTURE/12/CODE", "on-line") the
 entirety of the code used in this chapter. \
 

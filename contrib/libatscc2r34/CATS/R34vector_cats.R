@@ -39,12 +39,6 @@ function(x, xs) {
 } ## ats2r34pre_R34vector_match
 
 ############################################
-#
-ats2r34pre_dotprod_R34vector_R34vector <-
-function(xs, ys)
-  { dotprod = xs %*% ys; return(dotprod[[1,1]]) }
-#
-############################################
 
 ats2r34pre_R34vector_map_fun <-
 function(xs, fopr)
@@ -71,6 +65,16 @@ function(n0, fopr)
   } ; return(xs)
 } ## ats2r34pre_R34vector_tabulate_fun
 
+############################################
+#
+ats2r34pre_dotprod_R34vector_R34vector <-
+function(xs, ys) {
+  res = crossprod(xs, ys); return(res[[1,1]])
+} ## ats2r34pre_dotprod_R34vector_R34vector
+#
+ats2r34pre_tcrossprod_R34vector_R34vector <-
+function(xs, ys) { return(tcrossprod(xs, ys)) }
+#
 ############################################
 #end of [R34vector_cats.R]
 ############################################

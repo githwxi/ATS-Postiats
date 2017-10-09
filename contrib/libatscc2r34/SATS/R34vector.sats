@@ -101,6 +101,16 @@ overload dotprod with dotprod_R34vector_R34vector
 (* ****** ****** *)
 //
 fun
+tcrossprod_R34vector_R34vector
+{a:t0p}
+{n:pos}
+(R34vector(a, n), R34vector(a, n)): R34matrix(a, n, n) = "mac#%"
+//
+overload tcrossprod with tcrossprod_R34vector_R34vector
+//
+(* ****** ****** *)
+//
+fun
 R34vector_map_fun
 {a:t0p}
 {b:t0p}
