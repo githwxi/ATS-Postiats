@@ -34,6 +34,24 @@ overload ncol with R34dframe_ncol
 (* ****** ****** *)
 //
 fun
+R34dfram_dimgt
+{a:t0p}
+{m,n:int}
+{i,j:nat}
+(R34dframe(a, m, n), int(i), int(j)): bool(m > i && n > j)
+fun
+R34dfram_dimgte
+{a:t0p}
+{m,n:int}
+{i,j:nat}
+(R34dframe(a, m, n), int(i), int(j)): bool(m >= i && n >= j)
+//
+overload dimgt with R34dfram_dimgt
+overload dimgte with R34dfram_dimgte
+//
+(* ****** ****** *)
+//
+fun
 R34dframe_names
 {a:t0p}
 {m,n:int}
@@ -58,6 +76,14 @@ R34dframe_getcol_by
 //
 overload getcol_at with R34dframe_getcol_at
 overload getcol_by with R34dframe_getcol_by
+//
+(* ****** ****** *)
+//
+fun
+R34dframe_na_omit
+{a:t0p}
+{m1,n:int}
+(R34dframe(a, m1, n)): [m2:nat | m2 <= m1] R34dframe(a, m2, n) = "mac#%"
 //
 (* ****** ****** *)
 

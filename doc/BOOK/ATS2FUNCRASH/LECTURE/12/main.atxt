@@ -116,14 +116,15 @@ fun do_async12_cont(k): void =
 
 where the interface for #dyncode("do_async2_cont") is just like that
 for #dyncode("do_async1_cont"). And this style of coding is often
-referred to as continuation-passing style (CPS). Let us see a few more
-examples in the following presentation that are written in the CPS-style.
+referred to as continuation-passing style (CPS).
 
 ")
 
 #para("\
 
-Let #stacode("cont1") be declared as follows:
+In the following presentation, I would like to present a few more
+examples that contrast the direct style with the CPS-style. Let
+#stacode("cont1") be declared as follows:
 
 #sats2xhtml('\
 typedef cont1(res:t@ype) = (res) -<cloref1> void
@@ -218,8 +219,8 @@ where the second one appears in the continuation passed to the first one.
 #para("\
 
 Going from #dyncode("fact") to #dyncode("k_fact") and #dyncode("fibo")
-to #dyncode("k_fibo") is often refer to as CPS-translation. Note that
-the recursive calls in the bodies of #dyncode("k_fact") and
+to #dyncode("k_fibo") is often referred to as CPS-translation. Note
+that the recursive calls in the bodies of #dyncode("k_fact") and
 #dyncode("k_fibo") are all tail-calls. In general, each recursive call
 in an implementation written in the direct style should be translated
 into a tail-recursive one in the corresponding implementation written
@@ -250,8 +251,13 @@ if n > 0 then k_fact2(n-1, n*res, k) else k(res)
 
 #para("\
 
-The following function #dyncode("list0_kmap") is yet another
-example implemented in the CPS-style:
+As yet another
+example,
+let us
+see
+#dyncode("list0_map") of the direct style
+contrasted with
+#dyncode("list0_kmap") of the CPS-style:
 
 #dats2xhtml('\
 //
@@ -259,9 +265,28 @@ extern
 fun
 {a:t@ype}
 {b:t@ype}
+list0_map
+(xs: list0(INV(a)), f0: cfun(a, b)): list0(b)
+extern
+fun
+{a:t@ype}
+{b:t@ype}
 list0_kmap
 ( xs: list0(INV(a))
 , f0: cfun(a, cont1(b), void), k0: cont1(list0(b))): void
+//
+(* ****** ****** *)
+//
+implement
+{a}{b}
+list0_map(xs, f0) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  list0_cons(f0(x), list0_map<a><b>(xs, f0))
+)
 //
 implement
 {a}{b}
@@ -271,7 +296,7 @@ case+ xs of
 | list0_nil() =>
   k0(list0_nil())
 | list0_cons(x, xs) =>
-  f0(x, lam(y) => list0_kmap(xs, f0, lam(ys) => k0(list0_cons(y, ys))))
+  f0(x, lam(y) => list0_kmap<a><b>(xs, f0, lam(ys) => k0(list0_cons(y, ys))))
 )
 //
 ')

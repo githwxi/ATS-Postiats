@@ -34,5 +34,10 @@ ats2r34pre_R34dframe_getcol_by <-
 function(xss, name) { return(xss[[name]]) }
 
 ############################################
+
+ats2r34pre_R34dframe_na_omit <-
+  function(xss) { return(na.omit(xss)) }
+
+############################################
 #end of [R34dframe_cats.R]
 ############################################

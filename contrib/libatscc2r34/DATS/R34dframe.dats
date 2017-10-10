@@ -33,9 +33,27 @@ UN =
 //
 #staload "./../basics_r34.sats"
 //
+#staload "./../SATS/integer.sats"
+//
 #staload "./../SATS/R34vector.sats"
 #staload "./../SATS/R34dframe.sats"
 //
+(* ****** ****** *)
+
+implement
+R34dfram_dimgt
+  (df, i, j) =
+(
+$UN.cast(nrow(df) > i andalso ncol(df) > j)
+) (* end of [R34dfram_dimgt] *)
+
+implement
+R34dfram_dimgte
+  (df, i, j) =
+(
+$UN.cast(nrow(df) >= i andalso ncol(df) >= j)
+) (* end of [R34dfram_dimgte] *)
+
 (* ****** ****** *)
 
 (* end of [R34dframe.dats] *)

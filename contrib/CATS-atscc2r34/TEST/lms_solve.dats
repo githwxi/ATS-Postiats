@@ -27,9 +27,9 @@ extern
 fun
 {a:t@ype}
 lms_solve
-{n,p:pos}
-( A: R34matrix(a, p, n)
-, Y: R34vector(a, p   )): R34vector(a, n)
+{p,n:pos}
+( A: R34matrix(a, n, p)
+, Y: R34vector(a, n   )): R34vector(a, p)
 //
 (* ****** ****** *)
 //

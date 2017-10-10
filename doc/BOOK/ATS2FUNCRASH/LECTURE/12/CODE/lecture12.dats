@@ -182,10 +182,26 @@ extern
 fun
 {a:t@ype}
 {b:t@ype}
+list0_map
+(xs: list0(INV(a)), f0: cfun(a, b)): list0(b)
+implement
+{a}{b}
+list0_map(xs, f0) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  list0_cons(f0(x), list0_map<a><b>(xs, f0))
+)
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
 list0_kmap
 ( xs: list0(INV(a))
 , f0: cfun(a, cont1(b), void), k0: cont1(list0(b))): void
-//
 implement
 {a}{b}
 list0_kmap(xs, f0, k0) =
@@ -194,7 +210,27 @@ case+ xs of
 | list0_nil() =>
   k0(list0_nil())
 | list0_cons(x, xs) =>
-  f0(x, lam(y) => list0_kmap(xs, f0, lam(ys) => k0(list0_cons(y, ys))))
+  f0(x, lam(y) => list0_kmap<a><b>(xs, f0, lam(ys) => k0(list0_cons(y, ys))))
+)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+stream_kmap
+( xs: stream(INV(a))
+, f0: cfun(a, cont1(b), void), k0: cont1(stream_con(b))): void
+implement
+{a}{b}
+stream_kmap(xs, f0, k0) =
+(
+case+ !xs of
+| stream_nil() =>
+  k0(stream_nil())
+| stream_cons(x, xs) =>
+  f0(x, lam(y) => stream_kmap<a><b>(xs, f0, lam(ys) => k0(stream_cons(y, ys))))
 )
 //
 (* ****** ****** *)
