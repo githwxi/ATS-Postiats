@@ -16,6 +16,11 @@ assign(
 
 ############################################
 
+ats2r34pre_R34vector_rep <-
+function(x,n) { return(rep(x,n)) }
+  
+############################################
+
 ats2r34pre_R34vector_length <-
 function(xs) { return(length(xs)) }
 

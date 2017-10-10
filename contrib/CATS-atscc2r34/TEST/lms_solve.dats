@@ -43,10 +43,12 @@ solve<a>(
 //
 (* ****** ****** *)
 //
-val
-A =
+val A =
 $extval
-(R34matrix(double, 5, 3), "A")
+(
+R34matrix(double, 5, 2), "A"
+) (* end of [val] *)
+val A = cbind(rep(1.0, 5), A)
 //
 val
 Y =
@@ -63,15 +65,15 @@ val () = $extfcall(void, "str", lms_solve<double>(A, Y))
 
 %{^
 #
-xs1 = c(1, 2104, 3, 400)
-xs2 = c(1, 1600, 3, 330)
-xs3 = c(1, 2400, 3, 369)
-xs4 = c(1, 1416, 2, 232)
-xs5 = c(1, 3000, 4, 540)
+xs1 = c(2104, 3, 400)
+xs2 = c(1600, 3, 330)
+xs3 = c(2400, 3, 369)
+xs4 = c(1416, 2, 232)
+xs5 = c(3000, 4, 540)
 #
 xss = rbind(xs1, xs2, xs3, xs4, xs4)
 #
-A   = xss[ ,1:3]; Y   = xss[ ,4:4]
+A   = xss[ ,1:2]; Y   = xss[ ,3:3]
 %} // end of [%}]
 
 (* ****** ****** *)

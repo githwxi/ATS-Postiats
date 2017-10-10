@@ -18,6 +18,17 @@ ATS_EXTERN_PREFIX "ats2r34pre_"
 (* ****** ****** *)
 //
 fun
+R34vector_rep
+{a:t0p}{n:nat}
+(
+x0: a, n: int(n)
+) : R34vector(a, n) = "mac#%"
+//
+overload rep with R34vector_rep
+//
+(* ****** ****** *)
+//
+fun
 R34vector_length
 {a:t0p}{n:int}
 (R34vector(a, n)): int(n) = "mac#%"
