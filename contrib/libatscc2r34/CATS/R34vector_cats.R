@@ -20,6 +20,22 @@ ats2r34pre_R34vector_rep <-
 function(x,n) { return(rep(x,n)) }
   
 ############################################
+#
+ats2r34pre_R34vector_make_1 <-
+function(x1) { return(c(x1)) }
+ats2r34pre_R34vector_make_2 <-
+function(x1, x2) { return(c(x1, x2)) }
+ats2r34pre_R34vector_make_3 <-
+function(x1, x2, x3) { return(c(x1, x2, x3)) }
+#
+ats2r34pre_R34vector_make_4 <-
+function(x1, x2, x3, x4) { return(c(x1, x2, x3, x4)) }
+ats2r34pre_R34vector_make_5 <-
+function(x1, x2, x3, x4, x5) { return(c(x1, x2, x3, x4, x5)) }
+ats2r34pre_R34vector_make_6 <-
+function(x1, x2, x3, x4, x5, x6) { return(c(x1, x2, x3, x4, x5, x6)) }
+# 
+############################################
 
 ats2r34pre_R34vector_length <-
 function(xs) { return(length(xs)) }

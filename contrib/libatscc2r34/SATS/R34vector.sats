@@ -29,6 +29,44 @@ overload rep with R34vector_rep
 (* ****** ****** *)
 //
 fun
+R34vector_make_1
+{a:t0p}
+(x1: a): R34vector(a, 1) = "mac#%"
+fun
+R34vector_make_2
+{a:t0p}
+(x1: a, x2: a): R34vector(a, 2) = "mac#%"
+fun
+R34vector_make_3
+{a:t0p}
+(x1: a, x2: a, x3: a): R34vector(a, 3) = "mac#%"
+//
+fun
+R34vector_make_4
+{a:t0p}
+( x1: a, x2: a
+, x3: a, x4: a): R34vector(a, 4) = "mac#%"
+fun
+R34vector_make_5
+{a:t0p}
+( x1: a, x2: a
+, x3: a, x4: a, x5: a): R34vector(a, 5) = "mac#%"
+fun
+R34vector_make_6
+{a:t0p}
+( x1: a, x2: a, x3: a
+, x4: a, x5: a, x6: a): R34vector(a, 6) = "mac#%"
+//
+overload R34vector_make with R34vector_make_1
+overload R34vector_make with R34vector_make_2
+overload R34vector_make with R34vector_make_3
+overload R34vector_make with R34vector_make_4
+overload R34vector_make with R34vector_make_5
+overload R34vector_make with R34vector_make_6
+//
+(* ****** ****** *)
+//
+fun
 R34vector_length
 {a:t0p}{n:int}
 (R34vector(a, n)): int(n) = "mac#%"

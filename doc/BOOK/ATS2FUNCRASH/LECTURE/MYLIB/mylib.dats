@@ -1372,5 +1372,25 @@ case+ !xs of
 ) (* end of [stream_vt_foldleft] *)
 //
 (* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_kmap
+( xs: list0(INV(a))
+, f0: cfun(a, cont1(b), void), k0: cont1(list0(b))): void
+implement
+{a}{b}
+list0_kmap(xs, f0, k0) =
+(
+case+ xs of
+| list0_nil() =>
+  k0(list0_nil())
+| list0_cons(x, xs) =>
+  f0(x, lam(y) => list0_kmap<a><b>(xs, f0, lam(ys) => k0(list0_cons(y, ys))))
+)
+//
+(* ****** ****** *)
 
 (* end of [mylib.dats] *)

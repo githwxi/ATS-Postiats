@@ -46,7 +46,8 @@ to #dyncode("do_async1") is followed by another call to #dyncode("do_async2"):
 
 #dats2xhtml('\
 //
-fun do_async12(): void =
+fun
+do_async12(): void =
 {
   val () = do_async1(); val () = do_async2()
 } (* end of [do_async12] *)
@@ -92,7 +93,8 @@ can be given:
 
 #dats2xhtml('\
 //
-fun do_async12(): void =
+fun
+do_async12(): void =
 {
   val () = do_async1_cont(lam() => do_async2())
 } (* end of [do_async12] *)
@@ -107,7 +109,9 @@ the following variant of #dyncode("do_async12"):
 
 #dats2xhtml('\
 //
-fun do_async12_cont(k): void =
+fun
+do_async12_cont
+(k: cfun(void)): void =
 {
   val () = do_async1_cont(lam() => do_async2_cont(k))
 } (* end of [do_async12] *)
