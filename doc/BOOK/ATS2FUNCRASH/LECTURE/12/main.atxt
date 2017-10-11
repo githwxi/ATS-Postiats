@@ -73,8 +73,10 @@ a nullary closure-function), which is supposed to be called
 immediately after the work scheduled for #dyncode("do_async1") is
 done.  And this thunk is often given the name
 #emphasis("continuation"), referring to the work that needs to be
-continued. With #dyncode("do_async1_cont"), the function
-#dyncode("do_async1()") can be given the following implementation:
+continued. In the following presentatin, #stacode("cont0()") may also
+be used as a shorthand for #dyncode("cfun(void)").  With
+#dyncode("do_async1_cont"), the function #dyncode("do_async1()") can
+be given the following implementation:
 
 #dats2xhtml('\
 //
@@ -111,7 +113,7 @@ the following variant of #dyncode("do_async12"):
 //
 fun
 do_async12_cont
-(k: cfun(void)): void =
+  (k: cont0()): void =
 {
   val () = do_async1_cont(lam() => do_async2_cont(k))
 } (* end of [do_async12] *)
@@ -314,6 +316,9 @@ function.
 
 #para("\
 
+The last example in this chapter is the following
+stream-processing function written in CPS-style:
+
 #dats2xhtml('\
 //
 extern
@@ -334,6 +339,20 @@ case+ !xs of
 //
 ')
 
+Given a stream and a function, #dyncode("stream_kforeach") processes
+an element in the given stream by applying the given function to it;
+if the function returns true, then #dyncode("stream_kforeach") repeats
+to process the next element (if it exists); if the function returns
+false, then #dyncode("stream_kforeach") stops processing the rest of
+the elements and terminates. Of course, what is described here is
+actually done in CPS-style. Please click <ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/LECTURE/12/CODE/Sieve.html\">here</ulink>
+to see a demo of #dyncode("stream_kforeach") being called to display
+the (infinite) stream of prime numbers: 2, 3, 5, 7, 11, etc. For the source code
+of demo, please see
+<ulink
+url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/12/CODE/Sieve.dats\">Sieve.dats</ulink>.
+
 ")
 
 #para("\
@@ -348,6 +367,13 @@ as follows:
 #para("\
 <ulink
 url=\"https://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/LECTURE/12/CODE/Sieve.html\">https://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/LECTURE/12/CODE/Sieve.html</ulink>
+")#comment("para")
+</listitem>
+
+<listitem>
+#para("\
+<ulink
+url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/12/CODE/Sieve.dats\">https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT/ATS2FUNCRASH/LECTURE/12/CODE/Sieve.dats</ulink>
 ")#comment("para")
 </listitem>
 

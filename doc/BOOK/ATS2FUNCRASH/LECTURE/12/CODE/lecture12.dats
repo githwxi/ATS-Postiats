@@ -72,8 +72,11 @@ do_async2_cont(k: cont0()): void
 
 (*
 fun
-do_async12_cont(k): void =
+do_async12_cont
+  (k: cont0()): void =
+(
 do_async1_cont(lam() => do_async2_cont(k))
+)
 *)
 
 (* ****** ****** *)

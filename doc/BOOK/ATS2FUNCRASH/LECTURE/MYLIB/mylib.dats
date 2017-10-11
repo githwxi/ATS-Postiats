@@ -1261,6 +1261,30 @@ case+ !xs of
 (* ****** ****** *)
 //
 extern
+fun
+{a:t@ype}
+stream_foreach
+(
+xs: stream(a),
+fwork: cfun(a, void)
+) : void // end-of-function
+//
+implement
+{a}(*tmp*)
+stream_foreach(xs, fwork) =
+
+(
+//
+case+ !xs of
+| stream_nil() => ()
+| stream_cons(x, xs) =>
+  (fwork(x); stream_foreach<a>(xs, fwork))
+//
+) (* end of [stream_foreach] *)
+//
+(* ****** ****** *)
+//
+extern
 fun{
 res:t@ype
 }{a:t@ype}
