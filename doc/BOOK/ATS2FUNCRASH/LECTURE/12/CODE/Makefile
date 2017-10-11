@@ -20,6 +20,12 @@ $(MYATSCC) lecture12.dats
 
 ######
 
+all:: \
+Sieve
+Sieve: ; $(MYATSCC) Sieve.dats
+
+######
+
 regress:: lecture12; ./lecture12_dats
 
 ######

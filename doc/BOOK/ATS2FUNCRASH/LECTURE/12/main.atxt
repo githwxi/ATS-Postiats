@@ -314,8 +314,45 @@ function.
 
 #para("\
 
-Please find #mycodelink("LECTURE/12/CODE", "on-line") the
-entirety of the code used in this chapter. \
+#dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+stream_kforeach
+( xs: stream(INV(a))
+, f0: cfun(a, cont1(bool), void), k0: cont0()): void
+implement
+{a}(*tmp*)
+stream_kforeach(xs, f0, k0) =
+(
+case+ !xs of
+| stream_nil() => k0()
+| stream_cons(x, xs) =>
+  f0(x, lam(y) => if y then stream_kforeach<a>(xs, f0, k0) else k0())
+)
+//
+')
+
+")
+
+#para("\
+
+Please find #mycodelink("LECTURE/12/CODE", "on-line") the entirety of
+the code used in this chapter. The mentioned URL link(s) can be found
+as follows:
+
+<itemizedlist>
+
+<listitem>
+#para("\
+<ulink
+url=\"https://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/LECTURE/12/CODE/Sieve.html\">https://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/LECTURE/12/CODE/Sieve.html</ulink>
+")#comment("para")
+</listitem>
+
+</itemizedlist>
+
 
 ")#comment("para")
 

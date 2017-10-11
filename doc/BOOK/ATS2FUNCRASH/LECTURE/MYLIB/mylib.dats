@@ -1373,6 +1373,9 @@ case+ !xs of
 //
 (* ****** ****** *)
 //
+typedef cont0() = cfun(void)
+typedef cont1(res:t@ype) = cfun(res, void)
+//
 extern
 fun
 {a:t@ype}
@@ -1389,6 +1392,24 @@ case+ xs of
   k0(list0_nil())
 | list0_cons(x, xs) =>
   f0(x, lam(y) => list0_kmap<a><b>(xs, f0, lam(ys) => k0(list0_cons(y, ys))))
+)
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+stream_kforeach
+( xs: stream(INV(a))
+, f0: cfun(a, cont1(bool), void), k0: cont0()): void
+implement
+{a}(*tmp*)
+stream_kforeach(xs, f0, k0) =
+(
+case+ !xs of
+| stream_nil() => k0()
+| stream_cons(x, xs) =>
+  f0(x, lam(y) => if y then stream_kforeach<a>(xs, f0, k0) else k0())
 )
 //
 (* ****** ****** *)
