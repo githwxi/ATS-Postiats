@@ -122,6 +122,12 @@ val () = $extfcall(void, "str", tcrossprod(xs, xs))
 
 (* ****** ****** *)
 
+val xs = R34vector_tabulate_fun{int}(10, lam(i) => i+1)
+val () = $extfcall(void, "str", sample_rep(xs, length(xs)))
+val () = $extfcall(void, "str", sample_norep(xs, length(xs)))
+
+(* ****** ****** *)
+
 %{^
 ######
 if

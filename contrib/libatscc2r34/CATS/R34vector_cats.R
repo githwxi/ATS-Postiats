@@ -25,6 +25,15 @@ ats2r34pre_R34vector_length <-
 function(xs) { return(length(xs)) }
 
 ############################################
+
+ats2r34pre_R34vector_sample_rep <-
+function(xs, n)
+  { return(sample(xs, n, replace=TRUE)) }
+ats2r34pre_R34vector_sample_norep <-
+function(xs, n)
+  { return(sample(xs, n, replace=FALSE)) }
+
+############################################
 #
 ats2r34pre_R34vector_get_at <-
 function(xs, i) { return(xs[[i]]) }

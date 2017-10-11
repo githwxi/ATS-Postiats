@@ -221,23 +221,33 @@ fun
 {b:t@ype}
 stream_kmap
 ( xs: stream(INV(a))
-, f0: cfun(a, cont1(b), void), k0: cont1(stream_con(b))): void
+, f0: cfun(a, cont1(b), void), k0: cont1(list0(b))): void
 implement
 {a}{b}
 stream_kmap(xs, f0, k0) =
 (
 case+ !xs of
 | stream_nil() =>
-  k0(stream_nil())
+  k0(list0_nil())
 | stream_cons(x, xs) =>
-  f0(x, lam(y) => stream_kmap<a><b>(xs, f0, lam(ys) => k0(stream_cons(y, ys))))
+  f0(x, lam(y) => stream_kmap<a><b>(xs, f0, lam(ys) => k0(list0_cons(y, ys))))
 )
 //
 (* ****** ****** *)
 //
-val xs = g0ofg1($list{int}(1, 2, 3, 4, 5))
+val xs =
+g0ofg1($list{int}(1, 2, 3, 4, 5))
+//
 val () =
 list0_kmap<int><int>(xs, lam(x, k) => k(x*x), lam(ys) => println!("ys = ", ys))
+//
+(* ****** ****** *)
+//
+val xs = int_stream_from(1)
+val xs = stream_takeLte<int>(xs, 10)
+//
+val () =
+stream_kmap<int><int>(xs, lam(x, k) => k(x*x), lam(ys) => println!("ys = ", ys))
 //
 (* ****** ****** *)
 

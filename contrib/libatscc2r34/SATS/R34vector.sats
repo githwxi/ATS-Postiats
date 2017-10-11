@@ -102,6 +102,24 @@ overload variance with R34vector_variance
 (* ****** ****** *)
 //
 fun
+R34vector_sample_rep
+{a:t0p}
+{m:int}
+{n:nat}
+(R34vector(a, m), int(n)): R34vector(a, n) = "mac#%"
+fun
+R34vector_sample_norep
+{a:t0p}
+{m:int}
+{n:nat|n <= m}
+(R34vector(a, m), int(n)): R34vector(a, n) = "mac#%"
+//
+overload sample_rep with R34vector_sample_rep
+overload sample_norep with R34vector_sample_norep
+//
+(* ****** ****** *)
+//
+fun
 dotprod_R34vector_R34vector
 {a:t0p}
 {n:pos}
