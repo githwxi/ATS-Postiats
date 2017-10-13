@@ -187,13 +187,13 @@ all_script::
 #make_entry("patscontrib_libats_hwxi")
 #make_entry("patscontrib_libats_hwxi_teaching")
 #
-#make_entry("patscontrib_libatscc")
-#make_entry("patscontrib_libatscc2js")
-#make_entry("patscontrib_libatscc2pl")
-#make_entry("patscontrib_libatscc2py3")
-#make_entry("patscontrib_libatscc2php")
-#make_entry("patscontrib_libatscc2scm")
-#make_entry("patscontrib_libatscc2clj")
+\#make_entry("patscontrib_libatscc")
+\#make_entry("patscontrib_libatscc2js")
+\#make_entry("patscontrib_libatscc2pl")
+\#make_entry("patscontrib_libatscc2py3")
+\#make_entry("patscontrib_libatscc2php")
+\#make_entry("patscontrib_libatscc2scm")
+\#make_entry("patscontrib_libatscc2clj")
 #
 #make_entry("patscontrib_kernelats")
 #
@@ -479,9 +479,6 @@ srcget_patscontrib:: srcget_patscontrib_kernelats
 srcget_patscontrib_kernelats:: SCRIPT/patscontrib_kernelats.bash ; bash $<
 
 ######
-
-srcget_patscontrib:: srcget_patscontrib_libatscc
-srcget_patscontrib_libatscc:: SCRIPT/patscontrib_libatscc.bash ; bash $<
 
 ######
 #

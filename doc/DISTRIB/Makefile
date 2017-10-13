@@ -603,76 +603,13 @@ cleanall:: ; $(RMF) HTML/patscontrib_libats_hwxi_teaching.html
 cleanall:: ; $(RMF) SCRIPT/patscontrib_libats_hwxi_teaching.bash
 
 #
-all_script:: \
-SCRIPT/patscontrib_libatscc.bash
-SCRIPT/patscontrib_libatscc.bash: patscontrib_libatscc_atxt.exe ; ./$< > $@
-patscontrib_libatscc_atxt.dats: ATEXT/patscontrib_libatscc.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_libatscc_atxt.exe: patscontrib_libatscc_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_libatscc_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_libatscc.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc.bash
-
-all_script:: \
-SCRIPT/patscontrib_libatscc2js.bash
-SCRIPT/patscontrib_libatscc2js.bash: patscontrib_libatscc2js_atxt.exe ; ./$< > $@
-patscontrib_libatscc2js_atxt.dats: ATEXT/patscontrib_libatscc2js.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_libatscc2js_atxt.exe: patscontrib_libatscc2js_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_libatscc2js_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_libatscc2js.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2js.bash
-
-all_script:: \
-SCRIPT/patscontrib_libatscc2pl.bash
-SCRIPT/patscontrib_libatscc2pl.bash: patscontrib_libatscc2pl_atxt.exe ; ./$< > $@
-patscontrib_libatscc2pl_atxt.dats: ATEXT/patscontrib_libatscc2pl.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_libatscc2pl_atxt.exe: patscontrib_libatscc2pl_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_libatscc2pl_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_libatscc2pl.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2pl.bash
-
-all_script:: \
-SCRIPT/patscontrib_libatscc2py3.bash
-SCRIPT/patscontrib_libatscc2py3.bash: patscontrib_libatscc2py3_atxt.exe ; ./$< > $@
-patscontrib_libatscc2py3_atxt.dats: ATEXT/patscontrib_libatscc2py3.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_libatscc2py3_atxt.exe: patscontrib_libatscc2py3_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_libatscc2py3_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_libatscc2py3.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2py3.bash
-
-all_script:: \
-SCRIPT/patscontrib_libatscc2php.bash
-SCRIPT/patscontrib_libatscc2php.bash: patscontrib_libatscc2php_atxt.exe ; ./$< > $@
-patscontrib_libatscc2php_atxt.dats: ATEXT/patscontrib_libatscc2php.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_libatscc2php_atxt.exe: patscontrib_libatscc2php_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_libatscc2php_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_libatscc2php.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2php.bash
-
-all_script:: \
-SCRIPT/patscontrib_libatscc2scm.bash
-SCRIPT/patscontrib_libatscc2scm.bash: patscontrib_libatscc2scm_atxt.exe ; ./$< > $@
-patscontrib_libatscc2scm_atxt.dats: ATEXT/patscontrib_libatscc2scm.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_libatscc2scm_atxt.exe: patscontrib_libatscc2scm_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_libatscc2scm_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_libatscc2scm.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2scm.bash
-
-all_script:: \
-SCRIPT/patscontrib_libatscc2clj.bash
-SCRIPT/patscontrib_libatscc2clj.bash: patscontrib_libatscc2clj_atxt.exe ; ./$< > $@
-patscontrib_libatscc2clj_atxt.dats: ATEXT/patscontrib_libatscc2clj.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-patscontrib_libatscc2clj_atxt.exe: patscontrib_libatscc2clj_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) patscontrib_libatscc2clj_atxt.exe
-cleanall:: ; $(RMF) HTML/patscontrib_libatscc2clj.html
-cleanall:: ; $(RMF) SCRIPT/patscontrib_libatscc2clj.bash
-
+#make_entry("patscontrib_libatscc")
+#make_entry("patscontrib_libatscc2js")
+#make_entry("patscontrib_libatscc2pl")
+#make_entry("patscontrib_libatscc2py3")
+#make_entry("patscontrib_libatscc2php")
+#make_entry("patscontrib_libatscc2scm")
+#make_entry("patscontrib_libatscc2clj")
 #
 all_script:: \
 SCRIPT/patscontrib_kernelats.bash
@@ -755,6 +692,7 @@ srcget_home:: ; $(CPF) ../../CHANGES-contrib $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../configure.ac $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../config.mk.in $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../bin/patscc_env.sh.in $(ATSDIST)/bin/
+srcget_home:: ; $(CPF) ../../bin/myatscc_env.sh.in $(ATSDIST)/bin/
 srcget_home:: ; $(CPF) ../../bin/patsopt_env.sh.in $(ATSDIST)/bin/
 
 ######
@@ -946,9 +884,6 @@ srcget_patscontrib:: srcget_patscontrib_kernelats
 srcget_patscontrib_kernelats:: SCRIPT/patscontrib_kernelats.bash ; bash $<
 
 ######
-
-srcget_patscontrib:: srcget_patscontrib_libatscc
-srcget_patscontrib_libatscc:: SCRIPT/patscontrib_libatscc.bash ; bash $<
 
 ######
 #
