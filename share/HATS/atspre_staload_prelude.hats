@@ -49,6 +49,11 @@ PATSPRE_targetloc
 #staload _ = "{$PATSPRE}/DATS/integer_fixed.dats"
 //
 (* ****** ****** *)
+//
+#staload
+_(*TUPLE*) = "{$PATSPRE}/DATS/tuple.dats"
+//
+(* ****** ****** *)
 
 #staload _ = "{$PATSPRE}/DATS/memory.dats"
 #staload _ = "{$PATSPRE}/DATS/reference.dats"
@@ -96,13 +101,6 @@ PATSPRE_targetloc
 #staload _ = "{$PATSPRE}/DATS/gprint.dats"
 //
 #staload _ = "{$PATSPRE}/DATS/tostring.dats"
-//
-(* ****** ****** *)
-//
-#staload "{$PATSPRE}/SATS/tuple.sats"
-//
-#staload
-_(*TUPLE*) = "{$PATSPRE}/DATS/tuple.dats"
 //
 (* ****** ****** *)
 //
