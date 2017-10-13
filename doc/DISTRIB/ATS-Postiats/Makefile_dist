@@ -11,6 +11,14 @@
 #
 ######
 
+CPF=cp -f
+CPR=cp -r
+MVF=mv -f
+RMF=rm -f
+RMRF=rm -rf
+
+######
+
 MAKE=make
 MAKEJ4=make -j4
 
@@ -125,12 +133,14 @@ PATSLIBHOME2 := $(DESTDIR)$(PATSLIBHOME)
 install: install_files
 
 install_files: \
-  install_files_0 \
-  install_files_1 \
-  install_files_2 \
-  install_files_3 \
-  install_files_4 \
-  install_files_5 \
+  install_files_00 \
+  install_files_10 \
+  install_files_11 \
+  install_files_20 \
+  install_files_30 \
+  install_files_31 \
+  install_files_40 \
+  install_files_50 \
 
 install_dirs: ; \
   cd "$(abs_top_srcdir)" && \
@@ -140,24 +150,28 @@ install_dirs: ; \
     find "$$x" -type d -exec $(MKDIR_P) $(PATSLIBHOME2)/\{} \; -print; \
   done
 
-install_files_0: install_dirs ; \
+install_files_00: install_dirs ; \
   for x in share ccomp/runtime prelude libats contrib ; do \
     cd "$(abs_top_srcdir)" && \
     $(INSTALL) -d $(PATSLIBHOME2)/"$$x" && \
-    find "$$x" -type l -exec cp -d \{} $(PATSLIBHOME2)/\{} \; -print && \
+    find "$$x" -type l -exec $(CPR) \{} $(PATSLIBHOME2)/\{} \; -print && \
     find "$$x" -type f -exec $(INSTALL) -m644 \{} $(PATSLIBHOME2)/\{} \; -print; \
   done
 
-install_files_1: bin/patscc ; \
+install_files_10: bin/patscc ; \
   $(INSTALL) -m755 $< $(PATSLIBHOME2)/bin/patscc && echo $<
-install_files_2: bin/patsopt ; \
+install_files_11: bin/myatscc ; \
+  $(INSTALL) -m755 $< $(PATSLIBHOME2)/bin/myatscc && echo $<
+install_files_20: bin/patsopt ; \
   $(INSTALL) -m755 $< $(PATSLIBHOME2)/bin/patsopt && echo $<
-install_files_3: bin/patscc_env.sh ; \
+install_files_30: bin/patscc_env.sh ; \
   $(INSTALL) -m755 $< $(bindir2)/patscc && echo $<
-install_files_4: bin/patsopt_env.sh ; \
+install_files_31: bin/myatscc_env.sh ; \
+  $(INSTALL) -m755 $< $(bindir2)/myatscc && echo $<
+install_files_40: bin/patsopt_env.sh ; \
   $(INSTALL) -m755 $< $(bindir2)/patsopt && echo $<
 
-install_files_5: ; \
+install_files_50: ; \
   for x in \
     ccomp/atslib/lib/libatslib.a \
     ccomp/atslib/lib64/libatslib.a ; \
@@ -168,18 +182,12 @@ install_files_5: ; \
   done
 
 ######
-
-CPF=cp -f
-MVF=mv -f
-RMF=rm -f
-RMRF=rm -rf
-
-######
 #
 uninstall:: uninstall_bin
 uninstall:: uninstall_home
 #
 uninstall_bin:: ; $(RMF) $(bindir2)/patscc
+uninstall_bin:: ; $(RMF) $(bindir2)/myatscc
 uninstall_bin:: ; $(RMF) $(bindir2)/patsopt
 uninstall_home:: ; $(RMRF) $(PATSLIBHOME2)
 #

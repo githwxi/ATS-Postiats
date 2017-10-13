@@ -97,6 +97,7 @@ AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_FILES([config.mk])
 AC_CONFIG_FILES([bin/patscc_env.sh])
+AC_CONFIG_FILES([bin/myatscc_env.sh])
 AC_CONFIG_FILES([bin/patsopt_env.sh])
 
 dnl = AM_INIT_AUTOMAKE
