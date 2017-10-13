@@ -124,7 +124,7 @@ PATSLIBHOME2 := $(DESTDIR)$(PATSLIBHOME)
 #
 # HX-2011-06-01:
 # This part was originally written by Georg Bauhaus
-# (bauhaus AT arcor DOT de): It addresses the issue that
+# (bauhausATarcorDOTde): It addresses the issue that
 # the [-D] option is not available for $(INSTALL) on MacOSX.
 #
 .PHONY: install_dirs
