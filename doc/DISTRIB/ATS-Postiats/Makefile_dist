@@ -12,7 +12,7 @@
 ######
 
 CPF=cp -f
-CPR=cp -r
+CPR=cp -R
 MVF=mv -f
 RMF=rm -f
 RMRF=rm -rf
