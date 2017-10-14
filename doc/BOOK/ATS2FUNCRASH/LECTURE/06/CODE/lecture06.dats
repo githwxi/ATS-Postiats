@@ -269,7 +269,7 @@ case+ xs of
 | list0_nil() =>
   list0_nil()
 | list0_cons(x0, xs) =>
-  list0_cons(x0, list0_remdup<a>(list0_filter<a>(xs, lam(x) => eqfn(x0, x)), eqfn))
+  list0_cons(x0, list0_remdup<a>(list0_filter<a>(xs, lam(x) => ~eqfn(x0, x)), eqfn))
 )
 //
 (* ****** ****** *)
