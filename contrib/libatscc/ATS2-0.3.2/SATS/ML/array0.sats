@@ -19,7 +19,7 @@ array0_make_elt
 //
 fun
 array0_size
-  {a:t0p}(A: array0(a)): intGte(0) = "mac#%"
+  {a:vt0p}(A: array0(a)): intGte(0) = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -36,10 +36,12 @@ array0_exch_at
   {a:vt0p}(A: array0(a), i: int, x0: a): (a) = "mac#%"
 //
 (* ****** ****** *)
-
+//
 overload [] with array0_get_at of 100
 overload [] with array0_set_at of 100
-
+//
+overload .size with array0_size of 100
+//
 (* ****** ****** *)
 //
 fun
@@ -80,7 +82,7 @@ fun
 array0_find_index
   {a:vt0p}
 (
-  A0: array0(a), pred: Nat -<cloref1> bool
+A0: array0(a), pred: Nat -<cloref1> bool
 ) : intGte(~1) = "mac#" // array0_find_index
 //
 (* ****** ****** *)

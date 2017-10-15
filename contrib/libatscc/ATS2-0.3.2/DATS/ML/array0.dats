@@ -62,6 +62,26 @@ array0_forall_method
   (A) = lam(pred) => array0_forall(A, pred)
 //
 (* ****** ****** *)
+
+implement
+array0_find_index
+(
+  A, pred
+) =
+loop(0, A.size()) where
+{
+fun
+loop(i: Nat, n: int): intGte(~1) =
+(
+  if i < n
+    then
+    (
+      if pred(i) then i else loop(i+1, n)
+    ) else ~1
+)
+} (* end of [array0_find_index] *)
+
+(* ****** ****** *)
 //
 implement
 array0_app

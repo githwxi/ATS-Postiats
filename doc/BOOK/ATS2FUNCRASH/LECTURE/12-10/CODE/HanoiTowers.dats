@@ -271,6 +271,34 @@ theHanoiTowersCont1 = ref{contopt}(None0())
 //
 (* ****** ****** *)
 
+extern
+fun
+array0_find_index
+  {a:vt0p}
+(
+A0: array0(a), pred: Nat -<cloref1> bool
+) : intGte(~1) = "mac#" // array0_find_index
+
+implement
+array0_find_index
+(
+  A, pred
+) =
+loop(0, A.size()) where
+{
+fun
+loop(i: Nat, n: int): intGte(~1) =
+(
+  if i < n
+    then
+    (
+      if pred(i) then i else loop(i+1, n)
+    ) else ~1
+)
+} (* end of [array0_find_index] *)
+
+(* ****** ****** *)
+
 implement
 k_move
 (src, dst, k0) = let
@@ -286,9 +314,105 @@ alert
 ) (* end of [val] *)
 *)
 //
+val
+src =
+thePoles[src]
+val
+dst =
+thePoles[dst]
+//
+val i =
+array0_find_index(src, lam(i) => src[i] > 0)
+val j = 
+array0_find_index(dst, lam(j) => dst[j] > 0)
+val j = (if j >= 0 then j else dst.size()): int
+//
+val di = src[i]
+val () = src[i] := 0
+val () = dst[j-1] := di
+//
 in
   theHanoiTowersCont1[] := Some0(k0)  
 end // end of [k_move]
+
+(* ****** ****** *)
+//
+extern
+fun
+thePoles_init
+  ((*void*)): void
+//
+implement
+thePoles_init
+  ((*void*)) =
+{
+//
+val N = N_get()
+val N = g1ofg0(N)
+val N = max(N, 0)
+//
+val src = 0 and dst = 1 and tmp = 2
+val () =
+thePoles[src] := array0_make_elt{int}(N, 0)
+val () =
+thePoles[dst] := array0_make_elt{int}(N, 0)
+val () =
+thePoles[tmp] := array0_make_elt{int}(N, 0)
+//
+val xs =
+thePoles[src]
+val () =
+(xs).foreach()(lam(i) => xs[i] := i+1)
+//
+} (* end of [thePoles_init] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+thePoles_show
+  ((*void*)): void
+//
+implement
+thePoles_show() = let
+//
+val p0 = thePoles[0]
+val p1 = thePoles[1]
+val p2 = thePoles[2]
+//
+val H0 = array0_size(p0)
+//
+fun
+dshow1
+(di: int): void =
+if
+(di > 0)
+then
+(
+print("O"); dshow1(di-1); print("O")
+) else print("|")
+//
+fun
+dshow2
+(W: int, di: int): void =
+if
+(W > 2*di)
+then
+(
+print(" "); dshow2(W-2, di); print(" ")
+)
+else dshow1(di)
+//
+val W0 = 2*H0 + 6
+//
+in
+(
+H0
+).foreach()
+(
+lam(i) => (dshow2(W0, p0[i]); dshow2(W0, p1[i]); dshow2(W0, p2[i]); println!())
+)
+end // end of [thePoles_show]
 
 (* ****** ****** *)
 //
@@ -311,8 +435,7 @@ $extmcall
 val () =
 the_print_store_clear()  
 //
-val () =
-println! ("HanoiTowersShow_init()")
+val () = thePoles_show()
 //
 val res = the_print_store_join()
 //
@@ -348,7 +471,23 @@ in
   | None0() =>
     ((*void*))
   | Some0(k0) =>
-    (k0(); HanoiTowersShow_loop_delay())
+    (k0();
+     let
+       val () =
+       the_print_store_clear()
+       val () = thePoles_show()
+       val res = the_print_store_join()
+       val
+       theStage =
+       $extmcall
+       ( xmldoc
+       , theDocument
+       , "getElementById", "theStage")
+     in
+       xmldoc_set_innerHTML(theStage, res)
+     end;
+     HanoiTowersShow_loop_delay()
+    )
 end // end of [HanoiTowersShow_loop]
 //
 implement
@@ -367,6 +506,12 @@ extern
 fun
 HanoiTowersControl_start
   ((*void*)): void = "mac#"
+extern
+fun
+HanoiTowersControl_reset
+  ((*void*)): void = "mac#"
+//
+(* ****** ****** *)
 //
 implement
 HanoiTowersControl_start
@@ -385,8 +530,10 @@ button_disable(theButton_start)
 val () =
 button_disable(theButton_resume)
 //
-val N = N_get()
+val () =
+thePoles_init()
 //
+val N = N_get()
 val src = 0 and dst = 1 and tmp = 2
 //
 val () =
@@ -397,7 +544,13 @@ lam
 (
 // argless
 ) =<cloref1>
-  k_nmove(N, src, dst, tmp, lam() => alert("HanoiTowers: Done!"))
+k_nmove
+( N, src, dst, tmp
+, lam() =>
+  let val () =
+    alert("HanoiTowers: Done!") in HanoiTowersControl_reset()
+  end // end of [let]
+)
 // end of [lam]
 )
 //
@@ -406,11 +559,6 @@ in
 end // end of [HanoiTowersControl_start]
 //
 (* ****** ****** *)
-//
-extern
-fun
-HanoiTowersControl_reset
-  ((*void*)): void = "mac#"
 //
 implement
 HanoiTowersControl_reset
@@ -431,6 +579,9 @@ val () =
 button_disable(theButton_pause)
 val () =
 button_disable(theButton_resume)
+//
+val () =
+thePoles_init()
 //
 val () =
 theHanoiTowersCont0[] := None0()
