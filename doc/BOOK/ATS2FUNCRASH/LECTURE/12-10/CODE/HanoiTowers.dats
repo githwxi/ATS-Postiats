@@ -35,7 +35,7 @@ LIBATSCC2JS_targetloc
 //
 (* ****** ****** *)
 
-abstype pole
+typedef pole = int
 
 (* ****** ****** *)
 //
@@ -244,6 +244,21 @@ val () = theDelayTime_set(delay_time_get())
 val () = param_initize()
 //
 (* ****** ****** *)
+
+local
+
+val A =
+array0_make_elt{int}(0, 0)
+
+in
+
+val
+thePoles =
+array0_make_elt{array0(int)}(3, A)
+
+end // end of [local]
+
+(* ****** ****** *)
 //
 typedef contopt = option0(cont())
 //
@@ -254,6 +269,277 @@ theHanoiTowersCont0 = ref{contopt}(None0())
 val
 theHanoiTowersCont1 = ref{contopt}(None0())
 //
+(* ****** ****** *)
+
+implement
+k_move
+(src, dst, k0) = let
+//
+(*
+val
+() =
+alert
+( "kmove: "
++ String(src)
++ " -> "
++ String(dst)
+) (* end of [val] *)
+*)
+//
+in
+  theHanoiTowersCont1[] := Some0(k0)  
+end // end of [k_move]
+
+(* ****** ****** *)
+//
+extern
+fun
+HanoiTowersShow_init
+  ((*void*)): void
+//
+implement
+HanoiTowersShow_init
+  ((*void*)) = let
+//
+val
+theStage =
+$extmcall
+( xmldoc
+, theDocument
+, "getElementById", "theStage")
+//
+val () =
+the_print_store_clear()  
+//
+val () =
+println! ("HanoiTowersShow_init()")
+//
+val res = the_print_store_join()
+//
+in
+  xmldoc_set_innerHTML(theStage, res)
+end // end of [HanoiTowersShow_init]
+//
+(* ****** ****** *)
+//
+extern
+fun
+HanoiTowersShow_loop
+  ((*void*)): void
+extern
+fun
+HanoiTowersShow_loop_delay
+  ((*void*)): void
+//
+(* ****** ****** *)
+//
+implement
+HanoiTowersShow_loop
+  ((*void*)) = let
+//
+val
+opt = theHanoiTowersCont1[]
+//
+val () =
+theHanoiTowersCont1[] := None0()
+//
+in
+  case+ opt of
+  | None0() =>
+    ((*void*))
+  | Some0(k0) =>
+    (k0(); HanoiTowersShow_loop_delay())
+end // end of [HanoiTowersShow_loop]
+//
+implement
+HanoiTowersShow_loop_delay
+  ((*void*)) = let
+//
+val ms = theDelayTime_get()
+//
+in
+  $extfcall(void, "setTimeout", HanoiTowersShow_loop, ms)
+end // end of [HanoiTowersShow_loop_delay]
+//
+(* ****** ****** *)
+//
+extern
+fun
+HanoiTowersControl_start
+  ((*void*)): void = "mac#"
+//
+implement
+HanoiTowersControl_start
+  ((*void*)) = let
+//
+(*
+val () =
+alert("HanoiTowersControl_start!")
+*)
+//
+val () =
+button_enable(theButton_pause)
+//
+val () =
+button_disable(theButton_start)
+val () =
+button_disable(theButton_resume)
+//
+val N = N_get()
+//
+val src = 0 and dst = 1 and tmp = 2
+//
+val () =
+theHanoiTowersCont1[] :=
+Some0
+(
+lam
+(
+// argless
+) =<cloref1>
+  k_nmove(N, src, dst, tmp, lam() => alert("HanoiTowers: Done!"))
+// end of [lam]
+)
+//
+in
+  HanoiTowersShow_loop()
+end // end of [HanoiTowersControl_start]
+//
+(* ****** ****** *)
+//
+extern
+fun
+HanoiTowersControl_reset
+  ((*void*)): void = "mac#"
+//
+implement
+HanoiTowersControl_reset
+  ((*void*)) = let
+//
+(*
+val () =
+alert("HanoiTowersControl_reset!")
+*)
+//
+val () =
+param_initize()
+//
+val () =
+button_enable(theButton_start)
+//
+val () =
+button_disable(theButton_pause)
+val () =
+button_disable(theButton_resume)
+//
+val () =
+theHanoiTowersCont0[] := None0()
+val () =
+theHanoiTowersCont1[] := None0()
+//
+in
+  HanoiTowersShow_init((*void*))
+end // end of [HanoiTowersControl_reset]
+//
+(* ****** ****** *)
+//
+extern
+fun
+HanoiTowersControl_pause
+  ((*void*)): void = "mac#"
+//
+implement
+HanoiTowersControl_pause
+  ((*void*)) = let
+//
+(*
+val () =
+alert("HanoiTowersControl_pause!")
+*)
+//
+val () =
+button_enable(theButton_resume)
+//
+val () =
+button_disable(theButton_pause)
+//
+val opt =
+theHanoiTowersCont1[]
+//
+in
+//
+case+ opt of
+| None0 _ =>
+  (
+   // nothing
+  )
+| Some0 _ =>
+  (
+    theHanoiTowersCont0[] := opt;
+    theHanoiTowersCont1[] := None0()
+  )
+//
+end // end of [HanoiTowersControl_pause]
+//
+(* ****** ****** *)
+//
+extern
+fun
+HanoiTowersControl_resume
+  ((*void*)): void = "mac#"
+//
+implement
+HanoiTowersControl_resume
+  ((*void*)) = let
+//
+(*
+val () =
+alert("HanoiTowersControl_resume!")
+*)
+//
+val () =
+button_enable(theButton_pause)
+//
+val () =
+button_disable(theButton_resume)
+//
+val opt =
+theHanoiTowersCont0[]
+//
+in
+//
+case+ opt of
+| None0 _ => ()
+| Some0 _ =>
+  (
+    theHanoiTowersCont1[] := opt;
+    theHanoiTowersCont0[] := None0();
+    HanoiTowersShow_loop();
+  )
+//
+end // end of [HanoiTowersControl_resume]
+//
+(* ****** ****** *)
+
+%{$
+//
+function
+HanoiTowers__initize()
+{
+//
+HanoiTowers__dynload(); return;
+//
+} // end of [HanoiTowers__initize]
+%}
+
+(* ****** ****** *)
+
+%{$
+//
+jQuery(document).ready(function(){HanoiTowers__initize();});
+//
+%} // end of [%{$]
+
 (* ****** ****** *)
 
 (* end of [HanoiTowers.dats] *)

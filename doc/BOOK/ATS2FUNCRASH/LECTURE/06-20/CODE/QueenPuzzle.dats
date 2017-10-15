@@ -387,7 +387,7 @@ QueenPuzzleShow_clear() =
 QueenPuzzleShow_node(node_init())
 //
 (* ****** ****** *)
-//
+
 implement
 QueenPuzzleShow_loop
   ((*void*)) = let

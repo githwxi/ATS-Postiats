@@ -542,19 +542,20 @@ case+ xs of
 | list0_cons
     (x1, xs) =>
   (
-    if i > 0
-      then
-      (
-        fexch
-        (xs, i-1, list_vt_cons(x1, visited))
-      )
-      else let
-        val x2 = $UN.ptr0_get<a>(p0)
-        val () = $UN.ptr0_set<a>(p0, x1)
-        val x2_xs = g1ofg0(list0_cons(x2, xs))
-      in
-        g0ofg1(list_reverse_append1_vt(visited, x2_xs))
-      end // end of [else]
+    if
+    (i > 0)
+    then
+    (
+      fexch
+      (xs, i-1, list_vt_cons(x1, visited))
+    )
+    else let
+      val x2 = $UN.ptr0_get<a>(p0)
+      val () = $UN.ptr0_set<a>(p0, x1)
+      val x2_xs = g1ofg0(list0_cons(x2, xs))
+    in
+      g0ofg1(list_reverse_append1_vt(visited, x2_xs))
+    end // end of [else]
   )  
 | list0_nil() => let
     val () = list_vt_free(visited) in $raise ListSubscriptExn()

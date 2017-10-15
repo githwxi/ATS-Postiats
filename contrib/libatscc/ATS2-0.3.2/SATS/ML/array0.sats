@@ -16,7 +16,6 @@ array0_make_elt
   (asz: int(n), x0: a): array0(a) = "mac#%"
 //
 (* ****** ****** *)
-
 //
 fun
 array0_size
@@ -44,45 +43,56 @@ overload [] with array0_set_at of 100
 (* ****** ****** *)
 //
 fun
-array0_exists_cloref
+array0_exists
   {a:vt0p}
 (
 A0: array0(a), pred: Nat -<cloref1> bool
-) : bool = "mac#%" // array0_exists_cloref
+) : bool = "mac#%" // array0_exists
 fun
 array0_exists_method
   {a:vt0p}
   (A: array0(a))
   (pred: Nat -<cloref1> bool): bool = "mac#%"
 //
+overload exists with array0_exists
 overload .exists with array0_exists_method
 //
 (* ****** ****** *)
 //
 fun
-array0_forall_cloref
+array0_forall
   {a:vt0p}
 (
 A0: array0(a), pred: Nat -<cloref1> bool
-) : bool = "mac#%" // array0_forall_cloref
+) : bool = "mac#%" // array0_forall
 fun
 array0_forall_method
   {a:vt0p}
   (A: array0(a))
   (pred: Nat -<cloref1> bool): bool = "mac#%"
 //
+overload forall with array0_forall
 overload .forall with array0_forall_method
 //
 (* ****** ****** *)
 //
 fun
-array0_app_cloref
+array0_find_index
+  {a:vt0p}
+(
+  A0: array0(a), pred: Nat -<cloref1> bool
+) : intGte(~1) = "mac#" // array0_find_index
+//
+(* ****** ****** *)
+//
+fun
+array0_app
   {a:t0p}
 (
   xs: array0(a), fwork: cfun(int, void)
 ) : void = "mac#%" // end-of-function
 fun
-array0_foreach_cloref
+array0_foreach
   {a:vt0p}
   (A: array0(a), fwork: Nat -<cloref1> void): void = "mac#%"
 fun

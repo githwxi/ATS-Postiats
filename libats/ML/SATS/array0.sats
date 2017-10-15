@@ -334,13 +334,13 @@ fun
 {a:vt0p}
 array0_exists
 (
-  A0: array0(a), pred: (&a) -<cloref1> bool
+xs: array0(a), pred: (&a) -<cloref1> bool
 ) : bool // end of [array0_exists]
 fun
 {a:vt0p}
 array0_exists_method
 (
-  A0: array0(a)) (pred: (&a) -<cloref1> bool
+xs: array0(a)) (pred: (&a) -<cloref1> bool
 ) : bool // end of [array0_exists_method]
 //
 overload .exists with array0_exists_method
@@ -350,15 +350,16 @@ overload .exists with array0_exists_method
 fun
 {a:t0p}
 array0_iexists
-(
-  xs: array0(a), pred: cfun(size_t, a, bool)
+( xs: array0(a)
+, pred: (size_t, &a) -<cloref1> bool
 ) : bool // end of [array0_iexists]
 //
 fun
 {a:t0p}
 array0_iexists_method
 (
-  xs: array0(a)) (pred: cfun(size_t, a, bool)
+xs: array0(a)
+)(pred: (size_t, &a) -<cloref1> bool
 ) : bool // end of [array0_iexists_method]
 //
 overload .iexists with array0_iexists_method
@@ -369,13 +370,13 @@ fun
 {a:vt0p}
 array0_forall
 (
-  A0: array0(a), pred: (&a) -<cloref1> bool
+xs: array0(a), pred: (&a) -<cloref1> bool
 ) : bool // end of [array0_forall]
 fun
 {a:vt0p}
 array0_forall_method
 (
-  A0: array0(a)) (pred: (&a) -<cloref1> bool
+xs: array0(a)) (pred: (&a) -<cloref1> bool
 ) : bool // end of [array0_forall_method]
 //
 overload .forall with array0_forall_method
@@ -385,15 +386,16 @@ overload .forall with array0_forall_method
 fun
 {a:t0p}
 array0_iforall
-(
-  xs: array0(a), pred: cfun(size_t, a, bool)
+( xs: array0(a)
+, pred: (size_t, &a) -<cloref1> bool
 ) : bool // end of [array0_iforall]
 //
 fun
 {a:t0p}
 array0_iforall_method
 (
-  xs: array0(a)) (pred: cfun(size_t, a, bool)
+xs: array0(a)
+)(pred: (size_t, &a) -<cloref1> bool
 ) : bool // end of [array0_iforall_method]
 //
 overload .iforall with array0_iforall_method
