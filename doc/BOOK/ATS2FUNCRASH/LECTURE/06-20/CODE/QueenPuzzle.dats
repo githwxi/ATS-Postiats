@@ -44,36 +44,6 @@ UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-abstype xmldoc
-//
-%{^
-//
-function
-document_getElementById
-  (id)
-{
-  return document.getElementById(id);
-}
-//
-function
-xmldoc_set_innerHTML
-  (xmldoc, text)
-  { xmldoc.innerHTML = text; return; }
-//
-%} // end of [%{^] 
-//
-extern
-fun
-document_getElementById
-  (id: string): xmldoc = "mac#"
-//
-extern
-fun
-xmldoc_set_innerHTML
-(xmldoc, text: string): void = "mac#"
-//
-(* ****** ****** *)
-
 (*
 #define N 8
 *)
@@ -236,6 +206,22 @@ delay_time_get()
 //
 abstype xmldoc
 //
+%{^
+//
+function
+document_getElementById
+  (id)
+{
+  return document.getElementById(id);
+}
+//
+function
+xmldoc_set_innerHTML
+  (xmldoc, text)
+  { xmldoc.innerHTML = text; return; }
+//
+%} // end of [%{^] 
+//
 extern
 fun
 document_getElementById
@@ -247,6 +233,7 @@ xmldoc_set_innerHTML
 (xmldoc, text: string): void = "mac#"
 //
 (* ****** ****** *)
+//
 val
 theDocument =
 $extval(xmldoc, "document")
@@ -498,7 +485,10 @@ theQueenPuzzleData1[]
 in
 //
 case+ opt of
-| None0 _ => ()
+| None0 _ =>
+  (
+   // nothing
+  )
 | Some0 _ =>
   (
     theQueenPuzzleData0[] := opt;

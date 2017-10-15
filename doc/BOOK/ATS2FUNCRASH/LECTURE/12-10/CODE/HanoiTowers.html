@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>HanoiTowers</title>    
+
+<style>
+#theStage
+{
+width: 80%;
+margin: 0 auto;
+text-align: center;
+}
+#canvas-container
+{
+  margin: 0 auto; width: 920px; height: auto;
+}
+</style>
+
+<script
+ src="https://cdn.jsdelivr.net/jquery/2.1.1/jquery.min.js">
+</script>
+<script
+  src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_all.js">
+</script>
+<script
+  src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_print_store_cats.js">
+</script>
+  
+</head>
+
+<body>
+
+  <h1>Hanoi Towers</h1>
+
+  <h2>Game Parameters</h2>
+  <ul>
+    <li>
+      The height:<input style="text-align:right" type="text" id="param_height" value="8" size=1 maxlength=2>
+    </li>
+    <li>
+      The delay time:<input style="text-align:right" type="text" id="param_delay_time" value="100" size=3 maxlength=4>
+    </li>
+  </ul>
+
+  <h2>Control for the Game</h2>
+  <ul>
+    <li>
+      <button id="button_start"
+       type="button" onclick="HanoiTowersControl_start()">Start</button>
+    </li>
+    <li>
+      <button id="button_reset"
+       type="button" onclick="HanoiTowersControl_reset()">Reset</button>
+    </li>
+    <li>
+      <button id="button_pause"
+       type="button" onclick="HanoiTowersControl_pause()">Pause</button>
+    </li>
+    <li>
+      <button id="button_resume"
+       type="button" onclick="HanoiTowersControl_resume()">Resume</button>
+    </li>
+  </ul>
+
+  <h2>Display for the Game</h2>
+  <pre id="theStage">
+    This is the stage for displaying the solutions
+  </pre>
+
+  <script src="./HanoiTowers_dats.js"></script>
+
+</body>
+
+</html>

@@ -17,6 +17,71 @@ Time of Generation: #timestamp()\
  id="lecture12-10">
 #title("Example: A Bit More of Animation")
 
+#para("\
+
+#dats2xhtml('\
+//
+extern
+fun
+move(src: pole, dst: pole): void
+//
+extern
+fun
+nmove(n: int, src: pole, dst: pole, tmp: pole): void
+//
+(* ****** ****** *)
+//
+implement
+nmove
+( n
+, src, dst, tmp) =
+if
+(n > 0)
+then
+(
+nmove(n-1, src, tmp, dst); move(src, dst); nmove(n-1, tmp, dst, src);
+)
+// end of [if] // end of [nmove]
+//
+')
+
+")
+
+#para("\
+
+#dats2xhtml('\
+//
+typedef cont() = cfun(void)
+//
+extern
+fun
+k_move(src: pole, dst: pole, k: cont()): void
+//
+extern
+fun
+k_nmove(n: int, src: pole, dst: pole, tmp: pole, k: cont()): void
+//
+(* ****** ****** *)
+//
+implement
+k_nmove
+( n
+, src, dst, tmp
+, k0) =
+if
+(n > 0)
+then
+(
+k_nmove
+( n-1, src, tmp, dst
+, lam() => k_move(src, dst, lam() => k_nmove(n-1, tmp, dst, src, k0)))
+)
+else k0((*void*))
+// end of [if] // end of [k_nmove]
+//
+')
+
+")
 
 #para("\
 

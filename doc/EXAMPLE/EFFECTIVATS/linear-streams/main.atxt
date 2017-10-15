@@ -435,7 +435,7 @@ N to be 100), then we can see that the run-time execution of the call immediatel
 reaches a steady state of memory consumption. While the call itself can never return
 (due to the algorithm for ##dyncode(qsolve_vt) being exponential in terms of N), its
 execution goes on smoothly without causing any dreadful page faults. This is
-really a thing of beauty to observe!
+truly a thing of beauty to observe!
 """)##comment("para")
 
 <h2>Compiling and Testing</h2>

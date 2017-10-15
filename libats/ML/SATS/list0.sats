@@ -250,7 +250,16 @@ list0_fset_at_exn
   (list0(INV(a)), i0: int, x0: a):<!exn> list0(a)
 fun{a:t0p}
 list0_fset_at_opt
-  (list0(INV(a)), i0: int, x0: a):<!exn> Option_vt(list0(a))
+  (list0(INV(a)), i0: int, x0: a):<> Option_vt(list0(a))
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+list0_fexch_at_exn
+  (list0(INV(a)), i0: int, x0: &a >> a):<!exnwrt> list0(a)
+fun{a:t0p}
+list0_fexch_at_opt
+  (list0(INV(a)), i0: int, x0: &a >> a):<!wrt> Option_vt(list0(a))
 //
 (* ****** ****** *)
 //

@@ -476,7 +476,7 @@ list0_fset_at_exn
   (xs, i0, x0) = let
 //
 fun
-loop
+fset
 {i:nat} .<i>.
 (
   xs: list0(a), i: int i
@@ -488,19 +488,19 @@ case+ xs of
     (x, xs) =>
   (
     if i > 0
-      then cons0(x, loop(xs, i-1)) else cons0(x0, xs)
+      then cons0(x, fset(xs, i-1)) else cons0(x0, xs)
     // end of [if]
   ) // end of [list0_cons]
 | list0_nil() => $raise ListSubscriptExn()
 //
-) (* end of [loop] *)
+) (* end of [fset] *)
 //
 val i0 = g1ofg0(i0)
 //
 in
 //
 if i0 >= 0
-  then loop(xs, i0) else $raise ListSubscriptExn()
+  then fset(xs, i0) else $raise ListSubscriptExn()
 //
 end // end of [list0_fset_at_exn]
 //
@@ -521,6 +521,87 @@ Some_vt{list0(a)}
 )
 with ~ListSubscriptExn((*void*)) => None_vt()
 ) (* $effmask_exn *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_fexch_at_exn
+  (xs, i0, x0) = let
+//
+val p0 = addr@(x0)
+//
+fun
+fexch
+{i:nat} .<i>.
+(
+xs: list0(a), i: int(i), visited: List0_vt(a)
+) :<!exnwrt> list0(a) =
+(
+case+ xs of
+| list0_cons
+    (x1, xs) =>
+  (
+    if i > 0
+      then
+      (
+        fexch
+        (xs, i-1, list_vt_cons(x1, visited))
+      )
+      else let
+        val x2 = $UN.ptr0_get<a>(p0)
+        val () = $UN.ptr0_set<a>(p0, x1)
+        val x2_xs = g1ofg0(list0_cons(x2, xs))
+      in
+        g0ofg1(list_reverse_append1_vt(visited, x2_xs))
+      end // end of [else]
+  )  
+| list0_nil() => let
+    val () = list_vt_free(visited) in $raise ListSubscriptExn()
+  end // end of [list0_nil]
+)
+//
+val i0 = g1ofg0(i0)
+//
+in
+  if i0 >= 0
+    then fexch(xs, i0, list_vt_nil()) else $raise ListSubscriptExn()
+  // end of [if]
+end // end of [list0_fexch_at_exn]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_fexch_at_opt
+(
+  xs, i0, x0
+) = let
+//
+val p0 = addr@x0
+//
+in
+//
+$effmask_exn
+(
+try
+Some_vt{list0(a)}
+(
+let
+  val
+  (pf, fpf | p0) =
+  $UN.ptr_vtake{a}(p0)
+  val res =
+  list0_fexch_at_exn<a>(xs, i0, !p0)
+  prval ((*returned*)) = fpf(pf)
+in
+  res
+end // end of [let]
+)
+with ~ListSubscriptExn((*void*)) => None_vt()
+) (* $effmask_exn *)
+//
+end // end of [list0_fexch_at_opt]
 
 (* ****** ****** *)
 
