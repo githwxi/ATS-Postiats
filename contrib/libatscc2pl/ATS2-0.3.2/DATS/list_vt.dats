@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into Perl5
 *)
-
 (* ****** ****** *)
 
 #define ATS_DYNLOADFLAG 0
@@ -13,9 +13,9 @@
 // prefix for external names
 //
 #define
-ATS_EXTERN_PREFIX "ats2plpre_ML_"
+ATS_EXTERN_PREFIX "ats2plpre_"
 #define
-ATS_STATIC_PREFIX "_ats2plpre_ML_array0_"
+ATS_STATIC_PREFIX "_ats2plpre_list_"
 //
 (* ****** ****** *)
 //
@@ -26,31 +26,27 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 //
-staload
-UN = "prelude/SATS/unsafe.sats"
-//
-(* ****** ****** *)
-//
-staload "./../../basics_pl.sats"
-//
-(* ****** ****** *)
-//
-staload "./../../SATS/integer.sats"
-//
-(* ****** ****** *)
-//
-staload "./../../SATS/print.sats"
-staload "./../../SATS/filebas.sats"
-//
-(* ****** ****** *)
-//
-staload "./../../SATS/arrayref.sats"
-staload "./../../SATS/ML/array0.sats"
-//
-(* ****** ****** *)
-//
-#include "{$LIBATSCC}/DATS/ML/array0.dats"
+#staload
+UN =
+"prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
-(* end of [array0.dats] *)
+#staload "./../basics_pl.sats"
+
+(* ****** ****** *)
+//
+#staload "./../SATS/integer.sats"
+//
+(* ****** ****** *)
+//
+#staload "./../SATS/list.sats"
+#staload "./../SATS/list_vt.sats"
+//
+(* ****** ****** *)
+//
+#include "{$LIBATSCC}/DATS/list_vt.dats"
+//
+(* ****** ****** *)
+
+(* end of [list_vt.dats] *)

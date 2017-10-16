@@ -1,8 +1,8 @@
-(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into Perl5
 *)
+
 (* ****** ****** *)
 //
 // HX-2014-08:
@@ -18,12 +18,18 @@ LIBATSCC_targetloc
 "$PATSHOME\
 /contrib/libatscc/ATS2-0.3.2"
 //
-staload "./../../basics_pl.sats"
+#staload "./../../basics_pl.sats"
+//
+#include "{$LIBATSCC}/SATS/ML/option0.sats"
 //
 (* ****** ****** *)
 //
-#include "{$LIBATSCC}/SATS/ML/array0.sats"
+fun{a:t0p}
+fprint_option0
+(PLfilr, option0(INV(a))): void = "mac#%"
+//
+overload fprint with fprint_option0 of 100
 //
 (* ****** ****** *)
 
-(* end of [array0.sats] *)
+(* end of [option0.sats] *)

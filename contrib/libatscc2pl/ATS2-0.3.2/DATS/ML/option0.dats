@@ -4,12 +4,18 @@
 ** that translates into Perl5
 *)
 (* ****** ****** *)
+
+#define ATS_DYNLOADFLAG 0
+
+(* ****** ****** *)
 //
 // HX-2014-08:
 // prefix for external names
 //
 #define
 ATS_EXTERN_PREFIX "ats2plpre_ML_"
+#define
+ATS_STATIC_PREFIX "_ats2plpre_ML_option0_"
 //
 (* ****** ****** *)
 //
@@ -18,27 +24,24 @@ LIBATSCC_targetloc
 "$PATSHOME\
 /contrib/libatscc/ATS2-0.3.2"
 //
-staload "./../../basics_pl.sats"
 //
 (* ****** ****** *)
 //
-#include "{$LIBATSCC}/SATS/ML/list0.sats"
+#staload
+UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
-fprint_list0
-  (PLfilr, list0(INV(a))): void = "mac#%"
+#staload "./../../basics_pl.sats"
 //
-fun{}
-fprint_list0$sep(out: PLfilr): void = "mac#%"
+(* ****** ****** *)
 //
-fun{a:t0p}
-fprint_list0_sep
-  (PLfilr, list0(INV(a)), sep: string): void = "mac#%"
+#staload "./../../SATS/ML/option0.sats"
 //
-overload fprint with fprint_list0 of 100
+(* ****** ****** *)
+//
+#include "{$LIBATSCC}/DATS/ML/option0.dats"
 //
 (* ****** ****** *)
 
-(* end of [list0.sats] *)
+(* end of [option0.dats] *)

@@ -54,6 +54,9 @@ $(ATSCC2PL) -o ./output/DATS/ML/list0_dats.pl -i
 all:: ; \
 $(PATSOPT) -d ./DATS/ML/array0.dats | \
 $(ATSCC2PL) -o ./output/DATS/ML/array0_dats.pl -i
+all:: ; \
+$(PATSOPT) -d ./DATS/ML/option0.dats | \
+$(ATSCC2PL) -o ./output/DATS/ML/option0_dats.pl -i
 #
 ######
 #
@@ -115,6 +118,7 @@ output/DATS/slistref_dats.pl \
 output/DATS/qlistref_dats.pl \
 output/DATS/ML/list0_dats.pl \
 output/DATS/ML/array0_dats.pl \
+output/DATS/ML/option0_dats.pl \
 
 ######
 #
