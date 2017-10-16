@@ -237,11 +237,15 @@ param_initize(): void = "mac#"
 implement
 param_initize() =
 {
+//
+(*
+val () =
+alert("param_initize")
+*)
+//
 val () = N_set(height_get())
 val () = theDelayTime_set(delay_time_get())
 }
-//
-val () = param_initize()
 //
 (* ****** ****** *)
 
@@ -271,31 +275,19 @@ theHanoiTowersCont1 = ref{contopt}(None0())
 //
 (* ****** ****** *)
 
-extern
-fun
-array0_find_index
-  {a:vt0p}
-(
-A0: array0(a), pred: Nat -<cloref1> bool
-) : intGte(~1) = "mac#" // array0_find_index
-
+(*
+//
 implement
-array0_find_index
-(
-  A, pred
-) =
-loop(0, A.size()) where
-{
-fun
-loop(i: Nat, n: int): intGte(~1) =
-(
-  if i < n
-    then
-    (
-      if pred(i) then i else loop(i+1, n)
-    ) else ~1
-)
-} (* end of [array0_find_index] *)
+k_move
+(src, dst, k0) =
+let val () = move(src, dst) in k0() end
+//
+implement
+k_move
+(src, dst, k0) =
+let val () = move(src, dst) in save_cont(k0) end
+//
+*)
 
 (* ****** ****** *)
 
@@ -410,7 +402,11 @@ in
 H0
 ).foreach()
 (
-lam(i) => (dshow2(W0, p0[i]); dshow2(W0, p1[i]); dshow2(W0, p2[i]); println!())
+lam(i) =>
+(
+dshow2(W0, p0[i]);
+dshow2(W0, p1[i]); dshow2(W0, p2[i]); println!()
+)
 )
 end // end of [thePoles_show]
 
@@ -529,6 +525,9 @@ val () =
 button_disable(theButton_start)
 val () =
 button_disable(theButton_resume)
+//
+val () =
+param_initize()
 //
 val () =
 thePoles_init()

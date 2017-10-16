@@ -14,6 +14,12 @@ all::
 
 ######
 
+all:: \
+HanoiTowers_dats.js
+HanoiTowers_dats.js: HanoiTowers.dats; $(MYATSCC) $<
+
+######
+
 clean:: ; rm -f *~
 clean:: ; rm -f *_dats.c
 

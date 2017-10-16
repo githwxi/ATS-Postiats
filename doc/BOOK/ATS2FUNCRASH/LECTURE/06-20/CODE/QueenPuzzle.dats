@@ -294,8 +294,6 @@ val () = N_set(board_size_get())
 val () = theDelayTime_set(delay_time_get())
 }
 //
-val () = param_initize()
-//
 (* ****** ****** *)
 //
 val
@@ -438,6 +436,8 @@ val () =
 alert("QueenPuzzleControl_start!")
 *)
 //
+val () = param_initize()
+//
 val () =
 button_enable(theButton_pause)
 //
@@ -454,7 +454,7 @@ val () =
 theQueenPuzzleData1[] := Some0(theNodelst)
 //
 in
-  QueenPuzzleShow_loop()
+  QueenPuzzleShow_loop((*void*))
 end // end of [QueenPuzzleControl_start]
 //
 (* ****** ****** *)
