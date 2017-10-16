@@ -75,6 +75,9 @@ $(ATSCC2PY) -o ./output/DATS/ML/list0_dats.py -i
 all:: ; \
 $(PATSOPT) -d ./DATS/ML/array0.dats | \
 $(ATSCC2PY) -o ./output/DATS/ML/array0_dats.py -i
+all:: ; \
+$(PATSOPT) -d ./DATS/ML/option0.dats | \
+$(ATSCC2PY) -o ./output/DATS/ML/option0_dats.py -i
 
 ######
 #
@@ -152,6 +155,7 @@ output/DATS/slistref_dats.py \
 output/DATS/qlistref_dats.py \
 output/DATS/ML/list0_dats.py \
 output/DATS/ML/array0_dats.py \
+output/DATS/ML/option0_dats.py \
 
 ######
 #

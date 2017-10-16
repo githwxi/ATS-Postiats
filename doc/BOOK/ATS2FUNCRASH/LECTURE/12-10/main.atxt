@@ -45,7 +45,7 @@ disk-moving.\
 
 With recursion, it is quite straightforward for one to infer that
 2#sup('64')-1 moves are needed in order to accomplish the aforementioned task.
-For instance, the following code shows how this task can be accomplished:
+For instance, the following code shows how this task can be done:
 
 #dats2xhtml('\
 //
@@ -88,8 +88,8 @@ that #dyncode("n") is greater than 0.  In order to move the top
 #dyncode("move") to move 1 disk from pole #dyncode("src") to pole
 #dyncode("dist") and then move the top #dyncode("n-1") disks from pole
 #dyncode("tmp") to pole #dyncode("dst"). Note that #dyncode("nmove")
-makes #dyncode('2#sup("n")-1') calls to #dyncode("move") for each
-given natural number #dyncode("n").\
+eventually makes #dyncode('2#sup("n")-1') calls to #dyncode("move")
+for each given natural number #dyncode("n").\
 
 ")
 
