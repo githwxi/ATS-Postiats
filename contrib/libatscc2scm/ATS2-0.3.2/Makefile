@@ -64,6 +64,12 @@ $(ATSCC2SCM) -o ./output/DATS/qlistref_dats.scm -i
 all:: ; \
 $(PATSOPT) -d ./DATS/ML/list0.dats | \
 $(ATSCC2SCM) -o ./output/DATS/ML/list0_dats.scm -i
+all:: ; \
+$(PATSOPT) -d ./DATS/ML/array0.dats | \
+$(ATSCC2SCM) -o ./output/DATS/ML/array0_dats.scm -i
+all:: ; \
+$(PATSOPT) -d ./DATS/ML/option0.dats | \
+$(ATSCC2SCM) -o ./output/DATS/ML/option0_dats.scm -i
 #
 ######
 
@@ -129,6 +135,8 @@ output/DATS/reference_dats.scm \
 output/DATS/slistref_dats.scm \
 output/DATS/qlistref_dats.scm \
 output/DATS/ML/list0_dats.scm \
+output/DATS/ML/array0_dats.scm \
+output/DATS/ML/option0_dats.scm \
 
 ######
 #
