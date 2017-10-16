@@ -328,8 +328,6 @@ val () = N_set(board_size_get())
 val () = theDelayTime_set(delay_time_get())
 }
 //
-val () = param_initize()
-//
 (* ****** ****** *)
 //
 val
@@ -471,6 +469,8 @@ QueenPuzzleControl_start
 val () =
 alert("QueenPuzzleControl_start!")
 *)
+//
+val () = param_initize()
 //
 val () =
 button_enable(theButton_pause)

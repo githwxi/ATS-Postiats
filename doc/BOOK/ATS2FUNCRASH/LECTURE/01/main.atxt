@@ -173,7 +173,7 @@ ATS code is first compiled into code written in a very restricted
 subset of C. The generated C code from ATS source can then be compiled
 into object code or transpiled into code written in a variety of
 programming languages including Javascript, PHP, Perl, Python, Erlang,
-Scheme, Clojure, etc.
+Scheme, Clojure, R, etc.
 
 ')
 
