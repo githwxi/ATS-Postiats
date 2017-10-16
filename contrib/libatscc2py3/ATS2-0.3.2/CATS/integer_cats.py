@@ -28,6 +28,11 @@ def ats2pypre_pred_int1(x): return (x - 1)
 #
 ############################################
 #
+def ats2pypre_half_int0(x): return (x // 2)
+def ats2pypre_half_int1(x): return (x // 2)
+#
+############################################
+#
 def ats2pypre_add_int0_int0(x, y): return (x + y)
 def ats2pypre_add_int1_int1(x, y): return (x + y)
 #
