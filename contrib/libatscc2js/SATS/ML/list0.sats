@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 //
 // HX-2014-08:
@@ -12,7 +12,6 @@
 ATS_EXTERN_PREFIX "ats2jspre_ML_"
 //
 (* ****** ****** *)
-//
 //
 #define
 LIBATSCC_targetloc

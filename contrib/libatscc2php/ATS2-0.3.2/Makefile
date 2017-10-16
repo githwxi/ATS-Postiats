@@ -66,6 +66,9 @@ $(ATSCC2PHP) -o ./output/DATS/ML/list0_dats.php -i
 all:: ; \
 $(PATSOPT) -d ./DATS/ML/array0.dats | \
 $(ATSCC2PHP) -o ./output/DATS/ML/array0_dats.php -i
+all:: ; \
+$(PATSOPT) -d ./DATS/ML/option0.dats | \
+$(ATSCC2PHP) -o ./output/DATS/ML/option0_dats.php -i
 
 ######
 #
@@ -132,6 +135,7 @@ output/DATS/slistref_dats.php \
 output/DATS/qlistref_dats.php \
 output/DATS/ML/list0_dats.php \
 output/DATS/ML/array0_dats.php \
+output/DATS/ML/option0_dats.php \
 
 ######
 #

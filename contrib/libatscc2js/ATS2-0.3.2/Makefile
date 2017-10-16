@@ -93,11 +93,11 @@ all:: ; \
 $(PATSOPT) -d ./DATS/ML/list0.dats | \
 $(ATSCC2JS) -o ./output/DATS/ML/list0_dats.js -i
 all:: ; \
-$(PATSOPT) -d ./DATS/ML/option0.dats | \
-$(ATSCC2JS) -o ./output/DATS/ML/option0_dats.js -i
-all:: ; \
 $(PATSOPT) -d ./DATS/ML/array0.dats | \
 $(ATSCC2JS) -o ./output/DATS/ML/array0_dats.js -i
+all:: ; \
+$(PATSOPT) -d ./DATS/ML/option0.dats | \
+$(ATSCC2JS) -o ./output/DATS/ML/option0_dats.js -i
 #
 ######
 #
@@ -153,7 +153,7 @@ libatscc2js_all:: ; \
 $(PRINTF) '*/\n\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 #
 ######
-#
+
 libatscc2js_all:: ; \
 $(CAT) >>$(LIBATSCC2JS_ALL_JS) \
 CATS/basics_cats.js \
@@ -167,8 +167,8 @@ CATS/JSdate_cats.js \
 CATS/JSarray_cats.js \
 CATS/JSglobal_cats.js \
 CATS/Ajax/Ajax_cats.js \
-CATS/HTML/canvas-2d/canvas2d_cats.js
-#
+CATS/HTML/canvas-2d/canvas2d_cats.js \
+
 libatscc2js_all:: ; \
 $(CAT) >>$(LIBATSCC2JS_ALL_JS) \
 output/DATS/basics_dats.js \
@@ -189,9 +189,9 @@ output/DATS/gmatrixref_dats.js \
 output/DATS/qlistref_dats.js \
 output/DATS/slistref_dats.js \
 output/DATS/ML/list0_dats.js \
+output/DATS/ML/array0_dats.js \
 output/DATS/ML/option0_dats.js \
-output/DATS/ML/array0_dats.js
-#
+
 ######
 #
 libatscc2js_all:: ; \
