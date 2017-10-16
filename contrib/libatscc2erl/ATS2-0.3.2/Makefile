@@ -38,6 +38,10 @@ all:: ; \
 $(PATSOPT2) -d ./DATS/intrange.dats | \
 $(ATSCC2ERL) -o ./output/DATS/intrange_dats.hrl -i
 #
+all:: ; \
+$(PATSOPT2) -d ./DATS/ML/option0.dats | \
+$(ATSCC2ERL) -o ./output/DATS/ML/option0_dats.hrl -i
+#
 ######
 
 LIBATSCC2ERL_ALL_HRL=\
@@ -95,6 +99,7 @@ output/DATS/basics_dats.hrl \
 output/DATS/list_dats.hrl \
 output/DATS/option_dats.hrl \
 output/DATS/intrange_dats.hrl \
+output/DATS/ML/option0_dats.clj \
 
 ######
 #

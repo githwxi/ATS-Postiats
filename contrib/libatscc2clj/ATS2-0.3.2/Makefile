@@ -62,6 +62,9 @@ $(ATSCC2CLJ) -o ./output/DATS/qlistref_dats.clj -i
 all:: ; \
 $(PATSOPT) -d ./DATS/ML/list0.dats | \
 $(ATSCC2CLJ) -o ./output/DATS/ML/list0_dats.clj -i
+all:: ; \
+$(PATSOPT) -d ./DATS/ML/option0.dats | \
+$(ATSCC2CLJ) -o ./output/DATS/ML/option0_dats.clj -i
 #
 ######
 
@@ -127,6 +130,7 @@ output/DATS/intrange_dats.clj \
 output/DATS/slistref_dats.clj \
 output/DATS/qlistref_dats.clj \
 output/DATS/ML/list0_dats.clj \
+output/DATS/ML/option0_dats.clj \
 
 ######
 #
