@@ -53,6 +53,9 @@ $(ATSCC2R34) -o ./output/DATS/R34matrix_dats.R -i
 all:: ; \
 $(PATSOPT) -d ./DATS/ML/list0.dats | \
 $(ATSCC2R34) -o ./output/DATS/ML/list0_dats.R -i
+all:: ; \
+$(PATSOPT) -d ./DATS/ML/option0.dats | \
+$(ATSCC2R34) -o ./output/DATS/ML/option0_dats.R -i
 #
 ######
 #
@@ -122,6 +125,7 @@ output/DATS/R34vector_dats.R \
 output/DATS/R34dframe_dats.R \
 output/DATS/R34matrix_dats.R \
 output/DATS/ML/list0_dats.R \
+output/DATS/ML/option0_dats.R \
 
 ######
 #
