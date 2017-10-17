@@ -1,7 +1,7 @@
+(* ****** ****** *)
 (*
 ** libatscc-common
 *)
-
 (* ****** ****** *)
 
 (*
@@ -50,11 +50,11 @@ matrixref_foreach_cloref
 //
 implement
 mtrxszref_make_elt
-  (m, n, x0) =
+{a}(m, n, x0) =
 (
-  mtrxszref_make_matrixref
-    (matrixref_make_elt(m, n, x0), m, n)
-  // mtrxszref_make_matrixref
+mtrxszref_make_matrixref
+  (matrixref_make_elt{a}(m, n, x0), m, n)
+// mtrxszref_make_matrixref
 ) (* end of [mtrxszref_make_elt] *)
 //
 (* ****** ****** *)

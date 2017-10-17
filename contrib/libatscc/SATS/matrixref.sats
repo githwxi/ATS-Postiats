@@ -1,7 +1,7 @@
+(* ****** ****** *)
 (*
 ** libatscc-common
 *)
-
 (* ****** ****** *)
 
 (*
@@ -77,16 +77,18 @@ mtrxszref_make_elt
 //
 fun
 mtrxszref_make_matrixref
-  {a:t0p}{m,n:int}
+  {a:vt0p}{m,n:int}
   (matrixref(a, m, n), int(m), int(n)): mtrxszref(a) = "mac#%"
 // end of [mtrxszref_make_matrixref]
 //
 (* ****** ****** *)
 //
 fun
-mtrxszref_get_nrow{a:t0p}(mtrxszref(a)): intGte(0) = "mac#%"
+mtrxszref_get_nrow
+{a:vt0p}(mtrxszref(a)): intGte(0) = "mac#%"
 fun
-mtrxszref_get_ncol{a:t0p}(mtrxszref(a)): intGte(0) = "mac#%"
+mtrxszref_get_ncol
+{a:vt0p}(mtrxszref(a)): intGte(0) = "mac#%"
 //
 overload .nrow with mtrxszref_get_nrow of 100
 overload .ncol with mtrxszref_get_ncol of 100
@@ -95,10 +97,10 @@ overload .ncol with mtrxszref_get_ncol of 100
 //
 fun
 mtrxszref_get_at
-  {a:t0p}(mtrxszref(a), i: int, j: int): a = "mac#%"
+{a:t0p}(mtrxszref(a), i: int, j: int): a = "mac#%"
 fun
 mtrxszref_set_at
-  {a:t0p}(mtrxszref(a), i: int, j: int, x: a): void = "mac#%"
+{a:t0p}(mtrxszref(a), i: int, j: int, x: a): void = "mac#%"
 //
 (* ****** ****** *)
 
