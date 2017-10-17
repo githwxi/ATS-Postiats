@@ -84,6 +84,54 @@ sortdef vt0p = viewt@ype
 
 (* ****** ****** *)
 //
+fun
+{a:t0p}
+array0_tuple_0(): array0(a)
+//
+fun
+{a:t0p}
+array0_tuple_1(x0: a): array0(a)
+fun
+{a:t0p}
+array0_tuple_2(x0: a, x1: a): array0(a)
+fun
+{a:t0p}
+array0_tuple_3(x0: a, x1: a, x2: a): array0(a)
+//
+fun
+{a:t0p}
+array0_tuple_4
+  (x0: a, x1: a, x2: a, x3: a): array0(a)
+fun
+{a:t0p}
+array0_tuple_5
+  (x0: a, x1: a, x2: a, x3: a, x4: a): array0(a)
+fun
+{a:t0p}
+array0_tuple_6
+  (x0: a, x1: a, x2: a, x3: a, x4: a, x5: a): array0(a)
+//
+(* ****** ****** *)
+//
+symintr array0_tuple
+//
+overload
+array0_tuple with array0_tuple_0
+overload
+array0_tuple with array0_tuple_1
+overload
+array0_tuple with array0_tuple_2
+overload
+array0_tuple with array0_tuple_3
+overload
+array0_tuple with array0_tuple_4
+overload
+array0_tuple with array0_tuple_5
+overload
+array0_tuple with array0_tuple_6
+//
+(* ****** ****** *)
+//
 fun{}
 array0_of_arrszref
   {a:vt0p}(arrszref(a)):<> array0(a)
@@ -94,18 +142,19 @@ arrszref_of_array0
 //
 (* ****** ****** *)
 //
-symintr array0
-//
 fun{}
 array0_make_arrpsz
   {a:vt0p}{n:int}
   (psz: arrpsz(INV(a), n)):<!wrt> array0(a)
-overload array0 with array0_make_arrpsz
 //
 fun{}
 array0_make_arrayref
   {a:vt0p}{n:int}
   (Arf: arrayref(a, n), n: size_t(n)):<!wrt> array0(a)
+//
+symintr array0
+//
+overload array0 with array0_make_arrpsz
 overload array0 with array0_make_arrayref
 //
 (* ****** ****** *)

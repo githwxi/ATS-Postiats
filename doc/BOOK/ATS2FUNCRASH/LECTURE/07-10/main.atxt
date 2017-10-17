@@ -242,8 +242,8 @@ eq_expr_int(x0, i0) = abs(eval_expr(x0) - i0) < EPSILON
 ')
 
 I must say that choosing #dyncode("EPSILON") to be 10#sup("-8")
-is an empirical decision (aimed at handling inputs that are small
-integers (e.g., between 0 and 100)).
+is an empirical decision (aiming at handling inputs that are small
+integers (e.g., those between 0 and 100)).
 
 ")
 

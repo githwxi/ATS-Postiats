@@ -55,6 +55,42 @@ memcpy
 (* ****** ****** *)
 //
 implement
+{a}(*tmp*)
+array0_tuple_0
+  () = array0($arrpsz{a}())
+//
+implement
+{a}(*tmp*)
+array0_tuple_1
+  (x0) = array0($arrpsz{a}(x0))
+implement
+{a}(*tmp*)
+array0_tuple_2
+  (x0, x1) = array0($arrpsz{a}(x0, x1))
+implement
+{a}(*tmp*)
+array0_tuple_3
+  (x0, x1, x2) = array0($arrpsz{a}(x0, x1, x2))
+//
+implement
+{a}(*tmp*)
+array0_tuple_4
+  (x0, x1, x2, x3) =
+  array0($arrpsz{a}(x0, x1, x2, x3))
+implement
+{a}(*tmp*)
+array0_tuple_5
+  (x0, x1, x2, x3, x4) =
+  array0($arrpsz{a}(x0, x1, x2, x3, x4))
+implement
+{a}(*tmp*)
+array0_tuple_6
+  (x0, x1, x2, x3, x4, x5) =
+  array0($arrpsz{a}(x0, x1, x2, x3, x4, x5))
+//
+(* ****** ****** *)
+//
+implement
 {}(*tmp*)
 array0_of_arrszref{a}(A) = $UN.cast{array0(a)}(A)
 //

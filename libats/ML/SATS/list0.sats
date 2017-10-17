@@ -107,6 +107,47 @@ g1ofg0_list
 overload g1ofg0 with g1ofg0_list
 //
 (* ****** ****** *)
+//
+fun{a:t0p}
+list0_tuple_0(): list0(a)
+//
+fun{a:t0p}
+list0_tuple_1(x0: a): list0(a)
+fun{a:t0p}
+list0_tuple_2(x0: a, x1: a): list0(a)
+fun{a:t0p}
+list0_tuple_3(x0: a, x1: a, x2: a): list0(a)
+//
+fun{a:t0p}
+list0_tuple_4
+  (x0: a, x1: a, x2: a, x3: a): list0(a)
+fun{a:t0p}
+list0_tuple_5
+  (x0: a, x1: a, x2: a, x3: a, x4: a): list0(a)
+fun{a:t0p}
+list0_tuple_6
+  (x0: a, x1: a, x2: a, x3: a, x4: a, x5: a): list0(a)
+//
+(* ****** ****** *)
+//
+symintr list0_tuple
+//
+overload
+list0_tuple with list0_tuple_0
+overload
+list0_tuple with list0_tuple_1
+overload
+list0_tuple with list0_tuple_2
+overload
+list0_tuple with list0_tuple_3
+overload
+list0_tuple with list0_tuple_4
+overload
+list0_tuple with list0_tuple_5
+overload
+list0_tuple with list0_tuple_6
+//
+(* ****** ****** *)
 
 fun{a:t0p}
 list0_make_sing(x: a):<> list0(a)

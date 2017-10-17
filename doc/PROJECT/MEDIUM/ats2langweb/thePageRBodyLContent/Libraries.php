@@ -111,7 +111,7 @@ Backup: ATSLIB_libats_libc_all_in_one
 is primarily meant for employing ATS and various other programming
 languages in a style of co-programming. For instance, programs written
 in ATS can be transpiled into popular languages like JavaScript,
-Python, PHP, Perl, Erlang, Scheme, Clojure, etc.
+Python, PHP, Perl, Erlang, Scheme, Clojure, R, etc.
 </p>
 
 <hr></hr>

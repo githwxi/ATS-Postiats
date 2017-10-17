@@ -19,6 +19,13 @@ Time of Generation: #timestamp()\
 
 #para("\
 
+I would like to simply put that the real fun part of functional
+programming starts with streams.
+
+")
+
+#para("\
+
 A stream is like a list but it is lazy in the sense that the elements
 in a stream are not required to be made available at the moment when
 the stream is formed. Instead, each element only needs to be produced

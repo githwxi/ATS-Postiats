@@ -49,6 +49,35 @@ staload "libats/ML/SATS/list0.sats"
 //
 implement
 {a}(*tmp*)
+list0_tuple_0() = list0_nil()
+//
+implement
+{a}(*tmp*)
+list0_tuple_1(x0) = g0ofg1($list{a}(x0))
+implement
+{a}(*tmp*)
+list0_tuple_2(x0, x1) = g0ofg1($list{a}(x0, x1))
+implement
+{a}(*tmp*)
+list0_tuple_3(x0, x1, x2) = g0ofg1($list{a}(x0, x1, x2))
+//
+implement
+{a}(*tmp*)
+list0_tuple_4
+(x0, x1, x2, x3) = g0ofg1($list{a}(x0, x1, x2, x3))
+implement
+{a}(*tmp*)
+list0_tuple_5
+(x0, x1, x2, x3, x4) = g0ofg1($list{a}(x0, x1, x2, x3, x4))
+implement
+{a}(*tmp*)
+list0_tuple_6
+(x0, x1, x2, x3, x4, x5) = g0ofg1($list{a}(x0, x1, x2, x3, x4, x5))
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
 list0_make_sing(x) =
   list0_cons{a}(x, list0_nil)
 implement
