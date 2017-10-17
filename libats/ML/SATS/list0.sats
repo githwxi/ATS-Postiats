@@ -796,7 +796,7 @@ fun
 {b:t0p}
 list0_map
 (
-  xs: list0(INV(a)), fopr: cfun(a, b)
+xs: list0(INV(a)), fopr: cfun(a, b)
 ) : list0(b) // end-of-function
 //
 fun
@@ -804,7 +804,7 @@ fun
 {b:t0p}
 list0_mapopt
 (
-  xs: list0(INV(a)), fopr: cfun(a, Option_vt(b))
+xs: list0(INV(a)), fopr: cfun(a, Option_vt(b))
 ) : list0(b) // end-of-function
 //
 (* ****** ****** *)
@@ -814,7 +814,7 @@ fun
 {b:t0p}
 list0_map_method
 (
-  list0(INV(a)), TYPE(b))(fopr: cfun(a, b)
+xs: list0(INV(a)), TYPE(b))(fopr: cfun(a, b)
 ) : list0(b) // end-of-function
 //
 fun
@@ -822,7 +822,7 @@ fun
 {b:t0p}
 list0_mapopt_method
 (
-  list0(INV(a)), TYPE(b))(fopr: cfun(a, Option_vt(b))
+xs: list0(INV(a)), TYPE(b))(fopr: cfun(a, Option_vt(b))
 ) : list0(b) // end-of-function
 //
 overload .map with list0_map_method
