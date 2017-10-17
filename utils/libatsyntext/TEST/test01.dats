@@ -28,7 +28,8 @@ main() = let
 var fil : fil_t
 //
 val d0cs =
-parse_from_givename_toplevel(1, "./test01.dats", fil)
+parse_from_givename_toplevel
+  (1(*dyn*), "./test01.dats", fil)
 //
 in
   $SYN.fprint_d0eclist(stdout_ref, d0cs)

@@ -28,8 +28,8 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom *)
 (* Start time: December, 2012 *)
+(* Authoremail: gmhwxiATgmailDOTcom *)
 
 (* ****** ****** *)
 //
@@ -59,7 +59,7 @@ matrix0_vt0ype_type
   (a: vt@ype(*invariant*)) = ptr
 stadef matrix0 = matrix0_vt0ype_type
 //
-#endif
+#endif // #if(0)
 
 (* ****** ****** *)
 //
@@ -69,18 +69,25 @@ matrix0(a: vt@ype) = mtrxszref(a)
 *)
 //
 (* ****** ****** *)
-
-sortdef t0p = t@ype and vt0p = viewt@ype
-
+//
+(*
+//
+// HX: already defined
+//
+sortdef
+t0p = t@ype and vt0p = viewt@ype
+//
+*)
+//
 (* ****** ****** *)
 //
 fun{}
 matrix0_of_mtrxszref
-  {a:vt0p}(mtrxszref (a)):<> matrix0(a)
+  {a:vt0p}(mtrxszref(a)):<> matrix0(a)
 //
 fun{}
 mtrxszref_of_matrix0
-  {a:vt0p}(M: matrix0 (a)):<> mtrxszref(a)
+  {a:vt0p}(M: matrix0(a)):<> mtrxszref(a)
 //
 (* ****** ****** *)
 //
@@ -113,7 +120,7 @@ fun{}
 matrix0_get_refsize
   {a:vt0p}
 (
-  M: matrix0 (a)
+M : matrix0(a)
 ) :<> [m,n:nat] (matrixref(a, m, n), size_t(m), size_t(n))
 //
 (* ****** ****** *)
@@ -127,6 +134,7 @@ matrix0_get_at_size
   (M: matrix0(a), i: size_t, j: size_t):<!exnref> a
 //
 symintr matrix0_get_at
+//
 overload matrix0_get_at with matrix0_get_at_int
 overload matrix0_get_at with matrix0_get_at_size
 //
@@ -141,26 +149,35 @@ matrix0_set_at_size
   (M: matrix0(a), i: size_t, j: size_t, x: a):<!exnrefwrt> void
 //
 symintr matrix0_set_at
+//
 overload matrix0_set_at with matrix0_set_at_int
 overload matrix0_set_at with matrix0_set_at_size
 //
 (* ****** ****** *)
 //
-fun{a:vt0p}
+fun
+{a:vt0p}
 print_matrix0(M: matrix0(a)): void
-fun{a:vt0p}
+fun
+{a:vt0p}
 prerr_matrix0(M: matrix0(a)): void
 //
 (*
 fprint_matrix$sep1 // col separation
 fprint_matrix$sep2 // row separation
 *)
-fun{a:vt0p}
+//
+fun
+{a:vt0p}
 fprint_matrix0
   (out: FILEref, M: matrix0(a)): void
-fun{a:vt0p}
+//
+fun
+{a:vt0p}
 fprint_matrix0_sep
-  (out: FILEref, M: matrix0(a), sep1: string, sep2: string): void
+(
+  out: FILEref, M: matrix0(a), sep1: string, sep2: string
+) : void // end of [fprint_matrix0_sep]
 //
 (* ****** ****** *)
 
@@ -173,8 +190,7 @@ fun
 {a:vt0p}
 matrix0_tabulate
   {m,n:int}
-(
-  nrow: size_t(m)
+( nrow: size_t(m)
 , ncol: size_t(n)
 , fopr: cfun(sizeLt(m), sizeLt(n), a)
 ) : matrix0(a) // end of [matrix0_tabulate]
@@ -185,8 +201,7 @@ fun
 {a:vt0p}
 matrix0_tabulate_method_int
   {m,n:nat}
-(
-  nrow: int(m)
+( nrow: int(m)
 , ncol: int(n))(fopr: cfun(natLt(m), natLt(n), a)
 ) : matrix0(a) // end of [matrix0_tabulate_method_int]
 //
@@ -194,8 +209,7 @@ fun
 {a:vt0p}
 matrix0_tabulate_method_size
   {m,n:int}
-(
-  nrow: size_t(m)
+( nrow: size_t(m)
 , ncol: size_t(n))(fopr: cfun(sizeLt(m), sizeLt(n), a)
 ) : matrix0(a) // end of [matrix0_tabulate_method_size]
 //
@@ -205,17 +219,21 @@ overload
 .matrix0_tabulate with matrix0_tabulate_method_size
 //
 (* ****** ****** *)
-
-fun{a:vt0p}
+//
+fun
+{a:vt0p}
 matrix0_foreach
-  (M: matrix0(a), fwork: (&a >> _) -<cloref1> void): void
-// end of [matrix0_foreach]
-
-fun{a:vt0p}
+(
+M : matrix0(a), fwork: (&a >> _) -<cloref1> void
+) : void // end of [matrix0_foreach]
+//
+fun
+{a:vt0p}
 matrix0_iforeach
-  (M: matrix0(a), fwork: (size_t, size_t, &a >> _) -<cloref1> void): void
-// end of [matrix0_iforeach]
-
+(
+M : matrix0(a), fwork: (size_t, size_t, &a >> _) -<cloref1> void
+) : void // end of [matrix0_iforeach]
+//
 (* ****** ****** *)
 
 fun{

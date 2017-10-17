@@ -55,11 +55,11 @@ case+ xs of
 implement
 {x}(*tmp*)
 list_make_sing(x) =
-  list_vt_cons{x}(x, list_vt_nil)
+list_vt_cons{x}(x, list_vt_nil())
 implement
 {x}(*tmp*)
 list_make_pair(x1, x2) =
-  list_vt_cons{x}(x1, list_vt_cons{x}(x2, list_vt_nil))
+list_vt_cons{x}(x1, list_vt_cons{x}(x2, list_vt_nil()))
 //
 #atscode_separator()
 

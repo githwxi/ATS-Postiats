@@ -1169,7 +1169,8 @@ fun d1ecl_include
 (* ****** ****** *)
 //
 fun
-d1ecl_staload (
+d1ecl_staload
+(
   loc: location
 , idopt: symbolopt
 , cfil: filename, ldflag: int, d1cs: d1eclist
@@ -1180,13 +1181,15 @@ fun d1ecl_staloadloc
   (loc: location, pfil: filename, nspace: symbol, d1cs: d1eclist): d1ecl
 //
 (* ****** ****** *)
-
-fun d1ecl_dynload (loc: location, fil: filename): d1ecl
-
+//
+fun
+d1ecl_dynload(loc: location, fil: filename): d1ecl
+//
 (* ****** ****** *)
-
-fun d1ecl_local (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
-
+//
+fun d1ecl_local
+  (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
+//
 (* ****** ****** *)
 
 fun print_d1ecl (x: d1ecl): void

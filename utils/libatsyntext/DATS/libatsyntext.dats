@@ -1,15 +1,14 @@
+(* ****** ****** *)
 (*
 **
 ** Some utility functions for
 ** manipulating the syntax of ATS2
 **
-** Contributed by
-** Hongwei Xi (gmhwxiATgmailDOTcom)
-**
+** Author: Hongwei Xi
 ** Start Time: July, 2016
+** Authoremail: gmhwxiATgmailDOTcom
 **
 *)
-
 (* ****** ****** *)
 //
 staload

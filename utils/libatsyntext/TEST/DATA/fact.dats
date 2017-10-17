@@ -5,13 +5,26 @@
 //
 (* ****** ****** *)
 //
-extern fun fact(int): int
+fun
+fact(x: int): int =
+if x > 0 then x * fact(x-1) else 1
 //
 (* ****** ****** *)
 //
+val
+fact =
+fix f(x: int): int =>
+  (if x > 0 then x * f(x-1) else 1)
+//
+(* ****** ****** *)
+//
+extern
+fun fact(int): int
+//
 implement
 fact =
-fix f(x: int): int => if x > 0 then x * f(x-1) else 1
+fix f(x: int): int =>
+  (if x > 0 then x * f(x-1) else 1)
 //
 (* ****** ****** *)
 

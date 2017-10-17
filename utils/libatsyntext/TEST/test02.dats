@@ -120,7 +120,8 @@ the_prelude_load
 //
 val
 d0cs =
-parse_from_stdin_toplevel(1)
+parse_from_stdin_toplevel
+  (1(*dyn*))
 //
 val
 (pfenv | ()) =

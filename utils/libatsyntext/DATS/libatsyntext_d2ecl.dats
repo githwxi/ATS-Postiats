@@ -64,7 +64,26 @@ end // end of [aux_fundecs]
 
 fun
 aux_valdecs
-  (out: FILEref, d2c0: d2ecl): void = ()
+(
+  out: FILEref, d2c0: d2ecl
+) : void = let
+//
+fun
+auxv2d
+(
+  out: FILEref, v2d: v2aldec
+) : void =
+{
+val () = fprintln! (out, v2d.v2aldec_pat)
+val () = fprintln! (out, v2d.v2aldec_loc)
+}
+//
+val-
+D2Cvaldecs(vk, v2ds) = d2c0.d2ecl_node
+//
+in
+  list_foreach_cloptr(v2ds, lam v2d =<1> auxv2d(out, v2d))
+end // end of [aux_valdecs]
 //
 in (* in-of-local *)
 
