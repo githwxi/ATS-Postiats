@@ -1,3 +1,4 @@
+(* ****** ****** *)
 (*
 **
 ** Some utility functions for
@@ -9,7 +10,6 @@
 ** Start Time: July, 2016
 **
 *)
-
 (* ****** ****** *)
 //
 staload
@@ -33,7 +33,7 @@ staload "src/pats_dynexp2.sats"
 
 (* ****** ****** *)
 //
-staload "./../SATS/libatsyntext.sats"
+staload "./../SATS/syntext.sats"
 //
 (* ****** ****** *)
 
@@ -142,4 +142,4 @@ end // end of [syntext_d2eclist]
 
 (* ****** ****** *)
 
-(* end of [libatsyntext_d2ecl.dats] *)
+(* end of [syntext_d2ecl.dats] *)

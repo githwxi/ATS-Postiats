@@ -110,4 +110,4 @@ fun syntext_d2eclist(out: FILEref, d2cs: d2eclist): void
 
 (* ****** ****** *)
 
-(* end of [libatsyntext.sats] *)
+(* end of [syntext.sats] *)

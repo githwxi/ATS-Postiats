@@ -91,14 +91,14 @@ $(PATSHOME)/src/%.dats ; \
 #
 #
 libatsyntext:: \
-libatsyntext_sats.o
-libatsyntext_sats.o: \
-$(SATS)/libatsyntext.sats ; \
+syntext_sats.o
+syntext_sats.o: \
+$(SATS)/syntext.sats ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
 libatsyntext:: \
-libatsyntext_dats.o
-libatsyntext_dats.o: \
-$(DATS)/libatsyntext.dats ; \
+syntext_dats.o
+syntext_dats.o: \
+$(DATS)/syntext.dats ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
 #
 libatsyntext:: \
@@ -110,9 +110,9 @@ dynloadall_dats.o: \
 ######
 #
 libatsyntext:: \
-libatsyntext_d2ecl_dats.o
-libatsyntext_d2ecl_dats.o: \
-$(DATS)/libatsyntext_d2ecl.dats ; \
+syntext_d2ecl_dats.o
+syntext_d2ecl_dats.o: \
+$(DATS)/syntext_d2ecl.dats ; \
   $(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntext.a $@
 #
 ######

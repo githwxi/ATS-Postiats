@@ -18,7 +18,7 @@ UN =
 (* ****** ****** *)
 //
 staload
-"./../SATS/libatsyntext.sats"
+"./../SATS/syntext.sats"
 //
 (* ****** ****** *)
 //
@@ -59,4 +59,4 @@ parse_from_givename_toplevel
 //
 (* ****** ****** *)
 
-(* end of [libatsyntext.dats] *)
+(* end of [syntext.dats] *)

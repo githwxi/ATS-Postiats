@@ -22,8 +22,8 @@ ATS_DYNLOADFUN_NAME
 //
 (* ****** ****** *)
 //
-dynload "./DATS/libatsyntext.dats"
-dynload "./DATS/libatsyntext_d2ecl.dats"
+dynload "./DATS/syntext.dats"
+dynload "./DATS/syntext_d2ecl.dats"
 //
 (* ****** ****** *)
 
