@@ -1,25 +1,20 @@
+(* ****** ****** *)
 (*
 **
 ** Author: Hongwei Xi
-** Authoremail: (gmhwxiATgmailDOTcom)
 ** Start Time: July 23, 2016
+** Authoremail: (gmhwxiATgmailDOTcom)
 **
 *)
-
 (* ****** ****** *)
 //
-staload
-"./../SATS/libatsyntext.sats"
-//
-(* ****** ****** *)
-//
-staload
-"./../DATS/libatsyntext.dats"
-//
-(* ****** ****** *)
-
 dynload "./../dynloadall.dats"
+//
+(* ****** ****** *)
 
+staload "./../SATS/syntext.sats"
+staload "./../DATS/syntext.dats"
+//
 (* ****** ****** *)
 
 implement

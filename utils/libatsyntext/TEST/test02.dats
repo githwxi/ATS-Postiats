@@ -1,20 +1,18 @@
 (*
 **
 ** Author: Hongwei Xi
-** Authoremail: (gmhwxiATgmailDOTcom)
 ** Start Time: July 23, 2016
+** Authoremail: (gmhwxiATgmailDOTcom)
 **
 *)
 
 (* ****** ****** *)
 //
-staload
-"./../SATS/libatsyntext.sats"
+staload "./../SATS/syntext.sats"
 //
 (* ****** ****** *)
 //
-staload
-"./../DATS/libatsyntext.dats"
+staload "./../DATS/syntext.dats"
 //
 (* ****** ****** *)
 //
