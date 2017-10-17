@@ -48,6 +48,8 @@ list0_tail_opt
   {a:t0p}
   (list0(INV(a))): Option_vt(list0(a)) = "mac#%"
 //
+overload head_opt with list0_head_opt of 100
+overload tail_opt with list0_tail_opt of 100
 overload .head_opt with list0_head_opt of 100
 overload .tail_opt with list0_tail_opt of 100
 //
@@ -122,8 +124,7 @@ fun
 print_list0_sep
 (xs: list0(INV(a)), sep: string): void = "mac#%"
 //
-overload
-print with print_list0 of 100
+overload print with print_list0 of 100
 //
 (* ****** ****** *)
 //
@@ -165,13 +166,20 @@ fun
 list0_reverse
   {a:t0p}
   (xs: list0(INV(a))): list0(a) = "mac#%"
+//
+overload reverse with list0_reverse of 100
+//
+(* ****** ****** *)
+//
 fun
 list0_reverse_append
   {a:t0p}
   (xs: list0(INV(a)), ys: list0(a)): list0(a) = "mac#%"
 //
-overload reverse with list0_reverse of 100
-overload revappend with list0_reverse_append of 100
+macdef
+list0_revapp = list0_reverse_append
+//
+overload revapp with list0_reverse_append of 100
 //
 (* ****** ****** *)
 //
@@ -218,11 +226,6 @@ xs: list0(INV(a)))(pred: cfun(intGte(0), a, bool)
 ) : bool = "mac#%" // end of [list0_iexists]
 //
 overload
-exists with list0_exists of 100
-overload
-iexists with list0_iexists of 100
-//
-overload
 .exists with list0_exists_method of 100
 overload
 .iexists with list0_iexists_method of 100
@@ -252,11 +255,6 @@ list0_iforall_method
 ) : bool = "mac#%" // end of [list0_iforall_method]
 //
 overload
-forall with list0_forall of 100
-overload
-iforall with list0_iforall of 100
-//
-overload
 .forall with list0_forall_method of 100
 overload
 .iforall with list0_iforall_method of 100
@@ -283,8 +281,6 @@ list0_foreach_method
 ) : void = "mac#%" // end-of-function
 //
 overload
-foreach with list0_foreach of 100
-overload
 .foreach with list0_foreach_method of 100
 //
 (* ****** ****** *)
@@ -302,8 +298,6 @@ list0_iforeach_method
   xs: list0(INV(a)))(fwork: cfun(int, a, void)
 ) : void = "mac#%" // end-of-function
 //
-overload
-iforeach with list0_iforeach of 100
 overload
 .iforeach with list0_iforeach_method of 100
 //
@@ -323,8 +317,6 @@ xs: list0(INV(a)))(fwork: cfun(a, void)
 ) : void = "mac#%" // end-of-function
 //
 overload
-rforeach with list0_rforeach of 100
-overload
 .rforeach with list0_rforeach_method of 100
 //
 (* ****** ****** *)
@@ -342,7 +334,6 @@ list0_filter_method
   xs: list0(INV(a)))(pred: cfun(a, bool)
 ) : list0(a) = "mac#%" // end-of-function
 //
-overload filter with list0_filter of 100
 overload .filter with list0_filter_method of 100
 //
 (* ****** ****** *)
@@ -364,7 +355,6 @@ list0_map_method
   {a:t0p}{b:t0p}
   (list0(INV(a)), TYPE(b))(fopr: cfun(a, b)): list0(b) = "mac#%"
 //
-overload map with list0_map of 100
 overload .map with list0_map_method of 100
 //
 (* ****** ****** *)
@@ -378,7 +368,6 @@ list0_imap_method
   {a:t0p}{b:t0p}
   (list0(INV(a)), TYPE(b))(fopr: cfun(Nat, a, b)): list0(b) = "mac#%"
 //
-overload imap with list0_imap of 100
 overload .imap with list0_imap_method of 100
 //
 (* ****** ****** *)
@@ -462,15 +451,8 @@ list0_zipwith_method
 , ys: list0(INV(a2)))(fopr: cfun(a1, a2, b)
 ) :<1> list0(b) = "mac#%" // end of [list0_zipwith_method]
 //
-overload
-map2 with list0_zipwith of 100
-overload
-zipwith with list0_zipwith of 100
-//
-overload
-.map2 with list0_zipwith_method of 100
-overload
-.zipwith with list0_zipwith_method of 100
+overload .map2 with list0_zipwith_method of 100
+overload .zipwith with list0_zipwith_method of 100
 //
 (* ****** ****** *)
 //
@@ -500,15 +482,8 @@ list0_foldright_method
   list0(INV(a)), sink: res)(fopr: cfun(a, res, res)
 ) : res = "mac#%" // end-of-function
 //
-overload
-foldleft with list0_foldleft of 100
-overload
-foldright with list0_foldright of 100
-//
-overload
-.foldleft with list0_foldleft_method of 100
-overload
-.foldright with list0_foldright_method of 100
+overload .foldleft with list0_foldleft_method of 100
+overload .foldright with list0_foldright_method of 100
 //
 (* ****** ****** *)
 //

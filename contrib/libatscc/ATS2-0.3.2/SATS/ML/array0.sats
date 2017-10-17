@@ -20,6 +20,9 @@ array0_make_elt
 fun
 array0_size
   {a:vt0p}(A: array0(a)): intGte(0) = "mac#%"
+fun
+array0_length
+  {a:vt0p}(A: array0(a)): intGte(0) = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -40,7 +43,11 @@ array0_exch_at
 overload [] with array0_get_at of 100
 overload [] with array0_set_at of 100
 //
+overload size with array0_size of 100
+overload length with array0_length of 100
+//
 overload .size with array0_size of 100
+overload .length with array0_length of 100
 //
 (* ****** ****** *)
 //
@@ -56,7 +63,6 @@ array0_exists_method
   (A: array0(a))
   (pred: Nat -<cloref1> bool): bool = "mac#%"
 //
-overload exists with array0_exists
 overload .exists with array0_exists_method
 //
 (* ****** ****** *)
@@ -73,7 +79,6 @@ array0_forall_method
   (A: array0(a))
   (pred: Nat -<cloref1> bool): bool = "mac#%"
 //
-overload forall with array0_forall
 overload .forall with array0_forall_method
 //
 (* ****** ****** *)

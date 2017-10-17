@@ -29,6 +29,8 @@ array0_make_elt
 
 implement
 array0_size{a}(A) = arrszref_size{a}(A)
+implement
+array0_length{a}(A) = arrszref_size{a}(A)
 
 (* ****** ****** *)
 

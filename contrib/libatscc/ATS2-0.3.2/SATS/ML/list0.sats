@@ -48,6 +48,8 @@ list0_tail_opt
   {a:t0p}
   (list0(INV(a))): Option_vt(list0(a)) = "mac#%"
 //
+overload head_opt with list0_head_opt of 100
+overload tail_opt with list0_tail_opt of 100
 overload .head_opt with list0_head_opt of 100
 overload .tail_opt with list0_tail_opt of 100
 //
@@ -59,6 +61,7 @@ list0_length
   (xs: list0(a)): intGte(0) = "mac#%"
 //
 overload length with list0_length of 100
+overload .length with list0_length of 100
 //
 (* ****** ****** *)
 //
@@ -112,8 +115,7 @@ fun
 print_list0_sep
   (xs: list0(INV(a)), sep: string): void = "mac#%"
 //
-overload
-print with print_list0 of 100
+overload print with print_list0 of 100
 //
 (* ****** ****** *)
 //
@@ -155,13 +157,18 @@ fun
 list0_reverse
   {a:t0p}
   (xs: list0(INV(a))): list0(a) = "mac#%"
+//
+overload reverse with list0_reverse of 100
+//
 fun
 list0_reverse_append
   {a:t0p}
   (xs: list0(INV(a)), ys: list0(a)): list0(a) = "mac#%"
 //
-overload reverse with list0_reverse of 100
-overload revappend with list0_reverse_append of 100
+macdef
+list0_revapp = list0_reverse_append
+//
+overload revapp with list0_reverse_append of 100
 //
 (* ****** ****** *)
 //
