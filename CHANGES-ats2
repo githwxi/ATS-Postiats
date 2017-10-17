@@ -26,6 +26,7 @@ Here is a list of major additions and changes since the last release:
 
 1. Adding libatscc/ML/option0
 2. Minorly improving libatscc/ML/list0 and libatscc/ML/array0
+3. Adding libatscc/ML/matrix0
 
 ######
 
