@@ -97,9 +97,14 @@ stadef cfun = cfun9
 //
 datatype
 list0_t0ype_type
-  (a: t@ype+) =
-  | list0_nil of ()
-  | list0_cons of (a, list0_t0ype_type(a))
+(
+  a: t@ype+
+) =
+  | list0_nil of
+      ((*void*))
+  | list0_cons of
+      (a, list0_t0ype_type(a))
+    // end of [list0_cons]
 //
 stadef
 list0(a:t@ype) = list0_t0ype_type(a)
@@ -113,7 +118,8 @@ list0(a:t@ype) = list0_t0ype_type(a)
 //
 datatype
 option0_t0ype_type
-  (a: t@ype+) = None0 of () | Some0 of (a)
+  (a: t@ype+) =
+  | None0 of ((*void*)) | Some0 of (a)
 //
 stadef
 option0(a:t@ype) = option0_t0ype_type(a)
@@ -162,14 +168,15 @@ dynarray(a:vt@ype) = dynarray_type(a)
 //
 (* ****** ****** *)
 //
-// HX: for maps of elements of type (a)
+// HX:
+// for elements of type (a)
 //
 abstype
 hashtbl_type
-  (key:t@ype, itm:t@ype) = ptr
+(key:t@ype, itm:t@ype+) = ptr
 //
 typedef
-hashtbl(key:t@ype, itm:t@ype) = hashtbl_type(key, itm)
+hashtbl(key:t0p, itm:t0p) = hashtbl_type(key, itm)
 //
 (* ****** ****** *)
 //

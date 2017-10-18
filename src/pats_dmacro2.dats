@@ -246,15 +246,16 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
-datavtype evalctx =
-  | EVALCTXsadd of (s2var, m2val, evalctx)
-  | EVALCTXdadd of (d2var, m2val, evalctx)
-  | EVALCTXnil of ()
+//
+datavtype
+evalctx =
+| EVALCTXnil of ()
+| EVALCTXsadd of (s2var, m2val, evalctx)
+| EVALCTXdadd of (d2var, m2val, evalctx)
 // end of [eval0ctx]
-
+//
 assume evalctx_viewtype = evalctx
-
+//
 in (* in of [local] *)
 
 implement

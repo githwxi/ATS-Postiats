@@ -21,19 +21,31 @@ Time of Generation: #timestamp()\
 #title("引言")
 ")
 
-#para('\
+#para("\
 
 This book consists of a set of lecture notes for a crash course on
 functional programming in ATS. The primary focus of these notes is set
 upon advocating a style of problem-solving that makes extensive use of
-list-processing and stream-processing functions. The average reader is
-expected to have already had some exposure to programming (e.g.,
-having taken one semester of programming course based on Java or Python)
-but may not know much or anything about functional programming. After finishing
-this course, one will have become familiar with recursion in problem-solving
-and ready to formulate high-level combinator-based programming solutions.
+list-processing, array-processing and stream-processing functions. In
+addition, a so-called #emphasis("build-your-own-library") approach to
+teaching/learning programming is adopted here to greatly enhance the
+opportunity for one to make genuine use of those library functions
+implemented by oneself and thus learn first-handedly from one's own
+mistakes.
 
-')
+")
+
+#para("\
+
+The average reader is expected to have already had some exposure
+to programming (e.g., having taken one semester of programming course
+based on Java or Python) but may not know much or anything about
+functional programming. After completing this course, one will
+have become familiar with recursion in problem-solving and ready
+to formulate high-level combinator-based programming solutions.
+Have fun as programming is meant to be fun!
+
+")
 
 </preface>
 

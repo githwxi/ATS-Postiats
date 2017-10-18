@@ -250,7 +250,7 @@ For instance, given two lists #dyncode("(0, 1)")
 and #dyncode("(2, 3, 4)"), #dyncode("list0_cross") returns a newly
 constructed list consisting of the following six pairs: #dyncode("(0,
 2)"), #dyncode("(0, 3)"), #dyncode("(0, 4)"), #dyncode("(1, 2)"),
-#dyncode("(2, 3)"), and #dyncode("(3, 4)").
+#dyncode("(1, 3)"), and #dyncode("(1, 4)").
 
 ")
 
@@ -259,7 +259,7 @@ constructed list consisting of the following six pairs: #dyncode("(0,
 A function rather similar to #dyncode("list0_map") is
 #dyncode("list0_foreach"), which takes a list and a procedure (i.e., a
 function returning void) and applies the procedure to each element in
-the list:
+the list (so as to create some effects):
 
 #dats2xhtml('\
 //
@@ -654,7 +654,7 @@ between 0 and n-1, inclusive.
 The presented code for solving 8-queen puzzle is of the kind of
 high-level functional programming style I intend to advocate
 throughout the book. It should soon be clear that we can reap even
-more benefits from programming in this way when linear lazy streams
+more benefits from programming in this way when (linear) lazy streams
 are used in place of functional lists.
 
 ")
