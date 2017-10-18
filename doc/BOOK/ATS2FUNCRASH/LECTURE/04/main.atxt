@@ -277,9 +277,10 @@ end // end of [matrix_mulby]
 
 Note that the function templates #dyncode("gadd_val_val") and
 #dyncode("gmul_val_val") are for addition and multiplication
-operations on generic numbers of type #stacode("a").  What
-#dyncode("matrix_mulby") does is simply updating #dyncode("C") with
-#dyncode("C") plus the product of #dyncode("A") and #dyncode("B"). \
+operations on generic numbers of type #stacode("a"), respectively.
+What #dyncode("matrix_mulby") does is simply updating #dyncode("C")
+with #dyncode("C") plus the product of #dyncode("A") and
+#dyncode("B"). \
 
 ")
 

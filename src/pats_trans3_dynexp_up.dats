@@ -1787,8 +1787,7 @@ val p2tcs = let
 //
 fun
 auxlst
-(
-  p2ts: p2atlst
+( p2ts: p2atlst
 , s2es: s2explst
 ) : p2atcstlst_vt =
 case+ p2ts of
