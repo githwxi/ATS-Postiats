@@ -66,10 +66,10 @@ overload .repeat with int_repeat_method
 //
 fun{}
 int_forall_cloref
-  (n: int, f: cfun1 (int, bool)): bool
+  (n: int, f: cfun1(int, bool)): bool
 fun{}
 int_forall_method
-  (n: int) (f: cfun1 (int, bool)): bool
+  (n: int) (f: cfun1(int, bool)): bool
 //
 (*
 overload forall with int_forall_cloref
@@ -80,10 +80,10 @@ overload .forall with int_forall_method
 //
 fun{}
 int_foreach_cloref
-  (n: int, f: cfun1 (int, void)): void
+  (n: int, f: cfun1(int, void)): void
 fun{}
 int_foreach_method
-  (n: int) (f: cfun1 (int, void)): void
+  (n: int) (f: cfun1(int, void)): void
 //
 (*
 overload foreach with int_foreach_cloref
@@ -92,13 +92,27 @@ overload .foreach with int_foreach_method
 //
 (* ****** ****** *)
 //
+fun{}
+int_rforeach_cloref
+  (n: int, f: cfun1(int, void)): void
+fun{}
+int_rforeach_method
+  (n: int) (f: cfun1(int, void)): void
+//
+(*
+overload rforeach with int_rforeach_cloref
+*)
+overload .rforeach with int_rforeach_method
+//
+(* ****** ****** *)
+//
 fun{res:vt0p}
 int_foldleft_cloref
-  (n: int, ini: res, f: cfun2 (res, int, res)): res
+  (n: int, ini: res, f: cfun2(res, int, res)): res
 //
 fun{res:vt0p}
 int_foldleft_method
-  (int, TYPE(res))(ini: res, f: cfun2 (res, int, res)): res
+  (int, TYPE(res))(ini: res, f: cfun2(res, int, res)): res
 //
 (*
 overload foldleft with int_foldleft_cloref
@@ -109,10 +123,10 @@ overload .foldleft with int_foldleft_method
 //
 fun{}
 intrange_forall_cloref
-  (l: int, r: int, f: cfun1 (int, bool)): bool
+  (l: int, r: int, f: cfun1(int, bool)): bool
 fun{}
 intrange_forall_method
-  (lr: @(int, int)) (f: cfun1 (int, bool)): bool
+  (lr: @(int, int)) (f: cfun1(int, bool)): bool
 //
 (*
 overload forall with intrange_forall_cloref
@@ -123,10 +137,10 @@ overload .forall with intrange_forall_method
 //
 fun{}
 intrange_foreach_cloref
-  (l: int, r: int, f: cfun1 (int, void)): void
+  (l: int, r: int, f: cfun1(int, void)): void
 fun{}
 intrange_foreach_method
-  (lr: @(int, int)) (f: cfun1 (int, void)): void
+  (lr: @(int, int)) (f: cfun1(int, void)): void
 //
 (*
 overload foreach with intrange_foreach_cloref
@@ -135,13 +149,27 @@ overload .foreach with intrange_foreach_method
 //
 (* ****** ****** *)
 //
+fun{}
+intrange_rforeach_cloref
+  (l: int, r: int, f: cfun1(int, void)): void
+fun{}
+intrange_rforeach_method
+  (lr: @(int, int)) (f: cfun1(int, void)): void
+//
+(*
+overload rforeach with intrange_rforeach_cloref
+*)
+overload .rforeach with intrange_rforeach_method
+//
+(* ****** ****** *)
+//
 fun{res:vt0p}
 intrange_foldleft_cloref
-  (l: int, r: int, ini: res, f: cfun2 (res, int, res)): res
+  (l: int, r: int, ini: res, f: cfun2(res, int, res)): res
 //
 fun{res:vt0p}
 intrange_foldleft_method
-  ((int, int), TYPE(res))(ini: res, f: cfun2 (res, int, res)): res
+  ((int, int), TYPE(res))(ini: res, f: cfun2(res, int, res)): res
 //
 (*
 overload foldleft with intrange_foldleft_cloref
