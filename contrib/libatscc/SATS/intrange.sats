@@ -27,6 +27,7 @@ int_repeat_method
   (n: int)(f: cfun0(void)): void = "mac#%"
 //
 overload * with int_repeat_lazy of 100
+//
 overload repeat with int_repeat_lazy of 100
 overload repeat with int_repeat_cloref of 100
 overload .repeat with int_repeat_method of 100
@@ -47,6 +48,11 @@ fun
 int_forall_method
   (n: int) (f: cfun1(int, bool)): bool = "mac#%"
 //
+overload .exists with int_exists_method of 100
+overload .forall with int_forall_method of 100
+//
+(* ****** ****** *)
+//
 fun
 int_foreach_cloref
   (n: int, f: cfun1(int, void)): void = "mac#%"
@@ -54,34 +60,81 @@ fun
 int_foreach_method
   (n: int) (f: cfun1(int, void)): void = "mac#%"
 //
-overload .exists with int_exists_method of 100
-overload .forall with int_forall_method of 100
 overload .foreach with int_foreach_method of 100
 //
 (* ****** ****** *)
 //
 fun
+int_rforeach_cloref
+  (n: int, f: cfun1(int, void)): void = "mac#%"
+fun
+int_rforeach_method
+  (n: int) (f: cfun1(int, void)): void = "mac#%"
+//
+overload .rforeach with int_rforeach_method of 100
+//
+(* ****** ****** *)
+//
+fun
 int_foldleft_cloref
-  {res:t@ype}
-  (n0: int, ini: res, fopr: cfun2(res, int, res)): res = "mac#%"
+  {res:t0p}
+(
+n0: int
+,
+ini: res, fopr: cfun2(res, int, res)
+) : res = "mac#%" // end of [int_foldleft_cloref]
 //
 fun
 int_foldleft_method
-  {res:t@ype}
-  (n0: int, ini: res)(fopr: cfun2(res, int, res)): res = "mac#%"
+  {res:t0p}
+(
+n0: int, _: TYPE(res)
+)
+(
+ini: res, fopr: cfun2(res, int, res)
+) : res = "mac#%" // end of [int_foldleft_method]
 //
-overload .foldleft with int_foldleft_method of 100
+overload
+.foldleft with int_foldleft_method of 100
+//
+(* ****** ****** *)
+//
+fun
+int_foldright_cloref
+  {res:t0p}
+(
+n0: int
+,
+fopr: cfun2(int, res, res), snk: res
+) : res = "mac#%" // end of [int_foldright_cloref]
+//
+fun
+int_foldright_method
+  {res:t0p}
+(
+n0: int, _: TYPE(res)
+)
+(
+fopr: cfun2(int, res, res), snk: res
+) : res = "mac#%" // end of [int_foldright_method]
+//
+overload
+.foldright with int_foldright_method of 100
 //
 (* ****** ****** *)
 //
 fun
 int_list_map_cloref
   {a:t0p}{n:nat}
-  (n: int(n), fopr: cfun(int, a)): list(a, n) = "mac#%"
+(
+ n: int(n), fopr: cfun(int, a)
+) : list(a, n) = "mac#%" // end-of-fun
 fun
 int_list_map_method
   {a:t0p}{n:nat}
-  (n: int(n), TYPE(a))(fopr: cfun(int, a)): list(a, n) = "mac#%"
+(
+ n: int(n), _: TYPE(a))(fopr: cfun(int, a)
+) : list(a, n) = "mac#%" // end-of-function
 //
 overload .list_map with int_list_map_method
 //
@@ -90,11 +143,12 @@ overload .list_map with int_list_map_method
 fun
 int_list0_map_cloref
   {a:t0p}
-  (n: int, fopr: cfun(int, a)): list0(a) = "mac#%"
+  (int, fopr: cfun(int, a)): list0(a) = "mac#%"
+//
 fun
 int_list0_map_method
   {a:t0p}
-  (n: int, TYPE(a))(fopr: cfun(int, a)): list0(a) = "mac#%"
+  (int, TYPE(a))(fopr: cfun(int, a)): list0(a) = "mac#%"
 //
 overload .list0_map with int_list0_map_method
 //
@@ -109,8 +163,8 @@ n0: int(n), fopr: cfun1(natLt(n), a)
 fun
 int_stream_map_method
   {a:t0p}{n:nat}
-  (n0: int(n), TYPE(a))
-  (fopr: cfun1(natLt(n), a)): stream(a) = "mac#%"
+  (int(n), TYPE(a))
+: (cfun1(natLt(n), a)) -<cloref1> stream(a) = "mac#%"
 //
 overload .stream_map with int_stream_map_method
 //
@@ -120,12 +174,12 @@ fun
 int_stream_vt_map_cloref
   {a:vt0p}{n:nat}
 (
-  n0: int(n), fopr: cfun1(natLt(n), a)
+n0: int(n), fopr: cfun1(natLt(n), a)
 ) : stream_vt(a) = "mac#%" // end-of-function
 fun
 int_stream_vt_map_method
   {a:vt0p}{n:nat}
-  (n0: int(n), TYPE(a))
+  (int(n), TYPE(a))
 : (cfun1(natLt(n), a)) -<lincloptr1> stream_vt(a) = "mac#%"
 //
 overload .stream_vt_map with int_stream_vt_map_method
@@ -179,15 +233,47 @@ overload .foreach with intrange_foreach_method
 (* ****** ****** *)
 //
 fun
+intrange_rforeach_cloref
+  (l: int, r: int, fwork: cfun1(int, void)): void = "mac#%"
+fun
+intrange_rforeach_method
+  (lr: $tup(int, int))(fwork: cfun(int, void)): void = "mac#%"
+//
+overload .rforeach with intrange_rforeach_method
+//
+(* ****** ****** *)
+//
+fun
 intrange_foldleft_cloref
   {res:t@ype}
-  (l: int, r: int, ini: res, fopr: cfun2(res, int, res)): res = "mac#%"
+(
+ l: int, r: int, ini: res, fopr: cfun2(res, int, res)
+) : res = "mac#%" // end of [intrange_foldleft_cloref]
 fun
 intrange_foldleft_method
   {res:t@ype}
-  (lr: $tup(int, int), ini: res)(fopr: cfun2(res, int, res)): res = "mac#%"
+(
+  lr: $tup(int, int), _: TYPE(res)
+)(ini: res, fopr: cfun2(res, int, res)): res = "mac#%"
 //
 overload .foldleft with intrange_foldleft_method of 100
+//
+(* ****** ****** *)
+//
+fun
+intrange_foldright_cloref
+  {res:t@ype}
+(
+ l: int, r: int, fopr: cfun2(int, res, res), snk: res
+) : res = "mac#%" // end of [intrange_foldright_cloref]
+fun
+intrange_foldright_method
+  {res:t@ype}
+(
+lr: $tup(int, int), _: TYPE(res)
+)(fopr: cfun2(int, res, res), snk: res): res = "mac#%"
+//
+overload .foldright with intrange_foldright_method of 100
 //
 (* ****** ****** *)
 //

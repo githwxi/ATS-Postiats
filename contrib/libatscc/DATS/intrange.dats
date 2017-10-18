@@ -62,20 +62,28 @@ int_forall_cloref
 )
 //
 implement
-int_foreach_cloref
-  (n0, pred) =
-(
-  intrange_foreach_cloref (0, n0, pred)
-)
-//
-(* ****** ****** *)
-//
-implement
 int_exists_method
   (n0) = lam(f) => int_exists_cloref(n0, f)
 implement
 int_forall_method
   (n0) = lam(f) => int_forall_cloref(n0, f)
+//
+(* ****** ****** *)
+//
+implement
+int_foreach_cloref
+  (n0, pred) =
+(
+  intrange_foreach_cloref(0, n0, pred)
+)
+implement
+int_rforeach_cloref
+  (n0, pred) =
+(
+  intrange_rforeach_cloref(0, n0, pred)
+)
+//
+(* ****** ****** *)
 //
 implement
 int_foreach_method
@@ -93,10 +101,29 @@ int_foldleft_cloref
 //
 implement
 int_foldleft_method
-  {res}(n0, ini) =
+  {res}
+  ( n0, _(*TYPE*) ) =
 (
-lam(fopr) => int_foldleft_cloref{res}(n0, ini, fopr)
+lam(ini, fopr) => int_foldleft_cloref{res}(n0, ini, fopr)
 ) (* int_foldleft_method *)
+//
+(* ****** ****** *)
+//
+implement
+int_foldright_cloref
+  {res}
+  (n0, fopr, snk) =
+(
+  intrange_foldright_cloref{res}(0, n0, fopr, snk)
+)
+//
+implement
+int_foldright_method
+  {res}
+  ( n0, _(*TYPE*) ) =
+(
+lam(fopr, snk) => int_foldright_cloref{res}(n0, fopr, snk)
+) (* int_foldright_method *)
 //
 (* ****** ****** *)
 //
@@ -326,7 +353,7 @@ lam(pred) =>
 ) (* intrange_forall_method *)
 //
 (* ****** ****** *)
-
+//
 implement
 intrange_foreach_cloref
   (l, r, fwork) = let
@@ -356,36 +383,103 @@ lam(fwork) =>
 ) (* intrange_foreach_method *)
 //
 (* ****** ****** *)
-
+//
 implement
-intrange_foldleft_cloref
-  {res}
-  (l, r, ini, fopr) = let
+intrange_rforeach_cloref
+  (l, r, fwork) = let
 //
 fun
-loop
-(
-  l: int, r: int
-, ini: res, f: cfun2(res, int, res)
-) : res = (
+loop (
+  l: int, r: int, fwork: cfun1(int, void)
+) : void = (
 //
-if l < r then loop(l+1, r, f(ini, l), fopr) else ini
+if (l < r)
+then let
+  val () = fwork(r-1) in loop(l, r-1, fwork)
+end // end of [then]
+else ((*void*)) // else
 //
 ) (* end of [loop] *)
 //
 in
-  loop(l, r, ini, fopr)
-end // end of [intrange_foldleft_cloref]
-
+  loop(l, r, fwork)
+end // end of [intrange_rforeach_cloref]
+//
+implement
+intrange_rforeach_method(lr) =
+(
+lam(fwork) =>
+  intrange_rforeach_cloref(lr.0, lr.1, fwork)
+) (* intrange_rforeach_method *)
+//
 (* ****** ****** *)
+//
+implement
+intrange_foldleft_cloref
+  {res}
+(
+  l, r, ini, fopr
+) = loop(l, r, ini) where
+{
+//
+fun
+loop
+(
+  l: int, r: int, ini: res
+) : res =
+(
+//
+if (l < r)
+  then loop(l+1, r, fopr(ini, l)) else ini
+// end of [if]
+//
+) (* end of [loop] *)
+//
+} (* end of [intrange_foldleft_cloref] *)
 //
 implement
 intrange_foldleft_method
   {res}
-  ( $tup(l, r), ini ) =
+( $tup(l, r), _(*TYPE*) ) =
 (
-  lam(fopr) =>
+  lam(ini, fopr) =>
     intrange_foldleft_cloref{res}(l, r, ini, fopr)
+  // end of [lam]
+)
+//
+(* ****** ****** *)
+
+implement
+intrange_foldright_cloref
+  {res}
+(
+  l, r, fopr, snk
+) = loop(l, r, snk) where
+{
+//
+fun
+loop
+(
+  l: int, r: int, snk: res
+) : res =
+(
+//
+if (l < r)
+  then loop(l, r-1, fopr(r-1, snk)) else snk
+//
+) (* end of [loop] *)
+//
+} (* end of [intrange_foldright_cloref] *)
+
+(* ****** ****** *)
+//
+implement
+intrange_foldright_method
+  {res}
+( $tup(l, r), _(*TYPE*) ) =
+(
+  lam(fopr, snk) =>
+    intrange_foldright_cloref{res}(l, r, fopr, snk)
   // end of [lam]
 )
 //

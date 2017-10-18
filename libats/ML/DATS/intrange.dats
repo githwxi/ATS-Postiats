@@ -139,6 +139,20 @@ int_foldleft_method
   lam(ini, f) => int_foldleft_cloref<res>(n, ini, f)
 //
 (* ****** ****** *)
+//
+implement
+{res}(*tmp*)
+int_foldright_cloref
+  (n, f, snk) =
+  intrange_foldright_cloref<res>(0, n, f, snk)
+//
+implement
+{res}(*tmp*)
+int_foldright_method
+  (n, tres) =
+  lam(f, snk) => int_foldright_cloref<res>(n, f, snk)
+//
+(* ****** ****** *)
 
 implement
 {}(*tmp*)
