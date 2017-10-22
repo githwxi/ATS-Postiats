@@ -1,0 +1,272 @@
+####################################
+#
+# This is the library
+# used for ATS2FUNCRASH
+#
+####################################
+[name]:
+[interface]:
+[implement]:
+[description]:
+####################################
+#
+# For integers
+#
+####################################
+[name]: \
+int_foreach
+[interface]: \
+fun{}
+int_foreach
+( n0: int
+, fwork: cfun(int, void)): void
+[interface]:
+[implement]:
+implement
+{}(*tmp*)
+int_foreach
+  (n0, fwork) =
+  loop(0) where
+{
+//
+fun loop(i: int): void =
+  if i < n0 then (fwork(i); loop(i+1))
+//
+} (* end of [int_foreach] *)
+####################################
+[name]: \
+int_foreach_method
+[interface]: \
+fun{}
+int_foreach_method
+(n0: int)(fwork: cfun(int, void)): void
+//
+overload
+.foreach with int_foreach_method of 100
+//
+[implement]:
+implement
+{}(*tmp*)
+int_foreach_method(n0) =
+lam(fwork) => int_foreach<>(n0, fwork)
+####################################
+[name]: \
+int_foldleft
+[interface]: \
+fun
+{res:t@ype}
+int_foldleft
+( n0: int
+, res: res
+, fopr: cfun(res, int, res)): res
+[implement]:
+implement
+{res}(*tmp*)
+int_foldleft
+  (n0, res, fopr) =
+  loop(res, 0) where
+{
+//
+fun loop(res: res, i: int): res =
+  if i < n0
+    then loop(fopr(res, i), i+1) else res
+  // end of [if]
+//
+} (* end of [int_foldleft] *)
+####################################
+[name]: \
+int_foldleft_method
+[interface]: \
+extern
+fun
+{res:t@ype}
+int_foldleft_method
+(n0: int, ty: TYPE(res))
+(res: res, fopr: cfun(res, int, res)): res
+//
+overload
+.foldleft with int_foldleft_method of 100
+//
+[implement]:
+implement
+{res}(*tmp*)
+int_foldleft_method(n0, ty) =
+lam(res, fopr) => int_foldleft<res>(n0, res, fopr)
+####################################
+[name]: \
+int_cross_foreach
+[interface]:
+fun{}
+int_cross_foreach
+(m: int, n: int, fwork: cfun(int, int, void)): void
+//
+overload
+.cross_foreach with int_cross_foreach_method of 100
+//
+[implement]:
+implement
+{}(*tmp*)
+int_cross_foreach
+(m, n, fwork) =
+int_foreach(m, lam(i) => int_foreach(n, lam(j) => fwork(i, j)))
+####################################
+#
+# For list0-values
+#
+####################################
+[name]: \
+list0_length
+[interface]: \
+fun
+{a:t@ype}
+list0_length(xs0: list0(INV(a))): int
+//
+overload length with list0_length of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+list0_length(xs) =
+list0_foldleft<int><a>(xs, 0, lam(r, _) => r + 1)
+####################################
+[name]: \
+list0_map
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_map
+( xs: list0(INV(a))
+, fopr: cfun(a, b)): list0(b)
+[implement]: \
+implement
+{a}{b}
+list0_map
+(
+  xs, fopr
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  list0_cons(fopr(x), auxlst(xs))
+)
+//
+} (* end of [list0_map] *)
+[description]: \
+Given a list0-value xs and a closure-function f, this function
+returns another list0-value consisting of f(xs[0]), ..., f(xs[n-1]),
+where n is the length of xs. The implementation of this function in
+ATSLIB is tail-recursive.
+[code-sample]: \
+####################################
+[name]: \
+list0_map_method
+[interface]: \
+//
+overload
+.map with list0_map_method of 100
+//
+####################################
+[name]: \
+list0_mapopt
+[interface]:
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapopt
+( xs: list0(INV(a))
+, fopr: cfun(a, option0(b))): list0(b)
+[implement]:
+implement
+{a}{b}
+list0_mapopt
+(
+  xs, fopr
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  (
+  case+ fopr(x) of
+  | None0() => auxlst(xs)
+  | Some0(y) => list0_cons(y, auxlst(xs))
+  )
+)
+//
+} (* end of [list0_mapopt] *)
+[description]: \
+Given a list0-value xs and a closure-function f, this function
+returns another list0-value consisting of the join of the option
+values f(xs[0]), ..., f(xs[n-1]), where n is the length of xs. The
+implementation of this function in ATSLIB is tail-recursive.
+####################################
+[name]: \
+list0_mapopt_method
+[interface]: \
+//
+overload
+.mapopt with list0_mapopt_method of 100
+//
+####################################
+[name]: \
+list0_foreach
+[interface]: \
+fun
+{a:t@ype}
+list0_foreach
+( xs: list0(INV(a))
+, fwork: cfun(a, void)): void
+####################################
+[name]: \
+list0_foreach_method
+[interface]: \
+//
+overload
+.foreach with list0_foreach_method of 100
+//
+####################################
+[name]: \
+list0_filter
+[interface]: \
+fun
+{a:t@ype}
+list0_filter
+( xs: list0(INV(a))
+, pred: cfun(a, bool)): list0(a)
+####################################
+[name]: \
+list0_filter_method
+[interface]: \
+overload
+.filter with list0_filter_method of 100
+####################################
+#
+# For stream-values
+#
+####################################
+[name]: \
+int_stream_from
+[interface]: \
+fun
+int_stream_from(n: int): stream(int)
+[implement]: \
+implement
+int_stream_from(n) =
+$delay(stream_cons(n, int_stream_from(n+1)))
+####################################
+
+######### end of [mylib.arec] #########

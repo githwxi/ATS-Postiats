@@ -31,91 +31,33 @@ symelim .foldright
 //
 (* ****** ****** *)
 //
-extern
-fun{}
-int_foreach
-( n0: int
-, fwork: cfun(int, void)): void
-extern
-fun{}
-int_foreach_method
-(n0: int)(fwork: cfun(int, void)): void
-//
-overload
-.foreach with int_foreach_method of 100
+// For integers
 //
 (* ****** ****** *)
 
-implement
-{}(*tmp*)
-int_foreach
-  (n0, fwork) =
-  loop(0) where
-{
-//
-fun loop(i: int): void =
-  if i < n0 then (fwork(i); loop(i+1))
-//
-} (* end of [int_foreach] *)
-
-implement
-{}(*tmp*)
-int_foreach_method(n0) =
-lam(fwork) => int_foreach<>(n0, fwork)
+##interface("int_foreach")
+##interface("int_foreach_method")
 
 (* ****** ****** *)
-//
-extern
-fun
-{res:t@ype}
-int_foldleft
-( n0: int
-, res: res
-, fopr: cfun(res, int, res)): res
-extern
-fun
-{res:t@ype}
-int_foldleft_method
-(n0: int, ty: TYPE(res))
-(res: res, fopr: cfun(res, int, res)): res
-//
-overload
-.foldleft with int_foldleft_method of 100
-//
+
+##implement("int_foreach")
+##implement("int_foreach_method")
+
 (* ****** ****** *)
-//
-implement
-{res}(*tmp*)
-int_foldleft
-  (n0, res, fopr) =
-  loop(res, 0) where
-{
-//
-fun loop(res: res, i: int): res =
-  if i < n0
-    then loop(fopr(res, i), i+1) else res
-  // end of [if]
-//
-} (* end of [int_foldleft] *)
-//
-implement
-{res}(*tmp*)
-int_foldleft_method(n0, ty) =
-lam(res, fopr) => int_foldleft<res>(n0, res, fopr)
-//
+
+##interface("int_foldleft")
+##interface("int_foldleft_method")
+
 (* ****** ****** *)
-//
-extern
-fun{}
-int_cross_foreach
-(m: int, n: int, fwork: cfun(int, int, void)): void
-//
-implement
-{}(*tmp*)
-int_cross_foreach
-  (m, n, fwork) =
-  int_foreach(m, lam(i) => int_foreach(n, lam(j) => fwork(i, j)))
-//
+
+##implement("int_foldleft")
+##implement("int_foldleft_method")  
+  
+(* ****** ****** *)
+
+##interface("int_cross_foreach")
+##implement("int_cross_foreach")
+
 (* ****** ****** *)
 //
 // For list0-values
@@ -142,22 +84,10 @@ overload iseqz with list0_is_nil of 100
 overload isneqz with list0_is_cons of 100
 //
 (* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-list0_length(xs0: list0(INV(a))): int
-//
-(*
-implement
-list0_length
-(
-case+ xs0 of
-| list0_nil() => 0
-| list0_cons(x0, xs1) => 1 + list0_length<a>(xs1)
-) (* end of [list0_length] *)
-*)
-//
+
+##interface("list0_length")
+##implement("list0_length")
+
 (* ****** ****** *)
 //
 extern
@@ -339,13 +269,6 @@ case+ xs of
 //
 implement
 {a}(*tmp*)
-list0_length(xs) =
-  list0_foldleft<int><a>(xs, 0, lam(r, _) => r + 1)
-//
-(* ****** ****** *)
-//
-implement
-{a}(*tmp*)
 list0_append(xs, ys) =
   list0_foldright<a><list0(a)>
   (xs, lam(x, ys) => list0_cons(x, ys), ys)
@@ -424,84 +347,15 @@ end // end of [fprint_list0]
 //
 (* ****** ****** *)
 
-extern
-fun
-{a:t@ype}
-{b:t@ype}
-list0_map
-(xs: list0(INV(a)), fopr: cfun(a, b)): list0(b)
-extern
-fun
-{a:t@ype}
-{b:t@ype}
-list0_mapopt
-(xs: list0(INV(a)), fopr: cfun(a, option0(b))): list0(b)
-
-(* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-list0_foreach
-(xs: list0(INV(a)), fwork: cfun(a, void)): void
-//
-(* ****** ****** *)
-
-extern
-fun
-{a:t@ype}
-list0_filter
-(xs: list0(INV(a)), pred: cfun(a, bool)): list0(a)
+##interface("list0_map")
+##interface("list0_mapopt")
+##interface("list0_foreach")
+##interface("list0_filter")
 
 (* ****** ****** *)
 
-implement
-{a}{b}
-list0_map
-(
-  xs, fopr
-) = auxlst(xs) where
-{
-//
-fun
-auxlst
-(xs: list0(a)): list0(b) =
-(
-case+ xs of
-| list0_nil() =>
-  list0_nil()
-| list0_cons(x, xs) =>
-  list0_cons(fopr(x), auxlst(xs))
-)
-//
-} (* end of [list0_map] *)
-
-(* ****** ****** *)
-
-implement
-{a}{b}
-list0_mapopt
-(
-  xs, fopr
-) = auxlst(xs) where
-{
-//
-fun
-auxlst
-(xs: list0(a)): list0(b) =
-(
-case+ xs of
-| list0_nil() =>
-  list0_nil()
-| list0_cons(x, xs) =>
-  (
-  case+ fopr(x) of
-  | None0() => auxlst(xs)
-  | Some0(y) => list0_cons(y, auxlst(xs))
-  )
-)
-//
-} (* end of [list0_mapopt] *)
+##implement("list0_map")
+##implement("list0_mapopt")
 
 (* ****** ****** *)
 //
@@ -1092,18 +946,13 @@ case+ xs of
 
 (* ****** ****** *)
 //
-// HX: STREAM
+// For stream-values
 //
 (* ****** ****** *)
-//
-extern
-fun
-int_stream_from(n: int): stream(int)
-//
-implement
-int_stream_from(n) =
-  $delay(stream_cons(n, int_stream_from(n+1)))
-//
+
+#interface("int_stream_from")
+#implement("int_stream_from")
+
 (* ****** ****** *)
 //
 extern
