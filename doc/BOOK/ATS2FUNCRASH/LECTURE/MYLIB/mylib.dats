@@ -1092,7 +1092,7 @@ case+ xs of
 
 (* ****** ****** *)
 //
-// HX: STREAM
+// For stream-values
 //
 (* ****** ****** *)
 //
@@ -1128,7 +1128,9 @@ fun
 stream_get_at_exn
   (xs: stream(a), n: int): a
 //
-overload [] with stream_get_at_exn
+overload [] with stream_get_at_exn of 100
+//
+(* ****** ****** *)
 //
 implement
 {a}(*tmp*)
@@ -1144,8 +1146,10 @@ case- !xs of
 *)
 | stream_cons(x, xs) =>
   (
-    if n <= 0 then x else stream_get_at_exn<a>(xs, n-1)
-  )
+    if n <= 0
+      then x else stream_get_at_exn<a>(xs, n-1)
+    // end of [if]
+  ) (* end of [stream_cons] *)
 )
 //
 (* ****** ****** *)

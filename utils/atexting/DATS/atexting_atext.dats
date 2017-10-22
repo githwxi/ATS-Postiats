@@ -36,6 +36,9 @@
 #include
 "share\
 /atspre_staload.hats"
+#include
+"share\
+/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
@@ -103,6 +106,43 @@ implement
 atext_make_dquote
   (loc, tok, txts) =
   atext_make(loc, TEXTdquote(tok, txts))
+//
+(* ****** ****** *)
+//
+implement
+atext_tuple_2
+  (loc, x0, x1) =
+  atext_make
+  (loc, TEXTlist(list0_tuple(x0, x1)))
+implement
+atext_tuple_3
+  (loc, x0, x1, x2) =
+  atext_make
+  (loc, TEXTlist(list0_tuple(x0, x1, x2)))
+//
+implement
+atext_tuple_4
+  (loc, x0, x1, x2, x3) =
+  atext_make
+  (loc, TEXTlist(list0_tuple(x0, x1, x2, x3)))
+//
+implement
+atext_tuple_5
+  (loc, x0, x1, x2, x3, x4) =
+(
+  atext_make
+  ( loc
+  , TEXTlist(list0_tuple(x0, x1, x2, x3, x4)))
+)
+//
+implement
+atext_tuple_6
+  (loc, x0, x1, x2, x3, x4, x5) =
+(
+  atext_make
+  ( loc
+  , TEXTlist(list0_tuple(x0, x1, x2, x3, x4, x5)))
+)
 //
 (* ****** ****** *)
 //

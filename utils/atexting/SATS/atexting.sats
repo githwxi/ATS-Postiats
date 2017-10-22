@@ -500,6 +500,39 @@ atext_make_dquote(loc_t, token, xs: atextlst): atext
 (* ****** ****** *)
 //
 fun
+atext_tuple_2
+( l0: loc_t
+, x0: atext, x1: atext): atext
+fun
+atext_tuple_3
+( l0: loc_t
+, x0: atext
+, x1: atext, x2: atext): atext
+fun
+atext_tuple_4
+( l0: loc_t
+, x0: atext, x1: atext
+, x2: atext, x3: atext): atext
+fun
+atext_tuple_5
+( l0: loc_t
+, x0: atext, x1: atext
+, x2: atext, x3: atext, x4: atext): atext
+fun
+atext_tuple_6
+( l0: loc_t
+, x0: atext, x1: atext, x2: atext
+, x3: atext, x4: atext, x5: atext): atext
+//
+overload atext_tuple with atext_tuple_2
+overload atext_tuple with atext_tuple_3
+overload atext_tuple with atext_tuple_4
+overload atext_tuple with atext_tuple_5
+overload atext_tuple with atext_tuple_6
+//
+(* ****** ****** *)
+//
+fun
 fprint_atext : fprint_type(atext)
 fun
 fprint_atextlst : fprint_type(atextlst)

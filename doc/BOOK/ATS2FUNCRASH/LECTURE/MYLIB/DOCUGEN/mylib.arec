@@ -4,10 +4,10 @@
 # used for ATS2FUNCRASH
 #
 ####################################
-[name]:
-[interface]:
-[implement]:
-[description]:
+[name]: \
+[interface]: \
+[implement]: \
+[description]: \
 ####################################
 #
 # For integers
@@ -20,8 +20,7 @@ fun{}
 int_foreach
 ( n0: int
 , fwork: cfun(int, void)): void
-[interface]:
-[implement]:
+[implement]: \
 implement
 {}(*tmp*)
 int_foreach
@@ -29,8 +28,9 @@ int_foreach
   loop(0) where
 {
 //
-fun loop(i: int): void =
-  if i < n0 then (fwork(i); loop(i+1))
+fun
+loop(i: int): void =
+if i < n0 then (fwork(i); loop(i+1))
 //
 } (* end of [int_foreach] *)
 ####################################
@@ -44,7 +44,7 @@ int_foreach_method
 overload
 .foreach with int_foreach_method of 100
 //
-[implement]:
+[implement]: \
 implement
 {}(*tmp*)
 int_foreach_method(n0) =
@@ -59,7 +59,7 @@ int_foldleft
 ( n0: int
 , res: res
 , fopr: cfun(res, int, res)): res
-[implement]:
+[implement]: \
 implement
 {res}(*tmp*)
 int_foldleft
@@ -77,7 +77,6 @@ fun loop(res: res, i: int): res =
 [name]: \
 int_foldleft_method
 [interface]: \
-extern
 fun
 {res:t@ype}
 int_foldleft_method
@@ -87,7 +86,7 @@ int_foldleft_method
 overload
 .foldleft with int_foldleft_method of 100
 //
-[implement]:
+[implement]: \
 implement
 {res}(*tmp*)
 int_foldleft_method(n0, ty) =
@@ -95,24 +94,79 @@ lam(res, fopr) => int_foldleft<res>(n0, res, fopr)
 ####################################
 [name]: \
 int_cross_foreach
-[interface]:
+[interface]: \
 fun{}
 int_cross_foreach
-(m: int, n: int, fwork: cfun(int, int, void)): void
+( m: int
+, n: int
+, fwork: cfun(int, int, void)): void
+[implement]: \
+implement
+{}(*tmp*)
+int_cross_foreach
+( m, n
+, fwork) =
+(
+int_foreach
+( m
+, lam(i) =>
+  int_foreach(n, lam(j) => fwork(i, j)))
+)
+####################################
+[name]: \
+int_cross_foreach_method
+[interface]: \
+fun{}
+int_cross_foreach_method
+(m: int, n: int)(fwork: cfun(int, int, void)): void
 //
 overload
 .cross_foreach with int_cross_foreach_method of 100
 //
-[implement]:
+[implement]: \
 implement
 {}(*tmp*)
-int_cross_foreach
-(m, n, fwork) =
-int_foreach(m, lam(i) => int_foreach(n, lam(j) => fwork(i, j)))
+int_cross_foreach_method
+(m, n) =
+lam(fwork) => int_cross_foreach(m, n, fwork)
 ####################################
 #
 # For list0-values
 #
+####################################
+[name]: \
+list0_is_nil
+[interface]: \
+fun{}
+list0_is_nil{a:t@ype}(list0(a)): bool
+//
+overload iseqz with list0_is_nil of 100
+//
+[implement]: \
+implement
+{}(*tmp*)
+list0_is_nil(xs) =
+(case+ xs of list0_nil() => true | _ => false)
+[description]: \
+This function tests whether a given list0-value
+is empty.
+####################################
+[name]: \
+list0_is_cons
+[interface]: \
+fun{}
+list0_is_cons{a:t@ype}(list0(a)): bool
+//
+overload isneqz with list0_is_cons of 100
+//
+[implement]: \
+implement
+{}(*tmp*)
+list0_is_cons(xs) =
+(case+ xs of list0_cons _ => true | _ => false)
+[description]: \
+This function tests whether a given list0-value
+is non-empty.
 ####################################
 [name]: \
 list0_length
@@ -169,21 +223,35 @@ ATSLIB is tail-recursive.
 [name]: \
 list0_map_method
 [interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_map_method
+( xs: list0(INV(a) )
+( fopr: cfun(a, b) ) : list0(b)
 //
 overload
 .map with list0_map_method of 100
 //
+[implement]: \
+implement
+{a}{b}
+list0_map_method
+  (xs) =
+(
+  lam(fopr) => list0_map<a><b>(xs, fopr)
+)
 ####################################
 [name]: \
 list0_mapopt
-[interface]:
+[interface]: \
 fun
 {a:t@ype}
 {b:t@ype}
 list0_mapopt
 ( xs: list0(INV(a))
 , fopr: cfun(a, option0(b))): list0(b)
-[implement]:
+[implement]: \
 implement
 {a}{b}
 list0_mapopt
@@ -217,10 +285,41 @@ implementation of this function in ATSLIB is tail-recursive.
 [name]: \
 list0_mapopt_method
 [interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapopt_method
+( xs: list0(INV(a)) )
+( fopr: cfun(a, option0(b)) ): list0(b)
 //
 overload
 .mapopt with list0_mapopt_method of 100
 //
+[implement]: \
+implement
+{a}{b}
+list0_mapopt_method
+  (xs) =
+(
+  lam(fopr) => list0_mapopt<a><b>(xs, fopr)
+)
+####################################
+[name]: \
+list0_mapcons
+[interface]: \
+fun
+{a:t@ype}
+list0_mapcons
+( x0: a
+, xss: list0(list0(a))): list0(list0(a))
+[implement]: \
+implement
+{a}(*tmp*)
+list0_mapcons
+  (x0, xss) =
+(
+list0_map<list0(a)><list0(a)>(xss, lam(xs) => list0_cons(x0, xs))
+) (* list0_mapcons *)
 ####################################
 [name]: \
 list0_foreach
@@ -268,5 +367,198 @@ implement
 int_stream_from(n) =
 $delay(stream_cons(n, int_stream_from(n+1)))
 ####################################
-
+[name]: \
+stream_make_list0
+[interface]: \
+fun
+{a:t@ype}
+stream_make_list0(list0(INV(a))): stream(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_make_list0
+  (xs) = $delay
+(
+case+ xs of
+| list0_nil() =>
+  stream_nil()
+| list0_cons(x, xs) =>
+  stream_cons(x, stream_make_list0<a>(xs))
+)
+####################################
+[name]: \
+stream_get_at_exn
+[interface]: \
+fun
+{a:t@ype}
+stream_get_at_exn(stream(a), n: int): a
+//
+overload [] with stream_get_at_exn of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+stream_get_at_exn
+  (xs, n) =
+(
+case- !xs of
+(*
+| stream_nil() =>
+  (
+    $raise StreamSubscriptExn()
+  )
+*)
+| stream_cons(x, xs) =>
+  (
+    if n <= 0
+      then x else stream_get_at_exn<a>(xs, n-1)
+    // end of [if]
+  )
+)
+####################################
+#
+# For linear stream-values
+#
+####################################
+[name]: \
+int_stream_vt_from
+[interface]: \
+fun
+int_stream_vt_from(n: int): stream_vt(int)
+[implement]: \
+implement
+int_stream_vt_from(n) =
+$ldelay(stream_vt_cons(n, int_stream_vt_from(n+1)))
+####################################
+[name]: \
+stream_vt_takeLte
+[interface]: \
+fun
+{a:t@ype}
+stream_vt_takeLte
+  (xs: stream_vt(a), n: int): stream_vt(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_vt_takeLte
+  (xs, n) = $ldelay
+(
+if
+n > 0
+then
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+   stream_vt_nil()
+| ~stream_vt_cons(x, xs) =>
+   stream_vt_cons(x, stream_vt_takeLte(xs, n-1))
+)
+else (~xs; stream_vt_nil((*void*)))
+,
+lazy_vt_free(xs) // called when the stream is freed
+) (* end of [stream_vt_takeLte] *)
+####################################
+[name]: \
+stream_vt_map
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+stream_vt_map
+(xs: stream_vt(a), fopr: cfun(a, b)): stream_vt(b)
+[implement]: \
+implement
+{a}{b}
+stream_vt_map
+  (xs, fopr) = $ldelay
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+   stream_vt_nil()
+| ~stream_vt_cons(x, xs) =>
+   stream_vt_cons(fopr(x), stream_vt_map<a><b>(xs, fopr))
+, lazy_vt_free(xs)
+)
+####################################
+[name]: \
+stream_vt_foldleft
+[interface]: \
+fun{
+res:t@ype
+}{a:t@ype}
+stream_vt_foldleft
+(
+xs: stream_vt(a),
+r0: res, fopr: cfun(res, a, res)
+) : res // end-of-function
+[implement]: \
+implement
+{res}{a}
+stream_vt_foldleft(xs, r0, fopr) =
+(
+//
+case+ !xs of
+| ~stream_vt_nil() => r0
+| ~stream_vt_cons(x, xs) =>
+   stream_vt_foldleft<res><a>(xs, fopr(r0, x), fopr)
+//
+) (* end of [stream_vt_foldleft] *)
+[description]: \
+####################################
+#
+# For continuation-passing
+#
+####################################
+[name]: \
+list0_kmap
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_kmap
+( xs: list0(INV(a))
+, f0: cfun(a, cont1(b), void)
+, k0: cont1(list0(b))) : void
+[implement]: \
+implement
+{a}{b}
+list0_kmap(xs, f0, k0) =
+(
+case+ xs of
+| list0_nil() =>
+  k0(list0_nil())
+| list0_cons(x, xs) =>
+  f0
+  ( x
+  , lam(y) =>
+    list0_kmap<a><b>
+      (xs, f0, lam(ys) => k0(list0_cons(y, ys)))
+    // end of [list0_kmap]
+  )
+)
+[description]: \
+####################################
+[name]: \
+stream_kforeach
+[interface]: \
+fun
+{a:t@ype}
+stream_kforeach
+( xs: stream(INV(a))
+, f0: cfun(a, cont1(bool), void), k0: cont0()): void
+[implement]: \
+implement
+{a}(*tmp*)
+stream_kforeach(xs, f0, k0) =
+(
+case+ !xs of
+| stream_nil() => k0()
+| stream_cons(x, xs) =>
+  f0
+  ( x
+  , lam(y) =>
+    if y then stream_kforeach<a>(xs, f0, k0) else k0()
+  )
+)
+[description]: \
 ######### end of [mylib.arec] #########

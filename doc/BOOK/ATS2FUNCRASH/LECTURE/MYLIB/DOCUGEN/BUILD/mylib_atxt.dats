@@ -33,24 +33,105 @@ symelim .foldright
 //
 (* ****** ****** *)
 
-##interface("int_foreach")
-##interface("int_foreach_method")
-##implement("int_foreach")
-##implement("int_foreach_method")
+extern
+fun{}
+int_foreach
+( n0: int
+, fwork: cfun(int, void)): void
+extern
+fun{}
+int_foreach_method
+(n0: int)(fwork: cfun(int, void)): void
+//
+overload
+.foreach with int_foreach_method of 100
+//
+implement
+{}(*tmp*)
+int_foreach
+  (n0, fwork) =
+  loop(0) where
+{
+//
+fun
+loop(i: int): void =
+if i < n0 then (fwork(i); loop(i+1))
+//
+} (* end of [int_foreach] *)
+implement
+{}(*tmp*)
+int_foreach_method(n0) =
+lam(fwork) => int_foreach<>(n0, fwork)
 
 (* ****** ****** *)
 
-##interface("int_foldleft")
-##interface("int_foldleft_method")
-##implement("int_foldleft")
-##implement("int_foldleft_method")  
+extern
+fun
+{res:t@ype}
+int_foldleft
+( n0: int
+, res: res
+, fopr: cfun(res, int, res)): res
+extern
+fun
+{res:t@ype}
+int_foldleft_method
+(n0: int, ty: TYPE(res))
+(res: res, fopr: cfun(res, int, res)): res
+//
+overload
+.foldleft with int_foldleft_method of 100
+//
+implement
+{res}(*tmp*)
+int_foldleft
+  (n0, res, fopr) =
+  loop(res, 0) where
+{
+//
+fun loop(res: res, i: int): res =
+  if i < n0
+    then loop(fopr(res, i), i+1) else res
+  // end of [if]
+//
+} (* end of [int_foldleft] *)
+implement
+{res}(*tmp*)
+int_foldleft_method(n0, ty) =
+lam(res, fopr) => int_foldleft<res>(n0, res, fopr)  
   
 (* ****** ****** *)
 
-##interface("int_cross_foreach")
-##interface("int_cross_foreach_method")
-##implement("int_cross_foreach")
-##implement("int_cross_foreach_method")
+extern
+fun{}
+int_cross_foreach
+( m: int
+, n: int
+, fwork: cfun(int, int, void)): void
+extern
+fun{}
+int_cross_foreach_method
+(m: int, n: int)(fwork: cfun(int, int, void)): void
+//
+overload
+.cross_foreach with int_cross_foreach_method of 100
+//
+implement
+{}(*tmp*)
+int_cross_foreach
+( m, n
+, fwork) =
+(
+int_foreach
+( m
+, lam(i) =>
+  int_foreach(n, lam(j) => fwork(i, j)))
+)
+implement
+{}(*tmp*)
+int_cross_foreach_method
+(m, n) =
+lam(fwork) => int_cross_foreach(m, n, fwork)
 
 (* ****** ****** *)
 //
@@ -58,15 +139,40 @@ symelim .foldright
 //
 (* ****** ****** *)
 
-##interface("list0_is_nil")
-##interface("list0_is_cons")
-##implement("list0_is_nil")
-##implement("list0_is_cons")
+extern
+fun{}
+list0_is_nil{a:t@ype}(list0(a)): bool
+//
+overload iseqz with list0_is_nil of 100
+//
+extern
+fun{}
+list0_is_cons{a:t@ype}(list0(a)): bool
+//
+overload isneqz with list0_is_cons of 100
+//
+implement
+{}(*tmp*)
+list0_is_nil(xs) =
+(case+ xs of list0_nil() => true | _ => false)
+implement
+{}(*tmp*)
+list0_is_cons(xs) =
+(case+ xs of list0_cons _ => true | _ => false)
 
 (* ****** ****** *)
 
-##interface("list0_length")
-##implement("list0_length")
+extern
+fun
+{a:t@ype}
+list0_length(xs0: list0(INV(a))): int
+//
+overload length with list0_length of 100
+//
+implement
+{a}(*tmp*)
+list0_length(xs) =
+list0_foldleft<int><a>(xs, 0, lam(r, _) => r + 1)
 
 (* ****** ****** *)
 //
@@ -327,20 +433,97 @@ end // end of [fprint_list0]
 //
 (* ****** ****** *)
 
-##interface("list0_map")
-##implement("list0_map")
-##implement("list0_map_method")
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_map
+( xs: list0(INV(a))
+, fopr: cfun(a, b)): list0(b)
+implement
+{a}{b}
+list0_map
+(
+  xs, fopr
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  list0_cons(fopr(x), auxlst(xs))
+)
+//
+} (* end of [list0_map] *)
+implement
+{a}{b}
+list0_map_method
+  (xs) =
+(
+  lam(fopr) => list0_map<a><b>(xs, fopr)
+)
 
 (* ****** ****** *)
 
-##interface("list0_mapopt")
-##implement("list0_mapopt")
-##implement("list0_mapopt_method")
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapopt
+( xs: list0(INV(a))
+, fopr: cfun(a, option0(b))): list0(b)
+implement
+{a}{b}
+list0_mapopt
+(
+  xs, fopr
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  (
+  case+ fopr(x) of
+  | None0() => auxlst(xs)
+  | Some0(y) => list0_cons(y, auxlst(xs))
+  )
+)
+//
+} (* end of [list0_mapopt] *)
+implement
+{a}{b}
+list0_mapopt_method
+  (xs) =
+(
+  lam(fopr) => list0_mapopt<a><b>(xs, fopr)
+)
 
 (* ****** ****** *)
 
-##interface("list0_mapcons")
-##implement("list0_mapcons")
+extern
+fun
+{a:t@ype}
+list0_mapcons
+( x0: a
+, xss: list0(list0(a))): list0(list0(a))
+implement
+{a}(*tmp*)
+list0_mapcons
+  (x0, xss) =
+(
+list0_map<list0(a)><list0(a)>(xss, lam(xs) => list0_cons(x0, xs))
+) (* list0_mapcons *)
 
 (* ****** ****** *)
 //
@@ -363,8 +546,18 @@ list0_mapjoin
 (* ****** ****** *)
 
 
-##interface("list0_filter")
-##interface("list0_foreach")
+extern
+fun
+{a:t@ype}
+list0_filter
+( xs: list0(INV(a))
+, pred: cfun(a, bool)): list0(a)
+extern
+fun
+{a:t@ype}
+list0_foreach
+( xs: list0(INV(a))
+, fwork: cfun(a, void)): void
 
 (* ****** ****** *)
 
@@ -924,18 +1117,59 @@ case+ xs of
 //
 (* ****** ****** *)
 
-##interface("int_stream_from")
-##implement("int_stream_from")
+extern
+fun
+int_stream_from(n: int): stream(int)
+implement
+int_stream_from(n) =
+$delay(stream_cons(n, int_stream_from(n+1)))
 
 (* ****** ****** *)
 
-##interface("stream_make_list0")
-##implement("stream_make_list0")
+extern
+fun
+{a:t@ype}
+stream_make_list0(list0(INV(a))): stream(a)
+implement
+{a}(*tmp*)
+stream_make_list0
+  (xs) = $delay
+(
+case+ xs of
+| list0_nil() =>
+  stream_nil()
+| list0_cons(x, xs) =>
+  stream_cons(x, stream_make_list0<a>(xs))
+)
 
 (* ****** ****** *)
 
-##interface("stream_get_at_exn")
-##implement("stream_get_at_exn")
+extern
+fun
+{a:t@ype}
+stream_get_at_exn(stream(a), n: int): a
+//
+overload [] with stream_get_at_exn of 100
+//
+implement
+{a}(*tmp*)
+stream_get_at_exn
+  (xs, n) =
+(
+case- !xs of
+(*
+| stream_nil() =>
+  (
+    $raise StreamSubscriptExn()
+  )
+*)
+| stream_cons(x, xs) =>
+  (
+    if n <= 0
+      then x else stream_get_at_exn<a>(xs, n-1)
+    // end of [if]
+  )
+)
 
 (* ****** ****** *)
 //
@@ -1105,23 +1339,83 @@ case+ !xs of
 //
 (* ****** ****** *)
 
-##interface("int_stream_vt_from")
-##implement("int_stream_vt_from")
+extern
+fun
+int_stream_vt_from(n: int): stream_vt(int)
+implement
+int_stream_vt_from(n) =
+$ldelay(stream_vt_cons(n, int_stream_vt_from(n+1)))
 
 (* ****** ****** *)
 
-##interface("stream_vt_takeLte")
-##implement("stream_vt_takeLte")
+extern
+fun
+{a:t@ype}
+stream_vt_takeLte
+  (xs: stream_vt(a), n: int): stream_vt(a)
+implement
+{a}(*tmp*)
+stream_vt_takeLte
+  (xs, n) = $ldelay
+(
+if
+n > 0
+then
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+   stream_vt_nil()
+| ~stream_vt_cons(x, xs) =>
+   stream_vt_cons(x, stream_vt_takeLte(xs, n-1))
+)
+else (~xs; stream_vt_nil((*void*)))
+,
+lazy_vt_free(xs) // called when the stream is freed
+) (* end of [stream_vt_takeLte] *)
 
 (* ****** ****** *)
 
-##interface("stream_vt_map")
-##implement("stream_vt_map")
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+stream_vt_map
+(xs: stream_vt(a), fopr: cfun(a, b)): stream_vt(b)
+implement
+{a}{b}
+stream_vt_map
+  (xs, fopr) = $ldelay
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+   stream_vt_nil()
+| ~stream_vt_cons(x, xs) =>
+   stream_vt_cons(fopr(x), stream_vt_map<a><b>(xs, fopr))
+, lazy_vt_free(xs)
+)
 
 (* ****** ****** *)
 
-##interface("stream_vt_foldleft")
-##implement("stream_vt_foldleft")
+extern
+fun{
+res:t@ype
+}{a:t@ype}
+stream_vt_foldleft
+(
+xs: stream_vt(a),
+r0: res, fopr: cfun(res, a, res)
+) : res // end-of-function
+implement
+{res}{a}
+stream_vt_foldleft(xs, r0, fopr) =
+(
+//
+case+ !xs of
+| ~stream_vt_nil() => r0
+| ~stream_vt_cons(x, xs) =>
+   stream_vt_foldleft<res><a>(xs, fopr(r0, x), fopr)
+//
+) (* end of [stream_vt_foldleft] *)
 
 (* ****** ****** *)
 //
@@ -1132,13 +1426,52 @@ cont1(res:t@ype) = cfun(res, void)
 //
 (* ****** ****** *)
 
-##interface("list0_kmap")
-##implement("list0_kmap")
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_kmap
+( xs: list0(INV(a))
+, f0: cfun(a, cont1(b), void)
+, k0: cont1(list0(b))) : void
+implement
+{a}{b}
+list0_kmap(xs, f0, k0) =
+(
+case+ xs of
+| list0_nil() =>
+  k0(list0_nil())
+| list0_cons(x, xs) =>
+  f0
+  ( x
+  , lam(y) =>
+    list0_kmap<a><b>
+      (xs, f0, lam(ys) => k0(list0_cons(y, ys)))
+    // end of [list0_kmap]
+  )
+)
 
 (* ****** ****** *)
 
-##interface("stream_kforeach")
-##implement("stream_kforeach")
+extern
+fun
+{a:t@ype}
+stream_kforeach
+( xs: stream(INV(a))
+, f0: cfun(a, cont1(bool), void), k0: cont0()): void
+implement
+{a}(*tmp*)
+stream_kforeach(xs, f0, k0) =
+(
+case+ !xs of
+| stream_nil() => k0()
+| stream_cons(x, xs) =>
+  f0
+  ( x
+  , lam(y) =>
+    if y then stream_kforeach<a>(xs, f0, k0) else k0()
+  )
+)
 
 (* ****** ****** *)
 
