@@ -15,4 +15,4 @@ Python). This crash course is primarily based on the ML-like
 functional core of ATS extended with templates (for handling
 parametric polymorphism), and the presented style of functional
 programming makes extensive use of combinators (which are mostly
-simple list-processing functions).
+simple list-processing and stream-processing functions).
