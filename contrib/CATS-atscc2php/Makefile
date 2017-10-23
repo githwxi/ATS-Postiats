@@ -40,16 +40,16 @@ $(MAKE) -C CATS-parsemit all
 ######
 #
 all:: \
-atscc2php
-atscc2php: \
+bin_atscc2php
+bin_atscc2php: \
 $(SOURCES_DATS); \
 $(PATSCC) \
-  -DATS_MEMALLOC_GCBDW -O2 -o $@ \
+  -DATS_MEMALLOC_GCBDW -O2 -o bin/atscc2php \
   $(SOURCES_DATS) $(SOURCES_SATS) $(SOURCES_CATS) -lgc
 #
 ######
 #
-npm:: atscc2php
+npm:: bin_atscc2php
 npm:: ; $(CPF) catsparse_sats.c atscc2php_*_dats.c npm/CATS/.
 #
 ######
@@ -72,7 +72,7 @@ clean:: ; $(RMF) *_?ats.c
 #
 cleanall:: clean
 #
-cleanall:: ; $(RMF) ./atscc2php
+cleanall:: ; $(RMF) ./bin/atscc2php
 cleanall:: ; $(RMF) ./npm/CATS/catsparse_sats.c
 cleanall:: ; $(RMF) ./npm/CATS/atscc2php_*_dats.c 
 #

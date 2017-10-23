@@ -9,7 +9,7 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 #
-ATSCC2PHP=./../atscc2php
+ATSCC2PHP=./../bin/atscc2php
 #
 LIBATSCC2PHP=\
 $(PATSHOME)/contrib/libatscc2php/ATS2-0.3.2

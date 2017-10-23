@@ -8,7 +8,7 @@ NODEJS=nodejs
 
 ######
 #
-ATSCC2JS=./../atscc2js
+ATSCC2JS=./../bin/atscc2js
 #
 LIBATSCC2JS=\
 $(PATSHOME)/contrib/libatscc2js

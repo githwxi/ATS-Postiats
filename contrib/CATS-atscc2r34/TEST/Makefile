@@ -9,7 +9,7 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 #
-ATSCC2R34=./../atscc2r34
+ATSCC2R34=./../bin/atscc2r34
 #
 LIBATSCC2R34=\
 $(PATSHOME)/contrib/libatscc2r34
