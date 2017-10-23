@@ -14,7 +14,7 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 #
-ATSCC2ERL=./../atscc2erl
+ATSCC2ERL=./../bin/atscc2erl
 #
 LIBATSCC2ERL=\
 $(PATSHOME)/contrib/libatscc2erl/ATS2-0.3.2
