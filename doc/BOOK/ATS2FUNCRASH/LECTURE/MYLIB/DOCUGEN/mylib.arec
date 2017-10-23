@@ -1198,8 +1198,8 @@ implement
 int_stream_from(n) =
 $delay(stream_cons(n, int_stream_from(n+1)))
 [description]: \
-Given an integer n, this function returns
-the stream of integers n, n+1, n+2, etc.
+Given an integer n, this function
+returns the stream of integers n, n+1, n+2, etc.
 ####################################
 [name]: \
 stream_make_list0
@@ -1220,8 +1220,8 @@ case+ xs of
   stream_cons(x, stream_make_list0<a>(xs))
 )
 [description]: \
-This function turns a given list0-value into
-the corresponding stream-value.
+This function turns a given
+list0-value into the corresponding stream-value.
 ####################################
 [name]: \
 stream_get_at_exn
@@ -1253,8 +1253,9 @@ case- !xs of
   )
 )
 [description]: \
-This function is the version of
-##dyncode("list0_get_at_exn") on streams.
+This function is
+the corresponding version
+of ##dyncode("list0_get_at_exn") on streams.
 ####################################
 [name]: \
 stream_takeLte
@@ -1282,8 +1283,9 @@ case+ !xs of
 else stream_nil((*void*))
 ) (* end of [stream_takeLte] *)
 [description]: \
-This function is the version of
-##dyncode("list0_takeLte") on streams.
+This function is
+the corresponding version
+of ##dyncode("list0_takeLte") on streams.
 ####################################
 [name]: \
 stream_append
@@ -1304,7 +1306,8 @@ case+ !xs of
   stream_cons(x, stream_append<a>(xs, ys))
 )
 [description]: \
-This function is the version of
+This function is
+the corresponding version of
 ##dyncode("list0_append") on streams.
 ####################################
 [name]: \
@@ -1328,7 +1331,8 @@ case+ !xss of
   ) (* end of [stream_cons] *)
 )
 [description]: \
-This function is the version of
+This function is
+the corresponding version of
 ##dyncode("list0_concat") on streams.
 ####################################
 [name]: \
@@ -1355,7 +1359,8 @@ case+ !xs of
   // end of [stream_cons]
 )
 [description]: \
-This function is the version of
+This function is
+the corresponding version of
 ##dyncode("list0_map") on streams.
 ####################################
 [name]: \
@@ -1385,7 +1390,8 @@ case+ !xs of
   // end of [if]
 )
 [description]: \
-This function is the version of
+This function is
+the corresponding version of
 ##dyncode("list0_filter") on streams.
 ####################################
 [name]: \
@@ -1411,7 +1417,8 @@ case+ !xs of
 //
 ) (* end of [stream_foreach] *)
 [description]: \
-This function is the version of
+This function is
+the corresponding version of
 ##dyncode("list0_foreach") on streams.
 ####################################
 [name]: \
@@ -1438,7 +1445,8 @@ case+ !xs of
 //
 ) (* end of [stream_foldleft] *)
 [description]: \
-This function is the version of
+This function is
+the corresponding version of
 ##dyncode("list0_foldleft") on streams.
 ####################################
 #
@@ -1454,6 +1462,9 @@ int_stream_vt_from(n: int): stream_vt(int)
 implement
 int_stream_vt_from(n) =
 $ldelay(stream_vt_cons(n, int_stream_vt_from(n+1)))
+[description]: \
+Given an integer n, this function returns
+the linear stream of integers n, n+1, n+2, etc.
 ####################################
 [name]: \
 stream_vt_takeLte
@@ -1483,7 +1494,8 @@ else (~xs; stream_vt_nil((*void*)))
 lazy_vt_free(xs) // called when the stream is freed
 ) (* end of [stream_vt_takeLte] *)
 [description]: \
-This function is the version of
+This function is
+the corresponding version of
 ##dyncode("list0_takeLte") on linear streams.
 ####################################
 [name]: \
@@ -1508,7 +1520,8 @@ case+ !xs of
 , lazy_vt_free(xs)
 )
 [description]: \
-This function is the version of
+This function is
+the corresponding version of
 ##dyncode("list0_map") on linear streams.
 ####################################
 [name]: \
@@ -1535,7 +1548,8 @@ case+ !xs of
 //
 ) (* end of [stream_vt_foldleft] *)
 [description]: \
-This function is the version of
+This function is
+the corresponding version of
 ##dyncode("list0_foldleft") on linear streams.
 ####################################
 #
