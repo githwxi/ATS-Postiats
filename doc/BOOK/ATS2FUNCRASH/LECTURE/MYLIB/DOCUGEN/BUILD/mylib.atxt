@@ -69,38 +69,19 @@ symelim .foldright
 ##implement("list0_length")
 
 (* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-list0_append
-(xs: list0(INV(a)), ys: list0(a)): list0(a)
-//
-extern
-fun
-{a:t@ype}
-list0_concat(xs: list0(list0(INV(a)))): list0(a)
-//
+
+##interface("list0_head_exn")
+##interface("list0_tail_exn")
+
 (* ****** ****** *)
 //
-extern
-fun
-{a:t@ype}
-list0_reverse(xs: list0(INV(a))): list0(a)
-and
-list0_revappend
-(xs: list0(INV(a)), ys: list0(a)): list0(a)
+##interface("list0_append")
+##interface("list0_concat")
+//
+##interface("list0_reverse")
+##interface("list0_revappend")
 //
 (* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-list0_head_exn(xs: list0(INV(a))): (a)
-extern
-fun
-{a:t@ype}
-list0_tail_exn(xs: list0(INV(a))): list0(a)
 //
 implement
 {a}(*tmp*)
@@ -110,9 +91,6 @@ implement
 {a}(*tmp*)
 list0_tail_exn(xs) =
 let val-list0_cons(_, xs) = xs in xs end
-//
-overload .head with list0_head_exn of 100
-overload .tail with list0_tail_exn of 100
 //
 (* ****** ****** *)
 //
@@ -326,66 +304,41 @@ in
 end // end of [fprint_list0]
 //
 (* ****** ****** *)
-
+//
 ##interface("list0_map")
 ##implement("list0_map")
+//
+##interface("list0_map_method")
 ##implement("list0_map_method")
-
+//
 (* ****** ****** *)
-
+//
 ##interface("list0_mapopt")
 ##implement("list0_mapopt")
+//
+##interface("list0_mapopt_method")
 ##implement("list0_mapopt_method")
-
+//
 (* ****** ****** *)
 
 ##interface("list0_mapcons")
 ##implement("list0_mapcons")
 
 (* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-{b:t@ype}
-list0_mapjoin
-( xs: list0(INV(a))
-, fopr: cfun(a, list0(b))): list0(b)
-//
-implement
-{a}{b}
-list0_mapjoin
-  (xs, fopr) =
-(
-  list0_concat<b>(list0_map<a><list0(b)>(xs, fopr))
-)
-//
-(* ****** ****** *)
 
+##interface("list0_mapjoin")
+##implement("list0_mapjoin")
+
+(* ****** ****** *)
 
 ##interface("list0_filter")
-##interface("list0_foreach")
 
 (* ****** ****** *)
 
-implement
-{a}(*tmp*)
-list0_foreach
-(
-  xs, fwork
-) = loop(xs) where
-{
-//
-fun
-loop
-(xs: list0(a)): void =
-(
-case+ xs of
-| list0_nil() => ()
-| list0_cons(x, xs) => (fwork(x); loop(xs))
-)
-//
-} (* end of [list0_foreach] *)
+##interface("list0_foreach")
+##implement("list0_foreach")
+##interface("list0_foreach_method")
+##implement("list0_foreach_method")
 
 (* ****** ****** *)
 

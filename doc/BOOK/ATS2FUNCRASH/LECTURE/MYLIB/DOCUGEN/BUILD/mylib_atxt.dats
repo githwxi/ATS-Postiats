@@ -175,38 +175,45 @@ list0_length(xs) =
 list0_foldleft<int><a>(xs, 0, lam(r, _) => r + 1)
 
 (* ****** ****** *)
+
+extern
+fun
+{a:t@ype}
+list0_head_exn(xs: list0(INV(a))): (a)
+//
+overload .head with list0_head_exn of 100
+//
+extern
+fun
+{a:t@ype}
+list0_tail_exn(xs: list0(INV(a))): list0(a)
+//
+overload .tail with list0_tail_exn of 100
+//
+
+(* ****** ****** *)
 //
 extern
 fun
 {a:t@ype}
 list0_append
 (xs: list0(INV(a)), ys: list0(a)): list0(a)
-//
 extern
 fun
 {a:t@ype}
 list0_concat(xs: list0(list0(INV(a)))): list0(a)
 //
-(* ****** ****** *)
-//
 extern
 fun
 {a:t@ype}
 list0_reverse(xs: list0(INV(a))): list0(a)
-and
+extern
+fun
+{a:t@ype}
 list0_revappend
 (xs: list0(INV(a)), ys: list0(a)): list0(a)
 //
 (* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-list0_head_exn(xs: list0(INV(a))): (a)
-extern
-fun
-{a:t@ype}
-list0_tail_exn(xs: list0(INV(a))): list0(a)
 //
 implement
 {a}(*tmp*)
@@ -216,9 +223,6 @@ implement
 {a}(*tmp*)
 list0_tail_exn(xs) =
 let val-list0_cons(_, xs) = xs in xs end
-//
-overload .head with list0_head_exn of 100
-overload .tail with list0_tail_exn of 100
 //
 (* ****** ****** *)
 //
@@ -432,7 +436,7 @@ in
 end // end of [fprint_list0]
 //
 (* ****** ****** *)
-
+//
 extern
 fun
 {a:t@ype}
@@ -460,6 +464,18 @@ case+ xs of
 )
 //
 } (* end of [list0_map] *)
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_map_method
+( xs: list0(INV(a)))
+( fopr: cfun1(a, b)) : list0(b)
+//
+overload
+.map with list0_map_method of 100
+//
 implement
 {a}{b}
 list0_map_method
@@ -467,9 +483,9 @@ list0_map_method
 (
   lam(fopr) => list0_map<a><b>(xs, fopr)
 )
-
+//
 (* ****** ****** *)
-
+//
 extern
 fun
 {a:t@ype}
@@ -501,6 +517,18 @@ case+ xs of
 )
 //
 } (* end of [list0_mapopt] *)
+//
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapopt_method
+( xs: list0(INV(a)) )
+( fopr: cfun(a, option0(b)) ): list0(b)
+//
+overload
+.mapopt with list0_mapopt_method of 100
+//
 implement
 {a}{b}
 list0_mapopt_method
@@ -508,7 +536,7 @@ list0_mapopt_method
 (
   lam(fopr) => list0_mapopt<a><b>(xs, fopr)
 )
-
+//
 (* ****** ****** *)
 
 extern
@@ -526,7 +554,7 @@ list0_map<list0(a)><list0(a)>(xss, lam(xs) => list0_cons(x0, xs))
 ) (* list0_mapcons *)
 
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
@@ -534,7 +562,6 @@ fun
 list0_mapjoin
 ( xs: list0(INV(a))
 , fopr: cfun(a, list0(b))): list0(b)
-//
 implement
 {a}{b}
 list0_mapjoin
@@ -542,9 +569,8 @@ list0_mapjoin
 (
   list0_concat<b>(list0_map<a><list0(b)>(xs, fopr))
 )
-//
-(* ****** ****** *)
 
+(* ****** ****** *)
 
 extern
 fun
@@ -552,15 +578,15 @@ fun
 list0_filter
 ( xs: list0(INV(a))
 , pred: cfun(a, bool)): list0(a)
+
+(* ****** ****** *)
+
 extern
 fun
 {a:t@ype}
 list0_foreach
 ( xs: list0(INV(a))
 , fwork: cfun(a, void)): void
-
-(* ****** ****** *)
-
 implement
 {a}(*tmp*)
 list0_foreach
@@ -579,6 +605,23 @@ case+ xs of
 )
 //
 } (* end of [list0_foreach] *)
+extern
+fun
+{a:t@ype}
+list0_foreach_method
+( xs: list0(INV(a)))
+( fwork: cfun(a, void)): void
+//
+overload
+.foreach with list0_foreach_method of 100
+//
+implement
+{a}(*tmp*)
+list0_foreach_method
+  (xs) =
+(
+lam(fwork) => list0_foreach<a>(xs, fwork)
+)
 
 (* ****** ****** *)
 

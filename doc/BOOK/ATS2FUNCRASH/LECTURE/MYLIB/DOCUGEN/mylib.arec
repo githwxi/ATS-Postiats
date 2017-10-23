@@ -184,6 +184,56 @@ list0_length(xs) =
 list0_foldleft<int><a>(xs, 0, lam(r, _) => r + 1)
 ####################################
 [name]: \
+list0_head_exn
+[interface]: \
+fun
+{a:t@ype}
+list0_head_exn(xs: list0(INV(a))): (a)
+//
+overload .head with list0_head_exn of 100
+//
+####################################
+[name]: \
+list0_tail_exn
+[interface]: \
+fun
+{a:t@ype}
+list0_tail_exn(xs: list0(INV(a))): list0(a)
+//
+overload .tail with list0_tail_exn of 100
+//
+####################################
+[name]: \
+list0_append
+[interface]: \
+fun
+{a:t@ype}
+list0_append
+(xs: list0(INV(a)), ys: list0(a)): list0(a)
+####################################
+[name]: \
+list0_concat
+[interface]: \
+fun
+{a:t@ype}
+list0_concat(xs: list0(list0(INV(a)))): list0(a)
+####################################
+[name]: \
+list0_reverse
+[interface]: \
+fun
+{a:t@ype}
+list0_reverse(xs: list0(INV(a))): list0(a)
+####################################
+[name]: \
+list0_revappend
+[interface]: \
+fun
+{a:t@ype}
+list0_revappend
+(xs: list0(INV(a)), ys: list0(a)): list0(a)
+####################################
+[name]: \
 list0_map
 [interface]: \
 fun
@@ -227,8 +277,8 @@ fun
 {a:t@ype}
 {b:t@ype}
 list0_map_method
-( xs: list0(INV(a) )
-( fopr: cfun(a, b) ) : list0(b)
+( xs: list0(INV(a)))
+( fopr: cfun1(a, b)) : list0(b)
 //
 overload
 .map with list0_map_method of 100
@@ -322,6 +372,24 @@ list0_map<list0(a)><list0(a)>(xss, lam(xs) => list0_cons(x0, xs))
 ) (* list0_mapcons *)
 ####################################
 [name]: \
+list0_mapjoin
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapjoin
+( xs: list0(INV(a))
+, fopr: cfun(a, list0(b))): list0(b)
+[implement]: \
+implement
+{a}{b}
+list0_mapjoin
+  (xs, fopr) =
+(
+  list0_concat<b>(list0_map<a><list0(b)>(xs, fopr))
+)
+####################################
+[name]: \
 list0_foreach
 [interface]: \
 fun
@@ -329,14 +397,46 @@ fun
 list0_foreach
 ( xs: list0(INV(a))
 , fwork: cfun(a, void)): void
+[implement]: \
+implement
+{a}(*tmp*)
+list0_foreach
+(
+  xs, fwork
+) = loop(xs) where
+{
+//
+fun
+loop
+(xs: list0(a)): void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) => (fwork(x); loop(xs))
+)
+//
+} (* end of [list0_foreach] *)
 ####################################
 [name]: \
 list0_foreach_method
 [interface]: \
+fun
+{a:t@ype}
+list0_foreach_method
+( xs: list0(INV(a)))
+( fwork: cfun(a, void)): void
 //
 overload
 .foreach with list0_foreach_method of 100
 //
+[implement]: \
+implement
+{a}(*tmp*)
+list0_foreach_method
+  (xs) =
+(
+lam(fwork) => list0_foreach<a>(xs, fwork)
+)
 ####################################
 [name]: \
 list0_filter
