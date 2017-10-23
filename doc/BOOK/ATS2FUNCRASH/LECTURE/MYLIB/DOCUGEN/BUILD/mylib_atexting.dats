@@ -1,5 +1,9 @@
 (* ****** ****** *)
-
+(*
+//
+For mylib of ATS2FUNCRASH
+//
+*)
 (* ****** ****** *)
 //
 #define
@@ -12,7 +16,8 @@ ATEXTING_targetloc
 "share/atspre_staload.hats"
 //
 macdef
-prelude_streamize_fileref_line = streamize_fileref_line
+streamize_fileref_line =
+streamize_fileref_line
 //
 (* ****** ****** *)
 //

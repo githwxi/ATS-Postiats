@@ -446,12 +446,50 @@ fun
 list0_filter
 ( xs: list0(INV(a))
 , pred: cfun(a, bool)): list0(a)
+[implement]: \
+implement
+{a}(*tmp*)
+list0_filter
+(
+  xs, test
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  if test(x)
+    then list0_cons(x, auxlst(xs)) else auxlst(xs)
+  // end of [if]
+)
+//
+} (* end of [list0_filter] *)
 ####################################
 [name]: \
 list0_filter_method
 [interface]: \
+fun
+{a:t@ype}
+list0_filter_method
+( xs: list0(INV(a)))
+( pred: cfun(a, bool)): list0(a)
+//
 overload
 .filter with list0_filter_method of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+list0_filter_method
+  (xs) =
+(
+  lam(pred) => list0_filter<a>(xs, pred)
+)
 ####################################
 #
 # For stream-values
@@ -515,6 +553,170 @@ case- !xs of
     // end of [if]
   )
 )
+####################################
+[name]: \
+stream_takeLte
+[interface]: \
+fun
+{a:t@ype}
+stream_takeLte
+  (xs: stream(a), n: int): stream(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_takeLte
+  (xs, n) = $delay
+(
+if
+n > 0
+then
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons(x, stream_takeLte(xs, n-1))
+)
+else stream_nil((*void*))
+) (* end of [stream_takeLte] *)
+####################################
+[name]: \
+stream_append
+[interface]: \
+fun
+{a:t@ype}
+stream_append
+(xs: stream(a), ys: stream(a)): stream(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_append
+(xs, ys) = $delay
+(
+case+ !xs of
+| stream_nil() => !ys
+| stream_cons(x, xs) =>
+  stream_cons(x, stream_append<a>(xs, ys))
+)
+####################################
+[name]: \
+stream_concat
+[interface]: \
+fun
+{a:t@ype}
+stream_concat
+  (xss: stream(stream(a))): stream(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_concat(xss) = $delay
+(
+case+ !xss of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(xs, xss) => !
+  (
+   stream_append<a>(xs, stream_concat<a>(xss))
+  ) (* end of [stream_cons] *)
+)
+####################################
+[name]: \
+stream_map
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+stream_map
+(xs: stream(a)
+, fopr: cfun(a, b)): stream(b)
+[implement]: \
+implement
+{a}{b}
+stream_map
+  (xs, fopr) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons
+    (fopr(x), stream_map<a><b>(xs, fopr))
+  // end of [stream_cons]
+)
+####################################
+[name]: \
+stream_filter
+[interface]: \
+fun
+{a:t@ype}
+stream_filter
+( xs: stream(a)
+, test: cfun(a, bool)): stream(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_filter
+  (xs, test) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  if test(x)
+    then
+    stream_cons
+      (x, stream_filter<a>(xs, test))
+    // end of [then]
+    else !(stream_filter<a>(xs, test))
+  // end of [if]
+)
+####################################
+[name]: \
+stream_foreach
+[interface]: \
+fun
+{a:t@ype}
+stream_foreach
+(
+xs: stream(a),
+fwork: cfun(a, void)
+) : void // end-of-function
+[implement]: \
+implement
+{a}(*tmp*)
+stream_foreach(xs, fwork) =
+(
+//
+case+ !xs of
+| stream_nil() => ()
+| stream_cons(x, xs) =>
+  (fwork(x); stream_foreach<a>(xs, fwork))
+//
+) (* end of [stream_foreach] *)
+####################################
+[name]: \
+stream_foldleft
+[interface]: \
+fun{
+res:t@ype
+}{a:t@ype}
+stream_foldleft
+(
+xs: stream(a),
+r0: res, fopr: cfun(res, a, res)
+) : res // end-of-function
+[implement]: \
+implement
+{res}{a}
+stream_foldleft(xs, r0, fopr) =
+(
+//
+case+ !xs of
+| stream_nil() => r0
+| stream_cons(x, xs) =>
+  stream_foldleft<res><a>(xs, fopr(r0, x), fopr)
+//
+) (* end of [stream_foldleft] *)
 ####################################
 #
 # For linear stream-values

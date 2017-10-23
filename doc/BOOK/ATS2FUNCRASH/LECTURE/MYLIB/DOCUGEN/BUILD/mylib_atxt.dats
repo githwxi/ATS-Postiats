@@ -578,6 +578,45 @@ fun
 list0_filter
 ( xs: list0(INV(a))
 , pred: cfun(a, bool)): list0(a)
+implement
+{a}(*tmp*)
+list0_filter
+(
+  xs, test
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  if test(x)
+    then list0_cons(x, auxlst(xs)) else auxlst(xs)
+  // end of [if]
+)
+//
+} (* end of [list0_filter] *)
+extern
+fun
+{a:t@ype}
+list0_filter_method
+( xs: list0(INV(a)))
+( pred: cfun(a, bool)): list0(a)
+//
+overload
+.filter with list0_filter_method of 100
+//
+implement
+{a}(*tmp*)
+list0_filter_method
+  (xs) =
+(
+  lam(pred) => list0_filter<a>(xs, pred)
+)
 
 (* ****** ****** *)
 
@@ -622,31 +661,6 @@ list0_foreach_method
 (
 lam(fwork) => list0_foreach<a>(xs, fwork)
 )
-
-(* ****** ****** *)
-
-implement
-{a}(*tmp*)
-list0_filter
-(
-  xs, test
-) = auxlst(xs) where
-{
-//
-fun
-auxlst
-(xs: list0(a)): list0(a) =
-(
-case+ xs of
-| list0_nil() =>
-  list0_nil()
-| list0_cons(x, xs) =>
-  if test(x)
-    then list0_cons(x, auxlst(xs)) else auxlst(xs)
-  // end of [if]
-)
-//
-} (* end of [list0_filter] *)
 
 (* ****** ****** *)
 //
@@ -719,7 +733,8 @@ list0_concat<a>
 (
 int_list0_map<list0(a)>
 ( m
-, lam(i) => int_list0_map<a>(n, lam(j) => fopr(i, j))
+, lam(i) =>
+  int_list0_map<a>(n, lam(j) => fopr(i, j))
 ) (* int_list0_map *)
 )
 //
@@ -1215,13 +1230,12 @@ case- !xs of
 )
 
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 stream_takeLte
   (xs: stream(a), n: int): stream(a)
-//
 implement
 {a}(*tmp*)
 stream_takeLte
@@ -1239,15 +1253,14 @@ case+ !xs of
 )
 else stream_nil((*void*))
 ) (* end of [stream_takeLte] *)
-//
+
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 stream_append
 (xs: stream(a), ys: stream(a)): stream(a)
-//
 implement
 {a}(*tmp*)
 stream_append
@@ -1258,15 +1271,12 @@ case+ !xs of
 | stream_cons(x, xs) =>
   stream_cons(x, stream_append<a>(xs, ys))
 )
-//
-(* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 stream_concat
   (xss: stream(stream(a))): stream(a)
-//
 implement
 {a}(*tmp*)
 stream_concat(xss) = $delay
@@ -1274,19 +1284,21 @@ stream_concat(xss) = $delay
 case+ !xss of
 | stream_nil() =>
   stream_nil()
-| stream_cons(xs, xss) =>
-  !(stream_append<a>(xs, stream_concat<a>(xss)))
+| stream_cons(xs, xss) => !
+  (
+   stream_append<a>(xs, stream_concat<a>(xss))
+  ) (* end of [stream_cons] *)
 )
-//
+
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 {b:t@ype}
 stream_map
-(xs: stream(a), fopr: cfun(a, b)): stream(b)
-//
+(xs: stream(a)
+, fopr: cfun(a, b)): stream(b)
 implement
 {a}{b}
 stream_map
@@ -1300,15 +1312,12 @@ case+ !xs of
     (fopr(x), stream_map<a><b>(xs, fopr))
   // end of [stream_cons]
 )
-//
-(* ****** ****** *)
-//
 extern
 fun
 {a:t@ype}
 stream_filter
-(xs: stream(a), test: cfun(a, bool)): stream(a)
-//
+( xs: stream(a)
+, test: cfun(a, bool)): stream(a)
 implement
 {a}(*tmp*)
 stream_filter
@@ -1326,9 +1335,9 @@ case+ !xs of
     else !(stream_filter<a>(xs, test))
   // end of [if]
 )
-//
+
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
@@ -1337,11 +1346,9 @@ stream_foreach
 xs: stream(a),
 fwork: cfun(a, void)
 ) : void // end-of-function
-//
 implement
 {a}(*tmp*)
 stream_foreach(xs, fwork) =
-
 (
 //
 case+ !xs of
@@ -1350,9 +1357,7 @@ case+ !xs of
   (fwork(x); stream_foreach<a>(xs, fwork))
 //
 ) (* end of [stream_foreach] *)
-//
-(* ****** ****** *)
-//
+
 extern
 fun{
 res:t@ype
@@ -1362,11 +1367,9 @@ stream_foldleft
 xs: stream(a),
 r0: res, fopr: cfun(res, a, res)
 ) : res // end-of-function
-//
 implement
 {res}{a}
 stream_foldleft(xs, r0, fopr) =
-
 (
 //
 case+ !xs of
@@ -1375,7 +1378,7 @@ case+ !xs of
   stream_foldleft<res><a>(xs, fopr(r0, x), fopr)
 //
 ) (* end of [stream_foldleft] *)
-//
+
 (* ****** ****** *)
 //
 // For linear stream-values

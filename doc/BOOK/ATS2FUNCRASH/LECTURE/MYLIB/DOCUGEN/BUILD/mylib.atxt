@@ -332,6 +332,9 @@ end // end of [fprint_list0]
 (* ****** ****** *)
 
 ##interface("list0_filter")
+##implement("list0_filter")
+##interface("list0_filter_method")
+##implement("list0_filter_method")
 
 (* ****** ****** *)
 
@@ -339,31 +342,6 @@ end // end of [fprint_list0]
 ##implement("list0_foreach")
 ##interface("list0_foreach_method")
 ##implement("list0_foreach_method")
-
-(* ****** ****** *)
-
-implement
-{a}(*tmp*)
-list0_filter
-(
-  xs, test
-) = auxlst(xs) where
-{
-//
-fun
-auxlst
-(xs: list0(a)): list0(a) =
-(
-case+ xs of
-| list0_nil() =>
-  list0_nil()
-| list0_cons(x, xs) =>
-  if test(x)
-    then list0_cons(x, auxlst(xs)) else auxlst(xs)
-  // end of [if]
-)
-//
-} (* end of [list0_filter] *)
 
 (* ****** ****** *)
 //
@@ -436,7 +414,8 @@ list0_concat<a>
 (
 int_list0_map<list0(a)>
 ( m
-, lam(i) => int_list0_map<a>(n, lam(j) => fopr(i, j))
+, lam(i) =>
+  int_list0_map<a>(n, lam(j) => fopr(i, j))
 ) (* int_list0_map *)
 )
 //
@@ -891,167 +870,33 @@ case+ xs of
 ##implement("stream_get_at_exn")
 
 (* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-stream_takeLte
-  (xs: stream(a), n: int): stream(a)
-//
-implement
-{a}(*tmp*)
-stream_takeLte
-  (xs, n) = $delay
-(
-if
-n > 0
-then
-(
-case+ !xs of
-| stream_nil() =>
-  stream_nil()
-| stream_cons(x, xs) =>
-  stream_cons(x, stream_takeLte(xs, n-1))
-)
-else stream_nil((*void*))
-) (* end of [stream_takeLte] *)
-//
-(* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-stream_append
-(xs: stream(a), ys: stream(a)): stream(a)
-//
-implement
-{a}(*tmp*)
-stream_append
-(xs, ys) = $delay
-(
-case+ !xs of
-| stream_nil() => !ys
-| stream_cons(x, xs) =>
-  stream_cons(x, stream_append<a>(xs, ys))
-)
-//
-(* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-stream_concat
-  (xss: stream(stream(a))): stream(a)
-//
-implement
-{a}(*tmp*)
-stream_concat(xss) = $delay
-(
-case+ !xss of
-| stream_nil() =>
-  stream_nil()
-| stream_cons(xs, xss) =>
-  !(stream_append<a>(xs, stream_concat<a>(xss)))
-)
-//
-(* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-{b:t@ype}
-stream_map
-(xs: stream(a), fopr: cfun(a, b)): stream(b)
-//
-implement
-{a}{b}
-stream_map
-  (xs, fopr) = $delay
-(
-case+ !xs of
-| stream_nil() =>
-  stream_nil()
-| stream_cons(x, xs) =>
-  stream_cons
-    (fopr(x), stream_map<a><b>(xs, fopr))
-  // end of [stream_cons]
-)
-//
-(* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-stream_filter
-(xs: stream(a), test: cfun(a, bool)): stream(a)
-//
-implement
-{a}(*tmp*)
-stream_filter
-  (xs, test) = $delay
-(
-case+ !xs of
-| stream_nil() =>
-  stream_nil()
-| stream_cons(x, xs) =>
-  if test(x)
-    then
-    stream_cons
-      (x, stream_filter<a>(xs, test))
-    // end of [then]
-    else !(stream_filter<a>(xs, test))
-  // end of [if]
-)
-//
-(* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-stream_foreach
-(
-xs: stream(a),
-fwork: cfun(a, void)
-) : void // end-of-function
-//
-implement
-{a}(*tmp*)
-stream_foreach(xs, fwork) =
 
-(
-//
-case+ !xs of
-| stream_nil() => ()
-| stream_cons(x, xs) =>
-  (fwork(x); stream_foreach<a>(xs, fwork))
-//
-) (* end of [stream_foreach] *)
-//
-(* ****** ****** *)
-//
-extern
-fun{
-res:t@ype
-}{a:t@ype}
-stream_foldleft
-(
-xs: stream(a),
-r0: res, fopr: cfun(res, a, res)
-) : res // end-of-function
-//
-implement
-{res}{a}
-stream_foldleft(xs, r0, fopr) =
+##interface("stream_takeLte")
+##implement("stream_takeLte")
 
-(
-//
-case+ !xs of
-| stream_nil() => r0
-| stream_cons(x, xs) =>
-  stream_foldleft<res><a>(xs, fopr(r0, x), fopr)
-//
-) (* end of [stream_foldleft] *)
-//
+(* ****** ****** *)
+
+##interface("stream_append")
+##implement("stream_append")
+
+##interface("stream_concat")
+##implement("stream_concat")
+
+(* ****** ****** *)
+
+##interface("stream_map")
+##implement("stream_map")
+##interface("stream_filter")
+##implement("stream_filter")
+
+(* ****** ****** *)
+
+##interface("stream_foreach")
+##implement("stream_foreach")
+
+##interface("stream_foldleft")
+##implement("stream_foldleft")
+
 (* ****** ****** *)
 //
 // For linear stream-values
