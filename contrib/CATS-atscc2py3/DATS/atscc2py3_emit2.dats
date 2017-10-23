@@ -1,7 +1,7 @@
 (* ****** ****** *)
 //
 // Atscc2py3:
-// from ATS to Python
+// from ATS to Python3
 //
 (* ****** ****** *)
 //
@@ -49,10 +49,10 @@ CATSPARSEMIT_targetloc
 //
 extern
 fun
-the_statmpdeclst_get (): d0eclist
+the_statmpdeclst_get(): d0eclist
 extern
 fun
-the_statmpdeclst_insert (d0ecl): void
+the_statmpdeclst_insert(d0ecl): void
 //
 (* ****** ****** *)
 
@@ -93,16 +93,22 @@ fun auxlst
 case+ xs of
 | list_nil () => ()
 | list_cons (x, xs) => let
-    val-D0Cstatmp(tmp, opt) = x.d0ecl_node
+    val-
+    D0Cstatmp
+      (tmp, opt) = x.d0ecl_node
+    // end of [val]
   in
     case+ opt of
-    | None _ => auxlst (out, xs)
+    | None _ =>
+      (
+        auxlst(out, xs)
+      ) (* None *)
     | Some _ => let
-        val () = emit_ENDL (out)
-        val () = emit_nspc (out, ind)
+        val () = emit_ENDL(out)
+        val () = emit_nspc(out, ind)
         val () =
         (
-          emit_text (out, "global "); emit_tmpvar (out, tmp)
+          emit_text(out, "global "); emit_tmpvar(out, tmp)
         ) (* end of [val] *)
       in
         auxlst (out, xs)
@@ -111,7 +117,7 @@ case+ xs of
 ) (* end of [auxlst] *)
 //
 in
-  auxlst (out, the_statmpdeclst_get ())
+  auxlst (out, the_statmpdeclst_get())
 end // end of [emit_the_statmpdeclst]
 //
 (* ****** ****** *)
@@ -125,16 +131,19 @@ implement
 emit_f0arglst_nonlocal
   (out, f0as) = let
 //
-fun auxlst
+fun
+auxlst
 (
   out: FILEref, f0as: f0arglst, i: int
 ) : void =
 (
 case+ f0as of
-| list_nil () => ()
-| list_cons (f0a, f0as) =>
+| list_nil() => ()
+| list_cons(f0a, f0as) =>
   (
-    case- f0a.f0arg_node of
+    case-
+    f0a.f0arg_node
+    of (* case- *)
     | F0ARGsome (arg, _) => let
         val () =
         if i > 0
@@ -150,7 +159,10 @@ case+ f0as of
 in
 //
 case+ f0as of
-| list_nil () => ()
+| list_nil() =>
+  {
+    // nothing
+  } (* list_nil *)
 | list_cons _ =>
   {
     val () =
@@ -159,7 +171,7 @@ case+ f0as of
     emit_text (out, "nonlocal ")
     val () = auxlst (out, f0as, 0(*i*))
     val () = emit_ENDL (out)
-  }
+  } (* list_cons *)
 //
 end // end of [emit_f0arglst_nonlocal]
 //
@@ -183,9 +195,12 @@ case+ tds of
 | list_nil () => ()
 | list_cons (td, tds) =>
   (
-    case+ td.tmpdec_node of
+    case+
+    td.tmpdec_node
+    of (* case+ *)
     | TMPDECnone
         (tmp) => auxlst (out, tds)
+      // end of [TMPDECnone]
     | TMPDECsome
         (tmp, _) => let
         val () = emit_nspc (out, 2(*ind*))
