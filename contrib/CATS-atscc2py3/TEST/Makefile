@@ -16,7 +16,7 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 #
-ATSCC2PY=./../atscc2py3
+ATSCC2PY=./../bin/atscc2py3
 #
 LIBATSCC2PY3=\
 $(PATSHOME)/contrib/libatscc2py3/ATS2-0.3.2
