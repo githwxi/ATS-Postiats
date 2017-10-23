@@ -40,16 +40,16 @@ $(MAKE) -C CATS-parsemit all
 ######
 #
 all:: \
-atscc2clj
-atscc2clj: \
+bin_atscc2clj
+bin_atscc2clj: \
 $(SOURCES_DATS); \
 $(PATSCC) \
-  -DATS_MEMALLOC_GCBDW -O2 -o $@ \
+  -DATS_MEMALLOC_GCBDW -O2 -o bin/atscc2clj \
   $(SOURCES_DATS) $(SOURCES_SATS) $(SOURCES_CATS) -lgc
 #
 ######
 #
-npm:: atscc2clj
+npm:: bin_atscc2clj
 npm:: ; $(CPF) catsparse_sats.c atscc2clj_*_dats.c npm/CATS/.
 #
 ######
@@ -72,7 +72,7 @@ clean:: ; $(RMF) *_?ats.c
 #
 cleanall:: clean
 #
-cleanall:: ; $(RMF) ./atscc2clj
+cleanall:: ; $(RMF) ./bin/atscc2clj
 cleanall:: ; $(RMF) ./npm/CATS/catsparse_sats.c
 cleanall:: ; $(RMF) ./npm/CATS/atscc2clj_*_dats.c 
 #
