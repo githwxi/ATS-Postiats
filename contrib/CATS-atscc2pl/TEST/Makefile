@@ -13,7 +13,7 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 #
-ATSCC2PL=./../atscc2pl
+ATSCC2PL=./../bin/atscc2pl
 #
 LIBATSCC2PL=\
 $(PATSHOME)/contrib/libatscc2pl/ATS2-0.3.2
