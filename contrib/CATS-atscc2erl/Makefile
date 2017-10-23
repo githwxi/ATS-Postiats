@@ -46,15 +46,17 @@ $(MAKE) -C CATS-parsemit all
 ######
 #
 all:: \
-atscc2erl
-atscc2erl: \
+bin_atscc2erl
+bin_atscc2erl: \
 $(SOURCES_DATS); \
-$(PATSCC) -DATS_MEMALLOC_GCBDW \
-  -O2 -o $@ $(SOURCES_DATS) $(SOURCES_SATS) $(SOURCES_CATS) -lgc
+$(PATSCC) \
+-DATS_MEMALLOC_GCBDW \
+-O2 -o bin/atscc2erl \
+$(SOURCES_DATS) $(SOURCES_SATS) $(SOURCES_CATS) -lgc
 #
 ######
 #
-npm:: atscc2erl
+npm:: bin_atscc2erl
 npm:: ; $(CPF) catsparse_sats.c atscc2erl_*_dats.c npm/CATS/.
 #
 ######
@@ -101,7 +103,7 @@ clean:: ; $(RMF) libatscc2erl_ext_?ats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) ./atscc2erl
+cleanall:: ; $(RMF) ./bin/atscc2erl
 cleanall:: ; $(RMF) ./libatscc2erl.a
 
 ###### end of [Makefile] ######
