@@ -13,7 +13,7 @@ SCHEME=guile
 #
 ######
 #
-ATSCC2SCM=./../atscc2scm
+ATSCC2SCM=./../bin/atscc2scm
 #
 LIBATSCC2SCM=\
 $(PATSHOME)/contrib/libatscc2scm/ATS2-0.3.2
