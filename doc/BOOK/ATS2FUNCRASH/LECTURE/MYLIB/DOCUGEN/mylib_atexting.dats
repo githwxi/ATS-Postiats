@@ -9,18 +9,14 @@ For mylib of ATS2FUNCRASH
 #define
 ATEXTING_targetloc
 "$PATSHOME/utils/atexting"
+#define
+LIBATSREC_targetloc
+"$PATSHOME/utils/libatsrec"
 //
 (* ****** ****** *)
 //
 #include
 "share/atspre_staload.hats"
-//
-macdef
-streamize_fileref_line =
-streamize_fileref_line
-//
-(* ****** ****** *)
-//
 #include
 "share/HATS\
 /atspre_staload_libats_ML.hats"
@@ -28,9 +24,9 @@ streamize_fileref_line
 (* ****** ****** *)
 //
 #include
-"utils/libatsrec/mylibies.hats"
+"{$LIBATSREC}/mylibies.hats"
 #include
-"utils/libatsrec/mylibies_link.hats"
+"{$LIBATSREC}/mylibies_link.hats"
 //
 (* ****** ****** *)
 //
@@ -66,15 +62,6 @@ local
 in
   // nothing
 end // end of [local]
-//
-(* ****** ****** *)
-//
-(*
-extern
-fun
-libatsynmark_dynloadall(): void = "ext#"
-val () = libatsynmark_dynloadall((*void*))
-*)
 //
 (* ****** ****** *)
 //
@@ -116,9 +103,9 @@ theDB_insert
 extern fun theDB_initize(): void
 //
 (* ****** ****** *)
-
+//
 local
-
+//
 typedef
 key = string and itm = myentry
 //
@@ -145,7 +132,7 @@ theDB_insert(k, x) =
 {
   val-~None_vt() = theDB.insert(k, x)
 }
-
+//
 (* ****** ****** *)
 
 implement
@@ -167,13 +154,13 @@ reassume myentry_type
 //
 fun
 fwork
-(x: myentry): void = let
+(x0: myentry): void = let
 //
-val gv = x["name"]
+val gv = x0["name"]
 //
 val () = 
 fprintln!
-  (stderr_ref, "fwork: gv = ", gv)
+(stderr_ref, "fwork: gv = ", gv)
 //
 in
 case+ gv of
@@ -185,7 +172,7 @@ case+ gv of
   {
 (*
     val () =
-    fprintln! (stderr_ref, "fwork: x = ", x)
+    fprintln! (stderr_ref, "fwork: x0 = ", x0)
 *)
   }
 end // end of [fwork]
@@ -262,6 +249,8 @@ val res = atext_make_nil(l0)
 
 in
 
+(* ****** ****** *)
+
 val () =
 the_atextmap_insert
 ( "interface"
@@ -279,6 +268,8 @@ the_atextmap_insert
     lam(loc, xs) => __implement__(loc, xs)
   ) (* TEXTDEFfun *)
 ) (* the_atextmap_insert *)
+
+(* ****** ****** *)
 
 end // end of [local]
 

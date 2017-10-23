@@ -9,18 +9,14 @@ For mylib of ATS2FUNCRASH
 #define
 ATEXTING_targetloc
 "$PATSHOME/utils/atexting"
+#define
+LIBATSREC_targetloc
+"$PATSHOME/utils/libatsrec"
 //
 (* ****** ****** *)
 //
 #include
 "share/atspre_staload.hats"
-//
-macdef
-streamize_fileref_line =
-streamize_fileref_line
-//
-(* ****** ****** *)
-//
 #include
 "share/HATS\
 /atspre_staload_libats_ML.hats"
@@ -28,9 +24,9 @@ streamize_fileref_line
 (* ****** ****** *)
 //
 #include
-"utils/libatsrec/mylibies.hats"
+"{$LIBATSREC}/mylibies.hats"
 #include
-"utils/libatsrec/mylibies_link.hats"
+"{$LIBATSREC}/mylibies_link.hats"
 //
 (* ****** ****** *)
 //

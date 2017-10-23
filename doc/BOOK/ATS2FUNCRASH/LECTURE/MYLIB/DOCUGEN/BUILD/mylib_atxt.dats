@@ -29,6 +29,19 @@ symelim .foldright
 //
 (* ****** ****** *)
 //
+typedef
+cont0() = cfun(void)
+typedef
+cont1(res:t@ype) = cfun(res, void)
+//
+(* ****** ****** *)
+//
+macdef
+list0_sing(x) =
+list0_cons(,(x), list0_nil())
+//
+(* ****** ****** *)
+//
 // For integers
 //
 (* ****** ****** *)
@@ -111,7 +124,8 @@ int_cross_foreach
 extern
 fun{}
 int_cross_foreach_method
-(m: int, n: int)(fwork: cfun(int, int, void)): void
+( m: int, n: int )
+( fwork: cfun(int, int, void) ): void
 //
 overload
 .cross_foreach with int_cross_foreach_method of 100
@@ -175,13 +189,18 @@ list0_length(xs) =
 list0_foldleft<int><a>(xs, 0, lam(r, _) => r + 1)
 
 (* ****** ****** *)
-
+//
 extern
 fun
 {a:t@ype}
 list0_head_exn(xs: list0(INV(a))): (a)
 //
 overload .head with list0_head_exn of 100
+//
+implement
+{a}(*tmp*)
+list0_head_exn(xs) =
+let val-list0_cons(x0, _) = xs in x0 end
 //
 extern
 fun
@@ -190,35 +209,6 @@ list0_tail_exn(xs: list0(INV(a))): list0(a)
 //
 overload .tail with list0_tail_exn of 100
 //
-
-(* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-list0_append
-(xs: list0(INV(a)), ys: list0(a)): list0(a)
-extern
-fun
-{a:t@ype}
-list0_concat(xs: list0(list0(INV(a)))): list0(a)
-//
-extern
-fun
-{a:t@ype}
-list0_reverse(xs: list0(INV(a))): list0(a)
-extern
-fun
-{a:t@ype}
-list0_revappend
-(xs: list0(INV(a)), ys: list0(a)): list0(a)
-//
-(* ****** ****** *)
-//
-implement
-{a}(*tmp*)
-list0_head_exn(xs) =
-let val-list0_cons(x0, _) = xs in x0 end
 implement
 {a}(*tmp*)
 list0_tail_exn(xs) =
@@ -231,6 +221,8 @@ fun
 {a:t@ype}
 list0_get_at_exn
 (xs: list0(INV(a)), n: int): a
+//
+overload [] with list0_get_at_exn of 100
 //
 implement
 {a}(*tmp*)
@@ -248,18 +240,15 @@ case- xs of
   // end of [list0_cons]
 )
 //
-overload [] with list0_get_at_exn of 100
-//
 (* ****** ****** *)
 //
 extern
 fun
 {a:t@ype}
-list0_drop_exn(list0(INV(a)), int): list0(a)
-extern
-fun
-{a:t@ype}
-list0_take_exn(list0(INV(a)), int): list0(a)
+list0_drop_exn
+(list0(INV(a)), int): list0(a)
+//
+overload .drop with list0_drop_exn of 100
 //
 implement
 {a}(*tmp*)
@@ -274,13 +263,18 @@ val-
 list0_cons(_, xs) = xs
 //
 in
-  list0_drop_exn<a>(xs, n-1)
+  list0_drop_exn<a>(xs, pred(n))
 //
 end // end of [then]
 else (xs) // end of [else]
 //
 ) (* list0_drop_exn *)
 //
+extern
+fun
+{a:t@ype}
+list0_take_exn
+(list0(INV(a)), int): list0(a)
 implement
 {a}(*tmp*)
 list0_take_exn
@@ -300,11 +294,56 @@ else list0_nil() // end of [else]
 //
 ) (* list0_take_exn *)
 //
-overload .drop with list0_drop_exn of 100
 overload .take with list0_take_exn of 100
+//
 //
 (* ****** ****** *)
 //
+extern
+fun
+{a:t@ype}
+list0_append
+(xs: list0(INV(a)), ys: list0(a)): list0(a)
+implement
+{a}(*tmp*)
+list0_append(xs, ys) =
+  list0_foldright<a><list0(a)>
+  (xs, lam(x, ys) => list0_cons(x, ys), ys)
+//
+extern
+fun
+{a:t@ype}
+list0_concat(xs: list0(list0(INV(a)))): list0(a)
+implement
+{a}(*tmp*)
+list0_concat(xss) =
+list0_foldright<list0(a)><list0(a)>
+(xss, lam(xs, res) => list0_append(xs, res), list0_nil())
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+list0_reverse(xs: list0(INV(a))): list0(a)
+extern
+fun
+{a:t@ype}
+list0_revappend
+(xs: list0(INV(a)), ys: list0(a)): list0(a)
+//
+implement
+{a}(*tmp*)
+list0_reverse(xs) =
+list0_revappend<a>(xs, list0_nil())
+implement
+{a}(*tmp*)
+list0_revappend(xs, ys) =
+list0_foldleft<list0(a)><a>
+(xs, ys, lam(ys, x) => list0_cons(x, ys))
+//
+(* ****** ****** *)
+
 extern
 fun
 {r:t@ype}
@@ -313,7 +352,6 @@ list0_foldleft
 (
 xs: list0(INV(a)), r0: r, fopr: cfun(r, a, r)
 ) : (r) // end of [list0_foldleft]
-//
 implement
 {r}{a}
 list0_foldleft
@@ -326,9 +364,6 @@ case+ xs of
 | list0_nil() => r0
 | list0_cons(x, xs) => loop(xs, fopr(r0, x))
 }
-//
-(* ****** ****** *)
-//
 extern
 fun
 {a:t@ype}
@@ -337,7 +372,6 @@ list0_foldright
 (
 xs: list0(INV(a)), fopr: cfun(a, r, r), r0: r
 ) : (r) // end of [list0_foldright]
-//
 implement
 {a}{r}
 list0_foldright
@@ -354,34 +388,7 @@ case+ xs of
 | list0_cons(x, xs) => fopr(x, auxlst(xs))
 ) (* end of [auxlst] *)
 }
-//
-(* ****** ****** *)
-//
-implement
-{a}(*tmp*)
-list0_append(xs, ys) =
-  list0_foldright<a><list0(a)>
-  (xs, lam(x, ys) => list0_cons(x, ys), ys)
-//
-implement
-{a}(*tmp*)
-list0_concat(xss) =
-list0_foldright<list0(a)><list0(a)>
-(xss, lam(xs, res) => list0_append(xs, res), list0_nil())
-//
-(* ****** ****** *)
-//
-implement
-{a}(*tmp*)
-list0_reverse(xs) =
-list0_revappend<a>(xs, list0_nil())
-//
-implement
-{a}(*tmp*)
-list0_revappend(xs, ys) =
-list0_foldleft<list0(a)><a>
-(xs, ys, lam(ys, x) => list0_cons(x, ys))
-//
+
 (* ****** ****** *)
 //
 extern
@@ -663,89 +670,13 @@ lam(fwork) => list0_foreach<a>(xs, fwork)
 )
 
 (* ****** ****** *)
-//
-extern
-fun
-{a:t@ype}
-int_list0_map
-( n: int
-, fopr: cfun(int, a)): list0(a)
-extern
-fun
-{a:t@ype}
-int_list0_mapopt
-( n: int
-, fopr: cfun(int, option0(a))): list0(a)
-//
-(* ****** ****** *)
-//
-implement
-{a}(*tmp*)
-int_list0_map
-  (n, fopr) =
-  auxmain(0) where
-{
-fun
-auxmain
-(
- i: int
-) : list0(a) =
-if
-(i < n)
-then
-(
-  list0_cons(fopr(i), auxmain(i+1))
-) else list0_nil((*void*))
-} (* end of [int_list0_map] *)
-//
-implement
-{a}(*tmp*)
-int_list0_mapopt
-  (n, fopr) =
-  auxmain(0) where
-{
-//
-fun
-auxmain
-(
- i: int
-) : list0(a) =
-if
-(i < n)
-then
-(
-  case+ fopr(i) of
-  | None0() => auxmain(i+1)
-  | Some0(x) => list0_cons(x, auxmain(i+1))
-) else list0_nil((*void*))
-//
-} (* end of [int_list0_mapopt] *)
-//
-(* ****** ****** *)
-//
-fun
-{a:t@ype}
-int_cross_list0_map
-( m: int
-, n: int
-, fopr: cfun(int, int, a)): list0(a) =
-list0_concat<a>
-(
-int_list0_map<list0(a)>
-( m
-, lam(i) =>
-  int_list0_map<a>(n, lam(j) => fopr(i, j))
-) (* int_list0_map *)
-)
-//
-(* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 list0_find_index
-(xs: list0(INV(a)), test: cfun(a, bool)): int
-//
+( xs: list0(INV(a))
+, test: cfun(a, bool)): int
 implement
 {a}(*tmp*)
 list0_find_index
@@ -764,38 +695,36 @@ case+ xs of
 in
   loop(xs, 0)
 end // end of [list0_find_index]
-//
+
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 list0_exists
 (xs: list0(INV(a)), test: cfun(a, bool)): bool
+implement
+{a}(*tmp*)
+list0_exists(xs, test) =
+list0_find_index<a>(xs, test) >= 0
 extern
 fun
 {a:t@ype}
 list0_forall
 (xs: list0(INV(a)), test: cfun(a, bool)): bool
-//
-implement
-{a}(*tmp*)
-list0_exists(xs, test) =
-list0_find_index<a>(xs, test) >= 0
 implement
 {a}(*tmp*)
 list0_forall(xs, test) =
 list0_find_index<a>(xs, lam(x) => not(test(x))) < 0
-//
+
 (* ****** ****** *)
-//
+
 extern
 fun
 {a,b:t@ype}
 list0_cross
 ( xs: list0(INV(a))
 , ys: list0(INV(b))): list0($tup(a, b))
-//
 implement
 {a,b}(*tmp*)
 list0_cross
@@ -812,16 +741,16 @@ list0_map<a><list0(ab)>
 ) (* end of [list0_concat] *)
 //
 end // end of [list0_cross]
-//
+
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 {b:t@ype}
 list0_imap
-(xs: list0(INV(a)), fopr: cfun(int, a, b)): list0(b)
-//
+( xs: list0(INV(a))
+, fopr: cfun(int, a, b)): list0(b)
 implement
 {a}{b}
 list0_imap
@@ -835,20 +764,22 @@ auxlst
 (i: int, xs: list0(a)): list0(b) =
 (
 case+ xs of
-| list0_nil() => list0_nil()
-| list0_cons(x, xs) => list0_cons(fopr(i, x), auxlst(i+1, xs))
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  list0_cons(fopr(i, x), auxlst(i+1, xs))
 )
 //
 } (* end of [list0_imap] *)
-//
+
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 list0_iforeach
-(xs: list0(INV(a)), fwork: cfun(int, a, void)): void
-//
+( xs: list0(INV(a))
+, fwork: cfun(int, a, void)): void
 implement
 {a}(*tmp*)
 list0_iforeach
@@ -867,20 +798,15 @@ case+ xs of
 )
 //
 } (* end of [list0_iforeach] *)
-//
+
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 list0_iexists
-(xs: list0(INV(a)), test: cfun(int, a, bool)): bool
-extern
-fun
-{a:t@ype}
-list0_iforall
-(xs: list0(INV(a)), test: cfun(int, a, bool)): bool
-//
+( xs: list0(INV(a))
+, test: cfun(int, a, bool)): bool
 implement
 {a}(*tmp*)
 list0_iexists
@@ -893,7 +819,12 @@ fun loop(i: int, xs: list0(a)): bool =
   | list0_cons(x, xs) =>
     if test(i, x) then true else loop(i+1, xs)
 }
-//
+extern
+fun
+{a:t@ype}
+list0_iforall
+( xs: list0(INV(a))
+, test: cfun(int, a, bool)): bool
 implement
 {a}(*tmp*)
 list0_iforall
@@ -906,7 +837,7 @@ fun loop(i: int, xs: list0(a)): bool =
   | list0_cons(x, xs) =>
     if test(i, x) then loop(i+1, xs) else false
 }
-//
+
 (* ****** ****** *)
 
 extern
@@ -914,7 +845,6 @@ fun {
 a,b:t@ype
 } list0_zip
   (xs: list0(a), ys: list0(b)): list0($tup(a, b))
-//
 implement
 {a,b}
 list0_zip(xs, ys) =
@@ -940,8 +870,8 @@ fun
 ,b:t@ype}
 {c:t@ype}
 list0_map2
-(xs: list0(a), ys: list0(b), fopr: cfun(a, b, c)): list0(c)
-//
+( xs: list0(a)
+, ys: list0(b), fopr: cfun(a, b, c)): list0(c)
 implement
 {a,b}{c}
 list0_map2
@@ -961,14 +891,14 @@ case xs of
 )
 
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 list0_merge
 ( xs: list0(a)
-, ys: list0(a), cmp: cfun(a, a, int)): list0(a)
-//
+, ys: list0(a)
+, cmp: cfun(a, a, int)): list0(a)
 implement
 {a}(*tmp*)
 list0_merge
@@ -1004,13 +934,13 @@ in
 end // end of [list0_merge]
 
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 list0_mergesort
-(xs: list0(a), cmp: cfun(a, a, int)): list0(a)
-//
+( xs: list0(a)
+, cmp: cfun(a, a, int)): list0(a)
 implement
 {a}(*tmp*)
 list0_mergesort
@@ -1038,11 +968,82 @@ in
 end // end of [list0_mergesort]
 
 (* ****** ****** *)
+
+extern
+fun
+{a:t@ype}
+int_list0_map
+( n: int
+, fopr: cfun(int, a)): list0(a)
+implement
+{a}(*tmp*)
+int_list0_map
+  (n, fopr) =
+  auxmain(0) where
+{
+fun
+auxmain
+(
+ i: int
+) : list0(a) =
+if
+(i < n)
+then
+(
+  list0_cons(fopr(i), auxmain(i+1))
+) else list0_nil((*void*))
+} (* end of [int_list0_map] *)
+extern
+fun
+{a:t@ype}
+int_list0_mapopt
+( n: int
+, fopr: cfun(int, option0(a))): list0(a)
+implement
+{a}(*tmp*)
+int_list0_mapopt
+  (n, fopr) =
+  auxmain(0) where
+{
 //
-macdef
-list0_sing(x) =
-list0_cons(,(x), list0_nil())
+fun
+auxmain
+(
+ i: int
+) : list0(a) =
+if
+(i < n)
+then
+(
+  case+ fopr(i) of
+  | None0() => auxmain(i+1)
+  | Some0(x) => list0_cons(x, auxmain(i+1))
+) else list0_nil((*void*))
 //
+} (* end of [int_list0_mapopt] *)
+
+(* ****** ****** *)
+
+extern
+fun
+{a:t@ype}
+int_cross_list0_map
+( m: int
+, n: int
+, fopr: cfun(int, int, a)): list0(a)
+implement
+{a:t@ype}
+int_cross_list0_map
+(m, n, fopr) =
+list0_concat<a>
+(
+int_list0_map<list0(a)>
+( m
+, lam(i) =>
+  int_list0_map<a>(n, lam(j) => fopr(i, j))
+) (* int_list0_map *)
+) (* int_cross_list0_map *)
+
 (* ****** ****** *)
 
 extern
@@ -1050,13 +1051,6 @@ fun
 {a:t@ype}
 list0_choose2
 (xs: list0(a)): list0($tup(a, a))
-//
-extern
-fun
-{a:t@ype}
-list0_choose2
-(xs: list0(a)): list0($tup(a, a))
-//
 implement
 {a}(*tmp*)
 list0_choose2
@@ -1071,26 +1065,19 @@ case+ xs of
   list0_nil()
 | list0_cons(x0, xs) =>
   list0_append<aa>
-  (list0_map<a><aa>(xs, lam(x) => $tup(x0, x)), list0_choose2(xs))
+  (list0_map<a><aa>
+    (xs, lam(x) => $tup(x0, x)), list0_choose2(xs)
+  ) (* end of [list0_append] *)
 //
 end // end of [list0_choose2]
 
 (* ****** ****** *)
-//
+
 extern
 fun
 {a:t@ype}
 list0_nchoose
 (xs: list0(a), n: int): list0(list0(a))
-//
-extern
-fun
-{a:t@ype}
-list0_nchoose_rest
-(xs: list0(INV(a)), n: int): list0($tup(list0(a), list0(a)))
-//
-(* ****** ****** *)
-
 implement
 {a}(*tmp*)
 list0_nchoose
@@ -1122,8 +1109,11 @@ case+ xs of
 //
 } (* end of [list0_nchoose] *)
 
-(* ****** ****** *)
-
+extern
+fun
+{a:t@ype}
+list0_nchoose_rest
+(xs: list0(INV(a)), n: int): list0($tup(list0(a), list0(a)))
 implement
 {a}(*tmp*)
 list0_nchoose_rest
@@ -1312,6 +1302,9 @@ case+ !xs of
     (fopr(x), stream_map<a><b>(xs, fopr))
   // end of [stream_cons]
 )
+
+(* ****** ****** *)
+
 extern
 fun
 {a:t@ype}
@@ -1357,6 +1350,8 @@ case+ !xs of
   (fwork(x); stream_foreach<a>(xs, fwork))
 //
 ) (* end of [stream_foreach] *)
+
+(* ****** ****** *)
 
 extern
 fun{
@@ -1463,13 +1458,6 @@ case+ !xs of
 //
 ) (* end of [stream_vt_foldleft] *)
 
-(* ****** ****** *)
-//
-typedef
-cont0() = cfun(void)
-typedef
-cont1(res:t@ype) = cfun(res, void)
-//
 (* ****** ****** *)
 
 extern

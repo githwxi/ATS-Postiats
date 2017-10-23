@@ -965,12 +965,6 @@ list0_sing(x) =
 list0_cons(,(x), list0_nil())
 //
 (* ****** ****** *)
-
-extern
-fun
-{a:t@ype}
-list0_choose2
-(xs: list0(a)): list0($tup(a, a))
 //
 extern
 fun
