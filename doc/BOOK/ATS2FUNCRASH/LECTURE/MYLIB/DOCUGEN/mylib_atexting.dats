@@ -166,7 +166,7 @@ in
 case+ gv of
 | GVstring(key) =>
   (
-    theDB_insert(key, x)
+    theDB_insert(key, x0)
   )
 | _(*non-GVstring*) => () where
   {
@@ -178,7 +178,7 @@ case+ gv of
 end // end of [fwork]
 //
 in
-stream_vt_foreach_cloptr(xs, lam(x) => fwork(x))
+  stream_vt_foreach_cloptr(xs, lam(x) => fwork(x))
 end // end of [let]
 //
 end // end of [theDB_initize]
