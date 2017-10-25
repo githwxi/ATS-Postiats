@@ -82,6 +82,18 @@ dynfun {
 
 <!-- ****** ****** -->
 
+##html_dynfun("list0_get_at_exn")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_append")
+##html_dynfun("list0_concat")
+
+##html_dynfun("list0_reverse")
+##html_dynfun("list0_revappend")
+
+<!-- ****** ****** -->
+
 ##html_dynfun("list0_map")
 ##html_dynfun("list0_map_method")
 ##html_dynfun("list0_imap")
@@ -90,10 +102,65 @@ dynfun {
 <!-- ****** ****** -->
 
 ##html_dynfun("list0_foreach")
+##html_dynfun("list0_foreach_method")
 ##html_dynfun("list0_iforeach")
+##html_dynfun("list0_iforeach_method")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_forall")
+##html_dynfun("list0_exists")
+##html_dynfun("list0_find_index")
+
+<!-- ****** ****** -->
 
 ##html_dynfun("list0_foldleft")
 ##html_dynfun("list0_ifoldleft")
+
+<!-- ****** ****** -->
+
+##html_dynfun("int_stream_from")
+##html_dynfun("stream_make_list0")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_takeLte")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_get_at_exn")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_append")
+##html_dynfun("stream_concat")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_map")
+##html_dynfun("stream_filter")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_foreach")
+##html_dynfun("stream_iforeach")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_foldleft")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_vt_append")
+##html_dynfun("stream_vt_concat")
+
+<!-- ****** ****** -->
+
+##html_dynfun("int_stream_vt_from")
+
+<!-- ****** ****** -->
+
+##html_dynfun( "stream_vt_takeLte" )
 
 <!-- ****** ****** -->
 

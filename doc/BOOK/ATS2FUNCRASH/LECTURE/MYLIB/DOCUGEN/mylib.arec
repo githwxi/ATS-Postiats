@@ -262,11 +262,9 @@ implement
 list0_get_at_exn
   (xs, n) =
 (
-case- xs of
-(*
+case+ xs of
 | list0_nil() =>
   $raise ListSubscriptExn()
-*)
 | list0_cons(x, xs) =>
   if n <= 0
     then x else list0_get_at_exn<a>(xs, n-1)
@@ -361,6 +359,9 @@ implement
 list0_append(xs, ys) =
   list0_foldright<a><list0(a)>
   (xs, lam(x, ys) => list0_cons(x, ys), ys)
+[description]: \
+Given two list0-values xs and ys, this function returns
+another list0-value that is the concatenation of xs and ys.
 ####################################
 [name]: \
 list0_concat
@@ -374,18 +375,26 @@ implement
 list0_concat(xss) =
 list0_foldright<list0(a)><list0(a)>
 (xss, lam(xs, res) => list0_append(xs, res), list0_nil())
+[description]: \
+Given a list0-value xss in which each element is also
+a list0-value, this function returns another list0-value
+that is formed by concatenating all of the elements in xss.
 ####################################
 [name]: \
 list0_reverse
 [interface]: \
 fun
 {a:t@ype}
-list0_reverse(xs: list0(INV(a))): list0(a)
+list0_reverse
+  (xs: list0(INV(a))): list0(a)
 [implement]: \
 implement
 {a}(*tmp*)
 list0_reverse(xs) =
 list0_revappend<a>(xs, list0_nil())
+[description]: \
+Given a list0-value xs, this function returns
+another list0-value ys that is the reverse of xs.
 ####################################
 [name]: \
 list0_revappend
@@ -400,6 +409,10 @@ implement
 list0_revappend(xs, ys) =
 list0_foldleft<list0(a)><a>
 (xs, ys, lam(ys, x) => list0_cons(x, ys))
+[description]: \
+Given two list0-values xs and ys, this function returns
+another list0-value that is the concatenation of reverse(xs)
+and ys.
 ####################################
 [name]: \
 list0_foldleft
@@ -782,6 +795,9 @@ list0_foreach_method
 (
 lam(fwork) => list0_foreach<a>(xs, fwork)
 )
+[description]: \
+This function is a curried version of
+\##dyncode("list0_foreach") for supporting dot-notation.
 ####################################
 [name]: \
 list0_find_index
@@ -810,6 +826,10 @@ case+ xs of
 in
   loop(xs, 0)
 end // end of [list0_find_index]
+[description]: \
+Given a list0-value xs and a predicate, this function
+returns the position of the first element in xs that satisfies
+the predicate or -1 if there exists no element as such.
 ####################################
 [name]: \
 list0_exists
@@ -823,6 +843,10 @@ implement
 {a}(*tmp*)
 list0_exists(xs, test) =
 list0_find_index<a>(xs, test) >= 0
+[description]: \
+Given a list0-value xs and a predicate, this function
+returns true if and only if there exists in xs one element
+satisfying the predicate.
 ####################################
 [name]: \
 list0_forall
@@ -836,6 +860,10 @@ implement
 {a}(*tmp*)
 list0_forall(xs, test) =
 list0_find_index<a>(xs, lam(x) => not(test(x))) < 0
+[description]: \
+Given a list0-value xs and a predicate, this function
+returns true if and only if every element in xs satisfies
+the predicate.
 ####################################
 [name]: \
 list0_cross
@@ -942,7 +970,10 @@ list0_imap_method
 implement
 {a}{b}
 list0_imap_method
-(xs) = lam(fopr) => list0_imap<a><b>(xs, fopr)
+  (xs, _(*type*)) =
+(
+  lam(fopr) => list0_imap<a><b>(xs, fopr)
+)
 [description]: \
 This function is a curried version of ##dyncode("list0_imap")
 for supporting dot-notation.
@@ -977,6 +1008,26 @@ case+ xs of
 [description]: \
 This function is
 the standard indexed version of ##dyncode("list0_foreach").
+####################################
+[name]: \
+list0_iforeach_method
+[interface]: \
+fun
+{a:t@ype}
+list0_iforeach_method
+( xs: list0(INV(a)) )
+( fwork: cfun(int, a, void)): void
+[implement]: \
+implement
+{a}(*tmp*)
+list0_iforeach_method
+  (xs) =
+(
+  lam(fwork) => list0_iforeach<a>(xs, fwork)
+)
+[description]: \
+This function is a curried version of
+\##dyncode("list0_iforeach") for supporting dot-notation.
 ####################################
 [name]: \
 list0_ifoldleft
@@ -1415,9 +1466,10 @@ case+ !xs of
 else stream_nil((*void*))
 ) (* end of [stream_takeLte] *)
 [description]: \
-This function is
-the corresponding version
-of ##dyncode("list0_takeLte") on streams.
+Given a stream-value xs and an integer n, this function
+returns another stream-value consisting of the first n
+elements in xs if xs contains so many elements or all of
+the elements in xs otherwise.
 ####################################
 [name]: \
 stream_append
@@ -1440,7 +1492,7 @@ case+ !xs of
 [description]: \
 This function is
 the corresponding version of
-##dyncode("list0_append") on streams.
+\##dyncode("list0_append") on streams.
 ####################################
 [name]: \
 stream_concat
@@ -1465,7 +1517,7 @@ case+ !xss of
 [description]: \
 This function is
 the corresponding version of
-##dyncode("list0_concat") on streams.
+\##dyncode("list0_concat") on streams.
 ####################################
 [name]: \
 stream_map
@@ -1493,7 +1545,7 @@ case+ !xs of
 [description]: \
 This function is
 the corresponding version of
-##dyncode("list0_map") on streams.
+\##dyncode("list0_map") on streams.
 ####################################
 [name]: \
 stream_filter
@@ -1524,7 +1576,7 @@ case+ !xs of
 [description]: \
 This function is
 the corresponding version of
-##dyncode("list0_filter") on streams.
+\##dyncode("list0_filter") on streams.
 ####################################
 [name]: \
 stream_foreach
@@ -1551,7 +1603,60 @@ case+ !xs of
 [description]: \
 This function is
 the corresponding version of
-##dyncode("list0_foreach") on streams.
+\##dyncode("list0_foreach") on streams.
+####################################
+[name]: \
+stream_iforeach
+[interface]: \
+fun
+{a:t@ype}
+stream_iforeach
+(
+xs: stream(a),
+fwork: cfun(int, a, void)
+) : void // end-of-function
+[implement]: \
+implement
+{a}(*tmp*)
+stream_iforeach
+  (xs, fwork) =
+  loop(xs, 0(*i*)) where
+{
+//
+fun
+loop
+(xs: stream(a), i: int): void =
+(
+case+ !xs of
+| stream_nil() => ()
+| stream_cons(x, xs) => (fwork(i, x); loop(xs, i+1))
+)
+//
+} (* end of [stream_iforeach] *)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_iforeach") on streams.
+####################################
+[name]: \
+stream_iforeach_method
+[interface]: \
+fun
+{a:t@ype}
+stream_iforeach_method
+( xs: stream(INV(a)) )
+( fwork: cfun(int, a, void)): void
+[implement]: \
+implement
+{a}(*tmp*)
+stream_iforeach_method
+  (xs) =
+(
+  lam(fwork) => stream_iforeach<a>(xs, fwork)
+)
+[description]: \
+This function is a curried version of
+\##dyncode("stream_iforeach") for supporting dot-notation.
 ####################################
 [name]: \
 stream_foldleft
@@ -1579,7 +1684,7 @@ case+ !xs of
 [description]: \
 This function is
 the corresponding version of
-##dyncode("list0_foldleft") on streams.
+\##dyncode("list0_foldleft") on streams.
 ####################################
 #
 # For linear stream-values
@@ -1670,8 +1775,8 @@ lazy_vt_free(xs) // called when the stream is freed
 ) (* end of [stream_vt_takeLte] *)
 [description]: \
 This function is
-the corresponding version of
-##dyncode("list0_takeLte") on linear streams.
+the corresponding version of ##dyncode("list0_takeLte")
+on linear streams.
 ####################################
 [name]: \
 stream_vt_map
@@ -1698,7 +1803,7 @@ case+ !xs of
 [description]: \
 This function is
 the corresponding version of
-##dyncode("list0_map") on linear streams.
+\##dyncode("list0_map") on linear streams.
 ####################################
 [name]: \
 stream_vt_foldleft
@@ -1725,7 +1830,7 @@ case+ !xs of
 [description]: \
 This function is
 the corresponding version of
-##dyncode("list0_foldleft") on linear streams.
+\##dyncode("list0_foldleft") on linear streams.
 ####################################
 #
 # For continuation-passing
@@ -1782,7 +1887,7 @@ case+ !xs of
   , lam(y) =>
     if y then stream_kforeach<a>(xs, f0, k0) else k0()
   )
-)
+) (* end of [stream_kforeach] *)
 [description]: \
 This function is a CPS variant of ##dyncode("stream_foreach").
 ######### end of [mylib.arec] #########

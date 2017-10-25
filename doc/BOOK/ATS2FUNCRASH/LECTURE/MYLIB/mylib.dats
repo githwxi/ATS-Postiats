@@ -1,1 +1,1 @@
-DOCUGEN/mylib_atxt.dats
+mylib_atxt.dats

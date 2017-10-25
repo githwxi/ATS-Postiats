@@ -243,18 +243,24 @@ end // end of [fprint_list0]
 (* ****** ****** *)
 
 ##interface("list0_imap")
+##interface("list0_imap_method")
+
 ##interface("list0_iexists")
 ##interface("list0_iforall")
+
 ##interface("list0_iforeach")
+##interface("list0_iforeach_method")
 
 (* ****** ****** *)
 //
 ##implement("list0_imap")
+##implement("list0_imap_method")
 //
 ##implement("list0_iexists")
 ##implement("list0_iforall")
 //
 ##implement("list0_iforeach")
+##implement("list0_iforeach_method")
 //
 (* ****** ****** *)
 
@@ -307,8 +313,12 @@ end // end of [fprint_list0]
 (* ****** ****** *)
 
 ##interface("stream_map")
+
 ##interface("stream_filter")
+
 ##interface("stream_foreach")
+##interface("stream_iforeach")
+
 ##interface("stream_foldleft")
 
 (* ****** ****** *)
@@ -339,8 +349,12 @@ end // end of [fprint_list0]
 (* ****** ****** *)
 
 ##implement("stream_map")
+
 ##implement("stream_filter")
+
 ##implement("stream_foreach")
+##implement("stream_iforeach")
+
 ##implement("stream_foldleft")
 
 (* ****** ****** *)

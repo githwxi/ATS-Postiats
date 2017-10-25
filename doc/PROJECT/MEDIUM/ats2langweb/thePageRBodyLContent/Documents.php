@@ -109,11 +109,13 @@ Links:
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2FUNCRASH/PDF/main.pdf">pdf</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2FUNCRASH/HTML/book1.html">html</a>
 <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2FUNCRASH/HTML/HTMLTOC/book1.html">htmltoc</a>
+<a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2FUNCRASH/HTML/mylib_atxt.html">mylib</a>
 </td></tr><tr><td>
 Backup Links:
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/PDF/main.pdf">pdf</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/HTML/book1.html">html</a>
 <a href="http://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/HTML/HTMLTOC/book1.html">htmltoc</a>
+<a href="http://ats-lang.github.io/DOCUMENT/ATS2FUNCRASH/HTML/mylib_atxt.html">mylib</a>
 </td></tr>
 </table>
 
