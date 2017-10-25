@@ -54,7 +54,8 @@ int_foreach
 extern
 fun{}
 int_foreach_method
-(n0: int)(fwork: cfun(int, void)): void
+(n0: int)
+(fwork: cfun(int, void)): void
 //
 overload
 .foreach with int_foreach_method of 100
@@ -189,14 +190,14 @@ overload length with list0_length of 100
 extern
 fun
 {a:t@ype}
-list0_head_exn(xs: list0(INV(a))): (a)
+list0_head_exn(list0(INV(a))): (a)
 //
 overload .head with list0_head_exn of 100
 //
 extern
 fun
 {a:t@ype}
-list0_tail_exn(xs: list0(INV(a))): list0(a)
+list0_tail_exn(list0(INV(a))): list0(a)
 //
 overload .tail with list0_tail_exn of 100
 //
@@ -214,6 +215,9 @@ fun
 {a:t@ype}
 list0_take_exn
 (list0(INV(a)), int): list0(a)
+//
+overload .take with list0_take_exn of 100
+//
 //
 extern
 fun
@@ -236,7 +240,8 @@ list0_concat(xs: list0(list0(INV(a)))): list0(a)
 extern
 fun
 {a:t@ype}
-list0_reverse(xs: list0(INV(a))): list0(a)
+list0_reverse
+  (xs: list0(INV(a))): list0(a)
 extern
 fun
 {a:t@ype}
@@ -248,16 +253,16 @@ fun
 {r:t@ype}
 {a:t@ype}
 list0_foldleft
-(
-xs: list0(INV(a)), r0: r, fopr: cfun(r, a, r)
+( xs: list0(INV(a))
+, r0: r, fopr: cfun(r, a, r)
 ) : (r) // end of [list0_foldleft]
 extern
 fun
 {a:t@ype}
 {r:t@ype}
 list0_foldright
-(
-xs: list0(INV(a)), fopr: cfun(a, r, r), r0: r
+( xs: list0(INV(a))
+, fopr: cfun(a, r, r), r0: r
 ) : (r) // end of [list0_foldright]
 //
 (* ****** ****** *)
@@ -295,7 +300,6 @@ list0_cons(_, xs) = xs
 //
 in
   list0_drop_exn<a>(xs, pred(n))
-//
 end // end of [then]
 else (xs) // end of [else]
 //
@@ -319,9 +323,6 @@ else list0_nil() // end of [else]
 //
 ) (* list0_take_exn *)
 //
-overload .take with list0_take_exn of 100
-//
-//
 (* ****** ****** *)
 //
 implement
@@ -329,11 +330,9 @@ implement
 list0_get_at_exn
   (xs, n) =
 (
-case- xs of
-(*
+case+ xs of
 | list0_nil() =>
   $raise ListSubscriptExn()
-*)
 | list0_cons(x, xs) =>
   if n <= 0
     then x else list0_get_at_exn<a>(xs, n-1)
@@ -374,10 +373,13 @@ list0_foldleft
   loop(xs, r0) where
 {
 fun
-loop(xs: list0(a), r0: r): r =
+loop
+(xs: list0(a), r: r): r =
+(
 case+ xs of
-| list0_nil() => r0
-| list0_cons(x, xs) => loop(xs, fopr(r0, x))
+| list0_nil() => r
+| list0_cons(x, xs) => loop(xs, fopr(r, x))
+)
 }
 implement
 {a}{r}
@@ -739,6 +741,14 @@ list0_imap
 extern
 fun
 {a:t@ype}
+{b:t@ype}
+list0_imap_method
+(list0(INV(a)), TYPE(b))
+( fopr: cfun(int, a, b) ): list0(b)
+
+extern
+fun
+{a:t@ype}
 list0_iexists
 ( xs: list0(INV(a))
 , test: cfun(int, a, bool)): bool
@@ -748,12 +758,19 @@ fun
 list0_iforall
 ( xs: list0(INV(a))
 , test: cfun(int, a, bool)): bool
+
 extern
 fun
 {a:t@ype}
 list0_iforeach
 ( xs: list0(INV(a))
 , fwork: cfun(int, a, void)): void
+extern
+fun
+{a:t@ype}
+list0_iforeach_method
+( xs: list0(INV(a)) )
+( fwork: cfun(int, a, void)): void
 
 (* ****** ****** *)
 //
@@ -777,6 +794,13 @@ case+ xs of
 )
 //
 } (* end of [list0_imap] *)
+implement
+{a}{b}
+list0_imap_method
+  (xs, _(*type*)) =
+(
+  lam(fopr) => list0_imap<a><b>(xs, fopr)
+)
 //
 implement
 {a}(*tmp*)
@@ -821,6 +845,13 @@ case+ xs of
 )
 //
 } (* end of [list0_iforeach] *)
+implement
+{a}(*tmp*)
+list0_iforeach_method
+  (xs) =
+(
+  lam(fwork) => list0_iforeach<a>(xs, fwork)
+)
 //
 (* ****** ****** *)
 
@@ -1175,12 +1206,14 @@ fun
 stream_map
 (xs: stream(a)
 , fopr: cfun(a, b)): stream(b)
+
 extern
 fun
 {a:t@ype}
 stream_filter
 ( xs: stream(a)
 , test: cfun(a, bool)): stream(a)
+
 extern
 fun
 {a:t@ype}
@@ -1189,6 +1222,15 @@ stream_foreach
 xs: stream(a),
 fwork: cfun(a, void)
 ) : void // end-of-function
+extern
+fun
+{a:t@ype}
+stream_iforeach
+(
+xs: stream(a),
+fwork: cfun(int, a, void)
+) : void // end-of-function
+
 extern
 fun{
 res:t@ype
@@ -1328,6 +1370,7 @@ case+ !xs of
     (fopr(x), stream_map<a><b>(xs, fopr))
   // end of [stream_cons]
 )
+
 implement
 {a}(*tmp*)
 stream_filter
@@ -1345,6 +1388,7 @@ case+ !xs of
     else !(stream_filter<a>(xs, test))
   // end of [if]
 )
+
 implement
 {a}(*tmp*)
 stream_foreach(xs, fwork) =
@@ -1356,6 +1400,24 @@ case+ !xs of
   (fwork(x); stream_foreach<a>(xs, fwork))
 //
 ) (* end of [stream_foreach] *)
+implement
+{a}(*tmp*)
+stream_iforeach
+  (xs, fwork) =
+  loop(xs, 0(*i*)) where
+{
+//
+fun
+loop
+(xs: stream(a), i: int): void =
+(
+case+ !xs of
+| stream_nil() => ()
+| stream_cons(x, xs) => (fwork(i, x); loop(xs, i+1))
+)
+//
+} (* end of [stream_iforeach] *)
+
 implement
 {res}{a}
 stream_foldleft(xs, r0, fopr) =
@@ -1389,7 +1451,7 @@ stream_vt_foldleft
 (
 xs: stream_vt(a),
 r0: res, fopr: cfun(res, a, res)): res
-//
+
 (* ****** ****** *)
 
 extern
@@ -1541,7 +1603,7 @@ case+ !xs of
   , lam(y) =>
     if y then stream_kforeach<a>(xs, f0, k0) else k0()
   )
-)
+) (* end of [stream_kforeach] *)
 
 (* ****** ****** *)
 

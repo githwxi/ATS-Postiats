@@ -213,7 +213,7 @@ list0_head_exn
 [interface]: \
 fun
 {a:t@ype}
-list0_head_exn(xs: list0(INV(a))): (a)
+list0_head_exn(list0(INV(a))): (a)
 //
 overload .head with list0_head_exn of 100
 //
@@ -224,15 +224,15 @@ list0_head_exn(xs) =
 let val-list0_cons(x0, _) = xs in x0 end
 [description]: \
 This function returns the head of a given list0-value xs
-if xs is non-empty or raises ##dyncode("ListSubscriptExn")
-if xs is empty.
+if xs is non-empty or terminates abnormally due to pattern
+matching failure.
 ####################################
 [name]: \
 list0_tail_exn
 [interface]: \
 fun
 {a:t@ype}
-list0_tail_exn(xs: list0(INV(a))): list0(a)
+list0_tail_exn(list0(INV(a))): list0(a)
 //
 overload .tail with list0_tail_exn of 100
 //
@@ -243,8 +243,8 @@ list0_tail_exn(xs) =
 let val-list0_cons(_, xs) = xs in xs end
 [description]: \
 This function returns the tail of a given list0-value xs
-if xs is non-empty or raises ##dyncode("ListSubscriptExn")
-if xs is empty.
+if xs is non-empty or terminates abnormally due to pattern
+matching failure.
 ####################################
 [name]: \
 list0_get_at_exn
@@ -308,7 +308,7 @@ Given a list0-value xs and an integer n, this function
 returns the suffix of xs starting from element n (i.e.,
 xs[n]). If n is negative, it is treated as 0.
 In the case where n is greater than length(xs), the function
-terminates abnormally.
+terminates abnormally due to pattern matching failure.
 ####################################
 [name]: \
 list0_take_exn
@@ -344,7 +344,7 @@ Given a list0-value xs and an integer n, this function
 returns the prefix of xs consisting of the first n elements.
 If n is negative, it is treated as 0. In the case
 where n is greater than length(xs), the function terminates
-abnormally.
+abnormally due to pattern matching failure.
 ####################################
 [name]: \
 list0_append

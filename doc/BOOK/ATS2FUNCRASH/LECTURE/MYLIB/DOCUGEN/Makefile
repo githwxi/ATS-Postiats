@@ -24,11 +24,19 @@ $(MAKE) \
 -C BUILD -f ../Makefile_build regress
 
 ######
+
+update:: ; \
+$(CPF) BUILD/mylib_atxt.dats ./../.
+update:: ; \
+$(CPF) BUILD/mylib_atxt.html ./../../../HTML/.
+
+######
 #
 clean:: ; $(RMF) ./BUILD/*.o
 clean:: ; $(RMF) ./BUILD/*.c
-clean:: ; $(RMF) ./BUILD/*.dats
 clean:: ; $(RMF) ./BUILD/*.atxt
+clean:: ; $(RMF) ./BUILD/*_atxt.dats
+clean:: ; $(RMF) ./BUILD/*_atxt.html
 clean:: ; $(RMF) ./BUILD/mylib_atexting
 #
 ######
