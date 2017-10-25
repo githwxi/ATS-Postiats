@@ -713,20 +713,20 @@ list0_equal
 fun
 {a:t0p}
 list0_find_exn
-  (xs: list0(INV(a)), pred: cfun(a, bool)): (a)
+(xs: list0(INV(a)), pred: cfun(a, bool)): (a)
 fun
 {a:t0p}
 list0_find_opt
-  (xs: list0(INV(a)), pred: cfun(a, bool)): Option_vt(a)
+(xs: list0(INV(a)), pred: cfun(a, bool)): Option_vt(a)
 //
 fun
 {a:t0p}
 list0_find_exn_method
-  (xs: list0(INV(a)))(pred: cfun(a, bool)): (a)
+(xs: list0(INV(a)))(pred: cfun(a, bool)): (a)
 fun
 {a:t0p}
 list0_find_opt_method
-  (xs: list0(INV(a)))(pred: cfun(a, bool)): Option_vt(a)
+(xs: list0(INV(a)))(pred: cfun(a, bool)): Option_vt(a)
 //
 overload .find with list0_find_exn_method
 overload .find_opt with list0_find_opt_method
@@ -1060,30 +1060,32 @@ streamize_list0_nchoose_rest
 fun
 {a,b:t0p}
 streamize_list0_zip
-  (list0(INV(a)), list0(INV(b))):<!wrt> stream_vt(@(a, b))
+( list0(INV(a))
+, list0(INV(b))):<!wrt> stream_vt(@(a, b))
 fun
 {a,b:t0p}
 streamize_list0_cross
-  (list0(INV(a)), list0(INV(b))):<!wrt> stream_vt(@(a, b))
+( list0(INV(a))
+, list0(INV(b))):<!wrt> stream_vt(@(a, b))
 //
 (* ****** ****** *)
 //
 fun{a:t0p}
 list0_is_ordered
-  (xs: list0(INV(a)), cmp:  (a, a) -<cloref> int): bool
+(xs: list0(INV(a)), cmp:  (a, a) -<cloref> int): bool
 //
 (* ****** ****** *)
 
 fun{a:t0p}
 list0_mergesort
-  (NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
+(NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
 // end of [list0_mergesort]
 
 (* ****** ****** *)
 
 fun{a:t0p}
 list0_quicksort
-  (NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
+(NSH(list0(INV(a))), cmp: (a, a) -<cloref> int):<> list0(a)
 // end of [list0_quicksort]
 
 (* ****** ****** *)
