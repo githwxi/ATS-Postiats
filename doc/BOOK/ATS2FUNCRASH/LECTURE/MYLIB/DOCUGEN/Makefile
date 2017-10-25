@@ -11,7 +11,9 @@ MAKE=make
 ######
 
 copy:: ; \
-$(CPF) mylib.atxt BUILD/.
+$(CPF) mylib_dats.atxt BUILD/.
+copy:: ; \
+$(CPF) mylib_html.atxt BUILD/.
 copy:: ; \
 $(CPF) mylib_atexting.dats BUILD/.
 

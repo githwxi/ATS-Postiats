@@ -86,7 +86,7 @@ fun
 array0_app
   {a:t0p}
 (
-  xs: array0(a), fwork: cfun(int, void)
+  xs: array0(a), fwork: cfun(Nat, void)
 ) : void = "mac#%" // end-of-function
 fun
 array0_foreach

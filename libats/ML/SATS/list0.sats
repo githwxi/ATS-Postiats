@@ -28,8 +28,8 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmmhwxiATgmailDOTcom *)
 (* Start time: May, 2012 *)
+(* Authoremail: gmmhwxiATgmailDOTcom *)
 
 (* ****** ****** *)
 //

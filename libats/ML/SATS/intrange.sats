@@ -27,13 +27,13 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom*)
 (* Start time: September, 2014 *)
+(* Authoremail: gmhwxiATgmailDOTcom*)
 
 (* ****** ****** *)
 //
 // HX-2013-04:
-// intrange (l, r) is for integers i satisfying l <= i < r
+// intrange(l, r) is for integers i satisfying l <= i < r
 //
 (* ****** ****** *)
 //
@@ -106,11 +106,13 @@ overload .rforeach with int_rforeach_method
 //
 (* ****** ****** *)
 //
-fun{res:vt0p}
+fun
+{res:vt0p}
 int_foldleft_cloref
   (n: int, ini: res, f: cfun2(res, int, res)): res
 //
-fun{res:vt0p}
+fun
+{res:vt0p}
 int_foldleft_method
   (int, TYPE(res))(ini: res, f: cfun2(res, int, res)): res
 //
@@ -121,11 +123,13 @@ overload .foldleft with int_foldleft_method
 //
 (* ****** ****** *)
 //
-fun{res:vt0p}
+fun
+{res:vt0p}
 int_foldright_cloref
   (n: int, f: cfun2(int, res, res), snk: res): res
 //
-fun{res:vt0p}
+fun
+{res:vt0p}
 int_foldright_method
   (int, TYPE(res))(f: cfun2(int, res, res), snk: res): res
 //
@@ -228,11 +232,13 @@ overload .streamGte_vt with int_streamGte_vt
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 int_list0_map_cloref
   {n:nat}
   (n: int(n), fopr: cfun(natLt(n), a)): list0(a)
-fun{a:t0p}
+fun
+{a:t0p}
 int_list0_map_method
   {n:nat}
   (n: int(n), TYPE(a))(f: cfun(natLt(n), a)): list0(a)
@@ -241,11 +247,13 @@ overload .list0_map with int_list0_map_method
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 int_array0_map_cloref
   {n:nat}
   (n: int(n), fopr: cfun(natLt(n), a)): array0(a)
-fun{a:t0p}
+fun
+{a:t0p}
 int_array0_map_method
   {n:nat}
   (n: int(n), TYPE(a))(f: cfun(natLt(n), a)): array0(a)
@@ -254,11 +262,13 @@ overload .array0_map with int_array0_map_method
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
+fun
+{a:t0p}
 int_stream_map_cloref
   {n:nat}
   (n: int(n), fopr: cfun(natLt(n), a)): stream(a)
-fun{a:t0p}
+fun
+{a:t0p}
 int_stream_map_method
   {n:nat}
   (n: int(n), TYPE(a))(f: cfun(natLt(n), a)): stream(a)
@@ -267,7 +277,8 @@ overload .stream_map with int_stream_map_method
 //
 (* ****** ****** *)
 //
-fun{a:vt0p}
+fun
+{a:vt0p}
 int_stream_vt_map_cloref
   {n:nat}
   (n: int(n), fopr: cfun(natLt(n), a)): stream_vt(a)

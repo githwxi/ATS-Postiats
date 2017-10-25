@@ -44,6 +44,28 @@ LIBATSREC_targetloc
 val () = the_nsharp_set(2)
 
 (* ****** ****** *)
+
+fun
+html_print
+(cs: string): void = let
+//
+fun
+charpr(c: char): void =
+(
+ifcase
+//
+| c = '<' => print("&lt;")
+| c = '>' => print("&gt;")
+//
+| _(*else*) => print_char(c)
+//
+)
+//
+in
+string_foreach(cs, lam(c) => charpr(c))
+end // end of [html_print]
+
+(* ****** ****** *)
 //
 local
 #include
@@ -247,26 +269,102 @@ val res = atext_make_nil(l0)
 //
 } (* end of [__implement__] *)
 
-in
+(* ****** ****** *)
+
+fun
+__html_dynfun__
+(
+l0: location
+,
+xs: atextlst
+) : atext = res where
+{
+//
+val-
+cons0(x0, _) = xs
+//
+val x0 = atext_strngfy(x0)
+val-
+~Some_vt(ent) = theDB_search(x0)
+//
+val () =
+print!("\
+<div
+ style=\"margin-top:20px;margin-bottom:20px\">\n")
+//
+val () =
+print!("<center>\n")
+val () =
+print!
+("<dynfun>", x0, "</dynfun>\n")
+val () =
+print!("</center>\n")
+//
+val () =
+print!("\
+<h2>Interface</h2>\n")
+val () =
+print!("<sats2xhtml>")
+val () =
+html_print(uns(ent["interface"]))
+val () = println!("</sats2xhtml>")
+//
+val () =
+print!("\
+<h2>Implementation</h2>\n")
+val () =
+print!("<dats2xhtml>")
+val () =
+html_print(uns(ent["implement"]))
+val () = println!("</dats2xhtml>")
+//
+val () =
+print!("\
+<h2>Description</h2>\n")
+val () =
+print!("<description>")
+val () =
+println!(uns(ent["description"]))
+val () = println!("</description>")
+//
+val () = println!("</div>")
+//
+val ((*separator*)) = println!("<hr></hr>")
+//
+val res = atext_make_nil(l0)
+//
+} (* end of [__html_dynfun__] *)
+
+(* ****** ****** *)
+
+in (* in-of-local *)
 
 (* ****** ****** *)
 
 val () =
 the_atextmap_insert
-( "interface"
-, TEXTDEFfun
-  (
-    lam(loc, xs) => __interface__(loc, xs)
-  ) (* TEXTDEFfun *)
+(
+"interface"
+,
+TEXTDEFfun(lam(loc, xs) => __interface__(loc, xs))
 ) (* the_atextmap_insert *)
 
 val () =
 the_atextmap_insert
-( "implement"
-, TEXTDEFfun
-  (
-    lam(loc, xs) => __implement__(loc, xs)
-  ) (* TEXTDEFfun *)
+(
+"implement"
+,
+TEXTDEFfun(lam(loc, xs) => __implement__(loc, xs))
+) (* the_atextmap_insert *)
+
+(* ****** ****** *)
+
+val () =
+the_atextmap_insert
+(
+"html_dynfun"
+,
+TEXTDEFfun(lam(loc, xs) => __html_dynfun__(loc, xs))
 ) (* the_atextmap_insert *)
 
 (* ****** ****** *)

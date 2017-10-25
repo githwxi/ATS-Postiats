@@ -41,7 +41,11 @@ $(MYTEXTING).dats $(LDPATH) $(LIBRARY)
 #
 regress:: \
 $(MYTEXTING) ; \
-./$(MYTEXTING) < ./mylib.atxt > mylib_atxt.dats
+./$(MYTEXTING) < ./mylib_dats.atxt > mylib_atxt.dats
+#
+regress:: \
+$(MYTEXTING) ; \
+./$(MYTEXTING) < ./mylib_html.atxt > mylib_atxt.html
 #
 ######
 
