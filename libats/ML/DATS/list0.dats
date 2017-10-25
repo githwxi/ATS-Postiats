@@ -925,17 +925,19 @@ list0_foreach
 fun
 loop(xs: list0(a)): void =
 (
-  case+ xs of
-  | list0_nil() => ()
-  | list0_cons(x, xs) => (fwork(x); loop(xs))
+case+ xs of
+| list0_nil() => ()
+| list0_cons
+    (x, xs) => (fwork(x); loop(xs))
+  // end of [list0_cons]
 )
 //
 } (* end of [list0_foreach] *)
 //
 implement
 {a}(*tmp*)
-list0_foreach_method
-  (xs) = lam(fwork) => list0_foreach<a>(xs, fwork)
+list0_foreach_method(xs) =
+lam(fwork) => list0_foreach<a>(xs, fwork)
 //
 (* ****** ****** *)
 //
@@ -959,8 +961,8 @@ aux0(xs: list0(a)): void =
 //
 implement
 {a}(*tmp*)
-list0_rforeach_method
-  (xs) = lam(fwork) => list0_rforeach<a>(xs, fwork)
+list0_rforeach_method(xs) =
+lam(fwork) => list0_rforeach<a>(xs, fwork)
 //
 (* ****** ****** *)
 
@@ -988,9 +990,8 @@ end // end of [list0_iforeach]
 //
 implement
 {a}(*tmp*)
-list0_iforeach_method
-  (xs) =
-  lam(fwork) => list0_iforeach<a>(xs, fwork)
+list0_iforeach_method(xs) =
+lam(fwork) => list0_iforeach<a>(xs, fwork)
 //
 (* ****** ****** *)
 
@@ -1059,7 +1060,7 @@ end // end of [list0_foldleft]
 implement
 {res}{a}
 list0_foldleft_method(xs, _) =
-  lam(ini, fopr) =>list0_foldleft<res><a>(xs, ini, fopr)
+lam(ini, fopr) =>list0_foldleft<res><a>(xs, ini, fopr)
 //
 (* ****** ****** *)
 
@@ -1098,8 +1099,7 @@ implement
 list0_foldleft2
 (
   xs1, xs2, ini, fopr
-) = loop(xs1, xs2, ini) where
-{
+) = let
 //
 fun
 loop
@@ -1110,17 +1110,20 @@ loop
 (
   case+ xs1 of
   | list0_nil() => res
-  | list0_cons(x1, xs1) => (
-    case+ xs2 of
-    | list0_nil() => res
-    | list0_cons (x2, xs2) =>
-      (
-        loop(xs1, xs2, fopr(res, x1, x2))
-      ) // end of [list0_cons]
+  | list0_cons(x1, xs1) =>
+    (
+      case+ xs2 of
+      | list0_nil() => res
+      | list0_cons (x2, xs2) =>
+        (
+          loop(xs1, xs2, fopr(res, x1, x2))
+        ) (* end of [list0_cons] *)
     )
 ) (* end of [loop] *)
 //
-} (* end of [list0_foldleft2] *)
+in
+  loop(xs1, xs2, ini)
+end (* end of [list0_foldleft2] *)
 
 (* ****** ****** *)
 
@@ -1143,7 +1146,7 @@ loop(xs: list0(a)): res =
 implement
 {a}{res}
 list0_foldright_method(xs, _) =
-  lam(f, snk) => list0_foldright<a><res>(xs, f, snk)
+lam(f, snk) => list0_foldright<a><res>(xs, f, snk)
 //
 (* ****** ****** *)
 

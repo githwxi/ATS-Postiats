@@ -69,6 +69,10 @@ dynfun {
 
 <!-- ****** ****** -->
 
+<!-- LIST0 -->
+
+<!-- ****** ****** -->
+
 ##html_dynfun("list0_is_nil")
 ##html_dynfun("list0_is_cons")
 ##html_dynfun("list0_length")
@@ -101,6 +105,13 @@ dynfun {
 
 <!-- ****** ****** -->
 
+##html_dynfun("list0_mapopt")
+##html_dynfun("list0_mapopt_method")
+##html_dynfun("list0_mapjoin")
+##html_dynfun("list0_mapjoin_method")
+
+<!-- ****** ****** -->
+
 ##html_dynfun("list0_foreach")
 ##html_dynfun("list0_foreach_method")
 ##html_dynfun("list0_iforeach")
@@ -116,6 +127,14 @@ dynfun {
 
 ##html_dynfun("list0_foldleft")
 ##html_dynfun("list0_ifoldleft")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_foldright")
+
+<!-- ****** ****** -->
+
+<!-- STREAM -->
 
 <!-- ****** ****** -->
 
@@ -151,16 +170,28 @@ dynfun {
 
 <!-- ****** ****** -->
 
-##html_dynfun("stream_vt_append")
-##html_dynfun("stream_vt_concat")
-
+<!-- STREAM_VT -->
+   
 <!-- ****** ****** -->
 
 ##html_dynfun("int_stream_vt_from")
 
 <!-- ****** ****** -->
 
+##html_dynfun("stream_vt_append")
+##html_dynfun("stream_vt_concat")
+
+<!-- ****** ****** -->
+
 ##html_dynfun( "stream_vt_takeLte" )
+
+<!-- ****** ****** -->
+
+##html_dynfun( "stream_vt_map" )
+
+<!-- ****** ****** -->
+
+##html_dynfun( "stream_vt_foldleft" )
 
 <!-- ****** ****** -->
 

@@ -239,6 +239,10 @@ for supporting dot-notation.
 
 <!-- ****** ****** -->
 
+<!-- LIST0 -->
+
+<!-- ****** ****** -->
+
 <div
  style="margin-top:20px;margin-bottom:20px">
 <center>
@@ -441,6 +445,43 @@ returns the prefix of xs consisting of the first n elements.
 If n is negative, it is treated as 0. In the case
 where n is greater than length(xs), the function terminates
 abnormally.
+</description>
+</div>
+<hr></hr>
+
+
+<!-- ****** ****** -->
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>list0_get_at_exn</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+list0_get_at_exn
+(xs: list0(INV(a)), n: int): a
+//
+overload [] with list0_get_at_exn of 100
+//</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+list0_get_at_exn
+  (xs, n) =
+(
+case+ xs of
+| list0_nil() =&gt;
+  $raise ListSubscriptExn()
+| list0_cons(x, xs) =&gt;
+  if n &lt;= 0
+    then x else list0_get_at_exn&lt;a&gt;(xs, n-1)
+  // end of [list0_cons]
+)</dats2xhtml>
+<h2>Description</h2>
+<description>Given a list0-value xs and an integer n, this function
+returns xs[n] if it is defined or raises ##dyncode(ListSubscriptExn).
 </description>
 </div>
 <hr></hr>
@@ -681,6 +722,145 @@ list0_imap_method
 <h2>Description</h2>
 <description>This function is a curried version of ##dyncode("list0_imap")
 for supporting dot-notation.
+</description>
+</div>
+<hr></hr>
+
+
+<!-- ****** ****** -->
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>list0_mapopt</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+{b:t@ype}
+list0_mapopt
+( xs: list0(INV(a))
+, fopr: cfun(a, option0(b))): list0(b)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}{b}
+list0_mapopt
+(
+  xs, fopr
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() =&gt;
+  list0_nil()
+| list0_cons(x, xs) =&gt;
+  (
+  case+ fopr(x) of
+  | None0() =&gt; auxlst(xs)
+  | Some0(y) =&gt; list0_cons(y, auxlst(xs))
+  )
+)
+//
+} (* end of [list0_mapopt] *)</dats2xhtml>
+<h2>Description</h2>
+<description>Given a list0-value xs and a closure-function f, this function
+returns another list0-value consisting of the join of the option
+values f(xs[0]), ..., f(xs[n-1]), where n is the length of xs. The
+implementation of this function in ATSLIB is tail-recursive.
+</description>
+</div>
+<hr></hr>
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>list0_mapopt_method</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+{b:t@ype}
+list0_mapopt_method
+( xs: list0(INV(a)) )
+( fopr: cfun(a, option0(b)) ): list0(b)
+//
+overload
+.mapopt with list0_mapopt_method of 100
+//</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}{b}
+list0_mapopt_method
+  (xs) =
+(
+  lam(fopr) =&gt; list0_mapopt&lt;a&gt;&lt;b&gt;(xs, fopr)
+)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is a curried version of
+##dyncode("list0_mapopt") for supporting dot-notation.
+</description>
+</div>
+<hr></hr>
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>list0_mapjoin</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+{b:t@ype}
+list0_mapjoin
+( xs: list0(INV(a))
+, fopr: cfun(a, list0(b))): list0(b)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}{b}
+list0_mapjoin
+  (xs, fopr) =
+(
+  list0_concat&lt;b&gt;(list0_map&lt;a&gt;&lt;list0(b)&gt;(xs, fopr))
+)</dats2xhtml>
+<h2>Description</h2>
+<description>This function applies ##dyncode("list0_map") to generate
+a list0-value yss in which each element is also a list0-value
+and then applies ##dyncode("list0_concat") to flatten yss.
+</description>
+</div>
+<hr></hr>
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>list0_mapjoin_method</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+{b:t@ype}
+list0_mapjoin_method
+( xs: list0(INV(a)) )
+( fopr: cfun(a, list0(b)) ): list0(b)
+//
+overload
+.mapjoin with list0_mapjoin_method of 100
+//</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}{b}
+list0_mapjoin_method
+  (xs) =
+(
+  lam(fopr) =&gt; list0_mapjoin&lt;a&gt;&lt;b&gt;(xs, fopr)
+)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is a curried version of
+##dyncode("list0_mapjoin") for supporting dot-notation.
 </description>
 </div>
 <hr></hr>
@@ -990,6 +1170,51 @@ the standard indexed version of ##dyncode("list0_foldleft").
 <div
  style="margin-top:20px;margin-bottom:20px">
 <center>
+<dynfun>list0_foldright</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+{r:t@ype}
+list0_foldright
+( xs: list0(INV(a))
+, fopr: cfun(a, r, r), r0: r
+) : (r) // end of [list0_foldright]</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}{r}
+list0_foldright
+( xs
+, fopr, r0) =
+auxlst(xs) where
+{
+fun
+auxlst
+(xs: list0(a)): r =
+(
+case+ xs of
+| list0_nil() =&gt; r0
+| list0_cons(x, xs) =&gt; fopr(x, auxlst(xs))
+) (* end of [auxlst] *)
+}</dats2xhtml>
+<h2>Description</h2>
+<description>This function performs so-called right list-folding
+on a given list, which is essentially left list-folding
+on the reverse of the list.
+</description>
+</div>
+<hr></hr>
+
+
+<!-- ****** ****** -->
+
+<!-- STREAM -->
+
+<!-- ****** ****** -->
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
 <dynfun>int_stream_from</dynfun>
 </center>
 <h2>Interface</h2>
@@ -1066,9 +1291,10 @@ case+ !xs of
 else stream_nil((*void*))
 ) (* end of [stream_takeLte] *)</dats2xhtml>
 <h2>Description</h2>
-<description>This function is
-the corresponding version
-of ##dyncode("list0_takeLte") on streams.
+<description>Given a stream-value xs and an integer n, this function
+returns another stream-value consisting of the first n
+elements in xs if xs contains so many elements or all of
+the elements in xs otherwise.
 </description>
 </div>
 <hr></hr>
@@ -1112,6 +1338,69 @@ case- !xs of
 <description>This function is
 the corresponding version
 of ##dyncode("list0_get_at_exn") on streams.
+</description>
+</div>
+<hr></hr>
+
+
+<!-- ****** ****** -->
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>stream_append</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+stream_append
+(xs: stream(a), ys: stream(a)): stream(a)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+stream_append
+(xs, ys) = $delay
+(
+case+ !xs of
+| stream_nil() =&gt; !ys
+| stream_cons(x, xs) =&gt;
+  stream_cons(x, stream_append&lt;a&gt;(xs, ys))
+)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is
+the corresponding version of
+##dyncode("list0_append") on streams.
+</description>
+</div>
+<hr></hr>
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>stream_concat</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+stream_concat
+  (xss: stream(stream(a))): stream(a)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+stream_concat(xss) = $delay
+(
+case+ !xss of
+| stream_nil() =&gt;
+  stream_nil()
+| stream_cons(xs, xss) =&gt; !
+  (
+   stream_append&lt;a&gt;(xs, stream_concat&lt;a&gt;(xss))
+  ) (* end of [stream_cons] *)
+)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is
+the corresponding version of
+##dyncode("list0_concat") on streams.
 </description>
 </div>
 <hr></hr>
@@ -1305,6 +1594,10 @@ the corresponding version of
 
 <!-- ****** ****** -->
 
+<!-- STREAM_VT -->
+   
+<!-- ****** ****** -->
+
 <div
  style="margin-top:20px;margin-bottom:20px">
 <center>
@@ -1320,6 +1613,72 @@ $ldelay(stream_vt_cons(n, int_stream_vt_from(n+1)))</dats2xhtml>
 <h2>Description</h2>
 <description>Given an integer n, this function returns
 the linear stream of integers n, n+1, n+2, etc.
+</description>
+</div>
+<hr></hr>
+
+
+<!-- ****** ****** -->
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>stream_vt_append</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+stream_vt_append
+(stream_vt(a), stream_vt(a)): stream_vt(a)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+stream_vt_append
+(xs, ys) = $ldelay
+(
+case+ !xs of
+| ~stream_vt_nil() =&gt; !ys
+| ~stream_vt_cons(x, xs) =&gt;
+   stream_vt_cons(x, stream_vt_append&lt;a&gt;(xs, ys))
+, (lazy_vt_free(xs); lazy_vt_free(ys)) // for freeing
+)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is
+the corresponding version of
+##dyncode("list0_append") on linear streams.
+</description>
+</div>
+<hr></hr>
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>stream_vt_concat</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+stream_vt_concat
+(xss: stream_vt(stream_vt(a))): stream_vt(a)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+stream_vt_concat
+(xss) = $ldelay
+(
+case+ !xss of
+| ~stream_vt_nil() =&gt;
+   stream_vt_nil()
+| ~stream_vt_cons(xs, xss) =&gt; !
+  (
+   stream_vt_append&lt;a&gt;(xs, stream_vt_concat&lt;a&gt;(xss))
+  )
+, lazy_vt_free(xss) // called when the stream is freed
+)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is
+the corresponding version of
+##dyncode("list0_concat") on linear streams.
 </description>
 </div>
 <hr></hr>
@@ -1361,6 +1720,78 @@ lazy_vt_free(xs) // called when the stream is freed
 <description>This function is
 the corresponding version of ##dyncode("list0_takeLte")
 on linear streams.
+</description>
+</div>
+<hr></hr>
+
+
+<!-- ****** ****** -->
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>stream_vt_map</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+{b:t@ype}
+stream_vt_map
+( xs: stream_vt(a)
+, fopr: cfun(a, b)): stream_vt(b)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}{b}
+stream_vt_map
+  (xs, fopr) = $ldelay
+(
+case+ !xs of
+| ~stream_vt_nil() =&gt;
+   stream_vt_nil()
+| ~stream_vt_cons(x, xs) =&gt;
+   stream_vt_cons(fopr(x), stream_vt_map&lt;a&gt;&lt;b&gt;(xs, fopr))
+, lazy_vt_free(xs)
+)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is
+the corresponding version of
+##dyncode("list0_map") on linear streams.
+</description>
+</div>
+<hr></hr>
+
+
+<!-- ****** ****** -->
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>stream_vt_foldleft</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun{
+res:t@ype
+}{a:t@ype}
+stream_vt_foldleft
+(
+xs: stream_vt(a),
+r0: res, fopr: cfun(res, a, res)): res</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{res}{a}
+stream_vt_foldleft(xs, r0, fopr) =
+(
+//
+case+ !xs of
+| ~stream_vt_nil() =&gt; r0
+| ~stream_vt_cons(x, xs) =&gt;
+   stream_vt_foldleft&lt;res&gt;&lt;a&gt;(xs, fopr(r0, x), fopr)
+//
+) (* end of [stream_vt_foldleft] *)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is
+the corresponding version of
+##dyncode("list0_foldleft") on linear streams.
 </description>
 </div>
 <hr></hr>

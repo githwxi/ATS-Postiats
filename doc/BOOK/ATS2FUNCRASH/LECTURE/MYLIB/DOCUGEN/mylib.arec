@@ -603,6 +603,9 @@ list0_mapopt_method
 (
   lam(fopr) => list0_mapopt<a><b>(xs, fopr)
 )
+[description]: \
+This function is a curried version of
+\##dyncode("list0_mapopt") for supporting dot-notation.
 ####################################
 [name]: \
 list0_mapcons
@@ -638,6 +641,35 @@ list0_mapjoin
 (
   list0_concat<b>(list0_map<a><list0(b)>(xs, fopr))
 )
+[description]: \
+This function applies ##dyncode("list0_map") to generate
+a list0-value yss in which each element is also a list0-value
+and then applies ##dyncode("list0_concat") to flatten yss.
+####################################
+[name]: \
+list0_mapjoin_method
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapjoin_method
+( xs: list0(INV(a)) )
+( fopr: cfun(a, list0(b)) ): list0(b)
+//
+overload
+.mapjoin with list0_mapjoin_method of 100
+//
+[implement]: \
+implement
+{a}{b}
+list0_mapjoin_method
+  (xs) =
+(
+  lam(fopr) => list0_mapjoin<a><b>(xs, fopr)
+)
+[description]: \
+This function is a curried version of
+\##dyncode("list0_mapjoin") for supporting dot-notation.
 ####################################
 [name]: \
 int_list0_map
@@ -1709,6 +1741,10 @@ case+ !xs of
    stream_vt_cons(x, stream_vt_append<a>(xs, ys))
 , (lazy_vt_free(xs); lazy_vt_free(ys)) // for freeing
 )
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_append") on linear streams.
 ####################################
 [name]: \
 stream_vt_concat
@@ -1732,6 +1768,10 @@ case+ !xss of
   )
 , lazy_vt_free(xss) // called when the stream is freed
 )
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_concat") on linear streams.
 ####################################
 [name]: \
 int_stream_vt_from
