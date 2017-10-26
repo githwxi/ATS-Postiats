@@ -131,6 +131,8 @@ dynfun {
 ##html_dynfun("list0_forall")
 ##html_dynfun("list0_exists")
 ##html_dynfun("list0_find_index")
+##html_dynfun("list0_forall_method")
+##html_dynfun("list0_exists_method")
 
 <!-- ****** ****** -->
 
@@ -169,6 +171,8 @@ dynfun {
 <!-- ****** ****** -->
 
 ##html_dynfun("stream_map")
+##html_dynfun("stream_imap")
+
 ##html_dynfun("stream_filter")
 
 <!-- ****** ****** -->

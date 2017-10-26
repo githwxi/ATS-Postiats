@@ -233,12 +233,18 @@ end // end of [fprint_list0]
 ##interface("list0_forall")
 ##interface("list0_find_index")
 //
+##interface("list0_exists_method")
+##interface("list0_forall_method")
+//
 (* ****** ****** *)
 //
 ##implement("list0_exists")
 ##implement("list0_forall")
 //
 ##implement("list0_find_index")
+//
+##implement("list0_exists_method")
+##implement("list0_forall_method")
 //
 (* ****** ****** *)
 
@@ -313,6 +319,7 @@ end // end of [fprint_list0]
 (* ****** ****** *)
 
 ##interface("stream_map")
+##interface("stream_imap")
 
 ##interface("stream_filter")
 
@@ -349,6 +356,7 @@ end // end of [fprint_list0]
 (* ****** ****** *)
 
 ##implement("stream_map")
+##implement("stream_imap")
 
 ##implement("stream_filter")
 

@@ -1155,7 +1155,8 @@ the predicate.
 <sats2xhtml>fun
 {a:t@ype}
 list0_exists
-(xs: list0(INV(a)), test: cfun(a, bool)): bool</sats2xhtml>
+( xs: list0(INV(a))
+, test: cfun(a, bool)): bool</sats2xhtml>
 <h2>Implementation</h2>
 <dats2xhtml>implement
 {a}(*tmp*)
@@ -1203,6 +1204,52 @@ end // end of [list0_find_index]</dats2xhtml>
 <description>Given a list0-value xs and a predicate, this function
 returns the position of the first element in xs that satisfies
 the predicate or -1 if there exists no element as such.
+</description>
+</div>
+<hr></hr>
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>list0_forall_method</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+list0_forall_method
+( xs: list0(INV(a)) )
+( test: cfun(a, bool) ): bool</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+list0_forall_method(xs) =
+lam(test) =&gt; list0_forall&lt;a&gt;(xs, test)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is a curried version of ##dyncode("list0_forall")
+for supporting dot-notation.
+</description>
+</div>
+<hr></hr>
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>list0_exists_method</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+list0_exists_method
+( xs: list0(INV(a)) )
+( test: cfun(a, bool) ): bool</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+list0_exists_method(xs) =
+lam(test) =&gt; list0_exists&lt;a&gt;(xs, test)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is a curried version of ##dyncode("list0_exists")
+for supporting dot-notation.
 </description>
 </div>
 <hr></hr>
@@ -1559,12 +1606,53 @@ case+ !xs of
   // end of [stream_cons]
 )</dats2xhtml>
 <h2>Description</h2>
-<description>This function is
-the corresponding version of
-##dyncode("list0_map") on streams.
+<description>This function is the corresponding
+version of ##dyncode("list0_map") on streams.
 </description>
 </div>
 <hr></hr>
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>stream_imap</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+{b:t@ype}
+stream_imap
+(xs: stream(a)
+, fopr: cfun(int, a, b)): stream(b)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}{b}
+stream_imap
+  (xs, fopr) = let
+//
+fun
+auxmain
+(
+xs: stream(a), i: int
+) : stream(b) = $delay
+(
+case+ !xs of
+| stream_nil() =&gt;
+  stream_nil()
+| stream_cons(x, xs) =&gt;
+  stream_cons(fopr(i, x), auxmain(xs, i+1))
+)
+//
+in
+  auxmain(xs, 0(*i*))
+end // end of [stream_imap]</dats2xhtml>
+<h2>Description</h2>
+<description>This function is the corresponding
+version of ##dyncode("list0_imap") on streams.
+</description>
+</div>
+<hr></hr>
+
 
 <div
  style="margin-top:20px;margin-bottom:20px">

@@ -686,7 +686,8 @@ extern
 fun
 {a:t@ype}
 list0_exists
-(xs: list0(INV(a)), test: cfun(a, bool)): bool
+( xs: list0(INV(a))
+, test: cfun(a, bool)): bool
 extern
 fun
 {a:t@ype}
@@ -698,6 +699,19 @@ fun
 list0_find_index
 ( xs: list0(INV(a))
 , test: cfun(a, bool)): int
+//
+extern
+fun
+{a:t@ype}
+list0_exists_method
+( xs: list0(INV(a)) )
+( test: cfun(a, bool) ): bool
+extern
+fun
+{a:t@ype}
+list0_forall_method
+( xs: list0(INV(a)) )
+( test: cfun(a, bool) ): bool
 //
 (* ****** ****** *)
 //
@@ -728,6 +742,15 @@ case+ xs of
 in
   loop(xs, 0)
 end // end of [list0_find_index]
+//
+implement
+{a}(*tmp*)
+list0_exists_method(xs) =
+lam(test) => list0_exists<a>(xs, test)
+implement
+{a}(*tmp*)
+list0_forall_method(xs) =
+lam(test) => list0_forall<a>(xs, test)
 //
 (* ****** ****** *)
 
@@ -1206,6 +1229,13 @@ fun
 stream_map
 (xs: stream(a)
 , fopr: cfun(a, b)): stream(b)
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+stream_imap
+(xs: stream(a)
+, fopr: cfun(int, a, b)): stream(b)
 
 extern
 fun
@@ -1369,6 +1399,27 @@ case+ !xs of
     (fopr(x), stream_map<a><b>(xs, fopr))
   // end of [stream_cons]
 )
+implement
+{a}{b}
+stream_imap
+  (xs, fopr) = let
+//
+fun
+auxmain
+(
+xs: stream(a), i: int
+) : stream(b) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons(fopr(i, x), auxmain(xs, i+1))
+)
+//
+in
+  auxmain(xs, 0(*i*))
+end // end of [stream_imap]
 
 implement
 {a}(*tmp*)

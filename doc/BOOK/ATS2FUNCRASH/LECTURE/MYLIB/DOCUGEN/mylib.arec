@@ -883,7 +883,8 @@ list0_exists
 fun
 {a:t@ype}
 list0_exists
-(xs: list0(INV(a)), test: cfun(a, bool)): bool
+( xs: list0(INV(a))
+, test: cfun(a, bool)): bool
 [implement]: \
 implement
 {a}(*tmp*)
@@ -893,6 +894,23 @@ list0_find_index<a>(xs, test) >= 0
 Given a list0-value xs and a predicate, this function
 returns true if and only if there exists in xs one element
 satisfying the predicate.
+####################################
+[name]: \
+list0_exists_method
+[interface]: \
+fun
+{a:t@ype}
+list0_exists_method
+( xs: list0(INV(a)) )
+( test: cfun(a, bool) ): bool
+[implement]: \
+implement
+{a}(*tmp*)
+list0_exists_method(xs) =
+lam(test) => list0_exists<a>(xs, test)
+[description]: \
+This function is a curried version of ##dyncode("list0_exists")
+for supporting dot-notation.
 ####################################
 [name]: \
 list0_forall
@@ -910,6 +928,23 @@ list0_find_index<a>(xs, lam(x) => not(test(x))) < 0
 Given a list0-value xs and a predicate, this function
 returns true if and only if every element in xs satisfies
 the predicate.
+####################################
+[name]: \
+list0_forall_method
+[interface]: \
+fun
+{a:t@ype}
+list0_forall_method
+( xs: list0(INV(a)) )
+( test: cfun(a, bool) ): bool
+[implement]: \
+implement
+{a}(*tmp*)
+list0_forall_method(xs) =
+lam(test) => list0_forall<a>(xs, test)
+[description]: \
+This function is a curried version of ##dyncode("list0_forall")
+for supporting dot-notation.
 ####################################
 [name]: \
 list0_cross
@@ -1589,9 +1624,43 @@ case+ !xs of
   // end of [stream_cons]
 )
 [description]: \
-This function is
-the corresponding version of
-\##dyncode("list0_map") on streams.
+This function is the corresponding
+version of ##dyncode("list0_map") on streams.
+####################################
+[name]: \
+stream_imap
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+stream_imap
+(xs: stream(a)
+, fopr: cfun(int, a, b)): stream(b)
+[implement]: \
+implement
+{a}{b}
+stream_imap
+  (xs, fopr) = let
+//
+fun
+auxmain
+(
+xs: stream(a), i: int
+) : stream(b) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons(fopr(i, x), auxmain(xs, i+1))
+)
+//
+in
+  auxmain(xs, 0(*i*))
+end // end of [stream_imap]
+[description]: \
+This function is the corresponding
+version of ##dyncode("list0_imap") on streams.
 ####################################
 [name]: \
 stream_filter
