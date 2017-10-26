@@ -465,8 +465,8 @@ fun
 {a:t@ype}
 {b:t@ype}
 list0_map_method
-( xs: list0(INV(a)))
-( fopr: cfun1(a, b)) : list0(b)
+( xs: list0(INV(a)) )
+( fopr: cfun1(a, b) ): list0(b)
 //
 overload
 .map with list0_map_method of 100
@@ -598,8 +598,8 @@ extern
 fun
 {a:t@ype}
 list0_filter_method
-( xs: list0(INV(a)))
-( pred: cfun(a, bool)): list0(a)
+( xs: list0(INV(a)) )
+( pred: cfun(a, bool) ): list0(a)
 //
 overload
 .filter with list0_filter_method of 100
@@ -647,8 +647,8 @@ extern
 fun
 {a:t@ype}
 list0_foreach_method
-( xs: list0(INV(a)))
-( fwork: cfun(a, void)): void
+( xs: list0(INV(a)) )
+( fwork: cfun(a, void) ): void
 //
 overload
 .foreach with list0_foreach_method of 100
@@ -770,7 +770,7 @@ fun
 {a:t@ype}
 list0_iforeach_method
 ( xs: list0(INV(a)) )
-( fwork: cfun(int, a, void)): void
+( fwork: cfun(int, a, void) ): void
 
 (* ****** ****** *)
 //
@@ -1218,9 +1218,8 @@ extern
 fun
 {a:t@ype}
 stream_foreach
-(
-xs: stream(a),
-fwork: cfun(a, void)
+( xs: stream(a)
+, fwork: cfun(a, void)
 ) : void // end-of-function
 extern
 fun
@@ -1448,9 +1447,8 @@ fun{
 res:t@ype
 }{a:t@ype}
 stream_vt_foldleft
-(
-xs: stream_vt(a),
-r0: res, fopr: cfun(res, a, res)): res
+( xs: stream_vt(a)
+, r0: res, fopr: cfun(res, a, res)): res
 
 (* ****** ****** *)
 
@@ -1542,7 +1540,8 @@ case+ !xs of
 )
 implement
 {res}{a}
-stream_vt_foldleft(xs, r0, fopr) =
+stream_vt_foldleft
+  (xs, r0, fopr) =
 (
 //
 case+ !xs of
@@ -1568,7 +1567,8 @@ list0_kmap
 , k0: cont1(list0(b))) : void
 implement
 {a}{b}
-list0_kmap(xs, f0, k0) =
+list0_kmap
+  (xs, f0, k0) =
 (
 case+ xs of
 | list0_nil() =>
@@ -1590,10 +1590,12 @@ fun
 {a:t@ype}
 stream_kforeach
 ( xs: stream(INV(a))
-, f0: cfun(a, cont1(bool), void), k0: cont0()): void
+, f0: cfun(a, cont1(bool), void)
+, k0: cont0((*void*))) : void
 implement
 {a}(*tmp*)
-stream_kforeach(xs, f0, k0) =
+stream_kforeach
+  (xs, f0, k0) =
 (
 case+ !xs of
 | stream_nil() => k0()

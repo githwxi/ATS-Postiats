@@ -576,8 +576,8 @@ list0_foldleft&lt;list0(a)&gt;&lt;a&gt;
 (xs, ys, lam(ys, x) =&gt; list0_cons(x, ys))</dats2xhtml>
 <h2>Description</h2>
 <description>Given two list0-values xs and ys, this function returns
-another list0-value that is the concatenation of reverse(xs)
-and ys.
+another list0-value that is the concatenation of the reverse
+of xs and ys.
 </description>
 </div>
 <hr></hr>
@@ -637,8 +637,8 @@ ATSLIB is tail-recursive.
 {a:t@ype}
 {b:t@ype}
 list0_map_method
-( xs: list0(INV(a)))
-( fopr: cfun1(a, b)) : list0(b)
+( xs: list0(INV(a)) )
+( fopr: cfun1(a, b) ): list0(b)
 //
 overload
 .map with list0_map_method of 100
@@ -915,8 +915,8 @@ to each encountered element.
 <sats2xhtml>fun
 {a:t@ype}
 list0_foreach_method
-( xs: list0(INV(a)))
-( fwork: cfun(a, void)): void
+( xs: list0(INV(a)) )
+( fwork: cfun(a, void) ): void
 //
 overload
 .foreach with list0_foreach_method of 100
@@ -983,7 +983,7 @@ the standard indexed version of ##dyncode("list0_foreach").
 {a:t@ype}
 list0_iforeach_method
 ( xs: list0(INV(a)) )
-( fwork: cfun(int, a, void)): void</sats2xhtml>
+( fwork: cfun(int, a, void) ): void</sats2xhtml>
 <h2>Implementation</h2>
 <dats2xhtml>implement
 {a}(*tmp*)
@@ -1491,9 +1491,8 @@ the corresponding version of
 <sats2xhtml>fun
 {a:t@ype}
 stream_foreach
-(
-xs: stream(a),
-fwork: cfun(a, void)
+( xs: stream(a)
+, fwork: cfun(a, void)
 ) : void // end-of-function</sats2xhtml>
 <h2>Implementation</h2>
 <dats2xhtml>implement
@@ -1773,13 +1772,13 @@ the corresponding version of
 res:t@ype
 }{a:t@ype}
 stream_vt_foldleft
-(
-xs: stream_vt(a),
-r0: res, fopr: cfun(res, a, res)): res</sats2xhtml>
+( xs: stream_vt(a)
+, r0: res, fopr: cfun(res, a, res)): res</sats2xhtml>
 <h2>Implementation</h2>
 <dats2xhtml>implement
 {res}{a}
-stream_vt_foldleft(xs, r0, fopr) =
+stream_vt_foldleft
+  (xs, r0, fopr) =
 (
 //
 case+ !xs of

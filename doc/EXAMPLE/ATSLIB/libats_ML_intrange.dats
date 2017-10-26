@@ -66,6 +66,27 @@ lam (i, j) =>
 
 (* ****** ****** *)
 
+val () =
+{
+//
+val N = 10
+//
+val sum1 =
+(
+N
+).foldleft(TYPE{int})(0, lam(res, i) => res + i)
+//
+val sum2 =
+(
+N
+).foldright(TYPE{int})(lam(res, i) => res + i, 0)
+//
+val ((*void*)) = assertloc(sum1 = sum2)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

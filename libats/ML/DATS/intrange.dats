@@ -136,7 +136,9 @@ implement
 {res}(*tmp*)
 int_foldleft_method
   (n, tres) =
-  lam(ini, f) => int_foldleft_cloref<res>(n, ini, f)
+(
+lam(ini, f) => int_foldleft_cloref<res>(n, ini, f)
+)
 //
 (* ****** ****** *)
 //
@@ -150,7 +152,9 @@ implement
 {res}(*tmp*)
 int_foldright_method
   (n, tres) =
-  lam(f, snk) => int_foldright_cloref<res>(n, f, snk)
+(
+lam(f, snk) => int_foldright_cloref<res>(n, f, snk)
+)
 //
 (* ****** ****** *)
 
@@ -263,12 +267,14 @@ loop
 , ini: res, f: cfun2(res, int, res)
 ) : res = (
 //
-if l < r then loop (l+1, r, f(ini, l), f) else ini
+if (l < r)
+  then loop(l+1, r, f(ini, l), f) else ini
+// end of [if]
 //
 ) (* end of [loop] *)
 //
 in
-  loop (l, r, ini, fopr)
+  loop(l, r, ini, fopr)
 end // end of [intrange_foldleft_cloref]
 
 (* ****** ****** *)
@@ -283,6 +289,46 @@ lam(ini, f) =>
   intrange_foldleft_cloref<res>(l, r, ini, f)
 //
 ) (* end of [intrange_foldleft_method] *)
+//
+(* ****** ****** *)
+
+implement
+{res}(*tmp*)
+intrange_foldright_cloref
+  (l, r, f, snk) = let
+//
+fun
+loop
+(
+  l: int, r: int
+, f: cfun2(int, res, res), snk: res
+) : res = (
+//
+if
+(l < r)
+then let
+  val r1 = r-1 in loop(l, r1, f, f(r1, snk))
+end // end of [then]
+else snk // end of [else]
+//
+) (* end of [loop] *)
+//
+in
+  loop(l, r, f, snk)
+end // end of [intrange_foldright_cloref]
+
+(* ****** ****** *)
+//
+implement
+{res}(*tmp*)
+intrange_foldright_method
+  ( @(l, r), tres ) =
+(
+//
+lam(f, snk) =>
+  intrange_foldright_cloref<res>(l, r, f, snk)
+//
+) (* end of [intrange_foldright_method] *)
 //
 (* ****** ****** *)
 //
