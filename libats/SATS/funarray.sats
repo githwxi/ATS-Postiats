@@ -1,5 +1,28 @@
+(***********************************************************************)
+(*                                                                     *)
+(*                         Applied Type System                         *)
+(*                                                                     *)
+(***********************************************************************)
+
 (*
-** libatscc-common
+** ATS/Postiats - Unleashing the Potential of Types!
+** Copyright (C) 2011-2013 Hongwei Xi, ATS Trustful Software, Inc.
+** All rights reserved
+**
+** ATS is free software;  you can  redistribute it and/or modify it under
+** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
+** Free Software Foundation; either version 3, or (at  your  option)  any
+** later version.
+** 
+** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
+** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
+** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
+** for more details.
+** 
+** You  should  have  received  a  copy of the GNU General Public License
+** along  with  ATS;  see the  file COPYING.  If not, please write to the
+** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
+** 02110-1301, USA.
 *)
 
 (* ****** ****** *)
@@ -54,7 +77,8 @@ funarray_make_nil
 //
 fun
 {a:t0p}
-funarray_size{n:int}(A: funarray(INV(a), n)):<> int(n)
+funarray_size
+{n:int}(A: funarray(INV(a), n)):<> int(n)
 //
 (* ****** ****** *)
 //
@@ -126,7 +150,7 @@ x:t0p}{env:vt0p
 //
 fun{
 x:t0p}{env:vt0p
-} funarray_foreach$cont (x: x, env: &env): bool
+} funarray_foreach$cont(x: x, env: &env): bool
 fun{
 x:t0p}{env:vt0p
 } funarray_foreach$fwork(x: x, env: &(env) >> _): void
