@@ -411,8 +411,8 @@ list0_foldleft<list0(a)><a>
 (xs, ys, lam(ys, x) => list0_cons(x, ys))
 [description]: \
 Given two list0-values xs and ys, this function returns
-another list0-value that is the concatenation of reverse(xs)
-and ys.
+another list0-value that is the concatenation of the reverse
+of xs and ys.
 ####################################
 [name]: \
 list0_foldleft
