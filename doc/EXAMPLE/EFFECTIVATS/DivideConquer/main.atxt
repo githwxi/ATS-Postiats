@@ -60,7 +60,8 @@ implement
 DC_solve(x0) = let
 //
 val
-test = DC_base_test<>(x0)
+test =
+DC_base_test<>(x0)
 //
 in (* in-of-let *)
 //

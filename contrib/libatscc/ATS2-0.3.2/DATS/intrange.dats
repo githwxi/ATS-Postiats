@@ -276,21 +276,44 @@ implement
 int2_exists_cloref
   (n1, n2, pred) =
 (
-  intrange2_exists_cloref (0, n1, 0, n2, pred)
+intrange2_exists_cloref (0, n1, 0, n2, pred)
 )
 implement
 int2_forall_cloref
   (n1, n2, pred) =
 (
-  intrange2_forall_cloref (0, n1, 0, n2, pred)
+intrange2_forall_cloref (0, n1, 0, n2, pred)
 )
 //
 implement
 int2_foreach_cloref
-  (n1, n2, pred) =
+  (n1, n2, fwork) =
 (
-  intrange2_foreach_cloref (0, n1, 0, n2, pred)
+intrange2_foreach_cloref (0, n1, 0, n2, fwork)
 )
+//
+(* ****** ****** *)
+//
+implement
+int_cross_exists_method
+  (n1, n2) =
+(
+lam(pred) => int2_exists_cloref(n1, n2, pred)
+) (* int_cross_exists_method *)
+//
+implement
+int_cross_forall_method
+  (n1, n2) =
+(
+lam(pred) => int2_forall_cloref(n1, n2, pred)
+) (* int_cross_forall_method *)
+//
+implement
+int_cross_foreach_method
+  (n1, n2) =
+(
+lam(fwork) => int2_foreach_cloref(n1, n2, fwork)
+) (* int_cross_foreach_method *)
 //
 (* ****** ****** *)
 

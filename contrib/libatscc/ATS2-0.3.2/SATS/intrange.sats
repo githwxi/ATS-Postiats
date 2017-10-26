@@ -190,14 +190,40 @@ overload .stream_vt_map with int_stream_vt_map_method
 //
 fun
 int2_exists_cloref
-  (n1: int, n2: int, f: cfun2(int, int, bool)): bool = "mac#%"
+( n1: int, n2: int
+, pred: cfun2(int, int, bool)): bool = "mac#%"
 fun
 int2_forall_cloref
-  (n1: int, n2: int, f: cfun2(int, int, bool)): bool = "mac#%"
+( n1: int, n2: int
+, pred: cfun2(int, int, bool)): bool = "mac#%"
 //
 fun
 int2_foreach_cloref
-  (n1: int, n2: int, f: cfun2(int, int, void)): void = "mac#%"
+( n1: int, n2: int
+, fwork: cfun2(int, int, void)): void = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+int_cross_exists_method
+  (n1: int, n2: int)
+  (pred: cfun2(int, int, bool)): bool = "mac#%"
+fun
+int_cross_forall_method
+  (n1: int, n2: int)
+  (pred: cfun2(int, int, bool)): bool = "mac#%"
+//
+overload .cross_exists with int_cross_exists_method
+overload .cross_forall with int_cross_forall_method
+//
+(* ****** ****** *)
+//
+fun
+int_cross_foreach_method
+  (n1: int, n2: int)
+  (fwork: cfun2(int, int, void)): void = "mac#%"
+//
+overload .cross_foreach with int_cross_foreach_method
 //
 (* ****** ****** *)
 //
