@@ -153,7 +153,7 @@ implement
 theDB_insert(k, x) =
 {
   val-~None_vt() = theDB.insert(k, x)
-}
+} (* end of [theDB_insert] *)
 //
 (* ****** ****** *)
 

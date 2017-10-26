@@ -9,6 +9,6 @@ including counter, stack, deque, hashtable, etc.
 
 ###TEST Files
 
-The files in the TEST directory contain code that gives details on
-using various templates implemented in this package.
+The files in the TEST directory contain code samples showing details
+on using various templates implemented in this package.
 
