@@ -112,6 +112,15 @@ dynfun {
 
 <!-- ****** ****** -->
 
+##html_dynfun("int_list0_map")
+##html_dynfun("int_list0_mapopt")
+
+<!-- ****** ****** -->
+
+##html_dynfun("int_cross_list0_map")
+
+<!-- ****** ****** -->
+
 ##html_dynfun("list0_foreach")
 ##html_dynfun("list0_foreach_method")
 ##html_dynfun("list0_iforeach")
@@ -139,6 +148,9 @@ dynfun {
 <!-- ****** ****** -->
 
 ##html_dynfun("int_stream_from")
+
+<!-- ****** ****** -->
+
 ##html_dynfun("stream_make_list0")
 
 <!-- ****** ****** -->
@@ -162,7 +174,10 @@ dynfun {
 <!-- ****** ****** -->
 
 ##html_dynfun("stream_foreach")
+##html_dynfun("stream_foreach_method")
+
 ##html_dynfun("stream_iforeach")
+##html_dynfun("stream_iforeach_method")
 
 <!-- ****** ****** -->
 

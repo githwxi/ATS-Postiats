@@ -871,6 +871,127 @@ list0_mapjoin_method
 <div
  style="margin-top:20px;margin-bottom:20px">
 <center>
+<dynfun>int_list0_map</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+int_list0_map
+( n: int
+, fopr: cfun(int, a)): list0(a)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+int_list0_map
+  (n, fopr) =
+  auxmain(0) where
+{
+fun
+auxmain
+(
+ i: int
+) : list0(a) =
+if
+(i &lt; n)
+then
+(
+  list0_cons(fopr(i), auxmain(i+1))
+) else list0_nil((*void*))
+} (* end of [int_list0_map] *)</dats2xhtml>
+<h2>Description</h2>
+<description>Given an integer n and a closure-function f,
+this function returns a list0-value consisting of
+f(i) where i ranges between 0 and n-1, inclusive.
+</description>
+</div>
+<hr></hr>
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>int_list0_mapopt</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+int_list0_mapopt
+( n: int
+, fopr: cfun(int, option0(a))): list0(a)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+int_list0_mapopt
+  (n, fopr) =
+  auxmain(0) where
+{
+//
+fun
+auxmain
+(
+ i: int
+) : list0(a) =
+if
+(i &lt; n)
+then
+(
+  case+ fopr(i) of
+  | None0() =&gt; auxmain(i+1)
+  | Some0(x) =&gt; list0_cons(x, auxmain(i+1))
+) else list0_nil((*void*))
+//
+} (* end of [int_list0_mapopt] *)</dats2xhtml>
+<h2>Description</h2>
+<description>Given an integer n and a closure-function f,
+this function returns a list0-value obtained from joining
+the option0-values f(i) where i ranges between 0 and n-1, inclusive.
+The actual implementation of this function in ATSLIB is tail-recursive.
+</description>
+</div>
+<hr></hr>
+
+
+<!-- ****** ****** -->
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>int_cross_list0_map</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+int_cross_list0_map
+( m: int
+, n: int
+, fopr: cfun(int, int, a)): list0(a)</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a:t@ype}
+int_cross_list0_map
+(m, n, fopr) =
+list0_concat&lt;a&gt;
+(
+int_list0_map&lt;list0(a)&gt;
+( m
+, lam(i) =&gt;
+  int_list0_map&lt;a&gt;(n, lam(j) =&gt; fopr(i, j))
+) (* int_list0_map *)
+) (* int_cross_list0_map *)</dats2xhtml>
+<h2>Description</h2>
+<description>Given two integers m and n and a closure-function f,
+this function returns a list0-value consisting of f(i,j)
+enumerated in the row-major fashion for i ranging between
+0 and m-1 and j between 0 and n-1.
+</description>
+</div>
+<hr></hr>
+
+
+<!-- ****** ****** -->
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
 <dynfun>list0_foreach</dynfun>
 </center>
 <h2>Interface</h2>
@@ -1231,6 +1352,9 @@ returns the stream of integers n, n+1, n+2, etc.
 </div>
 <hr></hr>
 
+
+<!-- ****** ****** -->
+
 <div
  style="margin-top:20px;margin-bottom:20px">
 <center>
@@ -1517,6 +1641,33 @@ the corresponding version of
 <div
  style="margin-top:20px;margin-bottom:20px">
 <center>
+<dynfun>stream_foreach_method</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+stream_foreach_method
+( xs: stream(INV(a)) )
+( fwork: cfun(a, void) ): void</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+stream_foreach_method
+  (xs) =
+(
+  lam(fwork) =&gt; stream_foreach&lt;a&gt;(xs, fwork)
+)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is a curried version of
+##dyncode("stream_foreach") for supporting dot-notation.
+</description>
+</div>
+<hr></hr>
+
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
 <dynfun>stream_iforeach</dynfun>
 </center>
 <h2>Interface</h2>
@@ -1549,6 +1700,32 @@ case+ !xs of
 <description>This function is
 the corresponding version of
 ##dyncode("list0_iforeach") on streams.
+</description>
+</div>
+<hr></hr>
+
+<div
+ style="margin-top:20px;margin-bottom:20px">
+<center>
+<dynfun>stream_iforeach_method</dynfun>
+</center>
+<h2>Interface</h2>
+<sats2xhtml>fun
+{a:t@ype}
+stream_iforeach_method
+( xs: stream(INV(a)) )
+( fwork: cfun(int, a, void) ): void</sats2xhtml>
+<h2>Implementation</h2>
+<dats2xhtml>implement
+{a}(*tmp*)
+stream_iforeach_method
+  (xs) =
+(
+  lam(fwork) =&gt; stream_iforeach&lt;a&gt;(xs, fwork)
+)</dats2xhtml>
+<h2>Description</h2>
+<description>This function is a curried version of
+##dyncode("stream_iforeach") for supporting dot-notation.
 </description>
 </div>
 <hr></hr>

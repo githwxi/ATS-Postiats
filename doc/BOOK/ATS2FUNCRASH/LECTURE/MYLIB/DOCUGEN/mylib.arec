@@ -698,6 +698,10 @@ then
   list0_cons(fopr(i), auxmain(i+1))
 ) else list0_nil((*void*))
 } (* end of [int_list0_map] *)
+[description]: \
+Given an integer n and a closure-function f,
+this function returns a list0-value consisting of
+f(i) where i ranges between 0 and n-1, inclusive.
 ####################################
 [name]: \
 int_list0_mapopt
@@ -730,6 +734,11 @@ then
 ) else list0_nil((*void*))
 //
 } (* end of [int_list0_mapopt] *)
+[description]: \
+Given an integer n and a closure-function f,
+this function returns a list0-value obtained from joining
+the option0-values f(i) where i ranges between 0 and n-1, inclusive.
+The actual implementation of this function in ATSLIB is tail-recursive.
 ####################################
 [name]: \
 int_cross_list0_map
@@ -753,6 +762,11 @@ int_list0_map<list0(a)>
   int_list0_map<a>(n, lam(j) => fopr(i, j))
 ) (* int_list0_map *)
 ) (* int_cross_list0_map *)
+[description]: \
+Given two integers m and n and a closure-function f,
+this function returns a list0-value consisting of f(i,j)
+enumerated in the row-major fashion for i ranging between
+0 and m-1 and j between 0 and n-1.
 ####################################
 [name]: \
 list0_filter_method
@@ -1635,6 +1649,26 @@ case+ !xs of
 This function is
 the corresponding version of
 \##dyncode("list0_foreach") on streams.
+####################################
+[name]: \
+stream_foreach_method
+[interface]: \
+fun
+{a:t@ype}
+stream_foreach_method
+( xs: stream(INV(a)) )
+( fwork: cfun(a, void) ): void
+[implement]: \
+implement
+{a}(*tmp*)
+stream_foreach_method
+  (xs) =
+(
+  lam(fwork) => stream_foreach<a>(xs, fwork)
+)
+[description]: \
+This function is a curried version of
+\##dyncode("stream_foreach") for supporting dot-notation.
 ####################################
 [name]: \
 stream_iforeach

@@ -1816,7 +1816,7 @@ make good use of ATS2 without any need for compiled library (libatslib.a).
 Also, GC support in ATS2 becomes optional; if needed, third-party GC (e.g.,
 Bohem-GC) can be readily employed.
 
-I will gradually list differences between ATS and ATS2, helping people
+I will gradually list differences between ATS1 and ATS2, helping people
 make the transition from ATS1 to ATS2.
 
 ###### end of [CHANGES-ats2] ######
