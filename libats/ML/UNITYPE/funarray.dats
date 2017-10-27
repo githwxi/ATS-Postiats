@@ -6,6 +6,13 @@
 //
 (* ****** ****** *)
 //
+(*
+#define
+ATS_DYNLOADFLAG 1
+*)
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 #include
@@ -36,6 +43,11 @@ farray = farray_type
 typedef
 farray = $FA.farray(gvalue)
 *)
+//
+(* ****** ****** *)
+//
+exception
+FarraySubscriptExn of ()
 //
 (* ****** ****** *)
 //
@@ -78,29 +90,29 @@ overload isneqz with farray_isnot_nil
 //
 extern
 fun
-farray_get_at
-(A: farray, i: int):<> gvalue
+farray_get_at_exn
+(A: farray, i: int): gvalue
 extern
 fun
-farray_set_at
+farray_set_at_exn
 (A: &farray >> _, i: int, x: gvalue): void
 //
-overload [] with farray_get_at
-overload [] with farray_set_at
+overload [] with farray_get_at_exn
+overload [] with farray_set_at_exn
 //
 (* ****** ****** *)
 //
 extern
 fun
-farray_getopt_at
+farray_get_at_opt
 (A: farray, i: int):<> Option_vt(gvalue)
 extern
 fun
-farray_setopt_at
+farray_set_at_opt
 (A: &farray >> _, i: int, x: gvalue): bool
 //
-overload getopt_at with farray_getopt_at
-overload setopt_at with farray_setopt_at
+overload get_at_opt with farray_get_at_opt
+overload set_at_opt with farray_set_at_opt
 //
 (* ****** ****** *)
 //
@@ -109,7 +121,14 @@ fun
 print_farray(farray): void
 extern
 fun
+prerr_farray(farray): void
+extern
+fun
 fprint_farray(FILEref, farray): void
+//
+overload print with print_farray
+overload prerr with prerr_farray
+overload fprint with fprint_farray
 //
 (* ****** ****** *)
 //
@@ -190,10 +209,43 @@ farray_isnot_nil
 (* ****** ****** *)
 
 implement
-farray_getopt_at
+farray_get_at_exn
+  (xs, i) = let
+//
+val
+opt =
+farray_get_at_opt(xs, i)
+//
+in
+  case+ opt of
+  | ~Some_vt(x) => x
+  | ~None_vt((*void*)) =>
+     $raise FarraySubscriptExn()
+end // end of [farray_get_at_exn]
+
+implement
+farray_set_at_exn
+  (xs, i, x0) = let
+//
+val
+opt =
+farray_set_at_opt(xs, i, x0)
+//
+in
+  case+ opt of
+  | true(*void*) => ()
+  | false(*void*) =>
+     $raise FarraySubscriptExn()
+end // end of [farray_set_at_exn]
+
+(* ****** ****** *)
+
+implement
+farray_get_at_opt
   (xs, i) = let
 //
 val i = g1ofg0(i)
+typedef gv = gvalue
 //
 in
 //
@@ -201,34 +253,38 @@ if
 (
 i >= 0
 ) then (
-  $FA.farray_getopt_at(xs, i)
+$FA.farray_getopt_at<gv>(xs, i)
 ) else None_vt() // end of [if]
 //
-end // end of [farray_getopt_at]
+end // end of [farray_get_at_opt]
 
 (* ****** ****** *)
 
 implement
-farray_setopt_at
+farray_set_at_opt
   (xs, i, x0) = let
 //
 val i = g1ofg0(i)
+typedef gv = gvalue
 //
 in
 //
 if (
 i >= 0
 ) then (
-  $FA.farray_setopt_at(xs, i, x0)
+$FA.farray_setopt_at<gv>(xs, i, x0)
 ) else false(*fail*) // end of [if]
 //
-end // end of [farray_setopt_at]
+end // end of [farray_set_at_opt]
 
 (* ****** ****** *)
 //
 implement
 print_farray(xs) =
   fprint_farray(stdout_ref, xs)
+implement
+prerr_farray(xs) =
+  fprint_farray(stderr_ref, xs)
 //
 implement
 fprint_farray(out, xs) =

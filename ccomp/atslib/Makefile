@@ -1,3 +1,4 @@
+######
 #
 #
 # This Makefile is automatically generated
@@ -6,7 +7,6 @@
 # make -f Makefile.gen
 #
 #
-
 ######
 
 PATSHOMEQ="$(PATSHOME)"

@@ -305,6 +305,10 @@ RMF=rm -f
 
 ######
 
+#make2_entry("libats_ML_UNITYPE", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+
+######
+
 #make_entry("libats_libc_fcntl")
 #make_entry("libats_libc_fnmatch")
 #make2_entry("libats_libc_math", "", "-lm")

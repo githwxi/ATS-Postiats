@@ -204,7 +204,7 @@ fprint_list_sep
 // end of [fprint_list_sep]
 //
 fun{}
-fprint_list$sep (out: FILEref): void
+fprint_list$sep(out: FILEref): void
 //
 #atscode_separator()
 

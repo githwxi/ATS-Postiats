@@ -89,6 +89,7 @@ in
 end // end of [make_entry]
 
 %}\
+######
 #
 #
 # This Makefile is automatically generated
@@ -97,7 +98,6 @@ end // end of [make_entry]
 # make -f Makefile.gen
 #
 #
-
 ######
 
 PATSHOMEQ="$(PATSHOME)"

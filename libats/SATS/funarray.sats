@@ -91,12 +91,12 @@ farray_make_list
 fun
 {a:t0p}
 farray_get_at{n:int}
-  (A: farray(INV(a), n), i: natLt(n)):<> (a)
+(A: farray(INV(a), n), i: natLt(n)):<> (a)
 //
 fun
 {a:t0p}
 farray_set_at{n:int}
-  (A: &farray(INV(a), n) >> _, i: natLt(n), x: a): void
+(A: &farray(INV(a), n) >> _, i: natLt(n), x: a):<!wrt> void
 //
 overload [] with farray_get_at
 overload [] with farray_set_at
@@ -113,7 +113,7 @@ fun
 {a:t0p}
 farray_setopt_at
 {n:int}{i:nat}
-(A: &farray(INV(a), n) >> _, i: int(i), x: a): bool(i < n)
+(A: &farray(INV(a), n) >> _, i: int(i), x: a):<!wrt> bool(i < n)
 //
 overload getopt_at with farray_getopt_at
 overload setopt_at with farray_setopt_at

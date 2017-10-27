@@ -267,7 +267,7 @@ set_at
 } .<n>.
 (
   t0: bt(a, n), i: int i, x0: a
-) : bt(a, n) =
+) :<> bt(a, n) =
 (
 if
 (i > 0)
@@ -276,8 +276,8 @@ then let
   val+B(x, tl, tr) = t0
 in
   if i > i2 + i2
-    then B(x, set_at (tl, i2, x0), tr)
-    else B(x, tl, set_at (tr, i2-1, x0))
+    then B(x, set_at(tl, i2, x0), tr)
+    else B(x, tl, set_at(tr, i2-1, x0))
   // end of [if]
 end // end of [then]
 else let
@@ -345,7 +345,7 @@ setopt_at
 t0: bt(a, n), i: int(i)
 ,
 x0: a, opt: &bool? >> bool(i < n)
-) : bt(a, n) =
+) :<!wrt> bt(a, n) =
 (
 case+ t0 of
 | E() =>
