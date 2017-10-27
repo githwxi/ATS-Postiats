@@ -28,14 +28,17 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
 (* Start time: October, 2013 *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
 
 (* ****** ****** *)
   
-#define ATS_PACKNAME "ATSLIB.libats.deqarray"
-#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
-#define ATS_EXTERN_PREFIX "atslib_" // prefix for external names
+#define
+ATS_PACKNAME "ATSLIB.libats.deqarray"
+#define
+ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+#define
+ATS_EXTERN_PREFIX "atslib_" // prefix for external names
   
 (* ****** ****** *)
 

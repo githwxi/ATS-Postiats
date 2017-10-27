@@ -826,17 +826,20 @@ hidexp_ccomp_var
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val-HDEvar (d2v) = hde0.hidexp_node
 //
-val pmv = d2var_ccomp (env, loc0, hse0, d2v)
+val-
+HDEvar(d2v) = hde0.hidexp_node
+//
+val pmv = d2var_ccomp(env, loc0, hse0, d2v)
 //
 in
 //
 case+
-d2var_get_view (d2v) of
+d2var_get_view(d2v)
+of (* case+ *)
 //
 | None _(*val*) => pmv
-| Some _(*ref*) => primval_selptr (loc0, hse0, pmv, hse0, list_nil)
+| Some _(*ref*) => primval_selptr(loc0, hse0, pmv, hse0, list_nil)
 //
 end // end of [hidexp_ccomp_var]
 
@@ -848,11 +851,13 @@ hidexp_ccomp_cst
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val-HDEcst (d2c) = hde0.hidexp_node
-val () = the_dyncstlst_add (d2c)
+//
+val-
+HDEcst(d2c) = hde0.hidexp_node
+val () = the_dyncstlst_add(d2c)
 //
 in
-  primval_cst (loc0, hse0, d2c)
+  primval_cst(loc0, hse0, d2c)
 end // end of [hidexp_ccomp_cst]
 
 (* ****** ****** *)
@@ -1817,11 +1822,12 @@ hidexp_ccomp_ret_raise
   (env, res, tmpret, hde0) = let
 //
 val loc0 = hde0.hidexp_loc
-val-HDEraise (hde_exn) = hde0.hidexp_node
-val pmv_exn = hidexp_ccomp (env, res, hde_exn)
+val-HDEraise(hde_exn) = hde0.hidexp_node
+val pmv_exn = hidexp_ccomp(env, res, hde_exn)
 //
-val ins = instr_raise (loc0, tmpret, pmv_exn)
-val () = instrseq_add (res, ins)
+val ins =
+instr_raise (loc0, tmpret, pmv_exn)
+val ((*void*)) = instrseq_add (res, ins)
 //
 in
   // nothing

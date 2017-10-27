@@ -95,7 +95,9 @@ val inss_try = instrseq_get_free(res_try)
 val fail =
   PTCKNTraise(tmpret, pmv_exn)
 //
-val ibrs_with = hiclaulst_ccomp
+val
+ibrs_with =
+hiclaulst_ccomp
 (
   env, lvl0, list_sing(pmv_exn), hicls_with, tmpret, fail
 ) (* end of [val] *)

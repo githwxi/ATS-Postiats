@@ -70,6 +70,9 @@ fun
 farray_size
 {n:int}(A: farray(INV(a), n)):<> int(n)
 //
+overload size with farray_size
+overload .size with farray_size
+//
 (* ****** ****** *)
 //
 fun{}

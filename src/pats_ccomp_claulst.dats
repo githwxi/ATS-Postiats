@@ -1219,17 +1219,19 @@ in
 case+ mtk0 of
 //
 | MTKpat(hip, tpmv) =>
-    auxcomplst_pat (lvl0, tpmv, hip, mtks)
+  (
+    auxcomplst_pat(lvl0, tpmv, hip, mtks)
+  )
 //
 | MTKlabpat
     (lab, hip, tpmv) =>
   (
-    auxcomplst_labpat (lvl0, tpmv, lab, hip, mtks)
+    auxcomplst_labpat(lvl0, tpmv, lab, hip, mtks)
   ) (* end of [MTKlabpat] *)
 //
 | MTKrparen((*void*)) =>
   (
-    list_vt_cons (PTCMPrparen (), auxcomplst (lvl0, mtks))
+    list_vt_cons(PTCMPrparen (), auxcomplst(lvl0, mtks))
   ) (* end of [MTKrparen] *)
 //
 end // end of [auxcomplst_mtk]
@@ -1248,137 +1250,166 @@ val loc0 = hip0.hipat_loc
 in
 //
 case+
-  hip0.hipat_node of
+hip0.hipat_node
+of (* case+ *)
 //
-| HIPany d2v => let
+| HIPany(d2v) => let
     val ptcmp0 = PTCMPany(d2v)
-    val ptcmps = auxcomplst (lvl0, mtks)
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, ptcmps)
-  end
-| HIPvar d2v => let
-    val (
-    ) = d2var_set_level (d2v, lvl0)
-    val nused = d2var_get_utimes (d2v)
+    list_vt_cons(ptcmp0, ptcmps)
+  end // end of [HIPany]
+| HIPvar(d2v) => let
+    val () =
+    d2var_set_level(d2v, lvl0)
+    val nused = d2var_get_utimes(d2v)
     val ptcmp0 =
     (
       if nused > 0
         then PTCMPvar(d2v, tpmv) else PTCMPany(d2v)
       // end of [if]
     ) : patcomp // end of [val]
-    val ptcmps = auxcomplst (lvl0, mtks)
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, ptcmps)
+    list_vt_cons(ptcmp0, ptcmps)
   end // end of [HIPvar]
 //
-| HIPint (i) => let
-    val tl = tmplab_make (loc0)
-    val kntr = patckontref_make ()
+| HIPint(i) => let
+    val tl = tmplab_make(loc0)
+    val kntr = patckontref_make()
     val ptcmp0 =
-      PTCMPpatlparen (PATCKint(i), tpmv, tl, None(*knd*), kntr)
-    val ptcmp1 = PTCMPrparen ()
-    val ptcmps = auxcomplst (lvl0, mtks)
+    PTCMPpatlparen
+      (PATCKint(i), tpmv, tl, None(*knd*), kntr)
+    // end of [val]
+    val ptcmp1 = PTCMPrparen()
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+    list_vt_cons(ptcmp0, list_vt_cons(ptcmp1, ptcmps))
   end // end of [HIPint]
-| HIPintrep (rep) => let
-    val tl = tmplab_make (loc0)
-    val kntr = patckontref_make ()
-    val i0 = $UT.llint_make_string (rep)
-    val i0 = int_of_llint (i0)
+| HIPintrep(rep) => let
+    val tl = tmplab_make(loc0)
+    val kntr = patckontref_make()
+    val i0 = int_of_llint(i0) where
+    {
+      val i0 = $UT.llint_make_string(rep)
+    }
     val ptcmp0 =
-      PTCMPpatlparen (PATCKint(i0), tpmv, tl, None(*void*), kntr)
-    val ptcmp1 = PTCMPrparen ()
-    val ptcmps = auxcomplst (lvl0, mtks)
+    PTCMPpatlparen
+      (PATCKint(i0), tpmv, tl, None(*void*), kntr)
+    // end of [val]
+    val ptcmp1 = PTCMPrparen()
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+    list_vt_cons(ptcmp0, list_vt_cons(ptcmp1, ptcmps))
   end // end of [HIPintrep]
 //
-| HIPbool (b) => let
-    val tl = tmplab_make (loc0)
-    val kntr = patckontref_make ()
+| HIPbool(b) => let
+    val tl = tmplab_make(loc0)
+    val kntr = patckontref_make()
     val ptcmp0 =
-      PTCMPpatlparen (PATCKbool(b), tpmv, tl, None(*knd*), kntr)
-    val ptcmp1 = PTCMPrparen ()
-    val ptcmps = auxcomplst (lvl0, mtks)
+    PTCMPpatlparen
+      (PATCKbool(b), tpmv, tl, None(*knd*), kntr)
+    // end of [val]
+    val ptcmp1 = PTCMPrparen()
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+    list_vt_cons(ptcmp0, list_vt_cons(ptcmp1, ptcmps))
   end // end of [HIPint]
 //
-| HIPchar (c) => let
-    val tl = tmplab_make (loc0)
-    val kntr = patckontref_make ()
+| HIPchar(c) => let
+    val tl = tmplab_make(loc0)
+    val kntr = patckontref_make()
     val ptcmp0 =
-      PTCMPpatlparen (PATCKchar(c), tpmv, tl, None(*knd*), kntr)
-    val ptcmp1 = PTCMPrparen ()
-    val ptcmps = auxcomplst (lvl0, mtks)
+    PTCMPpatlparen
+      (PATCKchar(c), tpmv, tl, None(*knd*), kntr)
+    // end of [val]
+    val ptcmp1 = PTCMPrparen()
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+    list_vt_cons(ptcmp0, list_vt_cons(ptcmp1, ptcmps))
   end // end of [HIPint]
 //
-| HIPstring (str) => let
-    val tl = tmplab_make (loc0)
-    val kntr = patckontref_make ()
+| HIPstring(str) => let
+    val tl = tmplab_make(loc0)
+    val kntr = patckontref_make()
     val ptcmp0 =
-      PTCMPpatlparen (PATCKstring(str), tpmv, tl, None(*knd*), kntr)
-    val ptcmp1 = PTCMPrparen ()
-    val ptcmps = auxcomplst (lvl0, mtks)
+    PTCMPpatlparen
+      (PATCKstring(str), tpmv, tl, None(*knd*), kntr)
+    // end of [val]
+    val ptcmp1 = PTCMPrparen()
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+    list_vt_cons(ptcmp0, list_vt_cons(ptcmp1, ptcmps))
   end // end of [HIPint]
 //
-| HIPfloat (rep) => let
-    val tl = tmplab_make (loc0)
-    val kntr = patckontref_make ()
-    val f = $UT.double_make_string (rep)
+| HIPfloat(rep) => let
+    val tl = tmplab_make(loc0)
+    val kntr = patckontref_make()
+    val f = $UT.double_make_string(rep)
     val ptcmp0 =
-      PTCMPpatlparen (PATCKfloat(f), tpmv, tl, None(*knd*), kntr)
-    val ptcmp1 = PTCMPrparen ()
-    val ptcmps = auxcomplst (lvl0, mtks)
+    PTCMPpatlparen
+      (PATCKfloat(f), tpmv, tl, None(*knd*), kntr)
+    // end of [val]
+    val ptcmp1 = PTCMPrparen()
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+    list_vt_cons(ptcmp0, list_vt_cons(ptcmp1, ptcmps))
   end // end of [HIPint]
 //
-| HIPi0nt (tok) => let
-    val tl = tmplab_make (loc0)
-    val kntr = patckontref_make ()
-    val i0 = $P2TC.i0nt2intinf (tok)
-    val i0 = $INTINF.intinf_get_int (i0)
+| HIPi0nt(tok) => let
+    val tl = tmplab_make(loc0)
+    val kntr = patckontref_make()
+    val i0 = $P2TC.i0nt2intinf(tok)
+    val i0 = $INTINF.intinf_get_int(i0)
     val ptcmp0 =
-      PTCMPpatlparen (PATCKint(i0), tpmv, tl, None(*void*), kntr)
-    val ptcmp1 = PTCMPrparen ()
-    val ptcmps = auxcomplst (lvl0, mtks)
+    PTCMPpatlparen
+      (PATCKint(i0), tpmv, tl, None(*void*), kntr)
+    // end of [val]
+    val ptcmp1 = PTCMPrparen()
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+    list_vt_cons(ptcmp0, list_vt_cons(ptcmp1, ptcmps))
   end // end of [HIPi0nt]
 //
-| HIPempty () => auxcomplst (lvl0, mtks)
+| HIPempty() => auxcomplst (lvl0, mtks)
 //
 | HIPcon
   (
     knd, d2c, hse_sum, lxs
   ) => let
-    val tl = tmplab_make (loc0)
-    val kntr = patckontref_make ()
-    val mtks = addrparen (mtks)
-    val mtks = addselcon (tpmv, hse_sum, lxs, mtks)
+//
+    val () =
+    the_dynconlst_add(d2c)
+//
+    val tl = tmplab_make(loc0)
+    val kntr = patckontref_make()
     val ptcmp0 =
-      PTCMPpatlparen (PATCKcon(d2c), tpmv, tl, Some(knd), kntr)
-    val ptcmps = auxcomplst (lvl0, mtks)
+    PTCMPpatlparen
+      (PATCKcon(d2c), tpmv, tl, Some(knd), kntr)
+    // end of [val]
+    val mtks = addrparen(mtks)
+    val mtks = addselcon(tpmv, hse_sum, lxs, mtks)
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, ptcmps)
+    list_vt_cons(ptcmp0, ptcmps)
   end // end of [HIPcon]
 //
 | HIPcon_any
     (knd, d2c) => let
-    val tl = tmplab_make (loc0)
-    val kntr = patckontref_make ()
+//
+    val () =
+    the_dynconlst_add(d2c)
+//
+    val tl = tmplab_make(loc0)
+    val kntr = patckontref_make()
     val ptcmp0 =
-      PTCMPpatlparen (PATCKcon(d2c), tpmv, tl, Some(knd), kntr)
-    val ptcmp1 = PTCMPrparen ()
-    val ptcmps = auxcomplst (lvl0, mtks)
+    PTCMPpatlparen
+      (PATCKcon(d2c), tpmv, tl, Some(knd), kntr)
+    // end of [val]
+    val ptcmp1 = PTCMPrparen()
+    val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+    list_vt_cons(ptcmp0, list_vt_cons(ptcmp1, ptcmps))
   end // end of [HIPcon_any]
 //
 | HIPrec
@@ -1387,31 +1418,37 @@ case+
   ) => let
     val tl = tmplab_make(loc0)
     val mtks = addrparen(mtks)
-    val mtks = addselect(tpmv, hse_rec, lxs, mtks)
+    val mtks =
+    addselect(tpmv, hse_rec, lxs, mtks)
     val ptcmp0 = PTCMPreclparen(tpmv, tl)
     val ptcmps = auxcomplst(lvl0, mtks)
   in
-    list_vt_cons (ptcmp0, ptcmps)
+    list_vt_cons(ptcmp0, ptcmps)
   end // end of [HIPrec]
 //
 | HIPrefas(d2v, hip) => let
-    val (
-    ) = d2var_set_level (d2v, lvl0)
-    val ptcmp0 = PTCMPasvar (d2v, tpmv)
-    val ptcmps = auxcomplst_pat (lvl0, tpmv, hip, mtks)
+    val () =
+    d2var_set_level(d2v, lvl0)
+    val ptcmp0 = PTCMPasvar(d2v, tpmv)
+    val ptcmps = auxcomplst_pat(lvl0, tpmv, hip, mtks)
   in
-    list_vt_cons (ptcmp0, ptcmps)
+    list_vt_cons(ptcmp0, ptcmps)
   end // end of [HIPrefas]
 //
 | HIPann(hip, _(*ann*)) =>
-    auxcomplst_pat (lvl0, tpmv, hip, mtks)
-  // end of [HIPann]
+    auxcomplst_pat(lvl0, tpmv, hip, mtks)
+  // end of [HIPann(hip, ann)]
 //
-| _ => let
-    val () = prerr_interror_loc (loc0)
-    val () = prerrln! (": himatchlst_patcomp: auxcomplst_pat: hip0 = ", hip0)
-    val () = assertloc (false) in list_vt_nil(*void*)
-  end // end of [_]
+| _ (* rest-of-hipat *) => let
+    val () =
+    prerr_interror_loc(loc0)
+    val () =
+    prerrln!
+    (": himatchlst_patcomp")
+    val () =
+    println!(": auxcomplst_pat: hip0 = ", hip0)
+    val () = assertloc(false) in list_vt_nil(*void*)
+  end // end of [rest-of-hipat]
 //
 end // end of [auxcomplst_pat]
 
@@ -1423,11 +1460,11 @@ auxcomplst_labpat
 , lab0: label, hip0: hipat
 , mtks: matokenlst
 ) : patcomplst_vt = let
-  val ptcmp0 = PTCMPlablparen (lab0)
-  val ptcmp1 = PTCMPrparen ()
-  val ptcmps = auxcomplst_pat (lvl0, tpmv, hip0, mtks)
+  val ptcmp0 = PTCMPlablparen(lab0)
+  val ptcmp1 = PTCMPrparen((*void*))
+  val ptcmps = auxcomplst_pat(lvl0, tpmv, hip0, mtks)
 in
-  list_vt_cons (ptcmp0, list_vt_cons (ptcmp1, ptcmps))
+  list_vt_cons(ptcmp0, list_vt_cons(ptcmp1, ptcmps))
 end // end of [auxcomplst_labpat]
 
 in (* in of [local] *)
@@ -1484,17 +1521,17 @@ case+ pmvs of
 //
 | list_cons
     (pmv, pmvs) => let
-    val tpmv = TPMVnone (pmv)
-    val-list_cons (hip, hips) = hips
-    val lend = auxloc (hip, hips)
-    val mtks = auxlst (pmvs, hips)
-    val ptcmps = auxcomplst_pat (lvl0, tpmv, hip, mtks)
-    val tlab = tmplab_make (lend)
-    val isnot = list_is_nil (hicl.hiclau_gua)
+    val tpmv = TPMVnone(pmv)
+    val-list_cons(hip, hips) = hips
+    val lend = auxloc(hip, hips)
+    val mtks = auxlst(pmvs, hips)
+    val ptcmps = auxcomplst_pat(lvl0, tpmv, hip, mtks)
+    val tlab = tmplab_make(lend)
+    val isnot = list_is_nil(hicl.hiclau_gua)
     val ptcmpz =
     (
       if isnot
-        then PTCMPtmplabend (tlab)
+        then PTCMPtmplabend(tlab)
         else let
           val loc = hicl.hiclau_loc
           val kntr = patckontref_make_loc(loc) in PTCMPtmplabgua(tlab, kntr)
@@ -1525,7 +1562,8 @@ hiclau_patcomp
   (lvl0, hicl, pmvs) = let
 //
 val hips = hicl.hiclau_pat
-val ptcmps = himatchlst_patcomp (lvl0, hicl, pmvs, hips)
+val ptcmps = himatchlst_patcomp(lvl0, hicl, pmvs, hips)
+//
 (*
 val out = stdout_ref
 val () = fprintln! (out, "hiclau_patcomp: hips =\n", hips)
@@ -1815,10 +1853,10 @@ case+ higs of
 | list_nil() => ()
 | list_cons(hig, higs) => let
     val () =
-      higmat_ccomp (env, res, lvl0, hig, fail)
+      higmat_ccomp(env, res, lvl0, hig, fail)
     // end of [val]
   in
-    higmatlst_ccomp (env, res, lvl0, higs, fail)
+    higmatlst_ccomp(env, res, lvl0, higs, fail)
   end (* end of [list_cons] *)
 //
 end // end of [higmatlst_ccomp]

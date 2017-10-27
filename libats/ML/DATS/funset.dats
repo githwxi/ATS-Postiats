@@ -28,12 +28,14 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom *)
 (* Start time: December, 2012 *)
+(* Authoremail: gmhwxiATgmailDOTcom *)
 
 (* ****** ****** *)
 //
-// HX-2012-12: the set implementation is based on AVL trees
+// HX-2012-12:
+// this set implementation
+// is based on the AVL trees
 //
 (* ****** ****** *)
 //

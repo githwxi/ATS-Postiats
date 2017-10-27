@@ -28,13 +28,16 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom *)
 (* Start time: January, 2013 *)
+(* Authoremail: gmhwxiATgmailDOTcom *)
 
 (* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
-
+//
+#define
+ATS_DYNLOADFLAG 0
+//
+// no dynloading at run-time
+//
 (* ****** ****** *)
 
 staload

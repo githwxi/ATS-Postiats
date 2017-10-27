@@ -10,6 +10,9 @@
 #define
 ATS_DYNLOADFLAG 1
 *)
+#define
+ATS_PACKNAME
+"ATSLIB.libats.ML.UNITYPE"
 //
 (* ****** ****** *)
 //
@@ -142,6 +145,9 @@ farray_foreach_method
 ( xs: farray )
 ( fwork: cfun(gvalue, void) ): void
 //
+overload
+.foreach with farray_foreach_method
+//
 (* ****** ****** *)
 //
 extern
@@ -153,6 +159,9 @@ and
 farray_iforeach_method
 ( xs: farray )
 ( fwork: cfun(int, gvalue, void) ): void
+//
+overload
+.iforeach with farray_iforeach_method
 //
 (* ****** ****** *)
 //

@@ -28,8 +28,8 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: January, 2013
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
 //
@@ -109,35 +109,44 @@ implement
 emit_exndec
   (out, hid) = let
 //
-val loc0 = hid.hidecl_loc
-val-HIDexndecs (d2cs) = hid.hidecl_node
+val
+loc0 = hid.hidecl_loc
+val-
+HIDexndecs(d2cs) = hid.hidecl_node
 //
-val () = emit_text (out, "/*\n")
-val () = emit_location (out, loc0)
-val () = emit_text (out, "\n*/\n")
+val () = emit_text(out, "/*\n")
+val () = emit_location(out, loc0)
+val () = emit_text(out, "\n*/\n")
 //
-fun auxlst
+fun
+auxlst
 (
   out: FILEref, d2cs: d2conlst
 ) : void = let
 in
 //
 case+ d2cs of
-| list_nil () => ()
+//
+| list_nil
+    ((*void*)) => ()
+//
 | list_cons
     (d2c, d2cs) => let
+//
     val () =
-    emit_text (out, "ATSdynexn_dec(")
-    val () = emit_d2con (out, d2c)
-    val () = emit_text (out, ") ;\n")
+    emit_text
+    (out, "ATSdynexn_dec(")
+    val () = emit_d2con(out, d2c)
+    val () = emit_text(out, ") ;\n")
+//
   in
-    auxlst (out, d2cs)
+    auxlst(out, d2cs)
   end // end of [list_cons]
 //
 end (* end of [auxlst] *)
 //
 in
-  auxlst (out, d2cs)
+  auxlst(out, d2cs)
 end // end of [emit_exndec]
 
 (* ****** ****** *)
@@ -1914,15 +1923,20 @@ implement
 emit_d2con_extdec
   (out, d2c) = let
 //
-val isexn =
-  $S2E.d2con_is_exn (d2c)
-val (
-) = if isexn then {
+val
+isexn =
+$S2E.d2con_is_exn(d2c)
 //
-val () = emit_text (out, "ATSdynexn_extdec")
-val () = emit_text (out, "(")
-val () = emit_d2con (out, d2c)
-val () = emit_text (out, ") ;\n")
+val () =
+if isexn then {
+//
+val () =
+emit_text
+(out, "ATSdynexn_extdec")
+//
+val () = emit_text(out, "(")
+val () = emit_d2con(out, d2c)
+val () = emit_text(out, ") ;\n")
 //
 } // end of [if] // end of [val]
 //

@@ -62,6 +62,10 @@ val () = fprintln! (stdout_ref, "A1 = ", A1)
 //
 (* ****** ****** *)
 
+val () = println! ("size(A1) = ", size(A1))
+
+(* ****** ****** *)
+
 implement main0 () = ()
 
 (* ****** ****** *)

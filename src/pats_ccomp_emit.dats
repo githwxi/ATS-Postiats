@@ -2409,24 +2409,29 @@ end // end of [auxcon1]
 
 (* ****** ****** *)
 
-fun auxexn0
+fun
+auxexn0
 (
   out: FILEref, tmp: tmpvar, d2c: d2con
 ) : void = let
 //
-val () = emit_text (out, "ATSINSmove_exn0(")
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, ", ")
-val () = emit_d2con (out, d2c)
-val () = emit_text (out, ") ;\n")
+val () =
+emit_text
+(out, "ATSINSmove_exn0(")
+//
+val () = emit_tmpvar(out, tmp)
+//
+val () = emit_text(out, ", ")
+val () = emit_d2con(out, d2c)
+val () = emit_text(out, ") ;\n")
 //
 in
   // nothing
 end // end of [auxexn0]
 
-fun auxexn1
-(
-  out: FILEref
+fun
+auxexn1
+( out: FILEref
 , tmp: tmpvar, d2c: d2con
 , hit_con: hitype, arg: labprimvalist
 ) : void = let
