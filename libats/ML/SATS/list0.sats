@@ -260,28 +260,32 @@ list0_last_opt
 fun
 {a:t0p}
 list0_init_exn
-  (xs: list0(INV(a))):<!exn> list0(a)
+(xs: list0(INV(a))):<!exn> list0(a)
 fun
 {a:t0p}
 list0_init_opt
-  (xs: list0(INV(a))):<!exn> Option_vt(list0(a))
+(xs: list0(INV(a))):<!exn> Option_vt(list0(a))
 //
 (* ****** ****** *)
 //
 fun{a:t0p}
 list0_nth_exn
-  (xs: list0(INV(a)), i: int):<!exn> (a)
+(xs: list0(INV(a)), i0: int):<!exn> (a)
 fun{a:t0p}
 list0_nth_opt
-  (xs: list0(INV(a)), i: int):<> Option_vt(a)
+(xs: list0(INV(a)), i0: int):<> Option_vt(a)
 //
 (* ****** ****** *)
 //
 fun{a:t0p}
 list0_get_at_exn
-  (xs: list0(INV(a)), i0: int):<!exn> (a)
+(xs: list0(INV(a)), i0: int):<!exn> (a)
+fun{a:t0p}
+list0_get_at_opt
+(xs: list0(INV(a)), i0: int):<> Option_vt(a)
 //
-overload [] with list0_get_at_exn
+overload
+[] with list0_get_at_exn // ListSubscriptExn
 //
 (* ****** ****** *)
 //

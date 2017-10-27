@@ -224,6 +224,11 @@ gvdynarr = dynarray(gvalue)
 and
 gvhashtbl = hashtbl(string, gvalue)
 //
+(*
+typedef gvopt = Option(gvalue)
+vtypedef gvopt_vt = Option_vt(gvalue)
+*)
+//
 (* ****** ****** *)
 
 (* end of [basis.sats] *)

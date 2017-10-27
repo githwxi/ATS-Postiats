@@ -28,6 +28,7 @@ Here is a list of major additions and changes since the last release:
 2. Minorly improving libatscc/ML/list0 and libatscc/ML/array0
 3. Adding libatscc/ML/matrix0
 4. Fixing missing cases in eval1_p2at (see: pats_dmacro2_eval1.dats)
+5. Fixing and improving libats/funarray
 
 ######
 

@@ -458,9 +458,13 @@ case+ xs of
 | list0_cons
     (x, xs) =>
   (
-    if i > 0 then loop(xs, i-1) else x
+    if i > 0
+      then loop(xs, i-1) else x
   ) // end of [list0_cons]
-| list0_nil() => $raise ListSubscriptExn()
+| list0_nil() =>
+  (
+    $raise ListSubscriptExn(*void*)
+  ) (* end of [list0_nil] *)
 //
 ) (* end of [loop] *)
 //
@@ -469,7 +473,8 @@ val i0 = g1ofg0_int(i0)
 in
 //
 if i0 >= 0
-  then loop(xs, i0) else $raise ListSubscriptExn()
+  then loop(xs, i0)
+  else $raise ListSubscriptExn(*void*)
 // end of [if]
 //
 end // end of [list0_nth_exn]
@@ -487,7 +492,7 @@ Some_vt{a}
 (
   list0_nth_exn<a>(xs, i0)
 )
-with ~ListSubscriptExn((*void*)) => None_vt()
+with ~ListSubscriptExn() => None_vt(*void*)
 ) (* $effmask_exn *)
 //
 (* ****** ****** *)
@@ -495,7 +500,11 @@ with ~ListSubscriptExn((*void*)) => None_vt()
 implement
 {a}(*tmp*)
 list0_get_at_exn
-  (xs, i0) = list0_nth_exn (xs, i0)
+  (xs, i0) = list0_nth_exn<a>(xs, i0)
+implement
+{a}(*tmp*)
+list0_get_at_opt
+  (xs, i0) = list0_nth_opt<a>(xs, i0)
 //
 (* ****** ****** *)
 //

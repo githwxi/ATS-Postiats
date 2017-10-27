@@ -26,12 +26,14 @@
 *)
 
 (* ****** ****** *)
-
+//
 #define
-ATS_PACKNAME "ATSLIB.libats.funarray"
+ATS_PACKNAME
+"ATSLIB.libats.funarray"
+//
 #define
-ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
-
+ATS_DYNLOADFLAG 0 // no dynloading
+//
 (* ****** ****** *)
 
 staload
@@ -48,9 +50,10 @@ staload "libats/SATS/funarray.sats"
 datatype
 brauntree
   (a:t@ype+, int) =
-  | E (a, 0) of ()
+  | E(a, 0) of ()
   | {n1,n2:nat | n2 <= n1; n1 <= n2+1}
-    B (a, n1+n2+1) of (a, brauntree (a, n1), brauntree (a, n2))
+    B(a, n1+n2+1) of
+    (a, brauntree(a, n1), brauntree(a, n2))
 // end of [brauntree]
 
 stadef bt = brauntree
@@ -58,21 +61,21 @@ stadef bt = brauntree
 (* ****** ****** *)
 //
 assume
-funarray_t0ype_int_type
+farray_t0ype_int_type
   (a:t@ype, n:int) = brauntree(a, n)
 //
 (* ****** ****** *)
 
 implement
 {}(*tmp*)
-funarray_is_nil(A) =
+farray_is_nil(A) =
 (
 case+ A of
 | E _ => true | B _ => false
 )
 implement
 {}(*tmp*)
-funarray_isnot_nil(A) =
+farray_isnot_nil(A) =
 (
 case+ A of
 | E _ => false | B _ => true
@@ -81,17 +84,8 @@ case+ A of
 (* ****** ****** *)
 
 implement
-{}(*tmp*)
-funarray_nil((*void*)) = E(*void*)
-implement
-{}(*tmp*)
-funarray_make_nil((*void*)) = E(*void*)
-
-(* ****** ****** *)
-
-implement
 {a}(*tmp*)
-funarray_size
+farray_size
   (A) = let
 //
 fun
@@ -108,9 +102,12 @@ case+ t0 of
 | B (_, tl, tr) =>
    if nr > 0
      then let
-       val nr2 = half(nr)
+       val
+       nr2 = half(nr)
      in
-       if nr > nr2 + nr2 then diff (nr2, tl) else diff (nr2-1, tr)
+       if
+       (nr > nr2+nr2)
+       then diff(nr2, tl) else diff(nr2-1, tr)
      end // end of [then]
      else 1 // end of [else]
   // end of [diff]
@@ -134,17 +131,92 @@ case+ t0 of
   // end of [size]
 ) (* end of [size] *)
 //
-prval() = lemma_funarray_param(A)
+prval() = lemma_farray_param(A)
 //
 in
   $effmask_all(size(A))
-end // end of [funarray_size]
+end // end of [farray_size]
 //
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
+farray_nil((*void*)) = E(*void*)
+implement
+{}(*tmp*)
+farray_make_nil((*void*)) = E(*void*)
+
+(* ****** ****** *)
+
+implement
 {a}(*tmp*)
-funarray_get_at
+farray_make_list
+  (xs) =
+  auxmain(xs) where
+{
+//
+fnx
+aux01
+{n:nat} .<n>.
+( xs0: list(a, n)
+, res0: &ptr? >> list(a, (n+1)/2)
+, res1: &ptr? >> list(a, (n+0)/2)
+) :<!wrt> void =
+(
+case+ xs0 of
+| list_nil() =>
+  {
+    val () = res0 := list_nil()
+    val () = res1 := list_nil()
+  }
+| list_cons(x0, xs1) =>
+  (
+  case+ xs1 of
+  | list_nil() =>
+    {
+      val () = res1 := list_nil()
+      val () = res0 := list_sing(x0)
+    }
+  | list_cons(x1, xs2) =>
+    {
+      val () =
+      (res0 := list_cons{a}{0}(x0, _))
+      val () =
+      (res1 := list_cons{a}{0}(x1, _))
+      val+list_cons(_, res0_tl) = res0
+      val+list_cons(_, res1_tl) = res1
+      val () = aux01(xs2, res0_tl, res1_tl)
+      prval () = fold@(res0) and () = fold@(res1)
+    }
+  )
+)
+//
+fun
+auxmain:
+$d2ctype
+(
+farray_make_list<a>
+) = lam(xs) =>
+(
+case+ xs of
+| list_nil() => E()
+| list_cons(x0, xs) => let
+    var res0: ptr
+    and res1: ptr
+    val ((*void*)) =
+    $effmask_wrt(aux01(xs, res0, res1))
+  in
+    B(x0, auxmain(res0), auxmain(res1))
+  end // end of [list_cons]
+)
+//
+} (* end of [farray_make_list] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+farray_get_at
   {n}(A, i) = let
 //
 fun
@@ -161,13 +233,16 @@ i > 0
 then let
   val i2 = half(i)
 in
-  if i > i2 + i2
-    then let
-      val+B(_, tl, _) = t0 in get_at(tl, i2)
-    end // end of [then]
-    else let
-      val+B(_, _, tr) = t0 in get_at(tr, i2-1)
-    end // end of [else]
+//
+if
+(i > i2 + i2)
+then let
+  val+B(_, tl, _) = t0 in get_at(tl, i2)
+end // end of [then]
+else let
+  val+B(_, _, tr) = t0 in get_at(tr, i2-1)
+end // end of [else]
+//
 end // end of [then]
 else let
   val+B(x, _, _) = t0 in x
@@ -176,13 +251,13 @@ end // end of [else]
 //
 in
   $effmask_all(get_at(A, i))
-end // end of [funarray_get_at]
+end // end of [farray_get_at]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-funarray_set_at
+farray_set_at
   {n}(A, i, x0) = let
 //
 fun
@@ -195,7 +270,7 @@ set_at
 ) : bt(a, n) =
 (
 if
-i > 0
+(i > 0)
 then let
   val i2 = half(i)
   val+B(x, tl, tr) = t0
@@ -206,20 +281,122 @@ in
   // end of [if]
 end // end of [then]
 else let
-  val+B(_, t1, t2) = t0 in B(x0, t1, t2)
+  val+B(_, tl, tr) = t0 in B(x0, tl, tr)
 end // end of [else]
 //
 ) (* end of [set_at] *)
 //
 in
   A := set_at(A, i, x0)
-end // end of [funarray_set_at]
-//
+end // end of [farray_set_at]
+
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-funarray_insert_l
+farray_getopt_at
+  {n}(A, i) = let
+//
+prval () =
+lemma_farray_param(A)
+//
+fun
+getopt_at
+{n,i:nat} .<n>.
+(
+t0: bt(a, n), i: int i
+) : option_vt(a, i < n) =
+(
+case+ t0 of
+| E() =>
+  None_vt()
+| B(x0, tl, tr) =>
+  (
+  if
+  (i = 0)
+  then (
+    Some_vt(x0)
+  ) else let
+    val i2 = half(i)
+  in
+    if i > i2 + i2
+      then getopt_at(tl, i2)
+      else getopt_at(tr, i2-1)
+    // end of [if]
+  end // end of [else]
+  ) (* end of [B] *)
+) (* end of [getopt_at] *)
+//
+in
+  $effmask_all(getopt_at(A, i))
+end // end of [farray_getopt_at]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+farray_setopt_at
+  {n}(A, i, x0) = let
+//
+fun
+setopt_at
+{n,i:nat} .<n>.
+(
+t0: bt(a, n), i: int(i)
+,
+x0: a, opt: &bool? >> bool(i < n)
+) : bt(a, n) =
+(
+case+ t0 of
+| E() =>
+  E() where
+  {
+    val () = opt := false
+  }
+| B(x1, tl, tr) =>
+  (
+  if
+  (i > 0)
+  then let
+    val i2 = half(i)
+  in
+    if
+    (i > i2 + i2)
+    then let
+      val tl =
+      setopt_at(tl, i2, x0, opt)
+    in
+      if opt then B(x1, tl, tr) else t0
+    end // end of [then]
+    else let
+      val tr =
+      setopt_at(tr, i2-1, x0, opt)
+    in
+      if opt then B(x1, tl, tr) else t0
+    end // end of [else]
+  end // end of [then]
+  else let
+    val () = opt := true in B(x0, tl, tr)
+  end // end of [else]
+  ) (* end of [B] *)
+//
+) (* end of [set_at] *)
+//
+prval () = lemma_farray_param(A)
+//
+in
+  let
+    var opt: bool
+  in
+    A := setopt_at(A, i, x0, opt); opt
+  end (* end of [let] *)
+end // end of [farray_setopt_at]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+farray_insert_l
   {n}(A, x0) = let
 //
 fun
@@ -234,17 +411,17 @@ case+ t0 of
 | B(x, tl, tr) => B(x0, ins_l (tr, x), tl)
 ) (* end of [ins_l] *)
 //
-prval() = lemma_funarray_param(A)
+prval() = lemma_farray_param(A)
 //
 in
   A := ins_l(A, x0)
-end // end of [funarray_insert_l]
+end // end of [farray_insert_l]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-funarray_insert_r
+farray_insert_r
   {n}(A, n, x0) = let
 //
 fun
@@ -270,17 +447,17 @@ else B(x0, E(), E())
 //
 ) (* end of [ins_r] *)
 //
-prval() = lemma_funarray_param(A)
+prval() = lemma_farray_param(A)
 //
 in
   A := ins_r(A, n, x0)
-end // end of [funarray_insert_r]
+end // end of [farray_insert_r]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-funarray_remove_l
+farray_remove_l
   {n}(A) = let
 //
 fun
@@ -300,13 +477,13 @@ case+ t0 of
 //
 in
   rem_l(A)
-end // end of [funarray_remove_l]
+end // end of [farray_remove_l]
 //
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-funarray_remove_r
+farray_remove_r
   {n}(A, n) = let
 //
 fun
@@ -338,20 +515,20 @@ end // end of [rem_r]
 //
 in
   rem_r(A, n)
-end // end of [funarray_remove_r]
+end // end of [farray_remove_r]
 
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
-fprint_funarray$sep
+fprint_farray$sep
   (out) = fprint_string(out, ", ")
 //
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-fprint_funarray
+fprint_farray
   (out, A) = let
 //
 typedef tenv = int
@@ -359,135 +536,131 @@ typedef tenv = int
 var env: tenv = (0)
 //
 implement(a2)
-funarray_foreach$fwork<a2><tenv>
+farray_foreach$fwork<a2><tenv>
   (x, env) = () where
 {
 //
 val () =
 if env > 0
-  then fprint_funarray$sep<>(out)
+  then fprint_farray$sep<>(out)
 // end of [val]
 //
 val () = env := env + 1
 val () = fprint_val<a>(out, $UN.cast{a}(x))
 //
-} (* end of [funarray_foreach$fwork] *)
+} (* end of [farray_foreach$fwork] *)
 //
 in
-  funarray_foreach_env<a><tenv>(A, env)
-end // end of [fprint_funarray]
+  farray_foreach_env<a><tenv>(A, env)
+end // end of [fprint_farray]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-funarray_foreach
+farray_listize
+  {n}(A) =
+  auxmain(A) where
+{
+//
+fnx
+aux01
+{m,n:nat}
+(
+xs: list_vt(a, m)
+,
+ys: list_vt(a, n)
+,
+res: &ptr? >> list_vt(a, m+n)
+) : void =
+(
+case+ xs of
+| ~list_vt_nil() =>
+    (res := ys)
+| @list_vt_cons(x, xs_tl) =>
+  (
+    case+ ys of
+    | ~list_vt_nil() =>
+        (fold@(xs); res := xs)
+    | @list_vt_cons
+        (y, ys_tl) =>
+      {
+        val xs_tl_ = xs_tl
+        val ys_tl_ = ys_tl
+        val () = (res := xs)
+        val () = (xs_tl := ys)
+        val () = aux01(xs_tl_, ys_tl_, ys_tl)
+        prval () = fold@(xs_tl); prval () = fold@(res)
+      }
+  )
+)
+//
+fun
+auxmain:
+$d2ctype
+(
+farray_listize<a>
+) = lam(t0) =>
+(
+  case+ t0 of
+  | E() =>
+    list_vt_nil()
+  | B(x0, tl, tr) => let
+      var res: ptr
+      val ((*void*)) =
+      aux01(auxmain(tl), auxmain(tr), res)
+    in
+      list_vt_cons(x0, res)
+    end // end of [B]
+)
+//
+} (* end of [farray_listize] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+farray_foreach
   (A) = let
 //
 var env: void = ()
 //
 in
 //
-funarray_foreach_env<a><void>(A, env)
+farray_foreach_env<a><void>(A, env)
 //
-end // end of [funarray_foreach]
+end // end of [farray_foreach]
 
 (* ****** ****** *)
 
-local
-//
-staload Q = "libats/SATS/qlist.sats"
-//
-in (* in of [local] *)
-
 implement
-{a}{env}
-funarray_foreach_env
-  (A, env) = let
+{a}{env}(*tmp*)
+farray_foreach_env
+  (A, env) =
+  list_vt_free<a>(xs) where
+{
 //
-sortdef
-two = {i:nat | i < 2}
+implement
+list_vt_foreach$cont<a><env>
+  (x, env) =
+  farray_foreach$cont<a><env>(x, env)
 //
-typedef
-elt = [n:pos] funarray(a, n)
+implement
+list_vt_foreach$fwork<a><env>
+  (x, env) =
+  farray_foreach$fwork<a><env>(x, env)
 //
-vtypedef
-qstruct(n:int) = $Q.qstruct(elt, n)
+val xs = farray_listize<a>(A)
+val () =
+  list_vt_foreach_env<a><env>(xs, env)
 //
-fun
-ins{n:nat}
-(
-  ts: &qstruct(n) >> qstruct(n+i), t0: funarray(a)
-) : #[i:two] int(i) =
-(
-  if funarray_isnot_nil(t0)
-    then let val () = $Q.qstruct_insert(ts, t0) in 1 end
-    else 0
-) (* end of [ins] *)
-//
-fun
-aux{n:nat}
-(
-  n: int(n)
-, ts: &qstruct(n) >> qstruct(0)
-, env: &env >> _
-) : void = (
-//
-if
-n > 0
-then let
-//
-val t =
-$Q.qstruct_takeout(ts)
-//
-val+B(x, t_l, t_r) = t
-//
-val test =
-  funarray_foreach$cont<a><env>(x, env)
-// end of [val]
-//
-in
-//
-if
-test
-then let
-  val i_l = ins(ts, t_l)
-  val i_r = ins(ts, t_r)
-  val ((*void*)) =
-    funarray_foreach$fwork<a><env>(x, env)
-  // end of [val]
-in
-  aux(n-1+i_l+i_r, ts, env)
-end // end of [then]
-else let
-  // HX-2016-03: preparing for exit
-in
-  list_vt_free($Q.qstruct_takeout_list(ts))
-end // end of [else]
-//
-end // end of [then]
-else () // end of [else]
-//
-) (* end of [aux] *)
-//
-var ts: $Q.qstruct?
-val () = $Q.qstruct_initize(ts)
-//
-val i0 = ins(ts, A)
-val () = aux(i0, ts, env)
-prval () = $Q.qstruct_uninitize(ts)
-//
-in
-  // nothing
-end // end of [funarray_foreach_env]
-
-end // end of [local]
+} (* end of [farray_foreach_env] *)
 
 (* ****** ****** *)
 //
 implement
 {a}{env}(*tmp*)
-funarray_foreach$cont(x, env) = (true)
+farray_foreach$cont(x, env) = (true)
 //
 (* ****** ****** *)
 

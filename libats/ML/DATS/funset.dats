@@ -72,23 +72,27 @@ $FS.compare_elt_elt = compare_elt_elt<a>
 assume set_type(a:t0p) = $FS.set(a)
 
 (* ****** ****** *)
-
+//
 implement
 {}(*tmp*)
-funset_nil() = $FS.funset_nil()
+funset_nil
+  ((*void*)) = $FS.funset_nil()
 implement
 {}(*tmp*)
-funset_make_nil() = $FS.funset_make_nil()
-
+funset_make_nil
+  ((*void*)) = $FS.funset_make_nil()
+//
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
-funset_sing(x) = $FS.funset_sing<a>(x)
+funset_sing
+  (x0) = $FS.funset_sing<a>(x0)
 implement
 {a}(*tmp*)
-funset_make_sing(x) = $FS.funset_make_sing<a>(x)
-
+funset_make_sing
+  (x0) = $FS.funset_make_sing<a>(x0)
+//
 (* ****** ****** *)
 
 implement
@@ -97,6 +101,7 @@ funset_make_list
   (xs) = let
 //
 val xs = g1ofg0_list(xs)
+//
 implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //

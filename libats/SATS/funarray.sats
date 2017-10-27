@@ -34,126 +34,156 @@ ATS_PACKNAME
 (* ****** ****** *)
 //
 abstype
-funarray_t0ype_int_type
-  (a:t@ype+, n:int) = ptr(*boxed*)
+farray_t0ype_int_type
+(a:t@ype+, n:int) = ptr(*boxed*)
 //
 typedef
-funarray
-(
+farray (
   a:t0p, n:int
-) = funarray_t0ype_int_type(a, n)
+) = farray_t0ype_int_type(a, n)
 //
 typedef
-funarray(a:t0p) = [n:int] funarray(a, n)
+farray(a:t0p) = [n:int] farray(a, n)
 //
 (* ****** ****** *)
 //
 praxi
-lemma_funarray_param
+lemma_farray_param
   {a:t0p}{n:int}
-  (A: funarray(a, n)): [n >= 0] void
+  (A: farray(a, n)): [n >= 0] void
 //
 (* ****** ****** *)
 //
 fun{}
-funarray_is_nil
+farray_is_nil
   {a:t0p}{n:int}
-  (funarray(a, n)):<> bool(n==0)
+  (farray(a, n)):<> bool(n==0)
 fun{}
-funarray_isnot_nil
+farray_isnot_nil
   {a:t0p}{n:int}
-  (funarray(a, n)):<> bool(n > 0)
+  (farray(a, n)):<> bool(n > 0)
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+farray_size
+{n:int}(A: farray(INV(a), n)):<> int(n)
 //
 (* ****** ****** *)
 //
 fun{}
-funarray_nil
-  {a:t0p}((*void*)):<> funarray(a, 0)
+farray_nil
+  {a:t0p}((*void*)):<> farray(a, 0)
 fun{}
-funarray_make_nil
-  {a:t0p}((*void*)):<> funarray(a, 0)
+farray_make_nil
+  {a:t0p}((*void*)):<> farray(a, 0)
 //
 (* ****** ****** *)
 //
 fun
 {a:t0p}
-funarray_size
-{n:int}(A: funarray(INV(a), n)):<> int(n)
+farray_make_list
+  {n:int}(xs: list(a, n)):<> farray(a, n)
 //
 (* ****** ****** *)
 //
 fun
 {a:t0p}
-funarray_get_at{n:int}
-  (A: funarray(INV(a), n), i: natLt(n)):<> (a)
+farray_get_at{n:int}
+  (A: farray(INV(a), n), i: natLt(n)):<> (a)
 //
 fun
 {a:t0p}
-funarray_set_at{n:int}
-  (A: &funarray(INV(a), n) >> _, i: natLt(n), x: a): void
+farray_set_at{n:int}
+  (A: &farray(INV(a), n) >> _, i: natLt(n), x: a): void
+//
+overload [] with farray_get_at
+overload [] with farray_set_at
 //
 (* ****** ****** *)
 //
 fun
 {a:t0p}
-funarray_insert_l{n:int}
+farray_getopt_at
+{n:int}{i:nat}
+(A: farray(INV(a), n), i: int(i)):<> option_vt(a, i < n)
+//
+fun
+{a:t0p}
+farray_setopt_at
+{n:int}{i:nat}
+(A: &farray(INV(a), n) >> _, i: int(i), x: a): bool(i < n)
+//
+overload getopt_at with farray_getopt_at
+overload setopt_at with farray_setopt_at
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+farray_insert_l{n:int}
 (
-  A: &funarray(INV(a), n) >> funarray(a, n+1), x: a
+ A: &farray(INV(a), n) >> farray(a, n+1), x: a
 ) : void // end-of-function
 fun
 {a:t0p}
-funarray_insert_r{n:int}
+farray_insert_r{n:int}
 (
-  A: &funarray(INV(a), n) >> funarray(a, n+1), n: int(n), x: a
+ A: &farray(INV(a), n) >> farray(a, n+1), n: int(n), x: a
 ) : void // end-of-function
 //
 (* ****** ****** *)
 //
 fun
 {a:t0p}
-funarray_remove_l{n:pos}
-(
-  A: &funarray(INV(a), n) >> funarray(a, n-1)
-) : (a) // end of [funarray_remove_l]
+farray_remove_l{n:pos}
+  (A: &farray(INV(a), n) >> farray(a, n-1)): a
+// end of [farray_remove_l]
 //
 fun
 {a:t0p}
-funarray_remove_r{n:pos}
-(
-  A: &funarray(INV(a), n) >> funarray(a, n-1), n: int(n)
-) : (a) // end of [funarray_remove_r]
+farray_remove_r{n:pos}
+  (A: &farray(INV(a), n) >> farray(a, n-1), n: int(n)): a
+// end of [farray_remove_r]
 //
 (* ****** ****** *)
 //
 fun{}
-fprint_funarray$sep
+fprint_farray$sep
   (out: FILEref): void // ", "
 //
 fun{a:t0p}
-fprint_funarray
-  (FILEref, funarray(INV(a))): void
+fprint_farray(FILEref, farray(INV(a))): void
 fun{a:t0p}
-fprint_funarray_sep
-  (FILEref, funarray(INV(a)), sep: string): void
+fprint_farray_sep
+  (FILEref, farray(INV(a)), sep: string): void
 //
-overload fprint with fprint_funarray
+overload fprint with fprint_farray
 //
 (* ****** ****** *)
 //
 fun{
 x:t0p
-} funarray_foreach(xs: funarray(INV(x))): void
+} farray_listize
+  {n:int}(xs: farray(x, n)): list_vt(x, n)
+//
+(* ****** ****** *)
+//
+fun{
+x:t0p
+} farray_foreach(xs: farray(INV(x))): void
 fun{
 x:t0p}{env:vt0p
-} funarray_foreach_env
-  (xs: funarray(INV(x)), env: &(env) >> _): void
+} farray_foreach_env
+  (xs: farray(INV(x)), env: &(env) >> _): void
 //
 fun{
 x:t0p}{env:vt0p
-} funarray_foreach$cont(x: x, env: &env): bool
+} farray_foreach$cont(x: x, env: &env): bool
 fun{
 x:t0p}{env:vt0p
-} funarray_foreach$fwork(x: x, env: &(env) >> _): void
+} farray_foreach$fwork(x: x, env: &(env) >> _): void
 //
 (* ****** ****** *)
 
