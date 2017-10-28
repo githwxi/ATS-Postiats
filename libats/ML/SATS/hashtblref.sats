@@ -120,7 +120,7 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } hashtbl_takeout_all
-  (kxs: hashtbl(key, itm)): list0 @(key, itm)
+  (kxs: hashtbl(key, itm)): list0(@(key, itm))
 // end of [hashtbl_takeout_all]
 
 (* ****** ****** *)
@@ -179,7 +179,10 @@ key,itm:t0p
 //
 fun{
 key,itm:t0p
-} hashtbl_listize1(hashtbl(key, itm)): list0 @(key, itm)
+} hashtbl_listize0(hashtbl(key, itm)): list0(@(key, itm))
+fun{
+key,itm:t0p
+} hashtbl_listize1(hashtbl(key, itm)): list0(@(key, itm))
 //
 (* ****** ****** *)
 

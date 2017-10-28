@@ -31,7 +31,8 @@ Here is a list of major additions and changes since the last release:
 5. Fixing and improving libats/funarray
 6. Adding calls to the_dynconlst_add to ensure that every exception
    constructor is declared in the generated C code.
-
+7. Initiating building the "unityped" library libats/ML/UNITYPE
+  
 ######
 
 0.3.7

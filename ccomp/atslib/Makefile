@@ -410,6 +410,14 @@ output/atslib_libats_ML_UNITYPE_funarray_dats.o: output/atslib_libats_ML_UNITYPE
 clean:: ; $(RMF) output/atslib_libats_ML_UNITYPE_funarray_dats.c
 clean:: ; $(RMF) output/atslib_libats_ML_UNITYPE_funarray_dats.o
 
+atslib_libats_ML:: atslib_libats_ML_UNITYPE_hashtblref_dats
+atslib_libats_ML_UNITYPE_hashtblref_dats: output/atslib_libats_ML_UNITYPE_hashtblref_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_UNITYPE_hashtblref_dats.c: ../../libats/ML/UNITYPE/hashtblref.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_UNITYPE_hashtblref_dats.o: output/atslib_libats_ML_UNITYPE_hashtblref_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_ML_UNITYPE_hashtblref_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_UNITYPE_hashtblref_dats.o
+
 
 ######
 

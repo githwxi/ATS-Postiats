@@ -1,0 +1,35 @@
+#
+# Libatscc2js
+#
+
+The libatscc2js library is meant for the JS code
+generated from ATS source via the transpiler atscc2js.
+
+######
+
+Please execute the following two command-lines:
+
+make all
+make all_in_one
+
+In the output directory, please find the following
+files containg JS code:
+
+#
+# The all-in-one:
+#
+libatscc2js_all.js
+#
+# For printing stuff
+#
+libatscc2js_print_store_cats.js
+#
+# For interfacing Bacon.js
+#
+libatscc2js_baconjs_all.js
+#
+# For a basic implementation of parsing combinators:
+#
+libatscc2js_bucs320_parcomb.js
+
+###### end of [README] ######

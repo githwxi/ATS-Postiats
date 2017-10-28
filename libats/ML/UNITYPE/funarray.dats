@@ -49,6 +49,13 @@ farray = $FA.farray(gvalue)
 //
 (* ****** ****** *)
 //
+typedef
+gvopt = Option(gvalue)
+vtypedef
+gvopt_vt = Option_vt(gvalue)
+//
+(* ****** ****** *)
+//
 exception
 FarraySubscriptExn of ()
 //
@@ -108,7 +115,7 @@ overload [] with farray_set_at_exn
 extern
 fun
 farray_get_at_opt
-(A: farray, i: int):<> Option_vt(gvalue)
+(A: farray, i: int):<> gvopt_vt
 extern
 fun
 farray_set_at_opt

@@ -31,6 +31,13 @@ UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
+#staload
+"libats/ML/UNITYPE/hashtblref.dats"
+#dynload
+"libats/ML/UNITYPE/hashtblref.dats"
+//
+(* ****** ****** *)
+//
 val xs =
 g0ofg1
 (
@@ -54,6 +61,55 @@ with
  (
    // argless
  ) => println!("FarraySubscriptExn")
+//
+(* ****** ****** *)
+//
+val kxs =
+hashtbl_make_nil(16)
+//
+val-
+~None_vt() = (kxs).insert("0", GVint(0))
+val-
+~None_vt() = (kxs).insert("1", GVint(1))
+val-
+~None_vt() = (kxs).insert("2", GVint(2))
+//
+(*
+val ((*void*)) = println!("kxs = ", kxs)
+*)
+//
+val ((*void*)) =
+(
+kxs
+).foreach
+(
+)
+(
+lam(k, x) => println! (k, " -> ", x)
+)
+//
+val-
+~Some_vt
+(GVint(0)) = (kxs).insert("0", GVint(10))
+val-
+~Some_vt
+(GVint(1)) = (kxs).insert("1", GVint(11))
+val-
+~Some_vt
+(GVint(2)) = (kxs).insert("2", GVint(12))
+//
+val ((*void*)) =
+(
+kxs
+).foreach
+(
+)
+(
+lam(k, x) => println! (k, " -> ", x)
+)
+//
+val kxs = listize1(kxs)
+val ((*void*)) = println! ("kxs = ", kxs)
 //
 (* ****** ****** *)
 

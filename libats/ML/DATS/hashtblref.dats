@@ -142,7 +142,8 @@ hashtbl_get_size
 {
 //
 val tbl = htdecode(tbl)
-val nitm = $HT.hashtbl_get_size(tbl)
+val nitm = $HT.hashtbl_get_size<>(tbl)
+//
 prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_get_size] *)
@@ -156,7 +157,8 @@ hashtbl_get_capacity
 {
 //
 val tbl = htdecode(tbl)
-val cap = $HT.hashtbl_get_capacity(tbl)
+val cap = $HT.hashtbl_get_capacity<>(tbl)
+//
 prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_get_capacity] *)
@@ -169,9 +171,11 @@ hashtbl_search
   (tbl, k) = opt where
 {
 //
-val tbl = htdecode (tbl)
-val opt = $HT.hashtbl_search_opt (tbl, k)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+val opt =
+  $HT.hashtbl_search_opt<key,itm>(tbl, k)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_search] *)
 
@@ -183,9 +187,12 @@ hashtbl_search_ref
   (tbl, k) = cptr where
 {
 //
-val tbl = htdecode (tbl)
-val cptr = $HT.hashtbl_search_ref (tbl, k)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+//
+val cptr =
+  $HT.hashtbl_search_ref<key,itm>(tbl, k)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_search_ref] *)
 
@@ -197,8 +204,11 @@ hashtbl_insert
   (tbl, k, x) = opt where
 {
 //
-val tbl = htdecode (tbl)
-val opt = $HT.hashtbl_insert_opt<key,itm> (tbl, k, x)
+val tbl = htdecode(tbl)
+//
+val opt =
+  $HT.hashtbl_insert_opt<key,itm>(tbl, k, x)
+//
 prval () = $UN.cast2void (tbl)
 //
 } (* hashtbl_insert *)
@@ -211,8 +221,11 @@ hashtbl_insert_any
   (tbl, k, x) = () where
 {
 //
-val tbl = htdecode (tbl)
-val () = $HT.hashtbl_insert_any<key,itm> (tbl, k, x)
+val tbl = htdecode(tbl)
+//
+val () =
+  $HT.hashtbl_insert_any<key,itm>(tbl, k, x)
+//
 prval () = $UN.cast2void (tbl)
 //
 } (* hashtbl_insert_any *)
@@ -225,9 +238,12 @@ hashtbl_takeout
   (tbl, k) = opt where
 {
 //
-val tbl = htdecode (tbl)
-val opt = $HT.hashtbl_takeout_opt (tbl, k)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+//
+val opt =
+  $HT.hashtbl_takeout_opt<key,itm>(tbl, k)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_takeout] *)
 
@@ -239,9 +255,10 @@ hashtbl_remove
   (tbl, k) = ans where
 {
 //
-val tbl = htdecode (tbl)
-val ans = $HT.hashtbl_remove (tbl, k)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+val ans = $HT.hashtbl_remove<key,itm>(tbl, k)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_remove] *)
 
@@ -253,10 +270,11 @@ hashtbl_takeout_all
   (tbl) = kxs where
 {
 //
-val tbl = htdecode (tbl)
-val kxs = $HT.hashtbl_takeout_all (tbl)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+val kxs = $HT.hashtbl_takeout_all<key,itm>(tbl)
 val kxs = list0_of_list_vt{(key,itm)}(kxs)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_takeout_all] *)
 
@@ -281,12 +299,12 @@ in
 end // end of [fprint_hashtbl]
 
 (* ****** ****** *)
-
+//
 implement{}
 fprint_hashtbl$sep(out) = fprint(out, "; ")
 implement{}
 fprint_hashtbl$mapto(out) = fprint(out, "->")
-
+//
 (* ****** ****** *)
 
 implement
@@ -329,6 +347,16 @@ prval ((*returned*)) = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_foreach_cloref] *)
 
+(* ****** ****** *)
+//
+implement
+{key,itm}
+hashtbl_listize0
+  (tbl) =
+(
+hashtbl_takeout_all<key,itm>(tbl)
+)
+//
 (* ****** ****** *)
 
 implement

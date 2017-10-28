@@ -122,12 +122,15 @@ LIBATSCC2JS_BACONJS_ALL_JS=\
 output/libatscc2js_baconjs_all.js
 LIBATSCC2JS_BUCS320_PARCOMB_JS=\
 output/libatscc2js_bucs320_parcomb.js
+LIBATSCC2JS_PRINT_STORE_CATS_JS=\
+output/libatscc2js_print_store_cats.js
 #
 ######
 
 all_in_one:: libatscc2js_all
 all_in_one:: libatscc2js_baconjs_all
 all_in_one:: libatscc2js_bucs320_parcomb
+all_in_one:: libatscc2js_print_store_cats
 
 ######
 #
@@ -214,6 +217,13 @@ libatscc2js_bucs320_parcomb:: ; \
 $(CAT) \
 >$(LIBATSCC2JS_BUCS320_PARCOMB_JS) \
 output/DATS/BUCS320/parcomb/parcomb_dats.js
+#
+######
+#
+libatscc2js_print_store_cats:: ; \
+$(CAT) \
+./CATS/PRINT/print_store_cats.js \
+>$(LIBATSCC2JS_PRINT_STORE_CATS_JS)
 #
 ######
 #
