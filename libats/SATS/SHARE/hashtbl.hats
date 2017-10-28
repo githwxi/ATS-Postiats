@@ -39,7 +39,7 @@ hashtbl_vtype
 //
 vtypedef
 hashtbl
-  (k:t0p, i:vt0p) = hashtbl_vtype(k, i)
+(k:t0p, i:vt0p) = hashtbl_vtype(k, i)
 //
 (* ****** ****** *)
 
@@ -68,8 +68,8 @@ key:t0p;itm:vt0p
 //
 fun{}
 hashtbl_get_size
-  {key:t0p;itm:vt0p}
-  (tbl: !hashtbl(key, INV(itm))):<> size_t
+{key:t0p;itm:vt0p}
+(tbl: !hashtbl(key, INV(itm))):<> sizeGte(0)
 // end of [hashtbl_get_size]
 
 (* ****** ****** *)
@@ -78,8 +78,8 @@ hashtbl_get_size
 //
 fun{}
 hashtbl_get_capacity
-  {key:t0p;itm:vt0p}
-  (tbl: !hashtbl(key, INV(itm))):<> sizeGte(1)
+{key:t0p;itm:vt0p}
+(tbl: !hashtbl(key, INV(itm))):<> sizeGte(1)
 // end of [hashtbl_get_capacity]
 
 (* ****** ****** *)

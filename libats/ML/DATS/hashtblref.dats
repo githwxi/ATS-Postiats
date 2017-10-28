@@ -127,32 +127,37 @@ hashtbl_decode
 //
 implement
 {key,itm}
-hashtbl_make_nil (cap) =
-  htencode($HT.hashtbl_make_nil<key,itm> (cap))
+hashtbl_make_nil(cap) =
+htencode
+(
+$HT.hashtbl_make_nil<key,itm>(cap)
+) (* end of [htencode] *)
 //
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 hashtbl_get_size
   (tbl) = nitm where
 {
 //
-val tbl = htdecode (tbl)
-val nitm = $HT.hashtbl_get_size (tbl)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+val nitm = $HT.hashtbl_get_size(tbl)
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_get_size] *)
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 hashtbl_get_capacity
   (tbl) = cap where
 {
 //
-val tbl = htdecode (tbl)
-val cap = $HT.hashtbl_get_capacity (tbl)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+val cap = $HT.hashtbl_get_capacity(tbl)
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_get_capacity] *)
 

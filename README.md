@@ -69,4 +69,4 @@ maintained at [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
   that might result in the executable being covered by LGPLv2.1.
 * The contributed portion (ATS/Postiats/contrib) is released under the MIT license.
 * There is also a release under the MIT license for the C header files of the Libraries,
-  which one can freely insert into the C code generated from ATS source code.
+  which one can freely insert into any C code generated from ATS source code.

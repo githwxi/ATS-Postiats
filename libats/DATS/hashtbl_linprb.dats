@@ -324,21 +324,25 @@ end // end of [hashtbl_make_nil]
 
 (* ****** ****** *)
   
-implement{
-} hashtbl_get_size
+implement
+{}(*tmp*)
+hashtbl_get_size
   (tbl) = let
 //
-val+HASHTBL(A, cap, ntot) = tbl in ntot
+val+
+HASHTBL
+(A, cap, ntot) = tbl in g1ofg0(ntot)
 //
 end // end of [hashtbl_get_size]
 
 (* ****** ****** *)
 
-implement{
-} hashtbl_get_capacity
+implement
+{}(*tmp*)
+hashtbl_get_capacity
   (tbl) = let
 //
-val+HASHTBL (A, cap, ntot) = tbl in (cap)
+val+HASHTBL(A, cap, _) = tbl in (cap)
 //
 end // end of [hashtbl_get_capacity]
   

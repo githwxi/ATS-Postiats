@@ -66,14 +66,14 @@ key,itm:t0p
   (cap: sizeGte(1)): hashtbl(key, itm)
 //
 (* ****** ****** *)
-
+//
 fun{}
 hashtbl_get_size
-  {key,itm:t0p}(hashtbl(key, itm)): size_t
+  {key,itm:t0p}(hashtbl(key, itm)): sizeGte(0)
 fun{}
 hashtbl_get_capacity
   {key,itm:t0p}(hashtbl(key, itm)): sizeGte(1)
-
+//
 (* ****** ****** *)
 
 fun{
