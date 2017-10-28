@@ -363,19 +363,19 @@ local
 
 fun
 aux1
-(
-  out: FILEref
+( out: FILEref
 , ntl: int, pmv: primval, i: int
 ) : void = let
 //
 val () =
-emit_text (out, "ATSINSmove_tlcal(")
+emit_text
+(out, "ATSINSmove_tlcal(")
 //
 val () =
 (
 if ntl <= 1
-  then fprintf (out, "apy%i", @(i))
-  else fprintf (out, "a%ipy%i", @(ntl, i))
+  then fprintf(out, "apy%i", @(i))
+  else fprintf(out, "a%ipy%i", @(ntl, i))
 // end of [if]
 ) : void // end of [val]
 //
@@ -396,13 +396,14 @@ aux1lst
 in
 //
 case+ pmvs of
+| list_nil
+    ((*void*)) => ()
 | list_cons
     (pmv, pmvs) =>
   (
-    aux1 (out, ntl, pmv, i);
-    aux1lst (out, ntl, pmvs, i+1)
-  )
-| list_nil () => ()
+    aux1(out, ntl, pmv, i);
+    aux1lst(out, ntl, pmvs, i+1)
+  ) (* end of [list_cons] *)
 //
 end // end of [aux1lst]
 
@@ -414,23 +415,29 @@ aux2
 ) : void = let
 //
 val () =
-emit_text (out, "ATSINSargmove_tlcal(")
+emit_text
+(
+out, "ATSINSargmove_tlcal("
+) (* val *)
+//
 val () =
 (
-if ntl <= 1
-  then fprintf (out, "arg%i", @(i))
-  else fprintf (out, "a%irg%i", @(ntl, i))
+if
+(ntl <= 1)
+then fprintf(out, "arg%i", @(i))
+else fprintf(out, "a%irg%i", @(ntl, i))
 // end of [if]
 ) : void // end of [val]
 val () =
 (
-if ntl <= 1
-  then fprintf (out, ", apy%i", @(i))
-  else fprintf (out, ", a%ipy%i", @(ntl, i))
+if
+(ntl <= 1)
+then fprintf(out, ", apy%i", @(i))
+else fprintf(out, ", a%ipy%i", @(ntl, i))
 // end of [if]
 ) : void // end of [val]
 //
-val () = emit_text (out, ") ;\n")
+val ((*void*)) = emit_text(out, ") ;\n")
 //
 in
   // nothing
@@ -445,13 +452,15 @@ aux2lst
 in
 //
 case+ pmvs of
+| list_nil
+    ((*void*)) => ()
+  // list_nil
 | list_cons
     (pmv, pmvs) =>
   (
-    aux2 (out, ntl, pmv, i);
-    aux2lst (out, ntl, pmvs, i+1)
-  )
-| list_nil () => ()
+    aux2(out, ntl, pmv, i);
+    aux2lst(out, ntl, pmvs, i+1)
+  ) (* end of [list_cons] *)
 //
 end // end of [aux2lst]
 
@@ -462,10 +471,17 @@ auxgoto
 ) : void = let
 //
 val () =
-emit_text (out, "ATSINSfgoto(")
-val () = emit_text (out, "__patsflab_")
-val () = emit2_funlab (out, flab)
-val () = emit_text (out, ") ;\n")
+emit_text
+(
+out, "ATSINSfgoto("
+) (* val *)
+//
+val () =
+emit_text(out, "__patsflab_")
+//
+val () = emit2_funlab(out, flab)
+//
+val ((*void*)) = emit_text(out, ") ;\n")
 //
 in
   // nothing
@@ -477,18 +493,27 @@ implement
 emit_instr_fcall2
   (out, ins) = let
 //
-val-INSfcall2
+val-
+INSfcall2
 (
-  tmp, flab, ntl, hse_fun, pmvs_arg
+  tmp, flab
+, ntl, hse_fun, pmvs_arg
 ) = ins.instr_node
 //
-val () = emit_text (out, "ATStailcal_beg()\n")
+val () =
+emit_text
+(out, "ATStailcal_beg()\n")
 //
-val () = aux1lst (out, ntl, pmvs_arg, 0(*i*))
-val () = aux2lst (out, ntl, pmvs_arg, 0(*i*))
-val () = auxgoto (out, flab) // HX: loop again
+val () =
+aux1lst(out, ntl, pmvs_arg, 0(*i*))
+val () =
+aux2lst(out, ntl, pmvs_arg, 0(*i*))
 //
-val () = emit_text (out, "ATStailcal_end()\n")
+val () =
+auxgoto(out, flab) // HX: jump for tail-call
+//
+val () =
+emit_text(out, "ATStailcal_end()\n")
 //
 in
   // nothing
@@ -502,32 +527,41 @@ implement
 emit_instr_extfcall
   (out, ins) = let
 //
-val loc0 = ins.instr_loc
-val-INSextfcall
-  (tmp, _fun, pmvs_arg) = ins.instr_node
+val
+loc0 = ins.instr_loc
 //
-val noret = tmpvar_is_void (tmp)
+val-
+INSextfcall
+( tmp
+, fun_name
+, pmvs_arg) = ins.instr_node
 //
-val (
-) = (
+val noret = tmpvar_is_void(tmp)
+//
+val () =
+(
 if ~noret
-  then emit_text (out, "ATSINSmove(")
-  else emit_text (out, "ATSINSmove_void(")
+  then emit_text(out, "ATSINSmove(")
+  else emit_text(out, "ATSINSmove_void(")
 // end of [if]
 ) : void // end of [val]
 //
 val () =
 (
-  emit_tmpvar (out, tmp); emit_text (out, ", ")
+  emit_tmpvar(out, tmp); emit_text(out, ", ")
 ) (* end of [val] *)
 //
 val () =
-emit_text(out, "ATSextfcall(")
-val () = emit_text (out, _fun)
-val () = emit_text (out, ", ")
-val () = emit_text (out, "(")
-val () = emit_primvalist (out, pmvs_arg)
-val () = emit_text (out, "))) ;")
+emit_text
+(
+out, "ATSextfcall("
+)
+val () =
+emit_text(out, fun_name)
+val () = emit_text(out, ", ")
+val () = emit_text( out, "(" )
+val () = emit_primvalist(out, pmvs_arg)
+val () = emit_text( out, "))) ;" )
 //
 in
   // nothing
@@ -540,33 +574,43 @@ emit_instr_extmcall
   (out, ins) = let
 //
 val loc0 = ins.instr_loc
-val-INSextmcall
-  (tmp, pmv_obj, _mtd, pmvs_arg) = ins.instr_node
+val-
+INSextmcall
+( tmp
+, pmv_obj
+, mtd_name
+, pmvs_arg) = ins.instr_node
 //
-val noret = tmpvar_is_void (tmp)
+val noret = tmpvar_is_void(tmp)
 //
-val (
-) = (
+val () =
+(
 if ~noret
-  then emit_text (out, "ATSINSmove(")
-  else emit_text (out, "ATSINSmove_void(")
+  then emit_text(out, "ATSINSmove(")
+  else emit_text(out, "ATSINSmove_void(")
 // end of [if]
 ) : void // end of [val]
 //
 val () =
 (
-  emit_tmpvar (out, tmp); emit_text (out, ", ")
+  emit_tmpvar(out, tmp); emit_text(out, ", ")
 ) (* end of [val] *)
 //
 val () =
-emit_text(out, "ATSextmcall(")
-val () = emit_primval (out, pmv_obj)
-val () = emit_text (out, ", ")
-val () = emit_text (out, _mtd)
-val () = emit_text (out, ", ")
-val () = emit_text (out, "(")
-val () = emit_primvalist (out, pmvs_arg)
-val () = emit_text (out, "))) ;")
+emit_text
+(
+out, "ATSextmcall("
+)
+val () =
+emit_primval(out, pmv_obj)
+//
+val () = emit_text(out, ", ")
+val () = emit_text(out, mtd_name)
+//
+val () = emit_text(out, ", ")
+val () = emit_text( out, "(" )
+val () = emit_primvalist(out, pmvs_arg)
+val () = emit_text( out, "))) ;" )
 //
 in
   // nothing
@@ -581,28 +625,36 @@ emit_funenvlst
   (out, d2es) = let
 //
 (*
-val () = fprintln! (stdout_ref, "emit_funenvlst: d2es = ", d2es)
+val () =
+fprintln!
+( stdout_ref
+, "emit_funenvlst: d2es = ", d2es)
 *)
 //
 fun loop
-(
-  out: FILEref
+( out: FILEref
 , d2es: d2envlst, sep: string, i: int
 ) : int = let
 in
 //
 case+ d2es of
+| list_nil
+    ((*void*)) => (i)
+  // list_nil
+//
 | list_cons
     (d2e, d2es) => let
-    val hse = d2env_get_type (d2e)
+    val
+    hse = d2env_get_type(d2e)
     val () =
-      if i > 0 then emit_text (out, sep)
-    val () = emit_hisexp (out, hse)
-    val () = fprintf (out, " env%i", @(i))
+    if i > 0
+      then emit_text(out, sep)
+    // end of [val]
+    val () = emit_hisexp(out, hse)
+    val () = fprintf(out, " env%i", @(i))
   in
-    loop (out, d2es, sep, i+1)
+    loop(out, d2es, sep, i+1)
   end (* end of [list_cons] *)
-| list_nil () => (i)
 //
 end (* end of [loop] *)
 //
@@ -614,29 +666,38 @@ implement
 emit_funarglst
   (out, nenv, hses) = let
 //
-fun loop
+fun
+loop
 (
   out: FILEref, n: int
 , hses: hisexplst, sep: string, i: int
 ) : void = let
+(*
+val () =
+println! ("emit_funarglst: loop")
+*)
 in
 //
 case+ hses of
+| list_nil
+    ((*void*)) => ()
+  // list_nil
 | list_cons
     (hse, hses) => let
     val () =
-      if n > 0 then emit_text (out, sep)
-    val () = emit_hisexp (out, hse)
-    val () = fprintf (out, " arg%i", @(i))
+    if n > 0
+      then emit_text(out, sep)
+    // end of [val]
+    val () = emit_hisexp(out, hse)
+    val () = fprintf(out, " arg%i", @(i))
   in
-    loop (out, n+1, hses, sep, i+1)
+    loop(out, n+1, hses, sep, i+1)
   end // end of [list_cons]
-| list_nil ((*void*)) => ()
 //
 end // end of [loop]
 //
 in
-  loop (out, nenv, hses, ", ", 0)
+  loop(out, nenv, hses, ", ", 0)
 end // end of [emit_funarglst]
 
 (* ****** ****** *)

@@ -55,7 +55,7 @@ ATS-users are encouraged to share what they have learned on the
 contains over 45 articles with content.  A list of article stubs is
 maintained at [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
 
-## Licenses for ATS2
+## Licenses for ATS/Postiats
 
 * The Compiler (ATS/Postiats):
   [GPLv3](https://github.com/githwxi/ATS-Postiats/blob/master/COPYING-gpl-3.0.txt)
@@ -67,5 +67,6 @@ maintained at [TODO](https://github.com/githwxi/ATS-Postiats/wiki/TODO).
   to create an executable, then the linking does not by itself cause the executable to
   be covered by LGPLv2.1. However, this exception does not invalidate any other reasons
   that might result in the executable being covered by LGPLv2.1.
-* There is a separate release under the BSD license for the C header files of the
-  Libraries, which one can freely insert into the C code generated from ATS source code.
+* The contributed portion (ATS/Postiats/contrib) is released under the MIT license.
+* There is also a release under the MIT license for the C header files of the Libraries,
+  which one can freely insert into the C code generated from ATS source code.

@@ -342,15 +342,16 @@ end
 var env: int = 0
 //
 in
-  $FA.farray_foreach_env<gvalue><int>(xs, env)
+//
+$FA.farray_foreach_env<gvalue><int>(xs, env)
+//
 end // end of [farray_iforeach_cloref]
 //
 implement
 farray_iforeach_method
   (xs) =
 (
-lam(fwork) =>
-  farray_iforeach_cloref(xs, fwork)
+  lam(fdo) => farray_iforeach_cloref(xs, fdo)
 )
 //
 (* ****** ****** *)
