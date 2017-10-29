@@ -584,20 +584,25 @@ s2en_pat of
         then let
         val
         upret =
-        (
-        impenv_update(env, s2v, s2f0_arg)
-        )
+        impenv_update
+          (env, s2v, s2f0_arg)
+        // end of [val]
         in
           if
           upret
           then true
           else let
+(*
+            // HX-2017-10-29:
+            // [s2v] is not template
+*)
             val
             s2f = s2f0_pat
           in
             s2hnf_syneq2(s2f, s2f0_arg)
           end // end of [if]
         end (* end of [then] *)
+        // HX-2017-10-29: already in use
         else s2hnf_syneq2(s2f, s2f0_arg)
       end (* [true] *)
     | false =>
