@@ -33,44 +33,34 @@ ATS_PACKNAME
 //
 (* ****** ****** *)
 //
+// HX: invariant
+//
 abstype
-hashtbl_type
-typedef
-hashtbl = hashtbl_type
-(*
-typedef
-hashtbl =
-$HT.hashtbl(string, gvalue)
-*)
-//
-(* ****** ****** *)
+hashtbl_type(itm:t@ype)
 //
 typedef
-keyitm = @(string, gvalue)
-//
-(* ****** ****** *)
-//
-typedef
-gvopt = Option(gvalue)
-vtypedef
-gvopt_vt = Option_vt(gvalue)
+hashtbl
+(itm:t@ype) = hashtbl_type(itm)
 //
 (* ****** ****** *)
 //
 extern
 fun
 hashtbl_make_nil
-  (cap: intGte(1)): hashtbl
+{itm:type}
+  (cap: intGte(1)): hashtbl(itm)
 //
 (* ****** ****** *)
 //
 extern
 fun
 hashtbl_get_size
-  (kxs: hashtbl): intGte(0)
+{itm:type}
+(kxs: hashtbl(itm)): intGte(0)
 and
 hashtbl_get_capacity
-  (kxs: hashtbl): intGte(1)
+{itm:type}
+(kxs: hashtbl(itm)): intGte(1)
 //
 overload
 .size with hashtbl_get_size
@@ -82,7 +72,10 @@ overload
 extern
 fun
 hashtbl_search
-(kxs: hashtbl, key: string): gvopt_vt
+{itm:type}
+(
+  kxs: hashtbl(INV(itm)), k0: string
+) : Option_vt(itm) // end-of-function
 //
 overload .search with hashtbl_search
 //
@@ -91,8 +84,9 @@ overload .search with hashtbl_search
 extern
 fun
 hashtbl_insert
-( hashtbl
-, key: string, itm: gvalue): gvopt_vt
+{itm:type}
+( kxs: hashtbl(INV(itm))
+, key: string, itm: itm): Option_vt(itm)
 //
 overload .insert with hashtbl_insert
 //
@@ -101,7 +95,10 @@ overload .insert with hashtbl_insert
 extern
 fun
 hashtbl_takeout
-(kxs: hashtbl, key: string): gvopt_vt
+{itm:type}
+(
+  kxs: hashtbl(INV(itm)), k0: string
+) : Option_vt(itm) // end-of-function
 //
 overload .takeout with hashtbl_takeout
 //
@@ -110,11 +107,13 @@ overload .takeout with hashtbl_takeout
 extern
 fun
 hashtbl_listize0
-  (kxs: hashtbl): list0(keyitm)
+{itm:type}
+(kxs: hashtbl(itm)): list0(@(string, itm))
 extern
 fun
 hashtbl_listize1
-  (kxs: hashtbl): list0(keyitm)
+{itm:type}
+(kxs: hashtbl(itm)): list0(@(string, itm))
 //
 overload listize0 with hashtbl_listize0
 overload listize1 with hashtbl_listize1
@@ -124,20 +123,20 @@ overload listize1 with hashtbl_listize1
 extern
 fun
 hashtbl_foreach_cloref
-( tbl: hashtbl
-, fwork:
-  (string, &gvalue >> _) -<cloref1> void
+{itm:type}
+( kxs: hashtbl(itm)
+, fwork: (string, &itm >> _) -<cloref1> void
 ) : void // end of [hashtbl_foreach_cloref]
 //
 extern
 fun
 hashtbl_foreach_method
+{itm:type}
 (
-  tbl: hashtbl
+  kxs: hashtbl(itm)
 )
 (
-  fwork:
-  (string, &gvalue >> _) -<cloref1> void
+  fwork: (string, &itm >> _) -<cloref1> void
 ) : void // end of [hashtbl_foreach_method]
 //
 overload .foreach with hashtbl_foreach_method
@@ -147,64 +146,73 @@ overload .foreach with hashtbl_foreach_method
 // HX: Implementation
 //
 (* ****** ****** *)
-
+//
 assume
-hashtbl_type =
-$HT.hashtbl(string, gvalue)
-
+hashtbl_type
+(itm:t@ype) = $HT.hashtbl(string, itm)
+//
 (* ****** ****** *)
 //
 implement
 hashtbl_make_nil
-  (cap) = let
+{itm}(cap) = let
   val cap = i2sz(cap)
 in
-  $HT.hashtbl_make_nil<string,gvalue>(cap)
+  $HT.hashtbl_make_nil<string,itm>(cap)
 end // end of [hashtbl_make_nil]
 //
 (* ****** ****** *)
 //
 implement
 hashtbl_get_size
-  (kxs) = sz2i(sz) where
+{itm}(kxs) = sz2i(sz) where
 {
-  val sz = $HT.hashtbl_get_size<>(kxs)
+  val sz =
+  $HT.hashtbl_get_size<>(kxs)
 } (* end of [hashtbl_get_size] *)
 //
 (* ****** ****** *)
 //
 implement
 hashtbl_get_capacity
-  (kxs) = sz2i(cap) where
+{itm}(kxs) = sz2i(cap) where
 {
-  val cap = $HT.hashtbl_get_capacity<>(kxs)
+  val cap =
+  $HT.hashtbl_get_capacity<>(kxs)
 } (* end of [hashtbl_get_capacity] *)
 //
 (* ****** ****** *)
 //
 implement
-hashtbl_search(kxs, k0) =
-$HT.hashtbl_search<string,gvalue>(kxs, k0)
+hashtbl_search
+{itm}(kxs, k0) =
+(
+$HT.hashtbl_search<string,itm>(kxs, k0)
+)
 //
 (* ****** ****** *)
 //
 implement
-hashtbl_insert(kxs, k0, x0) =
+hashtbl_insert
+{itm}(kxs, k0, x0) =
 (
-$HT.hashtbl_insert<string,gvalue>(kxs, k0, x0)
+$HT.hashtbl_insert<string,itm>(kxs,k0,x0)
 ) (* end of [hashtbl_insert] *)
 //
 (* ****** ****** *)
 //
 implement
-hashtbl_takeout(kxs, k0) =
-$HT.hashtbl_takeout<string,gvalue>(kxs, k0)
+hashtbl_takeout
+{itm}(kxs, k0) =
+(
+  $HT.hashtbl_takeout<string,itm>(kxs, k0)
+)
 //
 (* ****** ****** *)
 //
 implement
 hashtbl_foreach_method
-  (kxs) =
+{itm}(kxs) =
 (
 lam(fwork) =>
   hashtbl_foreach_cloref(kxs, fwork)
@@ -212,10 +220,10 @@ lam(fwork) =>
 //
 implement
 hashtbl_foreach_cloref
-  (kxs, fwork) =
+{itm}(kxs, fwork) =
 (
 //
-$HT.hashtbl_foreach_cloref<string,gvalue>
+$HT.hashtbl_foreach_cloref<string,itm>
   (kxs, fwork)
 //
 ) (* end of [hashtbl_foreach_cloref] *)
@@ -223,11 +231,13 @@ $HT.hashtbl_foreach_cloref<string,gvalue>
 (* ****** ****** *)
 //
 implement
-hashtbl_listize0(kxs) =
-  $HT.hashtbl_listize0<string,gvalue>(kxs)
+hashtbl_listize0
+{itm}(kxs) =
+  $HT.hashtbl_listize0<string,itm>(kxs)
 implement
-hashtbl_listize1(kxs) =
-  $HT.hashtbl_listize1<string,gvalue>(kxs)
+hashtbl_listize1
+{itm}(kxs) =
+  $HT.hashtbl_listize1<string,itm>(kxs)
 //
 (* ****** ****** *)
 

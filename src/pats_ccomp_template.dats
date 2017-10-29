@@ -93,8 +93,15 @@ impenv =
 //
 extern
 fun
-fprint_impenv
-  : fprint_vtype (impenv)
+print_impenv(env: !impenv): void
+extern
+fun
+fprint_impenv: fprint_vtype(impenv)
+//
+overload print with print_impenv
+overload fprint with fprint_impenv
+//
+(* ****** ****** *)
 //
 extern
 fun
@@ -108,7 +115,12 @@ impenv_update
 // end of [impenv_update]
 //
 (* ****** ****** *)
-
+//
+implement
+print_impenv
+  (env) =
+  fprint_impenv(stdout_ref, env)
+//
 implement
 fprint_impenv
   (out, env) = let
@@ -151,7 +163,7 @@ end // end of [loop]
 in
   loop (out, env, 0)
 end // end of [fprint_impenv]
-
+//
 (* ****** ****** *)
 
 implement
@@ -160,12 +172,20 @@ impenv_find
 (*
 //
 val () =
-println! ("impenv_find")
+println!
+("impenv_find: s2v = ", s2v)
 //
 *)
 in
 //
 case+ env of
+| IMPENVnil
+  ((*void*)) => let
+    val s2t = s2var_get_srt(s2v)
+    prval ((*folded*)) = fold@ (env)
+  in
+    s2exp2hnf_cast(s2exp_errexp(s2t))
+  end // end of [IMPENVnil]
 | IMPENVcons
   (
     s2v1, s2f, !p_env
@@ -183,13 +203,6 @@ case+ env of
       s2f
     end // end of [if]
   ) // end of [IMPENVcons]
-| IMPENVnil
-    ((*void*)) => let
-    val s2t = s2var_get_srt(s2v)
-    prval ((*folded*)) = fold@ (env)
-  in
-    s2exp2hnf_cast(s2exp_errexp(s2t))
-  end // end of [IMPENVnil]
 //
 end // end of [impenv_find]
 
@@ -206,6 +219,9 @@ println!
 val () =
 println!
   ("impenv_update: s2f = ", s2f)
+val () =
+println!
+  ("impenv_update: env = ", env)
 *)
 //
 fun
@@ -227,7 +243,7 @@ case+ env of
     s2v1, !p_s2f, !p_env
   ) => (
     if (
-      s2v = s2v1
+    s2v = s2v1
     ) then let
       val () =
         (!p_s2f := s2f)
@@ -248,6 +264,13 @@ val
 s2t = s2e.s2exp_srt
 val
 s2v_s2t = s2var_get_srt(s2v)
+//
+(*
+val () =
+println! ("impenv_update: s2t = ", s2t)
+val () =
+println! ("impenv_update: s2v_s2t = ", s2v_s2t)
+*)
 //
 in
 //
@@ -410,17 +433,21 @@ case+ env of
     fold@env; true
   ) (* list_vt_nil *)
 | list_vt_cons
-    (s2v, !p_env1) => (
+  (
+    s2v, !p_env1
+  ) =>  (
     if (s2v = s2v0)
-      then (fold@env; false)
-      else let
+      then
+      (
+      fold@env;false
+      )
+      else ans where
+      {
         val ans =
           auxfvar(!p_env1, s2v0)
         // end of [val]
         prval ((*void*)) = fold@env
-      in
-        ans
-      end // end of [else]
+      } (* end of [else] *)
   ) (* end of [list_vt_cons] *)
 ) (* end of [auxfvar] *)
 
@@ -513,23 +540,65 @@ case+
 s2en_pat of
 //
 | S2Evar(s2v) => let
+(*
+    val ((*void*)) =
+    ( println!
+      ("auxmat_env: S2Evar: s2v = ", s2v)
+    ) (* end of [val] *)
+*)
     val ans =
-      auxfvar (env_pat, s2v)
+      auxfvar(env_pat, s2v)
     // end of [val]
+(*
+    val ((*void*)) =
+    ( println!
+      ("auxmat_env: S2Evar: ans = ", ans)
+    ) (* end of [val] *)
+*)
   in
     case+ ans of
     | true => let
         val s2f =
-          impenv_find (env, s2v)
+          impenv_find(env, s2v)
         // end of [val]
-        val iserr = s2hnf_is_err (s2f)
+        val iserr = s2hnf_is_err(s2f)
+(*
+        val ((*void*)) =
+        (
+          print!
+          ("auxmat_env: S2Evar: ");
+          println!
+          ("impenv_find: s2f = ", s2f)
+        )
+        val ((*void*)) =
+        (
+          print!
+          ("auxmat_env: S2Evar: ");
+          println!
+          ("impenv_find: iserr = ", iserr)
+        )
+*)
       in
         if
         iserr
-        then
+        then let
+        val
+        upret =
         (
-          impenv_update(env, s2v, s2f0_arg)
-        ) else (s2hnf_syneq2 (s2f, s2f0_arg))
+        impenv_update(env, s2v, s2f0_arg)
+        )
+        in
+          if
+          upret
+          then true
+          else let
+            val
+            s2f = s2f0_pat
+          in
+            s2hnf_syneq2(s2f, s2f0_arg)
+          end // end of [if]
+        end (* end of [then] *)
+        else s2hnf_syneq2(s2f, s2f0_arg)
       end (* [true] *)
     | false =>
       s2hnf_syneq_env

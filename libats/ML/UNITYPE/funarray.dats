@@ -37,50 +37,44 @@ _(*FA*) =
 //
 (* ****** ****** *)
 //
+// HX: covariant
+//
 abstype
 farray_type
-typedef
-farray = farray_type
-//
-(*
-typedef
-farray = $FA.farray(gvalue)
-*)
-//
-(* ****** ****** *)
+( a:t@ype+ ) = ptr
 //
 typedef
-gvopt = Option(gvalue)
-vtypedef
-gvopt_vt = Option_vt(gvalue)
+farray(a:t@ype) = farray_type(a)
 //
 (* ****** ****** *)
 //
 exception
-FarraySubscriptExn of ()
+FarraySubscriptExn of ((*void*))
 //
 (* ****** ****** *)
 //
 extern
 fun
-farray_nil():<> farray
+farray_nil
+  {a:type}((*void*)):<> farray(a)
 extern
 fun
-farray_make_nil():<> farray
+farray_make_nil
+  {a:type}((*void*)):<> farray(a)
 //
 (* ****** ****** *)
 //
 extern
 fun
 farray_make_list
-  (xs: list0(gvalue)): farray
+  {a:type}(list0(INV(a))): farray(a)
 //
 (* ****** ****** *)
 //
 extern
 fun
 farray_size
-  (xs: farray):<> intGte(0)
+  {a:type}(xs: farray(a)):<> intGte(0)
 //
 overload size with farray_size
 //
@@ -88,10 +82,12 @@ overload size with farray_size
 //
 extern
 fun
-farray_is_nil(farray): bool
+farray_is_nil
+  {a:type}(xs: farray(a)): bool
 extern
 fun
-farray_isnot_nil(farray): bool
+farray_isnot_nil
+  {a:type}(xs: farray(a)): bool
 //
 overload iseqz with farray_is_nil
 overload isneqz with farray_isnot_nil
@@ -101,11 +97,13 @@ overload isneqz with farray_isnot_nil
 extern
 fun
 farray_get_at_exn
-(A: farray, i: int): gvalue
+{a:type}
+(xs: farray(INV(a)), i: int): (a)
 extern
 fun
 farray_set_at_exn
-(A: &farray >> _, i: int, x: gvalue): void
+{a:type}
+(xs: &farray(INV(a)) >> _, i: int, x: a): void
 //
 overload [] with farray_get_at_exn
 overload [] with farray_set_at_exn
@@ -115,11 +113,13 @@ overload [] with farray_set_at_exn
 extern
 fun
 farray_get_at_opt
-(A: farray, i: int):<> gvopt_vt
+{a:type}
+(xs: farray(INV(a)), i: int):<> Option_vt(a)
 extern
 fun
 farray_set_at_opt
-(A: &farray >> _, i: int, x: gvalue): bool
+{a:type}
+(xs: &farray(INV(a)) >> _, i: int, x0: a): bool
 //
 overload get_at_opt with farray_get_at_opt
 overload set_at_opt with farray_set_at_opt
@@ -128,29 +128,15 @@ overload set_at_opt with farray_set_at_opt
 //
 extern
 fun
-print_farray(farray): void
-extern
-fun
-prerr_farray(farray): void
-extern
-fun
-fprint_farray(FILEref, farray): void
-//
-overload print with print_farray
-overload prerr with prerr_farray
-overload fprint with fprint_farray
-//
-(* ****** ****** *)
-//
-extern
-fun
 farray_foreach_cloref
-( xs: farray
-, fwork: cfun(gvalue, void)): void
+{a:type}
+( xs: farray(INV(a))
+, fwork: cfun(a, void) ): void
 and
 farray_foreach_method
-( xs: farray )
-( fwork: cfun(gvalue, void) ): void
+{a:type}
+( xs: farray(INV(a)) )
+( fwork: cfun(a, void) ): void
 //
 overload
 .foreach with farray_foreach_method
@@ -160,12 +146,14 @@ overload
 extern
 fun
 farray_iforeach_cloref
-( xs: farray
-, fwork: cfun(int, gvalue, void)): void
+{a:type}
+( xs: farray(INV(a))
+, fwork: cfun(int, a, void) ): void
 and
 farray_iforeach_method
-( xs: farray )
-( fwork: cfun(int, gvalue, void) ): void
+{a:type}
+( xs: farray(INV(a)) )
+( fwork: cfun(int, a, void) ): void
 //
 overload
 .iforeach with farray_iforeach_method
@@ -177,10 +165,8 @@ overload
 (* ****** ****** *)
 //
 assume
-farray_type =
-(
-  $FA.farray(gvalue)
-)
+farray_type
+  (a:t@ype) = $FA.farray(a)
 //
 (* ****** ****** *)
 //
@@ -195,10 +181,10 @@ farray_make_nil() =
 //
 implement
 farray_make_list
-  (xs) = let
+  {a}(xs) = let
   val xs = g1ofg0_list(xs)
 in
-  $FA.farray_make_list<gvalue>(xs)
+  $FA.farray_make_list<a>(xs)
 end // end of [farray_make_list]
 //
 (* ****** ****** *)
@@ -258,10 +244,9 @@ end // end of [farray_set_at_exn]
 
 implement
 farray_get_at_opt
-  (xs, i) = let
+  {a}(xs, i) = let
 //
 val i = g1ofg0(i)
-typedef gv = gvalue
 //
 in
 //
@@ -269,7 +254,7 @@ if
 (
 i >= 0
 ) then (
-$FA.farray_getopt_at<gv>(xs, i)
+$FA.farray_getopt_at<a>(xs, i)
 ) else None_vt() // end of [if]
 //
 end // end of [farray_get_at_opt]
@@ -278,66 +263,50 @@ end // end of [farray_get_at_opt]
 
 implement
 farray_set_at_opt
-  (xs, i, x0) = let
+  {a}(xs, i, x0) = let
 //
 val i = g1ofg0(i)
-typedef gv = gvalue
 //
 in
 //
 if (
 i >= 0
 ) then (
-$FA.farray_setopt_at<gv>(xs, i, x0)
+$FA.farray_setopt_at<a>(xs, i, x0)
 ) else false(*fail*) // end of [if]
 //
 end // end of [farray_set_at_opt]
-
-(* ****** ****** *)
-//
-implement
-print_farray(xs) =
-  fprint_farray(stdout_ref, xs)
-implement
-prerr_farray(xs) =
-  fprint_farray(stderr_ref, xs)
-//
-implement
-fprint_farray(out, xs) =
-  $FA.fprint_farray<gvalue>(out, xs)
 //
 (* ****** ****** *)
 //
 implement
 farray_foreach_cloref
-( xs
-, fwork ) = let
+  {a}(xs, fwork) = let
 //
 implement
-$FA.farray_foreach$fwork<gvalue><void>
+$FA.farray_foreach$fwork<a><void>
   (x, env) = fwork(x)
 //
 in
-  $FA.farray_foreach<gvalue>(xs)
+  $FA.farray_foreach<a>(xs)
 end // end of [farray_foreach_cloref]
 //
 implement
 farray_foreach_method
-  (xs) =
+  {a}(xs) =
 (
 lam(fwork) =>
-  farray_foreach_cloref(xs, fwork)
+  farray_foreach_cloref{a}(xs, fwork)
 )
 //
 (* ****** ****** *)
 //
 implement
 farray_iforeach_cloref
-( xs
-, fwork ) = let
+  {a}(xs, fwork ) = let
 //
 implement
-$FA.farray_foreach$fwork<gvalue><int>
+$FA.farray_foreach$fwork<a><int>
   (x, env) =
 (
 let
@@ -350,15 +319,15 @@ var env: int = 0
 //
 in
 //
-$FA.farray_foreach_env<gvalue><int>(xs, env)
+$FA.farray_foreach_env<a><int>(xs, env)
 //
 end // end of [farray_iforeach_cloref]
 //
 implement
 farray_iforeach_method
-  (xs) =
+  {a}(xs) =
 (
-  lam(fdo) => farray_iforeach_cloref(xs, fdo)
+  lam(fdo) => farray_iforeach_cloref{a}(xs, fdo)
 )
 //
 (* ****** ****** *)

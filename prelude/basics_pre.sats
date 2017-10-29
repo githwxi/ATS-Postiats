@@ -606,26 +606,29 @@ vtypedef NSHARED (a:vt@ype) = a // HX: used as a comment (rarely)
 //
 (* ****** ****** *)
 //
-absprop invar_prop_prop (a:prop)
-absview invar_view_view (a:view)
+absprop
+invar_prop_prop(a:prop)
+absview
+invar_view_view(a:view)
 //
 abst@ype // S2Einvar
-invar_t0ype_t0ype (a:t@ype) = a
+invar_t0ype_t0ype(a:t@ype) = a
 absvt@ype // S2Einvar
-invar_vt0ype_vt0ype (a:vt@ype) = a
+invar_vt0ype_vt0ype(a:vt@ype) = a
 //
 // HX: this order is significant
 // 
 viewdef
-INV (a: view) = invar_view_view (a)
+INV(a:view) = invar_view_view(a)
 propdef
-INV (a: prop) = invar_prop_prop (a)
-//
-vtypedef INV
-  (a:vt@ype) = invar_vt0ype_vt0ype (a)
+INV(a:prop) = invar_prop_prop(a)
 //
 vtypedef
-INV (a: t@ype) = invar_t0ype_t0ype (a)
+INV
+(a:vt@ype) = invar_vt0ype_vt0ype(a)
+//
+typedef
+INV(a:t@ype) = invar_t0ype_t0ype(a)
 //
 (* ****** ****** *)
 (*

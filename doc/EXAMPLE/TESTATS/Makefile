@@ -159,31 +159,38 @@ regress:: kacker ; ./$<
 cleanall:: ; $(RMF) kacker
 
 ######
-
+#
 all:: \
 lazytest
-lazytest: lazytest_dats.c ; \
-  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
-lazytest_dats.c: lazytest.dats ; $(PATSCC2) -ccats $<
 regress:: lazytest ; ./$<
 cleanall:: ; $(RMF) lazytest
 cleanall:: ; $(RMF) lazytest_dats.c
-
+#
+lazytest: \
+lazytest_dats.c ; \
+$(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+lazytest_dats.c: lazytest.dats ; $(PATSCC2) -ccats $<
+#
+######
+#
 all:: \
 llazytest
-llazytest: llazytest_dats.c ; \
-  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
-llazytest_dats.c: llazytest.dats ; $(PATSCC2) -ccats $<
 regress:: llazytest ; ./$<
 cleanall:: ; $(RMF) llazytest
 cleanall:: ; $(RMF) llazytest_dats.c
-
+#
+llazytest: \
+llazytest_dats.c ; \
+$(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+llazytest_dats.c: llazytest.dats ; $(PATSCC2) -ccats $<
+#
 ######
 
 all:: \
 listpat
-listpat: listpat.dats ; \
-   $(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+listpat: \
+listpat.dats ; \
+$(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
 regress:: listpat ; ./$<
 cleanall:: ; $(RMF) listpat
 
@@ -200,102 +207,134 @@ cleanall:: ; $(RMF) loctmplt
 
 all:: \
 loctmplt2
-loctmplt2: \
-loctmplt2.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: loctmplt2 ; ./$<
 cleanall:: ; $(RMF) loctmplt2
-
+#
+loctmplt2: \
+loctmplt2.dats ; $(PATSCC2) -cleanaft -o $@ $<
+#
 ######
 
 all:: \
 locimplmnt
-locimplmnt: \
-locimplmnt.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: locimplmnt ; ./$<
 cleanall:: ; $(RMF) locimplmnt
-
+#
+locimplmnt: \
+locimplmnt.dats ; $(PATSCC2) -cleanaft -o $@ $<
+#
 ######
 
 all:: \
 mutailrec
-mutailrec: \
-mutailrec.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: mutailrec ; ./$<
 cleanall:: ; $(RMF) mutailrec
-
+#
+mutailrec: \
+mutailrec.dats ; $(PATSCC2) -cleanaft -o $@ $<
+#
 ######
-
+#
 all:: \
 partmplt
-partmplt: \
-partmplt.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: partmplt ; ./$<
 cleanall:: ; $(RMF) partmplt
-
+#
+partmplt: \
+partmplt.dats ; $(PATSCC2) -cleanaft -o $@ $<
+#
 ######
-
+#
 all:: \
 patguard
-patguard: patguard.dats ; \
-  $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: patguard ; ./$<
 cleanall:: ; $(RMF) patguard
-
+#
+patguard: \
+patguard.dats ; \
+$(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+#
 ######
-
+#
 all:: \
 patlinrec
-patlinrec: patlinrec.dats ; \
-  $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: patlinrec ; ./$<
 cleanall:: ; $(RMF) patlinrec
-
+#
+patlinrec: \
+patlinrec.dats ; \
+$(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+#
 ######
-
+#
 all:: \
 patrefas
-patrefas: patrefas.dats ; \
-  $(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: patrefas ; ./$<
 cleanall:: ; $(RMF) patrefas
-
+#
+patrefas: \
+patrefas.dats ; \
+$(PATSCC2) -cleanaft -DATS_MEMALLOC_LIBC -o $@ $<
+#
 ######
 
 all:: \
 pfsearch
-pfsearch: pfsearch.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: pfsearch ; ./$<
 cleanall:: ; $(RMF) pfsearch
-
+#
+pfsearch: \
+pfsearch.dats ; $(PATSCC2) -cleanaft -o $@ $<
+#
 ######
 
 all:: \
 reassume
-reassume: reassume.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: reassume ; ./$<
 cleanall:: ; $(RMF) reassume
-
+#
+reassume: \
+reassume.dats ; $(PATSCC2) -cleanaft -o $@ $<
+#
 ######
-
+#
 all:: \
 stkalloc
-stkalloc: stkalloc.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: stkalloc ; ./$<
 cleanall:: ; $(RMF) stkalloc
-
+#
+stkalloc: \
+stkalloc.dats ; $(PATSCC2) -cleanaft -o $@ $<
+#
 ######
-
+#
 all:: \
 sumodd
-sumodd: sumodd.dats ; $(PATSCC2) -cleanaft -o $@ $<
 regress:: sumodd ; ./$<
 cleanall:: ; $(RMF) sumodd
-
+#
+sumodd: \
+sumodd.dats; $(PATSCC2) -cleanaft -o $@ $<
+#
+######
+#
+all:: \
+tempboxed
+regress:: tempboxed ; ./$<
+cleanall:: ; $(RMF) tempboxed
+#
+tempboxed: \
+tempboxed.dats ; \
+$(PATSCC2) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+#
 ######
 #
 all:: \
 tempenver
-tempenver: tempenver.dats ; $(PATSCC2) -cleanaft -o $@ $<
+tempenver: \
+tempenver.dats ; \
+$(PATSCC2) -cleanaft -o $@ $<
+#
 regress:: tempenver ; ./$<
 cleanall:: ; $(RMF) tempenver
 #

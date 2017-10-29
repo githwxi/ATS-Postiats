@@ -47,9 +47,16 @@ val xs =
 list0_map
 (xs, lam(x) => GVstring(x))
 //
-val xs = farray_make_list(xs)
+val xs =
+farray_make_list{gvalue}(xs)
 //
-val () = println! ("xs = ", xs)
+val () =
+(
+print!
+("xs =\n");
+(xs).foreach()(lam(x) => print!(x, ";"));
+println!();
+)
 val () = println! ("xs[0] = ", xs[0])
 val () = println! ("xs[1] = ", xs[1])
 val () = println! ("xs[2] = ", xs[2])
@@ -65,7 +72,7 @@ with
 (* ****** ****** *)
 //
 val kxs =
-hashtbl_make_nil(16)
+hashtbl_make_nil{gvalue}(16)
 //
 val-
 ~None_vt() = (kxs).insert("0", GVint(0))
