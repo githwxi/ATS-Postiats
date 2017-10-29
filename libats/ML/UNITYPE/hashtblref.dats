@@ -29,7 +29,7 @@ ATS_PACKNAME
 //
 (* ****** ****** *)
 //
-// HX-2017-10-28: Interface
+// HX: Interface
 //
 (* ****** ****** *)
 //
@@ -144,7 +144,7 @@ overload .foreach with hashtbl_foreach_method
 //
 (* ****** ****** *)
 //
-// HX-2017-10-28: Implementation
+// HX: Implementation
 //
 (* ****** ****** *)
 
@@ -203,6 +203,14 @@ $HT.hashtbl_takeout<string,gvalue>(kxs, k0)
 (* ****** ****** *)
 //
 implement
+hashtbl_foreach_method
+  (kxs) =
+(
+lam(fwork) =>
+  hashtbl_foreach_cloref(kxs, fwork)
+) (* end of [hashtbl_foreach_method] *)
+//
+implement
 hashtbl_foreach_cloref
   (kxs, fwork) =
 (
@@ -211,13 +219,6 @@ $HT.hashtbl_foreach_cloref<string,gvalue>
   (kxs, fwork)
 //
 ) (* end of [hashtbl_foreach_cloref] *)
-//
-implement
-hashtbl_foreach_method
-  (kxs) =
-(
-lam(fwork) => hashtbl_foreach_cloref(kxs, fwork)
-) (* end of [hashtbl_foreach_method] *)
 //
 (* ****** ****** *)
 //

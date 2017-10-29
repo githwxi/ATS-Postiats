@@ -99,10 +99,10 @@ staload
 staload _ =
 "{$PATSLIBATS}/ML/DATS/funmap.dats"
 staload _ =
-"{$PATSLIBATS}/DATS/funmap_avltree.dats"
+"{$PATSLIBATS}/ML/DATS/funset.dats"
 //
 staload _ =
-"{$PATSLIBATS}/ML/DATS/funset.dats"
+"{$PATSLIBATS}/DATS/funmap_avltree.dats"
 staload _ =
 "{$PATSLIBATS}/DATS/funset_avltree.dats"
 //

@@ -54,42 +54,54 @@ map_type
 ) = ptr(*boxed*)
 //
 typedef
-map(key:t0p, itm:t0p) = map_type(key, itm)
+map(key:t0p
+   ,
+   itm:t0p) = map_type(key, itm)
 //
 (* ****** ****** *)
 //
-fun{key:t0p}
+fun
+{key:t0p}
 compare_key_key(x1: key, x2: key):<> int
 //
 (* ****** ****** *)
 //
 fun{}
-funmap_nil{key,itm:t0p}():<> map(key, itm)
+funmap_nil
+  {key,itm:t0p}():<> map(key, itm)
 fun{}
-funmap_make_nil{key,itm:t0p}():<> map(key, itm)
+funmap_make_nil
+  {key,itm:t0p}():<> map(key, itm)
 //
 (* ****** ****** *)
-
-fun{}
-funmap_is_nil
-  {key,itm:t0p}(map: map(key, INV(itm))):<> bool
-fun{}
-funmap_isnot_nil
-  {key,itm:t0p}(map: map(key, INV(itm))):<> bool
-
-(* ****** ****** *)
-
+//
 fun{
 key,itm:t0p
-} funmap_size(map: map(key, INV(itm))):<> size_t
-
+} funmap_size
+  (map: map(key, INV(itm))):<> size_t
+//
+overload size with funmap_size
+//
+(* ****** ****** *)
+//
+fun{}
+funmap_is_nil
+{key,itm:t0p}(map: map(key, INV(itm))):<> bool
+fun{}
+funmap_isnot_nil
+{key,itm:t0p}(map: map(key, INV(itm))):<> bool
+//
+overload iseqz with funmap_is_nil
+overload isneqz with funmap_isnot_nil
+//
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
 } funmap_search
-  (map: map(key, INV(itm)), k: key): Option_vt(itm)
-// end of [funmap_search]
+(
+  map: map(key, INV(itm)), k0: key
+) : Option_vt(itm) // end of [funmap_search]
 
 (* ****** ****** *)
 //
@@ -106,7 +118,7 @@ fun{
 key,itm:t0p
 } funmap_takeout
 (
-  map: &map(key, INV(itm)) >> _, k: key
+  map: &map(key, INV(itm)) >> _, k0: key
 ) : Option_vt(itm) // end of [funmap_takeout]
 //
 (* ****** ****** *)
@@ -114,21 +126,22 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } funmap_remove
-  (map: &map(key, INV(itm)) >> _, k: key): bool
+  (map: &map(key, INV(itm)) >> _, k0: key): bool
 //
 (* ****** ****** *)
 //
-fun{
-key,itm:t@ype
-} fprint_funmap
-(
-  out: FILEref, map: map(key, itm)
-) : void // end of [fprint_funmap]
+fun{}
+fprint_funmap$sep
+  (out: FILEref): void // fprint("; ")
+fun{}
+fprint_funmap$mapto
+  (out: FILEref): void // fprint("->")
 //
-fun{}
-fprint_funmap$sep(out: FILEref): void // fprint("; ")
-fun{}
-fprint_funmap$mapto(out: FILEref): void // fprint("->")
+fun
+{key
+,itm:t0p}
+fprint_funmap
+(out: FILEref, map: map(key, itm)): void
 //
 overload fprint with fprint_funmap
 //

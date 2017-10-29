@@ -402,6 +402,14 @@ clean:: ; $(RMF) output/atslib_libats_ML_DATS_filebas_dirent_dats.o
 
 ######
 
+atslib_libats_ML:: atslib_libats_ML_UNITYPE_funmap_dats
+atslib_libats_ML_UNITYPE_funmap_dats: output/atslib_libats_ML_UNITYPE_funmap_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_UNITYPE_funmap_dats.c: ../../libats/ML/UNITYPE/funmap.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_UNITYPE_funmap_dats.o: output/atslib_libats_ML_UNITYPE_funmap_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_ML_UNITYPE_funmap_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_UNITYPE_funmap_dats.o
+
 atslib_libats_ML:: atslib_libats_ML_UNITYPE_funarray_dats
 atslib_libats_ML_UNITYPE_funarray_dats: output/atslib_libats_ML_UNITYPE_funarray_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_ML_UNITYPE_funarray_dats.c: ../../libats/ML/UNITYPE/funarray.dats ; $(PATSOPT) -o $@ --dynamic $<
