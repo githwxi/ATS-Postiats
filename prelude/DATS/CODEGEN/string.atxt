@@ -1093,14 +1093,14 @@ then let
 in
   loop(ptr_succ<char>(p), n, succ(i))
 end else
-  $UN.ptr0_set<char> (p, CNUL)
+  $UN.ptr0_set<char>(p, CNUL)
 // end of [if]
 //
 end // end of [loop]
 //
 val n1 = succ(n)
 val (pf, fpf | p0) = malloc_gc(n1)
-val () = loop (p0, n, g1int2uint(0))
+val () = loop(p0, n, g1int2uint(0))
 //
 in
   castvwtp_trans{strnptr(n)}((pf, fpf | p0))

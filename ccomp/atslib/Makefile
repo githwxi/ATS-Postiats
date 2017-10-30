@@ -403,29 +403,37 @@ clean:: ; $(RMF) output/atslib_libats_ML_DATS_filebas_dirent_dats.o
 
 ######
 
-atslib_libats_ML:: atslib_libats_ML_BOXED_funmap_dats
-atslib_libats_ML_BOXED_funmap_dats: output/atslib_libats_ML_BOXED_funmap_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libats_ML_BOXED_funmap_dats.c: ../../libats/ML/BOXED/funmap.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libats_ML_BOXED_funmap_dats.o: output/atslib_libats_ML_BOXED_funmap_dats.c ; \
+atslib_libats_ML:: atslib_libats_ML_BOXED_DATS_string_dats
+atslib_libats_ML_BOXED_DATS_string_dats: output/atslib_libats_ML_BOXED_DATS_string_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_BOXED_DATS_string_dats.c: ../../libats/ML/BOXED/DATS/string.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_BOXED_DATS_string_dats.o: output/atslib_libats_ML_BOXED_DATS_string_dats.c ; \
   $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libats_ML_BOXED_funmap_dats.c
-clean:: ; $(RMF) output/atslib_libats_ML_BOXED_funmap_dats.o
+clean:: ; $(RMF) output/atslib_libats_ML_BOXED_DATS_string_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_BOXED_DATS_string_dats.o
 
-atslib_libats_ML:: atslib_libats_ML_BOXED_funarray_dats
-atslib_libats_ML_BOXED_funarray_dats: output/atslib_libats_ML_BOXED_funarray_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libats_ML_BOXED_funarray_dats.c: ../../libats/ML/BOXED/funarray.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libats_ML_BOXED_funarray_dats.o: output/atslib_libats_ML_BOXED_funarray_dats.c ; \
+atslib_libats_ML:: atslib_libats_ML_BOXED_DATS_funmap_dats
+atslib_libats_ML_BOXED_DATS_funmap_dats: output/atslib_libats_ML_BOXED_DATS_funmap_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_BOXED_DATS_funmap_dats.c: ../../libats/ML/BOXED/DATS/funmap.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_BOXED_DATS_funmap_dats.o: output/atslib_libats_ML_BOXED_DATS_funmap_dats.c ; \
   $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libats_ML_BOXED_funarray_dats.c
-clean:: ; $(RMF) output/atslib_libats_ML_BOXED_funarray_dats.o
+clean:: ; $(RMF) output/atslib_libats_ML_BOXED_DATS_funmap_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_BOXED_DATS_funmap_dats.o
 
-atslib_libats_ML:: atslib_libats_ML_BOXED_hashtblref_dats
-atslib_libats_ML_BOXED_hashtblref_dats: output/atslib_libats_ML_BOXED_hashtblref_dats.o ; $(ARR) lib/libatslib.a $<
-output/atslib_libats_ML_BOXED_hashtblref_dats.c: ../../libats/ML/BOXED/hashtblref.dats ; $(PATSOPT) -o $@ --dynamic $<
-output/atslib_libats_ML_BOXED_hashtblref_dats.o: output/atslib_libats_ML_BOXED_hashtblref_dats.c ; \
+atslib_libats_ML:: atslib_libats_ML_BOXED_DATS_funarray_dats
+atslib_libats_ML_BOXED_DATS_funarray_dats: output/atslib_libats_ML_BOXED_DATS_funarray_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_BOXED_DATS_funarray_dats.c: ../../libats/ML/BOXED/DATS/funarray.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_BOXED_DATS_funarray_dats.o: output/atslib_libats_ML_BOXED_DATS_funarray_dats.c ; \
   $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
-clean:: ; $(RMF) output/atslib_libats_ML_BOXED_hashtblref_dats.c
-clean:: ; $(RMF) output/atslib_libats_ML_BOXED_hashtblref_dats.o
+clean:: ; $(RMF) output/atslib_libats_ML_BOXED_DATS_funarray_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_BOXED_DATS_funarray_dats.o
+
+atslib_libats_ML:: atslib_libats_ML_BOXED_DATS_hashtblref_dats
+atslib_libats_ML_BOXED_DATS_hashtblref_dats: output/atslib_libats_ML_BOXED_DATS_hashtblref_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_BOXED_DATS_hashtblref_dats.c: ../../libats/ML/BOXED/DATS/hashtblref.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_BOXED_DATS_hashtblref_dats.o: output/atslib_libats_ML_BOXED_DATS_hashtblref_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_ML_BOXED_DATS_hashtblref_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_BOXED_DATS_hashtblref_dats.o
 
 
 ######

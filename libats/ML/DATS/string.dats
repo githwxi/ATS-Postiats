@@ -519,6 +519,22 @@ end // end of [string_explode]
 
 implement
 {}(*tmp*)
+string_copywith
+  (cs, fopr) = let
+//
+val cs = g1ofg0(cs)
+//
+in
+//
+string_tabulate<>
+  (length(cs), lam(i) => fopr(cs[i]))
+//
+end // end of [string_copywith]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
 string_tabulate
   {n}(n0, fopr) = let
 //

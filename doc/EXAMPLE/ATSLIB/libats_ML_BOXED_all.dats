@@ -28,6 +28,13 @@
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
+
+val cs = "abcde"
+val CS = "ABCDE"
+val () = assertloc(toupper(cs) = CS)
+val () = assertloc(tolower(CS) = cs)
+
+(* ****** ****** *)
 //
 var m0 =
 funmap_nil{gvalue}()

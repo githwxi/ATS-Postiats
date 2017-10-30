@@ -183,12 +183,20 @@ fun{}
 string_implode(cs: list0(char)):<> string
 
 (* ****** ****** *)
+
+fun{}
+string_copywith
+(
+cs: string, fopr: (charNZ) -<cloref1> charNZ
+) : string // end of [string_copywith]
+
+(* ****** ****** *)
 //
 fun{}
 string_tabulate
   {n:int}
 (
-  n0: size_t(n), fopr: (sizeLt(n)) -<cloref1> charNZ
+n0: size_t(n), fopr: (sizeLt(n)) -<cloref1> charNZ
 ) : string // end of [string_tabulate]
 //
 (* ****** ****** *)

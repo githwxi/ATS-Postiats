@@ -7,11 +7,14 @@
 (* ****** ****** *)
 //
 #dynload
-"libats/ML/BOXED/funmap.dats"
+"libats/ML/BOXED/DATS/string.dats"
+//
 #dynload
-"libats/ML/BOXED/funarray.dats"
+"libats/ML/BOXED/DATS/funmap.dats"
 #dynload
-"libats/ML/BOXED/hashtblref.dats"
+"libats/ML/BOXED/DATS/funarray.dats"
+#dynload
+"libats/ML/BOXED/DATS/hashtblref.dats"
 //
 (* ****** ****** *)
 //
@@ -22,11 +25,14 @@
 (* ****** ****** *)
 //
 #staload
-"libats/ML/BOXED/funmap.dats"
+"libats/ML/BOXED/DATS/string.dats"
+//
 #staload
-"libats/ML/BOXED/funarray.dats"
+"libats/ML/BOXED/DATS/funmap.dats"
 #staload
-"libats/ML/BOXED/hashtblref.dats"
+"libats/ML/BOXED/DATS/funarray.dats"
+#staload
+"libats/ML/BOXED/DATS/hashtblref.dats"
 //
 (* ****** ****** *)
 
