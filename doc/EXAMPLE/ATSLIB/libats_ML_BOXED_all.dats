@@ -1,7 +1,7 @@
 (* ****** ****** *)
 (*
 ** for testing
-** [libats/ML/UNITYPE]
+** [libats/ML/BOXED]
 *)
 (* ****** ****** *)
 //
@@ -25,16 +25,16 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 //
 #staload
-"libats/ML/UNITYPE/funarray.dats"
+"libats/ML/BOXED/funarray.dats"
 #dynload
-"libats/ML/UNITYPE/funarray.dats"
+"libats/ML/BOXED/funarray.dats"
 //
 (* ****** ****** *)
 //
 #staload
-"libats/ML/UNITYPE/hashtblref.dats"
+"libats/ML/BOXED/hashtblref.dats"
 #dynload
-"libats/ML/UNITYPE/hashtblref.dats"
+"libats/ML/BOXED/hashtblref.dats"
 //
 (* ****** ****** *)
 //
@@ -43,23 +43,40 @@ g0ofg1
 (
 $list{string}("a","b","c")
 ) (* val *)
-val xs =
-list0_map
-(xs, lam(x) => GVstring(x))
 //
 val xs =
-farray_make_list{gvalue}(xs)
+farray_make_list{string}(xs)
 //
 val () =
 (
 print!
 ("xs =\n");
-(xs).foreach()(lam(x) => print!(x, ";"));
-println!();
+(xs).iforeach()
+(lam(i, x) => println!(i, " -> ", x))
 )
-val () = println! ("xs[0] = ", xs[0])
-val () = println! ("xs[1] = ", xs[1])
-val () = println! ("xs[2] = ", xs[2])
+val () =
+(
+print!
+("xs =\n");
+println!
+(
+(
+xs
+).ifoldleft
+(
+TYPE{string}
+)
+( ""
+, lam(r, i, x) => r + itoa(i) + x)
+)
+)
+//
+val () =
+println! ("xs[0] = ", xs[0])
+val () =
+println! ("xs[1] = ", xs[1])
+val () =
+println! ("xs[2] = ", xs[2])
 val () =
 try
 println! ("xs[3] = ", xs[3])
@@ -124,4 +141,4 @@ implement main0 () = ()
 
 (* ****** ****** *)
 
-(* end of [libats_ML_UNITYPE_all.dats] *)
+(* end of [libats_ML_BOXED_all.dats] *)

@@ -101,11 +101,12 @@ end // end of [make_entry]
 ######
 
 PATSHOMEQ="$(PATSHOME)"
-PATSRUNTIME=$(PATSHOMEQ)/ccomp/runtime
 
 ######
 
+PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
+PATSRUNTIME=$(PATSHOMEQ)/ccomp/runtime
 
 ######
 
@@ -213,9 +214,9 @@ atslib:: atslib_libats_ML
 
 ######
 
-#make_entry("libats/ML", "UNITYPE/funmap.dats")
-#make_entry("libats/ML", "UNITYPE/funarray.dats")
-#make_entry("libats/ML", "UNITYPE/hashtblref.dats")
+#make_entry("libats/ML", "BOXED/funmap.dats")
+#make_entry("libats/ML", "BOXED/funarray.dats")
+#make_entry("libats/ML", "BOXED/hashtblref.dats")
 
 ######
 

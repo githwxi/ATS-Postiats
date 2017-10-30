@@ -307,7 +307,7 @@ RMF=rm -f
 
 ######
 
-#make2_entry("libats_ML_UNITYPE_all", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
+#make2_entry("libats_ML_BOXED_all", "-DATS_MEMALLOC_LIBC", "-L$(PATSLIB) -latslib")
 
 ######
 

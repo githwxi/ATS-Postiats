@@ -160,6 +160,42 @@ overload
 //
 (* ****** ****** *)
 //
+extern
+fun
+farray_foldleft_cloref
+{res:type}{a:type}
+( xs: farray(INV(a))
+, r0: res, fwork: cfun(res, a, res) ): res
+and
+farray_foldleft_method
+{res:type}{a:type}
+( xs: farray(INV(a))
+, _(*type*): TYPE(res) )
+( r0: res, fwork: cfun(res, a, res) ): res
+//
+overload
+.foldleft with farray_foldleft_method
+//
+(* ****** ****** *)
+//
+extern
+fun
+farray_ifoldleft_cloref
+{res:type}{a:type}
+( xs: farray(INV(a))
+, r0: res, fwork: cfun(res, int, a, res) ): res
+and
+farray_ifoldleft_method
+{res:type}{a:type}
+( xs: farray(INV(a))
+, _(*type*): TYPE(res) )
+( r0: res, fwork: cfun(res, int, a, res) ): res
+//
+overload
+.ifoldleft with farray_ifoldleft_method
+//
+(* ****** ****** *)
+//
 // HX: Implementation
 //
 (* ****** ****** *)
@@ -303,7 +339,7 @@ lam(fwork) =>
 //
 implement
 farray_iforeach_cloref
-  {a}(xs, fwork ) = let
+  {a}(xs, fwork) = let
 //
 implement
 $FA.farray_foreach$fwork<a><int>
@@ -327,7 +363,85 @@ implement
 farray_iforeach_method
   {a}(xs) =
 (
-  lam(fdo) => farray_iforeach_cloref{a}(xs, fdo)
+  lam(fdo) =>
+    farray_iforeach_cloref{a}( xs, fdo )
+  // end of [lam]
+)
+//
+(* ****** ****** *)
+//
+implement
+farray_foldleft_cloref
+  {res}{a}
+  (xs, r0, fwork) = let
+//
+implement
+$FA.farray_foreach$fwork<a><res>
+  (x, env) =
+(
+let
+  val r0 = env in env := fwork(r0, x)
+end
+)
+//
+var env: res = r0
+//
+in
+//
+$FA.farray_foreach_env<a><res>(xs, env); env
+//
+end // end of [farray_foldleft_cloref]
+//
+implement
+farray_foldleft_method
+  {res}{a}
+  (xs, type) =
+(
+  lam(r0, fdo) =>
+    farray_foldleft_cloref{res}{a}(xs, r0, fdo)
+  // end of [lam]
+)
+//
+(* ****** ****** *)
+//
+implement
+farray_ifoldleft_cloref
+  {res}{a}
+  (xs, r0, fwork) = let
+//
+typedef ires = @(int, res)
+//
+implement
+$FA.farray_foreach$fwork<a><ires>
+  (x, env) =
+(
+let
+//
+val i0 = env.0 and r0 = env.1
+//
+in
+  env.0 := i0 + 1; env.1 := fwork(r0, i0, x)
+end
+)
+//
+var env: ires
+val ((*init*)) = env.0 := 0
+val ((*init*)) = env.1 := r0
+//
+in
+//
+$FA.farray_foreach_env<a><ires>(xs, env); env.1
+//
+end // end of [farray_foldleft_cloref]
+//
+implement
+farray_ifoldleft_method
+  {res}{a}
+  (xs, type) =
+(
+  lam(r0, fdo) =>
+    farray_ifoldleft_cloref{res}{a}(xs, r0, fdo)
+  // end of [lam]
 )
 //
 (* ****** ****** *)
