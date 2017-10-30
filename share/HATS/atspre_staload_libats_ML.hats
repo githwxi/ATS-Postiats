@@ -22,124 +22,133 @@ PATSLIBATS_targetloc "$PATSHOME/libats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/basis.sats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/list0.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/list0.dats"
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/option0.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/option0.dats"
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/array0.sats"
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/matrix0.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/array0.dats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/matrix0.dats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/string.sats"
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/strarr.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/string.dats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/strarr.dats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/stream.sats"
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/stream_vt.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/stream.dats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/stream_vt.dats"
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/gvalue.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/gvalue.dats"
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/filebas.sats"
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/intrange.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/filebas.dats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/intrange.dats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/stdlib.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/stdlib.dats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/funmap.sats"
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/funset.sats"
 //
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/funmap.dats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/funset.dats"
 //
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/DATS/funmap_avltree.dats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/DATS/funset_avltree.dats"
 //
 (* ****** ****** *)
 //
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/DATS/dynarray.dats"
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/dynarray.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/dynarray.dats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/qlistref.sats"
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/slistref.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/qlistref.dats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/slistref.dats"
 //
 (* ****** ****** *)
 //
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/DATS/qlist.dats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/DATS/hashfun.dats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/DATS/linmap_list.dats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/DATS/hashtbl_chain.dats"
-staload
+#staload
 "{$PATSLIBATS}/ML/SATS/hashtblref.sats"
-staload _ =
+#staload _ =
 "{$PATSLIBATS}/ML/DATS/hashtblref.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$PATSLIBATS}/ML/BOXED/funmap.dats"
+#staload
+"{$PATSLIBATS}/ML/BOXED/funarray.dats"
+#staload
+"{$PATSLIBATS}/ML/BOXED/hashtblref.dats"
 //
 (* ****** ****** *)
 

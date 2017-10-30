@@ -24,17 +24,8 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-#staload
-"libats/ML/BOXED/funarray.dats"
-#dynload
-"libats/ML/BOXED/funarray.dats"
-//
-(* ****** ****** *)
-//
-#staload
-"libats/ML/BOXED/hashtblref.dats"
-#dynload
-"libats/ML/BOXED/hashtblref.dats"
+#include
+"libats/ML/BOXED/dynloadall.hats"
 //
 (* ****** ****** *)
 //
@@ -137,7 +128,7 @@ val ((*void*)) = println! ("kxs = ", kxs)
 //
 (* ****** ****** *)
 
-implement main0 () = ()
+implement main0((*void*)) = ((*void*))
 
 (* ****** ****** *)
 

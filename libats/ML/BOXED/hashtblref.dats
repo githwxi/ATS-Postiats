@@ -18,14 +18,29 @@ ATS_PACKNAME
 //
 #include
 "share/atspre_staload.hats"
-#include
-"share\
-/atspre_staload_libats_ML.hats"
+//
+(* ****** ****** *)
+//
+#staload
+"libats/ML/SATS/basis.sats"
+#staload
+"libats/ML/SATS/list0.sats"
 //
 (* ****** ****** *)
 //
 #staload HT =
 "libats/ML/SATS/hashtblref.sats"
+#staload _(*HT*) =
+"libats/ML/DATS/hashtblref.dats"
+//
+#staload
+_(*HT*) = "libats/DATS/qlist.dats"
+#staload
+_(*HT*) = "libats/DATS/hashfun.dats"
+#staload
+_(*HT*) = "libats/DATS/linmap_list.dats"
+#staload
+_(*HT*) = "libats/DATS/hashtbl_chain.dats"
 //
 (* ****** ****** *)
 //

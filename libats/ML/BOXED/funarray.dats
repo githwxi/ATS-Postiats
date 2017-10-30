@@ -18,9 +18,13 @@ ATS_PACKNAME
 //
 #include
 "share/atspre_staload.hats"
-#include
-"share\
-/atspre_staload_libats_ML.hats"
+//
+(* ****** ****** *)
+//
+#staload
+"libats/ML/SATS/basis.sats"
+#staload
+"libats/ML/SATS/list0.sats"
 //
 (* ****** ****** *)
 //
