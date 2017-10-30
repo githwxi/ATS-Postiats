@@ -18,14 +18,32 @@
 /atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
+//
+#include
+"libats/ML/BOXED/mylibies.hats"
+//
+(* ****** ****** *)
 
 #staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-#include
-"libats/ML/BOXED/dynloadall.hats"
+var m0 =
+funmap_nil{gvalue}()
+val-
+~None_vt() =
+(m0).insert("a", GVint(0))
+val-
+~None_vt() =
+(m0).insert("b", GVint(1))
+val-
+~None_vt() =
+(m0).insert("c", GVint(2))
+//
+val () =
+(m0).foreach()
+(lam(k, x) => println! (k, " -> ", x))
 //
 (* ****** ****** *)
 //

@@ -12,7 +12,7 @@ ATS_DYNLOADFLAG 1
 *)
 #define
 ATS_PACKNAME
-"ATSLIB.libats.ML.UNITYPE"
+"ATSLIB.libats.ML.BOXED"
 //
 (* ****** ****** *)
 //

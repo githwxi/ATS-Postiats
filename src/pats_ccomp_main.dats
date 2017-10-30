@@ -961,8 +961,10 @@ case+ xs of
     (x, xs) => let
     val-HIDdynload (fil) = x.hidecl_node
     val () = (
-      emit_text (out, "ATSdynloadflag_init(");
-      emit_filename (out, fil); emit_text (out, "__dynloadflag) ;\n")
+      emit_text
+      (out, "ATSdynloadflag_init(");
+      emit_filename(out, fil);
+      emit_text(out, "__dynloadflag) ;\n")
     ) (* end of [val] *)
     val () =
       emit_text (out, "ATSextern()\n")
@@ -1052,40 +1054,54 @@ println!
 val () =
 if
 (flag = 0)
-then emit_text(out, "#if(0)\n")
+then
+emit_text(out, "#if(0)\n")
 //
-val () = emit_text (out, "/*\n")
+val () = emit_text(out, "/*\n")
 val () =
 (
-  emit_text (out, "** for initialization(dynloading)")
+emit_text
+( out
+, "** for initialization(dynloading)"
+) (* emit_text *)
 ) (* end of [val] *)
 //
-val () = emit_text (out, "\n*/\n")
+val () = emit_text(out, "\n*/\n")
 //
 val () =
 if
 flag <= 0
-then (
-  emit_text (out, "ATSdynloadflag_minit(");
-  emit_dynloadflag (out, infil); emit_text (out, ") ;\n")
+then
+(
+//
+emit_text(out, "ATSdynloadflag_minit(");
+emit_dynloadflag(out, infil); emit_text(out, ") ;\n")
+//
 ) (* end of [if] *)
 //
-val () = emit_text (out, "ATSextern()\n")
-val () = emit_text (out, "atsvoid_t0ype\n")
+val () = emit_text(out, "ATSextern()\n")
+val () = emit_text(out, "atsvoid_t0ype\n")
 //
-val () = emit_dynload (out, infil)
-val () = emit_text (out, "()\n{\n")
+val () = emit_dynload(out, infil)
+val () = emit_text(out, "()\n{\n")
 //
-val () = emit_text (out, "ATSfunbody_beg()\n")
+val () = emit_text(out, "ATSfunbody_beg()\n")
 //
-val () = emit_text (out, "ATSdynload(/*void*/)\n")
+val () = emit_text(out, "ATSdynload(/*void*/)\n")
 //
 val () =
-if flag <= 0
-  then emit_text (out, "ATSdynloadflag_sta(\n")
+if
+flag <= 0
+then
+emit_text
+(out, "ATSdynloadflag_sta(\n")
+//
 val () =
-if flag >= 1
-  then emit_text (out, "ATSdynloadflag_ext(\n")
+if
+flag >= 1
+then
+emit_text
+(out, "ATSdynloadflag_ext(\n")
 //
 val () = emit_dynloadflag(out, infil)
 val () = emit_text (out, "\n) ;\n")

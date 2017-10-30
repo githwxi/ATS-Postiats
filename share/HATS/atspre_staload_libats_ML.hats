@@ -143,12 +143,18 @@ PATSLIBATS_targetloc "$PATSHOME/libats"
 //
 (* ****** ****** *)
 //
+(*
+//
+// HX-2017-10-30:
+// See ML/BOXED/staloadall.hats
+//
 #staload
 "{$PATSLIBATS}/ML/BOXED/funmap.dats"
 #staload
 "{$PATSLIBATS}/ML/BOXED/funarray.dats"
 #staload
 "{$PATSLIBATS}/ML/BOXED/hashtblref.dats"
+*)
 //
 (* ****** ****** *)
 

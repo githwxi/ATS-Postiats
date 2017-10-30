@@ -12,7 +12,7 @@ ATS_DYNLOADFLAG 1
 *)
 #define
 ATS_PACKNAME
-"ATSLIB.libats.ML.UNITYPE"
+"ATSLIB.libats.ML.BOXED"
 //
 (* ****** ****** *)
 //
@@ -84,6 +84,18 @@ overload isneqz with funmap_isnot_nil
 //
 extern
 fun
+funmap_insert
+{itm:type}
+(
+  &map(INV(itm)) >> _, k0: string, x0: itm
+) : Option_vt(itm) // end of [funmap_insert]
+//
+overload .insert with funmap_insert
+//
+(* ****** ****** *)
+//
+extern
+fun
 funmap_foreach_cloref
 {itm:type}
 ( kxs: map(INV(itm))
@@ -147,6 +159,14 @@ implement
 funmap_isnot_nil
 {itm}(kxs) =
 $FM.funmap_isnot_nil<>{string,itm}(kxs)
+//
+(* ****** ****** *)
+//
+implement
+funmap_insert
+{itm:type}
+(kxs, k0, x0) =
+$FM.funmap_insert<string,itm>(kxs, k0, x0)
 //
 (* ****** ****** *)
 //
