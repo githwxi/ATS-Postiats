@@ -125,6 +125,8 @@ prelude_string_foreach = string_foreach
 //
 macdef
 prelude_streamize_string_char = streamize_string_char
+macdef
+prelude_un_streamize_string_char = un_streamize_string_char
 //
 (* ****** ****** *)
 
@@ -152,7 +154,7 @@ implement
 {}(*tmp*)
 string_sing(c) =
 strnptr2string
-  ($effmask_wrt(prelude_string_sing (c)))
+  ($effmask_wrt(prelude_string_sing(c)))
 //
 (* ****** ****** *)
 //
@@ -265,7 +267,7 @@ $UN.cast{list0(charNZ)}(cs)
 //
 val str =
 $effmask_wrt
-  (prelude_string_make_list (g1ofg0_list(cs)))
+  (prelude_string_make_list(g1ofg0_list(cs)))
 //
 in
   strnptr2string (str)
@@ -584,10 +586,12 @@ end // end of [string_iexists]
 //
 implement{}
 string_exists_method
-  (cs) = lam(pred) => string_exists(cs, pred)
+  (cs) =
+  lam(pred) => string_exists<>(cs, pred)
 implement{}
 string_iexists_method
-  (cs) = lam(pred) => string_iexists(cs, pred)
+  (cs) =
+  lam(pred) => string_iexists<>(cs, pred)
 //
 (* ****** ****** *)
 
@@ -625,10 +629,12 @@ end // end of [string_iforall]
 //
 implement{}
 string_forall_method
-  (cs) = lam(pred) => string_forall(cs, pred)
+  (cs) =
+  lam(pred) => string_forall<>(cs, pred)
 implement{}
 string_iforall_method
-  (cs) = lam(pred) => string_iforall(cs, pred)
+  (cs) =
+  lam(pred) => string_iforall<>(cs, pred)
 //
 (* ****** ****** *)
 
@@ -682,13 +688,13 @@ end // end of [string_iforeach]
 //
 implement{}
 string_foreach_method
-  (cs) = lam(f) => string_foreach(cs, f)
+  (cs) = lam(f) => string_foreach<>(cs, f)
 implement{}
 string_iforeach_method
-  (cs) = lam(f) => string_iforeach(cs, f)
+  (cs) = lam(f) => string_iforeach<>(cs, f)
 //
 (* ****** ****** *)
-
+//
 implement
 {res}(*tmp*)
 string_foldleft
@@ -703,7 +709,8 @@ p0: ptr, res: res
 in
 //
 if isneqz(c)
-  then loop(ptr_succ<char>(p0), fopr(res, c)) else res
+  then loop(ptr_succ<char>(p0), fopr(res, c))
+  else res
 //
 end // end of [loop]
 //
@@ -715,13 +722,22 @@ implement
 {res}(*tmp*)
 string_foldleft_method
   (cs, _) =
-  lam(ini,fopr) => string_foldleft<res>(cs, ini, fopr)
+(
+lam(ini,fopr) => string_foldleft<res>(cs, ini, fopr)
+)
 //
 (* ****** ****** *)
 //
 implement{}
 streamize_string_char
   (cs) = prelude_streamize_string_char(cs)
+//
+implement{}
+un_streamize_string_char
+  (cs) =
+(
+  strptr2string(prelude_un_streamize_string_char(cs))
+) (* un_streamize_string_char *)
 //
 (* ****** ****** *)
 

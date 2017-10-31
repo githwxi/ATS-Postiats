@@ -267,6 +267,8 @@ overload .foldleft with string_foldleft_method
 //
 fun{}
 streamize_string_char(string): stream_vt(charNZ)
+fun{}
+un_streamize_string_char(stream_vt(charNZ)): string
 //
 (* ****** ****** *)
 

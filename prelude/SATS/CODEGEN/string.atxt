@@ -322,10 +322,10 @@ string_make_rlistlen_vt
 //
 fun{}
 string_make_stream
-  {n:int}(cs: stream(charNZ)):<!wrt> Strptr1
+  (cs: stream(charNZ)):<!wrt> Strptr1
 fun{}
 string_make_stream_vt
-  {n:int}(cs: stream_vt(charNZ)):<!wrt> Strptr1
+  (cs: stream_vt(charNZ)):<!wrt> Strptr1
 //
 fun{}
 string_make_stream$bufsize
@@ -595,6 +595,8 @@ env:vt0p
 //
 fun{}
 streamize_string_char(string): stream_vt(charNZ)
+fun{}
+un_streamize_string_char(stream_vt(charNZ)): Strptr1
 //
 #atscode_separator()
 //

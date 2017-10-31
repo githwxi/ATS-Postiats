@@ -54,6 +54,16 @@ val () =
 //
 (* ****** ****** *)
 //
+val-true = (m0).remove("a")
+val-true = (m0).remove("b")
+val-false = (m0).remove("z")
+//
+val () =
+(m0).foreach()
+(lam(k, x) => println! (k, " -> ", x))
+//
+(* ****** ****** *)
+//
 val xs =
 g0ofg1
 (

@@ -84,6 +84,18 @@ overload isneqz with funmap_isnot_nil
 //
 extern
 fun
+funmap_search
+{itm:type}
+(
+  kxs: map(INV(itm)), k0: string
+) : Option_vt(itm) // end of [funmap_search]
+//
+overload .search with funmap_search
+//
+(* ****** ****** *)
+//
+extern
+fun
 funmap_insert
 {itm:type}
 (
@@ -91,6 +103,21 @@ funmap_insert
 ) : Option_vt(itm) // end of [funmap_insert]
 //
 overload .insert with funmap_insert
+//
+(* ****** ****** *)
+//
+extern
+fun
+funmap_remove
+{itm:type}
+(kxs: &map(INV(itm)) >> _, k0: string): bool
+and
+funmap_takeout
+{itm:type}
+(kxs: &map(INV(itm)) >> _, k0: string): Option_vt(itm)
+//
+overload .remove with funmap_remove
+overload .takeout with funmap_takeout
 //
 (* ****** ****** *)
 //
@@ -163,10 +190,35 @@ $FM.funmap_isnot_nil<>{string,itm}(kxs)
 (* ****** ****** *)
 //
 implement
+funmap_search
+{itm:type}
+(kxs, k0) =
+$FM.funmap_search<string,itm>(kxs, k0)
+//
+(* ****** ****** *)
+//
+implement
 funmap_insert
 {itm:type}
 (kxs, k0, x0) =
 $FM.funmap_insert<string,itm>(kxs, k0, x0)
+//
+(* ****** ****** *)
+//
+implement
+funmap_remove
+{itm:type}
+(kxs, k0) =
+(
+  $FM.funmap_remove<string,itm>(kxs, k0)
+)
+implement
+funmap_takeout
+{itm:type}
+(kxs, k0) =
+(
+  $FM.funmap_takeout<string,itm>(kxs, k0)
+)
 //
 (* ****** ****** *)
 //

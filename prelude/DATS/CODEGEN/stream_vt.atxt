@@ -144,8 +144,8 @@ castfn
 stream2list_vt_cons
   {l0,l1,l2:addr}
 (
-  stream_vt_cons_unfold (l0, l1, l2)
-) :<> list_vt_cons_unfold (l0, l1, l2)
+  stream_vt_cons_unfold(l0, l1, l2)
+) :<> list_vt_cons_unfold(l0, l1, l2)
 
 in (* in-of-local *)
 
