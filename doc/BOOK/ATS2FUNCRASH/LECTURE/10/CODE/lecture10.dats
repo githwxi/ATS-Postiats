@@ -79,7 +79,7 @@ stream_takeLte(theNats, 10)
 //
 val () =
 println!
-("theNats10 = ", stream_vt_length(theNats10))
+("theNats10 = ", stream_length(theNats10))
 //
 (* ****** ****** *)
 //
@@ -99,6 +99,43 @@ case+ !xs of
 | stream_cons(x, xs) =>
   stream_cons(x, stream_append<a>(xs, ys))
 )
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+stream_make_list0(xs: list0(a)): stream(a)
+//
+implement
+{a}(*tmp*)
+stream_make_list0
+  (xs) = $delay
+(
+case xs of
+| list0_nil() =>
+  stream_nil()
+| list0_cons(x, xs) =>
+  stream_cons(x, stream_make_list0<a>(xs))
+) (* end of [stream_make_list0] *)
+//
+(* ****** ****** *)
+//
+(*
+implement
+{a}(*tmp*)
+stream_make_list0
+  (xs) =
+(
+case xs of
+| list0_nil() =>
+  $delay(stream_nil())
+| list0_cons(x, xs) => let
+    val xs =
+    stream_make_list0<a>(xs) in $delay(stream_cons(x, xs))
+  end // end of [list0_cons]
+) (* end of [stream_make_list0] *)
+*)
 //
 (* ****** ****** *)
 //

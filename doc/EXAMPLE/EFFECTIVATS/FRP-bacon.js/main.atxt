@@ -31,13 +31,13 @@ src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"
 src="https://cdnjs.cloudflare.com/ajax/libs/bacon.js/0.7.53/Bacon.min.js">
 </script>
 <script
- src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_all.js">
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_all.js">
 </script>
 <script
- src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_baconjs_all.js">
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_baconjs_all.js">
 </script>
 <script
- src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_print_store_cats.js">
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_print_store_cats.js">
 </script>
 </head>
 
@@ -53,7 +53,7 @@ Functional Reactive Programming via Bacon.js
 <a href="https://baconjs.github.io/.">Bacon.js</a>
 is a small JS library for supporting functional reactive programming
 (FRP). There is currently a fairly limited
-<a href="https://github.com/githwxi/ATS-Postiats-contrib/blob/master/contrib/libatscc/libatscc2js/SATS/Bacon.js/baconjs.sats">API</a>
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/contrib/libatscc2js/Bacon.js/SATS/baconjs.sats">API</a>
 in ATS for a subset of functions in Bacon.js.
 In this article, I would like to present some basic examples in ATS involving FRP via Bacon.js.
 
@@ -184,7 +184,7 @@ In functional reactive programming (FRP), a button is modeled as a
 stream of events (to be generated when the button is clicked), and
 there are a large variety of functions in Bacon.js for creating and
 manipulating such streams of events. Note that the notion of event
-stream in Bacon.js is not the same as the notion of stream in ATS for
+stream in Bacon.js is not identical to the notion of stream in ATS for
 supporting stream-based lazy-evaluation.
 
 ')##comment("para")

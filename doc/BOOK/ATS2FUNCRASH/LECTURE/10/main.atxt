@@ -41,10 +41,12 @@ the thunk representing it) yields a stream-con value of type
 is the following declared datatype:
 
 #sats2xhtml('\
+//
 datatype
 stream_con(a:t@ype) =
   | steam_nil of ()
   | stream_cons of (a, stream(a))
+//
 ')
 
 With pattern matching, we can inspect whether a stream-con value
@@ -189,6 +191,91 @@ case+ !xs of
 Please note the symbol #dyncode("!") in front of #dyncode("!ys"):
 The expression following #keycode("$delay") should evaluate to
 a stream-con value (instead of a stream value).
+
+")
+
+#para("\
+
+Improper use of streams is abundant in practice.  In particular, it is
+very common to see streams being treated as lists, which defeats the
+purpose of having streams in the first place. I would like to make a
+point on proper stream construction by comparing three implementations
+of the following function #dyncode("stream_make_list") for turning a
+given list into a stream:
+
+#sats2xhtml("\
+fun
+{a:t@ype}
+stream_make_list(xs: list0(a)): stream(a)
+")
+
+The first implementation is given as follows:
+
+#dats2xhtml("\
+implement
+{a}(*tmp*)
+stream_make_list0
+  (xs) = $delay
+(
+case xs of
+| list0_nil() =>
+  stream_nil()
+| list0_cons(x, xs) =>
+  stream_cons(x, stream_make_list0<a>(xs))
+) (* end of [stream_make_list0] *)
+")
+
+This one is what I consider to be a proper implementation
+of stream construction. It is #emphasis("fully lazy") in the
+sense that the implementation does nothing when called
+upon a given list0-value except for constructing a thunk
+(that represents the returned stream).
+
+The next implementation of #dyncode("stream_make_list") is a slight
+variant of the previous one:
+
+#dats2xhtml("\
+implement
+{a}(*tmp*)
+stream_make_list0
+  (xs) =
+(
+case xs of
+| list0_nil() =>
+  $delay(stream_nil())
+| list0_cons(x, xs) =>
+  $delay(stream_cons(x, stream_make_list0<a>(xs)))
+) (* end of [stream_make_list0] *)
+")
+
+Note this one is not fully lazy as it inspects whether
+the given list is empty before it constructs a thunk (that
+represents the returned stream).
+
+The implementation of
+#dyncode("stream_make_list") that should definitely be
+avoided is the following one:
+
+#dats2xhtml("\
+implement
+{a}(*tmp*)
+stream_make_list0
+  (xs) =
+(
+case xs of
+| list0_nil() =>
+  $delay(stream_nil())
+| list0_cons(x, xs) => let
+    val xs =
+    stream_make_list0<a>(xs) in $delay(stream_cons(x, xs))
+  end // end of [list0_cons]
+) (* end of [stream_make_list0] *)
+")
+
+where there is essentially no laziness involved in
+the construction of the stream being generated. This is
+a typical example that shows clearly what is meant by treating
+a stream as a list.
 
 ")
 

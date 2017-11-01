@@ -15,8 +15,10 @@ ATS_STATIC_PREFIX "theCounter2_baconjs_"
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME\
+/contrib/libatscc2js/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
@@ -55,7 +57,8 @@ val theComb_clicks = merge(theUp_clicks, theDown_clicks, theReset_clicks)
 //
 val
 theCounts =
-scan{int}{act}
+EStream_scan
+  {int}{act}
 (
   theComb_clicks
 , 0 // initial count

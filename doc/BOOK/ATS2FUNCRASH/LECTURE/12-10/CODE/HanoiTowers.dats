@@ -83,7 +83,7 @@ implement
 k_nmove
 ( n
 , src, dst, tmp
-, k0) =
+, k0 ) =
 if
 (n > 0)
 then
