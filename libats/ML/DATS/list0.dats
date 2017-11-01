@@ -1391,21 +1391,68 @@ loop
 ) : bool =
 (
   case+ xs1 of
-  | list0_nil() => (
+  | list0_nil() =>
+    (
     case+ xs2 of
     | list0_nil() => true
     | list0_cons _ => false
     )
-  | list0_cons(x1, xs1) => (
+  | list0_cons
+      (x1, xs1) =>
+    (
     case+ xs2 of
-    | list0_nil() => false
-    | list0_cons(x2, xs2) =>
-        if eqfn (x1, x2) then loop(xs1, xs2) else false
+    | list0_nil
+        () => false
+      // list0_nil
+    | list0_cons
+        (x2, xs2) =>
+        if eqfn(x1, x2)
+          then loop(xs1, xs2) else false
+        // end of [if]
       // end of [list0_cons]
     )
 ) (* end of [loop] *)
 //
 } (* end of [list0_equal] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list0_compare
+(
+  xs1, xs2, cmpfn
+) = loop(xs1, xs2) where
+{
+//
+fun
+loop
+(
+  xs1: list0(a), xs2: list0(a)
+) : int =
+(
+  case+ xs1 of
+  | list0_nil() =>
+    (
+    case+ xs2 of
+    | list0_nil() => 0
+    | list0_cons _ => ~1
+    )
+  | list0_cons
+      (x1, xs1) =>
+    (
+    case+ xs2 of
+    | list0_nil() => (1)
+    | list0_cons
+        (x2, xs2) => let
+        val sgn = cmpfn(x1, x2)
+      in
+        if sgn != 0 then sgn else loop(xs1, xs2)
+      end // end of [list0_cons]
+    )
+) (* end of [loop] *)
+//
+} (* end of [list0_compare] *)
 
 (* ****** ****** *)
 

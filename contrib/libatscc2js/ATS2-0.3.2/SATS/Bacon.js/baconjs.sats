@@ -438,7 +438,7 @@ overload zipwith with EStream_zipwith_estream_cfun
 (* ****** ****** *)
 //
 // HX-2015-10-10:
-// Bus: an estream
+// Bus: an Estream
 // onto which values can be pushed
 //
 fun

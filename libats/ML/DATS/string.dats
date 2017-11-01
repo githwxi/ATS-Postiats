@@ -727,6 +727,56 @@ lam(ini,fopr) => string_foldleft<res>(cs, ini, fopr)
 )
 //
 (* ****** ****** *)
+
+implement
+{a}(*tmp*)
+string_list0_map
+  (cs, fopr) = let
+//
+fun
+loop
+(
+p0: ptr, res: &ptr? >> list0(a)
+) : void = let
+  val c0 =
+  $UN.ptr0_get<char>(p0)
+in
+  if
+  isneqz(c0)
+  then
+  {
+    val x0 =
+      fopr($UN.cast{charNZ}(c0))
+    // end of [val]
+    val () =
+      (res := list0_cons(x0, _))
+    // end of [val]
+    val+list0_cons(_, res1) = res
+    val () = loop(ptr_succ<char>(p0), res1)
+    prval ((*folded*)) = fold@(res)
+  } (* end of [then] *)
+  else (res := list0_nil(*void*))
+end // end of [loop]
+//
+in
+//
+let var res: ptr in loop(string2ptr(cs), res); res end
+//
+end (* end of [string_list0_map] *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+string_list0_map_method
+( cs
+, _(*type*)
+) =
+(
+lam(fopr) => string_list0_map<a>(cs, fopr)
+) (* end of [string_list0_map_method] *)
+
+(* ****** ****** *)
 //
 implement{}
 streamize_string_char

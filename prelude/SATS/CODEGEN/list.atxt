@@ -528,6 +528,16 @@ list_equal_cloref
 //
 #atscode_separator()
 //
+fun{x:t0p}
+list_compare$cmpfn(x1: x, x2: x):<> int
+fun{x:t0p}
+list_compare(xs1: List(INV(x)), xs2: List(x)):<> int
+fun{x:t0p}
+list_compare_cloref
+  (List(INV(x)), List(x), cmpfn: (x, x) -<cloref> int):<> int
+//
+#atscode_separator()
+//
 fun{
 x:t0p
 } list_find{n:int}

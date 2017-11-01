@@ -173,21 +173,22 @@ overload * with mul_int_string of 0
 (* ****** ****** *)
 //
 fun{}
-stringlst_concat(xs: list0(string)):<> string
+stringlst_concat
+  (xs: list0(string)):<> string
 //
 (* ****** ****** *)
 
 fun{}
-string_explode(x0: string):<> list0(char)
+string_explode(string):<> list0(char)
 fun{}
-string_implode(cs: list0(char)):<> string
+string_implode(list0(char)):<> string
 
 (* ****** ****** *)
 
 fun{}
 string_copywith
 (
-cs: string, fopr: (charNZ) -<cloref1> charNZ
+  cs: string, fopr: (charNZ) -<cloref1> charNZ
 ) : string // end of [string_copywith]
 
 (* ****** ****** *)
@@ -196,22 +197,25 @@ fun{}
 string_tabulate
   {n:int}
 (
-n0: size_t(n), fopr: (sizeLt(n)) -<cloref1> charNZ
+  n0: size_t(n)
+, fopr: (sizeLt(n)) -<cloref1> charNZ
 ) : string // end of [string_tabulate]
 //
 (* ****** ****** *)
 //
 fun{}
 string_exists
-  (x: string, f: cfun(char, bool)): bool
+(cs: string, pred: cfun(char, bool)): bool
 fun{}
 string_iexists
-  (x: string, f: cfun2(int, char, bool)): bool
+(cs: string, pred: cfun2(int, char, bool)): bool
 //
 fun{}
-string_exists_method(string)(cfun(char, bool)): bool
+string_exists_method
+(cs: string)(pred: cfun(char, bool)): bool
 fun{}
-string_iexists_method(string)(cfun2(int, char, bool)): bool
+string_iexists_method
+(cs: string)(pred: cfun2(int, char, bool)): bool
 //
 overload .exists with string_exists_method
 overload .iexists with string_iexists_method
@@ -220,15 +224,17 @@ overload .iexists with string_iexists_method
 //
 fun{}
 string_forall
-  (x: string, f: cfun(char, bool)): bool
+(cs: string, pred: cfun(char, bool)): bool
 fun{}
 string_iforall
-  (x: string, f: cfun2(int, char, bool)): bool
+(cs: string, pred: cfun2(int, char, bool)): bool
 //
 fun{}
-string_forall_method(string)(cfun(char, bool)): bool
+string_forall_method
+(cs: string)(pred: cfun(char, bool)): bool
 fun{}
-string_iforall_method(string)(cfun2(int, char, bool)): bool
+string_iforall_method
+(cs: string)(pred: cfun2(int, char, bool)): bool
 //
 overload .forall with string_forall_method
 overload .iforall with string_iforall_method
@@ -237,15 +243,17 @@ overload .iforall with string_iforall_method
 //
 fun{}
 string_foreach
-  (x: string, f: cfun(char, void)): void
+(cs: string, fwork: cfun(char, void)): void
 fun{}
 string_iforeach
-  (x: string, f: cfun2(int, char, void)): void
+(cs: string, fwork: cfun2(int, char, void)): void
 //
 fun{}
-string_foreach_method(x: string)(cfun(char, void)): void
+string_foreach_method
+(cs: string)(fwork: cfun(char, void)): void
 fun{}
-string_iforeach_method(x: string)(cfun2(int, char, void)): void
+string_iforeach_method
+(cs: string)(fwork: cfun2(int, char, void)): void
 //
 overload .foreach with string_foreach_method
 overload .iforeach with string_iforeach_method
@@ -255,13 +263,26 @@ overload .iforeach with string_iforeach_method
 fun
 {res:vt0p}
 string_foldleft
-  (cs: string, ini: res, cfun(res, char, res)): res
+(cs: string, ini: res, cfun(res, char, res)): res
 fun
 {res:vt0p}
 string_foldleft_method
-  (cs: string, TYPE(res))(ini: res, cfun(res, char, res)): res
+(string, TYPE(res))(res, cfun(res, char, res)): res
 //
 overload .foldleft with string_foldleft_method
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+string_list0_map
+(cs: string, fopr: cfun(charNZ, a)): list0(a)
+fun
+{a:t0p}
+string_list0_map_method
+(string, TYPE(a))(fopr: cfun(charNZ, a)): list0(a)
+//
+overload .list0_map with string_list0_map_method
 //
 (* ****** ****** *)
 //

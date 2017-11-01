@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 (*
@@ -214,19 +214,23 @@ EStream_merge2
 fun
 EStream_merge3
   {a:t0p}
-  (EStream(a), EStream(a), EStream(a)): EStream(a) = "mac#%"
+( EStream(a)
+, EStream(a), EStream(a)): EStream(a) = "mac#%"
 fun
 EStream_merge4
   {a:t0p}
-  (EStream(a), EStream(a), EStream(a), EStream(a)): EStream(a) = "mac#%"
+( EStream(a), EStream(a)
+, EStream(a), EStream(a)): EStream(a) = "mac#%"
 fun
 EStream_merge5
   {a:t0p}
-  (EStream(a), EStream(a), EStream(a), EStream(a), EStream(a)): EStream(a) = "mac#%"
+( EStream(a), EStream(a)
+, EStream(a), EStream(a), EStream(a)): EStream(a) = "mac#%"
 fun
 EStream_merge6
   {a:t0p}
-  (EStream(a), EStream(a), EStream(a), EStream(a), EStream(a), EStream(a)): EStream(a) = "mac#%"
+( EStream(a), EStream(a), EStream(a)
+, EStream(a), EStream(a), EStream(a) ): EStream(a) = "mac#%"
 //
 overload merge with EStream_merge2
 overload merge with EStream_merge3
@@ -445,7 +449,7 @@ overload zipwith with EStream_zipwith_estream_cfun
 (* ****** ****** *)
 //
 // HX-2015-10-10:
-// Bus: an estream
+// Bus: an Estream
 // onto which values can be pushed
 //
 fun

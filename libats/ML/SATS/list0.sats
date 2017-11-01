@@ -712,6 +712,14 @@ list0_equal
 , xs2: list0(INV(a)), eqfn: cfun2(a, a, bool)
 ) : bool // end of [list0_equal]
 
+fun
+{a:t0p}
+list0_compare
+(
+  xs1: list0(INV(a))
+, xs2: list0(INV(a)), cmpfn: cfun2(a, a, int)
+) : (int) // end of [list0_compare]
+
 (* ****** ****** *)
 //
 fun

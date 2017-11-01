@@ -252,7 +252,8 @@ class="patsyntax">
 //
 val
 theCounts =
-scan{int}{act}
+EStream_scan
+  {int}{act}
 (
   theComb_clicks
 , 0 // initial count
@@ -273,10 +274,11 @@ the type ##stacode("T") paired with a stream of the type
 ##stacode("EStream(T)"). The property ##dyncode("theCounts") is
 assigned the type ##stacode("Propert(int)") and its initial value is
 ##dyncode("0"). Whenever an item enters the stream
-##dyncode("theComb_clicks"), the third argument of ##dyncode("scan"),
-which is a binary closure-function, is called on the current value
-associated with the property ##dyncode("theCounts") and the item to
-produce the next value associated with the property.
+##dyncode("theComb_clicks"),
+the third argument of ##dyncode("EStream_scan"), which is a binary
+closure-function, is called on the current value associated with the
+property ##dyncode("theCounts") and the item to produce the next value
+associated with the property.
 
 ')
 
@@ -296,8 +298,10 @@ lam(count) =>
 {
   val d0 = count%10 and d1 = count/10
   val d0 = String(d0) and d1 = String(d1)
-  val theCount2_p = $extfcall(ptr, "jQuery", "#theCount2_p")
-  val ( (*void*) ) = $extmcall(void, theCount2_p, "text", String(d1)+String(d0))
+  val theCount2_p =
+      $extfcall(ptr, "jQuery", "#theCount2_p")
+  val ( (*void*) ) =
+      $extmcall(void, theCount2_p, "text", String(d1)+String(d0))
 }
 ) (* end of [val] *)
 //
@@ -447,7 +451,8 @@ val theAuto_btn = $extval(ptr, "$(\\"#theAuto3_btn\\")")
 val theAuto_clicks =
     $extmcall(EStream(ptr), theAuto_btn, "asEventStream", "click")
 val theAuto_clicks = theAuto_clicks.map(TYPE{act})(lam _ => Skip())
-val theAuto_toggles = scan{bool}{act}(theAuto_clicks, false, lam(res, _) => ~res)
+val theAuto_toggles =
+    EStream_scan{bool}{act}(theAuto_clicks, false, lam(res, _) => ~res)
 //
 ')</pre>
 
@@ -496,9 +501,10 @@ the given stream:
 class="patsyntax">
 ##dats2xhtml('\
 //
-val theTick_stream =
-  Property_sampledBy_estream
-    (theAuto_toggles, Bacon_interval{int}(1000(*ms*), 0))
+val
+theTick_stream =
+Property_sampledBy_estream
+  (theAuto_toggles, Bacon_interval{int}(1000(*ms*), 0))
 //
 ')</pre>
 
@@ -524,7 +530,7 @@ val theComb2_clicks = merge(theComb_clicks, theAuto_clicks)
 val theComb2_property = EStream_toProperty_init(theComb2_clicks, Skip)
 //
 val theComb2Tick_stream =
-  Property_sampledBy_estream_cfun
+    Property_sampledBy_estream_cfun
     (theComb2_property, theTick_stream, lam(x, y) => if y then x else Skip)
 //
 ')</pre>
@@ -547,7 +553,8 @@ class="patsyntax">
 //
 val
 theCounts =
-scan{int}{act}
+EStream_scan
+  {int}{act}
 (
   merge
   (
