@@ -28,8 +28,8 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom *)
 (* Start time: October, 2016 *)
+(* Authoremail: gmhwxiATgmailDOTcom *)
 
 (* ****** ****** *)
 
@@ -37,14 +37,23 @@
   
 (* ****** ****** *)
   
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload "libats/ML/SATS/basis.sats"
-staload "libats/ML/SATS/stream_vt.sats"
-
+//
+#staload "libats/ML/SATS/basis.sats"
+#staload "libats/ML/SATS/list0.sats"
+#staload "libats/ML/SATS/stream_vt.sats"
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+stream2list0_vt
+  (xs) =
+  g0ofg1(stream2list_vt<a>(xs))
+//
 (* ****** ****** *)
 //
 implement

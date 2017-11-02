@@ -105,9 +105,10 @@ stream_vt2t
 //
 #atscode_separator()
 
-fun{a:vt0p}
+fun
+{a:vt0p}
 stream2list_vt
-  (xs: stream_vt(INV(a))): List0_vt(a)
+(stream_vt(INV(a))):<!wrt> List0_vt(a)
 // end of [stream2list_vt]
 
 #atscode_separator()

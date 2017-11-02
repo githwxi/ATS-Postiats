@@ -45,6 +45,13 @@ staload
 //
 (* ****** ****** *)
 //
+fun
+{a:t0p}
+stream2list0_vt
+  (xs: stream_vt(a)):<!wrt> list0(a)
+//
+(* ****** ****** *)
+//
 fun{
 a:vt0p}{b:vt0p
 } stream_vt_map_method

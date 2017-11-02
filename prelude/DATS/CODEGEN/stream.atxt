@@ -87,7 +87,7 @@ in
       (x, xs) => let
       val () =
       res := list_vt_cons{a}{0}(x, _)
-      val+list_vt_cons (_, res1) = res
+      val+list_vt_cons(_, res1) = res
       val ((*void*)) = loop (xs, res1)
     in
       fold@ (res)

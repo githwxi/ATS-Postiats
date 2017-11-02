@@ -231,7 +231,7 @@ sense that the implementation does nothing when called
 upon a given list0-value except for constructing a thunk
 (that represents the returned stream).
 
-The next implementation of #dyncode("stream_make_list") is a slight
+The next implementation of #dyncode("stream_make_list0") is a slight
 variant of the previous one:
 
 #dats2xhtml("\
@@ -253,7 +253,7 @@ the given list is empty before it constructs a thunk (that
 represents the returned stream).
 
 The implementation of
-#dyncode("stream_make_list") that should definitely be
+#dyncode("stream_make_list0") that should definitely be
 avoided is the following one:
 
 #dats2xhtml("\

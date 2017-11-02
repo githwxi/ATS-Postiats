@@ -154,29 +154,40 @@ implement
 stream2list_vt(xs) = let
 //
 fun
-loop (
-  xs: stream_vt a
-) :<!laz> List0_vt (a) = let
-  val xs_con = !xs
+loop
+( xs: stream_vt(a)
+, res: &ptr? >> List0_vt(a)
+) : void = let
+//
+val xs_con = !xs
+//
 in
   case+ xs_con of
   | ~stream_vt_nil
-      ((*void*)) => list_vt_nil()
+      ((*void*)) =>
+    (res := list_vt_nil())
     // end of [stream_vt_nil]
   | @stream_vt_cons
-      (x, xs1) => let
+      (x, xs1) =>
+    {
       val xs1_ = xs1
-      val xs_con =
+      val ((*void*)) =
+      (
+        res :=
         stream2list_vt_cons(xs_con)
-      // end of [val]
-      val ((*void*)) = (xs1 := loop(xs1_))
-    in
-      fold@ (xs_con); xs_con
-    end // end of [stream_vt_cons]
+      ) // end of [val]
+      val ((*void*)) = loop(xs1_, xs1)
+      prval ((*folded*)) = fold@(res)
+    } (* end of [stream_vt_cons] *)
 end // end of [loop]
 //
 in
-  loop (xs)
+//
+$effmask_all
+(
+  let var res: ptr in loop(xs, res); res end
+) (* $effmask_all *)
+//
 end // end of [stream2list_vt]
 
 end // end of [local]
