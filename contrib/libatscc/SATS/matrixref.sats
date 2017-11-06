@@ -43,7 +43,8 @@ matrixref_exists_cloref
   {a:vt@ype}{m,n:int}
 (
   matrixref(a, m, n)
-, int(m), int(n), ftest: (natLt(m), natLt(n)) -<cloref1> bool
+, nrow: int(m), ncol: int(n)
+, ftest: (natLt(m), natLt(n)) -<cloref1> bool
 ) : bool = "mac#%" // end-of-fun
 //
 fun
@@ -51,7 +52,8 @@ matrixref_forall_cloref
   {a:vt@ype}{m,n:int}
 (
   matrixref(a, m, n)
-, int(m), int(n), ftest: (natLt(m), natLt(n)) -<cloref1> bool
+, nrow: int(m), ncol: int(n)
+, ftest: (natLt(m), natLt(n)) -<cloref1> bool
 ) : bool = "mac#%" // end-of-fun
 //
 (* ****** ****** *)
@@ -61,7 +63,8 @@ matrixref_foreach_cloref
   {a:vt@ype}{m,n:int}
 (
   matrixref(a, m, n)
-, int(m), int(n), fwork: (natLt(m), natLt(n)) -<cloref1> void
+, nrow: int(m), ncol: int(n)
+, fwork: (natLt(m), natLt(n)) -<cloref1> void
 ) : void = "mac#%" // end-of-fun
 //
 (* ****** ****** *)
@@ -144,13 +147,13 @@ fun
 mtrxszref_foreach_cloref
   {a:vt@ype}
 (
-  M: mtrxszref(a), fwork: (Nat, Nat) -<cloref1> void
+ M: mtrxszref(a), fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 fun
 mtrxszref_foreach_method
   {a:vt@ype}
 (
-  M: mtrxszref(a))(fwork: (Nat, Nat) -<cloref1> void
+ M: mtrxszref(a))(fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
 overload .foreach with mtrxszref_foreach_method
@@ -161,13 +164,13 @@ fun
 mtrxszref_foreach_row_cloref
   {a:vt@ype}
 (
-  M: mtrxszref(a), fwork: (Nat, Nat) -<cloref1> void
+ M: mtrxszref(a), fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 fun
 mtrxszref_foreach_row_method
   {a:vt@ype}
 (
-  M: mtrxszref(a))(fwork: (Nat, Nat) -<cloref1> void
+ M: mtrxszref(a))(fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
 overload .foreach_row with mtrxszref_foreach_row_method
@@ -178,13 +181,13 @@ fun
 mtrxszref_foreach_col_cloref
   {a:vt@ype}
 (
-  M: mtrxszref(a), fwork: (Nat, Nat) -<cloref1> void
+ M: mtrxszref(a), fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 fun
 mtrxszref_foreach_col_method
   {a:vt@ype}
 (
-  M: mtrxszref(a))(fwork: (Nat, Nat) -<cloref1> void
+ M: mtrxszref(a))(fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
 overload .foreach_col with mtrxszref_foreach_col_method

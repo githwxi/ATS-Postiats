@@ -126,5 +126,50 @@ mtrxszref_foreach_method
 ) (* end of [mtrxszref_foreach_method] *)
 //
 (* ****** ****** *)
+//
+implement
+mtrxszref_foreach_row_cloref
+  (MSZ, fwork) = let
+  val m = MSZ.nrow()
+  val n = MSZ.ncol()
+in
+//
+int2_foreach_cloref
+(m, n, $UN.cast{cfun2(int,int,void)}(fwork))
+//
+end // end of [mtrxszref_foreach_row_cloref]
+//
+implement
+mtrxszref_foreach_row_method
+  {a}(MSZ) =
+(
+  lam(fwork) => mtrxszref_foreach_row_cloref{a}(MSZ, fwork)
+) (* end of [mtrxszref_foreach_row_method] *)
+//
+(* ****** ****** *)
+//
+implement
+mtrxszref_foreach_col_cloref
+  (MSZ, fwork) = let
+  val m = MSZ.nrow()
+  val n = MSZ.ncol()
+in
+//
+int2_foreach_cloref
+( n, m
+, lam(j: int, i: int) =>
+  fwork($UN.cast{Nat}(i), $UN.cast{Nat}(j))
+) (* end of [int2_foreach_cloref] *)
+//
+end // end of [mtrxszref_foreach_col_cloref]
+//
+implement
+mtrxszref_foreach_col_method
+  {a}(MSZ) =
+(
+  lam(fwork) => mtrxszref_foreach_col_cloref{a}(MSZ, fwork)
+) (* end of [mtrxszref_foreach_col_method] *)
+//
+(* ****** ****** *)
 
 (* end of [matrixref.dats] *)

@@ -114,30 +114,64 @@ overload [] with arrszref_set_at of 100
 fun
 arrszref_exists_cloref
   {a:vt0p}
-(
-A0: arrszref(a), pred: intGte(0) -<cloref1> bool
+( A0: arrszref(a)
+, pred: intGte(0) -<cloref1> bool
 ) : bool = "mac#%" // arrszref_exists_cloref
+fun
+arrszref_exists_method
+  {a:vt0p}
+(
+  A0: arrszref(a)
+)
+(
+  pred: intGte(0) -<cloref1> bool
+) : bool = "mac#%" // arrszref_exists_method
+//
+overload
+.exists with arrszref_exists_method of 100
+//
+(* ****** ****** *)
+//
 fun
 arrszref_forall_cloref
   {a:vt0p}
-(
-A0: arrszref(a), pred: intGte(0) -<cloref1> bool
+( A0: arrszref(a)
+, pred: intGte(0) -<cloref1> bool
 ) : bool = "mac#%" // arrszref_forall_cloref
+fun
+arrszref_forall_method
+  {a:vt0p}
+(
+  A0: arrszref(a)
+)
+(
+  pred: intGte(0) -<cloref1> bool
+) : bool = "mac#%" // arrszref_forall_method
+//
+overload
+.forall with arrszref_forall_method of 100
 //
 (* ****** ****** *)
 //
 fun
 arrszref_foreach_cloref
   {a:vt0p}
-(
-A0: arrszref(a), fwork: intGte(0) -<cloref1> void
+( A0: arrszref(a)
+, fwork: intGte(0) -<cloref1> void
 ) : void = "mac#%" // arrszref_foreach_cloref
+//
 fun
 arrszref_foreach_method
   {a:vt0p}
-  (A: arrszref(a))(fwork: intGte(0) -<cloref1> void): void = "mac#%"
+(
+  A: arrszref(a)
+)
+(
+  fwork: intGte(0) -<cloref1> void
+) : void = "mac#%" // arrszref_foreach_method
 //
-overload .foreach with arrszref_foreach_method
+overload
+.foreach with arrszref_foreach_method of 100
 //
 (* ****** ****** *)
 

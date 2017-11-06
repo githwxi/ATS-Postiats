@@ -163,5 +163,12 @@ typedef
 array0(a:vt@ype) = array0_vt0ype_type(a)
 //
 (* ****** ****** *)
+//
+abstype
+matrix0_vt0ype_type(a:vt@ype) = ptr
+typedef
+matrix0(a:vt@ype) = matrix0_vt0ype_type(a)
+//
+(* ****** ****** *)
 
 (* end of [basics.sats] *)
