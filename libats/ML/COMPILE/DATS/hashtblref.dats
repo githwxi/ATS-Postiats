@@ -98,12 +98,35 @@ overload .search with hashtbl_search
 //
 extern
 fun
+hashtbl_search_ref
+{itm:type}
+(
+  kxs: hashtbl(INV(itm)), k0: string
+) : cPtr0(itm) // end-of-function
+//
+overload .search_ref with hashtbl_search_ref
+//
+(* ****** ****** *)
+//
+extern
+fun
 hashtbl_insert
 {itm:type}
 ( kxs: hashtbl(INV(itm))
 , key: string, itm: itm): Option_vt(itm)
 //
 overload .insert with hashtbl_insert
+//
+(* ****** ****** *)
+//
+extern
+fun
+hashtbl_insert_any
+{itm:type}
+( kxs: hashtbl(INV(itm))
+, key: string, itm: itm): void
+//
+overload .insert_any with hashtbl_insert_any
 //
 (* ****** ****** *)
 //
@@ -205,6 +228,13 @@ hashtbl_search
 $HT.hashtbl_search<string,itm>(kxs, k0)
 )
 //
+implement
+hashtbl_search_ref
+{itm}(kxs, k0) =
+(
+$HT.hashtbl_search_ref<string,itm>(kxs, k0)
+)
+//
 (* ****** ****** *)
 //
 implement
@@ -213,6 +243,13 @@ hashtbl_insert
 (
 $HT.hashtbl_insert<string,itm>(kxs,k0,x0)
 ) (* end of [hashtbl_insert] *)
+//
+implement
+hashtbl_insert_any
+{itm}(kxs, k0, x0) =
+(
+$HT.hashtbl_insert_any<string,itm>(kxs,k0,x0)
+) (* end of [hashtbl_insert_any] *)
 //
 (* ****** ****** *)
 //

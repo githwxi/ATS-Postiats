@@ -1,7 +1,7 @@
 (* ****** ****** *)
 (*
 ** for testing
-** [libats/ML/BOXED]
+** [libats/ML/COMPILE]
 *)
 (* ****** ****** *)
 //
@@ -17,16 +17,14 @@
 "share\
 /atspre_staload_libats_ML.hats"
 //
+#staload
+UN = "prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 //
 #include
-"libats/ML/BOXED/mylibies.hats"
+"libats/ML/COMPILE/mylibies.hats"
 //
-(* ****** ****** *)
-
-#staload
-UN = "prelude/SATS/unsafe.sats"
-
 (* ****** ****** *)
 
 val cs = "abcde"
@@ -167,4 +165,4 @@ implement main0((*void*)) = ((*void*))
 
 (* ****** ****** *)
 
-(* end of [libats_ML_BOXED_all.dats] *)
+(* end of [libats_ML_COMPILE_all.dats] *)

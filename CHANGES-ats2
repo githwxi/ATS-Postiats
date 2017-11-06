@@ -31,7 +31,7 @@ Here is a list of major additions and changes since the last release:
 5. Fixing and improving libats/funarray
 6. Adding calls to the_dynconlst_add to ensure that every exception
    constructor is declared in the generated C code.
-7. Initiating building the "unityped" library libats/ML/BOXED
+7. Initiating building the "compiled" library libats/ML/COMPILE
 8. Fixing a glitch in compiling polymorphic functions that call
    function templates (auxmat_env in [pats_ccomp_template.dats])
    A simple use case is found in doc/EXAMPLE/TESTATS/tempboxed.dats

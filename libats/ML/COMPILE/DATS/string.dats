@@ -27,8 +27,12 @@ ATS_PACKNAME
 //
 #staload
 "libats/ML/SATS/string.sats"
-#staload
+#staload _(*anon*) =
 "libats/ML/DATS/string.dats"
+//
+(* ****** ****** *)
+//
+// HX: Interface
 //
 (* ****** ****** *)
 //
@@ -40,6 +44,10 @@ string_toupper(string): string
 //
 overload tolower with string_tolower
 overload toupper with string_toupper
+//
+(* ****** ****** *)
+//
+// HX: Implementation
 //
 (* ****** ****** *)
 

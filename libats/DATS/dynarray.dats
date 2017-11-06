@@ -163,9 +163,9 @@ implement
 dynarray_insert_at
   (DA, i, x, res) = let
 //
-val i = g1ofg0_uint (i)
+val i = g1ofg0_uint(i)
 //
-val+@DYNARRAY (A, m, n) = DA
+val+@DYNARRAY(A, m, n) = DA
 //
 in
 //
@@ -177,20 +177,28 @@ in
 //
 if m > n then let
   val p1 =
-    ptr_add<a> (arrayptr2ptr(A), i)
-  val p2 = ptr_succ<a> (p1)
+    ptr_add<a>
+    (arrayptr2ptr(A), i)
+  // end of [val]
+  val p2 = ptr_succ<a>(p1)
   val ptr =
-    memmove (p2, p1, (n-i)*sizeof<a>)
+    memmove
+    (p2, p1, (n-i)*sizeof<a>)
+  // end of [val]
   val () = $UN.ptr0_set<a> (p1, x)
   val () = n := succ(n)
-  prval () = fold@ (DA)
-  prval () = opt_none{a}(res)
+//
+prval () = fold@(DA)
+prval () = opt_none{a}(res)
+//
 in
   false
 end else let
   val m = m
-  prval () = fold@ (DA)
-  val recap = dynarray$recapacitize ()
+//
+prval () = fold@(DA)
+//
+  val recap = dynarray$recapacitize<>()
 in
 //
 if
@@ -203,7 +211,9 @@ in
 end // end of [then]
 else let
   val () = res := x
-  prval () = opt_some{a}(res)
+//
+prval () = opt_some{a}(res)
+//
 in
   true
 end // end of [else]
@@ -211,9 +221,12 @@ end // end of [else]
 end // end of [if]
 //
 end else let
-  prval () = fold@ (DA)
+//
   val () = res := x
-  prval () = opt_some{a}(res)
+//
+prval () = fold@(DA)
+prval () = opt_some{a}(res)
+//
 in
   true
 end // end of [if]

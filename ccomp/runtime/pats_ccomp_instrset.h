@@ -148,8 +148,27 @@ ATSloop_close(init, fini, cont) \
 //
 /* ****** ****** */
 
-#define ATSPMVtyrep(tyrep) tyrep
+#define ATSPMVptrof(lval) (&(lval))
+#define ATSPMVptrof_void(lval) ((void*)0)
 
+/* ****** ****** */
+
+#define ATSPMVrefarg0(val) (val)
+#define ATSPMVrefarg1(ref) (ref)
+
+/* ****** ****** */
+
+#define ATSPMVsizeof(hit) (sizeof(hit))
+
+/* ****** ****** */
+
+#define ATSPMVtyrep(tyrep) (tyrep)
+
+/* ****** ****** */
+
+#define ATSPMVvararg0() 0
+#define ATSPMVvararg1(vargs) vargs
+  
 /* ****** ****** */
 //
 #define ATSPMVfunlab(flab) (flab)
@@ -164,19 +183,6 @@ ATSloop_close(init, fini, cont) \
 
 /* ****** ****** */
 
-#define ATSPMVptrof(lval) (&(lval))
-#define ATSPMVptrof_void(lval) ((void*)0)
-
-/* ****** ****** */
-
-#define ATSPMVrefarg0(val) (val)
-#define ATSPMVrefarg1(ref) (ref)
-
-/* ****** ****** */
-
-#define ATSPMVsizeof(hit) (sizeof(hit))
-
-/* ****** ****** */
 //
 // HX: castfn application
 //

@@ -1139,16 +1139,18 @@ in
 //
 case+ xs of
   | list_vt_cons _ => let
-      prval () = fold@ (xs)
-      val () = list_vt_free (xs)
-      val () = prerr_error2_loc (s1e0.s1exp_loc)
+//
+    prval () = fold@(xs)
+//
+      val () = list_vt_free(xs)
+      val () = prerr_error2_loc(s1e0.s1exp_loc)
       val () = filprerr_ifdebug "s1exp_trup_arrow"
       val () = prerrln! ": illegal static application."
-      val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+      val () = the_trans2errlst_add(T2E_s1exp_trup(s1e0))
     in
       // nothing
-    end // end of [~list_vt_cons]
-  | ~list_vt_nil () => ()
+    end // end of [list_vt_cons]
+  | ~list_vt_nil((*void*)) => ()
 //
 end // end of [auxerr2]
 //
@@ -1157,100 +1159,120 @@ fun auxerr3
   s1e0: s1exp, s1e: s1exp, s2t: s2rt
 ) : s2exp = let
   val () =
-    prerr_error2_loc (s1e.s1exp_loc)
+    prerr_error2_loc(s1e.s1exp_loc)
   val () =
     filprerr_ifdebug "s1exp_trup_arrow"
   val () =
     prerr ": the static expression needs to be impredicative"
   val () =
-    prerrln! (" but is assigned the sort [", s2t, "].")
-  val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+    prerrln!(" but is assigned the sort [", s2t, "].")
+  val () = the_trans2errlst_add(T2E_s1exp_trup (s1e0))
 in
-  s2exp_s2rt_err ()
+  s2exp_s2rt_err((*void*))
 end (* end of [auxerr3] *)
 //
-val () = auxerr1 (s1e0, xs) // HX: is this really needed?
-val-~list_vt_cons (x, xs) = xs
-val () = auxerr2 (s1e0, xs) // HX: reporting an error if [xs] is not nil
-val s1es = x.1 : s1explst
+val () = auxerr1(s1e0, xs) // HX: is this really needed?
+val-~list_vt_cons(x, xs) = xs
+val () = auxerr2(s1e0, xs) // HX: reporting an error if [xs] is not nil
+val s1es = (x.1 : s1explst)
 val-s1e_arg :: s1e_res :: nil () = s1es
 //
 var npf: int = ~1 // HX: default
 var s1es_arg: s1explst = list_nil ()
 //
 val () = (
-  case+ s1e_arg.s1exp_node of
-  | S1Elist (n, s1es) => (npf := n; s1es_arg := s1es)
-  | _ => s1es_arg := list_sing (s1e_arg) // HX: npf = -1
+  case+
+  s1e_arg.s1exp_node
+  of (* case+ *)
+  | S1Elist(n, s1es) =>(npf := n; s1es_arg := s1es)
+  | _(*non-S1Elist*) => s1es_arg := list_sing(s1e_arg) // HX: npf = -1
 ) : void // end of [val]
 //
-var ws1es: wths1explst = WTHS1EXPLSTnil ()
+var ws1es: wths1explst = WTHS1EXPLSTnil()
 //
 val s2es_arg = let
-  fun aux (
+  fun aux
+  (
     s1es: s1explst, ws1es: &wths1explst
   ) :<cloref1> s2explst =
     case+ s1es of
-    | list_cons (s1e, s1es) => let
-        val s2e = s1exp_trup_arg (s1e, ws1es)
+    | list_nil() => list_nil()
+    | list_cons
+        (s1e, s1es) => let
+        val s2e = s1exp_trup_arg(s1e, ws1es)
         val s2t = s2e.s2exp_srt
         var imp: int = 0 and types: int = 0
         val () = (
           case+ s2t of
-          | S2RTbas s2tb => (
+          | S2RTbas s2tb =>
+            (
             case+ s2tb of
-            | S2RTBASimp (_, name) =>
+            | S2RTBASimp(_, name) =>
               {
                 val () = imp := 1 // impredicative
-                val () = if name = $SYM.symbol_TYPES then types := 1
+                val () =
+                if name =
+                   $SYM.symbol_TYPES then types := 1
+                // end of [if]
               } // end of [S2RTBASimp]
             | _ => () // end of [_]
             ) // end of [S2RTbas]
-          | _ => () // end of [_]
+          | _ (*non-S2RTbas*) => ()
         ) : void // end of [val]
         val s2e = (
           if imp > 0 then
-            (if types > 0 then s2exp_vararg (s2e) else s2e)
+            (if types > 0 then s2exp_vararg(s2e) else s2e)
           else auxerr3 (s1e0, s1e, s2t)
         ) : s2exp // end of [val]
       in
-        list_cons (s2e, aux (s1es, ws1es))
+        list_cons(s2e, aux(s1es, ws1es))
       end // end of [list_cons]
-    | list_nil () => list_nil ()
   // end of [aux]
 in
-  aux (s1es_arg, ws1es)
+  aux(s1es_arg, ws1es)
 end // end of [val]
 //
-val () = ws1es := wths1explst_reverse (ws1es)
-val s2e_res = s1exp_trdn_res_impred (s1e_res, ws1es)
+val () =
+(
+  ws1es :=
+  wths1explst_reverse(ws1es)
+)
+val s2e_res =
+  s1exp_trdn_res_impred(s1e_res, ws1es)
 val s2t_res = s2e_res.s2exp_srt
 //
 val loc0 = s1e0.s1exp_loc
-val isprf = (if isprf then isprf else s2rt_is_prf s2t_res): bool
+//
+val isprf =
+(if isprf
+   then isprf else s2rt_is_prf(s2t_res)): bool
+//
 val fc = (
   case+ fcopt of
-  | Some fc => fc | None () => FUNCLOfun () // default is [function]
+  | Some fc => fc
+  | None () => FUNCLOfun() // default is [function]
 ) : funclo // end of [val]
-val s2t_fun = s2rt_prf_lin_fc (loc0, isprf, islin, fc)
+val s2t_fun =
+  s2rt_prf_lin_fc(loc0, isprf, islin, fc)
 val lin = (if islin then 1 else 0): int // end of [val]
-val sf2e = (case+ efcopt of
-  | Some efc => effcst_tr (efc)
-  | None () =>
-      if isprf then s2eff_nil else s2eff_all
-    // end of [None]
+val sf2e =
+(
+  case+ efcopt of
+  | Some(efc) => effcst_tr(efc)
+  | None((*void*)) => if isprf then s2eff_nil else s2eff_all
 ) : s2eff // end of [val]
 //
 in
-  s2exp_fun_srt (s2t_fun, fc, lin, sf2e, npf, s2es_arg, s2e_res)
+  s2exp_fun_srt(s2t_fun, fc, lin, sf2e, npf, s2es_arg, s2e_res)
 end // end of [s1exp_trup_arrow]
 
 (* ****** ****** *)
 
-fun s1exp_trup_app
+fun
+s1exp_trup_app
 (
   s1e0: s1exp, s1opr: s1exp
-, _fun: s2exp, _arg: List_vt (locs1explst)
+, _fun: s2exp, _arg: List_vt(locs1explst)
 ) : s2exp = let
 //
 fun auxerr1

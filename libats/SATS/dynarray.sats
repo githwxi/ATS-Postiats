@@ -67,7 +67,7 @@ dynarray_make_nil(cap: sizeGte(1)): dynarray(a)
 
 fun{}
 dynarray_free
-  {a:t0p} (DA: dynarray(INV(a))):<!wrt> void
+  {a:t0p}(DA: dynarray(INV(a))):<!wrt> void
 // end of [dynarray_free]
 
 (* ****** ****** *)
@@ -94,12 +94,13 @@ dynarray_get_capacity
 (* ****** ****** *)
 
 fun{}
-dynarray_get_array{a:vt0p}
+dynarray_get_array
+  {a:vt0p}
 (
   DA: !dynarray(INV(a)), n: &size_t? >> size_t(n)
 ) :<!wrt> #[l:addr;n:int]
 (
-  array_v (a, l, n), array_v (a, l, n) -<lin,prf> void | ptr l
+  array_v(a, l, n), array_v(a, l, n) -<lin,prf> void | ptr l
 ) // end of [dynarray_get_array]
 
 (* ****** ****** *)
@@ -109,7 +110,7 @@ dynarray_getfree_arrayptr
   {a:vt0p}
 (
   DA: dynarray(INV(a)), n: &size_t? >> size_t(n)
-) :<!wrt> #[n:nat] arrayptr (a, n)
+) :<!wrt> #[n:nat] arrayptr(a, n)
 
 (* ****** ****** *)
 //
@@ -135,7 +136,7 @@ fun{a:vt0p}
 dynarray_insert_at
 (
   DA: !dynarray(INV(a)), i: size_t, x: a, res: &a? >> opt(a, b)
-) : #[b:bool] bool (b) // end of [dynarray_insert_at]
+) : #[b:bool] bool(b) // end of [dynarray_insert_at]
 
 (* ****** ****** *)
 //
@@ -160,15 +161,14 @@ dynarray_insert_atend_exn
   (DA: !dynarray(INV(a)), x: a): void
 fun{a:vt0p}
 dynarray_insert_atend_opt
- (DA: !dynarray(INV(a)), x: a): Option_vt(a)
+  (DA: !dynarray(INV(a)), x: a): Option_vt(a)
 //
 (* ****** ****** *)
 
 fun{a:vt0p}
 dynarray_insertseq_at
   {n2:int}
-(
-  DA: !dynarray(INV(a)), i: size_t
+( DA: !dynarray(INV(a)), i: size_t
 , xs: &array(a, n2) >> arrayopt(a, n2, b), n2: size_t(n2)
 ) : #[b:bool] bool(b) // end-of-fun
 
@@ -208,8 +208,7 @@ dynarray_takeout_atend_opt (DA: !dynarray(INV(a))): Option_vt(a)
 fun{a:vt0p}
 dynarray_takeoutseq_at
   {n2:int}
-(
-  DA: !dynarray(INV(a)), i: size_t
+( DA: !dynarray(INV(a)), i: size_t
 , xs: &array(a?, n2) >> arrayopt(a, n2, b), n2: size_t (n2)
 ) : #[b:bool] bool(b) // end-of-fun
 
@@ -251,8 +250,7 @@ dynarray_struct = $extype"atslib_dynarray_struct"
 fun{}
 dynarray_make2_nil
   {a:vt0p}{l:addr}
-(
-  pf: dynarray_struct? @ l
+( pf: dynarray_struct? @ l
 | p0: ptr(l), cap: sizeGte(1)
 ) : (mfree_ngc_v (l) | dynarray(a))
 
@@ -261,8 +259,7 @@ dynarray_make2_nil
 fun{}
 dynarray_getfree2_arrayptr
   {a:vt0p}{l:addr}
-(
-  pf: mfree_ngc_v (l)
+( pf: mfree_ngc_v (l)
 | p0: ptr l
 , DA: dynarray(a), n: &size_t? >> size_t(n)
 ) : #[n:int] (dynarray_struct? @ l | arrayptr(a, n))

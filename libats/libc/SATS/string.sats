@@ -147,17 +147,18 @@ fun strfry {l:agz} (x: !strptr (l) >> _):<!wrt> ptr (l) = "mac#%"
 
 (* ****** ****** *)
 //
-fun memcpy
-  {l:addr}
-  {n1,n2:int}
-  {n:int | n <= n1; n <= n2}
-(
-  pf: !b0ytes(n1) @ l >> bytes(n1) @ l
-| dst: ptr (l), src: &RD(@[byte][n2]), n: size_t (n)
+fun
+memcpy
+{l:addr}
+{n1,n2:int}
+{n:int | n <= n1; n <= n2}
+( pf: !b0ytes(n1) @ l >> bytes(n1) @ l
+| dst: ptr(l), src: &RD(@[byte][n2]), n: size_t(n)
 ) :<!wrt> ptr (l) = "mac#%" // end of [memcpy]
 //
-fun memcpy_unsafe{l:addr}
-  (dst: ptr (l), src: ptr, n: size_t):<!wrt> ptr (l) = "mac#%"
+fun
+memcpy_unsafe{l:addr}
+  (dst: ptr(l), src: ptr, n: size_t):<!wrt> ptr(l) = "mac#%"
 //
 (* ****** ****** *)
 /*

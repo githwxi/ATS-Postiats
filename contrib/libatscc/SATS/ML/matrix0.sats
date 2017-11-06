@@ -63,7 +63,10 @@ fun
 matrix0_foreach_method
   {a:vt0p}
 (
-M0: matrix0(a))(fwork: Nat -<cloref1> void
+  M0: matrix0(a)
+)
+(
+  fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
 overload
@@ -81,7 +84,10 @@ fun
 matrix0_foreach_row_method
   {a:vt0p}
 (
-M0: matrix0(a))(fwork: Nat -<cloref1> void
+  M0: matrix0(a)
+)
+(
+  fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
 overload
@@ -99,7 +105,10 @@ fun
 matrix0_foreach_col_method
   {a:vt0p}
 (
-M0: matrix0(a))(fwork: Nat -<cloref1> void
+  M0: matrix0(a)
+)
+(
+  fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
 overload

@@ -214,10 +214,11 @@ atslib:: atslib_libats_ML
 
 ######
 
-#make_entry("libats/ML", "BOXED/DATS/string.dats")
-#make_entry("libats/ML", "BOXED/DATS/funmap.dats")
-#make_entry("libats/ML", "BOXED/DATS/funarray.dats")
-#make_entry("libats/ML", "BOXED/DATS/hashtblref.dats")
+#make_entry("libats/ML", "COMPILE/DATS/array0.dats")
+#make_entry("libats/ML", "COMPILE/DATS/string.dats")
+#make_entry("libats/ML", "COMPILE/DATS/funmap.dats")
+#make_entry("libats/ML", "COMPILE/DATS/funarray.dats")
+#make_entry("libats/ML", "COMPILE/DATS/hashtblref.dats")
 
 ######
 

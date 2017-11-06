@@ -33,10 +33,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 //
 fun{a:vt0p}
-grandom_val (): a // for randval generation
+grandom_val(): a // for randval generation
 //
 fun{a:vt0p} // for random value
-grandom_ref (x: &(a?) >> a): void // initialization
+grandom_ref(x: &(a?) >> a): void // initialization
 //
 #atscode_separator()
 //
