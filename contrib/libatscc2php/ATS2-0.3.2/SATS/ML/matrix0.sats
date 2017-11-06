@@ -1,7 +1,7 @@
 (* ****** ****** *)
 (*
 ** For writing ATS code
-** that translates into JavaScript
+** that translates into PHP
 *)
 (* ****** ****** *)
 //
@@ -9,7 +9,7 @@
 // prefix for external names
 //
 #define
-ATS_EXTERN_PREFIX "ats2jspre_ML_"
+ATS_EXTERN_PREFIX "ats2phppre_ML_"
 //
 (* ****** ****** *)
 //
@@ -18,7 +18,7 @@ LIBATSCC_targetloc
 "$PATSHOME\
 /contrib/libatscc/ATS2-0.3.2"
 //
-#staload "./../../basics_js.sats"
+#staload "./../../basics_php.sats"
 //
 #include "{$LIBATSCC}/SATS/ML/matrix0.sats"
 //

@@ -46,6 +46,9 @@ all:: ; \
 $(PATSOPT) -d ./DATS/arrayref.dats | \
 $(ATSCC2PHP) -o ./output/DATS/arrayref_dats.php -i
 all:: ; \
+$(PATSOPT) -d ./DATS/matrixref.dats | \
+$(ATSCC2PHP) -o ./output/DATS/matrixref_dats.php -i
+all:: ; \
 $(PATSOPT) -d ./DATS/reference.dats | \
 $(ATSCC2PHP) -o ./output/DATS/reference_dats.php -i
 
@@ -69,6 +72,9 @@ $(ATSCC2PHP) -o ./output/DATS/ML/array0_dats.php -i
 all:: ; \
 $(PATSOPT) -d ./DATS/ML/option0.dats | \
 $(ATSCC2PHP) -o ./output/DATS/ML/option0_dats.php -i
+all:: ; \
+$(PATSOPT) -d ./DATS/ML/matrix0.dats | \
+$(ATSCC2PHP) -o ./output/DATS/ML/matrix0_dats.php -i
 
 ######
 #
@@ -130,12 +136,14 @@ output/DATS/intrange_dats.php \
 output/DATS/PHParray_dats.php \
 output/DATS/PHParref_dats.php \
 output/DATS/arrayref_dats.php \
+output/DATS/matrixref_dats.php \
 output/DATS/reference_dats.php \
 output/DATS/slistref_dats.php \
 output/DATS/qlistref_dats.php \
 output/DATS/ML/list0_dats.php \
 output/DATS/ML/array0_dats.php \
 output/DATS/ML/option0_dats.php \
+output/DATS/ML/matrix0_dats.php \
 
 ######
 #

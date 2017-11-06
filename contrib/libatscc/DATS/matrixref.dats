@@ -18,18 +18,21 @@ implement
 matrixref_exists_cloref
   (M, m, n, pred) =
 (
-  int2_exists_cloref
-    (m, n, $UN.cast{cfun2(int,int,bool)}(pred))
-  // int2_exists_cloref
-)
+int2_exists_cloref
+  (m, n, $UN.cast{cfun2(int,int,bool)}(pred))
+// int2_exists_cloref
+) (* matrixref_exists_cloref *)
+//
+(* ****** ****** *)
+//
 implement
 matrixref_forall_cloref
   (M, m, n, pred) =
 (
-  int2_forall_cloref
-    (m, n, $UN.cast{cfun2(int,int,bool)}(pred))
-  // int2_forall_cloref
-)
+int2_forall_cloref
+  (m, n, $UN.cast{cfun2(int,int,bool)}(pred))
+// int2_forall_cloref
+) (* matrixref_forall_cloref *)
 //
 (* ****** ****** *)
 //
@@ -37,10 +40,10 @@ implement
 matrixref_foreach_cloref
   (M, m, n, fwork) =
 (
-  int2_foreach_cloref
-    (m, n, $UN.cast{cfun2(int,int,void)}(fwork))
-  // int2_foreach_cloref
-)
+int2_foreach_cloref
+  (m, n, $UN.cast{cfun2(int,int,void)}(fwork))
+// int2_foreach_cloref
+) (* matrixref_foreach_cloref *)
 //
 (* ****** ****** *)
 //

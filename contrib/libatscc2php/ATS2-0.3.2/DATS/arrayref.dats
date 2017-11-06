@@ -61,14 +61,19 @@ arrayref_vt0ype_type(a, n) = PHParref(a)
 implement
 arrayref_make_elt
   {a}{n}(n, x) =
-  $UN.cast{arrayref(a,n)}(PHParref_make_elt(n, x))
+(
+$UN.cast{arrayref(a,n)}(PHParref_make_elt(n, x))
+)
 //
 (* ****** ****** *)
 
 implement
 arrayref_get_at
   {a}(A, i) = let
-  val A = $UN.cast{PHParref(a)}(A) in PHParref_get_at(A, i)
+//
+val A =
+$UN.cast{PHParref(a)}(A) in PHParref_get_at(A, i)
+//
 end // end of [arrayref_get_at]
 
 (* ****** ****** *)
@@ -76,7 +81,10 @@ end // end of [arrayref_get_at]
 implement
 arrayref_set_at
   {a}(A, i, x) = let
-  val A = $UN.cast{PHParref(a)}(A) in PHParref_set_at(A, i, x)
+//
+val A =
+$UN.cast{PHParref(a)}(A) in PHParref_set_at(A, i, x)
+//
 end // end of [arrayref_set_at]
 
 (* ****** ****** *)
@@ -101,12 +109,18 @@ arrszref_size{a}(A) =
 //
 implement
 arrszref_get_at{a}(A, i) = let
-  val A = $UN.cast{PHParref(a)}(A) in PHParref_get_at(A, i)
+//
+val A =
+$UN.cast{PHParref(a)}(A) in PHParref_get_at(A, i)
+//
 end // end of [arrszref_get_at]
 //
 implement
 arrszref_set_at{a}(A, i, x) = let
-  val A = $UN.cast{PHParref(a)}(A) in PHParref_set_at(A, i, x)
+//
+val A =
+$UN.cast{PHParref(a)}(A) in PHParref_set_at(A, i, x)
+//
 end // end of [arrszref_set_at]
 //
 (* ****** ****** *)

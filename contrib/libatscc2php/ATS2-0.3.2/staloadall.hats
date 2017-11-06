@@ -60,6 +60,11 @@ _(*anon*) = "./DATS/basics.dats"
 #staload "./SATS/PHParref.sats"
 //
 (* ****** ****** *)
+
+#staload "./SATS/arrayref.sats"
+#staload "./SATS/matrixref.sats"
+
+(* ****** ****** *)
 //
 // one-list-based stack
 // two-list-based queue
