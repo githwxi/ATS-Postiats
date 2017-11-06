@@ -113,10 +113,10 @@ ats2phppre_mtrxszref_get_at
 {
   $nrow = $MSZ[1];
   $ncol = $MSZ[2];
-  if ($i < 0) throw new Exception("mtrxszref_get_at");
-  if ($j < 0) throw new Exception("mtrxszref_get_at");
-  if ($i >= $nrow) throw new Exception("mtrxszref_get_at");
-  if ($j >= $ncol) throw new Exception("mtrxszref_get_at");
+  if ($i < 0) throw new RangeException("mtrxszref_get_at");
+  if ($j < 0) throw new RangeException("mtrxszref_get_at");
+  if ($i >= $nrow) throw new RangeException("mtrxszref_get_at");
+  if ($j >= $ncol) throw new RangeException("mtrxszref_get_at");
   return ats2phppre_PHParref_get_at($MSZ[0], $i*$ncol+$j);
 }
 //
@@ -126,10 +126,10 @@ ats2phppre_mtrxszref_set_at
 {
   $nrow = $MSZ[1];
   $ncol = $MSZ[2];
-  if ($i < 0) throw new Exception("mtrxszref_set_at");
-  if ($j < 0) throw new Exception("mtrxszref_set_at");
-  if ($i >= $nrow) throw new Exception("mtrxszref_set_at");
-  if ($j >= $ncol) throw new Exception("mtrxszref_set_at");
+  if ($i < 0) throw new RangeException("mtrxszref_set_at");
+  if ($j < 0) throw new RangeException("mtrxszref_set_at");
+  if ($i >= $nrow) throw new RangeException("mtrxszref_set_at");
+  if ($j >= $ncol) throw new RangeException("mtrxszref_set_at");
   ats2phppre_PHParref_set_at($MSZ[0], $i*$ncol+$j, $x0); return;
 }
 //
