@@ -42,6 +42,15 @@ A1.foreach()(lam(i) => println!("A1[",i,"]=",A1[i]))
 //
 (* ****** ****** *)
 //
+val A1 =
+array0_make_elt{int}(10, 0)
+val () =
+A1.foreach()(lam(i) => A1[i] := i*i)
+val () =
+A1.foreach()(lam(i) => println!("A1[",i,"]=",A1[i]))
+//
+(* ****** ****** *)
+//
 val M0 =
 matrixref_make_elt{int}(2, 5, 0)
 val () =
@@ -52,6 +61,16 @@ matrixref_foreach_cloref
 ( M0, 2, 5
 , lam(i, j) =>
   println!("M0[", i, ",", j, "]=", M0[i,5,j]))
+//
+(* ****** ****** *)
+//
+val M1 =
+matrix0_make_elt{int}(2, 5, 0)
+val () =
+M1.foreach()(lam(i, j) => M1[i,j] := i*j)
+val () =
+M1.foreach()
+(lam(i, j) => println!("M1[", i, ",", j, "]=", M1[i,j]))
 //
 (* ****** ****** *)
 //

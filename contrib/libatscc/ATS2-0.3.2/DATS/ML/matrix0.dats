@@ -29,9 +29,19 @@ mtrxszref_make_elt{a}(nrow, ncol, x0)
 (* ****** ****** *)
 //
 implement
-matrix0_nrow{a}(M) = mtrxszref_get_nrow{a}(M)
+matrix0_nrow(M) = mtrxszref_get_nrow(M)
 implement
-matrix0_ncol{a}(M) = mtrxszref_get_ncol{a}(M)
+matrix0_ncol(M) = mtrxszref_get_ncol(M)
+//
+(* ****** ****** *)
+//
+implement
+matrix0_get_at
+  (M, i, j) = mtrxszref_get_at(M, i, j)
+//
+implement
+matrix0_set_at
+  (M, i, j, x0) = mtrxszref_set_at(M, i, j, x0)
 //
 (* ****** ****** *)
 //
