@@ -276,6 +276,10 @@ The ATSHOME/doc/EXAMPLE/ATSLIB\
 
 (* ****** ****** *)
 
+#packfilename("libats_ML_COMPILE_all.dats")
+
+(* ****** ****** *)
+
 #packfilename("libats_libc_math.dats")
 #packfilename("libats_libc_malloc.dats")
 #packfilename("libats_libc_dlfcn.dats")
